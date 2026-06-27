@@ -1,0 +1,32 @@
+{
+  "expo": {
+    "name": "Valeria+",
+    "slug": "valeria-app",
+    "version": "3.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#00c4be"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "health.earlify.valeria"
+    },
+    "android": {
+      "package": "health.earlify.valeria",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#00c4be"
+      }
+    },
+    "web": {
+      "bundler": "metro"
+    }
+  }
+}
