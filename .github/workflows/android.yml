@@ -10,6 +10,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    env:
+      HAS_SIGNING_SECRETS: ${{ secrets.ANDROID_RELEASE_KEYSTORE_BASE64 != '' }}
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -35,6 +38,64 @@ jobs:
       - name: Grant execute permission to Gradle wrapper
         run: chmod +x ./android/gradlew
 
-      - name: Build with Gradle
+      - name: Decode release keystore
+        if: env.HAS_SIGNING_SECRETS == 'true'
+        run: echo "${{ secrets.ANDROID_RELEASE_KEYSTORE_BASE64 }}" | base64 -d > android/app/release.keystore
+
+      - name: Add release signingConfig to build.gradle
+        if: env.HAS_SIGNING_SECRETS == 'true'
+        run: |
+          python3 - <<'PY'
+          path = "android/app/build.gradle"
+          with open(path) as f:
+              content = f.read()
+
+          release_signing_config = """        release {
+              storeFile file("release.keystore")
+              storePassword System.getenv("RELEASE_STORE_PASSWORD")
+              keyAlias System.getenv("RELEASE_KEY_ALIAS")
+              keyPassword System.getenv("RELEASE_KEY_PASSWORD")
+          }
+          """
+          content = content.replace(
+              "    signingConfigs {\n        debug {",
+              "    signingConfigs {\n" + release_signing_config + "        debug {",
+              1,
+          )
+
+          old_release_block = (
+              "        release {\n"
+              "            // Caution! In production, you need to generate your own keystore file.\n"
+              "            // see https://reactnative.dev/docs/signed-apk-android.\n"
+              "            signingConfig signingConfigs.debug\n"
+          )
+          new_release_block = (
+              "        release {\n"
+              "            signingConfig signingConfigs.release\n"
+          )
+          assert old_release_block in content, "release buildType block not found - build.gradle template may have changed"
+          content = content.replace(old_release_block, new_release_block, 1)
+
+          with open(path, "w") as f:
+              f.write(content)
+          PY
+
+      - name: Build signed release APK
+        if: env.HAS_SIGNING_SECRETS == 'true'
+        working-directory: ./android
+        env:
+          RELEASE_STORE_PASSWORD: ${{ secrets.ANDROID_RELEASE_STORE_PASSWORD }}
+          RELEASE_KEY_ALIAS: ${{ secrets.ANDROID_RELEASE_KEY_ALIAS }}
+          RELEASE_KEY_PASSWORD: ${{ secrets.ANDROID_RELEASE_KEY_PASSWORD }}
+        run: ./gradlew assembleRelease
+
+      - name: Build debug APK (no signing secrets configured)
+        if: env.HAS_SIGNING_SECRETS != 'true'
         working-directory: ./android
         run: ./gradlew assembleDebug
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-apk
+          path: android/app/build/outputs/apk/**/*.apk
