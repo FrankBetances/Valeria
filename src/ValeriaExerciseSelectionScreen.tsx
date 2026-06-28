@@ -2,7 +2,8 @@
 // Valeria+ · Selección y Prescripción de Terapias (V2.2)
 // Pestañas Audición (13) + Lenguaje (7). Modo Familia (solo lectura) y Modo
 // Profesional desbloqueado por PIN (validación por hash SHA-256, sin texto plano).
-// Persistencia: AsyncStorage. Navega al Player con navigation.navigate('ExercisePlayer', { id }).
+// Persistencia: AsyncStorage. Si la ficha activa indica audífono/implante, navega
+// primero al Test de Ling; si no, va directo a navigation.navigate('ExercisePlayer', { id }).
 // ============================================================================
 import React, { useEffect, useState } from 'react';
 import { View, Text, Pressable, ScrollView, Switch, StyleSheet } from 'react-native';
@@ -96,6 +97,7 @@ export const ValeriaExerciseSelectionScreen: React.FC<{ navigation: any }> = ({ 
   const [toast, setToast] = useState('');
   const [activeAud, setActiveAud] = useState<boolean[]>(new Array(EXERCISES_AUD.length).fill(true));
   const [activeLen, setActiveLen] = useState<boolean[]>(new Array(EXERCISES_LEN.length).fill(true));
+  const [usesHearingDevice, setUsesHearingDevice] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -104,6 +106,11 @@ export const ValeriaExerciseSelectionScreen: React.FC<{ navigation: any }> = ({ 
         if (a) { const p = JSON.parse(a); if (Array.isArray(p) && p.length === EXERCISES_AUD.length) setActiveAud(p); }
         const l = await AsyncStorage.getItem(STORAGE_KEYS.lenguaje);
         if (l) { const p = JSON.parse(l); if (Array.isArray(p) && p.length === EXERCISES_LEN.length) setActiveLen(p); }
+        const r = await AsyncStorage.getItem(STORAGE_KEYS.registro);
+        if (r) {
+          const patologia = JSON.parse(r)?.patologia ?? '';
+          setUsesHearingDevice(/Audífono|Implante Coclear/i.test(patologia));
+        }
       } catch (e) { /* noop */ }
     })();
   }, []);
@@ -201,7 +208,9 @@ export const ValeriaExerciseSelectionScreen: React.FC<{ navigation: any }> = ({ 
                 <Text style={s.rowName}>{item.name}</Text>
                 <Text style={s.rowCat}>{item.category}</Text>
               </View>
-              <Pressable onPress={() => navigation.navigate('ExercisePlayer', { id: item.id })} style={s.playBtn} accessibilityRole="button" accessibilityLabel={`Practicar ${item.name}`}>
+              <Pressable
+                onPress={() => navigation.navigate(usesHearingDevice ? 'LingTest' : 'ExercisePlayer', { id: item.id })}
+                style={s.playBtn} accessibilityRole="button" accessibilityLabel={`Practicar ${item.name}`}>
                 <Text style={{ color: V.color.primaryDark, fontSize: 13 }}>▶</Text>
               </Pressable>
               <Switch value={on} onValueChange={() => toggle(i)} disabled={!unlocked}

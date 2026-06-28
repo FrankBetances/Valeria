@@ -37,6 +37,10 @@ interface Exercise {
   emotionFace?: string; emotionAnswer?: string;
   parts?: { role: string; cap: string }[]; sentence?: string;
   instrIcon?: string; instrHint?: string;
+  // Progresión Inicial → Intermedio → Avanzado dentro de la misma sesión
+  // (ejercicios de Lenguaje, protocolo ACOPROS). Si está presente, sustituye
+  // a `read`/`instrIcon`/`instrHint` para cada uno de los 3 sub-pasos.
+  levels?: { label: 'Inicial' | 'Intermedio' | 'Avanzado'; read: string; instrIcon: string; instrHint: string }[];
 }
 
 // ----------------------------------------------------------------------------
@@ -101,31 +105,66 @@ const DB: Record<string, Exercise> = {
   atencion_conjunta: { code: 'M-1', name: 'Atención Conjunta', category: 'Mirar, burbujas y nombre',
     read: 'Llama al niño por su nombre y haz burbujas. Busca su mirada y el contacto visual.',
     stage: 'instruction', instrIcon: '👀', instrHint: 'Desarrolla contacto visual, seguimiento de la mirada y respuesta al nombre.',
-    ept: ['Requiere instigación física para sostener la mirada brevemente.', 'Responde a su nombre tras múltiples llamados verbales.', 'Establece contacto visual espontáneo y sigue la mirada del tutor.'] },
+    ept: ['Requiere instigación física para sostener la mirada brevemente.', 'Responde a su nombre tras múltiples llamados verbales.', 'Establece contacto visual espontáneo y sigue la mirada del tutor.'],
+    levels: [
+      { label: 'Inicial', instrIcon: '🫧', read: 'Acerca las burbujas muy cerca de tu cara y llama su nombre. Busca un contacto visual breve, aunque sea de un instante.', instrHint: 'Estímulo de alto interés y muy cercano. Cualquier mirada breve cuenta.' },
+      { label: 'Intermedio', instrIcon: '👀', read: 'Haz burbujas a un brazo de distancia. Llama su nombre y señala con el dedo hacia las burbujas.', instrHint: 'Favorece el seguimiento de la mirada hacia donde el tutor señala.' },
+      { label: 'Avanzado', instrIcon: '🙋', read: 'Desde el otro lado de la habitación, llama su nombre una sola vez sin estímulo motivador a la vista.', instrHint: 'Busca respuesta espontánea al nombre sin apoyo visual ni cercanía.' },
+    ] },
   imitacion: { code: 'M-2', name: 'Imitación Motora/Verbal', category: 'Aplausos, tambor y sílabas',
     read: 'Haz un gesto (aplaudir, tocar el tambor) y anímale a imitarte. Ahora una sílaba: "pa-pa".',
     stage: 'instruction', instrIcon: '👏', instrHint: 'Imita gestos motores gruesos y vocalizaciones simples en espejo.',
-    ept: ['No copia los gestos ni produce sonidos imitativos.', 'Imita gestos o sonidos aislados con guía del adulto.', 'Realiza imitaciones motoras y verbales en espejo inmediato.'] },
+    ept: ['No copia los gestos ni produce sonidos imitativos.', 'Imita gestos o sonidos aislados con guía del adulto.', 'Realiza imitaciones motoras y verbales en espejo inmediato.'],
+    levels: [
+      { label: 'Inicial', instrIcon: '👏', read: 'Aplaude despacio frente a él y guía sus manos la primera vez. Repite el gesto solo.', instrHint: 'Gesto motor grueso aislado, con ayuda física si es necesario.' },
+      { label: 'Intermedio', instrIcon: '🥁', read: 'Toca el tambor dos veces y di "pa-pa". Espera a que imite el gesto o el sonido sin ayuda física.', instrHint: 'Secuencia corta de gesto + sílaba, sin apoyo físico, solo modelo visual.' },
+      { label: 'Avanzado', instrIcon: '🪞', read: 'Combina un gesto y una sílaba nueva ("ta-ta" + saltar) y observa si lo imita en espejo, inmediatamente y sin repetir el modelo.', instrHint: 'Imitación inmediata de una combinación nueva, sin repetición del modelo.' },
+    ] },
   comprension: { code: 'M-3', name: 'Comprensión Verbal', category: 'Órdenes, cuerpo y categorías',
     read: 'Dale una orden de un paso: "Dame la pelota". Pídele que señale partes del cuerpo.',
     stage: 'instruction', instrIcon: '🧠', instrHint: 'Comprende instrucciones de un paso e identifica partes del cuerpo y objetos.',
-    ept: ['No obedece instrucciones ni señala elementos solicitados.', 'Ejecuta la orden con ayuda de gestos de señalamiento.', 'Comprende la instrucción puramente verbal y la ejecuta.'] },
+    ept: ['No obedece instrucciones ni señala elementos solicitados.', 'Ejecuta la orden con ayuda de gestos de señalamiento.', 'Comprende la instrucción puramente verbal y la ejecuta.'],
+    levels: [
+      { label: 'Inicial', instrIcon: '🤲', read: 'Dile "Dame la pelota" mientras señalas la pelota con el dedo.', instrHint: 'Orden de un paso con apoyo gestual directo del tutor.' },
+      { label: 'Intermedio', instrIcon: '🧍', read: 'Pídele "Tócate la nariz" y "Tócate la cabeza" sin gestos de apoyo.', instrHint: 'Identificación de partes del cuerpo solo con instrucción verbal.' },
+      { label: 'Avanzado', instrIcon: '🧩', read: 'Dile sin ningún gesto: "Dame la pelota y siéntate". Observa si ejecuta los dos pasos en orden.', instrHint: 'Orden verbal de dos pasos, sin ningún apoyo gestual.' },
+    ] },
   expresion: { code: 'M-4', name: 'Expresión Verbal', category: 'Onomatopeyas, nombrar y frases',
     read: '¿Cómo hace el perro? "Guau". Anímale a nombrar y pedir: "quiero agua".',
     stage: 'phrase', stageLabel: 'Evoca y nombra', phrase: 'QUIERO AGUA',
-    ept: ['Solo usa gestos o balbuceos para expresar sus necesidades.', 'Expresa palabras simples tras el modelo directo del adulto.', 'Evoca palabras y oraciones de dos palabras espontáneamente.'] },
+    ept: ['Solo usa gestos o balbuceos para expresar sus necesidades.', 'Expresa palabras simples tras el modelo directo del adulto.', 'Evoca palabras y oraciones de dos palabras espontáneamente.'],
+    levels: [
+      { label: 'Inicial', instrIcon: '🐶', read: 'Muéstrale el muñeco del perro y modela: "Guau". Espera que repita la onomatopeya.', instrHint: 'Imitación directa de una onomatopeya tras el modelo del adulto.' },
+      { label: 'Intermedio', instrIcon: '🏷️', read: 'Muéstrale un vaso de agua sin decir nada y pregúntale: "¿Qué es esto?".', instrHint: 'Nombrar un objeto familiar de forma espontánea, sin modelo previo.' },
+      { label: 'Avanzado', instrIcon: '🗣️', read: 'Ofrécele el vaso vacío y espera a que pida espontáneamente "quiero agua" combinando las dos palabras.', instrHint: 'Combinación espontánea de dos palabras en una petición funcional.' },
+    ] },
   comunicacion_funcional: { code: 'M-5', name: 'Comunicación Funcional', category: 'Pedir "más", "ayuda", "quiero"',
     read: 'Para de hacer algo divertido y espera. Anímale a pedir "más" o "ayuda".',
     stage: 'instruction', instrIcon: '🙌', instrHint: 'Usa lenguaje verbal o aumentativo para solicitar juego o ayuda.',
-    ept: ['Se frustra o no intenta comunicarse ante un problema.', 'Solicita ayuda o "más" usando modelo verbal guiado.', 'Usa palabras o signos funcionales con clara intención.'] },
+    ept: ['Se frustra o no intenta comunicarse ante un problema.', 'Solicita ayuda o "más" usando modelo verbal guiado.', 'Usa palabras o signos funcionales con clara intención.'],
+    levels: [
+      { label: 'Inicial', instrIcon: '🤚', read: 'Detén un juego divertido (cosquillas, columpio) y modela el gesto + palabra "más". Ayúdale a imitarlo.', instrHint: 'Petición de "más" con gesto y palabra modelados por el tutor.' },
+      { label: 'Intermedio', instrIcon: '🔒', read: 'Dale un bote cerrado con algo que le guste dentro y espera. Si se frustra, sugiere a media voz "ayuda".', instrHint: 'Petición de "ayuda" ante un obstáculo, con pista verbal parcial.' },
+      { label: 'Avanzado', instrIcon: '💬', read: 'Crea otra situación de necesidad (juguete fuera de alcance) sin dar ninguna pista y espera la petición espontánea.', instrHint: 'Inicio espontáneo de la petición, sin pistas verbales ni gestuales.' },
+    ] },
   regulacion_conductual: { code: 'M-6', name: 'Regulación Conductual', category: 'Transiciones, rutinas y fichas',
     read: 'Avisa del cambio de actividad con la agenda visual y espera con tranquilidad.',
     stage: 'instruction', instrIcon: '🗂️', instrHint: 'Anticipa y acepta el cambio de actividad con apoyo visual y fichas.',
-    ept: ['Conductas disruptivas ante las transiciones.', 'Tolera el cambio con apoyo de economía de fichas.', 'Realiza transiciones con tranquilidad y autorregulación.'] },
+    ept: ['Conductas disruptivas ante las transiciones.', 'Tolera el cambio con apoyo de economía de fichas.', 'Realiza transiciones con tranquilidad y autorregulación.'],
+    levels: [
+      { label: 'Inicial', instrIcon: '🖼️', read: 'Muéstrale la imagen de la siguiente actividad y haz una cuenta atrás visual de 5 a 1 antes de cambiar.', instrHint: 'Anticipación con apoyo visual fuerte y cuenta atrás.' },
+      { label: 'Intermedio', instrIcon: '🎫', read: 'Avisa el cambio una sola vez y ofrece una ficha al terminar la actividad con calma.', instrHint: 'Tolerancia al cambio con apoyo de economía de fichas.' },
+      { label: 'Avanzado', instrIcon: '📅', read: 'Deja que consulte solo su agenda visual y haga la transición sin que tengas que avisarle.', instrHint: 'Transición autónoma siguiendo la agenda, sin aviso directo del tutor.' },
+    ] },
   interaccion_social: { code: 'M-7', name: 'Interacción Social', category: 'Turnos, juego simbólico, emociones',
     read: 'Juega por turnos: "Ahora tú, ahora yo". Inicia un juego simbólico sencillo.',
     stage: 'instruction', instrIcon: '🤝', instrHint: 'Respeta turnos, inicia juego simbólico y responde afectivamente.',
-    ept: ['Juega de forma solitaria, rechaza compartir turnos.', 'Acepta turnos y participa en juego guiado por el tutor.', 'Inicia y mantiene interacciones lúdicas recíprocas.'] },
+    ept: ['Juega de forma solitaria, rechaza compartir turnos.', 'Acepta turnos y participa en juego guiado por el tutor.', 'Inicia y mantiene interacciones lúdicas recíprocas.'],
+    levels: [
+      { label: 'Inicial', instrIcon: '🔁', read: 'Apila un bloque y dile "ahora tú". Ayúdale físicamente si no responde al turno.', instrHint: 'Turno simple guiado, con ayuda física si es necesario.' },
+      { label: 'Intermedio', instrIcon: '🍽️', read: 'Ofrécele un muñeco y una cuchara; modela "vamos a darle de comer" y espera que continúe el juego simbólico.', instrHint: 'Inicio de juego simbólico breve con apoyo del modelo.' },
+      { label: 'Avanzado', instrIcon: '🎭', read: 'Deja que proponga él un juego de turnos o simbólico y mantén el intercambio sin dirigirlo.', instrHint: 'Reciprocidad espontánea: el niño inicia y mantiene el intercambio.' },
+    ] },
 };
 
 const DEFAULT_SESSION = ['ff1', 'ff2', 'se1', 'pr3', 'ms3'];
@@ -163,6 +202,9 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
   const [locking, setLocking] = useState(false);
   const [finished, setFinished] = useState(false);
   const [countdown, setCountdown] = useState(6);
+  // Progresión Inicial → Intermedio → Avanzado dentro del ejercicio actual.
+  const [subIdx, setSubIdx] = useState(0);
+  const [levelScores, setLevelScores] = useState<number[]>([]);
   // estado efímero de mini-juego
   const [vowelPick, setVowelPick] = useState('');
   const [fillPick, setFillPick] = useState('');
@@ -171,6 +213,7 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
 
   const ex = DB[sessionIds[idx]] ?? DB.ff1;
   const total = sessionIds.length;
+  const curLevel = ex.levels?.[subIdx];
 
   const resetEphemeral = () => { setVowelPick(''); setFillPick(''); setIntruderPick(-1); setEmotionPick(''); };
 
@@ -179,10 +222,24 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
     setPicked(val);
     setLocking(true);
     setTimeout(() => {
-      const nextResults = [...results, val];
+      // Si el ejercicio tiene niveles de dificultad, primero se recorren
+      // Inicial → Intermedio → Avanzado antes de cerrar el ejercicio.
+      if (ex.levels && subIdx + 1 < ex.levels.length) {
+        setLevelScores((prev) => [...prev, val]);
+        setSubIdx(subIdx + 1);
+        setPicked(0); setLocking(false); resetEphemeral();
+        return;
+      }
+      const exerciseScore = ex.levels
+        ? Math.round([...levelScores, val].reduce((a, b) => a + b, 0) / (levelScores.length + 1))
+        : val;
+      const nextResults = [...results, exerciseScore];
       setResults(nextResults);
       if (idx + 1 >= total) finish(nextResults);
-      else { setIdx(idx + 1); setPicked(0); setLocking(false); resetEphemeral(); }
+      else {
+        setIdx(idx + 1); setSubIdx(0); setLevelScores([]);
+        setPicked(0); setLocking(false); resetEphemeral();
+      }
     }, 620);
   };
 
@@ -223,7 +280,7 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
 
   const restart = () => {
     clearInterval(timerRef.current);
-    setIdx(0); setResults([]); setPicked(0); setLocking(false);
+    setIdx(0); setSubIdx(0); setLevelScores([]); setResults([]); setPicked(0); setLocking(false);
     setFinished(false); setCountdown(6); resetEphemeral();
   };
 
@@ -269,6 +326,11 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                 <Text style={s.metaName}>{ex.name}</Text>
                 <Text style={s.metaCat}>{ex.category}</Text>
               </View>
+              {curLevel && (
+                <View style={s.levelBadge}>
+                  <Text style={s.levelBadgeTxt}>{curLevel.label} · {subIdx + 1}/{ex.levels!.length}</Text>
+                </View>
+              )}
             </View>
 
             {/* Consigna del tutor */}
@@ -280,14 +342,21 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                   <Text style={s.instructionSmall}>Lee la consigna en voz alta</Text>
                 </View>
               </View>
-              <Text style={s.instructionText}>{ex.read}</Text>
+              <Text style={s.instructionText}>{curLevel ? curLevel.read : ex.read}</Text>
             </View>
 
             {/* ===== Stage / mini-juego ===== */}
             <View style={s.stageCard}>
-              <Text style={s.stageLabel}>{ex.stageLabel ?? 'Actividad guiada'}</Text>
+              <Text style={s.stageLabel}>{curLevel ? `Nivel ${curLevel.label}` : (ex.stageLabel ?? 'Actividad guiada')}</Text>
 
-              {ex.stage === 'phrase' && (
+              {curLevel && (
+                <View style={{ alignItems: 'center', paddingVertical: 6 }}>
+                  <View style={s.instrBig}><Text style={{ fontSize: 32 }}>{curLevel.instrIcon}</Text></View>
+                  <Text style={s.instrHint}>{curLevel.instrHint}</Text>
+                </View>
+              )}
+
+              {!curLevel && ex.stage === 'phrase' && (
                 <View style={s.phraseBox}><Text style={s.phraseTxt}>“{ex.phrase}”</Text></View>
               )}
 
@@ -389,7 +458,7 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                 </>
               )}
 
-              {ex.stage === 'instruction' && (
+              {!curLevel && ex.stage === 'instruction' && (
                 <View style={{ alignItems: 'center', paddingVertical: 6 }}>
                   <View style={s.instrBig}><Text style={{ fontSize: 32 }}>{ex.instrIcon}</Text></View>
                   <Text style={s.instrHint}>{ex.instrHint}</Text>
@@ -478,6 +547,8 @@ const s = StyleSheet.create({
   codeChipTxt: { color: V.color.primaryDark, fontSize: 12, fontWeight: '800', letterSpacing: 0.3 },
   metaName: { fontSize: 15, fontWeight: '800', color: V.color.textPrimary },
   metaCat: { fontSize: 11.5, fontWeight: '700', color: V.color.textMuted },
+  levelBadge: { backgroundColor: V.color.primaryLight, borderRadius: 9, paddingHorizontal: 9, paddingVertical: 5 },
+  levelBadgeTxt: { color: V.color.primaryDark, fontSize: 11, fontWeight: '800', letterSpacing: 0.2 },
 
   instructionCard: { backgroundColor: V.color.primaryTint, borderColor: '#b8eee9', borderWidth: 1.5, borderRadius: 18, padding: 16, ...V.shadow.card },
   instructionHead: { flexDirection: 'row', alignItems: 'center', gap: 10 },

@@ -9,13 +9,12 @@
 //   · "Ya tengo un paciente"       → PatientSelect (retomar ficha existente).
 //
 // El Test de Ling es una comprobación auditiva PREVIA a los ejercicios, solo para
-// pacientes con audífonos/implante. Internamente decide:
+// pacientes con audífonos/implante. ExerciseSelectionScreen lee la patología de
+// la ficha activa: si indica audífono/implante navega a LingTest al pulsar
+// "Practicar" (navigation.navigate('LingTest', { id })); si no, va directo a
+// ExercisePlayer. Dentro de LingTest, el tutor confirma de nuevo si procede y:
 //   · "No usa equipo"  → navega directo a ExercisePlayer.
 //   · "Sí usa equipo"  → realiza el test y luego navega a ExercisePlayer.
-//
-// Para insertarlo en tu flujo, lanza LingTest justo antes del Player. Ejemplo
-// desde la pantalla de selección, al pulsar "Practicar":
-//   navigation.navigate('LingTest', { id: item.id });
 // (LingTest reenvía los params al Player, así no se rompe la sesión.)
 //
 // Dependencias:
