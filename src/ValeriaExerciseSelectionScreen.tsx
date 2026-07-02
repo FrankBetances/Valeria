@@ -8,6 +8,8 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, Pressable, ScrollView, Switch, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { V, STORAGE_KEYS } from './valeriaTheme';
+import { enableHourlyReminders, disableReminders, remindersEnabled } from './valeriaNotifications';
+import { loadGame, liveStreak, levelFor, levelName } from './valeriaGamification';
 // import logoWhite from '../../assets/valeria-logo-white.png';
 
 // ----------------------------------------------------------------------------
@@ -32,7 +34,9 @@ const sha256 = async (str: string): Promise<string> => {
     0xa2bfe8a1, 0xa81a664b, 0xc24b8b70, 0xc76c51a3, 0xd192e819, 0xd6990624, 0xf40e3585, 0x106aa070,
     0x19a4c116, 0x1e376c08, 0x2748774c, 0x34b0bcb5, 0x391c0cb3, 0x4ed8aa4a, 0x5b9cca4f, 0x682e6ff3,
     0x748f82ee, 0x78a5636f, 0x84c87814, 0x8cc70208, 0x90befffa, 0xa4506ceb, 0xbef9a3f7, 0xc67178f2];
-  const words = new Uint32Array((str.length + 10) >> 2);
+  // El mensaje con padding debe ocupar bloques completos de 16 palabras (64 bytes):
+  // datos + byte 0x80 + longitud en bits en la última palabra del último bloque.
+  const words = new Uint32Array((((str.length + 8) >> 6) + 1) * 16);
   for (let i = 0; i < str.length; i++) words[i >> 2] |= str.charCodeAt(i) << (24 - (i % 4 << 3));
   words[str.length >> 2] |= 0x80 << (24 - (str.length % 4 << 3));
   words[words.length - 1] = str.length * 8;
@@ -96,6 +100,9 @@ export const ValeriaExerciseSelectionScreen: React.FC<{ navigation: any }> = ({ 
   const [toast, setToast] = useState('');
   const [activeAud, setActiveAud] = useState<boolean[]>(new Array(EXERCISES_AUD.length).fill(true));
   const [activeLen, setActiveLen] = useState<boolean[]>(new Array(EXERCISES_LEN.length).fill(true));
+  const [reminders, setReminders] = useState(false);
+  const [streak, setStreak] = useState(0);
+  const [level, setLevel] = useState(1);
 
   useEffect(() => {
     (async () => {
@@ -105,8 +112,28 @@ export const ValeriaExerciseSelectionScreen: React.FC<{ navigation: any }> = ({ 
         const l = await AsyncStorage.getItem(STORAGE_KEYS.lenguaje);
         if (l) { const p = JSON.parse(l); if (Array.isArray(p) && p.length === EXERCISES_LEN.length) setActiveLen(p); }
       } catch (e) { /* noop */ }
+      try {
+        setReminders(await remindersEnabled());
+        const g = await loadGame();
+        setStreak(liveStreak(g));
+        setLevel(levelFor(g.xp));
+      } catch (e) { /* noop */ }
     })();
   }, []);
+
+  const toggleReminders = async (next: boolean) => {
+    if (next) {
+      const ok = await enableHourlyReminders();
+      setReminders(ok);
+      setToast(ok
+        ? 'Recordatorios activados: un avisito cada hora (9:00–20:00). 🔔'
+        : 'No se pudo activar: concede el permiso de notificaciones al sistema.');
+    } else {
+      await disableReminders();
+      setReminders(false);
+      setToast('Recordatorios desactivados.');
+    }
+  };
 
   const isAud = tab === 'audicion';
   const list = isAud ? EXERCISES_AUD : EXERCISES_LEN;
@@ -153,6 +180,16 @@ export const ValeriaExerciseSelectionScreen: React.FC<{ navigation: any }> = ({ 
         <Text style={s.headerTitle}>Prescripción de Terapias</Text>
         <Text style={s.headerSub}>{unlocked ? 'Edición profesional habilitada' : 'Modo Familia · solo lectura'}</Text>
 
+        {/* Racha y nivel (gamificación) */}
+        <View style={s.gameRow}>
+          <View style={s.gameChip}>
+            <Text style={s.gameChipTxt}>🔥 {streak} {streak === 1 ? 'día de racha' : 'días de racha'}</Text>
+          </View>
+          <View style={s.gameChip}>
+            <Text style={s.gameChipTxt}>🏅 Nivel {level} · {levelName(level)}</Text>
+          </View>
+        </View>
+
         {/* Pestañas */}
         <View style={s.tabs}>
           {(['audicion', 'lenguaje'] as const).map((t) => {
@@ -184,6 +221,17 @@ export const ValeriaExerciseSelectionScreen: React.FC<{ navigation: any }> = ({ 
           <Text style={[s.pillTxt, { color: unlocked ? '#0a7d54' : V.color.textPrimary }]}>{unlocked ? 'Modo profesional activo' : 'Desbloquear Edición Profesional'}</Text>
           {!unlocked && <Text style={s.pillChev}>›</Text>}
         </Pressable>
+
+        {/* Recordatorios horarios en pantalla de bloqueo */}
+        <View style={s.remindCard}>
+          <View style={s.remindIcon}><Text style={{ fontSize: 17 }}>🔔</Text></View>
+          <View style={{ flex: 1 }}>
+            <Text style={s.remindTitle}>Recordatorios de sesión</Text>
+            <Text style={s.remindSub}>Un aviso cada hora (9:00–20:00) en la pantalla de bloqueo para no perder la racha.</Text>
+          </View>
+          <Switch value={reminders} onValueChange={toggleReminders}
+            trackColor={{ false: '#d1d5db', true: V.color.primary }} thumbColor="#ffffff" />
+        </View>
 
         <View style={s.listHead}>
           <Text style={s.listLabel}>{isAud ? 'PROTOCOLO ACOPROS · AUDICIÓN' : 'PROTOCOLO FAMILIAR · LENGUAJE'}</Text>
@@ -266,6 +314,9 @@ const s = StyleSheet.create({
   backPillTxt: { color: '#fff', fontSize: 12, fontWeight: '800' },
   headerTitle: { color: '#fff', fontSize: 24, fontWeight: '800', letterSpacing: -0.4 },
   headerSub: { color: 'rgba(255,255,255,.9)', fontSize: 13, fontWeight: '600', marginTop: 4 },
+  gameRow: { flexDirection: 'row', gap: 8, marginTop: 12 },
+  gameChip: { backgroundColor: 'rgba(255,255,255,.18)', borderWidth: 1, borderColor: 'rgba(255,255,255,.32)', borderRadius: 11, paddingHorizontal: 11, paddingVertical: 6 },
+  gameChipTxt: { color: '#fff', fontSize: 12, fontWeight: '800' },
   tabs: { flexDirection: 'row', gap: 4, backgroundColor: 'rgba(255,255,255,.16)', borderRadius: 13, padding: 4, marginTop: 14 },
   tab: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 7, paddingVertical: 9, borderRadius: 10 },
   tabOn: { backgroundColor: '#fff' },
@@ -282,6 +333,11 @@ const s = StyleSheet.create({
   pillUnlocked: { backgroundColor: V.color.successBg, borderWidth: 1, borderColor: '#bfe9d4' },
   pillTxt: { flex: 1, fontSize: 14, fontWeight: '800' },
   pillChev: { fontSize: 16, color: V.color.textMuted },
+
+  remindCard: { flexDirection: 'row', alignItems: 'center', gap: 11, backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.border, borderRadius: 14, padding: 13, marginTop: 10, ...V.shadow.card },
+  remindIcon: { width: 36, height: 36, borderRadius: 12, backgroundColor: '#fffbeb', alignItems: 'center', justifyContent: 'center' },
+  remindTitle: { fontSize: 14, fontWeight: '800', color: V.color.textPrimary },
+  remindSub: { fontSize: 11.5, fontWeight: '600', color: V.color.textMuted, marginTop: 2, lineHeight: 15 },
 
   listHead: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginVertical: 16, marginHorizontal: 4 },
   listLabel: { fontSize: 12, fontWeight: '800', color: V.color.textMuted, letterSpacing: 0.4 },

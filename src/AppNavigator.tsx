@@ -24,9 +24,10 @@
 //     @react-native-async-storage/async-storage react-native-svg
 //   (En bare RN, además: cd ios && pod install)
 // ============================================================================
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { initNotifications } from './valeriaNotifications';
 
 import ValeriaWelcomeScreen from './ValeriaWelcomeScreen';
 import ValeriaCreditsScreen from './ValeriaCreditsScreen';
@@ -71,10 +72,14 @@ export const ValeriaNavigator: React.FC = () => (
 
 // Si tu app YA tiene un NavigationContainer, importa solo <ValeriaNavigator />
 // y añádelo a tu stack raíz. Si no, usa <ValeriaApp /> tal cual.
-export const ValeriaApp: React.FC = () => (
-  <NavigationContainer>
-    <ValeriaNavigator />
-  </NavigationContainer>
-);
+export const ValeriaApp: React.FC = () => {
+  // Handler y canal Android de los recordatorios horarios (pantalla de bloqueo).
+  useEffect(() => { initNotifications(); }, []);
+  return (
+    <NavigationContainer>
+      <ValeriaNavigator />
+    </NavigationContainer>
+  );
+};
 
 export default ValeriaApp;
