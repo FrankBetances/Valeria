@@ -20,6 +20,7 @@ import { View, Text, ScrollView, Pressable, Share, StyleSheet, StatusBar } from 
 import Svg, { Circle, Line, Polyline, Polygon, Text as SvgText } from 'react-native-svg';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { V, STORAGE_KEYS } from './valeriaTheme';
+import { loadGame, liveStreak, levelFor, levelName, levelProgress, xpToNext, BADGES, GameState } from './valeriaGamification';
 // import logoWhite from '../../assets/valeria-logo-white.png';
 
 interface Sesion {
@@ -56,6 +57,7 @@ const starString = (avg: number): string => {
 
 export const ValeriaPatientResultsDashboardScreen: React.FC<{ navigation?: any }> = ({ navigation }) => {
   const [sesiones, setSesiones] = useState<Sesion[]>(HISTORIAL_DEFECTO);
+  const [game, setGame] = useState<GameState | null>(null);
 
   useEffect(() => {
     (async () => {
@@ -68,6 +70,9 @@ export const ValeriaPatientResultsDashboardScreen: React.FC<{ navigation?: any }
       } catch (e) {
         console.warn('Error al cargar el historial:', e);
       }
+      try {
+        setGame(await loadGame());
+      } catch (e) { /* gamificación no disponible */ }
     })();
   }, []);
 
@@ -135,6 +140,52 @@ export const ValeriaPatientResultsDashboardScreen: React.FC<{ navigation?: any }
       </View>
 
       <ScrollView style={st.flex} contentContainerStyle={st.scroll} showsVerticalScrollIndicator={false}>
+        {/* PROGRESO GAMIFICADO: racha, nivel y logros */}
+        {game && (
+          <View style={st.card}>
+            <View style={st.cardHeader}>
+              <View style={st.chip}><Text style={st.chipIcon}>🏅</Text></View>
+              <Text style={st.cardTitle}>Motivación y logros</Text>
+            </View>
+
+            <View style={st.gameStatsRow}>
+              <View style={st.gameStat}>
+                <Text style={st.gameStatBig}>🔥 {liveStreak(game)}</Text>
+                <Text style={st.gameStatLbl}>racha actual</Text>
+              </View>
+              <View style={st.gameStat}>
+                <Text style={st.gameStatBig}>⭐ {game.xp}</Text>
+                <Text style={st.gameStatLbl}>XP total</Text>
+              </View>
+              <View style={st.gameStat}>
+                <Text style={st.gameStatBig}>🏆 {game.bestStreak}</Text>
+                <Text style={st.gameStatLbl}>mejor racha</Text>
+              </View>
+            </View>
+
+            <View style={st.gameLevelRow}>
+              <Text style={st.gameLevelLbl}>Nivel {levelFor(game.xp)} · {levelName(levelFor(game.xp))}</Text>
+              <View style={st.gameLevelTrack}>
+                <View style={[st.gameLevelFill, { width: `${Math.round(levelProgress(game.xp) * 100)}%` }]} />
+              </View>
+              <Text style={st.gameLevelToGo}>{xpToNext(game.xp)} XP para el siguiente nivel</Text>
+            </View>
+
+            <Text style={st.gameBadgesLbl}>INSIGNIAS · {game.badges.length}/{BADGES.length}</Text>
+            <View style={st.gameBadgesGrid}>
+              {BADGES.map((b) => {
+                const won = game.badges.includes(b.id);
+                return (
+                  <View key={b.id} style={[st.gameBadge, !won && st.gameBadgeOff]}>
+                    <Text style={{ fontSize: 22, opacity: won ? 1 : 0.35 }}>{b.icon}</Text>
+                    <Text style={[st.gameBadgeName, !won && { color: '#c2cbca' }]} numberOfLines={1}>{b.name}</Text>
+                  </View>
+                );
+              })}
+            </View>
+          </View>
+        )}
+
         {/* ADHERENCIA SEMANAL */}
         <View style={st.card}>
           <View style={st.cardHeader}>
@@ -289,6 +340,21 @@ const st = StyleSheet.create({
   },
   chipIcon: { fontSize: 16 },
   cardTitle: { fontSize: 17, fontWeight: V.font.extrabold, color: V.color.textPrimary },
+
+  gameStatsRow: { flexDirection: 'row', gap: 9, marginTop: 15 },
+  gameStat: { flex: 1, backgroundColor: '#f7fafa', borderWidth: 1, borderColor: '#eef3f3', borderRadius: 13, paddingVertical: 12, alignItems: 'center' },
+  gameStatBig: { fontSize: 18, fontWeight: V.font.extrabold, color: V.color.textPrimary },
+  gameStatLbl: { fontSize: 10.5, fontWeight: V.font.bold, color: V.color.textMuted, marginTop: 3 },
+  gameLevelRow: { marginTop: 14 },
+  gameLevelLbl: { fontSize: 13, fontWeight: V.font.extrabold, color: V.color.textPrimary },
+  gameLevelTrack: { height: 10, backgroundColor: '#eef3f3', borderRadius: 6, overflow: 'hidden', marginTop: 7 },
+  gameLevelFill: { height: '100%', backgroundColor: V.color.primary, borderRadius: 6 },
+  gameLevelToGo: { fontSize: 11, fontWeight: V.font.bold, color: V.color.textMuted, marginTop: 5 },
+  gameBadgesLbl: { fontSize: 11, fontWeight: V.font.extrabold, letterSpacing: 0.5, color: V.color.textMuted, marginTop: 16, marginBottom: 9 },
+  gameBadgesGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
+  gameBadge: { width: '31%', backgroundColor: '#fffbeb', borderWidth: 1, borderColor: '#f4e6b8', borderRadius: 12, paddingVertical: 10, paddingHorizontal: 6, alignItems: 'center' },
+  gameBadgeOff: { backgroundColor: '#f7fafa', borderColor: '#eef3f3' },
+  gameBadgeName: { fontSize: 10, fontWeight: V.font.extrabold, color: '#92711a', marginTop: 5 },
 
   adherenceRow: { flexDirection: 'row', alignItems: 'center', marginTop: 16 },
   ringWrap: { width: 104, height: 104, marginRight: 18 },
