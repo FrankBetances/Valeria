@@ -1,14 +1,14 @@
 // ============================================================================
 // Valeria+ · Recordatorios en pantalla de bloqueo (V4.0)
 // Notificaciones locales con expo-notifications, sin servidor:
-//   · Un recordatorio cada hora dentro de la franja 09:00–20:00 (repetición diaria).
+//   · Máximo 4 recordatorios al día (9:00, 13:00, 17:00 y 20:00, repetición diaria).
 //   · Mensajes lúdicos rotatorios con la osita Valeria para animar a la sesión.
 //   · Canal Android de máxima prioridad y visibilidad pública (pantalla de bloqueo).
 //
 // API:
 //   initNotifications()            → registrar handler + canal (llamar al arrancar).
 //   remindersEnabled()             → lee la preferencia guardada.
-//   enableHourlyReminders()        → pide permiso y programa la franja completa.
+//   enableDailyReminders()         → pide permiso y programa los 4 avisos diarios.
 //   disableReminders()             → cancela todo y guarda la preferencia.
 // ============================================================================
 import { Platform } from 'react-native';
@@ -17,8 +17,8 @@ import * as Notifications from 'expo-notifications';
 import { STORAGE_KEYS } from './valeriaTheme';
 
 const CHANNEL_ID = 'valeria-recordatorios';
-const START_HOUR = 9;   // primera notificación del día
-const END_HOUR = 20;    // última notificación del día
+// Máximo 4 avisos al día, repartidos entre mañana, mediodía, tarde y noche.
+export const REMINDER_HOURS = [9, 13, 17, 20];
 
 // Mensajes rotatorios: cercanos, breves y con llamada a la acción de juego.
 const MESSAGES: { title: string; body: string }[] = [
@@ -63,9 +63,10 @@ export const remindersEnabled = async (): Promise<boolean> => {
   }
 };
 
-// Programa un recordatorio diario por cada hora de la franja. Devuelve true si
-// el permiso fue concedido y quedaron programados.
-export const enableHourlyReminders = async (): Promise<boolean> => {
+// Programa como máximo 4 recordatorios diarios (uno por cada hora de
+// REMINDER_HOURS). Devuelve true si el permiso fue concedido y quedaron
+// programados.
+export const enableDailyReminders = async (): Promise<boolean> => {
   const perm = await Notifications.getPermissionsAsync();
   let granted = perm.granted;
   if (!granted) {
@@ -76,7 +77,7 @@ export const enableHourlyReminders = async (): Promise<boolean> => {
 
   await Notifications.cancelAllScheduledNotificationsAsync();
   let msg = 0;
-  for (let hour = START_HOUR; hour <= END_HOUR; hour++) {
+  for (const hour of REMINDER_HOURS) {
     const m = MESSAGES[msg % MESSAGES.length];
     msg += 1;
     await Notifications.scheduleNotificationAsync({
