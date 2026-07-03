@@ -72,7 +72,7 @@ export const ValeriaNavigator: React.FC = () => (
 // Si tu app YA tiene un NavigationContainer, importa solo <ValeriaNavigator />
 // y añádelo a tu stack raíz. Si no, usa <ValeriaApp /> tal cual.
 export const ValeriaApp: React.FC = () => {
-  // Handler y canal Android de los recordatorios horarios (pantalla de bloqueo).
+  // Handler y canal Android de los recordatorios diarios (pantalla de bloqueo).
   useEffect(() => { initNotifications(); }, []);
   return (
     <NavigationContainer>

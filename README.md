@@ -15,7 +15,7 @@ Welcome → Credits → (PatientSelect ó FichaRegistro) → ExerciseSelection
 - **Fichas ilustradas**: los ejercicios muestran imágenes emoji grandes y coloridas; **toca cualquier imagen para ampliarla** a pantalla completa.
 - **Escala EPT-3**: valoración unificada de tres niveles (1★ / 2★ / 3★) en todos los ejercicios.
 - **Juego con movimiento**: cada ejercicio incluye una "versión en movimiento" y entre ejercicios aparecen **pausas activas** (saltos de rana, paso robot, equilibrio de flamenco…).
-- **Recordatorios horarios**: notificaciones locales en la pantalla de bloqueo cada hora (9:00–20:00), activables desde la pantalla de prescripción (`expo-notifications`).
+- **Recordatorios diarios**: notificaciones locales en la pantalla de bloqueo, máximo 4 al día (9:00, 13:00, 17:00 y 20:00), activables desde la pantalla de prescripción (`expo-notifications`).
 - **Gamificación estilo Duolingo**: XP, racha diaria 🔥, niveles con nombre (Osezno → Oso Legendario) e insignias desbloqueables, visibles al terminar la sesión y en el panel de resultados.
 
 ## Desarrollo

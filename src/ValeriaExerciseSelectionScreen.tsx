@@ -9,7 +9,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, Pressable, ScrollView, Switch, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { V, STORAGE_KEYS } from './valeriaTheme';
-import { enableHourlyReminders, disableReminders, remindersEnabled } from './valeriaNotifications';
+import { enableDailyReminders, disableReminders, remindersEnabled } from './valeriaNotifications';
 import { loadGame, liveStreak, levelFor, levelName } from './valeriaGamification';
 // import logoWhite from '../../assets/valeria-logo-white.png';
 
@@ -130,10 +130,10 @@ export const ValeriaExerciseSelectionScreen: React.FC<{ navigation: any }> = ({ 
 
   const toggleReminders = async (next: boolean) => {
     if (next) {
-      const ok = await enableHourlyReminders();
+      const ok = await enableDailyReminders();
       setReminders(ok);
       setToast(ok
-        ? 'Recordatorios activados: un avisito cada hora (9:00–20:00). 🔔'
+        ? 'Recordatorios activados: máximo 4 avisitos al día (9:00, 13:00, 17:00 y 20:00). 🔔'
         : 'No se pudo activar: concede el permiso de notificaciones al sistema.');
     } else {
       await disableReminders();
@@ -229,12 +229,12 @@ export const ValeriaExerciseSelectionScreen: React.FC<{ navigation: any }> = ({ 
           {!unlocked && <Text style={s.pillChev}>›</Text>}
         </Pressable>
 
-        {/* Recordatorios horarios en pantalla de bloqueo */}
+        {/* Recordatorios diarios (máx. 4) en pantalla de bloqueo */}
         <View style={s.remindCard}>
           <View style={s.remindIcon}><Text style={{ fontSize: 17 }}>🔔</Text></View>
           <View style={{ flex: 1 }}>
             <Text style={s.remindTitle}>Recordatorios de sesión</Text>
-            <Text style={s.remindSub}>Un aviso cada hora (9:00–20:00) en la pantalla de bloqueo para no perder la racha.</Text>
+            <Text style={s.remindSub}>Hasta 4 avisos al día (9:00, 13:00, 17:00 y 20:00) en la pantalla de bloqueo para no perder la racha.</Text>
           </View>
           <Switch value={reminders} onValueChange={toggleReminders}
             trackColor={{ false: '#d1d5db', true: V.color.primary }} thumbColor="#ffffff" />

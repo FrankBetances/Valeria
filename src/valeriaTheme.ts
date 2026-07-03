@@ -66,7 +66,7 @@ export const STORAGE_KEYS = {
   historial: '@valeria_historial_completo',    // Historial de sesiones (escribe Player, lee el panel de resultados)
   ling: '@valeria_ling',                       // Historial del Test de Ling (6 sonidos)
   juego: '@valeria_juego',                     // Gamificación: XP, racha diaria, nivel y logros
-  recordatorios: '@valeria_recordatorios',     // Preferencia de recordatorios horarios (on/off)
+  recordatorios: '@valeria_recordatorios',     // Preferencia de recordatorios diarios (on/off)
 };
 
 // Marca / mascota: oso "Valeria" en blanco sobre turquesa. El componente

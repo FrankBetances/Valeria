@@ -505,7 +505,9 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
 
               {curLevel && (
                 <View style={{ alignItems: 'center', paddingVertical: 6 }}>
-                  <View style={s.instrBig}><Text style={{ fontSize: 32 }}>{curLevel.instrIcon}</Text></View>
+                  <Pressable onPress={() => openZoom(curLevel.instrIcon, ex.name)} accessibilityRole="imagebutton" accessibilityLabel="Ampliar el icono">
+                    <View style={s.instrBig}><Text style={{ fontSize: 32 }}>{curLevel.instrIcon}</Text></View>
+                  </Pressable>
                   <Text style={s.instrHint}>{curLevel.instrHint}</Text>
                 </View>
               )}
