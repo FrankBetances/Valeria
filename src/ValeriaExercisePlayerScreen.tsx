@@ -1,5 +1,5 @@
 // ============================================================================
-// Valeria+ · Player de Sesión de Terapia (V4.0)
+// Valeria+ · Player de Sesión de Terapia (V5.0)
 // Flujo guiado tutor + niño: consigna real, mini-juego visual por tipo de
 // ejercicio y evaluación con la escala clínica EPT-3 (1★ / 2★ / 3★).
 //
@@ -7,6 +7,12 @@
 //   · Fichas ilustradas con emojis grandes (adiós placeholders) y zoom al tocar.
 //   · "Versión en movimiento" por ejercicio + Pausas Activas entre ejercicios.
 //   · Confeti y recompensas estilo Duolingo al terminar (XP, racha, logros).
+//
+// Novedades V5 (voz):
+//   · Síntesis de voz: la app lee consignas, palabras objetivo y frases (🔊).
+//   · Juego de micrófono: el niño repite la palabra y la app valora el intento.
+//   · Cápsulas TPR (Total Physical Response) entre ejercicios: la app dicta
+//     órdenes en voz alta y el niño responde con el cuerpo.
 //
 // Navegación: navigation.navigate('ExercisePlayer', { id?: string })
 //   · Con `id`  -> sesión de un solo ejercicio.
@@ -19,6 +25,9 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { V, STORAGE_KEYS } from './valeriaTheme';
 import { registerSession, SessionReward, levelProgress, xpToNext } from './valeriaGamification';
+import { speakToChild, stopSpeaking } from './valeriaVoice';
+import { SpeakButton, MicPracticeCard } from './ValeriaVoiceUI';
+import { ValeriaTPRCapsuleOverlay, pickTprCapsule, TprCapsule } from './ValeriaTPRCapsule';
 // import logoWhite from '../../assets/valeria-logo-white.png';
 
 // ----------------------------------------------------------------------------
@@ -203,18 +212,8 @@ const EMO = [
 ];
 const MONTHS = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
 
-// Pausas activas: mini-retos de movimiento entre ejercicios para oxigenar la
-// sesión y trabajar motricidad gruesa jugando.
-const ACTIVE_BREAKS = [
-  { icon: '🐸', title: 'Salta como una rana', desc: 'Dad 5 saltos de rana contando en voz alta: ¡1, 2, 3, 4, 5!' },
-  { icon: '👏', title: 'Ritmo de aplausos', desc: 'Aplaude un ritmo y que el niño lo repita. ¡Ahora al revés!' },
-  { icon: '🦩', title: 'Equilibrio de flamenco', desc: 'Aguantad a la pata coja mientras contáis hasta 5.' },
-  { icon: '🤖', title: 'Paso robot', desc: 'Caminad como robots hasta la puerta y volved diciendo "bip-bop".' },
-  { icon: '🌬️', title: 'Sopla el viento', desc: 'Inspirad hondo y soplad fuerte como el viento: ¡fuuuu!' },
-  { icon: '🐻', title: 'Marcha del oso', desc: 'Caminad a cuatro patas como la osita Valeria y rugid juntos.' },
-  { icon: '🌀', title: 'Gira y congela', desc: 'Dad 3 vueltas sobre vosotros mismos y quedaos como estatuas.' },
-  { icon: '🚀', title: 'Despegue de cohete', desc: 'Agachaos como un cohete y saltad al cielo: 3, 2, 1… ¡despegue!' },
-];
+// Entre ejercicios se muestra una Cápsula TPR (escucha y muévete): sustituye a
+// las antiguas pausas activas. El banco de cápsulas vive en ValeriaTPRCapsule.
 
 // ----------------------------------------------------------------------------
 // Ficha ilustrada con emoji: toca para ampliar, con rebote al pulsar.
@@ -338,25 +337,16 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
   const [emotionPick, setEmotionPick] = useState('');
   // zoom de imagen
   const [zoom, setZoom] = useState<{ emoji: string; cap: string } | null>(null);
-  // pausa activa entre ejercicios
-  const [activeBreak, setActiveBreak] = useState<(typeof ACTIVE_BREAKS)[number] | null>(null);
-  const breakPulse = useRef(new Animated.Value(0)).current;
+  // cápsula TPR entre ejercicios
+  const [activeBreak, setActiveBreak] = useState<TprCapsule | null>(null);
 
   const ex = DB[sessionIds[idx]] ?? DB.ff1;
   const total = sessionIds.length;
   const curLevel = ex.levels?.[subIdx];
 
-  useEffect(() => {
-    if (!activeBreak) return;
-    const loop = Animated.loop(
-      Animated.sequence([
-        Animated.timing(breakPulse, { toValue: 1, duration: 550, easing: Easing.inOut(Easing.quad), useNativeDriver: true }),
-        Animated.timing(breakPulse, { toValue: 0, duration: 550, easing: Easing.inOut(Easing.quad), useNativeDriver: true }),
-      ]),
-    );
-    loop.start();
-    return () => loop.stop();
-  }, [activeBreak, breakPulse]);
+  // Silencia la voz de la app al cambiar de ejercicio y al salir de la pantalla.
+  useEffect(() => { stopSpeaking(); }, [idx, subIdx]);
+  useEffect(() => () => stopSpeaking(), []);
 
   const resetEphemeral = () => { setVowelPick(''); setFillPick(''); setIntruderPick(-1); setEmotionPick(''); };
 
@@ -385,8 +375,8 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
       } else {
         setIdx(idx + 1); setSubIdx(0); setLevelScores([]);
         setPicked(0); setLocking(false); resetEphemeral();
-        // Pausa activa: reto de movimiento sorpresa antes del siguiente ejercicio.
-        setActiveBreak(ACTIVE_BREAKS[Math.floor(Math.random() * ACTIVE_BREAKS.length)]);
+        // Cápsula TPR sorpresa: escucha y muévete antes del siguiente ejercicio.
+        setActiveBreak(pickTprCapsule());
       }
     }, 620);
   };
@@ -415,6 +405,8 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
     } catch (e) { /* gamificación no disponible */ }
     setResults(res);
     setFinished(true);
+    // Celebración hablada para el niño al cerrar la sesión.
+    speakToChild('¡Sesión completada! ¡Lo has hecho genial!');
   };
 
   // Cuenta atrás hacia Resultados
@@ -439,8 +431,6 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
   const sumAvg = results.length ? results.reduce((a, b) => a + b, 0) / results.length : 0;
   const fullStars = Math.round(sumAvg);
   const starStr = (n: number) => '★★★'.slice(0, n) + '☆☆☆'.slice(0, 3 - n);
-
-  const breakScale = breakPulse.interpolate({ inputRange: [0, 1], outputRange: [1, 1.18] });
 
   // --------------------------------------------------------------------------
   return (
@@ -497,6 +487,9 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                 </View>
               </View>
               <Text style={s.instructionText}>{curLevel ? curLevel.read : ex.read}</Text>
+              <View style={{ marginTop: 12 }}>
+                <SpeakButton text={curLevel ? curLevel.read : ex.read} label="Escuchar consigna" />
+              </View>
             </View>
 
             {/* ===== Stage / mini-juego ===== */}
@@ -513,12 +506,16 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
               )}
 
               {!curLevel && ex.stage === 'phrase' && (
-                <View style={s.phraseBox}>
-                  {!!ex.phraseEmoji && (
-                    <EmojiTile emoji={ex.phraseEmoji} cap={ex.phrase?.toLowerCase()} size={92} bgIndex={1} onZoom={openZoom} />
-                  )}
-                  <Text style={s.phraseTxt}>“{ex.phrase}”</Text>
-                </View>
+                <>
+                  <View style={s.phraseBox}>
+                    {!!ex.phraseEmoji && (
+                      <EmojiTile emoji={ex.phraseEmoji} cap={ex.phrase?.toLowerCase()} size={92} bgIndex={1} onZoom={openZoom} />
+                    )}
+                    <Text style={s.phraseTxt}>“{ex.phrase}”</Text>
+                    <SpeakButton text={ex.phrase!} label="Oír la palabra despacio" voice="slow" />
+                  </View>
+                  <MicPracticeCard target={ex.phrase!} />
+                </>
               )}
 
               {ex.stage === 'vowels' && (
@@ -537,6 +534,9 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                         <Text style={[s.vowelTxt, vowelPick === v && s.vowelTxtOn]}>{v}</Text>
                       </Pressable>
                     ))}
+                  </View>
+                  <View style={{ alignItems: 'center', marginTop: 12 }}>
+                    <SpeakButton text={ex.tiles!.map((t) => t.cap).join(', ')} label="Oír los nombres" voice="slow" />
                   </View>
                 </>
               )}
@@ -562,6 +562,12 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                       </Pressable>
                     ))}
                   </View>
+                  {!!ex.fillCap && (
+                    <MicPracticeCard
+                      target={ex.fillCap}
+                      prompt={`Cuando complete la palabra, pulsa el micro y que diga: “${ex.fillCap}”`}
+                    />
+                  )}
                 </>
               )}
 
@@ -625,6 +631,9 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                     ))}
                   </View>
                   <View style={s.sentenceBox}><Text style={s.sentenceTxt}>“{ex.sentence}”</Text></View>
+                  <View style={{ alignItems: 'center', marginTop: 10 }}>
+                    <SpeakButton text={ex.sentence!} label="Oír la frase" voice="child" />
+                  </View>
                 </>
               )}
 
@@ -645,6 +654,9 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
               <View style={s.moveHead}>
                 <View style={s.moveIcon}><Text style={{ fontSize: 17 }}>🏃</Text></View>
                 <Text style={s.moveKicker}>VERSIÓN EN MOVIMIENTO</Text>
+                <View style={{ marginLeft: 'auto' }}>
+                  <SpeakButton text={ex.move} voice="child" compact />
+                </View>
               </View>
               <Text style={s.moveTxt}>{ex.move}</Text>
             </View>
@@ -752,22 +764,13 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
       {/* ===== Zoom de imagen ===== */}
       <ZoomModal emoji={zoom?.emoji ?? ''} cap={zoom?.cap ?? ''} visible={!!zoom} onClose={() => setZoom(null)} />
 
-      {/* ===== Pausa activa entre ejercicios ===== */}
+      {/* ===== Cápsula TPR entre ejercicios: escucha y muévete ===== */}
       {activeBreak && !finished && (
-        <View style={s.breakOverlay}>
-          <View style={s.breakCard}>
-            <Text style={s.breakKicker}>⚡ PAUSA ACTIVA ⚡</Text>
-            <Animated.Text style={[s.breakEmoji, { transform: [{ scale: breakScale }] }]}>{activeBreak.icon}</Animated.Text>
-            <Text style={s.breakTitle}>{activeBreak.title}</Text>
-            <Text style={s.breakDesc}>{activeBreak.desc}</Text>
-            <Pressable onPress={() => setActiveBreak(null)} style={s.breakBtn} accessibilityRole="button">
-              <Text style={s.breakBtnTxt}>¡Hecho! Seguimos →</Text>
-            </Pressable>
-            <Pressable onPress={() => setActiveBreak(null)} accessibilityRole="button">
-              <Text style={s.breakSkip}>Saltar esta vez</Text>
-            </Pressable>
-          </View>
-        </View>
+        <ValeriaTPRCapsuleOverlay
+          capsule={activeBreak}
+          onDone={() => setActiveBreak(null)}
+          onSkip={() => setActiveBreak(null)}
+        />
       )}
     </View>
   );
@@ -914,17 +917,6 @@ const s = StyleSheet.create({
   zoomEmoji: { fontSize: 130, lineHeight: 150 },
   zoomCap: { fontSize: 26, fontWeight: '800', color: V.color.textPrimary, marginTop: 14, textTransform: 'capitalize' },
   zoomClose: { fontSize: 12, fontWeight: '700', color: V.color.textMuted, marginTop: 16 },
-
-  // pausa activa
-  breakOverlay: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(11,18,32,.6)', alignItems: 'center', justifyContent: 'center', padding: 26 },
-  breakCard: { width: '100%', maxWidth: 330, backgroundColor: '#fff', borderRadius: 26, padding: 24, alignItems: 'center' },
-  breakKicker: { fontSize: 12, fontWeight: '800', letterSpacing: 1.2, color: '#f59e0b' },
-  breakEmoji: { fontSize: 74, marginTop: 14 },
-  breakTitle: { fontSize: 21, fontWeight: '800', color: V.color.textPrimary, marginTop: 12, textAlign: 'center' },
-  breakDesc: { fontSize: 14, fontWeight: '700', color: V.color.textSecondary, marginTop: 8, lineHeight: 20, textAlign: 'center' },
-  breakBtn: { alignSelf: 'stretch', marginTop: 18, backgroundColor: '#f59e0b', borderRadius: 14, paddingVertical: 14, alignItems: 'center' },
-  breakBtnTxt: { color: '#fff', fontSize: 15.5, fontWeight: '800' },
-  breakSkip: { marginTop: 12, fontSize: 12.5, fontWeight: '700', color: V.color.textMuted },
 });
 
 export default ValeriaExercisePlayerScreen;
