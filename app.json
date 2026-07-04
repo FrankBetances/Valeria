@@ -21,7 +21,15 @@
           "color": "#00c4be",
           "defaultChannel": "valeria-recordatorios"
         }
-      ]
+      ],
+      [
+        "@react-native-voice/voice",
+        {
+          "microphonePermission": "Valeria+ usa el micrófono para los juegos de voz de los ejercicios.",
+          "speechRecognitionPermission": "Valeria+ usa el reconocimiento de voz para valorar las palabras que dice el niño."
+        }
+      ],
+      "./plugins/withSpeechRecognitionQueries"
     ],
     "ios": {
       "supportsTablet": true,
