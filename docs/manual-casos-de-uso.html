@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Valeria+ · Manual de Casos de Uso</title>
+<style>
+  :root{
+    --primary:#00c4be; --primary-dark:#00a39e; --primary-light:#e6f9f8; --primary-tint:#f0fdf9;
+    --page-bg:#f6fafa; --ink:#1f2937; --ink2:#4b5563; --muted:#9aa6a5; --border:#e9eeee;
+    --success:#10b981; --success-bg:#eafaf2; --error:#ef4444; --star:#facc15; --dark:#0b1220;
+  }
+  @page{ size:A4; margin:18mm 16mm 20mm 16mm; }
+  @page:first{ margin:0; }
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; }
+  body{
+    font-family:"Nunito","Segoe UI",-apple-system,BlinkMacSystemFont,Roboto,Helvetica,Arial,sans-serif;
+    color:var(--ink); font-size:11.2pt; line-height:1.55; -webkit-print-color-adjust:exact; print-color-adjust:exact;
+  }
+  h1,h2,h3,h4{ line-height:1.2; margin:0; }
+  p{ margin:0 0 8px; }
+  a{ color:var(--primary-dark); text-decoration:none; }
+  .muted{ color:var(--muted); }
+  .small{ font-size:9.5pt; }
+
+  /* ---------- Portada ---------- */
+  .cover{
+    height:297mm; background:linear-gradient(160deg,#00c4be 0%, #00a39e 55%, #0a8f8a 100%);
+    color:#fff; padding:36mm 24mm; display:flex; flex-direction:column; position:relative; overflow:hidden;
+    page-break-after:always;
+  }
+  .cover::before{ content:""; position:absolute; width:520px; height:520px; right:-160px; top:-160px;
+    background:rgba(255,255,255,.10); border-radius:50%; }
+  .cover::after{ content:""; position:absolute; width:360px; height:360px; left:-120px; bottom:-140px;
+    background:rgba(255,255,255,.08); border-radius:50%; }
+  .cover .brand{ font-size:15pt; font-weight:800; letter-spacing:2px; text-transform:lowercase; }
+  .cover .bear{ font-size:64pt; margin:4mm 0 2mm; }
+  .cover h1{ font-size:38pt; font-weight:800; letter-spacing:-1px; margin-top:auto; }
+  .cover .sub{ font-size:15pt; font-weight:600; opacity:.95; margin-top:6mm; max-width:130mm; }
+  .cover .meta{ margin-top:14mm; font-size:10.5pt; opacity:.9; line-height:1.8; z-index:2; }
+  .cover .pill{ display:inline-block; background:rgba(255,255,255,.18); border:1px solid rgba(255,255,255,.35);
+    border-radius:30px; padding:5px 14px; font-size:10pt; font-weight:800; margin-top:8mm; }
+
+  /* ---------- Estructura ---------- */
+  section{ page-break-inside:auto; }
+  .page-break{ page-break-before:always; }
+  h2.chapter{
+    font-size:20pt; font-weight:800; color:var(--primary-dark); margin:0 0 4px;
+    padding-bottom:6px; border-bottom:3px solid var(--primary-light);
+  }
+  .chapter-kicker{ font-size:9pt; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:var(--primary); margin-bottom:2px; }
+  h3{ font-size:13.5pt; font-weight:800; color:var(--ink); margin:16px 0 6px; }
+  h4{ font-size:11pt; font-weight:800; color:var(--ink2); margin:12px 0 4px; }
+
+  /* ---------- Índice ---------- */
+  .toc li{ margin:6px 0; font-size:11pt; }
+  .toc .num{ display:inline-block; width:26px; font-weight:800; color:var(--primary); }
+  .toc a{ color:var(--ink); font-weight:600; }
+  .toc .dots{ color:var(--border); }
+
+  /* ---------- Tarjetas ---------- */
+  .card{ border:1px solid var(--border); border-radius:12px; padding:12px 14px; margin:10px 0; background:#fff; }
+  .tint{ background:var(--primary-tint); border-color:var(--border-active,#cdeeec); }
+  .callout{ border-left:4px solid var(--primary); background:var(--primary-tint); border-radius:0 10px 10px 0;
+    padding:10px 14px; margin:12px 0; }
+  .callout.warn{ border-left-color:#f59e0b; background:#fffbeb; }
+  .callout.ok{ border-left-color:var(--success); background:var(--success-bg); }
+  .callout .lbl{ font-weight:800; font-size:9.5pt; text-transform:uppercase; letter-spacing:.6px; color:var(--primary-dark); }
+  .callout.warn .lbl{ color:#b45309; }
+  .callout.ok .lbl{ color:#047857; }
+
+  /* ---------- Tablas ---------- */
+  table{ width:100%; border-collapse:collapse; margin:10px 0; font-size:10pt; }
+  th,td{ border:1px solid var(--border); padding:7px 9px; text-align:left; vertical-align:top; }
+  th{ background:var(--primary-light); color:var(--primary-dark); font-weight:800; font-size:9.5pt; }
+  tr:nth-child(even) td{ background:#fbfdfd; }
+  .code-chip{ display:inline-block; background:var(--primary-light); color:var(--primary-dark);
+    font-weight:800; font-size:8.5pt; padding:2px 7px; border-radius:6px; letter-spacing:.3px; }
+
+  /* ---------- Bloque Caso de Uso ---------- */
+  .uc{ border:1px solid var(--border); border-radius:14px; overflow:hidden; margin:0 0 4px; page-break-inside:avoid; }
+  .uc-head{ background:var(--primary); color:#fff; padding:12px 16px; }
+  .uc-head .id{ font-size:9pt; font-weight:800; letter-spacing:1px; opacity:.9; }
+  .uc-head .title{ font-size:15pt; font-weight:800; margin-top:1px; }
+  .uc-body{ padding:14px 16px; }
+  .uc-grid{ display:grid; grid-template-columns:1fr 1fr; gap:8px 18px; margin-bottom:6px; }
+  .uc-grid .k{ font-size:8.5pt; font-weight:800; text-transform:uppercase; letter-spacing:.5px; color:var(--muted); }
+  .uc-grid .v{ font-size:10pt; font-weight:600; }
+  ol.flow{ margin:6px 0 6px 0; padding-left:22px; }
+  ol.flow li{ margin:4px 0; }
+  ul.alt{ margin:4px 0 4px 0; padding-left:20px; }
+  ul.alt li{ margin:3px 0; }
+  .tag{ display:inline-block; font-size:8pt; font-weight:800; padding:2px 8px; border-radius:20px; }
+  .tag.pro{ background:#fef3c7; color:#92400e; }
+  .tag.fam{ background:var(--primary-light); color:var(--primary-dark); }
+
+  /* ---------- Flujo de pantallas ---------- */
+  .flowmap{ display:flex; flex-wrap:wrap; align-items:center; gap:6px; margin:12px 0; }
+  .flowmap .node{ background:#fff; border:1.5px solid var(--primary); color:var(--primary-dark);
+    border-radius:10px; padding:6px 11px; font-weight:800; font-size:9.5pt; }
+  .flowmap .arrow{ color:var(--primary); font-weight:800; }
+
+  .footer-note{ margin-top:20px; padding-top:10px; border-top:1px solid var(--border); color:var(--muted); font-size:9pt; }
+  .stars{ color:var(--star); letter-spacing:1px; }
+</style>
+</head>
+<body>
+
+<!-- ================= PORTADA ================= -->
+<div class="cover">
+  <div class="brand">valeria+</div>
+  <div class="bear">🐻</div>
+  <div style="margin-top:auto">
+    <div class="pill">Manual de usuario · v4</div>
+    <h1>Manual de<br>Casos de Uso</h1>
+    <div class="sub">Aplicación de terapia auditivo‑verbal para niñas y niños con hipoacusia, implante coclear o dificultades del lenguaje.</div>
+    <div class="meta">
+      Guía para logopedas, familias y cuidadores<br>
+      Julio de 2026 · Documento interno<br>
+      Expo / React Native
+    </div>
+  </div>
+</div>
+
+<!-- ================= ÍNDICE ================= -->
+<section>
+  <div class="chapter-kicker">Contenido</div>
+  <h2 class="chapter">Índice</h2>
+  <ul class="toc" style="list-style:none; padding:0; margin-top:14px;">
+    <li><span class="num">1</span> Introducción a Valeria+</li>
+    <li><span class="num">2</span> Roles y modos de acceso</li>
+    <li><span class="num">3</span> Mapa de pantallas y glosario</li>
+    <li style="margin-top:12px; font-weight:800; color:var(--primary-dark)">Casos de uso</li>
+    <li><span class="num">CU‑01</span> Alta de un nuevo paciente</li>
+    <li><span class="num">CU‑02</span> Prescripción de terapias (Modo Profesional)</li>
+    <li><span class="num">CU‑03</span> Retomar un paciente e iniciar sesión</li>
+    <li><span class="num">CU‑04</span> Test de Ling previo (audífono / implante)</li>
+    <li><span class="num">CU‑05</span> Realizar una sesión de ejercicios</li>
+    <li><span class="num">CU‑06</span> Ejercicios de lenguaje con voz (TTS, micrófono, TPR)</li>
+    <li><span class="num">CU‑07</span> Configurar recordatorios diarios</li>
+    <li><span class="num">CU‑08</span> Motivación: racha, niveles e insignias</li>
+    <li><span class="num">CU‑09</span> Consultar el panel de resultados</li>
+    <li><span class="num">CU‑10</span> Cambiar entre Modo Familia y Modo Profesional</li>
+    <li style="margin-top:12px"><span class="num">A</span> Preguntas frecuentes y resolución de problemas</li>
+  </ul>
+</section>
+
+<!-- ================= 1. INTRODUCCIÓN ================= -->
+<section class="page-break">
+  <div class="chapter-kicker">Capítulo 1</div>
+  <h2 class="chapter">Introducción a Valeria+</h2>
+
+  <p style="margin-top:12px">
+    <strong>Valeria+</strong> es una aplicación móvil (Expo / React Native) diseñada para acompañar las
+    <strong>sesiones de terapia auditivo‑verbal</strong> de niñas y niños. Reúne en un solo lugar el registro del
+    paciente, una comprobación auditiva previa (Test de Ling), la prescripción y reproducción de ejercicios, y un
+    panel de resultados para seguir la evolución.
+  </p>
+
+  <p>
+    La app parte de un principio clave: <strong>los padres y cuidadores son el motor de voz y evaluación</strong>.
+    En los ejercicios de audición no hay reconocimiento automático de voz: es el adulto quien produce cada sonido
+    y quien puntúa la respuesta del niño en una escala sencilla. Esto hace que la terapia funcione en cualquier
+    dispositivo, sin depender de la calidad del micrófono, y refuerza el vínculo familiar en el proceso.
+  </p>
+
+  <div class="callout">
+    <div class="lbl">A quién va dirigida</div>
+    <p style="margin:4px 0 0">Logopedas y profesionales de audición/lenguaje (que prescriben y supervisan) y
+    familias o cuidadores (que realizan las sesiones en casa). Este manual cubre a ambos perfiles.</p>
+  </div>
+
+  <h3>Qué encontrará en este manual</h3>
+  <p>Diez <strong>casos de uso</strong> paso a paso que recorren las tareas más habituales, desde dar de alta a un
+  paciente hasta interpretar sus resultados. Cada caso indica el actor responsable, las precondiciones, el flujo
+  principal, las variantes y el resultado esperado.</p>
+
+  <table>
+    <tr><th>Módulo</th><th>Para qué sirve</th></tr>
+    <tr><td><strong>Audición</strong> — 13 terapias</td><td>Fonética‑fonología, semántica, morfosintaxis y pragmática para pacientes con audífono, implante coclear o hipoacusia.</td></tr>
+    <tr><td><strong>Lenguaje</strong> — 7 terapias</td><td>Atención conjunta, imitación, comprensión, expresión, comunicación funcional, regulación conductual e interacción social.</td></tr>
+    <tr><td><strong>Test de Ling</strong></td><td>Comprobación auditiva rápida (6 sonidos) antes de los ejercicios de audición.</td></tr>
+    <tr><td><strong>Gamificación</strong></td><td>XP, racha diaria, niveles con nombre e insignias para mantener la motivación.</td></tr>
+  </table>
+</section>
+
+<!-- ================= 2. ROLES ================= -->
+<section class="page-break">
+  <div class="chapter-kicker">Capítulo 2</div>
+  <h2 class="chapter">Roles y modos de acceso</h2>
+
+  <p style="margin-top:12px">Valeria+ distingue dos formas de usar la app sobre el mismo dispositivo. El cambio
+  no requiere cerrar sesión: se controla con un <strong>PIN de 4 dígitos</strong>.</p>
+
+  <table>
+    <tr><th style="width:22%">Modo</th><th>Quién</th><th>Qué puede hacer</th></tr>
+    <tr>
+      <td><span class="tag fam">Modo Familia</span><br><span class="small muted">por defecto</span></td>
+      <td>Tutor, madre, padre o cuidador</td>
+      <td>Ver la prescripción (solo lectura), realizar las sesiones de ejercicios, activar recordatorios y consultar el progreso. <strong>No</strong> puede modificar qué ejercicios están activos.</td>
+    </tr>
+    <tr>
+      <td><span class="tag pro">Modo Profesional</span><br><span class="small muted">requiere PIN</span></td>
+      <td>Logopeda / profesional</td>
+      <td>Todo lo anterior <strong>más</strong> activar o desactivar terapias y guardar la prescripción. Se desbloquea con el PIN y se vuelve a bloquear al guardar.</td>
+    </tr>
+  </table>
+
+  <div class="callout warn">
+    <div class="lbl">PIN de demostración</div>
+    <p style="margin:4px 0 0">El PIN de ejemplo es <strong>1985</strong>. En un despliegue real, el logopeda debe
+    sustituirlo por uno propio. El PIN nunca se guarda en texto plano: se valida contra un hash SHA‑256.</p>
+  </div>
+
+  <h3>Privacidad de los datos</h3>
+  <p>Toda la información del paciente (ficha, historial de sesiones, progreso) se guarda <strong>localmente en el
+  dispositivo</strong> mediante almacenamiento cifrado. La app está pensada para cumplir RGPD/HIPAA en el manejo de
+  datos personales (PII). No se envían datos a servidores externos para funcionar.</p>
+</section>
+
+<!-- ================= 3. MAPA DE PANTALLAS ================= -->
+<section class="page-break">
+  <div class="chapter-kicker">Capítulo 3</div>
+  <h2 class="chapter">Mapa de pantallas y glosario</h2>
+
+  <p style="margin-top:12px">Una sesión completa recorre siempre el mismo circuito. El Test de Ling solo aparece
+  cuando el paciente usa audífono o implante coclear.</p>
+
+  <div class="flowmap">
+    <span class="node">Bienvenida</span><span class="arrow">→</span>
+    <span class="node">Créditos</span><span class="arrow">→</span>
+    <span class="node">Ficha / Selección</span><span class="arrow">→</span>
+    <span class="node">Prescripción</span><span class="arrow">→</span>
+    <span class="node">Test de Ling*</span><span class="arrow">→</span>
+    <span class="node">Ejercicios</span><span class="arrow">→</span>
+    <span class="node">Resultados</span>
+  </div>
+  <p class="small muted">* El Test de Ling se salta automáticamente si la patología del paciente no indica audífono ni implante.</p>
+
+  <h3>Glosario</h3>
+  <table>
+    <tr><th style="width:26%">Término</th><th>Significado</th></tr>
+    <tr><td><strong>Ficha de registro</strong></td><td>Datos sociodemográficos del niño, el tutor y el equipo médico.</td></tr>
+    <tr><td><strong>Prescripción</strong></td><td>Conjunto de terapias que el logopeda deja activas para ese paciente.</td></tr>
+    <tr><td><strong>Test de Ling</strong></td><td>Comprobación de 6 sonidos (m, u, a, i, sh, s) que verifica si el niño oye desde graves hasta agudos.</td></tr>
+    <tr><td><strong>Escala EPT‑3</strong></td><td>Valoración unificada de 3 niveles: <span class="stars">★</span> Emergente · <span class="stars">★★</span> En proceso · <span class="stars">★★★</span> Consolidado.</td></tr>
+    <tr><td><strong>Pausa activa</strong></td><td>Mini‑juego de movimiento entre ejercicios (saltos de rana, paso robot, equilibrio de flamenco…).</td></tr>
+    <tr><td><strong>TPR</strong></td><td><em>Total Physical Response</em>: aprender vocabulario asociando palabras a acciones físicas.</td></tr>
+    <tr><td><strong>Racha (🔥)</strong></td><td>Días consecutivos en los que se ha completado al menos una sesión.</td></tr>
+    <tr><td><strong>NHC</strong></td><td>Número de Historia Clínica del paciente.</td></tr>
+  </table>
+</section>
+
+<!-- ================= CASOS DE USO ================= -->
+<section class="page-break">
+  <div class="chapter-kicker">Casos de uso</div>
+  <h2 class="chapter">Guía paso a paso</h2>
+  <p style="margin-top:12px">Cada caso de uso describe una tarea completa. Los iconos
+  <span class="tag pro">Profesional</span> y <span class="tag fam">Familia</span> indican el actor principal.</p>
+
+  <!-- CU-01 -->
+  <div class="uc" style="margin-top:14px">
+    <div class="uc-head">
+      <div class="id">CU‑01 · <span class="tag fam" style="background:rgba(255,255,255,.22);color:#fff">Profesional / Familia</span></div>
+      <div class="title">Alta de un nuevo paciente</div>
+    </div>
+    <div class="uc-body">
+      <div class="uc-grid">
+        <div><div class="k">Actor</div><div class="v">Logopeda o tutor que crea la ficha</div></div>
+        <div><div class="k">Pantalla</div><div class="v">Bienvenida → Créditos → Ficha de Registro</div></div>
+        <div><div class="k">Precondición</div><div class="v">App instalada y abierta</div></div>
+        <div><div class="k">Resultado</div><div class="v">Ficha guardada y cifrada en el dispositivo</div></div>
+      </div>
+      <h4>Flujo principal</h4>
+      <ol class="flow">
+        <li>En la pantalla de <strong>Bienvenida</strong>, pulsar <strong>“Comenzar”</strong> y avanzar por Créditos.</li>
+        <li>En la <strong>Ficha de Registro</strong>, rellenar los datos del <strong>Niño/a</strong>: nombre y apellidos <em>(obligatorio)</em>, fecha de nacimiento, <strong>NHC</strong> <em>(obligatorio)</em> y género.</li>
+        <li>Completar el bloque <strong>Tutor / Cuidador</strong>: nombre <em>(obligatorio)</em>, vínculo familiar, <strong>correo</strong> <em>(obligatorio y con formato válido)</em> y teléfono/WhatsApp para los reportes.</li>
+        <li>Completar <strong>Diagnóstico y equipo médico</strong>: patología, médico prescriptor y logopeda asignado.</li>
+        <li>Pulsar <strong>“Guardar ficha”</strong>. Aparece la confirmación “Ficha guardada y cifrada”.</li>
+        <li>Pulsar <strong>“Continuar a Prescripción →”</strong> para pasar a la selección de terapias.</li>
+      </ol>
+      <h4>Flujos alternativos</h4>
+      <ul class="alt">
+        <li><strong>Falta un campo obligatorio o el correo es inválido:</strong> el campo se resalta en rojo y no se guarda hasta corregirlo.</li>
+        <li><strong>La patología indica audífono o implante coclear:</strong> se recordará más adelante para lanzar el Test de Ling antes de los ejercicios (ver CU‑04).</li>
+      </ul>
+      <div class="callout"><div class="lbl">Dato clave</div><p style="margin:4px 0 0">La patología seleccionada determina el circuito de la sesión. Elíjala con cuidado.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CU-02 -->
+<section class="page-break">
+  <div class="uc">
+    <div class="uc-head">
+      <div class="id">CU‑02 · <span class="tag pro">Profesional</span></div>
+      <div class="title">Prescripción de terapias (Modo Profesional)</div>
+    </div>
+    <div class="uc-body">
+      <div class="uc-grid">
+        <div><div class="k">Actor</div><div class="v">Logopeda</div></div>
+        <div><div class="k">Pantalla</div><div class="v">Prescripción de Terapias</div></div>
+        <div><div class="k">Precondición</div><div class="v">Ficha del paciente creada · PIN disponible</div></div>
+        <div><div class="k">Resultado</div><div class="v">Selección de terapias guardada en el dispositivo</div></div>
+      </div>
+      <h4>Flujo principal</h4>
+      <ol class="flow">
+        <li>En <strong>Prescripción de Terapias</strong>, pulsar <strong>“Desbloquear Edición Profesional”</strong>.</li>
+        <li>Introducir el <strong>PIN de 4 dígitos</strong> (demo: <strong>1985</strong>). Al validarse, aparece “Modo profesional desbloqueado”.</li>
+        <li>Elegir la pestaña <strong>Audición</strong> (13 terapias) o <strong>Lenguaje</strong> (7 terapias).</li>
+        <li>Activar o desactivar cada terapia con su interruptor. El contador “N prescritos” se actualiza al momento.</li>
+        <li>Pulsar <strong>“Guardar Prescripción”</strong>. La selección se guarda y la edición vuelve a bloquearse.</li>
+      </ol>
+      <h4>Flujos alternativos</h4>
+      <ul class="alt">
+        <li><strong>PIN incorrecto:</strong> los puntos se marcan en rojo (“PIN incorrecto”) y se pueden reintroducir.</li>
+        <li><strong>Solo consulta (sin PIN):</strong> se puede ver la lista, pero los interruptores están atenuados y no se pueden cambiar.</li>
+        <li><strong>Practicar sin editar:</strong> el botón ▶ de cada fila inicia esa terapia directamente, incluso en Modo Familia.</li>
+      </ul>
+      <table>
+        <tr><th>Categoría (Audición)</th><th>Ejemplos de terapias</th></tr>
+        <tr><td>Fonética‑Fonología</td><td>Asociación vocal inicial · Articulación de vocales · Completar vocal</td></tr>
+        <tr><td>Semántica</td><td>Detección del intruso · Adivinanza por letra · Prendas y órdenes</td></tr>
+        <tr><td>Morfosintaxis</td><td>Singular/plural · Flexión de género · Estructura S‑V‑O</td></tr>
+        <tr><td>Pragmática</td><td>Preguntas ¿qué? · Adaptación del discurso · Emociones · Petición de repetición</td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- CU-03 -->
+<section class="page-break">
+  <div class="uc">
+    <div class="uc-head">
+      <div class="id">CU‑03 · <span class="tag fam">Familia</span></div>
+      <div class="title">Retomar un paciente e iniciar una sesión</div>
+    </div>
+    <div class="uc-body">
+      <div class="uc-grid">
+        <div><div class="k">Actor</div><div class="v">Tutor o cuidador</div></div>
+        <div><div class="k">Pantalla</div><div class="v">Bienvenida → Selección de paciente → Prescripción</div></div>
+        <div><div class="k">Precondición</div><div class="v">Existe al menos una ficha guardada</div></div>
+        <div><div class="k">Resultado</div><div class="v">Paciente activo cargado y listo para practicar</div></div>
+      </div>
+      <h4>Flujo principal</h4>
+      <ol class="flow">
+        <li>En <strong>Bienvenida</strong>, pulsar <strong>“Ya tengo un paciente”</strong>.</li>
+        <li>Seleccionar la ficha del niño/a en la lista de pacientes del dispositivo.</li>
+        <li>La app carga su prescripción y su progreso (racha, nivel) en la pantalla de Terapias.</li>
+        <li>Pulsar el botón ▶ de la terapia deseada para comenzar. Según la patología, se abrirá primero el Test de Ling (CU‑04) o directamente los ejercicios (CU‑05).</li>
+      </ol>
+      <h4>Flujos alternativos</h4>
+      <ul class="alt">
+        <li><strong>No hay pacientes guardados:</strong> use CU‑01 para dar de alta uno nuevo desde “Comenzar”.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- CU-04 -->
+  <div class="uc" style="margin-top:16px">
+    <div class="uc-head">
+      <div class="id">CU‑04 · <span class="tag fam">Familia</span></div>
+      <div class="title">Test de Ling previo (audífono / implante)</div>
+    </div>
+    <div class="uc-body">
+      <div class="uc-grid">
+        <div><div class="k">Actor</div><div class="v">Tutor que produce los sonidos</div></div>
+        <div><div class="k">Pantalla</div><div class="v">Test de Ling</div></div>
+        <div><div class="k">Precondición</div><div class="v">Patología con audífono o implante coclear</div></div>
+        <div><div class="k">Resultado</div><div class="v">Comprobación auditiva registrada + recomendación</div></div>
+      </div>
+      <h4>Flujo principal</h4>
+      <ol class="flow">
+        <li>Responder a la pregunta previa: <strong>¿el niño usa audífonos o implante?</strong> Si la respuesta es <em>No</em>, se salta directo a los ejercicios.</li>
+        <li>Si es <em>Sí</em>, para cada uno de los <strong>6 sonidos</strong> (m, u, a, i, sh, s), el adulto lo produce <strong>tapándose la boca</strong> (sin que el niño lea los labios).</li>
+        <li>Marcar la respuesta del niño en la escala de 3: <strong>Identifica</strong> (repite/reconoce) · <strong>Detecta</strong> (reacciona) · <strong>Sin respuesta</strong>.</li>
+        <li>Al terminar, la app muestra el resultado y una recomendación adaptada. Pulsar <strong>“Comenzar ejercicios”</strong>.</li>
+      </ol>
+      <div class="callout"><div class="lbl">Por qué estos 6 sonidos</div><p style="margin:4px 0 0">Cubren el rango del habla, de graves (~250&nbsp;Hz) a muy agudos (~5&nbsp;kHz). El sonido <strong>“s”</strong> es el más difícil de oír; si se detecta, el equipo funciona bien en frecuencias altas.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CU-05 -->
+<section class="page-break">
+  <div class="uc">
+    <div class="uc-head">
+      <div class="id">CU‑05 · <span class="tag fam">Familia</span></div>
+      <div class="title">Realizar una sesión de ejercicios</div>
+    </div>
+    <div class="uc-body">
+      <div class="uc-grid">
+        <div><div class="k">Actor</div><div class="v">Tutor + niño/a</div></div>
+        <div><div class="k">Pantalla</div><div class="v">Reproductor de Ejercicios → Resultados</div></div>
+        <div><div class="k">Precondición</div><div class="v">Terapia iniciada (con o sin Test de Ling)</div></div>
+        <div><div class="k">Resultado</div><div class="v">Sesión valorada y guardada en el historial</div></div>
+      </div>
+      <h4>Flujo principal</h4>
+      <ol class="flow">
+        <li>La app presenta cada ejercicio con <strong>fichas ilustradas</strong> grandes y coloridas. <strong>Toque cualquier imagen para ampliarla</strong> a pantalla completa.</li>
+        <li>El adulto guía la actividad y valora la respuesta del niño con la <strong>escala EPT‑3</strong>: <span class="stars">★</span> emergente, <span class="stars">★★</span> en proceso, <span class="stars">★★★</span> consolidado.</li>
+        <li>Cada ejercicio ofrece una <strong>“versión en movimiento”</strong> para trabajar el mismo objetivo con el cuerpo.</li>
+        <li>Entre ejercicios aparecen <strong>pausas activas</strong> (saltos de rana, paso robot, equilibrio de flamenco…) para descargar energía.</li>
+        <li>Al terminar la sesión se calcula la media y se muestran las <strong>recompensas</strong> (XP, racha, nivel, insignias). Ver CU‑08.</li>
+      </ol>
+      <h4>Flujos alternativos</h4>
+      <ul class="alt">
+        <li><strong>Sesión perfecta:</strong> si todos los ejercicios obtienen <span class="stars">★★★</span>, se desbloquea la insignia “Sesión estrella”.</li>
+        <li><strong>Salir a mitad:</strong> se puede volver atrás; lo valorado hasta ese punto no cuenta como sesión completada.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CU-06 -->
+<section class="page-break">
+  <div class="uc">
+    <div class="uc-head">
+      <div class="id">CU‑06 · <span class="tag fam">Familia</span></div>
+      <div class="title">Ejercicios de lenguaje con voz (TTS, micrófono, TPR)</div>
+    </div>
+    <div class="uc-body">
+      <div class="uc-grid">
+        <div><div class="k">Actor</div><div class="v">Tutor + niño/a</div></div>
+        <div><div class="k">Pantalla</div><div class="v">Reproductor · pestaña Lenguaje</div></div>
+        <div><div class="k">Precondición</div><div class="v">Terapia de Lenguaje prescrita</div></div>
+        <div><div class="k">Resultado</div><div class="v">Ejercicio completado con apoyo de voz</div></div>
+      </div>
+      <p>El módulo de Lenguaje añade tres ayudas de voz sobre las 7 terapias (Atención conjunta, Imitación, Comprensión, Expresión, Comunicación funcional, Regulación conductual e Interacción social):</p>
+      <table>
+        <tr><th style="width:26%">Función</th><th>Cómo se usa</th></tr>
+        <tr><td><strong>Lectura por voz (TTS)</strong></td><td>La app lee en voz alta la palabra o instrucción para que el niño la escuche como modelo.</td></tr>
+        <tr><td><strong>Juego del micrófono</strong></td><td>El niño repite ante el micrófono; el adulto confirma si la producción fue correcta. Refuerza la expresión verbal.</td></tr>
+        <tr><td><strong>Cápsulas TPR</strong></td><td>Vocabulario asociado a acciones físicas (Total Physical Response): oír la palabra y hacer el gesto.</td></tr>
+      </table>
+      <div class="callout warn"><div class="lbl">Permisos</div><p style="margin:4px 0 0">El juego del micrófono necesita permiso de micrófono; la lectura por voz usa la síntesis del sistema. Concédalos cuando la app lo solicite.</p></div>
+    </div>
+  </div>
+
+  <!-- CU-07 -->
+  <div class="uc" style="margin-top:16px">
+    <div class="uc-head">
+      <div class="id">CU‑07 · <span class="tag fam">Familia</span></div>
+      <div class="title">Configurar recordatorios diarios</div>
+    </div>
+    <div class="uc-body">
+      <div class="uc-grid">
+        <div><div class="k">Actor</div><div class="v">Tutor o logopeda</div></div>
+        <div><div class="k">Pantalla</div><div class="v">Prescripción → “Recordatorios de sesión”</div></div>
+        <div><div class="k">Precondición</div><div class="v">Permiso de notificaciones del sistema</div></div>
+        <div><div class="k">Resultado</div><div class="v">Avisos en la pantalla de bloqueo</div></div>
+      </div>
+      <h4>Flujo principal</h4>
+      <ol class="flow">
+        <li>En la tarjeta <strong>“Recordatorios de sesión”</strong>, activar el interruptor.</li>
+        <li>Conceder el permiso de notificaciones si el sistema lo pide.</li>
+        <li>La app programa hasta <strong>4 avisos al día</strong> —a las <strong>9:00, 13:00, 17:00 y 20:00</strong>— en la pantalla de bloqueo para no perder la racha.</li>
+      </ol>
+      <ul class="alt">
+        <li><strong>Permiso denegado:</strong> aparece un aviso pidiendo conceder el permiso en los ajustes del sistema.</li>
+        <li><strong>Desactivar:</strong> el mismo interruptor cancela todos los recordatorios.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CU-08 -->
+<section class="page-break">
+  <div class="uc">
+    <div class="uc-head">
+      <div class="id">CU‑08 · <span class="tag fam">Familia</span></div>
+      <div class="title">Motivación: racha, niveles e insignias</div>
+    </div>
+    <div class="uc-body">
+      <div class="uc-grid">
+        <div><div class="k">Actor</div><div class="v">Niño/a (con apoyo del adulto)</div></div>
+        <div><div class="k">Pantalla</div><div class="v">Fin de sesión · cabecera de Prescripción</div></div>
+        <div><div class="k">Precondición</div><div class="v">Al menos una sesión completada</div></div>
+        <div><div class="k">Resultado</div><div class="v">XP, racha y niveles actualizados</div></div>
+      </div>
+      <p>Al estilo de apps como Duolingo, Valeria+ recompensa la constancia. Todo se guarda localmente.</p>
+      <h4>Cómo se gana XP en cada sesión</h4>
+      <ul class="alt">
+        <li><strong>Base:</strong> 20 puntos + 5 por ejercicio.</li>
+        <li><strong>Precisión:</strong> hasta +30 según la media de estrellas.</li>
+        <li><strong>Racha:</strong> hasta +14 por días consecutivos.</li>
+        <li><strong>Sesión perfecta</strong> (todo <span class="stars">★★★</span>): +15.</li>
+      </ul>
+      <h4>Niveles (cada 100 XP)</h4>
+      <p>Osezno → Oso Curioso → Oso Valiente → Oso Explorador → Oso Sabio → Gran Oso → <strong>Oso Legendario</strong>.</p>
+      <h4>Insignias destacadas</h4>
+      <table>
+        <tr><th>Insignia</th><th>Cómo se consigue</th></tr>
+        <tr><td>🌱 Primer paso</td><td>Completar la primera sesión.</td></tr>
+        <tr><td>🔥 En llamas / ⚡ Semana perfecta / 🏆 Imparable</td><td>Rachas de 3, 7 y 14 días.</td></tr>
+        <tr><td>🎓 Practicante / 🚀 Explorador / 💎 Maestro Valeria</td><td>10, 25 y 50 sesiones completadas.</td></tr>
+        <tr><td>⭐ Sesión estrella / 🌟 Constelación</td><td>1 y 5 sesiones perfectas.</td></tr>
+      </table>
+      <div class="callout ok"><div class="lbl">Racha viva</div><p style="margin:4px 0 0">La racha se mantiene mientras se practique hoy o ayer. Si se salta más de un día, vuelve a cero: por eso ayudan los recordatorios de CU‑07.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CU-09 -->
+<section class="page-break">
+  <div class="uc">
+    <div class="uc-head">
+      <div class="id">CU‑09 · <span class="tag fam">Profesional / Familia</span></div>
+      <div class="title">Consultar el panel de resultados</div>
+    </div>
+    <div class="uc-body">
+      <div class="uc-grid">
+        <div><div class="k">Actor</div><div class="v">Logopeda o tutor</div></div>
+        <div><div class="k">Pantalla</div><div class="v">Resultados del paciente</div></div>
+        <div><div class="k">Precondición</div><div class="v">Historial de sesiones registrado</div></div>
+        <div><div class="k">Resultado</div><div class="v">Visión de la evolución del paciente</div></div>
+      </div>
+      <h4>Flujo principal</h4>
+      <ol class="flow">
+        <li>Abrir el <strong>panel de resultados</strong> del paciente al finalizar una sesión o desde su ficha.</li>
+        <li>Revisar la <strong>evolución</strong>: medias por ejercicio, progreso en la escala EPT‑3 e historial de sesiones.</li>
+        <li>Consultar el <strong>estado de gamificación</strong>: XP total, racha y nivel actual.</li>
+        <li>El logopeda usa estos datos para ajustar la prescripción (volver a CU‑02) en la siguiente revisión.</li>
+      </ol>
+      <div class="callout"><div class="lbl">Ciclo de mejora</div><p style="margin:4px 0 0">Resultados → decisión clínica → nueva prescripción → nuevas sesiones. El panel cierra el círculo entre lo que el niño practica en casa y lo que el profesional supervisa.</p></div>
+    </div>
+  </div>
+
+  <!-- CU-10 -->
+  <div class="uc" style="margin-top:16px">
+    <div class="uc-head">
+      <div class="id">CU‑10 · <span class="tag pro">Profesional</span></div>
+      <div class="title">Cambiar entre Modo Familia y Modo Profesional</div>
+    </div>
+    <div class="uc-body">
+      <div class="uc-grid">
+        <div><div class="k">Actor</div><div class="v">Logopeda</div></div>
+        <div><div class="k">Pantalla</div><div class="v">Prescripción de Terapias</div></div>
+        <div><div class="k">Precondición</div><div class="v">Conocer el PIN</div></div>
+        <div><div class="k">Resultado</div><div class="v">Edición habilitada o bloqueada según convenga</div></div>
+      </div>
+      <h4>Flujo principal</h4>
+      <ol class="flow">
+        <li>Para <strong>entrar</strong> en Modo Profesional: pulsar el candado 🔒, introducir el PIN. El estado pasa a 🔓 “Modo profesional activo”.</li>
+        <li>Realizar los cambios de prescripción necesarios.</li>
+        <li>Para <strong>salir</strong>: pulsar <strong>“Guardar Prescripción”</strong>. La edición se bloquea automáticamente y vuelve a Modo Familia.</li>
+      </ol>
+      <div class="callout warn"><div class="lbl">Buena práctica</div><p style="margin:4px 0 0">Guarde siempre antes de entregar el dispositivo a la familia, para que la prescripción quede protegida en modo solo lectura.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ANEXO FAQ ================= -->
+<section class="page-break">
+  <div class="chapter-kicker">Anexo A</div>
+  <h2 class="chapter">Preguntas frecuentes y resolución de problemas</h2>
+
+  <table style="margin-top:14px">
+    <tr><th style="width:38%">Situación</th><th>Qué hacer</th></tr>
+    <tr><td>No recuerdo el PIN profesional</td><td>El PIN lo define el logopeda. En la demo es <strong>1985</strong>. Si se olvida en producción, debe restablecerse desde la configuración de la app.</td></tr>
+    <tr><td>No aparece el Test de Ling</td><td>Es normal: solo se muestra si la patología de la ficha indica audífono o implante coclear (CU‑04).</td></tr>
+    <tr><td>La racha volvió a cero</td><td>Se perdió porque pasó más de un día sin practicar. Active los recordatorios (CU‑07) para evitarlo.</td></tr>
+    <tr><td>No llegan los recordatorios</td><td>Conceda a la app el permiso de notificaciones en los ajustes del sistema.</td></tr>
+    <tr><td>El juego del micrófono no oye</td><td>Revise el permiso de micrófono y que el dispositivo no esté en silencio.</td></tr>
+    <tr><td>No puedo cambiar los ejercicios</td><td>Está en Modo Familia (solo lectura). Desbloquee el Modo Profesional con el PIN (CU‑02 / CU‑10).</td></tr>
+    <tr><td>¿Se pierden los datos al cerrar la app?</td><td>No. Ficha, prescripción, historial y progreso se guardan cifrados en el dispositivo.</td></tr>
+  </table>
+
+  <div class="footer-note">
+    <strong>Valeria+</strong> · Manual de Casos de Uso · v4 · Julio de 2026 ·
+    Terapia auditivo‑verbal para la infancia. Documento de apoyo para logopedas y familias.
+    <br>Los datos personales se tratan localmente conforme a RGPD/HIPAA.
+  </div>
+</section>
+
+</body>
+</html>
