@@ -1,11 +1,22 @@
 # Dependencies
 node_modules/
+.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
 
 # Expo
 .expo/
+.expo-shared/
 dist/
 web-build/
 expo-env.d.ts
+
+# EAS (Expo Application Services)
+eas-build-*.log
 
 # Native builds
 android/
@@ -34,14 +45,35 @@ pnpm-debug.*
 .env
 .env.local
 .env.*.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Testing / coverage
+coverage/
+*.lcov
+.nyc_output/
+
+# Caches
+.cache/
+.temp/
+.tmp/
+*.tsbuildinfo
 
 # macOS / OS
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
 Thumbs.db
 
 # Editors
 .vscode/
 .idea/
+*.swp
+*.swo
 
 # TypeScript
 *.tsbuildinfo
