@@ -1,14 +1,18 @@
 // ============================================================================
-// Valeria+ · Recordatorios en pantalla de bloqueo (V4.0)
+// Valeria+ · Recordatorios en pantalla de bloqueo (V4.1)
 // Notificaciones locales con expo-notifications, sin servidor:
 //   · Máximo 4 recordatorios al día (9:00, 13:00, 17:00 y 20:00, repetición diaria).
 //   · Mensajes lúdicos rotatorios con la osita Valeria para animar a la sesión.
+//   · El aviso de las 20:00 es un consejo para padres ("El hogar como centro
+//     de rehabilitación") que rota cada día entre los 5 consejos básicos.
 //   · Canal Android de máxima prioridad y visibilidad pública (pantalla de bloqueo).
 //
 // API:
 //   initNotifications()            → registrar handler + canal (llamar al arrancar).
 //   remindersEnabled()             → lee la preferencia guardada.
 //   enableDailyReminders()         → pide permiso y programa los 4 avisos diarios.
+//   refreshDailyReminders()        → reprograma en silencio para rotar los mensajes
+//                                    y el consejo del día (llamar al arrancar).
 //   disableReminders()             → cancela todo y guarda la preferencia.
 // ============================================================================
 import { Platform } from 'react-native';
@@ -35,6 +39,35 @@ const MESSAGES: { title: string; body: string }[] = [
   { title: '🎵 ¿Oyes eso?', body: 'Es la hora del Test de Ling y los juegos de audición.' },
   { title: '🧩 Última llamada del día', body: 'Todavía estás a tiempo de sumar la sesión de hoy. ¡Ánimo!' },
 ];
+
+// "El hogar como centro de rehabilitación": 5 consejos básicos para padres.
+// Ocupan el aviso de las 20:00 y rotan uno por día. En Android el cuerpo se
+// expande completo al deslizar la notificación.
+export const PARENT_TIPS: { title: string; body: string }[] = [
+  {
+    title: '👀 Consejo 1 · Tus ojos y tu boca son su mapa',
+    body: 'Para aprender a articular, tu hijo necesita ver cómo se fabrican las palabras. Agáchate a su nivel, mírale a los ojos y deja que vea tu boca: su cerebro es un espejo que copia tus movimientos. Si le hablas desde otra habitación, de espaldas o mirando el celular, le quitas el mapa visual que necesita para mover los labios y la lengua.',
+  },
+  {
+    title: '📵 Consejo 2 · La trampa de las pantallas educativas',
+    body: 'Celulares, tabletas y televisores no enseñan a hablar, aunque el programa repita números o colores. El lenguaje vivo requiere turnos: hablar, escuchar y responder. Una pantalla no hace pausas para escuchar a tu hijo, no le sonríe cuando lo intenta ni le corrige con cariño. Las horas de práctica real solo se las puedes dar tú.',
+  },
+  {
+    title: '🤫 Consejo 3 · La regla del silencio',
+    body: 'Los adultos hablamos rápido y llenamos todos los silencios. Cuando le ofrezcas algo (por ejemplo, leche) y le preguntes "¿qué quieres?", haz una pausa y cuenta mentalmente hasta cinco. Dale tiempo a su cerebro para procesar y organizar los músculos. Ese silencio estratégico es el que lo empuja a usar un sonido, un gesto o una palabra.',
+  },
+  {
+    title: '🛁 Consejo 4 · La rutina es tu mejor terapia',
+    body: 'No necesitas una hora de ejercicios ni materiales costosos. El mejor momento para el lenguaje es lo que ya haces cada día: mientras lo bañas, nombra el jabón, el agua y las partes del cuerpo; mientras recogen la ropa, nombra los colores. Repetir palabras sencillas en situaciones reales de la casa graba el vocabulario de forma definitiva.',
+  },
+  {
+    title: '🐶 Consejo 5 · Expande lo que dice, sin regañar',
+    body: 'Si señala un perro y dice "guau guau", no le digas "así no se dice": devuélvele la frase mejorada, "¡sí, es un perro grande!". Si dice "agua", respóndele "quieres tomar agua". Al expandir sus palabras sin criticarlo le das el modelo correcto y le confirmas que su intento de comunicarse fue exitoso y valorado.',
+  },
+];
+// Hora reservada al consejo diario para padres (los niños ya suelen estar en
+// rutina de noche y el mensaje va dirigido al adulto).
+const TIP_HOUR = 20;
 
 export const initNotifications = () => {
   Notifications.setNotificationHandler({
@@ -63,6 +96,24 @@ export const remindersEnabled = async (): Promise<boolean> => {
   }
 };
 
+// Programa los 4 avisos del día: mensajes lúdicos en las primeras horas y el
+// consejo para padres del día en la hora TIP_HOUR. El índice por día hace que,
+// al reprogramar en cada arranque, tanto los mensajes como el consejo roten.
+const scheduleDailyContent = async (): Promise<void> => {
+  await Notifications.cancelAllScheduledNotificationsAsync();
+  const day = Math.floor(Date.now() / 86_400_000);
+  let msg = 0;
+  for (const hour of REMINDER_HOURS) {
+    const m = hour === TIP_HOUR
+      ? PARENT_TIPS[day % PARENT_TIPS.length]
+      : MESSAGES[(day * (REMINDER_HOURS.length - 1) + msg++) % MESSAGES.length];
+    await Notifications.scheduleNotificationAsync({
+      content: { title: m.title, body: m.body, sound: false },
+      trigger: { channelId: CHANNEL_ID, hour, minute: 0, repeats: true },
+    });
+  }
+};
+
 // Programa como máximo 4 recordatorios diarios (uno por cada hora de
 // REMINDER_HOURS). Devuelve true si el permiso fue concedido y quedaron
 // programados.
@@ -75,20 +126,23 @@ export const enableDailyReminders = async (): Promise<boolean> => {
   }
   if (!granted) return false;
 
-  await Notifications.cancelAllScheduledNotificationsAsync();
-  let msg = 0;
-  for (const hour of REMINDER_HOURS) {
-    const m = MESSAGES[msg % MESSAGES.length];
-    msg += 1;
-    await Notifications.scheduleNotificationAsync({
-      content: { title: m.title, body: m.body, sound: false },
-      trigger: { channelId: CHANNEL_ID, hour, minute: 0, repeats: true },
-    });
-  }
+  await scheduleDailyContent();
   try {
     await AsyncStorage.setItem(STORAGE_KEYS.recordatorios, 'on');
   } catch (e) { /* noop */ }
   return true;
+};
+
+// Reprograma los avisos al arrancar la app (si el usuario los tiene activos)
+// para que el consejo para padres y los mensajes lúdicos cambien cada día.
+// No pide permisos: si se revocaron, simplemente no hace nada.
+export const refreshDailyReminders = async (): Promise<void> => {
+  try {
+    if (!(await remindersEnabled())) return;
+    const perm = await Notifications.getPermissionsAsync();
+    if (!perm.granted) return;
+    await scheduleDailyContent();
+  } catch (e) { /* noop (p.ej. web) */ }
 };
 
 export const disableReminders = async (): Promise<void> => {
