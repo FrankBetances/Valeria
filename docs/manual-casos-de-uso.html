@@ -53,10 +53,12 @@
   h4{ font-size:11pt; font-weight:800; color:var(--ink2); margin:12px 0 4px; }
 
   /* ---------- Índice ---------- */
-  .toc li{ margin:6px 0; font-size:11pt; }
-  .toc .num{ display:inline-block; width:26px; font-weight:800; color:var(--primary); }
-  .toc a{ color:var(--ink); font-weight:600; }
-  .toc .dots{ color:var(--border); }
+  .toc{ list-style:none; padding:0; margin:14px 0 0; }
+  .toc li{ display:flex; align-items:baseline; gap:10px; margin:7px 0; font-size:11pt; }
+  .toc li .num{ flex:0 0 46px; font-weight:800; color:var(--primary); }
+  .toc li .txt{ flex:1 1 auto; color:var(--ink); font-weight:600; }
+  .toc li.section-label{ margin:16px 0 6px; font-weight:800; color:var(--primary-dark);
+    font-size:9pt; letter-spacing:1.2px; text-transform:uppercase; }
 
   /* ---------- Tarjetas ---------- */
   .card{ border:1px solid var(--border); border-radius:12px; padding:12px 14px; margin:10px 0; background:#fff; }
@@ -126,22 +128,24 @@
 <section>
   <div class="chapter-kicker">Contenido</div>
   <h2 class="chapter">Índice</h2>
-  <ul class="toc" style="list-style:none; padding:0; margin-top:14px;">
-    <li><span class="num">1</span> Introducción a Valeria+</li>
-    <li><span class="num">2</span> Roles y modos de acceso</li>
-    <li><span class="num">3</span> Mapa de pantallas y glosario</li>
-    <li style="margin-top:12px; font-weight:800; color:var(--primary-dark)">Casos de uso</li>
-    <li><span class="num">CU‑01</span> Alta de un nuevo paciente</li>
-    <li><span class="num">CU‑02</span> Prescripción de terapias (Modo Profesional)</li>
-    <li><span class="num">CU‑03</span> Retomar un paciente e iniciar sesión</li>
-    <li><span class="num">CU‑04</span> Test de Ling previo (audífono / implante)</li>
-    <li><span class="num">CU‑05</span> Realizar una sesión de ejercicios</li>
-    <li><span class="num">CU‑06</span> Ejercicios de lenguaje con voz (TTS, micrófono, TPR)</li>
-    <li><span class="num">CU‑07</span> Configurar recordatorios diarios</li>
-    <li><span class="num">CU‑08</span> Motivación: racha, niveles e insignias</li>
-    <li><span class="num">CU‑09</span> Consultar el panel de resultados</li>
-    <li><span class="num">CU‑10</span> Cambiar entre Modo Familia y Modo Profesional</li>
-    <li style="margin-top:12px"><span class="num">A</span> Preguntas frecuentes y resolución de problemas</li>
+  <ul class="toc">
+    <li class="section-label">Introducción</li>
+    <li><span class="num">1</span><span class="txt">Introducción a Valeria+</span></li>
+    <li><span class="num">2</span><span class="txt">Roles y modos de acceso</span></li>
+    <li><span class="num">3</span><span class="txt">Mapa de pantallas y glosario</span></li>
+    <li class="section-label">Casos de uso</li>
+    <li><span class="num">CU‑01</span><span class="txt">Alta de un nuevo paciente</span></li>
+    <li><span class="num">CU‑02</span><span class="txt">Prescripción de terapias (Modo Profesional)</span></li>
+    <li><span class="num">CU‑03</span><span class="txt">Retomar un paciente e iniciar sesión</span></li>
+    <li><span class="num">CU‑04</span><span class="txt">Test de Ling previo (audífono / implante)</span></li>
+    <li><span class="num">CU‑05</span><span class="txt">Realizar una sesión de ejercicios</span></li>
+    <li><span class="num">CU‑06</span><span class="txt">Ejercicios de lenguaje con voz (TTS, micrófono, TPR)</span></li>
+    <li><span class="num">CU‑07</span><span class="txt">Configurar recordatorios diarios</span></li>
+    <li><span class="num">CU‑08</span><span class="txt">Motivación: racha, niveles e insignias</span></li>
+    <li><span class="num">CU‑09</span><span class="txt">Consultar el panel de resultados</span></li>
+    <li><span class="num">CU‑10</span><span class="txt">Cambiar entre Modo Familia y Modo Profesional</span></li>
+    <li class="section-label">Anexo</li>
+    <li><span class="num">A</span><span class="txt">Preguntas frecuentes y resolución de problemas</span></li>
   </ul>
 </section>
 
