@@ -110,13 +110,15 @@
   .stars{ color:var(--star); letter-spacing:1px; }
 
   /* ---------- Capturas de pantalla ----------
-     Nota de impresión: las figuras son inline-block (átomos de paginación en
-     Chromium) para que imagen y pie nunca se separen entre páginas. */
-  .shots{ display:block; text-align:center; margin:12px 0 4px; }
-  .shot{
-    display:inline-block; vertical-align:top; width:44mm; margin:4px 5px;
-    text-align:center; page-break-inside:avoid; break-inside:avoid;
+     Nota de impresión: cada galería es una tabla CSS de una fila. Chromium
+     pagina las tablas con avoid de forma fiable; con inline-block las figuras
+     que cruzaban el salto de página se dibujaban superpuestas al texto. */
+  .shots{
+    display:table; table-layout:fixed; margin:12px auto 4px;
+    border-collapse:separate; border-spacing:12px 0;
+    page-break-inside:avoid; break-inside:avoid;
   }
+  .shot{ display:table-cell; width:44mm; text-align:center; vertical-align:top; }
   .shot.sm{ width:38mm; }
   .shot img{
     width:100%; display:block; border-radius:12px; border:1px solid var(--border);
