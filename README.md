@@ -20,7 +20,8 @@ Welcome → Credits → (PatientSelect ó FichaRegistro) → ExerciseSelection
 
 ## Documentación
 
-- **Manual de usuario con casos de uso y capturas de pantalla**: [`docs/manual-casos-de-uso.html`](docs/manual-casos-de-uso.html) · [PDF](docs/Valeria-Manual-Casos-de-Uso.pdf). Incluye 10 casos de uso paso a paso ilustrados con 16 capturas reales de la app (en `docs/screenshots/`).
+- **Manual de usuario con casos de uso y capturas de pantalla**: [`docs/manual-casos-de-uso.html`](docs/manual-casos-de-uso.html) · [PDF](docs/Valeria-Manual-Casos-de-Uso.pdf) · [Word](docs/Valeria-Manual-Casos-de-Uso.docx). Incluye 10 casos de uso paso a paso ilustrados con 16 capturas reales de la app (en `docs/screenshots/`).
+- La versión Word se regenera con `python3 docs/build-docx.py` (requiere `python-docx`).
 - Las capturas se regeneran automáticamente con `docs/capture-screenshots.js` (Playwright sobre `expo start --web`).
 
 ## Desarrollo
