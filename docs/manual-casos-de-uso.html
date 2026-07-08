@@ -104,6 +104,17 @@
 
   .footer-note{ margin-top:20px; padding-top:10px; border-top:1px solid var(--border); color:var(--muted); font-size:9pt; }
   .stars{ color:var(--star); letter-spacing:1px; }
+
+  /* ---------- Capturas de pantalla ---------- */
+  .shots{ display:flex; flex-wrap:wrap; justify-content:center; gap:14px; margin:14px 0 6px; page-break-inside:avoid; }
+  .shot{ width:52mm; text-align:center; }
+  .shot.wide{ width:60mm; }
+  .shot img{
+    width:100%; display:block; border-radius:14px; border:1px solid var(--border);
+    box-shadow:0 4px 14px rgba(11,18,32,.10);
+  }
+  .shot figcaption{ margin-top:6px; font-size:8.8pt; font-weight:700; color:var(--ink2); line-height:1.35; }
+  .shot figcaption .fig{ color:var(--primary-dark); font-weight:800; }
 </style>
 </head>
 <body>
@@ -113,7 +124,7 @@
   <div class="brand">valeria+</div>
   <div class="bear">🐻</div>
   <div style="margin-top:auto">
-    <div class="pill">Manual de usuario · v4</div>
+    <div class="pill">Manual de usuario · v4 · con capturas de pantalla</div>
     <h1>Manual de<br>Casos de Uso</h1>
     <div class="sub">Aplicación de terapia auditivo‑verbal para niñas y niños con hipoacusia, implante coclear o dificultades del lenguaje.</div>
     <div class="meta">
@@ -177,7 +188,8 @@
   <h3>Qué encontrará en este manual</h3>
   <p>Diez <strong>casos de uso</strong> paso a paso que recorren las tareas más habituales, desde dar de alta a un
   paciente hasta interpretar sus resultados. Cada caso indica el actor responsable, las precondiciones, el flujo
-  principal, las variantes y el resultado esperado.</p>
+  principal, las variantes y el resultado esperado, y se acompaña de <strong>capturas de pantalla reales de la
+  aplicación</strong> para que sea fácil reconocer cada paso en el dispositivo.</p>
 
   <table>
     <tr><th>Módulo</th><th>Para qué sirve</th></tr>
@@ -241,6 +253,21 @@
   </div>
   <p class="small muted">* El Test de Ling se salta automáticamente si la patología del paciente no indica audífono ni implante.</p>
 
+  <div class="shots">
+    <figure class="shot">
+      <img src="screenshots/01-bienvenida.png" alt="Pantalla de Bienvenida de Valeria+">
+      <figcaption><span class="fig">Fig. 1</span> · Bienvenida: “Comenzar” o “Ya tengo un paciente registrado”.</figcaption>
+    </figure>
+    <figure class="shot">
+      <img src="screenshots/02-creditos.png" alt="Pantalla de Créditos">
+      <figcaption><span class="fig">Fig. 2</span> · Créditos del proyecto y colaboradores.</figcaption>
+    </figure>
+    <figure class="shot">
+      <img src="screenshots/05-prescripcion.png" alt="Pantalla de Prescripción de Terapias">
+      <figcaption><span class="fig">Fig. 3</span> · Prescripción de Terapias, el “centro de mando” de cada sesión.</figcaption>
+    </figure>
+  </div>
+
   <h3>Glosario</h3>
   <table>
     <tr><th style="width:26%">Término</th><th>Significado</th></tr>
@@ -290,6 +317,16 @@
         <li><strong>La patología indica audífono o implante coclear:</strong> se recordará más adelante para lanzar el Test de Ling antes de los ejercicios (ver CU‑04).</li>
       </ul>
       <div class="callout"><div class="lbl">Dato clave</div><p style="margin:4px 0 0">La patología seleccionada determina el circuito de la sesión. Elíjala con cuidado.</p></div>
+      <div class="shots">
+        <figure class="shot">
+          <img src="screenshots/03-ficha-registro.png" alt="Ficha de registro con los datos del niño">
+          <figcaption><span class="fig">Fig. 4</span> · Ficha de Registro: datos del niño/a (nombre, fecha, NHC y género).</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="screenshots/04-ficha-guardada.png" alt="Confirmación de ficha guardada">
+          <figcaption><span class="fig">Fig. 5</span> · Ficha guardada y cifrada; aparece “Continuar a Prescripción →”.</figcaption>
+        </figure>
+      </div>
     </div>
   </div>
 </section>
@@ -329,6 +366,20 @@
         <tr><td>Morfosintaxis</td><td>Singular/plural · Flexión de género · Estructura S‑V‑O</td></tr>
         <tr><td>Pragmática</td><td>Preguntas ¿qué? · Adaptación del discurso · Emociones · Petición de repetición</td></tr>
       </table>
+      <div class="shots">
+        <figure class="shot">
+          <img src="screenshots/06-pin-profesional.png" alt="Modal de PIN del Modo Profesional">
+          <figcaption><span class="fig">Fig. 6</span> · Teclado de PIN para desbloquear el Modo Profesional.</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="screenshots/07-modo-profesional.png" alt="Modo profesional desbloqueado con interruptores activos">
+          <figcaption><span class="fig">Fig. 7</span> · Edición desbloqueada: interruptores activos y “Guardar Prescripción”.</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="screenshots/08-lenguaje.png" alt="Pestaña Lenguaje con 7 terapias">
+          <figcaption><span class="fig">Fig. 8</span> · Pestaña Lenguaje: las 7 terapias del protocolo familiar.</figcaption>
+        </figure>
+      </div>
     </div>
   </div>
 </section>
@@ -358,6 +409,12 @@
       <ul class="alt">
         <li><strong>No hay pacientes guardados:</strong> use CU‑01 para dar de alta uno nuevo desde “Comenzar”.</li>
       </ul>
+      <div class="shots">
+        <figure class="shot">
+          <img src="screenshots/16-pacientes.png" alt="Lista de pacientes registrados en el dispositivo">
+          <figcaption><span class="fig">Fig. 9</span> · Selección de paciente: fichas guardadas en el dispositivo.</figcaption>
+        </figure>
+      </div>
     </div>
   </div>
 
@@ -382,6 +439,20 @@
         <li>Al terminar, la app muestra el resultado y una recomendación adaptada. Pulsar <strong>“Comenzar ejercicios”</strong>.</li>
       </ol>
       <div class="callout"><div class="lbl">Por qué estos 6 sonidos</div><p style="margin:4px 0 0">Cubren el rango del habla, de graves (~250&nbsp;Hz) a muy agudos (~5&nbsp;kHz). El sonido <strong>“s”</strong> es el más difícil de oír; si se detecta, el equipo funciona bien en frecuencias altas.</p></div>
+      <div class="shots">
+        <figure class="shot">
+          <img src="screenshots/09-ling-pregunta.png" alt="Pregunta previa del Test de Ling">
+          <figcaption><span class="fig">Fig. 10</span> · Pregunta previa: ¿usa audífonos o implante coclear?</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="screenshots/10-ling-test.png" alt="Test de Ling con el sonido m en curso">
+          <figcaption><span class="fig">Fig. 11</span> · Sonido en curso: el tutor lo produce y marca la respuesta.</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="screenshots/11-ling-resultado.png" alt="Resultado del Test de Ling">
+          <figcaption><span class="fig">Fig. 12</span> · Resultado con recomendación y “Comenzar ejercicios →”.</figcaption>
+        </figure>
+      </div>
     </div>
   </div>
 </section>
@@ -413,6 +484,20 @@
         <li><strong>Sesión perfecta:</strong> si todos los ejercicios obtienen <span class="stars">★★★</span>, se desbloquea la insignia “Sesión estrella”.</li>
         <li><strong>Salir a mitad:</strong> se puede volver atrás; lo valorado hasta ese punto no cuenta como sesión completada.</li>
       </ul>
+      <div class="shots">
+        <figure class="shot">
+          <img src="screenshots/12-ejercicio.png" alt="Ejercicio con fichas ilustradas">
+          <figcaption><span class="fig">Fig. 13</span> · Ficha ilustrada: consigna del tutor, imágenes ampliables y versión en movimiento.</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="screenshots/13-evaluacion-ept3.png" alt="Evaluación con la escala EPT-3">
+          <figcaption><span class="fig">Fig. 14</span> · Evaluación EPT‑3: el adulto toca 1★, 2★ o 3★ según la respuesta.</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="screenshots/14-sesion-completada.png" alt="Sesión completada con recompensas">
+          <figcaption><span class="fig">Fig. 15</span> · Fin de sesión: XP, racha, nivel y promedio EPT‑3.</figcaption>
+        </figure>
+      </div>
     </div>
   </div>
 </section>
@@ -528,6 +613,12 @@
         <li>El logopeda usa estos datos para ajustar la prescripción (volver a CU‑02) en la siguiente revisión.</li>
       </ol>
       <div class="callout"><div class="lbl">Ciclo de mejora</div><p style="margin:4px 0 0">Resultados → decisión clínica → nueva prescripción → nuevas sesiones. El panel cierra el círculo entre lo que el niño practica en casa y lo que el profesional supervisa.</p></div>
+      <div class="shots">
+        <figure class="shot">
+          <img src="screenshots/15-resultados.png" alt="Panel de resultados y evolución">
+          <figcaption><span class="fig">Fig. 16</span> · Panel de resultados: motivación, insignias y adherencia semanal.</figcaption>
+        </figure>
+      </div>
     </div>
   </div>
 
@@ -572,7 +663,7 @@
   </table>
 
   <div class="footer-note">
-    <strong>Valeria+</strong> · Manual de Casos de Uso · v4 · Julio de 2026 ·
+    <strong>Valeria+</strong> · Manual de Casos de Uso · v4 (con capturas de pantalla) · Julio de 2026 ·
     Terapia auditivo‑verbal para la infancia. Documento de apoyo para logopedas y familias.
     <br>Los datos personales se tratan localmente conforme a RGPD/HIPAA.
   </div>
