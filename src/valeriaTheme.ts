@@ -68,6 +68,7 @@ export const STORAGE_KEYS = {
   juego: '@valeria_juego',                     // Gamificación: XP, racha diaria, nivel y logros
   recordatorios: '@valeria_recordatorios',     // Preferencia de recordatorios diarios (on/off)
   paresMinimos: '@valeria_pares_minimos',      // Registro por ensayo de pares mínimos (dislalias)
+  expansionSemantica: '@valeria_expansion_semantica', // Registro por sesión de expansión semántica / progresión léxica
 };
 
 // Marca / mascota: oso "Valeria" en blanco sobre turquesa. El componente

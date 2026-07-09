@@ -252,6 +252,18 @@ export const ValeriaExerciseSelectionScreen: React.FC<{ navigation: any }> = ({ 
           <View style={s.pairsPlay}><Text style={{ color: '#fff', fontSize: 13, fontWeight: '800' }}>▶</Text></View>
         </Pressable>
 
+        {/* Expansión semántica: escenarios, progresión léxica y contrastes con anclaje físico */}
+        <Pressable
+          onPress={() => navigation.navigate('SemanticExpansion')}
+          style={s.semCard} accessibilityRole="button" accessibilityLabel="Practicar expansión semántica y progresión léxica">
+          <View style={s.semIcon}><Text style={{ fontSize: 19 }}>🧩</Text></View>
+          <View style={{ flex: 1 }}>
+            <Text style={s.pairsTitle}>Expansión Semántica · Progresión Léxica</Text>
+            <Text style={s.pairsSub}>Escenarios diarios, secuencias de onomatopeya a adjetivo y contrastes: el símbolo se ancla al mundo real con acción física del adulto.</Text>
+          </View>
+          <View style={s.semPlay}><Text style={{ color: '#fff', fontSize: 13, fontWeight: '800' }}>▶</Text></View>
+        </Pressable>
+
         <View style={s.listHead}>
           <Text style={s.listLabel}>{isAud ? 'PROTOCOLO ACOPROS · AUDICIÓN' : 'PROTOCOLO FAMILIAR · LENGUAJE'}</Text>
           <View style={s.countBadge}><Text style={s.countBadgeTxt}>{activeCount} prescritos</Text></View>
@@ -365,6 +377,10 @@ const s = StyleSheet.create({
   pairsTitle: { fontSize: 14, fontWeight: '800', color: V.color.textPrimary },
   pairsSub: { fontSize: 11.5, fontWeight: '600', color: V.color.textMuted, marginTop: 2, lineHeight: 15 },
   pairsPlay: { width: 36, height: 36, borderRadius: 12, backgroundColor: '#7c4fd0', alignItems: 'center', justifyContent: 'center' },
+
+  semCard: { flexDirection: 'row', alignItems: 'center', gap: 11, backgroundColor: '#eefaf9', borderWidth: 1.5, borderColor: '#bfeee9', borderRadius: 14, padding: 13, marginTop: 10, ...V.shadow.card },
+  semIcon: { width: 36, height: 36, borderRadius: 12, backgroundColor: '#d6f5f2', alignItems: 'center', justifyContent: 'center' },
+  semPlay: { width: 36, height: 36, borderRadius: 12, backgroundColor: V.color.primary, alignItems: 'center', justifyContent: 'center' },
 
   listHead: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginVertical: 16, marginHorizontal: 4 },
   listLabel: { fontSize: 12, fontWeight: '800', color: V.color.textMuted, letterSpacing: 0.4 },
