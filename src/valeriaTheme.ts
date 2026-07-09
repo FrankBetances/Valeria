@@ -67,6 +67,7 @@ export const STORAGE_KEYS = {
   ling: '@valeria_ling',                       // Historial del Test de Ling (6 sonidos)
   juego: '@valeria_juego',                     // Gamificación: XP, racha diaria, nivel y logros
   recordatorios: '@valeria_recordatorios',     // Preferencia de recordatorios diarios (on/off)
+  paresMinimos: '@valeria_pares_minimos',      // Registro por ensayo de pares mínimos (dislalias)
 };
 
 // Marca / mascota: oso "Valeria" en blanco sobre turquesa. El componente

@@ -20,7 +20,7 @@ Welcome → Credits → (PatientSelect ó FichaRegistro) → ExerciseSelection
 
 ## Documentación
 
-- **Protocolo de pares mínimos para dislalias fonológicas** (rotacismo, sigmatismo, frontalización velar…): [`docs/protocolo-pares-minimos.md`](docs/protocolo-pares-minimos.md). 10 pares accionables con flujo TTS→STT, lógica de feedback por rama y misiones físicas padre-hijo.
+- **Protocolo de pares mínimos para dislalias fonológicas** (rotacismo, sigmatismo, frontalización velar…): [`docs/protocolo-pares-minimos.md`](docs/protocolo-pares-minimos.md). 10 pares accionables con flujo TTS→STT, lógica de feedback por rama y misiones físicas padre-hijo. **Implementado en la app**: pantalla "Pares Mínimos · Dislalias" (`src/ValeriaMinimalPairsScreen.tsx` + banco de pares en `src/valeriaMinimalPairs.ts`), accesible desde la selección de terapias. Incluye sello doble anti-pasividad (multi-touch padre+niño), rotación de roles, cápsulas TPR, veredicto corregible por el padre y modo juez manual cuando no hay reconocimiento de voz (Expo Go / web).
 - **Manual de usuario con casos de uso y capturas de pantalla**: [`docs/manual-casos-de-uso.html`](docs/manual-casos-de-uso.html) · [PDF](docs/Valeria-Manual-Casos-de-Uso.pdf) · [Word](docs/Valeria-Manual-Casos-de-Uso.docx). Incluye 10 casos de uso paso a paso ilustrados con 16 capturas reales de la app (en `docs/screenshots/`).
 - La versión Word se regenera con `python3 docs/build-docx.py` (requiere `python-docx`).
 - Las capturas se regeneran automáticamente con `docs/capture-screenshots.js` (Playwright sobre `expo start --web`).

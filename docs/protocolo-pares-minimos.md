@@ -344,5 +344,22 @@ export interface MinimalPair {
 ```
 
 Con `matchPair()` (§1), esta lista de 10 objetos y las mecánicas de §2, el par
-mínimo se integra como un tipo de ejercicio más en `ValeriaExercisePlayerScreen`
-reutilizando `MicPracticeCard` como base del estado de escucha.
+mínimo se integra como un tipo de ejercicio más de la app.
+
+## 7. Estado de implementación
+
+Este protocolo está **implementado** en la app:
+
+| Pieza | Archivo |
+|---|---|
+| `matchPair()` sobre el motor de voz | `src/valeriaVoice.ts` |
+| Banco de los 10 pares (datos + feedback) | `src/valeriaMinimalPairs.ts` |
+| Pantalla del ejercicio (máquina de estados, sello doble, rotación de roles, imitación asistida, veredicto del padre) | `src/ValeriaMinimalPairsScreen.tsx` |
+| Entrada desde la selección de terapias | `src/ValeriaExerciseSelectionScreen.tsx` |
+| Registro por ensayo (`STORAGE_KEYS.paresMinimos`) e historial EPT-3 | `src/valeriaTheme.ts` + AsyncStorage |
+
+Notas de la implementación respecto al diseño: la sesión es de 10 ensayos del
+par elegido; la rotación de roles ocurre antes de los ensayos 4 y 8 y la
+cápsula TPR antes del 6; sin ASR disponible (Expo Go / web) el flujo degrada a
+"el padre hace de juez" con botones, manteniendo el sello doble y las misiones
+físicas.

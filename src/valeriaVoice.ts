@@ -147,6 +147,20 @@ export type MatchLevel = 0 | 1 | 2; // 0 = no coincide · 1 = casi · 2 = ¡lo d
 // Compara las alternativas del reconocedor con la palabra/frase objetivo.
 // Tolera acentos, mayúsculas y una letra de diferencia por palabra (niños en
 // rehabilitación no articulan perfecto: premiamos la aproximación).
+// Evaluación de PAR MÍNIMO: los pares se eligen para que el error de
+// sustitución habitual produzca exactamente la otra palabra del par (rotacismo:
+// pido "rana" → dice /lána/ → el ASR capta "lana"). Detectar el error es, por
+// tanto, reconocer la palabra contraria. El objetivo solo puntúa con
+// coincidencia exacta (nivel 2) para mitigar la autocorrección del ASR hacia
+// palabras frecuentes; el padre siempre puede corregir el veredicto en la UI.
+export type PairResult = 'target' | 'foil' | 'close' | 'none';
+
+export function matchPair(alternatives: string[], target: string, foil: string): PairResult {
+  if (matchTarget(alternatives, target) === 2) return 'target';
+  if (matchTarget(alternatives, foil) === 2) return 'foil';
+  return matchTarget(alternatives, target) === 1 ? 'close' : 'none';
+}
+
 export function matchTarget(alternatives: string[], target: string): MatchLevel {
   const t = normalizeSpeech(target);
   if (!t) return 0;
