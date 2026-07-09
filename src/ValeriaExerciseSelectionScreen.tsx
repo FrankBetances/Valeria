@@ -94,6 +94,8 @@ const EXERCISES_LEN: Item[] = [
 // ----------------------------------------------------------------------------
 export const ValeriaExerciseSelectionScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
   const [tab, setTab] = useState<'audicion' | 'lenguaje'>('audicion');
+  // 'hub' = las 4 tarjetas de bloques · 'list' = la lista prescribible (audición/lenguaje).
+  const [view, setView] = useState<'hub' | 'list'>('hub');
   const [unlocked, setUnlocked] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [pin, setPin] = useState('');
@@ -177,133 +179,172 @@ export const ValeriaExerciseSelectionScreen: React.FC<{ navigation: any }> = ({ 
     setUnlocked(false); setToast(`Prescripción guardada · ${n} terapias activas.`);
   };
 
+  // Tarjeta de bloque del hub: icono con color de acento, título, subtítulo y,
+  // opcionalmente, el recuento de terapias activas/totales.
+  const blockCard = (opts: {
+    icon: string; accentBg: string; accentFg: string; title: string; sub: string;
+    onPress: () => void; a11y: string; total?: number; activeN?: number;
+  }) => (
+    <Pressable onPress={opts.onPress} style={s.blockCard} accessibilityRole="button" accessibilityLabel={opts.a11y}>
+      <View style={[s.blockIcon, { backgroundColor: opts.accentBg }]}><Text style={{ fontSize: 24 }}>{opts.icon}</Text></View>
+      <View style={{ flex: 1 }}>
+        <Text style={s.blockTitle}>{opts.title}</Text>
+        <Text style={s.blockSub}>{opts.sub}</Text>
+        {opts.total != null && (
+          <View style={s.blockMeta}>
+            <View style={[s.blockBadge, { backgroundColor: opts.accentBg }]}>
+              <Text style={[s.blockBadgeTxt, { color: opts.accentFg }]}>{opts.total} terapias</Text>
+            </View>
+            <Text style={s.blockActive}>{opts.activeN} activas</Text>
+          </View>
+        )}
+      </View>
+      <View style={[s.blockChev, { backgroundColor: opts.accentFg }]}><Text style={{ color: '#fff', fontSize: 15, fontWeight: '800' }}>›</Text></View>
+    </Pressable>
+  );
+
+  const toastBar = !!toast && (
+    <View style={s.toast}>
+      <View style={s.toastCheck}><Text style={{ color: '#fff', fontWeight: '800', fontSize: 13 }}>✓</Text></View>
+      <Text style={s.toastTxt}>{toast}</Text>
+    </View>
+  );
+
   return (
     <View style={s.flex}>
-      {/* ===== Cabecera ===== */}
-      <View style={s.header}>
-        {/* <Image source={logoWhite} style={s.logo} /> */}
-        <Pressable onPress={() => navigation.goBack()} style={s.backPill}><Text style={s.backPillTxt}>‹ Volver</Text></Pressable>
-        <Text style={s.logoFallback}>valeria+</Text>
-        <Text style={s.headerTitle}>Prescripción de Terapias</Text>
-        <Text style={s.headerSub}>{unlocked ? 'Edición profesional habilitada' : 'Modo Familia · solo lectura'}</Text>
-
-        {/* Racha y nivel (gamificación) */}
-        <View style={s.gameRow}>
-          <View style={s.gameChip}>
-            <Text style={s.gameChipTxt}>🔥 {streak} {streak === 1 ? 'día de racha' : 'días de racha'}</Text>
-          </View>
-          <View style={s.gameChip}>
-            <Text style={s.gameChipTxt}>🏅 Nivel {level} · {levelName(level)}</Text>
-          </View>
-        </View>
-
-        {/* Pestañas */}
-        <View style={s.tabs}>
-          {(['audicion', 'lenguaje'] as const).map((t) => {
-            const on = tab === t;
-            const count = t === 'audicion' ? 13 : 7;
-            return (
-              <Pressable key={t} onPress={() => { setTab(t); setToast(''); }} style={[s.tab, on && s.tabOn]} accessibilityRole="tab" accessibilityState={{ selected: on }}>
-                <Text style={[s.tabTxt, { color: on ? V.color.primaryDark : 'rgba(255,255,255,.85)' }]}>{t === 'audicion' ? 'Audición' : 'Lenguaje'}</Text>
-                <View style={[s.tabBadge, { backgroundColor: on ? V.color.primaryLight : 'rgba(255,255,255,.22)' }]}>
-                  <Text style={{ fontSize: 11, fontWeight: '800', color: on ? V.color.primaryDark : '#fff' }}>{count}</Text>
-                </View>
-              </Pressable>
-            );
-          })}
-        </View>
-      </View>
-
-      <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
-        {!!toast && (
-          <View style={s.toast}>
-            <View style={s.toastCheck}><Text style={{ color: '#fff', fontWeight: '800', fontSize: 13 }}>✓</Text></View>
-            <Text style={s.toastTxt}>{toast}</Text>
-          </View>
-        )}
-
-        {/* Pill desbloqueo */}
-        <Pressable onPress={() => !unlocked && setModalOpen(true)} style={[s.pill, unlocked ? s.pillUnlocked : s.pillLocked]} accessibilityRole="button">
-          <Text style={{ fontSize: 15 }}>{unlocked ? '🔓' : '🔒'}</Text>
-          <Text style={[s.pillTxt, { color: unlocked ? '#0a7d54' : V.color.textPrimary }]}>{unlocked ? 'Modo profesional activo' : 'Desbloquear Edición Profesional'}</Text>
-          {!unlocked && <Text style={s.pillChev}>›</Text>}
-        </Pressable>
-
-        {/* Recordatorios diarios (máx. 4) en pantalla de bloqueo */}
-        <View style={s.remindCard}>
-          <View style={s.remindIcon}><Text style={{ fontSize: 17 }}>🔔</Text></View>
-          <View style={{ flex: 1 }}>
-            <Text style={s.remindTitle}>Recordatorios de sesión</Text>
-            <Text style={s.remindSub}>Hasta 4 avisos al día (9:00, 13:00, 17:00 y 20:00) en la pantalla de bloqueo para no perder la racha.</Text>
-          </View>
-          <Switch value={reminders} onValueChange={toggleReminders}
-            trackColor={{ false: '#d1d5db', true: V.color.primary }} thumbColor="#ffffff" />
-        </View>
-
-        {/* Pares mínimos (dislalias): juego de voz TTS→STT con misiones físicas */}
-        <Pressable
-          onPress={() => navigation.navigate('MinimalPairs')}
-          style={s.pairsCard} accessibilityRole="button" accessibilityLabel="Practicar pares mínimos para dislalias">
-          <View style={s.pairsIcon}><Text style={{ fontSize: 19 }}>🗣️</Text></View>
-          <View style={{ flex: 1 }}>
-            <Text style={s.pairsTitle}>Pares Mínimos · Dislalias</Text>
-            <Text style={s.pairsSub}>Rotacismo, sigmatismo y más: la app pide una ficha, el niño la dice con su voz y el micrófono detecta la sustitución.</Text>
-          </View>
-          <View style={s.pairsPlay}><Text style={{ color: '#fff', fontSize: 13, fontWeight: '800' }}>▶</Text></View>
-        </Pressable>
-
-        {/* Expansión semántica: escenarios, progresión léxica y contrastes con anclaje físico */}
-        <Pressable
-          onPress={() => navigation.navigate('SemanticExpansion')}
-          style={s.semCard} accessibilityRole="button" accessibilityLabel="Practicar expansión semántica y progresión léxica">
-          <View style={s.semIcon}><Text style={{ fontSize: 19 }}>🧩</Text></View>
-          <View style={{ flex: 1 }}>
-            <Text style={s.pairsTitle}>Expansión Semántica · Progresión Léxica</Text>
-            <Text style={s.pairsSub}>Escenarios diarios, secuencias de onomatopeya a adjetivo y contrastes: el símbolo se ancla al mundo real con acción física del adulto.</Text>
-          </View>
-          <View style={s.semPlay}><Text style={{ color: '#fff', fontSize: 13, fontWeight: '800' }}>▶</Text></View>
-        </Pressable>
-
-        <View style={s.listHead}>
-          <Text style={s.listLabel}>{isAud ? 'PROTOCOLO ACOPROS · AUDICIÓN' : 'PROTOCOLO FAMILIAR · LENGUAJE'}</Text>
-          <View style={s.countBadge}><Text style={s.countBadgeTxt}>{activeCount} prescritos</Text></View>
-        </View>
-
-        {list.map((item, i) => {
-          const on = active[i];
-          return (
-            <View key={item.id} style={[s.row, { borderColor: on ? V.color.borderActive : V.color.border }]}>
-              <View style={[s.codeChip, { backgroundColor: on ? V.color.primaryLight : '#f1f5f4' }]}>
-                <Text style={[s.codeChipTxt, { color: on ? V.color.primaryDark : V.color.textMuted }]}>{item.code}</Text>
+      {view === 'hub' ? (
+        // ============================ HUB: 4 tarjetas ============================
+        <>
+          <View style={s.header}>
+            <Pressable onPress={() => navigation.goBack()} style={s.backPill}><Text style={s.backPillTxt}>‹ Volver</Text></Pressable>
+            <Text style={s.logoFallback}>valeria+</Text>
+            <Text style={s.headerTitle}>Prescripción de Terapias</Text>
+            <Text style={s.headerSub}>Elige un bloque para practicar o prescribir</Text>
+            <View style={s.gameRow}>
+              <View style={s.gameChip}>
+                <Text style={s.gameChipTxt}>🔥 {streak} {streak === 1 ? 'día de racha' : 'días de racha'}</Text>
               </View>
-              <View style={{ flex: 1 }}>
-                <Text style={s.rowName}>{item.name}</Text>
-                <Text style={s.rowCat}>{item.category}</Text>
+              <View style={s.gameChip}>
+                <Text style={s.gameChipTxt}>🏅 Nivel {level} · {levelName(level)}</Text>
               </View>
-              <Pressable
-                onPress={() => navigation.navigate(usesHearingDevice ? 'LingTest' : 'ExercisePlayer', { id: item.id })}
-                style={s.playBtn} accessibilityRole="button" accessibilityLabel={`Practicar ${item.name}`}>
-                <Text style={{ color: V.color.primaryDark, fontSize: 13 }}>▶</Text>
-              </Pressable>
-              <Switch value={on} onValueChange={() => toggle(i)} disabled={!unlocked}
-                trackColor={{ false: '#d1d5db', true: V.color.primary }} thumbColor="#ffffff"
-                style={{ opacity: unlocked ? 1 : 0.4 }} />
             </View>
-          );
-        })}
+          </View>
 
-        {unlocked ? (
-          <View style={{ marginTop: 18 }}>
-            <Pressable onPress={save} style={s.primaryBtn}><Text style={s.primaryBtnTxt}>Guardar Prescripción</Text></Pressable>
-            <Text style={s.helper}>La selección se guarda en el dispositivo y la edición se bloquea de nuevo.</Text>
+          <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
+            {toastBar}
+            <Text style={s.hubLabel}>BLOQUES DE TERAPIA</Text>
+
+            {blockCard({
+              icon: '🗣️', accentBg: '#ede4fc', accentFg: '#7c4fd0',
+              title: 'Pares Mínimos', sub: 'Dislalias: rotacismo, sigmatismo y más con juego de voz.',
+              onPress: () => navigation.navigate('MinimalPairs'),
+              a11y: 'Practicar pares mínimos para dislalias',
+            })}
+            {blockCard({
+              icon: '🧩', accentBg: '#d6f5f2', accentFg: V.color.primaryDark,
+              title: 'Expansión Semántica', sub: 'Escenarios diarios, progresión léxica y contrastes con acción física.',
+              onPress: () => navigation.navigate('SemanticExpansion'),
+              a11y: 'Practicar expansión semántica y progresión léxica',
+            })}
+            {blockCard({
+              icon: '👂', accentBg: '#e0edff', accentFg: '#3b6fd4',
+              title: 'Audición', sub: 'Protocolo ACOPROS: fonética, semántica, morfosintaxis y pragmática.',
+              onPress: () => { setTab('audicion'); setToast(''); setView('list'); },
+              a11y: 'Abrir terapias de audición', total: EXERCISES_AUD.length, activeN: activeAud.filter(Boolean).length,
+            })}
+            {blockCard({
+              icon: '💬', accentBg: '#fff1dc', accentFg: '#d98a1f',
+              title: 'Lenguaje', sub: 'Protocolo familiar: atención conjunta, imitación, comprensión y más.',
+              onPress: () => { setTab('lenguaje'); setToast(''); setView('list'); },
+              a11y: 'Abrir terapias de lenguaje', total: EXERCISES_LEN.length, activeN: activeLen.filter(Boolean).length,
+            })}
+
+            <View style={s.remindCard}>
+              <View style={s.remindIcon}><Text style={{ fontSize: 17 }}>🔔</Text></View>
+              <View style={{ flex: 1 }}>
+                <Text style={s.remindTitle}>Recordatorios de sesión</Text>
+                <Text style={s.remindSub}>Hasta 4 avisos al día (9:00, 13:00, 17:00 y 20:00) en la pantalla de bloqueo para no perder la racha.</Text>
+              </View>
+              <Switch value={reminders} onValueChange={toggleReminders}
+                trackColor={{ false: '#d1d5db', true: V.color.primary }} thumbColor="#ffffff" />
+            </View>
+          </ScrollView>
+        </>
+      ) : (
+        // ==================== LISTA: audición / lenguaje ====================
+        <>
+          <View style={s.header}>
+            <Pressable onPress={() => { setView('hub'); setToast(''); }} style={s.backPill}><Text style={s.backPillTxt}>‹ Bloques</Text></Pressable>
+            <Text style={s.logoFallback}>valeria+</Text>
+            <Text style={s.headerTitle}>{isAud ? '👂 Audición' : '💬 Lenguaje'}</Text>
+            <Text style={s.headerSub}>{unlocked ? 'Edición profesional habilitada' : 'Modo Familia · solo lectura'}</Text>
+            <View style={s.tabs}>
+              {(['audicion', 'lenguaje'] as const).map((t) => {
+                const on = tab === t;
+                const count = t === 'audicion' ? EXERCISES_AUD.length : EXERCISES_LEN.length;
+                return (
+                  <Pressable key={t} onPress={() => { setTab(t); setToast(''); }} style={[s.tab, on && s.tabOn]} accessibilityRole="tab" accessibilityState={{ selected: on }}>
+                    <Text style={[s.tabTxt, { color: on ? V.color.primaryDark : 'rgba(255,255,255,.85)' }]}>{t === 'audicion' ? 'Audición' : 'Lenguaje'}</Text>
+                    <View style={[s.tabBadge, { backgroundColor: on ? V.color.primaryLight : 'rgba(255,255,255,.22)' }]}>
+                      <Text style={{ fontSize: 11, fontWeight: '800', color: on ? V.color.primaryDark : '#fff' }}>{count}</Text>
+                    </View>
+                  </Pressable>
+                );
+              })}
+            </View>
           </View>
-        ) : (
-          <View style={s.lockedHint}>
-            <Text style={{ fontSize: 13 }}>🔒</Text>
-            <Text style={s.lockedHintTxt}>Modo Familia · solo el logopeda puede modificar la prescripción.</Text>
-          </View>
-        )}
-      </ScrollView>
+
+          <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
+            {toastBar}
+
+            <Pressable onPress={() => !unlocked && setModalOpen(true)} style={[s.pill, unlocked ? s.pillUnlocked : s.pillLocked]} accessibilityRole="button">
+              <Text style={{ fontSize: 15 }}>{unlocked ? '🔓' : '🔒'}</Text>
+              <Text style={[s.pillTxt, { color: unlocked ? '#0a7d54' : V.color.textPrimary }]}>{unlocked ? 'Modo profesional activo' : 'Desbloquear Edición Profesional'}</Text>
+              {!unlocked && <Text style={s.pillChev}>›</Text>}
+            </Pressable>
+
+            <View style={s.listHead}>
+              <Text style={s.listLabel}>{isAud ? 'PROTOCOLO ACOPROS · AUDICIÓN' : 'PROTOCOLO FAMILIAR · LENGUAJE'}</Text>
+              <View style={s.countBadge}><Text style={s.countBadgeTxt}>{activeCount} prescritos</Text></View>
+            </View>
+
+            {list.map((item, i) => {
+              const on = active[i];
+              return (
+                <View key={item.id} style={[s.row, { borderColor: on ? V.color.borderActive : V.color.border }]}>
+                  <View style={[s.codeChip, { backgroundColor: on ? V.color.primaryLight : '#f1f5f4' }]}>
+                    <Text style={[s.codeChipTxt, { color: on ? V.color.primaryDark : V.color.textMuted }]}>{item.code}</Text>
+                  </View>
+                  <View style={{ flex: 1 }}>
+                    <Text style={s.rowName}>{item.name}</Text>
+                    <Text style={s.rowCat}>{item.category}</Text>
+                  </View>
+                  <Pressable
+                    onPress={() => navigation.navigate(usesHearingDevice ? 'LingTest' : 'ExercisePlayer', { id: item.id })}
+                    style={s.playBtn} accessibilityRole="button" accessibilityLabel={`Practicar ${item.name}`}>
+                    <Text style={{ color: V.color.primaryDark, fontSize: 13 }}>▶</Text>
+                  </Pressable>
+                  <Switch value={on} onValueChange={() => toggle(i)} disabled={!unlocked}
+                    trackColor={{ false: '#d1d5db', true: V.color.primary }} thumbColor="#ffffff"
+                    style={{ opacity: unlocked ? 1 : 0.4 }} />
+                </View>
+              );
+            })}
+
+            {unlocked ? (
+              <View style={{ marginTop: 18 }}>
+                <Pressable onPress={save} style={s.primaryBtn}><Text style={s.primaryBtnTxt}>Guardar Prescripción</Text></Pressable>
+                <Text style={s.helper}>La selección se guarda en el dispositivo y la edición se bloquea de nuevo.</Text>
+              </View>
+            ) : (
+              <View style={s.lockedHint}>
+                <Text style={{ fontSize: 13 }}>🔒</Text>
+                <Text style={s.lockedHintTxt}>Modo Familia · solo el logopeda puede modificar la prescripción.</Text>
+              </View>
+            )}
+          </ScrollView>
+        </>
+      )}
 
       {/* ===== Modal PIN ===== */}
       {modalOpen && (
@@ -357,6 +398,16 @@ const s = StyleSheet.create({
   tabBadge: { paddingHorizontal: 7, paddingVertical: 1, borderRadius: 8 },
 
   scroll: { padding: 18, paddingBottom: 32 },
+  hubLabel: { fontSize: 12, fontWeight: '800', color: V.color.textMuted, letterSpacing: 0.5, marginBottom: 12, marginHorizontal: 2 },
+  blockCard: { flexDirection: 'row', alignItems: 'center', gap: 13, backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.border, borderRadius: 16, padding: 15, marginBottom: 11, ...V.shadow.card },
+  blockIcon: { width: 48, height: 48, borderRadius: 15, alignItems: 'center', justifyContent: 'center' },
+  blockTitle: { fontSize: 16, fontWeight: '800', color: V.color.textPrimary },
+  blockSub: { fontSize: 12, fontWeight: '600', color: V.color.textMuted, marginTop: 3, lineHeight: 16 },
+  blockMeta: { flexDirection: 'row', alignItems: 'center', gap: 8, marginTop: 8 },
+  blockBadge: { paddingHorizontal: 9, paddingVertical: 3, borderRadius: 8 },
+  blockBadgeTxt: { fontSize: 11, fontWeight: '800' },
+  blockActive: { fontSize: 11.5, fontWeight: '700', color: V.color.textMuted },
+  blockChev: { width: 30, height: 30, borderRadius: 15, alignItems: 'center', justifyContent: 'center' },
   toast: { flexDirection: 'row', alignItems: 'center', gap: 10, backgroundColor: V.color.primaryTint, borderWidth: 1, borderColor: V.color.primary, borderRadius: 13, padding: 13, marginBottom: 14 },
   toastCheck: { width: 24, height: 24, borderRadius: 12, backgroundColor: V.color.primary, alignItems: 'center', justifyContent: 'center' },
   toastTxt: { color: V.color.textPrimary, fontSize: 13.5, fontWeight: '700', flex: 1 },
@@ -371,16 +422,6 @@ const s = StyleSheet.create({
   remindIcon: { width: 36, height: 36, borderRadius: 12, backgroundColor: '#fffbeb', alignItems: 'center', justifyContent: 'center' },
   remindTitle: { fontSize: 14, fontWeight: '800', color: V.color.textPrimary },
   remindSub: { fontSize: 11.5, fontWeight: '600', color: V.color.textMuted, marginTop: 2, lineHeight: 15 },
-
-  pairsCard: { flexDirection: 'row', alignItems: 'center', gap: 11, backgroundColor: '#f5f0ff', borderWidth: 1.5, borderColor: '#ddccfa', borderRadius: 14, padding: 13, marginTop: 10, ...V.shadow.card },
-  pairsIcon: { width: 36, height: 36, borderRadius: 12, backgroundColor: '#ede4fc', alignItems: 'center', justifyContent: 'center' },
-  pairsTitle: { fontSize: 14, fontWeight: '800', color: V.color.textPrimary },
-  pairsSub: { fontSize: 11.5, fontWeight: '600', color: V.color.textMuted, marginTop: 2, lineHeight: 15 },
-  pairsPlay: { width: 36, height: 36, borderRadius: 12, backgroundColor: '#7c4fd0', alignItems: 'center', justifyContent: 'center' },
-
-  semCard: { flexDirection: 'row', alignItems: 'center', gap: 11, backgroundColor: '#eefaf9', borderWidth: 1.5, borderColor: '#bfeee9', borderRadius: 14, padding: 13, marginTop: 10, ...V.shadow.card },
-  semIcon: { width: 36, height: 36, borderRadius: 12, backgroundColor: '#d6f5f2', alignItems: 'center', justifyContent: 'center' },
-  semPlay: { width: 36, height: 36, borderRadius: 12, backgroundColor: V.color.primary, alignItems: 'center', justifyContent: 'center' },
 
   listHead: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginVertical: 16, marginHorizontal: 4 },
   listLabel: { fontSize: 12, fontWeight: '800', color: V.color.textMuted, letterSpacing: 0.4 },
