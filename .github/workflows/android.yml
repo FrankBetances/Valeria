@@ -15,6 +15,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    # Evita el build duplicado: los push a ramas del propio repo ya compilan por
+    # el evento `push`; el evento `pull_request` solo aporta valor para forks.
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository
+
     env:
       HAS_SIGNING_SECRETS: ${{ secrets.ANDROID_RELEASE_KEYSTORE_BASE64 != '' }}
 
@@ -36,6 +40,28 @@ jobs:
         with:
           distribution: temurin
           java-version: 17
+
+      # Gradle descarga el NDK en mitad del build y esa descarga a veces llega
+      # corrupta ("Archive is not a ZIP archive"). Instalarlo aquí con
+      # reintentos elimina ese punto de fallo intermitente.
+      - name: Install Android NDK 26.1.10909125 (with retries)
+        run: |
+          SDKMANAGER="$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager"
+          ok=0
+          for i in 1 2 3; do
+            if echo y | "$SDKMANAGER" --install "ndk;26.1.10909125"; then
+              echo "NDK instalado en el intento $i"
+              ok=1
+              break
+            fi
+            echo "Descarga del NDK fallida (intento $i); limpiando restos y reintentando…"
+            rm -rf "$ANDROID_HOME/ndk/26.1.10909125"
+            sleep 10
+          done
+          if [ "$ok" != "1" ]; then
+            echo "No se pudo instalar el NDK tras 3 intentos"
+            exit 1
+          fi
 
       - name: Generate native Android project
         run: npx expo prebuild --platform android --no-install
