@@ -161,6 +161,20 @@ export function matchPair(alternatives: string[], target: string, foil: string):
   return matchTarget(alternatives, target) === 1 ? 'close' : 'none';
 }
 
+// Evaluación contra una LISTA de strings válidos (stt_expected_array de la
+// Expansión Semántica): la palabra objetivo y sus aproximaciones fonéticas
+// propias de la edad conviven en el mismo array. Devuelve el mejor nivel
+// alcanzado por cualquiera de ellas (2 = alguna coincidió; 1 = alguna casi).
+export function matchExpected(alternatives: string[], expected: string[]): MatchLevel {
+  let best: MatchLevel = 0;
+  for (const e of expected) {
+    const lvl = matchTarget(alternatives, e);
+    if (lvl === 2) return 2;
+    if (lvl > best) best = lvl;
+  }
+  return best;
+}
+
 export function matchTarget(alternatives: string[], target: string): MatchLevel {
   const t = normalizeSpeech(target);
   if (!t) return 0;

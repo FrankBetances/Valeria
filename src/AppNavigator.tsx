@@ -36,6 +36,7 @@ import ValeriaExerciseSelectionScreen from './ValeriaExerciseSelectionScreen';
 import ValeriaLingTestScreen from './ValeriaLingTestScreen';
 import ValeriaExercisePlayerScreen from './ValeriaExercisePlayerScreen';
 import ValeriaMinimalPairsScreen from './ValeriaMinimalPairsScreen';
+import ValeriaSemanticExpansionScreen from './ValeriaSemanticExpansionScreen';
 // [V3.1] La ruta Results la sirve el panel de paciente. ValeriaResultsScreen (V2.x)
 // fue eliminada de la base de código.
 import ValeriaPatientResultsDashboardScreen from './ValeriaPatientResultsDashboardScreen';
@@ -49,6 +50,7 @@ export type ValeriaStackParamList = {
   LingTest: { id?: string } | undefined;
   ExercisePlayer: { id?: string } | undefined;
   MinimalPairs: undefined;
+  SemanticExpansion: undefined;
   Results: undefined;
 };
 
@@ -68,6 +70,7 @@ export const ValeriaNavigator: React.FC = () => (
     <Stack.Screen name="LingTest" component={ValeriaLingTestScreen} />
     <Stack.Screen name="ExercisePlayer" component={ValeriaExercisePlayerScreen} />
     <Stack.Screen name="MinimalPairs" component={ValeriaMinimalPairsScreen} />
+    <Stack.Screen name="SemanticExpansion" component={ValeriaSemanticExpansionScreen} />
     <Stack.Screen name="Results" component={ValeriaPatientResultsDashboardScreen} />
   </Stack.Navigator>
 );
