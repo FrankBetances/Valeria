@@ -20,6 +20,7 @@ Welcome → Credits → (PatientSelect ó FichaRegistro) → ExerciseSelection
 
 ## Documentación
 
+- **Protocolo de pares mínimos para dislalias fonológicas** (rotacismo, sigmatismo, frontalización velar…): [`docs/protocolo-pares-minimos.md`](docs/protocolo-pares-minimos.md). 10 pares accionables con flujo TTS→STT, lógica de feedback por rama y misiones físicas padre-hijo.
 - **Manual de usuario con casos de uso y capturas de pantalla**: [`docs/manual-casos-de-uso.html`](docs/manual-casos-de-uso.html) · [PDF](docs/Valeria-Manual-Casos-de-Uso.pdf) · [Word](docs/Valeria-Manual-Casos-de-Uso.docx). Incluye 10 casos de uso paso a paso ilustrados con 16 capturas reales de la app (en `docs/screenshots/`).
 - La versión Word se regenera con `python3 docs/build-docx.py` (requiere `python-docx`).
 - Las capturas se regeneran automáticamente con `docs/capture-screenshots.js` (Playwright sobre `expo start --web`).
