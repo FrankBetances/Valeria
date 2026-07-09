@@ -31,6 +31,24 @@ interface Sesion {
   note: string;
 }
 
+// Registro por ensayo de pares mínimos (escribe ValeriaMinimalPairsScreen).
+interface PmTrial { result: string; attempts: number; foils?: number; stars: number }
+interface PmSession { date: string; pairId: string; phoneme: string; trials: PmTrial[] }
+
+// % de ensayos de la sesión en los que el STT captó la palabra contraria.
+// `foils` existe desde V6.1; para sesiones antiguas se aproxima con attempts>0.
+const substPct = (s: PmSession): number => {
+  if (!s.trials?.length) return 0;
+  const n = s.trials.filter((t) => (t.foils ?? (t.attempts > 0 ? 1 : 0)) > 0).length;
+  return Math.round((n / s.trials.length) * 100);
+};
+
+const MESES = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
+const shortDate = (iso: string): string => {
+  const d = new Date(iso);
+  return isNaN(d.getTime()) ? '' : `${d.getDate()} ${MESES[d.getMonth()]}`;
+};
+
 const META_SEMANAL = 5;
 const PATIENT_LINE = 'Lucía M. · NHC HC-204815';
 
@@ -47,6 +65,7 @@ const CHART = { W: 320, H: 178, padL: 32, padR: 12, padT: 14, padB: 36, yMin: 1,
 const plotW = CHART.W - CHART.padL - CHART.padR;
 const plotH = CHART.H - CHART.padT - CHART.padB;
 const yFor = (v: number) => CHART.padT + ((CHART.yMax - v) / (CHART.yMax - CHART.yMin)) * plotH;
+const yPct = (v: number) => CHART.padT + ((100 - v) / 100) * plotH; // eje 0–100 %
 const xFor = (i: number, total: number) =>
   CHART.padL + (total <= 1 ? plotW / 2 : (i / (total - 1)) * plotW);
 
@@ -58,6 +77,8 @@ const starString = (avg: number): string => {
 export const ValeriaPatientResultsDashboardScreen: React.FC<{ navigation?: any }> = ({ navigation }) => {
   const [sesiones, setSesiones] = useState<Sesion[]>(HISTORIAL_DEFECTO);
   const [game, setGame] = useState<GameState | null>(null);
+  const [pmSesiones, setPmSesiones] = useState<PmSession[]>([]);
+  const [pmFonema, setPmFonema] = useState('');
 
   useEffect(() => {
     (async () => {
@@ -70,6 +91,16 @@ export const ValeriaPatientResultsDashboardScreen: React.FC<{ navigation?: any }
       } catch (e) {
         console.warn('Error al cargar el historial:', e);
       }
+      try {
+        const rawPm = await AsyncStorage.getItem(STORAGE_KEYS.paresMinimos);
+        if (rawPm) {
+          const pm = JSON.parse(rawPm);
+          if (Array.isArray(pm) && pm.length) {
+            setPmSesiones(pm);
+            setPmFonema((prev) => prev || pm[pm.length - 1].phoneme); // el más reciente
+          }
+        }
+      } catch (e) { /* registro de pares no disponible */ }
       try {
         setGame(await loadGame());
       } catch (e) { /* gamificación no disponible */ }
@@ -106,9 +137,46 @@ export const ValeriaPatientResultsDashboardScreen: React.FC<{ navigation?: any }
 
   const historial = useMemo(() => sesiones.slice().reverse(), [sesiones]);
 
+  /* Pares mínimos: evolución del % de sustitución del fonema seleccionado */
+  const pmFonemas = useMemo(
+    () => Array.from(new Set(pmSesiones.map((s) => s.phoneme))),
+    [pmSesiones],
+  );
+  const pm = useMemo(() => {
+    const data = pmSesiones.filter((s) => s.phoneme === pmFonema).slice(-6);
+    const pts = data.map((s, i) => ({
+      x: xFor(i, data.length),
+      y: yPct(substPct(s)),
+      val: substPct(s),
+      date: shortDate(s.date),
+    }));
+    const line = pts.map((p) => `${p.x},${p.y}`).join(' ');
+    const baseY = yPct(0);
+    const area = pts.length
+      ? `${pts[0].x},${baseY} ${line} ${pts[pts.length - 1].x},${baseY}`
+      : '';
+    // En este eje, BAJAR es mejorar: menos sustituciones detectadas.
+    const diff = pts.length >= 2 ? pts[pts.length - 1].val - pts[0].val : 0;
+    const trend = pts.length < 2
+      ? { txt: 'primera sesión', bg: V.color.primaryLight, fg: V.color.primaryDark }
+      : diff < 0
+        ? { txt: `▼ ${Math.abs(diff)} pp · mejora`, bg: V.color.successBg, fg: V.color.success }
+        : diff > 0
+          ? { txt: `▲ +${diff} pp · reforzar`, bg: V.color.errorBg, fg: V.color.error }
+          : { txt: '= estable', bg: V.color.primaryLight, fg: V.color.primaryDark };
+    return { pts, line, area, trend };
+  }, [pmSesiones, pmFonema]);
+
   const compartir = async () => {
     const lineas = sesiones
       .map((s) => `• ${s.date} · ${s.name} — ${s.avg.toFixed(1)}/3 ${starString(s.avg)}`)
+      .join('\n');
+    const pmLineas = pmFonemas
+      .map((f) => {
+        const ss = pmSesiones.filter((s) => s.phoneme === f);
+        const ult = ss[ss.length - 1];
+        return `• ${f}: ${substPct(ult)}% de sustitución en la última sesión (${ss.length} ${ss.length === 1 ? 'sesión' : 'sesiones'})`;
+      })
       .join('\n');
     try {
       await Share.share({
@@ -116,8 +184,9 @@ export const ValeriaPatientResultsDashboardScreen: React.FC<{ navigation?: any }
         message:
           `VALERIA+ · Resultados y Evolución\n${PATIENT_LINE}\n\n` +
           `Adherencia semanal: ${pct}% (${done}/${META_SEMANAL})\n` +
-          `Tendencia: ${trendLabel}\n\nHistorial de sesiones:\n${lineas}\n\n` +
-          `Informe local-first generado en el dispositivo.`,
+          `Tendencia: ${trendLabel}\n\nHistorial de sesiones:\n${lineas}\n` +
+          (pmLineas ? `\nPares mínimos · sustitución por fonema:\n${pmLineas}\n` : '') +
+          `\nInforme local-first generado en el dispositivo.`,
       });
     } catch (e) {
       console.warn('Error al compartir:', e);
@@ -262,6 +331,63 @@ export const ValeriaPatientResultsDashboardScreen: React.FC<{ navigation?: any }
           </Svg>
         </View>
 
+        {/* PARES MÍNIMOS · % DE SUSTITUCIÓN POR FONEMA */}
+        {pmFonemas.length > 0 && (
+          <View style={st.card}>
+            <View style={st.evoHeader}>
+              <View style={[st.cardHeader, { flex: 1, marginRight: 8 }]}>
+                <View style={st.chip}><Text style={st.chipIcon}>🗣️</Text></View>
+                <Text style={[st.cardTitle, { flexShrink: 1 }]} numberOfLines={2}>Sustitución por fonema</Text>
+              </View>
+              <View style={[st.trendPill, { backgroundColor: pm.trend.bg }]}>
+                <Text style={[st.trendText, { color: pm.trend.fg }]}>{pm.trend.txt}</Text>
+              </View>
+            </View>
+            <Text style={st.evoSub}>
+              Pares mínimos · % de ensayos con la sustitución detectada por el micrófono (bajar = mejorar)
+            </Text>
+
+            {/* Selector de fonema */}
+            <View style={st.pmChipsRow}>
+              {pmFonemas.map((f) => {
+                const on = f === pmFonema;
+                return (
+                  <Pressable
+                    key={f}
+                    onPress={() => setPmFonema(f)}
+                    style={[st.pmChip, on && st.pmChipOn]}
+                    accessibilityRole="tab"
+                    accessibilityState={{ selected: on }}
+                  >
+                    <Text style={[st.pmChipTxt, on && st.pmChipTxtOn]}>{f}</Text>
+                  </Pressable>
+                );
+              })}
+            </View>
+
+            <Svg width="100%" height={178} viewBox={`0 0 ${CHART.W} ${CHART.H}`}>
+              {[100, 50, 0].map((v) => {
+                const y = yPct(v);
+                return (
+                  <React.Fragment key={v}>
+                    <Line x1={CHART.padL} y1={y} x2={CHART.W - CHART.padR} y2={y} stroke={V.color.border} strokeWidth={1.5} />
+                    <SvgText x={26} y={y + 4} textAnchor="end" fontSize={10.5} fontWeight="700" fill="#c2cbca">{`${v}%`}</SvgText>
+                  </React.Fragment>
+                );
+              })}
+              {pm.area ? <Polygon points={pm.area} fill={`${V.color.primary}22`} /> : null}
+              <Polyline points={pm.line} fill="none" stroke={V.color.primary} strokeWidth={3} strokeLinejoin="round" strokeLinecap="round" />
+              {pm.pts.map((p, i) => (
+                <React.Fragment key={i}>
+                  <SvgText x={p.x} y={p.y - 12} textAnchor="middle" fontSize={11} fontWeight="800" fill={V.color.textPrimary}>{`${p.val}%`}</SvgText>
+                  <Circle cx={p.x} cy={p.y} r={5.5} fill="#fff" stroke={V.color.primary} strokeWidth={3} />
+                  <SvgText x={p.x} y={172} textAnchor="middle" fontSize={10.5} fontWeight="700" fill={V.color.textMuted}>{p.date}</SvgText>
+                </React.Fragment>
+              ))}
+            </Svg>
+          </View>
+        )}
+
         {/* HISTORIAL DE SESIONES */}
         <View style={st.summaryRow}>
           <Text style={st.summaryLabel}>HISTORIAL DE SESIONES</Text>
@@ -376,6 +502,12 @@ const st = StyleSheet.create({
   trendPill: { backgroundColor: V.color.primaryLight, paddingHorizontal: 9, paddingVertical: 5, borderRadius: 9 },
   trendText: { fontSize: 12, fontWeight: V.font.extrabold, color: V.color.primary },
   evoSub: { fontSize: 12.5, fontWeight: V.font.semibold, color: V.color.textMuted, marginBottom: 6 },
+
+  pmChipsRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 7, marginBottom: 10, marginTop: 4 },
+  pmChip: { backgroundColor: '#f7fafa', borderWidth: 1, borderColor: '#eef3f3', borderRadius: 10, paddingHorizontal: 11, paddingVertical: 6 },
+  pmChipOn: { backgroundColor: V.color.primaryLight, borderColor: V.color.borderActive },
+  pmChipTxt: { fontSize: 12.5, fontWeight: V.font.extrabold, color: V.color.textMuted },
+  pmChipTxtOn: { color: V.color.primaryDark },
 
   summaryRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginHorizontal: 4, marginBottom: 12 },
   summaryLabel: { fontSize: 12.5, fontWeight: V.font.extrabold, color: V.color.textMuted, letterSpacing: 0.4 },

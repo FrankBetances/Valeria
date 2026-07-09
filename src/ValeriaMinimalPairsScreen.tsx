@@ -47,6 +47,7 @@ interface TrialRecord {
   result: 'target' | 'assist';
   heard: string;
   attempts: number;   // correcciones consumidas (sustitución o "casi")
+  foils: number;      // veces que el STT captó la palabra contraria (sustitución real)
   stars: 1 | 2 | 3;
 }
 
@@ -228,6 +229,7 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
   const [listening, setListening] = useState(false);
 
   const attemptsRef = useRef(0);
+  const foilsRef = useRef(0); // sustituciones detectadas en el ensayo actual
   // Evita que un resultado tardío del ASR pise el veredicto manual del padre.
   const listeningRef = useRef(false);
   const mounted = useRef(true);
@@ -251,7 +253,7 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
   // ---------------------------------------------------------------- sesión --
   const startSession = (p: MinimalPair) => {
     setPair(p); setPhase('play'); setLog([]); setReward(null);
-    setTrialIdx(0); attemptsRef.current = 0; setHeard('');
+    setTrialIdx(0); attemptsRef.current = 0; foilsRef.current = 0; setHeard('');
     setLeftIsTarget(Math.random() < 0.5);
     startTrial(p, 0);
   };
@@ -300,6 +302,7 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
       return;
     }
     if (branch === 'foil' || branch === 'close') {
+      if (branch === 'foil') foilsRef.current += 1;
       attemptsRef.current += 1;
       if (attemptsRef.current >= 2) {
         // Anti-frustración: nunca un tercer fallo seguido → imitación asistida.
@@ -338,6 +341,7 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
     if (next >= TOTAL_TRIALS) { finish(p, nextLog); return; }
     setTrialIdx(next);
     attemptsRef.current = 0;
+    foilsRef.current = 0;
     setHeard('');
     setStep('say'); // limpia el veredicto anterior (visible tras los overlays)
     setLeftIsTarget(Math.random() < 0.5);
@@ -347,14 +351,15 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
   };
 
   const onSealSuccess = (p: MinimalPair) =>
-    recordAndNext(p, { result: 'target', heard, attempts: attemptsRef.current, stars: pendingStars });
+    recordAndNext(p, { result: 'target', heard, attempts: attemptsRef.current, foils: foilsRef.current, stars: pendingStars });
 
   const onSealAssist = (p: MinimalPair) =>
-    recordAndNext(p, { result: 'assist', heard, attempts: attemptsRef.current, stars: 1 });
+    recordAndNext(p, { result: 'assist', heard, attempts: attemptsRef.current, foils: foilsRef.current, stars: 1 });
 
   const finish = async (p: MinimalPair, res: TrialRecord[]) => {
     const avg = res.reduce((a, r) => a + r.stars, 0) / res.length;
     const corrections = res.filter((r) => r.attempts > 0).length;
+    const substitutions = res.filter((r) => r.foils > 0).length;
     try {
       const raw = await AsyncStorage.getItem(STORAGE_KEYS.historial);
       const hist = raw ? JSON.parse(raw) : [];
@@ -363,9 +368,9 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
         date: `${d.getDate()} ${MONTHS[d.getMonth()]}`,
         name: `Pares mínimos · ${p.target} / ${p.foil}`,
         avg: +avg.toFixed(1),
-        note: corrections === 0
+        note: substitutions === 0
           ? `Contraste ${p.phoneme} sin sustituciones detectadas. ¡Fonema consolidándose!`
-          : `Se corrigieron ${corrections} de ${res.length} ensayos (${p.errorLabel.toLowerCase()}).`,
+          : `Sustitución detectada en ${substitutions} de ${res.length} ensayos; ${corrections} con corrección (${p.errorLabel.toLowerCase()}).`,
         completed: true,
       });
       await AsyncStorage.setItem(STORAGE_KEYS.historial, JSON.stringify(hist));
@@ -381,7 +386,7 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
   };
 
   const restart = (p: MinimalPair) => {
-    setLog([]); setReward(null); setTrialIdx(0); attemptsRef.current = 0;
+    setLog([]); setReward(null); setTrialIdx(0); attemptsRef.current = 0; foilsRef.current = 0;
     setHeard(''); setLeftIsTarget(Math.random() < 0.5); setPhase('play');
     startTrial(p, 0);
   };
@@ -481,7 +486,7 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
   // =================================================================== DONE ==
   if (phase === 'done') {
     const avg = log.reduce((a, r) => a + r.stars, 0) / (log.length || 1);
-    const corrections = log.filter((r) => r.attempts > 0).length;
+    const substitutions = log.filter((r) => r.foils > 0).length;
     return (
       <View style={s.flex}>
         <View style={s.header}>
@@ -496,9 +501,9 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
             <Text style={s.doneTitle}>¡Sesión de pares completada!</Text>
             <Text style={s.doneBig}>{avg.toFixed(1)}<Text style={s.doneSlash}> / 3 ★</Text></Text>
             <Text style={s.doneSub}>
-              {corrections === 0
+              {substitutions === 0
                 ? `Ninguna sustitución detectada en el contraste ${p.phoneme}. ¡El fonema se está consolidando!`
-                : `El micrófono detectó la sustitución en ${corrections} de ${log.length} ensayos. Es normal: cada corrección es práctica del contraste.`}
+                : `El micrófono detectó la sustitución en ${substitutions} de ${log.length} ensayos. Es normal: cada corrección es práctica del contraste.`}
             </Text>
             <View style={s.doneStarsRow}>
               {log.map((r, i) => (
