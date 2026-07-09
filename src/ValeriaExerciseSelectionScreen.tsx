@@ -240,6 +240,18 @@ export const ValeriaExerciseSelectionScreen: React.FC<{ navigation: any }> = ({ 
             trackColor={{ false: '#d1d5db', true: V.color.primary }} thumbColor="#ffffff" />
         </View>
 
+        {/* Pares mínimos (dislalias): juego de voz TTS→STT con misiones físicas */}
+        <Pressable
+          onPress={() => navigation.navigate('MinimalPairs')}
+          style={s.pairsCard} accessibilityRole="button" accessibilityLabel="Practicar pares mínimos para dislalias">
+          <View style={s.pairsIcon}><Text style={{ fontSize: 19 }}>🗣️</Text></View>
+          <View style={{ flex: 1 }}>
+            <Text style={s.pairsTitle}>Pares Mínimos · Dislalias</Text>
+            <Text style={s.pairsSub}>Rotacismo, sigmatismo y más: la app pide una ficha, el niño la dice con su voz y el micrófono detecta la sustitución.</Text>
+          </View>
+          <View style={s.pairsPlay}><Text style={{ color: '#fff', fontSize: 13, fontWeight: '800' }}>▶</Text></View>
+        </Pressable>
+
         <View style={s.listHead}>
           <Text style={s.listLabel}>{isAud ? 'PROTOCOLO ACOPROS · AUDICIÓN' : 'PROTOCOLO FAMILIAR · LENGUAJE'}</Text>
           <View style={s.countBadge}><Text style={s.countBadgeTxt}>{activeCount} prescritos</Text></View>
@@ -347,6 +359,12 @@ const s = StyleSheet.create({
   remindIcon: { width: 36, height: 36, borderRadius: 12, backgroundColor: '#fffbeb', alignItems: 'center', justifyContent: 'center' },
   remindTitle: { fontSize: 14, fontWeight: '800', color: V.color.textPrimary },
   remindSub: { fontSize: 11.5, fontWeight: '600', color: V.color.textMuted, marginTop: 2, lineHeight: 15 },
+
+  pairsCard: { flexDirection: 'row', alignItems: 'center', gap: 11, backgroundColor: '#f5f0ff', borderWidth: 1.5, borderColor: '#ddccfa', borderRadius: 14, padding: 13, marginTop: 10, ...V.shadow.card },
+  pairsIcon: { width: 36, height: 36, borderRadius: 12, backgroundColor: '#ede4fc', alignItems: 'center', justifyContent: 'center' },
+  pairsTitle: { fontSize: 14, fontWeight: '800', color: V.color.textPrimary },
+  pairsSub: { fontSize: 11.5, fontWeight: '600', color: V.color.textMuted, marginTop: 2, lineHeight: 15 },
+  pairsPlay: { width: 36, height: 36, borderRadius: 12, backgroundColor: '#7c4fd0', alignItems: 'center', justifyContent: 'center' },
 
   listHead: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginVertical: 16, marginHorizontal: 4 },
   listLabel: { fontSize: 12, fontWeight: '800', color: V.color.textMuted, letterSpacing: 0.4 },
