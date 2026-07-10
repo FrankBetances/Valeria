@@ -1,8 +1,10 @@
 // ============================================================================
-// Valeria+ · Motor de Voz (V5.0)
+// Valeria+ · Motor de Voz (V5.1)
 // Fuente única para hablar y escuchar en toda la app:
 //   · Síntesis de voz (TTS) con expo-speech: la app lee consignas, palabras
 //     objetivo y las órdenes de las Cápsulas TPR en español (es-ES).
+//     La voz se elige entre las instaladas en el dispositivo priorizando las
+//     de calidad "enhanced"/neuronales, mucho más naturales que la de fábrica.
 //   · Reconocimiento de voz (ASR) con @react-native-voice/voice: juegos de
 //     micrófono donde el niño repite la palabra y la app valora el intento.
 //
@@ -16,11 +18,68 @@ import * as Speech from 'expo-speech';
 const LANG = 'es-ES';
 
 // ----------------------------------------------------------------------------
+// Selección de voz: el motor TTS del sistema suele traer varias voces es-*.
+// Las marcadas como "Enhanced" (iOS) o las variantes locales de alta calidad
+// de Google TTS (Android) suenan mucho más naturales que la voz por defecto.
+// Se busca la mejor una sola vez y se aplica a todas las locuciones.
+// ----------------------------------------------------------------------------
+let bestVoiceId: string | undefined;
+let voiceSearch: Promise<void> | null = null;
+
+const scoreVoice = (v: Speech.Voice): number => {
+  const lang = (v.language ?? '').toLowerCase().replace('_', '-');
+  if (!lang.startsWith('es')) return -1;
+  const id = `${v.identifier ?? ''} ${v.name ?? ''}`.toLowerCase();
+  // Prioridad de idioma: castellano (es-ES) > variantes latinas > resto es-*.
+  let s = lang === 'es-es' ? 4 : /^es-(us|mx|419)/.test(lang) ? 3 : 2;
+  if (v.quality === Speech.VoiceQuality.Enhanced) s += 4;
+  // Voces de alta calidad de Google TTS: las "-local" funcionan sin conexión;
+  // las "network" suenan aún mejor pero exigen datos, mejor como desempate.
+  if (id.includes('local')) s += 2;
+  if (id.includes('network')) s += 1;
+  if (id.includes('neural') || id.includes('natural') || id.includes('premium')) s += 2;
+  return s;
+};
+
+const findBestVoice = async (): Promise<void> => {
+  try {
+    const voices = await Speech.getAvailableVoicesAsync();
+    if (!voices?.length) {
+      // En Android el motor TTS puede no estar listo al arrancar: se
+      // reintenta en la próxima locución.
+      voiceSearch = null;
+      return;
+    }
+    let best: Speech.Voice | undefined;
+    let bestScore = 0;
+    for (const v of voices) {
+      const s = scoreVoice(v);
+      if (s > bestScore) { best = v; bestScore = s; }
+    }
+    bestVoiceId = best?.identifier;
+  } catch (e) {
+    voiceSearch = null; // sin catálogo de voces: seguir con la voz por defecto
+  }
+};
+
+const ensureBestVoice = () => {
+  if (!voiceSearch) voiceSearch = findBestVoice();
+};
+ensureBestVoice(); // calentamiento al importar el módulo
+
+// ----------------------------------------------------------------------------
 // Síntesis de voz (TTS)
 // ----------------------------------------------------------------------------
 export const speak = (text: string, opts: Speech.SpeechOptions = {}) => {
+  ensureBestVoice();
   Speech.stop();
-  Speech.speak(text, { language: LANG, rate: 0.92, pitch: 1.0, ...opts });
+  Speech.speak(text, {
+    language: LANG,
+    rate: 0.92,
+    pitch: 1.0,
+    ...(bestVoiceId ? { voice: bestVoiceId } : {}),
+    ...opts,
+  });
 };
 
 // Voz "cuentacuentos" para dirigirse al niño: algo más aguda y pausada.

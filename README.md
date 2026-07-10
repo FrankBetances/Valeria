@@ -9,6 +9,13 @@ Welcome → Credits → (PatientSelect ó FichaRegistro) → ExerciseSelection
         → LingTest → ExercisePlayer → Results
 ```
 
+## Novedades V5
+
+- **Expo SDK 54 / React Native 0.81**: todas las librerías actualizadas (incluido `expo-speech` 14, el motor de voz).
+- **Voz más natural**: el TTS ya no usa la voz de fábrica; al arrancar busca entre las voces españolas instaladas y elige la de mayor calidad ("enhanced"/neuronal), priorizando las que funcionan sin conexión.
+- **PIN profesional en todos los bloques**: Pares Mínimos y Expansión Semántica también tienen prescripción del logopeda (componente compartido `src/ValeriaProPin.tsx`); el Modo Familia solo puede practicar lo prescrito.
+- **Instalación más ligera**: ProGuard + shrinkResources en los builds de release y perfil EAS `apk` que empaqueta solo las arquitecturas ARM reales (sin librerías de emulador).
+
 ## Novedades V4
 
 - **PIN profesional corregido**: la validación SHA-256 ahora funciona también en Hermes (Android), donde no existe `crypto.subtle`. PIN de demostración: `1985`.
@@ -36,3 +43,12 @@ npm run ios      # expo start --ios
 npm run web      # expo start --web
 npm run typecheck
 ```
+
+## Builds (EAS)
+
+```bash
+npx eas build -p android --profile apk         # APK para instalar directo: solo ARM, ProGuard + shrinkResources
+npx eas build -p android --profile production  # App Bundle (.aab) para Google Play: descarga mínima por dispositivo
+```
+
+El perfil `apk` limita las arquitecturas a `armeabi-v7a` y `arm64-v8a` (los móviles reales), eliminando las librerías x86 de emulador del binario. Para publicar en Google Play usa siempre el App Bundle: Play genera un APK optimizado por dispositivo y la descarga es bastante menor.

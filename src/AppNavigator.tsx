@@ -24,9 +24,12 @@
 //   (En bare RN, además: cd ios && pod install)
 // ============================================================================
 import React, { useEffect } from 'react';
+import { View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { initNotifications, refreshDailyReminders } from './valeriaNotifications';
+import { V } from './valeriaTheme';
 
 import ValeriaWelcomeScreen from './ValeriaWelcomeScreen';
 import ValeriaCreditsScreen from './ValeriaCreditsScreen';
@@ -75,6 +78,21 @@ export const ValeriaNavigator: React.FC = () => (
   </Stack.Navigator>
 );
 
+// Con el edge-to-edge de Android 15+ (obligatorio desde Expo SDK 54) la app se
+// dibuja bajo las barras del sistema. Este marco reserva la zona de la barra de
+// estado en turquesa (color de las cabeceras) y la de la barra de gestos en el
+// color de página, para que ningún botón quede debajo.
+const SafeFrame: React.FC = () => {
+  const insets = useSafeAreaInsets();
+  return (
+    <View style={{ flex: 1, backgroundColor: V.color.primary, paddingTop: insets.top }}>
+      <View style={{ flex: 1, backgroundColor: V.color.pageBg, paddingBottom: insets.bottom }}>
+        <ValeriaNavigator />
+      </View>
+    </View>
+  );
+};
+
 // Si tu app YA tiene un NavigationContainer, importa solo <ValeriaNavigator />
 // y añádelo a tu stack raíz. Si no, usa <ValeriaApp /> tal cual.
 export const ValeriaApp: React.FC = () => {
@@ -82,9 +100,11 @@ export const ValeriaApp: React.FC = () => {
   // más la rotación diaria del consejo para padres si los avisos están activos.
   useEffect(() => { initNotifications(); refreshDailyReminders(); }, []);
   return (
-    <NavigationContainer>
-      <ValeriaNavigator />
-    </NavigationContainer>
+    <SafeAreaProvider>
+      <NavigationContainer>
+        <SafeFrame />
+      </NavigationContainer>
+    </SafeAreaProvider>
   );
 };
 
