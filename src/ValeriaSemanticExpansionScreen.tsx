@@ -20,9 +20,10 @@
 // Protocolo completo: docs/protocolo-expansion-semantica.md
 // ============================================================================
 import React, { useEffect, useRef, useState } from 'react';
-import { View, Text, Pressable, ScrollView, StyleSheet, Animated, Easing } from 'react-native';
+import { View, Text, Pressable, ScrollView, StyleSheet, Animated, Easing, Switch } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { V, STORAGE_KEYS } from './valeriaTheme';
+import { ProUnlockPill, ProPinModal } from './ValeriaProPin';
 import { registerSession, SessionReward } from './valeriaGamification';
 import {
   speakToChild, speakWordSlow, stopSpeaking,
@@ -123,6 +124,12 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
   const [log, setLog] = useState<StepRecord[]>([]);
   const [reward, setReward] = useState<SessionReward | null>(null);
   const [listening, setListening] = useState(false);
+  // Prescripción del logopeda: { [id]: boolean } sobre escenarios, progresiones
+  // y contrastes (id ausente = activo). El PIN profesional desbloquea la edición.
+  const [prescribed, setPrescribed] = useState<Record<string, boolean>>({});
+  const [unlocked, setUnlocked] = useState(false);
+  const [pinOpen, setPinOpen] = useState(false);
+  const [toast, setToast] = useState('');
 
   const attemptsRef = useRef(0);
   const listeningRef = useRef(false);
@@ -131,6 +138,15 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
 
   useEffect(() => {
     mounted.current = true;
+    (async () => {
+      try {
+        const raw = await AsyncStorage.getItem(STORAGE_KEYS.expansionPrescripcion);
+        if (raw) {
+          const p = JSON.parse(raw);
+          if (p && typeof p === 'object' && !Array.isArray(p) && mounted.current) setPrescribed(p);
+        }
+      } catch (e) { /* noop */ }
+    })();
     return () => { mounted.current = false; stopSpeaking(); stopListening(); releaseListening(); };
   }, []);
 
@@ -143,6 +159,26 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
     loop.start();
     return () => loop.stop();
   }, [listening, pulse]);
+
+  // ---------------------------------------------------- prescripción (PIN) --
+  const TOTAL_ACTIVITIES = DAILY_SCENARIOS.length + PROGRESSION_SEQUENCES.length + CONTRAST_CAPSULES.length;
+  const isPrescribed = (id: string) => prescribed[id] !== false;
+  const activeCount =
+    DAILY_SCENARIOS.filter((x) => isPrescribed(x.id)).length +
+    PROGRESSION_SEQUENCES.filter((x) => isPrescribed(x.id)).length +
+    CONTRAST_CAPSULES.filter((x) => isPrescribed(x.id)).length;
+
+  const togglePrescribed = (id: string) => {
+    if (!unlocked) return;
+    setPrescribed((prev) => ({ ...prev, [id]: !(prev[id] !== false) }));
+    setToast('');
+  };
+
+  const savePrescription = async () => {
+    try { await AsyncStorage.setItem(STORAGE_KEYS.expansionPrescripcion, JSON.stringify(prescribed)); } catch (e) { /* noop */ }
+    setUnlocked(false);
+    setToast(`Prescripción guardada · ${activeCount} de ${TOTAL_ACTIVITIES} actividades activas.`);
+  };
 
   // ---------------------------------------------------------------- sesión --
   const start = (sess: Session) => {
@@ -273,6 +309,31 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
     </View>
   );
 
+  // Fila prescribible del listado: en Modo Familia lanza la sesión (si está
+  // prescrita); con el PIN profesional activo alterna la prescripción.
+  const prescribableRow = (id: string, name: string, onStart: () => void, inner: React.ReactNode) => {
+    const on = isPrescribed(id);
+    return (
+      <Pressable
+        key={id}
+        onPress={() => (unlocked ? togglePrescribed(id) : on && onStart())}
+        style={[s.pickRow, !on && s.pickRowOff]}
+        accessibilityRole="button"
+        accessibilityLabel={unlocked ? `${on ? 'Desactivar' : 'Activar'} ${name}` : on ? `Practicar ${name}` : `${name} no prescrito`}
+      >
+        {inner}
+        {unlocked ? (
+          <Switch value={on} onValueChange={() => togglePrescribed(id)}
+            trackColor={{ false: '#d1d5db', true: V.color.primary }} thumbColor="#ffffff" />
+        ) : on ? (
+          <View style={s.playBtn}><Text style={{ color: V.color.primaryDark, fontSize: 13 }}>▶</Text></View>
+        ) : (
+          <View style={[s.playBtn, { backgroundColor: '#f1f5f4' }]}><Text style={{ fontSize: 13 }}>🔒</Text></View>
+        )}
+      </Pressable>
+    );
+  };
+
   // =================================================================== PICK ==
   if (phase === 'pick') {
     return (
@@ -281,7 +342,7 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
           <Pressable onPress={() => navigation.goBack()} style={s.backPill}><Text style={s.backPillTxt}>‹ Volver</Text></Pressable>
           <Text style={s.logoFallback}>valeria+</Text>
           <Text style={s.headerTitle}>Expansión Semántica</Text>
-          <Text style={s.headerSub}>Progresión léxica · del símbolo al mundo real del niño</Text>
+          <Text style={s.headerSub}>{unlocked ? 'Edición profesional habilitada' : 'Progresión léxica · del símbolo al mundo real del niño'}</Text>
           <View style={s.tabs}>
             {([['scenario', 'Escenarios'], ['sequence', 'Progresión'], ['contrast', 'Contrastes']] as const).map(([t, lbl]) => {
               const on = tab === t;
@@ -295,6 +356,12 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
         </View>
 
         <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
+          {!!toast && (
+            <View style={s.toast}>
+              <View style={s.toastCheck}><Text style={{ color: '#fff', fontWeight: '800', fontSize: 13 }}>✓</Text></View>
+              <Text style={s.toastTxt}>{toast}</Text>
+            </View>
+          )}
           <View style={s.howCard}>
             <Text style={s.howKicker}>⚡ CÓMO FUNCIONA</Text>
             <Text style={s.howTxt}>
@@ -304,40 +371,69 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
             </Text>
           </View>
 
-          {tab === 'scenario' && DAILY_SCENARIOS.map((sc) => (
-            <Pressable key={sc.id} onPress={() => start(scenarioSession(sc.id))} style={s.pickRow} accessibilityRole="button" accessibilityLabel={`Practicar escenario ${sc.title}`}>
+          <View style={{ marginBottom: 12 }}>
+            <ProUnlockPill unlocked={unlocked} onPress={() => setPinOpen(true)} />
+          </View>
+          <View style={s.listHead}>
+            <Text style={s.listLabel}>
+              {tab === 'scenario' ? 'ESCENARIOS DIARIOS' : tab === 'sequence' ? 'PROGRESIÓN LÉXICA' : 'CÁPSULAS DE CONTRASTE'}
+            </Text>
+            <View style={s.countBadge}><Text style={s.countBadgeTxt}>{activeCount} prescritas</Text></View>
+          </View>
+
+          {tab === 'scenario' && DAILY_SCENARIOS.map((sc) => prescribableRow(
+            sc.id, `escenario ${sc.title}`, () => start(scenarioSession(sc.id)),
+            <>
               <Text style={{ fontSize: 30 }}>{sc.icon}</Text>
               <View style={{ flex: 1 }}>
                 <Text style={s.pickName}>{sc.title}</Text>
                 <Text style={s.pickCat}>{sc.subtitle} · {sc.items.length} palabras</Text>
               </View>
-              <View style={s.playBtn}><Text style={{ color: V.color.primaryDark, fontSize: 13 }}>▶</Text></View>
-            </Pressable>
+            </>,
           ))}
 
-          {tab === 'sequence' && PROGRESSION_SEQUENCES.map((sq) => (
-            <Pressable key={sq.id} onPress={() => start(sequenceSession(sq.id))} style={s.pickRow} accessibilityRole="button" accessibilityLabel={`Practicar progresión ${sq.theme}`}>
+          {tab === 'sequence' && PROGRESSION_SEQUENCES.map((sq) => prescribableRow(
+            sq.id, `progresión ${sq.theme}`, () => start(sequenceSession(sq.id)),
+            <>
               <Text style={{ fontSize: 30 }}>{sq.icon}</Text>
               <View style={{ flex: 1 }}>
                 <Text style={s.pickName}>{sq.theme}</Text>
                 <Text style={s.pickCat}>{sq.phases.map((p) => p.label).join(' → ')}</Text>
               </View>
-              <View style={s.playBtn}><Text style={{ color: V.color.primaryDark, fontSize: 13 }}>▶</Text></View>
-            </Pressable>
+            </>,
           ))}
 
-          {tab === 'contrast' && CONTRAST_CAPSULES.map((cp) => (
-            <Pressable key={cp.id} onPress={() => start(contrastSession(cp.id))} style={s.pickRow} accessibilityRole="button" accessibilityLabel={`Cápsula de contraste ${cp.pair[0]} y ${cp.pair[1]}`}>
+          {tab === 'contrast' && CONTRAST_CAPSULES.map((cp) => prescribableRow(
+            cp.id, `cápsula de contraste ${cp.pair[0]} y ${cp.pair[1]}`, () => start(contrastSession(cp.id)),
+            <>
               <View style={s.codeChip}><Text style={s.codeChipTxt}>{cp.code}</Text></View>
               <Text style={{ fontSize: 26 }}>{cp.icon}</Text>
               <View style={{ flex: 1 }}>
                 <Text style={s.pickName}>{cp.pair[0]} / {cp.pair[1]}</Text>
                 <Text style={s.pickCat}>{cp.kind === 'adjetivos' ? 'Par de adjetivos' : 'Verbos antónimos'} · cápsula TPR</Text>
               </View>
-              <View style={s.playBtn}><Text style={{ color: V.color.primaryDark, fontSize: 13 }}>▶</Text></View>
-            </Pressable>
+            </>,
           ))}
+
+          {unlocked ? (
+            <>
+              <Pressable onPress={savePrescription} style={s.primaryBtn}><Text style={s.primaryBtnTxt}>Guardar Prescripción</Text></Pressable>
+              <Text style={s.helper}>La selección se guarda en el dispositivo y la edición se bloquea de nuevo.</Text>
+            </>
+          ) : (
+            <View style={s.lockedHint}>
+              <Text style={{ fontSize: 13 }}>🔒</Text>
+              <Text style={s.lockedHintTxt}>Modo Familia · solo el logopeda puede cambiar qué actividades se practican.</Text>
+            </View>
+          )}
         </ScrollView>
+
+        <ProPinModal
+          open={pinOpen}
+          onClose={() => setPinOpen(false)}
+          onUnlock={() => { setPinOpen(false); setUnlocked(true); setToast('Modo profesional desbloqueado.'); }}
+          subtitle="Introduce el PIN de 4 dígitos del logopeda para elegir qué actividades practica la familia."
+        />
       </View>
     );
   }
@@ -556,7 +652,18 @@ const s = StyleSheet.create({
   howCard: { backgroundColor: V.color.primaryTint, borderWidth: 1.5, borderColor: '#b8eee9', borderRadius: 16, padding: 14, marginBottom: 12 },
   howKicker: { fontSize: 11, fontWeight: '800', letterSpacing: 0.6, color: V.color.primaryDark },
   howTxt: { fontSize: 13, fontWeight: '600', color: V.color.textSecondary, marginTop: 7, lineHeight: 19 },
+  toast: { flexDirection: 'row', alignItems: 'center', gap: 10, backgroundColor: V.color.primaryTint, borderWidth: 1, borderColor: V.color.primary, borderRadius: 13, padding: 13, marginBottom: 14 },
+  toastCheck: { width: 24, height: 24, borderRadius: 12, backgroundColor: V.color.primary, alignItems: 'center', justifyContent: 'center' },
+  toastTxt: { color: V.color.textPrimary, fontSize: 13.5, fontWeight: '700', flex: 1 },
+  listHead: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12, marginHorizontal: 4 },
+  listLabel: { fontSize: 12, fontWeight: '800', color: V.color.textMuted, letterSpacing: 0.4 },
+  countBadge: { backgroundColor: V.color.primaryLight, paddingHorizontal: 10, paddingVertical: 5, borderRadius: 9 },
+  countBadgeTxt: { fontSize: 12, fontWeight: '800', color: V.color.primaryDark },
   pickRow: { flexDirection: 'row', alignItems: 'center', gap: 11, backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.border, borderRadius: 15, padding: 13, marginBottom: 9, ...V.shadow.card },
+  pickRowOff: { opacity: 0.55 },
+  helper: { textAlign: 'center', color: V.color.textMuted, fontSize: 11.5, marginTop: 11, fontWeight: '600', paddingHorizontal: 14 },
+  lockedHint: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 7, marginTop: 18, paddingHorizontal: 18 },
+  lockedHintTxt: { color: V.color.textMuted, fontSize: 12, fontWeight: '700', textAlign: 'center' },
   codeChip: { backgroundColor: V.color.primaryLight, borderRadius: 9, paddingHorizontal: 8, paddingVertical: 5 },
   codeChipTxt: { color: V.color.primaryDark, fontSize: 11, fontWeight: '800', letterSpacing: 0.3 },
   pickName: { fontSize: 15, fontWeight: '800', color: V.color.textPrimary, textTransform: 'capitalize' },

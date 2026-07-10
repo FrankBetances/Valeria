@@ -22,9 +22,10 @@
 // Protocolo completo: docs/protocolo-pares-minimos.md
 // ============================================================================
 import React, { useEffect, useRef, useState } from 'react';
-import { View, Text, Pressable, ScrollView, StyleSheet, Animated, Easing } from 'react-native';
+import { View, Text, Pressable, ScrollView, StyleSheet, Animated, Easing, Switch } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { V, STORAGE_KEYS } from './valeriaTheme';
+import { ProUnlockPill, ProPinModal } from './ValeriaProPin';
 import { registerSession, SessionReward } from './valeriaGamification';
 import {
   speakToChild, speakWordSlow, stopSpeaking,
@@ -227,6 +228,12 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
   const [activeBreak, setActiveBreak] = useState<TprCapsule | null>(null);
   const [reward, setReward] = useState<SessionReward | null>(null);
   const [listening, setListening] = useState(false);
+  // Prescripción del logopeda: { [pairId]: boolean }, id ausente = activo.
+  // Modo Familia solo practica los pares prescritos; el PIN desbloquea la edición.
+  const [prescribed, setPrescribed] = useState<Record<string, boolean>>({});
+  const [unlocked, setUnlocked] = useState(false);
+  const [pinOpen, setPinOpen] = useState(false);
+  const [toast, setToast] = useState('');
 
   const attemptsRef = useRef(0);
   const foilsRef = useRef(0); // sustituciones detectadas en el ensayo actual
@@ -237,6 +244,15 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
 
   useEffect(() => {
     mounted.current = true;
+    (async () => {
+      try {
+        const raw = await AsyncStorage.getItem(STORAGE_KEYS.paresPrescripcion);
+        if (raw) {
+          const p = JSON.parse(raw);
+          if (p && typeof p === 'object' && !Array.isArray(p) && mounted.current) setPrescribed(p);
+        }
+      } catch (e) { /* noop */ }
+    })();
     return () => { mounted.current = false; stopSpeaking(); stopListening(); releaseListening(); };
   }, []);
 
@@ -249,6 +265,22 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
     loop.start();
     return () => loop.stop();
   }, [listening, pulse]);
+
+  // ---------------------------------------------------- prescripción (PIN) --
+  const isPrescribed = (id: string) => prescribed[id] !== false;
+  const activeCount = MINIMAL_PAIRS.filter((p) => isPrescribed(p.id)).length;
+
+  const togglePrescribed = (id: string) => {
+    if (!unlocked) return;
+    setPrescribed((prev) => ({ ...prev, [id]: !(prev[id] !== false) }));
+    setToast('');
+  };
+
+  const savePrescription = async () => {
+    try { await AsyncStorage.setItem(STORAGE_KEYS.paresPrescripcion, JSON.stringify(prescribed)); } catch (e) { /* noop */ }
+    setUnlocked(false);
+    setToast(`Prescripción guardada · ${activeCount} de ${MINIMAL_PAIRS.length} pares activos.`);
+  };
 
   // ---------------------------------------------------------------- sesión --
   const startSession = (p: MinimalPair) => {
@@ -447,9 +479,15 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
           <Pressable onPress={() => navigation.goBack()} style={s.backPill}><Text style={s.backPillTxt}>‹ Volver</Text></Pressable>
           <Text style={s.logoFallback}>valeria+</Text>
           <Text style={s.headerTitle}>Pares Mínimos</Text>
-          <Text style={s.headerSub}>Dislalias fonológicas · el niño pide la ficha con su voz</Text>
+          <Text style={s.headerSub}>{unlocked ? 'Edición profesional habilitada' : 'Dislalias fonológicas · el niño pide la ficha con su voz'}</Text>
         </View>
         <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
+          {!!toast && (
+            <View style={s.toast}>
+              <View style={s.toastCheck}><Text style={{ color: '#fff', fontWeight: '800', fontSize: 13 }}>✓</Text></View>
+              <Text style={s.toastTxt}>{toast}</Text>
+            </View>
+          )}
           <View style={s.howCard}>
             <Text style={s.howKicker}>⚡ CÓMO FUNCIONA</Text>
             <Text style={s.howTxt}>
@@ -459,24 +497,70 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
               de los dos en la pantalla no se avanza!
             </Text>
           </View>
+
+          <View style={{ marginTop: 12 }}>
+            <ProUnlockPill unlocked={unlocked} onPress={() => setPinOpen(true)} />
+          </View>
+          <View style={s.listHead}>
+            <Text style={s.listLabel}>BANCO DE CONTRASTES</Text>
+            <View style={s.countBadge}><Text style={s.countBadgeTxt}>{activeCount} prescritos</Text></View>
+          </View>
+
           {PAIR_GROUPS.map((g) => (
             <View key={g}>
               <Text style={s.groupLabel}>{g.toUpperCase()}</Text>
-              {MINIMAL_PAIRS.filter((p) => p.group === g).map((p) => (
-                <Pressable key={p.id} onPress={() => startSession(p)} style={s.pickRow} accessibilityRole="button" accessibilityLabel={`Practicar el par ${p.target} y ${p.foil}`}>
-                  <View style={s.codeChip}><Text style={s.codeChipTxt}>{p.code}</Text></View>
-                  <Text style={{ fontSize: 26 }}>{p.targetEmoji}</Text>
-                  <Text style={{ fontSize: 26 }}>{p.foilEmoji}</Text>
-                  <View style={{ flex: 1 }}>
-                    <Text style={s.pickName}>{p.target} / {p.foil}</Text>
-                    <Text style={s.pickCat}>{p.errorLabel} · {p.phoneme}{p.region ? ' · solo variedades con distinción s/z' : ''}</Text>
-                  </View>
-                  <View style={s.playBtn}><Text style={{ color: V.color.primaryDark, fontSize: 13 }}>▶</Text></View>
-                </Pressable>
-              ))}
+              {MINIMAL_PAIRS.filter((p) => p.group === g).map((p) => {
+                const on = isPrescribed(p.id);
+                return (
+                  <Pressable
+                    key={p.id}
+                    onPress={() => (unlocked ? togglePrescribed(p.id) : on && startSession(p))}
+                    style={[s.pickRow, !on && s.pickRowOff]}
+                    accessibilityRole="button"
+                    accessibilityLabel={unlocked
+                      ? `${on ? 'Desactivar' : 'Activar'} el par ${p.target} y ${p.foil}`
+                      : on ? `Practicar el par ${p.target} y ${p.foil}` : `Par ${p.target} y ${p.foil} no prescrito`}
+                  >
+                    <View style={s.codeChip}><Text style={s.codeChipTxt}>{p.code}</Text></View>
+                    <Text style={{ fontSize: 26 }}>{p.targetEmoji}</Text>
+                    <Text style={{ fontSize: 26 }}>{p.foilEmoji}</Text>
+                    <View style={{ flex: 1 }}>
+                      <Text style={s.pickName}>{p.target} / {p.foil}</Text>
+                      <Text style={s.pickCat}>{p.errorLabel} · {p.phoneme}{p.region ? ' · solo variedades con distinción s/z' : ''}</Text>
+                    </View>
+                    {unlocked ? (
+                      <Switch value={on} onValueChange={() => togglePrescribed(p.id)}
+                        trackColor={{ false: '#d1d5db', true: V.color.primary }} thumbColor="#ffffff" />
+                    ) : on ? (
+                      <View style={s.playBtn}><Text style={{ color: V.color.primaryDark, fontSize: 13 }}>▶</Text></View>
+                    ) : (
+                      <View style={[s.playBtn, { backgroundColor: '#f1f5f4' }]}><Text style={{ fontSize: 13 }}>🔒</Text></View>
+                    )}
+                  </Pressable>
+                );
+              })}
             </View>
           ))}
+
+          {unlocked ? (
+            <>
+              <Pressable onPress={savePrescription} style={s.primaryBtn}><Text style={s.primaryBtnTxt}>Guardar Prescripción</Text></Pressable>
+              <Text style={s.helper}>La selección se guarda en el dispositivo y la edición se bloquea de nuevo.</Text>
+            </>
+          ) : (
+            <View style={s.lockedHint}>
+              <Text style={{ fontSize: 13 }}>🔒</Text>
+              <Text style={s.lockedHintTxt}>Modo Familia · solo el logopeda puede cambiar qué pares se practican.</Text>
+            </View>
+          )}
         </ScrollView>
+
+        <ProPinModal
+          open={pinOpen}
+          onClose={() => setPinOpen(false)}
+          onUnlock={() => { setPinOpen(false); setUnlocked(true); setToast('Modo profesional desbloqueado.'); }}
+          subtitle="Introduce el PIN de 4 dígitos del logopeda para elegir qué pares practica la familia."
+        />
       </View>
     );
   }
@@ -703,7 +787,18 @@ const s = StyleSheet.create({
   howKicker: { fontSize: 11, fontWeight: '800', letterSpacing: 0.6, color: V.color.primaryDark },
   howTxt: { fontSize: 13, fontWeight: '600', color: V.color.textSecondary, marginTop: 7, lineHeight: 19 },
   groupLabel: { fontSize: 12, fontWeight: '800', color: V.color.textMuted, letterSpacing: 0.4, marginTop: 16, marginBottom: 8, marginHorizontal: 4 },
+  toast: { flexDirection: 'row', alignItems: 'center', gap: 10, backgroundColor: V.color.primaryTint, borderWidth: 1, borderColor: V.color.primary, borderRadius: 13, padding: 13, marginBottom: 14 },
+  toastCheck: { width: 24, height: 24, borderRadius: 12, backgroundColor: V.color.primary, alignItems: 'center', justifyContent: 'center' },
+  toastTxt: { color: V.color.textPrimary, fontSize: 13.5, fontWeight: '700', flex: 1 },
+  listHead: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 16, marginHorizontal: 4 },
+  listLabel: { fontSize: 12, fontWeight: '800', color: V.color.textMuted, letterSpacing: 0.4 },
+  countBadge: { backgroundColor: V.color.primaryLight, paddingHorizontal: 10, paddingVertical: 5, borderRadius: 9 },
+  countBadgeTxt: { fontSize: 12, fontWeight: '800', color: V.color.primaryDark },
   pickRow: { flexDirection: 'row', alignItems: 'center', gap: 9, backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.border, borderRadius: 15, padding: 12, marginBottom: 9, ...V.shadow.card },
+  pickRowOff: { opacity: 0.55 },
+  helper: { textAlign: 'center', color: V.color.textMuted, fontSize: 11.5, marginTop: 11, fontWeight: '600', paddingHorizontal: 14 },
+  lockedHint: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 7, marginTop: 18, paddingHorizontal: 18 },
+  lockedHintTxt: { color: V.color.textMuted, fontSize: 12, fontWeight: '700', textAlign: 'center' },
   codeChip: { backgroundColor: V.color.primaryLight, borderRadius: 9, paddingHorizontal: 8, paddingVertical: 5 },
   codeChipTxt: { color: V.color.primaryDark, fontSize: 11, fontWeight: '800', letterSpacing: 0.3 },
   pickName: { fontSize: 14.5, fontWeight: '800', color: V.color.textPrimary, textTransform: 'capitalize' },

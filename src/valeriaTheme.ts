@@ -69,6 +69,8 @@ export const STORAGE_KEYS = {
   recordatorios: '@valeria_recordatorios',     // Preferencia de recordatorios diarios (on/off)
   paresMinimos: '@valeria_pares_minimos',      // Registro por ensayo de pares mínimos (dislalias)
   expansionSemantica: '@valeria_expansion_semantica', // Registro por sesión de expansión semántica / progresión léxica
+  paresPrescripcion: '@valeria_prescripcion_pares',   // Prescripción del logopeda: { [pairId]: boolean } (ausente = activo)
+  expansionPrescripcion: '@valeria_prescripcion_expansion', // Prescripción del logopeda: { [id]: boolean } (ausente = activo)
 };
 
 // Marca / mascota: oso "Valeria" en blanco sobre turquesa. El componente

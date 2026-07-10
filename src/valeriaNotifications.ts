@@ -72,7 +72,8 @@ const TIP_HOUR = 20;
 export const initNotifications = () => {
   Notifications.setNotificationHandler({
     handleNotification: async () => ({
-      shouldShowAlert: true,
+      shouldShowBanner: true,
+      shouldShowList: true,
       shouldPlaySound: false,
       shouldSetBadge: false,
     }),
@@ -109,7 +110,12 @@ const scheduleDailyContent = async (): Promise<void> => {
       : MESSAGES[(day * (REMINDER_HOURS.length - 1) + msg++) % MESSAGES.length];
     await Notifications.scheduleNotificationAsync({
       content: { title: m.title, body: m.body, sound: false },
-      trigger: { channelId: CHANNEL_ID, hour, minute: 0, repeats: true },
+      trigger: {
+        type: Notifications.SchedulableTriggerInputTypes.DAILY,
+        channelId: CHANNEL_ID,
+        hour,
+        minute: 0,
+      },
     });
   }
 };
