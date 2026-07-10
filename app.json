@@ -42,7 +42,8 @@
           "speechRecognitionPermission": "Valeria+ usa el reconocimiento de voz para valorar las palabras que dice el niño."
         }
       ],
-      "./plugins/withSpeechRecognitionQueries"
+      "./plugins/withSpeechRecognitionQueries",
+      "./plugins/withJetifier"
     ],
     "ios": {
       "supportsTablet": true,
