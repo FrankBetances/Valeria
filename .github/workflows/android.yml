@@ -76,6 +76,18 @@ jobs:
       - name: Generate native Android project
         run: npx expo prebuild --platform android --no-install
 
+      # Play Console exige que cada subida tenga un versionCode mayor que la
+      # anterior. El prebuild lo genera fijo en 1, así que lo derivamos del
+      # número de run del workflow, que GitHub incrementa en cada ejecución.
+      - name: Set versionCode from workflow run number
+        run: |
+          sed -i "s/versionCode 1\b/versionCode ${{ github.run_number }}/" android/app/build.gradle
+          if ! grep -q "versionCode ${{ github.run_number }}" android/app/build.gradle; then
+            echo "No se encontró 'versionCode 1' en build.gradle; la plantilla del prebuild puede haber cambiado"
+            exit 1
+          fi
+          grep -E "versionCode|versionName" android/app/build.gradle
+
       - name: Grant execute permission to Gradle wrapper
         run: chmod +x ./android/gradlew
 
