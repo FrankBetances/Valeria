@@ -1,5 +1,13 @@
 name: Android Build
 
+# Firma de release: requiere estos secrets en Settings > Secrets and variables > Actions:
+#   ANDROID_RELEASE_KEYSTORE_BASE64  → keystore codificado (base64 -w0 release.keystore)
+#   ANDROID_RELEASE_STORE_PASSWORD   → contraseña del keystore
+#   ANDROID_RELEASE_KEY_ALIAS        → alias de la clave
+#   ANDROID_RELEASE_KEY_PASSWORD     → contraseña de la clave
+# Con los secrets configurados, cada push/fusión a main genera el APK y el AAB
+# (Android App Bundle) firmados; en el resto de ramas solo se compila el APK.
+
 on:
   push:
     branches:
@@ -121,6 +129,25 @@ jobs:
           RELEASE_KEY_ALIAS: ${{ secrets.ANDROID_RELEASE_KEY_ALIAS }}
           RELEASE_KEY_PASSWORD: ${{ secrets.ANDROID_RELEASE_KEY_PASSWORD }}
         run: ./gradlew assembleRelease
+
+      # El AAB es el formato que exige Google Play. Solo se genera en main (cada
+      # fusión) o al lanzar el workflow a mano, para no alargar los builds de PR.
+      - name: Build signed release AAB
+        if: env.HAS_SIGNING_SECRETS == 'true' && (github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch')
+        working-directory: ./android
+        env:
+          RELEASE_STORE_PASSWORD: ${{ secrets.ANDROID_RELEASE_STORE_PASSWORD }}
+          RELEASE_KEY_ALIAS: ${{ secrets.ANDROID_RELEASE_KEY_ALIAS }}
+          RELEASE_KEY_PASSWORD: ${{ secrets.ANDROID_RELEASE_KEY_PASSWORD }}
+        run: ./gradlew bundleRelease
+
+      - name: Upload AAB
+        if: env.HAS_SIGNING_SECRETS == 'true' && (github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch')
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-aab
+          path: android/app/build/outputs/bundle/release/*.aab
+          if-no-files-found: error
 
       - name: Build debug APK (no signing secrets configured)
         if: env.HAS_SIGNING_SECRETS != 'true'
