@@ -1,13 +1,15 @@
 // ============================================================================
-// Valeria+ · Pantalla de Créditos (V3.0)
+// Valeria+ · Pantalla de Créditos (V3.1)
 // Splash de reconocimiento mostrado tras "Comenzar" desde la bienvenida.
 // Acredita al autor clínico del proyecto y a las entidades colaboradoras.
-// No persiste datos; solo navega a la Ficha de Registro.
+// Cada bloque entra de forma escalonada (fade + deslizamiento) y el avatar
+// flota con un pulso suave. No persiste datos; solo navega a la Ficha de Registro.
 //   Continuar → navigation.navigate('FichaRegistro')
 // ============================================================================
 import React, { useEffect, useRef } from 'react';
 import { View, Text, Pressable, ScrollView, StyleSheet, Animated, Easing, StatusBar } from 'react-native';
 import { V } from './valeriaTheme';
+import { BearMark } from './ValeriaBearLogo';
 // import logoWhite from '../../assets/valeria-logo-white.png';
 
 interface Colaborador { icon: string; nombre: string; desc: string; }
@@ -17,19 +19,47 @@ const COLABORADORES: Colaborador[] = [
   { icon: '🗣️', nombre: 'Quisqueya Habla', desc: 'Rehabilitación del lenguaje' },
 ];
 
+// Secuencia de entrada: marca, kicker, autor, divisor, cada colaborador y CTA.
+const SECTIONS = 5 + COLABORADORES.length;
+
 export const ValeriaCreditsScreen: React.FC<{ navigation?: any }> = ({ navigation }) => {
   const float = useRef(new Animated.Value(0)).current;
+  const pulse = useRef(new Animated.Value(0)).current;
+  const sections = useRef(Array.from({ length: SECTIONS }, () => new Animated.Value(0))).current;
 
   useEffect(() => {
+    // Entrada escalonada de cada bloque.
+    Animated.stagger(
+      130,
+      sections.map((a) =>
+        Animated.timing(a, { toValue: 1, duration: 520, easing: Easing.out(Easing.cubic), useNativeDriver: true }),
+      ),
+    ).start();
+
     Animated.loop(
       Animated.sequence([
         Animated.timing(float, { toValue: 1, duration: 2000, easing: Easing.inOut(Easing.quad), useNativeDriver: true }),
         Animated.timing(float, { toValue: 0, duration: 2000, easing: Easing.inOut(Easing.quad), useNativeDriver: true }),
       ]),
     ).start();
-  }, [float]);
+
+    // Pulso tipo latido para el avatar clínico.
+    Animated.loop(
+      Animated.sequence([
+        Animated.delay(1200),
+        Animated.timing(pulse, { toValue: 1, duration: 260, easing: Easing.out(Easing.quad), useNativeDriver: true }),
+        Animated.timing(pulse, { toValue: 0, duration: 340, easing: Easing.in(Easing.quad), useNativeDriver: true }),
+      ]),
+    ).start();
+  }, [float, pulse, sections]);
 
   const translateY = float.interpolate({ inputRange: [0, 1], outputRange: [0, -6] });
+  const pulseScale = pulse.interpolate({ inputRange: [0, 1], outputRange: [1, 1.09] });
+
+  const fadeUp = (i: number) => ({
+    opacity: sections[i],
+    transform: [{ translateY: sections[i].interpolate({ inputRange: [0, 1], outputRange: [22, 0] }) }],
+  });
 
   return (
     <View style={s.flex}>
@@ -40,31 +70,34 @@ export const ValeriaCreditsScreen: React.FC<{ navigation?: any }> = ({ navigatio
       <View style={[s.blob, { bottom: 90, right: -80, width: 220, height: 220, opacity: 0.08 }]} />
 
       <ScrollView contentContainerStyle={s.content} showsVerticalScrollIndicator={false}>
-        {/* <Image source={logoWhite} style={s.logo} /> */}
-        <Text style={s.brand}>valeria</Text>
+        <Animated.View style={[s.brandRow, fadeUp(0)]}>
+          <BearMark size={54} variant="brown" />
+          {/* <Image source={logoWhite} style={s.logo} /> */}
+          <Text style={s.brand}>valeria</Text>
+        </Animated.View>
 
-        <Text style={s.kicker}>Proyecto desarrollado por</Text>
+        <Animated.Text style={[s.kicker, fadeUp(1)]}>Proyecto desarrollado por</Animated.Text>
 
         {/* tarjeta del autor */}
-        <View style={s.doctorCard}>
-          <Animated.View style={[s.doctorAvatar, { transform: [{ translateY }] }]}>
+        <Animated.View style={[s.doctorCard, fadeUp(2)]}>
+          <Animated.View style={[s.doctorAvatar, { transform: [{ translateY }, { scale: pulseScale }] }]}>
             <Text style={s.doctorAvatarIcon}>🩺</Text>
           </Animated.View>
           <Text style={s.doctorName}>Dr. Frank Betances</Text>
           <Text style={s.doctorRole}>Otorrinolaringólogo infantil</Text>
-        </View>
+        </Animated.View>
 
         {/* divisor */}
-        <View style={s.dividerRow}>
+        <Animated.View style={[s.dividerRow, fadeUp(3)]}>
           <View style={s.dividerLine} />
           <Text style={s.dividerLabel}>En colaboración con</Text>
           <View style={s.dividerLine} />
-        </View>
+        </Animated.View>
 
         {/* colaboradores */}
         <View style={s.collabList}>
-          {COLABORADORES.map((c) => (
-            <View key={c.nombre} style={s.collabCard}>
+          {COLABORADORES.map((c, i) => (
+            <Animated.View key={c.nombre} style={[s.collabCard, fadeUp(4 + i)]}>
               <View style={s.collabIcon}>
                 <Text style={s.collabIconText}>{c.icon}</Text>
               </View>
@@ -72,20 +105,20 @@ export const ValeriaCreditsScreen: React.FC<{ navigation?: any }> = ({ navigatio
                 <Text style={s.collabName}>{c.nombre}</Text>
                 <Text style={s.collabDesc}>{c.desc}</Text>
               </View>
-            </View>
+            </Animated.View>
           ))}
         </View>
       </ScrollView>
 
       {/* acción */}
-      <View style={s.actions}>
+      <Animated.View style={[s.actions, fadeUp(SECTIONS - 1)]}>
         <Pressable
           style={({ pressed }) => [s.cta, pressed && { opacity: 0.9 }]}
           onPress={() => navigation?.navigate('FichaRegistro')}
         >
           <Text style={s.ctaText}>Continuar</Text>
         </Pressable>
-      </View>
+      </Animated.View>
     </View>
   );
 };
@@ -96,6 +129,7 @@ const s = StyleSheet.create({
   content: { flexGrow: 1, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 30, paddingVertical: 36 },
 
   logo: { height: 30, width: 132, resizeMode: 'contain' },
+  brandRow: { alignItems: 'center', gap: 8 },
   brand: { fontSize: 26, fontWeight: V.font.extrabold, color: '#fff', letterSpacing: -0.6 },
 
   kicker: {
