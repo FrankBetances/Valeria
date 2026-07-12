@@ -14,9 +14,19 @@
 //   · Cápsulas TPR (Total Physical Response) entre ejercicios: la app dicta
 //     órdenes en voz alta y el niño responde con el cuerpo.
 //
-// Navegación: navigation.navigate('ExercisePlayer', { id?: string })
+// Novedades V6 (UX):
+//   · Rondas con contenido variado por mini-juego (VARIANTS): repetir un
+//     ejercicio ya no muestra siempre la misma palabra/ficha/respuesta.
+//   · Flujo numerado PASO 1→4 (consigna → juego → movimiento → evaluación)
+//     para que el tutor sepa siempre qué toca.
+//   · La app celebra o anima con voz variada los aciertos/fallos del niño
+//     en los mini-juegos táctiles (intruso, emociones, vocal faltante).
+//   · Cabecera con el nombre real del paciente activo.
+//
+// Navegación: navigation.navigate('ExercisePlayer', { id?: string; ids?: string[] })
+//   · Con `ids` -> sesión con esa lista de ejercicios (p. ej. todos los prescritos).
 //   · Con `id`  -> sesión de un solo ejercicio.
-//   · Sin `id`  -> sesión por defecto (plan prescrito de ejemplo).
+//   · Sin nada  -> sesión por defecto (plan prescrito de ejemplo).
 // ============================================================================
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
@@ -25,7 +35,7 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { V, STORAGE_KEYS } from './valeriaTheme';
 import { registerSession, SessionReward, levelProgress, xpToNext } from './valeriaGamification';
-import { speakToChild, stopSpeaking } from './valeriaVoice';
+import { speakToChild, stopSpeaking, praisePhrase, almostPhrase } from './valeriaVoice';
 import { SpeakButton, MicPracticeCard } from './ValeriaVoiceUI';
 import { ValeriaTPRCapsuleOverlay, pickTprCapsule, TprCapsule } from './ValeriaTPRCapsule';
 // import logoWhite from '../../assets/valeria-logo-white.png';
@@ -204,6 +214,70 @@ const DB: Record<string, Exercise> = {
     ] },
 };
 
+// ----------------------------------------------------------------------------
+// Rondas de contenido por ejercicio: los testers se aburrían porque cada
+// mini-juego tenía UN único ítem fijo (siempre "zapato", siempre el coche de
+// intruso…), que además se memoriza tras jugarlo una vez. Cada entrada
+// sobreescribe los datos del mini-juego para esa ronda; la ronda 1 usa los
+// datos base del ejercicio ({}). Solo emojis con soporte amplio (pre-2019).
+// ----------------------------------------------------------------------------
+const VARIANTS: Record<string, Partial<Exercise>[]> = {
+  ff1: [
+    {},
+    { tiles: [{ cap: 'oso', emoji: '🐻' }, { cap: 'uvas', emoji: '🍇' }, { cap: 'avión', emoji: '✈️' }] },
+    { tiles: [{ cap: 'águila', emoji: '🦅' }, { cap: 'erizo', emoji: '🦔' }, { cap: 'oveja', emoji: '🐑' }] },
+  ],
+  ff2: [
+    {},
+    { phrase: 'PELOTA', phraseEmoji: '⚽' },
+    { phrase: 'MARIPOSA', phraseEmoji: '🦋' },
+  ],
+  ff3: [
+    {},
+    { fillBefore: 'P', fillAfter: 'N', fillAnswer: 'A', fillEmoji: '🍞', fillCap: 'pan' },
+    { fillBefore: 'L', fillAfter: 'NA', fillAnswer: 'U', fillEmoji: '🌙', fillCap: 'luna' },
+  ],
+  se1: [
+    {},
+    {
+      read: 'Tres de estos son animales. Toca el que NO pertenece al grupo.',
+      intruder: [{ cap: 'perro', emoji: '🐶' }, { cap: 'gato', emoji: '🐱' }, { cap: 'vaca', emoji: '🐄' }, { cap: 'zapato', emoji: '👟' }],
+      intruderAnswer: 3,
+    },
+    {
+      read: 'Tres de estas cosas son para vestirse. Toca la que NO pertenece al grupo.',
+      intruder: [{ cap: 'gorro', emoji: '🧢' }, { cap: 'camiseta', emoji: '👕' }, { cap: 'zapato', emoji: '👟' }, { cap: 'plátano', emoji: '🍌' }],
+      intruderAnswer: 3,
+    },
+  ],
+  se2: [
+    {},
+    { read: 'Adivina: empieza por "M", es una fruta roja y redonda. ¿Qué es?' },
+    { read: 'Adivina: empieza por "S", brilla en el cielo y nos da calor. ¿Qué es?' },
+  ],
+  ms1: [
+    {},
+    { read: 'Aquí hay una flor y aquí hay muchas. ¿Cómo decimos cuando hay muchas?' },
+    { read: 'Aquí hay un pez y aquí hay muchos. ¿Cómo decimos cuando hay muchos? Pista: pe-ces.' },
+  ],
+  ms3: [
+    {},
+    {
+      parts: [{ role: 'Sujeto', cap: 'niña', emoji: '👧' }, { role: 'Verbo', cap: 'lanza', emoji: '🤾' }, { role: 'Objeto', cap: 'pelota', emoji: '⚽' }],
+      sentence: 'La niña lanza la pelota.',
+    },
+    {
+      parts: [{ role: 'Sujeto', cap: 'perro', emoji: '🐶' }, { role: 'Verbo', cap: 'come', emoji: '😋' }, { role: 'Objeto', cap: 'hueso', emoji: '🦴' }],
+      sentence: 'El perro come el hueso.',
+    },
+  ],
+  pr3: [
+    {},
+    { emotionFace: '😢', emotionAnswer: 'Tristeza' },
+    { emotionFace: '😠', emotionAnswer: 'Enfado' },
+  ],
+};
+
 const DEFAULT_SESSION = ['ff1', 'ff2', 'se1', 'pr3', 'ms3'];
 const VOWELS = ['A', 'E', 'I', 'O', 'U'];
 const EMO = [
@@ -315,10 +389,14 @@ const ConfettiBurst: React.FC = () => {
 // ----------------------------------------------------------------------------
 export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: any }> = ({ navigation, route }) => {
   const startId: string | undefined = route?.params?.id;
-  const sessionIds = useMemo(
-    () => (startId && DB[startId] ? [startId] : DEFAULT_SESSION),
-    [startId],
-  );
+  const startIds: string[] | undefined = route?.params?.ids;
+  const sessionIds = useMemo(() => {
+    if (Array.isArray(startIds)) {
+      const valid = startIds.filter((i) => typeof i === 'string' && DB[i]);
+      if (valid.length) return valid;
+    }
+    return startId && DB[startId] ? [startId] : DEFAULT_SESSION;
+  }, [startId, startIds]);
 
   const [idx, setIdx] = useState(0);
   const [results, setResults] = useState<number[]>([]);
@@ -339,10 +417,28 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
   const [zoom, setZoom] = useState<{ emoji: string; cap: string } | null>(null);
   // cápsula TPR entre ejercicios
   const [activeBreak, setActiveBreak] = useState<TprCapsule | null>(null);
+  // ronda de contenido dentro del ejercicio (banco VARIANTS)
+  const [round, setRound] = useState(0);
+  // nombre real del paciente activo para la cabecera
+  const [patientName, setPatientName] = useState('');
 
-  const ex = DB[sessionIds[idx]] ?? DB.ff1;
+  const baseEx = DB[sessionIds[idx]] ?? DB.ff1;
+  const variants = VARIANTS[sessionIds[idx]] ?? [];
+  const totalRounds = variants.length;
+  // Ejercicio efectivo de la ronda actual: los campos de la variante pisan a los base.
+  const ex: Exercise = totalRounds ? { ...baseEx, ...variants[round % totalRounds] } : baseEx;
   const total = sessionIds.length;
   const curLevel = ex.levels?.[subIdx];
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const raw = await AsyncStorage.getItem(STORAGE_KEYS.registro);
+        const nombre = raw ? JSON.parse(raw)?.nombre : '';
+        if (typeof nombre === 'string' && nombre.trim()) setPatientName(nombre.trim());
+      } catch (e) { /* sin ficha activa */ }
+    })();
+  }, []);
 
   // Silencia la voz de la app al cambiar de ejercicio y al salir de la pantalla.
   useEffect(() => { stopSpeaking(); }, [idx, subIdx]);
@@ -350,7 +446,17 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
 
   const resetEphemeral = () => { setVowelPick(''); setFillPick(''); setIntruderPick(-1); setEmotionPick(''); };
 
+  const nextRound = () => {
+    stopSpeaking();
+    setRound((r) => r + 1);
+    resetEphemeral();
+  };
+
   const openZoom = (emoji: string, cap: string) => setZoom({ emoji, cap });
+
+  // Feedback hablado de los mini-juegos táctiles: celebrar el acierto y animar
+  // en el fallo, con frases rotativas para que no suene enlatado.
+  const speakVerdict = (ok: boolean) => speakToChild(ok ? praisePhrase() : almostPhrase());
 
   const pick = (val: number) => {
     if (locking || finished) return;
@@ -373,7 +479,7 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
       if (idx + 1 >= total) {
         finish(nextResults);
       } else {
-        setIdx(idx + 1); setSubIdx(0); setLevelScores([]);
+        setIdx(idx + 1); setSubIdx(0); setLevelScores([]); setRound(0);
         setPicked(0); setLocking(false); resetEphemeral();
         // Cápsula TPR sorpresa: escucha y muévete antes del siguiente ejercicio.
         setActiveBreak(pickTprCapsule());
@@ -405,8 +511,8 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
     } catch (e) { /* gamificación no disponible */ }
     setResults(res);
     setFinished(true);
-    // Celebración hablada para el niño al cerrar la sesión.
-    speakToChild('¡Sesión completada! ¡Lo has hecho genial!');
+    // Celebración hablada para el niño al cerrar la sesión (frase rotativa).
+    speakToChild(`¡Sesión completada! ${praisePhrase()}`);
   };
 
   // Cuenta atrás hacia Resultados
@@ -425,7 +531,7 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
   const restart = () => {
     clearInterval(timerRef.current);
     setIdx(0); setSubIdx(0); setLevelScores([]); setResults([]); setPicked(0); setLocking(false);
-    setFinished(false); setCountdown(10); setReward(null); setActiveBreak(null); resetEphemeral();
+    setFinished(false); setCountdown(10); setReward(null); setActiveBreak(null); setRound(0); resetEphemeral();
   };
 
   const sumAvg = results.length ? results.reduce((a, b) => a + b, 0) / results.length : 0;
@@ -444,7 +550,7 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
           <View style={{ flex: 1 }}>
             <Text style={s.headerTitle}>{finished ? 'Sesión Completada' : 'Sesión de Terapia'}</Text>
             <Text style={s.headerSub} numberOfLines={1}>
-              Lucía M. · {total === 1 ? ex.name : 'Plan prescrito'}
+              {patientName ? `${patientName} · ` : ''}{total === 1 ? ex.name : `Plan prescrito · ${total} terapias`}
             </Text>
           </View>
           <View style={s.counter}>
@@ -482,8 +588,8 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
               <View style={s.instructionHead}>
                 <View style={s.instructionIcon}><Text style={{ fontSize: 18 }}>📢</Text></View>
                 <View>
-                  <Text style={s.instructionKicker}>TU TURNO, TUTOR</Text>
-                  <Text style={s.instructionSmall}>Lee la consigna en voz alta</Text>
+                  <Text style={s.instructionKicker}>PASO 1 · CONSIGNA DEL TUTOR</Text>
+                  <Text style={s.instructionSmall}>Léela en voz alta (o deja que la lea la app)</Text>
                 </View>
               </View>
               <Text style={s.instructionText}>{curLevel ? curLevel.read : ex.read}</Text>
@@ -494,7 +600,17 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
 
             {/* ===== Stage / mini-juego ===== */}
             <View style={s.stageCard}>
-              <Text style={s.stageLabel}>{curLevel ? `Nivel ${curLevel.label}` : (ex.stageLabel ?? 'Actividad guiada')}</Text>
+              <Text style={s.stageLabel}>PASO 2 · {curLevel ? `NIVEL ${curLevel.label.toUpperCase()}` : (ex.stageLabel ?? 'Actividad guiada').toUpperCase()}</Text>
+
+              {/* Selector de ronda: contenido nuevo sin salir del ejercicio */}
+              {!curLevel && totalRounds > 1 && (
+                <View style={s.roundRow}>
+                  <Text style={s.roundLbl}>Ronda {(round % totalRounds) + 1} de {totalRounds}</Text>
+                  <Pressable onPress={nextRound} style={s.roundBtn} accessibilityRole="button" accessibilityLabel="Cambiar a otra ronda con contenido nuevo">
+                    <Text style={s.roundBtnTxt}>🔄 Otra ronda</Text>
+                  </Pressable>
+                </View>
+              )}
 
               {curLevel && (
                 <View style={{ alignItems: 'center', paddingVertical: 6 }}>
@@ -557,7 +673,11 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                   </View>
                   <View style={s.vowelRow}>
                     {VOWELS.map((v) => (
-                      <Pressable key={v} onPress={() => setFillPick(v)} style={[s.vowel, fillPick === v && (v === ex.fillAnswer ? s.vowelRight : s.vowelOn)]}>
+                      <Pressable
+                        key={v}
+                        onPress={() => { if (fillPick !== v) { setFillPick(v); speakVerdict(v === ex.fillAnswer); } }}
+                        style={[s.vowel, fillPick === v && (v === ex.fillAnswer ? s.vowelRight : s.vowelOn)]}
+                      >
                         <Text style={[s.vowelTxt, fillPick === v && s.vowelTxtOn]}>{v}</Text>
                       </Pressable>
                     ))}
@@ -580,7 +700,11 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                     const ok = (tapped && isAns) || (reveal && isAns);
                     const bad = tapped && !isAns;
                     return (
-                      <Pressable key={i} onPress={() => setIntruderPick(i)} style={[s.gridTile, ok && s.gridTileOk, bad && s.gridTileBad]}>
+                      <Pressable
+                        key={i}
+                        onPress={() => { if (intruderPick !== i) { setIntruderPick(i); speakVerdict(i === ex.intruderAnswer); } }}
+                        style={[s.gridTile, ok && s.gridTileOk, bad && s.gridTileBad]}
+                      >
                         <View style={{ alignItems: 'center' }}>
                           <EmojiTile emoji={t.emoji} cap={t.cap} size={96} bgIndex={i} onZoom={openZoom} />
                         </View>
@@ -608,7 +732,11 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                       const isAns = e.label === ex.emotionAnswer;
                       const ok = pickedEmo && isAns; const bad = pickedEmo && !isAns;
                       return (
-                        <Pressable key={e.label} onPress={() => setEmotionPick(e.label)} style={[s.emoOpt, ok && s.gridTileOk, bad && s.gridTileBad]}>
+                        <Pressable
+                          key={e.label}
+                          onPress={() => { if (emotionPick !== e.label) { setEmotionPick(e.label); speakVerdict(isAns); } }}
+                          style={[s.emoOpt, ok && s.gridTileOk, bad && s.gridTileBad]}
+                        >
                           <Text style={{ fontSize: 24 }}>{e.face}</Text>
                           <Text style={s.emoLabel}>{e.label}</Text>
                           <Text style={{ marginLeft: 'auto', fontSize: 14 }}>{ok ? '✅' : bad ? '❌' : ''}</Text>
@@ -653,7 +781,7 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
             <View style={s.moveCard}>
               <View style={s.moveHead}>
                 <View style={s.moveIcon}><Text style={{ fontSize: 17 }}>🏃</Text></View>
-                <Text style={s.moveKicker}>VERSIÓN EN MOVIMIENTO</Text>
+                <Text style={s.moveKicker}>PASO 3 · VERSIÓN EN MOVIMIENTO</Text>
                 <View style={{ marginLeft: 'auto' }}>
                   <SpeakButton text={ex.move} voice="child" compact />
                 </View>
@@ -669,8 +797,13 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
 
             {/* ===== Evaluación EPT-3 ===== */}
             <View style={s.scoreCard}>
+              <Text style={s.scoreKicker}>PASO 4 · EVALUACIÓN</Text>
               <Text style={s.scoreTitle}>Evalúa con la escala EPT-3</Text>
-              <Text style={s.scoreSub}>Tres niveles: toca el que mejor describe su respuesta</Text>
+              <Text style={s.scoreSub}>
+                {totalRounds > 1 && !curLevel
+                  ? 'Jugad las rondas que queráis y toca el nivel que mejor describa su respuesta'
+                  : 'Tres niveles: toca el que mejor describe su respuesta'}
+              </Text>
               {[1, 2, 3].map((val) => {
                 const on = picked === val;
                 return (
@@ -810,6 +943,10 @@ const s = StyleSheet.create({
 
   stageCard: { backgroundColor: V.color.card, borderColor: V.color.border, borderWidth: 1, borderRadius: 18, padding: 16, marginTop: 12, ...V.shadow.card },
   stageLabel: { fontSize: 11, fontWeight: '800', letterSpacing: 0.8, color: V.color.textMuted, textAlign: 'center', marginBottom: 14 },
+  roundRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', backgroundColor: V.color.pageBg, borderWidth: 1, borderColor: '#eef2f1', borderRadius: 12, paddingVertical: 7, paddingHorizontal: 11, marginBottom: 14 },
+  roundLbl: { fontSize: 12, fontWeight: '800', color: V.color.textSecondary },
+  roundBtn: { backgroundColor: V.color.primaryLight, borderWidth: 1, borderColor: V.color.borderActive, borderRadius: 10, paddingHorizontal: 10, paddingVertical: 5 },
+  roundBtnTxt: { fontSize: 12, fontWeight: '800', color: V.color.primaryDark },
   phraseBox: { backgroundColor: V.color.pageBg, borderWidth: 1, borderColor: '#9bdfd9', borderStyle: 'dashed', borderRadius: 16, paddingVertical: 22, paddingHorizontal: 16, alignItems: 'center', gap: 14 },
   phraseTxt: { fontSize: 32, fontWeight: '800', color: V.color.textPrimary, textAlign: 'center', letterSpacing: -0.5 },
 
@@ -865,6 +1002,7 @@ const s = StyleSheet.create({
   waitTxt: { color: V.color.primaryDark, fontSize: 12.5, fontWeight: '700' },
 
   scoreCard: { backgroundColor: V.color.card, borderColor: V.color.border, borderWidth: 1, borderRadius: 18, padding: 16, marginTop: 12, ...V.shadow.card },
+  scoreKicker: { fontSize: 11, fontWeight: '800', letterSpacing: 0.8, color: V.color.textMuted, textAlign: 'center', marginBottom: 4 },
   scoreTitle: { fontSize: 17, fontWeight: '800', color: V.color.textPrimary, textAlign: 'center' },
   scoreSub: { fontSize: 12, fontWeight: '600', color: V.color.textMuted, textAlign: 'center', marginTop: 2, marginBottom: 13 },
   scoreRow: { flexDirection: 'row', alignItems: 'center', gap: 12, padding: 12, borderRadius: 14, marginBottom: 9, backgroundColor: V.color.pageBg, borderWidth: 1, borderColor: '#eef3f3' },
@@ -902,8 +1040,9 @@ const s = StyleSheet.create({
   doneStatBig: { fontSize: 42, fontWeight: '800', color: V.color.textPrimary, marginTop: 8 },
   doneStatSlash: { fontSize: 20, color: V.color.textMuted, fontWeight: '800' },
   doneStatStars: { fontSize: 22, letterSpacing: 3, color: V.color.star, marginTop: 8 },
-  recapRow: { flexDirection: 'row', gap: 6, marginTop: 16, alignSelf: 'stretch' },
-  recapCell: { flex: 1, backgroundColor: '#fff', borderWidth: 1, borderColor: '#eef3f3', borderRadius: 11, paddingVertical: 9, alignItems: 'center' },
+  // flexWrap: la sesión completa puede traer 13 ejercicios y una sola fila los aplastaría
+  recapRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 6, marginTop: 16, alignSelf: 'stretch', justifyContent: 'center' },
+  recapCell: { flexGrow: 1, flexBasis: '17%', backgroundColor: '#fff', borderWidth: 1, borderColor: '#eef3f3', borderRadius: 11, paddingVertical: 9, alignItems: 'center' },
   recapCode: { fontSize: 10, fontWeight: '800', color: '#c2cbca' },
   recapStars: { fontSize: 13, color: V.color.star, marginTop: 3 },
   primaryBtn: { alignSelf: 'stretch', marginTop: 20, backgroundColor: V.color.primary, borderRadius: 15, paddingVertical: 16, alignItems: 'center', ...V.shadow.button },
