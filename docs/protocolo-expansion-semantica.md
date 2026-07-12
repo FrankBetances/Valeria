@@ -30,17 +30,19 @@ en el historial y en la gamificación (XP, racha, nivel).
 
 ## 1. Arquitectura de datos · Escenarios de la vida diaria
 
-Tres escenarios; cada uno con **2 sustantivos, 2 verbos, 1 adjetivo y 1 onomatopeya**.
+Cinco escenarios; cada uno con **2 sustantivos, 2 verbos, 1 adjetivo y 1 onomatopeya**.
 
 | Escenario | Sustantivos | Verbos | Adjetivo | Onomatopeya |
 | --- | --- | --- | --- | --- |
 | ☀️ Rutina de mañana | cama, cepillo | lavar, vestir | limpio | rin rin |
 | 🍽️ Hora de comer | cuchara, vaso | comer, beber | rico | ñam ñam |
 | 🌳 En el parque | pelota, tobogán | correr, saltar | alto | boing |
+| 🛁 Hora del baño | bañera, jabón | bañar, frotar | caliente | chof |
+| 🌙 A dormir | luna, cuento | dormir, abrazar | oscuro | uh uh |
 
 ## 2. Progresión transicional · De onomatopeya a adjetivo
 
-Cinco secuencias que evolucionan sobre un mismo eje temático en cuatro fases:
+Siete secuencias que evolucionan sobre un mismo eje temático en cuatro fases:
 **Fase 1 (Onomatopeya) → Fase 2 (Sustantivo) → Fase 3 (Verbo) → Fase 4 (Adjetivo)**.
 Cada fase incluye su instrucción TPR para el padre y el array STT con aproximaciones.
 
@@ -51,19 +53,25 @@ Cada fase incluye su instrucción TPR para el padre y el array STT con aproximac
 | 🐄 Animales · la vaca | muu | vaca | come | grande |
 | 🐱 Animales · el gato | miau | gato | duerme | suave |
 | 🌧️ Naturaleza · la lluvia | plic plic | agua | cae | mojado |
+| 🚂 Transporte · el tren | chucu chucu | tren | para | largo |
+| 🐦 Animales · el pájaro | pío pío | pájaro | vuela | pequeño |
 
 ## 3. Contraste activo · Verbos y adjetivos
 
-Cuatro cápsulas TPR de pares en contraste. El sistema guía al padre: **Setup físico**
-(prepara el entorno real) → **Disparador TTS** (pregunta exacta) → **Criterio de éxito
-STT** (palabra objetivo) → segunda vuelta con la palabra opuesta.
+Seis cápsulas TPR de pares en contraste con **dos vueltas evaluadas** (palabra
+objetivo y su opuesta, cada una con su disparador TTS, su array STT y su acción
+física). El sistema guía al padre: **Setup físico** (prepara el entorno real) →
+**Disparador TTS** (pregunta exacta) → **Criterio de éxito STT** (palabra de la
+vuelta) → **segunda vuelta** con la palabra opuesta, también evaluada.
 
-| Cápsula | Par | Setup físico (resumen) | Objetivo STT |
-| --- | --- | --- | --- |
-| CT-1 | grande / pequeño | dos peluches del mismo animal, uno grande y uno pequeño | grande |
-| CT-2 | limpio / sucio | dos cucharas iguales, una limpia y otra manchada | sucio |
-| CT-3 | abrir / cerrar | una caja con tapa y el juguete favorito dentro | abrir |
-| CT-4 | subir / bajar | una rampa con un libro inclinado y un coche al pie | subir |
+| Cápsula | Par | Setup físico (resumen) | Vuelta 1 | Vuelta 2 |
+| --- | --- | --- | --- | --- |
+| CT-1 | grande / pequeño | dos peluches del mismo animal, uno grande y uno pequeño | grande | pequeño |
+| CT-2 | limpio / sucio | dos cucharas iguales, una limpia y otra manchada | sucio | limpio |
+| CT-3 | abrir / cerrar | una caja con tapa y el juguete favorito dentro | abrir | cerrar |
+| CT-4 | subir / bajar | una rampa con un libro inclinado y un coche al pie | subir | bajar |
+| CT-5 | frío / caliente | dos vasos, uno con agua fría y otro con agua tibia | frío | caliente |
+| CT-6 | encender / apagar | el interruptor de la luz (o una linterna), luz apagada | encender | apagar |
 
 ---
 

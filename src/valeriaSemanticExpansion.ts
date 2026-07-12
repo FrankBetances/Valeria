@@ -11,12 +11,13 @@
 //                            al cuerpo y al entorno real (Total Physical Response).
 //
 // Tres bloques de contenido, format-first (los consume ValeriaSemanticExpansionScreen):
-//   1. DAILY_SCENARIOS      — 3 escenarios de vida diaria · 6 ítems c/u
+//   1. DAILY_SCENARIOS      — 5 escenarios de vida diaria · 6 ítems c/u
 //                             (2 sustantivos, 2 verbos, 1 adjetivo, 1 onomatopeya).
-//   2. PROGRESSION_SEQUENCES — 5 progresiones sobre un eje temático que evolucionan
+//   2. PROGRESSION_SEQUENCES — 7 progresiones sobre un eje temático que evolucionan
 //                             Onomatopeya → Sustantivo → Verbo → Adjetivo.
-//   3. CONTRAST_CAPSULES    — 4 cápsulas TPR de contraste activo (pares de
-//                             adjetivos y verbos antónimos).
+//   3. CONTRAST_CAPSULES    — 6 cápsulas TPR de contraste activo (pares de
+//                             adjetivos y verbos antónimos) con DOS vueltas
+//                             evaluadas: palabra objetivo y su opuesta.
 // Protocolo completo: docs/protocolo-expansion-semantica.md
 // ============================================================================
 
@@ -193,6 +194,106 @@ export const DAILY_SCENARIOS: DailyScenario[] = [
         tts_string: 'La pelota bota: ¡Boing, boing! ¿Cómo hace la pelota? Di: boing.',
         stt_expected_array: ['boing', 'boin', 'boi', 'bo bo', 'boing boing'],
         parent_tpr_action: 'Bota una pelota (o tú mismo con las rodillas) diciendo “¡boing!” en cada rebote junto al niño.',
+      },
+    ],
+  },
+  {
+    id: 'bano',
+    title: 'Hora del baño',
+    icon: '🛁',
+    subtitle: 'Agua, jabón y burbujas',
+    items: [
+      {
+        id: 'bano-banera', type: 'sustantivo', label: 'bañera', emoji: '🛁',
+        visual_prompt: 'Bañera con patas vista de lado con algo de espuma asomando, sin fondo, alto contraste, contorno grueso, colores planos.',
+        tts_string: 'Esto es la bañera. Nos bañamos dentro de la bañera. Di: bañera.',
+        stt_expected_array: ['bañera', 'añera', 'banera', 'ñera', 'babera'],
+        parent_tpr_action: 'Señala la bañera (o un barreño) y haced juntos el gesto de meteros dentro levantando mucho las piernas.',
+      },
+      {
+        id: 'bano-jabon', type: 'sustantivo', label: 'jabón', emoji: '🧼',
+        visual_prompt: 'Pastilla de jabón con tres burbujas alrededor, sin fondo, alto contraste, contorno grueso, colores planos.',
+        tts_string: 'Esto es el jabón. El jabón hace muchas burbujas. Di: jabón.',
+        stt_expected_array: ['jabón', 'jabon', 'abón', 'avon', 'bon'],
+        parent_tpr_action: 'Pon la pastilla de jabón en las manos del niño y giradla juntos haciendo espuma imaginaria.',
+      },
+      {
+        id: 'bano-banar', type: 'verbo', label: 'bañar', emoji: '🛀',
+        visual_prompt: 'Silueta infantil dentro de una bañera con burbujas, sin fondo, alto contraste, contorno grueso.',
+        tts_string: '¡Al agua patos! Vamos a bañar al muñeco. ¿Qué hacemos? Di: bañar.',
+        stt_expected_array: ['bañar', 'baña', 'añar', 'bana', 'añá'],
+        parent_tpr_action: 'Frota suavemente los brazos del niño como si lo enjabonaras mientras repetís “bañar”.',
+      },
+      {
+        id: 'bano-frotar', type: 'verbo', label: 'frotar', emoji: '🧽',
+        visual_prompt: 'Esponja frotando con líneas circulares de movimiento y burbujas, sin fondo, alto contraste, contorno grueso.',
+        tts_string: 'Frota, frota la esponja. ¿Qué hacemos? Di: frotar.',
+        stt_expected_array: ['frotar', 'frota', 'otar', 'fota', 'otá'],
+        parent_tpr_action: 'Frota círculos suaves en la espalda del niño con la mano o una esponja al ritmo de la palabra.',
+      },
+      {
+        id: 'bano-caliente', type: 'adjetivo', label: 'caliente', emoji: '♨️',
+        visual_prompt: 'Vaso o bañera con tres líneas onduladas de vapor subiendo, sin fondo, alto contraste, contorno grueso.',
+        tts_string: 'El agua está calentita. ¿Cómo está el agua? Di: caliente.',
+        stt_expected_array: ['caliente', 'aliente', 'caiente', 'tatiente', 'cayente'],
+        parent_tpr_action: 'Tocad el agua templada con un dedo y abanicad la mano exagerando: “¡uf, caliente!”.',
+      },
+      {
+        id: 'bano-chof', type: 'onomatopeya', label: 'chof', emoji: '💦',
+        visual_prompt: 'Salpicadura de agua en estrella con gotas saliendo hacia fuera, sin fondo, alto contraste, contorno grueso.',
+        tts_string: 'El agua salpica: ¡Chof, chof! ¿Cómo hace el agua? Di: chof.',
+        stt_expected_array: ['chof', 'chof chof', 'of', 'tof', 'pof'],
+        parent_tpr_action: 'Dad palmaditas sobre el agua (o sobre el muslo) diciendo “¡chof!” en cada palmada.',
+      },
+    ],
+  },
+  {
+    id: 'noche',
+    title: 'A dormir',
+    icon: '🌙',
+    subtitle: 'Cuento, abrazo y a la cama',
+    items: [
+      {
+        id: 'noche-luna', type: 'sustantivo', label: 'luna', emoji: '🌙',
+        visual_prompt: 'Luna creciente grande y sonriente con dos estrellas pequeñas, sin fondo, alto contraste, contorno grueso.',
+        tts_string: 'Mira el cielo. Esto es la luna. Di: luna.',
+        stt_expected_array: ['luna', 'una', 'nuna', 'lula', 'uná'],
+        parent_tpr_action: 'Dibujad juntos un círculo grande en el aire con el dedo mientras decís “luuuna”.',
+      },
+      {
+        id: 'noche-cuento', type: 'sustantivo', label: 'cuento', emoji: '📖',
+        visual_prompt: 'Libro abierto con una estrella saliendo de las páginas, sin fondo, alto contraste, contorno grueso.',
+        tts_string: 'Antes de dormir leemos un cuento. Di: cuento.',
+        stt_expected_array: ['cuento', 'uento', 'tuento', 'cueto', 'ento'],
+        parent_tpr_action: 'Coge su cuento favorito, ponlo en sus manos y abridlo juntos muy despacio.',
+      },
+      {
+        id: 'noche-dormir', type: 'verbo', label: 'dormir', emoji: '😴',
+        visual_prompt: 'Carita con ojos cerrados sobre una almohada y tres “Z”, sin fondo, alto contraste, contorno grueso.',
+        tts_string: 'Shhh… es hora de dormir. ¿Qué hacemos? Di: dormir.',
+        stt_expected_array: ['dormir', 'dormi', 'mimir', 'mimí', 'omir'],
+        parent_tpr_action: 'Junta las manos bajo la mejilla, cerrad los ojos y roncad flojito los dos.',
+      },
+      {
+        id: 'noche-abrazar', type: 'verbo', label: 'abrazar', emoji: '🤗',
+        visual_prompt: 'Dos siluetas abrazándose con un corazón pequeño encima, sin fondo, alto contraste, contorno grueso.',
+        tts_string: 'Un abrazo de buenas noches. ¿Qué hacemos? Di: abrazar.',
+        stt_expected_array: ['abrazar', 'abraza', 'brazar', 'asasar', 'abazar'],
+        parent_tpr_action: 'Daos un abrazo largo de verdad y apretad un poquito justo al decir la palabra.',
+      },
+      {
+        id: 'noche-oscuro', type: 'adjetivo', label: 'oscuro', emoji: '🌑',
+        visual_prompt: 'Ventana de noche con cielo oscuro y una estrella, sin fondo, alto contraste, contorno grueso.',
+        tts_string: 'Se apagó la luz. Todo está oscuro. ¿Cómo está? Di: oscuro.',
+        stt_expected_array: ['oscuro', 'ocuro', 'curo', 'ocú', 'oturo'],
+        parent_tpr_action: 'Tapad los ojos del niño suavemente con sus propias manos y destapad de golpe: “¡oscuro… luz!”.',
+      },
+      {
+        id: 'noche-buho', type: 'onomatopeya', label: 'uh uh', emoji: '🦉',
+        visual_prompt: 'Búho de frente con ojos enormes sobre una rama, sin fondo, alto contraste, contorno grueso.',
+        tts_string: 'El búho canta de noche: ¡Uh, uh! ¿Cómo hace el búho? Di: uh, uh.',
+        stt_expected_array: ['uh uh', 'u u', 'uh', 'bu bu', 'uu'],
+        parent_tpr_action: 'Poned las manos como gafas alrededor de los ojos y girad la cabeza como un búho diciendo “¡uh, uh!”.',
       },
     ],
   },
@@ -388,14 +489,90 @@ export const PROGRESSION_SEQUENCES: ProgressionSequence[] = [
       },
     ],
   },
+  {
+    id: 'seq-tren', theme: 'Transporte · El tren', icon: '🚂',
+    phases: [
+      {
+        kind: 'onomatopeya', label: 'chucu chucu', emoji: '🚂',
+        visual_prompt: 'Locomotora de juguete con nube de humo y letras “CHUCU” estilizadas, sin fondo, alto contraste, contorno grueso.',
+        tts_string: 'El tren hace: ¡Chucu, chucu! ¿Cómo hace el tren? Di: chucu, chucu.',
+        stt_expected_array: ['chucu chucu', 'chucu', 'cucu', 'chu chu', 'tutu'],
+        parent_tpr_action: 'Haced un trenecito: el niño se agarra a tu cintura y avanzad por el pasillo al ritmo de “chucu-chucu”.',
+      },
+      {
+        kind: 'sustantivo', label: 'tren', emoji: '🚆',
+        visual_prompt: 'Tren de tres vagones de perfil sobre una vía recta, colores planos, sin fondo, alto contraste, contorno grueso.',
+        tts_string: '¡Chucu, chucu! Esto es el tren. ¿Qué es? Di: tren.',
+        stt_expected_array: ['tren', 'ten', 'tem', 'ren', 'tlen'],
+        parent_tpr_action: 'Alinead tres cojines o cajas como vagones y señaladlos uno a uno diciendo “tren”.',
+      },
+      {
+        kind: 'verbo', label: 'para', emoji: '🛑',
+        visual_prompt: 'Tren detenido ante una señal roja de stop, sin fondo, alto contraste, contorno grueso.',
+        tts_string: 'El tren llega a la estación y… ¡para! ¿Qué hace el tren? Di: para.',
+        stt_expected_array: ['para', 'pala', 'paa', 'apa', 'pará'],
+        parent_tpr_action: 'Caminad como un tren por la habitación y, al oír “¡para!”, quedaos congelados como estatuas.',
+      },
+      {
+        kind: 'adjetivo', label: 'largo', emoji: '📏',
+        visual_prompt: 'Tren muy largo de muchos vagones con una flecha horizontal de extremo a extremo, sin fondo, alto contraste, contorno grueso.',
+        tts_string: '¡Cuántos vagones! El tren es muy largo. ¿Cómo es el tren? Di: largo.',
+        stt_expected_array: ['largo', 'lago', 'argo', 'laggo', 'ago'],
+        parent_tpr_action: 'Estirad los brazos hacia los lados todo lo que podáis diciendo “laaaargo”.',
+      },
+    ],
+  },
+  {
+    id: 'seq-pajaro', theme: 'Animales · El pájaro', icon: '🐦',
+    phases: [
+      {
+        kind: 'onomatopeya', label: 'pío pío', emoji: '🐣',
+        visual_prompt: 'Bocadillo de cómic con “PÍO PÍO” y un pollito asomando, sin fondo, alto contraste, contorno grueso.',
+        tts_string: 'El pajarito canta: ¡Pío, pío! ¿Cómo hace el pájaro? Di: pío, pío.',
+        stt_expected_array: ['pío pío', 'pio pio', 'pío', 'pio', 'io io'],
+        parent_tpr_action: 'Juntad los dedos como un pico que se abre y se cierra mientras piáis los dos juntos.',
+      },
+      {
+        kind: 'sustantivo', label: 'pájaro', emoji: '🐦',
+        visual_prompt: 'Pájaro de perfil posado en una rama, colores planos, sin fondo, alto contraste, contorno grueso.',
+        tts_string: '¡Pío, pío! Esto es el pájaro. ¿Qué es? Di: pájaro.',
+        stt_expected_array: ['pájaro', 'pajaro', 'ájaro', 'pajalo', 'payaro'],
+        parent_tpr_action: 'Buscad un pájaro por la ventana o en un dibujo, señaladlo y saludadlo con la mano.',
+      },
+      {
+        kind: 'verbo', label: 'vuela', emoji: '🕊️',
+        visual_prompt: 'Pájaro con las alas extendidas y líneas de vuelo curvas, sin fondo, alto contraste, contorno grueso.',
+        tts_string: 'Mira, el pájaro vuela por el cielo. ¿Qué hace el pájaro? Di: vuela.',
+        stt_expected_array: ['vuela', 'buela', 'uela', 'bela', 'guela'],
+        parent_tpr_action: 'Corred por la habitación con los brazos como alas, subiéndolas y bajándolas.',
+      },
+      {
+        kind: 'adjetivo', label: 'pequeño', emoji: '🐤',
+        visual_prompt: 'Pajarito diminuto dentro de dos manos abiertas en cuenco, sin fondo, alto contraste, contorno grueso.',
+        tts_string: 'El pajarito es muy pequeño. ¿Cómo es el pájaro? Di: pequeño.',
+        stt_expected_array: ['pequeño', 'pequeno', 'pekeño', 'equeño', 'peño'],
+        parent_tpr_action: 'Juntad mucho las manos como si sujetarais un pajarito diminuto y habladle bajito.',
+      },
+    ],
+  },
 ];
 
 // ---------------------------------------------------------------------------
 // 3. CONTRASTE ACTIVO · Cápsulas TPR de adjetivos y verbos antónimos
 //    El sistema guía al padre: prepara el entorno real, la app dispara la
 //    pregunta y el éxito se mide por la palabra objetivo (más el gesto físico).
+//    Cada cápsula tiene DOS vueltas evaluadas: la palabra objetivo y su opuesta
+//    (los testers encontraban demasiado corta la versión de una sola vuelta).
 // ---------------------------------------------------------------------------
 export type ContrastKind = 'adjetivos' | 'verbos';
+
+export interface ContrastRound {
+  label: string;                // palabra objetivo de esta vuelta
+  emoji: string;
+  tts_trigger: string;          // Disparador TTS: la pregunta exacta que emite la app
+  stt_expected_array: string[]; // objetivo + aproximaciones fonéticas válidas
+  parent_action: string;        // gesto físico en pareja que ancla la palabra
+}
 
 export interface ContrastCapsule {
   id: string;
@@ -404,10 +581,7 @@ export interface ContrastCapsule {
   pair: [string, string];       // par en contraste (grande/pequeño, abrir/cerrar…)
   icon: string;
   physical_setup: string;       // Setup Físico: qué prepara el padre en el entorno real
-  tts_trigger: string;          // Disparador TTS: la pregunta exacta que emite la app
-  stt_success: string;          // Criterio de Éxito STT: la palabra objetivo
-  stt_expected_array: string[]; // objetivo + aproximaciones fonéticas válidas
-  contrast_followup: string;    // segunda vuelta con la palabra opuesta (consolidación)
+  rounds: [ContrastRound, ContrastRound]; // vuelta 1 (objetivo) + vuelta 2 (opuesta)
 }
 
 export const CONTRAST_CAPSULES: ContrastCapsule[] = [
@@ -415,37 +589,115 @@ export const CONTRAST_CAPSULES: ContrastCapsule[] = [
     id: 'cap-grande-pequeno', code: 'CT-1', kind: 'adjetivos',
     pair: ['grande', 'pequeño'], icon: '🧸',
     physical_setup: 'Prepara dos peluches del mismo animal pero de distinto tamaño: uno claramente GRANDE y uno claramente PEQUEÑO. Colócalos juntos delante del niño.',
-    tts_trigger: '¿Cuál es el osito GRANDE? ¡Dámelo y dilo! Di: grande.',
-    stt_success: 'grande',
-    stt_expected_array: ['grande', 'gande', 'ande', 'gan', 'ganne'],
-    contrast_followup: 'Ahora al revés: “¿Y cuál es el PEQUEÑO?”. El niño da el pequeño y dice “pequeño” (vale: pekeño, equeño, peño).',
+    rounds: [
+      {
+        label: 'grande', emoji: '🐘',
+        tts_trigger: '¿Cuál es el osito GRANDE? ¡Dámelo y dilo! Di: grande.',
+        stt_expected_array: ['grande', 'gande', 'ande', 'gan', 'ganne'],
+        parent_action: 'El niño te entrega el peluche grande mientras lo dice; abrazadlo exagerando lo enorme que es.',
+      },
+      {
+        label: 'pequeño', emoji: '🐭',
+        tts_trigger: 'Ahora al revés: ¿cuál es el PEQUEÑO? ¡Dámelo y dilo! Di: pequeño.',
+        stt_expected_array: ['pequeño', 'pequeno', 'pekeño', 'equeño', 'peño'],
+        parent_action: 'El niño te da el pequeño; escondedlo en una mano y decid “pequeño” con vocecita mini.',
+      },
+    ],
   },
   {
     id: 'cap-limpio-sucio', code: 'CT-2', kind: 'adjetivos',
     pair: ['limpio', 'sucio'], icon: '🥄',
     physical_setup: 'Coge dos cucharas iguales: lava una hasta dejarla brillante y mancha la otra con un poco de comida o barro. Ponlas una al lado de la otra.',
-    tts_trigger: 'Señala la cuchara SUCIA. ¿Cómo está esta? Dilo. Di: sucio.',
-    stt_success: 'sucio',
-    stt_expected_array: ['sucio', 'utio', 'suio', 'cucho', 'ucio'],
-    contrast_followup: 'Después señalad la limpia: “¿Y esta cómo está?”. El niño dice “limpio” (vale: impio, limpi, pio).',
+    rounds: [
+      {
+        label: 'sucio', emoji: '🐷',
+        tts_trigger: 'Señala la cuchara SUCIA. ¿Cómo está esta? Dilo. Di: sucio.',
+        stt_expected_array: ['sucio', 'utio', 'suio', 'cucho', 'ucio'],
+        parent_action: 'El niño señala la cuchara sucia y ponéis los dos cara de “¡puaj!” apartándola.',
+      },
+      {
+        label: 'limpio', emoji: '✨',
+        tts_trigger: 'Y esta otra cuchara, ¿cómo está? ¡Mira cómo brilla! Di: limpio.',
+        stt_expected_array: ['limpio', 'impio', 'limpi', 'inpio', 'pio'],
+        parent_action: 'Señalad la limpia, soplad sobre ella como si brillara y chocad los cinco.',
+      },
+    ],
   },
   {
     id: 'cap-abrir-cerrar', code: 'CT-3', kind: 'verbos',
     pair: ['abrir', 'cerrar'], icon: '📦',
     physical_setup: 'Pon delante del niño una caja con tapa y mete dentro, a la vista, su juguete favorito. Cierra la tapa.',
-    tts_trigger: 'El juguete está dentro. ¿Qué hacemos para sacarlo? ¡Vamos a ABRIR! Di: abrir.',
-    stt_success: 'abrir',
-    stt_expected_array: ['abrir', 'abre', 'abi', 'air', 'abí'],
-    contrast_followup: 'Al guardar el juguete: “Ahora, ¿qué hacemos?… ¡CERRAR!”. El niño empuja la tapa y dice “cerrar” (vale: cerra, eral, tetar).',
+    rounds: [
+      {
+        label: 'abrir', emoji: '🔓',
+        tts_trigger: 'El juguete está dentro. ¿Qué hacemos para sacarlo? ¡Vamos a ABRIR! Di: abrir.',
+        stt_expected_array: ['abrir', 'abre', 'abi', 'air', 'abí'],
+        parent_action: 'Abrid la caja juntos, muy despacio, y celebrad encontrar el juguete con un “¡tachán!”.',
+      },
+      {
+        label: 'cerrar', emoji: '🔒',
+        tts_trigger: 'Guardamos el juguete. ¿Qué hacemos con la tapa? ¡A CERRAR! Di: cerrar.',
+        stt_expected_array: ['cerrar', 'cerra', 'errar', 'tetar', 'cera'],
+        parent_action: 'El niño empuja la tapa hasta cerrarla del todo mientras dice la palabra.',
+      },
+    ],
   },
   {
     id: 'cap-subir-bajar', code: 'CT-4', kind: 'verbos',
     pair: ['subir', 'bajar'], icon: '🚗',
     physical_setup: 'Haz una rampa apoyando un libro grande inclinado y coloca un coche de juguete al pie de la rampa.',
-    tts_trigger: 'El coche va a la montaña. ¿Qué hace? ¡SUBE arriba! Di: subir.',
-    stt_success: 'subir',
-    stt_expected_array: ['subir', 'sube', 'ubi', 'tubi', 'subí'],
-    contrast_followup: 'Luego soltad el coche: “¡Ahora BAJA!”. El niño lo baja por la rampa y dice “bajar” (vale: baja, aja, baxar).',
+    rounds: [
+      {
+        label: 'subir', emoji: '⬆️',
+        tts_trigger: 'El coche va a la montaña. ¿Qué hace? ¡SUBE arriba! Di: subir.',
+        stt_expected_array: ['subir', 'sube', 'ubi', 'tubi', 'subí'],
+        parent_action: 'Subid el coche por la rampa muy despacio mientras suena la palabra.',
+      },
+      {
+        label: 'bajar', emoji: '⬇️',
+        tts_trigger: '¡Ahora el coche baja! ¿Qué hace? Di: bajar.',
+        stt_expected_array: ['bajar', 'baja', 'aja', 'baxar', 'ajar'],
+        parent_action: 'Soltad el coche y que baje solo por la rampa; decid “¡bajaaa!” mientras cae.',
+      },
+    ],
+  },
+  {
+    id: 'cap-frio-caliente', code: 'CT-5', kind: 'adjetivos',
+    pair: ['frío', 'caliente'], icon: '🥤',
+    physical_setup: 'Prepara dos vasos: uno con agua bien fría (con hielo si hay) y otro con agua tibia. Ponlos delante del niño.',
+    rounds: [
+      {
+        label: 'frío', emoji: '❄️',
+        tts_trigger: 'Toca los vasos. ¿Cuál está FRÍO? ¡Brrr! Di: frío.',
+        stt_expected_array: ['frío', 'frio', 'fío', 'ío', 'fiío'],
+        parent_action: 'El niño toca el vaso frío; tiritad juntos “¡brrr!” encogiendo los hombros.',
+      },
+      {
+        label: 'caliente', emoji: '🔥',
+        tts_trigger: 'Y este otro vaso, ¿cómo está? Di: caliente.',
+        stt_expected_array: ['caliente', 'aliente', 'caiente', 'tatiente', 'cayente'],
+        parent_action: 'Tocad el vaso tibio y abanicaos la mano como si quemara, exagerando mucho.',
+      },
+    ],
+  },
+  {
+    id: 'cap-encender-apagar', code: 'CT-6', kind: 'verbos',
+    pair: ['encender', 'apagar'], icon: '💡',
+    physical_setup: 'Colócate con el niño junto al interruptor de la luz (o coge una linterna). La habitación empieza con la luz apagada.',
+    rounds: [
+      {
+        label: 'encender', emoji: '💡',
+        tts_trigger: 'Está oscuro… ¿Qué hacemos con la luz? ¡A ENCENDER! Di: encender.',
+        stt_expected_array: ['encender', 'encende', 'cender', 'ende', 'encendé'],
+        parent_action: 'El niño pulsa el interruptor justo al decirlo y celebráis la luz con un “¡ooooh!”.',
+      },
+      {
+        label: 'apagar', emoji: '🌑',
+        tts_trigger: 'Ahora al revés. ¿Qué hacemos con la luz? ¡A APAGAR! Di: apagar.',
+        stt_expected_array: ['apagar', 'apaga', 'paga', 'agar', 'apagá'],
+        parent_action: 'El niño apaga la luz y os decís “buenas noches” con voz de susurro.',
+      },
+    ],
   },
 ];
 

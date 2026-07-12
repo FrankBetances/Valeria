@@ -1,13 +1,14 @@
 // ============================================================================
-// Valeria+ · Pantalla de Expansión Semántica / Progresión Léxica (V1.0)
+// Valeria+ · Pantalla de Expansión Semántica / Progresión Léxica (V2.0)
 // Convierte los datos de valeriaSemanticExpansion.ts en un juego de voz con
 // anclaje físico. El trabajo semántico no es memorizar palabras: es unir el
 // símbolo (imagen + audio) con el mundo real del niño a través del cuerpo.
 //
 // Tres modos de práctica sobre un reproductor común de "pasos":
-//   · ESCENARIOS  → 3 rutinas diarias (mañana, comida, parque), 6 ítems c/u.
-//   · PROGRESIÓN  → 5 secuencias que suben Onomatopeya → Sustantivo → Verbo → Adjetivo.
-//   · CONTRASTES  → 4 cápsulas TPR de pares (grande/pequeño, abrir/cerrar…).
+//   · ESCENARIOS  → 5 rutinas diarias (mañana, comida, parque, baño, dormir).
+//   · PROGRESIÓN  → 7 secuencias que suben Onomatopeya → Sustantivo → Verbo → Adjetivo.
+//   · CONTRASTES  → 6 cápsulas TPR de pares con DOS vueltas evaluadas
+//                   (grande/pequeño, abrir/cerrar, frío/caliente…).
 //
 // Flujo por paso:
 //   CONSIGNA (TTS) → ESCUCHA (STT, si hay micro) → VEREDICTO → ACCIÓN FÍSICA
@@ -28,8 +29,10 @@ import { registerSession, SessionReward } from './valeriaGamification';
 import {
   speakToChild, speakWordSlow, stopSpeaking,
   asrSupported, startListening, stopListening, releaseListening, matchExpected,
+  praisePhrase, almostPhrase, noHearPhrase, togetherPhrase,
 } from './valeriaVoice';
-import { SpeakButton } from './ValeriaVoiceUI';
+import { SpeakButton, TurnPhaseStrip } from './ValeriaVoiceUI';
+import { FichaVisual } from './ValeriaPictograms';
 import {
   DAILY_SCENARIOS, PROGRESSION_SEQUENCES, CONTRAST_CAPSULES,
   WORD_TYPE_LABEL, PHASE_LABEL,
@@ -47,8 +50,8 @@ interface PracticeStep {
   tts: string;           // consigna a locutar
   expected: string[];    // strings válidos para el STT
   actionKicker: string;  // encabezado de la tarjeta de acción física
-  action: string;        // parent_tpr_action / setup físico
-  followup?: string;     // segunda vuelta con la palabra opuesta (solo contrastes)
+  action: string;        // parent_tpr_action del paso
+  setup?: string;        // setup físico previo (solo primera vuelta de contrastes)
 }
 
 interface Session {
@@ -89,13 +92,15 @@ const contrastSession = (id: string): Session => {
   const cp = CONTRAST_CAPSULES.find((c) => c.id === id)!;
   return {
     kind: 'contrast', title: `${cp.pair[0]} / ${cp.pair[1]}`, code: cp.code,
-    steps: [{
-      kicker: `CONTRASTE · ${cp.kind === 'adjetivos' ? 'ADJETIVOS' : 'VERBOS ANTÓNIMOS'}`,
-      emoji: cp.icon, label: cp.stt_success, visualPrompt: `Par en contraste: ${cp.pair[0]} / ${cp.pair[1]}.`,
-      tts: cp.tts_trigger, expected: cp.stt_expected_array,
-      actionKicker: 'SETUP FÍSICO · PREPARA ANTES DE EMPEZAR', action: cp.physical_setup,
-      followup: cp.contrast_followup,
-    }],
+    steps: cp.rounds.map((r, i) => ({
+      kicker: `${cp.kind === 'adjetivos' ? 'CONTRASTE DE ADJETIVOS' : 'VERBOS ANTÓNIMOS'} · VUELTA ${i + 1} DE 2`,
+      emoji: r.emoji, label: r.label,
+      visualPrompt: `Par en contraste: ${cp.pair[0]} / ${cp.pair[1]}.`,
+      tts: r.tts_trigger, expected: r.stt_expected_array,
+      actionKicker: i === 0 ? 'ACCIÓN FÍSICA EN PAREJA' : 'ACCIÓN FÍSICA · SEGUNDA VUELTA',
+      action: r.parent_action,
+      setup: i === 0 ? cp.physical_setup : undefined,
+    })),
   };
 };
 
@@ -226,17 +231,17 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
     if (level === 2) {
       setPendingStars(attemptsRef.current === 0 ? 3 : 2);
       setState('success');
-      speakToChild('¡Muy bien! ¡Lo has dicho genial!');
+      speakToChild(praisePhrase());
       return;
     }
     attemptsRef.current += 1;
     if (attemptsRef.current >= 2) {
       setState('assist');
-      speakToChild('Vamos a decirla juntos, muy despacito.');
+      speakToChild(togetherPhrase());
       setTimeout(() => mounted.current && session && speakWordSlow(session.steps[stepIdx].label), 1500);
     } else {
       setState('retry');
-      speakToChild(level === 1 ? '¡Casi casi! Escucha bien y otra vez…' : 'No te escuché bien. ¡Probamos otra vez!');
+      speakToChild(level === 1 ? almostPhrase() : noHearPhrase());
       setTimeout(() => mounted.current && session && speakWordSlow(session.steps[stepIdx].label), 2000);
     }
   };
@@ -292,7 +297,7 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
   // ------------------------------------------------------------------- UI --
   const micScale = pulse.interpolate({ inputRange: [0, 1], outputRange: [1, 1.15] });
 
-  const actionCard = (kicker: string, text: string, followup?: string) => (
+  const actionCard = (kicker: string, text: string) => (
     <View style={s.actionCard}>
       <View style={s.actionHead}>
         <View style={s.actionIcon}><Text style={{ fontSize: 17 }}>🤝</Text></View>
@@ -300,12 +305,6 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
         <View style={{ marginLeft: 'auto' }}><SpeakButton text={text} voice="tutor" compact /></View>
       </View>
       <Text style={s.actionTxt}>{text}</Text>
-      {!!followup && (
-        <View style={s.followup}>
-          <Text style={s.followupLbl}>↔ CONTRASTE (segunda vuelta)</Text>
-          <Text style={s.followupTxt}>{followup}</Text>
-        </View>
-      )}
     </View>
   );
 
@@ -410,7 +409,7 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
               <Text style={{ fontSize: 26 }}>{cp.icon}</Text>
               <View style={{ flex: 1 }}>
                 <Text style={s.pickName}>{cp.pair[0]} / {cp.pair[1]}</Text>
-                <Text style={s.pickCat}>{cp.kind === 'adjetivos' ? 'Par de adjetivos' : 'Verbos antónimos'} · cápsula TPR</Text>
+                <Text style={s.pickCat}>{cp.kind === 'adjetivos' ? 'Par de adjetivos' : 'Verbos antónimos'} · cápsula TPR · 2 vueltas</Text>
               </View>
             </>,
           ))}
@@ -486,6 +485,9 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
   // =================================================================== PLAY ==
   const st = sess.steps[stepIdx];
   const total = sess.steps.length;
+  // Fase activa del turno para el mapa superior (quita la sensación de "¿y
+  // ahora qué toca?" que reportaban los testers).
+  const phaseIdx = state === 'say' ? 0 : state === 'listen' ? 1 : state === 'judge' || state === 'retry' ? 2 : 3;
 
   return (
     <View style={s.flex}>
@@ -507,10 +509,15 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
       </View>
 
       <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
-        {/* Ficha visual (mientras no hay asset, el emoji + descripción técnica) */}
+        {/* Mapa del turno: en qué fase del paso estamos */}
+        <TurnPhaseStrip active={phaseIdx} />
+
+        {/* Ficha visual: pictograma SVG si existe; emoji como fallback */}
         <View style={s.bigTile}>
           <Text style={s.tileKicker}>{st.kicker}</Text>
-          <Text style={{ fontSize: 64, marginTop: 6 }}>{st.emoji}</Text>
+          <View style={{ marginTop: 6 }}>
+            <FichaVisual word={st.label} emoji={st.emoji} size={64} />
+          </View>
           <Text style={s.tileCap}>{st.label}</Text>
         </View>
 
@@ -526,9 +533,9 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
           </View>
         </View>
 
-        {/* Setup físico previo en las cápsulas de contraste */}
-        {sess.kind === 'contrast' && (state === 'say' || state === 'listen' || state === 'judge') &&
-          actionCard(st.actionKicker, st.action, undefined)}
+        {/* Setup físico previo (primera vuelta de las cápsulas de contraste) */}
+        {!!st.setup && (state === 'say' || state === 'listen' || state === 'judge') &&
+          actionCard('SETUP FÍSICO · PREPARA ANTES DE EMPEZAR', st.setup)}
 
         {/* ===== Estado del paso ===== */}
         {state === 'say' && (
@@ -580,7 +587,7 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
               </View>
               <Text style={s.verdictStars}>{'★'.repeat(pendingStars)}</Text>
             </View>
-            {actionCard(st.actionKicker, st.action, st.followup)}
+            {actionCard(st.actionKicker, st.action)}
             <Pressable onPress={() => next({ stars: pendingStars, heard })} style={s.primaryBtn}>
               <Text style={s.primaryBtnTxt}>{stepIdx + 1 >= total ? '✅ ¡Terminar!' : '✅ ¡Hecho! Siguiente →'}</Text>
             </Pressable>
@@ -615,7 +622,7 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
                 </Text>
               </View>
             </View>
-            {actionCard(st.actionKicker, st.action, st.followup)}
+            {actionCard(st.actionKicker, st.action)}
             <View style={s.retryRow}>
               <SpeakButton text={st.label} label="Oír modelo despacio" voice="slow" />
               <Pressable onPress={() => next({ stars: 1, heard })} style={s.retryBtn}>
@@ -705,9 +712,6 @@ const s = StyleSheet.create({
   actionIcon: { width: 30, height: 30, borderRadius: 10, backgroundColor: '#7c4fd0', alignItems: 'center', justifyContent: 'center' },
   actionKicker: { fontSize: 11, fontWeight: '800', letterSpacing: 0.5, color: '#6d3fc4', flex: 1 },
   actionTxt: { marginTop: 9, fontSize: 13.5, fontWeight: '700', color: '#4a3878', lineHeight: 19 },
-  followup: { marginTop: 10, backgroundColor: '#fff', borderWidth: 1, borderColor: '#e9e2f7', borderRadius: 12, padding: 10 },
-  followupLbl: { fontSize: 10.5, fontWeight: '800', letterSpacing: 0.4, color: '#6d3fc4' },
-  followupTxt: { fontSize: 12.5, fontWeight: '600', color: V.color.textSecondary, marginTop: 3, lineHeight: 17 },
 
   retryRow: { flexDirection: 'row', alignItems: 'center', gap: 10, marginTop: 12 },
   retryBtn: { flex: 1, backgroundColor: V.color.primary, borderRadius: 13, paddingVertical: 12, alignItems: 'center', ...V.shadow.button },
