@@ -1,9 +1,11 @@
 // ============================================================================
-// Valeria+ · Selección y Prescripción de Terapias (V2.2)
+// Valeria+ · Selección y Prescripción de Terapias (V2.3)
 // Pestañas Audición (13) + Lenguaje (7). Modo Familia (solo lectura) y Modo
 // Profesional desbloqueado por PIN (validación por hash SHA-256, sin texto plano).
 // Persistencia: AsyncStorage. Si la ficha activa indica audífono/implante, navega
 // primero al Test de Ling; si no, va directo a navigation.navigate('ExercisePlayer', { id }).
+// V2.3: botón "Sesión completa" por pestaña — encadena todos los ejercicios
+// prescritos del bloque en una sola sesión ({ ids }) en lugar de uno a uno.
 // ============================================================================
 import React, { useEffect, useState } from 'react';
 import { View, Text, Pressable, ScrollView, Switch, StyleSheet } from 'react-native';
@@ -234,6 +236,30 @@ export const ValeriaExerciseSelectionScreen: React.FC<{ navigation: any }> = ({ 
 
             <ProUnlockPill unlocked={unlocked} onPress={() => setModalOpen(true)} />
 
+            {/* Sesión completa: encadena todos los ejercicios prescritos del
+                bloque en un solo plan (los testers veían sesiones muy cortas
+                al practicar los ejercicios de uno en uno). */}
+            {(() => {
+              const prescribedIds = list.filter((_, i) => active[i]).map((it) => it.id);
+              return (
+                <Pressable
+                  onPress={() => prescribedIds.length &&
+                    navigation.navigate(usesHearingDevice ? 'LingTest' : 'ExercisePlayer', { ids: prescribedIds })}
+                  disabled={!prescribedIds.length}
+                  style={[s.sessionBtn, !prescribedIds.length && { opacity: 0.5 }]}
+                  accessibilityRole="button"
+                  accessibilityLabel={`Practicar los ${prescribedIds.length} ejercicios prescritos seguidos`}
+                >
+                  <Text style={{ fontSize: 17 }}>🎯</Text>
+                  <View style={{ flex: 1 }}>
+                    <Text style={s.sessionBtnTitle}>Sesión completa</Text>
+                    <Text style={s.sessionBtnSub}>Los {prescribedIds.length} ejercicios prescritos seguidos, con pausas de movimiento</Text>
+                  </View>
+                  <Text style={s.sessionBtnGo}>▶</Text>
+                </Pressable>
+              );
+            })()}
+
             <View style={s.listHead}>
               <Text style={s.listLabel}>{isAud ? 'PROTOCOLO ACOPROS · AUDICIÓN' : 'PROTOCOLO FAMILIAR · LENGUAJE'}</Text>
               <View style={s.countBadge}><Text style={s.countBadgeTxt}>{activeCount} prescritos</Text></View>
@@ -324,6 +350,11 @@ const s = StyleSheet.create({
   remindIcon: { width: 36, height: 36, borderRadius: 12, backgroundColor: '#fffbeb', alignItems: 'center', justifyContent: 'center' },
   remindTitle: { fontSize: 14, fontWeight: '800', color: V.color.textPrimary },
   remindSub: { fontSize: 11.5, fontWeight: '600', color: V.color.textMuted, marginTop: 2, lineHeight: 15 },
+
+  sessionBtn: { flexDirection: 'row', alignItems: 'center', gap: 11, backgroundColor: V.color.primary, borderRadius: 16, padding: 14, marginTop: 14, ...V.shadow.button },
+  sessionBtnTitle: { color: '#fff', fontSize: 15, fontWeight: '800' },
+  sessionBtnSub: { color: 'rgba(255,255,255,.9)', fontSize: 11.5, fontWeight: '600', marginTop: 2 },
+  sessionBtnGo: { color: '#fff', fontSize: 16, fontWeight: '800' },
 
   listHead: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginVertical: 16, marginHorizontal: 4 },
   listLabel: { fontSize: 12, fontWeight: '800', color: V.color.textMuted, letterSpacing: 0.4 },
