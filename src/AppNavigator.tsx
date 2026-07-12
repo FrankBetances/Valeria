@@ -30,6 +30,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { initNotifications, refreshDailyReminders } from './valeriaNotifications';
 import { V } from './valeriaTheme';
+import { AuthProvider } from './firebase/AuthContext';
 
 import ValeriaWelcomeScreen from './ValeriaWelcomeScreen';
 import ValeriaCreditsScreen from './ValeriaCreditsScreen';
@@ -100,11 +101,13 @@ export const ValeriaApp: React.FC = () => {
   // más la rotación diaria del consejo para padres si los avisos están activos.
   useEffect(() => { initNotifications(); refreshDailyReminders(); }, []);
   return (
-    <SafeAreaProvider>
-      <NavigationContainer>
-        <SafeFrame />
-      </NavigationContainer>
-    </SafeAreaProvider>
+    <AuthProvider>
+      <SafeAreaProvider>
+        <NavigationContainer>
+          <SafeFrame />
+        </NavigationContainer>
+      </SafeAreaProvider>
+    </AuthProvider>
   );
 };
 
