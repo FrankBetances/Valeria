@@ -30,8 +30,10 @@ import { registerSession, SessionReward } from './valeriaGamification';
 import {
   speakToChild, speakWordSlow, stopSpeaking,
   asrSupported, startListening, stopListening, releaseListening, matchPair, PairResult,
+  almostPhrase, noHearPhrase, togetherPhrase,
 } from './valeriaVoice';
-import { SpeakButton } from './ValeriaVoiceUI';
+import { SpeakButton, TurnPhaseStrip } from './ValeriaVoiceUI';
+import { FichaVisual } from './ValeriaPictograms';
 import { ValeriaTPRCapsuleOverlay, pickTprCapsule, TprCapsule } from './ValeriaTPRCapsule';
 import { MINIMAL_PAIRS, PAIR_GROUPS, MinimalPair } from './valeriaMinimalPairs';
 
@@ -39,6 +41,22 @@ const TOTAL_TRIALS = 10;
 const SWAP_TRIALS = [3, 7];   // antes de estos ensayos (0-index): ¡Ahora mandas tú!
 const TPR_TRIAL = 5;          // antes de este ensayo: cápsula TPR de movimiento
 const MONTHS = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
+
+// Consignas rotativas: oír diez veces la misma frase aburre. El primer ensayo
+// mantiene el bombardeo auditivo + consigna clínica del par; el resto alterna
+// la consigna del par con variantes genéricas sobre la palabra objetivo.
+const PROMPT_TEMPLATES: ((t: string) => string)[] = [
+  (t) => `¡Te toca! Di: ${t}.`,
+  (t) => `¿Me la pides tú? Di: ${t}.`,
+  (t) => `¡Ahora tú! Quiero oír: ${t}.`,
+  (t) => `¡Fuerte y claro! Di: ${t}.`,
+];
+
+const trialPrompt = (p: MinimalPair, idx: number): string => {
+  if (idx === 0) return `Esta es ${p.target}. Y esta es ${p.foil}. ${p.prompt}`;
+  if (idx % 3 === 0) return p.prompt;
+  return PROMPT_TEMPLATES[idx % PROMPT_TEMPLATES.length](p.target);
+};
 
 type Phase = 'pick' | 'play' | 'done';
 type TrialStep = 'say' | 'listen' | 'judge' | 'correction' | 'success' | 'assist';
@@ -156,7 +174,7 @@ const RoleSwapOverlay: React.FC<{ pair: MinimalPair; onDone: () => void }> = ({ 
       accessibilityRole="button"
       accessibilityLabel={which === 'target' ? pair.target : pair.foil}
     >
-      <Text style={{ fontSize: 46 }}>{which === 'target' ? pair.targetEmoji : pair.foilEmoji}</Text>
+      <FichaVisual word={which === 'target' ? pair.target : pair.foil} emoji={which === 'target' ? pair.targetEmoji : pair.foilEmoji} size={46} />
       <Text style={s.swapTileCap}>{which === 'target' ? pair.target : pair.foil}</Text>
     </Pressable>
   );
@@ -292,9 +310,8 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
 
   const startTrial = (p: MinimalPair, idx: number) => {
     setStep('say'); setHeard(''); setListening(false);
-    // 1.ª vez: bombardeo auditivo de contraste nombrando ambas fichas.
-    const text = idx === 0 ? `Esta es ${p.target}. Y esta es ${p.foil}. ${p.prompt}` : p.prompt;
-    speakToChild(text, afterSpeak(() => {
+    // 1.ª vez: bombardeo auditivo de contraste; después, consignas rotativas.
+    speakToChild(trialPrompt(p, idx), afterSpeak(() => {
       if (!mounted.current) return;
       if (asrSupported()) setTimeout(() => listenNow(p), 400);
       else setStep('judge');
@@ -339,12 +356,12 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
       if (attemptsRef.current >= 2) {
         // Anti-frustración: nunca un tercer fallo seguido → imitación asistida.
         setStep('assist');
-        speakToChild('Vamos a decirla juntos, muy despacito.');
+        speakToChild(togetherPhrase());
         setTimeout(() => mounted.current && speakWordSlow(p.target), 1500);
       } else {
         setCorrectionKind(branch);
         setStep('correction');
-        speakToChild(branch === 'foil' ? p.onFoil.say : '¡Casi casi! Escucha bien y otra vez…');
+        speakToChild(branch === 'foil' ? p.onFoil.say : almostPhrase());
         setTimeout(() => mounted.current && speakWordSlow(p.target), 2200);
       }
       return;
@@ -352,7 +369,7 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
     // 'none': no captado — re-modelar sin consumir intento ni estrellas.
     setCorrectionKind('none');
     setStep('correction');
-    speakToChild('No te escuché bien. ¡Probamos otra vez!');
+    speakToChild(noHearPhrase());
   };
 
   const retry = (p: MinimalPair) => {
@@ -432,7 +449,7 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
     const bad = step === 'correction' && correctionKind === 'foil' && !isTarget;
     return (
       <View key={which} style={[s.bigTile, ok && s.bigTileOk, bad && s.bigTileBad]}>
-        <Text style={{ fontSize: 58 }}>{isTarget ? p.targetEmoji : p.foilEmoji}</Text>
+        <FichaVisual word={isTarget ? p.target : p.foil} emoji={isTarget ? p.targetEmoji : p.foilEmoji} size={58} />
         <Text style={s.bigTileCap}>{isTarget ? p.target : p.foil}</Text>
         {ok && <Text style={s.tileBadge}>✅</Text>}
         {bad && <Text style={s.tileBadge}>👂</Text>}
@@ -452,10 +469,12 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
         }}
         style={s.overridePill}
       >
-        <Text style={s.overridePillTxt}>{p.targetEmoji} dijo “{p.target}”</Text>
+        <FichaVisual word={p.target} emoji={p.targetEmoji} size={13} />
+        <Text style={s.overridePillTxt}>dijo “{p.target}”</Text>
       </Pressable>
       <Pressable onPress={() => step !== 'correction' && resolveBranch(p, 'foil')} style={s.overridePill}>
-        <Text style={s.overridePillTxt}>{p.foilEmoji} dijo “{p.foil}”</Text>
+        <FichaVisual word={p.foil} emoji={p.foilEmoji} size={13} />
+        <Text style={s.overridePillTxt}>dijo “{p.foil}”</Text>
       </Pressable>
     </View>
   );
@@ -522,8 +541,8 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
                       : on ? `Practicar el par ${p.target} y ${p.foil}` : `Par ${p.target} y ${p.foil} no prescrito`}
                   >
                     <View style={s.codeChip}><Text style={s.codeChipTxt}>{p.code}</Text></View>
-                    <Text style={{ fontSize: 26 }}>{p.targetEmoji}</Text>
-                    <Text style={{ fontSize: 26 }}>{p.foilEmoji}</Text>
+                    <FichaVisual word={p.target} emoji={p.targetEmoji} size={26} />
+                    <FichaVisual word={p.foil} emoji={p.foilEmoji} size={26} />
                     <View style={{ flex: 1 }}>
                       <Text style={s.pickName}>{p.target} / {p.foil}</Text>
                       <Text style={s.pickCat}>{p.errorLabel} · {p.phoneme}{p.region ? ' · solo variedades con distinción s/z' : ''}</Text>
@@ -614,6 +633,9 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
 
   // =================================================================== PLAY ==
   const tiles = leftIsTarget ? (['target', 'foil'] as const) : (['foil', 'target'] as const);
+  // Fase activa del turno para el mapa superior (quita la sensación de "¿y
+  // ahora qué toca?" que reportaban los testers).
+  const phaseIdx = step === 'say' ? 0 : step === 'listen' ? 1 : step === 'judge' || step === 'correction' ? 2 : 3;
 
   return (
     <View style={s.flex}>
@@ -635,8 +657,11 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
       </View>
 
       <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
+        {/* Mapa del turno: en qué fase del ensayo estamos */}
+        <TurnPhaseStrip active={phaseIdx} />
+
         {/* Las dos fichas del contraste (posición aleatoria por ensayo) */}
-        <View style={s.tilesRow}>{tiles.map((w) => pairTile(p, w))}</View>
+        <View style={[s.tilesRow, { marginTop: 12 }]}>{tiles.map((w) => pairTile(p, w))}</View>
 
         {/* Consigna */}
         <View style={s.promptCard}>
@@ -680,10 +705,10 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
             <Text style={s.stateTxt}>El padre hace de juez: ¿qué dijo el niño?</Text>
             <View style={s.judgeRow}>
               <Pressable onPress={() => resolveBranch(p, 'target')} style={[s.judgeBtn, { backgroundColor: V.color.successBg, borderColor: '#bfe9d4' }]}>
-                <Text style={{ fontSize: 22 }}>{p.targetEmoji}</Text><Text style={s.judgeTxt}>Dijo “{p.target}”</Text>
+                <FichaVisual word={p.target} emoji={p.targetEmoji} size={22} /><Text style={s.judgeTxt}>Dijo “{p.target}”</Text>
               </Pressable>
               <Pressable onPress={() => resolveBranch(p, 'foil')} style={[s.judgeBtn, { backgroundColor: '#fffbeb', borderColor: '#f4e6b8' }]}>
-                <Text style={{ fontSize: 22 }}>{p.foilEmoji}</Text><Text style={s.judgeTxt}>Dijo “{p.foil}”</Text>
+                <FichaVisual word={p.foil} emoji={p.foilEmoji} size={22} /><Text style={s.judgeTxt}>Dijo “{p.foil}”</Text>
               </Pressable>
             </View>
             <Pressable onPress={() => retry(p)}><Text style={s.linkBtn}>No se entendió · repetir consigna</Text></Pressable>
@@ -846,7 +871,7 @@ const s = StyleSheet.create({
 
   overrideRow: { flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', gap: 7, marginTop: 10, paddingHorizontal: 2 },
   overrideLbl: { fontSize: 11, fontWeight: '700', color: V.color.textMuted },
-  overridePill: { backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.border, borderRadius: 10, paddingHorizontal: 9, paddingVertical: 5 },
+  overridePill: { flexDirection: 'row', alignItems: 'center', gap: 4, backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.border, borderRadius: 10, paddingHorizontal: 9, paddingVertical: 5 },
   overridePillTxt: { fontSize: 11.5, fontWeight: '800', color: V.color.textSecondary },
 
   retryRow: { flexDirection: 'row', alignItems: 'center', gap: 10, marginTop: 12 },

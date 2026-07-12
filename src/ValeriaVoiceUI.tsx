@@ -1,8 +1,10 @@
 // ============================================================================
-// Valeria+ · Componentes de Voz (V5.0)
+// Valeria+ · Componentes de Voz (V6.0)
 //   · <SpeakButton />      — píldora 🔊 que lee un texto con la voz de la app.
 //   · <MicPracticeCard />  — juego "¡Ahora tú!": el niño repite la palabra
 //     objetivo al micrófono y la app valora el intento con estrellas.
+//   · <TurnPhaseStrip />   — mapa del turno (Escucha → Habla → Veredicto →
+//     Misión) para que la familia sepa siempre en qué punto del ensayo está.
 // Si el reconocimiento de voz no está disponible (p. ej. Expo Go), la tarjeta
 // de micrófono muestra una nota discreta en lugar del juego.
 // ============================================================================
@@ -40,6 +42,34 @@ export const SpeakButton: React.FC<{
     </Pressable>
   );
 };
+
+// ----------------------------------------------------------------------------
+// Mapa del turno: chips con las fases del ensayo y la fase activa resaltada.
+// Responde a la queja de los testers de que "no se sabe qué toca ahora".
+// ----------------------------------------------------------------------------
+const DEFAULT_PHASES = [
+  { icon: '🔊', label: 'Escucha' },
+  { icon: '🎤', label: 'Repite' },
+  { icon: '🏅', label: 'Veredicto' },
+  { icon: '🏃', label: 'Misión' },
+];
+
+export const TurnPhaseStrip: React.FC<{
+  active: number;
+  phases?: { icon: string; label: string }[];
+}> = ({ active, phases = DEFAULT_PHASES }) => (
+  <View style={s.phaseStrip} accessibilityRole="progressbar" accessibilityLabel={`Fase actual: ${phases[active]?.label ?? ''}`}>
+    {phases.map((ph, i) => (
+      <React.Fragment key={ph.label}>
+        {i > 0 && <Text style={s.phaseArrow}>›</Text>}
+        <View style={[s.phaseChip, i === active && s.phaseChipOn, i < active && s.phaseChipDone]}>
+          <Text style={{ fontSize: 13, opacity: i === active ? 1 : 0.55 }}>{i < active ? '✓' : ph.icon}</Text>
+          <Text style={[s.phaseChipTxt, i === active && s.phaseChipTxtOn]}>{ph.label}</Text>
+        </View>
+      </React.Fragment>
+    ))}
+  </View>
+);
 
 // ----------------------------------------------------------------------------
 // Juego de micrófono: escucha al niño y compara con la palabra objetivo.
@@ -200,4 +230,12 @@ const s = StyleSheet.create({
 
   micUnavailable: { flexDirection: 'row', alignItems: 'center', gap: 9, backgroundColor: '#f8f9fb', borderWidth: 1, borderColor: V.color.border, borderRadius: 12, padding: 11, marginTop: 12 },
   micUnavailableTxt: { flex: 1, fontSize: 11.5, fontWeight: '600', color: V.color.textMuted, lineHeight: 15 },
+
+  phaseStrip: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 4, backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.border, borderRadius: 13, paddingVertical: 7, paddingHorizontal: 8, marginTop: 12 },
+  phaseArrow: { fontSize: 12, fontWeight: '800', color: V.color.textMuted },
+  phaseChip: { flexDirection: 'row', alignItems: 'center', gap: 4, borderRadius: 9, paddingHorizontal: 7, paddingVertical: 4 },
+  phaseChipOn: { backgroundColor: V.color.primaryLight },
+  phaseChipDone: { opacity: 0.7 },
+  phaseChipTxt: { fontSize: 10.5, fontWeight: '800', color: V.color.textMuted, letterSpacing: 0.2 },
+  phaseChipTxtOn: { color: V.color.primaryDark },
 });

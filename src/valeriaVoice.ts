@@ -1,10 +1,11 @@
 // ============================================================================
-// Valeria+ · Motor de Voz (V5.1)
+// Valeria+ · Motor de Voz (V6.0)
 // Fuente única para hablar y escuchar en toda la app:
 //   · Síntesis de voz (TTS) con expo-speech: la app lee consignas, palabras
 //     objetivo y las órdenes de las Cápsulas TPR en español (es-ES).
-//     La voz se elige entre las instaladas en el dispositivo priorizando las
-//     de calidad "enhanced"/neuronales, mucho más naturales que la de fábrica.
+//     La voz se elige entre las instaladas priorizando las neuronales /
+//     "enhanced", y cada locución se trocea por frases con micro-variaciones
+//     de tono y pausas de respiración para sonar humana, no robótica.
 //   · Reconocimiento de voz (ASR) con @react-native-voice/voice: juegos de
 //     micrófono donde el niño repite la palabra y la app valora el intento.
 //
@@ -19,9 +20,10 @@ const LANG = 'es-ES';
 
 // ----------------------------------------------------------------------------
 // Selección de voz: el motor TTS del sistema suele traer varias voces es-*.
-// Las marcadas como "Enhanced" (iOS) o las variantes locales de alta calidad
-// de Google TTS (Android) suenan mucho más naturales que la voz por defecto.
-// Se busca la mejor una sola vez y se aplica a todas las locuciones.
+// Las marcadas como "Enhanced" (iOS) o las variantes neuronales de alta calidad
+// de Google TTS (Android) suenan mucho más naturales que la voz de fábrica;
+// las voces antiguas tipo "eloquence"/"compact"/eSpeak suenan a robot y se
+// penalizan. Se busca la mejor una sola vez y se aplica a todas las locuciones.
 // ----------------------------------------------------------------------------
 let bestVoiceId: string | undefined;
 let voiceSearch: Promise<void> | null = null;
@@ -32,21 +34,31 @@ const scoreVoice = (v: Speech.Voice): number => {
   const id = `${v.identifier ?? ''} ${v.name ?? ''}`.toLowerCase();
   // Prioridad de idioma: castellano (es-ES) > variantes latinas > resto es-*.
   let s = lang === 'es-es' ? 4 : /^es-(us|mx|419)/.test(lang) ? 3 : 2;
-  if (v.quality === Speech.VoiceQuality.Enhanced) s += 4;
+  if (v.quality === Speech.VoiceQuality.Enhanced) s += 6;
+  // Marcadores de familias neuronales modernas (Google, Samsung, iOS 17+).
+  if (/(neural|natural|premium|wavenet|studio|journey|enhanced)/.test(id)) s += 4;
+  // Voces iOS de alta calidad conocidas para es-ES / es-MX.
+  if (/(m[oó]nica|marisol|paulina|siri)/.test(id)) s += 2;
   // Voces de alta calidad de Google TTS: las "-local" funcionan sin conexión;
   // las "network" suenan aún mejor pero exigen datos, mejor como desempate.
   if (id.includes('local')) s += 2;
   if (id.includes('network')) s += 1;
-  if (id.includes('neural') || id.includes('natural') || id.includes('premium')) s += 2;
+  // Motores heredados notoriamente metálicos: solo como último recurso.
+  if (/(eloquence|compact|espeak|pico)/.test(id)) s -= 6;
   return s;
 };
 
-const findBestVoice = async (): Promise<void> => {
+const findBestVoice = async (attempt = 0): Promise<void> => {
   try {
     const voices = await Speech.getAvailableVoicesAsync();
     if (!voices?.length) {
-      // En Android el motor TTS puede no estar listo al arrancar: se
-      // reintenta en la próxima locución.
+      // En Android el motor TTS tarda en poblar el catálogo tras el arranque:
+      // se reintenta con espera creciente antes de rendirse hasta la próxima
+      // locución.
+      if (attempt < 4) {
+        await new Promise((r) => setTimeout(r, 600 * (attempt + 1)));
+        return findBestVoice(attempt + 1);
+      }
       voiceSearch = null;
       return;
     }
@@ -68,29 +80,120 @@ const ensureBestVoice = () => {
 ensureBestVoice(); // calentamiento al importar el módulo
 
 // ----------------------------------------------------------------------------
-// Síntesis de voz (TTS)
+// Síntesis de voz (TTS) con prosodia natural
+// Una locución larga leída de un tirón con tono plano es lo que suena "a
+// máquina". Aquí cada texto se trocea por frases y cada frase se locuta con:
+//   · una pausa corta de "respiración" entre frases,
+//   · tono algo más alto en exclamaciones y preguntas (entonación real),
+//   · una micro-variación determinista de tono para que dos frases seguidas
+//     nunca suenen idénticas.
+// onDone/onError del llamante se disparan una sola vez al acabar la cadena.
 // ----------------------------------------------------------------------------
+let speakToken = 0; // invalida cadenas de frases pendientes al preemptar
+
+const clamp = (n: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, n));
+
+const splitSentences = (text: string): string[] => {
+  const parts = text.match(/[^.!?…]+[.!?…]*/g);
+  const out = (parts ?? [text]).map((p) => p.trim()).filter(Boolean);
+  return out.length ? out : [text];
+};
+
+const speakChain = (text: string, opts: Speech.SpeechOptions, token: number) => {
+  const { onDone, onError, ...rest } = opts;
+  const sentences = splitSentences(text);
+  const baseRate = rest.rate ?? 0.92;
+  const basePitch = rest.pitch ?? 1.0;
+
+  const sayFrom = (i: number) => {
+    if (token !== speakToken) return; // otra locución tomó el relevo
+    if (i >= sentences.length) { onDone?.(); return; }
+    const sentence = sentences[i];
+    const excited = /[!¡]/.test(sentence);
+    const asking = /[?¿]/.test(sentence);
+    const jitter = (((i * 7) % 5) - 2) * 0.012; // micro-variación determinista
+    Speech.speak(sentence, {
+      language: LANG,
+      ...rest,
+      rate: clamp(baseRate + (excited ? 0.03 : 0) + jitter * 0.5, 0.4, 1.3),
+      pitch: clamp(basePitch + (excited ? 0.06 : asking ? 0.05 : 0) + jitter, 0.7, 1.45),
+      ...(bestVoiceId && !rest.voice ? { voice: bestVoiceId } : {}),
+      onDone: () => {
+        if (token !== speakToken) return;
+        if (i + 1 >= sentences.length) { onDone?.(); return; }
+        setTimeout(() => sayFrom(i + 1), 180); // respiración entre frases
+      },
+      onError: (e) => { if (token === speakToken) onError?.(e); },
+    });
+  };
+  sayFrom(0);
+};
+
 export const speak = (text: string, opts: Speech.SpeechOptions = {}) => {
   ensureBestVoice();
+  const token = ++speakToken;
   Speech.stop();
-  Speech.speak(text, {
-    language: LANG,
-    rate: 0.92,
-    pitch: 1.0,
-    ...(bestVoiceId ? { voice: bestVoiceId } : {}),
-    ...opts,
-  });
+  const go = () => { if (token === speakToken) speakChain(text, opts, token); };
+  if (bestVoiceId === undefined && voiceSearch) {
+    // Primera locución: espera brevemente al catálogo de voces para no
+    // arrancar con la voz de fábrica; con tope para no retrasar la app.
+    Promise.race([voiceSearch, new Promise((r) => setTimeout(r, 800))]).then(go, go);
+  } else {
+    go();
+  }
 };
 
 // Voz "cuentacuentos" para dirigirse al niño: algo más aguda y pausada.
 export const speakToChild = (text: string, opts: Speech.SpeechOptions = {}) =>
-  speak(text, { pitch: 1.15, rate: 0.82, ...opts });
+  speak(text, { pitch: 1.15, rate: 0.85, ...opts });
 
 // Palabra objetivo bien articulada, muy despacio (modelado fonético).
 export const speakWordSlow = (text: string) =>
   speak(text.toLowerCase(), { pitch: 1.1, rate: 0.6 });
 
-export const stopSpeaking = () => { Speech.stop(); };
+export const stopSpeaking = () => { speakToken += 1; Speech.stop(); };
+
+// ----------------------------------------------------------------------------
+// Bancos de frases: oír siempre el mismo "¡Muy bien!" aburre y suena enlatado.
+// Cada categoría rota entre variantes sin repetir dos veces seguidas la misma.
+// ----------------------------------------------------------------------------
+const PRAISE_BANK = [
+  '¡Muy bien! ¡Lo has dicho genial!',
+  '¡Bravo! ¡Qué bien ha sonado!',
+  '¡Toma ya! ¡Palabra conseguida!',
+  '¡Genial! ¡Cada vez te sale mejor!',
+  '¡Súper! ¡Lo dijiste clarísimo!',
+  '¡Olé esa voz! ¡Muy bien dicho!',
+];
+const ALMOST_BANK = [
+  '¡Casi casi! Escucha bien y otra vez…',
+  '¡Uy, por poquito! Vamos a probar de nuevo.',
+  '¡Ya casi lo tienes! Escucha y repite.',
+  'Un poquito más y lo bordas. ¡Otra vez!',
+];
+const NO_HEAR_BANK = [
+  'No te escuché bien. ¡Probamos otra vez!',
+  '¡Uy, no llegó tu voz! Acércate y repetimos.',
+  'Se me escapó tu palabra. ¡Dímela otra vez!',
+];
+const TOGETHER_BANK = [
+  'Vamos a decirla juntos, muy despacito.',
+  'La decimos a la vez, despacito y sin prisa.',
+  'Ahora en equipo: la decimos los dos juntos.',
+];
+
+const lastPick: Record<string, number> = {};
+const pickPhrase = (key: string, bank: string[]): string => {
+  let i = Math.floor(Math.random() * bank.length);
+  if (bank.length > 1 && i === lastPick[key]) i = (i + 1) % bank.length;
+  lastPick[key] = i;
+  return bank[i];
+};
+
+export const praisePhrase = () => pickPhrase('praise', PRAISE_BANK);
+export const almostPhrase = () => pickPhrase('almost', ALMOST_BANK);
+export const noHearPhrase = () => pickPhrase('noHear', NO_HEAR_BANK);
+export const togetherPhrase = () => pickPhrase('together', TOGETHER_BANK);
 
 // ----------------------------------------------------------------------------
 // Reconocimiento de voz (ASR) — opcional según plataforma/build
