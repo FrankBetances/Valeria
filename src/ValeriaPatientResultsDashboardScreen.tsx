@@ -29,6 +29,9 @@ interface Sesion {
   avg: number;       // 1.0 – 3.0 (estrellas)
   completed: boolean;
   note: string;
+  // Respuestas libres del niño registradas por voz o escrito durante la
+  // sesión (PR-1 «¿qué es esto?», PR-2 adaptación del discurso…).
+  responses?: { code: string; name: string; text: string }[];
 }
 
 // Registro por ensayo de pares mínimos (escribe ValeriaMinimalPairsScreen).
@@ -169,7 +172,12 @@ export const ValeriaPatientResultsDashboardScreen: React.FC<{ navigation?: any }
 
   const compartir = async () => {
     const lineas = sesiones
-      .map((s) => `• ${s.date} · ${s.name} — ${s.avg.toFixed(1)}/3 ${starString(s.avg)}`)
+      .map((s) => {
+        const resp = (s.responses ?? [])
+          .map((r) => `\n    · ${r.code} respondió: “${r.text}”`)
+          .join('');
+        return `• ${s.date} · ${s.name} — ${s.avg.toFixed(1)}/3 ${starString(s.avg)}${resp}`;
+      })
       .join('\n');
     const pmLineas = pmFonemas
       .map((f) => {
@@ -407,6 +415,16 @@ export const ValeriaPatientResultsDashboardScreen: React.FC<{ navigation?: any }
                   <Text style={st.histStars}>{starString(s.avg)}</Text>
                   <Text style={st.histAvg}>Promedio: {s.avg.toFixed(1)} / 3</Text>
                 </View>
+                {!!s.responses?.length && (
+                  <View style={st.histResp}>
+                    <Text style={st.histRespKicker}>📝 RESPUESTAS REGISTRADAS</Text>
+                    {s.responses.map((r) => (
+                      <Text key={r.code} style={st.histRespText}>
+                        <Text style={st.histRespCode}>{r.code} · {r.name}: </Text>“{r.text}”
+                      </Text>
+                    ))}
+                  </View>
+                )}
                 <View style={st.histNote}>
                   <Text style={st.histNoteText}>{s.note}</Text>
                 </View>
@@ -530,6 +548,13 @@ const st = StyleSheet.create({
   histScoreRow: { flexDirection: 'row', alignItems: 'center', marginTop: 6 },
   histStars: { fontSize: 13, letterSpacing: 1, color: '#f5b301', marginRight: 8 },
   histAvg: { fontSize: 12.5, fontWeight: V.font.extrabold, color: V.color.textSecondary },
+  histResp: {
+    marginTop: 8, backgroundColor: '#fffdf5', borderWidth: 1, borderColor: '#f0e6c8',
+    borderRadius: 10, paddingVertical: 8, paddingHorizontal: 10,
+  },
+  histRespKicker: { fontSize: 10, fontWeight: V.font.extrabold, letterSpacing: 0.5, color: '#92711a', marginBottom: 4 },
+  histRespText: { fontSize: 12, fontWeight: V.font.semibold, color: V.color.textSecondary, lineHeight: 17 },
+  histRespCode: { fontWeight: V.font.extrabold, color: V.color.textPrimary },
   histNote: {
     marginTop: 9, backgroundColor: '#f7fafa', borderLeftWidth: 3, borderLeftColor: V.color.primary,
     borderTopRightRadius: 9, borderBottomRightRadius: 9, paddingHorizontal: 11, paddingVertical: 8,

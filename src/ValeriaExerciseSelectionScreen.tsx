@@ -17,23 +17,29 @@ import { ProUnlockPill, ProPinModal } from './ValeriaProPin';
 // import logoWhite from '../../assets/valeria-logo-white.png';
 
 // ----------------------------------------------------------------------------
-interface Item { id: string; code: string; name: string; category: string; }
+interface Item { id: string; code: string; name: string; category: string; age?: string; }
 
+// Bloque de Audición: categorías en lenguaje llano (el término clínico entre
+// paréntesis) y edad orientativa por actividad. En la lista se agrupan por
+// edad para que las familias empiecen por las de su peque y no intenten
+// trabajarlo todo a la vez.
 const EXERCISES_AUD: Item[] = [
-  { id: 'ff1', code: 'FF-1', name: 'Asociación vocal inicial', category: 'Fonética-Fonología' },
-  { id: 'ff2', code: 'FF-2', name: 'Articulación de vocales', category: 'Fonética-Fonología' },
-  { id: 'ff3', code: 'FF-3', name: 'Completar vocal faltante', category: 'Fonética-Fonología' },
-  { id: 'se1', code: 'SE-1', name: 'Detección del intruso', category: 'Semántica' },
-  { id: 'se2', code: 'SE-2', name: 'Adivinanza por letra', category: 'Semántica' },
-  { id: 'se3', code: 'SE-3', name: 'Prendas y órdenes', category: 'Semántica' },
-  { id: 'ms1', code: 'MS-1', name: 'Singular / plural', category: 'Morfosintaxis' },
-  { id: 'ms2', code: 'MS-2', name: 'Flexión de género', category: 'Morfosintaxis' },
-  { id: 'ms3', code: 'MS-3', name: 'Estructura S-V-O', category: 'Morfosintaxis' },
-  { id: 'pr1', code: 'PR-1', name: 'Preguntas tipo ¿qué?', category: 'Pragmática' },
-  { id: 'pr2', code: 'PR-2', name: 'Adaptación del discurso', category: 'Pragmática' },
-  { id: 'pr3', code: 'PR-3', name: 'Reconocimiento de emociones', category: 'Pragmática' },
-  { id: 'pr4', code: 'PR-4', name: 'Petición de repetición', category: 'Pragmática' },
+  { id: 'ff1', code: 'FF-1', name: 'Asociación vocal inicial', category: 'Sonidos y vocales (fonética-fonología)', age: '4-5 años' },
+  { id: 'ff2', code: 'FF-2', name: 'Articulación de vocales', category: 'Sonidos y vocales (fonética-fonología)', age: '3-4 años' },
+  { id: 'ff3', code: 'FF-3', name: 'Completar vocal faltante', category: 'Sonidos y vocales (fonética-fonología)', age: '5-6 años' },
+  { id: 'se1', code: 'SE-1', name: 'Detección del intruso', category: 'Vocabulario (semántica)', age: '4-5 años' },
+  { id: 'se2', code: 'SE-2', name: 'Adivinanza por letra', category: 'Vocabulario (semántica)', age: '5-6 años' },
+  { id: 'se3', code: 'SE-3', name: 'Prendas y órdenes', category: 'Vocabulario (semántica)', age: '3-4 años' },
+  { id: 'ms1', code: 'MS-1', name: 'Singular / plural', category: 'Frases (morfosintaxis)', age: '4-5 años' },
+  { id: 'ms2', code: 'MS-2', name: 'Flexión de género', category: 'Frases (morfosintaxis)', age: '4-5 años' },
+  { id: 'ms3', code: 'MS-3', name: 'Estructura S-V-O', category: 'Frases (morfosintaxis)', age: '5-6 años' },
+  { id: 'pr1', code: 'PR-1', name: 'Preguntas tipo ¿qué?', category: 'Uso social (pragmática)', age: '3-4 años' },
+  { id: 'pr2', code: 'PR-2', name: 'Adaptación del discurso', category: 'Uso social (pragmática)', age: '5-6 años' },
+  { id: 'pr3', code: 'PR-3', name: 'Reconocimiento de emociones', category: 'Uso social (pragmática)', age: '4-5 años' },
+  { id: 'pr4', code: 'PR-4', name: 'Petición de repetición', category: 'Uso social (pragmática)', age: '5-6 años' },
 ];
+// Orden de las secciones por edad en la lista de Audición.
+const AGE_BANDS = ['3-4 años', '4-5 años', '5-6 años'];
 const EXERCISES_LEN: Item[] = [
   { id: 'atencion_conjunta', code: 'M-1', name: 'Atención Conjunta', category: 'Mirar, burbujas y nombre' },
   { id: 'imitacion', code: 'M-2', name: 'Imitación Motora/Verbal', category: 'Aplausos, tambor y sílabas' },
@@ -185,7 +191,7 @@ export const ValeriaExerciseSelectionScreen: React.FC<{ navigation: any }> = ({ 
             })}
             {blockCard({
               icon: '👂', accentBg: '#e0edff', accentFg: '#3b6fd4',
-              title: 'Audición', sub: 'Protocolo ACOPROS: fonética, semántica, morfosintaxis y pragmática.',
+              title: 'Audición', sub: 'Inspirado en el protocolo ACOPROS: sonidos, vocabulario, frases y uso social, organizado por edades.',
               onPress: () => { setTab('audicion'); setToast(''); setView('list'); },
               a11y: 'Abrir terapias de audición', total: EXERCISES_AUD.length, activeN: activeAud.filter(Boolean).length,
             })}
@@ -265,25 +271,55 @@ export const ValeriaExerciseSelectionScreen: React.FC<{ navigation: any }> = ({ 
               <View style={s.countBadge}><Text style={s.countBadgeTxt}>{activeCount} prescritos</Text></View>
             </View>
 
-            {list.map((item, i) => {
-              const on = active[i];
+            {/* Referencia del bloque: los evaluadores pedían saber en qué se
+                basa el "protocolo ACOPROS" sin tener que ir al manual. */}
+            {isAud && (
+              <View style={s.refCard}>
+                <Text style={{ fontSize: 15 }}>ℹ️</Text>
+                <Text style={s.refCardTxt}>
+                  Actividades inspiradas en los materiales de rehabilitación auditiva de ACOPROS
+                  (Asociación Coruñesa de Promoción del Sordo), organizadas en 4 áreas: sonidos,
+                  vocabulario, frases y uso social. Las edades son orientativas: empieza por las de
+                  la edad de tu peque y deja que el logopeda ajuste la prescripción.
+                </Text>
+              </View>
+            )}
+
+            {(isAud ? AGE_BANDS : [null]).map((band) => {
+              const rows = list
+                .map((item, i) => ({ item, i }))
+                .filter(({ item }) => band == null || item.age === band);
+              if (!rows.length) return null;
               return (
-                <View key={item.id} style={[s.row, { borderColor: on ? V.color.borderActive : V.color.border }]}>
-                  <View style={[s.codeChip, { backgroundColor: on ? V.color.primaryLight : '#f1f5f4' }]}>
-                    <Text style={[s.codeChipTxt, { color: on ? V.color.primaryDark : V.color.textMuted }]}>{item.code}</Text>
-                  </View>
-                  <View style={{ flex: 1 }}>
-                    <Text style={s.rowName}>{item.name}</Text>
-                    <Text style={s.rowCat}>{item.category}</Text>
-                  </View>
-                  <Pressable
-                    onPress={() => navigation.navigate(usesHearingDevice ? 'LingTest' : 'ExercisePlayer', { id: item.id })}
-                    style={s.playBtn} accessibilityRole="button" accessibilityLabel={`Practicar ${item.name}`}>
-                    <Text style={{ color: V.color.primaryDark, fontSize: 13 }}>▶</Text>
-                  </Pressable>
-                  <Switch value={on} onValueChange={() => toggle(i)} disabled={!unlocked}
-                    trackColor={{ false: '#d1d5db', true: V.color.primary }} thumbColor="#ffffff"
-                    style={{ opacity: unlocked ? 1 : 0.4 }} />
+                <View key={band ?? 'all'}>
+                  {band != null && (
+                    <View style={s.ageHead}>
+                      <Text style={s.ageHeadTxt}>👶 {band.toUpperCase()}</Text>
+                      <View style={s.ageHeadLine} />
+                    </View>
+                  )}
+                  {rows.map(({ item, i }) => {
+                    const on = active[i];
+                    return (
+                      <View key={item.id} style={[s.row, { borderColor: on ? V.color.borderActive : V.color.border }]}>
+                        <View style={[s.codeChip, { backgroundColor: on ? V.color.primaryLight : '#f1f5f4' }]}>
+                          <Text style={[s.codeChipTxt, { color: on ? V.color.primaryDark : V.color.textMuted }]}>{item.code}</Text>
+                        </View>
+                        <View style={{ flex: 1 }}>
+                          <Text style={s.rowName}>{item.name}</Text>
+                          <Text style={s.rowCat}>{item.category}</Text>
+                        </View>
+                        <Pressable
+                          onPress={() => navigation.navigate(usesHearingDevice ? 'LingTest' : 'ExercisePlayer', { id: item.id })}
+                          style={s.playBtn} hitSlop={6} accessibilityRole="button" accessibilityLabel={`Practicar ${item.name}`}>
+                          <Text style={{ color: V.color.primaryDark, fontSize: 17 }}>▶</Text>
+                        </Pressable>
+                        <Switch value={on} onValueChange={() => toggle(i)} disabled={!unlocked}
+                          trackColor={{ false: '#d1d5db', true: V.color.primary }} thumbColor="#ffffff"
+                          style={{ opacity: unlocked ? 1 : 0.4 }} />
+                      </View>
+                    );
+                  })}
                 </View>
               );
             })}
@@ -366,7 +402,16 @@ const s = StyleSheet.create({
   codeChipTxt: { fontSize: 12, fontWeight: '800', letterSpacing: 0.3 },
   rowName: { fontSize: 14.5, fontWeight: '800', color: V.color.textPrimary },
   rowCat: { fontSize: 11.5, fontWeight: '700', color: V.color.textMuted, marginTop: 2 },
-  playBtn: { width: 36, height: 36, borderRadius: 12, backgroundColor: V.color.primaryLight, alignItems: 'center', justifyContent: 'center' },
+  // 48×48 + hitSlop: tamaño mínimo accesible para personas con movilidad
+  // reducida (los evaluadores señalaron que el botón anterior era muy pequeño).
+  playBtn: { width: 48, height: 48, borderRadius: 15, backgroundColor: V.color.primaryLight, borderWidth: 1, borderColor: V.color.borderActive, alignItems: 'center', justifyContent: 'center' },
+
+  refCard: { flexDirection: 'row', alignItems: 'flex-start', gap: 9, backgroundColor: '#eef6ff', borderWidth: 1, borderColor: '#d3e5fb', borderRadius: 13, padding: 12, marginBottom: 14 },
+  refCardTxt: { flex: 1, fontSize: 11.5, fontWeight: '600', color: '#2c5382', lineHeight: 16 },
+
+  ageHead: { flexDirection: 'row', alignItems: 'center', gap: 9, marginTop: 10, marginBottom: 9, marginHorizontal: 2 },
+  ageHeadTxt: { fontSize: 11.5, fontWeight: '800', letterSpacing: 0.5, color: V.color.primaryDark },
+  ageHeadLine: { flex: 1, height: 1, backgroundColor: V.color.borderActive },
 
   primaryBtn: { backgroundColor: V.color.primary, borderRadius: 14, paddingVertical: 16, alignItems: 'center', ...V.shadow.button },
   primaryBtnTxt: { color: '#fff', fontSize: 16, fontWeight: '800' },

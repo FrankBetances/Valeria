@@ -23,6 +23,20 @@
 //     en los mini-juegos táctiles (intruso, emociones, vocal faltante).
 //   · Cabecera con el nombre real del paciente activo.
 //
+// Novedades V7 (feedback de los evaluadores del bloque de Audición):
+//   · Consignas reescritas en lenguaje llano y con los pasos concretos.
+//   · Tarjeta "Necesitarás" al inicio cuando la actividad usa material real.
+//   · Edad orientativa visible en cada ejercicio.
+//   · FF-1 ahora es un juego real de unir imagen ↔ vocal en la pantalla.
+//   · FF-3 y SE-1 con apoyo auditivo (oír la palabra completa / las fichas).
+//   · SE-2 con opciones de respuesta visuales (ya no es solo oral).
+//   · MS-1 y MS-2 con mini-juego visual + audio (uno/muchos y niño/niña).
+//   · MS-3 ordena las fichas en pantalla mientras escucha la frase (sin dados).
+//   · PR-1 y PR-2 registran la respuesta del niño por voz o por escrito.
+//   · PR-3 con audio en las opciones y refuerzo inmediato; PR-4 clarificado
+//     con práctica de micrófono de la fórmula "¿cómo?".
+//   · Explicación en lenguaje sencillo de la escala EPT-3 en la evaluación.
+//
 // Navegación: navigation.navigate('ExercisePlayer', { id?: string; ids?: string[] })
 //   · Con `ids` -> sesión con esa lista de ejercicios (p. ej. todos los prescritos).
 //   · Con `id`  -> sesión de un solo ejercicio.
@@ -35,15 +49,15 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { V, STORAGE_KEYS } from './valeriaTheme';
 import { registerSession, SessionReward, levelProgress, xpToNext } from './valeriaGamification';
-import { speakToChild, stopSpeaking, praisePhrase, almostPhrase } from './valeriaVoice';
-import { SpeakButton, MicPracticeCard } from './ValeriaVoiceUI';
+import { speakToChild, speakWordSlow, stopSpeaking, praisePhrase, almostPhrase } from './valeriaVoice';
+import { SpeakButton, MicPracticeCard, ResponseCaptureCard } from './ValeriaVoiceUI';
 import { ValeriaTPRCapsuleOverlay, pickTprCapsule, TprCapsule } from './ValeriaTPRCapsule';
 // import logoWhite from '../../assets/valeria-logo-white.png';
 
 // ----------------------------------------------------------------------------
 // Tipos
 // ----------------------------------------------------------------------------
-type Stage = 'phrase' | 'vowels' | 'fill' | 'intruder' | 'emotions' | 'dice' | 'instruction';
+type Stage = 'phrase' | 'vowels' | 'fill' | 'intruder' | 'emotions' | 'order' | 'instruction' | 'choice' | 'plural';
 
 interface Tile { cap: string; emoji: string; }
 
@@ -56,6 +70,8 @@ interface Exercise {
   stageLabel?: string;
   ept: [string, string, string]; // reglas EPT-3 (1★, 2★, 3★)
   move: string;            // variante del ejercicio con movimiento corporal
+  age?: string;            // edad orientativa (los evaluadores pidieron dividir por edad)
+  materials?: string;      // material real necesario, anunciado ANTES de empezar
   // datos de mini-juego
   phrase?: string; phraseEmoji?: string;
   tiles?: Tile[];
@@ -64,6 +80,13 @@ interface Exercise {
   emotionFace?: string; emotionAnswer?: string;
   parts?: { role: string; cap: string; emoji: string }[]; sentence?: string;
   instrIcon?: string; instrHint?: string;
+  // 'choice': escucha un audio y toca la imagen correcta (adivinanzas, género)
+  choicePrompt?: string; choiceLabel?: string; choiceVoice?: 'slow' | 'tutor'; options?: Tile[]; optionAnswer?: number;
+  // 'plural': tarjeta con UNO frente a tarjeta con MUCHOS
+  plural?: { cap: string; capPlural: string; emoji: string };
+  // registro de respuesta libre (voz o escrito) y práctica de micro dirigida
+  capture?: string;
+  micTarget?: string; micPrompt?: string;
   // Progresión Inicial → Intermedio → Avanzado dentro de la misma sesión
   // (ejercicios de Lenguaje, protocolo ACOPROS). Si está presente, sustituye
   // a `read`/`instrIcon`/`instrHint` para cada uno de los 3 sub-pasos.
@@ -74,74 +97,84 @@ interface Exercise {
 // Base de datos de ejercicios (13 Audición + 7 Lenguaje) con reglas EPT-3
 // ----------------------------------------------------------------------------
 const DB: Record<string, Exercise> = {
-  ff1: { code: 'FF-1', name: 'Asociación vocal inicial', category: 'Fonética-Fonología',
-    read: 'Mira las imágenes. Di cómo se llama cada una y con qué vocal empieza.',
-    stage: 'vowels', stageLabel: 'Asocia imagen y vocal inicial',
+  ff1: { code: 'FF-1', name: 'Asociación vocal inicial', category: 'Sonidos y vocales (fonética-fonología)', age: '4-5 años',
+    read: 'El niño toca una imagen para oír su nombre y después toca la vocal con la que empieza. La app le dice si acertó.',
+    stage: 'vowels', stageLabel: 'Une cada imagen con su vocal',
     tiles: [{ cap: 'araña', emoji: '🕷️' }, { cap: 'elefante', emoji: '🐘' }, { cap: 'isla', emoji: '🏝️' }],
     move: 'Dibujad la vocal en el aire con el brazo bien grande cada vez que acierte.',
-    ept: ['No repite ni asocia la vocal inicial.', 'Acierta la vocal tras una pista visual o énfasis del tutor.', 'Nombra la imagen y asocia la vocal inicial de forma espontánea.'] },
-  ff2: { code: 'FF-2', name: 'Articulación de vocales', category: 'Fonética-Fonología',
-    read: 'Vamos a repetir esta palabra juntos, articulando bien cada vocal.',
+    ept: ['Todavía no une la imagen con su vocal, ni con ayuda.', 'Acierta la vocal cuando el adulto le da una pista.', 'Une cada imagen con su vocal él solo.'] },
+  ff2: { code: 'FF-2', name: 'Articulación de vocales', category: 'Sonidos y vocales (fonética-fonología)', age: '3-4 años',
+    read: 'Di tú primero la palabra, cerca del niño y despacio, y anímale a repetirla. La voz de la app es solo un apoyo extra.',
     stage: 'phrase', stageLabel: 'Repite la palabra', phrase: 'ZAPATO', phraseEmoji: '👟',
     move: 'Marchad por la sala pisando fuerte una sílaba en cada paso: ZA-PA-TO.',
-    ept: ['No imita el sonido o realiza una aproximación muy lejana.', 'Imita la vocal aislada correctamente tras el modelo del adulto.', 'Produce la vocal y la palabra completa articulando con precisión.'] },
-  ff3: { code: 'FF-3', name: 'Completar vocal faltante', category: 'Fonética-Fonología',
-    read: 'A esta palabra le falta una vocal. ¿Cuál es? Tócala para completarla.',
-    stage: 'fill', stageLabel: 'Completa la vocal que falta', fillBefore: 'S', fillAfter: 'L', fillAnswer: 'O', fillEmoji: '☀️', fillCap: 'sol',
+    ept: ['Todavía no imita el sonido o queda muy lejos de la palabra.', 'Repite la palabra después de oírtela a ti varias veces.', 'Dice la palabra él solo, con todas sus vocales claras.'] },
+  ff3: { code: 'FF-3', name: 'Completar vocal faltante', category: 'Sonidos y vocales (fonética-fonología)', age: '5-6 años',
+    read: 'Primero pulsa 🔊 para que el niño oiga la palabra completa. Después, que toque la vocal que le falta a la palabra escrita.',
+    stage: 'fill', stageLabel: 'Escucha la palabra y completa la vocal', fillBefore: 'S', fillAfter: 'L', fillAnswer: 'O', fillEmoji: '☀️', fillCap: 'sol',
     move: 'Cuando encuentre la vocal, brazos arriba formando un sol gigante.',
-    ept: ['No identifica la vocal que falta ni responde al estímulo.', 'Completa la palabra con énfasis o ayuda visual directa.', 'Identifica y selecciona la vocal faltante de forma autónoma.'] },
-  se1: { code: 'SE-1', name: 'Detección del intruso', category: 'Semántica',
-    read: 'Tres de estas cosas se pueden comer. Toca la que NO pertenece al grupo.',
-    stage: 'intruder', stageLabel: 'Toca el intruso',
+    ept: ['Todavía no encuentra la vocal que falta, ni con ayuda.', 'Completa la palabra si le repites el sonido o le das una pista.', 'Escucha la palabra y toca la vocal que falta él solo.'] },
+  se1: { code: 'SE-1', name: 'Detección del intruso', category: 'Vocabulario (semántica)', age: '4-5 años',
+    read: 'Pulsa 🔊 para oír el nombre de las cuatro fichas. Tres van juntas y una no. El niño toca la que NO va con las demás.',
+    stage: 'intruder', stageLabel: 'Toca la ficha que no va con las demás',
     intruder: [{ cap: 'manzana', emoji: '🍎' }, { cap: 'plátano', emoji: '🍌' }, { cap: 'uva', emoji: '🍇' }, { cap: 'coche', emoji: '🚗' }], intruderAnswer: 3,
     move: 'Si se come, tocaos la barriga; si es el intruso, ¡salto de estrella!',
-    ept: ['No identifica el intruso ni entiende la relación categorial.', 'Encuentra el intruso tras una pregunta guía.', 'Señala el intruso y explica el porqué de forma autónoma.'] },
-  se2: { code: 'SE-2', name: 'Adivinanza por letra', category: 'Semántica',
-    read: 'Adivina: empieza por "P", es una fruta amarilla y alargada. ¿Qué es?',
-    stage: 'instruction', instrIcon: '🔎', instrHint: 'Da pistas del fonema, la categoría y la función del objeto.',
+    ept: ['Todavía no encuentra la ficha que no va con las demás.', 'La encuentra cuando le haces una pregunta de ayuda («¿cuáles se comen?»).', 'La encuentra él solo y explica por qué no va con las otras.'] },
+  se2: { code: 'SE-2', name: 'Adivinanza por letra', category: 'Vocabulario (semántica)', age: '5-6 años',
+    read: 'Pulsa 🔊 para oír la adivinanza (o léela tú). El niño responde tocando una de las tres imágenes.',
+    stage: 'choice', stageLabel: 'Escucha la adivinanza y toca la respuesta',
+    choicePrompt: 'Empieza por pe, y es una fruta amarilla y alargada. ¿Qué es?', choiceLabel: 'Oír la adivinanza', choiceVoice: 'tutor',
+    options: [{ cap: 'plátano', emoji: '🍌' }, { cap: 'pera', emoji: '🍐' }, { cap: 'pelota', emoji: '⚽' }], optionAnswer: 0,
     move: 'Buscad por la habitación un objeto real que empiece por la misma letra.',
-    ept: ['No logra adivinar el objeto aun con múltiples pistas.', 'Identifica el objeto tras pistas fonológicas y semánticas.', 'Adivina el objeto con la primera descripción y el fonema.'] },
-  se3: { code: 'SE-3', name: 'Prendas y órdenes', category: 'Semántica',
-    read: 'Dile al muñeco qué ponerse: "Ponle el gorro y los zapatos".',
-    stage: 'instruction', instrIcon: '🧥', instrHint: 'Pide al niño vestir o colocar accesorios siguiendo tu orden verbal.',
+    ept: ['Todavía no adivina la respuesta, ni con más pistas.', 'Acierta después de repetirle la adivinanza o darle otra pista.', 'Acierta a la primera, solo con oír la adivinanza.'] },
+  se3: { code: 'SE-3', name: 'Prendas y órdenes', category: 'Vocabulario (semántica)', age: '3-4 años',
+    materials: 'Un muñeco o peluche y prendas de verdad: gorro, zapatos, camiseta…',
+    read: 'Coge el muñeco y la ropa. Dale al niño una orden cada vez: «Ponle el gorro al muñeco». Cambia de prenda en cada turno.',
+    stage: 'instruction', instrIcon: '🧥', instrHint: 'El niño escucha tu orden y viste al muñeco con la prenda correcta.',
     move: 'Jugad a vestirse de verdad: que traiga el gorro corriendo y se lo ponga.',
-    ept: ['No asocia el vocabulario de las prendas ni ejecuta la orden.', 'Coloca la prenda tras una demostración del adulto.', 'Identifica la prenda y ejecuta la orden verbal compleja.'] },
-  ms1: { code: 'MS-1', name: 'Singular / plural', category: 'Morfosintaxis',
-    read: 'Aquí hay un gato y aquí hay muchos. ¿Cómo decimos cuando hay muchos?',
-    stage: 'instruction', instrIcon: '🔢', instrHint: 'Trabaja la diferencia entre uno y muchos añadiendo el morfema de número.',
+    ept: ['Todavía no reconoce las prendas ni cumple la orden.', 'Pone la prenda correcta si antes se lo enseñas tú una vez.', 'Escucha la orden y viste al muñeco él solo.'] },
+  ms1: { code: 'MS-1', name: 'Singular / plural', category: 'Frases (morfosintaxis)', age: '4-5 años',
+    read: 'El niño toca la tarjeta donde hay MUCHOS. Después pregúntale «¿qué son?» para que lo diga con la ese final: «gatos».',
+    stage: 'plural', stageLabel: 'Toca donde hay muchos y dilo',
+    plural: { cap: 'gato', capPlural: 'gatos', emoji: '🐱' },
     move: 'Un salto grande si hay UNO, muchos saltitos seguidos si hay MUCHOS.',
-    ept: ['No diferencia singular de plural.', 'Produce el plural tras el modelo o preguntas del tutor.', 'Evoca el plural espontáneamente añadiendo el morfema (-s/-es).'] },
-  ms2: { code: 'MS-2', name: 'Flexión de género', category: 'Morfosintaxis',
-    read: 'Si es "gato", la niña es "gat-a". Vamos a cambiar el género de las palabras.',
-    stage: 'instruction', instrIcon: '⚥', instrHint: 'Asocia la terminación masculina/femenina en nombres y adjetivos.',
-    move: 'Un lado de la sala es "gato" y el otro "gata": ¡corre al lado correcto!',
-    ept: ['No distingue el género gramatical o confunde la terminación.', 'Evoca el femenino con ayuda del morfema final ("gat-a").', 'Clasifica y evoca el género de forma autónoma.'] },
-  ms3: { code: 'MS-3', name: 'Estructura S-V-O', category: 'Morfosintaxis',
-    read: 'Usa los dados para construir una frase: ¿quién?, ¿qué hace?, ¿a qué?',
-    stage: 'dice', stageLabel: 'Construye la oración',
+    ept: ['Todavía no distingue entre «uno» y «muchos».', 'Dice el plural («gatos») si tú se lo dices antes.', 'Toca donde hay muchos y dice el plural él solo.'] },
+  ms2: { code: 'MS-2', name: 'Flexión de género', category: 'Frases (morfosintaxis)', age: '4-5 años',
+    read: 'Pulsa 🔊 para oír la palabra. El niño toca la imagen correcta. Después jugad al revés: tú señalas una imagen y él dice la palabra.',
+    stage: 'choice', stageLabel: 'Escucha la palabra y toca la imagen',
+    choicePrompt: 'niña', choiceLabel: 'Oír la palabra', choiceVoice: 'slow',
+    options: [{ cap: 'niño', emoji: '👦' }, { cap: 'niña', emoji: '👧' }], optionAnswer: 1,
+    move: 'Un lado de la sala es "niño" y el otro "niña": ¡corre al lado correcto!',
+    ept: ['Todavía confunde las palabras de chico y de chica.', 'Acierta si le recuerdas el final de la palabra: «niñ-o», «niñ-a».', 'Toca la imagen y dice la palabra correcta él solo.'] },
+  ms3: { code: 'MS-3', name: 'Estructura S-V-O', category: 'Frases (morfosintaxis)', age: '5-6 años',
+    read: 'Pulsa 🔊 para que el niño oiga la frase. Después, que toque las fichas en orden para construirla: quién, qué hace y qué cosa.',
+    stage: 'order', stageLabel: 'Escucha la frase y ordena las fichas',
     parts: [{ role: 'Sujeto', cap: 'niño', emoji: '👦' }, { role: 'Verbo', cap: 'come', emoji: '😋' }, { role: 'Objeto', cap: 'manzana', emoji: '🍎' }], sentence: 'El niño come la manzana.',
     move: 'Teatralizad la frase: el niño hace de actor y "come" una manzana imaginaria.',
-    ept: ['Solo nombra elementos aislados sin estructurar la oración.', 'Estructura la frase S-V-O con ayuda del inicio provisto.', 'Produce la oración completa respetando concordancia y orden.'] },
-  pr1: { code: 'PR-1', name: 'Preguntas tipo ¿qué?', category: 'Pragmática',
-    read: 'Pregúntale cosas del entorno: "¿Qué es esto?", "¿Qué está haciendo?".',
-    stage: 'instruction', instrIcon: '💬', instrHint: 'Fomenta que responda y que formule preguntas sencillas por sí mismo.',
+    ept: ['Solo dice palabras sueltas («niño», «manzana»).', 'Construye la frase si tú le ayudas a empezarla.', 'Ordena las fichas y dice la frase completa él solo.'] },
+  pr1: { code: 'PR-1', name: 'Preguntas tipo ¿qué?', category: 'Uso social (pragmática)', age: '3-4 años',
+    read: 'Señala cosas de la habitación y pregúntale: «¿Qué es esto?». Graba o escribe abajo lo que responda el niño.',
+    stage: 'instruction', instrIcon: '💬', instrHint: 'Primero responde él a tus preguntas; luego anímale a preguntarte a ti «¿qué es esto?».',
+    capture: 'Pregúntale «¿qué es esto?» señalando un objeto. Graba con el micro o escribe su respuesta.',
     move: 'Pasead por la casa como exploradores señalando objetos: "¿qué es esto?" en cada parada.',
-    ept: ['No responde a la pregunta o ignora la interacción.', 'Responde adecuadamente tras un modelo de respuesta.', 'Responde con soltura y formula preguntas espontáneamente.'] },
-  pr2: { code: 'PR-2', name: 'Adaptación del discurso', category: 'Pragmática',
-    read: 'El peluche está dormido. Tenemos que hablar muy bajito para no despertarlo.',
-    stage: 'instruction', instrIcon: '🤫', instrHint: 'Trabaja la modulación de la voz y el tono según el contexto del juego.',
+    ept: ['Todavía no responde a la pregunta.', 'Responde si primero le das tú un ejemplo de respuesta.', 'Responde él solo e incluso te hace preguntas a ti.'] },
+  pr2: { code: 'PR-2', name: 'Adaptación del discurso', category: 'Uso social (pragmática)', age: '5-6 años',
+    materials: 'Un peluche o muñeco',
+    read: 'El peluche está dormido: hablad muy bajito para no despertarlo. Cuando «se despierte», volved a la voz normal. Registra abajo cómo lo hace.',
+    stage: 'instruction', instrIcon: '😴', instrHint: 'Peluche dormido = voz bajita. Peluche despierto = voz normal. El niño debe cambiar su voz con el juego.',
+    capture: 'Graba o escribe cómo habló el niño: ¿bajó la voz con el peluche dormido?',
     move: 'Caminad de puntillas hablando bajito; a la señal, ¡voz normal y paso fuerte!',
-    ept: ['No ajusta su volumen o tono de voz al contexto.', 'Ajusta el tono tras la indicación o recordatorio del adulto.', 'Adapta registro y volumen espontáneamente en el juego de rol.'] },
-  pr3: { code: 'PR-3', name: 'Reconocimiento de emociones', category: 'Pragmática',
-    read: 'Mira esta cara. ¿Cómo se siente? Toca la emoción correcta.',
+    ept: ['Habla igual de fuerte aunque el peluche duerma.', 'Baja la voz cuando tú se lo recuerdas.', 'Cambia él solo entre voz bajita y voz normal según el juego.'] },
+  pr3: { code: 'PR-3', name: 'Reconocimiento de emociones', category: 'Uso social (pragmática)', age: '4-5 años',
+    read: 'Mira la cara grande con el niño. Pulsa 🔊 si quiere oír las opciones. Él toca cómo se siente la cara.',
     stage: 'emotions', stageLabel: 'Reconoce la emoción', emotionFace: '😀', emotionAnswer: 'Alegría',
     move: 'Imitad la emoción con todo el cuerpo: cara, brazos y postura de estatua.',
-    ept: ['No reconoce las expresiones ni asocia el vocabulario.', 'Identifica la emoción tras señalarle rasgos faciales clave.', 'Nombra la emoción y argumenta la causa de forma autónoma.'] },
-  pr4: { code: 'PR-4', name: 'Petición de repetición', category: 'Pragmática',
-    read: 'Si no entiendes algo, puedes pedir: "¿Qué?" o "¿Cómo?". Vamos a practicarlo.',
-    stage: 'instruction', instrIcon: '🔁', instrHint: 'Enseña a solicitar aclaración ante un mensaje poco claro o inaudible.',
+    ept: ['Todavía no reconoce cómo se siente la cara.', 'Acierta la emoción si le das pistas («mira su boca»).', 'Dice la emoción él solo y explica por qué se siente así.'] },
+  pr4: { code: 'PR-4', name: 'Petición de repetición', category: 'Uso social (pragmática)', age: '5-6 años',
+    read: 'Tápate la boca y di una palabra casi sin voz. Si el niño no la entiende, debe pedirte: «¿qué?» o «¿cómo?». Eso es lo que practicamos: pedir que se lo repitan.',
+    stage: 'instruction', instrIcon: '🙋', instrHint: 'El objetivo NO es repetir palabras: es que el niño aprenda a pedir que le repitas lo que no entendió.',
+    micTarget: 'cómo', micPrompt: 'Cuando no te entienda, pulsa el micro y que pida: «¿cómo?»',
     move: 'Susurra una orden desde lejos; si no se entiende, que venga corriendo y pida "¿qué?".',
-    ept: ['Se queda en silencio o abandona ante un mensaje confuso.', 'Pide repetición con la fórmula enseñada, tras indicación.', 'Pide clarificación de forma natural y espontánea.'] },
+    ept: ['Se queda callado o abandona cuando no entiende algo.', 'Pide «¿qué?» si tú le recuerdas que puede pedirlo.', 'Pide «¿qué?» o «¿cómo?» él solo cuando no entiende.'] },
   atencion_conjunta: { code: 'M-1', name: 'Atención Conjunta', category: 'Mirar, burbujas y nombre',
     read: 'Llama al niño por su nombre y haz burbujas. Busca su mirada y el contacto visual.',
     stage: 'instruction', instrIcon: '👀', instrHint: 'Desarrolla contacto visual, seguimiento de la mirada y respuesta al nombre.',
@@ -240,25 +273,42 @@ const VARIANTS: Record<string, Partial<Exercise>[]> = {
   se1: [
     {},
     {
-      read: 'Tres de estos son animales. Toca el que NO pertenece al grupo.',
+      read: 'Pulsa 🔊 para oír el nombre de las cuatro fichas. Tres son animales y una no. El niño toca la que NO va con las demás.',
       intruder: [{ cap: 'perro', emoji: '🐶' }, { cap: 'gato', emoji: '🐱' }, { cap: 'vaca', emoji: '🐄' }, { cap: 'zapato', emoji: '👟' }],
       intruderAnswer: 3,
     },
     {
-      read: 'Tres de estas cosas son para vestirse. Toca la que NO pertenece al grupo.',
+      read: 'Pulsa 🔊 para oír el nombre de las cuatro fichas. Tres son para vestirse y una no. El niño toca la que NO va con las demás.',
       intruder: [{ cap: 'gorro', emoji: '🧢' }, { cap: 'camiseta', emoji: '👕' }, { cap: 'zapato', emoji: '👟' }, { cap: 'plátano', emoji: '🍌' }],
       intruderAnswer: 3,
     },
   ],
   se2: [
     {},
-    { read: 'Adivina: empieza por "M", es una fruta roja y redonda. ¿Qué es?' },
-    { read: 'Adivina: empieza por "S", brilla en el cielo y nos da calor. ¿Qué es?' },
+    {
+      choicePrompt: 'Empieza por eme, y es una fruta roja y redonda. ¿Qué es?',
+      options: [{ cap: 'manzana', emoji: '🍎' }, { cap: 'mariposa', emoji: '🦋' }, { cap: 'moto', emoji: '🏍️' }], optionAnswer: 0,
+    },
+    {
+      choicePrompt: 'Empieza por ese, brilla en el cielo y nos da calor. ¿Qué es?',
+      options: [{ cap: 'sol', emoji: '☀️' }, { cap: 'serpiente', emoji: '🐍' }, { cap: 'sopa', emoji: '🍲' }], optionAnswer: 0,
+    },
   ],
   ms1: [
     {},
-    { read: 'Aquí hay una flor y aquí hay muchas. ¿Cómo decimos cuando hay muchas?' },
-    { read: 'Aquí hay un pez y aquí hay muchos. ¿Cómo decimos cuando hay muchos? Pista: pe-ces.' },
+    {
+      read: 'El niño toca la tarjeta donde hay MUCHAS. Después pregúntale «¿qué son?» para que lo diga con la ese final: «flores».',
+      plural: { cap: 'flor', capPlural: 'flores', emoji: '🌸' },
+    },
+    {
+      read: 'El niño toca la tarjeta donde hay MUCHOS. Después pregúntale «¿qué son?» para que lo diga terminado en «-ces»: «peces».',
+      plural: { cap: 'pez', capPlural: 'peces', emoji: '🐟' },
+    },
+  ],
+  ms2: [
+    {},
+    { choicePrompt: 'abuela', options: [{ cap: 'abuelo', emoji: '👴' }, { cap: 'abuela', emoji: '👵' }], optionAnswer: 1 },
+    { choicePrompt: 'rey', options: [{ cap: 'rey', emoji: '🤴' }, { cap: 'reina', emoji: '👸' }], optionAnswer: 0 },
   ],
   ms3: [
     {},
@@ -409,10 +459,24 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
   const [subIdx, setSubIdx] = useState(0);
   const [levelScores, setLevelScores] = useState<number[]>([]);
   // estado efímero de mini-juego
-  const [vowelPick, setVowelPick] = useState('');
   const [fillPick, setFillPick] = useState('');
   const [intruderPick, setIntruderPick] = useState(-1);
   const [emotionPick, setEmotionPick] = useState('');
+  // FF-1: unir imagen ↔ vocal (imagen seleccionada, imágenes ya unidas y vocal errónea que parpadea)
+  const [matchSel, setMatchSel] = useState(-1);
+  const [matchOk, setMatchOk] = useState<boolean[]>([]);
+  const [wrongVowel, setWrongVowel] = useState('');
+  // SE-2 / MS-2: elegir la imagen correcta tras el audio
+  const [choicePick, setChoicePick] = useState(-1);
+  // MS-1: tarjeta con uno / tarjeta con muchos
+  const [pluralPick, setPluralPick] = useState<'' | 'one' | 'many'>('');
+  // MS-3: fichas tocadas en orden para construir la frase
+  const [orderPicks, setOrderPicks] = useState<number[]>([]);
+  // Explicación en lenguaje llano de la escala EPT-3
+  const [eptInfoOpen, setEptInfoOpen] = useState(false);
+  // Respuestas libres registradas (voz o escrito) por código de ejercicio;
+  // al terminar, se guardan con la sesión en el historial de Resultados.
+  const capturesRef = useRef<Record<string, { name: string; text: string }>>({});
   // zoom de imagen
   const [zoom, setZoom] = useState<{ emoji: string; cap: string } | null>(null);
   // cápsula TPR entre ejercicios
@@ -444,7 +508,11 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
   useEffect(() => { stopSpeaking(); }, [idx, subIdx]);
   useEffect(() => () => stopSpeaking(), []);
 
-  const resetEphemeral = () => { setVowelPick(''); setFillPick(''); setIntruderPick(-1); setEmotionPick(''); };
+  const resetEphemeral = () => {
+    setFillPick(''); setIntruderPick(-1); setEmotionPick('');
+    setMatchSel(-1); setMatchOk([]); setWrongVowel('');
+    setChoicePick(-1); setPluralPick(''); setOrderPicks([]);
+  };
 
   const nextRound = () => {
     stopSpeaking();
@@ -457,6 +525,45 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
   // Feedback hablado de los mini-juegos táctiles: celebrar el acierto y animar
   // en el fallo, con frases rotativas para que no suene enlatado.
   const speakVerdict = (ok: boolean) => speakToChild(ok ? praisePhrase() : almostPhrase());
+
+  // Vocal inicial de una palabra sin tildes: águila → A (para FF-1).
+  const initialVowel = (cap: string) =>
+    cap.normalize('NFD').replace(/[\u0300-\u036f]/g, '').charAt(0).toUpperCase();
+
+  // FF-1 · unir imagen ↔ vocal: tocar la imagen la nombra en voz alta y la
+  // selecciona; tocar después una vocal comprueba la unión en la tablet.
+  const tapMatchTile = (i: number) => {
+    if (matchOk[i]) return;
+    setMatchSel(i);
+    speakWordSlow(ex.tiles![i].cap);
+  };
+  const tapMatchVowel = (v: string) => {
+    if (matchSel < 0) { speakToChild('Primero toca una imagen.'); return; }
+    if (initialVowel(ex.tiles![matchSel].cap) === v) {
+      setMatchOk((prev) => { const n = [...prev]; n[matchSel] = true; return n; });
+      setMatchSel(-1);
+      speakVerdict(true);
+    } else {
+      setWrongVowel(v);
+      speakVerdict(false);
+      setTimeout(() => setWrongVowel(''), 900);
+    }
+  };
+
+  // MS-3 · construir la frase tocando las fichas en orden (quién → qué hace →
+  // qué cosa). Si el orden final no es correcto, se anima y se reinicia.
+  const tapOrderTile = (i: number) => {
+    if (orderPicks.includes(i)) return;
+    const next = [...orderPicks, i];
+    setOrderPicks(next);
+    if (next.length === ex.parts!.length) {
+      const okOrder = next.every((p, k) => p === k);
+      if (okOrder) speakToChild(`${praisePhrase()} ${ex.sentence}`);
+      else { speakToChild(almostPhrase()); setTimeout(() => setOrderPicks([]), 1400); }
+    } else {
+      speakWordSlow(ex.parts![i].cap);
+    }
+  };
 
   const pick = (val: number) => {
     if (locking || finished) return;
@@ -494,6 +601,10 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
       const raw = await AsyncStorage.getItem(STORAGE_KEYS.historial);
       const hist = raw ? JSON.parse(raw) : [];
       const d = new Date();
+      // Respuestas libres registradas durante la sesión (PR-1, PR-2…): viajan
+      // con la entrada del historial para que Resultados las muestre.
+      const responses = Object.entries(capturesRef.current)
+        .map(([code, r]) => ({ code, name: r.name, text: r.text }));
       hist.push({
         date: `${d.getDate()} ${MONTHS[d.getMonth()]}`,
         name: sessionName,
@@ -502,6 +613,7 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
           : avg >= 1.8 ? 'Buena sesión, alguna consigna costó pero se mantuvo atento.'
             : 'Sesión difícil hoy, conviene reforzar con más apoyo del tutor.',
         completed: true,
+        ...(responses.length ? { responses } : {}),
       });
       await AsyncStorage.setItem(STORAGE_KEYS.historial, JSON.stringify(hist));
     } catch (e) { /* almacenamiento no disponible */ }
@@ -530,6 +642,7 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
 
   const restart = () => {
     clearInterval(timerRef.current);
+    capturesRef.current = {};
     setIdx(0); setSubIdx(0); setLevelScores([]); setResults([]); setPicked(0); setLocking(false);
     setFinished(false); setCountdown(10); setReward(null); setActiveBreak(null); setRound(0); resetEphemeral();
   };
@@ -576,6 +689,11 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                 <Text style={s.metaName}>{ex.name}</Text>
                 <Text style={s.metaCat}>{ex.category}</Text>
               </View>
+              {!!ex.age && !curLevel && (
+                <View style={s.levelBadge}>
+                  <Text style={s.levelBadgeTxt}>👶 {ex.age}</Text>
+                </View>
+              )}
               {curLevel && (
                 <View style={s.levelBadge}>
                   <Text style={s.levelBadgeTxt}>{curLevel.label} · {subIdx + 1}/{ex.levels!.length}</Text>
@@ -583,13 +701,24 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
               )}
             </View>
 
+            {/* Material real necesario: se anuncia ANTES de empezar la actividad */}
+            {!!ex.materials && (
+              <View style={s.materialsCard}>
+                <Text style={{ fontSize: 18 }}>🧺</Text>
+                <View style={{ flex: 1 }}>
+                  <Text style={s.materialsKicker}>ANTES DE EMPEZAR · NECESITARÁS</Text>
+                  <Text style={s.materialsTxt}>{ex.materials}</Text>
+                </View>
+              </View>
+            )}
+
             {/* Consigna del tutor */}
             <View style={s.instructionCard}>
               <View style={s.instructionHead}>
                 <View style={s.instructionIcon}><Text style={{ fontSize: 18 }}>📢</Text></View>
                 <View>
                   <Text style={s.instructionKicker}>PASO 1 · CONSIGNA DEL TUTOR</Text>
-                  <Text style={s.instructionSmall}>Léela en voz alta (o deja que la lea la app)</Text>
+                  <Text style={s.instructionSmall}>Este texto es para el adulto: díselo al niño con tus palabras</Text>
                 </View>
               </View>
               <Text style={s.instructionText}>{curLevel ? curLevel.read : ex.read}</Text>
@@ -630,29 +759,59 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                     <Text style={s.phraseTxt}>“{ex.phrase}”</Text>
                     <SpeakButton text={ex.phrase!} label="Oír la palabra despacio" voice="slow" />
                   </View>
+                  {/* Con pérdida auditiva la voz sintética cuesta de imitar: el
+                      modelo principal debe ser la voz en vivo del adulto. */}
+                  <Text style={s.modelNote}>💡 El mejor modelo es tu voz: dísela tú primero, cerca y despacio. La voz de la app es solo un refuerzo.</Text>
                   <MicPracticeCard target={ex.phrase!} />
                 </>
               )}
 
+              {/* FF-1 · unir de verdad en la tablet cada imagen con su vocal:
+                  1) toca la imagen (la app la nombra) · 2) toca su vocal. */}
               {ex.stage === 'vowels' && (
                 <>
+                  <Text style={s.stageHint}>1º Toca una imagen para oír su nombre · 2º Toca la vocal con la que empieza</Text>
                   <View style={s.tilesRow}>
-                    {ex.tiles!.map((t, i) => (
-                      <View key={i} style={{ alignItems: 'center' }}>
-                        <EmojiTile emoji={t.emoji} cap={t.cap} size={82} bgIndex={i} onZoom={openZoom} />
-                        <Text style={s.tileCap}>{t.cap}</Text>
-                      </View>
-                    ))}
+                    {ex.tiles!.map((t, i) => {
+                      const done = !!matchOk[i];
+                      const sel = matchSel === i;
+                      return (
+                        <Pressable
+                          key={i}
+                          onPress={() => tapMatchTile(i)}
+                          accessibilityRole="button"
+                          accessibilityLabel={done ? `${t.cap}: ya unida con su vocal` : `Elegir la imagen de ${t.cap}`}
+                          style={[s.matchTile, sel && s.matchTileSel, done && s.matchTileOk]}
+                        >
+                          <EmojiTile emoji={t.emoji} cap={t.cap} size={78} bgIndex={i} onZoom={openZoom} />
+                          <Text style={s.tileCap}>{t.cap}</Text>
+                          <Text style={s.matchTileMark}>{done ? `✅ ${initialVowel(t.cap)}` : sel ? '👆 elegida' : ' '}</Text>
+                        </Pressable>
+                      );
+                    })}
                   </View>
                   <View style={s.vowelRow}>
-                    {VOWELS.map((v) => (
-                      <Pressable key={v} onPress={() => setVowelPick(v)} style={[s.vowel, vowelPick === v && s.vowelOn]}>
-                        <Text style={[s.vowelTxt, vowelPick === v && s.vowelTxtOn]}>{v}</Text>
-                      </Pressable>
-                    ))}
+                    {VOWELS.map((v) => {
+                      const used = ex.tiles!.some((t, i) => matchOk[i] && initialVowel(t.cap) === v);
+                      const wrong = wrongVowel === v;
+                      return (
+                        <Pressable
+                          key={v}
+                          onPress={() => tapMatchVowel(v)}
+                          accessibilityRole="button"
+                          accessibilityLabel={`Vocal ${v}`}
+                          style={[s.vowel, used && s.vowelRight, wrong && s.vowelWrong]}
+                        >
+                          <Text style={[s.vowelTxt, used && { color: '#fff' }, wrong && { color: V.color.error }]}>{v}</Text>
+                        </Pressable>
+                      );
+                    })}
                   </View>
+                  {matchOk.filter(Boolean).length === ex.tiles!.length && (
+                    <Text style={s.matchDone}>🎉 ¡Todas unidas! Puedes pasar a otra ronda o evaluar abajo.</Text>
+                  )}
                   <View style={{ alignItems: 'center', marginTop: 12 }}>
-                    <SpeakButton text={ex.tiles!.map((t) => t.cap).join(', ')} label="Oír los nombres" voice="slow" />
+                    <SpeakButton text={ex.tiles!.map((t) => t.cap).join(', ')} label="Oír todos los nombres" voice="slow" />
                   </View>
                 </>
               )}
@@ -664,6 +823,10 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                       <EmojiTile emoji={ex.fillEmoji} cap={ex.fillCap} size={86} bgIndex={5} onZoom={openZoom} />
                     </View>
                   )}
+                  {/* Primero se OYE la palabra completa; después se completa. */}
+                  <View style={{ alignItems: 'center', marginBottom: 14 }}>
+                    <SpeakButton text={ex.fillCap!} label="1º Oír la palabra completa" voice="slow" />
+                  </View>
                   <View style={s.fillRow}>
                     <Text style={s.fillBig}>{ex.fillBefore}</Text>
                     <View style={[s.fillSlot, fillPick ? (fillPick === ex.fillAnswer ? s.fillSlotOk : s.fillSlotBad) : s.fillSlotEmpty]}>
@@ -692,7 +855,13 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
               )}
 
               {ex.stage === 'intruder' && (
-                <View style={s.grid2}>
+                <>
+                  {/* Apoyo auditivo pedido por los evaluadores: oír las palabras
+                      que aparecen antes de buscar el intruso. */}
+                  <View style={{ alignItems: 'center', marginBottom: 14 }}>
+                    <SpeakButton text={ex.intruder!.map((t) => t.cap).join(', ')} label="Oír las palabras" voice="slow" />
+                  </View>
+                  <View style={s.grid2}>
                   {ex.intruder!.map((t, i) => {
                     const tapped = intruderPick === i;
                     const isAns = i === ex.intruderAnswer;
@@ -715,7 +884,8 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                       </Pressable>
                     );
                   })}
-                </View>
+                  </View>
+                </>
               )}
 
               {ex.stage === 'emotions' && (
@@ -725,6 +895,13 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                       <Text style={{ fontSize: 62 }}>{ex.emotionFace}</Text>
                     </Pressable>
                     <Text style={s.emoQ}>¿Cómo se siente?</Text>
+                    {/* Apoyo auditivo: oír las opciones antes de elegir */}
+                    <View style={{ marginTop: 10 }}>
+                      <SpeakButton
+                        text={`¿Cómo se siente? ¿${EMO.map((e) => e.label).join(', ')}?`}
+                        label="Oír las opciones"
+                      />
+                    </View>
                   </View>
                   <View style={s.grid2}>
                     {EMO.map((e) => {
@@ -734,7 +911,9 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                       return (
                         <Pressable
                           key={e.label}
-                          onPress={() => { if (emotionPick !== e.label) { setEmotionPick(e.label); speakVerdict(isAns); } }}
+                          // Refuerzo inmediato: se nombra la emoción tocada y se
+                          // celebra/anima en la misma locución, sin esperas.
+                          onPress={() => { if (emotionPick !== e.label) { setEmotionPick(e.label); speakToChild(`${e.label}. ${isAns ? praisePhrase() : almostPhrase()}`); } }}
                           style={[s.emoOpt, ok && s.gridTileOk, bad && s.gridTileBad]}
                         >
                           <Text style={{ fontSize: 24 }}>{e.face}</Text>
@@ -747,23 +926,140 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                 </>
               )}
 
-              {ex.stage === 'dice' && (
+              {/* SE-2 / MS-2 · escucha el audio y toca la imagen correcta */}
+              {ex.stage === 'choice' && (
                 <>
-                  <View style={s.diceRow}>
-                    {ex.parts!.map((p, i) => (
-                      <View key={i} style={{ flex: 1, alignItems: 'center' }}>
-                        <Text style={s.diceRole}>{p.role.toUpperCase()}</Text>
-                        <EmojiTile emoji={p.emoji} cap={p.cap} size={88} bgIndex={i + 2} onZoom={openZoom} />
-                        <Text style={s.tileCap}>{p.cap}</Text>
-                      </View>
-                    ))}
+                  <View style={{ alignItems: 'center', marginBottom: 14 }}>
+                    <SpeakButton
+                      text={ex.choicePrompt!}
+                      label={ex.choiceLabel ?? 'Oír la pregunta'}
+                      voice={ex.choiceVoice === 'slow' ? 'slow' : 'tutor'}
+                    />
                   </View>
-                  <View style={s.sentenceBox}><Text style={s.sentenceTxt}>“{ex.sentence}”</Text></View>
-                  <View style={{ alignItems: 'center', marginTop: 10 }}>
-                    <SpeakButton text={ex.sentence!} label="Oír la frase" voice="child" />
+                  <View style={[s.grid2, { justifyContent: 'center' }]}>
+                    {ex.options!.map((t, i) => {
+                      const tapped = choicePick === i;
+                      const isAns = i === ex.optionAnswer;
+                      const ok = tapped && isAns;
+                      const bad = tapped && !isAns;
+                      return (
+                        <Pressable
+                          key={i}
+                          onPress={() => { if (choicePick !== i) { setChoicePick(i); speakVerdict(i === ex.optionAnswer); } }}
+                          accessibilityRole="button"
+                          accessibilityLabel={`Responder ${t.cap}`}
+                          style={[s.gridTile, { width: '30%', minWidth: 96 }, ok && s.gridTileOk, bad && s.gridTileBad]}
+                        >
+                          <View style={{ alignItems: 'center' }}>
+                            <EmojiTile emoji={t.emoji} cap={t.cap} size={78} bgIndex={i} onZoom={openZoom} />
+                          </View>
+                          <View style={s.gridCapRow}>
+                            <Text style={s.gridCap}>{t.cap}</Text>
+                            <Text style={{ fontSize: 13 }}>{ok ? '✅' : bad ? '❌' : ''}</Text>
+                          </View>
+                        </Pressable>
+                      );
+                    })}
                   </View>
                 </>
               )}
+
+              {/* MS-1 · apoyo visual real: tarjeta con UNO frente a tarjeta con MUCHOS */}
+              {ex.stage === 'plural' && (
+                <>
+                  <View style={{ flexDirection: 'row', gap: 11 }}>
+                    {([['one', 1], ['many', 3]] as const).map(([kind, n]) => {
+                      const tapped = pluralPick === kind;
+                      const isAns = kind === 'many';
+                      const label = kind === 'one' ? `un ${ex.plural!.cap}` : `muchos ${ex.plural!.capPlural}`;
+                      return (
+                        <Pressable
+                          key={kind}
+                          onPress={() => {
+                            if (pluralPick !== kind) {
+                              setPluralPick(kind);
+                              speakToChild(`${label}. ${isAns ? praisePhrase() : 'Ahí solo hay uno. Busca donde hay muchos.'}`);
+                            }
+                          }}
+                          accessibilityRole="button"
+                          accessibilityLabel={`Tarjeta con ${label}`}
+                          style={[s.pluralCard, tapped && isAns && s.gridTileOk, tapped && !isAns && s.gridTileBad]}
+                        >
+                          <Text style={{ fontSize: kind === 'one' ? 52 : 30, textAlign: 'center' }}>
+                            {Array.from({ length: n }).map(() => ex.plural!.emoji).join(' ')}
+                          </Text>
+                          <Text style={s.pluralCap}>{label}</Text>
+                          <Text style={{ fontSize: 14, marginTop: 4 }}>{tapped ? (isAns ? '✅' : '❌') : ' '}</Text>
+                        </Pressable>
+                      );
+                    })}
+                  </View>
+                  <MicPracticeCard
+                    target={ex.plural!.capPlural}
+                    prompt={`Pregúntale «¿qué son?» y pulsa el micro para que diga: “${ex.plural!.capPlural}”`}
+                  />
+                </>
+              )}
+
+              {/* MS-3 · escucha la frase y ordénala tocando las fichas en pantalla */}
+              {ex.stage === 'order' && (() => {
+                const parts = ex.parts!;
+                const display = [1, 2, 0].filter((i) => i < parts.length); // fichas desordenadas a propósito
+                const complete = orderPicks.length === parts.length;
+                const correct = complete && orderPicks.every((p, k) => p === k);
+                const question = (role: string) =>
+                  role === 'Sujeto' ? '¿Quién?' : role === 'Verbo' ? '¿Qué hace?' : '¿Qué cosa?';
+                return (
+                  <>
+                    <View style={{ alignItems: 'center', marginBottom: 14 }}>
+                      <SpeakButton text={ex.sentence!} label="1º Oír la frase" voice="child" />
+                    </View>
+                    {/* Huecos donde va cayendo la frase en orden */}
+                    <View style={s.orderSlots}>
+                      {parts.map((p, i) => {
+                        const pickedHere = orderPicks[i] != null ? parts[orderPicks[i]] : null;
+                        return (
+                          <View key={i} style={[s.orderSlot, pickedHere && s.orderSlotFilled]}>
+                            <Text style={s.diceRole}>{question(p.role)}</Text>
+                            <Text style={{ fontSize: 26 }}>{pickedHere ? pickedHere.emoji : '·'}</Text>
+                            <Text style={s.tileCap}>{pickedHere ? pickedHere.cap : ' '}</Text>
+                          </View>
+                        );
+                      })}
+                    </View>
+                    {/* Fichas desordenadas: tocarlas en orden construye la frase */}
+                    <View style={s.diceRow}>
+                      {display.map((i) => {
+                        const used = orderPicks.includes(i);
+                        return (
+                          <Pressable
+                            key={i}
+                            onPress={() => tapOrderTile(i)}
+                            disabled={used}
+                            accessibilityRole="button"
+                            accessibilityLabel={`Ficha ${parts[i].cap}`}
+                            style={[{ flex: 1, alignItems: 'center' }, used && { opacity: 0.25 }]}
+                          >
+                            <EmojiTile emoji={parts[i].emoji} cap={parts[i].cap} size={82} bgIndex={i + 2} onZoom={openZoom} />
+                            <Text style={s.tileCap}>{parts[i].cap}</Text>
+                          </Pressable>
+                        );
+                      })}
+                    </View>
+                    {correct && (
+                      <View style={s.sentenceBox}><Text style={s.sentenceTxt}>🎉 “{ex.sentence}”</Text></View>
+                    )}
+                    {complete && !correct && (
+                      <Text style={s.matchDone}>Casi… vuelve a escuchar la frase y probad otra vez.</Text>
+                    )}
+                    {orderPicks.length > 0 && !complete && (
+                      <Pressable onPress={() => setOrderPicks([])} accessibilityRole="button">
+                        <Text style={s.orderReset}>↺ Volver a empezar</Text>
+                      </Pressable>
+                    )}
+                  </>
+                );
+              })()}
 
               {!curLevel && ex.stage === 'instruction' && (
                 <View style={{ alignItems: 'center', paddingVertical: 6 }}>
@@ -773,6 +1069,20 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                   <Text style={s.instrHint}>{ex.instrHint}</Text>
                 </View>
               )}
+
+              {/* Registro de respuesta libre (voz o escrito) y práctica de micro
+                  dirigida: pedidos por los evaluadores en pragmática. */}
+              {!curLevel && !!ex.capture && (
+                <ResponseCaptureCard
+                  prompt={ex.capture}
+                  onCapture={(t) => {
+                    const clean = t.trim();
+                    if (clean) capturesRef.current[ex.code] = { name: ex.name, text: clean };
+                    else delete capturesRef.current[ex.code];
+                  }}
+                />
+              )}
+              {!curLevel && !!ex.micTarget && <MicPracticeCard target={ex.micTarget} prompt={ex.micPrompt} />}
 
               <Text style={s.zoomTip}>🔍 Toca cualquier imagen para verla en grande</Text>
             </View>
@@ -798,12 +1108,31 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
             {/* ===== Evaluación EPT-3 ===== */}
             <View style={s.scoreCard}>
               <Text style={s.scoreKicker}>PASO 4 · EVALUACIÓN</Text>
-              <Text style={s.scoreTitle}>Evalúa con la escala EPT-3</Text>
+              <Text style={s.scoreTitle}>¿Cómo le ha salido?</Text>
               <Text style={s.scoreSub}>
                 {totalRounds > 1 && !curLevel
-                  ? 'Jugad las rondas que queráis y toca el nivel que mejor describa su respuesta'
-                  : 'Tres niveles: toca el que mejor describe su respuesta'}
+                  ? 'Jugad las rondas que queráis y toca la frase que mejor describa su respuesta'
+                  : 'Toca la frase que mejor describa su respuesta'}
               </Text>
+              {/* Explicación en lenguaje llano de la escala (los evaluadores
+                  señalaron que "EPT-3" no se explica fuera del manual). */}
+              <Pressable
+                onPress={() => setEptInfoOpen((v) => !v)}
+                accessibilityRole="button"
+                accessibilityLabel="Qué es la escala EPT-3"
+                style={s.eptInfoBtn}
+              >
+                <Text style={s.eptInfoBtnTxt}>{eptInfoOpen ? '▾' : 'ℹ️'} ¿Qué es la escala EPT-3?</Text>
+              </Pressable>
+              {eptInfoOpen && (
+                <View style={s.eptInfoBox}>
+                  <Text style={s.eptInfoTxt}>
+                    La EPT-3 es la escala de 3 niveles con la que se anota cómo respondió el niño en cada
+                    actividad: 1★ todavía no lo consigue, 2★ lo consigue con ayuda del adulto y 3★ lo
+                    consigue él solo. No es una nota: sirve para que el logopeda vea el progreso entre sesiones.
+                  </Text>
+                </View>
+              )}
               {[1, 2, 3].map((val) => {
                 const on = picked === val;
                 return (
@@ -870,7 +1199,7 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
             )}
 
             <View style={s.doneStatBox}>
-              <Text style={s.doneStatKicker}>PROMEDIO EPT-3 DE LA SESIÓN</Text>
+              <Text style={s.doneStatKicker}>PROMEDIO DE LA SESIÓN · ESCALA EPT-3 (DE 1★ A 3★)</Text>
               <Text style={s.doneStatBig}>{sumAvg.toFixed(1)}<Text style={s.doneStatSlash}> / 3</Text></Text>
               <Text style={s.doneStatStars}>{starStr(fullStars)}</Text>
               <View style={s.recapRow}>
@@ -934,6 +1263,10 @@ const s = StyleSheet.create({
   levelBadge: { backgroundColor: V.color.primaryLight, borderRadius: 9, paddingHorizontal: 9, paddingVertical: 5 },
   levelBadgeTxt: { color: V.color.primaryDark, fontSize: 11, fontWeight: '800', letterSpacing: 0.2 },
 
+  materialsCard: { flexDirection: 'row', alignItems: 'center', gap: 11, backgroundColor: '#fffbeb', borderColor: '#f4e6b8', borderWidth: 1.5, borderRadius: 16, padding: 13, marginBottom: 12 },
+  materialsKicker: { fontSize: 10.5, fontWeight: '800', letterSpacing: 0.6, color: '#92711a' },
+  materialsTxt: { fontSize: 13, fontWeight: '700', color: '#7c4a0e', marginTop: 3, lineHeight: 18 },
+
   instructionCard: { backgroundColor: V.color.primaryTint, borderColor: '#b8eee9', borderWidth: 1.5, borderRadius: 18, padding: 16, ...V.shadow.card },
   instructionHead: { flexDirection: 'row', alignItems: 'center', gap: 10 },
   instructionIcon: { width: 36, height: 36, borderRadius: 12, backgroundColor: V.color.primary, alignItems: 'center', justifyContent: 'center' },
@@ -961,8 +1294,35 @@ const s = StyleSheet.create({
   vowel: { minWidth: 46, height: 48, paddingHorizontal: 6, alignItems: 'center', justifyContent: 'center', borderRadius: 13, backgroundColor: V.color.pageBg, borderWidth: 1, borderColor: '#eef2f1' },
   vowelOn: { backgroundColor: V.color.primaryLight, borderColor: V.color.primaryLight },
   vowelRight: { backgroundColor: V.color.primary, borderColor: V.color.primary },
+  vowelWrong: { backgroundColor: V.color.errorBg, borderColor: '#fecdd3' },
   vowelTxt: { fontSize: 22, fontWeight: '800', color: V.color.textPrimary },
   vowelTxtOn: { color: V.color.primaryDark },
+
+  // FF-1 · unir imagen ↔ vocal
+  stageHint: { textAlign: 'center', fontSize: 12, fontWeight: '700', color: V.color.textSecondary, marginBottom: 12, lineHeight: 17 },
+  matchTile: { alignItems: 'center', borderRadius: 16, borderWidth: 2, borderColor: 'transparent', padding: 4 },
+  matchTileSel: { borderColor: V.color.primary, backgroundColor: V.color.primaryTint },
+  matchTileOk: { borderColor: V.color.success, backgroundColor: V.color.successBg },
+  matchTileMark: { fontSize: 11, fontWeight: '800', color: V.color.primaryDark, marginTop: 3, minHeight: 14 },
+  matchDone: { textAlign: 'center', fontSize: 13, fontWeight: '800', color: '#0f8a63', marginTop: 12 },
+
+  modelNote: { fontSize: 12, fontWeight: '700', color: V.color.textSecondary, lineHeight: 17, marginTop: 10, paddingHorizontal: 4 },
+
+  // MS-1 · uno / muchos
+  pluralCard: { flex: 1, alignItems: 'center', backgroundColor: '#fff', borderWidth: 1.5, borderColor: '#eef3f3', borderRadius: 16, paddingVertical: 16, paddingHorizontal: 8 },
+  pluralCap: { fontSize: 13, fontWeight: '800', color: V.color.textPrimary, marginTop: 8 },
+
+  // MS-3 · huecos de la frase ordenada
+  orderSlots: { flexDirection: 'row', gap: 9, justifyContent: 'center', marginBottom: 14 },
+  orderSlot: { flex: 1, alignItems: 'center', borderWidth: 2, borderStyle: 'dashed', borderColor: '#b8eee9', borderRadius: 14, paddingVertical: 9 },
+  orderSlotFilled: { borderStyle: 'solid', borderColor: V.color.success, backgroundColor: V.color.successBg },
+  orderReset: { textAlign: 'center', fontSize: 12.5, fontWeight: '800', color: V.color.primaryDark, marginTop: 12 },
+
+  // Explicación EPT-3
+  eptInfoBtn: { alignSelf: 'center', marginBottom: 12, paddingHorizontal: 10, paddingVertical: 5, borderRadius: 9, backgroundColor: V.color.primaryLight },
+  eptInfoBtnTxt: { fontSize: 12, fontWeight: '800', color: V.color.primaryDark },
+  eptInfoBox: { backgroundColor: V.color.pageBg, borderWidth: 1, borderColor: '#eef2f1', borderRadius: 12, padding: 12, marginBottom: 12 },
+  eptInfoTxt: { fontSize: 12.5, fontWeight: '600', color: V.color.textSecondary, lineHeight: 18 },
 
   fillRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: 16 },
   fillBig: { fontSize: 42, fontWeight: '800', letterSpacing: 6, color: V.color.textPrimary },
