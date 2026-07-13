@@ -77,3 +77,45 @@ Thumbs.db
 
 # TypeScript
 *.tsbuildinfo
+
+# ─────────────────────────────────────────────────────────────
+# Xcode / Apple native (port iOS SwiftUI · ios-native/)
+# Regla innegociable: NUNCA versionar estado local de Xcode.
+# ─────────────────────────────────────────────────────────────
+
+## Build outputs
+DerivedData/
+build/
+*.moved-aside
+*.hmap
+*.dSYM/
+*.dSYM.zip
+
+## Estado local de usuario Xcode (bloqueo explícito)
+*.xcuserstate
+xcuserdata/
+**/xcuserdata/
+*.xcuserdatad/
+**/*.xcodeproj/xcuserdata/
+**/*.xcodeproj/project.xcworkspace/xcuserdata/
+**/*.xcworkspace/xcuserdata/
+*.xcscmblueprint
+*.xccheckout
+
+## Swift Package Manager
+.build/
+.swiftpm/
+Packages/
+Package.pins
+
+## CocoaPods (por si se usa flujo híbrido)
+Pods/
+
+## Fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/test_output/
+fastlane/screenshots/**/*.png
+
+## Firebase — credenciales que añades manualmente (no versionar)
+GoogleService-Info.plist
