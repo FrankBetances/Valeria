@@ -26,7 +26,16 @@ const LANG = 'es-ES';
 // penalizan. Se busca la mejor una sola vez y se aplica a todas las locuciones.
 // ----------------------------------------------------------------------------
 let bestVoiceId: string | undefined;
+let bestVoice: Speech.Voice | null = null;
+let esVoicesFound = 0;
 let voiceSearch: Promise<void> | null = null;
+
+// Familias neuronales modernas: marcadores por nombre (Google, Samsung,
+// iOS 17+) y el patrón de las voces neuronales de Google TTS en Android
+// (p. ej. "es-es-x-eed-local"), que no llevan la palabra "neural" en el id.
+const NEURAL_RE = /(neural|natural|premium|wavenet|studio|journey|enhanced)|-x-[a-z]{3}-(local|network)/;
+// Motores heredados notoriamente metálicos.
+const LEGACY_RE = /(eloquence|compact|espeak|pico)/;
 
 const scoreVoice = (v: Speech.Voice): number => {
   const lang = (v.language ?? '').toLowerCase().replace('_', '-');
@@ -35,16 +44,15 @@ const scoreVoice = (v: Speech.Voice): number => {
   // Prioridad de idioma: castellano (es-ES) > variantes latinas > resto es-*.
   let s = lang === 'es-es' ? 4 : /^es-(us|mx|419)/.test(lang) ? 3 : 2;
   if (v.quality === Speech.VoiceQuality.Enhanced) s += 6;
-  // Marcadores de familias neuronales modernas (Google, Samsung, iOS 17+).
-  if (/(neural|natural|premium|wavenet|studio|journey|enhanced)/.test(id)) s += 4;
+  if (NEURAL_RE.test(id)) s += 4;
   // Voces iOS de alta calidad conocidas para es-ES / es-MX.
   if (/(m[oó]nica|marisol|paulina|siri)/.test(id)) s += 2;
   // Voces de alta calidad de Google TTS: las "-local" funcionan sin conexión;
   // las "network" suenan aún mejor pero exigen datos, mejor como desempate.
   if (id.includes('local')) s += 2;
   if (id.includes('network')) s += 1;
-  // Motores heredados notoriamente metálicos: solo como último recurso.
-  if (/(eloquence|compact|espeak|pico)/.test(id)) s -= 6;
+  // Motores heredados: solo como último recurso.
+  if (LEGACY_RE.test(id)) s -= 6;
   return s;
 };
 
@@ -66,14 +74,57 @@ const findBestVoice = async (attempt = 0): Promise<void> => {
     }
     let best: Speech.Voice | undefined;
     let bestScore = 0;
+    let found = 0;
     for (const v of voices) {
       const s = scoreVoice(v);
+      if (s >= 0) found += 1;
       if (s > bestScore) { best = v; bestScore = s; }
     }
+    esVoicesFound = found;
+    bestVoice = best ?? null;
     bestVoiceId = best?.identifier;
   } catch (e) {
     voiceSearch = null; // sin catálogo de voces: seguir con la voz por defecto
   }
+};
+
+// ----------------------------------------------------------------------------
+// Diagnóstico del motor: qué voz se eligió y de qué calidad es. Lo usa la
+// tarjeta "Voz de la app" para detectar tablets con voz robótica y guiar a la
+// familia a instalar las voces neuronales de Google (o descargar la voz
+// mejorada en iOS). `refreshVoiceCatalog` re-escanea tras instalar voces.
+// ----------------------------------------------------------------------------
+export type VoiceTier = 'neural' | 'estandar' | 'basica' | 'desconocida';
+
+export interface VoiceStatus {
+  tier: VoiceTier;
+  name: string;        // nombre legible de la voz elegida ('' si no hay)
+  language: string;
+  voicesFound: number; // voces en español detectadas en el catálogo
+}
+
+export const getVoiceStatus = (): VoiceStatus => {
+  if (!bestVoice) return { tier: 'desconocida', name: '', language: '', voicesFound: esVoicesFound };
+  const id = `${bestVoice.identifier ?? ''} ${bestVoice.name ?? ''}`.toLowerCase();
+  const tier: VoiceTier = LEGACY_RE.test(id)
+    ? 'basica'
+    : bestVoice.quality === Speech.VoiceQuality.Enhanced || NEURAL_RE.test(id)
+      ? 'neural'
+      : 'estandar';
+  return {
+    tier,
+    name: bestVoice.name ?? bestVoice.identifier ?? '',
+    language: bestVoice.language ?? '',
+    voicesFound: esVoicesFound,
+  };
+};
+
+// Re-escanea el catálogo de voces (p. ej. al volver de instalar las voces de
+// Google desde la tarjeta "Voz de la app") y devuelve el nuevo estado.
+export const refreshVoiceCatalog = async (): Promise<VoiceStatus> => {
+  voiceSearch = findBestVoice();
+  await voiceSearch;
+  return getVoiceStatus();
 };
 
 const ensureBestVoice = () => {
@@ -151,6 +202,10 @@ export const speak = (text: string, opts: Speech.SpeechOptions = {}) => {
 // Voz "cuentacuentos" para dirigirse al niño: algo más aguda y pausada.
 export const speakToChild = (text: string, opts: Speech.SpeechOptions = {}) =>
   speak(text, { pitch: 1.15, rate: 0.85, ...opts });
+
+// Frase de prueba para que la familia escuche la voz elegida.
+export const speakVoiceSample = () =>
+  speakToChild('¡Hola! Así sonará mi voz en los ejercicios. ¿Verdad que suena bien?');
 
 // Palabra objetivo bien articulada, muy despacio (modelado fonético).
 export const speakWordSlow = (text: string) =>

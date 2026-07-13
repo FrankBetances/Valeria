@@ -12,11 +12,12 @@
 // de micrófono muestra una nota discreta en lugar del juego.
 // ============================================================================
 import React, { useEffect, useRef, useState } from 'react';
-import { View, Text, Pressable, TextInput, StyleSheet, Animated, Easing } from 'react-native';
+import { View, Text, Pressable, TextInput, StyleSheet, Animated, Easing, Platform, Linking } from 'react-native';
 import { V } from './valeriaTheme';
 import {
-  speak, speakToChild, speakWordSlow, stopSpeaking,
+  speak, speakToChild, speakWordSlow, stopSpeaking, speakVoiceSample,
   asrSupported, startListening, stopListening, releaseListening, matchTarget, MatchLevel,
+  VoiceStatus, refreshVoiceCatalog,
 } from './valeriaVoice';
 
 // ----------------------------------------------------------------------------
@@ -290,6 +291,90 @@ export const ResponseCaptureCard: React.FC<{
 };
 
 // ----------------------------------------------------------------------------
+// Tarjeta "Voz de la app": detecta la calidad de la mejor voz en español del
+// dispositivo. Si es básica/robótica (frecuente en tablets Android sin los
+// datos de voz de Google), guía a la familia a instalar el motor neuronal de
+// Google TTS y re-escanea el catálogo al volver. Así la app usa siempre el
+// mejor motor realmente disponible en el dispositivo.
+// ----------------------------------------------------------------------------
+const GOOGLE_TTS_MARKET = 'market://details?id=com.google.android.tts';
+const GOOGLE_TTS_WEB = 'https://play.google.com/store/apps/details?id=com.google.android.tts';
+
+export const VoiceQualityCard: React.FC = () => {
+  const [status, setStatus] = useState<VoiceStatus | null>(null);
+  const [checking, setChecking] = useState(false);
+  const mounted = useRef(true);
+
+  const check = async () => {
+    setChecking(true);
+    try {
+      const st = await refreshVoiceCatalog();
+      if (mounted.current) setStatus(st);
+    } finally {
+      if (mounted.current) setChecking(false);
+    }
+  };
+
+  useEffect(() => {
+    mounted.current = true;
+    check();
+    return () => { mounted.current = false; };
+  }, []);
+
+  const openGoogleVoices = async () => {
+    try { await Linking.openURL(GOOGLE_TTS_MARKET); }
+    catch (e) { Linking.openURL(GOOGLE_TTS_WEB).catch(() => { /* sin tienda */ }); }
+  };
+
+  const tier = status?.tier ?? 'desconocida';
+  const good = tier === 'neural';
+  const noSpanish = status != null && status.voicesFound === 0;
+  const chip = checking ? { txt: 'Comprobando…', bg: '#f1f5f4', fg: V.color.textMuted }
+    : good ? { txt: '✓ Voz natural', bg: V.color.successBg, fg: '#0f8a63' }
+      : tier === 'estandar' ? { txt: 'Voz estándar', bg: '#fffbeb', fg: '#92711a' }
+        : { txt: 'Voz mejorable', bg: V.color.errorBg, fg: V.color.error };
+
+  const detail = checking ? 'Buscando la mejor voz en español instalada en este dispositivo…'
+    : noSpanish ? 'No hay ninguna voz en español instalada: la app no podrá leer las consignas hasta descargarla.'
+      : good ? `La app usará la mejor voz del dispositivo${status?.name ? ` («${status.name}»)` : ''}. Suena natural, no robótica.`
+        : Platform.OS === 'android'
+          ? 'Este dispositivo solo ofrece una voz sencilla y puede sonar robótica. Instala las voces de Google (gratis y sin conexión) para que la app suene natural.'
+          : 'Puedes mejorar la voz en Ajustes → Accesibilidad → Contenido leído → Voces → Español, descargando la voz mejorada.';
+
+  return (
+    <View style={s.vqCard}>
+      <View style={s.vqHead}>
+        <View style={s.vqIcon}><Text style={{ fontSize: 17 }}>🎙️</Text></View>
+        <Text style={s.vqTitle}>Voz de la app</Text>
+        <View style={[s.vqChip, { backgroundColor: chip.bg }]}>
+          <Text style={[s.vqChipTxt, { color: chip.fg }]}>{chip.txt}</Text>
+        </View>
+      </View>
+      <Text style={s.vqDetail}>{detail}</Text>
+      <View style={s.vqBtnRow}>
+        <Pressable onPress={speakVoiceSample} style={s.vqBtn} accessibilityRole="button" accessibilityLabel="Probar cómo suena la voz">
+          <Text style={s.vqBtnTxt}>▶ Probar la voz</Text>
+        </Pressable>
+        {(!good || noSpanish) && Platform.OS === 'android' && (
+          <Pressable onPress={openGoogleVoices} style={[s.vqBtn, s.vqBtnPrimary]} accessibilityRole="button" accessibilityLabel="Instalar las voces de Google">
+            <Text style={[s.vqBtnTxt, { color: '#fff' }]}>⬇️ Instalar voces de Google</Text>
+          </Pressable>
+        )}
+        <Pressable onPress={check} disabled={checking} style={[s.vqBtn, checking && { opacity: 0.5 }]} accessibilityRole="button" accessibilityLabel="Volver a comprobar la voz">
+          <Text style={s.vqBtnTxt}>🔄 Volver a comprobar</Text>
+        </Pressable>
+      </View>
+      {(!good || noSpanish) && Platform.OS === 'android' && !checking && (
+        <Text style={s.vqHint}>
+          Tras instalar: Ajustes → Sistema → Salida de texto a voz → elige «Motor de voz de Google» y
+          descarga la voz de Español (España). Después vuelve aquí y toca «Volver a comprobar».
+        </Text>
+      )}
+    </View>
+  );
+};
+
+// ----------------------------------------------------------------------------
 const s = StyleSheet.create({
   speakPill: { flexDirection: 'row', alignItems: 'center', gap: 6, alignSelf: 'flex-start', backgroundColor: V.color.primaryLight, borderWidth: 1, borderColor: V.color.borderActive, borderRadius: 11, paddingHorizontal: 11, paddingVertical: 7 },
   speakPillCompact: { paddingHorizontal: 8, paddingVertical: 5 },
@@ -328,6 +413,19 @@ const s = StyleSheet.create({
   captureState: { fontSize: 12, fontWeight: '700', color: V.color.textSecondary, marginTop: 8 },
   captureErr: { fontSize: 12, fontWeight: '700', color: V.color.error, marginTop: 8 },
   captureOk: { fontSize: 12, fontWeight: '700', color: '#0f8a63', marginTop: 8 },
+
+  vqCard: { backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.border, borderRadius: 14, padding: 13, marginTop: 10, ...V.shadow.card },
+  vqHead: { flexDirection: 'row', alignItems: 'center', gap: 9 },
+  vqIcon: { width: 36, height: 36, borderRadius: 12, backgroundColor: V.color.primaryLight, alignItems: 'center', justifyContent: 'center' },
+  vqTitle: { fontSize: 14, fontWeight: '800', color: V.color.textPrimary, flex: 1 },
+  vqChip: { paddingHorizontal: 9, paddingVertical: 4, borderRadius: 9 },
+  vqChipTxt: { fontSize: 11, fontWeight: '800' },
+  vqDetail: { fontSize: 11.5, fontWeight: '600', color: V.color.textMuted, marginTop: 8, lineHeight: 15.5 },
+  vqBtnRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginTop: 11 },
+  vqBtn: { backgroundColor: V.color.primaryLight, borderWidth: 1, borderColor: V.color.borderActive, borderRadius: 11, paddingHorizontal: 11, paddingVertical: 8 },
+  vqBtnPrimary: { backgroundColor: V.color.primary, borderColor: V.color.primary },
+  vqBtnTxt: { fontSize: 12, fontWeight: '800', color: V.color.primaryDark },
+  vqHint: { fontSize: 11, fontWeight: '600', color: V.color.textSecondary, marginTop: 10, lineHeight: 15, backgroundColor: V.color.pageBg, borderRadius: 10, padding: 10 },
 
   phaseStrip: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 4, backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.border, borderRadius: 13, paddingVertical: 7, paddingHorizontal: 8, marginTop: 12 },
   phaseArrow: { fontSize: 12, fontWeight: '800', color: V.color.textMuted },

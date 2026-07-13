@@ -14,6 +14,7 @@ import { V, STORAGE_KEYS } from './valeriaTheme';
 import { enableDailyReminders, disableReminders, remindersEnabled } from './valeriaNotifications';
 import { loadGame, liveStreak, levelFor, levelName } from './valeriaGamification';
 import { ProUnlockPill, ProPinModal } from './ValeriaProPin';
+import { VoiceQualityCard } from './ValeriaVoiceUI';
 import { AUDICION_META, LENGUAJE_META, AGE_BANDS } from './valeriaExerciseMeta';
 // import logoWhite from '../../assets/valeria-logo-white.png';
 
@@ -184,6 +185,10 @@ export const ValeriaExerciseSelectionScreen: React.FC<{ navigation: any }> = ({ 
               <Switch value={reminders} onValueChange={toggleReminders}
                 trackColor={{ false: '#d1d5db', true: V.color.primary }} thumbColor="#ffffff" />
             </View>
+
+            {/* Calidad de la voz: detecta voces robóticas y guía a instalar el
+                motor neuronal de Google (feedback: la voz dificulta repetir). */}
+            <VoiceQualityCard />
           </ScrollView>
         </>
       ) : (
