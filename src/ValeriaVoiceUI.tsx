@@ -209,13 +209,19 @@ export const MicPracticeCard: React.FC<{ target: string; prompt?: string }> = ({
 // Registro de respuesta libre: para actividades sin respuesta cerrada
 // (preguntas ¿qué?, adaptación del discurso…). El adulto puede grabar la voz
 // del niño (si hay reconocimiento) o escribir lo que dijo. Lo registrado se
-// muestra en la tarjeta para apoyar la evaluación EPT-3 del ejercicio.
+// muestra en la tarjeta para apoyar la evaluación EPT-3 del ejercicio y,
+// vía `onCapture`, el player lo guarda con la sesión en el historial.
 // ----------------------------------------------------------------------------
-export const ResponseCaptureCard: React.FC<{ prompt?: string }> = ({ prompt }) => {
-  const [text, setText] = useState('');
+export const ResponseCaptureCard: React.FC<{
+  prompt?: string;
+  onCapture?: (text: string) => void;
+}> = ({ prompt, onCapture }) => {
+  const [text, setTextRaw] = useState('');
   const [listening, setListening] = useState(false);
   const [errMsg, setErrMsg] = useState('');
   const mounted = useRef(true);
+
+  const setText = (t: string) => { setTextRaw(t); onCapture?.(t); };
 
   useEffect(() => {
     mounted.current = true;
@@ -273,7 +279,7 @@ export const ResponseCaptureCard: React.FC<{ prompt?: string }> = ({ prompt }) =
       {listening && <Text style={s.captureState}>Escuchando… habla ahora</Text>}
       {!!errMsg && <Text style={s.captureErr}>{errMsg}</Text>}
       {!!text && !listening && (
-        <Text style={s.captureOk}>✓ Respuesta registrada: úsala para elegir la evaluación de abajo.</Text>
+        <Text style={s.captureOk}>✓ Respuesta registrada: se guardará con la sesión en Resultados.</Text>
       )}
     </View>
   );

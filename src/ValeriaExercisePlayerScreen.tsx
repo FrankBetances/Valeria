@@ -474,6 +474,9 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
   const [orderPicks, setOrderPicks] = useState<number[]>([]);
   // Explicación en lenguaje llano de la escala EPT-3
   const [eptInfoOpen, setEptInfoOpen] = useState(false);
+  // Respuestas libres registradas (voz o escrito) por código de ejercicio;
+  // al terminar, se guardan con la sesión en el historial de Resultados.
+  const capturesRef = useRef<Record<string, { name: string; text: string }>>({});
   // zoom de imagen
   const [zoom, setZoom] = useState<{ emoji: string; cap: string } | null>(null);
   // cápsula TPR entre ejercicios
@@ -598,6 +601,10 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
       const raw = await AsyncStorage.getItem(STORAGE_KEYS.historial);
       const hist = raw ? JSON.parse(raw) : [];
       const d = new Date();
+      // Respuestas libres registradas durante la sesión (PR-1, PR-2…): viajan
+      // con la entrada del historial para que Resultados las muestre.
+      const responses = Object.entries(capturesRef.current)
+        .map(([code, r]) => ({ code, name: r.name, text: r.text }));
       hist.push({
         date: `${d.getDate()} ${MONTHS[d.getMonth()]}`,
         name: sessionName,
@@ -606,6 +613,7 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
           : avg >= 1.8 ? 'Buena sesión, alguna consigna costó pero se mantuvo atento.'
             : 'Sesión difícil hoy, conviene reforzar con más apoyo del tutor.',
         completed: true,
+        ...(responses.length ? { responses } : {}),
       });
       await AsyncStorage.setItem(STORAGE_KEYS.historial, JSON.stringify(hist));
     } catch (e) { /* almacenamiento no disponible */ }
@@ -634,6 +642,7 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
 
   const restart = () => {
     clearInterval(timerRef.current);
+    capturesRef.current = {};
     setIdx(0); setSubIdx(0); setLevelScores([]); setResults([]); setPicked(0); setLocking(false);
     setFinished(false); setCountdown(10); setReward(null); setActiveBreak(null); setRound(0); resetEphemeral();
   };
@@ -1063,7 +1072,16 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
 
               {/* Registro de respuesta libre (voz o escrito) y práctica de micro
                   dirigida: pedidos por los evaluadores en pragmática. */}
-              {!curLevel && !!ex.capture && <ResponseCaptureCard prompt={ex.capture} />}
+              {!curLevel && !!ex.capture && (
+                <ResponseCaptureCard
+                  prompt={ex.capture}
+                  onCapture={(t) => {
+                    const clean = t.trim();
+                    if (clean) capturesRef.current[ex.code] = { name: ex.name, text: clean };
+                    else delete capturesRef.current[ex.code];
+                  }}
+                />
+              )}
               {!curLevel && !!ex.micTarget && <MicPracticeCard target={ex.micTarget} prompt={ex.micPrompt} />}
 
               <Text style={s.zoomTip}>🔍 Toca cualquier imagen para verla en grande</Text>
