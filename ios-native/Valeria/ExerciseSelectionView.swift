@@ -27,6 +27,29 @@ struct ExerciseSelectionView: View {
     private var activeCount: Int { active.filter { $0 }.count }
     private var usesDevice: Bool { model.activePatient?.usesHearingDevice ?? false }
 
+    private struct SectionRow { let index: Int; let item: ExerciseItem }
+    private struct ListSection { let band: String?; let rows: [SectionRow] }
+
+    /// Secciones de la lista: para Lenguaje una única sección sin cabecera; para
+    /// Audición una por edad (las conocidas en orden + cualquier otra) y una
+    /// final "Otras" para ítems sin banda, de modo que ningún ejercicio quede
+    /// oculto por una edad no contemplada en Catalog.ageBands.
+    private var sections: [ListSection] {
+        let indexed = list.enumerated().map { SectionRow(index: $0.offset, item: $0.element) }
+        guard isAud else { return [ListSection(band: nil, rows: indexed)] }
+        let known = Catalog.ageBands
+        var extra: [String] = []
+        for row in indexed {
+            if let a = row.item.age, !known.contains(a), !extra.contains(a) { extra.append(a) }
+        }
+        var out: [ListSection] = (known + extra).map { band in
+            ListSection(band: band, rows: indexed.filter { $0.item.age == band })
+        }
+        let rest = indexed.filter { $0.item.age == nil }
+        if !rest.isEmpty { out.append(ListSection(band: "Otras", rows: rest)) }
+        return out.filter { !$0.rows.isEmpty }
+    }
+
     var body: some View {
         ZStack {
             VColor.pageBg.ignoresSafeArea()
@@ -69,7 +92,7 @@ struct ExerciseSelectionView: View {
                     blockCard(icon: "🧩", bg: "d6f5f2", fg: "00a39e", title: "Expansión Semántica",
                               sub: "Escenarios diarios, progresión léxica y contrastes con acción física.") { router.push(.semanticExpansion) }
                     blockCard(icon: "👂", bg: "e0edff", fg: "3b6fd4", title: "Audición",
-                              sub: "Protocolo ACOPROS: fonética, semántica, morfosintaxis y pragmática.",
+                              sub: "Inspirado en el protocolo ACOPROS: sonidos, vocabulario, frases y uso social, organizado por edades.",
                               total: Catalog.audicion.count, activeN: model.activeAud.filter { $0 }.count) {
                         tab = .audicion; toast = ""; view = .list
                     }
@@ -142,8 +165,34 @@ struct ExerciseSelectionView: View {
                     }
                     .padding(.vertical, 10)
 
-                    ForEach(Array(list.enumerated()), id: \.element.id) { i, item in
-                        exerciseRow(i, item)
+                    // Referencia del bloque: los evaluadores pedían saber en qué
+                    // se basa el "protocolo ACOPROS" sin ir al manual.
+                    if isAud {
+                        HStack(alignment: .top, spacing: 9) {
+                            Text("ℹ️").font(.system(size: 15))
+                            Text("Actividades inspiradas en los materiales de rehabilitación auditiva de ACOPROS (Asociación Coruñesa de Promoción del Sordo), organizadas en 4 áreas: sonidos, vocabulario, frases y uso social. Las edades son orientativas: empieza por las de la edad de tu peque y deja que el logopeda ajuste la prescripción.")
+                                .font(.system(size: 11.5, weight: .semibold)).foregroundStyle(Color(hex: "2c5382"))
+                                .fixedSize(horizontal: false, vertical: true)
+                        }
+                        .padding(12)
+                        .background(Color(hex: "eef6ff"))
+                        .overlay(RoundedRectangle(cornerRadius: 13).stroke(Color(hex: "d3e5fb"), lineWidth: 1))
+                        .clipShape(RoundedRectangle(cornerRadius: 13))
+                        .padding(.bottom, 5)
+                    }
+
+                    ForEach(sections, id: \.band) { section in
+                        if let band = section.band {
+                            HStack(spacing: 9) {
+                                Text("👶 \(band.uppercased())")
+                                    .font(.system(size: 11.5, weight: .heavy)).foregroundStyle(VColor.primaryDark)
+                                Rectangle().fill(VColor.borderActive).frame(height: 1)
+                            }
+                            .padding(.top, 10)
+                        }
+                        ForEach(section.rows, id: \.item.id) { row in
+                            exerciseRow(row.index, row.item)
+                        }
                     }
 
                     if model.professionalUnlocked {
@@ -212,8 +261,13 @@ struct ExerciseSelectionView: View {
             Button {
                 router.push(usesDevice ? .lingTest(ids: [item.id]) : .exercisePlayer(ids: [item.id]))
             } label: {
-                Text("▶").font(.system(size: 13)).foregroundStyle(VColor.primaryDark)
-                    .frame(width: 36, height: 36).background(VColor.primaryLight).clipShape(RoundedRectangle(cornerRadius: 12))
+                // 48×48: tamaño mínimo accesible (los evaluadores señalaron que
+                // el botón anterior era muy pequeño para movilidad reducida).
+                Text("▶").font(.system(size: 17)).foregroundStyle(VColor.primaryDark)
+                    .frame(width: 48, height: 48)
+                    .background(VColor.primaryLight)
+                    .overlay(RoundedRectangle(cornerRadius: 15).stroke(VColor.borderActive, lineWidth: 1))
+                    .clipShape(RoundedRectangle(cornerRadius: 15))
             }.buttonStyle(.plain)
             Toggle("", isOn: Binding(
                 get: { active[i] },

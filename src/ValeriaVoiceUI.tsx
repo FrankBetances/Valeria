@@ -85,7 +85,9 @@ const VERDICT: Record<MatchLevel, { icon: string; title: string; sub: string; sa
   0: { icon: '👂', title: 'Otra vez juntos', sub: 'Escuchad la palabra despacio y repetid a la vez.', say: 'Vamos a escucharla otra vez.' },
 };
 
-export const MicPracticeCard: React.FC<{ target: string; prompt?: string }> = ({ target, prompt }) => {
+// `altTargets`: respuestas alternativas igual de válidas que `target`
+// (PR-4 acepta «¿qué?» además de «¿cómo?»); puntúa la mejor coincidencia.
+export const MicPracticeCard: React.FC<{ target: string; prompt?: string; altTargets?: string[] }> = ({ target, prompt, altTargets }) => {
   const [phase, setPhase] = useState<MicPhase>('idle');
   const [heard, setHeard] = useState('');
   const [score, setScore] = useState<MatchLevel>(0);
@@ -132,7 +134,9 @@ export const MicPracticeCard: React.FC<{ target: string; prompt?: string }> = ({
 
   const finishWith = (alternatives: string[]) => {
     if (!mounted.current) return;
-    const lvl = matchTarget(alternatives, target);
+    const lvl = [target, ...(altTargets ?? [])].reduce<MatchLevel>(
+      (best, t) => Math.max(best, matchTarget(alternatives, t)) as MatchLevel, 0,
+    );
     setHeard(alternatives[0] ?? '');
     setScore(lvl);
     setPhase('scored');

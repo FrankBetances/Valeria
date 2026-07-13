@@ -46,23 +46,30 @@ struct ExerciseItem: Identifiable, Hashable {
     let code: String
     let name: String
     let category: String
+    /// Edad orientativa (solo Audición): los evaluadores pidieron dividir por edad.
+    var age: String? = nil
 }
 
 enum Catalog {
+    /// Bandas de edad conocidas, en el orden de las secciones de Audición.
+    static let ageBands = ["3-4 años", "4-5 años", "5-6 años"]
+
+    // Categorías en lenguaje llano (término clínico entre paréntesis) y edad
+    // orientativa por actividad, igual que src/valeriaExerciseMeta.ts.
     static let audicion: [ExerciseItem] = [
-        .init(id: "ff1", code: "FF-1", name: "Asociación vocal inicial", category: "Fonética-Fonología"),
-        .init(id: "ff2", code: "FF-2", name: "Articulación de vocales", category: "Fonética-Fonología"),
-        .init(id: "ff3", code: "FF-3", name: "Completar vocal faltante", category: "Fonética-Fonología"),
-        .init(id: "se1", code: "SE-1", name: "Detección del intruso", category: "Semántica"),
-        .init(id: "se2", code: "SE-2", name: "Adivinanza por letra", category: "Semántica"),
-        .init(id: "se3", code: "SE-3", name: "Prendas y órdenes", category: "Semántica"),
-        .init(id: "ms1", code: "MS-1", name: "Singular / plural", category: "Morfosintaxis"),
-        .init(id: "ms2", code: "MS-2", name: "Flexión de género", category: "Morfosintaxis"),
-        .init(id: "ms3", code: "MS-3", name: "Estructura S-V-O", category: "Morfosintaxis"),
-        .init(id: "pr1", code: "PR-1", name: "Preguntas tipo ¿qué?", category: "Pragmática"),
-        .init(id: "pr2", code: "PR-2", name: "Adaptación del discurso", category: "Pragmática"),
-        .init(id: "pr3", code: "PR-3", name: "Reconocimiento de emociones", category: "Pragmática"),
-        .init(id: "pr4", code: "PR-4", name: "Petición de repetición", category: "Pragmática"),
+        .init(id: "ff1", code: "FF-1", name: "Asociación vocal inicial", category: "Sonidos y vocales (fonética-fonología)", age: "4-5 años"),
+        .init(id: "ff2", code: "FF-2", name: "Articulación de vocales", category: "Sonidos y vocales (fonética-fonología)", age: "3-4 años"),
+        .init(id: "ff3", code: "FF-3", name: "Completar vocal faltante", category: "Sonidos y vocales (fonética-fonología)", age: "5-6 años"),
+        .init(id: "se1", code: "SE-1", name: "Detección del intruso", category: "Vocabulario (semántica)", age: "4-5 años"),
+        .init(id: "se2", code: "SE-2", name: "Adivinanza por letra", category: "Vocabulario (semántica)", age: "5-6 años"),
+        .init(id: "se3", code: "SE-3", name: "Prendas y órdenes", category: "Vocabulario (semántica)", age: "3-4 años"),
+        .init(id: "ms1", code: "MS-1", name: "Singular / plural", category: "Frases (morfosintaxis)", age: "4-5 años"),
+        .init(id: "ms2", code: "MS-2", name: "Flexión de género", category: "Frases (morfosintaxis)", age: "4-5 años"),
+        .init(id: "ms3", code: "MS-3", name: "Estructura S-V-O", category: "Frases (morfosintaxis)", age: "5-6 años"),
+        .init(id: "pr1", code: "PR-1", name: "Preguntas tipo ¿qué?", category: "Uso social (pragmática)", age: "3-4 años"),
+        .init(id: "pr2", code: "PR-2", name: "Adaptación del discurso", category: "Uso social (pragmática)", age: "5-6 años"),
+        .init(id: "pr3", code: "PR-3", name: "Reconocimiento de emociones", category: "Uso social (pragmática)", age: "4-5 años"),
+        .init(id: "pr4", code: "PR-4", name: "Petición de repetición", category: "Uso social (pragmática)", age: "5-6 años"),
     ]
     static let lenguaje: [ExerciseItem] = [
         .init(id: "atencion_conjunta", code: "M-1", name: "Atención Conjunta", category: "Mirar, burbujas y nombre"),

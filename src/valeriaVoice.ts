@@ -54,9 +54,11 @@ const findBestVoice = async (attempt = 0): Promise<void> => {
     if (!voices?.length) {
       // En Android el motor TTS tarda en poblar el catálogo tras el arranque:
       // se reintenta con espera creciente antes de rendirse hasta la próxima
-      // locución.
+      // locución. Reintentos cortos: la primera locución solo espera 300 ms al
+      // catálogo, y cuanto antes se puntúe, antes deja de sonar la voz de
+      // fábrica (la voz elegida se aplica frase a frase).
       if (attempt < 4) {
-        await new Promise((r) => setTimeout(r, 600 * (attempt + 1)));
+        await new Promise((r) => setTimeout(r, 300 * (attempt + 1)));
         return findBestVoice(attempt + 1);
       }
       voiceSearch = null;
