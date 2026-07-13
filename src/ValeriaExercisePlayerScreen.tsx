@@ -49,7 +49,7 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { V, STORAGE_KEYS } from './valeriaTheme';
 import { registerSession, SessionReward, levelProgress, xpToNext } from './valeriaGamification';
-import { speakToChild, speakWordSlow, stopSpeaking, praisePhrase, almostPhrase } from './valeriaVoice';
+import { speakToChild, speakWordSlow, stopSpeaking, praisePhrase, almostPhrase, normalizeSpeech } from './valeriaVoice';
 import { SpeakButton, MicPracticeCard, ResponseCaptureCard } from './ValeriaVoiceUI';
 import { ValeriaTPRCapsuleOverlay, pickTprCapsule, TprCapsule } from './ValeriaTPRCapsule';
 // import logoWhite from '../../assets/valeria-logo-white.png';
@@ -86,7 +86,7 @@ interface Exercise {
   plural?: { cap: string; capPlural: string; emoji: string };
   // registro de respuesta libre (voz o escrito) y práctica de micro dirigida
   capture?: string;
-  micTarget?: string; micPrompt?: string;
+  micTarget?: string; micPrompt?: string; micAlt?: string[];
   // Progresión Inicial → Intermedio → Avanzado dentro de la misma sesión
   // (ejercicios de Lenguaje, protocolo ACOPROS). Si está presente, sustituye
   // a `read`/`instrIcon`/`instrHint` para cada uno de los 3 sub-pasos.
@@ -172,7 +172,7 @@ const DB: Record<string, Exercise> = {
   pr4: { code: 'PR-4', name: 'Petición de repetición', category: 'Uso social (pragmática)', age: '5-6 años',
     read: 'Tápate la boca y di una palabra casi sin voz. Si el niño no la entiende, debe pedirte: «¿qué?» o «¿cómo?». Eso es lo que practicamos: pedir que se lo repitan.',
     stage: 'instruction', instrIcon: '🙋', instrHint: 'El objetivo NO es repetir palabras: es que el niño aprenda a pedir que le repitas lo que no entendió.',
-    micTarget: 'cómo', micPrompt: 'Cuando no te entienda, pulsa el micro y que pida: «¿cómo?»',
+    micTarget: 'cómo', micAlt: ['qué'], micPrompt: 'Cuando no te entienda, pulsa el micro y que pida: «¿cómo?» o «¿qué?»',
     move: 'Susurra una orden desde lejos; si no se entiende, que venga corriendo y pida "¿qué?".',
     ept: ['Se queda callado o abandona cuando no entiende algo.', 'Pide «¿qué?» si tú le recuerdas que puede pedirlo.', 'Pide «¿qué?» o «¿cómo?» él solo cuando no entiende.'] },
   atencion_conjunta: { code: 'M-1', name: 'Atención Conjunta', category: 'Mirar, burbujas y nombre',
@@ -509,6 +509,7 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
   useEffect(() => () => stopSpeaking(), []);
 
   const resetEphemeral = () => {
+    clearGameTimers();
     setFillPick(''); setIntruderPick(-1); setEmotionPick('');
     setMatchSel(-1); setMatchOk([]); setWrongVowel('');
     setChoicePick(-1); setPluralPick(''); setOrderPicks([]);
@@ -527,8 +528,18 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
   const speakVerdict = (ok: boolean) => speakToChild(ok ? praisePhrase() : almostPhrase());
 
   // Vocal inicial de una palabra sin tildes: águila → A (para FF-1).
-  const initialVowel = (cap: string) =>
-    cap.normalize('NFD').replace(/[\u0300-\u036f]/g, '').charAt(0).toUpperCase();
+  // Reutiliza la normalización de acentos del motor de voz.
+  const initialVowel = (cap: string) => normalizeSpeech(cap).charAt(0).toUpperCase();
+
+  // Timers efimeros de los mini-juegos: se guardan para poder cancelarlos al
+  // cambiar de ejercicio/ronda o al salir de la pantalla.
+  const flashTimer = useRef<any>(null);
+  const orderTimer = useRef<any>(null);
+  const clearGameTimers = () => {
+    clearTimeout(flashTimer.current);
+    clearTimeout(orderTimer.current);
+  };
+  useEffect(() => () => clearGameTimers(), []);
 
   // FF-1 · unir imagen ↔ vocal: tocar la imagen la nombra en voz alta y la
   // selecciona; tocar después una vocal comprueba la unión en la tablet.
@@ -546,7 +557,8 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
     } else {
       setWrongVowel(v);
       speakVerdict(false);
-      setTimeout(() => setWrongVowel(''), 900);
+      clearTimeout(flashTimer.current);
+      flashTimer.current = setTimeout(() => setWrongVowel(''), 900);
     }
   };
 
@@ -559,7 +571,11 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
     if (next.length === ex.parts!.length) {
       const okOrder = next.every((p, k) => p === k);
       if (okOrder) speakToChild(`${praisePhrase()} ${ex.sentence}`);
-      else { speakToChild(almostPhrase()); setTimeout(() => setOrderPicks([]), 1400); }
+      else {
+        speakToChild(almostPhrase());
+        clearTimeout(orderTimer.current);
+        orderTimer.current = setTimeout(() => setOrderPicks([]), 1400);
+      }
     } else {
       speakWordSlow(ex.parts![i].cap);
     }
@@ -1037,7 +1053,8 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                             onPress={() => tapOrderTile(i)}
                             disabled={used}
                             accessibilityRole="button"
-                            accessibilityLabel={`Ficha ${parts[i].cap}`}
+                            accessibilityState={{ disabled: used }}
+                            accessibilityLabel={used ? `Ficha ${parts[i].cap}, ya colocada` : `Ficha ${parts[i].cap}`}
                             style={[{ flex: 1, alignItems: 'center' }, used && { opacity: 0.25 }]}
                           >
                             <EmojiTile emoji={parts[i].emoji} cap={parts[i].cap} size={82} bgIndex={i + 2} onZoom={openZoom} />
@@ -1074,6 +1091,9 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                   dirigida: pedidos por los evaluadores en pragmática. */}
               {!curLevel && !!ex.capture && (
                 <ResponseCaptureCard
+                  // key por ejercicio: sin ella React reutiliza la misma tarjeta
+                  // entre PR-1 y PR-2 y la respuesta anterior quedaba a la vista.
+                  key={ex.code}
                   prompt={ex.capture}
                   onCapture={(t) => {
                     const clean = t.trim();
@@ -1082,7 +1102,7 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                   }}
                 />
               )}
-              {!curLevel && !!ex.micTarget && <MicPracticeCard target={ex.micTarget} prompt={ex.micPrompt} />}
+              {!curLevel && !!ex.micTarget && <MicPracticeCard target={ex.micTarget} prompt={ex.micPrompt} altTargets={ex.micAlt} />}
 
               <Text style={s.zoomTip}>🔍 Toca cualquier imagen para verla en grande</Text>
             </View>

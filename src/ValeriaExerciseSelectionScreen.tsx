@@ -285,10 +285,25 @@ export const ValeriaExerciseSelectionScreen: React.FC<{ navigation: any }> = ({ 
               </View>
             )}
 
-            {(isAud ? AGE_BANDS : [null]).map((band) => {
-              const rows = list
-                .map((item, i) => ({ item, i }))
-                .filter(({ item }) => band == null || item.age === band);
+            {(() => {
+              // Secciones por edad. Las bandas se derivan de los datos (las
+              // conocidas primero, luego cualquier edad nueva) y los ítems sin
+              // edad van a una sección final: así ningún ejercicio puede
+              // quedar oculto por una edad no contemplada en AGE_BANDS.
+              const indexed = list.map((item, i) => ({ item, i }));
+              if (!isAud) return [{ band: null as string | null, rows: indexed }];
+              const extra = Array.from(new Set(
+                indexed.map(({ item }) => item.age).filter((a): a is string => !!a && !AGE_BANDS.includes(a)),
+              ));
+              const noAge = indexed.filter(({ item }) => !item.age);
+              return [
+                ...[...AGE_BANDS, ...extra].map((band) => ({
+                  band: band as string | null,
+                  rows: indexed.filter(({ item }) => item.age === band),
+                })),
+                ...(noAge.length ? [{ band: 'Otras' as string | null, rows: noAge }] : []),
+              ];
+            })().map(({ band, rows }) => {
               if (!rows.length) return null;
               return (
                 <View key={band ?? 'all'}>
