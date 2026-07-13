@@ -88,6 +88,8 @@ interface Exercise {
   // registro de respuesta libre (voz o escrito) y práctica de micro dirigida
   capture?: string;
   micTarget?: string; micPrompt?: string; micAlt?: string[];
+  // escenas visuales tocables con ejemplo hablado (apoyo visual de PR-2)
+  scenes?: { emoji: string; label: string; say: string }[];
   // Progresión Inicial → Intermedio → Avanzado dentro de la misma sesión
   // (ejercicios de Lenguaje, protocolo ACOPROS). Si está presente, sustituye
   // a `read`/`instrIcon`/`instrHint` para cada uno de los 3 sub-pasos.
@@ -169,6 +171,10 @@ const DB: Record<string, Exercise> = {
     materials: 'Un peluche o muñeco',
     read: 'El peluche está dormido: hablad muy bajito para no despertarlo. Cuando «se despierte», volved a la voz normal. Registra abajo cómo lo hace.',
     stage: 'instruction', instrIcon: '😴', instrHint: 'Peluche dormido = voz bajita. Peluche despierto = voz normal. El niño debe cambiar su voz con el juego.',
+    scenes: [
+      { emoji: '😴', label: 'Dormido → voz bajita', say: 'Shhh… el peluche está dormido. Hablamos muy muy bajito.' },
+      { emoji: '😀', label: 'Despierto → voz normal', say: '¡Ya se despertó el peluche! Ahora hablamos con voz normal.' },
+    ],
     capture: 'Graba o escribe cómo habló el niño: ¿bajó la voz con el peluche dormido?',
     move: 'Caminad de puntillas hablando bajito; a la señal, ¡voz normal y paso fuerte!',
     ept: ['Habla igual de fuerte aunque el peluche duerma.', 'Baja la voz cuando tú se lo recuerdas.', 'Cambia él solo entre voz bajita y voz normal según el juego.'] },
@@ -186,7 +192,7 @@ const DB: Record<string, Exercise> = {
   atencion_conjunta: { ...meta('atencion_conjunta'),
     read: 'Llama al niño por su nombre y haz burbujas. Busca su mirada y el contacto visual.',
     stage: 'instruction', instrIcon: '👀', instrHint: 'Desarrolla contacto visual, seguimiento de la mirada y respuesta al nombre.',
-    ept: ['Requiere instigación física para sostener la mirada brevemente.', 'Responde a su nombre tras múltiples llamados verbales.', 'Establece contacto visual espontáneo y sigue la mirada del tutor.'],
+    ept: ['Necesita ayuda física para sostener la mirada un instante.', 'Responde a su nombre después de llamarlo varias veces.', 'Te mira él solo y sigue tu mirada.'],
     move: 'Perseguid y explotad burbujas juntos: una burbuja, una mirada.',
     levels: [
       { label: 'Inicial', instrIcon: '🫧', read: 'Acerca las burbujas muy cerca de tu cara y llama su nombre. Busca un contacto visual breve, aunque sea de un instante.', instrHint: 'Estímulo de alto interés y muy cercano. Cualquier mirada breve cuenta.' },
@@ -196,7 +202,7 @@ const DB: Record<string, Exercise> = {
   imitacion: { ...meta('imitacion'),
     read: 'Haz un gesto (aplaudir, tocar el tambor) y anímale a imitarte. Ahora una sílaba: "pa-pa".',
     stage: 'instruction', instrIcon: '👏', instrHint: 'Imita gestos motores gruesos y vocalizaciones simples en espejo.',
-    ept: ['No copia los gestos ni produce sonidos imitativos.', 'Imita gestos o sonidos aislados con guía del adulto.', 'Realiza imitaciones motoras y verbales en espejo inmediato.'],
+    ept: ['Todavía no copia gestos ni sonidos.', 'Imita gestos o sonidos sueltos con ayuda del adulto.', 'Repite gestos y sonidos justo después de verlos, como un espejo.'],
     move: 'Espejo humano: imitad gestos grandes (brazos, saltos, giros) por turnos.',
     levels: [
       { label: 'Inicial', instrIcon: '👏', read: 'Aplaude despacio frente a él y guía sus manos la primera vez. Repite el gesto solo.', instrHint: 'Gesto motor grueso aislado, con ayuda física si es necesario.' },
@@ -216,7 +222,7 @@ const DB: Record<string, Exercise> = {
   expresion: { ...meta('expresion'),
     read: '¿Cómo hace el perro? "Guau". Anímale a nombrar y pedir: "quiero agua".',
     stage: 'phrase', stageLabel: 'Evoca y nombra', phrase: 'QUIERO AGUA', phraseEmoji: '💧',
-    ept: ['Solo usa gestos o balbuceos para expresar sus necesidades.', 'Expresa palabras simples tras el modelo directo del adulto.', 'Evoca palabras y oraciones de dos palabras espontáneamente.'],
+    ept: ['Solo usa gestos o balbuceos para pedir lo que necesita.', 'Dice palabras sencillas después de oírtelas a ti.', 'Dice palabras y frases de dos palabras él solo.'],
     move: 'Carrera hasta el grifo: solo se abre si dice la palabra mágica "agua".',
     levels: [
       { label: 'Inicial', instrIcon: '🐶', read: 'Muéstrale el muñeco del perro y modela: "Guau". Espera que repita la onomatopeya.', instrHint: 'Imitación directa de una onomatopeya tras el modelo del adulto.' },
@@ -225,8 +231,8 @@ const DB: Record<string, Exercise> = {
     ] },
   comunicacion_funcional: { ...meta('comunicacion_funcional'),
     read: 'Para de hacer algo divertido y espera. Anímale a pedir "más" o "ayuda".',
-    stage: 'instruction', instrIcon: '🙌', instrHint: 'Usa lenguaje verbal o aumentativo para solicitar juego o ayuda.',
-    ept: ['Se frustra o no intenta comunicarse ante un problema.', 'Solicita ayuda o "más" usando modelo verbal guiado.', 'Usa palabras o signos funcionales con clara intención.'],
+    stage: 'instruction', instrIcon: '🙌', instrHint: 'Pide juego o ayuda con palabras, gestos o signos.',
+    ept: ['Se frustra o no intenta comunicarse cuando algo no sale.', 'Pide ayuda o "más" si tú le dices antes la palabra.', 'Pide con palabras o signos, él solo y con intención clara.'],
     move: 'Columpio, avión o cosquillas: para el juego y espera a que pida "más".',
     levels: [
       { label: 'Inicial', instrIcon: '🤚', read: 'Detén un juego divertido (cosquillas, columpio) y modela el gesto + palabra "más". Ayúdale a imitarlo.', instrHint: 'Petición de "más" con gesto y palabra modelados por el tutor.' },
@@ -236,17 +242,17 @@ const DB: Record<string, Exercise> = {
   regulacion_conductual: { ...meta('regulacion_conductual'),
     read: 'Avisa del cambio de actividad con la agenda visual y espera con tranquilidad.',
     stage: 'instruction', instrIcon: '🗂️', instrHint: 'Anticipa y acepta el cambio de actividad con apoyo visual y fichas.',
-    ept: ['Conductas disruptivas ante las transiciones.', 'Tolera el cambio con apoyo de economía de fichas.', 'Realiza transiciones con tranquilidad y autorregulación.'],
+    ept: ['Se enfada o se descontrola en los cambios de actividad.', 'Acepta el cambio si gana una ficha como premio.', 'Cambia de actividad tranquilo y por sí mismo.'],
     move: 'Marchad juntos hacia la siguiente actividad cantando la canción de las transiciones.',
     levels: [
       { label: 'Inicial', instrIcon: '🖼️', read: 'Muéstrale la imagen de la siguiente actividad y haz una cuenta atrás visual de 5 a 1 antes de cambiar.', instrHint: 'Anticipación con apoyo visual fuerte y cuenta atrás.' },
-      { label: 'Intermedio', instrIcon: '🎫', read: 'Avisa el cambio una sola vez y ofrece una ficha al terminar la actividad con calma.', instrHint: 'Tolerancia al cambio con apoyo de economía de fichas.' },
+      { label: 'Intermedio', instrIcon: '🎫', read: 'Avisa el cambio una sola vez y ofrece una ficha al terminar la actividad con calma.', instrHint: 'Acepta el cambio con ayuda de fichas-premio.' },
       { label: 'Avanzado', instrIcon: '📅', read: 'Deja que consulte solo su agenda visual y haga la transición sin que tengas que avisarle.', instrHint: 'Transición autónoma siguiendo la agenda, sin aviso directo del tutor.' },
     ] },
   interaccion_social: { ...meta('interaccion_social'),
     read: 'Juega por turnos: "Ahora tú, ahora yo". Inicia un juego simbólico sencillo.',
     stage: 'instruction', instrIcon: '🤝', instrHint: 'Respeta turnos, inicia juego simbólico y responde afectivamente.',
-    ept: ['Juega de forma solitaria, rechaza compartir turnos.', 'Acepta turnos y participa en juego guiado por el tutor.', 'Inicia y mantiene interacciones lúdicas recíprocas.'],
+    ept: ['Juega solo y rechaza compartir turnos.', 'Acepta turnos y participa si tú guías el juego.', 'Empieza juegos con otros y mantiene el toma y daca.'],
     move: 'Pasaos una pelota rodando: solo habla quien la tiene. ¡Turno y movimiento!',
     levels: [
       { label: 'Inicial', instrIcon: '🔁', read: 'Apila un bloque y dile "ahora tú". Ayúdale físicamente si no responde al turno.', instrHint: 'Turno simple guiado, con ayuda física si es necesario.' },
@@ -934,7 +940,12 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                     picked={intruderPick}
                     revealAnswer
                     onZoom={openZoom}
-                    onPick={(i, isAns) => { setIntruderPick(i); speakVerdict(isAns); }}
+                    // Nombra la ficha tocada antes del refuerzo: asociación
+                    // palabra-imagen directa (mismo patrón que en emociones).
+                    onPick={(i, isAns) => {
+                      setIntruderPick(i);
+                      speakToChild(`${ex.intruder![i].cap}. ${isAns ? praisePhrase() : almostPhrase()}`);
+                    }}
                   />
                 </>
               )}
@@ -995,7 +1006,12 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                     center
                     tileStyle={{ width: '30%', minWidth: 96 }}
                     onZoom={openZoom}
-                    onPick={(i, isAns) => { setChoicePick(i); speakVerdict(isAns); }}
+                    // Nombra la opción tocada («niña. ¡Muy bien!»): refuerza la
+                    // palabra objetivo justo al tocarla.
+                    onPick={(i, isAns) => {
+                      setChoicePick(i);
+                      speakToChild(`${ex.options![i].cap}. ${isAns ? praisePhrase() : almostPhrase()}`);
+                    }}
                   />
                 </>
               )}
@@ -1107,6 +1123,25 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                     <View style={s.instrBig}><Text style={{ fontSize: 32 }}>{ex.instrIcon}</Text></View>
                   </Pressable>
                   <Text style={s.instrHint}>{ex.instrHint}</Text>
+                  {/* Escenas tocables: apoyo visual + ejemplo hablado de cada
+                      modo del juego (p. ej. PR-2: voz bajita / voz normal). */}
+                  {!!ex.scenes && (
+                    <View style={s.sceneRow}>
+                      {ex.scenes.map((sc) => (
+                        <Pressable
+                          key={sc.label}
+                          onPress={() => speakToChild(sc.say)}
+                          accessibilityRole="button"
+                          accessibilityLabel={`${sc.label}. Oír un ejemplo`}
+                          style={s.sceneCard}
+                        >
+                          <Text style={{ fontSize: 34 }}>{sc.emoji}</Text>
+                          <Text style={s.sceneLabel}>{sc.label}</Text>
+                          <Text style={s.sceneHear}>🔊 Oír ejemplo</Text>
+                        </Pressable>
+                      ))}
+                    </View>
+                  )}
                 </View>
               )}
 
@@ -1393,6 +1428,10 @@ const s = StyleSheet.create({
 
   instrBig: { width: 64, height: 64, borderRadius: 20, backgroundColor: V.color.primaryLight, alignItems: 'center', justifyContent: 'center' },
   instrHint: { fontSize: 14, fontWeight: '700', color: V.color.textSecondary, textAlign: 'center', lineHeight: 20, marginTop: 12 },
+  sceneRow: { flexDirection: 'row', gap: 11, marginTop: 14, alignSelf: 'stretch' },
+  sceneCard: { flex: 1, alignItems: 'center', backgroundColor: V.color.pageBg, borderWidth: 1.5, borderColor: '#eef2f1', borderRadius: 16, paddingVertical: 14, paddingHorizontal: 8 },
+  sceneLabel: { fontSize: 12.5, fontWeight: '800', color: V.color.textPrimary, textAlign: 'center', marginTop: 7, lineHeight: 17 },
+  sceneHear: { fontSize: 11, fontWeight: '800', color: V.color.primaryDark, marginTop: 7 },
 
   // versión en movimiento
   moveCard: { backgroundColor: '#fff7ed', borderColor: '#fcd9a8', borderWidth: 1.5, borderRadius: 16, padding: 14, marginTop: 12 },
