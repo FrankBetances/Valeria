@@ -7,7 +7,19 @@ App móvil (Expo / React Native) para sesiones de terapia auditivo-verbal: regis
 ```
 Welcome → Credits → (PatientSelect ó FichaRegistro) → ExerciseSelection
         → LingTest → ExercisePlayer → Results
+                   ↘ MinimalPairs (Pares Mínimos)
+                   ↘ SemanticExpansion (Expansión Semántica)
 ```
+
+## Novedades V6
+
+- **Motor de voz más humano**: la selección prioriza voces neuronales/enhanced (Google neural/WaveNet, iOS Enhanced/Siri) y penaliza los motores metálicos heredados (eloquence, compact, eSpeak, Pico). Añade reintentos con espera creciente cuando el catálogo de Android aún no está listo, prosodia natural (troceo por frases con pausas de respiración, entonación en exclamaciones/preguntas y micro-variación de tono) y bancos de frases rotativas (elogio, casi, no oído, juntos) para no repetir siempre la misma muletilla.
+- **Ejercicios con rondas variadas**: cada mini-juego de Audición y Lenguaje rota hasta 3 contenidos distintos (vocales, palabra articulada, vocal faltante, intruso, adivinanzas, plurales, frases S-V-O y emociones) con el botón "🔄 Otra ronda", en vez del ítem fijo que se memorizaba tras jugarlo una vez. Flujo numerado **PASO 1→4** (consigna → juego → movimiento → evaluación), feedback hablado al acertar/fallar y cabecera con el nombre real del paciente.
+- **Sesión completa**: botón "🎯 Sesión completa" por pestaña que encadena todos los ejercicios prescritos del bloque en una sola sesión (pasando por el Test de Ling si la ficha indica audífono/implante), en lugar de practicar de uno en uno.
+- **Fase de turno visible**: nuevo `TurnPhaseStrip` (Escucha → Repite → Veredicto → Misión) en Pares Mínimos y Expansión Semántica, consignas rotativas y cápsulas de contraste con **dos vueltas evaluadas** (objetivo + opuesta). Más contenido: 5 escenarios, 7 progresiones y 6 cápsulas en Expansión Semántica.
+- **Fichas sin imágenes rotas**: pictogramas SVG de alto contraste (`src/ValeriaPictograms.tsx`) para las palabras cuyos emojis Unicode 13/14 se ven como cuadros vacíos en muchos Android (sierra, cubo, cepillo, tobogán) o resultan de bajo contraste (pelo, puente, ocho, cero), con fallback a emoji.
+- **Marca con oso pardo animado**: la mascota `BearMark` estrena variante `brown` (rubor y brillo en los ojos) como predeterminada; la bienvenida añade entrada elástica, flotación, salto de alegría y halo pulsante, y los créditos entran escalonados. Iconos y splash regenerados con el oso pardo.
+- **Build firmado en CI**: el workflow de GitHub Actions (`.github/workflows/android.yml`) compila en cada push/fusión a `main` el APK y el **AAB firmados** (cuando están configurados los secrets de keystore), derivando el `versionCode` del número de run.
 
 ## Novedades V5
 
@@ -52,3 +64,7 @@ npx eas build -p android --profile production  # App Bundle (.aab) para Google P
 ```
 
 El perfil `apk` limita las arquitecturas a `armeabi-v7a` y `arm64-v8a` (los móviles reales), eliminando las librerías x86 de emulador del binario. Para publicar en Google Play usa siempre el App Bundle: Play genera un APK optimizado por dispositivo y la descarga es bastante menor.
+
+### Build automático (GitHub Actions)
+
+El workflow [`.github/workflows/android.yml`](.github/workflows/android.yml) compila la app en cada push/fusión a `main` (y en ramas `claude/**`). Con los secrets de firma configurados (`ANDROID_RELEASE_KEYSTORE_BASE64`, `ANDROID_RELEASE_STORE_PASSWORD`, `ANDROID_RELEASE_KEY_ALIAS`, `ANDROID_RELEASE_KEY_PASSWORD`) genera el APK y el AAB **firmados**; sin secrets solo compila el APK. El `versionCode` se deriva del número de run para no repetirse entre builds.
