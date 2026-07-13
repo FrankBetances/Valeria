@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UIKit
 import FirebaseCore
 
 /// AppDelegate responsable del arranque de servicios nativos (Firebase).
@@ -44,7 +45,7 @@ struct ValeriaApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            RootView()
         }
     }
 }

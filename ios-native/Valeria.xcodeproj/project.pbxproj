@@ -8,7 +8,21 @@
 
 /* Begin PBXBuildFile section */
 		BB0000000000000000000001 /* ValeriaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000001 /* ValeriaApp.swift */; };
-		BB0000000000000000000002 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000002 /* ContentView.swift */; };
+		B20000000000000000000001 /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000001 /* AppModel.swift */; };
+		B20000000000000000000002 /* BearMark.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000002 /* BearMark.swift */; };
+		B20000000000000000000003 /* CreditsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000003 /* CreditsView.swift */; };
+		B20000000000000000000004 /* ExercisePlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000004 /* ExercisePlayerView.swift */; };
+		B20000000000000000000005 /* ExerciseSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000005 /* ExerciseSelectionView.swift */; };
+		B20000000000000000000006 /* FichaRegistroView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000006 /* FichaRegistroView.swift */; };
+		B20000000000000000000007 /* LingTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000007 /* LingTestView.swift */; };
+		B20000000000000000000008 /* MinimalPairsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000008 /* MinimalPairsView.swift */; };
+		B20000000000000000000009 /* PatientSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000009 /* PatientSelectView.swift */; };
+		B2000000000000000000000A /* ProPin.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000000000000000000000A /* ProPin.swift */; };
+		B2000000000000000000000B /* ResultsDashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000000000000000000000B /* ResultsDashboardView.swift */; };
+		B2000000000000000000000C /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000000000000000000000C /* RootView.swift */; };
+		B2000000000000000000000D /* SemanticExpansionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000000000000000000000D /* SemanticExpansionView.swift */; };
+		B2000000000000000000000E /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000000000000000000000E /* Theme.swift */; };
+		B2000000000000000000000F /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000000000000000000000F /* WelcomeView.swift */; };
 		BB0000000000000000000003 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000003 /* Assets.xcassets */; };
 		BB0000000000000000000007 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000006 /* Preview Assets.xcassets */; };
 		BB0000000000000000000004 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = CC0000000000000000000001 /* FirebaseCore */; };
@@ -18,7 +32,21 @@
 
 /* Begin PBXFileReference section */
 		AA0000000000000000000001 /* ValeriaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValeriaApp.swift; sourceTree = "<group>"; };
-		AA0000000000000000000002 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		A20000000000000000000001 /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
+		A20000000000000000000002 /* BearMark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BearMark.swift; sourceTree = "<group>"; };
+		A20000000000000000000003 /* CreditsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreditsView.swift; sourceTree = "<group>"; };
+		A20000000000000000000004 /* ExercisePlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExercisePlayerView.swift; sourceTree = "<group>"; };
+		A20000000000000000000005 /* ExerciseSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseSelectionView.swift; sourceTree = "<group>"; };
+		A20000000000000000000006 /* FichaRegistroView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FichaRegistroView.swift; sourceTree = "<group>"; };
+		A20000000000000000000007 /* LingTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LingTestView.swift; sourceTree = "<group>"; };
+		A20000000000000000000008 /* MinimalPairsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinimalPairsView.swift; sourceTree = "<group>"; };
+		A20000000000000000000009 /* PatientSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatientSelectView.swift; sourceTree = "<group>"; };
+		A2000000000000000000000A /* ProPin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProPin.swift; sourceTree = "<group>"; };
+		A2000000000000000000000B /* ResultsDashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsDashboardView.swift; sourceTree = "<group>"; };
+		A2000000000000000000000C /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		A2000000000000000000000D /* SemanticExpansionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SemanticExpansionView.swift; sourceTree = "<group>"; };
+		A2000000000000000000000E /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		A2000000000000000000000F /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		AA0000000000000000000003 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AA0000000000000000000004 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AA0000000000000000000006 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -51,7 +79,21 @@
 			isa = PBXGroup;
 			children = (
 				AA0000000000000000000001 /* ValeriaApp.swift */,
-				AA0000000000000000000002 /* ContentView.swift */,
+				A2000000000000000000000C /* RootView.swift */,
+				A2000000000000000000000E /* Theme.swift */,
+				A20000000000000000000002 /* BearMark.swift */,
+				A20000000000000000000001 /* AppModel.swift */,
+				A2000000000000000000000A /* ProPin.swift */,
+				A2000000000000000000000F /* WelcomeView.swift */,
+				A20000000000000000000003 /* CreditsView.swift */,
+				A20000000000000000000009 /* PatientSelectView.swift */,
+				A20000000000000000000006 /* FichaRegistroView.swift */,
+				A20000000000000000000005 /* ExerciseSelectionView.swift */,
+				A20000000000000000000007 /* LingTestView.swift */,
+				A20000000000000000000004 /* ExercisePlayerView.swift */,
+				A20000000000000000000008 /* MinimalPairsView.swift */,
+				A2000000000000000000000D /* SemanticExpansionView.swift */,
+				A2000000000000000000000B /* ResultsDashboardView.swift */,
 				AA0000000000000000000003 /* Assets.xcassets */,
 				AA0000000000000000000004 /* Info.plist */,
 				EE0000000000000000000004 /* Preview Content */,
@@ -154,8 +196,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BB0000000000000000000002 /* ContentView.swift in Sources */,
 				BB0000000000000000000001 /* ValeriaApp.swift in Sources */,
+				B2000000000000000000000C /* RootView.swift in Sources */,
+				B2000000000000000000000E /* Theme.swift in Sources */,
+				B20000000000000000000002 /* BearMark.swift in Sources */,
+				B20000000000000000000001 /* AppModel.swift in Sources */,
+				B2000000000000000000000A /* ProPin.swift in Sources */,
+				B2000000000000000000000F /* WelcomeView.swift in Sources */,
+				B20000000000000000000003 /* CreditsView.swift in Sources */,
+				B20000000000000000000009 /* PatientSelectView.swift in Sources */,
+				B20000000000000000000006 /* FichaRegistroView.swift in Sources */,
+				B20000000000000000000005 /* ExerciseSelectionView.swift in Sources */,
+				B20000000000000000000007 /* LingTestView.swift in Sources */,
+				B20000000000000000000004 /* ExercisePlayerView.swift in Sources */,
+				B20000000000000000000008 /* MinimalPairsView.swift in Sources */,
+				B2000000000000000000000D /* SemanticExpansionView.swift in Sources */,
+				B2000000000000000000000B /* ResultsDashboardView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -15,11 +15,31 @@ ios-native/
 │   └── xcshareddata/xcschemes/ # esquema compartido (CI / App Distribution)
 └── Valeria/
     ├── ValeriaApp.swift        # @main + init defensiva de Firebase
-    ├── ContentView.swift       # pantalla raíz placeholder
+    ├── RootView.swift          # NavigationStack + Router (flujo completo)
+    ├── Theme.swift             # tokens de diseño (port de valeriaTheme.ts)
+    ├── BearMark.swift          # mascota oso (SVG → Canvas SwiftUI)
+    ├── AppModel.swift          # estado en memoria + gamificación (sample data)
+    ├── ProPin.swift            # modal PIN profesional (SHA-256 · demo 1985)
+    ├── WelcomeView / CreditsView / PatientSelectView / FichaRegistroView.swift
+    ├── ExerciseSelectionView / LingTestView / ExercisePlayerView.swift
+    ├── MinimalPairsView / SemanticExpansionView / ResultsDashboardView.swift
     ├── Info.plist
     ├── Assets.xcassets/        # AppIcon + AccentColor (#00c4be)
     └── Preview Content/
 ```
+
+## Pantallas portadas (flujo nativo)
+
+Port del flujo RN completo con fidelidad visual, pensado para iterar usabilidad
+en device. `RootView` reproduce el stack del `AppNavigator`:
+
+`Welcome → Credits → (PatientSelect | Ficha) → ExerciseSelection → LingTest →
+ExercisePlayer → Results`, más los bloques `MinimalPairs` y `SemanticExpansion`.
+
+La persistencia cifrada (AsyncStorage), el motor de voz (TTS/STT) y los datasets
+completos del proyecto RN se sustituyen por estado en memoria y datos de muestra
+(`AppModel`): la app es navegable de punta a punta sin backend. El tutor hace de
+juez en los ejercicios de voz (como en el fallback sin micrófono del original).
 
 ## Dependencias (Swift Package Manager)
 
