@@ -14,41 +14,14 @@ import { V, STORAGE_KEYS } from './valeriaTheme';
 import { enableDailyReminders, disableReminders, remindersEnabled } from './valeriaNotifications';
 import { loadGame, liveStreak, levelFor, levelName } from './valeriaGamification';
 import { ProUnlockPill, ProPinModal } from './ValeriaProPin';
+import { AUDICION_META, LENGUAJE_META, AGE_BANDS } from './valeriaExerciseMeta';
 // import logoWhite from '../../assets/valeria-logo-white.png';
 
 // ----------------------------------------------------------------------------
-interface Item { id: string; code: string; name: string; category: string; age?: string; }
-
-// Bloque de Audición: categorías en lenguaje llano (el término clínico entre
-// paréntesis) y edad orientativa por actividad. En la lista se agrupan por
-// edad para que las familias empiecen por las de su peque y no intenten
-// trabajarlo todo a la vez.
-const EXERCISES_AUD: Item[] = [
-  { id: 'ff1', code: 'FF-1', name: 'Asociación vocal inicial', category: 'Sonidos y vocales (fonética-fonología)', age: '4-5 años' },
-  { id: 'ff2', code: 'FF-2', name: 'Articulación de vocales', category: 'Sonidos y vocales (fonética-fonología)', age: '3-4 años' },
-  { id: 'ff3', code: 'FF-3', name: 'Completar vocal faltante', category: 'Sonidos y vocales (fonética-fonología)', age: '5-6 años' },
-  { id: 'se1', code: 'SE-1', name: 'Detección del intruso', category: 'Vocabulario (semántica)', age: '4-5 años' },
-  { id: 'se2', code: 'SE-2', name: 'Adivinanza por letra', category: 'Vocabulario (semántica)', age: '5-6 años' },
-  { id: 'se3', code: 'SE-3', name: 'Prendas y órdenes', category: 'Vocabulario (semántica)', age: '3-4 años' },
-  { id: 'ms1', code: 'MS-1', name: 'Singular / plural', category: 'Frases (morfosintaxis)', age: '4-5 años' },
-  { id: 'ms2', code: 'MS-2', name: 'Flexión de género', category: 'Frases (morfosintaxis)', age: '4-5 años' },
-  { id: 'ms3', code: 'MS-3', name: 'Estructura S-V-O', category: 'Frases (morfosintaxis)', age: '5-6 años' },
-  { id: 'pr1', code: 'PR-1', name: 'Preguntas tipo ¿qué?', category: 'Uso social (pragmática)', age: '3-4 años' },
-  { id: 'pr2', code: 'PR-2', name: 'Adaptación del discurso', category: 'Uso social (pragmática)', age: '5-6 años' },
-  { id: 'pr3', code: 'PR-3', name: 'Reconocimiento de emociones', category: 'Uso social (pragmática)', age: '4-5 años' },
-  { id: 'pr4', code: 'PR-4', name: 'Petición de repetición', category: 'Uso social (pragmática)', age: '5-6 años' },
-];
-// Orden de las secciones por edad en la lista de Audición.
-const AGE_BANDS = ['3-4 años', '4-5 años', '5-6 años'];
-const EXERCISES_LEN: Item[] = [
-  { id: 'atencion_conjunta', code: 'M-1', name: 'Atención Conjunta', category: 'Mirar, burbujas y nombre' },
-  { id: 'imitacion', code: 'M-2', name: 'Imitación Motora/Verbal', category: 'Aplausos, tambor y sílabas' },
-  { id: 'comprension', code: 'M-3', name: 'Comprensión Verbal', category: 'Órdenes, cuerpo y categorías' },
-  { id: 'expresion', code: 'M-4', name: 'Expresión Verbal', category: 'Onomatopeyas, nombrar y frases' },
-  { id: 'comunicacion_funcional', code: 'M-5', name: 'Comunicación Funcional', category: 'Pedir "más", "ayuda", "quiero"' },
-  { id: 'regulacion_conductual', code: 'M-6', name: 'Regulación Conductual', category: 'Transiciones, rutinas y fichas' },
-  { id: 'interaccion_social', code: 'M-7', name: 'Interacción Social', category: 'Turnos, juego simbólico, emociones' },
-];
+// Metadatos (código, nombre, categoría, edad) desde la fuente única compartida
+// con el player: un cambio se refleja en ambas pantallas a la vez.
+const EXERCISES_AUD = AUDICION_META;
+const EXERCISES_LEN = LENGUAJE_META;
 
 // ----------------------------------------------------------------------------
 export const ValeriaExerciseSelectionScreen: React.FC<{ navigation: any }> = ({ navigation }) => {

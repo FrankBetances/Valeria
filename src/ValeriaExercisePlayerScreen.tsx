@@ -52,6 +52,7 @@ import { registerSession, SessionReward, levelProgress, xpToNext } from './valer
 import { speakToChild, speakWordSlow, stopSpeaking, praisePhrase, almostPhrase, normalizeSpeech } from './valeriaVoice';
 import { SpeakButton, MicPracticeCard, ResponseCaptureCard } from './ValeriaVoiceUI';
 import { ValeriaTPRCapsuleOverlay, pickTprCapsule, TprCapsule } from './ValeriaTPRCapsule';
+import { META_BY_ID } from './valeriaExerciseMeta';
 // import logoWhite from '../../assets/valeria-logo-white.png';
 
 // ----------------------------------------------------------------------------
@@ -96,86 +97,93 @@ interface Exercise {
 // ----------------------------------------------------------------------------
 // Base de datos de ejercicios (13 Audición + 7 Lenguaje) con reglas EPT-3
 // ----------------------------------------------------------------------------
+// Código, nombre, categoría y edad vienen de la fuente única compartida con
+// la pantalla de selección (valeriaExerciseMeta).
+const meta = (id: string) => {
+  const m = META_BY_ID[id];
+  return { code: m.code, name: m.name, category: m.category, age: m.age };
+};
+
 const DB: Record<string, Exercise> = {
-  ff1: { code: 'FF-1', name: 'Asociación vocal inicial', category: 'Sonidos y vocales (fonética-fonología)', age: '4-5 años',
+  ff1: { ...meta('ff1'),
     read: 'El niño toca una imagen para oír su nombre y después toca la vocal con la que empieza. La app le dice si acertó.',
     stage: 'vowels', stageLabel: 'Une cada imagen con su vocal',
     tiles: [{ cap: 'araña', emoji: '🕷️' }, { cap: 'elefante', emoji: '🐘' }, { cap: 'isla', emoji: '🏝️' }],
     move: 'Dibujad la vocal en el aire con el brazo bien grande cada vez que acierte.',
     ept: ['Todavía no une la imagen con su vocal, ni con ayuda.', 'Acierta la vocal cuando el adulto le da una pista.', 'Une cada imagen con su vocal él solo.'] },
-  ff2: { code: 'FF-2', name: 'Articulación de vocales', category: 'Sonidos y vocales (fonética-fonología)', age: '3-4 años',
+  ff2: { ...meta('ff2'),
     read: 'Di tú primero la palabra, cerca del niño y despacio, y anímale a repetirla. La voz de la app es solo un apoyo extra.',
     stage: 'phrase', stageLabel: 'Repite la palabra', phrase: 'ZAPATO', phraseEmoji: '👟',
     move: 'Marchad por la sala pisando fuerte una sílaba en cada paso: ZA-PA-TO.',
     ept: ['Todavía no imita el sonido o queda muy lejos de la palabra.', 'Repite la palabra después de oírtela a ti varias veces.', 'Dice la palabra él solo, con todas sus vocales claras.'] },
-  ff3: { code: 'FF-3', name: 'Completar vocal faltante', category: 'Sonidos y vocales (fonética-fonología)', age: '5-6 años',
+  ff3: { ...meta('ff3'),
     read: 'Primero pulsa 🔊 para que el niño oiga la palabra completa. Después, que toque la vocal que le falta a la palabra escrita.',
     stage: 'fill', stageLabel: 'Escucha la palabra y completa la vocal', fillBefore: 'S', fillAfter: 'L', fillAnswer: 'O', fillEmoji: '☀️', fillCap: 'sol',
     move: 'Cuando encuentre la vocal, brazos arriba formando un sol gigante.',
     ept: ['Todavía no encuentra la vocal que falta, ni con ayuda.', 'Completa la palabra si le repites el sonido o le das una pista.', 'Escucha la palabra y toca la vocal que falta él solo.'] },
-  se1: { code: 'SE-1', name: 'Detección del intruso', category: 'Vocabulario (semántica)', age: '4-5 años',
+  se1: { ...meta('se1'),
     read: 'Pulsa 🔊 para oír el nombre de las cuatro fichas. Tres van juntas y una no. El niño toca la que NO va con las demás.',
     stage: 'intruder', stageLabel: 'Toca la ficha que no va con las demás',
     intruder: [{ cap: 'manzana', emoji: '🍎' }, { cap: 'plátano', emoji: '🍌' }, { cap: 'uva', emoji: '🍇' }, { cap: 'coche', emoji: '🚗' }], intruderAnswer: 3,
     move: 'Si se come, tocaos la barriga; si es el intruso, ¡salto de estrella!',
     ept: ['Todavía no encuentra la ficha que no va con las demás.', 'La encuentra cuando le haces una pregunta de ayuda («¿cuáles se comen?»).', 'La encuentra él solo y explica por qué no va con las otras.'] },
-  se2: { code: 'SE-2', name: 'Adivinanza por letra', category: 'Vocabulario (semántica)', age: '5-6 años',
+  se2: { ...meta('se2'),
     read: 'Pulsa 🔊 para oír la adivinanza (o léela tú). El niño responde tocando una de las tres imágenes.',
     stage: 'choice', stageLabel: 'Escucha la adivinanza y toca la respuesta',
     choicePrompt: 'Empieza por pe, y es una fruta amarilla y alargada. ¿Qué es?', choiceLabel: 'Oír la adivinanza', choiceVoice: 'tutor',
     options: [{ cap: 'plátano', emoji: '🍌' }, { cap: 'pera', emoji: '🍐' }, { cap: 'pelota', emoji: '⚽' }], optionAnswer: 0,
     move: 'Buscad por la habitación un objeto real que empiece por la misma letra.',
     ept: ['Todavía no adivina la respuesta, ni con más pistas.', 'Acierta después de repetirle la adivinanza o darle otra pista.', 'Acierta a la primera, solo con oír la adivinanza.'] },
-  se3: { code: 'SE-3', name: 'Prendas y órdenes', category: 'Vocabulario (semántica)', age: '3-4 años',
+  se3: { ...meta('se3'),
     materials: 'Un muñeco o peluche y prendas de verdad: gorro, zapatos, camiseta…',
     read: 'Coge el muñeco y la ropa. Dale al niño una orden cada vez: «Ponle el gorro al muñeco». Cambia de prenda en cada turno.',
     stage: 'instruction', instrIcon: '🧥', instrHint: 'El niño escucha tu orden y viste al muñeco con la prenda correcta.',
     move: 'Jugad a vestirse de verdad: que traiga el gorro corriendo y se lo ponga.',
     ept: ['Todavía no reconoce las prendas ni cumple la orden.', 'Pone la prenda correcta si antes se lo enseñas tú una vez.', 'Escucha la orden y viste al muñeco él solo.'] },
-  ms1: { code: 'MS-1', name: 'Singular / plural', category: 'Frases (morfosintaxis)', age: '4-5 años',
+  ms1: { ...meta('ms1'),
     read: 'El niño toca la tarjeta donde hay MUCHOS. Después pregúntale «¿qué son?» para que lo diga con la ese final: «gatos».',
     stage: 'plural', stageLabel: 'Toca donde hay muchos y dilo',
     plural: { cap: 'gato', capPlural: 'gatos', emoji: '🐱' },
     move: 'Un salto grande si hay UNO, muchos saltitos seguidos si hay MUCHOS.',
     ept: ['Todavía no distingue entre «uno» y «muchos».', 'Dice el plural («gatos») si tú se lo dices antes.', 'Toca donde hay muchos y dice el plural él solo.'] },
-  ms2: { code: 'MS-2', name: 'Flexión de género', category: 'Frases (morfosintaxis)', age: '4-5 años',
+  ms2: { ...meta('ms2'),
     read: 'Pulsa 🔊 para oír la palabra. El niño toca la imagen correcta. Después jugad al revés: tú señalas una imagen y él dice la palabra.',
     stage: 'choice', stageLabel: 'Escucha la palabra y toca la imagen',
     choicePrompt: 'niña', choiceLabel: 'Oír la palabra', choiceVoice: 'slow',
     options: [{ cap: 'niño', emoji: '👦' }, { cap: 'niña', emoji: '👧' }], optionAnswer: 1,
     move: 'Un lado de la sala es "niño" y el otro "niña": ¡corre al lado correcto!',
     ept: ['Todavía confunde las palabras de chico y de chica.', 'Acierta si le recuerdas el final de la palabra: «niñ-o», «niñ-a».', 'Toca la imagen y dice la palabra correcta él solo.'] },
-  ms3: { code: 'MS-3', name: 'Estructura S-V-O', category: 'Frases (morfosintaxis)', age: '5-6 años',
+  ms3: { ...meta('ms3'),
     read: 'Pulsa 🔊 para que el niño oiga la frase. Después, que toque las fichas en orden para construirla: quién, qué hace y qué cosa.',
     stage: 'order', stageLabel: 'Escucha la frase y ordena las fichas',
     parts: [{ role: 'Sujeto', cap: 'niño', emoji: '👦' }, { role: 'Verbo', cap: 'come', emoji: '😋' }, { role: 'Objeto', cap: 'manzana', emoji: '🍎' }], sentence: 'El niño come la manzana.',
     move: 'Teatralizad la frase: el niño hace de actor y "come" una manzana imaginaria.',
     ept: ['Solo dice palabras sueltas («niño», «manzana»).', 'Construye la frase si tú le ayudas a empezarla.', 'Ordena las fichas y dice la frase completa él solo.'] },
-  pr1: { code: 'PR-1', name: 'Preguntas tipo ¿qué?', category: 'Uso social (pragmática)', age: '3-4 años',
+  pr1: { ...meta('pr1'),
     read: 'Señala cosas de la habitación y pregúntale: «¿Qué es esto?». Graba o escribe abajo lo que responda el niño.',
     stage: 'instruction', instrIcon: '💬', instrHint: 'Primero responde él a tus preguntas; luego anímale a preguntarte a ti «¿qué es esto?».',
     capture: 'Pregúntale «¿qué es esto?» señalando un objeto. Graba con el micro o escribe su respuesta.',
     move: 'Pasead por la casa como exploradores señalando objetos: "¿qué es esto?" en cada parada.',
     ept: ['Todavía no responde a la pregunta.', 'Responde si primero le das tú un ejemplo de respuesta.', 'Responde él solo e incluso te hace preguntas a ti.'] },
-  pr2: { code: 'PR-2', name: 'Adaptación del discurso', category: 'Uso social (pragmática)', age: '5-6 años',
+  pr2: { ...meta('pr2'),
     materials: 'Un peluche o muñeco',
     read: 'El peluche está dormido: hablad muy bajito para no despertarlo. Cuando «se despierte», volved a la voz normal. Registra abajo cómo lo hace.',
     stage: 'instruction', instrIcon: '😴', instrHint: 'Peluche dormido = voz bajita. Peluche despierto = voz normal. El niño debe cambiar su voz con el juego.',
     capture: 'Graba o escribe cómo habló el niño: ¿bajó la voz con el peluche dormido?',
     move: 'Caminad de puntillas hablando bajito; a la señal, ¡voz normal y paso fuerte!',
     ept: ['Habla igual de fuerte aunque el peluche duerma.', 'Baja la voz cuando tú se lo recuerdas.', 'Cambia él solo entre voz bajita y voz normal según el juego.'] },
-  pr3: { code: 'PR-3', name: 'Reconocimiento de emociones', category: 'Uso social (pragmática)', age: '4-5 años',
+  pr3: { ...meta('pr3'),
     read: 'Mira la cara grande con el niño. Pulsa 🔊 si quiere oír las opciones. Él toca cómo se siente la cara.',
     stage: 'emotions', stageLabel: 'Reconoce la emoción', emotionFace: '😀', emotionAnswer: 'Alegría',
     move: 'Imitad la emoción con todo el cuerpo: cara, brazos y postura de estatua.',
     ept: ['Todavía no reconoce cómo se siente la cara.', 'Acierta la emoción si le das pistas («mira su boca»).', 'Dice la emoción él solo y explica por qué se siente así.'] },
-  pr4: { code: 'PR-4', name: 'Petición de repetición', category: 'Uso social (pragmática)', age: '5-6 años',
+  pr4: { ...meta('pr4'),
     read: 'Tápate la boca y di una palabra casi sin voz. Si el niño no la entiende, debe pedirte: «¿qué?» o «¿cómo?». Eso es lo que practicamos: pedir que se lo repitan.',
     stage: 'instruction', instrIcon: '🙋', instrHint: 'El objetivo NO es repetir palabras: es que el niño aprenda a pedir que le repitas lo que no entendió.',
     micTarget: 'cómo', micAlt: ['qué'], micPrompt: 'Cuando no te entienda, pulsa el micro y que pida: «¿cómo?» o «¿qué?»',
     move: 'Susurra una orden desde lejos; si no se entiende, que venga corriendo y pida "¿qué?".',
     ept: ['Se queda callado o abandona cuando no entiende algo.', 'Pide «¿qué?» si tú le recuerdas que puede pedirlo.', 'Pide «¿qué?» o «¿cómo?» él solo cuando no entiende.'] },
-  atencion_conjunta: { code: 'M-1', name: 'Atención Conjunta', category: 'Mirar, burbujas y nombre',
+  atencion_conjunta: { ...meta('atencion_conjunta'),
     read: 'Llama al niño por su nombre y haz burbujas. Busca su mirada y el contacto visual.',
     stage: 'instruction', instrIcon: '👀', instrHint: 'Desarrolla contacto visual, seguimiento de la mirada y respuesta al nombre.',
     ept: ['Requiere instigación física para sostener la mirada brevemente.', 'Responde a su nombre tras múltiples llamados verbales.', 'Establece contacto visual espontáneo y sigue la mirada del tutor.'],
@@ -185,7 +193,7 @@ const DB: Record<string, Exercise> = {
       { label: 'Intermedio', instrIcon: '👀', read: 'Haz burbujas a un brazo de distancia. Llama su nombre y señala con el dedo hacia las burbujas.', instrHint: 'Favorece el seguimiento de la mirada hacia donde el tutor señala.' },
       { label: 'Avanzado', instrIcon: '🙋', read: 'Desde el otro lado de la habitación, llama su nombre una sola vez sin estímulo motivador a la vista.', instrHint: 'Busca respuesta espontánea al nombre sin apoyo visual ni cercanía.' },
     ] },
-  imitacion: { code: 'M-2', name: 'Imitación Motora/Verbal', category: 'Aplausos, tambor y sílabas',
+  imitacion: { ...meta('imitacion'),
     read: 'Haz un gesto (aplaudir, tocar el tambor) y anímale a imitarte. Ahora una sílaba: "pa-pa".',
     stage: 'instruction', instrIcon: '👏', instrHint: 'Imita gestos motores gruesos y vocalizaciones simples en espejo.',
     ept: ['No copia los gestos ni produce sonidos imitativos.', 'Imita gestos o sonidos aislados con guía del adulto.', 'Realiza imitaciones motoras y verbales en espejo inmediato.'],
@@ -195,7 +203,7 @@ const DB: Record<string, Exercise> = {
       { label: 'Intermedio', instrIcon: '🥁', read: 'Toca el tambor dos veces y di "pa-pa". Espera a que imite el gesto o el sonido sin ayuda física.', instrHint: 'Secuencia corta de gesto + sílaba, sin apoyo físico, solo modelo visual.' },
       { label: 'Avanzado', instrIcon: '🪞', read: 'Combina un gesto y una sílaba nueva ("ta-ta" + saltar) y observa si lo imita en espejo, inmediatamente y sin repetir el modelo.', instrHint: 'Imitación inmediata de una combinación nueva, sin repetición del modelo.' },
     ] },
-  comprension: { code: 'M-3', name: 'Comprensión Verbal', category: 'Órdenes, cuerpo y categorías',
+  comprension: { ...meta('comprension'),
     read: 'Dale una orden de un paso: "Dame la pelota". Pídele que señale partes del cuerpo.',
     stage: 'instruction', instrIcon: '🧠', instrHint: 'Comprende instrucciones de un paso e identifica partes del cuerpo y objetos.',
     ept: ['No obedece instrucciones ni señala elementos solicitados.', 'Ejecuta la orden con ayuda de gestos de señalamiento.', 'Comprende la instrucción puramente verbal y la ejecuta.'],
@@ -205,7 +213,7 @@ const DB: Record<string, Exercise> = {
       { label: 'Intermedio', instrIcon: '🧍', read: 'Pídele "Tócate la nariz" y "Tócate la cabeza" sin gestos de apoyo.', instrHint: 'Identificación de partes del cuerpo solo con instrucción verbal.' },
       { label: 'Avanzado', instrIcon: '🧩', read: 'Dile sin ningún gesto: "Dame la pelota y siéntate". Observa si ejecuta los dos pasos en orden.', instrHint: 'Orden verbal de dos pasos, sin ningún apoyo gestual.' },
     ] },
-  expresion: { code: 'M-4', name: 'Expresión Verbal', category: 'Onomatopeyas, nombrar y frases',
+  expresion: { ...meta('expresion'),
     read: '¿Cómo hace el perro? "Guau". Anímale a nombrar y pedir: "quiero agua".',
     stage: 'phrase', stageLabel: 'Evoca y nombra', phrase: 'QUIERO AGUA', phraseEmoji: '💧',
     ept: ['Solo usa gestos o balbuceos para expresar sus necesidades.', 'Expresa palabras simples tras el modelo directo del adulto.', 'Evoca palabras y oraciones de dos palabras espontáneamente.'],
@@ -215,7 +223,7 @@ const DB: Record<string, Exercise> = {
       { label: 'Intermedio', instrIcon: '🏷️', read: 'Muéstrale un vaso de agua sin decir nada y pregúntale: "¿Qué es esto?".', instrHint: 'Nombrar un objeto familiar de forma espontánea, sin modelo previo.' },
       { label: 'Avanzado', instrIcon: '🗣️', read: 'Ofrécele el vaso vacío y espera a que pida espontáneamente "quiero agua" combinando las dos palabras.', instrHint: 'Combinación espontánea de dos palabras en una petición funcional.' },
     ] },
-  comunicacion_funcional: { code: 'M-5', name: 'Comunicación Funcional', category: 'Pedir "más", "ayuda", "quiero"',
+  comunicacion_funcional: { ...meta('comunicacion_funcional'),
     read: 'Para de hacer algo divertido y espera. Anímale a pedir "más" o "ayuda".',
     stage: 'instruction', instrIcon: '🙌', instrHint: 'Usa lenguaje verbal o aumentativo para solicitar juego o ayuda.',
     ept: ['Se frustra o no intenta comunicarse ante un problema.', 'Solicita ayuda o "más" usando modelo verbal guiado.', 'Usa palabras o signos funcionales con clara intención.'],
@@ -225,7 +233,7 @@ const DB: Record<string, Exercise> = {
       { label: 'Intermedio', instrIcon: '🔒', read: 'Dale un bote cerrado con algo que le guste dentro y espera. Si se frustra, sugiere a media voz "ayuda".', instrHint: 'Petición de "ayuda" ante un obstáculo, con pista verbal parcial.' },
       { label: 'Avanzado', instrIcon: '💬', read: 'Crea otra situación de necesidad (juguete fuera de alcance) sin dar ninguna pista y espera la petición espontánea.', instrHint: 'Inicio espontáneo de la petición, sin pistas verbales ni gestuales.' },
     ] },
-  regulacion_conductual: { code: 'M-6', name: 'Regulación Conductual', category: 'Transiciones, rutinas y fichas',
+  regulacion_conductual: { ...meta('regulacion_conductual'),
     read: 'Avisa del cambio de actividad con la agenda visual y espera con tranquilidad.',
     stage: 'instruction', instrIcon: '🗂️', instrHint: 'Anticipa y acepta el cambio de actividad con apoyo visual y fichas.',
     ept: ['Conductas disruptivas ante las transiciones.', 'Tolera el cambio con apoyo de economía de fichas.', 'Realiza transiciones con tranquilidad y autorregulación.'],
@@ -235,7 +243,7 @@ const DB: Record<string, Exercise> = {
       { label: 'Intermedio', instrIcon: '🎫', read: 'Avisa el cambio una sola vez y ofrece una ficha al terminar la actividad con calma.', instrHint: 'Tolerancia al cambio con apoyo de economía de fichas.' },
       { label: 'Avanzado', instrIcon: '📅', read: 'Deja que consulte solo su agenda visual y haga la transición sin que tengas que avisarle.', instrHint: 'Transición autónoma siguiendo la agenda, sin aviso directo del tutor.' },
     ] },
-  interaccion_social: { code: 'M-7', name: 'Interacción Social', category: 'Turnos, juego simbólico, emociones',
+  interaccion_social: { ...meta('interaccion_social'),
     read: 'Juega por turnos: "Ahora tú, ahora yo". Inicia un juego simbólico sencillo.',
     stage: 'instruction', instrIcon: '🤝', instrHint: 'Respeta turnos, inicia juego simbólico y responde afectivamente.',
     ept: ['Juega de forma solitaria, rechaza compartir turnos.', 'Acepta turnos y participa en juego guiado por el tutor.', 'Inicia y mantiene interacciones lúdicas recíprocas.'],
@@ -361,6 +369,49 @@ const EmojiTile: React.FC<{
     <Text style={{ fontSize: size * 0.46 }}>{emoji}</Text>
     <View style={s.zoomHintDot}><Text style={{ fontSize: 9 }}>🔍</Text></View>
   </Pressable>
+);
+
+// ----------------------------------------------------------------------------
+// Cuadrícula de respuesta compartida (intruso y adivinanzas/género): fichas
+// con imagen; al tocar una se marca ✅/❌ contra la respuesta correcta.
+// `revealAnswer` muestra además la correcta cuando se toca otra (intruso).
+// ----------------------------------------------------------------------------
+const AnswerTileGrid: React.FC<{
+  tiles: Tile[];
+  answer: number;
+  picked: number; // -1 = ninguna elegida aún
+  onPick: (i: number, isAnswer: boolean) => void;
+  onZoom: (emoji: string, cap: string) => void;
+  size?: number;
+  tileStyle?: object;
+  center?: boolean;
+  revealAnswer?: boolean;
+}> = ({ tiles, answer, picked, onPick, onZoom, size = 96, tileStyle, center = false, revealAnswer = false }) => (
+  <View style={[s.grid2, center && { justifyContent: 'center' }]}>
+    {tiles.map((t, i) => {
+      const tapped = picked === i;
+      const isAns = i === answer;
+      const ok = (tapped && isAns) || (revealAnswer && picked >= 0 && isAns);
+      const bad = tapped && !isAns;
+      return (
+        <Pressable
+          key={i}
+          onPress={() => { if (picked !== i) onPick(i, isAns); }}
+          accessibilityRole="button"
+          accessibilityLabel={`Responder ${t.cap}`}
+          style={[s.gridTile, tileStyle, ok && s.gridTileOk, bad && s.gridTileBad]}
+        >
+          <View style={{ alignItems: 'center' }}>
+            <EmojiTile emoji={t.emoji} cap={t.cap} size={size} bgIndex={i} onZoom={onZoom} />
+          </View>
+          <View style={s.gridCapRow}>
+            <Text style={s.gridCap}>{t.cap}</Text>
+            <Text style={{ fontSize: 13 }}>{ok ? '✅' : bad ? '❌' : ''}</Text>
+          </View>
+        </Pressable>
+      );
+    })}
+  </View>
 );
 
 // ----------------------------------------------------------------------------
@@ -877,30 +928,14 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                   <View style={{ alignItems: 'center', marginBottom: 14 }}>
                     <SpeakButton text={ex.intruder!.map((t) => t.cap).join(', ')} label="Oír las palabras" voice="slow" />
                   </View>
-                  <View style={s.grid2}>
-                  {ex.intruder!.map((t, i) => {
-                    const tapped = intruderPick === i;
-                    const isAns = i === ex.intruderAnswer;
-                    const reveal = intruderPick >= 0;
-                    const ok = (tapped && isAns) || (reveal && isAns);
-                    const bad = tapped && !isAns;
-                    return (
-                      <Pressable
-                        key={i}
-                        onPress={() => { if (intruderPick !== i) { setIntruderPick(i); speakVerdict(i === ex.intruderAnswer); } }}
-                        style={[s.gridTile, ok && s.gridTileOk, bad && s.gridTileBad]}
-                      >
-                        <View style={{ alignItems: 'center' }}>
-                          <EmojiTile emoji={t.emoji} cap={t.cap} size={96} bgIndex={i} onZoom={openZoom} />
-                        </View>
-                        <View style={s.gridCapRow}>
-                          <Text style={s.gridCap}>{t.cap}</Text>
-                          <Text style={{ fontSize: 13 }}>{ok ? '✅' : bad ? '❌' : ''}</Text>
-                        </View>
-                      </Pressable>
-                    );
-                  })}
-                  </View>
+                  <AnswerTileGrid
+                    tiles={ex.intruder!}
+                    answer={ex.intruderAnswer!}
+                    picked={intruderPick}
+                    revealAnswer
+                    onZoom={openZoom}
+                    onPick={(i, isAns) => { setIntruderPick(i); speakVerdict(isAns); }}
+                  />
                 </>
               )}
 
@@ -952,31 +987,16 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                       voice={ex.choiceVoice === 'slow' ? 'slow' : 'tutor'}
                     />
                   </View>
-                  <View style={[s.grid2, { justifyContent: 'center' }]}>
-                    {ex.options!.map((t, i) => {
-                      const tapped = choicePick === i;
-                      const isAns = i === ex.optionAnswer;
-                      const ok = tapped && isAns;
-                      const bad = tapped && !isAns;
-                      return (
-                        <Pressable
-                          key={i}
-                          onPress={() => { if (choicePick !== i) { setChoicePick(i); speakVerdict(i === ex.optionAnswer); } }}
-                          accessibilityRole="button"
-                          accessibilityLabel={`Responder ${t.cap}`}
-                          style={[s.gridTile, { width: '30%', minWidth: 96 }, ok && s.gridTileOk, bad && s.gridTileBad]}
-                        >
-                          <View style={{ alignItems: 'center' }}>
-                            <EmojiTile emoji={t.emoji} cap={t.cap} size={78} bgIndex={i} onZoom={openZoom} />
-                          </View>
-                          <View style={s.gridCapRow}>
-                            <Text style={s.gridCap}>{t.cap}</Text>
-                            <Text style={{ fontSize: 13 }}>{ok ? '✅' : bad ? '❌' : ''}</Text>
-                          </View>
-                        </Pressable>
-                      );
-                    })}
-                  </View>
+                  <AnswerTileGrid
+                    tiles={ex.options!}
+                    answer={ex.optionAnswer!}
+                    picked={choicePick}
+                    size={78}
+                    center
+                    tileStyle={{ width: '30%', minWidth: 96 }}
+                    onZoom={openZoom}
+                    onPick={(i, isAns) => { setChoicePick(i); speakVerdict(isAns); }}
+                  />
                 </>
               )}
 
@@ -1020,7 +1040,10 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
               {/* MS-3 · escucha la frase y ordénala tocando las fichas en pantalla */}
               {ex.stage === 'order' && (() => {
                 const parts = ex.parts!;
-                const display = [1, 2, 0].filter((i) => i < parts.length); // fichas desordenadas a propósito
+                // Fichas desordenadas a propósito: rotación en una posición,
+                // que nunca coincide con el orden correcto y vale para
+                // cualquier número de fichas (no solo 3).
+                const display = parts.map((_, k) => (k + 1) % parts.length);
                 const complete = orderPicks.length === parts.length;
                 const correct = complete && orderPicks.every((p, k) => p === k);
                 const question = (role: string) =>
