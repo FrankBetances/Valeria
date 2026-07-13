@@ -3,13 +3,16 @@
 //   · <SpeakButton />      — píldora 🔊 que lee un texto con la voz de la app.
 //   · <MicPracticeCard />  — juego "¡Ahora tú!": el niño repite la palabra
 //     objetivo al micrófono y la app valora el intento con estrellas.
+//   · <ResponseCaptureCard /> — registro de respuesta libre: graba por voz o
+//     escribe lo que dijo el niño (pedido por los evaluadores en las
+//     actividades de pragmática, donde no hay una respuesta cerrada).
 //   · <TurnPhaseStrip />   — mapa del turno (Escucha → Habla → Veredicto →
 //     Misión) para que la familia sepa siempre en qué punto del ensayo está.
 // Si el reconocimiento de voz no está disponible (p. ej. Expo Go), la tarjeta
 // de micrófono muestra una nota discreta en lugar del juego.
 // ============================================================================
 import React, { useEffect, useRef, useState } from 'react';
-import { View, Text, Pressable, StyleSheet, Animated, Easing } from 'react-native';
+import { View, Text, Pressable, TextInput, StyleSheet, Animated, Easing } from 'react-native';
 import { V } from './valeriaTheme';
 import {
   speak, speakToChild, speakWordSlow, stopSpeaking,
@@ -203,6 +206,80 @@ export const MicPracticeCard: React.FC<{ target: string; prompt?: string }> = ({
 };
 
 // ----------------------------------------------------------------------------
+// Registro de respuesta libre: para actividades sin respuesta cerrada
+// (preguntas ¿qué?, adaptación del discurso…). El adulto puede grabar la voz
+// del niño (si hay reconocimiento) o escribir lo que dijo. Lo registrado se
+// muestra en la tarjeta para apoyar la evaluación EPT-3 del ejercicio.
+// ----------------------------------------------------------------------------
+export const ResponseCaptureCard: React.FC<{ prompt?: string }> = ({ prompt }) => {
+  const [text, setText] = useState('');
+  const [listening, setListening] = useState(false);
+  const [errMsg, setErrMsg] = useState('');
+  const mounted = useRef(true);
+
+  useEffect(() => {
+    mounted.current = true;
+    return () => {
+      mounted.current = false;
+      stopListening();
+      releaseListening();
+    };
+  }, []);
+
+  const record = async () => {
+    if (listening) { await stopListening(); setListening(false); return; }
+    setErrMsg(''); setListening(true);
+    const ok = await startListening({
+      onPartial: (t) => mounted.current && setText(t),
+      onResult: (alts) => {
+        if (!mounted.current) return;
+        if (alts[0]) setText(alts[0]);
+        setListening(false);
+      },
+      onError: (m) => {
+        if (!mounted.current) return;
+        setErrMsg(m); setListening(false);
+      },
+      onEnd: () => mounted.current && setListening(false),
+    });
+    if (!ok && mounted.current) setListening(false);
+  };
+
+  return (
+    <View style={s.captureCard}>
+      <Text style={s.captureKicker}>📝 REGISTRA SU RESPUESTA</Text>
+      <Text style={s.capturePrompt}>{prompt ?? 'Graba con el micro o escribe lo que dijo el niño.'}</Text>
+      <View style={s.captureRow}>
+        <TextInput
+          style={s.captureInput}
+          value={text}
+          onChangeText={setText}
+          placeholder="Escribe aquí lo que dijo…"
+          placeholderTextColor={V.color.textMuted}
+          multiline
+          accessibilityLabel="Escribir la respuesta del niño"
+        />
+        {asrSupported() && (
+          <Pressable
+            onPress={record}
+            accessibilityRole="button"
+            accessibilityLabel={listening ? 'Dejar de grabar' : 'Grabar la respuesta con el micrófono'}
+            style={[s.captureMicBtn, listening && s.captureMicBtnOn]}
+          >
+            <Text style={{ fontSize: 20 }}>{listening ? '👂' : '🎤'}</Text>
+          </Pressable>
+        )}
+      </View>
+      {listening && <Text style={s.captureState}>Escuchando… habla ahora</Text>}
+      {!!errMsg && <Text style={s.captureErr}>{errMsg}</Text>}
+      {!!text && !listening && (
+        <Text style={s.captureOk}>✓ Respuesta registrada: úsala para elegir la evaluación de abajo.</Text>
+      )}
+    </View>
+  );
+};
+
+// ----------------------------------------------------------------------------
 const s = StyleSheet.create({
   speakPill: { flexDirection: 'row', alignItems: 'center', gap: 6, alignSelf: 'flex-start', backgroundColor: V.color.primaryLight, borderWidth: 1, borderColor: V.color.borderActive, borderRadius: 11, paddingHorizontal: 11, paddingVertical: 7 },
   speakPillCompact: { paddingHorizontal: 8, paddingVertical: 5 },
@@ -230,6 +307,17 @@ const s = StyleSheet.create({
 
   micUnavailable: { flexDirection: 'row', alignItems: 'center', gap: 9, backgroundColor: '#f8f9fb', borderWidth: 1, borderColor: V.color.border, borderRadius: 12, padding: 11, marginTop: 12 },
   micUnavailableTxt: { flex: 1, fontSize: 11.5, fontWeight: '600', color: V.color.textMuted, lineHeight: 15 },
+
+  captureCard: { backgroundColor: '#fffdf5', borderWidth: 1.5, borderColor: '#f0e6c8', borderRadius: 16, padding: 14, marginTop: 12 },
+  captureKicker: { fontSize: 11, fontWeight: '800', letterSpacing: 0.6, color: '#92711a' },
+  capturePrompt: { fontSize: 13, fontWeight: '700', color: V.color.textPrimary, marginTop: 7, lineHeight: 18 },
+  captureRow: { flexDirection: 'row', alignItems: 'flex-start', gap: 10, marginTop: 11 },
+  captureInput: { flex: 1, minHeight: 52, backgroundColor: '#fff', borderWidth: 1, borderColor: '#e9e2c9', borderRadius: 12, paddingHorizontal: 12, paddingVertical: 9, fontSize: 14, fontWeight: '600', color: V.color.textPrimary, textAlignVertical: 'top' },
+  captureMicBtn: { width: 52, height: 52, borderRadius: 26, backgroundColor: '#f0b429', alignItems: 'center', justifyContent: 'center', ...V.shadow.button },
+  captureMicBtnOn: { backgroundColor: '#ef4444' },
+  captureState: { fontSize: 12, fontWeight: '700', color: V.color.textSecondary, marginTop: 8 },
+  captureErr: { fontSize: 12, fontWeight: '700', color: V.color.error, marginTop: 8 },
+  captureOk: { fontSize: 12, fontWeight: '700', color: '#0f8a63', marginTop: 8 },
 
   phaseStrip: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 4, backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.border, borderRadius: 13, paddingVertical: 7, paddingHorizontal: 8, marginTop: 12 },
   phaseArrow: { fontSize: 12, fontWeight: '800', color: V.color.textMuted },

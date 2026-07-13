@@ -121,7 +121,9 @@ const speakChain = (text: string, opts: Speech.SpeechOptions, token: number) => 
       onDone: () => {
         if (token !== speakToken) return;
         if (i + 1 >= sentences.length) { onDone?.(); return; }
-        setTimeout(() => sayFrom(i + 1), 180); // respiración entre frases
+        // Respiración corta entre frases: los testers notaban demasiado delay
+        // en los apoyos de voz, así que la pausa se mantiene mínima.
+        setTimeout(() => sayFrom(i + 1), 110);
       },
       onError: (e) => { if (token === speakToken) onError?.(e); },
     });
@@ -136,8 +138,9 @@ export const speak = (text: string, opts: Speech.SpeechOptions = {}) => {
   const go = () => { if (token === speakToken) speakChain(text, opts, token); };
   if (bestVoiceId === undefined && voiceSearch) {
     // Primera locución: espera brevemente al catálogo de voces para no
-    // arrancar con la voz de fábrica; con tope para no retrasar la app.
-    Promise.race([voiceSearch, new Promise((r) => setTimeout(r, 800))]).then(go, go);
+    // arrancar con la voz de fábrica; con tope corto para que el apoyo de
+    // voz no llegue tarde (feedback de testers: el delay confunde).
+    Promise.race([voiceSearch, new Promise((r) => setTimeout(r, 300))]).then(go, go);
   } else {
     go();
   }
