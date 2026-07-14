@@ -7,6 +7,13 @@ name: Android Build
 #   ANDROID_RELEASE_KEY_PASSWORD     → contraseña de la clave
 # Con los secrets configurados, cada push/fusión a main genera el APK y el AAB
 # (Android App Bundle) firmados; en el resto de ramas solo se compila el APK.
+#
+# Config de Firebase: la app lee variables EXPO_PUBLIC_FIREBASE_* en tiempo de
+# build (Metro las inyecta al empaquetar el JS durante el build de Gradle).
+# Añade también estos secrets para que los builds de CI salgan con Firebase
+# configurado (sin ellos la app compila igual, pero avisa de config incompleta):
+#   EXPO_PUBLIC_FIREBASE_API_KEY  → apiKey del SDK web (apps:sdkconfig)
+#   EXPO_PUBLIC_FIREBASE_APP_ID   → appId de la app Android (apps:sdkconfig)
 
 on:
   push:
@@ -29,6 +36,12 @@ jobs:
 
     env:
       HAS_SIGNING_SECRETS: ${{ secrets.ANDROID_RELEASE_KEYSTORE_BASE64 != '' }}
+      # Firebase (ver cabecera). projectId y sender id son públicos; la apiKey
+      # y el appId salen de secrets para no dejarlos escritos en el repo.
+      EXPO_PUBLIC_FIREBASE_API_KEY: ${{ secrets.EXPO_PUBLIC_FIREBASE_API_KEY }}
+      EXPO_PUBLIC_FIREBASE_APP_ID: ${{ secrets.EXPO_PUBLIC_FIREBASE_APP_ID }}
+      EXPO_PUBLIC_FIREBASE_PROJECT_ID: valeria-b500f
+      EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID: '477839657795'
 
     steps:
       - name: Checkout

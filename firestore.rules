@@ -1,0 +1,78 @@
+rules_version = '2';
+
+// ===============================================================
+// Valeria+ · Reglas de seguridad de Cloud Firestore (PROTOTIPO)
+// ===============================================================
+//
+// Modelo de datos asumido (todo es propiedad del profesional autenticado):
+//
+// Colección: professionals
+// Document ID: {uid}  (== request.auth.uid)
+// Campos:
+//   - uid: string (requerido, inmutable) — dueño del documento
+//   - updatedAt: timestamp (servidor)
+//   - (otros campos de perfil, libres)
+//
+// Subcolección: professionals/{uid}/pacientes/{pacienteId}
+// Campos:
+//   - uid: string (requerido, inmutable) — == uid del profesional dueño
+//   - createdAt / updatedAt: timestamp (servidor)
+//   - (datos de la ficha del paciente)
+//
+// Subcolección: professionals/{uid}/sesiones/{sesionId}
+// Campos:
+//   - uid: string (requerido, inmutable) — == uid del profesional dueño
+//   - createdAt: timestamp (servidor)
+//   - (datos de la sesión/ejercicio)
+//
+// Principio: denegar por defecto; cada profesional SOLO accede a lo suyo.
+// ===============================================================
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // --- Helpers -------------------------------------------------
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    // El dueño es quien coincide con el {uid} de la ruta.
+    function isOwner(uid) {
+      return isAuthenticated() && request.auth.uid == uid;
+    }
+    // El campo uid del documento debe coincidir con el dueño de la ruta.
+    function uidMatchesOwner(uid) {
+      return request.resource.data.uid == uid;
+    }
+    // Impide reasignar la propiedad en updates.
+    function uidNotModified() {
+      return request.resource.data.uid == resource.data.uid;
+    }
+
+    // --- Perfil del profesional ---------------------------------
+    match /professionals/{uid} {
+      allow read: if isOwner(uid);
+      allow create: if isOwner(uid) && uidMatchesOwner(uid);
+      allow update: if isOwner(uid) && uidNotModified();
+      allow delete: if isOwner(uid);
+
+      // --- Pacientes del profesional ----------------------------
+      match /pacientes/{pacienteId} {
+        allow read, delete: if isOwner(uid);
+        allow create: if isOwner(uid) && uidMatchesOwner(uid);
+        allow update: if isOwner(uid) && uidNotModified();
+      }
+
+      // --- Historial de sesiones --------------------------------
+      match /sesiones/{sesionId} {
+        allow read, delete: if isOwner(uid);
+        allow create: if isOwner(uid) && uidMatchesOwner(uid);
+        allow update: if isOwner(uid) && uidNotModified();
+      }
+    }
+
+    // Todo lo demás: denegado.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

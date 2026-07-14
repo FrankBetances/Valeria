@@ -18,6 +18,17 @@ expo-env.d.ts
 # EAS (Expo Application Services)
 eas-build-*.log
 
+# Firebase
+.firebase/
+firebase-debug.log
+firestore-debug.log
+database-debug.log
+ui-debug.log
+# google-services.json contiene claves de cliente (públicas), pero lo ignoramos
+# por defecto: la config del SDK JS vive en src/firebase/firebaseConfig.ts.
+google-services.json
+GoogleService-Info.plist
+
 # Native builds
 android/
 ios/
