@@ -354,28 +354,38 @@ const MONTHS = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', '
 // las antiguas pausas activas. El banco de cápsulas vive en ValeriaTPRCapsule.
 
 // ----------------------------------------------------------------------------
-// Ficha ilustrada con emoji: toca para ampliar, con rebote al pulsar.
+// Ficha ilustrada con emoji. Con `onZoom` es tocable y amplía la imagen; SIN
+// `onZoom` es una vista plana, para usarla DENTRO de fichas de mini-juego
+// tocables: un Pressable anidado robaba el toque y el juego de asociación
+// (FF-1) o las respuestas parecían no funcionar (bug reportado por testers).
+// En esos juegos, el zoom pasa a mantener pulsada la ficha exterior.
 // ----------------------------------------------------------------------------
 const TILE_BGS = ['#fef3e2', '#e8f4fd', '#f3e8fd', '#e8fdf0', '#fdeef2', '#fdf8e2'];
 
 const EmojiTile: React.FC<{
   emoji: string; cap?: string; size?: number; bgIndex?: number;
-  onZoom: (emoji: string, cap: string) => void;
-}> = ({ emoji, cap, size = 78, bgIndex = 0, onZoom }) => (
-  <Pressable
-    onPress={() => onZoom(emoji, cap ?? '')}
-    accessibilityRole="imagebutton"
-    accessibilityLabel={`Ampliar imagen de ${cap ?? 'la ficha'}`}
-    style={({ pressed }) => [
-      s.emojiTile,
-      { width: size, height: size * 0.84, backgroundColor: TILE_BGS[bgIndex % TILE_BGS.length] },
-      pressed && { transform: [{ scale: 0.92 }] },
-    ]}
-  >
-    <Text style={{ fontSize: size * 0.46 }}>{emoji}</Text>
-    <View style={s.zoomHintDot}><Text style={{ fontSize: 9 }}>🔍</Text></View>
-  </Pressable>
-);
+  onZoom?: (emoji: string, cap: string) => void;
+}> = ({ emoji, cap, size = 78, bgIndex = 0, onZoom }) => {
+  const box = { width: size, height: size * 0.84, backgroundColor: TILE_BGS[bgIndex % TILE_BGS.length] };
+  if (!onZoom) {
+    return (
+      <View style={[s.emojiTile, box]}>
+        <Text style={{ fontSize: size * 0.46 }}>{emoji}</Text>
+      </View>
+    );
+  }
+  return (
+    <Pressable
+      onPress={() => onZoom(emoji, cap ?? '')}
+      accessibilityRole="imagebutton"
+      accessibilityLabel={`Ampliar imagen de ${cap ?? 'la ficha'}`}
+      style={({ pressed }) => [s.emojiTile, box, pressed && { transform: [{ scale: 0.92 }] }]}
+    >
+      <Text style={{ fontSize: size * 0.46 }}>{emoji}</Text>
+      <View style={s.zoomHintDot}><Text style={{ fontSize: 9 }}>🔍</Text></View>
+    </Pressable>
+  );
+};
 
 // ----------------------------------------------------------------------------
 // Cuadrícula de respuesta compartida (intruso y adivinanzas/género): fichas
@@ -402,13 +412,16 @@ const AnswerTileGrid: React.FC<{
       return (
         <Pressable
           key={i}
+          // Toque = responder; pulsación larga = ampliar. La ficha interior es
+          // plana para que ningún Pressable anidado robe el toque.
           onPress={() => { if (picked !== i) onPick(i, isAns); }}
+          onLongPress={() => onZoom(t.emoji, t.cap)}
           accessibilityRole="button"
-          accessibilityLabel={`Responder ${t.cap}`}
+          accessibilityLabel={`Responder ${t.cap}. Mantén pulsado para ampliar la imagen`}
           style={[s.gridTile, tileStyle, ok && s.gridTileOk, bad && s.gridTileBad]}
         >
           <View style={{ alignItems: 'center' }}>
-            <EmojiTile emoji={t.emoji} cap={t.cap} size={size} bgIndex={i} onZoom={onZoom} />
+            <EmojiTile emoji={t.emoji} cap={t.cap} size={size} bgIndex={i} />
           </View>
           <View style={s.gridCapRow}>
             <Text style={s.gridCap}>{t.cap}</Text>
@@ -700,18 +713,22 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
     speakToChild(`¡Sesión completada! ${praisePhrase()}`);
   };
 
-  // Cuenta atrás hacia Resultados
+  // Cuenta atrás hacia Resultados. El updater solo decrementa; la navegación
+  // vive en su propio efecto: hacer navigate() DENTRO del updater de estado
+  // hacía que en algunos dispositivos la redirección automática se perdiera
+  // (bug reportado: al terminar el ejercicio no avanzaba a resultados).
   const timerRef = useRef<any>(null);
   useEffect(() => {
     if (!finished) return;
-    timerRef.current = setInterval(() => {
-      setCountdown((c) => {
-        if (c <= 1) { clearInterval(timerRef.current); navigation.navigate('Results'); return 0; }
-        return c - 1;
-      });
-    }, 1000);
+    timerRef.current = setInterval(() => setCountdown((c) => (c > 0 ? c - 1 : 0)), 1000);
     return () => clearInterval(timerRef.current);
   }, [finished]);
+  useEffect(() => {
+    if (finished && countdown === 0) {
+      clearInterval(timerRef.current);
+      navigation.navigate('Results');
+    }
+  }, [finished, countdown]);
 
   const restart = () => {
     clearInterval(timerRef.current);
@@ -789,7 +806,8 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
             <View style={s.instructionCard}>
               <View style={s.instructionHead}>
                 <View style={s.instructionIcon}><Text style={{ fontSize: 18 }}>📢</Text></View>
-                <View>
+                {/* flex:1: sin él, el subtítulo largo se salía de la tarjeta */}
+                <View style={{ flex: 1 }}>
                   <Text style={s.instructionKicker}>PASO 1 · CONSIGNA DEL TUTOR</Text>
                   <Text style={s.instructionSmall}>Este texto es para el adulto: díselo al niño con tus palabras</Text>
                 </View>
@@ -817,7 +835,7 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
               {curLevel && (
                 <View style={{ alignItems: 'center', paddingVertical: 6 }}>
                   <Pressable onPress={() => openZoom(curLevel.instrIcon, ex.name)} accessibilityRole="imagebutton" accessibilityLabel="Ampliar el icono">
-                    <View style={s.instrBig}><Text style={{ fontSize: 32 }}>{curLevel.instrIcon}</Text></View>
+                    <View style={s.instrHero}><Text style={{ fontSize: 54 }}>{curLevel.instrIcon}</Text></View>
                   </Pressable>
                   <Text style={s.instrHint}>{curLevel.instrHint}</Text>
                 </View>
@@ -851,12 +869,15 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                       return (
                         <Pressable
                           key={i}
+                          // Ficha interior plana: el Pressable de zoom anidado
+                          // robaba el toque y el juego "no funcionaba".
                           onPress={() => tapMatchTile(i)}
+                          onLongPress={() => openZoom(t.emoji, t.cap)}
                           accessibilityRole="button"
                           accessibilityLabel={done ? `${t.cap}: ya unida con su vocal` : `Elegir la imagen de ${t.cap}`}
                           style={[s.matchTile, sel && s.matchTileSel, done && s.matchTileOk]}
                         >
-                          <EmojiTile emoji={t.emoji} cap={t.cap} size={78} bgIndex={i} onZoom={openZoom} />
+                          <EmojiTile emoji={t.emoji} cap={t.cap} size={78} bgIndex={i} />
                           <Text style={s.tileCap}>{t.cap}</Text>
                           <Text style={s.matchTileMark}>{done ? `✅ ${initialVowel(t.cap)}` : sel ? '👆 elegida' : ' '}</Text>
                         </Pressable>
@@ -1090,13 +1111,14 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                           <Pressable
                             key={i}
                             onPress={() => tapOrderTile(i)}
+                            onLongPress={() => openZoom(parts[i].emoji, parts[i].cap)}
                             disabled={used}
                             accessibilityRole="button"
                             accessibilityState={{ disabled: used }}
                             accessibilityLabel={used ? `Ficha ${parts[i].cap}, ya colocada` : `Ficha ${parts[i].cap}`}
                             style={[{ flex: 1, alignItems: 'center' }, used && { opacity: 0.25 }]}
                           >
-                            <EmojiTile emoji={parts[i].emoji} cap={parts[i].cap} size={82} bgIndex={i + 2} onZoom={openZoom} />
+                            <EmojiTile emoji={parts[i].emoji} cap={parts[i].cap} size={82} bgIndex={i + 2} />
                             <Text style={s.tileCap}>{parts[i].cap}</Text>
                           </Pressable>
                         );
@@ -1120,7 +1142,7 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
               {!curLevel && ex.stage === 'instruction' && (
                 <View style={{ alignItems: 'center', paddingVertical: 6 }}>
                   <Pressable onPress={() => openZoom(ex.instrIcon!, ex.name)} accessibilityRole="imagebutton" accessibilityLabel="Ampliar el icono">
-                    <View style={s.instrBig}><Text style={{ fontSize: 32 }}>{ex.instrIcon}</Text></View>
+                    <View style={s.instrHero}><Text style={{ fontSize: 54 }}>{ex.instrIcon}</Text></View>
                   </Pressable>
                   <Text style={s.instrHint}>{ex.instrHint}</Text>
                   {/* Escenas tocables: apoyo visual + ejemplo hablado de cada
@@ -1162,7 +1184,7 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
               )}
               {!curLevel && !!ex.micTarget && <MicPracticeCard target={ex.micTarget} prompt={ex.micPrompt} altTargets={ex.micAlt} />}
 
-              <Text style={s.zoomTip}>🔍 Toca cualquier imagen para verla en grande</Text>
+              <Text style={s.zoomTip}>🔍 Para ampliar una imagen: tócala, o en los juegos mantenla pulsada</Text>
             </View>
 
             {/* Versión en movimiento */}
@@ -1427,6 +1449,9 @@ const s = StyleSheet.create({
   sentenceTxt: { fontSize: 15, fontWeight: '800', color: V.color.textPrimary },
 
   instrBig: { width: 64, height: 64, borderRadius: 20, backgroundColor: V.color.primaryLight, alignItems: 'center', justifyContent: 'center' },
+  // Icono protagonista de las actividades guiadas: los testers veían el de
+  // 64 px "poco llamativo" (p. ej. Atención Conjunta).
+  instrHero: { width: 112, height: 112, borderRadius: 30, backgroundColor: V.color.primaryLight, borderWidth: 2, borderColor: V.color.borderActive, alignItems: 'center', justifyContent: 'center' },
   instrHint: { fontSize: 14, fontWeight: '700', color: V.color.textSecondary, textAlign: 'center', lineHeight: 20, marginTop: 12 },
   sceneRow: { flexDirection: 'row', gap: 11, marginTop: 14, alignSelf: 'stretch' },
   sceneCard: { flex: 1, alignItems: 'center', backgroundColor: V.color.pageBg, borderWidth: 1.5, borderColor: '#eef2f1', borderRadius: 16, paddingVertical: 14, paddingHorizontal: 8 },
@@ -1437,7 +1462,7 @@ const s = StyleSheet.create({
   moveCard: { backgroundColor: '#fff7ed', borderColor: '#fcd9a8', borderWidth: 1.5, borderRadius: 16, padding: 14, marginTop: 12 },
   moveHead: { flexDirection: 'row', alignItems: 'center', gap: 9 },
   moveIcon: { width: 30, height: 30, borderRadius: 10, backgroundColor: '#f59e0b', alignItems: 'center', justifyContent: 'center' },
-  moveKicker: { fontSize: 11, fontWeight: '800', letterSpacing: 0.6, color: '#9a5b13' },
+  moveKicker: { flex: 1, fontSize: 11, fontWeight: '800', letterSpacing: 0.6, color: '#9a5b13' },
   moveTxt: { marginTop: 9, fontSize: 13.5, fontWeight: '700', color: '#7c4a0e', lineHeight: 19 },
 
   waitRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 7, marginTop: 11 },
