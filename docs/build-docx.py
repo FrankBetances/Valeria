@@ -6,7 +6,7 @@ Uso:
     python3 docs/build-docx.py
 
 Requiere las capturas de docs/screenshots/ (ver docs/capture-screenshots.js).
-Mantiene el mismo contenido que docs/manual-casos-de-uso.html (v5).
+Mantiene el mismo contenido que docs/manual-casos-de-uso.html (v6).
 """
 import os
 from docx import Document
@@ -64,7 +64,7 @@ for name, size, color, before in (('Heading 1', 17, PRIMARY, 14),
 
 footer_p = sec.footer.paragraphs[0]
 footer_p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-run = footer_p.add_run('Valeria+ · Manual de Casos de Uso · v5 (con capturas de pantalla) · Julio de 2026')
+run = footer_p.add_run('Valeria+ · Manual de Casos de Uso · v6 (con capturas de pantalla) · Julio de 2026')
 run.font.size = Pt(8)
 run.font.color.rgb = MUTED
 
@@ -266,12 +266,12 @@ for _ in range(4):
     p('', space_after=0)
 p('valeria+', bold=True, size=16, color=PRIMARY_BRIGHT)
 p('🐻', size=52, align=WD_ALIGN_PARAGRAPH.LEFT, space_after=18)
-p('Manual de usuario · v5 · con capturas de pantalla', bold=True, size=10, color=PRIMARY)
+p('Manual de usuario · v6 · con capturas de pantalla', bold=True, size=10, color=PRIMARY)
 p('Manual de Casos de Uso', bold=True, size=34, color=INK, space_after=10)
 p('Aplicación de terapia auditivo-verbal y del lenguaje para niñas y niños con hipoacusia, '
   'implante coclear, dislalias o dificultades del lenguaje.', size=13, color=INK2, space_after=16)
-p('Guía para logopedas, familias y cuidadores\nJulio de 2026 · Documento interno\nExpo SDK 54 / React Native',
-  size=10, color=MUTED)
+p('Guía para logopedas, familias y cuidadores\nJulio de 2026 · Documento interno\n'
+  'Expo SDK 54 / React Native · Backend opcional Firebase', size=10, color=MUTED)
 doc.add_page_break()
 
 # ============================ ÍNDICE ============================
@@ -284,8 +284,8 @@ toc = [
     ('', 'CASOS DE USO'),
     ('CU-01', 'Alta de un nuevo paciente'),
     ('CU-02', 'Elegir un bloque de terapia (hub de 4 bloques)'),
-    ('CU-03', 'Pares Mínimos para dislalias  ·  Nuevo'),
-    ('CU-04', 'Expansión Semántica / progresión léxica  ·  Nuevo'),
+    ('CU-03', 'Pares Mínimos para dislalias'),
+    ('CU-04', 'Expansión Semántica / progresión léxica'),
     ('CU-05', 'Prescribir terapias de Audición y Lenguaje (Modo Profesional)'),
     ('CU-06', 'Retomar un paciente e iniciar sesión'),
     ('CU-07', 'Test de Ling previo (audífono / implante)'),
@@ -329,14 +329,15 @@ callout('A quién va dirigida',
         'Logopedas y profesionales de audición/lenguaje (que prescriben y supervisan) y familias o cuidadores '
         '(que realizan las sesiones en casa). Este manual cubre a ambos perfiles.')
 doc.add_heading('Los cuatro bloques de terapia', level=3)
-p('Desde la pantalla Prescripción de Terapias se elige uno de estos bloques. Los dos primeros son novedad de la versión 5.')
+p('Desde la pantalla Prescripción de Terapias se elige uno de estos bloques. Los dos primeros se incorporaron en la '
+  'versión 5 y la versión 6 amplió su contenido.')
 data_table(['Bloque', 'Para qué sirve'], [
-    [[('🗣️ Pares Mínimos', True), ('  (Nuevo)', False, VIOLET_DARK)],
+    [[('🗣️ Pares Mínimos', True)],
      'Dislalias fonológicas (rotacismo, sigmatismo, frontalización velar, f→p). 10 pares de palabras casi iguales '
      '(rana/lana) con juego de voz, misión física y sello doble padre-hijo.'],
-    [[('🧩 Expansión Semántica', True), ('  (Nuevo)', False, VIOLET_DARK)],
-     'Progresión léxica para intervención temprana: 3 escenarios diarios, 5 progresiones (onomatopeya → adjetivo) y '
-     '4 cápsulas de contraste, uniendo imagen, voz y acción física.'],
+    [[('🧩 Expansión Semántica', True)],
+     'Progresión léxica para intervención temprana: 5 escenarios diarios, 7 progresiones (onomatopeya → adjetivo) y '
+     '6 cápsulas de contraste, uniendo imagen, voz y acción física.'],
     [[('👂 Audición', True), (' — 13 terapias', False)],
      'Protocolo ACOPROS: fonética-fonología, semántica, morfosintaxis y pragmática para pacientes con audífono, '
      'implante coclear o hipoacusia.'],
@@ -346,6 +347,28 @@ data_table(['Bloque', 'Para qué sirve'], [
 ], widths=[4.8, 12.2])
 p('Además, el Test de Ling es una comprobación auditiva rápida (6 sonidos) previa a los ejercicios de audición, y la '
   'gamificación (XP, racha, niveles e insignias) mantiene la motivación en todos los bloques.', size=9.5, color=MUTED)
+doc.add_heading('Novedades de la versión 6', level=3)
+p('La versión 6 pule la experiencia de las sesiones y prepara la app para pruebas con profesionales:')
+data_table(['Novedad', 'Qué aporta'], [
+    [[('🔊 Voz más humana', True)],
+     'El motor prioriza voces neuronales/enhanced (Google neural/WaveNet, iOS Enhanced/Siri) y descarta las metálicas. '
+     'Añade prosodia natural (pausas por frase, entonación en preguntas y exclamaciones) y frases de ánimo rotativas.'],
+    [[('🔄 Rondas variadas', True)],
+     'Cada mini-juego de Audición y Lenguaje rota hasta 3 contenidos distintos con el botón “🔄 Otra ronda”, siguiendo '
+     'un flujo numerado PASO 1→4 (consigna → juego → movimiento → evaluación).'],
+    [[('🎯 Sesión completa', True)],
+     'Botón por bloque que encadena todos los ejercicios prescritos en una sola sesión (pasando por el Test de Ling si '
+     'procede), en vez de practicar de uno en uno.'],
+    [[('🧭 Fase de turno visible', True)],
+     'Pares Mínimos y Expansión Semántica muestran la barra Escucha → Repite → Veredicto → Misión, con consignas '
+     'rotativas y doble vuelta evaluada (objetivo + opuesta).'],
+    [[('🖼️ Fichas sin imágenes rotas', True)],
+     'Pictogramas SVG de alto contraste para las palabras cuyos emojis se ven como cuadros vacíos o de bajo contraste '
+     'en muchos Android, con emoji de reserva.'],
+    [[('☁️ Sincronización opcional', True)],
+     'Acceso profesional con correo y contraseña (Firebase Authentication) y copia de pacientes/sesiones en la nube '
+     '(Cloud Firestore). Es aditivo: la app sigue funcionando en local sin conexión.'],
+], widths=[4.8, 12.2])
 
 # ============================ CAP 2 ============================
 doc.add_page_break()
@@ -371,7 +394,13 @@ callout('PIN de demostración',
 doc.add_heading('Privacidad de los datos', level=3)
 p('Toda la información del paciente (ficha, historial de sesiones, evolución por fonema, progreso) se guarda localmente '
   'en el dispositivo mediante almacenamiento cifrado. La app está pensada para cumplir RGPD/HIPAA en el manejo de datos '
-  'personales (PII). No se envían datos a servidores externos para funcionar.')
+  'personales (PII). Sin conexión, la app es plenamente funcional: no necesita ningún servidor para operar.')
+callout('Sincronización en la nube (opcional · v6)',
+        'Para pruebas con profesionales, la versión 6 añade un acceso profesional con correo y contraseña (Firebase '
+        'Authentication) que permite guardar una copia de pacientes y sesiones en la nube (Cloud Firestore). Es una capa '
+        'aditiva y opcional: cada profesional autenticado solo accede a sus propios datos, protegidos por reglas de '
+        'seguridad. Si no se activa, todo sigue guardándose únicamente en el dispositivo.',
+        fill=FILL_VIOLET, label_color=VIOLET_DARK)
 
 # ============================ CAP 3 ============================
 doc.add_page_break()
@@ -396,6 +425,9 @@ data_table(['Término', 'Significado'], [
     ['Sustitución', 'Error fonológico habitual: el niño dice la palabra contraria (r̄ → l). La app la detecta y la corrige.'],
     ['Sello doble', 'Mecánica anti-pasividad: padre e hijo pulsan dos huellas a la vez para avanzar (o mantienen una pulsada 2 s).'],
     ['TPR', 'Total Physical Response: aprender una palabra asociándola a una acción física del cuerpo.'],
+    ['Fase de turno', 'Barra guía de Pares Mínimos y Expansión Semántica que marca en qué momento va el ejercicio: Escucha → Repite → Veredicto → Misión.'],
+    ['Sesión completa', 'Botón que encadena en una sola sesión todos los ejercicios prescritos de un bloque, en vez de lanzarlos de uno en uno.'],
+    ['Otra ronda', 'Botón que rota el contenido de un mini-juego de Audición/Lenguaje (hasta 3 variantes) para que no se memorice el mismo ítem.'],
     ['Progresión léxica', 'Secuencia que sube de onomatopeya → sustantivo → verbo → adjetivo sobre un mismo tema (el coche, el perro…).'],
     ['Test de Ling', 'Comprobación de 6 sonidos (m, u, a, i, sh, s) que verifica si el niño oye desde graves hasta agudos.'],
     ['Escala EPT-3', 'Valoración unificada de 3 niveles: ★ Emergente · ★★ En proceso · ★★★ Consolidado.'],
@@ -452,18 +484,20 @@ callout('Dónde practica cada quién', 'En Modo Familia todos los bloques son ac
         'solo el logopeda, con el PIN, cambia qué está activo en cada uno.')
 
 # ---- CU-03 · PARES MÍNIMOS ----
-uc_header('CU-03', 'Familia · Nuevo', 'Pares Mínimos para dislalias', violet=True)
+uc_header('CU-03', 'Familia', 'Pares Mínimos para dislalias', violet=True)
 uc_meta('Tutor + niño/a (en pareja)', 'Pares Mínimos · Dislalias', 'Par prescrito por el logopeda',
         'Sesión de 10 ensayos valorada + evolución del fonema')
 par = doc.add_paragraph()
 rich(par, [('Bloque para ', False), ('dislalias fonológicas', True),
            ('. Se muestran dos fichas casi iguales (por ejemplo ', False), ('rana / lana', True),
            ('); la app pide una en voz alta y el niño la dice al micrófono. Con reconocimiento de voz, la app detecta '
-            'si salió el fonema o la sustitución habitual; sin micrófono, ', False), ('el padre hace de juez', True), ('.', False)])
+            'si salió el fonema o la sustitución habitual; sin micrófono, ', False), ('el padre hace de juez', True),
+           ('. Una ', False), ('barra de fase de turno', True),
+           (' (Escucha → Repite → Veredicto → Misión) muestra en todo momento en qué paso va el ensayo.', False)])
 h4('Flujo principal')
 numbered([
     [('En el ', False), ('banco de contrastes', True), (', elegir un par prescrito (10 disponibles: rotacismo, sigmatismo, velares, labiodental). Pulsar ▶.', False)],
-    [('La app ', False), ('pide una ficha', True), (' en voz alta (“¡Dile a papá cuál quieres! Di: rana”). El niño la dice.', False)],
+    [('La app ', False), ('pide una ficha', True), (' en voz alta (“¡Dile a papá cuál quieres! Di: rana”). El niño la dice. La fase de turno avanza de Escucha a Repite.', False)],
     [('La app evalúa: ', False), ('acierto', True), (' (3★ al primer intento, 2★ tras corrección), ', False),
      ('sustitución', True), (' detectada (corrección específica del par) o ', False), ('aproximación', True), (' (reintento).', False)],
     [('Cada acierto trae una ', False), ('misión física', True), (' (“¡Salto de rana!”) y termina con el ', False),
@@ -485,7 +519,7 @@ figures([('06-pares-banco.png', 'Banco de contrastes: 10 pares agrupados por tip
          ('09-pares-veredicto.png', 'Acierto: misión física de celebración y sello doble.')])
 
 # ---- CU-04 · EXPANSIÓN SEMÁNTICA ----
-uc_header('CU-04', 'Familia · Nuevo', 'Expansión Semántica / progresión léxica', violet=True)
+uc_header('CU-04', 'Familia', 'Expansión Semántica / progresión léxica', violet=True)
 uc_meta('Tutor + niño/a', 'Expansión Semántica · Progresión Léxica', 'Actividad prescrita por el logopeda',
         'Palabras trabajadas uniendo símbolo, voz y cuerpo')
 par = doc.add_paragraph()
@@ -494,10 +528,11 @@ rich(par, [('Rehabilitación léxica ', False), ('offline', True),
            ('acción física del adulto', True),
            (' que la ancla al mundo real del niño. Tres modos de práctica en pestañas:', False)])
 data_table(['Modo', 'Qué contiene'], [
-    [[('Escenarios', True)], '3 rutinas diarias (mañana, comida, parque), 6 palabras cada una.'],
-    [[('Progresión', True)], '5 secuencias que suben Onomatopeya → Sustantivo → Verbo → Adjetivo (el coche, el perro, la vaca, el gato, la lluvia).'],
-    [[('Contrastes', True)], '4 cápsulas TPR de pares: grande/pequeño, limpio/sucio, abrir/cerrar, subir/bajar.'],
+    [[('Escenarios', True)], '5 rutinas diarias (mañana, comida, parque…), 6 palabras cada una.'],
+    [[('Progresión', True)], '7 secuencias que suben Onomatopeya → Sustantivo → Verbo → Adjetivo (el coche, el perro, la vaca, el gato, la lluvia…).'],
+    [[('Contrastes', True)], '6 cápsulas TPR de pares: grande/pequeño, limpio/sucio, abrir/cerrar, subir/bajar…'],
 ], widths=[3.6, 13.4])
+p('Como en Pares Mínimos, una barra de fase de turno (Escucha → Repite → Veredicto → Misión) guía cada paso.')
 h4('Flujo principal')
 numbered([
     'Elegir la pestaña (Escenarios, Progresión o Contrastes) y pulsar ▶ en una actividad prescrita.',
@@ -574,8 +609,12 @@ uc_meta('Tutor + niño/a', 'Reproductor de Ejercicios → Resultados', 'Terapia 
         'Sesión valorada y guardada en el historial')
 h4('Flujo principal')
 numbered([
-    [('La app presenta cada ejercicio con ', False), ('fichas ilustradas', True), (' grandes. ', False),
-     ('Toque cualquier imagen para ampliarla', True), (' a pantalla completa.', False)],
+    [('Cada mini-juego sigue un flujo numerado ', False), ('PASO 1→4', True),
+     (': consigna → juego → movimiento → evaluación. La app presenta ', False), ('fichas ilustradas', True),
+     (' grandes; ', False), ('toque cualquier imagen para ampliarla', True), (' a pantalla completa.', False)],
+    [('Con ', False), ('“🔄 Otra ronda”', True), (' el ejercicio rota su contenido (hasta 3 variantes: vocales, palabra '
+     'articulada, vocal faltante, intruso, adivinanzas, plurales, frases S-V-O, emociones…), para que el niño no '
+     'memorice siempre el mismo ítem.', False)],
     [('El adulto guía la actividad y valora la respuesta con la ', False), ('escala EPT-3', True),
      (': ★ emergente, ★★ en proceso, ★★★ consolidado.', False)],
     [('Cada ejercicio ofrece una ', False), ('“versión en movimiento”', True),
@@ -586,6 +625,8 @@ numbered([
 ])
 h4('Flujos alternativos')
 bullets([
+    [('Sesión completa:', True), (' el botón “🎯 Sesión completa” de cada bloque encadena todos los ejercicios prescritos '
+     'en una sola tanda (pasando por el Test de Ling si la ficha lo indica), en vez de lanzarlos de uno en uno.', False)],
     [('Sesión perfecta:', True), (' si todos los ejercicios obtienen ★★★, se desbloquea la insignia “Sesión estrella”.', False)],
     [('Salir a mitad:', True), (' se puede volver atrás; lo valorado hasta ese punto no cuenta como sesión completada.', False)],
 ])
@@ -676,11 +717,15 @@ data_table(['Situación', 'Qué hacer'], [
      'Está en Modo Familia (solo lectura). Desbloquee el Modo Profesional con el PIN (CU-05 / CU-12).'],
     ['¿Se pierden los datos al cerrar la app?',
      'No. Ficha, prescripción, historial, evolución por fonema y progreso se guardan cifrados en el dispositivo.'],
+    ['El mismo ejercicio se repetía siempre igual',
+     'Use “🔄 Otra ronda”: cada mini-juego rota hasta 3 contenidos distintos. Para practicar todo lo prescrito de golpe, use “🎯 Sesión completa”.'],
+    ['¿Necesito conexión o crear una cuenta?',
+     'No. La app funciona en local sin conexión. El acceso profesional con correo y contraseña (sincronización en la nube) es opcional y solo se usa para pruebas con profesionales (v6).'],
 ], widths=[6.0, 11.0])
 p('', space_after=4)
-p('Valeria+ · Manual de Casos de Uso · v5 (con capturas de pantalla) · Julio de 2026 · Terapia auditivo-verbal y del '
+p('Valeria+ · Manual de Casos de Uso · v6 (con capturas de pantalla) · Julio de 2026 · Terapia auditivo-verbal y del '
   'lenguaje para la infancia. Documento de apoyo para logopedas y familias. Los datos personales se tratan localmente '
-  'conforme a RGPD/HIPAA.', size=8.5, color=MUTED)
+  'conforme a RGPD/HIPAA; la sincronización en la nube es opcional.', size=8.5, color=MUTED)
 
 doc.save(OUT)
 print('OK:', OUT, os.path.getsize(OUT), 'bytes · figuras:', FIG_N)

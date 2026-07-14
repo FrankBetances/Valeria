@@ -136,13 +136,13 @@
   <div class="brand">valeria+</div>
   <div class="bear">🐻</div>
   <div style="margin-top:auto">
-    <div class="pill">Manual de usuario · v5 · con capturas de pantalla</div>
+    <div class="pill">Manual de usuario · v6 · con capturas de pantalla</div>
     <h1>Manual de<br>Casos de Uso</h1>
     <div class="sub">Aplicación de terapia auditivo‑verbal y del lenguaje para niñas y niños con hipoacusia, implante coclear, dislalias o dificultades del lenguaje.</div>
     <div class="meta">
       Guía para logopedas, familias y cuidadores<br>
       Julio de 2026 · Documento interno<br>
-      Expo SDK 54 / React Native
+      Expo SDK 54 / React Native · Backend opcional Firebase
     </div>
   </div>
 </div>
@@ -159,8 +159,8 @@
     <li class="section-label">Casos de uso</li>
     <li><span class="num">CU‑01</span><span class="txt">Alta de un nuevo paciente</span></li>
     <li><span class="num">CU‑02</span><span class="txt">Elegir un bloque de terapia (hub de 4 bloques)</span></li>
-    <li><span class="num">CU‑03</span><span class="txt">Pares Mínimos para dislalias <span class="tag" style="background:#ede4fc;color:#6d3fc4">Nuevo</span></span></li>
-    <li><span class="num">CU‑04</span><span class="txt">Expansión Semántica / progresión léxica <span class="tag" style="background:#ede4fc;color:#6d3fc4">Nuevo</span></span></li>
+    <li><span class="num">CU‑03</span><span class="txt">Pares Mínimos para dislalias</span></li>
+    <li><span class="num">CU‑04</span><span class="txt">Expansión Semántica / progresión léxica</span></li>
     <li><span class="num">CU‑05</span><span class="txt">Prescribir terapias de Audición y Lenguaje (Modo Profesional)</span></li>
     <li><span class="num">CU‑06</span><span class="txt">Retomar un paciente e iniciar sesión</span></li>
     <li><span class="num">CU‑07</span><span class="txt">Test de Ling previo (audífono / implante)</span></li>
@@ -201,13 +201,13 @@
 
   <h3>Los cuatro bloques de terapia</h3>
   <p>Desde la pantalla <strong>Prescripción de Terapias</strong> se elige uno de estos bloques. Los dos primeros
-  son novedad de la versión 5.</p>
+  se incorporaron en la versión 5 y la versión 6 amplió su contenido.</p>
   <table>
     <tr><th style="width:32%">Bloque</th><th>Para qué sirve</th></tr>
-    <tr><td>🗣️ <strong>Pares Mínimos</strong> <span class="tag" style="background:#ede4fc;color:#6d3fc4">Nuevo</span></td>
+    <tr><td>🗣️ <strong>Pares Mínimos</strong></td>
       <td>Dislalias fonológicas (rotacismo, sigmatismo, frontalización velar, f→p). 10 pares de palabras casi iguales (rana/lana) con juego de voz, misión física y sello doble padre‑hijo.</td></tr>
-    <tr><td>🧩 <strong>Expansión Semántica</strong> <span class="tag" style="background:#ede4fc;color:#6d3fc4">Nuevo</span></td>
-      <td>Progresión léxica para intervención temprana: 3 escenarios diarios, 5 progresiones (onomatopeya → adjetivo) y 4 cápsulas de contraste, uniendo imagen, voz y acción física.</td></tr>
+    <tr><td>🧩 <strong>Expansión Semántica</strong></td>
+      <td>Progresión léxica para intervención temprana: 5 escenarios diarios, 7 progresiones (onomatopeya → adjetivo) y 6 cápsulas de contraste, uniendo imagen, voz y acción física.</td></tr>
     <tr><td>👂 <strong>Audición</strong> — 13 terapias</td>
       <td>Protocolo ACOPROS: fonética‑fonología, semántica, morfosintaxis y pragmática para pacientes con audífono, implante coclear o hipoacusia.</td></tr>
     <tr><td>💬 <strong>Lenguaje</strong> — 7 terapias</td>
@@ -215,6 +215,24 @@
   </table>
   <p class="small muted">Además, el <strong>Test de Ling</strong> es una comprobación auditiva rápida (6 sonidos) previa a los
   ejercicios de audición, y la <strong>gamificación</strong> (XP, racha, niveles e insignias) mantiene la motivación en todos los bloques.</p>
+
+  <h3>Novedades de la versión 6</h3>
+  <p>La versión 6 pule la experiencia de las sesiones y prepara la app para pruebas con profesionales:</p>
+  <table>
+    <tr><th style="width:32%">Novedad</th><th>Qué aporta</th></tr>
+    <tr><td>🔊 <strong>Voz más humana</strong></td>
+      <td>El motor prioriza voces neuronales/enhanced (Google neural/WaveNet, iOS Enhanced/Siri) y descarta las metálicas. Añade prosodia natural (pausas por frase, entonación en preguntas y exclamaciones) y frases de ánimo rotativas.</td></tr>
+    <tr><td>🔄 <strong>Rondas variadas</strong></td>
+      <td>Cada mini‑juego de Audición y Lenguaje rota hasta 3 contenidos distintos con el botón <strong>“🔄 Otra ronda”</strong>, siguiendo un flujo numerado <strong>PASO 1→4</strong> (consigna → juego → movimiento → evaluación).</td></tr>
+    <tr><td>🎯 <strong>Sesión completa</strong></td>
+      <td>Botón por bloque que encadena todos los ejercicios prescritos en una sola sesión (pasando por el Test de Ling si procede), en vez de practicar de uno en uno.</td></tr>
+    <tr><td>🧭 <strong>Fase de turno visible</strong></td>
+      <td>Pares Mínimos y Expansión Semántica muestran la barra <strong>Escucha → Repite → Veredicto → Misión</strong>, con consignas rotativas y doble vuelta evaluada (objetivo + opuesta).</td></tr>
+    <tr><td>🖼️ <strong>Fichas sin imágenes rotas</strong></td>
+      <td>Pictogramas SVG de alto contraste para las palabras cuyos emojis se ven como cuadros vacíos o de bajo contraste en muchos Android, con emoji de reserva.</td></tr>
+    <tr><td>☁️ <strong>Sincronización opcional</strong></td>
+      <td>Acceso profesional con correo y contraseña (Firebase Authentication) y copia de pacientes/sesiones en la nube (Cloud Firestore). Es <strong>aditivo</strong>: la app sigue funcionando en local sin conexión.</td></tr>
+  </table>
 </section>
 
 <!-- ================= 2. ROLES ================= -->
@@ -250,7 +268,17 @@
   <h3>Privacidad de los datos</h3>
   <p>Toda la información del paciente (ficha, historial de sesiones, evolución por fonema, progreso) se guarda
   <strong>localmente en el dispositivo</strong> mediante almacenamiento cifrado. La app está pensada para cumplir
-  RGPD/HIPAA en el manejo de datos personales (PII). No se envían datos a servidores externos para funcionar.</p>
+  RGPD/HIPAA en el manejo de datos personales (PII). <strong>Sin conexión, la app es plenamente funcional</strong>:
+  no necesita ningún servidor para operar.</p>
+
+  <div class="callout violet">
+    <div class="lbl">Sincronización en la nube (opcional · v6)</div>
+    <p style="margin:4px 0 0">Para pruebas con profesionales, la versión 6 añade un <strong>acceso profesional con correo
+    y contraseña</strong> (Firebase Authentication) que permite guardar una copia de pacientes y sesiones en la nube
+    (Cloud Firestore). Es una capa <strong>aditiva y opcional</strong>: cada profesional autenticado solo accede a sus
+    propios datos, protegidos por reglas de seguridad. Si no se activa, todo sigue guardándose únicamente en el
+    dispositivo.</p>
+  </div>
 </section>
 
 <!-- ================= 3. MAPA DE PANTALLAS ================= -->
@@ -299,6 +327,9 @@
     <tr><td><strong>Sustitución</strong></td><td>Error fonológico habitual: el niño dice la palabra contraria (r̄ → l). La app la detecta y la corrige.</td></tr>
     <tr><td><strong>Sello doble</strong></td><td>Mecánica anti‑pasividad: padre e hijo pulsan dos huellas a la vez para avanzar (o mantienen una pulsada 2&nbsp;s).</td></tr>
     <tr><td><strong>TPR</strong></td><td><em>Total Physical Response</em>: aprender una palabra asociándola a una acción física del cuerpo.</td></tr>
+    <tr><td><strong>Fase de turno</strong></td><td>Barra guía de Pares Mínimos y Expansión Semántica que marca en qué momento va el ejercicio: Escucha → Repite → Veredicto → Misión.</td></tr>
+    <tr><td><strong>Sesión completa</strong></td><td>Botón que encadena en una sola sesión todos los ejercicios prescritos de un bloque, en vez de lanzarlos de uno en uno.</td></tr>
+    <tr><td><strong>Otra ronda</strong></td><td>Botón que rota el contenido de un mini‑juego de Audición/Lenguaje (hasta 3 variantes) para que no se memorice el mismo ítem.</td></tr>
     <tr><td><strong>Progresión léxica</strong></td><td>Secuencia que sube de onomatopeya → sustantivo → verbo → adjetivo sobre un mismo tema (el coche, el perro…).</td></tr>
     <tr><td><strong>Test de Ling</strong></td><td>Comprobación de 6 sonidos (m, u, a, i, sh, s) que verifica si el niño oye desde graves hasta agudos.</td></tr>
     <tr><td><strong>Escala EPT‑3</strong></td><td>Valoración unificada de 3 niveles: <span class="stars">★</span> Emergente · <span class="stars">★★</span> En proceso · <span class="stars">★★★</span> Consolidado.</td></tr>
@@ -386,7 +417,7 @@
 <section class="page-break">
   <div class="uc">
     <div class="uc-head violet">
-      <div class="id">CU‑03 · <span class="tag" style="background:rgba(255,255,255,.24);color:#fff">Familia</span> · <span class="tag" style="background:#fff;color:#6d3fc4">Nuevo</span></div>
+      <div class="id">CU‑03 · <span class="tag" style="background:rgba(255,255,255,.24);color:#fff">Familia</span></div>
       <div class="title">Pares Mínimos para dislalias</div>
     </div>
     <div class="uc-body">
@@ -398,11 +429,13 @@
       </div>
       <p>Bloque para <strong>dislalias fonológicas</strong>. Se muestran dos fichas casi iguales (por ejemplo
       <strong>rana / lana</strong>); la app pide una en voz alta y el niño la dice al micrófono. Con reconocimiento de
-      voz, la app detecta si salió el fonema o la sustitución habitual; sin micrófono, <strong>el padre hace de juez</strong>.</p>
+      voz, la app detecta si salió el fonema o la sustitución habitual; sin micrófono, <strong>el padre hace de juez</strong>.
+      Una <strong>barra de fase de turno</strong> (Escucha → Repite → Veredicto → Misión) muestra en todo momento en qué
+      paso va el ensayo.</p>
       <h4>Flujo principal</h4>
       <ol class="flow">
         <li>En el <strong>banco de contrastes</strong>, elegir un par prescrito (10 disponibles: rotacismo, sigmatismo, velares, labiodental). Pulsar ▶.</li>
-        <li>La app <strong>pide una ficha</strong> en voz alta (“¡Dile a papá cuál quieres! Di: rana”). El niño la dice.</li>
+        <li>La app <strong>pide una ficha</strong> en voz alta (“¡Dile a papá cuál quieres! Di: rana”). El niño la dice. La fase de turno avanza de <strong>Escucha</strong> a <strong>Repite</strong>.</li>
         <li>La app evalúa: <strong>acierto</strong> (3★ al primer intento, 2★ tras corrección), <strong>sustitución</strong> detectada (corrección específica del par) o <strong>aproximación</strong> (reintento).</li>
         <li>Cada acierto trae una <strong>misión física</strong> (“¡Salto de rana!”) y termina con el <strong>sello doble</strong>: padre e hijo pulsan dos huellas a la vez para continuar.</li>
         <li>A lo largo de los 10 ensayos hay <strong>rotación de roles</strong> (“¡Ahora mandas tú!”) y una <strong>cápsula TPR</strong> de movimiento. Al final se guarda la sesión y la evolución del fonema.</li>
@@ -436,7 +469,7 @@
 <section>
   <div class="uc">
     <div class="uc-head violet">
-      <div class="id">CU‑04 · <span class="tag" style="background:rgba(255,255,255,.24);color:#fff">Familia</span> · <span class="tag" style="background:#fff;color:#6d3fc4">Nuevo</span></div>
+      <div class="id">CU‑04 · <span class="tag" style="background:rgba(255,255,255,.24);color:#fff">Familia</span></div>
       <div class="title">Expansión Semántica / progresión léxica</div>
     </div>
     <div class="uc-body">
@@ -450,10 +483,11 @@
       <strong>acción física del adulto</strong> que la ancla al mundo real del niño. Tres modos de práctica en pestañas:</p>
       <table>
         <tr><th style="width:30%">Modo</th><th>Qué contiene</th></tr>
-        <tr><td><strong>Escenarios</strong></td><td>3 rutinas diarias (mañana, comida, parque), 6 palabras cada una.</td></tr>
-        <tr><td><strong>Progresión</strong></td><td>5 secuencias que suben Onomatopeya → Sustantivo → Verbo → Adjetivo (el coche, el perro, la vaca, el gato, la lluvia).</td></tr>
-        <tr><td><strong>Contrastes</strong></td><td>4 cápsulas TPR de pares: grande/pequeño, limpio/sucio, abrir/cerrar, subir/bajar.</td></tr>
+        <tr><td><strong>Escenarios</strong></td><td>5 rutinas diarias (mañana, comida, parque…), 6 palabras cada una.</td></tr>
+        <tr><td><strong>Progresión</strong></td><td>7 secuencias que suben Onomatopeya → Sustantivo → Verbo → Adjetivo (el coche, el perro, la vaca, el gato, la lluvia…).</td></tr>
+        <tr><td><strong>Contrastes</strong></td><td>6 cápsulas TPR de pares: grande/pequeño, limpio/sucio, abrir/cerrar, subir/bajar…</td></tr>
       </table>
+      <p>Como en Pares Mínimos, una <strong>barra de fase de turno</strong> (Escucha → Repite → Veredicto → Misión) guía cada paso.</p>
       <h4>Flujo principal</h4>
       <ol class="flow">
         <li>Elegir la pestaña (Escenarios, Progresión o Contrastes) y pulsar ▶ en una actividad prescrita.</li>
@@ -605,13 +639,15 @@
       </div>
       <h4>Flujo principal</h4>
       <ol class="flow">
-        <li>La app presenta cada ejercicio con <strong>fichas ilustradas</strong> grandes. <strong>Toque cualquier imagen para ampliarla</strong> a pantalla completa.</li>
+        <li>Cada mini‑juego sigue un flujo numerado <strong>PASO 1→4</strong>: consigna → juego → movimiento → evaluación. La app presenta <strong>fichas ilustradas</strong> grandes; <strong>toque cualquier imagen para ampliarla</strong> a pantalla completa.</li>
+        <li>Con <strong>“🔄 Otra ronda”</strong> el ejercicio rota su contenido (hasta 3 variantes: vocales, palabra articulada, vocal faltante, intruso, adivinanzas, plurales, frases S‑V‑O, emociones…), para que el niño no memorice siempre el mismo ítem.</li>
         <li>El adulto guía la actividad y valora la respuesta con la <strong>escala EPT‑3</strong>: <span class="stars">★</span> emergente, <span class="stars">★★</span> en proceso, <span class="stars">★★★</span> consolidado.</li>
         <li>Cada ejercicio ofrece una <strong>“versión en movimiento”</strong>; entre ejercicios aparecen <strong>pausas activas</strong>. Los de Lenguaje añaden voz (TTS), juego del micrófono y cápsulas TPR.</li>
         <li>Al terminar se calcula la media y se muestran las <strong>recompensas</strong> (XP, racha, nivel, insignias). Ver CU‑10.</li>
       </ol>
       <h4>Flujos alternativos</h4>
       <ul class="alt">
+        <li><strong>Sesión completa:</strong> el botón <strong>“🎯 Sesión completa”</strong> de cada bloque encadena todos los ejercicios prescritos en una sola tanda (pasando por el Test de Ling si la ficha lo indica), en vez de lanzarlos de uno en uno.</li>
         <li><strong>Sesión perfecta:</strong> si todos los ejercicios obtienen <span class="stars">★★★</span>, se desbloquea la insignia “Sesión estrella”.</li>
         <li><strong>Salir a mitad:</strong> se puede volver atrás; lo valorado hasta ese punto no cuenta como sesión completada.</li>
       </ul>
@@ -762,12 +798,14 @@
     <tr><td>La racha volvió a cero</td><td>Se perdió porque pasó más de un día sin practicar. Active los recordatorios (CU‑09) para evitarlo.</td></tr>
     <tr><td>No puedo cambiar qué se practica</td><td>Está en Modo Familia (solo lectura). Desbloquee el Modo Profesional con el PIN (CU‑05 / CU‑12).</td></tr>
     <tr><td>¿Se pierden los datos al cerrar la app?</td><td>No. Ficha, prescripción, historial, evolución por fonema y progreso se guardan cifrados en el dispositivo.</td></tr>
+    <tr><td>El mismo ejercicio se repetía siempre igual</td><td>Use <strong>“🔄 Otra ronda”</strong>: cada mini‑juego rota hasta 3 contenidos distintos. Para practicar todo lo prescrito de golpe, use <strong>“🎯 Sesión completa”</strong>.</td></tr>
+    <tr><td>¿Necesito conexión o crear una cuenta?</td><td>No. La app funciona en local sin conexión. El <strong>acceso profesional con correo y contraseña</strong> (sincronización en la nube) es opcional y solo se usa para pruebas con profesionales (v6).</td></tr>
   </table>
 
   <div class="footer-note">
-    <strong>Valeria+</strong> · Manual de Casos de Uso · v5 (con capturas de pantalla) · Julio de 2026 ·
+    <strong>Valeria+</strong> · Manual de Casos de Uso · v6 (con capturas de pantalla) · Julio de 2026 ·
     Terapia auditivo‑verbal y del lenguaje para la infancia. Documento de apoyo para logopedas y familias.
-    <br>Los datos personales se tratan localmente conforme a RGPD/HIPAA.
+    <br>Los datos personales se tratan localmente conforme a RGPD/HIPAA; la sincronización en la nube es opcional.
   </div>
 </section>
 
