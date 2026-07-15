@@ -16,6 +16,7 @@ Expo SDK 54 · React Native 0.81 · TypeScript · Backend opcional Firebase
 - [¿Qué es Valeria+?](#qué-es-valeria)
 - [Bloques de terapia](#bloques-de-terapia)
 - [Flujo de pantallas](#flujo-de-pantallas)
+- [Telemetría del piloto clínico](#telemetría-del-piloto-clínico)
 - [Documentación](#documentación)
 - [Puesta en marcha](#puesta-en-marcha)
 - [Builds (EAS)](#builds-eas)
@@ -58,6 +59,41 @@ Welcome → Credits → (PatientSelect ó FichaRegistro) → ExerciseSelection
                    ↘ MinimalPairs (Pares Mínimos)
                    ↘ SemanticExpansion (Expansión Semántica)
 ```
+
+## Telemetría del piloto clínico
+
+Para recabar **evidencia de usabilidad** durante el piloto (validación
+regulatoria y académica) sin fricción para las familias, Valeria+ incluye una
+capa de telemetría **offline, anónima y no bloqueante**. La restricción
+innegociable es que **ni la captura de eventos ni la escritura en disco bloqueen
+el hilo principal**: la captura solo muta memoria (O(1)) y programa un volcado
+con *debounce* vía `InteractionManager`, de modo que el cifrado y el guardado en
+`AsyncStorage` nunca coinciden con las animaciones ni con el audio.
+
+| Qué mide / hace | Cómo |
+| --- | --- |
+| ⏱️ **Tiempo activo por pantalla** | El navegador anota cada cambio de ruta (`noteScreen`); solo aritmética de timestamps. |
+| 👆 **Misclicks** (toques fuera de zonas interactivas) | `ValeriaMisclickBoundary` usa el sistema de *responder* de RN: solo los toques en zonas muertas llegan a la raíz. Cede el gesto al scroll. |
+| 🧩 **Abandono intra‑cápsula TPR** | Se cuentan cápsulas mostradas vs. saltadas vs. completadas en el player. |
+| 💬 **Evaluación subjetiva (SUS adaptado)** | Modal Likert 1‑5 (`ValeriaSUSModal`) orientado a la **carga de uso real** ("integrar el ejercicio en la rutina de mi hijo/a"). *Rate limiting* para evitar sesgo de fatiga: solo en el **hito de 4 bloques** y **máx. 1 vez/semana** por dispositivo. |
+| 🔒 **Persistencia y correlación** | Telemetría + Likert se guardan en un **JSON cifrado en reposo** (`valeriaCrypto`, keystream SHA‑256 en JS puro) bajo el **mismo id de sesión**. Se **purga solo tras una exportación exitosa**, evitando el desborde de memoria semana a semana. |
+
+**Exportación dual** (Modo Profesional, PIN `1985` desde el hub de 4 bloques →
+`ValeriaProExport`):
+
+- **Offline puro** → **código QR** con el resumen estadístico comprimido
+  (abandonos, misclicks, media Likert), legible por cámaras móviles. El
+  codificador QR es **JS puro sin dependencias** (`valeriaQR`, modo byte, nivel
+  M), verificado bit a bit contra la librería de referencia `qrcode`.
+- **ShareSheet** → `ACTION_SEND` nativo con el **log transaccional completo en
+  crudo** (email/WhatsApp) para cuando haya conectividad.
+
+> **Notas para la fase regulatoria.** La telemetría es **anónima** (sin datos
+> personales, sin audio, sin el contenido de las respuestas). El cifrado en
+> reposo guarda la clave en `AsyncStorage`; el módulo `valeriaCrypto` está
+> aislado para migrarla a `expo-secure-store` (Keystore/Keychain) en producción.
+> Al tratarse de un piloto con menores, el **consentimiento informado** de las
+> familias debe gestionarse en el protocolo del estudio, fuera de la app.
 
 ## Documentación
 
@@ -131,6 +167,25 @@ La app sigue funcionando en local sin conexión si no se activa.
 Guía completa de configuración y despliegue: [`docs/firebase-setup.md`](docs/firebase-setup.md).
 
 ## Historial de versiones
+
+<details>
+<summary><strong>V7</strong> — telemetría de usabilidad del piloto clínico y exportación dual</summary>
+
+- **Telemetría no bloqueante**: captura de tiempo activo por pantalla, misclicks
+  y abandono intra‑cápsula TPR sin bloquear el hilo principal (captura en memoria
+  + volcado con *debounce* vía `InteractionManager`). Módulo `valeriaTelemetry`.
+- **Evaluación subjetiva SUS adaptada**: modal Likert 1‑5 (`ValeriaSUSModal`)
+  centrado en la carga de uso real, con *rate limiting* (hito de 4 bloques y máx.
+  1 vez/semana por dispositivo) para evitar el sesgo de fatiga.
+- **Persistencia cifrada y correlación**: telemetría + Likert en un JSON cifrado
+  en reposo (`valeriaCrypto`) bajo el mismo id de sesión; purga automática solo
+  tras exportación exitosa.
+- **Exportación dual** (Modo Profesional, PIN `1985`): QR offline con el resumen
+  estadístico comprimido (`valeriaQR` + `ValeriaQRCode`, codificador JS puro sin
+  dependencias, verificado contra `qrcode`) + ShareSheet `ACTION_SEND` con el log
+  completo en crudo (`ValeriaProExport`).
+
+</details>
 
 <details>
 <summary><strong>V6</strong> — voz humana, rondas variadas, sesión completa y backend opcional</summary>
