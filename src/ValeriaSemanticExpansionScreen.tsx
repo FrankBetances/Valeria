@@ -26,6 +26,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { V, STORAGE_KEYS } from './valeriaTheme';
 import { ProUnlockPill, ProPinModal } from './ValeriaProPin';
 import { registerSession, SessionReward } from './valeriaGamification';
+import { markBlockCompleted } from './valeriaTelemetry';
 import {
   speakToChild, speakWordSlow, stopSpeaking,
   asrSupported, startListening, stopListening, releaseListening, matchExpected,
@@ -290,6 +291,7 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
       await AsyncStorage.setItem(STORAGE_KEYS.expansionSemantica, JSON.stringify(se));
     } catch (e) { /* almacenamiento no disponible */ }
     try { setReward(await registerSession(avg, res.length)); } catch (e) { /* noop */ }
+    markBlockCompleted('expansion'); // hito de bloque para el SUS (rate-limited)
     setPhase('done');
     speakToChild('¡Sesión completada! ¡Choca esos cinco!');
   };
