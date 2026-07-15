@@ -23,14 +23,17 @@
 //     @react-native-async-storage/async-storage react-native-svg
 //   (En bare RN, además: cd ios && pod install)
 // ============================================================================
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { View } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, createNavigationContainerRef } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { initNotifications, refreshDailyReminders } from './valeriaNotifications';
 import { V } from './valeriaTheme';
 import { AuthProvider } from './firebase/AuthContext';
+import { noteScreen } from './valeriaTelemetry';
+import { ValeriaMisclickBoundary } from './ValeriaMisclickBoundary';
+import { ValeriaSUSModal } from './ValeriaSUSModal';
 
 import ValeriaWelcomeScreen from './ValeriaWelcomeScreen';
 import ValeriaCreditsScreen from './ValeriaCreditsScreen';
@@ -88,7 +91,14 @@ const SafeFrame: React.FC = () => {
   return (
     <View style={{ flex: 1, backgroundColor: V.color.primary, paddingTop: insets.top }}>
       <View style={{ flex: 1, backgroundColor: V.color.pageBg, paddingBottom: insets.bottom }}>
-        <ValeriaNavigator />
+        {/* La telemetría envuelve todo: cuenta como misclick cualquier toque en
+            zonas muertas (ningún elemento interactivo lo reclama) sin bloquear. */}
+        <ValeriaMisclickBoundary>
+          <ValeriaNavigator />
+        </ValeriaMisclickBoundary>
+        {/* Modal SUS global: se autodispara con rate limiting (hito de 4 bloques,
+            máx. 1 vez/semana) desde valeriaTelemetry, sea cual sea la pantalla. */}
+        <ValeriaSUSModal />
       </View>
     </View>
   );
@@ -96,14 +106,25 @@ const SafeFrame: React.FC = () => {
 
 // Si tu app YA tiene un NavigationContainer, importa solo <ValeriaNavigator />
 // y añádelo a tu stack raíz. Si no, usa <ValeriaApp /> tal cual.
+// Ref del navegador para leer la ruta activa y medir el tiempo activo por
+// pantalla (telemetría de usabilidad) sin acoplar cada screen.
+export const navigationRef = createNavigationContainerRef<ValeriaStackParamList>();
+
 export const ValeriaApp: React.FC = () => {
   // Handler y canal Android de los recordatorios diarios (pantalla de bloqueo),
   // más la rotación diaria del consejo para padres si los avisos están activos.
   useEffect(() => { initNotifications(); refreshDailyReminders(); }, []);
+  const lastRoute = useRef<string | null>(null);
+  // Cierra el tramo de la pantalla anterior y abre el nuevo en cada cambio de
+  // ruta. Solo hace aritmética de timestamps → no bloquea el hilo principal.
+  const handleRoute = () => {
+    const name = navigationRef.isReady() ? navigationRef.getCurrentRoute()?.name : undefined;
+    if (name && name !== lastRoute.current) { lastRoute.current = name; noteScreen(name); }
+  };
   return (
     <AuthProvider>
       <SafeAreaProvider>
-        <NavigationContainer>
+        <NavigationContainer ref={navigationRef} onReady={handleRoute} onStateChange={handleRoute}>
           <SafeFrame />
         </NavigationContainer>
       </SafeAreaProvider>

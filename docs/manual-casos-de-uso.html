@@ -136,13 +136,13 @@
   <div class="brand">valeria+</div>
   <div class="bear">🐻</div>
   <div style="margin-top:auto">
-    <div class="pill">Manual de usuario · v6 · con capturas de pantalla</div>
+    <div class="pill">Manual de usuario · v7 · con capturas de pantalla</div>
     <h1>Manual de<br>Casos de Uso</h1>
     <div class="sub">Aplicación de terapia auditivo‑verbal y del lenguaje para niñas y niños con hipoacusia, implante coclear, dislalias o dificultades del lenguaje.</div>
     <div class="meta">
       Guía para logopedas, familias y cuidadores<br>
       Julio de 2026 · Documento interno<br>
-      Expo SDK 54 / React Native · Backend opcional Firebase
+      Expo SDK 54 / React Native · Backend opcional Firebase · Telemetría del piloto
     </div>
   </div>
 </div>
@@ -169,6 +169,7 @@
     <li><span class="num">CU‑10</span><span class="txt">Motivación: racha, niveles e insignias</span></li>
     <li><span class="num">CU‑11</span><span class="txt">Consultar el panel de resultados</span></li>
     <li><span class="num">CU‑12</span><span class="txt">Cambiar entre Modo Familia y Modo Profesional</span></li>
+    <li><span class="num">CU‑13</span><span class="txt">Exportar la evidencia de usabilidad del piloto (QR + compartir)</span></li>
     <li class="section-label">Anexo</li>
     <li><span class="num">A</span><span class="txt">Preguntas frecuentes y resolución de problemas</span></li>
   </ul>
@@ -233,6 +234,23 @@
     <tr><td>☁️ <strong>Sincronización opcional</strong></td>
       <td>Acceso profesional con correo y contraseña (Firebase Authentication) y copia de pacientes/sesiones en la nube (Cloud Firestore). Es <strong>aditivo</strong>: la app sigue funcionando en local sin conexión.</td></tr>
   </table>
+
+  <h3>Novedades de la versión 7</h3>
+  <p>La versión 7 prepara la app para el <strong>piloto clínico</strong>: recoge evidencia de usabilidad
+  de forma <strong>anónima, sin conexión y sin fricción</strong> para las familias, y añade una salida
+  para que el logopeda la exporte. Nada de esto interfiere con la sesión: la captura no bloquea las
+  animaciones ni el audio.</p>
+  <table>
+    <tr><th style="width:32%">Novedad</th><th>Qué aporta</th></tr>
+    <tr><td>📊 <strong>Telemetría de usabilidad</strong></td>
+      <td>Mide, sin molestar, tres señales por sesión: <strong>tiempo en cada pantalla</strong>, <strong>toques fuera de zona útil</strong> (misclicks) y la <strong>proporción de cápsulas de movimiento que se saltan</strong>. Son datos anónimos, sin nombres, sin audio y sin el contenido de las respuestas.</td></tr>
+    <tr><td>💬 <strong>Encuesta rápida (SUS)</strong></td>
+      <td>Una única pregunta de satisfacción de 1 a 5 con caritas, centrada en la <strong>facilidad para integrar el ejercicio en la rutina del niño/a</strong>. Aparece solo en un hito grande (completar los 4 bloques) y <strong>como mucho una vez por semana</strong>, para no cansar.</td></tr>
+    <tr><td>🔒 <strong>Guardado cifrado y purga</strong></td>
+      <td>Telemetría y encuesta se guardan juntas (mismo identificador de sesión) en un archivo <strong>cifrado en el dispositivo</strong>, que <strong>solo se vacía tras una exportación correcta</strong> para no acumular datos semana a semana.</td></tr>
+    <tr><td>📤 <strong>Exportación dual</strong></td>
+      <td>Con el PIN profesional, la app genera a la vez un <strong>código QR</strong> con el resumen (offline, escaneable) y abre el <strong>menú de compartir</strong> para enviar el registro completo por email o WhatsApp cuando haya conexión (ver CU‑13).</td></tr>
+  </table>
 </section>
 
 <!-- ================= 2. ROLES ================= -->
@@ -278,6 +296,15 @@
     (Cloud Firestore). Es una capa <strong>aditiva y opcional</strong>: cada profesional autenticado solo accede a sus
     propios datos, protegidos por reglas de seguridad. Si no se activa, todo sigue guardándose únicamente en el
     dispositivo.</p>
+  </div>
+
+  <div class="callout">
+    <div class="lbl">Telemetría de usabilidad del piloto (v7)</div>
+    <p style="margin:4px 0 0">Durante el piloto, la app recoge métricas de usabilidad <strong>anónimas</strong> (tiempo por
+    pantalla, toques fuera de zona útil y cápsulas de movimiento saltadas) y una encuesta breve de satisfacción. <strong>No
+    incluyen nombres, ni audio, ni el contenido de las respuestas</strong>; se guardan cifradas en el dispositivo bajo un
+    identificador de sesión y se purgan tras exportarlas (ver CU‑13). Al tratarse de un estudio con menores, el
+    <strong>consentimiento informado</strong> de las familias se gestiona en el protocolo del piloto, fuera de la app.</p>
   </div>
 </section>
 
@@ -335,6 +362,11 @@
     <tr><td><strong>Escala EPT‑3</strong></td><td>Valoración unificada de 3 niveles: <span class="stars">★</span> Emergente · <span class="stars">★★</span> En proceso · <span class="stars">★★★</span> Consolidado.</td></tr>
     <tr><td><strong>Racha (🔥)</strong></td><td>Días consecutivos en los que se ha completado al menos una sesión.</td></tr>
     <tr><td><strong>NHC</strong></td><td>Número de Historia Clínica del paciente.</td></tr>
+    <tr><td><strong>Telemetría de usabilidad</strong></td><td>Métricas anónimas que la app recoge durante el piloto para medir lo fácil que resulta de usar (tiempo por pantalla, misclicks, abandono de cápsulas). Sin datos personales.</td></tr>
+    <tr><td><strong>Misclick</strong></td><td>Toque en una zona “muerta” de la pantalla, fuera de cualquier botón o elemento útil. Un exceso señala que algo no se entiende o el objetivo es pequeño.</td></tr>
+    <tr><td><strong>Abandono TPR</strong></td><td>Proporción de cápsulas de movimiento (TPR) que se saltan en vez de completarse. Ayuda a saber si las pausas activas encajan en la sesión.</td></tr>
+    <tr><td><strong>SUS (encuesta)</strong></td><td><em>System Usability Scale</em> adaptada: una pregunta de 1 a 5 sobre la facilidad de uso real. Aparece con moderación (hito de 4 bloques y máx. 1 vez/semana).</td></tr>
+    <tr><td><strong>Exportación dual</strong></td><td>Salida del piloto en dos formatos a la vez: un <strong>QR</strong> con el resumen (offline) y el <strong>menú de compartir</strong> con el registro completo (online). Requiere el PIN profesional.</td></tr>
   </table>
 </section>
 
@@ -783,6 +815,47 @@
   </div>
 </section>
 
+<!-- CU-13 · EXPORTACIÓN DE TELEMETRÍA DEL PILOTO -->
+<section class="page-break">
+  <div class="uc">
+    <div class="uc-head">
+      <div class="id">CU‑13 · <span class="tag pro">Profesional</span></div>
+      <div class="title">Exportar la evidencia de usabilidad del piloto (QR + compartir)</div>
+    </div>
+    <div class="uc-body">
+      <div class="uc-grid">
+        <div><div class="k">Actor</div><div class="v">Logopeda / responsable del piloto</div></div>
+        <div><div class="k">Pantalla</div><div class="v">Hub de 4 bloques → “Acceso Profesional”</div></div>
+        <div><div class="k">Precondición</div><div class="v">Se han usado ejercicios · PIN disponible</div></div>
+        <div><div class="k">Resultado</div><div class="v">Resumen en QR + registro completo compartido; datos purgados</div></div>
+      </div>
+      <p>Durante el piloto, la app va guardando de forma <strong>anónima y sin molestar</strong> unas métricas de
+      usabilidad (tiempo por pantalla, misclicks y cápsulas de movimiento saltadas) junto con la encuesta breve de
+      satisfacción. Este caso de uso explica cómo el profesional las <strong>saca del dispositivo</strong> para el
+      análisis, con dos salidas a la vez: una <strong>offline</strong> (QR) y otra <strong>online</strong> (compartir).</p>
+      <h4>Flujo principal</h4>
+      <ol class="flow">
+        <li>En el <strong>hub de 4 bloques</strong>, bajar hasta la tarjeta <strong>“Acceso Profesional”</strong> y tocarla.</li>
+        <li>Introducir el <strong>PIN</strong> del logopeda (demo: <strong>1985</strong>).</li>
+        <li>Se abre la pantalla de <strong>exportación</strong>: en el acto aparece un <strong>código QR</strong> con el resumen
+        (nº de sesiones, % de abandono TPR, misclicks y media de la encuesta) y, a la vez, el <strong>menú de compartir</strong>
+        del sistema para enviar el <strong>registro completo</strong> por email o WhatsApp.</li>
+        <li><strong>Offline:</strong> escanear el QR con otro móvil para capturar el resumen sin necesidad de conexión.</li>
+        <li><strong>Online:</strong> elegir la app de destino (correo, WhatsApp…) para enviar el registro completo en crudo.</li>
+        <li>Tras un envío correcto, la app <strong>vacía el archivo</strong> del dispositivo y lo confirma (“Log exportado y purgado”).</li>
+      </ol>
+      <h4>Flujos alternativos</h4>
+      <ul class="alt">
+        <li><strong>Se cancela el compartir:</strong> el registro <strong>no</strong> se borra; el QR sigue visible y se puede reintentar.</li>
+        <li><strong>Sin conexión:</strong> use solo el QR; el envío por compartir queda para cuando haya red.</li>
+        <li><strong>Resumen muy largo para el QR:</strong> la app avisa y basta con usar el compartir del registro completo.</li>
+      </ul>
+      <div class="callout"><div class="lbl">Qué contiene cada salida</div><p style="margin:4px 0 0">El <strong>QR</strong> lleva solo el <strong>resumen estadístico</strong> comprimido (sin datos personales). El <strong>compartir</strong> envía el <strong>registro completo</strong> de la telemetría anónima y la encuesta, correlacionados por identificador de sesión, para el análisis del piloto.</p></div>
+      <div class="callout warn"><div class="lbl">Encuesta de satisfacción (SUS)</div><p style="margin:4px 0 0">La pregunta de 1 a 5 (“Fue fácil integrar este ejercicio en la rutina de mi hijo/a”) aparece <strong>sola</strong> al completar los 4 bloques y como mucho <strong>una vez por semana</strong> por dispositivo. La familia no tiene que buscarla ni configurarla.</p></div>
+    </div>
+  </div>
+</section>
+
 <!-- ================= ANEXO FAQ ================= -->
 <section>
   <div class="chapter-kicker">Anexo A</div>
@@ -800,12 +873,15 @@
     <tr><td>¿Se pierden los datos al cerrar la app?</td><td>No. Ficha, prescripción, historial, evolución por fonema y progreso se guardan cifrados en el dispositivo.</td></tr>
     <tr><td>El mismo ejercicio se repetía siempre igual</td><td>Use <strong>“🔄 Otra ronda”</strong>: cada mini‑juego rota hasta 3 contenidos distintos. Para practicar todo lo prescrito de golpe, use <strong>“🎯 Sesión completa”</strong>.</td></tr>
     <tr><td>¿Necesito conexión o crear una cuenta?</td><td>No. La app funciona en local sin conexión. El <strong>acceso profesional con correo y contraseña</strong> (sincronización en la nube) es opcional y solo se usa para pruebas con profesionales (v6).</td></tr>
+    <tr><td>¿Qué datos recoge el piloto sobre mi hijo/a?</td><td>Solo métricas <strong>anónimas</strong> de usabilidad (tiempo por pantalla, misclicks y cápsulas saltadas) y una encuesta breve. <strong>No</strong> se guardan nombres, ni audio, ni el contenido de las respuestas. Todo se cifra en el dispositivo (v7).</td></tr>
+    <tr><td>¿Por qué apareció una encuesta con caritas?</td><td>Es la encuesta de satisfacción del piloto (SUS). Solo aparece al completar los 4 bloques y como mucho una vez por semana. Se puede cerrar sin responder.</td></tr>
+    <tr><td>¿Cómo exporto los datos del piloto?</td><td>Desde el hub, tarjeta <strong>“Acceso Profesional”</strong> con el PIN: la app muestra un <strong>QR</strong> con el resumen y abre el <strong>compartir</strong> con el registro completo. Tras enviarlo, los datos se purgan (CU‑13).</td></tr>
   </table>
 
   <div class="footer-note">
-    <strong>Valeria+</strong> · Manual de Casos de Uso · v6 (con capturas de pantalla) · Julio de 2026 ·
+    <strong>Valeria+</strong> · Manual de Casos de Uso · v7 (con capturas de pantalla) · Julio de 2026 ·
     Terapia auditivo‑verbal y del lenguaje para la infancia. Documento de apoyo para logopedas y familias.
-    <br>Los datos personales se tratan localmente conforme a RGPD/HIPAA; la sincronización en la nube es opcional.
+    <br>Los datos personales se tratan localmente conforme a RGPD/HIPAA; la sincronización en la nube y la telemetría anónima del piloto son opcionales.
   </div>
 </section>
 

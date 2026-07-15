@@ -14,6 +14,7 @@ import { V, STORAGE_KEYS } from './valeriaTheme';
 import { enableDailyReminders, disableReminders, remindersEnabled } from './valeriaNotifications';
 import { loadGame, liveStreak, levelFor, levelName } from './valeriaGamification';
 import { ProUnlockPill, ProPinModal } from './ValeriaProPin';
+import { ValeriaProExportModal } from './ValeriaProExport';
 import { VoiceQualityCard } from './ValeriaVoiceUI';
 import { AUDICION_META, LENGUAJE_META, AGE_BANDS } from './valeriaExerciseMeta';
 // import logoWhite from '../../assets/valeria-logo-white.png';
@@ -31,6 +32,9 @@ export const ValeriaExerciseSelectionScreen: React.FC<{ navigation: any }> = ({ 
   const [view, setView] = useState<'hub' | 'list'>('hub');
   const [unlocked, setUnlocked] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  // Acceso Profesional desde el hub (4 bloques): PIN 1985 → exportación dual.
+  const [hubPinOpen, setHubPinOpen] = useState(false);
+  const [exportOpen, setExportOpen] = useState(false);
   const [toast, setToast] = useState('');
   const [activeAud, setActiveAud] = useState<boolean[]>(new Array(EXERCISES_AUD.length).fill(true));
   const [activeLen, setActiveLen] = useState<boolean[]>(new Array(EXERCISES_LEN.length).fill(true));
@@ -189,6 +193,19 @@ export const ValeriaExerciseSelectionScreen: React.FC<{ navigation: any }> = ({ 
             {/* Calidad de la voz: detecta voces robóticas y guía a instalar el
                 motor neuronal de Google (feedback: la voz dificulta repetir). */}
             <VoiceQualityCard />
+
+            {/* Acceso Profesional (piloto): el PIN 1985 desbloquea el Modo
+                Profesional y lanza la exportación dual de la evidencia de
+                usabilidad (QR offline + ShareSheet del log completo). */}
+            <Pressable onPress={() => setHubPinOpen(true)} style={s.proAccess}
+              accessibilityRole="button" accessibilityLabel="Acceso profesional: exportar evidencia de usabilidad">
+              <View style={s.proAccessIcon}><Text style={{ fontSize: 16 }}>🔐</Text></View>
+              <View style={{ flex: 1 }}>
+                <Text style={s.proAccessTitle}>Acceso Profesional</Text>
+                <Text style={s.proAccessSub}>Exportar evidencia de usabilidad del piloto (PIN del logopeda).</Text>
+              </View>
+              <Text style={s.proAccessChev}>›</Text>
+            </Pressable>
           </ScrollView>
         </>
       ) : (
@@ -332,12 +349,21 @@ export const ValeriaExerciseSelectionScreen: React.FC<{ navigation: any }> = ({ 
         </>
       )}
 
-      {/* ===== Modal PIN ===== */}
+      {/* ===== Modal PIN (edición de prescripción, vista lista) ===== */}
       <ProPinModal
         open={modalOpen}
         onClose={() => setModalOpen(false)}
         onUnlock={() => { setModalOpen(false); setUnlocked(true); setToast('Modo profesional desbloqueado.'); }}
       />
+
+      {/* ===== Acceso Profesional del hub: PIN 1985 → exportación dual ===== */}
+      <ProPinModal
+        open={hubPinOpen}
+        onClose={() => setHubPinOpen(false)}
+        subtitle="Introduce el PIN del logopeda para exportar la evidencia de usabilidad del piloto."
+        onUnlock={() => { setHubPinOpen(false); setExportOpen(true); }}
+      />
+      <ValeriaProExportModal open={exportOpen} onClose={() => setExportOpen(false)} />
     </View>
   );
 };
@@ -374,6 +400,12 @@ const s = StyleSheet.create({
   toast: { flexDirection: 'row', alignItems: 'center', gap: 10, backgroundColor: V.color.primaryTint, borderWidth: 1, borderColor: V.color.primary, borderRadius: 13, padding: 13, marginBottom: 14 },
   toastCheck: { width: 24, height: 24, borderRadius: 12, backgroundColor: V.color.primary, alignItems: 'center', justifyContent: 'center' },
   toastTxt: { color: V.color.textPrimary, fontSize: 13.5, fontWeight: '700', flex: 1 },
+
+  proAccess: { flexDirection: 'row', alignItems: 'center', gap: 11, backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.border, borderRadius: 14, padding: 13, marginTop: 12, ...V.shadow.card },
+  proAccessIcon: { width: 36, height: 36, borderRadius: 12, backgroundColor: V.color.primaryLight, alignItems: 'center', justifyContent: 'center' },
+  proAccessTitle: { fontSize: 14, fontWeight: '800', color: V.color.textPrimary },
+  proAccessSub: { fontSize: 11.5, fontWeight: '600', color: V.color.textMuted, marginTop: 2, lineHeight: 15 },
+  proAccessChev: { fontSize: 18, color: V.color.textMuted, fontWeight: '800' },
 
   remindCard: { flexDirection: 'row', alignItems: 'center', gap: 11, backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.border, borderRadius: 14, padding: 13, marginTop: 10, ...V.shadow.card },
   remindIcon: { width: 36, height: 36, borderRadius: 12, backgroundColor: '#fffbeb', alignItems: 'center', justifyContent: 'center' },

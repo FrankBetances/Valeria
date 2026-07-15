@@ -52,7 +52,12 @@ import { registerSession, SessionReward, levelProgress, xpToNext } from './valer
 import { speakToChild, speakWordSlow, stopSpeaking, praisePhrase, almostPhrase, normalizeSpeech } from './valeriaVoice';
 import { SpeakButton, MicPracticeCard, ResponseCaptureCard } from './ValeriaVoiceUI';
 import { ValeriaTPRCapsuleOverlay, pickTprCapsule, TprCapsule } from './ValeriaTPRCapsule';
-import { META_BY_ID } from './valeriaExerciseMeta';
+import { META_BY_ID, AUDICION_META, LENGUAJE_META } from './valeriaExerciseMeta';
+import { trackCapsuleStart, trackCapsuleDone, trackCapsuleSkip, markBlockCompleted } from './valeriaTelemetry';
+
+// Conjuntos de ids por bloque para marcar el hito de "bloque completado" (SUS).
+const AUD_IDS = new Set(AUDICION_META.map((m) => m.id));
+const LEN_IDS = new Set(LENGUAJE_META.map((m) => m.id));
 // import logoWhite from '../../assets/valeria-logo-white.png';
 
 // ----------------------------------------------------------------------------
@@ -676,6 +681,7 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
         setPicked(0); setLocking(false); resetEphemeral();
         // Cápsula TPR sorpresa: escucha y muévete antes del siguiente ejercicio.
         setActiveBreak(pickTprCapsule());
+        trackCapsuleStart(); // telemetría: cápsula mostrada (base del abandono TPR)
       }
     }, 620);
   };
@@ -709,6 +715,10 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
     } catch (e) { /* gamificación no disponible */ }
     setResults(res);
     setFinished(true);
+    // Telemetría: hito de bloque completado (Audición/Lenguaje según los ids de
+    // la sesión) → puede disparar el SUS (con rate limiting) al cerrar 4 bloques.
+    if (sessionIds.some((id) => AUD_IDS.has(id))) markBlockCompleted('audicion');
+    if (sessionIds.some((id) => LEN_IDS.has(id))) markBlockCompleted('lenguaje');
     // Celebración hablada para el niño al cerrar la sesión (frase rotativa).
     speakToChild(`¡Sesión completada! ${praisePhrase()}`);
   };
@@ -1330,8 +1340,8 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
       {activeBreak && !finished && (
         <ValeriaTPRCapsuleOverlay
           capsule={activeBreak}
-          onDone={() => setActiveBreak(null)}
-          onSkip={() => setActiveBreak(null)}
+          onDone={() => { trackCapsuleDone(); setActiveBreak(null); }}
+          onSkip={() => { trackCapsuleSkip(); setActiveBreak(null); }}
         />
       )}
     </View>
