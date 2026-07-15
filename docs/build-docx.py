@@ -6,7 +6,7 @@ Uso:
     python3 docs/build-docx.py
 
 Requiere las capturas de docs/screenshots/ (ver docs/capture-screenshots.js).
-Mantiene el mismo contenido que docs/manual-casos-de-uso.html (v6).
+Mantiene el mismo contenido que docs/manual-casos-de-uso.html (v7).
 """
 import os
 from docx import Document
@@ -64,7 +64,7 @@ for name, size, color, before in (('Heading 1', 17, PRIMARY, 14),
 
 footer_p = sec.footer.paragraphs[0]
 footer_p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-run = footer_p.add_run('Valeria+ · Manual de Casos de Uso · v6 (con capturas de pantalla) · Julio de 2026')
+run = footer_p.add_run('Valeria+ · Manual de Casos de Uso · v7 (con capturas de pantalla) · Julio de 2026')
 run.font.size = Pt(8)
 run.font.color.rgb = MUTED
 
@@ -266,12 +266,12 @@ for _ in range(4):
     p('', space_after=0)
 p('valeria+', bold=True, size=16, color=PRIMARY_BRIGHT)
 p('🐻', size=52, align=WD_ALIGN_PARAGRAPH.LEFT, space_after=18)
-p('Manual de usuario · v6 · con capturas de pantalla', bold=True, size=10, color=PRIMARY)
+p('Manual de usuario · v7 · con capturas de pantalla', bold=True, size=10, color=PRIMARY)
 p('Manual de Casos de Uso', bold=True, size=34, color=INK, space_after=10)
 p('Aplicación de terapia auditivo-verbal y del lenguaje para niñas y niños con hipoacusia, '
   'implante coclear, dislalias o dificultades del lenguaje.', size=13, color=INK2, space_after=16)
 p('Guía para logopedas, familias y cuidadores\nJulio de 2026 · Documento interno\n'
-  'Expo SDK 54 / React Native · Backend opcional Firebase', size=10, color=MUTED)
+  'Expo SDK 54 / React Native · Backend opcional Firebase · Telemetría del piloto', size=10, color=MUTED)
 doc.add_page_break()
 
 # ============================ ÍNDICE ============================
@@ -294,6 +294,7 @@ toc = [
     ('CU-10', 'Motivación: racha, niveles e insignias'),
     ('CU-11', 'Consultar el panel de resultados'),
     ('CU-12', 'Cambiar entre Modo Familia y Modo Profesional'),
+    ('CU-13', 'Exportar la evidencia de usabilidad del piloto (QR + compartir)'),
     ('', 'ANEXO'),
     ('A', 'Preguntas frecuentes y resolución de problemas'),
 ]
@@ -369,6 +370,26 @@ data_table(['Novedad', 'Qué aporta'], [
      'Acceso profesional con correo y contraseña (Firebase Authentication) y copia de pacientes/sesiones en la nube '
      '(Cloud Firestore). Es aditivo: la app sigue funcionando en local sin conexión.'],
 ], widths=[4.8, 12.2])
+doc.add_heading('Novedades de la versión 7', level=3)
+p('La versión 7 prepara la app para el piloto clínico: recoge evidencia de usabilidad de forma anónima, sin conexión y '
+  'sin fricción para las familias, y añade una salida para que el logopeda la exporte. Nada de esto interfiere con la '
+  'sesión: la captura no bloquea las animaciones ni el audio.')
+data_table(['Novedad', 'Qué aporta'], [
+    [[('📊 Telemetría de usabilidad', True)],
+     'Mide, sin molestar, tres señales por sesión: tiempo en cada pantalla, toques fuera de zona útil (misclicks) y la '
+     'proporción de cápsulas de movimiento que se saltan. Son datos anónimos, sin nombres, sin audio y sin el contenido '
+     'de las respuestas.'],
+    [[('💬 Encuesta rápida (SUS)', True)],
+     'Una única pregunta de satisfacción de 1 a 5 con caritas, centrada en la facilidad para integrar el ejercicio en la '
+     'rutina del niño/a. Aparece solo en un hito grande (completar los 4 bloques) y como mucho una vez por semana, para '
+     'no cansar.'],
+    [[('🔒 Guardado cifrado y purga', True)],
+     'Telemetría y encuesta se guardan juntas (mismo identificador de sesión) en un archivo cifrado en el dispositivo, '
+     'que solo se vacía tras una exportación correcta para no acumular datos semana a semana.'],
+    [[('📤 Exportación dual', True)],
+     'Con el PIN profesional, la app genera a la vez un código QR con el resumen (offline, escaneable) y abre el menú de '
+     'compartir para enviar el registro completo por email o WhatsApp cuando haya conexión (ver CU-13).'],
+], widths=[4.8, 12.2])
 
 # ============================ CAP 2 ============================
 doc.add_page_break()
@@ -401,6 +422,12 @@ callout('Sincronización en la nube (opcional · v6)',
         'aditiva y opcional: cada profesional autenticado solo accede a sus propios datos, protegidos por reglas de '
         'seguridad. Si no se activa, todo sigue guardándose únicamente en el dispositivo.',
         fill=FILL_VIOLET, label_color=VIOLET_DARK)
+callout('Telemetría de usabilidad del piloto (v7)',
+        'Durante el piloto, la app recoge métricas de usabilidad anónimas (tiempo por pantalla, toques fuera de zona útil '
+        'y cápsulas de movimiento saltadas) y una encuesta breve de satisfacción. No incluyen nombres, ni audio, ni el '
+        'contenido de las respuestas; se guardan cifradas en el dispositivo bajo un identificador de sesión y se purgan '
+        'tras exportarlas (ver CU-13). Al tratarse de un estudio con menores, el consentimiento informado de las familias '
+        'se gestiona en el protocolo del piloto, fuera de la app.')
 
 # ============================ CAP 3 ============================
 doc.add_page_break()
@@ -433,6 +460,11 @@ data_table(['Término', 'Significado'], [
     ['Escala EPT-3', 'Valoración unificada de 3 niveles: ★ Emergente · ★★ En proceso · ★★★ Consolidado.'],
     ['Racha (🔥)', 'Días consecutivos en los que se ha completado al menos una sesión.'],
     ['NHC', 'Número de Historia Clínica del paciente.'],
+    ['Telemetría de usabilidad', 'Métricas anónimas que la app recoge durante el piloto para medir lo fácil que resulta de usar (tiempo por pantalla, misclicks, abandono de cápsulas). Sin datos personales.'],
+    ['Misclick', 'Toque en una zona “muerta” de la pantalla, fuera de cualquier botón o elemento útil. Un exceso señala que algo no se entiende o el objetivo es pequeño.'],
+    ['Abandono TPR', 'Proporción de cápsulas de movimiento (TPR) que se saltan en vez de completarse. Ayuda a saber si las pausas activas encajan en la sesión.'],
+    ['SUS (encuesta)', 'System Usability Scale adaptada: una pregunta de 1 a 5 sobre la facilidad de uso real. Aparece con moderación (hito de 4 bloques y máx. 1 vez/semana).'],
+    ['Exportación dual', 'Salida del piloto en dos formatos a la vez: un QR con el resumen (offline) y el menú de compartir con el registro completo (online). Requiere el PIN profesional.'],
 ], widths=[4.2, 12.8])
 
 # ============================ CASOS DE USO ============================
@@ -696,6 +728,45 @@ callout('Buena práctica', 'Guarde siempre antes de entregar el dispositivo a la
         'protegida en modo solo lectura. El PIN es el mismo en los cuatro bloques.',
         fill=FILL_WARN, label_color=RGBColor(0xB4, 0x53, 0x09))
 
+# ---- CU-13 · EXPORTACIÓN DE TELEMETRÍA DEL PILOTO ----
+doc.add_page_break()
+uc_header('CU-13', 'Profesional', 'Exportar la evidencia de usabilidad del piloto (QR + compartir)')
+uc_meta('Logopeda / responsable del piloto', 'Hub de 4 bloques → “Acceso Profesional”',
+        'Se han usado ejercicios · PIN disponible', 'Resumen en QR + registro completo compartido; datos purgados')
+par = doc.add_paragraph()
+rich(par, [('Durante el piloto, la app va guardando de forma ', False), ('anónima y sin molestar', True),
+           (' unas métricas de usabilidad (tiempo por pantalla, misclicks y cápsulas de movimiento saltadas) junto con la '
+            'encuesta breve de satisfacción. Este caso de uso explica cómo el profesional las ', False),
+           ('saca del dispositivo', True), (' para el análisis, con dos salidas a la vez: una ', False), ('offline', True),
+           (' (QR) y otra ', False), ('online', True), (' (compartir).', False)])
+h4('Flujo principal')
+numbered([
+    [('En el ', False), ('hub de 4 bloques', True), (', bajar hasta la tarjeta ', False), ('“Acceso Profesional”', True), (' y tocarla.', False)],
+    [('Introducir el ', False), ('PIN', True), (' del logopeda (demo: ', False), ('1985', True), (').', False)],
+    [('Se abre la pantalla de ', False), ('exportación', True), (': en el acto aparece un ', False), ('código QR', True),
+     (' con el resumen (nº de sesiones, % de abandono TPR, misclicks y media de la encuesta) y, a la vez, el ', False),
+     ('menú de compartir', True), (' del sistema para enviar el ', False), ('registro completo', True), (' por email o WhatsApp.', False)],
+    [('Offline:', True), (' escanear el QR con otro móvil para capturar el resumen sin necesidad de conexión.', False)],
+    [('Online:', True), (' elegir la app de destino (correo, WhatsApp…) para enviar el registro completo en crudo.', False)],
+    [('Tras un envío correcto, la app ', False), ('vacía el archivo', True), (' del dispositivo y lo confirma (“Log exportado y purgado”).', False)],
+])
+h4('Flujos alternativos')
+bullets([
+    [('Se cancela el compartir:', True), (' el registro ', False), ('no', True), (' se borra; el QR sigue visible y se puede reintentar.', False)],
+    [('Sin conexión:', True), (' use solo el QR; el envío por compartir queda para cuando haya red.', False)],
+    [('Resumen muy largo para el QR:', True), (' la app avisa y basta con usar el compartir del registro completo.', False)],
+])
+callout('Qué contiene cada salida',
+        [('El ', False), ('QR', True), (' lleva solo el ', False), ('resumen estadístico', True),
+         (' comprimido (sin datos personales). El ', False), ('compartir', True), (' envía el ', False),
+         ('registro completo', True), (' de la telemetría anónima y la encuesta, correlacionados por identificador de '
+          'sesión, para el análisis del piloto.', False)])
+callout('Encuesta de satisfacción (SUS)',
+        [('La pregunta de 1 a 5 (“Fue fácil integrar este ejercicio en la rutina de mi hijo/a”) aparece ', False),
+         ('sola', True), (' al completar los 4 bloques y como mucho ', False), ('una vez por semana', True),
+         (' por dispositivo. La familia no tiene que buscarla ni configurarla.', False)],
+        fill=FILL_WARN, label_color=RGBColor(0xB4, 0x53, 0x09))
+
 # ============================ ANEXO ============================
 doc.add_page_break()
 kicker('Anexo A')
@@ -721,11 +792,17 @@ data_table(['Situación', 'Qué hacer'], [
      'Use “🔄 Otra ronda”: cada mini-juego rota hasta 3 contenidos distintos. Para practicar todo lo prescrito de golpe, use “🎯 Sesión completa”.'],
     ['¿Necesito conexión o crear una cuenta?',
      'No. La app funciona en local sin conexión. El acceso profesional con correo y contraseña (sincronización en la nube) es opcional y solo se usa para pruebas con profesionales (v6).'],
+    ['¿Qué datos recoge el piloto sobre mi hijo/a?',
+     'Solo métricas anónimas de usabilidad (tiempo por pantalla, misclicks y cápsulas saltadas) y una encuesta breve. No se guardan nombres, ni audio, ni el contenido de las respuestas. Todo se cifra en el dispositivo (v7).'],
+    ['¿Por qué apareció una encuesta con caritas?',
+     'Es la encuesta de satisfacción del piloto (SUS). Solo aparece al completar los 4 bloques y como mucho una vez por semana. Se puede cerrar sin responder.'],
+    ['¿Cómo exporto los datos del piloto?',
+     'Desde el hub, tarjeta “Acceso Profesional” con el PIN: la app muestra un QR con el resumen y abre el compartir con el registro completo. Tras enviarlo, los datos se purgan (CU-13).'],
 ], widths=[6.0, 11.0])
 p('', space_after=4)
-p('Valeria+ · Manual de Casos de Uso · v6 (con capturas de pantalla) · Julio de 2026 · Terapia auditivo-verbal y del '
+p('Valeria+ · Manual de Casos de Uso · v7 (con capturas de pantalla) · Julio de 2026 · Terapia auditivo-verbal y del '
   'lenguaje para la infancia. Documento de apoyo para logopedas y familias. Los datos personales se tratan localmente '
-  'conforme a RGPD/HIPAA; la sincronización en la nube es opcional.', size=8.5, color=MUTED)
+  'conforme a RGPD/HIPAA; la sincronización en la nube y la telemetría anónima del piloto son opcionales.', size=8.5, color=MUTED)
 
 doc.save(OUT)
 print('OK:', OUT, os.path.getsize(OUT), 'bytes · figuras:', FIG_N)
