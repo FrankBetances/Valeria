@@ -141,6 +141,12 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
   const listeningRef = useRef(false);
   const mounted = useRef(true);
   const pulse = useRef(new Animated.Value(0)).current;
+  // Vuelve arriba al cambiar de paso: sin esto el nuevo paso aparecía con el
+  // scroll del anterior, a mitad de página, como si la sesión no avanzara.
+  const scrollRef = useRef<ScrollView | null>(null);
+  useEffect(() => {
+    if (phase === 'play') scrollRef.current?.scrollTo({ y: 0, animated: false });
+  }, [phase, stepIdx]);
 
   useEffect(() => {
     mounted.current = true;
@@ -510,7 +516,7 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
         </View>
       </View>
 
-      <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
+      <ScrollView ref={scrollRef} contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
         {/* Mapa del turno: en qué fase del paso estamos */}
         <TurnPhaseStrip active={phaseIdx} />
 

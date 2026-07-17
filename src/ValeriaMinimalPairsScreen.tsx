@@ -22,7 +22,7 @@
 // Protocolo completo: docs/protocolo-pares-minimos.md
 // ============================================================================
 import React, { useEffect, useRef, useState } from 'react';
-import { View, Text, Pressable, ScrollView, StyleSheet, Animated, Easing, Switch } from 'react-native';
+import { View, Text, Pressable, ScrollView, StyleSheet, Animated, Easing, Switch, GestureResponderEvent } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { V, STORAGE_KEYS } from './valeriaTheme';
 import { ProUnlockPill, ProPinModal } from './ValeriaProPin';
@@ -84,23 +84,32 @@ const afterSpeak = (fn: () => void, maxWaitMs = 15000) => {
 // ----------------------------------------------------------------------------
 // Sello doble: dos huellas en extremos opuestos que padre e hijo deben pulsar
 // A LA VEZ para avanzar. Alternativa accesible: mantener pulsada una huella 2 s.
+// Los dedos se cuentan con onTouchStart/onTouchEnd sobre la tarjeta completa:
+// el sistema de gestos de RN solo permite UN responder a la vez, así que dos
+// Pressables hermanos jamás llegan a estar pulsados simultáneamente (el segundo
+// toque cancela el primero) y el sello por estados a/b dejaba la sesión sin
+// poder avanzar (bug reportado: los ensayos no avanzaban ni puntuaban).
 // ----------------------------------------------------------------------------
 const DoubleSeal: React.FC<{ label: string; onUnlock: () => void }> = ({ label, onUnlock }) => {
-  const [a, setA] = useState(false);
-  const [b, setB] = useState(false);
+  const [touchCount, setTouchCount] = useState(0);
   const fired = useRef(false);
   const unlock = () => { if (!fired.current) { fired.current = true; onUnlock(); } };
-  useEffect(() => { if (a && b) unlock(); }, [a, b]);
 
-  const seal = (on: boolean, setOn: (v: boolean) => void, emoji: string, who: string) => (
+  // Burbujea desde cualquier punto de la tarjeta sin competir por el responder,
+  // por lo que sí ve TODOS los dedos a la vez.
+  const countTouches = (e: GestureResponderEvent) => {
+    const n = e.nativeEvent.touches.length;
+    setTouchCount(n);
+    if (n >= 2) unlock();
+  };
+
+  const seal = (emoji: string, who: string) => (
     <Pressable
-      onPressIn={() => setOn(true)}
-      onPressOut={() => setOn(false)}
       onLongPress={unlock}
       delayLongPress={2000}
       accessibilityRole="button"
       accessibilityLabel={`Huella de ${who}. Pulsad las dos huellas a la vez para continuar, o mantén pulsada esta dos segundos.`}
-      style={[s.sealBtn, on && s.sealBtnOn]}
+      style={({ pressed }) => [s.sealBtn, (pressed || touchCount >= 2) && s.sealBtnOn]}
     >
       <Text style={{ fontSize: 30 }}>{emoji}</Text>
       <Text style={s.sealWho}>{who}</Text>
@@ -108,13 +117,18 @@ const DoubleSeal: React.FC<{ label: string; onUnlock: () => void }> = ({ label, 
   );
 
   return (
-    <View style={s.sealCard}>
+    <View
+      style={s.sealCard}
+      onTouchStart={countTouches}
+      onTouchEnd={countTouches}
+      onTouchCancel={() => setTouchCount(0)}
+    >
       <Text style={s.sealKicker}>🤝 SELLO DOBLE PARA CONTINUAR</Text>
       <Text style={s.sealLabel}>{label}</Text>
       <View style={s.sealRow}>
-        {seal(a, setA, '✋', 'PAPÁ / MAMÁ')}
+        {seal('✋', 'PAPÁ / MAMÁ')}
         <Text style={s.sealPlus}>a la vez</Text>
-        {seal(b, setB, '🖐️', 'YO')}
+        {seal('🖐️', 'YO')}
       </View>
       <Text style={s.sealHint}>¿Una sola mano libre? Mantén pulsada una huella 2 segundos.</Text>
     </View>
@@ -256,6 +270,9 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
 
   const attemptsRef = useRef(0);
   const foilsRef = useRef(0); // sustituciones detectadas en el ensayo actual
+  // Vuelve arriba al cambiar de ensayo: sin esto la lista conserva el scroll
+  // del ensayo anterior y el nuevo aparece "a mitad", como si no avanzara.
+  const scrollRef = useRef<ScrollView | null>(null);
   // Evita que un resultado tardío del ASR pise el veredicto manual del padre.
   const listeningRef = useRef(false);
   const mounted = useRef(true);
@@ -274,6 +291,10 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
     })();
     return () => { mounted.current = false; stopSpeaking(); stopListening(); releaseListening(); };
   }, []);
+
+  useEffect(() => {
+    if (phase === 'play') scrollRef.current?.scrollTo({ y: 0, animated: false });
+  }, [phase, trialIdx]);
 
   useEffect(() => {
     if (!listening) { pulse.setValue(0); return; }
@@ -658,7 +679,7 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
         </View>
       </View>
 
-      <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
+      <ScrollView ref={scrollRef} contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
         {/* Mapa del turno: en qué fase del ensayo estamos */}
         <TurnPhaseStrip active={phaseIdx} />
 

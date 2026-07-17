@@ -583,6 +583,12 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
   useEffect(() => { stopSpeaking(); }, [idx, subIdx]);
   useEffect(() => () => stopSpeaking(), []);
 
+  // Vuelve arriba al cambiar de ejercicio o nivel: la evaluación se toca al
+  // final de la página, y sin este reset el siguiente ejercicio aparecía ya
+  // desplazado al fondo — parecía que la sesión no avanzaba.
+  const scrollRef = useRef<ScrollView | null>(null);
+  useEffect(() => { scrollRef.current?.scrollTo({ y: 0, animated: false }); }, [idx, subIdx, finished]);
+
   const resetEphemeral = () => {
     clearGameTimers();
     setFillPick(''); setIntruderPick(-1); setEmotionPick('');
@@ -779,7 +785,12 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
         </View>
       </View>
 
-      <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
+      <ScrollView
+        ref={scrollRef}
+        contentContainerStyle={s.scroll}
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled"
+      >
         {!finished ? (
           <>
             {/* Meta del ejercicio */}

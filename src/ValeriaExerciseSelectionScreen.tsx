@@ -151,7 +151,9 @@ export const ValeriaExerciseSelectionScreen: React.FC<{ navigation: any }> = ({ 
             </View>
           </View>
 
-          <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
+          {/* key: el hub y la lista comparten posición en el árbol; sin key el
+              ScrollView se reutiliza y hereda el desplazamiento de la otra vista. */}
+          <ScrollView key="hub" contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
             {toastBar}
             <Text style={s.hubLabel}>BLOQUES DE TERAPIA</Text>
 
@@ -232,7 +234,9 @@ export const ValeriaExerciseSelectionScreen: React.FC<{ navigation: any }> = ({ 
             </View>
           </View>
 
-          <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
+          {/* key por pestaña: cambiar de vista o de pestaña arranca arriba,
+              sin heredar el desplazamiento anterior. */}
+          <ScrollView key={`list-${tab}`} contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
             {toastBar}
 
             <ProUnlockPill unlocked={unlocked} onPress={() => setModalOpen(true)} />
