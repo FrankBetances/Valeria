@@ -61,7 +61,10 @@ jobs:
       - name: Install piper-tts
         run: pip install piper-tts
 
-      # ffmpeg viene preinstalado en ubuntu-latest (codificación AAC/m4a).
+      # Las imágenes actuales de ubuntu-latest ya no traen ffmpeg de serie.
+      - name: Install ffmpeg
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+
       - name: Synthesize + master + encode
         run: python3 scripts/generate-voice-assets.py --lang "${{ github.event.inputs.lang || 'es' }}"
 
