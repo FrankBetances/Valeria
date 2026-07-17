@@ -77,8 +77,7 @@ jobs:
             echo "Sin cambios en los assets de voz."
             exit 0
           fi
-          git commit -m "Voz ILENIA/Nós · Fase 2: assets de voz neuronal generados en CI
-
-Lote sintetizado por el workflow voice-assets (ver voice-assets-manifest.json:
-voz, duración y peso por locución). Mapa valeriaVoiceAssets.ts regenerado."
+          git commit \
+            -m "Voz ILENIA/Nós · Fase 2: assets de voz neuronal generados en CI" \
+            -m "Lote sintetizado por el workflow voice-assets (ver voice-assets-manifest.json: voz, duración y peso por locución). Mapa valeriaVoiceAssets.ts regenerado."
           git push
