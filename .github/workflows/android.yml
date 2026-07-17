@@ -47,6 +47,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      # El APK compila igual sin estos secrets, pero sale sin acceso a Firebase
+      # (la app arranca y avisa de config incompleta en Acceso Profesional).
+      # El warning lo deja visible en el resumen del run para no descubrirlo
+      # ya con el APK instalado en el dispositivo.
+      - name: Avisar si faltan los secrets de Firebase
+        run: |
+          if [ -z "$EXPO_PUBLIC_FIREBASE_API_KEY" ] || [ -z "$EXPO_PUBLIC_FIREBASE_APP_ID" ]; then
+            echo "::warning title=Firebase sin configurar::Faltan los secrets EXPO_PUBLIC_FIREBASE_API_KEY / EXPO_PUBLIC_FIREBASE_APP_ID; este APK saldrá sin acceso a Firebase (ver docs/firebase-setup.md)."
+          fi
+
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
