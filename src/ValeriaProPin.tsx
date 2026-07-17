@@ -5,7 +5,7 @@
 // Prescripción de Terapias, Pares Mínimos y Expansión Semántica.
 // ============================================================================
 import React, { useState } from 'react';
-import { View, Text, Pressable, StyleSheet } from 'react-native';
+import { View, Text, Pressable, ScrollView, StyleSheet } from 'react-native';
 import { V } from './valeriaTheme';
 
 // ----------------------------------------------------------------------------
@@ -13,11 +13,16 @@ import { V } from './valeriaTheme';
 // Evita almacenar el PIN maestro en texto plano dentro del .apk.
 // ----------------------------------------------------------------------------
 export const sha256 = async (str: string): Promise<string> => {
-  if (typeof crypto !== 'undefined' && (crypto as any).subtle) {
-    const buf = new TextEncoder().encode(str);
-    const hash = await (crypto as any).subtle.digest('SHA-256', buf);
-    return Array.from(new Uint8Array(hash)).map((b) => b.toString(16).padStart(2, '0')).join('');
-  }
+  // Si el entorno trae WebCrypto se usa; si el polyfill está roto o incompleto
+  // (p. ej. subtle sin digest), se cae al cálculo en JS puro en vez de dejar
+  // la promesa rechazada (dejaba el modal del PIN bloqueado con 4 puntos).
+  try {
+    if (typeof crypto !== 'undefined' && (crypto as any).subtle?.digest && typeof TextEncoder !== 'undefined') {
+      const buf = new TextEncoder().encode(str);
+      const hash = await (crypto as any).subtle.digest('SHA-256', buf);
+      return Array.from(new Uint8Array(hash)).map((b) => b.toString(16).padStart(2, '0')).join('');
+    }
+  } catch (e) { /* WebCrypto no disponible: seguir con la implementación JS */ }
   const rotr = (n: number, x: number) => (x >>> n) | (x << (32 - n));
   const w = new Array(64);
   const h = [0x6a09e667, 0xbb67ae85, 0x3c6ef372, 0xa54ff53a, 0x510e527f, 0x9b05688c, 0x1f83d9ab, 0x5be0cd19];
@@ -91,8 +96,11 @@ export const ProPinModal: React.FC<{
     const next = pin + d;
     setPin(next); setPinErr(false);
     if (next.length === 4) {
-      const hash = await sha256(next);
-      if (hash === MASTER_PIN_HASH) {
+      // Nunca dejar el teclado bloqueado: cualquier fallo del hash se trata
+      // como PIN incorrecto y se limpia para poder reintentar.
+      let ok = false;
+      try { ok = (await sha256(next)) === MASTER_PIN_HASH; } catch (e) { ok = false; }
+      if (ok) {
         setTimeout(() => { setPin(''); setPinErr(false); onUnlock(); }, 180);
       } else {
         setPinErr(true); setTimeout(() => setPin(''), 600);
@@ -102,7 +110,10 @@ export const ProPinModal: React.FC<{
 
   return (
     <View style={s.overlay}>
+      {/* En pantallas bajas el teclado desbordaba el modal y el 0/⌫ quedaban
+          fuera de alcance: altura acotada + scroll interno. */}
       <View style={s.modal}>
+        <ScrollView showsVerticalScrollIndicator={false}>
         <View style={s.modalHead}>
           <View style={s.modalIcon}><Text style={{ fontSize: 20 }}>🔐</Text></View>
           <Pressable onPress={close} style={s.modalClose}><Text style={{ color: '#6b7280', fontWeight: '700' }}>✕</Text></Pressable>
@@ -125,6 +136,7 @@ export const ProPinModal: React.FC<{
           <Pressable onPress={() => setPin((p) => p.slice(0, -1))} style={[s.key, { backgroundColor: '#fff' }]}><Text style={[s.keyTxt, { fontSize: 20, color: '#6b7280' }]}>⌫</Text></Pressable>
         </View>
         <Text style={s.demoPin}>PIN de demostración: 1985</Text>
+        </ScrollView>
       </View>
     </View>
   );
@@ -138,7 +150,7 @@ const s = StyleSheet.create({
   pillChev: { fontSize: 16, color: V.color.textMuted },
 
   overlay: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(11,18,32,.55)', alignItems: 'center', justifyContent: 'center', padding: 24, zIndex: 20 },
-  modal: { width: '100%', maxWidth: 320, backgroundColor: '#fff', borderRadius: 24, padding: 22 },
+  modal: { width: '100%', maxWidth: 320, maxHeight: '92%', backgroundColor: '#fff', borderRadius: 24, padding: 22 },
   modalHead: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   modalIcon: { width: 42, height: 42, borderRadius: 13, backgroundColor: V.color.primaryLight, alignItems: 'center', justifyContent: 'center' },
   modalClose: { width: 30, height: 30, borderRadius: 15, backgroundColor: '#f1f5f4', alignItems: 'center', justifyContent: 'center' },
