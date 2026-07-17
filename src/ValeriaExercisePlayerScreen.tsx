@@ -52,6 +52,10 @@ import { registerSession, SessionReward, levelProgress, xpToNext } from './valer
 import { speakToChild, speakWordSlow, stopSpeaking, praisePhrase, almostPhrase, normalizeSpeech } from './valeriaVoice';
 import { SpeakButton, MicPracticeCard, ResponseCaptureCard } from './ValeriaVoiceUI';
 import { ValeriaSessionBreakOverlay, pickSessionBreak, SessionBreak } from './ValeriaSessionBreakOverlay';
+import { ValeriaAdultChaosPanel } from './ValeriaAdultChaosPanel';
+import { ValeriaDistractorBear } from './ValeriaDistractorBear';
+import { ValeriaPragmaticBreakOverlay } from './ValeriaPragmaticBreak';
+import { releaseNoise } from './valeriaNoise';
 import { META_BY_ID, AUDICION_META, LENGUAJE_META } from './valeriaExerciseMeta';
 import { markBlockCompleted } from './valeriaTelemetry';
 
@@ -556,6 +560,9 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
   const [zoom, setZoom] = useState<{ emoji: string; cap: string } | null>(null);
   // cápsula TPR entre ejercicios
   const [activeBreak, setActiveBreak] = useState<SessionBreak | null>(null);
+  // Panel del adulto (Fase 2): controles SIEMPRE manuales del caos comunicativo.
+  const [distractorOn, setDistractorOn] = useState(false);
+  const [pragmaticOpen, setPragmaticOpen] = useState(false);
   // ronda de contenido dentro del ejercicio (banco VARIANTS)
   const [round, setRound] = useState(0);
   // nombre real del paciente activo para la cabecera
@@ -581,7 +588,7 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
 
   // Silencia la voz de la app al cambiar de ejercicio y al salir de la pantalla.
   useEffect(() => { stopSpeaking(); }, [idx, subIdx]);
-  useEffect(() => () => stopSpeaking(), []);
+  useEffect(() => () => { stopSpeaking(); releaseNoise(); }, []);
 
   // Vuelve arriba al cambiar de ejercicio o nivel: la evaluación se toca al
   // final de la página, y sin este reset el siguiente ejercicio aparecía ya
@@ -721,6 +728,7 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
       setReward(await registerSession(avg, res.length));
     } catch (e) { /* gamificación no disponible */ }
     setResults(res);
+    releaseNoise(); // fin de sesión: la Pista B no sobrevive a la pantalla de logros
     setFinished(true);
     // Telemetría: hito de bloque completado (Audición/Lenguaje según los ids de
     // la sesión) → puede disparar el SUS (con rate limiting) al cerrar 4 bloques.
@@ -1268,6 +1276,13 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                 );
               })}
             </View>
+
+            {/* ===== Panel del adulto · caos comunicativo (Fase 2) ===== */}
+            <ValeriaAdultChaosPanel
+              distractorOn={distractorOn}
+              onDistractorChange={setDistractorOn}
+              onLaunchPragmatic={() => setPragmaticOpen(true)}
+            />
           </>
         ) : (
           /* ===== Completado ===== */
@@ -1348,6 +1363,9 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
       {/* ===== Zoom de imagen ===== */}
       <ZoomModal emoji={zoom?.emoji ?? ''} cap={zoom?.cap ?? ''} visible={!!zoom} onClose={() => setZoom(null)} />
 
+      {/* ===== Distractor periférico (doble tarea): solo si el adulto lo activó ===== */}
+      {distractorOn && !finished && <ValeriaDistractorBear />}
+
       {/* ===== Pausa activa entre ejercicios: cápsula TPR o Ruta de Rutina ===== */}
       {activeBreak && !finished && (
         <ValeriaSessionBreakOverlay
@@ -1356,6 +1374,9 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
           onSkip={() => setActiveBreak(null)}
         />
       )}
+
+      {/* ===== Quiebre pragmático lanzado desde el panel del adulto ===== */}
+      {pragmaticOpen && <ValeriaPragmaticBreakOverlay onClose={() => setPragmaticOpen(false)} />}
     </View>
   );
 };
