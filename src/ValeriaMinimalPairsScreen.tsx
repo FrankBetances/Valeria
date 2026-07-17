@@ -29,34 +29,38 @@ import { ProUnlockPill, ProPinModal } from './ValeriaProPin';
 import { registerSession, SessionReward } from './valeriaGamification';
 import { markBlockCompleted } from './valeriaTelemetry';
 import {
-  speakToChild, speakWordSlow, stopSpeaking,
+  speakToChild, speakWordSlow, speakClinical, stopSpeaking,
   asrSupported, startListening, stopListening, releaseListening, matchPair, PairResult,
   almostPhrase, noHearPhrase, togetherPhrase,
 } from './valeriaVoice';
 import { SpeakButton, TurnPhaseStrip } from './ValeriaVoiceUI';
 import { FichaVisual } from './ValeriaPictograms';
-import { ValeriaTPRCapsuleOverlay, pickTprCapsule, TprCapsule } from './ValeriaTPRCapsule';
+import { ValeriaSessionBreakOverlay, pickSessionBreak, SessionBreak } from './ValeriaSessionBreakOverlay';
 import { MINIMAL_PAIRS, PAIR_GROUPS, MinimalPair } from './valeriaMinimalPairs';
+import { buildCarrierPrompt, reseedCarriers } from './valeriaCarrierPhrases';
+import { ValeriaManualNoiseSlider } from './ValeriaManualNoiseSlider';
+import { releaseNoise } from './valeriaNoise';
+import { ValeriaPragmaticBreakOverlay } from './ValeriaPragmaticBreak';
+import { ValeriaDistractorBear } from './ValeriaDistractorBear';
 
 const TOTAL_TRIALS = 10;
 const SWAP_TRIALS = [3, 7];   // antes de estos ensayos (0-index): ¡Ahora mandas tú!
 const TPR_TRIAL = 5;          // antes de este ensayo: cápsula TPR de movimiento
 const MONTHS = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
 
-// Consignas rotativas: oír diez veces la misma frase aburre. El primer ensayo
-// mantiene el bombardeo auditivo + consigna clínica del par; el resto alterna
-// la consigna del par con variantes genéricas sobre la palabra objetivo.
-const PROMPT_TEMPLATES: ((t: string) => string)[] = [
-  (t) => `¡Te toca! Di: ${t}.`,
-  (t) => `¿Me la pides tú? Di: ${t}.`,
-  (t) => `¡Ahora tú! Quiero oír: ${t}.`,
-  (t) => `¡Fuerte y claro! Di: ${t}.`,
-];
+// Consignas por ensayo (Fase 1.1 — de estático a dinámico):
+//   · Ensayo 0: bombardeo auditivo de contraste + consigna clínica del par
+//     (voz cuentacuentos: aquí el objetivo se modela aislado a propósito).
+//   · Cada 3.º ensayo: la consigna clínica del par (refuerzo del contraste).
+//   · Resto: FRASE PORTADORA procedural — el objetivo viaja incrustado en
+//     prosodia continua y una pregunta lo elicita. Se locuta con speakClinical
+//     (pitch/rate conservadores) para no distorsionar el fonema objetivo.
+interface TrialPromptSpec { text: string; mode: 'child' | 'clinical'; }
 
-const trialPrompt = (p: MinimalPair, idx: number): string => {
-  if (idx === 0) return `Esta es ${p.target}. Y esta es ${p.foil}. ${p.prompt}`;
-  if (idx % 3 === 0) return p.prompt;
-  return PROMPT_TEMPLATES[idx % PROMPT_TEMPLATES.length](p.target);
+const trialPrompt = (p: MinimalPair, idx: number): TrialPromptSpec => {
+  if (idx === 0) return { text: `Esta es ${p.target}. Y esta es ${p.foil}. ${p.prompt}`, mode: 'child' };
+  if (idx % 3 === 0) return { text: p.prompt, mode: 'child' };
+  return { text: buildCarrierPrompt(p.target, idx).full, mode: 'clinical' };
 };
 
 type Phase = 'pick' | 'play' | 'done';
@@ -258,9 +262,16 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
   const [log, setLog] = useState<TrialRecord[]>([]);
   const [pendingStars, setPendingStars] = useState<1 | 2 | 3>(3);
   const [swapOpen, setSwapOpen] = useState(false);
-  const [activeBreak, setActiveBreak] = useState<TprCapsule | null>(null);
+  const [activeBreak, setActiveBreak] = useState<SessionBreak | null>(null);
   const [reward, setReward] = useState<SessionReward | null>(null);
   const [listening, setListening] = useState(false);
+  // Consigna viva del ensayo (frase portadora o consigna del par) para la
+  // tarjeta "LA APP PIDE" y su botón de repetición con la voz adecuada.
+  const [livePrompt, setLivePrompt] = useState<TrialPromptSpec | null>(null);
+  // Panel del adulto (Fase 2): controles SIEMPRE manuales del caos comunicativo.
+  const [panelOpen, setPanelOpen] = useState(false);
+  const [distractorOn, setDistractorOn] = useState(false);
+  const [pragmaticOpen, setPragmaticOpen] = useState(false);
   // Prescripción del logopeda: { [pairId]: boolean }, id ausente = activo.
   // Modo Familia solo practica los pares prescritos; el PIN desbloquea la edición.
   const [prescribed, setPrescribed] = useState<Record<string, boolean>>({});
@@ -289,7 +300,7 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
         }
       } catch (e) { /* noop */ }
     })();
-    return () => { mounted.current = false; stopSpeaking(); stopListening(); releaseListening(); };
+    return () => { mounted.current = false; stopSpeaking(); stopListening(); releaseListening(); releaseNoise(); };
   }, []);
 
   useEffect(() => {
@@ -324,6 +335,7 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
 
   // ---------------------------------------------------------------- sesión --
   const startSession = (p: MinimalPair) => {
+    reseedCarriers(); // combinación de arranque distinta en cada sesión
     setPair(p); setPhase('play'); setLog([]); setReward(null);
     setTrialIdx(0); attemptsRef.current = 0; foilsRef.current = 0; setHeard('');
     setLeftIsTarget(Math.random() < 0.5);
@@ -332,12 +344,17 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
 
   const startTrial = (p: MinimalPair, idx: number) => {
     setStep('say'); setHeard(''); setListening(false);
-    // 1.ª vez: bombardeo auditivo de contraste; después, consignas rotativas.
-    speakToChild(trialPrompt(p, idx), afterSpeak(() => {
+    // 1.ª vez: bombardeo auditivo de contraste; después alternancia entre
+    // consigna clínica y frase portadora procedural (ver trialPrompt).
+    const spec = trialPrompt(p, idx);
+    setLivePrompt(spec);
+    const cbs = afterSpeak(() => {
       if (!mounted.current) return;
       if (asrSupported()) setTimeout(() => listenNow(p), 400);
       else setStep('judge');
-    }));
+    });
+    if (spec.mode === 'clinical') speakClinical(spec.text, cbs);
+    else speakToChild(spec.text, cbs);
   };
 
   // --------------------------------------------------------------- escucha --
@@ -417,7 +434,7 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
     setStep('say'); // limpia el veredicto anterior (visible tras los overlays)
     setLeftIsTarget(Math.random() < 0.5);
     if (SWAP_TRIALS.includes(next)) { setSwapOpen(true); return; }
-    if (next === TPR_TRIAL) { setActiveBreak(pickTprCapsule()); return; }
+    if (next === TPR_TRIAL) { setActiveBreak(pickSessionBreak()); return; }
     startTrial(p, next);
   };
 
@@ -453,6 +470,7 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
     } catch (e) { /* almacenamiento no disponible */ }
     try { setReward(await registerSession(avg, res.length)); } catch (e) { /* noop */ }
     markBlockCompleted('pares'); // hito de bloque para el SUS (rate-limited)
+    releaseNoise(); // fin de sesión: la Pista B no sobrevive a la pantalla de logros
     setPhase('done');
     speakToChild('¡Sesión de pares completada! ¡Choca esos cinco con papá!');
   };
@@ -686,15 +704,21 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
         {/* Las dos fichas del contraste (posición aleatoria por ensayo) */}
         <View style={[s.tilesRow, { marginTop: 12 }]}>{tiles.map((w) => pairTile(p, w))}</View>
 
-        {/* Consigna */}
+        {/* Consigna viva: frase portadora procedural o consigna del par. El
+            botón repite con la MISMA voz con la que se dictó (una portadora
+            re-locutada con tono infantil movería el fonema objetivo). */}
         <View style={s.promptCard}>
           <View style={s.promptHead}>
             <View style={s.promptIcon}><Text style={{ fontSize: 18 }}>📢</Text></View>
             <View style={{ flex: 1 }}>
-              <Text style={s.promptKicker}>LA APP PIDE</Text>
-              <Text style={s.promptTxt}>“{p.prompt}”</Text>
+              <Text style={s.promptKicker}>{livePrompt?.mode === 'clinical' ? 'LA APP CUENTA Y PREGUNTA' : 'LA APP PIDE'}</Text>
+              <Text style={s.promptTxt}>“{livePrompt?.text ?? p.prompt}”</Text>
             </View>
-            <SpeakButton text={p.prompt} voice="child" compact />
+            <SpeakButton
+              text={livePrompt?.text ?? p.prompt}
+              voice={livePrompt?.mode === 'clinical' ? 'clinical' : 'child'}
+              compact
+            />
           </View>
         </View>
 
@@ -798,19 +822,62 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
             <DoubleSeal label="¿La dijisteis juntos? ¡Sellad y seguimos!" onUnlock={() => onSealAssist(p)} />
           </>
         )}
+
+        {/* ===== Panel del adulto · caos comunicativo (Fase 2) =====
+            Muro MDR: TODO aquí es manual. La app nunca sube el ruido, nunca
+            lanza el distractor ni el quiebre por su cuenta. */}
+        <View style={s.adultPanel}>
+          <Pressable
+            onPress={() => setPanelOpen(!panelOpen)}
+            style={s.adultPanelHead}
+            accessibilityRole="button"
+            accessibilityLabel={panelOpen ? 'Cerrar el panel del adulto' : 'Abrir el panel del adulto'}
+          >
+            <Text style={s.adultPanelKicker}>🎛️ PANEL DEL ADULTO · RETO EXTRA</Text>
+            <Text style={s.adultPanelChev}>{panelOpen ? '▾' : '▸'}</Text>
+          </Pressable>
+          {panelOpen && (
+            <>
+              <Text style={s.adultPanelHint}>
+                Controles manuales para entrenar la escucha en ambiente real. Úsalos si vuestro
+                logopeda os lo ha pautado: la app nunca los activa ni los ajusta sola.
+              </Text>
+              <ValeriaManualNoiseSlider />
+              <View style={s.dualRow}>
+                <View style={{ flex: 1 }}>
+                  <Text style={s.dualTitle}>🐻 Oso distractor (doble tarea)</Text>
+                  <Text style={s.dualSub}>El oso se asoma y se mueve por el borde; el niño debe seguir atendiendo a la voz. Tocarlo no cuenta como error.</Text>
+                </View>
+                <Switch
+                  value={distractorOn}
+                  onValueChange={setDistractorOn}
+                  trackColor={{ false: '#d1d5db', true: V.color.primary }}
+                  thumbColor="#ffffff"
+                />
+              </View>
+              <Pressable onPress={() => setPragmaticOpen(true)} style={s.pragBtn} accessibilityRole="button">
+                <Text style={s.pragBtnTxt}>🎭 Lanzar un quiebre pragmático</Text>
+              </Pressable>
+            </>
+          )}
+        </View>
       </ScrollView>
 
-      {/* Rotación de roles y cápsula TPR (bloquean hasta completarse) */}
+      {/* Distractor periférico no interactivo: solo mientras el adulto lo tenga activo */}
+      {distractorOn && <ValeriaDistractorBear />}
+
+      {/* Rotación de roles, pausa activa y quiebre (bloquean hasta completarse) */}
       {swapOpen && (
         <RoleSwapOverlay pair={p} onDone={() => { setSwapOpen(false); startTrial(p, trialIdx); }} />
       )}
       {activeBreak && (
-        <ValeriaTPRCapsuleOverlay
-          capsule={activeBreak}
+        <ValeriaSessionBreakOverlay
+          brk={activeBreak}
           onDone={() => { setActiveBreak(null); startTrial(p, trialIdx); }}
           onSkip={() => { setActiveBreak(null); startTrial(p, trialIdx); }}
         />
       )}
+      {pragmaticOpen && <ValeriaPragmaticBreakOverlay onClose={() => setPragmaticOpen(false)} />}
     </View>
   );
 };
@@ -896,6 +963,18 @@ const s = StyleSheet.create({
   overrideLbl: { fontSize: 11, fontWeight: '700', color: V.color.textMuted },
   overridePill: { flexDirection: 'row', alignItems: 'center', gap: 4, backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.border, borderRadius: 10, paddingHorizontal: 9, paddingVertical: 5 },
   overridePillTxt: { fontSize: 11.5, fontWeight: '800', color: V.color.textSecondary },
+
+  // panel del adulto (caos comunicativo)
+  adultPanel: { backgroundColor: '#fffdf7', borderWidth: 1.5, borderColor: '#f0e6cc', borderRadius: 18, padding: 13, marginTop: 18 },
+  adultPanelHead: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
+  adultPanelKicker: { fontSize: 11, fontWeight: '800', letterSpacing: 0.6, color: '#9a5b13' },
+  adultPanelChev: { fontSize: 14, fontWeight: '800', color: '#9a5b13' },
+  adultPanelHint: { fontSize: 11.5, fontWeight: '600', color: V.color.textMuted, marginTop: 8, marginBottom: 10, lineHeight: 16 },
+  dualRow: { flexDirection: 'row', alignItems: 'center', gap: 10, backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.border, borderRadius: 16, padding: 13, marginTop: 10 },
+  dualTitle: { fontSize: 13, fontWeight: '800', color: V.color.textPrimary },
+  dualSub: { fontSize: 11, fontWeight: '600', color: V.color.textMuted, marginTop: 3, lineHeight: 15 },
+  pragBtn: { backgroundColor: '#fff7ed', borderWidth: 1.5, borderColor: '#fcd9a8', borderRadius: 14, paddingVertical: 12, alignItems: 'center', marginTop: 10 },
+  pragBtnTxt: { color: '#9a5b13', fontSize: 13, fontWeight: '800' },
 
   retryRow: { flexDirection: 'row', alignItems: 'center', gap: 10, marginTop: 12 },
   retryBtn: { flex: 1, backgroundColor: V.color.primary, borderRadius: 13, paddingVertical: 12, alignItems: 'center', ...V.shadow.button },

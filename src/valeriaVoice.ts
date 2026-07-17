@@ -203,6 +203,36 @@ export const speak = (text: string, opts: Speech.SpeechOptions = {}) => {
 export const speakToChild = (text: string, opts: Speech.SpeechOptions = {}) =>
   speak(text, { pitch: 1.15, rate: 0.85, ...opts });
 
+// Voz CLÍNICA para frases portadoras y órdenes morfosintácticas: UNA sola
+// locución continua (sin trocear por frases, sin jitter ni subidas de tono en
+// exclamaciones). Acelerar o entonar la frase desplaza la frecuencia del
+// fonema objetivo incrustado, así que pitch/rate se fijan conservadores y el
+// texto se entrega entero al motor para que la prosodia sea la natural de la
+// voz neuronal, no la nuestra. Participa en la preempción de speak().
+export const speakClinical = (text: string, opts: Speech.SpeechOptions = {}) => {
+  ensureBestVoice();
+  const token = ++speakToken;
+  Speech.stop();
+  const go = () => {
+    if (token !== speakToken) return;
+    const { onDone, onError, ...rest } = opts;
+    Speech.speak(text, {
+      language: LANG,
+      ...rest,
+      rate: clamp(rest.rate ?? 0.8, 0.6, 0.9),   // techo bajo: nunca acelera el fonema
+      pitch: clamp(rest.pitch ?? 1.0, 0.9, 1.1), // tono plano y estable
+      ...(bestVoiceId && !rest.voice ? { voice: bestVoiceId } : {}),
+      onDone: () => { if (token === speakToken) onDone?.(); },
+      onError: (e) => { if (token === speakToken) onError?.(e); },
+    });
+  };
+  if (bestVoiceId === undefined && voiceSearch) {
+    Promise.race([voiceSearch, new Promise((r) => setTimeout(r, 300))]).then(go, go);
+  } else {
+    go();
+  }
+};
+
 // Frase de prueba para que la familia escuche la voz elegida.
 export const speakVoiceSample = () =>
   speakToChild('¡Hola! Así sonará mi voz en los ejercicios. ¿Verdad que suena bien?');

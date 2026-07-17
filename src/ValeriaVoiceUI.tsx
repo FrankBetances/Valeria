@@ -15,7 +15,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, Pressable, TextInput, StyleSheet, Animated, Easing, Platform, Linking } from 'react-native';
 import { V } from './valeriaTheme';
 import {
-  speak, speakToChild, speakWordSlow, stopSpeaking, speakVoiceSample,
+  speak, speakToChild, speakWordSlow, speakClinical, stopSpeaking, speakVoiceSample,
   asrSupported, startListening, stopListening, releaseListening, matchTarget, MatchLevel,
   VoiceStatus, refreshVoiceCatalog,
 } from './valeriaVoice';
@@ -26,12 +26,15 @@ import {
 export const SpeakButton: React.FC<{
   text: string;
   label?: string;
-  voice?: 'tutor' | 'child' | 'slow';
+  // 'clinical': frases portadoras y órdenes transaccionales — prosodia continua
+  // conservadora (sin jitter ni aceleraciones que muevan el fonema objetivo).
+  voice?: 'tutor' | 'child' | 'slow' | 'clinical';
   compact?: boolean;
 }> = ({ text, label = 'Escuchar', voice = 'tutor', compact = false }) => {
   const onPress = () => {
     if (voice === 'child') speakToChild(text);
     else if (voice === 'slow') speakWordSlow(text);
+    else if (voice === 'clinical') speakClinical(text);
     else speak(text);
   };
   return (

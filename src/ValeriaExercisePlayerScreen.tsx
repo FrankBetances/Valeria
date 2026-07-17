@@ -51,9 +51,9 @@ import { V, STORAGE_KEYS } from './valeriaTheme';
 import { registerSession, SessionReward, levelProgress, xpToNext } from './valeriaGamification';
 import { speakToChild, speakWordSlow, stopSpeaking, praisePhrase, almostPhrase, normalizeSpeech } from './valeriaVoice';
 import { SpeakButton, MicPracticeCard, ResponseCaptureCard } from './ValeriaVoiceUI';
-import { ValeriaTPRCapsuleOverlay, pickTprCapsule, TprCapsule } from './ValeriaTPRCapsule';
+import { ValeriaSessionBreakOverlay, pickSessionBreak, SessionBreak } from './ValeriaSessionBreakOverlay';
 import { META_BY_ID, AUDICION_META, LENGUAJE_META } from './valeriaExerciseMeta';
-import { trackCapsuleStart, trackCapsuleDone, trackCapsuleSkip, markBlockCompleted } from './valeriaTelemetry';
+import { markBlockCompleted } from './valeriaTelemetry';
 
 // Conjuntos de ids por bloque para marcar el hito de "bloque completado" (SUS).
 const AUD_IDS = new Set(AUDICION_META.map((m) => m.id));
@@ -555,7 +555,7 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
   // zoom de imagen
   const [zoom, setZoom] = useState<{ emoji: string; cap: string } | null>(null);
   // cápsula TPR entre ejercicios
-  const [activeBreak, setActiveBreak] = useState<TprCapsule | null>(null);
+  const [activeBreak, setActiveBreak] = useState<SessionBreak | null>(null);
   // ronda de contenido dentro del ejercicio (banco VARIANTS)
   const [round, setRound] = useState(0);
   // nombre real del paciente activo para la cabecera
@@ -685,9 +685,10 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
       } else {
         setIdx(idx + 1); setSubIdx(0); setLevelScores([]); setRound(0);
         setPicked(0); setLocking(false); resetEphemeral();
-        // Cápsula TPR sorpresa: escucha y muévete antes del siguiente ejercicio.
-        setActiveBreak(pickTprCapsule());
-        trackCapsuleStart(); // telemetría: cápsula mostrada (base del abandono TPR)
+        // Pausa activa sorpresa antes del siguiente ejercicio: cápsula TPR
+        // clásica o Ruta de Rutina (TPR 2.0). La telemetría de inicio/fin/salto
+        // vive dentro del propio overlay unificado.
+        setActiveBreak(pickSessionBreak());
       }
     }, 620);
   };
@@ -1347,12 +1348,12 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
       {/* ===== Zoom de imagen ===== */}
       <ZoomModal emoji={zoom?.emoji ?? ''} cap={zoom?.cap ?? ''} visible={!!zoom} onClose={() => setZoom(null)} />
 
-      {/* ===== Cápsula TPR entre ejercicios: escucha y muévete ===== */}
+      {/* ===== Pausa activa entre ejercicios: cápsula TPR o Ruta de Rutina ===== */}
       {activeBreak && !finished && (
-        <ValeriaTPRCapsuleOverlay
-          capsule={activeBreak}
-          onDone={() => { trackCapsuleDone(); setActiveBreak(null); }}
-          onSkip={() => { trackCapsuleSkip(); setActiveBreak(null); }}
+        <ValeriaSessionBreakOverlay
+          brk={activeBreak}
+          onDone={() => setActiveBreak(null)}
+          onSkip={() => setActiveBreak(null)}
         />
       )}
     </View>
