@@ -1,0 +1,2382 @@
+{
+ "generatedAt": "2026-07-17T21:33:48.418Z",
+ "entries": 392,
+ "byStyle": {
+  "clinical": 289,
+  "child": 93,
+  "slow": 10
+ },
+ "bySource": {
+  "carrier": 280,
+  "pares/intro": 10,
+  "pares/prompt": 10,
+  "pares/celebracion": 10,
+  "pares/correccion": 10,
+  "pares/retry": 10,
+  "pares/modelado": 10,
+  "pares/fin": 1,
+  "tpr": 24,
+  "tpr/fin": 1,
+  "rutas": 8,
+  "rutas/fin": 1,
+  "banco/elogio": 6,
+  "banco/casi": 4,
+  "banco/no-oido": 3,
+  "banco/juntos": 3,
+  "util/muestra": 1
+ },
+ "corpus": [
+  {
+   "id": "clinical_1d9763fe_92",
+   "style": "clinical",
+   "text": "El oso marrón encontró una rana en el jardín. ¿Qué encontró el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_f18f5637_94",
+   "style": "clinical",
+   "text": "El pirata Simón buscaba una rana esta mañana. ¿Qué buscaba el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_675d066d_98",
+   "style": "clinical",
+   "text": "El niño pequeño dibujó una rana detrás de la puerta. ¿Qué dibujó el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_8c25867c_91",
+   "style": "clinical",
+   "text": "La abuela Rosa guardó una rana en el paseo. ¿Qué guardó la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_e44222e1_71",
+   "style": "clinical",
+   "text": "Mi amiga Lola vio una rana. ¿Qué vio mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_1d81b06c_91",
+   "style": "clinical",
+   "text": "La abuela Rosa dibujó una rana esta mañana. ¿Qué dibujó la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_48bb0ba3_97",
+   "style": "clinical",
+   "text": "Mi amiga Lola guardó una rana detrás de la puerta. ¿Qué guardó mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_57d38896_81",
+   "style": "clinical",
+   "text": "El oso marrón vio una rana en el paseo. ¿Qué vio el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_b0312edd_84",
+   "style": "clinical",
+   "text": "El pirata Simón encontró una rana. ¿Qué encontró el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_175052ed_93",
+   "style": "clinical",
+   "text": "El niño pequeño buscaba una rana en el jardín. ¿Qué buscaba el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_d4db0a13_94",
+   "style": "clinical",
+   "text": "El pirata Simón vio una rana detrás de la puerta. ¿Qué vio el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_65cc1daf_94",
+   "style": "clinical",
+   "text": "El niño pequeño encontró una rana en el paseo. ¿Qué encontró el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_e39de122_81",
+   "style": "clinical",
+   "text": "La abuela Rosa buscaba una rana. ¿Qué buscaba la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_64749b5f_90",
+   "style": "clinical",
+   "text": "Mi amiga Lola dibujó una rana en el jardín. ¿Qué dibujó mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_069cafde_87",
+   "style": "clinical",
+   "text": "El oso marrón guardó una rana esta mañana. ¿Qué guardó el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_ae21340b_91",
+   "style": "clinical",
+   "text": "Mi amiga Lola buscaba una rana en el paseo. ¿Qué buscaba mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_b39ab106_75",
+   "style": "clinical",
+   "text": "El oso marrón dibujó una rana. ¿Qué dibujó el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_56a5cdd7_93",
+   "style": "clinical",
+   "text": "El pirata Simón guardó una rana en el jardín. ¿Qué guardó el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_d45ce047_84",
+   "style": "clinical",
+   "text": "El niño pequeño vio una rana esta mañana. ¿Qué vio el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_2516c18a_103",
+   "style": "clinical",
+   "text": "La abuela Rosa encontró una rana detrás de la puerta. ¿Qué encontró la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_1fca4697_78",
+   "style": "clinical",
+   "text": "El niño pequeño guardó una rana. ¿Qué guardó el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_6e1a4396_86",
+   "style": "clinical",
+   "text": "La abuela Rosa vio una rana en el jardín. ¿Qué vio la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_bfe8d205_93",
+   "style": "clinical",
+   "text": "Mi amiga Lola encontró una rana esta mañana. ¿Qué encontró mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_e349862a_97",
+   "style": "clinical",
+   "text": "El oso marrón buscaba una rana detrás de la puerta. ¿Qué buscaba el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_60e71b3d_92",
+   "style": "clinical",
+   "text": "El pirata Simón dibujó una rana en el paseo. ¿Qué dibujó el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_284f8505_92",
+   "style": "clinical",
+   "text": "El oso marrón encontró un perro en el jardín. ¿Qué encontró el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_5ac3f66e_94",
+   "style": "clinical",
+   "text": "El pirata Simón buscaba un perro esta mañana. ¿Qué buscaba el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_cffef41a_98",
+   "style": "clinical",
+   "text": "El niño pequeño dibujó un perro detrás de la puerta. ¿Qué dibujó el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_ce2d68b7_91",
+   "style": "clinical",
+   "text": "La abuela Rosa guardó un perro en el paseo. ¿Qué guardó la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_10fc838e_71",
+   "style": "clinical",
+   "text": "Mi amiga Lola vio un perro. ¿Qué vio mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_093abaa3_91",
+   "style": "clinical",
+   "text": "La abuela Rosa dibujó un perro esta mañana. ¿Qué dibujó la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_4131cdea_97",
+   "style": "clinical",
+   "text": "Mi amiga Lola guardó un perro detrás de la puerta. ¿Qué guardó mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_b8d1c45d_81",
+   "style": "clinical",
+   "text": "El oso marrón vio un perro en el paseo. ¿Qué vio el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_c20ad78a_84",
+   "style": "clinical",
+   "text": "El pirata Simón encontró un perro. ¿Qué encontró el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_31649b96_93",
+   "style": "clinical",
+   "text": "El niño pequeño buscaba un perro en el jardín. ¿Qué buscaba el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_77d3f7fe_94",
+   "style": "clinical",
+   "text": "El pirata Simón vio un perro detrás de la puerta. ¿Qué vio el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_be3d3928_94",
+   "style": "clinical",
+   "text": "El niño pequeño encontró un perro en el paseo. ¿Qué encontró el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_195dcdcf_81",
+   "style": "clinical",
+   "text": "La abuela Rosa buscaba un perro. ¿Qué buscaba la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_8b71da6c_90",
+   "style": "clinical",
+   "text": "Mi amiga Lola dibujó un perro en el jardín. ¿Qué dibujó mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_aa2a41d7_87",
+   "style": "clinical",
+   "text": "El oso marrón guardó un perro esta mañana. ¿Qué guardó el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_527eb91c_91",
+   "style": "clinical",
+   "text": "Mi amiga Lola buscaba un perro en el paseo. ¿Qué buscaba mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_07dcf067_75",
+   "style": "clinical",
+   "text": "El oso marrón dibujó un perro. ¿Qué dibujó el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_f84d04b6_93",
+   "style": "clinical",
+   "text": "El pirata Simón guardó un perro en el jardín. ¿Qué guardó el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_2abe7152_84",
+   "style": "clinical",
+   "text": "El niño pequeño vio un perro esta mañana. ¿Qué vio el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_01e06421_103",
+   "style": "clinical",
+   "text": "La abuela Rosa encontró un perro detrás de la puerta. ¿Qué encontró la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_86663578_78",
+   "style": "clinical",
+   "text": "El niño pequeño guardó un perro. ¿Qué guardó el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_bc9657f1_86",
+   "style": "clinical",
+   "text": "La abuela Rosa vio un perro en el jardín. ¿Qué vio la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_69f601e4_93",
+   "style": "clinical",
+   "text": "Mi amiga Lola encontró un perro esta mañana. ¿Qué encontró mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_de8a8531_97",
+   "style": "clinical",
+   "text": "El oso marrón buscaba un perro detrás de la puerta. ¿Qué buscaba el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_e03ad39a_92",
+   "style": "clinical",
+   "text": "El pirata Simón dibujó un perro en el paseo. ¿Qué dibujó el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_1186fe28_92",
+   "style": "clinical",
+   "text": "El oso marrón encontró una rata en el jardín. ¿Qué encontró el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_fb151389_94",
+   "style": "clinical",
+   "text": "El pirata Simón buscaba una rata esta mañana. ¿Qué buscaba el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_dfa20763_98",
+   "style": "clinical",
+   "text": "El niño pequeño dibujó una rata detrás de la puerta. ¿Qué dibujó el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_0de4f362_91",
+   "style": "clinical",
+   "text": "La abuela Rosa guardó una rata en el paseo. ¿Qué guardó la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_6f5bfb83_71",
+   "style": "clinical",
+   "text": "Mi amiga Lola vio una rata. ¿Qué vio mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_251c95e6_91",
+   "style": "clinical",
+   "text": "La abuela Rosa dibujó una rata esta mañana. ¿Qué dibujó la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_57d751b1_97",
+   "style": "clinical",
+   "text": "Mi amiga Lola guardó una rata detrás de la puerta. ¿Qué guardó mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_b1642680_81",
+   "style": "clinical",
+   "text": "El oso marrón vio una rata en el paseo. ¿Qué vio el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_2f051eff_84",
+   "style": "clinical",
+   "text": "El pirata Simón encontró una rata. ¿Qué encontró el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_19846c83_93",
+   "style": "clinical",
+   "text": "El niño pequeño buscaba una rata en el jardín. ¿Qué buscaba el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_cb3a4dc5_94",
+   "style": "clinical",
+   "text": "El pirata Simón vio una rata detrás de la puerta. ¿Qué vio el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_ca5ee7ad_94",
+   "style": "clinical",
+   "text": "El niño pequeño encontró una rata en el paseo. ¿Qué encontró el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_444b984c_81",
+   "style": "clinical",
+   "text": "La abuela Rosa buscaba una rata. ¿Qué buscaba la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_91274185_90",
+   "style": "clinical",
+   "text": "Mi amiga Lola dibujó una rata en el jardín. ¿Qué dibujó mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_16563df4_87",
+   "style": "clinical",
+   "text": "El oso marrón guardó una rata esta mañana. ¿Qué guardó el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_82cf1d45_91",
+   "style": "clinical",
+   "text": "Mi amiga Lola buscaba una rata en el paseo. ¿Qué buscaba mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_90aca93c_75",
+   "style": "clinical",
+   "text": "El oso marrón dibujó una rata. ¿Qué dibujó el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_ba53ff05_93",
+   "style": "clinical",
+   "text": "El pirata Simón guardó una rata en el jardín. ¿Qué guardó el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_37187a9d_84",
+   "style": "clinical",
+   "text": "El niño pequeño vio una rata esta mañana. ¿Qué vio el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_f7ce7e80_103",
+   "style": "clinical",
+   "text": "La abuela Rosa encontró una rata detrás de la puerta. ¿Qué encontró la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_bb0639b9_78",
+   "style": "clinical",
+   "text": "El niño pequeño guardó una rata. ¿Qué guardó el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_28840358_86",
+   "style": "clinical",
+   "text": "La abuela Rosa vio una rata en el jardín. ¿Qué vio la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_35139c8f_93",
+   "style": "clinical",
+   "text": "Mi amiga Lola encontró una rata esta mañana. ¿Qué encontró mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_291f82d0_97",
+   "style": "clinical",
+   "text": "El oso marrón buscaba una rata detrás de la puerta. ¿Qué buscaba el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_a8c4ce0b_92",
+   "style": "clinical",
+   "text": "El pirata Simón dibujó una rata en el paseo. ¿Qué dibujó el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_70ff2a3e_92",
+   "style": "clinical",
+   "text": "El oso marrón encontró un cerro en el jardín. ¿Qué encontró el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_db872297_94",
+   "style": "clinical",
+   "text": "El pirata Simón buscaba un cerro esta mañana. ¿Qué buscaba el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_6bf134ad_98",
+   "style": "clinical",
+   "text": "El niño pequeño dibujó un cerro detrás de la puerta. ¿Qué dibujó el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_41957f18_91",
+   "style": "clinical",
+   "text": "La abuela Rosa guardó un cerro en el paseo. ¿Qué guardó la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_7d5d7f61_71",
+   "style": "clinical",
+   "text": "Mi amiga Lola vio un cerro. ¿Qué vio mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_fa2b0474_91",
+   "style": "clinical",
+   "text": "La abuela Rosa dibujó un cerro esta mañana. ¿Qué dibujó la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_e2b11d63_97",
+   "style": "clinical",
+   "text": "Mi amiga Lola guardó un cerro detrás de la puerta. ¿Qué guardó mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_d4524c1e_81",
+   "style": "clinical",
+   "text": "El oso marrón vio un cerro en el paseo. ¿Qué vio el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_a4590da9_84",
+   "style": "clinical",
+   "text": "El pirata Simón encontró un cerro. ¿Qué encontró el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_e99a4c45_93",
+   "style": "clinical",
+   "text": "El niño pequeño buscaba un cerro en el jardín. ¿Qué buscaba el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_382dddb7_94",
+   "style": "clinical",
+   "text": "El pirata Simón vio un cerro detrás de la puerta. ¿Qué vio el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_c64e770b_94",
+   "style": "clinical",
+   "text": "El niño pequeño encontró un cerro en el paseo. ¿Qué encontró el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_8c1fcba2_81",
+   "style": "clinical",
+   "text": "La abuela Rosa buscaba un cerro. ¿Qué buscaba la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_5f632d53_90",
+   "style": "clinical",
+   "text": "Mi amiga Lola dibujó un cerro en el jardín. ¿Qué dibujó mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_75018ee6_87",
+   "style": "clinical",
+   "text": "El oso marrón guardó un cerro esta mañana. ¿Qué guardó el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_9358a88f_91",
+   "style": "clinical",
+   "text": "Mi amiga Lola buscaba un cerro en el paseo. ¿Qué buscaba mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_8921f96a_75",
+   "style": "clinical",
+   "text": "El oso marrón dibujó un cerro. ¿Qué dibujó el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_e9dc81db_93",
+   "style": "clinical",
+   "text": "El pirata Simón guardó un cerro en el jardín. ¿Qué guardó el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_20b93bfb_84",
+   "style": "clinical",
+   "text": "El niño pequeño vio un cerro esta mañana. ¿Qué vio el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_e2dcf7f6_103",
+   "style": "clinical",
+   "text": "La abuela Rosa encontró un cerro detrás de la puerta. ¿Qué encontró la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_640e611b_78",
+   "style": "clinical",
+   "text": "El niño pequeño guardó un cerro. ¿Qué guardó el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_2abf14ea_86",
+   "style": "clinical",
+   "text": "La abuela Rosa vio un cerro en el jardín. ¿Qué vio la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_91cd324d_93",
+   "style": "clinical",
+   "text": "Mi amiga Lola encontró un cerro esta mañana. ¿Qué encontró mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_bf73208e_97",
+   "style": "clinical",
+   "text": "El oso marrón buscaba un cerro detrás de la puerta. ¿Qué buscaba el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_ce773db5_92",
+   "style": "clinical",
+   "text": "El pirata Simón dibujó un cerro en el paseo. ¿Qué dibujó el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_60b1b88e_92",
+   "style": "clinical",
+   "text": "El oso marrón encontró una casa en el jardín. ¿Qué encontró el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_87115527_94",
+   "style": "clinical",
+   "text": "El pirata Simón buscaba una casa esta mañana. ¿Qué buscaba el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_c791389d_98",
+   "style": "clinical",
+   "text": "El niño pequeño dibujó una casa detrás de la puerta. ¿Qué dibujó el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_9cb4f334_91",
+   "style": "clinical",
+   "text": "La abuela Rosa guardó una casa en el paseo. ¿Qué guardó la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_5207d821_71",
+   "style": "clinical",
+   "text": "Mi amiga Lola vio una casa. ¿Qué vio mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_b136df24_91",
+   "style": "clinical",
+   "text": "La abuela Rosa dibujó una casa esta mañana. ¿Qué dibujó la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_1e6fafb3_97",
+   "style": "clinical",
+   "text": "Mi amiga Lola guardó una casa detrás de la puerta. ¿Qué guardó mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_c2e7644e_81",
+   "style": "clinical",
+   "text": "El oso marrón vio una casa en el paseo. ¿Qué vio el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_3cdab29d_84",
+   "style": "clinical",
+   "text": "El pirata Simón encontró una casa. ¿Qué encontró el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_990e8a75_93",
+   "style": "clinical",
+   "text": "El niño pequeño buscaba una casa en el jardín. ¿Qué buscaba el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_00611d93_94",
+   "style": "clinical",
+   "text": "El pirata Simón vio una casa detrás de la puerta. ¿Qué vio el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_13417647_94",
+   "style": "clinical",
+   "text": "El niño pequeño encontró una casa en el paseo. ¿Qué encontró el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_8b83b402_81",
+   "style": "clinical",
+   "text": "La abuela Rosa buscaba una casa. ¿Qué buscaba la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_f25f5657_90",
+   "style": "clinical",
+   "text": "Mi amiga Lola dibujó una casa en el jardín. ¿Qué dibujó mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_b095fd46_87",
+   "style": "clinical",
+   "text": "El oso marrón guardó una casa esta mañana. ¿Qué guardó el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_8107c273_91",
+   "style": "clinical",
+   "text": "Mi amiga Lola buscaba una casa en el paseo. ¿Qué buscaba mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_6ab72016_75",
+   "style": "clinical",
+   "text": "El oso marrón dibujó una casa. ¿Qué dibujó el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_4f3b58af_93",
+   "style": "clinical",
+   "text": "El pirata Simón guardó una casa en el jardín. ¿Qué guardó el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_7d2d2567_84",
+   "style": "clinical",
+   "text": "El niño pequeño vio una casa esta mañana. ¿Qué vio el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_1591209a_103",
+   "style": "clinical",
+   "text": "La abuela Rosa encontró una casa detrás de la puerta. ¿Qué encontró la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_85cd4847_78",
+   "style": "clinical",
+   "text": "El niño pequeño guardó una casa. ¿Qué guardó el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_08e5e566_86",
+   "style": "clinical",
+   "text": "La abuela Rosa vio una casa en el jardín. ¿Qué vio la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_966b1f9d_93",
+   "style": "clinical",
+   "text": "Mi amiga Lola encontró una casa esta mañana. ¿Qué encontró mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_9a64ba22_97",
+   "style": "clinical",
+   "text": "El oso marrón buscaba una casa detrás de la puerta. ¿Qué buscaba el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_25555b95_92",
+   "style": "clinical",
+   "text": "El pirata Simón dibujó una casa en el paseo. ¿Qué dibujó el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_6b4b084c_94",
+   "style": "clinical",
+   "text": "El oso marrón encontró una sierra en el jardín. ¿Qué encontró el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_4cc82565_96",
+   "style": "clinical",
+   "text": "El pirata Simón buscaba una sierra esta mañana. ¿Qué buscaba el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_08630e9f_100",
+   "style": "clinical",
+   "text": "El niño pequeño dibujó una sierra detrás de la puerta. ¿Qué dibujó el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_87544efa_93",
+   "style": "clinical",
+   "text": "La abuela Rosa guardó una sierra en el paseo. ¿Qué guardó la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_57f902cf_73",
+   "style": "clinical",
+   "text": "Mi amiga Lola vio una sierra. ¿Qué vio mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_757f7baa_93",
+   "style": "clinical",
+   "text": "La abuela Rosa dibujó una sierra esta mañana. ¿Qué dibujó la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_df8885b5_99",
+   "style": "clinical",
+   "text": "Mi amiga Lola guardó una sierra detrás de la puerta. ¿Qué guardó mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_3c1c3fd4_83",
+   "style": "clinical",
+   "text": "El oso marrón vio una sierra en el paseo. ¿Qué vio el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_93891bff_86",
+   "style": "clinical",
+   "text": "El pirata Simón encontró una sierra. ¿Qué encontró el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_bcbb7b27_95",
+   "style": "clinical",
+   "text": "El niño pequeño buscaba una sierra en el jardín. ¿Qué buscaba el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_e08e55e5_96",
+   "style": "clinical",
+   "text": "El pirata Simón vio una sierra detrás de la puerta. ¿Qué vio el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_1d14a825_96",
+   "style": "clinical",
+   "text": "El niño pequeño encontró una sierra en el paseo. ¿Qué encontró el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_345c45a0_83",
+   "style": "clinical",
+   "text": "La abuela Rosa buscaba una sierra. ¿Qué buscaba la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_dc1bb215_92",
+   "style": "clinical",
+   "text": "Mi amiga Lola dibujó una sierra en el jardín. ¿Qué dibujó mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_ecd5d588_89",
+   "style": "clinical",
+   "text": "El oso marrón guardó una sierra esta mañana. ¿Qué guardó el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_f9d3026d_93",
+   "style": "clinical",
+   "text": "Mi amiga Lola buscaba una sierra en el paseo. ¿Qué buscaba mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_75f508e4_77",
+   "style": "clinical",
+   "text": "El oso marrón dibujó una sierra. ¿Qué dibujó el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_cab8831d_95",
+   "style": "clinical",
+   "text": "El pirata Simón guardó una sierra en el jardín. ¿Qué guardó el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_6dfa94e5_86",
+   "style": "clinical",
+   "text": "El niño pequeño vio una sierra esta mañana. ¿Qué vio el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_af788fb0_105",
+   "style": "clinical",
+   "text": "La abuela Rosa encontró una sierra detrás de la puerta. ¿Qué encontró la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_11967209_80",
+   "style": "clinical",
+   "text": "El niño pequeño guardó una sierra. ¿Qué guardó el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_b78cb128_88",
+   "style": "clinical",
+   "text": "La abuela Rosa vio una sierra en el jardín. ¿Qué vio la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_5be09f7b_95",
+   "style": "clinical",
+   "text": "Mi amiga Lola encontró una sierra esta mañana. ¿Qué encontró mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_996ae710_99",
+   "style": "clinical",
+   "text": "El oso marrón buscaba una sierra detrás de la puerta. ¿Qué buscaba el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_8f3188e7_94",
+   "style": "clinical",
+   "text": "El pirata Simón dibujó una sierra en el paseo. ¿Qué dibujó el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_2891a2dc_120",
+   "style": "clinical",
+   "text": "El oso marrón contó despacio hasta el número ocho en el jardín. ¿Hasta qué número contó el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_1d102f48_102",
+   "style": "clinical",
+   "text": "El pirata Simón sopló ocho velas en la tarta. ¿Cuántas velas sopló el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_c664342f_118",
+   "style": "clinical",
+   "text": "El niño pequeño dio ocho saltos muy grandes detrás de la puerta. ¿Cuántos saltos dio el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_fe67b47c_123",
+   "style": "clinical",
+   "text": "La abuela Rosa contó despacio hasta el número ocho en el paseo. ¿Hasta qué número contó la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_4ecf34d2_99",
+   "style": "clinical",
+   "text": "Mi amiga Lola sopló ocho velas en la tarta. ¿Cuántas velas sopló mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_73824bdc_108",
+   "style": "clinical",
+   "text": "El oso marrón dio ocho saltos muy grandes en el jardín. ¿Cuántos saltos dio el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_b7fc77dd_124",
+   "style": "clinical",
+   "text": "El pirata Simón contó despacio hasta el número ocho esta mañana. ¿Hasta qué número contó el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_2c866fae_100",
+   "style": "clinical",
+   "text": "El niño pequeño sopló ocho velas en la tarta. ¿Cuántas velas sopló el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_8e0bedc6_111",
+   "style": "clinical",
+   "text": "La abuela Rosa dio ocho saltos muy grandes en el paseo. ¿Cuántos saltos dio la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_6840fd49_109",
+   "style": "clinical",
+   "text": "Mi amiga Lola contó despacio hasta el número ocho. ¿Hasta qué número contó mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_999b4329_97",
+   "style": "clinical",
+   "text": "El oso marrón sopló ocho velas en la tarta. ¿Cuántas velas sopló el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_8a3dbbbb_112",
+   "style": "clinical",
+   "text": "El pirata Simón dio ocho saltos muy grandes esta mañana. ¿Cuántos saltos dio el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_1289abc9_130",
+   "style": "clinical",
+   "text": "El niño pequeño contó despacio hasta el número ocho detrás de la puerta. ¿Hasta qué número contó el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_3af14a6d_101",
+   "style": "clinical",
+   "text": "La abuela Rosa sopló ocho velas en la tarta. ¿Cuántas velas sopló la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_c98ebcf3_97",
+   "style": "clinical",
+   "text": "Mi amiga Lola dio ocho saltos muy grandes. ¿Cuántos saltos dio mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_2e325de1_117",
+   "style": "clinical",
+   "text": "Mi amiga Lola dio ocho saltos muy grandes detrás de la puerta. ¿Cuántos saltos dio mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_57ebf58e_119",
+   "style": "clinical",
+   "text": "El oso marrón contó despacio hasta el número ocho en el paseo. ¿Hasta qué número contó el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_012b8a4b_111",
+   "style": "clinical",
+   "text": "El niño pequeño dio ocho saltos muy grandes en el jardín. ¿Cuántos saltos dio el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_4f549964_123",
+   "style": "clinical",
+   "text": "La abuela Rosa contó despacio hasta el número ocho esta mañana. ¿Hasta qué número contó la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_f1fa4a18_107",
+   "style": "clinical",
+   "text": "El oso marrón dio ocho saltos muy grandes en el paseo. ¿Cuántos saltos dio el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_b30f2d41_112",
+   "style": "clinical",
+   "text": "El pirata Simón contó despacio hasta el número ocho. ¿Hasta qué número contó el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_ed8be842_111",
+   "style": "clinical",
+   "text": "La abuela Rosa dio ocho saltos muy grandes esta mañana. ¿Cuántos saltos dio la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_831f6497_129",
+   "style": "clinical",
+   "text": "Mi amiga Lola contó despacio hasta el número ocho detrás de la puerta. ¿Hasta qué número contó mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_ec7f489f_100",
+   "style": "clinical",
+   "text": "El pirata Simón dio ocho saltos muy grandes. ¿Cuántos saltos dio el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_40ad454b_123",
+   "style": "clinical",
+   "text": "El niño pequeño contó despacio hasta el número ocho en el jardín. ¿Hasta qué número contó el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_e8043489_120",
+   "style": "clinical",
+   "text": "El pirata Simón dio ocho saltos muy grandes detrás de la puerta. ¿Cuántos saltos dio el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_f16ec547_122",
+   "style": "clinical",
+   "text": "El niño pequeño contó despacio hasta el número ocho en el paseo. ¿Hasta qué número contó el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_91e374cf_110",
+   "style": "clinical",
+   "text": "Mi amiga Lola dio ocho saltos muy grandes en el jardín. ¿Cuántos saltos dio mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_6ea95492_119",
+   "style": "clinical",
+   "text": "El oso marrón contó despacio hasta el número ocho esta mañana. ¿Hasta qué número contó el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_b6a340b9_110",
+   "style": "clinical",
+   "text": "El niño pequeño dio ocho saltos muy grandes en el paseo. ¿Cuántos saltos dio el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_7d399270_111",
+   "style": "clinical",
+   "text": "La abuela Rosa contó despacio hasta el número ocho. ¿Hasta qué número contó la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_299f6150_107",
+   "style": "clinical",
+   "text": "El oso marrón dio ocho saltos muy grandes esta mañana. ¿Cuántos saltos dio el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_950912ab_132",
+   "style": "clinical",
+   "text": "El pirata Simón contó despacio hasta el número ocho detrás de la puerta. ¿Hasta qué número contó el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_aba4c01e_99",
+   "style": "clinical",
+   "text": "La abuela Rosa dio ocho saltos muy grandes. ¿Cuántos saltos dio la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_82cf6523_122",
+   "style": "clinical",
+   "text": "Mi amiga Lola contó despacio hasta el número ocho en el jardín. ¿Hasta qué número contó mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_ba935955_121",
+   "style": "clinical",
+   "text": "Mi amiga Lola contó despacio hasta el número ocho en el paseo. ¿Hasta qué número contó mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_c27ba48d_113",
+   "style": "clinical",
+   "text": "El pirata Simón dio ocho saltos muy grandes en el jardín. ¿Cuántos saltos dio el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_5df5302b_122",
+   "style": "clinical",
+   "text": "El niño pequeño contó despacio hasta el número ocho esta mañana. ¿Hasta qué número contó el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_84ca6a7b_109",
+   "style": "clinical",
+   "text": "Mi amiga Lola dio ocho saltos muy grandes en el paseo. ¿Cuántos saltos dio mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_5cb6e506_107",
+   "style": "clinical",
+   "text": "El oso marrón contó despacio hasta el número ocho. ¿Hasta qué número contó el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_efa46589_110",
+   "style": "clinical",
+   "text": "El niño pequeño dio ocho saltos muy grandes esta mañana. ¿Cuántos saltos dio el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_b9b54432_131",
+   "style": "clinical",
+   "text": "La abuela Rosa contó despacio hasta el número ocho detrás de la puerta. ¿Hasta qué número contó la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_8d455ad4_95",
+   "style": "clinical",
+   "text": "El oso marrón dio ocho saltos muy grandes. ¿Cuántos saltos dio el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_4aeaebf9_125",
+   "style": "clinical",
+   "text": "El pirata Simón contó despacio hasta el número ocho en el jardín. ¿Hasta qué número contó el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_fd52c2b8_119",
+   "style": "clinical",
+   "text": "La abuela Rosa dio ocho saltos muy grandes detrás de la puerta. ¿Cuántos saltos dio la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_f81f1944_112",
+   "style": "clinical",
+   "text": "La abuela Rosa dio ocho saltos muy grandes en el jardín. ¿Cuántos saltos dio la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_e2b60335_121",
+   "style": "clinical",
+   "text": "Mi amiga Lola contó despacio hasta el número ocho esta mañana. ¿Hasta qué número contó mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_b6cd6677_112",
+   "style": "clinical",
+   "text": "El pirata Simón dio ocho saltos muy grandes en el paseo. ¿Cuántos saltos dio el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_f6f4e5df_110",
+   "style": "clinical",
+   "text": "El niño pequeño contó despacio hasta el número ocho. ¿Hasta qué número contó el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_31e3f6af_109",
+   "style": "clinical",
+   "text": "Mi amiga Lola dio ocho saltos muy grandes esta mañana. ¿Cuántos saltos dio mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_6e2ebfb8_127",
+   "style": "clinical",
+   "text": "El oso marrón contó despacio hasta el número ocho detrás de la puerta. ¿Hasta qué número contó el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_2022acdd_98",
+   "style": "clinical",
+   "text": "El niño pequeño dio ocho saltos muy grandes. ¿Cuántos saltos dio el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_26d35528_124",
+   "style": "clinical",
+   "text": "La abuela Rosa contó despacio hasta el número ocho en el jardín. ¿Hasta qué número contó la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_4a7694c6_115",
+   "style": "clinical",
+   "text": "El oso marrón dio ocho saltos muy grandes detrás de la puerta. ¿Cuántos saltos dio el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_f7de7ac5_124",
+   "style": "clinical",
+   "text": "El pirata Simón contó despacio hasta el número ocho en el paseo. ¿Hasta qué número contó el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_498b1ff6_91",
+   "style": "clinical",
+   "text": "El oso marrón encontró un cubo en el jardín. ¿Qué encontró el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_a628d777_93",
+   "style": "clinical",
+   "text": "El pirata Simón buscaba un cubo esta mañana. ¿Qué buscaba el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_3e5da0c5_97",
+   "style": "clinical",
+   "text": "El niño pequeño dibujó un cubo detrás de la puerta. ¿Qué dibujó el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_52ea164e_90",
+   "style": "clinical",
+   "text": "La abuela Rosa guardó un cubo en el paseo. ¿Qué guardó la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_60631c59_70",
+   "style": "clinical",
+   "text": "Mi amiga Lola vio un cubo. ¿Qué vio mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_72d14edc_90",
+   "style": "clinical",
+   "text": "La abuela Rosa dibujó un cubo esta mañana. ¿Qué dibujó la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_babd6b0b_96",
+   "style": "clinical",
+   "text": "Mi amiga Lola guardó un cubo detrás de la puerta. ¿Qué guardó mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_d05d7386_80",
+   "style": "clinical",
+   "text": "El oso marrón vio un cubo en el paseo. ¿Qué vio el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_c0e9101f_83",
+   "style": "clinical",
+   "text": "El pirata Simón encontró un cubo. ¿Qué encontró el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_fac05c95_92",
+   "style": "clinical",
+   "text": "El niño pequeño buscaba un cubo en el jardín. ¿Qué buscaba el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_c4988a65_93",
+   "style": "clinical",
+   "text": "El pirata Simón vio un cubo detrás de la puerta. ¿Qué vio el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_5a5821f9_93",
+   "style": "clinical",
+   "text": "El niño pequeño encontró un cubo en el paseo. ¿Qué encontró el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_a5628812_80",
+   "style": "clinical",
+   "text": "La abuela Rosa buscaba un cubo. ¿Qué buscaba la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_ce710fb5_89",
+   "style": "clinical",
+   "text": "Mi amiga Lola dibujó un cubo en el jardín. ¿Qué dibujó mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_82e39b7e_86",
+   "style": "clinical",
+   "text": "El oso marrón guardó un cubo esta mañana. ¿Qué guardó el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_c2b79139_90",
+   "style": "clinical",
+   "text": "Mi amiga Lola buscaba un cubo en el paseo. ¿Qué buscaba mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_74636488_74",
+   "style": "clinical",
+   "text": "El oso marrón dibujó un cubo. ¿Qué dibujó el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_2b73b299_92",
+   "style": "clinical",
+   "text": "El pirata Simón guardó un cubo en el jardín. ¿Qué guardó el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_d59fcf19_83",
+   "style": "clinical",
+   "text": "El niño pequeño vio un cubo esta mañana. ¿Qué vio el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_56467800_102",
+   "style": "clinical",
+   "text": "La abuela Rosa encontró un cubo detrás de la puerta. ¿Qué encontró la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_75865b39_77",
+   "style": "clinical",
+   "text": "El niño pequeño guardó un cubo. ¿Qué guardó el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_cec9c5d8_85",
+   "style": "clinical",
+   "text": "La abuela Rosa vio un cubo en el jardín. ¿Qué vio la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_24c08055_92",
+   "style": "clinical",
+   "text": "Mi amiga Lola encontró un cubo esta mañana. ¿Qué encontró mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_4f5344a0_96",
+   "style": "clinical",
+   "text": "El oso marrón buscaba un cubo detrás de la puerta. ¿Qué buscaba el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_7f4456dd_91",
+   "style": "clinical",
+   "text": "El pirata Simón dibujó un cubo en el paseo. ¿Qué dibujó el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_510834bf_92",
+   "style": "clinical",
+   "text": "El oso marrón encontró una boca en el jardín. ¿Qué encontró el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_dda1568c_94",
+   "style": "clinical",
+   "text": "El pirata Simón buscaba una boca esta mañana. ¿Qué buscaba el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_4f0e71a0_98",
+   "style": "clinical",
+   "text": "El niño pequeño dibujó una boca detrás de la puerta. ¿Qué dibujó el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_8a1cba79_91",
+   "style": "clinical",
+   "text": "La abuela Rosa guardó una boca en el paseo. ¿Qué guardó la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_bbf7f380_71",
+   "style": "clinical",
+   "text": "Mi amiga Lola vio una boca. ¿Qué vio mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_9fd796b1_91",
+   "style": "clinical",
+   "text": "La abuela Rosa dibujó una boca esta mañana. ¿Qué dibujó la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_f8bc78c8_97",
+   "style": "clinical",
+   "text": "Mi amiga Lola guardó una boca detrás de la puerta. ¿Qué guardó mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_687b7b7b_81",
+   "style": "clinical",
+   "text": "El oso marrón vio una boca en el paseo. ¿Qué vio el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_19b8824c_84",
+   "style": "clinical",
+   "text": "El pirata Simón encontró una boca. ¿Qué encontró el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_a8b8bd94_93",
+   "style": "clinical",
+   "text": "El niño pequeño buscaba una boca en el jardín. ¿Qué buscaba el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_b13e1560_94",
+   "style": "clinical",
+   "text": "El pirata Simón vio una boca detrás de la puerta. ¿Qué vio el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_0fed74fa_94",
+   "style": "clinical",
+   "text": "El niño pequeño encontró una boca en el paseo. ¿Qué encontró el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_8132d74d_81",
+   "style": "clinical",
+   "text": "La abuela Rosa buscaba una boca. ¿Qué buscaba la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_49955f2a_90",
+   "style": "clinical",
+   "text": "Mi amiga Lola dibujó una boca en el jardín. ¿Qué dibujó mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_934f8511_87",
+   "style": "clinical",
+   "text": "El oso marrón guardó una boca esta mañana. ¿Qué guardó el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_6427a682_91",
+   "style": "clinical",
+   "text": "Mi amiga Lola buscaba una boca en el paseo. ¿Qué buscaba mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_27eddb29_75",
+   "style": "clinical",
+   "text": "El oso marrón dibujó una boca. ¿Qué dibujó el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_a3288a30_93",
+   "style": "clinical",
+   "text": "El pirata Simón guardó una boca en el jardín. ¿Qué guardó el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_44a3ee6c_84",
+   "style": "clinical",
+   "text": "El niño pequeño vio una boca esta mañana. ¿Qué vio el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_cdc3747f_103",
+   "style": "clinical",
+   "text": "La abuela Rosa encontró una boca detrás de la puerta. ¿Qué encontró la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_afd7550a_78",
+   "style": "clinical",
+   "text": "El niño pequeño guardó una boca. ¿Qué guardó el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_506a3af3_86",
+   "style": "clinical",
+   "text": "La abuela Rosa vio una boca en el jardín. ¿Qué vio la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_329f0fb2_93",
+   "style": "clinical",
+   "text": "Mi amiga Lola encontró una boca esta mañana. ¿Qué encontró mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_8fb2923f_97",
+   "style": "clinical",
+   "text": "El oso marrón buscaba una boca detrás de la puerta. ¿Qué buscaba el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_8e2d6184_92",
+   "style": "clinical",
+   "text": "El pirata Simón dibujó una boca en el paseo. ¿Qué dibujó el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_5b46c255_94",
+   "style": "clinical",
+   "text": "El oso marrón encontró una fuente en el jardín. ¿Qué encontró el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_01a8afaa_96",
+   "style": "clinical",
+   "text": "El pirata Simón buscaba una fuente esta mañana. ¿Qué buscaba el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_798b1b4a_100",
+   "style": "clinical",
+   "text": "El niño pequeño dibujó una fuente detrás de la puerta. ¿Qué dibujó el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_e31cfc83_93",
+   "style": "clinical",
+   "text": "La abuela Rosa guardó una fuente en el paseo. ¿Qué guardó la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_07d311be_73",
+   "style": "clinical",
+   "text": "Mi amiga Lola vio una fuente. ¿Qué vio mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_bd5d1bb7_93",
+   "style": "clinical",
+   "text": "La abuela Rosa dibujó una fuente esta mañana. ¿Qué dibujó la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_cc3ccf7a_99",
+   "style": "clinical",
+   "text": "Mi amiga Lola guardó una fuente detrás de la puerta. ¿Qué guardó mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_a0141321_83",
+   "style": "clinical",
+   "text": "El oso marrón vio una fuente en el paseo. ¿Qué vio el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_1a8870f2_86",
+   "style": "clinical",
+   "text": "El pirata Simón encontró una fuente. ¿Qué encontró el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_7d6e5ad6_95",
+   "style": "clinical",
+   "text": "El niño pequeño buscaba una fuente en el jardín. ¿Qué buscaba el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_6724ae16_96",
+   "style": "clinical",
+   "text": "El pirata Simón vio una fuente detrás de la puerta. ¿Qué vio el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_d7285c04_96",
+   "style": "clinical",
+   "text": "El niño pequeño encontró una fuente en el paseo. ¿Qué encontró el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_9a2231f3_83",
+   "style": "clinical",
+   "text": "La abuela Rosa buscaba una fuente. ¿Qué buscaba la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_5944a094_92",
+   "style": "clinical",
+   "text": "Mi amiga Lola dibujó una fuente en el jardín. ¿Qué dibujó mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_a8a304eb_89",
+   "style": "clinical",
+   "text": "El oso marrón guardó una fuente esta mañana. ¿Qué guardó el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_a8698210_93",
+   "style": "clinical",
+   "text": "Mi amiga Lola buscaba una fuente en el paseo. ¿Qué buscaba mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_2243d423_77",
+   "style": "clinical",
+   "text": "El oso marrón dibujó una fuente. ¿Qué dibujó el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_628591aa_95",
+   "style": "clinical",
+   "text": "El pirata Simón guardó una fuente en el jardín. ¿Qué guardó el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_017f72ee_86",
+   "style": "clinical",
+   "text": "El niño pequeño vio una fuente esta mañana. ¿Qué vio el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_badf29b9_105",
+   "style": "clinical",
+   "text": "La abuela Rosa encontró una fuente detrás de la puerta. ¿Qué encontró la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_65860450_80",
+   "style": "clinical",
+   "text": "El niño pequeño guardó una fuente. ¿Qué guardó el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_220ec079_88",
+   "style": "clinical",
+   "text": "La abuela Rosa vio una fuente en el jardín. ¿Qué vio la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_8b791210_95",
+   "style": "clinical",
+   "text": "Mi amiga Lola encontró una fuente esta mañana. ¿Qué encontró mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_c29fb709_99",
+   "style": "clinical",
+   "text": "El oso marrón buscaba una fuente detrás de la puerta. ¿Qué buscaba el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_df288126_94",
+   "style": "clinical",
+   "text": "El pirata Simón dibujó una fuente en el paseo. ¿Qué dibujó el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "child_83ad325d_66",
+   "style": "child",
+   "text": "Esta es rana. Y esta es lana. ¡Dile a papá cuál quieres! Di: rana.",
+   "source": "pares/intro"
+  },
+  {
+   "id": "child_0549550e_36",
+   "style": "child",
+   "text": "¡Dile a papá cuál quieres! Di: rana.",
+   "source": "pares/prompt"
+  },
+  {
+   "id": "child_b2d2e00b_40",
+   "style": "child",
+   "text": "¡Rrrana! ¡Tu lengua vibró como una moto!",
+   "source": "pares/celebracion"
+  },
+  {
+   "id": "child_cda6e19c_53",
+   "style": "child",
+   "text": "Escuché lana, la del ovillo. Yo pedí rrrana. Escucha…",
+   "source": "pares/correccion"
+  },
+  {
+   "id": "child_25d9f983_20",
+   "style": "child",
+   "text": "¡Otra vez! Di: rana.",
+   "source": "pares/retry"
+  },
+  {
+   "id": "slow_a69b94b5_4",
+   "style": "slow",
+   "text": "rana",
+   "source": "pares/modelado"
+  },
+  {
+   "id": "child_d23b5673_75",
+   "style": "child",
+   "text": "Esta es perro. Y esta es pelo. ¿Quién hace guau? ¡Díselo a papá! Di: perro.",
+   "source": "pares/intro"
+  },
+  {
+   "id": "child_144da7d4_44",
+   "style": "child",
+   "text": "¿Quién hace guau? ¡Díselo a papá! Di: perro.",
+   "source": "pares/prompt"
+  },
+  {
+   "id": "child_ac859fd2_30",
+   "style": "child",
+   "text": "¡Perrro! ¡Qué erre tan fuerte!",
+   "source": "pares/celebracion"
+  },
+  {
+   "id": "child_a2418ba1_75",
+   "style": "child",
+   "text": "Escuché pelo, el de la cabeza. El perro se quedó sin ladrar. Vamos: perrro.",
+   "source": "pares/correccion"
+  },
+  {
+   "id": "child_4296477d_21",
+   "style": "child",
+   "text": "¡Otra vez! Di: perro.",
+   "source": "pares/retry"
+  },
+  {
+   "id": "slow_8e40a2f7_5",
+   "style": "slow",
+   "text": "perro",
+   "source": "pares/modelado"
+  },
+  {
+   "id": "child_72fd4260_68",
+   "style": "child",
+   "text": "Esta es rata. Y esta es lata. ¡Corre, corre! ¿Quién corre? Di: rata.",
+   "source": "pares/intro"
+  },
+  {
+   "id": "child_d01e5cd7_38",
+   "style": "child",
+   "text": "¡Corre, corre! ¿Quién corre? Di: rata.",
+   "source": "pares/prompt"
+  },
+  {
+   "id": "child_6a0d872f_33",
+   "style": "child",
+   "text": "¡Rrrata veloz! ¡Te salió la erre!",
+   "source": "pares/celebracion"
+  },
+  {
+   "id": "child_a508fe4a_81",
+   "style": "child",
+   "text": "Escuché lata, la de la cocina. La lengua se quedó dormida. ¡Despiértala!: rrrata.",
+   "source": "pares/correccion"
+  },
+  {
+   "id": "child_e5a03d95_20",
+   "style": "child",
+   "text": "¡Otra vez! Di: rata.",
+   "source": "pares/retry"
+  },
+  {
+   "id": "slow_aa83961b_4",
+   "style": "slow",
+   "text": "rata",
+   "source": "pares/modelado"
+  },
+  {
+   "id": "child_c450d61c_59",
+   "style": "child",
+   "text": "Esta es cerro. Y esta es cero. ¡Vamos a escalar! Di: cerro.",
+   "source": "pares/intro"
+  },
+  {
+   "id": "child_5525c627_28",
+   "style": "child",
+   "text": "¡Vamos a escalar! Di: cerro.",
+   "source": "pares/prompt"
+  },
+  {
+   "id": "child_0662d30e_38",
+   "style": "child",
+   "text": "¡Cerrro! ¡Esa erre sube hasta la cima!",
+   "source": "pares/celebracion"
+  },
+  {
+   "id": "child_e4b77df1_67",
+   "style": "child",
+   "text": "Escuché cero, el número redondo. Cerro tiene la moto larga: cerrro.",
+   "source": "pares/correccion"
+  },
+  {
+   "id": "child_df1efc1e_21",
+   "style": "child",
+   "text": "¡Otra vez! Di: cerro.",
+   "source": "pares/retry"
+  },
+  {
+   "id": "slow_46853fee_5",
+   "style": "slow",
+   "text": "cerro",
+   "source": "pares/modelado"
+  },
+  {
+   "id": "child_74bd7203_61",
+   "style": "child",
+   "text": "Esta es casa. Y esta es caza. ¿Dónde vive el osito? Di: casa.",
+   "source": "pares/intro"
+  },
+  {
+   "id": "child_80f8efd7_31",
+   "style": "child",
+   "text": "¿Dónde vive el osito? Di: casa.",
+   "source": "pares/prompt"
+  },
+  {
+   "id": "child_6f93b556_53",
+   "style": "child",
+   "text": "¡Casa! ¡Qué serpiente tan fina detrás de los dientes!",
+   "source": "pares/celebracion"
+  },
+  {
+   "id": "child_053736ad_89",
+   "style": "child",
+   "text": "Escuché caza, la de la flecha. Tu serpiente se escapó entre los dientes. Ciérralos: casa.",
+   "source": "pares/correccion"
+  },
+  {
+   "id": "child_5b05cc33_20",
+   "style": "child",
+   "text": "¡Otra vez! Di: casa.",
+   "source": "pares/retry"
+  },
+  {
+   "id": "slow_9f253efd_4",
+   "style": "slow",
+   "text": "casa",
+   "source": "pares/modelado"
+  },
+  {
+   "id": "child_1c37131e_66",
+   "style": "child",
+   "text": "Esta es sierra. Y esta es tierra. ¡A cortar el tronco! Di: sierra.",
+   "source": "pares/intro"
+  },
+  {
+   "id": "child_fc22f7f0_32",
+   "style": "child",
+   "text": "¡A cortar el tronco! Di: sierra.",
+   "source": "pares/prompt"
+  },
+  {
+   "id": "child_8d458757_36",
+   "style": "child",
+   "text": "¡Sierra! ¡Ese soplido corta troncos!",
+   "source": "pares/celebracion"
+  },
+  {
+   "id": "child_f024be7a_69",
+   "style": "child",
+   "text": "Escuché tierra, la del suelo. La ese no explota: sopla largo. Sierra.",
+   "source": "pares/correccion"
+  },
+  {
+   "id": "child_a175aedd_22",
+   "style": "child",
+   "text": "¡Otra vez! Di: sierra.",
+   "source": "pares/retry"
+  },
+  {
+   "id": "slow_7fe67f2b_6",
+   "style": "slow",
+   "text": "sierra",
+   "source": "pares/modelado"
+  },
+  {
+   "id": "child_b7ed81bf_64",
+   "style": "child",
+   "text": "Esta es ocho. Y esta es oso. Después del siete viene… ¡di: ocho!",
+   "source": "pares/intro"
+  },
+  {
+   "id": "child_1f97bf2a_35",
+   "style": "child",
+   "text": "Después del siete viene… ¡di: ocho!",
+   "source": "pares/prompt"
+  },
+  {
+   "id": "child_e2a4e4c0_32",
+   "style": "child",
+   "text": "¡Ocho! ¡Ese tren arrancó genial!",
+   "source": "pares/celebracion"
+  },
+  {
+   "id": "child_29c17455_83",
+   "style": "child",
+   "text": "Escuché oso, el peludo. Yo pedí ocho, el número. La che arranca como un tren: ocho.",
+   "source": "pares/correccion"
+  },
+  {
+   "id": "child_e7dd778e_20",
+   "style": "child",
+   "text": "¡Otra vez! Di: ocho.",
+   "source": "pares/retry"
+  },
+  {
+   "id": "slow_334bb4d6_4",
+   "style": "slow",
+   "text": "ocho",
+   "source": "pares/modelado"
+  },
+  {
+   "id": "child_31f0f770_78",
+   "style": "child",
+   "text": "Esta es cubo. Y esta es tubo. ¿Con qué hacemos el castillo de arena? Di: cubo.",
+   "source": "pares/intro"
+  },
+  {
+   "id": "child_b36e80d6_48",
+   "style": "child",
+   "text": "¿Con qué hacemos el castillo de arena? Di: cubo.",
+   "source": "pares/prompt"
+  },
+  {
+   "id": "child_39109844_48",
+   "style": "child",
+   "text": "¡Cubo! ¡Esa ka salió de la cueva de la garganta!",
+   "source": "pares/celebracion"
+  },
+  {
+   "id": "child_4bf9f9c1_79",
+   "style": "child",
+   "text": "Escuché tubo, el del laboratorio. La ka del cubo nace atrás, en la cueva: cubo.",
+   "source": "pares/correccion"
+  },
+  {
+   "id": "child_6ae2b6fe_20",
+   "style": "child",
+   "text": "¡Otra vez! Di: cubo.",
+   "source": "pares/retry"
+  },
+  {
+   "id": "slow_7591e0de_4",
+   "style": "slow",
+   "text": "cubo",
+   "source": "pares/modelado"
+  },
+  {
+   "id": "child_8946e0ea_61",
+   "style": "child",
+   "text": "Esta es boca. Y esta es bota. ¿Con qué damos besos? Di: boca.",
+   "source": "pares/intro"
+  },
+  {
+   "id": "child_9bf26e48_31",
+   "style": "child",
+   "text": "¿Con qué damos besos? Di: boca.",
+   "source": "pares/prompt"
+  },
+  {
+   "id": "child_0893dbcb_39",
+   "style": "child",
+   "text": "¡Boca! ¡Qué bien suena esa ka en medio!",
+   "source": "pares/celebracion"
+  },
+  {
+   "id": "child_47ce6d6e_49",
+   "style": "child",
+   "text": "Escuché bota, la del pie. Boca suena atrás: boca.",
+   "source": "pares/correccion"
+  },
+  {
+   "id": "child_a388c54a_20",
+   "style": "child",
+   "text": "¡Otra vez! Di: boca.",
+   "source": "pares/retry"
+  },
+  {
+   "id": "slow_c3b10f72_4",
+   "style": "slow",
+   "text": "boca",
+   "source": "pares/modelado"
+  },
+  {
+   "id": "child_8f44499b_69",
+   "style": "child",
+   "text": "Esta es fuente. Y esta es puente. ¿De dónde sale el agua? Di: fuente.",
+   "source": "pares/intro"
+  },
+  {
+   "id": "child_28bb073a_35",
+   "style": "child",
+   "text": "¿De dónde sale el agua? Di: fuente.",
+   "source": "pares/prompt"
+  },
+  {
+   "id": "child_a40bce07_42",
+   "style": "child",
+   "text": "¡Fuente! ¡Ese soplido de conejo moja todo!",
+   "source": "pares/celebracion"
+  },
+  {
+   "id": "child_324863b7_69",
+   "style": "child",
+   "text": "Escuché puente, el de cruzar. La efe muerde el labio y sopla: fuente.",
+   "source": "pares/correccion"
+  },
+  {
+   "id": "child_bf07eb58_22",
+   "style": "child",
+   "text": "¡Otra vez! Di: fuente.",
+   "source": "pares/retry"
+  },
+  {
+   "id": "slow_80647364_6",
+   "style": "slow",
+   "text": "fuente",
+   "source": "pares/modelado"
+  },
+  {
+   "id": "child_02a0870e_56",
+   "style": "child",
+   "text": "¡Sesión de pares completada! ¡Choca esos cinco con papá!",
+   "source": "pares/fin"
+  },
+  {
+   "id": "child_1e292f1c_17",
+   "style": "child",
+   "text": "Tócate la cabeza.",
+   "source": "tpr"
+  },
+  {
+   "id": "child_e0a37576_16",
+   "style": "child",
+   "text": "Tócate la nariz.",
+   "source": "tpr"
+  },
+  {
+   "id": "child_e1ea1644_28",
+   "style": "child",
+   "text": "Levanta los brazos muy alto.",
+   "source": "tpr"
+  },
+  {
+   "id": "child_cdd2644a_20",
+   "style": "child",
+   "text": "Salta como una rana.",
+   "source": "tpr"
+  },
+  {
+   "id": "child_3fd64814_35",
+   "style": "child",
+   "text": "Camina como un oso, a cuatro patas.",
+   "source": "tpr"
+  },
+  {
+   "id": "child_c7846f26_41",
+   "style": "child",
+   "text": "Vuela como un pájaro moviendo los brazos.",
+   "source": "tpr"
+  },
+  {
+   "id": "child_c1b334b2_17",
+   "style": "child",
+   "text": "Salta tres veces.",
+   "source": "tpr"
+  },
+  {
+   "id": "child_01a56262_21",
+   "style": "child",
+   "text": "Da una vuelta entera.",
+   "source": "tpr"
+  },
+  {
+   "id": "child_cfa4536a_21",
+   "style": "child",
+   "text": "Siéntate en el suelo.",
+   "source": "tpr"
+  },
+  {
+   "id": "child_8a06bb70_43",
+   "style": "child",
+   "text": "Camina muy, muy despacio, como una tortuga.",
+   "source": "tpr"
+  },
+  {
+   "id": "child_97d31c7a_35",
+   "style": "child",
+   "text": "Corre en tu sitio, ¡rápido, rápido!",
+   "source": "tpr"
+  },
+  {
+   "id": "child_66ea5e92_37",
+   "style": "child",
+   "text": "¡Estatua! Quédate quieto sin moverte.",
+   "source": "tpr"
+  },
+  {
+   "id": "child_ea08e3cd_19",
+   "style": "child",
+   "text": "Aplaude muy fuerte.",
+   "source": "tpr"
+  },
+  {
+   "id": "child_81dabb16_21",
+   "style": "child",
+   "text": "Di adiós con la mano.",
+   "source": "tpr"
+  },
+  {
+   "id": "child_3f94fe5b_22",
+   "style": "child",
+   "text": "Manda un beso volador.",
+   "source": "tpr"
+  },
+  {
+   "id": "child_63235cf2_42",
+   "style": "child",
+   "text": "Hazte muy grande, estírate hasta el cielo.",
+   "source": "tpr"
+  },
+  {
+   "id": "child_b11da760_30",
+   "style": "child",
+   "text": "Hazte pequeño como una pelota.",
+   "source": "tpr"
+  },
+  {
+   "id": "child_5a489da0_38",
+   "style": "child",
+   "text": "Abre los brazos como un árbol gigante.",
+   "source": "tpr"
+  },
+  {
+   "id": "child_dce9ca2d_26",
+   "style": "child",
+   "text": "Pon cara de mucha alegría.",
+   "source": "tpr"
+  },
+  {
+   "id": "child_9e8c3ec0_43",
+   "style": "child",
+   "text": "Enséñame el enfado con los brazos cruzados.",
+   "source": "tpr"
+  },
+  {
+   "id": "child_1963d62d_26",
+   "style": "child",
+   "text": "Date un abrazo muy fuerte.",
+   "source": "tpr"
+  },
+  {
+   "id": "child_d40dd306_39",
+   "style": "child",
+   "text": "Camina como un robot diciendo bip, bop.",
+   "source": "tpr"
+  },
+  {
+   "id": "child_d44bdae5_13",
+   "style": "child",
+   "text": "Robot… ¡para!",
+   "source": "tpr"
+  },
+  {
+   "id": "child_5dd72ee3_37",
+   "style": "child",
+   "text": "El robot se apaga: túmbate despacito.",
+   "source": "tpr"
+  },
+  {
+   "id": "child_fb35a756_35",
+   "style": "child",
+   "text": "¡Muy bien! ¡Seguimos con la sesión!",
+   "source": "tpr/fin"
+  },
+  {
+   "id": "clinical_6165ff3f_29",
+   "style": "clinical",
+   "text": "Pon el vaso rojo en la silla.",
+   "source": "rutas"
+  },
+  {
+   "id": "clinical_9d2f7fb6_40",
+   "style": "clinical",
+   "text": "Dale la cuchara pequeña a papá o a mamá.",
+   "source": "rutas"
+  },
+  {
+   "id": "clinical_2e6ee07c_36",
+   "style": "clinical",
+   "text": "Mete la servilleta debajo del plato.",
+   "source": "rutas"
+  },
+  {
+   "id": "clinical_716b8f4a_51",
+   "style": "clinical",
+   "text": "Coge la fruta más grande y ponla encima de la mesa.",
+   "source": "rutas"
+  },
+  {
+   "id": "clinical_e8cccd59_36",
+   "style": "clinical",
+   "text": "Pon el cepillo azul dentro del vaso.",
+   "source": "rutas"
+  },
+  {
+   "id": "clinical_eabcd84c_44",
+   "style": "clinical",
+   "text": "Trae la toalla pequeña y déjala en la silla.",
+   "source": "rutas"
+  },
+  {
+   "id": "clinical_0347d924_34",
+   "style": "clinical",
+   "text": "Mete el patito en la bañera vacía.",
+   "source": "rutas"
+  },
+  {
+   "id": "clinical_6bb4c8a5_47",
+   "style": "clinical",
+   "text": "Dale el jabón a papá o a mamá con la otra mano.",
+   "source": "rutas"
+  },
+  {
+   "id": "clinical_29248fc3_40",
+   "style": "clinical",
+   "text": "Ruta completada. Seguimos con la sesión.",
+   "source": "rutas/fin"
+  },
+  {
+   "id": "child_d0c93f58_32",
+   "style": "child",
+   "text": "¡Muy bien! ¡Lo has dicho genial!",
+   "source": "banco/elogio"
+  },
+  {
+   "id": "child_3faf26c5_28",
+   "style": "child",
+   "text": "¡Bravo! ¡Qué bien ha sonado!",
+   "source": "banco/elogio"
+  },
+  {
+   "id": "child_65809f03_30",
+   "style": "child",
+   "text": "¡Toma ya! ¡Palabra conseguida!",
+   "source": "banco/elogio"
+  },
+  {
+   "id": "child_93c53258_33",
+   "style": "child",
+   "text": "¡Genial! ¡Cada vez te sale mejor!",
+   "source": "banco/elogio"
+  },
+  {
+   "id": "child_6a2f96c1_30",
+   "style": "child",
+   "text": "¡Súper! ¡Lo dijiste clarísimo!",
+   "source": "banco/elogio"
+  },
+  {
+   "id": "child_00365b4d_30",
+   "style": "child",
+   "text": "¡Olé esa voz! ¡Muy bien dicho!",
+   "source": "banco/elogio"
+  },
+  {
+   "id": "child_88900575_36",
+   "style": "child",
+   "text": "¡Casi casi! Escucha bien y otra vez…",
+   "source": "banco/casi"
+  },
+  {
+   "id": "child_fdf4c7fc_42",
+   "style": "child",
+   "text": "¡Uy, por poquito! Vamos a probar de nuevo.",
+   "source": "banco/casi"
+  },
+  {
+   "id": "child_1ada1e7c_37",
+   "style": "child",
+   "text": "¡Ya casi lo tienes! Escucha y repite.",
+   "source": "banco/casi"
+  },
+  {
+   "id": "child_72cfd892_38",
+   "style": "child",
+   "text": "Un poquito más y lo bordas. ¡Otra vez!",
+   "source": "banco/casi"
+  },
+  {
+   "id": "child_ad242355_39",
+   "style": "child",
+   "text": "No te escuché bien. ¡Probamos otra vez!",
+   "source": "banco/no-oido"
+  },
+  {
+   "id": "child_934be12e_43",
+   "style": "child",
+   "text": "¡Uy, no llegó tu voz! Acércate y repetimos.",
+   "source": "banco/no-oido"
+  },
+  {
+   "id": "child_55c34a77_42",
+   "style": "child",
+   "text": "Se me escapó tu palabra. ¡Dímela otra vez!",
+   "source": "banco/no-oido"
+  },
+  {
+   "id": "child_a26e7368_38",
+   "style": "child",
+   "text": "Vamos a decirla juntos, muy despacito.",
+   "source": "banco/juntos"
+  },
+  {
+   "id": "child_10247d95_43",
+   "style": "child",
+   "text": "La decimos a la vez, despacito y sin prisa.",
+   "source": "banco/juntos"
+  },
+  {
+   "id": "child_44bd37e0_43",
+   "style": "child",
+   "text": "Ahora en equipo: la decimos los dos juntos.",
+   "source": "banco/juntos"
+  },
+  {
+   "id": "child_cfed04f9_67",
+   "style": "child",
+   "text": "¡Hola! Así sonará mi voz en los ejercicios. ¿Verdad que suena bien?",
+   "source": "util/muestra"
+  }
+ ]
+}

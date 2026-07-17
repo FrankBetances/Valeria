@@ -12,9 +12,10 @@
 // Trade-off gestionado: la locución se hace con speakClinical (valeriaVoice),
 // UNA sola cadena al motor TTS con pitch/rate conservadores. Trocear, acelerar
 // o entonar la frase desplazaría la frecuencia del fonema objetivo incrustado.
+//
+// Módulo PURO (sin imports de RN/Expo): el corpus de voz lo enumera en
+// build-time (Node) para pre-generar el audio neuronal de cada portadora.
 // ============================================================================
-import * as Speech from 'expo-speech';
-import { speakClinical } from './valeriaVoice';
 
 // ---- Metadatos léxicos de las palabras objetivo del banco de pares ----
 // La concordancia (artículo/género) es imprescindible para que la frase
@@ -84,28 +85,48 @@ export interface CarrierPrompt {
 let mountOffset = Math.floor(Math.random() * 1000);
 export const reseedCarriers = (): void => { mountOffset = Math.floor(Math.random() * 1000); };
 
-export function buildCarrierPrompt(target: string, trialIdx: number): CarrierPrompt {
+// Núcleo determinista: misma combinación para el mismo (offset, target, idx).
+// Lo comparten el juego (offset aleatorio por sesión) y el enumerador del
+// corpus de voz (que recorre TODOS los offsets alcanzables).
+function buildWithOffset(offset: number, target: string, trialIdx: number): CarrierPrompt {
   const meta = WORD_META[target] ?? { kind: 'sustantivo' as const };
-  const subj = SUBJECTS[(mountOffset + trialIdx * 2) % SUBJECTS.length];
-  const tail = TAILS[(mountOffset + trialIdx) % TAILS.length];
+  const subj = SUBJECTS[(offset + trialIdx * 2) % SUBJECTS.length];
+  const tail = TAILS[(offset + trialIdx) % TAILS.length];
 
   if (meta.kind === 'numero') {
-    const tpl = NUMBER_TEMPLATES[(mountOffset + trialIdx) % NUMBER_TEMPLATES.length];
+    const tpl = NUMBER_TEMPLATES[(offset + trialIdx) % NUMBER_TEMPLATES.length];
     const carrier = `${tpl.build(subj.full, target, tail)}.`;
     const question = `${tpl.ask(subj.short)} Dilo tú, fuerte y claro.`;
     return { carrier, question, full: `${carrier} ${question}` };
   }
 
-  const verb = VERBS[(mountOffset + trialIdx * 3) % VERBS.length];
+  const verb = VERBS[(offset + trialIdx * 3) % VERBS.length];
   const np = meta.article ? `${meta.article} ${target}` : target;
   const carrier = `${subj.full} ${verb.past} ${np}${tail ? ` ${tail}` : ''}.`;
   const question = `${verb.ask} ${subj.short}? Dilo tú, fuerte y claro.`;
   return { carrier, question, full: `${carrier} ${question}` };
 }
 
-// Locuta la frase portadora completa como UNA cadena continua con parámetros
-// clínicos (ver speakClinical). onDone/onError se propagan al llamante.
-export const speakCarrierPrompt = (
-  prompt: CarrierPrompt,
-  opts: Pick<Speech.SpeechOptions, 'onDone' | 'onError'> = {},
-): void => speakClinical(prompt.full, opts);
+export const buildCarrierPrompt = (target: string, trialIdx: number): CarrierPrompt =>
+  buildWithOffset(mountOffset, target, trialIdx);
+
+// Enumeración EXHAUSTIVA para el corpus de voz (build-time): recorre por
+// fuerza bruta offsets × ensayos y deduplica por texto. Los índices internos
+// operan módulo tamaños de banco (5, 5, 5 y 3), así que offset 0-29 y ensayo
+// 0-29 cubren todas las clases de congruencia alcanzables aunque las fórmulas
+// de paso cambien; el Set absorbe la redundancia. Coste: ~9k llamadas, solo
+// en build-time, nunca en el dispositivo.
+export function enumerateAllCarrierPrompts(targets?: string[]): CarrierPrompt[] {
+  const words = targets ?? Object.keys(WORD_META);
+  const seen = new Set<string>();
+  const out: CarrierPrompt[] = [];
+  for (const target of words) {
+    for (let offset = 0; offset < 30; offset++) {
+      for (let idx = 0; idx < 30; idx++) {
+        const p = buildWithOffset(offset, target, idx);
+        if (!seen.has(p.full)) { seen.add(p.full); out.push(p); }
+      }
+    }
+  }
+  return out;
+}
