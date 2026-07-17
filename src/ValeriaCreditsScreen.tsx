@@ -19,8 +19,14 @@ const COLABORADORES: Colaborador[] = [
   { icon: '🗣️', nombre: 'Quisqueya Habla', desc: 'Rehabilitación del lenguaje' },
 ];
 
-// Secuencia de entrada: marca, kicker, autor, divisor, cada colaborador y CTA.
-const SECTIONS = 5 + COLABORADORES.length;
+// Atribución de las voces neuronales pre-generadas (plan ILENIA/Nós): las
+// licencias de los modelos piden acreditar la voz utilizada.
+const VOICE_CREDIT =
+  'Voz neuronal en castellano: «Sharvard» (Piper · rhasspy/piper-voices). ' +
+  'En galego (próximamente): «Celtia» · Proxecto Nós.';
+
+// Secuencia de entrada: marca, kicker, autor, divisor, colaboradores, voces y CTA.
+const SECTIONS = 6 + COLABORADORES.length;
 
 export const ValeriaCreditsScreen: React.FC<{ navigation?: any }> = ({ navigation }) => {
   const float = useRef(new Animated.Value(0)).current;
@@ -108,6 +114,9 @@ export const ValeriaCreditsScreen: React.FC<{ navigation?: any }> = ({ navigatio
             </Animated.View>
           ))}
         </View>
+
+        {/* atribución de voces neuronales */}
+        <Animated.Text style={[s.voiceCredit, fadeUp(4 + COLABORADORES.length)]}>{VOICE_CREDIT}</Animated.Text>
       </ScrollView>
 
       {/* acción */}
@@ -170,6 +179,11 @@ const s = StyleSheet.create({
   collabBody: { flex: 1 },
   collabName: { fontSize: 16, fontWeight: '900', color: V.color.dark, lineHeight: 18 },
   collabDesc: { marginTop: 3, fontSize: 12, fontWeight: V.font.bold, color: '#5b6b6a' },
+
+  voiceCredit: {
+    marginTop: 16, fontSize: 10.5, fontWeight: V.font.bold, lineHeight: 15,
+    color: 'rgba(255,255,255,0.72)', textAlign: 'center', paddingHorizontal: 6,
+  },
 
   actions: { paddingHorizontal: 28, paddingTop: 8, paddingBottom: 22 },
   cta: {

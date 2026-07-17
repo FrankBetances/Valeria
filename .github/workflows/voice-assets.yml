@@ -1,0 +1,70 @@
+name: Generate Voice Assets
+
+# Tubería de Fase 2 del plan ILENIA/Nós: sintetiza el corpus de voz con la voz
+# neuronal configurada (scripts/generate-voice-assets.py), masteriza, regenera
+# el mapa valeriaVoiceAssets.ts y COMMITEA los assets a la rama desde la que
+# se lanzó. Se ejecuta a mano (workflow_dispatch) cuando cambia el corpus o la
+# voz; el push resultante dispara el build Android normal, que empaqueta el
+# audio en el APK. Los modelos solo corren aquí: jamás en el dispositivo.
+
+on:
+  workflow_dispatch:
+    inputs:
+      lang:
+        description: 'Idioma del corpus a sintetizar (es; gl cuando exista)'
+        required: false
+        default: 'es'
+
+permissions:
+  contents: write
+
+jobs:
+  synthesize:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Export voice corpus
+        run: node scripts/export-voice-corpus.js
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install piper-tts
+        run: pip install piper-tts
+
+      # ffmpeg viene preinstalado en ubuntu-latest (codificación AAC/m4a).
+      - name: Synthesize + master + encode
+        run: python3 scripts/generate-voice-assets.py --lang "${{ github.event.inputs.lang || 'es' }}"
+
+      - name: Rebuild asset map
+        run: node scripts/build-voice-asset-map.js
+
+      - name: Commit assets to branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/voice src/valeriaVoiceAssets.ts voice-corpus.json voice-assets-manifest.json
+          if git diff --cached --quiet; then
+            echo "Sin cambios en los assets de voz."
+            exit 0
+          fi
+          git commit -m "Voz ILENIA/Nós · Fase 2: assets de voz neuronal generados en CI
+
+Lote sintetizado por el workflow voice-assets (ver voice-assets-manifest.json:
+voz, duración y peso por locución). Mapa valeriaVoiceAssets.ts regenerado."
+          git push

@@ -130,3 +130,6 @@ fastlane/screenshots/**/*.png
 
 ## Firebase — credenciales que añades manualmente (no versionar)
 GoogleService-Info.plist
+
+# Modelos de voz descargados por la tubería de assets (solo CI/build-time)
+scripts/.voices/
