@@ -52,8 +52,10 @@ ni el principio offline-first de la app.
 - Interfaz de la app (menús, botones) en gallego: la UI sigue en castellano;
   solo el **contenido terapéutico** (lo que se locuta, muestra y evalúa) pasa a
   gallego. Se puede abordar después como fase propia de i18n de UI.
-- Otras lenguas (catalán, euskera…): la arquitectura de la Fase 1 las deja
-  preparadas, pero no se implementan.
+- Otras lenguas o variedades: la arquitectura de la Fase 1 las deja
+  preparadas, pero no se implementan aquí. La variante dominicana tiene su
+  propio plan que reutiliza esta infraestructura:
+  [plan-integracion-quisqueya-habla.md](./plan-integracion-quisqueya-habla.md).
 
 ## 2. Recursos del Proxecto Nós a integrar
 
@@ -205,7 +207,7 @@ más larga; se subdivide por bloque de terapia para poder publicar por partes.*
 
 | Tarea | Descripción | Entregable / CA |
 | --- | --- | --- |
-| **GL-3.1** | Script `scripts/nos-tts-generate.py`: recorre los datasets `gl`, sintetiza cada cadena locutable con el modelo elegido (GL-0.2), normaliza volumen y escribe `assets/audio/gl/<hash>.mp3` + `manifest.json` (id de cadena → fichero) | CA: script reproducible documentado; regenerar solo produce diffs de las cadenas cambiadas (nombres por hash de contenido) |
+| **GL-3.1** | Script `scripts/nos-tts-generate.py`: recorre los datasets `gl`, sintetiza cada cadena locutable con el modelo elegido (GL-0.2), normaliza volumen y escribe `assets/audio/gl/<hash>.mp3` + `manifest.json` (id de cadena → fichero). Diseñarlo **generalizado por variedad** (motor TTS intercambiable) para que Quisqueya Habla lo reutilice en su fase de voz opcional (QH-4.2) | CA: script reproducible documentado; regenerar solo produce diffs de las cadenas cambiadas (nombres por hash de contenido) |
 | **GL-3.2** | Módulo `src/valeriaAudioBank.ts`: dado (lang, cadena/id) reproduce el mp3 del manifiesto con `expo-av`; API compatible con `speakToChild` | CA: prueba unitaria de resolución de manifiesto |
 | **GL-3.3** | Integrar en `valeriaVoice.ts`: para `gl`, orden de preferencia audio empaquetado → voz sistema gl → voz sistema es. Cadenas dinámicas (nombre del niño, etc.) siguen por TTS del sistema | CA: sesión completa en gallego suena con la voz Nós; sin el asset, degrada sin silencio |
 | **GL-3.4** | Medir impacto en el tamaño de la app y, si excede el presupuesto (~orientativo: >25 MB de audio), evaluar OPUS/AAC a menor bitrate o assets descargables de EAS | Nota de tamaño en este documento; CA: build EAS dentro del presupuesto |
