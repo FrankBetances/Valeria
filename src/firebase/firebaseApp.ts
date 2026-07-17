@@ -25,7 +25,22 @@ import {
   type Auth,
 } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
-import { firebaseConfig } from './firebaseConfig';
+import { firebaseConfig, firebaseConfigIsPlaceholder } from './firebaseConfig';
+
+// IMPORTANTE: este módulo se evalúa al importar la app (antes del primer
+// render). Nada de aquí puede lanzar: un throw a este nivel tumba el bundle
+// completo y deja la app congelada en el splash, sin pantalla de error.
+// firebaseConfig garantiza una apiKey sintácticamente válida aunque falten
+// las variables de entorno, precisamente para que la inicialización de Auth
+// no lance `auth/invalid-api-key` aquí.
+if (firebaseConfigIsPlaceholder) {
+  // Visible en `adb logcat` / consola de Metro: el build salió sin la apiKey.
+  console.warn(
+    '[Valeria] Config de Firebase incompleta: falta EXPO_PUBLIC_FIREBASE_API_KEY. ' +
+      'La app funciona, pero el acceso profesional (Auth/Firestore) fallará. ' +
+      'Ver docs/firebase-setup.md.',
+  );
+}
 
 // Evita re-inicializar en Fast Refresh / múltiples imports.
 const app = getApps().length ? getApp() : initializeApp(firebaseConfig);

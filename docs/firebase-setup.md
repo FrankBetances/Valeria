@@ -27,6 +27,12 @@ Las variables son `EXPO_PUBLIC_FIREBASE_API_KEY`, `EXPO_PUBLIC_FIREBASE_PROJECT_
 Expo las inyecta en el bundle JS **en tiempo de build**: si cambias `.env`,
 reinicia `expo start` con `-c` para limpiar la caché.
 
+Si un build sale **sin** estas variables (secrets sin crear o `.env` ausente),
+la app arranca igual: muestra un aviso de config incompleta en Acceso
+Profesional, deja la traza `[Valeria] Config de Firebase incompleta` en
+`adb logcat`, y solo fallan Auth/Firestore al usarlos. El workflow de CI
+además emite un *warning* en el resumen del run cuando faltan los secrets.
+
 > **Si una clave llega a filtrarse en un commit** (GitHub avisa con una alerta
 > de secret scanning): GitHub conserva los commits aunque se borre la rama, así
 > que trata la clave como comprometida. En

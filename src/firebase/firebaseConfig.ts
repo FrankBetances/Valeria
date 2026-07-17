@@ -28,18 +28,28 @@
 // ============================================================================
 import type { FirebaseOptions } from 'firebase/app';
 
-const projectId = process.env.EXPO_PUBLIC_FIREBASE_PROJECT_ID ?? '';
+// projectId y messagingSenderId son públicos (van fijos también en el
+// workflow de CI); tener el valor real como respaldo permite que un build sin
+// variables de entorno siga apuntando al proyecto correcto.
+const projectId = process.env.EXPO_PUBLIC_FIREBASE_PROJECT_ID ?? 'valeria-b500f';
+const apiKeyEnv = process.env.EXPO_PUBLIC_FIREBASE_API_KEY ?? '';
+
+// true cuando el build salió sin la apiKey (falta la variable de entorno /
+// el secret de CI). ValeriaAuthScreen lo usa para avisar en pantalla.
+export const firebaseConfigIsPlaceholder = !apiKeyEnv;
 
 export const firebaseConfig: FirebaseOptions = {
-  apiKey: process.env.EXPO_PUBLIC_FIREBASE_API_KEY ?? '',
+  // La apiKey no puede quedar vacía: firebase/auth ejecuta
+  // `_assert(apiKey && !apiKey.includes(':'), 'auth/invalid-api-key')` nada más
+  // inicializar, y como la inicialización ocurre al importar firebaseApp.ts,
+  // ese throw tumbaba el bundle entero antes del primer render (la app se
+  // quedaba congelada en el splash). Con un placeholder sintácticamente válido
+  // la app arranca, muestra el aviso de config incompleta y el error de la
+  // clave aparece solo al intentar usar Firebase.
+  apiKey: apiKeyEnv || 'missing-firebase-api-key',
   authDomain: `${projectId}.firebaseapp.com`,
   projectId,
   storageBucket: `${projectId}.firebasestorage.app`,
-  messagingSenderId: process.env.EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID ?? '',
+  messagingSenderId: process.env.EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID ?? '477839657795',
   appId: process.env.EXPO_PUBLIC_FIREBASE_APP_ID ?? '',
 };
-
-// Aviso en tiempo de ejecución si la config no está completa (faltan las
-// variables de entorno); evita errores crípticos del SDK al probar.
-export const firebaseConfigIsPlaceholder =
-  !firebaseConfig.apiKey || !firebaseConfig.projectId;
