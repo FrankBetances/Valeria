@@ -14,6 +14,17 @@ on:
         description: 'Idioma del corpus a sintetizar (es; gl cuando exista)'
         required: false
         default: 'es'
+  # Disparo automático cuando cambia la propia tubería o el corpus en ramas de
+  # trabajo (la integración de esta sesión no puede lanzar workflow_dispatch).
+  push:
+    branches:
+      - claude/**
+    paths:
+      - voice-corpus.json
+      - scripts/generate-voice-assets.py
+      - scripts/build-voice-asset-map.js
+      - scripts/export-voice-corpus.js
+      - .github/workflows/voice-assets.yml
 
 permissions:
   contents: write
@@ -21,6 +32,9 @@ permissions:
 jobs:
   synthesize:
     runs-on: ubuntu-latest
+    # Anti-bucle: el commit de assets que hace este workflow también toca
+    # voice-corpus.json; no debe relanzarse a sí mismo.
+    if: github.actor != 'github-actions[bot]'
     steps:
       - name: Checkout
         uses: actions/checkout@v4
