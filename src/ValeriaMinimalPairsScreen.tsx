@@ -38,7 +38,7 @@ import { FichaVisual } from './ValeriaPictograms';
 import { ValeriaSessionBreakOverlay, pickSessionBreak, SessionBreak } from './ValeriaSessionBreakOverlay';
 import { MINIMAL_PAIRS, PAIR_GROUPS, MinimalPair } from './valeriaMinimalPairs';
 import { buildCarrierPrompt, reseedCarriers } from './valeriaCarrierPhrases';
-import { ValeriaManualNoiseSlider } from './ValeriaManualNoiseSlider';
+import { ValeriaAdultChaosPanel } from './ValeriaAdultChaosPanel';
 import { releaseNoise } from './valeriaNoise';
 import { ValeriaPragmaticBreakOverlay } from './ValeriaPragmaticBreak';
 import { ValeriaDistractorBear } from './ValeriaDistractorBear';
@@ -269,7 +269,6 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
   // tarjeta "LA APP PIDE" y su botón de repetición con la voz adecuada.
   const [livePrompt, setLivePrompt] = useState<TrialPromptSpec | null>(null);
   // Panel del adulto (Fase 2): controles SIEMPRE manuales del caos comunicativo.
-  const [panelOpen, setPanelOpen] = useState(false);
   const [distractorOn, setDistractorOn] = useState(false);
   const [pragmaticOpen, setPragmaticOpen] = useState(false);
   // Prescripción del logopeda: { [pairId]: boolean }, id ausente = activo.
@@ -823,44 +822,12 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
           </>
         )}
 
-        {/* ===== Panel del adulto · caos comunicativo (Fase 2) =====
-            Muro MDR: TODO aquí es manual. La app nunca sube el ruido, nunca
-            lanza el distractor ni el quiebre por su cuenta. */}
-        <View style={s.adultPanel}>
-          <Pressable
-            onPress={() => setPanelOpen(!panelOpen)}
-            style={s.adultPanelHead}
-            accessibilityRole="button"
-            accessibilityLabel={panelOpen ? 'Cerrar el panel del adulto' : 'Abrir el panel del adulto'}
-          >
-            <Text style={s.adultPanelKicker}>🎛️ PANEL DEL ADULTO · RETO EXTRA</Text>
-            <Text style={s.adultPanelChev}>{panelOpen ? '▾' : '▸'}</Text>
-          </Pressable>
-          {panelOpen && (
-            <>
-              <Text style={s.adultPanelHint}>
-                Controles manuales para entrenar la escucha en ambiente real. Úsalos si vuestro
-                logopeda os lo ha pautado: la app nunca los activa ni los ajusta sola.
-              </Text>
-              <ValeriaManualNoiseSlider />
-              <View style={s.dualRow}>
-                <View style={{ flex: 1 }}>
-                  <Text style={s.dualTitle}>🐻 Oso distractor (doble tarea)</Text>
-                  <Text style={s.dualSub}>El oso se asoma y se mueve por el borde; el niño debe seguir atendiendo a la voz. Tocarlo no cuenta como error.</Text>
-                </View>
-                <Switch
-                  value={distractorOn}
-                  onValueChange={setDistractorOn}
-                  trackColor={{ false: '#d1d5db', true: V.color.primary }}
-                  thumbColor="#ffffff"
-                />
-              </View>
-              <Pressable onPress={() => setPragmaticOpen(true)} style={s.pragBtn} accessibilityRole="button">
-                <Text style={s.pragBtnTxt}>🎭 Lanzar un quiebre pragmático</Text>
-              </Pressable>
-            </>
-          )}
-        </View>
+        {/* ===== Panel del adulto · caos comunicativo (Fase 2) ===== */}
+        <ValeriaAdultChaosPanel
+          distractorOn={distractorOn}
+          onDistractorChange={setDistractorOn}
+          onLaunchPragmatic={() => setPragmaticOpen(true)}
+        />
       </ScrollView>
 
       {/* Distractor periférico no interactivo: solo mientras el adulto lo tenga activo */}
@@ -963,18 +930,6 @@ const s = StyleSheet.create({
   overrideLbl: { fontSize: 11, fontWeight: '700', color: V.color.textMuted },
   overridePill: { flexDirection: 'row', alignItems: 'center', gap: 4, backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.border, borderRadius: 10, paddingHorizontal: 9, paddingVertical: 5 },
   overridePillTxt: { fontSize: 11.5, fontWeight: '800', color: V.color.textSecondary },
-
-  // panel del adulto (caos comunicativo)
-  adultPanel: { backgroundColor: '#fffdf7', borderWidth: 1.5, borderColor: '#f0e6cc', borderRadius: 18, padding: 13, marginTop: 18 },
-  adultPanelHead: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
-  adultPanelKicker: { fontSize: 11, fontWeight: '800', letterSpacing: 0.6, color: '#9a5b13' },
-  adultPanelChev: { fontSize: 14, fontWeight: '800', color: '#9a5b13' },
-  adultPanelHint: { fontSize: 11.5, fontWeight: '600', color: V.color.textMuted, marginTop: 8, marginBottom: 10, lineHeight: 16 },
-  dualRow: { flexDirection: 'row', alignItems: 'center', gap: 10, backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.border, borderRadius: 16, padding: 13, marginTop: 10 },
-  dualTitle: { fontSize: 13, fontWeight: '800', color: V.color.textPrimary },
-  dualSub: { fontSize: 11, fontWeight: '600', color: V.color.textMuted, marginTop: 3, lineHeight: 15 },
-  pragBtn: { backgroundColor: '#fff7ed', borderWidth: 1.5, borderColor: '#fcd9a8', borderRadius: 14, paddingVertical: 12, alignItems: 'center', marginTop: 10 },
-  pragBtnTxt: { color: '#9a5b13', fontSize: 13, fontWeight: '800' },
 
   retryRow: { flexDirection: 'row', alignItems: 'center', gap: 10, marginTop: 12 },
   retryBtn: { flex: 1, backgroundColor: V.color.primary, borderRadius: 13, paddingVertical: 12, alignItems: 'center', ...V.shadow.button },
