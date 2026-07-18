@@ -89,7 +89,8 @@ jobs:
         if: steps.glcheck.outputs.missing != '0'
         run: |
           pip install torch torchaudio --index-url https://download.pytorch.org/whl/cpu
-          pip install coqui-tts
+          # transformers 5.x eliminó isin_mps_friendly, que coqui aún importa.
+          pip install coqui-tts "transformers<4.50"
 
       - name: Synthesize gl (Celtia · Proxecto Nós)
         if: steps.glcheck.outputs.missing != '0'
