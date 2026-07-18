@@ -92,8 +92,12 @@ jobs:
           # transformers 5.x eliminó isin_mps_friendly, que coqui aún importa.
           pip install coqui-tts "transformers<4.50"
 
+      # HF_TOKEN (secret): los modelos de proxectonos son "gated" en Hugging
+      # Face — exige aceptar sus condiciones con una cuenta y token de lectura.
       - name: Synthesize gl (Celtia · Proxecto Nós)
         if: steps.glcheck.outputs.missing != '0'
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: python3 scripts/generate-voice-assets.py --lang gl
 
       - name: Rebuild asset map

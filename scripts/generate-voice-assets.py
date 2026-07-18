@@ -26,11 +26,16 @@
 import argparse
 import audioop
 import json
+import os
 import subprocess
 import sys
 import urllib.request
 import wave
 from pathlib import Path
+
+# Token de Hugging Face (secret HF_TOKEN en Actions): imprescindible para
+# modelos "gated" como los de proxectonos — sin él, la descarga devuelve 401.
+HF_TOKEN = os.environ.get("HF_TOKEN", "").strip()
 
 ROOT = Path(__file__).resolve().parent.parent
 CORPUS = ROOT / "voice-corpus.json"
@@ -79,7 +84,17 @@ def curl(url: str, dest: Path) -> None:
     if dest.exists() and dest.stat().st_size > 0:
         return
     print(f"↓ {url}")
-    subprocess.run(["curl", "-fsSL", "-o", str(dest), url], check=True)
+    auth = ["-H", f"Authorization: Bearer {HF_TOKEN}"] if HF_TOKEN and "huggingface.co" in url else []
+    try:
+        subprocess.run(["curl", "-fsSL", *auth, "-o", str(dest), url], check=True)
+    except subprocess.CalledProcessError:
+        die(
+            f"Descarga fallida: {url}\n"
+            "Si es un modelo 'gated' de Hugging Face (p. ej. Celtia de proxectonos):\n"
+            "  1) inicia sesión en HF y ACEPTA las condiciones en la página del modelo,\n"
+            "  2) crea un token de lectura (Settings → Access Tokens),\n"
+            "  3) añádelo como secret HF_TOKEN del repositorio (Settings → Secrets → Actions).",
+        )
 
 
 # ---------------------------------------------------------------- audio común
@@ -151,7 +166,10 @@ def make_coqui_synth(voice: dict):
     repo, siblings = None, []
     for cand in voice["hf_repos"]:
         try:
-            with urllib.request.urlopen(f"https://huggingface.co/api/models/{cand}", timeout=30) as r:
+            req = urllib.request.Request(f"https://huggingface.co/api/models/{cand}")
+            if HF_TOKEN:
+                req.add_header("Authorization", f"Bearer {HF_TOKEN}")
+            with urllib.request.urlopen(req, timeout=30) as r:
                 siblings = [s["rfilename"] for s in json.load(r).get("siblings", [])]
             repo = cand
             break
