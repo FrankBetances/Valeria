@@ -21,6 +21,7 @@ import {
 import { voiceCorpusId, VoiceStyle } from './valeriaVoiceCorpus';
 import { VOICE_ASSETS } from './valeriaVoiceAssets';
 import { playVoiceAsset, stopVoiceAsset } from './valeriaVoicePlayback';
+import { getVoiceLang } from './valeriaLang';
 
 const LANG = 'es-ES';
 
@@ -199,7 +200,9 @@ const speakChain = (text: string, opts: Speech.SpeechOptions, token: number) => 
 // degrada, la sesión jamás se rompe.
 // ----------------------------------------------------------------------------
 const trySpokenAsset = (style: VoiceStyle, text: string, opts: Speech.SpeechOptions): boolean => {
-  const source = VOICE_ASSETS[voiceCorpusId(style, text)];
+  // El idioma activo forma parte del id: "boca" en es y en gl son audios
+  // distintos (voces Sharvard y Celtia respectivamente).
+  const source = VOICE_ASSETS[voiceCorpusId(style, text, getVoiceLang())];
   if (source == null) return false;
   const token = ++speakToken; // preempta cadenas de expo-speech pendientes
   Speech.stop();

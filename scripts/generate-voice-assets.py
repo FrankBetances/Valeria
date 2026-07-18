@@ -1,32 +1,34 @@
 #!/usr/bin/env python3
 # ============================================================================
-# Valeria+ · Generador de assets de voz neuronal (Fase 2 del plan ILENIA/Nós)
+# Valeria+ · Generador de assets de voz neuronal — V2 (multi-idioma, incremental)
 #   python3 scripts/generate-voice-assets.py --lang es
+#   python3 scripts/generate-voice-assets.py --lang gl
 #
-# Consume voice-corpus.json (scripts/export-voice-corpus.js) y sintetiza cada
-# locución con la voz neuronal configurada, la masteriza y la deja en
-# assets/voice/<id>.m4a. Después, scripts/build-voice-asset-map.js regenera
-# src/valeriaVoiceAssets.ts. Pensado para correr en CI (ver
-# .github/workflows/voice-assets.yml): los modelos JAMÁS corren en la app.
+# Consume voice-corpus.json (scripts/export-voice-corpus.js), filtra por
+# idioma y sintetiza SOLO las locuciones sin asset (incremental: regenerar no
+# reescribe lo ya sintetizado → sin churn en git). Deja assets/voice/<id>.m4a
+# y voice-assets-manifest.<lang>.json; después scripts/build-voice-asset-map.js
+# regenera src/valeriaVoiceAssets.ts. Corre en CI (voice-assets.yml): los
+# modelos JAMÁS corren en la app.
 #
 # Voces (decisión de producto, jul 2026):
-#   · gl → «Celtia» del Proxecto Nós (VITS, proxectonos en Hugging Face).
-#     Queda configurada y se activa cuando exista el corpus en gallego.
-#   · es → «Sharvard» femenina (rhasspy/piper-voices, es_ES-sharvard-medium):
-#     VITS femenina abierta, la homóloga de Celtia en castellano. Sustituible
-#     por una voz ILENIA/BSC cambiando solo esta configuración.
+#   · gl → «Celtia» do Proxecto Nós (VITS grafemas, motor coqui-tts). Los
+#     ficheros del checkpoint se descubren vía API de Hugging Face para no
+#     acoplarse a nombres internos del repo.
+#   · es → «Sharvard» femenina (rhasspy/piper-voices): VITS femenina abierta,
+#     homóloga de Celtia en castellano.
 #
-# Masterización: pico a -3 dBFS. La Pista B de ruido babble va a -6 dBFS, así
-# la voz conserva +3 dB sobre el ruido y la suma nunca satura el buffer.
-# Estilos: el corpus trae (estilo, texto); aquí el estilo se "hornea" con
-# length_scale (piper no expone pitch): tutor 1.0 · child 1.05 · clinical 1.15
-# · slow 1.6 (modelado fonético muy lento).
+# Masterización: pico a -3 dBFS (la Pista B de babble va a -6 dBFS: la voz
+# conserva +3 dB y la suma no satura). Estilos del corpus:
+#   · piper: length_scale nativo (tutor 1.0 · child 1.05 · clinical 1.15 · slow 1.6)
+#   · coqui: atempo de ffmpeg equivalente (sin re-pitch), tras normalizar.
 # ============================================================================
 import argparse
 import audioop
 import json
 import subprocess
 import sys
+import urllib.request
 import wave
 from pathlib import Path
 
@@ -34,7 +36,6 @@ ROOT = Path(__file__).resolve().parent.parent
 CORPUS = ROOT / "voice-corpus.json"
 OUT_DIR = ROOT / "assets" / "voice"
 VOICES_DIR = ROOT / "scripts" / ".voices"  # modelos descargados (gitignored)
-MANIFEST = ROOT / "voice-assets-manifest.json"
 
 PEAK_DBFS = -3.0
 AAC_BITRATE = "40k"
@@ -52,12 +53,15 @@ VOICES = {
         ],
     },
     "gl": {
-        # Celtia (Proxecto Nós): checkpoint Coqui-VITS. Se activará cuando el
-        # corpus gallego exista; requiere `pip install coqui-tts` en el workflow.
         "engine": "coqui",
         "name": "celtia",
         "label": "Celtia · Proxecto Nós (proxectonos)",
-        "hf_repo": "proxectonos/Nos_TTS-celtia-vits-graphemes",
+        # Candidatos por orden de preferencia; el primero que responda en la
+        # API de HF gana. VITS de grafemas: sin fonemizador externo.
+        "hf_repos": [
+            "proxectonos/Nos_TTS-celtia-vits-graphemes",
+            "proxectonos/nos_tts-celtia-vits-graphemes",
+        ],
     },
 }
 
@@ -67,28 +71,24 @@ def die(msg: str) -> None:
     sys.exit(1)
 
 
-def download_voice(voice: dict) -> Path:
-    VOICES_DIR.mkdir(parents=True, exist_ok=True)
-    onnx = VOICES_DIR / f"{voice['name']}.onnx"
-    for url in voice["urls"]:
-        dest = VOICES_DIR / url.rsplit("/", 1)[1]
-        if dest.exists() and dest.stat().st_size > 0:
-            continue
-        print(f"↓ {url}")
-        subprocess.run(["curl", "-fsSL", "-o", str(dest), url], check=True)
-    return onnx
+def manifest_path(lang: str) -> Path:
+    return ROOT / f"voice-assets-manifest.{lang}.json"
 
 
-def pick_female_speaker(config_path: Path) -> int | None:
-    # Voces multi-hablante: se elige la hablante femenina (paridad con Celtia).
-    cfg = json.loads(config_path.read_text())
-    if int(cfg.get("num_speakers", 1)) <= 1:
-        return None
-    id_map = cfg.get("speaker_id_map") or {}
-    for key, sid in id_map.items():
-        if key.lower().startswith(("f", "female", "muller", "mujer")):
-            return int(sid)
-    return 0  # sin etiquetas claras: primera hablante
+def curl(url: str, dest: Path) -> None:
+    if dest.exists() and dest.stat().st_size > 0:
+        return
+    print(f"↓ {url}")
+    subprocess.run(["curl", "-fsSL", "-o", str(dest), url], check=True)
+
+
+# ---------------------------------------------------------------- audio común
+def to_s16_wav(src: Path, dst: Path) -> None:
+    subprocess.run(
+        ["ffmpeg", "-y", "-loglevel", "error", "-i", str(src),
+         "-ac", "1", "-sample_fmt", "s16", str(dst)],
+        check=True,
+    )
 
 
 def normalize_peak(wav_in: Path, wav_out: Path) -> float:
@@ -106,62 +106,135 @@ def normalize_peak(wav_in: Path, wav_out: Path) -> float:
     return params.nframes / params.framerate
 
 
-def encode_m4a(wav: Path, m4a: Path) -> None:
+def encode_m4a(wav: Path, m4a: Path, atempo: float | None = None) -> None:
+    af = ["-af", f"atempo={atempo:.4f}"] if atempo and abs(atempo - 1.0) > 1e-3 else []
     subprocess.run(
-        ["ffmpeg", "-y", "-loglevel", "error", "-i", str(wav),
+        ["ffmpeg", "-y", "-loglevel", "error", "-i", str(wav), *af,
          "-c:a", "aac", "-b:a", AAC_BITRATE, "-movflags", "+faststart", str(m4a)],
         check=True,
     )
 
 
-def synth_piper(entries: list[dict], voice: dict) -> list[dict]:
+# ------------------------------------------------------------------ motores
+def make_piper_synth(voice: dict):
     from piper import PiperVoice, SynthesisConfig  # pip install piper-tts
 
-    onnx = download_voice(voice)
-    speaker = pick_female_speaker(onnx.with_suffix(".onnx.json"))
+    VOICES_DIR.mkdir(parents=True, exist_ok=True)
+    for url in voice["urls"]:
+        curl(url, VOICES_DIR / url.rsplit("/", 1)[1])
+    onnx = VOICES_DIR / f"{voice['name']}.onnx"
+
+    # Voces multi-hablante: se elige la hablante femenina (paridad con Celtia).
+    cfg = json.loads(onnx.with_suffix(".onnx.json").read_text())
+    speaker = None
+    if int(cfg.get("num_speakers", 1)) > 1:
+        id_map = cfg.get("speaker_id_map") or {}
+        speaker = next((int(v) for k, v in id_map.items()
+                        if k.lower().startswith(("f", "female", "muller", "mujer"))), 0)
     print(f"Voz: {voice['label']} · hablante={speaker if speaker is not None else 'única'}")
     pv = PiperVoice.load(str(onnx))
 
-    OUT_DIR.mkdir(parents=True, exist_ok=True)
-    tmp = OUT_DIR / "_tmp.wav"
-    manifest = []
-    for i, e in enumerate(entries):
-        m4a = OUT_DIR / f"{e['id']}.m4a"
-        cfg = SynthesisConfig(length_scale=LENGTH_SCALE.get(e["style"], 1.0), speaker_id=speaker)
-        with wave.open(str(tmp), "wb") as w:
-            pv.synthesize_wav(e["text"], w, syn_config=cfg)
-        seconds = normalize_peak(tmp, tmp)
-        encode_m4a(tmp, m4a)
-        manifest.append({"id": e["id"], "file": m4a.name, "seconds": round(seconds, 2), "bytes": m4a.stat().st_size})
-        if (i + 1) % 50 == 0:
-            print(f"  {i + 1}/{len(entries)}")
-    tmp.unlink(missing_ok=True)
-    return manifest
+    def synth(text: str, style: str, raw_wav: Path) -> float | None:
+        sc = SynthesisConfig(length_scale=LENGTH_SCALE.get(style, 1.0), speaker_id=speaker)
+        with wave.open(str(raw_wav), "wb") as w:
+            pv.synthesize_wav(text, w, syn_config=sc)
+        return None  # estilo ya horneado: sin atempo posterior
+
+    return synth
 
 
+def make_coqui_synth(voice: dict):
+    from TTS.api import TTS  # pip install coqui-tts (torch CPU)
+
+    # Descubrimiento de ficheros del checkpoint vía API de HF: el repo de Nós
+    # puede nombrar el .pth/.json como quiera sin romper esta tubería.
+    repo, siblings = None, []
+    for cand in voice["hf_repos"]:
+        try:
+            with urllib.request.urlopen(f"https://huggingface.co/api/models/{cand}", timeout=30) as r:
+                siblings = [s["rfilename"] for s in json.load(r).get("siblings", [])]
+            repo = cand
+            break
+        except Exception as e:
+            print(f"aviso: {cand} no accesible ({e})")
+    if not repo:
+        die(f"Ningún repo de Celtia accesible en HF: {voice['hf_repos']}")
+
+    model_file = next((f for f in siblings if f.endswith((".pth", ".pth.tar", ".ckpt"))), None)
+    config_file = next((f for f in siblings if f.endswith("config.json")), None)
+    if not model_file or not config_file:
+        die(f"{repo}: no encuentro checkpoint/config entre {siblings}")
+
+    vdir = VOICES_DIR / voice["name"]
+    vdir.mkdir(parents=True, exist_ok=True)
+    model = vdir / Path(model_file).name
+    config = vdir / Path(config_file).name
+    curl(f"https://huggingface.co/{repo}/resolve/main/{model_file}", model)
+    curl(f"https://huggingface.co/{repo}/resolve/main/{config_file}", config)
+    print(f"Voz: {voice['label']} · {repo} ({Path(model_file).name})")
+    tts = TTS(model_path=str(model), config_path=str(config), progress_bar=False)
+
+    def synth(text: str, style: str, raw_wav: Path) -> float | None:
+        tts.tts_to_file(text=text, file_path=str(raw_wav))
+        # Estilo por post-proceso: atempo < 1 ralentiza sin cambiar el pitch.
+        scale = LENGTH_SCALE.get(style, 1.0)
+        return (1.0 / scale) if scale != 1.0 else None
+
+    return synth
+
+
+# -------------------------------------------------------------------- main
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--lang", default="es", choices=sorted(VOICES))
     args = ap.parse_args()
     voice = VOICES[args.lang]
-    if voice["engine"] != "piper":
-        die(f"El motor '{voice['engine']}' ({voice['label']}) se activa cuando exista el corpus '{args.lang}'.")
 
     if not CORPUS.exists():
         die("Falta voice-corpus.json — ejecuta antes: node scripts/export-voice-corpus.js")
-    entries = json.loads(CORPUS.read_text())["corpus"]
-    print(f"Corpus: {len(entries)} locuciones")
+    all_entries = json.loads(CORPUS.read_text())["corpus"]
+    entries = [e for e in all_entries if e.get("lang", "es") == args.lang]
+    if not entries:
+        die(f"El corpus no tiene entradas '{args.lang}'.")
 
-    manifest = synth_piper(entries, voice)
+    OUT_DIR.mkdir(parents=True, exist_ok=True)
+    missing = [e for e in entries if not (OUT_DIR / f"{e['id']}.m4a").exists()]
+    print(f"Corpus {args.lang}: {len(entries)} locuciones · {len(missing)} sin asset")
+    if not missing:
+        print("Al día: nada que sintetizar (manifiesto intacto).")
+        return
 
-    total = sum(m["bytes"] for m in manifest)
-    secs = sum(m["seconds"] for m in manifest)
-    MANIFEST.write_text(json.dumps({
+    synth = make_piper_synth(voice) if voice["engine"] == "piper" else make_coqui_synth(voice)
+
+    # Manifiesto incremental: conserva las entradas previas del idioma.
+    mpath = manifest_path(args.lang)
+    old = {f["id"]: f for f in (json.loads(mpath.read_text()).get("files", []) if mpath.exists() else [])}
+
+    raw = OUT_DIR / "_raw.wav"
+    s16 = OUT_DIR / "_s16.wav"
+    for i, e in enumerate(missing):
+        m4a = OUT_DIR / f"{e['id']}.m4a"
+        atempo = synth(e["text"], e["style"], raw)
+        to_s16_wav(raw, s16)
+        seconds = normalize_peak(s16, s16)
+        encode_m4a(s16, m4a, atempo)
+        if atempo:
+            seconds /= atempo  # duración final tras el atempo
+        old[e["id"]] = {"id": e["id"], "file": m4a.name, "seconds": round(seconds, 2), "bytes": m4a.stat().st_size}
+        if (i + 1) % 25 == 0:
+            print(f"  {i + 1}/{len(missing)}")
+    raw.unlink(missing_ok=True)
+    s16.unlink(missing_ok=True)
+
+    files = [old[e["id"]] for e in entries if e["id"] in old]
+    total = sum(f["bytes"] for f in files)
+    secs = sum(f["seconds"] for f in files)
+    mpath.write_text(json.dumps({
         "lang": args.lang, "voice": voice["label"], "peakDbfs": PEAK_DBFS,
-        "entries": len(manifest), "totalBytes": total, "totalSeconds": round(secs, 1),
-        "files": manifest,
+        "entries": len(files), "totalBytes": total, "totalSeconds": round(secs, 1),
+        "files": files,
     }, indent=1))
-    print(f"OK → {len(manifest)} assets · {secs / 60:.1f} min · {total / 1e6:.1f} MB → {OUT_DIR}")
+    print(f"OK → {len(missing)} nuevas · total {args.lang}: {len(files)} assets · {secs / 60:.1f} min · {total / 1e6:.1f} MB")
 
 
 if __name__ == "__main__":

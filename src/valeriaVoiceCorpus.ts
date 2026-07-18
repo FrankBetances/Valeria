@@ -15,6 +15,7 @@
 // poder compilarlo y ejecutarlo sin react-native ni expo.
 // ============================================================================
 import { MINIMAL_PAIRS } from './valeriaMinimalPairs';
+import { MINIMAL_PAIRS_GL } from './valeriaMinimalPairsGl';
 import { enumerateAllCarrierPrompts } from './valeriaCarrierPhrases';
 import { TPR_CAPSULES } from './valeriaTprBank';
 import { ROUTINE_ROUTES } from './valeriaRoutineRoutes';
@@ -22,14 +23,25 @@ import {
   PRAISE_BANK, ALMOST_BANK, NO_HEAR_BANK, TOGETHER_BANK,
   SESSION_CONTINUE_PHRASE, ROUTE_DONE_PHRASE, VOICE_SAMPLE_PHRASE,
 } from './valeriaPhraseBank';
+import {
+  TPR_CAPSULES_GL, ROUTINE_ROUTES_GL,
+  PRAISE_BANK_GL, ALMOST_BANK_GL, NO_HEAR_BANK_GL, TOGETHER_BANK_GL,
+  SESSION_CONTINUE_PHRASE_GL, ROUTE_DONE_PHRASE_GL, VOICE_SAMPLE_PHRASE_GL,
+  PAIRS_DONE_PHRASE_GL,
+} from './valeriaContentGl';
 
 // Estilos de locución de valeriaVoice. El audio pre-generado "hornea" el
 // estilo (prosodia, velocidad) en el propio WAV, así que un mismo texto en dos
 // estilos son DOS entradas del corpus con ids distintos.
 export type VoiceStyle = 'tutor' | 'child' | 'clinical' | 'slow';
 
+// Idiomas del corpus (plan Nós): un MISMO texto puede existir en es y gl
+// ("boca", "casa") con audios distintos → el idioma forma parte del id.
+export type VoiceLang = 'es' | 'gl';
+
 export interface VoiceCorpusEntry {
-  id: string;         // `${estilo}_${hash}` — nombre de asset y clave del mapa
+  id: string;         // clave del mapa y nombre de asset (incluye idioma si ≠ es)
+  lang: VoiceLang;
   style: VoiceStyle;
   text: string;
   source: string;     // de qué banco sale (trazabilidad en la tubería)
@@ -49,9 +61,13 @@ function fnv1a(str: string): string {
   return h.toString(16).padStart(8, '0');
 }
 
-export const voiceCorpusId = (style: VoiceStyle, text: string): string => {
+// Retro-compatibilidad: los ids castellanos conservan su forma original
+// (los 392 assets es ya sintetizados no se renombran); el resto de idiomas
+// añade su prefijo para desambiguar textos idénticos entre lenguas.
+export const voiceCorpusId = (style: VoiceStyle, text: string, lang: VoiceLang = 'es'): string => {
   const n = normalize(text);
-  return `${style}_${fnv1a(n)}_${n.length}`;
+  const base = `${style}_${fnv1a(n)}_${n.length}`;
+  return lang === 'es' ? base : `${lang}_${base}`;
 };
 
 // ----------------------------------------------------------------------------
@@ -59,15 +75,18 @@ export const voiceCorpusId = (style: VoiceStyle, text: string): string => {
 // ----------------------------------------------------------------------------
 export function buildVoiceCorpus(): VoiceCorpusEntry[] {
   const entries = new Map<string, VoiceCorpusEntry>();
-  const add = (style: VoiceStyle, text: string, source: string): void => {
+  const mkAdd = (lang: VoiceLang) => (style: VoiceStyle, text: string, source: string): void => {
     const t = normalize(text);
     if (!t) return;
-    const id = voiceCorpusId(style, t);
-    if (!entries.has(id)) entries.set(id, { id, style, text: t, source });
+    const id = voiceCorpusId(style, t, lang);
+    if (!entries.has(id)) entries.set(id, { id, lang, style, text: t, source });
   };
 
+  // ========================== CASTELLANO (es) ==========================
+  const add = mkAdd('es');
+
   // 1) Frases portadoras procedurales (prosodia clínica): enumeración total.
-  for (const p of enumerateAllCarrierPrompts()) add('clinical', p.full, 'carrier');
+  for (const p of enumerateAllCarrierPrompts('es')) add('clinical', p.full, 'carrier');
 
   // 2) Pares mínimos: consignas, celebraciones, correcciones y modelado lento.
   //    Las plantillas espejo replican las cadenas de ValeriaMinimalPairsScreen;
@@ -95,6 +114,35 @@ export function buildVoiceCorpus(): VoiceCorpusEntry[] {
   for (const t of NO_HEAR_BANK) add('child', t, 'banco/no-oido');
   for (const t of TOGETHER_BANK) add('child', t, 'banco/juntos');
   add('child', VOICE_SAMPLE_PHRASE, 'util/muestra');
+
+  // ============================ GALEGO (gl) ============================
+  // Contido do plan Proxecto Nós (GL-2.x), en borrador pendente de revisión;
+  // sintetízase con Celtia para poder avalialo (a app aínda non o emite).
+  const addGl = mkAdd('gl');
+
+  for (const p of enumerateAllCarrierPrompts('gl')) addGl('clinical', p.full, 'carrier');
+
+  for (const p of MINIMAL_PAIRS_GL) {
+    // Intro neutra en xénero: os pares gl mesturan masculinos e femininos.
+    addGl('child', `Aquí temos: ${p.target}. E aquí: ${p.foil}. ${p.prompt}`, 'pares/intro');
+    addGl('child', p.prompt, 'pares/prompt');
+    addGl('child', p.onTarget.say, 'pares/celebracion');
+    addGl('child', p.onFoil.say, 'pares/correccion');
+    addGl('child', `Outra vez! Di: ${p.target}.`, 'pares/retry');
+    addGl('slow', p.target.toLowerCase(), 'pares/modelado');
+  }
+  addGl('child', PAIRS_DONE_PHRASE_GL, 'pares/fin');
+
+  for (const c of TPR_CAPSULES_GL) for (const cmd of c.commands) addGl('child', cmd.text, 'tpr');
+  addGl('child', SESSION_CONTINUE_PHRASE_GL, 'tpr/fin');
+  for (const r of ROUTINE_ROUTES_GL) for (const cmd of r.commands) addGl('clinical', cmd.text, 'rutas');
+  addGl('clinical', ROUTE_DONE_PHRASE_GL, 'rutas/fin');
+
+  for (const t of PRAISE_BANK_GL) addGl('child', t, 'banco/elogio');
+  for (const t of ALMOST_BANK_GL) addGl('child', t, 'banco/casi');
+  for (const t of NO_HEAR_BANK_GL) addGl('child', t, 'banco/no-oido');
+  for (const t of TOGETHER_BANK_GL) addGl('child', t, 'banco/juntos');
+  addGl('child', VOICE_SAMPLE_PHRASE_GL, 'util/muestra');
 
   return Array.from(entries.values());
 }
