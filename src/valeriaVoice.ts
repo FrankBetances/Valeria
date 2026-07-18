@@ -22,9 +22,7 @@ import { VOICE_SAMPLE_PHRASE_GL } from './valeriaContentGl';
 import { voiceCorpusId, VoiceStyle } from './valeriaVoiceCorpus';
 import { VOICE_ASSETS } from './valeriaVoiceAssets';
 import { playVoiceAsset, stopVoiceAsset } from './valeriaVoicePlayback';
-import { getVoiceLang } from './valeriaLang';
-
-const LANG = 'es-ES';
+import { getLocale, assetLang, speechLocale, prefersLatinVoice } from './valeriaLocale';
 
 // ----------------------------------------------------------------------------
 // Selección de voz: el motor TTS del sistema suele traer varias voces es-*.
@@ -49,8 +47,12 @@ const scoreVoice = (v: Speech.Voice): number => {
   const lang = (v.language ?? '').toLowerCase().replace('_', '-');
   if (!lang.startsWith('es')) return -1;
   const id = `${v.identifier ?? ''} ${v.name ?? ''}`.toLowerCase();
-  // Prioridad de idioma: castellano (es-ES) > variantes latinas > resto es-*.
-  let s = lang === 'es-es' ? 4 : /^es-(us|mx|419)/.test(lang) ? 3 : 2;
+  // Prioridad de idioma según la variedad activa. En dominicano (es-DO)
+  // priorizamos voces latinas (es-US/es-MX/es-DO); en el resto, castellano.
+  const latin = /^es-(us|mx|do|419)/.test(lang);
+  let s = prefersLatinVoice()
+    ? (latin ? 4 : lang === 'es-es' ? 2 : 3)
+    : (lang === 'es-es' ? 4 : latin ? 3 : 2);
   if (v.quality === Speech.VoiceQuality.Enhanced) s += 6;
   if (NEURAL_RE.test(id)) s += 4;
   // Voces iOS de alta calidad conocidas para es-ES / es-MX.
@@ -174,7 +176,7 @@ const speakChain = (text: string, opts: Speech.SpeechOptions, token: number) => 
     const asking = /[?¿]/.test(sentence);
     const jitter = (((i * 7) % 5) - 2) * 0.012; // micro-variación determinista
     Speech.speak(sentence, {
-      language: LANG,
+      language: speechLocale(),
       ...rest,
       rate: clamp(baseRate + (excited ? 0.03 : 0) + jitter * 0.5, 0.4, 1.3),
       pitch: clamp(basePitch + (excited ? 0.06 : asking ? 0.05 : 0) + jitter, 0.7, 1.45),
@@ -201,9 +203,12 @@ const speakChain = (text: string, opts: Speech.SpeechOptions, token: number) => 
 // degrada, la sesión jamás se rompe.
 // ----------------------------------------------------------------------------
 const trySpokenAsset = (style: VoiceStyle, text: string, opts: Speech.SpeechOptions): boolean => {
-  // El idioma activo forma parte del id: "boca" en es y en gl son audios
-  // distintos (voces Sharvard y Celtia respectivamente).
-  const source = VOICE_ASSETS[voiceCorpusId(style, text, getVoiceLang())];
+  // Solo las variedades con banco pregenerado (es→Sharvard, gl→Celtia) buscan
+  // asset; el dominicano (es-DO) usa la voz del sistema, así que assetLang() es
+  // null y siempre cae a expo-speech con el locale latino.
+  const al = assetLang();
+  if (al == null) return false;
+  const source = VOICE_ASSETS[voiceCorpusId(style, text, al)];
   if (source == null) return false;
   const token = ++speakToken; // preempta cadenas de expo-speech pendientes
   Speech.stop();
@@ -257,7 +262,7 @@ export const speakClinical = (text: string, opts: Speech.SpeechOptions = {}) => 
     if (token !== speakToken) return;
     const { onDone, onError, ...rest } = opts;
     Speech.speak(text, {
-      language: LANG,
+      language: speechLocale(),
       ...rest,
       rate: clamp(rest.rate ?? 0.8, 0.6, 0.9),   // techo bajo: nunca acelera el fonema
       pitch: clamp(rest.pitch ?? 1.0, 0.9, 1.1), // tono plano y estable
@@ -276,7 +281,7 @@ export const speakClinical = (text: string, opts: Speech.SpeechOptions = {}) => 
 // Frase de prueba para que la familia escuche la voz elegida. En galego usa
 // la muestra propia, que resuelve el asset neuronal de Celtia (id gl_*).
 export const speakVoiceSample = () =>
-  speakToChild(getVoiceLang() === 'gl' ? VOICE_SAMPLE_PHRASE_GL : VOICE_SAMPLE_PHRASE);
+  speakToChild(getLocale() === 'gl' ? VOICE_SAMPLE_PHRASE_GL : VOICE_SAMPLE_PHRASE);
 
 // Palabra objetivo bien articulada, muy despacio (modelado fonético).
 export const speakWordSlow = (text: string) => {
@@ -363,7 +368,7 @@ export async function startListening(cb: ListenCallbacks): Promise<boolean> {
       cb.onError(e?.error?.message ? 'No te escuché bien. ¡Probamos otra vez!' : 'No se pudo escuchar.');
     Voice.onSpeechEnd = () => cb.onEnd?.();
     stopSpeaking(); // que la app no se escuche a sí misma
-    await Voice.start(LANG);
+    await Voice.start(speechLocale());
     return true;
   } catch (e) {
     cb.onError('No se pudo iniciar el micrófono. Inténtalo de nuevo.');

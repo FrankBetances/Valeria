@@ -19,8 +19,7 @@ import {
   asrSupported, startListening, stopListening, releaseListening, matchTarget, MatchLevel,
   VoiceStatus, refreshVoiceCatalog,
 } from './valeriaVoice';
-import { getVoiceLang, setVoiceLang } from './valeriaLang';
-import { VoiceLang } from './valeriaVoiceCorpus';
+import { getLocale, setLocale, assetLang, Locale } from './valeriaLocale';
 
 // ----------------------------------------------------------------------------
 // Botón altavoz: lee `text` en voz alta. `voice` elige el tono.
@@ -305,18 +304,21 @@ export const ResponseCaptureCard: React.FC<{
 const GOOGLE_TTS_MARKET = 'market://details?id=com.google.android.tts';
 const GOOGLE_TTS_WEB = 'https://play.google.com/store/apps/details?id=com.google.android.tts';
 
-// Idiomas ofrecidos por el selector. El galego se locuta con la voz neuronal
-// Celtia (Proxecto Nós) empaquetada en la app; en probas mientras el contenido
-// gallego se valida (por eso la etiqueta beta).
-const LANGS: Array<{ id: VoiceLang; label: string; beta?: boolean }> = [
+// Variedades ofrecidas por el selector:
+//   · Castellano → voz neuronal Sharvard (empaquetada).
+//   · Galego → voz neuronal Celtia (Proxecto Nós, empaquetada); beta.
+//   · Dominicano (es-DO · Quisqueya Habla) → voz y micrófono del SISTEMA en
+//     español latino (es-US/es-MX); beta mientras el contenido se valida.
+const LOCALES: Array<{ id: Locale; label: string; beta?: boolean }> = [
   { id: 'es', label: 'Castellano' },
   { id: 'gl', label: 'Galego', beta: true },
+  { id: 'es-DO', label: 'Dominicano', beta: true },
 ];
 
 export const VoiceQualityCard: React.FC = () => {
   const [status, setStatus] = useState<VoiceStatus | null>(null);
   const [checking, setChecking] = useState(false);
-  const [lang, setLang] = useState<VoiceLang>(getVoiceLang());
+  const [locale, setLoc] = useState<Locale>(getLocale());
   const mounted = useRef(true);
 
   const check = async () => {
@@ -329,12 +331,18 @@ export const VoiceQualityCard: React.FC = () => {
     }
   };
 
-  // Cambia el idioma de locución (valeriaLang, global). Detiene lo que suene y
-  // reproduce la muestra en el idioma elegido para oír el cambio al instante.
-  // setVoiceLang fija el idioma activo de forma síncrona (y lo persiste), así
-  // que speakVoiceSample() ya usa el nuevo idioma sin esperar al disco.
-  const pickLang = (l: VoiceLang) => {
-    if (l !== lang) { stopSpeaking(); setLang(l); void setVoiceLang(l); }
+  // Cambia la variedad activa (valeriaLocale, global) y persiste. setLocale la
+  // fija de forma síncrona, así que speakVoiceSample() ya usa la nueva. Las
+  // variedades que dependen de la voz del sistema (es, es-DO) re-escanean el
+  // catálogo para elegir la mejor voz según la nueva preferencia (es-DO
+  // prioriza voces latinas); el galego usa Celtia empaquetada, no re-escanea.
+  const pickLocale = (l: Locale) => {
+    if (l !== locale) {
+      stopSpeaking();
+      setLoc(l);
+      void setLocale(l);
+      if (assetLang(l) == null || l === 'es') void check();
+    }
     speakVoiceSample();
   };
 
@@ -357,18 +365,24 @@ export const VoiceQualityCard: React.FC = () => {
       : tier === 'estandar' ? { txt: 'Voz estándar', bg: '#fffbeb', fg: '#92711a' }
         : { txt: 'Voz mejorable', bg: V.color.errorBg, fg: V.color.error };
 
-  // En galego la app locuta con la voz neuronal Celtia empaquetada, así que la
-  // calidad no depende del motor del sistema ni de instalar voces de Google.
-  const isGl = lang === 'gl';
+  // Galego → voz neuronal Celtia empaquetada (no depende del motor del sistema).
+  // Dominicano (es-DO) → voz del sistema en español LATINO (es-US/es-MX): la
+  // detección de calidad y la guía de instalación siguen aplicando, pero
+  // apuntando a una voz latina. Castellano → comportamiento histórico.
+  const isGl = locale === 'gl';
+  const isDo = locale === 'es-DO';
   const detail = isGl
     ? 'En galego a app fala coa voz neuronal Celtia (Proxecto Nós), incluída na app: soa igual en calquera dispositivo, sen conexión.'
     : checking ? 'Buscando la mejor voz en español instalada en este dispositivo…'
       : noSpanish ? 'No hay ninguna voz en español instalada: la app no podrá leer las consignas hasta descargarla.'
-        : good ? `La app usará la mejor voz del dispositivo${status?.name ? ` («${status.name}»)` : ''}. Suena natural, no robótica.`
-          : Platform.OS === 'android'
-            ? 'Este dispositivo solo ofrece una voz sencilla y puede sonar robótica. Instala las voces de Google (gratis y sin conexión) para que la app suene natural.'
-            : 'Puedes mejorar la voz en Ajustes → Accesibilidad → Contenido leído → Voces → Español, descargando la voz mejorada.';
-  // La guía de voces de Google solo aplica al castellano (voz del sistema).
+        : isDo
+          ? `En dominicano la app usa la voz latina del dispositivo${status?.name ? ` («${status.name}»)` : ''} y el micrófono en es-DO. Si suena peninsular o robótica, instala una voz de Español (Latinoamérica).`
+          : good ? `La app usará la mejor voz del dispositivo${status?.name ? ` («${status.name}»)` : ''}. Suena natural, no robótica.`
+            : Platform.OS === 'android'
+              ? 'Este dispositivo solo ofrece una voz sencilla y puede sonar robótica. Instala las voces de Google (gratis y sin conexión) para que la app suene natural.'
+              : 'Puedes mejorar la voz en Ajustes → Accesibilidad → Contenido leído → Voces → Español, descargando la voz mejorada.';
+  // La guía de voces de Google aplica a las variedades con voz del sistema
+  // (castellano y dominicano); el galego usa Celtia empaquetada.
   const showInstall = !isGl && (!good || noSpanish) && Platform.OS === 'android';
 
   return (
@@ -381,16 +395,16 @@ export const VoiceQualityCard: React.FC = () => {
         </View>
       </View>
 
-      {/* Selector de idioma de la voz (se guarda en el dispositivo). Tocar una
+      {/* Selector de variedad de la voz (se guarda en el dispositivo). Tocar una
           opción la elige y reproduce la muestra para oírla al instante. */}
-      <Text style={s.vqLangLabel}>Idioma de la voz</Text>
+      <Text style={s.vqLangLabel}>Variedad de la voz</Text>
       <View style={s.vqLangRow}>
-        {LANGS.map((it) => {
-          const on = lang === it.id;
+        {LOCALES.map((it) => {
+          const on = locale === it.id;
           return (
             <Pressable
               key={it.id}
-              onPress={() => pickLang(it.id)}
+              onPress={() => pickLocale(it.id)}
               style={[s.vqLangBtn, on && s.vqLangBtnOn]}
               accessibilityRole="button"
               accessibilityState={{ selected: on }}
