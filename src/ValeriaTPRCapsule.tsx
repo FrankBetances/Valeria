@@ -9,80 +9,13 @@ import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, Pressable, StyleSheet, Animated, Easing } from 'react-native';
 import { V } from './valeriaTheme';
 import { speakToChild, stopSpeaking } from './valeriaVoice';
+import { TprCapsule, TPR_CAPSULES, pickTprCapsule } from './valeriaTprBank';
+import { SESSION_CONTINUE_PHRASE } from './valeriaPhraseBank';
 
-export interface TprCommand { emoji: string; text: string; }
-export interface TprCapsule { icon: string; title: string; commands: TprCommand[]; }
-
-// Banco de cápsulas: órdenes cortas, imperativas y muy visuales (estilo Asher).
-export const TPR_CAPSULES: TprCapsule[] = [
-  {
-    icon: '🙆', title: 'Simón dice… ¡cuerpo!',
-    commands: [
-      { emoji: '🧠', text: 'Tócate la cabeza.' },
-      { emoji: '👃', text: 'Tócate la nariz.' },
-      { emoji: '🙌', text: 'Levanta los brazos muy alto.' },
-    ],
-  },
-  {
-    icon: '🐾', title: 'Animales en acción',
-    commands: [
-      { emoji: '🐸', text: 'Salta como una rana.' },
-      { emoji: '🐻', text: 'Camina como un oso, a cuatro patas.' },
-      { emoji: '🐦', text: 'Vuela como un pájaro moviendo los brazos.' },
-    ],
-  },
-  {
-    icon: '⚡', title: '¡A moverse!',
-    commands: [
-      { emoji: '🦘', text: 'Salta tres veces.' },
-      { emoji: '🌀', text: 'Da una vuelta entera.' },
-      { emoji: '🪑', text: 'Siéntate en el suelo.' },
-    ],
-  },
-  {
-    icon: '🐢', title: 'Rápido y despacio',
-    commands: [
-      { emoji: '🐢', text: 'Camina muy, muy despacio, como una tortuga.' },
-      { emoji: '🏃', text: 'Corre en tu sitio, ¡rápido, rápido!' },
-      { emoji: '🗿', text: '¡Estatua! Quédate quieto sin moverte.' },
-    ],
-  },
-  {
-    icon: '👏', title: 'Manos que hablan',
-    commands: [
-      { emoji: '👏', text: 'Aplaude muy fuerte.' },
-      { emoji: '👋', text: 'Di adiós con la mano.' },
-      { emoji: '😘', text: 'Manda un beso volador.' },
-    ],
-  },
-  {
-    icon: '🎈', title: 'Grande y pequeño',
-    commands: [
-      { emoji: '🦒', text: 'Hazte muy grande, estírate hasta el cielo.' },
-      { emoji: '⚽', text: 'Hazte pequeño como una pelota.' },
-      { emoji: '🌳', text: 'Abre los brazos como un árbol gigante.' },
-    ],
-  },
-  {
-    icon: '🎭', title: 'Emociones con el cuerpo',
-    commands: [
-      { emoji: '😀', text: 'Pon cara de mucha alegría.' },
-      { emoji: '😠', text: 'Enséñame el enfado con los brazos cruzados.' },
-      { emoji: '🤗', text: 'Date un abrazo muy fuerte.' },
-    ],
-  },
-  {
-    icon: '🤖', title: 'El robot obediente',
-    commands: [
-      { emoji: '🤖', text: 'Camina como un robot diciendo bip, bop.' },
-      { emoji: '🛑', text: 'Robot… ¡para!' },
-      { emoji: '🔋', text: 'El robot se apaga: túmbate despacito.' },
-    ],
-  },
-];
-
-export const pickTprCapsule = (): TprCapsule =>
-  TPR_CAPSULES[Math.floor(Math.random() * TPR_CAPSULES.length)];
+// El banco de cápsulas vive en valeriaTprBank (módulo PURO, enumerable por el
+// corpus de voz en build-time). Se re-exporta para los imports históricos.
+export { TPR_CAPSULES, pickTprCapsule } from './valeriaTprBank';
+export type { TprCommand, TprCapsule } from './valeriaTprBank';
 
 // ----------------------------------------------------------------------------
 // Overlay de cápsula: dicta cada orden con TTS y avanza al confirmarla.
@@ -117,7 +50,7 @@ export const ValeriaTPRCapsuleOverlay: React.FC<{
 
   const next = () => {
     if (last) {
-      speakToChild('¡Muy bien! ¡Seguimos con la sesión!');
+      speakToChild(SESSION_CONTINUE_PHRASE);
       onDone();
     } else {
       setStep(step + 1);

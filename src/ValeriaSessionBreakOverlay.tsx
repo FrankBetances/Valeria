@@ -11,8 +11,10 @@ import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
 import { V } from './valeriaTheme';
 import { speakClinical, stopSpeaking } from './valeriaVoice';
-import { ValeriaTPRCapsuleOverlay, pickTprCapsule, TprCapsule } from './ValeriaTPRCapsule';
+import { ValeriaTPRCapsuleOverlay } from './ValeriaTPRCapsule';
+import { pickTprCapsule, TprCapsule } from './valeriaTprBank';
 import { ROUTINE_ROUTES, RoutineRoute } from './valeriaRoutineRoutes';
+import { ROUTE_DONE_PHRASE } from './valeriaPhraseBank';
 import {
   trackCapsuleStart, trackCapsuleDone, trackCapsuleSkip,
   trackRouteStart, trackRouteValidated, trackRouteFailed, trackRouteSkip,
@@ -52,7 +54,7 @@ const RoutineRouteOverlay: React.FC<{
   useEffect(() => () => stopSpeaking(), []);
 
   const advance = () => {
-    if (last) { speakClinical('Ruta completada. Seguimos con la sesión.'); onDone(); }
+    if (last) { speakClinical(ROUTE_DONE_PHRASE); onDone(); }
     else setStep(step + 1);
   };
 

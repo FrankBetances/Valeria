@@ -216,6 +216,23 @@ más larga; se subdivide por bloque de terapia para poder publicar por partes.*
 **Salida de fase:** experiencia gallega con voz de calidad neural, offline.
 **Depende de:** Fase 2 (necesita las cadenas finales revisadas).
 
+> **Estado (jul 2026): infraestructura común CONSTRUIDA y en producción para
+> castellano.** La rama `claude/valeria-clinical-refactor-tduqqp` implementa la
+> versión generalizada de esta fase, ya operativa con el corpus castellano
+> (392 locuciones, voz «Sharvard» femenina, 10,2 MB / 31,7 min AAC a -3 dBFS):
+>
+> - GL-3.1 → `scripts/export-voice-corpus.js` + `scripts/generate-voice-assets.py`
+>   (motor intercambiable por variedad; **Celtia ya configurada** para `gl`) y
+>   workflow `voice-assets.yml` que sintetiza en CI y commitea los assets.
+> - GL-3.2/3.3 → `src/valeriaVoicePlayback.ts` + cadena texto→asset integrada en
+>   `valeriaVoice.ts` con ids por hash de contenido y degradación a voz del
+>   sistema sin silencio.
+> - GL-3.4 → medido: ~10,2 MB por variedad, dentro del presupuesto (<25 MB).
+> - GL-3.5 → créditos de voz en `ValeriaCreditsScreen` (Sharvard; Celtia anunciada).
+>
+> Para el gallego solo queda: corpus `gl` (Fase 2 de este plan) + activar el
+> motor `coqui`/Celtia en `generate-voice-assets.py` (`--lang gl`).
+
 ---
 
 ### Fase 4 · ASR en gallego

@@ -15,6 +15,12 @@
 // ============================================================================
 import { PermissionsAndroid, Platform } from 'react-native';
 import * as Speech from 'expo-speech';
+import {
+  PRAISE_BANK, ALMOST_BANK, NO_HEAR_BANK, TOGETHER_BANK, VOICE_SAMPLE_PHRASE,
+} from './valeriaPhraseBank';
+import { voiceCorpusId, VoiceStyle } from './valeriaVoiceCorpus';
+import { VOICE_ASSETS } from './valeriaVoiceAssets';
+import { playVoiceAsset, stopVoiceAsset } from './valeriaVoicePlayback';
 
 const LANG = 'es-ES';
 
@@ -184,10 +190,31 @@ const speakChain = (text: string, opts: Speech.SpeechOptions, token: number) => 
   sayFrom(0);
 };
 
-export const speak = (text: string, opts: Speech.SpeechOptions = {}) => {
+// ----------------------------------------------------------------------------
+// Voz neuronal pre-generada (plan ILENIA/Nós, Fase 1): si el texto (con su
+// estilo) está en el mapa VOICE_ASSETS, se reproduce el audio horneado en
+// build-time — acústica idéntica en todos los dispositivos del piloto — y
+// expo-speech ni arranca. Si no hay asset (mapa vacío en Fase 1, deriva de
+// texto, error del módulo nativo), se cae al motor del sistema: la calidad
+// degrada, la sesión jamás se rompe.
+// ----------------------------------------------------------------------------
+const trySpokenAsset = (style: VoiceStyle, text: string, opts: Speech.SpeechOptions): boolean => {
+  const source = VOICE_ASSETS[voiceCorpusId(style, text)];
+  if (source == null) return false;
+  const token = ++speakToken; // preempta cadenas de expo-speech pendientes
+  Speech.stop();
+  return playVoiceAsset(source, {
+    onDone: () => { if (token === speakToken) opts.onDone?.(); },
+    // El rescate de las pantallas (afterSpeak) también cubre este camino.
+    onError: () => { if (token === speakToken) (opts.onError as ((e: unknown) => void) | undefined)?.(new Error('voice asset playback failed')); },
+  });
+};
+
+const speakEngine = (text: string, opts: Speech.SpeechOptions = {}) => {
   ensureBestVoice();
   const token = ++speakToken;
   Speech.stop();
+  stopVoiceAsset();
   const go = () => { if (token === speakToken) speakChain(text, opts, token); };
   if (bestVoiceId === undefined && voiceSearch) {
     // Primera locución: espera brevemente al catálogo de voces para no
@@ -199,9 +226,16 @@ export const speak = (text: string, opts: Speech.SpeechOptions = {}) => {
   }
 };
 
+export const speak = (text: string, opts: Speech.SpeechOptions = {}) => {
+  if (trySpokenAsset('tutor', text, opts)) return;
+  speakEngine(text, opts);
+};
+
 // Voz "cuentacuentos" para dirigirse al niño: algo más aguda y pausada.
-export const speakToChild = (text: string, opts: Speech.SpeechOptions = {}) =>
-  speak(text, { pitch: 1.15, rate: 0.85, ...opts });
+export const speakToChild = (text: string, opts: Speech.SpeechOptions = {}) => {
+  if (trySpokenAsset('child', text, opts)) return;
+  speakEngine(text, { pitch: 1.15, rate: 0.85, ...opts });
+};
 
 // Voz CLÍNICA para frases portadoras y órdenes morfosintácticas: UNA sola
 // locución continua (sin trocear por frases, sin jitter ni subidas de tono en
@@ -210,9 +244,11 @@ export const speakToChild = (text: string, opts: Speech.SpeechOptions = {}) =>
 // texto se entrega entero al motor para que la prosodia sea la natural de la
 // voz neuronal, no la nuestra. Participa en la preempción de speak().
 export const speakClinical = (text: string, opts: Speech.SpeechOptions = {}) => {
+  if (trySpokenAsset('clinical', text, opts)) return;
   ensureBestVoice();
   const token = ++speakToken;
   Speech.stop();
+  stopVoiceAsset();
   const go = () => {
     if (token !== speakToken) return;
     const { onDone, onError, ...rest } = opts;
@@ -234,43 +270,23 @@ export const speakClinical = (text: string, opts: Speech.SpeechOptions = {}) => 
 };
 
 // Frase de prueba para que la familia escuche la voz elegida.
-export const speakVoiceSample = () =>
-  speakToChild('¡Hola! Así sonará mi voz en los ejercicios. ¿Verdad que suena bien?');
+export const speakVoiceSample = () => speakToChild(VOICE_SAMPLE_PHRASE);
 
 // Palabra objetivo bien articulada, muy despacio (modelado fonético).
-export const speakWordSlow = (text: string) =>
-  speak(text.toLowerCase(), { pitch: 1.1, rate: 0.6 });
+export const speakWordSlow = (text: string) => {
+  const t = text.toLowerCase();
+  if (trySpokenAsset('slow', t, {})) return;
+  speakEngine(t, { pitch: 1.1, rate: 0.6 });
+};
 
-export const stopSpeaking = () => { speakToken += 1; Speech.stop(); };
+export const stopSpeaking = () => { speakToken += 1; Speech.stop(); stopVoiceAsset(); };
 
 // ----------------------------------------------------------------------------
 // Bancos de frases: oír siempre el mismo "¡Muy bien!" aburre y suena enlatado.
 // Cada categoría rota entre variantes sin repetir dos veces seguidas la misma.
+// Los DATOS viven en valeriaPhraseBank (módulo puro, enumerable por el corpus
+// de voz en build-time); aquí solo queda la rotación.
 // ----------------------------------------------------------------------------
-const PRAISE_BANK = [
-  '¡Muy bien! ¡Lo has dicho genial!',
-  '¡Bravo! ¡Qué bien ha sonado!',
-  '¡Toma ya! ¡Palabra conseguida!',
-  '¡Genial! ¡Cada vez te sale mejor!',
-  '¡Súper! ¡Lo dijiste clarísimo!',
-  '¡Olé esa voz! ¡Muy bien dicho!',
-];
-const ALMOST_BANK = [
-  '¡Casi casi! Escucha bien y otra vez…',
-  '¡Uy, por poquito! Vamos a probar de nuevo.',
-  '¡Ya casi lo tienes! Escucha y repite.',
-  'Un poquito más y lo bordas. ¡Otra vez!',
-];
-const NO_HEAR_BANK = [
-  'No te escuché bien. ¡Probamos otra vez!',
-  '¡Uy, no llegó tu voz! Acércate y repetimos.',
-  'Se me escapó tu palabra. ¡Dímela otra vez!',
-];
-const TOGETHER_BANK = [
-  'Vamos a decirla juntos, muy despacito.',
-  'La decimos a la vez, despacito y sin prisa.',
-  'Ahora en equipo: la decimos los dos juntos.',
-];
 
 const lastPick: Record<string, number> = {};
 const pickPhrase = (key: string, bank: string[]): string => {
