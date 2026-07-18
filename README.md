@@ -5,6 +5,8 @@
 **App móvil de terapia auditivo‑verbal y del lenguaje** para niñas y niños con
 hipoacusia, implante coclear, dislalias o dificultades del lenguaje.
 
+Castellano · Galego · Dominicano (es‑DO) · voz neuronal offline
+
 Expo SDK 54 · React Native 0.81 · TypeScript · Backend opcional Firebase
 
 </div>
@@ -15,6 +17,8 @@ Expo SDK 54 · React Native 0.81 · TypeScript · Backend opcional Firebase
 
 - [¿Qué es Valeria+?](#qué-es-valeria)
 - [Bloques de terapia](#bloques-de-terapia)
+- [Panel del Adulto · Caos Comunicativo](#panel-del-adulto--caos-comunicativo)
+- [Idiomas y variedades](#idiomas-y-variedades)
 - [Flujo de pantallas](#flujo-de-pantallas)
 - [Telemetría del piloto clínico](#telemetría-del-piloto-clínico)
 - [Documentación](#documentación)
@@ -50,6 +54,66 @@ cualquier dispositivo y **sin conexión**.
 El **Test de Ling** (6 sonidos) precede a los ejercicios de audición cuando el
 paciente usa audífono o implante, y la **gamificación** (XP, racha 🔥, niveles e
 insignias) mantiene la motivación en todos los bloques.
+
+Además, cada mini‑juego de Audición y Lenguaje **rota hasta 3 contenidos**
+distintos ("🔄 Otra ronda"), encadenables en una **"🎯 Sesión completa"** por
+bloque, con pausas activas unificadas entre ejercicios (`ValeriaSessionBreakOverlay`):
+alternan la **cápsula TPR clásica** ("escucha y muévete") y la **Ruta de Rutina
+TPR 2.0** (morfosintaxis transaccional). En Pares Mínimos y Expansión Semántica,
+la palabra objetivo ya no se dicta aislada: un **motor combinatorio de frases
+portadoras** (`valeriaCarrierPhrases`, es/gl) la incrusta en una frase con
+prosodia continua seguida de una pregunta de elicitación, sin repetir frase en
+diez ensayos seguidos.
+
+## Panel del Adulto · Caos Comunicativo
+
+Para el piloto clínico, Valeria+ añade un **Panel del Adulto** (`ValeriaAdultChaosPanel`)
+—tarjeta colapsable presente en el player— con tres módulos de **carga
+comunicativa manual**. La regla innegociable es un **muro regulatorio (MDR)**:
+la app **jamás activa, mide ni adapta** nada por su cuenta; todo lo acciona el
+adulto de forma explícita. Automatizar el ajuste convertiría la app en un
+audiómetro algorítmico (SaMD), y cualquier lógica de ese tipo debe rechazarse.
+
+| Módulo | Qué hace |
+| --- | --- |
+| 🔊 **Escucha en ruido** (`ValeriaManualNoiseSlider` + `valeriaNoise`) | Reproducción dual: la instrucción TTS sobre una pista de **ruido babble** de cafetería en bucle. El volumen del ruido muta **solo** con el slider manual (0‑10) del adulto; la telemetría se registra al soltar, no por píxel. |
+| 🐻 **Doble tarea** (`ValeriaDistractorBear`) | Un oso distractor se asoma por la periferia y se mueve **sin ser interactivo** (`pointerEvents="none"`): interferencia visual pura para el paradigma de carga cognitiva dual. Animación por el hilo nativo, arrancada tras `InteractionManager`. |
+| 💬 **Quiebre pragmático** (`ValeriaPragmaticBreak`) | "Fallo deliberado": la app calla y es el adulto quien rompe la comunicación a propósito para observar cómo el niño la **repara**. La botonera de acierto se reemplaza por un selector de **estrategias de reparación**. Un modal advierte de la "frustración útil" antes de empezar. |
+
+Los overlays (oso y quiebre) viven en la raíz de la pantalla anfitriona —no
+dentro del `ScrollView`— y registran su rectángulo en `ValeriaMisclickBoundary`
+para no ensuciar la telemetría de misclicks.
+
+## Idiomas y variedades
+
+Valeria+ locuta y evalúa el **contenido terapéutico** en tres variedades,
+seleccionables desde la tarjeta **«Voz de la app»** (`ValeriaVoiceUI`). La
+interfaz sigue en castellano; lo que cambia es lo que se dice, se muestra y se
+evalúa. La variedad activa vive en un único módulo (`src/valeriaLocale.ts`), que
+desacopla tres decisiones: qué banco de audio usar, qué locale BCP‑47 pasar al
+reconocedor/voz del sistema y si conviene preferir voces latinas.
+
+| Variedad | Voz | Reconocimiento (ASR) |
+| --- | --- | --- |
+| 🇪🇸 **Castellano** (`es`) | Voz neuronal **Sharvard** pregenerada y empaquetada (offline). | Voz del sistema `es-ES`. |
+| **Galego** (`gl`) — *Proxecto Nós* | Voz neuronal **Celtia** pregenerada (Proxecto Nós), empaquetada. | Sistema `gl-ES` con recaída a `expo-speech`. |
+| 🇩🇴 **Dominicano** (`es-DO`) — *Quisqueya Habla* | Voz **latina del dispositivo** (`es-US`/`es-MX`); sin audio propio pregenerado. | Sistema `es-DO`, priorizando el catálogo latino. |
+
+- **Voz neuronal offline.** El audio de castellano y gallego se sintetiza en CI
+  (nunca en el dispositivo) y viaja empaquetado en el APK: **703 locuciones**
+  (`assets/voice/`, versión `es-sharvard+gl-celtia-2026-07-18`). Cada id del
+  corpus se resuelve contra `src/valeriaVoiceAssets.ts` (mapa generado) y lo no
+  cubierto cae con elegancia a `expo-speech` en runtime.
+- **Quisqueya Habla (es‑DO)** es un proyecto **editorial**, no de traducción:
+  usa léxico y registro dominicanos y, sobre todo, **no penaliza como trastorno
+  los rasgos dialectales normales** del español caribeño (seseo, aspiración de
+  /s/, neutralización de líquidas en coda). Esa frontera clínica —qué es rasgo y
+  qué es error— está fijada en [`docs/guia-dialectal-es-DO.md`](docs/guia-dialectal-es-DO.md),
+  regla bloqueante del piloto.
+- **Bancos de pares mínimos por variedad**: castellano
+  (`src/valeriaMinimalPairs.ts`), gallego (`src/valeriaMinimalPairsGl.ts`, 7
+  pares) y dominicano (`src/valeriaMinimalPairsEsDO.ts`, 8 pares construidos solo
+  donde el contraste es estable en RD).
 
 ## Flujo de pantallas
 
@@ -101,7 +165,12 @@ con *debounce* vía `InteractionManager`, de modo que el cifrado y el guardado e
 | --- | --- |
 | **Manual de usuario con casos de uso** (v7) · [HTML](docs/manual-casos-de-uso.html) · [PDF](docs/Valeria-Manual-Casos-de-Uso.pdf) · [Word](docs/Valeria-Manual-Casos-de-Uso.docx) | 13 casos de uso paso a paso ilustrados con 21 capturas reales (`docs/screenshots/`): los cuatro bloques, el hub, la gráfica de sustitución por fonema, la telemetría del piloto (CU‑13) y las novedades v6/v7. |
 | [`docs/protocolo-pares-minimos.md`](docs/protocolo-pares-minimos.md) | Protocolo de pares mínimos para dislalias fonológicas: 10 pares accionables con flujo TTS→STT, feedback por rama y misiones físicas. Implementado en `src/ValeriaMinimalPairsScreen.tsx` + `src/valeriaMinimalPairs.ts`. |
+| [`docs/protocolo-pares-minimos-es-DO.md`](docs/protocolo-pares-minimos-es-DO.md) | Protocolo de pares mínimos en español dominicano (Quisqueya Habla). Implementado en `src/valeriaMinimalPairsEsDO.ts`. |
 | [`docs/protocolo-expansion-semantica.md`](docs/protocolo-expansion-semantica.md) | Protocolo de expansión semántica / progresión léxica offline. Implementado en `src/ValeriaSemanticExpansionScreen.tsx` + `src/valeriaSemanticExpansion.ts`. |
+| [`docs/guia-dialectal-es-DO.md`](docs/guia-dialectal-es-DO.md) | Guía clínica dominicana (QH‑0.2): qué es rasgo dialectal normal y qué es error terapéutico. Regla **bloqueante** para todo dataset es‑DO. |
+| [`docs/plan-integracion-proxecto-nos.md`](docs/plan-integracion-proxecto-nos.md) | Plan por fases de la versión en gallego apoyada en los recursos abiertos del Proxecto Nós (contenido, voz Celtia, ASR). |
+| [`docs/plan-integracion-quisqueya-habla.md`](docs/plan-integracion-quisqueya-habla.md) | Plan de la variante dominicana (es‑DO), que reutiliza la infraestructura de variedad del plan gallego. |
+| [`docs/plan-calidad.md`](docs/plan-calidad.md) | Task list priorizada para reducir regresiones (checklist de humo, pruebas por bloque). |
 | [`docs/firebase-setup.md`](docs/firebase-setup.md) | Guía del backend opcional: Firebase Authentication + Cloud Firestore. |
 
 **Regenerar el manual** tras editar [`docs/manual-casos-de-uso.html`](docs/manual-casos-de-uso.html):
@@ -141,6 +210,14 @@ compila la app en cada push/fusión a `main` (y en ramas `claude/**`). Con los
 secrets de firma configurados genera el APK y el **AAB firmados**; sin secrets
 solo compila el APK. El `versionCode` se deriva del número de run.
 
+El workflow [`.github/workflows/voice-assets.yml`](.github/workflows/voice-assets.yml)
+**sintetiza la voz neuronal** (Sharvard para `es`, Celtia para `gl`) a partir de
+[`voice-corpus.json`](voice-corpus.json), masteriza el audio, regenera el mapa
+`src/valeriaVoiceAssets.ts` y **commitea los assets** a la rama. Los modelos de
+voz corren **solo en CI**, nunca en el dispositivo; el push resultante dispara el
+build Android que empaqueta el audio en el binario. La voz gallega usa el
+checkpoint *gated* de Celtia, que requiere el secret `HF_TOKEN`.
+
 <details>
 <summary>Secrets de firma necesarios</summary>
 
@@ -168,9 +245,40 @@ Guía completa de configuración y despliegue: [`docs/firebase-setup.md`](docs/f
 
 ## Historial de versiones
 
-<details>
-<summary><strong>V7</strong> — telemetría de usabilidad del piloto clínico y exportación dual</summary>
+<details open>
+<summary><strong>V8</strong> — variedades lingüísticas (Galego · Dominicano) y voz neuronal offline</summary>
 
+- **Infraestructura de variedad** (`src/valeriaLocale.ts`): una fuente única de
+  la variedad activa (`es` · `gl` · `es-DO`) que decide, por separado, el banco
+  de audio, el locale BCP‑47 del sistema y la preferencia de voz latina. Migra la
+  antigua clave «idioma de voz» (`es`|`gl`) sin perder la selección previa.
+- **Galego · Proxecto Nós**: contenido terapéutico en gallego cableado a las
+  pantallas y **voz neuronal Celtia** pregenerada (banco de pares gallego en
+  `src/valeriaMinimalPairsGl.ts`). Promovido de beta a **producción**.
+- **Dominicano · Quisqueya Habla (es‑DO)**: variante editorial con léxico
+  caribeño y evaluación que **no penaliza rasgos dialectales normales** (guía
+  clínica `docs/guia-dialectal-es-DO.md`, regla bloqueante). Usa la voz y el
+  micrófono **del sistema** en español latino. También en producción.
+- **Voz neuronal offline empaquetada**: 703 locuciones (`assets/voice/`, versión
+  `es-sharvard+gl-celtia-2026-07-18`) mapeadas en `src/valeriaVoiceAssets.ts`
+  (generado). Nueva tubería CI `voice-assets.yml`: sintetiza, masteriza y
+  commitea el audio; los modelos corren solo en CI, con recaída a `expo-speech`
+  para lo no cubierto.
+- **Selector de variedad** en la tarjeta «Voz de la app» (`ValeriaVoiceUI`) con
+  las tres variedades aprobadas y ayuda contextual según la voz disponible.
+
+</details>
+
+<details>
+<summary><strong>V7</strong> — piloto clínico: caos comunicativo manual, telemetría y exportación dual</summary>
+
+- **Reingeniería del piloto · Caos Comunicativo manual**: Panel del Adulto
+  (`ValeriaAdultChaosPanel`) con escucha en ruido babble (`valeriaNoise` +
+  `ValeriaManualNoiseSlider`), oso distractor de doble tarea (`ValeriaDistractorBear`)
+  y quiebre pragmático con estrategias de reparación (`ValeriaPragmaticBreak`),
+  todo bajo el muro MDR (manual, nunca automático). Frases portadoras
+  combinatorias (`valeriaCarrierPhrases`) y pausa de sesión unificada
+  (`ValeriaSessionBreakOverlay`). Telemetría V2.
 - **Telemetría no bloqueante**: captura de tiempo activo por pantalla, misclicks
   y abandono intra‑cápsula TPR sin bloquear el hilo principal (captura en memoria
   + volcado con *debounce* vía `InteractionManager`). Módulo `valeriaTelemetry`.
