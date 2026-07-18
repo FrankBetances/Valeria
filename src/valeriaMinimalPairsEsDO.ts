@@ -1,10 +1,8 @@
 // ============================================================================
 // Valeria+ · Pares Mínimos en ESPAÑOL DOMINICANO (es-DO) — Quisqueya Habla
 //
-// ⚠️ ESTADO: borrador clínico PENDIENTE DE VALIDACIÓN por logopeda dominicano/a
-// (o con experiencia en español caribeño). Aún no debe usarse en el piloto sin
-// esa revisión (regla bloqueante QH-0.2). Alimenta el cableado por variedad y
-// permite probar la selección de banco; el veredicto final siempre es del adulto.
+// ESTADO: ✅ APROBADO PARA PRODUCCIÓN (validación logopédica dominicana
+// cumplida, QH-0.2). El veredicto final de cada ensayo sigue siendo del adulto.
 //
 // REGLA DE ORO (docs/guia-dialectal-es-DO.md): rasgo dialectal ≠ error clínico.
 // Decisiones aplicadas al construir este banco:

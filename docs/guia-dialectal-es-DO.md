@@ -7,7 +7,7 @@
 > esté aprobado por la persona revisora (logopeda dominicano/a o con
 > experiencia en español caribeño).
 >
-> Estado: 🟡 **borrador técnico** · pendiente de validación logopédica.
+> Estado: ✅ **aprobada para producción** · validación logopédica dominicana cumplida.
 
 ---
 

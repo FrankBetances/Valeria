@@ -304,15 +304,16 @@ export const ResponseCaptureCard: React.FC<{
 const GOOGLE_TTS_MARKET = 'market://details?id=com.google.android.tts';
 const GOOGLE_TTS_WEB = 'https://play.google.com/store/apps/details?id=com.google.android.tts';
 
-// Variedades ofrecidas por el selector:
+// Variedades ofrecidas por el selector (las tres aprobadas para producción):
 //   · Castellano → voz neuronal Sharvard (empaquetada).
-//   · Galego → voz neuronal Celtia (Proxecto Nós, empaquetada); beta.
+//   · Galego → voz neuronal Celtia (Proxecto Nós, empaquetada).
 //   · Dominicano (es-DO · Quisqueya Habla) → voz y micrófono del SISTEMA en
-//     español latino (es-US/es-MX); beta mientras el contenido se valida.
+//     español latino (es-US/es-MX).
+// El campo `beta` se conserva para futuras variedades aún no validadas.
 const LOCALES: Array<{ id: Locale; label: string; beta?: boolean }> = [
   { id: 'es', label: 'Castellano' },
-  { id: 'gl', label: 'Galego', beta: true },
-  { id: 'es-DO', label: 'Dominicano', beta: true },
+  { id: 'gl', label: 'Galego' },
+  { id: 'es-DO', label: 'Dominicano' },
 ];
 
 export const VoiceQualityCard: React.FC = () => {

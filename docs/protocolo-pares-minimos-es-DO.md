@@ -2,7 +2,7 @@
 
 > Banco: `src/valeriaMinimalPairsEsDO.ts` · Guía dialectal:
 > [guia-dialectal-es-DO.md](./guia-dialectal-es-DO.md).
-> Estado: 🟡 **borrador** pendiente de validación logopédica dominicana.
+> Estado: ✅ **aprobado para producción** · validación logopédica dominicana cumplida.
 
 ## Diseño
 

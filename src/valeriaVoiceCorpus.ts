@@ -130,8 +130,8 @@ export function buildVoiceCorpus(): VoiceCorpusEntry[] {
   add('child', VOICE_SAMPLE_PHRASE, 'util/muestra');
 
   // ============================ GALEGO (gl) ============================
-  // Contido do plan Proxecto Nós (GL-2.x), en borrador pendente de revisión;
-  // sintetízase con Celtia para poder avalialo (a app aínda non o emite).
+  // Contido do plan Proxecto Nós (GL-2.x), aprobado para produción;
+  // sintetízase con Celtia e emítese nas sesións en galego.
   const addGl = mkAdd('gl');
 
   for (const p of enumerateAllCarrierPrompts('gl')) addGl('clinical', p.full, 'carrier');
