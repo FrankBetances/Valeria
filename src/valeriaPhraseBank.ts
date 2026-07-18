@@ -35,3 +35,16 @@ export const TOGETHER_BANK = [
 export const SESSION_CONTINUE_PHRASE = '¡Muy bien! ¡Seguimos con la sesión!';
 export const ROUTE_DONE_PHRASE = 'Ruta completada. Seguimos con la sesión.';
 export const VOICE_SAMPLE_PHRASE = '¡Hola! Así sonará mi voz en los ejercicios. ¿Verdad que suena bien?';
+
+// Frases fijas del overlay de rotación de roles (Pares Mínimos, ensayos 3 y 7).
+// Viven aquí como fuente única para que la pantalla y el corpus de voz no
+// deriven: si la pantalla las hardcodeaba, quedaban fuera del corpus y caían
+// al motor del sistema a media sesión (rompiendo la voz neuronal).
+export const ROLESWAP_INTRO = '¡Cambio de papeles! Ahora el niño manda y papá habla.';
+export const ROLESWAP_NOT_HEARD = 'No escuché bien a papá. ¡Otra vez!';
+export const ROLESWAP_HIT = '¡Exacto! ¡Qué oreja tan fina!';
+export const ROLESWAP_MISS_OTHER = '¡Uy! Era la otra. ¡Escucha otra vez en el próximo turno!';
+// Dinámica: la palabra que dijo el adulto (target o foil del par). El corpus
+// enumera ambas variantes por par para que también suenen con la voz neuronal.
+export const roleswapParentSaid = (word: string): string =>
+  `¡Uy! Papá dijo ${word}. ¡Escucha otra vez en el próximo turno!`;

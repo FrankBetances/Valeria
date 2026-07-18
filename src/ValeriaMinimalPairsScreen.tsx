@@ -38,6 +38,9 @@ import { FichaVisual } from './ValeriaPictograms';
 import { ValeriaSessionBreakOverlay, pickSessionBreak, SessionBreak } from './ValeriaSessionBreakOverlay';
 import { MINIMAL_PAIRS, PAIR_GROUPS, MinimalPair } from './valeriaMinimalPairs';
 import { buildCarrierPrompt, reseedCarriers } from './valeriaCarrierPhrases';
+import {
+  ROLESWAP_INTRO, ROLESWAP_NOT_HEARD, ROLESWAP_HIT, ROLESWAP_MISS_OTHER, roleswapParentSaid,
+} from './valeriaPhraseBank';
 import { ValeriaAdultChaosPanel } from './ValeriaAdultChaosPanel';
 import { releaseNoise } from './valeriaNoise';
 import { ValeriaPragmaticBreakOverlay } from './ValeriaPragmaticBreak';
@@ -154,7 +157,7 @@ const RoleSwapOverlay: React.FC<{ pair: MinimalPair; onDone: () => void }> = ({ 
 
   useEffect(() => {
     mounted.current = true;
-    speakToChild('¡Cambio de papeles! Ahora el niño manda y papá habla.');
+    speakToChild(ROLESWAP_INTRO);
     return () => { mounted.current = false; stopListening(); };
   }, []);
 
@@ -166,7 +169,7 @@ const RoleSwapOverlay: React.FC<{ pair: MinimalPair; onDone: () => void }> = ({ 
         if (!mounted.current) return;
         const r = matchPair(alts, pair.target, pair.foil);
         if (r === 'target' || r === 'foil') { setParentSaid(r); setStage('tap'); }
-        else { speakToChild('No escuché bien a papá. ¡Otra vez!'); setStage('intro'); }
+        else { speakToChild(ROLESWAP_NOT_HEARD); setStage('intro'); }
       },
       onError: () => { if (mounted.current) setStage('tap'); },
     });
@@ -178,7 +181,7 @@ const RoleSwapOverlay: React.FC<{ pair: MinimalPair; onDone: () => void }> = ({ 
     if (parentSaid) {
       const hit = which === parentSaid;
       setConfirmOk(hit);
-      speakToChild(hit ? '¡Exacto! ¡Qué oreja tan fina!' : `¡Uy! Papá dijo ${parentSaid === 'target' ? pair.target : pair.foil}. ¡Escucha otra vez en el próximo turno!`);
+      speakToChild(hit ? ROLESWAP_HIT : roleswapParentSaid(parentSaid === 'target' ? pair.target : pair.foil));
       setStage('result');
     } else {
       setStage('result'); // sin STT: confirma el padre
@@ -227,10 +230,10 @@ const RoleSwapOverlay: React.FC<{ pair: MinimalPair; onDone: () => void }> = ({ 
 
         {stage === 'result' && !parentSaid && confirmOk === null && (
           <View style={s.swapRow}>
-            <Pressable onPress={() => { setConfirmOk(true); speakToChild('¡Exacto! ¡Qué oreja tan fina!'); }} style={[s.swapBtn, { flex: 1 }]}>
+            <Pressable onPress={() => { setConfirmOk(true); speakToChild(ROLESWAP_HIT); }} style={[s.swapBtn, { flex: 1 }]}>
               <Text style={s.swapBtnTxt}>✅ ¡Acertó!</Text>
             </Pressable>
-            <Pressable onPress={() => { setConfirmOk(false); speakToChild('¡Uy! Era la otra. ¡Escucha otra vez en el próximo turno!'); }} style={[s.swapBtn, { flex: 1, backgroundColor: '#f59e0b' }]}>
+            <Pressable onPress={() => { setConfirmOk(false); speakToChild(ROLESWAP_MISS_OTHER); }} style={[s.swapBtn, { flex: 1, backgroundColor: '#f59e0b' }]}>
               <Text style={s.swapBtnTxt}>❌ Era la otra</Text>
             </Pressable>
           </View>
