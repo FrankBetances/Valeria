@@ -163,7 +163,7 @@ con *debounce* vía `InteractionManager`, de modo que el cifrado y el guardado e
 
 | Documento | Descripción |
 | --- | --- |
-| **Manual de usuario con casos de uso** (v7) · [HTML](docs/manual-casos-de-uso.html) · [PDF](docs/Valeria-Manual-Casos-de-Uso.pdf) · [Word](docs/Valeria-Manual-Casos-de-Uso.docx) | 13 casos de uso paso a paso ilustrados con 21 capturas reales (`docs/screenshots/`): los cuatro bloques, el hub, la gráfica de sustitución por fonema, la telemetría del piloto (CU‑13) y las novedades v6/v7. |
+| **Manual de usuario con casos de uso** (v8) · [HTML](docs/manual-casos-de-uso.html) · [PDF](docs/Valeria-Manual-Casos-de-Uso.pdf) · [Word](docs/Valeria-Manual-Casos-de-Uso.docx) | 15 casos de uso paso a paso ilustrados con 21 capturas reales (`docs/screenshots/`): los cuatro bloques, el hub, la gráfica de sustitución por fonema, la telemetría del piloto (CU‑13), la variedad lingüística (CU‑14), el Panel del Adulto / caos comunicativo (CU‑15) y las novedades v6/v7/v8. |
 | [`docs/protocolo-pares-minimos.md`](docs/protocolo-pares-minimos.md) | Protocolo de pares mínimos para dislalias fonológicas: 10 pares accionables con flujo TTS→STT, feedback por rama y misiones físicas. Implementado en `src/ValeriaMinimalPairsScreen.tsx` + `src/valeriaMinimalPairs.ts`. |
 | [`docs/protocolo-pares-minimos-es-DO.md`](docs/protocolo-pares-minimos-es-DO.md) | Protocolo de pares mínimos en español dominicano (Quisqueya Habla). Implementado en `src/valeriaMinimalPairsEsDO.ts`. |
 | [`docs/protocolo-expansion-semantica.md`](docs/protocolo-expansion-semantica.md) | Protocolo de expansión semántica / progresión léxica offline. Implementado en `src/ValeriaSemanticExpansionScreen.tsx` + `src/valeriaSemanticExpansion.ts`. |
@@ -178,7 +178,13 @@ con *debounce* vía `InteractionManager`, de modo que el cifrado y el guardado e
 ```bash
 python3 docs/build-docx.py        # → Word (requiere python-docx)
 node docs/capture-screenshots.js  # regenera las capturas (Playwright sobre expo start --web)
+# → PDF: imprimir el HTML con Chromium headless
+chromium --headless --no-pdf-header-footer \
+  --print-to-pdf=docs/Valeria-Manual-Casos-de-Uso.pdf docs/manual-casos-de-uso.html
 ```
+
+> El DOCX se construye con un script propio (`build-docx.py`) que **replica** el
+> contenido del HTML: al cambiar el manual hay que editar ambos.
 
 ## Puesta en marcha
 

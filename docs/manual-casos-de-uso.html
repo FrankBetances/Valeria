@@ -136,13 +136,13 @@
   <div class="brand">valeria+</div>
   <div class="bear">🐻</div>
   <div style="margin-top:auto">
-    <div class="pill">Manual de usuario · v7 · con capturas de pantalla</div>
+    <div class="pill">Manual de usuario · v8 · con capturas de pantalla</div>
     <h1>Manual de<br>Casos de Uso</h1>
     <div class="sub">Aplicación de terapia auditivo‑verbal y del lenguaje para niñas y niños con hipoacusia, implante coclear, dislalias o dificultades del lenguaje.</div>
     <div class="meta">
       Guía para logopedas, familias y cuidadores<br>
       Julio de 2026 · Documento interno<br>
-      Expo SDK 54 / React Native · Backend opcional Firebase · Telemetría del piloto
+      Expo SDK 54 / React Native · Castellano · Galego · Dominicano · Voz neuronal offline
     </div>
   </div>
 </div>
@@ -170,6 +170,8 @@
     <li><span class="num">CU‑11</span><span class="txt">Consultar el panel de resultados</span></li>
     <li><span class="num">CU‑12</span><span class="txt">Cambiar entre Modo Familia y Modo Profesional</span></li>
     <li><span class="num">CU‑13</span><span class="txt">Exportar la evidencia de usabilidad del piloto (QR + compartir)</span></li>
+    <li><span class="num">CU‑14</span><span class="txt">Elegir la variedad de terapia (Castellano · Galego · Dominicano)</span></li>
+    <li><span class="num">CU‑15</span><span class="txt">Panel del Adulto: caos comunicativo (ruido, doble tarea, quiebre)</span></li>
     <li class="section-label">Anexo</li>
     <li><span class="num">A</span><span class="txt">Preguntas frecuentes y resolución de problemas</span></li>
   </ul>
@@ -250,6 +252,24 @@
       <td>Telemetría y encuesta se guardan juntas (mismo identificador de sesión) en un archivo <strong>cifrado en el dispositivo</strong>, que <strong>solo se vacía tras una exportación correcta</strong> para no acumular datos semana a semana.</td></tr>
     <tr><td>📤 <strong>Exportación dual</strong></td>
       <td>Con el PIN profesional, la app genera a la vez un <strong>código QR</strong> con el resumen (offline, escaneable) y abre el <strong>menú de compartir</strong> para enviar el registro completo por email o WhatsApp cuando haya conexión (ver CU‑13).</td></tr>
+  </table>
+
+  <h3>Novedades de la versión 8</h3>
+  <p>La versión 8 abre Valeria+ a <strong>más lenguas y variedades del habla</strong> y suma un paradigma
+  de <strong>carga comunicativa controlada</strong> para el piloto. El contenido terapéutico (lo que se
+  locuta, se muestra y se evalúa) puede sonar en tres variedades; la interfaz sigue en castellano.</p>
+  <table>
+    <tr><th style="width:32%">Novedad</th><th>Qué aporta</th></tr>
+    <tr><td>🌍 <strong>Tres variedades</strong></td>
+      <td>El contenido se locuta y evalúa en <strong>Castellano</strong>, <strong>Galego</strong> (Proxecto Nós) o <strong>Dominicano</strong> (es‑DO, Quisqueya Habla), elegibles en la tarjeta “Voz de la app” (ver CU‑14). Cada variedad usa su propio banco de pares mínimos.</td></tr>
+    <tr><td>🔊 <strong>Voz neuronal offline</strong></td>
+      <td>Castellano y gallego suenan con <strong>voces neuronales pregeneradas</strong> (Sharvard y Celtia) empaquetadas en la app: locución natural sin conexión ni servidor. Lo no cubierto recae con suavidad en la voz del sistema.</td></tr>
+    <tr><td>🇩🇴 <strong>Respeto dialectal</strong></td>
+      <td>En dominicano la app <strong>no marca como error</strong> los rasgos normales del habla caribeña (seseo, aspiración de la “s”, cambio de “r/l” a final de sílaba): evita falsos positivos que estigmaticen el habla de la familia.</td></tr>
+    <tr><td>🎛️ <strong>Panel del Adulto · Caos Comunicativo</strong></td>
+      <td>Tres módulos <strong>manuales</strong> para el piloto (escucha en ruido, oso distractor de doble tarea y quiebre pragmático). Los activa siempre el adulto: la app nunca ajusta nada sola (ver CU‑15).</td></tr>
+    <tr><td>💬 <strong>Frases portadoras</strong></td>
+      <td>En Pares Mínimos la palabra objetivo ya no se dicta aislada: se incrusta en una frase con entonación natural seguida de una pregunta, sin repetirse en diez ensayos seguidos.</td></tr>
   </table>
 </section>
 
@@ -367,6 +387,12 @@
     <tr><td><strong>Abandono TPR</strong></td><td>Proporción de cápsulas de movimiento (TPR) que se saltan en vez de completarse. Ayuda a saber si las pausas activas encajan en la sesión.</td></tr>
     <tr><td><strong>SUS (encuesta)</strong></td><td><em>System Usability Scale</em> adaptada: una pregunta de 1 a 5 sobre la facilidad de uso real. Aparece con moderación (hito de 4 bloques y máx. 1 vez/semana).</td></tr>
     <tr><td><strong>Exportación dual</strong></td><td>Salida del piloto en dos formatos a la vez: un <strong>QR</strong> con el resumen (offline) y el <strong>menú de compartir</strong> con el registro completo (online). Requiere el PIN profesional.</td></tr>
+    <tr><td><strong>Variedad</strong></td><td>Lengua o forma del habla en que la app locuta y evalúa el contenido: Castellano, Galego (Proxecto Nós) o Dominicano (es‑DO, Quisqueya Habla). Se elige en “Voz de la app”.</td></tr>
+    <tr><td><strong>Voz neuronal</strong></td><td>Locución pregenerada con modelos de voz de alta calidad (Sharvard en castellano, Celtia en gallego) empaquetada en la app; suena natural y funciona sin conexión.</td></tr>
+    <tr><td><strong>Rasgo dialectal</strong></td><td>Característica normal del habla de una región (p.&nbsp;ej. el seseo dominicano). No es un error clínico y la app no lo penaliza.</td></tr>
+    <tr><td><strong>Frase portadora</strong></td><td>Frase natural en la que se incrusta la palabra objetivo (“El oso encontró una rana…”) para practicarla con entonación real en vez de aislada.</td></tr>
+    <tr><td><strong>Caos comunicativo</strong></td><td>Conjunto de retos de carga que el <em>adulto</em> activa a mano en su panel: ruido de fondo, distractor visual y quiebre de la comunicación. Nunca los activa la app sola.</td></tr>
+    <tr><td><strong>Quiebre pragmático</strong></td><td>Tarea en la que el adulto rompe la comunicación a propósito (murmura o pide algo absurdo) para observar cómo el niño la <strong>repara</strong>.</td></tr>
   </table>
 </section>
 
@@ -856,6 +882,81 @@
   </div>
 </section>
 
+<!-- CU-14 · VARIEDAD DE TERAPIA -->
+<section class="page-break">
+  <div class="uc">
+    <div class="uc-head">
+      <div class="id">CU‑14 · <span class="tag fam" style="background:rgba(255,255,255,.22);color:#fff">Profesional / Familia</span></div>
+      <div class="title">Elegir la variedad de terapia (Castellano · Galego · Dominicano)</div>
+    </div>
+    <div class="uc-body">
+      <div class="uc-grid">
+        <div><div class="k">Actor</div><div class="v">Logopeda o tutor</div></div>
+        <div><div class="k">Pantalla</div><div class="v">Tarjeta “Voz de la app”</div></div>
+        <div><div class="k">Precondición</div><div class="v">App abierta (funciona sin conexión)</div></div>
+        <div><div class="k">Resultado</div><div class="v">El contenido se locuta y evalúa en la variedad elegida</div></div>
+      </div>
+      <p>Valeria+ puede trabajar el contenido terapéutico en <strong>tres variedades</strong>. La <strong>interfaz</strong>
+      (menús y botones) sigue en castellano; lo que cambia es <strong>lo que se dice, se muestra y se evalúa</strong>.
+      La elección se guarda en el dispositivo y se aplica a todos los bloques.</p>
+      <table>
+        <tr><th style="width:26%">Variedad</th><th>Cómo suena y evalúa</th></tr>
+        <tr><td>🇪🇸 <strong>Castellano</strong></td><td>Voz neuronal <strong>Sharvard</strong> pregenerada (offline) y reconocimiento del sistema en español de España.</td></tr>
+        <tr><td><strong>Galego</strong> <span class="small muted">(Proxecto Nós)</span></td><td>Voz neuronal <strong>Celtia</strong> pregenerada en gallego; contenido y pares propios.</td></tr>
+        <tr><td>🇩🇴 <strong>Dominicano</strong> <span class="small muted">(Quisqueya Habla)</span></td><td>Usa la <strong>voz latina del dispositivo</strong> y el micrófono en es‑DO; respeta los rasgos del habla caribeña.</td></tr>
+      </table>
+      <h4>Flujo principal</h4>
+      <ol class="flow">
+        <li>Abrir la tarjeta <strong>“Voz de la app”</strong> y localizar <strong>“Variedad de la voz”</strong>.</li>
+        <li>Tocar <strong>Castellano</strong>, <strong>Galego</strong> o <strong>Dominicano</strong>.</li>
+        <li>La app cambia al instante la locución y el reconocimiento; la tarjeta muestra un aviso sobre la voz disponible.</li>
+      </ol>
+      <h4>Flujos alternativos</h4>
+      <ul class="alt">
+        <li><strong>En dominicano suena peninsular o robótica:</strong> instalar una voz de “Español (Latinoamérica)” en los ajustes del dispositivo; la app la usará automáticamente.</li>
+        <li><strong>Falta la voz pregenerada de una locución:</strong> la app recae con suavidad en la voz del sistema, sin interrumpir la sesión.</li>
+      </ul>
+      <div class="callout"><div class="lbl">Respeto dialectal</div><p style="margin:4px 0 0">En dominicano, la app <strong>no marca como error</strong> el seseo, la aspiración de la “s” ni el cambio de “r/l” a final de sílaba: son rasgos normales del habla, no fallos que corregir.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CU-15 · PANEL DEL ADULTO · CAOS COMUNICATIVO -->
+<section>
+  <div class="uc">
+    <div class="uc-head violet">
+      <div class="id">CU‑15 · <span class="tag pro">Profesional</span></div>
+      <div class="title">Panel del Adulto: caos comunicativo (ruido, doble tarea, quiebre)</div>
+    </div>
+    <div class="uc-body">
+      <div class="uc-grid">
+        <div><div class="k">Actor</div><div class="v">Adulto que dirige la sesión (logopeda o tutor)</div></div>
+        <div><div class="k">Pantalla</div><div class="v">Reproductor de Ejercicios → Panel del Adulto</div></div>
+        <div><div class="k">Precondición</div><div class="v">Ejercicio de Audición/Lenguaje en curso</div></div>
+        <div><div class="k">Resultado</div><div class="v">Reto de carga aplicado a mano y registrado</div></div>
+      </div>
+      <p>Para el <strong>piloto clínico</strong>, el <strong>Panel del Adulto</strong> (tarjeta plegable dentro del
+      ejercicio) añade tres módulos de <strong>carga comunicativa</strong>. Todos son <strong>manuales</strong>: la app
+      nunca los activa, mide ni ajusta por su cuenta; es el adulto quien decide cuándo y cuánto.</p>
+      <table>
+        <tr><th style="width:30%">Módulo</th><th>Qué hace</th></tr>
+        <tr><td>🔊 <strong>Escucha en ruido</strong></td><td>Un <strong>slider</strong> añade ruido de fondo (bullicio de cafetería) por debajo de la instrucción. El volumen sube o baja <strong>solo</strong> con el dedo del adulto.</td></tr>
+        <tr><td>🐻 <strong>Doble tarea</strong></td><td>Un oso distractor se asoma y se mueve por el borde de la pantalla <strong>sin ser tocable</strong>: obliga al niño a atender a la voz pese a la interferencia visual.</td></tr>
+        <tr><td>💬 <strong>Quiebre pragmático</strong></td><td>La app calla y el adulto <strong>rompe la comunicación a propósito</strong>; luego marca la <strong>estrategia de reparación</strong> que usó el niño.</td></tr>
+      </table>
+      <h4>Flujo principal</h4>
+      <ol class="flow">
+        <li>Durante el ejercicio, desplegar la tarjeta <strong>“Panel del Adulto”</strong>.</li>
+        <li>Activar el módulo deseado: mover el <strong>slider de ruido</strong>, encender el <strong>oso distractor</strong> o lanzar el <strong>quiebre pragmático</strong>.</li>
+        <li>Guiar la respuesta del niño y, en el quiebre, seleccionar la <strong>estrategia de reparación</strong> observada.</li>
+        <li>Desactivar el módulo cuando convenga; el nivel de reto queda registrado de forma anónima.</li>
+      </ol>
+      <div class="callout warn"><div class="lbl">Antes del quiebre pragmático</div><p style="margin:4px 0 0">Un aviso recuerda que la tarea genera “frustración útil” y se puede cancelar. Explicarlo evita que la familia lo viva como un fallo de la app.</p></div>
+      <div class="callout violet"><div class="lbl">Siempre en manos del adulto</div><p style="margin:4px 0 0">Ningún módulo se activa solo. Esta regla es deliberada: mantiene la app como herramienta de apoyo a la terapia, no como un aparato de medición automática.</p></div>
+    </div>
+  </div>
+</section>
+
 <!-- ================= ANEXO FAQ ================= -->
 <section>
   <div class="chapter-kicker">Anexo A</div>
@@ -876,12 +977,16 @@
     <tr><td>¿Qué datos recoge el piloto sobre mi hijo/a?</td><td>Solo métricas <strong>anónimas</strong> de usabilidad (tiempo por pantalla, misclicks y cápsulas saltadas) y una encuesta breve. <strong>No</strong> se guardan nombres, ni audio, ni el contenido de las respuestas. Todo se cifra en el dispositivo (v7).</td></tr>
     <tr><td>¿Por qué apareció una encuesta con caritas?</td><td>Es la encuesta de satisfacción del piloto (SUS). Solo aparece al completar los 4 bloques y como mucho una vez por semana. Se puede cerrar sin responder.</td></tr>
     <tr><td>¿Cómo exporto los datos del piloto?</td><td>Desde el hub, tarjeta <strong>“Acceso Profesional”</strong> con el PIN: la app muestra un <strong>QR</strong> con el resumen y abre el <strong>compartir</strong> con el registro completo. Tras enviarlo, los datos se purgan (CU‑13).</td></tr>
+    <tr><td>¿Puedo usar la app en gallego o en dominicano?</td><td>Sí. En la tarjeta <strong>“Voz de la app”</strong> se elige la variedad (Castellano, Galego o Dominicano). Cambia lo que se locuta y evalúa; los menús siguen en castellano (CU‑14).</td></tr>
+    <tr><td>En dominicano la voz suena de España o robótica</td><td>Instale una voz de <strong>“Español (Latinoamérica)”</strong> en los ajustes del dispositivo. La app la detecta y la usa automáticamente (v8).</td></tr>
+    <tr><td>Marca como error algo que en mi país se dice así</td><td>En la variedad dominicana la app <strong>respeta los rasgos del habla caribeña</strong> (seseo, “s” aspirada, “r/l” final). Y recuerde: el adulto es siempre el juez final del veredicto.</td></tr>
+    <tr><td>Apareció ruido de fondo o un oso moviéndose</td><td>Son módulos del <strong>Panel del Adulto</strong> (caos comunicativo) del piloto; solo se activan a mano. Desactívelos desde ese mismo panel (CU‑15).</td></tr>
   </table>
 
   <div class="footer-note">
-    <strong>Valeria+</strong> · Manual de Casos de Uso · v7 (con capturas de pantalla) · Julio de 2026 ·
+    <strong>Valeria+</strong> · Manual de Casos de Uso · v8 (con capturas de pantalla) · Julio de 2026 ·
     Terapia auditivo‑verbal y del lenguaje para la infancia. Documento de apoyo para logopedas y familias.
-    <br>Los datos personales se tratan localmente conforme a RGPD/HIPAA; la sincronización en la nube y la telemetría anónima del piloto son opcionales.
+    <br>Disponible en Castellano, Galego (Proxecto Nós) y Dominicano (Quisqueya Habla). Los datos personales se tratan localmente conforme a RGPD/HIPAA; la sincronización en la nube y la telemetría anónima del piloto son opcionales.
   </div>
 </section>
 
