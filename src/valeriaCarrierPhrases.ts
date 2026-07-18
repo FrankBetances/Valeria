@@ -49,6 +49,7 @@ const BANKS: Record<CarrierLang, CarrierBank> = {
       casa: { kind: 'sustantivo', article: 'una' },
       sierra: { kind: 'sustantivo', article: 'una' },
       ocho: { kind: 'numero' },
+      saco: { kind: 'sustantivo', article: 'un' }, // objetivo del banco es-DO
       cubo: { kind: 'sustantivo', article: 'un' },
       boca: { kind: 'sustantivo', article: 'una' },
       fuente: { kind: 'sustantivo', article: 'una' },

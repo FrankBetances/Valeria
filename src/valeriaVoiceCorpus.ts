@@ -86,8 +86,12 @@ export function buildVoiceCorpus(): VoiceCorpusEntry[] {
   // ========================== CASTELLANO (es) ==========================
   const add = mkAdd('es');
 
-  // 1) Frases portadoras procedurales (prosodia clínica): enumeración total.
-  for (const p of enumerateAllCarrierPrompts('es')) add('clinical', p.full, 'carrier');
+  // 1) Frases portadoras procedurales (prosodia clínica): enumeración total,
+  //    acotada a los objetivos del banco peninsular (los del dominicano se
+  //    locutan con la voz del sistema, no necesitan asset pregenerado).
+  for (const p of enumerateAllCarrierPrompts('es', MINIMAL_PAIRS.map((mp) => mp.target))) {
+    add('clinical', p.full, 'carrier');
+  }
 
   // 2) Pares mínimos: consignas, celebraciones, correcciones y modelado lento.
   //    Las plantillas espejo replican las cadenas de ValeriaMinimalPairsScreen;

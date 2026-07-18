@@ -36,7 +36,9 @@ import {
 import { SpeakButton, TurnPhaseStrip } from './ValeriaVoiceUI';
 import { FichaVisual } from './ValeriaPictograms';
 import { ValeriaSessionBreakOverlay, pickSessionBreak, SessionBreak } from './ValeriaSessionBreakOverlay';
-import { MINIMAL_PAIRS, PAIR_GROUPS, MinimalPair } from './valeriaMinimalPairs';
+import { PAIR_GROUPS, MinimalPair } from './valeriaMinimalPairs';
+import { pairsForLocale } from './valeriaPairBanks';
+import { getLocale } from './valeriaLocale';
 import { buildCarrierPrompt, reseedCarriers } from './valeriaCarrierPhrases';
 import {
   ROLESWAP_INTRO, ROLESWAP_NOT_HEARD, ROLESWAP_HIT, ROLESWAP_MISS_OTHER, roleswapParentSaid,
@@ -255,6 +257,10 @@ const RoleSwapOverlay: React.FC<{ pair: MinimalPair; onDone: () => void }> = ({ 
 // Pantalla principal
 // ----------------------------------------------------------------------------
 export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
+  // Banco según la variedad activa (es / gl / es-DO). Se fija al montar la
+  // pantalla para no cambiar de banco a media sesión; la variedad se elige
+  // antes, en la tarjeta «Voz de la app».
+  const [pairs] = useState<MinimalPair[]>(() => pairsForLocale(getLocale()));
   const [phase, setPhase] = useState<Phase>('pick');
   const [pair, setPair] = useState<MinimalPair | null>(null);
   const [trialIdx, setTrialIdx] = useState(0);
@@ -321,7 +327,7 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
 
   // ---------------------------------------------------- prescripción (PIN) --
   const isPrescribed = (id: string) => prescribed[id] !== false;
-  const activeCount = MINIMAL_PAIRS.filter((p) => isPrescribed(p.id)).length;
+  const activeCount = pairs.filter((p) => isPrescribed(p.id)).length;
 
   const togglePrescribed = (id: string) => {
     if (!unlocked) return;
@@ -332,7 +338,7 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
   const savePrescription = async () => {
     try { await AsyncStorage.setItem(STORAGE_KEYS.paresPrescripcion, JSON.stringify(prescribed)); } catch (e) { /* noop */ }
     setUnlocked(false);
-    setToast(`Prescripción guardada · ${activeCount} de ${MINIMAL_PAIRS.length} pares activos.`);
+    setToast(`Prescripción guardada · ${activeCount} de ${pairs.length} pares activos.`);
   };
 
   // ---------------------------------------------------------------- sesión --
@@ -571,7 +577,7 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
           {PAIR_GROUPS.map((g) => (
             <View key={g}>
               <Text style={s.groupLabel}>{g.toUpperCase()}</Text>
-              {MINIMAL_PAIRS.filter((p) => p.group === g).map((p) => {
+              {pairs.filter((p) => p.group === g).map((p) => {
                 const on = isPrescribed(p.id);
                 return (
                   <Pressable

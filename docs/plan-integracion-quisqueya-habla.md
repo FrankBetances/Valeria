@@ -173,6 +173,16 @@ contenido.*
 
 **Salida de fase:** app tri-variedad funcional con es-DO de muestra.
 
+> **Estado (jul 2026): Fase 1 IMPLEMENTADA.** `valeriaLocale.ts` generaliza el
+> antiguo idioma de voz a variedad `'es' | 'gl' | 'es-DO'` (con migración de la
+> clave anterior). La voz y el micrófono se cablean por locale: `speechLocale()`
+> pasa `es-DO` al ASR/TTS del sistema y `scoreVoice` prioriza voces latinas
+> (es-US/es-MX) cuando la variedad es dominicana; es-DO no usa audio
+> pregenerado (`assetLang('es-DO') === null` → voz del sistema). El selector de
+> la tarjeta «Voz de la app» ofrece ya las tres variedades. Pendiente el
+> selector **por paciente** en la ficha con persistencia en Firestore (hoy es un
+> ajuste global de dispositivo).
+
 ---
 
 ### Fase 2 · Contenido dominicano (el camino crítico)
@@ -187,6 +197,17 @@ contenido.*
 
 **Salida de fase:** Quisqueya Habla completo con voz y ASR del sistema.
 **Esta fase es publicable: con ella termina el MVP.**
+
+> **Estado (jul 2026): QH-2.1 IMPLEMENTADA (borrador).** Banco de pares mínimos
+> es-DO (`valeriaMinimalPairsEsDO.ts`, 8 pares) diseñado bajo la guía dialectal
+> (`docs/guia-dialectal-es-DO.md`): sin distinción /s/–/θ/ (seseo), sin codas
+> líquidas, solo procesos infantiles universales, con consignas y misiones en
+> registro dominicano. Cableado por variedad (`valeriaPairBanks.pairsForLocale`)
+> → un paciente en es-DO ya ve y practica su banco. Protocolo en
+> `docs/protocolo-pares-minimos-es-DO.md`. **⚠️ Todo pendiente de validación
+> logopédica dominicana antes del piloto.** Restan QH-2.2 (expansión semántica),
+> QH-2.3 (Audición/Lenguaje), QH-2.4 (Test de Ling) y QH-2.5 (validación léxica)
+> — el grueso editorial de la fase.
 
 ---
 
