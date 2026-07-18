@@ -22,6 +22,7 @@ import { ROUTINE_ROUTES } from './valeriaRoutineRoutes';
 import {
   PRAISE_BANK, ALMOST_BANK, NO_HEAR_BANK, TOGETHER_BANK,
   SESSION_CONTINUE_PHRASE, ROUTE_DONE_PHRASE, VOICE_SAMPLE_PHRASE,
+  ROLESWAP_INTRO, ROLESWAP_NOT_HEARD, ROLESWAP_HIT, ROLESWAP_MISS_OTHER, roleswapParentSaid,
 } from './valeriaPhraseBank';
 import {
   TPR_CAPSULES_GL, ROUTINE_ROUTES_GL,
@@ -99,8 +100,16 @@ export function buildVoiceCorpus(): VoiceCorpusEntry[] {
     add('child', p.onFoil.say, 'pares/correccion');
     add('child', `¡Otra vez! Di: ${p.target}.`, 'pares/retry');
     add('slow', p.target.toLowerCase(), 'pares/modelado');
+    // Rotación de roles: "Papá dijo <palabra>" con la palabra del par (target/foil).
+    add('child', roleswapParentSaid(p.target), 'pares/roleswap');
+    add('child', roleswapParentSaid(p.foil), 'pares/roleswap');
   }
   add('child', '¡Sesión de pares completada! ¡Choca esos cinco con papá!', 'pares/fin');
+  // Frases fijas del overlay de rotación de roles (Pares Mínimos).
+  add('child', ROLESWAP_INTRO, 'pares/roleswap');
+  add('child', ROLESWAP_NOT_HEARD, 'pares/roleswap');
+  add('child', ROLESWAP_HIT, 'pares/roleswap');
+  add('child', ROLESWAP_MISS_OTHER, 'pares/roleswap');
 
   // 3) Cápsulas TPR y Rutas de Rutina.
   for (const c of TPR_CAPSULES) for (const cmd of c.commands) add('child', cmd.text, 'tpr');

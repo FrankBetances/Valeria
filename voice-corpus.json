@@ -1,9 +1,9 @@
 {
- "generatedAt": "2026-07-18T18:09:17.420Z",
- "entries": 661,
+ "generatedAt": "2026-07-18T18:28:59.621Z",
+ "entries": 685,
  "byStyle": {
   "clinical": 473,
-  "child": 171,
+  "child": 195,
   "slow": 17
  },
  "bySource": {
@@ -14,6 +14,7 @@
   "pares/correccion": 17,
   "pares/retry": 17,
   "pares/modelado": 17,
+  "pares/roleswap": 24,
   "pares/fin": 2,
   "tpr": 48,
   "tpr/fin": 2,
@@ -2029,6 +2030,20 @@
    "source": "pares/modelado"
   },
   {
+   "id": "child_5090dcf8_59",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Uy! Papá dijo rana. ¡Escucha otra vez en el próximo turno!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "child_39193f5e_59",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Uy! Papá dijo lana. ¡Escucha otra vez en el próximo turno!",
+   "source": "pares/roleswap"
+  },
+  {
    "id": "child_d23b5673_75",
    "lang": "es",
    "style": "child",
@@ -2069,6 +2084,20 @@
    "style": "slow",
    "text": "perro",
    "source": "pares/modelado"
+  },
+  {
+   "id": "child_05d615ce_60",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Uy! Papá dijo perro. ¡Escucha otra vez en el próximo turno!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "child_f9cce656_59",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Uy! Papá dijo pelo. ¡Escucha otra vez en el próximo turno!",
+   "source": "pares/roleswap"
   },
   {
    "id": "child_72fd4260_68",
@@ -2113,6 +2142,20 @@
    "source": "pares/modelado"
   },
   {
+   "id": "child_47fb7616_59",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Uy! Papá dijo rata. ¡Escucha otra vez en el próximo turno!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "child_ba682bf0_59",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Uy! Papá dijo lata. ¡Escucha otra vez en el próximo turno!",
+   "source": "pares/roleswap"
+  },
+  {
    "id": "child_c450d61c_59",
    "lang": "es",
    "style": "child",
@@ -2153,6 +2196,20 @@
    "style": "slow",
    "text": "cerro",
    "source": "pares/modelado"
+  },
+  {
+   "id": "child_138c0b2f_60",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Uy! Papá dijo cerro. ¡Escucha otra vez en el próximo turno!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "child_3a44a9f7_59",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Uy! Papá dijo cero. ¡Escucha otra vez en el próximo turno!",
+   "source": "pares/roleswap"
   },
   {
    "id": "child_74bd7203_61",
@@ -2197,6 +2254,20 @@
    "source": "pares/modelado"
   },
   {
+   "id": "child_96936340_59",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Uy! Papá dijo casa. ¡Escucha otra vez en el próximo turno!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "child_7f93f2f1_59",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Uy! Papá dijo caza. ¡Escucha otra vez en el próximo turno!",
+   "source": "pares/roleswap"
+  },
+  {
    "id": "child_1c37131e_66",
    "lang": "es",
    "style": "child",
@@ -2237,6 +2308,20 @@
    "style": "slow",
    "text": "sierra",
    "source": "pares/modelado"
+  },
+  {
+   "id": "child_fe95bd5e_61",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Uy! Papá dijo sierra. ¡Escucha otra vez en el próximo turno!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "child_f85fc599_61",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Uy! Papá dijo tierra. ¡Escucha otra vez en el próximo turno!",
+   "source": "pares/roleswap"
   },
   {
    "id": "child_b7ed81bf_64",
@@ -2281,6 +2366,20 @@
    "source": "pares/modelado"
   },
   {
+   "id": "child_6c3826d7_59",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Uy! Papá dijo ocho. ¡Escucha otra vez en el próximo turno!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "child_3385bc81_58",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Uy! Papá dijo oso. ¡Escucha otra vez en el próximo turno!",
+   "source": "pares/roleswap"
+  },
+  {
    "id": "child_31f0f770_78",
    "lang": "es",
    "style": "child",
@@ -2321,6 +2420,20 @@
    "style": "slow",
    "text": "cubo",
    "source": "pares/modelado"
+  },
+  {
+   "id": "child_647434b7_59",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Uy! Papá dijo cubo. ¡Escucha otra vez en el próximo turno!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "child_b0f55588_59",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Uy! Papá dijo tubo. ¡Escucha otra vez en el próximo turno!",
+   "source": "pares/roleswap"
   },
   {
    "id": "child_8946e0ea_61",
@@ -2365,6 +2478,20 @@
    "source": "pares/modelado"
   },
   {
+   "id": "child_b373bce3_59",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Uy! Papá dijo boca. ¡Escucha otra vez en el próximo turno!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "child_61a89450_59",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Uy! Papá dijo bota. ¡Escucha otra vez en el próximo turno!",
+   "source": "pares/roleswap"
+  },
+  {
    "id": "child_8f44499b_69",
    "lang": "es",
    "style": "child",
@@ -2407,11 +2534,53 @@
    "source": "pares/modelado"
   },
   {
+   "id": "child_2a53d655_61",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Uy! Papá dijo fuente. ¡Escucha otra vez en el próximo turno!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "child_5600729b_61",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Uy! Papá dijo puente. ¡Escucha otra vez en el próximo turno!",
+   "source": "pares/roleswap"
+  },
+  {
    "id": "child_02a0870e_56",
    "lang": "es",
    "style": "child",
    "text": "¡Sesión de pares completada! ¡Choca esos cinco con papá!",
    "source": "pares/fin"
+  },
+  {
+   "id": "child_274343de_53",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Cambio de papeles! Ahora el niño manda y papá habla.",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "child_d2b08ea2_34",
+   "lang": "es",
+   "style": "child",
+   "text": "No escuché bien a papá. ¡Otra vez!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "child_5dc95fb0_29",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Exacto! ¡Qué oreja tan fina!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "child_9ecaf6d7_56",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Uy! Era la otra. ¡Escucha otra vez en el próximo turno!",
+   "source": "pares/roleswap"
   },
   {
    "id": "child_1e292f1c_17",
