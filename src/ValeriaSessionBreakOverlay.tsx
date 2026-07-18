@@ -12,9 +12,11 @@ import { View, Text, Pressable, StyleSheet } from 'react-native';
 import { V } from './valeriaTheme';
 import { speakClinical, stopSpeaking } from './valeriaVoice';
 import { ValeriaTPRCapsuleOverlay } from './ValeriaTPRCapsule';
-import { pickTprCapsule, TprCapsule } from './valeriaTprBank';
+import { TPR_CAPSULES, TprCapsule } from './valeriaTprBank';
 import { ROUTINE_ROUTES, RoutineRoute } from './valeriaRoutineRoutes';
 import { ROUTE_DONE_PHRASE } from './valeriaPhraseBank';
+import { TPR_CAPSULES_GL, ROUTINE_ROUTES_GL, ROUTE_DONE_PHRASE_GL } from './valeriaContentGl';
+import { getLocale } from './valeriaLocale';
 import {
   trackCapsuleStart, trackCapsuleDone, trackCapsuleSkip,
   trackRouteStart, trackRouteValidated, trackRouteFailed, trackRouteSkip,
@@ -24,12 +26,20 @@ export type SessionBreak =
   | { kind: 'capsule'; capsule: TprCapsule }
   | { kind: 'route'; route: RoutineRoute };
 
+const pick = <T,>(arr: T[]): T => arr[Math.floor(Math.random() * arr.length)];
+
 // Alterna formatos al azar (variedad de contenido, no de dificultad: ambos
-// formatos son del mismo nivel y el adulto siempre puede saltarlos).
-export const pickSessionBreak = (): SessionBreak =>
-  Math.random() < 0.5
-    ? { kind: 'capsule', capsule: pickTprCapsule() }
-    : { kind: 'route', route: ROUTINE_ROUTES[Math.floor(Math.random() * ROUTINE_ROUTES.length)] };
+// formatos son del mismo nivel y el adulto siempre puede saltarlos). Escoge los
+// bancos según la variedad activa: en galego, cápsulas y rutas gallegas (que
+// suenan con Celtia); en el resto, las castellanas.
+export const pickSessionBreak = (): SessionBreak => {
+  const gl = getLocale() === 'gl';
+  const capsules = gl ? TPR_CAPSULES_GL : TPR_CAPSULES;
+  const routes = gl ? ROUTINE_ROUTES_GL : ROUTINE_ROUTES;
+  return Math.random() < 0.5
+    ? { kind: 'capsule', capsule: pick(capsules) }
+    : { kind: 'route', route: pick(routes) };
+};
 
 // ----------------------------------------------------------------------------
 // Ruta de Rutina: la app dicta la orden transaccional, el niño la ejecuta con
@@ -54,7 +64,7 @@ const RoutineRouteOverlay: React.FC<{
   useEffect(() => () => stopSpeaking(), []);
 
   const advance = () => {
-    if (last) { speakClinical(ROUTE_DONE_PHRASE); onDone(); }
+    if (last) { speakClinical(getLocale() === 'gl' ? ROUTE_DONE_PHRASE_GL : ROUTE_DONE_PHRASE); onDone(); }
     else setStep(step + 1);
   };
 

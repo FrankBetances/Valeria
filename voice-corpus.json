@@ -1,9 +1,9 @@
 {
- "generatedAt": "2026-07-18T18:28:59.621Z",
- "entries": 685,
+ "generatedAt": "2026-07-18T23:11:47.101Z",
+ "entries": 703,
  "byStyle": {
   "clinical": 473,
-  "child": 195,
+  "child": 213,
   "slow": 17
  },
  "bySource": {
@@ -14,7 +14,7 @@
   "pares/correccion": 17,
   "pares/retry": 17,
   "pares/modelado": 17,
-  "pares/roleswap": 24,
+  "pares/roleswap": 42,
   "pares/fin": 2,
   "tpr": 48,
   "tpr/fin": 2,
@@ -4207,6 +4207,20 @@
    "source": "pares/modelado"
   },
   {
+   "id": "gl_child_d54d6901_55",
+   "lang": "gl",
+   "style": "child",
+   "text": "Ui! Papá dixo rúa. Escoita outra vez na próxima quenda!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "gl_child_d01f03d3_55",
+   "lang": "gl",
+   "style": "child",
+   "text": "Ui! Papá dixo lúa. Escoita outra vez na próxima quenda!",
+   "source": "pares/roleswap"
+  },
+  {
    "id": "gl_child_42c7e3ca_57",
    "lang": "gl",
    "style": "child",
@@ -4247,6 +4261,20 @@
    "style": "slow",
    "text": "rei",
    "source": "pares/modelado"
+  },
+  {
+   "id": "gl_child_52fe246e_55",
+   "lang": "gl",
+   "style": "child",
+   "text": "Ui! Papá dixo rei. Escoita outra vez na próxima quenda!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "gl_child_e67d3d3c_55",
+   "lang": "gl",
+   "style": "child",
+   "text": "Ui! Papá dixo lei. Escoita outra vez na próxima quenda!",
+   "source": "pares/roleswap"
   },
   {
    "id": "gl_child_9351f78b_60",
@@ -4291,6 +4319,20 @@
    "source": "pares/modelado"
   },
   {
+   "id": "gl_child_c10bdf6e_56",
+   "lang": "gl",
+   "style": "child",
+   "text": "Ui! Papá dixo casa. Escoita outra vez na próxima quenda!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "gl_child_86080f8f_56",
+   "lang": "gl",
+   "style": "child",
+   "text": "Ui! Papá dixo caza. Escoita outra vez na próxima quenda!",
+   "source": "pares/roleswap"
+  },
+  {
    "id": "gl_child_a10a6eb2_63",
    "lang": "gl",
    "style": "child",
@@ -4331,6 +4373,20 @@
    "style": "slow",
    "text": "cesta",
    "source": "pares/modelado"
+  },
+  {
+   "id": "gl_child_e19b9bb4_57",
+   "lang": "gl",
+   "style": "child",
+   "text": "Ui! Papá dixo cesta. Escoita outra vez na próxima quenda!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "gl_child_6e3100c1_57",
+   "lang": "gl",
+   "style": "child",
+   "text": "Ui! Papá dixo testa. Escoita outra vez na próxima quenda!",
+   "source": "pares/roleswap"
   },
   {
    "id": "gl_child_6dfe7a0d_76",
@@ -4375,6 +4431,20 @@
    "source": "pares/modelado"
   },
   {
+   "id": "gl_child_b3e1f9c9_56",
+   "lang": "gl",
+   "style": "child",
+   "text": "Ui! Papá dixo cubo. Escoita outra vez na próxima quenda!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "gl_child_0003fe42_56",
+   "lang": "gl",
+   "style": "child",
+   "text": "Ui! Papá dixo tubo. Escoita outra vez na próxima quenda!",
+   "source": "pares/roleswap"
+  },
+  {
    "id": "gl_child_1ea02fc1_62",
    "lang": "gl",
    "style": "child",
@@ -4415,6 +4485,20 @@
    "style": "slow",
    "text": "boca",
    "source": "pares/modelado"
+  },
+  {
+   "id": "gl_child_2c9a59e5_56",
+   "lang": "gl",
+   "style": "child",
+   "text": "Ui! Papá dixo boca. Escoita outra vez na próxima quenda!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "gl_child_bfed1c1a_56",
+   "lang": "gl",
+   "style": "child",
+   "text": "Ui! Papá dixo bota. Escoita outra vez na próxima quenda!",
+   "source": "pares/roleswap"
   },
   {
    "id": "gl_child_54c98af3_64",
@@ -4459,11 +4543,53 @@
    "source": "pares/modelado"
   },
   {
+   "id": "gl_child_897f6ce6_57",
+   "lang": "gl",
+   "style": "child",
+   "text": "Ui! Papá dixo fonte. Escoita outra vez na próxima quenda!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "gl_child_023700c4_57",
+   "lang": "gl",
+   "style": "child",
+   "text": "Ui! Papá dixo ponte. Escoita outra vez na próxima quenda!",
+   "source": "pares/roleswap"
+  },
+  {
    "id": "gl_child_2144b6f6_54",
    "lang": "gl",
    "style": "child",
    "text": "Sesión de pares completada! Choca eses cinco con papá!",
    "source": "pares/fin"
+  },
+  {
+   "id": "gl_child_11c09123_49",
+   "lang": "gl",
+   "style": "child",
+   "text": "Cambio de papeis! Agora manda o neno e papá fala.",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "gl_child_be47387c_35",
+   "lang": "gl",
+   "style": "child",
+   "text": "Non escoitei ben a papá. Outra vez!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "gl_child_2bf7201c_28",
+   "lang": "gl",
+   "style": "child",
+   "text": "Exacto! Que orella tan fina!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "gl_child_306aebe8_53",
+   "lang": "gl",
+   "style": "child",
+   "text": "Ui! Era a outra. Escoita outra vez na próxima quenda!",
+   "source": "pares/roleswap"
   },
   {
    "id": "gl_child_a28fd5dd_14",

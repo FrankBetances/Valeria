@@ -18,7 +18,10 @@ import * as Speech from 'expo-speech';
 import {
   PRAISE_BANK, ALMOST_BANK, NO_HEAR_BANK, TOGETHER_BANK, VOICE_SAMPLE_PHRASE,
 } from './valeriaPhraseBank';
-import { VOICE_SAMPLE_PHRASE_GL } from './valeriaContentGl';
+import {
+  VOICE_SAMPLE_PHRASE_GL,
+  PRAISE_BANK_GL, ALMOST_BANK_GL, NO_HEAR_BANK_GL, TOGETHER_BANK_GL,
+} from './valeriaContentGl';
 import { voiceCorpusId, VoiceStyle } from './valeriaVoiceCorpus';
 import { VOICE_ASSETS } from './valeriaVoiceAssets';
 import { playVoiceAsset, stopVoiceAsset } from './valeriaVoicePlayback';
@@ -307,10 +310,14 @@ const pickPhrase = (key: string, bank: string[]): string => {
   return bank[i];
 };
 
-export const praisePhrase = () => pickPhrase('praise', PRAISE_BANK);
-export const almostPhrase = () => pickPhrase('almost', ALMOST_BANK);
-export const noHearPhrase = () => pickPhrase('noHear', NO_HEAR_BANK);
-export const togetherPhrase = () => pickPhrase('together', TOGETHER_BANK);
+// Bancos por variedad: en galego rotan las variantes gl (que suenan con Celtia
+// porque están en el corpus); es/es-DO usan los castellanos (es-DO con la voz
+// del sistema). Mismas longitudes por categoría, así la anti-repetición vale.
+const isGl = () => getLocale() === 'gl';
+export const praisePhrase = () => pickPhrase('praise', isGl() ? PRAISE_BANK_GL : PRAISE_BANK);
+export const almostPhrase = () => pickPhrase('almost', isGl() ? ALMOST_BANK_GL : ALMOST_BANK);
+export const noHearPhrase = () => pickPhrase('noHear', isGl() ? NO_HEAR_BANK_GL : NO_HEAR_BANK);
+export const togetherPhrase = () => pickPhrase('together', isGl() ? TOGETHER_BANK_GL : TOGETHER_BANK);
 
 // ----------------------------------------------------------------------------
 // Reconocimiento de voz (ASR) — opcional según plataforma/build

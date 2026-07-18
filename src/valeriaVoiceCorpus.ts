@@ -28,7 +28,8 @@ import {
   TPR_CAPSULES_GL, ROUTINE_ROUTES_GL,
   PRAISE_BANK_GL, ALMOST_BANK_GL, NO_HEAR_BANK_GL, TOGETHER_BANK_GL,
   SESSION_CONTINUE_PHRASE_GL, ROUTE_DONE_PHRASE_GL, VOICE_SAMPLE_PHRASE_GL,
-  PAIRS_DONE_PHRASE_GL,
+  PAIRS_DONE_PHRASE_GL, pairIntroGl, pairRetryGl,
+  ROLESWAP_INTRO_GL, ROLESWAP_NOT_HEARD_GL, ROLESWAP_HIT_GL, ROLESWAP_MISS_OTHER_GL, roleswapParentSaidGl,
 } from './valeriaContentGl';
 
 // Estilos de locución de valeriaVoice. El audio pre-generado "hornea" el
@@ -136,15 +137,24 @@ export function buildVoiceCorpus(): VoiceCorpusEntry[] {
   for (const p of enumerateAllCarrierPrompts('gl')) addGl('clinical', p.full, 'carrier');
 
   for (const p of MINIMAL_PAIRS_GL) {
-    // Intro neutra en xénero: os pares gl mesturan masculinos e femininos.
-    addGl('child', `Aquí temos: ${p.target}. E aquí: ${p.foil}. ${p.prompt}`, 'pares/intro');
+    // Intro/retry con los mismos builders que la pantalla (valeriaPairSpeech
+    // → valeriaContentGl): así el texto coincide y el asset de Celtia resuelve.
+    addGl('child', pairIntroGl(p.target, p.foil, p.prompt), 'pares/intro');
     addGl('child', p.prompt, 'pares/prompt');
     addGl('child', p.onTarget.say, 'pares/celebracion');
     addGl('child', p.onFoil.say, 'pares/correccion');
-    addGl('child', `Outra vez! Di: ${p.target}.`, 'pares/retry');
+    addGl('child', pairRetryGl(p.target), 'pares/retry');
     addGl('slow', p.target.toLowerCase(), 'pares/modelado');
+    // Rotación de roles: "Papá dixo <palabra>" con target/foil del par gl.
+    addGl('child', roleswapParentSaidGl(p.target), 'pares/roleswap');
+    addGl('child', roleswapParentSaidGl(p.foil), 'pares/roleswap');
   }
   addGl('child', PAIRS_DONE_PHRASE_GL, 'pares/fin');
+  // Frases fijas del overlay de rotación de roles en galego.
+  addGl('child', ROLESWAP_INTRO_GL, 'pares/roleswap');
+  addGl('child', ROLESWAP_NOT_HEARD_GL, 'pares/roleswap');
+  addGl('child', ROLESWAP_HIT_GL, 'pares/roleswap');
+  addGl('child', ROLESWAP_MISS_OTHER_GL, 'pares/roleswap');
 
   for (const c of TPR_CAPSULES_GL) for (const cmd of c.commands) addGl('child', cmd.text, 'tpr');
   addGl('child', SESSION_CONTINUE_PHRASE_GL, 'tpr/fin');

@@ -130,3 +130,16 @@ export const SESSION_CONTINUE_PHRASE_GL = 'Moi ben! Seguimos coa sesión!';
 export const ROUTE_DONE_PHRASE_GL = 'Ruta completada. Seguimos coa sesión.';
 export const VOICE_SAMPLE_PHRASE_GL = 'Ola! Así soará a miña voz nos exercicios. A que soa ben?';
 export const PAIRS_DONE_PHRASE_GL = 'Sesión de pares completada! Choca eses cinco con papá!';
+
+// Frases fixas do overlay de rotación de roles (Pares Mínimos) en galego.
+export const ROLESWAP_INTRO_GL = 'Cambio de papeis! Agora manda o neno e papá fala.';
+export const ROLESWAP_NOT_HEARD_GL = 'Non escoitei ben a papá. Outra vez!';
+export const ROLESWAP_HIT_GL = 'Exacto! Que orella tan fina!';
+export const ROLESWAP_MISS_OTHER_GL = 'Ui! Era a outra. Escoita outra vez na próxima quenda!';
+export const roleswapParentSaidGl = (word: string): string =>
+  `Ui! Papá dixo ${word}. Escoita outra vez na próxima quenda!`;
+
+// Formatos fixos do ensaio de pares en galego (deben coincidir co corpus).
+export const pairIntroGl = (target: string, foil: string, prompt: string): string =>
+  `Aquí temos: ${target}. E aquí: ${foil}. ${prompt}`;
+export const pairRetryGl = (target: string): string => `Outra vez! Di: ${target}.`;
