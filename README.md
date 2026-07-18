@@ -17,6 +17,7 @@ Expo SDK 54 · React Native 0.81 · TypeScript · Backend opcional Firebase
 
 - [¿Qué es Valeria+?](#qué-es-valeria)
 - [Bloques de terapia](#bloques-de-terapia)
+- [Panel del Adulto · Caos Comunicativo](#panel-del-adulto--caos-comunicativo)
 - [Idiomas y variedades](#idiomas-y-variedades)
 - [Flujo de pantallas](#flujo-de-pantallas)
 - [Telemetría del piloto clínico](#telemetría-del-piloto-clínico)
@@ -53,6 +54,35 @@ cualquier dispositivo y **sin conexión**.
 El **Test de Ling** (6 sonidos) precede a los ejercicios de audición cuando el
 paciente usa audífono o implante, y la **gamificación** (XP, racha 🔥, niveles e
 insignias) mantiene la motivación en todos los bloques.
+
+Además, cada mini‑juego de Audición y Lenguaje **rota hasta 3 contenidos**
+distintos ("🔄 Otra ronda"), encadenables en una **"🎯 Sesión completa"** por
+bloque, con pausas activas unificadas entre ejercicios (`ValeriaSessionBreakOverlay`):
+alternan la **cápsula TPR clásica** ("escucha y muévete") y la **Ruta de Rutina
+TPR 2.0** (morfosintaxis transaccional). En Pares Mínimos y Expansión Semántica,
+la palabra objetivo ya no se dicta aislada: un **motor combinatorio de frases
+portadoras** (`valeriaCarrierPhrases`, es/gl) la incrusta en una frase con
+prosodia continua seguida de una pregunta de elicitación, sin repetir frase en
+diez ensayos seguidos.
+
+## Panel del Adulto · Caos Comunicativo
+
+Para el piloto clínico, Valeria+ añade un **Panel del Adulto** (`ValeriaAdultChaosPanel`)
+—tarjeta colapsable presente en el player— con tres módulos de **carga
+comunicativa manual**. La regla innegociable es un **muro regulatorio (MDR)**:
+la app **jamás activa, mide ni adapta** nada por su cuenta; todo lo acciona el
+adulto de forma explícita. Automatizar el ajuste convertiría la app en un
+audiómetro algorítmico (SaMD), y cualquier lógica de ese tipo debe rechazarse.
+
+| Módulo | Qué hace |
+| --- | --- |
+| 🔊 **Escucha en ruido** (`ValeriaManualNoiseSlider` + `valeriaNoise`) | Reproducción dual: la instrucción TTS sobre una pista de **ruido babble** de cafetería en bucle. El volumen del ruido muta **solo** con el slider manual (0‑10) del adulto; la telemetría se registra al soltar, no por píxel. |
+| 🐻 **Doble tarea** (`ValeriaDistractorBear`) | Un oso distractor se asoma por la periferia y se mueve **sin ser interactivo** (`pointerEvents="none"`): interferencia visual pura para el paradigma de carga cognitiva dual. Animación por el hilo nativo, arrancada tras `InteractionManager`. |
+| 💬 **Quiebre pragmático** (`ValeriaPragmaticBreak`) | "Fallo deliberado": la app calla y es el adulto quien rompe la comunicación a propósito para observar cómo el niño la **repara**. La botonera de acierto se reemplaza por un selector de **estrategias de reparación**. Un modal advierte de la "frustración útil" antes de empezar. |
+
+Los overlays (oso y quiebre) viven en la raíz de la pantalla anfitriona —no
+dentro del `ScrollView`— y registran su rectángulo en `ValeriaMisclickBoundary`
+para no ensuciar la telemetría de misclicks.
 
 ## Idiomas y variedades
 
@@ -240,8 +270,15 @@ Guía completa de configuración y despliegue: [`docs/firebase-setup.md`](docs/f
 </details>
 
 <details>
-<summary><strong>V7</strong> — telemetría de usabilidad del piloto clínico y exportación dual</summary>
+<summary><strong>V7</strong> — piloto clínico: caos comunicativo manual, telemetría y exportación dual</summary>
 
+- **Reingeniería del piloto · Caos Comunicativo manual**: Panel del Adulto
+  (`ValeriaAdultChaosPanel`) con escucha en ruido babble (`valeriaNoise` +
+  `ValeriaManualNoiseSlider`), oso distractor de doble tarea (`ValeriaDistractorBear`)
+  y quiebre pragmático con estrategias de reparación (`ValeriaPragmaticBreak`),
+  todo bajo el muro MDR (manual, nunca automático). Frases portadoras
+  combinatorias (`valeriaCarrierPhrases`) y pausa de sesión unificada
+  (`ValeriaSessionBreakOverlay`). Telemetría V2.
 - **Telemetría no bloqueante**: captura de tiempo activo por pantalla, misclicks
   y abandono intra‑cápsula TPR sin bloquear el hilo principal (captura en memoria
   + volcado con *debounce* vía `InteractionManager`). Módulo `valeriaTelemetry`.
