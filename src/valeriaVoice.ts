@@ -18,6 +18,7 @@ import * as Speech from 'expo-speech';
 import {
   PRAISE_BANK, ALMOST_BANK, NO_HEAR_BANK, TOGETHER_BANK, VOICE_SAMPLE_PHRASE,
 } from './valeriaPhraseBank';
+import { VOICE_SAMPLE_PHRASE_GL } from './valeriaContentGl';
 import { voiceCorpusId, VoiceStyle } from './valeriaVoiceCorpus';
 import { VOICE_ASSETS } from './valeriaVoiceAssets';
 import { playVoiceAsset, stopVoiceAsset } from './valeriaVoicePlayback';
@@ -272,8 +273,10 @@ export const speakClinical = (text: string, opts: Speech.SpeechOptions = {}) => 
   }
 };
 
-// Frase de prueba para que la familia escuche la voz elegida.
-export const speakVoiceSample = () => speakToChild(VOICE_SAMPLE_PHRASE);
+// Frase de prueba para que la familia escuche la voz elegida. En galego usa
+// la muestra propia, que resuelve el asset neuronal de Celtia (id gl_*).
+export const speakVoiceSample = () =>
+  speakToChild(getVoiceLang() === 'gl' ? VOICE_SAMPLE_PHRASE_GL : VOICE_SAMPLE_PHRASE);
 
 // Palabra objetivo bien articulada, muy despacio (modelado fonético).
 export const speakWordSlow = (text: string) => {

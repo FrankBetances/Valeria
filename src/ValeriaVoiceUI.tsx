@@ -19,6 +19,8 @@ import {
   asrSupported, startListening, stopListening, releaseListening, matchTarget, MatchLevel,
   VoiceStatus, refreshVoiceCatalog,
 } from './valeriaVoice';
+import { getVoiceLang, setVoiceLang } from './valeriaLang';
+import { VoiceLang } from './valeriaVoiceCorpus';
 
 // ----------------------------------------------------------------------------
 // Botón altavoz: lee `text` en voz alta. `voice` elige el tono.
@@ -303,9 +305,18 @@ export const ResponseCaptureCard: React.FC<{
 const GOOGLE_TTS_MARKET = 'market://details?id=com.google.android.tts';
 const GOOGLE_TTS_WEB = 'https://play.google.com/store/apps/details?id=com.google.android.tts';
 
+// Idiomas ofrecidos por el selector. El galego se locuta con la voz neuronal
+// Celtia (Proxecto Nós) empaquetada en la app; en probas mientras el contenido
+// gallego se valida (por eso la etiqueta beta).
+const LANGS: Array<{ id: VoiceLang; label: string; beta?: boolean }> = [
+  { id: 'es', label: 'Castellano' },
+  { id: 'gl', label: 'Galego', beta: true },
+];
+
 export const VoiceQualityCard: React.FC = () => {
   const [status, setStatus] = useState<VoiceStatus | null>(null);
   const [checking, setChecking] = useState(false);
+  const [lang, setLang] = useState<VoiceLang>(getVoiceLang());
   const mounted = useRef(true);
 
   const check = async () => {
@@ -316,6 +327,15 @@ export const VoiceQualityCard: React.FC = () => {
     } finally {
       if (mounted.current) setChecking(false);
     }
+  };
+
+  // Cambia el idioma de locución (valeriaLang, global). Detiene lo que suene y
+  // reproduce la muestra en el idioma elegido para oír el cambio al instante.
+  // setVoiceLang fija el idioma activo de forma síncrona (y lo persiste), así
+  // que speakVoiceSample() ya usa el nuevo idioma sin esperar al disco.
+  const pickLang = (l: VoiceLang) => {
+    if (l !== lang) { stopSpeaking(); setLang(l); void setVoiceLang(l); }
+    speakVoiceSample();
   };
 
   useEffect(() => {
@@ -337,37 +357,69 @@ export const VoiceQualityCard: React.FC = () => {
       : tier === 'estandar' ? { txt: 'Voz estándar', bg: '#fffbeb', fg: '#92711a' }
         : { txt: 'Voz mejorable', bg: V.color.errorBg, fg: V.color.error };
 
-  const detail = checking ? 'Buscando la mejor voz en español instalada en este dispositivo…'
-    : noSpanish ? 'No hay ninguna voz en español instalada: la app no podrá leer las consignas hasta descargarla.'
-      : good ? `La app usará la mejor voz del dispositivo${status?.name ? ` («${status.name}»)` : ''}. Suena natural, no robótica.`
-        : Platform.OS === 'android'
-          ? 'Este dispositivo solo ofrece una voz sencilla y puede sonar robótica. Instala las voces de Google (gratis y sin conexión) para que la app suene natural.'
-          : 'Puedes mejorar la voz en Ajustes → Accesibilidad → Contenido leído → Voces → Español, descargando la voz mejorada.';
+  // En galego la app locuta con la voz neuronal Celtia empaquetada, así que la
+  // calidad no depende del motor del sistema ni de instalar voces de Google.
+  const isGl = lang === 'gl';
+  const detail = isGl
+    ? 'En galego a app fala coa voz neuronal Celtia (Proxecto Nós), incluída na app: soa igual en calquera dispositivo, sen conexión.'
+    : checking ? 'Buscando la mejor voz en español instalada en este dispositivo…'
+      : noSpanish ? 'No hay ninguna voz en español instalada: la app no podrá leer las consignas hasta descargarla.'
+        : good ? `La app usará la mejor voz del dispositivo${status?.name ? ` («${status.name}»)` : ''}. Suena natural, no robótica.`
+          : Platform.OS === 'android'
+            ? 'Este dispositivo solo ofrece una voz sencilla y puede sonar robótica. Instala las voces de Google (gratis y sin conexión) para que la app suene natural.'
+            : 'Puedes mejorar la voz en Ajustes → Accesibilidad → Contenido leído → Voces → Español, descargando la voz mejorada.';
+  // La guía de voces de Google solo aplica al castellano (voz del sistema).
+  const showInstall = !isGl && (!good || noSpanish) && Platform.OS === 'android';
 
   return (
     <View style={s.vqCard}>
       <View style={s.vqHead}>
         <View style={s.vqIcon}><Text style={{ fontSize: 17 }}>🎙️</Text></View>
         <Text style={s.vqTitle}>Voz de la app</Text>
-        <View style={[s.vqChip, { backgroundColor: chip.bg }]}>
-          <Text style={[s.vqChipTxt, { color: chip.fg }]}>{chip.txt}</Text>
+        <View style={[s.vqChip, { backgroundColor: isGl ? V.color.successBg : chip.bg }]}>
+          <Text style={[s.vqChipTxt, { color: isGl ? '#0f8a63' : chip.fg }]}>{isGl ? '✓ Voz Celtia' : chip.txt}</Text>
         </View>
       </View>
+
+      {/* Selector de idioma de la voz (se guarda en el dispositivo). Tocar una
+          opción la elige y reproduce la muestra para oírla al instante. */}
+      <Text style={s.vqLangLabel}>Idioma de la voz</Text>
+      <View style={s.vqLangRow}>
+        {LANGS.map((it) => {
+          const on = lang === it.id;
+          return (
+            <Pressable
+              key={it.id}
+              onPress={() => pickLang(it.id)}
+              style={[s.vqLangBtn, on && s.vqLangBtnOn]}
+              accessibilityRole="button"
+              accessibilityState={{ selected: on }}
+              accessibilityLabel={`Voz en ${it.label}${it.beta ? ', en pruebas' : ''}`}
+            >
+              <Text style={[s.vqLangTxt, on && s.vqLangTxtOn]}>{it.label}</Text>
+              {it.beta && <Text style={[s.vqBeta, on && { color: '#fff', borderColor: 'rgba(255,255,255,.6)' }]}>beta</Text>}
+            </Pressable>
+          );
+        })}
+      </View>
+
       <Text style={s.vqDetail}>{detail}</Text>
       <View style={s.vqBtnRow}>
         <Pressable onPress={speakVoiceSample} style={s.vqBtn} accessibilityRole="button" accessibilityLabel="Probar cómo suena la voz">
           <Text style={s.vqBtnTxt}>▶ Probar la voz</Text>
         </Pressable>
-        {(!good || noSpanish) && Platform.OS === 'android' && (
+        {showInstall && (
           <Pressable onPress={openGoogleVoices} style={[s.vqBtn, s.vqBtnPrimary]} accessibilityRole="button" accessibilityLabel="Instalar las voces de Google">
             <Text style={[s.vqBtnTxt, { color: '#fff' }]}>⬇️ Instalar voces de Google</Text>
           </Pressable>
         )}
-        <Pressable onPress={check} disabled={checking} style={[s.vqBtn, checking && { opacity: 0.5 }]} accessibilityRole="button" accessibilityLabel="Volver a comprobar la voz">
-          <Text style={s.vqBtnTxt}>🔄 Volver a comprobar</Text>
-        </Pressable>
+        {!isGl && (
+          <Pressable onPress={check} disabled={checking} style={[s.vqBtn, checking && { opacity: 0.5 }]} accessibilityRole="button" accessibilityLabel="Volver a comprobar la voz">
+            <Text style={s.vqBtnTxt}>🔄 Volver a comprobar</Text>
+          </Pressable>
+        )}
       </View>
-      {(!good || noSpanish) && Platform.OS === 'android' && !checking && (
+      {showInstall && !checking && (
         <Text style={s.vqHint}>
           Tras instalar: Ajustes → Sistema → Salida de texto a voz → elige «Motor de voz de Google» y
           descarga la voz de Español (España). Después vuelve aquí y toca «Volver a comprobar».
@@ -423,6 +475,14 @@ const s = StyleSheet.create({
   vqTitle: { fontSize: 14, fontWeight: '800', color: V.color.textPrimary, flex: 1 },
   vqChip: { paddingHorizontal: 9, paddingVertical: 4, borderRadius: 9 },
   vqChipTxt: { fontSize: 11, fontWeight: '800' },
+
+  vqLangLabel: { fontSize: 10.5, fontWeight: '800', letterSpacing: 0.5, color: V.color.textMuted, marginTop: 12, marginBottom: 6, textTransform: 'uppercase' },
+  vqLangRow: { flexDirection: 'row', gap: 8 },
+  vqLangBtn: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6, backgroundColor: V.color.pageBg, borderWidth: 1.5, borderColor: V.color.border, borderRadius: 12, paddingVertical: 10 },
+  vqLangBtnOn: { backgroundColor: V.color.primary, borderColor: V.color.primary },
+  vqLangTxt: { fontSize: 13.5, fontWeight: '800', color: V.color.textSecondary },
+  vqLangTxtOn: { color: '#fff' },
+  vqBeta: { fontSize: 9, fontWeight: '800', color: V.color.textMuted, borderWidth: 1, borderColor: V.color.border, borderRadius: 6, paddingHorizontal: 4, paddingVertical: 1, letterSpacing: 0.4, textTransform: 'uppercase' },
   vqDetail: { fontSize: 11.5, fontWeight: '600', color: V.color.textMuted, marginTop: 8, lineHeight: 15.5 },
   vqBtnRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginTop: 11 },
   vqBtn: { backgroundColor: V.color.primaryLight, borderWidth: 1, borderColor: V.color.borderActive, borderRadius: 11, paddingHorizontal: 11, paddingVertical: 8 },
