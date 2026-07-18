@@ -17,7 +17,7 @@ Expo SDK 54 · React Native 0.81 · TypeScript · Backend opcional Firebase
 
 - [¿Qué es Valeria+?](#qué-es-valeria)
 - [Bloques de terapia](#bloques-de-terapia)
-- [Panel del Adulto · Caos Comunicativo](#panel-del-adulto--caos-comunicativo)
+- [Panel del Adulto · Carga Comunicativa](#panel-del-adulto--carga-comunicativa)
 - [Idiomas y variedades](#idiomas-y-variedades)
 - [Flujo de pantallas](#flujo-de-pantallas)
 - [Telemetría del piloto clínico](#telemetría-del-piloto-clínico)
@@ -65,7 +65,7 @@ portadoras** (`valeriaCarrierPhrases`, es/gl) la incrusta en una frase con
 prosodia continua seguida de una pregunta de elicitación, sin repetir frase en
 diez ensayos seguidos.
 
-## Panel del Adulto · Caos Comunicativo
+## Panel del Adulto · Carga Comunicativa
 
 Para el piloto clínico, Valeria+ añade un **Panel del Adulto** (`ValeriaAdultChaosPanel`)
 —tarjeta colapsable presente en el player— con tres módulos de **carga
@@ -163,7 +163,7 @@ con *debounce* vía `InteractionManager`, de modo que el cifrado y el guardado e
 
 | Documento | Descripción |
 | --- | --- |
-| **Manual de usuario con casos de uso** (v8) · [HTML](docs/manual-casos-de-uso.html) · [PDF](docs/Valeria-Manual-Casos-de-Uso.pdf) · [Word](docs/Valeria-Manual-Casos-de-Uso.docx) | 15 casos de uso paso a paso ilustrados con 21 capturas reales (`docs/screenshots/`): los cuatro bloques, el hub, la gráfica de sustitución por fonema, la telemetría del piloto (CU‑13), la variedad lingüística (CU‑14), el Panel del Adulto / caos comunicativo (CU‑15) y las novedades v6/v7/v8. |
+| **Manual de usuario con casos de uso** (v8) · [HTML](docs/manual-casos-de-uso.html) · [PDF](docs/Valeria-Manual-Casos-de-Uso.pdf) · [Word](docs/Valeria-Manual-Casos-de-Uso.docx) | 15 casos de uso paso a paso ilustrados con 21 capturas reales (`docs/screenshots/`): los cuatro bloques, el hub, la gráfica de sustitución por fonema, la telemetría del piloto (CU‑13), la variedad lingüística (CU‑14), el Panel del Adulto / carga comunicativa (CU‑15) y las novedades v6/v7/v8. |
 | [`docs/protocolo-pares-minimos.md`](docs/protocolo-pares-minimos.md) | Protocolo de pares mínimos para dislalias fonológicas: 10 pares accionables con flujo TTS→STT, feedback por rama y misiones físicas. Implementado en `src/ValeriaMinimalPairsScreen.tsx` + `src/valeriaMinimalPairs.ts`. |
 | [`docs/protocolo-pares-minimos-es-DO.md`](docs/protocolo-pares-minimos-es-DO.md) | Protocolo de pares mínimos en español dominicano (Quisqueya Habla). Implementado en `src/valeriaMinimalPairsEsDO.ts`. |
 | [`docs/protocolo-expansion-semantica.md`](docs/protocolo-expansion-semantica.md) | Protocolo de expansión semántica / progresión léxica offline. Implementado en `src/ValeriaSemanticExpansionScreen.tsx` + `src/valeriaSemanticExpansion.ts`. |
@@ -276,9 +276,9 @@ Guía completa de configuración y despliegue: [`docs/firebase-setup.md`](docs/f
 </details>
 
 <details>
-<summary><strong>V7</strong> — piloto clínico: caos comunicativo manual, telemetría y exportación dual</summary>
+<summary><strong>V7</strong> — piloto clínico: carga comunicativa manual, telemetría y exportación dual</summary>
 
-- **Reingeniería del piloto · Caos Comunicativo manual**: Panel del Adulto
+- **Reingeniería del piloto · Carga Comunicativa manual**: Panel del Adulto
   (`ValeriaAdultChaosPanel`) con escucha en ruido babble (`valeriaNoise` +
   `ValeriaManualNoiseSlider`), oso distractor de doble tarea (`ValeriaDistractorBear`)
   y quiebre pragmático con estrategias de reparación (`ValeriaPragmaticBreak`),

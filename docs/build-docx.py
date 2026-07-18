@@ -296,7 +296,7 @@ toc = [
     ('CU-12', 'Cambiar entre Modo Familia y Modo Profesional'),
     ('CU-13', 'Exportar la evidencia de usabilidad del piloto (QR + compartir)'),
     ('CU-14', 'Elegir la variedad de terapia (Castellano · Galego · Dominicano)'),
-    ('CU-15', 'Panel del Adulto: caos comunicativo (ruido, doble tarea, quiebre)'),
+    ('CU-15', 'Panel del Adulto: carga comunicativa (ruido, doble tarea, quiebre)'),
     ('', 'ANEXO'),
     ('A', 'Preguntas frecuentes y resolución de problemas'),
 ]
@@ -406,7 +406,7 @@ data_table(['Novedad', 'Qué aporta'], [
     [[('🇩🇴 Respeto dialectal', True)],
      'En dominicano la app no marca como error los rasgos normales del habla caribeña (seseo, aspiración de la “s”, '
      'cambio de “r/l” a final de sílaba): evita falsos positivos que estigmaticen el habla de la familia.'],
-    [[('🎛️ Panel del Adulto · Caos Comunicativo', True)],
+    [[('🎛️ Panel del Adulto · Carga Comunicativa', True)],
      'Tres módulos manuales para el piloto (escucha en ruido, oso distractor de doble tarea y quiebre pragmático). '
      'Los activa siempre el adulto: la app nunca ajusta nada sola (ver CU-15).'],
     [[('💬 Frases portadoras', True)],
@@ -492,7 +492,7 @@ data_table(['Término', 'Significado'], [
     ['Voz neuronal', 'Locución pregenerada con modelos de voz de alta calidad (Sharvard en castellano, Celtia en gallego) empaquetada en la app; suena natural y funciona sin conexión.'],
     ['Rasgo dialectal', 'Característica normal del habla de una región (p. ej. el seseo dominicano). No es un error clínico y la app no lo penaliza.'],
     ['Frase portadora', 'Frase natural en la que se incrusta la palabra objetivo (“El oso encontró una rana…”) para practicarla con entonación real en vez de aislada.'],
-    ['Caos comunicativo', 'Conjunto de retos de carga que el adulto activa a mano en su panel: ruido de fondo, distractor visual y quiebre de la comunicación. Nunca los activa la app sola.'],
+    ['Carga comunicativa', 'Conjunto de retos que el adulto activa a mano en su panel: ruido de fondo, distractor visual y quiebre de la comunicación. Nunca los activa la app sola.'],
     ['Quiebre pragmático', 'Tarea en la que el adulto rompe la comunicación a propósito (murmura o pide algo absurdo) para observar cómo el niño la repara.'],
 ], widths=[4.2, 12.8])
 
@@ -827,8 +827,8 @@ callout('Respeto dialectal',
          (' el seseo, la aspiración de la “s” ni el cambio de “r/l” a final de sílaba: son rasgos normales del habla, '
           'no fallos que corregir.', False)])
 
-# ---- CU-15 · PANEL DEL ADULTO · CAOS COMUNICATIVO ----
-uc_header('CU-15', 'Profesional', 'Panel del Adulto: caos comunicativo (ruido, doble tarea, quiebre)', violet=True)
+# ---- CU-15 · PANEL DEL ADULTO · CARGA COMUNICATIVA ----
+uc_header('CU-15', 'Profesional', 'Panel del Adulto: carga comunicativa (ruido, doble tarea, quiebre)', violet=True)
 uc_meta('Adulto que dirige la sesión (logopeda o tutor)', 'Reproductor de Ejercicios → Panel del Adulto',
         'Ejercicio de Audición/Lenguaje en curso', 'Reto de carga aplicado a mano y registrado')
 par = doc.add_paragraph()
@@ -895,7 +895,7 @@ data_table(['Situación', 'Qué hacer'], [
     ['Marca como error algo que en mi país se dice así',
      'En la variedad dominicana la app respeta los rasgos del habla caribeña (seseo, “s” aspirada, “r/l” final). Y recuerde: el adulto es siempre el juez final del veredicto.'],
     ['Apareció ruido de fondo o un oso moviéndose',
-     'Son módulos del Panel del Adulto (caos comunicativo) del piloto; solo se activan a mano. Desactívelos desde ese mismo panel (CU-15).'],
+     'Son módulos del Panel del Adulto (carga comunicativa) del piloto; solo se activan a mano. Desactívelos desde ese mismo panel (CU-15).'],
 ], widths=[6.0, 11.0])
 p('', space_after=4)
 p('Valeria+ · Manual de Casos de Uso · v8 (con capturas de pantalla) · Julio de 2026 · Terapia auditivo-verbal y del '
