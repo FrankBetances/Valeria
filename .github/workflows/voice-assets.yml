@@ -83,9 +83,13 @@ jobs:
           echo "missing=$MISSING" >> "$GITHUB_OUTPUT"
           echo "Locuciones gl sin asset: $MISSING"
 
+      # coqui-tts no arrastra torch (lo declara opcional): se instalan las
+      # ruedas CPU explícitamente (sin CUDA, mucho más ligeras).
       - name: Install coqui-tts (Celtia)
         if: steps.glcheck.outputs.missing != '0'
-        run: pip install coqui-tts
+        run: |
+          pip install torch torchaudio --index-url https://download.pytorch.org/whl/cpu
+          pip install coqui-tts
 
       - name: Synthesize gl (Celtia · Proxecto Nós)
         if: steps.glcheck.outputs.missing != '0'
