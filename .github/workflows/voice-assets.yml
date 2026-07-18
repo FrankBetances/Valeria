@@ -94,6 +94,7 @@ jobs:
 
       # HF_TOKEN (secret): los modelos de proxectonos son "gated" en Hugging
       # Face — exige aceptar sus condiciones con una cuenta y token de lectura.
+      # (Secret HF_TOKEN configurado; se relanza la síntesis de Celtia.)
       - name: Synthesize gl (Celtia · Proxecto Nós)
         if: steps.glcheck.outputs.missing != '0'
         env:
