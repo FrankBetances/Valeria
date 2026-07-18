@@ -6,7 +6,7 @@
 // ============================================================================
 
 // Versión del lote de audio empaquetado ('none' = sin audio pre-generado).
-export const VOICE_ASSETS_VERSION = "es-sharvard-2026-07-17";
+export const VOICE_ASSETS_VERSION = "es-sharvard-2026-07-18";
 
 // id de corpus (valeriaVoiceCorpus.voiceCorpusId) → módulo de asset de Metro.
 export const VOICE_ASSETS: Record<string, number> = {
