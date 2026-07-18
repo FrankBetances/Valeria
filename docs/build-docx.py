@@ -6,7 +6,7 @@ Uso:
     python3 docs/build-docx.py
 
 Requiere las capturas de docs/screenshots/ (ver docs/capture-screenshots.js).
-Mantiene el mismo contenido que docs/manual-casos-de-uso.html (v7).
+Mantiene el mismo contenido que docs/manual-casos-de-uso.html (v8).
 """
 import os
 from docx import Document
@@ -64,7 +64,7 @@ for name, size, color, before in (('Heading 1', 17, PRIMARY, 14),
 
 footer_p = sec.footer.paragraphs[0]
 footer_p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-run = footer_p.add_run('Valeria+ · Manual de Casos de Uso · v7 (con capturas de pantalla) · Julio de 2026')
+run = footer_p.add_run('Valeria+ · Manual de Casos de Uso · v8 (con capturas de pantalla) · Julio de 2026')
 run.font.size = Pt(8)
 run.font.color.rgb = MUTED
 
@@ -266,12 +266,12 @@ for _ in range(4):
     p('', space_after=0)
 p('valeria+', bold=True, size=16, color=PRIMARY_BRIGHT)
 p('🐻', size=52, align=WD_ALIGN_PARAGRAPH.LEFT, space_after=18)
-p('Manual de usuario · v7 · con capturas de pantalla', bold=True, size=10, color=PRIMARY)
+p('Manual de usuario · v8 · con capturas de pantalla', bold=True, size=10, color=PRIMARY)
 p('Manual de Casos de Uso', bold=True, size=34, color=INK, space_after=10)
 p('Aplicación de terapia auditivo-verbal y del lenguaje para niñas y niños con hipoacusia, '
   'implante coclear, dislalias o dificultades del lenguaje.', size=13, color=INK2, space_after=16)
 p('Guía para logopedas, familias y cuidadores\nJulio de 2026 · Documento interno\n'
-  'Expo SDK 54 / React Native · Backend opcional Firebase · Telemetría del piloto', size=10, color=MUTED)
+  'Expo SDK 54 / React Native · Castellano · Galego · Dominicano · Voz neuronal offline', size=10, color=MUTED)
 doc.add_page_break()
 
 # ============================ ÍNDICE ============================
@@ -295,6 +295,8 @@ toc = [
     ('CU-11', 'Consultar el panel de resultados'),
     ('CU-12', 'Cambiar entre Modo Familia y Modo Profesional'),
     ('CU-13', 'Exportar la evidencia de usabilidad del piloto (QR + compartir)'),
+    ('CU-14', 'Elegir la variedad de terapia (Castellano · Galego · Dominicano)'),
+    ('CU-15', 'Panel del Adulto: caos comunicativo (ruido, doble tarea, quiebre)'),
     ('', 'ANEXO'),
     ('A', 'Preguntas frecuentes y resolución de problemas'),
 ]
@@ -390,6 +392,27 @@ data_table(['Novedad', 'Qué aporta'], [
      'Con el PIN profesional, la app genera a la vez un código QR con el resumen (offline, escaneable) y abre el menú de '
      'compartir para enviar el registro completo por email o WhatsApp cuando haya conexión (ver CU-13).'],
 ], widths=[4.8, 12.2])
+doc.add_heading('Novedades de la versión 8', level=3)
+p('La versión 8 abre Valeria+ a más lenguas y variedades del habla y suma un paradigma de carga comunicativa controlada '
+  'para el piloto. El contenido terapéutico (lo que se locuta, se muestra y se evalúa) puede sonar en tres variedades; '
+  'la interfaz sigue en castellano.')
+data_table(['Novedad', 'Qué aporta'], [
+    [[('🌍 Tres variedades', True)],
+     'El contenido se locuta y evalúa en Castellano, Galego (Proxecto Nós) o Dominicano (es-DO, Quisqueya Habla), '
+     'elegibles en la tarjeta “Voz de la app” (ver CU-14). Cada variedad usa su propio banco de pares mínimos.'],
+    [[('🔊 Voz neuronal offline', True)],
+     'Castellano y gallego suenan con voces neuronales pregeneradas (Sharvard y Celtia) empaquetadas en la app: '
+     'locución natural sin conexión ni servidor. Lo no cubierto recae con suavidad en la voz del sistema.'],
+    [[('🇩🇴 Respeto dialectal', True)],
+     'En dominicano la app no marca como error los rasgos normales del habla caribeña (seseo, aspiración de la “s”, '
+     'cambio de “r/l” a final de sílaba): evita falsos positivos que estigmaticen el habla de la familia.'],
+    [[('🎛️ Panel del Adulto · Caos Comunicativo', True)],
+     'Tres módulos manuales para el piloto (escucha en ruido, oso distractor de doble tarea y quiebre pragmático). '
+     'Los activa siempre el adulto: la app nunca ajusta nada sola (ver CU-15).'],
+    [[('💬 Frases portadoras', True)],
+     'En Pares Mínimos la palabra objetivo ya no se dicta aislada: se incrusta en una frase con entonación natural '
+     'seguida de una pregunta, sin repetirse en diez ensayos seguidos.'],
+], widths=[4.8, 12.2])
 
 # ============================ CAP 2 ============================
 doc.add_page_break()
@@ -465,6 +488,12 @@ data_table(['Término', 'Significado'], [
     ['Abandono TPR', 'Proporción de cápsulas de movimiento (TPR) que se saltan en vez de completarse. Ayuda a saber si las pausas activas encajan en la sesión.'],
     ['SUS (encuesta)', 'System Usability Scale adaptada: una pregunta de 1 a 5 sobre la facilidad de uso real. Aparece con moderación (hito de 4 bloques y máx. 1 vez/semana).'],
     ['Exportación dual', 'Salida del piloto en dos formatos a la vez: un QR con el resumen (offline) y el menú de compartir con el registro completo (online). Requiere el PIN profesional.'],
+    ['Variedad', 'Lengua o forma del habla en que la app locuta y evalúa el contenido: Castellano, Galego (Proxecto Nós) o Dominicano (es-DO, Quisqueya Habla). Se elige en “Voz de la app”.'],
+    ['Voz neuronal', 'Locución pregenerada con modelos de voz de alta calidad (Sharvard en castellano, Celtia en gallego) empaquetada en la app; suena natural y funciona sin conexión.'],
+    ['Rasgo dialectal', 'Característica normal del habla de una región (p. ej. el seseo dominicano). No es un error clínico y la app no lo penaliza.'],
+    ['Frase portadora', 'Frase natural en la que se incrusta la palabra objetivo (“El oso encontró una rana…”) para practicarla con entonación real en vez de aislada.'],
+    ['Caos comunicativo', 'Conjunto de retos de carga que el adulto activa a mano en su panel: ruido de fondo, distractor visual y quiebre de la comunicación. Nunca los activa la app sola.'],
+    ['Quiebre pragmático', 'Tarea en la que el adulto rompe la comunicación a propósito (murmura o pide algo absurdo) para observar cómo el niño la repara.'],
 ], widths=[4.2, 12.8])
 
 # ============================ CASOS DE USO ============================
@@ -767,6 +796,67 @@ callout('Encuesta de satisfacción (SUS)',
          (' por dispositivo. La familia no tiene que buscarla ni configurarla.', False)],
         fill=FILL_WARN, label_color=RGBColor(0xB4, 0x53, 0x09))
 
+# ---- CU-14 · VARIEDAD DE TERAPIA ----
+doc.add_page_break()
+uc_header('CU-14', 'Profesional / Familia', 'Elegir la variedad de terapia (Castellano · Galego · Dominicano)')
+uc_meta('Logopeda o tutor', 'Tarjeta “Voz de la app”',
+        'App abierta (funciona sin conexión)', 'El contenido se locuta y evalúa en la variedad elegida')
+par = doc.add_paragraph()
+rich(par, [('Valeria+ puede trabajar el contenido terapéutico en ', False), ('tres variedades', True),
+           ('. La ', False), ('interfaz', True), (' (menús y botones) sigue en castellano; lo que cambia es ', False),
+           ('lo que se dice, se muestra y se evalúa', True),
+           ('. La elección se guarda en el dispositivo y se aplica a todos los bloques.', False)])
+data_table(['Variedad', 'Cómo suena y evalúa'], [
+    [[('🇪🇸 Castellano', True)], 'Voz neuronal Sharvard pregenerada (offline) y reconocimiento del sistema en español de España.'],
+    [[('Galego', True), (' (Proxecto Nós)', False)], 'Voz neuronal Celtia pregenerada en gallego; contenido y pares propios.'],
+    [[('🇩🇴 Dominicano', True), (' (Quisqueya Habla)', False)], 'Usa la voz latina del dispositivo y el micrófono en es-DO; respeta los rasgos del habla caribeña.'],
+], widths=[4.8, 12.2])
+h4('Flujo principal')
+numbered([
+    [('Abrir la tarjeta ', False), ('“Voz de la app”', True), (' y localizar ', False), ('“Variedad de la voz”', True), ('.', False)],
+    [('Tocar ', False), ('Castellano', True), (', ', False), ('Galego', True), (' o ', False), ('Dominicano', True), ('.', False)],
+    [('La app cambia al instante la locución y el reconocimiento; la tarjeta muestra un aviso sobre la voz disponible.', False)],
+])
+h4('Flujos alternativos')
+bullets([
+    [('En dominicano suena peninsular o robótica:', True), (' instalar una voz de “Español (Latinoamérica)” en los ajustes del dispositivo; la app la usará automáticamente.', False)],
+    [('Falta la voz pregenerada de una locución:', True), (' la app recae con suavidad en la voz del sistema, sin interrumpir la sesión.', False)],
+])
+callout('Respeto dialectal',
+        [('En dominicano, la app ', False), ('no marca como error', True),
+         (' el seseo, la aspiración de la “s” ni el cambio de “r/l” a final de sílaba: son rasgos normales del habla, '
+          'no fallos que corregir.', False)])
+
+# ---- CU-15 · PANEL DEL ADULTO · CAOS COMUNICATIVO ----
+uc_header('CU-15', 'Profesional', 'Panel del Adulto: caos comunicativo (ruido, doble tarea, quiebre)', violet=True)
+uc_meta('Adulto que dirige la sesión (logopeda o tutor)', 'Reproductor de Ejercicios → Panel del Adulto',
+        'Ejercicio de Audición/Lenguaje en curso', 'Reto de carga aplicado a mano y registrado')
+par = doc.add_paragraph()
+rich(par, [('Para el ', False), ('piloto clínico', True), (', el ', False), ('Panel del Adulto', True),
+           (' (tarjeta plegable dentro del ejercicio) añade tres módulos de ', False), ('carga comunicativa', True),
+           ('. Todos son ', False), ('manuales', True),
+           (': la app nunca los activa, mide ni ajusta por su cuenta; es el adulto quien decide cuándo y cuánto.', False)])
+data_table(['Módulo', 'Qué hace'], [
+    [[('🔊 Escucha en ruido', True)], 'Un slider añade ruido de fondo (bullicio de cafetería) por debajo de la instrucción. El volumen sube o baja solo con el dedo del adulto.'],
+    [[('🐻 Doble tarea', True)], 'Un oso distractor se asoma y se mueve por el borde de la pantalla sin ser tocable: obliga al niño a atender a la voz pese a la interferencia visual.'],
+    [[('💬 Quiebre pragmático', True)], 'La app calla y el adulto rompe la comunicación a propósito; luego marca la estrategia de reparación que usó el niño.'],
+], widths=[4.8, 12.2])
+h4('Flujo principal')
+numbered([
+    [('Durante el ejercicio, desplegar la tarjeta ', False), ('“Panel del Adulto”', True), ('.', False)],
+    [('Activar el módulo deseado: mover el ', False), ('slider de ruido', True), (', encender el ', False), ('oso distractor', True), (' o lanzar el ', False), ('quiebre pragmático', True), ('.', False)],
+    [('Guiar la respuesta del niño y, en el quiebre, seleccionar la ', False), ('estrategia de reparación', True), (' observada.', False)],
+    [('Desactivar el módulo cuando convenga; el nivel de reto queda registrado de forma anónima.', False)],
+])
+callout('Antes del quiebre pragmático',
+        'Un aviso recuerda que la tarea genera “frustración útil” y se puede cancelar. Explicarlo evita que la familia lo '
+        'viva como un fallo de la app.',
+        fill=FILL_WARN, label_color=RGBColor(0xB4, 0x53, 0x09))
+callout('Siempre en manos del adulto',
+        'Ningún módulo se activa solo. Esta regla es deliberada: mantiene la app como herramienta de apoyo a la terapia, '
+        'no como un aparato de medición automática.',
+        fill=FILL_VIOLET, label_color=VIOLET_DARK)
+
 # ============================ ANEXO ============================
 doc.add_page_break()
 kicker('Anexo A')
@@ -798,11 +888,20 @@ data_table(['Situación', 'Qué hacer'], [
      'Es la encuesta de satisfacción del piloto (SUS). Solo aparece al completar los 4 bloques y como mucho una vez por semana. Se puede cerrar sin responder.'],
     ['¿Cómo exporto los datos del piloto?',
      'Desde el hub, tarjeta “Acceso Profesional” con el PIN: la app muestra un QR con el resumen y abre el compartir con el registro completo. Tras enviarlo, los datos se purgan (CU-13).'],
+    ['¿Puedo usar la app en gallego o en dominicano?',
+     'Sí. En la tarjeta “Voz de la app” se elige la variedad (Castellano, Galego o Dominicano). Cambia lo que se locuta y evalúa; los menús siguen en castellano (CU-14).'],
+    ['En dominicano la voz suena de España o robótica',
+     'Instale una voz de “Español (Latinoamérica)” en los ajustes del dispositivo. La app la detecta y la usa automáticamente (v8).'],
+    ['Marca como error algo que en mi país se dice así',
+     'En la variedad dominicana la app respeta los rasgos del habla caribeña (seseo, “s” aspirada, “r/l” final). Y recuerde: el adulto es siempre el juez final del veredicto.'],
+    ['Apareció ruido de fondo o un oso moviéndose',
+     'Son módulos del Panel del Adulto (caos comunicativo) del piloto; solo se activan a mano. Desactívelos desde ese mismo panel (CU-15).'],
 ], widths=[6.0, 11.0])
 p('', space_after=4)
-p('Valeria+ · Manual de Casos de Uso · v7 (con capturas de pantalla) · Julio de 2026 · Terapia auditivo-verbal y del '
-  'lenguaje para la infancia. Documento de apoyo para logopedas y familias. Los datos personales se tratan localmente '
-  'conforme a RGPD/HIPAA; la sincronización en la nube y la telemetría anónima del piloto son opcionales.', size=8.5, color=MUTED)
+p('Valeria+ · Manual de Casos de Uso · v8 (con capturas de pantalla) · Julio de 2026 · Terapia auditivo-verbal y del '
+  'lenguaje para la infancia. Documento de apoyo para logopedas y familias. Disponible en Castellano, Galego (Proxecto '
+  'Nós) y Dominicano (Quisqueya Habla). Los datos personales se tratan localmente conforme a RGPD/HIPAA; la '
+  'sincronización en la nube y la telemetría anónima del piloto son opcionales.', size=8.5, color=MUTED)
 
 doc.save(OUT)
 print('OK:', OUT, os.path.getsize(OUT), 'bytes · figuras:', FIG_N)
