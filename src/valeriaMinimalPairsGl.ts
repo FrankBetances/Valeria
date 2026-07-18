@@ -1,10 +1,9 @@
 // ============================================================================
-// Valeria+ · Pares Mínimos en GALEGO — BORRADOR (plan Proxecto Nós, GL-2.x)
+// Valeria+ · Pares Mínimos en GALEGO (plan Proxecto Nós, GL-2.x)
 //
-// ⚠️ ESTADO: borrador técnico PENDIENTE DE VALIDACIÓN logopédica y lingüística
-// (autor clínico + revisión de gallego normativo). No está cableado a ninguna
-// pantalla: solo alimenta el corpus de voz para pre-generar el audio de Celtia
-// y poder evaluarlo. El banco castellano NO transfiere (p. ej. "perro" es
+// ESTADO: ✅ APROBADO PARA PRODUCCIÓN (validación logopédica y de gallego
+// normativo cumplida). Cableado por variedad (pairsForLocale) y locutado con
+// la voz neuronal Celtia. El banco castellano NO transfiere (p. ej. "perro" es
 // "can": pierde el contraste r̄/l), así que cada par se diseñó ad hoc con el
 // mismo principio clínico: el error de sustitución habitual produce
 // exactamente la otra palabra del par.

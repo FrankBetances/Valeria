@@ -3,10 +3,9 @@
 // Versión galega dos bancos locutables: cápsulas TPR, Rutas de Rutina, bancos
 // de reforzo e frases fixas. Módulo PURO (enumerable polo corpus de voz).
 //
-// ⚠️ ESTADO: primeira tradución técnica PENDENTE DE REVISIÓN humana (galego
-// normativo + criterio logopédico), como esixe o plan (Nos_MT/tradución
-// sempre con revisión). Aínda non cableado ás pantallas: alimenta o corpus
-// para pre-xerar o audio de Celtia e poder avalialo.
+// ESTADO: ✅ APROBADO PARA PRODUCIÓN (revisión de galego normativo e criterio
+// logopédico cumpridos). Cableado ás pantallas por variedade e locutado coa
+// voz neuronal Celtia.
 // ============================================================================
 import { TprCapsule } from './valeriaTprBank';
 import { RoutineRoute } from './valeriaRoutineRoutes';

@@ -199,16 +199,15 @@ más larga; se subdivide por bloque de terapia para poder publicar por partes.*
 **Salida de fase:** app completa en gallego locutada por el TTS del sistema
 (voz gl si existe). **Depende de:** Fase 1. GL-2.2 no depende de GL-2.1.
 
-> **Estado (jul 2026): primer corpus locutable gl IMPORTADO (borrador).**
-> 269 locuciones gallegas alimentan ya el corpus de voz y se sintetizan con
-> Celtia: pares mínimos ad hoc (`valeriaMinimalPairsGl`, 7 contrastes:
-> rúa/lúa · rei/lei · casa/caza · cesta/testa · cubo/tubo · boca/bota ·
-> fonte/ponte), frases portadoras procedurales gl (motor multi-idioma en
-> `valeriaCarrierPhrases`), cápsulas TPR, Rutas de Rutina y bancos de
-> reforzo (`valeriaContentGl`). ⚠️ Todo marcado como BORRADOR pendiente de
-> validación logopédica y de gallego normativo ANTES de cablearlo a las
-> pantallas (GL-2.x exige revisión humana); mientras tanto solo genera el
-> audio de Celtia para su evaluación. Pendientes de esta fase: GL-2.4
+> **Estado (jul 2026): corpus locutable gl ✅ APROBADO PARA PRODUCCIÓN y
+> CABLEADO.** 287 locuciones gallegas (incluida la rotación de roles) se
+> sintetizan con Celtia y se **emiten** en las sesiones en galego: pares
+> mínimos ad hoc (`valeriaMinimalPairsGl`, 7 contrastes: rúa/lúa · rei/lei ·
+> casa/caza · cesta/testa · cubo/tubo · boca/bota · fonte/ponte), frases
+> portadoras procedurales gl (motor multi-idioma en `valeriaCarrierPhrases`),
+> cápsulas TPR, Rutas de Rutina y bancos de reforzo (`valeriaContentGl`).
+> Validación logopédica y de gallego normativo cumplida; una sesión de Pares
+> Mínimos en galego suena 100% con Celtia. Pendientes de esta fase: GL-2.4
 > (Audición/Lenguaje), GL-2.5 (Ling) y GL-2.6 (frases CC0).
 
 ---
