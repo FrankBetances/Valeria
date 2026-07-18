@@ -38,11 +38,11 @@ import { FichaVisual } from './ValeriaPictograms';
 import { ValeriaSessionBreakOverlay, pickSessionBreak, SessionBreak } from './ValeriaSessionBreakOverlay';
 import { PAIR_GROUPS, MinimalPair } from './valeriaMinimalPairs';
 import { pairsForLocale } from './valeriaPairBanks';
-import { getLocale } from './valeriaLocale';
+import { getLocale, Locale } from './valeriaLocale';
 import { buildCarrierPrompt, reseedCarriers } from './valeriaCarrierPhrases';
 import {
-  ROLESWAP_INTRO, ROLESWAP_NOT_HEARD, ROLESWAP_HIT, ROLESWAP_MISS_OTHER, roleswapParentSaid,
-} from './valeriaPhraseBank';
+  carrierLang, pairIntro, pairRetry, pairsDone, roleSwapPhrases,
+} from './valeriaPairSpeech';
 import { ValeriaAdultChaosPanel } from './ValeriaAdultChaosPanel';
 import { releaseNoise } from './valeriaNoise';
 import { ValeriaPragmaticBreakOverlay } from './ValeriaPragmaticBreak';
@@ -62,10 +62,10 @@ const MONTHS = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', '
 //     (pitch/rate conservadores) para no distorsionar el fonema objetivo.
 interface TrialPromptSpec { text: string; mode: 'child' | 'clinical'; }
 
-const trialPrompt = (p: MinimalPair, idx: number): TrialPromptSpec => {
-  if (idx === 0) return { text: `Esta es ${p.target}. Y esta es ${p.foil}. ${p.prompt}`, mode: 'child' };
+const trialPrompt = (p: MinimalPair, idx: number, loc: Locale): TrialPromptSpec => {
+  if (idx === 0) return { text: pairIntro(loc, p.target, p.foil, p.prompt), mode: 'child' };
   if (idx % 3 === 0) return { text: p.prompt, mode: 'child' };
-  return { text: buildCarrierPrompt(p.target, idx).full, mode: 'clinical' };
+  return { text: buildCarrierPrompt(p.target, idx, carrierLang(loc)).full, mode: 'clinical' };
 };
 
 type Phase = 'pick' | 'play' | 'done';
@@ -151,6 +151,7 @@ const DoubleSeal: React.FC<{ label: string; onUnlock: () => void }> = ({ label, 
 // ----------------------------------------------------------------------------
 const RoleSwapOverlay: React.FC<{ pair: MinimalPair; onDone: () => void }> = ({ pair, onDone }) => {
   const asr = asrSupported();
+  const rs = roleSwapPhrases(getLocale()); // frases por variedad (gl → Celtia)
   const [stage, setStage] = useState<'intro' | 'listen' | 'tap' | 'result'>('intro');
   const [parentSaid, setParentSaid] = useState<'target' | 'foil' | null>(null);
   const [picked, setPicked] = useState<'target' | 'foil' | null>(null);
@@ -159,7 +160,7 @@ const RoleSwapOverlay: React.FC<{ pair: MinimalPair; onDone: () => void }> = ({ 
 
   useEffect(() => {
     mounted.current = true;
-    speakToChild(ROLESWAP_INTRO);
+    speakToChild(rs.intro);
     return () => { mounted.current = false; stopListening(); };
   }, []);
 
@@ -171,7 +172,7 @@ const RoleSwapOverlay: React.FC<{ pair: MinimalPair; onDone: () => void }> = ({ 
         if (!mounted.current) return;
         const r = matchPair(alts, pair.target, pair.foil);
         if (r === 'target' || r === 'foil') { setParentSaid(r); setStage('tap'); }
-        else { speakToChild(ROLESWAP_NOT_HEARD); setStage('intro'); }
+        else { speakToChild(rs.notHeard); setStage('intro'); }
       },
       onError: () => { if (mounted.current) setStage('tap'); },
     });
@@ -183,7 +184,7 @@ const RoleSwapOverlay: React.FC<{ pair: MinimalPair; onDone: () => void }> = ({ 
     if (parentSaid) {
       const hit = which === parentSaid;
       setConfirmOk(hit);
-      speakToChild(hit ? ROLESWAP_HIT : roleswapParentSaid(parentSaid === 'target' ? pair.target : pair.foil));
+      speakToChild(hit ? rs.hit : rs.parentSaid(parentSaid === 'target' ? pair.target : pair.foil));
       setStage('result');
     } else {
       setStage('result'); // sin STT: confirma el padre
@@ -232,10 +233,10 @@ const RoleSwapOverlay: React.FC<{ pair: MinimalPair; onDone: () => void }> = ({ 
 
         {stage === 'result' && !parentSaid && confirmOk === null && (
           <View style={s.swapRow}>
-            <Pressable onPress={() => { setConfirmOk(true); speakToChild(ROLESWAP_HIT); }} style={[s.swapBtn, { flex: 1 }]}>
+            <Pressable onPress={() => { setConfirmOk(true); speakToChild(rs.hit); }} style={[s.swapBtn, { flex: 1 }]}>
               <Text style={s.swapBtnTxt}>✅ ¡Acertó!</Text>
             </Pressable>
-            <Pressable onPress={() => { setConfirmOk(false); speakToChild(ROLESWAP_MISS_OTHER); }} style={[s.swapBtn, { flex: 1, backgroundColor: '#f59e0b' }]}>
+            <Pressable onPress={() => { setConfirmOk(false); speakToChild(rs.missOther); }} style={[s.swapBtn, { flex: 1, backgroundColor: '#f59e0b' }]}>
               <Text style={s.swapBtnTxt}>❌ Era la otra</Text>
             </Pressable>
           </View>
@@ -257,10 +258,11 @@ const RoleSwapOverlay: React.FC<{ pair: MinimalPair; onDone: () => void }> = ({ 
 // Pantalla principal
 // ----------------------------------------------------------------------------
 export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
-  // Banco según la variedad activa (es / gl / es-DO). Se fija al montar la
-  // pantalla para no cambiar de banco a media sesión; la variedad se elige
-  // antes, en la tarjeta «Voz de la app».
-  const [pairs] = useState<MinimalPair[]>(() => pairsForLocale(getLocale()));
+  // Variedad y banco activos (es / gl / es-DO). Se fijan al montar la pantalla
+  // para no cambiar a media sesión; la variedad se elige antes, en la tarjeta
+  // «Voz de la app». loc localiza consignas, reintentos, cierre y rotación.
+  const [loc] = useState<Locale>(() => getLocale());
+  const [pairs] = useState<MinimalPair[]>(() => pairsForLocale(loc));
   const [phase, setPhase] = useState<Phase>('pick');
   const [pair, setPair] = useState<MinimalPair | null>(null);
   const [trialIdx, setTrialIdx] = useState(0);
@@ -354,7 +356,7 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
     setStep('say'); setHeard(''); setListening(false);
     // 1.ª vez: bombardeo auditivo de contraste; después alternancia entre
     // consigna clínica y frase portadora procedural (ver trialPrompt).
-    const spec = trialPrompt(p, idx);
+    const spec = trialPrompt(p, idx, loc);
     setLivePrompt(spec);
     const cbs = afterSpeak(() => {
       if (!mounted.current) return;
@@ -421,7 +423,7 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
 
   const retry = (p: MinimalPair) => {
     setHeard('');
-    speakToChild(`¡Otra vez! Di: ${p.target}.`, afterSpeak(() => {
+    speakToChild(pairRetry(loc, p.target), afterSpeak(() => {
       if (!mounted.current) return;
       if (asrSupported()) setTimeout(() => listenNow(p), 400);
       else setStep('judge');
@@ -480,7 +482,7 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
     markBlockCompleted('pares'); // hito de bloque para el SUS (rate-limited)
     releaseNoise(); // fin de sesión: la Pista B no sobrevive a la pantalla de logros
     setPhase('done');
-    speakToChild('¡Sesión de pares completada! ¡Choca esos cinco con papá!');
+    speakToChild(pairsDone(loc));
   };
 
   const restart = (p: MinimalPair) => {

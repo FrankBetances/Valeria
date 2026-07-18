@@ -11,6 +11,8 @@ import { V } from './valeriaTheme';
 import { speakToChild, stopSpeaking } from './valeriaVoice';
 import { TprCapsule, TPR_CAPSULES, pickTprCapsule } from './valeriaTprBank';
 import { SESSION_CONTINUE_PHRASE } from './valeriaPhraseBank';
+import { SESSION_CONTINUE_PHRASE_GL } from './valeriaContentGl';
+import { getLocale } from './valeriaLocale';
 
 // El banco de cápsulas vive en valeriaTprBank (módulo PURO, enumerable por el
 // corpus de voz en build-time). Se re-exporta para los imports históricos.
@@ -50,7 +52,7 @@ export const ValeriaTPRCapsuleOverlay: React.FC<{
 
   const next = () => {
     if (last) {
-      speakToChild(SESSION_CONTINUE_PHRASE);
+      speakToChild(getLocale() === 'gl' ? SESSION_CONTINUE_PHRASE_GL : SESSION_CONTINUE_PHRASE);
       onDone();
     } else {
       setStep(step + 1);
