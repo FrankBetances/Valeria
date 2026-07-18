@@ -65,8 +65,41 @@ jobs:
       - name: Install ffmpeg
         run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
 
-      - name: Synthesize + master + encode
-        run: python3 scripts/generate-voice-assets.py --lang "${{ github.event.inputs.lang || 'es' }}"
+      # Incremental: cada idioma sintetiza SOLO las locuciones sin asset.
+      - name: Synthesize es (Sharvard · piper)
+        run: python3 scripts/generate-voice-assets.py --lang es
+
+      # coqui-tts (torch CPU, ~2 GB) solo se instala si faltan assets gl.
+      - name: Check missing gl assets
+        id: glcheck
+        run: |
+          MISSING=$(python3 - <<'PY'
+          import json, pathlib
+          corpus = json.load(open('voice-corpus.json'))['corpus']
+          out = pathlib.Path('assets/voice')
+          print(sum(1 for e in corpus if e.get('lang') == 'gl' and not (out / f"{e['id']}.m4a").exists()))
+          PY
+          )
+          echo "missing=$MISSING" >> "$GITHUB_OUTPUT"
+          echo "Locuciones gl sin asset: $MISSING"
+
+      # coqui-tts no arrastra torch (lo declara opcional): se instalan las
+      # ruedas CPU explícitamente (sin CUDA, mucho más ligeras).
+      - name: Install coqui-tts (Celtia)
+        if: steps.glcheck.outputs.missing != '0'
+        run: |
+          pip install torch torchaudio --index-url https://download.pytorch.org/whl/cpu
+          # transformers 5.x eliminó isin_mps_friendly, que coqui aún importa.
+          pip install coqui-tts "transformers<4.50"
+
+      # HF_TOKEN (secret): los modelos de proxectonos son "gated" en Hugging
+      # Face — exige aceptar sus condiciones con una cuenta y token de lectura.
+      # (Secret HF_TOKEN configurado; se relanza la síntesis de Celtia.)
+      - name: Synthesize gl (Celtia · Proxecto Nós)
+        if: steps.glcheck.outputs.missing != '0'
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: python3 scripts/generate-voice-assets.py --lang gl
 
       - name: Rebuild asset map
         run: node scripts/build-voice-asset-map.js
@@ -75,7 +108,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add assets/voice src/valeriaVoiceAssets.ts voice-corpus.json voice-assets-manifest.json
+          git add assets/voice src/valeriaVoiceAssets.ts voice-corpus.json voice-assets-manifest.*.json
           if git diff --cached --quiet; then
             echo "Sin cambios en los assets de voz."
             exit 0

@@ -14,7 +14,6 @@ const path = require('path');
 const ROOT = path.join(__dirname, '..');
 const CORPUS = path.join(ROOT, 'voice-corpus.json');
 const ASSETS = path.join(ROOT, 'assets', 'voice');
-const MANIFEST = path.join(ROOT, 'voice-assets-manifest.json');
 const OUT = path.join(ROOT, 'src', 'valeriaVoiceAssets.ts');
 
 if (!fs.existsSync(CORPUS)) {
@@ -30,11 +29,16 @@ if (covered.length === 0) {
   process.exit(1);
 }
 
-let version = new Date().toISOString().slice(0, 10);
-try {
-  const m = JSON.parse(fs.readFileSync(MANIFEST, 'utf8'));
-  version = `${m.lang}-${m.voice.split(' ')[0].toLowerCase()}-${version}`;
-} catch (e) { /* manifest opcional */ }
+// Versión del lote: idiomas+voz de cada manifiesto presente + fecha.
+const date = new Date().toISOString().slice(0, 10);
+const tags = [];
+for (const f of fs.readdirSync(ROOT).filter((n) => /^voice-assets-manifest\.[a-z]{2}\.json$/.test(n)).sort()) {
+  try {
+    const m = JSON.parse(fs.readFileSync(path.join(ROOT, f), 'utf8'));
+    tags.push(`${m.lang}-${m.voice.split(' ')[0].toLowerCase()}`);
+  } catch (e) { /* manifiesto ilegible: se omite */ }
+}
+const version = `${tags.join('+') || 'audio'}-${date}`;
 
 const lines = covered
   .sort((a, b) => a.id.localeCompare(b.id))
