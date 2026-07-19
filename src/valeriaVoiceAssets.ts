@@ -1,7 +1,7 @@
 // ============================================================================
 // Valeria+ · Mapa id → asset de voz neuronal — ARCHIVO GENERADO, NO EDITAR
 // Regenerado por scripts/build-voice-asset-map.js (tubería de Fase 2,
-// .github/workflows/voice-assets.yml). Cobertura: 1115/1115 locuciones
+// .github/workflows/voice-assets.yml). Cobertura: 1113/1115 locuciones
 // del corpus; lo no cubierto cae a expo-speech en runtime.
 // ============================================================================
 
@@ -302,14 +302,12 @@ export const VOICE_ASSETS: Record<string, number> = {
   "child_e5bf2be5_74": require('../assets/voice/child_e5bf2be5_74.m4a'),
   "child_e7dd778e_20": require('../assets/voice/child_e7dd778e_20.m4a'),
   "child_e9a77bd0_19": require('../assets/voice/child_e9a77bd0_19.m4a'),
-  "child_ea067741_7": require('../assets/voice/child_ea067741_7.m4a'),
   "child_ea08e3cd_19": require('../assets/voice/child_ea08e3cd_19.m4a'),
   "child_eae0e5b3_21": require('../assets/voice/child_eae0e5b3_21.m4a'),
   "child_edae47a3_41": require('../assets/voice/child_edae47a3_41.m4a'),
   "child_f024be7a_69": require('../assets/voice/child_f024be7a_69.m4a'),
   "child_f156b00e_65": require('../assets/voice/child_f156b00e_65.m4a'),
   "child_f1ccb2f9_21": require('../assets/voice/child_f1ccb2f9_21.m4a'),
-  "child_f49e5969_13": require('../assets/voice/child_f49e5969_13.m4a'),
   "child_f6ec5ad4_22": require('../assets/voice/child_f6ec5ad4_22.m4a'),
   "child_f85fc599_61": require('../assets/voice/child_f85fc599_61.m4a'),
   "child_f9cce656_59": require('../assets/voice/child_f9cce656_59.m4a'),

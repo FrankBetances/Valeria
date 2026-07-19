@@ -58,7 +58,7 @@ import { ValeriaPragmaticBreakOverlay } from './ValeriaPragmaticBreak';
 import { releaseNoise } from './valeriaNoise';
 import { AUDICION_META, LENGUAJE_META } from './valeriaExerciseMeta';
 import { markBlockCompleted } from './valeriaTelemetry';
-import { Tile, Exercise, DB, VARIANTS, DEFAULT_SESSION, EMO, SESSION_DONE_LEAD, PLURAL_HINT } from './valeriaExerciseBank';
+import { Tile, Exercise, DB, VARIANTS, DEFAULT_SESSION, EMO, SESSION_DONE_LEAD, PLURAL_HINT, pluralOneLabel, pluralManyLabel } from './valeriaExerciseBank';
 
 // Conjuntos de ids por bloque para marcar el hito de "bloque completado" (SUS).
 const AUD_IDS = new Set(AUDICION_META.map((m) => m.id));
@@ -786,7 +786,7 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                     {([['one', 1], ['many', 3]] as const).map(([kind, n]) => {
                       const tapped = pluralPick === kind;
                       const isAns = kind === 'many';
-                      const label = kind === 'one' ? `un ${ex.plural!.cap}` : `muchos ${ex.plural!.capPlural}`;
+                      const label = kind === 'one' ? pluralOneLabel(ex.plural!) : pluralManyLabel(ex.plural!);
                       return (
                         <Pressable
                           key={kind}
