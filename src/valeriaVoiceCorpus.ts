@@ -19,6 +19,8 @@ import { MINIMAL_PAIRS_GL } from './valeriaMinimalPairsGl';
 import { enumerateAllCarrierPrompts } from './valeriaCarrierPhrases';
 import { TPR_CAPSULES } from './valeriaTprBank';
 import { ROUTINE_ROUTES } from './valeriaRoutineRoutes';
+import { enumerateSemanticSpeech } from './valeriaSemanticExpansion';
+import { enumerateExerciseSpeech } from './valeriaExerciseBank';
 import {
   PRAISE_BANK, ALMOST_BANK, NO_HEAR_BANK, TOGETHER_BANK,
   SESSION_CONTINUE_PHRASE, ROUTE_DONE_PHRASE, VOICE_SAMPLE_PHRASE,
@@ -128,6 +130,16 @@ export function buildVoiceCorpus(): VoiceCorpusEntry[] {
   for (const t of NO_HEAR_BANK) add('child', t, 'banco/no-oido');
   for (const t of TOGETHER_BANK) add('child', t, 'banco/juntos');
   add('child', VOICE_SAMPLE_PHRASE, 'util/muestra');
+
+  // 5) Expansión Semántica (es): consignas, modelos, reintentos y acciones
+  //    físicas de escenarios, progresiones y contrastes. Hasta ahora esta
+  //    pantalla caía a la voz del sistema; ahora la enumera su módulo de datos.
+  for (const l of enumerateSemanticSpeech()) add(l.style, l.text, 'expansion');
+
+  // 6) Audición y Lenguaje (es): consignas, modelos de palabra, ejemplos y
+  //    veredictos de los mini-juegos (banco valeriaExerciseBank), igual que
+  //    los locuta ValeriaExercisePlayerScreen y los apoyos de ValeriaVoiceUI.
+  for (const l of enumerateExerciseSpeech()) add(l.style, l.text, 'ejercicios');
 
   // ============================ GALEGO (gl) ============================
   // Contido do plan Proxecto Nós (GL-2.x), aprobado para produción;

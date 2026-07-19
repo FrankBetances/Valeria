@@ -717,3 +717,39 @@ export const PHASE_LABEL: Record<ProgressionPhaseKind, string> = {
   verbo: 'Fase 3 · Verbo',
   adjetivo: 'Fase 4 · Adjetivo',
 };
+
+// ---------------------------------------------------------------------------
+// Enumeración de voz (contrato con el corpus neuronal)
+// ---------------------------------------------------------------------------
+// Espejo EXACTO de lo que locuta ValeriaSemanticExpansionScreen. Cada línea es
+// un par (estilo, texto) que el corpus de voz hornea como asset neuronal es
+// (Sharvard). Si un literal cambia en la pantalla, cambia aquí y su asset deja
+// de resolver: cae a la voz del sistema (degrada, nunca rompe).
+export interface VoiceLine { style: 'tutor' | 'child' | 'slow'; text: string; }
+
+// Un "paso" locutable (consigna + palabra objetivo + acción física del adulto),
+// forma común de escenarios, progresiones y contrastes en la pantalla.
+const stepLines = (tts: string, label: string, action: string): VoiceLine[] => [
+  { style: 'child', text: tts },                             // consigna (speakToChild)
+  { style: 'child', text: `¡Otra vez! Di: ${label}.` },      // reintento
+  { style: 'slow', text: label.toLowerCase() },              // modelo lento (speakWordSlow)
+  { style: 'tutor', text: action },                          // tarjeta de acción física (voice="tutor")
+];
+
+export function enumerateSemanticSpeech(): VoiceLine[] {
+  const out: VoiceLine[] = [];
+  for (const sc of DAILY_SCENARIOS) {
+    for (const it of sc.items) out.push(...stepLines(it.tts_string, it.label, it.parent_tpr_action));
+  }
+  for (const sq of PROGRESSION_SEQUENCES) {
+    for (const ph of sq.phases) out.push(...stepLines(ph.tts_string, ph.label, ph.parent_tpr_action));
+  }
+  for (const cp of CONTRAST_CAPSULES) {
+    // El setup físico se muestra en la 1ª vuelta (tarjeta de acción, voice="tutor").
+    out.push({ style: 'tutor', text: cp.physical_setup });
+    for (const r of cp.rounds) out.push(...stepLines(r.tts_trigger, r.label, r.parent_action));
+  }
+  // Cierre de sesión (fijo).
+  out.push({ style: 'child', text: '¡Sesión completada! ¡Choca esos cinco!' });
+  return out;
+}
