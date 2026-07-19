@@ -36,6 +36,6 @@
     "@babel/core": "^7.24.0",
     "@types/react": "~19.1.0",
     "babel-preset-expo": "~54.0.11",
-    "typescript": "~5.9.2"
+    "typescript": "~7.0.2"
   }
 }
