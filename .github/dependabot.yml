@@ -1,0 +1,61 @@
+# Dependabot · Valeria+
+# ---------------------------------------------------------------------------
+# Abre PRs automáticas para mantener las dependencias al día y parchear
+# vulnerabilidades. Cubre dos ecosistemas:
+#   - npm            → dependencias de la app (package.json / package-lock.json)
+#   - github-actions → versiones de las Actions usadas en .github/workflows
+#
+# NOTA: este archivo activa las "version updates". Las "security updates"
+# (parches automáticos ante alertas) y las alertas de vulnerabilidad se
+# activan además en Settings → Security → "Dependabot alerts" y
+# "Dependabot security updates". Ambas son gratuitas para repos públicos.
+# ---------------------------------------------------------------------------
+version: 2
+updates:
+  # --- Dependencias de la aplicación (npm) --------------------------------
+  - package-ecosystem: npm
+    directory: "/"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "06:00"
+      timezone: America/Santo_Domingo
+    open-pull-requests-limit: 5
+    labels:
+      - dependencies
+      - security
+    commit-message:
+      prefix: deps
+      include: scope
+    # Agrupa las actualizaciones menores/parche en una sola PR para reducir
+    # ruido; las "major" (con posibles rupturas) llegan por separado.
+    groups:
+      minor-and-patch:
+        update-types:
+          - minor
+          - patch
+    # Expo y React Native fijan versiones interdependientes: dejamos que sus
+    # actualizaciones "major" las gobierne Expo, no bumps sueltos de Dependabot.
+    ignore:
+      - dependency-name: expo
+        update-types: ["version-update:semver-major"]
+      - dependency-name: react-native
+        update-types: ["version-update:semver-major"]
+      - dependency-name: react
+        update-types: ["version-update:semver-major"]
+
+  # --- GitHub Actions usadas en los workflows -----------------------------
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "06:00"
+      timezone: America/Santo_Domingo
+    open-pull-requests-limit: 5
+    labels:
+      - dependencies
+      - github-actions
+    commit-message:
+      prefix: ci
+      include: scope
