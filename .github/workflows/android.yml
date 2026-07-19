@@ -45,7 +45,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       # El APK compila igual sin estos secrets, pero sale sin acceso a Firebase
       # (la app arranca y avisa de config incompleta en Acceso Profesional).
