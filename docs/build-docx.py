@@ -826,6 +826,8 @@ callout('Respeto dialectal',
         [('En dominicano, la app ', False), ('no marca como error', True),
          (' el seseo, la aspiración de la “s” ni el cambio de “r/l” a final de sílaba: son rasgos normales del habla, '
           'no fallos que corregir.', False)])
+figures([('22-voz-variedad.png', 'Tarjeta “Voz de la app”: selector de variedad Castellano · Galego · Dominicano.')],
+        width_cm=6.4)
 
 # ---- CU-15 · PANEL DEL ADULTO · CARGA COMUNICATIVA ----
 uc_header('CU-15', 'Profesional', 'Panel del Adulto: carga comunicativa (ruido, doble tarea, quiebre)', violet=True)
@@ -856,6 +858,8 @@ callout('Siempre en manos del adulto',
         'Ningún módulo se activa solo. Esta regla es deliberada: mantiene la app como herramienta de apoyo a la terapia, '
         'no como un aparato de medición automática.',
         fill=FILL_VIOLET, label_color=VIOLET_DARK)
+figures([('23-panel-adulto.png', 'Panel del Adulto desplegado: ruido de fondo, oso distractor y quiebre pragmático.')],
+        width_cm=6.4)
 
 # ============================ ANEXO ============================
 doc.add_page_break()

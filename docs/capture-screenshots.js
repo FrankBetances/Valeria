@@ -259,6 +259,39 @@ const pause = (page, ms) => page.waitForTimeout(ms);
     console.log('21 fonema — gráfica no visible (se omite)');
   }
 
+  // ===================== CU-14 · VOZ DE LA APP / VARIEDAD =====================
+  // La tarjeta "Voz de la app" (con el selector de variedad) vive al final del
+  // hub. Volver a él y centrar el selector para que se vean los tres chips.
+  await openHubFresh();
+  const variedad = page.getByText('Variedad de la voz', { exact: true });
+  await variedad.waitFor({ timeout: 30000 });
+  await page.getByText('Dominicano', { exact: true }).waitFor({ timeout: 30000 });
+  await variedad.evaluate((el) => el.scrollIntoView({ block: 'center' }));
+  await pause(page, 1500); // deja que termine la detección de voz ("Comprobando…")
+  await variedad.evaluate((el) => el.scrollIntoView({ block: 'center' }));
+  await pause(page, 500);
+  await shot(page, '22-voz-variedad');          // 22 · selector Castellano/Galego/Dominicano
+  console.log('22 voz/variedad ✓');
+
+  // ===================== CU-15 · PANEL DEL ADULTO (CARGA COMUNICATIVA) =====================
+  // Aparece en la pantalla de juego de Pares Mínimos; desplegarlo para ver los
+  // tres módulos (ruido babble, oso distractor y quiebre pragmático).
+  await page.getByText('Pares Mínimos', { exact: true }).click();
+  await page.getByText('BANCO DE CONTRASTES', { exact: true }).waitFor();
+  await pause(page, 500);
+  await page.getByLabel(/Practicar el par rana/).click();
+  await page.getByText('LA APP PIDE', { exact: true }).waitFor();
+  await pause(page, 800);
+  const panel = page.getByText(/PANEL DEL ADULTO/);
+  await panel.waitFor({ timeout: 30000 });
+  await panel.scrollIntoViewIfNeeded();
+  await panel.click();                           // abre el colapsable
+  await page.getByText(/Oso distractor/).waitFor({ timeout: 15000 });
+  await panel.evaluate((el) => el.scrollIntoView({ block: 'start' }));
+  await pause(page, 700);
+  await shot(page, '23-panel-adulto');          // 23 · panel desplegado (ruido/oso/quiebre)
+  console.log('23 panel adulto ✓');
+
   await browser.close();
   console.log('Capturas completadas.');
 })().catch((e) => { console.error(e); process.exit(1); });
