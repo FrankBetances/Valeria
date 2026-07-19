@@ -6,7 +6,7 @@ Uso:
     python3 docs/build-docx.py
 
 Requiere las capturas de docs/screenshots/ (ver docs/capture-screenshots.js).
-Mantiene el mismo contenido que docs/manual-casos-de-uso.html (v8).
+Mantiene el mismo contenido que docs/manual-casos-de-uso.html (v8.1).
 """
 import os
 from docx import Document
@@ -64,7 +64,7 @@ for name, size, color, before in (('Heading 1', 17, PRIMARY, 14),
 
 footer_p = sec.footer.paragraphs[0]
 footer_p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-run = footer_p.add_run('Valeria+ · Manual de Casos de Uso · v8 (con capturas de pantalla) · Julio de 2026')
+run = footer_p.add_run('Valeria+ · Manual de Casos de Uso · v8.1 (con capturas de pantalla) · Julio de 2026')
 run.font.size = Pt(8)
 run.font.color.rgb = MUTED
 
@@ -266,7 +266,7 @@ for _ in range(4):
     p('', space_after=0)
 p('valeria+', bold=True, size=16, color=PRIMARY_BRIGHT)
 p('🐻', size=52, align=WD_ALIGN_PARAGRAPH.LEFT, space_after=18)
-p('Manual de usuario · v8 · con capturas de pantalla', bold=True, size=10, color=PRIMARY)
+p('Manual de usuario · v8.1 · con capturas de pantalla', bold=True, size=10, color=PRIMARY)
 p('Manual de Casos de Uso', bold=True, size=34, color=INK, space_after=10)
 p('Aplicación de terapia auditivo-verbal y del lenguaje para niñas y niños con hipoacusia, '
   'implante coclear, dislalias o dificultades del lenguaje.', size=13, color=INK2, space_after=16)
@@ -412,6 +412,21 @@ data_table(['Novedad', 'Qué aporta'], [
     [[('💬 Frases portadoras', True)],
      'En Pares Mínimos la palabra objetivo ya no se dicta aislada: se incrusta en una frase con entonación natural '
      'seguida de una pregunta, sin repetirse en diez ensayos seguidos.'],
+], widths=[4.8, 12.2])
+doc.add_heading('Novedades de la versión 8.1', level=3)
+p('La versión 8.1 pule tres puntos detectados en el uso real tras el registro del paciente:')
+data_table(['Mejora', 'Qué cambia'], [
+    [[('🔘 Botón de reingreso más visible', True)],
+     'En Bienvenida, “Ya tengo un paciente registrado” deja de ser un enlace pequeño y pasa a ser un botón de tamaño '
+     'completo, al nivel de “Comenzar” (ver CU-06).'],
+    [[('🪪 Resultados con el paciente real', True)],
+     'La cabecera del panel de resultados y del Test de Ling, y el informe que se comparte, muestran ahora el nombre y '
+     'NHC de la ficha registrada (antes aparecía un dato de muestra fijo). Si no hay ficha, se indica con un rótulo '
+     'neutro (ver CU-07 y CU-11).'],
+    [[('🔊 La voz gallega siempre arranca', True)],
+     'En galego, la Expansión Semántica y los ejercicios de Audición y Lenguaje (contenido compartido con el '
+     'castellano) suenan con la voz neuronal castellana mientras Celtia no los cubra, en vez de quedar en silencio en '
+     'dispositivos sin voz gallega (ver CU-14).'],
 ], widths=[4.8, 12.2])
 
 # ============================ CAP 2 ============================
@@ -637,7 +652,8 @@ uc_meta('Tutor o cuidador', 'Bienvenida → Selección de paciente → Hub', 'Ex
         'Paciente activo cargado y listo para practicar')
 h4('Flujo principal')
 numbered([
-    [('En ', False), ('Bienvenida', True), (', pulsar ', False), ('“Ya tengo un paciente”', True), ('.', False)],
+    [('En ', False), ('Bienvenida', True), (', pulsar el botón ', False), ('“Ya tengo un paciente registrado”', True),
+     (' (desde la v8.1, un botón de tamaño completo bajo “Comenzar”).', False)],
     'Seleccionar la ficha del niño/a en la lista de pacientes del dispositivo.',
     [('La app carga su prescripción y su progreso (racha, nivel) y abre el ', False), ('hub de bloques', True), ('.', False)],
     'Elegir un bloque para practicar (CU-02).',
@@ -652,7 +668,8 @@ uc_meta('Tutor que produce los sonidos', 'Test de Ling', 'Patología con audífo
 h4('Flujo principal')
 numbered([
     [('Al pulsar ▶ en una terapia de ', False), ('Audición', True), (', responder: ', False),
-     ('¿el niño usa audífonos o implante?', True), (' Si es No, se salta a los ejercicios.', False)],
+     ('¿el niño usa audífonos o implante?', True), (' Si es No, se salta a los ejercicios. La cabecera muestra el ', False),
+     ('nombre del paciente activo', True), (' tomado de su ficha (v8.1).', False)],
     [('Si es Sí, para cada uno de los ', False), ('6 sonidos', True), (' (m, u, a, i, sh, s) el adulto lo produce ', False),
      ('tapándose la boca', True), ('.', False)],
     [('Marcar la respuesta del niño: ', False), ('Identifica', True), (' · ', False), ('Detecta', True), (' · ', False),
@@ -731,7 +748,8 @@ uc_meta('Logopeda o tutor', 'Resultados del paciente', 'Historial de sesiones re
         'Visión de la evolución del paciente')
 h4('Flujo principal')
 numbered([
-    [('Abrir el ', False), ('panel de resultados', True), (' al finalizar una sesión o desde la ficha.', False)],
+    [('Abrir el ', False), ('panel de resultados', True), (' al finalizar una sesión o desde la ficha. La cabecera muestra el ', False),
+     ('nombre y NHC del paciente activo', True), (', tomados de su ficha de registro (v8.1).', False)],
     [('Revisar la ', False), ('evolución por estrellas', True), (' (media de las últimas sesiones) y, para dislalias, la nueva gráfica de ', False),
      ('sustitución por fonema', True), (': el % de ensayos con la sustitución detectada por el micrófono, donde bajar es mejorar.', False)],
     [('Consultar el ', False), ('estado de gamificación', True), (' (XP, racha, nivel) y la ', False), ('adherencia semanal', True), ('.', False)],
@@ -808,7 +826,7 @@ rich(par, [('Valeria+ puede trabajar el contenido terapéutico en ', False), ('t
            ('. La elección se guarda en el dispositivo y se aplica a todos los bloques.', False)])
 data_table(['Variedad', 'Cómo suena y evalúa'], [
     [[('🇪🇸 Castellano', True)], 'Voz neuronal Sharvard pregenerada (offline) y reconocimiento del sistema en español de España.'],
-    [[('Galego', True), (' (Proxecto Nós)', False)], 'Voz neuronal Celtia pregenerada en gallego; contenido y pares propios.'],
+    [[('Galego', True), (' (Proxecto Nós)', False)], 'Voz neuronal Celtia pregenerada en gallego; contenido y pares propios. El contenido compartido con el castellano (Expansión Semántica, Audición y Lenguaje) suena con la voz neuronal castellana mientras Celtia no lo cubra (v8.1).'],
     [[('🇩🇴 Dominicano', True), (' (Quisqueya Habla)', False)], 'Usa la voz latina del dispositivo y el micrófono en es-DO; respeta los rasgos del habla caribeña.'],
 ], widths=[4.8, 12.2])
 h4('Flujo principal')
@@ -820,7 +838,7 @@ numbered([
 h4('Flujos alternativos')
 bullets([
     [('En dominicano suena peninsular o robótica:', True), (' instalar una voz de “Español (Latinoamérica)” en los ajustes del dispositivo; la app la usará automáticamente.', False)],
-    [('Falta la voz pregenerada de una locución:', True), (' la app recae con suavidad en la voz del sistema, sin interrumpir la sesión.', False)],
+    [('Falta la voz pregenerada de una locución:', True), (' en galego se reproduce primero el asset neuronal castellano equivalente si existe (v8.1); en último término, la app recae con suavidad en la voz del sistema, sin interrumpir la sesión.', False)],
 ])
 callout('Respeto dialectal',
         [('En dominicano, la app ', False), ('no marca como error', True),
@@ -896,13 +914,15 @@ data_table(['Situación', 'Qué hacer'], [
      'Sí. En la tarjeta “Voz de la app” se elige la variedad (Castellano, Galego o Dominicano). Cambia lo que se locuta y evalúa; los menús siguen en castellano (CU-14).'],
     ['En dominicano la voz suena de España o robótica',
      'Instale una voz de “Español (Latinoamérica)” en los ajustes del dispositivo. La app la detecta y la usa automáticamente (v8).'],
+    ['En galego, algunos ejercicios no hablaban',
+     'Corregido en la v8.1: la Expansión Semántica y los ejercicios de Audición y Lenguaje suenan ahora con la voz neuronal castellana mientras Celtia no cubra ese contenido. Actualice la app si sigue ocurriendo.'],
     ['Marca como error algo que en mi país se dice así',
      'En la variedad dominicana la app respeta los rasgos del habla caribeña (seseo, “s” aspirada, “r/l” final). Y recuerde: el adulto es siempre el juez final del veredicto.'],
     ['Apareció ruido de fondo o un oso moviéndose',
      'Son módulos del Panel del Adulto (carga comunicativa) del piloto; solo se activan a mano. Desactívelos desde ese mismo panel (CU-15).'],
 ], widths=[6.0, 11.0])
 p('', space_after=4)
-p('Valeria+ · Manual de Casos de Uso · v8 (con capturas de pantalla) · Julio de 2026 · Terapia auditivo-verbal y del '
+p('Valeria+ · Manual de Casos de Uso · v8.1 (con capturas de pantalla) · Julio de 2026 · Terapia auditivo-verbal y del '
   'lenguaje para la infancia. Documento de apoyo para logopedas y familias. Disponible en Castellano, Galego (Proxecto '
   'Nós) y Dominicano (Quisqueya Habla). Los datos personales se tratan localmente conforme a RGPD/HIPAA; la '
   'sincronización en la nube y la telemetría anónima del piloto son opcionales.', size=8.5, color=MUTED)
