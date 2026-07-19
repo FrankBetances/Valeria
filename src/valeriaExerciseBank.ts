@@ -302,6 +302,21 @@ export const VARIANTS: Record<string, Partial<Exercise>[]> = {
 
 export const DEFAULT_SESSION = ['ff1', 'ff2', 'se1', 'pr3', 'ms3'];
 
+// Opciones del mini-juego de emociones (stage 'emotions'). Vive aquí, en el
+// módulo puro, para que la pantalla y el corpus compartan la MISMA fuente: al
+// tocar una emoción se locuta su etiqueta como pieza atómica (voz neuronal).
+export const EMO: { face: string; label: string }[] = [
+  { face: '😀', label: 'Alegría' }, { face: '😢', label: 'Tristeza' },
+  { face: '😠', label: 'Enfado' }, { face: '🤕', label: 'Dolor' },
+];
+
+// Frases FIJAS que la pantalla concatena con un refuerzo aleatorio. Se sacan
+// aquí para que el player y el corpus usen el mismo literal: la pantalla las
+// locuta como pieza atómica de una secuencia (speakToChildSeq), nunca dentro
+// de una cadena compuesta que la voz neuronal no podría resolver.
+export const SESSION_DONE_LEAD = '¡Sesión completada!';           // + elogio al cerrar sesión
+export const PLURAL_HINT = 'Ahí solo hay uno. Busca donde hay muchos.'; // fallo en el juego de plural
+
 // ----------------------------------------------------------------------------
 // Enumeración de voz (contrato con el corpus neuronal)
 // ----------------------------------------------------------------------------
@@ -322,6 +337,12 @@ const EXERCISE_FIXED_LINES: VoiceLine[] = [
   { style: 'child', text: '¡Casi! Vamos a intentarlo otra vez.' }, // VERDICT[1].say
   { style: 'child', text: 'Vamos a escucharla otra vez.' }, // VERDICT[0].say
   { style: 'child', text: 'Primero toca una imagen.' }, // matchVowel sin selección (FF-1)
+  // Piezas atómicas de las secuencias con refuerzo (speakToChildSeq): la
+  // etiqueta de cada emoción, el arranque de "sesión completada" y la pista
+  // del juego de plural. El refuerzo aleatorio ya está en los bancos.
+  ...EMO.map((e): VoiceLine => ({ style: 'child', text: e.label })),
+  { style: 'child', text: SESSION_DONE_LEAD },
+  { style: 'child', text: PLURAL_HINT },
 ];
 
 // Líneas de voz de un ejercicio ya "resuelto" (base + variante de ronda fusionada).
@@ -341,19 +362,30 @@ const linesForExercise = (ex: Exercise): VoiceLine[] => {
     out.push({ style: 'slow', text: ex.tiles.map((t) => t.cap).join(', ').toLowerCase() });
   }
   if (ex.fillCap) out.push({ style: 'slow', text: ex.fillCap.toLowerCase() });
-  // Intruso: "oír las palabras" concatenado (las individuales van con refuerzo).
-  if (ex.intruder?.length) out.push({ style: 'slow', text: ex.intruder.map((t) => t.cap).join(', ').toLowerCase() });
+  // Intruso: "oír las palabras" concatenado + cada ficha como eco atómico
+  // 'child' (al tocarla se locuta «palabra» y luego el refuerzo, en secuencia).
+  if (ex.intruder?.length) {
+    out.push({ style: 'slow', text: ex.intruder.map((t) => t.cap).join(', ').toLowerCase() });
+    for (const t of ex.intruder) out.push({ style: 'child', text: t.cap });
+  }
   // Adivinanza/género: la pregunta se locuta con la voz declarada en el dato.
   if (ex.choicePrompt) {
     out.push(ex.choiceVoice === 'slow'
       ? { style: 'slow', text: ex.choicePrompt.toLowerCase() }
       : { style: 'tutor', text: ex.choicePrompt });
   }
+  // Cada opción como eco atómico 'child' («opción» + refuerzo en secuencia).
+  if (ex.options?.length) for (const o of ex.options) out.push({ style: 'child', text: o.cap });
   // Orden S-V-O: la frase (SpeakButton voice="child") y el modelo de cada ficha.
   if (ex.sentence) out.push({ style: 'child', text: ex.sentence });
   if (ex.parts?.length) for (const p of ex.parts) out.push({ style: 'slow', text: p.cap.toLowerCase() });
-  // Plural: el modelo de MicPracticeCard es la forma en plural.
-  if (ex.plural) out.push({ style: 'slow', text: ex.plural.capPlural.toLowerCase() });
+  // Plural: el modelo de MicPracticeCard es la forma en plural, y los ecos
+  // atómicos 'child' de cada tarjeta («un X» / «muchos Y») + refuerzo/pista.
+  if (ex.plural) {
+    out.push({ style: 'slow', text: ex.plural.capPlural.toLowerCase() });
+    out.push({ style: 'child', text: `un ${ex.plural.cap}` });
+    out.push({ style: 'child', text: `muchos ${ex.plural.capPlural}` });
+  }
   // Escenas con ejemplo hablado (PR-2, voz child).
   if (ex.scenes?.length) for (const sc of ex.scenes) out.push({ style: 'child', text: sc.say });
   // Práctica de micro dirigida (PR-4): el objetivo se oye como modelo lento.

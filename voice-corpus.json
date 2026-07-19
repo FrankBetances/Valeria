@@ -1,9 +1,9 @@
 {
- "generatedAt": "2026-07-19T06:16:52.714Z",
- "entries": 1080,
+ "generatedAt": "2026-07-19T06:39:25.480Z",
+ "entries": 1115,
  "byStyle": {
   "clinical": 473,
-  "child": 377,
+  "child": 412,
   "slow": 113,
   "tutor": 117
  },
@@ -27,7 +27,7 @@
   "banco/juntos": 6,
   "util/muestra": 2,
   "expansion": 277,
-  "ejercicios": 100
+  "ejercicios": 135
  },
  "corpus": [
   {
@@ -4903,6 +4903,48 @@
    "source": "ejercicios"
   },
   {
+   "id": "child_4e8865c8_7",
+   "lang": "es",
+   "style": "child",
+   "text": "Alegría",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_797add51_8",
+   "lang": "es",
+   "style": "child",
+   "text": "Tristeza",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_6fae48ca_6",
+   "lang": "es",
+   "style": "child",
+   "text": "Enfado",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_55249075_5",
+   "lang": "es",
+   "style": "child",
+   "text": "Dolor",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_ff657b0a_19",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Sesión completada!",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_edae47a3_41",
+   "lang": "es",
+   "style": "child",
+   "text": "Ahí solo hay uno. Busca donde hay muchos.",
+   "source": "ejercicios"
+  },
+  {
    "id": "tutor_133be592_112",
    "lang": "es",
    "style": "tutor",
@@ -5078,6 +5120,34 @@
    "source": "ejercicios"
   },
   {
+   "id": "child_9d12ab97_7",
+   "lang": "es",
+   "style": "child",
+   "text": "manzana",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_b2ccca14_7",
+   "lang": "es",
+   "style": "child",
+   "text": "plátano",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_4799fa89_3",
+   "lang": "es",
+   "style": "child",
+   "text": "uva",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_35fb238b_5",
+   "lang": "es",
+   "style": "child",
+   "text": "coche",
+   "source": "ejercicios"
+  },
+  {
    "id": "tutor_10ce9c33_118",
    "lang": "es",
    "style": "tutor",
@@ -5092,6 +5162,34 @@
    "source": "ejercicios"
   },
   {
+   "id": "child_8e40a2f7_5",
+   "lang": "es",
+   "style": "child",
+   "text": "perro",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_1c60f484_4",
+   "lang": "es",
+   "style": "child",
+   "text": "gato",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_1cd686a0_4",
+   "lang": "es",
+   "style": "child",
+   "text": "vaca",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_6bed91f2_6",
+   "lang": "es",
+   "style": "child",
+   "text": "zapato",
+   "source": "ejercicios"
+  },
+  {
    "id": "tutor_616d5efe_123",
    "lang": "es",
    "style": "tutor",
@@ -5103,6 +5201,20 @@
    "lang": "es",
    "style": "slow",
    "text": "gorro, camiseta, zapato, plátano",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_ab37d84c_5",
+   "lang": "es",
+   "style": "child",
+   "text": "gorro",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_32f94bac_8",
+   "lang": "es",
+   "style": "child",
+   "text": "camiseta",
    "source": "ejercicios"
   },
   {
@@ -5127,6 +5239,20 @@
    "source": "ejercicios"
   },
   {
+   "id": "child_acf02d1f_4",
+   "lang": "es",
+   "style": "child",
+   "text": "pera",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_c6b9ecb4_6",
+   "lang": "es",
+   "style": "child",
+   "text": "pelota",
+   "source": "ejercicios"
+  },
+  {
    "id": "tutor_33abf45a_56",
    "lang": "es",
    "style": "tutor",
@@ -5134,10 +5260,45 @@
    "source": "ejercicios"
   },
   {
+   "id": "child_ada25977_8",
+   "lang": "es",
+   "style": "child",
+   "text": "mariposa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_12467974_4",
+   "lang": "es",
+   "style": "child",
+   "text": "moto",
+   "source": "ejercicios"
+  },
+  {
    "id": "tutor_3e7cf442_60",
    "lang": "es",
    "style": "tutor",
    "text": "Empieza por ese, brilla en el cielo y nos da calor. ¿Qué es?",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_e2363da1_3",
+   "lang": "es",
+   "style": "child",
+   "text": "sol",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_3ad4f3ee_9",
+   "lang": "es",
+   "style": "child",
+   "text": "serpiente",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_e331a50c_4",
+   "lang": "es",
+   "style": "child",
+   "text": "sopa",
    "source": "ejercicios"
   },
   {
@@ -5176,6 +5337,20 @@
    "source": "ejercicios"
   },
   {
+   "id": "child_bcbcbfa3_7",
+   "lang": "es",
+   "style": "child",
+   "text": "un gato",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_97f884ac_12",
+   "lang": "es",
+   "style": "child",
+   "text": "muchos gatos",
+   "source": "ejercicios"
+  },
+  {
    "id": "tutor_ba0afc19_117",
    "lang": "es",
    "style": "tutor",
@@ -5190,6 +5365,20 @@
    "source": "ejercicios"
   },
   {
+   "id": "child_ea067741_7",
+   "lang": "es",
+   "style": "child",
+   "text": "un flor",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_f49e5969_13",
+   "lang": "es",
+   "style": "child",
+   "text": "muchos flores",
+   "source": "ejercicios"
+  },
+  {
    "id": "tutor_5dcb8b38_119",
    "lang": "es",
    "style": "tutor",
@@ -5201,6 +5390,20 @@
    "lang": "es",
    "style": "slow",
    "text": "peces",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_da7eb1f5_6",
+   "lang": "es",
+   "style": "child",
+   "text": "un pez",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_ba6e0f0e_12",
+   "lang": "es",
+   "style": "child",
+   "text": "muchos peces",
    "source": "ejercicios"
   },
   {
@@ -5225,9 +5428,37 @@
    "source": "ejercicios"
   },
   {
+   "id": "child_1b170f7c_4",
+   "lang": "es",
+   "style": "child",
+   "text": "niño",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_211718ee_4",
+   "lang": "es",
+   "style": "child",
+   "text": "niña",
+   "source": "ejercicios"
+  },
+  {
    "id": "slow_13aee407_6",
    "lang": "es",
    "style": "slow",
+   "text": "abuela",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_09aed449_6",
+   "lang": "es",
+   "style": "child",
+   "text": "abuelo",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_13aee407_6",
+   "lang": "es",
+   "style": "child",
    "text": "abuela",
    "source": "ejercicios"
   },
@@ -5236,6 +5467,20 @@
    "lang": "es",
    "style": "slow",
    "text": "rey",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_35f46f8b_3",
+   "lang": "es",
+   "style": "child",
+   "text": "rey",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_c92b6d6a_5",
+   "lang": "es",
+   "style": "child",
+   "text": "reina",
    "source": "ejercicios"
   },
   {

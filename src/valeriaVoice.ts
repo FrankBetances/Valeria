@@ -249,6 +249,25 @@ export const speakToChild = (text: string, opts: Speech.SpeechOptions = {}) => {
   speakEngine(text, { pitch: 1.15, rate: 0.85, ...opts });
 };
 
+// Locuta VARIAS piezas en secuencia, cada una resuelta por separado como asset
+// neuronal. Motivo: frases como «palabra» + un refuerzo ALEATORIO no se pueden
+// pre-hornear como una sola cadena (la combinación no existe en el corpus), así
+// que se troceaban a la voz del sistema — el "salto" de voz que rompe la
+// dinámica. Al reproducirlas encadenadas, cada trozo (la palabra, el elogio…)
+// resuelve su propio asset y toda la secuencia suena con la voz neuronal.
+export const speakToChildSeq = (parts: string[], opts: Speech.SpeechOptions = {}) => {
+  const items = parts.map((p) => p.trim()).filter(Boolean);
+  if (!items.length) { opts.onDone?.(); return; }
+  const sayFrom = (i: number) => {
+    if (i >= items.length) { opts.onDone?.(); return; }
+    speakToChild(items[i], {
+      onDone: () => sayFrom(i + 1),
+      onError: (e) => { if (i + 1 >= items.length) opts.onError?.(e); else sayFrom(i + 1); },
+    });
+  };
+  sayFrom(0);
+};
+
 // Voz CLÍNICA para frases portadoras y órdenes morfosintácticas: UNA sola
 // locución continua (sin trocear por frases, sin jitter ni subidas de tono en
 // exclamaciones). Acelerar o entonar la frase desplaza la frecuencia del
