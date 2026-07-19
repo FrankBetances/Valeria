@@ -1,11 +1,11 @@
 {
- "generatedAt": "2026-07-19T17:05:12.322Z",
- "entries": 1115,
+ "generatedAt": "2026-07-19T19:03:45.358Z",
+ "entries": 1174,
  "byStyle": {
   "clinical": 473,
-  "child": 412,
-  "slow": 113,
-  "tutor": 117
+  "child": 438,
+  "slow": 134,
+  "tutor": 129
  },
  "bySource": {
   "carrier": 455,
@@ -27,7 +27,7 @@
   "banco/juntos": 6,
   "util/muestra": 2,
   "expansion": 277,
-  "ejercicios": 135
+  "ejercicios": 194
  },
  "corpus": [
   {
@@ -5824,6 +5824,419 @@
    "lang": "es",
    "style": "child",
    "text": "Pasaos una pelota rodando: solo habla quien la tiene. ¡Turno y movimiento!",
+   "source": "ejercicios"
+  },
+  {
+   "id": "tutor_ba322236_272",
+   "lang": "es",
+   "style": "tutor",
+   "text": "Coloca un objeto muy motivador entre tu cara y el niño. Espera 3 segundos ANTES de dar ninguna pista (instigación retardada): el botón del sello se desbloquea solo tras esa espera. Pulsa el Sello Doble ÚNICAMENTE cuando haya contacto visual real contigo, no con el objeto.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_697a2beb_98",
+   "lang": "es",
+   "style": "child",
+   "text": "Esconde el objeto tras tu espalda y camina despacio: que te busque la mirada antes de enseñárselo.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "tutor_7df66cb3_326",
+   "lang": "es",
+   "style": "tutor",
+   "text": "Este ejercicio usa el Quiebre Pragmático del Panel del Adulto: congelas la app a propósito (orden absurda o silencio) y observas cómo repara el niño la comunicación. Es un estresor MANUAL y reversible al instante: tú decides cuándo empieza y cuándo acaba. Ábrelo abajo en el Panel del Adulto y registra la estrategia que uses.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_8aca6f60_79",
+   "lang": "es",
+   "style": "child",
+   "text": "Tras cada reparación lograda, celebradlo con un choque de manos bien exagerado.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "tutor_7a28594e_235",
+   "lang": "es",
+   "style": "tutor",
+   "text": "Pulsa 🔊 para que la voz de la app dicte la orden motora y, MIENTRAS suena, haz tú una acción contradictoria (la voz dice «toca tu nariz» y tú te tocas la cabeza). El objetivo es que el niño siga el AUDIO e inhiba la copia de tu gesto.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_89d9a8bd_94",
+   "lang": "es",
+   "style": "child",
+   "text": "Jugad a «la voz manda»: la orden sonora vale, el gesto del adulto engaña. ¡Cambiad de papeles!",
+   "source": "ejercicios"
+  },
+  {
+   "id": "tutor_c6705d28_240",
+   "lang": "es",
+   "style": "tutor",
+   "text": "A mitad del juego que más le esté gustando, pulsa «Interrumpir ahora»: aparecerá una cápsula de movimiento abrupta. Observa la transición: ¿la tolera, protesta y sigue, o abandona? Tú decides el momento exacto; la app jamás interrumpe sola.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_88bd0488_104",
+   "lang": "es",
+   "style": "child",
+   "text": "Convertid la interrupción en juego: «¡estatua!», tres respiraciones sopladas y de vuelta a la actividad.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "tutor_b1e4fe39_251",
+   "lang": "es",
+   "style": "tutor",
+   "text": "Pulsa 🔊 para oír las cuatro fichas. Tres van juntas y una no: el niño toca la que NO va con las demás. Después sube POCO A POCO el ruido de fondo desde el Panel del Adulto y repite con otra ronda: anota cómo cambia el acierto con cada nivel de ruido.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_2b504db2_95",
+   "lang": "es",
+   "style": "child",
+   "text": "Clasificad juguetes reales en dos cajas (animales / cosas de comer) con música de fondo bajita.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "slow_4b67037b_29",
+   "lang": "es",
+   "style": "slow",
+   "text": "perro, gato, caballo, cuchara",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_a370d085_7",
+   "lang": "es",
+   "style": "child",
+   "text": "caballo",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_ba492154_7",
+   "lang": "es",
+   "style": "child",
+   "text": "cuchara",
+   "source": "ejercicios"
+  },
+  {
+   "id": "tutor_efaa0e23_187",
+   "lang": "es",
+   "style": "tutor",
+   "text": "Pulsa 🔊 para oír las cuatro fichas. Tres se comen y una no: el niño toca la que NO va con las demás. Sube el ruido desde el Panel del Adulto ronda a ronda y anota cómo cambia el acierto.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "slow_de737a4c_27",
+   "lang": "es",
+   "style": "slow",
+   "text": "manzana, pan, queso, pelota",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_4f55eeec_3",
+   "lang": "es",
+   "style": "child",
+   "text": "pan",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_0ed0d71c_5",
+   "lang": "es",
+   "style": "child",
+   "text": "queso",
+   "source": "ejercicios"
+  },
+  {
+   "id": "tutor_9a98707a_191",
+   "lang": "es",
+   "style": "tutor",
+   "text": "Pulsa 🔊 para oír las cuatro fichas. Tres son para vestirse y una no: el niño toca la que NO va con las demás. Mantén el nivel de ruido que estés probando y compara con las rondas anteriores.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "slow_a5660add_30",
+   "lang": "es",
+   "style": "slow",
+   "text": "gorro, camiseta, zapato, fresa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_b428d034_5",
+   "lang": "es",
+   "style": "child",
+   "text": "fresa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "tutor_6e6cacc5_172",
+   "lang": "es",
+   "style": "tutor",
+   "text": "Pulsa 🔊 para que la voz dicte la serie completa. Tres palabras riman y una no: el niño toca el altavoz de la que NO suena como las demás. Sin apoyo de texto: solo el oído.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_6435ae8e_88",
+   "lang": "es",
+   "style": "child",
+   "text": "Palmada en la rodilla con cada palabra que rima; brazos en cruz cuando suene la intrusa.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "slow_dd72ca75_22",
+   "lang": "es",
+   "style": "slow",
+   "text": "pino, fino, lino, mesa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_1e5dfd21_4",
+   "lang": "es",
+   "style": "child",
+   "text": "pino",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_b4f0772f_4",
+   "lang": "es",
+   "style": "child",
+   "text": "fino",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_11db0cb5_4",
+   "lang": "es",
+   "style": "child",
+   "text": "lino",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_aa00cce7_4",
+   "lang": "es",
+   "style": "child",
+   "text": "mesa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "slow_4d4288c9_22",
+   "lang": "es",
+   "style": "slow",
+   "text": "pata, lata, rata, luna",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_8d875b61_4",
+   "lang": "es",
+   "style": "child",
+   "text": "pata",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_86db536d_4",
+   "lang": "es",
+   "style": "child",
+   "text": "lata",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_aa83961b_4",
+   "lang": "es",
+   "style": "child",
+   "text": "rata",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_05033d87_4",
+   "lang": "es",
+   "style": "child",
+   "text": "luna",
+   "source": "ejercicios"
+  },
+  {
+   "id": "slow_432688b0_23",
+   "lang": "es",
+   "style": "slow",
+   "text": "casa, pasa, taza, perro",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_9f253efd_4",
+   "lang": "es",
+   "style": "child",
+   "text": "casa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_8d7a8f6e_4",
+   "lang": "es",
+   "style": "child",
+   "text": "pasa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_0a59f42f_4",
+   "lang": "es",
+   "style": "child",
+   "text": "taza",
+   "source": "ejercicios"
+  },
+  {
+   "id": "tutor_3e2451c5_229",
+   "lang": "es",
+   "style": "tutor",
+   "text": "El niño lee la frase de la pantalla en voz alta, de un tirón y sin silabear. Cuando lo consiga en calma, activa el Oso Distractor y algo de ruido desde el Panel del Adulto y repite con otra ronda: valora tú la fluidez, no la app.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_8845e178_72",
+   "lang": "es",
+   "style": "child",
+   "text": "Leed la frase caminando: un paso por palabra, sin pararse entre sílabas.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "slow_689b3026_15",
+   "lang": "es",
+   "style": "slow",
+   "text": "el oso come pan",
+   "source": "ejercicios"
+  },
+  {
+   "id": "slow_b4dab898_17",
+   "lang": "es",
+   "style": "slow",
+   "text": "la niña bebe zumo",
+   "source": "ejercicios"
+  },
+  {
+   "id": "slow_d869e60d_18",
+   "lang": "es",
+   "style": "slow",
+   "text": "mi gato salta alto",
+   "source": "ejercicios"
+  },
+  {
+   "id": "tutor_a7cb846d_241",
+   "lang": "es",
+   "style": "tutor",
+   "text": "Pulsa «Oír los sonidos»: la app emite cada sonido por separado, con una pausa entre ellos. El niño debe unirlos y decir la palabra completa. Recoge la fusión con el micro; si el reconocimiento falla o va lento, valora tú abajo con la escala.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_b3a029e7_75",
+   "lang": "es",
+   "style": "child",
+   "text": "Un salto por cada sonido y, al decir la palabra entera, ¡salto de estrella!",
+   "source": "ejercicios"
+  },
+  {
+   "id": "slow_cb976d00_4",
+   "lang": "es",
+   "style": "slow",
+   "text": "mano",
+   "source": "ejercicios"
+  },
+  {
+   "id": "slow_ca99d446_3",
+   "lang": "es",
+   "style": "slow",
+   "text": "mmm",
+   "source": "ejercicios"
+  },
+  {
+   "id": "slow_e40c292c_1",
+   "lang": "es",
+   "style": "slow",
+   "text": "a",
+   "source": "ejercicios"
+  },
+  {
+   "id": "slow_11b54859_3",
+   "lang": "es",
+   "style": "slow",
+   "text": "nnn",
+   "source": "ejercicios"
+  },
+  {
+   "id": "slow_ea0c329e_1",
+   "lang": "es",
+   "style": "slow",
+   "text": "o",
+   "source": "ejercicios"
+  },
+  {
+   "id": "slow_c33f0730_3",
+   "lang": "es",
+   "style": "slow",
+   "text": "sss",
+   "source": "ejercicios"
+  },
+  {
+   "id": "slow_a42935e4_3",
+   "lang": "es",
+   "style": "slow",
+   "text": "ooo",
+   "source": "ejercicios"
+  },
+  {
+   "id": "slow_365991eb_3",
+   "lang": "es",
+   "style": "slow",
+   "text": "lll",
+   "source": "ejercicios"
+  },
+  {
+   "id": "slow_f00c3c10_1",
+   "lang": "es",
+   "style": "slow",
+   "text": "u",
+   "source": "ejercicios"
+  },
+  {
+   "id": "tutor_94c58138_228",
+   "lang": "es",
+   "style": "tutor",
+   "text": "La palabra de la pantalla es inventada: no se puede adivinar, solo decodificar. El niño la lee en voz alta tal cual suena. Máximo 5 ensayos: al llegar al límite, la app propone una pausa de movimiento obligatoria para descargar.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_b31ce267_62",
+   "lang": "es",
+   "style": "child",
+   "text": "Decid la pseudopalabra dando una palmada por sílaba: ME-PO-TI.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "slow_98bd3905_6",
+   "lang": "es",
+   "style": "slow",
+   "text": "mepoti",
+   "source": "ejercicios"
+  },
+  {
+   "id": "slow_2169127a_7",
+   "lang": "es",
+   "style": "slow",
+   "text": "faslumo",
+   "source": "ejercicios"
+  },
+  {
+   "id": "slow_05246fc2_6",
+   "lang": "es",
+   "style": "slow",
+   "text": "tinelo",
+   "source": "ejercicios"
+  },
+  {
+   "id": "tutor_5084bbe3_235",
+   "lang": "es",
+   "style": "tutor",
+   "text": "Di al niño qué letra buscar (la grande del recuadro) y que toque TODAS las que encuentre en el panel. Las letras gemelas giradas (b/d, p/q) intentan engañarle. Si quieres carga extra, activa el Oso Distractor desde el Panel del Adulto.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_e556cb81_100",
+   "lang": "es",
+   "style": "child",
+   "text": "Dibujad la letra objetivo gigante en el aire: la barriga de la «b» mira hacia delante, como al leer.",
    "source": "ejercicios"
   },
   {
