@@ -56,7 +56,7 @@ import { ValeriaAdultChaosPanel } from './ValeriaAdultChaosPanel';
 import { ValeriaDistractorBear } from './ValeriaDistractorBear';
 import { ValeriaPragmaticBreakOverlay } from './ValeriaPragmaticBreak';
 import { releaseNoise } from './valeriaNoise';
-import { AUDICION_META, LENGUAJE_META } from './valeriaExerciseMeta';
+import { AUDICION_META, LENGUAJE_META, TEA_META, DISLEXIA_META } from './valeriaExerciseMeta';
 import { markBlockCompleted } from './valeriaTelemetry';
 import { Tile, Exercise, DEFAULT_SESSION, EMO, SESSION_DONE_LEAD, PLURAL_HINT, pluralOneLabel, pluralManyLabel, dbForLocale, variantsForLocale } from './valeriaExerciseBank';
 import { getLocale } from './valeriaLocale';
@@ -64,6 +64,8 @@ import { getLocale } from './valeriaLocale';
 // Conjuntos de ids por bloque para marcar el hito de "bloque completado" (SUS).
 const AUD_IDS = new Set(AUDICION_META.map((m) => m.id));
 const LEN_IDS = new Set(LENGUAJE_META.map((m) => m.id));
+const TEA_IDS = new Set(TEA_META.map((m) => m.id));
+const DIX_IDS = new Set(DISLEXIA_META.map((m) => m.id));
 // import logoWhite from '../../assets/valeria-logo-white.png';
 
 // La base de datos de ejercicios (DB), sus rondas de contenido (VARIANTS) y la
@@ -268,6 +270,20 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
   const [pluralPick, setPluralPick] = useState<'' | 'one' | 'many'>('');
   // MS-3: fichas tocadas en orden para construir la frase
   const [orderPicks, setOrderPicks] = useState<number[]>([]);
+  // DX-5: letras objetivo encontradas en la rejilla de rotaciones (+ fallo que parpadea)
+  const [rotFound, setRotFound] = useState<boolean[]>([]);
+  const [rotWrongIdx, setRotWrongIdx] = useState(-1);
+  // Botonera de Juez (DX-3/DX-4): veredicto MANUAL del adulto cuando el STT
+  // falla o va lento en hardware de gama baja ("Lo dijo" / "Casi").
+  const [judgePick, setJudgePick] = useState<'' | 'ok' | 'almost'>('');
+  // DX-4: contador de ensayos con límite rígido (fatiga cognitiva) + cápsula
+  // TPR de descarga lanzada UNA sola vez al alcanzar el límite.
+  const [trials, setTrials] = useState(0);
+  const [capsuleLaunched, setCapsuleLaunched] = useState(false);
+  // TEA-1: Sello Doble con instigación retardada (Time Delay): el botón queda
+  // bloqueado N segundos entre sellos; el adulto lo retiene hasta contacto visual.
+  const [selloCount, setSelloCount] = useState(0);
+  const [selloCooldown, setSelloCooldown] = useState(0);
   // Explicación en lenguaje llano de la escala EPT-3
   const [eptInfoOpen, setEptInfoOpen] = useState(false);
   // Respuestas libres registradas (voz o escrito) por código de ejercicio;
@@ -318,6 +334,8 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
     setFillPick(''); setIntruderPick(-1); setEmotionPick('');
     setMatchSel(-1); setMatchOk([]); setWrongVowel('');
     setChoicePick(-1); setPluralPick(''); setOrderPicks([]);
+    setRotFound([]); setRotWrongIdx(-1); setJudgePick('');
+    setTrials(0); setCapsuleLaunched(false);
   };
 
   const nextRound = () => {
@@ -340,11 +358,101 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
   // cambiar de ejercicio/ronda o al salir de la pantalla.
   const flashTimer = useRef<any>(null);
   const orderTimer = useRef<any>(null);
+  const rotTimer = useRef<any>(null);
+  const synTimer = useRef<any>(null);
   const clearGameTimers = () => {
     clearTimeout(flashTimer.current);
     clearTimeout(orderTimer.current);
+    clearTimeout(rotTimer.current);
+    clearTimeout(synTimer.current);
   };
   useEffect(() => () => clearGameTimers(), []);
+
+  // TEA-1 · Sello Doble: al entrar en el ejercicio (o cambiar de ronda) el
+  // botón arranca bloqueado el Time Delay completo; cada sello lo re-bloquea.
+  useEffect(() => {
+    setSelloCount(0);
+    setSelloCooldown(ex.timeDelaySec ?? 0);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [idx, round]);
+  useEffect(() => {
+    if (selloCooldown <= 0) return;
+    const t = setTimeout(() => setSelloCooldown((c) => c - 1), 1000);
+    return () => clearTimeout(t);
+  }, [selloCooldown]);
+
+  // DX-3 · Síntesis fonémica rítmica: emite cada fonema AISLADO con la latencia
+  // forzada del protocolo (phonemeGapMs, 500 ms) entre uno y otro. La fusión la
+  // hace el niño; la app jamás pronuncia la palabra completa aquí.
+  const playPhonemes = () => {
+    const phs = ex.phonemes ?? [];
+    if (!phs.length) return;
+    stopSpeaking();
+    clearTimeout(synTimer.current);
+    const step = (i: number) => {
+      if (i >= phs.length) return;
+      speakWordSlow(phs[i]);
+      // ~700 ms de locución del fonema + la latencia forzada entre fonemas.
+      synTimer.current = setTimeout(() => step(i + 1), (ex.phonemeGapMs ?? 500) + 700);
+    };
+    step(0);
+  };
+
+  // DX-5 · Rastreo de rotaciones: tocar la grafía objetivo la fija en verde;
+  // tocar una gemela girada (b/d, p/q) parpadea en rojo y anima a seguir. Los
+  // toques FUERA de las fichas los captura ValeriaMisclickBoundary (mapa X,Y).
+  const tapRotation = (i: number) => {
+    const rt = ex.rotationTargets!;
+    if (rotFound[i]) return;
+    if (rt.grid[i] === rt.target) {
+      const next = [...rotFound]; next[i] = true;
+      setRotFound(next);
+      const remaining = rt.grid.filter((g, k) => g === rt.target && !next[k]).length;
+      if (remaining === 0) speakVerdict(true);
+    } else {
+      setRotWrongIdx(i);
+      speakVerdict(false);
+      clearTimeout(rotTimer.current);
+      rotTimer.current = setTimeout(() => setRotWrongIdx(-1), 900);
+    }
+  };
+
+  // DX-4 · Criba de pseudopalabras: cada veredicto del Juez consume un ensayo.
+  // Al llegar al límite rígido se intercala UNA cápsula TPR de descarga.
+  const judgeTrial = (ok: boolean) => {
+    if (!ex.maxTrials || trials >= ex.maxTrials) return;
+    const next = trials + 1;
+    setTrials(next);
+    setJudgePick(ok ? 'ok' : 'almost');
+    speakVerdict(ok);
+    if (next >= ex.maxTrials && !capsuleLaunched) {
+      setCapsuleLaunched(true);
+      setActiveBreak(pickSessionBreak());
+    }
+  };
+
+  // Botonera de Juez compartida (DX-3/DX-4): veredicto manual del adulto
+  // cuando el reconocimiento de voz falla o el hardware va lento.
+  const judgeButtons = (disabled: boolean, onJudge: (ok: boolean) => void) => (
+    <View style={s.judgeRow}>
+      <Pressable
+        disabled={disabled}
+        onPress={() => onJudge(true)}
+        accessibilityRole="button" accessibilityLabel="Juez: lo dijo bien"
+        style={[s.judgeBtn, s.judgeBtnOk, disabled && { opacity: 0.4 }]}
+      >
+        <Text style={s.judgeBtnTxt}>👍 Lo dijo</Text>
+      </Pressable>
+      <Pressable
+        disabled={disabled}
+        onPress={() => onJudge(false)}
+        accessibilityRole="button" accessibilityLabel="Juez: casi lo dijo"
+        style={[s.judgeBtn, s.judgeBtnAlmost, disabled && { opacity: 0.4 }]}
+      >
+        <Text style={s.judgeBtnTxt}>🤏 Casi</Text>
+      </Pressable>
+    </View>
+  );
 
   // FF-1 · unir imagen ↔ vocal: tocar la imagen la nombra en voz alta y la
   // selecciona; tocar después una vocal comprueba la unión en la tablet.
@@ -448,9 +556,11 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
     releaseNoise(); // fin de sesión: la Pista B no sobrevive a la pantalla de logros
     setFinished(true);
     // Telemetría: hito de bloque completado (Audición/Lenguaje según los ids de
-    // la sesión) → puede disparar el SUS (con rate limiting) al cerrar 4 bloques.
+    // la sesión) → puede disparar el SUS (rate-limited) al cerrar ≥4 bloques distintos.
     if (sessionIds.some((id) => AUD_IDS.has(id))) markBlockCompleted('audicion');
     if (sessionIds.some((id) => LEN_IDS.has(id))) markBlockCompleted('lenguaje');
+    if (sessionIds.some((id) => TEA_IDS.has(id))) markBlockCompleted('tea');
+    if (sessionIds.some((id) => DIX_IDS.has(id))) markBlockCompleted('dislexia');
     // Celebración hablada para el niño al cerrar la sesión (frase rotativa).
     speakToChildSeq([SESSION_DONE_LEAD, praisePhrase()]);
   };
@@ -601,6 +711,24 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                       modelo principal debe ser la voz en vivo del adulto. */}
                   <Text style={s.modelNote}>💡 El mejor modelo es tu voz: dísela tú primero, cerca y despacio. La voz de la app es solo un refuerzo.</Text>
                   <MicPracticeCard target={ex.phrase!} />
+                  {/* DX-4 · Criba: límite RÍGIDO de ensayos juzgados por el
+                      adulto; al alcanzarlo se intercala una cápsula TPR de
+                      descarga (fatiga cognitiva controlada). */}
+                  {!!ex.maxTrials && (
+                    <View style={s.trialCard}>
+                      <Text style={s.trialKicker}>⚖️ JUEZ · ENSAYO {Math.min(trials + 1, ex.maxTrials)} DE {ex.maxTrials}</Text>
+                      <Text style={s.trialHint}>Si el micro falla o va lento, valora tú cada intento. Al llegar al límite, la app propone una pausa de movimiento para descargar.</Text>
+                      <View style={s.trialDots}>
+                        {Array.from({ length: ex.maxTrials }).map((_, i) => (
+                          <View key={i} style={[s.trialDot, i < trials && s.trialDotOn]} />
+                        ))}
+                      </View>
+                      {judgeButtons(trials >= ex.maxTrials, judgeTrial)}
+                      {trials >= ex.maxTrials && (
+                        <Text style={s.trialLimit}>Límite de {ex.maxTrials} ensayos alcanzado: descargad con la pausa de movimiento y evalúa abajo (o cambia de ronda).</Text>
+                      )}
+                    </View>
+                  )}
                 </>
               )}
 
@@ -695,7 +823,7 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                 </>
               )}
 
-              {ex.stage === 'intruder' && (
+              {ex.stage === 'intruder' && !ex.auditoryOnly && (
                 <>
                   {/* Apoyo auditivo pedido por los evaluadores: oír las palabras
                       que aparecen antes de buscar el intruso. */}
@@ -717,6 +845,115 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                   />
                 </>
               )}
+
+              {/* DX-1 · Intruso Fonológico AUDITIVO PURO: sin apoyo textual. El
+                  niño escucha la serie y responde por posición; la palabra de
+                  cada ficha solo se revela DESPUÉS de responder. */}
+              {ex.stage === 'intruder' && ex.auditoryOnly && (
+                <>
+                  <Text style={s.stageHint}>Solo por el oído: primero escuchad la serie completa; después el niño toca el altavoz de la palabra que no suena como las demás.</Text>
+                  <View style={{ alignItems: 'center', marginBottom: 14 }}>
+                    <SpeakButton text={ex.intruder!.map((t) => t.cap).join(', ')} label="Oír la serie completa" voice="slow" />
+                  </View>
+                  <View style={s.grid2}>
+                    {ex.intruder!.map((t, i) => {
+                      const tapped = intruderPick === i;
+                      const isAns = i === ex.intruderAnswer;
+                      const ok = intruderPick >= 0 && isAns;
+                      const bad = tapped && !isAns;
+                      return (
+                        <Pressable
+                          key={i}
+                          onPress={() => {
+                            if (intruderPick === i) return;
+                            setIntruderPick(i);
+                            speakToChildSeq([t.cap, isAns ? praisePhrase() : almostPhrase()]);
+                          }}
+                          accessibilityRole="button"
+                          accessibilityLabel={`Responder la palabra de la posición ${i + 1}`}
+                          style={[s.gridTile, s.audTile, ok && s.gridTileOk, bad && s.gridTileBad]}
+                        >
+                          <Text style={{ fontSize: 34 }}>🔊</Text>
+                          <View style={s.gridCapRow}>
+                            <Text style={s.gridCap}>{intruderPick >= 0 ? t.cap : `posición ${i + 1}`}</Text>
+                            <Text style={{ fontSize: 13 }}>{ok ? '✅' : bad ? '❌' : ''}</Text>
+                          </View>
+                        </Pressable>
+                      );
+                    })}
+                  </View>
+                </>
+              )}
+
+              {/* DX-3 · Síntesis Fonémica Rítmica: la app emite los fonemas
+                  AISLADOS con latencia forzada; la fusión la dice el niño
+                  (micro con fallback a la botonera de Juez). */}
+              {ex.stage === 'syn' && (
+                <>
+                  {!!ex.phraseEmoji && (
+                    <View style={{ alignItems: 'center', marginBottom: 12 }}>
+                      <EmojiTile emoji={ex.phraseEmoji} cap={ex.phrase?.toLowerCase()} size={92} bgIndex={2} onZoom={openZoom} />
+                    </View>
+                  )}
+                  <Text style={s.stageHint}>La app dice cada sonido por separado, con una pausa entre ellos. El niño los une y dice la palabra completa.</Text>
+                  <View style={{ alignItems: 'center', marginBottom: 10 }}>
+                    <Pressable onPress={playPhonemes} style={s.synBtn} accessibilityRole="button" accessibilityLabel="Oír los sonidos por separado">
+                      <Text style={s.synBtnTxt}>🔊 Oír los sonidos · {ex.phonemes!.join(' … ')}</Text>
+                    </Pressable>
+                  </View>
+                  <MicPracticeCard
+                    target={ex.phrase!}
+                    prompt={`Pulsa el micro y que UNA los sonidos en la palabra completa: “${ex.phrase!.toLowerCase()}”`}
+                  />
+                  {/* Fallback de Juez para hardware lento o STT caído. */}
+                  <Text style={s.judgeHint}>¿El micro va lento o no le entiende? Valora tú el intento:</Text>
+                  {judgeButtons(false, (ok) => { setJudgePick(ok ? 'ok' : 'almost'); speakVerdict(ok); })}
+                  {judgePick !== '' && (
+                    <Text style={s.matchDone}>La palabra era “{ex.phrase!.toLowerCase()}”. Puedes pasar a otra ronda o evaluar abajo.</Text>
+                  )}
+                </>
+              )}
+
+              {/* DX-5 · Rastreo Visual de Rotaciones: grafías gemelas giradas
+                  (b/d, p/q) en alto contraste. Los toques fuera de ficha los
+                  captura ValeriaMisclickBoundary → mapa de calor X,Y. */}
+              {ex.stage === 'rotation' && (() => {
+                const rt = ex.rotationTargets!;
+                const totalTargets = rt.grid.filter((g) => g === rt.target).length;
+                const foundCount = rt.grid.reduce((n, g, i) => n + (g === rt.target && rotFound[i] ? 1 : 0), 0);
+                const complete = foundCount === totalTargets;
+                return (
+                  <>
+                    <View style={s.rotHead}>
+                      <Text style={s.rotHeadLbl}>BUSCA TODAS LAS</Text>
+                      <View style={s.rotTargetBox}><Text style={s.rotTargetTxt}>{rt.target}</Text></View>
+                      <Text style={s.rotHeadCount}>{foundCount} / {totalTargets}</Text>
+                    </View>
+                    <View style={s.rotGrid}>
+                      {rt.grid.map((g, i) => {
+                        const found = !!rotFound[i] && g === rt.target;
+                        const wrong = rotWrongIdx === i;
+                        return (
+                          <Pressable
+                            key={i}
+                            onPress={() => tapRotation(i)}
+                            disabled={found}
+                            accessibilityRole="button"
+                            accessibilityState={{ disabled: found }}
+                            accessibilityLabel={`Letra ${i + 1} de ${rt.grid.length}`}
+                            style={[s.rotTile, found && s.rotTileOk, wrong && s.rotTileBad]}
+                          >
+                            <Text style={[s.rotTileTxt, found && { color: '#fff' }]}>{g}</Text>
+                          </Pressable>
+                        );
+                      })}
+                    </View>
+                    {complete && (
+                      <Text style={s.matchDone}>🎉 ¡Todas encontradas! Puedes pasar a otra ronda o evaluar abajo.</Text>
+                    )}
+                  </>
+                );
+              })()}
 
               {ex.stage === 'emotions' && (
                 <>
@@ -917,6 +1154,42 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                         </Pressable>
                       ))}
                     </View>
+                  )}
+                  {/* TEA-1 · Sello Doble con instigación retardada: el botón
+                      queda bloqueado el Time Delay y el ADULTO lo retiene
+                      hasta contacto visual real. La app solo cuenta sellos. */}
+                  {!!ex.timeDelaySec && (
+                    <View style={s.selloCard}>
+                      <Text style={s.selloKicker}>🤝 SELLO DOBLE · INSTIGACIÓN RETARDADA</Text>
+                      <Text style={s.selloHint}>
+                        El botón se desbloquea tras {ex.timeDelaySec} segundos de espera. Púlsalo SOLO cuando
+                        el niño te mire de verdad a ti (no al objeto); después se bloquea para el siguiente intento.
+                      </Text>
+                      <Pressable
+                        disabled={selloCooldown > 0}
+                        onPress={() => { setSelloCount((c) => c + 1); setSelloCooldown(ex.timeDelaySec!); speakToChild(praisePhrase()); }}
+                        accessibilityRole="button"
+                        accessibilityLabel="Dar el sello doble por contacto visual real"
+                        style={[s.selloBtn, selloCooldown > 0 && s.selloBtnLocked]}
+                      >
+                        <Text style={s.selloBtnTxt}>{selloCooldown > 0 ? `⏳ Espera ${selloCooldown} s…` : '🤝 Dar el Sello Doble'}</Text>
+                      </Pressable>
+                      {selloCount > 0 && (
+                        <Text style={s.selloCountTxt}>Sellos por contacto visual: {'⭐'.repeat(Math.min(selloCount, 10))} ({selloCount})</Text>
+                      )}
+                    </View>
+                  )}
+                  {/* TEA-4 · Transición Interrumpida: cápsula TPR abrupta a
+                      mitad de flujo, SIEMPRE accionada por el adulto. */}
+                  {!!ex.manualBreak && (
+                    <Pressable
+                      onPress={() => setActiveBreak(pickSessionBreak())}
+                      accessibilityRole="button"
+                      accessibilityLabel="Interrumpir ahora con una cápsula de movimiento sorpresa"
+                      style={s.breakBtn}
+                    >
+                      <Text style={s.breakBtnTxt}>⏸️ Interrumpir ahora (cápsula sorpresa)</Text>
+                    </Pressable>
                   )}
                 </View>
               )}
@@ -1184,6 +1457,55 @@ const s = StyleSheet.create({
   orderSlot: { flex: 1, alignItems: 'center', borderWidth: 2, borderStyle: 'dashed', borderColor: '#b8eee9', borderRadius: 14, paddingVertical: 9 },
   orderSlotFilled: { borderStyle: 'solid', borderColor: V.color.success, backgroundColor: V.color.successBg },
   orderReset: { textAlign: 'center', fontSize: 12.5, fontWeight: '800', color: V.color.primaryDark, marginTop: 12 },
+
+  // DX-1 · intruso auditivo puro (fichas de altavoz por posición)
+  audTile: { alignItems: 'center', paddingVertical: 16 },
+
+  // DX-3 · síntesis fonémica
+  synBtn: { backgroundColor: V.color.primaryLight, borderWidth: 1, borderColor: V.color.borderActive, borderRadius: 13, paddingHorizontal: 14, paddingVertical: 10 },
+  synBtnTxt: { fontSize: 13.5, fontWeight: '800', color: V.color.primaryDark },
+
+  // Botonera de Juez (DX-3 / DX-4)
+  judgeHint: { textAlign: 'center', fontSize: 12, fontWeight: '700', color: V.color.textSecondary, marginTop: 12, marginBottom: 8 },
+  judgeRow: { flexDirection: 'row', gap: 10, justifyContent: 'center' },
+  judgeBtn: { flex: 1, maxWidth: 160, alignItems: 'center', borderRadius: 13, paddingVertical: 12, borderWidth: 1.5 },
+  judgeBtnOk: { backgroundColor: V.color.successBg, borderColor: V.color.success },
+  judgeBtnAlmost: { backgroundColor: '#fffbeb', borderColor: '#f4e6b8' },
+  judgeBtnTxt: { fontSize: 14, fontWeight: '800', color: V.color.textPrimary },
+
+  // DX-4 · contador de ensayos con límite rígido
+  trialCard: { marginTop: 12, backgroundColor: V.color.pageBg, borderWidth: 1, borderColor: '#eef2f1', borderRadius: 14, padding: 13 },
+  trialKicker: { fontSize: 11, fontWeight: '800', letterSpacing: 0.6, color: V.color.textMuted, textAlign: 'center' },
+  trialHint: { fontSize: 12, fontWeight: '600', color: V.color.textSecondary, textAlign: 'center', lineHeight: 17, marginTop: 6, marginBottom: 10 },
+  trialDots: { flexDirection: 'row', gap: 7, justifyContent: 'center', marginBottom: 10 },
+  trialDot: { width: 14, height: 14, borderRadius: 7, backgroundColor: '#e1e8e7' },
+  trialDotOn: { backgroundColor: V.color.primary },
+  trialLimit: { textAlign: 'center', fontSize: 12, fontWeight: '800', color: '#9a5b13', marginTop: 10, lineHeight: 17 },
+
+  // DX-5 · rejilla de rotaciones (alto contraste)
+  rotHead: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 10, marginBottom: 14 },
+  rotHeadLbl: { fontSize: 12, fontWeight: '800', letterSpacing: 0.6, color: V.color.textMuted },
+  rotTargetBox: { width: 52, height: 52, borderRadius: 14, backgroundColor: '#0b1220', alignItems: 'center', justifyContent: 'center' },
+  rotTargetTxt: { fontSize: 32, fontWeight: '800', color: '#fff' },
+  rotHeadCount: { fontSize: 14, fontWeight: '800', color: V.color.primaryDark },
+  rotGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 9, justifyContent: 'center' },
+  rotTile: { width: '22%', minWidth: 64, aspectRatio: 1, borderRadius: 14, backgroundColor: '#fff', borderWidth: 2, borderColor: '#0b1220', alignItems: 'center', justifyContent: 'center' },
+  rotTileOk: { backgroundColor: V.color.success, borderColor: V.color.success },
+  rotTileBad: { backgroundColor: V.color.errorBg, borderColor: '#fecdd3' },
+  rotTileTxt: { fontSize: 34, fontWeight: '800', color: '#0b1220' },
+
+  // TEA-1 · Sello Doble (instigación retardada)
+  selloCard: { alignSelf: 'stretch', marginTop: 14, backgroundColor: '#f0fdf9', borderWidth: 1.5, borderColor: '#b8eee9', borderRadius: 16, padding: 14 },
+  selloKicker: { fontSize: 11, fontWeight: '800', letterSpacing: 0.6, color: V.color.primaryDark, textAlign: 'center' },
+  selloHint: { fontSize: 12, fontWeight: '600', color: V.color.textSecondary, textAlign: 'center', lineHeight: 17, marginTop: 6, marginBottom: 11 },
+  selloBtn: { alignSelf: 'center', backgroundColor: V.color.primary, borderRadius: 14, paddingHorizontal: 22, paddingVertical: 13, ...V.shadow.button },
+  selloBtnLocked: { backgroundColor: '#c2cbca' },
+  selloBtnTxt: { color: '#fff', fontSize: 15, fontWeight: '800' },
+  selloCountTxt: { textAlign: 'center', fontSize: 12.5, fontWeight: '800', color: '#0f8a63', marginTop: 10 },
+
+  // TEA-4 · interrupción manual (cápsula sorpresa)
+  breakBtn: { alignSelf: 'stretch', marginTop: 14, backgroundColor: '#fff7ed', borderWidth: 1.5, borderColor: '#fcd9a8', borderRadius: 14, paddingVertical: 13, alignItems: 'center' },
+  breakBtnTxt: { fontSize: 14, fontWeight: '800', color: '#9a5b13' },
 
   // Explicación EPT-3
   eptInfoBtn: { alignSelf: 'center', marginBottom: 12, paddingHorizontal: 10, paddingVertical: 5, borderRadius: 9, backgroundColor: V.color.primaryLight },

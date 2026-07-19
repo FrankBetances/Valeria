@@ -16,7 +16,10 @@ import { META_BY_ID } from './valeriaExerciseMeta';
 // ----------------------------------------------------------------------------
 // Tipos
 // ----------------------------------------------------------------------------
-export type Stage = 'phrase' | 'vowels' | 'fill' | 'intruder' | 'emotions' | 'order' | 'instruction' | 'choice' | 'plural';
+// 'syn' (Dislexia): síntesis fonémica rítmica — fonemas aislados con latencia
+// forzada y fusión por micro o botonera de Juez. 'rotation' (Dislexia): rastreo
+// visual de grafías con inversión espacial (b/d, p/q) con captura de misclicks.
+export type Stage = 'phrase' | 'vowels' | 'fill' | 'intruder' | 'emotions' | 'order' | 'instruction' | 'choice' | 'plural' | 'syn' | 'rotation';
 
 export interface Tile { cap: string; emoji: string; }
 
@@ -60,6 +63,28 @@ export interface Exercise {
   // (ejercicios de Lenguaje, protocolo ACOPROS). Si está presente, sustituye
   // a `read`/`instrIcon`/`instrHint` para cada uno de los 3 sub-pasos.
   levels?: { label: 'Inicial' | 'Intermedio' | 'Avanzado'; read: string; instrIcon: string; instrHint: string }[];
+  // ---- Módulos TEA y Dislexia (campos OPCIONALES: no tocan los stages previos) ----
+  // Dislexia DX-1: intruso AUDITIVO PURO — sin soporte textual; el niño escucha
+  // la serie y aísla el intruso por el oído (validación plegada por variedad).
+  auditoryOnly?: boolean;
+  // Dislexia DX-3 ('syn'): fonemas aislados que la app emite con latencia
+  // forzada entre ellos (phonemeGapMs, 500 ms por protocolo); la fusión se
+  // recoge por micro (STT) o por la botonera de Juez de MicPracticeCard.
+  phonemes?: string[];
+  phonemeGapMs?: number;
+  // Dislexia DX-5 ('rotation'): rejilla de grafías con inversión espacial; el
+  // niño toca TODAS las apariciones de `target`. Los toques fuera de ficha los
+  // captura ValeriaMisclickBoundary (mapa de calor X,Y bajo estrés).
+  rotationTargets?: { target: string; grid: string[] };
+  // Dislexia DX-4: límite RÍGIDO de ensayos por bloque (fatiga cognitiva);
+  // al alcanzarlo el player intercala una cápsula TPR de descarga obligatoria.
+  maxTrials?: number;
+  // TEA-1: Instigación Retardada (Time Delay) — el Sello Doble queda bloqueado
+  // ese nº de segundos y el adulto lo retiene hasta contacto visual real.
+  timeDelaySec?: number;
+  // TEA-4: el adulto puede inyectar una cápsula TPR abrupta A MITAD de flujo
+  // (transición interrumpida). Siempre manual: botón en el player, jamás automático.
+  manualBreak?: boolean;
 }
 
 // ----------------------------------------------------------------------------
@@ -225,6 +250,77 @@ export const DB: Record<string, Exercise> = {
       { label: 'Intermedio', instrIcon: '🍽️', read: 'Ofrécele un muñeco y una cuchara; modela "vamos a darle de comer" y espera que continúe el juego simbólico.', instrHint: 'Inicio de juego simbólico breve con apoyo del modelo.' },
       { label: 'Avanzado', instrIcon: '🎭', read: 'Deja que proponga él un juego de turnos o simbólico y mantén el intercambio sin dirigirlo.', instrHint: 'Reciprocidad espontánea: el niño inicia y mantiene el intercambio.' },
     ] },
+
+  // ==========================================================================
+  // Módulo TEA (PRT + TCC) · 5 ejercicios sobre infraestructura existente.
+  // El estresor SIEMPRE es manual y reversible (Panel del Adulto); la app solo
+  // registra lo que el adulto decidió. Ningún ejercicio ajusta dificultad.
+  // ==========================================================================
+  tea1: { ...meta('tea1'),
+    read: 'Coloca un objeto muy motivador entre tu cara y el niño. Espera 3 segundos ANTES de dar ninguna pista (instigación retardada): el botón del sello se desbloquea solo tras esa espera. Pulsa el Sello Doble ÚNICAMENTE cuando haya contacto visual real contigo, no con el objeto.',
+    stage: 'instruction', instrIcon: '👁️', instrHint: 'Triangula la atención: objeto → tu mirada → el niño. El sello se retiene hasta el contacto visual real; la espera de 3 s es la instigación retardada (Time Delay).',
+    timeDelaySec: 3,
+    move: 'Esconde el objeto tras tu espalda y camina despacio: que te busque la mirada antes de enseñárselo.',
+    ept: ['Todavía no alterna la mirada entre el objeto y tu cara, ni con espera.', 'Te mira si retienes el objeto junto a tu cara y le das una pista.', 'Alterna la mirada objeto→tú él solo, dentro de la espera de 3 segundos.'] },
+  tea2: { ...meta('tea2'),
+    read: 'Este ejercicio usa el Quiebre Pragmático del Panel del Adulto: congelas la app a propósito (orden absurda o silencio) y observas cómo repara el niño la comunicación. Es un estresor MANUAL y reversible al instante: tú decides cuándo empieza y cuándo acaba. Ábrelo abajo en el Panel del Adulto y registra la estrategia que uses.',
+    stage: 'instruction', instrIcon: '🎭', instrHint: 'La "frustración útil" es 100 % humana: la app nunca interrumpe sola. Registra la estrategia de reparación (pedir repetición, gesto, reformular…) en el propio quiebre.',
+    move: 'Tras cada reparación lograda, celebradlo con un choque de manos bien exagerado.',
+    ept: ['No registra el quiebre: se aísla o se desborda sin buscar reparar.', 'Repara con gesto o mirada si tú le sostienes la espera con calma.', 'Repara él solo con petición verbal («¿qué?», «otra vez») o reformulando.'] },
+  tea3: { ...meta('tea3'),
+    read: 'Pulsa 🔊 para que la voz de la app dicte la orden motora y, MIENTRAS suena, haz tú una acción contradictoria (la voz dice «toca tu nariz» y tú te tocas la cabeza). El objetivo es que el niño siga el AUDIO e inhiba la copia de tu gesto.',
+    stage: 'instruction', instrIcon: '🪞', instrHint: 'Inhibición de ecopraxia: seguir la voz, no tu cuerpo. Alterna órdenes congruentes e incongruentes para que no anticipe.',
+    move: 'Jugad a «la voz manda»: la orden sonora vale, el gesto del adulto engaña. ¡Cambiad de papeles!',
+    ept: ['Copia siempre tu gesto (ecopraxia sistemática), aunque oiga la orden.', 'Sigue el audio si le recuerdas «hazlo como DICE, no como HAGO».', 'Sigue la orden hablada él solo aunque tu gesto lo contradiga.'] },
+  tea4: { ...meta('tea4'),
+    read: 'A mitad del juego que más le esté gustando, pulsa «Interrumpir ahora»: aparecerá una cápsula de movimiento abrupta. Observa la transición: ¿la tolera, protesta y sigue, o abandona? Tú decides el momento exacto; la app jamás interrumpe sola.',
+    stage: 'instruction', instrIcon: '⏸️', instrHint: 'Flexibilidad cognitiva ante transiciones no anticipadas. El corte es manual y reversible: puedes saltar la cápsula al instante si se desborda.',
+    manualBreak: true,
+    move: 'Convertid la interrupción en juego: «¡estatua!», tres respiraciones sopladas y de vuelta a la actividad.',
+    ept: ['Abandona la sesión o se desborda con la interrupción, aun con ayuda.', 'Acepta la transición si tú anticipas y acompañas la cápsula.', 'Tolera el corte, hace la cápsula y retoma la actividad él solo.'] },
+  tea5: { ...meta('tea5'),
+    read: 'Pulsa 🔊 para oír las cuatro fichas. Tres van juntas y una no: el niño toca la que NO va con las demás. Después sube POCO A POCO el ruido de fondo desde el Panel del Adulto y repite con otra ronda: anota cómo cambia el acierto con cada nivel de ruido.',
+    stage: 'intruder', stageLabel: 'Toca la ficha que no va con las demás',
+    intruder: [{ cap: 'perro', emoji: '🐶' }, { cap: 'gato', emoji: '🐱' }, { cap: 'caballo', emoji: '🐴' }, { cap: 'cuchara', emoji: '🥄' }], intruderAnswer: 3,
+    move: 'Clasificad juguetes reales en dos cajas (animales / cosas de comer) con música de fondo bajita.',
+    ept: ['Todavía no clasifica la categoría, ni en silencio.', 'Clasifica en silencio, pero pierde la categoría al subir el ruido.', 'Mantiene la clasificación correcta incluso con ruido de fondo alto.'] },
+
+  // ==========================================================================
+  // Módulo Dislexia (fonología + acceso léxico) · 5 ejercicios.
+  // La validación fonológica pasa por el pliegue dialectal (normalizeSpeech →
+  // foldDominican en es-DO): seseo, /s/ implosiva y líquidas en coda NO penalizan.
+  // ==========================================================================
+  dx1: { ...meta('dx1'),
+    read: 'Pulsa 🔊 para que la voz dicte la serie completa. Tres palabras riman y una no: el niño toca el altavoz de la que NO suena como las demás. Sin apoyo de texto: solo el oído.',
+    stage: 'intruder', stageLabel: 'Escucha la serie y toca la que no suena igual',
+    auditoryOnly: true,
+    intruder: [{ cap: 'pino', emoji: '🔊' }, { cap: 'fino', emoji: '🔊' }, { cap: 'lino', emoji: '🔊' }, { cap: 'mesa', emoji: '🔊' }], intruderAnswer: 3,
+    move: 'Palmada en la rodilla con cada palabra que rima; brazos en cruz cuando suene la intrusa.',
+    ept: ['Todavía no aísla la palabra que no rima, ni repitiendo la serie.', 'La encuentra si le repites la serie más despacio o en parejas.', 'Aísla la intrusa él solo con una sola escucha de la serie.'] },
+  dx2: { ...meta('dx2'),
+    read: 'El niño lee la frase de la pantalla en voz alta, de un tirón y sin silabear. Cuando lo consiga en calma, activa el Oso Distractor y algo de ruido desde el Panel del Adulto y repite con otra ronda: valora tú la fluidez, no la app.',
+    stage: 'phrase', stageLabel: 'Lee la frase de un tirón', phrase: 'EL OSO COME PAN', phraseEmoji: '🐻',
+    move: 'Leed la frase caminando: un paso por palabra, sin pararse entre sílabas.',
+    ept: ['Silabea o se detiene en cada palabra, incluso sin distractores.', 'Lee fluido en silencio, pero vuelve a silabear con el oso o el ruido.', 'Mantiene la lectura fluida incluso con interferencia visual y ruido.'] },
+  dx3: { ...meta('dx3'),
+    read: 'Pulsa «Oír los sonidos»: la app emite cada sonido por separado, con una pausa entre ellos. El niño debe unirlos y decir la palabra completa. Recoge la fusión con el micro; si el reconocimiento falla o va lento, valora tú abajo con la escala.',
+    stage: 'syn', stageLabel: 'Une los sonidos y di la palabra',
+    phonemes: ['mmm', 'a', 'nnn', 'o'], phonemeGapMs: 500,
+    phrase: 'MANO', phraseEmoji: '✋',
+    move: 'Un salto por cada sonido y, al decir la palabra entera, ¡salto de estrella!',
+    ept: ['Todavía no une los sonidos: repite fonemas sueltos o abandona.', 'Fusiona la palabra si le repites los sonidos con menos pausa.', 'Une los sonidos y dice la palabra completa él solo a la primera.'] },
+  dx4: { ...meta('dx4'),
+    read: 'La palabra de la pantalla es inventada: no se puede adivinar, solo decodificar. El niño la lee en voz alta tal cual suena. Máximo 5 ensayos: al llegar al límite, la app propone una pausa de movimiento obligatoria para descargar.',
+    stage: 'phrase', stageLabel: 'Lee la palabra inventada tal cual suena', phrase: 'MEPOTI', phraseEmoji: '🪄',
+    maxTrials: 5,
+    move: 'Decid la pseudopalabra dando una palmada por sílaba: ME-PO-TI.',
+    ept: ['Todavía no decodifica la pseudopalabra: la sustituye por palabras reales.', 'La lee con apoyo silabeado del adulto o tras varios modelos.', 'La decodifica él solo, completa y sin convertirla en una palabra real.'] },
+  dx5: { ...meta('dx5'),
+    read: 'Di al niño qué letra buscar (la grande del recuadro) y que toque TODAS las que encuentre en el panel. Las letras gemelas giradas (b/d, p/q) intentan engañarle. Si quieres carga extra, activa el Oso Distractor desde el Panel del Adulto.',
+    stage: 'rotation', stageLabel: 'Encuentra todas las letras objetivo',
+    rotationTargets: { target: 'b', grid: ['b', 'd', 'p', 'b', 'q', 'd', 'b', 'p', 'd', 'q', 'b', 'd'] },
+    move: 'Dibujad la letra objetivo gigante en el aire: la barriga de la «b» mira hacia delante, como al leer.',
+    ept: ['Todavía confunde sistemáticamente las letras giradas (b/d, p/q).', 'Encuentra las letras objetivo con pistas («mira hacia dónde mira la barriga»).', 'Encuentra todas las letras objetivo él solo, sin caer en las giradas.'] },
 };
 
 // ----------------------------------------------------------------------------
@@ -305,6 +401,46 @@ export const VARIANTS: Record<string, Partial<Exercise>[]> = {
     {},
     { emotionFace: '😢', emotionAnswer: 'Tristeza' },
     { emotionFace: '😠', emotionAnswer: 'Enfado' },
+  ],
+  // ---- TEA ----
+  tea5: [
+    {},
+    {
+      read: 'Pulsa 🔊 para oír las cuatro fichas. Tres se comen y una no: el niño toca la que NO va con las demás. Sube el ruido desde el Panel del Adulto ronda a ronda y anota cómo cambia el acierto.',
+      intruder: [{ cap: 'manzana', emoji: '🍎' }, { cap: 'pan', emoji: '🍞' }, { cap: 'queso', emoji: '🧀' }, { cap: 'pelota', emoji: '⚽' }],
+      intruderAnswer: 3,
+    },
+    {
+      read: 'Pulsa 🔊 para oír las cuatro fichas. Tres son para vestirse y una no: el niño toca la que NO va con las demás. Mantén el nivel de ruido que estés probando y compara con las rondas anteriores.',
+      intruder: [{ cap: 'gorro', emoji: '🧢' }, { cap: 'camiseta', emoji: '👕' }, { cap: 'zapato', emoji: '👟' }, { cap: 'fresa', emoji: '🍓' }],
+      intruderAnswer: 3,
+    },
+  ],
+  // ---- Dislexia ----
+  dx1: [
+    {},
+    { intruder: [{ cap: 'pata', emoji: '🔊' }, { cap: 'lata', emoji: '🔊' }, { cap: 'rata', emoji: '🔊' }, { cap: 'luna', emoji: '🔊' }], intruderAnswer: 3 },
+    { intruder: [{ cap: 'casa', emoji: '🔊' }, { cap: 'pasa', emoji: '🔊' }, { cap: 'taza', emoji: '🔊' }, { cap: 'perro', emoji: '🔊' }], intruderAnswer: 3 },
+  ],
+  dx2: [
+    {},
+    { phrase: 'LA NIÑA BEBE ZUMO', phraseEmoji: '🧃' },
+    { phrase: 'MI GATO SALTA ALTO', phraseEmoji: '🐱' },
+  ],
+  dx3: [
+    {},
+    { phonemes: ['sss', 'ooo', 'lll'], phrase: 'SOL', phraseEmoji: '☀️' },
+    { phonemes: ['lll', 'u', 'nnn', 'a'], phrase: 'LUNA', phraseEmoji: '🌙' },
+  ],
+  dx4: [
+    {},
+    { phrase: 'FASLUMO', phraseEmoji: '🌀' },
+    { phrase: 'TINELO', phraseEmoji: '🎈' },
+  ],
+  dx5: [
+    {},
+    { rotationTargets: { target: 'd', grid: ['d', 'b', 'q', 'd', 'p', 'b', 'd', 'q', 'b', 'p', 'd', 'b'] } },
+    { rotationTargets: { target: 'p', grid: ['p', 'q', 'b', 'p', 'd', 'q', 'p', 'b', 'q', 'd', 'p', 'q'] } },
   ],
 };
 
@@ -430,6 +566,9 @@ const linesForExercise = (ex: Exercise): VoiceLine[] => {
   if (ex.scenes?.length) for (const sc of ex.scenes) out.push({ style: 'child', text: sc.say });
   // Práctica de micro dirigida (PR-4): el objetivo se oye como modelo lento.
   if (ex.micTarget) out.push({ style: 'slow', text: ex.micTarget.toLowerCase() });
+  // Síntesis fonémica (DX-3): cada fonema se emite como pieza atómica lenta,
+  // con la latencia entre ellos gestionada por el player (nunca concatenados).
+  if (ex.phonemes?.length) for (const ph of ex.phonemes) out.push({ style: 'slow', text: ph.toLowerCase() });
   return out;
 };
 

@@ -28,8 +28,16 @@ import { InteractionManager } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { encryptJSON, decryptJSON } from './valeriaCrypto';
 
-export type BlockId = 'audicion' | 'lenguaje' | 'pares' | 'expansion';
-export const ALL_BLOCKS: BlockId[] = ['audicion', 'lenguaje', 'pares', 'expansion'];
+export type BlockId = 'audicion' | 'lenguaje' | 'pares' | 'expansion' | 'tea' | 'dislexia';
+export const ALL_BLOCKS: BlockId[] = ['audicion', 'lenguaje', 'pares', 'expansion', 'tea', 'dislexia'];
+
+// Umbral de disparo del SUS: N bloques DISTINTOS completados en la sesión.
+// Desacoplado del total de ALL_BLOCKS a propósito: cuando la familia de bloques
+// creció de 4 a 6 (TEA, Dislexia), exigir "todos" habría hecho que los pilotos
+// en curso no volvieran a alcanzar el hito jamás (regresión silenciosa del SUS).
+// Con el umbral, el hito histórico de 4 bloques sigue disparando exactamente
+// igual y los módulos nuevos ni lo bloquean ni lo fuerzan.
+export const SUS_BLOCK_THRESHOLD = 4;
 
 // Estrategias de reparación comunicativa observables tras un quiebre pragmático
 // (orden absurda o murmullo del adulto). Enum cerrado: viaja tal cual en el
@@ -233,7 +241,7 @@ export const isDualTaskActive = (): boolean => dualTaskOn;
 export function markBlockCompleted(block: BlockId): void {
   if (!cur.blocks.includes(block)) cur.blocks.push(block);
   scheduleFlush();
-  if (ALL_BLOCKS.every((b) => cur.blocks.includes(b))) void maybeRequestSus();
+  if (cur.blocks.length >= SUS_BLOCK_THRESHOLD) void maybeRequestSus();
 }
 
 // ---- SUS: rate limiting (hito de 4 bloques Y como mucho 1 vez/semana) ----
@@ -339,7 +347,9 @@ export async function buildExport(): Promise<ExportBundle> {
     mcUi += s.misclicks.ui;
     mcDual += s.misclicks.dualTask;
     if (s.likert) { likertSum += s.likert.score; likertN += 1; }
-    if (ALL_BLOCKS.every((b) => s.blocks.includes(b))) fullRuns += 1;
+    // Mismo umbral que el disparo del SUS: una "vuelta completa" son ≥4 bloques
+    // distintos (el hito histórico del piloto), no la familia entera de 6.
+    if (s.blocks.length >= SUS_BLOCK_THRESHOLD) fullRuns += 1;
     if (s.noiseEvents.some((e) => e.level > 0)) noiseSessions += 1;
     repairs += s.repairEvents.length;
     routeStarted += s.routes.validated + s.routes.failed; // órdenes juzgadas por el adulto

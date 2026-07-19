@@ -33,7 +33,7 @@ Expo SDK 54 · React Native 0.81 · TypeScript · Backend opcional Firebase
 ## ¿Qué es Valeria+?
 
 Valeria+ reúne en un solo lugar el **registro del paciente**, una comprobación
-auditiva previa (**Test de Ling**), **cuatro bloques de terapia** y un **panel de
+auditiva previa (**Test de Ling**), **seis bloques de terapia** y un **panel de
 resultados** para seguir la evolución.
 
 Parte de un principio clave: **los padres y cuidadores son el motor de voz y
@@ -50,6 +50,8 @@ cualquier dispositivo y **sin conexión**.
 | 🧩 **Expansión Semántica** | Progresión léxica para intervención temprana: 5 escenarios diarios, 7 progresiones (onomatopeya → adjetivo) y 6 cápsulas de contraste, uniendo imagen, voz y acción física. |
 | 👂 **Audición** (13 terapias) | Protocolo ACOPROS: fonética‑fonología, semántica, morfosintaxis y pragmática para audífono, implante coclear o hipoacusia. |
 | 💬 **Lenguaje** (7 terapias) | Protocolo familiar: atención conjunta, imitación, comprensión, expresión, comunicación funcional, regulación e interacción social. |
+| 🧠 **TEA** (5 terapias) | PRT + TCC: atención conjunta triangulada (Time Delay + Sello Doble), quiebre pragmático con consentimiento, espejo asimétrico, transición interrumpida y categorización bajo ruido. Todos los estresores son **manuales** (Panel del Adulto). |
+| 📖 **Dislexia** (5 terapias) | Fonología y acceso léxico: intruso fonológico auditivo puro, rastreo léxico con interferencia, síntesis fonémica rítmica (latencia 500 ms + Juez), criba de pseudopalabras (máx. 5 ensayos) y rastreo visual de rotaciones b/d · p/q con mapa de misclicks. |
 
 El **Test de Ling** (6 sonidos) precede a los ejercicios de audición cuando el
 paciente usa audífono o implante, y la **gamificación** (XP, racha 🔥, niveles e
@@ -139,10 +141,10 @@ con *debounce* vía `InteractionManager`, de modo que el cifrado y el guardado e
 | ⏱️ **Tiempo activo por pantalla** | El navegador anota cada cambio de ruta (`noteScreen`); solo aritmética de timestamps. |
 | 👆 **Misclicks** (toques fuera de zonas interactivas) | `ValeriaMisclickBoundary` usa el sistema de *responder* de RN: solo los toques en zonas muertas llegan a la raíz. Cede el gesto al scroll. |
 | 🧩 **Abandono intra‑cápsula TPR** | Se cuentan cápsulas mostradas vs. saltadas vs. completadas en el player. |
-| 💬 **Evaluación subjetiva (SUS adaptado)** | Modal Likert 1‑5 (`ValeriaSUSModal`) orientado a la **carga de uso real** ("integrar el ejercicio en la rutina de mi hijo/a"). *Rate limiting* para evitar sesgo de fatiga: solo en el **hito de 4 bloques** y **máx. 1 vez/semana** por dispositivo. |
+| 💬 **Evaluación subjetiva (SUS adaptado)** | Modal Likert 1‑5 (`ValeriaSUSModal`) orientado a la **carga de uso real** ("integrar el ejercicio en la rutina de mi hijo/a"). *Rate limiting* para evitar sesgo de fatiga: solo en el **hito de 4 bloques distintos** (umbral desacoplado del total de 6: los módulos TEA/Dislexia ni lo bloquean ni lo fuerzan) y **máx. 1 vez/semana** por dispositivo. |
 | 🔒 **Persistencia y correlación** | Telemetría + Likert se guardan en un **JSON cifrado en reposo** (`valeriaCrypto`, keystream SHA‑256 en JS puro) bajo el **mismo id de sesión**. Se **purga solo tras una exportación exitosa**, evitando el desborde de memoria semana a semana. |
 
-**Exportación dual** (Modo Profesional, PIN `1985` desde el hub de 4 bloques →
+**Exportación dual** (Modo Profesional, PIN `1985` desde el hub de bloques →
 `ValeriaProExport`):
 
 - **Offline puro** → **código QR** con el resumen estadístico comprimido

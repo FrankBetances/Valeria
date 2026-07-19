@@ -10,7 +10,7 @@
 > Base clínica: *Protocolo Clínico Integral — Arquitectura Terapéutica para TEA
 > y Dislexia en Valeria+*. Encuadre regulatorio: **SaMD Clase IIa (MDR)**.
 >
-> Estado: 📋 planificación · Rama de trabajo: `claude/tea-dislexia-modules-osxu1d`
+> Estado: ✅ implementado (fases 0-5) · Rama de trabajo: `claude/tea-dislexia-integration-w9bkuz`
 
 ---
 
@@ -316,12 +316,20 @@ intactos). Las fases 1-4 pueden fusionarse de forma independiente.
 
 ## 10. Seguimiento
 
-- [ ] **Fase 0** — `BlockId` + desacople SUS + `Stage`/campos opcionales · typecheck verde
-- [ ] **Fase 1** — Dislexia (3 ejercicios de reutilización) + tarjeta de hub
-- [ ] **Fase 2** — Dislexia stages `syn` y `rotation` + heatmap + voz
-- [ ] **Fase 3** — TEA (5 ejercicios) + consentimiento del Quiebre + tarjeta de hub
-- [ ] **Fase 4** — Overrides es-DO + revisión logopédica + horneado neuronal
-- [ ] **Fase 5** — Protocolos clínicos en `docs/`, README (6 bloques) y manual
+- [x] **Fase 0** — `BlockId` + desacople SUS por umbral (`SUS_BLOCK_THRESHOLD = 4`) + `Stage`/campos opcionales · typecheck verde
+- [x] **Fase 1** — Dislexia (DX-1 `auditoryOnly`, DX-2 Oso+Ruido, DX-4 `maxTrials: 5` + botonera de Juez) + tarjeta 📖 de hub
+- [x] **Fase 2** — Dislexia stages `syn` (latencia 500 ms + Juez) y `rotation` (b/d, p/q + misclicks) + líneas de voz enumeradas y corpus regenerado
+- [x] **Fase 3** — TEA (TEA-1 Time Delay + Sello Doble, TEA-2 Quiebre vía Panel, TEA-3 Espejo, TEA-4 cápsula manual, TEA-5 intruso+ruido) + consentimiento informado persistido + tarjeta 🧠 de hub
+- [x] **Fase 4** — Overrides es-DO (gorra, jugo; léxico base ya sin falsos amigos) · pendiente revisión logopédica final y horneado neuronal en CI
+- [x] **Fase 5** — README (6 bloques) y este plan actualizados · pendiente ampliar el manual de casos de uso con capturas reales
+
+**Notas de implementación** (2026-07): el hito del SUS y el recuento
+`fullBlockRuns` de la exportación comparten el mismo umbral de ≥ 4 bloques
+distintos, de modo que los pilotos en curso conservan exactamente el disparo
+histórico. No hay tests automatizados en el árbol: la red de seguridad es
+`npm run typecheck` (union `Stage` cerrada) + la compilación Node del corpus
+(`scripts/export-voice-corpus.js`), que falla en build-time si el banco deja
+de ser puro, + humo manual de los 4 bloques originales.
 
 **Verificación transversal en cada PR:** `npm run typecheck` en verde · humo
 manual de los 4 bloques actuales sin cambio · muro MDR intacto (cero ajuste

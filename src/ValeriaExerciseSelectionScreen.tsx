@@ -8,7 +8,7 @@
 // prescritos del bloque en una sola sesión ({ ids }) en lugar de uno a uno.
 // ============================================================================
 import React, { useEffect, useState } from 'react';
-import { View, Text, Pressable, ScrollView, Switch, StyleSheet } from 'react-native';
+import { View, Text, Pressable, ScrollView, Switch, StyleSheet, Modal } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { V, STORAGE_KEYS } from './valeriaTheme';
 import { enableDailyReminders, disableReminders, remindersEnabled } from './valeriaNotifications';
@@ -16,7 +16,7 @@ import { loadGame, liveStreak, levelFor, levelName } from './valeriaGamification
 import { ProUnlockPill, ProPinModal } from './ValeriaProPin';
 import { ValeriaProExportModal } from './ValeriaProExport';
 import { VoiceQualityCard } from './ValeriaVoiceUI';
-import { AUDICION_META, LENGUAJE_META, AGE_BANDS } from './valeriaExerciseMeta';
+import { AUDICION_META, LENGUAJE_META, TEA_META, DISLEXIA_META, AGE_BANDS } from './valeriaExerciseMeta';
 // import logoWhite from '../../assets/valeria-logo-white.png';
 
 // ----------------------------------------------------------------------------
@@ -24,20 +24,38 @@ import { AUDICION_META, LENGUAJE_META, AGE_BANDS } from './valeriaExerciseMeta';
 // con el player: un cambio se refleja en ambas pantallas a la vez.
 const EXERCISES_AUD = AUDICION_META;
 const EXERCISES_LEN = LENGUAJE_META;
+const EXERCISES_TEA = TEA_META;
+const EXERCISES_DIX = DISLEXIA_META;
+
+type BlockTab = 'audicion' | 'lenguaje' | 'tea' | 'dislexia';
+
+// Cabecera y etiqueta de lista por bloque meta-dirigido.
+const TAB_INFO: Record<BlockTab, { title: string; label: string }> = {
+  audicion: { title: '👂 Audición', label: 'PROTOCOLO ACOPROS · AUDICIÓN' },
+  lenguaje: { title: '💬 Lenguaje', label: 'PROTOCOLO FAMILIAR · LENGUAJE' },
+  tea: { title: '🧠 TEA', label: 'PROTOCOLO TEA · PRT + TCC' },
+  dislexia: { title: '📖 Dislexia', label: 'PROTOCOLO DISLEXIA · FONOLOGÍA Y ACCESO LÉXICO' },
+};
 
 // ----------------------------------------------------------------------------
 export const ValeriaExerciseSelectionScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
-  const [tab, setTab] = useState<'audicion' | 'lenguaje'>('audicion');
-  // 'hub' = las 4 tarjetas de bloques · 'list' = la lista prescribible (audición/lenguaje).
+  const [tab, setTab] = useState<BlockTab>('audicion');
+  // 'hub' = las tarjetas de bloques · 'list' = la lista prescribible del bloque.
   const [view, setView] = useState<'hub' | 'list'>('hub');
   const [unlocked, setUnlocked] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
-  // Acceso Profesional desde el hub (4 bloques): PIN 1985 → exportación dual.
+  // Acceso Profesional desde el hub: PIN 1985 → exportación dual.
   const [hubPinOpen, setHubPinOpen] = useState(false);
   const [exportOpen, setExportOpen] = useState(false);
   const [toast, setToast] = useState('');
   const [activeAud, setActiveAud] = useState<boolean[]>(new Array(EXERCISES_AUD.length).fill(true));
   const [activeLen, setActiveLen] = useState<boolean[]>(new Array(EXERCISES_LEN.length).fill(true));
+  const [activeTea, setActiveTea] = useState<boolean[]>(new Array(EXERCISES_TEA.length).fill(true));
+  const [activeDix, setActiveDix] = useState<boolean[]>(new Array(EXERCISES_DIX.length).fill(true));
+  // Consentimiento informado del módulo TEA (Quiebre Pragmático): el encuadre
+  // se acepta UNA vez en Modo Familia y queda persistido en el dispositivo.
+  const [teaConsentOk, setTeaConsentOk] = useState(false);
+  const [teaConsentOpen, setTeaConsentOpen] = useState(false);
   const [usesHearingDevice, setUsesHearingDevice] = useState(false);
   const [reminders, setReminders] = useState(false);
   const [streak, setStreak] = useState(0);
@@ -50,6 +68,11 @@ export const ValeriaExerciseSelectionScreen: React.FC<{ navigation: any }> = ({ 
         if (a) { const p = JSON.parse(a); if (Array.isArray(p) && p.length === EXERCISES_AUD.length) setActiveAud(p); }
         const l = await AsyncStorage.getItem(STORAGE_KEYS.lenguaje);
         if (l) { const p = JSON.parse(l); if (Array.isArray(p) && p.length === EXERCISES_LEN.length) setActiveLen(p); }
+        const t = await AsyncStorage.getItem(STORAGE_KEYS.tea);
+        if (t) { const p = JSON.parse(t); if (Array.isArray(p) && p.length === EXERCISES_TEA.length) setActiveTea(p); }
+        const d = await AsyncStorage.getItem(STORAGE_KEYS.dislexia);
+        if (d) { const p = JSON.parse(d); if (Array.isArray(p) && p.length === EXERCISES_DIX.length) setActiveDix(p); }
+        setTeaConsentOk((await AsyncStorage.getItem(STORAGE_KEYS.teaConsent)) === 'ok');
         const r = await AsyncStorage.getItem(STORAGE_KEYS.registro);
         if (r) {
           const patologia = JSON.parse(r)?.patologia ?? '';
@@ -80,9 +103,9 @@ export const ValeriaExerciseSelectionScreen: React.FC<{ navigation: any }> = ({ 
   };
 
   const isAud = tab === 'audicion';
-  const list = isAud ? EXERCISES_AUD : EXERCISES_LEN;
-  const active = isAud ? activeAud : activeLen;
-  const setActive = isAud ? setActiveAud : setActiveLen;
+  const list = tab === 'audicion' ? EXERCISES_AUD : tab === 'lenguaje' ? EXERCISES_LEN : tab === 'tea' ? EXERCISES_TEA : EXERCISES_DIX;
+  const active = tab === 'audicion' ? activeAud : tab === 'lenguaje' ? activeLen : tab === 'tea' ? activeTea : activeDix;
+  const setActive = tab === 'audicion' ? setActiveAud : tab === 'lenguaje' ? setActiveLen : tab === 'tea' ? setActiveTea : setActiveDix;
   const activeCount = active.filter(Boolean).length;
 
   const toggle = (i: number) => {
@@ -95,9 +118,26 @@ export const ValeriaExerciseSelectionScreen: React.FC<{ navigation: any }> = ({ 
     try {
       await AsyncStorage.setItem(STORAGE_KEYS.audicion, JSON.stringify(activeAud));
       await AsyncStorage.setItem(STORAGE_KEYS.lenguaje, JSON.stringify(activeLen));
+      await AsyncStorage.setItem(STORAGE_KEYS.tea, JSON.stringify(activeTea));
+      await AsyncStorage.setItem(STORAGE_KEYS.dislexia, JSON.stringify(activeDix));
     } catch (e) { /* noop */ }
-    const n = activeAud.filter(Boolean).length + activeLen.filter(Boolean).length;
+    const n = activeAud.filter(Boolean).length + activeLen.filter(Boolean).length
+      + activeTea.filter(Boolean).length + activeDix.filter(Boolean).length;
     setUnlocked(false); setToast(`Prescripción guardada · ${n} terapias activas.`);
+  };
+
+  // Módulo TEA: la primera entrada exige aceptar el encuadre del Quiebre
+  // Pragmático (estresor manual y reversible). Aceptado una vez, entra directo.
+  const openTea = () => {
+    setToast('');
+    if (!teaConsentOk) { setTeaConsentOpen(true); return; }
+    setTab('tea'); setView('list');
+  };
+  const acceptTeaConsent = async () => {
+    try { await AsyncStorage.setItem(STORAGE_KEYS.teaConsent, 'ok'); } catch (e) { /* noop */ }
+    setTeaConsentOk(true);
+    setTeaConsentOpen(false);
+    setTab('tea'); setView('list');
   };
 
   // Tarjeta de bloque del hub: icono con color de acento, título, subtítulo y,
@@ -134,7 +174,7 @@ export const ValeriaExerciseSelectionScreen: React.FC<{ navigation: any }> = ({ 
   return (
     <View style={s.flex}>
       {view === 'hub' ? (
-        // ============================ HUB: 4 tarjetas ============================
+        // ===================== HUB: tarjetas de bloques =====================
         <>
           <View style={s.header}>
             <Pressable onPress={() => navigation.goBack()} style={s.backPill}><Text style={s.backPillTxt}>‹ Volver</Text></Pressable>
@@ -181,6 +221,18 @@ export const ValeriaExerciseSelectionScreen: React.FC<{ navigation: any }> = ({ 
               onPress: () => { setTab('lenguaje'); setToast(''); setView('list'); },
               a11y: 'Abrir terapias de lenguaje', total: EXERCISES_LEN.length, activeN: activeLen.filter(Boolean).length,
             })}
+            {blockCard({
+              icon: '🧠', accentBg: '#fdeef2', accentFg: '#c2477e',
+              title: 'TEA', sub: 'PRT + TCC: atención conjunta triangulada, reparación comunicativa y flexibilidad. Estresores siempre manuales.',
+              onPress: openTea,
+              a11y: 'Abrir terapias del módulo TEA', total: EXERCISES_TEA.length, activeN: activeTea.filter(Boolean).length,
+            })}
+            {blockCard({
+              icon: '📖', accentBg: '#f3e8fd', accentFg: '#8b5cf6',
+              title: 'Dislexia', sub: 'Conciencia fonológica, síntesis fonémica, pseudopalabras y rastreo de letras giradas (b/d, p/q).',
+              onPress: () => { setTab('dislexia'); setToast(''); setView('list'); },
+              a11y: 'Abrir terapias del módulo Dislexia', total: EXERCISES_DIX.length, activeN: activeDix.filter(Boolean).length,
+            })}
 
             <View style={s.remindCard}>
               <View style={s.remindIcon}><Text style={{ fontSize: 17 }}>🔔</Text></View>
@@ -216,22 +268,26 @@ export const ValeriaExerciseSelectionScreen: React.FC<{ navigation: any }> = ({ 
           <View style={s.header}>
             <Pressable onPress={() => { setView('hub'); setToast(''); }} style={s.backPill}><Text style={s.backPillTxt}>‹ Bloques</Text></Pressable>
             <Text style={s.logoFallback}>valeria+</Text>
-            <Text style={s.headerTitle}>{isAud ? '👂 Audición' : '💬 Lenguaje'}</Text>
+            <Text style={s.headerTitle}>{TAB_INFO[tab].title}</Text>
             <Text style={s.headerSub}>{unlocked ? 'Edición profesional habilitada' : 'Modo Familia · solo lectura'}</Text>
-            <View style={s.tabs}>
-              {(['audicion', 'lenguaje'] as const).map((t) => {
-                const on = tab === t;
-                const count = t === 'audicion' ? EXERCISES_AUD.length : EXERCISES_LEN.length;
-                return (
-                  <Pressable key={t} onPress={() => { setTab(t); setToast(''); }} style={[s.tab, on && s.tabOn]} accessibilityRole="tab" accessibilityState={{ selected: on }}>
-                    <Text style={[s.tabTxt, { color: on ? V.color.primaryDark : 'rgba(255,255,255,.85)' }]}>{t === 'audicion' ? 'Audición' : 'Lenguaje'}</Text>
-                    <View style={[s.tabBadge, { backgroundColor: on ? V.color.primaryLight : 'rgba(255,255,255,.22)' }]}>
-                      <Text style={{ fontSize: 11, fontWeight: '800', color: on ? V.color.primaryDark : '#fff' }}>{count}</Text>
-                    </View>
-                  </Pressable>
-                );
-              })}
-            </View>
+            {/* Las pestañas emparejan solo Audición↔Lenguaje (protocolos hermanos);
+                TEA y Dislexia entran cada uno por su tarjeta del hub. */}
+            {(tab === 'audicion' || tab === 'lenguaje') && (
+              <View style={s.tabs}>
+                {(['audicion', 'lenguaje'] as const).map((t) => {
+                  const on = tab === t;
+                  const count = t === 'audicion' ? EXERCISES_AUD.length : EXERCISES_LEN.length;
+                  return (
+                    <Pressable key={t} onPress={() => { setTab(t); setToast(''); }} style={[s.tab, on && s.tabOn]} accessibilityRole="tab" accessibilityState={{ selected: on }}>
+                      <Text style={[s.tabTxt, { color: on ? V.color.primaryDark : 'rgba(255,255,255,.85)' }]}>{t === 'audicion' ? 'Audición' : 'Lenguaje'}</Text>
+                      <View style={[s.tabBadge, { backgroundColor: on ? V.color.primaryLight : 'rgba(255,255,255,.22)' }]}>
+                        <Text style={{ fontSize: 11, fontWeight: '800', color: on ? V.color.primaryDark : '#fff' }}>{count}</Text>
+                      </View>
+                    </Pressable>
+                  );
+                })}
+              </View>
+            )}
           </View>
 
           {/* key por pestaña: cambiar de vista o de pestaña arranca arriba,
@@ -266,7 +322,7 @@ export const ValeriaExerciseSelectionScreen: React.FC<{ navigation: any }> = ({ 
             })()}
 
             <View style={s.listHead}>
-              <Text style={s.listLabel}>{isAud ? 'PROTOCOLO ACOPROS · AUDICIÓN' : 'PROTOCOLO FAMILIAR · LENGUAJE'}</Text>
+              <Text style={s.listLabel}>{TAB_INFO[tab].label}</Text>
               <View style={s.countBadge}><Text style={s.countBadgeTxt}>{activeCount} prescritos</Text></View>
             </View>
 
@@ -280,6 +336,27 @@ export const ValeriaExerciseSelectionScreen: React.FC<{ navigation: any }> = ({ 
                   (Asociación Coruñesa de Promoción del Sordo), organizadas en 4 áreas: sonidos,
                   vocabulario, frases y uso social. Las edades son orientativas: empieza por las de
                   la edad de tu peque y deja que el logopeda ajuste la prescripción.
+                </Text>
+              </View>
+            )}
+            {tab === 'tea' && (
+              <View style={s.refCard}>
+                <Text style={{ fontSize: 15 }}>ℹ️</Text>
+                <Text style={s.refCardTxt}>
+                  Batería PRT + TCC: la app orquesta las contingencias, pero la carga (quiebre
+                  pragmático, ruido, oso distractor) SIEMPRE la acciona el adulto desde el Panel del
+                  Adulto y es reversible al instante. La app nunca interrumpe ni ajusta nada sola, y
+                  el veredicto clínico es siempre tuyo y de tu logopeda.
+                </Text>
+              </View>
+            )}
+            {tab === 'dislexia' && (
+              <View style={s.refCard}>
+                <Text style={{ fontSize: 15 }}>ℹ️</Text>
+                <Text style={s.refCardTxt}>
+                  Batería de conciencia fonológica y acceso léxico. La validación por voz respeta el
+                  habla de cada variedad (en dominicano, el seseo o la ese aspirada NUNCA cuentan
+                  como error) y la Criba de Pseudopalabras corta en 5 ensayos con pausa de descarga.
                 </Text>
               </View>
             )}
@@ -368,6 +445,36 @@ export const ValeriaExerciseSelectionScreen: React.FC<{ navigation: any }> = ({ 
         onUnlock={() => { setHubPinOpen(false); setExportOpen(true); }}
       />
       <ValeriaProExportModal open={exportOpen} onClose={() => setExportOpen(false)} />
+
+      {/* ===== Consentimiento informado del módulo TEA (Quiebre Pragmático) =====
+          Encuadre en Modo Familia: se explica QUÉ es el estresor, que es manual
+          y reversible, y se acepta explícitamente antes de la primera entrada. */}
+      <Modal visible={teaConsentOpen} transparent animationType="fade" onRequestClose={() => setTeaConsentOpen(false)}>
+        <View style={s.consentOverlay}>
+          <View style={s.consentCard}>
+            <Text style={{ fontSize: 34, textAlign: 'center' }}>🧠</Text>
+            <Text style={s.consentTitle}>Antes de empezar con TEA</Text>
+            <Text style={s.consentTxt}>
+              Este módulo incluye el <Text style={{ fontWeight: '800' }}>Quiebre Pragmático</Text>: un
+              ejercicio en el que TÚ congelas la app a propósito (una orden absurda o un silencio) para
+              observar cómo tu peque repara la comunicación. Puede generarle una frustración breve y
+              controlada — es el objetivo terapéutico, pautado por vuestro logopeda.
+            </Text>
+            <View style={s.consentList}>
+              <Text style={s.consentItem}>✋ El estresor lo lanzas siempre tú, desde el Panel del Adulto.</Text>
+              <Text style={s.consentItem}>↩️ Es reversible al instante: un toque y la app vuelve a la normalidad.</Text>
+              <Text style={s.consentItem}>🚫 La app nunca interrumpe, sube la dificultad ni diagnostica sola.</Text>
+              <Text style={s.consentItem}>🛑 Si tu peque se desborda, para: no hay ningún mínimo que cumplir.</Text>
+            </View>
+            <Pressable onPress={acceptTeaConsent} style={s.consentAccept} accessibilityRole="button" accessibilityLabel="Aceptar el encuadre y entrar al módulo TEA">
+              <Text style={s.consentAcceptTxt}>Lo entiendo y acepto el encuadre</Text>
+            </Pressable>
+            <Pressable onPress={() => setTeaConsentOpen(false)} accessibilityRole="button" accessibilityLabel="Ahora no">
+              <Text style={s.consentCancel}>Ahora no</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
@@ -447,6 +554,17 @@ const s = StyleSheet.create({
   helper: { textAlign: 'center', color: V.color.textMuted, fontSize: 11.5, marginTop: 11, fontWeight: '600', paddingHorizontal: 14 },
   lockedHint: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 7, marginTop: 18, paddingHorizontal: 18 },
   lockedHintTxt: { color: V.color.textMuted, fontSize: 12, fontWeight: '700', textAlign: 'center' },
+
+  // Consentimiento informado TEA
+  consentOverlay: { flex: 1, backgroundColor: 'rgba(11,18,32,.72)', alignItems: 'center', justifyContent: 'center', padding: 24 },
+  consentCard: { width: '100%', maxWidth: 380, backgroundColor: '#fff', borderRadius: 24, padding: 22 },
+  consentTitle: { fontSize: 19, fontWeight: '800', color: V.color.textPrimary, textAlign: 'center', marginTop: 8 },
+  consentTxt: { fontSize: 13, fontWeight: '600', color: V.color.textSecondary, lineHeight: 19, marginTop: 10, textAlign: 'center' },
+  consentList: { marginTop: 12, backgroundColor: V.color.pageBg, borderRadius: 14, padding: 13, gap: 8 },
+  consentItem: { fontSize: 12.5, fontWeight: '700', color: V.color.textPrimary, lineHeight: 17 },
+  consentAccept: { marginTop: 16, backgroundColor: V.color.primary, borderRadius: 14, paddingVertical: 14, alignItems: 'center', ...V.shadow.button },
+  consentAcceptTxt: { color: '#fff', fontSize: 15, fontWeight: '800' },
+  consentCancel: { textAlign: 'center', color: V.color.textMuted, fontSize: 13, fontWeight: '800', marginTop: 12 },
 });
 
 export default ValeriaExerciseSelectionScreen;

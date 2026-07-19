@@ -45,7 +45,27 @@ export const LENGUAJE_META: ExerciseMeta[] = [
   { id: 'interaccion_social', code: 'M-7', name: 'Interacción Social', category: 'Turnos, juego simbólico, emociones' },
 ];
 
+// Módulo TEA (PRT + TCC): el software orquesta las contingencias; la carga
+// comunicativa, los estresores y el veredicto son SIEMPRE del adulto (muro MDR).
+export const TEA_META: ExerciseMeta[] = [
+  { id: 'tea1', code: 'TEA-1', name: 'Atención Conjunta Triangulada', category: 'PRT · contacto visual y sello doble' },
+  { id: 'tea2', code: 'TEA-2', name: 'Quiebre Pragmático Inducido', category: 'Reparación comunicativa (manual)' },
+  { id: 'tea3', code: 'TEA-3', name: 'Espejo Asimétrico', category: 'Inhibición de ecopraxia' },
+  { id: 'tea4', code: 'TEA-4', name: 'Transición Interrumpida', category: 'Flexibilidad cognitiva (manual)' },
+  { id: 'tea5', code: 'TEA-5', name: 'Categorización bajo Carga Sensorial', category: 'Clasificación con ruido babble (manual)' },
+];
+
+// Módulo Dislexia (fonología + acceso léxico): validación fonológica plegada
+// por variedad (es-DO: seseo, /s/ implosiva y líquidas en coda NO son error).
+export const DISLEXIA_META: ExerciseMeta[] = [
+  { id: 'dx1', code: 'DX-1', name: 'El Intruso Fonológico', category: 'Conciencia fonológica (auditivo puro)' },
+  { id: 'dx2', code: 'DX-2', name: 'Rastreo Léxico con Interferencia', category: 'Fluidez lectora bajo carga (manual)' },
+  { id: 'dx3', code: 'DX-3', name: 'Síntesis Fonémica Rítmica', category: 'Fusión de fonemas con latencia' },
+  { id: 'dx4', code: 'DX-4', name: 'Criba de Pseudopalabras', category: 'Decodificación · máx. 5 ensayos' },
+  { id: 'dx5', code: 'DX-5', name: 'Rastreo Visual de Rotaciones', category: 'Grafías b/d · p/q (mapa de misclicks)' },
+];
+
 // Índice por id para el player (DB de mini-juegos).
 export const META_BY_ID: Record<string, ExerciseMeta> = Object.fromEntries(
-  [...AUDICION_META, ...LENGUAJE_META].map((m) => [m.id, m]),
+  [...AUDICION_META, ...LENGUAJE_META, ...TEA_META, ...DISLEXIA_META].map((m) => [m.id, m]),
 );

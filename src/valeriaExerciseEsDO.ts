@@ -53,6 +53,12 @@ export const EXERCISE_ESDO: Record<string, Partial<Exercise>> = {
   // MS-3 · Registro: "el niño se come la manzana" suena más natural en RD, pero
   // la frase objetivo se mantiene neutra para no romper el juego de orden.
   // (sin cambios de datos; heredada del base)
+
+  // TEA y Dislexia: el léxico base ya evita los falsos amigos peninsulares
+  // (coche, plátano) y las series de DX-1 no dependen de la /s/ en coda ni de
+  // la distinción /s/–/θ/, así que solo cambian las rondas listadas en
+  // VARIANTS_ESDO (gorra, jugo). La validación por micro de DX-2/DX-3/DX-4 pasa
+  // por normalizeSpeech → foldDominican, que pliega seseo y elisiones solo.
 };
 
 // Sobrescrituras por RONDA (VARIANTS). Solo los ejercicios cuyas variantes
@@ -93,5 +99,27 @@ export const VARIANTS_ESDO: Record<string, Partial<Exercise>[]> = {
       plural: { cap: 'pez', capPlural: 'peces', emoji: '🐟', gender: 'm' },
       evalPluralByDeterminer: true, pluralDeterminer: 'muchos',
     },
+  ],
+  // TEA-5 · Categorización: en RD el gorro con visera es la "gorra" (igual que
+  // en el intruso de vestirse de SE-1). La lista de rondas SUSTITUYE a la base,
+  // así que la ronda 2 (comida) replica sus datos; la ronda 1 ({}) hereda el base.
+  tea5: [
+    {},
+    {
+      read: 'Toca 🔊 para oír las cuatro fichas. Tres se comen y una no: el niño toca la que NO va con las demás. Sube el ruido desde el Panel del Adulto ronda a ronda y anota cómo cambia el acierto.',
+      intruder: [{ cap: 'manzana', emoji: '🍎' }, { cap: 'pan', emoji: '🍞' }, { cap: 'queso', emoji: '🧀' }, { cap: 'pelota', emoji: '⚽' }],
+      intruderAnswer: 3,
+    },
+    {
+      read: 'Toca 🔊 para oír las cuatro fichas. Tres son para vestirse y una no: el niño toca la que NO va con las demás. Mantén el nivel de ruido que estés probando y compara con las rondas anteriores.',
+      intruder: [{ cap: 'gorra', emoji: '🧢' }, { cap: 'camiseta', emoji: '👕' }, { cap: 'zapato', emoji: '👟' }, { cap: 'fresa', emoji: '🍓' }],
+      intruderAnswer: 3,
+    },
+  ],
+  // DX-2 · Rastreo léxico: en RD no se dice "zumo", se dice "jugo" (ACADOM).
+  dx2: [
+    {},
+    { phrase: 'LA NIÑA BEBE JUGO', phraseEmoji: '🧃' },
+    { phrase: 'MI GATO SALTA ALTO', phraseEmoji: '🐱' },
   ],
 };
