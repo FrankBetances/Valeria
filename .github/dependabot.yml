@@ -1,61 +1,46 @@
 # Dependabot · Valeria+
 # ---------------------------------------------------------------------------
-# Abre PRs automáticas para mantener las dependencias al día y parchear
-# vulnerabilidades. Cubre dos ecosistemas:
-#   - npm            → dependencias de la app (package.json / package-lock.json)
-#   - github-actions → versiones de las Actions usadas en .github/workflows
+# ⚠️ IMPORTANTE — LECCIÓN APRENDIDA
+# Este es un proyecto Expo (SDK 54). Los paquetes `expo`, `expo-*`, `react`,
+# `react-native`, `react-native-*`, `@types/react` y `typescript` están
+# ATADOS a la versión del SDK: solo deben moverse TODOS JUNTOS, mediante
+# `npx expo install --fix` o una actualización de SDK. Dejar que Dependabot
+# los suba sueltos ROMPE el build (paquetes saltando a versiones de otro SDK).
 #
-# NOTA: este archivo activa las "version updates". Las "security updates"
-# (parches automáticos ante alertas) y las alertas de vulnerabilidad se
-# activan además en Settings → Security → "Dependabot alerts" y
-# "Dependabot security updates". Ambas son gratuitas para repos públicos.
+# Por eso NO habilitamos "version updates" para el ecosistema npm. Las
+# dependencias de la app se gestionan a mano con:
+#     npx expo install --fix          (alinea todo con el SDK instalado)
+#     npx expo install exp<paquete>   (añadir uno nuevo compatible)
+#
+# Las vulnerabilidades de seguridad siguen cubiertas por "Dependabot security
+# updates" (Settings → Security), que solo abre PR ante una alerta real y que
+# se revisa MANUALMENTE antes de fusionar — nunca en automático.
+#
+# Aquí solo mantenemos actualizadas las GitHub Actions, y únicamente en
+# minor/patch (ignoramos los "major" para evitar saltos de versión que
+# rompan el CI, como el checkout@v4→v7 que hubo que revertir).
 # ---------------------------------------------------------------------------
 version: 2
 updates:
-  # --- Dependencias de la aplicación (npm) --------------------------------
-  - package-ecosystem: npm
-    directory: "/"
-    schedule:
-      interval: weekly
-      day: monday
-      time: "06:00"
-      timezone: America/Santo_Domingo
-    open-pull-requests-limit: 5
-    labels:
-      - dependencies
-      - security
-    commit-message:
-      prefix: deps
-      include: scope
-    # Agrupa las actualizaciones menores/parche en una sola PR para reducir
-    # ruido; las "major" (con posibles rupturas) llegan por separado.
-    groups:
-      minor-and-patch:
-        update-types:
-          - minor
-          - patch
-    # Expo y React Native fijan versiones interdependientes: dejamos que sus
-    # actualizaciones "major" las gobierne Expo, no bumps sueltos de Dependabot.
-    ignore:
-      - dependency-name: expo
-        update-types: ["version-update:semver-major"]
-      - dependency-name: react-native
-        update-types: ["version-update:semver-major"]
-      - dependency-name: react
-        update-types: ["version-update:semver-major"]
-
-  # --- GitHub Actions usadas en los workflows -----------------------------
+  # --- GitHub Actions (solo minor/patch) ----------------------------------
   - package-ecosystem: github-actions
     directory: "/"
     schedule:
-      interval: weekly
-      day: monday
+      interval: monthly
       time: "06:00"
       timezone: America/Santo_Domingo
-    open-pull-requests-limit: 5
+    open-pull-requests-limit: 3
     labels:
       - dependencies
       - github-actions
     commit-message:
       prefix: ci
       include: scope
+    ignore:
+      # Nunca "major" automáticamente: cambian de comportamiento y rompen CI.
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
+
+  # NOTA: el ecosistema `npm` se omite a propósito (ver cabecera). No añadir
+  # aquí `package-ecosystem: npm` para "version updates": las dependencias
+  # Expo se alinean con `expo install --fix`, no con bumps sueltos.
