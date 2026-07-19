@@ -18,7 +18,9 @@ const shot = (page, name) => page.screenshot({ path: path.join(OUT, name + '.png
 const pause = (page, ms) => page.waitForTimeout(ms);
 
 (async () => {
-  const browser = await chromium.launch();
+  // CHROMIUM_PATH permite usar un Chromium ya instalado (p. ej. el de CI)
+  // cuando su versión no coincide con la que espera playwright.
+  const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH || undefined });
   const ctx = await browser.newContext({
     viewport: { width: 390, height: 844 },
     deviceScaleFactor: 2,
@@ -233,7 +235,7 @@ const pause = (page, ms) => page.waitForTimeout(ms);
   console.log('17 ejercicio ✓');
 
   // Evaluación EPT-3 y fin de sesión
-  await page.getByText('Evalúa con la escala EPT-3').scrollIntoViewIfNeeded();
+  await page.getByText('PASO 4 · EVALUACIÓN', { exact: true }).scrollIntoViewIfNeeded();
   await pause(page, 400);
   await shot(page, '18-evaluacion-ept3');       // 18 · escala EPT-3
   console.log('18 ept3 ✓');

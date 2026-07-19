@@ -98,14 +98,16 @@ reconocedor/voz del sistema y si conviene preferir voces latinas.
 | Variedad | Voz | Reconocimiento (ASR) |
 | --- | --- | --- |
 | 🇪🇸 **Castellano** (`es`) | Voz neuronal **Sharvard** pregenerada y empaquetada (offline). | Voz del sistema `es-ES`. |
-| **Galego** (`gl`) — *Proxecto Nós* | Voz neuronal **Celtia** pregenerada (Proxecto Nós), empaquetada. | Sistema `gl-ES` con recaída a `expo-speech`. |
+| **Galego** (`gl`) — *Proxecto Nós* | Voz neuronal **Celtia** pregenerada (Proxecto Nós), empaquetada. El contenido compartido con el castellano (Expansión Semántica, Audición y Lenguaje) suena con el asset **Sharvard** hasta que Celtia lo cubra. | Sistema `gl-ES` con recaída a `expo-speech`. |
 | 🇩🇴 **Dominicano** (`es-DO`) — *Quisqueya Habla* | Voz **latina del dispositivo** (`es-US`/`es-MX`); sin audio propio pregenerado. | Sistema `es-DO`, priorizando el catálogo latino. |
 
 - **Voz neuronal offline.** El audio de castellano y gallego se sintetiza en CI
-  (nunca en el dispositivo) y viaja empaquetado en el APK: **703 locuciones**
-  (`assets/voice/`, versión `es-sharvard+gl-celtia-2026-07-18`). Cada id del
-  corpus se resuelve contra `src/valeriaVoiceAssets.ts` (mapa generado) y lo no
-  cubierto cae con elegancia a `expo-speech` en runtime.
+  (nunca en el dispositivo) y viaja empaquetado en el APK: **1174 locuciones**
+  (`assets/voice/`, versión `es-sharvard+gl-celtia-2026-07-19`). Cada id del
+  corpus se resuelve contra `src/valeriaVoiceAssets.ts` (mapa generado); en
+  gallego, si una locución no tiene asset propio se reproduce el asset
+  castellano equivalente, y lo no cubierto por ninguno cae con elegancia a
+  `expo-speech` en runtime.
 - **Quisqueya Habla (es‑DO)** es un proyecto **editorial**, no de traducción:
   usa léxico y registro dominicanos y, sobre todo, **no penaliza como trastorno
   los rasgos dialectales normales** del español caribeño (seseo, aspiración de
@@ -165,7 +167,7 @@ con *debounce* vía `InteractionManager`, de modo que el cifrado y el guardado e
 
 | Documento | Descripción |
 | --- | --- |
-| **Manual de usuario con casos de uso** (v8) · [HTML](docs/manual-casos-de-uso.html) · [PDF](docs/Valeria-Manual-Casos-de-Uso.pdf) · [Word](docs/Valeria-Manual-Casos-de-Uso.docx) | 15 casos de uso paso a paso ilustrados con 23 capturas reales (`docs/screenshots/`): los cuatro bloques, el hub, la gráfica de sustitución por fonema, la telemetría del piloto (CU‑13), la variedad lingüística (CU‑14), el Panel del Adulto / carga comunicativa (CU‑15) y las novedades v6/v7/v8. |
+| **Manual de usuario con casos de uso** (v8.1) · [HTML](docs/manual-casos-de-uso.html) · [PDF](docs/Valeria-Manual-Casos-de-Uso.pdf) · [Word](docs/Valeria-Manual-Casos-de-Uso.docx) | 15 casos de uso paso a paso ilustrados con 23 capturas reales (`docs/screenshots/`): los cuatro bloques, el hub, la gráfica de sustitución por fonema, la telemetría del piloto (CU‑13), la variedad lingüística (CU‑14), el Panel del Adulto / carga comunicativa (CU‑15) y las novedades v6/v7/v8/v8.1. |
 | [`docs/protocolo-pares-minimos.md`](docs/protocolo-pares-minimos.md) | Protocolo de pares mínimos para dislalias fonológicas: 10 pares accionables con flujo TTS→STT, feedback por rama y misiones físicas. Implementado en `src/ValeriaMinimalPairsScreen.tsx` + `src/valeriaMinimalPairs.ts`. |
 | [`docs/protocolo-pares-minimos-es-DO.md`](docs/protocolo-pares-minimos-es-DO.md) | Protocolo de pares mínimos en español dominicano (Quisqueya Habla). Implementado en `src/valeriaMinimalPairsEsDO.ts`. |
 | [`docs/protocolo-expansion-semantica.md`](docs/protocolo-expansion-semantica.md) | Protocolo de expansión semántica / progresión léxica offline. Implementado en `src/ValeriaSemanticExpansionScreen.tsx` + `src/valeriaSemanticExpansion.ts`. |
@@ -254,6 +256,27 @@ Guía completa de configuración y despliegue: [`docs/firebase-setup.md`](docs/f
 ## Historial de versiones
 
 <details open>
+<summary><strong>V8.1</strong> — arreglos de registro, resultados y voz gallega</summary>
+
+- **Bienvenida**: el botón «Ya tengo un paciente registrado» pasa de enlace de
+  texto a **botón perfilado de tamaño completo**, más visible y fácil de pulsar.
+- **Resultados y Test de Ling con el paciente real**: la cabecera y el informe
+  compartido mostraban un dato de muestra («Lucía M. · NHC HC‑204815»); ahora
+  leen la **ficha del paciente activo** (nombre y NHC reales), con un rótulo
+  neutro si aún no hay ficha guardada.
+- **La voz gallega siempre arranca**: la Expansión Semántica y los ejercicios de
+  Audición y Lenguaje comparten el texto castellano y aún no tienen asset de
+  Celtia; en gallego la app reproduce ahora el **asset neuronal castellano**
+  (Sharvard) en vez de quedar en silencio esperando una voz `gl-ES` que el
+  dispositivo no suele tener. Cuando la CI sintetice esos bancos con Celtia,
+  sus assets tendrán prioridad automáticamente.
+- **Corpus ampliado**: el banco empaquetado crece a **1174 locuciones**
+  (versión `es-sharvard+gl-celtia-2026-07-19`), incorporando la Expansión
+  Semántica y Audición/Lenguaje en castellano y el contenido gallego GL‑2.x.
+
+</details>
+
+<details>
 <summary><strong>V8</strong> — variedades lingüísticas (Galego · Dominicano) y voz neuronal offline</summary>
 
 - **Infraestructura de variedad** (`src/valeriaLocale.ts`): una fuente única de

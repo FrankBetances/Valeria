@@ -136,7 +136,7 @@
   <div class="brand">valeria+</div>
   <div class="bear">🐻</div>
   <div style="margin-top:auto">
-    <div class="pill">Manual de usuario · v8 · con capturas de pantalla</div>
+    <div class="pill">Manual de usuario · v8.1 · con capturas de pantalla</div>
     <h1>Manual de<br>Casos de Uso</h1>
     <div class="sub">Aplicación de terapia auditivo‑verbal y del lenguaje para niñas y niños con hipoacusia, implante coclear, dislalias o dificultades del lenguaje.</div>
     <div class="meta">
@@ -270,6 +270,18 @@
       <td>Tres módulos <strong>manuales</strong> para el piloto (escucha en ruido, oso distractor de doble tarea y quiebre pragmático). Los activa siempre el adulto: la app nunca ajusta nada sola (ver CU‑15).</td></tr>
     <tr><td>💬 <strong>Frases portadoras</strong></td>
       <td>En Pares Mínimos la palabra objetivo ya no se dicta aislada: se incrusta en una frase con entonación natural seguida de una pregunta, sin repetirse en diez ensayos seguidos.</td></tr>
+  </table>
+
+  <h3>Novedades de la versión 8.1</h3>
+  <p>La versión 8.1 pule tres puntos detectados en el uso real tras el registro del paciente:</p>
+  <table>
+    <tr><th style="width:32%">Mejora</th><th>Qué cambia</th></tr>
+    <tr><td>🔘 <strong>Botón de reingreso más visible</strong></td>
+      <td>En <strong>Bienvenida</strong>, “Ya tengo un paciente registrado” deja de ser un enlace pequeño y pasa a ser un <strong>botón de tamaño completo</strong>, al nivel de “Comenzar” (ver CU‑06).</td></tr>
+    <tr><td>🪪 <strong>Resultados con el paciente real</strong></td>
+      <td>La cabecera del <strong>panel de resultados</strong> y del <strong>Test de Ling</strong>, y el informe que se comparte, muestran ahora el <strong>nombre y NHC de la ficha registrada</strong> (antes aparecía un dato de muestra fijo). Si no hay ficha, se indica con un rótulo neutro (ver CU‑07 y CU‑11).</td></tr>
+    <tr><td>🔊 <strong>La voz gallega siempre arranca</strong></td>
+      <td>En galego, la <strong>Expansión Semántica</strong> y los ejercicios de <strong>Audición y Lenguaje</strong> (contenido compartido con el castellano) suenan con la voz neuronal castellana mientras Celtia no los cubra, en vez de quedar en silencio en dispositivos sin voz gallega (ver CU‑14).</td></tr>
   </table>
 </section>
 
@@ -629,7 +641,7 @@
       </div>
       <h4>Flujo principal</h4>
       <ol class="flow">
-        <li>En <strong>Bienvenida</strong>, pulsar <strong>“Ya tengo un paciente”</strong>.</li>
+        <li>En <strong>Bienvenida</strong>, pulsar el botón <strong>“Ya tengo un paciente registrado”</strong> (desde la v8.1, un botón de tamaño completo bajo “Comenzar”).</li>
         <li>Seleccionar la ficha del niño/a en la lista de pacientes del dispositivo.</li>
         <li>La app carga su prescripción y su progreso (racha, nivel) y abre el <strong>hub de bloques</strong>.</li>
         <li>Elegir un bloque para practicar (CU‑02).</li>
@@ -661,7 +673,7 @@
       </div>
       <h4>Flujo principal</h4>
       <ol class="flow">
-        <li>Al pulsar ▶ en una terapia de <strong>Audición</strong>, responder: <strong>¿el niño usa audífonos o implante?</strong> Si es <em>No</em>, se salta a los ejercicios.</li>
+        <li>Al pulsar ▶ en una terapia de <strong>Audición</strong>, responder: <strong>¿el niño usa audífonos o implante?</strong> Si es <em>No</em>, se salta a los ejercicios. La cabecera muestra el <strong>nombre del paciente activo</strong> tomado de su ficha (v8.1).</li>
         <li>Si es <em>Sí</em>, para cada uno de los <strong>6 sonidos</strong> (m, u, a, i, sh, s) el adulto lo produce <strong>tapándose la boca</strong>.</li>
         <li>Marcar la respuesta del niño: <strong>Identifica</strong> · <strong>Detecta</strong> · <strong>Sin respuesta</strong>.</li>
         <li>Al terminar, la app muestra el resultado y una recomendación. Pulsar <strong>“Comenzar ejercicios”</strong>.</li>
@@ -795,7 +807,7 @@
       </div>
       <h4>Flujo principal</h4>
       <ol class="flow">
-        <li>Abrir el <strong>panel de resultados</strong> al finalizar una sesión o desde la ficha.</li>
+        <li>Abrir el <strong>panel de resultados</strong> al finalizar una sesión o desde la ficha. La cabecera muestra el <strong>nombre y NHC del paciente activo</strong>, tomados de su ficha de registro (v8.1).</li>
         <li>Revisar la <strong>evolución por estrellas</strong> (media de las últimas sesiones) y, para dislalias, la nueva
         gráfica de <strong>sustitución por fonema</strong>: el % de ensayos con la sustitución detectada por el micrófono, donde <em>bajar es mejorar</em>.</li>
         <li>Consultar el <strong>estado de gamificación</strong> (XP, racha, nivel) y la <strong>adherencia semanal</strong>.</li>
@@ -902,7 +914,7 @@
       <table>
         <tr><th style="width:26%">Variedad</th><th>Cómo suena y evalúa</th></tr>
         <tr><td>🇪🇸 <strong>Castellano</strong></td><td>Voz neuronal <strong>Sharvard</strong> pregenerada (offline) y reconocimiento del sistema en español de España.</td></tr>
-        <tr><td><strong>Galego</strong> <span class="small muted">(Proxecto Nós)</span></td><td>Voz neuronal <strong>Celtia</strong> pregenerada en gallego; contenido y pares propios.</td></tr>
+        <tr><td><strong>Galego</strong> <span class="small muted">(Proxecto Nós)</span></td><td>Voz neuronal <strong>Celtia</strong> pregenerada en gallego; contenido y pares propios. El contenido compartido con el castellano (Expansión Semántica, Audición y Lenguaje) suena con la voz neuronal castellana mientras Celtia no lo cubra (v8.1).</td></tr>
         <tr><td>🇩🇴 <strong>Dominicano</strong> <span class="small muted">(Quisqueya Habla)</span></td><td>Usa la <strong>voz latina del dispositivo</strong> y el micrófono en es‑DO; respeta los rasgos del habla caribeña.</td></tr>
       </table>
       <h4>Flujo principal</h4>
@@ -914,7 +926,7 @@
       <h4>Flujos alternativos</h4>
       <ul class="alt">
         <li><strong>En dominicano suena peninsular o robótica:</strong> instalar una voz de “Español (Latinoamérica)” en los ajustes del dispositivo; la app la usará automáticamente.</li>
-        <li><strong>Falta la voz pregenerada de una locución:</strong> la app recae con suavidad en la voz del sistema, sin interrumpir la sesión.</li>
+        <li><strong>Falta la voz pregenerada de una locución:</strong> en galego se reproduce primero el asset neuronal castellano equivalente si existe (v8.1); en último término, la app recae con suavidad en la voz del sistema, sin interrumpir la sesión.</li>
       </ul>
       <div class="callout"><div class="lbl">Respeto dialectal</div><p style="margin:4px 0 0">En dominicano, la app <strong>no marca como error</strong> el seseo, la aspiración de la “s” ni el cambio de “r/l” a final de sílaba: son rasgos normales del habla, no fallos que corregir.</p></div>
       <div class="shots">
@@ -991,12 +1003,13 @@
     <tr><td>¿Cómo exporto los datos del piloto?</td><td>Desde el hub, tarjeta <strong>“Acceso Profesional”</strong> con el PIN: la app muestra un <strong>QR</strong> con el resumen y abre el <strong>compartir</strong> con el registro completo. Tras enviarlo, los datos se purgan (CU‑13).</td></tr>
     <tr><td>¿Puedo usar la app en gallego o en dominicano?</td><td>Sí. En la tarjeta <strong>“Voz de la app”</strong> se elige la variedad (Castellano, Galego o Dominicano). Cambia lo que se locuta y evalúa; los menús siguen en castellano (CU‑14).</td></tr>
     <tr><td>En dominicano la voz suena de España o robótica</td><td>Instale una voz de <strong>“Español (Latinoamérica)”</strong> en los ajustes del dispositivo. La app la detecta y la usa automáticamente (v8).</td></tr>
+    <tr><td>En galego, algunos ejercicios no hablaban</td><td>Corregido en la v8.1: la Expansión Semántica y los ejercicios de Audición y Lenguaje suenan ahora con la voz neuronal castellana mientras Celtia no cubra ese contenido. Actualice la app si sigue ocurriendo.</td></tr>
     <tr><td>Marca como error algo que en mi país se dice así</td><td>En la variedad dominicana la app <strong>respeta los rasgos del habla caribeña</strong> (seseo, “s” aspirada, “r/l” final). Y recuerde: el adulto es siempre el juez final del veredicto.</td></tr>
     <tr><td>Apareció ruido de fondo o un oso moviéndose</td><td>Son módulos del <strong>Panel del Adulto</strong> (carga comunicativa) del piloto; solo se activan a mano. Desactívelos desde ese mismo panel (CU‑15).</td></tr>
   </table>
 
   <div class="footer-note">
-    <strong>Valeria+</strong> · Manual de Casos de Uso · v8 (con capturas de pantalla) · Julio de 2026 ·
+    <strong>Valeria+</strong> · Manual de Casos de Uso · v8.1 (con capturas de pantalla) · Julio de 2026 ·
     Terapia auditivo‑verbal y del lenguaje para la infancia. Documento de apoyo para logopedas y familias.
     <br>Disponible en Castellano, Galego (Proxecto Nós) y Dominicano (Quisqueya Habla). Los datos personales se tratan localmente conforme a RGPD/HIPAA; la sincronización en la nube y la telemetría anónima del piloto son opcionales.
   </div>
