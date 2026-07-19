@@ -419,14 +419,34 @@ export async function releaseListening(): Promise<void> {
 // ----------------------------------------------------------------------------
 // Valoración del intento: comparación tolerante entre lo oído y el objetivo
 // ----------------------------------------------------------------------------
-export const normalizeSpeech = (s: string): string =>
+// Pliegue dialectal caribeño (Quisqueya Habla · guía clínica QH-0.2): en español
+// dominicano la /s/ en coda se aspira o elide y la /d/ intervocálica o final cae.
+// Son RASGOS DIALECTALES NORMALES, no errores clínicos: penalizarlos produce
+// falsos positivos terapéuticos. Por eso, SOLO en es-DO, el objetivo y lo oído se
+// "pliegan" igual antes de comparar, de modo que "gato/gatos", "helao/helado" y
+// "má/más" cuentan como equivalentes. El pliegue es simétrico (se aplica a ambos
+// lados), así que tolera la elisión venga del dato o del habla del niño.
+// Opera sobre texto ya sin tildes (se aplica tras la normalización), por eso las
+// clases de vocales no llevan acentos.
+export const foldDominican = (s: string): string =>
   s
+    .replace(/s(?![aeiou])/g, '')            // /s/ en coda (no prevocálica): "gatos"→"gato"
+    .replace(/([aeiou])d([aeiou])/g, '$1$2') // /d/ intervocálica: "helado"→"helao"
+    .replace(/d(?=\s|$)/g, '')               // /d/ final de palabra: "usted"→"uste"
+    .replace(/\s+/g, ' ')
+    .trim();
+
+export const normalizeSpeech = (s: string): string => {
+  const base = s
     .toLowerCase()
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '')
     .replace(/[^a-zñ0-9 ]/g, ' ')
     .replace(/\s+/g, ' ')
     .trim();
+  // En dominicano se aceptan las realizaciones con elisión de /s/ y /d/.
+  return getLocale() === 'es-DO' ? foldDominican(base) : base;
+};
 
 const editDistance = (a: string, b: string): number => {
   const m = a.length, n = b.length;

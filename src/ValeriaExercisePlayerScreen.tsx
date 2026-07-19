@@ -58,7 +58,8 @@ import { ValeriaPragmaticBreakOverlay } from './ValeriaPragmaticBreak';
 import { releaseNoise } from './valeriaNoise';
 import { AUDICION_META, LENGUAJE_META } from './valeriaExerciseMeta';
 import { markBlockCompleted } from './valeriaTelemetry';
-import { Tile, Exercise, DB, VARIANTS, DEFAULT_SESSION, EMO, SESSION_DONE_LEAD, PLURAL_HINT, pluralOneLabel, pluralManyLabel } from './valeriaExerciseBank';
+import { Tile, Exercise, DEFAULT_SESSION, EMO, SESSION_DONE_LEAD, PLURAL_HINT, pluralOneLabel, pluralManyLabel, dbForLocale, variantsForLocale } from './valeriaExerciseBank';
+import { getLocale } from './valeriaLocale';
 
 // Conjuntos de ids por bloque para marcar el hito de "bloque completado" (SUS).
 const AUD_IDS = new Set(AUDICION_META.map((m) => m.id));
@@ -229,15 +230,19 @@ const ConfettiBurst: React.FC = () => {
 // Componente principal
 // ----------------------------------------------------------------------------
 export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: any }> = ({ navigation, route }) => {
+  // Banco de la variedad activa (fijado al montar): en es-DO aplica los overrides
+  // dominicanos (léxico, consignas y plural por determinante · QH-2.3).
+  const db = useRef(dbForLocale(getLocale())).current;
+  const variantsMap = useRef(variantsForLocale(getLocale())).current;
   const startId: string | undefined = route?.params?.id;
   const startIds: string[] | undefined = route?.params?.ids;
   const sessionIds = useMemo(() => {
     if (Array.isArray(startIds)) {
-      const valid = startIds.filter((i) => typeof i === 'string' && DB[i]);
+      const valid = startIds.filter((i) => typeof i === 'string' && db[i]);
       if (valid.length) return valid;
     }
-    return startId && DB[startId] ? [startId] : DEFAULT_SESSION;
-  }, [startId, startIds]);
+    return startId && db[startId] ? [startId] : DEFAULT_SESSION;
+  }, [startId, startIds, db]);
 
   const [idx, setIdx] = useState(0);
   const [results, setResults] = useState<number[]>([]);
@@ -280,8 +285,8 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
   // nombre real del paciente activo para la cabecera
   const [patientName, setPatientName] = useState('');
 
-  const baseEx = DB[sessionIds[idx]] ?? DB.ff1;
-  const variants = VARIANTS[sessionIds[idx]] ?? [];
+  const baseEx = db[sessionIds[idx]] ?? db.ff1;
+  const variants = variantsMap[sessionIds[idx]] ?? [];
   const totalRounds = variants.length;
   // Ejercicio efectivo de la ronda actual: los campos de la variante pisan a los base.
   const ex: Exercise = totalRounds ? { ...baseEx, ...variants[round % totalRounds] } : baseEx;
@@ -810,8 +815,15 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                     })}
                   </View>
                   <MicPracticeCard
-                    target={ex.plural!.capPlural}
-                    prompt={`Pregúntale «¿qué son?» y pulsa el micro para que diga: “${ex.plural!.capPlural}”`}
+                    // es-DO: el plural se juzga por el determinante ("muchos
+                    // gatos"), no por la -s final (que se elide). El resto de
+                    // variedades acepta el sustantivo en plural.
+                    target={ex.evalPluralByDeterminer && ex.pluralDeterminer
+                      ? `${ex.pluralDeterminer} ${ex.plural!.capPlural}`
+                      : ex.plural!.capPlural}
+                    prompt={ex.evalPluralByDeterminer && ex.pluralDeterminer
+                      ? `Pregúntale «¿cuántos hay?» y pulsa el micro para que diga: “${ex.pluralDeterminer} ${ex.plural!.capPlural}”`
+                      : `Pregúntale «¿qué son?» y pulsa el micro para que diga: “${ex.plural!.capPlural}”`}
                   />
                 </>
               )}
@@ -1054,7 +1066,7 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
               <View style={s.recapRow}>
                 {results.map((v, i) => (
                   <View key={i} style={s.recapCell}>
-                    <Text style={s.recapCode}>{DB[sessionIds[i]].code}</Text>
+                    <Text style={s.recapCode}>{db[sessionIds[i]].code}</Text>
                     <Text style={s.recapStars}>{'★'.repeat(v)}</Text>
                   </View>
                 ))}

@@ -34,10 +34,9 @@ import {
 } from './valeriaVoice';
 import { SpeakButton, TurnPhaseStrip } from './ValeriaVoiceUI';
 import { FichaVisual } from './ValeriaPictograms';
-import {
-  DAILY_SCENARIOS, PROGRESSION_SEQUENCES, CONTRAST_CAPSULES,
-  WORD_TYPE_LABEL, PHASE_LABEL,
-} from './valeriaSemanticExpansion';
+import { WORD_TYPE_LABEL, PHASE_LABEL } from './valeriaSemanticExpansion';
+import { semanticForLocale, SemanticBank } from './valeriaSemanticBanks';
+import { getLocale } from './valeriaLocale';
 
 const MONTHS = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
 
@@ -63,8 +62,10 @@ interface Session {
 }
 
 // ---- Constructores: datos → sesión de pasos --------------------------------
-const scenarioSession = (id: string): Session => {
-  const sc = DAILY_SCENARIOS.find((s) => s.id === id)!;
+// Reciben el banco de la variedad activa (es/gl base, es-DO dominicano) para no
+// acoplarse a un contenido concreto: la pantalla es la misma, cambian los datos.
+const scenarioSession = (bank: SemanticBank, id: string): Session => {
+  const sc = bank.scenarios.find((s) => s.id === id)!;
   return {
     kind: 'scenario', title: sc.title, code: sc.title,
     steps: sc.items.map((it) => ({
@@ -76,8 +77,8 @@ const scenarioSession = (id: string): Session => {
   };
 };
 
-const sequenceSession = (id: string): Session => {
-  const sq = PROGRESSION_SEQUENCES.find((s) => s.id === id)!;
+const sequenceSession = (bank: SemanticBank, id: string): Session => {
+  const sq = bank.sequences.find((s) => s.id === id)!;
   return {
     kind: 'sequence', title: sq.theme, code: sq.theme,
     steps: sq.phases.map((ph) => ({
@@ -89,8 +90,8 @@ const sequenceSession = (id: string): Session => {
   };
 };
 
-const contrastSession = (id: string): Session => {
-  const cp = CONTRAST_CAPSULES.find((c) => c.id === id)!;
+const contrastSession = (bank: SemanticBank, id: string): Session => {
+  const cp = bank.capsules.find((c) => c.id === id)!;
   return {
     kind: 'contrast', title: `${cp.pair[0]} / ${cp.pair[1]}`, code: cp.code,
     steps: cp.rounds.map((r, i) => ({
@@ -120,6 +121,9 @@ const afterSpeak = (fn: () => void, maxWaitMs = 15000) => {
 };
 
 export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
+  // Banco de la variedad activa (fijado al montar, como en Pares Mínimos):
+  // es/gl usan el base; es-DO el dominicano (léxico local + registro caribeño).
+  const bank = useRef<SemanticBank>(semanticForLocale(getLocale())).current;
   const [phase, setPhase] = useState<Phase>('pick');
   const [tab, setTab] = useState<'scenario' | 'sequence' | 'contrast'>('scenario');
   const [session, setSession] = useState<Session | null>(null);
@@ -173,12 +177,12 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
   }, [listening, pulse]);
 
   // ---------------------------------------------------- prescripción (PIN) --
-  const TOTAL_ACTIVITIES = DAILY_SCENARIOS.length + PROGRESSION_SEQUENCES.length + CONTRAST_CAPSULES.length;
+  const TOTAL_ACTIVITIES = bank.scenarios.length + bank.sequences.length + bank.capsules.length;
   const isPrescribed = (id: string) => prescribed[id] !== false;
   const activeCount =
-    DAILY_SCENARIOS.filter((x) => isPrescribed(x.id)).length +
-    PROGRESSION_SEQUENCES.filter((x) => isPrescribed(x.id)).length +
-    CONTRAST_CAPSULES.filter((x) => isPrescribed(x.id)).length;
+    bank.scenarios.filter((x) => isPrescribed(x.id)).length +
+    bank.sequences.filter((x) => isPrescribed(x.id)).length +
+    bank.capsules.filter((x) => isPrescribed(x.id)).length;
 
   const togglePrescribed = (id: string) => {
     if (!unlocked) return;
@@ -388,8 +392,8 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
             <View style={s.countBadge}><Text style={s.countBadgeTxt}>{activeCount} prescritas</Text></View>
           </View>
 
-          {tab === 'scenario' && DAILY_SCENARIOS.map((sc) => prescribableRow(
-            sc.id, `escenario ${sc.title}`, () => start(scenarioSession(sc.id)),
+          {tab === 'scenario' && bank.scenarios.map((sc) => prescribableRow(
+            sc.id, `escenario ${sc.title}`, () => start(scenarioSession(bank, sc.id)),
             <>
               <Text style={{ fontSize: 30 }}>{sc.icon}</Text>
               <View style={{ flex: 1 }}>
@@ -399,8 +403,8 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
             </>,
           ))}
 
-          {tab === 'sequence' && PROGRESSION_SEQUENCES.map((sq) => prescribableRow(
-            sq.id, `progresión ${sq.theme}`, () => start(sequenceSession(sq.id)),
+          {tab === 'sequence' && bank.sequences.map((sq) => prescribableRow(
+            sq.id, `progresión ${sq.theme}`, () => start(sequenceSession(bank, sq.id)),
             <>
               <Text style={{ fontSize: 30 }}>{sq.icon}</Text>
               <View style={{ flex: 1 }}>
@@ -410,8 +414,8 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
             </>,
           ))}
 
-          {tab === 'contrast' && CONTRAST_CAPSULES.map((cp) => prescribableRow(
-            cp.id, `cápsula de contraste ${cp.pair[0]} y ${cp.pair[1]}`, () => start(contrastSession(cp.id)),
+          {tab === 'contrast' && bank.capsules.map((cp) => prescribableRow(
+            cp.id, `cápsula de contraste ${cp.pair[0]} y ${cp.pair[1]}`, () => start(contrastSession(bank, cp.id)),
             <>
               <View style={s.codeChip}><Text style={s.codeChipTxt}>{cp.code}</Text></View>
               <Text style={{ fontSize: 26 }}>{cp.icon}</Text>

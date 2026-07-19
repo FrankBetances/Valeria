@@ -89,13 +89,13 @@ comunes a cualquier variedad y ajenos a los rasgos anteriores:
 
 ## Checklist de aceptación (bloqueante)
 
-- [ ] Revisor dominicano/a confirmado (QH-0.1).
-- [ ] Cada dataset es-DO documenta en cabecera qué decisión dialectal aplica.
-- [ ] Ningún par sobre coda líquida ni sobre distinción /s/–/θ/.
-- [ ] `stt_expected_array` aceptan elisión de /s/ y /d/.
-- [ ] Plural evaluado por determinante.
-- [ ] Léxico validado con fuentes citadas.
-- [ ] Aprobación firmada del revisor antes del piloto.
+- [x] Revisor dominicano/a confirmado (QH-0.1).
+- [x] Cada dataset es-DO documenta en cabecera qué decisión dialectal aplica.
+- [x] Ningún par sobre coda líquida ni sobre distinción /s/–/θ/.
+- [x] `stt_expected_array` aceptan elisión de /s/ y /d/ *(pliegue `foldDominican` en `valeriaVoice`, aplicado solo en es-DO)*.
+- [x] Plural evaluado por determinante *(MS-1, `evalPluralByDeterminer`)*.
+- [x] Léxico validado con fuentes citadas *(`docs/validacion-lexica-es-DO.md`, QH-2.5)*.
+- [ ] Aprobación firmada del revisor antes del piloto *(rúbrica final QH-2.5)*.
 
 ## Bibliografía de referencia (a completar por el revisor)
 
