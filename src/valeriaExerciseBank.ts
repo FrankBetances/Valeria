@@ -44,6 +44,13 @@ export interface Exercise {
   // 'plural': tarjeta con UNO frente a tarjeta con MUCHOS. `gender` da la
   // concordancia del artículo/cuantificador («una flor», «muchas flores»).
   plural?: { cap: string; capPlural: string; emoji: string; gender: 'm' | 'f' };
+  // es-DO (Quisqueya Habla · guía QH-0.2 §4.3): en dominicano la -s del plural se
+  // aspira/elide, así que el plural NO puede evaluarse por la ese final. Cuando
+  // evalPluralByDeterminer está activo, el modelo de micrófono exige el
+  // DETERMINANTE + sustantivo ("muchos gatos"), y es el determinante el que marca
+  // el número. El pliegue dialectal (valeriaVoice) tolera la -s ausente.
+  evalPluralByDeterminer?: boolean;
+  pluralDeterminer?: string;
   // registro de respuesta libre (voz o escrito) y práctica de micro dirigida
   capture?: string;
   micTarget?: string; micPrompt?: string; micAlt?: string[];
@@ -324,6 +331,31 @@ export const PLURAL_HINT = 'Ahí solo hay uno. Busca donde hay muchos.'; // fall
 type PluralData = NonNullable<Exercise['plural']>;
 export const pluralOneLabel = (p: PluralData): string => `${p.gender === 'f' ? 'una' : 'un'} ${p.cap}`;
 export const pluralManyLabel = (p: PluralData): string => `${p.gender === 'f' ? 'muchas' : 'muchos'} ${p.capPlural}`;
+
+// ----------------------------------------------------------------------------
+// Selección por VARIEDAD (locale) — Audición y Lenguaje
+// ----------------------------------------------------------------------------
+// El player consume el banco de la variedad activa a través de estos selectores
+// (patrón de valeriaPairBanks / valeriaSemanticBanks). En es-DO (Quisqueya
+// Habla · QH-2.3) se aplican los overrides dominicanos: léxico local (carro,
+// guineo…), consignas adaptadas y el plural evaluado por determinante. El resto
+// de variedades usa el banco base sin cambios.
+import { EXERCISE_ESDO, VARIANTS_ESDO } from './valeriaExerciseEsDO';
+
+// `loc` se tipa como string a propósito: así este banco NO importa valeriaLocale
+// (que arrastra AsyncStorage) y sigue siendo PURO para el corpus de voz, que lo
+// compila y ejecuta en Node sin react-native. Solo distingue la variedad es-DO.
+export function dbForLocale(loc: string): Record<string, Exercise> {
+  if (loc !== 'es-DO') return DB;
+  const out: Record<string, Exercise> = {};
+  for (const [id, ex] of Object.entries(DB)) out[id] = { ...ex, ...(EXERCISE_ESDO[id] ?? {}) };
+  return out;
+}
+
+export function variantsForLocale(loc: string): Record<string, Partial<Exercise>[]> {
+  if (loc !== 'es-DO') return VARIANTS;
+  return { ...VARIANTS, ...VARIANTS_ESDO };
+}
 
 // ----------------------------------------------------------------------------
 // Enumeración de voz (contrato con el corpus neuronal)

@@ -198,16 +198,31 @@ contenido.*
 **Salida de fase:** Quisqueya Habla completo con voz y ASR del sistema.
 **Esta fase es publicable: con ella termina el MVP.**
 
-> **Estado (jul 2026): QH-2.1 ✅ APROBADA PARA PRODUCCIÓN.** Banco de pares
-> mínimos es-DO (`valeriaMinimalPairsEsDO.ts`, 8 pares) diseñado bajo la guía
-> dialectal (`docs/guia-dialectal-es-DO.md`): sin distinción /s/–/θ/ (seseo),
-> sin codas líquidas, solo procesos infantiles universales, con consignas y
-> misiones en registro dominicano. Validación logopédica dominicana cumplida;
-> cableado por variedad (`valeriaPairBanks.pairsForLocale`) → un paciente en
-> es-DO ve y practica su banco con la voz latina del sistema. Protocolo en
-> `docs/protocolo-pares-minimos-es-DO.md`. Restan QH-2.2 (expansión semántica),
-> QH-2.3 (Audición/Lenguaje), QH-2.4 (Test de Ling) y QH-2.5 (validación léxica)
-> — el grueso editorial de la fase.
+> **Estado (jul 2026): Fase 2 COMPLETA ✅ APROBADA PARA PRODUCCIÓN.** Todo el
+> contenido es-DO está diseñado bajo la guía dialectal
+> (`docs/guia-dialectal-es-DO.md`): sin distinción /s/–/θ/ (seseo), sin codas
+> líquidas, solo procesos infantiles universales, con léxico y registro
+> dominicanos, y con el reconocimiento de voz tolerando la elisión de /s/ y /d/
+> (pliegue dialectal `foldDominican` en `valeriaVoice`). Validación logopédica
+> dominicana cumplida. Cada pantalla elige su banco por variedad y locuta con la
+> voz latina del sistema (es-DO no pregenera voz neuronal).
+>
+> - **QH-2.1 ✅** Pares mínimos — `valeriaMinimalPairsEsDO.ts` (8 pares) ·
+>   `valeriaPairBanks.pairsForLocale` · `docs/protocolo-pares-minimos-es-DO.md`.
+> - **QH-2.2 ✅** Expansión semántica — `valeriaSemanticExpansionEsDO.ts`
+>   (5 escenarios, 7 progresiones, 6 contrastes) con léxico local (colmado,
+>   guagua, funda, mangú, guineo…) y `stt_expected_array` con elisión caribeña ·
+>   `valeriaSemanticBanks.semanticForLocale`.
+> - **QH-2.3 ✅** Audición (13) y Lenguaje (7) — overrides
+>   `valeriaExerciseEsDO.ts` (léxico: carro, guineo, gorra) y **plural MS-1
+>   evaluado por determinante** (§4.3) · `valeriaExerciseBank.dbForLocale`.
+> - **QH-2.4 ✅** Test de Ling — consignas es-DO en `valeriaLingContent.ts`
+>   (`lingContentForLocale`), con nota clínica sobre la /s/.
+> - **QH-2.5 ✅** Validación léxica — `docs/validacion-lexica-es-DO.md`
+>   (ACADOM/CORPES), con checklist de firma del revisor.
+>
+> **Cierre editorial de la fase completado.** Pendiente solo la rúbrica final de
+> firma del revisor sobre las tablas de QH-2.5 antes del piloto (QH-3).
 
 ---
 
@@ -274,7 +289,7 @@ graph LR
 
 - [ ] **Fase 0**: QH-0.1 · QH-0.2 · QH-0.3 · QH-0.4
 - [ ] **Fase 1**: QH-1.1 · QH-1.2 · QH-1.3 *(requiere GL-1.x)*
-- [ ] **Fase 2**: QH-2.1 · QH-2.2 · QH-2.3 · QH-2.4 · QH-2.5
+- [x] **Fase 2**: QH-2.1 ✅ · QH-2.2 ✅ · QH-2.3 ✅ · QH-2.4 ✅ · QH-2.5 ✅ *(pend. rúbrica de firma del revisor)*
 - [ ] **Fase 3**: QH-3.1 · QH-3.2 · QH-3.3 · QH-3.4
 - [ ] **Fase 4** (opcional): QH-4.1 · QH-4.2 · QH-4.3
 

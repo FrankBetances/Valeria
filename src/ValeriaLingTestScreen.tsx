@@ -20,22 +20,13 @@ import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, Pressable, ScrollView, StyleSheet, Animated, Easing, StatusBar } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { V, STORAGE_KEYS } from './valeriaTheme';
+import { getLocale } from './valeriaLocale';
+import { lingContentForLocale } from './valeriaLingContent';
 // import logoWhite from '../../assets/valeria-logo-white.png';
 
 type Phase = 'ask' | 'test' | 'done';
 
-interface Sound { sym: string; say: string; freq: string; fc: string; hint: string; }
 interface ScaleOpt { level: 0 | 1 | 2; title: string; desc: string; color: string; }
-
-// Los seis sonidos de Ling, ordenados de grave a agudo.
-const SOUNDS: Sound[] = [
-  { sym: 'm',  say: '“mmm”',  freq: 'Grave · ~250 Hz',      fc: '#3b82f6', hint: 'Sonido nasal, vibración en los labios.' },
-  { sym: 'u',  say: '“uuu”',  freq: 'Grave · ~300 Hz',      fc: '#3b82f6', hint: 'Vocal posterior, boca redondeada.' },
-  { sym: 'a',  say: '“aaa”',  freq: 'Media · ~1 kHz',       fc: '#10b981', hint: 'Vocal abierta y central.' },
-  { sym: 'i',  say: '“iii”',  freq: 'Media-aguda · ~2 kHz', fc: '#f59e0b', hint: 'Vocal cerrada anterior.' },
-  { sym: 'sh', say: '“shhh”', freq: 'Aguda · ~3 kHz',       fc: '#f97316', hint: 'Fricativa, flujo de aire continuo.' },
-  { sym: 's',  say: '“sss”',  freq: 'Muy aguda · ~5 kHz',   fc: '#ef4444', hint: 'Fricativa aguda — el sonido más difícil de oír.' },
-];
 
 const SCALE: ScaleOpt[] = [
   { level: 2, title: 'Identifica',    desc: 'Repite o reconoce el sonido correctamente.', color: '#10b981' },
@@ -47,6 +38,9 @@ const MONTHS = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', '
 
 export const ValeriaLingTestScreen: React.FC<{ navigation: any; route?: any }> = ({ navigation, route }) => {
   const sessionParams = route?.params ?? undefined;
+  // Contenido de la variedad activa: los 6 sonidos son universales; cambian las
+  // consignas y pistas (registro es-DO · Quisqueya Habla, QH-2.4).
+  const { sounds: SOUNDS, copy } = useRef(lingContentForLocale(getLocale())).current;
   const [phase, setPhase] = useState<Phase>('ask');
   const [idx, setIdx] = useState(0);
   const [results, setResults] = useState<number[]>([]);
@@ -190,7 +184,7 @@ export const ValeriaLingTestScreen: React.FC<{ navigation: any; route?: any }> =
 
             <View style={s.tip}>
               <Text style={{ fontSize: 15 }}>💡</Text>
-              <Text style={s.tipTxt}>El Test de Ling no usa el micrófono. <Text style={s.bold}>Tú produces cada sonido</Text> y marcas cómo responde el niño.</Text>
+              <Text style={s.tipTxt}>{copy.tip}</Text>
             </View>
           </View>
         )}
@@ -207,7 +201,7 @@ export const ValeriaLingTestScreen: React.FC<{ navigation: any; route?: any }> =
                   <Text style={s.instrTitle}>Cúbrete la boca y produce el sonido</Text>
                 </View>
               </View>
-              <Text style={s.instrBody}>Que el niño <Text style={s.bold}>no te lea los labios</Text>. Repite el sonido 2–3 veces y observa su reacción.</Text>
+              <Text style={s.instrBody}>{copy.instrBody}</Text>
             </View>
 
             {/* Escenario del sonido */}
