@@ -41,8 +41,9 @@ export interface Exercise {
   instrIcon?: string; instrHint?: string;
   // 'choice': escucha un audio y toca la imagen correcta (adivinanzas, género)
   choicePrompt?: string; choiceLabel?: string; choiceVoice?: 'slow' | 'tutor'; options?: Tile[]; optionAnswer?: number;
-  // 'plural': tarjeta con UNO frente a tarjeta con MUCHOS
-  plural?: { cap: string; capPlural: string; emoji: string };
+  // 'plural': tarjeta con UNO frente a tarjeta con MUCHOS. `gender` da la
+  // concordancia del artículo/cuantificador («una flor», «muchas flores»).
+  plural?: { cap: string; capPlural: string; emoji: string; gender: 'm' | 'f' };
   // registro de respuesta libre (voz o escrito) y práctica de micro dirigida
   capture?: string;
   micTarget?: string; micPrompt?: string; micAlt?: string[];
@@ -103,7 +104,7 @@ export const DB: Record<string, Exercise> = {
   ms1: { ...meta('ms1'),
     read: 'El niño toca la tarjeta donde hay MUCHOS. Después pregúntale «¿qué son?» para que lo diga con la ese final: «gatos».',
     stage: 'plural', stageLabel: 'Toca donde hay muchos y dilo',
-    plural: { cap: 'gato', capPlural: 'gatos', emoji: '🐱' },
+    plural: { cap: 'gato', capPlural: 'gatos', emoji: '🐱', gender: 'm' },
     move: 'Un salto grande si hay UNO, muchos saltitos seguidos si hay MUCHOS.',
     ept: ['Todavía no distingue entre «uno» y «muchos».', 'Dice el plural («gatos») si tú se lo dices antes.', 'Toca donde hay muchos y dice el plural él solo.'] },
   ms2: { ...meta('ms2'),
@@ -270,11 +271,11 @@ export const VARIANTS: Record<string, Partial<Exercise>[]> = {
     {},
     {
       read: 'El niño toca la tarjeta donde hay MUCHAS. Después pregúntale «¿qué son?» para que lo diga con la ese final: «flores».',
-      plural: { cap: 'flor', capPlural: 'flores', emoji: '🌸' },
+      plural: { cap: 'flor', capPlural: 'flores', emoji: '🌸', gender: 'f' },
     },
     {
       read: 'El niño toca la tarjeta donde hay MUCHOS. Después pregúntale «¿qué son?» para que lo diga terminado en «-ces»: «peces».',
-      plural: { cap: 'pez', capPlural: 'peces', emoji: '🐟' },
+      plural: { cap: 'pez', capPlural: 'peces', emoji: '🐟', gender: 'm' },
     },
   ],
   ms2: [
@@ -316,6 +317,13 @@ export const EMO: { face: string; label: string }[] = [
 // de una cadena compuesta que la voz neuronal no podría resolver.
 export const SESSION_DONE_LEAD = '¡Sesión completada!';           // + elogio al cerrar sesión
 export const PLURAL_HINT = 'Ahí solo hay uno. Busca donde hay muchos.'; // fallo en el juego de plural
+
+// Etiquetas del juego de plural con concordancia de género («un gato»/«muchos
+// gatos», «una flor»/«muchas flores»). Una sola fuente: pantalla y corpus las
+// construyen igual, así que el asset neuronal resuelve exacto.
+type PluralData = NonNullable<Exercise['plural']>;
+export const pluralOneLabel = (p: PluralData): string => `${p.gender === 'f' ? 'una' : 'un'} ${p.cap}`;
+export const pluralManyLabel = (p: PluralData): string => `${p.gender === 'f' ? 'muchas' : 'muchos'} ${p.capPlural}`;
 
 // ----------------------------------------------------------------------------
 // Enumeración de voz (contrato con el corpus neuronal)
@@ -383,8 +391,8 @@ const linesForExercise = (ex: Exercise): VoiceLine[] => {
   // atómicos 'child' de cada tarjeta («un X» / «muchos Y») + refuerzo/pista.
   if (ex.plural) {
     out.push({ style: 'slow', text: ex.plural.capPlural.toLowerCase() });
-    out.push({ style: 'child', text: `un ${ex.plural.cap}` });
-    out.push({ style: 'child', text: `muchos ${ex.plural.capPlural}` });
+    out.push({ style: 'child', text: pluralOneLabel(ex.plural) });
+    out.push({ style: 'child', text: pluralManyLabel(ex.plural) });
   }
   // Escenas con ejemplo hablado (PR-2, voz child).
   if (ex.scenes?.length) for (const sc of ex.scenes) out.push({ style: 'child', text: sc.say });
