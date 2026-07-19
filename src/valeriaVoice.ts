@@ -211,7 +211,12 @@ const trySpokenAsset = (style: VoiceStyle, text: string, opts: Speech.SpeechOpti
   // null y siempre cae a expo-speech con el locale latino.
   const al = assetLang();
   if (al == null) return false;
-  const source = VOICE_ASSETS[voiceCorpusId(style, text, al)];
+  let source = VOICE_ASSETS[voiceCorpusId(style, text, al)];
+  // En galego, los bancos compartidos con el castellano (Expansión Semántica,
+  // Audición y Lenguaje) solo tienen asset con id es: se reproduce ese audio
+  // neuronal antes que caer a expo-speech con gl-ES, que en dispositivos sin
+  // voz gallega instalada no arranca y deja el ejercicio en silencio.
+  if (source == null && al !== 'es') source = VOICE_ASSETS[voiceCorpusId(style, text, 'es')];
   if (source == null) return false;
   const token = ++speakToken; // preempta cadenas de expo-speech pendientes
   Speech.stop();
