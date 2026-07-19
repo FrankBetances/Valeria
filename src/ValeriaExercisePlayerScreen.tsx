@@ -49,7 +49,7 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { V, STORAGE_KEYS } from './valeriaTheme';
 import { registerSession, SessionReward, levelProgress, xpToNext } from './valeriaGamification';
-import { speakToChild, speakWordSlow, stopSpeaking, praisePhrase, almostPhrase, normalizeSpeech } from './valeriaVoice';
+import { speakToChild, speakToChildSeq, speakWordSlow, stopSpeaking, praisePhrase, almostPhrase, normalizeSpeech } from './valeriaVoice';
 import { SpeakButton, MicPracticeCard, ResponseCaptureCard } from './ValeriaVoiceUI';
 import { ValeriaSessionBreakOverlay, pickSessionBreak, SessionBreak } from './ValeriaSessionBreakOverlay';
 import { ValeriaAdultChaosPanel } from './ValeriaAdultChaosPanel';
@@ -58,7 +58,7 @@ import { ValeriaPragmaticBreakOverlay } from './ValeriaPragmaticBreak';
 import { releaseNoise } from './valeriaNoise';
 import { AUDICION_META, LENGUAJE_META } from './valeriaExerciseMeta';
 import { markBlockCompleted } from './valeriaTelemetry';
-import { Tile, Exercise, DB, VARIANTS, DEFAULT_SESSION } from './valeriaExerciseBank';
+import { Tile, Exercise, DB, VARIANTS, DEFAULT_SESSION, EMO, SESSION_DONE_LEAD, PLURAL_HINT } from './valeriaExerciseBank';
 
 // Conjuntos de ids por bloque para marcar el hito de "bloque completado" (SUS).
 const AUD_IDS = new Set(AUDICION_META.map((m) => m.id));
@@ -69,10 +69,6 @@ const LEN_IDS = new Set(LENGUAJE_META.map((m) => m.id));
 // sesión por defecto viven en el módulo PURO valeriaExerciseBank, para que el
 // corpus de voz pueda enumerar lo que estas pantallas locutan (voz neuronal es).
 const VOWELS = ['A', 'E', 'I', 'O', 'U'];
-const EMO = [
-  { face: '😀', label: 'Alegría' }, { face: '😢', label: 'Tristeza' },
-  { face: '😠', label: 'Enfado' }, { face: '🤕', label: 'Dolor' },
-];
 const MONTHS = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
 
 // Entre ejercicios se muestra una Cápsula TPR (escucha y muévete): sustituye a
@@ -374,7 +370,7 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
     setOrderPicks(next);
     if (next.length === ex.parts!.length) {
       const okOrder = next.every((p, k) => p === k);
-      if (okOrder) speakToChild(`${praisePhrase()} ${ex.sentence}`);
+      if (okOrder) speakToChildSeq([praisePhrase(), ex.sentence!]);
       else {
         speakToChild(almostPhrase());
         clearTimeout(orderTimer.current);
@@ -451,7 +447,7 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
     if (sessionIds.some((id) => AUD_IDS.has(id))) markBlockCompleted('audicion');
     if (sessionIds.some((id) => LEN_IDS.has(id))) markBlockCompleted('lenguaje');
     // Celebración hablada para el niño al cerrar la sesión (frase rotativa).
-    speakToChild(`¡Sesión completada! ${praisePhrase()}`);
+    speakToChildSeq([SESSION_DONE_LEAD, praisePhrase()]);
   };
 
   // Cuenta atrás hacia Resultados. El updater solo decrementa; la navegación
@@ -711,7 +707,7 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                     // palabra-imagen directa (mismo patrón que en emociones).
                     onPick={(i, isAns) => {
                       setIntruderPick(i);
-                      speakToChild(`${ex.intruder![i].cap}. ${isAns ? praisePhrase() : almostPhrase()}`);
+                      speakToChildSeq([ex.intruder![i].cap, isAns ? praisePhrase() : almostPhrase()]);
                     }}
                   />
                 </>
@@ -742,7 +738,7 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                           key={e.label}
                           // Refuerzo inmediato: se nombra la emoción tocada y se
                           // celebra/anima en la misma locución, sin esperas.
-                          onPress={() => { if (emotionPick !== e.label) { setEmotionPick(e.label); speakToChild(`${e.label}. ${isAns ? praisePhrase() : almostPhrase()}`); } }}
+                          onPress={() => { if (emotionPick !== e.label) { setEmotionPick(e.label); speakToChildSeq([e.label, isAns ? praisePhrase() : almostPhrase()]); } }}
                           style={[s.emoOpt, ok && s.gridTileOk, bad && s.gridTileBad]}
                         >
                           <Text style={{ fontSize: 24 }}>{e.face}</Text>
@@ -777,7 +773,7 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                     // palabra objetivo justo al tocarla.
                     onPick={(i, isAns) => {
                       setChoicePick(i);
-                      speakToChild(`${ex.options![i].cap}. ${isAns ? praisePhrase() : almostPhrase()}`);
+                      speakToChildSeq([ex.options![i].cap, isAns ? praisePhrase() : almostPhrase()]);
                     }}
                   />
                 </>
@@ -797,7 +793,7 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                           onPress={() => {
                             if (pluralPick !== kind) {
                               setPluralPick(kind);
-                              speakToChild(`${label}. ${isAns ? praisePhrase() : 'Ahí solo hay uno. Busca donde hay muchos.'}`);
+                              speakToChildSeq([label, isAns ? praisePhrase() : PLURAL_HINT]);
                             }
                           }}
                           accessibilityRole="button"

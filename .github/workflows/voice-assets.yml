@@ -116,4 +116,11 @@ jobs:
           git commit \
             -m "Voz ILENIA/Nós · Fase 2: assets de voz neuronal generados en CI" \
             -m "Lote sintetizado por el workflow voice-assets (ver voice-assets-manifest.json: voz, duración y peso por locución). Mapa valeriaVoiceAssets.ts regenerado."
-          git push
+          # Empuje robusto ante pushes concurrentes: si la rama avanzó mientras
+          # sintetizábamos, rebasar (los assets son ficheros nuevos, sin conflicto)
+          # y reintentar. Evita el "! [rejected] (fetch first)" que perdía el lote.
+          for i in 1 2 3; do
+            git push && break
+            echo "push rechazado (intento $i); rebase y reintento…"
+            git pull --rebase origin "${{ github.ref_name }}" || exit 1
+          done
