@@ -2,9 +2,9 @@
  "lang": "es",
  "voice": "Sharvard (femenina) \u00b7 rhasspy/piper-voices",
  "peakDbfs": -3.0,
- "entries": 828,
- "totalBytes": 17166748,
- "totalSeconds": 3158.5,
+ "entries": 887,
+ "totalBytes": 18523643,
+ "totalSeconds": 3408.7,
  "files": [
   {
    "id": "clinical_1d9763fe_92",
@@ -4973,6 +4973,360 @@
    "file": "child_e5bf2be5_74.m4a",
    "seconds": 4.38,
    "bytes": 23663
+  },
+  {
+   "id": "tutor_ba322236_272",
+   "file": "tutor_ba322236_272.m4a",
+   "seconds": 16.09,
+   "bytes": 84547
+  },
+  {
+   "id": "child_697a2beb_98",
+   "file": "child_697a2beb_98.m4a",
+   "seconds": 5.71,
+   "bytes": 30408
+  },
+  {
+   "id": "tutor_7df66cb3_326",
+   "file": "tutor_7df66cb3_326.m4a",
+   "seconds": 18.49,
+   "bytes": 96553
+  },
+  {
+   "id": "child_8aca6f60_79",
+   "file": "child_8aca6f60_79.m4a",
+   "seconds": 4.45,
+   "bytes": 23788
+  },
+  {
+   "id": "tutor_7a28594e_235",
+   "file": "tutor_7a28594e_235.m4a",
+   "seconds": 13.85,
+   "bytes": 72838
+  },
+  {
+   "id": "child_89d9a8bd_94",
+   "file": "child_89d9a8bd_94.m4a",
+   "seconds": 5.77,
+   "bytes": 30736
+  },
+  {
+   "id": "tutor_c6705d28_240",
+   "file": "tutor_c6705d28_240.m4a",
+   "seconds": 13.98,
+   "bytes": 73163
+  },
+  {
+   "id": "child_88bd0488_104",
+   "file": "child_88bd0488_104.m4a",
+   "seconds": 5.72,
+   "bytes": 30592
+  },
+  {
+   "id": "tutor_b1e4fe39_251",
+   "file": "tutor_b1e4fe39_251.m4a",
+   "seconds": 14.88,
+   "bytes": 77774
+  },
+  {
+   "id": "child_2b504db2_95",
+   "file": "child_2b504db2_95.m4a",
+   "seconds": 5.5,
+   "bytes": 29370
+  },
+  {
+   "id": "slow_4b67037b_29",
+   "file": "slow_4b67037b_29.m4a",
+   "seconds": 2.82,
+   "bytes": 15561
+  },
+  {
+   "id": "child_a370d085_7",
+   "file": "child_a370d085_7.m4a",
+   "seconds": 0.48,
+   "bytes": 3569
+  },
+  {
+   "id": "child_ba492154_7",
+   "file": "child_ba492154_7.m4a",
+   "seconds": 0.5,
+   "bytes": 3680
+  },
+  {
+   "id": "tutor_efaa0e23_187",
+   "file": "tutor_efaa0e23_187.m4a",
+   "seconds": 11.64,
+   "bytes": 61232
+  },
+  {
+   "id": "slow_de737a4c_27",
+   "file": "slow_de737a4c_27.m4a",
+   "seconds": 2.68,
+   "bytes": 14909
+  },
+  {
+   "id": "child_4f55eeec_3",
+   "file": "child_4f55eeec_3.m4a",
+   "seconds": 0.27,
+   "bytes": 2565
+  },
+  {
+   "id": "child_0ed0d71c_5",
+   "file": "child_0ed0d71c_5.m4a",
+   "seconds": 0.38,
+   "bytes": 3067
+  },
+  {
+   "id": "tutor_9a98707a_191",
+   "file": "tutor_9a98707a_191.m4a",
+   "seconds": 11.87,
+   "bytes": 62380
+  },
+  {
+   "id": "slow_a5660add_30",
+   "file": "slow_a5660add_30.m4a",
+   "seconds": 3.15,
+   "bytes": 17330
+  },
+  {
+   "id": "child_b428d034_5",
+   "file": "child_b428d034_5.m4a",
+   "seconds": 0.55,
+   "bytes": 4027
+  },
+  {
+   "id": "tutor_6e6cacc5_172",
+   "file": "tutor_6e6cacc5_172.m4a",
+   "seconds": 10.88,
+   "bytes": 56984
+  },
+  {
+   "id": "child_6435ae8e_88",
+   "file": "child_6435ae8e_88.m4a",
+   "seconds": 4.95,
+   "bytes": 26407
+  },
+  {
+   "id": "slow_dd72ca75_22",
+   "file": "slow_dd72ca75_22.m4a",
+   "seconds": 2.24,
+   "bytes": 12602
+  },
+  {
+   "id": "child_1e5dfd21_4",
+   "file": "child_1e5dfd21_4.m4a",
+   "seconds": 0.37,
+   "bytes": 3040
+  },
+  {
+   "id": "child_b4f0772f_4",
+   "file": "child_b4f0772f_4.m4a",
+   "seconds": 0.46,
+   "bytes": 3441
+  },
+  {
+   "id": "child_11db0cb5_4",
+   "file": "child_11db0cb5_4.m4a",
+   "seconds": 0.41,
+   "bytes": 3225
+  },
+  {
+   "id": "child_aa00cce7_4",
+   "file": "child_aa00cce7_4.m4a",
+   "seconds": 0.43,
+   "bytes": 3334
+  },
+  {
+   "id": "slow_4d4288c9_22",
+   "file": "slow_4d4288c9_22.m4a",
+   "seconds": 2.69,
+   "bytes": 14805
+  },
+  {
+   "id": "child_8d875b61_4",
+   "file": "child_8d875b61_4.m4a",
+   "seconds": 0.3,
+   "bytes": 2697
+  },
+  {
+   "id": "child_86db536d_4",
+   "file": "child_86db536d_4.m4a",
+   "seconds": 0.38,
+   "bytes": 3169
+  },
+  {
+   "id": "child_aa83961b_4",
+   "file": "child_aa83961b_4.m4a",
+   "seconds": 0.37,
+   "bytes": 3025
+  },
+  {
+   "id": "child_05033d87_4",
+   "file": "child_05033d87_4.m4a",
+   "seconds": 0.42,
+   "bytes": 3215
+  },
+  {
+   "id": "slow_432688b0_23",
+   "file": "slow_432688b0_23.m4a",
+   "seconds": 2.28,
+   "bytes": 12715
+  },
+  {
+   "id": "child_9f253efd_4",
+   "file": "child_9f253efd_4.m4a",
+   "seconds": 0.39,
+   "bytes": 3200
+  },
+  {
+   "id": "child_8d7a8f6e_4",
+   "file": "child_8d7a8f6e_4.m4a",
+   "seconds": 0.39,
+   "bytes": 3192
+  },
+  {
+   "id": "child_0a59f42f_4",
+   "file": "child_0a59f42f_4.m4a",
+   "seconds": 0.38,
+   "bytes": 3066
+  },
+  {
+   "id": "tutor_3e2451c5_229",
+   "file": "tutor_3e2451c5_229.m4a",
+   "seconds": 12.93,
+   "bytes": 67744
+  },
+  {
+   "id": "child_8845e178_72",
+   "file": "child_8845e178_72.m4a",
+   "seconds": 4.27,
+   "bytes": 22965
+  },
+  {
+   "id": "slow_689b3026_15",
+   "file": "slow_689b3026_15.m4a",
+   "seconds": 1.49,
+   "bytes": 8717
+  },
+  {
+   "id": "slow_b4dab898_17",
+   "file": "slow_b4dab898_17.m4a",
+   "seconds": 1.82,
+   "bytes": 10607
+  },
+  {
+   "id": "slow_d869e60d_18",
+   "file": "slow_d869e60d_18.m4a",
+   "seconds": 1.81,
+   "bytes": 10333
+  },
+  {
+   "id": "tutor_a7cb846d_241",
+   "file": "tutor_a7cb846d_241.m4a",
+   "seconds": 13.51,
+   "bytes": 70959
+  },
+  {
+   "id": "child_b3a029e7_75",
+   "file": "child_b3a029e7_75.m4a",
+   "seconds": 4.46,
+   "bytes": 23886
+  },
+  {
+   "id": "slow_cb976d00_4",
+   "file": "slow_cb976d00_4.m4a",
+   "seconds": 0.57,
+   "bytes": 4234
+  },
+  {
+   "id": "slow_ca99d446_3",
+   "file": "slow_ca99d446_3.m4a",
+   "seconds": 0.86,
+   "bytes": 5716
+  },
+  {
+   "id": "slow_e40c292c_1",
+   "file": "slow_e40c292c_1.m4a",
+   "seconds": 0.31,
+   "bytes": 2772
+  },
+  {
+   "id": "slow_11b54859_3",
+   "file": "slow_11b54859_3.m4a",
+   "seconds": 0.93,
+   "bytes": 5814
+  },
+  {
+   "id": "slow_ea0c329e_1",
+   "file": "slow_ea0c329e_1.m4a",
+   "seconds": 0.28,
+   "bytes": 2577
+  },
+  {
+   "id": "slow_c33f0730_3",
+   "file": "slow_c33f0730_3.m4a",
+   "seconds": 1.17,
+   "bytes": 7325
+  },
+  {
+   "id": "slow_a42935e4_3",
+   "file": "slow_a42935e4_3.m4a",
+   "seconds": 0.35,
+   "bytes": 3054
+  },
+  {
+   "id": "slow_365991eb_3",
+   "file": "slow_365991eb_3.m4a",
+   "seconds": 0.85,
+   "bytes": 5748
+  },
+  {
+   "id": "slow_f00c3c10_1",
+   "file": "slow_f00c3c10_1.m4a",
+   "seconds": 0.3,
+   "bytes": 2832
+  },
+  {
+   "id": "tutor_94c58138_228",
+   "file": "tutor_94c58138_228.m4a",
+   "seconds": 13.37,
+   "bytes": 70119
+  },
+  {
+   "id": "child_b31ce267_62",
+   "file": "child_b31ce267_62.m4a",
+   "seconds": 3.58,
+   "bytes": 19379
+  },
+  {
+   "id": "slow_98bd3905_6",
+   "file": "slow_98bd3905_6.m4a",
+   "seconds": 0.79,
+   "bytes": 5144
+  },
+  {
+   "id": "slow_2169127a_7",
+   "file": "slow_2169127a_7.m4a",
+   "seconds": 0.96,
+   "bytes": 6132
+  },
+  {
+   "id": "slow_05246fc2_6",
+   "file": "slow_05246fc2_6.m4a",
+   "seconds": 0.67,
+   "bytes": 4740
+  },
+  {
+   "id": "tutor_5084bbe3_235",
+   "file": "tutor_5084bbe3_235.m4a",
+   "seconds": 13.57,
+   "bytes": 71723
+  },
+  {
+   "id": "child_e556cb81_100",
+   "file": "child_e556cb81_100.m4a",
+   "seconds": 5.27,
+   "bytes": 28169
   }
  ]
 }
