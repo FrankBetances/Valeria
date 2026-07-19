@@ -156,6 +156,12 @@ jobs:
               f.write(content)
           PY
 
+      # El APK es para instalar a mano en dispositivos reales (siempre ARM):
+      # se limita a armeabi-v7a + arm64-v8a, igual que el perfil "apk" de
+      # eas.json. Sin el filtro, el prebuild compila también x86/x86_64 (solo
+      # útiles en emuladores) y el APK universal sale el doble de pesado, con
+      # instalaciones larguísimas en el dispositivo. El AAB de Play no lo
+      # necesita: Play ya entrega a cada dispositivo solo su arquitectura.
       - name: Build signed release APK
         if: env.HAS_SIGNING_SECRETS == 'true'
         working-directory: ./android
@@ -163,7 +169,7 @@ jobs:
           RELEASE_STORE_PASSWORD: ${{ secrets.ANDROID_RELEASE_STORE_PASSWORD }}
           RELEASE_KEY_ALIAS: ${{ secrets.ANDROID_RELEASE_KEY_ALIAS }}
           RELEASE_KEY_PASSWORD: ${{ secrets.ANDROID_RELEASE_KEY_PASSWORD }}
-        run: ./gradlew assembleRelease
+        run: ./gradlew assembleRelease -PreactNativeArchitectures=armeabi-v7a,arm64-v8a
 
       # El AAB es el formato que exige Google Play. Solo se genera en main (cada
       # fusión) o al lanzar el workflow a mano, para no alargar los builds de PR.
@@ -187,7 +193,7 @@ jobs:
       - name: Build debug APK (no signing secrets configured)
         if: env.HAS_SIGNING_SECRETS != 'true'
         working-directory: ./android
-        run: ./gradlew assembleDebug
+        run: ./gradlew assembleDebug -PreactNativeArchitectures=armeabi-v7a,arm64-v8a
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
