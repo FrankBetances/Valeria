@@ -1,0 +1,72 @@
+LICENCIA PROPIETARIA — TODOS LOS DERECHOS RESERVADOS
+=====================================================
+
+Copyright (c) 2026 Dr. Frank Alberto Betances Reinoso.
+Todos los derechos reservados. (All rights reserved.)
+
+Proyecto: Valeria+ (aplicación de rehabilitación digital del lenguaje).
+
+
+1. TITULARIDAD
+--------------
+La totalidad de este proyecto —incluyendo, sin limitación, el código fuente,
+la documentación, los diseños de interfaz, los recursos gráficos y de audio,
+el corpus de voz, los modelos de datos, las reglas de seguridad, los scripts
+de compilación y cualquier otro material contenido en este repositorio— es
+propiedad exclusiva del Dr. Frank Alberto Betances Reinoso (el "Titular").
+
+Toda la propiedad intelectual e industrial actual sobre el proyecto,
+presente y futura, pertenece al Titular. Ninguna contribución, colaboración o
+aportación de terceros transfiere titularidad alguna salvo mediante acuerdo
+escrito y firmado por el Titular.
+
+
+2. RESERVA DE DERECHOS
+----------------------
+Se reservan todos los derechos. Salvo autorización previa, expresa y por
+escrito del Titular, queda prohibido a cualquier persona o entidad:
+
+  a) usar, ejecutar o explotar el software o cualquiera de sus partes;
+  b) copiar, reproducir o almacenar el proyecto, total o parcialmente;
+  c) modificar, adaptar, traducir o crear obras derivadas;
+  d) distribuir, publicar, sublicenciar, vender, alquilar o ceder el proyecto;
+  e) realizar ingeniería inversa, descompilar o desensamblar el software,
+     salvo en la medida imperativa que permita la ley aplicable;
+  f) retirar o alterar los avisos de copyright y de titularidad.
+
+
+3. AUSENCIA DE LICENCIA DE CÓDIGO ABIERTO
+-----------------------------------------
+Este proyecto NO es software de código abierto ni software libre. La
+disponibilidad del código en un repositorio (aunque este fuera accesible a
+terceros) no constituye ni implica concesión de licencia alguna, ni renuncia
+a ningún derecho del Titular.
+
+
+4. DATOS CLÍNICOS Y CONFIDENCIALIDAD
+------------------------------------
+Valeria+ trata datos de profesionales y de pacientes. El acceso no autorizado
+a los datos, a las credenciales o a la infraestructura del proyecto está
+estrictamente prohibido y puede constituir una infracción civil y penal
+conforme a la legislación aplicable en materia de propiedad intelectual y de
+protección de datos personales.
+
+
+5. AUSENCIA DE GARANTÍA
+-----------------------
+EL PROYECTO SE PROPORCIONA "TAL CUAL", SIN GARANTÍA DE NINGÚN TIPO, EXPRESA O
+IMPLÍCITA, INCLUIDAS, ENTRE OTRAS, LAS GARANTÍAS DE COMERCIABILIDAD, IDONEIDAD
+PARA UN FIN DETERMINADO Y NO INFRACCIÓN. EN NINGÚN CASO EL TITULAR SERÁ
+RESPONSABLE DE RECLAMACIÓN, DAÑO U OTRA RESPONSABILIDAD DERIVADA DEL USO O DE
+LA IMPOSIBILIDAD DE USO DEL PROYECTO.
+
+
+6. CONTACTO Y AUTORIZACIONES
+----------------------------
+Cualquier solicitud de uso, licencia o permiso debe dirigirse al Titular:
+
+  Dr. Frank Alberto Betances Reinoso
+  frank.alberto.betances.reinoso@gmail.com
+
+Toda autorización, para ser válida, debe constar por escrito y estar firmada
+por el Titular.

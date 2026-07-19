@@ -1,0 +1,26 @@
+# CODEOWNERS · Valeria+
+# ---------------------------------------------------------------------------
+# Cada línea asigna un propietario/revisor obligatorio a las rutas indicadas.
+# Con la "branch protection" de `main` activada y la opción "Require review
+# from Code Owners", ningún cambio en estas rutas puede fusionarse sin la
+# aprobación del propietario. Así se evitan cambios no autorizados.
+#
+# NOTA: para que esto se aplique, activa en Settings → Branches la protección
+# de `main` con "Require a pull request before merging" +
+# "Require review from Code Owners".
+# ---------------------------------------------------------------------------
+
+# Propietario por defecto de todo el repositorio.
+*                       @FrankBetances
+
+# Superficie sensible a la seguridad: control de acceso a datos, config de
+# Firebase, secretos y automatización de CI. Requieren revisión explícita.
+/firestore.rules        @FrankBetances
+/firebase.json          @FrankBetances
+/firestore.indexes.json @FrankBetances
+/.env.example           @FrankBetances
+/src/firebase/          @FrankBetances
+/.github/               @FrankBetances
+/SECURITY.md            @FrankBetances
+/eas.json               @FrankBetances
+/app.json               @FrankBetances
