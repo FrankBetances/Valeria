@@ -47,6 +47,18 @@ export const ValeriaLingTestScreen: React.FC<{ navigation: any; route?: any }> =
   const [picked, setPicked] = useState<number | null>(null);
   const lockRef = useRef(false);
 
+  // Nombre del paciente ACTIVO (ficha de STORAGE_KEYS.registro) para la cabecera.
+  const [patientName, setPatientName] = useState('Paciente');
+  useEffect(() => {
+    (async () => {
+      try {
+        const raw = await AsyncStorage.getItem(STORAGE_KEYS.registro);
+        const p = raw ? JSON.parse(raw) : null;
+        if (p && typeof p.nombre === 'string' && p.nombre.trim()) setPatientName(p.nombre.trim());
+      } catch (e) { /* ficha no disponible: queda el rótulo genérico */ }
+    })();
+  }, []);
+
   // Animación de ondas (ripple) alrededor del sonido activo.
   const ripple = useRef(new Animated.Value(0)).current;
   useEffect(() => {
@@ -132,9 +144,9 @@ export const ValeriaLingTestScreen: React.FC<{ navigation: any; route?: any }> =
             <Text style={s.logoFallback}>valeria+</Text>
             <Text style={s.headerTitle}>{phase === 'done' ? 'Test completado' : 'Test de Ling'}</Text>
             <Text style={s.headerSub}>
-              {phase === 'ask' ? 'Lucía M. · Comprobación auditiva'
-                : phase === 'test' ? 'Lucía M. · 6 sonidos de Ling'
-                : 'Lucía M. · Resultado de hoy'}
+              {phase === 'ask' ? `${patientName} · Comprobación auditiva`
+                : phase === 'test' ? `${patientName} · 6 sonidos de Ling`
+                : `${patientName} · Resultado de hoy`}
             </Text>
           </View>
           {phase === 'test' && (

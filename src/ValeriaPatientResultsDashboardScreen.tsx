@@ -53,7 +53,21 @@ const shortDate = (iso: string): string => {
 };
 
 const META_SEMANAL = 5;
-const PATIENT_LINE = 'Lucía M. · NHC HC-204815';
+const PATIENT_LINE_DEFECTO = 'Paciente sin ficha registrada';
+
+// Línea de cabecera con el paciente ACTIVO (ficha de STORAGE_KEYS.registro).
+const patientLineFrom = (raw: string | null): string => {
+  try {
+    const p = raw ? JSON.parse(raw) : null;
+    if (!p || typeof p !== 'object') return PATIENT_LINE_DEFECTO;
+    const nombre = typeof p.nombre === 'string' ? p.nombre.trim() : '';
+    const nhc = typeof p.nhc === 'string' ? p.nhc.trim() : '';
+    if (!nombre && !nhc) return PATIENT_LINE_DEFECTO;
+    return [nombre, nhc ? `NHC ${nhc}` : ''].filter(Boolean).join(' · ');
+  } catch (e) {
+    return PATIENT_LINE_DEFECTO;
+  }
+};
 
 const HISTORIAL_DEFECTO: Sesion[] = [
   { date: '10 jun', name: 'Asociación vocal inicial',    avg: 1.8, completed: true, note: 'Le costó arrancar, pero acabó asociando las vocales con apoyo.' },
@@ -82,9 +96,13 @@ export const ValeriaPatientResultsDashboardScreen: React.FC<{ navigation?: any }
   const [game, setGame] = useState<GameState | null>(null);
   const [pmSesiones, setPmSesiones] = useState<PmSession[]>([]);
   const [pmFonema, setPmFonema] = useState('');
+  const [patientLine, setPatientLine] = useState(PATIENT_LINE_DEFECTO);
 
   useEffect(() => {
     (async () => {
+      try {
+        setPatientLine(patientLineFrom(await AsyncStorage.getItem(STORAGE_KEYS.registro)));
+      } catch (e) { /* ficha no disponible: queda el rótulo por defecto */ }
       try {
         const raw = await AsyncStorage.getItem(STORAGE_KEYS.historial);
         if (raw) {
@@ -190,7 +208,7 @@ export const ValeriaPatientResultsDashboardScreen: React.FC<{ navigation?: any }
       await Share.share({
         title: 'Resultados Valeria+',
         message:
-          `VALERIA+ · Resultados y Evolución\n${PATIENT_LINE}\n\n` +
+          `VALERIA+ · Resultados y Evolución\n${patientLine}\n\n` +
           `Adherencia semanal: ${pct}% (${done}/${META_SEMANAL})\n` +
           `Tendencia: ${trendLabel}\n\nHistorial de sesiones:\n${lineas}\n` +
           (pmLineas ? `\nPares mínimos · sustitución por fonema:\n${pmLineas}\n` : '') +
@@ -213,7 +231,7 @@ export const ValeriaPatientResultsDashboardScreen: React.FC<{ navigation?: any }
         {/* <Image source={logoWhite} style={st.logo} /> */}
         <Text style={st.brand}>valeria</Text>
         <Text style={st.title}>Resultados y Evolución</Text>
-        <Text style={st.subtitle}>{PATIENT_LINE}</Text>
+        <Text style={st.subtitle}>{patientLine}</Text>
       </View>
 
       <ScrollView style={st.flex} contentContainerStyle={st.scroll} showsVerticalScrollIndicator={false}>

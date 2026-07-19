@@ -146,8 +146,11 @@ const s = StyleSheet.create({
     shadowColor: 'rgba(11,18,32,.18)', shadowOffset: { width: 0, height: 12 }, shadowOpacity: 1, shadowRadius: 26, elevation: 6,
   },
   primaryBtnTxt: { color: V.color.primaryDark, fontSize: 17, fontWeight: '800' },
-  secondaryBtn: { marginTop: 12, paddingVertical: 8, alignItems: 'center' },
-  secondaryBtnTxt: { color: '#fff', fontSize: 14.5, fontWeight: '800' },
+  secondaryBtn: {
+    marginTop: 12, paddingVertical: 15, alignItems: 'center', borderRadius: 16,
+    borderWidth: 1.5, borderColor: 'rgba(255,255,255,.55)', backgroundColor: 'rgba(255,255,255,.12)',
+  },
+  secondaryBtnTxt: { color: '#fff', fontSize: 16, fontWeight: '800' },
   trust: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6, marginTop: 14 },
   trustTxt: { color: 'rgba(255,255,255,.72)', fontSize: 11, fontWeight: '600' },
 });
