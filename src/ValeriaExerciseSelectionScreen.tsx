@@ -17,6 +17,7 @@ import { ProUnlockPill, ProPinModal } from './ValeriaProPin';
 import { ValeriaProExportModal } from './ValeriaProExport';
 import { VoiceQualityCard } from './ValeriaVoiceUI';
 import { AUDICION_META, LENGUAJE_META, TEA_META, DISLEXIA_META, AGE_BANDS } from './valeriaExerciseMeta';
+import { AcademyHubCard } from './ValeriaAcademy';
 // import logoWhite from '../../assets/valeria-logo-white.png';
 
 // ----------------------------------------------------------------------------
@@ -195,7 +196,15 @@ export const ValeriaExerciseSelectionScreen: React.FC<{ navigation: any }> = ({ 
               ScrollView se reutiliza y hereda el desplazamiento de la otra vista. */}
           <ScrollView key="hub" contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
             {toastBar}
-            <Text style={s.hubLabel}>BLOQUES DE TERAPIA</Text>
+
+            {/* Academy: formación del cuidador (motor clínico MDR). Tarjeta
+                prominente con la misma jerarquía visual que los bloques. Se
+                suscribe sola al store (useSyncExternalStore): su progreso se
+                actualiza en tiempo real sin re-renderizar el resto del hub. */}
+            <Text style={s.hubLabel}>TU FORMACIÓN</Text>
+            <AcademyHubCard onPress={() => { setToast(''); navigation.navigate('Academy'); }} />
+
+            <Text style={[s.hubLabel, { marginTop: 6 }]}>BLOQUES DE TERAPIA</Text>
 
             {blockCard({
               icon: '🗣️', accentBg: '#ede4fc', accentFg: '#7c4fd0',
