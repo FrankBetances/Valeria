@@ -6,7 +6,7 @@ Uso:
     python3 docs/build-docx.py
 
 Requiere las capturas de docs/screenshots/ (ver docs/capture-screenshots.js).
-Mantiene el mismo contenido que docs/manual-casos-de-uso.html (v8.1).
+Mantiene el mismo contenido que docs/manual-casos-de-uso.html (v8.2).
 """
 import os
 from docx import Document
@@ -64,7 +64,7 @@ for name, size, color, before in (('Heading 1', 17, PRIMARY, 14),
 
 footer_p = sec.footer.paragraphs[0]
 footer_p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-run = footer_p.add_run('Valeria+ · Manual de Casos de Uso · v8.1 (con capturas de pantalla) · Julio de 2026')
+run = footer_p.add_run('Valeria+ · Manual de Casos de Uso · v8.2 (con capturas de pantalla) · Julio de 2026')
 run.font.size = Pt(8)
 run.font.color.rgb = MUTED
 
@@ -266,7 +266,7 @@ for _ in range(4):
     p('', space_after=0)
 p('valeria+', bold=True, size=16, color=PRIMARY_BRIGHT)
 p('🐻', size=52, align=WD_ALIGN_PARAGRAPH.LEFT, space_after=18)
-p('Manual de usuario · v8.1 · con capturas de pantalla', bold=True, size=10, color=PRIMARY)
+p('Manual de usuario · v8.2 · con capturas de pantalla', bold=True, size=10, color=PRIMARY)
 p('Manual de Casos de Uso', bold=True, size=34, color=INK, space_after=10)
 p('Aplicación de terapia auditivo-verbal y del lenguaje para niñas y niños con hipoacusia, '
   'implante coclear, dislalias o dificultades del lenguaje.', size=13, color=INK2, space_after=16)
@@ -297,6 +297,7 @@ toc = [
     ('CU-13', 'Exportar la evidencia de usabilidad del piloto (QR + compartir)'),
     ('CU-14', 'Elegir la variedad de terapia (Castellano · Galego · Dominicano)'),
     ('CU-15', 'Panel del Adulto: carga comunicativa (ruido, doble tarea, quiebre)'),
+    ('CU-16', 'Academy: formarse con las Cápsulas de Conocimiento'),
     ('', 'ANEXO'),
     ('A', 'Preguntas frecuentes y resolución de problemas'),
 ]
@@ -427,6 +428,22 @@ data_table(['Mejora', 'Qué cambia'], [
      'En galego, la Expansión Semántica y los ejercicios de Audición y Lenguaje (contenido compartido con el '
      'castellano) suenan con la voz neuronal castellana mientras Celtia no los cubra, en vez de quedar en silencio en '
      'dispositivos sin voz gallega (ver CU-14).'],
+], widths=[4.8, 12.2])
+doc.add_heading('Novedades de la versión 8.2', level=3)
+p('La versión 8.2 suma Academy, un espacio de formación para el adulto. En la terapia auditivo-verbal el cuidador es '
+  'quien dirige cada sesión, así que aprender a hacerlo bien forma parte del tratamiento. Academy no es para el niño: '
+  'es para quien lo acompaña.')
+data_table(['Novedad', 'Qué aporta'], [
+    [[('🎓 Academy', True)],
+     'Una tarjeta destacada en la pantalla de terapias abre un curso breve de Cápsulas de Conocimiento (unos 2 minutos '
+     'cada una) sobre cómo aprenden a hablar los niños, el porqué de las dinámicas de movimiento (TPR) y los vicios a '
+     'evitar durante la terapia en casa (ver CU-16).'],
+    [[('✅ Quiz rápido', True)],
+     'Cada cápsula termina con un mini-test de una o dos preguntas con respuesta explicada, para fijar la idea sin que '
+     'se haga pesado.'],
+    [[('📊 Progreso visible', True)],
+     'La tarjeta muestra una barra de avance, el nivel (de Novato a Cuidador experto), los puntos y las insignias, que '
+     'se actualizan al instante al completar una cápsula. El avance se guarda cifrado en el dispositivo.'],
 ], widths=[4.8, 12.2])
 
 # ============================ CAP 2 ============================
@@ -879,6 +896,35 @@ callout('Siempre en manos del adulto',
 figures([('23-panel-adulto.png', 'Panel del Adulto desplegado: ruido de fondo, oso distractor y quiebre pragmático.')],
         width_cm=6.4)
 
+# ---- CU-16 · ACADEMY · FORMACIÓN DEL CUIDADOR ----
+doc.add_page_break()
+uc_header('CU-16', 'Familia', 'Academy: formarse con las Cápsulas de Conocimiento')
+uc_meta('Adulto que dirige la sesión (familia o cuidador)', 'Prescripción de Terapias → Academy',
+        'Ninguna; disponible desde el primer día', 'Cápsula completada y progreso guardado')
+p('Academy es el espacio de formación para el adulto. En la terapia auditivo-verbal la persona que acompaña al niño es '
+  'el motor de la sesión, así que Academy le enseña —en pequeñas dosis— a hacerlo mejor. Aparece como una tarjeta '
+  'destacada “Academy” en la pantalla de terapias, con una barra de progreso siempre a la vista.')
+data_table(['Tema', 'Qué se aprende'], [
+    [[('👂 Cómo aprenden a hablar', True)], 'Que el niño escucha mucho antes de hablar y que la conversación por turnos —y saber esperar en silencio— es lo que impulsa el lenguaje.'],
+    [[('🤸 Por qué moverse (TPR)', True)], 'Unir sonido y movimiento ayuda a recordar y quita la presión de “tener que hablar”; por eso es el adulto quien confirma si el niño cumplió la orden.'],
+    [[('🚫 Vicios a evitar', True)], 'No decir “así no se dice” sino repetir bien la palabra dentro de la frase; y comentar más que preguntar para que la sesión no parezca un examen.'],
+    [[('🧑‍🏫 Terapia mediada', True)], 'La app es la herramienta; el terapeuta en casa es el adulto, que puede parar cuando haga falta: no hay un mínimo que cumplir.'],
+], widths=[4.8, 12.2])
+h4('Flujo principal')
+numbered([
+    [('En ', False), ('Prescripción de Terapias', True), (', pulsar la tarjeta ', False), ('“Academy”', True), (' (bajo el rótulo “Tu formación”).', False)],
+    [('Elegir una ', False), ('Cápsula de Conocimiento', True), (' de la lista (unos 2 minutos cada una).', False)],
+    [('Leer las ', False), ('diapositivas', True), (' avanzando con “Siguiente”.', False)],
+    [('Responder el ', False), ('quiz rápido', True), (' del final; cada respuesta muestra una breve explicación.', False)],
+    [('Al aprobar, la app suma ', False), ('puntos e insignias', True), (' y la ', False), ('barra de la tarjeta avanza al instante', True), ('.', False)],
+])
+callout('Es para el adulto, no para el niño',
+        'Academy vive junto a los menús de la app, que maneja siempre el adulto; la tableta se cede al niño solo cuando '
+        'el ejercicio ya ha empezado. Por eso el niño no llega por error a esta formación.')
+callout('El progreso no se pierde',
+        'El avance (cápsulas hechas, nivel e insignias) se guarda cifrado en el dispositivo, igual que el resto de '
+        'datos, y funciona sin conexión.')
+
 # ============================ ANEXO ============================
 doc.add_page_break()
 kicker('Anexo A')
@@ -920,9 +966,11 @@ data_table(['Situación', 'Qué hacer'], [
      'En la variedad dominicana la app respeta los rasgos del habla caribeña (seseo, “s” aspirada, “r/l” final). Y recuerde: el adulto es siempre el juez final del veredicto.'],
     ['Apareció ruido de fondo o un oso moviéndose',
      'Son módulos del Panel del Adulto (carga comunicativa) del piloto; solo se activan a mano. Desactívelos desde ese mismo panel (CU-15).'],
+    ['¿Qué es la tarjeta “Academy” del hub?',
+     'Es la formación para el adulto: cápsulas breves sobre cómo aprenden a hablar los niños, el porqué del movimiento (TPR) y los vicios a evitar, con un quiz rápido. No es un ejercicio para el niño (CU-16).'],
 ], widths=[6.0, 11.0])
 p('', space_after=4)
-p('Valeria+ · Manual de Casos de Uso · v8.1 (con capturas de pantalla) · Julio de 2026 · Terapia auditivo-verbal y del '
+p('Valeria+ · Manual de Casos de Uso · v8.2 (con capturas de pantalla) · Julio de 2026 · Terapia auditivo-verbal y del '
   'lenguaje para la infancia. Documento de apoyo para logopedas y familias. Disponible en Castellano, Galego (Proxecto '
   'Nós) y Dominicano (Quisqueya Habla). Los datos personales se tratan localmente conforme a RGPD/HIPAA; la '
   'sincronización en la nube y la telemetría anónima del piloto son opcionales.', size=8.5, color=MUTED)

@@ -17,6 +17,7 @@ Expo SDK 54 · React Native 0.81 · TypeScript · Backend opcional Firebase
 
 - [¿Qué es Valeria+?](#qué-es-valeria)
 - [Bloques de terapia](#bloques-de-terapia)
+- [Academy · formación del cuidador](#academy--formación-del-cuidador)
 - [Panel del Adulto · Carga Comunicativa](#panel-del-adulto--carga-comunicativa)
 - [Idiomas y variedades](#idiomas-y-variedades)
 - [Flujo de pantallas](#flujo-de-pantallas)
@@ -33,8 +34,9 @@ Expo SDK 54 · React Native 0.81 · TypeScript · Backend opcional Firebase
 ## ¿Qué es Valeria+?
 
 Valeria+ reúne en un solo lugar el **registro del paciente**, una comprobación
-auditiva previa (**Test de Ling**), **seis bloques de terapia** y un **panel de
-resultados** para seguir la evolución.
+auditiva previa (**Test de Ling**), **seis bloques de terapia**, un módulo de
+**formación del cuidador** (**Academy**) y un **panel de resultados** para seguir
+la evolución.
 
 Parte de un principio clave: **los padres y cuidadores son el motor de voz y
 evaluación**. El reconocimiento de voz ayuda, pero **el adulto siempre es el juez
@@ -66,6 +68,34 @@ la palabra objetivo ya no se dicta aislada: un **motor combinatorio de frases
 portadoras** (`valeriaCarrierPhrases`, es/gl) la incrusta en una frase con
 prosodia continua seguida de una pregunta de elicitación, sin repetir frase en
 diez ensayos seguidos.
+
+## Academy · formación del cuidador
+
+En la terapia auditivo‑verbal el **adulto es el motor clínico** de cada sesión
+(requisito **MDR**: la app nunca decide sola). **Academy** (`src/ValeriaAcademy/`)
+capacita a padres y cuidadores para que acompañen como profesionales, mediante
+**Cápsulas de Conocimiento** de consumo rápido (≈2 min) con **micro‑quiz** de
+validación ágil. Se muestra como una **tarjeta prominente** en el hub de
+`ExerciseSelection`, con la misma jerarquía visual que los bloques de terapia y
+una **barra de progreso que se actualiza en tiempo real**.
+
+| Eje temático | Qué enseña |
+| --- | --- |
+| 👂 **Cómo aprenden a hablar** | El baño de lenguaje (input antes que producción) y la conversación por turnos (*serve and return*, poder de la espera). |
+| 🤸 **Por qué el TPR** | Escuchar + mover consolida la memoria y descarga la presión de producir; por eso el adulto es quien valida cada orden. |
+| 🚫 **Vicios a evitar** | No corregir sino **remodelar** (*recast*) y comentar más que preguntar (evitar el "examen encubierto"). |
+| 🧑‍🏫 **Terapia mediada** | El adulto elige, modela, refuerza y **puede parar**: no hay mínimo obligatorio. |
+
+- **Gamificación funcional**: XP, niveles (Novato → Cuidador experto) e insignias
+  (`📘 Aprendiz`, `📗 A medio camino`, `🎓 Cuidador experto`, `💯 Sin fallos`).
+- **Persistencia cifrada offline**: el progreso se guarda con `valeriaCrypto`
+  (JSON cifrado en reposo sobre `AsyncStorage`, clave `STORAGE_KEYS.academy`),
+  igual que la telemetría del piloto.
+- **Lectura O(1) sin re‑renders**: el resumen para el hub se sirve desde una
+  capa en memoria con `useSyncExternalStore` (`academyStore`); completar una
+  cápsula re‑renderiza **solo** la tarjeta de Academy, nunca el resto del hub ni
+  la navegación. El encuadre operativo lo permite: el adulto maneja los menús y
+  solo cede la tableta cuando el ejercicio ya ha empezado.
 
 ## Panel del Adulto · Carga Comunicativa
 
@@ -126,6 +156,7 @@ Welcome → Credits → (PatientSelect ó FichaRegistro) → ExerciseSelection
         → LingTest → ExercisePlayer → Results
                    ↘ MinimalPairs (Pares Mínimos)
                    ↘ SemanticExpansion (Expansión Semántica)
+                   ↘ Academy (formación del cuidador)
 ```
 
 ## Telemetría del piloto clínico
@@ -167,7 +198,7 @@ con *debounce* vía `InteractionManager`, de modo que el cifrado y el guardado e
 
 | Documento | Descripción |
 | --- | --- |
-| **Manual de usuario con casos de uso** (v8.1) · [HTML](docs/manual-casos-de-uso.html) · [PDF](docs/Valeria-Manual-Casos-de-Uso.pdf) · [Word](docs/Valeria-Manual-Casos-de-Uso.docx) | 15 casos de uso paso a paso ilustrados con 23 capturas reales (`docs/screenshots/`): los cuatro bloques, el hub, la gráfica de sustitución por fonema, la telemetría del piloto (CU‑13), la variedad lingüística (CU‑14), el Panel del Adulto / carga comunicativa (CU‑15) y las novedades v6/v7/v8/v8.1. |
+| **Manual de usuario con casos de uso** (v8.2) · [HTML](docs/manual-casos-de-uso.html) · [PDF](docs/Valeria-Manual-Casos-de-Uso.pdf) · [Word](docs/Valeria-Manual-Casos-de-Uso.docx) | 16 casos de uso paso a paso ilustrados con capturas reales (`docs/screenshots/`): los cuatro bloques, el hub, la gráfica de sustitución por fonema, la telemetría del piloto (CU‑13), la variedad lingüística (CU‑14), el Panel del Adulto / carga comunicativa (CU‑15), **Academy · formación del cuidador (CU‑16)** y las novedades v6/v7/v8/v8.1/v8.2. |
 | [`docs/protocolo-pares-minimos.md`](docs/protocolo-pares-minimos.md) | Protocolo de pares mínimos para dislalias fonológicas: 10 pares accionables con flujo TTS→STT, feedback por rama y misiones físicas. Implementado en `src/ValeriaMinimalPairsScreen.tsx` + `src/valeriaMinimalPairs.ts`. |
 | [`docs/protocolo-pares-minimos-es-DO.md`](docs/protocolo-pares-minimos-es-DO.md) | Protocolo de pares mínimos en español dominicano (Quisqueya Habla). Implementado en `src/valeriaMinimalPairsEsDO.ts`. |
 | [`docs/protocolo-expansion-semantica.md`](docs/protocolo-expansion-semantica.md) | Protocolo de expansión semántica / progresión léxica offline. Implementado en `src/ValeriaSemanticExpansionScreen.tsx` + `src/valeriaSemanticExpansion.ts`. |
@@ -256,6 +287,26 @@ Guía completa de configuración y despliegue: [`docs/firebase-setup.md`](docs/f
 ## Historial de versiones
 
 <details open>
+<summary><strong>V8.2</strong> — Academy: formación gamificada del cuidador</summary>
+
+- **Nuevo módulo Academy** (`src/ValeriaAcademy/`): sistema de capacitación
+  gamificado para padres y cuidadores —el motor clínico de la app bajo el marco
+  MDR—, con **Cápsulas de Conocimiento** de consumo rápido y **micro‑quiz** de
+  validación ágil sobre cómo aprenden a hablar los niños, el porqué de las
+  dinámicas TPR y qué vicios evitar en la terapia mediada (no corregir sino
+  remodelar, comentar más que preguntar).
+- **Tarjeta en el hub** (`AcademyHubCard`): prominente en `ExerciseSelection`,
+  con la misma jerarquía visual que los bloques de terapia y una **barra de
+  progreso en tiempo real** (nivel, XP e insignias).
+- **Persistencia cifrada offline**: el progreso se guarda con `valeriaCrypto`
+  sobre `AsyncStorage` (`STORAGE_KEYS.academy`), coherente con la telemetría.
+- **Lectura O(1) sin re‑renders**: `academyStore` expone el resumen vía
+  `useSyncExternalStore`; completar una cápsula re‑renderiza solo la tarjeta, no
+  el hub ni la navegación.
+
+</details>
+
+<details>
 <summary><strong>V8.1</strong> — arreglos de registro, resultados y voz gallega</summary>
 
 - **Bienvenida**: el botón «Ya tengo un paciente registrado» pasa de enlace de
