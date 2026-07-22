@@ -422,6 +422,27 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
     }
   };
 
+  // DX-6 · Denominación Rápida (RAN): la matriz se nombra y toca en ORDEN de
+  // lectura (izquierda→derecha). La app solo marca el avance; no nombra los
+  // dibujos (lo hace el niño) ni cronometra (el estresor es la persecución
+  // dactilar ANALÓGICA del adulto). Reutiliza rotFound/rotWrongIdx.
+  const tapRan = (i: number) => {
+    const nextExpected = rotFound.filter(Boolean).length;
+    if (rotFound[i]) return;
+    if (i === nextExpected) {
+      // Solo se avanza en orden estricto, así que lo marcado es siempre el
+      // prefijo [0..i-1] y basta con fijar la posición actual.
+      const next = [...rotFound];
+      next[i] = true;
+      setRotFound(next);
+      if (i + 1 === ex.tiles!.length) speakVerdict(true);
+    } else {
+      setRotWrongIdx(i);
+      clearTimeout(rotTimer.current);
+      rotTimer.current = setTimeout(() => setRotWrongIdx(-1), 900);
+    }
+  };
+
   // DX-4 · Criba de pseudopalabras: cada veredicto del Juez consume un ensayo.
   // Al llegar al límite rígido se intercala UNA cápsula TPR de descarga.
   const judgeTrial = (ok: boolean) => {
@@ -960,6 +981,52 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                 );
               })()}
 
+              {/* DX-6 · Denominación Rápida (RAN): nombrar y tocar cada dibujo
+                  en orden de lectura. Sin cronómetro: el estresor temporal es
+                  la persecución dactilar del ADULTO (analógica y reversible).
+                  Los toques fuera de ficha van al mapa de misclicks. */}
+              {ex.stage === 'ran' && (() => {
+                const named = rotFound.filter(Boolean).length;
+                const complete = named === ex.tiles!.length;
+                return (
+                  <>
+                    <Text style={s.stageHint}>En orden de lectura (→): el niño NOMBRA el dibujo en voz alta y lo toca. Tú persigues su dedo con el tuyo, como pilla-pilla.</Text>
+                    <View style={s.rotHead}>
+                      <Text style={s.rotHeadLbl}>NOMBRADOS</Text>
+                      <Text style={s.rotHeadCount}>{named} / {ex.tiles!.length}</Text>
+                    </View>
+                    <View style={s.rotGrid}>
+                      {ex.tiles!.map((t, i) => {
+                        const done = !!rotFound[i];
+                        const isNext = i === named;
+                        const wrong = rotWrongIdx === i;
+                        return (
+                          <Pressable
+                            key={i}
+                            onPress={() => tapRan(i)}
+                            disabled={done}
+                            accessibilityRole="button"
+                            accessibilityState={{ disabled: done }}
+                            accessibilityLabel={`Dibujo ${i + 1} de ${ex.tiles!.length}`}
+                            style={[s.rotTile, done && s.rotTileOk, wrong && s.rotTileBad, isNext && !done && s.ranTileNext]}
+                          >
+                            <Text style={{ fontSize: 30, opacity: done ? 0.45 : 1 }}>{t.emoji}</Text>
+                          </Pressable>
+                        );
+                      })}
+                    </View>
+                    {complete && (
+                      <Text style={s.matchDone}>🎉 ¡Matriz completa! Puedes pasar a otra ronda o evaluar abajo.</Text>
+                    )}
+                    {named > 0 && !complete && (
+                      <Pressable onPress={() => { setRotFound([]); setRotWrongIdx(-1); }} accessibilityRole="button">
+                        <Text style={s.orderReset}>↺ Volver a empezar</Text>
+                      </Pressable>
+                    )}
+                  </>
+                );
+              })()}
+
               {ex.stage === 'emotions' && (
                 <>
                   <View style={{ alignItems: 'center', marginBottom: 16 }}>
@@ -1079,8 +1146,11 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                 const display = parts.map((_, k) => (k + 1) % parts.length);
                 const complete = orderPicks.length === parts.length;
                 const correct = complete && orderPicks.every((p, k) => p === k);
+                // Roles S-V-O con pregunta natural; otros roles (p. ej. la
+                // secuencia temporal de RA-4: Primero/Luego/Después) se
+                // muestran tal cual.
                 const question = (role: string) =>
-                  role === 'Sujeto' ? '¿Quién?' : role === 'Verbo' ? '¿Qué hace?' : '¿Qué cosa?';
+                  role === 'Sujeto' ? '¿Quién?' : role === 'Verbo' ? '¿Qué hace?' : role === 'Objeto' ? '¿Qué cosa?' : role;
                 return (
                   <>
                     <View style={{ alignItems: 'center', marginBottom: 14 }}>
@@ -1497,6 +1567,9 @@ const s = StyleSheet.create({
   rotTile: { width: '22%', minWidth: 64, aspectRatio: 1, borderRadius: 14, backgroundColor: '#fff', borderWidth: 2, borderColor: '#0b1220', alignItems: 'center', justifyContent: 'center' },
   rotTileOk: { backgroundColor: V.color.success, borderColor: V.color.success },
   rotTileBad: { backgroundColor: V.color.errorBg, borderColor: '#fecdd3' },
+  // RAN (DX-6): resalte sutil del siguiente dibujo del renglón, para sostener
+  // el orden de lectura sin convertir la ayuda en respuesta.
+  ranTileNext: { borderColor: V.color.primary, borderWidth: 3 },
   rotTileTxt: { fontSize: 34, fontWeight: '800', color: '#0b1220' },
 
   // TEA-1 · Sello Doble (instigación retardada)

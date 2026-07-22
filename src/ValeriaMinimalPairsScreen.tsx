@@ -576,7 +576,10 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
             <View style={s.countBadge}><Text style={s.countBadgeTxt}>{activeCount} prescritos</Text></View>
           </View>
 
-          {PAIR_GROUPS.map((g) => (
+          {/* Solo los grupos con pares en la variedad activa: los bancos
+              localizados (gl, es-DO, eu) no cubren todos los grupos del
+              banco castellano y una sección vacía confunde al prescriptor. */}
+          {PAIR_GROUPS.filter((g) => pairs.some((p) => p.group === g)).map((g) => (
             <View key={g}>
               <Text style={s.groupLabel}>{g.toUpperCase()}</Text>
               {pairs.filter((p) => p.group === g).map((p) => {

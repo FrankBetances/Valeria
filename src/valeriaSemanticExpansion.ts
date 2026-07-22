@@ -13,9 +13,11 @@
 // Tres bloques de contenido, format-first (los consume ValeriaSemanticExpansionScreen):
 //   1. DAILY_SCENARIOS      — 5 escenarios de vida diaria · 6 ítems c/u
 //                             (2 sustantivos, 2 verbos, 1 adjetivo, 1 onomatopeya).
-//   2. PROGRESSION_SEQUENCES — 7 progresiones sobre un eje temático que evolucionan
-//                             Onomatopeya → Sustantivo → Verbo → Adjetivo.
-//   3. CONTRAST_CAPSULES    — 6 cápsulas TPR de contraste activo (pares de
+//   2. PROGRESSION_SEQUENCES — 9 progresiones sobre un eje temático que evolucionan
+//                             Onomatopeya → Sustantivo → Verbo → Adjetivo (las
+//                             rutinas transaccionales suben a la COMBINACIÓN
+//                             de dos palabras en la fase de verbo: «quiero pan»).
+//   3. CONTRAST_CAPSULES    — 8 cápsulas TPR de contraste activo (pares de
 //                             adjetivos y verbos antónimos) con DOS vueltas
 //                             evaluadas: palabra objetivo y su opuesta.
 // Protocolo completo: docs/protocolo-expansion-semantica.md
@@ -555,6 +557,77 @@ export const PROGRESSION_SEQUENCES: ProgressionSequence[] = [
       },
     ],
   },
+  // --------------------------------------------------------------------------
+  // Ampliación (Expansión de Protocolos): rutinas TRANSACCIONALES de la vida
+  // diaria. La fase de verbo evoluciona a la COMBINACIÓN de dos palabras
+  // («quiero pan»): el salto de la holofrase a la petición funcional.
+  // --------------------------------------------------------------------------
+  {
+    id: 'seq-pan', theme: 'Alimentación · El desayuno', icon: '🍞',
+    phases: [
+      {
+        kind: 'onomatopeya', label: 'ñam ñam', emoji: '🍞',
+        visual_prompt: 'Boca masticando un trocito de pan con migas alrededor, sin fondo, alto contraste, contorno grueso.',
+        tts_string: 'A desayunar: ¡Ñam, ñam! ¿Cómo hace la boca? Di: ñam, ñam.',
+        stt_expected_array: ['ñam ñam', 'ñam', 'nam nam', 'nam', 'am am'],
+        parent_tpr_action: 'Mastica de forma exagerada un pan imaginario y que el niño mastique contigo al ritmo de “ñam, ñam”.',
+      },
+      {
+        kind: 'sustantivo', label: 'pan', emoji: '🍞',
+        visual_prompt: 'Barra de pan dorada de perfil, colores planos, sin fondo, alto contraste, contorno grueso.',
+        tts_string: '¡Ñam, ñam! Esto es el pan. ¿Qué es? Di: pan.',
+        stt_expected_array: ['pan', 'pa', 'apan', 'pam', 'paa'],
+        parent_tpr_action: 'Pon un trocito de pan de verdad en su mano, señaladlo y decid “pan” antes de comerlo.',
+      },
+      {
+        kind: 'verbo', label: 'quiero pan', emoji: '🙋',
+        visual_prompt: 'Silueta infantil con la mano extendida hacia una barra de pan, sin fondo, alto contraste, contorno grueso.',
+        tts_string: 'Tienes hambre y pides: ¡quiero pan! ¿Qué dices? Di: quiero pan.',
+        stt_expected_array: ['quiero pan', 'quiero pa', 'iero pan', 'quielo pan', 'ero pan'],
+        parent_tpr_action: 'Sujeta el pan a la vista pero fuera de su alcance y entrégaselo JUSTO cuando lo pida: la petición consigue el premio real.',
+      },
+      {
+        kind: 'adjetivo', label: 'tostado', emoji: '🔥',
+        visual_prompt: 'Dos rebanadas juntas: una blanca y otra tostada más oscura con líneas de calor, sin fondo, alto contraste, contorno grueso.',
+        tts_string: 'Hay pan blanco y pan tostado. ¿Cuál quieres? Di: tostado.',
+        stt_expected_array: ['tostado', 'totado', 'ostado', 'tostao', 'totao'],
+        parent_tpr_action: 'Muéstrale dos trozos (blanco y tostado) y dale el que nombre; oled juntos el tostado exagerando “¡mmm!”.',
+      },
+    ],
+  },
+  {
+    id: 'seq-globo', theme: 'Juego · El globo', icon: '🎈',
+    phases: [
+      {
+        kind: 'onomatopeya', label: 'pum', emoji: '🎈',
+        visual_prompt: 'Globo explotando en estrella con trocitos volando, sin fondo, alto contraste, contorno grueso.',
+        tts_string: 'El globo explota: ¡Pum! ¿Cómo hace el globo? Di: pum.',
+        stt_expected_array: ['pum', 'pun', 'bum', 'um', 'pum pum'],
+        parent_tpr_action: 'Inflad los mofletes muy fuerte y dad una palmada a la vez al decir “¡pum!”.',
+      },
+      {
+        kind: 'sustantivo', label: 'globo', emoji: '🎈',
+        visual_prompt: 'Globo rojo con cuerdecita, de frente, colores planos, sin fondo, alto contraste, contorno grueso.',
+        tts_string: '¡Pum! Esto es el globo. ¿Qué es? Di: globo.',
+        stt_expected_array: ['globo', 'gobo', 'lobo', 'obo', 'bobo'],
+        parent_tpr_action: 'Dale un globo (o una bolsita inflada), señaladlo y decid “globo” dándole toquecitos suaves.',
+      },
+      {
+        kind: 'verbo', label: 'sopla', emoji: '💨',
+        visual_prompt: 'Carita de perfil soplando aire hacia un globo pequeño, sin fondo, alto contraste, contorno grueso.',
+        tts_string: 'Para inflarlo hay que soplar. ¿Qué hacemos? Di: sopla.',
+        stt_expected_array: ['sopla', 'opla', 'sofla', 'topla', 'sopa'],
+        parent_tpr_action: 'Soplad los dos una pluma o un papelito sobre la mesa, alargando el soplido todo lo posible.',
+      },
+      {
+        kind: 'adjetivo', label: 'redondo', emoji: '⭕',
+        visual_prompt: 'Globo muy redondo con una flecha circular alrededor, sin fondo, alto contraste, contorno grueso.',
+        tts_string: '¡Mira qué gordo! El globo es redondo. ¿Cómo es? Di: redondo.',
+        stt_expected_array: ['redondo', 'edondo', 'dedondo', 'redono', 'lelondo'],
+        parent_tpr_action: 'Dibujad círculos grandes en el aire con los dos brazos mientras decís “redoooondo”.',
+      },
+    ],
+  },
 ];
 
 // ---------------------------------------------------------------------------
@@ -696,6 +769,44 @@ export const CONTRAST_CAPSULES: ContrastCapsule[] = [
         tts_trigger: 'Ahora al revés. ¿Qué hacemos con la luz? ¡A APAGAR! Di: apagar.',
         stt_expected_array: ['apagar', 'apaga', 'paga', 'agar', 'apagá'],
         parent_action: 'El niño apaga la luz y os decís “buenas noches” con voz de susurro.',
+      },
+    ],
+  },
+  {
+    id: 'cap-lleno-vacio', code: 'CT-7', kind: 'adjetivos',
+    pair: ['lleno', 'vacío'], icon: '🧺',
+    physical_setup: 'Prepara dos cestas o cajas iguales: llena una hasta arriba de juguetes o calcetines y deja la otra completamente vacía. Ponlas delante del niño.',
+    rounds: [
+      {
+        label: 'lleno', emoji: '🧺',
+        tts_trigger: '¿Cuál está LLENA de cosas? ¡Señálala y dilo! Di: lleno.',
+        stt_expected_array: ['lleno', 'yeno', 'eno', 'lleno lleno', 'nono'],
+        parent_action: 'El niño señala la cesta llena; levantadla juntos exagerando lo mucho que pesa: “¡uf, llenaaa!”.',
+      },
+      {
+        label: 'vacío', emoji: '🕳️',
+        tts_trigger: 'Y esta otra, ¿cómo está? ¡Mira dentro! Di: vacío.',
+        stt_expected_array: ['vacío', 'vacio', 'asio', 'bacío', 'ío'],
+        parent_action: 'Poned la cesta vacía boca abajo sobre la cabeza del niño como un sombrero: no cae nada, ¡está vacía!',
+      },
+    ],
+  },
+  {
+    id: 'cap-mete-saca', code: 'CT-8', kind: 'verbos',
+    pair: ['meter', 'sacar'], icon: '📥',
+    physical_setup: 'Coge una caja abierta y tres juguetes pequeños. Coloca los juguetes FUERA de la caja, delante del niño.',
+    rounds: [
+      {
+        label: 'meter', emoji: '📥',
+        tts_trigger: 'Los juguetes van a su casa. ¿Qué hacemos? ¡A METER! Di: meter.',
+        stt_expected_array: ['meter', 'mete', 'eter', 'metel', 'meté'],
+        parent_action: 'El niño mete un juguete en la caja con cada palabra; celebrad el último con un “¡todos dentro!”.',
+      },
+      {
+        label: 'sacar', emoji: '📤',
+        tts_trigger: 'Ahora al revés. ¿Qué hacemos con los juguetes? ¡A SACAR! Di: sacar.',
+        stt_expected_array: ['sacar', 'saca', 'acar', 'tacar', 'sacá'],
+        parent_action: 'El niño saca los juguetes uno a uno; contádlos en fila al salir: “¡uno, dos y tres fuera!”.',
       },
     ],
   },

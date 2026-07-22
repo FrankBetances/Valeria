@@ -21,7 +21,10 @@
 # Masterización: pico a -3 dBFS (la Pista B de babble va a -6 dBFS: la voz
 # conserva +3 dB y la suma no satura). Estilos del corpus:
 #   · piper: length_scale nativo (tutor 1.0 · child 1.05 · clinical 1.15 · slow 1.6)
-#   · coqui: atempo de ffmpeg equivalente (sin re-pitch), tras normalizar.
+#   · coqui (gl): length_scale nativo del VITS + prosodia controlada (troceo
+#     propio por frases y pausas cortas constantes; ver make_coqui_synth V2).
+#     Fallback atempo solo si el modelo no expone length_scale.
+#   · ahotts (eu): atempo de ffmpeg equivalente (sin re-pitch), tras normalizar.
 # ============================================================================
 import argparse
 import audioop
@@ -175,24 +178,27 @@ def make_piper_synth(voice: dict):
 
 
 def make_coqui_synth(voice: dict):
+    """Celtia (gl) con PROSODIA CONTROLADA — V2.
+
+    La V1 usaba tts_to_file(texto completo): el Synthesizer de coqui trocea por
+    frases (pysbd) y concatena insertando ~0,45 s de silencio MUERTO tras cada
+    una; además el estilo se aplicaba con atempo posterior, que estiraba esos
+    silencios (slow: ×1,6 → pausas de ~0,7 s). Resultado: pausas que rompen el
+    ritmo (reporte de campo gl, jul 2026). Ahora:
+      1) el estilo se hornea en el length_scale NATIVO del VITS (sin atempo:
+         las pausas no se estiran y no hay artefactos de resampleo);
+      2) el troceo por frases es nuestro, cada frase se sintetiza aislada y se
+         recortan sus silencios de borde;
+      3) las frases se unen con una pausa corta y constante (PAUSE_SEC), la
+         respiración natural de la locutora en vez del hueco del motor."""
+    import re
+
+    import numpy as np
     from TTS.api import TTS  # pip install coqui-tts (torch CPU)
 
     # Descubrimiento de ficheros del checkpoint vía API de HF: el repo de Nós
     # puede nombrar el .pth/.json como quiera sin romper esta tubería.
-    repo, siblings = None, []
-    for cand in voice["hf_repos"]:
-        try:
-            req = urllib.request.Request(f"https://huggingface.co/api/models/{cand}")
-            if HF_TOKEN:
-                req.add_header("Authorization", f"Bearer {HF_TOKEN}")
-            with urllib.request.urlopen(req, timeout=30) as r:
-                siblings = [s["rfilename"] for s in json.load(r).get("siblings", [])]
-            repo = cand
-            break
-        except Exception as e:
-            print(f"aviso: {cand} no accesible ({e})")
-    if not repo:
-        die(f"Ningún repo de Celtia accesible en HF: {voice['hf_repos']}")
+    repo, siblings = _hf_discover(voice["hf_repos"])
 
     model_file = next((f for f in siblings if f.endswith((".pth", ".pth.tar", ".ckpt"))), None)
     config_file = next((f for f in siblings if f.endswith("config.json")), None)
@@ -208,11 +214,54 @@ def make_coqui_synth(voice: dict):
     print(f"Voz: {voice['label']} · {repo} ({Path(model_file).name})")
     tts = TTS(model_path=str(model), config_path=str(config), progress_bar=False)
 
+    sr = int(tts.synthesizer.output_sample_rate)
+    vits = getattr(tts.synthesizer, "tts_model", None)
+    native_scale = vits is not None and hasattr(vits, "length_scale")
+    print(f"[prosodia] sr={sr} · length_scale nativo={'sí' if native_scale else 'no (fallback atempo)'}")
+
+    SENT_SPLIT = re.compile(r"(?<=[.!?…:])\s+")
+    PAUSE_SEC = 0.16   # respiración entre frases en el audio FINAL
+    EDGE_KEEP = 0.04   # margen conservado al recortar silencios de borde
+    PAD_SEC = 0.05     # colchón de arranque/cierre de la locución
+
+    def trim_edges(wav: "np.ndarray") -> "np.ndarray":
+        # Recorte por umbral relativo (-40 dB del pico) con margen EDGE_KEEP:
+        # quita el silencio del motor sin comerse ataques ni fricativas finales.
+        if wav.size == 0:
+            return wav
+        thr = float(np.max(np.abs(wav))) * (10 ** (-40 / 20))
+        idx = np.where(np.abs(wav) > thr)[0]
+        if idx.size == 0:
+            return wav
+        keep = int(sr * EDGE_KEEP)
+        return wav[max(0, int(idx[0]) - keep):min(wav.size, int(idx[-1]) + keep)]
+
     def synth(text: str, style: str, raw_wav: Path) -> float | None:
-        tts.tts_to_file(text=text, file_path=str(raw_wav))
-        # Estilo por post-proceso: atempo < 1 ralentiza sin cambiar el pitch.
         scale = LENGTH_SCALE.get(style, 1.0)
-        return (1.0 / scale) if scale != 1.0 else None
+        atempo = None
+        if native_scale:
+            vits.length_scale = scale  # estilo horneado en el propio VITS
+        elif scale != 1.0:
+            atempo = 1.0 / scale  # fallback: post-proceso como antes
+        # La pausa insertada se compensa si luego hay atempo, para que la
+        # respiración FINAL sea siempre ~PAUSE_SEC, también en estilo slow.
+        pause = np.zeros(int(sr * PAUSE_SEC * (atempo or 1.0)), dtype=np.float32)
+        pad = np.zeros(int(sr * PAD_SEC * (atempo or 1.0)), dtype=np.float32)
+
+        sentences = [s.strip() for s in SENT_SPLIT.split(text.strip()) if s.strip()]
+        chunks: list = [pad]
+        for i, sent in enumerate(sentences):
+            wav = np.asarray(tts.tts(text=sent, split_sentences=False), dtype=np.float32)
+            chunks.append(trim_edges(wav))
+            chunks.append(pause if i < len(sentences) - 1 else pad)
+        out = np.concatenate(chunks)
+        pcm = (np.clip(out, -1.0, 1.0) * 32767.0).astype("<i2")
+        with wave.open(str(raw_wav), "wb") as w:
+            w.setnchannels(1)
+            w.setsampwidth(2)
+            w.setframerate(sr)
+            w.writeframes(pcm.tobytes())
+        return atempo
 
     return synth
 

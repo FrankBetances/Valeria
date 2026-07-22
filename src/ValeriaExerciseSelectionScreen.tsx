@@ -1,6 +1,6 @@
 // ============================================================================
 // Valeria+ · Selección y Prescripción de Terapias (V2.3)
-// Pestañas Audición (13) + Lenguaje (7). Modo Familia (solo lectura) y Modo
+// Pestañas Audición (18) + Lenguaje (7). Modo Familia (solo lectura) y Modo
 // Profesional desbloqueado por PIN (validación por hash SHA-256, sin texto plano).
 // Persistencia: AsyncStorage. Si la ficha activa indica audífono/implante, navega
 // primero al Test de Ling; si no, va directo a navigation.navigate('ExercisePlayer', { id }).

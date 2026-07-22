@@ -33,6 +33,14 @@ export const AUDICION_META: ExerciseMeta[] = [
   { id: 'pr2', code: 'PR-2', name: 'Adaptación del discurso', category: 'Uso social (pragmática)', age: '5-6 años' },
   { id: 'pr3', code: 'PR-3', name: 'Reconocimiento de emociones', category: 'Uso social (pragmática)', age: '4-5 años' },
   { id: 'pr4', code: 'PR-4', name: 'Petición de repetición', category: 'Uso social (pragmática)', age: '5-6 años' },
+  // Rehabilitación auditiva ACOPROS (Expansión de Protocolos): escucha en ruido,
+  // lectura labiofacial y memoria auditiva. TODO estresor acústico es MANUAL
+  // (deslizador de ruido del Panel del Adulto o la propia voz del cuidador).
+  { id: 'ra1', code: 'RA-1', name: 'Figura-fondo con ruido', category: 'Escucha en ruido (rehabilitación auditiva)', age: '4-5 años' },
+  { id: 'ra2', code: 'RA-2', name: 'Lectura labiofacial', category: 'Escucha en ruido (rehabilitación auditiva)', age: '5-6 años' },
+  { id: 'ra3', code: 'RA-3', name: 'Formato cerrado degradado', category: 'Escucha en ruido (rehabilitación auditiva)', age: '4-5 años' },
+  { id: 'ra4', code: 'RA-4', name: 'Secuencia con espera', category: 'Escucha en ruido (rehabilitación auditiva)', age: '5-6 años' },
+  { id: 'ra5', code: 'RA-5', name: 'Localización del sonido', category: 'Escucha en ruido (rehabilitación auditiva)', age: '3-4 años' },
 ];
 
 export const LENGUAJE_META: ExerciseMeta[] = [
@@ -53,6 +61,7 @@ export const TEA_META: ExerciseMeta[] = [
   { id: 'tea3', code: 'TEA-3', name: 'Espejo Asimétrico', category: 'Inhibición de ecopraxia' },
   { id: 'tea4', code: 'TEA-4', name: 'Transición Interrumpida', category: 'Flexibilidad cognitiva (manual)' },
   { id: 'tea5', code: 'TEA-5', name: 'Categorización bajo Carga Sensorial', category: 'Clasificación con ruido babble (manual)' },
+  { id: 'tea6', code: 'TEA-6', name: 'Múltiples Señales Simultáneas', category: 'PRT · sobreselectividad de estímulos' },
 ];
 
 // Módulo Dislexia (fonología + acceso léxico): validación fonológica plegada
@@ -63,6 +72,7 @@ export const DISLEXIA_META: ExerciseMeta[] = [
   { id: 'dx3', code: 'DX-3', name: 'Síntesis Fonémica Rítmica', category: 'Fusión de fonemas con latencia' },
   { id: 'dx4', code: 'DX-4', name: 'Criba de Pseudopalabras', category: 'Decodificación · máx. 5 ensayos' },
   { id: 'dx5', code: 'DX-5', name: 'Rastreo Visual de Rotaciones', category: 'Grafías b/d · p/q (mapa de misclicks)' },
+  { id: 'dx6', code: 'DX-6', name: 'Denominación Rápida (RAN)', category: 'Acceso léxico · persecución manual' },
 ];
 
 // Índice por id para el player (DB de mini-juegos).
