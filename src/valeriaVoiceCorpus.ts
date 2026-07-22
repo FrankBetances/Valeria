@@ -20,7 +20,11 @@ import { MINIMAL_PAIRS_EU } from './valeriaMinimalPairsEu';
 import { enumerateAllCarrierPrompts } from './valeriaCarrierPhrases';
 import { TPR_CAPSULES } from './valeriaTprBank';
 import { ROUTINE_ROUTES } from './valeriaRoutineRoutes';
-import { enumerateSemanticSpeech } from './valeriaSemanticExpansion';
+import { enumerateSemanticSpeech, enumerateSemanticSpeechFor } from './valeriaSemanticExpansion';
+import {
+  DAILY_SCENARIOS_EU, PROGRESSION_SEQUENCES_EU, CONTRAST_CAPSULES_EU,
+  SEM_RETRY_EU, SEM_SESSION_DONE_EU,
+} from './valeriaSemanticExpansionEu';
 import { enumerateExerciseSpeech } from './valeriaExerciseBank';
 import {
   PRAISE_BANK, ALMOST_BANK, NO_HEAR_BANK, TOGETHER_BANK,
@@ -226,6 +230,16 @@ export function buildVoiceCorpus(): VoiceCorpusEntry[] {
   for (const t of NO_HEAR_BANK_EU) addEu('child', t, 'banco/no-oido');
   for (const t of TOGETHER_BANK_EU) addEu('child', t, 'banco/juntos');
   addEu('child', VOICE_SAMPLE_PHRASE_EU, 'util/muestra');
+
+  // Expansión Semántica en euskera (escenarios, progresiones y contrastes):
+  // se locuta con HiTZ igual que la base es con Sharvard.
+  for (const l of enumerateSemanticSpeechFor({
+    scenarios: DAILY_SCENARIOS_EU,
+    sequences: PROGRESSION_SEQUENCES_EU,
+    capsules: CONTRAST_CAPSULES_EU,
+    retry: SEM_RETRY_EU,
+    sessionDone: SEM_SESSION_DONE_EU,
+  })) addEu(l.style, l.text, 'expansion');
 
   return Array.from(entries.values());
 }

@@ -1,11 +1,11 @@
 {
- "generatedAt": "2026-07-22T05:40:09.573Z",
- "entries": 1395,
+ "generatedAt": "2026-07-22T05:52:58.033Z",
+ "entries": 1670,
  "byStyle": {
   "clinical": 607,
-  "child": 520,
-  "slow": 139,
-  "tutor": 129
+  "child": 655,
+  "slow": 203,
+  "tutor": 205
  },
  "bySource": {
   "carrier": 580,
@@ -26,7 +26,7 @@
   "banco/no-oido": 9,
   "banco/juntos": 9,
   "util/muestra": 3,
-  "expansion": 277,
+  "expansion": 552,
   "ejercicios": 194
  },
  "corpus": [
@@ -9794,6 +9794,1931 @@
    "style": "child",
    "text": "Kaixo! Honela entzungo da nire ahotsa ariketetan. Ondo entzuten da, ezta?",
    "source": "util/muestra"
+  },
+  {
+   "id": "eu_child_3234e1b4_58",
+   "lang": "eu",
+   "style": "child",
+   "text": "Hau ohea da. Goizean ohetik salto egiten dugu. Esan: ohea.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_ec44394d_20",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: ohea.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_12f56e4c_4",
+   "lang": "eu",
+   "style": "slow",
+   "text": "ohea",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_b3e274dd_78",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Jo ohean palmaditak eta eseri bertan haurrarekin, gero biok batera altxatzeko.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_cf7be18b_69",
+   "lang": "eu",
+   "style": "child",
+   "text": "Hau eskuila da. Eskuilarekin hortzak garbitzen ditugu. Esan: eskuila.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_be761392_23",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: eskuila.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_09fa073f_7",
+   "lang": "eu",
+   "style": "slow",
+   "text": "eskuila",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_5664a843_95",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Jarri eskuila (pastarik gabe) haurraren eskuan eta gidatu elkarrekin hortzak garbitzeko keinua.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_1eaf7891_64",
+   "lang": "eu",
+   "style": "child",
+   "text": "Begira, eskuak garbitzen ditugu. Zer egiten dugu? Esan: garbitu.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_3b45836e_23",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: garbitu.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_a922940f_7",
+   "lang": "eu",
+   "style": "slow",
+   "text": "garbitu",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_fd25c0fc_84",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Igurtzi eskuak xaboiz bezala eta animatu haurra bereak igurztera hitzaren erritmoan.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_3d2ac668_69",
+   "lang": "eu",
+   "style": "child",
+   "text": "Orain jantzi egiten gara. Burua kamisetan sartzen dugu. Esan: jantzi.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_cfda99b0_22",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: jantzi.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_03a41daf_6",
+   "lang": "eu",
+   "style": "slow",
+   "text": "jantzi",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_9dd5bfc8_75",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Pasa kamiseta bat haurraren burutik eta, agertzean, ospatu \"kuku!\" batekin.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_f0c1bb17_88",
+   "lang": "eu",
+   "style": "child",
+   "text": "Begira zer esku! Garbi-garbi daude eta distira egiten dute. Nolakoak daude? Esan: garbi.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_7f83b10b_21",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: garbi.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_451c3554_5",
+   "lang": "eu",
+   "style": "slow",
+   "text": "garbi",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_d8feeffa_94",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Erakutsi zure esku garbiak, putz egin haien gainean distiratuko balira bezala eta jo bostekoa.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_47ecea51_85",
+   "lang": "eu",
+   "style": "child",
+   "text": "Iratzargailua jotzen ari da: Rin, rin! Nola egiten du iratzargailuak? Esan: rin, rin.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_dd0db80e_23",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: rin rin.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_8d856147_7",
+   "lang": "eu",
+   "style": "slow",
+   "text": "rin rin",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_a40cb24f_92",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Estali zaitez lo bazeunde bezala eta, \"rin, rin!\" esatean, esnatu bat-batean besoak luzatuz.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_459c60dc_60",
+   "lang": "eu",
+   "style": "child",
+   "text": "Hau koilara da. Zopa koilararekin jaten dugu. Esan: koilara.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_9f651d6b_23",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: koilara.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_adfc87a8_7",
+   "lang": "eu",
+   "style": "slow",
+   "text": "koilara",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_5378d0bd_81",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Jarri koilara haurraren eskuan eta eraman elkarrekin ahora, jateko keinua eginez.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_0904ea68_43",
+   "lang": "eu",
+   "style": "child",
+   "text": "Hau basoa da. Basoan ura dago. Esan: basoa.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_d966e698_21",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: basoa.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_f72edc05_5",
+   "lang": "eu",
+   "style": "slow",
+   "text": "basoa",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_3d748d17_76",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Hurbildu basoa haurraren ezpainetara eta edan aldi berean \"klu, klu\" eginez.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_e3685f66_59",
+   "lang": "eu",
+   "style": "child",
+   "text": "Gose handia dut. Goazen jatera! Zer egiten dugu? Esan: jan.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_44cb0a09_19",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: jan.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_e1edce0e_3",
+   "lang": "eu",
+   "style": "slow",
+   "text": "jan",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_e24b389e_87",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Igurtzi tripa, ireki ahoa handi eta egin murtxikatzen ari bazina bezala, keinua puztuz.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_a53ad610_61",
+   "lang": "eu",
+   "style": "child",
+   "text": "Egarri naiz. Goazen ura edatera! Zer egiten dugu? Esan: edan.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_1c659cd8_20",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: edan.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_61fb66bb_4",
+   "lang": "eu",
+   "style": "slow",
+   "text": "edan",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_c19b5448_84",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Okertu baso huts bat zure ahoaren gainean eta egin \"klu, klu\" haurrak imita zaitzan.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_6f01b314_53",
+   "lang": "eu",
+   "style": "child",
+   "text": "Mmm, zein goxo dagoen! Nola dago janaria? Esan: goxo.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_cbb6ff37_20",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: goxo.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_f584fad2_4",
+   "lang": "eu",
+   "style": "slow",
+   "text": "goxo",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_9d08ec2f_80",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Miazkatu ezpainak, igurtzi tripa eta jarri gustuko aurpegia \"mmm, goxo!\" esanez.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_71b1df89_67",
+   "lang": "eu",
+   "style": "child",
+   "text": "Gaileta jaten dugu: Ñam, ñam! Nola egiten du ahoak? Esan: ñam, ñam.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_d53cf4fe_23",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: ñam ñam.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_99eb7827_7",
+   "lang": "eu",
+   "style": "slow",
+   "text": "ñam ñam",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_2b0f3a59_105",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Murtxikatu era puztuan masailezurra asko mugituz eta haurrak zurekin murtxika dezala \"ñam, ñam!\" esatean.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_a1fe67f2_63",
+   "lang": "eu",
+   "style": "child",
+   "text": "Hau pilota da. Parkean pilotarekin jolasten gara. Esan: pilota.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_ea7a9665_22",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: pilota.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_ba19a780_6",
+   "lang": "eu",
+   "style": "slow",
+   "text": "pilota",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_785dc6ed_87",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Bota pilota erreal bat haurrarengana eta itxaron itzul dezan hitza errepikatu aurretik.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_a363b57b_81",
+   "lang": "eu",
+   "style": "child",
+   "text": "Hau txirristra da. Txirristran igo eta behera irristatzen gara. Esan: txirristra.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_5c5ca48a_26",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: txirristra.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_c7b9bc9d_10",
+   "lang": "eu",
+   "style": "slow",
+   "text": "txirristra",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_31d308b9_91",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Irristatu haurraren eskua zure beso okertutik behera, txirristraren arrapala balitz bezala.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_2d559c7c_83",
+   "lang": "eu",
+   "style": "child",
+   "text": "Azkar goaz! Parkean korrika egitea gustatzen zaigu. Zer egiten dugu? Esan: korrika.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_63dae441_23",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: korrika.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_1e21b4fe_7",
+   "lang": "eu",
+   "style": "slow",
+   "text": "korrika",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_96bd33f0_94",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Egin korrika zure lekuan besoak asko mugituz eta animatu haurra zurekin urrats batzuk egitera.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_32e08c31_67",
+   "lang": "eu",
+   "style": "child",
+   "text": "Gora! Igela bezala salto egiten dugu. Zer egiten dugu? Esan: salto.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_30c08545_21",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: salto.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_6ac6cbaa_5",
+   "lang": "eu",
+   "style": "slow",
+   "text": "salto",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_beb818f9_98",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Egin salto bi oinak batera \"salto!\" esanez jauzi bakoitzean eta haurrak zurekin salto egin dezala.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_7c77d84b_48",
+   "lang": "eu",
+   "style": "child",
+   "text": "Zabua oso altu igotzen da! Nola doa? Esan: altu.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_81c71e58_20",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: altu.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_e4c9c88b_4",
+   "lang": "eu",
+   "style": "slow",
+   "text": "altu",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_90d191f3_89",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Luzatu zaitez punta-puntetan besoak zerurantz eta altxatu haurra besoetan \"altu!\" esanez.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_9b872c9b_74",
+   "lang": "eu",
+   "style": "child",
+   "text": "Pilotak bote egiten du: Boing, boing! Nola egiten du pilotak? Esan: boing.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_677096dd_21",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: boing.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_77651492_5",
+   "lang": "eu",
+   "style": "slow",
+   "text": "boing",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_b7c2dee9_86",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Bota pilota bat (edo zeu belaunekin) \"boing!\" esanez bote bakoitzean haurraren ondoan.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_b41f3678_67",
+   "lang": "eu",
+   "style": "child",
+   "text": "Hau bainuontzia da. Bainuontzian bainatzen gara. Esan: bainuontzia.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_c393e2d2_27",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: bainuontzia.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_7f4a9adf_11",
+   "lang": "eu",
+   "style": "slow",
+   "text": "bainuontzia",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_4f6e5643_96",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Seinalatu bainuontzia (edo aska bat) eta egin biok barrura sartzeko keinua hankak asko altxatuz.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_9c5dbeb2_63",
+   "lang": "eu",
+   "style": "child",
+   "text": "Hau xaboia da. Xaboiak burbuila asko egiten ditu. Esan: xaboia.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_c3302a98_22",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: xaboia.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_e3024197_6",
+   "lang": "eu",
+   "style": "slow",
+   "text": "xaboia",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_5ec93340_86",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Jarri xaboi-pastilla haurraren eskuetan eta biratu elkarrekin apar imajinarioa eginez.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_02b9a686_64",
+   "lang": "eu",
+   "style": "child",
+   "text": "Uretara! Panpina bainatuko dugu. Zer egiten dugu? Esan: bainatu.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_42eeb6e0_23",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: bainatu.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_d3a22ef9_7",
+   "lang": "eu",
+   "style": "slow",
+   "text": "bainatu",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_a7ca98e5_81",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Igurtzi leunki haurraren besoak xaboiztatuko bazenu bezala \"bainatu\" errepikatuz.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_7fd5449a_57",
+   "lang": "eu",
+   "style": "child",
+   "text": "Igurtzi, igurtzi belakia. Zer egiten dugu? Esan: igurtzi.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_a5b2818a_23",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: igurtzi.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_6a032d13_7",
+   "lang": "eu",
+   "style": "slow",
+   "text": "igurtzi",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_0629ca4e_93",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Igurtzi zirkulu leunak haurraren bizkarrean eskuarekin edo belaki batekin hitzaren erritmoan.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_71f3b492_42",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ura epela dago. Nola dago ura? Esan: bero.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_669a06c0_20",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: bero.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_a57bc4db_4",
+   "lang": "eu",
+   "style": "slow",
+   "text": "bero",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_c2a66210_64",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Ukitu ura hatz batekin eta haizeztatu eskua puztuz: \"uf, bero!\".",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_44502283_67",
+   "lang": "eu",
+   "style": "child",
+   "text": "Urak zipriztintzen du: Txof, txof! Nola egiten du urak? Esan: txof.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_c375d635_20",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: txof.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_9a689664_4",
+   "lang": "eu",
+   "style": "slow",
+   "text": "txof",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_45c869b5_86",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Jo palmaditak uraren gainean (edo izterraren gainean) \"txof!\" esanez kolpe bakoitzean.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_e936f3d0_44",
+   "lang": "eu",
+   "style": "child",
+   "text": "Begira zerua. Hau ilargia da. Esan: ilargia.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_2dc95769_23",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: ilargia.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_7b240fc2_7",
+   "lang": "eu",
+   "style": "slow",
+   "text": "ilargia",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_66e91aa0_75",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Marraztu elkarrekin zirkulu handi bat airean hatzarekin \"ilaaargia\" esanez.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_02b46a37_57",
+   "lang": "eu",
+   "style": "child",
+   "text": "Lo egin aurretik ipuin bat irakurtzen dugu. Esan: ipuina.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_091c971c_22",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: ipuina.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_04e9445b_6",
+   "lang": "eu",
+   "style": "slow",
+   "text": "ipuina",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_eb3526b3_86",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Hartu haurraren ipuin gogokoena, jarri haren eskuetan eta ireki elkarrekin oso poliki.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_77abb9e2_57",
+   "lang": "eu",
+   "style": "child",
+   "text": "Isss… lotara joateko ordua da. Zer egiten dugu? Esan: lo.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_4209a7f1_18",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: lo.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_4231c06c_2",
+   "lang": "eu",
+   "style": "slow",
+   "text": "lo",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_d5104922_74",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Elkartu eskuak masailaren azpian, itxi begiak eta egin zurrunga leun biok.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_59f3941b_54",
+   "lang": "eu",
+   "style": "child",
+   "text": "Gabon besarkada bat. Zer egiten dugu? Esan: besarkatu.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_66ab3dfc_25",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: besarkatu.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_ebee131d_9",
+   "lang": "eu",
+   "style": "slow",
+   "text": "besarkatu",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_b604c969_68",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Eman besarkada luze bat egiazkoa eta estutu pixka bat hitza esatean.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_26e8f42f_55",
+   "lang": "eu",
+   "style": "child",
+   "text": "Argia itzali da. Dena ilun dago. Nola dago? Esan: ilun.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_8a314e78_20",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: ilun.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_54fe725b_4",
+   "lang": "eu",
+   "style": "slow",
+   "text": "ilun",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_c8cc7d0a_91",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Estali haurraren begiak leunki bere esku propioekin eta destali bat-batean: \"ilun… argia!\".",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_9acdec32_73",
+   "lang": "eu",
+   "style": "child",
+   "text": "Hontzak gauez kantatzen du: Uh, uh! Nola egiten du hontzak? Esan: uh, uh.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_ee2de5c0_21",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: uh uh.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_81106d2d_5",
+   "lang": "eu",
+   "style": "slow",
+   "text": "uh uh",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_1ed665a7_97",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Jarri eskuak betaurreko gisa begien inguruan eta biratu burua hontza bat bezala \"uh, uh!\" esanez.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_7ed5d1e3_68",
+   "lang": "eu",
+   "style": "child",
+   "text": "Motorra abiatzen da: Brum, brum! Nola egiten du kotxeak? Esan: brum.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_036a3328_20",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: brum.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_4b3714d7_4",
+   "lang": "eu",
+   "style": "slow",
+   "text": "brum",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_5526c279_97",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Bultza jostailuzko kotxe bat lurretik ezpainak dardaratuz \"brrrum\" eta animatu haurra imitatzera.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_8e783f19_48",
+   "lang": "eu",
+   "style": "child",
+   "text": "Brum, brum! Hau kotxea da. Zer da? Esan: kotxea.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_f5a5cbee_22",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: kotxea.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_227d1071_6",
+   "lang": "eu",
+   "style": "slow",
+   "text": "kotxea",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_9e2be6ba_102",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Jarri kotxea haurraren eskuan, seinalatu eta errepikatu elkarrekin \"kotxea\" mugitzen duzuen bitartean.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_371157b0_67",
+   "lang": "eu",
+   "style": "child",
+   "text": "Begira, kotxea oso azkar dabil. Zer egiten du kotxeak? Esan: dabil.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_00597938_21",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: dabil.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_30c1b339_5",
+   "lang": "eu",
+   "style": "slow",
+   "text": "dabil",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_ec27c7f1_77",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Ibilarazi kotxea mahaian eta gero haurraren besoan, azkartuz \"dabil\" esatean.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_89a3f0d9_61",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ai, zein azkar doan kotxea! Nolakoa da kotxea? Esan: azkarra.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_fd48f944_23",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: azkarra.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_9bfaef79_7",
+   "lang": "eu",
+   "style": "slow",
+   "text": "azkarra",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_f175db04_96",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Egin korrika haurrarekin eskutik urrats batzuk eta gelditu bat-batean \"azkar… eta stop!\" esanez.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_809fe589_80",
+   "lang": "eu",
+   "style": "child",
+   "text": "Txakurrak zaunka egiten du: Zaunk, zaunk! Nola egiten du txakurrak? Esan: zaunk.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_ccb4ed1b_21",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: zaunk.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_50159734_5",
+   "lang": "eu",
+   "style": "slow",
+   "text": "zaunk",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_df896d8c_93",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Jarri lau hanketan eta zaunka egin \"zaunk, zaunk!\" burua mugituz, haurrak zurekin egin dezan.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_cf3acd87_54",
+   "lang": "eu",
+   "style": "child",
+   "text": "Zaunk, zaunk! Hau txakurra da. Zer da? Esan: txakurra.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_40f03b6c_24",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: txakurra.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_6b80937b_8",
+   "lang": "eu",
+   "style": "slow",
+   "text": "txakurra",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_4028adc9_96",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Seinalatu jostailuzko txakur bat edo argazki bat eta laztandu elkarrekin \"txakurra\" errepikatuz.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_665b5221_88",
+   "lang": "eu",
+   "style": "child",
+   "text": "Begira, txakurrak salto egiten du pilota hartzeko. Zer egiten du txakurrak? Esan: salto.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_b32de55a_82",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Salto eginarazi jostailuzko txakurrari eta salto egin biok batera \"salto!\" esanez.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_2a1ae276_73",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ukitu! Txakurra bigun eta iletsua da. Nolakoa da txakurra? Esan: iletsua.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_f715c47b_23",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: iletsua.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_d2293ee0_7",
+   "lang": "eu",
+   "style": "slow",
+   "text": "iletsua",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_cb338212_76",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Laztandu panpina edo manta leun bat eta esan \"iletsua\" eskua poliki pasatuz.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_f2a5f6d1_57",
+   "lang": "eu",
+   "style": "child",
+   "text": "Behiak egiten du: Muuu! Nola egiten du behiak? Esan: muu.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_d31587b9_19",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: muu.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_d284c626_3",
+   "lang": "eu",
+   "style": "slow",
+   "text": "muu",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_f3033d16_74",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Jarri eskuak adar gisa buruan eta egin \"muuu!\" soinua luzatuz haurrarekin.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_e0b49077_40",
+   "lang": "eu",
+   "style": "child",
+   "text": "Muuu! Hau behia da. Zer da? Esan: behia.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_fb6c0ffd_21",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: behia.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_cbf8e5c6_5",
+   "lang": "eu",
+   "style": "slow",
+   "text": "behia",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_b0360f92_97",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Seinalatu jostailuzko behi bat edo argazki bat eta ibili haren orbanak hatzarekin \"behia\" esanez.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_c6a3cd9b_75",
+   "lang": "eu",
+   "style": "child",
+   "text": "Begira, behiak belarra jaten du zelaian. Zer egiten du behiak? Esan: jaten.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_20cb0dda_21",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: jaten.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_1bc62c63_5",
+   "lang": "eu",
+   "style": "slow",
+   "text": "jaten",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_9f8557a7_107",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Makurtu burua behia bezala eta egin belarra murtxikatzen ari zaretela masailezurra mugituz \"jaten\" esatean.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_d4452966_57",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ala! Behia oso handia da. Nolakoa da behia? Esan: handia.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_551ed593_22",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: handia.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_3e77963e_6",
+   "lang": "eu",
+   "style": "slow",
+   "text": "handia",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_606fd6c0_78",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Zabaldu besoak ahal duzuen guztia eta jarri punta-puntetan \"haaandia!\" esanez.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_9b51be90_69",
+   "lang": "eu",
+   "style": "child",
+   "text": "Katuak miau egiten du: Miau, miau! Nola egiten du katuak? Esan: miau.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_19cde94a_20",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: miau.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_6e6f9109_4",
+   "lang": "eu",
+   "style": "slow",
+   "text": "miau",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_3fc9d6c2_83",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Igurtzi aurpegia eskuarekin katu bat garbitzen bezala eta egin \"miau!\" haurrarekin.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_96a8bb8f_40",
+   "lang": "eu",
+   "style": "child",
+   "text": "Miau! Hau katua da. Zer da? Esan: katua.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_0a6c69dc_21",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: katua.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_6c11d24d_5",
+   "lang": "eu",
+   "style": "slow",
+   "text": "katua",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_c60107a9_95",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Seinalatu jostailuzko katu bat edo argazki bat eta laztandu haren bizkarra \"katua\" errepikatuz.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_ac7f98ce_79",
+   "lang": "eu",
+   "style": "child",
+   "text": "Isss… katua bere ohean lo egiten ari da. Zer egiten du katuak? Esan: lo egiten.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_d59a5911_25",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: lo egiten.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_871e80a6_9",
+   "lang": "eu",
+   "style": "slow",
+   "text": "lo egiten",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_a6cd327f_94",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Elkartu eskuak masailaren azpian, itxi begiak eta egin \"isss\" haurrak zurekin \"lo egin\" dezan.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_5fcbd7da_65",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ukitu! Katuaren ilea oso leuna da. Nolakoa da katua? Esan: leuna.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_b5430ecf_21",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: leuna.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_02796428_5",
+   "lang": "eu",
+   "style": "slow",
+   "text": "leuna",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_1cf46164_71",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Pasa luma bat edo zapi bat haurraren besotik oso poliki \"leuna\" esanez.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_a514b90c_79",
+   "lang": "eu",
+   "style": "child",
+   "text": "Euria erortzen da: Plisti, plasta! Nola egiten du euriak? Esan: plisti, plasta.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_84c348ec_29",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: plisti plasta.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_aa08c54d_13",
+   "lang": "eu",
+   "style": "slow",
+   "text": "plisti plasta",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_49c2b2de_78",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Jo hatzekin mahaian euri-tantak bezala eta haurrak zurekin \"euria\" egin dezan.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_b3cd03bf_46",
+   "lang": "eu",
+   "style": "child",
+   "text": "Plisti, plasta! Hau ura da. Zer da? Esan: ura.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_6a1b3a88_19",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: ura.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_2f8f4765_3",
+   "lang": "eu",
+   "style": "slow",
+   "text": "ura",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_7b3d12c8_90",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Busti hatz bat ur errealean eta ukitu eskua hotza nabarituz \"ura\" esaten duzuen bitartean.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_fc70e12f_68",
+   "lang": "eu",
+   "style": "child",
+   "text": "Begira, ura zerutik erortzen da. Zer egiten du urak? Esan: erortzen.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_996d1eaf_24",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: erortzen.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_ae20781a_8",
+   "lang": "eu",
+   "style": "slow",
+   "text": "erortzen",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_c80d16f5_77",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Altxatu eskuak gora eta jaitsi hatzak mugituz lurreraino \"erortzeeen\" esanez.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_dee91480_51",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ai! Eskua busti dago. Nola dago eskua? Esan: busti.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_32bd04dd_21",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: busti.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_74d894ba_5",
+   "lang": "eu",
+   "style": "slow",
+   "text": "busti",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_44196930_84",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Busti pixka bat haurraren eskua zapi busti batekin eta esan \"busti\" eskuak astinduz.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_b166d21c_66",
+   "lang": "eu",
+   "style": "child",
+   "text": "Trenak egiten du: Txu, txu! Nola egiten du trenak? Esan: txu, txu.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_49a79196_23",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: txu txu.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_c9139be7_7",
+   "lang": "eu",
+   "style": "slow",
+   "text": "txu txu",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_e82f0dab_99",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Egin trentxo bat: haurra zure gerritik heltzen da eta aurrera egin korridorean \"txu-txu\" erritmoan.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_1372b029_44",
+   "lang": "eu",
+   "style": "child",
+   "text": "Txu, txu! Hau trena da. Zer da? Esan: trena.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_144cde46_21",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: trena.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_2630c34f_5",
+   "lang": "eu",
+   "style": "slow",
+   "text": "trena",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_10480871_83",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Lerrokatu hiru koxin edo kutxa bagoi gisa eta seinalatu banan-banan \"trena\" esanez.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_78ccea1d_84",
+   "lang": "eu",
+   "style": "child",
+   "text": "Trena geltokira iristen da eta… gelditzen da! Zer egiten du trenak? Esan: gelditzen.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_b15c6f90_25",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: gelditzen.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_1a43f389_9",
+   "lang": "eu",
+   "style": "slow",
+   "text": "gelditzen",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_e9b10273_86",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Ibili tren bat bezala gelan eta, \"gelditu!\" entzutean, geratu estatua bezala izoztuta.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_94b2cc7e_64",
+   "lang": "eu",
+   "style": "child",
+   "text": "Zenbat bagoi! Trena oso luzea da. Nolakoa da trena? Esan: luzea.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_063601b1_21",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: luzea.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_777ef51a_5",
+   "lang": "eu",
+   "style": "slow",
+   "text": "luzea",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_5ec34ac4_60",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Luzatu besoak alboetara ahal duzuen guztia \"luuuzea\" esanez.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_716d91d3_74",
+   "lang": "eu",
+   "style": "child",
+   "text": "Txoritxoak kantatzen du: Pio, pio! Nola egiten du txoriak? Esan: pio, pio.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_846f1b86_23",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: pio pio.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_20a6f567_7",
+   "lang": "eu",
+   "style": "slow",
+   "text": "pio pio",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_d305da8d_87",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Elkartu hatzak irekitzen eta ixten den moko bat bezala eta egin \"pio, pio\" biok batera.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_c1e1c7e7_46",
+   "lang": "eu",
+   "style": "child",
+   "text": "Pio, pio! Hau txoria da. Zer da? Esan: txoria.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_48c51053_22",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: txoria.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_f8c87fd6_6",
+   "lang": "eu",
+   "style": "slow",
+   "text": "txoria",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_197e1294_79",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Bilatu txori bat leihotik edo marrazki batean, seinalatu eta agurtu eskuarekin.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_7640db43_75",
+   "lang": "eu",
+   "style": "child",
+   "text": "Begira, txoriak hegan egiten du zeruan. Zer egiten du txoriak? Esan: hegan.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_1051ad6f_21",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: hegan.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_7b3d1ef8_5",
+   "lang": "eu",
+   "style": "slow",
+   "text": "hegan",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_139f50f5_62",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Egin korrika gelan besoak hego gisa, gora eta behera altxatuz.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_fd4649f4_57",
+   "lang": "eu",
+   "style": "child",
+   "text": "Txoritxoa oso txikia da. Nolakoa da txoria? Esan: txikia.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_e7ac7be8_22",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: txikia.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_61fd5933_6",
+   "lang": "eu",
+   "style": "slow",
+   "text": "txikia",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_242927a1_84",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Elkartu eskuak asko txoritxo txiki bat helduko bazenute bezala eta hitz egin poliki.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_0932f671_166",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Prestatu animalia bereko bi panpina baina tamaina desberdinekoak: bat argi eta garbi HANDIA eta bestea argi eta garbi TXIKIA. Jarri elkarren ondoan haurraren aurrean.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_1e653e92_55",
+   "lang": "eu",
+   "style": "child",
+   "text": "Zein da panpina HANDIA? Emadazu eta esan! Esan: handia.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_69c11f6e_94",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Haurrak panpina handia ematen dizu esaten duen bitartean; besarkatu zein erraldoia den puztuz.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_8a7ec4d8_66",
+   "lang": "eu",
+   "style": "child",
+   "text": "Orain alderantziz: zein da TXIKIA? Emadazu eta esan! Esan: txikia.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_89b2bfa7_86",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Haurrak txikia ematen dizu; ezkutatu esku batean eta esan \"txikia\" ahots txiki-txikiz.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_c94d923e_136",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Hartu bi koilara berdin: garbitu bat distiratsu utzi arte eta zikindu bestea janari edo lohi pixka batekin. Jarri bata bestearen ondoan.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_d8763644_53",
+   "lang": "eu",
+   "style": "child",
+   "text": "Seinalatu koilara ZIKINA. Nola dago hau? Esan: zikin.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_5e35e7b5_21",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: zikin.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_ea81697e_5",
+   "lang": "eu",
+   "style": "slow",
+   "text": "zikin",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_142bcbb7_88",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Haurrak koilara zikina seinalatzen du eta biok \"puaj!\" aurpegia jartzen duzue baztertuz.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_af014b99_76",
+   "lang": "eu",
+   "style": "child",
+   "text": "Eta beste koilara hau, nola dago? Begira nola distiratzen duen! Esan: garbi.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_35da77b4_84",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Seinalatu garbia, putz egin haren gainean distiratuko balira bezala eta jo bostekoa.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_17a5a7cd_112",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Jarri haurraren aurrean estalkidun kutxa bat eta sartu barruan, ikusgai, bere jostailu gogokoena. Itxi estalkia.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_8c01b06d_83",
+   "lang": "eu",
+   "style": "child",
+   "text": "Jostailua barruan dago. Zer egingo dugu ateratzeko? Goazen IREKITZERA! Esan: ireki.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_eb664ff4_21",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: ireki.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_89b97519_5",
+   "lang": "eu",
+   "style": "slow",
+   "text": "ireki",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_2657d9fa_85",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Ireki kutxa elkarrekin, oso poliki, eta ospatu jostailua aurkitzea \"tatxan!\" batekin.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_5b217654_80",
+   "lang": "eu",
+   "style": "child",
+   "text": "Jostailua gordeko dugu. Zer egingo dugu estalkiarekin? ITXI dezagun! Esan: itxi.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_17117d30_20",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: itxi.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_b7180603_4",
+   "lang": "eu",
+   "style": "slow",
+   "text": "itxi",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_e48f7056_76",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Haurrak estalkia bultzatzen du erabat itxi arte hitza esaten duen bitartean.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_501fb31b_103",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Egin arrapala bat liburu handi bat okertuta jarrita eta jarri jostailuzko kotxe bat arrapalaren oinean.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_2b35f9a9_60",
+   "lang": "eu",
+   "style": "child",
+   "text": "Kotxea mendira doa. Zer egiten du? IGO egiten du! Esan: igo.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_236bab09_19",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: igo.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_9cd84042_3",
+   "lang": "eu",
+   "style": "slow",
+   "text": "igo",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_5ab4615d_63",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Igo kotxea arrapalatik oso poliki hitza entzuten den bitartean.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_b9e269ba_53",
+   "lang": "eu",
+   "style": "child",
+   "text": "Orain kotxea behera doa! Zer egiten du? Esan: jaitsi.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_b6e2ff6e_22",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: jaitsi.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_a1ac79e5_6",
+   "lang": "eu",
+   "style": "slow",
+   "text": "jaitsi",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_e6767c58_93",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Askatu kotxea eta utzi bakarrik jaisten arrapalatik; esan \"jaitsiii!\" erortzen den bitartean.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_3cd8f42d_114",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Prestatu bi baso: bat ur oso hotzarekin (izotzarekin ahal bada) eta bestea ur epelarekin. Jarri haurraren aurrean.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_d46086e0_47",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ukitu basoak. Zein dago HOTZ? Brrr! Esan: hotz.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_45eb34cd_73",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Haurrak baso hotza ukitzen du; dardaratu biok \"brrr!\" sorbaldak uzkurtuz.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_d26eef96_42",
+   "lang": "eu",
+   "style": "child",
+   "text": "Eta beste baso hau, nola dago? Esan: bero.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_22224448_73",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Ukitu baso epela eta haizeztatu eskua erreko balizue bezala, asko puztuz.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_f9c851ed_104",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Jarri haurrarekin argiaren etengailuaren ondoan (edo hartu linterna bat). Gela argia itzalita hasten da.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_c45e34c1_66",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ilun dago… Zer egingo dugu argiarekin? PIZTU dezagun! Esan: piztu.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_a7b38626_21",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: piztu.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_9fc10ee3_5",
+   "lang": "eu",
+   "style": "slow",
+   "text": "piztu",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_b4609741_81",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Haurrak etengailua sakatzen du esatean eta argia ospatzen duzue \"ooooh!\" batekin.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_d5b8563b_76",
+   "lang": "eu",
+   "style": "child",
+   "text": "Orain alderantziz. Zer egingo dugu argiarekin? ITZALI dezagun! Esan: itzali.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_0a3f00b3_22",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: itzali.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_c6d093ce_6",
+   "lang": "eu",
+   "style": "slow",
+   "text": "itzali",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_0a3ad5af_77",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Haurrak argia itzaltzen du eta \"gabon\" esaten diozue elkarri xuxurla ahotsez.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_69c08e1d_28",
+   "lang": "eu",
+   "style": "child",
+   "text": "Saioa amaituta! Jo bostekoa!",
+   "source": "expansion"
   }
  ]
 }
