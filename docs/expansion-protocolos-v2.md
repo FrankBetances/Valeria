@@ -114,12 +114,12 @@ ejercicio deja de agotar el contenido tan pronto.
 
 Los ejercicios y contenidos nuevos existen en el banco **castellano base**.
 
-- **es-DO (Quisqueya Habla)**: overrides en BORRADOR (QH-2.6) en
-  `valeriaExerciseEsDO.ts` para RA-2/RA-4/RA-5, TEA-6 y DX-6 — registro
-  («toca», no «pulsa»), maraca como objeto sonoro de RA-5, «atraparse» en vez
-  de «pilla-pilla» en DX-6 y «caracol» en la ronda nueva de DX-1 («col» es de
-  baja frecuencia en RD). Pendiente de validación logopédica dominicana; el
-  léxico restante de los ejercicios nuevos ya es neutro-caribeño.
+- **es-DO (Quisqueya Habla)**: overrides ✅ APROBADOS (validación logopédica
+  dominicana QH-2.6) en `valeriaExerciseEsDO.ts` para RA-2/RA-4/RA-5, TEA-6 y
+  DX-6 — registro («toca», no «pulsa»), maraca como objeto sonoro de RA-5,
+  «atraparse» en vez de «pilla-pilla» en DX-6 y «caracol» en la ronda nueva de
+  DX-1 («col» es de baja frecuencia en RD). El léxico restante de los
+  ejercicios nuevos ya es neutro-caribeño.
 - **gl / eu**: heredan del banco base hasta que sus equipos aprueben overrides
   propios (mismo flujo GL-2.x / EU-2.4).
 

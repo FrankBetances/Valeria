@@ -1,9 +1,8 @@
 // ============================================================================
 // Valeria+ · Overrides de Audición y Lenguaje en ESPAÑOL DOMINICANO (es-DO)
 //
-// ESTADO: ✅ APROBADO PARA PRODUCCIÓN (validación logopédica dominicana, QH-2.3),
-// salvo el bloque «Expansión de Protocolos V2» (RA/TEA-6/DX-6), marcado como
-// 🟡 BORRADOR pendiente de validación QH-2.6.
+// ESTADO: ✅ APROBADO PARA PRODUCCIÓN (validación logopédica dominicana:
+// QH-2.3 el banco original; QH-2.6 la ampliación Expansión de Protocolos V2).
 //
 // No duplica el banco entero: solo redefine, por ejercicio, lo que el habla
 // dominicana exige cambiar respecto al banco base (valeriaExerciseBank):
@@ -64,7 +63,7 @@ export const EXERCISE_ESDO: Record<string, Partial<Exercise>> = {
 
   // --------------------------------------------------------------------------
   // AMPLIACIÓN Expansión de Protocolos V2 (RA-1…RA-5, TEA-6, DX-6).
-  // ESTADO: 🟡 BORRADOR pendiente de validación logopédica dominicana (QH-2.6).
+  // ESTADO: ✅ APROBADO (validación logopédica dominicana, QH-2.6).
   // El léxico de los ejercicios nuevos ya es neutro-caribeño (vaca, pato,
   // plato, sol…); aquí solo se ajusta el REGISTRO («toca», no «pulsa») y dos
   // piezas léxicas locales (maraca, atraparse). Ningún contraste depende de
@@ -150,7 +149,7 @@ export const VARIANTS_ESDO: Record<string, Partial<Exercise>[]> = {
     { phrase: 'LA NIÑA BEBE JUGO', phraseEmoji: '🧃' },
     { phrase: 'MI GATO SALTA ALTO', phraseEmoji: '🐱' },
   ],
-  // DX-1 · Intruso fonológico (BORRADOR QH-2.6): "col" es de baja frecuencia
+  // DX-1 · Intruso fonológico (✅ QH-2.6): "col" es de baja frecuencia
   // en RD (allí es "repollo", que rompe la rima); "caracol" mantiene la rima
   // en -ol con léxico familiar (ACADOM). Las demás rondas replican la base
   // (la lista de rondas SUSTITUYE a la base completa).
