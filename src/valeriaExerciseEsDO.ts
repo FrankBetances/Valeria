@@ -1,7 +1,9 @@
 // ============================================================================
 // Valeria+ · Overrides de Audición y Lenguaje en ESPAÑOL DOMINICANO (es-DO)
 //
-// ESTADO: ✅ APROBADO PARA PRODUCCIÓN (validación logopédica dominicana, QH-2.3).
+// ESTADO: ✅ APROBADO PARA PRODUCCIÓN (validación logopédica dominicana, QH-2.3),
+// salvo el bloque «Expansión de Protocolos V2» (RA/TEA-6/DX-6), marcado como
+// 🟡 BORRADOR pendiente de validación QH-2.6.
 //
 // No duplica el banco entero: solo redefine, por ejercicio, lo que el habla
 // dominicana exige cambiar respecto al banco base (valeriaExerciseBank):
@@ -59,6 +61,32 @@ export const EXERCISE_ESDO: Record<string, Partial<Exercise>> = {
   // la distinción /s/–/θ/, así que solo cambian las rondas listadas en
   // VARIANTS_ESDO (gorra, jugo). La validación por micro de DX-2/DX-3/DX-4 pasa
   // por normalizeSpeech → foldDominican, que pliega seseo y elisiones solo.
+
+  // --------------------------------------------------------------------------
+  // AMPLIACIÓN Expansión de Protocolos V2 (RA-1…RA-5, TEA-6, DX-6).
+  // ESTADO: 🟡 BORRADOR pendiente de validación logopédica dominicana (QH-2.6).
+  // El léxico de los ejercicios nuevos ya es neutro-caribeño (vaca, pato,
+  // plato, sol…); aquí solo se ajusta el REGISTRO («toca», no «pulsa») y dos
+  // piezas léxicas locales (maraca, atraparse). Ningún contraste depende de
+  // /s/ en coda, /θ/ ni líquidas en coda (guía QH-0.2).
+  // --------------------------------------------------------------------------
+  ra2: {
+    read: 'PRIMERO sin voz: di la palabra solo moviendo los labios, despacio y con tu cara bien iluminada, y que el niño toque la imagen leyendo tus labios. DESPUÉS toca 🔊 para devolverle el sonido y confirmar. No le corrijas con un «no»: repite el modelo con voz y labios a la vez.',
+  },
+  ra4: {
+    read: 'Toca 🔊 para que oiga la orden COMPLETA de tres pasos. Después, candado humano: sujeta sus manos con suavidad y cuenta hasta 5 en silencio antes de dejarle tocar. Esa espera obliga a guardar la orden en la memoria, no a vaciarla corriendo.',
+  },
+  ra5: {
+    // La maraca es el sonajero cotidiano dominicano (ACADOM).
+    materials: 'Una maraca, unas llaves o una campanita (algo que suene claro)',
+  },
+  tea6: {
+    read: 'Toca 🔊 para oír la orden con DOS pistas a la vez (forma Y color). Si atiende a una sola pista y falla (toca el círculo rojo), NO lo penalices: verbaliza tú la contingencia con naturalidad —«ese es rojo, pero es un círculo; yo quiero el cuadrado»— y deja que lo intente otra vez. Premia el intento comunicativo, no la perfección.',
+  },
+  dx6: {
+    // «pilla-pilla» es peninsular; en RD el juego es atraparse («¡a que te cojo!»).
+    read: 'El niño nombra cada dibujo EN VOZ ALTA y en orden de lectura (de izquierda a derecha), tocándolo al nombrarlo. El estresor eres tú: persigue su dedo por la pantalla con el tuyo, como jugando a atraparse («¡a que te cojo!»). Sin cronómetros: si lo ves acelerado o frustrado, frena tu dedo o detén la persecución.',
+  },
 };
 
 // Sobrescrituras por RONDA (VARIANTS). Solo los ejercicios cuyas variantes
@@ -121,5 +149,15 @@ export const VARIANTS_ESDO: Record<string, Partial<Exercise>[]> = {
     {},
     { phrase: 'LA NIÑA BEBE JUGO', phraseEmoji: '🧃' },
     { phrase: 'MI GATO SALTA ALTO', phraseEmoji: '🐱' },
+  ],
+  // DX-1 · Intruso fonológico (BORRADOR QH-2.6): "col" es de baja frecuencia
+  // en RD (allí es "repollo", que rompe la rima); "caracol" mantiene la rima
+  // en -ol con léxico familiar (ACADOM). Las demás rondas replican la base
+  // (la lista de rondas SUSTITUYE a la base completa).
+  dx1: [
+    {},
+    { intruder: [{ cap: 'pata', emoji: '🔊' }, { cap: 'lata', emoji: '🔊' }, { cap: 'rata', emoji: '🔊' }, { cap: 'luna', emoji: '🔊' }], intruderAnswer: 3 },
+    { intruder: [{ cap: 'casa', emoji: '🔊' }, { cap: 'pasa', emoji: '🔊' }, { cap: 'taza', emoji: '🔊' }, { cap: 'perro', emoji: '🔊' }], intruderAnswer: 3 },
+    { intruder: [{ cap: 'sol', emoji: '🔊' }, { cap: 'gol', emoji: '🔊' }, { cap: 'caracol', emoji: '🔊' }, { cap: 'mesa', emoji: '🔊' }], intruderAnswer: 3 },
   ],
 };

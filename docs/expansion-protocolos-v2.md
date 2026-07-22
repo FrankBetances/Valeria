@@ -113,9 +113,16 @@ ejercicio deja de agotar el contenido tan pronto.
 ## Estado de localización
 
 Los ejercicios y contenidos nuevos existen en el banco **castellano base**.
-Las variedades localizadas (es-DO Quisqueya Habla, gl Proxecto Nós, eu
-ILENIA/HiTZ) los heredan del banco base hasta que sus equipos de validación
-dialectal aprueben overrides propios (mismo flujo que QH-2.3 / GL-2.x / EU-2.4).
-La voz neuronal de las locuciones nuevas se hornea en el siguiente ciclo de CI
-(`voice-assets.yml`); hasta entonces degradan a la voz del sistema, nunca
-rompen.
+
+- **es-DO (Quisqueya Habla)**: overrides en BORRADOR (QH-2.6) en
+  `valeriaExerciseEsDO.ts` para RA-2/RA-4/RA-5, TEA-6 y DX-6 — registro
+  («toca», no «pulsa»), maraca como objeto sonoro de RA-5, «atraparse» en vez
+  de «pilla-pilla» en DX-6 y «caracol» en la ronda nueva de DX-1 («col» es de
+  baja frecuencia en RD). Pendiente de validación logopédica dominicana; el
+  léxico restante de los ejercicios nuevos ya es neutro-caribeño.
+- **gl / eu**: heredan del banco base hasta que sus equipos aprueben overrides
+  propios (mismo flujo GL-2.x / EU-2.4).
+
+La voz neuronal de las locuciones nuevas se hornea en CI (`voice-assets.yml`,
+que se dispara solo al cambiar `voice-corpus.json` en ramas de trabajo); hasta
+que el ciclo termina degradan a la voz del sistema, nunca rompen.
