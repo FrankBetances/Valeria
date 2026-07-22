@@ -1,11 +1,11 @@
 {
- "generatedAt": "2026-07-22T14:43:31.458Z",
- "entries": 2204,
+ "generatedAt": "2026-07-22T22:19:43.516Z",
+ "entries": 2198,
  "byStyle": {
   "clinical": 732,
-  "child": 863,
-  "slow": 310,
-  "tutor": 299
+  "child": 858,
+  "slow": 307,
+  "tutor": 301
  },
  "bySource": {
   "carrier": 705,
@@ -27,7 +27,7 @@
   "banco/juntos": 9,
   "util/muestra": 3,
   "expansion": 600,
-  "ejercicios": 517
+  "ejercicios": 511
  },
  "corpus": [
   {
@@ -6359,17 +6359,17 @@
    "source": "expansion"
   },
   {
-   "id": "child_7dac3581_35",
-   "lang": "es",
-   "style": "child",
-   "text": "¡Casi! Vamos a intentarlo otra vez.",
-   "source": "ejercicios"
-  },
-  {
    "id": "child_885e4f76_28",
    "lang": "es",
    "style": "child",
    "text": "Vamos a escucharla otra vez.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_7dac3581_35",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Casi! Vamos a intentarlo otra vez.",
    "source": "ejercicios"
   },
   {
@@ -6419,6 +6419,13 @@
    "lang": "es",
    "style": "child",
    "text": "Ahí solo hay uno. Busca donde hay muchos.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "tutor_c15ceb13_51",
+   "lang": "es",
+   "style": "tutor",
+   "text": "¿Cómo se siente? ¿Alegría, Tristeza, Enfado, Dolor?",
    "source": "ejercicios"
   },
   {
@@ -13611,17 +13618,17 @@
    "source": "expansion"
   },
   {
-   "id": "eu_child_0885614a_29",
-   "lang": "eu",
-   "style": "child",
-   "text": "Ia-ia! Berriro saiatuko gara.",
-   "source": "ejercicios"
-  },
-  {
    "id": "eu_child_b37100df_22",
    "lang": "eu",
    "style": "child",
    "text": "Berriro entzungo dugu.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_0885614a_29",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ia-ia! Berriro saiatuko gara.",
    "source": "ejercicios"
   },
   {
@@ -13671,6 +13678,13 @@
    "lang": "eu",
    "style": "child",
    "text": "Hor bakarra dago. Bilatu asko dauden lekua.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_0376455e_50",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Nola sentitzen da? Poza, Tristura, Haserrea, Mina?",
    "source": "ejercicios"
   },
   {
@@ -14367,325 +14381,283 @@
    "source": "ejercicios"
   },
   {
-   "id": "eu_tutor_a738597f_274",
+   "id": "eu_tutor_0d89fb51_298",
    "lang": "eu",
    "style": "tutor",
-   "text": "Primero en silencio: dile con tu voz normal «busca la vaca» y que la toque. Cuando acierte tranquilo, sube POCO A POCO el ruido de fondo desde el Panel del Adulto (abajo) y repite con otro animal. Tu voz es la señal: no grites ni exageres; si lo ves fatigado, baja el ruido.",
+   "text": "Lehenengo isiltasunean: esan zure ahots normalarekin \"bilatu behia\" eta uki dezala. Lasai asmatzen duenean, igo POLIKI-POLIKI atzeko zarata Panel Nagusitik (behean) eta errepikatu beste animalia batekin. Zure ahotsa da seinalea: ez egin oihurik ez exageratu; nekatuta ikusten baduzu, jaitsi zarata.",
    "source": "ejercicios"
   },
   {
-   "id": "eu_child_6cb1c0c1_89",
+   "id": "eu_child_4d2bdcc1_86",
    "lang": "eu",
    "style": "child",
-   "text": "Granja en casa: esconded los animales de peluche y buscadlos con la música puesta bajita.",
+   "text": "Baserria etxean: ezkutatu peluxezko animaliak eta bilatu elkarrekin musika baxuarekin.",
    "source": "ejercicios"
   },
   {
-   "id": "eu_tutor_d4e96ff9_14",
+   "id": "eu_tutor_22409111_13",
    "lang": "eu",
    "style": "tutor",
-   "text": "Busca la vaca.",
+   "text": "Bilatu behia.",
    "source": "ejercicios"
   },
   {
-   "id": "eu_child_1cd686a0_4",
+   "id": "eu_child_d97a9758_5",
    "lang": "eu",
    "style": "child",
-   "text": "vaca",
+   "text": "ardia",
    "source": "ejercicios"
   },
   {
-   "id": "eu_child_24aec1a2_5",
+   "id": "eu_child_bcdb41b2_6",
    "lang": "eu",
    "style": "child",
-   "text": "oveja",
+   "text": "zaldia",
    "source": "ejercicios"
   },
   {
-   "id": "eu_child_a370d085_7",
+   "id": "eu_child_73d0b767_5",
    "lang": "eu",
    "style": "child",
-   "text": "caballo",
+   "text": "oiloa",
    "source": "ejercicios"
   },
   {
-   "id": "eu_child_ae1de82d_7",
-   "lang": "eu",
-   "style": "child",
-   "text": "gallina",
-   "source": "ejercicios"
-  },
-  {
-   "id": "eu_tutor_38477d85_15",
+   "id": "eu_tutor_bb6ecf7b_13",
    "lang": "eu",
    "style": "tutor",
-   "text": "Busca la oveja.",
+   "text": "Bilatu ardia.",
    "source": "ejercicios"
   },
   {
-   "id": "eu_tutor_34f6a630_17",
+   "id": "eu_tutor_cfed1316_13",
    "lang": "eu",
    "style": "tutor",
-   "text": "Busca la gallina.",
+   "text": "Bilatu oiloa.",
    "source": "ejercicios"
   },
   {
-   "id": "eu_tutor_0f83b64e_273",
+   "id": "eu_tutor_e458c558_279",
    "lang": "eu",
    "style": "tutor",
-   "text": "PRIMERO sin voz: di la palabra solo moviendo los labios, despacio y con tu cara bien iluminada, y que el niño toque la imagen leyendo tus labios. DESPUÉS pulsa 🔊 para devolverle el sonido y confirmar. No le corrijas con un «no»: repite el modelo con voz y labios a la vez.",
+   "text": "LEHENENGO ahotsik gabe: esan hitza ezpainak bakarrik mugituz, poliki eta zure aurpegia ondo argiztatuta, eta umeak irudia uki dezala zure ezpainak irakurriz. GERO sakatu 🔊 soinua itzultzeko eta baieztatzeko. Ez zuzendu \"ez\" batekin: errepikatu eredua ahotsa eta ezpainak batera.",
    "source": "ejercicios"
   },
   {
-   "id": "eu_child_b26add80_93",
+   "id": "eu_child_6a7b7607_99",
    "lang": "eu",
    "style": "child",
-   "text": "Jugad al espejo mudo: uno dice una palabra sin voz y el otro la adivina. ¡Cambiad de papeles!",
+   "text": "Jolastu ispilu mutura: batek hitz bat ahotsik gabe esaten du eta besteak asmatzen du. Aldatu rolak!",
    "source": "ejercicios"
   },
   {
-   "id": "eu_slow_878751ef_4",
+   "id": "eu_slow_f809f70f_6",
    "lang": "eu",
    "style": "slow",
-   "text": "pato",
+   "text": "ahatea",
    "source": "ejercicios"
   },
   {
-   "id": "eu_child_878751ef_4",
+   "id": "eu_child_f809f70f_6",
    "lang": "eu",
    "style": "child",
-   "text": "pato",
+   "text": "ahatea",
    "source": "ejercicios"
   },
   {
-   "id": "eu_child_05033d87_4",
+   "id": "eu_child_7b240fc2_7",
    "lang": "eu",
    "style": "child",
-   "text": "luna",
+   "text": "ilargia",
    "source": "ejercicios"
   },
   {
-   "id": "eu_child_e2363da1_3",
-   "lang": "eu",
-   "style": "child",
-   "text": "sol",
-   "source": "ejercicios"
-  },
-  {
-   "id": "eu_slow_c3b10f72_4",
+   "id": "eu_slow_a55a08a8_4",
    "lang": "eu",
    "style": "slow",
-   "text": "boca",
+   "text": "ahoa",
    "source": "ejercicios"
   },
   {
-   "id": "eu_child_c3b10f72_4",
+   "id": "eu_child_a55a08a8_4",
    "lang": "eu",
    "style": "child",
-   "text": "boca",
+   "text": "ahoa",
    "source": "ejercicios"
   },
   {
-   "id": "eu_child_b8c80eb6_4",
+   "id": "eu_child_ea388984_5",
    "lang": "eu",
    "style": "child",
-   "text": "flor",
+   "text": "lorea",
    "source": "ejercicios"
   },
   {
-   "id": "eu_child_728b3cb4_4",
+   "id": "eu_child_2630c34f_5",
    "lang": "eu",
    "style": "child",
-   "text": "tren",
+   "text": "trena",
    "source": "ejercicios"
   },
   {
-   "id": "eu_slow_c4206de8_3",
+   "id": "eu_slow_3c9bd039_6",
    "lang": "eu",
    "style": "slow",
-   "text": "oso",
+   "text": "hartza",
    "source": "ejercicios"
   },
   {
-   "id": "eu_child_c4206de8_3",
+   "id": "eu_child_3c9bd039_6",
    "lang": "eu",
    "style": "child",
-   "text": "oso",
+   "text": "hartza",
    "source": "ejercicios"
   },
   {
-   "id": "eu_child_6a40feb5_3",
+   "id": "eu_child_77de9c00_4",
    "lang": "eu",
    "style": "child",
-   "text": "pie",
+   "text": "oina",
    "source": "ejercicios"
   },
   {
-   "id": "eu_child_4799fa89_3",
-   "lang": "eu",
-   "style": "child",
-   "text": "uva",
-   "source": "ejercicios"
-  },
-  {
-   "id": "eu_tutor_43cde3f8_274",
+   "id": "eu_tutor_31c25cb3_313",
    "lang": "eu",
    "style": "tutor",
-   "text": "Cuatro palabras que suenan casi igual. Di tú la palabra objetivo con voz normal y que la toque. En cada ronda hazlo un poco más difícil CON TU CUERPO: baja el volumen de tu voz o aléjate un paso más. La app no toca el volumen: el estresor eres tú, y tú decides cuándo parar.",
+   "text": "Ia berdin soinatzen duten lau hitz. Esan zuk helburu-hitza ahots normalarekin eta uki dezala. Txanda bakoitzean zaildu pixka bat gehiago ZURE GORPUTZAREKIN: jaitsi zure ahotsaren bolumena edo urrundu pauso bat gehiago. Aplikazioak ez du bolumena ukitzen: estresorea zu zara, eta zuk erabakitzen duzu noiz gelditu.",
    "source": "ejercicios"
   },
   {
-   "id": "eu_child_77d852dc_83",
+   "id": "eu_child_02909097_72",
    "lang": "eu",
    "style": "child",
-   "text": "Teléfono viajero: susúrrale la palabra al oído desde cada esquina de la habitación.",
+   "text": "Telefono bidaiaria: xuxurlatu hitza belarrira gelako izkina bakoitzetik.",
    "source": "ejercicios"
   },
   {
-   "id": "eu_slow_d30123c1_5",
+   "id": "eu_child_6334829f_5",
+   "lang": "eu",
+   "style": "child",
+   "text": "begia",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_7ce8a415_4",
+   "lang": "eu",
+   "style": "child",
+   "text": "ogia",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_8a844b9c_5",
+   "lang": "eu",
+   "style": "child",
+   "text": "zubia",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_6334829f_5",
    "lang": "eu",
    "style": "slow",
-   "text": "plato",
+   "text": "begia",
    "source": "ejercicios"
   },
   {
-   "id": "eu_child_d30123c1_5",
-   "lang": "eu",
-   "style": "child",
-   "text": "plato",
-   "source": "ejercicios"
-  },
-  {
-   "id": "eu_child_1c60f484_4",
-   "lang": "eu",
-   "style": "child",
-   "text": "gato",
-   "source": "ejercicios"
-  },
-  {
-   "id": "eu_child_6bed91f2_6",
-   "lang": "eu",
-   "style": "child",
-   "text": "zapato",
-   "source": "ejercicios"
-  },
-  {
-   "id": "eu_slow_1c60f484_4",
+   "id": "eu_slow_8a844b9c_5",
    "lang": "eu",
    "style": "slow",
-   "text": "gato",
+   "text": "zubia",
    "source": "ejercicios"
   },
   {
-   "id": "eu_slow_6bed91f2_6",
-   "lang": "eu",
-   "style": "slow",
-   "text": "zapato",
-   "source": "ejercicios"
-  },
-  {
-   "id": "eu_tutor_e653dd09_240",
+   "id": "eu_tutor_421442d1_229",
    "lang": "eu",
    "style": "tutor",
-   "text": "Pulsa 🔊 para que oiga la orden COMPLETA de tres pasos. Después, candado humano: sujeta sus manos con suavidad y cuenta hasta 5 en silencio antes de dejarle tocar. Esa espera obliga a guardar la orden en la memoria, no a vaciarla corriendo.",
+   "text": "Sakatu 🔊 hiru urratseko agindu OSOA entzun dezan. Gero, giza kandadua: eutsi bere eskuei leuntasunez eta kontatu 5era isilik ukitzen utzi aurretik. Itxaronaldi horrek agindua memorian gordetzera behartzen du, ez korrika hustera.",
    "source": "ejercicios"
   },
   {
-   "id": "eu_child_b29a8267_109",
+   "id": "eu_child_332eb1e8_98",
    "lang": "eu",
    "style": "child",
-   "text": "Circuito de órdenes: «toca la puerta, luego el sofá y después la ventana», con la misma espera de 5 segundos.",
+   "text": "Aginduen zirkuitua: \"ukitu atea, gero sofa eta ondoren leihoa\", 5 segundoko itxaronaldi berarekin.",
    "source": "ejercicios"
   },
   {
-   "id": "eu_child_7befe95b_46",
+   "id": "eu_child_a6ffb162_47",
    "lang": "eu",
    "style": "child",
-   "text": "Toca el sol, luego el perro y después la casa.",
+   "text": "Ukitu eguzkia, gero txakurra eta ondoren etxea.",
    "source": "ejercicios"
   },
   {
-   "id": "eu_slow_e2363da1_3",
+   "id": "eu_slow_88ea9a29_7",
    "lang": "eu",
    "style": "slow",
-   "text": "sol",
+   "text": "eguzkia",
    "source": "ejercicios"
   },
   {
-   "id": "eu_slow_8e40a2f7_5",
+   "id": "eu_slow_bf4685de_5",
    "lang": "eu",
    "style": "slow",
-   "text": "perro",
+   "text": "etxea",
    "source": "ejercicios"
   },
   {
-   "id": "eu_slow_9f253efd_4",
-   "lang": "eu",
-   "style": "slow",
-   "text": "casa",
-   "source": "ejercicios"
-  },
-  {
-   "id": "eu_child_bf37f29d_46",
+   "id": "eu_child_8e1c4a4d_44",
    "lang": "eu",
    "style": "child",
-   "text": "Toca la luna, luego el gato y después la flor.",
+   "text": "Ukitu ilargia, gero katua eta ondoren lorea.",
    "source": "ejercicios"
   },
   {
-   "id": "eu_slow_05033d87_4",
+   "id": "eu_slow_ea388984_5",
    "lang": "eu",
    "style": "slow",
-   "text": "luna",
+   "text": "lorea",
    "source": "ejercicios"
   },
   {
-   "id": "eu_slow_b8c80eb6_4",
-   "lang": "eu",
-   "style": "slow",
-   "text": "flor",
-   "source": "ejercicios"
-  },
-  {
-   "id": "eu_child_e7b691e5_45",
+   "id": "eu_child_6e2edee3_46",
    "lang": "eu",
    "style": "child",
-   "text": "Toca el pan, luego el pez y después el árbol.",
+   "text": "Ukitu ogia, gero arraina eta ondoren zuhaitza.",
    "source": "ejercicios"
   },
   {
-   "id": "eu_slow_4f55eeec_3",
+   "id": "eu_slow_7ce8a415_4",
    "lang": "eu",
    "style": "slow",
-   "text": "pan",
+   "text": "ogia",
    "source": "ejercicios"
   },
   {
-   "id": "eu_slow_634b810c_3",
+   "id": "eu_slow_9a5030eb_7",
    "lang": "eu",
    "style": "slow",
-   "text": "pez",
+   "text": "arraina",
    "source": "ejercicios"
   },
   {
-   "id": "eu_slow_f4de04ab_5",
+   "id": "eu_slow_55748887_8",
    "lang": "eu",
    "style": "slow",
-   "text": "árbol",
+   "text": "zuhaitza",
    "source": "ejercicios"
   },
   {
-   "id": "eu_tutor_411f7e0b_212",
+   "id": "eu_tutor_b094412a_236",
    "lang": "eu",
    "style": "tutor",
-   "text": "Ponte DETRÁS del niño, donde no te vea. Haz sonar el objeto a un lado (izquierda o derecha) y que señale con el brazo de dónde vino el sonido ANTES de girarse a mirar. Alterna los lados sin seguir un patrón fijo.",
+   "text": "Jarri umearen ATZEAN, ikusten ez zaituen lekuan. Egin soinua objektuarekin alde batean (ezkerrean edo eskuinean) eta seinala dezala besoarekin soinua nondik etorri den begiratzera BIRATU AURRETIK. Txandakatu aldeak patroi finkorik gabe.",
    "source": "ejercicios"
   },
   {
-   "id": "eu_child_eef076d1_82",
+   "id": "eu_child_ab19a40b_80",
    "lang": "eu",
    "style": "child",
-   "text": "Marco Polo sonoro: con los ojos cerrados, que camine hacia la campanita que suena.",
+   "text": "Marco Polo soinuduna: begiak itxita, ibil dadila soinatzen duen txintxarrirantz.",
    "source": "ejercicios"
   },
   {
@@ -14969,13 +14941,6 @@
    "source": "ejercicios"
   },
   {
-   "id": "eu_child_bcdb41b2_6",
-   "lang": "eu",
-   "style": "child",
-   "text": "zaldia",
-   "source": "ejercicios"
-  },
-  {
    "id": "eu_child_adfc87a8_7",
    "lang": "eu",
    "style": "child",
@@ -14994,13 +14959,6 @@
    "lang": "eu",
    "style": "slow",
    "text": "sagarra, ogia, gazta, pilota",
-   "source": "ejercicios"
-  },
-  {
-   "id": "eu_child_7ce8a415_4",
-   "lang": "eu",
-   "style": "child",
-   "text": "ogia",
    "source": "ejercicios"
   },
   {
@@ -15032,87 +14990,87 @@
    "source": "ejercicios"
   },
   {
-   "id": "eu_tutor_15cee7a8_330",
+   "id": "eu_tutor_1e362083_334",
    "lang": "eu",
    "style": "tutor",
-   "text": "Pulsa 🔊 para oír la orden con DOS pistas a la vez (forma Y color). Si atiende a una sola pista y falla (toca el círculo rojo), NO lo penalices: verbaliza tú la contingencia con naturalidad —«ese es rojo, pero es un círculo; yo quiero el cuadrado»— y deja que lo intente otra vez. Premia el intento comunicativo, no la perfección.",
+   "text": "Sakatu 🔊 agindua BI pista aldi berean (forma ETA kolorea) entzuteko. Pista bakarrari erantzuten badio eta huts egiten badu (zirkulu gorria ukitzen du), EZ zigortu: esan zuk kontingentzia naturaltasunez —\"hori gorria da, baina zirkulua da; nik karratua nahi dut\"— eta utzi berriro saiatzen. Saritu komunikazio-saiakera, ez perfekzioa.",
    "source": "ejercicios"
   },
   {
-   "id": "eu_child_3a20ab6d_89",
+   "id": "eu_child_6bb2e1cb_92",
    "lang": "eu",
    "style": "child",
-   "text": "Búsqueda con dos pistas por la casa: «tráeme algo BLANDO y AZUL». Celebrad cada hallazgo.",
+   "text": "Bi pistako bilaketa etxean: \"ekarri zerbait BIGUNA eta URDINA\". Ospatu aurkikuntza bakoitza.",
    "source": "ejercicios"
   },
   {
-   "id": "eu_tutor_9501b777_17",
+   "id": "eu_tutor_1bca592d_15",
    "lang": "eu",
    "style": "tutor",
-   "text": "El cuadrado rojo.",
+   "text": "Karratu gorria.",
    "source": "ejercicios"
   },
   {
-   "id": "eu_child_776fa898_13",
+   "id": "eu_child_fb814d71_14",
    "lang": "eu",
    "style": "child",
-   "text": "cuadrado rojo",
+   "text": "karratu gorria",
    "source": "ejercicios"
   },
   {
-   "id": "eu_child_4ad53f40_12",
+   "id": "eu_child_ed8481f7_14",
    "lang": "eu",
    "style": "child",
-   "text": "círculo rojo",
+   "text": "zirkulu gorria",
    "source": "ejercicios"
   },
   {
-   "id": "eu_child_4437be56_13",
+   "id": "eu_child_583d7e9c_14",
    "lang": "eu",
    "style": "child",
-   "text": "cuadrado azul",
+   "text": "karratu urdina",
    "source": "ejercicios"
   },
   {
-   "id": "eu_tutor_aa143d7b_16",
+   "id": "eu_tutor_b84082b4_15",
    "lang": "eu",
    "style": "tutor",
-   "text": "El círculo azul.",
+   "text": "Zirkulu urdina.",
    "source": "ejercicios"
   },
   {
-   "id": "eu_child_9748666e_12",
+   "id": "eu_child_db6c3332_14",
    "lang": "eu",
    "style": "child",
-   "text": "círculo azul",
+   "text": "zirkulu urdina",
    "source": "ejercicios"
   },
   {
-   "id": "eu_tutor_5adcbbc1_21",
+   "id": "eu_tutor_9d31fd40_11",
    "lang": "eu",
    "style": "tutor",
-   "text": "La estrella amarilla.",
+   "text": "Izar horia.",
    "source": "ejercicios"
   },
   {
-   "id": "eu_child_f91e6631_16",
+   "id": "eu_child_8d49e90a_13",
    "lang": "eu",
    "style": "child",
-   "text": "círculo amarillo",
+   "text": "zirkulu horia",
    "source": "ejercicios"
   },
   {
-   "id": "eu_child_5f49b4f0_17",
+   "id": "eu_child_c356794e_10",
    "lang": "eu",
    "style": "child",
-   "text": "estrella amarilla",
+   "text": "izar horia",
    "source": "ejercicios"
   },
   {
-   "id": "eu_child_df2e4b32_16",
+   "id": "eu_child_01905554_12",
    "lang": "eu",
    "style": "child",
-   "text": "corazón amarillo",
+   "text": "bihotz horia",
    "source": "ejercicios"
   },
   {
@@ -15396,66 +15354,66 @@
    "source": "ejercicios"
   },
   {
-   "id": "eu_tutor_212bdd79_295",
+   "id": "eu_tutor_aa638a0d_305",
    "lang": "eu",
    "style": "tutor",
-   "text": "El niño nombra cada dibujo EN VOZ ALTA y en orden de lectura (de izquierda a derecha), tocándolo al nombrarlo. El estresor eres tú: persigue su dedo por la pantalla con el tuyo, como un juego de pilla-pilla. Sin cronómetros: si lo ves acelerado o frustrado, frena tu dedo o detén la persecución.",
+   "text": "Umeak marrazki bakoitza OZEN izendatzen du eta irakurketa-ordenan (ezkerretik eskuinera), izendatzean ukituz. Estresorea zu zara: jarraitu bere hatza pantailan zurearekin, harrapaketa-jolas bat bezala. Kronometrorik gabe: azkarregi edo frustratuta ikusten baduzu, moteldu zure hatza edo gelditu jazarpena.",
    "source": "ejercicios"
   },
   {
-   "id": "eu_child_e9703a91_92",
+   "id": "eu_child_a0b4c919_102",
    "lang": "eu",
    "style": "child",
-   "text": "RAN de casa: recorred una estantería nombrando cada objeto seguido, como leyendo un renglón.",
+   "text": "Etxeko RAN: errepasatu apalategi bat objektu bakoitza jarraian izendatuz, lerro bat irakurtzen bezala.",
    "source": "ejercicios"
   },
   {
-   "id": "eu_slow_d26cdb06_64",
+   "id": "eu_slow_bfdeaa06_85",
    "lang": "eu",
    "style": "slow",
-   "text": "sol, gato, pan, flor, pan, flor, sol, gato, gato, sol, flor, pan",
+   "text": "eguzkia, katua, ogia, lorea, ogia, lorea, eguzkia, katua, katua, eguzkia, lorea, ogia",
    "source": "ejercicios"
   },
   {
-   "id": "eu_slow_b3d88d76_70",
+   "id": "eu_slow_d6adc037_103",
    "lang": "eu",
    "style": "slow",
-   "text": "luna, perro, casa, pez, casa, pez, luna, perro, perro, luna, pez, casa",
+   "text": "ilargia, txakurra, etxea, arraina, etxea, arraina, ilargia, txakurra, txakurra, ilargia, arraina, etxea",
    "source": "ejercicios"
   },
   {
-   "id": "eu_slow_1603b8b9_4",
+   "id": "eu_slow_a9e4bec5_6",
    "lang": "eu",
    "style": "slow",
-   "text": "rojo",
+   "text": "gorria",
    "source": "ejercicios"
   },
   {
-   "id": "eu_slow_49019a1b_4",
+   "id": "eu_slow_579c8dd8_6",
    "lang": "eu",
    "style": "slow",
-   "text": "azul",
+   "text": "urdina",
    "source": "ejercicios"
   },
   {
-   "id": "eu_slow_d2a54155_5",
+   "id": "eu_slow_dba44478_6",
    "lang": "eu",
    "style": "slow",
-   "text": "verde",
+   "text": "berdea",
    "source": "ejercicios"
   },
   {
-   "id": "eu_slow_817bf290_8",
+   "id": "eu_slow_9b5337ac_5",
    "lang": "eu",
    "style": "slow",
-   "text": "amarillo",
+   "text": "horia",
    "source": "ejercicios"
   },
   {
-   "id": "eu_slow_1b222b80_85",
+   "id": "eu_slow_9486a9ac_91",
    "lang": "eu",
    "style": "slow",
-   "text": "rojo, azul, verde, amarillo, verde, amarillo, rojo, azul, azul, verde, amarillo, rojo",
+   "text": "gorria, urdina, berdea, horia, berdea, horia, gorria, urdina, urdina, berdea, horia, gorria",
    "source": "ejercicios"
   }
  ]

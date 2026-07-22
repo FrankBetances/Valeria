@@ -23,15 +23,27 @@ export const PLURAL_HINT_EU = 'Hor bakarra dago. Bilatu asko dauden lekua.';
 export const EMOTION_PROMPT_EU = 'Nola sentitzen da?';
 export const TOUCH_IMAGE_HINT_EU = 'Lehenengo, ukitu irudi bat.';
 
+// Veredictos hablados del juego de micrófono (MicPracticeCard), indexados por
+// MatchLevel (0 = otra vez, 1 = casi, 2 = genial). Los consume la UI vía
+// micVerdictSayFor(loc) para que en euskera suene el asset neuronal HiTZ en
+// lugar del veredicto castellano (que rompía la continuidad de la voz vasca).
+export const MIC_VERDICT_SAY_EU: [string, string, string] = [
+  'Berriro entzungo dugu.',
+  'Ia-ia! Berriro saiatuko gara.',
+  'Oso ondo! Bikain esan duzu!',
+];
+
 // Veredictos y piezas fijas de voz (espejo de EXERCISE_FIXED_LINES en euskera).
 export const EXERCISE_FIXED_LINES_EU: { style: 'tutor' | 'child' | 'slow'; text: string }[] = [
-  { style: 'child', text: 'Oso ondo! Bikain esan duzu!' },
-  { style: 'child', text: 'Ia-ia! Berriro saiatuko gara.' },
-  { style: 'child', text: 'Berriro entzungo dugu.' },
+  ...MIC_VERDICT_SAY_EU.map((t) => ({ style: 'child' as const, text: t })),
   { style: 'child', text: TOUCH_IMAGE_HINT_EU },
   ...EMO_EU.map((e) => ({ style: 'child' as const, text: e.label })),
   { style: 'child', text: SESSION_DONE_LEAD_EU },
   { style: 'child', text: PLURAL_HINT_EU },
+  // Prompt de emociones con opciones (SpeakButton «Oír las opciones» de PR-3):
+  // MISMO literal que construye emotionPromptFor(loc) en el player, para que
+  // resuelva el asset neuronal en vez de caer a la voz del sistema.
+  { style: 'tutor', text: `${EMOTION_PROMPT_EU} ${EMO_EU.map((e) => e.label).join(', ')}?` },
 ];
 
 // ---------------------------------------------------------------------------
@@ -214,6 +226,54 @@ export const EXERCISE_EU: Record<string, Partial<Exercise>> = {
     ],
   },
 
+  // ==================== REHABILITACIÓN AUDITIVA (ACOPROS) ====================
+  // Faltaban en la reautorización inicial: en euskera caían al castellano base
+  // y el corpus los sintetizaba con la voz vasca (castellano con fonética
+  // vasca = «suena mal los ejercicios»). Reautorizados en batua.
+  ra1: {
+    read: 'Lehenengo isiltasunean: esan zure ahots normalarekin "bilatu behia" eta uki dezala. Lasai asmatzen duenean, igo POLIKI-POLIKI atzeko zarata Panel Nagusitik (behean) eta errepikatu beste animalia batekin. Zure ahotsa da seinalea: ez egin oihurik ez exageratu; nekatuta ikusten baduzu, jaitsi zarata.',
+    stageLabel: 'Entzun helduaren ahotsa eta ukitu animalia',
+    choicePrompt: 'Bilatu behia.', choiceLabel: 'Laguntza: agindua entzun', choiceVoice: 'tutor',
+    options: [{ cap: 'behia', emoji: '🐄' }, { cap: 'ardia', emoji: '🐑' }, { cap: 'zaldia', emoji: '🐴' }, { cap: 'oiloa', emoji: '🐔' }],
+    optionAnswer: 0,
+    move: 'Baserria etxean: ezkutatu peluxezko animaliak eta bilatu elkarrekin musika baxuarekin.',
+    ept: ['Oraindik ez du eskatutako animalia aurkitzen, isiltasunean ere ez.', 'Isiltasunean asmatzen du, baina agindua galtzen du zarata igotzean.', 'Eskatutako animalia aurkitzen du atzeko zarata altua egon arren.'],
+  },
+  ra2: {
+    read: 'LEHENENGO ahotsik gabe: esan hitza ezpainak bakarrik mugituz, poliki eta zure aurpegia ondo argiztatuta, eta umeak irudia uki dezala zure ezpainak irakurriz. GERO sakatu 🔊 soinua itzultzeko eta baieztatzeko. Ez zuzendu "ez" batekin: errepikatu eredua ahotsa eta ezpainak batera.',
+    stageLabel: 'Irakurri helduaren ezpainak eta ukitu irudia',
+    choicePrompt: 'ahatea', choiceLabel: 'Gero: hitza ahotsarekin entzun', choiceVoice: 'slow',
+    options: [{ cap: 'ahatea', emoji: '🦆' }, { cap: 'ilargia', emoji: '🌙' }, { cap: 'eguzkia', emoji: '☀️' }],
+    optionAnswer: 0,
+    move: 'Jolastu ispilu mutura: batek hitz bat ahotsik gabe esaten du eta besteak asmatzen du. Aldatu rolak!',
+    ept: ['Oraindik ez du hitzik ezagutzen ezpainengatik bakarrik.', 'Ezagutzen du gero eredua ahotsarekin eta ezpainekin batera ematen badiozu.', 'Hitza berak bakarrik ezagutzen du, ezpainak irakurriz soilik.'],
+  },
+  ra3: {
+    read: 'Ia berdin soinatzen duten lau hitz. Esan zuk helburu-hitza ahots normalarekin eta uki dezala. Txanda bakoitzean zaildu pixka bat gehiago ZURE GORPUTZAREKIN: jaitsi zure ahotsaren bolumena edo urrundu pauso bat gehiago. Aplikazioak ez du bolumena ukitzen: estresorea zu zara, eta zuk erabakitzen duzu noiz gelditu.',
+    stageLabel: 'Entzun hitza eta ukitu irudi egokia',
+    choicePrompt: 'behia', choiceLabel: 'Laguntza: hitza entzun', choiceVoice: 'slow',
+    options: [{ cap: 'behia', emoji: '🐄' }, { cap: 'begia', emoji: '👁️' }, { cap: 'ogia', emoji: '🍞' }, { cap: 'zubia', emoji: '🌉' }],
+    optionAnswer: 0,
+    move: 'Telefono bidaiaria: xuxurlatu hitza belarrira gelako izkina bakoitzetik.',
+    ept: ['Oraindik antzeko hitzak nahasten ditu, ahots hurbil eta argiarekin ere.', 'Asmatzen du ahots normalarekin eta gertu, baina huts egiten du ahotsa jaistean edo urruntzean.', 'Hitz zuzena bereizten du ahots baxuarekin edo urrunetik ere.'],
+  },
+  ra4: {
+    read: 'Sakatu 🔊 hiru urratseko agindu OSOA entzun dezan. Gero, giza kandadua: eutsi bere eskuei leuntasunez eta kontatu 5era isilik ukitzen utzi aurretik. Itxaronaldi horrek agindua memorian gordetzera behartzen du, ez korrika hustera.',
+    stageLabel: 'Entzun hiru urratsak, itxaron eta ukitu ordenan',
+    parts: [{ role: 'Lehenengo', cap: 'eguzkia', emoji: '☀️' }, { role: 'Gero', cap: 'txakurra', emoji: '🐶' }, { role: 'Ondoren', cap: 'etxea', emoji: '🏠' }],
+    sentence: 'Ukitu eguzkia, gero txakurra eta ondoren etxea.',
+    move: 'Aginduen zirkuitua: "ukitu atea, gero sofa eta ondoren leihoa", 5 segundoko itxaronaldi berarekin.',
+    ept: ['Oraindik ez du sekuentzia gordetzen: ikusten duen lehenengoa ukitzen du.', 'Sekuentzia osatzen du agindua errepikatzen badiozu edo urrats bat gogorarazten badiozu.', 'Hiru urratsak itxaronaldian gordetzen ditu eta ordenan ukitzen ditu berak bakarrik.'],
+  },
+  ra5: {
+    materials: 'Txintxarri bat, giltza batzuk edo txintxirrin bat (garbi soinatzen duen zerbait)',
+    read: 'Jarri umearen ATZEAN, ikusten ez zaituen lekuan. Egin soinua objektuarekin alde batean (ezkerrean edo eskuinean) eta seinala dezala besoarekin soinua nondik etorri den begiratzera BIRATU AURRETIK. Txandakatu aldeak patroi finkorik gabe.',
+    instrHint: 'Entzumen binaurala: zein aldetatik dator soinua? Seinalatu begiratu aurretik. Gakoa alde bakarreko inplantea duten erabiltzaileetan.',
+    capture: 'Idatzi zein alde asmatzen duen gehien eta zein kostatzen zaion (adib. "ia beti asmatzen du eskuinean, zalantza egiten du ezkerrean").',
+    move: 'Marco Polo soinuduna: begiak itxita, ibil dadila soinatzen duen txintxarrirantz.',
+    ept: ['Oraindik ez du soinuaren aldea kokatzen: ausaz seinalatzen du edo ez du erantzuten.', 'Aldea asmatzen du soinua behin baino gehiagotan errepikatzen baduzu edo oso ozen bada.', 'Alde zuzena lehenengoan seinalatzen du, soinu leunekin ere.'],
+  },
+
   // ================================ TEA (PRT + TCC) ================================
   tea1: {
     read: 'Jarri objektu oso erakargarri bat zure aurpegiaren eta umearen artean. Itxaron 3 segundo inolako pistarik eman AURRETIK (instigazio atzeratua): zigiluaren botoia itxaron horren ondoren bakarrik desblokeatzen da. Sakatu Zigilu Bikoitza zurekin (ez objektuarekin) benetako begi-kontaktua dagoenean BAKARRIK.',
@@ -245,6 +305,16 @@ export const EXERCISE_EU: Record<string, Partial<Exercise>> = {
     intruder: [{ cap: 'txakurra', emoji: '🐶' }, { cap: 'katua', emoji: '🐱' }, { cap: 'zaldia', emoji: '🐴' }, { cap: 'koilara', emoji: '🥄' }], intruderAnswer: 3,
     move: 'Sailkatu benetako jostailuak bi kutxatan (animaliak / jatekoak) atzean musika baxuarekin.',
     ept: ['Oraindik ez du kategoria sailkatzen, isiltasunean ere ez.', 'Isiltasunean sailkatzen du, baina kategoria galtzen du zarata igotzean.', 'Sailkapen zuzena mantentzen du atzeko zarata altua egon arren.'],
+  },
+
+  tea6: {
+    read: 'Sakatu 🔊 agindua BI pista aldi berean (forma ETA kolorea) entzuteko. Pista bakarrari erantzuten badio eta huts egiten badu (zirkulu gorria ukitzen du), EZ zigortu: esan zuk kontingentzia naturaltasunez —"hori gorria da, baina zirkulua da; nik karratua nahi dut"— eta utzi berriro saiatzen. Saritu komunikazio-saiakera, ez perfekzioa.',
+    stageLabel: 'Ukitu BI pista zuzenak dituen fitxa',
+    choicePrompt: 'Karratu gorria.', choiceLabel: 'Agindua entzun', choiceVoice: 'tutor',
+    options: [{ cap: 'karratu gorria', emoji: '🟥' }, { cap: 'zirkulu gorria', emoji: '🔴' }, { cap: 'karratu urdina', emoji: '🟦' }],
+    optionAnswer: 0,
+    move: 'Bi pistako bilaketa etxean: "ekarri zerbait BIGUNA eta URDINA". Ospatu aurkikuntza bakoitza.',
+    ept: ['Pista bakarrari erantzuten dio (kolorea bakarrik edo forma bakarrik), laguntzarekin ere.', 'Bi pistak asmatzen ditu zuk kontingentzia xehatzen badiozu ("gorria bai, baina zirkulua ez").', 'Bi pista aldiberekoei berak bakarrik erantzuten die, lehenengo aginduan.'],
   },
 
   // ============================== DISLEXIA (fonología) ==============================
@@ -281,6 +351,17 @@ export const EXERCISE_EU: Record<string, Partial<Exercise>> = {
     stageLabel: 'Aurkitu letra objektibo guztiak',
     move: 'Marraztu letra objektiboa erraldoi airean: "b"-ren tripa aurrera begira dago, irakurtzean bezala.',
     ept: ['Oraindik letra biratuak sistematikoki nahasten ditu (b/d, p/q).', 'Letra objektiboak pistekin aurkitzen ditu ("begiratu norantz begiratzen duen tripak").', 'Letra objektibo guztiak berak bakarrik aurkitzen ditu, biratuetan erori gabe.'],
+  },
+  dx6: {
+    read: 'Umeak marrazki bakoitza OZEN izendatzen du eta irakurketa-ordenan (ezkerretik eskuinera), izendatzean ukituz. Estresorea zu zara: jarraitu bere hatza pantailan zurearekin, harrapaketa-jolas bat bezala. Kronometrorik gabe: azkarregi edo frustratuta ikusten baduzu, moteldu zure hatza edo gelditu jazarpena.',
+    stageLabel: 'Izendatu marrazki bakoitza ordenan, gelditu gabe!',
+    tiles: [
+      { cap: 'eguzkia', emoji: '☀️' }, { cap: 'katua', emoji: '🐱' }, { cap: 'ogia', emoji: '🍞' }, { cap: 'lorea', emoji: '🌸' },
+      { cap: 'ogia', emoji: '🍞' }, { cap: 'lorea', emoji: '🌸' }, { cap: 'eguzkia', emoji: '☀️' }, { cap: 'katua', emoji: '🐱' },
+      { cap: 'katua', emoji: '🐱' }, { cap: 'eguzkia', emoji: '☀️' }, { cap: 'lorea', emoji: '🌸' }, { cap: 'ogia', emoji: '🍞' },
+    ],
+    move: 'Etxeko RAN: errepasatu apalategi bat objektu bakoitza jarraian izendatuz, lerro bat irakurtzen bezala.',
+    ept: ['Oraindik etenaldi luzeekin izendatzen du edo irakurketa-ordena galtzen du.', 'Matrize osoa izendatzen du baina marrazki batzuetan trabatzen da edo eredua behar du.', 'Matrize osoa jarraian izendatzen du, jarioz eta ordenan, hatzaren jazarpenarekin ere.'],
   },
 };
 
@@ -359,6 +440,33 @@ export const VARIANTS_EU: Record<string, Partial<Exercise>[]> = {
     { emotionFace: '😢', emotionAnswer: 'Tristura' },
     { emotionFace: '😠', emotionAnswer: 'Haserrea' },
   ],
+  // ---- Rehabilitación auditiva ACOPROS ----
+  ra1: [
+    {},
+    { choicePrompt: 'Bilatu ardia.', optionAnswer: 1 },
+    { choicePrompt: 'Bilatu oiloa.', optionAnswer: 3 },
+  ],
+  ra2: [
+    {},
+    { choicePrompt: 'ahoa', options: [{ cap: 'ahoa', emoji: '👄' }, { cap: 'lorea', emoji: '🌸' }, { cap: 'trena', emoji: '🚆' }], optionAnswer: 0 },
+    { choicePrompt: 'hartza', options: [{ cap: 'hartza', emoji: '🐻' }, { cap: 'oina', emoji: '🦶' }, { cap: 'mahatsa', emoji: '🍇' }], optionAnswer: 0 },
+  ],
+  ra3: [
+    {},
+    { choicePrompt: 'begia', optionAnswer: 1 },
+    { choicePrompt: 'zubia', optionAnswer: 3 },
+  ],
+  ra4: [
+    {},
+    {
+      parts: [{ role: 'Lehenengo', cap: 'ilargia', emoji: '🌙' }, { role: 'Gero', cap: 'katua', emoji: '🐱' }, { role: 'Ondoren', cap: 'lorea', emoji: '🌸' }],
+      sentence: 'Ukitu ilargia, gero katua eta ondoren lorea.',
+    },
+    {
+      parts: [{ role: 'Lehenengo', cap: 'ogia', emoji: '🍞' }, { role: 'Gero', cap: 'arraina', emoji: '🐟' }, { role: 'Ondoren', cap: 'zuhaitza', emoji: '🌳' }],
+      sentence: 'Ukitu ogia, gero arraina eta ondoren zuhaitza.',
+    },
+  ],
   // ---- TEA ----
   tea5: [
     {},
@@ -371,6 +479,19 @@ export const VARIANTS_EU: Record<string, Partial<Exercise>[]> = {
       read: 'Sakatu 🔊 lau fitxak entzuteko. Hiru janzteko dira eta bat ez: umeak besteekin joaten EZ dena ukitzen du. Mantendu probatzen ari zaren zarata-maila eta konparatu aurreko txandekin.',
       intruder: [{ cap: 'txapela', emoji: '🧢' }, { cap: 'kamiseta', emoji: '👕' }, { cap: 'zapata', emoji: '👟' }, { cap: 'marrubia', emoji: '🍓' }],
       intruderAnswer: 3,
+    },
+  ],
+  tea6: [
+    {},
+    {
+      choicePrompt: 'Zirkulu urdina.',
+      options: [{ cap: 'zirkulu urdina', emoji: '🔵' }, { cap: 'karratu urdina', emoji: '🟦' }, { cap: 'zirkulu gorria', emoji: '🔴' }],
+      optionAnswer: 0,
+    },
+    {
+      choicePrompt: 'Izar horia.',
+      options: [{ cap: 'zirkulu horia', emoji: '🟡' }, { cap: 'izar horia', emoji: '⭐' }, { cap: 'bihotz horia', emoji: '💛' }],
+      optionAnswer: 1,
     },
   ],
   // ---- Dislexia ----
@@ -398,5 +519,23 @@ export const VARIANTS_EU: Record<string, Partial<Exercise>[]> = {
     {},
     { rotationTargets: { target: 'd', grid: ['d', 'b', 'q', 'd', 'p', 'b', 'd', 'q', 'b', 'p', 'd', 'b'] } },
     { rotationTargets: { target: 'p', grid: ['p', 'q', 'b', 'p', 'd', 'q', 'p', 'b', 'q', 'd', 'p', 'q'] } },
+  ],
+  dx6: [
+    {},
+    {
+      tiles: [
+        { cap: 'ilargia', emoji: '🌙' }, { cap: 'txakurra', emoji: '🐶' }, { cap: 'etxea', emoji: '🏠' }, { cap: 'arraina', emoji: '🐟' },
+        { cap: 'etxea', emoji: '🏠' }, { cap: 'arraina', emoji: '🐟' }, { cap: 'ilargia', emoji: '🌙' }, { cap: 'txakurra', emoji: '🐶' },
+        { cap: 'txakurra', emoji: '🐶' }, { cap: 'ilargia', emoji: '🌙' }, { cap: 'arraina', emoji: '🐟' }, { cap: 'etxea', emoji: '🏠' },
+      ],
+    },
+    {
+      // RAN de colores: la serie cromática básica en euskera.
+      tiles: [
+        { cap: 'gorria', emoji: '🟥' }, { cap: 'urdina', emoji: '🟦' }, { cap: 'berdea', emoji: '🟩' }, { cap: 'horia', emoji: '🟨' },
+        { cap: 'berdea', emoji: '🟩' }, { cap: 'horia', emoji: '🟨' }, { cap: 'gorria', emoji: '🟥' }, { cap: 'urdina', emoji: '🟦' },
+        { cap: 'urdina', emoji: '🟦' }, { cap: 'berdea', emoji: '🟩' }, { cap: 'horia', emoji: '🟨' }, { cap: 'gorria', emoji: '🟥' },
+      ],
+    },
   ],
 };

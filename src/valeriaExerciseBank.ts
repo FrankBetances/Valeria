@@ -602,6 +602,15 @@ export const SESSION_DONE_LEAD = '¡Sesión completada!';           // + elogio 
 export const PLURAL_HINT = 'Ahí solo hay uno. Busca donde hay muchos.'; // fallo en el juego de plural
 export const TOUCH_IMAGE_HINT = 'Primero toca una imagen.';       // FF-1 sin ficha seleccionada
 
+// Veredictos hablados del juego de micrófono (MicPracticeCard), indexados por
+// MatchLevel (0 = otra vez, 1 = casi, 2 = genial). Fuente única: la UI los
+// locuta vía micVerdictSayFor y el corpus los hornea desde aquí.
+export const MIC_VERDICT_SAY: [string, string, string] = [
+  'Vamos a escucharla otra vez.',
+  '¡Casi! Vamos a intentarlo otra vez.',
+  '¡Muy bien! ¡Lo has dicho genial!',
+];
+
 // Etiquetas del juego de plural con concordancia de género («un gato»/«muchos
 // gatos», «una flor»/«muchas flores»). Una sola fuente: pantalla y corpus las
 // construyen igual, así que el asset neuronal resuelve exacto.
@@ -619,7 +628,7 @@ export const pluralManyLabel = (p: PluralData): string => `${p.gender === 'f' ? 
 // de variedades usa el banco base sin cambios.
 import { EXERCISE_ESDO, VARIANTS_ESDO } from './valeriaExerciseEsDO';
 import {
-  EXERCISE_EU, VARIANTS_EU, EMO_EU,
+  EXERCISE_EU, VARIANTS_EU, EMO_EU, MIC_VERDICT_SAY_EU,
   SESSION_DONE_LEAD_EU, PLURAL_HINT_EU, EMOTION_PROMPT_EU, TOUCH_IMAGE_HINT_EU,
 } from './valeriaExerciseEu';
 
@@ -654,6 +663,11 @@ export const pluralHintFor = (loc: string): string =>
 // asset neuronal HiTZ; en el resto, el castellano (Sharvard / voz del sistema).
 export const touchImageHintFor = (loc: string): string =>
   loc === 'eu' ? TOUCH_IMAGE_HINT_EU : TOUCH_IMAGE_HINT;
+// Veredicto hablado del micro por variedad: en euskera locuta el veredicto
+// vasco (asset HiTZ del corpus); el resto usa el castellano, que en las
+// sesiones es resuelve el asset de Sharvard.
+export const micVerdictSayFor = (loc: string, lvl: 0 | 1 | 2): string =>
+  loc === 'eu' ? MIC_VERDICT_SAY_EU[lvl] : MIC_VERDICT_SAY[lvl];
 // Pregunta corta de la emoción (título/zoom) y prompt hablado (con opciones).
 export const emotionQuestionFor = (loc: string): string =>
   loc === 'eu' ? EMOTION_PROMPT_EU : '¿Cómo se siente?';
@@ -682,9 +696,8 @@ export interface VoiceLine { style: 'tutor' | 'child' | 'slow'; text: string; }
 // pantallas de Audición y Lenguaje: veredictos de MicPracticeCard y el aviso de
 // "toca una imagen" del player.
 const EXERCISE_FIXED_LINES: VoiceLine[] = [
-  { style: 'child', text: '¡Muy bien! ¡Lo has dicho genial!' }, // VERDICT[2].say
-  { style: 'child', text: '¡Casi! Vamos a intentarlo otra vez.' }, // VERDICT[1].say
-  { style: 'child', text: 'Vamos a escucharla otra vez.' }, // VERDICT[0].say
+  // Veredictos del micro (MicPracticeCard los locuta vía micVerdictSayFor).
+  ...MIC_VERDICT_SAY.map((t): VoiceLine => ({ style: 'child', text: t })),
   { style: 'child', text: TOUCH_IMAGE_HINT }, // matchVowel sin selección (FF-1)
   // Piezas atómicas de las secuencias con refuerzo (speakToChildSeq): la
   // etiqueta de cada emoción, el arranque de "sesión completada" y la pista
@@ -692,6 +705,10 @@ const EXERCISE_FIXED_LINES: VoiceLine[] = [
   ...EMO.map((e): VoiceLine => ({ style: 'child', text: e.label })),
   { style: 'child', text: SESSION_DONE_LEAD },
   { style: 'child', text: PLURAL_HINT },
+  // Prompt de emociones con opciones (SpeakButton «Oír las opciones» de PR-3):
+  // MISMO literal que construye emotionPromptFor en el player, para que
+  // resuelva asset neuronal en vez de caer siempre a la voz del sistema.
+  { style: 'tutor', text: emotionPromptFor('es', EMO) },
 ];
 
 // Constructores de etiqueta de plural inyectables (es antepone artículo con

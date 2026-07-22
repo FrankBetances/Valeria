@@ -20,6 +20,7 @@ import {
   VoiceStatus, refreshVoiceCatalog,
 } from './valeriaVoice';
 import { getLocale, setLocale, assetLang, Locale } from './valeriaLocale';
+import { micVerdictSayFor } from './valeriaExerciseBank';
 
 // ----------------------------------------------------------------------------
 // Botón altavoz: lee `text` en voz alta. `voice` elige el tono.
@@ -84,10 +85,13 @@ export const TurnPhaseStrip: React.FC<{
 // ----------------------------------------------------------------------------
 type MicPhase = 'idle' | 'listening' | 'scored' | 'error';
 
-const VERDICT: Record<MatchLevel, { icon: string; title: string; sub: string; say: string }> = {
-  2: { icon: '🎉', title: '¡Lo dijo genial!', sub: 'La app entendió la palabra objetivo.', say: '¡Muy bien! ¡Lo has dicho genial!' },
-  1: { icon: '💪', title: '¡Casi casi!', sub: 'Se parece mucho. Repetid el modelo y probad otra vez.', say: '¡Casi! Vamos a intentarlo otra vez.' },
-  0: { icon: '👂', title: 'Otra vez juntos', sub: 'Escuchad la palabra despacio y repetid a la vez.', say: 'Vamos a escucharla otra vez.' },
+// Lo VISUAL del veredicto (para el adulto) queda en castellano; lo HABLADO
+// (para el niño) se localiza por variedad vía micVerdictSayFor, de modo que en
+// euskera suena el veredicto vasco horneado (HiTZ) y no un salto al castellano.
+const VERDICT: Record<MatchLevel, { icon: string; title: string; sub: string }> = {
+  2: { icon: '🎉', title: '¡Lo dijo genial!', sub: 'La app entendió la palabra objetivo.' },
+  1: { icon: '💪', title: '¡Casi casi!', sub: 'Se parece mucho. Repetid el modelo y probad otra vez.' },
+  0: { icon: '👂', title: 'Otra vez juntos', sub: 'Escuchad la palabra despacio y repetid a la vez.' },
 };
 
 // `altTargets`: respuestas alternativas igual de válidas que `target`
@@ -145,7 +149,7 @@ export const MicPracticeCard: React.FC<{ target: string; prompt?: string; altTar
     setHeard(alternatives[0] ?? '');
     setScore(lvl);
     setPhase('scored');
-    speakToChild(VERDICT[lvl].say);
+    speakToChild(micVerdictSayFor(getLocale(), lvl));
     if (lvl === 0) setTimeout(() => speakWordSlow(target), 1600);
   };
 
