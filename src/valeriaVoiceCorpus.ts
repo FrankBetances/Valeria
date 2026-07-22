@@ -25,7 +25,11 @@ import {
   DAILY_SCENARIOS_EU, PROGRESSION_SEQUENCES_EU, CONTRAST_CAPSULES_EU,
   SEM_RETRY_EU, SEM_SESSION_DONE_EU,
 } from './valeriaSemanticExpansionEu';
-import { enumerateExerciseSpeech } from './valeriaExerciseBank';
+import {
+  enumerateExerciseSpeech, enumerateExerciseSpeechFor,
+  dbForLocale, variantsForLocale, pluralOneLabelFor, pluralManyLabelFor,
+} from './valeriaExerciseBank';
+import { EXERCISE_FIXED_LINES_EU } from './valeriaExerciseEu';
 import {
   PRAISE_BANK, ALMOST_BANK, NO_HEAR_BANK, TOGETHER_BANK,
   SESSION_CONTINUE_PHRASE, ROUTE_DONE_PHRASE, VOICE_SAMPLE_PHRASE,
@@ -240,6 +244,16 @@ export function buildVoiceCorpus(): VoiceCorpusEntry[] {
     retry: SEM_RETRY_EU,
     sessionDone: SEM_SESSION_DONE_EU,
   })) addEu(l.style, l.text, 'expansion');
+
+  // Audición y Lenguaje (+ TEA/Dislexia) en euskera: se locuta con HiTZ igual
+  // que la base es con Sharvard.
+  for (const l of enumerateExerciseSpeechFor({
+    db: dbForLocale('eu'),
+    variants: variantsForLocale('eu'),
+    fixed: EXERCISE_FIXED_LINES_EU,
+    pluralOne: (p) => pluralOneLabelFor('eu', p),
+    pluralMany: (p) => pluralManyLabelFor('eu', p),
+  })) addEu(l.style, l.text, 'ejercicios');
 
   return Array.from(entries.values());
 }

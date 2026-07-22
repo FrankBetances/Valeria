@@ -477,21 +477,49 @@ export const pluralManyLabel = (p: PluralData): string => `${p.gender === 'f' ? 
 // guineo…), consignas adaptadas y el plural evaluado por determinante. El resto
 // de variedades usa el banco base sin cambios.
 import { EXERCISE_ESDO, VARIANTS_ESDO } from './valeriaExerciseEsDO';
+import {
+  EXERCISE_EU, VARIANTS_EU, EMO_EU,
+  SESSION_DONE_LEAD_EU, PLURAL_HINT_EU, EMOTION_PROMPT_EU,
+} from './valeriaExerciseEu';
 
 // `loc` se tipa como string a propósito: así este banco NO importa valeriaLocale
 // (que arrastra AsyncStorage) y sigue siendo PURO para el corpus de voz, que lo
-// compila y ejecuta en Node sin react-native. Solo distingue la variedad es-DO.
+// compila y ejecuta en Node sin react-native. Distingue es-DO (overrides
+// dialectales) y eu (contenido vasco reautorizado).
 export function dbForLocale(loc: string): Record<string, Exercise> {
-  if (loc !== 'es-DO') return DB;
+  const ov = loc === 'es-DO' ? EXERCISE_ESDO : loc === 'eu' ? EXERCISE_EU : null;
+  if (!ov) return DB;
   const out: Record<string, Exercise> = {};
-  for (const [id, ex] of Object.entries(DB)) out[id] = { ...ex, ...(EXERCISE_ESDO[id] ?? {}) };
+  for (const [id, ex] of Object.entries(DB)) out[id] = { ...ex, ...(ov[id] ?? {}) };
   return out;
 }
 
 export function variantsForLocale(loc: string): Record<string, Partial<Exercise>[]> {
-  if (loc !== 'es-DO') return VARIANTS;
-  return { ...VARIANTS, ...VARIANTS_ESDO };
+  if (loc === 'es-DO') return { ...VARIANTS, ...VARIANTS_ESDO };
+  if (loc === 'eu') return { ...VARIANTS, ...VARIANTS_EU };
+  return VARIANTS;
 }
+
+// ---- Constantes de pantalla localizadas por variedad (Audición/Lenguaje) ----
+// El player las consume por variedad activa (patrón dbForLocale). En eu cambian
+// las emociones, el cierre de sesión, la pista de plural y el prompt de emoción.
+export const emoForLocale = (loc: string): { face: string; label: string }[] =>
+  loc === 'eu' ? EMO_EU : EMO;
+export const sessionDoneLeadFor = (loc: string): string =>
+  loc === 'eu' ? SESSION_DONE_LEAD_EU : SESSION_DONE_LEAD;
+export const pluralHintFor = (loc: string): string =>
+  loc === 'eu' ? PLURAL_HINT_EU : PLURAL_HINT;
+// Pregunta corta de la emoción (título/zoom) y prompt hablado (con opciones).
+export const emotionQuestionFor = (loc: string): string =>
+  loc === 'eu' ? EMOTION_PROMPT_EU : '¿Cómo se siente?';
+export const emotionPromptFor = (loc: string, emo: { label: string }[]): string =>
+  loc === 'eu' ? `${EMOTION_PROMPT_EU} ${emo.map((e) => e.label).join(', ')}?` : `¿Cómo se siente? ¿${emo.map((e) => e.label).join(', ')}?`;
+
+// Etiquetas de plural por variedad: eu pospone "bat"/"asko" sin género.
+export const pluralOneLabelFor = (loc: string, p: NonNullable<Exercise['plural']>): string =>
+  loc === 'eu' ? `${p.cap} bat` : pluralOneLabel(p);
+export const pluralManyLabelFor = (loc: string, p: NonNullable<Exercise['plural']>): string =>
+  loc === 'eu' ? `${p.cap} asko` : pluralManyLabel(p);
 
 // ----------------------------------------------------------------------------
 // Enumeración de voz (contrato con el corpus neuronal)
@@ -521,8 +549,12 @@ const EXERCISE_FIXED_LINES: VoiceLine[] = [
   { style: 'child', text: PLURAL_HINT },
 ];
 
+// Constructores de etiqueta de plural inyectables (es antepone artículo con
+// género; eu pospone "bat"/"asko" sin género). Por defecto, los del castellano.
+type PluralLabeler = (p: NonNullable<Exercise['plural']>) => string;
+
 // Líneas de voz de un ejercicio ya "resuelto" (base + variante de ronda fusionada).
-const linesForExercise = (ex: Exercise): VoiceLine[] => {
+const linesForExercise = (ex: Exercise, pluralOne: PluralLabeler, pluralMany: PluralLabeler): VoiceLine[] => {
   const out: VoiceLine[] = [];
   // Consigna: los ejercicios con niveles (Lenguaje, ACOPROS) leen cada nivel;
   // el resto lee la consigna base. Voz por defecto de SpeakButton = 'tutor'.
@@ -559,8 +591,8 @@ const linesForExercise = (ex: Exercise): VoiceLine[] => {
   // atómicos 'child' de cada tarjeta («un X» / «muchos Y») + refuerzo/pista.
   if (ex.plural) {
     out.push({ style: 'slow', text: ex.plural.capPlural.toLowerCase() });
-    out.push({ style: 'child', text: pluralOneLabel(ex.plural) });
-    out.push({ style: 'child', text: pluralManyLabel(ex.plural) });
+    out.push({ style: 'child', text: pluralOne(ex.plural) });
+    out.push({ style: 'child', text: pluralMany(ex.plural) });
   }
   // Escenas con ejemplo hablado (PR-2, voz child).
   if (ex.scenes?.length) for (const sc of ex.scenes) out.push({ style: 'child', text: sc.say });
@@ -572,13 +604,31 @@ const linesForExercise = (ex: Exercise): VoiceLine[] => {
   return out;
 };
 
-export function enumerateExerciseSpeech(): VoiceLine[] {
-  const out: VoiceLine[] = [...EXERCISE_FIXED_LINES];
-  for (const [id, ex] of Object.entries(DB)) {
+// Enumeración parametrizada: la comparte la base es y cada variedad localizada
+// (eu). Recibe su DB/variantes ya resueltas, sus líneas fijas y sus
+// constructores de etiqueta de plural, para hornear la voz de cada variedad.
+export interface ExerciseSpeechConfig {
+  db: Record<string, Exercise>;
+  variants: Record<string, Partial<Exercise>[]>;
+  fixed: VoiceLine[];
+  pluralOne: PluralLabeler;
+  pluralMany: PluralLabeler;
+}
+
+export function enumerateExerciseSpeechFor(cfg: ExerciseSpeechConfig): VoiceLine[] {
+  const out: VoiceLine[] = [...cfg.fixed];
+  for (const [id, ex] of Object.entries(cfg.db)) {
     // Ronda 1 = datos base ({}); las variantes sobreescriben campos. Se enumeran
     // todas: los ids duplicados los colapsa el corpus (Map por id).
-    const rounds = VARIANTS[id] ?? [{}];
-    for (const v of rounds) out.push(...linesForExercise({ ...ex, ...v }));
+    const rounds = cfg.variants[id] ?? [{}];
+    for (const v of rounds) out.push(...linesForExercise({ ...ex, ...v }, cfg.pluralOne, cfg.pluralMany));
   }
   return out;
+}
+
+export function enumerateExerciseSpeech(): VoiceLine[] {
+  return enumerateExerciseSpeechFor({
+    db: DB, variants: VARIANTS, fixed: EXERCISE_FIXED_LINES,
+    pluralOne: pluralOneLabel, pluralMany: pluralManyLabel,
+  });
 }

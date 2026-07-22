@@ -1,11 +1,11 @@
 {
- "generatedAt": "2026-07-22T05:52:58.033Z",
- "entries": 1670,
+ "generatedAt": "2026-07-22T06:05:08.906Z",
+ "entries": 1867,
  "byStyle": {
   "clinical": 607,
-  "child": 655,
-  "slow": 203,
-  "tutor": 205
+  "child": 744,
+  "slow": 258,
+  "tutor": 258
  },
  "bySource": {
   "carrier": 580,
@@ -27,7 +27,7 @@
   "banco/juntos": 9,
   "util/muestra": 3,
   "expansion": 552,
-  "ejercicios": 194
+  "ejercicios": 391
  },
  "corpus": [
   {
@@ -11719,6 +11719,1385 @@
    "style": "child",
    "text": "Saioa amaituta! Jo bostekoa!",
    "source": "expansion"
+  },
+  {
+   "id": "eu_child_0885614a_29",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ia-ia! Berriro saiatuko gara.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_b37100df_22",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro entzungo dugu.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_770e44f0_27",
+   "lang": "eu",
+   "style": "child",
+   "text": "Lehenengo, ukitu irudi bat.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_e7d8cc5d_4",
+   "lang": "eu",
+   "style": "child",
+   "text": "Poza",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_9be9bcb9_8",
+   "lang": "eu",
+   "style": "child",
+   "text": "Tristura",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_e526f7b8_8",
+   "lang": "eu",
+   "style": "child",
+   "text": "Haserrea",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_e9698b22_4",
+   "lang": "eu",
+   "style": "child",
+   "text": "Mina",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_3387200b_15",
+   "lang": "eu",
+   "style": "child",
+   "text": "Saioa amaituta!",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_71452081_43",
+   "lang": "eu",
+   "style": "child",
+   "text": "Hor bakarra dago. Bilatu asko dauden lekua.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_514448d6_122",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Umeak irudi bat ukitzen du bere izena entzuteko eta gero hasten den bokala ukitzen du. Aplikazioak asmatu duen esaten dio.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_85635db6_69",
+   "lang": "eu",
+   "style": "child",
+   "text": "Marraztu bokala airean besoarekin oso handi asmatzen duen bakoitzean.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_f152764d_8",
+   "lang": "eu",
+   "style": "slow",
+   "text": "armiarma",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_86a66642_9",
+   "lang": "eu",
+   "style": "slow",
+   "text": "elefantea",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_e297d24b_5",
+   "lang": "eu",
+   "style": "slow",
+   "text": "igela",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_48263046_26",
+   "lang": "eu",
+   "style": "slow",
+   "text": "armiarma, elefantea, igela",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_e81a076b_5",
+   "lang": "eu",
+   "style": "slow",
+   "text": "otsoa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_7629bea4_6",
+   "lang": "eu",
+   "style": "slow",
+   "text": "untxia",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_27acd662_20",
+   "lang": "eu",
+   "style": "slow",
+   "text": "otsoa, untxia, igela",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_943c2d93_8",
+   "lang": "eu",
+   "style": "slow",
+   "text": "arrautza",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_a108ab46_6",
+   "lang": "eu",
+   "style": "slow",
+   "text": "elurra",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_73d0b767_5",
+   "lang": "eu",
+   "style": "slow",
+   "text": "oiloa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_66097ce0_23",
+   "lang": "eu",
+   "style": "slow",
+   "text": "arrautza, elurra, oiloa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_d37fb33b_141",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Esan zuk lehenengo hitza, umearengandik gertu eta poliki, eta animatu errepikatzera. Aplikazioaren ahotsa laguntza gehigarria besterik ez da.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_c2f35927_60",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ibili gelan zehar silaba bakoitzean zapaldu gogor: ZA-PA-TA.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_6ded9518_6",
+   "lang": "eu",
+   "style": "slow",
+   "text": "zapata",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_c36e6495_105",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Lehenengo sakatu 🔊 umeak hitz osoa entzun dezan. Gero, idatzitako hitzari falta zaion bokala uki dezala.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_c00779d9_53",
+   "lang": "eu",
+   "style": "child",
+   "text": "Bokala aurkitzean, besoak gora katu handi bat eginez.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_4292c8fe_4",
+   "lang": "eu",
+   "style": "slow",
+   "text": "katu",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_c126ff24_3",
+   "lang": "eu",
+   "style": "slow",
+   "text": "sei",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_f532528d_4",
+   "lang": "eu",
+   "style": "slow",
+   "text": "lore",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_6ef83a89_113",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Sakatu 🔊 lau fitxen izena entzuteko. Hiru elkarrekin doaz eta bat ez. Umeak besteekin joaten EZ dena ukitzen du.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_a117f064_51",
+   "lang": "eu",
+   "style": "child",
+   "text": "Jaten bada, ukitu tripa; intrusoa bada, izar-salto!",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_b8ee697d_34",
+   "lang": "eu",
+   "style": "slow",
+   "text": "sagarra, platanoa, mahatsa, kotxea",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_53670be0_7",
+   "lang": "eu",
+   "style": "child",
+   "text": "sagarra",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_c266b9af_8",
+   "lang": "eu",
+   "style": "child",
+   "text": "platanoa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_7bae523c_7",
+   "lang": "eu",
+   "style": "child",
+   "text": "mahatsa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_227d1071_6",
+   "lang": "eu",
+   "style": "child",
+   "text": "kotxea",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_bbed1a6a_112",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Sakatu 🔊 lau fitxen izena entzuteko. Hiru animaliak dira eta bat ez. Umeak besteekin joaten EZ dena ukitzen du.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_3d574d61_30",
+   "lang": "eu",
+   "style": "slow",
+   "text": "txakurra, katua, behia, zapata",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_6b80937b_8",
+   "lang": "eu",
+   "style": "child",
+   "text": "txakurra",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_6c11d24d_5",
+   "lang": "eu",
+   "style": "child",
+   "text": "katua",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_cbf8e5c6_5",
+   "lang": "eu",
+   "style": "child",
+   "text": "behia",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_6ded9518_6",
+   "lang": "eu",
+   "style": "child",
+   "text": "zapata",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_03991183_111",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Sakatu 🔊 lau fitxen izena entzuteko. Hiru janzteko dira eta bat ez. Umeak besteekin joaten EZ dena ukitzen du.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_fc0ff7b2_35",
+   "lang": "eu",
+   "style": "slow",
+   "text": "txapela, kamiseta, zapata, platanoa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_26d4f6e8_7",
+   "lang": "eu",
+   "style": "child",
+   "text": "txapela",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_e6476a54_8",
+   "lang": "eu",
+   "style": "child",
+   "text": "kamiseta",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_6d43517e_98",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Sakatu 🔊 asmakizuna entzuteko (edo irakurri zuk). Umeak hiru irudietako bat ukituz erantzuten du.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_9a490ae2_63",
+   "lang": "eu",
+   "style": "child",
+   "text": "Bilatu gelan zehar hasieran soinu bera duen objektu erreal bat.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_06a4f0f3_70",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Horia da, luzea eta biguna, eta tximinoei asko gustatzen zaie. Zer da?",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_7c536b0d_6",
+   "lang": "eu",
+   "style": "child",
+   "text": "udarea",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_ba19a780_6",
+   "lang": "eu",
+   "style": "child",
+   "text": "pilota",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_613ec847_58",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Gorria eta biribila da, eta zuhaitzetan hazten da. Zer da?",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_b86c83f2_9",
+   "lang": "eu",
+   "style": "child",
+   "text": "tximeleta",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_448ebcb3_7",
+   "lang": "eu",
+   "style": "child",
+   "text": "motorra",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_14d717f1_52",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Zeruan distiratzen du eta beroa ematen digu. Zer da?",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_88ea9a29_7",
+   "lang": "eu",
+   "style": "child",
+   "text": "eguzkia",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_6639f9d8_5",
+   "lang": "eu",
+   "style": "child",
+   "text": "sugea",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_d3b322f9_4",
+   "lang": "eu",
+   "style": "child",
+   "text": "zopa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_038e026a_107",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Hartu panpina eta arropa. Eman umeari agindu bat aldiro: \"Jarri txapela panpinari\". Aldatu arropa txandaka.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_fdfdd2de_64",
+   "lang": "eu",
+   "style": "child",
+   "text": "Jolastu benetan janzten: ekar dezala txapela korrika eta jantzi.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_d6b673a1_94",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Umeak ASKO dauden txartela ukitzen du. Gero galdetu \"zer dira?\" pluralez esan dezan: \"katuak\".",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_29a09080_58",
+   "lang": "eu",
+   "style": "child",
+   "text": "Salto handi bat BAT badago, salto txiki asko ASKO badaude.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_460dd1d2_6",
+   "lang": "eu",
+   "style": "slow",
+   "text": "katuak",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_36b939ed_8",
+   "lang": "eu",
+   "style": "child",
+   "text": "katu bat",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_15e3f558_9",
+   "lang": "eu",
+   "style": "child",
+   "text": "katu asko",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_040723a6_94",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Umeak ASKO dauden txartela ukitzen du. Gero galdetu \"zer dira?\" pluralez esan dezan: \"loreak\".",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_a601233d_6",
+   "lang": "eu",
+   "style": "slow",
+   "text": "loreak",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_a2d8955a_8",
+   "lang": "eu",
+   "style": "child",
+   "text": "lore bat",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_c390a355_9",
+   "lang": "eu",
+   "style": "child",
+   "text": "lore asko",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_682850f3_96",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Umeak ASKO dauden txartela ukitzen du. Gero galdetu \"zer dira?\" pluralez esan dezan: \"arrainak\".",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_6c3c5980_8",
+   "lang": "eu",
+   "style": "slow",
+   "text": "arrainak",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_50d9b9eb_10",
+   "lang": "eu",
+   "style": "child",
+   "text": "arrain bat",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_e24b4c92_11",
+   "lang": "eu",
+   "style": "child",
+   "text": "arrain asko",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_829d7f2a_126",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Sakatu 🔊 hitza entzuteko. Umeak irudi egokia ukitzen du. Gero alderantziz: zuk irudi bat seinalatu eta berak hitza esaten du.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_863afdb6_73",
+   "lang": "eu",
+   "style": "child",
+   "text": "Gelaren alde bat \"mutila\" da eta bestea \"neska\": korri egin alde egokira!",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_1cdf66d9_5",
+   "lang": "eu",
+   "style": "slow",
+   "text": "neska",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_9cad682f_6",
+   "lang": "eu",
+   "style": "child",
+   "text": "mutila",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_1cdf66d9_5",
+   "lang": "eu",
+   "style": "child",
+   "text": "neska",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_2788021d_5",
+   "lang": "eu",
+   "style": "slow",
+   "text": "amona",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_444fcce7_6",
+   "lang": "eu",
+   "style": "child",
+   "text": "aitona",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_2788021d_5",
+   "lang": "eu",
+   "style": "child",
+   "text": "amona",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_79a4c893_6",
+   "lang": "eu",
+   "style": "slow",
+   "text": "errege",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_79a4c893_6",
+   "lang": "eu",
+   "style": "child",
+   "text": "errege",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_ac39934e_8",
+   "lang": "eu",
+   "style": "child",
+   "text": "erregina",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_2e4875c0_143",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Sakatu 🔊 umeak esaldia entzun dezan. Gero, fitxak ordenan ukitu dezala eraikitzeko: nork, zer eta zer egiten duen. Euskaraz aditza azkena doa.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_4932894c_82",
+   "lang": "eu",
+   "style": "child",
+   "text": "Antzeztu esaldia: umeak aktore lana egiten du eta sagar imajinario bat \"jaten du\".",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_c7d54c78_25",
+   "lang": "eu",
+   "style": "child",
+   "text": "Mutilak sagarra jaten du.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_e8fb230c_7",
+   "lang": "eu",
+   "style": "slow",
+   "text": "mutilak",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_53670be0_7",
+   "lang": "eu",
+   "style": "slow",
+   "text": "sagarra",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_34501696_8",
+   "lang": "eu",
+   "style": "slow",
+   "text": "jaten du",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_f2162d4f_26",
+   "lang": "eu",
+   "style": "child",
+   "text": "Neskak pilota botatzen du.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_25aeaa36_6",
+   "lang": "eu",
+   "style": "slow",
+   "text": "neskak",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_ea309a57_11",
+   "lang": "eu",
+   "style": "slow",
+   "text": "botatzen du",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_d092445e_27",
+   "lang": "eu",
+   "style": "child",
+   "text": "Txakurrak hezurra jaten du.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_4b678230_9",
+   "lang": "eu",
+   "style": "slow",
+   "text": "txakurrak",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_c939cf06_7",
+   "lang": "eu",
+   "style": "slow",
+   "text": "hezurra",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_3b539e5e_101",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Seinalatu gelako gauzak eta galdetu: \"Zer da hau?\". Grabatu edo idatzi behean umeak erantzuten duena.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_3f19f6be_89",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ibili etxean esploratzaile gisa objektuak seinalatuz: \"zer da hau?\" geldialdi bakoitzean.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_04eec5ac_124",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Panpina lo dago: hitz egin oso baxu ez esnatzeko. \"Esnatzen\" denean, itzuli ahots normalera. Idatzi behean nola egiten duen.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_d8773678_76",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ibili puntetan baxu hitz eginez; seinalean, ahots normala eta pauso gogorra!",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_bde0fbf1_53",
+   "lang": "eu",
+   "style": "child",
+   "text": "Isss… panpina lo dago. Oso-oso baxu hitz egiten dugu.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_186682db_61",
+   "lang": "eu",
+   "style": "child",
+   "text": "Panpina esnatu da! Orain ahots normalarekin hitz egiten dugu.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_84d967f3_118",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Begiratu aurpegi handia umearekin. Sakatu 🔊 aukerak entzun nahi baditu. Berak aurpegia nola sentitzen den ukitzen du.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_e79906d4_72",
+   "lang": "eu",
+   "style": "child",
+   "text": "Imitatu emozioa gorputz osoarekin: aurpegia, besoak eta estatua-jarrera.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_9be3d3e5_157",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Estali ahoa eta esan hitz bat ia ahotsik gabe. Umeak ulertzen ez badu, eskatu behar dizu: \"zer?\" edo \"nola?\". Hori da lantzen duguna: errepikatzeko eskatzea.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_8800eb9d_93",
+   "lang": "eu",
+   "style": "child",
+   "text": "Xuxurlatu agindu bat urrunetik; ulertzen ez bada, etor dadila korrika eta eska dezala \"zer?\".",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_a58b649e_3",
+   "lang": "eu",
+   "style": "slow",
+   "text": "zer",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_af94d2d8_120",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Hurbildu burbuilak zure aurpegitik oso gertu eta deitu bere izena. Bilatu begi-kontaktu labur bat, une batekoa bada ere.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_69d53089_95",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Egin burbuilak beso baten distantziara. Deitu bere izena eta seinalatu hatzarekin burbuiletara.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_a28778ad_85",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Gelaren beste aldetik, deitu bere izena behin bakarrik estimulu motibatzailerik gabe.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_55ba24f6_70",
+   "lang": "eu",
+   "style": "child",
+   "text": "Jarraitu eta lehertu burbuilak elkarrekin: burbuila bat, begirada bat.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_87520b9d_93",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Jo txalo poliki bere aurrean eta gidatu bere eskuak lehen aldian. Errepikatu keinua bakarrik.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_2e331f5d_101",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Jo danborra bi aldiz eta esan \"pa-pa\". Itxaron keinua edo soinua imita dezan laguntza fisikorik gabe.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_efc000b0_130",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Konbinatu keinu bat eta silaba berri bat (\"ta-ta\" + salto) eta ikusi ispiluan imitatzen duen, berehala eta eredua errepikatu gabe.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_1aa75085_72",
+   "lang": "eu",
+   "style": "child",
+   "text": "Giza ispilua: imitatu keinu handiak (besoak, saltoak, bueltak) txandaka.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_9fa1e302_68",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Esan \"Emadazu pilota\" pilota hatzarekin seinalatzen duzun bitartean.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_ae7c58eb_64",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Eskatu \"Ukitu sudurra\" eta \"Ukitu burua\" laguntza-keinurik gabe.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_fecca865_90",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Esan keinurik gabe: \"Emadazu pilota eta eseri\". Ikusi bi urratsak ordenan betetzen dituen.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_07f180b2_68",
+   "lang": "eu",
+   "style": "child",
+   "text": "Jolastu \"Simonek dio\" urrats bateko aginduekin eta gorputz-atalekin.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_a12baa23_90",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Erakutsi txakurraren panpina eta eredua eman: \"Zaunk\". Itxaron onomatopeia errepika dezan.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_b8333a8c_63",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Erakutsi ur-baso bat ezer esan gabe eta galdetu: \"Zer da hau?\".",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_c97db54c_91",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Eskaini baso hutsa eta itxaron espontaneoki \"ura nahi dut\" eska dezan bi hitzak konbinatuz.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_80e174f0_74",
+   "lang": "eu",
+   "style": "child",
+   "text": "Iturrira lasterketa: \"ura\" hitz magikoa esaten badu bakarrik irekitzen da.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_bea93f14_12",
+   "lang": "eu",
+   "style": "slow",
+   "text": "ura nahi dut",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_b7f0863d_108",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Gelditu jolas dibertigarri bat (kilimak, zabua) eta eredua eman keinua + \"gehiago\" hitza. Lagundu imitatzen.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_b4d0c947_98",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Eman gustuko zerbait duen ontzi itxi bat eta itxaron. Frustratzen bada, iradoki ahopeka \"lagundu\".",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_b1ac8112_112",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Sortu beste behar-egoera bat (jostailua eskuz kanpo) inolako pistarik eman gabe eta itxaron eskaera espontaneoa.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_7320cf53_78",
+   "lang": "eu",
+   "style": "child",
+   "text": "Zabua, hegazkina edo kilimak: gelditu jolasa eta itxaron \"gehiago\" eska dezan.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_6d434a1d_98",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Erakutsi hurrengo jardueraren irudia eta egin atzera-kontaketa bisuala 5etik 1era aldatu aurretik.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_3861d31f_79",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Abisatu aldaketa behin bakarrik eta eskaini fitxa bat jarduera lasai amaitzean.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_7ff501fd_96",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Utzi bere agenda bisuala bakarrik kontsultatzen eta trantsizioa egiten, abisatu behar izan gabe.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_08784606_70",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ibili elkarrekin hurrengo jardueraruntz trantsizioen abestia kantatuz.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_fcba7403_84",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Pilatu bloke bat eta esan \"orain zu\". Lagundu fisikoki txandari erantzuten ez badio.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_f0ac0c1b_115",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Eskaini panpina bat eta koilara bat; eredua eman \"eman diezaiogun jaten\" eta itxaron jolas sinbolikoa jarrai dezan.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_dd2e3ab2_89",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Utzi berak proposa dezan txanda- edo jolas sinboliko bat eta mantendu trukea gidatu gabe.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_ffa2355a_87",
+   "lang": "eu",
+   "style": "child",
+   "text": "Pasatu pilota bat biraka: pilota duenak bakarrik hitz egiten du. Txanda eta mugimendua!",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_df713ec8_305",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Jarri objektu oso erakargarri bat zure aurpegiaren eta umearen artean. Itxaron 3 segundo inolako pistarik eman AURRETIK (instigazio atzeratua): zigiluaren botoia itxaron horren ondoren bakarrik desblokeatzen da. Sakatu Zigilu Bikoitza zurekin (ez objektuarekin) benetako begi-kontaktua dagoenean BAKARRIK.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_0b688307_97",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ezkutatu objektua bizkarraren atzean eta ibili poliki: bila diezazula begirada erakutsi aurretik.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_d6cef521_351",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Ariketa honek Panel Nagusiko Etendura Pragmatikoa erabiltzen du: aplikazioa nahita izozten duzu (agindu absurdua edo isiltasuna) eta umeak komunikazioa nola konpontzen duen behatzen duzu. Estresore MANUALA eta berehala itzulgarria da: zuk erabakitzen duzu noiz hasi eta noiz amaitu. Ireki behean Panel Nagusian eta erregistratu erabilitako estrategia.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_5f7ae7e5_62",
+   "lang": "eu",
+   "style": "child",
+   "text": "Konponketa lortu ondoren, ospatu esku-talka oso puztu batekin.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_4d00155d_250",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Sakatu 🔊 aplikazioaren ahotsak agindu motorea eman dezan eta, soinuak dirauen BITARTEAN, egin zuk kontrako ekintza bat (ahotsak \"ukitu sudurra\" dio eta zuk burua ukitzen duzu). Helburua umeak AUDIOA jarraitzea eta zure keinuaren kopia inhibitzea da.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_d348b50f_106",
+   "lang": "eu",
+   "style": "child",
+   "text": "Jolastu \"ahotsak agintzen du\": soinuzko aginduak balio du, helduaren keinuak engainatzen du. Aldatu rolak!",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_146495f2_266",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Gehien gustatzen ari zaion jolasaren erdian, sakatu \"Eten orain\": mugimendu-kapsula bat-bateko bat agertuko da. Behatu trantsizioa: onartzen du, protesta egin eta jarraitzen du, ala uzten du? Zuk erabakitzen duzu une zehatza; aplikazioak ez du inoiz bakarrik eteten.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_beb14379_82",
+   "lang": "eu",
+   "style": "child",
+   "text": "Bihurtu etena jolas: \"estatua!\", hiru arnasketa putz eginda eta jarduerara itzuli.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_7bee0f58_259",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Sakatu 🔊 lau fitxak entzuteko. Hiru elkarrekin doaz eta bat ez: umeak besteekin joaten EZ dena ukitzen du. Gero igo POLIKI-POLIKI atzeko zarata Panel Nagusitik eta errepikatu beste txanda batekin: idatzi asmatzea nola aldatzen den zarata-maila bakoitzarekin.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_5624bdae_89",
+   "lang": "eu",
+   "style": "child",
+   "text": "Sailkatu benetako jostailuak bi kutxatan (animaliak / jatekoak) atzean musika baxuarekin.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_38a21bfb_32",
+   "lang": "eu",
+   "style": "slow",
+   "text": "txakurra, katua, zaldia, koilara",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_bcdb41b2_6",
+   "lang": "eu",
+   "style": "child",
+   "text": "zaldia",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_adfc87a8_7",
+   "lang": "eu",
+   "style": "child",
+   "text": "koilara",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_0f215825_183",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Sakatu 🔊 lau fitxak entzuteko. Hiru jaten dira eta bat ez: umeak besteekin joaten EZ dena ukitzen du. Igo zarata Panel Nagusitik txandaz txanda eta idatzi asmatzea nola aldatzen den.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_cdd92bb4_28",
+   "lang": "eu",
+   "style": "slow",
+   "text": "sagarra, ogia, gazta, pilota",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_7ce8a415_4",
+   "lang": "eu",
+   "style": "child",
+   "text": "ogia",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_b245906e_5",
+   "lang": "eu",
+   "style": "child",
+   "text": "gazta",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_6f4bd41c_180",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Sakatu 🔊 lau fitxak entzuteko. Hiru janzteko dira eta bat ez: umeak besteekin joaten EZ dena ukitzen du. Mantendu probatzen ari zaren zarata-maila eta konparatu aurreko txandekin.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_502b7a33_35",
+   "lang": "eu",
+   "style": "slow",
+   "text": "txapela, kamiseta, zapata, marrubia",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_ba6015c6_8",
+   "lang": "eu",
+   "style": "child",
+   "text": "marrubia",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_f4c0a7b7_191",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Sakatu 🔊 ahotsak serie osoa eman dezan. Hiru hitzek antzeko soinua dute eta batek ez: umeak besteen soinua EZ duen hitzaren bozgorailua ukitzen du. Testu-laguntzarik gabe: belarria bakarrik.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_71a63d87_84",
+   "lang": "eu",
+   "style": "child",
+   "text": "Belaunean palmada errimatzen duen hitz bakoitzean; besoak gurutze intrusoak jotzean.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_6dfb841f_27",
+   "lang": "eu",
+   "style": "slow",
+   "text": "gozoa, beroa, astoa, liburu",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_3e45fd1f_5",
+   "lang": "eu",
+   "style": "child",
+   "text": "gozoa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_3bd6b0ce_5",
+   "lang": "eu",
+   "style": "child",
+   "text": "beroa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_cea4ee27_5",
+   "lang": "eu",
+   "style": "child",
+   "text": "astoa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_d958271a_6",
+   "lang": "eu",
+   "style": "child",
+   "text": "liburu",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_ba150ae7_30",
+   "lang": "eu",
+   "style": "slow",
+   "text": "iluna, biguna, astuna, sagarra",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_068dd14e_5",
+   "lang": "eu",
+   "style": "child",
+   "text": "iluna",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_ecf584cd_6",
+   "lang": "eu",
+   "style": "child",
+   "text": "biguna",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_140493f7_6",
+   "lang": "eu",
+   "style": "child",
+   "text": "astuna",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_af904a96_32",
+   "lang": "eu",
+   "style": "slow",
+   "text": "handia, txikia, gorria, zuhaitza",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_3e77963e_6",
+   "lang": "eu",
+   "style": "child",
+   "text": "handia",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_61fd5933_6",
+   "lang": "eu",
+   "style": "child",
+   "text": "txikia",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_a9e4bec5_6",
+   "lang": "eu",
+   "style": "child",
+   "text": "gorria",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_55748887_8",
+   "lang": "eu",
+   "style": "child",
+   "text": "zuhaitza",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_e40f975c_249",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Umeak pantailako esaldia ozen irakurtzen du, tiraldi batean eta silabakatu gabe. Lasai lortzen duenean, aktibatu Hartz Distraitzailea eta zarata pixka bat Panel Nagusitik eta errepikatu beste txanda batekin: baloratu zuk jariotasuna, ez aplikazioak.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_0a7609e7_72",
+   "lang": "eu",
+   "style": "child",
+   "text": "Irakurri esaldia ibiliz: pauso bat hitzeko, silaben artean gelditu gabe.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_2f39abc1_21",
+   "lang": "eu",
+   "style": "slow",
+   "text": "hartzak ogia jaten du",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_be7f20dc_22",
+   "lang": "eu",
+   "style": "slow",
+   "text": "neskak zukua edaten du",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_6431815c_27",
+   "lang": "eu",
+   "style": "slow",
+   "text": "nire katuak salto egiten du",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_4d7f5d61_236",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Sakatu \"Soinuak entzun\": aplikazioak soinu bakoitza banaka ematen du, artean etenaldi batekin. Umeak lotu eta hitz osoa esan behar du. Jaso fusioa mikroarekin; ezagutzak huts egiten badu edo motel badoa, baloratu zuk behean eskalarekin.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_deee1937_62",
+   "lang": "eu",
+   "style": "child",
+   "text": "Salto bat soinu bakoitzeko eta, hitz osoa esatean, izar-salto!",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_d94e345c_3",
+   "lang": "eu",
+   "style": "slow",
+   "text": "sua",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_c33f0730_3",
+   "lang": "eu",
+   "style": "slow",
+   "text": "sss",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_f00c3c10_1",
+   "lang": "eu",
+   "style": "slow",
+   "text": "u",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_e40c292c_1",
+   "lang": "eu",
+   "style": "slow",
+   "text": "a",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_2c27b1b6_3",
+   "lang": "eu",
+   "style": "slow",
+   "text": "ama",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_ca99d446_3",
+   "lang": "eu",
+   "style": "slow",
+   "text": "mmm",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_a2e382a7_3",
+   "lang": "eu",
+   "style": "slow",
+   "text": "ile",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_ec0c35c4_1",
+   "lang": "eu",
+   "style": "slow",
+   "text": "i",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_365991eb_3",
+   "lang": "eu",
+   "style": "slow",
+   "text": "lll",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_e00c22e0_1",
+   "lang": "eu",
+   "style": "slow",
+   "text": "e",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_01b023c7_220",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Pantailako hitza asmatua da: ezin da igarri, deskodetu baino ez. Umeak ozen irakurtzen du entzuten den bezala. Gehienez 5 saio: mugara iristean, aplikazioak nahitaezko mugimendu-etenaldi bat proposatzen du deskargatzeko.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_f0e453f6_52",
+   "lang": "eu",
+   "style": "child",
+   "text": "Esan pseudohitza silabako palmada batekin: ME-LU-TA.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_df78928b_6",
+   "lang": "eu",
+   "style": "slow",
+   "text": "meluta",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_a9fe1e56_7",
+   "lang": "eu",
+   "style": "slow",
+   "text": "txabiro",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_9d0ceda6_7",
+   "lang": "eu",
+   "style": "slow",
+   "text": "gasnelo",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_b135c9e3_223",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Esan umeari zein letra bilatu (laukiko handia) eta panelean aurkitzen dituen GUZTIAK uki ditzala. Letra biki biratuek (b/d, p/q) engainatu nahi dute. Karga gehiago nahi baduzu, aktibatu Hartz Distraitzailea Panel Nagusitik.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_a35339cb_97",
+   "lang": "eu",
+   "style": "child",
+   "text": "Marraztu letra objektiboa erraldoi airean: \"b\"-ren tripa aurrera begira dago, irakurtzean bezala.",
+   "source": "ejercicios"
   }
  ]
 }
