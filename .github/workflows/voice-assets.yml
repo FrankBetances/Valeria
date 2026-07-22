@@ -17,9 +17,11 @@ on:
   # Disparo automático cuando cambia la propia tubería o el corpus en ramas de
   # trabajo (la integración de esta sesión no puede lanzar workflow_dispatch).
   push:
+    # Solo ramas de trabajo: main está protegida (PR + status check "build"), así
+    # que el bot NO puede commitear los assets ahí. La síntesis corre en una rama
+    # claude/** y los assets se integran a main por PR o push de admin.
     branches:
       - claude/**
-      - main
     paths:
       - voice-corpus.json
       - scripts/generate-voice-assets.py
