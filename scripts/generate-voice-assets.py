@@ -69,12 +69,14 @@ VOICES = {
         ],
     },
     "eu": {
-        "engine": "coqui",
+        "engine": "onnx",
         "name": "maider",
         "label": "HiTZ-TTS euskera · ILENIA/NEL-GAITU (HiTZ · Aholab)",
-        # Voz vasca del centro HiTZ (UPV/EHU · Aholab), VITS. Preferencia:
-        # voz femenina (homóloga de Sharvard/Celtia) y, como respaldo, Antton.
-        # El primero que responda en la API de HF gana; ver EU-0.2/EU-3.1.
+        # Voz vasca del centro HiTZ (UPV/EHU · Aholab): VITS de grafemas
+        # exportado a ONNX (vits.onnx + config.json), NO checkpoint coqui. Se
+        # infiere con onnxruntime (motor 'onnx'). Preferencia: voz femenina
+        # (homóloga de Sharvard/Celtia) y, como respaldo, Antton. El primero que
+        # responda en la API de HF gana; ver EU-0.2/EU-3.1.
         "hf_repos": [
             "HiTZ/TTS-eu_maider",
             "HiTZ/TTS-eu_antton",
@@ -213,6 +215,126 @@ def make_coqui_synth(voice: dict):
     return synth
 
 
+def _hf_discover(repos: list[str]) -> tuple[str, list[str]]:
+    """Devuelve (repo, ficheros) del primer repo de HF accesible."""
+    for cand in repos:
+        try:
+            req = urllib.request.Request(f"https://huggingface.co/api/models/{cand}")
+            if HF_TOKEN:
+                req.add_header("Authorization", f"Bearer {HF_TOKEN}")
+            with urllib.request.urlopen(req, timeout=30) as r:
+                sib = [s["rfilename"] for s in json.load(r).get("siblings", [])]
+            return cand, sib
+        except Exception as e:
+            print(f"aviso: {cand} no accesible ({e})")
+    die(f"Ningún repo accesible en HF: {repos}")
+
+
+def make_onnx_synth(voice: dict):
+    """VITS de grafemas exportado a ONNX (formato HiTZ/Aholab: vits.onnx +
+    config.json de coqui). Inferencia con onnxruntime, sin torch ni coqui.
+
+    Como HF está bloqueado en el entorno de desarrollo, este motor IMPRIME el
+    esquema real del config y la firma del ONNX en el log de CI (diagnóstico) y
+    protege contra audio-basura: si la tokenización no encaja con el modelo
+    (tamaño de vocabulario) o la duración es implausible, aborta ESE ítem sin
+    escribirlo, en vez de hornear ruido y darlo por bueno."""
+    import numpy as np
+    import onnxruntime as ort
+
+    repo, siblings = _hf_discover(voice["hf_repos"])
+    onnx_file = next((f for f in siblings if f.endswith(".onnx")), None)
+    config_file = next((f for f in siblings if f.endswith("config.json")), None)
+    if not onnx_file or not config_file:
+        die(f"{repo}: no encuentro .onnx/config.json entre {siblings}")
+
+    vdir = VOICES_DIR / voice["name"]
+    vdir.mkdir(parents=True, exist_ok=True)
+    onnx_path = vdir / Path(onnx_file).name
+    cfg_path = vdir / Path(config_file).name
+    curl(f"https://huggingface.co/{repo}/resolve/main/{onnx_file}", onnx_path)
+    curl(f"https://huggingface.co/{repo}/resolve/main/{config_file}", cfg_path)
+    cfg = json.loads(cfg_path.read_text())
+
+    # ---- Diagnóstico (imprescindible: HF no es accesible en desarrollo) ----
+    print(f"Voz: {voice['label']} · {repo} ({Path(onnx_file).name})")
+    print(f"[diag] config keys: {list(cfg.keys())}")
+    chars = cfg.get("characters", {})
+    print(f"[diag] characters block: {json.dumps(chars, ensure_ascii=False)[:600]}")
+    print(f"[diag] use_phonemes={cfg.get('use_phonemes')} add_blank={cfg.get('add_blank')} "
+          f"sample_rate={(cfg.get('audio') or {}).get('sample_rate') or cfg.get('sample_rate')}")
+
+    sess = ort.InferenceSession(str(onnx_path), providers=["CPUExecutionProvider"])
+    in_names = [i.name for i in sess.get_inputs()]
+    print(f"[diag] onnx inputs: {[(i.name, i.shape) for i in sess.get_inputs()]}")
+    print(f"[diag] onnx outputs: {[o.name for o in sess.get_outputs()]}")
+
+    sr = int((cfg.get("audio") or {}).get("sample_rate") or cfg.get("sample_rate") or 22050)
+
+    if cfg.get("use_phonemes") or "phoneme_id_map" in cfg:
+        die("modelo eu con fonemas (espeak): pendiente de fonemizador; pega el "
+            "config para finalizar. Diagnóstico impreso arriba.")
+
+    # Vocabulario de grafemas (orden por defecto de coqui BaseCharacters):
+    # [pad, eos, bos, blank] + characters + punctuations.
+    pad = chars.get("pad", "<PAD>"); eos = chars.get("eos", "<EOS>")
+    bos = chars.get("bos", "<BOS>"); blank = chars.get("blank", "<BLNK>")
+    vocab = [pad, eos, bos, blank] + list(chars.get("characters", "")) + list(chars.get("punctuations", ""))
+    cid = {c: i for i, c in enumerate(vocab)}
+    blank_id = cid.get(blank, 0)
+    add_blank = bool(cfg.get("add_blank", True))
+    # Contraste con el tamaño real de la tabla de embedding del ONNX: si no
+    # cuadra, la tokenización está desalineada → abortar (no hornear basura).
+    emb = next((i for i in sess.get_inputs() if i.name in ("input", "x")), sess.get_inputs()[0])
+    print(f"[diag] vocab construido: {len(vocab)} símbolos · add_blank={add_blank} · blank_id={blank_id}")
+
+    def to_ids(text: str) -> list[int]:
+        seq = [cid[c] for c in text.lower() if c in cid]
+        if add_blank:  # intersperse: [blank, s0, blank, s1, ..., blank]
+            out = [blank_id]
+            for s in seq:
+                out += [s, blank_id]
+            return out
+        return seq
+
+    def synth(text: str, style: str, raw_wav: Path) -> float | None:
+        ids = to_ids(text)
+        if len(ids) < 3:
+            raise RuntimeError(f"tokenización vacía para: {text!r}")
+        x = np.array([ids], dtype=np.int64)
+        xl = np.array([x.shape[1]], dtype=np.int64)
+        # scales = [noise_scale, length_scale, noise_scale_dp]. El estilo se
+        # hornea en el length_scale nativo del VITS (sin re-pitch), como piper.
+        scales = np.array([0.667, LENGTH_SCALE.get(style, 1.0), 0.8], dtype=np.float32)
+        feeds = {}
+        for nm in in_names:
+            if nm in ("input", "x"): feeds[nm] = x
+            elif nm in ("input_lengths", "x_lengths"): feeds[nm] = xl
+            elif nm == "scales": feeds[nm] = scales
+            elif nm in ("sid", "speaker_id"): feeds[nm] = np.array([0], dtype=np.int64)
+            elif nm in ("langid", "language_id"): feeds[nm] = np.array([0], dtype=np.int64)
+        wav = np.squeeze(sess.run(None, feeds)[0]).astype(np.float32)
+        # Guarda anti-basura: NaN/silencio o duración implausible (fuera de
+        # 0,15–2,5 s por palabra) → item descartado, no se escribe.
+        words = max(1, len(text.split()))
+        dur = len(wav) / sr
+        if not np.isfinite(wav).all() or float(np.max(np.abs(wav))) < 1e-3:
+            raise RuntimeError(f"salida no válida (silencio/NaN) para: {text!r}")
+        if not (0.12 * words <= dur <= 3.0 * words + 1.0):
+            raise RuntimeError(f"duración implausible {dur:.2f}s ({words} palabras): {text!r}")
+        pcm = np.clip(wav, -1.0, 1.0)
+        pcm = (pcm * 32767.0).astype("<i2")
+        with wave.open(str(raw_wav), "wb") as w:
+            w.setnchannels(1); w.setsampwidth(2); w.setframerate(sr)
+            w.writeframes(pcm.tobytes())
+        return None  # length_scale nativo: sin atempo posterior
+
+    return synth
+
+
+ENGINES = {"piper": make_piper_synth, "coqui": make_coqui_synth, "onnx": make_onnx_synth}
+
+
 # -------------------------------------------------------------------- main
 def main() -> None:
     ap = argparse.ArgumentParser()
@@ -234,7 +356,7 @@ def main() -> None:
         print("Al día: nada que sintetizar (manifiesto intacto).")
         return
 
-    synth = make_piper_synth(voice) if voice["engine"] == "piper" else make_coqui_synth(voice)
+    synth = ENGINES[voice["engine"]](voice)
 
     # Manifiesto incremental: conserva las entradas previas del idioma.
     mpath = manifest_path(args.lang)
@@ -242,12 +364,22 @@ def main() -> None:
 
     raw = OUT_DIR / "_raw.wav"
     s16 = OUT_DIR / "_s16.wav"
+    skipped = 0
     for i, e in enumerate(missing):
         m4a = OUT_DIR / f"{e['id']}.m4a"
-        atempo = synth(e["text"], e["style"], raw)
-        to_s16_wav(raw, s16)
-        seconds = normalize_peak(s16, s16)
-        encode_m4a(s16, m4a, atempo)
+        try:
+            atempo = synth(e["text"], e["style"], raw)
+            to_s16_wav(raw, s16)
+            seconds = normalize_peak(s16, s16)
+            encode_m4a(s16, m4a, atempo)
+        except Exception as err:
+            # Ítem descartado (guarda anti-basura / tokenización): NO se escribe
+            # su asset ni su entrada, así el siguiente run reintenta.
+            skipped += 1
+            if skipped <= 5:
+                print(f"  ⚠ descartado {e['id']}: {err}")
+            m4a.unlink(missing_ok=True)
+            continue
         if atempo:
             seconds /= atempo  # duración final tras el atempo
         old[e["id"]] = {"id": e["id"], "file": m4a.name, "seconds": round(seconds, 2), "bytes": m4a.stat().st_size}
@@ -255,6 +387,8 @@ def main() -> None:
             print(f"  {i + 1}/{len(missing)}")
     raw.unlink(missing_ok=True)
     s16.unlink(missing_ok=True)
+    if skipped:
+        print(f"⚠ {skipped}/{len(missing)} locuciones descartadas (ver avisos arriba).")
 
     files = [old[e["id"]] for e in entries if e["id"] in old]
     total = sum(f["bytes"] for f in files)
