@@ -261,7 +261,7 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
     if (!session) return;
     const st = session.steps[stepIdx];
     setHeard('');
-    speakToChild(`¡Otra vez! Di: ${st.label}.`, afterSpeak(() => {
+    speakToChild(bank.retry(st.label), afterSpeak(() => {
       if (!mounted.current) return;
       if (asrSupported()) setTimeout(() => listenNow(session, stepIdx), 400);
       else setState('judge');
@@ -303,7 +303,7 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
     try { setReward(await registerSession(avg, res.length)); } catch (e) { /* noop */ }
     markBlockCompleted('expansion'); // hito de bloque para el SUS (rate-limited)
     setPhase('done');
-    speakToChild('¡Sesión completada! ¡Choca esos cinco!');
+    speakToChild(bank.sessionDone);
   };
 
   // ------------------------------------------------------------------- UI --

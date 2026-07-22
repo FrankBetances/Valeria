@@ -21,13 +21,14 @@ export const EMO_EU: { face: string; label: string }[] = [
 export const SESSION_DONE_LEAD_EU = 'Saioa amaituta!';
 export const PLURAL_HINT_EU = 'Hor bakarra dago. Bilatu asko dauden lekua.';
 export const EMOTION_PROMPT_EU = 'Nola sentitzen da?';
+export const TOUCH_IMAGE_HINT_EU = 'Lehenengo, ukitu irudi bat.';
 
 // Veredictos y piezas fijas de voz (espejo de EXERCISE_FIXED_LINES en euskera).
 export const EXERCISE_FIXED_LINES_EU: { style: 'tutor' | 'child' | 'slow'; text: string }[] = [
   { style: 'child', text: 'Oso ondo! Bikain esan duzu!' },
   { style: 'child', text: 'Ia-ia! Berriro saiatuko gara.' },
   { style: 'child', text: 'Berriro entzungo dugu.' },
-  { style: 'child', text: 'Lehenengo, ukitu irudi bat.' },
+  { style: 'child', text: TOUCH_IMAGE_HINT_EU },
   ...EMO_EU.map((e) => ({ style: 'child' as const, text: e.label })),
   { style: 'child', text: SESSION_DONE_LEAD_EU },
   { style: 'child', text: PLURAL_HINT_EU },

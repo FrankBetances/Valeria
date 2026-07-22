@@ -58,7 +58,7 @@ import { ValeriaPragmaticBreakOverlay } from './ValeriaPragmaticBreak';
 import { releaseNoise } from './valeriaNoise';
 import { AUDICION_META, LENGUAJE_META, TEA_META, DISLEXIA_META } from './valeriaExerciseMeta';
 import { markBlockCompleted } from './valeriaTelemetry';
-import { Tile, Exercise, DEFAULT_SESSION, dbForLocale, variantsForLocale, emoForLocale, sessionDoneLeadFor, pluralHintFor, emotionQuestionFor, emotionPromptFor, pluralOneLabelFor, pluralManyLabelFor } from './valeriaExerciseBank';
+import { Tile, Exercise, DEFAULT_SESSION, dbForLocale, variantsForLocale, emoForLocale, sessionDoneLeadFor, pluralHintFor, touchImageHintFor, emotionQuestionFor, emotionPromptFor, pluralOneLabelFor, pluralManyLabelFor } from './valeriaExerciseBank';
 import { getLocale } from './valeriaLocale';
 
 // Conjuntos de ids por bloque para marcar el hito de "bloque completado" (SUS).
@@ -488,7 +488,7 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
     speakWordSlow(ex.tiles![i].cap);
   };
   const tapMatchVowel = (v: string) => {
-    if (matchSel < 0) { speakToChild('Primero toca una imagen.'); return; }
+    if (matchSel < 0) { speakToChild(touchImageHintFor(loc)); return; }
     if (initialVowel(ex.tiles![matchSel].cap) === v) {
       setMatchOk((prev) => { const n = [...prev]; n[matchSel] = true; return n; });
       setMatchSel(-1);
