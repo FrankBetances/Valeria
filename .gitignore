@@ -133,3 +133,7 @@ GoogleService-Info.plist
 
 # Modelos de voz descargados por la tubería de assets (solo CI/build-time)
 scripts/.voices/
+
+# Python bytecode
+__pycache__/
+*.pyc
