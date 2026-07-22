@@ -27,6 +27,8 @@ import argparse
 import audioop
 import json
 import os
+import shlex
+import shutil
 import subprocess
 import sys
 import urllib.request
@@ -69,14 +71,14 @@ VOICES = {
         ],
     },
     "eu": {
-        "engine": "onnx",
+        "engine": "ahotts",
         "name": "maider",
-        "label": "HiTZ-TTS euskera · ILENIA/NEL-GAITU (HiTZ · Aholab)",
-        # Voz vasca del centro HiTZ (UPV/EHU · Aholab): VITS de grafemas
-        # exportado a ONNX (vits.onnx + config.json), NO checkpoint coqui. Se
-        # infiere con onnxruntime (motor 'onnx'). Preferencia: voz femenina
-        # (homóloga de Sharvard/Celtia) y, como respaldo, Antton. El primero que
-        # responda en la API de HF gana; ver EU-0.2/EU-3.1.
+        "label": "AhoTTS euskera «Maider» · HiTZ/Aholab (ILENIA/NEL-GAITU, CC BY 4.0)",
+        # Voz vasca del centro HiTZ (UPV/EHU · Aholab). El vits.onnx NO se infiere
+        # suelto: AhoTTS (github.com/hitz-zentroa/aHoTTS) lo ejecuta a través de su
+        # binario `tts` con el frontend lingüístico vasco + diccionario (eu_dicc),
+        # que genera los FONEMAS que el VITS espera. El modelo se descarga de HF
+        # con huggingface_hub (resuelve LFS). Voz femenina; respaldo Antton.
         "hf_repos": [
             "HiTZ/TTS-eu_maider",
             "HiTZ/TTS-eu_antton",
@@ -230,6 +232,63 @@ def _hf_discover(repos: list[str]) -> tuple[str, list[str]]:
     die(f"Ningún repo accesible en HF: {repos}")
 
 
+def make_ahotts_synth(voice: dict):
+    """Voz vasca de HiTZ vía AhoTTS (github.com/hitz-zentroa/aHoTTS). El binario
+    `tts` hace el frontend lingüístico + G2P (diccionario eu_dicc) y alimenta el
+    VITS (vits.onnx, descargado de HF). Replica el comando de synthesize.py:
+
+        echo TEXT | iconv -f UTF-8 -t ISO-8859-1 | \
+          ./ahotts/tts -Lang=eu -Method=Vits -HDic=./ahotts/dicts/eu/eu_dicc \
+          -voice_path=./ahotts/voices/eu/<model> OUT.wav
+
+    El repo (con el binario y los diccionarios) lo clona el workflow y expone su
+    ruta en AHOTTS_DIR. El estilo (tutor/child/clinical/slow) se aplica por
+    atempo posterior, como en coqui (AhoTTS no expone length_scale por CLI)."""
+    aho = Path(os.environ.get("AHOTTS_DIR", str(ROOT / "scripts" / ".ahotts")))
+    tts_bin = aho / "ahotts" / "tts"
+    hdic = aho / "ahotts" / "dicts" / "eu" / "eu_dicc"
+    model = voice["name"]
+    voice_dir = aho / "ahotts" / "voices" / "eu" / model
+    onnx = voice_dir / "vits.onnx"
+    if not tts_bin.exists():
+        die(f"No encuentro el binario AhoTTS en {tts_bin}. El workflow debe clonar "
+            "github.com/hitz-zentroa/aHoTTS y exportar AHOTTS_DIR.")
+    os.chmod(tts_bin, 0o755)
+    print(f"[diag] AhoTTS bin: {tts_bin}")
+    subprocess.run(f'ldd "{tts_bin}" || true', shell=True)  # revela libs faltantes
+
+    if not onnx.exists():
+        from huggingface_hub import hf_hub_download  # pip install huggingface_hub
+        voice_dir.mkdir(parents=True, exist_ok=True)
+        got = None
+        for repo in voice["hf_repos"]:
+            try:
+                p = hf_hub_download(repo_id=repo, filename="vits.onnx",
+                                    token=HF_TOKEN or None)
+                shutil.copy2(p, onnx)
+                got = repo
+                break
+            except Exception as e:
+                print(f"aviso: {repo} no accesible ({e})")
+        if not got:
+            die(f"No pude descargar vits.onnx de {voice['hf_repos']}")
+        print(f"Voz: {voice['label']} · modelo de {got}")
+
+    def synth(text: str, style: str, raw_wav: Path) -> float | None:
+        # AhoTTS lee el texto de stdin en ISO-8859-1 y escribe el WAV de salida.
+        cmd = (f'echo {shlex.quote(text)} | iconv -f UTF-8 -t ISO-8859-1//TRANSLIT | '
+               f'./ahotts/tts -Lang=eu -Method=Vits '
+               f'-HDic=./ahotts/dicts/eu/eu_dicc '
+               f'-voice_path=./ahotts/voices/eu/{model} {shlex.quote(str(raw_wav))}')
+        subprocess.run(cmd, shell=True, check=True, cwd=str(aho))
+        if not raw_wav.exists() or raw_wav.stat().st_size < 128:
+            raise RuntimeError(f"AhoTTS no generó audio para: {text!r}")
+        scale = LENGTH_SCALE.get(style, 1.0)
+        return (1.0 / scale) if scale != 1.0 else None
+
+    return synth
+
+
 def make_onnx_synth(voice: dict):
     """VITS de grafemas exportado a ONNX (formato HiTZ/Aholab: vits.onnx +
     config.json de coqui). Inferencia con onnxruntime, sin torch ni coqui.
@@ -339,7 +398,12 @@ def make_onnx_synth(voice: dict):
     return synth
 
 
-ENGINES = {"piper": make_piper_synth, "coqui": make_coqui_synth, "onnx": make_onnx_synth}
+ENGINES = {
+    "piper": make_piper_synth,
+    "coqui": make_coqui_synth,
+    "onnx": make_onnx_synth,
+    "ahotts": make_ahotts_synth,
+}
 
 
 # -------------------------------------------------------------------- main
