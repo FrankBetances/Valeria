@@ -136,13 +136,13 @@
   <div class="brand">valeria+</div>
   <div class="bear">🐻</div>
   <div style="margin-top:auto">
-    <div class="pill">Manual de usuario · v8.2 · con capturas de pantalla</div>
+    <div class="pill">Manual de usuario · v9.0 · con capturas de pantalla</div>
     <h1>Manual de<br>Casos de Uso</h1>
-    <div class="sub">Aplicación de terapia auditivo‑verbal y del lenguaje para niñas y niños con hipoacusia, implante coclear, dislalias o dificultades del lenguaje.</div>
+    <div class="sub">Aplicación de terapia auditivo‑verbal y del lenguaje para niñas y niños con hipoacusia, implante coclear, dislalias, dislexia, TEA o dificultades del lenguaje.</div>
     <div class="meta">
       Guía para logopedas, familias y cuidadores<br>
       Julio de 2026 · Documento interno<br>
-      Expo SDK 54 / React Native · Castellano · Galego · Dominicano · Voz neuronal offline
+      Expo SDK 54 / React Native · Castellano · Galego · Dominicano · Euskera · Voz neuronal offline
     </div>
   </div>
 </div>
@@ -158,11 +158,11 @@
     <li><span class="num">3</span><span class="txt">Mapa de pantallas y glosario</span></li>
     <li class="section-label">Casos de uso</li>
     <li><span class="num">CU‑01</span><span class="txt">Alta de un nuevo paciente</span></li>
-    <li><span class="num">CU‑02</span><span class="txt">Elegir un bloque de terapia (hub de 4 bloques)</span></li>
+    <li><span class="num">CU‑02</span><span class="txt">Elegir un bloque de terapia (hub de bloques)</span></li>
     <li><span class="num">CU‑03</span><span class="txt">Academy: formarse con las Cápsulas de Conocimiento</span></li>
     <li><span class="num">CU‑04</span><span class="txt">Pares Mínimos para dislalias</span></li>
     <li><span class="num">CU‑05</span><span class="txt">Expansión Semántica / progresión léxica</span></li>
-    <li><span class="num">CU‑06</span><span class="txt">Prescribir terapias de Audición y Lenguaje (Modo Profesional)</span></li>
+    <li><span class="num">CU‑06</span><span class="txt">Prescribir terapias (Audición, Lenguaje, TEA y Dislexia · Modo Profesional)</span></li>
     <li><span class="num">CU‑07</span><span class="txt">Retomar un paciente e iniciar sesión</span></li>
     <li><span class="num">CU‑08</span><span class="txt">Test de Ling previo (audífono / implante)</span></li>
     <li><span class="num">CU‑09</span><span class="txt">Realizar una sesión de ejercicios</span></li>
@@ -171,7 +171,7 @@
     <li><span class="num">CU‑12</span><span class="txt">Consultar el panel de resultados</span></li>
     <li><span class="num">CU‑13</span><span class="txt">Cambiar entre Modo Familia y Modo Profesional</span></li>
     <li><span class="num">CU‑14</span><span class="txt">Exportar la evidencia de usabilidad del piloto (QR + compartir)</span></li>
-    <li><span class="num">CU‑15</span><span class="txt">Elegir la variedad de terapia (Castellano · Galego · Dominicano)</span></li>
+    <li><span class="num">CU‑15</span><span class="txt">Elegir la variedad de terapia (Castellano · Galego · Dominicano · Euskera)</span></li>
     <li><span class="num">CU‑16</span><span class="txt">Panel del Adulto: carga comunicativa (ruido, doble tarea, quiebre)</span></li>
     <li class="section-label">Anexo</li>
     <li><span class="num">A</span><span class="txt">Preguntas frecuentes y resolución de problemas</span></li>
@@ -186,8 +186,8 @@
   <p style="margin-top:12px">
     <strong>Valeria+</strong> es una aplicación móvil (Expo SDK 54 / React Native) diseñada para acompañar las
     <strong>sesiones de terapia auditivo‑verbal y del lenguaje</strong> de niñas y niños. Reúne en un solo lugar el
-    registro del paciente, una comprobación auditiva previa (Test de Ling), cuatro bloques de terapia y un panel de
-    resultados para seguir la evolución.
+    registro del paciente, una comprobación auditiva previa (Test de Ling), seis bloques de terapia, un espacio de
+    formación para el cuidador (Academy) y un panel de resultados para seguir la evolución.
   </p>
 
   <p>
@@ -203,22 +203,28 @@
     familias o cuidadores (que realizan las sesiones en casa). Este manual cubre a ambos perfiles.</p>
   </div>
 
-  <h3>Los cuatro bloques de terapia</h3>
+  <h3>Los seis bloques de terapia</h3>
   <p>Desde la pantalla <strong>Prescripción de Terapias</strong> se elige uno de estos bloques. Los dos primeros
-  se incorporaron en la versión 5 y la versión 6 amplió su contenido.</p>
+  se incorporaron en la versión 5, la versión 6 amplió su contenido y la versión 9 sumó los bloques de
+  <strong>TEA</strong> y <strong>Dislexia</strong>.</p>
   <table>
     <tr><th style="width:32%">Bloque</th><th>Para qué sirve</th></tr>
     <tr><td>🗣️ <strong>Pares Mínimos</strong></td>
-      <td>Dislalias fonológicas (rotacismo, sigmatismo, frontalización velar, f→p). 10 pares de palabras casi iguales (rana/lana) con juego de voz, misión física y sello doble padre‑hijo.</td></tr>
+      <td>Dislalias fonológicas. <strong>15 pares</strong> de palabras casi iguales (rana/lana) en 6 grupos —rotacismo, sigmatismo, velares, labiodental, nasales y laterales— con juego de voz, misión física y sello doble padre‑hijo.</td></tr>
     <tr><td>🧩 <strong>Expansión Semántica</strong></td>
-      <td>Progresión léxica para intervención temprana: 5 escenarios diarios, 7 progresiones (onomatopeya → adjetivo) y 6 cápsulas de contraste, uniendo imagen, voz y acción física.</td></tr>
-    <tr><td>👂 <strong>Audición</strong> — 13 terapias</td>
-      <td>Protocolo ACOPROS: fonética‑fonología, semántica, morfosintaxis y pragmática para pacientes con audífono, implante coclear o hipoacusia.</td></tr>
+      <td>Progresión léxica para intervención temprana: 5 escenarios diarios, <strong>9 progresiones</strong> (onomatopeya → adjetivo) y <strong>8 cápsulas de contraste</strong>, uniendo imagen, voz y acción física.</td></tr>
+    <tr><td>👂 <strong>Audición</strong> — 18 terapias</td>
+      <td>Protocolo ACOPROS: fonética‑fonología, semántica, morfosintaxis, pragmática y <strong>escucha en ruido</strong> (RA‑1…RA‑5) para pacientes con audífono, implante coclear o hipoacusia.</td></tr>
     <tr><td>💬 <strong>Lenguaje</strong> — 7 terapias</td>
       <td>Protocolo familiar: atención conjunta, imitación, comprensión, expresión, comunicación funcional, regulación conductual e interacción social.</td></tr>
+    <tr><td>🧠 <strong>TEA</strong> — 6 terapias</td>
+      <td>Protocolo PRT + TCC para el espectro autista: atención conjunta triangulada, quiebre pragmático (con consentimiento), espejo asimétrico, transición interrumpida, categorización bajo ruido y múltiples señales. Todos los estresores son <strong>manuales</strong> (Panel del Adulto).</td></tr>
+    <tr><td>📖 <strong>Dislexia</strong> — 6 terapias</td>
+      <td>Fonología y acceso léxico: intruso fonológico, rastreo léxico con interferencia, síntesis fonémica rítmica, criba de pseudopalabras, rastreo visual de rotaciones (b/d · p/q) y denominación rápida (RAN).</td></tr>
   </table>
   <p class="small muted">Además, el <strong>Test de Ling</strong> es una comprobación auditiva rápida (6 sonidos) previa a los
-  ejercicios de audición, y la <strong>gamificación</strong> (XP, racha, niveles e insignias) mantiene la motivación en todos los bloques.</p>
+  ejercicios de audición; <strong>Academy</strong> forma al cuidador (ver CU‑03), y la <strong>gamificación</strong>
+  (XP, racha, niveles e insignias) mantiene la motivación en todos los bloques.</p>
 
   <h3>Novedades de la versión 6</h3>
   <p>La versión 6 pule la experiencia de las sesiones y prepara la app para pruebas con profesionales:</p>
@@ -248,7 +254,7 @@
     <tr><td>📊 <strong>Telemetría de usabilidad</strong></td>
       <td>Mide, sin molestar, tres señales por sesión: <strong>tiempo en cada pantalla</strong>, <strong>toques fuera de zona útil</strong> (misclicks) y la <strong>proporción de cápsulas de movimiento que se saltan</strong>. Son datos anónimos, sin nombres, sin audio y sin el contenido de las respuestas.</td></tr>
     <tr><td>💬 <strong>Encuesta rápida (SUS)</strong></td>
-      <td>Una única pregunta de satisfacción de 1 a 5 con caritas, centrada en la <strong>facilidad para integrar el ejercicio en la rutina del niño/a</strong>. Aparece solo en un hito grande (completar los 4 bloques) y <strong>como mucho una vez por semana</strong>, para no cansar.</td></tr>
+      <td>Una única pregunta de satisfacción de 1 a 5 con caritas, centrada en la <strong>facilidad para integrar el ejercicio en la rutina del niño/a</strong>. Aparece solo en un hito grande (completar <strong>4 bloques distintos</strong>) y <strong>como mucho una vez por semana</strong>, para no cansar.</td></tr>
     <tr><td>🔒 <strong>Guardado cifrado y purga</strong></td>
       <td>Telemetría y encuesta se guardan juntas (mismo identificador de sesión) en un archivo <strong>cifrado en el dispositivo</strong>, que <strong>solo se vacía tras una exportación correcta</strong> para no acumular datos semana a semana.</td></tr>
     <tr><td>📤 <strong>Exportación dual</strong></td>
@@ -298,6 +304,27 @@
     <tr><td>📊 <strong>Progreso visible</strong></td>
       <td>La tarjeta muestra una <strong>barra de avance</strong>, el <strong>nivel</strong> (de Novato a Cuidador experto), los <strong>puntos</strong> y las <strong>insignias</strong>, que se actualizan al instante al completar una cápsula. El avance se guarda <strong>cifrado en el dispositivo</strong>.</td></tr>
   </table>
+
+  <h3>Novedades de la versión 9</h3>
+  <p>La versión 9 <strong>amplía el alcance clínico</strong> de la app: incorpora dos bloques de terapia nuevos,
+  amplía los protocolos existentes, suma una cuarta variedad de habla y convierte Academy en un
+  <strong>hub de formación por patología</strong>. Todo respeta el mismo principio: el adulto es el juez y los
+  estresores se activan siempre a mano (muro MDR).</p>
+  <table>
+    <tr><th style="width:32%">Novedad</th><th>Qué aporta</th></tr>
+    <tr><td>🧠 <strong>Bloque TEA</strong></td>
+      <td>Seis terapias para el <strong>espectro autista</strong> (PRT + TCC): atención conjunta triangulada, reparación comunicativa, flexibilidad cognitiva, categorización bajo carga sensorial y múltiples señales. Los estresores (ruido, quiebre) los activa el adulto, con consentimiento informado para el quiebre pragmático.</td></tr>
+    <tr><td>📖 <strong>Bloque Dislexia</strong></td>
+      <td>Seis terapias de <strong>conciencia fonológica y acceso léxico</strong>: intruso fonológico, rastreo léxico con interferencia, síntesis fonémica rítmica, criba de pseudopalabras, rastreo de rotaciones (b/d · p/q) y denominación rápida (RAN). El “cronómetro” es siempre la <strong>persecución dactilar del adulto</strong>, nunca un reloj automático.</td></tr>
+    <tr><td>👂 <strong>Audición ampliada</strong></td>
+      <td>El bloque de Audición pasa de 13 a <strong>18 terapias</strong> con la categoría <strong>“Escucha en ruido”</strong> (RA‑1…RA‑5): figura‑fondo con ruido, lectura labiofacial, formato cerrado degradado, secuencia con espera y localización del sonido. El ruido lo sube y baja el adulto con el deslizador del Panel del Adulto.</td></tr>
+    <tr><td>🗣️ <strong>Pares Mínimos ampliados</strong></td>
+      <td>El banco castellano pasa de 10 a <strong>15 pares</strong> con dos grupos nuevos (<strong>nasales</strong> y <strong>laterales</strong>): gota/bota, beso/queso, foca/boca, miel/piel y pato/palo. Los objetivos nuevos entran en el motor de frases portadoras.</td></tr>
+    <tr><td>🌍 <strong>Cuarta variedad: Euskera</strong></td>
+      <td>El contenido puede locutarse y evaluarse en <strong>euskera batua</strong> con <strong>voz neuronal HiTZ‑TTS</strong> pregenerada (UPV/EHU · Aholab, proyecto ILENIA/NEL‑GAITU). El reconocimiento usa <code>eu‑ES</code> y, donde no exista, recae en <code>es‑ES</code> con un pliegue de la ⟨h⟩ muda (ver CU‑15).</td></tr>
+    <tr><td>🎓 <strong>Academy multidominio</strong></td>
+      <td>Academy deja de ser un curso único y se organiza en <strong>cinco dominios</strong> (Lenguaje, Hipoacusia, Dislalias, Dislexia y TEA), cada uno con su propia escala de niveles e insignias. Un <strong>feed de prioridad</strong> destaca el dominio que corresponde a la patología de la ficha (ver CU‑03).</td></tr>
+  </table>
 </section>
 
 <!-- ================= 2. ROLES ================= -->
@@ -319,7 +346,7 @@
     <tr>
       <td><span class="tag pro">Modo Profesional</span><br><span class="small muted">requiere PIN</span></td>
       <td>Logopeda / profesional</td>
-      <td>Todo lo anterior <strong>más</strong> prescribir: activar o desactivar terapias en cada uno de los cuatro bloques y guardar la selección. Se desbloquea con el PIN y se vuelve a bloquear al guardar.</td>
+      <td>Todo lo anterior <strong>más</strong> prescribir: activar o desactivar terapias en cada uno de los bloques prescribibles y guardar la selección. Se desbloquea con el PIN y se vuelve a bloquear al guardar.</td>
     </tr>
   </table>
 
@@ -361,18 +388,20 @@
   <h2 class="chapter">Mapa de pantallas y glosario</h2>
 
   <p style="margin-top:12px">Tras el alta o la selección del paciente se llega al <strong>hub de Prescripción</strong>,
-  desde donde se abre cualquiera de los cuatro bloques. El Test de Ling solo precede a los ejercicios de audición
+  desde donde se abre cualquiera de los seis bloques (o Academy). El Test de Ling solo precede a los ejercicios de audición
   cuando el paciente usa audífono o implante coclear.</p>
 
   <div class="flowmap">
     <span class="node">Bienvenida</span><span class="arrow">→</span>
     <span class="node">Créditos</span><span class="arrow">→</span>
     <span class="node">Ficha / Selección</span><span class="arrow">→</span>
-    <span class="node">Hub de 4 bloques</span><span class="arrow">→</span>
+    <span class="node">Hub de bloques</span><span class="arrow">→</span>
     <span class="node violet">Pares Mínimos</span>
     <span class="node violet">Expansión Sem.</span>
     <span class="node">Audición*</span>
     <span class="node">Lenguaje</span>
+    <span class="node">TEA</span>
+    <span class="node">Dislexia</span>
     <span class="arrow">→</span>
     <span class="node">Resultados</span>
   </div>
@@ -388,15 +417,15 @@
       <figcaption><span class="fig">Fig. 2</span> · Créditos del proyecto y colaboradores.</figcaption>
     </figure>
     <figure class="shot">
-      <img src="screenshots/05-hub-bloques.png" alt="Hub de Prescripción con 4 bloques de terapia">
-      <figcaption><span class="fig">Fig. 3</span> · Hub de Prescripción: los cuatro bloques de terapia.</figcaption>
+      <img src="screenshots/05-hub-bloques.png" alt="Hub de Prescripción con los bloques de terapia">
+      <figcaption><span class="fig">Fig. 3</span> · Hub de Prescripción: los bloques de terapia y la tarjeta Academy.</figcaption>
     </figure>
   </div>
 
   <h3>Glosario</h3>
   <table>
     <tr><th style="width:26%">Término</th><th>Significado</th></tr>
-    <tr><td><strong>Hub de bloques</strong></td><td>Pantalla “Prescripción de Terapias”: cuatro tarjetas (Pares Mínimos, Expansión Semántica, Audición, Lenguaje) desde donde se practica o prescribe.</td></tr>
+    <tr><td><strong>Hub de bloques</strong></td><td>Pantalla “Prescripción de Terapias”: seis tarjetas (Pares Mínimos, Expansión Semántica, Audición, Lenguaje, TEA y Dislexia) más la tarjeta Academy, desde donde se practica o prescribe.</td></tr>
     <tr><td><strong>Par mínimo</strong></td><td>Dos palabras que solo se distinguen por un fonema (rana / lana). Sirven para entrenar el contraste que el niño sustituye.</td></tr>
     <tr><td><strong>Sustitución</strong></td><td>Error fonológico habitual: el niño dice la palabra contraria (r̄ → l). La app la detecta y la corrige.</td></tr>
     <tr><td><strong>Sello doble</strong></td><td>Mecánica anti‑pasividad: padre e hijo pulsan dos huellas a la vez para avanzar (o mantienen una pulsada 2&nbsp;s).</td></tr>
@@ -412,10 +441,15 @@
     <tr><td><strong>Telemetría de usabilidad</strong></td><td>Métricas anónimas que la app recoge durante el piloto para medir lo fácil que resulta de usar (tiempo por pantalla, misclicks, abandono de cápsulas). Sin datos personales.</td></tr>
     <tr><td><strong>Misclick</strong></td><td>Toque en una zona “muerta” de la pantalla, fuera de cualquier botón o elemento útil. Un exceso señala que algo no se entiende o el objetivo es pequeño.</td></tr>
     <tr><td><strong>Abandono TPR</strong></td><td>Proporción de cápsulas de movimiento (TPR) que se saltan en vez de completarse. Ayuda a saber si las pausas activas encajan en la sesión.</td></tr>
-    <tr><td><strong>SUS (encuesta)</strong></td><td><em>System Usability Scale</em> adaptada: una pregunta de 1 a 5 sobre la facilidad de uso real. Aparece con moderación (hito de 4 bloques y máx. 1 vez/semana).</td></tr>
+    <tr><td><strong>SUS (encuesta)</strong></td><td><em>System Usability Scale</em> adaptada: una pregunta de 1 a 5 sobre la facilidad de uso real. Aparece con moderación (hito de 4 bloques distintos y máx. 1 vez/semana).</td></tr>
     <tr><td><strong>Exportación dual</strong></td><td>Salida del piloto en dos formatos a la vez: un <strong>QR</strong> con el resumen (offline) y el <strong>menú de compartir</strong> con el registro completo (online). Requiere el PIN profesional.</td></tr>
-    <tr><td><strong>Variedad</strong></td><td>Lengua o forma del habla en que la app locuta y evalúa el contenido: Castellano, Galego (Proxecto Nós) o Dominicano (es‑DO, Quisqueya Habla). Se elige en “Voz de la app”.</td></tr>
-    <tr><td><strong>Voz neuronal</strong></td><td>Locución pregenerada con modelos de voz de alta calidad (Sharvard en castellano, Celtia en gallego) empaquetada en la app; suena natural y funciona sin conexión.</td></tr>
+    <tr><td><strong>Variedad</strong></td><td>Lengua o forma del habla en que la app locuta y evalúa el contenido: Castellano, Galego (Proxecto Nós), Dominicano (es‑DO, Quisqueya Habla) o Euskera (batua, proyecto ILENIA/NEL‑GAITU). Se elige en “Voz de la app”.</td></tr>
+    <tr><td><strong>Voz neuronal</strong></td><td>Locución pregenerada con modelos de voz de alta calidad (Sharvard en castellano, Celtia en gallego, HiTZ‑TTS en euskera) empaquetada en la app; suena natural y funciona sin conexión.</td></tr>
+    <tr><td><strong>Pliegue vasco</strong></td><td>Ajuste que ignora la ⟨h⟩ muda del euskera al comparar la voz del niño con la esperada, para que el reconocimiento no la penalice. No afecta a las sibilantes ni africadas, que son contraste clínico y valora el adulto.</td></tr>
+    <tr><td><strong>TEA</strong></td><td>Trastorno del Espectro Autista. Bloque de 6 terapias (PRT + TCC) centrado en atención conjunta, reparación comunicativa, flexibilidad y regulación, con estresores siempre manuales.</td></tr>
+    <tr><td><strong>Dislexia</strong></td><td>Bloque de 6 terapias de conciencia fonológica y acceso léxico (intruso fonológico, síntesis fonémica, pseudopalabras, rotaciones b/d·p/q y denominación rápida).</td></tr>
+    <tr><td><strong>RAN</strong></td><td><em>Rapid Automatized Naming</em> (denominación rápida): nombrar en voz alta una serie de dibujos en orden de lectura. El ritmo lo marca la mano del adulto, nunca un cronómetro.</td></tr>
+    <tr><td><strong>Escucha en ruido</strong></td><td>Categoría de Audición (RA‑1…RA‑5) que entrena la comprensión con ruido de fondo. El adulto sube o baja el ruido a mano con el deslizador del Panel del Adulto.</td></tr>
     <tr><td><strong>Rasgo dialectal</strong></td><td>Característica normal del habla de una región (p.&nbsp;ej. el seseo dominicano). No es un error clínico y la app no lo penaliza.</td></tr>
     <tr><td><strong>Frase portadora</strong></td><td>Frase natural en la que se incrusta la palabra objetivo (“El oso encontró una rana…”) para practicarla con entonación real en vez de aislada.</td></tr>
     <tr><td><strong>Carga comunicativa</strong></td><td>Conjunto de retos que el <em>adulto</em> activa a mano en su panel: ruido de fondo, distractor visual y quiebre de la comunicación. Nunca los activa la app sola.</td></tr>
@@ -477,7 +511,7 @@
   <div class="uc">
     <div class="uc-head">
       <div class="id">CU‑02 · <span class="tag fam" style="background:rgba(255,255,255,.22);color:#fff">Profesional / Familia</span></div>
-      <div class="title">Elegir un bloque de terapia (hub de 4 bloques)</div>
+      <div class="title">Elegir un bloque de terapia (hub de bloques)</div>
     </div>
     <div class="uc-body">
       <div class="uc-grid">
@@ -487,10 +521,10 @@
         <div><div class="k">Resultado</div><div class="v">Bloque de terapia abierto para practicar o prescribir</div></div>
       </div>
       <p>El hub es el <strong>centro de mando</strong> de cada sesión. Muestra la racha 🔥 y el nivel 🏅 del paciente
-      y presenta los cuatro bloques como tarjetas. Audición y Lenguaje indican además cuántas terapias hay activas.</p>
+      y presenta los seis bloques como tarjetas. Audición, Lenguaje, TEA y Dislexia indican además cuántas terapias hay activas.</p>
       <h4>Flujo principal</h4>
       <ol class="flow">
-        <li>Tocar la tarjeta del bloque deseado: <strong>Pares Mínimos</strong> (CU‑04), <strong>Expansión Semántica</strong> (CU‑05), <strong>Audición</strong> o <strong>Lenguaje</strong> (CU‑06 / CU‑09).</li>
+        <li>Tocar la tarjeta del bloque deseado: <strong>Pares Mínimos</strong> (CU‑04), <strong>Expansión Semántica</strong> (CU‑05), <strong>Audición</strong>, <strong>Lenguaje</strong>, <strong>TEA</strong> o <strong>Dislexia</strong> (CU‑06 / CU‑09).</li>
         <li>Antes de la primera sesión, abrir la tarjeta destacada <strong>“Academy”</strong> para <strong>formarse como cuidador</strong> (ver CU‑03): en la terapia auditivo‑verbal el adulto dirige la sesión, así que conviene empezar por ahí.</li>
         <li>Desde la misma pantalla se activan los <strong>recordatorios de sesión</strong> (ver CU‑10).</li>
       </ol>
@@ -510,28 +544,32 @@
     <div class="uc-body">
       <div class="uc-grid">
         <div><div class="k">Actor</div><div class="v">Adulto que dirige la sesión (familia o cuidador)</div></div>
-        <div><div class="k">Pantalla</div><div class="v">Prescripción de Terapias → Academy</div></div>
+        <div><div class="k">Pantalla</div><div class="v">Prescripción de Terapias → Academy (hub de dominios)</div></div>
         <div><div class="k">Precondición</div><div class="v">Ninguna; disponible desde el primer día</div></div>
-        <div><div class="k">Resultado</div><div class="v">Cápsula completada y progreso guardado</div></div>
+        <div><div class="k">Resultado</div><div class="v">Cápsula completada y progreso guardado en su dominio</div></div>
       </div>
       <p><strong>Academy</strong> es el espacio de <strong>formación para el adulto</strong>. En la terapia
       auditivo‑verbal la persona que acompaña al niño es el <strong>motor de la sesión</strong>, así que Academy
-      le enseña —en pequeñas dosis— a hacerlo mejor. Aparece como una <strong>tarjeta destacada “Academy”</strong>
-      en la pantalla de terapias, con una <strong>barra de progreso</strong> siempre a la vista.</p>
+      le enseña —en pequeñas dosis— a hacerlo mejor. Desde la v9 no es un curso único: se organiza en
+      <strong>cinco dominios de formación</strong>, cada uno con su propia lista de cápsulas, su
+      <strong>escala de niveles</strong> (de Novato a “Experto en…”) y sus insignias. Un
+      <strong>feed de prioridad</strong> destaca arriba el dominio que corresponde a la <strong>patología de la ficha</strong>
+      del paciente, para que el cuidador empiece por lo que más le sirve.</p>
       <table>
-        <tr><th style="width:30%">Tema</th><th>Qué se aprende</th></tr>
-        <tr><td>👂 <strong>Cómo aprenden a hablar</strong></td><td>Que el niño <strong>escucha mucho antes de hablar</strong> y que la conversación por turnos —y <strong>saber esperar en silencio</strong>— es lo que impulsa el lenguaje.</td></tr>
-        <tr><td>🤸 <strong>Por qué moverse (TPR)</strong></td><td>Unir <strong>sonido y movimiento</strong> ayuda a recordar y quita la presión de “tener que hablar”; por eso es el adulto quien confirma si el niño cumplió la orden.</td></tr>
-        <tr><td>🚫 <strong>Vicios a evitar</strong></td><td>No decir “así no se dice” sino <strong>repetir bien la palabra</strong> dentro de la frase; y <strong>comentar más que preguntar</strong> para que la sesión no parezca un examen.</td></tr>
-        <tr><td>🧑‍🏫 <strong>Terapia mediada</strong></td><td>La app es la herramienta; el terapeuta en casa es el adulto, que puede <strong>parar cuando haga falta</strong>: no hay un mínimo que cumplir.</td></tr>
+        <tr><th style="width:26%">Dominio</th><th>Qué se aprende</th></tr>
+        <tr><td>💬 <strong>Lenguaje</strong></td><td>Cómo aprenden a hablar los niños (el baño de lenguaje y la conversación por turnos), el porqué del movimiento (TPR) y los vicios a evitar: <strong>remodelar</strong> en vez de corregir y <strong>comentar más que preguntar</strong>.</td></tr>
+        <tr><td>👂 <strong>Hipoacusia / Sordera</strong></td><td>Qué es la sordera y su abordaje, más <strong>micro‑guías de hardware</strong> para el manejo y cuidado del <strong>audífono</strong>, el <strong>implante coclear</strong> y los dispositivos <strong>osteointegrados</strong>.</td></tr>
+        <tr><td>🗣️ <strong>Dislalias</strong></td><td>Puntos de articulación de cada sonido, a qué edad se espera cada uno y cómo practicar en casa los sonidos difíciles (la erre, las praxias de la boca).</td></tr>
+        <tr><td>🔤 <strong>Dislexia</strong></td><td>Conciencia fonológica y apoyo a la lectura emergente: cómo suena y se segmenta cada palabra antes de leerla.</td></tr>
+        <tr><td>🧩 <strong>TEA</strong></td><td>Comunicación, anticipación y regulación en el espectro autista: cómo sostener la atención conjunta y reparar la comunicación sin presión.</td></tr>
       </table>
       <h4>Flujo principal</h4>
       <ol class="flow">
         <li>En <strong>Prescripción de Terapias</strong>, pulsar la tarjeta <strong>“Academy”</strong> (bajo el rótulo “Tu formación”).</li>
-        <li>Elegir una <strong>Cápsula de Conocimiento</strong> de la lista (unos 2 minutos cada una).</li>
-        <li>Leer las <strong>diapositivas</strong> avanzando con “Siguiente”.</li>
-        <li>Responder el <strong>quiz rápido</strong> del final; cada respuesta muestra una breve explicación.</li>
-        <li>Al aprobar, la app suma <strong>puntos e insignias</strong> y la <strong>barra de la tarjeta avanza al instante</strong>.</li>
+        <li>El <strong>feed de prioridad</strong> propone el dominio que encaja con la patología de la ficha; también se puede elegir cualquier otro <strong>dominio</strong> del hub.</li>
+        <li>Elegir una <strong>Cápsula de Conocimiento</strong> de la lista del dominio (unos 2 minutos cada una) —o, en Hipoacusia, una <strong>micro‑guía de hardware</strong>.</li>
+        <li>Leer las <strong>diapositivas</strong> avanzando con “Siguiente” y responder el <strong>quiz rápido</strong> del final; cada respuesta muestra una breve explicación.</li>
+        <li>Al aprobar, la app suma <strong>puntos e insignias en ese dominio</strong> y su <strong>barra de progreso avanza al instante</strong>, sin re‑dibujar el resto del hub.</li>
       </ol>
       <div class="callout"><div class="lbl">Es para el adulto, no para el niño</div><p style="margin:4px 0 0">Academy vive junto a los menús de la app, que maneja siempre el adulto; la tableta se cede al niño solo cuando el ejercicio ya ha empezado. Por eso el niño no llega por error a esta formación.</p></div>
       <div class="callout"><div class="lbl">El progreso no se pierde</div><p style="margin:4px 0 0">El avance (cápsulas hechas, nivel e insignias) se guarda <strong>cifrado en el dispositivo</strong>, igual que el resto de datos, y funciona sin conexión.</p></div>
@@ -560,7 +598,7 @@
       paso va el ensayo.</p>
       <h4>Flujo principal</h4>
       <ol class="flow">
-        <li>En el <strong>banco de contrastes</strong>, elegir un par prescrito (10 disponibles: rotacismo, sigmatismo, velares, labiodental). Pulsar ▶.</li>
+        <li>En el <strong>banco de contrastes</strong>, elegir un par prescrito (15 disponibles en 6 grupos: rotacismo, sigmatismo, velares, labiodental, nasales y laterales). Pulsar ▶.</li>
         <li>La app <strong>pide una ficha</strong> en voz alta (“¡Dile a papá cuál quieres! Di: rana”). El niño la dice. La fase de turno avanza de <strong>Escucha</strong> a <strong>Repite</strong>.</li>
         <li>La app evalúa: <strong>acierto</strong> (3★ al primer intento, 2★ tras corrección), <strong>sustitución</strong> detectada (corrección específica del par) o <strong>aproximación</strong> (reintento).</li>
         <li>Cada acierto trae una <strong>misión física</strong> (“¡Salto de rana!”) y termina con el <strong>sello doble</strong>: padre e hijo pulsan dos huellas a la vez para continuar.</li>
@@ -576,7 +614,7 @@
       <div class="shots">
         <figure class="shot">
           <img src="screenshots/06-pares-banco.png" alt="Banco de contrastes de pares mínimos">
-          <figcaption><span class="fig">Fig. 6</span> · Banco de contrastes: 10 pares agrupados por tipo de error.</figcaption>
+          <figcaption><span class="fig">Fig. 6</span> · Banco de contrastes: los pares agrupados por tipo de error.</figcaption>
         </figure>
         <figure class="shot">
           <img src="screenshots/08-pares-juego.png" alt="Pantalla de juego de pares mínimos">
@@ -610,8 +648,8 @@
       <table>
         <tr><th style="width:30%">Modo</th><th>Qué contiene</th></tr>
         <tr><td><strong>Escenarios</strong></td><td>5 rutinas diarias (mañana, comida, parque…), 6 palabras cada una.</td></tr>
-        <tr><td><strong>Progresión</strong></td><td>7 secuencias que suben Onomatopeya → Sustantivo → Verbo → Adjetivo (el coche, el perro, la vaca, el gato, la lluvia…).</td></tr>
-        <tr><td><strong>Contrastes</strong></td><td>6 cápsulas TPR de pares: grande/pequeño, limpio/sucio, abrir/cerrar, subir/bajar…</td></tr>
+        <tr><td><strong>Progresión</strong></td><td>9 secuencias que suben Onomatopeya → Sustantivo → Verbo → Adjetivo (el coche, el perro, la vaca, el gato, la lluvia, el tren, el pájaro, el pan, el globo…). «El desayuno» da el salto a la combinación de dos palabras («quiero pan»).</td></tr>
+        <tr><td><strong>Contrastes</strong></td><td>8 cápsulas TPR de pares: grande/pequeño, limpio/sucio, abrir/cerrar, subir/bajar, lleno/vacío, meter/sacar…</td></tr>
       </table>
       <p>Como en Pares Mínimos, una <strong>barra de fase de turno</strong> (Escucha → Repite → Veredicto → Misión) guía cada paso.</p>
       <h4>Flujo principal</h4>
@@ -645,18 +683,18 @@
   <div class="uc">
     <div class="uc-head">
       <div class="id">CU‑06 · <span class="tag pro">Profesional</span></div>
-      <div class="title">Prescribir terapias de Audición y Lenguaje (Modo Profesional)</div>
+      <div class="title">Prescribir terapias (Audición, Lenguaje, TEA y Dislexia · Modo Profesional)</div>
     </div>
     <div class="uc-body">
       <div class="uc-grid">
         <div><div class="k">Actor</div><div class="v">Logopeda</div></div>
-        <div><div class="k">Pantalla</div><div class="v">Hub → Audición / Lenguaje</div></div>
+        <div><div class="k">Pantalla</div><div class="v">Hub → Audición / Lenguaje / TEA / Dislexia</div></div>
         <div><div class="k">Precondición</div><div class="v">Ficha creada · PIN disponible</div></div>
         <div><div class="k">Resultado</div><div class="v">Selección de terapias guardada en el dispositivo</div></div>
       </div>
       <h4>Flujo principal</h4>
       <ol class="flow">
-        <li>En el hub, abrir <strong>Audición</strong> (13 terapias) o <strong>Lenguaje</strong> (7 terapias).</li>
+        <li>En el hub, abrir <strong>Audición</strong> (18 terapias), <strong>Lenguaje</strong> (7), <strong>TEA</strong> (6) o <strong>Dislexia</strong> (6).</li>
         <li>Pulsar <strong>“Desbloquear Edición Profesional”</strong> e introducir el <strong>PIN</strong> (demo: <strong>1985</strong>).</li>
         <li>Activar o desactivar cada terapia con su interruptor. El contador “N prescritos” se actualiza al momento.</li>
         <li>Pulsar <strong>“Guardar Prescripción”</strong>. La selección se guarda y la edición vuelve a bloquearse.</li>
@@ -665,16 +703,18 @@
       <ul class="alt">
         <li><strong>PIN incorrecto:</strong> los puntos se marcan en rojo y se pueden reintroducir.</li>
         <li><strong>Solo consulta (sin PIN):</strong> se ve la lista, pero los interruptores están atenuados.</li>
-        <li><strong>Practicar sin editar:</strong> el botón ▶ de cada fila inicia esa terapia, incluso en Modo Familia. El mismo PIN prescribe también en Pares Mínimos y Expansión Semántica.</li>
+        <li><strong>Practicar sin editar:</strong> el botón ▶ de cada fila inicia esa terapia, incluso en Modo Familia. El mismo PIN prescribe en los seis bloques (Pares Mínimos, Expansión Semántica, Audición, Lenguaje, TEA y Dislexia).</li>
+        <li><strong>Consentimiento del módulo TEA:</strong> el <strong>Quiebre Pragmático Inducido</strong> (TEA‑2) exige aceptar antes un <strong>encuadre de consentimiento informado</strong>; hasta entonces queda bloqueado.</li>
       </ul>
+      <div class="callout"><div class="lbl">Estresores siempre manuales</div><p style="margin:4px 0 0">En TEA y Dislexia, el ruido, la latencia y la persecución los aplica el adulto a mano; la app <strong>nunca</strong> ajusta la dificultad ni cronometra sola (muro MDR).</p></div>
       <div class="shots">
         <figure class="shot">
           <img src="screenshots/07-pin-profesional.png" alt="Modal de PIN del Modo Profesional">
-          <figcaption><span class="fig">Fig. 12</span> · Teclado de PIN compartido por los cuatro bloques.</figcaption>
+          <figcaption><span class="fig">Fig. 12</span> · Teclado de PIN compartido por todos los bloques.</figcaption>
         </figure>
         <figure class="shot">
           <img src="screenshots/13-audicion-lista.png" alt="Lista de terapias de audición">
-          <figcaption><span class="fig">Fig. 13</span> · Audición: las 13 terapias con su interruptor de prescripción.</figcaption>
+          <figcaption><span class="fig">Fig. 13</span> · Audición: las 18 terapias con su interruptor de prescripción.</figcaption>
         </figure>
       </div>
     </div>
@@ -901,10 +941,10 @@
       <h4>Flujo principal</h4>
       <ol class="flow">
         <li>Para <strong>entrar</strong> en Modo Profesional: pulsar “Desbloquear Edición Profesional” 🔒 e introducir el PIN. El estado pasa a 🔓 “Modo profesional activo”.</li>
-        <li>Realizar los cambios de prescripción necesarios en el bloque (Pares Mínimos, Expansión Semántica, Audición o Lenguaje).</li>
+        <li>Realizar los cambios de prescripción necesarios en el bloque (Pares Mínimos, Expansión Semántica, Audición, Lenguaje, TEA o Dislexia).</li>
         <li>Para <strong>salir</strong>: pulsar <strong>“Guardar Prescripción”</strong>. La edición se bloquea automáticamente y vuelve a Modo Familia.</li>
       </ol>
-      <div class="callout warn"><div class="lbl">Buena práctica</div><p style="margin:4px 0 0">Guarde siempre antes de entregar el dispositivo a la familia, para que la prescripción quede protegida en modo solo lectura. El PIN es el mismo en los cuatro bloques.</p></div>
+      <div class="callout warn"><div class="lbl">Buena práctica</div><p style="margin:4px 0 0">Guarde siempre antes de entregar el dispositivo a la familia, para que la prescripción quede protegida en modo solo lectura. El PIN es el mismo en todos los bloques.</p></div>
     </div>
   </div>
 </section>
@@ -919,7 +959,7 @@
     <div class="uc-body">
       <div class="uc-grid">
         <div><div class="k">Actor</div><div class="v">Logopeda / responsable del piloto</div></div>
-        <div><div class="k">Pantalla</div><div class="v">Hub de 4 bloques → “Acceso Profesional”</div></div>
+        <div><div class="k">Pantalla</div><div class="v">Hub de bloques → “Acceso Profesional”</div></div>
         <div><div class="k">Precondición</div><div class="v">Se han usado ejercicios · PIN disponible</div></div>
         <div><div class="k">Resultado</div><div class="v">Resumen en QR + registro completo compartido; datos purgados</div></div>
       </div>
@@ -929,7 +969,7 @@
       análisis, con dos salidas a la vez: una <strong>offline</strong> (QR) y otra <strong>online</strong> (compartir).</p>
       <h4>Flujo principal</h4>
       <ol class="flow">
-        <li>En el <strong>hub de 4 bloques</strong>, bajar hasta la tarjeta <strong>“Acceso Profesional”</strong> y tocarla.</li>
+        <li>En el <strong>hub de bloques</strong>, bajar hasta la tarjeta <strong>“Acceso Profesional”</strong> y tocarla.</li>
         <li>Introducir el <strong>PIN</strong> del logopeda (demo: <strong>1985</strong>).</li>
         <li>Se abre la pantalla de <strong>exportación</strong>: en el acto aparece un <strong>código QR</strong> con el resumen
         (nº de sesiones, % de abandono TPR, misclicks y media de la encuesta) y, a la vez, el <strong>menú de compartir</strong>
@@ -945,7 +985,7 @@
         <li><strong>Resumen muy largo para el QR:</strong> la app avisa y basta con usar el compartir del registro completo.</li>
       </ul>
       <div class="callout"><div class="lbl">Qué contiene cada salida</div><p style="margin:4px 0 0">El <strong>QR</strong> lleva solo el <strong>resumen estadístico</strong> comprimido (sin datos personales). El <strong>compartir</strong> envía el <strong>registro completo</strong> de la telemetría anónima y la encuesta, correlacionados por identificador de sesión, para el análisis del piloto.</p></div>
-      <div class="callout warn"><div class="lbl">Encuesta de satisfacción (SUS)</div><p style="margin:4px 0 0">La pregunta de 1 a 5 (“Fue fácil integrar este ejercicio en la rutina de mi hijo/a”) aparece <strong>sola</strong> al completar los 4 bloques y como mucho <strong>una vez por semana</strong> por dispositivo. La familia no tiene que buscarla ni configurarla.</p></div>
+      <div class="callout warn"><div class="lbl">Encuesta de satisfacción (SUS)</div><p style="margin:4px 0 0">La pregunta de 1 a 5 (“Fue fácil integrar este ejercicio en la rutina de mi hijo/a”) aparece <strong>sola</strong> al completar <strong>4 bloques distintos</strong> y como mucho <strong>una vez por semana</strong> por dispositivo. La familia no tiene que buscarla ni configurarla.</p></div>
     </div>
   </div>
 </section>
@@ -955,7 +995,7 @@
   <div class="uc">
     <div class="uc-head">
       <div class="id">CU‑15 · <span class="tag fam" style="background:rgba(255,255,255,.22);color:#fff">Profesional / Familia</span></div>
-      <div class="title">Elegir la variedad de terapia (Castellano · Galego · Dominicano)</div>
+      <div class="title">Elegir la variedad de terapia (Castellano · Galego · Dominicano · Euskera)</div>
     </div>
     <div class="uc-body">
       <div class="uc-grid">
@@ -964,31 +1004,33 @@
         <div><div class="k">Precondición</div><div class="v">App abierta (funciona sin conexión)</div></div>
         <div><div class="k">Resultado</div><div class="v">El contenido se locuta y evalúa en la variedad elegida</div></div>
       </div>
-      <p>Valeria+ puede trabajar el contenido terapéutico en <strong>tres variedades</strong>. La <strong>interfaz</strong>
+      <p>Valeria+ puede trabajar el contenido terapéutico en <strong>cuatro variedades</strong>. La <strong>interfaz</strong>
       (menús y botones) sigue en castellano; lo que cambia es <strong>lo que se dice, se muestra y se evalúa</strong>.
       La elección se guarda en el dispositivo y se aplica a todos los bloques.</p>
       <table>
-        <tr><th style="width:26%">Variedad</th><th>Cómo suena y evalúa</th></tr>
+        <tr><th style="width:22%">Variedad</th><th>Cómo suena y evalúa</th></tr>
         <tr><td>🇪🇸 <strong>Castellano</strong></td><td>Voz neuronal <strong>Sharvard</strong> pregenerada (offline) y reconocimiento del sistema en español de España.</td></tr>
         <tr><td><strong>Galego</strong> <span class="small muted">(Proxecto Nós)</span></td><td>Voz neuronal <strong>Celtia</strong> pregenerada en gallego; contenido y pares propios. El contenido compartido con el castellano (Expansión Semántica, Audición y Lenguaje) suena con la voz neuronal castellana mientras Celtia no lo cubra (v8.1).</td></tr>
         <tr><td>🇩🇴 <strong>Dominicano</strong> <span class="small muted">(Quisqueya Habla)</span></td><td>Usa la <strong>voz latina del dispositivo</strong> y el micrófono en es‑DO; respeta los rasgos del habla caribeña.</td></tr>
+        <tr><td><strong>Euskera</strong> <span class="small muted">(batua · ILENIA/NEL‑GAITU)</span></td><td>Voz neuronal <strong>HiTZ‑TTS</strong> pregenerada (UPV/EHU · Aholab), empaquetada y offline. El reconocimiento usa <code>eu‑ES</code> donde el dispositivo lo trae; si no, recae en <code>es‑ES</code> con un <strong>pliegue de la ⟨h⟩ muda</strong> que no penaliza las sibilantes ni africadas (contraste clínico que valora el adulto).</td></tr>
       </table>
       <h4>Flujo principal</h4>
       <ol class="flow">
         <li>Abrir la tarjeta <strong>“Voz de la app”</strong> y localizar <strong>“Variedad de la voz”</strong>.</li>
-        <li>Tocar <strong>Castellano</strong>, <strong>Galego</strong> o <strong>Dominicano</strong>.</li>
+        <li>Tocar <strong>Castellano</strong>, <strong>Galego</strong>, <strong>Dominicano</strong> o <strong>Euskera</strong>.</li>
         <li>La app cambia al instante la locución y el reconocimiento; la tarjeta muestra un aviso sobre la voz disponible.</li>
       </ol>
       <h4>Flujos alternativos</h4>
       <ul class="alt">
         <li><strong>En dominicano suena peninsular o robótica:</strong> instalar una voz de “Español (Latinoamérica)” en los ajustes del dispositivo; la app la usará automáticamente.</li>
+        <li><strong>En euskera sin reconocedor vasco:</strong> el dispositivo escucha en <code>es‑ES</code> con el pliegue de la ⟨h⟩; si tampoco hay micrófono (Expo Go / web), el adulto valora con botones, como en el resto de variedades.</li>
         <li><strong>Falta la voz pregenerada de una locución:</strong> en galego se reproduce primero el asset neuronal castellano equivalente si existe (v8.1); en último término, la app recae con suavidad en la voz del sistema, sin interrumpir la sesión.</li>
       </ul>
       <div class="callout"><div class="lbl">Respeto dialectal</div><p style="margin:4px 0 0">En dominicano, la app <strong>no marca como error</strong> el seseo, la aspiración de la “s” ni el cambio de “r/l” a final de sílaba: son rasgos normales del habla, no fallos que corregir.</p></div>
       <div class="shots">
         <figure class="shot">
           <img src="screenshots/22-voz-variedad.png" alt="Tarjeta Voz de la app con el selector de variedad">
-          <figcaption><span class="fig">Fig. 22</span> · Tarjeta “Voz de la app”: selector de variedad Castellano · Galego · Dominicano.</figcaption>
+          <figcaption><span class="fig">Fig. 22</span> · Tarjeta “Voz de la app”: selector de variedad Castellano · Galego · Dominicano · Euskera.</figcaption>
         </figure>
       </div>
     </div>
@@ -1044,7 +1086,7 @@
 
   <table style="margin-top:14px">
     <tr><th style="width:38%">Situación</th><th>Qué hacer</th></tr>
-    <tr><td>No recuerdo el PIN profesional</td><td>El PIN lo define el logopeda. En la demo es <strong>1985</strong> y es el mismo en los cuatro bloques. Si se olvida en producción, debe restablecerse desde la configuración de la app.</td></tr>
+    <tr><td>No recuerdo el PIN profesional</td><td>El PIN lo define el logopeda. En la demo es <strong>1985</strong> y es el mismo en todos los bloques. Si se olvida en producción, debe restablecerse desde la configuración de la app.</td></tr>
     <tr><td>El micrófono no reconoce la voz</td><td>En Expo Go y en el navegador web no hay reconocimiento de voz: use el modo juez (el adulto valora con botones). En la app instalada, revise el permiso de micrófono.</td></tr>
     <tr><td>La app oyó mal en Pares Mínimos</td><td>El padre es el juez final: use “dijo rana / dijo lana” para corregir el veredicto. Un falso positivo no penaliza al niño.</td></tr>
     <tr><td>No avanza tras la misión física</td><td>Es el <strong>sello doble</strong>: padre e hijo deben pulsar las dos huellas a la vez. Con una sola mano, mantenga pulsada una huella 2 segundos.</td></tr>
@@ -1055,19 +1097,20 @@
     <tr><td>El mismo ejercicio se repetía siempre igual</td><td>Use <strong>“🔄 Otra ronda”</strong>: cada mini‑juego rota hasta 3 contenidos distintos. Para practicar todo lo prescrito de golpe, use <strong>“🎯 Sesión completa”</strong>.</td></tr>
     <tr><td>¿Necesito conexión o crear una cuenta?</td><td>No. La app funciona en local sin conexión. El <strong>acceso profesional con correo y contraseña</strong> (sincronización en la nube) es opcional y solo se usa para pruebas con profesionales (v6).</td></tr>
     <tr><td>¿Qué datos recoge el piloto sobre mi hijo/a?</td><td>Solo métricas <strong>anónimas</strong> de usabilidad (tiempo por pantalla, misclicks y cápsulas saltadas) y una encuesta breve. <strong>No</strong> se guardan nombres, ni audio, ni el contenido de las respuestas. Todo se cifra en el dispositivo (v7).</td></tr>
-    <tr><td>¿Por qué apareció una encuesta con caritas?</td><td>Es la encuesta de satisfacción del piloto (SUS). Solo aparece al completar los 4 bloques y como mucho una vez por semana. Se puede cerrar sin responder.</td></tr>
+    <tr><td>¿Por qué apareció una encuesta con caritas?</td><td>Es la encuesta de satisfacción del piloto (SUS). Solo aparece al completar 4 bloques distintos y como mucho una vez por semana. Se puede cerrar sin responder.</td></tr>
     <tr><td>¿Cómo exporto los datos del piloto?</td><td>Desde el hub, tarjeta <strong>“Acceso Profesional”</strong> con el PIN: la app muestra un <strong>QR</strong> con el resumen y abre el <strong>compartir</strong> con el registro completo. Tras enviarlo, los datos se purgan (CU‑14).</td></tr>
-    <tr><td>¿Puedo usar la app en gallego o en dominicano?</td><td>Sí. En la tarjeta <strong>“Voz de la app”</strong> se elige la variedad (Castellano, Galego o Dominicano). Cambia lo que se locuta y evalúa; los menús siguen en castellano (CU‑15).</td></tr>
+    <tr><td>¿Puedo usar la app en gallego, dominicano o euskera?</td><td>Sí. En la tarjeta <strong>“Voz de la app”</strong> se elige la variedad (Castellano, Galego, Dominicano o Euskera). Cambia lo que se locuta y evalúa; los menús siguen en castellano (CU‑15).</td></tr>
     <tr><td>En dominicano la voz suena de España o robótica</td><td>Instale una voz de <strong>“Español (Latinoamérica)”</strong> en los ajustes del dispositivo. La app la detecta y la usa automáticamente (v8).</td></tr>
     <tr><td>En galego, algunos ejercicios no hablaban</td><td>Corregido en la v8.1: la Expansión Semántica y los ejercicios de Audición y Lenguaje suenan ahora con la voz neuronal castellana mientras Celtia no cubra ese contenido. Actualice la app si sigue ocurriendo.</td></tr>
     <tr><td>Marca como error algo que en mi país se dice así</td><td>En la variedad dominicana la app <strong>respeta los rasgos del habla caribeña</strong> (seseo, “s” aspirada, “r/l” final). Y recuerde: el adulto es siempre el juez final del veredicto.</td></tr>
     <tr><td>Apareció ruido de fondo o un oso moviéndose</td><td>Son módulos del <strong>Panel del Adulto</strong> (carga comunicativa) del piloto; solo se activan a mano. Desactívelos desde ese mismo panel (CU‑16).</td></tr>
-    <tr><td>¿Qué es la tarjeta “Academy” del hub?</td><td>Es la <strong>formación para el adulto</strong>: cápsulas breves sobre cómo aprenden a hablar los niños, el porqué del movimiento (TPR) y los vicios a evitar, con un quiz rápido. No es un ejercicio para el niño (CU‑03).</td></tr>
+    <tr><td>Aparecieron bloques nuevos: TEA y Dislexia</td><td>Son los dos bloques que suma la v9. <strong>TEA</strong> (6 terapias, protocolo PRT + TCC) y <strong>Dislexia</strong> (6 terapias de conciencia fonológica y acceso léxico). Se prescriben con el mismo PIN que el resto y sus estresores los activa siempre el adulto (CU‑06).</td></tr>
+    <tr><td>¿Qué es la tarjeta “Academy” del hub?</td><td>Es la <strong>formación para el adulto</strong>, organizada en cinco dominios (Lenguaje, Hipoacusia, Dislalias, Dislexia y TEA). Cápsulas breves con quiz sobre cómo aprenden a hablar los niños, el manejo de los dispositivos auditivos, los sonidos difíciles y más; un feed destaca el dominio que encaja con la patología de la ficha. No es un ejercicio para el niño (CU‑03).</td></tr>
 
   <div class="footer-note">
-    <strong>Valeria+</strong> · Manual de Casos de Uso · v8.2 (con capturas de pantalla) · Julio de 2026 ·
+    <strong>Valeria+</strong> · Manual de Casos de Uso · v9.0 (con capturas de pantalla) · Julio de 2026 ·
     Terapia auditivo‑verbal y del lenguaje para la infancia. Documento de apoyo para logopedas y familias.
-    <br>Disponible en Castellano, Galego (Proxecto Nós) y Dominicano (Quisqueya Habla). Los datos personales se tratan localmente conforme a RGPD/HIPAA; la sincronización en la nube y la telemetría anónima del piloto son opcionales.
+    <br>Disponible en Castellano, Galego (Proxecto Nós), Dominicano (Quisqueya Habla) y Euskera (batua · ILENIA/NEL‑GAITU). Los datos personales se tratan localmente conforme a RGPD/HIPAA; la sincronización en la nube y la telemetría anónima del piloto son opcionales.
   </div>
 </section>
 
