@@ -1,13 +1,13 @@
 // ============================================================================
-// Valeria+ · Pares Mínimos para Dislalias Fonológicas (V6.0)
-// Banco de 10 pares de contraste fonológico. Principio de diseño: cada par se
+// Valeria+ · Pares Mínimos para Dislalias Fonológicas (V6.1)
+// Banco de 15 pares de contraste fonológico. Principio de diseño: cada par se
 // elige para que el ERROR DE SUSTITUCIÓN habitual del niño produzca exactamente
 // la otra palabra del par (rotacismo: pido "rana" → dice /lána/ → el ASR capta
 // "lana"). Así el reconocedor de diccionario funciona como detector clínico.
 // Protocolo completo: docs/protocolo-pares-minimos.md
 // ============================================================================
 
-export type PairGroup = 'Rotacismo' | 'Sigmatismo' | 'Velares' | 'Labiodental';
+export type PairGroup = 'Rotacismo' | 'Sigmatismo' | 'Velares' | 'Labiodental' | 'Nasales' | 'Laterales';
 
 export interface MinimalPair {
   id: string;
@@ -184,6 +184,88 @@ export const MINIMAL_PAIRS: MinimalPair[] = [
       mission: 'El papel volador: papelito en la palma de papá. Con fff se inclina y aguanta; con pe solo da un salto. Reto: tres segundos volando.',
     },
   },
+  // --------------------------------------------------------------------------
+  // Ampliación V6.1 (Expansión de Protocolos): PM-11 … PM-15. Todos los
+  // contrastes viven en ATAQUE silábico (inicial o intervocálico), donde el
+  // fonema se mantiene estable en todas las macrorregiones dialectales del
+  // español: ningún par depende de /θ/, de la /s/ implosiva ni de líquidas en
+  // coda (rasgos que el caribeño neutraliza y que NO son error).
+  // --------------------------------------------------------------------------
+  {
+    id: 'gota-bota', code: 'PM-11', group: 'Velares',
+    target: 'gota', targetEmoji: '💧', foil: 'bota', foilEmoji: '👢',
+    phoneme: 'g → b', errorLabel: 'Labialización de velar sonora',
+    prompt: '¡Plic! ¿Qué cayó del cielo? Di: gota.',
+    onTarget: {
+      say: '¡Gota! ¡Esa ga salió del fondo de la garganta!',
+      mission: 'Lluvia de dedos: tamborilead gotas por los brazos del otro hasta llegar a las manos.',
+    },
+    onFoil: {
+      say: 'Escuché bota, la del pie. La gota nace atrás, en la cueva: gota.',
+      cue: 'La be vive en los labios; la ga vive al fondo de la garganta.',
+      mission: 'Manos al cuello los dos: decid ga-ga-ga y bo-bo-bo y notad dónde tiembla cada sonido.',
+    },
+  },
+  {
+    id: 'beso-queso', code: 'PM-12', group: 'Velares',
+    target: 'beso', targetEmoji: '😘', foil: 'queso', foilEmoji: '🧀',
+    phoneme: 'b → k', errorLabel: 'Posteriorización de bilabial',
+    prompt: '¿Qué damos con los labios? Di: beso.',
+    onTarget: {
+      say: '¡Beso! ¡Esos labios explotaron genial!',
+      mission: 'Lanzaos un beso volador cada uno y atrapadlo en el aire con la mano.',
+    },
+    onFoil: {
+      say: 'Escuché queso, el del ratón. El beso nace en los labios, delante: beso.',
+      cue: 'Junta los labios como para dar un beso y suéltalos de golpe: be.',
+      mission: 'Espejo de labios: frente a frente, inflad los mofletes y soltad be-be-be hasta reír.',
+    },
+  },
+  {
+    id: 'foca-boca', code: 'PM-13', group: 'Labiodental',
+    target: 'foca', targetEmoji: '🦭', foil: 'boca', foilEmoji: '👄',
+    phoneme: 'f → b', errorLabel: 'Oclusivización de labiodental',
+    prompt: '¡Aplaude como en el circo! ¿Quién aplaude con las aletas? Di: foca.',
+    onTarget: {
+      say: '¡Foca! ¡Ese soplido de conejo llegó al mar!',
+      mission: 'Aplaudid como focas con los brazos estirados y un “¡arf, arf!” final.',
+    },
+    onFoil: {
+      say: 'Escuché boca, la de los besos. La foca sopla con los dientes en el labio: foca.',
+      cue: 'Dientes de conejo sobre el labio de abajo, y aire largo: fff.',
+      mission: 'Viento en la mano: palma de papá delante de la boca del niño. Con fff hay brisa seguida; con be, solo un golpecito.',
+    },
+  },
+  {
+    id: 'miel-piel', code: 'PM-14', group: 'Nasales',
+    target: 'miel', targetEmoji: '🍯', foil: 'piel', foilEmoji: '🤚',
+    phoneme: 'm → p', errorLabel: 'Desnasalización de bilabial',
+    prompt: '¿Qué guarda el oso en el tarro? Di: miel.',
+    onTarget: {
+      say: '¡Miel! ¡Esa eme salió zumbando por la nariz!',
+      mission: 'Osos golosos: meted la mano en el tarro imaginario y relameos con un “mmm” bien largo.',
+    },
+    onFoil: {
+      say: 'Escuché piel, la de la mano. La miel zumba por la nariz como una abeja: mmmiel.',
+      cue: 'Labios juntos y motor de abeja por la nariz: mmm.',
+      mission: 'Dedo en la nariz del otro: sostened mmmm tres segundos y sentid la vibración. Con pe no tiembla nada.',
+    },
+  },
+  {
+    id: 'pato-palo', code: 'PM-15', group: 'Laterales',
+    target: 'pato', targetEmoji: '🦆', foil: 'palo', foilEmoji: '🪵',
+    phoneme: 't → l', errorLabel: 'Lateralización de oclusiva dental',
+    prompt: '¡Cuac, cuac! ¿Quién nada en el charco? Di: pato.',
+    onTarget: {
+      say: '¡Pato! ¡Esa te dio un golpecito perfecto!',
+      mission: 'Caminad como patos en cuclillas hasta el sofá haciendo cuac-cuac.',
+    },
+    onFoil: {
+      say: 'Escuché palo, el del suelo. El pato da un golpe con la lengua: pato.',
+      cue: 'La te da un toque seco detrás de los dientes; la ele se escurre por los lados.',
+      mission: 'Tambor de lengua: marcad ta-ta-ta con palmadas y la-la-la meneando los brazos, alternando cada vez más rápido.',
+    },
+  },
 ];
 
-export const PAIR_GROUPS: PairGroup[] = ['Rotacismo', 'Sigmatismo', 'Velares', 'Labiodental'];
+export const PAIR_GROUPS: PairGroup[] = ['Rotacismo', 'Sigmatismo', 'Velares', 'Labiodental', 'Nasales', 'Laterales'];

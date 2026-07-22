@@ -62,6 +62,12 @@ const BANKS: Record<CarrierLang, CarrierBank> = {
       cubo: { kind: 'sustantivo', article: 'un' },
       boca: { kind: 'sustantivo', article: 'una' },
       fuente: { kind: 'sustantivo', article: 'una' },
+      // Objetivos de la ampliación V6.1 (PM-11 … PM-15).
+      gota: { kind: 'sustantivo', article: 'una' },
+      beso: { kind: 'sustantivo', article: 'un' },
+      foca: { kind: 'sustantivo', article: 'una' },
+      miel: { kind: 'sustantivo', article: 'la' }, // incontable: artículo definido
+      pato: { kind: 'sustantivo', article: 'un' },
     },
     subjects: [
       { full: 'El oso marrón', short: 'el oso' },

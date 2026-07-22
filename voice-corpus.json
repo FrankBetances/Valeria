@@ -1,21 +1,21 @@
 {
- "generatedAt": "2026-07-22T10:56:38.332Z",
- "entries": 1867,
+ "generatedAt": "2026-07-22T14:12:43.373Z",
+ "entries": 2204,
  "byStyle": {
-  "clinical": 607,
-  "child": 744,
-  "slow": 258,
-  "tutor": 258
+  "clinical": 732,
+  "child": 863,
+  "slow": 310,
+  "tutor": 299
  },
  "bySource": {
-  "carrier": 580,
-  "pares/intro": 22,
-  "pares/prompt": 22,
-  "pares/celebracion": 22,
-  "pares/correccion": 22,
-  "pares/retry": 22,
-  "pares/modelado": 22,
-  "pares/roleswap": 56,
+  "carrier": 705,
+  "pares/intro": 27,
+  "pares/prompt": 27,
+  "pares/celebracion": 27,
+  "pares/correccion": 27,
+  "pares/retry": 27,
+  "pares/modelado": 27,
+  "pares/roleswap": 64,
   "pares/fin": 3,
   "tpr": 72,
   "tpr/fin": 3,
@@ -26,8 +26,8 @@
   "banco/no-oido": 9,
   "banco/juntos": 9,
   "util/muestra": 3,
-  "expansion": 552,
-  "ejercicios": 391
+  "expansion": 600,
+  "ejercicios": 517
  },
  "corpus": [
   {
@@ -1991,6 +1991,881 @@
    "source": "carrier"
   },
   {
+   "id": "clinical_404d0315_92",
+   "lang": "es",
+   "style": "clinical",
+   "text": "El oso marrón encontró una gota en el jardín. ¿Qué encontró el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_4dc7eb62_94",
+   "lang": "es",
+   "style": "clinical",
+   "text": "El pirata Simón buscaba una gota esta mañana. ¿Qué buscaba el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_e639b78a_98",
+   "lang": "es",
+   "style": "clinical",
+   "text": "El niño pequeño dibujó una gota detrás de la puerta. ¿Qué dibujó el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_c499a24b_91",
+   "lang": "es",
+   "style": "clinical",
+   "text": "La abuela Rosa guardó una gota en el paseo. ¿Qué guardó la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_6e43bc5e_71",
+   "lang": "es",
+   "style": "clinical",
+   "text": "Mi amiga Lola vio una gota. ¿Qué vio mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_85feffa7_91",
+   "lang": "es",
+   "style": "clinical",
+   "text": "La abuela Rosa dibujó una gota esta mañana. ¿Qué dibujó la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_a885fbba_97",
+   "lang": "es",
+   "style": "clinical",
+   "text": "Mi amiga Lola guardó una gota detrás de la puerta. ¿Qué guardó mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_7fca4111_81",
+   "lang": "es",
+   "style": "clinical",
+   "text": "El oso marrón vio una gota en el paseo. ¿Qué vio el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_925d0e7a_84",
+   "lang": "es",
+   "style": "clinical",
+   "text": "El pirata Simón encontró una gota. ¿Qué encontró el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_205c95de_93",
+   "lang": "es",
+   "style": "clinical",
+   "text": "El niño pequeño buscaba una gota en el jardín. ¿Qué buscaba el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_3ebc2dae_94",
+   "lang": "es",
+   "style": "clinical",
+   "text": "El pirata Simón vio una gota detrás de la puerta. ¿Qué vio el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_bfbf487c_94",
+   "lang": "es",
+   "style": "clinical",
+   "text": "El niño pequeño encontró una gota en el paseo. ¿Qué encontró el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_8c6ca6cb_81",
+   "lang": "es",
+   "style": "clinical",
+   "text": "La abuela Rosa buscaba una gota. ¿Qué buscaba la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_851032b4_90",
+   "lang": "es",
+   "style": "clinical",
+   "text": "Mi amiga Lola dibujó una gota en el jardín. ¿Qué dibujó mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_1029a53b_87",
+   "lang": "es",
+   "style": "clinical",
+   "text": "El oso marrón guardó una gota esta mañana. ¿Qué guardó el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_097bf8b8_91",
+   "lang": "es",
+   "style": "clinical",
+   "text": "Mi amiga Lola buscaba una gota en el paseo. ¿Qué buscaba mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_03a01003_75",
+   "lang": "es",
+   "style": "clinical",
+   "text": "El oso marrón dibujó una gota. ¿Qué dibujó el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_1068bdc2_93",
+   "lang": "es",
+   "style": "clinical",
+   "text": "El pirata Simón guardó una gota en el jardín. ¿Qué guardó el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_5e86c76e_84",
+   "lang": "es",
+   "style": "clinical",
+   "text": "El niño pequeño vio una gota esta mañana. ¿Qué vio el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_83f44cd1_103",
+   "lang": "es",
+   "style": "clinical",
+   "text": "La abuela Rosa encontró una gota detrás de la puerta. ¿Qué encontró la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_7a22d008_78",
+   "lang": "es",
+   "style": "clinical",
+   "text": "El niño pequeño guardó una gota. ¿Qué guardó el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_28388161_86",
+   "lang": "es",
+   "style": "clinical",
+   "text": "La abuela Rosa vio una gota en el jardín. ¿Qué vio la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_9c1bce20_93",
+   "lang": "es",
+   "style": "clinical",
+   "text": "Mi amiga Lola encontró una gota esta mañana. ¿Qué encontró mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_5a9b1189_97",
+   "lang": "es",
+   "style": "clinical",
+   "text": "El oso marrón buscaba una gota detrás de la puerta. ¿Qué buscaba el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_ac2f3416_92",
+   "lang": "es",
+   "style": "clinical",
+   "text": "El pirata Simón dibujó una gota en el paseo. ¿Qué dibujó el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_23305d12_91",
+   "lang": "es",
+   "style": "clinical",
+   "text": "El oso marrón encontró un beso en el jardín. ¿Qué encontró el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_f6e58813_93",
+   "lang": "es",
+   "style": "clinical",
+   "text": "El pirata Simón buscaba un beso esta mañana. ¿Qué buscaba el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_8b3ade59_97",
+   "lang": "es",
+   "style": "clinical",
+   "text": "El niño pequeño dibujó un beso detrás de la puerta. ¿Qué dibujó el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_8048e5ca_90",
+   "lang": "es",
+   "style": "clinical",
+   "text": "La abuela Rosa guardó un beso en el paseo. ¿Qué guardó la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_87dff34d_70",
+   "lang": "es",
+   "style": "clinical",
+   "text": "Mi amiga Lola vio un beso. ¿Qué vio mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_0b6ef160_90",
+   "lang": "es",
+   "style": "clinical",
+   "text": "La abuela Rosa dibujó un beso esta mañana. ¿Qué dibujó la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_43da59d7_96",
+   "lang": "es",
+   "style": "clinical",
+   "text": "Mi amiga Lola guardó un beso detrás de la puerta. ¿Qué guardó mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_adc5b53a_80",
+   "lang": "es",
+   "style": "clinical",
+   "text": "El oso marrón vio un beso en el paseo. ¿Qué vio el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_5fe8337b_83",
+   "lang": "es",
+   "style": "clinical",
+   "text": "El pirata Simón encontró un beso. ¿Qué encontró el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_dc868391_92",
+   "lang": "es",
+   "style": "clinical",
+   "text": "El niño pequeño buscaba un beso en el jardín. ¿Qué buscaba el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_87968679_93",
+   "lang": "es",
+   "style": "clinical",
+   "text": "El pirata Simón vio un beso detrás de la puerta. ¿Qué vio el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_f96381c5_93",
+   "lang": "es",
+   "style": "clinical",
+   "text": "El niño pequeño encontró un beso en el paseo. ¿Qué encontró el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_87038696_80",
+   "lang": "es",
+   "style": "clinical",
+   "text": "La abuela Rosa buscaba un beso. ¿Qué buscaba la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_3dcd9191_89",
+   "lang": "es",
+   "style": "clinical",
+   "text": "Mi amiga Lola dibujó un beso en el jardín. ¿Qué dibujó mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_f76ecdd2_86",
+   "lang": "es",
+   "style": "clinical",
+   "text": "El oso marrón guardó un beso esta mañana. ¿Qué guardó el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_a57db98d_90",
+   "lang": "es",
+   "style": "clinical",
+   "text": "Mi amiga Lola buscaba un beso en el paseo. ¿Qué buscaba mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_20596084_74",
+   "lang": "es",
+   "style": "clinical",
+   "text": "El oso marrón dibujó un beso. ¿Qué dibujó el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_08ef6b3d_92",
+   "lang": "es",
+   "style": "clinical",
+   "text": "El pirata Simón guardó un beso en el jardín. ¿Qué guardó el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_fcb66635_83",
+   "lang": "es",
+   "style": "clinical",
+   "text": "El niño pequeño vio un beso esta mañana. ¿Qué vio el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_aa0fac4c_102",
+   "lang": "es",
+   "style": "clinical",
+   "text": "La abuela Rosa encontró un beso detrás de la puerta. ¿Qué encontró la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_0b46e51d_77",
+   "lang": "es",
+   "style": "clinical",
+   "text": "El niño pequeño guardó un beso. ¿Qué guardó el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_2b2c5dcc_85",
+   "lang": "es",
+   "style": "clinical",
+   "text": "La abuela Rosa vio un beso en el jardín. ¿Qué vio la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_8694caa1_92",
+   "lang": "es",
+   "style": "clinical",
+   "text": "Mi amiga Lola encontró un beso esta mañana. ¿Qué encontró mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_dd7f9f7c_96",
+   "lang": "es",
+   "style": "clinical",
+   "text": "El oso marrón buscaba un beso detrás de la puerta. ¿Qué buscaba el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_56b1f2f9_91",
+   "lang": "es",
+   "style": "clinical",
+   "text": "El pirata Simón dibujó un beso en el paseo. ¿Qué dibujó el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_a96595cb_92",
+   "lang": "es",
+   "style": "clinical",
+   "text": "El oso marrón encontró una foca en el jardín. ¿Qué encontró el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_9b8d1208_94",
+   "lang": "es",
+   "style": "clinical",
+   "text": "El pirata Simón buscaba una foca esta mañana. ¿Qué buscaba el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_48210fd4_98",
+   "lang": "es",
+   "style": "clinical",
+   "text": "El niño pequeño dibujó una foca detrás de la puerta. ¿Qué dibujó el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_76dcc0fd_91",
+   "lang": "es",
+   "style": "clinical",
+   "text": "La abuela Rosa guardó una foca en el paseo. ¿Qué guardó la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_a70dfd84_71",
+   "lang": "es",
+   "style": "clinical",
+   "text": "Mi amiga Lola vio una foca. ¿Qué vio mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_e52738ed_91",
+   "lang": "es",
+   "style": "clinical",
+   "text": "La abuela Rosa dibujó una foca esta mañana. ¿Qué dibujó la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_d118c714_97",
+   "lang": "es",
+   "style": "clinical",
+   "text": "Mi amiga Lola guardó una foca detrás de la puerta. ¿Qué guardó mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_3c00f567_81",
+   "lang": "es",
+   "style": "clinical",
+   "text": "El oso marrón vio una foca en el paseo. ¿Qué vio el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_25dbd388_84",
+   "lang": "es",
+   "style": "clinical",
+   "text": "El pirata Simón encontró una foca. ¿Qué encontró el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_17bc3158_93",
+   "lang": "es",
+   "style": "clinical",
+   "text": "El niño pequeño buscaba una foca en el jardín. ¿Qué buscaba el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_f5e84744_94",
+   "lang": "es",
+   "style": "clinical",
+   "text": "El pirata Simón vio una foca detrás de la puerta. ¿Qué vio el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_006fadae_94",
+   "lang": "es",
+   "style": "clinical",
+   "text": "El niño pequeño encontró una foca en el paseo. ¿Qué encontró el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_ae8d5491_81",
+   "lang": "es",
+   "style": "clinical",
+   "text": "La abuela Rosa buscaba una foca. ¿Qué buscaba la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_94bf9a5e_90",
+   "lang": "es",
+   "style": "clinical",
+   "text": "Mi amiga Lola dibujó una foca en el jardín. ¿Qué dibujó mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_ff4a5d2d_87",
+   "lang": "es",
+   "style": "clinical",
+   "text": "El oso marrón guardó una foca esta mañana. ¿Qué guardó el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_e43a383e_91",
+   "lang": "es",
+   "style": "clinical",
+   "text": "Mi amiga Lola buscaba una foca en el paseo. ¿Qué buscaba mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_48d36b95_75",
+   "lang": "es",
+   "style": "clinical",
+   "text": "El oso marrón dibujó una foca. ¿Qué dibujó el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_3b454d9c_93",
+   "lang": "es",
+   "style": "clinical",
+   "text": "El pirata Simón guardó una foca en el jardín. ¿Qué guardó el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_ddd7cec8_84",
+   "lang": "es",
+   "style": "clinical",
+   "text": "El niño pequeño vio una foca esta mañana. ¿Qué vio el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_acc8416b_103",
+   "lang": "es",
+   "style": "clinical",
+   "text": "La abuela Rosa encontró una foca detrás de la puerta. ¿Qué encontró la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_d1f43b6e_78",
+   "lang": "es",
+   "style": "clinical",
+   "text": "El niño pequeño guardó una foca. ¿Qué guardó el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_5188bcd7_86",
+   "lang": "es",
+   "style": "clinical",
+   "text": "La abuela Rosa vio una foca en el jardín. ¿Qué vio la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_c6e31476_93",
+   "lang": "es",
+   "style": "clinical",
+   "text": "Mi amiga Lola encontró una foca esta mañana. ¿Qué encontró mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_0d043923_97",
+   "lang": "es",
+   "style": "clinical",
+   "text": "El oso marrón buscaba una foca detrás de la puerta. ¿Qué buscaba el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_774b9548_92",
+   "lang": "es",
+   "style": "clinical",
+   "text": "El pirata Simón dibujó una foca en el paseo. ¿Qué dibujó el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_8630dc26_91",
+   "lang": "es",
+   "style": "clinical",
+   "text": "El oso marrón encontró la miel en el jardín. ¿Qué encontró el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_21d60f17_93",
+   "lang": "es",
+   "style": "clinical",
+   "text": "El pirata Simón buscaba la miel esta mañana. ¿Qué buscaba el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_9cd397d5_97",
+   "lang": "es",
+   "style": "clinical",
+   "text": "El niño pequeño dibujó la miel detrás de la puerta. ¿Qué dibujó el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_f0fcb54a_90",
+   "lang": "es",
+   "style": "clinical",
+   "text": "La abuela Rosa guardó la miel en el paseo. ¿Qué guardó la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_8c6fa0a9_70",
+   "lang": "es",
+   "style": "clinical",
+   "text": "Mi amiga Lola vio la miel. ¿Qué vio mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_1236eabc_90",
+   "lang": "es",
+   "style": "clinical",
+   "text": "La abuela Rosa dibujó la miel esta mañana. ¿Qué dibujó la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_e949637b_96",
+   "lang": "es",
+   "style": "clinical",
+   "text": "Mi amiga Lola guardó la miel detrás de la puerta. ¿Qué guardó mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_97009fe6_80",
+   "lang": "es",
+   "style": "clinical",
+   "text": "El oso marrón vio la miel en el paseo. ¿Qué vio el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_e0f3a403_83",
+   "lang": "es",
+   "style": "clinical",
+   "text": "El pirata Simón encontró la miel. ¿Qué encontró el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_a07c6b95_92",
+   "lang": "es",
+   "style": "clinical",
+   "text": "El niño pequeño buscaba la miel en el jardín. ¿Qué buscaba el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_f6fc7651_93",
+   "lang": "es",
+   "style": "clinical",
+   "text": "El pirata Simón vio la miel detrás de la puerta. ¿Qué vio el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_76f7b585_93",
+   "lang": "es",
+   "style": "clinical",
+   "text": "El niño pequeño encontró la miel en el paseo. ¿Qué encontró el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_b15bdcb2_80",
+   "lang": "es",
+   "style": "clinical",
+   "text": "La abuela Rosa buscaba la miel. ¿Qué buscaba la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_cb0ed519_89",
+   "lang": "es",
+   "style": "clinical",
+   "text": "Mi amiga Lola dibujó la miel en el jardín. ¿Qué dibujó mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_12b8c9be_86",
+   "lang": "es",
+   "style": "clinical",
+   "text": "El oso marrón guardó la miel esta mañana. ¿Qué guardó el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_7780524d_90",
+   "lang": "es",
+   "style": "clinical",
+   "text": "Mi amiga Lola buscaba la miel en el paseo. ¿Qué buscaba mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_3ab1cf54_74",
+   "lang": "es",
+   "style": "clinical",
+   "text": "El oso marrón dibujó la miel. ¿Qué dibujó el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_250a76fd_92",
+   "lang": "es",
+   "style": "clinical",
+   "text": "El pirata Simón guardó la miel en el jardín. ¿Qué guardó el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_d0605065_83",
+   "lang": "es",
+   "style": "clinical",
+   "text": "El niño pequeño vio la miel esta mañana. ¿Qué vio el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_086fdea4_102",
+   "lang": "es",
+   "style": "clinical",
+   "text": "La abuela Rosa encontró la miel detrás de la puerta. ¿Qué encontró la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_b06a76b5_77",
+   "lang": "es",
+   "style": "clinical",
+   "text": "El niño pequeño guardó la miel. ¿Qué guardó el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_287d8f54_85",
+   "lang": "es",
+   "style": "clinical",
+   "text": "La abuela Rosa vio la miel en el jardín. ¿Qué vio la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_ed0645b5_92",
+   "lang": "es",
+   "style": "clinical",
+   "text": "Mi amiga Lola encontró la miel esta mañana. ¿Qué encontró mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_7579f634_96",
+   "lang": "es",
+   "style": "clinical",
+   "text": "El oso marrón buscaba la miel detrás de la puerta. ¿Qué buscaba el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_52f6b91d_91",
+   "lang": "es",
+   "style": "clinical",
+   "text": "El pirata Simón dibujó la miel en el paseo. ¿Qué dibujó el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_e37a9059_91",
+   "lang": "es",
+   "style": "clinical",
+   "text": "El oso marrón encontró un pato en el jardín. ¿Qué encontró el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_49e433c6_93",
+   "lang": "es",
+   "style": "clinical",
+   "text": "El pirata Simón buscaba un pato esta mañana. ¿Qué buscaba el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_769963b6_97",
+   "lang": "es",
+   "style": "clinical",
+   "text": "El niño pequeño dibujó un pato detrás de la puerta. ¿Qué dibujó el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_711791b5_90",
+   "lang": "es",
+   "style": "clinical",
+   "text": "La abuela Rosa guardó un pato en el paseo. ¿Qué guardó la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_6f7d890a_70",
+   "lang": "es",
+   "style": "clinical",
+   "text": "Mi amiga Lola vio un pato. ¿Qué vio mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_ff7ba4d3_90",
+   "lang": "es",
+   "style": "clinical",
+   "text": "La abuela Rosa dibujó un pato esta mañana. ¿Qué dibujó la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_b7b4610e_96",
+   "lang": "es",
+   "style": "clinical",
+   "text": "Mi amiga Lola guardó un pato detrás de la puerta. ¿Qué guardó mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_182a4e0d_80",
+   "lang": "es",
+   "style": "clinical",
+   "text": "El oso marrón vio un pato en el paseo. ¿Qué vio el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_e361539c_83",
+   "lang": "es",
+   "style": "clinical",
+   "text": "El pirata Simón encontró un pato. ¿Qué encontró el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_287f8182_92",
+   "lang": "es",
+   "style": "clinical",
+   "text": "El niño pequeño buscaba un pato en el jardín. ¿Qué buscaba el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_3455f650_93",
+   "lang": "es",
+   "style": "clinical",
+   "text": "El pirata Simón vio un pato detrás de la puerta. ¿Qué vio el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_70c55046_93",
+   "lang": "es",
+   "style": "clinical",
+   "text": "El niño pequeño encontró un pato en el paseo. ¿Qué encontró el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_906227b7_80",
+   "lang": "es",
+   "style": "clinical",
+   "text": "La abuela Rosa buscaba un pato. ¿Qué buscaba la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_f5d5be5a_89",
+   "lang": "es",
+   "style": "clinical",
+   "text": "Mi amiga Lola dibujó un pato en el jardín. ¿Qué dibujó mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_90c4c177_86",
+   "lang": "es",
+   "style": "clinical",
+   "text": "El oso marrón guardó un pato esta mañana. ¿Qué guardó el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_30fb6786_90",
+   "lang": "es",
+   "style": "clinical",
+   "text": "Mi amiga Lola buscaba un pato en el paseo. ¿Qué buscaba mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_97f07475_74",
+   "lang": "es",
+   "style": "clinical",
+   "text": "El oso marrón dibujó un pato. ¿Qué dibujó el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_82933ef4_92",
+   "lang": "es",
+   "style": "clinical",
+   "text": "El pirata Simón guardó un pato en el jardín. ¿Qué guardó el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_4dbbb158_83",
+   "lang": "es",
+   "style": "clinical",
+   "text": "El niño pequeño vio un pato esta mañana. ¿Qué vio el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_20dcfd5f_102",
+   "lang": "es",
+   "style": "clinical",
+   "text": "La abuela Rosa encontró un pato detrás de la puerta. ¿Qué encontró la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_3daa2aea_77",
+   "lang": "es",
+   "style": "clinical",
+   "text": "El niño pequeño guardó un pato. ¿Qué guardó el niño? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_f36686f3_85",
+   "lang": "es",
+   "style": "clinical",
+   "text": "La abuela Rosa vio un pato en el jardín. ¿Qué vio la abuela? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_156c78b4_92",
+   "lang": "es",
+   "style": "clinical",
+   "text": "Mi amiga Lola encontró un pato esta mañana. ¿Qué encontró mi amiga? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_0a95663f_96",
+   "lang": "es",
+   "style": "clinical",
+   "text": "El oso marrón buscaba un pato detrás de la puerta. ¿Qué buscaba el oso? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
+   "id": "clinical_584d45ba_91",
+   "lang": "es",
+   "style": "clinical",
+   "text": "El pirata Simón dibujó un pato en el paseo. ¿Qué dibujó el pirata? Dilo tú, fuerte y claro.",
+   "source": "carrier"
+  },
+  {
    "id": "child_83ad325d_66",
    "lang": "es",
    "style": "child",
@@ -2548,6 +3423,272 @@
    "lang": "es",
    "style": "child",
    "text": "¡Uy! Papá dijo puente. ¡Escucha otra vez en el próximo turno!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "child_5b2d99a5_67",
+   "lang": "es",
+   "style": "child",
+   "text": "Esta es gota. Y esta es bota. ¡Plic! ¿Qué cayó del cielo? Di: gota.",
+   "source": "pares/intro"
+  },
+  {
+   "id": "child_cf47ece1_37",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Plic! ¿Qué cayó del cielo? Di: gota.",
+   "source": "pares/prompt"
+  },
+  {
+   "id": "child_69886c69_46",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Gota! ¡Esa ga salió del fondo de la garganta!",
+   "source": "pares/celebracion"
+  },
+  {
+   "id": "child_dfe34fee_64",
+   "lang": "es",
+   "style": "child",
+   "text": "Escuché bota, la del pie. La gota nace atrás, en la cueva: gota.",
+   "source": "pares/correccion"
+  },
+  {
+   "id": "child_87ea1e58_20",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Otra vez! Di: gota.",
+   "source": "pares/retry"
+  },
+  {
+   "id": "slow_ffa31fa4_4",
+   "lang": "es",
+   "style": "slow",
+   "text": "gota",
+   "source": "pares/modelado"
+  },
+  {
+   "id": "child_65496acd_59",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Uy! Papá dijo gota. ¡Escucha otra vez en el próximo turno!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "child_5d60d19b_67",
+   "lang": "es",
+   "style": "child",
+   "text": "Esta es beso. Y esta es queso. ¿Qué damos con los labios? Di: beso.",
+   "source": "pares/intro"
+  },
+  {
+   "id": "child_79751ea0_36",
+   "lang": "es",
+   "style": "child",
+   "text": "¿Qué damos con los labios? Di: beso.",
+   "source": "pares/prompt"
+  },
+  {
+   "id": "child_4557d0dc_38",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Beso! ¡Esos labios explotaron genial!",
+   "source": "pares/celebracion"
+  },
+  {
+   "id": "child_c1218cca_71",
+   "lang": "es",
+   "style": "child",
+   "text": "Escuché queso, el del ratón. El beso nace en los labios, delante: beso.",
+   "source": "pares/correccion"
+  },
+  {
+   "id": "child_a6e1f86a_20",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Otra vez! Di: beso.",
+   "source": "pares/retry"
+  },
+  {
+   "id": "slow_857f6412_4",
+   "lang": "es",
+   "style": "slow",
+   "text": "beso",
+   "source": "pares/modelado"
+  },
+  {
+   "id": "child_f6c90bab_59",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Uy! Papá dijo beso. ¡Escucha otra vez en el próximo turno!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "child_b289bee1_60",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Uy! Papá dijo queso. ¡Escucha otra vez en el próximo turno!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "child_a7abb20c_97",
+   "lang": "es",
+   "style": "child",
+   "text": "Esta es foca. Y esta es boca. ¡Aplaude como en el circo! ¿Quién aplaude con las aletas? Di: foca.",
+   "source": "pares/intro"
+  },
+  {
+   "id": "child_9f569533_67",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Aplaude como en el circo! ¿Quién aplaude con las aletas? Di: foca.",
+   "source": "pares/prompt"
+  },
+  {
+   "id": "child_c8becf74_43",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Foca! ¡Ese soplido de conejo llegó al mar!",
+   "source": "pares/celebracion"
+  },
+  {
+   "id": "child_a478012d_79",
+   "lang": "es",
+   "style": "child",
+   "text": "Escuché boca, la de los besos. La foca sopla con los dientes en el labio: foca.",
+   "source": "pares/correccion"
+  },
+  {
+   "id": "child_35b7761e_20",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Otra vez! Di: foca.",
+   "source": "pares/retry"
+  },
+  {
+   "id": "slow_383256d6_4",
+   "lang": "es",
+   "style": "slow",
+   "text": "foca",
+   "source": "pares/modelado"
+  },
+  {
+   "id": "child_94715f87_59",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Uy! Papá dijo foca. ¡Escucha otra vez en el próximo turno!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "child_4fe49c4e_71",
+   "lang": "es",
+   "style": "child",
+   "text": "Esta es miel. Y esta es piel. ¿Qué guarda el oso en el tarro? Di: miel.",
+   "source": "pares/intro"
+  },
+  {
+   "id": "child_8580e192_41",
+   "lang": "es",
+   "style": "child",
+   "text": "¿Qué guarda el oso en el tarro? Di: miel.",
+   "source": "pares/prompt"
+  },
+  {
+   "id": "child_03c261b6_44",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Miel! ¡Esa eme salió zumbando por la nariz!",
+   "source": "pares/celebracion"
+  },
+  {
+   "id": "child_5788c69e_79",
+   "lang": "es",
+   "style": "child",
+   "text": "Escuché piel, la de la mano. La miel zumba por la nariz como una abeja: mmmiel.",
+   "source": "pares/correccion"
+  },
+  {
+   "id": "child_c9b921d6_20",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Otra vez! Di: miel.",
+   "source": "pares/retry"
+  },
+  {
+   "id": "slow_8578af9a_4",
+   "lang": "es",
+   "style": "slow",
+   "text": "miel",
+   "source": "pares/modelado"
+  },
+  {
+   "id": "child_e206da77_59",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Uy! Papá dijo miel. ¡Escucha otra vez en el próximo turno!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "child_01a1d082_59",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Uy! Papá dijo piel. ¡Escucha otra vez en el próximo turno!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "child_d9923beb_78",
+   "lang": "es",
+   "style": "child",
+   "text": "Esta es pato. Y esta es palo. ¡Cuac, cuac! ¿Quién nada en el charco? Di: pato.",
+   "source": "pares/intro"
+  },
+  {
+   "id": "child_be079ae2_48",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Cuac, cuac! ¿Quién nada en el charco? Di: pato.",
+   "source": "pares/prompt"
+  },
+  {
+   "id": "child_fb539916_41",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Pato! ¡Esa te dio un golpecito perfecto!",
+   "source": "pares/celebracion"
+  },
+  {
+   "id": "child_3e76a220_68",
+   "lang": "es",
+   "style": "child",
+   "text": "Escuché palo, el del suelo. El pato da un golpe con la lengua: pato.",
+   "source": "pares/correccion"
+  },
+  {
+   "id": "child_20944489_20",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Otra vez! Di: pato.",
+   "source": "pares/retry"
+  },
+  {
+   "id": "slow_878751ef_4",
+   "lang": "es",
+   "style": "slow",
+   "text": "pato",
+   "source": "pares/modelado"
+  },
+  {
+   "id": "child_3c0bc29a_59",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Uy! Papá dijo pato. ¡Escucha otra vez en el próximo turno!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "child_3b89cc42_59",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Uy! Papá dijo palo. ¡Escucha otra vez en el próximo turno!",
    "source": "pares/roleswap"
   },
   {
@@ -4553,6 +5694,216 @@
    "source": "expansion"
   },
   {
+   "id": "child_9e34d3fa_57",
+   "lang": "es",
+   "style": "child",
+   "text": "A desayunar: ¡Ñam, ñam! ¿Cómo hace la boca? Di: ñam, ñam.",
+   "source": "expansion"
+  },
+  {
+   "id": "tutor_cabcf849_99",
+   "lang": "es",
+   "style": "tutor",
+   "text": "Mastica de forma exagerada un pan imaginario y que el niño mastique contigo al ritmo de “ñam, ñam”.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_e8fbc145_44",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Ñam, ñam! Esto es el pan. ¿Qué es? Di: pan.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_fbb623e0_19",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Otra vez! Di: pan.",
+   "source": "expansion"
+  },
+  {
+   "id": "slow_4f55eeec_3",
+   "lang": "es",
+   "style": "slow",
+   "text": "pan",
+   "source": "expansion"
+  },
+  {
+   "id": "tutor_ab7375a5_85",
+   "lang": "es",
+   "style": "tutor",
+   "text": "Pon un trocito de pan de verdad en su mano, señaladlo y decid “pan” antes de comerlo.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_d0f7f4c6_63",
+   "lang": "es",
+   "style": "child",
+   "text": "Tienes hambre y pides: ¡quiero pan! ¿Qué dices? Di: quiero pan.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_a9f7534f_26",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Otra vez! Di: quiero pan.",
+   "source": "expansion"
+  },
+  {
+   "id": "slow_643415fd_10",
+   "lang": "es",
+   "style": "slow",
+   "text": "quiero pan",
+   "source": "expansion"
+  },
+  {
+   "id": "tutor_361d486b_122",
+   "lang": "es",
+   "style": "tutor",
+   "text": "Sujeta el pan a la vista pero fuera de su alcance y entrégaselo JUSTO cuando lo pida: la petición consigue el premio real.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_aa1720d7_57",
+   "lang": "es",
+   "style": "child",
+   "text": "Hay pan blanco y pan tostado. ¿Cuál quieres? Di: tostado.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_280d5089_23",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Otra vez! Di: tostado.",
+   "source": "expansion"
+  },
+  {
+   "id": "slow_ba2f31bb_7",
+   "lang": "es",
+   "style": "slow",
+   "text": "tostado",
+   "source": "expansion"
+  },
+  {
+   "id": "tutor_42dde78c_104",
+   "lang": "es",
+   "style": "tutor",
+   "text": "Muéstrale dos trozos (blanco y tostado) y dale el que nombre; oled juntos el tostado exagerando “¡mmm!”.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_2261a7d4_53",
+   "lang": "es",
+   "style": "child",
+   "text": "El globo explota: ¡Pum! ¿Cómo hace el globo? Di: pum.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_7b996f93_19",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Otra vez! Di: pum.",
+   "source": "expansion"
+  },
+  {
+   "id": "slow_527275b9_3",
+   "lang": "es",
+   "style": "slow",
+   "text": "pum",
+   "source": "expansion"
+  },
+  {
+   "id": "tutor_46b96704_75",
+   "lang": "es",
+   "style": "tutor",
+   "text": "Inflad los mofletes muy fuerte y dad una palmada a la vez al decir “¡pum!”.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_c856aec1_43",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Pum! Esto es el globo. ¿Qué es? Di: globo.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_3a9a61ac_21",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Otra vez! Di: globo.",
+   "source": "expansion"
+  },
+  {
+   "id": "slow_093752f4_5",
+   "lang": "es",
+   "style": "slow",
+   "text": "globo",
+   "source": "expansion"
+  },
+  {
+   "id": "tutor_5e6cc818_91",
+   "lang": "es",
+   "style": "tutor",
+   "text": "Dale un globo (o una bolsita inflada), señaladlo y decid “globo” dándole toquecitos suaves.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_b0fb45ad_54",
+   "lang": "es",
+   "style": "child",
+   "text": "Para inflarlo hay que soplar. ¿Qué hacemos? Di: sopla.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_b7c89abe_21",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Otra vez! Di: sopla.",
+   "source": "expansion"
+  },
+  {
+   "id": "slow_10329d3e_5",
+   "lang": "es",
+   "style": "slow",
+   "text": "sopla",
+   "source": "expansion"
+  },
+  {
+   "id": "tutor_d5e3db6a_91",
+   "lang": "es",
+   "style": "tutor",
+   "text": "Soplad los dos una pluma o un papelito sobre la mesa, alargando el soplido todo lo posible.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_c0389951_60",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Mira qué gordo! El globo es redondo. ¿Cómo es? Di: redondo.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_d838f77c_23",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Otra vez! Di: redondo.",
+   "source": "expansion"
+  },
+  {
+   "id": "slow_c0119d34_7",
+   "lang": "es",
+   "style": "slow",
+   "text": "redondo",
+   "source": "expansion"
+  },
+  {
+   "id": "tutor_e129372e_83",
+   "lang": "es",
+   "style": "tutor",
+   "text": "Dibujad círculos grandes en el aire con los dos brazos mientras decís “redoooondo”.",
+   "source": "expansion"
+  },
+  {
    "id": "tutor_5a1626c6_145",
    "lang": "es",
    "style": "tutor",
@@ -4875,6 +6226,132 @@
    "source": "expansion"
   },
   {
+   "id": "tutor_9851b3af_144",
+   "lang": "es",
+   "style": "tutor",
+   "text": "Prepara dos cestas o cajas iguales: llena una hasta arriba de juguetes o calcetines y deja la otra completamente vacía. Ponlas delante del niño.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_e46707b1_55",
+   "lang": "es",
+   "style": "child",
+   "text": "¿Cuál está LLENA de cosas? ¡Señálala y dilo! Di: lleno.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_2ca09329_21",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Otra vez! Di: lleno.",
+   "source": "expansion"
+  },
+  {
+   "id": "slow_b8d34f5f_5",
+   "lang": "es",
+   "style": "slow",
+   "text": "lleno",
+   "source": "expansion"
+  },
+  {
+   "id": "tutor_f1f2a418_95",
+   "lang": "es",
+   "style": "tutor",
+   "text": "El niño señala la cesta llena; levantadla juntos exagerando lo mucho que pesa: “¡uf, llenaaa!”.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_1be0216c_49",
+   "lang": "es",
+   "style": "child",
+   "text": "Y esta otra, ¿cómo está? ¡Mira dentro! Di: vacío.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_f492f077_21",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Otra vez! Di: vacío.",
+   "source": "expansion"
+  },
+  {
+   "id": "slow_33971871_5",
+   "lang": "es",
+   "style": "slow",
+   "text": "vacío",
+   "source": "expansion"
+  },
+  {
+   "id": "tutor_dc9f3f8b_100",
+   "lang": "es",
+   "style": "tutor",
+   "text": "Poned la cesta vacía boca abajo sobre la cabeza del niño como un sombrero: no cae nada, ¡está vacía!",
+   "source": "expansion"
+  },
+  {
+   "id": "tutor_9d66a33e_103",
+   "lang": "es",
+   "style": "tutor",
+   "text": "Coge una caja abierta y tres juguetes pequeños. Coloca los juguetes FUERA de la caja, delante del niño.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_5eaf5508_62",
+   "lang": "es",
+   "style": "child",
+   "text": "Los juguetes van a su casa. ¿Qué hacemos? ¡A METER! Di: meter.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_1274c456_21",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Otra vez! Di: meter.",
+   "source": "expansion"
+  },
+  {
+   "id": "slow_c5611fe2_5",
+   "lang": "es",
+   "style": "slow",
+   "text": "meter",
+   "source": "expansion"
+  },
+  {
+   "id": "tutor_5cf31ae1_96",
+   "lang": "es",
+   "style": "tutor",
+   "text": "El niño mete un juguete en la caja con cada palabra; celebrad el último con un “¡todos dentro!”.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_181edded_67",
+   "lang": "es",
+   "style": "child",
+   "text": "Ahora al revés. ¿Qué hacemos con los juguetes? ¡A SACAR! Di: sacar.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_a31a5d2b_21",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Otra vez! Di: sacar.",
+   "source": "expansion"
+  },
+  {
+   "id": "slow_a8ca4b1d_5",
+   "lang": "es",
+   "style": "slow",
+   "text": "sacar",
+   "source": "expansion"
+  },
+  {
+   "id": "tutor_f70f3ea6_91",
+   "lang": "es",
+   "style": "tutor",
+   "text": "El niño saca los juguetes uno a uno; contádlos en fila al salir: “¡uno, dos y tres fuera!”.",
+   "source": "expansion"
+  },
+  {
    "id": "child_6380e972_38",
    "lang": "es",
    "style": "child",
@@ -5071,6 +6548,13 @@
    "source": "ejercicios"
   },
   {
+   "id": "slow_3fa2f581_6",
+   "lang": "es",
+   "style": "slow",
+   "text": "tomate",
+   "source": "ejercicios"
+  },
+  {
    "id": "tutor_c80ec11f_122",
    "lang": "es",
    "style": "tutor",
@@ -5092,10 +6576,10 @@
    "source": "ejercicios"
   },
   {
-   "id": "slow_4f55eeec_3",
+   "id": "slow_1e5dfd21_4",
    "lang": "es",
    "style": "slow",
-   "text": "pan",
+   "text": "pino",
    "source": "ejercicios"
   },
   {
@@ -5302,6 +6786,20 @@
    "source": "ejercicios"
   },
   {
+   "id": "tutor_d6f074be_62",
+   "lang": "es",
+   "style": "tutor",
+   "text": "Empieza por u, es pequeña, morada y viene en racimos. ¿Qué es?",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_344367f1_6",
+   "lang": "es",
+   "style": "child",
+   "text": "sandía",
+   "source": "ejercicios"
+  },
+  {
    "id": "tutor_c169051d_118",
    "lang": "es",
    "style": "tutor",
@@ -5484,6 +6982,27 @@
    "source": "ejercicios"
   },
   {
+   "id": "slow_ae1de82d_7",
+   "lang": "es",
+   "style": "slow",
+   "text": "gallina",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_2e6fea5e_5",
+   "lang": "es",
+   "style": "child",
+   "text": "gallo",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_ae1de82d_7",
+   "lang": "es",
+   "style": "child",
+   "text": "gallina",
+   "source": "ejercicios"
+  },
+  {
    "id": "tutor_cdbcd0c5_125",
    "lang": "es",
    "style": "tutor",
@@ -5621,6 +7140,216 @@
    "lang": "es",
    "style": "slow",
    "text": "cómo",
+   "source": "ejercicios"
+  },
+  {
+   "id": "tutor_a738597f_274",
+   "lang": "es",
+   "style": "tutor",
+   "text": "Primero en silencio: dile con tu voz normal «busca la vaca» y que la toque. Cuando acierte tranquilo, sube POCO A POCO el ruido de fondo desde el Panel del Adulto (abajo) y repite con otro animal. Tu voz es la señal: no grites ni exageres; si lo ves fatigado, baja el ruido.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_6cb1c0c1_89",
+   "lang": "es",
+   "style": "child",
+   "text": "Granja en casa: esconded los animales de peluche y buscadlos con la música puesta bajita.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "tutor_d4e96ff9_14",
+   "lang": "es",
+   "style": "tutor",
+   "text": "Busca la vaca.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_24aec1a2_5",
+   "lang": "es",
+   "style": "child",
+   "text": "oveja",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_a370d085_7",
+   "lang": "es",
+   "style": "child",
+   "text": "caballo",
+   "source": "ejercicios"
+  },
+  {
+   "id": "tutor_38477d85_15",
+   "lang": "es",
+   "style": "tutor",
+   "text": "Busca la oveja.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "tutor_34f6a630_17",
+   "lang": "es",
+   "style": "tutor",
+   "text": "Busca la gallina.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "tutor_0f83b64e_273",
+   "lang": "es",
+   "style": "tutor",
+   "text": "PRIMERO sin voz: di la palabra solo moviendo los labios, despacio y con tu cara bien iluminada, y que el niño toque la imagen leyendo tus labios. DESPUÉS pulsa 🔊 para devolverle el sonido y confirmar. No le corrijas con un «no»: repite el modelo con voz y labios a la vez.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_b26add80_93",
+   "lang": "es",
+   "style": "child",
+   "text": "Jugad al espejo mudo: uno dice una palabra sin voz y el otro la adivina. ¡Cambiad de papeles!",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_878751ef_4",
+   "lang": "es",
+   "style": "child",
+   "text": "pato",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_05033d87_4",
+   "lang": "es",
+   "style": "child",
+   "text": "luna",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_c3b10f72_4",
+   "lang": "es",
+   "style": "child",
+   "text": "boca",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_b8c80eb6_4",
+   "lang": "es",
+   "style": "child",
+   "text": "flor",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_728b3cb4_4",
+   "lang": "es",
+   "style": "child",
+   "text": "tren",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_c4206de8_3",
+   "lang": "es",
+   "style": "child",
+   "text": "oso",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_6a40feb5_3",
+   "lang": "es",
+   "style": "child",
+   "text": "pie",
+   "source": "ejercicios"
+  },
+  {
+   "id": "tutor_43cde3f8_274",
+   "lang": "es",
+   "style": "tutor",
+   "text": "Cuatro palabras que suenan casi igual. Di tú la palabra objetivo con voz normal y que la toque. En cada ronda hazlo un poco más difícil CON TU CUERPO: baja el volumen de tu voz o aléjate un paso más. La app no toca el volumen: el estresor eres tú, y tú decides cuándo parar.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_77d852dc_83",
+   "lang": "es",
+   "style": "child",
+   "text": "Teléfono viajero: susúrrale la palabra al oído desde cada esquina de la habitación.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "slow_d30123c1_5",
+   "lang": "es",
+   "style": "slow",
+   "text": "plato",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_d30123c1_5",
+   "lang": "es",
+   "style": "child",
+   "text": "plato",
+   "source": "ejercicios"
+  },
+  {
+   "id": "tutor_e653dd09_240",
+   "lang": "es",
+   "style": "tutor",
+   "text": "Pulsa 🔊 para que oiga la orden COMPLETA de tres pasos. Después, candado humano: sujeta sus manos con suavidad y cuenta hasta 5 en silencio antes de dejarle tocar. Esa espera obliga a guardar la orden en la memoria, no a vaciarla corriendo.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_b29a8267_109",
+   "lang": "es",
+   "style": "child",
+   "text": "Circuito de órdenes: «toca la puerta, luego el sofá y después la ventana», con la misma espera de 5 segundos.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_7befe95b_46",
+   "lang": "es",
+   "style": "child",
+   "text": "Toca el sol, luego el perro y después la casa.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_bf37f29d_46",
+   "lang": "es",
+   "style": "child",
+   "text": "Toca la luna, luego el gato y después la flor.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "slow_b8c80eb6_4",
+   "lang": "es",
+   "style": "slow",
+   "text": "flor",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_e7b691e5_45",
+   "lang": "es",
+   "style": "child",
+   "text": "Toca el pan, luego el pez y después el árbol.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "slow_634b810c_3",
+   "lang": "es",
+   "style": "slow",
+   "text": "pez",
+   "source": "ejercicios"
+  },
+  {
+   "id": "slow_f4de04ab_5",
+   "lang": "es",
+   "style": "slow",
+   "text": "árbol",
+   "source": "ejercicios"
+  },
+  {
+   "id": "tutor_411f7e0b_212",
+   "lang": "es",
+   "style": "tutor",
+   "text": "Ponte DETRÁS del niño, donde no te vea. Haz sonar el objeto a un lado (izquierda o derecha) y que señale con el brazo de dónde vino el sonido ANTES de girarse a mirar. Alterna los lados sin seguir un patrón fijo.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_eef076d1_82",
+   "lang": "es",
+   "style": "child",
+   "text": "Marco Polo sonoro: con los ojos cerrados, que camine hacia la campanita que suena.",
    "source": "ejercicios"
   },
   {
@@ -5904,13 +7633,6 @@
    "source": "ejercicios"
   },
   {
-   "id": "child_a370d085_7",
-   "lang": "es",
-   "style": "child",
-   "text": "caballo",
-   "source": "ejercicios"
-  },
-  {
    "id": "child_ba492154_7",
    "lang": "es",
    "style": "child",
@@ -5964,6 +7686,90 @@
    "lang": "es",
    "style": "child",
    "text": "fresa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "tutor_15cee7a8_330",
+   "lang": "es",
+   "style": "tutor",
+   "text": "Pulsa 🔊 para oír la orden con DOS pistas a la vez (forma Y color). Si atiende a una sola pista y falla (toca el círculo rojo), NO lo penalices: verbaliza tú la contingencia con naturalidad —«ese es rojo, pero es un círculo; yo quiero el cuadrado»— y deja que lo intente otra vez. Premia el intento comunicativo, no la perfección.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_3a20ab6d_89",
+   "lang": "es",
+   "style": "child",
+   "text": "Búsqueda con dos pistas por la casa: «tráeme algo BLANDO y AZUL». Celebrad cada hallazgo.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "tutor_9501b777_17",
+   "lang": "es",
+   "style": "tutor",
+   "text": "El cuadrado rojo.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_776fa898_13",
+   "lang": "es",
+   "style": "child",
+   "text": "cuadrado rojo",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_4ad53f40_12",
+   "lang": "es",
+   "style": "child",
+   "text": "círculo rojo",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_4437be56_13",
+   "lang": "es",
+   "style": "child",
+   "text": "cuadrado azul",
+   "source": "ejercicios"
+  },
+  {
+   "id": "tutor_aa143d7b_16",
+   "lang": "es",
+   "style": "tutor",
+   "text": "El círculo azul.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_9748666e_12",
+   "lang": "es",
+   "style": "child",
+   "text": "círculo azul",
+   "source": "ejercicios"
+  },
+  {
+   "id": "tutor_5adcbbc1_21",
+   "lang": "es",
+   "style": "tutor",
+   "text": "La estrella amarilla.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_f91e6631_16",
+   "lang": "es",
+   "style": "child",
+   "text": "círculo amarillo",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_5f49b4f0_17",
+   "lang": "es",
+   "style": "child",
+   "text": "estrella amarilla",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_df2e4b32_16",
+   "lang": "es",
+   "style": "child",
+   "text": "corazón amarillo",
    "source": "ejercicios"
   },
   {
@@ -6044,13 +7850,6 @@
    "source": "ejercicios"
   },
   {
-   "id": "child_05033d87_4",
-   "lang": "es",
-   "style": "child",
-   "text": "luna",
-   "source": "ejercicios"
-  },
-  {
    "id": "slow_432688b0_23",
    "lang": "es",
    "style": "slow",
@@ -6076,6 +7875,27 @@
    "lang": "es",
    "style": "child",
    "text": "taza",
+   "source": "ejercicios"
+  },
+  {
+   "id": "slow_b2f28bf3_19",
+   "lang": "es",
+   "style": "slow",
+   "text": "sol, col, gol, mesa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_f28dd471_3",
+   "lang": "es",
+   "style": "child",
+   "text": "col",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_401b9265_3",
+   "lang": "es",
+   "style": "child",
+   "text": "gol",
    "source": "ejercicios"
   },
   {
@@ -6226,6 +8046,13 @@
    "source": "ejercicios"
   },
   {
+   "id": "slow_b7a317f8_7",
+   "lang": "es",
+   "style": "slow",
+   "text": "burdina",
+   "source": "ejercicios"
+  },
+  {
    "id": "tutor_5084bbe3_235",
    "lang": "es",
    "style": "tutor",
@@ -6237,6 +8064,69 @@
    "lang": "es",
    "style": "child",
    "text": "Dibujad la letra objetivo gigante en el aire: la barriga de la «b» mira hacia delante, como al leer.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "tutor_212bdd79_295",
+   "lang": "es",
+   "style": "tutor",
+   "text": "El niño nombra cada dibujo EN VOZ ALTA y en orden de lectura (de izquierda a derecha), tocándolo al nombrarlo. El estresor eres tú: persigue su dedo por la pantalla con el tuyo, como un juego de pilla-pilla. Sin cronómetros: si lo ves acelerado o frustrado, frena tu dedo o detén la persecución.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_e9703a91_92",
+   "lang": "es",
+   "style": "child",
+   "text": "RAN de casa: recorred una estantería nombrando cada objeto seguido, como leyendo un renglón.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "slow_d26cdb06_64",
+   "lang": "es",
+   "style": "slow",
+   "text": "sol, gato, pan, flor, pan, flor, sol, gato, gato, sol, flor, pan",
+   "source": "ejercicios"
+  },
+  {
+   "id": "slow_b3d88d76_70",
+   "lang": "es",
+   "style": "slow",
+   "text": "luna, perro, casa, pez, casa, pez, luna, perro, perro, luna, pez, casa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "slow_1603b8b9_4",
+   "lang": "es",
+   "style": "slow",
+   "text": "rojo",
+   "source": "ejercicios"
+  },
+  {
+   "id": "slow_49019a1b_4",
+   "lang": "es",
+   "style": "slow",
+   "text": "azul",
+   "source": "ejercicios"
+  },
+  {
+   "id": "slow_d2a54155_5",
+   "lang": "es",
+   "style": "slow",
+   "text": "verde",
+   "source": "ejercicios"
+  },
+  {
+   "id": "slow_817bf290_8",
+   "lang": "es",
+   "style": "slow",
+   "text": "amarillo",
+   "source": "ejercicios"
+  },
+  {
+   "id": "slow_1b222b80_85",
+   "lang": "es",
+   "style": "slow",
+   "text": "rojo, azul, verde, amarillo, verde, amarillo, rojo, azul, azul, verde, amarillo, rojo",
    "source": "ejercicios"
   },
   {
@@ -12477,6 +14367,328 @@
    "source": "ejercicios"
   },
   {
+   "id": "eu_tutor_a738597f_274",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Primero en silencio: dile con tu voz normal «busca la vaca» y que la toque. Cuando acierte tranquilo, sube POCO A POCO el ruido de fondo desde el Panel del Adulto (abajo) y repite con otro animal. Tu voz es la señal: no grites ni exageres; si lo ves fatigado, baja el ruido.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_6cb1c0c1_89",
+   "lang": "eu",
+   "style": "child",
+   "text": "Granja en casa: esconded los animales de peluche y buscadlos con la música puesta bajita.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_d4e96ff9_14",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Busca la vaca.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_1cd686a0_4",
+   "lang": "eu",
+   "style": "child",
+   "text": "vaca",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_24aec1a2_5",
+   "lang": "eu",
+   "style": "child",
+   "text": "oveja",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_a370d085_7",
+   "lang": "eu",
+   "style": "child",
+   "text": "caballo",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_ae1de82d_7",
+   "lang": "eu",
+   "style": "child",
+   "text": "gallina",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_38477d85_15",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Busca la oveja.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_34f6a630_17",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Busca la gallina.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_0f83b64e_273",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "PRIMERO sin voz: di la palabra solo moviendo los labios, despacio y con tu cara bien iluminada, y que el niño toque la imagen leyendo tus labios. DESPUÉS pulsa 🔊 para devolverle el sonido y confirmar. No le corrijas con un «no»: repite el modelo con voz y labios a la vez.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_b26add80_93",
+   "lang": "eu",
+   "style": "child",
+   "text": "Jugad al espejo mudo: uno dice una palabra sin voz y el otro la adivina. ¡Cambiad de papeles!",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_878751ef_4",
+   "lang": "eu",
+   "style": "slow",
+   "text": "pato",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_878751ef_4",
+   "lang": "eu",
+   "style": "child",
+   "text": "pato",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_05033d87_4",
+   "lang": "eu",
+   "style": "child",
+   "text": "luna",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_e2363da1_3",
+   "lang": "eu",
+   "style": "child",
+   "text": "sol",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_c3b10f72_4",
+   "lang": "eu",
+   "style": "slow",
+   "text": "boca",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_c3b10f72_4",
+   "lang": "eu",
+   "style": "child",
+   "text": "boca",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_b8c80eb6_4",
+   "lang": "eu",
+   "style": "child",
+   "text": "flor",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_728b3cb4_4",
+   "lang": "eu",
+   "style": "child",
+   "text": "tren",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_c4206de8_3",
+   "lang": "eu",
+   "style": "slow",
+   "text": "oso",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_c4206de8_3",
+   "lang": "eu",
+   "style": "child",
+   "text": "oso",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_6a40feb5_3",
+   "lang": "eu",
+   "style": "child",
+   "text": "pie",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_4799fa89_3",
+   "lang": "eu",
+   "style": "child",
+   "text": "uva",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_43cde3f8_274",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Cuatro palabras que suenan casi igual. Di tú la palabra objetivo con voz normal y que la toque. En cada ronda hazlo un poco más difícil CON TU CUERPO: baja el volumen de tu voz o aléjate un paso más. La app no toca el volumen: el estresor eres tú, y tú decides cuándo parar.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_77d852dc_83",
+   "lang": "eu",
+   "style": "child",
+   "text": "Teléfono viajero: susúrrale la palabra al oído desde cada esquina de la habitación.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_d30123c1_5",
+   "lang": "eu",
+   "style": "slow",
+   "text": "plato",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_d30123c1_5",
+   "lang": "eu",
+   "style": "child",
+   "text": "plato",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_1c60f484_4",
+   "lang": "eu",
+   "style": "child",
+   "text": "gato",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_6bed91f2_6",
+   "lang": "eu",
+   "style": "child",
+   "text": "zapato",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_1c60f484_4",
+   "lang": "eu",
+   "style": "slow",
+   "text": "gato",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_6bed91f2_6",
+   "lang": "eu",
+   "style": "slow",
+   "text": "zapato",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_e653dd09_240",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Pulsa 🔊 para que oiga la orden COMPLETA de tres pasos. Después, candado humano: sujeta sus manos con suavidad y cuenta hasta 5 en silencio antes de dejarle tocar. Esa espera obliga a guardar la orden en la memoria, no a vaciarla corriendo.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_b29a8267_109",
+   "lang": "eu",
+   "style": "child",
+   "text": "Circuito de órdenes: «toca la puerta, luego el sofá y después la ventana», con la misma espera de 5 segundos.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_7befe95b_46",
+   "lang": "eu",
+   "style": "child",
+   "text": "Toca el sol, luego el perro y después la casa.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_e2363da1_3",
+   "lang": "eu",
+   "style": "slow",
+   "text": "sol",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_8e40a2f7_5",
+   "lang": "eu",
+   "style": "slow",
+   "text": "perro",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_9f253efd_4",
+   "lang": "eu",
+   "style": "slow",
+   "text": "casa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_bf37f29d_46",
+   "lang": "eu",
+   "style": "child",
+   "text": "Toca la luna, luego el gato y después la flor.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_05033d87_4",
+   "lang": "eu",
+   "style": "slow",
+   "text": "luna",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_b8c80eb6_4",
+   "lang": "eu",
+   "style": "slow",
+   "text": "flor",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_e7b691e5_45",
+   "lang": "eu",
+   "style": "child",
+   "text": "Toca el pan, luego el pez y después el árbol.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_4f55eeec_3",
+   "lang": "eu",
+   "style": "slow",
+   "text": "pan",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_634b810c_3",
+   "lang": "eu",
+   "style": "slow",
+   "text": "pez",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_f4de04ab_5",
+   "lang": "eu",
+   "style": "slow",
+   "text": "árbol",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_411f7e0b_212",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Ponte DETRÁS del niño, donde no te vea. Haz sonar el objeto a un lado (izquierda o derecha) y que señale con el brazo de dónde vino el sonido ANTES de girarse a mirar. Alterna los lados sin seguir un patrón fijo.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_eef076d1_82",
+   "lang": "eu",
+   "style": "child",
+   "text": "Marco Polo sonoro: con los ojos cerrados, que camine hacia la campanita que suena.",
+   "source": "ejercicios"
+  },
+  {
    "id": "eu_tutor_af94d2d8_120",
    "lang": "eu",
    "style": "tutor",
@@ -12820,6 +15032,90 @@
    "source": "ejercicios"
   },
   {
+   "id": "eu_tutor_15cee7a8_330",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Pulsa 🔊 para oír la orden con DOS pistas a la vez (forma Y color). Si atiende a una sola pista y falla (toca el círculo rojo), NO lo penalices: verbaliza tú la contingencia con naturalidad —«ese es rojo, pero es un círculo; yo quiero el cuadrado»— y deja que lo intente otra vez. Premia el intento comunicativo, no la perfección.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_3a20ab6d_89",
+   "lang": "eu",
+   "style": "child",
+   "text": "Búsqueda con dos pistas por la casa: «tráeme algo BLANDO y AZUL». Celebrad cada hallazgo.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_9501b777_17",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "El cuadrado rojo.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_776fa898_13",
+   "lang": "eu",
+   "style": "child",
+   "text": "cuadrado rojo",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_4ad53f40_12",
+   "lang": "eu",
+   "style": "child",
+   "text": "círculo rojo",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_4437be56_13",
+   "lang": "eu",
+   "style": "child",
+   "text": "cuadrado azul",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_aa143d7b_16",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "El círculo azul.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_9748666e_12",
+   "lang": "eu",
+   "style": "child",
+   "text": "círculo azul",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_5adcbbc1_21",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "La estrella amarilla.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_f91e6631_16",
+   "lang": "eu",
+   "style": "child",
+   "text": "círculo amarillo",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_5f49b4f0_17",
+   "lang": "eu",
+   "style": "child",
+   "text": "estrella amarilla",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_df2e4b32_16",
+   "lang": "eu",
+   "style": "child",
+   "text": "corazón amarillo",
+   "source": "ejercicios"
+  },
+  {
    "id": "eu_tutor_f4c0a7b7_191",
    "lang": "eu",
    "style": "tutor",
@@ -13097,6 +15393,69 @@
    "lang": "eu",
    "style": "child",
    "text": "Marraztu letra objektiboa erraldoi airean: \"b\"-ren tripa aurrera begira dago, irakurtzean bezala.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_212bdd79_295",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "El niño nombra cada dibujo EN VOZ ALTA y en orden de lectura (de izquierda a derecha), tocándolo al nombrarlo. El estresor eres tú: persigue su dedo por la pantalla con el tuyo, como un juego de pilla-pilla. Sin cronómetros: si lo ves acelerado o frustrado, frena tu dedo o detén la persecución.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_e9703a91_92",
+   "lang": "eu",
+   "style": "child",
+   "text": "RAN de casa: recorred una estantería nombrando cada objeto seguido, como leyendo un renglón.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_d26cdb06_64",
+   "lang": "eu",
+   "style": "slow",
+   "text": "sol, gato, pan, flor, pan, flor, sol, gato, gato, sol, flor, pan",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_b3d88d76_70",
+   "lang": "eu",
+   "style": "slow",
+   "text": "luna, perro, casa, pez, casa, pez, luna, perro, perro, luna, pez, casa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_1603b8b9_4",
+   "lang": "eu",
+   "style": "slow",
+   "text": "rojo",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_49019a1b_4",
+   "lang": "eu",
+   "style": "slow",
+   "text": "azul",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_d2a54155_5",
+   "lang": "eu",
+   "style": "slow",
+   "text": "verde",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_817bf290_8",
+   "lang": "eu",
+   "style": "slow",
+   "text": "amarillo",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_1b222b80_85",
+   "lang": "eu",
+   "style": "slow",
+   "text": "rojo, azul, verde, amarillo, verde, amarillo, rojo, azul, azul, verde, amarillo, rojo",
    "source": "ejercicios"
   }
  ]

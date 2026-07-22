@@ -1,6 +1,7 @@
 // ============================================================================
 // Valeria+ · Banco de ejercicios (Audición + Lenguaje) — módulo PURO de datos
-// La base de datos de mini-juegos (13 Audición + 7 Lenguaje) con sus reglas
+// La base de datos de mini-juegos (18 Audición + 7 Lenguaje + 6 TEA + 6 Dislexia)
+// con sus reglas
 // EPT-3, rondas de contenido (VARIANTS) y sesión por defecto. Antes vivía dentro
 // de ValeriaExercisePlayerScreen; se extrajo a un módulo puro para que:
 //   1) el player lo consuma como antes (misma DB, sin duplicar datos), y
@@ -19,7 +20,10 @@ import { META_BY_ID } from './valeriaExerciseMeta';
 // 'syn' (Dislexia): síntesis fonémica rítmica — fonemas aislados con latencia
 // forzada y fusión por micro o botonera de Juez. 'rotation' (Dislexia): rastreo
 // visual de grafías con inversión espacial (b/d, p/q) con captura de misclicks.
-export type Stage = 'phrase' | 'vowels' | 'fill' | 'intruder' | 'emotions' | 'order' | 'instruction' | 'choice' | 'plural' | 'syn' | 'rotation';
+// 'ran' (Dislexia DX-6): matriz de denominación rápida (RAN) — el niño nombra
+// cada dibujo en orden de lectura y lo toca al nombrarlo; el estresor temporal
+// es la "persecución dactilar" ANALÓGICA del adulto, jamás un cronómetro.
+export type Stage = 'phrase' | 'vowels' | 'fill' | 'intruder' | 'emotions' | 'order' | 'instruction' | 'choice' | 'plural' | 'syn' | 'rotation' | 'ran';
 
 export interface Tile { cap: string; emoji: string; }
 
@@ -36,6 +40,8 @@ export interface Exercise {
   materials?: string;      // material real necesario, anunciado ANTES de empezar
   // datos de mini-juego
   phrase?: string; phraseEmoji?: string;
+  // 'vowels': fichas imagen↔vocal · 'ran': matriz de denominación rápida
+  // (los dibujos se nombran y tocan en orden de lectura).
   tiles?: Tile[];
   fillBefore?: string; fillAfter?: string; fillAnswer?: string; fillEmoji?: string; fillCap?: string;
   intruder?: Tile[]; intruderAnswer?: number;
@@ -88,7 +94,7 @@ export interface Exercise {
 }
 
 // ----------------------------------------------------------------------------
-// Base de datos de ejercicios (13 Audición + 7 Lenguaje) con reglas EPT-3
+// Base de datos de ejercicios (18 Audición + 7 Lenguaje + 6 TEA + 6 Dislexia) con reglas EPT-3
 // ----------------------------------------------------------------------------
 // Código, nombre, categoría y edad vienen de la fuente única compartida con
 // la pantalla de selección (valeriaExerciseMeta).
@@ -180,6 +186,53 @@ export const DB: Record<string, Exercise> = {
     micTarget: 'cómo', micAlt: ['qué'], micPrompt: 'Cuando no te entienda, pulsa el micro y que pida: «¿cómo?» o «¿qué?»',
     move: 'Susurra una orden desde lejos; si no se entiende, que venga corriendo y pida "¿qué?".',
     ept: ['Se queda callado o abandona cuando no entiende algo.', 'Pide «¿qué?» si tú le recuerdas que puede pedirlo.', 'Pide «¿qué?» o «¿cómo?» él solo cuando no entiende.'] },
+
+  // ==========================================================================
+  // Rehabilitación auditiva ACOPROS (Expansión de Protocolos) · 5 ejercicios.
+  // Escucha en ruido para usuarios de audífono/implante: el entrenamiento en
+  // silencio clínico fracasa luego en aulas ruidosas. TODO estresor acústico es
+  // MANUAL (muro MDR): el deslizador de ruido del Panel del Adulto, la propia
+  // voz del cuidador (volumen/distancia) o sus labios sin voz. La app jamás
+  // ajusta la relación señal/ruido ni mide umbrales.
+  // ==========================================================================
+  ra1: { ...meta('ra1'),
+    read: 'Primero en silencio: dile con tu voz normal «busca la vaca» y que la toque. Cuando acierte tranquilo, sube POCO A POCO el ruido de fondo desde el Panel del Adulto (abajo) y repite con otro animal. Tu voz es la señal: no grites ni exageres; si lo ves fatigado, baja el ruido.',
+    stage: 'choice', stageLabel: 'Escucha la voz del adulto y toca el animal',
+    choicePrompt: 'Busca la vaca.', choiceLabel: 'Apoyo: oír la orden', choiceVoice: 'tutor',
+    options: [{ cap: 'vaca', emoji: '🐄' }, { cap: 'oveja', emoji: '🐑' }, { cap: 'caballo', emoji: '🐴' }, { cap: 'gallina', emoji: '🐔' }],
+    optionAnswer: 0,
+    move: 'Granja en casa: esconded los animales de peluche y buscadlos con la música puesta bajita.',
+    ept: ['Todavía no encuentra el animal pedido, ni en silencio.', 'Acierta en silencio, pero pierde la orden al subir el ruido.', 'Encuentra el animal pedido incluso con ruido de fondo alto.'] },
+  ra2: { ...meta('ra2'),
+    read: 'PRIMERO sin voz: di la palabra solo moviendo los labios, despacio y con tu cara bien iluminada, y que el niño toque la imagen leyendo tus labios. DESPUÉS pulsa 🔊 para devolverle el sonido y confirmar. No le corrijas con un «no»: repite el modelo con voz y labios a la vez.',
+    stage: 'choice', stageLabel: 'Lee los labios del adulto y toca la imagen',
+    choicePrompt: 'pato', choiceLabel: 'Después: oír la palabra con voz', choiceVoice: 'slow',
+    options: [{ cap: 'pato', emoji: '🦆' }, { cap: 'luna', emoji: '🌙' }, { cap: 'sol', emoji: '☀️' }],
+    optionAnswer: 0,
+    move: 'Jugad al espejo mudo: uno dice una palabra sin voz y el otro la adivina. ¡Cambiad de papeles!',
+    ept: ['Todavía no reconoce ninguna palabra solo por los labios.', 'La reconoce si después le das el modelo con voz y labios juntos.', 'Reconoce la palabra él solo, únicamente leyendo los labios.'] },
+  ra3: { ...meta('ra3'),
+    read: 'Cuatro palabras que suenan casi igual. Di tú la palabra objetivo con voz normal y que la toque. En cada ronda hazlo un poco más difícil CON TU CUERPO: baja el volumen de tu voz o aléjate un paso más. La app no toca el volumen: el estresor eres tú, y tú decides cuándo parar.',
+    stage: 'choice', stageLabel: 'Escucha la palabra y toca la imagen correcta',
+    choicePrompt: 'plato', choiceLabel: 'Apoyo: oír la palabra', choiceVoice: 'slow',
+    options: [{ cap: 'plato', emoji: '🍽️' }, { cap: 'pato', emoji: '🦆' }, { cap: 'gato', emoji: '🐱' }, { cap: 'zapato', emoji: '👟' }],
+    optionAnswer: 0,
+    move: 'Teléfono viajero: susúrrale la palabra al oído desde cada esquina de la habitación.',
+    ept: ['Todavía confunde las palabras parecidas, incluso con voz cercana y clara.', 'Acierta con voz normal y cerca, pero falla al bajar la voz o alejarte.', 'Distingue la palabra correcta incluso con voz bajita o desde lejos.'] },
+  ra4: { ...meta('ra4'),
+    read: 'Pulsa 🔊 para que oiga la orden COMPLETA de tres pasos. Después, candado humano: sujeta sus manos con suavidad y cuenta hasta 5 en silencio antes de dejarle tocar. Esa espera obliga a guardar la orden en la memoria, no a vaciarla corriendo.',
+    stage: 'order', stageLabel: 'Escucha los tres pasos, espera y tócalos en orden',
+    parts: [{ role: 'Primero', cap: 'sol', emoji: '☀️' }, { role: 'Luego', cap: 'perro', emoji: '🐶' }, { role: 'Después', cap: 'casa', emoji: '🏠' }],
+    sentence: 'Toca el sol, luego el perro y después la casa.',
+    move: 'Circuito de órdenes: «toca la puerta, luego el sofá y después la ventana», con la misma espera de 5 segundos.',
+    ept: ['Todavía no retiene la secuencia: toca lo primero que ve.', 'Completa la secuencia si le repites la orden o le recuerdas un paso.', 'Guarda los tres pasos durante la espera y los toca en orden él solo.'] },
+  ra5: { ...meta('ra5'),
+    materials: 'Una campanita, unas llaves o un sonajero (algo que suene claro)',
+    read: 'Ponte DETRÁS del niño, donde no te vea. Haz sonar el objeto a un lado (izquierda o derecha) y que señale con el brazo de dónde vino el sonido ANTES de girarse a mirar. Alterna los lados sin seguir un patrón fijo.',
+    stage: 'instruction', instrIcon: '🧭', instrHint: 'Escucha binaural: ¿de qué lado viene el sonido? Señalar antes de mirar. Clave en usuarios de implante unilateral.',
+    capture: 'Anota qué lado acierta más y cuál le cuesta (p. ej. «acierta casi siempre a la derecha, duda a la izquierda»).',
+    move: 'Marco Polo sonoro: con los ojos cerrados, que camine hacia la campanita que suena.',
+    ept: ['Todavía no localiza el lado del sonido: señala al azar o no responde.', 'Acierta el lado si repites el sonido varias veces o es muy fuerte.', 'Señala el lado correcto a la primera, incluso con sonidos suaves.'] },
   atencion_conjunta: { ...meta('atencion_conjunta'),
     read: 'Llama al niño por su nombre y haz burbujas. Busca su mirada y el contacto visual.',
     stage: 'instruction', instrIcon: '👀', instrHint: 'Desarrolla contacto visual, seguimiento de la mirada y respuesta al nombre.',
@@ -252,7 +305,7 @@ export const DB: Record<string, Exercise> = {
     ] },
 
   // ==========================================================================
-  // Módulo TEA (PRT + TCC) · 5 ejercicios sobre infraestructura existente.
+  // Módulo TEA (PRT + TCC) · 6 ejercicios sobre infraestructura existente.
   // El estresor SIEMPRE es manual y reversible (Panel del Adulto); la app solo
   // registra lo que el adulto decidió. Ningún ejercicio ajusta dificultad.
   // ==========================================================================
@@ -284,9 +337,17 @@ export const DB: Record<string, Exercise> = {
     intruder: [{ cap: 'perro', emoji: '🐶' }, { cap: 'gato', emoji: '🐱' }, { cap: 'caballo', emoji: '🐴' }, { cap: 'cuchara', emoji: '🥄' }], intruderAnswer: 3,
     move: 'Clasificad juguetes reales en dos cajas (animales / cosas de comer) con música de fondo bajita.',
     ept: ['Todavía no clasifica la categoría, ni en silencio.', 'Clasifica en silencio, pero pierde la categoría al subir el ruido.', 'Mantiene la clasificación correcta incluso con ruido de fondo alto.'] },
+  tea6: { ...meta('tea6'),
+    read: 'Pulsa 🔊 para oír la orden con DOS pistas a la vez (forma Y color). Si atiende a una sola pista y falla (toca el círculo rojo), NO lo penalices: verbaliza tú la contingencia con naturalidad —«ese es rojo, pero es un círculo; yo quiero el cuadrado»— y deja que lo intente otra vez. Premia el intento comunicativo, no la perfección.',
+    stage: 'choice', stageLabel: 'Toca la ficha con las DOS pistas correctas',
+    choicePrompt: 'El cuadrado rojo.', choiceLabel: 'Oír la orden', choiceVoice: 'tutor',
+    options: [{ cap: 'cuadrado rojo', emoji: '🟥' }, { cap: 'círculo rojo', emoji: '🔴' }, { cap: 'cuadrado azul', emoji: '🟦' }],
+    optionAnswer: 0,
+    move: 'Búsqueda con dos pistas por la casa: «tráeme algo BLANDO y AZUL». Celebrad cada hallazgo.',
+    ept: ['Atiende a una sola pista (solo el color o solo la forma), incluso con ayuda.', 'Acierta las dos pistas cuando tú le desglosas la contingencia («rojo sí, pero círculo no»).', 'Responde a las dos pistas simultáneas él solo, a la primera orden.'] },
 
   // ==========================================================================
-  // Módulo Dislexia (fonología + acceso léxico) · 5 ejercicios.
+  // Módulo Dislexia (fonología + acceso léxico) · 6 ejercicios.
   // La validación fonológica pasa por el pliegue dialectal (normalizeSpeech →
   // foldDominican en es-DO): seseo, /s/ implosiva y líquidas en coda NO penalizan.
   // ==========================================================================
@@ -321,6 +382,16 @@ export const DB: Record<string, Exercise> = {
     rotationTargets: { target: 'b', grid: ['b', 'd', 'p', 'b', 'q', 'd', 'b', 'p', 'd', 'q', 'b', 'd'] },
     move: 'Dibujad la letra objetivo gigante en el aire: la barriga de la «b» mira hacia delante, como al leer.',
     ept: ['Todavía confunde sistemáticamente las letras giradas (b/d, p/q).', 'Encuentra las letras objetivo con pistas («mira hacia dónde mira la barriga»).', 'Encuentra todas las letras objetivo él solo, sin caer en las giradas.'] },
+  dx6: { ...meta('dx6'),
+    read: 'El niño nombra cada dibujo EN VOZ ALTA y en orden de lectura (de izquierda a derecha), tocándolo al nombrarlo. El estresor eres tú: persigue su dedo por la pantalla con el tuyo, como un juego de pilla-pilla. Sin cronómetros: si lo ves acelerado o frustrado, frena tu dedo o detén la persecución.',
+    stage: 'ran', stageLabel: 'Nombra cada dibujo en orden, ¡sin parar!',
+    tiles: [
+      { cap: 'sol', emoji: '☀️' }, { cap: 'gato', emoji: '🐱' }, { cap: 'pan', emoji: '🍞' }, { cap: 'flor', emoji: '🌸' },
+      { cap: 'pan', emoji: '🍞' }, { cap: 'flor', emoji: '🌸' }, { cap: 'sol', emoji: '☀️' }, { cap: 'gato', emoji: '🐱' },
+      { cap: 'gato', emoji: '🐱' }, { cap: 'sol', emoji: '☀️' }, { cap: 'flor', emoji: '🌸' }, { cap: 'pan', emoji: '🍞' },
+    ],
+    move: 'RAN de casa: recorred una estantería nombrando cada objeto seguido, como leyendo un renglón.',
+    ept: ['Todavía nombra con pausas largas o pierde el orden de lectura.', 'Nombra la matriz completa pero se atasca en algunos dibujos o necesita modelo.', 'Nombra toda la matriz seguida, fluida y en orden, aun con la persecución del dedo.'] },
 };
 
 // ----------------------------------------------------------------------------
@@ -340,11 +411,13 @@ export const VARIANTS: Record<string, Partial<Exercise>[]> = {
     {},
     { phrase: 'PELOTA', phraseEmoji: '⚽' },
     { phrase: 'MARIPOSA', phraseEmoji: '🦋' },
+    { phrase: 'TOMATE', phraseEmoji: '🍅' },
   ],
   ff3: [
     {},
     { fillBefore: 'P', fillAfter: 'N', fillAnswer: 'A', fillEmoji: '🍞', fillCap: 'pan' },
     { fillBefore: 'L', fillAfter: 'NA', fillAnswer: 'U', fillEmoji: '🌙', fillCap: 'luna' },
+    { fillBefore: 'P', fillAfter: 'NO', fillAnswer: 'I', fillEmoji: '🌲', fillCap: 'pino' },
   ],
   se1: [
     {},
@@ -369,6 +442,10 @@ export const VARIANTS: Record<string, Partial<Exercise>[]> = {
       choicePrompt: 'Empieza por ese, brilla en el cielo y nos da calor. ¿Qué es?',
       options: [{ cap: 'sol', emoji: '☀️' }, { cap: 'serpiente', emoji: '🐍' }, { cap: 'sopa', emoji: '🍲' }], optionAnswer: 0,
     },
+    {
+      choicePrompt: 'Empieza por u, es pequeña, morada y viene en racimos. ¿Qué es?',
+      options: [{ cap: 'uva', emoji: '🍇' }, { cap: 'pera', emoji: '🍐' }, { cap: 'sandía', emoji: '🍉' }], optionAnswer: 0,
+    },
   ],
   ms1: [
     {},
@@ -385,6 +462,7 @@ export const VARIANTS: Record<string, Partial<Exercise>[]> = {
     {},
     { choicePrompt: 'abuela', options: [{ cap: 'abuelo', emoji: '👴' }, { cap: 'abuela', emoji: '👵' }], optionAnswer: 1 },
     { choicePrompt: 'rey', options: [{ cap: 'rey', emoji: '🤴' }, { cap: 'reina', emoji: '👸' }], optionAnswer: 0 },
+    { choicePrompt: 'gallina', options: [{ cap: 'gallo', emoji: '🐓' }, { cap: 'gallina', emoji: '🐔' }], optionAnswer: 1 },
   ],
   ms3: [
     {},
@@ -401,6 +479,34 @@ export const VARIANTS: Record<string, Partial<Exercise>[]> = {
     {},
     { emotionFace: '😢', emotionAnswer: 'Tristeza' },
     { emotionFace: '😠', emotionAnswer: 'Enfado' },
+    { emotionFace: '🤕', emotionAnswer: 'Dolor' },
+  ],
+  // ---- Rehabilitación auditiva ACOPROS ----
+  ra1: [
+    {},
+    { choicePrompt: 'Busca la oveja.', optionAnswer: 1 },
+    { choicePrompt: 'Busca la gallina.', optionAnswer: 3 },
+  ],
+  ra2: [
+    {},
+    { choicePrompt: 'boca', options: [{ cap: 'boca', emoji: '👄' }, { cap: 'flor', emoji: '🌸' }, { cap: 'tren', emoji: '🚆' }], optionAnswer: 0 },
+    { choicePrompt: 'oso', options: [{ cap: 'oso', emoji: '🐻' }, { cap: 'pie', emoji: '🦶' }, { cap: 'uva', emoji: '🍇' }], optionAnswer: 0 },
+  ],
+  ra3: [
+    {},
+    { choicePrompt: 'gato', optionAnswer: 2 },
+    { choicePrompt: 'zapato', optionAnswer: 3 },
+  ],
+  ra4: [
+    {},
+    {
+      parts: [{ role: 'Primero', cap: 'luna', emoji: '🌙' }, { role: 'Luego', cap: 'gato', emoji: '🐱' }, { role: 'Después', cap: 'flor', emoji: '🌸' }],
+      sentence: 'Toca la luna, luego el gato y después la flor.',
+    },
+    {
+      parts: [{ role: 'Primero', cap: 'pan', emoji: '🍞' }, { role: 'Luego', cap: 'pez', emoji: '🐟' }, { role: 'Después', cap: 'árbol', emoji: '🌳' }],
+      sentence: 'Toca el pan, luego el pez y después el árbol.',
+    },
   ],
   // ---- TEA ----
   tea5: [
@@ -416,11 +522,25 @@ export const VARIANTS: Record<string, Partial<Exercise>[]> = {
       intruderAnswer: 3,
     },
   ],
+  tea6: [
+    {},
+    {
+      choicePrompt: 'El círculo azul.',
+      options: [{ cap: 'círculo azul', emoji: '🔵' }, { cap: 'cuadrado azul', emoji: '🟦' }, { cap: 'círculo rojo', emoji: '🔴' }],
+      optionAnswer: 0,
+    },
+    {
+      choicePrompt: 'La estrella amarilla.',
+      options: [{ cap: 'círculo amarillo', emoji: '🟡' }, { cap: 'estrella amarilla', emoji: '⭐' }, { cap: 'corazón amarillo', emoji: '💛' }],
+      optionAnswer: 1,
+    },
+  ],
   // ---- Dislexia ----
   dx1: [
     {},
     { intruder: [{ cap: 'pata', emoji: '🔊' }, { cap: 'lata', emoji: '🔊' }, { cap: 'rata', emoji: '🔊' }, { cap: 'luna', emoji: '🔊' }], intruderAnswer: 3 },
     { intruder: [{ cap: 'casa', emoji: '🔊' }, { cap: 'pasa', emoji: '🔊' }, { cap: 'taza', emoji: '🔊' }, { cap: 'perro', emoji: '🔊' }], intruderAnswer: 3 },
+    { intruder: [{ cap: 'sol', emoji: '🔊' }, { cap: 'col', emoji: '🔊' }, { cap: 'gol', emoji: '🔊' }, { cap: 'mesa', emoji: '🔊' }], intruderAnswer: 3 },
   ],
   dx2: [
     {},
@@ -436,11 +556,31 @@ export const VARIANTS: Record<string, Partial<Exercise>[]> = {
     {},
     { phrase: 'FASLUMO', phraseEmoji: '🌀' },
     { phrase: 'TINELO', phraseEmoji: '🎈' },
+    { phrase: 'BURDINA', phraseEmoji: '🎪' },
   ],
   dx5: [
     {},
     { rotationTargets: { target: 'd', grid: ['d', 'b', 'q', 'd', 'p', 'b', 'd', 'q', 'b', 'p', 'd', 'b'] } },
     { rotationTargets: { target: 'p', grid: ['p', 'q', 'b', 'p', 'd', 'q', 'p', 'b', 'q', 'd', 'p', 'q'] } },
+    { rotationTargets: { target: 'q', grid: ['q', 'p', 'd', 'q', 'b', 'p', 'q', 'd', 'p', 'b', 'q', 'd'] } },
+  ],
+  dx6: [
+    {},
+    {
+      tiles: [
+        { cap: 'luna', emoji: '🌙' }, { cap: 'perro', emoji: '🐶' }, { cap: 'casa', emoji: '🏠' }, { cap: 'pez', emoji: '🐟' },
+        { cap: 'casa', emoji: '🏠' }, { cap: 'pez', emoji: '🐟' }, { cap: 'luna', emoji: '🌙' }, { cap: 'perro', emoji: '🐶' },
+        { cap: 'perro', emoji: '🐶' }, { cap: 'luna', emoji: '🌙' }, { cap: 'pez', emoji: '🐟' }, { cap: 'casa', emoji: '🏠' },
+      ],
+    },
+    {
+      // RAN de colores: mismo paradigma con la serie cromática básica.
+      tiles: [
+        { cap: 'rojo', emoji: '🟥' }, { cap: 'azul', emoji: '🟦' }, { cap: 'verde', emoji: '🟩' }, { cap: 'amarillo', emoji: '🟨' },
+        { cap: 'verde', emoji: '🟩' }, { cap: 'amarillo', emoji: '🟨' }, { cap: 'rojo', emoji: '🟥' }, { cap: 'azul', emoji: '🟦' },
+        { cap: 'azul', emoji: '🟦' }, { cap: 'verde', emoji: '🟩' }, { cap: 'amarillo', emoji: '🟨' }, { cap: 'rojo', emoji: '🟥' },
+      ],
+    },
   ],
 };
 
