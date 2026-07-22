@@ -284,20 +284,20 @@ toc = [
     ('', 'CASOS DE USO'),
     ('CU-01', 'Alta de un nuevo paciente'),
     ('CU-02', 'Elegir un bloque de terapia (hub de 4 bloques)'),
-    ('CU-03', 'Pares Mínimos para dislalias'),
-    ('CU-04', 'Expansión Semántica / progresión léxica'),
-    ('CU-05', 'Prescribir terapias de Audición y Lenguaje (Modo Profesional)'),
-    ('CU-06', 'Retomar un paciente e iniciar sesión'),
-    ('CU-07', 'Test de Ling previo (audífono / implante)'),
-    ('CU-08', 'Realizar una sesión de ejercicios'),
-    ('CU-09', 'Configurar recordatorios diarios'),
-    ('CU-10', 'Motivación: racha, niveles e insignias'),
-    ('CU-11', 'Consultar el panel de resultados'),
-    ('CU-12', 'Cambiar entre Modo Familia y Modo Profesional'),
-    ('CU-13', 'Exportar la evidencia de usabilidad del piloto (QR + compartir)'),
-    ('CU-14', 'Elegir la variedad de terapia (Castellano · Galego · Dominicano)'),
-    ('CU-15', 'Panel del Adulto: carga comunicativa (ruido, doble tarea, quiebre)'),
-    ('CU-16', 'Academy: formarse con las Cápsulas de Conocimiento'),
+    ('CU-03', 'Academy: formarse con las Cápsulas de Conocimiento'),
+    ('CU-04', 'Pares Mínimos para dislalias'),
+    ('CU-05', 'Expansión Semántica / progresión léxica'),
+    ('CU-06', 'Prescribir terapias de Audición y Lenguaje (Modo Profesional)'),
+    ('CU-07', 'Retomar un paciente e iniciar sesión'),
+    ('CU-08', 'Test de Ling previo (audífono / implante)'),
+    ('CU-09', 'Realizar una sesión de ejercicios'),
+    ('CU-10', 'Configurar recordatorios diarios'),
+    ('CU-11', 'Motivación: racha, niveles e insignias'),
+    ('CU-12', 'Consultar el panel de resultados'),
+    ('CU-13', 'Cambiar entre Modo Familia y Modo Profesional'),
+    ('CU-14', 'Exportar la evidencia de usabilidad del piloto (QR + compartir)'),
+    ('CU-15', 'Elegir la variedad de terapia (Castellano · Galego · Dominicano)'),
+    ('CU-16', 'Panel del Adulto: carga comunicativa (ruido, doble tarea, quiebre)'),
     ('', 'ANEXO'),
     ('A', 'Preguntas frecuentes y resolución de problemas'),
 ]
@@ -391,7 +391,7 @@ data_table(['Novedad', 'Qué aporta'], [
      'que solo se vacía tras una exportación correcta para no acumular datos semana a semana.'],
     [[('📤 Exportación dual', True)],
      'Con el PIN profesional, la app genera a la vez un código QR con el resumen (offline, escaneable) y abre el menú de '
-     'compartir para enviar el registro completo por email o WhatsApp cuando haya conexión (ver CU-13).'],
+     'compartir para enviar el registro completo por email o WhatsApp cuando haya conexión (ver CU-14).'],
 ], widths=[4.8, 12.2])
 doc.add_heading('Novedades de la versión 8', level=3)
 p('La versión 8 abre Valeria+ a más lenguas y variedades del habla y suma un paradigma de carga comunicativa controlada '
@@ -400,7 +400,7 @@ p('La versión 8 abre Valeria+ a más lenguas y variedades del habla y suma un p
 data_table(['Novedad', 'Qué aporta'], [
     [[('🌍 Tres variedades', True)],
      'El contenido se locuta y evalúa en Castellano, Galego (Proxecto Nós) o Dominicano (es-DO, Quisqueya Habla), '
-     'elegibles en la tarjeta “Voz de la app” (ver CU-14). Cada variedad usa su propio banco de pares mínimos.'],
+     'elegibles en la tarjeta “Voz de la app” (ver CU-15). Cada variedad usa su propio banco de pares mínimos.'],
     [[('🔊 Voz neuronal offline', True)],
      'Castellano y gallego suenan con voces neuronales pregeneradas (Sharvard y Celtia) empaquetadas en la app: '
      'locución natural sin conexión ni servidor. Lo no cubierto recae con suavidad en la voz del sistema.'],
@@ -409,7 +409,7 @@ data_table(['Novedad', 'Qué aporta'], [
      'cambio de “r/l” a final de sílaba): evita falsos positivos que estigmaticen el habla de la familia.'],
     [[('🎛️ Panel del Adulto · Carga Comunicativa', True)],
      'Tres módulos manuales para el piloto (escucha en ruido, oso distractor de doble tarea y quiebre pragmático). '
-     'Los activa siempre el adulto: la app nunca ajusta nada sola (ver CU-15).'],
+     'Los activa siempre el adulto: la app nunca ajusta nada sola (ver CU-16).'],
     [[('💬 Frases portadoras', True)],
      'En Pares Mínimos la palabra objetivo ya no se dicta aislada: se incrusta en una frase con entonación natural '
      'seguida de una pregunta, sin repetirse en diez ensayos seguidos.'],
@@ -419,15 +419,15 @@ p('La versión 8.1 pule tres puntos detectados en el uso real tras el registro d
 data_table(['Mejora', 'Qué cambia'], [
     [[('🔘 Botón de reingreso más visible', True)],
      'En Bienvenida, “Ya tengo un paciente registrado” deja de ser un enlace pequeño y pasa a ser un botón de tamaño '
-     'completo, al nivel de “Comenzar” (ver CU-06).'],
+     'completo, al nivel de “Comenzar” (ver CU-07).'],
     [[('🪪 Resultados con el paciente real', True)],
      'La cabecera del panel de resultados y del Test de Ling, y el informe que se comparte, muestran ahora el nombre y '
      'NHC de la ficha registrada (antes aparecía un dato de muestra fijo). Si no hay ficha, se indica con un rótulo '
-     'neutro (ver CU-07 y CU-11).'],
+     'neutro (ver CU-08 y CU-12).'],
     [[('🔊 La voz gallega siempre arranca', True)],
      'En galego, la Expansión Semántica y los ejercicios de Audición y Lenguaje (contenido compartido con el '
      'castellano) suenan con la voz neuronal castellana mientras Celtia no los cubra, en vez de quedar en silencio en '
-     'dispositivos sin voz gallega (ver CU-14).'],
+     'dispositivos sin voz gallega (ver CU-15).'],
 ], widths=[4.8, 12.2])
 doc.add_heading('Novedades de la versión 8.2', level=3)
 p('La versión 8.2 suma Academy, un espacio de formación para el adulto. En la terapia auditivo-verbal el cuidador es '
@@ -437,7 +437,7 @@ data_table(['Novedad', 'Qué aporta'], [
     [[('🎓 Academy', True)],
      'Una tarjeta destacada en la pantalla de terapias abre un curso breve de Cápsulas de Conocimiento (unos 2 minutos '
      'cada una) sobre cómo aprenden a hablar los niños, el porqué de las dinámicas de movimiento (TPR) y los vicios a '
-     'evitar durante la terapia en casa (ver CU-16).'],
+     'evitar durante la terapia en casa (ver CU-03).'],
     [[('✅ Quiz rápido', True)],
      'Cada cápsula termina con un mini-test de una o dos preguntas con respuesta explicada, para fijar la idea sin que '
      'se haga pesado.'],
@@ -481,7 +481,7 @@ callout('Telemetría de usabilidad del piloto (v7)',
         'Durante el piloto, la app recoge métricas de usabilidad anónimas (tiempo por pantalla, toques fuera de zona útil '
         'y cápsulas de movimiento saltadas) y una encuesta breve de satisfacción. No incluyen nombres, ni audio, ni el '
         'contenido de las respuestas; se guardan cifradas en el dispositivo bajo un identificador de sesión y se purgan '
-        'tras exportarlas (ver CU-13). Al tratarse de un estudio con menores, el consentimiento informado de las familias '
+        'tras exportarlas (ver CU-14). Al tratarse de un estudio con menores, el consentimiento informado de las familias '
         'se gestiona en el protocolo del piloto, fuera de la app.')
 
 # ============================ CAP 3 ============================
@@ -554,7 +554,7 @@ numbered([
 h4('Flujos alternativos')
 bullets([
     [('Falta un campo obligatorio o el correo es inválido:', True), (' el campo se resalta en rojo y no se guarda hasta corregirlo.', False)],
-    [('La patología indica audífono o implante coclear:', True), (' se recordará para lanzar el Test de Ling antes de los ejercicios de audición (ver CU-07).', False)],
+    [('La patología indica audífono o implante coclear:', True), (' se recordará para lanzar el Test de Ling antes de los ejercicios de audición (ver CU-08).', False)],
 ])
 callout('Dato clave', 'La patología determina el circuito de la sesión (p. ej. una dislalia orienta hacia Pares Mínimos; '
         'un implante, hacia el Test de Ling). Elíjala con cuidado.')
@@ -569,15 +569,49 @@ p('El hub es el centro de mando de cada sesión. Muestra la racha 🔥 y el nive
   'bloques como tarjetas. Audición y Lenguaje indican además cuántas terapias hay activas.')
 h4('Flujo principal')
 numbered([
-    [('Tocar la tarjeta del bloque deseado: ', False), ('Pares Mínimos', True), (' (CU-03), ', False),
-     ('Expansión Semántica', True), (' (CU-04), ', False), ('Audición', True), (' o ', False), ('Lenguaje', True), (' (CU-05 / CU-08).', False)],
-    [('Desde la misma pantalla se activan los ', False), ('recordatorios de sesión', True), (' (ver CU-09).', False)],
+    [('Tocar la tarjeta del bloque deseado: ', False), ('Pares Mínimos', True), (' (CU-04), ', False),
+     ('Expansión Semántica', True), (' (CU-05), ', False), ('Audición', True), (' o ', False), ('Lenguaje', True), (' (CU-06 / CU-09).', False)],
+    [('Antes de la primera sesión, abrir la tarjeta destacada ', False), ('“Academy”', True),
+     (' para formarse como cuidador (ver CU-03): en la terapia auditivo-verbal el adulto dirige la sesión, así que conviene empezar por ahí.', False)],
+    [('Desde la misma pantalla se activan los ', False), ('recordatorios de sesión', True), (' (ver CU-10).', False)],
 ])
+callout('Empieza por Academy', 'La tarjeta Academy (CU-03) comparte jerarquía visual con los bloques de terapia y no '
+        'depende de nada previo: es el primer paso recomendado para que el adulto acompañe con criterio.',
+        fill=FILL_VIOLET, label_color=VIOLET_DARK)
 callout('Dónde practica cada quién', 'En Modo Familia todos los bloques son accesibles para practicar lo prescrito; '
         'solo el logopeda, con el PIN, cambia qué está activo en cada uno.')
 
-# ---- CU-03 · PARES MÍNIMOS ----
-uc_header('CU-03', 'Familia', 'Pares Mínimos para dislalias', violet=True)
+# ---- CU-03 · ACADEMY · FORMACIÓN DEL CUIDADOR ----
+doc.add_page_break()
+uc_header('CU-03', 'Familia', 'Academy: formarse con las Cápsulas de Conocimiento')
+uc_meta('Adulto que dirige la sesión (familia o cuidador)', 'Prescripción de Terapias → Academy',
+        'Ninguna; disponible desde el primer día', 'Cápsula completada y progreso guardado')
+p('Academy es el espacio de formación para el adulto. En la terapia auditivo-verbal la persona que acompaña al niño es '
+  'el motor de la sesión, así que Academy le enseña —en pequeñas dosis— a hacerlo mejor. Aparece como una tarjeta '
+  'destacada “Academy” en la pantalla de terapias, con una barra de progreso siempre a la vista.')
+data_table(['Tema', 'Qué se aprende'], [
+    [[('👂 Cómo aprenden a hablar', True)], 'Que el niño escucha mucho antes de hablar y que la conversación por turnos —y saber esperar en silencio— es lo que impulsa el lenguaje.'],
+    [[('🤸 Por qué moverse (TPR)', True)], 'Unir sonido y movimiento ayuda a recordar y quita la presión de “tener que hablar”; por eso es el adulto quien confirma si el niño cumplió la orden.'],
+    [[('🚫 Vicios a evitar', True)], 'No decir “así no se dice” sino repetir bien la palabra dentro de la frase; y comentar más que preguntar para que la sesión no parezca un examen.'],
+    [[('🧑‍🏫 Terapia mediada', True)], 'La app es la herramienta; el terapeuta en casa es el adulto, que puede parar cuando haga falta: no hay un mínimo que cumplir.'],
+], widths=[4.8, 12.2])
+h4('Flujo principal')
+numbered([
+    [('En ', False), ('Prescripción de Terapias', True), (', pulsar la tarjeta ', False), ('“Academy”', True), (' (bajo el rótulo “Tu formación”).', False)],
+    [('Elegir una ', False), ('Cápsula de Conocimiento', True), (' de la lista (unos 2 minutos cada una).', False)],
+    [('Leer las ', False), ('diapositivas', True), (' avanzando con “Siguiente”.', False)],
+    [('Responder el ', False), ('quiz rápido', True), (' del final; cada respuesta muestra una breve explicación.', False)],
+    [('Al aprobar, la app suma ', False), ('puntos e insignias', True), (' y la ', False), ('barra de la tarjeta avanza al instante', True), ('.', False)],
+])
+callout('Es para el adulto, no para el niño',
+        'Academy vive junto a los menús de la app, que maneja siempre el adulto; la tableta se cede al niño solo cuando '
+        'el ejercicio ya ha empezado. Por eso el niño no llega por error a esta formación.')
+callout('El progreso no se pierde',
+        'El avance (cápsulas hechas, nivel e insignias) se guarda cifrado en el dispositivo, igual que el resto de '
+        'datos, y funciona sin conexión.')
+
+# ---- CU-04 · PARES MÍNIMOS ----
+uc_header('CU-04', 'Familia', 'Pares Mínimos para dislalias', violet=True)
 uc_meta('Tutor + niño/a (en pareja)', 'Pares Mínimos · Dislalias', 'Par prescrito por el logopeda',
         'Sesión de 10 ensayos valorada + evolución del fonema')
 par = doc.add_paragraph()
@@ -611,8 +645,8 @@ figures([('06-pares-banco.png', 'Banco de contrastes: 10 pares agrupados por tip
          ('08-pares-juego.png', 'Ensayo: dos fichas, la consigna y el juez del padre.'),
          ('09-pares-veredicto.png', 'Acierto: misión física de celebración y sello doble.')])
 
-# ---- CU-04 · EXPANSIÓN SEMÁNTICA ----
-uc_header('CU-04', 'Familia', 'Expansión Semántica / progresión léxica', violet=True)
+# ---- CU-05 · EXPANSIÓN SEMÁNTICA ----
+uc_header('CU-05', 'Familia', 'Expansión Semántica / progresión léxica', violet=True)
 uc_meta('Tutor + niño/a', 'Expansión Semántica · Progresión Léxica', 'Actividad prescrita por el logopeda',
         'Palabras trabajadas uniendo símbolo, voz y cuerpo')
 par = doc.add_paragraph()
@@ -642,8 +676,8 @@ figures([('10-expansion-escenarios.png', 'Escenarios diarios: mañana, comida y 
          ('11-expansion-progresion.png', 'Progresión léxica: de onomatopeya a adjetivo.'),
          ('12-expansion-juego.png', 'Paso: imagen, consigna y misión física del adulto.')])
 
-# ---- CU-05 · PRESCRIPCIÓN AUD/LENG ----
-uc_header('CU-05', 'Profesional', 'Prescribir terapias de Audición y Lenguaje (Modo Profesional)')
+# ---- CU-06 · PRESCRIPCIÓN AUD/LENG ----
+uc_header('CU-06', 'Profesional', 'Prescribir terapias de Audición y Lenguaje (Modo Profesional)')
 uc_meta('Logopeda', 'Hub → Audición / Lenguaje', 'Ficha creada · PIN disponible',
         'Selección de terapias guardada en el dispositivo')
 h4('Flujo principal')
@@ -663,8 +697,8 @@ bullets([
 figures([('07-pin-profesional.png', 'Teclado de PIN compartido por los cuatro bloques.'),
          ('13-audicion-lista.png', 'Audición: las 13 terapias con su interruptor de prescripción.')])
 
-# ---- CU-06 · RETOMAR ----
-uc_header('CU-06', 'Familia', 'Retomar un paciente e iniciar una sesión')
+# ---- CU-07 · RETOMAR ----
+uc_header('CU-07', 'Familia', 'Retomar un paciente e iniciar una sesión')
 uc_meta('Tutor o cuidador', 'Bienvenida → Selección de paciente → Hub', 'Existe al menos una ficha guardada',
         'Paciente activo cargado y listo para practicar')
 h4('Flujo principal')
@@ -678,8 +712,8 @@ numbered([
 bullets([[('No hay pacientes guardados:', True), (' use CU-01 para dar de alta uno nuevo desde “Comenzar”.', False)]])
 figures([('16-pacientes.png', 'Selección de paciente: fichas guardadas en el dispositivo.')])
 
-# ---- CU-07 · LING ----
-uc_header('CU-07', 'Familia', 'Test de Ling previo (audífono / implante)')
+# ---- CU-08 · LING ----
+uc_header('CU-08', 'Familia', 'Test de Ling previo (audífono / implante)')
 uc_meta('Tutor que produce los sonidos', 'Test de Ling', 'Patología con audífono o implante coclear',
         'Comprobación auditiva registrada + recomendación')
 h4('Flujo principal')
@@ -698,8 +732,8 @@ callout('Por qué estos 6 sonidos', [('Cubren el rango del habla, de graves (~25
 figures([('14-ling-pregunta.png', 'Pregunta previa: ¿usa audífonos o implante coclear?'),
          ('15-ling-test.png', 'Sonido en curso: el tutor lo produce y marca la respuesta.')])
 
-# ---- CU-08 · SESIÓN DE EJERCICIOS ----
-uc_header('CU-08', 'Familia', 'Realizar una sesión de ejercicios (Audición / Lenguaje)')
+# ---- CU-09 · SESIÓN DE EJERCICIOS ----
+uc_header('CU-09', 'Familia', 'Realizar una sesión de ejercicios (Audición / Lenguaje)')
 uc_meta('Tutor + niño/a', 'Reproductor de Ejercicios → Resultados', 'Terapia iniciada (con o sin Test de Ling)',
         'Sesión valorada y guardada en el historial')
 h4('Flujo principal')
@@ -716,7 +750,7 @@ numbered([
      ('; entre ejercicios aparecen ', False), ('pausas activas', True),
      ('. Los de Lenguaje añaden voz (TTS), juego del micrófono y cápsulas TPR.', False)],
     [('Al terminar se calcula la media y se muestran las ', False), ('recompensas', True),
-     (' (XP, racha, nivel, insignias). Ver CU-10.', False)],
+     (' (XP, racha, nivel, insignias). Ver CU-11.', False)],
 ])
 h4('Flujos alternativos')
 bullets([
@@ -729,8 +763,8 @@ figures([('17-ejercicio.png', 'Ficha ilustrada: consigna, imágenes ampliables y
          ('18-evaluacion-ept3.png', 'Evaluación EPT-3: el adulto toca 1★, 2★ o 3★.'),
          ('19-sesion-completada.png', 'Fin de sesión: XP, racha, nivel y promedio EPT-3.')])
 
-# ---- CU-09 · RECORDATORIOS ----
-uc_header('CU-09', 'Familia', 'Configurar recordatorios diarios')
+# ---- CU-10 · RECORDATORIOS ----
+uc_header('CU-10', 'Familia', 'Configurar recordatorios diarios')
 uc_meta('Tutor o logopeda', 'Hub → “Recordatorios de sesión”', 'Permiso de notificaciones del sistema',
         'Avisos en la pantalla de bloqueo')
 h4('Flujo principal')
@@ -745,8 +779,8 @@ bullets([
     [('Desactivar:', True), (' el mismo interruptor cancela todos los recordatorios.', False)],
 ])
 
-# ---- CU-10 · GAMIFICACIÓN ----
-uc_header('CU-10', 'Familia', 'Motivación: racha, niveles e insignias')
+# ---- CU-11 · GAMIFICACIÓN ----
+uc_header('CU-11', 'Familia', 'Motivación: racha, niveles e insignias')
 uc_meta('Niño/a (con apoyo del adulto)', 'Fin de sesión · cabecera del hub', 'Al menos una sesión completada',
         'XP, racha y niveles actualizados')
 p('Al estilo de apps como Duolingo, Valeria+ recompensa la constancia en todos los bloques. Todo se guarda localmente.')
@@ -757,10 +791,10 @@ bullets([
     [('Insignias:', True), (' 🌱 Primer paso · 🔥 rachas (3/7/14 días) · 🎓 sesiones (10/25/50) · ⭐ sesiones perfectas.', False)],
 ])
 callout('Racha viva', 'La racha se mantiene mientras se practique hoy o ayer. Si se salta más de un día, vuelve a cero: '
-        'por eso ayudan los recordatorios de CU-09.', fill=FILL_OK, label_color=RGBColor(0x04, 0x78, 0x57))
+        'por eso ayudan los recordatorios de CU-10.', fill=FILL_OK, label_color=RGBColor(0x04, 0x78, 0x57))
 
-# ---- CU-11 · RESULTADOS ----
-uc_header('CU-11', 'Profesional / Familia', 'Consultar el panel de resultados')
+# ---- CU-12 · RESULTADOS ----
+uc_header('CU-12', 'Profesional / Familia', 'Consultar el panel de resultados')
 uc_meta('Logopeda o tutor', 'Resultados del paciente', 'Historial de sesiones registrado',
         'Visión de la evolución del paciente')
 h4('Flujo principal')
@@ -770,15 +804,15 @@ numbered([
     [('Revisar la ', False), ('evolución por estrellas', True), (' (media de las últimas sesiones) y, para dislalias, la nueva gráfica de ', False),
      ('sustitución por fonema', True), (': el % de ensayos con la sustitución detectada por el micrófono, donde bajar es mejorar.', False)],
     [('Consultar el ', False), ('estado de gamificación', True), (' (XP, racha, nivel) y la ', False), ('adherencia semanal', True), ('.', False)],
-    'El logopeda usa estos datos para ajustar la prescripción (volver a CU-05) en la siguiente revisión.',
+    'El logopeda usa estos datos para ajustar la prescripción (volver a CU-06) en la siguiente revisión.',
 ])
 callout('Ciclo de mejora', 'Resultados → decisión clínica → nueva prescripción → nuevas sesiones. La gráfica de fonema '
         'convierte la práctica de pares mínimos en un indicador clínico objetivo entre sesiones.')
 figures([('20-resultados.png', 'Panel: motivación, insignias y adherencia semanal.'),
          ('21-resultados-fonema.png', 'Evolución por estrellas y sustitución por fonema (bajar = mejorar).')])
 
-# ---- CU-12 · CAMBIO DE MODO ----
-uc_header('CU-12', 'Profesional', 'Cambiar entre Modo Familia y Modo Profesional')
+# ---- CU-13 · CAMBIO DE MODO ----
+uc_header('CU-13', 'Profesional', 'Cambiar entre Modo Familia y Modo Profesional')
 uc_meta('Logopeda', 'Cualquier bloque prescribible', 'Conocer el PIN', 'Edición habilitada o bloqueada según convenga')
 h4('Flujo principal')
 numbered([
@@ -792,9 +826,9 @@ callout('Buena práctica', 'Guarde siempre antes de entregar el dispositivo a la
         'protegida en modo solo lectura. El PIN es el mismo en los cuatro bloques.',
         fill=FILL_WARN, label_color=RGBColor(0xB4, 0x53, 0x09))
 
-# ---- CU-13 · EXPORTACIÓN DE TELEMETRÍA DEL PILOTO ----
+# ---- CU-14 · EXPORTACIÓN DE TELEMETRÍA DEL PILOTO ----
 doc.add_page_break()
-uc_header('CU-13', 'Profesional', 'Exportar la evidencia de usabilidad del piloto (QR + compartir)')
+uc_header('CU-14', 'Profesional', 'Exportar la evidencia de usabilidad del piloto (QR + compartir)')
 uc_meta('Logopeda / responsable del piloto', 'Hub de 4 bloques → “Acceso Profesional”',
         'Se han usado ejercicios · PIN disponible', 'Resumen en QR + registro completo compartido; datos purgados')
 par = doc.add_paragraph()
@@ -831,9 +865,9 @@ callout('Encuesta de satisfacción (SUS)',
          (' por dispositivo. La familia no tiene que buscarla ni configurarla.', False)],
         fill=FILL_WARN, label_color=RGBColor(0xB4, 0x53, 0x09))
 
-# ---- CU-14 · VARIEDAD DE TERAPIA ----
+# ---- CU-15 · VARIEDAD DE TERAPIA ----
 doc.add_page_break()
-uc_header('CU-14', 'Profesional / Familia', 'Elegir la variedad de terapia (Castellano · Galego · Dominicano)')
+uc_header('CU-15', 'Profesional / Familia', 'Elegir la variedad de terapia (Castellano · Galego · Dominicano)')
 uc_meta('Logopeda o tutor', 'Tarjeta “Voz de la app”',
         'App abierta (funciona sin conexión)', 'El contenido se locuta y evalúa en la variedad elegida')
 par = doc.add_paragraph()
@@ -864,8 +898,8 @@ callout('Respeto dialectal',
 figures([('22-voz-variedad.png', 'Tarjeta “Voz de la app”: selector de variedad Castellano · Galego · Dominicano.')],
         width_cm=6.4)
 
-# ---- CU-15 · PANEL DEL ADULTO · CARGA COMUNICATIVA ----
-uc_header('CU-15', 'Profesional', 'Panel del Adulto: carga comunicativa (ruido, doble tarea, quiebre)', violet=True)
+# ---- CU-16 · PANEL DEL ADULTO · CARGA COMUNICATIVA ----
+uc_header('CU-16', 'Profesional', 'Panel del Adulto: carga comunicativa (ruido, doble tarea, quiebre)', violet=True)
 uc_meta('Adulto que dirige la sesión (logopeda o tutor)', 'Reproductor de Ejercicios → Panel del Adulto',
         'Ejercicio de Audición/Lenguaje en curso', 'Reto de carga aplicado a mano y registrado')
 par = doc.add_paragraph()
@@ -896,35 +930,6 @@ callout('Siempre en manos del adulto',
 figures([('23-panel-adulto.png', 'Panel del Adulto desplegado: ruido de fondo, oso distractor y quiebre pragmático.')],
         width_cm=6.4)
 
-# ---- CU-16 · ACADEMY · FORMACIÓN DEL CUIDADOR ----
-doc.add_page_break()
-uc_header('CU-16', 'Familia', 'Academy: formarse con las Cápsulas de Conocimiento')
-uc_meta('Adulto que dirige la sesión (familia o cuidador)', 'Prescripción de Terapias → Academy',
-        'Ninguna; disponible desde el primer día', 'Cápsula completada y progreso guardado')
-p('Academy es el espacio de formación para el adulto. En la terapia auditivo-verbal la persona que acompaña al niño es '
-  'el motor de la sesión, así que Academy le enseña —en pequeñas dosis— a hacerlo mejor. Aparece como una tarjeta '
-  'destacada “Academy” en la pantalla de terapias, con una barra de progreso siempre a la vista.')
-data_table(['Tema', 'Qué se aprende'], [
-    [[('👂 Cómo aprenden a hablar', True)], 'Que el niño escucha mucho antes de hablar y que la conversación por turnos —y saber esperar en silencio— es lo que impulsa el lenguaje.'],
-    [[('🤸 Por qué moverse (TPR)', True)], 'Unir sonido y movimiento ayuda a recordar y quita la presión de “tener que hablar”; por eso es el adulto quien confirma si el niño cumplió la orden.'],
-    [[('🚫 Vicios a evitar', True)], 'No decir “así no se dice” sino repetir bien la palabra dentro de la frase; y comentar más que preguntar para que la sesión no parezca un examen.'],
-    [[('🧑‍🏫 Terapia mediada', True)], 'La app es la herramienta; el terapeuta en casa es el adulto, que puede parar cuando haga falta: no hay un mínimo que cumplir.'],
-], widths=[4.8, 12.2])
-h4('Flujo principal')
-numbered([
-    [('En ', False), ('Prescripción de Terapias', True), (', pulsar la tarjeta ', False), ('“Academy”', True), (' (bajo el rótulo “Tu formación”).', False)],
-    [('Elegir una ', False), ('Cápsula de Conocimiento', True), (' de la lista (unos 2 minutos cada una).', False)],
-    [('Leer las ', False), ('diapositivas', True), (' avanzando con “Siguiente”.', False)],
-    [('Responder el ', False), ('quiz rápido', True), (' del final; cada respuesta muestra una breve explicación.', False)],
-    [('Al aprobar, la app suma ', False), ('puntos e insignias', True), (' y la ', False), ('barra de la tarjeta avanza al instante', True), ('.', False)],
-])
-callout('Es para el adulto, no para el niño',
-        'Academy vive junto a los menús de la app, que maneja siempre el adulto; la tableta se cede al niño solo cuando '
-        'el ejercicio ya ha empezado. Por eso el niño no llega por error a esta formación.')
-callout('El progreso no se pierde',
-        'El avance (cápsulas hechas, nivel e insignias) se guarda cifrado en el dispositivo, igual que el resto de '
-        'datos, y funciona sin conexión.')
-
 # ============================ ANEXO ============================
 doc.add_page_break()
 kicker('Anexo A')
@@ -939,11 +944,11 @@ data_table(['Situación', 'Qué hacer'], [
     ['No avanza tras la misión física',
      'Es el sello doble: padre e hijo deben pulsar las dos huellas a la vez. Con una sola mano, mantenga pulsada una huella 2 segundos.'],
     ['No aparece el Test de Ling',
-     'Solo se muestra en los ejercicios de Audición si la patología indica audífono o implante coclear (CU-07).'],
+     'Solo se muestra en los ejercicios de Audición si la patología indica audífono o implante coclear (CU-08).'],
     ['La racha volvió a cero',
-     'Se perdió porque pasó más de un día sin practicar. Active los recordatorios (CU-09) para evitarlo.'],
+     'Se perdió porque pasó más de un día sin practicar. Active los recordatorios (CU-10) para evitarlo.'],
     ['No puedo cambiar qué se practica',
-     'Está en Modo Familia (solo lectura). Desbloquee el Modo Profesional con el PIN (CU-05 / CU-12).'],
+     'Está en Modo Familia (solo lectura). Desbloquee el Modo Profesional con el PIN (CU-06 / CU-13).'],
     ['¿Se pierden los datos al cerrar la app?',
      'No. Ficha, prescripción, historial, evolución por fonema y progreso se guardan cifrados en el dispositivo.'],
     ['El mismo ejercicio se repetía siempre igual',
@@ -955,9 +960,9 @@ data_table(['Situación', 'Qué hacer'], [
     ['¿Por qué apareció una encuesta con caritas?',
      'Es la encuesta de satisfacción del piloto (SUS). Solo aparece al completar los 4 bloques y como mucho una vez por semana. Se puede cerrar sin responder.'],
     ['¿Cómo exporto los datos del piloto?',
-     'Desde el hub, tarjeta “Acceso Profesional” con el PIN: la app muestra un QR con el resumen y abre el compartir con el registro completo. Tras enviarlo, los datos se purgan (CU-13).'],
+     'Desde el hub, tarjeta “Acceso Profesional” con el PIN: la app muestra un QR con el resumen y abre el compartir con el registro completo. Tras enviarlo, los datos se purgan (CU-14).'],
     ['¿Puedo usar la app en gallego o en dominicano?',
-     'Sí. En la tarjeta “Voz de la app” se elige la variedad (Castellano, Galego o Dominicano). Cambia lo que se locuta y evalúa; los menús siguen en castellano (CU-14).'],
+     'Sí. En la tarjeta “Voz de la app” se elige la variedad (Castellano, Galego o Dominicano). Cambia lo que se locuta y evalúa; los menús siguen en castellano (CU-15).'],
     ['En dominicano la voz suena de España o robótica',
      'Instale una voz de “Español (Latinoamérica)” en los ajustes del dispositivo. La app la detecta y la usa automáticamente (v8).'],
     ['En galego, algunos ejercicios no hablaban',
@@ -965,9 +970,9 @@ data_table(['Situación', 'Qué hacer'], [
     ['Marca como error algo que en mi país se dice así',
      'En la variedad dominicana la app respeta los rasgos del habla caribeña (seseo, “s” aspirada, “r/l” final). Y recuerde: el adulto es siempre el juez final del veredicto.'],
     ['Apareció ruido de fondo o un oso moviéndose',
-     'Son módulos del Panel del Adulto (carga comunicativa) del piloto; solo se activan a mano. Desactívelos desde ese mismo panel (CU-15).'],
+     'Son módulos del Panel del Adulto (carga comunicativa) del piloto; solo se activan a mano. Desactívelos desde ese mismo panel (CU-16).'],
     ['¿Qué es la tarjeta “Academy” del hub?',
-     'Es la formación para el adulto: cápsulas breves sobre cómo aprenden a hablar los niños, el porqué del movimiento (TPR) y los vicios a evitar, con un quiz rápido. No es un ejercicio para el niño (CU-16).'],
+     'Es la formación para el adulto: cápsulas breves sobre cómo aprenden a hablar los niños, el porqué del movimiento (TPR) y los vicios a evitar, con un quiz rápido. No es un ejercicio para el niño (CU-03).'],
 ], widths=[6.0, 11.0])
 p('', space_after=4)
 p('Valeria+ · Manual de Casos de Uso · v8.2 (con capturas de pantalla) · Julio de 2026 · Terapia auditivo-verbal y del '
