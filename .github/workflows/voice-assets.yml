@@ -19,6 +19,7 @@ on:
   push:
     branches:
       - claude/**
+      - main
     paths:
       - voice-corpus.json
       - scripts/generate-voice-assets.py
