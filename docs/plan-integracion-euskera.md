@@ -240,17 +240,29 @@ más larga; se subdivide por bloque para poder publicar por partes.*
 **Salida de fase:** app completa en euskera locutada por el TTS del sistema
 (voz `eu` si existe). **Depende de:** Fase 1. EU-2.2 no depende de EU-2.1.
 
-> **Estado (jul 2026): corpus locutable `eu` 📝 BORRADOR y CABLEADO.** 221
+> **Estado (jul 2026): corpus locutable `eu` 📝 BORRADOR y CABLEADO.** 693
 > locuciones vascas se enumeran en el corpus (`buildVoiceCorpus`) y se **emiten**
-> en las sesiones en euskera cuando la variedad está activa: pares mínimos ad
-> hoc (`valeriaMinimalPairsEu`, 5 contrastes: su/zu · hotz/hots · hitz/hits ·
-> txalo/talo · karta/tarta), frases portadoras SOV con ergativo (motor
-> multi-idioma en `valeriaCarrierPhrases`, `BANKS.eu`), cápsulas TPR, Rutas de
-> Rutina, bancos de refuerzo y rotación de roles (`valeriaContentEu`). Los
-> assets neuronales HiTZ se generan en CI (Fase 3). **Pendiente de revisión de
-> euskera normativo y logopédica** antes de aprobar para producción. Pendientes
-> de esta fase: EU-2.1 (MT), EU-2.5 (Audición/Lenguaje) y EU-2.6 (Ling), que de
-> momento caen al banco base castellano —igual que en la versión gallega—.
+> en las sesiones en euskera cuando la variedad está activa:
+>
+> - **Pares mínimos** ad hoc (`valeriaMinimalPairsEu`, 5 contrastes: su/zu ·
+>   hotz/hots · hitz/hits · txalo/talo · karta/tarta).
+> - **Frases portadoras** SOV con sujeto ergativo (`valeriaCarrierPhrases`,
+>   `BANKS.eu`), cápsulas TPR, Rutas de Rutina, refuerzo y rotación de roles
+>   (`valeriaContentEu`).
+> - **Expansión Semántica** completa (`valeriaSemanticExpansionEu`: 5 escenarios,
+>   7 progresiones, 6 cápsulas de contraste).
+> - **Audición, Lenguaje, TEA y Dislexia** (`valeriaExerciseEu`: 30 mini-juegos
+>   con sus rondas), con la gramática vasca adaptada (orden SOV, plural en -ak,
+>   sin género) y la fonología propia en Dislexia (rimas, síntesis fonémica,
+>   pseudopalabras). El player quedó localizado por variedad (emociones, plural,
+>   cierre de sesión).
+> - **Test de Ling** (`valeriaLingContent`: consignas y pistas vascas; los seis
+>   sonidos son universales).
+>
+> Los assets neuronales HiTZ se generan en CI (Fase 3). **Todo el contenido es
+> BORRADOR pendiente de revisión de euskera normativo (batua) y logopédica**
+> antes de aprobar para producción. Único pendiente de contenido: EU-2.1 (pasada
+> MT de apoyo, opcional).
 
 ---
 
@@ -338,7 +350,7 @@ Checklist maestro (marcar al completar; una PR por tarea o grupo pequeño):
 
 - [ ] **Fase 0**: EU-0.1 · EU-0.2 (voz Maider propuesta) · EU-0.3 · EU-0.4
 - [x] **Fase 1**: EU-1.1 ✅ · EU-1.2 ✅ · EU-1.3 ✅ · EU-1.4 ✅ · EU-1.5 ✅
-- [~] **Fase 2**: EU-2.1 ⏳ · EU-2.2 ✅📝 · EU-2.3 ✅📝 (TPR/rutas/refuerzo; expansión semántica cae a base) · EU-2.4 ✅ · EU-2.5 ⏳ · EU-2.6 ⏳ · EU-2.7 ✅
+- [~] **Fase 2**: EU-2.1 ⏳ · EU-2.2 ✅📝 · EU-2.3 ✅📝 (TPR/rutas/refuerzo + expansión semántica completa) · EU-2.4 ✅ · EU-2.5 ✅📝 (Audición + Lenguaje + TEA + Dislexia) · EU-2.6 ✅📝 (Test de Ling) · EU-2.7 ✅
 - [~] **Fase 3**: EU-3.1 ✅ (VOICES.eu + workflow) · EU-3.2 ✅ (reusa tubería) · EU-3.3 ⏳ (síntesis en CI) · EU-3.4 ⏳ · EU-3.5 ✅ (créditos)
 - [ ] **Fase 4**: EU-4.1 · EU-4.2 · EU-4.3 · EU-4.4 (condicional)
 - [ ] **Fase 5**: EU-5.1 · EU-5.2 · EU-5.3 · EU-5.4
