@@ -139,16 +139,34 @@ const PICTOGRAMS: Record<string, Pic> = {
   cero: numberPic('0', '#f59e0b'),
 };
 
+// Registro EMOJI \u2192 pictograma. El registro por palabra (arriba) solo casa con
+// el l\u00e9xico castellano; en euskera/galego la ficha usa palabras propias
+// (\u00abeskuila\u00bb, \u00abtxirristra\u00bb) que no est\u00e1n registradas, as\u00ed que ca\u00eda al emoji
+// crudo \u2014 y justo estos SVG se crearon para SUSTITUIR emojis Unicode 13/14 que
+// se pintan como tofu (cuadro vac\u00edo) en muchos Android. Mapeando tambi\u00e9n por el
+// emoji, la ficha pinta el SVG en CUALQUIER variedad sin duplicar por idioma.
+const PICTOGRAMS_BY_EMOJI: Record<string, Pic> = {
+  '\ud83e\udea5': CepilloPic,
+  '\ud83d\udedd': ToboganPic,
+  '\ud83e\udea3': CuboPic,
+  '\ud83e\ude9a': SierraPic,
+  '\ud83d\udc87': PeloPic,
+  '\ud83c\udf09': PuentePic,
+  '8\ufe0f\u20e3': numberPic('8', '#7c4fd0'),
+  '0\ufe0f\u20e3': numberPic('0', '#f59e0b'),
+};
+
 const normalizeWord = (w: string): string =>
   w.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim();
 
 export const hasPictogram = (word: string): boolean => normalizeWord(word) in PICTOGRAMS;
 
-// Visual de ficha: SVG propio si la palabra lo tiene registrado; emoji si no.
+// Visual de ficha: SVG propio si la palabra (o el emoji) lo tiene registrado;
+// emoji crudo solo como \u00faltimo recurso.
 export const FichaVisual: React.FC<{ word: string; emoji: string; size?: number }> = ({
   word, emoji, size = 58,
 }) => {
-  const Pic = PICTOGRAMS[normalizeWord(word)];
+  const Pic = PICTOGRAMS[normalizeWord(word)] ?? PICTOGRAMS_BY_EMOJI[emoji?.trim()];
   if (Pic) return <Pic size={Math.round(size * 1.15)} />;
   return <Text style={{ fontSize: size }}>{emoji}</Text>;
 };

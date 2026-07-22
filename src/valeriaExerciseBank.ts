@@ -600,6 +600,7 @@ export const EMO: { face: string; label: string }[] = [
 // de una cadena compuesta que la voz neuronal no podría resolver.
 export const SESSION_DONE_LEAD = '¡Sesión completada!';           // + elogio al cerrar sesión
 export const PLURAL_HINT = 'Ahí solo hay uno. Busca donde hay muchos.'; // fallo en el juego de plural
+export const TOUCH_IMAGE_HINT = 'Primero toca una imagen.';       // FF-1 sin ficha seleccionada
 
 // Etiquetas del juego de plural con concordancia de género («un gato»/«muchos
 // gatos», «una flor»/«muchas flores»). Una sola fuente: pantalla y corpus las
@@ -619,7 +620,7 @@ export const pluralManyLabel = (p: PluralData): string => `${p.gender === 'f' ? 
 import { EXERCISE_ESDO, VARIANTS_ESDO } from './valeriaExerciseEsDO';
 import {
   EXERCISE_EU, VARIANTS_EU, EMO_EU,
-  SESSION_DONE_LEAD_EU, PLURAL_HINT_EU, EMOTION_PROMPT_EU,
+  SESSION_DONE_LEAD_EU, PLURAL_HINT_EU, EMOTION_PROMPT_EU, TOUCH_IMAGE_HINT_EU,
 } from './valeriaExerciseEu';
 
 // `loc` se tipa como string a propósito: así este banco NO importa valeriaLocale
@@ -649,6 +650,10 @@ export const sessionDoneLeadFor = (loc: string): string =>
   loc === 'eu' ? SESSION_DONE_LEAD_EU : SESSION_DONE_LEAD;
 export const pluralHintFor = (loc: string): string =>
   loc === 'eu' ? PLURAL_HINT_EU : PLURAL_HINT;
+// Aviso de "toca una imagen" (FF-1 sin ficha elegida): en euskera resuelve el
+// asset neuronal HiTZ; en el resto, el castellano (Sharvard / voz del sistema).
+export const touchImageHintFor = (loc: string): string =>
+  loc === 'eu' ? TOUCH_IMAGE_HINT_EU : TOUCH_IMAGE_HINT;
 // Pregunta corta de la emoción (título/zoom) y prompt hablado (con opciones).
 export const emotionQuestionFor = (loc: string): string =>
   loc === 'eu' ? EMOTION_PROMPT_EU : '¿Cómo se siente?';
@@ -680,7 +685,7 @@ const EXERCISE_FIXED_LINES: VoiceLine[] = [
   { style: 'child', text: '¡Muy bien! ¡Lo has dicho genial!' }, // VERDICT[2].say
   { style: 'child', text: '¡Casi! Vamos a intentarlo otra vez.' }, // VERDICT[1].say
   { style: 'child', text: 'Vamos a escucharla otra vez.' }, // VERDICT[0].say
-  { style: 'child', text: 'Primero toca una imagen.' }, // matchVowel sin selección (FF-1)
+  { style: 'child', text: TOUCH_IMAGE_HINT }, // matchVowel sin selección (FF-1)
   // Piezas atómicas de las secuencias con refuerzo (speakToChildSeq): la
   // etiqueta de cada emoción, el arranque de "sesión completada" y la pista
   // del juego de plural. El refuerzo aleatorio ya está en los bancos.
