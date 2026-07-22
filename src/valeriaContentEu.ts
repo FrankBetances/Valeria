@@ -3,9 +3,9 @@
 // Versión vasca de los bancos locutables: cápsulas TPR, Rutas de Rutina, bancos
 // de refuerzo y frases fijas. Módulo PURO (enumerable por el corpus de voz).
 //
-// ESTADO: 📝 BORRADOR — pendiente de revisión de euskera normativo (batua) y
-// criterio logopédico. Cableado a las pantallas por variedad y locutado con la
-// voz neuronal HiTZ-TTS. Espejo estructural de valeriaContentGl.ts.
+// ESTADO: ✅ APROBADO PARA PRODUCCIÓN (revisión logopédica de Ulertuz y de
+// euskera normativo/batua cumplida). Cableado a las pantallas por variedad y
+// locutado con la voz neuronal HiTZ-TTS. Espejo estructural de valeriaContentGl.ts.
 // ============================================================================
 import { TprCapsule } from './valeriaTprBank';
 import { RoutineRoute } from './valeriaRoutineRoutes';

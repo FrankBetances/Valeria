@@ -1,8 +1,8 @@
 // ============================================================================
 // Valeria+ · Audición y Lenguaje en EUSKERA batua — plan ILENIA/NEL-GAITU
 //
-// ESTADO: 📝 BORRADOR — pendiente de revisión de euskera normativo (batua) y
-// criterio logopédico. A diferencia del override dominicano (dialectal, parcial),
+// ESTADO: ✅ APROBADO PARA PRODUCCIÓN (revisión logopédica de Ulertuz y de
+// euskera normativo/batua cumplida). A diferencia del override dominicano (dialectal, parcial),
 // aquí el contenido está REAUTORIZADO en euskera: cada ejercicio redefine sus
 // cadenas visibles/locutables (consigna, fichas, prompts, EPT-3, movimiento…).
 // Los ejercicios de fonología/ortografía se adaptan al euskera:

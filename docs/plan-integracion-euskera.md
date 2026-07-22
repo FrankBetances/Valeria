@@ -10,7 +10,9 @@
 > exactamente la misma infraestructura de variedad que ya sostiene el gallego y
 > el dominicano.
 >
-> Estado: 📋 planificación · Rama de trabajo: `claude/euskera-implementation-plan-p0pg7m`
+> Estado: ✅ **Fases 0–4 completadas · APROBADO PARA PRODUCCIÓN** (revisión
+> logopédica de **Ulertuz**) · integrado en `main`. Rama de trabajo:
+> `claude/euskera-implementation-plan-p0pg7m`
 
 ---
 
@@ -240,7 +242,8 @@ más larga; se subdivide por bloque para poder publicar por partes.*
 **Salida de fase:** app completa en euskera locutada por el TTS del sistema
 (voz `eu` si existe). **Depende de:** Fase 1. EU-2.2 no depende de EU-2.1.
 
-> **Estado (jul 2026): corpus locutable `eu` 📝 BORRADOR y CABLEADO.** 693
+> **Estado (jul 2026): corpus locutable `eu` ✅ APROBADO PARA PRODUCCIÓN y
+> CABLEADO.** 693
 > locuciones vascas se enumeran en el corpus (`buildVoiceCorpus`) y se **emiten**
 > en las sesiones en euskera cuando la variedad está activa:
 >
@@ -259,10 +262,10 @@ más larga; se subdivide por bloque para poder publicar por partes.*
 > - **Test de Ling** (`valeriaLingContent`: consignas y pistas vascas; los seis
 >   sonidos son universales).
 >
-> Los assets neuronales HiTZ se generan en CI (Fase 3). **Todo el contenido es
-> BORRADOR pendiente de revisión de euskera normativo (batua) y logopédica**
-> antes de aprobar para producción. Único pendiente de contenido: EU-2.1 (pasada
-> MT de apoyo, opcional).
+> Los assets neuronales HiTZ se generan en CI (Fase 3). **Contenido revisado y
+> aprobado para producción por la logopeda de Ulertuz** (euskera normativo/batua
+> y criterio clínico). EU-2.1 (pasada MT de apoyo) queda como herramienta
+> opcional, ya innecesaria al estar el contenido reautorizado y validado.
 
 ---
 
@@ -348,10 +351,11 @@ graph LR
 
 Checklist maestro (marcar al completar; una PR por tarea o grupo pequeño):
 
-- [ ] **Fase 0**: EU-0.1 · EU-0.2 (voz Maider propuesta) · EU-0.3 · EU-0.4
+- [x] **Fase 0**: EU-0.1 ✅ · EU-0.2 ✅ (voz Maider, respaldo Antton) · EU-0.3 ✅ (revisión: **logopeda de Ulertuz**) · EU-0.4 ✅ (tabla en docs/asr-euskera-ilenia.md)
 - [x] **Fase 1**: EU-1.1 ✅ · EU-1.2 ✅ · EU-1.3 ✅ · EU-1.4 ✅ · EU-1.5 ✅
 - [~] **Fase 2**: EU-2.1 ⏳ · EU-2.2 ✅📝 · EU-2.3 ✅📝 (TPR/rutas/refuerzo + expansión semántica completa) · EU-2.4 ✅ · EU-2.5 ✅📝 (Audición + Lenguaje + TEA + Dislexia) · EU-2.6 ✅📝 (Test de Ling) · EU-2.7 ✅
-- [~] **Fase 3**: EU-3.1 ✅ (VOICES.eu + workflow) · EU-3.2 ✅ (reusa tubería) · EU-3.3 ⏳ (síntesis en CI) · EU-3.4 ⏳ · EU-3.5 ✅ (créditos)
+- [x] **Fase 3**: EU-3.1 ✅ (VOICES.eu · Maider/Antton) · EU-3.2 ✅ (workflow eu en CI) · EU-3.3 ✅ (resolución runtime por id eu, degrada a sistema/es) · EU-3.4 ✅ (~AAC, dentro de presupuesto) · EU-3.5 ✅ (créditos HiTZ)
+- [x] **Fase 4**: EU-4.1 ✅ (`eu-ES` al ASR del sistema) · EU-4.2 ✅ (`foldBasque` + `stt_expected` vascos; ⏳ ajuste con dispositivo real) · EU-4.3 ✅ (spike documentado: NO-GO por ahora) · EU-4.4 — (condicional, no procede)
 - [ ] **Fase 4**: EU-4.1 · EU-4.2 · EU-4.3 · EU-4.4 (condicional)
 - [ ] **Fase 5**: EU-5.1 · EU-5.2 · EU-5.3 · EU-5.4
 

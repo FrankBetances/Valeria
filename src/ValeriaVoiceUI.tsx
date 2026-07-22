@@ -315,7 +315,7 @@ const LOCALES: Array<{ id: Locale; label: string; beta?: boolean }> = [
   { id: 'es', label: 'Castellano' },
   { id: 'gl', label: 'Galego' },
   { id: 'es-DO', label: 'Dominicano' },
-  { id: 'eu', label: 'Euskara', beta: true },
+  { id: 'eu', label: 'Euskara' },
 ];
 
 export const VoiceQualityCard: React.FC = () => {

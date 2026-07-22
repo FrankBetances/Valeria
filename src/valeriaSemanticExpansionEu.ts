@@ -6,9 +6,9 @@
 // traduce literalmente: se REDISEÑA para el léxico y las aproximaciones
 // fonéticas del euskera infantil (`stt_expected_array`).
 //
-// ESTADO: 📝 BORRADOR — pendiente de revisión de euskera normativo (batua) y
-// criterio logopédico. Se locuta con la voz neuronal HiTZ-TTS (enumerado en el
-// corpus). Módulo PURO (enumerable en build-time).
+// ESTADO: ✅ APROBADO PARA PRODUCCIÓN (revisión logopédica de Ulertuz y de
+// euskera normativo/batua cumplida). Se locuta con la voz neuronal HiTZ-TTS
+// (enumerado en el corpus). Módulo PURO (enumerable en build-time).
 // ============================================================================
 import {
   DailyScenario, ProgressionSequence, ContrastCapsule,

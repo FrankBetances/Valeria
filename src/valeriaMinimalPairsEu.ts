@@ -1,8 +1,8 @@
 // ============================================================================
 // Valeria+ · Pares Mínimos en EUSKERA batua (plan ILENIA/NEL-GAITU · HiTZ)
 //
-// ESTADO: 📝 BORRADOR — pendiente de validación logopédica y de euskera
-// normativo (batua). Cableado por variedad (pairsForLocale) y locutado con la
+// ESTADO: ✅ APROBADO PARA PRODUCCIÓN (revisión logopédica de Ulertuz y de
+// euskera normativo/batua cumplida). Cableado por variedad (pairsForLocale) y locutado con la
 // voz neuronal HiTZ-TTS. El banco castellano/gallego NO transfiere: el euskera
 // tiene un sistema de sibilantes propio (s̺ apical vs s̻ laminal vs ʃ) y de
 // africadas (ts̺ · ts̻ · tʃ) que no existe en las otras variedades, así que

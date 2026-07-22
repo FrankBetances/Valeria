@@ -453,6 +453,16 @@ export const foldDominican = (s: string): string =>
     .replace(/\s+/g, ' ')
     .trim();
 
+// Pliegue vasco (plan ILENIA/NEL-GAITU · EU-4.2): la ⟨h⟩ es MUDA en euskera
+// batua y en los euskalkis del sur, y ni el reconocedor `eu-ES` ni —sobre todo—
+// la recaída `es-ES` la devuelven de forma fiable al oír euskera. Se pliega la
+// hache de forma simétrica (objetivo y oído): "hotz"/"otz", "hartza"/"artza" u
+// "ohea"/"oea" cuentan como equivalentes. NO se tocan las sibilantes ni las
+// africadas (s/z/x · ts/tz/tx): son el contraste clínico de los pares mínimos y
+// el adulto es el juez final de esa distinción.
+export const foldBasque = (s: string): string =>
+  s.replace(/h/g, '').replace(/\s+/g, ' ').trim();
+
 export const normalizeSpeech = (s: string): string => {
   const base = s
     .toLowerCase()
@@ -461,8 +471,9 @@ export const normalizeSpeech = (s: string): string => {
     .replace(/[^a-zñ0-9 ]/g, ' ')
     .replace(/\s+/g, ' ')
     .trim();
-  // En dominicano se aceptan las realizaciones con elisión de /s/ y /d/.
-  return getLocale() === 'es-DO' ? foldDominican(base) : base;
+  // Pliegues dialectales: dominicano (elisión de /s/ y /d/) y euskera (h muda).
+  const loc = getLocale();
+  return loc === 'es-DO' ? foldDominican(base) : loc === 'eu' ? foldBasque(base) : base;
 };
 
 const editDistance = (a: string, b: string): number => {

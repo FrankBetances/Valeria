@@ -46,7 +46,7 @@ export const LING_COPY_ESDO: LingCopy = {
 
 // ------------------------------- eu (euskera) -------------------------------
 // Los seis sonidos son universales; en euskera cambian las consignas y pistas
-// al tutor (batua). Borrador pendiente de revisión (plan ILENIA/NEL-GAITU).
+// al tutor (batua). ✅ APROBADO PARA PRODUCCIÓN (revisión de Ulertuz · ILENIA/NEL-GAITU).
 export const LING_SOUNDS_EU: LingSound[] = [
   { sym: 'm',  say: '“mmm”',  freq: 'Grabea · ~250 Hz',      fc: '#3b82f6', hint: 'Soinu sudurkaria, ezpainetan dardara.' },
   { sym: 'u',  say: '“uuu”',  freq: 'Grabea · ~300 Hz',      fc: '#3b82f6', hint: 'Atzeko bokala, ahoa biribilduta.' },
