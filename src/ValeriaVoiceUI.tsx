@@ -344,7 +344,10 @@ export const VoiceQualityCard: React.FC = () => {
       stopSpeaking();
       setLoc(l);
       void setLocale(l);
-      if (assetLang(l) == null || l === 'es') void check();
+      // Re-escanear el catálogo cuando la variedad depende (o puede depender) de
+      // la voz del sistema: es/es-DO (sin banco propio), y también eu, que hoy
+      // recae en la voz del sistema y prefiere una voz vasca nativa si existe.
+      if (assetLang(l) == null || l === 'es' || l === 'eu') void check();
     }
     speakVoiceSample();
   };

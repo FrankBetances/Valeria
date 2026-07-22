@@ -52,14 +52,23 @@ const LEGACY_RE = /(eloquence|compact|espeak|pico)/;
 
 const scoreVoice = (v: Speech.Voice): number => {
   const lang = (v.language ?? '').toLowerCase().replace('_', '-');
-  if (!lang.startsWith('es')) return -1;
+  // Lengua de la variedad activa: en galego/euskera se prefiere una voz NATIVA
+  // del sistema (gl-*/eu-*) si está instalada; si no, se acepta una voz en
+  // español como RESPALDO AUDIBLE (mejor acento castellano que silencio). El
+  // castellano y el dominicano solo puntúan voces españolas.
+  const loc = getLocale();
+  const primary = loc === 'gl' ? 'gl' : loc === 'eu' ? 'eu' : 'es';
+  const isNative = primary !== 'es' && lang.startsWith(primary);
+  if (!isNative && !lang.startsWith('es')) return -1;
   const id = `${v.identifier ?? ''} ${v.name ?? ''}`.toLowerCase();
   // Prioridad de idioma según la variedad activa. En dominicano (es-DO)
   // priorizamos voces latinas (es-US/es-MX/es-DO); en el resto, castellano.
   const latin = /^es-(us|mx|do|419)/.test(lang);
-  let s = prefersLatinVoice()
-    ? (latin ? 4 : lang === 'es-es' ? 2 : 3)
-    : (lang === 'es-es' ? 4 : latin ? 3 : 2);
+  let s = isNative
+    ? 9 // voz nativa de la variedad (eu/gl): gana al respaldo español
+    : prefersLatinVoice()
+      ? (latin ? 4 : lang === 'es-es' ? 2 : 3)
+      : (lang === 'es-es' ? 4 : latin ? 3 : 2);
   if (v.quality === Speech.VoiceQuality.Enhanced) s += 6;
   if (NEURAL_RE.test(id)) s += 4;
   // Voces iOS de alta calidad conocidas para es-ES / es-MX.
@@ -163,6 +172,18 @@ let speakToken = 0; // invalida cadenas de frases pendientes al preemptar
 
 const clamp = (n: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, n));
 
+// Idioma REAL para el motor TTS del sistema (no confundir con speechLocale, que
+// es el locale del ASR). Si en galego/euskera el dispositivo no tiene voz nativa
+// de esa lengua, la voz elegida es española (respaldo): entonces hay que hablar
+// en el idioma de ESA voz, porque pedir `eu-ES`/`gl-ES` a un motor que no lo
+// tiene NO suena nada (silencio). Así el euskera nunca queda mudo: suena con la
+// voz vasca si existe y, si no, con la española (acento castellano) audible.
+const ttsLang = (): string => {
+  const loc = getLocale();
+  if ((loc === 'eu' || loc === 'gl') && bestVoice?.language) return bestVoice.language;
+  return speechLocale();
+};
+
 const splitSentences = (text: string): string[] => {
   const parts = text.match(/[^.!?…]+[.!?…]*/g);
   const out = (parts ?? [text]).map((p) => p.trim()).filter(Boolean);
@@ -183,7 +204,7 @@ const speakChain = (text: string, opts: Speech.SpeechOptions, token: number) => 
     const asking = /[?¿]/.test(sentence);
     const jitter = (((i * 7) % 5) - 2) * 0.012; // micro-variación determinista
     Speech.speak(sentence, {
-      language: speechLocale(),
+      language: ttsLang(),
       ...rest,
       rate: clamp(baseRate + (excited ? 0.03 : 0) + jitter * 0.5, 0.4, 1.3),
       pitch: clamp(basePitch + (excited ? 0.06 : asking ? 0.05 : 0) + jitter, 0.7, 1.45),
@@ -293,7 +314,7 @@ export const speakClinical = (text: string, opts: Speech.SpeechOptions = {}) => 
     if (token !== speakToken) return;
     const { onDone, onError, ...rest } = opts;
     Speech.speak(text, {
-      language: speechLocale(),
+      language: ttsLang(),
       ...rest,
       rate: clamp(rest.rate ?? 0.8, 0.6, 0.9),   // techo bajo: nunca acelera el fonema
       pitch: clamp(rest.pitch ?? 1.0, 0.9, 1.1), // tono plano y estable

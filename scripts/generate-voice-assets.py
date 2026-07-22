@@ -254,10 +254,17 @@ def make_onnx_synth(voice: dict):
     cfg_path = vdir / Path(config_file).name
     curl(f"https://huggingface.co/{repo}/resolve/main/{onnx_file}", onnx_path)
     curl(f"https://huggingface.co/{repo}/resolve/main/{config_file}", cfg_path)
-    cfg = json.loads(cfg_path.read_text())
 
     # ---- Diagnóstico (imprescindible: HF no es accesible en desarrollo) ----
     print(f"Voz: {voice['label']} · {repo} ({Path(onnx_file).name})")
+    raw = cfg_path.read_text(errors="replace")
+    print(f"[diag] config.json {len(raw)} bytes · head: {raw[:200]!r}")
+    if not raw.lstrip().startswith("{"):
+        # No es JSON: normalmente un puntero Git LFS ("version https://git-lfs…")
+        # o una página HTML de acceso restringido (modelo gated sin aceptar).
+        die(f"{repo}/{config_file} no es JSON (¿LFS o gated?). "
+            f"Descarga la versión 'media' con ?download=true o acepta el modelo en HF.")
+    cfg = json.loads(raw)
     print(f"[diag] config keys: {list(cfg.keys())}")
     chars = cfg.get("characters", {})
     print(f"[diag] characters block: {json.dumps(chars, ensure_ascii=False)[:600]}")
