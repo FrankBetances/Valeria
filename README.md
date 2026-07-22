@@ -96,12 +96,12 @@ cualquier dispositivo y **sin conexión**.
 
 | Bloque | Para qué sirve |
 | --- | --- |
-| 🗣️ **Pares Mínimos** | Dislalias fonológicas (rotacismo, sigmatismo, frontalización velar, f→p). 10 pares casi iguales (rana/lana) con juego de voz, misión física y sello doble padre‑hijo. |
-| 🧩 **Expansión Semántica** | Progresión léxica para intervención temprana: 5 escenarios diarios, 7 progresiones (onomatopeya → adjetivo) y 6 cápsulas de contraste, uniendo imagen, voz y acción física. |
-| 👂 **Audición** (13 terapias) | Protocolo ACOPROS: fonética‑fonología, semántica, morfosintaxis y pragmática para audífono, implante coclear o hipoacusia. |
+| 🗣️ **Pares Mínimos** | Dislalias fonológicas (rotacismo, sigmatismo, frontalización velar, f→p). 15 pares casi iguales (rana/lana) en 6 grupos —añade nasales y laterales— con juego de voz, misión física y sello doble padre‑hijo. |
+| 🧩 **Expansión Semántica** | Progresión léxica para intervención temprana: 5 escenarios diarios, 9 progresiones (onomatopeya → adjetivo) y 8 cápsulas de contraste, uniendo imagen, voz y acción física. |
+| 👂 **Audición** (18 terapias) | Protocolo ACOPROS: fonética‑fonología, semántica, morfosintaxis, pragmática y **escucha en ruido** (RA‑1…RA‑5) para audífono, implante coclear o hipoacusia. |
 | 💬 **Lenguaje** (7 terapias) | Protocolo familiar: atención conjunta, imitación, comprensión, expresión, comunicación funcional, regulación e interacción social. |
-| 🧠 **TEA** (5 terapias) | PRT + TCC: atención conjunta triangulada (Time Delay + Sello Doble), quiebre pragmático con consentimiento, espejo asimétrico, transición interrumpida y categorización bajo ruido. Todos los estresores son **manuales** (Panel del Adulto). |
-| 📖 **Dislexia** (5 terapias) | Fonología y acceso léxico: intruso fonológico auditivo puro, rastreo léxico con interferencia, síntesis fonémica rítmica (latencia 500 ms + Juez), criba de pseudopalabras (máx. 5 ensayos) y rastreo visual de rotaciones b/d · p/q con mapa de misclicks. |
+| 🧠 **TEA** (6 terapias) | PRT + TCC: atención conjunta triangulada (Time Delay + Sello Doble), quiebre pragmático con consentimiento, espejo asimétrico, transición interrumpida, categorización bajo ruido y múltiples señales simultáneas. Todos los estresores son **manuales** (Panel del Adulto). |
+| 📖 **Dislexia** (6 terapias) | Fonología y acceso léxico: intruso fonológico auditivo puro, rastreo léxico con interferencia, síntesis fonémica rítmica (latencia 500 ms + Juez), criba de pseudopalabras (máx. 5 ensayos), rastreo visual de rotaciones b/d · p/q con mapa de misclicks y denominación rápida (RAN). |
 
 El **Test de Ling** (6 sonidos) precede a los ejercicios de audición cuando el
 paciente usa audífono o implante, y la **gamificación** (XP, racha 🔥, niveles e
@@ -271,7 +271,7 @@ con *debounce* vía `InteractionManager`, de modo que el cifrado y el guardado e
 
 | Documento | Descripción |
 | --- | --- |
-| **Manual de usuario con casos de uso** (v8.2) · [HTML](docs/manual-casos-de-uso.html) · [PDF](docs/Valeria-Manual-Casos-de-Uso.pdf) · [Word](docs/Valeria-Manual-Casos-de-Uso.docx) | 16 casos de uso paso a paso ilustrados con capturas reales (`docs/screenshots/`): **Academy · formación del cuidador (CU‑03, uno de los primeros casos)**, los cuatro bloques, el hub, la gráfica de sustitución por fonema, la telemetría del piloto (CU‑14), la variedad lingüística (CU‑15), el Panel del Adulto / carga comunicativa (CU‑16) y las novedades v6/v7/v8/v8.1/v8.2. |
+| **Manual de usuario con casos de uso** (v9.0) · [HTML](docs/manual-casos-de-uso.html) · [PDF](docs/Valeria-Manual-Casos-de-Uso.pdf) · [Word](docs/Valeria-Manual-Casos-de-Uso.docx) | 16 casos de uso paso a paso ilustrados con capturas reales (`docs/screenshots/`): **Academy · hub de formación multidominio (CU‑03, uno de los primeros casos)**, los seis bloques (Pares Mínimos, Expansión Semántica, Audición, Lenguaje, TEA y Dislexia), el hub, la gráfica de sustitución por fonema, la telemetría del piloto (CU‑14), la variedad lingüística —Castellano, Galego, Dominicano y Euskera— (CU‑15), el Panel del Adulto / carga comunicativa (CU‑16) y las novedades v6/v7/v8/v8.1/v8.2/v9. |
 | [`docs/protocolo-pares-minimos.md`](docs/protocolo-pares-minimos.md) | Protocolo de pares mínimos para dislalias fonológicas: 10 pares accionables con flujo TTS→STT, feedback por rama y misiones físicas. Implementado en `src/ValeriaMinimalPairsScreen.tsx` + `src/valeriaMinimalPairs.ts`. |
 | [`docs/protocolo-pares-minimos-es-DO.md`](docs/protocolo-pares-minimos-es-DO.md) | Protocolo de pares mínimos en español dominicano (Quisqueya Habla). Implementado en `src/valeriaMinimalPairsEsDO.ts`. |
 | [`docs/protocolo-expansion-semantica.md`](docs/protocolo-expansion-semantica.md) | Protocolo de expansión semántica / progresión léxica offline. Implementado en `src/ValeriaSemanticExpansionScreen.tsx` + `src/valeriaSemanticExpansion.ts`. |
@@ -377,6 +377,35 @@ Guía completa de configuración y despliegue: [`docs/firebase-setup.md`](docs/f
 ## 🕑 Historial de versiones
 
 <details open>
+<summary><strong>V9</strong> — dos bloques nuevos, protocolos ampliados, euskera y Academy multidominio</summary>
+
+- **Bloque TEA** (`TEA_META`, 6 terapias · PRT + TCC): atención conjunta
+  triangulada, quiebre pragmático (con consentimiento informado), espejo
+  asimétrico, transición interrumpida, categorización bajo carga sensorial y
+  múltiples señales simultáneas. Todos los estresores son **manuales**.
+- **Bloque Dislexia** (`DISLEXIA_META`, 6 terapias): conciencia fonológica y
+  acceso léxico —intruso fonológico, rastreo léxico con interferencia, síntesis
+  fonémica rítmica, criba de pseudopalabras, rotaciones b/d · p/q y denominación
+  rápida (RAN)—; el ritmo lo marca la persecución dactilar del adulto, sin
+  cronómetro automático.
+- **Audición ampliada** a **18 terapias**: nueva categoría **«Escucha en ruido»**
+  (RA‑1…RA‑5) sobre el deslizador manual de ruido babble del Panel del Adulto.
+- **Pares Mínimos a 15 pares** (`valeriaMinimalPairs.ts`) con dos grupos nuevos
+  (nasales y laterales); Expansión Semántica sube a 9 progresiones y 8
+  contrastes. Todo entra en el motor de frases portadoras.
+- **Cuarta variedad: Euskera** (`eu`, batua · proyecto ILENIA/NEL‑GAITU): voz
+  neuronal **HiTZ‑TTS** pregenerada (UPV/EHU · Aholab) empaquetada y offline; ASR
+  `eu‑ES` con recaída `es‑ES` + pliegue de la ⟨h⟩ muda (`foldBasque`).
+- **Academy multidominio** (`src/ValeriaAcademy/`): cinco dominios (Lenguaje,
+  Hipoacusia, Dislalias, Dislexia y TEA), cada uno con su escala de niveles e
+  insignias, más un **feed de prioridad** según la patología de la ficha y
+  micro‑guías de hardware (audífono/implante/osteointegrado) en Hipoacusia.
+- **Manual de casos de uso v9**: HTML, DOCX y PDF actualizados a los seis
+  bloques, las cuatro variedades y Academy multidominio.
+
+</details>
+
+<details>
 <summary><strong>V8.2</strong> — Academy: formación gamificada del cuidador</summary>
 
 - **Nuevo módulo Academy** (`src/ValeriaAcademy/`): sistema de capacitación
