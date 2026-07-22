@@ -23,7 +23,8 @@ const COLABORADORES: Colaborador[] = [
 // licencias de los modelos piden acreditar la voz utilizada.
 const VOICE_CREDIT =
   'Voz neuronal en castellano: «Sharvard» (Piper · rhasspy/piper-voices). ' +
-  'En galego (próximamente): «Celtia» · Proxecto Nós.';
+  'En galego (próximamente): «Celtia» · Proxecto Nós. ' +
+  'Euskaraz (laster): HiTZ-TTS · ILENIA/NEL-GAITU (UPV/EHU · Aholab).';
 
 // Secuencia de entrada: marca, kicker, autor, divisor, colaboradores, voces y CTA.
 const SECTIONS = 6 + COLABORADORES.length;

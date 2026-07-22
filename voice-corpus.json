@@ -1,31 +1,31 @@
 {
- "generatedAt": "2026-07-19T19:03:45.358Z",
- "entries": 1174,
+ "generatedAt": "2026-07-22T05:40:09.573Z",
+ "entries": 1395,
  "byStyle": {
-  "clinical": 473,
-  "child": 438,
-  "slow": 134,
+  "clinical": 607,
+  "child": 520,
+  "slow": 139,
   "tutor": 129
  },
  "bySource": {
-  "carrier": 455,
-  "pares/intro": 17,
-  "pares/prompt": 17,
-  "pares/celebracion": 17,
-  "pares/correccion": 17,
-  "pares/retry": 17,
-  "pares/modelado": 17,
-  "pares/roleswap": 42,
-  "pares/fin": 2,
-  "tpr": 48,
-  "tpr/fin": 2,
-  "rutas": 16,
-  "rutas/fin": 2,
-  "banco/elogio": 12,
-  "banco/casi": 8,
-  "banco/no-oido": 6,
-  "banco/juntos": 6,
-  "util/muestra": 2,
+  "carrier": 580,
+  "pares/intro": 22,
+  "pares/prompt": 22,
+  "pares/celebracion": 22,
+  "pares/correccion": 22,
+  "pares/retry": 22,
+  "pares/modelado": 22,
+  "pares/roleswap": 56,
+  "pares/fin": 3,
+  "tpr": 72,
+  "tpr/fin": 3,
+  "rutas": 24,
+  "rutas/fin": 3,
+  "banco/elogio": 18,
+  "banco/casi": 12,
+  "banco/no-oido": 9,
+  "banco/juntos": 9,
+  "util/muestra": 3,
   "expansion": 277,
   "ejercicios": 194
  },
@@ -8246,6 +8246,1553 @@
    "lang": "gl",
    "style": "child",
    "text": "Ola! Así soará a miña voz nos exercicios. A que soa ben?",
+   "source": "util/muestra"
+  },
+  {
+   "id": "eu_clinical_d10072d9_100",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Hartz marroiak lorategian sua aurkitu zuen. Zer aurkitu zuen hartzak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_12f79231_103",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Simon piratak gaur goizean sua bilatzen zuen. Zer bilatzen zuen piratak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_669a06af_101",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Ume txikiak atearen atzean sua marraztu zuen. Zer marraztu zuen umeak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_8a04d338_93",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Rosa amonak pasealekuan sua gorde zuen. Zer gorde zuen amonak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_7ac27dda_94",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Nire lagun Mirenek sua ikusi zuen. Zer ikusi zuen nire lagunak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_bed462ba_100",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Rosa amonak gaur goizean sua marraztu zuen. Zer marraztu zuen amonak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_9060b353_109",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Nire lagun Mirenek atearen atzean sua gorde zuen. Zer gorde zuen nire lagunak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_1c28037f_97",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Hartz marroiak pasealekuan sua ikusi zuen. Zer ikusi zuen hartzak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_35f38a53_88",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Simon piratak sua aurkitu zuen. Zer aurkitu zuen piratak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_7ea3f660_97",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Ume txikiak lorategian sua bilatzen zuen. Zer bilatzen zuen umeak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_471cf3fc_99",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Simon piratak atearen atzean sua ikusi zuen. Zer ikusi zuen piratak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_4f9529b0_96",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Ume txikiak pasealekuan sua aurkitu zuen. Zer aurkitu zuen umeak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_9ed29df6_87",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Rosa amonak sua bilatzen zuen. Zer bilatzen zuen amonak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_20ca5eba_111",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Nire lagun Mirenek lorategian sua marraztu zuen. Zer marraztu zuen nire lagunak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_b3f5d2cd_98",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Hartz marroiak gaur goizean sua gorde zuen. Zer gorde zuen hartzak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_7cb84630_112",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Nire lagun Mirenek pasealekuan sua bilatzen zuen. Zer bilatzen zuen nire lagunak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_a51a055f_91",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Hartz marroiak sua marraztu zuen. Zer marraztu zuen hartzak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_d3608491_95",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Simon piratak lorategian sua gorde zuen. Zer gorde zuen piratak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_d1c94f64_93",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Ume txikiak gaur goizean sua ikusi zuen. Zer ikusi zuen umeak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_493eff9f_100",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Rosa amonak atearen atzean sua aurkitu zuen. Zer aurkitu zuen amonak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_1e62da62_80",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Ume txikiak sua gorde zuen. Zer gorde zuen umeak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_c57def14_92",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Rosa amonak lorategian sua ikusi zuen. Zer ikusi zuen amonak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_d1ffe7ec_111",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Nire lagun Mirenek gaur goizean sua aurkitu zuen. Zer aurkitu zuen nire lagunak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_ecf7eba0_106",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Hartz marroiak atearen atzean sua bilatzen zuen. Zer bilatzen zuen hartzak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_2529d22f_102",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Simon piratak pasealekuan sua marraztu zuen. Zer marraztu zuen piratak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_6af07fe2_102",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Hartz marroiak lorategian hotza aurkitu zuen. Zer aurkitu zuen hartzak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_0609a47e_105",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Simon piratak gaur goizean hotza bilatzen zuen. Zer bilatzen zuen piratak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_4b8a5aac_103",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Ume txikiak atearen atzean hotza marraztu zuen. Zer marraztu zuen umeak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_a8840a9d_95",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Rosa amonak pasealekuan hotza gorde zuen. Zer gorde zuen amonak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_b56e7ce7_96",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Nire lagun Mirenek hotza ikusi zuen. Zer ikusi zuen nire lagunak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_8b6a26e3_102",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Rosa amonak gaur goizean hotza marraztu zuen. Zer marraztu zuen amonak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_cadc513e_111",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Nire lagun Mirenek atearen atzean hotza gorde zuen. Zer gorde zuen nire lagunak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_092b3c04_99",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Hartz marroiak pasealekuan hotza ikusi zuen. Zer ikusi zuen hartzak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_ceb1330c_90",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Simon piratak hotza aurkitu zuen. Zer aurkitu zuen piratak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_7a58f7bb_99",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Ume txikiak lorategian hotza bilatzen zuen. Zer bilatzen zuen umeak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_bb4cbdd3_101",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Simon piratak atearen atzean hotza ikusi zuen. Zer ikusi zuen piratak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_ec4dc73b_98",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Ume txikiak pasealekuan hotza aurkitu zuen. Zer aurkitu zuen umeak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_7627d71f_89",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Rosa amonak hotza bilatzen zuen. Zer bilatzen zuen amonak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_79dedc47_113",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Nire lagun Mirenek lorategian hotza marraztu zuen. Zer marraztu zuen nire lagunak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_a2166bfe_100",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Hartz marroiak gaur goizean hotza gorde zuen. Zer gorde zuen hartzak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_d0376269_114",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Nire lagun Mirenek pasealekuan hotza bilatzen zuen. Zer bilatzen zuen nire lagunak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_3ff08074_93",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Hartz marroiak hotza marraztu zuen. Zer marraztu zuen hartzak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_42832346_97",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Simon piratak lorategian hotza gorde zuen. Zer gorde zuen piratak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_30064997_95",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Ume txikiak gaur goizean hotza ikusi zuen. Zer ikusi zuen umeak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_7e3f789e_102",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Rosa amonak atearen atzean hotza aurkitu zuen. Zer aurkitu zuen amonak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_08dc6671_82",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Ume txikiak hotza gorde zuen. Zer gorde zuen umeak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_eaa9afb1_94",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Rosa amonak lorategian hotza ikusi zuen. Zer ikusi zuen amonak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_d78dba4d_113",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Nire lagun Mirenek gaur goizean hotza aurkitu zuen. Zer aurkitu zuen nire lagunak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_2817b293_108",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Hartz marroiak atearen atzean hotza bilatzen zuen. Zer bilatzen zuen hartzak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_bf9449f0_104",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Simon piratak pasealekuan hotza marraztu zuen. Zer marraztu zuen piratak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_c8fbc098_102",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Hartz marroiak lorategian hitza aurkitu zuen. Zer aurkitu zuen hartzak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_209a2158_105",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Simon piratak gaur goizean hitza bilatzen zuen. Zer bilatzen zuen piratak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_fe06d6ea_103",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Ume txikiak atearen atzean hitza marraztu zuen. Zer marraztu zuen umeak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_fd1b3573_95",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Rosa amonak pasealekuan hitza gorde zuen. Zer gorde zuen amonak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_2a16c891_96",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Nire lagun Mirenek hitza ikusi zuen. Zer ikusi zuen nire lagunak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_e07e3fb1_102",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Rosa amonak gaur goizean hitza marraztu zuen. Zer marraztu zuen amonak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_b7752120_111",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Nire lagun Mirenek atearen atzean hitza gorde zuen. Zer gorde zuen nire lagunak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_6a1bd6a6_99",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Hartz marroiak pasealekuan hitza ikusi zuen. Zer ikusi zuen hartzak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_27e40542_90",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Simon piratak hitza aurkitu zuen. Zer aurkitu zuen piratak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_c89b2de5_99",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Ume txikiak lorategian hitza bilatzen zuen. Zer bilatzen zuen umeak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_f29f7ee1_101",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Simon piratak atearen atzean hitza ikusi zuen. Zer ikusi zuen piratak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_93069add_98",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Ume txikiak pasealekuan hitza aurkitu zuen. Zer aurkitu zuen umeak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_5fc81a29_89",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Rosa amonak hitza bilatzen zuen. Zer bilatzen zuen amonak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_fddf8e9d_113",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Nire lagun Mirenek lorategian hitza marraztu zuen. Zer marraztu zuen nire lagunak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_9308573c_100",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Hartz marroiak gaur goizean hitza gorde zuen. Zer gorde zuen hartzak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_dc1f0b27_114",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Nire lagun Mirenek pasealekuan hitza bilatzen zuen. Zer bilatzen zuen nire lagunak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_8c3fe76a_93",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Hartz marroiak hitza marraztu zuen. Zer marraztu zuen hartzak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_06212738_97",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Simon piratak lorategian hitza gorde zuen. Zer gorde zuen piratak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_acbdcf01_95",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Ume txikiak gaur goizean hitza ikusi zuen. Zer ikusi zuen umeak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_af2c0028_102",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Rosa amonak atearen atzean hitza aurkitu zuen. Zer aurkitu zuen amonak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_8b2b2877_82",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Ume txikiak hitza gorde zuen. Zer gorde zuen umeak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_37f9bfbf_94",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Rosa amonak lorategian hitza ikusi zuen. Zer ikusi zuen amonak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_c077efdb_113",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Nire lagun Mirenek gaur goizean hitza aurkitu zuen. Zer aurkitu zuen nire lagunak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_5ed4c575_108",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Hartz marroiak atearen atzean hitza bilatzen zuen. Zer bilatzen zuen hartzak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_9243bada_104",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Simon piratak pasealekuan hitza marraztu zuen. Zer marraztu zuen piratak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_9fed7423_103",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Hartz marroiak lorategian txaloa aurkitu zuen. Zer aurkitu zuen hartzak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_f8ebd931_106",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Simon piratak gaur goizean txaloa bilatzen zuen. Zer bilatzen zuen piratak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_9cab0481_104",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Ume txikiak atearen atzean txaloa marraztu zuen. Zer marraztu zuen umeak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_c28c7944_96",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Rosa amonak pasealekuan txaloa gorde zuen. Zer gorde zuen amonak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_b454ef72_97",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Nire lagun Mirenek txaloa ikusi zuen. Zer ikusi zuen nire lagunak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_1569a69e_103",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Rosa amonak gaur goizean txaloa marraztu zuen. Zer marraztu zuen amonak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_0f03e5f1_112",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Nire lagun Mirenek atearen atzean txaloa gorde zuen. Zer gorde zuen nire lagunak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_e254a825_100",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Hartz marroiak pasealekuan txaloa ikusi zuen. Zer ikusi zuen hartzak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_af90420f_91",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Simon piratak txaloa aurkitu zuen. Zer aurkitu zuen piratak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_b8469644_100",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Ume txikiak lorategian txaloa bilatzen zuen. Zer bilatzen zuen umeak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_ca60fc66_102",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Simon piratak atearen atzean txaloa ikusi zuen. Zer ikusi zuen piratak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_003bb884_99",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Ume txikiak pasealekuan txaloa aurkitu zuen. Zer aurkitu zuen umeak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_78dc1a76_90",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Rosa amonak txaloa bilatzen zuen. Zer bilatzen zuen amonak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_e8a79486_114",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Nire lagun Mirenek lorategian txaloa marraztu zuen. Zer marraztu zuen nire lagunak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_2fed9f8f_101",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Hartz marroiak gaur goizean txaloa gorde zuen. Zer gorde zuen hartzak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_8ce74b6c_115",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Nire lagun Mirenek pasealekuan txaloa bilatzen zuen. Zer bilatzen zuen nire lagunak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_f04ccb89_94",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Hartz marroiak txaloa marraztu zuen. Zer marraztu zuen hartzak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_fdd3fa49_98",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Simon piratak lorategian txaloa gorde zuen. Zer gorde zuen piratak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_c46840c0_96",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Ume txikiak gaur goizean txaloa ikusi zuen. Zer ikusi zuen umeak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_2efee1c5_103",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Rosa amonak atearen atzean txaloa aurkitu zuen. Zer aurkitu zuen amonak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_3229be22_83",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Ume txikiak txaloa gorde zuen. Zer gorde zuen umeak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_886f5020_95",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Rosa amonak lorategian txaloa ikusi zuen. Zer ikusi zuen amonak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_49cd2090_114",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Nire lagun Mirenek gaur goizean txaloa aurkitu zuen. Zer aurkitu zuen nire lagunak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_1de27f4c_109",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Hartz marroiak atearen atzean txaloa bilatzen zuen. Zer bilatzen zuen hartzak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_150b3047_105",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Simon piratak pasealekuan txaloa marraztu zuen. Zer marraztu zuen piratak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_a9eda5cf_102",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Hartz marroiak lorategian karta aurkitu zuen. Zer aurkitu zuen hartzak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_f031f8cf_105",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Simon piratak gaur goizean karta bilatzen zuen. Zer bilatzen zuen piratak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_73bf01fd_103",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Ume txikiak atearen atzean karta marraztu zuen. Zer marraztu zuen umeak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_8aec1992_95",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Rosa amonak pasealekuan karta gorde zuen. Zer gorde zuen amonak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_d7b9de48_96",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Nire lagun Mirenek karta ikusi zuen. Zer ikusi zuen nire lagunak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_a4c64244_102",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Rosa amonak gaur goizean karta marraztu zuen. Zer marraztu zuen amonak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_d97653b5_111",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Nire lagun Mirenek atearen atzean karta gorde zuen. Zer gorde zuen nire lagunak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_b414d8c9_99",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Hartz marroiak pasealekuan karta ikusi zuen. Zer ikusi zuen hartzak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_79e88655_90",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Simon piratak karta aurkitu zuen. Zer aurkitu zuen piratak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_4bac44ae_99",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Ume txikiak lorategian karta bilatzen zuen. Zer bilatzen zuen umeak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_4e494a12_101",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Simon piratak atearen atzean karta ikusi zuen. Zer ikusi zuen piratak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_fc11ca9e_98",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Ume txikiak pasealekuan karta aurkitu zuen. Zer aurkitu zuen umeak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_00ab17c4_89",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Rosa amonak karta bilatzen zuen. Zer bilatzen zuen amonak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_d2dcb74c_113",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Nire lagun Mirenek lorategian karta marraztu zuen. Zer marraztu zuen nire lagunak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_eb22574b_100",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Hartz marroiak gaur goizean karta gorde zuen. Zer gorde zuen hartzak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_efd1c142_114",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Nire lagun Mirenek pasealekuan karta bilatzen zuen. Zer bilatzen zuen nire lagunak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_f1eb61bd_93",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Hartz marroiak karta marraztu zuen. Zer marraztu zuen hartzak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_5e4af027_97",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Simon piratak lorategian karta gorde zuen. Zer gorde zuen piratak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_689d0362_95",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Ume txikiak gaur goizean karta ikusi zuen. Zer ikusi zuen umeak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_7962f759_102",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Rosa amonak atearen atzean karta aurkitu zuen. Zer aurkitu zuen amonak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_0fd036fc_82",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Ume txikiak karta gorde zuen. Zer gorde zuen umeak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_0438d0e6_94",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Rosa amonak lorategian karta ikusi zuen. Zer ikusi zuen amonak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_aea0a84e_113",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Nire lagun Mirenek gaur goizean karta aurkitu zuen. Zer aurkitu zuen nire lagunak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_e80022ce_108",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Hartz marroiak atearen atzean karta bilatzen zuen. Zer bilatzen zuen hartzak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_8830c42d_104",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Simon piratak pasealekuan karta marraztu zuen. Zer marraztu zuen piratak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_child_10c47315_58",
+   "lang": "eu",
+   "style": "child",
+   "text": "Hemen dugu: su. Eta hemen: zu. Zerk erretzen du? Esan: su.",
+   "source": "pares/intro"
+  },
+  {
+   "id": "eu_child_b8d454cb_27",
+   "lang": "eu",
+   "style": "child",
+   "text": "Zerk erretzen du? Esan: su.",
+   "source": "pares/prompt"
+  },
+  {
+   "id": "eu_child_52bb4c80_47",
+   "lang": "eu",
+   "style": "child",
+   "text": "Su! Zure mihiaren puntak ondo egin du sss hori!",
+   "source": "pares/celebracion"
+  },
+  {
+   "id": "eu_child_2b08d786_81",
+   "lang": "eu",
+   "style": "child",
+   "text": "Zu entzun dut, hatzarekin seinalatzen dena. Nik su eskatu dut, sugarrena. Entzun…",
+   "source": "pares/correccion"
+  },
+  {
+   "id": "eu_child_a397f03a_18",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: su.",
+   "source": "pares/retry"
+  },
+  {
+   "id": "eu_slow_4c5223d5_2",
+   "lang": "eu",
+   "style": "slow",
+   "text": "su",
+   "source": "pares/modelado"
+  },
+  {
+   "id": "eu_child_f0401652_54",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ui! Aitak su esan du. Entzun berriro hurrengo txandan!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "eu_child_fce7152f_54",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ui! Aitak zu esan du. Entzun berriro hurrengo txandan!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "eu_child_00ebce4e_75",
+   "lang": "eu",
+   "style": "child",
+   "text": "Hemen dugu: hotz. Eta hemen: hots. Neguan elurretan nola gaude? Esan: hotz.",
+   "source": "pares/intro"
+  },
+  {
+   "id": "eu_child_5b4393d4_40",
+   "lang": "eu",
+   "style": "child",
+   "text": "Neguan elurretan nola gaude? Esan: hotz.",
+   "source": "pares/prompt"
+  },
+  {
+   "id": "eu_child_4236bd11_52",
+   "lang": "eu",
+   "style": "child",
+   "text": "Hotz! Tz hori ondo atera zaizu, elurra bezain garbi!",
+   "source": "pares/celebracion"
+  },
+  {
+   "id": "eu_child_69cee3d4_87",
+   "lang": "eu",
+   "style": "child",
+   "text": "Hots entzun dut, zaratarena. Nik hotz eskatu dut, elurrarena. Mihia aurreraxeago: hotz.",
+   "source": "pares/correccion"
+  },
+  {
+   "id": "eu_child_2c6933b3_20",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: hotz.",
+   "source": "pares/retry"
+  },
+  {
+   "id": "eu_slow_bc00f6ea_4",
+   "lang": "eu",
+   "style": "slow",
+   "text": "hotz",
+   "source": "pares/modelado"
+  },
+  {
+   "id": "eu_child_9a7a80c1_56",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ui! Aitak hotz esan du. Entzun berriro hurrengo txandan!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "eu_child_449d948e_56",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ui! Aitak hots esan du. Entzun berriro hurrengo txandan!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "eu_child_d500f26e_73",
+   "lang": "eu",
+   "style": "child",
+   "text": "Hemen dugu: hitz. Eta hemen: hits. Ahoarekin zer esaten dugu? Esan: hitz.",
+   "source": "pares/intro"
+  },
+  {
+   "id": "eu_child_b870655c_38",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ahoarekin zer esaten dugu? Esan: hitz.",
+   "source": "pares/prompt"
+  },
+  {
+   "id": "eu_child_fa59d616_51",
+   "lang": "eu",
+   "style": "child",
+   "text": "Hitz! Tz hori indartsu atera da, kanpai bat bezala!",
+   "source": "pares/celebracion"
+  },
+  {
+   "id": "eu_child_6b5f4d27_82",
+   "lang": "eu",
+   "style": "child",
+   "text": "Hits entzun dut, tristearena. Nik hitz eskatu dut, ahokoa. Bukaeran indarra: hitz.",
+   "source": "pares/correccion"
+  },
+  {
+   "id": "eu_child_7fe8dc85_20",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: hitz.",
+   "source": "pares/retry"
+  },
+  {
+   "id": "eu_slow_41b8ef70_4",
+   "lang": "eu",
+   "style": "slow",
+   "text": "hitz",
+   "source": "pares/modelado"
+  },
+  {
+   "id": "eu_child_77574e53_56",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ui! Aitak hitz esan du. Entzun berriro hurrengo txandan!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "eu_child_7f6ddde0_56",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ui! Aitak hits esan du. Entzun berriro hurrengo txandan!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "eu_child_b62209fc_90",
+   "lang": "eu",
+   "style": "child",
+   "text": "Hemen dugu: txalo. Eta hemen: talo. Pozik gaudenean eskuekin zer egiten dugu? Esan: txalo.",
+   "source": "pares/intro"
+  },
+  {
+   "id": "eu_child_0c0b7841_54",
+   "lang": "eu",
+   "style": "child",
+   "text": "Pozik gaudenean eskuekin zer egiten dugu? Esan: txalo.",
+   "source": "pares/prompt"
+  },
+  {
+   "id": "eu_child_79e42329_46",
+   "lang": "eu",
+   "style": "child",
+   "text": "Txalo! Tx hori trena bezala atera da, txu-txu!",
+   "source": "pares/celebracion"
+  },
+  {
+   "id": "eu_child_7ffde20b_88",
+   "lang": "eu",
+   "style": "child",
+   "text": "Talo entzun dut, artoarena, jatekoa. Nik txalo eskatu dut, eskuena. Trena bezala: txalo.",
+   "source": "pares/correccion"
+  },
+  {
+   "id": "eu_child_93c16ff0_21",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: txalo.",
+   "source": "pares/retry"
+  },
+  {
+   "id": "eu_slow_291f2d51_5",
+   "lang": "eu",
+   "style": "slow",
+   "text": "txalo",
+   "source": "pares/modelado"
+  },
+  {
+   "id": "eu_child_0ae939f0_57",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ui! Aitak txalo esan du. Entzun berriro hurrengo txandan!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "eu_child_14f16ec8_56",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ui! Aitak talo esan du. Entzun berriro hurrengo txandan!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "eu_child_0a802698_80",
+   "lang": "eu",
+   "style": "child",
+   "text": "Hemen dugu: karta. Eta hemen: tarta. Zerekin jolasten gara mahaian? Esan: karta.",
+   "source": "pares/intro"
+  },
+  {
+   "id": "eu_child_870933d0_43",
+   "lang": "eu",
+   "style": "child",
+   "text": "Zerekin jolasten gara mahaian? Esan: karta.",
+   "source": "pares/prompt"
+  },
+  {
+   "id": "eu_child_d317756d_56",
+   "lang": "eu",
+   "style": "child",
+   "text": "Karta! K hori eztarriaren zulotik atera da, sakon-sakon!",
+   "source": "pares/celebracion"
+  },
+  {
+   "id": "eu_child_ed8f15f4_98",
+   "lang": "eu",
+   "style": "child",
+   "text": "Tarta entzun dut, urtebetetzekoa. Nik karta eskatu dut, jolastekoa. K-a atzean jaiotzen da: karta.",
+   "source": "pares/correccion"
+  },
+  {
+   "id": "eu_child_1a08caf5_21",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: karta.",
+   "source": "pares/retry"
+  },
+  {
+   "id": "eu_slow_82fa7ec2_5",
+   "lang": "eu",
+   "style": "slow",
+   "text": "karta",
+   "source": "pares/modelado"
+  },
+  {
+   "id": "eu_child_b2dfc363_57",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ui! Aitak karta esan du. Entzun berriro hurrengo txandan!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "eu_child_6a1b6716_57",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ui! Aitak tarta esan du. Entzun berriro hurrengo txandan!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "eu_child_e32d116a_45",
+   "lang": "eu",
+   "style": "child",
+   "text": "Pareen saioa amaituta! Jo bostekoa aitarekin!",
+   "source": "pares/fin"
+  },
+  {
+   "id": "eu_child_6e6b8b06_62",
+   "lang": "eu",
+   "style": "child",
+   "text": "Rolak aldatzen! Orain umeak agintzen du eta aitak hitz egiten.",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "eu_child_443b9066_33",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ez dut aita ondo entzun. Berriro!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "eu_child_dfea87ac_26",
+   "lang": "eu",
+   "style": "child",
+   "text": "Hori da! Zer belarri fina!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "eu_child_a21199e7_48",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ui! Bestea zen. Entzun berriro hurrengo txandan!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "eu_child_63212e7e_12",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ukitu burua.",
+   "source": "tpr"
+  },
+  {
+   "id": "eu_child_34e4bf05_14",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ukitu sudurra.",
+   "source": "tpr"
+  },
+  {
+   "id": "eu_child_e17150cf_24",
+   "lang": "eu",
+   "style": "child",
+   "text": "Altxatu besoak oso gora.",
+   "source": "tpr"
+  },
+  {
+   "id": "eu_child_c2c4dc40_24",
+   "lang": "eu",
+   "style": "child",
+   "text": "Egin jauzi igela bezala.",
+   "source": "tpr"
+  },
+  {
+   "id": "eu_child_ca555b3d_34",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ibili hartza bezala, lau hanketan.",
+   "source": "tpr"
+  },
+  {
+   "id": "eu_child_3cb6d831_41",
+   "lang": "eu",
+   "style": "child",
+   "text": "Egin hegan txoria bezala, besoak mugituz.",
+   "source": "tpr"
+  },
+  {
+   "id": "eu_child_0a8bf33f_22",
+   "lang": "eu",
+   "style": "child",
+   "text": "Egin jauzi hiru aldiz.",
+   "source": "tpr"
+  },
+  {
+   "id": "eu_child_1e5d0bfb_20",
+   "lang": "eu",
+   "style": "child",
+   "text": "Eman buelta oso bat.",
+   "source": "tpr"
+  },
+  {
+   "id": "eu_child_77b11c72_14",
+   "lang": "eu",
+   "style": "child",
+   "text": "Eseri lurrean.",
+   "source": "tpr"
+  },
+  {
+   "id": "eu_child_94da56d5_41",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ibili oso-oso poliki, dortoka bat bezala.",
+   "source": "tpr"
+  },
+  {
+   "id": "eu_child_5fe6acf6_37",
+   "lang": "eu",
+   "style": "child",
+   "text": "Korri egin zure lekuan, azkar, azkar!",
+   "source": "tpr"
+  },
+  {
+   "id": "eu_child_6435b633_39",
+   "lang": "eu",
+   "style": "child",
+   "text": "Estatua! Geldi-geldi egon, mugitu gabe.",
+   "source": "tpr"
+  },
+  {
+   "id": "eu_child_a6e921bf_22",
+   "lang": "eu",
+   "style": "child",
+   "text": "Jo txalo oso indartsu.",
+   "source": "tpr"
+  },
+  {
+   "id": "eu_child_b05d3817_21",
+   "lang": "eu",
+   "style": "child",
+   "text": "Esan agur eskuarekin.",
+   "source": "tpr"
+  },
+  {
+   "id": "eu_child_721ec3cc_22",
+   "lang": "eu",
+   "style": "child",
+   "text": "Bidali musu bat hegan.",
+   "source": "tpr"
+  },
+  {
+   "id": "eu_child_1fda434e_40",
+   "lang": "eu",
+   "style": "child",
+   "text": "Egin zaitez oso handi, luzatu zerurantz.",
+   "source": "tpr"
+  },
+  {
+   "id": "eu_child_54dffd99_43",
+   "lang": "eu",
+   "style": "child",
+   "text": "Egin zaitez txiki-txiki, pilota bat bezala.",
+   "source": "tpr"
+  },
+  {
+   "id": "eu_child_a0a1ad66_43",
+   "lang": "eu",
+   "style": "child",
+   "text": "Zabaldu besoak zuhaitz erraldoi bat bezala.",
+   "source": "tpr"
+  },
+  {
+   "id": "eu_child_8ed06141_26",
+   "lang": "eu",
+   "style": "child",
+   "text": "Jarri poz-pozdun aurpegia.",
+   "source": "tpr"
+  },
+  {
+   "id": "eu_child_9a8413e1_37",
+   "lang": "eu",
+   "style": "child",
+   "text": "Erakutsi haserrea besoak gurutzatuta.",
+   "source": "tpr"
+  },
+  {
+   "id": "eu_child_ecd8b974_42",
+   "lang": "eu",
+   "style": "child",
+   "text": "Eman zeure buruari besarkada indartsu bat.",
+   "source": "tpr"
+  },
+  {
+   "id": "eu_child_64273ffd_39",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ibili robot bat bezala, bip-bop esanez.",
+   "source": "tpr"
+  },
+  {
+   "id": "eu_child_eb445c3a_14",
+   "lang": "eu",
+   "style": "child",
+   "text": "Robota… geldi!",
+   "source": "tpr"
+  },
+  {
+   "id": "eu_child_d106ab07_45",
+   "lang": "eu",
+   "style": "child",
+   "text": "Robota itzaltzen ari da: etzan poliki-poliki.",
+   "source": "tpr"
+  },
+  {
+   "id": "eu_child_dcf105cf_37",
+   "lang": "eu",
+   "style": "child",
+   "text": "Oso ondo! Saioarekin jarraituko dugu!",
+   "source": "tpr/fin"
+  },
+  {
+   "id": "eu_clinical_ba733402_41",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Jarri edalontzi gorria aulkiaren gainean.",
+   "source": "rutas"
+  },
+  {
+   "id": "eu_clinical_f22c3b83_37",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Eman koilara txikia aitari edo amari.",
+   "source": "rutas"
+  },
+  {
+   "id": "eu_clinical_57c61cb4_30",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Sartu zapia plateraren azpian.",
+   "source": "rutas"
+  },
+  {
+   "id": "eu_clinical_a26cf097_46",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Hartu fruitu handiena eta jarri mahai gainean.",
+   "source": "rutas"
+  },
+  {
+   "id": "eu_clinical_d6edf4a9_43",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Jarri eskuila urdina edalontziaren barruan.",
+   "source": "rutas"
+  },
+  {
+   "id": "eu_clinical_20aa78ed_41",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Ekarri eskuoihal txikia eta utzi aulkian.",
+   "source": "rutas"
+  },
+  {
+   "id": "eu_clinical_18606e66_35",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Sartu ahatetxoa bainuontzi hutsean.",
+   "source": "rutas"
+  },
+  {
+   "id": "eu_clinical_a08c3fe7_46",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Eman xaboia aitari edo amari beste eskuarekin.",
+   "source": "rutas"
+  },
+  {
+   "id": "eu_clinical_11fadbdb_47",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Ibilbidea amaituta. Saioarekin jarraituko dugu.",
+   "source": "rutas/fin"
+  },
+  {
+   "id": "eu_child_231cebff_27",
+   "lang": "eu",
+   "style": "child",
+   "text": "Oso ondo! Bikain esan duzu!",
+   "source": "banco/elogio"
+  },
+  {
+   "id": "eu_child_38aaf7b5_26",
+   "lang": "eu",
+   "style": "child",
+   "text": "Bravo! Ze ondo entzun den!",
+   "source": "banco/elogio"
+  },
+  {
+   "id": "eu_child_a067b584_26",
+   "lang": "eu",
+   "style": "child",
+   "text": "Hori da! Hitza lortu duzu!",
+   "source": "banco/elogio"
+  },
+  {
+   "id": "eu_child_883a835c_42",
+   "lang": "eu",
+   "style": "child",
+   "text": "Primeran! Gero eta hobeto ateratzen zaizu!",
+   "source": "banco/elogio"
+  },
+  {
+   "id": "eu_child_906cc88c_32",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ikaragarri! Argi-argi esan duzu!",
+   "source": "banco/elogio"
+  },
+  {
+   "id": "eu_child_b67a86e7_34",
+   "lang": "eu",
+   "style": "child",
+   "text": "Zer ahots ederra! Oso ondo esanda!",
+   "source": "banco/elogio"
+  },
+  {
+   "id": "eu_child_f540d53c_31",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ia-ia! Entzun ondo eta berriro…",
+   "source": "banco/casi"
+  },
+  {
+   "id": "eu_child_c0c98756_41",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ui, gutxigatik! Goazen berriro saiatzera.",
+   "source": "banco/casi"
+  },
+  {
+   "id": "eu_child_bf4ef422_37",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ia lortu duzu! Entzun eta errepikatu.",
+   "source": "banco/casi"
+  },
+  {
+   "id": "eu_child_ebbee185_38",
+   "lang": "eu",
+   "style": "child",
+   "text": "Pixka bat gehiago eta bikain. Berriro!",
+   "source": "banco/casi"
+  },
+  {
+   "id": "eu_child_303ff2f1_45",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ez zaitut ondo entzun. Berriro saiatuko gara!",
+   "source": "banco/no-oido"
+  },
+  {
+   "id": "eu_child_2db71398_51",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ui, ez da zure ahotsa iritsi! Hurbildu eta berriro.",
+   "source": "banco/no-oido"
+  },
+  {
+   "id": "eu_child_0e3a7d69_39",
+   "lang": "eu",
+   "style": "child",
+   "text": "Zure hitza ihes egin dit. Esan berriro!",
+   "source": "banco/no-oido"
+  },
+  {
+   "id": "eu_child_61e549bd_38",
+   "lang": "eu",
+   "style": "child",
+   "text": "Goazen elkarrekin esatera, oso poliki.",
+   "source": "banco/juntos"
+  },
+  {
+   "id": "eu_child_f81fbc18_44",
+   "lang": "eu",
+   "style": "child",
+   "text": "Batera esango dugu, lasai eta presarik gabe.",
+   "source": "banco/juntos"
+  },
+  {
+   "id": "eu_child_cc66ef2f_39",
+   "lang": "eu",
+   "style": "child",
+   "text": "Orain taldean: biok batera esango dugu.",
+   "source": "banco/juntos"
+  },
+  {
+   "id": "eu_child_e7ba1437_73",
+   "lang": "eu",
+   "style": "child",
+   "text": "Kaixo! Honela entzungo da nire ahotsa ariketetan. Ondo entzuten da, ezta?",
    "source": "util/muestra"
   }
  ]

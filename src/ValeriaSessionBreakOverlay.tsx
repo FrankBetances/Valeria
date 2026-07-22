@@ -16,6 +16,7 @@ import { TPR_CAPSULES, TprCapsule } from './valeriaTprBank';
 import { ROUTINE_ROUTES, RoutineRoute } from './valeriaRoutineRoutes';
 import { ROUTE_DONE_PHRASE } from './valeriaPhraseBank';
 import { TPR_CAPSULES_GL, ROUTINE_ROUTES_GL, ROUTE_DONE_PHRASE_GL } from './valeriaContentGl';
+import { TPR_CAPSULES_EU, ROUTINE_ROUTES_EU, ROUTE_DONE_PHRASE_EU } from './valeriaContentEu';
 import { getLocale } from './valeriaLocale';
 import {
   trackCapsuleStart, trackCapsuleDone, trackCapsuleSkip,
@@ -33,9 +34,9 @@ const pick = <T,>(arr: T[]): T => arr[Math.floor(Math.random() * arr.length)];
 // bancos según la variedad activa: en galego, cápsulas y rutas gallegas (que
 // suenan con Celtia); en el resto, las castellanas.
 export const pickSessionBreak = (): SessionBreak => {
-  const gl = getLocale() === 'gl';
-  const capsules = gl ? TPR_CAPSULES_GL : TPR_CAPSULES;
-  const routes = gl ? ROUTINE_ROUTES_GL : ROUTINE_ROUTES;
+  const loc = getLocale();
+  const capsules = loc === 'gl' ? TPR_CAPSULES_GL : loc === 'eu' ? TPR_CAPSULES_EU : TPR_CAPSULES;
+  const routes = loc === 'gl' ? ROUTINE_ROUTES_GL : loc === 'eu' ? ROUTINE_ROUTES_EU : ROUTINE_ROUTES;
   return Math.random() < 0.5
     ? { kind: 'capsule', capsule: pick(capsules) }
     : { kind: 'route', route: pick(routes) };
@@ -64,7 +65,7 @@ const RoutineRouteOverlay: React.FC<{
   useEffect(() => () => stopSpeaking(), []);
 
   const advance = () => {
-    if (last) { speakClinical(getLocale() === 'gl' ? ROUTE_DONE_PHRASE_GL : ROUTE_DONE_PHRASE); onDone(); }
+    if (last) { const l = getLocale(); speakClinical(l === 'gl' ? ROUTE_DONE_PHRASE_GL : l === 'eu' ? ROUTE_DONE_PHRASE_EU : ROUTE_DONE_PHRASE); onDone(); }
     else setStep(step + 1);
   };
 
