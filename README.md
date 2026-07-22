@@ -1,37 +1,78 @@
 <div align="center">
 
-# 🐻 Valeria+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/valeria-logo-white.png">
+  <source media="(prefers-color-scheme: light)" srcset="assets/valeria-logo.png">
+  <img src="assets/valeria-logo.png" alt="Valeria+" width="320">
+</picture>
 
-**App móvil de terapia auditivo‑verbal y del lenguaje** para niñas y niños con
-hipoacusia, implante coclear, dislalias o dificultades del lenguaje.
+### 🐻 Terapia auditivo‑verbal y del lenguaje, offline y en tu bolsillo
 
-Castellano · Galego · Dominicano (es‑DO) · Euskara · voz neuronal offline
+**App móvil para niñas y niños con hipoacusia, implante coclear, dislalias o
+dificultades del lenguaje.**
 
-Expo SDK 54 · React Native 0.81 · TypeScript · Backend opcional Firebase
+<br>
 
+<!-- Idiomas -->
+![Castellano](https://img.shields.io/badge/Castellano-es-C8102E?style=for-the-badge)
+![Galego](https://img.shields.io/badge/Galego-gl-005AA7?style=for-the-badge)
+![Dominicano](https://img.shields.io/badge/Dominicano-es--DO-002D62?style=for-the-badge)
+![Euskara](https://img.shields.io/badge/Euskara-eu-009B48?style=for-the-badge)
+
+<!-- Stack -->
+![Expo SDK 54](https://img.shields.io/badge/Expo-SDK%2054-000020?style=flat-square&logo=expo&logoColor=white)
+![React Native](https://img.shields.io/badge/React%20Native-0.81-61DAFB?style=flat-square&logo=react&logoColor=black)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?style=flat-square&logo=typescript&logoColor=white)
+![Firebase](https://img.shields.io/badge/Firebase-opcional-FFCA28?style=flat-square&logo=firebase&logoColor=black)
+![Voz neuronal](https://img.shields.io/badge/Voz%20neuronal-offline-8A2BE2?style=flat-square)
+![Build](https://github.com/FrankBetances/Valeria/actions/workflows/android.yml/badge.svg)
+
+</div>
+
+<div align="center">
+  <a href="#-qué-es-valeria"><b>¿Qué es?</b></a> ·
+  <a href="#-bloques-de-terapia"><b>Terapia</b></a> ·
+  <a href="#-academy--formación-del-cuidador"><b>Academy</b></a> ·
+  <a href="#-idiomas-y-variedades"><b>Idiomas</b></a> ·
+  <a href="#-puesta-en-marcha"><b>Puesta en marcha</b></a> ·
+  <a href="#-documentación"><b>Documentación</b></a>
 </div>
 
 ---
 
-## Índice
+## 📑 Índice
 
-- [¿Qué es Valeria+?](#qué-es-valeria)
-- [Bloques de terapia](#bloques-de-terapia)
-- [Academy · formación del cuidador](#academy--formación-del-cuidador)
-- [Panel del Adulto · Carga Comunicativa](#panel-del-adulto--carga-comunicativa)
-- [Idiomas y variedades](#idiomas-y-variedades)
-- [Flujo de pantallas](#flujo-de-pantallas)
-- [Telemetría del piloto clínico](#telemetría-del-piloto-clínico)
-- [Documentación](#documentación)
-- [Puesta en marcha](#puesta-en-marcha)
-- [Builds (EAS)](#builds-eas)
-- [Build automático (GitHub Actions)](#build-automático-github-actions)
-- [Backend opcional (Firebase)](#backend-opcional-firebase)
-- [Historial de versiones](#historial-de-versiones)
+<table>
+<tr>
+<td valign="top" width="50%">
+
+**Producto**
+- [¿Qué es Valeria+?](#-qué-es-valeria)
+- [Bloques de terapia](#-bloques-de-terapia)
+- [Academy · formación del cuidador](#-academy--formación-del-cuidador)
+- [Panel del Adulto · Carga Comunicativa](#-panel-del-adulto--carga-comunicativa)
+- [Idiomas y variedades](#-idiomas-y-variedades)
+- [Flujo de pantallas](#-flujo-de-pantallas)
+
+</td>
+<td valign="top" width="50%">
+
+**Ingeniería y clínica**
+- [Telemetría del piloto clínico](#-telemetría-del-piloto-clínico)
+- [Documentación](#-documentación)
+- [Puesta en marcha](#-puesta-en-marcha)
+- [Builds (EAS)](#-builds-eas)
+- [Build automático (GitHub Actions)](#-build-automático-github-actions)
+- [Backend opcional (Firebase)](#-backend-opcional-firebase)
+- [Historial de versiones](#-historial-de-versiones)
+
+</td>
+</tr>
+</table>
 
 ---
 
-## ¿Qué es Valeria+?
+## 🐻 ¿Qué es Valeria+?
 
 Valeria+ reúne en un solo lugar el **registro del paciente**, una comprobación
 auditiva previa (**Test de Ling**), **seis bloques de terapia**, un módulo de
@@ -44,7 +85,14 @@ final** (puede corregir el veredicto con un toque) y, donde no hay micrófono
 (Expo Go, web), valora la respuesta con botones. Así la terapia funciona en
 cualquier dispositivo y **sin conexión**.
 
-## Bloques de terapia
+> [!NOTE]
+> **Principio de diseño (marco MDR).** La app nunca decide sola: el adulto es el
+> juez clínico de cada respuesta y todo funciona **offline**, sin micrófono
+> obligatorio y en cualquier dispositivo (Expo Go, web, móvil).
+
+---
+
+## 🧩 Bloques de terapia
 
 | Bloque | Para qué sirve |
 | --- | --- |
@@ -59,6 +107,10 @@ El **Test de Ling** (6 sonidos) precede a los ejercicios de audición cuando el
 paciente usa audífono o implante, y la **gamificación** (XP, racha 🔥, niveles e
 insignias) mantiene la motivación en todos los bloques.
 
+> [!TIP]
+> **Rondas y sesiones.** Cada mini‑juego de Audición y Lenguaje rota hasta 3
+> contenidos («🔄 Otra ronda») y puede encadenarse en una «🎯 Sesión completa».
+
 Además, cada mini‑juego de Audición y Lenguaje **rota hasta 3 contenidos**
 distintos ("🔄 Otra ronda"), encadenables en una **"🎯 Sesión completa"** por
 bloque, con pausas activas unificadas entre ejercicios (`ValeriaSessionBreakOverlay`):
@@ -69,7 +121,9 @@ portadoras** (`valeriaCarrierPhrases`, es/gl) la incrusta en una frase con
 prosodia continua seguida de una pregunta de elicitación, sin repetir frase en
 diez ensayos seguidos.
 
-## Academy · formación del cuidador
+---
+
+## 🎓 Academy · formación del cuidador
 
 En la terapia auditivo‑verbal el **adulto es el motor clínico** de cada sesión
 (requisito **MDR**: la app nunca decide sola). **Academy** (`src/ValeriaAcademy/`)
@@ -97,7 +151,9 @@ una **barra de progreso que se actualiza en tiempo real**.
   la navegación. El encuadre operativo lo permite: el adulto maneja los menús y
   solo cede la tableta cuando el ejercicio ya ha empezado.
 
-## Panel del Adulto · Carga Comunicativa
+---
+
+## 🎛️ Panel del Adulto · Carga Comunicativa
 
 Para el piloto clínico, Valeria+ añade un **Panel del Adulto** (`ValeriaAdultChaosPanel`)
 —tarjeta colapsable presente en el player— con tres módulos de **carga
@@ -116,7 +172,9 @@ Los overlays (oso y quiebre) viven en la raíz de la pantalla anfitriona —no
 dentro del `ScrollView`— y registran su rectángulo en `ValeriaMisclickBoundary`
 para no ensuciar la telemetría de misclicks.
 
-## Idiomas y variedades
+---
+
+## 🌐 Idiomas y variedades
 
 Valeria+ locuta y evalúa el **contenido terapéutico** en cuatro variedades,
 seleccionables desde la tarjeta **«Voz de la app»** (`ValeriaVoiceUI`). La
@@ -150,17 +208,29 @@ reconocedor/voz del sistema y si conviene preferir voces latinas.
   pares) y dominicano (`src/valeriaMinimalPairsEsDO.ts`, 8 pares construidos solo
   donde el contraste es estable en RD).
 
-## Flujo de pantallas
+---
 
-```
-Welcome → Credits → (PatientSelect ó FichaRegistro) → ExerciseSelection
-        → LingTest → ExercisePlayer → Results
-                   ↘ MinimalPairs (Pares Mínimos)
-                   ↘ SemanticExpansion (Expansión Semántica)
-                   ↘ Academy (formación del cuidador)
+## 🗺️ Flujo de pantallas
+
+```mermaid
+flowchart LR
+    W[Welcome] --> C[Credits]
+    C --> P{Paciente}
+    P -->|nuevo| F[FichaRegistro]
+    P -->|existente| S[PatientSelect]
+    F --> H[ExerciseSelection]
+    S --> H
+    H --> L[LingTest]
+    L --> E[ExercisePlayer]
+    E --> R[Results]
+    H -.-> MP[MinimalPairs]
+    H -.-> SE[SemanticExpansion]
+    H -.-> AC[Academy]
 ```
 
-## Telemetría del piloto clínico
+---
+
+## 📊 Telemetría del piloto clínico
 
 Para recabar **evidencia de usabilidad** durante el piloto (validación
 regulatoria y académica) sin fricción para las familias, Valeria+ incluye una
@@ -195,7 +265,9 @@ con *debounce* vía `InteractionManager`, de modo que el cifrado y el guardado e
 > Al tratarse de un piloto con menores, el **consentimiento informado** de las
 > familias debe gestionarse en el protocolo del estudio, fuera de la app.
 
-## Documentación
+---
+
+## 📚 Documentación
 
 | Documento | Descripción |
 | --- | --- |
@@ -222,18 +294,30 @@ chromium --headless --no-pdf-header-footer \
 > El DOCX se construye con un script propio (`build-docx.py`) que **replica** el
 > contenido del HTML: al cambiar el manual hay que editar ambos.
 
-## Puesta en marcha
+---
+
+## 🚀 Puesta en marcha
+
+> **Requisitos:** Node.js 18+, `npm` y la app **Expo Go** en el móvil (o un
+> emulador Android/iOS). No hace falta configurar nada más para probarla en local.
 
 ```bash
-npm install
-npm start        # expo start
-npm run android  # expo start --android
-npm run ios      # expo start --ios
-npm run web      # expo start --web
-npm run typecheck
+npm install       # instala dependencias
+npm start         # expo start — abre el panel de Metro (escanea el QR con Expo Go)
+npm run typecheck # tsc --noEmit — comprobación de tipos
 ```
 
-## Builds (EAS)
+| Comando | Qué hace |
+| --- | --- |
+| `npm start` | Arranca Metro; escanea el QR con **Expo Go**. |
+| `npm run android` | Abre en emulador o dispositivo **Android**. |
+| `npm run ios` | Abre en simulador **iOS** (solo macOS). |
+| `npm run web` | Abre la versión **web** en el navegador. |
+| `npm run typecheck` | Verifica los tipos de TypeScript. |
+
+---
+
+## 🏗️ Builds (EAS)
 
 ```bash
 npx eas build -p android --profile apk         # APK directo: solo ARM, ProGuard + shrinkResources
@@ -245,7 +329,9 @@ móviles reales), eliminando las librerías x86 de emulador del binario. Para
 publicar en Google Play usa siempre el App Bundle: Play genera un APK optimizado
 por dispositivo y la descarga es bastante menor.
 
-## Build automático (GitHub Actions)
+---
+
+## ⚙️ Build automático (GitHub Actions)
 
 El workflow [`.github/workflows/android.yml`](.github/workflows/android.yml)
 compila la app en cada push/fusión a `main` (y en ramas `claude/**`). Con los
@@ -261,7 +347,8 @@ build Android que empaqueta el audio en el binario. La voz gallega usa el
 checkpoint *gated* de Celtia, que requiere el secret `HF_TOKEN`.
 
 <details>
-<summary>Secrets de firma necesarios</summary>
+<summary><strong>🔐 Secrets de firma necesarios</strong></summary>
+<br>
 
 - `ANDROID_RELEASE_KEYSTORE_BASE64`
 - `ANDROID_RELEASE_STORE_PASSWORD`
@@ -270,7 +357,7 @@ checkpoint *gated* de Celtia, que requiere el secret `HF_TOKEN`.
 
 </details>
 
-## Backend opcional (Firebase)
+## 🔥 Backend opcional (Firebase)
 
 Para probar la app con profesionales, Valeria+ incluye un backend **aditivo y
 opcional**: **Firebase Authentication** (email/contraseña) + **Cloud Firestore**.
@@ -285,7 +372,9 @@ La app sigue funcionando en local sin conexión si no se activa.
 
 Guía completa de configuración y despliegue: [`docs/firebase-setup.md`](docs/firebase-setup.md).
 
-## Historial de versiones
+---
+
+## 🕑 Historial de versiones
 
 <details open>
 <summary><strong>V8.2</strong> — Academy: formación gamificada del cuidador</summary>
@@ -434,3 +523,21 @@ Guía completa de configuración y despliegue: [`docs/firebase-setup.md`](docs/f
   Legendario) e insignias.
 
 </details>
+
+---
+
+<div align="center">
+
+### 🤝 Contribuir · 🔒 Seguridad · 📄 Licencia
+
+[**Guía de contribución**](CONTRIBUTING.md) ·
+[**Política de seguridad**](SECURITY.md) ·
+[**Licencia**](LICENSE)
+
+<br>
+
+Hecho con 🐻 por **Dr. Frank Alberto Betances Reinoso**
+
+<sub>Valeria+ · terapia auditivo‑verbal y del lenguaje · offline · multivariedad</sub>
+
+</div>
