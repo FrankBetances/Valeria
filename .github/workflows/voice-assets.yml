@@ -119,15 +119,21 @@ jobs:
           echo "missing=$MISSING" >> "$GITHUB_OUTPUT"
           echo "Locuciones eu sin asset: $MISSING"
 
-      - name: Install onnxruntime (HiTZ euskera)
+      # AhoTTS trae el binario `tts` + diccionarios vascos (eu_dicc); el vits.onnx
+      # se descarga de HF con huggingface_hub. La voz vasca se sintetiza a través
+      # de ese binario (frontend lingüístico + G2P), no con el ONNX suelto.
+      - name: Set up AhoTTS (HiTZ euskera)
         if: steps.eucheck.outputs.missing != '0'
-        run: pip install onnxruntime numpy
+        run: |
+          git clone --depth 1 https://github.com/hitz-zentroa/aHoTTS.git "$RUNNER_TEMP/ahotts"
+          chmod +x "$RUNNER_TEMP/ahotts/ahotts/tts" || true
+          pip install huggingface_hub
+          echo "AHOTTS_DIR=$RUNNER_TEMP/ahotts" >> "$GITHUB_ENV"
 
-      # HF_TOKEN (secret): las voces de HiTZ pueden ser "gated" en Hugging Face.
-      # NO bloqueante: si la inferencia ONNX falla o descarta ítems (guarda
-      # anti-basura), el resto del pipeline sigue y el euskera degrada a la voz
-      # del sistema eu-ES; el log imprime el esquema real del modelo (diagnóstico).
-      - name: Synthesize eu (HiTZ-TTS · ILENIA/NEL-GAITU)
+      # NO bloqueante: si AhoTTS falla (libs del binario, descarga del modelo),
+      # el resto del pipeline sigue y el euskera degrada a la voz del sistema
+      # eu-ES; el log (ldd, diagnóstico) revela la causa para iterar.
+      - name: Synthesize eu (AhoTTS · HiTZ/Aholab)
         if: steps.eucheck.outputs.missing != '0'
         continue-on-error: true
         env:
