@@ -102,7 +102,8 @@ jobs:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: python3 scripts/generate-voice-assets.py --lang gl
 
-      # euskera (HiTZ-TTS · ILENIA/NEL-GAITU): mismo motor coqui/VITS que gl.
+      # euskera (HiTZ-TTS · ILENIA/NEL-GAITU): VITS de grafemas en ONNX
+      # (vits.onnx + config.json). Se infiere con onnxruntime, sin torch/coqui.
       - name: Check missing eu assets
         id: eucheck
         run: |
@@ -116,16 +117,17 @@ jobs:
           echo "missing=$MISSING" >> "$GITHUB_OUTPUT"
           echo "Locuciones eu sin asset: $MISSING"
 
-      # Reutiliza coqui-tts si ya se instaló para gl; si no, lo instala ahora.
-      - name: Install coqui-tts (HiTZ euskera)
-        if: steps.eucheck.outputs.missing != '0' && steps.glcheck.outputs.missing == '0'
-        run: |
-          pip install torch torchaudio --index-url https://download.pytorch.org/whl/cpu
-          pip install coqui-tts "transformers<4.50"
+      - name: Install onnxruntime (HiTZ euskera)
+        if: steps.eucheck.outputs.missing != '0'
+        run: pip install onnxruntime numpy
 
       # HF_TOKEN (secret): las voces de HiTZ pueden ser "gated" en Hugging Face.
+      # NO bloqueante: si la inferencia ONNX falla o descarta ítems (guarda
+      # anti-basura), el resto del pipeline sigue y el euskera degrada a la voz
+      # del sistema eu-ES; el log imprime el esquema real del modelo (diagnóstico).
       - name: Synthesize eu (HiTZ-TTS · ILENIA/NEL-GAITU)
         if: steps.eucheck.outputs.missing != '0'
+        continue-on-error: true
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: python3 scripts/generate-voice-assets.py --lang eu
