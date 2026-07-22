@@ -12,10 +12,12 @@
 import { MINIMAL_PAIRS, MinimalPair } from './valeriaMinimalPairs';
 import { MINIMAL_PAIRS_GL } from './valeriaMinimalPairsGl';
 import { MINIMAL_PAIRS_ESDO } from './valeriaMinimalPairsEsDO';
+import { MINIMAL_PAIRS_EU } from './valeriaMinimalPairsEu';
 import { Locale } from './valeriaLocale';
 
 export function pairsForLocale(loc: Locale): MinimalPair[] {
   return loc === 'gl' ? MINIMAL_PAIRS_GL
     : loc === 'es-DO' ? MINIMAL_PAIRS_ESDO
-      : MINIMAL_PAIRS;
+      : loc === 'eu' ? MINIMAL_PAIRS_EU
+        : MINIMAL_PAIRS;
 }

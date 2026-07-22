@@ -58,7 +58,7 @@ import { ValeriaPragmaticBreakOverlay } from './ValeriaPragmaticBreak';
 import { releaseNoise } from './valeriaNoise';
 import { AUDICION_META, LENGUAJE_META, TEA_META, DISLEXIA_META } from './valeriaExerciseMeta';
 import { markBlockCompleted } from './valeriaTelemetry';
-import { Tile, Exercise, DEFAULT_SESSION, EMO, SESSION_DONE_LEAD, PLURAL_HINT, pluralOneLabel, pluralManyLabel, dbForLocale, variantsForLocale } from './valeriaExerciseBank';
+import { Tile, Exercise, DEFAULT_SESSION, dbForLocale, variantsForLocale, emoForLocale, sessionDoneLeadFor, pluralHintFor, emotionQuestionFor, emotionPromptFor, pluralOneLabelFor, pluralManyLabelFor } from './valeriaExerciseBank';
 import { getLocale } from './valeriaLocale';
 
 // Conjuntos de ids por bloque para marcar el hito de "bloque completado" (SUS).
@@ -234,8 +234,13 @@ const ConfettiBurst: React.FC = () => {
 export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: any }> = ({ navigation, route }) => {
   // Banco de la variedad activa (fijado al montar): en es-DO aplica los overrides
   // dominicanos (léxico, consignas y plural por determinante · QH-2.3).
-  const db = useRef(dbForLocale(getLocale())).current;
-  const variantsMap = useRef(variantsForLocale(getLocale())).current;
+  const loc = useRef(getLocale()).current;
+  const db = useRef(dbForLocale(loc)).current;
+  const variantsMap = useRef(variantsForLocale(loc)).current;
+  // Constantes de pantalla localizadas por variedad (emociones, cierre de
+  // sesión, pista y etiquetas de plural): en eu son vascas (HiTZ).
+  const emo = useRef(emoForLocale(loc)).current;
+  const emoQuestion = emotionQuestionFor(loc);
   const startId: string | undefined = route?.params?.id;
   const startIds: string[] | undefined = route?.params?.ids;
   const sessionIds = useMemo(() => {
@@ -562,7 +567,7 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
     if (sessionIds.some((id) => TEA_IDS.has(id))) markBlockCompleted('tea');
     if (sessionIds.some((id) => DIX_IDS.has(id))) markBlockCompleted('dislexia');
     // Celebración hablada para el niño al cerrar la sesión (frase rotativa).
-    speakToChildSeq([SESSION_DONE_LEAD, praisePhrase()]);
+    speakToChildSeq([sessionDoneLeadFor(loc), praisePhrase()]);
   };
 
   // Cuenta atrás hacia Resultados. El updater solo decrementa; la navegación
@@ -958,20 +963,20 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
               {ex.stage === 'emotions' && (
                 <>
                   <View style={{ alignItems: 'center', marginBottom: 16 }}>
-                    <Pressable onPress={() => openZoom(ex.emotionFace!, '¿Cómo se siente?')} accessibilityRole="imagebutton" accessibilityLabel="Ampliar la cara">
+                    <Pressable onPress={() => openZoom(ex.emotionFace!, emoQuestion)} accessibilityRole="imagebutton" accessibilityLabel="Ampliar la cara">
                       <Text style={{ fontSize: 62 }}>{ex.emotionFace}</Text>
                     </Pressable>
-                    <Text style={s.emoQ}>¿Cómo se siente?</Text>
+                    <Text style={s.emoQ}>{emoQuestion}</Text>
                     {/* Apoyo auditivo: oír las opciones antes de elegir */}
                     <View style={{ marginTop: 10 }}>
                       <SpeakButton
-                        text={`¿Cómo se siente? ¿${EMO.map((e) => e.label).join(', ')}?`}
+                        text={emotionPromptFor(loc, emo)}
                         label="Oír las opciones"
                       />
                     </View>
                   </View>
                   <View style={s.grid2}>
-                    {EMO.map((e) => {
+                    {emo.map((e) => {
                       const pickedEmo = emotionPick === e.label;
                       const isAns = e.label === ex.emotionAnswer;
                       const ok = pickedEmo && isAns; const bad = pickedEmo && !isAns;
@@ -1028,14 +1033,14 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                     {([['one', 1], ['many', 3]] as const).map(([kind, n]) => {
                       const tapped = pluralPick === kind;
                       const isAns = kind === 'many';
-                      const label = kind === 'one' ? pluralOneLabel(ex.plural!) : pluralManyLabel(ex.plural!);
+                      const label = kind === 'one' ? pluralOneLabelFor(loc, ex.plural!) : pluralManyLabelFor(loc, ex.plural!);
                       return (
                         <Pressable
                           key={kind}
                           onPress={() => {
                             if (pluralPick !== kind) {
                               setPluralPick(kind);
-                              speakToChildSeq([label, isAns ? praisePhrase() : PLURAL_HINT]);
+                              speakToChildSeq([label, isAns ? praisePhrase() : pluralHintFor(loc)]);
                             }
                           }}
                           accessibilityRole="button"

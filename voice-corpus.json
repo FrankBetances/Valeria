@@ -1,33 +1,33 @@
 {
- "generatedAt": "2026-07-19T19:03:45.358Z",
- "entries": 1174,
+ "generatedAt": "2026-07-22T06:05:08.906Z",
+ "entries": 1867,
  "byStyle": {
-  "clinical": 473,
-  "child": 438,
-  "slow": 134,
-  "tutor": 129
+  "clinical": 607,
+  "child": 744,
+  "slow": 258,
+  "tutor": 258
  },
  "bySource": {
-  "carrier": 455,
-  "pares/intro": 17,
-  "pares/prompt": 17,
-  "pares/celebracion": 17,
-  "pares/correccion": 17,
-  "pares/retry": 17,
-  "pares/modelado": 17,
-  "pares/roleswap": 42,
-  "pares/fin": 2,
-  "tpr": 48,
-  "tpr/fin": 2,
-  "rutas": 16,
-  "rutas/fin": 2,
-  "banco/elogio": 12,
-  "banco/casi": 8,
-  "banco/no-oido": 6,
-  "banco/juntos": 6,
-  "util/muestra": 2,
-  "expansion": 277,
-  "ejercicios": 194
+  "carrier": 580,
+  "pares/intro": 22,
+  "pares/prompt": 22,
+  "pares/celebracion": 22,
+  "pares/correccion": 22,
+  "pares/retry": 22,
+  "pares/modelado": 22,
+  "pares/roleswap": 56,
+  "pares/fin": 3,
+  "tpr": 72,
+  "tpr/fin": 3,
+  "rutas": 24,
+  "rutas/fin": 3,
+  "banco/elogio": 18,
+  "banco/casi": 12,
+  "banco/no-oido": 9,
+  "banco/juntos": 9,
+  "util/muestra": 3,
+  "expansion": 552,
+  "ejercicios": 391
  },
  "corpus": [
   {
@@ -8247,6 +8247,4857 @@
    "style": "child",
    "text": "Ola! Así soará a miña voz nos exercicios. A que soa ben?",
    "source": "util/muestra"
+  },
+  {
+   "id": "eu_clinical_d10072d9_100",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Hartz marroiak lorategian sua aurkitu zuen. Zer aurkitu zuen hartzak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_12f79231_103",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Simon piratak gaur goizean sua bilatzen zuen. Zer bilatzen zuen piratak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_669a06af_101",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Ume txikiak atearen atzean sua marraztu zuen. Zer marraztu zuen umeak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_8a04d338_93",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Rosa amonak pasealekuan sua gorde zuen. Zer gorde zuen amonak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_7ac27dda_94",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Nire lagun Mirenek sua ikusi zuen. Zer ikusi zuen nire lagunak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_bed462ba_100",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Rosa amonak gaur goizean sua marraztu zuen. Zer marraztu zuen amonak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_9060b353_109",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Nire lagun Mirenek atearen atzean sua gorde zuen. Zer gorde zuen nire lagunak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_1c28037f_97",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Hartz marroiak pasealekuan sua ikusi zuen. Zer ikusi zuen hartzak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_35f38a53_88",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Simon piratak sua aurkitu zuen. Zer aurkitu zuen piratak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_7ea3f660_97",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Ume txikiak lorategian sua bilatzen zuen. Zer bilatzen zuen umeak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_471cf3fc_99",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Simon piratak atearen atzean sua ikusi zuen. Zer ikusi zuen piratak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_4f9529b0_96",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Ume txikiak pasealekuan sua aurkitu zuen. Zer aurkitu zuen umeak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_9ed29df6_87",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Rosa amonak sua bilatzen zuen. Zer bilatzen zuen amonak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_20ca5eba_111",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Nire lagun Mirenek lorategian sua marraztu zuen. Zer marraztu zuen nire lagunak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_b3f5d2cd_98",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Hartz marroiak gaur goizean sua gorde zuen. Zer gorde zuen hartzak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_7cb84630_112",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Nire lagun Mirenek pasealekuan sua bilatzen zuen. Zer bilatzen zuen nire lagunak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_a51a055f_91",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Hartz marroiak sua marraztu zuen. Zer marraztu zuen hartzak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_d3608491_95",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Simon piratak lorategian sua gorde zuen. Zer gorde zuen piratak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_d1c94f64_93",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Ume txikiak gaur goizean sua ikusi zuen. Zer ikusi zuen umeak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_493eff9f_100",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Rosa amonak atearen atzean sua aurkitu zuen. Zer aurkitu zuen amonak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_1e62da62_80",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Ume txikiak sua gorde zuen. Zer gorde zuen umeak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_c57def14_92",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Rosa amonak lorategian sua ikusi zuen. Zer ikusi zuen amonak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_d1ffe7ec_111",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Nire lagun Mirenek gaur goizean sua aurkitu zuen. Zer aurkitu zuen nire lagunak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_ecf7eba0_106",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Hartz marroiak atearen atzean sua bilatzen zuen. Zer bilatzen zuen hartzak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_2529d22f_102",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Simon piratak pasealekuan sua marraztu zuen. Zer marraztu zuen piratak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_6af07fe2_102",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Hartz marroiak lorategian hotza aurkitu zuen. Zer aurkitu zuen hartzak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_0609a47e_105",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Simon piratak gaur goizean hotza bilatzen zuen. Zer bilatzen zuen piratak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_4b8a5aac_103",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Ume txikiak atearen atzean hotza marraztu zuen. Zer marraztu zuen umeak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_a8840a9d_95",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Rosa amonak pasealekuan hotza gorde zuen. Zer gorde zuen amonak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_b56e7ce7_96",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Nire lagun Mirenek hotza ikusi zuen. Zer ikusi zuen nire lagunak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_8b6a26e3_102",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Rosa amonak gaur goizean hotza marraztu zuen. Zer marraztu zuen amonak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_cadc513e_111",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Nire lagun Mirenek atearen atzean hotza gorde zuen. Zer gorde zuen nire lagunak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_092b3c04_99",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Hartz marroiak pasealekuan hotza ikusi zuen. Zer ikusi zuen hartzak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_ceb1330c_90",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Simon piratak hotza aurkitu zuen. Zer aurkitu zuen piratak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_7a58f7bb_99",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Ume txikiak lorategian hotza bilatzen zuen. Zer bilatzen zuen umeak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_bb4cbdd3_101",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Simon piratak atearen atzean hotza ikusi zuen. Zer ikusi zuen piratak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_ec4dc73b_98",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Ume txikiak pasealekuan hotza aurkitu zuen. Zer aurkitu zuen umeak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_7627d71f_89",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Rosa amonak hotza bilatzen zuen. Zer bilatzen zuen amonak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_79dedc47_113",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Nire lagun Mirenek lorategian hotza marraztu zuen. Zer marraztu zuen nire lagunak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_a2166bfe_100",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Hartz marroiak gaur goizean hotza gorde zuen. Zer gorde zuen hartzak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_d0376269_114",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Nire lagun Mirenek pasealekuan hotza bilatzen zuen. Zer bilatzen zuen nire lagunak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_3ff08074_93",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Hartz marroiak hotza marraztu zuen. Zer marraztu zuen hartzak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_42832346_97",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Simon piratak lorategian hotza gorde zuen. Zer gorde zuen piratak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_30064997_95",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Ume txikiak gaur goizean hotza ikusi zuen. Zer ikusi zuen umeak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_7e3f789e_102",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Rosa amonak atearen atzean hotza aurkitu zuen. Zer aurkitu zuen amonak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_08dc6671_82",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Ume txikiak hotza gorde zuen. Zer gorde zuen umeak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_eaa9afb1_94",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Rosa amonak lorategian hotza ikusi zuen. Zer ikusi zuen amonak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_d78dba4d_113",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Nire lagun Mirenek gaur goizean hotza aurkitu zuen. Zer aurkitu zuen nire lagunak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_2817b293_108",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Hartz marroiak atearen atzean hotza bilatzen zuen. Zer bilatzen zuen hartzak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_bf9449f0_104",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Simon piratak pasealekuan hotza marraztu zuen. Zer marraztu zuen piratak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_c8fbc098_102",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Hartz marroiak lorategian hitza aurkitu zuen. Zer aurkitu zuen hartzak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_209a2158_105",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Simon piratak gaur goizean hitza bilatzen zuen. Zer bilatzen zuen piratak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_fe06d6ea_103",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Ume txikiak atearen atzean hitza marraztu zuen. Zer marraztu zuen umeak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_fd1b3573_95",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Rosa amonak pasealekuan hitza gorde zuen. Zer gorde zuen amonak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_2a16c891_96",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Nire lagun Mirenek hitza ikusi zuen. Zer ikusi zuen nire lagunak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_e07e3fb1_102",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Rosa amonak gaur goizean hitza marraztu zuen. Zer marraztu zuen amonak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_b7752120_111",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Nire lagun Mirenek atearen atzean hitza gorde zuen. Zer gorde zuen nire lagunak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_6a1bd6a6_99",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Hartz marroiak pasealekuan hitza ikusi zuen. Zer ikusi zuen hartzak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_27e40542_90",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Simon piratak hitza aurkitu zuen. Zer aurkitu zuen piratak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_c89b2de5_99",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Ume txikiak lorategian hitza bilatzen zuen. Zer bilatzen zuen umeak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_f29f7ee1_101",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Simon piratak atearen atzean hitza ikusi zuen. Zer ikusi zuen piratak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_93069add_98",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Ume txikiak pasealekuan hitza aurkitu zuen. Zer aurkitu zuen umeak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_5fc81a29_89",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Rosa amonak hitza bilatzen zuen. Zer bilatzen zuen amonak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_fddf8e9d_113",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Nire lagun Mirenek lorategian hitza marraztu zuen. Zer marraztu zuen nire lagunak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_9308573c_100",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Hartz marroiak gaur goizean hitza gorde zuen. Zer gorde zuen hartzak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_dc1f0b27_114",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Nire lagun Mirenek pasealekuan hitza bilatzen zuen. Zer bilatzen zuen nire lagunak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_8c3fe76a_93",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Hartz marroiak hitza marraztu zuen. Zer marraztu zuen hartzak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_06212738_97",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Simon piratak lorategian hitza gorde zuen. Zer gorde zuen piratak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_acbdcf01_95",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Ume txikiak gaur goizean hitza ikusi zuen. Zer ikusi zuen umeak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_af2c0028_102",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Rosa amonak atearen atzean hitza aurkitu zuen. Zer aurkitu zuen amonak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_8b2b2877_82",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Ume txikiak hitza gorde zuen. Zer gorde zuen umeak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_37f9bfbf_94",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Rosa amonak lorategian hitza ikusi zuen. Zer ikusi zuen amonak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_c077efdb_113",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Nire lagun Mirenek gaur goizean hitza aurkitu zuen. Zer aurkitu zuen nire lagunak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_5ed4c575_108",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Hartz marroiak atearen atzean hitza bilatzen zuen. Zer bilatzen zuen hartzak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_9243bada_104",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Simon piratak pasealekuan hitza marraztu zuen. Zer marraztu zuen piratak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_9fed7423_103",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Hartz marroiak lorategian txaloa aurkitu zuen. Zer aurkitu zuen hartzak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_f8ebd931_106",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Simon piratak gaur goizean txaloa bilatzen zuen. Zer bilatzen zuen piratak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_9cab0481_104",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Ume txikiak atearen atzean txaloa marraztu zuen. Zer marraztu zuen umeak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_c28c7944_96",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Rosa amonak pasealekuan txaloa gorde zuen. Zer gorde zuen amonak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_b454ef72_97",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Nire lagun Mirenek txaloa ikusi zuen. Zer ikusi zuen nire lagunak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_1569a69e_103",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Rosa amonak gaur goizean txaloa marraztu zuen. Zer marraztu zuen amonak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_0f03e5f1_112",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Nire lagun Mirenek atearen atzean txaloa gorde zuen. Zer gorde zuen nire lagunak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_e254a825_100",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Hartz marroiak pasealekuan txaloa ikusi zuen. Zer ikusi zuen hartzak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_af90420f_91",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Simon piratak txaloa aurkitu zuen. Zer aurkitu zuen piratak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_b8469644_100",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Ume txikiak lorategian txaloa bilatzen zuen. Zer bilatzen zuen umeak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_ca60fc66_102",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Simon piratak atearen atzean txaloa ikusi zuen. Zer ikusi zuen piratak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_003bb884_99",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Ume txikiak pasealekuan txaloa aurkitu zuen. Zer aurkitu zuen umeak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_78dc1a76_90",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Rosa amonak txaloa bilatzen zuen. Zer bilatzen zuen amonak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_e8a79486_114",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Nire lagun Mirenek lorategian txaloa marraztu zuen. Zer marraztu zuen nire lagunak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_2fed9f8f_101",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Hartz marroiak gaur goizean txaloa gorde zuen. Zer gorde zuen hartzak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_8ce74b6c_115",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Nire lagun Mirenek pasealekuan txaloa bilatzen zuen. Zer bilatzen zuen nire lagunak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_f04ccb89_94",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Hartz marroiak txaloa marraztu zuen. Zer marraztu zuen hartzak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_fdd3fa49_98",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Simon piratak lorategian txaloa gorde zuen. Zer gorde zuen piratak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_c46840c0_96",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Ume txikiak gaur goizean txaloa ikusi zuen. Zer ikusi zuen umeak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_2efee1c5_103",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Rosa amonak atearen atzean txaloa aurkitu zuen. Zer aurkitu zuen amonak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_3229be22_83",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Ume txikiak txaloa gorde zuen. Zer gorde zuen umeak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_886f5020_95",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Rosa amonak lorategian txaloa ikusi zuen. Zer ikusi zuen amonak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_49cd2090_114",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Nire lagun Mirenek gaur goizean txaloa aurkitu zuen. Zer aurkitu zuen nire lagunak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_1de27f4c_109",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Hartz marroiak atearen atzean txaloa bilatzen zuen. Zer bilatzen zuen hartzak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_150b3047_105",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Simon piratak pasealekuan txaloa marraztu zuen. Zer marraztu zuen piratak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_a9eda5cf_102",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Hartz marroiak lorategian karta aurkitu zuen. Zer aurkitu zuen hartzak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_f031f8cf_105",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Simon piratak gaur goizean karta bilatzen zuen. Zer bilatzen zuen piratak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_73bf01fd_103",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Ume txikiak atearen atzean karta marraztu zuen. Zer marraztu zuen umeak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_8aec1992_95",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Rosa amonak pasealekuan karta gorde zuen. Zer gorde zuen amonak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_d7b9de48_96",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Nire lagun Mirenek karta ikusi zuen. Zer ikusi zuen nire lagunak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_a4c64244_102",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Rosa amonak gaur goizean karta marraztu zuen. Zer marraztu zuen amonak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_d97653b5_111",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Nire lagun Mirenek atearen atzean karta gorde zuen. Zer gorde zuen nire lagunak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_b414d8c9_99",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Hartz marroiak pasealekuan karta ikusi zuen. Zer ikusi zuen hartzak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_79e88655_90",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Simon piratak karta aurkitu zuen. Zer aurkitu zuen piratak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_4bac44ae_99",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Ume txikiak lorategian karta bilatzen zuen. Zer bilatzen zuen umeak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_4e494a12_101",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Simon piratak atearen atzean karta ikusi zuen. Zer ikusi zuen piratak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_fc11ca9e_98",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Ume txikiak pasealekuan karta aurkitu zuen. Zer aurkitu zuen umeak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_00ab17c4_89",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Rosa amonak karta bilatzen zuen. Zer bilatzen zuen amonak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_d2dcb74c_113",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Nire lagun Mirenek lorategian karta marraztu zuen. Zer marraztu zuen nire lagunak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_eb22574b_100",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Hartz marroiak gaur goizean karta gorde zuen. Zer gorde zuen hartzak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_efd1c142_114",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Nire lagun Mirenek pasealekuan karta bilatzen zuen. Zer bilatzen zuen nire lagunak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_f1eb61bd_93",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Hartz marroiak karta marraztu zuen. Zer marraztu zuen hartzak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_5e4af027_97",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Simon piratak lorategian karta gorde zuen. Zer gorde zuen piratak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_689d0362_95",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Ume txikiak gaur goizean karta ikusi zuen. Zer ikusi zuen umeak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_7962f759_102",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Rosa amonak atearen atzean karta aurkitu zuen. Zer aurkitu zuen amonak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_0fd036fc_82",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Ume txikiak karta gorde zuen. Zer gorde zuen umeak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_0438d0e6_94",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Rosa amonak lorategian karta ikusi zuen. Zer ikusi zuen amonak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_aea0a84e_113",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Nire lagun Mirenek gaur goizean karta aurkitu zuen. Zer aurkitu zuen nire lagunak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_e80022ce_108",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Hartz marroiak atearen atzean karta bilatzen zuen. Zer bilatzen zuen hartzak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_clinical_8830c42d_104",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Simon piratak pasealekuan karta marraztu zuen. Zer marraztu zuen piratak? Esan ezazu zuk, ozen eta argi.",
+   "source": "carrier"
+  },
+  {
+   "id": "eu_child_10c47315_58",
+   "lang": "eu",
+   "style": "child",
+   "text": "Hemen dugu: su. Eta hemen: zu. Zerk erretzen du? Esan: su.",
+   "source": "pares/intro"
+  },
+  {
+   "id": "eu_child_b8d454cb_27",
+   "lang": "eu",
+   "style": "child",
+   "text": "Zerk erretzen du? Esan: su.",
+   "source": "pares/prompt"
+  },
+  {
+   "id": "eu_child_52bb4c80_47",
+   "lang": "eu",
+   "style": "child",
+   "text": "Su! Zure mihiaren puntak ondo egin du sss hori!",
+   "source": "pares/celebracion"
+  },
+  {
+   "id": "eu_child_2b08d786_81",
+   "lang": "eu",
+   "style": "child",
+   "text": "Zu entzun dut, hatzarekin seinalatzen dena. Nik su eskatu dut, sugarrena. Entzun…",
+   "source": "pares/correccion"
+  },
+  {
+   "id": "eu_child_a397f03a_18",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: su.",
+   "source": "pares/retry"
+  },
+  {
+   "id": "eu_slow_4c5223d5_2",
+   "lang": "eu",
+   "style": "slow",
+   "text": "su",
+   "source": "pares/modelado"
+  },
+  {
+   "id": "eu_child_f0401652_54",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ui! Aitak su esan du. Entzun berriro hurrengo txandan!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "eu_child_fce7152f_54",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ui! Aitak zu esan du. Entzun berriro hurrengo txandan!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "eu_child_00ebce4e_75",
+   "lang": "eu",
+   "style": "child",
+   "text": "Hemen dugu: hotz. Eta hemen: hots. Neguan elurretan nola gaude? Esan: hotz.",
+   "source": "pares/intro"
+  },
+  {
+   "id": "eu_child_5b4393d4_40",
+   "lang": "eu",
+   "style": "child",
+   "text": "Neguan elurretan nola gaude? Esan: hotz.",
+   "source": "pares/prompt"
+  },
+  {
+   "id": "eu_child_4236bd11_52",
+   "lang": "eu",
+   "style": "child",
+   "text": "Hotz! Tz hori ondo atera zaizu, elurra bezain garbi!",
+   "source": "pares/celebracion"
+  },
+  {
+   "id": "eu_child_69cee3d4_87",
+   "lang": "eu",
+   "style": "child",
+   "text": "Hots entzun dut, zaratarena. Nik hotz eskatu dut, elurrarena. Mihia aurreraxeago: hotz.",
+   "source": "pares/correccion"
+  },
+  {
+   "id": "eu_child_2c6933b3_20",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: hotz.",
+   "source": "pares/retry"
+  },
+  {
+   "id": "eu_slow_bc00f6ea_4",
+   "lang": "eu",
+   "style": "slow",
+   "text": "hotz",
+   "source": "pares/modelado"
+  },
+  {
+   "id": "eu_child_9a7a80c1_56",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ui! Aitak hotz esan du. Entzun berriro hurrengo txandan!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "eu_child_449d948e_56",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ui! Aitak hots esan du. Entzun berriro hurrengo txandan!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "eu_child_d500f26e_73",
+   "lang": "eu",
+   "style": "child",
+   "text": "Hemen dugu: hitz. Eta hemen: hits. Ahoarekin zer esaten dugu? Esan: hitz.",
+   "source": "pares/intro"
+  },
+  {
+   "id": "eu_child_b870655c_38",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ahoarekin zer esaten dugu? Esan: hitz.",
+   "source": "pares/prompt"
+  },
+  {
+   "id": "eu_child_fa59d616_51",
+   "lang": "eu",
+   "style": "child",
+   "text": "Hitz! Tz hori indartsu atera da, kanpai bat bezala!",
+   "source": "pares/celebracion"
+  },
+  {
+   "id": "eu_child_6b5f4d27_82",
+   "lang": "eu",
+   "style": "child",
+   "text": "Hits entzun dut, tristearena. Nik hitz eskatu dut, ahokoa. Bukaeran indarra: hitz.",
+   "source": "pares/correccion"
+  },
+  {
+   "id": "eu_child_7fe8dc85_20",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: hitz.",
+   "source": "pares/retry"
+  },
+  {
+   "id": "eu_slow_41b8ef70_4",
+   "lang": "eu",
+   "style": "slow",
+   "text": "hitz",
+   "source": "pares/modelado"
+  },
+  {
+   "id": "eu_child_77574e53_56",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ui! Aitak hitz esan du. Entzun berriro hurrengo txandan!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "eu_child_7f6ddde0_56",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ui! Aitak hits esan du. Entzun berriro hurrengo txandan!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "eu_child_b62209fc_90",
+   "lang": "eu",
+   "style": "child",
+   "text": "Hemen dugu: txalo. Eta hemen: talo. Pozik gaudenean eskuekin zer egiten dugu? Esan: txalo.",
+   "source": "pares/intro"
+  },
+  {
+   "id": "eu_child_0c0b7841_54",
+   "lang": "eu",
+   "style": "child",
+   "text": "Pozik gaudenean eskuekin zer egiten dugu? Esan: txalo.",
+   "source": "pares/prompt"
+  },
+  {
+   "id": "eu_child_79e42329_46",
+   "lang": "eu",
+   "style": "child",
+   "text": "Txalo! Tx hori trena bezala atera da, txu-txu!",
+   "source": "pares/celebracion"
+  },
+  {
+   "id": "eu_child_7ffde20b_88",
+   "lang": "eu",
+   "style": "child",
+   "text": "Talo entzun dut, artoarena, jatekoa. Nik txalo eskatu dut, eskuena. Trena bezala: txalo.",
+   "source": "pares/correccion"
+  },
+  {
+   "id": "eu_child_93c16ff0_21",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: txalo.",
+   "source": "pares/retry"
+  },
+  {
+   "id": "eu_slow_291f2d51_5",
+   "lang": "eu",
+   "style": "slow",
+   "text": "txalo",
+   "source": "pares/modelado"
+  },
+  {
+   "id": "eu_child_0ae939f0_57",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ui! Aitak txalo esan du. Entzun berriro hurrengo txandan!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "eu_child_14f16ec8_56",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ui! Aitak talo esan du. Entzun berriro hurrengo txandan!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "eu_child_0a802698_80",
+   "lang": "eu",
+   "style": "child",
+   "text": "Hemen dugu: karta. Eta hemen: tarta. Zerekin jolasten gara mahaian? Esan: karta.",
+   "source": "pares/intro"
+  },
+  {
+   "id": "eu_child_870933d0_43",
+   "lang": "eu",
+   "style": "child",
+   "text": "Zerekin jolasten gara mahaian? Esan: karta.",
+   "source": "pares/prompt"
+  },
+  {
+   "id": "eu_child_d317756d_56",
+   "lang": "eu",
+   "style": "child",
+   "text": "Karta! K hori eztarriaren zulotik atera da, sakon-sakon!",
+   "source": "pares/celebracion"
+  },
+  {
+   "id": "eu_child_ed8f15f4_98",
+   "lang": "eu",
+   "style": "child",
+   "text": "Tarta entzun dut, urtebetetzekoa. Nik karta eskatu dut, jolastekoa. K-a atzean jaiotzen da: karta.",
+   "source": "pares/correccion"
+  },
+  {
+   "id": "eu_child_1a08caf5_21",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: karta.",
+   "source": "pares/retry"
+  },
+  {
+   "id": "eu_slow_82fa7ec2_5",
+   "lang": "eu",
+   "style": "slow",
+   "text": "karta",
+   "source": "pares/modelado"
+  },
+  {
+   "id": "eu_child_b2dfc363_57",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ui! Aitak karta esan du. Entzun berriro hurrengo txandan!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "eu_child_6a1b6716_57",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ui! Aitak tarta esan du. Entzun berriro hurrengo txandan!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "eu_child_e32d116a_45",
+   "lang": "eu",
+   "style": "child",
+   "text": "Pareen saioa amaituta! Jo bostekoa aitarekin!",
+   "source": "pares/fin"
+  },
+  {
+   "id": "eu_child_6e6b8b06_62",
+   "lang": "eu",
+   "style": "child",
+   "text": "Rolak aldatzen! Orain umeak agintzen du eta aitak hitz egiten.",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "eu_child_443b9066_33",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ez dut aita ondo entzun. Berriro!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "eu_child_dfea87ac_26",
+   "lang": "eu",
+   "style": "child",
+   "text": "Hori da! Zer belarri fina!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "eu_child_a21199e7_48",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ui! Bestea zen. Entzun berriro hurrengo txandan!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "eu_child_63212e7e_12",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ukitu burua.",
+   "source": "tpr"
+  },
+  {
+   "id": "eu_child_34e4bf05_14",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ukitu sudurra.",
+   "source": "tpr"
+  },
+  {
+   "id": "eu_child_e17150cf_24",
+   "lang": "eu",
+   "style": "child",
+   "text": "Altxatu besoak oso gora.",
+   "source": "tpr"
+  },
+  {
+   "id": "eu_child_c2c4dc40_24",
+   "lang": "eu",
+   "style": "child",
+   "text": "Egin jauzi igela bezala.",
+   "source": "tpr"
+  },
+  {
+   "id": "eu_child_ca555b3d_34",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ibili hartza bezala, lau hanketan.",
+   "source": "tpr"
+  },
+  {
+   "id": "eu_child_3cb6d831_41",
+   "lang": "eu",
+   "style": "child",
+   "text": "Egin hegan txoria bezala, besoak mugituz.",
+   "source": "tpr"
+  },
+  {
+   "id": "eu_child_0a8bf33f_22",
+   "lang": "eu",
+   "style": "child",
+   "text": "Egin jauzi hiru aldiz.",
+   "source": "tpr"
+  },
+  {
+   "id": "eu_child_1e5d0bfb_20",
+   "lang": "eu",
+   "style": "child",
+   "text": "Eman buelta oso bat.",
+   "source": "tpr"
+  },
+  {
+   "id": "eu_child_77b11c72_14",
+   "lang": "eu",
+   "style": "child",
+   "text": "Eseri lurrean.",
+   "source": "tpr"
+  },
+  {
+   "id": "eu_child_94da56d5_41",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ibili oso-oso poliki, dortoka bat bezala.",
+   "source": "tpr"
+  },
+  {
+   "id": "eu_child_5fe6acf6_37",
+   "lang": "eu",
+   "style": "child",
+   "text": "Korri egin zure lekuan, azkar, azkar!",
+   "source": "tpr"
+  },
+  {
+   "id": "eu_child_6435b633_39",
+   "lang": "eu",
+   "style": "child",
+   "text": "Estatua! Geldi-geldi egon, mugitu gabe.",
+   "source": "tpr"
+  },
+  {
+   "id": "eu_child_a6e921bf_22",
+   "lang": "eu",
+   "style": "child",
+   "text": "Jo txalo oso indartsu.",
+   "source": "tpr"
+  },
+  {
+   "id": "eu_child_b05d3817_21",
+   "lang": "eu",
+   "style": "child",
+   "text": "Esan agur eskuarekin.",
+   "source": "tpr"
+  },
+  {
+   "id": "eu_child_721ec3cc_22",
+   "lang": "eu",
+   "style": "child",
+   "text": "Bidali musu bat hegan.",
+   "source": "tpr"
+  },
+  {
+   "id": "eu_child_1fda434e_40",
+   "lang": "eu",
+   "style": "child",
+   "text": "Egin zaitez oso handi, luzatu zerurantz.",
+   "source": "tpr"
+  },
+  {
+   "id": "eu_child_54dffd99_43",
+   "lang": "eu",
+   "style": "child",
+   "text": "Egin zaitez txiki-txiki, pilota bat bezala.",
+   "source": "tpr"
+  },
+  {
+   "id": "eu_child_a0a1ad66_43",
+   "lang": "eu",
+   "style": "child",
+   "text": "Zabaldu besoak zuhaitz erraldoi bat bezala.",
+   "source": "tpr"
+  },
+  {
+   "id": "eu_child_8ed06141_26",
+   "lang": "eu",
+   "style": "child",
+   "text": "Jarri poz-pozdun aurpegia.",
+   "source": "tpr"
+  },
+  {
+   "id": "eu_child_9a8413e1_37",
+   "lang": "eu",
+   "style": "child",
+   "text": "Erakutsi haserrea besoak gurutzatuta.",
+   "source": "tpr"
+  },
+  {
+   "id": "eu_child_ecd8b974_42",
+   "lang": "eu",
+   "style": "child",
+   "text": "Eman zeure buruari besarkada indartsu bat.",
+   "source": "tpr"
+  },
+  {
+   "id": "eu_child_64273ffd_39",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ibili robot bat bezala, bip-bop esanez.",
+   "source": "tpr"
+  },
+  {
+   "id": "eu_child_eb445c3a_14",
+   "lang": "eu",
+   "style": "child",
+   "text": "Robota… geldi!",
+   "source": "tpr"
+  },
+  {
+   "id": "eu_child_d106ab07_45",
+   "lang": "eu",
+   "style": "child",
+   "text": "Robota itzaltzen ari da: etzan poliki-poliki.",
+   "source": "tpr"
+  },
+  {
+   "id": "eu_child_dcf105cf_37",
+   "lang": "eu",
+   "style": "child",
+   "text": "Oso ondo! Saioarekin jarraituko dugu!",
+   "source": "tpr/fin"
+  },
+  {
+   "id": "eu_clinical_ba733402_41",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Jarri edalontzi gorria aulkiaren gainean.",
+   "source": "rutas"
+  },
+  {
+   "id": "eu_clinical_f22c3b83_37",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Eman koilara txikia aitari edo amari.",
+   "source": "rutas"
+  },
+  {
+   "id": "eu_clinical_57c61cb4_30",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Sartu zapia plateraren azpian.",
+   "source": "rutas"
+  },
+  {
+   "id": "eu_clinical_a26cf097_46",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Hartu fruitu handiena eta jarri mahai gainean.",
+   "source": "rutas"
+  },
+  {
+   "id": "eu_clinical_d6edf4a9_43",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Jarri eskuila urdina edalontziaren barruan.",
+   "source": "rutas"
+  },
+  {
+   "id": "eu_clinical_20aa78ed_41",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Ekarri eskuoihal txikia eta utzi aulkian.",
+   "source": "rutas"
+  },
+  {
+   "id": "eu_clinical_18606e66_35",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Sartu ahatetxoa bainuontzi hutsean.",
+   "source": "rutas"
+  },
+  {
+   "id": "eu_clinical_a08c3fe7_46",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Eman xaboia aitari edo amari beste eskuarekin.",
+   "source": "rutas"
+  },
+  {
+   "id": "eu_clinical_11fadbdb_47",
+   "lang": "eu",
+   "style": "clinical",
+   "text": "Ibilbidea amaituta. Saioarekin jarraituko dugu.",
+   "source": "rutas/fin"
+  },
+  {
+   "id": "eu_child_231cebff_27",
+   "lang": "eu",
+   "style": "child",
+   "text": "Oso ondo! Bikain esan duzu!",
+   "source": "banco/elogio"
+  },
+  {
+   "id": "eu_child_38aaf7b5_26",
+   "lang": "eu",
+   "style": "child",
+   "text": "Bravo! Ze ondo entzun den!",
+   "source": "banco/elogio"
+  },
+  {
+   "id": "eu_child_a067b584_26",
+   "lang": "eu",
+   "style": "child",
+   "text": "Hori da! Hitza lortu duzu!",
+   "source": "banco/elogio"
+  },
+  {
+   "id": "eu_child_883a835c_42",
+   "lang": "eu",
+   "style": "child",
+   "text": "Primeran! Gero eta hobeto ateratzen zaizu!",
+   "source": "banco/elogio"
+  },
+  {
+   "id": "eu_child_906cc88c_32",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ikaragarri! Argi-argi esan duzu!",
+   "source": "banco/elogio"
+  },
+  {
+   "id": "eu_child_b67a86e7_34",
+   "lang": "eu",
+   "style": "child",
+   "text": "Zer ahots ederra! Oso ondo esanda!",
+   "source": "banco/elogio"
+  },
+  {
+   "id": "eu_child_f540d53c_31",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ia-ia! Entzun ondo eta berriro…",
+   "source": "banco/casi"
+  },
+  {
+   "id": "eu_child_c0c98756_41",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ui, gutxigatik! Goazen berriro saiatzera.",
+   "source": "banco/casi"
+  },
+  {
+   "id": "eu_child_bf4ef422_37",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ia lortu duzu! Entzun eta errepikatu.",
+   "source": "banco/casi"
+  },
+  {
+   "id": "eu_child_ebbee185_38",
+   "lang": "eu",
+   "style": "child",
+   "text": "Pixka bat gehiago eta bikain. Berriro!",
+   "source": "banco/casi"
+  },
+  {
+   "id": "eu_child_303ff2f1_45",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ez zaitut ondo entzun. Berriro saiatuko gara!",
+   "source": "banco/no-oido"
+  },
+  {
+   "id": "eu_child_2db71398_51",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ui, ez da zure ahotsa iritsi! Hurbildu eta berriro.",
+   "source": "banco/no-oido"
+  },
+  {
+   "id": "eu_child_0e3a7d69_39",
+   "lang": "eu",
+   "style": "child",
+   "text": "Zure hitza ihes egin dit. Esan berriro!",
+   "source": "banco/no-oido"
+  },
+  {
+   "id": "eu_child_61e549bd_38",
+   "lang": "eu",
+   "style": "child",
+   "text": "Goazen elkarrekin esatera, oso poliki.",
+   "source": "banco/juntos"
+  },
+  {
+   "id": "eu_child_f81fbc18_44",
+   "lang": "eu",
+   "style": "child",
+   "text": "Batera esango dugu, lasai eta presarik gabe.",
+   "source": "banco/juntos"
+  },
+  {
+   "id": "eu_child_cc66ef2f_39",
+   "lang": "eu",
+   "style": "child",
+   "text": "Orain taldean: biok batera esango dugu.",
+   "source": "banco/juntos"
+  },
+  {
+   "id": "eu_child_e7ba1437_73",
+   "lang": "eu",
+   "style": "child",
+   "text": "Kaixo! Honela entzungo da nire ahotsa ariketetan. Ondo entzuten da, ezta?",
+   "source": "util/muestra"
+  },
+  {
+   "id": "eu_child_3234e1b4_58",
+   "lang": "eu",
+   "style": "child",
+   "text": "Hau ohea da. Goizean ohetik salto egiten dugu. Esan: ohea.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_ec44394d_20",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: ohea.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_12f56e4c_4",
+   "lang": "eu",
+   "style": "slow",
+   "text": "ohea",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_b3e274dd_78",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Jo ohean palmaditak eta eseri bertan haurrarekin, gero biok batera altxatzeko.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_cf7be18b_69",
+   "lang": "eu",
+   "style": "child",
+   "text": "Hau eskuila da. Eskuilarekin hortzak garbitzen ditugu. Esan: eskuila.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_be761392_23",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: eskuila.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_09fa073f_7",
+   "lang": "eu",
+   "style": "slow",
+   "text": "eskuila",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_5664a843_95",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Jarri eskuila (pastarik gabe) haurraren eskuan eta gidatu elkarrekin hortzak garbitzeko keinua.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_1eaf7891_64",
+   "lang": "eu",
+   "style": "child",
+   "text": "Begira, eskuak garbitzen ditugu. Zer egiten dugu? Esan: garbitu.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_3b45836e_23",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: garbitu.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_a922940f_7",
+   "lang": "eu",
+   "style": "slow",
+   "text": "garbitu",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_fd25c0fc_84",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Igurtzi eskuak xaboiz bezala eta animatu haurra bereak igurztera hitzaren erritmoan.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_3d2ac668_69",
+   "lang": "eu",
+   "style": "child",
+   "text": "Orain jantzi egiten gara. Burua kamisetan sartzen dugu. Esan: jantzi.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_cfda99b0_22",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: jantzi.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_03a41daf_6",
+   "lang": "eu",
+   "style": "slow",
+   "text": "jantzi",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_9dd5bfc8_75",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Pasa kamiseta bat haurraren burutik eta, agertzean, ospatu \"kuku!\" batekin.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_f0c1bb17_88",
+   "lang": "eu",
+   "style": "child",
+   "text": "Begira zer esku! Garbi-garbi daude eta distira egiten dute. Nolakoak daude? Esan: garbi.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_7f83b10b_21",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: garbi.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_451c3554_5",
+   "lang": "eu",
+   "style": "slow",
+   "text": "garbi",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_d8feeffa_94",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Erakutsi zure esku garbiak, putz egin haien gainean distiratuko balira bezala eta jo bostekoa.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_47ecea51_85",
+   "lang": "eu",
+   "style": "child",
+   "text": "Iratzargailua jotzen ari da: Rin, rin! Nola egiten du iratzargailuak? Esan: rin, rin.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_dd0db80e_23",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: rin rin.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_8d856147_7",
+   "lang": "eu",
+   "style": "slow",
+   "text": "rin rin",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_a40cb24f_92",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Estali zaitez lo bazeunde bezala eta, \"rin, rin!\" esatean, esnatu bat-batean besoak luzatuz.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_459c60dc_60",
+   "lang": "eu",
+   "style": "child",
+   "text": "Hau koilara da. Zopa koilararekin jaten dugu. Esan: koilara.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_9f651d6b_23",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: koilara.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_adfc87a8_7",
+   "lang": "eu",
+   "style": "slow",
+   "text": "koilara",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_5378d0bd_81",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Jarri koilara haurraren eskuan eta eraman elkarrekin ahora, jateko keinua eginez.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_0904ea68_43",
+   "lang": "eu",
+   "style": "child",
+   "text": "Hau basoa da. Basoan ura dago. Esan: basoa.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_d966e698_21",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: basoa.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_f72edc05_5",
+   "lang": "eu",
+   "style": "slow",
+   "text": "basoa",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_3d748d17_76",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Hurbildu basoa haurraren ezpainetara eta edan aldi berean \"klu, klu\" eginez.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_e3685f66_59",
+   "lang": "eu",
+   "style": "child",
+   "text": "Gose handia dut. Goazen jatera! Zer egiten dugu? Esan: jan.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_44cb0a09_19",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: jan.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_e1edce0e_3",
+   "lang": "eu",
+   "style": "slow",
+   "text": "jan",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_e24b389e_87",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Igurtzi tripa, ireki ahoa handi eta egin murtxikatzen ari bazina bezala, keinua puztuz.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_a53ad610_61",
+   "lang": "eu",
+   "style": "child",
+   "text": "Egarri naiz. Goazen ura edatera! Zer egiten dugu? Esan: edan.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_1c659cd8_20",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: edan.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_61fb66bb_4",
+   "lang": "eu",
+   "style": "slow",
+   "text": "edan",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_c19b5448_84",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Okertu baso huts bat zure ahoaren gainean eta egin \"klu, klu\" haurrak imita zaitzan.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_6f01b314_53",
+   "lang": "eu",
+   "style": "child",
+   "text": "Mmm, zein goxo dagoen! Nola dago janaria? Esan: goxo.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_cbb6ff37_20",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: goxo.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_f584fad2_4",
+   "lang": "eu",
+   "style": "slow",
+   "text": "goxo",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_9d08ec2f_80",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Miazkatu ezpainak, igurtzi tripa eta jarri gustuko aurpegia \"mmm, goxo!\" esanez.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_71b1df89_67",
+   "lang": "eu",
+   "style": "child",
+   "text": "Gaileta jaten dugu: Ñam, ñam! Nola egiten du ahoak? Esan: ñam, ñam.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_d53cf4fe_23",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: ñam ñam.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_99eb7827_7",
+   "lang": "eu",
+   "style": "slow",
+   "text": "ñam ñam",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_2b0f3a59_105",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Murtxikatu era puztuan masailezurra asko mugituz eta haurrak zurekin murtxika dezala \"ñam, ñam!\" esatean.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_a1fe67f2_63",
+   "lang": "eu",
+   "style": "child",
+   "text": "Hau pilota da. Parkean pilotarekin jolasten gara. Esan: pilota.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_ea7a9665_22",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: pilota.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_ba19a780_6",
+   "lang": "eu",
+   "style": "slow",
+   "text": "pilota",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_785dc6ed_87",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Bota pilota erreal bat haurrarengana eta itxaron itzul dezan hitza errepikatu aurretik.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_a363b57b_81",
+   "lang": "eu",
+   "style": "child",
+   "text": "Hau txirristra da. Txirristran igo eta behera irristatzen gara. Esan: txirristra.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_5c5ca48a_26",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: txirristra.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_c7b9bc9d_10",
+   "lang": "eu",
+   "style": "slow",
+   "text": "txirristra",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_31d308b9_91",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Irristatu haurraren eskua zure beso okertutik behera, txirristraren arrapala balitz bezala.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_2d559c7c_83",
+   "lang": "eu",
+   "style": "child",
+   "text": "Azkar goaz! Parkean korrika egitea gustatzen zaigu. Zer egiten dugu? Esan: korrika.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_63dae441_23",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: korrika.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_1e21b4fe_7",
+   "lang": "eu",
+   "style": "slow",
+   "text": "korrika",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_96bd33f0_94",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Egin korrika zure lekuan besoak asko mugituz eta animatu haurra zurekin urrats batzuk egitera.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_32e08c31_67",
+   "lang": "eu",
+   "style": "child",
+   "text": "Gora! Igela bezala salto egiten dugu. Zer egiten dugu? Esan: salto.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_30c08545_21",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: salto.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_6ac6cbaa_5",
+   "lang": "eu",
+   "style": "slow",
+   "text": "salto",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_beb818f9_98",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Egin salto bi oinak batera \"salto!\" esanez jauzi bakoitzean eta haurrak zurekin salto egin dezala.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_7c77d84b_48",
+   "lang": "eu",
+   "style": "child",
+   "text": "Zabua oso altu igotzen da! Nola doa? Esan: altu.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_81c71e58_20",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: altu.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_e4c9c88b_4",
+   "lang": "eu",
+   "style": "slow",
+   "text": "altu",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_90d191f3_89",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Luzatu zaitez punta-puntetan besoak zerurantz eta altxatu haurra besoetan \"altu!\" esanez.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_9b872c9b_74",
+   "lang": "eu",
+   "style": "child",
+   "text": "Pilotak bote egiten du: Boing, boing! Nola egiten du pilotak? Esan: boing.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_677096dd_21",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: boing.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_77651492_5",
+   "lang": "eu",
+   "style": "slow",
+   "text": "boing",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_b7c2dee9_86",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Bota pilota bat (edo zeu belaunekin) \"boing!\" esanez bote bakoitzean haurraren ondoan.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_b41f3678_67",
+   "lang": "eu",
+   "style": "child",
+   "text": "Hau bainuontzia da. Bainuontzian bainatzen gara. Esan: bainuontzia.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_c393e2d2_27",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: bainuontzia.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_7f4a9adf_11",
+   "lang": "eu",
+   "style": "slow",
+   "text": "bainuontzia",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_4f6e5643_96",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Seinalatu bainuontzia (edo aska bat) eta egin biok barrura sartzeko keinua hankak asko altxatuz.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_9c5dbeb2_63",
+   "lang": "eu",
+   "style": "child",
+   "text": "Hau xaboia da. Xaboiak burbuila asko egiten ditu. Esan: xaboia.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_c3302a98_22",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: xaboia.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_e3024197_6",
+   "lang": "eu",
+   "style": "slow",
+   "text": "xaboia",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_5ec93340_86",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Jarri xaboi-pastilla haurraren eskuetan eta biratu elkarrekin apar imajinarioa eginez.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_02b9a686_64",
+   "lang": "eu",
+   "style": "child",
+   "text": "Uretara! Panpina bainatuko dugu. Zer egiten dugu? Esan: bainatu.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_42eeb6e0_23",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: bainatu.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_d3a22ef9_7",
+   "lang": "eu",
+   "style": "slow",
+   "text": "bainatu",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_a7ca98e5_81",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Igurtzi leunki haurraren besoak xaboiztatuko bazenu bezala \"bainatu\" errepikatuz.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_7fd5449a_57",
+   "lang": "eu",
+   "style": "child",
+   "text": "Igurtzi, igurtzi belakia. Zer egiten dugu? Esan: igurtzi.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_a5b2818a_23",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: igurtzi.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_6a032d13_7",
+   "lang": "eu",
+   "style": "slow",
+   "text": "igurtzi",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_0629ca4e_93",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Igurtzi zirkulu leunak haurraren bizkarrean eskuarekin edo belaki batekin hitzaren erritmoan.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_71f3b492_42",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ura epela dago. Nola dago ura? Esan: bero.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_669a06c0_20",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: bero.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_a57bc4db_4",
+   "lang": "eu",
+   "style": "slow",
+   "text": "bero",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_c2a66210_64",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Ukitu ura hatz batekin eta haizeztatu eskua puztuz: \"uf, bero!\".",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_44502283_67",
+   "lang": "eu",
+   "style": "child",
+   "text": "Urak zipriztintzen du: Txof, txof! Nola egiten du urak? Esan: txof.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_c375d635_20",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: txof.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_9a689664_4",
+   "lang": "eu",
+   "style": "slow",
+   "text": "txof",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_45c869b5_86",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Jo palmaditak uraren gainean (edo izterraren gainean) \"txof!\" esanez kolpe bakoitzean.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_e936f3d0_44",
+   "lang": "eu",
+   "style": "child",
+   "text": "Begira zerua. Hau ilargia da. Esan: ilargia.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_2dc95769_23",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: ilargia.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_7b240fc2_7",
+   "lang": "eu",
+   "style": "slow",
+   "text": "ilargia",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_66e91aa0_75",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Marraztu elkarrekin zirkulu handi bat airean hatzarekin \"ilaaargia\" esanez.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_02b46a37_57",
+   "lang": "eu",
+   "style": "child",
+   "text": "Lo egin aurretik ipuin bat irakurtzen dugu. Esan: ipuina.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_091c971c_22",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: ipuina.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_04e9445b_6",
+   "lang": "eu",
+   "style": "slow",
+   "text": "ipuina",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_eb3526b3_86",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Hartu haurraren ipuin gogokoena, jarri haren eskuetan eta ireki elkarrekin oso poliki.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_77abb9e2_57",
+   "lang": "eu",
+   "style": "child",
+   "text": "Isss… lotara joateko ordua da. Zer egiten dugu? Esan: lo.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_4209a7f1_18",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: lo.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_4231c06c_2",
+   "lang": "eu",
+   "style": "slow",
+   "text": "lo",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_d5104922_74",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Elkartu eskuak masailaren azpian, itxi begiak eta egin zurrunga leun biok.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_59f3941b_54",
+   "lang": "eu",
+   "style": "child",
+   "text": "Gabon besarkada bat. Zer egiten dugu? Esan: besarkatu.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_66ab3dfc_25",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: besarkatu.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_ebee131d_9",
+   "lang": "eu",
+   "style": "slow",
+   "text": "besarkatu",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_b604c969_68",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Eman besarkada luze bat egiazkoa eta estutu pixka bat hitza esatean.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_26e8f42f_55",
+   "lang": "eu",
+   "style": "child",
+   "text": "Argia itzali da. Dena ilun dago. Nola dago? Esan: ilun.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_8a314e78_20",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: ilun.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_54fe725b_4",
+   "lang": "eu",
+   "style": "slow",
+   "text": "ilun",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_c8cc7d0a_91",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Estali haurraren begiak leunki bere esku propioekin eta destali bat-batean: \"ilun… argia!\".",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_9acdec32_73",
+   "lang": "eu",
+   "style": "child",
+   "text": "Hontzak gauez kantatzen du: Uh, uh! Nola egiten du hontzak? Esan: uh, uh.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_ee2de5c0_21",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: uh uh.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_81106d2d_5",
+   "lang": "eu",
+   "style": "slow",
+   "text": "uh uh",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_1ed665a7_97",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Jarri eskuak betaurreko gisa begien inguruan eta biratu burua hontza bat bezala \"uh, uh!\" esanez.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_7ed5d1e3_68",
+   "lang": "eu",
+   "style": "child",
+   "text": "Motorra abiatzen da: Brum, brum! Nola egiten du kotxeak? Esan: brum.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_036a3328_20",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: brum.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_4b3714d7_4",
+   "lang": "eu",
+   "style": "slow",
+   "text": "brum",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_5526c279_97",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Bultza jostailuzko kotxe bat lurretik ezpainak dardaratuz \"brrrum\" eta animatu haurra imitatzera.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_8e783f19_48",
+   "lang": "eu",
+   "style": "child",
+   "text": "Brum, brum! Hau kotxea da. Zer da? Esan: kotxea.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_f5a5cbee_22",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: kotxea.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_227d1071_6",
+   "lang": "eu",
+   "style": "slow",
+   "text": "kotxea",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_9e2be6ba_102",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Jarri kotxea haurraren eskuan, seinalatu eta errepikatu elkarrekin \"kotxea\" mugitzen duzuen bitartean.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_371157b0_67",
+   "lang": "eu",
+   "style": "child",
+   "text": "Begira, kotxea oso azkar dabil. Zer egiten du kotxeak? Esan: dabil.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_00597938_21",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: dabil.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_30c1b339_5",
+   "lang": "eu",
+   "style": "slow",
+   "text": "dabil",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_ec27c7f1_77",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Ibilarazi kotxea mahaian eta gero haurraren besoan, azkartuz \"dabil\" esatean.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_89a3f0d9_61",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ai, zein azkar doan kotxea! Nolakoa da kotxea? Esan: azkarra.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_fd48f944_23",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: azkarra.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_9bfaef79_7",
+   "lang": "eu",
+   "style": "slow",
+   "text": "azkarra",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_f175db04_96",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Egin korrika haurrarekin eskutik urrats batzuk eta gelditu bat-batean \"azkar… eta stop!\" esanez.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_809fe589_80",
+   "lang": "eu",
+   "style": "child",
+   "text": "Txakurrak zaunka egiten du: Zaunk, zaunk! Nola egiten du txakurrak? Esan: zaunk.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_ccb4ed1b_21",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: zaunk.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_50159734_5",
+   "lang": "eu",
+   "style": "slow",
+   "text": "zaunk",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_df896d8c_93",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Jarri lau hanketan eta zaunka egin \"zaunk, zaunk!\" burua mugituz, haurrak zurekin egin dezan.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_cf3acd87_54",
+   "lang": "eu",
+   "style": "child",
+   "text": "Zaunk, zaunk! Hau txakurra da. Zer da? Esan: txakurra.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_40f03b6c_24",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: txakurra.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_6b80937b_8",
+   "lang": "eu",
+   "style": "slow",
+   "text": "txakurra",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_4028adc9_96",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Seinalatu jostailuzko txakur bat edo argazki bat eta laztandu elkarrekin \"txakurra\" errepikatuz.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_665b5221_88",
+   "lang": "eu",
+   "style": "child",
+   "text": "Begira, txakurrak salto egiten du pilota hartzeko. Zer egiten du txakurrak? Esan: salto.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_b32de55a_82",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Salto eginarazi jostailuzko txakurrari eta salto egin biok batera \"salto!\" esanez.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_2a1ae276_73",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ukitu! Txakurra bigun eta iletsua da. Nolakoa da txakurra? Esan: iletsua.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_f715c47b_23",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: iletsua.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_d2293ee0_7",
+   "lang": "eu",
+   "style": "slow",
+   "text": "iletsua",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_cb338212_76",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Laztandu panpina edo manta leun bat eta esan \"iletsua\" eskua poliki pasatuz.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_f2a5f6d1_57",
+   "lang": "eu",
+   "style": "child",
+   "text": "Behiak egiten du: Muuu! Nola egiten du behiak? Esan: muu.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_d31587b9_19",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: muu.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_d284c626_3",
+   "lang": "eu",
+   "style": "slow",
+   "text": "muu",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_f3033d16_74",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Jarri eskuak adar gisa buruan eta egin \"muuu!\" soinua luzatuz haurrarekin.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_e0b49077_40",
+   "lang": "eu",
+   "style": "child",
+   "text": "Muuu! Hau behia da. Zer da? Esan: behia.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_fb6c0ffd_21",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: behia.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_cbf8e5c6_5",
+   "lang": "eu",
+   "style": "slow",
+   "text": "behia",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_b0360f92_97",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Seinalatu jostailuzko behi bat edo argazki bat eta ibili haren orbanak hatzarekin \"behia\" esanez.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_c6a3cd9b_75",
+   "lang": "eu",
+   "style": "child",
+   "text": "Begira, behiak belarra jaten du zelaian. Zer egiten du behiak? Esan: jaten.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_20cb0dda_21",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: jaten.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_1bc62c63_5",
+   "lang": "eu",
+   "style": "slow",
+   "text": "jaten",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_9f8557a7_107",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Makurtu burua behia bezala eta egin belarra murtxikatzen ari zaretela masailezurra mugituz \"jaten\" esatean.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_d4452966_57",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ala! Behia oso handia da. Nolakoa da behia? Esan: handia.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_551ed593_22",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: handia.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_3e77963e_6",
+   "lang": "eu",
+   "style": "slow",
+   "text": "handia",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_606fd6c0_78",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Zabaldu besoak ahal duzuen guztia eta jarri punta-puntetan \"haaandia!\" esanez.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_9b51be90_69",
+   "lang": "eu",
+   "style": "child",
+   "text": "Katuak miau egiten du: Miau, miau! Nola egiten du katuak? Esan: miau.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_19cde94a_20",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: miau.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_6e6f9109_4",
+   "lang": "eu",
+   "style": "slow",
+   "text": "miau",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_3fc9d6c2_83",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Igurtzi aurpegia eskuarekin katu bat garbitzen bezala eta egin \"miau!\" haurrarekin.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_96a8bb8f_40",
+   "lang": "eu",
+   "style": "child",
+   "text": "Miau! Hau katua da. Zer da? Esan: katua.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_0a6c69dc_21",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: katua.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_6c11d24d_5",
+   "lang": "eu",
+   "style": "slow",
+   "text": "katua",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_c60107a9_95",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Seinalatu jostailuzko katu bat edo argazki bat eta laztandu haren bizkarra \"katua\" errepikatuz.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_ac7f98ce_79",
+   "lang": "eu",
+   "style": "child",
+   "text": "Isss… katua bere ohean lo egiten ari da. Zer egiten du katuak? Esan: lo egiten.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_d59a5911_25",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: lo egiten.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_871e80a6_9",
+   "lang": "eu",
+   "style": "slow",
+   "text": "lo egiten",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_a6cd327f_94",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Elkartu eskuak masailaren azpian, itxi begiak eta egin \"isss\" haurrak zurekin \"lo egin\" dezan.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_5fcbd7da_65",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ukitu! Katuaren ilea oso leuna da. Nolakoa da katua? Esan: leuna.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_b5430ecf_21",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: leuna.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_02796428_5",
+   "lang": "eu",
+   "style": "slow",
+   "text": "leuna",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_1cf46164_71",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Pasa luma bat edo zapi bat haurraren besotik oso poliki \"leuna\" esanez.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_a514b90c_79",
+   "lang": "eu",
+   "style": "child",
+   "text": "Euria erortzen da: Plisti, plasta! Nola egiten du euriak? Esan: plisti, plasta.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_84c348ec_29",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: plisti plasta.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_aa08c54d_13",
+   "lang": "eu",
+   "style": "slow",
+   "text": "plisti plasta",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_49c2b2de_78",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Jo hatzekin mahaian euri-tantak bezala eta haurrak zurekin \"euria\" egin dezan.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_b3cd03bf_46",
+   "lang": "eu",
+   "style": "child",
+   "text": "Plisti, plasta! Hau ura da. Zer da? Esan: ura.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_6a1b3a88_19",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: ura.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_2f8f4765_3",
+   "lang": "eu",
+   "style": "slow",
+   "text": "ura",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_7b3d12c8_90",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Busti hatz bat ur errealean eta ukitu eskua hotza nabarituz \"ura\" esaten duzuen bitartean.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_fc70e12f_68",
+   "lang": "eu",
+   "style": "child",
+   "text": "Begira, ura zerutik erortzen da. Zer egiten du urak? Esan: erortzen.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_996d1eaf_24",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: erortzen.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_ae20781a_8",
+   "lang": "eu",
+   "style": "slow",
+   "text": "erortzen",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_c80d16f5_77",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Altxatu eskuak gora eta jaitsi hatzak mugituz lurreraino \"erortzeeen\" esanez.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_dee91480_51",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ai! Eskua busti dago. Nola dago eskua? Esan: busti.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_32bd04dd_21",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: busti.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_74d894ba_5",
+   "lang": "eu",
+   "style": "slow",
+   "text": "busti",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_44196930_84",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Busti pixka bat haurraren eskua zapi busti batekin eta esan \"busti\" eskuak astinduz.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_b166d21c_66",
+   "lang": "eu",
+   "style": "child",
+   "text": "Trenak egiten du: Txu, txu! Nola egiten du trenak? Esan: txu, txu.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_49a79196_23",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: txu txu.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_c9139be7_7",
+   "lang": "eu",
+   "style": "slow",
+   "text": "txu txu",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_e82f0dab_99",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Egin trentxo bat: haurra zure gerritik heltzen da eta aurrera egin korridorean \"txu-txu\" erritmoan.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_1372b029_44",
+   "lang": "eu",
+   "style": "child",
+   "text": "Txu, txu! Hau trena da. Zer da? Esan: trena.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_144cde46_21",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: trena.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_2630c34f_5",
+   "lang": "eu",
+   "style": "slow",
+   "text": "trena",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_10480871_83",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Lerrokatu hiru koxin edo kutxa bagoi gisa eta seinalatu banan-banan \"trena\" esanez.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_78ccea1d_84",
+   "lang": "eu",
+   "style": "child",
+   "text": "Trena geltokira iristen da eta… gelditzen da! Zer egiten du trenak? Esan: gelditzen.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_b15c6f90_25",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: gelditzen.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_1a43f389_9",
+   "lang": "eu",
+   "style": "slow",
+   "text": "gelditzen",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_e9b10273_86",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Ibili tren bat bezala gelan eta, \"gelditu!\" entzutean, geratu estatua bezala izoztuta.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_94b2cc7e_64",
+   "lang": "eu",
+   "style": "child",
+   "text": "Zenbat bagoi! Trena oso luzea da. Nolakoa da trena? Esan: luzea.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_063601b1_21",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: luzea.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_777ef51a_5",
+   "lang": "eu",
+   "style": "slow",
+   "text": "luzea",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_5ec34ac4_60",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Luzatu besoak alboetara ahal duzuen guztia \"luuuzea\" esanez.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_716d91d3_74",
+   "lang": "eu",
+   "style": "child",
+   "text": "Txoritxoak kantatzen du: Pio, pio! Nola egiten du txoriak? Esan: pio, pio.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_846f1b86_23",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: pio pio.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_20a6f567_7",
+   "lang": "eu",
+   "style": "slow",
+   "text": "pio pio",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_d305da8d_87",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Elkartu hatzak irekitzen eta ixten den moko bat bezala eta egin \"pio, pio\" biok batera.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_c1e1c7e7_46",
+   "lang": "eu",
+   "style": "child",
+   "text": "Pio, pio! Hau txoria da. Zer da? Esan: txoria.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_48c51053_22",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: txoria.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_f8c87fd6_6",
+   "lang": "eu",
+   "style": "slow",
+   "text": "txoria",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_197e1294_79",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Bilatu txori bat leihotik edo marrazki batean, seinalatu eta agurtu eskuarekin.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_7640db43_75",
+   "lang": "eu",
+   "style": "child",
+   "text": "Begira, txoriak hegan egiten du zeruan. Zer egiten du txoriak? Esan: hegan.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_1051ad6f_21",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: hegan.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_7b3d1ef8_5",
+   "lang": "eu",
+   "style": "slow",
+   "text": "hegan",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_139f50f5_62",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Egin korrika gelan besoak hego gisa, gora eta behera altxatuz.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_fd4649f4_57",
+   "lang": "eu",
+   "style": "child",
+   "text": "Txoritxoa oso txikia da. Nolakoa da txoria? Esan: txikia.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_e7ac7be8_22",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: txikia.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_61fd5933_6",
+   "lang": "eu",
+   "style": "slow",
+   "text": "txikia",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_242927a1_84",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Elkartu eskuak asko txoritxo txiki bat helduko bazenute bezala eta hitz egin poliki.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_0932f671_166",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Prestatu animalia bereko bi panpina baina tamaina desberdinekoak: bat argi eta garbi HANDIA eta bestea argi eta garbi TXIKIA. Jarri elkarren ondoan haurraren aurrean.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_1e653e92_55",
+   "lang": "eu",
+   "style": "child",
+   "text": "Zein da panpina HANDIA? Emadazu eta esan! Esan: handia.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_69c11f6e_94",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Haurrak panpina handia ematen dizu esaten duen bitartean; besarkatu zein erraldoia den puztuz.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_8a7ec4d8_66",
+   "lang": "eu",
+   "style": "child",
+   "text": "Orain alderantziz: zein da TXIKIA? Emadazu eta esan! Esan: txikia.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_89b2bfa7_86",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Haurrak txikia ematen dizu; ezkutatu esku batean eta esan \"txikia\" ahots txiki-txikiz.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_c94d923e_136",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Hartu bi koilara berdin: garbitu bat distiratsu utzi arte eta zikindu bestea janari edo lohi pixka batekin. Jarri bata bestearen ondoan.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_d8763644_53",
+   "lang": "eu",
+   "style": "child",
+   "text": "Seinalatu koilara ZIKINA. Nola dago hau? Esan: zikin.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_5e35e7b5_21",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: zikin.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_ea81697e_5",
+   "lang": "eu",
+   "style": "slow",
+   "text": "zikin",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_142bcbb7_88",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Haurrak koilara zikina seinalatzen du eta biok \"puaj!\" aurpegia jartzen duzue baztertuz.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_af014b99_76",
+   "lang": "eu",
+   "style": "child",
+   "text": "Eta beste koilara hau, nola dago? Begira nola distiratzen duen! Esan: garbi.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_35da77b4_84",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Seinalatu garbia, putz egin haren gainean distiratuko balira bezala eta jo bostekoa.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_17a5a7cd_112",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Jarri haurraren aurrean estalkidun kutxa bat eta sartu barruan, ikusgai, bere jostailu gogokoena. Itxi estalkia.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_8c01b06d_83",
+   "lang": "eu",
+   "style": "child",
+   "text": "Jostailua barruan dago. Zer egingo dugu ateratzeko? Goazen IREKITZERA! Esan: ireki.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_eb664ff4_21",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: ireki.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_89b97519_5",
+   "lang": "eu",
+   "style": "slow",
+   "text": "ireki",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_2657d9fa_85",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Ireki kutxa elkarrekin, oso poliki, eta ospatu jostailua aurkitzea \"tatxan!\" batekin.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_5b217654_80",
+   "lang": "eu",
+   "style": "child",
+   "text": "Jostailua gordeko dugu. Zer egingo dugu estalkiarekin? ITXI dezagun! Esan: itxi.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_17117d30_20",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: itxi.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_b7180603_4",
+   "lang": "eu",
+   "style": "slow",
+   "text": "itxi",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_e48f7056_76",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Haurrak estalkia bultzatzen du erabat itxi arte hitza esaten duen bitartean.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_501fb31b_103",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Egin arrapala bat liburu handi bat okertuta jarrita eta jarri jostailuzko kotxe bat arrapalaren oinean.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_2b35f9a9_60",
+   "lang": "eu",
+   "style": "child",
+   "text": "Kotxea mendira doa. Zer egiten du? IGO egiten du! Esan: igo.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_236bab09_19",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: igo.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_9cd84042_3",
+   "lang": "eu",
+   "style": "slow",
+   "text": "igo",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_5ab4615d_63",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Igo kotxea arrapalatik oso poliki hitza entzuten den bitartean.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_b9e269ba_53",
+   "lang": "eu",
+   "style": "child",
+   "text": "Orain kotxea behera doa! Zer egiten du? Esan: jaitsi.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_b6e2ff6e_22",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: jaitsi.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_a1ac79e5_6",
+   "lang": "eu",
+   "style": "slow",
+   "text": "jaitsi",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_e6767c58_93",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Askatu kotxea eta utzi bakarrik jaisten arrapalatik; esan \"jaitsiii!\" erortzen den bitartean.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_3cd8f42d_114",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Prestatu bi baso: bat ur oso hotzarekin (izotzarekin ahal bada) eta bestea ur epelarekin. Jarri haurraren aurrean.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_d46086e0_47",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ukitu basoak. Zein dago HOTZ? Brrr! Esan: hotz.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_45eb34cd_73",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Haurrak baso hotza ukitzen du; dardaratu biok \"brrr!\" sorbaldak uzkurtuz.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_d26eef96_42",
+   "lang": "eu",
+   "style": "child",
+   "text": "Eta beste baso hau, nola dago? Esan: bero.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_22224448_73",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Ukitu baso epela eta haizeztatu eskua erreko balizue bezala, asko puztuz.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_f9c851ed_104",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Jarri haurrarekin argiaren etengailuaren ondoan (edo hartu linterna bat). Gela argia itzalita hasten da.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_c45e34c1_66",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ilun dago… Zer egingo dugu argiarekin? PIZTU dezagun! Esan: piztu.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_a7b38626_21",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: piztu.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_9fc10ee3_5",
+   "lang": "eu",
+   "style": "slow",
+   "text": "piztu",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_b4609741_81",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Haurrak etengailua sakatzen du esatean eta argia ospatzen duzue \"ooooh!\" batekin.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_d5b8563b_76",
+   "lang": "eu",
+   "style": "child",
+   "text": "Orain alderantziz. Zer egingo dugu argiarekin? ITZALI dezagun! Esan: itzali.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_0a3f00b3_22",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: itzali.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_c6d093ce_6",
+   "lang": "eu",
+   "style": "slow",
+   "text": "itzali",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_0a3ad5af_77",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Haurrak argia itzaltzen du eta \"gabon\" esaten diozue elkarri xuxurla ahotsez.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_69c08e1d_28",
+   "lang": "eu",
+   "style": "child",
+   "text": "Saioa amaituta! Jo bostekoa!",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_0885614a_29",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ia-ia! Berriro saiatuko gara.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_b37100df_22",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro entzungo dugu.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_770e44f0_27",
+   "lang": "eu",
+   "style": "child",
+   "text": "Lehenengo, ukitu irudi bat.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_e7d8cc5d_4",
+   "lang": "eu",
+   "style": "child",
+   "text": "Poza",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_9be9bcb9_8",
+   "lang": "eu",
+   "style": "child",
+   "text": "Tristura",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_e526f7b8_8",
+   "lang": "eu",
+   "style": "child",
+   "text": "Haserrea",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_e9698b22_4",
+   "lang": "eu",
+   "style": "child",
+   "text": "Mina",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_3387200b_15",
+   "lang": "eu",
+   "style": "child",
+   "text": "Saioa amaituta!",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_71452081_43",
+   "lang": "eu",
+   "style": "child",
+   "text": "Hor bakarra dago. Bilatu asko dauden lekua.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_514448d6_122",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Umeak irudi bat ukitzen du bere izena entzuteko eta gero hasten den bokala ukitzen du. Aplikazioak asmatu duen esaten dio.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_85635db6_69",
+   "lang": "eu",
+   "style": "child",
+   "text": "Marraztu bokala airean besoarekin oso handi asmatzen duen bakoitzean.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_f152764d_8",
+   "lang": "eu",
+   "style": "slow",
+   "text": "armiarma",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_86a66642_9",
+   "lang": "eu",
+   "style": "slow",
+   "text": "elefantea",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_e297d24b_5",
+   "lang": "eu",
+   "style": "slow",
+   "text": "igela",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_48263046_26",
+   "lang": "eu",
+   "style": "slow",
+   "text": "armiarma, elefantea, igela",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_e81a076b_5",
+   "lang": "eu",
+   "style": "slow",
+   "text": "otsoa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_7629bea4_6",
+   "lang": "eu",
+   "style": "slow",
+   "text": "untxia",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_27acd662_20",
+   "lang": "eu",
+   "style": "slow",
+   "text": "otsoa, untxia, igela",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_943c2d93_8",
+   "lang": "eu",
+   "style": "slow",
+   "text": "arrautza",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_a108ab46_6",
+   "lang": "eu",
+   "style": "slow",
+   "text": "elurra",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_73d0b767_5",
+   "lang": "eu",
+   "style": "slow",
+   "text": "oiloa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_66097ce0_23",
+   "lang": "eu",
+   "style": "slow",
+   "text": "arrautza, elurra, oiloa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_d37fb33b_141",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Esan zuk lehenengo hitza, umearengandik gertu eta poliki, eta animatu errepikatzera. Aplikazioaren ahotsa laguntza gehigarria besterik ez da.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_c2f35927_60",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ibili gelan zehar silaba bakoitzean zapaldu gogor: ZA-PA-TA.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_6ded9518_6",
+   "lang": "eu",
+   "style": "slow",
+   "text": "zapata",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_c36e6495_105",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Lehenengo sakatu 🔊 umeak hitz osoa entzun dezan. Gero, idatzitako hitzari falta zaion bokala uki dezala.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_c00779d9_53",
+   "lang": "eu",
+   "style": "child",
+   "text": "Bokala aurkitzean, besoak gora katu handi bat eginez.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_4292c8fe_4",
+   "lang": "eu",
+   "style": "slow",
+   "text": "katu",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_c126ff24_3",
+   "lang": "eu",
+   "style": "slow",
+   "text": "sei",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_f532528d_4",
+   "lang": "eu",
+   "style": "slow",
+   "text": "lore",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_6ef83a89_113",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Sakatu 🔊 lau fitxen izena entzuteko. Hiru elkarrekin doaz eta bat ez. Umeak besteekin joaten EZ dena ukitzen du.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_a117f064_51",
+   "lang": "eu",
+   "style": "child",
+   "text": "Jaten bada, ukitu tripa; intrusoa bada, izar-salto!",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_b8ee697d_34",
+   "lang": "eu",
+   "style": "slow",
+   "text": "sagarra, platanoa, mahatsa, kotxea",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_53670be0_7",
+   "lang": "eu",
+   "style": "child",
+   "text": "sagarra",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_c266b9af_8",
+   "lang": "eu",
+   "style": "child",
+   "text": "platanoa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_7bae523c_7",
+   "lang": "eu",
+   "style": "child",
+   "text": "mahatsa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_227d1071_6",
+   "lang": "eu",
+   "style": "child",
+   "text": "kotxea",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_bbed1a6a_112",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Sakatu 🔊 lau fitxen izena entzuteko. Hiru animaliak dira eta bat ez. Umeak besteekin joaten EZ dena ukitzen du.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_3d574d61_30",
+   "lang": "eu",
+   "style": "slow",
+   "text": "txakurra, katua, behia, zapata",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_6b80937b_8",
+   "lang": "eu",
+   "style": "child",
+   "text": "txakurra",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_6c11d24d_5",
+   "lang": "eu",
+   "style": "child",
+   "text": "katua",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_cbf8e5c6_5",
+   "lang": "eu",
+   "style": "child",
+   "text": "behia",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_6ded9518_6",
+   "lang": "eu",
+   "style": "child",
+   "text": "zapata",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_03991183_111",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Sakatu 🔊 lau fitxen izena entzuteko. Hiru janzteko dira eta bat ez. Umeak besteekin joaten EZ dena ukitzen du.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_fc0ff7b2_35",
+   "lang": "eu",
+   "style": "slow",
+   "text": "txapela, kamiseta, zapata, platanoa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_26d4f6e8_7",
+   "lang": "eu",
+   "style": "child",
+   "text": "txapela",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_e6476a54_8",
+   "lang": "eu",
+   "style": "child",
+   "text": "kamiseta",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_6d43517e_98",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Sakatu 🔊 asmakizuna entzuteko (edo irakurri zuk). Umeak hiru irudietako bat ukituz erantzuten du.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_9a490ae2_63",
+   "lang": "eu",
+   "style": "child",
+   "text": "Bilatu gelan zehar hasieran soinu bera duen objektu erreal bat.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_06a4f0f3_70",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Horia da, luzea eta biguna, eta tximinoei asko gustatzen zaie. Zer da?",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_7c536b0d_6",
+   "lang": "eu",
+   "style": "child",
+   "text": "udarea",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_ba19a780_6",
+   "lang": "eu",
+   "style": "child",
+   "text": "pilota",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_613ec847_58",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Gorria eta biribila da, eta zuhaitzetan hazten da. Zer da?",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_b86c83f2_9",
+   "lang": "eu",
+   "style": "child",
+   "text": "tximeleta",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_448ebcb3_7",
+   "lang": "eu",
+   "style": "child",
+   "text": "motorra",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_14d717f1_52",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Zeruan distiratzen du eta beroa ematen digu. Zer da?",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_88ea9a29_7",
+   "lang": "eu",
+   "style": "child",
+   "text": "eguzkia",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_6639f9d8_5",
+   "lang": "eu",
+   "style": "child",
+   "text": "sugea",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_d3b322f9_4",
+   "lang": "eu",
+   "style": "child",
+   "text": "zopa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_038e026a_107",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Hartu panpina eta arropa. Eman umeari agindu bat aldiro: \"Jarri txapela panpinari\". Aldatu arropa txandaka.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_fdfdd2de_64",
+   "lang": "eu",
+   "style": "child",
+   "text": "Jolastu benetan janzten: ekar dezala txapela korrika eta jantzi.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_d6b673a1_94",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Umeak ASKO dauden txartela ukitzen du. Gero galdetu \"zer dira?\" pluralez esan dezan: \"katuak\".",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_29a09080_58",
+   "lang": "eu",
+   "style": "child",
+   "text": "Salto handi bat BAT badago, salto txiki asko ASKO badaude.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_460dd1d2_6",
+   "lang": "eu",
+   "style": "slow",
+   "text": "katuak",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_36b939ed_8",
+   "lang": "eu",
+   "style": "child",
+   "text": "katu bat",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_15e3f558_9",
+   "lang": "eu",
+   "style": "child",
+   "text": "katu asko",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_040723a6_94",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Umeak ASKO dauden txartela ukitzen du. Gero galdetu \"zer dira?\" pluralez esan dezan: \"loreak\".",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_a601233d_6",
+   "lang": "eu",
+   "style": "slow",
+   "text": "loreak",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_a2d8955a_8",
+   "lang": "eu",
+   "style": "child",
+   "text": "lore bat",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_c390a355_9",
+   "lang": "eu",
+   "style": "child",
+   "text": "lore asko",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_682850f3_96",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Umeak ASKO dauden txartela ukitzen du. Gero galdetu \"zer dira?\" pluralez esan dezan: \"arrainak\".",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_6c3c5980_8",
+   "lang": "eu",
+   "style": "slow",
+   "text": "arrainak",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_50d9b9eb_10",
+   "lang": "eu",
+   "style": "child",
+   "text": "arrain bat",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_e24b4c92_11",
+   "lang": "eu",
+   "style": "child",
+   "text": "arrain asko",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_829d7f2a_126",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Sakatu 🔊 hitza entzuteko. Umeak irudi egokia ukitzen du. Gero alderantziz: zuk irudi bat seinalatu eta berak hitza esaten du.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_863afdb6_73",
+   "lang": "eu",
+   "style": "child",
+   "text": "Gelaren alde bat \"mutila\" da eta bestea \"neska\": korri egin alde egokira!",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_1cdf66d9_5",
+   "lang": "eu",
+   "style": "slow",
+   "text": "neska",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_9cad682f_6",
+   "lang": "eu",
+   "style": "child",
+   "text": "mutila",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_1cdf66d9_5",
+   "lang": "eu",
+   "style": "child",
+   "text": "neska",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_2788021d_5",
+   "lang": "eu",
+   "style": "slow",
+   "text": "amona",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_444fcce7_6",
+   "lang": "eu",
+   "style": "child",
+   "text": "aitona",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_2788021d_5",
+   "lang": "eu",
+   "style": "child",
+   "text": "amona",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_79a4c893_6",
+   "lang": "eu",
+   "style": "slow",
+   "text": "errege",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_79a4c893_6",
+   "lang": "eu",
+   "style": "child",
+   "text": "errege",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_ac39934e_8",
+   "lang": "eu",
+   "style": "child",
+   "text": "erregina",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_2e4875c0_143",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Sakatu 🔊 umeak esaldia entzun dezan. Gero, fitxak ordenan ukitu dezala eraikitzeko: nork, zer eta zer egiten duen. Euskaraz aditza azkena doa.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_4932894c_82",
+   "lang": "eu",
+   "style": "child",
+   "text": "Antzeztu esaldia: umeak aktore lana egiten du eta sagar imajinario bat \"jaten du\".",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_c7d54c78_25",
+   "lang": "eu",
+   "style": "child",
+   "text": "Mutilak sagarra jaten du.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_e8fb230c_7",
+   "lang": "eu",
+   "style": "slow",
+   "text": "mutilak",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_53670be0_7",
+   "lang": "eu",
+   "style": "slow",
+   "text": "sagarra",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_34501696_8",
+   "lang": "eu",
+   "style": "slow",
+   "text": "jaten du",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_f2162d4f_26",
+   "lang": "eu",
+   "style": "child",
+   "text": "Neskak pilota botatzen du.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_25aeaa36_6",
+   "lang": "eu",
+   "style": "slow",
+   "text": "neskak",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_ea309a57_11",
+   "lang": "eu",
+   "style": "slow",
+   "text": "botatzen du",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_d092445e_27",
+   "lang": "eu",
+   "style": "child",
+   "text": "Txakurrak hezurra jaten du.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_4b678230_9",
+   "lang": "eu",
+   "style": "slow",
+   "text": "txakurrak",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_c939cf06_7",
+   "lang": "eu",
+   "style": "slow",
+   "text": "hezurra",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_3b539e5e_101",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Seinalatu gelako gauzak eta galdetu: \"Zer da hau?\". Grabatu edo idatzi behean umeak erantzuten duena.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_3f19f6be_89",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ibili etxean esploratzaile gisa objektuak seinalatuz: \"zer da hau?\" geldialdi bakoitzean.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_04eec5ac_124",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Panpina lo dago: hitz egin oso baxu ez esnatzeko. \"Esnatzen\" denean, itzuli ahots normalera. Idatzi behean nola egiten duen.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_d8773678_76",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ibili puntetan baxu hitz eginez; seinalean, ahots normala eta pauso gogorra!",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_bde0fbf1_53",
+   "lang": "eu",
+   "style": "child",
+   "text": "Isss… panpina lo dago. Oso-oso baxu hitz egiten dugu.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_186682db_61",
+   "lang": "eu",
+   "style": "child",
+   "text": "Panpina esnatu da! Orain ahots normalarekin hitz egiten dugu.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_84d967f3_118",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Begiratu aurpegi handia umearekin. Sakatu 🔊 aukerak entzun nahi baditu. Berak aurpegia nola sentitzen den ukitzen du.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_e79906d4_72",
+   "lang": "eu",
+   "style": "child",
+   "text": "Imitatu emozioa gorputz osoarekin: aurpegia, besoak eta estatua-jarrera.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_9be3d3e5_157",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Estali ahoa eta esan hitz bat ia ahotsik gabe. Umeak ulertzen ez badu, eskatu behar dizu: \"zer?\" edo \"nola?\". Hori da lantzen duguna: errepikatzeko eskatzea.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_8800eb9d_93",
+   "lang": "eu",
+   "style": "child",
+   "text": "Xuxurlatu agindu bat urrunetik; ulertzen ez bada, etor dadila korrika eta eska dezala \"zer?\".",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_a58b649e_3",
+   "lang": "eu",
+   "style": "slow",
+   "text": "zer",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_af94d2d8_120",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Hurbildu burbuilak zure aurpegitik oso gertu eta deitu bere izena. Bilatu begi-kontaktu labur bat, une batekoa bada ere.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_69d53089_95",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Egin burbuilak beso baten distantziara. Deitu bere izena eta seinalatu hatzarekin burbuiletara.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_a28778ad_85",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Gelaren beste aldetik, deitu bere izena behin bakarrik estimulu motibatzailerik gabe.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_55ba24f6_70",
+   "lang": "eu",
+   "style": "child",
+   "text": "Jarraitu eta lehertu burbuilak elkarrekin: burbuila bat, begirada bat.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_87520b9d_93",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Jo txalo poliki bere aurrean eta gidatu bere eskuak lehen aldian. Errepikatu keinua bakarrik.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_2e331f5d_101",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Jo danborra bi aldiz eta esan \"pa-pa\". Itxaron keinua edo soinua imita dezan laguntza fisikorik gabe.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_efc000b0_130",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Konbinatu keinu bat eta silaba berri bat (\"ta-ta\" + salto) eta ikusi ispiluan imitatzen duen, berehala eta eredua errepikatu gabe.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_1aa75085_72",
+   "lang": "eu",
+   "style": "child",
+   "text": "Giza ispilua: imitatu keinu handiak (besoak, saltoak, bueltak) txandaka.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_9fa1e302_68",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Esan \"Emadazu pilota\" pilota hatzarekin seinalatzen duzun bitartean.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_ae7c58eb_64",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Eskatu \"Ukitu sudurra\" eta \"Ukitu burua\" laguntza-keinurik gabe.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_fecca865_90",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Esan keinurik gabe: \"Emadazu pilota eta eseri\". Ikusi bi urratsak ordenan betetzen dituen.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_07f180b2_68",
+   "lang": "eu",
+   "style": "child",
+   "text": "Jolastu \"Simonek dio\" urrats bateko aginduekin eta gorputz-atalekin.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_a12baa23_90",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Erakutsi txakurraren panpina eta eredua eman: \"Zaunk\". Itxaron onomatopeia errepika dezan.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_b8333a8c_63",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Erakutsi ur-baso bat ezer esan gabe eta galdetu: \"Zer da hau?\".",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_c97db54c_91",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Eskaini baso hutsa eta itxaron espontaneoki \"ura nahi dut\" eska dezan bi hitzak konbinatuz.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_80e174f0_74",
+   "lang": "eu",
+   "style": "child",
+   "text": "Iturrira lasterketa: \"ura\" hitz magikoa esaten badu bakarrik irekitzen da.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_bea93f14_12",
+   "lang": "eu",
+   "style": "slow",
+   "text": "ura nahi dut",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_b7f0863d_108",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Gelditu jolas dibertigarri bat (kilimak, zabua) eta eredua eman keinua + \"gehiago\" hitza. Lagundu imitatzen.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_b4d0c947_98",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Eman gustuko zerbait duen ontzi itxi bat eta itxaron. Frustratzen bada, iradoki ahopeka \"lagundu\".",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_b1ac8112_112",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Sortu beste behar-egoera bat (jostailua eskuz kanpo) inolako pistarik eman gabe eta itxaron eskaera espontaneoa.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_7320cf53_78",
+   "lang": "eu",
+   "style": "child",
+   "text": "Zabua, hegazkina edo kilimak: gelditu jolasa eta itxaron \"gehiago\" eska dezan.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_6d434a1d_98",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Erakutsi hurrengo jardueraren irudia eta egin atzera-kontaketa bisuala 5etik 1era aldatu aurretik.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_3861d31f_79",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Abisatu aldaketa behin bakarrik eta eskaini fitxa bat jarduera lasai amaitzean.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_7ff501fd_96",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Utzi bere agenda bisuala bakarrik kontsultatzen eta trantsizioa egiten, abisatu behar izan gabe.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_08784606_70",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ibili elkarrekin hurrengo jardueraruntz trantsizioen abestia kantatuz.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_fcba7403_84",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Pilatu bloke bat eta esan \"orain zu\". Lagundu fisikoki txandari erantzuten ez badio.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_f0ac0c1b_115",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Eskaini panpina bat eta koilara bat; eredua eman \"eman diezaiogun jaten\" eta itxaron jolas sinbolikoa jarrai dezan.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_dd2e3ab2_89",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Utzi berak proposa dezan txanda- edo jolas sinboliko bat eta mantendu trukea gidatu gabe.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_ffa2355a_87",
+   "lang": "eu",
+   "style": "child",
+   "text": "Pasatu pilota bat biraka: pilota duenak bakarrik hitz egiten du. Txanda eta mugimendua!",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_df713ec8_305",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Jarri objektu oso erakargarri bat zure aurpegiaren eta umearen artean. Itxaron 3 segundo inolako pistarik eman AURRETIK (instigazio atzeratua): zigiluaren botoia itxaron horren ondoren bakarrik desblokeatzen da. Sakatu Zigilu Bikoitza zurekin (ez objektuarekin) benetako begi-kontaktua dagoenean BAKARRIK.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_0b688307_97",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ezkutatu objektua bizkarraren atzean eta ibili poliki: bila diezazula begirada erakutsi aurretik.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_d6cef521_351",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Ariketa honek Panel Nagusiko Etendura Pragmatikoa erabiltzen du: aplikazioa nahita izozten duzu (agindu absurdua edo isiltasuna) eta umeak komunikazioa nola konpontzen duen behatzen duzu. Estresore MANUALA eta berehala itzulgarria da: zuk erabakitzen duzu noiz hasi eta noiz amaitu. Ireki behean Panel Nagusian eta erregistratu erabilitako estrategia.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_5f7ae7e5_62",
+   "lang": "eu",
+   "style": "child",
+   "text": "Konponketa lortu ondoren, ospatu esku-talka oso puztu batekin.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_4d00155d_250",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Sakatu 🔊 aplikazioaren ahotsak agindu motorea eman dezan eta, soinuak dirauen BITARTEAN, egin zuk kontrako ekintza bat (ahotsak \"ukitu sudurra\" dio eta zuk burua ukitzen duzu). Helburua umeak AUDIOA jarraitzea eta zure keinuaren kopia inhibitzea da.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_d348b50f_106",
+   "lang": "eu",
+   "style": "child",
+   "text": "Jolastu \"ahotsak agintzen du\": soinuzko aginduak balio du, helduaren keinuak engainatzen du. Aldatu rolak!",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_146495f2_266",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Gehien gustatzen ari zaion jolasaren erdian, sakatu \"Eten orain\": mugimendu-kapsula bat-bateko bat agertuko da. Behatu trantsizioa: onartzen du, protesta egin eta jarraitzen du, ala uzten du? Zuk erabakitzen duzu une zehatza; aplikazioak ez du inoiz bakarrik eteten.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_beb14379_82",
+   "lang": "eu",
+   "style": "child",
+   "text": "Bihurtu etena jolas: \"estatua!\", hiru arnasketa putz eginda eta jarduerara itzuli.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_7bee0f58_259",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Sakatu 🔊 lau fitxak entzuteko. Hiru elkarrekin doaz eta bat ez: umeak besteekin joaten EZ dena ukitzen du. Gero igo POLIKI-POLIKI atzeko zarata Panel Nagusitik eta errepikatu beste txanda batekin: idatzi asmatzea nola aldatzen den zarata-maila bakoitzarekin.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_5624bdae_89",
+   "lang": "eu",
+   "style": "child",
+   "text": "Sailkatu benetako jostailuak bi kutxatan (animaliak / jatekoak) atzean musika baxuarekin.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_38a21bfb_32",
+   "lang": "eu",
+   "style": "slow",
+   "text": "txakurra, katua, zaldia, koilara",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_bcdb41b2_6",
+   "lang": "eu",
+   "style": "child",
+   "text": "zaldia",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_adfc87a8_7",
+   "lang": "eu",
+   "style": "child",
+   "text": "koilara",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_0f215825_183",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Sakatu 🔊 lau fitxak entzuteko. Hiru jaten dira eta bat ez: umeak besteekin joaten EZ dena ukitzen du. Igo zarata Panel Nagusitik txandaz txanda eta idatzi asmatzea nola aldatzen den.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_cdd92bb4_28",
+   "lang": "eu",
+   "style": "slow",
+   "text": "sagarra, ogia, gazta, pilota",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_7ce8a415_4",
+   "lang": "eu",
+   "style": "child",
+   "text": "ogia",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_b245906e_5",
+   "lang": "eu",
+   "style": "child",
+   "text": "gazta",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_6f4bd41c_180",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Sakatu 🔊 lau fitxak entzuteko. Hiru janzteko dira eta bat ez: umeak besteekin joaten EZ dena ukitzen du. Mantendu probatzen ari zaren zarata-maila eta konparatu aurreko txandekin.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_502b7a33_35",
+   "lang": "eu",
+   "style": "slow",
+   "text": "txapela, kamiseta, zapata, marrubia",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_ba6015c6_8",
+   "lang": "eu",
+   "style": "child",
+   "text": "marrubia",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_f4c0a7b7_191",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Sakatu 🔊 ahotsak serie osoa eman dezan. Hiru hitzek antzeko soinua dute eta batek ez: umeak besteen soinua EZ duen hitzaren bozgorailua ukitzen du. Testu-laguntzarik gabe: belarria bakarrik.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_71a63d87_84",
+   "lang": "eu",
+   "style": "child",
+   "text": "Belaunean palmada errimatzen duen hitz bakoitzean; besoak gurutze intrusoak jotzean.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_6dfb841f_27",
+   "lang": "eu",
+   "style": "slow",
+   "text": "gozoa, beroa, astoa, liburu",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_3e45fd1f_5",
+   "lang": "eu",
+   "style": "child",
+   "text": "gozoa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_3bd6b0ce_5",
+   "lang": "eu",
+   "style": "child",
+   "text": "beroa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_cea4ee27_5",
+   "lang": "eu",
+   "style": "child",
+   "text": "astoa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_d958271a_6",
+   "lang": "eu",
+   "style": "child",
+   "text": "liburu",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_ba150ae7_30",
+   "lang": "eu",
+   "style": "slow",
+   "text": "iluna, biguna, astuna, sagarra",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_068dd14e_5",
+   "lang": "eu",
+   "style": "child",
+   "text": "iluna",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_ecf584cd_6",
+   "lang": "eu",
+   "style": "child",
+   "text": "biguna",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_140493f7_6",
+   "lang": "eu",
+   "style": "child",
+   "text": "astuna",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_af904a96_32",
+   "lang": "eu",
+   "style": "slow",
+   "text": "handia, txikia, gorria, zuhaitza",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_3e77963e_6",
+   "lang": "eu",
+   "style": "child",
+   "text": "handia",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_61fd5933_6",
+   "lang": "eu",
+   "style": "child",
+   "text": "txikia",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_a9e4bec5_6",
+   "lang": "eu",
+   "style": "child",
+   "text": "gorria",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_55748887_8",
+   "lang": "eu",
+   "style": "child",
+   "text": "zuhaitza",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_e40f975c_249",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Umeak pantailako esaldia ozen irakurtzen du, tiraldi batean eta silabakatu gabe. Lasai lortzen duenean, aktibatu Hartz Distraitzailea eta zarata pixka bat Panel Nagusitik eta errepikatu beste txanda batekin: baloratu zuk jariotasuna, ez aplikazioak.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_0a7609e7_72",
+   "lang": "eu",
+   "style": "child",
+   "text": "Irakurri esaldia ibiliz: pauso bat hitzeko, silaben artean gelditu gabe.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_2f39abc1_21",
+   "lang": "eu",
+   "style": "slow",
+   "text": "hartzak ogia jaten du",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_be7f20dc_22",
+   "lang": "eu",
+   "style": "slow",
+   "text": "neskak zukua edaten du",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_6431815c_27",
+   "lang": "eu",
+   "style": "slow",
+   "text": "nire katuak salto egiten du",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_4d7f5d61_236",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Sakatu \"Soinuak entzun\": aplikazioak soinu bakoitza banaka ematen du, artean etenaldi batekin. Umeak lotu eta hitz osoa esan behar du. Jaso fusioa mikroarekin; ezagutzak huts egiten badu edo motel badoa, baloratu zuk behean eskalarekin.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_deee1937_62",
+   "lang": "eu",
+   "style": "child",
+   "text": "Salto bat soinu bakoitzeko eta, hitz osoa esatean, izar-salto!",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_d94e345c_3",
+   "lang": "eu",
+   "style": "slow",
+   "text": "sua",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_c33f0730_3",
+   "lang": "eu",
+   "style": "slow",
+   "text": "sss",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_f00c3c10_1",
+   "lang": "eu",
+   "style": "slow",
+   "text": "u",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_e40c292c_1",
+   "lang": "eu",
+   "style": "slow",
+   "text": "a",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_2c27b1b6_3",
+   "lang": "eu",
+   "style": "slow",
+   "text": "ama",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_ca99d446_3",
+   "lang": "eu",
+   "style": "slow",
+   "text": "mmm",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_a2e382a7_3",
+   "lang": "eu",
+   "style": "slow",
+   "text": "ile",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_ec0c35c4_1",
+   "lang": "eu",
+   "style": "slow",
+   "text": "i",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_365991eb_3",
+   "lang": "eu",
+   "style": "slow",
+   "text": "lll",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_e00c22e0_1",
+   "lang": "eu",
+   "style": "slow",
+   "text": "e",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_01b023c7_220",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Pantailako hitza asmatua da: ezin da igarri, deskodetu baino ez. Umeak ozen irakurtzen du entzuten den bezala. Gehienez 5 saio: mugara iristean, aplikazioak nahitaezko mugimendu-etenaldi bat proposatzen du deskargatzeko.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_f0e453f6_52",
+   "lang": "eu",
+   "style": "child",
+   "text": "Esan pseudohitza silabako palmada batekin: ME-LU-TA.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_df78928b_6",
+   "lang": "eu",
+   "style": "slow",
+   "text": "meluta",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_a9fe1e56_7",
+   "lang": "eu",
+   "style": "slow",
+   "text": "txabiro",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_9d0ceda6_7",
+   "lang": "eu",
+   "style": "slow",
+   "text": "gasnelo",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_b135c9e3_223",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Esan umeari zein letra bilatu (laukiko handia) eta panelean aurkitzen dituen GUZTIAK uki ditzala. Letra biki biratuek (b/d, p/q) engainatu nahi dute. Karga gehiago nahi baduzu, aktibatu Hartz Distraitzailea Panel Nagusitik.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_a35339cb_97",
+   "lang": "eu",
+   "style": "child",
+   "text": "Marraztu letra objektiboa erraldoi airean: \"b\"-ren tripa aurrera begira dago, irakurtzean bezala.",
+   "source": "ejercicios"
   }
  ]
 }

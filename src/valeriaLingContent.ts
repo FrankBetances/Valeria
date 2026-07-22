@@ -44,10 +44,27 @@ export const LING_COPY_ESDO: LingCopy = {
   tip: 'El Test de Ling no usa el micrófono: tú haces cada sonido y marcas cómo responde el niño.',
 };
 
+// ------------------------------- eu (euskera) -------------------------------
+// Los seis sonidos son universales; en euskera cambian las consignas y pistas
+// al tutor (batua). ✅ APROBADO PARA PRODUCCIÓN (revisión de Ulertuz · ILENIA/NEL-GAITU).
+export const LING_SOUNDS_EU: LingSound[] = [
+  { sym: 'm',  say: '“mmm”',  freq: 'Grabea · ~250 Hz',      fc: '#3b82f6', hint: 'Soinu sudurkaria, ezpainetan dardara.' },
+  { sym: 'u',  say: '“uuu”',  freq: 'Grabea · ~300 Hz',      fc: '#3b82f6', hint: 'Atzeko bokala, ahoa biribilduta.' },
+  { sym: 'a',  say: '“aaa”',  freq: 'Ertaina · ~1 kHz',      fc: '#10b981', hint: 'Bokal irekia eta erdikoa.' },
+  { sym: 'i',  say: '“iii”',  freq: 'Ertain-zorrotza · ~2 kHz', fc: '#f59e0b', hint: 'Bokal itxia eta aurrekoa, irribarrea luzatuta.' },
+  { sym: 'sh', say: '“xxx”',  freq: 'Zorrotza · ~3 kHz',     fc: '#f97316', hint: 'Frikaria, aire-jario jarraitua (euskarazko x).' },
+  { sym: 's',  say: '“sss”',  freq: 'Oso zorrotza · ~5 kHz', fc: '#ef4444', hint: 'Frikari zorrotza — entzuten zailena den soinua.' },
+];
+
+export const LING_COPY_EU: LingCopy = {
+  instrBody: 'Umeak ez dizula ezpainak irakurri. Errepikatu soinua 2-3 aldiz eta behatu bere erreakzioa.',
+  tip: 'Ling Testak ez du mikrofonoa erabiltzen. Zuk soinu bakoitza egiten duzu eta umeak nola erantzuten duen markatzen duzu.',
+};
+
 export interface LingContent { sounds: LingSound[]; copy: LingCopy; }
 
 export function lingContentForLocale(loc: string): LingContent {
-  return loc === 'es-DO'
-    ? { sounds: LING_SOUNDS_ESDO, copy: LING_COPY_ESDO }
-    : { sounds: LING_SOUNDS, copy: LING_COPY };
+  if (loc === 'es-DO') return { sounds: LING_SOUNDS_ESDO, copy: LING_COPY_ESDO };
+  if (loc === 'eu') return { sounds: LING_SOUNDS_EU, copy: LING_COPY_EU };
+  return { sounds: LING_SOUNDS, copy: LING_COPY };
 }

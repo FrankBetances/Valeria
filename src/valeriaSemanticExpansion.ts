@@ -727,29 +727,51 @@ export const PHASE_LABEL: Record<ProgressionPhaseKind, string> = {
 // de resolver: cae a la voz del sistema (degrada, nunca rompe).
 export interface VoiceLine { style: 'tutor' | 'child' | 'slow'; text: string; }
 
+// Bancos de contenido de una variedad (base es o localizada). La enumeración de
+// voz es idéntica en forma; solo cambian los datos y dos textos fijos (reintento
+// y cierre), que se inyectan para que el corpus hornee la voz de cada variedad
+// (es → Sharvard, eu → HiTZ). Ver valeriaSemanticExpansionEu.
+export interface SemanticSpeechBanks {
+  scenarios: DailyScenario[];
+  sequences: ProgressionSequence[];
+  capsules: ContrastCapsule[];
+  retry: (label: string) => string; // "¡Otra vez! Di: X." / "Berriro! Esan: X."
+  sessionDone: string;               // cierre fijo de la sesión
+}
+
 // Un "paso" locutable (consigna + palabra objetivo + acción física del adulto),
 // forma común de escenarios, progresiones y contrastes en la pantalla.
-const stepLines = (tts: string, label: string, action: string): VoiceLine[] => [
-  { style: 'child', text: tts },                             // consigna (speakToChild)
-  { style: 'child', text: `¡Otra vez! Di: ${label}.` },      // reintento
-  { style: 'slow', text: label.toLowerCase() },              // modelo lento (speakWordSlow)
-  { style: 'tutor', text: action },                          // tarjeta de acción física (voice="tutor")
+const stepLines = (tts: string, label: string, action: string, retry: (l: string) => string): VoiceLine[] => [
+  { style: 'child', text: tts },                     // consigna (speakToChild)
+  { style: 'child', text: retry(label) },            // reintento
+  { style: 'slow', text: label.toLowerCase() },      // modelo lento (speakWordSlow)
+  { style: 'tutor', text: action },                  // tarjeta de acción física (voice="tutor")
 ];
 
-export function enumerateSemanticSpeech(): VoiceLine[] {
+// Enumeración parametrizada: la comparte la base es y cada variedad localizada.
+export function enumerateSemanticSpeechFor(b: SemanticSpeechBanks): VoiceLine[] {
   const out: VoiceLine[] = [];
-  for (const sc of DAILY_SCENARIOS) {
-    for (const it of sc.items) out.push(...stepLines(it.tts_string, it.label, it.parent_tpr_action));
+  for (const sc of b.scenarios) {
+    for (const it of sc.items) out.push(...stepLines(it.tts_string, it.label, it.parent_tpr_action, b.retry));
   }
-  for (const sq of PROGRESSION_SEQUENCES) {
-    for (const ph of sq.phases) out.push(...stepLines(ph.tts_string, ph.label, ph.parent_tpr_action));
+  for (const sq of b.sequences) {
+    for (const ph of sq.phases) out.push(...stepLines(ph.tts_string, ph.label, ph.parent_tpr_action, b.retry));
   }
-  for (const cp of CONTRAST_CAPSULES) {
+  for (const cp of b.capsules) {
     // El setup físico se muestra en la 1ª vuelta (tarjeta de acción, voice="tutor").
     out.push({ style: 'tutor', text: cp.physical_setup });
-    for (const r of cp.rounds) out.push(...stepLines(r.tts_trigger, r.label, r.parent_action));
+    for (const r of cp.rounds) out.push(...stepLines(r.tts_trigger, r.label, r.parent_action, b.retry));
   }
-  // Cierre de sesión (fijo).
-  out.push({ style: 'child', text: '¡Sesión completada! ¡Choca esos cinco!' });
+  out.push({ style: 'child', text: b.sessionDone });
   return out;
+}
+
+export function enumerateSemanticSpeech(): VoiceLine[] {
+  return enumerateSemanticSpeechFor({
+    scenarios: DAILY_SCENARIOS,
+    sequences: PROGRESSION_SEQUENCES,
+    capsules: CONTRAST_CAPSULES,
+    retry: (label) => `¡Otra vez! Di: ${label}.`,
+    sessionDone: '¡Sesión completada! ¡Choca esos cinco!',
+  });
 }

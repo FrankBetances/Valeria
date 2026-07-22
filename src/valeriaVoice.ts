@@ -22,6 +22,10 @@ import {
   VOICE_SAMPLE_PHRASE_GL,
   PRAISE_BANK_GL, ALMOST_BANK_GL, NO_HEAR_BANK_GL, TOGETHER_BANK_GL,
 } from './valeriaContentGl';
+import {
+  VOICE_SAMPLE_PHRASE_EU,
+  PRAISE_BANK_EU, ALMOST_BANK_EU, NO_HEAR_BANK_EU, TOGETHER_BANK_EU,
+} from './valeriaContentEu';
 import { voiceCorpusId, VoiceStyle } from './valeriaVoiceCorpus';
 import { VOICE_ASSETS } from './valeriaVoiceAssets';
 import { playVoiceAsset, stopVoiceAsset } from './valeriaVoicePlayback';
@@ -307,8 +311,10 @@ export const speakClinical = (text: string, opts: Speech.SpeechOptions = {}) => 
 
 // Frase de prueba para que la familia escuche la voz elegida. En galego usa
 // la muestra propia, que resuelve el asset neuronal de Celtia (id gl_*).
-export const speakVoiceSample = () =>
-  speakToChild(getLocale() === 'gl' ? VOICE_SAMPLE_PHRASE_GL : VOICE_SAMPLE_PHRASE);
+export const speakVoiceSample = () => {
+  const l = getLocale();
+  speakToChild(l === 'gl' ? VOICE_SAMPLE_PHRASE_GL : l === 'eu' ? VOICE_SAMPLE_PHRASE_EU : VOICE_SAMPLE_PHRASE);
+};
 
 // Palabra objetivo bien articulada, muy despacio (modelado fonético).
 export const speakWordSlow = (text: string) => {
@@ -337,11 +343,17 @@ const pickPhrase = (key: string, bank: string[]): string => {
 // Bancos por variedad: en galego rotan las variantes gl (que suenan con Celtia
 // porque están en el corpus); es/es-DO usan los castellanos (es-DO con la voz
 // del sistema). Mismas longitudes por categoría, así la anti-repetición vale.
-const isGl = () => getLocale() === 'gl';
-export const praisePhrase = () => pickPhrase('praise', isGl() ? PRAISE_BANK_GL : PRAISE_BANK);
-export const almostPhrase = () => pickPhrase('almost', isGl() ? ALMOST_BANK_GL : ALMOST_BANK);
-export const noHearPhrase = () => pickPhrase('noHear', isGl() ? NO_HEAR_BANK_GL : NO_HEAR_BANK);
-export const togetherPhrase = () => pickPhrase('together', isGl() ? TOGETHER_BANK_GL : TOGETHER_BANK);
+// Selección del banco por variedad: galego (Celtia), euskera (HiTZ) o base
+// castellana (es/es-DO). Mismas longitudes por categoría, así la
+// anti-repetición de pickPhrase sigue valiendo en cualquier variedad.
+const bankFor = <T,>(gl: T, eu: T, base: T): T => {
+  const l = getLocale();
+  return l === 'gl' ? gl : l === 'eu' ? eu : base;
+};
+export const praisePhrase = () => pickPhrase('praise', bankFor(PRAISE_BANK_GL, PRAISE_BANK_EU, PRAISE_BANK));
+export const almostPhrase = () => pickPhrase('almost', bankFor(ALMOST_BANK_GL, ALMOST_BANK_EU, ALMOST_BANK));
+export const noHearPhrase = () => pickPhrase('noHear', bankFor(NO_HEAR_BANK_GL, NO_HEAR_BANK_EU, NO_HEAR_BANK));
+export const togetherPhrase = () => pickPhrase('together', bankFor(TOGETHER_BANK_GL, TOGETHER_BANK_EU, TOGETHER_BANK));
 
 // ----------------------------------------------------------------------------
 // Reconocimiento de voz (ASR) — opcional según plataforma/build
@@ -441,6 +453,16 @@ export const foldDominican = (s: string): string =>
     .replace(/\s+/g, ' ')
     .trim();
 
+// Pliegue vasco (plan ILENIA/NEL-GAITU · EU-4.2): la ⟨h⟩ es MUDA en euskera
+// batua y en los euskalkis del sur, y ni el reconocedor `eu-ES` ni —sobre todo—
+// la recaída `es-ES` la devuelven de forma fiable al oír euskera. Se pliega la
+// hache de forma simétrica (objetivo y oído): "hotz"/"otz", "hartza"/"artza" u
+// "ohea"/"oea" cuentan como equivalentes. NO se tocan las sibilantes ni las
+// africadas (s/z/x · ts/tz/tx): son el contraste clínico de los pares mínimos y
+// el adulto es el juez final de esa distinción.
+export const foldBasque = (s: string): string =>
+  s.replace(/h/g, '').replace(/\s+/g, ' ').trim();
+
 export const normalizeSpeech = (s: string): string => {
   const base = s
     .toLowerCase()
@@ -449,8 +471,9 @@ export const normalizeSpeech = (s: string): string => {
     .replace(/[^a-zñ0-9 ]/g, ' ')
     .replace(/\s+/g, ' ')
     .trim();
-  // En dominicano se aceptan las realizaciones con elisión de /s/ y /d/.
-  return getLocale() === 'es-DO' ? foldDominican(base) : base;
+  // Pliegues dialectales: dominicano (elisión de /s/ y /d/) y euskera (h muda).
+  const loc = getLocale();
+  return loc === 'es-DO' ? foldDominican(base) : loc === 'eu' ? foldBasque(base) : base;
 };
 
 const editDistance = (a: string, b: string): number => {

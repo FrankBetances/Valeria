@@ -68,6 +68,18 @@ VOICES = {
             "proxectonos/nos_tts-celtia-vits-graphemes",
         ],
     },
+    "eu": {
+        "engine": "coqui",
+        "name": "maider",
+        "label": "HiTZ-TTS euskera · ILENIA/NEL-GAITU (HiTZ · Aholab)",
+        # Voz vasca del centro HiTZ (UPV/EHU · Aholab), VITS. Preferencia:
+        # voz femenina (homóloga de Sharvard/Celtia) y, como respaldo, Antton.
+        # El primero que responda en la API de HF gana; ver EU-0.2/EU-3.1.
+        "hf_repos": [
+            "HiTZ/TTS-eu_maider",
+            "HiTZ/TTS-eu_antton",
+        ],
+    },
 }
 
 

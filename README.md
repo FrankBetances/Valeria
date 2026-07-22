@@ -5,7 +5,7 @@
 **App móvil de terapia auditivo‑verbal y del lenguaje** para niñas y niños con
 hipoacusia, implante coclear, dislalias o dificultades del lenguaje.
 
-Castellano · Galego · Dominicano (es‑DO) · voz neuronal offline
+Castellano · Galego · Dominicano (es‑DO) · Euskara · voz neuronal offline
 
 Expo SDK 54 · React Native 0.81 · TypeScript · Backend opcional Firebase
 
@@ -118,7 +118,7 @@ para no ensuciar la telemetría de misclicks.
 
 ## Idiomas y variedades
 
-Valeria+ locuta y evalúa el **contenido terapéutico** en tres variedades,
+Valeria+ locuta y evalúa el **contenido terapéutico** en cuatro variedades,
 seleccionables desde la tarjeta **«Voz de la app»** (`ValeriaVoiceUI`). La
 interfaz sigue en castellano; lo que cambia es lo que se dice, se muestra y se
 evalúa. La variedad activa vive en un único módulo (`src/valeriaLocale.ts`), que
@@ -130,6 +130,7 @@ reconocedor/voz del sistema y si conviene preferir voces latinas.
 | 🇪🇸 **Castellano** (`es`) | Voz neuronal **Sharvard** pregenerada y empaquetada (offline). | Voz del sistema `es-ES`. |
 | **Galego** (`gl`) — *Proxecto Nós* | Voz neuronal **Celtia** pregenerada (Proxecto Nós), empaquetada. El contenido compartido con el castellano (Expansión Semántica, Audición y Lenguaje) suena con el asset **Sharvard** hasta que Celtia lo cubra. | Sistema `gl-ES` con recaída a `expo-speech`. |
 | 🇩🇴 **Dominicano** (`es-DO`) — *Quisqueya Habla* | Voz **latina del dispositivo** (`es-US`/`es-MX`); sin audio propio pregenerado. | Sistema `es-DO`, priorizando el catálogo latino. |
+| **Euskara** (`eu`) — *ILENIA/NEL-GAITU · HiTZ* | Voz neuronal **HiTZ-TTS** pregenerada (UPV/EHU · Aholab), empaquetada. Cubre pares mínimos, expansión semántica, Audición, Lenguaje, TEA, Dislexia y Test de Ling en euskera batua. | Sistema `eu-ES` con recaída a `es-ES` + pliegue vasco (`foldBasque`, ⟨h⟩ muda). |
 
 - **Voz neuronal offline.** El audio de castellano y gallego se sintetiza en CI
   (nunca en el dispositivo) y viaja empaquetado en el APK: **1174 locuciones**

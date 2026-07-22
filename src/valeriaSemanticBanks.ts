@@ -15,6 +15,9 @@ import {
 import {
   DAILY_SCENARIOS_ESDO, PROGRESSION_SEQUENCES_ESDO, CONTRAST_CAPSULES_ESDO,
 } from './valeriaSemanticExpansionEsDO';
+import {
+  DAILY_SCENARIOS_EU, PROGRESSION_SEQUENCES_EU, CONTRAST_CAPSULES_EU,
+} from './valeriaSemanticExpansionEu';
 import { Locale } from './valeriaLocale';
 
 export interface SemanticBank {
@@ -29,6 +32,13 @@ export function semanticForLocale(loc: Locale): SemanticBank {
       scenarios: DAILY_SCENARIOS_ESDO,
       sequences: PROGRESSION_SEQUENCES_ESDO,
       capsules: CONTRAST_CAPSULES_ESDO,
+    };
+  }
+  if (loc === 'eu') {
+    return {
+      scenarios: DAILY_SCENARIOS_EU,
+      sequences: PROGRESSION_SEQUENCES_EU,
+      capsules: CONTRAST_CAPSULES_EU,
     };
   }
   // Castellano y galego comparten el banco base (el galego locuta con Celtia).

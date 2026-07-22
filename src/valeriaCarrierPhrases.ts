@@ -9,6 +9,12 @@
 // con concordancia propia. Nota lingüística gl: sin signos de apertura de
 // interrogación (norma RAG) y elicitación con "Respóndelle ti".
 //
+// V2.1 (plan ILENIA/NEL-GAITU, EU-2.4): banco euskera con orden SOV y sujeto
+// en ERGATIVO. El euskera NO calca el orden castellano (sujeto-verbo-objeto):
+// el objeto va inmediatamente antes del verbo (foco preverbal) y el verbo al
+// final. Por eso la interfaz admite `order: 'SOV'` y `abs` (forma absolutiva
+// del objeto ya flexionada), en vez de anteponer un artículo como en es/gl.
+//
 // Generación procedural: sujeto × verbo × cola se combinan con pasos coprimos
 // sobre el índice de ensayo; diez ensayos seguidos nunca repiten frase.
 //
@@ -20,17 +26,20 @@
 // build-time (Node) para pre-generar el audio neuronal de cada portadora.
 // ============================================================================
 
-export type CarrierLang = 'es' | 'gl';
+export type CarrierLang = 'es' | 'gl' | 'eu';
 
 // ---- Metadatos léxicos de las palabras objetivo por idioma ----
 // La concordancia (artículo/género) es imprescindible para que la frase
 // portadora sea gramatical; 'numero' activa plantillas propias (contar, velas).
-interface WordMeta { kind: 'sustantivo' | 'numero'; article?: string; }
+// En euskera (SOV) no se antepone artículo: `abs` da la forma absolutiva ya
+// flexionada del objeto (sua, hotza, hitza…) que se incrusta antes del verbo.
+interface WordMeta { kind: 'sustantivo' | 'numero'; article?: string; abs?: string; }
 interface SubjectMeta { full: string; short: string; }
 interface VerbMeta { past: string; ask: string; }
 interface NumberTemplate { build: (subj: string, n: string, tail: string) => string; ask: (short: string) => string; }
 
 interface CarrierBank {
+  order?: 'SVO' | 'SOV'; // por defecto SVO (es/gl); euskera usa SOV
   wordMeta: Record<string, WordMeta>;
   subjects: SubjectMeta[];
   verbs: VerbMeta[];
@@ -114,6 +123,37 @@ const BANKS: Record<CarrierLang, CarrierBank> = {
     numberTemplates: [], // sin objetivos numéricos en el banco gl
     elicit: 'Respóndelle ti, forte e claro.',
   },
+  eu: {
+    order: 'SOV',
+    // Objetivos del banco vasco de pares (valeriaMinimalPairsEu, BORRADOR).
+    // `abs` = forma absolutiva definida que se incrusta como objeto directo.
+    wordMeta: {
+      su: { kind: 'sustantivo', abs: 'sua' },
+      hotz: { kind: 'sustantivo', abs: 'hotza' },
+      hitz: { kind: 'sustantivo', abs: 'hitza' },
+      txalo: { kind: 'sustantivo', abs: 'txaloa' },
+      karta: { kind: 'sustantivo', abs: 'karta' },
+    },
+    // Sujetos en ERGATIVO (sufijo -k): el sujeto de un verbo transitivo lo exige.
+    subjects: [
+      { full: 'Hartz marroiak', short: 'hartzak' },
+      { full: 'Rosa amonak', short: 'amonak' },
+      { full: 'Simon piratak', short: 'piratak' },
+      { full: 'Nire lagun Mirenek', short: 'nire lagunak' },
+      { full: 'Ume txikiak', short: 'umeak' },
+    ],
+    // Verbos transitivos en pasado (3sg → 3sg, "zuen"); ask antepone "Zer".
+    verbs: [
+      { past: 'aurkitu zuen', ask: 'Zer aurkitu zuen' },
+      { past: 'marraztu zuen', ask: 'Zer marraztu zuen' },
+      { past: 'ikusi zuen', ask: 'Zer ikusi zuen' },
+      { past: 'bilatzen zuen', ask: 'Zer bilatzen zuen' },
+      { past: 'gorde zuen', ask: 'Zer gorde zuen' },
+    ],
+    tails: ['lorategian', 'gaur goizean', 'atearen atzean', 'pasealekuan', ''],
+    numberTemplates: [], // sin objetivos numéricos en el banco eu
+    elicit: 'Esan ezazu zuk, ozen eta argi.',
+  },
 };
 
 export interface CarrierPrompt {
@@ -145,8 +185,15 @@ function buildWithOffset(offset: number, target: string, trialIdx: number, lang:
   }
 
   const verb = bank.verbs[(offset + trialIdx * 3) % bank.verbs.length];
-  const np = meta.article ? `${meta.article} ${target}` : target;
-  const carrier = `${subj.full} ${verb.past} ${np}${tail ? ` ${tail}` : ''}.`;
+  // Objeto: en euskera, la forma absolutiva ya flexionada (abs); en es/gl, el
+  // sintagma con artículo antepuesto.
+  const np = meta.abs ?? (meta.article ? `${meta.article} ${target}` : target);
+  // Orden SOV (euskera): sujeto(erg) + cola + objeto + verbo, con el objeto
+  // inmediatamente antes del verbo (foco preverbal). Orden SVO (es/gl): sujeto
+  // + verbo + objeto + cola.
+  const carrier = bank.order === 'SOV'
+    ? `${subj.full}${tail ? ` ${tail}` : ''} ${np} ${verb.past}.`
+    : `${subj.full} ${verb.past} ${np}${tail ? ` ${tail}` : ''}.`;
   const question = `${verb.ask} ${subj.short}? ${bank.elicit}`;
   return { carrier, question, full: `${carrier} ${question}` };
 }

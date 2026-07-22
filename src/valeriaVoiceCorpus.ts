@@ -16,11 +16,20 @@
 // ============================================================================
 import { MINIMAL_PAIRS } from './valeriaMinimalPairs';
 import { MINIMAL_PAIRS_GL } from './valeriaMinimalPairsGl';
+import { MINIMAL_PAIRS_EU } from './valeriaMinimalPairsEu';
 import { enumerateAllCarrierPrompts } from './valeriaCarrierPhrases';
 import { TPR_CAPSULES } from './valeriaTprBank';
 import { ROUTINE_ROUTES } from './valeriaRoutineRoutes';
-import { enumerateSemanticSpeech } from './valeriaSemanticExpansion';
-import { enumerateExerciseSpeech } from './valeriaExerciseBank';
+import { enumerateSemanticSpeech, enumerateSemanticSpeechFor } from './valeriaSemanticExpansion';
+import {
+  DAILY_SCENARIOS_EU, PROGRESSION_SEQUENCES_EU, CONTRAST_CAPSULES_EU,
+  SEM_RETRY_EU, SEM_SESSION_DONE_EU,
+} from './valeriaSemanticExpansionEu';
+import {
+  enumerateExerciseSpeech, enumerateExerciseSpeechFor,
+  dbForLocale, variantsForLocale, pluralOneLabelFor, pluralManyLabelFor,
+} from './valeriaExerciseBank';
+import { EXERCISE_FIXED_LINES_EU } from './valeriaExerciseEu';
 import {
   PRAISE_BANK, ALMOST_BANK, NO_HEAR_BANK, TOGETHER_BANK,
   SESSION_CONTINUE_PHRASE, ROUTE_DONE_PHRASE, VOICE_SAMPLE_PHRASE,
@@ -33,15 +42,23 @@ import {
   PAIRS_DONE_PHRASE_GL, pairIntroGl, pairRetryGl,
   ROLESWAP_INTRO_GL, ROLESWAP_NOT_HEARD_GL, ROLESWAP_HIT_GL, ROLESWAP_MISS_OTHER_GL, roleswapParentSaidGl,
 } from './valeriaContentGl';
+import {
+  TPR_CAPSULES_EU, ROUTINE_ROUTES_EU,
+  PRAISE_BANK_EU, ALMOST_BANK_EU, NO_HEAR_BANK_EU, TOGETHER_BANK_EU,
+  SESSION_CONTINUE_PHRASE_EU, ROUTE_DONE_PHRASE_EU, VOICE_SAMPLE_PHRASE_EU,
+  PAIRS_DONE_PHRASE_EU, pairIntroEu, pairRetryEu,
+  ROLESWAP_INTRO_EU, ROLESWAP_NOT_HEARD_EU, ROLESWAP_HIT_EU, ROLESWAP_MISS_OTHER_EU, roleswapParentSaidEu,
+} from './valeriaContentEu';
 
 // Estilos de locución de valeriaVoice. El audio pre-generado "hornea" el
 // estilo (prosodia, velocidad) en el propio WAV, así que un mismo texto en dos
 // estilos son DOS entradas del corpus con ids distintos.
 export type VoiceStyle = 'tutor' | 'child' | 'clinical' | 'slow';
 
-// Idiomas del corpus (plan Nós): un MISMO texto puede existir en es y gl
-// ("boca", "casa") con audios distintos → el idioma forma parte del id.
-export type VoiceLang = 'es' | 'gl';
+// Idiomas del corpus (planes Nós y ILENIA/NEL-GAITU): un MISMO texto puede
+// existir en varias lenguas ("boca", "casa") con audios distintos → el idioma
+// forma parte del id. es conserva su forma histórica; el resto lleva prefijo.
+export type VoiceLang = 'es' | 'gl' | 'eu';
 
 export interface VoiceCorpusEntry {
   id: string;         // clave del mapa y nombre de asset (incluye idioma si ≠ es)
@@ -178,6 +195,65 @@ export function buildVoiceCorpus(): VoiceCorpusEntry[] {
   for (const t of NO_HEAR_BANK_GL) addGl('child', t, 'banco/no-oido');
   for (const t of TOGETHER_BANK_GL) addGl('child', t, 'banco/juntos');
   addGl('child', VOICE_SAMPLE_PHRASE_GL, 'util/muestra');
+
+  // ============================ EUSKERA (eu) ============================
+  // Contenido del plan ILENIA/NEL-GAITU (EU-2.x), BORRADOR pendiente de
+  // revisión; se sintetiza con la voz HiTZ-TTS y se emite en las sesiones en
+  // euskera. Espejo estructural del bloque galego.
+  const addEu = mkAdd('eu');
+
+  for (const p of enumerateAllCarrierPrompts('eu')) addEu('clinical', p.full, 'carrier');
+
+  for (const p of MINIMAL_PAIRS_EU) {
+    // Intro/retry con los mismos builders que la pantalla (valeriaPairSpeech
+    // → valeriaContentEu): así el texto coincide y el asset de HiTZ resuelve.
+    addEu('child', pairIntroEu(p.target, p.foil, p.prompt), 'pares/intro');
+    addEu('child', p.prompt, 'pares/prompt');
+    addEu('child', p.onTarget.say, 'pares/celebracion');
+    addEu('child', p.onFoil.say, 'pares/correccion');
+    addEu('child', pairRetryEu(p.target), 'pares/retry');
+    addEu('slow', p.target.toLowerCase(), 'pares/modelado');
+    // Rotación de roles: "Aitak <palabra> esan du" con target/foil del par eu.
+    addEu('child', roleswapParentSaidEu(p.target), 'pares/roleswap');
+    addEu('child', roleswapParentSaidEu(p.foil), 'pares/roleswap');
+  }
+  addEu('child', PAIRS_DONE_PHRASE_EU, 'pares/fin');
+  // Frases fijas del overlay de rotación de roles en euskera.
+  addEu('child', ROLESWAP_INTRO_EU, 'pares/roleswap');
+  addEu('child', ROLESWAP_NOT_HEARD_EU, 'pares/roleswap');
+  addEu('child', ROLESWAP_HIT_EU, 'pares/roleswap');
+  addEu('child', ROLESWAP_MISS_OTHER_EU, 'pares/roleswap');
+
+  for (const c of TPR_CAPSULES_EU) for (const cmd of c.commands) addEu('child', cmd.text, 'tpr');
+  addEu('child', SESSION_CONTINUE_PHRASE_EU, 'tpr/fin');
+  for (const r of ROUTINE_ROUTES_EU) for (const cmd of r.commands) addEu('clinical', cmd.text, 'rutas');
+  addEu('clinical', ROUTE_DONE_PHRASE_EU, 'rutas/fin');
+
+  for (const t of PRAISE_BANK_EU) addEu('child', t, 'banco/elogio');
+  for (const t of ALMOST_BANK_EU) addEu('child', t, 'banco/casi');
+  for (const t of NO_HEAR_BANK_EU) addEu('child', t, 'banco/no-oido');
+  for (const t of TOGETHER_BANK_EU) addEu('child', t, 'banco/juntos');
+  addEu('child', VOICE_SAMPLE_PHRASE_EU, 'util/muestra');
+
+  // Expansión Semántica en euskera (escenarios, progresiones y contrastes):
+  // se locuta con HiTZ igual que la base es con Sharvard.
+  for (const l of enumerateSemanticSpeechFor({
+    scenarios: DAILY_SCENARIOS_EU,
+    sequences: PROGRESSION_SEQUENCES_EU,
+    capsules: CONTRAST_CAPSULES_EU,
+    retry: SEM_RETRY_EU,
+    sessionDone: SEM_SESSION_DONE_EU,
+  })) addEu(l.style, l.text, 'expansion');
+
+  // Audición y Lenguaje (+ TEA/Dislexia) en euskera: se locuta con HiTZ igual
+  // que la base es con Sharvard.
+  for (const l of enumerateExerciseSpeechFor({
+    db: dbForLocale('eu'),
+    variants: variantsForLocale('eu'),
+    fixed: EXERCISE_FIXED_LINES_EU,
+    pluralOne: (p) => pluralOneLabelFor('eu', p),
+    pluralMany: (p) => pluralManyLabelFor('eu', p),
+  })) addEu(l.style, l.text, 'ejercicios');
 
   return Array.from(entries.values());
 }

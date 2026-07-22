@@ -309,11 +309,13 @@ const GOOGLE_TTS_WEB = 'https://play.google.com/store/apps/details?id=com.google
 //   · Galego → voz neuronal Celtia (Proxecto Nós, empaquetada).
 //   · Dominicano (es-DO · Quisqueya Habla) → voz y micrófono del SISTEMA en
 //     español latino (es-US/es-MX).
+//   · Euskara → voz neuronal HiTZ-TTS (ILENIA/NEL-GAITU, empaquetada).
 // El campo `beta` se conserva para futuras variedades aún no validadas.
 const LOCALES: Array<{ id: Locale; label: string; beta?: boolean }> = [
   { id: 'es', label: 'Castellano' },
   { id: 'gl', label: 'Galego' },
   { id: 'es-DO', label: 'Dominicano' },
+  { id: 'eu', label: 'Euskara' },
 ];
 
 export const VoiceQualityCard: React.FC = () => {
@@ -366,33 +368,38 @@ export const VoiceQualityCard: React.FC = () => {
       : tier === 'estandar' ? { txt: 'Voz estándar', bg: '#fffbeb', fg: '#92711a' }
         : { txt: 'Voz mejorable', bg: V.color.errorBg, fg: V.color.error };
 
-  // Galego → voz neuronal Celtia empaquetada (no depende del motor del sistema).
-  // Dominicano (es-DO) → voz del sistema en español LATINO (es-US/es-MX): la
-  // detección de calidad y la guía de instalación siguen aplicando, pero
-  // apuntando a una voz latina. Castellano → comportamiento histórico.
+  // Galego → voz neuronal Celtia empaquetada; Euskara → voz neuronal HiTZ-TTS
+  // empaquetada: ninguna depende del motor del sistema. Dominicano (es-DO) →
+  // voz del sistema en español LATINO (es-US/es-MX): la detección de calidad y
+  // la guía de instalación siguen aplicando, pero apuntando a una voz latina.
+  // Castellano → comportamiento histórico.
   const isGl = locale === 'gl';
+  const isEu = locale === 'eu';
+  const packaged = isGl || isEu; // voz neuronal incluida en la app, offline
   const isDo = locale === 'es-DO';
   const detail = isGl
     ? 'En galego a app fala coa voz neuronal Celtia (Proxecto Nós), incluída na app: soa igual en calquera dispositivo, sen conexión.'
-    : checking ? 'Buscando la mejor voz en español instalada en este dispositivo…'
-      : noSpanish ? 'No hay ninguna voz en español instalada: la app no podrá leer las consignas hasta descargarla.'
-        : isDo
-          ? `En dominicano la app usa la voz latina del dispositivo${status?.name ? ` («${status.name}»)` : ''} y el micrófono en es-DO. Si suena peninsular o robótica, instala una voz de Español (Latinoamérica).`
-          : good ? `La app usará la mejor voz del dispositivo${status?.name ? ` («${status.name}»)` : ''}. Suena natural, no robótica.`
-            : Platform.OS === 'android'
-              ? 'Este dispositivo solo ofrece una voz sencilla y puede sonar robótica. Instala las voces de Google (gratis y sin conexión) para que la app suene natural.'
-              : 'Puedes mejorar la voz en Ajustes → Accesibilidad → Contenido leído → Voces → Español, descargando la voz mejorada.';
+    : isEu
+      ? 'Euskaraz aplikazioak HiTZ-en ahots neuronalarekin (ILENIA/NEL-GAITU) hitz egiten du, aplikazioan bertan sartuta: berdin entzuten da edozein gailutan, konexiorik gabe.'
+      : checking ? 'Buscando la mejor voz en español instalada en este dispositivo…'
+        : noSpanish ? 'No hay ninguna voz en español instalada: la app no podrá leer las consignas hasta descargarla.'
+          : isDo
+            ? `En dominicano la app usa la voz latina del dispositivo${status?.name ? ` («${status.name}»)` : ''} y el micrófono en es-DO. Si suena peninsular o robótica, instala una voz de Español (Latinoamérica).`
+            : good ? `La app usará la mejor voz del dispositivo${status?.name ? ` («${status.name}»)` : ''}. Suena natural, no robótica.`
+              : Platform.OS === 'android'
+                ? 'Este dispositivo solo ofrece una voz sencilla y puede sonar robótica. Instala las voces de Google (gratis y sin conexión) para que la app suene natural.'
+                : 'Puedes mejorar la voz en Ajustes → Accesibilidad → Contenido leído → Voces → Español, descargando la voz mejorada.';
   // La guía de voces de Google aplica a las variedades con voz del sistema
-  // (castellano y dominicano); el galego usa Celtia empaquetada.
-  const showInstall = !isGl && (!good || noSpanish) && Platform.OS === 'android';
+  // (castellano y dominicano); galego (Celtia) y euskara (HiTZ) van empaquetadas.
+  const showInstall = !packaged && (!good || noSpanish) && Platform.OS === 'android';
 
   return (
     <View style={s.vqCard}>
       <View style={s.vqHead}>
         <View style={s.vqIcon}><Text style={{ fontSize: 17 }}>🎙️</Text></View>
         <Text style={s.vqTitle}>Voz de la app</Text>
-        <View style={[s.vqChip, { backgroundColor: isGl ? V.color.successBg : chip.bg }]}>
-          <Text style={[s.vqChipTxt, { color: isGl ? '#0f8a63' : chip.fg }]}>{isGl ? '✓ Voz Celtia' : chip.txt}</Text>
+        <View style={[s.vqChip, { backgroundColor: packaged ? V.color.successBg : chip.bg }]}>
+          <Text style={[s.vqChipTxt, { color: packaged ? '#0f8a63' : chip.fg }]}>{isGl ? '✓ Voz Celtia' : isEu ? '✓ HiTZ ahotsa' : chip.txt}</Text>
         </View>
       </View>
 
@@ -428,7 +435,7 @@ export const VoiceQualityCard: React.FC = () => {
             <Text style={[s.vqBtnTxt, { color: '#fff' }]}>⬇️ Instalar voces de Google</Text>
           </Pressable>
         )}
-        {!isGl && (
+        {!packaged && (
           <Pressable onPress={check} disabled={checking} style={[s.vqBtn, checking && { opacity: 0.5 }]} accessibilityRole="button" accessibilityLabel="Volver a comprobar la voz">
             <Text style={s.vqBtnTxt}>🔄 Volver a comprobar</Text>
           </Pressable>
