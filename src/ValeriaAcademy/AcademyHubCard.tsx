@@ -37,7 +37,7 @@ export const AcademyHubCard: React.FC<{ onPress: () => void }> = React.memo(({ o
           <Text style={s.title}>Academy</Text>
           <View style={s.tag}><Text style={s.tagTxt}>PARA TI</Text></View>
         </View>
-        <Text style={s.sub}>Cápsulas rápidas: cómo aprenden a hablar, el porqué del TPR y qué vicios evitar.</Text>
+        <Text style={s.sub}>Hub multidominio: Lenguaje, Hipoacusia, Dislalias, Dislexia y TEA. Cápsulas rápidas para el cuidador.</Text>
 
         {/* Barra de progreso en tiempo real */}
         <View style={s.progressTrack}>
@@ -47,9 +47,9 @@ export const AcademyHubCard: React.FC<{ onPress: () => void }> = React.memo(({ o
           <Text style={s.metaTxt}>
             {complete
               ? '✅ Formación completada'
-              : `${summary.completedCount}/${summary.totalCount} cápsulas · ${pct}%`}
+              : `${summary.completedCount}/${summary.totalCount} unidades · ${pct}%`}
           </Text>
-          <Text style={s.levelTxt}>🏅 {summary.levelName}</Text>
+          <Text style={s.levelTxt}>✨ {summary.xp} XP</Text>
         </View>
       </View>
       <View style={[s.chev, { backgroundColor: ACCENT_FG }]}>

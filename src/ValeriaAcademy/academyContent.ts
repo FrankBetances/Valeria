@@ -1,13 +1,13 @@
 // ============================================================================
-// Valeria+ · Academy — Banco de Cápsulas de Conocimiento (V1.0)
+// Valeria+ · Academy — Banco de Cápsulas de Conocimiento (V2.0)
 // Módulo PURO (sin estado ni efectos): contenido de formación para el adulto.
-// Tres ejes: (1) cómo aprenden a hablar los niños, (2) el porqué de cada
-// dinámica TPR, (3) qué vicios evitar durante la terapia mediada.
-// El orden del array ES el orden de progresión sugerido en la pantalla.
+// Cada cápsula declara su `domain` (silo de XP). El grueso del dominio Lenguaje
+// vive aquí; Hipoacusia se sirve como micro-guías en academyHardware.ts.
+// El orden del array ES el orden de progresión sugerido dentro de cada dominio.
 // ============================================================================
-import { AcademyBadge, AcademyCapsule, AcademyTrack } from './academyTypes';
+import { AcademyCapsule, AcademyTrack } from './academyTypes';
 
-// Color de acento por eje temático (se resuelve en la UI contra valeriaTheme).
+// Color de acento por eje temático del dominio Lenguaje (subfamilia visual).
 export const TRACK_ACCENT: Record<AcademyTrack, { bg: string; fg: string; label: string }> = {
   desarrollo: { bg: '#e0edff', fg: '#3b6fd4', label: 'CÓMO APRENDEN A HABLAR' },
   tpr:        { bg: '#d6f5f2', fg: '#00a39e', label: 'POR QUÉ EL TPR' },
@@ -19,9 +19,11 @@ export const TRACK_ACCENT: Record<AcademyTrack, { bg: string; fg: string; label:
 export const ACADEMY_PASS_THRESHOLD = 0.6;
 
 export const ACADEMY_CAPSULES: AcademyCapsule[] = [
+  // ================================================================ LENGUAJE
   // --------------------------------------------------------------- desarrollo
   {
     id: 'dev-input',
+    domain: 'lenguaje',
     track: 'desarrollo',
     icon: '👂',
     title: 'El baño de lenguaje',
@@ -62,6 +64,7 @@ export const ACADEMY_CAPSULES: AcademyCapsule[] = [
   },
   {
     id: 'dev-turnos',
+    domain: 'lenguaje',
     track: 'desarrollo',
     icon: '🏓',
     title: 'Conversar es por turnos',
@@ -92,6 +95,7 @@ export const ACADEMY_CAPSULES: AcademyCapsule[] = [
   // --------------------------------------------------------------------- tpr
   {
     id: 'tpr-porque',
+    domain: 'lenguaje',
     track: 'tpr',
     icon: '🤸',
     title: '¿Por qué mover el cuerpo?',
@@ -133,6 +137,7 @@ export const ACADEMY_CAPSULES: AcademyCapsule[] = [
   // ------------------------------------------------------------------- vicios
   {
     id: 'vicio-corregir',
+    domain: 'lenguaje',
     track: 'vicios',
     icon: '🚫',
     title: 'No corrijas: remodela',
@@ -162,6 +167,7 @@ export const ACADEMY_CAPSULES: AcademyCapsule[] = [
   },
   {
     id: 'vicio-preguntas',
+    domain: 'lenguaje',
     track: 'vicios',
     icon: '❓',
     title: 'El examen encubierto',
@@ -192,6 +198,7 @@ export const ACADEMY_CAPSULES: AcademyCapsule[] = [
   // ------------------------------------------------------------------ mediada
   {
     id: 'med-adulto',
+    domain: 'lenguaje',
     track: 'mediada',
     icon: '🧑‍🏫',
     title: 'Tú eres el terapeuta',
@@ -230,24 +237,103 @@ export const ACADEMY_CAPSULES: AcademyCapsule[] = [
       },
     ],
   },
+
+  // =============================================================== DISLALIAS
+  {
+    id: 'dis-punto',
+    domain: 'dislalias',
+    track: 'tpr',
+    icon: '👅',
+    title: 'Cada sonido, un lugar',
+    summary: 'La lengua y los labios tienen un punto exacto para cada fonema.',
+    minutes: 2,
+    xp: 25,
+    slides: [
+      {
+        icon: '📍',
+        heading: 'El punto de articulación',
+        body: 'Una dislalia es la dificultad para producir un sonido concreto. Cada fonema se forma en un lugar de la boca: la /r/ vibra detrás de los dientes, la /k/ atrás, la /s/ con el aire entre los dientes. Saber DÓNDE va cada sonido es el primer paso para ayudar.',
+      },
+      {
+        icon: '🪞',
+        heading: 'El espejo es tu aliado',
+        body: 'Colócate a la altura del niño frente a un espejo. Ver la boca (la tuya y la suya) hace visible algo invisible. Exagera un poco el gesto del sonido diana y deja que te imite sin prisa.',
+      },
+    ],
+    quiz: [
+      {
+        prompt: 'Ante un sonido que al niño le cuesta, lo primero es…',
+        options: ['Pedirle que lo repita más alto', 'Saber en qué punto de la boca se forma', 'Cambiar de palabra'],
+        answer: 1,
+        rationale: 'Conocer el punto de articulación permite dar pistas concretas en lugar de repetir sin más.',
+      },
+    ],
+  },
+
+  // ================================================================ DISLEXIA
+  {
+    id: 'dlx-fonologica',
+    domain: 'dislexia',
+    track: 'desarrollo',
+    icon: '🔤',
+    title: 'Jugar con los sonidos',
+    summary: 'La lectura empieza mucho antes de las letras: en el oído.',
+    minutes: 2,
+    xp: 25,
+    slides: [
+      {
+        icon: '🎵',
+        heading: 'Conciencia fonológica',
+        body: 'Antes de leer, el niño necesita "oír" las partes de las palabras: que "mesa" empieza como "mano", que "gato" rima con "pato", que "sol" tiene tres sonidos. Esta habilidad, la conciencia fonológica, es el mejor predictor de una lectura fácil.',
+      },
+      {
+        icon: '👏',
+        heading: 'Sin lápiz ni papel',
+        body: 'Se entrena jugando: dar palmas por sílabas, buscar palabras que empiecen igual, inventar rimas. Son juegos orales, cotidianos, sin presión. Para el niño es un juego; para su cerebro lector es el andamiaje.',
+      },
+    ],
+    quiz: [
+      {
+        prompt: 'La conciencia fonológica se entrena mejor…',
+        options: ['Copiando letras muchas veces', 'Con juegos orales de sonidos y rimas', 'Leyendo en voz alta cuanto antes'],
+        answer: 1,
+        rationale: 'Es una habilidad auditiva: se construye jugando con los sonidos, no copiando grafías.',
+      },
+    ],
+  },
+
+  // ===================================================================== TEA
+  {
+    id: 'tea-anticipar',
+    domain: 'tea',
+    track: 'mediada',
+    icon: '🧩',
+    title: 'Anticipar da seguridad',
+    summary: 'Saber qué viene después reduce la ansiedad y libera atención.',
+    minutes: 2,
+    xp: 25,
+    slides: [
+      {
+        icon: '🗺️',
+        heading: 'El mundo, más predecible',
+        body: 'Para muchos niños del espectro, lo inesperado angustia. Anticipar lo que va a pasar —con una foto, un pictograma o una frase corta y constante— convierte el día en algo manejable. Un mundo predecible deja recursos libres para comunicarse.',
+      },
+      {
+        icon: '⏱️',
+        heading: 'Avisa los cambios',
+        body: 'Antes de terminar una actividad, avisa: "dos más y guardamos". Los finales bruscos desbordan. Un aviso breve y siempre igual respeta su ritmo y previene el desborde, sin negociaciones largas.',
+      },
+    ],
+    quiz: [
+      {
+        prompt: 'Anticipar lo que va a ocurrir sirve sobre todo para…',
+        options: ['Que el niño obedezca más rápido', 'Reducir la ansiedad y liberar atención', 'Alargar las actividades'],
+        answer: 1,
+        rationale: 'La predictibilidad baja la carga emocional y deja recursos para la comunicación.',
+      },
+    ],
+  },
 ];
 
-// Total de cápsulas: constante derivada, usada por el resumen del hub.
+// Total global de cápsulas (todas las domains). Uso informativo/agregado.
 export const ACADEMY_TOTAL = ACADEMY_CAPSULES.length;
-
-// --- Insignias de la academia -----------------------------------------------
-export const ACADEMY_BADGES: AcademyBadge[] = [
-  { id: 'primeraCapsula', icon: '📘', name: 'Aprendiz',        desc: 'Completa tu primera cápsula.' },
-  { id: 'mitad',          icon: '📗', name: 'A medio camino',  desc: 'Completa la mitad de las cápsulas.' },
-  { id: 'graduado',       icon: '🎓', name: 'Cuidador experto', desc: 'Completa todas las cápsulas.' },
-  { id: 'perfecto',       icon: '💯', name: 'Sin fallos',      desc: 'Aprueba una cápsula sin ningún error.' },
-];
-
-// Niveles de la academia (hilo narrativo de acompañante/tutor).
-export const ACADEMY_LEVEL_NAMES = ['Novato', 'Acompañante', 'Guía', 'Mentor', 'Cuidador experto'];
-export const ACADEMY_XP_PER_LEVEL = 60;
-
-export const academyLevelFor = (xp: number): number =>
-  Math.floor(xp / ACADEMY_XP_PER_LEVEL) + 1;
-export const academyLevelName = (level: number): string =>
-  ACADEMY_LEVEL_NAMES[Math.min(level - 1, ACADEMY_LEVEL_NAMES.length - 1)];

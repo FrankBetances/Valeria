@@ -1,47 +1,67 @@
 // ============================================================================
-// Valeria+ · Academy — Pantalla principal (V1.0)
-// Formación gamificada del cuidador (motor clínico MDR). Tres vistas internas:
-//   'list'  → catálogo de Cápsulas de Conocimiento con estado y progreso.
-//   'read'  → lectura por diapositivas de la cápsula (consumo rápido).
+// Valeria+ · Academy — Pantalla principal (V2.0 · HUB MULTIDOMINIO)
+// Vistas internas (sin anidar navegación profunda):
+//   'hub'   → Feed de Prioridad + grid/stack de 5 Tarjetas de Dominio.
+//   'list'  → catálogo de cápsulas de UN dominio.
+//   'read'  → lectura por diapositivas de la cápsula.
 //   'quiz'  → validación ágil (micro-quiz con feedback inmediato).
-// Al aprobar el quiz se persiste el progreso cifrado (academyStore) y el hub
-// refleja el avance en tiempo real vía suscripción.
+// Hipoacusia abre un BottomSheet in-place (no cambia de vista).
+// Al aprobar el quiz / marcar una guía, la XP se inyecta en el silo del dominio
+// de origen (academyStore) y el hub refleja el avance en tiempo real.
 // ============================================================================
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, Pressable, ScrollView, StyleSheet } from 'react-native';
 import { V } from '../valeriaTheme';
-import {
-  ACADEMY_CAPSULES,
-  ACADEMY_PASS_THRESHOLD,
-  ACADEMY_TOTAL,
-  TRACK_ACCENT,
-} from './academyContent';
+import { ACADEMY_CAPSULES, ACADEMY_PASS_THRESHOLD, TRACK_ACCENT } from './academyContent';
+import { ACADEMY_DOMAINS, DOMAIN_META } from './academyDomains';
 import {
   completeCapsule,
   getResults,
   hydrateAcademy,
   useAcademySummary,
 } from './academyStore';
-import { AcademyBadge, AcademyCapsule } from './academyTypes';
+import { AcademyBadge, AcademyCapsule, AcademyDomain } from './academyTypes';
+import { AcademyDomainCard } from './AcademyDomainCard';
+import { AcademyPriorityFeed } from './AcademyPriorityFeed';
+import { HipoacusiaBottomSheet } from './HipoacusiaBottomSheet';
 
-type View3 = 'list' | 'read' | 'quiz';
+type View4 = 'hub' | 'list' | 'read' | 'quiz';
+
+interface Accent { bg: string; fg: string; label: string }
+
+// Acento de una cápsula: color por su dominio; etiqueta con el eje temático en
+// Lenguaje (subfamilia) o el nombre del dominio en el resto.
+const accentFor = (c: AcademyCapsule): Accent => {
+  const dm = DOMAIN_META[c.domain];
+  const label = c.domain === 'lenguaje' ? TRACK_ACCENT[c.track].label : dm.label.toUpperCase();
+  return { bg: dm.accentBg, fg: dm.accentFg, label };
+};
 
 export const ValeriaAcademyScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
   const summary = useAcademySummary();
-  const [view, setView] = useState<View3>('list');
+  const [view, setView] = useState<View4>('hub');
+  const [activeDomain, setActiveDomain] = useState<AcademyDomain>('lenguaje');
   const [capsule, setCapsule] = useState<AcademyCapsule | null>(null);
-  // Fuerza el refresco de la marca "hecha" en la lista al volver del quiz.
-  const [, setTick] = useState(0);
+  const [hipoOpen, setHipoOpen] = useState(false);
+  const [refreshKey, setRefreshKey] = useState(0);
 
   useEffect(() => { hydrateAcademy(); }, []);
 
   const results = getResults();
+  const bump = () => setRefreshKey((k) => k + 1);
 
   const openCapsule = (c: AcademyCapsule) => { setCapsule(c); setView('read'); };
-  const backToList = () => { setView('list'); setCapsule(null); setTick((t) => t + 1); };
+  const backToHub = () => { setView('hub'); setCapsule(null); bump(); };
+  const backToList = () => { setView('list'); setCapsule(null); bump(); };
 
-  // ---------------------------------------------------------------- LISTA
-  if (view === 'list' || !capsule) {
+  const onPickDomain = (domain: AcademyDomain) => {
+    if (domain === 'hipoacusia') { setHipoOpen(true); return; }
+    setActiveDomain(domain);
+    setView('list');
+  };
+
+  // ------------------------------------------------------------------ HUB
+  if (view === 'hub') {
     const pct = Math.round(summary.progress * 100);
     return (
       <View style={s.flex}>
@@ -51,26 +71,60 @@ export const ValeriaAcademyScreen: React.FC<{ navigation: any }> = ({ navigation
           </Pressable>
           <Text style={s.logoFallback}>valeria+ · academy</Text>
           <Text style={s.headerTitle}>🎓 Academy</Text>
-          <Text style={s.headerSub}>Formación exprés para acompañar la terapia como un profesional.</Text>
+          <Text style={s.headerSub}>Tu hub de formación por dominios para acompañar la terapia como un profesional.</Text>
 
           <View style={s.hProgress}>
             <View style={s.hProgressTrack}>
               <View style={[s.hProgressFill, { width: `${pct}%` }]} />
             </View>
-            <Text style={s.hProgressTxt}>{summary.completedCount}/{ACADEMY_TOTAL} · {pct}%</Text>
+            <Text style={s.hProgressTxt}>{summary.completedCount}/{summary.totalCount} · {pct}%</Text>
           </View>
           <View style={s.gameRow}>
-            <View style={s.gameChip}><Text style={s.gameChipTxt}>🏅 {summary.levelName}</Text></View>
             <View style={s.gameChip}><Text style={s.gameChipTxt}>✨ {summary.xp} XP</Text></View>
             <View style={s.gameChip}><Text style={s.gameChipTxt}>🎖️ {summary.badgeCount} insignias</Text></View>
           </View>
+
+          <AcademyPriorityFeed onOpenCapsule={openCapsule} refreshKey={refreshKey} />
+        </View>
+
+        <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
+          <Text style={s.listLabel}>DOMINIOS DE CAPACITACIÓN</Text>
+          {ACADEMY_DOMAINS.map((d) => (
+            <AcademyDomainCard key={d} domain={d} onPress={onPickDomain} />
+          ))}
+          <View style={{ height: 12 }} />
+        </ScrollView>
+
+        <HipoacusiaBottomSheet visible={hipoOpen} onClose={() => { setHipoOpen(false); bump(); }} onCompleted={bump} />
+      </View>
+    );
+  }
+
+  // ------------------------------------------------------------------ LISTA
+  if (view === 'list' || !capsule) {
+    const meta = DOMAIN_META[activeDomain];
+    const capsules = ACADEMY_CAPSULES.filter((c) => c.domain === activeDomain);
+    return (
+      <View style={s.flex}>
+        <View style={[s.header, { backgroundColor: meta.accentFg }]}>
+          <Pressable onPress={backToHub} style={s.backPill}>
+            <Text style={s.backPillTxt}>‹ Dominios</Text>
+          </Pressable>
+          <Text style={s.logoFallback}>ACADEMY · {meta.label.toUpperCase()}</Text>
+          <Text style={s.headerTitle}>{meta.icon} {meta.label}</Text>
+          <Text style={s.headerSub}>{meta.blurb}</Text>
         </View>
 
         <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
           <Text style={s.listLabel}>CÁPSULAS DE CONOCIMIENTO</Text>
-          {ACADEMY_CAPSULES.map((c) => {
+          {capsules.length === 0 && (
+            <View style={s.emptyCard}>
+              <Text style={s.emptyTxt}>Contenido de este dominio en preparación. Muy pronto tendrás cápsulas aquí.</Text>
+            </View>
+          )}
+          {capsules.map((c) => {
             const done = !!results[c.id];
-            const accent = TRACK_ACCENT[c.track];
+            const accent = accentFor(c);
             return (
               <Pressable
                 key={c.id}
@@ -101,19 +155,19 @@ export const ValeriaAcademyScreen: React.FC<{ navigation: any }> = ({ navigation
   }
 
   // -------------------------------------------------------- LECTURA / QUIZ
+  const accent = accentFor(capsule);
   return view === 'read'
-    ? <CapsuleReader capsule={capsule} onExit={backToList} onFinish={() => setView('quiz')} />
-    : <CapsuleQuiz capsule={capsule} onExit={backToList} onDone={backToList} />;
+    ? <CapsuleReader capsule={capsule} accent={accent} onExit={backToList} onFinish={() => setView('quiz')} />
+    : <CapsuleQuiz capsule={capsule} accent={accent} onExit={backToList} onDone={backToList} />;
 };
 
 // ---------------------------------------------------------------------------
 // Lectura por diapositivas
 // ---------------------------------------------------------------------------
 const CapsuleReader: React.FC<{
-  capsule: AcademyCapsule; onExit: () => void; onFinish: () => void;
-}> = ({ capsule, onExit, onFinish }) => {
+  capsule: AcademyCapsule; accent: Accent; onExit: () => void; onFinish: () => void;
+}> = ({ capsule, accent, onExit, onFinish }) => {
   const [i, setI] = useState(0);
-  const accent = TRACK_ACCENT[capsule.track];
   const slide = capsule.slides[i];
   const last = i + 1 >= capsule.slides.length;
 
@@ -160,9 +214,8 @@ const CapsuleReader: React.FC<{
 // Micro-quiz de validación ágil
 // ---------------------------------------------------------------------------
 const CapsuleQuiz: React.FC<{
-  capsule: AcademyCapsule; onExit: () => void; onDone: () => void;
-}> = ({ capsule, onExit, onDone }) => {
-  const accent = TRACK_ACCENT[capsule.track];
+  capsule: AcademyCapsule; accent: Accent; onExit: () => void; onDone: () => void;
+}> = ({ capsule, accent, onExit, onDone }) => {
   const [qi, setQi] = useState(0);
   const [picked, setPicked] = useState<number | null>(null);
   const [correct, setCorrect] = useState(0);
@@ -180,8 +233,7 @@ const CapsuleQuiz: React.FC<{
 
   const next = async () => {
     if (!lastQ) { setQi(qi + 1); setPicked(null); return; }
-    const finalCorrect = correct; // ya contabilizado en answer()
-    const score = capsule.quiz.length ? finalCorrect / capsule.quiz.length : 1;
+    const score = capsule.quiz.length ? correct / capsule.quiz.length : 1;
     const passed = score >= ACADEMY_PASS_THRESHOLD;
     if (passed) {
       const r = await completeCapsule(capsule.id, score);
@@ -205,7 +257,7 @@ const CapsuleQuiz: React.FC<{
         </View>
         <ScrollView contentContainerStyle={s.scroll}>
           <View style={s.resultCard}>
-            <Text style={s.resultScore}>{score}%</Text>
+            <Text style={[s.resultScore, { color: accent.fg }]}>{score}%</Text>
             <Text style={s.resultSub}>
               {reward.passed
                 ? `Has completado "${capsule.title}".`
@@ -304,6 +356,9 @@ const s = StyleSheet.create({
   scroll: { padding: 18, paddingBottom: 28 },
   listLabel: { fontSize: 12, fontWeight: '800', color: V.color.textMuted, letterSpacing: 0.5, marginBottom: 12, marginHorizontal: 2 },
 
+  emptyCard: { backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.border, borderRadius: 16, padding: 18, marginBottom: 11 },
+  emptyTxt: { fontSize: 13.5, fontWeight: '600', color: V.color.textMuted, lineHeight: 20, textAlign: 'center' },
+
   capCard: { flexDirection: 'row', alignItems: 'center', gap: 13, backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.border, borderRadius: 16, padding: 14, marginBottom: 11, ...V.shadow.card },
   capIcon: { width: 46, height: 46, borderRadius: 14, alignItems: 'center', justifyContent: 'center' },
   capTrack: { fontSize: 9.5, fontWeight: '800', letterSpacing: 0.6, marginBottom: 2 },
@@ -338,7 +393,7 @@ const s = StyleSheet.create({
   rationaleTxt: { fontSize: 13, fontWeight: '700', color: V.color.textSecondary, lineHeight: 18 },
 
   resultCard: { backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.border, borderRadius: 20, padding: 24, alignItems: 'center', ...V.shadow.card },
-  resultScore: { fontSize: 48, fontWeight: '800', color: V.color.primaryDark },
+  resultScore: { fontSize: 48, fontWeight: '800' },
   resultSub: { fontSize: 14, fontWeight: '600', color: V.color.textSecondary, textAlign: 'center', marginTop: 8, lineHeight: 20 },
   resultXp: { fontSize: 16, fontWeight: '800', color: V.color.star, marginTop: 14 },
   badgeRow: { flexDirection: 'row', alignItems: 'center', gap: 12, alignSelf: 'stretch', backgroundColor: V.color.pageBg, borderRadius: 14, padding: 13, marginTop: 12 },
