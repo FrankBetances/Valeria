@@ -298,8 +298,9 @@ toc = [
     ('CU-14', 'Exportar la evidencia de usabilidad del piloto (QR + compartir)'),
     ('CU-15', 'Elegir la variedad de terapia (Castellano · Galego · Dominicano · Euskera)'),
     ('CU-16', 'Panel del Adulto: carga comunicativa (ruido, doble tarea, quiebre)'),
-    ('', 'ANEXO'),
+    ('', 'ANEXOS'),
     ('A', 'Preguntas frecuentes y resolución de problemas'),
+    ('B', 'Historial de versiones'),
 ]
 for num, txt in toc:
     if not num:
@@ -334,8 +335,8 @@ callout('A quién va dirigida',
         'Logopedas y profesionales de audición/lenguaje (que prescriben y supervisan) y familias o cuidadores '
         '(que realizan las sesiones en casa). Este manual cubre a ambos perfiles.')
 doc.add_heading('Los seis bloques de terapia', level=3)
-p('Desde la pantalla Prescripción de Terapias se elige uno de estos bloques. Los dos primeros se incorporaron en la '
-  'versión 5, la versión 6 amplió su contenido y la versión 9 sumó los bloques de TEA y Dislexia.')
+p('Desde la pantalla Prescripción de Terapias se elige uno de estos bloques. Cada uno responde a un perfil clínico '
+  'distinto, pero todos comparten la misma lógica: el adulto guía la sesión y tiene la última palabra.')
 data_table(['Bloque', 'Para qué sirve'], [
     [[('🗣️ Pares Mínimos', True)],
      'Dislalias fonológicas. 15 pares de palabras casi iguales (rana/lana) en 6 grupos —rotacismo, sigmatismo, '
@@ -360,129 +361,82 @@ data_table(['Bloque', 'Para qué sirve'], [
 p('Además, el Test de Ling es una comprobación auditiva rápida (6 sonidos) previa a los ejercicios de audición; '
   'Academy forma al cuidador (ver CU-03), y la gamificación (XP, racha, niveles e insignias) mantiene la motivación '
   'en todos los bloques.', size=9.5, color=MUTED)
-doc.add_heading('Novedades de la versión 6', level=3)
-p('La versión 6 pule la experiencia de las sesiones y prepara la app para pruebas con profesionales:')
-data_table(['Novedad', 'Qué aporta'], [
-    [[('🔊 Voz más humana', True)],
-     'El motor prioriza voces neuronales/enhanced (Google neural/WaveNet, iOS Enhanced/Siri) y descarta las metálicas. '
-     'Añade prosodia natural (pausas por frase, entonación en preguntas y exclamaciones) y frases de ánimo rotativas.'],
+doc.add_heading('Cómo son las sesiones', level=3)
+p('Todos los bloques comparten una misma mecánica de sesión, diseñada para que el niño no se canse y para que el adulto '
+  'mantenga el control en cada paso.')
+data_table(['Elemento', 'Qué aporta'], [
+    [[('🧭 Flujo PASO 1→4', True)],
+     'Cada mini-juego avanza por cuatro pasos visibles —consigna → juego → movimiento → evaluación—. En Pares Mínimos y '
+     'Expansión Semántica una barra de fase de turno (Escucha → Repite → Veredicto → Misión) marca en todo momento en '
+     'qué punto va el ensayo, con doble vuelta evaluada (objetivo + opuesta).'],
     [[('🔄 Rondas variadas', True)],
-     'Cada mini-juego de Audición y Lenguaje rota hasta 3 contenidos distintos con el botón “🔄 Otra ronda”, siguiendo '
-     'un flujo numerado PASO 1→4 (consigna → juego → movimiento → evaluación).'],
+     'El botón “🔄 Otra ronda” rota hasta 3 contenidos distintos por ejercicio para que el niño no memorice siempre el '
+     'mismo ítem.'],
     [[('🎯 Sesión completa', True)],
-     'Botón por bloque que encadena todos los ejercicios prescritos en una sola sesión (pasando por el Test de Ling si '
-     'procede), en vez de practicar de uno en uno.'],
-    [[('🧭 Fase de turno visible', True)],
-     'Pares Mínimos y Expansión Semántica muestran la barra Escucha → Repite → Veredicto → Misión, con consignas '
-     'rotativas y doble vuelta evaluada (objetivo + opuesta).'],
-    [[('🖼️ Fichas sin imágenes rotas', True)],
+     'Un botón por bloque encadena todos los ejercicios prescritos en una sola tanda (pasando por el Test de Ling si '
+     'procede), en vez de lanzarlos de uno en uno.'],
+    [[('💬 Frases portadoras', True)],
+     'En Pares Mínimos la palabra objetivo se incrusta en una frase con entonación natural seguida de una pregunta, en '
+     'vez de dictarse aislada diez veces seguidas.'],
+    [[('🔊 Voz humana', True)],
+     'El motor prioriza voces neuronales/enhanced (Google neural/WaveNet, iOS Enhanced/Siri) y descarta las metálicas, '
+     'con prosodia natural (pausas por frase, entonación en preguntas y exclamaciones) y frases de ánimo rotativas.'],
+    [[('🖼️ Fichas siempre visibles', True)],
      'Pictogramas SVG de alto contraste para las palabras cuyos emojis se ven como cuadros vacíos o de bajo contraste '
      'en muchos Android, con emoji de reserva.'],
-    [[('☁️ Sincronización opcional', True)],
-     'Acceso profesional con correo y contraseña (Firebase Authentication) y copia de pacientes/sesiones en la nube '
-     '(Cloud Firestore). Es aditivo: la app sigue funcionando en local sin conexión.'],
 ], widths=[4.8, 12.2])
-doc.add_heading('Novedades de la versión 7', level=3)
-p('La versión 7 prepara la app para el piloto clínico: recoge evidencia de usabilidad de forma anónima, sin conexión y '
-  'sin fricción para las familias, y añade una salida para que el logopeda la exporte. Nada de esto interfiere con la '
-  'sesión: la captura no bloquea las animaciones ni el audio.')
-data_table(['Novedad', 'Qué aporta'], [
+doc.add_heading('Cuatro variedades de habla con voz neuronal offline', level=3)
+p('El contenido terapéutico —lo que se locuta, se muestra y se evalúa— puede trabajarse en cuatro variedades; la '
+  'interfaz (menús y botones) permanece siempre en castellano. Castellano, gallego y euskera usan voces neuronales '
+  'pregeneradas empaquetadas en la app, de modo que la locución suena natural y funciona sin conexión (ver CU-15). La '
+  'elección se guarda en el dispositivo y se aplica a todos los bloques.')
+data_table(['Variedad', 'Voz y particularidades'], [
+    [[('🇪🇸 Castellano', True)],
+     'Voz neuronal Sharvard (offline) y reconocimiento del sistema en español de España.'],
+    [[('Galego', True), (' (Proxecto Nós)', False)],
+     'Voz neuronal Celtia, con banco de pares propio. El contenido compartido con el castellano recae con suavidad en '
+     'la voz neuronal castellana mientras Celtia no lo cubra.'],
+    [[('🇩🇴 Dominicano', True), (' (Quisqueya Habla)', False)],
+     'Voz latina del dispositivo y micrófono en es-DO. Respeto dialectal: no marca como error el seseo, la aspiración '
+     'de la “s” ni el cambio de “r/l” a final de sílaba.'],
+    [[('Euskera', True), (' (batua · ILENIA/NEL-GAITU)', False)],
+     'Voz neuronal HiTZ-TTS (UPV/EHU · Aholab). El reconocimiento usa eu-ES y, donde no exista, recae en es-ES con un '
+     'pliegue de la ⟨h⟩ muda.'],
+], widths=[4.4, 12.6])
+doc.add_heading('Academy: formación del cuidador', level=3)
+p('En la terapia auditivo-verbal el adulto es el motor de cada sesión, así que aprender a acompañar forma parte del '
+  'tratamiento. Academy es un espacio de formación para el adulto, no para el niño, organizado en cinco dominios '
+  '(Lenguaje, Hipoacusia, Dislalias, Dislexia y TEA). Cada dominio ofrece Cápsulas de Conocimiento de unos dos minutos '
+  '—cómo aprenden a hablar los niños, el porqué del movimiento (TPR), los vicios a evitar, el manejo de los '
+  'dispositivos auditivos…— que terminan con un quiz de respuesta explicada, y lleva su propia escala de niveles e '
+  'insignias. Un feed de prioridad destaca arriba el dominio que corresponde a la patología de la ficha, para empezar '
+  'por lo que más sirve (ver CU-03).')
+doc.add_heading('Motivación y constancia', level=3)
+p('Al estilo de apps como Duolingo, Valeria+ premia la práctica sostenida en todos los bloques con XP, racha (🔥), '
+  'niveles (de Osezno a Oso Legendario) e insignias. El progreso se guarda localmente y se refleja al instante al '
+  'terminar cada sesión, sin re-dibujar el resto de la pantalla (ver CU-11).')
+doc.add_heading('Herramientas para el piloto clínico', level=3)
+p('Para la validación con profesionales, la app suma un conjunto de instrumentos que no interfieren con la sesión (no '
+  'bloquean animaciones ni audio) y que respetan siempre el principio de que el adulto es quien decide.')
+data_table(['Herramienta', 'Qué aporta'], [
+    [[('🎛️ Panel del Adulto · Carga comunicativa', True)],
+     'Tres módulos manuales dentro del ejercicio —escucha en ruido (slider), oso distractor de doble tarea y quiebre '
+     'pragmático—. La app nunca los activa ni ajusta sola (muro MDR; ver CU-16).'],
     [[('📊 Telemetría de usabilidad', True)],
-     'Mide, sin molestar, tres señales por sesión: tiempo en cada pantalla, toques fuera de zona útil (misclicks) y la '
-     'proporción de cápsulas de movimiento que se saltan. Son datos anónimos, sin nombres, sin audio y sin el contenido '
-     'de las respuestas.'],
+     'Mide de forma anónima el tiempo por pantalla, los toques fuera de zona útil (misclicks) y la proporción de '
+     'cápsulas de movimiento saltadas. Sin nombres, sin audio y sin el contenido de las respuestas.'],
     [[('💬 Encuesta rápida (SUS)', True)],
-     'Una única pregunta de satisfacción de 1 a 5 con caritas, centrada en la facilidad para integrar el ejercicio en la '
-     'rutina del niño/a. Aparece solo en un hito grande (completar 4 bloques distintos) y como mucho una vez por '
-     'semana, para no cansar.'],
-    [[('🔒 Guardado cifrado y purga', True)],
-     'Telemetría y encuesta se guardan juntas (mismo identificador de sesión) en un archivo cifrado en el dispositivo, '
-     'que solo se vacía tras una exportación correcta para no acumular datos semana a semana.'],
+     'Una única pregunta de satisfacción (1–5 con caritas) sobre lo fácil que fue integrar el ejercicio en la rutina. '
+     'Aparece solo tras completar cuatro bloques distintos y como mucho una vez por semana.'],
     [[('📤 Exportación dual', True)],
-     'Con el PIN profesional, la app genera a la vez un código QR con el resumen (offline, escaneable) y abre el menú de '
-     'compartir para enviar el registro completo por email o WhatsApp cuando haya conexión (ver CU-14).'],
+     'Con el PIN profesional, genera a la vez un código QR con el resumen (offline) y abre el menú de compartir con el '
+     'registro completo; los datos se guardan cifrados y se purgan tras una exportación correcta (ver CU-14).'],
 ], widths=[4.8, 12.2])
-doc.add_heading('Novedades de la versión 8', level=3)
-p('La versión 8 abre Valeria+ a más lenguas y variedades del habla y suma un paradigma de carga comunicativa controlada '
-  'para el piloto. El contenido terapéutico (lo que se locuta, se muestra y se evalúa) puede sonar en tres variedades; '
-  'la interfaz sigue en castellano.')
-data_table(['Novedad', 'Qué aporta'], [
-    [[('🌍 Tres variedades', True)],
-     'El contenido se locuta y evalúa en Castellano, Galego (Proxecto Nós) o Dominicano (es-DO, Quisqueya Habla), '
-     'elegibles en la tarjeta “Voz de la app” (ver CU-15). Cada variedad usa su propio banco de pares mínimos.'],
-    [[('🔊 Voz neuronal offline', True)],
-     'Castellano y gallego suenan con voces neuronales pregeneradas (Sharvard y Celtia) empaquetadas en la app: '
-     'locución natural sin conexión ni servidor. Lo no cubierto recae con suavidad en la voz del sistema.'],
-    [[('🇩🇴 Respeto dialectal', True)],
-     'En dominicano la app no marca como error los rasgos normales del habla caribeña (seseo, aspiración de la “s”, '
-     'cambio de “r/l” a final de sílaba): evita falsos positivos que estigmaticen el habla de la familia.'],
-    [[('🎛️ Panel del Adulto · Carga Comunicativa', True)],
-     'Tres módulos manuales para el piloto (escucha en ruido, oso distractor de doble tarea y quiebre pragmático). '
-     'Los activa siempre el adulto: la app nunca ajusta nada sola (ver CU-16).'],
-    [[('💬 Frases portadoras', True)],
-     'En Pares Mínimos la palabra objetivo ya no se dicta aislada: se incrusta en una frase con entonación natural '
-     'seguida de una pregunta, sin repetirse en diez ensayos seguidos.'],
-], widths=[4.8, 12.2])
-doc.add_heading('Novedades de la versión 8.1', level=3)
-p('La versión 8.1 pule tres puntos detectados en el uso real tras el registro del paciente:')
-data_table(['Mejora', 'Qué cambia'], [
-    [[('🔘 Botón de reingreso más visible', True)],
-     'En Bienvenida, “Ya tengo un paciente registrado” deja de ser un enlace pequeño y pasa a ser un botón de tamaño '
-     'completo, al nivel de “Comenzar” (ver CU-07).'],
-    [[('🪪 Resultados con el paciente real', True)],
-     'La cabecera del panel de resultados y del Test de Ling, y el informe que se comparte, muestran ahora el nombre y '
-     'NHC de la ficha registrada (antes aparecía un dato de muestra fijo). Si no hay ficha, se indica con un rótulo '
-     'neutro (ver CU-08 y CU-12).'],
-    [[('🔊 La voz gallega siempre arranca', True)],
-     'En galego, la Expansión Semántica y los ejercicios de Audición y Lenguaje (contenido compartido con el '
-     'castellano) suenan con la voz neuronal castellana mientras Celtia no los cubra, en vez de quedar en silencio en '
-     'dispositivos sin voz gallega (ver CU-15).'],
-], widths=[4.8, 12.2])
-doc.add_heading('Novedades de la versión 8.2', level=3)
-p('La versión 8.2 suma Academy, un espacio de formación para el adulto. En la terapia auditivo-verbal el cuidador es '
-  'quien dirige cada sesión, así que aprender a hacerlo bien forma parte del tratamiento. Academy no es para el niño: '
-  'es para quien lo acompaña.')
-data_table(['Novedad', 'Qué aporta'], [
-    [[('🎓 Academy', True)],
-     'Una tarjeta destacada en la pantalla de terapias abre un curso breve de Cápsulas de Conocimiento (unos 2 minutos '
-     'cada una) sobre cómo aprenden a hablar los niños, el porqué de las dinámicas de movimiento (TPR) y los vicios a '
-     'evitar durante la terapia en casa (ver CU-03).'],
-    [[('✅ Quiz rápido', True)],
-     'Cada cápsula termina con un mini-test de una o dos preguntas con respuesta explicada, para fijar la idea sin que '
-     'se haga pesado.'],
-    [[('📊 Progreso visible', True)],
-     'La tarjeta muestra una barra de avance, el nivel (de Novato a Cuidador experto), los puntos y las insignias, que '
-     'se actualizan al instante al completar una cápsula. El avance se guarda cifrado en el dispositivo.'],
-], widths=[4.8, 12.2])
-doc.add_heading('Novedades de la versión 9', level=3)
-p('La versión 9 amplía el alcance clínico de la app: incorpora dos bloques de terapia nuevos, amplía los protocolos '
-  'existentes, suma una cuarta variedad de habla y convierte Academy en un hub de formación por patología. Todo '
-  'respeta el mismo principio: el adulto es el juez y los estresores se activan siempre a mano (muro MDR).')
-data_table(['Novedad', 'Qué aporta'], [
-    [[('🧠 Bloque TEA', True)],
-     'Seis terapias para el espectro autista (PRT + TCC): atención conjunta triangulada, reparación comunicativa, '
-     'flexibilidad cognitiva, categorización bajo carga sensorial y múltiples señales. Los estresores (ruido, quiebre) '
-     'los activa el adulto, con consentimiento informado para el quiebre pragmático.'],
-    [[('📖 Bloque Dislexia', True)],
-     'Seis terapias de conciencia fonológica y acceso léxico: intruso fonológico, rastreo léxico con interferencia, '
-     'síntesis fonémica rítmica, criba de pseudopalabras, rastreo de rotaciones (b/d · p/q) y denominación rápida '
-     '(RAN). El “cronómetro” es siempre la persecución dactilar del adulto, nunca un reloj automático.'],
-    [[('👂 Audición ampliada', True)],
-     'El bloque de Audición pasa de 13 a 18 terapias con la categoría “Escucha en ruido” (RA-1…RA-5): figura-fondo con '
-     'ruido, lectura labiofacial, formato cerrado degradado, secuencia con espera y localización del sonido. El ruido '
-     'lo sube y baja el adulto con el deslizador del Panel del Adulto.'],
-    [[('🗣️ Pares Mínimos ampliados', True)],
-     'El banco castellano pasa de 10 a 15 pares con dos grupos nuevos (nasales y laterales): gota/bota, beso/queso, '
-     'foca/boca, miel/piel y pato/palo. Los objetivos nuevos entran en el motor de frases portadoras.'],
-    [[('🌍 Cuarta variedad: Euskera', True)],
-     'El contenido puede locutarse y evaluarse en euskera batua con voz neuronal HiTZ-TTS pregenerada (UPV/EHU · '
-     'Aholab, proyecto ILENIA/NEL-GAITU). El reconocimiento usa eu-ES y, donde no exista, recae en es-ES con un '
-     'pliegue de la ⟨h⟩ muda (ver CU-15).'],
-    [[('🎓 Academy multidominio', True)],
-     'Academy deja de ser un curso único y se organiza en cinco dominios (Lenguaje, Hipoacusia, Dislalias, Dislexia y '
-     'TEA), cada uno con su propia escala de niveles e insignias. Un feed de prioridad destaca el dominio que '
-     'corresponde a la patología de la ficha (ver CU-03).'],
-], widths=[4.8, 12.2])
+doc.add_heading('Privacidad y funcionamiento sin conexión', level=3)
+p('Valeria+ es plenamente funcional sin conexión: toda la información del paciente (ficha, historial, evolución por '
+  'fonema, progreso y avance de Academy) se guarda cifrada en el dispositivo, conforme a RGPD/HIPAA. Para pruebas con '
+  'profesionales existe una sincronización en la nube opcional y aditiva (acceso con correo y contraseña); si no se '
+  'activa, todo permanece únicamente en el dispositivo. El capítulo 2 detalla los roles, el PIN y la privacidad.')
 
 # ============================ CAP 2 ============================
 doc.add_page_break()
@@ -491,7 +445,7 @@ doc.add_heading('Roles y modos de acceso', level=1)
 par = doc.add_paragraph()
 rich(par, [('Valeria+ distingue dos formas de usar la app sobre el mismo dispositivo. El cambio no requiere cerrar '
             'sesión: se controla con un ', False), ('PIN de 4 dígitos', True),
-           (' del logopeda, compartido por todos los bloques (componente común de la versión 5).', False)])
+           (' del logopeda, compartido por todos los bloques.', False)])
 data_table(['Modo', 'Quién', 'Qué puede hacer'], [
     [[('Modo Familia', True), ('\n(por defecto)', False)], 'Tutor, madre, padre o cuidador',
      'Practicar lo prescrito, realizar las sesiones, activar recordatorios y consultar el progreso. No puede cambiar '
@@ -509,13 +463,13 @@ doc.add_heading('Privacidad de los datos', level=3)
 p('Toda la información del paciente (ficha, historial de sesiones, evolución por fonema, progreso) se guarda localmente '
   'en el dispositivo mediante almacenamiento cifrado. La app está pensada para cumplir RGPD/HIPAA en el manejo de datos '
   'personales (PII). Sin conexión, la app es plenamente funcional: no necesita ningún servidor para operar.')
-callout('Sincronización en la nube (opcional · v6)',
-        'Para pruebas con profesionales, la versión 6 añade un acceso profesional con correo y contraseña (Firebase '
+callout('Sincronización en la nube (opcional)',
+        'Para pruebas con profesionales, la app ofrece un acceso profesional con correo y contraseña (Firebase '
         'Authentication) que permite guardar una copia de pacientes y sesiones en la nube (Cloud Firestore). Es una capa '
         'aditiva y opcional: cada profesional autenticado solo accede a sus propios datos, protegidos por reglas de '
         'seguridad. Si no se activa, todo sigue guardándose únicamente en el dispositivo.',
         fill=FILL_VIOLET, label_color=VIOLET_DARK)
-callout('Telemetría de usabilidad del piloto (v7)',
+callout('Telemetría de usabilidad del piloto',
         'Durante el piloto, la app recoge métricas de usabilidad anónimas (tiempo por pantalla, toques fuera de zona útil '
         'y cápsulas de movimiento saltadas) y una encuesta breve de satisfacción. No incluyen nombres, ni audio, ni el '
         'contenido de las respuestas; se guardan cifradas en el dispositivo bajo un identificador de sesión y se purgan '
@@ -631,7 +585,7 @@ uc_header('CU-03', 'Familia', 'Academy: formarse con las Cápsulas de Conocimien
 uc_meta('Adulto que dirige la sesión (familia o cuidador)', 'Prescripción de Terapias → Academy (hub de dominios)',
         'Ninguna; disponible desde el primer día', 'Cápsula completada y progreso guardado en su dominio')
 p('Academy es el espacio de formación para el adulto. En la terapia auditivo-verbal la persona que acompaña al niño es '
-  'el motor de la sesión, así que Academy le enseña —en pequeñas dosis— a hacerlo mejor. Desde la v9 no es un curso '
+  'el motor de la sesión, así que Academy le enseña —en pequeñas dosis— a hacerlo mejor. No es un curso '
   'único: se organiza en cinco dominios de formación, cada uno con su propia lista de cápsulas, su escala de niveles '
   '(de Novato a “Experto en…”) y sus insignias. Un feed de prioridad destaca arriba el dominio que corresponde a la '
   'patología de la ficha del paciente, para que el cuidador empiece por lo que más le sirve.')
@@ -756,7 +710,7 @@ uc_meta('Tutor o cuidador', 'Bienvenida → Selección de paciente → Hub', 'Ex
 h4('Flujo principal')
 numbered([
     [('En ', False), ('Bienvenida', True), (', pulsar el botón ', False), ('“Ya tengo un paciente registrado”', True),
-     (' (desde la v8.1, un botón de tamaño completo bajo “Comenzar”).', False)],
+     (' (un botón de tamaño completo, al nivel de “Comenzar”).', False)],
     'Seleccionar la ficha del niño/a en la lista de pacientes del dispositivo.',
     [('La app carga su prescripción y su progreso (racha, nivel) y abre el ', False), ('hub de bloques', True), ('.', False)],
     'Elegir un bloque para practicar (CU-02).',
@@ -772,7 +726,7 @@ h4('Flujo principal')
 numbered([
     [('Al pulsar ▶ en una terapia de ', False), ('Audición', True), (', responder: ', False),
      ('¿el niño usa audífonos o implante?', True), (' Si es No, se salta a los ejercicios. La cabecera muestra el ', False),
-     ('nombre del paciente activo', True), (' tomado de su ficha (v8.1).', False)],
+     ('nombre del paciente activo', True), (' tomado de su ficha de registro.', False)],
     [('Si es Sí, para cada uno de los ', False), ('6 sonidos', True), (' (m, u, a, i, sh, s) el adulto lo produce ', False),
      ('tapándose la boca', True), ('.', False)],
     [('Marcar la respuesta del niño: ', False), ('Identifica', True), (' · ', False), ('Detecta', True), (' · ', False),
@@ -852,7 +806,7 @@ uc_meta('Logopeda o tutor', 'Resultados del paciente', 'Historial de sesiones re
 h4('Flujo principal')
 numbered([
     [('Abrir el ', False), ('panel de resultados', True), (' al finalizar una sesión o desde la ficha. La cabecera muestra el ', False),
-     ('nombre y NHC del paciente activo', True), (', tomados de su ficha de registro (v8.1).', False)],
+     ('nombre y NHC del paciente activo', True), (', tomados de su ficha de registro.', False)],
     [('Revisar la ', False), ('evolución por estrellas', True), (' (media de las últimas sesiones) y, para dislalias, la nueva gráfica de ', False),
      ('sustitución por fonema', True), (': el % de ensayos con la sustitución detectada por el micrófono, donde bajar es mejorar.', False)],
     [('Consultar el ', False), ('estado de gamificación', True), (' (XP, racha, nivel) y la ', False), ('adherencia semanal', True), ('.', False)],
@@ -929,7 +883,7 @@ rich(par, [('Valeria+ puede trabajar el contenido terapéutico en ', False), ('c
            ('. La elección se guarda en el dispositivo y se aplica a todos los bloques.', False)])
 data_table(['Variedad', 'Cómo suena y evalúa'], [
     [[('🇪🇸 Castellano', True)], 'Voz neuronal Sharvard pregenerada (offline) y reconocimiento del sistema en español de España.'],
-    [[('Galego', True), (' (Proxecto Nós)', False)], 'Voz neuronal Celtia pregenerada en gallego; contenido y pares propios. El contenido compartido con el castellano (Expansión Semántica, Audición y Lenguaje) suena con la voz neuronal castellana mientras Celtia no lo cubra (v8.1).'],
+    [[('Galego', True), (' (Proxecto Nós)', False)], 'Voz neuronal Celtia pregenerada en gallego; contenido y pares propios. El contenido compartido con el castellano (Expansión Semántica, Audición y Lenguaje) suena con la voz neuronal castellana mientras Celtia no lo cubra.'],
     [[('🇩🇴 Dominicano', True), (' (Quisqueya Habla)', False)], 'Usa la voz latina del dispositivo y el micrófono en es-DO; respeta los rasgos del habla caribeña.'],
     [[('Euskera', True), (' (batua · ILENIA/NEL-GAITU)', False)], 'Voz neuronal HiTZ-TTS pregenerada (UPV/EHU · Aholab), empaquetada y offline. El reconocimiento usa eu-ES donde el dispositivo lo trae; si no, recae en es-ES con un pliegue de la ⟨h⟩ muda que no penaliza las sibilantes ni africadas (contraste clínico que valora el adulto).'],
 ], widths=[4.2, 12.8])
@@ -943,7 +897,7 @@ h4('Flujos alternativos')
 bullets([
     [('En dominicano suena peninsular o robótica:', True), (' instalar una voz de “Español (Latinoamérica)” en los ajustes del dispositivo; la app la usará automáticamente.', False)],
     [('En euskera sin reconocedor vasco:', True), (' el dispositivo escucha en es-ES con el pliegue de la ⟨h⟩; si tampoco hay micrófono (Expo Go / web), el adulto valora con botones, como en el resto de variedades.', False)],
-    [('Falta la voz pregenerada de una locución:', True), (' en galego se reproduce primero el asset neuronal castellano equivalente si existe (v8.1); en último término, la app recae con suavidad en la voz del sistema, sin interrumpir la sesión.', False)],
+    [('Falta la voz pregenerada de una locución:', True), (' en galego se reproduce primero el asset neuronal castellano equivalente si existe; en último término, la app recae con suavidad en la voz del sistema, sin interrumpir la sesión.', False)],
 ])
 callout('Respeto dialectal',
         [('En dominicano, la app ', False), ('no marca como error', True),
@@ -1008,9 +962,9 @@ data_table(['Situación', 'Qué hacer'], [
     ['El mismo ejercicio se repetía siempre igual',
      'Use “🔄 Otra ronda”: cada mini-juego rota hasta 3 contenidos distintos. Para practicar todo lo prescrito de golpe, use “🎯 Sesión completa”.'],
     ['¿Necesito conexión o crear una cuenta?',
-     'No. La app funciona en local sin conexión. El acceso profesional con correo y contraseña (sincronización en la nube) es opcional y solo se usa para pruebas con profesionales (v6).'],
+     'No. La app funciona en local sin conexión. El acceso profesional con correo y contraseña (sincronización en la nube) es opcional y solo se usa para pruebas con profesionales.'],
     ['¿Qué datos recoge el piloto sobre mi hijo/a?',
-     'Solo métricas anónimas de usabilidad (tiempo por pantalla, misclicks y cápsulas saltadas) y una encuesta breve. No se guardan nombres, ni audio, ni el contenido de las respuestas. Todo se cifra en el dispositivo (v7).'],
+     'Solo métricas anónimas de usabilidad (tiempo por pantalla, misclicks y cápsulas saltadas) y una encuesta breve. No se guardan nombres, ni audio, ni el contenido de las respuestas. Todo se cifra en el dispositivo.'],
     ['¿Por qué apareció una encuesta con caritas?',
      'Es la encuesta de satisfacción del piloto (SUS). Solo aparece al completar 4 bloques distintos y como mucho una vez por semana. Se puede cerrar sin responder.'],
     ['¿Cómo exporto los datos del piloto?',
@@ -1018,18 +972,47 @@ data_table(['Situación', 'Qué hacer'], [
     ['¿Puedo usar la app en gallego, dominicano o euskera?',
      'Sí. En la tarjeta “Voz de la app” se elige la variedad (Castellano, Galego, Dominicano o Euskera). Cambia lo que se locuta y evalúa; los menús siguen en castellano (CU-15).'],
     ['En dominicano la voz suena de España o robótica',
-     'Instale una voz de “Español (Latinoamérica)” en los ajustes del dispositivo. La app la detecta y la usa automáticamente (v8).'],
+     'Instale una voz de “Español (Latinoamérica)” en los ajustes del dispositivo. La app la detecta y la usa automáticamente.'],
     ['En galego, algunos ejercicios no hablaban',
-     'Corregido en la v8.1: la Expansión Semántica y los ejercicios de Audición y Lenguaje suenan ahora con la voz neuronal castellana mientras Celtia no cubra ese contenido. Actualice la app si sigue ocurriendo.'],
+     'La Expansión Semántica y los ejercicios de Audición y Lenguaje suenan con la voz neuronal castellana mientras Celtia no cubra ese contenido, en vez de quedar en silencio. Actualice la app si sigue ocurriendo.'],
     ['Marca como error algo que en mi país se dice así',
      'En la variedad dominicana la app respeta los rasgos del habla caribeña (seseo, “s” aspirada, “r/l” final). Y recuerde: el adulto es siempre el juez final del veredicto.'],
     ['Apareció ruido de fondo o un oso moviéndose',
      'Son módulos del Panel del Adulto (carga comunicativa) del piloto; solo se activan a mano. Desactívelos desde ese mismo panel (CU-16).'],
-    ['Aparecieron bloques nuevos: TEA y Dislexia',
-     'Son los dos bloques que suma la v9. TEA (6 terapias, protocolo PRT + TCC) y Dislexia (6 terapias de conciencia fonológica y acceso léxico). Se prescriben con el mismo PIN que el resto y sus estresores los activa siempre el adulto (CU-06).'],
+    ['¿Qué son los bloques de TEA y Dislexia?',
+     'TEA (6 terapias, protocolo PRT + TCC) y Dislexia (6 terapias de conciencia fonológica y acceso léxico). Se prescriben con el mismo PIN que el resto y sus estresores los activa siempre el adulto (CU-06).'],
     ['¿Qué es la tarjeta “Academy” del hub?',
      'Es la formación para el adulto, organizada en cinco dominios (Lenguaje, Hipoacusia, Dislalias, Dislexia y TEA). Cápsulas breves con quiz sobre cómo aprenden a hablar los niños, el manejo de los dispositivos auditivos, los sonidos difíciles y más; un feed destaca el dominio que encaja con la patología de la ficha. No es un ejercicio para el niño (CU-03).'],
 ], widths=[6.0, 11.0])
+
+# ============================ ANEXO B · HISTORIAL ============================
+doc.add_page_break()
+kicker('Anexo B')
+doc.add_heading('Historial de versiones', level=1)
+p('Este manual describe Valeria+ en su estado actual (v9.0). La siguiente tabla resume, a título informativo, cómo ha '
+  'ido creciendo la app, por si resulta útil a quienes usaron versiones anteriores.')
+data_table(['Versión', 'Hitos principales'], [
+    [[('v5', True)],
+     'Primeros bloques (Pares Mínimos y Expansión Semántica), Modo Profesional con PIN compartido por todos los bloques '
+     'y almacenamiento local cifrado.'],
+    [[('v6', True)],
+     'Voz más humana, rondas variadas (“Otra ronda”), botón de sesión completa, fase de turno visible, pictogramas de '
+     'alto contraste y sincronización en la nube opcional (Firebase).'],
+    [[('v7', True)],
+     'Instrumentación del piloto: telemetría de usabilidad anónima, encuesta SUS, guardado cifrado con purga y '
+     'exportación dual (QR + compartir).'],
+    [[('v8', True)],
+     'Tres variedades de habla (Castellano, Galego y Dominicano) con voz neuronal offline, respeto dialectal, Panel del '
+     'Adulto de carga comunicativa y frases portadoras.'],
+    [[('v8.1', True)],
+     'Botón de reingreso a tamaño completo, resultados y Test de Ling con el paciente real, y voz gallega que siempre '
+     'arranca.'],
+    [[('v8.2', True)],
+     'Academy: primeras Cápsulas de Conocimiento para el cuidador, con quiz y progreso por niveles.'],
+    [[('v9', True)],
+     'Bloques de TEA y Dislexia, Audición ampliada a 18 terapias (escucha en ruido), banco castellano de 15 pares, '
+     'cuarta variedad (Euskera) y Academy multidominio.'],
+], widths=[2.4, 14.6])
 p('', space_after=4)
 p('Valeria+ · Manual de Casos de Uso · v9.0 (con capturas de pantalla) · Julio de 2026 · Terapia auditivo-verbal y del '
   'lenguaje para la infancia. Documento de apoyo para logopedas y familias. Disponible en Castellano, Galego (Proxecto '
