@@ -149,6 +149,72 @@ def encode_m4a(wav: Path, m4a: Path, atempo: float | None = None) -> None:
     )
 
 
+def compress_internal_silence(
+    wav_path: Path, sil_db: float = -38.0, frame_ms: int = 10,
+    max_gap_ms: int = 280, keep_ms: int = 150, edge_ms: int = 120,
+    defect_gap_ms: int = 250,
+) -> None:
+    """Acorta los silencios MUERTOS de una locución conservando el habla intacta.
+
+    AhoTTS (eu) sintetiza el texto de una vez e inserta pausas de hasta ~1 s en
+    la puntuación (comas, puntos): en las consignas largas la voz "se corta y
+    empieza" a mitad de frase (reporte de campo eu, jul 2026 — el mismo defecto
+    que en gl motivó make_coqui_synth V2). Aquí, sobre el WAV s16 mono ya
+    renderizado, se detectan por RMS los tramos por debajo de sil_db respecto al
+    pico y: (1) los huecos INTERNOS de más de max_gap_ms se recortan a keep_ms;
+    (2) el silencio de borde se limita a edge_ms. Solo se reescribe el fichero
+    si hay un hueco interno real (> defect_gap_ms); los clips de una palabra
+    (slow) quedan intactos. No se toca ni una muestra de voz: nunca deja clics."""
+    with wave.open(str(wav_path), "rb") as r:
+        params = r.getparams()
+        if params.sampwidth != 2 or params.nchannels != 1:
+            return
+        sr = params.framerate
+        data = r.readframes(params.nframes)
+    win = max(1, int(sr * frame_ms / 1000))
+    step = win * 2  # bytes por ventana (16 bits, mono)
+    n = len(data)
+    frames = [data[i:i + step] for i in range(0, n, step)]
+    peak = audioop.max(data, 2) or 1
+    thr = peak * (10 ** (sil_db / 20))
+    voiced = [audioop.rms(f, 2) > thr for f in frames]
+    if True not in voiced:
+        return
+    first = voiced.index(True)
+    last = len(voiced) - 1 - voiced[::-1].index(True)
+    # ¿Hay un hueco interno real? Si no, no se reescribe (clips de una palabra).
+    longest = cur = 0
+    for v in voiced[first:last + 1]:
+        cur = 0 if v else cur + 1
+        longest = max(longest, cur)
+    if longest * frame_ms <= defect_gap_ms:
+        return
+    keep = int(keep_ms / frame_ms)
+    edge = int(edge_ms / frame_ms)
+    out = []
+    j = 0
+    F = len(voiced)
+    while j < F:
+        if voiced[j]:
+            out.append(frames[j]); j += 1
+            continue
+        k = j
+        while k < F and not voiced[k]:
+            k += 1
+        runlen = k - j
+        if j <= first or k > last:
+            take = min(runlen, edge)          # silencio de borde
+        elif runlen * frame_ms > max_gap_ms:
+            take = keep                        # hueco interno largo → recorte
+        else:
+            take = runlen                      # micro-pausa natural → intacta
+        out.extend(frames[j:j + take])
+        j = k
+    with wave.open(str(wav_path), "wb") as w:
+        w.setparams(params)
+        w.writeframes(b"".join(out))
+
+
 # ------------------------------------------------------------------ motores
 def make_piper_synth(voice: dict):
     from piper import PiperVoice, SynthesisConfig  # pip install piper-tts
@@ -490,6 +556,12 @@ def main() -> None:
         try:
             atempo = synth(e["text"], e["style"], raw)
             to_s16_wav(raw, s16)
+            # AhoTTS (eu) inserta silencios muertos en la puntuación: se recortan
+            # ANTES del atempo, para que la voz no "se corte y empiece" a mitad
+            # de consigna y para que el atempo no estire el hueco (defecto eu, el
+            # mismo que en gl resolvió make_coqui_synth V2).
+            if voice["engine"] == "ahotts":
+                compress_internal_silence(s16)
             seconds = normalize_peak(s16, s16)
             encode_m4a(s16, m4a, atempo)
         except Exception as err:
