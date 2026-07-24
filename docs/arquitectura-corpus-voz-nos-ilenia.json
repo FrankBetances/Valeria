@@ -1,0 +1,285 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "id": "valeria-plus/arquitectura-corpus-voz-nos-ilenia",
+  "version": "1.0.0",
+  "titulo": "Blueprint replicable · Arquitectura de corpus de voz neuronal NÓS / ILENIA",
+  "descripcion": "Instrucciones portables para replicar en OTROS proyectos la arquitectura de voz usada en Valeria+: cómo se ENUMERA y GENERA el corpus locutable, cómo se SINTETIZA con las voces abiertas de Proxecto Nós (gallego) e ILENIA/NEL-GAITU-HiTZ (euskera), y cómo se INTEGRA en la app manteniendo offline-first y degradación elegante. Este documento es descriptivo y prescriptivo: describe la implementación real de este repo y da los pasos para portarla.",
+  "generadoPor": "Extraído del repositorio Valeria+ (scripts/, src/, .github/workflows/, docs/plan-integracion-proxecto-nos.md, docs/asr-euskera-ilenia.md).",
+
+  "principiosDeDiseno": [
+    {
+      "id": "P1",
+      "nombre": "Offline-first inviolable",
+      "regla": "Ningún modelo de IA (TTS/ASR/MT) corre en el dispositivo en tiempo de sesión. Los modelos solo se ejecutan en BUILD-TIME (CI) para pre-generar audio, o se portan a on-device como módulo opcional degradable. En runtime la app solo reproduce ficheros de audio ya empaquetados."
+    },
+    {
+      "id": "P2",
+      "nombre": "El adulto/usuario es el juez final",
+      "regla": "Si el ASR o el asset no está disponible, la UI degrada (oculta el micro, cae a la voz del sistema, valora por botones). Ninguna capa de IA puede ser un punto único de fallo que rompa la experiencia."
+    },
+    {
+      "id": "P3",
+      "nombre": "Corpus finito y enumerable",
+      "regla": "Todo lo que la app puede locutar es un conjunto FINITO y FIJO de cadenas (estilo + texto + idioma). Se enumera exhaustivamente en un módulo puro de código, que es el contrato entre la app y la tubería de síntesis."
+    },
+    {
+      "id": "P4",
+      "nombre": "Id por hash de contenido",
+      "regla": "El id de cada locución = hash(estilo + texto normalizado) [+ prefijo de idioma]. Si un texto cambia en el código, su id cambia, el mapa deja de resolver y la locución cae limpiamente al motor del sistema. La deriva degrada calidad, nunca rompe. Regenerar solo produce diffs de las cadenas cambiadas (sin churn en git)."
+    },
+    {
+      "id": "P5",
+      "nombre": "Fuente única por idioma con la misma interfaz",
+      "regla": "El contenido vive en ficheros de datos paralelos por idioma con la MISMA interfaz de tipos. Las pantallas no saben en qué idioma trabajan: consumen el dataset que les inyecta la capa de idioma."
+    },
+    {
+      "id": "P6",
+      "nombre": "Traducir no es adaptar",
+      "regla": "El material clínico (pares mínimos, aproximaciones fonéticas del ASR) se REDISEÑA para cada lengua; la traducción automática (Nos_MT) solo acelera el texto narrativo y SIEMPRE pasa por revisión humana experta antes de entrar a main."
+    },
+    {
+      "id": "P7",
+      "nombre": "Pipeline puro y verificable en build-time",
+      "regla": "El módulo del corpus es PURO (no importa framework de UI). Un script Node debe poder compilarlo y ejecutarlo. Si algún módulo del corpus deja de ser puro, la compilación falla en build-time, nunca en la app."
+    }
+  ],
+
+  "arquitecturaPipeline": {
+    "resumen": "corpus (código puro) → export JSON → síntesis neuronal (CI) → assets de audio + manifiesto → mapa id→asset generado → runtime reproduce asset o cae al sistema",
+    "flujo": [
+      "1. buildVoiceCorpus()  [módulo puro de código]",
+      "2. scripts/export-voice-corpus.js  →  voice-corpus.json  [contrato serializado]",
+      "3. scripts/generate-voice-assets.py --lang <lang>  →  assets/voice/<id>.m4a  +  voice-assets-manifest.<lang>.json  [síntesis neuronal, incremental]",
+      "4. scripts/build-voice-asset-map.js  →  src/valeriaVoiceAssets.ts  [mapa estático id→require(asset)]",
+      "5. runtime: valeriaVoice.ts resuelve voiceCorpusId(style,text,lang) en VOICE_ASSETS → playVoiceAsset() con expo-audio; si no hay asset, cae a expo-speech (voz del sistema)"
+    ],
+    "diagramaMermaid": "graph LR; A[corpus puro TS] --> B[export-voice-corpus.js]; B --> C[voice-corpus.json]; C --> D[generate-voice-assets.py]; D --> E[assets/voice/*.m4a]; D --> F[manifest.lang.json]; E --> G[build-voice-asset-map.js]; G --> H[valeriaVoiceAssets.ts]; H --> I[valeriaVoice runtime]; I -->|sin asset| J[voz del sistema];"
+  },
+
+  "componentes": [
+    {
+      "rol": "Definición del corpus (contrato)",
+      "archivo": "src/valeriaVoiceCorpus.ts",
+      "tipo": "módulo PURO de código (sin dependencias de UI/framework)",
+      "responsabilidad": "Enumera TODAS las cadenas locutables como entradas {id, lang, style, text, source}. Genera el id con voiceCorpusId(). Recorre cada banco de contenido (pares mínimos, frases portadoras, cápsulas TPR, rutas, bancos de refuerzo, expansión semántica, ejercicios) por idioma.",
+      "claves": {
+        "VoiceStyle": ["tutor", "child", "clinical", "slow"],
+        "VoiceLang": ["es", "gl", "eu"],
+        "idFn": "voiceCorpusId(style, text, lang) = `${style}_${fnv1a(normalize(text))}_${len}` con prefijo `${lang}_` si lang != 'es' (retro-compat: los ids es conservan su forma histórica para no renombrar assets ya sintetizados)",
+        "normalize": "text.replace(/\\s+/g,' ').trim()  (los espacios no cambian la locución; todo lo demás sí)",
+        "hash": "FNV-1a 32 bits en hex + longitud; estable entre plataformas (opera sobre UTF-16); suficiente para ~10k entradas sin colisiones prácticas",
+        "estiloHorneado": "El estilo (prosodia/velocidad) se hornea en el audio: un mismo texto en dos estilos son DOS entradas con ids distintos"
+      }
+    },
+    {
+      "rol": "Exportador del corpus",
+      "archivo": "scripts/export-voice-corpus.js",
+      "tipo": "Node CLI",
+      "responsabilidad": "Compila el módulo puro TS a CommonJS en un dir temporal (npx tsc), lo ejecuta, invoca buildVoiceCorpus() y vuelca voice-corpus.json a la raíz. Valida que no haya colisión de ids (aborta si las hay). Emite estadísticas por estilo y por fuente.",
+      "salida": "voice-corpus.json = {generatedAt, entries, byStyle, bySource, corpus:[{id,lang,style,text,source}]}"
+    },
+    {
+      "rol": "Generador de assets (síntesis neuronal)",
+      "archivo": "scripts/generate-voice-assets.py",
+      "tipo": "Python CLI (corre SOLO en CI)",
+      "responsabilidad": "Consume voice-corpus.json, filtra por --lang, y sintetiza SOLO las locuciones sin asset (incremental → sin churn en git). Descarga el modelo de voz de Hugging Face, sintetiza, masteriza (pico -3 dBFS) y codifica AAC/m4a. Escribe assets/voice/<id>.m4a y voice-assets-manifest.<lang>.json.",
+      "motores": {
+        "piper": "VITS de rhasspy/piper-voices vía piper-tts. Estilo por length_scale nativo (sin re-pitch). Voces multi-hablante: elige la femenina.",
+        "coqui": "VITS de grafemas vía coqui-tts (TTS.api). Usado para Celtia (gl). PROSODIA CONTROLADA V2: trocea por frases propio, sintetiza cada frase aislada, recorta silencios de borde y une con pausa corta constante (evita los ~0,45 s de silencio muerto que inserta el Synthesizer de coqui).",
+        "onnx": "VITS de grafemas exportado a ONNX (vits.onnx + config.json) con onnxruntime, sin torch/coqui. Construye el vocabulario de grafemas [pad,eos,bos,blank]+chars+punct. Guarda anti-basura: aborta el ítem si la tokenización no encaja con el embedding o si la duración es implausible.",
+        "ahotts": "Voz vasca HiTZ vía binario AhoTTS (frontend lingüístico + G2P con diccionario eu_dicc). Lee stdin en ISO-8859-1, escribe WAV. compress_internal_silence() recorta los silencios muertos que AhoTTS inserta en la puntuación."
+      },
+      "masterizacion": {
+        "picoDbfs": -3.0,
+        "bitrateAAC": "40k",
+        "lengthScalePorEstilo": {"tutor": 1.0, "child": 1.05, "clinical": 1.15, "slow": 1.6},
+        "notaMezcla": "La voz va a -3 dBFS; si hay pista B de ruido babble va a -6 dBFS (la voz conserva +3 dB y la suma no satura)."
+      },
+      "descubrimientoHF": "_hf_discover(repos): prueba una lista de repos candidatos por orden de preferencia y usa el primero accesible vía la API de HF (/api/models/<repo>). No se acopla a nombres internos del checkpoint.",
+      "tokenHF": "HF_TOKEN (secret en Actions) imprescindible para modelos 'gated' (p. ej. proxectonos): sin él la descarga da 401. Requiere aceptar las condiciones del modelo en HF con la cuenta del token."
+    },
+    {
+      "rol": "Generador del mapa id→asset",
+      "archivo": "scripts/build-voice-asset-map.js",
+      "tipo": "Node CLI",
+      "responsabilidad": "Cruza voice-corpus.json con los ficheros reales de assets/voice/ y REESCRIBE src/valeriaVoiceAssets.ts con un require() estático por locución (Metro/bundler no admite requires dinámicos). Solo entran ids con fichero presente. Calcula una VOICE_ASSETS_VERSION a partir de los manifiestos (idioma-voz+fecha).",
+      "salida": "src/valeriaVoiceAssets.ts = { VOICE_ASSETS_VERSION, VOICE_ASSETS: Record<id, moduloAsset> }  [ARCHIVO GENERADO, NO EDITAR]"
+    },
+    {
+      "rol": "Reproductor de assets (runtime)",
+      "archivo": "src/valeriaVoicePlayback.ts",
+      "tipo": "módulo runtime (expo-audio)",
+      "responsabilidad": "playVoiceAsset(source) reproduce el m4a con expo-audio. Carga perezosa del módulo nativo: si expo-audio no existe, devuelve false y el llamante cae al motor del sistema. Un único slot de reproducción (empezar una locución detiene la anterior). Modo de mezcla mixWithOthers y playsInSilentMode."
+    },
+    {
+      "rol": "Punto de integración runtime",
+      "archivo": "src/valeriaVoice.ts",
+      "tipo": "capa de voz de la app",
+      "responsabilidad": "speakToChild resuelve source = VOICE_ASSETS[voiceCorpusId(style, text, assetLang())]. Si no hay asset y el idioma no es es, prueba el id 'es' (audio neuronal antes que caer a expo-speech con un locale sin voz instalada). Si sigue sin asset, return false → expo-speech (voz del sistema). Preempta cadenas pendientes con un token.",
+      "cadenaFallback": "asset del idioma → asset es (para bancos compartidos) → expo-speech (voz sistema del locale) → (sin micro) veredicto por botones del adulto"
+    },
+    {
+      "rol": "Tubería CI",
+      "archivo": ".github/workflows/voice-assets.yml",
+      "tipo": "GitHub Actions (workflow_dispatch + push a ramas claude/**)",
+      "responsabilidad": "Ejecuta export → síntesis por idioma (instalación condicional del motor solo si faltan assets de ese idioma) → rebuild del mapa → commit de los assets a la rama. Anti-bucle (ignora al propio bot). Push robusto con rebase ante concurrencia. Los modelos SOLO corren aquí; jamás en el dispositivo. main está protegida: los assets se integran por PR.",
+      "secretsRequeridos": ["HF_TOKEN"]
+    }
+  ],
+
+  "registroDeVocesModelos": {
+    "nota": "Voces abiertas de los proyectos NÓS (gallego) e ILENIA/NEL-GAITU (euskera, centro HiTZ). Fijar revisiones/commits concretos de los modelos para reproducibilidad; los assets generados viven en el repo/EAS, no se regeneran en cada build.",
+    "voces": [
+      {
+        "lang": "gl",
+        "proyecto": "Proxecto Nós",
+        "voz": "Celtia",
+        "engine": "coqui",
+        "hf_repos": ["proxectonos/Nos_TTS-celtia-vits-graphemes", "proxectonos/nos_tts-celtia-vits-graphemes"],
+        "tipo": "VITS de grafemas (sin fonemizador externo)",
+        "gated": true,
+        "otrasVocesNos": ["Sabela", "Icía", "Paulo", "Iago"],
+        "recursosNosAdicionales": {
+          "TTS": "tts.nos.gal · modelos VITS en huggingface.co/proxectonos",
+          "ASR": "Wav2Vec2 + modelo de lengua (Hugging Face) para reconocimiento gallego",
+          "MT": "Nos_MT (OpenNMT es↔gl) como acelerador de traducción con revisión humana",
+          "Corpora": "github.com/proxectonos/corpora (nos_gl_CC0) como material de referencia léxica CC/CC0"
+        }
+      },
+      {
+        "lang": "eu",
+        "proyecto": "ILENIA / NEL-GAITU · HiTZ (UPV/EHU · Aholab)",
+        "voz": "Maider (femenina; respaldo Antton)",
+        "engine": "ahotts",
+        "hf_repos": ["HiTZ/TTS-eu_maider", "HiTZ/TTS-eu_antton"],
+        "tipo": "VITS ejecutado a través del binario AhoTTS (frontend lingüístico vasco + diccionario eu_dicc que genera los fonemas)",
+        "licencia": "CC BY 4.0",
+        "repoBinario": "github.com/hitz-zentroa/aHoTTS",
+        "ASR": "HiTZ/whisper-large-v3-eu o Wav2Vec2+LM (spike on-device: NO-GO por ahora; el sistema eu-ES + aproximación es-ES cubren el caso)"
+      },
+      {
+        "lang": "es",
+        "proyecto": "rhasspy/piper-voices (homóloga castellana, no NÓS)",
+        "voz": "Sharvard (femenina)",
+        "engine": "piper",
+        "urls": [
+          "https://huggingface.co/rhasspy/piper-voices/resolve/main/es/es_ES/sharvard/medium/es_ES-sharvard-medium.onnx",
+          "https://huggingface.co/rhasspy/piper-voices/resolve/main/es/es_ES/sharvard/medium/es_ES-sharvard-medium.onnx.json"
+        ],
+        "tipo": "VITS femenina abierta"
+      }
+    ]
+  },
+
+  "capasASR": {
+    "nota": "Reconocimiento de voz por capas con degradación elegante. El adulto es el juez final (P2).",
+    "capas": [
+      {"n": 1, "nombre": "ASR del sistema con locale nativo (gl-ES / eu-ES)", "cuando": "dispositivo con reconocedor de la lengua (Android/Google reciente)"},
+      {"n": 2, "nombre": "Aproximación es-ES + ajuste fonético", "cuando": "iOS y equipos sin locale nativo", "tecnica": "stt_expected_array con aproximaciones fonéticas de la lengua + funciones de pliegue (p. ej. foldBasque elimina la ⟨h⟩ muda simétricamente antes de comparar; NO se pliegan las sibilantes/africadas que son el contraste clínico de los pares mínimos)"},
+      {"n": 3, "nombre": "Modelo on-device (Wav2Vec2-CTC→ONNX→sherpa-onnx o whisper.cpp)", "cuando": "módulo nativo opcional avanzado detrás de asrSupported()", "estado": "spike NO-GO por ahora (coste +40-150 MB no compensa hasta señal de piloto)"}
+    ]
+  },
+
+  "pasosParaReplicarEnNuevoProyecto": [
+    {
+      "paso": 0,
+      "titulo": "Preparación y licencias",
+      "acciones": [
+        "Auditar licencias y créditos de los modelos a usar (voz TTS, ASR, MT, corpora) y documentar la atribución requerida en una pantalla de créditos.",
+        "Elegir la voz escuchando muestras con cadenas reales de la app.",
+        "Confirmar persona revisora experta nativa de la lengua para el contenido clínico/narrativo.",
+        "Verificar soporte real del locale (TTS y ASR del sistema) por plataforma; construir la tabla de soporte."
+      ]
+    },
+    {
+      "paso": 1,
+      "titulo": "Infraestructura de idioma",
+      "acciones": [
+        "Crear una capa de locale (tipo Lang, contexto, persistencia) y un selector por unidad (p. ej. por paciente/usuario, no global).",
+        "Mover el contenido existente a data/<lang-base>/ con una interfaz de tipos común y un getContent(lang) tipado.",
+        "Crear data/<nueva-lang>/ con las MISMAS interfaces y contenido provisional mínimo para probar el cableado.",
+        "Parametrizar la capa de voz: el idioma deja de ser constante; speak/ASR reciben el idioma; puntuar voces del locale con fallback."
+      ]
+    },
+    {
+      "paso": 2,
+      "titulo": "Definir el corpus enumerable (contrato)",
+      "acciones": [
+        "Crear el módulo PURO del corpus (equivalente a valeriaVoiceCorpus.ts): buildCorpus() que recorre cada banco de contenido y emite {id, lang, style, text, source}.",
+        "Implementar el id por hash de contenido (FNV-1a + longitud) con prefijo de idioma para desambiguar textos idénticos entre lenguas.",
+        "Espejar EXACTAMENTE los builders de texto de las pantallas (mismos literales) para que el id coincida y el asset resuelva. Si la pantalla cambia un literal, esa entrada debe cambiar en el corpus."
+      ]
+    },
+    {
+      "paso": 3,
+      "titulo": "Tubería de síntesis",
+      "acciones": [
+        "Portar export-voice-corpus.js (compila el módulo puro y vuelca JSON; valida colisiones de id).",
+        "Portar generate-voice-assets.py con el registro VOICES por idioma (engine + repos HF). Reutilizar los motores piper/coqui/onnx/ahotts según el modelo. Síntesis INCREMENTAL (solo lo que falta).",
+        "Portar build-voice-asset-map.js (require estático por asset; solo ids con fichero presente).",
+        "Configurar el workflow CI (voice-assets.yml) con instalación condicional del motor por idioma, HF_TOKEN como secret, commit de assets a rama de trabajo y push robusto con rebase."
+      ]
+    },
+    {
+      "paso": 4,
+      "titulo": "Integración runtime",
+      "acciones": [
+        "Portar valeriaVoicePlayback.ts (reproductor con carga perezosa del módulo nativo; degradación a false).",
+        "En la capa de voz: resolver VOICE_ASSETS[voiceCorpusId(style,text,lang)]; fallback a id base y luego a la voz del sistema.",
+        "Añadir créditos de la voz a la pantalla de créditos.",
+        "Medir el peso de los assets (presupuesto orientativo <25 MB por variedad; comprimir OPUS/AAC o assets descargables si excede)."
+      ]
+    },
+    {
+      "paso": 5,
+      "titulo": "ASR por capas y QA",
+      "acciones": [
+        "Cablear la capa 1 (locale nativo) y la capa 2 (aproximación es-ES + pliegues fonéticos) con stt_expected_array rediseñado (no traducido).",
+        "QA matriz pantalla × idioma × plataforma, incluidas degradaciones sin micrófono y sin assets. Regresión cero en el idioma base.",
+        "Telemetría etiquetada por idioma; mini-piloto con familias/usuarios nativos y la persona revisora."
+      ]
+    }
+  ],
+
+  "comandos": {
+    "exportarCorpus": "node scripts/export-voice-corpus.js",
+    "sintetizar": "python3 scripts/generate-voice-assets.py --lang <es|gl|eu>",
+    "regenerarMapa": "node scripts/build-voice-asset-map.js",
+    "pipelineCompletoLocal": "node scripts/export-voice-corpus.js && python3 scripts/generate-voice-assets.py --lang gl && node scripts/build-voice-asset-map.js",
+    "ci": "Actions → 'Generate Voice Assets' (workflow_dispatch, input lang) o push que toque voice-corpus.json / los scripts en una rama claude/**"
+  },
+
+  "riesgosYMitigaciones": [
+    {"riesgo": "MT sin revisión introduce lengua artificial o castellanismos en material clínico", "mitigacion": "Regla dura: nada de MT entra al repo sin revisión experta; los pares mínimos ni pasan por MT (se rediseñan)."},
+    {"riesgo": "Plataforma sin ASR ni TTS del sistema en la lengua", "mitigacion": "TTS resuelto con audio pregenerado; ASR con capa es-ES + pliegues; mientras tanto, valoración por botones del adulto."},
+    {"riesgo": "Peso de los assets de audio", "mitigacion": "Hash por contenido (regenera solo lo cambiado); compresión OPUS/AAC; presupuesto y plan B (assets descargables vía EAS)."},
+    {"riesgo": "Variación dialectal hace que un par 'correcto' penalice la variedad del hablante", "mitigacion": "Campo region en el banco de pares; seleccionar variedad en la ficha."},
+    {"riesgo": "Cambios upstream en los modelos (HF)", "mitigacion": "Fijar revisiones/commits concretos; los assets generados viven en el repo/EAS, no se regeneran en cada build."},
+    {"riesgo": "Deriva de texto (un literal cambia en pantalla pero no en el corpus)", "mitigacion": "Espejo exacto de builders; check de cobertura corpus↔pantalla en CI; la deriva degrada a voz del sistema, no rompe."}
+  ],
+
+  "invariantesCriticas": [
+    "El módulo del corpus debe permanecer PURO (sin imports de UI/framework), o export-voice-corpus.js falla en build-time.",
+    "voiceCorpusId debe ser idéntica en el corpus (build) y en la resolución runtime; ambas importan la MISMA función.",
+    "Los ids del idioma base (es) no llevan prefijo por retro-compatibilidad de assets ya sintetizados.",
+    "Los modelos de IA nunca corren en el dispositivo: solo en CI (build-time).",
+    "src/valeriaVoiceAssets.ts es GENERADO: no editar a mano; se reescribe en cada corrida del pipeline.",
+    "Toda locución sin asset debe caer limpiamente a la voz del sistema; nunca dejar silencio."
+  ],
+
+  "referenciasEnEsteRepo": {
+    "planGallegoNos": "docs/plan-integracion-proxecto-nos.md",
+    "planEuskeraIlenia": "docs/asr-euskera-ilenia.md",
+    "planDominicano": "docs/plan-integracion-quisqueya-habla.md",
+    "corpusModuloPuro": "src/valeriaVoiceCorpus.ts",
+    "exportador": "scripts/export-voice-corpus.js",
+    "sintetizador": "scripts/generate-voice-assets.py",
+    "mapaAssets": "scripts/build-voice-asset-map.js",
+    "reproductorRuntime": "src/valeriaVoicePlayback.ts",
+    "integracionRuntime": "src/valeriaVoice.ts",
+    "workflowCI": ".github/workflows/voice-assets.yml",
+    "mapaGenerado": "src/valeriaVoiceAssets.ts",
+    "corpusSerializado": "voice-corpus.json",
+    "manifiestos": ["voice-assets-manifest.es.json", "voice-assets-manifest.gl.json", "voice-assets-manifest.eu.json"]
+  }
+}
