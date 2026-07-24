@@ -23,6 +23,9 @@
 		B2000000000000000000000D /* SemanticExpansionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000000000000000000000D /* SemanticExpansionView.swift */; };
 		B2000000000000000000000E /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000000000000000000000E /* Theme.swift */; };
 		B2000000000000000000000F /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000000000000000000000F /* WelcomeView.swift */; };
+		B20000000000000000000010 /* AcademyContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000010 /* AcademyContent.swift */; };
+		B20000000000000000000011 /* AcademyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000011 /* AcademyView.swift */; };
+		B20000000000000000000012 /* AcademyHardwareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000012 /* AcademyHardwareView.swift */; };
 		BB0000000000000000000003 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000003 /* Assets.xcassets */; };
 		BB0000000000000000000007 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000006 /* Preview Assets.xcassets */; };
 		BB0000000000000000000004 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = CC0000000000000000000001 /* FirebaseCore */; };
@@ -47,6 +50,9 @@
 		A2000000000000000000000D /* SemanticExpansionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SemanticExpansionView.swift; sourceTree = "<group>"; };
 		A2000000000000000000000E /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		A2000000000000000000000F /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
+		A20000000000000000000010 /* AcademyContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcademyContent.swift; sourceTree = "<group>"; };
+		A20000000000000000000011 /* AcademyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcademyView.swift; sourceTree = "<group>"; };
+		A20000000000000000000012 /* AcademyHardwareView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcademyHardwareView.swift; sourceTree = "<group>"; };
 		AA0000000000000000000003 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AA0000000000000000000004 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AA0000000000000000000006 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -94,6 +100,9 @@
 				A20000000000000000000008 /* MinimalPairsView.swift */,
 				A2000000000000000000000D /* SemanticExpansionView.swift */,
 				A2000000000000000000000B /* ResultsDashboardView.swift */,
+				A20000000000000000000010 /* AcademyContent.swift */,
+				A20000000000000000000011 /* AcademyView.swift */,
+				A20000000000000000000012 /* AcademyHardwareView.swift */,
 				AA0000000000000000000003 /* Assets.xcassets */,
 				AA0000000000000000000004 /* Info.plist */,
 				EE0000000000000000000004 /* Preview Content */,
@@ -212,6 +221,9 @@
 				B20000000000000000000008 /* MinimalPairsView.swift in Sources */,
 				B2000000000000000000000D /* SemanticExpansionView.swift in Sources */,
 				B2000000000000000000000B /* ResultsDashboardView.swift in Sources */,
+				B20000000000000000000010 /* AcademyContent.swift in Sources */,
+				B20000000000000000000011 /* AcademyView.swift in Sources */,
+				B20000000000000000000012 /* AcademyHardwareView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

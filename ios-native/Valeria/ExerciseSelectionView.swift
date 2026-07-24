@@ -83,9 +83,18 @@ struct ExerciseSelectionView: View {
             ScrollView(showsIndicators: false) {
                 VStack(spacing: 11) {
                     if !toast.isEmpty { toastBar }
-                    Text("BLOQUES DE TERAPIA")
+
+                    // Academy: formación del cuidador (motor clínico MDR). Tarjeta
+                    // prominente con la misma jerarquía visual que los bloques; su
+                    // progreso se lee en tiempo real desde el AppModel.
+                    Text("TU FORMACIÓN")
                         .font(.system(size: 12, weight: .heavy)).foregroundStyle(VColor.textMuted)
                         .frame(maxWidth: .infinity, alignment: .leading).padding(.bottom, 1)
+                    academyCard
+
+                    Text("BLOQUES DE TERAPIA")
+                        .font(.system(size: 12, weight: .heavy)).foregroundStyle(VColor.textMuted)
+                        .frame(maxWidth: .infinity, alignment: .leading).padding(.top, 6).padding(.bottom, 1)
 
                     blockCard(icon: "🗣️", bg: "ede4fc", fg: "7c4fd0", title: "Pares Mínimos",
                               sub: "Dislalias: rotacismo, sigmatismo y más con juego de voz.") { router.push(.minimalPairs) }
@@ -325,6 +334,48 @@ struct ExerciseSelectionView: View {
         .background(VColor.primaryTint)
         .overlay(RoundedRectangle(cornerRadius: 13).stroke(VColor.primary, lineWidth: 1))
         .clipShape(RoundedRectangle(cornerRadius: 13))
+    }
+
+    // Tarjeta de entrada a Valeria Academy · port de AcademyHubCard.tsx.
+    private var academyCard: some View {
+        let s = model.academyAggregateSummary()
+        let pct = Int((s.progress * 100).rounded())
+        let complete = s.totalCount > 0 && s.completedCount >= s.totalCount
+        return Button { router.push(.academy) } label: {
+            HStack(spacing: 13) {
+                Text("🎓").font(.system(size: 24))
+                    .frame(width: 48, height: 48).background(Color(hex: "eef0ff")).clipShape(RoundedRectangle(cornerRadius: 15))
+                VStack(alignment: .leading, spacing: 3) {
+                    HStack(spacing: 8) {
+                        Text("Academy").font(.system(size: 16, weight: .heavy)).foregroundStyle(VColor.textPrimary)
+                        Text("PARA TI").font(.system(size: 9.5, weight: .heavy)).foregroundStyle(Color(hex: "5b6ee0"))
+                            .padding(.horizontal, 7).padding(.vertical, 2)
+                            .background(Color(hex: "eef0ff")).clipShape(RoundedRectangle(cornerRadius: 7))
+                    }
+                    Text("Hub multidominio: Lenguaje, Hipoacusia, Dislalias, Dislexia y TEA. Cápsulas rápidas para el cuidador.")
+                        .font(.system(size: 12, weight: .semibold)).foregroundStyle(VColor.textMuted)
+                        .fixedSize(horizontal: false, vertical: true)
+                    GeometryReader { geo in
+                        ZStack(alignment: .leading) {
+                            Capsule().fill(Color(hex: "eef0f2")).frame(height: 7)
+                            Capsule().fill(Color(hex: "5b6ee0")).frame(width: geo.size.width * s.progress, height: 7)
+                        }
+                    }.frame(height: 7).padding(.top, 9)
+                    HStack {
+                        Text(complete ? "✅ Formación completada" : "\(s.completedCount)/\(s.totalCount) unidades · \(pct)%")
+                            .font(.system(size: 11.5, weight: .heavy)).foregroundStyle(Color(hex: "5b6ee0"))
+                        Spacer()
+                        Text("✨ \(s.xp)").font(.system(size: 11, weight: .bold)).foregroundStyle(VColor.textMuted)
+                    }.padding(.top, 6)
+                }
+                Spacer(minLength: 0)
+                Text("›").font(.system(size: 15, weight: .heavy)).foregroundStyle(.white)
+                    .frame(width: 30, height: 30).background(Color(hex: "5b6ee0")).clipShape(Circle())
+            }
+            .padding(15).background(Color.white)
+            .overlay(RoundedRectangle(cornerRadius: 16).stroke(VColor.border, lineWidth: 1))
+            .clipShape(RoundedRectangle(cornerRadius: 16)).vCardShadow()
+        }.buttonStyle(.plain)
     }
 
     private func blockCard(icon: String, bg: String, fg: String, title: String, sub: String,
