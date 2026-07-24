@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "titulo": "Plan de revisión · Feedback clínico de las logopedas de ACOPROS (julio 2026)",
   "fecha": "2026-07-24",
-  "estado": "propuesto · pendiente de validación con ACOPROS",
+  "estado": "implementado · decisiones clínicas DC-1 a DC-5 validadas por ACOPROS (julio 2026)",
   "descripcion": "Convierte el feedback cualitativo de las logopedas de ACOPROS sobre Pares Mínimos, Expansión Semántica y recordatorios en un backlog trazable: cada observación se verifica contra el código real del repositorio, se propone un cambio concreto con sus ficheros, se marca si requiere una decisión clínica previa y se cierra con criterios de aceptación comprobables en dispositivo.",
   "origen": {
     "fuente": "Correo de las logopedas de ACOPROS tras la prueba de la app",
@@ -1385,5 +1385,68 @@
     "La observación de PM-03 revela un defecto que el feedback describe solo en parte: la tarjeta no se actualiza en reintentos ni correcciones. Se corrige entero, no solo el caso reportado.",
     "GEN-01 no es un problema de descubrimiento de una opción existente: la opción no existe. Evitar responder a ACOPROS con instrucciones de dónde encontrarla.",
     "ES-13 tiene una causa de diseño identificable (el emoji ilustra el atributo, el audio nombra el objeto). Documentar la regla de congruencia evita que el patrón vuelva en el próximo contenido."
-  ]
+  ],
+  "decisionesTomadas": {
+    "fecha": "2026-07-24",
+    "validadoPor": "ACOPROS",
+    "resoluciones": {
+      "DC-1": "Opción B (repetición verbal) como objetivo de Escenarios diarios. La opción C (categorías semánticas con progresión por frecuencia léxica) queda planificada como versión propia.",
+      "DC-2": "Opción A (campo semántico): la fase de onomatopeya se sustituye por una palabra real del entorno del concepto.",
+      "DC-3": "Doble vuelta: vuelta 1 de comprensión por selección entre las dos imágenes, vuelta 2 de producción.",
+      "DC-4": "Auditar y corregir los emoji ambiguos ahora; la adopción de un banco de pictogramas queda pendiente de resolver la licencia (ARASAAC es CC BY-NC-SA, incompatible con uso comercial cerrado).",
+      "DC-5": "Presentación del par + repetición del objetivo como consigna estándar de los diez ensayos."
+    }
+  },
+  "estadoImplementacion": {
+    "fase1": {
+      "estado": "completada",
+      "items": [
+        "PM-01",
+        "PM-03",
+        "PM-04",
+        "ES-01",
+        "ES-02",
+        "ES-03",
+        "ES-05",
+        "X-01"
+      ]
+    },
+    "fase2": {
+      "estado": "parcial",
+      "completados": [
+        "ES-13"
+      ],
+      "pendientes": [
+        "ES-04",
+        "ES-11",
+        "GEN-01"
+      ],
+      "nota": "ES-13 se adelantó a la fase 3 porque la regla de congruencia se aplicó junto con el resto del contenido. ES-04 (sensibilidad del reconocedor), ES-11 (antesala de material) y GEN-01 (franjas de recordatorios) siguen pendientes."
+    },
+    "fase3": {
+      "estado": "completada",
+      "items": [
+        "PM-02",
+        "ES-06",
+        "ES-07",
+        "ES-10",
+        "ES-12",
+        "ES-09",
+        "X-03"
+      ],
+      "diferido": {
+        "ES-08": "La progresión por frecuencia léxica presupone las categorías de la opción C de DC-1, planificada para más adelante. Sin categorías no hay dónde aplicarla."
+      }
+    },
+    "verificacionAutomatica": [
+      "scripts/check-voice-corpus-coverage.js — falla si una locución de es/gl/eu no tiene asset de voz neuronal (gate en el build de Android).",
+      "scripts/check-content-rules.js — verifica ES-06, ES-10 y ES-13 sobre los tres bancos."
+    ],
+    "pendienteHumano": [
+      "ESCUCHAR una sesión completa en es, gl y eu: es la única comprobación que detecta la caída a la voz del sistema.",
+      "Validación por hablante nativo de las cadenas nuevas en euskera; el banco eu sigue marcado como borrador en el código.",
+      "Decidir si la frase portadora se recupera como modo avanzado: se retiró del flujo y del corpus, pero su módulo se conserva."
+    ],
+    "hallazgo": "Al aplicar la congruencia de ES-13, ambas vueltas de una cápsula muestran el mismo objeto. Eso deja la vuelta de comprensión de ES-12 limitada a los contrastes de TAMAÑO (se marcan con la escala de la ficha) mientras no haya pictogramas: limpio/sucio o frío/caliente no son distinguibles solo con emoji. ES-12 depende por tanto parcialmente de DC-4."
+  }
 }
