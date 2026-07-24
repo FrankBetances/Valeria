@@ -24,6 +24,17 @@ on:
     branches:
       - main
       - claude/**
+  # Relanzo tras la síntesis de voz. El APK debe empaquetar los assets de voz
+  # neuronal del corpus que compila, y "Generate Voice Assets" los sintetiza y
+  # los COMMITEA a la rama en paralelo a este build. Ese commit lo hace el
+  # GITHUB_TOKEN y, por política de GitHub (anti-bucle), un push del token NO
+  # dispara workflows: sin este `workflow_run` el build que corrió antes de la
+  # síntesis se quedaba en rojo para siempre, sin forma de recuperarse solo.
+  # OJO: `workflow_run` solo surte efecto con el fichero ya en la rama por
+  # defecto; en una rama de trabajo no se activa hasta fusionar a main.
+  workflow_run:
+    workflows: ["Generate Voice Assets"]
+    types: [completed]
   workflow_dispatch:
 
 jobs:
@@ -32,7 +43,11 @@ jobs:
 
     # Evita el build duplicado: los push a ramas del propio repo ya compilan por
     # el evento `push`; el evento `pull_request` solo aporta valor para forks.
-    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository
+    # En `workflow_run` solo se recompila si la síntesis terminó bien (si falló,
+    # no hay assets nuevos que empaquetar y el build seguiría igual de rojo).
+    if: >-
+      (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository)
+      && (github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success')
 
     env:
       HAS_SIGNING_SECRETS: ${{ secrets.ANDROID_RELEASE_KEYSTORE_BASE64 != '' }}
@@ -42,10 +57,18 @@ jobs:
       EXPO_PUBLIC_FIREBASE_APP_ID: ${{ secrets.EXPO_PUBLIC_FIREBASE_APP_ID }}
       EXPO_PUBLIC_FIREBASE_PROJECT_ID: valeria-b500f
       EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID: '477839657795'
+      # Rama efectiva: en `workflow_run`, github.ref apunta a la rama por
+      # defecto, no a la que se sintetizó. Se resuelve una sola vez aquí para
+      # que el checkout y la condición del AAB usen ambos el mismo valor.
+      TARGET_BRANCH: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.head_branch || github.ref_name }}
 
     steps:
+      # En `workflow_run` hay que pedir la RAMA, no el head_sha del run que nos
+      # despierta: ese sha es el anterior a la síntesis y no trae los assets.
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.head_branch || '' }}
 
       # El APK compila igual sin estos secrets, pero sale sin acceso a Firebase
       # (la app arranca y avisa de config incompleta en Acceso Profesional).
@@ -183,7 +206,7 @@ jobs:
       # El AAB es el formato que exige Google Play. Solo se genera en main (cada
       # fusión) o al lanzar el workflow a mano, para no alargar los builds de PR.
       - name: Build signed release AAB
-        if: env.HAS_SIGNING_SECRETS == 'true' && (github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch')
+        if: env.HAS_SIGNING_SECRETS == 'true' && (env.TARGET_BRANCH == 'main' || github.event_name == 'workflow_dispatch')
         working-directory: ./android
         env:
           RELEASE_STORE_PASSWORD: ${{ secrets.ANDROID_RELEASE_STORE_PASSWORD }}
@@ -192,7 +215,7 @@ jobs:
         run: ./gradlew bundleRelease
 
       - name: Upload AAB
-        if: env.HAS_SIGNING_SECRETS == 'true' && (github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch')
+        if: env.HAS_SIGNING_SECRETS == 'true' && (env.TARGET_BRANCH == 'main' || github.event_name == 'workflow_dispatch')
         uses: actions/upload-artifact@v4
         with:
           name: android-aab

@@ -60,11 +60,20 @@ try {
     for (const [lang, n] of Object.entries(missingByLang)) console.error(`  · ${lang}: ${n} locuciones sin asset`);
     console.error(
       '\nUn cambio de texto locutado sin regenerar el corpus de voz degrada la sesión a la voz\n' +
-      'del sistema (silenciosamente: la app no se rompe). Antes de mezclar:\n' +
+      'del sistema (silenciosamente: la app no se rompe, solo suena peor), y en gallego y\n' +
+      'euskera se pierden Celtia e ILENIA. Por eso el APK no debe empaquetarse así.\n' +
+      '\n' +
+      'SI ESTO FALLA EN CI JUSTO TRAS UN PUSH: es lo esperado y se arregla solo. El build y\n' +
+      '"Generate Voice Assets" arrancan a la vez, así que este chequeo corre antes de que la\n' +
+      'síntesis haya terminado. Cuando la síntesis acaba y commitea los assets, el propio\n' +
+      'workflow relanza este build (trigger workflow_run) y entonces pasa. No hace falta\n' +
+      'tocar nada: basta esperar a que "Generate Voice Assets" termine.\n' +
+      '\n' +
+      'SI FALLA EN LOCAL O SIGUE FALLANDO TRAS LA SÍNTESIS:\n' +
       '  1) node scripts/export-voice-corpus.js\n' +
-      '  2) Lanzar el workflow "Generate Voice Assets" (o esperar a que corra en push a claude/**)\n' +
-      '     para cada idioma con locuciones pendientes.\n' +
-      '  3) Reejecutar este chequeo.\n' +
+      '  2) Lanzar el workflow "Generate Voice Assets" para cada idioma pendiente\n' +
+      '     (se dispara solo al hacer push de voice-corpus.json a una rama claude/**).\n' +
+      '  3) git pull (los assets los commitea el propio workflow) y reejecutar este chequeo.\n' +
       'Ver docs/plan-mejoras-acopros-logopedas.json → bloqueoDePublicacion.',
     );
     process.exit(1);
