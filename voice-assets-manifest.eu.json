@@ -2,771 +2,21 @@
  "lang": "eu",
  "voice": "AhoTTS euskera \u00abMaider\u00bb \u00b7 HiTZ/Aholab (ILENIA/NEL-GAITU, CC BY 4.0)",
  "peakDbfs": -3.0,
- "entries": 764,
- "totalBytes": 20370006,
- "totalSeconds": 3931.6,
+ "entries": 639,
+ "totalBytes": 14848217,
+ "totalSeconds": 2884.5,
  "files": [
   {
-   "id": "eu_clinical_d10072d9_100",
-   "file": "eu_clinical_d10072d9_100.m4a",
-   "seconds": 8.3,
-   "bytes": 43547
-  },
-  {
-   "id": "eu_clinical_12f79231_103",
-   "file": "eu_clinical_12f79231_103.m4a",
-   "seconds": 8.54,
-   "bytes": 44710
-  },
-  {
-   "id": "eu_clinical_669a06af_101",
-   "file": "eu_clinical_669a06af_101.m4a",
-   "seconds": 8.37,
-   "bytes": 44175
-  },
-  {
-   "id": "eu_clinical_8a04d338_93",
-   "file": "eu_clinical_8a04d338_93.m4a",
-   "seconds": 7.94,
-   "bytes": 41723
-  },
-  {
-   "id": "eu_clinical_7ac27dda_94",
-   "file": "eu_clinical_7ac27dda_94.m4a",
-   "seconds": 7.95,
-   "bytes": 42059
-  },
-  {
-   "id": "eu_clinical_bed462ba_100",
-   "file": "eu_clinical_bed462ba_100.m4a",
-   "seconds": 8.58,
-   "bytes": 45196
-  },
-  {
-   "id": "eu_clinical_9060b353_109",
-   "file": "eu_clinical_9060b353_109.m4a",
-   "seconds": 8.94,
-   "bytes": 46910
-  },
-  {
-   "id": "eu_clinical_1c28037f_97",
-   "file": "eu_clinical_1c28037f_97.m4a",
-   "seconds": 8.13,
-   "bytes": 42890
-  },
-  {
-   "id": "eu_clinical_35f38a53_88",
-   "file": "eu_clinical_35f38a53_88.m4a",
-   "seconds": 7.12,
-   "bytes": 37768
-  },
-  {
-   "id": "eu_clinical_7ea3f660_97",
-   "file": "eu_clinical_7ea3f660_97.m4a",
-   "seconds": 8.5,
-   "bytes": 45641
-  },
-  {
-   "id": "eu_clinical_471cf3fc_99",
-   "file": "eu_clinical_471cf3fc_99.m4a",
-   "seconds": 8.45,
-   "bytes": 44560
-  },
-  {
-   "id": "eu_clinical_4f9529b0_96",
-   "file": "eu_clinical_4f9529b0_96.m4a",
-   "seconds": 8.06,
-   "bytes": 42985
-  },
-  {
-   "id": "eu_clinical_9ed29df6_87",
-   "file": "eu_clinical_9ed29df6_87.m4a",
-   "seconds": 6.93,
-   "bytes": 36677
-  },
-  {
-   "id": "eu_clinical_20ca5eba_111",
-   "file": "eu_clinical_20ca5eba_111.m4a",
-   "seconds": 9.08,
-   "bytes": 47575
-  },
-  {
-   "id": "eu_clinical_b3f5d2cd_98",
-   "file": "eu_clinical_b3f5d2cd_98.m4a",
-   "seconds": 8.23,
-   "bytes": 43357
-  },
-  {
-   "id": "eu_clinical_7cb84630_112",
-   "file": "eu_clinical_7cb84630_112.m4a",
-   "seconds": 9.06,
-   "bytes": 47349
-  },
-  {
-   "id": "eu_clinical_a51a055f_91",
-   "file": "eu_clinical_a51a055f_91.m4a",
-   "seconds": 7.62,
-   "bytes": 40284
-  },
-  {
-   "id": "eu_clinical_d3608491_95",
-   "file": "eu_clinical_d3608491_95.m4a",
-   "seconds": 7.91,
-   "bytes": 43478
-  },
-  {
-   "id": "eu_clinical_d1c94f64_93",
-   "file": "eu_clinical_d1c94f64_93.m4a",
-   "seconds": 7.86,
-   "bytes": 41948
-  },
-  {
-   "id": "eu_clinical_493eff9f_100",
-   "file": "eu_clinical_493eff9f_100.m4a",
-   "seconds": 8.15,
-   "bytes": 42941
-  },
-  {
-   "id": "eu_clinical_1e62da62_80",
-   "file": "eu_clinical_1e62da62_80.m4a",
-   "seconds": 6.96,
-   "bytes": 36749
-  },
-  {
-   "id": "eu_clinical_c57def14_92",
-   "file": "eu_clinical_c57def14_92.m4a",
-   "seconds": 8.23,
-   "bytes": 44539
-  },
-  {
-   "id": "eu_clinical_d1ffe7ec_111",
-   "file": "eu_clinical_d1ffe7ec_111.m4a",
-   "seconds": 9.11,
-   "bytes": 47866
-  },
-  {
-   "id": "eu_clinical_ecf7eba0_106",
-   "file": "eu_clinical_ecf7eba0_106.m4a",
-   "seconds": 8.34,
-   "bytes": 43834
-  },
-  {
-   "id": "eu_clinical_2529d22f_102",
-   "file": "eu_clinical_2529d22f_102.m4a",
-   "seconds": 8.25,
-   "bytes": 43282
-  },
-  {
-   "id": "eu_clinical_6af07fe2_102",
-   "file": "eu_clinical_6af07fe2_102.m4a",
-   "seconds": 8.21,
-   "bytes": 43096
-  },
-  {
-   "id": "eu_clinical_0609a47e_105",
-   "file": "eu_clinical_0609a47e_105.m4a",
-   "seconds": 8.51,
-   "bytes": 44624
-  },
-  {
-   "id": "eu_clinical_4b8a5aac_103",
-   "file": "eu_clinical_4b8a5aac_103.m4a",
-   "seconds": 8.55,
-   "bytes": 44955
-  },
-  {
-   "id": "eu_clinical_a8840a9d_95",
-   "file": "eu_clinical_a8840a9d_95.m4a",
-   "seconds": 7.7,
-   "bytes": 40490
-  },
-  {
-   "id": "eu_clinical_b56e7ce7_96",
-   "file": "eu_clinical_b56e7ce7_96.m4a",
-   "seconds": 7.65,
-   "bytes": 40201
-  },
-  {
-   "id": "eu_clinical_8b6a26e3_102",
-   "file": "eu_clinical_8b6a26e3_102.m4a",
-   "seconds": 8.56,
-   "bytes": 44920
-  },
-  {
-   "id": "eu_clinical_cadc513e_111",
-   "file": "eu_clinical_cadc513e_111.m4a",
-   "seconds": 9.12,
-   "bytes": 47795
-  },
-  {
-   "id": "eu_clinical_092b3c04_99",
-   "file": "eu_clinical_092b3c04_99.m4a",
-   "seconds": 8.3,
-   "bytes": 43676
-  },
-  {
-   "id": "eu_clinical_ceb1330c_90",
-   "file": "eu_clinical_ceb1330c_90.m4a",
-   "seconds": 7.35,
-   "bytes": 39057
-  },
-  {
-   "id": "eu_clinical_7a58f7bb_99",
-   "file": "eu_clinical_7a58f7bb_99.m4a",
-   "seconds": 8.19,
-   "bytes": 43083
-  },
-  {
-   "id": "eu_clinical_bb4cbdd3_101",
-   "file": "eu_clinical_bb4cbdd3_101.m4a",
-   "seconds": 8.02,
-   "bytes": 42155
-  },
-  {
-   "id": "eu_clinical_ec4dc73b_98",
-   "file": "eu_clinical_ec4dc73b_98.m4a",
-   "seconds": 8.0,
-   "bytes": 42182
-  },
-  {
-   "id": "eu_clinical_7627d71f_89",
-   "file": "eu_clinical_7627d71f_89.m4a",
-   "seconds": 6.95,
-   "bytes": 36648
-  },
-  {
-   "id": "eu_clinical_79dedc47_113",
-   "file": "eu_clinical_79dedc47_113.m4a",
-   "seconds": 9.22,
-   "bytes": 48088
-  },
-  {
-   "id": "eu_clinical_a2166bfe_100",
-   "file": "eu_clinical_a2166bfe_100.m4a",
-   "seconds": 8.01,
-   "bytes": 42163
-  },
-  {
-   "id": "eu_clinical_d0376269_114",
-   "file": "eu_clinical_d0376269_114.m4a",
-   "seconds": 8.84,
-   "bytes": 46356
-  },
-  {
-   "id": "eu_clinical_3ff08074_93",
-   "file": "eu_clinical_3ff08074_93.m4a",
-   "seconds": 7.37,
-   "bytes": 38813
-  },
-  {
-   "id": "eu_clinical_42832346_97",
-   "file": "eu_clinical_42832346_97.m4a",
-   "seconds": 7.56,
-   "bytes": 40398
-  },
-  {
-   "id": "eu_clinical_30064997_95",
-   "file": "eu_clinical_30064997_95.m4a",
-   "seconds": 7.7,
-   "bytes": 40434
-  },
-  {
-   "id": "eu_clinical_7e3f789e_102",
-   "file": "eu_clinical_7e3f789e_102.m4a",
-   "seconds": 8.26,
-   "bytes": 43554
-  },
-  {
-   "id": "eu_clinical_08dc6671_82",
-   "file": "eu_clinical_08dc6671_82.m4a",
-   "seconds": 6.61,
-   "bytes": 35111
-  },
-  {
-   "id": "eu_clinical_eaa9afb1_94",
-   "file": "eu_clinical_eaa9afb1_94.m4a",
-   "seconds": 7.97,
-   "bytes": 41894
-  },
-  {
-   "id": "eu_clinical_d78dba4d_113",
-   "file": "eu_clinical_d78dba4d_113.m4a",
-   "seconds": 9.31,
-   "bytes": 48882
-  },
-  {
-   "id": "eu_clinical_2817b293_108",
-   "file": "eu_clinical_2817b293_108.m4a",
-   "seconds": 8.38,
-   "bytes": 44110
-  },
-  {
-   "id": "eu_clinical_bf9449f0_104",
-   "file": "eu_clinical_bf9449f0_104.m4a",
-   "seconds": 8.39,
-   "bytes": 46768
-  },
-  {
-   "id": "eu_clinical_c8fbc098_102",
-   "file": "eu_clinical_c8fbc098_102.m4a",
-   "seconds": 8.12,
-   "bytes": 42670
-  },
-  {
-   "id": "eu_clinical_209a2158_105",
-   "file": "eu_clinical_209a2158_105.m4a",
-   "seconds": 8.38,
-   "bytes": 43811
-  },
-  {
-   "id": "eu_clinical_fe06d6ea_103",
-   "file": "eu_clinical_fe06d6ea_103.m4a",
-   "seconds": 8.29,
-   "bytes": 43685
-  },
-  {
-   "id": "eu_clinical_fd1b3573_95",
-   "file": "eu_clinical_fd1b3573_95.m4a",
-   "seconds": 7.47,
-   "bytes": 39303
-  },
-  {
-   "id": "eu_clinical_2a16c891_96",
-   "file": "eu_clinical_2a16c891_96.m4a",
-   "seconds": 8.03,
-   "bytes": 42298
-  },
-  {
-   "id": "eu_clinical_e07e3fb1_102",
-   "file": "eu_clinical_e07e3fb1_102.m4a",
-   "seconds": 8.88,
-   "bytes": 46467
-  },
-  {
-   "id": "eu_clinical_b7752120_111",
-   "file": "eu_clinical_b7752120_111.m4a",
-   "seconds": 8.9,
-   "bytes": 46632
-  },
-  {
-   "id": "eu_clinical_6a1bd6a6_99",
-   "file": "eu_clinical_6a1bd6a6_99.m4a",
-   "seconds": 8.22,
-   "bytes": 43267
-  },
-  {
-   "id": "eu_clinical_27e40542_90",
-   "file": "eu_clinical_27e40542_90.m4a",
-   "seconds": 7.08,
-   "bytes": 37405
-  },
-  {
-   "id": "eu_clinical_c89b2de5_99",
-   "file": "eu_clinical_c89b2de5_99.m4a",
-   "seconds": 8.09,
-   "bytes": 42603
-  },
-  {
-   "id": "eu_clinical_f29f7ee1_101",
-   "file": "eu_clinical_f29f7ee1_101.m4a",
-   "seconds": 8.31,
-   "bytes": 43606
-  },
-  {
-   "id": "eu_clinical_93069add_98",
-   "file": "eu_clinical_93069add_98.m4a",
-   "seconds": 7.79,
-   "bytes": 41036
-  },
-  {
-   "id": "eu_clinical_5fc81a29_89",
-   "file": "eu_clinical_5fc81a29_89.m4a",
-   "seconds": 7.18,
-   "bytes": 37891
-  },
-  {
-   "id": "eu_clinical_fddf8e9d_113",
-   "file": "eu_clinical_fddf8e9d_113.m4a",
-   "seconds": 9.15,
-   "bytes": 47800
-  },
-  {
-   "id": "eu_clinical_9308573c_100",
-   "file": "eu_clinical_9308573c_100.m4a",
-   "seconds": 8.32,
-   "bytes": 43838
-  },
-  {
-   "id": "eu_clinical_dc1f0b27_114",
-   "file": "eu_clinical_dc1f0b27_114.m4a",
-   "seconds": 8.83,
-   "bytes": 46431
-  },
-  {
-   "id": "eu_clinical_8c3fe76a_93",
-   "file": "eu_clinical_8c3fe76a_93.m4a",
-   "seconds": 7.29,
-   "bytes": 38451
-  },
-  {
-   "id": "eu_clinical_06212738_97",
-   "file": "eu_clinical_06212738_97.m4a",
-   "seconds": 7.82,
-   "bytes": 41140
-  },
-  {
-   "id": "eu_clinical_acbdcf01_95",
-   "file": "eu_clinical_acbdcf01_95.m4a",
-   "seconds": 8.2,
-   "bytes": 43141
-  },
-  {
-   "id": "eu_clinical_af2c0028_102",
-   "file": "eu_clinical_af2c0028_102.m4a",
-   "seconds": 7.92,
-   "bytes": 41675
-  },
-  {
-   "id": "eu_clinical_8b2b2877_82",
-   "file": "eu_clinical_8b2b2877_82.m4a",
-   "seconds": 6.83,
-   "bytes": 36252
-  },
-  {
-   "id": "eu_clinical_37f9bfbf_94",
-   "file": "eu_clinical_37f9bfbf_94.m4a",
-   "seconds": 7.85,
-   "bytes": 42668
-  },
-  {
-   "id": "eu_clinical_c077efdb_113",
-   "file": "eu_clinical_c077efdb_113.m4a",
-   "seconds": 8.84,
-   "bytes": 46610
-  },
-  {
-   "id": "eu_clinical_5ed4c575_108",
-   "file": "eu_clinical_5ed4c575_108.m4a",
-   "seconds": 8.75,
-   "bytes": 45854
-  },
-  {
-   "id": "eu_clinical_9243bada_104",
-   "file": "eu_clinical_9243bada_104.m4a",
-   "seconds": 8.38,
-   "bytes": 44619
-  },
-  {
-   "id": "eu_clinical_9fed7423_103",
-   "file": "eu_clinical_9fed7423_103.m4a",
-   "seconds": 8.33,
-   "bytes": 43858
-  },
-  {
-   "id": "eu_clinical_f8ebd931_106",
-   "file": "eu_clinical_f8ebd931_106.m4a",
-   "seconds": 8.8,
-   "bytes": 46233
-  },
-  {
-   "id": "eu_clinical_9cab0481_104",
-   "file": "eu_clinical_9cab0481_104.m4a",
-   "seconds": 9.2,
-   "bytes": 48298
-  },
-  {
-   "id": "eu_clinical_c28c7944_96",
-   "file": "eu_clinical_c28c7944_96.m4a",
-   "seconds": 8.1,
-   "bytes": 42567
-  },
-  {
-   "id": "eu_clinical_b454ef72_97",
-   "file": "eu_clinical_b454ef72_97.m4a",
-   "seconds": 8.09,
-   "bytes": 42706
-  },
-  {
-   "id": "eu_clinical_1569a69e_103",
-   "file": "eu_clinical_1569a69e_103.m4a",
-   "seconds": 8.63,
-   "bytes": 45206
-  },
-  {
-   "id": "eu_clinical_0f03e5f1_112",
-   "file": "eu_clinical_0f03e5f1_112.m4a",
-   "seconds": 9.26,
-   "bytes": 48517
-  },
-  {
-   "id": "eu_clinical_e254a825_100",
-   "file": "eu_clinical_e254a825_100.m4a",
-   "seconds": 8.21,
-   "bytes": 43097
-  },
-  {
-   "id": "eu_clinical_af90420f_91",
-   "file": "eu_clinical_af90420f_91.m4a",
-   "seconds": 7.2,
-   "bytes": 38141
-  },
-  {
-   "id": "eu_clinical_b8469644_100",
-   "file": "eu_clinical_b8469644_100.m4a",
-   "seconds": 8.64,
-   "bytes": 46149
-  },
-  {
-   "id": "eu_clinical_ca60fc66_102",
-   "file": "eu_clinical_ca60fc66_102.m4a",
-   "seconds": 8.31,
-   "bytes": 43545
-  },
-  {
-   "id": "eu_clinical_003bb884_99",
-   "file": "eu_clinical_003bb884_99.m4a",
-   "seconds": 8.28,
-   "bytes": 43655
-  },
-  {
-   "id": "eu_clinical_78dc1a76_90",
-   "file": "eu_clinical_78dc1a76_90.m4a",
-   "seconds": 7.41,
-   "bytes": 39023
-  },
-  {
-   "id": "eu_clinical_e8a79486_114",
-   "file": "eu_clinical_e8a79486_114.m4a",
-   "seconds": 9.01,
-   "bytes": 47178
-  },
-  {
-   "id": "eu_clinical_2fed9f8f_101",
-   "file": "eu_clinical_2fed9f8f_101.m4a",
-   "seconds": 8.46,
-   "bytes": 44579
-  },
-  {
-   "id": "eu_clinical_8ce74b6c_115",
-   "file": "eu_clinical_8ce74b6c_115.m4a",
-   "seconds": 9.17,
-   "bytes": 48013
-  },
-  {
-   "id": "eu_clinical_f04ccb89_94",
-   "file": "eu_clinical_f04ccb89_94.m4a",
-   "seconds": 7.78,
-   "bytes": 40972
-  },
-  {
-   "id": "eu_clinical_fdd3fa49_98",
-   "file": "eu_clinical_fdd3fa49_98.m4a",
-   "seconds": 7.94,
-   "bytes": 41767
-  },
-  {
-   "id": "eu_clinical_c46840c0_96",
-   "file": "eu_clinical_c46840c0_96.m4a",
-   "seconds": 8.21,
-   "bytes": 43050
-  },
-  {
-   "id": "eu_clinical_2efee1c5_103",
-   "file": "eu_clinical_2efee1c5_103.m4a",
-   "seconds": 8.56,
-   "bytes": 44951
-  },
-  {
-   "id": "eu_clinical_3229be22_83",
-   "file": "eu_clinical_3229be22_83.m4a",
-   "seconds": 6.74,
-   "bytes": 35772
-  },
-  {
-   "id": "eu_clinical_886f5020_95",
-   "file": "eu_clinical_886f5020_95.m4a",
-   "seconds": 8.17,
-   "bytes": 43656
-  },
-  {
-   "id": "eu_clinical_49cd2090_114",
-   "file": "eu_clinical_49cd2090_114.m4a",
-   "seconds": 9.12,
-   "bytes": 47845
-  },
-  {
-   "id": "eu_clinical_1de27f4c_109",
-   "file": "eu_clinical_1de27f4c_109.m4a",
-   "seconds": 8.75,
-   "bytes": 45932
-  },
-  {
-   "id": "eu_clinical_150b3047_105",
-   "file": "eu_clinical_150b3047_105.m4a",
-   "seconds": 8.8,
-   "bytes": 46225
-  },
-  {
-   "id": "eu_clinical_a9eda5cf_102",
-   "file": "eu_clinical_a9eda5cf_102.m4a",
-   "seconds": 8.56,
-   "bytes": 45758
-  },
-  {
-   "id": "eu_clinical_f031f8cf_105",
-   "file": "eu_clinical_f031f8cf_105.m4a",
-   "seconds": 8.7,
-   "bytes": 45787
-  },
-  {
-   "id": "eu_clinical_73bf01fd_103",
-   "file": "eu_clinical_73bf01fd_103.m4a",
-   "seconds": 8.55,
-   "bytes": 44977
-  },
-  {
-   "id": "eu_clinical_8aec1992_95",
-   "file": "eu_clinical_8aec1992_95.m4a",
-   "seconds": 7.98,
-   "bytes": 41873
-  },
-  {
-   "id": "eu_clinical_d7b9de48_96",
-   "file": "eu_clinical_d7b9de48_96.m4a",
-   "seconds": 8.08,
-   "bytes": 42499
-  },
-  {
-   "id": "eu_clinical_a4c64244_102",
-   "file": "eu_clinical_a4c64244_102.m4a",
-   "seconds": 8.6,
-   "bytes": 46161
-  },
-  {
-   "id": "eu_clinical_d97653b5_111",
-   "file": "eu_clinical_d97653b5_111.m4a",
-   "seconds": 9.18,
-   "bytes": 48057
-  },
-  {
-   "id": "eu_clinical_b414d8c9_99",
-   "file": "eu_clinical_b414d8c9_99.m4a",
-   "seconds": 8.19,
-   "bytes": 43066
-  },
-  {
-   "id": "eu_clinical_79e88655_90",
-   "file": "eu_clinical_79e88655_90.m4a",
-   "seconds": 7.37,
-   "bytes": 38967
-  },
-  {
-   "id": "eu_clinical_4bac44ae_99",
-   "file": "eu_clinical_4bac44ae_99.m4a",
-   "seconds": 8.09,
-   "bytes": 42685
-  },
-  {
-   "id": "eu_clinical_4e494a12_101",
-   "file": "eu_clinical_4e494a12_101.m4a",
-   "seconds": 8.58,
-   "bytes": 44985
-  },
-  {
-   "id": "eu_clinical_fc11ca9e_98",
-   "file": "eu_clinical_fc11ca9e_98.m4a",
-   "seconds": 8.17,
-   "bytes": 42839
-  },
-  {
-   "id": "eu_clinical_00ab17c4_89",
-   "file": "eu_clinical_00ab17c4_89.m4a",
-   "seconds": 7.46,
-   "bytes": 39293
-  },
-  {
-   "id": "eu_clinical_d2dcb74c_113",
-   "file": "eu_clinical_d2dcb74c_113.m4a",
-   "seconds": 9.0,
-   "bytes": 47141
-  },
-  {
-   "id": "eu_clinical_eb22574b_100",
-   "file": "eu_clinical_eb22574b_100.m4a",
-   "seconds": 8.2,
-   "bytes": 42989
-  },
-  {
-   "id": "eu_clinical_efd1c142_114",
-   "file": "eu_clinical_efd1c142_114.m4a",
-   "seconds": 8.62,
-   "bytes": 45231
-  },
-  {
-   "id": "eu_clinical_f1eb61bd_93",
-   "file": "eu_clinical_f1eb61bd_93.m4a",
-   "seconds": 7.54,
-   "bytes": 39777
-  },
-  {
-   "id": "eu_clinical_5e4af027_97",
-   "file": "eu_clinical_5e4af027_97.m4a",
-   "seconds": 7.79,
-   "bytes": 40905
-  },
-  {
-   "id": "eu_clinical_689d0362_95",
-   "file": "eu_clinical_689d0362_95.m4a",
-   "seconds": 8.31,
-   "bytes": 43547
-  },
-  {
-   "id": "eu_clinical_7962f759_102",
-   "file": "eu_clinical_7962f759_102.m4a",
-   "seconds": 8.43,
-   "bytes": 44375
-  },
-  {
-   "id": "eu_clinical_0fd036fc_82",
-   "file": "eu_clinical_0fd036fc_82.m4a",
-   "seconds": 6.7,
-   "bytes": 35487
-  },
-  {
-   "id": "eu_clinical_0438d0e6_94",
-   "file": "eu_clinical_0438d0e6_94.m4a",
-   "seconds": 7.94,
-   "bytes": 41713
-  },
-  {
-   "id": "eu_clinical_aea0a84e_113",
-   "file": "eu_clinical_aea0a84e_113.m4a",
-   "seconds": 9.23,
-   "bytes": 48278
-  },
-  {
-   "id": "eu_clinical_e80022ce_108",
-   "file": "eu_clinical_e80022ce_108.m4a",
-   "seconds": 8.82,
-   "bytes": 47695
-  },
-  {
-   "id": "eu_clinical_8830c42d_104",
-   "file": "eu_clinical_8830c42d_104.m4a",
-   "seconds": 8.69,
-   "bytes": 45663
-  },
-  {
-   "id": "eu_child_10c47315_58",
-   "file": "eu_child_10c47315_58.m4a",
-   "seconds": 5.51,
-   "bytes": 31316
-  },
-  {
-   "id": "eu_child_b8d454cb_27",
-   "file": "eu_child_b8d454cb_27.m4a",
-   "seconds": 2.58,
-   "bytes": 14945
+   "id": "eu_child_536bf7c0_40",
+   "file": "eu_child_536bf7c0_40.m4a",
+   "seconds": 3.98,
+   "bytes": 25404
+  },
+  {
+   "id": "eu_child_631cc3a6_9",
+   "file": "eu_child_631cc3a6_9.m4a",
+   "seconds": 1.15,
+   "bytes": 7501
   },
   {
    "id": "eu_child_52bb4c80_47",
@@ -805,16 +55,16 @@
    "bytes": 22001
   },
   {
-   "id": "eu_child_00ebce4e_75",
-   "file": "eu_child_00ebce4e_75.m4a",
-   "seconds": 6.06,
-   "bytes": 33981
+   "id": "eu_child_5c7fd37d_46",
+   "file": "eu_child_5c7fd37d_46.m4a",
+   "seconds": 4.03,
+   "bytes": 27076
   },
   {
-   "id": "eu_child_5b4393d4_40",
-   "file": "eu_child_5b4393d4_40.m4a",
-   "seconds": 3.09,
-   "bytes": 17517
+   "id": "eu_child_a07f6607_11",
+   "file": "eu_child_a07f6607_11.m4a",
+   "seconds": 1.2,
+   "bytes": 7233
   },
   {
    "id": "eu_child_4236bd11_52",
@@ -853,16 +103,16 @@
    "bytes": 22034
   },
   {
-   "id": "eu_child_d500f26e_73",
-   "file": "eu_child_d500f26e_73.m4a",
-   "seconds": 6.2,
-   "bytes": 37566
+   "id": "eu_child_9d9c88df_46",
+   "file": "eu_child_9d9c88df_46.m4a",
+   "seconds": 4.03,
+   "bytes": 22847
   },
   {
-   "id": "eu_child_b870655c_38",
-   "file": "eu_child_b870655c_38.m4a",
-   "seconds": 3.15,
-   "bytes": 17523
+   "id": "eu_child_6f1c3471_11",
+   "file": "eu_child_6f1c3471_11.m4a",
+   "seconds": 1.35,
+   "bytes": 7484
   },
   {
    "id": "eu_child_fa59d616_51",
@@ -901,16 +151,16 @@
    "bytes": 22019
   },
   {
-   "id": "eu_child_b62209fc_90",
-   "file": "eu_child_b62209fc_90.m4a",
-   "seconds": 6.98,
-   "bytes": 40721
+   "id": "eu_child_33ee967d_48",
+   "file": "eu_child_33ee967d_48.m4a",
+   "seconds": 4.05,
+   "bytes": 23496
   },
   {
-   "id": "eu_child_0c0b7841_54",
-   "file": "eu_child_0c0b7841_54.m4a",
-   "seconds": 4.11,
-   "bytes": 22646
+   "id": "eu_child_532690e4_12",
+   "file": "eu_child_532690e4_12.m4a",
+   "seconds": 1.12,
+   "bytes": 7228
   },
   {
    "id": "eu_child_79e42329_46",
@@ -949,16 +199,16 @@
    "bytes": 21864
   },
   {
-   "id": "eu_child_0a802698_80",
-   "file": "eu_child_0a802698_80.m4a",
-   "seconds": 6.34,
-   "bytes": 37313
+   "id": "eu_child_6a0f2e21_49",
+   "file": "eu_child_6a0f2e21_49.m4a",
+   "seconds": 4.35,
+   "bytes": 25906
   },
   {
-   "id": "eu_child_870933d0_43",
-   "file": "eu_child_870933d0_43.m4a",
-   "seconds": 3.33,
-   "bytes": 19247
+   "id": "eu_child_f595d079_12",
+   "file": "eu_child_f595d079_12.m4a",
+   "seconds": 1.27,
+   "bytes": 8143
   },
   {
    "id": "eu_child_d317756d_56",
