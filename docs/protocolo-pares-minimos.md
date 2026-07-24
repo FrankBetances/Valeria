@@ -1,5 +1,31 @@
 # Protocolo Valeria+ · Pares Mínimos para Dislalias Fonológicas (V1)
 
+> ## ⚠️ Revisión ACOPROS · julio 2026 — mecánicas RETIRADAS
+>
+> Las logopedas de ACOPROS revisaron la app y ACOPROS resolvió la decisión
+> clínica **DC-5**. Lo que sigue cambió respecto a versiones anteriores de este
+> protocolo; **no se debe reintroducir por inercia**:
+>
+> - **La consigna es ahora única para los 10 ensayos**: presentación del par +
+>   petición desnuda del objetivo («Esta es rata. Y esta es lata. Di: rata.»).
+>   Antes se alternaban tres formatos según el número de ensayo.
+> - **La FRASE PORTADORA procedural queda retirada del flujo.** Se introdujo
+>   como mecánica anti-mecanización (el objetivo viajaba incrustado en prosodia
+>   continua), pero se aleja de lo que pidieron las logopedas: pedir la palabra,
+>   no una frase alrededor de ella. El módulo `valeriaCarrierPhrases` se
+>   conserva por si se recupera como modo avanzado, pero ya **no se enumera en
+>   el corpus de voz**, porque el corpus solo contiene lo que la app pronuncia.
+> - **El campo `prompt` de cada par se recorta a la petición** («Di: rana.»); el
+>   contexto lo aporta la presentación del par, no la consigna.
+> - **Ninguna cadena locutada al niño contiene instrucciones dirigidas al
+>   adulto** («¡Díselo a papá!»): esas van a la tarjeta de misión.
+> - **La grabación no arranca sola** tras la consigna: espera al botón, salvo
+>   que la familia active la preferencia de grabación automática.
+> - Terminología: «ficha» → «palabra» en todo texto dirigido a la familia.
+>
+> Origen y trazabilidad: `docs/plan-mejoras-acopros-logopedas.json` (PM-01 a PM-04).
+
+
 Protocolo de ejercicios de **contraste fonológico con pares mínimos** para corregir
 las sustituciones más frecuentes en español: **rotacismo** (/r/, /r̄/ → /l/),
 **sigmatismo** (/s/ → /θ/ o /t/), **frontalización velar** (/k/ → /t/) y

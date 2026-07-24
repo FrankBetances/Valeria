@@ -28,7 +28,7 @@ private struct MinPair: Identifiable {
 
 private let PAIRS: [MinPair] = [
     .init(code: "PM-1", group: "Rotacismo", target: "rana", targetEmoji: "🐸", foil: "lana", foilEmoji: "🧶",
-          phoneme: "r̄ → l", errorLabel: "Rotacismo inicial", prompt: "¡Dile a papá cuál quieres! Di: rana.",
+          phoneme: "r̄ → l", errorLabel: "Rotacismo inicial", prompt: "¿Cuál quieres? Di: rana.",
           onTargetSay: "¡Rrrana! ¡Tu lengua vibró como una moto!",
           onFoilSay: "Escuché lana, la del ovillo. Yo pedí rrrana.",
           cue: "La lengua hace la moto detrás de los dientes: rrr."),

@@ -27,7 +27,7 @@ export const MINIMAL_PAIRS_ESDO: MinimalPair[] = [
     id: 'do-rana-lana', code: 'PM-DO-1', group: 'Rotacismo',
     target: 'rana', targetEmoji: '🐸', foil: 'lana', foilEmoji: '🧶',
     phoneme: 'r̄ → l', errorLabel: 'Rotacismo inicial (ataque)',
-    prompt: '¡Dile a papi cuál tú quiere! Di: rana.',
+    prompt: 'Di: rana.',
     onTarget: {
       say: '¡Rrrana! ¡Tu lengua sonó como un motor!',
       mission: '¡Brinca como una rana! Tres brinquitos hasta chocar los cinco con papi.',
@@ -42,7 +42,7 @@ export const MINIMAL_PAIRS_ESDO: MinimalPair[] = [
     id: 'do-rata-lata', code: 'PM-DO-2', group: 'Rotacismo',
     target: 'rata', targetEmoji: '🐀', foil: 'lata', foilEmoji: '🥫',
     phoneme: 'r̄ → l', errorLabel: 'Rotacismo inicial (generalización)',
-    prompt: '¡Corre, corre! ¿Quién corre? Di: rata.',
+    prompt: 'Di: rata.',
     onTarget: {
       say: '¡Rrrata ligera! ¡Te salió la erre!',
       mission: '¡Corre como la rata! Persigue a papi por la sala hasta tocarle la espalda.',
@@ -57,7 +57,7 @@ export const MINIMAL_PAIRS_ESDO: MinimalPair[] = [
     id: 'do-perro-pelo', code: 'PM-DO-3', group: 'Rotacismo',
     target: 'perro', targetEmoji: '🐶', foil: 'pelo', foilEmoji: '💇',
     phoneme: 'r̄ → l', errorLabel: 'Rotacismo intervocálico',
-    prompt: '¿Quién hace guau? ¡Díselo a papi! Di: perro.',
+    prompt: 'Di: perro.',
     onTarget: {
       say: '¡Perrro! ¡Qué erre tan fuerte!',
       mission: '¡A cuatro patas! Camina ladrando hasta papi y que te rasque la cabeza.',
@@ -72,7 +72,7 @@ export const MINIMAL_PAIRS_ESDO: MinimalPair[] = [
     id: 'do-ocho-oso', code: 'PM-DO-4', group: 'Sigmatismo',
     target: 'ocho', targetEmoji: '8️⃣', foil: 'oso', foilEmoji: '🐻',
     phoneme: 'tʃ ↔ s', errorLabel: 'Despalatalización de africada',
-    prompt: 'Después del siete viene… ¡di: ocho!',
+    prompt: 'Di: ocho.',
     onTarget: {
       say: '¡Ocho! ¡Ese trencito arrancó bien!',
       mission: 'Tren del ocho: agárrate de la cintura de papi y den una vuelta en forma de ocho haciendo ch-ch-ch.',
@@ -87,7 +87,7 @@ export const MINIMAL_PAIRS_ESDO: MinimalPair[] = [
     id: 'do-sopa-topa', code: 'PM-DO-5', group: 'Sigmatismo',
     target: 'saco', targetEmoji: '🎒', foil: 'taco', foilEmoji: '📐',
     phoneme: 's → t', errorLabel: 'Oclusivización de fricativa (s→t)',
-    prompt: '¿Qué te pones en la espalda para la escuela? Di: saco.',
+    prompt: 'Di: saco.',
     onTarget: {
       say: '¡Saco! ¡Ese soplido salió largo!',
       mission: 'Ponte el saco imaginario y camina para la escuela dando pasos grandes con papi.',
@@ -102,7 +102,7 @@ export const MINIMAL_PAIRS_ESDO: MinimalPair[] = [
     id: 'do-cubo-tubo', code: 'PM-DO-6', group: 'Velares',
     target: 'cubo', targetEmoji: '🪣', foil: 'tubo', foilEmoji: '🧪',
     phoneme: 'k → t', errorLabel: 'Frontalización velar inicial',
-    prompt: '¿Con qué echamos agua en la playa? Di: cubo.',
+    prompt: 'Di: cubo.',
     onTarget: {
       say: '¡Cubo! ¡Esa ca salió de la cueva de la garganta!',
       mission: 'Carga el cojín-cubo bien pesado hasta los pies de papi, que lo vacía alzándote en el aire.',
@@ -117,7 +117,7 @@ export const MINIMAL_PAIRS_ESDO: MinimalPair[] = [
     id: 'do-boca-bota', code: 'PM-DO-7', group: 'Velares',
     target: 'boca', targetEmoji: '👄', foil: 'bota', foilEmoji: '👢',
     phoneme: 'k → t', errorLabel: 'Frontalización velar media',
-    prompt: '¿Con qué damos besitos? Di: boca.',
+    prompt: 'Di: boca.',
     onTarget: {
       say: '¡Boca! ¡Qué bien suena esa ca en el medio!',
       mission: 'Cuenta-dientes: sonrisa grandota de papi y tú le cuentas cinco dientes con el dedo. Después, al revés.',
@@ -132,7 +132,7 @@ export const MINIMAL_PAIRS_ESDO: MinimalPair[] = [
     id: 'do-fuente-puente', code: 'PM-DO-8', group: 'Labiodental',
     target: 'fuente', targetEmoji: '⛲', foil: 'puente', foilEmoji: '🌉',
     phoneme: 'f → p', errorLabel: 'Oclusivización de fricativa (f→p)',
-    prompt: '¿De dónde sale el agua en el parque? Di: fuente.',
+    prompt: 'Di: fuente.',
     onTarget: {
       say: '¡Fuente! ¡Ese soplido de conejo lo moja to’!',
       mission: 'Fuente humana: agáchate y brota para arriba salpicando a papi, que se sacude el pelo mojado.',

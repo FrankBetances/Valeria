@@ -28,7 +28,7 @@ export const MINIMAL_PAIRS_EU: MinimalPair[] = [
     id: 'eu-su-zu', code: 'PM-EU-1', group: 'Sigmatismo',
     target: 'su', targetEmoji: '🔥', foil: 'zu', foilEmoji: '🫵',
     phoneme: 's̺ → s̻', errorLabel: 'Sigmatismo laminal (s → z)',
-    prompt: 'Zerk erretzen du? Esan: su.',
+    prompt: 'Esan: su.',
     onTarget: {
       say: 'Su! Zure mihiaren puntak ondo egin du sss hori!',
       mission: 'Su txikia: elkarrekin hatzak goian mugitu sugarrak balira bezala, eta putz egin denok batera.',
@@ -43,7 +43,7 @@ export const MINIMAL_PAIRS_EU: MinimalPair[] = [
     id: 'eu-hotz-hots', code: 'PM-EU-2', group: 'Sigmatismo',
     target: 'hotz', targetEmoji: '🥶', foil: 'hots', foilEmoji: '🔊',
     phoneme: 'ts̻ → ts̺', errorLabel: 'Africada laminal → apical (tz → ts)',
-    prompt: 'Neguan elurretan nola gaude? Esan: hotz.',
+    prompt: 'Esan: hotz.',
     onTarget: {
       say: 'Hotz! Tz hori ondo atera zaizu, elurra bezain garbi!',
       mission: 'Hotzaren dantza: biok dardarka jarri, besoak igurtziz, "brrr" esanez hiru segundoz.',
@@ -58,7 +58,7 @@ export const MINIMAL_PAIRS_EU: MinimalPair[] = [
     id: 'eu-hitz-hits', code: 'PM-EU-3', group: 'Sigmatismo',
     target: 'hitz', targetEmoji: '🗣️', foil: 'hits', foilEmoji: '😔',
     phoneme: 'ts̻ → ts̺', errorLabel: 'Africada laminal → apical (generalización)',
-    prompt: 'Ahoarekin zer esaten dugu? Esan: hitz.',
+    prompt: 'Esan: hitz.',
     onTarget: {
       say: 'Hitz! Tz hori indartsu atera da, kanpai bat bezala!',
       mission: 'Hitz-katea: txandaka hitz bat esaten duzue bakoitzak, eskua jo arte.',
@@ -73,7 +73,7 @@ export const MINIMAL_PAIRS_EU: MinimalPair[] = [
     id: 'eu-txalo-talo', code: 'PM-EU-4', group: 'Velares',
     target: 'txalo', targetEmoji: '👏', foil: 'talo', foilEmoji: '🫓',
     phoneme: 'tʃ → t', errorLabel: 'Oclusivización de africada palatal',
-    prompt: 'Pozik gaudenean eskuekin zer egiten dugu? Esan: txalo.',
+    prompt: 'Esan: txalo.',
     onTarget: {
       say: 'Txalo! Tx hori trena bezala atera da, txu-txu!',
       mission: 'Txalo jaialdia: biok hiru txalo ozen jo, tx-a esagerratuz bakoitzean.',
@@ -88,7 +88,7 @@ export const MINIMAL_PAIRS_EU: MinimalPair[] = [
     id: 'eu-karta-tarta', code: 'PM-EU-5', group: 'Velares',
     target: 'karta', targetEmoji: '🃏', foil: 'tarta', foilEmoji: '🎂',
     phoneme: 'k → t', errorLabel: 'Frontalización velar inicial',
-    prompt: 'Zerekin jolasten gara mahaian? Esan: karta.',
+    prompt: 'Esan: karta.',
     onTarget: {
       say: 'Karta! K hori eztarriaren zulotik atera da, sakon-sakon!',
       mission: 'Karta-dorrea: elkarrekin hiru karta (edo koxin) pilatu, bakoitza jartzean "karta" esanez.',

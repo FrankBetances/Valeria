@@ -139,9 +139,9 @@ private func exercise(for id: String) -> PlayerExercise {
             age: age, fillBefore: "S", fillAfter: "L", fillAnswer: "O", fillEmoji: "☀️", fillCap: "sol")
     case "se1":
         return PlayerExercise(code: code, name: name, category: cat,
-            read: "Pulsa 🔊 para oír el nombre de las cuatro fichas. Tres van juntas y una no. El niño toca la que NO va con las demás.",
-            stage: .intruder, stageLabel: "Toca la ficha que no va con las demás",
-            ept: ["Todavía no encuentra la ficha que no va con las demás.",
+            read: "Pulsa 🔊 para oír el nombre de las cuatro palabras. Tres van juntas y una no. El niño toca la que NO va con las demás.",
+            stage: .intruder, stageLabel: "Toca la palabra que no va con las demás",
+            ept: ["Todavía no encuentra la palabra que no va con las demás.",
                   "La encuentra cuando le haces una pregunta de ayuda («¿cuáles se comen?»).",
                   "La encuentra él solo y explica por qué no va con las otras."],
             move: "Si se come, tocaos la barriga; si es el intruso, ¡salto de estrella!",
@@ -193,11 +193,11 @@ private func exercise(for id: String) -> PlayerExercise {
             options: [Tile(cap: "niño", emoji: "👦"), Tile(cap: "niña", emoji: "👧")], optionAnswer: 1)
     case "ms3":
         return PlayerExercise(code: code, name: name, category: cat,
-            read: "Pulsa 🔊 para que el niño oiga la frase. Después, que toque las fichas en orden para construirla: quién, qué hace y qué cosa.",
-            stage: .order, stageLabel: "Escucha la frase y ordena las fichas",
+            read: "Pulsa 🔊 para que el niño oiga la frase. Después, que toque las palabras en orden para construirla: quién, qué hace y qué cosa.",
+            stage: .order, stageLabel: "Escucha la frase y ordena las palabras",
             ept: ["Solo dice palabras sueltas («niño», «manzana»).",
                   "Construye la frase si tú le ayudas a empezarla.",
-                  "Ordena las fichas y dice la frase completa él solo."],
+                  "Ordena las palabras y dice la frase completa él solo."],
             move: "Teatralizad la frase: el niño hace de actor y \"come\" una manzana imaginaria.",
             age: age,
             parts: [PartData(role: "Sujeto", cap: "niño", emoji: "👦"),

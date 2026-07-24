@@ -22,14 +22,14 @@
 // Protocolo completo: docs/protocolo-pares-minimos.md
 // ============================================================================
 import React, { useEffect, useRef, useState } from 'react';
-import { View, Text, Pressable, ScrollView, StyleSheet, Animated, Easing, Switch, GestureResponderEvent } from 'react-native';
+import { View, Text, Pressable, ScrollView, StyleSheet, Animated, Easing, Switch, GestureResponderEvent, BackHandler } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { V, STORAGE_KEYS } from './valeriaTheme';
 import { ProUnlockPill, ProPinModal } from './ValeriaProPin';
 import { registerSession, SessionReward } from './valeriaGamification';
 import { markBlockCompleted } from './valeriaTelemetry';
 import {
-  speakToChild, speakWordSlow, speakClinical, stopSpeaking,
+  speakToChild, speakWordSlow, stopSpeaking,
   asrSupported, startListening, stopListening, releaseListening, matchPair, PairResult,
   almostPhrase, noHearPhrase, togetherPhrase,
 } from './valeriaVoice';
@@ -39,10 +39,10 @@ import { ValeriaSessionBreakOverlay, pickSessionBreak, SessionBreak } from './Va
 import { PAIR_GROUPS, MinimalPair } from './valeriaMinimalPairs';
 import { pairsForLocale } from './valeriaPairBanks';
 import { getLocale, Locale } from './valeriaLocale';
-import { buildCarrierPrompt, reseedCarriers } from './valeriaCarrierPhrases';
 import {
-  carrierLang, pairIntro, pairRetry, pairsDone, roleSwapPhrases,
+  pairIntro, pairRetry, pairsDone, roleSwapPhrases,
 } from './valeriaPairSpeech';
+import { getAutoRecordPref, setAutoRecordPref } from './valeriaRecordingPref';
 import { ValeriaAdultChaosPanel } from './ValeriaAdultChaosPanel';
 import { releaseNoise } from './valeriaNoise';
 import { ValeriaPragmaticBreakOverlay } from './ValeriaPragmaticBreak';
@@ -53,23 +53,27 @@ const SWAP_TRIALS = [3, 7];   // antes de estos ensayos (0-index): ¡Ahora manda
 const TPR_TRIAL = 5;          // antes de este ensayo: cápsula TPR de movimiento
 const MONTHS = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
 
-// Consignas por ensayo (Fase 1.1 — de estático a dinámico):
-//   · Ensayo 0: bombardeo auditivo de contraste + consigna clínica del par
-//     (voz cuentacuentos: aquí el objetivo se modela aislado a propósito).
-//   · Cada 3.º ensayo: la consigna clínica del par (refuerzo del contraste).
-//   · Resto: FRASE PORTADORA procedural — el objetivo viaja incrustado en
-//     prosodia continua y una pregunta lo elicita. Se locuta con speakClinical
-//     (pitch/rate conservadores) para no distorsionar el fonema objetivo.
-interface TrialPromptSpec { text: string; mode: 'child' | 'clinical'; }
+// Consigna del ensayo (DC-5, resuelta por ACOPROS en julio de 2026):
+// TODOS los ensayos usan el mismo formato — presentación del par seguida de la
+// petición desnuda del objetivo: «Esta es rata. Y esta es lata. Di: rata.».
+//
+// Antes se alternaban tres formatos (bombardeo de contraste en el ensayo 0,
+// consigna clínica cada tercer ensayo y FRASE PORTADORA procedural en el
+// resto). Las logopedas pidieron pedir la palabra, no una frase alrededor de
+// ella, y ACOPROS eligió el formato de par + repetición. La frase portadora se
+// retira del flujo: su módulo (valeriaCarrierPhrases) se conserva por si se
+// recupera como modo avanzado, pero ya no se enumera en el corpus de voz,
+// porque el corpus solo debe contener lo que la app realmente pronuncia.
+interface TrialPromptSpec { text: string; mode: 'child' | 'slow'; }
 
-const trialPrompt = (p: MinimalPair, idx: number, loc: Locale): TrialPromptSpec => {
-  if (idx === 0) return { text: pairIntro(loc, p.target, p.foil, p.prompt), mode: 'child' };
-  if (idx % 3 === 0) return { text: p.prompt, mode: 'child' };
-  return { text: buildCarrierPrompt(p.target, idx, carrierLang(loc)).full, mode: 'clinical' };
-};
+const trialPrompt = (p: MinimalPair, _idx: number, loc: Locale): TrialPromptSpec =>
+  ({ text: pairIntro(loc, p.target, p.foil, p.prompt), mode: 'child' });
 
 type Phase = 'pick' | 'play' | 'done';
-type TrialStep = 'say' | 'listen' | 'judge' | 'correction' | 'success' | 'assist';
+// 'ready': entre la consigna y la escucha — el micrófono espera al botón del
+// adulto/niño (PM-04) salvo que la preferencia de grabación automática esté
+// activada, en cuyo caso se salta directo a 'listen' como antes.
+type TrialStep = 'say' | 'ready' | 'listen' | 'judge' | 'correction' | 'success' | 'assist';
 type CorrectionKind = 'foil' | 'close' | 'none';
 
 interface TrialRecord {
@@ -288,6 +292,8 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
   const [unlocked, setUnlocked] = useState(false);
   const [pinOpen, setPinOpen] = useState(false);
   const [toast, setToast] = useState('');
+  // PM-04: por defecto MANUAL — el micro no arranca solo tras la consigna.
+  const [autoRecord, setAutoRecord] = useState(false);
 
   const attemptsRef = useRef(0);
   const foilsRef = useRef(0); // sustituciones detectadas en el ensayo actual
@@ -309,6 +315,8 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
           if (p && typeof p === 'object' && !Array.isArray(p) && mounted.current) setPrescribed(p);
         }
       } catch (e) { /* noop */ }
+      const auto = await getAutoRecordPref();
+      if (mounted.current) setAutoRecord(auto);
     })();
     return () => { mounted.current = false; stopSpeaking(); stopListening(); releaseListening(); releaseNoise(); };
   }, []);
@@ -316,6 +324,21 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
   useEffect(() => {
     if (phase === 'play') scrollRef.current?.scrollTo({ y: 0, animated: false });
   }, [phase, trialIdx]);
+
+  // ES-02: el botón atrás físico de Android se comporta igual que el botón
+  // Volver de la cabecera — dentro de una sesión regresa al banco de
+  // contrastes, no cierra la pantalla entera.
+  useEffect(() => {
+    const sub = BackHandler.addEventListener('hardwareBackPress', () => {
+      if (phase === 'play' || phase === 'done') {
+        stopSpeaking(); stopListening();
+        setPhase('pick');
+        return true;
+      }
+      return false;
+    });
+    return () => sub.remove();
+  }, [phase]);
 
   useEffect(() => {
     if (!listening) { pulse.setValue(0); return; }
@@ -345,7 +368,6 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
 
   // ---------------------------------------------------------------- sesión --
   const startSession = (p: MinimalPair) => {
-    reseedCarriers(); // combinación de arranque distinta en cada sesión
     setPair(p); setPhase('play'); setLog([]); setReward(null);
     setTrialIdx(0); attemptsRef.current = 0; foilsRef.current = 0; setHeard('');
     setLeftIsTarget(Math.random() < 0.5);
@@ -360,11 +382,11 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
     setLivePrompt(spec);
     const cbs = afterSpeak(() => {
       if (!mounted.current) return;
-      if (asrSupported()) setTimeout(() => listenNow(p), 400);
-      else setStep('judge');
+      if (!asrSupported()) { setStep('judge'); return; }
+      if (autoRecord) setTimeout(() => listenNow(p), 400);
+      else setStep('ready');
     });
-    if (spec.mode === 'clinical') speakClinical(spec.text, cbs);
-    else speakToChild(spec.text, cbs);
+    speakToChild(spec.text, cbs);
   };
 
   // --------------------------------------------------------------- escucha --
@@ -392,10 +414,14 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
   };
 
   // ------------------------------------------------------------ evaluación --
+  // Cada rama actualiza livePrompt ANTES de hablar: la tarjeta "LA APP DICE"
+  // debe ser siempre un espejo de la última locución real (PM-03), incluido
+  // el modelado lento diferido que llega tras el temporizador.
   const resolveBranch = (p: MinimalPair, branch: PairResult) => {
     if (branch === 'target') {
       setPendingStars(attemptsRef.current === 0 ? 3 : 2);
       setStep('success');
+      setLivePrompt({ text: p.onTarget.say, mode: 'child' });
       speakToChild(p.onTarget.say);
       return;
     }
@@ -405,28 +431,45 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
       if (attemptsRef.current >= 2) {
         // Anti-frustración: nunca un tercer fallo seguido → imitación asistida.
         setStep('assist');
-        speakToChild(togetherPhrase());
-        setTimeout(() => mounted.current && speakWordSlow(p.target), 1500);
+        const together = togetherPhrase();
+        setLivePrompt({ text: together, mode: 'child' });
+        speakToChild(together);
+        setTimeout(() => {
+          if (!mounted.current) return;
+          setLivePrompt({ text: p.target, mode: 'slow' });
+          speakWordSlow(p.target);
+        }, 1500);
       } else {
         setCorrectionKind(branch);
         setStep('correction');
-        speakToChild(branch === 'foil' ? p.onFoil.say : almostPhrase());
-        setTimeout(() => mounted.current && speakWordSlow(p.target), 2200);
+        const correction = branch === 'foil' ? p.onFoil.say : almostPhrase();
+        setLivePrompt({ text: correction, mode: 'child' });
+        speakToChild(correction);
+        setTimeout(() => {
+          if (!mounted.current) return;
+          setLivePrompt({ text: p.target, mode: 'slow' });
+          speakWordSlow(p.target);
+        }, 2200);
       }
       return;
     }
     // 'none': no captado — re-modelar sin consumir intento ni estrellas.
     setCorrectionKind('none');
     setStep('correction');
-    speakToChild(noHearPhrase());
+    const notHeard = noHearPhrase();
+    setLivePrompt({ text: notHeard, mode: 'child' });
+    speakToChild(notHeard);
   };
 
   const retry = (p: MinimalPair) => {
     setHeard('');
-    speakToChild(pairRetry(loc, p.target), afterSpeak(() => {
+    const text = pairRetry(loc, p.target);
+    setLivePrompt({ text, mode: 'child' });
+    speakToChild(text, afterSpeak(() => {
       if (!mounted.current) return;
-      if (asrSupported()) setTimeout(() => listenNow(p), 400);
-      else setStep('judge');
+      if (!asrSupported()) { setStep('judge'); return; }
+      if (autoRecord) setTimeout(() => listenNow(p), 400);
+      else setStep('ready');
     }));
     setStep('say');
   };
@@ -549,7 +592,7 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
           <Pressable onPress={() => navigation.goBack()} style={s.backPill}><Text style={s.backPillTxt}>‹ Volver</Text></Pressable>
           <Text style={s.logoFallback}>valeria+</Text>
           <Text style={s.headerTitle}>Pares Mínimos</Text>
-          <Text style={s.headerSub}>{unlocked ? 'Edición profesional habilitada' : 'Dislalias fonológicas · el niño pide la ficha con su voz'}</Text>
+          <Text style={s.headerSub}>{unlocked ? 'Edición profesional habilitada' : 'Dislalias fonológicas · el niño pide la palabra con su voz'}</Text>
         </View>
         <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
           {!!toast && (
@@ -561,11 +604,25 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
           <View style={s.howCard}>
             <Text style={s.howKicker}>⚡ CÓMO FUNCIONA</Text>
             <Text style={s.howTxt}>
-              Aparecen dos fichas casi iguales (rana / lana). La app pide una en voz alta, el niño
+              Aparecen dos palabras casi iguales (rana / lana). La app pide una en voz alta, el niño
               la dice al micrófono y la app detecta si salió el fonema o la sustitución habitual.
               Cada ensayo termina con una misión física en pareja y el sello doble: ¡sin las manos
               de los dos en la pantalla no se avanza!
             </Text>
+          </View>
+
+          {/* PM-04: por defecto el micro espera al botón; aquí se puede volver
+              al arranque automático para familias que ya tenían el ritmo cogido. */}
+          <View style={s.autoRecordRow}>
+            <View style={{ flex: 1 }}>
+              <Text style={s.autoRecordTxt}>Grabación automática tras la consigna</Text>
+              <Text style={s.autoRecordSub}>Por defecto, apagada: el micro espera a que pulséis “Ya estoy listo”.</Text>
+            </View>
+            <Switch
+              value={autoRecord}
+              onValueChange={(v) => { setAutoRecord(v); setAutoRecordPref(v); }}
+              trackColor={{ false: '#d1d5db', true: V.color.primary }} thumbColor="#ffffff"
+            />
           </View>
 
           <View style={{ marginTop: 12 }}>
@@ -647,7 +704,9 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
     return (
       <View style={s.flex}>
         <View style={s.header}>
-          <Pressable onPress={() => navigation.goBack()} style={s.backPill}><Text style={s.backPillTxt}>‹ Volver</Text></Pressable>
+          {/* ES-02: dentro de una sesión, Volver regresa al banco de contrastes,
+              no al hub — solo desde 'pick' Volver sale de la pantalla. */}
+          <Pressable onPress={() => { stopSpeaking(); setPhase('pick'); }} style={s.backPill}><Text style={s.backPillTxt}>‹ Volver</Text></Pressable>
           <Text style={s.logoFallback}>valeria+</Text>
           <Text style={s.headerTitle}>¡Par completado!</Text>
           <Text style={s.headerSub}>{p.code} · {p.target} / {p.foil}</Text>
@@ -689,12 +748,12 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
   const tiles = leftIsTarget ? (['target', 'foil'] as const) : (['foil', 'target'] as const);
   // Fase activa del turno para el mapa superior (quita la sensación de "¿y
   // ahora qué toca?" que reportaban los testers).
-  const phaseIdx = step === 'say' ? 0 : step === 'listen' ? 1 : step === 'judge' || step === 'correction' ? 2 : 3;
+  const phaseIdx = step === 'say' || step === 'ready' ? 0 : step === 'listen' ? 1 : step === 'judge' || step === 'correction' ? 2 : 3;
 
   return (
     <View style={s.flex}>
       <View style={s.header}>
-        <Pressable onPress={() => { stopSpeaking(); stopListening(); navigation.goBack(); }} style={s.backPill}><Text style={s.backPillTxt}>‹ Volver</Text></Pressable>
+        <Pressable onPress={() => { stopSpeaking(); stopListening(); setPhase('pick'); }} style={s.backPill}><Text style={s.backPillTxt}>‹ Volver</Text></Pressable>
         <Text style={s.logoFallback}>valeria+</Text>
         <View style={{ flexDirection: 'row', alignItems: 'flex-start', gap: 12 }}>
           <View style={{ flex: 1 }}>
@@ -724,12 +783,14 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
           <View style={s.promptHead}>
             <View style={s.promptIcon}><Text style={{ fontSize: 18 }}>📢</Text></View>
             <View style={{ flex: 1 }}>
-              <Text style={s.promptKicker}>{livePrompt?.mode === 'clinical' ? 'LA APP CUENTA Y PREGUNTA' : 'LA APP PIDE'}</Text>
+              <Text style={s.promptKicker}>
+                {livePrompt?.mode === 'slow' ? 'LA APP MODELA DESPACIO' : 'LA APP DICE'}
+              </Text>
               <Text style={s.promptTxt}>“{livePrompt?.text ?? p.prompt}”</Text>
             </View>
             <SpeakButton
               text={livePrompt?.text ?? p.prompt}
-              voice={livePrompt?.mode === 'clinical' ? 'clinical' : 'child'}
+              voice={livePrompt?.mode === 'slow' ? 'slow' : 'child'}
               compact
             />
           </View>
@@ -740,6 +801,25 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
           <View style={s.stateCard}>
             <Text style={{ fontSize: 30 }}>🔊</Text>
             <Text style={s.stateTxt}>La app está hablando… preparad la voz.</Text>
+          </View>
+        )}
+
+        {step === 'ready' && (
+          <View style={s.stateCard}>
+            <Text style={{ fontSize: 30 }}>🙂</Text>
+            <Text style={s.stateTxt}>Preparad la voz. Cuando el niño esté listo, pulsad el micrófono.</Text>
+            <Pressable
+              onPress={() => listenNow(p)}
+              style={s.readyMicBtn}
+              accessibilityRole="button"
+              accessibilityLabel="Ya estoy listo. Empezar a escuchar."
+            >
+              <Text style={{ fontSize: 24 }}>🎤</Text>
+              <Text style={s.readyMicBtnTxt}>Ya estoy listo</Text>
+            </Pressable>
+            <Pressable onPress={() => { const s2 = trialPrompt(p, trialIdx, loc); setLivePrompt(s2); speakToChild(s2.text); }}>
+              <Text style={s.linkBtn}>Repetir consigna</Text>
+            </Pressable>
           </View>
         )}
 
@@ -797,7 +877,7 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
               <Text style={{ fontSize: 26 }}>{correctionKind === 'foil' ? '👂' : correctionKind === 'close' ? '💪' : '😅'}</Text>
               <View style={{ flex: 1 }}>
                 <Text style={s.verdictTitle}>
-                  {correctionKind === 'foil' ? `Escuché “${p.foil}”… ¡era la otra ficha!`
+                  {correctionKind === 'foil' ? `Escuché “${p.foil}”… ¡era la otra palabra!`
                     : correctionKind === 'close' ? '¡Casi casi!'
                       : 'No te escuché bien'}
                 </Text>
@@ -883,6 +963,9 @@ const s = StyleSheet.create({
   howKicker: { fontSize: 11, fontWeight: '800', letterSpacing: 0.6, color: V.color.primaryDark },
   howTxt: { fontSize: 13, fontWeight: '600', color: V.color.textSecondary, marginTop: 7, lineHeight: 19 },
   groupLabel: { fontSize: 12, fontWeight: '800', color: V.color.textMuted, letterSpacing: 0.4, marginTop: 16, marginBottom: 8, marginHorizontal: 4 },
+  autoRecordRow: { flexDirection: 'row', alignItems: 'center', gap: 10, backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.border, borderRadius: 14, padding: 12, marginTop: 10 },
+  autoRecordTxt: { fontSize: 13, fontWeight: '800', color: V.color.textPrimary },
+  autoRecordSub: { fontSize: 11, fontWeight: '600', color: V.color.textMuted, marginTop: 2, lineHeight: 15 },
   toast: { flexDirection: 'row', alignItems: 'center', gap: 10, backgroundColor: V.color.primaryTint, borderWidth: 1, borderColor: V.color.primary, borderRadius: 13, padding: 13, marginBottom: 14 },
   toastCheck: { width: 24, height: 24, borderRadius: 12, backgroundColor: V.color.primary, alignItems: 'center', justifyContent: 'center' },
   toastTxt: { color: V.color.textPrimary, fontSize: 13.5, fontWeight: '700', flex: 1 },
@@ -921,6 +1004,10 @@ const s = StyleSheet.create({
   partialTxt: { fontSize: 15, fontWeight: '800', color: V.color.textPrimary },
   stopPill: { backgroundColor: '#fff1f2', borderWidth: 1, borderColor: '#fecdd3', borderRadius: 11, paddingHorizontal: 12, paddingVertical: 6 },
   stopPillTxt: { color: V.color.error, fontSize: 12, fontWeight: '800' },
+  // PM-04: botón de "ya estoy listo" — área mínima de 48dp de alto para ser
+  // accesible a una sola mano y a dedos pequeños.
+  readyMicBtn: { flexDirection: 'row', alignItems: 'center', gap: 9, minHeight: 48, backgroundColor: '#7c4fd0', borderRadius: 16, paddingHorizontal: 22, paddingVertical: 13, ...V.shadow.button },
+  readyMicBtnTxt: { color: '#fff', fontSize: 15, fontWeight: '800' },
 
   judgeRow: { flexDirection: 'row', gap: 10, alignSelf: 'stretch' },
   judgeBtn: { flex: 1, alignItems: 'center', gap: 4, borderWidth: 1.5, borderRadius: 14, paddingVertical: 12 },
