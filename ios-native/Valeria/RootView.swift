@@ -21,6 +21,7 @@ enum Route: Hashable {
     case exercisePlayer(ids: [String])
     case minimalPairs
     case semanticExpansion
+    case academy
     case results
 }
 
@@ -66,6 +67,7 @@ struct RootView: View {
         case .exercisePlayer(let ids): ExercisePlayerView(sessionIds: ids)
         case .minimalPairs:       MinimalPairsView()
         case .semanticExpansion:  SemanticExpansionView()
+        case .academy:            AcademyView()
         case .results:            ResultsDashboardView()
         }
     }

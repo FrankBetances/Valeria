@@ -129,6 +129,16 @@ struct SessionRecord: Identifiable, Hashable {
     var exercises: Int
 }
 
+// MARK: - Academy: gamificación VECTORIAL por dominio (port de academyStore.ts)
+
+struct AcademyCompletion {
+    var domain: AcademyDomain?
+    var xpGained: Int
+    var alreadyDone: Bool
+    var newBadges: [AcademyBadge]
+    var levelUp: Bool
+}
+
 // MARK: - Modelo raíz
 
 final class AppModel: ObservableObject {
@@ -151,6 +161,12 @@ final class AppModel: ObservableObject {
 
     // Historial para el panel de resultados
     @Published var history: [SessionRecord]
+
+    // Academy: silos aislados por dominio clínico. La XP de una cápsula/guía
+    // se inyecta SIEMPRE en el silo de su dominio de origen (nunca se mezcla).
+    @Published var academyXP: [AcademyDomain: Int] = Dictionary(uniqueKeysWithValues: AcademyDomain.allCases.map { ($0, 0) })
+    @Published var academyBadges: [AcademyDomain: Set<String>] = Dictionary(uniqueKeysWithValues: AcademyDomain.allCases.map { ($0, []) })
+    @Published var academyCompleted: [String: Double] = [:]   // id → mejor quizScore (1 en guías sin quiz)
 
     var level: Int { levelFor(xp) }
 
@@ -216,6 +232,71 @@ final class AppModel: ObservableObject {
             xpGained: gained, xpTotal: xp, streak: streak, streakExtended: streakExtended,
             level: newLevel, levelUp: newLevel > prevLevel, levelName: levelName(newLevel),
             newBadges: newly, perfect: perfect
+        )
+    }
+
+    // MARK: - Academy
+
+    func academyCompletedCount(for domain: AcademyDomain) -> Int {
+        academyCompleted.keys.filter { COMPLETABLE_BY_ID[$0]?.domain == domain }.count
+    }
+
+    func academyDomainSummary(_ domain: AcademyDomain) -> AcademyDomainSummary {
+        let total = DOMAIN_TOTALS[domain] ?? 0
+        let done = academyCompletedCount(for: domain)
+        let siloXP = academyXP[domain] ?? 0
+        let lvl = domainLevelFor(siloXP)
+        return AcademyDomainSummary(
+            domain: domain, completedCount: done, totalCount: total,
+            level: lvl, levelName: domainLevelName(domain, lvl),
+            xp: siloXP, badgeCount: academyBadges[domain]?.count ?? 0
+        )
+    }
+
+    func academyAggregateSummary() -> AcademySummary {
+        AcademySummary(
+            completedCount: academyCompleted.count, totalCount: ACADEMY_GRAND_TOTAL,
+            xp: academyXP.values.reduce(0, +), badgeCount: academyBadges.values.reduce(0) { $0 + $1.count }
+        )
+    }
+
+    /// Registra una cápsula (con quiz) o guía de hardware (sin quiz, quizScore = 1)
+    /// completada e inyecta su XP en el silo del dominio de origen. Idempotente en
+    /// XP: no re-otorga si ya estaba hecha, pero conserva el mejor quizScore.
+    @discardableResult
+    func completeAcademyUnit(_ id: String, quizScore: Double) -> AcademyCompletion {
+        guard let meta = COMPLETABLE_BY_ID[id] else {
+            return AcademyCompletion(domain: nil, xpGained: 0, alreadyDone: false, newBadges: [], levelUp: false)
+        }
+        let domain = meta.domain
+        let prevScore = academyCompleted[id]
+        let alreadyDone = prevScore != nil
+        let prevLevel = domainLevelFor(academyXP[domain] ?? 0)
+
+        academyCompleted[id] = max(prevScore ?? 0, quizScore)
+        let xpGained = alreadyDone ? 0 : meta.xp
+        academyXP[domain, default: 0] += xpGained
+
+        var badges = academyBadges[domain] ?? []
+        var newBadges: [AcademyBadge] = []
+        func unlock(_ key: AcademyBadgeKey, _ cond: Bool) {
+            let bid = badgeId(domain, key)
+            if cond, !badges.contains(bid) {
+                badges.insert(bid)
+                if let b = badgeFromId(bid) { newBadges.append(b) }
+            }
+        }
+        let done = academyCompletedCount(for: domain)
+        let total = DOMAIN_TOTALS[domain] ?? 0
+        unlock(.primeraCapsula, done >= 1)
+        unlock(.mitad, total > 0 && done >= Int((Double(total) / 2).rounded(.up)))
+        unlock(.graduado, total > 0 && done >= total)
+        if meta.hasQuiz { unlock(.perfecto, quizScore >= 1) }
+        academyBadges[domain] = badges
+
+        return AcademyCompletion(
+            domain: domain, xpGained: xpGained, alreadyDone: alreadyDone, newBadges: newBadges,
+            levelUp: domainLevelFor(academyXP[domain] ?? 0) > prevLevel
         )
     }
 }

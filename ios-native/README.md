@@ -23,6 +23,9 @@ ios-native/
     ├── WelcomeView / CreditsView / PatientSelectView / FichaRegistroView.swift
     ├── ExerciseSelectionView / LingTestView / ExercisePlayerView.swift
     ├── MinimalPairsView / SemanticExpansionView / ResultsDashboardView.swift
+    ├── AcademyContent.swift    # contenido/tipos de Academy (dominios, cápsulas, hardware)
+    ├── AcademyView.swift       # hub/lista/lectura/quiz + feed de prioridad
+    ├── AcademyHardwareView.swift # sheet de Hipoacusia + esquemas (SVG → Canvas)
     ├── Info.plist
     ├── Assets.xcassets/        # AppIcon + AccentColor (#00c4be)
     └── Preview Content/
@@ -34,7 +37,9 @@ Port del flujo RN completo con fidelidad visual, pensado para iterar usabilidad
 en device. `RootView` reproduce el stack del `AppNavigator`:
 
 `Welcome → Credits → (PatientSelect | Ficha) → ExerciseSelection → LingTest →
-ExercisePlayer → Results`, más los bloques `MinimalPairs` y `SemanticExpansion`.
+ExercisePlayer → Results`, más los bloques `MinimalPairs`, `SemanticExpansion`
+y `Academy` (hub multidominio de formación del cuidador: Lenguaje, Hipoacusia,
+Dislalias, Dislexia y TEA, con gamificación vectorial por dominio en memoria).
 
 La persistencia cifrada (AsyncStorage), el motor de voz (TTS/STT) y los datasets
 completos del proyecto RN se sustituyen por estado en memoria y datos de muestra
