@@ -431,11 +431,10 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
           <View style={s.howCard}>
             <Text style={s.howKicker}>⚡ CÓMO FUNCIONA</Text>
             <Text style={s.howTxt}>
-              Pulsando ▶ la app enseña una imagen y dice una frase breve que sitúa la palabra en el
-              día a día antes de pedirla («Esto es la cama. Por la mañana saltamos de la cama. Di:
-              cama.»). El niño la repite con su voz y el micrófono valora el intento (aceptando las
-              aproximaciones propias de la edad). Cada palabra se cierra con una acción física del
-              adulto que la ancla al cuerpo y al entorno real.
+              Pulsando ▶ la app enseña una imagen y presenta la palabra en una frase corta antes de
+              pedirla («Esto es la cama. Di: cama.»). El niño la repite con su voz y el micrófono
+              valora el intento, aceptando las aproximaciones propias de la edad. Cada palabra se
+              cierra con una acción física del adulto que la ancla al cuerpo y al entorno real.
             </Text>
           </View>
 

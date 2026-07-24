@@ -1,9 +1,9 @@
 {
- "generatedAt": "2026-07-24T19:22:44.837Z",
- "entries": 2220,
+ "generatedAt": "2026-07-24T19:45:58.230Z",
+ "entries": 2221,
  "byStyle": {
   "clinical": 732,
-  "child": 858,
+  "child": 859,
   "slow": 329,
   "tutor": 301
  },
@@ -26,7 +26,7 @@
   "banco/no-oido": 9,
   "banco/juntos": 9,
   "util/muestra": 3,
-  "expansion": 612,
+  "expansion": 613,
   "ejercicios": 521
  },
  "corpus": [
@@ -4084,10 +4084,10 @@
    "source": "util/muestra"
   },
   {
-   "id": "child_c7370f0f_61",
+   "id": "child_77c3a720_26",
    "lang": "es",
    "style": "child",
-   "text": "Esto es la cama. Por la mañana saltamos de la cama. Di: cama.",
+   "text": "Esto es la cama. Di: cama.",
    "source": "expansion"
   },
   {
@@ -4098,10 +4098,10 @@
    "source": "expansion"
   },
   {
-   "id": "slow_c7370f0f_61",
+   "id": "slow_77c3a720_26",
    "lang": "es",
    "style": "slow",
-   "text": "Esto es la cama. Por la mañana saltamos de la cama. Di: cama.",
+   "text": "Esto es la cama. Di: cama.",
    "source": "expansion"
   },
   {
@@ -4112,10 +4112,10 @@
    "source": "expansion"
   },
   {
-   "id": "child_bcec1a6e_68",
+   "id": "child_af38ca64_32",
    "lang": "es",
    "style": "child",
-   "text": "Esto es el cepillo. Con el cepillo lavamos los dientes. Di: cepillo.",
+   "text": "Esto es el cepillo. Di: cepillo.",
    "source": "expansion"
   },
   {
@@ -4126,10 +4126,10 @@
    "source": "expansion"
   },
   {
-   "id": "slow_bcec1a6e_68",
+   "id": "slow_af38ca64_32",
    "lang": "es",
    "style": "slow",
-   "text": "Esto es el cepillo. Con el cepillo lavamos los dientes. Di: cepillo.",
+   "text": "Esto es el cepillo. Di: cepillo.",
    "source": "expansion"
   },
   {
@@ -4140,10 +4140,10 @@
    "source": "expansion"
   },
   {
-   "id": "child_ccd8525f_53",
+   "id": "child_18c9bbf3_33",
    "lang": "es",
    "style": "child",
-   "text": "Mira, nos lavamos las manos. ¿Qué hacemos? Di: lavar.",
+   "text": "Nos lavamos las manos. Di: lavar.",
    "source": "expansion"
   },
   {
@@ -4154,10 +4154,10 @@
    "source": "expansion"
   },
   {
-   "id": "slow_ccd8525f_53",
+   "id": "slow_18c9bbf3_33",
    "lang": "es",
    "style": "slow",
-   "text": "Mira, nos lavamos las manos. ¿Qué hacemos? Di: lavar.",
+   "text": "Nos lavamos las manos. Di: lavar.",
    "source": "expansion"
   },
   {
@@ -4168,10 +4168,10 @@
    "source": "expansion"
   },
   {
-   "id": "child_f156b00e_65",
+   "id": "child_2feb29da_36",
    "lang": "es",
    "style": "child",
-   "text": "Ahora nos vestimos. Metemos la cabeza en la camiseta. Di: vestir.",
+   "text": "Nos ponemos la camiseta. Di: vestir.",
    "source": "expansion"
   },
   {
@@ -4182,10 +4182,10 @@
    "source": "expansion"
   },
   {
-   "id": "slow_f156b00e_65",
+   "id": "slow_2feb29da_36",
    "lang": "es",
    "style": "slow",
-   "text": "Ahora nos vestimos. Metemos la cabeza en la camiseta. Di: vestir.",
+   "text": "Nos ponemos la camiseta. Di: vestir.",
    "source": "expansion"
   },
   {
@@ -4196,10 +4196,10 @@
    "source": "expansion"
   },
   {
-   "id": "child_11fcecde_66",
+   "id": "child_6964a338_36",
    "lang": "es",
    "style": "child",
-   "text": "¡Mira qué manos! Están limpias y brillan. ¿Cómo están? Di: limpio.",
+   "text": "Las manos están limpias. Di: limpio.",
    "source": "expansion"
   },
   {
@@ -4210,10 +4210,10 @@
    "source": "expansion"
   },
   {
-   "id": "slow_11fcecde_66",
+   "id": "slow_6964a338_36",
    "lang": "es",
    "style": "slow",
-   "text": "¡Mira qué manos! Están limpias y brillan. ¿Cómo están? Di: limpio.",
+   "text": "Las manos están limpias. Di: limpio.",
    "source": "expansion"
   },
   {
@@ -4224,10 +4224,10 @@
    "source": "expansion"
   },
   {
-   "id": "child_b727cea3_73",
+   "id": "child_175dae9b_43",
    "lang": "es",
    "style": "child",
-   "text": "El despertador suena: ¡Rin, rin! ¿Cómo hace el despertador? Di: rin, rin.",
+   "text": "El despertador hace rin, rin. Di: rin, rin.",
    "source": "expansion"
   },
   {
@@ -4238,10 +4238,10 @@
    "source": "expansion"
   },
   {
-   "id": "slow_b727cea3_73",
+   "id": "slow_175dae9b_43",
    "lang": "es",
    "style": "slow",
-   "text": "El despertador suena: ¡Rin, rin! ¿Cómo hace el despertador? Di: rin, rin.",
+   "text": "El despertador hace rin, rin. Di: rin, rin.",
    "source": "expansion"
   },
   {
@@ -4252,10 +4252,10 @@
    "source": "expansion"
   },
   {
-   "id": "child_cd9ab9bd_64",
+   "id": "child_9f5a49a8_32",
    "lang": "es",
    "style": "child",
-   "text": "Esto es la cuchara. Comemos la sopa con la cuchara. Di: cuchara.",
+   "text": "Esto es la cuchara. Di: cuchara.",
    "source": "expansion"
   },
   {
@@ -4266,10 +4266,10 @@
    "source": "expansion"
   },
   {
-   "id": "slow_cd9ab9bd_64",
+   "id": "slow_9f5a49a8_32",
    "lang": "es",
    "style": "slow",
-   "text": "Esto es la cuchara. Comemos la sopa con la cuchara. Di: cuchara.",
+   "text": "Esto es la cuchara. Di: cuchara.",
    "source": "expansion"
   },
   {
@@ -4280,10 +4280,10 @@
    "source": "expansion"
   },
   {
-   "id": "child_008d72eb_47",
+   "id": "child_67d3b60a_26",
    "lang": "es",
    "style": "child",
-   "text": "Esto es el vaso. En el vaso hay agua. Di: vaso.",
+   "text": "Esto es el vaso. Di: vaso.",
    "source": "expansion"
   },
   {
@@ -4294,10 +4294,10 @@
    "source": "expansion"
   },
   {
-   "id": "slow_008d72eb_47",
+   "id": "slow_67d3b60a_26",
    "lang": "es",
    "style": "slow",
-   "text": "Esto es el vaso. En el vaso hay agua. Di: vaso.",
+   "text": "Esto es el vaso. Di: vaso.",
    "source": "expansion"
   },
   {
@@ -4308,10 +4308,10 @@
    "source": "expansion"
   },
   {
-   "id": "child_8a3c96c2_60",
+   "id": "child_9996b0cf_25",
    "lang": "es",
    "style": "child",
-   "text": "Tengo mucha hambre. ¡Vamos a comer! ¿Qué hacemos? Di: comer.",
+   "text": "Vamos a comer. Di: comer.",
    "source": "expansion"
   },
   {
@@ -4322,10 +4322,10 @@
    "source": "expansion"
   },
   {
-   "id": "slow_8a3c96c2_60",
+   "id": "slow_9996b0cf_25",
    "lang": "es",
    "style": "slow",
-   "text": "Tengo mucha hambre. ¡Vamos a comer! ¿Qué hacemos? Di: comer.",
+   "text": "Vamos a comer. Di: comer.",
    "source": "expansion"
   },
   {
@@ -4336,10 +4336,10 @@
    "source": "expansion"
   },
   {
-   "id": "child_89e3c189_56",
+   "id": "child_d3bac579_30",
    "lang": "es",
    "style": "child",
-   "text": "Tengo sed. ¡Vamos a beber agua! ¿Qué hacemos? Di: beber.",
+   "text": "Vamos a beber agua. Di: beber.",
    "source": "expansion"
   },
   {
@@ -4350,10 +4350,10 @@
    "source": "expansion"
   },
   {
-   "id": "slow_89e3c189_56",
+   "id": "slow_d3bac579_30",
    "lang": "es",
    "style": "slow",
-   "text": "Tengo sed. ¡Vamos a beber agua! ¿Qué hacemos? Di: beber.",
+   "text": "Vamos a beber agua. Di: beber.",
    "source": "expansion"
   },
   {
@@ -4364,10 +4364,10 @@
    "source": "expansion"
   },
   {
-   "id": "child_1dbf443a_52",
+   "id": "child_6c2cc3f9_30",
    "lang": "es",
    "style": "child",
-   "text": "¡Mmm, qué rico está! ¿Cómo está la comida? Di: rico.",
+   "text": "La comida está rica. Di: rico.",
    "source": "expansion"
   },
   {
@@ -4378,10 +4378,10 @@
    "source": "expansion"
   },
   {
-   "id": "slow_1dbf443a_52",
+   "id": "slow_6c2cc3f9_30",
    "lang": "es",
    "style": "slow",
-   "text": "¡Mmm, qué rico está! ¿Cómo está la comida? Di: rico.",
+   "text": "La comida está rica. Di: rico.",
    "source": "expansion"
   },
   {
@@ -4392,10 +4392,10 @@
    "source": "expansion"
   },
   {
-   "id": "child_2d5bb86d_64",
+   "id": "child_9704750f_36",
    "lang": "es",
    "style": "child",
-   "text": "Comemos la galleta: ¡Ñam, ñam! ¿Cómo hace la boca? Di: ñam, ñam.",
+   "text": "La boca hace ñam, ñam. Di: ñam, ñam.",
    "source": "expansion"
   },
   {
@@ -4406,10 +4406,10 @@
    "source": "expansion"
   },
   {
-   "id": "slow_2d5bb86d_64",
+   "id": "slow_9704750f_36",
    "lang": "es",
    "style": "slow",
-   "text": "Comemos la galleta: ¡Ñam, ñam! ¿Cómo hace la boca? Di: ñam, ñam.",
+   "text": "La boca hace ñam, ñam. Di: ñam, ñam.",
    "source": "expansion"
   },
   {
@@ -4420,10 +4420,10 @@
    "source": "expansion"
   },
   {
-   "id": "child_063e9c14_66",
+   "id": "child_02bef05c_30",
    "lang": "es",
    "style": "child",
-   "text": "Esto es la pelota. En el parque jugamos con la pelota. Di: pelota.",
+   "text": "Esto es la pelota. Di: pelota.",
    "source": "expansion"
   },
   {
@@ -4434,10 +4434,10 @@
    "source": "expansion"
   },
   {
-   "id": "slow_063e9c14_66",
+   "id": "slow_02bef05c_30",
    "lang": "es",
    "style": "slow",
-   "text": "Esto es la pelota. En el parque jugamos con la pelota. Di: pelota.",
+   "text": "Esto es la pelota. Di: pelota.",
    "source": "expansion"
   },
   {
@@ -4448,10 +4448,10 @@
    "source": "expansion"
   },
   {
-   "id": "child_b304cc3e_73",
+   "id": "child_40bb8e88_32",
    "lang": "es",
    "style": "child",
-   "text": "Esto es el tobogán. Subimos y nos deslizamos por el tobogán. Di: tobogán.",
+   "text": "Esto es el tobogán. Di: tobogán.",
    "source": "expansion"
   },
   {
@@ -4462,10 +4462,10 @@
    "source": "expansion"
   },
   {
-   "id": "slow_b304cc3e_73",
+   "id": "slow_40bb8e88_32",
    "lang": "es",
    "style": "slow",
-   "text": "Esto es el tobogán. Subimos y nos deslizamos por el tobogán. Di: tobogán.",
+   "text": "Esto es el tobogán. Di: tobogán.",
    "source": "expansion"
   },
   {
@@ -4476,10 +4476,10 @@
    "source": "expansion"
   },
   {
-   "id": "child_1ac3c36e_71",
+   "id": "child_f2f5c193_40",
    "lang": "es",
    "style": "child",
-   "text": "¡Vamos rápido! En el parque nos gusta correr. ¿Qué hacemos? Di: correr.",
+   "text": "En el parque vamos a correr. Di: correr.",
    "source": "expansion"
   },
   {
@@ -4490,10 +4490,10 @@
    "source": "expansion"
   },
   {
-   "id": "slow_1ac3c36e_71",
+   "id": "slow_f2f5c193_40",
    "lang": "es",
    "style": "slow",
-   "text": "¡Vamos rápido! En el parque nos gusta correr. ¿Qué hacemos? Di: correr.",
+   "text": "En el parque vamos a correr. Di: correr.",
    "source": "expansion"
   },
   {
@@ -4504,10 +4504,10 @@
    "source": "expansion"
   },
   {
-   "id": "child_c6f44c0f_58",
+   "id": "child_5aca5fe9_35",
    "lang": "es",
    "style": "child",
-   "text": "¡Arriba! Saltamos como una rana. ¿Qué hacemos? Di: saltar.",
+   "text": "Saltamos como una rana. Di: saltar.",
    "source": "expansion"
   },
   {
@@ -4518,10 +4518,10 @@
    "source": "expansion"
   },
   {
-   "id": "slow_c6f44c0f_58",
+   "id": "slow_5aca5fe9_35",
    "lang": "es",
    "style": "slow",
-   "text": "¡Arriba! Saltamos como una rana. ¿Qué hacemos? Di: saltar.",
+   "text": "Saltamos como una rana. Di: saltar.",
    "source": "expansion"
   },
   {
@@ -4532,10 +4532,10 @@
    "source": "expansion"
   },
   {
-   "id": "child_1c77974e_47",
+   "id": "child_c4547e67_36",
    "lang": "es",
    "style": "child",
-   "text": "¡El columpio sube muy alto! ¿Cómo va? Di: alto.",
+   "text": "El columpio sube muy alto. Di: alto.",
    "source": "expansion"
   },
   {
@@ -4546,10 +4546,10 @@
    "source": "expansion"
   },
   {
-   "id": "slow_1c77974e_47",
+   "id": "slow_c4547e67_36",
    "lang": "es",
    "style": "slow",
-   "text": "¡El columpio sube muy alto! ¿Cómo va? Di: alto.",
+   "text": "El columpio sube muy alto. Di: alto.",
    "source": "expansion"
   },
   {
@@ -4560,10 +4560,10 @@
    "source": "expansion"
   },
   {
-   "id": "child_fb5e444c_63",
+   "id": "child_09cb1a69_32",
    "lang": "es",
    "style": "child",
-   "text": "La pelota bota: ¡Boing, boing! ¿Cómo hace la pelota? Di: boing.",
+   "text": "La pelota hace boing. Di: boing.",
    "source": "expansion"
   },
   {
@@ -4574,10 +4574,10 @@
    "source": "expansion"
   },
   {
-   "id": "slow_fb5e444c_63",
+   "id": "slow_09cb1a69_32",
    "lang": "es",
    "style": "slow",
-   "text": "La pelota bota: ¡Boing, boing! ¿Cómo hace la pelota? Di: boing.",
+   "text": "La pelota hace boing. Di: boing.",
    "source": "expansion"
   },
   {
@@ -4588,10 +4588,10 @@
    "source": "expansion"
   },
   {
-   "id": "child_1a260d3a_63",
+   "id": "child_7ec9f944_30",
    "lang": "es",
    "style": "child",
-   "text": "Esto es la bañera. Nos bañamos dentro de la bañera. Di: bañera.",
+   "text": "Esto es la bañera. Di: bañera.",
    "source": "expansion"
   },
   {
@@ -4602,10 +4602,10 @@
    "source": "expansion"
   },
   {
-   "id": "slow_1a260d3a_63",
+   "id": "slow_7ec9f944_30",
    "lang": "es",
    "style": "slow",
-   "text": "Esto es la bañera. Nos bañamos dentro de la bañera. Di: bañera.",
+   "text": "Esto es la bañera. Di: bañera.",
    "source": "expansion"
   },
   {
@@ -4616,10 +4616,10 @@
    "source": "expansion"
   },
   {
-   "id": "child_b48c7955_59",
+   "id": "child_b53292b0_28",
    "lang": "es",
    "style": "child",
-   "text": "Esto es el jabón. El jabón hace muchas burbujas. Di: jabón.",
+   "text": "Esto es el jabón. Di: jabón.",
    "source": "expansion"
   },
   {
@@ -4630,10 +4630,10 @@
    "source": "expansion"
   },
   {
-   "id": "slow_b48c7955_59",
+   "id": "slow_b53292b0_28",
    "lang": "es",
    "style": "slow",
-   "text": "Esto es el jabón. El jabón hace muchas burbujas. Di: jabón.",
+   "text": "Esto es el jabón. Di: jabón.",
    "source": "expansion"
   },
   {
@@ -4644,10 +4644,10 @@
    "source": "expansion"
   },
   {
-   "id": "child_83b22233_65",
+   "id": "child_6cd10d60_35",
    "lang": "es",
    "style": "child",
-   "text": "¡Al agua patos! Vamos a bañar al muñeco. ¿Qué hacemos? Di: bañar.",
+   "text": "Vamos a bañar al muñeco. Di: bañar.",
    "source": "expansion"
   },
   {
@@ -4658,10 +4658,10 @@
    "source": "expansion"
   },
   {
-   "id": "slow_83b22233_65",
+   "id": "slow_6cd10d60_35",
    "lang": "es",
    "style": "slow",
-   "text": "¡Al agua patos! Vamos a bañar al muñeco. ¿Qué hacemos? Di: bañar.",
+   "text": "Vamos a bañar al muñeco. Di: bañar.",
    "source": "expansion"
   },
   {
@@ -4672,10 +4672,10 @@
    "source": "expansion"
   },
   {
-   "id": "child_039e36d0_50",
+   "id": "child_e50b395f_44",
    "lang": "es",
    "style": "child",
-   "text": "Frota, frota la esponja. ¿Qué hacemos? Di: frotar.",
+   "text": "Pasamos la esponja por el brazo. Di: frotar.",
    "source": "expansion"
   },
   {
@@ -4686,10 +4686,10 @@
    "source": "expansion"
   },
   {
-   "id": "slow_039e36d0_50",
+   "id": "slow_e50b395f_44",
    "lang": "es",
    "style": "slow",
-   "text": "Frota, frota la esponja. ¿Qué hacemos? Di: frotar.",
+   "text": "Pasamos la esponja por el brazo. Di: frotar.",
    "source": "expansion"
   },
   {
@@ -4700,10 +4700,10 @@
    "source": "expansion"
   },
   {
-   "id": "child_5ee62960_57",
+   "id": "child_b9b96dc0_37",
    "lang": "es",
    "style": "child",
-   "text": "El agua está calentita. ¿Cómo está el agua? Di: caliente.",
+   "text": "El agua está calentita. Di: caliente.",
    "source": "expansion"
   },
   {
@@ -4714,10 +4714,10 @@
    "source": "expansion"
   },
   {
-   "id": "slow_5ee62960_57",
+   "id": "slow_b9b96dc0_37",
    "lang": "es",
    "style": "slow",
-   "text": "El agua está calentita. ¿Cómo está el agua? Di: caliente.",
+   "text": "El agua está calentita. Di: caliente.",
    "source": "expansion"
   },
   {
@@ -4728,10 +4728,10 @@
    "source": "expansion"
   },
   {
-   "id": "child_343ce1aa_59",
+   "id": "child_c6ff969e_28",
    "lang": "es",
    "style": "child",
-   "text": "El agua salpica: ¡Chof, chof! ¿Cómo hace el agua? Di: chof.",
+   "text": "El agua hace chof. Di: chof.",
    "source": "expansion"
   },
   {
@@ -4742,10 +4742,10 @@
    "source": "expansion"
   },
   {
-   "id": "slow_343ce1aa_59",
+   "id": "slow_c6ff969e_28",
    "lang": "es",
    "style": "slow",
-   "text": "El agua salpica: ¡Chof, chof! ¿Cómo hace el agua? Di: chof.",
+   "text": "El agua hace chof. Di: chof.",
    "source": "expansion"
   },
   {
@@ -4756,10 +4756,10 @@
    "source": "expansion"
   },
   {
-   "id": "child_28b529fa_41",
+   "id": "child_bb2ad6a8_26",
    "lang": "es",
    "style": "child",
-   "text": "Mira el cielo. Esto es la luna. Di: luna.",
+   "text": "Esto es la luna. Di: luna.",
    "source": "expansion"
   },
   {
@@ -4770,10 +4770,10 @@
    "source": "expansion"
   },
   {
-   "id": "slow_28b529fa_41",
+   "id": "slow_bb2ad6a8_26",
    "lang": "es",
    "style": "slow",
-   "text": "Mira el cielo. Esto es la luna. Di: luna.",
+   "text": "Esto es la luna. Di: luna.",
    "source": "expansion"
   },
   {
@@ -4812,10 +4812,10 @@
    "source": "expansion"
   },
   {
-   "id": "child_69c782e7_50",
+   "id": "child_3b1709bc_33",
    "lang": "es",
    "style": "child",
-   "text": "Shhh… es hora de dormir. ¿Qué hacemos? Di: dormir.",
+   "text": "Es la hora de dormir. Di: dormir.",
    "source": "expansion"
   },
   {
@@ -4826,10 +4826,10 @@
    "source": "expansion"
   },
   {
-   "id": "slow_69c782e7_50",
+   "id": "slow_3b1709bc_33",
    "lang": "es",
    "style": "slow",
-   "text": "Shhh… es hora de dormir. ¿Qué hacemos? Di: dormir.",
+   "text": "Es la hora de dormir. Di: dormir.",
    "source": "expansion"
   },
   {
@@ -4840,10 +4840,10 @@
    "source": "expansion"
   },
   {
-   "id": "child_e08bc0f5_54",
+   "id": "child_2e981bfb_33",
    "lang": "es",
    "style": "child",
-   "text": "Un abrazo de buenas noches. ¿Qué hacemos? Di: abrazar.",
+   "text": "Nos damos un abrazo. Di: abrazar.",
    "source": "expansion"
   },
   {
@@ -4854,10 +4854,10 @@
    "source": "expansion"
   },
   {
-   "id": "slow_e08bc0f5_54",
+   "id": "slow_2e981bfb_33",
    "lang": "es",
    "style": "slow",
-   "text": "Un abrazo de buenas noches. ¿Qué hacemos? Di: abrazar.",
+   "text": "Nos damos un abrazo. Di: abrazar.",
    "source": "expansion"
   },
   {
@@ -4868,10 +4868,10 @@
    "source": "expansion"
   },
   {
-   "id": "child_d9901be6_58",
+   "id": "child_0023a78b_29",
    "lang": "es",
    "style": "child",
-   "text": "Se apagó la luz. Todo está oscuro. ¿Cómo está? Di: oscuro.",
+   "text": "Todo está oscuro. Di: oscuro.",
    "source": "expansion"
   },
   {
@@ -4882,10 +4882,10 @@
    "source": "expansion"
   },
   {
-   "id": "slow_d9901be6_58",
+   "id": "slow_0023a78b_29",
    "lang": "es",
    "style": "slow",
-   "text": "Se apagó la luz. Todo está oscuro. ¿Cómo está? Di: oscuro.",
+   "text": "Todo está oscuro. Di: oscuro.",
    "source": "expansion"
   },
   {
@@ -4896,10 +4896,10 @@
    "source": "expansion"
   },
   {
-   "id": "child_11f4e420_64",
+   "id": "child_7cc64e43_32",
    "lang": "es",
    "style": "child",
-   "text": "El búho canta de noche: ¡Uh, uh! ¿Cómo hace el búho? Di: uh, uh.",
+   "text": "El búho hace uh, uh. Di: uh, uh.",
    "source": "expansion"
   },
   {
@@ -4910,10 +4910,10 @@
    "source": "expansion"
   },
   {
-   "id": "slow_11f4e420_64",
+   "id": "slow_7cc64e43_32",
    "lang": "es",
    "style": "slow",
-   "text": "El búho canta de noche: ¡Uh, uh! ¿Cómo hace el búho? Di: uh, uh.",
+   "text": "El búho hace uh, uh. Di: uh, uh.",
    "source": "expansion"
   },
   {
@@ -4924,38 +4924,10 @@
    "source": "expansion"
   },
   {
-   "id": "child_0d59acec_61",
+   "id": "child_2892437c_28",
    "lang": "es",
    "style": "child",
-   "text": "El motor arranca: ¡Brum, brum! ¿Cómo hace el coche? Di: brum.",
-   "source": "expansion"
-  },
-  {
-   "id": "child_a1834c75_20",
-   "lang": "es",
-   "style": "child",
-   "text": "¡Otra vez! Di: brum.",
-   "source": "expansion"
-  },
-  {
-   "id": "slow_0d59acec_61",
-   "lang": "es",
-   "style": "slow",
-   "text": "El motor arranca: ¡Brum, brum! ¿Cómo hace el coche? Di: brum.",
-   "source": "expansion"
-  },
-  {
-   "id": "tutor_a6df5d1b_107",
-   "lang": "es",
-   "style": "tutor",
-   "text": "Empuja un coche de juguete por el suelo haciendo vibrar los labios con “brrrum” y anima al niño a imitarte.",
-   "source": "expansion"
-  },
-  {
-   "id": "child_21ab0faf_50",
-   "lang": "es",
-   "style": "child",
-   "text": "¡Brum, brum! Esto es el coche. ¿Qué es? Di: coche.",
+   "text": "Esto es el coche. Di: coche.",
    "source": "expansion"
   },
   {
@@ -4966,10 +4938,10 @@
    "source": "expansion"
   },
   {
-   "id": "slow_21ab0faf_50",
+   "id": "slow_2892437c_28",
    "lang": "es",
    "style": "slow",
-   "text": "¡Brum, brum! Esto es el coche. ¿Qué es? Di: coche.",
+   "text": "Esto es el coche. Di: coche.",
    "source": "expansion"
   },
   {
@@ -4980,10 +4952,38 @@
    "source": "expansion"
   },
   {
-   "id": "child_d5de2180_64",
+   "id": "child_2def6701_33",
    "lang": "es",
    "style": "child",
-   "text": "Mira, el coche corre muy deprisa. ¿Qué hace el coche? Di: corre.",
+   "text": "El coche tiene ruedas. Di: rueda.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_e48b1c74_21",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Otra vez! Di: rueda.",
+   "source": "expansion"
+  },
+  {
+   "id": "slow_2def6701_33",
+   "lang": "es",
+   "style": "slow",
+   "text": "El coche tiene ruedas. Di: rueda.",
+   "source": "expansion"
+  },
+  {
+   "id": "tutor_6407e80c_89",
+   "lang": "es",
+   "style": "tutor",
+   "text": "Coged el coche y girad una rueda con el dedo del niño, repitiendo “rueda” en cada vuelta.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_3a75a6e3_26",
+   "lang": "es",
+   "style": "child",
+   "text": "El coche corre. Di: corre.",
    "source": "expansion"
   },
   {
@@ -4994,10 +4994,10 @@
    "source": "expansion"
   },
   {
-   "id": "slow_d5de2180_64",
+   "id": "slow_3a75a6e3_26",
    "lang": "es",
    "style": "slow",
-   "text": "Mira, el coche corre muy deprisa. ¿Qué hace el coche? Di: corre.",
+   "text": "El coche corre. Di: corre.",
    "source": "expansion"
   },
   {
@@ -5008,10 +5008,10 @@
    "source": "expansion"
   },
   {
-   "id": "child_03234116_59",
+   "id": "child_c198815e_35",
    "lang": "es",
    "style": "child",
-   "text": "¡Uy, qué rápido va el coche! ¿Cómo es el coche? Di: rápido.",
+   "text": "El coche es muy rápido. Di: rápido.",
    "source": "expansion"
   },
   {
@@ -5022,10 +5022,10 @@
    "source": "expansion"
   },
   {
-   "id": "slow_03234116_59",
+   "id": "slow_c198815e_35",
    "lang": "es",
    "style": "slow",
-   "text": "¡Uy, qué rápido va el coche! ¿Cómo es el coche? Di: rápido.",
+   "text": "El coche es muy rápido. Di: rápido.",
    "source": "expansion"
   },
   {
@@ -5036,45 +5036,17 @@
    "source": "expansion"
   },
   {
-   "id": "child_fdfc5133_59",
+   "id": "child_a25f87f4_28",
    "lang": "es",
    "style": "child",
-   "text": "El perro ladra: ¡Guau, guau! ¿Cómo hace el perro? Di: guau.",
+   "text": "Esto es el perro. Di: perro.",
    "source": "expansion"
   },
   {
-   "id": "child_46fe0ab1_20",
-   "lang": "es",
-   "style": "child",
-   "text": "¡Otra vez! Di: guau.",
-   "source": "expansion"
-  },
-  {
-   "id": "slow_fdfc5133_59",
+   "id": "slow_a25f87f4_28",
    "lang": "es",
    "style": "slow",
-   "text": "El perro ladra: ¡Guau, guau! ¿Cómo hace el perro? Di: guau.",
-   "source": "expansion"
-  },
-  {
-   "id": "tutor_2177da16_98",
-   "lang": "es",
-   "style": "tutor",
-   "text": "Ponte a cuatro patas y ladra “¡guau, guau!” moviendo la cabeza, animando al niño a ladrar contigo.",
-   "source": "expansion"
-  },
-  {
-   "id": "child_da3e8573_50",
-   "lang": "es",
-   "style": "child",
-   "text": "¡Guau, guau! Esto es el perro. ¿Qué es? Di: perro.",
-   "source": "expansion"
-  },
-  {
-   "id": "slow_da3e8573_50",
-   "lang": "es",
-   "style": "slow",
-   "text": "¡Guau, guau! Esto es el perro. ¿Qué es? Di: perro.",
+   "text": "Esto es el perro. Di: perro.",
    "source": "expansion"
   },
   {
@@ -5085,10 +5057,38 @@
    "source": "expansion"
   },
   {
-   "id": "child_4e7e2cbb_73",
+   "id": "child_fe1ee935_38",
    "lang": "es",
    "style": "child",
-   "text": "Mira, el perro salta para coger la pelota. ¿Qué hace el perro? Di: salta.",
+   "text": "El perro tiene cuatro patas. Di: pata.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_2071b247_20",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Otra vez! Di: pata.",
+   "source": "expansion"
+  },
+  {
+   "id": "slow_fe1ee935_38",
+   "lang": "es",
+   "style": "slow",
+   "text": "El perro tiene cuatro patas. Di: pata.",
+   "source": "expansion"
+  },
+  {
+   "id": "tutor_b0551f53_96",
+   "lang": "es",
+   "style": "tutor",
+   "text": "Poned las manos en el suelo como patas y caminad a cuatro patas un par de pasos diciendo “pata”.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_e6789ab3_47",
+   "lang": "es",
+   "style": "child",
+   "text": "El perro salta para coger la pelota. Di: salta.",
    "source": "expansion"
   },
   {
@@ -5099,10 +5099,10 @@
    "source": "expansion"
   },
   {
-   "id": "slow_4e7e2cbb_73",
+   "id": "slow_e6789ab3_47",
    "lang": "es",
    "style": "slow",
-   "text": "Mira, el perro salta para coger la pelota. ¿Qué hace el perro? Di: salta.",
+   "text": "El perro salta para coger la pelota. Di: salta.",
    "source": "expansion"
   },
   {
@@ -5113,10 +5113,10 @@
    "source": "expansion"
   },
   {
-   "id": "child_8cd08879_68",
+   "id": "child_9a202e8f_42",
    "lang": "es",
    "style": "child",
-   "text": "¡Toca! El perro es blandito y peludo. ¿Cómo es el perro? Di: peludo.",
+   "text": "El perro es blandito y peludo. Di: peludo.",
    "source": "expansion"
   },
   {
@@ -5127,10 +5127,10 @@
    "source": "expansion"
   },
   {
-   "id": "slow_8cd08879_68",
+   "id": "slow_9a202e8f_42",
    "lang": "es",
    "style": "slow",
-   "text": "¡Toca! El perro es blandito y peludo. ¿Cómo es el perro? Di: peludo.",
+   "text": "El perro es blandito y peludo. Di: peludo.",
    "source": "expansion"
   },
   {
@@ -5141,38 +5141,10 @@
    "source": "expansion"
   },
   {
-   "id": "child_a6bc710f_49",
+   "id": "child_dd9c99d8_26",
    "lang": "es",
    "style": "child",
-   "text": "La vaca hace: ¡Muuu! ¿Cómo hace la vaca? Di: muu.",
-   "source": "expansion"
-  },
-  {
-   "id": "child_7350c17e_19",
-   "lang": "es",
-   "style": "child",
-   "text": "¡Otra vez! Di: muu.",
-   "source": "expansion"
-  },
-  {
-   "id": "slow_a6bc710f_49",
-   "lang": "es",
-   "style": "slow",
-   "text": "La vaca hace: ¡Muuu! ¿Cómo hace la vaca? Di: muu.",
-   "source": "expansion"
-  },
-  {
-   "id": "tutor_7d5e957d_88",
-   "lang": "es",
-   "style": "tutor",
-   "text": "Pon las manos como cuernos en la cabeza y muge “¡muuu!” alargando el sonido con el niño.",
-   "source": "expansion"
-  },
-  {
-   "id": "child_624cd57f_42",
-   "lang": "es",
-   "style": "child",
-   "text": "¡Muuu! Esto es la vaca. ¿Qué es? Di: vaca.",
+   "text": "Esto es la vaca. Di: vaca.",
    "source": "expansion"
   },
   {
@@ -5183,10 +5155,10 @@
    "source": "expansion"
   },
   {
-   "id": "slow_624cd57f_42",
+   "id": "slow_dd9c99d8_26",
    "lang": "es",
    "style": "slow",
-   "text": "¡Muuu! Esto es la vaca. ¿Qué es? Di: vaca.",
+   "text": "Esto es la vaca. Di: vaca.",
    "source": "expansion"
   },
   {
@@ -5197,10 +5169,38 @@
    "source": "expansion"
   },
   {
-   "id": "child_53c89384_67",
+   "id": "child_12f40d33_36",
    "lang": "es",
    "style": "child",
-   "text": "Mira, la vaca come hierba en el campo. ¿Qué hace la vaca? Di: come.",
+   "text": "De la vaca sale la leche. Di: leche.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_592fcde8_21",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Otra vez! Di: leche.",
+   "source": "expansion"
+  },
+  {
+   "id": "slow_12f40d33_36",
+   "lang": "es",
+   "style": "slow",
+   "text": "De la vaca sale la leche. Di: leche.",
+   "source": "expansion"
+  },
+  {
+   "id": "tutor_a4bbb42e_91",
+   "lang": "es",
+   "style": "tutor",
+   "text": "Servid un poco de leche en su vaso y dad un sorbo cada uno diciendo “leche” antes de beber.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_04d4a379_30",
+   "lang": "es",
+   "style": "child",
+   "text": "La vaca come hierba. Di: come.",
    "source": "expansion"
   },
   {
@@ -5211,24 +5211,24 @@
    "source": "expansion"
   },
   {
-   "id": "slow_53c89384_67",
+   "id": "slow_04d4a379_30",
    "lang": "es",
    "style": "slow",
-   "text": "Mira, la vaca come hierba en el campo. ¿Qué hace la vaca? Di: come.",
+   "text": "La vaca come hierba. Di: come.",
    "source": "expansion"
   },
   {
-   "id": "tutor_d4cb4121_95",
+   "id": "tutor_f62e801f_97",
    "lang": "es",
    "style": "tutor",
-   "text": "Agacha la cabeza como la vaca y haz que masticáis hierba moviendo la mandíbula al decir “come”.",
+   "text": "Agacha la cabeza como la vaca y haced que masticáis hierba moviendo la mandíbula al decir “come”.",
    "source": "expansion"
   },
   {
-   "id": "child_6a466745_59",
+   "id": "child_79626367_34",
    "lang": "es",
    "style": "child",
-   "text": "¡Hala! La vaca es muy grande. ¿Cómo es la vaca? Di: grande.",
+   "text": "La vaca es muy grande. Di: grande.",
    "source": "expansion"
   },
   {
@@ -5239,10 +5239,10 @@
    "source": "expansion"
   },
   {
-   "id": "slow_6a466745_59",
+   "id": "slow_79626367_34",
    "lang": "es",
    "style": "slow",
-   "text": "¡Hala! La vaca es muy grande. ¿Cómo es la vaca? Di: grande.",
+   "text": "La vaca es muy grande. Di: grande.",
    "source": "expansion"
   },
   {
@@ -5253,38 +5253,10 @@
    "source": "expansion"
   },
   {
-   "id": "child_1ca781d0_58",
+   "id": "child_208436d6_26",
    "lang": "es",
    "style": "child",
-   "text": "El gato maúlla: ¡Miau, miau! ¿Cómo hace el gato? Di: miau.",
-   "source": "expansion"
-  },
-  {
-   "id": "child_e01cc9b7_20",
-   "lang": "es",
-   "style": "child",
-   "text": "¡Otra vez! Di: miau.",
-   "source": "expansion"
-  },
-  {
-   "id": "slow_1ca781d0_58",
-   "lang": "es",
-   "style": "slow",
-   "text": "El gato maúlla: ¡Miau, miau! ¿Cómo hace el gato? Di: miau.",
-   "source": "expansion"
-  },
-  {
-   "id": "tutor_bc81b42d_83",
-   "lang": "es",
-   "style": "tutor",
-   "text": "Frótate la carita con la mano como un gato lavándose y maúlla “¡miau!” con el niño.",
-   "source": "expansion"
-  },
-  {
-   "id": "child_9d290691_42",
-   "lang": "es",
-   "style": "child",
-   "text": "¡Miau! Esto es el gato. ¿Qué es? Di: gato.",
+   "text": "Esto es el gato. Di: gato.",
    "source": "expansion"
   },
   {
@@ -5295,10 +5267,10 @@
    "source": "expansion"
   },
   {
-   "id": "slow_9d290691_42",
+   "id": "slow_208436d6_26",
    "lang": "es",
    "style": "slow",
-   "text": "¡Miau! Esto es el gato. ¿Qué es? Di: gato.",
+   "text": "Esto es el gato. Di: gato.",
    "source": "expansion"
   },
   {
@@ -5309,10 +5281,38 @@
    "source": "expansion"
   },
   {
-   "id": "child_dda9b9a8_63",
+   "id": "child_6cd18626_41",
    "lang": "es",
    "style": "child",
-   "text": "Shhh… el gato duerme en su cama. ¿Qué hace el gato? Di: duerme.",
+   "text": "El gato tiene bigotes largos. Di: bigote.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_c2283ad7_22",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Otra vez! Di: bigote.",
+   "source": "expansion"
+  },
+  {
+   "id": "slow_6cd18626_41",
+   "lang": "es",
+   "style": "slow",
+   "text": "El gato tiene bigotes largos. Di: bigote.",
+   "source": "expansion"
+  },
+  {
+   "id": "tutor_5c278a71_94",
+   "lang": "es",
+   "style": "tutor",
+   "text": "Dibujad bigotes en el aire desde la nariz hacia las mejillas del niño mientras decís “bigote”.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_42c20637_38",
+   "lang": "es",
+   "style": "child",
+   "text": "El gato duerme en su cama. Di: duerme.",
    "source": "expansion"
   },
   {
@@ -5323,10 +5323,10 @@
    "source": "expansion"
   },
   {
-   "id": "slow_dda9b9a8_63",
+   "id": "slow_42c20637_38",
    "lang": "es",
    "style": "slow",
-   "text": "Shhh… el gato duerme en su cama. ¿Qué hace el gato? Di: duerme.",
+   "text": "El gato duerme en su cama. Di: duerme.",
    "source": "expansion"
   },
   {
@@ -5337,10 +5337,10 @@
    "source": "expansion"
   },
   {
-   "id": "child_4a0e5693_66",
+   "id": "child_96799f98_41",
    "lang": "es",
    "style": "child",
-   "text": "¡Toca! El pelo del gato es muy suave. ¿Cómo es el gato? Di: suave.",
+   "text": "El pelo del gato es muy suave. Di: suave.",
    "source": "expansion"
   },
   {
@@ -5351,10 +5351,10 @@
    "source": "expansion"
   },
   {
-   "id": "slow_4a0e5693_66",
+   "id": "slow_96799f98_41",
    "lang": "es",
    "style": "slow",
-   "text": "¡Toca! El pelo del gato es muy suave. ¿Cómo es el gato? Di: suave.",
+   "text": "El pelo del gato es muy suave. Di: suave.",
    "source": "expansion"
   },
   {
@@ -5365,38 +5365,10 @@
    "source": "expansion"
   },
   {
-   "id": "child_b805b2c2_71",
+   "id": "child_e1bc3da2_26",
    "lang": "es",
    "style": "child",
-   "text": "La lluvia cae: ¡Plic, plic, plic! ¿Cómo hace la lluvia? Di: plic, plic.",
-   "source": "expansion"
-  },
-  {
-   "id": "child_29055d25_25",
-   "lang": "es",
-   "style": "child",
-   "text": "¡Otra vez! Di: plic plic.",
-   "source": "expansion"
-  },
-  {
-   "id": "slow_b805b2c2_71",
-   "lang": "es",
-   "style": "slow",
-   "text": "La lluvia cae: ¡Plic, plic, plic! ¿Cómo hace la lluvia? Di: plic, plic.",
-   "source": "expansion"
-  },
-  {
-   "id": "tutor_2c776363_91",
-   "lang": "es",
-   "style": "tutor",
-   "text": "Tamborilea con los dedos sobre la mesa como gotas de lluvia y que el niño “llueva” contigo.",
-   "source": "expansion"
-  },
-  {
-   "id": "child_265eb8a7_48",
-   "lang": "es",
-   "style": "child",
-   "text": "¡Plic, plic! Esto es el agua. ¿Qué es? Di: agua.",
+   "text": "Esto es el agua. Di: agua.",
    "source": "expansion"
   },
   {
@@ -5407,10 +5379,10 @@
    "source": "expansion"
   },
   {
-   "id": "slow_265eb8a7_48",
+   "id": "slow_e1bc3da2_26",
    "lang": "es",
    "style": "slow",
-   "text": "¡Plic, plic! Esto es el agua. ¿Qué es? Di: agua.",
+   "text": "Esto es el agua. Di: agua.",
    "source": "expansion"
   },
   {
@@ -5421,10 +5393,38 @@
    "source": "expansion"
   },
   {
-   "id": "child_e046d602_56",
+   "id": "child_049fb7f4_34",
    "lang": "es",
    "style": "child",
-   "text": "Mira, el agua cae del cielo. ¿Qué hace el agua? Di: cae.",
+   "text": "El agua sale de la nube. Di: nube.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_072ed403_20",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Otra vez! Di: nube.",
+   "source": "expansion"
+  },
+  {
+   "id": "slow_049fb7f4_34",
+   "lang": "es",
+   "style": "slow",
+   "text": "El agua sale de la nube. Di: nube.",
+   "source": "expansion"
+  },
+  {
+   "id": "tutor_41a8150b_91",
+   "lang": "es",
+   "style": "tutor",
+   "text": "Señalad una nube por la ventana (o dibujad una en el aire) y decid “nube” soplando flojito.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_bcf4884a_31",
+   "lang": "es",
+   "style": "child",
+   "text": "El agua cae del cielo. Di: cae.",
    "source": "expansion"
   },
   {
@@ -5435,10 +5435,10 @@
    "source": "expansion"
   },
   {
-   "id": "slow_e046d602_56",
+   "id": "slow_bcf4884a_31",
    "lang": "es",
    "style": "slow",
-   "text": "Mira, el agua cae del cielo. ¿Qué hace el agua? Di: cae.",
+   "text": "El agua cae del cielo. Di: cae.",
    "source": "expansion"
   },
   {
@@ -5449,10 +5449,10 @@
    "source": "expansion"
   },
   {
-   "id": "child_be2bf8be_57",
+   "id": "child_18b0a18f_32",
    "lang": "es",
    "style": "child",
-   "text": "¡Uy! La mano está mojada. ¿Cómo está la mano? Di: mojado.",
+   "text": "La mano está mojada. Di: mojado.",
    "source": "expansion"
   },
   {
@@ -5463,10 +5463,10 @@
    "source": "expansion"
   },
   {
-   "id": "slow_be2bf8be_57",
+   "id": "slow_18b0a18f_32",
    "lang": "es",
    "style": "slow",
-   "text": "¡Uy! La mano está mojada. ¿Cómo está la mano? Di: mojado.",
+   "text": "La mano está mojada. Di: mojado.",
    "source": "expansion"
   },
   {
@@ -5477,38 +5477,10 @@
    "source": "expansion"
   },
   {
-   "id": "child_3bf79d90_66",
+   "id": "child_c7a7a62e_26",
    "lang": "es",
    "style": "child",
-   "text": "El tren hace: ¡Chucu, chucu! ¿Cómo hace el tren? Di: chucu, chucu.",
-   "source": "expansion"
-  },
-  {
-   "id": "child_98fc738d_27",
-   "lang": "es",
-   "style": "child",
-   "text": "¡Otra vez! Di: chucu chucu.",
-   "source": "expansion"
-  },
-  {
-   "id": "slow_3bf79d90_66",
-   "lang": "es",
-   "style": "slow",
-   "text": "El tren hace: ¡Chucu, chucu! ¿Cómo hace el tren? Di: chucu, chucu.",
-   "source": "expansion"
-  },
-  {
-   "id": "tutor_d928a96b_102",
-   "lang": "es",
-   "style": "tutor",
-   "text": "Haced un trenecito: el niño se agarra a tu cintura y avanzad por el pasillo al ritmo de “chucu-chucu”.",
-   "source": "expansion"
-  },
-  {
-   "id": "child_92572295_50",
-   "lang": "es",
-   "style": "child",
-   "text": "¡Chucu, chucu! Esto es el tren. ¿Qué es? Di: tren.",
+   "text": "Esto es el tren. Di: tren.",
    "source": "expansion"
   },
   {
@@ -5519,24 +5491,52 @@
    "source": "expansion"
   },
   {
-   "id": "slow_92572295_50",
+   "id": "slow_c7a7a62e_26",
    "lang": "es",
    "style": "slow",
-   "text": "¡Chucu, chucu! Esto es el tren. ¿Qué es? Di: tren.",
+   "text": "Esto es el tren. Di: tren.",
    "source": "expansion"
   },
   {
-   "id": "tutor_cf6c4f70_81",
+   "id": "tutor_49aa18a7_94",
    "lang": "es",
    "style": "tutor",
-   "text": "Alinead tres cojines o cajas como vagones y señaladlos uno a uno diciendo “tren”.",
+   "text": "Haced un trenecito: el niño se agarra a tu cintura y avanzad por el pasillo repitiendo “tren”.",
    "source": "expansion"
   },
   {
-   "id": "child_5d6fe12e_66",
+   "id": "child_dbac65a9_40",
    "lang": "es",
    "style": "child",
-   "text": "El tren llega a la estación y… ¡para! ¿Qué hace el tren? Di: para.",
+   "text": "El tren lleva muchos vagones. Di: vagón.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_8dca1544_21",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Otra vez! Di: vagón.",
+   "source": "expansion"
+  },
+  {
+   "id": "slow_dbac65a9_40",
+   "lang": "es",
+   "style": "slow",
+   "text": "El tren lleva muchos vagones. Di: vagón.",
+   "source": "expansion"
+  },
+  {
+   "id": "tutor_489bce9c_92",
+   "lang": "es",
+   "style": "tutor",
+   "text": "Poned en fila tres cajas o cojines como vagones y enganchadlos diciendo “vagón” en cada uno.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_f0075f20_38",
+   "lang": "es",
+   "style": "child",
+   "text": "El tren para en la estación. Di: para.",
    "source": "expansion"
   },
   {
@@ -5547,24 +5547,24 @@
    "source": "expansion"
   },
   {
-   "id": "slow_5d6fe12e_66",
+   "id": "slow_f0075f20_38",
    "lang": "es",
    "style": "slow",
-   "text": "El tren llega a la estación y… ¡para! ¿Qué hace el tren? Di: para.",
+   "text": "El tren para en la estación. Di: para.",
    "source": "expansion"
   },
   {
-   "id": "tutor_16f815bc_92",
+   "id": "tutor_4cd8cce2_90",
    "lang": "es",
    "style": "tutor",
-   "text": "Caminad como un tren por la habitación y, al oír “¡para!”, quedaos congelados como estatuas.",
+   "text": "Avanzad como un tren y frenad en seco al decir “¡para!”, quedándoos completamente quietos.",
    "source": "expansion"
   },
   {
-   "id": "child_bee951c9_68",
+   "id": "child_f5a78cad_32",
    "lang": "es",
    "style": "child",
-   "text": "¡Cuántos vagones! El tren es muy largo. ¿Cómo es el tren? Di: largo.",
+   "text": "El tren es muy largo. Di: largo.",
    "source": "expansion"
   },
   {
@@ -5575,52 +5575,24 @@
    "source": "expansion"
   },
   {
-   "id": "slow_bee951c9_68",
+   "id": "slow_f5a78cad_32",
    "lang": "es",
    "style": "slow",
-   "text": "¡Cuántos vagones! El tren es muy largo. ¿Cómo es el tren? Di: largo.",
+   "text": "El tren es muy largo. Di: largo.",
    "source": "expansion"
   },
   {
-   "id": "tutor_4921b677_74",
+   "id": "tutor_bd0a6610_72",
    "lang": "es",
    "style": "tutor",
-   "text": "Estirad los brazos hacia los lados todo lo que podáis diciendo “laaaargo”.",
+   "text": "Separad los brazos todo lo posible marcando lo “laaargo” que es el tren.",
    "source": "expansion"
   },
   {
-   "id": "child_b33a89ef_65",
+   "id": "child_863f058a_30",
    "lang": "es",
    "style": "child",
-   "text": "El pajarito canta: ¡Pío, pío! ¿Cómo hace el pájaro? Di: pío, pío.",
-   "source": "expansion"
-  },
-  {
-   "id": "child_8e95a7a1_23",
-   "lang": "es",
-   "style": "child",
-   "text": "¡Otra vez! Di: pío pío.",
-   "source": "expansion"
-  },
-  {
-   "id": "slow_b33a89ef_65",
-   "lang": "es",
-   "style": "slow",
-   "text": "El pajarito canta: ¡Pío, pío! ¿Cómo hace el pájaro? Di: pío, pío.",
-   "source": "expansion"
-  },
-  {
-   "id": "tutor_270341a2_84",
-   "lang": "es",
-   "style": "tutor",
-   "text": "Juntad los dedos como un pico que se abre y se cierra mientras piáis los dos juntos.",
-   "source": "expansion"
-  },
-  {
-   "id": "child_fadd18c9_50",
-   "lang": "es",
-   "style": "child",
-   "text": "¡Pío, pío! Esto es el pájaro. ¿Qué es? Di: pájaro.",
+   "text": "Esto es el pájaro. Di: pájaro.",
    "source": "expansion"
   },
   {
@@ -5631,24 +5603,52 @@
    "source": "expansion"
   },
   {
-   "id": "slow_fadd18c9_50",
+   "id": "slow_863f058a_30",
    "lang": "es",
    "style": "slow",
-   "text": "¡Pío, pío! Esto es el pájaro. ¿Qué es? Di: pájaro.",
+   "text": "Esto es el pájaro. Di: pájaro.",
    "source": "expansion"
   },
   {
-   "id": "tutor_052e9e00_82",
+   "id": "tutor_126a0748_88",
    "lang": "es",
    "style": "tutor",
-   "text": "Buscad un pájaro por la ventana o en un dibujo, señaladlo y saludadlo con la mano.",
+   "text": "Señalad un pájaro por la ventana o en una foto y seguidlo con el dedo diciendo “pájaro”.",
    "source": "expansion"
   },
   {
-   "id": "child_01278c27_67",
+   "id": "child_0726324e_34",
    "lang": "es",
    "style": "child",
-   "text": "Mira, el pájaro vuela por el cielo. ¿Qué hace el pájaro? Di: vuela.",
+   "text": "El pájaro tiene plumas. Di: pluma.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_a1cbd70e_21",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Otra vez! Di: pluma.",
+   "source": "expansion"
+  },
+  {
+   "id": "slow_0726324e_34",
+   "lang": "es",
+   "style": "slow",
+   "text": "El pájaro tiene plumas. Di: pluma.",
+   "source": "expansion"
+  },
+  {
+   "id": "tutor_235935bb_93",
+   "lang": "es",
+   "style": "tutor",
+   "text": "Soplad una pluma de verdad (o un trocito de papel) para que flote y decid “pluma” al cogerla.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_f32c76a2_40",
+   "lang": "es",
+   "style": "child",
+   "text": "El pájaro vuela por el cielo. Di: vuela.",
    "source": "expansion"
   },
   {
@@ -5659,24 +5659,24 @@
    "source": "expansion"
   },
   {
-   "id": "slow_01278c27_67",
+   "id": "slow_f32c76a2_40",
    "lang": "es",
    "style": "slow",
-   "text": "Mira, el pájaro vuela por el cielo. ¿Qué hace el pájaro? Di: vuela.",
+   "text": "El pájaro vuela por el cielo. Di: vuela.",
    "source": "expansion"
   },
   {
-   "id": "tutor_e57844dd_76",
+   "id": "tutor_384a95ea_89",
    "lang": "es",
    "style": "tutor",
-   "text": "Corred por la habitación con los brazos como alas, subiéndolas y bajándolas.",
+   "text": "Abrid los brazos como alas y dad una vuelta por la habitación “volando” al decir “vuela”.",
    "source": "expansion"
   },
   {
-   "id": "child_7977a9a2_60",
+   "id": "child_1e17ea6f_38",
    "lang": "es",
    "style": "child",
-   "text": "El pajarito es muy pequeño. ¿Cómo es el pájaro? Di: pequeño.",
+   "text": "El pájaro es muy pequeño. Di: pequeño.",
    "source": "expansion"
   },
   {
@@ -5687,45 +5687,24 @@
    "source": "expansion"
   },
   {
-   "id": "slow_7977a9a2_60",
+   "id": "slow_1e17ea6f_38",
    "lang": "es",
    "style": "slow",
-   "text": "El pajarito es muy pequeño. ¿Cómo es el pájaro? Di: pequeño.",
+   "text": "El pájaro es muy pequeño. Di: pequeño.",
    "source": "expansion"
   },
   {
-   "id": "tutor_af93ab8b_81",
+   "id": "tutor_40267c02_85",
    "lang": "es",
    "style": "tutor",
-   "text": "Juntad mucho las manos como si sujetarais un pajarito diminuto y habladle bajito.",
+   "text": "Juntad el índice y el pulgar dejando un huequito y mirad por él diciendo “pequeñito”.",
    "source": "expansion"
   },
   {
-   "id": "child_9e34d3fa_57",
+   "id": "child_9c299316_24",
    "lang": "es",
    "style": "child",
-   "text": "A desayunar: ¡Ñam, ñam! ¿Cómo hace la boca? Di: ñam, ñam.",
-   "source": "expansion"
-  },
-  {
-   "id": "slow_9e34d3fa_57",
-   "lang": "es",
-   "style": "slow",
-   "text": "A desayunar: ¡Ñam, ñam! ¿Cómo hace la boca? Di: ñam, ñam.",
-   "source": "expansion"
-  },
-  {
-   "id": "tutor_cabcf849_99",
-   "lang": "es",
-   "style": "tutor",
-   "text": "Mastica de forma exagerada un pan imaginario y que el niño mastique contigo al ritmo de “ñam, ñam”.",
-   "source": "expansion"
-  },
-  {
-   "id": "child_e8fbc145_44",
-   "lang": "es",
-   "style": "child",
-   "text": "¡Ñam, ñam! Esto es el pan. ¿Qué es? Di: pan.",
+   "text": "Esto es el pan. Di: pan.",
    "source": "expansion"
   },
   {
@@ -5736,24 +5715,52 @@
    "source": "expansion"
   },
   {
-   "id": "slow_e8fbc145_44",
+   "id": "slow_9c299316_24",
    "lang": "es",
    "style": "slow",
-   "text": "¡Ñam, ñam! Esto es el pan. ¿Qué es? Di: pan.",
+   "text": "Esto es el pan. Di: pan.",
    "source": "expansion"
   },
   {
-   "id": "tutor_ab7375a5_85",
+   "id": "tutor_26ae3052_77",
    "lang": "es",
    "style": "tutor",
-   "text": "Pon un trocito de pan de verdad en su mano, señaladlo y decid “pan” antes de comerlo.",
+   "text": "Pon un trozo de pan en la mano del niño y oledlo juntos antes de decir “pan”.",
    "source": "expansion"
   },
   {
-   "id": "child_d0f7f4c6_63",
+   "id": "child_9b047e27_44",
    "lang": "es",
    "style": "child",
-   "text": "Tienes hambre y pides: ¡quiero pan! ¿Qué dices? Di: quiero pan.",
+   "text": "En el desayuno bebemos de la taza. Di: taza.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_4b8b5219_20",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Otra vez! Di: taza.",
+   "source": "expansion"
+  },
+  {
+   "id": "slow_9b047e27_44",
+   "lang": "es",
+   "style": "slow",
+   "text": "En el desayuno bebemos de la taza. Di: taza.",
+   "source": "expansion"
+  },
+  {
+   "id": "tutor_30eb1b02_83",
+   "lang": "es",
+   "style": "tutor",
+   "text": "Coged la taza del desayuno por el asa entre los dos y dad un sorbo diciendo “taza”.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_92f692da_41",
+   "lang": "es",
+   "style": "child",
+   "text": "Tienes hambre y lo pides. Di: quiero pan.",
    "source": "expansion"
   },
   {
@@ -5764,24 +5771,24 @@
    "source": "expansion"
   },
   {
-   "id": "slow_d0f7f4c6_63",
+   "id": "slow_92f692da_41",
    "lang": "es",
    "style": "slow",
-   "text": "Tienes hambre y pides: ¡quiero pan! ¿Qué dices? Di: quiero pan.",
+   "text": "Tienes hambre y lo pides. Di: quiero pan.",
    "source": "expansion"
   },
   {
-   "id": "tutor_361d486b_122",
+   "id": "tutor_a398006e_88",
    "lang": "es",
    "style": "tutor",
-   "text": "Sujeta el pan a la vista pero fuera de su alcance y entrégaselo JUSTO cuando lo pida: la petición consigue el premio real.",
+   "text": "Sujeta el pan a la vista pero fuera de su alcance y espera la petición antes de dárselo.",
    "source": "expansion"
   },
   {
-   "id": "child_aa1720d7_57",
+   "id": "child_7f54586f_33",
    "lang": "es",
    "style": "child",
-   "text": "Hay pan blanco y pan tostado. ¿Cuál quieres? Di: tostado.",
+   "text": "El pan está tostado. Di: tostado.",
    "source": "expansion"
   },
   {
@@ -5792,52 +5799,24 @@
    "source": "expansion"
   },
   {
-   "id": "slow_aa1720d7_57",
+   "id": "slow_7f54586f_33",
    "lang": "es",
    "style": "slow",
-   "text": "Hay pan blanco y pan tostado. ¿Cuál quieres? Di: tostado.",
+   "text": "El pan está tostado. Di: tostado.",
    "source": "expansion"
   },
   {
-   "id": "tutor_42dde78c_104",
+   "id": "tutor_10db27b0_85",
    "lang": "es",
    "style": "tutor",
-   "text": "Muéstrale dos trozos (blanco y tostado) y dale el que nombre; oled juntos el tostado exagerando “¡mmm!”.",
+   "text": "Comparad una rebanada blanda y una tostada tocándolas: la tostada cruje al apretarla.",
    "source": "expansion"
   },
   {
-   "id": "child_2261a7d4_53",
+   "id": "child_b2cf3af2_28",
    "lang": "es",
    "style": "child",
-   "text": "El globo explota: ¡Pum! ¿Cómo hace el globo? Di: pum.",
-   "source": "expansion"
-  },
-  {
-   "id": "child_7b996f93_19",
-   "lang": "es",
-   "style": "child",
-   "text": "¡Otra vez! Di: pum.",
-   "source": "expansion"
-  },
-  {
-   "id": "slow_2261a7d4_53",
-   "lang": "es",
-   "style": "slow",
-   "text": "El globo explota: ¡Pum! ¿Cómo hace el globo? Di: pum.",
-   "source": "expansion"
-  },
-  {
-   "id": "tutor_46b96704_75",
-   "lang": "es",
-   "style": "tutor",
-   "text": "Inflad los mofletes muy fuerte y dad una palmada a la vez al decir “¡pum!”.",
-   "source": "expansion"
-  },
-  {
-   "id": "child_c856aec1_43",
-   "lang": "es",
-   "style": "child",
-   "text": "¡Pum! Esto es el globo. ¿Qué es? Di: globo.",
+   "text": "Esto es el globo. Di: globo.",
    "source": "expansion"
   },
   {
@@ -5848,24 +5827,52 @@
    "source": "expansion"
   },
   {
-   "id": "slow_c856aec1_43",
+   "id": "slow_b2cf3af2_28",
    "lang": "es",
    "style": "slow",
-   "text": "¡Pum! Esto es el globo. ¿Qué es? Di: globo.",
+   "text": "Esto es el globo. Di: globo.",
    "source": "expansion"
   },
   {
-   "id": "tutor_5e6cc818_91",
+   "id": "tutor_8c3509c3_72",
    "lang": "es",
    "style": "tutor",
-   "text": "Dale un globo (o una bolsita inflada), señaladlo y decid “globo” dándole toquecitos suaves.",
+   "text": "Dad un globo al niño y sujetadlo entre los dos mientras repetís “globo”.",
    "source": "expansion"
   },
   {
-   "id": "child_b0fb45ad_54",
+   "id": "child_da19d94d_38",
    "lang": "es",
    "style": "child",
-   "text": "Para inflarlo hay que soplar. ¿Qué hacemos? Di: sopla.",
+   "text": "El globo tiene una cuerda. Di: cuerda.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_7fdc56cb_22",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Otra vez! Di: cuerda.",
+   "source": "expansion"
+  },
+  {
+   "id": "slow_da19d94d_38",
+   "lang": "es",
+   "style": "slow",
+   "text": "El globo tiene una cuerda. Di: cuerda.",
+   "source": "expansion"
+  },
+  {
+   "id": "tutor_6f9ea202_76",
+   "lang": "es",
+   "style": "tutor",
+   "text": "Atad una cuerda al globo y dejad que el niño tire de ella diciendo “cuerda”.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_16f695a5_41",
+   "lang": "es",
+   "style": "child",
+   "text": "Soplamos para inflar el globo. Di: sopla.",
    "source": "expansion"
   },
   {
@@ -5876,24 +5883,24 @@
    "source": "expansion"
   },
   {
-   "id": "slow_b0fb45ad_54",
+   "id": "slow_16f695a5_41",
    "lang": "es",
    "style": "slow",
-   "text": "Para inflarlo hay que soplar. ¿Qué hacemos? Di: sopla.",
+   "text": "Soplamos para inflar el globo. Di: sopla.",
    "source": "expansion"
   },
   {
-   "id": "tutor_d5e3db6a_91",
+   "id": "tutor_2f5db9aa_89",
    "lang": "es",
    "style": "tutor",
-   "text": "Soplad los dos una pluma o un papelito sobre la mesa, alargando el soplido todo lo posible.",
+   "text": "Soplad los dos a la vez sobre la mano del otro para notar el aire antes de decir “sopla”.",
    "source": "expansion"
   },
   {
-   "id": "child_c0389951_60",
+   "id": "child_b47b89aa_33",
    "lang": "es",
    "style": "child",
-   "text": "¡Mira qué gordo! El globo es redondo. ¿Cómo es? Di: redondo.",
+   "text": "El globo es redondo. Di: redondo.",
    "source": "expansion"
   },
   {
@@ -5904,24 +5911,24 @@
    "source": "expansion"
   },
   {
-   "id": "slow_c0389951_60",
+   "id": "slow_b47b89aa_33",
    "lang": "es",
    "style": "slow",
-   "text": "¡Mira qué gordo! El globo es redondo. ¿Cómo es? Di: redondo.",
+   "text": "El globo es redondo. Di: redondo.",
    "source": "expansion"
   },
   {
-   "id": "tutor_e129372e_83",
+   "id": "tutor_188b4409_78",
    "lang": "es",
    "style": "tutor",
-   "text": "Dibujad círculos grandes en el aire con los dos brazos mientras decís “redoooondo”.",
+   "text": "Dibujad un círculo grande en el aire con los dos brazos diciendo “redoooondo”.",
    "source": "expansion"
   },
   {
-   "id": "tutor_5a1626c6_145",
+   "id": "tutor_115d2841_145",
    "lang": "es",
    "style": "tutor",
-   "text": "Prepara dos peluches del mismo animal pero de distinto tamaño: uno claramente GRANDE y uno claramente PEQUEÑO. Colócalos juntos delante del niño.",
+   "text": "Prepara dos ositos de peluche iguales pero de distinto tamaño: uno claramente GRANDE y uno claramente PEQUEÑO. Colócalos juntos delante del niño.",
    "source": "expansion"
   },
   {
@@ -5939,31 +5946,31 @@
    "source": "expansion"
   },
   {
-   "id": "tutor_d077ba20_93",
+   "id": "tutor_147333fe_91",
    "lang": "es",
    "style": "tutor",
-   "text": "El niño te entrega el peluche grande mientras lo dice; abrazadlo exagerando lo enorme que es.",
+   "text": "El niño te entrega el osito grande mientras lo dice; abrazadlo exagerando lo enorme que es.",
    "source": "expansion"
   },
   {
-   "id": "child_a29ddbd0_65",
+   "id": "child_56b842f8_71",
    "lang": "es",
    "style": "child",
-   "text": "Ahora al revés: ¿cuál es el PEQUEÑO? ¡Dámelo y dilo! Di: pequeño.",
+   "text": "Ahora al revés: ¿cuál es el osito PEQUEÑO? ¡Dámelo y dilo! Di: pequeño.",
    "source": "expansion"
   },
   {
-   "id": "slow_a29ddbd0_65",
+   "id": "slow_56b842f8_71",
    "lang": "es",
    "style": "slow",
-   "text": "Ahora al revés: ¿cuál es el PEQUEÑO? ¡Dámelo y dilo! Di: pequeño.",
+   "text": "Ahora al revés: ¿cuál es el osito PEQUEÑO? ¡Dámelo y dilo! Di: pequeño.",
    "source": "expansion"
   },
   {
-   "id": "tutor_9a686fcb_85",
+   "id": "tutor_df84455b_91",
    "lang": "es",
    "style": "tutor",
-   "text": "El niño te da el pequeño; escondedlo en una mano y decid “pequeño” con vocecita mini.",
+   "text": "El niño te da el osito pequeño; escondedlo en una mano y decid “pequeño” con vocecita mini.",
    "source": "expansion"
   },
   {
@@ -6275,10 +6282,10 @@
    "source": "expansion"
   },
   {
-   "id": "child_e46707b1_55",
+   "id": "child_7815f6f9_62",
    "lang": "es",
    "style": "child",
-   "text": "¿Cuál está LLENA de cosas? ¡Señálala y dilo! Di: lleno.",
+   "text": "¿Cuál es la cesta LLENA de cosas? ¡Señálala y dilo! Di: lleno.",
    "source": "expansion"
   },
   {
@@ -6289,10 +6296,10 @@
    "source": "expansion"
   },
   {
-   "id": "slow_e46707b1_55",
+   "id": "slow_7815f6f9_62",
    "lang": "es",
    "style": "slow",
-   "text": "¿Cuál está LLENA de cosas? ¡Señálala y dilo! Di: lleno.",
+   "text": "¿Cuál es la cesta LLENA de cosas? ¡Señálala y dilo! Di: lleno.",
    "source": "expansion"
   },
   {
@@ -6303,10 +6310,10 @@
    "source": "expansion"
   },
   {
-   "id": "child_1be0216c_49",
+   "id": "child_a642029a_55",
    "lang": "es",
    "style": "child",
-   "text": "Y esta otra, ¿cómo está? ¡Mira dentro! Di: vacío.",
+   "text": "Y esta otra cesta, ¿cómo está? ¡Mira dentro! Di: vacío.",
    "source": "expansion"
   },
   {
@@ -6317,10 +6324,10 @@
    "source": "expansion"
   },
   {
-   "id": "slow_1be0216c_49",
+   "id": "slow_a642029a_55",
    "lang": "es",
    "style": "slow",
-   "text": "Y esta otra, ¿cómo está? ¡Mira dentro! Di: vacío.",
+   "text": "Y esta otra cesta, ¿cómo está? ¡Mira dentro! Di: vacío.",
    "source": "expansion"
   },
   {
@@ -11770,10 +11777,10 @@
    "source": "util/muestra"
   },
   {
-   "id": "eu_child_3234e1b4_58",
+   "id": "eu_child_185cd85f_24",
    "lang": "eu",
    "style": "child",
-   "text": "Hau ohea da. Goizean ohetik salto egiten dugu. Esan: ohea.",
+   "text": "Hau ohea da. Esan: ohea.",
    "source": "expansion"
   },
   {
@@ -11784,10 +11791,10 @@
    "source": "expansion"
   },
   {
-   "id": "eu_slow_3234e1b4_58",
+   "id": "eu_slow_185cd85f_24",
    "lang": "eu",
    "style": "slow",
-   "text": "Hau ohea da. Goizean ohetik salto egiten dugu. Esan: ohea.",
+   "text": "Hau ohea da. Esan: ohea.",
    "source": "expansion"
   },
   {
@@ -11798,10 +11805,10 @@
    "source": "expansion"
   },
   {
-   "id": "eu_child_cf7be18b_69",
+   "id": "eu_child_ce791df5_30",
    "lang": "eu",
    "style": "child",
-   "text": "Hau eskuila da. Eskuilarekin hortzak garbitzen ditugu. Esan: eskuila.",
+   "text": "Hau eskuila da. Esan: eskuila.",
    "source": "expansion"
   },
   {
@@ -11812,10 +11819,10 @@
    "source": "expansion"
   },
   {
-   "id": "eu_slow_cf7be18b_69",
+   "id": "eu_slow_ce791df5_30",
    "lang": "eu",
    "style": "slow",
-   "text": "Hau eskuila da. Eskuilarekin hortzak garbitzen ditugu. Esan: eskuila.",
+   "text": "Hau eskuila da. Esan: eskuila.",
    "source": "expansion"
   },
   {
@@ -11826,10 +11833,10 @@
    "source": "expansion"
   },
   {
-   "id": "eu_child_1eaf7891_64",
+   "id": "eu_child_e9003e10_39",
    "lang": "eu",
    "style": "child",
-   "text": "Begira, eskuak garbitzen ditugu. Zer egiten dugu? Esan: garbitu.",
+   "text": "Eskuak garbitzen ditugu. Esan: garbitu.",
    "source": "expansion"
   },
   {
@@ -11840,10 +11847,10 @@
    "source": "expansion"
   },
   {
-   "id": "eu_slow_1eaf7891_64",
+   "id": "eu_slow_e9003e10_39",
    "lang": "eu",
    "style": "slow",
-   "text": "Begira, eskuak garbitzen ditugu. Zer egiten dugu? Esan: garbitu.",
+   "text": "Eskuak garbitzen ditugu. Esan: garbitu.",
    "source": "expansion"
   },
   {
@@ -11854,10 +11861,10 @@
    "source": "expansion"
   },
   {
-   "id": "eu_child_3d2ac668_69",
+   "id": "eu_child_5b671260_36",
    "lang": "eu",
    "style": "child",
-   "text": "Orain jantzi egiten gara. Burua kamisetan sartzen dugu. Esan: jantzi.",
+   "text": "Kamiseta janzten dugu. Esan: jantzi.",
    "source": "expansion"
   },
   {
@@ -11868,10 +11875,10 @@
    "source": "expansion"
   },
   {
-   "id": "eu_slow_3d2ac668_69",
+   "id": "eu_slow_5b671260_36",
    "lang": "eu",
    "style": "slow",
-   "text": "Orain jantzi egiten gara. Burua kamisetan sartzen dugu. Esan: jantzi.",
+   "text": "Kamiseta janzten dugu. Esan: jantzi.",
    "source": "expansion"
   },
   {
@@ -11882,10 +11889,10 @@
    "source": "expansion"
   },
   {
-   "id": "eu_child_f0c1bb17_88",
+   "id": "eu_child_1544b487_32",
    "lang": "eu",
    "style": "child",
-   "text": "Begira zer esku! Garbi-garbi daude eta distira egiten dute. Nolakoak daude? Esan: garbi.",
+   "text": "Eskuak garbi daude. Esan: garbi.",
    "source": "expansion"
   },
   {
@@ -11896,10 +11903,10 @@
    "source": "expansion"
   },
   {
-   "id": "eu_slow_f0c1bb17_88",
+   "id": "eu_slow_1544b487_32",
    "lang": "eu",
    "style": "slow",
-   "text": "Begira zer esku! Garbi-garbi daude eta distira egiten dute. Nolakoak daude? Esan: garbi.",
+   "text": "Eskuak garbi daude. Esan: garbi.",
    "source": "expansion"
   },
   {
@@ -11910,10 +11917,10 @@
    "source": "expansion"
   },
   {
-   "id": "eu_child_47ecea51_85",
+   "id": "eu_child_940f0350_50",
    "lang": "eu",
    "style": "child",
-   "text": "Iratzargailua jotzen ari da: Rin, rin! Nola egiten du iratzargailuak? Esan: rin, rin.",
+   "text": "Iratzargailuak rin, rin egiten du. Esan: rin, rin.",
    "source": "expansion"
   },
   {
@@ -11924,10 +11931,10 @@
    "source": "expansion"
   },
   {
-   "id": "eu_slow_47ecea51_85",
+   "id": "eu_slow_940f0350_50",
    "lang": "eu",
    "style": "slow",
-   "text": "Iratzargailua jotzen ari da: Rin, rin! Nola egiten du iratzargailuak? Esan: rin, rin.",
+   "text": "Iratzargailuak rin, rin egiten du. Esan: rin, rin.",
    "source": "expansion"
   },
   {
@@ -11938,10 +11945,10 @@
    "source": "expansion"
   },
   {
-   "id": "eu_child_459c60dc_60",
+   "id": "eu_child_f46ebc49_30",
    "lang": "eu",
    "style": "child",
-   "text": "Hau koilara da. Zopa koilararekin jaten dugu. Esan: koilara.",
+   "text": "Hau koilara da. Esan: koilara.",
    "source": "expansion"
   },
   {
@@ -11952,10 +11959,10 @@
    "source": "expansion"
   },
   {
-   "id": "eu_slow_459c60dc_60",
+   "id": "eu_slow_f46ebc49_30",
    "lang": "eu",
    "style": "slow",
-   "text": "Hau koilara da. Zopa koilararekin jaten dugu. Esan: koilara.",
+   "text": "Hau koilara da. Esan: koilara.",
    "source": "expansion"
   },
   {
@@ -11966,10 +11973,10 @@
    "source": "expansion"
   },
   {
-   "id": "eu_child_0904ea68_43",
+   "id": "eu_child_3fb19a3d_26",
    "lang": "eu",
    "style": "child",
-   "text": "Hau basoa da. Basoan ura dago. Esan: basoa.",
+   "text": "Hau basoa da. Esan: basoa.",
    "source": "expansion"
   },
   {
@@ -11980,10 +11987,10 @@
    "source": "expansion"
   },
   {
-   "id": "eu_slow_0904ea68_43",
+   "id": "eu_slow_3fb19a3d_26",
    "lang": "eu",
    "style": "slow",
-   "text": "Hau basoa da. Basoan ura dago. Esan: basoa.",
+   "text": "Hau basoa da. Esan: basoa.",
    "source": "expansion"
   },
   {
@@ -11994,10 +12001,10 @@
    "source": "expansion"
   },
   {
-   "id": "eu_child_e3685f66_59",
+   "id": "eu_child_0e8e6630_25",
    "lang": "eu",
    "style": "child",
-   "text": "Gose handia dut. Goazen jatera! Zer egiten dugu? Esan: jan.",
+   "text": "Goazen jatera. Esan: jan.",
    "source": "expansion"
   },
   {
@@ -12008,10 +12015,10 @@
    "source": "expansion"
   },
   {
-   "id": "eu_slow_e3685f66_59",
+   "id": "eu_slow_0e8e6630_25",
    "lang": "eu",
    "style": "slow",
-   "text": "Gose handia dut. Goazen jatera! Zer egiten dugu? Esan: jan.",
+   "text": "Goazen jatera. Esan: jan.",
    "source": "expansion"
   },
   {
@@ -12022,10 +12029,10 @@
    "source": "expansion"
   },
   {
-   "id": "eu_child_a53ad610_61",
+   "id": "eu_child_63b38094_31",
    "lang": "eu",
    "style": "child",
-   "text": "Egarri naiz. Goazen ura edatera! Zer egiten dugu? Esan: edan.",
+   "text": "Goazen ura edatera. Esan: edan.",
    "source": "expansion"
   },
   {
@@ -12036,10 +12043,10 @@
    "source": "expansion"
   },
   {
-   "id": "eu_slow_a53ad610_61",
+   "id": "eu_slow_63b38094_31",
    "lang": "eu",
    "style": "slow",
-   "text": "Egarri naiz. Goazen ura edatera! Zer egiten dugu? Esan: edan.",
+   "text": "Goazen ura edatera. Esan: edan.",
    "source": "expansion"
   },
   {
@@ -12050,10 +12057,10 @@
    "source": "expansion"
   },
   {
-   "id": "eu_child_6f01b314_53",
+   "id": "eu_child_ff4cb45b_30",
    "lang": "eu",
    "style": "child",
-   "text": "Mmm, zein goxo dagoen! Nola dago janaria? Esan: goxo.",
+   "text": "Janaria goxo dago. Esan: goxo.",
    "source": "expansion"
   },
   {
@@ -12064,10 +12071,10 @@
    "source": "expansion"
   },
   {
-   "id": "eu_slow_6f01b314_53",
+   "id": "eu_slow_ff4cb45b_30",
    "lang": "eu",
    "style": "slow",
-   "text": "Mmm, zein goxo dagoen! Nola dago janaria? Esan: goxo.",
+   "text": "Janaria goxo dago. Esan: goxo.",
    "source": "expansion"
   },
   {
@@ -12078,10 +12085,10 @@
    "source": "expansion"
   },
   {
-   "id": "eu_child_71b1df89_67",
+   "id": "eu_child_f9c66225_41",
    "lang": "eu",
    "style": "child",
-   "text": "Gaileta jaten dugu: Ñam, ñam! Nola egiten du ahoak? Esan: ñam, ñam.",
+   "text": "Ahoak ñam, ñam egiten du. Esan: ñam, ñam.",
    "source": "expansion"
   },
   {
@@ -12092,10 +12099,10 @@
    "source": "expansion"
   },
   {
-   "id": "eu_slow_71b1df89_67",
+   "id": "eu_slow_f9c66225_41",
    "lang": "eu",
    "style": "slow",
-   "text": "Gaileta jaten dugu: Ñam, ñam! Nola egiten du ahoak? Esan: ñam, ñam.",
+   "text": "Ahoak ñam, ñam egiten du. Esan: ñam, ñam.",
    "source": "expansion"
   },
   {
@@ -12106,10 +12113,10 @@
    "source": "expansion"
   },
   {
-   "id": "eu_child_a1fe67f2_63",
+   "id": "eu_child_5860d603_28",
    "lang": "eu",
    "style": "child",
-   "text": "Hau pilota da. Parkean pilotarekin jolasten gara. Esan: pilota.",
+   "text": "Hau pilota da. Esan: pilota.",
    "source": "expansion"
   },
   {
@@ -12120,10 +12127,10 @@
    "source": "expansion"
   },
   {
-   "id": "eu_slow_a1fe67f2_63",
+   "id": "eu_slow_5860d603_28",
    "lang": "eu",
    "style": "slow",
-   "text": "Hau pilota da. Parkean pilotarekin jolasten gara. Esan: pilota.",
+   "text": "Hau pilota da. Esan: pilota.",
    "source": "expansion"
   },
   {
@@ -12134,10 +12141,10 @@
    "source": "expansion"
   },
   {
-   "id": "eu_child_a363b57b_81",
+   "id": "eu_child_d9c70005_36",
    "lang": "eu",
    "style": "child",
-   "text": "Hau txirristra da. Txirristran igo eta behera irristatzen gara. Esan: txirristra.",
+   "text": "Hau txirristra da. Esan: txirristra.",
    "source": "expansion"
   },
   {
@@ -12148,10 +12155,10 @@
    "source": "expansion"
   },
   {
-   "id": "eu_slow_a363b57b_81",
+   "id": "eu_slow_d9c70005_36",
    "lang": "eu",
    "style": "slow",
-   "text": "Hau txirristra da. Txirristran igo eta behera irristatzen gara. Esan: txirristra.",
+   "text": "Hau txirristra da. Esan: txirristra.",
    "source": "expansion"
   },
   {
@@ -12162,10 +12169,10 @@
    "source": "expansion"
   },
   {
-   "id": "eu_child_2d559c7c_83",
+   "id": "eu_child_68336bad_43",
    "lang": "eu",
    "style": "child",
-   "text": "Azkar goaz! Parkean korrika egitea gustatzen zaigu. Zer egiten dugu? Esan: korrika.",
+   "text": "Parkean korrika egiten dugu. Esan: korrika.",
    "source": "expansion"
   },
   {
@@ -12176,10 +12183,10 @@
    "source": "expansion"
   },
   {
-   "id": "eu_slow_2d559c7c_83",
+   "id": "eu_slow_68336bad_43",
    "lang": "eu",
    "style": "slow",
-   "text": "Azkar goaz! Parkean korrika egitea gustatzen zaigu. Zer egiten dugu? Esan: korrika.",
+   "text": "Parkean korrika egiten dugu. Esan: korrika.",
    "source": "expansion"
   },
   {
@@ -12190,10 +12197,10 @@
    "source": "expansion"
   },
   {
-   "id": "eu_child_32e08c31_67",
+   "id": "eu_child_5cd80e94_44",
    "lang": "eu",
    "style": "child",
-   "text": "Gora! Igela bezala salto egiten dugu. Zer egiten dugu? Esan: salto.",
+   "text": "Igela bezala salto egiten dugu. Esan: salto.",
    "source": "expansion"
   },
   {
@@ -12204,10 +12211,10 @@
    "source": "expansion"
   },
   {
-   "id": "eu_slow_32e08c31_67",
+   "id": "eu_slow_5cd80e94_44",
    "lang": "eu",
    "style": "slow",
-   "text": "Gora! Igela bezala salto egiten dugu. Zer egiten dugu? Esan: salto.",
+   "text": "Igela bezala salto egiten dugu. Esan: salto.",
    "source": "expansion"
   },
   {
@@ -12218,10 +12225,10 @@
    "source": "expansion"
   },
   {
-   "id": "eu_child_7c77d84b_48",
+   "id": "eu_child_bfd184e7_38",
    "lang": "eu",
    "style": "child",
-   "text": "Zabua oso altu igotzen da! Nola doa? Esan: altu.",
+   "text": "Zabua oso altu igotzen da. Esan: altu.",
    "source": "expansion"
   },
   {
@@ -12232,10 +12239,10 @@
    "source": "expansion"
   },
   {
-   "id": "eu_slow_7c77d84b_48",
+   "id": "eu_slow_bfd184e7_38",
    "lang": "eu",
    "style": "slow",
-   "text": "Zabua oso altu igotzen da! Nola doa? Esan: altu.",
+   "text": "Zabua oso altu igotzen da. Esan: altu.",
    "source": "expansion"
   },
   {
@@ -12246,10 +12253,10 @@
    "source": "expansion"
   },
   {
-   "id": "eu_child_9b872c9b_74",
+   "id": "eu_child_2180268f_37",
    "lang": "eu",
    "style": "child",
-   "text": "Pilotak bote egiten du: Boing, boing! Nola egiten du pilotak? Esan: boing.",
+   "text": "Pilotak boing egiten du. Esan: boing.",
    "source": "expansion"
   },
   {
@@ -12260,10 +12267,10 @@
    "source": "expansion"
   },
   {
-   "id": "eu_slow_9b872c9b_74",
+   "id": "eu_slow_2180268f_37",
    "lang": "eu",
    "style": "slow",
-   "text": "Pilotak bote egiten du: Boing, boing! Nola egiten du pilotak? Esan: boing.",
+   "text": "Pilotak boing egiten du. Esan: boing.",
    "source": "expansion"
   },
   {
@@ -12274,10 +12281,10 @@
    "source": "expansion"
   },
   {
-   "id": "eu_child_b41f3678_67",
+   "id": "eu_child_8841e045_38",
    "lang": "eu",
    "style": "child",
-   "text": "Hau bainuontzia da. Bainuontzian bainatzen gara. Esan: bainuontzia.",
+   "text": "Hau bainuontzia da. Esan: bainuontzia.",
    "source": "expansion"
   },
   {
@@ -12288,10 +12295,10 @@
    "source": "expansion"
   },
   {
-   "id": "eu_slow_b41f3678_67",
+   "id": "eu_slow_8841e045_38",
    "lang": "eu",
    "style": "slow",
-   "text": "Hau bainuontzia da. Bainuontzian bainatzen gara. Esan: bainuontzia.",
+   "text": "Hau bainuontzia da. Esan: bainuontzia.",
    "source": "expansion"
   },
   {
@@ -12302,10 +12309,10 @@
    "source": "expansion"
   },
   {
-   "id": "eu_child_9c5dbeb2_63",
+   "id": "eu_child_35591cc5_28",
    "lang": "eu",
    "style": "child",
-   "text": "Hau xaboia da. Xaboiak burbuila asko egiten ditu. Esan: xaboia.",
+   "text": "Hau xaboia da. Esan: xaboia.",
    "source": "expansion"
   },
   {
@@ -12316,10 +12323,10 @@
    "source": "expansion"
   },
   {
-   "id": "eu_slow_9c5dbeb2_63",
+   "id": "eu_slow_35591cc5_28",
    "lang": "eu",
    "style": "slow",
-   "text": "Hau xaboia da. Xaboiak burbuila asko egiten ditu. Esan: xaboia.",
+   "text": "Hau xaboia da. Esan: xaboia.",
    "source": "expansion"
   },
   {
@@ -12330,10 +12337,10 @@
    "source": "expansion"
   },
   {
-   "id": "eu_child_02b9a686_64",
+   "id": "eu_child_78527792_38",
    "lang": "eu",
    "style": "child",
-   "text": "Uretara! Panpina bainatuko dugu. Zer egiten dugu? Esan: bainatu.",
+   "text": "Panpina bainatuko dugu. Esan: bainatu.",
    "source": "expansion"
   },
   {
@@ -12344,10 +12351,10 @@
    "source": "expansion"
   },
   {
-   "id": "eu_slow_02b9a686_64",
+   "id": "eu_slow_78527792_38",
    "lang": "eu",
    "style": "slow",
-   "text": "Uretara! Panpina bainatuko dugu. Zer egiten dugu? Esan: bainatu.",
+   "text": "Panpina bainatuko dugu. Esan: bainatu.",
    "source": "expansion"
   },
   {
@@ -12358,10 +12365,10 @@
    "source": "expansion"
   },
   {
-   "id": "eu_child_7fd5449a_57",
+   "id": "eu_child_6845185b_45",
    "lang": "eu",
    "style": "child",
-   "text": "Igurtzi, igurtzi belakia. Zer egiten dugu? Esan: igurtzi.",
+   "text": "Belakia besotik pasatzen dugu. Esan: igurtzi.",
    "source": "expansion"
   },
   {
@@ -12372,10 +12379,10 @@
    "source": "expansion"
   },
   {
-   "id": "eu_slow_7fd5449a_57",
+   "id": "eu_slow_6845185b_45",
    "lang": "eu",
    "style": "slow",
-   "text": "Igurtzi, igurtzi belakia. Zer egiten dugu? Esan: igurtzi.",
+   "text": "Belakia besotik pasatzen dugu. Esan: igurtzi.",
    "source": "expansion"
   },
   {
@@ -12386,10 +12393,10 @@
    "source": "expansion"
   },
   {
-   "id": "eu_child_71f3b492_42",
+   "id": "eu_child_52de5478_27",
    "lang": "eu",
    "style": "child",
-   "text": "Ura epela dago. Nola dago ura? Esan: bero.",
+   "text": "Ura epela dago. Esan: bero.",
    "source": "expansion"
   },
   {
@@ -12400,10 +12407,10 @@
    "source": "expansion"
   },
   {
-   "id": "eu_slow_71f3b492_42",
+   "id": "eu_slow_52de5478_27",
    "lang": "eu",
    "style": "slow",
-   "text": "Ura epela dago. Nola dago ura? Esan: bero.",
+   "text": "Ura epela dago. Esan: bero.",
    "source": "expansion"
   },
   {
@@ -12414,10 +12421,10 @@
    "source": "expansion"
   },
   {
-   "id": "eu_child_44502283_67",
+   "id": "eu_child_4d7e0b4e_32",
    "lang": "eu",
    "style": "child",
-   "text": "Urak zipriztintzen du: Txof, txof! Nola egiten du urak? Esan: txof.",
+   "text": "Urak txof egiten du. Esan: txof.",
    "source": "expansion"
   },
   {
@@ -12428,10 +12435,10 @@
    "source": "expansion"
   },
   {
-   "id": "eu_slow_44502283_67",
+   "id": "eu_slow_4d7e0b4e_32",
    "lang": "eu",
    "style": "slow",
-   "text": "Urak zipriztintzen du: Txof, txof! Nola egiten du urak? Esan: txof.",
+   "text": "Urak txof egiten du. Esan: txof.",
    "source": "expansion"
   },
   {
@@ -12442,10 +12449,10 @@
    "source": "expansion"
   },
   {
-   "id": "eu_child_e936f3d0_44",
+   "id": "eu_child_bea882a1_30",
    "lang": "eu",
    "style": "child",
-   "text": "Begira zerua. Hau ilargia da. Esan: ilargia.",
+   "text": "Hau ilargia da. Esan: ilargia.",
    "source": "expansion"
   },
   {
@@ -12456,10 +12463,10 @@
    "source": "expansion"
   },
   {
-   "id": "eu_slow_e936f3d0_44",
+   "id": "eu_slow_bea882a1_30",
    "lang": "eu",
    "style": "slow",
-   "text": "Begira zerua. Hau ilargia da. Esan: ilargia.",
+   "text": "Hau ilargia da. Esan: ilargia.",
    "source": "expansion"
   },
   {
@@ -12498,10 +12505,10 @@
    "source": "expansion"
   },
   {
-   "id": "eu_child_77abb9e2_57",
+   "id": "eu_child_aa0cd0ed_34",
    "lang": "eu",
    "style": "child",
-   "text": "Isss… lotara joateko ordua da. Zer egiten dugu? Esan: lo.",
+   "text": "Lotara joateko ordua da. Esan: lo.",
    "source": "expansion"
   },
   {
@@ -12512,10 +12519,10 @@
    "source": "expansion"
   },
   {
-   "id": "eu_slow_77abb9e2_57",
+   "id": "eu_slow_aa0cd0ed_34",
    "lang": "eu",
    "style": "slow",
-   "text": "Isss… lotara joateko ordua da. Zer egiten dugu? Esan: lo.",
+   "text": "Lotara joateko ordua da. Esan: lo.",
    "source": "expansion"
   },
   {
@@ -12526,10 +12533,10 @@
    "source": "expansion"
   },
   {
-   "id": "eu_child_59f3941b_54",
+   "id": "eu_child_d911500e_43",
    "lang": "eu",
    "style": "child",
-   "text": "Gabon besarkada bat. Zer egiten dugu? Esan: besarkatu.",
+   "text": "Besarkada bat ematen dugu. Esan: besarkatu.",
    "source": "expansion"
   },
   {
@@ -12540,10 +12547,10 @@
    "source": "expansion"
   },
   {
-   "id": "eu_slow_59f3941b_54",
+   "id": "eu_slow_d911500e_43",
    "lang": "eu",
    "style": "slow",
-   "text": "Gabon besarkada bat. Zer egiten dugu? Esan: besarkatu.",
+   "text": "Besarkada bat ematen dugu. Esan: besarkatu.",
    "source": "expansion"
   },
   {
@@ -12554,10 +12561,10 @@
    "source": "expansion"
   },
   {
-   "id": "eu_child_26e8f42f_55",
+   "id": "eu_child_160d51a1_27",
    "lang": "eu",
    "style": "child",
-   "text": "Argia itzali da. Dena ilun dago. Nola dago? Esan: ilun.",
+   "text": "Dena ilun dago. Esan: ilun.",
    "source": "expansion"
   },
   {
@@ -12568,10 +12575,10 @@
    "source": "expansion"
   },
   {
-   "id": "eu_slow_26e8f42f_55",
+   "id": "eu_slow_160d51a1_27",
    "lang": "eu",
    "style": "slow",
-   "text": "Argia itzali da. Dena ilun dago. Nola dago? Esan: ilun.",
+   "text": "Dena ilun dago. Esan: ilun.",
    "source": "expansion"
   },
   {
@@ -12582,10 +12589,10 @@
    "source": "expansion"
   },
   {
-   "id": "eu_child_9acdec32_73",
+   "id": "eu_child_15a71430_39",
    "lang": "eu",
    "style": "child",
-   "text": "Hontzak gauez kantatzen du: Uh, uh! Nola egiten du hontzak? Esan: uh, uh.",
+   "text": "Hontzak uh, uh egiten du. Esan: uh, uh.",
    "source": "expansion"
   },
   {
@@ -12596,10 +12603,10 @@
    "source": "expansion"
   },
   {
-   "id": "eu_slow_9acdec32_73",
+   "id": "eu_slow_15a71430_39",
    "lang": "eu",
    "style": "slow",
-   "text": "Hontzak gauez kantatzen du: Uh, uh! Nola egiten du hontzak? Esan: uh, uh.",
+   "text": "Hontzak uh, uh egiten du. Esan: uh, uh.",
    "source": "expansion"
   },
   {
@@ -12610,38 +12617,10 @@
    "source": "expansion"
   },
   {
-   "id": "eu_child_7ed5d1e3_68",
+   "id": "eu_child_4557280d_28",
    "lang": "eu",
    "style": "child",
-   "text": "Motorra abiatzen da: Brum, brum! Nola egiten du kotxeak? Esan: brum.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_child_036a3328_20",
-   "lang": "eu",
-   "style": "child",
-   "text": "Berriro! Esan: brum.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_slow_7ed5d1e3_68",
-   "lang": "eu",
-   "style": "slow",
-   "text": "Motorra abiatzen da: Brum, brum! Nola egiten du kotxeak? Esan: brum.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_tutor_5526c279_97",
-   "lang": "eu",
-   "style": "tutor",
-   "text": "Bultza jostailuzko kotxe bat lurretik ezpainak dardaratuz \"brrrum\" eta animatu haurra imitatzera.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_child_8e783f19_48",
-   "lang": "eu",
-   "style": "child",
-   "text": "Brum, brum! Hau kotxea da. Zer da? Esan: kotxea.",
+   "text": "Hau kotxea da. Esan: kotxea.",
    "source": "expansion"
   },
   {
@@ -12652,24 +12631,52 @@
    "source": "expansion"
   },
   {
-   "id": "eu_slow_8e783f19_48",
+   "id": "eu_slow_4557280d_28",
    "lang": "eu",
    "style": "slow",
-   "text": "Brum, brum! Hau kotxea da. Zer da? Esan: kotxea.",
+   "text": "Hau kotxea da. Esan: kotxea.",
    "source": "expansion"
   },
   {
-   "id": "eu_tutor_9e2be6ba_102",
+   "id": "eu_tutor_4c222465_94",
    "lang": "eu",
    "style": "tutor",
-   "text": "Jarri kotxea haurraren eskuan, seinalatu eta errepikatu elkarrekin \"kotxea\" mugitzen duzuen bitartean.",
+   "text": "Jarri kotxea umearen eskuan, seinalatu eta esan “kotxea” elkarrekin mugitzen duzuen bitartean.",
    "source": "expansion"
   },
   {
-   "id": "eu_child_371157b0_67",
+   "id": "eu_child_1207c9d0_37",
    "lang": "eu",
    "style": "child",
-   "text": "Begira, kotxea oso azkar dabil. Zer egiten du kotxeak? Esan: dabil.",
+   "text": "Kotxeak gurpilak ditu. Esan: gurpila.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_566c17d8_23",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: gurpila.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_1207c9d0_37",
+   "lang": "eu",
+   "style": "slow",
+   "text": "Kotxeak gurpilak ditu. Esan: gurpila.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_f4f82059_88",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Hartu kotxea eta biratu gurpil bat umearen hatzarekin, “gurpila” esanez bira bakoitzean.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_b4542c5b_32",
+   "lang": "eu",
+   "style": "child",
+   "text": "Kotxea azkar dabil. Esan: dabil.",
    "source": "expansion"
   },
   {
@@ -12680,24 +12687,24 @@
    "source": "expansion"
   },
   {
-   "id": "eu_slow_371157b0_67",
+   "id": "eu_slow_b4542c5b_32",
    "lang": "eu",
    "style": "slow",
-   "text": "Begira, kotxea oso azkar dabil. Zer egiten du kotxeak? Esan: dabil.",
+   "text": "Kotxea azkar dabil. Esan: dabil.",
    "source": "expansion"
   },
   {
-   "id": "eu_tutor_ec27c7f1_77",
+   "id": "eu_tutor_81849290_70",
    "lang": "eu",
    "style": "tutor",
-   "text": "Ibilarazi kotxea mahaian eta gero haurraren besoan, azkartuz \"dabil\" esatean.",
+   "text": "Eraman kotxea mahai gainetik umearen besora, “dabil” esatean azkartuz.",
    "source": "expansion"
   },
   {
-   "id": "eu_child_89a3f0d9_61",
+   "id": "eu_child_39e8aea8_37",
    "lang": "eu",
    "style": "child",
-   "text": "Ai, zein azkar doan kotxea! Nolakoa da kotxea? Esan: azkarra.",
+   "text": "Kotxea oso azkarra da. Esan: azkarra.",
    "source": "expansion"
   },
   {
@@ -12708,52 +12715,24 @@
    "source": "expansion"
   },
   {
-   "id": "eu_slow_89a3f0d9_61",
+   "id": "eu_slow_39e8aea8_37",
    "lang": "eu",
    "style": "slow",
-   "text": "Ai, zein azkar doan kotxea! Nolakoa da kotxea? Esan: azkarra.",
+   "text": "Kotxea oso azkarra da. Esan: azkarra.",
    "source": "expansion"
   },
   {
-   "id": "eu_tutor_f175db04_96",
+   "id": "eu_tutor_1eec868d_82",
    "lang": "eu",
    "style": "tutor",
-   "text": "Egin korrika haurrarekin eskutik urrats batzuk eta gelditu bat-batean \"azkar… eta stop!\" esanez.",
+   "text": "Korrika egin umearekin eskutik helduta eta gelditu bat-batean: “azkar… eta stop!”.",
    "source": "expansion"
   },
   {
-   "id": "eu_child_809fe589_80",
+   "id": "eu_child_27402b25_32",
    "lang": "eu",
    "style": "child",
-   "text": "Txakurrak zaunka egiten du: Zaunk, zaunk! Nola egiten du txakurrak? Esan: zaunk.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_child_ccb4ed1b_21",
-   "lang": "eu",
-   "style": "child",
-   "text": "Berriro! Esan: zaunk.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_slow_809fe589_80",
-   "lang": "eu",
-   "style": "slow",
-   "text": "Txakurrak zaunka egiten du: Zaunk, zaunk! Nola egiten du txakurrak? Esan: zaunk.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_tutor_df896d8c_93",
-   "lang": "eu",
-   "style": "tutor",
-   "text": "Jarri lau hanketan eta zaunka egin \"zaunk, zaunk!\" burua mugituz, haurrak zurekin egin dezan.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_child_cf3acd87_54",
-   "lang": "eu",
-   "style": "child",
-   "text": "Zaunk, zaunk! Hau txakurra da. Zer da? Esan: txakurra.",
+   "text": "Hau txakurra da. Esan: txakurra.",
    "source": "expansion"
   },
   {
@@ -12764,45 +12743,73 @@
    "source": "expansion"
   },
   {
-   "id": "eu_slow_cf3acd87_54",
+   "id": "eu_slow_27402b25_32",
    "lang": "eu",
    "style": "slow",
-   "text": "Zaunk, zaunk! Hau txakurra da. Zer da? Esan: txakurra.",
+   "text": "Hau txakurra da. Esan: txakurra.",
    "source": "expansion"
   },
   {
-   "id": "eu_tutor_4028adc9_96",
+   "id": "eu_tutor_57a152f8_91",
    "lang": "eu",
    "style": "tutor",
-   "text": "Seinalatu jostailuzko txakur bat edo argazki bat eta laztandu elkarrekin \"txakurra\" errepikatuz.",
+   "text": "Seinalatu jostailuzko txakur bat edo argazki bat eta laztandu elkarrekin “txakurra” esanez.",
    "source": "expansion"
   },
   {
-   "id": "eu_child_665b5221_88",
+   "id": "eu_child_7faaf06b_38",
    "lang": "eu",
    "style": "child",
-   "text": "Begira, txakurrak salto egiten du pilota hartzeko. Zer egiten du txakurrak? Esan: salto.",
+   "text": "Txakurrak lau hanka ditu. Esan: hanka.",
    "source": "expansion"
   },
   {
-   "id": "eu_slow_665b5221_88",
+   "id": "eu_child_e4ad8fff_21",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: hanka.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_7faaf06b_38",
    "lang": "eu",
    "style": "slow",
-   "text": "Begira, txakurrak salto egiten du pilota hartzeko. Zer egiten du txakurrak? Esan: salto.",
+   "text": "Txakurrak lau hanka ditu. Esan: hanka.",
    "source": "expansion"
   },
   {
-   "id": "eu_tutor_b32de55a_82",
+   "id": "eu_tutor_8dcd6483_86",
    "lang": "eu",
    "style": "tutor",
-   "text": "Salto eginarazi jostailuzko txakurrari eta salto egin biok batera \"salto!\" esanez.",
+   "text": "Jarri eskuak lurrean hanken moduan eta ibili lau hankatan pauso batzuk “hanka” esanez.",
    "source": "expansion"
   },
   {
-   "id": "eu_child_2a1ae276_73",
+   "id": "eu_child_38d483bf_55",
    "lang": "eu",
    "style": "child",
-   "text": "Ukitu! Txakurra bigun eta iletsua da. Nolakoa da txakurra? Esan: iletsua.",
+   "text": "Txakurrak salto egiten du pilota hartzeko. Esan: salto.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_38d483bf_55",
+   "lang": "eu",
+   "style": "slow",
+   "text": "Txakurrak salto egiten du pilota hartzeko. Esan: salto.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_f6a0df16_80",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Eman salto jostailuzko txakurrarekin eta salto egin biok batera “salto!” esanez.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_a61f7a1c_45",
+   "lang": "eu",
+   "style": "child",
+   "text": "Txakurra bigun eta iletsua da. Esan: iletsua.",
    "source": "expansion"
   },
   {
@@ -12813,52 +12820,24 @@
    "source": "expansion"
   },
   {
-   "id": "eu_slow_2a1ae276_73",
+   "id": "eu_slow_a61f7a1c_45",
    "lang": "eu",
    "style": "slow",
-   "text": "Ukitu! Txakurra bigun eta iletsua da. Nolakoa da txakurra? Esan: iletsua.",
+   "text": "Txakurra bigun eta iletsua da. Esan: iletsua.",
    "source": "expansion"
   },
   {
-   "id": "eu_tutor_cb338212_76",
+   "id": "eu_tutor_e5f8e9f1_98",
    "lang": "eu",
    "style": "tutor",
-   "text": "Laztandu panpina edo manta leun bat eta esan \"iletsua\" eskua poliki pasatuz.",
+   "text": "Laztandu panpina bat edo manta leun bat eta esan “iletsua” eskua poliki pasatzen duzuen bitartean.",
    "source": "expansion"
   },
   {
-   "id": "eu_child_f2a5f6d1_57",
+   "id": "eu_child_a7678215_26",
    "lang": "eu",
    "style": "child",
-   "text": "Behiak egiten du: Muuu! Nola egiten du behiak? Esan: muu.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_child_d31587b9_19",
-   "lang": "eu",
-   "style": "child",
-   "text": "Berriro! Esan: muu.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_slow_f2a5f6d1_57",
-   "lang": "eu",
-   "style": "slow",
-   "text": "Behiak egiten du: Muuu! Nola egiten du behiak? Esan: muu.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_tutor_f3033d16_74",
-   "lang": "eu",
-   "style": "tutor",
-   "text": "Jarri eskuak adar gisa buruan eta egin \"muuu!\" soinua luzatuz haurrarekin.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_child_e0b49077_40",
-   "lang": "eu",
-   "style": "child",
-   "text": "Muuu! Hau behia da. Zer da? Esan: behia.",
+   "text": "Hau behia da. Esan: behia.",
    "source": "expansion"
   },
   {
@@ -12869,24 +12848,52 @@
    "source": "expansion"
   },
   {
-   "id": "eu_slow_e0b49077_40",
+   "id": "eu_slow_a7678215_26",
    "lang": "eu",
    "style": "slow",
-   "text": "Muuu! Hau behia da. Zer da? Esan: behia.",
+   "text": "Hau behia da. Esan: behia.",
    "source": "expansion"
   },
   {
-   "id": "eu_tutor_b0360f92_97",
+   "id": "eu_tutor_29bb2484_94",
    "lang": "eu",
    "style": "tutor",
-   "text": "Seinalatu jostailuzko behi bat edo argazki bat eta ibili haren orbanak hatzarekin \"behia\" esanez.",
+   "text": "Seinalatu jostailuzko behi bat edo argazki bat eta jarraitu orbanak hatzarekin “behia” esanez.",
    "source": "expansion"
   },
   {
-   "id": "eu_child_c6a3cd9b_75",
+   "id": "eu_child_cb8a4b7d_36",
    "lang": "eu",
    "style": "child",
-   "text": "Begira, behiak belarra jaten du zelaian. Zer egiten du behiak? Esan: jaten.",
+   "text": "Behiak esnea ematen du. Esan: esnea.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_1419de1e_21",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: esnea.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_cb8a4b7d_36",
+   "lang": "eu",
+   "style": "slow",
+   "text": "Behiak esnea ematen du. Esan: esnea.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_1e9062e5_90",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Bota esne apur bat bere edalontzian eta eman zurrutada bat bakoitzak “esnea” esan ondoren.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_679f626c_37",
+   "lang": "eu",
+   "style": "child",
+   "text": "Behiak belarra jaten du. Esan: jaten.",
    "source": "expansion"
   },
   {
@@ -12897,24 +12904,24 @@
    "source": "expansion"
   },
   {
-   "id": "eu_slow_c6a3cd9b_75",
+   "id": "eu_slow_679f626c_37",
    "lang": "eu",
    "style": "slow",
-   "text": "Begira, behiak belarra jaten du zelaian. Zer egiten du behiak? Esan: jaten.",
+   "text": "Behiak belarra jaten du. Esan: jaten.",
    "source": "expansion"
   },
   {
-   "id": "eu_tutor_9f8557a7_107",
+   "id": "eu_tutor_51d9a3b9_89",
    "lang": "eu",
    "style": "tutor",
-   "text": "Makurtu burua behia bezala eta egin belarra murtxikatzen ari zaretela masailezurra mugituz \"jaten\" esatean.",
+   "text": "Makurtu burua behiaren moduan eta egin belarra murtxikatzen ari zaretela “jaten” esatean.",
    "source": "expansion"
   },
   {
-   "id": "eu_child_d4452966_57",
+   "id": "eu_child_3994a413_34",
    "lang": "eu",
    "style": "child",
-   "text": "Ala! Behia oso handia da. Nolakoa da behia? Esan: handia.",
+   "text": "Behia oso handia da. Esan: handia.",
    "source": "expansion"
   },
   {
@@ -12925,52 +12932,24 @@
    "source": "expansion"
   },
   {
-   "id": "eu_slow_d4452966_57",
+   "id": "eu_slow_3994a413_34",
    "lang": "eu",
    "style": "slow",
-   "text": "Ala! Behia oso handia da. Nolakoa da behia? Esan: handia.",
+   "text": "Behia oso handia da. Esan: handia.",
    "source": "expansion"
   },
   {
-   "id": "eu_tutor_606fd6c0_78",
+   "id": "eu_tutor_afe0feb2_69",
    "lang": "eu",
    "style": "tutor",
-   "text": "Zabaldu besoak ahal duzuen guztia eta jarri punta-puntetan \"haaandia!\" esanez.",
+   "text": "Ireki besoak ahalik eta gehien eta jarri puntetan “haaandia!” esanez.",
    "source": "expansion"
   },
   {
-   "id": "eu_child_9b51be90_69",
+   "id": "eu_child_457a909d_26",
    "lang": "eu",
    "style": "child",
-   "text": "Katuak miau egiten du: Miau, miau! Nola egiten du katuak? Esan: miau.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_child_19cde94a_20",
-   "lang": "eu",
-   "style": "child",
-   "text": "Berriro! Esan: miau.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_slow_9b51be90_69",
-   "lang": "eu",
-   "style": "slow",
-   "text": "Katuak miau egiten du: Miau, miau! Nola egiten du katuak? Esan: miau.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_tutor_3fc9d6c2_83",
-   "lang": "eu",
-   "style": "tutor",
-   "text": "Igurtzi aurpegia eskuarekin katu bat garbitzen bezala eta egin \"miau!\" haurrarekin.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_child_96a8bb8f_40",
-   "lang": "eu",
-   "style": "child",
-   "text": "Miau! Hau katua da. Zer da? Esan: katua.",
+   "text": "Hau katua da. Esan: katua.",
    "source": "expansion"
   },
   {
@@ -12981,24 +12960,52 @@
    "source": "expansion"
   },
   {
-   "id": "eu_slow_96a8bb8f_40",
+   "id": "eu_slow_457a909d_26",
    "lang": "eu",
    "style": "slow",
-   "text": "Miau! Hau katua da. Zer da? Esan: katua.",
+   "text": "Hau katua da. Esan: katua.",
    "source": "expansion"
   },
   {
-   "id": "eu_tutor_c60107a9_95",
+   "id": "eu_tutor_a06c09bc_84",
    "lang": "eu",
    "style": "tutor",
-   "text": "Seinalatu jostailuzko katu bat edo argazki bat eta laztandu haren bizkarra \"katua\" errepikatuz.",
+   "text": "Seinalatu jostailuzko katu bat edo argazki bat eta laztandu bizkarra “katua” esanez.",
    "source": "expansion"
   },
   {
-   "id": "eu_child_ac7f98ce_79",
+   "id": "eu_child_14bcbc9c_36",
    "lang": "eu",
    "style": "child",
-   "text": "Isss… katua bere ohean lo egiten ari da. Zer egiten du katuak? Esan: lo egiten.",
+   "text": "Katuak isats luzea du. Esan: isatsa.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_6987db29_22",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: isatsa.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_14bcbc9c_36",
+   "lang": "eu",
+   "style": "slow",
+   "text": "Katuak isats luzea du. Esan: isatsa.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_d1d28c61_82",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Marraztu isats bat airean bizkarretik hasita eta kiribildu eskua “isatsa” esatean.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_4831f902_51",
+   "lang": "eu",
+   "style": "child",
+   "text": "Katua bere ohean lo egiten ari da. Esan: lo egiten.",
    "source": "expansion"
   },
   {
@@ -13009,24 +13016,24 @@
    "source": "expansion"
   },
   {
-   "id": "eu_slow_ac7f98ce_79",
+   "id": "eu_slow_4831f902_51",
    "lang": "eu",
    "style": "slow",
-   "text": "Isss… katua bere ohean lo egiten ari da. Zer egiten du katuak? Esan: lo egiten.",
+   "text": "Katua bere ohean lo egiten ari da. Esan: lo egiten.",
    "source": "expansion"
   },
   {
-   "id": "eu_tutor_a6cd327f_94",
+   "id": "eu_tutor_f2660977_87",
    "lang": "eu",
    "style": "tutor",
-   "text": "Elkartu eskuak masailaren azpian, itxi begiak eta egin \"isss\" haurrak zurekin \"lo egin\" dezan.",
+   "text": "Elkartu eskuak masailaren azpian, itxi begiak eta egin “isss” umea “lotara” gonbidatuz.",
    "source": "expansion"
   },
   {
-   "id": "eu_child_5fcbd7da_65",
+   "id": "eu_child_a2df5e74_40",
    "lang": "eu",
    "style": "child",
-   "text": "Ukitu! Katuaren ilea oso leuna da. Nolakoa da katua? Esan: leuna.",
+   "text": "Katuaren ilea oso leuna da. Esan: leuna.",
    "source": "expansion"
   },
   {
@@ -13037,52 +13044,24 @@
    "source": "expansion"
   },
   {
-   "id": "eu_slow_5fcbd7da_65",
+   "id": "eu_slow_a2df5e74_40",
    "lang": "eu",
    "style": "slow",
-   "text": "Ukitu! Katuaren ilea oso leuna da. Nolakoa da katua? Esan: leuna.",
+   "text": "Katuaren ilea oso leuna da. Esan: leuna.",
    "source": "expansion"
   },
   {
-   "id": "eu_tutor_1cf46164_71",
+   "id": "eu_tutor_e18ffbdf_71",
    "lang": "eu",
    "style": "tutor",
-   "text": "Pasa luma bat edo zapi bat haurraren besotik oso poliki \"leuna\" esanez.",
+   "text": "Pasatu luma bat edo zapi bat umearen besotik oso poliki “leuna” esanez.",
    "source": "expansion"
   },
   {
-   "id": "eu_child_a514b90c_79",
+   "id": "eu_child_346fdd6d_22",
    "lang": "eu",
    "style": "child",
-   "text": "Euria erortzen da: Plisti, plasta! Nola egiten du euriak? Esan: plisti, plasta.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_child_84c348ec_29",
-   "lang": "eu",
-   "style": "child",
-   "text": "Berriro! Esan: plisti plasta.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_slow_a514b90c_79",
-   "lang": "eu",
-   "style": "slow",
-   "text": "Euria erortzen da: Plisti, plasta! Nola egiten du euriak? Esan: plisti, plasta.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_tutor_49c2b2de_78",
-   "lang": "eu",
-   "style": "tutor",
-   "text": "Jo hatzekin mahaian euri-tantak bezala eta haurrak zurekin \"euria\" egin dezan.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_child_b3cd03bf_46",
-   "lang": "eu",
-   "style": "child",
-   "text": "Plisti, plasta! Hau ura da. Zer da? Esan: ura.",
+   "text": "Hau ura da. Esan: ura.",
    "source": "expansion"
   },
   {
@@ -13093,24 +13072,52 @@
    "source": "expansion"
   },
   {
-   "id": "eu_slow_b3cd03bf_46",
+   "id": "eu_slow_346fdd6d_22",
    "lang": "eu",
    "style": "slow",
-   "text": "Plisti, plasta! Hau ura da. Zer da? Esan: ura.",
+   "text": "Hau ura da. Esan: ura.",
    "source": "expansion"
   },
   {
-   "id": "eu_tutor_7b3d12c8_90",
+   "id": "eu_tutor_f71eb154_76",
    "lang": "eu",
    "style": "tutor",
-   "text": "Busti hatz bat ur errealean eta ukitu eskua hotza nabarituz \"ura\" esaten duzuen bitartean.",
+   "text": "Busti hatz bat benetako uretan eta ukitu eskua hotza nabarituz “ura” esanez.",
    "source": "expansion"
   },
   {
-   "id": "eu_child_fc70e12f_68",
+   "id": "eu_child_c2a843a1_39",
    "lang": "eu",
    "style": "child",
-   "text": "Begira, ura zerutik erortzen da. Zer egiten du urak? Esan: erortzen.",
+   "text": "Ura hodeitik erortzen da. Esan: hodeia.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_96953466_22",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: hodeia.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_c2a843a1_39",
+   "lang": "eu",
+   "style": "slow",
+   "text": "Ura hodeitik erortzen da. Esan: hodeia.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_92b6a681_85",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Seinalatu hodei bat leihotik (edo marraztu bat airean) eta esan “hodeia” putz eginez.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_37c72b6f_40",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ura zerutik erortzen da. Esan: erortzen.",
    "source": "expansion"
   },
   {
@@ -13121,24 +13128,24 @@
    "source": "expansion"
   },
   {
-   "id": "eu_slow_fc70e12f_68",
+   "id": "eu_slow_37c72b6f_40",
    "lang": "eu",
    "style": "slow",
-   "text": "Begira, ura zerutik erortzen da. Zer egiten du urak? Esan: erortzen.",
+   "text": "Ura zerutik erortzen da. Esan: erortzen.",
    "source": "expansion"
   },
   {
-   "id": "eu_tutor_c80d16f5_77",
+   "id": "eu_tutor_77ef5352_71",
    "lang": "eu",
    "style": "tutor",
-   "text": "Altxatu eskuak gora eta jaitsi hatzak mugituz lurreraino \"erortzeeen\" esanez.",
+   "text": "Igo eskuak gora eta jaitsi hatzak mugituz lurreraino “erortzen” esanez.",
    "source": "expansion"
   },
   {
-   "id": "eu_child_dee91480_51",
+   "id": "eu_child_c959fd68_30",
    "lang": "eu",
    "style": "child",
-   "text": "Ai! Eskua busti dago. Nola dago eskua? Esan: busti.",
+   "text": "Eskua busti dago. Esan: busti.",
    "source": "expansion"
   },
   {
@@ -13149,52 +13156,24 @@
    "source": "expansion"
   },
   {
-   "id": "eu_slow_dee91480_51",
+   "id": "eu_slow_c959fd68_30",
    "lang": "eu",
    "style": "slow",
-   "text": "Ai! Eskua busti dago. Nola dago eskua? Esan: busti.",
+   "text": "Eskua busti dago. Esan: busti.",
    "source": "expansion"
   },
   {
-   "id": "eu_tutor_44196930_84",
+   "id": "eu_tutor_07a266a0_75",
    "lang": "eu",
    "style": "tutor",
-   "text": "Busti pixka bat haurraren eskua zapi busti batekin eta esan \"busti\" eskuak astinduz.",
+   "text": "Busti apur bat umearen eskua zapi batekin eta esan “busti” eskuak astinduz.",
    "source": "expansion"
   },
   {
-   "id": "eu_child_b166d21c_66",
+   "id": "eu_child_4df00785_26",
    "lang": "eu",
    "style": "child",
-   "text": "Trenak egiten du: Txu, txu! Nola egiten du trenak? Esan: txu, txu.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_child_49a79196_23",
-   "lang": "eu",
-   "style": "child",
-   "text": "Berriro! Esan: txu txu.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_slow_b166d21c_66",
-   "lang": "eu",
-   "style": "slow",
-   "text": "Trenak egiten du: Txu, txu! Nola egiten du trenak? Esan: txu, txu.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_tutor_e82f0dab_99",
-   "lang": "eu",
-   "style": "tutor",
-   "text": "Egin trentxo bat: haurra zure gerritik heltzen da eta aurrera egin korridorean \"txu-txu\" erritmoan.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_child_1372b029_44",
-   "lang": "eu",
-   "style": "child",
-   "text": "Txu, txu! Hau trena da. Zer da? Esan: trena.",
+   "text": "Hau trena da. Esan: trena.",
    "source": "expansion"
   },
   {
@@ -13205,24 +13184,52 @@
    "source": "expansion"
   },
   {
-   "id": "eu_slow_1372b029_44",
+   "id": "eu_slow_4df00785_26",
    "lang": "eu",
    "style": "slow",
-   "text": "Txu, txu! Hau trena da. Zer da? Esan: trena.",
+   "text": "Hau trena da. Esan: trena.",
    "source": "expansion"
   },
   {
-   "id": "eu_tutor_10480871_83",
+   "id": "eu_tutor_57c2f3f0_85",
    "lang": "eu",
    "style": "tutor",
-   "text": "Lerrokatu hiru koxin edo kutxa bagoi gisa eta seinalatu banan-banan \"trena\" esanez.",
+   "text": "Egin trentxo bat: umea gerritik heltzen zaizu eta korridorean aurrera “trena” esanez.",
    "source": "expansion"
   },
   {
-   "id": "eu_child_78ccea1d_84",
+   "id": "eu_child_ff5922cc_37",
    "lang": "eu",
    "style": "child",
-   "text": "Trena geltokira iristen da eta… gelditzen da! Zer egiten du trenak? Esan: gelditzen.",
+   "text": "Trenak bagoi asko ditu. Esan: bagoia.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_90308a85_22",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: bagoia.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_ff5922cc_37",
+   "lang": "eu",
+   "style": "slow",
+   "text": "Trenak bagoi asko ditu. Esan: bagoia.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_ee357e9c_86",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Jarri ilaran hiru kutxa edo kuxin bagoien moduan eta lotu banan-banan “bagoia” esanez.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_0523ac41_46",
+   "lang": "eu",
+   "style": "child",
+   "text": "Trena geltokian gelditzen da. Esan: gelditzen.",
    "source": "expansion"
   },
   {
@@ -13233,24 +13240,24 @@
    "source": "expansion"
   },
   {
-   "id": "eu_slow_78ccea1d_84",
+   "id": "eu_slow_0523ac41_46",
    "lang": "eu",
    "style": "slow",
-   "text": "Trena geltokira iristen da eta… gelditzen da! Zer egiten du trenak? Esan: gelditzen.",
+   "text": "Trena geltokian gelditzen da. Esan: gelditzen.",
    "source": "expansion"
   },
   {
-   "id": "eu_tutor_e9b10273_86",
+   "id": "eu_tutor_13a36fa1_89",
    "lang": "eu",
    "style": "tutor",
-   "text": "Ibili tren bat bezala gelan eta, \"gelditu!\" entzutean, geratu estatua bezala izoztuta.",
+   "text": "Aurrera egin tren baten moduan eta gelditu bat-batean “gelditzen!” esatean, guztiz geldi.",
    "source": "expansion"
   },
   {
-   "id": "eu_child_94b2cc7e_64",
+   "id": "eu_child_508ccf56_32",
    "lang": "eu",
    "style": "child",
-   "text": "Zenbat bagoi! Trena oso luzea da. Nolakoa da trena? Esan: luzea.",
+   "text": "Trena oso luzea da. Esan: luzea.",
    "source": "expansion"
   },
   {
@@ -13261,52 +13268,24 @@
    "source": "expansion"
   },
   {
-   "id": "eu_slow_94b2cc7e_64",
+   "id": "eu_slow_508ccf56_32",
    "lang": "eu",
    "style": "slow",
-   "text": "Zenbat bagoi! Trena oso luzea da. Nolakoa da trena? Esan: luzea.",
+   "text": "Trena oso luzea da. Esan: luzea.",
    "source": "expansion"
   },
   {
-   "id": "eu_tutor_5ec34ac4_60",
+   "id": "eu_tutor_144d4007_67",
    "lang": "eu",
    "style": "tutor",
-   "text": "Luzatu besoak alboetara ahal duzuen guztia \"luuuzea\" esanez.",
+   "text": "Banandu besoak ahalik eta gehien trena zein “luuuzea” den markatuz.",
    "source": "expansion"
   },
   {
-   "id": "eu_child_716d91d3_74",
+   "id": "eu_child_4e918a5b_28",
    "lang": "eu",
    "style": "child",
-   "text": "Txoritxoak kantatzen du: Pio, pio! Nola egiten du txoriak? Esan: pio, pio.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_child_846f1b86_23",
-   "lang": "eu",
-   "style": "child",
-   "text": "Berriro! Esan: pio pio.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_slow_716d91d3_74",
-   "lang": "eu",
-   "style": "slow",
-   "text": "Txoritxoak kantatzen du: Pio, pio! Nola egiten du txoriak? Esan: pio, pio.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_tutor_d305da8d_87",
-   "lang": "eu",
-   "style": "tutor",
-   "text": "Elkartu hatzak irekitzen eta ixten den moko bat bezala eta egin \"pio, pio\" biok batera.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_child_c1e1c7e7_46",
-   "lang": "eu",
-   "style": "child",
-   "text": "Pio, pio! Hau txoria da. Zer da? Esan: txoria.",
+   "text": "Hau txoria da. Esan: txoria.",
    "source": "expansion"
   },
   {
@@ -13317,10 +13296,10 @@
    "source": "expansion"
   },
   {
-   "id": "eu_slow_c1e1c7e7_46",
+   "id": "eu_slow_4e918a5b_28",
    "lang": "eu",
    "style": "slow",
-   "text": "Pio, pio! Hau txoria da. Zer da? Esan: txoria.",
+   "text": "Hau txoria da. Esan: txoria.",
    "source": "expansion"
   },
   {
@@ -13331,10 +13310,38 @@
    "source": "expansion"
   },
   {
-   "id": "eu_child_7640db43_75",
+   "id": "eu_child_ae454505_31",
    "lang": "eu",
    "style": "child",
-   "text": "Begira, txoriak hegan egiten du zeruan. Zer egiten du txoriak? Esan: hegan.",
+   "text": "Txoriak lumak ditu. Esan: luma.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_75f25219_20",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: luma.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_ae454505_31",
+   "lang": "eu",
+   "style": "slow",
+   "text": "Txoriak lumak ditu. Esan: luma.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_70719318_88",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Putz egin benetako luma bati (edo paper zati bati) flota dezan eta esan “luma” hartzean.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_f7cb3160_44",
+   "lang": "eu",
+   "style": "child",
+   "text": "Txoriak hegan egiten du zeruan. Esan: hegan.",
    "source": "expansion"
   },
   {
@@ -13345,24 +13352,24 @@
    "source": "expansion"
   },
   {
-   "id": "eu_slow_7640db43_75",
+   "id": "eu_slow_f7cb3160_44",
    "lang": "eu",
    "style": "slow",
-   "text": "Begira, txoriak hegan egiten du zeruan. Zer egiten du txoriak? Esan: hegan.",
+   "text": "Txoriak hegan egiten du zeruan. Esan: hegan.",
    "source": "expansion"
   },
   {
-   "id": "eu_tutor_139f50f5_62",
+   "id": "eu_tutor_54004836_68",
    "lang": "eu",
    "style": "tutor",
-   "text": "Egin korrika gelan besoak hego gisa, gora eta behera altxatuz.",
+   "text": "Ireki besoak hegoen moduan eta eman buelta bat gelan “hegan” esanez.",
    "source": "expansion"
   },
   {
-   "id": "eu_child_fd4649f4_57",
+   "id": "eu_child_0672ee09_35",
    "lang": "eu",
    "style": "child",
-   "text": "Txoritxoa oso txikia da. Nolakoa da txoria? Esan: txikia.",
+   "text": "Txoria oso txikia da. Esan: txikia.",
    "source": "expansion"
   },
   {
@@ -13373,24 +13380,24 @@
    "source": "expansion"
   },
   {
-   "id": "eu_slow_fd4649f4_57",
+   "id": "eu_slow_0672ee09_35",
    "lang": "eu",
    "style": "slow",
-   "text": "Txoritxoa oso txikia da. Nolakoa da txoria? Esan: txikia.",
+   "text": "Txoria oso txikia da. Esan: txikia.",
    "source": "expansion"
   },
   {
-   "id": "eu_tutor_242927a1_84",
+   "id": "eu_tutor_e71974c4_89",
    "lang": "eu",
    "style": "tutor",
-   "text": "Elkartu eskuak asko txoritxo txiki bat helduko bazenute bezala eta hitz egin poliki.",
+   "text": "Elkartu erakuslea eta hatz lodia zulotxo bat utziz eta begiratu bertatik “txikia” esanez.",
    "source": "expansion"
   },
   {
-   "id": "eu_tutor_0932f671_166",
+   "id": "eu_tutor_33823b23_159",
    "lang": "eu",
    "style": "tutor",
-   "text": "Prestatu animalia bereko bi panpina baina tamaina desberdinekoak: bat argi eta garbi HANDIA eta bestea argi eta garbi TXIKIA. Jarri elkarren ondoan haurraren aurrean.",
+   "text": "Prestatu bi hartzatxo berdin baina tamaina desberdinekoak: bat argi eta garbi HANDIA eta bestea argi eta garbi TXIKIA. Jarri elkarren ondoan haurraren aurrean.",
    "source": "expansion"
   },
   {
@@ -13415,17 +13422,17 @@
    "source": "expansion"
   },
   {
-   "id": "eu_child_8a7ec4d8_66",
+   "id": "eu_child_d4445c93_76",
    "lang": "eu",
    "style": "child",
-   "text": "Orain alderantziz: zein da TXIKIA? Emadazu eta esan! Esan: txikia.",
+   "text": "Orain alderantziz: zein hartzatxo da TXIKIA? Emadazu eta esan! Esan: txikia.",
    "source": "expansion"
   },
   {
-   "id": "eu_slow_8a7ec4d8_66",
+   "id": "eu_slow_d4445c93_76",
    "lang": "eu",
    "style": "slow",
-   "text": "Orain alderantziz: zein da TXIKIA? Emadazu eta esan! Esan: txikia.",
+   "text": "Orain alderantziz: zein hartzatxo da TXIKIA? Emadazu eta esan! Esan: txikia.",
    "source": "expansion"
   },
   {
