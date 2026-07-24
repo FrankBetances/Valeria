@@ -27,7 +27,7 @@ export const MINIMAL_PAIRS_ESDO: MinimalPair[] = [
     id: 'do-rana-lana', code: 'PM-DO-1', group: 'Rotacismo',
     target: 'rana', targetEmoji: '🐸', foil: 'lana', foilEmoji: '🧶',
     phoneme: 'r̄ → l', errorLabel: 'Rotacismo inicial (ataque)',
-    prompt: '¡Dile a papi cuál tú quiere! Di: rana.',
+    prompt: '¿Cuál tú quiere? Di: rana.',
     onTarget: {
       say: '¡Rrrana! ¡Tu lengua sonó como un motor!',
       mission: '¡Brinca como una rana! Tres brinquitos hasta chocar los cinco con papi.',
@@ -57,7 +57,7 @@ export const MINIMAL_PAIRS_ESDO: MinimalPair[] = [
     id: 'do-perro-pelo', code: 'PM-DO-3', group: 'Rotacismo',
     target: 'perro', targetEmoji: '🐶', foil: 'pelo', foilEmoji: '💇',
     phoneme: 'r̄ → l', errorLabel: 'Rotacismo intervocálico',
-    prompt: '¿Quién hace guau? ¡Díselo a papi! Di: perro.',
+    prompt: '¿Quién hace guau? Di: perro.',
     onTarget: {
       say: '¡Perrro! ¡Qué erre tan fuerte!',
       mission: '¡A cuatro patas! Camina ladrando hasta papi y que te rasque la cabeza.',

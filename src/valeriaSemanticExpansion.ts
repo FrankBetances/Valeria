@@ -852,10 +852,14 @@ export interface SemanticSpeechBanks {
 
 // Un "paso" locutable (consigna + palabra objetivo + acción física del adulto),
 // forma común de escenarios, progresiones y contrastes en la pantalla.
+// ES-05: el modelo lento repite la FRASE completa (speakPhraseSlow), no solo
+// la palabra objetivo — antes de este cambio la pantalla decía una cosa
+// (st.tts) y el botón "oír despacio" otra (st.label): ambos modelos deben
+// decir el mismo contenido, variando solo la velocidad.
 const stepLines = (tts: string, label: string, action: string, retry: (l: string) => string): VoiceLine[] => [
   { style: 'child', text: tts },                     // consigna (speakToChild)
   { style: 'child', text: retry(label) },            // reintento
-  { style: 'slow', text: label.toLowerCase() },      // modelo lento (speakWordSlow)
+  { style: 'slow', text: tts },                      // modelo lento DE FRASE (speakPhraseSlow)
   { style: 'tutor', text: action },                  // tarjeta de acción física (voice="tutor")
 ];
 

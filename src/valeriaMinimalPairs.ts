@@ -37,7 +37,7 @@ export const MINIMAL_PAIRS: MinimalPair[] = [
     id: 'rana-lana', code: 'PM-1', group: 'Rotacismo',
     target: 'rana', targetEmoji: '🐸', foil: 'lana', foilEmoji: '🧶',
     phoneme: 'r̄ → l', errorLabel: 'Rotacismo inicial',
-    prompt: '¡Dile a papá cuál quieres! Di: rana.',
+    prompt: '¿Cuál quieres? Di: rana.',
     onTarget: {
       say: '¡Rrrana! ¡Tu lengua vibró como una moto!',
       mission: '¡Salto de rana! Tres saltos hasta chocar los cinco con papá.',
@@ -52,7 +52,7 @@ export const MINIMAL_PAIRS: MinimalPair[] = [
     id: 'perro-pelo', code: 'PM-2', group: 'Rotacismo',
     target: 'perro', targetEmoji: '🐶', foil: 'pelo', foilEmoji: '💇',
     phoneme: 'r̄ → l', errorLabel: 'Rotacismo intervocálico',
-    prompt: '¿Quién hace guau? ¡Díselo a papá! Di: perro.',
+    prompt: '¿Quién hace guau? Di: perro.',
     onTarget: {
       say: '¡Perrro! ¡Qué erre tan fuerte!',
       mission: '¡A cuatro patas! Gatea ladrando hasta papá y que te rasque la cabeza.',

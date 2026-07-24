@@ -190,7 +190,7 @@ const splitSentences = (text: string): string[] => {
   return out.length ? out : [text];
 };
 
-const speakChain = (text: string, opts: Speech.SpeechOptions, token: number) => {
+const speakChain = (text: string, opts: Speech.SpeechOptions, token: number, rateCeil = 1.3) => {
   const { onDone, onError, ...rest } = opts;
   const sentences = splitSentences(text);
   const baseRate = rest.rate ?? 0.92;
@@ -206,7 +206,7 @@ const speakChain = (text: string, opts: Speech.SpeechOptions, token: number) => 
     Speech.speak(sentence, {
       language: ttsLang(),
       ...rest,
-      rate: clamp(baseRate + (excited ? 0.03 : 0) + jitter * 0.5, 0.4, 1.3),
+      rate: clamp(baseRate + (excited ? 0.03 : 0) + jitter * 0.5, 0.4, rateCeil),
       pitch: clamp(basePitch + (excited ? 0.06 : asking ? 0.05 : 0) + jitter, 0.7, 1.45),
       ...(bestVoiceId && !rest.voice ? { voice: bestVoiceId } : {}),
       onDone: () => {
@@ -252,12 +252,12 @@ const trySpokenAsset = (style: VoiceStyle, text: string, opts: Speech.SpeechOpti
   });
 };
 
-const speakEngine = (text: string, opts: Speech.SpeechOptions = {}) => {
+const speakEngine = (text: string, opts: Speech.SpeechOptions = {}, rateCeil = 1.3) => {
   ensureBestVoice();
   const token = ++speakToken;
   Speech.stop();
   stopVoiceAsset();
-  const go = () => { if (token === speakToken) speakChain(text, opts, token); };
+  const go = () => { if (token === speakToken) speakChain(text, opts, token, rateCeil); };
   if (bestVoiceId === undefined && voiceSearch) {
     // Primera locución: espera brevemente al catálogo de voces para no
     // arrancar con la voz de fábrica; con tope corto para que el apoyo de
@@ -273,10 +273,18 @@ export const speak = (text: string, opts: Speech.SpeechOptions = {}) => {
   speakEngine(text, opts);
 };
 
+// Umbral de palabras a partir del cual un enunciado se considera "largo"
+// (frase de contexto + petición, como en Expansión Semántica): por encima de
+// esto se le aplica el mismo techo de velocidad conservador que speakClinical
+// (rate ≤ 0.9), porque el jitter/las exclamaciones de speakChain podían acelerar
+// una locución de varias oraciones hasta sonar atropellada.
+const LONG_UTTERANCE_WORDS = 12;
+
 // Voz "cuentacuentos" para dirigirse al niño: algo más aguda y pausada.
 export const speakToChild = (text: string, opts: Speech.SpeechOptions = {}) => {
   if (trySpokenAsset('child', text, opts)) return;
-  speakEngine(text, { pitch: 1.15, rate: 0.85, ...opts });
+  const isLong = text.trim().split(/\s+/).length > LONG_UTTERANCE_WORDS;
+  speakEngine(text, { pitch: 1.15, rate: 0.85, ...opts }, isLong ? 0.9 : 1.3);
 };
 
 // Locuta VARIAS piezas en secuencia, cada una resuelta por separado como asset
@@ -342,6 +350,18 @@ export const speakWordSlow = (text: string) => {
   const t = text.toLowerCase();
   if (trySpokenAsset('slow', t, {})) return;
   speakEngine(t, { pitch: 1.1, rate: 0.6 });
+};
+
+// Modelo LENTO DE FRASE completa (ES-05): mismo estilo 'slow' que speakWordSlow
+// (mismo length_scale en la síntesis pregenerada), pero sin minuscular ni
+// aislar una sola palabra — repite el enunciado completo tal cual lo dijo el
+// modelo normal, solo que más despacio. En Pares Mínimos el modelo objetivo SÍ
+// es la palabra aislada (speakWordSlow es lo correcto ahí); esta función es
+// solo para pantallas donde lo lento debe ser la frase entera, no un recorte.
+export const speakPhraseSlow = (text: string) => {
+  const t = text.replace(/\s+/g, ' ').trim();
+  if (trySpokenAsset('slow', t, {})) return;
+  speakEngine(t, { pitch: 1.05, rate: 0.65 });
 };
 
 export const stopSpeaking = () => { speakToken += 1; Speech.stop(); stopVoiceAsset(); };

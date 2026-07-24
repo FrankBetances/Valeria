@@ -75,6 +75,7 @@ export const STORAGE_KEYS = {
   dislexia: '@valeria_prescripcion_dislexia',  // Prescripción del módulo Dislexia (boolean[])
   teaConsent: '@valeria_tea_consentimiento',   // Consentimiento informado del Quiebre Pragmático (Modo Familia)
   academy: '@valeria_academy',                 // Valeria Academy: progreso de cápsulas de conocimiento (cifrado con valeriaCrypto)
+  autoRecord: '@valeria_grabacion_automatica',  // PM-04/ES-03: 'on' arranca el micro solo tras la consigna; por defecto MANUAL (botón)
 };
 
 // Marca / mascota: oso "Valeria" en blanco sobre turquesa. El componente

@@ -15,7 +15,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, Pressable, TextInput, StyleSheet, Animated, Easing, Platform, Linking } from 'react-native';
 import { V } from './valeriaTheme';
 import {
-  speak, speakToChild, speakWordSlow, speakClinical, stopSpeaking, speakVoiceSample,
+  speak, speakToChild, speakWordSlow, speakPhraseSlow, speakClinical, stopSpeaking, speakVoiceSample,
   asrSupported, startListening, stopListening, releaseListening, matchTarget, MatchLevel,
   VoiceStatus, refreshVoiceCatalog,
 } from './valeriaVoice';
@@ -30,12 +30,17 @@ export const SpeakButton: React.FC<{
   label?: string;
   // 'clinical': frases portadoras y órdenes transaccionales — prosodia continua
   // conservadora (sin jitter ni aceleraciones que muevan el fonema objetivo).
-  voice?: 'tutor' | 'child' | 'slow' | 'clinical';
+  // 'slow': modelado lento de una PALABRA aislada (p. ej. el objetivo de Pares
+  // Mínimos). 'slowPhrase': modelado lento de un enunciado completo (frase de
+  // Expansión Semántica) — no confundir ni "corregir" uno por el otro: cada
+  // pantalla usa el que corresponde a lo que su modelo normal ya dice.
+  voice?: 'tutor' | 'child' | 'slow' | 'slowPhrase' | 'clinical';
   compact?: boolean;
 }> = ({ text, label = 'Escuchar', voice = 'tutor', compact = false }) => {
   const onPress = () => {
     if (voice === 'child') speakToChild(text);
     else if (voice === 'slow') speakWordSlow(text);
+    else if (voice === 'slowPhrase') speakPhraseSlow(text);
     else if (voice === 'clinical') speakClinical(text);
     else speak(text);
   };

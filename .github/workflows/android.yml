@@ -66,6 +66,15 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      # Gate de cobertura del corpus de voz (plan de mejoras ACOPROS, fase 1):
+      # falla si algún texto locutado en es/gl/eu no tiene su asset de voz
+      # neuronal pregenerado. Antes de esto, un PR de texto podía mezclarse sin
+      # regenerar el corpus ni sintetizar los assets sin que nada lo detectara
+      # (la app cae a expo-speech en silencio, typecheck/tests/diff no lo ven).
+      # Falla RÁPIDO, antes del build de Android. Ver docs/plan-mejoras-acopros-logopedas.json.
+      - name: Comprobar cobertura del corpus de voz (es/gl/eu)
+        run: node scripts/check-voice-corpus-coverage.js
+
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
