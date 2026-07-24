@@ -1,0 +1,808 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "id": "valeria-plus/plan-mejoras-acopros-logopedas",
+  "version": "1.0.0",
+  "titulo": "Plan de revisión · Feedback clínico de las logopedas de ACOPROS (julio 2026)",
+  "fecha": "2026-07-24",
+  "estado": "propuesto · pendiente de validación con ACOPROS",
+  "descripcion": "Convierte el feedback cualitativo de las logopedas de ACOPROS sobre Pares Mínimos, Expansión Semántica y recordatorios en un backlog trazable: cada observación se verifica contra el código real del repositorio, se propone un cambio concreto con sus ficheros, se marca si requiere una decisión clínica previa y se cierra con criterios de aceptación comprobables en dispositivo.",
+  "origen": {
+    "fuente": "Correo de las logopedas de ACOPROS tras la prueba de la app",
+    "bloquesRevisados": ["Pares Mínimos", "Expansión Semántica (Escenarios, Progresión, Contrastes)", "Recordatorios"],
+    "naturaleza": "Feedback de usuarias expertas (logopedas), no de pacientes. Prevalece sobre criterios de producto salvo conflicto con el muro MDR (el adulto sigue siendo el juez final)."
+  },
+
+  "resumenEjecutivo": {
+    "totalObservaciones": 18,
+    "confirmadasEnCodigo": 13,
+    "confirmadasEnParte": 1,
+    "sonPeticionDeRedisenoNoDefecto": 5,
+    "requierenDecisionClinicaPrevia": 7,
+    "quickWinsP0": 7,
+    "lecturaCorta": "La mayoría del feedback no cuestiona la arquitectura: pide (a) que el texto de la app describa lo que la app realmente hace, (b) que el usuario controle cuándo empieza el audio y la grabación, y (c) que el contenido de Expansión Semántica declare un objetivo terapéutico único por apartado. Los tres primeros bloques son cambios de copy y de flujo, baratos y sin riesgo clínico. La reestructuración de contenido (categorías semánticas, progresión por frecuencia léxica, tarea de selección en contrastes) sí es un rediseño y necesita que ACOPROS fije el objetivo antes de tocar datos.",
+    "riesgoDominante": "Todo cambio en una cadena locutable invalida su asset de voz pregenerado (id = hash del texto). No es un fallo bloqueante —degrada a la voz del sistema— pero obliga a regenerar el corpus antes de publicar."
+  },
+
+  "convenciones": {
+    "prioridad": {
+      "P0": "Copy o flujo, sin decisión clínica pendiente. Entra en el próximo build.",
+      "P1": "Cambio funcional acotado. Necesita prueba en dispositivo real.",
+      "P2": "Rediseño de contenido o de mecánica. Bloqueado por una decisión clínica de ACOPROS."
+    },
+    "esfuerzo": { "S": "< 2 h", "M": "medio día", "L": "2-3 días", "XL": "> 1 semana (rediseño de banco de contenido)" },
+    "alcance": {
+      "rn": "App React Native (src/), variedad es",
+      "rn-locales": "Bancos localizados: es-DO, gl, eu (deben moverse en el mismo PR o quedan divergentes)",
+      "ios-native": "Port SwiftUI (ios-native/Valeria/), hoy con contenido representativo abreviado",
+      "corpus-voz": "voice-corpus.json + src/valeriaVoiceAssets.ts + voice-assets-manifest.{es,eu,gl}.json",
+      "docs": "docs/protocolo-*.md y el manual de casos de uso"
+    },
+    "veredictoVerificacion": {
+      "confirmado": "Reproducido leyendo el código: la observación describe el comportamiento actual",
+      "parcial": "El problema existe pero su causa es distinta o más acotada de lo descrito",
+      "requiere-decision": "No es un defecto: es una petición de rediseño que depende del objetivo terapéutico"
+    }
+  },
+
+  "decisionesClinicasPendientes": [
+    {
+      "id": "DC-1",
+      "pregunta": "¿Cuál es el objetivo único del apartado Escenarios diarios: secuenciación de rutinas, repetición verbal de palabras o ampliación de vocabulario por categorías?",
+      "porQueBloquea": "Determina si el contenido se reordena en secuencias ordenables, se reduce a palabra aislada o se reorganiza en categorías semánticas. Los tres caminos son incompatibles entre sí.",
+      "bloquea": ["ES-06", "ES-07", "ES-08"],
+      "opciones": [
+        { "opcion": "A · Secuenciación", "implica": "Nueva mecánica: ordenar 3-4 viñetas de una rutina (mañana, comida, higiene). Reutiliza el patrón de MS-3 del player, que ya ordena fichas.", "coste": "XL" },
+        { "opcion": "B · Repetición verbal", "implica": "Se conserva la mecánica actual y solo se recorta el tts_string a la palabra objetivo. Cambio de datos, no de código.", "coste": "M" },
+        { "opcion": "C · Vocabulario por categorías", "implica": "Se sustituyen los 5 escenarios por categorías (frutas, transportes, colores, animales…) con progresión por frecuencia léxica. Rediseño del banco en 4 variedades.", "coste": "XL" }
+      ],
+      "recomendacionTecnica": "B como parche inmediato (desbloquea ES-06 sin tocar la arquitectura) y C como evolución planificada, porque la estructura de datos actual (DailyScenario con items tipados) admite categorías cambiando solo el agrupador y añadiendo un campo de frecuencia."
+    },
+    {
+      "id": "DC-2",
+      "pregunta": "En Progresión, ¿el objetivo es ampliar el campo semántico de un concepto (coche → volante, ruedas, gasolina) o producir frases de 3-4 elementos?",
+      "porQueBloquea": "La escalera actual Onomatopeya → Sustantivo → Verbo → Adjetivo no sirve para ninguno de los dos.",
+      "bloquea": ["ES-10"],
+      "opciones": [
+        { "opcion": "A · Campo semántico", "implica": "Sustituir la fase de onomatopeya por palabras relacionadas; mantener 4 pasos por secuencia." },
+        { "opcion": "B · Producción de frases", "implica": "Pasos de 3-4 elementos con modelo previo y repetición; exige ampliar stt_expected_array a frases y relajar el emparejador." }
+      ]
+    },
+    {
+      "id": "DC-3",
+      "pregunta": "En Contrastes, ¿la tarea es de comprensión (seleccionar la imagen correcta entre dos) o de producción (repetir la palabra)?",
+      "porQueBloquea": "Cambia la mecánica evaluada y lo que se registra en el historial clínico.",
+      "bloquea": ["ES-12"],
+      "recomendacionTecnica": "Doble vuelta: vuelta 1 de comprensión (seleccionar entre las dos imágenes, ya presentes en el dato) y vuelta 2 de producción. La estructura ContrastCapsule.rounds[2] ya sostiene dos vueltas evaluadas, así que el cambio es de mecánica de pantalla, no de datos."
+    },
+    {
+      "id": "DC-4",
+      "pregunta": "¿Se adopta un banco de pictogramas (ARASAAC u otro con licencia compatible) en sustitución de los emoji?",
+      "porQueBloquea": "Afecta a assets, licencias, tamaño de bundle y a las cuatro variedades a la vez.",
+      "bloquea": ["ES-09"],
+      "notaLicencia": "ARASAAC es CC BY-NC-SA: obliga a atribución visible y es incompatible con un uso comercial cerrado. Verificar antes de comprometer el diseño."
+    },
+    {
+      "id": "DC-5",
+      "pregunta": "En Pares Mínimos, ¿la consigna ideal es la palabra aislada («rata») o la presentación del par seguida de la repetición de una de ellas («rata… lata… dime: rata»)?",
+      "porQueBloquea": "Determina si se recorta el campo prompt o se rediseña la secuencia de locución del ensayo.",
+      "bloquea": ["PM-02"],
+      "recomendacionTecnica": "Las logopedas proponen ambas; la segunda ya existe a medias (el ensayo 0 hace bombardeo de contraste con pairIntro). Convertirla en la consigna estándar de todos los ensayos es coherente con el diseño actual y evita mantener dos formatos."
+    }
+  ],
+
+  "items": [
+    {
+      "id": "PM-01",
+      "bloque": "Pares Mínimos",
+      "titulo": "«Fichas» → «palabras» en el texto de la app",
+      "prioridad": "P0",
+      "esfuerzo": "S",
+      "feedback": "En lugar de la expresión «fichas» sería más adecuado decir palabras.",
+      "verificacionEnCodigo": {
+        "veredicto": "confirmado",
+        "evidencia": [
+          { "archivo": "src/ValeriaMinimalPairsScreen.tsx", "lineas": "561-568", "nota": "Tarjeta CÓMO FUNCIONA: «Aparecen dos fichas casi iguales (rana / lana)»" },
+          { "archivo": "src/ValeriaMinimalPairsScreen.tsx", "lineas": "552", "nota": "Subtítulo de cabecera: «el niño pide la ficha con su voz»" },
+          { "archivo": "src/valeriaExerciseBank.ts", "lineas": "124, 156-160, 335, 425-430, 515-520", "nota": "El término «fichas» se repite en las consignas de lectura del player (SE-1, MS-3, RA-1, RA-3). Revisar para no dejar la terminología a medias entre módulos." }
+        ]
+      },
+      "propuesta": {
+        "resumen": "Sustituir «ficha/fichas» por «palabra/palabras» en todo texto dirigido a la familia. Se conserva el identificador interno FichaVisual (nombre de componente, no visible).",
+        "cambios": [
+          "Reescribir la tarjeta CÓMO FUNCIONA de Pares Mínimos con el término «palabras»",
+          "Revisar el subtítulo de cabecera y las etiquetas de accesibilidad de las dos tarjetas del par",
+          "Barrido del mismo término en valeriaExerciseBank.ts y sus equivalentes es-DO/eu para no dejar dos vocabularios conviviendo"
+        ]
+      },
+      "alcance": ["rn", "rn-locales", "ios-native", "docs"],
+      "requiereDecisionClinica": false,
+      "riesgo": { "nivel": "bajo", "nota": "Si el texto tocado está locutado por SpeakButton, cambia su hash de corpus. Comprobar con el barrido de X-01." },
+      "criteriosDeAceptacion": [
+        "Ninguna cadena visible para la familia contiene «ficha» o «fichas» en Pares Mínimos",
+        "Las etiquetas de accesibilidad usan el mismo término que el texto visible"
+      ],
+      "dependencias": []
+    },
+    {
+      "id": "PM-02",
+      "bloque": "Pares Mínimos",
+      "titulo": "Consigna: pedir la palabra, no la frase «di rata»",
+      "prioridad": "P2",
+      "esfuerzo": "M",
+      "feedback": "En lugar de la consigna «di rata» sería preferible que apareciera simplemente la palabra «rata». Alternativa: mostrar el par «rata»/«lata» y repetir una de ellas para que el niño la identifique y la repita.",
+      "verificacionEnCodigo": {
+        "veredicto": "requiere-decision",
+        "evidencia": [
+          { "archivo": "src/valeriaMinimalPairs.ts", "lineas": "39, 55, 67, 78, 90, 102", "nota": "Campo prompt de cada par: «¡Dile a papá cuál quieres! Di: rana.», «¡Corre, corre! ¿Quién corre? Di: rata.»…" },
+          { "archivo": "src/ValeriaMinimalPairsScreen.tsx", "lineas": "65-69", "nota": "trialPrompt alterna tres formatos: ensayo 0 = pairIntro (bombardeo de contraste), múltiplos de 3 = prompt clínico, resto = frase portadora procedural" },
+          { "archivo": "src/valeriaPairSpeech.ts", "lineas": "33-41", "nota": "pairIntro ya construye «Esta es rata. Y esta es lata. <prompt>», que es casi exactamente la alternativa que proponen las logopedas" }
+        ]
+      },
+      "propuesta": {
+        "resumen": "Adoptar el formato de presentación del par + repetición del objetivo como consigna estándar de todos los ensayos, recortando el prompt a la palabra objetivo. Elimina de paso la frase portadora procedural, que es la que más se aleja de la petición clínica.",
+        "cambios": [
+          "Recortar el campo prompt de los 15 pares a la palabra objetivo (o a «<objetivo>» con soporte prosódico mínimo)",
+          "Simplificar trialPrompt a un único formato por ensayo: presentación del par + objetivo",
+          "Decidir el destino de valeriaCarrierPhrases.ts (frases portadoras): se retira del flujo o se reserva para un modo avanzado",
+          "Replicar en los bancos es-DO, gl y eu"
+        ]
+      },
+      "alcance": ["rn", "rn-locales", "ios-native", "corpus-voz", "docs"],
+      "requiereDecisionClinica": true,
+      "decision": "DC-5",
+      "riesgo": {
+        "nivel": "medio",
+        "nota": "Retirar la frase portadora elimina una mecánica anti-mecanización que se introdujo a propósito (el objetivo viajaba incrustado en prosodia continua). Documentar el porqué del cambio en el protocolo para no reintroducirla por inercia."
+      },
+      "criteriosDeAceptacion": [
+        "Los 10 ensayos de un par usan el mismo formato de consigna",
+        "La consigna no contiene imperativos dirigidos a terceros («díselo a papá») salvo que ACOPROS los pida",
+        "Los cuatro bancos de variedad quedan alineados en formato"
+      ],
+      "dependencias": ["DC-5", "X-01"]
+    },
+    {
+      "id": "PM-03",
+      "bloque": "Pares Mínimos",
+      "titulo": "La tarjeta «lo que dice la app» debe reflejar SOLO lo que la app locuta",
+      "prioridad": "P0",
+      "esfuerzo": "M",
+      "feedback": "En «Qué dice la app», en el par perro/pelo aparece «¿Quién hace guau? ¡Díselo a papá! Di: perro». Esa formulación confunde porque ese mensaje no lo verbaliza realmente la aplicación.",
+      "verificacionEnCodigo": {
+        "veredicto": "parcial",
+        "evidencia": [
+          { "archivo": "src/ValeriaMinimalPairsScreen.tsx", "lineas": "723-735", "nota": "La tarjeta pinta livePrompt, que se fija en startTrial y NO se actualiza después" },
+          { "archivo": "src/ValeriaMinimalPairsScreen.tsx", "lineas": "424-432", "nota": "retry() locuta pairRetry («¡Otra vez! Di: perro.») pero la tarjeta sigue mostrando la consigna original: divergencia real entre texto y audio" },
+          { "archivo": "src/ValeriaMinimalPairsScreen.tsx", "lineas": "402-422", "nota": "En corrección y en imitación asistida la app locuta onFoil.say + speakWordSlow, y la tarjeta tampoco lo refleja" },
+          { "archivo": "src/valeriaMinimalPairs.ts", "lineas": "55", "nota": "El prompt de perro/pelo incluye «¡Díselo a papá!», una instrucción dirigida al adulto dentro de una cadena locutada al niño" }
+        ],
+        "nota": "El problema tiene dos causas sumadas: (a) la tarjeta se queda congelada en la consigna inicial mientras el audio avanza, y (b) el propio texto mezcla consigna al niño con instrucción al adulto. Se corrigen las dos."
+      },
+      "propuesta": {
+        "resumen": "Hacer que la tarjeta sea un espejo del último enunciado locutado, y separar el canal «lo que la app dice al niño» del canal «lo que el adulto tiene que hacer».",
+        "cambios": [
+          "Actualizar livePrompt en cada locución del ensayo: consigna, reintento, corrección e imitación asistida",
+          "Extraer las instrucciones al adulto («díselo a papá») del prompt locutado y llevarlas a la tarjeta de misión, que ya existe",
+          "Aplicar el mismo espejo a la tarjeta LA APP DICE de Expansión Semántica"
+        ]
+      },
+      "alcance": ["rn", "rn-locales", "ios-native", "corpus-voz"],
+      "requiereDecisionClinica": false,
+      "riesgo": { "nivel": "bajo" },
+      "criteriosDeAceptacion": [
+        "En cualquier momento de un ensayo, el texto de la tarjeta coincide literalmente con la última locución emitida",
+        "El botón de repetir de la tarjeta repite ese mismo enunciado, con la misma voz",
+        "Ninguna cadena locutada al niño contiene instrucciones dirigidas al adulto"
+      ],
+      "dependencias": []
+    },
+    {
+      "id": "PM-04",
+      "bloque": "Pares Mínimos",
+      "titulo": "Grabación iniciada por el usuario, no automática tras la consigna",
+      "prioridad": "P0",
+      "esfuerzo": "M",
+      "feedback": "Sería más funcional que el usuario decidiera cuándo iniciar la grabación mediante un botón, en lugar de que empiece automáticamente tras la consigna, para dar tiempo al niño a prepararse.",
+      "verificacionEnCodigo": {
+        "veredicto": "confirmado",
+        "evidencia": [
+          { "archivo": "src/ValeriaMinimalPairsScreen.tsx", "lineas": "361-368", "nota": "startTrial: al terminar el TTS, setTimeout(…, 400) → listenNow automático" },
+          { "archivo": "src/ValeriaMinimalPairsScreen.tsx", "lineas": "424-432", "nota": "retry: mismo encadenamiento automático" }
+        ]
+      },
+      "propuesta": {
+        "resumen": "Introducir un estado de espera entre la consigna y la escucha, con un botón grande de micrófono. La grabación solo arranca al pulsarlo.",
+        "cambios": [
+          "Nuevo TrialStep 'ready' entre 'say' y 'listen'",
+          "Botón «🎤 Ya estoy listo» de área amplia (mínimo 48 dp) con etiqueta de accesibilidad",
+          "Preferencia por familia «grabación automática» (por defecto: manual), guardada en AsyncStorage, para no obligar a pulsar en niños que ya tenían el ritmo cogido",
+          "Mismo patrón en Expansión Semántica (ES-03): una sola implementación compartida"
+        ]
+      },
+      "alcance": ["rn", "ios-native"],
+      "requiereDecisionClinica": false,
+      "riesgo": {
+        "nivel": "medio",
+        "nota": "Añadir un paso manual por ensayo alarga la sesión (10 ensayos × 1 pulsación). Medir el tiempo total de sesión antes y después con la telemetría existente."
+      },
+      "criteriosDeAceptacion": [
+        "Tras la consigna, el micrófono NO se activa hasta que se pulsa el botón",
+        "Sin ASR disponible, el flujo sigue cayendo a la valoración por botones del adulto sin pasos muertos",
+        "La preferencia sobrevive al cierre de la app"
+      ],
+      "dependencias": []
+    },
+
+    {
+      "id": "ES-01",
+      "bloque": "Expansión Semántica",
+      "titulo": "La explicación dice «palabra» y la app locuta una frase completa, además rápida",
+      "prioridad": "P0",
+      "esfuerzo": "S",
+      "feedback": "En la explicación se indica que la aplicación reproduce una palabra, cuando en realidad reproduce una frase completa y bastante rápida.",
+      "verificacionEnCodigo": {
+        "veredicto": "confirmado",
+        "evidencia": [
+          { "archivo": "src/ValeriaSemanticExpansionScreen.tsx", "lineas": "376-383", "nota": "CÓMO FUNCIONA: «enseña una imagen y dice la palabra»" },
+          { "archivo": "src/valeriaSemanticExpansion.ts", "lineas": "60-66", "nota": "tts_string real: «Esto es la cama. Por la mañana saltamos de la cama. Di: cama.» — tres oraciones" },
+          { "archivo": "src/valeriaVoice.ts", "lineas": "205-212", "nota": "speakToChild aplica jitter sobre una rate base; no hay un techo de velocidad para enunciados largos como sí lo hay en speakClinical (rate ≤ 0.9)" }
+        ]
+      },
+      "propuesta": {
+        "resumen": "Corregir el texto para que describa el enunciado real y bajar la velocidad de locución de los enunciados largos.",
+        "cambios": [
+          "Reescribir CÓMO FUNCIONA describiendo el flujo real (frase de contexto + petición de la palabra)",
+          "Aplicar un techo de velocidad cuando el enunciado supera un umbral de palabras, reutilizando el clamp conservador de speakClinical",
+          "Insertar pausas prosódicas entre oraciones del tts_string"
+        ]
+      },
+      "alcance": ["rn", "rn-locales", "ios-native"],
+      "requiereDecisionClinica": false,
+      "riesgo": { "nivel": "bajo", "nota": "Si ES-06 recorta los tts_string a la palabra, parte de este cambio queda absorbida; el techo de velocidad sigue siendo útil." },
+      "criteriosDeAceptacion": [
+        "La tarjeta describe exactamente lo que se escucha en el primer paso de Rutina de mañana",
+        "Una logopeda de ACOPROS confirma que la velocidad permite seguir el modelo"
+      ],
+      "dependencias": []
+    },
+    {
+      "id": "ES-02",
+      "bloque": "Expansión Semántica",
+      "titulo": "Al salir de un ejercicio, volver al submenú del bloque y no al menú principal",
+      "prioridad": "P0",
+      "esfuerzo": "S",
+      "feedback": "Al salir de cualquier ejercicio (p. ej. Rutina de mañana), la app devuelve al menú principal en lugar de al apartado correspondiente (Escenarios diarios).",
+      "verificacionEnCodigo": {
+        "veredicto": "confirmado",
+        "evidencia": [
+          { "archivo": "src/ValeriaSemanticExpansionScreen.tsx", "lineas": "507", "nota": "El botón Volver de la fase 'play' hace navigation.goBack(), que desmonta la pantalla completa y pierde phase y tab" },
+          { "archivo": "src/ValeriaSemanticExpansionScreen.tsx", "lineas": "460", "nota": "Misma llamada en la fase 'done'" },
+          { "archivo": "src/ValeriaMinimalPairsScreen.tsx", "lineas": "549, 649", "nota": "Pares Mínimos tiene el mismo patrón: volver desde un par sale de la pantalla en vez de regresar al banco de contrastes" }
+        ]
+      },
+      "propuesta": {
+        "resumen": "El botón Volver dentro de una sesión regresa a la lista (setPhase('pick')) conservando la pestaña activa; solo desde la lista sale al hub.",
+        "cambios": [
+          "En fases 'play' y 'done', Volver → setPhase('pick') + stopSpeaking() + stopListening(), preservando el tab (Escenarios / Progresión / Contrastes)",
+          "Aplicar lo mismo en Pares Mínimos: volver al banco de contrastes",
+          "Interceptar también el gesto/botón atrás del sistema en Android para que se comporte igual"
+        ]
+      },
+      "alcance": ["rn", "ios-native"],
+      "requiereDecisionClinica": false,
+      "riesgo": { "nivel": "bajo", "nota": "Cuidar que abandonar a mitad de sesión no deje audio ni reconocedor vivos: el cleanup del efecto de desmontaje ya no se dispara si no se sale de la pantalla." },
+      "criteriosDeAceptacion": [
+        "Salir de Rutina de mañana devuelve a la lista de Escenarios diarios con la pestaña correcta",
+        "Salir de un par devuelve al banco de contrastes",
+        "No queda locución ni micrófono activos tras abandonar una sesión a mitad"
+      ],
+      "dependencias": []
+    },
+    {
+      "id": "ES-03",
+      "bloque": "Expansión Semántica",
+      "titulo": "Botón de Play para iniciar audio y grabación",
+      "prioridad": "P0",
+      "esfuerzo": "M",
+      "feedback": "Lo ideal sería que la persona usuaria iniciase la reproducción del audio y la grabación con un botón de Play; si empiezan automáticamente puede no estar preparada o atenta.",
+      "verificacionEnCodigo": {
+        "veredicto": "confirmado",
+        "evidencia": [
+          { "archivo": "src/ValeriaSemanticExpansionScreen.tsx", "lineas": "200-214", "nota": "start() llama a sayStep(sess, 0) de inmediato: el audio arranca al entrar en el ejercicio" },
+          { "archivo": "src/ValeriaSemanticExpansionScreen.tsx", "lineas": "206-214", "nota": "sayStep encadena TTS → listenNow automático a los 400 ms" }
+        ]
+      },
+      "propuesta": {
+        "resumen": "Dos pulsaciones explícitas por paso: ▶ para escuchar el modelo y 🎤 para grabar. Comparte implementación con PM-04.",
+        "cambios": [
+          "Estado inicial del paso sin audio: tarjeta con imagen, palabra y botón ▶",
+          "Tras la locución, estado 'ready' con botón de micrófono (no escucha automática)",
+          "Respetar la misma preferencia «grabación automática» de PM-04"
+        ]
+      },
+      "alcance": ["rn", "ios-native"],
+      "requiereDecisionClinica": false,
+      "riesgo": { "nivel": "bajo" },
+      "criteriosDeAceptacion": [
+        "Al abrir un escenario no suena nada hasta pulsar ▶",
+        "El micrófono no se abre hasta pulsar 🎤",
+        "Ambos botones son alcanzables con una sola mano en un teléfono de 5,5\""
+      ],
+      "dependencias": ["PM-04"]
+    },
+    {
+      "id": "ES-04",
+      "bloque": "Expansión Semántica",
+      "titulo": "Baja sensibilidad de detección de voz (hasta tres intentos para validar un ensayo)",
+      "prioridad": "P1",
+      "esfuerzo": "L",
+      "feedback": "La app detecta mal la voz durante la grabación: en varias ocasiones hubo que repetir hasta tres veces para que el ensayo se aceptase.",
+      "verificacionEnCodigo": {
+        "veredicto": "confirmado",
+        "evidencia": [
+          { "archivo": "src/valeriaVoice.ts", "lineas": "400-440", "nota": "Voice.start(locale) se llama sin opciones: no se configuran los extras de Android que gobiernan el silencio previo y el corte (EXTRA_SPEECH_INPUT_COMPLETE_SILENCE_LENGTH_MILLIS y equivalentes). Con la ventana por defecto, un niño que tarda en arrancar produce un ERROR_NO_MATCH" },
+          { "archivo": "src/ValeriaSemanticExpansionScreen.tsx", "lineas": "227-231", "nota": "onError → resolve(0): un fallo del reconocedor se contabiliza igual que un intento fallido del niño" },
+          { "archivo": "src/ValeriaSemanticExpansionScreen.tsx", "lineas": "222-226", "nota": "Los resultados parciales se muestran pero se descartan al resolver: si el motor entrega un parcial correcto y luego falla, se pierde" },
+          { "archivo": "src/ValeriaMinimalPairsScreen.tsx", "lineas": "418-422", "nota": "Pares Mínimos ya distingue el caso 'none' (no captado) y NO consume intento: Expansión Semántica no hereda esa protección" }
+        ]
+      },
+      "propuesta": {
+        "resumen": "Tres frentes: ampliar la ventana de escucha, no penalizar los fallos del reconocedor y aprovechar los parciales.",
+        "cambios": [
+          "Pasar extras de reconocimiento en Android: silencio previo y silencio de fin más largos, y resultados parciales activos",
+          "Evaluar contra el mejor parcial acumulado cuando el resultado final llega vacío",
+          "Que un error del motor NO consuma intento ni estrella (portar la rama 'none' de Pares Mínimos)",
+          "Dejar el veredicto manual del adulto siempre visible durante la escucha, no solo tras el fallo",
+          "Instrumentar con la telemetría existente la tasa de reintentos por paso para medir el antes/después"
+        ]
+      },
+      "alcance": ["rn", "ios-native"],
+      "requiereDecisionClinica": false,
+      "riesgo": {
+        "nivel": "medio",
+        "nota": "Aflojar el emparejamiento sube los falsos positivos clínicos, justo lo que el pliegue dialectal de es-DO intenta evitar. Este item afina la CAPTURA (ventana de escucha, parciales, penalización), no el umbral de aceptación fonética. No tocar matchExpected sin acuerdo clínico."
+      },
+      "criteriosDeAceptacion": [
+        "En una sesión de 6 pasos con un niño de 4 años, ningún paso requiere más de un reintento por fallo del motor",
+        "Un ERROR_NO_MATCH no resta estrellas",
+        "El adulto puede validar el intento en cualquier momento de la escucha"
+      ],
+      "dependencias": []
+    },
+    {
+      "id": "ES-05",
+      "bloque": "Expansión Semántica",
+      "titulo": "«Oír modelo despacio» debe repetir el mismo contenido, solo que más lento",
+      "prioridad": "P0",
+      "esfuerzo": "S",
+      "feedback": "Al repetir el modelo de forma lenta solo se reproduce la palabra objetivo, no la frase completa. Ambos modelos deberían reproducir el mismo contenido, variando solo la velocidad.",
+      "verificacionEnCodigo": {
+        "veredicto": "confirmado",
+        "evidencia": [
+          { "archivo": "src/ValeriaSemanticExpansionScreen.tsx", "lineas": "619, 639", "nota": "SpeakButton text={st.label} voice=\"slow\": locuta la etiqueta, no st.tts" },
+          { "archivo": "src/valeriaVoice.ts", "lineas": "341-345", "nota": "speakWordSlow está diseñado para una palabra (rate 0.6) y además separa sílabas; con una frase entera el resultado sería antinatural" }
+        ]
+      },
+      "propuesta": {
+        "resumen": "El modelo lento reproduce el mismo enunciado que el modelo normal. Requiere una vía lenta para frases, distinta de la actual para palabras aisladas.",
+        "cambios": [
+          "Cambiar el texto del botón a st.tts (el enunciado real del paso)",
+          "Añadir una locución lenta de frase (rate reducida, sin silabeo) y reservar speakWordSlow para el objetivo aislado",
+          "Revisar el mismo botón en Pares Mínimos, donde hoy locuta p.target: allí SÍ es correcto porque el modelo objetivo es la palabra, pero debe quedar documentado para que no se \"corrija\" por simetría"
+        ]
+      },
+      "alcance": ["rn", "rn-locales", "ios-native", "corpus-voz"],
+      "requiereDecisionClinica": false,
+      "riesgo": { "nivel": "bajo", "nota": "Una nueva variante de estilo de voz (frase lenta) crea nuevas entradas de corpus: coordinar con X-01." },
+      "criteriosDeAceptacion": [
+        "El modelo lento y el normal dicen exactamente el mismo texto",
+        "La versión lenta se entiende sin sonar robótica en las cuatro variedades"
+      ],
+      "dependencias": ["X-01"]
+    },
+    {
+      "id": "ES-06",
+      "bloque": "Expansión Semántica",
+      "titulo": "Consignas que repiten la palabra tres veces y aportan poco contexto funcional",
+      "prioridad": "P1",
+      "esfuerzo": "L",
+      "feedback": "Si el objetivo es que repita «cama», sería más adecuado pedir directamente esa palabra: hoy se locuta «Esto es la cama. Por la mañana saltamos en la cama. Di: cama», con la palabra repetida y poco contexto funcional.",
+      "verificacionEnCodigo": {
+        "veredicto": "confirmado",
+        "evidencia": [
+          { "archivo": "src/valeriaSemanticExpansion.ts", "lineas": "60-96", "nota": "Patrón sistemático en los 5 escenarios: definición + frase de uso + petición, con el objetivo repetido 3 veces" },
+          { "archivo": "src/valeriaSemanticExpansionEsDO.ts", "lineas": "todo el fichero", "nota": "El banco dominicano replica el patrón" },
+          { "archivo": "src/valeriaSemanticExpansionEu.ts", "lineas": "todo el fichero", "nota": "Ídem en euskera" }
+        ]
+      },
+      "propuesta": {
+        "resumen": "Reescribir los tts_string según el objetivo que fije DC-1. Si es repetición verbal, reducir a una presentación breve más la petición, con el objetivo apareciendo una sola vez como palabra a imitar.",
+        "cambios": [
+          "Reescritura del campo tts_string en los 4 bancos (es, es-DO, gl, eu) manteniendo intacto stt_expected_array",
+          "Regla de estilo documentada en el protocolo: máximo una aparición del objetivo antes de la petición",
+          "Regeneración del corpus de voz"
+        ]
+      },
+      "alcance": ["rn", "rn-locales", "ios-native", "corpus-voz", "docs"],
+      "requiereDecisionClinica": true,
+      "decision": "DC-1",
+      "riesgo": { "nivel": "medio", "nota": "Es el item que más cadenas locutables toca: sin regeneración de corpus, la sesión completa cae a la voz del sistema en gl y eu, que es justo donde más se nota." },
+      "criteriosDeAceptacion": [
+        "Ningún tts_string repite el objetivo más de una vez antes de la petición",
+        "Los cuatro bancos siguen la misma regla de estilo",
+        "El manifiesto de voz resuelve el 100 % de las cadenas nuevas"
+      ],
+      "dependencias": ["DC-1", "X-01"]
+    },
+    {
+      "id": "ES-07",
+      "bloque": "Expansión Semántica",
+      "titulo": "Objetivo del apartado poco claro: rutinas, repetición o vocabulario",
+      "prioridad": "P2",
+      "esfuerzo": "XL",
+      "feedback": "No queda claro el objetivo del apartado. Si se trabajan rutinas, sería más funcional ordenar secuencias (mañana, comida, higiene). Si es repetición verbal, limitarse a palabras. Si es ampliar vocabulario, organizar por categorías semánticas (frutas, transportes, colores, animales).",
+      "verificacionEnCodigo": {
+        "veredicto": "requiere-decision",
+        "evidencia": [
+          { "archivo": "src/valeriaSemanticExpansion.ts", "lineas": "1-24", "nota": "La cabecera declara tres capas simultáneas (símbolo, audio, anclaje físico) pero no un objetivo terapéutico único por apartado" },
+          { "archivo": "src/valeriaSemanticExpansion.ts", "lineas": "43-56", "nota": "DailyScenario mezcla en un mismo escenario 2 sustantivos, 2 verbos, 1 adjetivo y 1 onomatopeya: la heterogeneidad es precisamente lo que hace ilegible el objetivo" },
+          { "archivo": "src/ValeriaExercisePlayerScreen.tsx", "lineas": "504-520, 1140-1150", "nota": "MS-3 ya implementa una mecánica de ordenar fichas en secuencia: base reutilizable si se elige la opción A de DC-1" }
+        ]
+      },
+      "propuesta": {
+        "resumen": "Declarar un objetivo único por apartado y reflejarlo en la estructura de datos y en la tarjeta CÓMO FUNCIONA. Preparar la migración a categorías semánticas sin romper la interfaz que consume la pantalla.",
+        "cambios": [
+          "Añadir un campo de objetivo terapéutico explícito al tipo de nivel superior, mostrado al adulto antes de empezar",
+          "Si se elige categorías: introducir un tipo de agrupador por categoría reutilizando LexicalItem sin cambios",
+          "Si se eligen secuencias: extraer la mecánica de ordenación de MS-3 a un componente compartido"
+        ]
+      },
+      "alcance": ["rn", "rn-locales", "ios-native", "docs"],
+      "requiereDecisionClinica": true,
+      "decision": "DC-1",
+      "riesgo": { "nivel": "alto", "nota": "Rediseño de contenido en 4 variedades. Planificar como versión propia, no como parche dentro de otro PR." },
+      "criteriosDeAceptacion": [
+        "Cada apartado declara su objetivo terapéutico en una línea, visible para el adulto",
+        "Una logopeda ajena al desarrollo identifica el objetivo del apartado sin explicación previa"
+      ],
+      "dependencias": ["DC-1"]
+    },
+    {
+      "id": "ES-08",
+      "bloque": "Expansión Semántica",
+      "titulo": "Progresión de dificultad por frecuencia léxica dentro de cada categoría",
+      "prioridad": "P2",
+      "esfuerzo": "L",
+      "feedback": "Al organizar por categorías, seguir una progresión de dificultad: en frutas empezar por manzana, plátano o naranja e introducir después mango, piña o cereza.",
+      "verificacionEnCodigo": {
+        "veredicto": "requiere-decision",
+        "evidencia": [
+          { "archivo": "src/valeriaSemanticExpansion.ts", "lineas": "29-38", "nota": "LexicalItem no tiene ningún campo de dificultad ni de frecuencia: el orden actual es el de escritura del fichero" },
+          { "archivo": "docs/validacion-lexica-es-DO.md", "lineas": "-", "nota": "Ya existe un precedente de validación léxica por variedad; el criterio de frecuencia puede documentarse en la misma línea" }
+        ]
+      },
+      "propuesta": {
+        "resumen": "Añadir un nivel de dificultad por ítem, derivado de frecuencia léxica y edad de adquisición, y ordenar la práctica por ese nivel.",
+        "cambios": [
+          "Campo de dificultad en LexicalItem, con criterio documentado y fuente citada",
+          "Orden de presentación por dificultad ascendente; posibilidad de que el logopeda fije el nivel máximo desde el PIN profesional",
+          "Revisión de la frecuencia por variedad: el plátano dominicano no es el plátano peninsular (ya recogido en la guía dialectal)"
+        ]
+      },
+      "alcance": ["rn", "rn-locales", "docs"],
+      "requiereDecisionClinica": true,
+      "decision": "DC-1",
+      "riesgo": { "nivel": "medio", "nota": "La frecuencia léxica es dependiente de variedad; usar una lista peninsular para es-DO reintroduciría el sesgo que la guía dialectal corrigió." },
+      "criteriosDeAceptacion": [
+        "Cada ítem tiene nivel de dificultad con criterio trazable",
+        "La primera sesión de una categoría solo presenta ítems de nivel inicial"
+      ],
+      "dependencias": ["DC-1", "ES-07"]
+    },
+    {
+      "id": "ES-09",
+      "bloque": "Transversal (Expansión Semántica y Contrastes)",
+      "titulo": "Sustituir imágenes ambiguas por pictogramas",
+      "prioridad": "P2",
+      "esfuerzo": "XL",
+      "feedback": "Algunas imágenes resultan ambiguas (por ejemplo, la de comer). El uso de pictogramas favorecería una representación más clara, accesible e inclusiva.",
+      "verificacionEnCodigo": {
+        "veredicto": "confirmado",
+        "evidencia": [
+          { "archivo": "src/ValeriaPictograms.tsx", "lineas": "1-20", "nota": "El componente ya nació para tapar emoji ilegibles («los testers veían fichas rotas»): el problema está identificado y parcheado, no resuelto" },
+          { "archivo": "src/valeriaSemanticExpansion.ts", "lineas": "29-38", "nota": "Cada ítem lleva visual_prompt (descripción técnica del asset definitivo) además del emoji: la arquitectura ya estaba preparada para sustituir emoji por imagen real" }
+        ]
+      },
+      "propuesta": {
+        "resumen": "Ejecutar la sustitución que visual_prompt anticipaba: un banco de pictogramas con licencia verificada, resuelto por el mismo componente para no tocar las pantallas.",
+        "cambios": [
+          "Selección del banco y verificación de licencia (ver DC-4)",
+          "Mapeo pictograma ↔ ítem, con caída a emoji cuando falte el asset",
+          "Empaquetado offline-first: los pictogramas viajan en el bundle, sin descarga en sesión",
+          "Auditoría de ambigüedad con ACOPROS, empezando por los verbos (comer, lavar, vestir)"
+        ]
+      },
+      "alcance": ["rn", "rn-locales", "ios-native", "docs"],
+      "requiereDecisionClinica": true,
+      "decision": "DC-4",
+      "riesgo": { "nivel": "alto", "nota": "Licencia (ARASAAC es CC BY-NC-SA) y tamaño de bundle. Ambos deben resolverse antes de escribir código." },
+      "criteriosDeAceptacion": [
+        "Todo ítem con pictograma disponible lo usa; el resto cae a emoji sin hueco visual",
+        "La atribución de licencia aparece en la pantalla de créditos",
+        "ACOPROS valida que ningún pictograma en uso es ambiguo"
+      ],
+      "dependencias": ["DC-4"]
+    },
+    {
+      "id": "ES-10",
+      "bloque": "Expansión Semántica · Progresión",
+      "titulo": "Objetivo de Progresión: campo semántico o producción de frases, no onomatopeyas",
+      "prioridad": "P2",
+      "esfuerzo": "L",
+      "feedback": "Si la finalidad es ampliar vocabulario en torno a un concepto (coche), sería más útil sustituir las onomatopeyas por palabras relacionadas: volante, ruedas, gasolina, rápido. Si el objetivo es producir frases, plantear oraciones de tres o cuatro elementos o repetir un modelo presentado.",
+      "verificacionEnCodigo": {
+        "veredicto": "requiere-decision",
+        "evidencia": [
+          { "archivo": "src/valeriaSemanticExpansion.ts", "lineas": "17-22", "nota": "PROGRESSION_SEQUENCES escala Onomatopeya → Sustantivo → Verbo → Adjetivo, que es una escalera de tipo de palabra y no de campo semántico ni de longitud de enunciado" },
+          { "archivo": "ios-native/Valeria/SemanticExpansionView.swift", "lineas": "29-32", "nota": "El port iOS replica la misma escalera («brum brum» → coche → correr)" }
+        ]
+      },
+      "propuesta": {
+        "resumen": "Rediseñar las secuencias según DC-2, reutilizando la estructura de fases existente.",
+        "cambios": [
+          "Opción campo semántico: sustituir la fase de onomatopeya por palabras relacionadas del mismo concepto",
+          "Opción frases: pasos con modelo previo y producción de 3-4 elementos; ampliar el emparejador para aceptar enunciados",
+          "Actualizar las etiquetas de fase, hoy atadas a los tipos de palabra"
+        ]
+      },
+      "alcance": ["rn", "rn-locales", "ios-native", "corpus-voz", "docs"],
+      "requiereDecisionClinica": true,
+      "decision": "DC-2",
+      "riesgo": { "nivel": "medio", "nota": "La opción de frases exige revisar el emparejamiento: hoy está calibrado para palabras aisladas y aproximaciones fonéticas, no para oraciones." },
+      "criteriosDeAceptacion": [
+        "Las fases de una secuencia responden a un único criterio declarado",
+        "Ninguna fase pide una onomatopeya si el objetivo declarado es léxico o sintáctico"
+      ],
+      "dependencias": ["DC-2"]
+    },
+    {
+      "id": "ES-11",
+      "bloque": "Expansión Semántica · Contrastes",
+      "titulo": "Explicar el material y la dinámica ANTES de empezar la tarea",
+      "prioridad": "P1",
+      "esfuerzo": "M",
+      "feedback": "En Contrastes se pide realizar una tarea sin haber explicado antes el material o la dinámica. En los apartados con material físico, las indicaciones aparecen cuando la tarea ya ha comenzado.",
+      "verificacionEnCodigo": {
+        "veredicto": "confirmado",
+        "evidencia": [
+          { "archivo": "src/ValeriaSemanticExpansionScreen.tsx", "lineas": "549-550", "nota": "La tarjeta SETUP FÍSICO se pinta dentro del propio paso (estados say/listen/judge): el adulto lee «prepara dos peluches» cuando la consigna ya se está locutando" },
+          { "archivo": "src/valeriaSemanticExpansion.ts", "lineas": "660-670", "nota": "physical_setup existe como dato desde el principio; el problema es solo cuándo se muestra" },
+          { "archivo": "src/ValeriaSemanticExpansionScreen.tsx", "lineas": "200-204", "nota": "start() entra directamente en el primer paso, sin pantalla previa de preparación" }
+        ]
+      },
+      "propuesta": {
+        "resumen": "Antesala obligatoria de preparación antes del primer paso de toda actividad con material físico: material necesario, dinámica y botón de «Ya lo tengo todo».",
+        "cambios": [
+          "Nueva fase 'setup' entre la lista y el reproductor, alimentada por physical_setup",
+          "Extender la antesala a los escenarios y progresiones cuya acción del adulto requiere objetos",
+          "Marcar en el dato qué actividades necesitan material, para no mostrar la antesala cuando no aporta"
+        ]
+      },
+      "alcance": ["rn", "rn-locales", "ios-native"],
+      "requiereDecisionClinica": false,
+      "riesgo": { "nivel": "bajo" },
+      "criteriosDeAceptacion": [
+        "Ninguna actividad con material físico locuta su primera consigna antes de que el adulto confirme la preparación",
+        "La antesala se puede releer desde dentro de la sesión"
+      ],
+      "dependencias": []
+    },
+    {
+      "id": "ES-12",
+      "bloque": "Expansión Semántica · Contrastes",
+      "titulo": "Presentar las dos imágenes a la vez y pedir selección, no solo repetición",
+      "prioridad": "P2",
+      "esfuerzo": "L",
+      "feedback": "Para trabajar opuestos como grande y pequeño sería más funcional presentar ambas imágenes simultáneamente y pedir que se seleccione la correcta, en lugar de basar la actividad en la repetición.",
+      "verificacionEnCodigo": {
+        "veredicto": "requiere-decision",
+        "evidencia": [
+          { "archivo": "src/ValeriaSemanticExpansionScreen.tsx", "lineas": "93-107", "nota": "contrastSession aplana la cápsula a dos pasos secuenciales: en cada paso se muestra una sola imagen y se evalúa por voz" },
+          { "archivo": "src/valeriaSemanticExpansion.ts", "lineas": "653-679", "nota": "ContrastCapsule ya guarda el par completo y sus dos vueltas: los datos para mostrar ambas imágenes a la vez ya existen" },
+          { "archivo": "src/ValeriaMinimalPairsScreen.tsx", "lineas": "182-205, 717-730", "nota": "El overlay de rotación de roles ya implementa exactamente la mecánica pedida (dos tarjetas, el niño toca la correcta): patrón reutilizable" }
+        ]
+      },
+      "propuesta": {
+        "resumen": "Vuelta de comprensión con selección entre las dos imágenes, reutilizando el patrón de dos tarjetas de Pares Mínimos, antes de la vuelta de producción.",
+        "cambios": [
+          "Nuevo tipo de paso 'seleccion' con dos tarjetas y veredicto por toque",
+          "Registrar acierto de comprensión y de producción por separado en el historial clínico",
+          "Reflejar la distinción en el dashboard de resultados"
+        ]
+      },
+      "alcance": ["rn", "ios-native", "docs"],
+      "requiereDecisionClinica": true,
+      "decision": "DC-3",
+      "riesgo": { "nivel": "medio", "nota": "Cambia el significado de las estrellas registradas: definir la migración o el corte de la serie histórica antes de publicar." },
+      "criteriosDeAceptacion": [
+        "En una cápsula de contraste se ven las dos imágenes simultáneamente durante la vuelta de comprensión",
+        "El historial distingue comprensión de producción"
+      ],
+      "dependencias": ["DC-3"]
+    },
+    {
+      "id": "ES-13",
+      "bloque": "Expansión Semántica · Contrastes",
+      "titulo": "Incongruencias entre el audio y las imágenes (osito con elefante y ratón; sucio con cerdo)",
+      "prioridad": "P1",
+      "esfuerzo": "M",
+      "feedback": "Se detectan incongruencias entre audio e imágenes: la grabación habla de un osito mientras aparecen un elefante y un ratón; algo similar ocurre con el concepto sucio.",
+      "verificacionEnCodigo": {
+        "veredicto": "confirmado",
+        "evidencia": [
+          { "archivo": "src/valeriaSemanticExpansion.ts", "lineas": "661-676", "nota": "Cápsula CT-1: icono 🧸, setup pide «dos peluches del mismo animal», el audio dice «¿Cuál es el osito GRANDE?» y las vueltas muestran 🐘 y 🐭. Tres referentes distintos en una misma cápsula" },
+          { "archivo": "src/valeriaSemanticExpansion.ts", "lineas": "681-694", "nota": "Cápsula CT-2: el audio habla de una cuchara sucia y la vuelta muestra 🐷; la vuelta limpia muestra ✨. Ninguno de los dos es una cuchara" },
+          { "archivo": "ios-native/Valeria/SemanticExpansionView.swift", "lineas": "34-36", "nota": "El port iOS tiene el mismo desajuste con otro reparto (elefante/hormiga con consigna de elefante y hormiga: aquí sí es congruente, pero divergente del contenido de RN)" }
+        ],
+        "nota": "El origen es de diseño: el emoji se eligió para ilustrar el ATRIBUTO (grande → elefante, sucio → cerdo) mientras el audio nombra el OBJETO real que el adulto tiene en la mano. Para el niño son dos referentes distintos."
+      },
+      "propuesta": {
+        "resumen": "Regla de congruencia: en una cápsula, el objeto que nombra el audio, el que muestra la imagen y el que pide el setup físico son el mismo. La variación queda reservada al atributo contrastado.",
+        "cambios": [
+          "Auditoría de las 8 cápsulas de contraste en los 4 bancos, buscando el mismo patrón de tres referentes",
+          "Corregir CT-1 (osito grande / osito pequeño) y CT-2 (cuchara sucia / cuchara limpia) alineando emoji, audio y setup",
+          "Alinear el contenido del port iOS con el de RN",
+          "Test automático que verifique que el objeto del tts_trigger aparece en el setup de la cápsula"
+        ]
+      },
+      "alcance": ["rn", "rn-locales", "ios-native", "corpus-voz"],
+      "requiereDecisionClinica": false,
+      "riesgo": { "nivel": "bajo", "nota": "Si se cambia el tts_trigger, se regenera corpus; si solo se cambia el emoji, no." },
+      "criteriosDeAceptacion": [
+        "En toda cápsula, audio, imagen y setup nombran el mismo objeto",
+        "El contraste se sostiene solo sobre el atributo (tamaño, limpieza, apertura)",
+        "El test de congruencia pasa en las cuatro variedades"
+      ],
+      "dependencias": []
+    },
+
+    {
+      "id": "GEN-01",
+      "bloque": "Generales",
+      "titulo": "Los recordatorios anuncian «hasta 4 al día» pero no hay dónde configurarlos",
+      "prioridad": "P1",
+      "esfuerzo": "M",
+      "feedback": "Se indica que es posible establecer un máximo de cuatro recordatorios al día, pero no hemos encontrado ningún apartado donde seleccionar o configurar cuántos se desean recibir.",
+      "verificacionEnCodigo": {
+        "veredicto": "confirmado",
+        "evidencia": [
+          { "archivo": "src/ValeriaExerciseSelectionScreen.tsx", "lineas": "246-254", "nota": "La tarjeta de recordatorios ofrece un único Switch de todo o nada; el texto promete cuatro avisos configurables" },
+          { "archivo": "src/ValeriaExerciseSelectionScreen.tsx", "lineas": "94-102", "nota": "toggleReminders programa siempre las cuatro horas" },
+          { "archivo": "src/valeriaNotifications.ts", "lineas": "25", "nota": "REMINDER_HOURS = [9, 13, 17, 20] es una constante del módulo: no hay preferencia por usuario" },
+          { "archivo": "src/valeriaNotifications.ts", "lineas": "104-130", "nota": "enableDailyReminders itera REMINDER_HOURS sin parámetro" }
+        ],
+        "nota": "No es un fallo de descubrimiento: la funcionalidad de elegir cuántos recordatorios no existe. El texto describe un límite del sistema como si fuera una opción del usuario."
+      },
+      "propuesta": {
+        "resumen": "Convertir la constante en preferencia: selección de qué franjas se quieren (mañana, mediodía, tarde y consejo de noche), persistida y respetada al reprogramar.",
+        "cambios": [
+          "Preferencia de horas activas en AsyncStorage, con las cuatro por defecto",
+          "Parametrizar enableDailyReminders y refreshDailyReminders con las horas elegidas",
+          "UI de selección por franja dentro de la tarjeta de recordatorios, con etiqueta clara de la franja de las 20:00 (consejo para padres, dirigido al adulto)",
+          "Corregir el texto para que describa lo que se puede configurar"
+        ]
+      },
+      "alcance": ["rn", "ios-native"],
+      "requiereDecisionClinica": false,
+      "riesgo": { "nivel": "bajo", "nota": "Al desactivar franjas hay que cancelar sus notificaciones ya programadas, no solo dejar de reprogramarlas." },
+      "criteriosDeAceptacion": [
+        "El usuario puede activar de 0 a 4 franjas y solo llegan las elegidas",
+        "La preferencia sobrevive al reinicio y a la reprogramación diaria",
+        "Desactivar una franja cancela sus avisos pendientes",
+        "El texto de la tarjeta coincide con lo que el usuario puede hacer"
+      ],
+      "dependencias": []
+    }
+  ],
+
+  "trabajoTransversal": [
+    {
+      "id": "X-01",
+      "titulo": "Regeneración del corpus de voz tras cualquier cambio de texto locutable",
+      "porQue": "El id de cada locución es el hash del texto normalizado. Cambiar una consigna deja su asset huérfano: la app no se rompe (cae a la voz del sistema), pero en gallego y euskera se pierde la voz neuronal, que es la razón de existir del corpus.",
+      "afectaA": ["PM-02", "PM-03", "ES-01", "ES-05", "ES-06", "ES-10", "ES-13"],
+      "ficheros": ["voice-corpus.json", "src/valeriaVoiceAssets.ts", "voice-assets-manifest.es.json", "voice-assets-manifest.eu.json", "voice-assets-manifest.gl.json", "scripts/"],
+      "pasos": [
+        "Congelar los textos definitivos del PR antes de generar",
+        "Regenerar el corpus y los tres manifiestos",
+        "Verificar que no queda ninguna cadena sin resolver en las variedades con voz neuronal",
+        "Revisar el diff: si aparecen cambios en cadenas que nadie tocó, hay deriva entre pantalla y corpus"
+      ],
+      "prioridad": "P0 (bloquea la publicación de cualquier item de texto)"
+    },
+    {
+      "id": "X-02",
+      "titulo": "Paridad entre React Native, bancos localizados y port iOS",
+      "porQue": "El contenido vive en cuatro bancos paralelos (es, es-DO, gl, eu) más un port SwiftUI con contenido abreviado propio. Un arreglo aplicado solo a es deja tres variedades con el defecto y el port divergiendo.",
+      "afectaA": ["todos los items de contenido"],
+      "regla": "Ningún PR de contenido se da por cerrado sin recorrer las cuatro variedades y el port iOS, o sin dejar registrada explícitamente la deuda pendiente.",
+      "prioridad": "P0 (regla de proceso)"
+    },
+    {
+      "id": "X-03",
+      "titulo": "Actualización de protocolos y manual",
+      "porQue": "Los protocolos clínicos documentan mecánicas que estos cambios modifican (frase portadora, escalera de fases, doble vuelta de contrastes). Si no se actualizan, la próxima revisión reintroduce lo retirado.",
+      "ficheros": ["docs/protocolo-pares-minimos.md", "docs/protocolo-pares-minimos-es-DO.md", "docs/protocolo-expansion-semantica.md", "docs/expansion-protocolos-v2.md", "docs/manual-casos-de-uso.html"],
+      "prioridad": "P1"
+    },
+    {
+      "id": "X-04",
+      "titulo": "Sesión de validación con ACOPROS antes de tocar contenido",
+      "porQue": "Cinco items están bloqueados por decisiones clínicas (DC-1 a DC-5). Implementar sin cerrarlas produce rediseños que habrá que deshacer.",
+      "formato": "Sesión única con las cinco preguntas sobre la mesa, con la app delante y una propuesta técnica por opción.",
+      "prioridad": "P0 (bloquea toda la fase 3)"
+    },
+    {
+      "id": "X-05",
+      "titulo": "Cobertura de pruebas de la lógica pura tocada",
+      "porQue": "El plan de calidad ya identifica que la lógica pura no tiene tests. Estos cambios tocan justo esa capa: emparejamiento, construcción de sesiones, congruencia de cápsulas y programación de recordatorios.",
+      "pruebasNuevas": [
+        "Congruencia de cápsulas de contraste (objeto del audio presente en el setup) en las 4 variedades",
+        "Regla de estilo de los tts_string (una sola aparición del objetivo antes de la petición)",
+        "Programación de recordatorios con subconjuntos de franjas, incluida la lista vacía",
+        "Que ningún texto visible de la familia contiene el término retirado"
+      ],
+      "prioridad": "P1"
+    }
+  ],
+
+  "fases": [
+    {
+      "fase": 1,
+      "nombre": "Verdad y control (P0, sin decisión clínica)",
+      "objetivo": "Que lo que la app dice de sí misma coincida con lo que hace, y que el usuario controle cuándo empieza el audio y la grabación.",
+      "items": ["PM-01", "PM-03", "PM-04", "ES-01", "ES-02", "ES-03", "ES-05", "X-01"],
+      "entregable": "Build de prueba para ACOPROS con estos ocho cambios y una nota de qué revisar",
+      "estimacion": "1 semana"
+    },
+    {
+      "fase": 2,
+      "nombre": "Fiabilidad y congruencia (P1)",
+      "objetivo": "Que el reconocimiento no penalice al niño por fallos del motor, que el material se explique antes de empezar y que audio, imagen y objeto real coincidan.",
+      "items": ["ES-04", "ES-11", "ES-13", "GEN-01", "X-03", "X-05"],
+      "entregable": "Segundo build + medición de la tasa de reintentos antes/después",
+      "estimacion": "2 semanas"
+    },
+    {
+      "fase": 3,
+      "nombre": "Rediseño de contenido (P2, bloqueada por X-04)",
+      "objetivo": "Dar a cada apartado un objetivo terapéutico único y reorganizar el contenido en consecuencia.",
+      "items": ["PM-02", "ES-06", "ES-07", "ES-08", "ES-10", "ES-12", "ES-09"],
+      "entregable": "Versión de contenido nueva, con protocolos reescritos y corpus regenerado en las cuatro variedades",
+      "estimacion": "6-8 semanas",
+      "bloqueadaPor": ["X-04"]
+    }
+  ],
+
+  "verificacionEnDispositivo": {
+    "porQue": "El plan de calidad del repositorio ya exige una checklist de humo antes de cada build; estos cambios añaden comprobaciones propias.",
+    "checklistAnadida": [
+      "Pares Mínimos: la tarjeta de lo que dice la app cambia con cada locución, incluidos reintento y corrección",
+      "Pares Mínimos: el micrófono no se abre solo tras la consigna",
+      "Expansión Semántica: nada suena al entrar en un escenario hasta pulsar ▶",
+      "Expansión Semántica: salir de un escenario devuelve a la lista de Escenarios diarios",
+      "Expansión Semántica: el modelo lento dice lo mismo que el normal",
+      "Contrastes: la preparación del material aparece antes de la primera consigna",
+      "Contrastes: audio, imagen y objeto pedido coinciden en las 8 cápsulas",
+      "Recordatorios: activar solo dos franjas y comprobar durante 24 h que llegan dos",
+      "Repetir en es, es-DO, gl y eu (la voz neuronal debe seguir resolviendo)"
+    ]
+  },
+
+  "notasParaElEquipo": [
+    "Las observaciones sobre control del audio (PM-04, ES-03) y sobre la explicación previa del material (ES-11) apuntan al mismo principio: el adulto necesita anticipar la tarea antes de que empiece. Conviene resolverlas juntas y con una sola pieza de UI, no con tres parches.",
+    "La observación de PM-03 revela un defecto que el feedback describe solo en parte: la tarjeta no se actualiza en reintentos ni correcciones. Se corrige entero, no solo el caso reportado.",
+    "GEN-01 no es un problema de descubrimiento de una opción existente: la opción no existe. Evitar responder a ACOPROS con instrucciones de dónde encontrarla.",
+    "ES-13 tiene una causa de diseño identificable (el emoji ilustra el atributo, el audio nombra el objeto). Documentar la regla de congruencia evita que el patrón vuelva en el próximo contenido."
+  ]
+}
