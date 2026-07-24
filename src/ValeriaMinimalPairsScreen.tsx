@@ -29,7 +29,7 @@ import { ProUnlockPill, ProPinModal } from './ValeriaProPin';
 import { registerSession, SessionReward } from './valeriaGamification';
 import { markBlockCompleted } from './valeriaTelemetry';
 import {
-  speakToChild, speakWordSlow, speakClinical, stopSpeaking,
+  speakToChild, speakWordSlow, stopSpeaking,
   asrSupported, startListening, stopListening, releaseListening, matchPair, PairResult,
   almostPhrase, noHearPhrase, togetherPhrase,
 } from './valeriaVoice';
@@ -39,9 +39,8 @@ import { ValeriaSessionBreakOverlay, pickSessionBreak, SessionBreak } from './Va
 import { PAIR_GROUPS, MinimalPair } from './valeriaMinimalPairs';
 import { pairsForLocale } from './valeriaPairBanks';
 import { getLocale, Locale } from './valeriaLocale';
-import { buildCarrierPrompt, reseedCarriers } from './valeriaCarrierPhrases';
 import {
-  carrierLang, pairIntro, pairRetry, pairsDone, roleSwapPhrases,
+  pairIntro, pairRetry, pairsDone, roleSwapPhrases,
 } from './valeriaPairSpeech';
 import { getAutoRecordPref, setAutoRecordPref } from './valeriaRecordingPref';
 import { ValeriaAdultChaosPanel } from './ValeriaAdultChaosPanel';
@@ -54,20 +53,21 @@ const SWAP_TRIALS = [3, 7];   // antes de estos ensayos (0-index): ¡Ahora manda
 const TPR_TRIAL = 5;          // antes de este ensayo: cápsula TPR de movimiento
 const MONTHS = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
 
-// Consignas por ensayo (Fase 1.1 — de estático a dinámico):
-//   · Ensayo 0: bombardeo auditivo de contraste + consigna clínica del par
-//     (voz cuentacuentos: aquí el objetivo se modela aislado a propósito).
-//   · Cada 3.º ensayo: la consigna clínica del par (refuerzo del contraste).
-//   · Resto: FRASE PORTADORA procedural — el objetivo viaja incrustado en
-//     prosodia continua y una pregunta lo elicita. Se locuta con speakClinical
-//     (pitch/rate conservadores) para no distorsionar el fonema objetivo.
-interface TrialPromptSpec { text: string; mode: 'child' | 'clinical' | 'slow'; }
+// Consigna del ensayo (DC-5, resuelta por ACOPROS en julio de 2026):
+// TODOS los ensayos usan el mismo formato — presentación del par seguida de la
+// petición desnuda del objetivo: «Esta es rata. Y esta es lata. Di: rata.».
+//
+// Antes se alternaban tres formatos (bombardeo de contraste en el ensayo 0,
+// consigna clínica cada tercer ensayo y FRASE PORTADORA procedural en el
+// resto). Las logopedas pidieron pedir la palabra, no una frase alrededor de
+// ella, y ACOPROS eligió el formato de par + repetición. La frase portadora se
+// retira del flujo: su módulo (valeriaCarrierPhrases) se conserva por si se
+// recupera como modo avanzado, pero ya no se enumera en el corpus de voz,
+// porque el corpus solo debe contener lo que la app realmente pronuncia.
+interface TrialPromptSpec { text: string; mode: 'child' | 'slow'; }
 
-const trialPrompt = (p: MinimalPair, idx: number, loc: Locale): TrialPromptSpec => {
-  if (idx === 0) return { text: pairIntro(loc, p.target, p.foil, p.prompt), mode: 'child' };
-  if (idx % 3 === 0) return { text: p.prompt, mode: 'child' };
-  return { text: buildCarrierPrompt(p.target, idx, carrierLang(loc)).full, mode: 'clinical' };
-};
+const trialPrompt = (p: MinimalPair, _idx: number, loc: Locale): TrialPromptSpec =>
+  ({ text: pairIntro(loc, p.target, p.foil, p.prompt), mode: 'child' });
 
 type Phase = 'pick' | 'play' | 'done';
 // 'ready': entre la consigna y la escucha — el micrófono espera al botón del
@@ -368,7 +368,6 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
 
   // ---------------------------------------------------------------- sesión --
   const startSession = (p: MinimalPair) => {
-    reseedCarriers(); // combinación de arranque distinta en cada sesión
     setPair(p); setPhase('play'); setLog([]); setReward(null);
     setTrialIdx(0); attemptsRef.current = 0; foilsRef.current = 0; setHeard('');
     setLeftIsTarget(Math.random() < 0.5);
@@ -387,8 +386,7 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
       if (autoRecord) setTimeout(() => listenNow(p), 400);
       else setStep('ready');
     });
-    if (spec.mode === 'clinical') speakClinical(spec.text, cbs);
-    else speakToChild(spec.text, cbs);
+    speakToChild(spec.text, cbs);
   };
 
   // --------------------------------------------------------------- escucha --
@@ -786,15 +784,13 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
             <View style={s.promptIcon}><Text style={{ fontSize: 18 }}>📢</Text></View>
             <View style={{ flex: 1 }}>
               <Text style={s.promptKicker}>
-                {livePrompt?.mode === 'clinical' ? 'LA APP CUENTA Y PREGUNTA'
-                  : livePrompt?.mode === 'slow' ? 'LA APP MODELA DESPACIO'
-                    : 'LA APP DICE'}
+                {livePrompt?.mode === 'slow' ? 'LA APP MODELA DESPACIO' : 'LA APP DICE'}
               </Text>
               <Text style={s.promptTxt}>“{livePrompt?.text ?? p.prompt}”</Text>
             </View>
             <SpeakButton
               text={livePrompt?.text ?? p.prompt}
-              voice={livePrompt?.mode === 'clinical' ? 'clinical' : livePrompt?.mode === 'slow' ? 'slow' : 'child'}
+              voice={livePrompt?.mode === 'slow' ? 'slow' : 'child'}
               compact
             />
           </View>
@@ -821,7 +817,7 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
               <Text style={{ fontSize: 24 }}>🎤</Text>
               <Text style={s.readyMicBtnTxt}>Ya estoy listo</Text>
             </Pressable>
-            <Pressable onPress={() => { const s2 = trialPrompt(p, trialIdx, loc); setLivePrompt(s2); if (s2.mode === 'clinical') speakClinical(s2.text); else speakToChild(s2.text); }}>
+            <Pressable onPress={() => { const s2 = trialPrompt(p, trialIdx, loc); setLivePrompt(s2); speakToChild(s2.text); }}>
               <Text style={s.linkBtn}>Repetir consigna</Text>
             </Pressable>
           </View>

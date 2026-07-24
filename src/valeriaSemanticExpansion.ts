@@ -846,6 +846,19 @@ export const WORD_TYPE_LABEL: Record<WordType, string> = {
   onomatopeya: 'Onomatopeya',
 };
 
+// ES-07 · Objetivo terapéutico ÚNICO de cada apartado, declarado en una línea y
+// visible para el adulto antes de empezar. Las logopedas de ACOPROS señalaron
+// que no se entendía qué se trabajaba en Escenarios (¿rutinas, repetición,
+// vocabulario?); ACOPROS resolvió DC-1 a favor de la repetición verbal, y estos
+// tres textos son la forma de que esa decisión llegue a quien usa la app.
+export type SemanticSection = 'scenario' | 'sequence' | 'contrast';
+
+export const SECTION_GOAL: Record<SemanticSection, string> = {
+  scenario: 'Repetición verbal: el niño imita la palabra objetivo en situaciones del día a día.',
+  sequence: 'Vocabulario alrededor de un concepto: qué es, qué tiene, qué hace y cómo es.',
+  contrast: 'Opuestos: primero elegir la imagen correcta y después decir la palabra.',
+};
+
 // Etiquetas de fase del campo semántico (DC-2 · opción A). Ya no nombran el
 // TIPO de palabra sino su papel respecto al concepto, que es el criterio único
 // que declara la secuencia: qué es, qué tiene, qué hace y cómo es.

@@ -34,7 +34,7 @@ import {
 } from './valeriaVoice';
 import { SpeakButton, TurnPhaseStrip } from './ValeriaVoiceUI';
 import { FichaVisual } from './ValeriaPictograms';
-import { WORD_TYPE_LABEL, PHASE_LABEL } from './valeriaSemanticExpansion';
+import { WORD_TYPE_LABEL, PHASE_LABEL, SECTION_GOAL } from './valeriaSemanticExpansion';
 import { semanticForLocale, SemanticBank } from './valeriaSemanticBanks';
 import { getLocale } from './valeriaLocale';
 import { getAutoRecordPref, setAutoRecordPref } from './valeriaRecordingPref';
@@ -53,6 +53,13 @@ interface PracticeStep {
   actionKicker: string;  // encabezado de la tarjeta de acción física
   action: string;        // parent_tpr_action del paso
   setup?: string;        // setup físico previo (solo primera vuelta de contrastes)
+  // ES-12 (DC-3): las cápsulas de contraste hacen DOS vueltas de distinta
+  // naturaleza — la primera evalúa COMPRENSIÓN (el niño toca la imagen correcta
+  // entre las dos, que ya estaban en el dato) y la segunda PRODUCCIÓN (la dice).
+  // El resto de bloques solo produce, así que 'produccion' es el valor por defecto.
+  mode?: 'comprension' | 'produccion';
+  choices?: { label: string; emoji: string }[]; // solo en comprensión: las dos opciones
+  answerLabel?: string;                          // cuál de las dos es la correcta
 }
 
 interface Session {
@@ -96,13 +103,20 @@ const contrastSession = (bank: SemanticBank, id: string): Session => {
   return {
     kind: 'contrast', title: `${cp.pair[0]} / ${cp.pair[1]}`, code: cp.code,
     steps: cp.rounds.map((r, i) => ({
-      kicker: `${cp.kind === 'adjetivos' ? 'CONTRASTE DE ADJETIVOS' : 'VERBOS ANTÓNIMOS'} · VUELTA ${i + 1} DE 2`,
+      kicker: i === 0
+        ? `${cp.kind === 'adjetivos' ? 'CONTRASTE DE ADJETIVOS' : 'VERBOS ANTÓNIMOS'} · VUELTA 1 · COMPRENDER`
+        : `${cp.kind === 'adjetivos' ? 'CONTRASTE DE ADJETIVOS' : 'VERBOS ANTÓNIMOS'} · VUELTA 2 · DECIR`,
       emoji: r.emoji, label: r.label,
       visualPrompt: `Par en contraste: ${cp.pair[0]} / ${cp.pair[1]}.`,
       tts: r.tts_trigger, expected: r.stt_expected_array,
       actionKicker: i === 0 ? 'ACCIÓN FÍSICA EN PAREJA' : 'ACCIÓN FÍSICA · SEGUNDA VUELTA',
       action: r.parent_action,
       setup: i === 0 ? cp.physical_setup : undefined,
+      // Vuelta 1: el niño elige entre las DOS imágenes de la cápsula (las dos
+      // vueltas ya traían su emoji, así que el dato para mostrarlas existía).
+      mode: i === 0 ? 'comprension' as const : 'produccion' as const,
+      choices: i === 0 ? cp.rounds.map((x) => ({ label: x.label, emoji: x.emoji })) : undefined,
+      answerLabel: i === 0 ? r.label : undefined,
     })),
   };
 };
@@ -111,9 +125,9 @@ type Phase = 'pick' | 'play' | 'done';
 // 'idle': tarjeta del paso mostrada sin sonido, esperando el botón ▶ (ES-03).
 // 'ready': la consigna ya sonó y el micro espera al botón del adulto (PM-04),
 // salvo que la preferencia de grabación automática esté activada.
-type StepState = 'idle' | 'say' | 'ready' | 'listen' | 'judge' | 'success' | 'retry' | 'assist';
+type StepState = 'idle' | 'say' | 'ready' | 'seleccion' | 'listen' | 'judge' | 'success' | 'retry' | 'assist';
 
-interface StepRecord { stars: 1 | 2 | 3; heard: string; }
+interface StepRecord { stars: 1 | 2 | 3; heard: string; mode: 'comprension' | 'produccion'; }
 
 // Consigna viva (PM-03): la tarjeta "LA APP DICE" debe reflejar la ÚLTIMA
 // locución real, no solo la consigna inicial (celebración, corrección,
@@ -144,6 +158,9 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
   const [reward, setReward] = useState<SessionReward | null>(null);
   const [listening, setListening] = useState(false);
   const [livePrompt, setLivePrompt] = useState<LivePrompt | null>(null);
+  // Posición aleatoria de las dos tarjetas en la vuelta de comprensión, para
+  // que el niño no aprenda «siempre la de la izquierda».
+  const [pickLeftFirst, setPickLeftFirst] = useState(true);
   // PM-04/ES-03: por defecto MANUAL — nada suena ni escucha solo.
   const [autoRecord, setAutoRecord] = useState(false);
   // Prescripción del logopeda: { [id]: boolean } sobre escenarios, progresiones
@@ -239,9 +256,45 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
     setLivePrompt({ text: st.tts, mode: 'child' });
     speakToChild(st.tts, afterSpeak(() => {
       if (!mounted.current) return;
+      // Comprensión: no hay micrófono, el niño responde tocando una imagen.
+      if (st.mode === 'comprension') { setPickLeftFirst(Math.random() < 0.5); setState('seleccion'); return; }
       if (!asrSupported()) { setState('judge'); return; }
       if (autoRecord) setTimeout(() => listenNow(sess, idx), 400);
       else setState('ready');
+    }));
+  };
+
+  // ES-12 · veredicto de la vuelta de comprensión: acierta a la primera → 3★;
+  // tras una pista → 2★. Un fallo no cierra el paso: se vuelve a preguntar una
+  // vez, igual que la producción da una segunda oportunidad antes de asistir.
+  const resolveSelection = (elegido: string) => {
+    if (!session) return;
+    const st = session.steps[stepIdx];
+    if (elegido === st.answerLabel) {
+      setPendingStars(attemptsRef.current === 0 ? 3 : 2);
+      setState('success');
+      const praise = praisePhrase();
+      setLivePrompt({ text: praise, mode: 'child' });
+      speakToChild(praise);
+      return;
+    }
+    attemptsRef.current += 1;
+    if (attemptsRef.current >= 2) {
+      // Anti-frustración: se muestra cuál era y se cuenta como asistida (1★).
+      setState('assist');
+      const together = togetherPhrase();
+      setLivePrompt({ text: together, mode: 'child' });
+      speakToChild(together);
+      return;
+    }
+    const otra = almostPhrase();
+    setLivePrompt({ text: otra, mode: 'child' });
+    speakToChild(otra, afterSpeak(() => {
+      if (!mounted.current) return;
+      setLivePrompt({ text: st.tts, mode: 'child' });
+      speakToChild(st.tts);
+      setPickLeftFirst(Math.random() < 0.5);
+      setState('seleccion');
     }));
   };
 
@@ -342,11 +395,19 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
       const hist = raw ? JSON.parse(raw) : [];
       const d = new Date();
       const kindLbl = sess.kind === 'scenario' ? 'Escenario' : sess.kind === 'sequence' ? 'Progresión' : 'Contraste';
+      // ES-12: en los contrastes la nota separa lo que el niño COMPRENDE de lo
+      // que PRODUCE. Son dos habilidades distintas y mezclarlas en una sola
+      // media oculta el caso típico: entiende el par pero aún no lo dice.
+      const comp = res.filter((r) => r.mode === 'comprension');
+      const prod = res.filter((r) => r.mode === 'produccion');
+      const media = (xs: StepRecord[]) => (xs.length ? (xs.reduce((a, r) => a + r.stars, 0) / xs.length).toFixed(1) : '–');
       hist.push({
         date: `${d.getDate()} ${MONTHS[d.getMonth()]}`,
         name: `Expansión semántica · ${sess.title}`,
         avg: +avg.toFixed(1),
-        note: `${kindLbl}: ${res.length} palabras trabajadas uniendo símbolo, voz y acción física.`,
+        note: comp.length
+          ? `${kindLbl}: comprensión ${media(comp)}/3 en ${comp.length} ${comp.length === 1 ? 'vuelta' : 'vueltas'} · producción ${media(prod)}/3 en ${prod.length}.`
+          : `${kindLbl}: ${res.length} palabras trabajadas uniendo símbolo, voz y acción física.`,
         completed: true,
       });
       await AsyncStorage.setItem(STORAGE_KEYS.historial, JSON.stringify(hist));
@@ -462,6 +523,13 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
             <View style={s.countBadge}><Text style={s.countBadgeTxt}>{activeCount} prescritas</Text></View>
           </View>
 
+          {/* ES-07: cada apartado declara su objetivo terapéutico en una línea,
+              para que el adulto sepa qué se trabaja antes de elegir actividad. */}
+          <View style={s.goalCard}>
+            <Text style={s.goalKicker}>🎯 QUÉ SE TRABAJA AQUÍ</Text>
+            <Text style={s.goalTxt}>{SECTION_GOAL[tab]}</Text>
+          </View>
+
           {tab === 'scenario' && bank.scenarios.map((sc) => prescribableRow(
             sc.id, `escenario ${sc.title}`, () => start(scenarioSession(bank, sc.id)),
             <>
@@ -571,7 +639,7 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
   const total = sess.steps.length;
   // Fase activa del turno para el mapa superior (quita la sensación de "¿y
   // ahora qué toca?" que reportaban los testers).
-  const phaseIdx = state === 'idle' || state === 'say' || state === 'ready' ? 0 : state === 'listen' ? 1 : state === 'judge' || state === 'retry' ? 2 : 3;
+  const phaseIdx = state === 'idle' || state === 'say' || state === 'ready' ? 0 : state === 'listen' || state === 'seleccion' ? 1 : state === 'judge' || state === 'retry' ? 2 : 3;
 
   return (
     <View style={s.flex}>
@@ -666,6 +734,37 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
           </View>
         )}
 
+        {state === 'seleccion' && !!st.choices && (
+          <View style={s.stateCard}>
+            <Text style={{ fontSize: 26 }}>👆</Text>
+            <Text style={s.stateTxt}>¡Toca la imagen correcta!</Text>
+            <View style={s.pickRowCards}>
+              {(pickLeftFirst ? st.choices : [...st.choices].reverse()).map((c) => (
+                <Pressable
+                  key={c.label}
+                  onPress={() => resolveSelection(c.label)}
+                  style={s.pickCard}
+                  accessibilityRole="button"
+                  accessibilityLabel={c.label}
+                >
+                  {/* Mismo objeto en ambas tarjetas (regla de congruencia ES-13):
+                      lo que las distingue es el atributo, que en tamaño se marca
+                      con la escala y en el resto llegará con el asset definitivo. */}
+                  <FichaVisual
+                    word={c.label}
+                    emoji={c.emoji}
+                    size={c.label === st.answerLabel && /grande|handia/i.test(c.label) ? 76 : /pequeñ|chiquit|txiki/i.test(c.label) ? 40 : 60}
+                  />
+                  <Text style={s.pickCardCap}>{c.label}</Text>
+                </Pressable>
+              ))}
+            </View>
+            <Pressable onPress={() => { setLivePrompt({ text: st.tts, mode: 'child' }); speakToChild(st.tts); }}>
+              <Text style={s.linkBtn}>Repetir la pregunta</Text>
+            </Pressable>
+          </View>
+        )}
+
         {state === 'listen' && (
           <View style={s.stateCard}>
             <Animated.View style={{ transform: [{ scale: micScale }] }}>
@@ -709,7 +808,7 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
               <Text style={s.verdictStars}>{'★'.repeat(pendingStars)}</Text>
             </View>
             {actionCard(st.actionKicker, st.action)}
-            <Pressable onPress={() => next({ stars: pendingStars, heard })} style={s.primaryBtn}>
+            <Pressable onPress={() => next({ stars: pendingStars, heard, mode: st.mode ?? 'produccion' })} style={s.primaryBtn}>
               <Text style={s.primaryBtnTxt}>{stepIdx + 1 >= total ? '✅ ¡Terminar!' : '✅ ¡Hecho! Siguiente →'}</Text>
             </Pressable>
           </>
@@ -745,8 +844,8 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
             </View>
             {actionCard(st.actionKicker, st.action)}
             <View style={s.retryRow}>
-              <SpeakButton text={st.tts} label="Oír modelo despacio" voice="slowPhrase" />
-              <Pressable onPress={() => next({ stars: 1, heard })} style={s.retryBtn}>
+              {st.mode !== 'comprension' && <SpeakButton text={st.tts} label="Oír modelo despacio" voice="slowPhrase" />}
+              <Pressable onPress={() => next({ stars: 1, heard, mode: st.mode ?? 'produccion' })} style={s.retryBtn}>
                 <Text style={s.retryBtnTxt}>{stepIdx + 1 >= total ? '¡Terminar!' : 'La dijimos → seguir'}</Text>
               </Pressable>
             </View>
@@ -788,6 +887,9 @@ const s = StyleSheet.create({
   toastTxt: { color: V.color.textPrimary, fontSize: 13.5, fontWeight: '700', flex: 1 },
   listHead: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12, marginHorizontal: 4 },
   listLabel: { fontSize: 12, fontWeight: '800', color: V.color.textMuted, letterSpacing: 0.4 },
+  goalCard: { backgroundColor: '#f5f0ff', borderWidth: 1.5, borderColor: '#ddccfa', borderRadius: 14, padding: 12, marginBottom: 12 },
+  goalKicker: { fontSize: 10.5, fontWeight: '800', letterSpacing: 0.6, color: '#6d3fc4' },
+  goalTxt: { fontSize: 12.5, fontWeight: '700', color: '#4a3878', marginTop: 5, lineHeight: 17 },
   countBadge: { backgroundColor: V.color.primaryLight, paddingHorizontal: 10, paddingVertical: 5, borderRadius: 9 },
   countBadgeTxt: { fontSize: 12, fontWeight: '800', color: V.color.primaryDark },
   pickRow: { flexDirection: 'row', alignItems: 'center', gap: 11, backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.border, borderRadius: 15, padding: 13, marginBottom: 9, ...V.shadow.card },
@@ -825,6 +927,9 @@ const s = StyleSheet.create({
   readyMicBtn: { flexDirection: 'row', alignItems: 'center', gap: 9, minHeight: 48, backgroundColor: '#7c4fd0', borderRadius: 16, paddingHorizontal: 22, paddingVertical: 13, ...V.shadow.button },
   readyMicBtnTxt: { color: '#fff', fontSize: 15, fontWeight: '800' },
 
+  pickRowCards: { flexDirection: 'row', gap: 12, alignSelf: 'stretch', alignItems: 'center', justifyContent: 'center' },
+  pickCard: { flex: 1, minHeight: 130, alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff', borderWidth: 2, borderColor: V.color.border, borderRadius: 18, paddingVertical: 16, ...V.shadow.card },
+  pickCardCap: { fontSize: 15, fontWeight: '800', color: V.color.textPrimary, marginTop: 8, textTransform: 'capitalize' },
   judgeRow: { flexDirection: 'row', gap: 10, alignSelf: 'stretch' },
   judgeBtn: { flex: 1, alignItems: 'center', gap: 4, borderWidth: 1.5, borderRadius: 14, paddingVertical: 12 },
   judgeTxt: { fontSize: 13, fontWeight: '800', color: V.color.textPrimary },

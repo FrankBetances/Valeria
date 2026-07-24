@@ -20,7 +20,7 @@ export const MINIMAL_PAIRS_GL: MinimalPair[] = [
     id: 'gl-rua-lua', code: 'PM-GL-1', group: 'Rotacismo',
     target: 'rúa', targetEmoji: '🛣️', foil: 'lúa', foilEmoji: '🌙',
     phoneme: 'r̄ → l', errorLabel: 'Rotacismo inicial',
-    prompt: 'Por onde pasan os coches? Di: rúa.',
+    prompt: 'Di: rúa.',
     onTarget: {
       say: 'Rrrúa! A túa lingua vibrou coma unha moto!',
       mission: 'Carreira pola rúa: ide os dous ata a porta e volvede correndo a chocar os cinco.',
@@ -35,7 +35,7 @@ export const MINIMAL_PAIRS_GL: MinimalPair[] = [
     id: 'gl-rei-lei', code: 'PM-GL-2', group: 'Rotacismo',
     target: 'rei', targetEmoji: '👑', foil: 'lei', foilEmoji: '📜',
     phoneme: 'r̄ → l', errorLabel: 'Rotacismo inicial (xeneralización)',
-    prompt: 'Quen leva a coroa? Di: rei.',
+    prompt: 'Di: rei.',
     onTarget: {
       say: 'Rrrei! Que erre tan forte!',
       mission: 'Coroación: papá ponche unha coroa imaxinaria e ti fas unha reverencia moi seria.',
@@ -50,7 +50,7 @@ export const MINIMAL_PAIRS_GL: MinimalPair[] = [
     id: 'gl-casa-caza', code: 'PM-GL-3', group: 'Sigmatismo',
     target: 'casa', targetEmoji: '🏠', foil: 'caza', foilEmoji: '🏹',
     phoneme: 's → θ', errorLabel: 'Sigmatismo interdental',
-    prompt: 'Onde vive o osiño? Di: casa.',
+    prompt: 'Di: casa.',
     onTarget: {
       say: 'Casa! Que serpe tan fina detrás dos dentes!',
       mission: 'Facede o tellado xuntando os brazos en triángulo por riba da cabeza do neno.',
@@ -65,7 +65,7 @@ export const MINIMAL_PAIRS_GL: MinimalPair[] = [
     id: 'gl-cesta-testa', code: 'PM-GL-4', group: 'Sigmatismo',
     target: 'cesta', targetEmoji: '🧺', foil: 'testa', foilEmoji: '🙆',
     phoneme: 's → t', errorLabel: 'Sigmatismo oclusivo',
-    prompt: 'Onde van as mazás? Di: cesta.',
+    prompt: 'Di: cesta.',
     onTarget: {
       say: 'Cesta! Ese sopro colle todas as mazás!',
       mission: 'Enchede a cesta: o neno bota tres xoguetes nunha caixa dicindo sss en cada un.',
@@ -80,7 +80,7 @@ export const MINIMAL_PAIRS_GL: MinimalPair[] = [
     id: 'gl-cubo-tubo', code: 'PM-GL-5', group: 'Velares',
     target: 'cubo', targetEmoji: '🪣', foil: 'tubo', foilEmoji: '🧪',
     phoneme: 'k → t', errorLabel: 'Frontalización velar inicial',
-    prompt: 'Con que facemos o castelo de area? Di: cubo.',
+    prompt: 'Di: cubo.',
     onTarget: {
       say: 'Cubo! Ese ka saíu da cova da gorxa!',
       mission: 'Transporta o coxín-cubo pesadísimo ata os pés de papá, que o baleira levantándote no aire.',
@@ -95,7 +95,7 @@ export const MINIMAL_PAIRS_GL: MinimalPair[] = [
     id: 'gl-boca-bota', code: 'PM-GL-6', group: 'Velares',
     target: 'boca', targetEmoji: '👄', foil: 'bota', foilEmoji: '👢',
     phoneme: 'k → t', errorLabel: 'Frontalización velar media',
-    prompt: 'Con que damos bicos? Di: boca.',
+    prompt: 'Di: boca.',
     onTarget: {
       say: 'Boca! Que ben soa ese ka no medio!',
       mission: 'Conta-dentes: sorriso xigante de papá e o neno cóntalle cinco dentes co dedo. Despois, ao revés.',
@@ -110,7 +110,7 @@ export const MINIMAL_PAIRS_GL: MinimalPair[] = [
     id: 'gl-fonte-ponte', code: 'PM-GL-7', group: 'Labiodental',
     target: 'fonte', targetEmoji: '⛲', foil: 'ponte', foilEmoji: '🌉',
     phoneme: 'f → p', errorLabel: 'Oclusivización de fricativa',
-    prompt: 'De onde sae a auga? Di: fonte.',
+    prompt: 'Di: fonte.',
     onTarget: {
       say: 'Fonte! Ese sopro de coello mólla todo!',
       mission: 'Fonte humana: agáchate e brota cara arriba salpicando a papá, que sacode o pelo empapado.',

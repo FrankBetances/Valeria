@@ -17,7 +17,6 @@
 import { MINIMAL_PAIRS } from './valeriaMinimalPairs';
 import { MINIMAL_PAIRS_GL } from './valeriaMinimalPairsGl';
 import { MINIMAL_PAIRS_EU } from './valeriaMinimalPairsEu';
-import { enumerateAllCarrierPrompts } from './valeriaCarrierPhrases';
 import { TPR_CAPSULES } from './valeriaTprBank';
 import { ROUTINE_ROUTES } from './valeriaRoutineRoutes';
 import { enumerateSemanticSpeech, enumerateSemanticSpeechFor } from './valeriaSemanticExpansion';
@@ -106,12 +105,14 @@ export function buildVoiceCorpus(): VoiceCorpusEntry[] {
   // ========================== CASTELLANO (es) ==========================
   const add = mkAdd('es');
 
-  // 1) Frases portadoras procedurales (prosodia clínica): enumeración total,
-  //    acotada a los objetivos del banco peninsular (los del dominicano se
-  //    locutan con la voz del sistema, no necesitan asset pregenerado).
-  for (const p of enumerateAllCarrierPrompts('es', MINIMAL_PAIRS.map((mp) => mp.target))) {
-    add('clinical', p.full, 'carrier');
-  }
+  // 1) Frases portadoras procedurales: RETIRADAS del corpus (PM-02 · DC-5).
+  //    ACOPROS fijó como consigna estándar la presentación del par seguida de
+  //    la petición del objetivo, así que la app ya no locuta frases portadoras.
+  //    El corpus solo debe contener lo que la app pronuncia de verdad: dejarlas
+  //    aquí sintetizaría ~700 locuciones que nadie oye y las empaquetaría en el
+  //    APK. El módulo valeriaCarrierPhrases se conserva por si se recupera como
+  //    modo avanzado; para reactivarlo basta con volver a enumerarlo aquí (sus
+  //    assets siguen en assets/voice, así que resolverían de inmediato).
 
   // 2) Pares mínimos: consignas, celebraciones, correcciones y modelado lento.
   //    Las plantillas espejo replican las cadenas de ValeriaMinimalPairsScreen;
@@ -163,8 +164,6 @@ export function buildVoiceCorpus(): VoiceCorpusEntry[] {
   // sintetízase con Celtia e emítese nas sesións en galego.
   const addGl = mkAdd('gl');
 
-  for (const p of enumerateAllCarrierPrompts('gl')) addGl('clinical', p.full, 'carrier');
-
   for (const p of MINIMAL_PAIRS_GL) {
     // Intro/retry con los mismos builders que la pantalla (valeriaPairSpeech
     // → valeriaContentGl): así el texto coincide y el asset de Celtia resuelve.
@@ -201,8 +200,6 @@ export function buildVoiceCorpus(): VoiceCorpusEntry[] {
   // revisión; se sintetiza con la voz HiTZ-TTS y se emite en las sesiones en
   // euskera. Espejo estructural del bloque galego.
   const addEu = mkAdd('eu');
-
-  for (const p of enumerateAllCarrierPrompts('eu')) addEu('clinical', p.full, 'carrier');
 
   for (const p of MINIMAL_PAIRS_EU) {
     // Intro/retry con los mismos builders que la pantalla (valeriaPairSpeech

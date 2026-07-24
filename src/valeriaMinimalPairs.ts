@@ -37,7 +37,7 @@ export const MINIMAL_PAIRS: MinimalPair[] = [
     id: 'rana-lana', code: 'PM-1', group: 'Rotacismo',
     target: 'rana', targetEmoji: '🐸', foil: 'lana', foilEmoji: '🧶',
     phoneme: 'r̄ → l', errorLabel: 'Rotacismo inicial',
-    prompt: '¿Cuál quieres? Di: rana.',
+    prompt: 'Di: rana.',
     onTarget: {
       say: '¡Rrrana! ¡Tu lengua vibró como una moto!',
       mission: '¡Salto de rana! Tres saltos hasta chocar los cinco con papá.',
@@ -52,7 +52,7 @@ export const MINIMAL_PAIRS: MinimalPair[] = [
     id: 'perro-pelo', code: 'PM-2', group: 'Rotacismo',
     target: 'perro', targetEmoji: '🐶', foil: 'pelo', foilEmoji: '💇',
     phoneme: 'r̄ → l', errorLabel: 'Rotacismo intervocálico',
-    prompt: '¿Quién hace guau? Di: perro.',
+    prompt: 'Di: perro.',
     onTarget: {
       say: '¡Perrro! ¡Qué erre tan fuerte!',
       mission: '¡A cuatro patas! Gatea ladrando hasta papá y que te rasque la cabeza.',
@@ -67,7 +67,7 @@ export const MINIMAL_PAIRS: MinimalPair[] = [
     id: 'rata-lata', code: 'PM-3', group: 'Rotacismo',
     target: 'rata', targetEmoji: '🐀', foil: 'lata', foilEmoji: '🥫',
     phoneme: 'r̄ → l', errorLabel: 'Rotacismo inicial (generalización)',
-    prompt: '¡Corre, corre! ¿Quién corre? Di: rata.',
+    prompt: 'Di: rata.',
     onTarget: {
       say: '¡Rrrata veloz! ¡Te salió la erre!',
       mission: '¡Pilla-pilla de ratas! Persigue a papá por la habitación hasta tocarle la espalda.',
@@ -82,7 +82,7 @@ export const MINIMAL_PAIRS: MinimalPair[] = [
     id: 'cerro-cero', code: 'PM-4', group: 'Rotacismo',
     target: 'cerro', targetEmoji: '⛰️', foil: 'cero', foilEmoji: '0️⃣',
     phoneme: 'r̄ → ɾ', errorLabel: 'Reducción de vibrante múltiple',
-    prompt: '¡Vamos a escalar! Di: cerro.',
+    prompt: 'Di: cerro.',
     onTarget: {
       say: '¡Cerrro! ¡Esa erre sube hasta la cima!',
       mission: 'Escalada: palmas contra palmas con papá y paso de escalador en el sitio hasta la cima.',
@@ -97,7 +97,7 @@ export const MINIMAL_PAIRS: MinimalPair[] = [
     id: 'casa-caza', code: 'PM-5', group: 'Sigmatismo',
     target: 'casa', targetEmoji: '🏠', foil: 'caza', foilEmoji: '🏹',
     phoneme: 's → θ', errorLabel: 'Sigmatismo interdental',
-    prompt: '¿Dónde vive el osito? Di: casa.',
+    prompt: 'Di: casa.',
     region: 'distincion',
     onTarget: {
       say: '¡Casa! ¡Qué serpiente tan fina detrás de los dientes!',
@@ -113,7 +113,7 @@ export const MINIMAL_PAIRS: MinimalPair[] = [
     id: 'sierra-tierra', code: 'PM-6', group: 'Sigmatismo',
     target: 'sierra', targetEmoji: '🪚', foil: 'tierra', foilEmoji: '🌍',
     phoneme: 's → t', errorLabel: 'Sigmatismo oclusivo',
-    prompt: '¡A cortar el tronco! Di: sierra.',
+    prompt: 'Di: sierra.',
     onTarget: {
       say: '¡Sierra! ¡Ese soplido corta troncos!',
       mission: 'Serrad en pareja: manos agarradas y vaivén de leñador mientras los dos hacéis sss.',
@@ -128,7 +128,7 @@ export const MINIMAL_PAIRS: MinimalPair[] = [
     id: 'ocho-oso', code: 'PM-7', group: 'Sigmatismo',
     target: 'ocho', targetEmoji: '8️⃣', foil: 'oso', foilEmoji: '🐻',
     phoneme: 'tʃ ↔ s', errorLabel: 'Despalatalización de africada',
-    prompt: 'Después del siete viene… ¡di: ocho!',
+    prompt: 'Di: ocho.',
     onTarget: {
       say: '¡Ocho! ¡Ese tren arrancó genial!',
       mission: 'Tren del ocho: agárrate a la cintura de papá y dad una vuelta en forma de ocho haciendo ch-ch-ch.',
@@ -143,7 +143,7 @@ export const MINIMAL_PAIRS: MinimalPair[] = [
     id: 'cubo-tubo', code: 'PM-8', group: 'Velares',
     target: 'cubo', targetEmoji: '🪣', foil: 'tubo', foilEmoji: '🧪',
     phoneme: 'k → t', errorLabel: 'Frontalización velar inicial',
-    prompt: '¿Con qué hacemos el castillo de arena? Di: cubo.',
+    prompt: 'Di: cubo.',
     onTarget: {
       say: '¡Cubo! ¡Esa ka salió de la cueva de la garganta!',
       mission: 'Transporta el cojín-cubo pesadísimo hasta los pies de papá, que lo vacía levantándote en volandas.',
@@ -158,7 +158,7 @@ export const MINIMAL_PAIRS: MinimalPair[] = [
     id: 'boca-bota', code: 'PM-9', group: 'Velares',
     target: 'boca', targetEmoji: '👄', foil: 'bota', foilEmoji: '👢',
     phoneme: 'k → t', errorLabel: 'Frontalización velar media',
-    prompt: '¿Con qué damos besos? Di: boca.',
+    prompt: 'Di: boca.',
     onTarget: {
       say: '¡Boca! ¡Qué bien suena esa ka en medio!',
       mission: 'Cuenta-dientes: sonrisa gigante de papá y el niño le cuenta cinco dientes con el dedo. Luego, al revés.',
@@ -173,7 +173,7 @@ export const MINIMAL_PAIRS: MinimalPair[] = [
     id: 'fuente-puente', code: 'PM-10', group: 'Labiodental',
     target: 'fuente', targetEmoji: '⛲', foil: 'puente', foilEmoji: '🌉',
     phoneme: 'f → p', errorLabel: 'Oclusivización de fricativa',
-    prompt: '¿De dónde sale el agua? Di: fuente.',
+    prompt: 'Di: fuente.',
     onTarget: {
       say: '¡Fuente! ¡Ese soplido de conejo moja todo!',
       mission: 'Fuente humana: agáchate y brota hacia arriba salpicando a papá, que se sacude el pelo empapado.',
@@ -195,7 +195,7 @@ export const MINIMAL_PAIRS: MinimalPair[] = [
     id: 'gota-bota', code: 'PM-11', group: 'Velares',
     target: 'gota', targetEmoji: '💧', foil: 'bota', foilEmoji: '👢',
     phoneme: 'g → b', errorLabel: 'Labialización de velar sonora',
-    prompt: '¡Plic! ¿Qué cayó del cielo? Di: gota.',
+    prompt: 'Di: gota.',
     onTarget: {
       say: '¡Gota! ¡Esa ga salió del fondo de la garganta!',
       mission: 'Lluvia de dedos: tamborilead gotas por los brazos del otro hasta llegar a las manos.',
@@ -210,7 +210,7 @@ export const MINIMAL_PAIRS: MinimalPair[] = [
     id: 'beso-queso', code: 'PM-12', group: 'Velares',
     target: 'beso', targetEmoji: '😘', foil: 'queso', foilEmoji: '🧀',
     phoneme: 'b → k', errorLabel: 'Posteriorización de bilabial',
-    prompt: '¿Qué damos con los labios? Di: beso.',
+    prompt: 'Di: beso.',
     onTarget: {
       say: '¡Beso! ¡Esos labios explotaron genial!',
       mission: 'Lanzaos un beso volador cada uno y atrapadlo en el aire con la mano.',
@@ -225,7 +225,7 @@ export const MINIMAL_PAIRS: MinimalPair[] = [
     id: 'foca-boca', code: 'PM-13', group: 'Labiodental',
     target: 'foca', targetEmoji: '🦭', foil: 'boca', foilEmoji: '👄',
     phoneme: 'f → b', errorLabel: 'Oclusivización de labiodental',
-    prompt: '¡Aplaude como en el circo! ¿Quién aplaude con las aletas? Di: foca.',
+    prompt: 'Di: foca.',
     onTarget: {
       say: '¡Foca! ¡Ese soplido de conejo llegó al mar!',
       mission: 'Aplaudid como focas con los brazos estirados y un “¡arf, arf!” final.',
@@ -240,7 +240,7 @@ export const MINIMAL_PAIRS: MinimalPair[] = [
     id: 'miel-piel', code: 'PM-14', group: 'Nasales',
     target: 'miel', targetEmoji: '🍯', foil: 'piel', foilEmoji: '🤚',
     phoneme: 'm → p', errorLabel: 'Desnasalización de bilabial',
-    prompt: '¿Qué guarda el oso en el tarro? Di: miel.',
+    prompt: 'Di: miel.',
     onTarget: {
       say: '¡Miel! ¡Esa eme salió zumbando por la nariz!',
       mission: 'Osos golosos: meted la mano en el tarro imaginario y relameos con un “mmm” bien largo.',
@@ -255,7 +255,7 @@ export const MINIMAL_PAIRS: MinimalPair[] = [
     id: 'pato-palo', code: 'PM-15', group: 'Laterales',
     target: 'pato', targetEmoji: '🦆', foil: 'palo', foilEmoji: '🪵',
     phoneme: 't → l', errorLabel: 'Lateralización de oclusiva dental',
-    prompt: '¡Cuac, cuac! ¿Quién nada en el charco? Di: pato.',
+    prompt: 'Di: pato.',
     onTarget: {
       say: '¡Pato! ¡Esa te dio un golpecito perfecto!',
       mission: 'Caminad como patos en cuclillas hasta el sofá haciendo cuac-cuac.',
