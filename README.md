@@ -97,7 +97,7 @@ cualquier dispositivo y **sin conexión**.
 | Bloque | Para qué sirve |
 | --- | --- |
 | 🗣️ **Pares Mínimos** | Dislalias fonológicas (rotacismo, sigmatismo, frontalización velar, f→p). 15 pares casi iguales (rana/lana) en 6 grupos —añade nasales y laterales— con juego de voz, misión física y sello doble padre‑hijo. |
-| 🧩 **Expansión Semántica** | Progresión léxica para intervención temprana: 5 escenarios diarios, 9 progresiones (onomatopeya → adjetivo) y 8 cápsulas de contraste, uniendo imagen, voz y acción física. |
+| 🧩 **Expansión Semántica** | Progresión léxica para intervención temprana, en cuatro bloques: 5 **escenarios** diarios, 5 **categorías léxicas** con progresión de dificultad, 9 **progresiones** de campo semántico (concepto → parte → acción → cualidad) y 8 **cápsulas de contraste** con doble vuelta (comprensión por selección de imagen + producción). Cada actividad empieza por una **antesala** con el material necesario. |
 | 👂 **Audición** (18 terapias) | Protocolo ACOPROS: fonética‑fonología, semántica, morfosintaxis, pragmática y **escucha en ruido** (RA‑1…RA‑5) para audífono, implante coclear o hipoacusia. |
 | 💬 **Lenguaje** (7 terapias) | Protocolo familiar: atención conjunta, imitación, comprensión, expresión, comunicación funcional, regulación e interacción social. |
 | 🧠 **TEA** (6 terapias) | PRT + TCC: atención conjunta triangulada (Time Delay + Sello Doble), quiebre pragmático con consentimiento, espejo asimétrico, transición interrumpida, categorización bajo ruido y múltiples señales simultáneas. Todos los estresores son **manuales** (Panel del Adulto). |
@@ -115,11 +115,16 @@ Además, cada mini‑juego de Audición y Lenguaje **rota hasta 3 contenidos**
 distintos ("🔄 Otra ronda"), encadenables en una **"🎯 Sesión completa"** por
 bloque, con pausas activas unificadas entre ejercicios (`ValeriaSessionBreakOverlay`):
 alternan la **cápsula TPR clásica** ("escucha y muévete") y la **Ruta de Rutina
-TPR 2.0** (morfosintaxis transaccional). En Pares Mínimos y Expansión Semántica,
-la palabra objetivo ya no se dicta aislada: un **motor combinatorio de frases
-portadoras** (`valeriaCarrierPhrases`, es/gl) la incrusta en una frase con
-prosodia continua seguida de una pregunta de elicitación, sin repetir frase en
-diez ensayos seguidos.
+TPR 2.0** (morfosintaxis transaccional).
+
+> [!NOTE]
+> **Frases portadoras retiradas del flujo (v9.1).** Hasta la v9, la palabra
+> objetivo de Pares Mínimos se incrustaba en una frase generada por un motor
+> combinatorio. Al resolver **DC‑5**, las logopedas de ACOPROS fijaron otra
+> consigna estándar: **presentación del par + repetición del objetivo**
+> («rata… lata… dime: rata»). El módulo `valeriaCarrierPhrases` se conserva por
+> si se recupera como modo avanzado, pero **no se enumera en el corpus de voz ni
+> se locuta**.
 
 ---
 
@@ -133,15 +138,30 @@ validación ágil. Se muestra como una **tarjeta prominente** en el hub de
 `ExerciseSelection`, con la misma jerarquía visual que los bloques de terapia y
 una **barra de progreso que se actualiza en tiempo real**.
 
-| Eje temático | Qué enseña |
-| --- | --- |
-| 👂 **Cómo aprenden a hablar** | El baño de lenguaje (input antes que producción) y la conversación por turnos (*serve and return*, poder de la espera). |
-| 🤸 **Por qué el TPR** | Escuchar + mover consolida la memoria y descarga la presión de producir; por eso el adulto es quien valida cada orden. |
-| 🚫 **Vicios a evitar** | No corregir sino **remodelar** (*recast*) y comentar más que preguntar (evitar el "examen encubierto"). |
-| 🧑‍🏫 **Terapia mediada** | El adulto elige, modela, refuerza y **puede parar**: no hay mínimo obligatorio. |
+El hub es **multidominio**: cada dominio mantiene su propio silo de XP, nivel e
+insignias, y el progreso nunca se mezcla entre ellos.
 
-- **Gamificación funcional**: XP, niveles (Novato → Cuidador experto) e insignias
-  (`📘 Aprendiz`, `📗 A medio camino`, `🎓 Cuidador experto`, `💯 Sin fallos`).
+| Dominio | Qué enseña |
+| --- | --- |
+| 💬 **Lenguaje** | El baño de lenguaje (input antes que producción), la conversación por turnos (*serve and return*), por qué el TPR consolida, y los vicios a evitar: **remodelar** (*recast*) en vez de corregir y comentar más que preguntar. |
+| 👂 **Hipoacusia / Sordera** | Qué es la sordera, su abordaje y el manejo de los dispositivos (audífono, implante coclear, osteointegrado) en micro‑guías. |
+| 🗣️ **Dislalias** | Puntos de articulación y práctica de los sonidos difíciles. |
+| 🔤 **Dislexia** | Conciencia fonológica y apoyo a la lectura emergente. |
+| 🧩 **TEA** | Comunicación, anticipación y regulación en el espectro autista. |
+| 🤟 **Lengua de Signos (LSE)** | Qué es la LSE y por qué no es mímica, si signar retrasa el habla, de qué está hecho un signo, el **alfabeto dactilológico** con las configuraciones dibujadas, los primeros signos útiles y dónde se aprende de verdad. |
+
+> [!IMPORTANT]
+> **Sobre el módulo de LSE.** Un signo combina configuración de la mano, lugar,
+> orientación y **movimiento**, más expresión facial; un dibujo estático captura
+> los tres primeros. El módulo enseña lo que sí es enseñable así —el alfabeto
+> dactilológico, cuyas configuraciones son posturas fijas— y para el léxico
+> signado **remite a fuente signada**: vídeo, curso oficial y, sobre todo,
+> personas sordas signantes. Lo dice en pantalla, no solo en el código.
+> Contenido y configuraciones **validados por persona sorda signante**.
+
+- **Gamificación funcional por dominio**: XP, niveles con nombre propio de cada
+  silo (Novato → *Experto en Hipoacusia*, *Experto en LSE*…) e insignias
+  (`📘 Primer paso`, `📗 A medio camino`, `🎓 Dominio experto`, `💯 Sin fallos`).
 - **Persistencia cifrada offline**: el progreso se guarda con `valeriaCrypto`
   (JSON cifrado en reposo sobre `AsyncStorage`, clave `STORAGE_KEYS.academy`),
   igual que la telemetría del piloto.
@@ -271,13 +291,16 @@ con *debounce* vía `InteractionManager`, de modo que el cifrado y el guardado e
 
 | Documento | Descripción |
 | --- | --- |
-| **Manual de usuario con casos de uso** (v9.0) · [HTML](docs/manual-casos-de-uso.html) · [PDF](docs/Valeria-Manual-Casos-de-Uso.pdf) · [Word](docs/Valeria-Manual-Casos-de-Uso.docx) | 16 casos de uso paso a paso ilustrados con capturas reales (`docs/screenshots/`): **Academy · hub de formación multidominio (CU‑03, uno de los primeros casos)**, los seis bloques (Pares Mínimos, Expansión Semántica, Audición, Lenguaje, TEA y Dislexia), el hub, la gráfica de sustitución por fonema, la telemetría del piloto (CU‑14), la variedad lingüística —Castellano, Galego, Dominicano y Euskera— (CU‑15), el Panel del Adulto / carga comunicativa (CU‑16) y las novedades v6/v7/v8/v8.1/v8.2/v9. |
+| **Manual de usuario con casos de uso** (v9.1) · [HTML](docs/manual-casos-de-uso.html) · [PDF](docs/Valeria-Manual-Casos-de-Uso.pdf) · [Word](docs/Valeria-Manual-Casos-de-Uso.docx) | 17 casos de uso paso a paso ilustrados con capturas reales (`docs/screenshots/`): **Academy · hub de formación multidominio (CU‑03, uno de los primeros casos)**, los seis bloques (Pares Mínimos, Expansión Semántica, Audición, Lenguaje, TEA y Dislexia), el hub, la gráfica de sustitución por fonema, la telemetría del piloto (CU‑14), la variedad lingüística —Castellano, Galego, Dominicano y Euskera— (CU‑15), el Panel del Adulto / carga comunicativa (CU‑16), el **módulo de Lengua de Signos Española (CU‑17)** y las novedades v6/v7/v8/v8.1/v8.2/v9/v9.1. |
 | [`docs/protocolo-pares-minimos.md`](docs/protocolo-pares-minimos.md) | Protocolo de pares mínimos para dislalias fonológicas: 10 pares accionables con flujo TTS→STT, feedback por rama y misiones físicas. Implementado en `src/ValeriaMinimalPairsScreen.tsx` + `src/valeriaMinimalPairs.ts`. |
 | [`docs/protocolo-pares-minimos-es-DO.md`](docs/protocolo-pares-minimos-es-DO.md) | Protocolo de pares mínimos en español dominicano (Quisqueya Habla). Implementado en `src/valeriaMinimalPairsEsDO.ts`. |
 | [`docs/protocolo-expansion-semantica.md`](docs/protocolo-expansion-semantica.md) | Protocolo de expansión semántica / progresión léxica offline. Implementado en `src/ValeriaSemanticExpansionScreen.tsx` + `src/valeriaSemanticExpansion.ts`. |
 | [`docs/guia-dialectal-es-DO.md`](docs/guia-dialectal-es-DO.md) | Guía clínica dominicana (QH‑0.2): qué es rasgo dialectal normal y qué es error terapéutico. Regla **bloqueante** para todo dataset es‑DO. |
 | [`docs/plan-integracion-proxecto-nos.md`](docs/plan-integracion-proxecto-nos.md) | Plan por fases de la versión en gallego apoyada en los recursos abiertos del Proxecto Nós (contenido, voz Celtia, ASR). |
 | [`docs/plan-integracion-quisqueya-habla.md`](docs/plan-integracion-quisqueya-habla.md) | Plan de la variante dominicana (es‑DO), que reutiliza la infraestructura de variedad del plan gallego. |
+| [`docs/plan-mejoras-acopros-logopedas.json`](docs/plan-mejoras-acopros-logopedas.json) | **Fuente de verdad** del plan de mejoras nacido del feedback clínico de ACOPROS: cada observación verificada contra el código, con decisiones clínicas (DC‑1…DC‑5), criterios de aceptación y estado. Incluye el **bloqueo de publicación** del corpus de voz. |
+| [`docs/criterio-dificultad-lexica.md`](docs/criterio-dificultad-lexica.md) | Criterio del campo `difficulty` de las categorías léxicas (ES‑08): la progresión la marca la **familiaridad**, no la dificultad de pronunciación. Incluye por qué la frecuencia **no se hereda entre variedades** (en RD el plátano es el de freír; el que se come crudo es el guineo). |
+| [`docs/auditoria-pictogramas.md`](docs/auditoria-pictogramas.md) | Inventario de toda la carga visual en uso, clasificada por riesgo (*tofu*, atributo, revisar) con columna de veredicto para ACOPROS. Se **regenera** con `node scripts/audit-pictograms.js --markdown`. |
 | [`docs/plan-calidad.md`](docs/plan-calidad.md) | Task list priorizada para reducir regresiones (checklist de humo, pruebas por bloque). |
 | [`docs/firebase-setup.md`](docs/firebase-setup.md) | Guía del backend opcional: Firebase Authentication + Cloud Firestore. |
 
@@ -338,6 +361,20 @@ compila la app en cada push/fusión a `main` (y en ramas `claude/**`). Con los
 secrets de firma configurados genera el APK y el **AAB firmados**; sin secrets
 solo compila el APK. El `versionCode` se deriva del número de run.
 
+Antes de compilar corren **cinco chequeos de contenido** que fallan rápido. No
+son tests unitarios: cada uno protege un acuerdo clínico concreto que el
+typecheck y el diff no ven.
+
+| Chequeo | Qué impide |
+| --- | --- |
+| `check-voice-corpus-coverage.js` | Que se empaquete un APK con texto locutado **sin asset de voz neuronal**. La app no se rompe cuando eso pasa: cae a la voz del sistema en silencio, y en galego y euskera se pierden Celtia e ILENIA. |
+| `check-content-rules.js` | Que reaparezcan el `tts_string` redundante (ES‑06), una fase de progresión por onomatopeya (ES‑10) o una cápsula con tres referentes distintos (ES‑13). |
+| `check-pictogram-coverage.js` | Que una cápsula de contraste quede **irresoluble**: si las dos vueltas comparten clave de pictograma, el niño ve dos tarjetas idénticas (ES‑12). |
+| `check-lexical-difficulty.js` | Que un ítem avanzado se cuele entre los iniciales: **el orden de escritura ES el orden de práctica** (ES‑08). |
+| `check-reminder-slots.js` | Que apagar una franja de recordatorio deje de reprogramarla pero **no cancele sus avisos ya en cola** (GEN‑01). |
+
+Todos se pueden ejecutar en local: `node scripts/<nombre>.js`.
+
 El workflow [`.github/workflows/voice-assets.yml`](.github/workflows/voice-assets.yml)
 **sintetiza la voz neuronal** (Sharvard para `es`, Celtia para `gl`) a partir de
 [`voice-corpus.json`](voice-corpus.json), masteriza el audio, regenera el mapa
@@ -377,6 +414,48 @@ Guía completa de configuración y despliegue: [`docs/firebase-setup.md`](docs/f
 ## 🕑 Historial de versiones
 
 <details open>
+<summary><strong>V9.1</strong> — mejoras clínicas de las logopedas de ACOPROS, vocabulario por categorías y Lengua de Signos</summary>
+
+Ciclo nacido de una revisión clínica de las logopedas de ACOPROS sobre la app en
+uso. Cada observación se verificó contra el código antes de tocar nada; la
+trazabilidad completa está en
+[`docs/plan-mejoras-acopros-logopedas.json`](docs/plan-mejoras-acopros-logopedas.json).
+
+- **Categorías léxicas** (nuevo bloque de Expansión Semántica): 5 categorías de
+  6 palabras con **progresión de dificultad**, y tope de nivel fijado por el
+  logopeda desde el PIN. La progresión la marca la **familiaridad**, no la
+  dificultad de pronunciación —eso es asunto de Pares Mínimos—. La frecuencia no
+  se hereda entre variedades: el nivel 1 dominicano es **guineo**, no plátano.
+- **Doble vuelta real en los contrastes**: la primera vuelta evalúa
+  **comprensión** (el niño toca la imagen correcta entre dos) y la segunda
+  **producción**. El historial y el informe al logopeda las separan, porque un
+  promedio único escondía el caso más frecuente en clínica: entiende el par pero
+  todavía no lo dice.
+- **Pictogramas propios** (46 dibujos SVG): se descartaron los bancos externos
+  por licencia, pero lo decisivo fue otro motivo —ninguno trae «cuchara sucia» y
+  «cuchara limpia» como par sobre el **mismo objeto**, que es justo lo que la
+  vuelta de comprensión necesita—. Riesgo de *tofu* (emoji que se pintan como
+  cuadro vacío) cerrado al 100 %.
+- **Antesala de preparación**: ninguna actividad locuta su primera consigna
+  antes de que el adulto confirme que tiene el material. Antes, «prepara dos
+  peluches» aparecía con la consigna ya sonando.
+- **Escucha más tolerante** sin tocar el umbral fonético: ventana de tres
+  segundos, rescate del mejor resultado parcial y —lo importante— **un fallo del
+  reconocedor deja de costarle un intento y una estrella al niño**.
+- **Recordatorios configurables**: cuatro franjas elegibles de verdad, y apagar
+  una **cancela sus avisos ya en cola**. Antes la tarjeta prometía «hasta 4 al
+  día» describiendo un límite del sistema como si fuera una opción.
+- **Consignas más cortas** (el objetivo se nombra una sola vez), **objetivo
+  terapéutico visible** por bloque y **progresiones por campo semántico**
+  (concepto → parte → acción → cualidad) en vez de la escalera de onomatopeyas.
+- **Academy · Lengua de Signos Española**: sexto dominio, validado por persona
+  sorda signante, configuraciones de mano incluidas.
+- **Cinco chequeos de contenido en CI** que protegen todo lo anterior de
+  reaparecer por inercia.
+
+</details>
+
+<details>
 <summary><strong>V9</strong> — dos bloques nuevos, protocolos ampliados, euskera y Academy multidominio</summary>
 
 - **Bloque TEA** (`TEA_META`, 6 terapias · PRT + TCC): atención conjunta
@@ -392,7 +471,8 @@ Guía completa de configuración y despliegue: [`docs/firebase-setup.md`](docs/f
   (RA‑1…RA‑5) sobre el deslizador manual de ruido babble del Panel del Adulto.
 - **Pares Mínimos a 15 pares** (`valeriaMinimalPairs.ts`) con dos grupos nuevos
   (nasales y laterales); Expansión Semántica sube a 9 progresiones y 8
-  contrastes. Todo entra en el motor de frases portadoras.
+  contrastes. Entonces todo entraba en el motor de frases portadoras, retirado
+  del flujo en la v9.1 al resolver DC‑5.
 - **Cuarta variedad: Euskera** (`eu`, batua · proyecto ILENIA/NEL‑GAITU): voz
   neuronal **HiTZ‑TTS** pregenerada (UPV/EHU · Aholab) empaquetada y offline; ASR
   `eu‑ES` con recaída `es‑ES` + pliegue de la ⟨h⟩ muda (`foldBasque`).
