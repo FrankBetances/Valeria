@@ -131,7 +131,7 @@ const BANKS: Record<CarrierLang, CarrierBank> = {
   },
   eu: {
     order: 'SOV',
-    // Objetivos del banco vasco de pares (valeriaMinimalPairsEu, BORRADOR).
+    // Objetivos del banco vasco de pares (valeriaMinimalPairsEu, validado).
     // `abs` = forma absolutiva definida que se incrusta como objeto directo.
     wordMeta: {
       su: { kind: 'sustantivo', abs: 'sua' },

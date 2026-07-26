@@ -682,6 +682,323 @@ export const ACADEMY_CAPSULES: AcademyCapsule[] = [
       },
     ],
   },
+  // ================================================================== SIGNOS
+  // Lengua de Signos Española (LSE). Módulo propuesto por las logopedas de
+  // ACOPROS tras la validación de julio de 2026.
+  //
+  // Dos advertencias que este banco asume por escrito:
+  //
+  // 1. UN DIBUJO NO ENSEÑA UN SIGNO. Un signo combina configuración de la mano,
+  //    lugar, orientación y MOVIMIENTO, más expresión facial. Una silueta
+  //    estática captura los tres primeros. Por eso el módulo enseña de verdad
+  //    lo que es enseñable así —el alfabeto dactilológico y los parámetros— y
+  //    para el léxico signado remite a fuente signada en vez de fingir.
+  //
+  // 2. ESTA APP PRIORIZA LA AUDICIÓN, y hay que decirlo sin contradicciones.
+  //    La cápsula «El baño de lenguaje» afirma que nombramos antes de mostrar
+  //    para que el niño use la escucha. Eso sigue siendo cierto DENTRO de los
+  //    ejercicios auditivo-verbales. La LSE no compite con eso: es una lengua
+  //    con estatuto propio y un derecho reconocido, y la decisión de usarla es
+  //    de la familia. El módulo lo explica en su primera cápsula en vez de
+  //    dejar dos mensajes sueltos que parecen reñidos.
+  {
+    id: 'lse-que-es',
+    domain: 'signos',
+    track: 'desarrollo',
+    icon: '🤟',
+    title: 'La LSE es una lengua, no mímica',
+    summary: 'Tiene gramática propia y reconocimiento legal. No es «español con las manos».',
+    minutes: 2,
+    xp: 20,
+    slides: [
+      {
+        icon: '🗣️',
+        heading: 'Una lengua completa, con su propia gramática',
+        body: 'La Lengua de Signos Española no es español traducido a gestos: tiene su propio léxico, su orden de la frase y su morfología. Un signo no equivale a una palabra, igual que una palabra inglesa no equivale a una española. Por eso no se puede signar y hablar palabra por palabra a la vez sin romper una de las dos lenguas.',
+      },
+      {
+        icon: '⚖️',
+        heading: 'Reconocida por ley',
+        body: 'La Ley 27/2007 reconoce las lenguas de signos españolas y regula los medios de apoyo a la comunicación oral. La LSE se usa en el Estado salvo en Cataluña, que tiene la suya propia (LSC). No es un recurso «de último recurso»: es una lengua con estatuto legal.',
+      },
+      {
+        icon: '🧭',
+        heading: 'Y esta app prioriza la audición: ¿cómo encaja?',
+        body: 'Los ejercicios auditivo-verbales de Valeria dan prioridad al oído a propósito: nombramos antes de mostrar para que el niño entrene la escucha. Eso sigue valiendo dentro de esos ejercicios. La LSE es otra cosa: una lengua a la que tu hijo puede tener derecho y acceso, y cuya adopción decidís la familia y el equipo clínico. Este módulo te da una base para entenderla, no una instrucción de sustituir nada.',
+      },
+    ],
+    quiz: [
+      {
+        prompt: 'La Lengua de Signos Española es…',
+        options: ['Español representado con gestos', 'Una lengua con gramática propia', 'Un sistema de apoyo sin estructura'],
+        answer: 1,
+        rationale: 'Tiene léxico, orden de frase y morfología propios: no es una traducción gestual del español.',
+      },
+      {
+        prompt: '¿Qué norma reconoce las lenguas de signos españolas?',
+        options: ['La Ley 27/2007', 'No hay norma que las reconozca', 'Solo normativa autonómica'],
+        answer: 0,
+        rationale: 'La Ley 27/2007 las reconoce y regula los medios de apoyo a la comunicación oral.',
+      },
+    ],
+  },
+  {
+    id: 'lse-no-frena',
+    domain: 'signos',
+    track: 'desarrollo',
+    icon: '🌱',
+    title: '¿Signar retrasa el habla?',
+    summary: 'Es el miedo más repetido de las familias. Conviene responderlo con precisión.',
+    minutes: 2,
+    xp: 20,
+    slides: [
+      {
+        icon: '❓',
+        heading: 'La pregunta que hace casi todo el mundo',
+        body: 'Muchas familias temen que, si el niño dispone de signos, «se acomode» y deje de esforzarse en hablar. Es una preocupación razonable y merece una respuesta clara, no un «no te preocupes».',
+      },
+      {
+        icon: '🧠',
+        heading: 'Lo que se observa: el acceso temprano a una lengua es lo que importa',
+        body: 'Lo que el desarrollo del lenguaje necesita es acceso TEMPRANO y COMPLETO a alguna lengua. Un niño sordo sin acceso pleno a lengua alguna en sus primeros años es el escenario de riesgo real. Disponer de una lengua signada le da vocabulario, turnos de conversación y capacidad de pedir mucho antes de que el habla esté disponible.',
+      },
+      {
+        icon: '🤝',
+        heading: 'No es «o una o la otra»',
+        body: 'Signar y trabajar la audición no son excluyentes. Muchas familias hacen las dos cosas: terapia auditivo-verbal para el habla y signos para comunicarse mientras esta llega. Lo que sí conviene evitar es la ambigüedad: cada persona adulta debe tener claro qué lengua usa con el niño y cuándo.',
+      },
+      {
+        icon: '👨‍⚕️',
+        heading: 'Esta decisión no la toma una app',
+        body: 'Qué combinación conviene a tu hijo depende de su audición, de su edad, de sus dispositivos y de vuestro entorno. Es una decisión del equipo clínico con la familia. Valeria te forma para participar en esa conversación con criterio, no para sustituirla.',
+      },
+    ],
+    quiz: [
+      {
+        prompt: '¿Cuál es el escenario de riesgo real para el desarrollo del lenguaje?',
+        options: ['Aprender signos y habla a la vez', 'No tener acceso pleno a NINGUNA lengua en los primeros años', 'Empezar a signar antes de los dos años'],
+        answer: 1,
+        rationale: 'La privación de lengua en la primera infancia es lo que compromete el desarrollo, no la exposición a dos lenguas.',
+      },
+      {
+        prompt: 'Sobre combinar signos y trabajo auditivo:',
+        options: ['Son incompatibles', 'Se pueden combinar, y la decisión es del equipo clínico con la familia', 'Los signos deben retirarse al empezar la terapia auditiva'],
+        answer: 1,
+        rationale: 'No son excluyentes; la combinación adecuada depende del caso y la decide el equipo con la familia.',
+      },
+    ],
+  },
+  {
+    id: 'lse-parametros',
+    domain: 'signos',
+    track: 'desarrollo',
+    icon: '🧩',
+    title: 'De qué está hecho un signo',
+    summary: 'Configuración, lugar, orientación y movimiento. Cambia uno y cambia el significado.',
+    minutes: 2,
+    xp: 25,
+    slides: [
+      {
+        icon: '✋',
+        heading: 'Cuatro parámetros y una cara',
+        body: 'Un signo combina cuatro cosas: la CONFIGURACIÓN de la mano (su forma), el LUGAR donde se hace, la ORIENTACIÓN de la palma y el MOVIMIENTO. A eso se suman los componentes no manuales: la expresión facial y la mirada, que pueden cambiar por completo lo que dices.',
+        figure: 'mano-b',
+      },
+      {
+        icon: '🔀',
+        heading: 'Cambiar un parámetro cambia la palabra',
+        body: 'Igual que en el habla «pata» y «bata» solo se diferencian en un sonido, dos signos pueden diferenciarse en un solo parámetro. Hacer el signo en el sitio equivocado o con la palma girada no es un acento: puede ser otra palabra, o ninguna.',
+        figure: 'mano-o',
+      },
+      {
+        icon: '🎬',
+        heading: 'Y por eso un dibujo no basta',
+        body: 'Un dibujo estático puede enseñarte la configuración, el lugar y la orientación. NO puede enseñarte el movimiento, que es el cuarto parámetro y a menudo el decisivo. Este módulo dibuja las configuraciones porque son fijas; para el léxico signado necesitas ver a alguien signando: vídeo, un curso o —lo mejor— una persona sorda signante.',
+        figure: 'dos-manos',
+      },
+    ],
+    quiz: [
+      {
+        prompt: '¿Cuál de estos NO puede transmitir un dibujo estático?',
+        options: ['La configuración de la mano', 'El movimiento', 'La orientación de la palma'],
+        answer: 1,
+        rationale: 'El movimiento es el parámetro que exige ver el signo en marcha; por eso el módulo remite a fuente signada.',
+      },
+      {
+        prompt: 'Si haces un signo con la configuración correcta pero en otro lugar del cuerpo…',
+        options: ['Es un acento regional, se entiende igual', 'Puede ser otro signo distinto o ninguno', 'No importa mientras la cara acompañe'],
+        answer: 1,
+        rationale: 'El lugar de articulación es un parámetro: cambiarlo puede cambiar el significado.',
+      },
+    ],
+  },
+  {
+    id: 'lse-dactilologico',
+    domain: 'signos',
+    track: 'tpr',
+    icon: '🔤',
+    title: 'El alfabeto dactilológico',
+    summary: 'Deletrear con la mano. Lo primero que de verdad puedes practicar con un dibujo.',
+    minutes: 3,
+    xp: 25,
+    slides: [
+      {
+        icon: '📇',
+        heading: 'Para qué sirve deletrear',
+        body: 'El alfabeto dactilológico representa cada letra con una configuración de mano. No sustituye a la LSE: se usa para nombres propios, marcas, siglas y palabras que aún no conoces signadas. Es la puerta de entrada natural, porque casi todas sus configuraciones son POSTURAS FIJAS y se pueden aprender de un dibujo.',
+      },
+      {
+        icon: '🅰️',
+        heading: 'A · puño con el pulgar al costado',
+        body: 'Cierra los cuatro dedos sobre la palma y deja el pulgar estirado pegado al lateral del índice, apuntando hacia arriba. Es la base de varias letras: fíjate en dónde queda el pulgar.',
+        figure: 'mano-a',
+      },
+      {
+        icon: '🅱️',
+        heading: 'B · mano plana con el pulgar cruzado',
+        body: 'Dedos juntos y estirados hacia arriba, palma al frente, y el pulgar cruzado sobre la palma. La diferencia con una mano abierta cualquiera está justo en ese pulgar.',
+        figure: 'mano-b',
+      },
+      {
+        icon: '🇨',
+        heading: 'C · la mano dibuja la letra',
+        body: 'Curva los dedos y el pulgar como si sujetaras un vaso ancho: la mano vista de lado forma una C. Es una de las letras que se reconocen solas, porque la forma imita el trazo.',
+        figure: 'mano-c',
+      },
+      {
+        icon: '🇱',
+        heading: 'L · índice arriba, pulgar en ángulo',
+        body: 'Estira el índice hacia arriba y el pulgar hacia el lado, formando un ángulo recto; el resto de dedos, cerrados. Otra letra que imita su trazo.',
+        figure: 'mano-l',
+      },
+      {
+        icon: '🇻',
+        heading: 'V · índice y corazón separados',
+        body: 'Estira índice y corazón en uve, separados entre sí, con los demás dedos cerrados y el pulgar sujetándolos. Cuidado: juntar los dos dedos ya es otra letra.',
+        figure: 'mano-v',
+      },
+      {
+        icon: '🪞',
+        heading: 'Cómo practicarlo',
+        body: 'Deletrea tu nombre delante del espejo, despacio, hasta que las manos vayan solas. Las letras con movimiento —las hay— no se aprenden bien de un dibujo: para esas, busca vídeo. Un buen ejercicio con tu hijo es deletrear su nombre cada día hasta que lo reconozca.',
+      },
+    ],
+    quiz: [
+      {
+        prompt: '¿Para qué se usa principalmente el alfabeto dactilológico?',
+        options: ['Para sustituir a la LSE', 'Para nombres propios, siglas y palabras sin signo conocido', 'Solo para enseñar a niños'],
+        answer: 1,
+        rationale: 'Es una herramienta dentro de la LSE, no un sustituto de ella.',
+      },
+      {
+        prompt: '¿Por qué el alfabeto es lo primero que se puede aprender de un dibujo?',
+        options: ['Porque casi todas sus configuraciones son posturas fijas', 'Porque es más importante que el léxico', 'Porque no necesita las manos'],
+        answer: 0,
+        rationale: 'Al ser posturas estáticas, un dibujo las transmite; los signos con movimiento no.',
+      },
+    ],
+  },
+  {
+    id: 'lse-primeros-signos',
+    domain: 'signos',
+    track: 'tpr',
+    icon: '🙌',
+    title: 'Primeros signos con utilidad real',
+    summary: 'Pocos signos, elegidos porque le sirven para PEDIR desde el primer día.',
+    minutes: 3,
+    xp: 25,
+    slides: [
+      {
+        icon: '🎯',
+        heading: 'Elige por utilidad, no por cantidad',
+        body: 'Los primeros signos que merecen la pena no son los colores ni los animales: son los que le permiten CONSEGUIR algo. «Más», «comer», «beber», «dormir», «ayuda», «acabado». Un niño que puede pedir deja de tener que llorar para que le entiendan, y eso baja la frustración de toda la casa.',
+        figure: 'dos-manos',
+      },
+      {
+        icon: '👀',
+        heading: 'Que te vea la cara',
+        body: 'Signa siempre donde tu hijo te vea a ti y al objeto sin tener que elegir. Agáchate a su altura, asegúrate de que te mira ANTES de signar, y deja el objeto cerca de tu cara. Si signas mientras él mira a otro lado, no has comunicado nada.',
+        figure: 'mano-indice',
+      },
+      {
+        icon: '🔁',
+        heading: 'Signa y habla a la vez, en la misma frase corta',
+        body: 'Al principio, di la palabra y haz el signo a la vez, con frases muy cortas: «¿MÁS?», «a COMER». Así el signo y el sonido quedan unidos al mismo significado. Recuerda que esto es comunicación bimodal de apoyo, no LSE gramaticalmente completa: son cosas distintas y conviene no confundirlas.',
+      },
+      {
+        icon: '⏳',
+        heading: 'Y espera',
+        body: 'Después de signar, haz una pausa larga —cuenta hasta cinco— mirándole con expectación. La tentación es resolverle la petición enseguida. Ese silencio es exactamente el espacio donde aparece su primer intento, sea un signo, un gesto o un sonido. Celebra cualquiera de los tres.',
+        figure: 'mano-plana-arriba',
+      },
+    ],
+    quiz: [
+      {
+        prompt: '¿Qué signos conviene enseñar primero?',
+        options: ['Los colores y los números', 'Los que le permiten pedir algo (más, comer, ayuda)', 'Los animales, porque le gustan'],
+        answer: 1,
+        rationale: 'Los signos que sirven para pedir dan control comunicativo inmediato y reducen la frustración.',
+      },
+      {
+        prompt: 'Antes de signar algo a tu hijo, lo primero es…',
+        options: ['Asegurarte de que te está mirando', 'Repetirlo tres veces', 'Hacerlo lo más rápido posible'],
+        answer: 0,
+        rationale: 'La LSE entra por la vista: sin mirada compartida, el signo no llega.',
+      },
+      {
+        prompt: 'Signar y hablar a la vez con frases cortas es…',
+        options: ['Lengua de Signos Española completa', 'Comunicación bimodal de apoyo, que no es lo mismo que la LSE', 'Un error que hay que evitar siempre'],
+        answer: 1,
+        rationale: 'Es un apoyo útil al principio, pero no equivale a la LSE, que tiene gramática propia.',
+      },
+    ],
+  },
+  {
+    id: 'lse-donde-aprender',
+    domain: 'signos',
+    track: 'mediada',
+    icon: '🧑‍🏫',
+    title: 'Dónde se aprende de verdad',
+    summary: 'Este módulo es una puerta de entrada. La lengua se aprende con personas sordas.',
+    minutes: 2,
+    xp: 20,
+    slides: [
+      {
+        icon: '🚪',
+        heading: 'Lo que este módulo es',
+        body: 'Una puerta de entrada: qué es la LSE, de qué está hecho un signo, cómo deletrear y qué signos abren la comunicación con un niño pequeño. Es suficiente para empezar a comunicaros y para decidir con criterio si queréis seguir.',
+      },
+      {
+        icon: '🙅',
+        heading: 'Lo que no es',
+        body: 'No es un curso de LSE, y ninguna app de dibujos puede serlo. Te faltan el movimiento, la expresión facial, la gramática del espacio y —sobre todo— la conversación real, que es donde se aprende cualquier lengua.',
+      },
+      {
+        icon: '🧑‍🤝‍🧑',
+        heading: 'Busca personas sordas signantes',
+        body: 'La mejor fuente es la comunidad sorda: asociaciones de personas sordas, cursos oficiales de LSE y profesorado sordo. Aprender la lengua de alguien que la tiene como propia es distinto de aprenderla de un libro, y además abre a tu hijo una comunidad, no solo un vocabulario.',
+      },
+      {
+        icon: '📋',
+        heading: 'Habla con tu equipo clínico',
+        body: 'Cuéntale a la logopeda que estáis empezando con signos. No para pedir permiso, sino para que el plan sea uno solo: qué se trabaja en la sesión, qué en casa y cómo se registran los avances de cada canal.',
+      },
+    ],
+    quiz: [
+      {
+        prompt: '¿Cuál es la mejor forma de aprender LSE de verdad?',
+        options: ['Con una app de dibujos', 'Con personas sordas signantes y cursos oficiales', 'Leyendo un diccionario de signos'],
+        answer: 1,
+        rationale: 'Una lengua se aprende en conversación real; la comunidad sorda es además la puerta a un entorno, no solo a un léxico.',
+      },
+      {
+        prompt: 'Si empezáis con signos en casa, conviene…',
+        options: ['No decírselo al equipo clínico para no interferir', 'Contárselo, para que el plan sea uno solo', 'Esperar a que la logopeda lo proponga'],
+        answer: 1,
+        rationale: 'Un plan compartido evita que el trabajo de casa y el de la sesión se contradigan.',
+      },
+    ],
+  },
 ];
 
 // Total global de cápsulas (todas las domains). Uso informativo/agregado.

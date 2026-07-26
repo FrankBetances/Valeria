@@ -1,11 +1,11 @@
 {
- "generatedAt": "2026-07-24T19:59:43.482Z",
- "entries": 1516,
+ "generatedAt": "2026-07-26T17:37:52.737Z",
+ "entries": 1734,
  "byStyle": {
-  "child": 859,
-  "slow": 329,
+  "child": 962,
+  "slow": 384,
   "clinical": 27,
-  "tutor": 301
+  "tutor": 361
  },
  "bySource": {
   "pares/intro": 27,
@@ -25,7 +25,7 @@
   "banco/no-oido": 9,
   "banco/juntos": 9,
   "util/muestra": 3,
-  "expansion": 613,
+  "expansion": 831,
   "ejercicios": 521
  },
  "corpus": [
@@ -2088,10 +2088,332 @@
    "source": "expansion"
   },
   {
-   "id": "child_2892437c_28",
+   "id": "child_c9c2c057_33",
    "lang": "es",
    "style": "child",
-   "text": "Esto es el coche. Di: coche.",
+   "text": "Esto es una manzana. Di: manzana.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_2f9ce66d_23",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Otra vez! Di: manzana.",
+   "source": "expansion"
+  },
+  {
+   "id": "slow_c9c2c057_33",
+   "lang": "es",
+   "style": "slow",
+   "text": "Esto es una manzana. Di: manzana.",
+   "source": "expansion"
+  },
+  {
+   "id": "tutor_b9ffe5d2_93",
+   "lang": "es",
+   "style": "tutor",
+   "text": "Dale un mordisco a una manzana de verdad (o de juguete) y que el niño imite el crujido: ¡ñac!",
+   "source": "expansion"
+  },
+  {
+   "id": "child_6ab40be0_32",
+   "lang": "es",
+   "style": "child",
+   "text": "Esto es un plátano. Di: plátano.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_02dada0c_23",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Otra vez! Di: plátano.",
+   "source": "expansion"
+  },
+  {
+   "id": "slow_6ab40be0_32",
+   "lang": "es",
+   "style": "slow",
+   "text": "Esto es un plátano. Di: plátano.",
+   "source": "expansion"
+  },
+  {
+   "id": "tutor_fe9b1f39_77",
+   "lang": "es",
+   "style": "tutor",
+   "text": "Pelad juntos un plátano bajando cada tira despacio mientras decís la palabra.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_df877319_33",
+   "lang": "es",
+   "style": "child",
+   "text": "Esto es una naranja. Di: naranja.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_a3823688_23",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Otra vez! Di: naranja.",
+   "source": "expansion"
+  },
+  {
+   "id": "slow_df877319_33",
+   "lang": "es",
+   "style": "slow",
+   "text": "Esto es una naranja. Di: naranja.",
+   "source": "expansion"
+  },
+  {
+   "id": "tutor_feb38343_76",
+   "lang": "es",
+   "style": "tutor",
+   "text": "Haced rodar una naranja por la mesa de uno a otro, nombrándola en cada pase.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_b02431c5_27",
+   "lang": "es",
+   "style": "child",
+   "text": "Esto es una pera. Di: pera.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_ee068f29_20",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Otra vez! Di: pera.",
+   "source": "expansion"
+  },
+  {
+   "id": "slow_b02431c5_27",
+   "lang": "es",
+   "style": "slow",
+   "text": "Esto es una pera. Di: pera.",
+   "source": "expansion"
+  },
+  {
+   "id": "tutor_c89aa608_83",
+   "lang": "es",
+   "style": "tutor",
+   "text": "Dibujad la silueta de la pera en el aire con el dedo: ancha abajo, estrecha arriba.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_3fffcccd_27",
+   "lang": "es",
+   "style": "child",
+   "text": "Esto es una piña. Di: piña.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_abee8e64_20",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Otra vez! Di: piña.",
+   "source": "expansion"
+  },
+  {
+   "id": "slow_3fffcccd_27",
+   "lang": "es",
+   "style": "slow",
+   "text": "Esto es una piña. Di: piña.",
+   "source": "expansion"
+  },
+  {
+   "id": "tutor_ea35fa22_87",
+   "lang": "es",
+   "style": "tutor",
+   "text": "Poneos las manos abiertas sobre la cabeza como la corona de la piña y decid la palabra.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_bb47ee21_31",
+   "lang": "es",
+   "style": "child",
+   "text": "Esto es una cereza. Di: cereza.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_2068d20f_22",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Otra vez! Di: cereza.",
+   "source": "expansion"
+  },
+  {
+   "id": "slow_bb47ee21_31",
+   "lang": "es",
+   "style": "slow",
+   "text": "Esto es una cereza. Di: cereza.",
+   "source": "expansion"
+  },
+  {
+   "id": "tutor_b2523521_88",
+   "lang": "es",
+   "style": "tutor",
+   "text": "Colgaos dos cerezas (o dos bolitas de papel) de la oreja como pendientes y reíos juntos.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_03f94952_28",
+   "lang": "es",
+   "style": "child",
+   "text": "Esto es un perro. Di: perro.",
+   "source": "expansion"
+  },
+  {
+   "id": "slow_03f94952_28",
+   "lang": "es",
+   "style": "slow",
+   "text": "Esto es un perro. Di: perro.",
+   "source": "expansion"
+  },
+  {
+   "id": "tutor_b12ec16b_55",
+   "lang": "es",
+   "style": "tutor",
+   "text": "Poneos a cuatro patas y dad tres pasos ladrando juntos.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_e2f9844c_26",
+   "lang": "es",
+   "style": "child",
+   "text": "Esto es un gato. Di: gato.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_a9146678_20",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Otra vez! Di: gato.",
+   "source": "expansion"
+  },
+  {
+   "id": "slow_e2f9844c_26",
+   "lang": "es",
+   "style": "slow",
+   "text": "Esto es un gato. Di: gato.",
+   "source": "expansion"
+  },
+  {
+   "id": "tutor_8ad982cb_79",
+   "lang": "es",
+   "style": "tutor",
+   "text": "Estiraos como un gato al despertar y frotad la cabeza contra el brazo del otro.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_408201f0_26",
+   "lang": "es",
+   "style": "child",
+   "text": "Esto es un pato. Di: pato.",
+   "source": "expansion"
+  },
+  {
+   "id": "slow_408201f0_26",
+   "lang": "es",
+   "style": "slow",
+   "text": "Esto es un pato. Di: pato.",
+   "source": "expansion"
+  },
+  {
+   "id": "tutor_4a58cbca_60",
+   "lang": "es",
+   "style": "tutor",
+   "text": "Caminad en fila moviendo la cola como patos hasta la puerta.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_572e2425_27",
+   "lang": "es",
+   "style": "child",
+   "text": "Esto es una vaca. Di: vaca.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_06149ef4_20",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Otra vez! Di: vaca.",
+   "source": "expansion"
+  },
+  {
+   "id": "slow_572e2425_27",
+   "lang": "es",
+   "style": "slow",
+   "text": "Esto es una vaca. Di: vaca.",
+   "source": "expansion"
+  },
+  {
+   "id": "tutor_abc0f0e3_72",
+   "lang": "es",
+   "style": "tutor",
+   "text": "Poneos dos dedos en la cabeza como cuernos y decid la palabra mirándoos.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_7f26aac8_34",
+   "lang": "es",
+   "style": "child",
+   "text": "Esto es un elefante. Di: elefante.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_e4e481bd_24",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Otra vez! Di: elefante.",
+   "source": "expansion"
+  },
+  {
+   "id": "slow_7f26aac8_34",
+   "lang": "es",
+   "style": "slow",
+   "text": "Esto es un elefante. Di: elefante.",
+   "source": "expansion"
+  },
+  {
+   "id": "tutor_836edf96_82",
+   "lang": "es",
+   "style": "tutor",
+   "text": "Haced la trompa con el brazo colgando delante de la cara y balanceadla al decirlo.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_de38a519_31",
+   "lang": "es",
+   "style": "child",
+   "text": "Esto es una jirafa. Di: jirafa.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_5ad7470c_22",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Otra vez! Di: jirafa.",
+   "source": "expansion"
+  },
+  {
+   "id": "slow_de38a519_31",
+   "lang": "es",
+   "style": "slow",
+   "text": "Esto es una jirafa. Di: jirafa.",
+   "source": "expansion"
+  },
+  {
+   "id": "tutor_6f633a4d_89",
+   "lang": "es",
+   "style": "tutor",
+   "text": "Estirad el cuello y los brazos hacia arriba, lo más alto posible, para alcanzar una hoja.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_053df52a_28",
+   "lang": "es",
+   "style": "child",
+   "text": "Esto es un coche. Di: coche.",
    "source": "expansion"
   },
   {
@@ -2099,6 +2421,496 @@
    "lang": "es",
    "style": "child",
    "text": "¡Otra vez! Di: coche.",
+   "source": "expansion"
+  },
+  {
+   "id": "slow_053df52a_28",
+   "lang": "es",
+   "style": "slow",
+   "text": "Esto es un coche. Di: coche.",
+   "source": "expansion"
+  },
+  {
+   "id": "tutor_17b4c9e9_85",
+   "lang": "es",
+   "style": "tutor",
+   "text": "Empujad un coche de juguete por el suelo hasta chocar suavemente con el pie del niño.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_85a4a0ed_27",
+   "lang": "es",
+   "style": "child",
+   "text": "Esto es una moto. Di: moto.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_724fdf28_20",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Otra vez! Di: moto.",
+   "source": "expansion"
+  },
+  {
+   "id": "slow_85a4a0ed_27",
+   "lang": "es",
+   "style": "slow",
+   "text": "Esto es una moto. Di: moto.",
+   "source": "expansion"
+  },
+  {
+   "id": "tutor_5c5da649_83",
+   "lang": "es",
+   "style": "tutor",
+   "text": "Agarrad un manillar imaginario y acelerad los dos a la vez haciendo ruido de motor.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_f8ced904_26",
+   "lang": "es",
+   "style": "child",
+   "text": "Esto es un tren. Di: tren.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_aa1363e0_20",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Otra vez! Di: tren.",
+   "source": "expansion"
+  },
+  {
+   "id": "slow_f8ced904_26",
+   "lang": "es",
+   "style": "slow",
+   "text": "Esto es un tren. Di: tren.",
+   "source": "expansion"
+  },
+  {
+   "id": "tutor_3cbf925b_80",
+   "lang": "es",
+   "style": "tutor",
+   "text": "Haced un tren: el niño se agarra a tu cintura y dais una vuelta a la habitación.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_bb6c0dc8_28",
+   "lang": "es",
+   "style": "child",
+   "text": "Esto es un barco. Di: barco.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_3ced5de4_21",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Otra vez! Di: barco.",
+   "source": "expansion"
+  },
+  {
+   "id": "slow_bb6c0dc8_28",
+   "lang": "es",
+   "style": "slow",
+   "text": "Esto es un barco. Di: barco.",
+   "source": "expansion"
+  },
+  {
+   "id": "tutor_ec3751c2_80",
+   "lang": "es",
+   "style": "tutor",
+   "text": "Sentaos en el suelo y balanceaos como si el barco subiera y bajara con las olas.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_56deb24c_28",
+   "lang": "es",
+   "style": "child",
+   "text": "Esto es un avión. Di: avión.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_ca910218_21",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Otra vez! Di: avión.",
+   "source": "expansion"
+  },
+  {
+   "id": "slow_56deb24c_28",
+   "lang": "es",
+   "style": "slow",
+   "text": "Esto es un avión. Di: avión.",
+   "source": "expansion"
+  },
+  {
+   "id": "tutor_31879f72_89",
+   "lang": "es",
+   "style": "tutor",
+   "text": "Abrid los brazos como alas y dad una vuelta por la habitación inclinándoos en las curvas.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_115a6288_30",
+   "lang": "es",
+   "style": "child",
+   "text": "Esto es un camión. Di: camión.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_99b0c1e6_22",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Otra vez! Di: camión.",
+   "source": "expansion"
+  },
+  {
+   "id": "slow_115a6288_30",
+   "lang": "es",
+   "style": "slow",
+   "text": "Esto es un camión. Di: camión.",
+   "source": "expansion"
+  },
+  {
+   "id": "tutor_b6b714a2_80",
+   "lang": "es",
+   "style": "tutor",
+   "text": "Cargad tres juguetes en una caja y arrastradla juntos como si fuera el remolque.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_9ffae070_29",
+   "lang": "es",
+   "style": "child",
+   "text": "Este color es rojo. Di: rojo.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_f043a2df_20",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Otra vez! Di: rojo.",
+   "source": "expansion"
+  },
+  {
+   "id": "slow_9ffae070_29",
+   "lang": "es",
+   "style": "slow",
+   "text": "Este color es rojo. Di: rojo.",
+   "source": "expansion"
+  },
+  {
+   "id": "tutor_45b22b82_79",
+   "lang": "es",
+   "style": "tutor",
+   "text": "Buscad juntos tres cosas rojas por la habitación y tocadlas nombrando el color.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_a2d884f0_29",
+   "lang": "es",
+   "style": "child",
+   "text": "Este color es azul. Di: azul.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_6fa30a95_20",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Otra vez! Di: azul.",
+   "source": "expansion"
+  },
+  {
+   "id": "slow_a2d884f0_29",
+   "lang": "es",
+   "style": "slow",
+   "text": "Este color es azul. Di: azul.",
+   "source": "expansion"
+  },
+  {
+   "id": "tutor_b32cc018_75",
+   "lang": "es",
+   "style": "tutor",
+   "text": "Señalad el cielo o algo azul de la ropa del niño y decid el color a la vez.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_92285cdc_37",
+   "lang": "es",
+   "style": "child",
+   "text": "Este color es amarillo. Di: amarillo.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_fa9f4584_24",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Otra vez! Di: amarillo.",
+   "source": "expansion"
+  },
+  {
+   "id": "slow_92285cdc_37",
+   "lang": "es",
+   "style": "slow",
+   "text": "Este color es amarillo. Di: amarillo.",
+   "source": "expansion"
+  },
+  {
+   "id": "tutor_c22c30ea_73",
+   "lang": "es",
+   "style": "tutor",
+   "text": "Haced un sol grande con los brazos y decid el color mirando hacia arriba.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_26ba6b56_31",
+   "lang": "es",
+   "style": "child",
+   "text": "Este color es verde. Di: verde.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_15ba9027_21",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Otra vez! Di: verde.",
+   "source": "expansion"
+  },
+  {
+   "id": "slow_26ba6b56_31",
+   "lang": "es",
+   "style": "slow",
+   "text": "Este color es verde. Di: verde.",
+   "source": "expansion"
+  },
+  {
+   "id": "tutor_db3c6e92_71",
+   "lang": "es",
+   "style": "tutor",
+   "text": "Salid a buscar una hoja o una planta y tocadla mientras decís el color.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_8659cd60_33",
+   "lang": "es",
+   "style": "child",
+   "text": "Este color es morado. Di: morado.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_8d3cc7a7_22",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Otra vez! Di: morado.",
+   "source": "expansion"
+  },
+  {
+   "id": "slow_8659cd60_33",
+   "lang": "es",
+   "style": "slow",
+   "text": "Este color es morado. Di: morado.",
+   "source": "expansion"
+  },
+  {
+   "id": "tutor_dbf65bfb_93",
+   "lang": "es",
+   "style": "tutor",
+   "text": "Mezclad delante del niño un poco de rojo y azul (pintura o plastilina) y nombrad lo que sale.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_ec851570_33",
+   "lang": "es",
+   "style": "child",
+   "text": "Este color es marrón. Di: marrón.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_6c326bae_22",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Otra vez! Di: marrón.",
+   "source": "expansion"
+  },
+  {
+   "id": "slow_ec851570_33",
+   "lang": "es",
+   "style": "slow",
+   "text": "Este color es marrón. Di: marrón.",
+   "source": "expansion"
+  },
+  {
+   "id": "tutor_9a92eecb_78",
+   "lang": "es",
+   "style": "tutor",
+   "text": "Tocad juntos algo de madera —una mesa, una silla— y decid el color al tocarlo.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_b4806350_26",
+   "lang": "es",
+   "style": "child",
+   "text": "Esto es la mano. Di: mano.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_da0326cc_20",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Otra vez! Di: mano.",
+   "source": "expansion"
+  },
+  {
+   "id": "slow_b4806350_26",
+   "lang": "es",
+   "style": "slow",
+   "text": "Esto es la mano. Di: mano.",
+   "source": "expansion"
+  },
+  {
+   "id": "tutor_eeb5fc2b_72",
+   "lang": "es",
+   "style": "tutor",
+   "text": "Chocad las palmas tres veces, una por cada sílaba, mirándoos a los ojos.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_2a3cd500_24",
+   "lang": "es",
+   "style": "child",
+   "text": "Esto es el pie. Di: pie.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_348e79af_19",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Otra vez! Di: pie.",
+   "source": "expansion"
+  },
+  {
+   "id": "slow_2a3cd500_24",
+   "lang": "es",
+   "style": "slow",
+   "text": "Esto es el pie. Di: pie.",
+   "source": "expansion"
+  },
+  {
+   "id": "tutor_81aff0bc_85",
+   "lang": "es",
+   "style": "tutor",
+   "text": "Poned vuestros pies juntos y comparad el tamaño antes de dar tres pisotones al suelo.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_c9d81174_26",
+   "lang": "es",
+   "style": "child",
+   "text": "Esto es la boca. Di: boca.",
+   "source": "expansion"
+  },
+  {
+   "id": "slow_c9d81174_26",
+   "lang": "es",
+   "style": "slow",
+   "text": "Esto es la boca. Di: boca.",
+   "source": "expansion"
+  },
+  {
+   "id": "tutor_5e0a1899_72",
+   "lang": "es",
+   "style": "tutor",
+   "text": "Poneos frente al espejo y abrid y cerrad la boca a la vez, muy despacio.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_44df9a84_24",
+   "lang": "es",
+   "style": "child",
+   "text": "Esto es el ojo. Di: ojo.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_32a33aa7_19",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Otra vez! Di: ojo.",
+   "source": "expansion"
+  },
+  {
+   "id": "slow_44df9a84_24",
+   "lang": "es",
+   "style": "slow",
+   "text": "Esto es el ojo. Di: ojo.",
+   "source": "expansion"
+  },
+  {
+   "id": "tutor_c206060b_85",
+   "lang": "es",
+   "style": "tutor",
+   "text": "Jugad a taparos los ojos y destaparlos con un “¡cucú!” cada vez que decís la palabra.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_d161863c_32",
+   "lang": "es",
+   "style": "child",
+   "text": "Esto es la rodilla. Di: rodilla.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_626a97c4_23",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Otra vez! Di: rodilla.",
+   "source": "expansion"
+  },
+  {
+   "id": "slow_d161863c_32",
+   "lang": "es",
+   "style": "slow",
+   "text": "Esto es la rodilla. Di: rodilla.",
+   "source": "expansion"
+  },
+  {
+   "id": "tutor_031cc9e9_83",
+   "lang": "es",
+   "style": "tutor",
+   "text": "Doblad las rodillas a la vez hasta quedar en cuclillas y subid diciendo la palabra.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_9c5028aa_26",
+   "lang": "es",
+   "style": "child",
+   "text": "Esto es el codo. Di: codo.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_808de53a_20",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Otra vez! Di: codo.",
+   "source": "expansion"
+  },
+  {
+   "id": "slow_9c5028aa_26",
+   "lang": "es",
+   "style": "slow",
+   "text": "Esto es el codo. Di: codo.",
+   "source": "expansion"
+  },
+  {
+   "id": "tutor_045d70e6_79",
+   "lang": "es",
+   "style": "tutor",
+   "text": "Saludaos chocando los codos, como se hacía en la pandemia, tres veces seguidas.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_2892437c_28",
+   "lang": "es",
+   "style": "child",
+   "text": "Esto es el coche. Di: coche.",
    "source": "expansion"
   },
   {
@@ -2312,13 +3124,6 @@
    "source": "expansion"
   },
   {
-   "id": "child_06149ef4_20",
-   "lang": "es",
-   "style": "child",
-   "text": "¡Otra vez! Di: vaca.",
-   "source": "expansion"
-  },
-  {
    "id": "slow_dd9c99d8_26",
    "lang": "es",
    "style": "slow",
@@ -2421,13 +3226,6 @@
    "lang": "es",
    "style": "child",
    "text": "Esto es el gato. Di: gato.",
-   "source": "expansion"
-  },
-  {
-   "id": "child_a9146678_20",
-   "lang": "es",
-   "style": "child",
-   "text": "¡Otra vez! Di: gato.",
    "source": "expansion"
   },
   {
@@ -2645,13 +3443,6 @@
    "lang": "es",
    "style": "child",
    "text": "Esto es el tren. Di: tren.",
-   "source": "expansion"
-  },
-  {
-   "id": "child_aa1363e0_20",
-   "lang": "es",
-   "style": "child",
-   "text": "¡Otra vez! Di: tren.",
    "source": "expansion"
   },
   {
@@ -7681,6 +8472,342 @@
    "source": "expansion"
   },
   {
+   "id": "eu_child_bbdc59a1_30",
+   "lang": "eu",
+   "style": "child",
+   "text": "Hau sagarra da. Esan: sagarra.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_462c95eb_23",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: sagarra.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_bbdc59a1_30",
+   "lang": "eu",
+   "style": "slow",
+   "text": "Hau sagarra da. Esan: sagarra.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_20b3f3b1_61",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Eman haginkada bat sagar bati eta imitatu biek karraska: ñau!",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_fe0bb885_32",
+   "lang": "eu",
+   "style": "child",
+   "text": "Hau platanoa da. Esan: platanoa.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_69a967b0_24",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: platanoa.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_fe0bb885_32",
+   "lang": "eu",
+   "style": "slow",
+   "text": "Hau platanoa da. Esan: platanoa.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_f4b1a70e_90",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Zuritu platano bat elkarrekin, tira bakoitza poliki jaitsiz hitza esaten duzuen bitartean.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_cea917f1_30",
+   "lang": "eu",
+   "style": "child",
+   "text": "Hau laranja da. Esan: laranja.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_e6d25a99_23",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: laranja.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_cea917f1_30",
+   "lang": "eu",
+   "style": "slow",
+   "text": "Hau laranja da. Esan: laranja.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_b85a48e7_74",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Bota laranja bat mahai gainean batetik bestera, pase bakoitzean izendatuz.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_c2c793c9_28",
+   "lang": "eu",
+   "style": "child",
+   "text": "Hau udarea da. Esan: udarea.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_d0af60ce_22",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: udarea.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_c2c793c9_28",
+   "lang": "eu",
+   "style": "slow",
+   "text": "Hau udarea da. Esan: udarea.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_0c1acd96_73",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Marraztu udarearen silueta airean hatzarekin: zabala behean, estua goian.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_d2dcc0cd_26",
+   "lang": "eu",
+   "style": "child",
+   "text": "Hau anana da. Esan: anana.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_bb7ad3bf_21",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: anana.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_d2dcc0cd_26",
+   "lang": "eu",
+   "style": "slow",
+   "text": "Hau anana da. Esan: anana.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_09e5747e_71",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Jarri eskuak zabalik buru gainean ananaren koroa bezala eta esan hitza.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_0555c909_30",
+   "lang": "eu",
+   "style": "child",
+   "text": "Hau gerezia da. Esan: gerezia.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_4847aa9b_23",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: gerezia.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_0555c909_30",
+   "lang": "eu",
+   "style": "slow",
+   "text": "Hau gerezia da. Esan: gerezia.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_cff774ad_81",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Zintzilikatu bi gerezi belarritik belarritakoak bezala eta barre egin elkarrekin.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_27402b25_32",
+   "lang": "eu",
+   "style": "child",
+   "text": "Hau txakurra da. Esan: txakurra.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_40f03b6c_24",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: txakurra.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_27402b25_32",
+   "lang": "eu",
+   "style": "slow",
+   "text": "Hau txakurra da. Esan: txakurra.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_df0bf9b6_64",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Jarri lau hankatan eta eman hiru pauso elkarrekin zaunka eginez.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_457a909d_26",
+   "lang": "eu",
+   "style": "child",
+   "text": "Hau katua da. Esan: katua.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_0a6c69dc_21",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: katua.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_457a909d_26",
+   "lang": "eu",
+   "style": "slow",
+   "text": "Hau katua da. Esan: katua.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_e6b209d4_77",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Luzatu katu bat esnatzean bezala eta igurtzi burua bestearen besoaren kontra.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_40191ec5_28",
+   "lang": "eu",
+   "style": "child",
+   "text": "Hau ahatea da. Esan: ahatea.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_50227544_22",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: ahatea.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_40191ec5_28",
+   "lang": "eu",
+   "style": "slow",
+   "text": "Hau ahatea da. Esan: ahatea.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_35474cc2_52",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Ibili ilaran isatsa mugituz ahateak bezala ateraino.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_a7678215_26",
+   "lang": "eu",
+   "style": "child",
+   "text": "Hau behia da. Esan: behia.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_fb6c0ffd_21",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: behia.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_a7678215_26",
+   "lang": "eu",
+   "style": "slow",
+   "text": "Hau behia da. Esan: behia.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_804d2c64_66",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Jarri bi hatz buruan adarrak bezala eta esan hitza elkarri begira.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_187731dd_34",
+   "lang": "eu",
+   "style": "child",
+   "text": "Hau elefantea da. Esan: elefantea.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_cdcb313d_25",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: elefantea.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_187731dd_34",
+   "lang": "eu",
+   "style": "slow",
+   "text": "Hau elefantea da. Esan: elefantea.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_933c3bc5_77",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Egin tronpa besoa aurpegiaren aurrean zintzilik utzita eta kulunkatu esatean.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_bda23eff_28",
+   "lang": "eu",
+   "style": "child",
+   "text": "Hau jirafa da. Esan: jirafa.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_2528ea25_22",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: jirafa.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_bda23eff_28",
+   "lang": "eu",
+   "style": "slow",
+   "text": "Hau jirafa da. Esan: jirafa.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_6cdbba5e_71",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Luzatu lepoa eta besoak ahalik eta gorenera, hosto bat hartzeko bezala.",
+   "source": "expansion"
+  },
+  {
    "id": "eu_child_4557280d_28",
    "lang": "eu",
    "style": "child",
@@ -7699,6 +8826,489 @@
    "lang": "eu",
    "style": "slow",
    "text": "Hau kotxea da. Esan: kotxea.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_e2449004_74",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Bultza jostailuzko kotxe bat lurretik haurraren oinarekin talka egin arte.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_c838f135_30",
+   "lang": "eu",
+   "style": "child",
+   "text": "Hau motorra da. Esan: motorra.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_3c861996_23",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: motorra.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_c838f135_30",
+   "lang": "eu",
+   "style": "slow",
+   "text": "Hau motorra da. Esan: motorra.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_ca81f57c_73",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Heldu irudizko esku-lekuari eta azeleratu biek batera motor-hotsa eginez.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_4df00785_26",
+   "lang": "eu",
+   "style": "child",
+   "text": "Hau trena da. Esan: trena.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_144cde46_21",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: trena.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_4df00785_26",
+   "lang": "eu",
+   "style": "slow",
+   "text": "Hau trena da. Esan: trena.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_0ebb6f25_76",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Egin tren bat: haurra gerritik heltzen dizu eta bira bat ematen duzue gelan.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_379bf9c5_38",
+   "lang": "eu",
+   "style": "child",
+   "text": "Hau itsasontzia da. Esan: itsasontzia.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_c4104bab_27",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: itsasontzia.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_379bf9c5_38",
+   "lang": "eu",
+   "style": "slow",
+   "text": "Hau itsasontzia da. Esan: itsasontzia.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_af9238ad_81",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Eseri lurrean eta kulunkatu itsasontzia olatuekin igo eta jaitsiko balitz bezala.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_e99f4921_34",
+   "lang": "eu",
+   "style": "child",
+   "text": "Hau hegazkina da. Esan: hegazkina.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_ef5c9810_25",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: hegazkina.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_e99f4921_34",
+   "lang": "eu",
+   "style": "slow",
+   "text": "Hau hegazkina da. Esan: hegazkina.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_a4868e81_76",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Zabaldu besoak hegalak bezala eta eman bira bat gelan bihurguneetan okertuz.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_a69a9b9d_30",
+   "lang": "eu",
+   "style": "child",
+   "text": "Hau kamioia da. Esan: kamioia.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_3b9c0f71_23",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: kamioia.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_a69a9b9d_30",
+   "lang": "eu",
+   "style": "slow",
+   "text": "Hau kamioia da. Esan: kamioia.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_5da960e7_79",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Kargatu hiru jostailu kaxa batean eta arrastatu elkarrekin atoia balitz bezala.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_254464c5_35",
+   "lang": "eu",
+   "style": "child",
+   "text": "Kolore hau gorria da. Esan: gorria.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_ff2662be_22",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: gorria.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_254464c5_35",
+   "lang": "eu",
+   "style": "slow",
+   "text": "Kolore hau gorria da. Esan: gorria.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_564e8077_69",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Bilatu elkarrekin hiru gauza gorri gelan eta ukitu kolorea izendatuz.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_d6355e87_35",
+   "lang": "eu",
+   "style": "child",
+   "text": "Kolore hau urdina da. Esan: urdina.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_76328d49_22",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: urdina.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_d6355e87_35",
+   "lang": "eu",
+   "style": "slow",
+   "text": "Kolore hau urdina da. Esan: urdina.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_2c0f26b0_78",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Seinalatu zerua edo haurraren arropako zerbait urdina eta esan kolorea batera.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_5127b7f1_33",
+   "lang": "eu",
+   "style": "child",
+   "text": "Kolore hau horia da. Esan: horia.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_6a91a447_21",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: horia.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_5127b7f1_33",
+   "lang": "eu",
+   "style": "slow",
+   "text": "Kolore hau horia da. Esan: horia.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_40a62a97_63",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Egin eguzki handi bat besoekin eta esan kolorea gorantz begira.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_12123eeb_35",
+   "lang": "eu",
+   "style": "child",
+   "text": "Kolore hau berdea da. Esan: berdea.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_e95b51a5_22",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: berdea.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_12123eeb_35",
+   "lang": "eu",
+   "style": "slow",
+   "text": "Kolore hau berdea da. Esan: berdea.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_52e53f95_80",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Atera hosto edo landare bat bilatzera eta ukitu kolorea esaten duzuen bitartean.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_5931ff1d_33",
+   "lang": "eu",
+   "style": "child",
+   "text": "Kolore hau morea da. Esan: morea.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_877803ce_21",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: morea.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_5931ff1d_33",
+   "lang": "eu",
+   "style": "slow",
+   "text": "Kolore hau morea da. Esan: morea.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_6b280e1b_79",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Nahastu haurraren aurrean gorri eta urdin apur bat eta izendatu ateratzen dena.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_9c932d31_37",
+   "lang": "eu",
+   "style": "child",
+   "text": "Kolore hau marroia da. Esan: marroia.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_ccab042d_23",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: marroia.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_9c932d31_37",
+   "lang": "eu",
+   "style": "slow",
+   "text": "Kolore hau marroia da. Esan: marroia.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_b20b9c19_84",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Ukitu elkarrekin egurrezko zerbait —mahai bat, aulki bat— eta esan kolorea ukitzean.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_39c1d301_26",
+   "lang": "eu",
+   "style": "child",
+   "text": "Hau eskua da. Esan: eskua.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_95e4b04b_21",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: eskua.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_39c1d301_26",
+   "lang": "eu",
+   "style": "slow",
+   "text": "Hau eskua da. Esan: eskua.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_0b76b508_70",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Jo eskuak hiru aldiz, silaba bakoitzeko bat, elkarri begietara begira.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_e66e5f33_24",
+   "lang": "eu",
+   "style": "child",
+   "text": "Hau oina da. Esan: oina.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_4b439815_20",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: oina.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_e66e5f33_24",
+   "lang": "eu",
+   "style": "slow",
+   "text": "Hau oina da. Esan: oina.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_c2cf7ffe_80",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Jarri oinak elkarren ondoan eta konparatu tamaina, gero hiru zapladatxo lurrean.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_ab0c589f_24",
+   "lang": "eu",
+   "style": "child",
+   "text": "Hau ahoa da. Esan: ahoa.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_610ead39_20",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: ahoa.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_ab0c589f_24",
+   "lang": "eu",
+   "style": "slow",
+   "text": "Hau ahoa da. Esan: ahoa.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_5a892f2c_68",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Jarri ispiluaren aurrean eta ireki eta itxi ahoa batera, oso poliki.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_d60b2e6d_26",
+   "lang": "eu",
+   "style": "child",
+   "text": "Hau begia da. Esan: begia.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_81cf83ee_21",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: begia.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_d60b2e6d_26",
+   "lang": "eu",
+   "style": "slow",
+   "text": "Hau begia da. Esan: begia.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_d34ea5e7_83",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Jolastu begiak estali eta agertzera \"kuku!\" batekin hitza esaten duzuen bakoitzean.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_1765ee85_30",
+   "lang": "eu",
+   "style": "child",
+   "text": "Hau belauna da. Esan: belauna.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_de1c047e_23",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: belauna.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_1765ee85_30",
+   "lang": "eu",
+   "style": "slow",
+   "text": "Hau belauna da. Esan: belauna.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_292ef0bd_65",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Tolestu belaunak batera kokoriko jarri arte eta igo hitza esanez.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_642e3061_30",
+   "lang": "eu",
+   "style": "child",
+   "text": "Hau ukondoa da. Esan: ukondoa.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_8e228327_23",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: ukondoa.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_slow_642e3061_30",
+   "lang": "eu",
+   "style": "slow",
+   "text": "Hau ukondoa da. Esan: ukondoa.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_tutor_de5e6de7_47",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Agurtu elkar ukondoak joz, hiru aldiz jarraian.",
    "source": "expansion"
   },
   {
@@ -7793,27 +9403,6 @@
    "source": "expansion"
   },
   {
-   "id": "eu_child_27402b25_32",
-   "lang": "eu",
-   "style": "child",
-   "text": "Hau txakurra da. Esan: txakurra.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_child_40f03b6c_24",
-   "lang": "eu",
-   "style": "child",
-   "text": "Berriro! Esan: txakurra.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_slow_27402b25_32",
-   "lang": "eu",
-   "style": "slow",
-   "text": "Hau txakurra da. Esan: txakurra.",
-   "source": "expansion"
-  },
-  {
    "id": "eu_tutor_57a152f8_91",
    "lang": "eu",
    "style": "tutor",
@@ -7895,27 +9484,6 @@
    "lang": "eu",
    "style": "tutor",
    "text": "Laztandu panpina bat edo manta leun bat eta esan “iletsua” eskua poliki pasatzen duzuen bitartean.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_child_a7678215_26",
-   "lang": "eu",
-   "style": "child",
-   "text": "Hau behia da. Esan: behia.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_child_fb6c0ffd_21",
-   "lang": "eu",
-   "style": "child",
-   "text": "Berriro! Esan: behia.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_slow_a7678215_26",
-   "lang": "eu",
-   "style": "slow",
-   "text": "Hau behia da. Esan: behia.",
    "source": "expansion"
   },
   {
@@ -8007,27 +9575,6 @@
    "lang": "eu",
    "style": "tutor",
    "text": "Ireki besoak ahalik eta gehien eta jarri puntetan “haaandia!” esanez.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_child_457a909d_26",
-   "lang": "eu",
-   "style": "child",
-   "text": "Hau katua da. Esan: katua.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_child_0a6c69dc_21",
-   "lang": "eu",
-   "style": "child",
-   "text": "Berriro! Esan: katua.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_slow_457a909d_26",
-   "lang": "eu",
-   "style": "slow",
-   "text": "Hau katua da. Esan: katua.",
    "source": "expansion"
   },
   {
@@ -8231,27 +9778,6 @@
    "lang": "eu",
    "style": "tutor",
    "text": "Busti apur bat umearen eskua zapi batekin eta esan “busti” eskuak astinduz.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_child_4df00785_26",
-   "lang": "eu",
-   "style": "child",
-   "text": "Hau trena da. Esan: trena.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_child_144cde46_21",
-   "lang": "eu",
-   "style": "child",
-   "text": "Berriro! Esan: trena.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_slow_4df00785_26",
-   "lang": "eu",
-   "style": "slow",
-   "text": "Hau trena da. Esan: trena.",
    "source": "expansion"
   },
   {

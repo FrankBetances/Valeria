@@ -11,7 +11,7 @@
 // (enumerado en el corpus). Módulo PURO (enumerable en build-time).
 // ============================================================================
 import {
-  DailyScenario, ProgressionSequence, ContrastCapsule,
+  DailyScenario, LexicalCategory, ProgressionSequence, ContrastCapsule,
 } from './valeriaSemanticExpansion';
 
 // ---------------------------------------------------------------------------
@@ -30,6 +30,7 @@ export const DAILY_SCENARIOS_EU: DailyScenario[] = [
       },
       {
         id: 'goiza-eskuila', type: 'sustantivo', label: 'eskuila', emoji: '🪥',
+        pictogram: 'cepillo',
         visual_prompt: 'Hortzetako eskuila horizontalean pasta marra batekin, hondorik gabe, kontraste handia, ingerada lodia.',
         tts_string: 'Hau eskuila da. Esan: eskuila.',
         stt_expected_array: ['eskuila', 'ekuila', 'kuila', 'eskuil'],
@@ -37,6 +38,7 @@ export const DAILY_SCENARIOS_EU: DailyScenario[] = [
       },
       {
         id: 'goiza-garbitu', type: 'verbo', label: 'garbitu', emoji: '🧼',
+        pictogram: 'jabon',
         visual_prompt: 'Bi esku xaboi-burbuilekin igurzten, hondorik gabe, kontraste handia, ingerada lodia.',
         tts_string: 'Eskuak garbitzen ditugu. Esan: garbitu.',
         stt_expected_array: ['garbitu', 'gabitu', 'arbitu', 'gabi'],
@@ -44,6 +46,7 @@ export const DAILY_SCENARIOS_EU: DailyScenario[] = [
       },
       {
         id: 'goiza-jantzi', type: 'verbo', label: 'jantzi', emoji: '👕',
+        pictogram: 'vestir',
         visual_prompt: 'Haur-kamiseta aurretik silueta baten burutik sartzen, hondorik gabe, kontraste handia, ingerada lodia.',
         tts_string: 'Kamiseta janzten dugu. Esan: jantzi.',
         stt_expected_array: ['jantzi', 'antzi', 'atzi', 'jantz'],
@@ -51,6 +54,7 @@ export const DAILY_SCENARIOS_EU: DailyScenario[] = [
       },
       {
         id: 'goiza-garbi', type: 'adjetivo', label: 'garbi', emoji: '🥄',
+        pictogram: 'mano-limpia',
         visual_prompt: 'Esku irekia distiratsu, inguruan izpiekin, hondorik gabe, kontraste handia, ingerada lodia.',
         tts_string: 'Eskuak garbi daude. Esan: garbi.',
         stt_expected_array: ['garbi', 'gabi', 'abi', 'garb'],
@@ -70,6 +74,7 @@ export const DAILY_SCENARIOS_EU: DailyScenario[] = [
     items: [
       {
         id: 'jan-koilara', type: 'sustantivo', label: 'koilara', emoji: '🥄',
+        pictogram: 'cuchara',
         visual_prompt: 'Koilara bakarra goitik ikusita, kirtena behera, hondorik gabe, kontraste handia, ingerada lodia.',
         tts_string: 'Hau koilara da. Esan: koilara.',
         stt_expected_array: ['koilara', 'oilara', 'kolara', 'koila'],
@@ -77,6 +82,7 @@ export const DAILY_SCENARIOS_EU: DailyScenario[] = [
       },
       {
         id: 'jan-basoa', type: 'sustantivo', label: 'basoa', emoji: '🥛',
+        pictogram: 'vaso',
         visual_prompt: 'Ura erdiraino duen basoa aurretik, hondorik gabe, kontraste handia, ura urdin lauan.',
         tts_string: 'Hau basoa da. Esan: basoa.',
         stt_expected_array: ['basoa', 'asoa', 'baso', 'bao'],
@@ -84,6 +90,7 @@ export const DAILY_SCENARIOS_EU: DailyScenario[] = [
       },
       {
         id: 'jan-jan', type: 'verbo', label: 'jan', emoji: '😋',
+        pictogram: 'comer',
         visual_prompt: 'Aho irekia janariaz betetako koilara jasotzen, profil sinplean, hondorik gabe, kontraste handia.',
         tts_string: 'Goazen jatera. Esan: jan.',
         stt_expected_array: ['jan', 'an', 'ñan', 'ja'],
@@ -91,6 +98,7 @@ export const DAILY_SCENARIOS_EU: DailyScenario[] = [
       },
       {
         id: 'jan-edan', type: 'verbo', label: 'edan', emoji: '🥤',
+        pictogram: 'vaso',
         visual_prompt: 'Haur-silueta baso okertu batetik edaten, hondorik gabe, kontraste handia, ingerada lodia.',
         tts_string: 'Goazen ura edatera. Esan: edan.',
         stt_expected_array: ['edan', 'eran', 'ean', 'eda'],
@@ -105,6 +113,7 @@ export const DAILY_SCENARIOS_EU: DailyScenario[] = [
       },
       {
         id: 'jan-ñam', type: 'onomatopeya', label: 'ñam ñam', emoji: '😋',
+        pictogram: 'comer',
         visual_prompt: 'Aho murtxikatzailea inguruan apurrekin eta mugimendu-marrekin, hondorik gabe, kontraste handia.',
         tts_string: 'Ahoak ñam, ñam egiten du. Esan: ñam, ñam.',
         stt_expected_array: ['ñam ñam', 'ñam', 'nam nam', 'am am'],
@@ -124,6 +133,7 @@ export const DAILY_SCENARIOS_EU: DailyScenario[] = [
       },
       {
         id: 'parke-txirristra', type: 'sustantivo', label: 'txirristra', emoji: '🛝',
+        pictogram: 'tobogan',
         visual_prompt: 'Haur-txirristra albotik eskailerarekin eta arrapala kurbatuarekin, hondorik gabe, kontraste handia.',
         tts_string: 'Hau txirristra da. Esan: txirristra.',
         stt_expected_array: ['txirristra', 'tirristra', 'txirista', 'txirri'],
@@ -131,6 +141,7 @@ export const DAILY_SCENARIOS_EU: DailyScenario[] = [
       },
       {
         id: 'parke-korrika', type: 'verbo', label: 'korrika', emoji: '🏃',
+        pictogram: 'correr',
         visual_prompt: 'Haur-silueta korrika atzean abiadura-marrekin, hondorik gabe, kontraste handia, ingerada lodia.',
         tts_string: 'Parkean korrika egiten dugu. Esan: korrika.',
         stt_expected_array: ['korrika', 'orrika', 'korika', 'korri'],
@@ -138,6 +149,7 @@ export const DAILY_SCENARIOS_EU: DailyScenario[] = [
       },
       {
         id: 'parke-salto', type: 'verbo', label: 'salto', emoji: '🤸',
+        pictogram: 'saltar',
         visual_prompt: 'Haur-silueta salto eginez oinak lurretik altxatuta jauzi-kurba batekin, hondorik gabe, kontraste handia.',
         tts_string: 'Igela bezala salto egiten dugu. Esan: salto.',
         stt_expected_array: ['salto', 'alto', 'atto', 'sato'],
@@ -171,6 +183,7 @@ export const DAILY_SCENARIOS_EU: DailyScenario[] = [
       },
       {
         id: 'bainu-xaboia', type: 'sustantivo', label: 'xaboia', emoji: '🧼',
+        pictogram: 'jabon',
         visual_prompt: 'Xaboi-pastilla hiru burbuilaz inguratuta, hondorik gabe, kontraste handia, kolore lauak.',
         tts_string: 'Hau xaboia da. Esan: xaboia.',
         stt_expected_array: ['xaboia', 'saboia', 'aboia', 'xabo'],
@@ -178,6 +191,7 @@ export const DAILY_SCENARIOS_EU: DailyScenario[] = [
       },
       {
         id: 'bainu-bainatu', type: 'verbo', label: 'bainatu', emoji: '🛀',
+        pictogram: 'banar',
         visual_prompt: 'Haur-silueta bainuontzi barruan burbuilekin, hondorik gabe, kontraste handia, ingerada lodia.',
         tts_string: 'Panpina bainatuko dugu. Esan: bainatu.',
         stt_expected_array: ['bainatu', 'ainatu', 'banatu', 'baina'],
@@ -185,6 +199,7 @@ export const DAILY_SCENARIOS_EU: DailyScenario[] = [
       },
       {
         id: 'bainu-igurtzi', type: 'verbo', label: 'igurtzi', emoji: '🧽',
+        pictogram: 'esponja',
         visual_prompt: 'Belakia igurzten mugimendu-marra biribilekin eta burbuilekin, hondorik gabe, kontraste handia.',
         tts_string: 'Belakia besotik pasatzen dugu. Esan: igurtzi.',
         stt_expected_array: ['igurtzi', 'igutzi', 'iurtzi', 'gurtzi'],
@@ -225,6 +240,7 @@ export const DAILY_SCENARIOS_EU: DailyScenario[] = [
       },
       {
         id: 'gau-lo', type: 'verbo', label: 'lo', emoji: '😴',
+        pictogram: 'dormir',
         visual_prompt: 'Aurpegitxoa begiak itxita burko baten gainean hiru "Z" letrarekin, hondorik gabe, kontraste handia.',
         tts_string: 'Lotara joateko ordua da. Esan: lo.',
         stt_expected_array: ['lo', 'o', 'mo', 'lu'],
@@ -232,6 +248,7 @@ export const DAILY_SCENARIOS_EU: DailyScenario[] = [
       },
       {
         id: 'gau-besarkatu', type: 'verbo', label: 'besarkatu', emoji: '🤗',
+        pictogram: 'abrazo',
         visual_prompt: 'Bi silueta besarkatzen bihotz txiki batekin gainean, hondorik gabe, kontraste handia.',
         tts_string: 'Besarkada bat ematen dugu. Esan: besarkatu.',
         stt_expected_array: ['besarkatu', 'besakatu', 'bearkatu', 'besarka'],
@@ -250,6 +267,264 @@ export const DAILY_SCENARIOS_EU: DailyScenario[] = [
         tts_string: 'Hontzak uh, uh egiten du. Esan: uh, uh.',
         stt_expected_array: ['uh uh', 'u u', 'uh', 'uu'],
         parent_tpr_action: 'Jarri eskuak betaurreko gisa begien inguruan eta biratu burua hontza bat bezala "uh, uh!" esanez.',
+      },
+    ],
+  },
+];
+
+// ---------------------------------------------------------------------------
+// KATEGORIA LEXIKOAK · Categorías léxicas en euskera (DC-1 opción C · ES-08)
+//
+// ⚠️ ESTADO: BORRADOR · PENDIENTE DE VALIDACIÓN POR HABLANTE NATIVO.
+// El resto de este banco lo validaron hablantes de euskera en julio de 2026,
+// pero ESTE bloque es posterior a esa revisión: son cadenas nuevas que nadie ha
+// leído todavía. Requieren la misma validación que el resto antes de publicar,
+// con dos focos: la forma absolutiva definida de cada palabra y, sobre todo,
+// las aproximaciones de `stt_expected_array`, que codifican cómo suena la
+// palabra en boca de un niño vasco de tres o cuatro años — eso no se deduce
+// del castellano.
+//
+// La progresión de dificultad se calibra con la misma lógica de familiaridad
+// que fijó ACOPROS, no con la complejidad articulatoria.
+// ---------------------------------------------------------------------------
+export const LEXICAL_CATEGORIES_EU: LexicalCategory[] = [
+  {
+    id: 'eu-cat-fruta', title: 'Frutak', icon: '🍎',
+    subtitle: 'Egunerokotik noizean behin ikusten denera',
+    items: [
+      {
+        id: 'eu-cat-fruta-sagarra', type: 'sustantivo', label: 'sagarra', emoji: '🍎', difficulty: 1,
+        visual_prompt: 'Sagar gorria aurretik hosto berdearekin, hondorik gabe, kontraste handia, ingerada lodia.',
+        tts_string: 'Hau sagarra da. Esan: sagarra.',
+        stt_expected_array: ['sagarra', 'sagara', 'agarra', 'sagar', 'tagarra'],
+        parent_tpr_action: 'Eman haginkada bat sagar bati eta imitatu biek karraska: ñau!',
+      },
+      {
+        id: 'eu-cat-fruta-platanoa', type: 'sustantivo', label: 'platanoa', emoji: '🍌', difficulty: 1,
+        visual_prompt: 'Platano horia okertuta alboetatik ikusita, hondorik gabe, kontraste handia, ingerada lodia.',
+        tts_string: 'Hau platanoa da. Esan: platanoa.',
+        stt_expected_array: ['platanoa', 'platano', 'patanoa', 'tanoa', 'palatanoa'],
+        parent_tpr_action: 'Zuritu platano bat elkarrekin, tira bakoitza poliki jaitsiz hitza esaten duzuen bitartean.',
+      },
+      {
+        id: 'eu-cat-fruta-laranja', type: 'sustantivo', label: 'laranja', emoji: '🍊', difficulty: 1,
+        visual_prompt: 'Laranja osoa aurretik hostoarekin, hondorik gabe, kontraste handia, ingerada lodia.',
+        tts_string: 'Hau laranja da. Esan: laranja.',
+        stt_expected_array: ['laranja', 'laanja', 'aranja', 'lanja', 'laranha'],
+        parent_tpr_action: 'Bota laranja bat mahai gainean batetik bestera, pase bakoitzean izendatuz.',
+      },
+      {
+        id: 'eu-cat-fruta-udarea', type: 'sustantivo', label: 'udarea', emoji: '🍐', difficulty: 2,
+        visual_prompt: 'Udare berdea alboetatik kirtenarekin, hondorik gabe, kontraste handia, ingerada lodia.',
+        tts_string: 'Hau udarea da. Esan: udarea.',
+        stt_expected_array: ['udarea', 'udare', 'uarea', 'darea', 'udalea'],
+        parent_tpr_action: 'Marraztu udarearen silueta airean hatzarekin: zabala behean, estua goian.',
+      },
+      {
+        id: 'eu-cat-fruta-anana', type: 'sustantivo', label: 'anana', emoji: '🍍', difficulty: 3,
+        visual_prompt: 'Anana osoa hosto-koroarekin, hondorik gabe, kontraste handia, ingerada lodia.',
+        tts_string: 'Hau anana da. Esan: anana.',
+        stt_expected_array: ['anana', 'anan', 'nana', 'ananas', 'aana'],
+        parent_tpr_action: 'Jarri eskuak zabalik buru gainean ananaren koroa bezala eta esan hitza.',
+      },
+      {
+        id: 'eu-cat-fruta-gerezia', type: 'sustantivo', label: 'gerezia', emoji: '🍒', difficulty: 3,
+        visual_prompt: 'Bi gerezi gorri kirtenetik lotuta, hondorik gabe, kontraste handia, ingerada lodia.',
+        tts_string: 'Hau gerezia da. Esan: gerezia.',
+        stt_expected_array: ['gerezia', 'gerezi', 'erezia', 'geezia', 'keresia'],
+        parent_tpr_action: 'Zintzilikatu bi gerezi belarritik belarritakoak bezala eta barre egin elkarrekin.',
+      },
+    ],
+  },
+  {
+    id: 'eu-cat-animaliak', title: 'Animaliak', icon: '🐶',
+    subtitle: 'Etxekoetatik zoologikoan bakarrik ikusten direnetara',
+    items: [
+      {
+        id: 'eu-cat-animaliak-txakurra', type: 'sustantivo', label: 'txakurra', emoji: '🐶', difficulty: 1,
+        visual_prompt: 'Txakur baten burua aurretik, belarriak eroriak, hondorik gabe, kontraste handia, ingerada lodia.',
+        tts_string: 'Hau txakurra da. Esan: txakurra.',
+        stt_expected_array: ['txakurra', 'takurra', 'txakur', 'akurra', 'txakua'],
+        parent_tpr_action: 'Jarri lau hankatan eta eman hiru pauso elkarrekin zaunka eginez.',
+      },
+      {
+        id: 'eu-cat-animaliak-katua', type: 'sustantivo', label: 'katua', emoji: '🐱', difficulty: 1,
+        visual_prompt: 'Katu baten burua aurretik bibote markatuekin, hondorik gabe, kontraste handia, ingerada lodia.',
+        tts_string: 'Hau katua da. Esan: katua.',
+        stt_expected_array: ['katua', 'katu', 'atua', 'tatua', 'kaua'],
+        parent_tpr_action: 'Luzatu katu bat esnatzean bezala eta igurtzi burua bestearen besoaren kontra.',
+      },
+      {
+        id: 'eu-cat-animaliak-ahatea', type: 'sustantivo', label: 'ahatea', emoji: '🦆', difficulty: 2,
+        visual_prompt: 'Ahatea alboetatik moko laranjarekin, hondorik gabe, kontraste handia, ingerada lodia.',
+        tts_string: 'Hau ahatea da. Esan: ahatea.',
+        stt_expected_array: ['ahatea', 'ahate', 'atea', 'aatea', 'ahatia'],
+        parent_tpr_action: 'Ibili ilaran isatsa mugituz ahateak bezala ateraino.',
+      },
+      {
+        id: 'eu-cat-animaliak-behia', type: 'sustantivo', label: 'behia', emoji: '🐄', difficulty: 2,
+        visual_prompt: 'Behia alboetatik orbanekin, hondorik gabe, kontraste handia, ingerada lodia.',
+        tts_string: 'Hau behia da. Esan: behia.',
+        stt_expected_array: ['behia', 'beia', 'behi', 'bea', 'peia'],
+        parent_tpr_action: 'Jarri bi hatz buruan adarrak bezala eta esan hitza elkarri begira.',
+      },
+      {
+        id: 'eu-cat-animaliak-elefantea', type: 'sustantivo', label: 'elefantea', emoji: '🐘', difficulty: 3,
+        visual_prompt: 'Elefantea alboetatik tronpa altxatuta, hondorik gabe, kontraste handia, ingerada lodia.',
+        tts_string: 'Hau elefantea da. Esan: elefantea.',
+        stt_expected_array: ['elefantea', 'elefante', 'efantea', 'lefantea', 'efatea'],
+        parent_tpr_action: 'Egin tronpa besoa aurpegiaren aurrean zintzilik utzita eta kulunkatu esatean.',
+      },
+      {
+        id: 'eu-cat-animaliak-jirafa', type: 'sustantivo', label: 'jirafa', emoji: '🦒', difficulty: 3,
+        visual_prompt: 'Jirafa osorik lepo luzearekin eta orbanekin, hondorik gabe, kontraste handia, ingerada lodia.',
+        tts_string: 'Hau jirafa da. Esan: jirafa.',
+        stt_expected_array: ['jirafa', 'irafa', 'jifafa', 'girafa', 'jiafa'],
+        parent_tpr_action: 'Luzatu lepoa eta besoak ahalik eta gorenera, hosto bat hartzeko bezala.',
+      },
+    ],
+  },
+  {
+    id: 'eu-cat-garraioak', title: 'Garraioak', icon: '🚗',
+    subtitle: 'Kalean pasatzen denetik ia inoiz ikusten ez denera',
+    items: [
+      {
+        id: 'eu-cat-garraioak-kotxea', type: 'sustantivo', label: 'kotxea', emoji: '🚗', difficulty: 1,
+        visual_prompt: 'Kotxea alboetatik, kolore lauak, hondorik gabe, kontraste handia, ingerada lodia.',
+        tts_string: 'Hau kotxea da. Esan: kotxea.',
+        stt_expected_array: ['kotxea', 'kotxe', 'otxea', 'kotea', 'totxea'],
+        parent_tpr_action: 'Bultza jostailuzko kotxe bat lurretik haurraren oinarekin talka egin arte.',
+      },
+      {
+        id: 'eu-cat-garraioak-motorra', type: 'sustantivo', label: 'motorra', emoji: '🏍️', difficulty: 1,
+        visual_prompt: 'Motozikleta alboetatik, kolore lauak, hondorik gabe, kontraste handia, ingerada lodia.',
+        tts_string: 'Hau motorra da. Esan: motorra.',
+        stt_expected_array: ['motorra', 'motor', 'otorra', 'motoa', 'botorra'],
+        parent_tpr_action: 'Heldu irudizko esku-lekuari eta azeleratu biek batera motor-hotsa eginez.',
+      },
+      {
+        id: 'eu-cat-garraioak-trena', type: 'sustantivo', label: 'trena', emoji: '🚆', difficulty: 2,
+        visual_prompt: 'Trena alboetatik bi bagoirekin, hondorik gabe, kontraste handia, ingerada lodia.',
+        tts_string: 'Hau trena da. Esan: trena.',
+        stt_expected_array: ['trena', 'tena', 'tren', 'telena', 'ena'],
+        parent_tpr_action: 'Egin tren bat: haurra gerritik heltzen dizu eta bira bat ematen duzue gelan.',
+      },
+      {
+        id: 'eu-cat-garraioak-itsasontzia', type: 'sustantivo', label: 'itsasontzia', emoji: '🚢', difficulty: 2,
+        visual_prompt: 'Itsasontzia alboetatik ur-lerro baten gainean, hondorik gabe, kontraste handia, ingerada lodia.',
+        tts_string: 'Hau itsasontzia da. Esan: itsasontzia.',
+        stt_expected_array: ['itsasontzia', 'itsasontzi', 'sasontzia', 'itasontzia', 'itsaontzia'],
+        parent_tpr_action: 'Eseri lurrean eta kulunkatu itsasontzia olatuekin igo eta jaitsiko balitz bezala.',
+      },
+      {
+        id: 'eu-cat-garraioak-hegazkina', type: 'sustantivo', label: 'hegazkina', emoji: '✈️', difficulty: 3,
+        visual_prompt: 'Hegazkina behetik ikusita hegalak zabalik, hondorik gabe, kontraste handia, ingerada lodia.',
+        tts_string: 'Hau hegazkina da. Esan: hegazkina.',
+        stt_expected_array: ['hegazkina', 'hegazkin', 'egazkina', 'egaskina', 'hegakina'],
+        parent_tpr_action: 'Zabaldu besoak hegalak bezala eta eman bira bat gelan bihurguneetan okertuz.',
+      },
+      {
+        id: 'eu-cat-garraioak-kamioia', type: 'sustantivo', label: 'kamioia', emoji: '🚚', difficulty: 3,
+        visual_prompt: 'Kamioia alboetatik karga-kaxarekin, hondorik gabe, kontraste handia, ingerada lodia.',
+        tts_string: 'Hau kamioia da. Esan: kamioia.',
+        stt_expected_array: ['kamioia', 'kamioi', 'amioia', 'tamioia', 'kamioa'],
+        parent_tpr_action: 'Kargatu hiru jostailu kaxa batean eta arrastatu elkarrekin atoia balitz bezala.',
+      },
+    ],
+  },
+  {
+    id: 'eu-cat-koloreak', title: 'Koloreak', icon: '🎨',
+    subtitle: 'Gorritik eta urdinetik izendatzen zailagoak direnetara',
+    items: [
+      {
+        id: 'eu-cat-koloreak-gorria', type: 'adjetivo', label: 'gorria', emoji: '🔴', pictogram: 'color-rojo', difficulty: 1,
+        visual_prompt: 'Zirkulu gorri betea ingerada lodiarekin, hondorik gabe, gradienterik gabe.',
+        tts_string: 'Kolore hau gorria da. Esan: gorria.',
+        stt_expected_array: ['gorria', 'goria', 'orria', 'gorri', 'koria'],
+        parent_tpr_action: 'Bilatu elkarrekin hiru gauza gorri gelan eta ukitu kolorea izendatuz.',
+      },
+      {
+        id: 'eu-cat-koloreak-urdina', type: 'adjetivo', label: 'urdina', emoji: '🔵', pictogram: 'color-azul', difficulty: 1,
+        visual_prompt: 'Zirkulu urdin betea ingerada lodiarekin, hondorik gabe, gradienterik gabe.',
+        tts_string: 'Kolore hau urdina da. Esan: urdina.',
+        stt_expected_array: ['urdina', 'urdin', 'udina', ' udia', 'urina'],
+        parent_tpr_action: 'Seinalatu zerua edo haurraren arropako zerbait urdina eta esan kolorea batera.',
+      },
+      {
+        id: 'eu-cat-koloreak-horia', type: 'adjetivo', label: 'horia', emoji: '🟡', pictogram: 'color-amarillo', difficulty: 2,
+        visual_prompt: 'Zirkulu hori betea ingerada lodiarekin, hondorik gabe, gradienterik gabe.',
+        tts_string: 'Kolore hau horia da. Esan: horia.',
+        stt_expected_array: ['horia', 'oria', 'hori', 'oia', 'horiya'],
+        parent_tpr_action: 'Egin eguzki handi bat besoekin eta esan kolorea gorantz begira.',
+      },
+      {
+        id: 'eu-cat-koloreak-berdea', type: 'adjetivo', label: 'berdea', emoji: '🟢', pictogram: 'color-verde', difficulty: 2,
+        visual_prompt: 'Zirkulu berde betea ingerada lodiarekin, hondorik gabe, gradienterik gabe.',
+        tts_string: 'Kolore hau berdea da. Esan: berdea.',
+        stt_expected_array: ['berdea', 'berde', 'erdea', 'bedea', 'peldea'],
+        parent_tpr_action: 'Atera hosto edo landare bat bilatzera eta ukitu kolorea esaten duzuen bitartean.',
+      },
+      {
+        id: 'eu-cat-koloreak-morea', type: 'adjetivo', label: 'morea', emoji: '🟣', pictogram: 'color-morado', difficulty: 3,
+        visual_prompt: 'Zirkulu more betea ingerada lodiarekin, hondorik gabe, gradienterik gabe.',
+        tts_string: 'Kolore hau morea da. Esan: morea.',
+        stt_expected_array: ['morea', 'more', 'orea', 'molea', 'boea'],
+        parent_tpr_action: 'Nahastu haurraren aurrean gorri eta urdin apur bat eta izendatu ateratzen dena.',
+      },
+      {
+        id: 'eu-cat-koloreak-marroia', type: 'adjetivo', label: 'marroia', emoji: '🟤', pictogram: 'color-marron', difficulty: 3,
+        visual_prompt: 'Zirkulu marroi betea ingerada lodiarekin, hondorik gabe, gradienterik gabe.',
+        tts_string: 'Kolore hau marroia da. Esan: marroia.',
+        stt_expected_array: ['marroia', 'marroi', 'maroia', 'aroia', 'baroia'],
+        parent_tpr_action: 'Ukitu elkarrekin egurrezko zerbait —mahai bat, aulki bat— eta esan kolorea ukitzean.',
+      },
+    ],
+  },
+  {
+    id: 'eu-cat-gorputza', title: 'Gorputza', icon: '🖐️',
+    subtitle: 'Bakarrik seinalatzen denetik bilatu behar denera',
+    items: [
+      {
+        id: 'eu-cat-gorputza-eskua', type: 'sustantivo', label: 'eskua', emoji: '🖐️', pictogram: 'mano', difficulty: 1,
+        visual_prompt: 'Esku irekia aurretik bost hatzak banatuta, hondorik gabe, kontraste handia, ingerada lodia.',
+        tts_string: 'Hau eskua da. Esan: eskua.',
+        stt_expected_array: ['eskua', 'esku', 'ekua', 'skua', 'ezkua'],
+        parent_tpr_action: 'Jo eskuak hiru aldiz, silaba bakoitzeko bat, elkarri begietara begira.',
+      },
+      {
+        id: 'eu-cat-gorputza-oina', type: 'sustantivo', label: 'oina', emoji: '🦶', pictogram: 'pie', difficulty: 1,
+        visual_prompt: 'Oin biluzia alboetatik, hondorik gabe, kontraste handia, ingerada lodia.',
+        tts_string: 'Hau oina da. Esan: oina.',
+        stt_expected_array: ['oina', 'oin', 'ona', 'oña', 'oia'],
+        parent_tpr_action: 'Jarri oinak elkarren ondoan eta konparatu tamaina, gero hiru zapladatxo lurrean.',
+      },
+      {
+        id: 'eu-cat-gorputza-ahoa', type: 'sustantivo', label: 'ahoa', emoji: '👄', pictogram: 'boca', difficulty: 2,
+        visual_prompt: 'Ahoa aurretik pixka bat irekita, hondorik gabe, kontraste handia, ingerada lodia.',
+        tts_string: 'Hau ahoa da. Esan: ahoa.',
+        stt_expected_array: ['ahoa', 'aoa', 'aho', 'aa', 'ahua'],
+        parent_tpr_action: 'Jarri ispiluaren aurrean eta ireki eta itxi ahoa batera, oso poliki.',
+      },
+      {
+        id: 'eu-cat-gorputza-begia', type: 'sustantivo', label: 'begia', emoji: '👁️', pictogram: 'ojo', difficulty: 2,
+        visual_prompt: 'Begi irekia aurretik betileekin, hondorik gabe, kontraste handia, ingerada lodia.',
+        tts_string: 'Hau begia da. Esan: begia.',
+        stt_expected_array: ['begia', 'begi', 'egia', 'beia', 'pegia'],
+        parent_tpr_action: 'Jolastu begiak estali eta agertzera "kuku!" batekin hitza esaten duzuen bakoitzean.',
+      },
+      {
+        id: 'eu-cat-gorputza-belauna', type: 'sustantivo', label: 'belauna', emoji: '🦵', pictogram: 'rodilla', difficulty: 3,
+        visual_prompt: 'Hanka alboetatik belauna markatuta eta tolestuta, hondorik gabe, kontraste handia, ingerada lodia.',
+        tts_string: 'Hau belauna da. Esan: belauna.',
+        stt_expected_array: ['belauna', 'belaun', 'elauna', 'beauna', 'pelauna'],
+        parent_tpr_action: 'Tolestu belaunak batera kokoriko jarri arte eta igo hitza esanez.',
+      },
+      {
+        id: 'eu-cat-gorputza-ukondoa', type: 'sustantivo', label: 'ukondoa', emoji: '💪', pictogram: 'codo', difficulty: 3,
+        visual_prompt: 'Besoa tolestuta alboetatik ukondoa ondo markatuta, hondorik gabe, kontraste handia, ingerada lodia.',
+        tts_string: 'Hau ukondoa da. Esan: ukondoa.',
+        stt_expected_array: ['ukondoa', 'ukondo', 'kondoa', 'ukonoa', 'utondoa'],
+        parent_tpr_action: 'Agurtu elkar ukondoak joz, hiru aldiz jarraian.',
       },
     ],
   },
@@ -275,6 +550,7 @@ export const PROGRESSION_SEQUENCES_EU: ProgressionSequence[] = [
       },
       {
         kind: 'parte', label: 'gurpila', emoji: '🛞',
+        pictogram: 'rueda',
         visual_prompt: 'Kotxe baten gurpil bat aurretik, beltza llanta argiarekin, hondorik gabe, kontraste handia, ertz lodia.',
         tts_string: 'Kotxeak gurpilak ditu. Esan: gurpila.',
         stt_expected_array: ['gurpila', 'gurpil', 'urpila', 'gupila'],
@@ -282,6 +558,7 @@ export const PROGRESSION_SEQUENCES_EU: ProgressionSequence[] = [
       },
       {
         kind: 'accion', label: 'dabil', emoji: '💨',
+        pictogram: 'correr',
         visual_prompt: 'Kotxea abiadura marrekin atzetik, eskuinera doa, hondorik gabe, kontraste handia, ertz lodia.',
         tts_string: 'Kotxea azkar dabil. Esan: dabil.',
         stt_expected_array: ['dabil', 'abil', 'dabi', 'dail'],
@@ -315,6 +592,7 @@ export const PROGRESSION_SEQUENCES_EU: ProgressionSequence[] = [
       },
       {
         kind: 'accion', label: 'salto', emoji: '⬆️',
+        pictogram: 'saltar',
         visual_prompt: 'Txakurra airean hankak bilduta eta salto kurba batekin, hondorik gabe, kontraste handia, ertz lodia.',
         tts_string: 'Txakurrak salto egiten du pilota hartzeko. Esan: salto.',
         stt_expected_array: ['salto', 'alto', 'atto', 'sato'],
@@ -341,6 +619,7 @@ export const PROGRESSION_SEQUENCES_EU: ProgressionSequence[] = [
       },
       {
         kind: 'parte', label: 'esnea', emoji: '🥛',
+        pictogram: 'vaso-leche',
         visual_prompt: 'Esne edalontzi bat goraino beteta, zuri laua, hondorik gabe, kontraste handia, ertz lodia.',
         tts_string: 'Behiak esnea ematen du. Esan: esnea.',
         stt_expected_array: ['esnea', 'esne', 'enea', 'esnia'],
@@ -381,6 +660,7 @@ export const PROGRESSION_SEQUENCES_EU: ProgressionSequence[] = [
       },
       {
         kind: 'accion', label: 'lo egiten', emoji: '😴',
+        pictogram: 'dormir',
         visual_prompt: 'Katua kiribilduta begiak itxita eta hiru “Z” gainean, hondorik gabe, kontraste handia, ertz lodia.',
         tts_string: 'Katua bere ohean lo egiten ari da. Esan: lo egiten.',
         stt_expected_array: ['lo egiten', 'lo eiten', 'lo', 'loiten'],
@@ -421,6 +701,7 @@ export const PROGRESSION_SEQUENCES_EU: ProgressionSequence[] = [
       },
       {
         kind: 'cualidad', label: 'busti', emoji: '🤲',
+        pictogram: 'manos-mojadas',
         visual_prompt: 'Bi esku ireki ur tantak irristatzen zaizkiela eta zipriztin txikiak, hondorik gabe, kontraste handia, ertz lodia.',
         tts_string: 'Eskua busti dago. Esan: busti.',
         stt_expected_array: ['busti', 'buti', 'usti', 'busi'],
@@ -447,6 +728,7 @@ export const PROGRESSION_SEQUENCES_EU: ProgressionSequence[] = [
       },
       {
         kind: 'accion', label: 'gelditzen', emoji: '🛑',
+        pictogram: 'parar',
         visual_prompt: 'Trena geldirik nasa baten ondoan stop seinale batekin, hondorik gabe, kontraste handia, ertz lodia.',
         tts_string: 'Trena geltokian gelditzen da. Esan: gelditzen.',
         stt_expected_array: ['gelditzen', 'geditzen', 'geltzen', 'geldizen'],
@@ -466,6 +748,7 @@ export const PROGRESSION_SEQUENCES_EU: ProgressionSequence[] = [
     phases: [
       {
         kind: 'concepto', label: 'txoria', emoji: '🐦',
+        pictogram: 'pajaro',
         visual_prompt: 'Txori txiki bat alboetatik adar batean pausatuta, kolore lauak, hondorik gabe, kontraste handia, ertz lodia.',
         tts_string: 'Hau txoria da. Esan: txoria.',
         stt_expected_array: ['txoria', 'toria', 'txoia', 'txori'],
@@ -473,6 +756,7 @@ export const PROGRESSION_SEQUENCES_EU: ProgressionSequence[] = [
       },
       {
         kind: 'parte', label: 'luma', emoji: '🪶',
+        pictogram: 'pluma',
         visual_prompt: 'Luma bakar bat aurretik, erdiko ardatza markatuta, hondorik gabe, kontraste handia, ertz lodia.',
         tts_string: 'Txoriak lumak ditu. Esan: luma.',
         stt_expected_array: ['luma', 'lumak', 'uma', 'lume'],
@@ -480,6 +764,7 @@ export const PROGRESSION_SEQUENCES_EU: ProgressionSequence[] = [
       },
       {
         kind: 'accion', label: 'hegan', emoji: '🐦',
+        pictogram: 'pajaro',
         visual_prompt: 'Txoria hegoak zabalik hegan eta ibilbide kurba batekin, hondorik gabe, kontraste handia, ertz lodia.',
         tts_string: 'Txoriak hegan egiten du zeruan. Esan: hegan.',
         stt_expected_array: ['hegan', 'egan', 'hean', 'gan'],
@@ -506,12 +791,14 @@ export const CONTRAST_CAPSULES_EU: ContrastCapsule[] = [
     rounds: [
       {
         label: 'handia', emoji: '🧸',
+        pictogram: 'osito-grande',
         tts_trigger: 'Zein da panpina HANDIA? Emadazu eta esan! Esan: handia.',
         stt_expected_array: ['handia', 'andia', 'hania', 'handi'],
         parent_action: 'Haurrak panpina handia ematen dizu esaten duen bitartean; besarkatu zein erraldoia den puztuz.',
       },
       {
         label: 'txikia', emoji: '🧸',
+        pictogram: 'osito-pequeno',
         tts_trigger: 'Orain alderantziz: zein hartzatxo da TXIKIA? Emadazu eta esan! Esan: txikia.',
         stt_expected_array: ['txikia', 'tikia', 'txiia', 'txiki'],
         parent_action: 'Haurrak txikia ematen dizu; ezkutatu esku batean eta esan "txikia" ahots txiki-txikiz.',
@@ -524,12 +811,14 @@ export const CONTRAST_CAPSULES_EU: ContrastCapsule[] = [
     rounds: [
       {
         label: 'zikin', emoji: '🥄',
+        pictogram: 'cuchara-sucia',
         tts_trigger: 'Seinalatu koilara ZIKINA. Nola dago hau? Esan: zikin.',
         stt_expected_array: ['zikin', 'ikin', 'ziki', 'tikin'],
         parent_action: 'Haurrak koilara zikina seinalatzen du eta biok "puaj!" aurpegia jartzen duzue baztertuz.',
       },
       {
         label: 'garbi', emoji: '🥄',
+        pictogram: 'cuchara-limpia',
         tts_trigger: 'Eta beste koilara hau, nola dago? Begira nola distiratzen duen! Esan: garbi.',
         stt_expected_array: ['garbi', 'gabi', 'abi', 'garb'],
         parent_action: 'Seinalatu garbia, putz egin haren gainean distiratuko balira bezala eta jo bostekoa.',
@@ -542,12 +831,14 @@ export const CONTRAST_CAPSULES_EU: ContrastCapsule[] = [
     rounds: [
       {
         label: 'ireki', emoji: '📦',
+        pictogram: 'caja-abierta',
         tts_trigger: 'Jostailua barruan dago. Zer egingo dugu ateratzeko? Goazen IREKITZERA! Esan: ireki.',
         stt_expected_array: ['ireki', 'irek', 'ieki', 'ike'],
         parent_action: 'Ireki kutxa elkarrekin, oso poliki, eta ospatu jostailua aurkitzea "tatxan!" batekin.',
       },
       {
         label: 'itxi', emoji: '📦',
+        pictogram: 'caja-cerrada',
         tts_trigger: 'Jostailua gordeko dugu. Zer egingo dugu estalkiarekin? ITXI dezagun! Esan: itxi.',
         stt_expected_array: ['itxi', 'iti', 'txi', 'itx'],
         parent_action: 'Haurrak estalkia bultzatzen du erabat itxi arte hitza esaten duen bitartean.',
@@ -560,12 +851,14 @@ export const CONTRAST_CAPSULES_EU: ContrastCapsule[] = [
     rounds: [
       {
         label: 'igo', emoji: '⬆️',
+        pictogram: 'coche-subiendo',
         tts_trigger: 'Kotxea mendira doa. Zer egiten du? IGO egiten du! Esan: igo.',
         stt_expected_array: ['igo', 'io', 'go', 'igu'],
         parent_action: 'Igo kotxea arrapalatik oso poliki hitza entzuten den bitartean.',
       },
       {
         label: 'jaitsi', emoji: '⬇️',
+        pictogram: 'coche-bajando',
         tts_trigger: 'Orain kotxea behera doa! Zer egiten du? Esan: jaitsi.',
         stt_expected_array: ['jaitsi', 'aitsi', 'jaisi', 'jaits'],
         parent_action: 'Askatu kotxea eta utzi bakarrik jaisten arrapalatik; esan "jaitsiii!" erortzen den bitartean.',
@@ -578,12 +871,14 @@ export const CONTRAST_CAPSULES_EU: ContrastCapsule[] = [
     rounds: [
       {
         label: 'hotz', emoji: '🥤',
+        pictogram: 'vaso-frio',
         tts_trigger: 'Ukitu basoak. Zein dago HOTZ? Brrr! Esan: hotz.',
         stt_expected_array: ['hotz', 'otz', 'hots', 'ho'],
         parent_action: 'Haurrak baso hotza ukitzen du; dardaratu biok "brrr!" sorbaldak uzkurtuz.',
       },
       {
         label: 'bero', emoji: '🥤',
+        pictogram: 'vaso-caliente',
         tts_trigger: 'Eta beste baso hau, nola dago? Esan: bero.',
         stt_expected_array: ['bero', 'ero', 'beo', 'bebo'],
         parent_action: 'Ukitu baso epela eta haizeztatu eskua erreko balizue bezala, asko puztuz.',
@@ -596,12 +891,14 @@ export const CONTRAST_CAPSULES_EU: ContrastCapsule[] = [
     rounds: [
       {
         label: 'piztu', emoji: '💡',
+        pictogram: 'bombilla-encendida',
         tts_trigger: 'Ilun dago… Zer egingo dugu argiarekin? PIZTU dezagun! Esan: piztu.',
         stt_expected_array: ['piztu', 'iztu', 'pistu', 'pitu'],
         parent_action: 'Haurrak etengailua sakatzen du esatean eta argia ospatzen duzue "ooooh!" batekin.',
       },
       {
         label: 'itzali', emoji: '💡',
+        pictogram: 'bombilla-apagada',
         tts_trigger: 'Orain alderantziz. Zer egingo dugu argiarekin? ITZALI dezagun! Esan: itzali.',
         stt_expected_array: ['itzali', 'itali', 'izali', 'itza'],
         parent_action: 'Haurrak argia itzaltzen du eta "gabon" esaten diozue elkarri xuxurla ahotsez.',

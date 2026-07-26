@@ -63,7 +63,7 @@ export const MINIMAL_PAIRS_GL: MinimalPair[] = [
   },
   {
     id: 'gl-cesta-testa', code: 'PM-GL-4', group: 'Sigmatismo',
-    target: 'cesta', targetEmoji: '🧺', foil: 'testa', foilEmoji: '🙆',
+    target: 'cesta', targetEmoji: '🧺', targetPictogram: 'cesta', foil: 'testa', foilEmoji: '🙆',
     phoneme: 's → t', errorLabel: 'Sigmatismo oclusivo',
     prompt: 'Di: cesta.',
     onTarget: {
@@ -78,7 +78,7 @@ export const MINIMAL_PAIRS_GL: MinimalPair[] = [
   },
   {
     id: 'gl-cubo-tubo', code: 'PM-GL-5', group: 'Velares',
-    target: 'cubo', targetEmoji: '🪣', foil: 'tubo', foilEmoji: '🧪',
+    target: 'cubo', targetEmoji: '🪣', targetPictogram: 'cubo', foil: 'tubo', foilEmoji: '🧪', foilPictogram: 'tubo',
     phoneme: 'k → t', errorLabel: 'Frontalización velar inicial',
     prompt: 'Di: cubo.',
     onTarget: {
@@ -108,7 +108,7 @@ export const MINIMAL_PAIRS_GL: MinimalPair[] = [
   },
   {
     id: 'gl-fonte-ponte', code: 'PM-GL-7', group: 'Labiodental',
-    target: 'fonte', targetEmoji: '⛲', foil: 'ponte', foilEmoji: '🌉',
+    target: 'fonte', targetEmoji: '⛲', foil: 'ponte', foilEmoji: '🌉', foilPictogram: 'puente',
     phoneme: 'f → p', errorLabel: 'Oclusivización de fricativa',
     prompt: 'Di: fonte.',
     onTarget: {

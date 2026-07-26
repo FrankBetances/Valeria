@@ -26,7 +26,7 @@ import { MinimalPair } from './valeriaMinimalPairs';
 export const MINIMAL_PAIRS_EU: MinimalPair[] = [
   {
     id: 'eu-su-zu', code: 'PM-EU-1', group: 'Sigmatismo',
-    target: 'su', targetEmoji: '🔥', foil: 'zu', foilEmoji: '🫵',
+    target: 'su', targetEmoji: '🔥', foil: 'zu', foilEmoji: '🫵', foilPictogram: 'senalar',
     phoneme: 's̺ → s̻', errorLabel: 'Sigmatismo laminal (s → z)',
     prompt: 'Esan: su.',
     onTarget: {
@@ -41,7 +41,7 @@ export const MINIMAL_PAIRS_EU: MinimalPair[] = [
   },
   {
     id: 'eu-hotz-hots', code: 'PM-EU-2', group: 'Sigmatismo',
-    target: 'hotz', targetEmoji: '🥶', foil: 'hots', foilEmoji: '🔊',
+    target: 'hotz', targetEmoji: '🥶', targetPictogram: 'frio-cara', foil: 'hots', foilEmoji: '🔊',
     phoneme: 'ts̻ → ts̺', errorLabel: 'Africada laminal → apical (tz → ts)',
     prompt: 'Esan: hotz.',
     onTarget: {
@@ -71,7 +71,7 @@ export const MINIMAL_PAIRS_EU: MinimalPair[] = [
   },
   {
     id: 'eu-txalo-talo', code: 'PM-EU-4', group: 'Velares',
-    target: 'txalo', targetEmoji: '👏', foil: 'talo', foilEmoji: '🫓',
+    target: 'txalo', targetEmoji: '👏', foil: 'talo', foilEmoji: '🫓', foilPictogram: 'torta',
     phoneme: 'tʃ → t', errorLabel: 'Oclusivización de africada palatal',
     prompt: 'Esan: txalo.',
     onTarget: {

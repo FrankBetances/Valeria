@@ -21,20 +21,35 @@ private struct SEStep: Identifiable {
     let action: String   // acción física del adulto (parent_tpr_action)
 }
 
+// Muestra REDUCIDA del banco de React Native, no una copia. Se mantiene corta a
+// propósito (este port existe para probar navegación y estética en dispositivo),
+// pero debe respetar las decisiones clínicas que ACOPROS validó en julio de 2026,
+// porque lo que se ve aquí se toma por lo que hace la app:
+//
+//   · DC-2 · La progresión NO arranca en onomatopeya. Amplía el campo semántico
+//     del concepto: concepto → parte → acción → cualidad.
+//   · ES-13 · Congruencia: el objeto del audio, el de la imagen y el del setup
+//     son el mismo; solo varía el atributo. Nada de un elefante para «grande» y
+//     una hormiga para «pequeño».
+//   · ES-06 · El objetivo se nombra UNA vez antes de pedirlo.
+//
+// Fuente de verdad: src/valeriaSemanticExpansion.ts y el plan en
+// docs/plan-mejoras-acopros-logopedas.json.
 private let STEPS: [SEMode: [SEStep]] = [
     .escenarios: [
-        .init(kicker: "MAÑANA · SUSTANTIVO", emoji: "🪥", label: "cepillo", prompt: "¡A lavarse! ¿Qué es esto? Di: cepillo.", action: "Cepillad los dientes juntos frente al espejo."),
-        .init(kicker: "COMIDA · VERBO", emoji: "🥄", label: "comer", prompt: "¡Tengo hambre! ¿Qué hacemos? Di: comer.", action: "Simulad dar de comer al osito por turnos."),
-        .init(kicker: "PARQUE · SUSTANTIVO", emoji: "🛝", label: "tobogán", prompt: "¡Al parque! ¿Dónde subimos? Di: tobogán.", action: "Deslizad la mano por una rampa imaginaria: ¡uuuh!"),
+        .init(kicker: "MAÑANA · SUSTANTIVO", emoji: "🪥", label: "cepillo", prompt: "Esto es el cepillo. Di: cepillo.", action: "Pon el cepillo (sin pasta) en la mano del niño y guiad juntos el gesto de cepillar."),
+        .init(kicker: "COMIDA · SUSTANTIVO", emoji: "🥄", label: "cuchara", prompt: "Esto es la cuchara. Di: cuchara.", action: "Pon la cuchara en la mano del niño y llevadla juntos a la boca."),
+        .init(kicker: "PARQUE · SUSTANTIVO", emoji: "🛝", label: "tobogán", prompt: "Esto es el tobogán. Di: tobogán.", action: "Deslizad la mano por una rampa imaginaria: ¡uuuh!"),
     ],
     .progresion: [
-        .init(kicker: "FASE 1 · ONOMATOPEYA", emoji: "🚗", label: "brum brum", prompt: "El coche hace… Di: brum brum.", action: "Empujad el coche por el suelo haciendo brum brum."),
-        .init(kicker: "FASE 2 · SUSTANTIVO", emoji: "🚗", label: "coche", prompt: "¿Qué es? Di: coche.", action: "Señalad un coche de verdad por la ventana."),
-        .init(kicker: "FASE 3 · VERBO", emoji: "🏁", label: "correr", prompt: "El coche… Di: correr.", action: "Corred juntos tres pasos y frenad."),
+        .init(kicker: "PASO 1 · CONCEPTO", emoji: "🚗", label: "coche", prompt: "Esto es el coche. Di: coche.", action: "Señalad un coche de verdad por la ventana."),
+        .init(kicker: "PASO 2 · PARTE", emoji: "🛞", label: "rueda", prompt: "El coche tiene ruedas. Di: rueda.", action: "Girad una rueda del coche de juguete con el dedo."),
+        .init(kicker: "PASO 3 · ACCIÓN", emoji: "🚗", label: "corre", prompt: "Mira lo que hace el coche. Di: corre.", action: "Empujad el coche por el suelo y corred detrás."),
     ],
+    // Mismo objeto en las dos vueltas (osito), solo cambia el tamaño.
     .contrastes: [
-        .init(kicker: "CONTRASTE · TAMAÑO", emoji: "🐘", label: "grande", prompt: "El elefante es… Di: grande.", action: "Estirad los brazos bien abiertos: ¡grande!"),
-        .init(kicker: "CONTRASTE · TAMAÑO", emoji: "🐜", label: "pequeño", prompt: "La hormiga es… Di: pequeño.", action: "Encogeos hasta hacerse una bolita: pequeño."),
+        .init(kicker: "CONTRASTE · VUELTA 1 · COMPRENDER", emoji: "🧸", label: "grande", prompt: "¿Cuál es el osito GRANDE? ¡Dámelo y dilo! Di: grande.", action: "El niño te entrega el osito grande; abrazadlo exagerando lo enorme que es."),
+        .init(kicker: "CONTRASTE · VUELTA 2 · DECIR", emoji: "🧸", label: "pequeño", prompt: "Ahora al revés: ¿cuál es el osito PEQUEÑO? Di: pequeño.", action: "El niño te da el osito pequeño; escondedlo en una mano con vocecita mini."),
     ],
 ]
 
@@ -76,6 +91,18 @@ struct SemanticExpansionView: View {
             }
 
             ScrollView(showsIndicators: false) {
+                // X-06 · Este port es un demostrador de navegación y estética, con
+                // una muestra corta del contenido. No sustituye a la app de React
+                // Native en validación clínica: aquí no hay antesala de material
+                // (ES-11), ni vuelta de comprensión por selección (ES-12), ni
+                // pictogramas (ES-09). Decirlo en pantalla evita que una sesión de
+                // prueba se lea como «así funciona la app».
+                Text("Demostración · muestra corta del contenido. La sesión completa, con preparación previa, selección de imagen y pictogramas, está en la app principal.")
+                    .font(.system(size: 11.5, weight: .semibold))
+                    .foregroundStyle(VColor.textMuted)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, 16).padding(.top, 12)
+
                 if !finished { stepView } else { doneView }
             }
         }

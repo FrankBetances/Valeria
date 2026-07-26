@@ -15,8 +15,10 @@ export interface MinimalPair {
   group: PairGroup;
   target: string;          // palabra que pide el TTS
   targetEmoji: string;
+  targetPictogram?: string; // clave del pictograma propio (ES-09); ausente → emoji
   foil: string;            // palabra que produce el error habitual
   foilEmoji: string;
+  foilPictogram?: string;
   phoneme: string;         // contraste, p. ej. 'r̄ → l'
   errorLabel: string;      // nombre clínico del error que detecta
   prompt: string;          // consigna TTS (speakToChild)
@@ -35,7 +37,7 @@ export interface MinimalPair {
 export const MINIMAL_PAIRS: MinimalPair[] = [
   {
     id: 'rana-lana', code: 'PM-1', group: 'Rotacismo',
-    target: 'rana', targetEmoji: '🐸', foil: 'lana', foilEmoji: '🧶',
+    target: 'rana', targetEmoji: '🐸', foil: 'lana', foilEmoji: '🧶', foilPictogram: 'lana',
     phoneme: 'r̄ → l', errorLabel: 'Rotacismo inicial',
     prompt: 'Di: rana.',
     onTarget: {
@@ -50,7 +52,7 @@ export const MINIMAL_PAIRS: MinimalPair[] = [
   },
   {
     id: 'perro-pelo', code: 'PM-2', group: 'Rotacismo',
-    target: 'perro', targetEmoji: '🐶', foil: 'pelo', foilEmoji: '💇',
+    target: 'perro', targetEmoji: '🐶', foil: 'pelo', foilEmoji: '💇', foilPictogram: 'pelo',
     phoneme: 'r̄ → l', errorLabel: 'Rotacismo intervocálico',
     prompt: 'Di: perro.',
     onTarget: {
@@ -65,7 +67,7 @@ export const MINIMAL_PAIRS: MinimalPair[] = [
   },
   {
     id: 'rata-lata', code: 'PM-3', group: 'Rotacismo',
-    target: 'rata', targetEmoji: '🐀', foil: 'lata', foilEmoji: '🥫',
+    target: 'rata', targetEmoji: '🐀', foil: 'lata', foilEmoji: '🥫', foilPictogram: 'lata',
     phoneme: 'r̄ → l', errorLabel: 'Rotacismo inicial (generalización)',
     prompt: 'Di: rata.',
     onTarget: {
@@ -111,7 +113,7 @@ export const MINIMAL_PAIRS: MinimalPair[] = [
   },
   {
     id: 'sierra-tierra', code: 'PM-6', group: 'Sigmatismo',
-    target: 'sierra', targetEmoji: '🪚', foil: 'tierra', foilEmoji: '🌍',
+    target: 'sierra', targetEmoji: '🪚', targetPictogram: 'sierra', foil: 'tierra', foilEmoji: '🌍',
     phoneme: 's → t', errorLabel: 'Sigmatismo oclusivo',
     prompt: 'Di: sierra.',
     onTarget: {
@@ -141,7 +143,7 @@ export const MINIMAL_PAIRS: MinimalPair[] = [
   },
   {
     id: 'cubo-tubo', code: 'PM-8', group: 'Velares',
-    target: 'cubo', targetEmoji: '🪣', foil: 'tubo', foilEmoji: '🧪',
+    target: 'cubo', targetEmoji: '🪣', targetPictogram: 'cubo', foil: 'tubo', foilEmoji: '🧪', foilPictogram: 'tubo',
     phoneme: 'k → t', errorLabel: 'Frontalización velar inicial',
     prompt: 'Di: cubo.',
     onTarget: {
@@ -171,7 +173,7 @@ export const MINIMAL_PAIRS: MinimalPair[] = [
   },
   {
     id: 'fuente-puente', code: 'PM-10', group: 'Labiodental',
-    target: 'fuente', targetEmoji: '⛲', foil: 'puente', foilEmoji: '🌉',
+    target: 'fuente', targetEmoji: '⛲', foil: 'puente', foilEmoji: '🌉', foilPictogram: 'puente',
     phoneme: 'f → p', errorLabel: 'Oclusivización de fricativa',
     prompt: 'Di: fuente.',
     onTarget: {
@@ -238,7 +240,7 @@ export const MINIMAL_PAIRS: MinimalPair[] = [
   },
   {
     id: 'miel-piel', code: 'PM-14', group: 'Nasales',
-    target: 'miel', targetEmoji: '🍯', foil: 'piel', foilEmoji: '🤚',
+    target: 'miel', targetEmoji: '🍯', foil: 'piel', foilEmoji: '🤚', foilPictogram: 'mano',
     phoneme: 'm → p', errorLabel: 'Desnasalización de bilabial',
     prompt: 'Di: miel.',
     onTarget: {
@@ -253,7 +255,7 @@ export const MINIMAL_PAIRS: MinimalPair[] = [
   },
   {
     id: 'pato-palo', code: 'PM-15', group: 'Laterales',
-    target: 'pato', targetEmoji: '🦆', foil: 'palo', foilEmoji: '🪵',
+    target: 'pato', targetEmoji: '🦆', foil: 'palo', foilEmoji: '🪵', foilPictogram: 'palo',
     phoneme: 't → l', errorLabel: 'Lateralización de oclusiva dental',
     prompt: 'Di: pato.',
     onTarget: {

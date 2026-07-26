@@ -11,7 +11,11 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, Pressable, ScrollView, Switch, StyleSheet, Modal } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { V, STORAGE_KEYS } from './valeriaTheme';
-import { enableDailyReminders, disableReminders, remindersEnabled } from './valeriaNotifications';
+import {
+  enableDailyReminders, disableReminders, remindersEnabled,
+  loadReminderSlots, setReminderSlots as persistReminderSlots,
+  REMINDER_SLOTS, ALL_REMINDER_SLOTS, ReminderSlot,
+} from './valeriaNotifications';
 import { loadGame, liveStreak, levelFor, levelName } from './valeriaGamification';
 import { ProUnlockPill, ProPinModal } from './ValeriaProPin';
 import { ValeriaProExportModal } from './ValeriaProExport';
@@ -59,6 +63,9 @@ export const ValeriaExerciseSelectionScreen: React.FC<{ navigation: any }> = ({ 
   const [teaConsentOpen, setTeaConsentOpen] = useState(false);
   const [usesHearingDevice, setUsesHearingDevice] = useState(false);
   const [reminders, setReminders] = useState(false);
+  // GEN-01: qué franjas quiere el usuario. Se carga siempre (aunque los avisos
+  // estén apagados) para que al reactivarlos se respete su última elección.
+  const [reminderSlots, setReminderSlots] = useState<ReminderSlot[]>(ALL_REMINDER_SLOTS);
   const [streak, setStreak] = useState(0);
   const [level, setLevel] = useState(1);
 
@@ -82,6 +89,7 @@ export const ValeriaExerciseSelectionScreen: React.FC<{ navigation: any }> = ({ 
       } catch (e) { /* noop */ }
       try {
         setReminders(await remindersEnabled());
+        setReminderSlots(await loadReminderSlots());
         const g = await loadGame();
         setStreak(liveStreak(g));
         setLevel(levelFor(g.xp));
@@ -89,18 +97,49 @@ export const ValeriaExerciseSelectionScreen: React.FC<{ navigation: any }> = ({ 
     })();
   }, []);
 
+  // Resumen de lo que el usuario recibirá, en las mismas palabras que el
+  // selector. GEN-01: el texto de la tarjeta debe describir lo CONFIGURADO,
+  // no el límite del sistema.
+  const remindersSummary = (slots: ReminderSlot[]): string => {
+    if (!slots.length) return 'Sin avisos: no llegará ninguna notificación.';
+    const horas = REMINDER_SLOTS.filter((d) => slots.includes(d.slot))
+      .map((d) => `${d.hour}:00`).join(', ');
+    return slots.length === 1
+      ? `1 aviso al día (${horas}) en la pantalla de bloqueo.`
+      : `${slots.length} avisos al día (${horas}) en la pantalla de bloqueo.`;
+  };
+
   const toggleReminders = async (next: boolean) => {
     if (next) {
-      const ok = await enableDailyReminders();
+      // Si venía de apagar todas las franjas, se reactivan las cuatro: encender
+      // el interruptor y no recibir nada sería el mismo desconcierto que GEN-01
+      // vino a corregir.
+      const slots = reminderSlots.length ? reminderSlots : ALL_REMINDER_SLOTS;
+      const ok = await enableDailyReminders(slots);
       setReminders(ok);
+      if (ok) setReminderSlots(slots);
       setToast(ok
-        ? 'Recordatorios activados: máximo 4 avisitos al día (9:00, 13:00, 17:00 y 20:00). 🔔'
+        ? `Recordatorios activados: ${remindersSummary(slots)} 🔔`
         : 'No se pudo activar: concede el permiso de notificaciones al sistema.');
     } else {
       await disableReminders();
       setReminders(false);
       setToast('Recordatorios desactivados.');
     }
+  };
+
+  // Enciende o apaga una franja concreta. Quedarse sin ninguna apaga también el
+  // interruptor maestro y cancela lo ya programado.
+  const toggleReminderSlot = async (slot: ReminderSlot) => {
+    const next = reminderSlots.includes(slot)
+      ? reminderSlots.filter((s) => s !== slot)
+      : ALL_REMINDER_SLOTS.filter((s) => s === slot || reminderSlots.includes(s));
+    setReminderSlots(next);
+    const ok = await persistReminderSlots(next);
+    setReminders(ok);
+    setToast(next.length
+      ? (ok ? remindersSummary(next) : 'No se pudo programar: concede el permiso de notificaciones al sistema.')
+      : 'Sin franjas activas: recordatorios desactivados.');
   };
 
   const isAud = tab === 'audicion';
@@ -243,14 +282,47 @@ export const ValeriaExerciseSelectionScreen: React.FC<{ navigation: any }> = ({ 
               a11y: 'Abrir terapias del módulo Dislexia', total: EXERCISES_DIX.length, activeN: activeDix.filter(Boolean).length,
             })}
 
+            {/* GEN-01 · Elegir las franjas, no solo encender o apagar. El texto
+                describe lo que hay configurado; el selector aparece cuando los
+                avisos están activos, que es cuando la elección tiene efecto. */}
             <View style={s.remindCard}>
-              <View style={s.remindIcon}><Text style={{ fontSize: 17 }}>🔔</Text></View>
-              <View style={{ flex: 1 }}>
-                <Text style={s.remindTitle}>Recordatorios de sesión</Text>
-                <Text style={s.remindSub}>Hasta 4 avisos al día (9:00, 13:00, 17:00 y 20:00) en la pantalla de bloqueo para no perder la racha.</Text>
+              <View style={s.remindRow}>
+                <View style={s.remindIcon}><Text style={{ fontSize: 17 }}>🔔</Text></View>
+                <View style={{ flex: 1 }}>
+                  <Text style={s.remindTitle}>Recordatorios de sesión</Text>
+                  <Text style={s.remindSub}>
+                    {reminders
+                      ? `${remindersSummary(reminderSlots)} Elige abajo las franjas que quieras.`
+                      : 'Avisos en la pantalla de bloqueo para no perder la racha. Tú eliges en qué franjas, de una a cuatro.'}
+                  </Text>
+                </View>
+                <Switch value={reminders} onValueChange={toggleReminders}
+                  trackColor={{ false: '#d1d5db', true: V.color.primary }} thumbColor="#ffffff" />
               </View>
-              <Switch value={reminders} onValueChange={toggleReminders}
-                trackColor={{ false: '#d1d5db', true: V.color.primary }} thumbColor="#ffffff" />
+
+              {reminders && (
+                <View style={s.slotList}>
+                  {REMINDER_SLOTS.map((d) => {
+                    const on = reminderSlots.includes(d.slot);
+                    return (
+                      <Pressable
+                        key={d.slot}
+                        onPress={() => toggleReminderSlot(d.slot)}
+                        style={[s.slotRow, on && s.slotRowOn]}
+                        accessibilityRole="checkbox"
+                        accessibilityState={{ checked: on }}
+                        accessibilityLabel={`${d.label}. ${d.hint}`}
+                      >
+                        <Text style={[s.slotCheck, on && s.slotCheckOn]}>{on ? '✓' : ''}</Text>
+                        <View style={{ flex: 1 }}>
+                          <Text style={[s.slotLabel, on && s.slotLabelOn]}>{d.label}</Text>
+                          <Text style={s.slotHint}>{d.hint}</Text>
+                        </View>
+                      </Pressable>
+                    );
+                  })}
+                </View>
+              )}
             </View>
 
             {/* Calidad de la voz: detecta voces robóticas y guía a instalar el
@@ -527,10 +599,21 @@ const s = StyleSheet.create({
   proAccessSub: { fontSize: 11.5, fontWeight: '600', color: V.color.textMuted, marginTop: 2, lineHeight: 15 },
   proAccessChev: { fontSize: 18, color: V.color.textMuted, fontWeight: '800' },
 
-  remindCard: { flexDirection: 'row', alignItems: 'center', gap: 11, backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.border, borderRadius: 14, padding: 13, marginTop: 10, ...V.shadow.card },
+  remindCard: { backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.border, borderRadius: 14, padding: 13, marginTop: 10, ...V.shadow.card },
+  remindRow: { flexDirection: 'row', alignItems: 'center', gap: 11 },
   remindIcon: { width: 36, height: 36, borderRadius: 12, backgroundColor: '#fffbeb', alignItems: 'center', justifyContent: 'center' },
   remindTitle: { fontSize: 14, fontWeight: '800', color: V.color.textPrimary },
   remindSub: { fontSize: 11.5, fontWeight: '600', color: V.color.textMuted, marginTop: 2, lineHeight: 15 },
+
+  // Selector de franjas (GEN-01)
+  slotList: { marginTop: 11, gap: 7 },
+  slotRow: { flexDirection: 'row', alignItems: 'center', gap: 10, borderWidth: 1, borderColor: V.color.border, borderRadius: 11, paddingVertical: 9, paddingHorizontal: 11, backgroundColor: '#fbfbfb' },
+  slotRowOn: { borderColor: V.color.primary, backgroundColor: '#effcfb' },
+  slotCheck: { width: 20, height: 20, borderRadius: 6, borderWidth: 1.5, borderColor: '#d1d5db', backgroundColor: '#fff', textAlign: 'center', lineHeight: 18, fontSize: 12, fontWeight: '800', color: 'transparent', overflow: 'hidden' },
+  slotCheckOn: { borderColor: V.color.primary, backgroundColor: V.color.primary, color: '#fff' },
+  slotLabel: { fontSize: 12.5, fontWeight: '800', color: V.color.textPrimary },
+  slotLabelOn: { color: V.color.primary },
+  slotHint: { fontSize: 11, fontWeight: '600', color: V.color.textMuted, marginTop: 1 },
 
   sessionBtn: { flexDirection: 'row', alignItems: 'center', gap: 11, backgroundColor: V.color.primary, borderRadius: 16, padding: 14, marginTop: 14, ...V.shadow.button },
   sessionBtnTitle: { color: '#fff', fontSize: 15, fontWeight: '800' },

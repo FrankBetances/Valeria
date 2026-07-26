@@ -51,9 +51,9 @@ try {
   const eu = require(path.join(tmp, 'valeriaSemanticExpansionEu.js'));
 
   const BANCOS = [
-    { lang: 'es', scenarios: base.DAILY_SCENARIOS, sequences: base.PROGRESSION_SEQUENCES, capsules: base.CONTRAST_CAPSULES, pedir: /\bdi:\s*/i },
-    { lang: 'es-DO', scenarios: esdo.DAILY_SCENARIOS_ESDO, sequences: esdo.PROGRESSION_SEQUENCES_ESDO, capsules: esdo.CONTRAST_CAPSULES_ESDO, pedir: /\bdi:\s*/i },
-    { lang: 'eu', scenarios: eu.DAILY_SCENARIOS_EU, sequences: eu.PROGRESSION_SEQUENCES_EU, capsules: eu.CONTRAST_CAPSULES_EU, pedir: /\besan:\s*/i },
+    { lang: 'es', scenarios: base.DAILY_SCENARIOS, categories: base.LEXICAL_CATEGORIES, sequences: base.PROGRESSION_SEQUENCES, capsules: base.CONTRAST_CAPSULES, pedir: /\bdi:\s*/i },
+    { lang: 'es-DO', scenarios: esdo.DAILY_SCENARIOS_ESDO, categories: esdo.LEXICAL_CATEGORIES_ESDO, sequences: esdo.PROGRESSION_SEQUENCES_ESDO, capsules: esdo.CONTRAST_CAPSULES_ESDO, pedir: /\bdi:\s*/i },
+    { lang: 'eu', scenarios: eu.DAILY_SCENARIOS_EU, categories: eu.LEXICAL_CATEGORIES_EU, sequences: eu.PROGRESSION_SEQUENCES_EU, capsules: eu.CONTRAST_CAPSULES_EU, pedir: /\besan:\s*/i },
   ];
 
   for (const b of BANCOS) {
@@ -64,6 +64,7 @@ try {
     // como «rin, rin» es UNA aparición del objetivo, no dos.
     const items = [
       ...(b.scenarios ?? []).flatMap((s) => s.items.map((it) => ({ ctx: s.id, label: it.label, tts: it.tts_string }))),
+      ...(b.categories ?? []).flatMap((c) => c.items.map((it) => ({ ctx: c.id, label: it.label, tts: it.tts_string }))),
       ...(b.sequences ?? []).flatMap((s) => s.phases.map((p) => ({ ctx: s.id, label: p.label, tts: p.tts_string }))),
     ];
     let r1 = 0;

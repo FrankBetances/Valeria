@@ -98,6 +98,35 @@ jobs:
       - name: Comprobar cobertura del corpus de voz (es/gl/eu)
         run: node scripts/check-voice-corpus-coverage.js
 
+      # Reglas de contenido acordadas con ACOPROS (ES-06, ES-10, ES-13). El
+      # script existía desde la fase 3 pero nadie lo ejecutaba: el plan lo daba
+      # por gate activo y en realidad solo protegía a quien se acordara de
+      # lanzarlo a mano.
+      - name: Comprobar reglas de contenido (ES-06, ES-10, ES-13)
+        run: node scripts/check-content-rules.js
+
+      # Programación de recordatorios por franjas (GEN-01). Cubre el caso que el
+      # item marcaba como riesgo: apagar una franja debe CANCELAR sus avisos ya
+      # en cola, no solo dejar de reprogramarlos.
+      - name: Comprobar franjas de recordatorio (GEN-01)
+        run: node scripts/check-reminder-slots.js
+
+      # Cobertura de pictogramas en cápsulas de contraste (ES-12). Sin dibujo
+      # propio por vuelta, la vuelta de comprensión enseña dos tarjetas
+      # idénticas: la regla de congruencia de ES-13 obliga a que ambas muestren
+      # el mismo objeto, y lo único que cambia es el atributo.
+      - name: Comprobar pictogramas de contraste (ES-12)
+        run: node scripts/check-pictogram-coverage.js
+
+      # Progresión de dificultad de las categorías léxicas (ES-08). El orden de
+      # escritura ES el orden de práctica: un ítem avanzado colado entre los
+      # iniciales se le presenta al niño en su primera sesión.
+      - name: Comprobar dificultad léxica (ES-08)
+        run: node scripts/check-lexical-difficulty.js
+
+      - name: Comprobar tipos
+        run: npm run typecheck
+
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:

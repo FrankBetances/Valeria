@@ -67,10 +67,12 @@ export const STORAGE_KEYS = {
   ling: '@valeria_ling',                       // Historial del Test de Ling (6 sonidos)
   juego: '@valeria_juego',                     // Gamificación: XP, racha diaria, nivel y logros
   recordatorios: '@valeria_recordatorios',     // Preferencia de recordatorios diarios (on/off)
+  recordatoriosFranjas: '@valeria_recordatorios_franjas', // GEN-01: qué franjas quiere el usuario (ausente = las cuatro)
   paresMinimos: '@valeria_pares_minimos',      // Registro por ensayo de pares mínimos (dislalias)
   expansionSemantica: '@valeria_expansion_semantica', // Registro por sesión de expansión semántica / progresión léxica
   paresPrescripcion: '@valeria_prescripcion_pares',   // Prescripción del logopeda: { [pairId]: boolean } (ausente = activo)
   expansionPrescripcion: '@valeria_prescripcion_expansion', // Prescripción del logopeda: { [id]: boolean } (ausente = activo)
+  expansionNivelMax: '@valeria_expansion_nivel_max', // ES-08: tope de dificultad de las categorías léxicas
   tea: '@valeria_prescripcion_tea',            // Prescripción del módulo TEA (boolean[])
   dislexia: '@valeria_prescripcion_dislexia',  // Prescripción del módulo Dislexia (boolean[])
   teaConsent: '@valeria_tea_consentimiento',   // Consentimiento informado del Quiebre Pragmático (Modo Familia)

@@ -91,6 +91,12 @@ export interface SessionRecord {
   repairEvents: RepairEvent[];
   dualTaskWindows: DualTaskWindow[];
   likert?: { score: number; question: string; at: number; context: HighLoadContext };
+  // ES-04 · Tasa de reintentos por fallo del RECONOCEDOR. Las logopedas
+  // informaron de hasta tres repeticiones para validar un ensayo; sin medirlo
+  // no hay forma de saber si la ampliación de la ventana de escucha sirvió.
+  // `noMatch` cuenta solo las escuchas en que el motor no captó nada, que son
+  // las que antes le costaban al niño un intento y una estrella.
+  listen?: { started: number; noMatch: number };
 }
 interface TlmStore { sessions: SessionRecord[]; lastSusAt: number; }
 
@@ -111,6 +117,7 @@ function freshSession(): SessionRecord {
     capsules: { started: 0, done: 0, skipped: 0 },
     routes: { started: 0, validated: 0, failed: 0, skipped: 0 },
     blocks: [], noiseEvents: [], repairEvents: [], dualTaskWindows: [],
+    listen: { started: 0, noMatch: 0 },
   };
 }
 
@@ -203,6 +210,19 @@ export function trackCapsuleDone(): void { cur.capsules.done += 1; scheduleFlush
 export function trackCapsuleSkip(): void { cur.capsules.skipped += 1; scheduleFlush(); }
 
 // ---- 4) Rutas de Rutina (TPR 2.0): panel de validación binaria del adulto ----
+// ES-04 · Escuchas iniciadas y escuchas que el motor cerró sin captar nada.
+// El cociente es la métrica de antes/después que pide el entregable de la fase.
+export function trackListenStart(): void {
+  if (!cur.listen) cur.listen = { started: 0, noMatch: 0 };
+  cur.listen.started += 1;
+  scheduleFlush();
+}
+export function trackListenNoMatch(): void {
+  if (!cur.listen) cur.listen = { started: 0, noMatch: 0 };
+  cur.listen.noMatch += 1;
+  scheduleFlush();
+}
+
 export function trackRouteStart(): void { cur.routes.started += 1; scheduleFlush(); }
 export function trackRouteValidated(): void { cur.routes.validated += 1; scheduleFlush(); }
 export function trackRouteFailed(): void { cur.routes.failed += 1; scheduleFlush(); }

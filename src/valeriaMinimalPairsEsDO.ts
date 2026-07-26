@@ -25,7 +25,7 @@ import { MinimalPair } from './valeriaMinimalPairs';
 export const MINIMAL_PAIRS_ESDO: MinimalPair[] = [
   {
     id: 'do-rana-lana', code: 'PM-DO-1', group: 'Rotacismo',
-    target: 'rana', targetEmoji: '🐸', foil: 'lana', foilEmoji: '🧶',
+    target: 'rana', targetEmoji: '🐸', foil: 'lana', foilEmoji: '🧶', foilPictogram: 'lana',
     phoneme: 'r̄ → l', errorLabel: 'Rotacismo inicial (ataque)',
     prompt: 'Di: rana.',
     onTarget: {
@@ -40,7 +40,7 @@ export const MINIMAL_PAIRS_ESDO: MinimalPair[] = [
   },
   {
     id: 'do-rata-lata', code: 'PM-DO-2', group: 'Rotacismo',
-    target: 'rata', targetEmoji: '🐀', foil: 'lata', foilEmoji: '🥫',
+    target: 'rata', targetEmoji: '🐀', foil: 'lata', foilEmoji: '🥫', foilPictogram: 'lata',
     phoneme: 'r̄ → l', errorLabel: 'Rotacismo inicial (generalización)',
     prompt: 'Di: rata.',
     onTarget: {
@@ -55,7 +55,7 @@ export const MINIMAL_PAIRS_ESDO: MinimalPair[] = [
   },
   {
     id: 'do-perro-pelo', code: 'PM-DO-3', group: 'Rotacismo',
-    target: 'perro', targetEmoji: '🐶', foil: 'pelo', foilEmoji: '💇',
+    target: 'perro', targetEmoji: '🐶', foil: 'pelo', foilEmoji: '💇', foilPictogram: 'pelo',
     phoneme: 'r̄ → l', errorLabel: 'Rotacismo intervocálico',
     prompt: 'Di: perro.',
     onTarget: {
@@ -100,7 +100,7 @@ export const MINIMAL_PAIRS_ESDO: MinimalPair[] = [
   },
   {
     id: 'do-cubo-tubo', code: 'PM-DO-6', group: 'Velares',
-    target: 'cubo', targetEmoji: '🪣', foil: 'tubo', foilEmoji: '🧪',
+    target: 'cubo', targetEmoji: '🪣', targetPictogram: 'cubo', foil: 'tubo', foilEmoji: '🧪', foilPictogram: 'tubo',
     phoneme: 'k → t', errorLabel: 'Frontalización velar inicial',
     prompt: 'Di: cubo.',
     onTarget: {
@@ -130,7 +130,7 @@ export const MINIMAL_PAIRS_ESDO: MinimalPair[] = [
   },
   {
     id: 'do-fuente-puente', code: 'PM-DO-8', group: 'Labiodental',
-    target: 'fuente', targetEmoji: '⛲', foil: 'puente', foilEmoji: '🌉',
+    target: 'fuente', targetEmoji: '⛲', foil: 'puente', foilEmoji: '🌉', foilPictogram: 'puente',
     phoneme: 'f → p', errorLabel: 'Oclusivización de fricativa (f→p)',
     prompt: 'Di: fuente.',
     onTarget: {

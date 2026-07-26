@@ -21,8 +21,8 @@ import { TPR_CAPSULES } from './valeriaTprBank';
 import { ROUTINE_ROUTES } from './valeriaRoutineRoutes';
 import { enumerateSemanticSpeech, enumerateSemanticSpeechFor } from './valeriaSemanticExpansion';
 import {
-  DAILY_SCENARIOS_EU, PROGRESSION_SEQUENCES_EU, CONTRAST_CAPSULES_EU,
-  SEM_RETRY_EU, SEM_SESSION_DONE_EU,
+  DAILY_SCENARIOS_EU, LEXICAL_CATEGORIES_EU, PROGRESSION_SEQUENCES_EU,
+  CONTRAST_CAPSULES_EU, SEM_RETRY_EU, SEM_SESSION_DONE_EU,
 } from './valeriaSemanticExpansionEu';
 import {
   enumerateExerciseSpeech, enumerateExerciseSpeechFor,
@@ -196,9 +196,9 @@ export function buildVoiceCorpus(): VoiceCorpusEntry[] {
   addGl('child', VOICE_SAMPLE_PHRASE_GL, 'util/muestra');
 
   // ============================ EUSKERA (eu) ============================
-  // Contenido del plan ILENIA/NEL-GAITU (EU-2.x), BORRADOR pendiente de
-  // revisión; se sintetiza con la voz HiTZ-TTS y se emite en las sesiones en
-  // euskera. Espejo estructural del bloque galego.
+  // Contenido del plan ILENIA/NEL-GAITU (EU-2.x), validado por hablantes de
+  // euskera (julio 2026); se sintetiza con la voz HiTZ-TTS y se emite en las
+  // sesiones en euskera. Espejo estructural del bloque galego.
   const addEu = mkAdd('eu');
 
   for (const p of MINIMAL_PAIRS_EU) {
@@ -236,6 +236,7 @@ export function buildVoiceCorpus(): VoiceCorpusEntry[] {
   // se locuta con HiTZ igual que la base es con Sharvard.
   for (const l of enumerateSemanticSpeechFor({
     scenarios: DAILY_SCENARIOS_EU,
+    categories: LEXICAL_CATEGORIES_EU,
     sequences: PROGRESSION_SEQUENCES_EU,
     capsules: CONTRAST_CAPSULES_EU,
     retry: SEM_RETRY_EU,

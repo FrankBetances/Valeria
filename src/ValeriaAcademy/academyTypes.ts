@@ -13,9 +13,13 @@
 
 // --- Dominios clínicos (silos de gamificación) ------------------------------
 
-// Los cinco dominios del hub. El progreso NUNCA se mezcla entre ellos: la XP de
-// una cápsula se inyecta siempre en el silo de su dominio de origen.
-export type AcademyDomain = 'lenguaje' | 'hipoacusia' | 'dislalias' | 'dislexia' | 'tea';
+// Los dominios del hub. El progreso NUNCA se mezcla entre ellos: la XP de una
+// cápsula se inyecta siempre en el silo de su dominio de origen.
+// 'signos' (LSE) se añadió a sugerencia de las logopedas de ACOPROS. El store
+// absorbe el silo nuevo sin migración: al hidratar hace
+// { ...emptyDomains(), ...parsed.domains }, así que una instalación con estado
+// guardado antes de este dominio arranca con su silo a cero y conserva el resto.
+export type AcademyDomain = 'lenguaje' | 'hipoacusia' | 'dislalias' | 'dislexia' | 'tea' | 'signos';
 
 // --- Contenido (datos puros, sin estado de usuario) -------------------------
 
@@ -24,6 +28,10 @@ export interface AcademySlide {
   icon?: string;
   heading: string;
   body: string;
+  // Clave de una figura dibujada (AcademySignosSvg). La usan las cápsulas de
+  // LSE para mostrar una configuración de mano; sin dibujo registrado, la
+  // diapositiva se muestra igual y no queda hueco.
+  figure?: string;
 }
 
 // Pregunta de validación ágil. `answer` es el índice de la opción correcta.
