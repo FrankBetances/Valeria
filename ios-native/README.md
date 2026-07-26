@@ -46,6 +46,21 @@ completos del proyecto RN se sustituyen por estado en memoria y datos de muestra
 (`AppModel`): la app es navegable de punta a punta sin backend. El tutor hace de
 juez en los ejercicios de voz (como en el fallback sin micrófono del original).
 
+### ⚠️ No usar este port para validación clínica
+
+Es un demostrador de navegación y estética. Las mejoras que ACOPROS validó en
+julio de 2026 **viven en el proyecto React Native**, no aquí: antesala de
+preparación antes de la tarea (ES-11), vuelta de comprensión por selección de
+imagen (ES-12), pictogramas propios (ES-09), ventana de escucha ampliada (ES-04)
+y franjas de recordatorio configurables (GEN-01).
+
+Lo que sí es innegociable es que la muestra de contenido de este port **no
+contradiga** las decisiones clínicas ya tomadas: hasta julio de 2026 mostraba una
+fase de onomatopeya que DC-2 había retirado y un contraste de elefante contra
+hormiga que ES-13 prohíbe. Lo que se ve en un dispositivo se toma por lo que hace
+la app. Al tocar `SemanticExpansionView` o `MinimalPairsView`, contrastar con
+`docs/plan-mejoras-acopros-logopedas.json`.
+
 ## Dependencias (Swift Package Manager)
 
 Inyectadas en `project.pbxproj` → `firebase-ios-sdk` (upToNextMajor `11.0.0`):

@@ -4,7 +4,7 @@
   "version": "1.1.0",
   "titulo": "Plan de revisión · Feedback clínico de las logopedas de ACOPROS (julio 2026)",
   "fecha": "2026-07-24",
-  "estado": "fases 1 y 3 publicadas y validadas por ACOPROS y por hablantes de euskera · fase 2 en cierre · plan de cierre en ejecución (planDeCierre)",
+  "estado": "completado · las mejoras recomendadas por las logopedas de ACOPROS están implementadas y validadas. Diferido con motivo: ES-08 y la opción C de DC-1.",
   "descripcion": "Convierte el feedback cualitativo de las logopedas de ACOPROS sobre Pares Mínimos, Expansión Semántica y recordatorios en un backlog trazable: cada observación se verifica contra el código real del repositorio, se propone un cambio concreto con sus ficheros, se marca si requiere una decisión clínica previa y se cierra con criterios de aceptación comprobables en dispositivo.",
   "origen": {
     "fuente": "Correo de las logopedas de ACOPROS tras la prueba de la app",
@@ -1478,9 +1478,12 @@
       "Los tres corren en el workflow de Android junto al typecheck. Hasta el 2026-07-26 solo estaba enganchado el de cobertura de corpus: check-content-rules.js figuraba como gate en este plan sin que nada lo ejecutase."
     ],
     "pendienteHumano": [
-      "CERRADO (2026-07-26) · Escucha de una sesión completa en es, gl y eu: validada por ACOPROS con voz neuronal en las tres lenguas.",
-      "CERRADO (2026-07-26) · Validación por hablantes de euskera de las cadenas nuevas: los bancos eu dejan de figurar como borrador en el código (valeriaVoiceCorpus.ts, valeriaCarrierPhrases.ts).",
-      "ABIERTO · Decidir si la frase portadora se recupera como modo avanzado: se retiró del flujo y del corpus, pero su módulo se conserva. Es decisión de producto, no de este plan."
+      "CERRADO (2026-07-26) · Escucha de una sesión completa en es, gl y eu, validada por ACOPROS.",
+      "CERRADO (2026-07-26) · Validación por hablantes de euskera de las cadenas nuevas.",
+      "ABIERTO · Ver en dispositivo los 46 pictogramas propios: son geometría escrita a mano y ningún script comprueba que un dibujo se RECONOZCA, solo que exista.",
+      "ABIERTO · Medir la tasa de reintentos de ES-04 con sesiones reales; la instrumentación ya está.",
+      "ABIERTO · Devolver la columna de veredicto de docs/auditoria-pictogramas.md sobre los 5 emoji marcados REVISAR que siguen sin dibujo.",
+      "ABIERTO · Decidir si la frase portadora se recupera como modo avanzado. Es decisión de producto."
     ],
     "hallazgo": "RESUELTO (2026-07-26) · La congruencia de ES-13 obliga a que ambas vueltas de una cápsula muestren el mismo objeto, lo que con emoji dejaba la vuelta de comprensión irresoluble salvo en tamaño. El inventario midió el alcance real: 16 de las 20 cápsulas de los tres bancos, no 8. Se resuelve con pictogramas propios por clave —ocho objetos con dos variantes de atributo cada uno— y lo protege scripts/check-pictogram-coverage.js.",
     "validacionHumana": {
@@ -1803,13 +1806,13 @@
       "DC-1 opción C · reorganización de Escenarios en categorías semánticas: rediseño del banco en las cuatro variedades, propio de una versión mayor",
       "La frase portadora como modo avanzado: se retiró del flujo y del corpus, y su módulo se conserva. Es una decisión pendiente de producto, no trabajo de este cierre"
     ],
-    "estado": "desbloqueado · sin dependencias externas pendientes tras la validación del 2026-07-26",
+    "estado": "completado (2026-07-26) · los cinco lotes cerrados",
     "estadoLotes": {
       "L1": "completado (2026-07-26) · GEN-01, ES-11 y ES-04. Cierra la fase 2.",
       "L2": "completado (2026-07-26) · auditoría en docs/auditoria-pictogramas.md y registro por clave en ValeriaPictograms.",
       "L3": "completado (2026-07-26) · 16 pictogramas sobre 8 objetos, claves en los tres bancos, apaño de escala retirado, dashboard y exportación separando comprensión de producción, gate en CI.",
       "L4": "completado (2026-07-26) · aprobado por ACOPROS. 29 pictogramas nuevos: los verbos que señalaron y todos los emoji con riesgo de tofu, que quedan al 100 %. Los 5 emoji que siguen sin dibujo (🌿 🙋 💵 💪 🎵) se renderizan bien y solo están marcados como REVISAR: son juicio clínico, no fallo técnico.",
-      "L5": "pendiente · X-03 (protocolos), X-06 (port iOS)."
+      "L5": "completado (2026-07-26) · X-03: protocolos actualizados con la antesala, la doble vuelta y los pictogramas; la tabla de progresiones todavía describía la escalera de onomatopeyas que DC-2 retiró, que es justo lo que X-03 advertía. X-06: el port iOS queda como demostrador etiquetado, con su muestra de contenido corregida para que no contradiga DC-2 ni ES-13."
     },
     "correccionDeEstimacion": "El plan estimaba 8 cápsulas afectadas contando solo el banco castellano. El inventario encontró 16 de 20 sumando es, es-DO y eu. No cambió el coste: las tres lenguas contrastan los MISMOS objetos (osito/hartzatxo, cuchara/koilara, caja/kutxa), y como la clave no depende del idioma, los mismos 16 dibujos cubren las 20 cápsulas."
   }

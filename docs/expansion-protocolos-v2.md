@@ -24,12 +24,22 @@
 >   audio, el que muestra la imagen y el que pide el setup son el mismo; solo
 >   varía el atributo contrastado. Queda prohibido ilustrar el atributo con un
 >   objeto ajeno (un elefante para «grande», un cerdo para «sucio»).
-> - **Pictogramas** (DC-4): por ahora se auditan los emoji ambiguos; la adopción
->   de un banco queda pendiente de resolver la licencia. Con emoji, la vuelta de
->   comprensión solo distingue bien los contrastes de TAMAÑO (se marca con la
->   escala); el resto necesita los assets que describe `visual_prompt`.
+> - **Antesala de preparación** (ES-11): toda actividad pasa por una pantalla
+>   previa con el material y los pasos. **Nada suena hasta que el adulto
+>   confirma.** La antesala se lee, no se locuta.
+> - **Ventana de escucha** (ES-04): el reconocedor espera tres segundos de
+>   silencio, aprovecha el mejor parcial y **no descuenta intento ni estrella
+>   cuando el fallo es del motor**. `matchExpected` no se toca: es materia
+>   clínica y aflojarlo produce falsos positivos.
+> - **Pictogramas propios** (DC-4 · ES-09): descartados los bancos externos por
+>   licencia, y sobre todo porque ninguno trae un par sobre el MISMO objeto
+>   («cuchara sucia» / «cuchara limpia»), que es lo que ES-12 necesita. El dato
+>   nombra el dibujo por una **clave** independiente de la lengua; sin dibujo,
+>   cae al emoji sin hueco visual.
 >
-> Las reglas de contenido las verifica `scripts/check-content-rules.js`.
+> Las reglas de contenido las verifican, en cada build,
+> `scripts/check-content-rules.js` y `scripts/check-pictogram-coverage.js`.
+> Inventario visual: `docs/auditoria-pictogramas.md`.
 > Origen y trazabilidad: `docs/plan-mejoras-acopros-logopedas.json` (ES-01 a ES-13).
 
 
