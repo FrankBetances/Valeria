@@ -1,16 +1,25 @@
 // ============================================================================
-// Valeria+ · Recordatorios en pantalla de bloqueo (V4.1)
+// Valeria+ · Recordatorios en pantalla de bloqueo (V4.2)
 // Notificaciones locales con expo-notifications, sin servidor:
-//   · Máximo 4 recordatorios al día (9:00, 13:00, 17:00 y 20:00, repetición diaria).
+//   · Hasta 4 franjas al día (9:00, 13:00, 17:00 y 20:00), y el usuario ELIGE
+//     cuáles quiere: de las cuatro a ninguna.
 //   · Mensajes lúdicos rotatorios con la osita Valeria para animar a la sesión.
-//   · El aviso de las 20:00 es un consejo para padres ("El hogar como centro
+//   · La franja de las 20:00 es un consejo para padres ("El hogar como centro
 //     de rehabilitación") que rota cada día entre los 5 consejos básicos.
 //   · Canal Android de máxima prioridad y visibilidad pública (pantalla de bloqueo).
 //
+// GEN-01 · Las logopedas de ACOPROS buscaron dónde elegir cuántos avisos
+// recibir y no lo encontraron, porque no existía: la tarjeta prometía «hasta
+// 4 al día» describiendo un LÍMITE DEL SISTEMA como si fuera una opción, y
+// las cuatro horas eran una constante de módulo. Ahora son una preferencia.
+//
 // API:
 //   initNotifications()            → registrar handler + canal (llamar al arrancar).
-//   remindersEnabled()             → lee la preferencia guardada.
-//   enableDailyReminders()         → pide permiso y programa los 4 avisos diarios.
+//   remindersEnabled()             → lee la preferencia de encendido.
+//   loadReminderSlots()            → franjas elegidas (las cuatro por defecto).
+//   enableDailyReminders(slots?)   → pide permiso y programa las franjas elegidas.
+//   setReminderSlots(slots)        → cambia la selección y reprograma; lista vacía
+//                                    equivale a desactivar.
 //   refreshDailyReminders()        → reprograma en silencio para rotar los mensajes
 //                                    y el consejo del día (llamar al arrancar).
 //   disableReminders()             → cancela todo y guarda la preferencia.
@@ -21,8 +30,32 @@ import * as Notifications from 'expo-notifications';
 import { STORAGE_KEYS } from './valeriaTheme';
 
 const CHANNEL_ID = 'valeria-recordatorios';
-// Máximo 4 avisos al día, repartidos entre mañana, mediodía, tarde y noche.
-export const REMINDER_HOURS = [9, 13, 17, 20];
+
+// Las cuatro franjas configurables. El identificador es estable y no depende
+// de la hora, para poder mover un horario sin invalidar la preferencia ya
+// guardada en los dispositivos.
+export type ReminderSlot = 'manana' | 'mediodia' | 'tarde' | 'consejo';
+
+export interface ReminderSlotDef {
+  slot: ReminderSlot;
+  hour: number;
+  label: string;   // etiqueta corta para el selector
+  hint: string;    // qué llega en esa franja, en una línea
+}
+
+export const REMINDER_SLOTS: ReminderSlotDef[] = [
+  { slot: 'manana', hour: 9, label: 'Mañana · 9:00', hint: 'Invitación a la sesión del día.' },
+  { slot: 'mediodia', hour: 13, label: 'Mediodía · 13:00', hint: 'Recordatorio corto a media jornada.' },
+  { slot: 'tarde', hour: 17, label: 'Tarde · 17:00', hint: 'Última llamada para no perder la racha.' },
+  // ES: la franja de noche NO es un aviso de juego. Va dirigida al adulto y la
+  // etiqueta debe decirlo, o se apagará pensando que despierta al niño.
+  { slot: 'consejo', hour: 20, label: 'Noche · 20:00', hint: 'Consejo para el adulto, no aviso de juego.' },
+];
+
+export const ALL_REMINDER_SLOTS: ReminderSlot[] = REMINDER_SLOTS.map((s) => s.slot);
+
+const hoursFor = (slots: ReminderSlot[]): number[] =>
+  REMINDER_SLOTS.filter((d) => slots.includes(d.slot)).map((d) => d.hour);
 
 // Mensajes rotatorios: cercanos, breves y con llamada a la acción de juego.
 const MESSAGES: { title: string; body: string }[] = [
@@ -97,17 +130,46 @@ export const remindersEnabled = async (): Promise<boolean> => {
   }
 };
 
-// Programa los 4 avisos del día: mensajes lúdicos en las primeras horas y el
-// consejo para padres del día en la hora TIP_HOUR. El índice por día hace que,
-// al reprogramar en cada arranque, tanto los mensajes como el consejo roten.
-const scheduleDailyContent = async (): Promise<void> => {
+// Franjas elegidas. Sin preferencia guardada (instalación nueva o versión
+// anterior a GEN-01) valen las cuatro, que es lo que hacía la constante.
+// Se sanean los valores desconocidos para que una preferencia de una versión
+// futura no deje al usuario sin ningún aviso en una versión antigua.
+export const loadReminderSlots = async (): Promise<ReminderSlot[]> => {
+  try {
+    const raw = await AsyncStorage.getItem(STORAGE_KEYS.recordatoriosFranjas);
+    if (!raw) return [...ALL_REMINDER_SLOTS];
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed)) return [...ALL_REMINDER_SLOTS];
+    return ALL_REMINDER_SLOTS.filter((s) => parsed.includes(s));
+  } catch (e) {
+    return [...ALL_REMINDER_SLOTS];
+  }
+};
+
+const saveReminderSlots = async (slots: ReminderSlot[]): Promise<void> => {
+  try {
+    await AsyncStorage.setItem(STORAGE_KEYS.recordatoriosFranjas, JSON.stringify(slots));
+  } catch (e) { /* noop */ }
+};
+
+// Programa un aviso por franja elegida: mensajes lúdicos en las horas de juego
+// y el consejo para padres del día en TIP_HOUR. El índice por día hace que, al
+// reprogramar en cada arranque, tanto los mensajes como el consejo roten.
+//
+// Empieza SIEMPRE por cancelar todo lo programado. Es lo que hace que apagar
+// una franja apague de verdad sus avisos ya en cola, y no solo deje de
+// reprogramarlos (el riesgo que GEN-01 señalaba).
+const scheduleDailyContent = async (hours: number[]): Promise<void> => {
   await Notifications.cancelAllScheduledNotificationsAsync();
   const day = Math.floor(Date.now() / 86_400_000);
+  // Cuántos mensajes lúdicos consume un día, para que el desfase diario siga
+  // rotando el banco entero aunque el usuario deje activa una sola franja.
+  const playful = Math.max(1, hours.filter((h) => h !== TIP_HOUR).length);
   let msg = 0;
-  for (const hour of REMINDER_HOURS) {
+  for (const hour of hours) {
     const m = hour === TIP_HOUR
       ? PARENT_TIPS[day % PARENT_TIPS.length]
-      : MESSAGES[(day * (REMINDER_HOURS.length - 1) + msg++) % MESSAGES.length];
+      : MESSAGES[(day * playful + msg++) % MESSAGES.length];
     await Notifications.scheduleNotificationAsync({
       content: { title: m.title, body: m.body, sound: false },
       trigger: {
@@ -120,10 +182,16 @@ const scheduleDailyContent = async (): Promise<void> => {
   }
 };
 
-// Programa como máximo 4 recordatorios diarios (uno por cada hora de
-// REMINDER_HOURS). Devuelve true si el permiso fue concedido y quedaron
-// programados.
-export const enableDailyReminders = async (): Promise<boolean> => {
+// Activa los recordatorios en las franjas indicadas (por defecto, las que ya
+// tuviera guardadas). Devuelve true si el permiso fue concedido y quedaron
+// programados. Una lista vacía no es un error: significa desactivar.
+export const enableDailyReminders = async (slots?: ReminderSlot[]): Promise<boolean> => {
+  const elegidas = slots ?? (await loadReminderSlots());
+  if (!elegidas.length) {
+    await disableReminders();
+    return false;
+  }
+
   const perm = await Notifications.getPermissionsAsync();
   let granted = perm.granted;
   if (!granted) {
@@ -132,11 +200,23 @@ export const enableDailyReminders = async (): Promise<boolean> => {
   }
   if (!granted) return false;
 
-  await scheduleDailyContent();
+  await scheduleDailyContent(hoursFor(elegidas));
+  await saveReminderSlots(elegidas);
   try {
     await AsyncStorage.setItem(STORAGE_KEYS.recordatorios, 'on');
   } catch (e) { /* noop */ }
   return true;
+};
+
+// Cambia la selección de franjas con los recordatorios ya activos. Quedarse sin
+// ninguna equivale a apagarlos: se cancela lo programado y el interruptor
+// maestro de la tarjeta se apaga (devuelve false).
+export const setReminderSlots = async (slots: ReminderSlot[]): Promise<boolean> => {
+  if (!slots.length) {
+    await disableReminders();
+    return false;
+  }
+  return enableDailyReminders(slots);
 };
 
 // Reprograma los avisos al arrancar la app (si el usuario los tiene activos)
@@ -147,7 +227,9 @@ export const refreshDailyReminders = async (): Promise<void> => {
     if (!(await remindersEnabled())) return;
     const perm = await Notifications.getPermissionsAsync();
     if (!perm.granted) return;
-    await scheduleDailyContent();
+    const slots = await loadReminderSlots();
+    if (!slots.length) return;
+    await scheduleDailyContent(hoursFor(slots));
   } catch (e) { /* noop (p.ej. web) */ }
 };
 

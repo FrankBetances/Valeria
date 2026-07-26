@@ -98,6 +98,22 @@ jobs:
       - name: Comprobar cobertura del corpus de voz (es/gl/eu)
         run: node scripts/check-voice-corpus-coverage.js
 
+      # Reglas de contenido acordadas con ACOPROS (ES-06, ES-10, ES-13). El
+      # script existía desde la fase 3 pero nadie lo ejecutaba: el plan lo daba
+      # por gate activo y en realidad solo protegía a quien se acordara de
+      # lanzarlo a mano.
+      - name: Comprobar reglas de contenido (ES-06, ES-10, ES-13)
+        run: node scripts/check-content-rules.js
+
+      # Programación de recordatorios por franjas (GEN-01). Cubre el caso que el
+      # item marcaba como riesgo: apagar una franja debe CANCELAR sus avisos ya
+      # en cola, no solo dejar de reprogramarlos.
+      - name: Comprobar franjas de recordatorio (GEN-01)
+        run: node scripts/check-reminder-slots.js
+
+      - name: Comprobar tipos
+        run: npm run typecheck
+
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:

@@ -1447,14 +1447,14 @@
     "fase2": {
       "estado": "parcial",
       "completados": [
-        "ES-13"
+        "ES-13",
+        "GEN-01"
       ],
       "pendientes": [
         "ES-04",
-        "ES-11",
-        "GEN-01"
+        "ES-11"
       ],
-      "nota": "ES-13 se adelantó a la fase 3 porque la regla de congruencia se aplicó junto con el resto del contenido. ES-04 (sensibilidad del reconocedor), ES-11 (antesala de material) y GEN-01 (franjas de recordatorios) siguen pendientes."
+      "nota": "ES-13 se adelantó a la fase 3 porque la regla de congruencia se aplicó junto con el resto del contenido. GEN-01 cerrado el 2026-07-26 (franjas configurables, con chequeo en CI). Siguen pendientes ES-04 (sensibilidad del reconocedor) y ES-11 (antesala de material)."
     },
     "fase3": {
       "estado": "completada",
@@ -1472,8 +1472,10 @@
       }
     },
     "verificacionAutomatica": [
-      "scripts/check-voice-corpus-coverage.js — falla si una locución de es/gl/eu no tiene asset de voz neuronal (gate en el build de Android).",
-      "scripts/check-content-rules.js — verifica ES-06, ES-10 y ES-13 sobre los tres bancos."
+      "scripts/check-voice-corpus-coverage.js — falla si una locución de es/gl/eu no tiene asset de voz neuronal.",
+      "scripts/check-content-rules.js — verifica ES-06, ES-10 y ES-13 sobre los tres bancos.",
+      "scripts/check-reminder-slots.js — verifica los cuatro criterios de GEN-01, incluido que apagar una franja cancele sus avisos ya en cola.",
+      "Los tres corren en el workflow de Android junto al typecheck. Hasta el 2026-07-26 solo estaba enganchado el de cobertura de corpus: check-content-rules.js figuraba como gate en este plan sin que nada lo ejecutase."
     ],
     "pendienteHumano": [
       "CERRADO (2026-07-26) · Escucha de una sesión completa en es, gl y eu: validada por ACOPROS con voz neuronal en las tres lenguas.",
