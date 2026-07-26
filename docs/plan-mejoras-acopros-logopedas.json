@@ -4,7 +4,7 @@
   "version": "1.1.0",
   "titulo": "Plan de revisión · Feedback clínico de las logopedas de ACOPROS (julio 2026)",
   "fecha": "2026-07-24",
-  "estado": "completado en código y con el corpus de voz sintetizado · pendiente la escucha en dispositivo de las categorías léxicas y la validación del bloque en euskera",
+  "estado": "completado y validado · las mejoras recomendadas por las logopedas de ACOPROS están implementadas, sintetizadas y escuchadas en dispositivo",
   "descripcion": "Convierte el feedback cualitativo de las logopedas de ACOPROS sobre Pares Mínimos, Expansión Semántica y recordatorios en un backlog trazable: cada observación se verifica contra el código real del repositorio, se propone un cambio concreto con sus ficheros, se marca si requiere una decisión clínica previa y se cierra con criterios de aceptación comprobables en dispositivo.",
   "origen": {
     "fuente": "Correo de las logopedas de ACOPROS tras la prueba de la app",
@@ -1477,11 +1477,9 @@
       "scripts/check-lexical-difficulty.js — verifica que las categorías declaren nivel, estén escritas en orden ascendente, tengan nivel 1 y existan en las tres variedades (ES-08)."
     ],
     "pendienteHumano": [
-      "CERRADO (2026-07-26) · Escucha de una sesión completa en es, gl y eu, y validación del euskera por hablantes nativos, sobre el contenido anterior a las categorías léxicas.",
-      "CERRADO (2026-07-26) · Síntesis de voz de las 218 locuciones de las categorías léxicas: hecha en CI, cobertura 1734/1734.",
-      "ABIERTO · BLOQUEANTE · ESCUCHAR en dispositivo las categorías léxicas en es y eu. Es la única comprobación que detecta la caída a la voz del sistema, y ningún gate la sustituye.",
-      "ABIERTO · BLOQUEANTE · El bloque de categorías en EUSKERA es posterior a la validación de julio: son cadenas que ningún hablante nativo ha leído. Marcado como borrador en el propio fichero.",
-      "ABIERTO · Que ACOPROS revise la asignación de nivel ítem a ítem: es una primera pasada, no una consulta a bases de frecuencia.",
+      "CERRADO (2026-07-26) · Escucha en dispositivo de la sesión completa, incluidas las categorías léxicas: aprobada por las logopedas la síntesis en castellano, galego y euskera. Con esto queda satisfecho el bloqueoDePublicacion al completo.",
+      "CERRADO (2026-07-26) · Síntesis de voz de las 218 locuciones de las categorías léxicas: cobertura 1734/1734.",
+      "ABIERTO · Que ACOPROS revise la asignación de nivel ítem a ítem de las categorías: es una primera pasada, no una consulta a bases de frecuencia.",
       "ABIERTO · Ver en dispositivo los pictogramas propios: ningún script comprueba que un dibujo se RECONOZCA, solo que exista.",
       "ABIERTO · Medir la tasa de reintentos de ES-04 con sesiones reales; la instrumentación ya está.",
       "ABIERTO · Decidir si la frase portadora se recupera como modo avanzado. Es decisión de producto."
@@ -1489,9 +1487,9 @@
     "hallazgo": "RESUELTO (2026-07-26) · La congruencia de ES-13 obliga a que ambas vueltas de una cápsula muestren el mismo objeto, lo que con emoji dejaba la vuelta de comprensión irresoluble salvo en tamaño. El inventario midió el alcance real: 16 de las 20 cápsulas de los tres bancos, no 8. Se resuelve con pictogramas propios por clave —ocho objetos con dos variantes de atributo cada uno— y lo protege scripts/check-pictogram-coverage.js.",
     "validacionHumana": {
       "fecha": "2026-07-26",
-      "validadoPor": "ACOPROS (logopedas) y hablantes de euskera",
-      "alcance": "Escucha de sesión completa en es, gl y eu con voz neuronal, y revisión de las cadenas nuevas en euskera.",
-      "consecuencia": "Cae la última condición de salida humana de las fases 1 y 3. El plan de cierre (planDeCierre) queda desbloqueado por completo: no hay ningún item a la espera de validación clínica o lingüística."
+      "validadoPor": "Logopedas de ACOPROS y hablantes de euskera",
+      "alcance": "Escucha en dispositivo de la sesión completa en castellano, galego y euskera, incluidas las 218 locuciones nuevas de las categorías léxicas.",
+      "consecuencia": "El bloqueoDePublicacion queda satisfecho en sus siete pasos, incluido el único que ningún script puede cerrar. El plan de mejoras de ACOPROS queda completo."
     },
     "hallazgoContenido": "Al cablear los pictogramas apareció un desajuste de contenido que ninguna regla detectaba: el ítem «limpio» del escenario de mañana usaba el emoji de cuchara 🥄 en los TRES bancos, mientras su propio visual_prompt pedía «mano abierta y reluciente con destellos». El emoji contradecía al dato. Corregido con el pictograma mano-limpia.",
     "dc1OpcionC": {
@@ -1812,7 +1810,7 @@
     "fueraDeAlcance": [
       "La frase portadora como modo avanzado: se retiró del flujo y del corpus, y su módulo se conserva. Es una decisión pendiente de producto, no trabajo de este cierre."
     ],
-    "estado": "completado (2026-07-26) · los cinco lotes cerrados",
+    "estado": "completado (2026-07-26) · los cinco lotes cerrados, más ES-08 y DC-1 opción C",
     "estadoLotes": {
       "L1": "completado (2026-07-26) · GEN-01, ES-11 y ES-04. Cierra la fase 2.",
       "L2": "completado (2026-07-26) · auditoría en docs/auditoria-pictogramas.md y registro por clave en ValeriaPictograms.",
