@@ -46,6 +46,7 @@ const MONTHS = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', '
 interface PracticeStep {
   kicker: string;        // etiqueta superior (SUSTANTIVO, FASE 1 · ONOMATOPEYA, CONTRASTE…)
   emoji: string;
+  pictogram?: string;    // clave del pictograma propio (ES-09); ausente → emoji
   label: string;         // palabra objetivo mostrada
   visualPrompt: string;  // descripción del asset (guía para el adulto/diseñador)
   tts: string;           // consigna a locutar
@@ -58,7 +59,7 @@ interface PracticeStep {
   // entre las dos, que ya estaban en el dato) y la segunda PRODUCCIÓN (la dice).
   // El resto de bloques solo produce, así que 'produccion' es el valor por defecto.
   mode?: 'comprension' | 'produccion';
-  choices?: { label: string; emoji: string }[]; // solo en comprensión: las dos opciones
+  choices?: { label: string; emoji: string; pictogram?: string }[]; // solo en comprensión: las dos opciones
   answerLabel?: string;                          // cuál de las dos es la correcta
 }
 
@@ -106,16 +107,20 @@ const contrastSession = (bank: SemanticBank, id: string): Session => {
       kicker: i === 0
         ? `${cp.kind === 'adjetivos' ? 'CONTRASTE DE ADJETIVOS' : 'VERBOS ANTÓNIMOS'} · VUELTA 1 · COMPRENDER`
         : `${cp.kind === 'adjetivos' ? 'CONTRASTE DE ADJETIVOS' : 'VERBOS ANTÓNIMOS'} · VUELTA 2 · DECIR`,
-      emoji: r.emoji, label: r.label,
+      emoji: r.emoji, label: r.label, pictogram: r.pictogram,
       visualPrompt: `Par en contraste: ${cp.pair[0]} / ${cp.pair[1]}.`,
       tts: r.tts_trigger, expected: r.stt_expected_array,
       actionKicker: i === 0 ? 'ACCIÓN FÍSICA EN PAREJA' : 'ACCIÓN FÍSICA · SEGUNDA VUELTA',
       action: r.parent_action,
       setup: i === 0 ? cp.physical_setup : undefined,
-      // Vuelta 1: el niño elige entre las DOS imágenes de la cápsula (las dos
-      // vueltas ya traían su emoji, así que el dato para mostrarlas existía).
+      // Vuelta 1: el niño elige entre las DOS imágenes de la cápsula. Las dos
+      // vueltas comparten objeto (regla de congruencia ES-13) y solo difieren
+      // en el atributo, así que lo que distingue las tarjetas es el pictograma
+      // de cada vuelta, no el emoji —que en 16 de las 20 cápsulas es el mismo.
       mode: i === 0 ? 'comprension' as const : 'produccion' as const,
-      choices: i === 0 ? cp.rounds.map((x) => ({ label: x.label, emoji: x.emoji })) : undefined,
+      choices: i === 0
+        ? cp.rounds.map((x) => ({ label: x.label, emoji: x.emoji, pictogram: x.pictogram }))
+        : undefined,
       answerLabel: i === 0 ? r.label : undefined,
     })),
   };
@@ -400,7 +405,8 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
       // media oculta el caso típico: entiende el par pero aún no lo dice.
       const comp = res.filter((r) => r.mode === 'comprension');
       const prod = res.filter((r) => r.mode === 'produccion');
-      const media = (xs: StepRecord[]) => (xs.length ? (xs.reduce((a, r) => a + r.stars, 0) / xs.length).toFixed(1) : '–');
+      const mediaNum = (xs: StepRecord[]) => (xs.length ? +(xs.reduce((a, r) => a + r.stars, 0) / xs.length).toFixed(1) : null);
+      const media = (xs: StepRecord[]) => (xs.length ? mediaNum(xs)!.toFixed(1) : '–');
       hist.push({
         date: `${d.getDate()} ${MONTHS[d.getMonth()]}`,
         name: `Expansión semántica · ${sess.title}`,
@@ -409,6 +415,10 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
           ? `${kindLbl}: comprensión ${media(comp)}/3 en ${comp.length} ${comp.length === 1 ? 'vuelta' : 'vueltas'} · producción ${media(prod)}/3 en ${prod.length}.`
           : `${kindLbl}: ${res.length} palabras trabajadas uniendo símbolo, voz y acción física.`,
         completed: true,
+        // El desglose va también como dato, no solo dentro del texto de la
+        // nota: el panel de resultados y la exportación lo leen de aquí en vez
+        // de tener que interpretar una frase.
+        ...(comp.length ? { split: { comprension: mediaNum(comp), produccion: mediaNum(prod) } } : {}),
       });
       await AsyncStorage.setItem(STORAGE_KEYS.historial, JSON.stringify(hist));
       const rawSe = await AsyncStorage.getItem(STORAGE_KEYS.expansionSemantica);
@@ -670,7 +680,7 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
         <View style={s.bigTile}>
           <Text style={s.tileKicker}>{st.kicker}</Text>
           <View style={{ marginTop: 6 }}>
-            <FichaVisual word={st.label} emoji={st.emoji} size={64} />
+            <FichaVisual word={st.label} emoji={st.emoji} pic={st.pictogram} size={64} />
           </View>
           <Text style={s.tileCap}>{st.label}</Text>
         </View>
@@ -747,14 +757,13 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
                   accessibilityRole="button"
                   accessibilityLabel={c.label}
                 >
-                  {/* Mismo objeto en ambas tarjetas (regla de congruencia ES-13):
-                      lo que las distingue es el atributo, que en tamaño se marca
-                      con la escala y en el resto llegará con el asset definitivo. */}
-                  <FichaVisual
-                    word={c.label}
-                    emoji={c.emoji}
-                    size={c.label === st.answerLabel && /grande|handia/i.test(c.label) ? 76 : /pequeñ|chiquit|txiki/i.test(c.label) ? 40 : 60}
-                  />
+                  {/* Mismo objeto en ambas tarjetas (regla de congruencia
+                      ES-13): lo que las distingue es el ATRIBUTO, y eso lo
+                      dibuja el pictograma de cada vuelta. Las dos se pintan al
+                      mismo tamaño a propósito — hasta ahora grande/pequeño se
+                      sostenía escalando la ficha, un apaño que solo funcionaba
+                      con ese par y dejaba irresolubles los otros siete. */}
+                  <FichaVisual word={c.label} emoji={c.emoji} pic={c.pictogram} size={60} />
                   <Text style={s.pickCardCap}>{c.label}</Text>
                 </Pressable>
               ))}

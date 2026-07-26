@@ -111,6 +111,13 @@ jobs:
       - name: Comprobar franjas de recordatorio (GEN-01)
         run: node scripts/check-reminder-slots.js
 
+      # Cobertura de pictogramas en cápsulas de contraste (ES-12). Sin dibujo
+      # propio por vuelta, la vuelta de comprensión enseña dos tarjetas
+      # idénticas: la regla de congruencia de ES-13 obliga a que ambas muestren
+      # el mismo objeto, y lo único que cambia es el atributo.
+      - name: Comprobar pictogramas de contraste (ES-12)
+        run: node scripts/check-pictogram-coverage.js
+
       - name: Comprobar tipos
         run: npm run typecheck
 

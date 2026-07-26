@@ -1475,6 +1475,7 @@
       "scripts/check-voice-corpus-coverage.js — falla si una locución de es/gl/eu no tiene asset de voz neuronal.",
       "scripts/check-content-rules.js — verifica ES-06, ES-10 y ES-13 sobre los tres bancos.",
       "scripts/check-reminder-slots.js — verifica los cuatro criterios de GEN-01, incluido que apagar una franja cancele sus avisos ya en cola.",
+      "scripts/check-pictogram-coverage.js — falla si una vuelta de cápsula no declara pictograma, si la clave no tiene dibujo o si las dos vueltas usan la MISMA clave (el fallo que no se ve leyendo el dato).",
       "Los tres corren en el workflow de Android junto al typecheck. Hasta el 2026-07-26 solo estaba enganchado el de cobertura de corpus: check-content-rules.js figuraba como gate en este plan sin que nada lo ejecutase."
     ],
     "pendienteHumano": [
@@ -1482,7 +1483,7 @@
       "CERRADO (2026-07-26) · Validación por hablantes de euskera de las cadenas nuevas: los bancos eu dejan de figurar como borrador en el código (valeriaVoiceCorpus.ts, valeriaCarrierPhrases.ts).",
       "ABIERTO · Decidir si la frase portadora se recupera como modo avanzado: se retiró del flujo y del corpus, pero su módulo se conserva. Es decisión de producto, no de este plan."
     ],
-    "hallazgo": "Al aplicar la congruencia de ES-13, ambas vueltas de una cápsula muestran el mismo objeto. Eso deja la vuelta de comprensión de ES-12 limitada a los contrastes de TAMAÑO (se marcan con la escala de la ficha) mientras no haya pictogramas: limpio/sucio o frío/caliente no son distinguibles solo con emoji. ES-12 depende por tanto parcialmente de DC-4.",
+    "hallazgo": "RESUELTO (2026-07-26) · La congruencia de ES-13 obliga a que ambas vueltas de una cápsula muestren el mismo objeto, lo que con emoji dejaba la vuelta de comprensión irresoluble salvo en tamaño. El inventario midió el alcance real: 16 de las 20 cápsulas de los tres bancos, no 8. Se resuelve con pictogramas propios por clave —ocho objetos con dos variantes de atributo cada uno— y lo protege scripts/check-pictogram-coverage.js.",
     "validacionHumana": {
       "fecha": "2026-07-26",
       "validadoPor": "ACOPROS (logopedas) y hablantes de euskera",
@@ -1802,6 +1803,14 @@
       "DC-1 opción C · reorganización de Escenarios en categorías semánticas: rediseño del banco en las cuatro variedades, propio de una versión mayor",
       "La frase portadora como modo avanzado: se retiró del flujo y del corpus, y su módulo se conserva. Es una decisión pendiente de producto, no trabajo de este cierre"
     ],
-    "estado": "desbloqueado · sin dependencias externas pendientes tras la validación del 2026-07-26"
+    "estado": "desbloqueado · sin dependencias externas pendientes tras la validación del 2026-07-26",
+    "estadoLotes": {
+      "L1": "parcial · GEN-01 cerrado (2026-07-26). Pendientes ES-11 y ES-04.",
+      "L2": "completado (2026-07-26) · auditoría en docs/auditoria-pictogramas.md y registro por clave en ValeriaPictograms.",
+      "L3": "completado (2026-07-26) · 16 pictogramas sobre 8 objetos, claves en los tres bancos, apaño de escala retirado, dashboard y exportación separando comprensión de producción, gate en CI.",
+      "L4": "pendiente · a la espera del veredicto de ACOPROS sobre la columna de la auditoría.",
+      "L5": "pendiente · X-03 (protocolos), X-06 (port iOS)."
+    },
+    "correccionDeEstimacion": "El plan estimaba 8 cápsulas afectadas contando solo el banco castellano. El inventario encontró 16 de 20 sumando es, es-DO y eu. No cambió el coste: las tres lenguas contrastan los MISMOS objetos (osito/hartzatxo, cuchara/koilara, caja/kutxa), y como la clave no depende del idioma, los mismos 16 dibujos cubren las 20 cápsulas."
   }
 }

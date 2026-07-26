@@ -697,12 +697,14 @@ export const CONTRAST_CAPSULES: ContrastCapsule[] = [
     rounds: [
       {
         label: 'grande', emoji: '🧸',
+        pictogram: 'osito-grande',
         tts_trigger: '¿Cuál es el osito GRANDE? ¡Dámelo y dilo! Di: grande.',
         stt_expected_array: ['grande', 'gande', 'ande', 'gan', 'ganne'],
         parent_action: 'El niño te entrega el osito grande mientras lo dice; abrazadlo exagerando lo enorme que es.',
       },
       {
         label: 'pequeño', emoji: '🧸',
+        pictogram: 'osito-pequeno',
         tts_trigger: 'Ahora al revés: ¿cuál es el osito PEQUEÑO? ¡Dámelo y dilo! Di: pequeño.',
         stt_expected_array: ['pequeño', 'pequeno', 'pekeño', 'equeño', 'peño'],
         parent_action: 'El niño te da el osito pequeño; escondedlo en una mano y decid “pequeño” con vocecita mini.',
@@ -716,12 +718,14 @@ export const CONTRAST_CAPSULES: ContrastCapsule[] = [
     rounds: [
       {
         label: 'sucio', emoji: '🥄',
+        pictogram: 'cuchara-sucia',
         tts_trigger: 'Señala la cuchara SUCIA. ¿Cómo está esta? Dilo. Di: sucio.',
         stt_expected_array: ['sucio', 'utio', 'suio', 'cucho', 'ucio'],
         parent_action: 'El niño señala la cuchara sucia y ponéis los dos cara de “¡puaj!” apartándola.',
       },
       {
         label: 'limpio', emoji: '🥄',
+        pictogram: 'cuchara-limpia',
         tts_trigger: 'Y esta otra cuchara, ¿cómo está? ¡Mira cómo brilla! Di: limpio.',
         stt_expected_array: ['limpio', 'impio', 'limpi', 'inpio', 'pio'],
         parent_action: 'Señalad la limpia, soplad sobre ella como si brillara y chocad los cinco.',
@@ -735,12 +739,14 @@ export const CONTRAST_CAPSULES: ContrastCapsule[] = [
     rounds: [
       {
         label: 'abrir', emoji: '📦',
+        pictogram: 'caja-abierta',
         tts_trigger: 'El juguete está dentro. ¿Qué hacemos para sacarlo? ¡Vamos a ABRIR! Di: abrir.',
         stt_expected_array: ['abrir', 'abre', 'abi', 'air', 'abí'],
         parent_action: 'Abrid la caja juntos, muy despacio, y celebrad encontrar el juguete con un “¡tachán!”.',
       },
       {
         label: 'cerrar', emoji: '📦',
+        pictogram: 'caja-cerrada',
         tts_trigger: 'Guardamos el juguete. ¿Qué hacemos con la tapa? ¡A CERRAR! Di: cerrar.',
         stt_expected_array: ['cerrar', 'cerra', 'errar', 'tetar', 'cera'],
         parent_action: 'El niño empuja la tapa hasta cerrarla del todo mientras dice la palabra.',
@@ -754,12 +760,14 @@ export const CONTRAST_CAPSULES: ContrastCapsule[] = [
     rounds: [
       {
         label: 'subir', emoji: '⬆️',
+        pictogram: 'coche-subiendo',
         tts_trigger: 'El coche va a la montaña. ¿Qué hace? ¡SUBE arriba! Di: subir.',
         stt_expected_array: ['subir', 'sube', 'ubi', 'tubi', 'subí'],
         parent_action: 'Subid el coche por la rampa muy despacio mientras suena la palabra.',
       },
       {
         label: 'bajar', emoji: '⬇️',
+        pictogram: 'coche-bajando',
         tts_trigger: '¡Ahora el coche baja! ¿Qué hace? Di: bajar.',
         stt_expected_array: ['bajar', 'baja', 'aja', 'baxar', 'ajar'],
         parent_action: 'Soltad el coche y que baje solo por la rampa; decid “¡bajaaa!” mientras cae.',
@@ -773,12 +781,14 @@ export const CONTRAST_CAPSULES: ContrastCapsule[] = [
     rounds: [
       {
         label: 'frío', emoji: '🥤',
+        pictogram: 'vaso-frio',
         tts_trigger: 'Toca los vasos. ¿Cuál está FRÍO? ¡Brrr! Di: frío.',
         stt_expected_array: ['frío', 'frio', 'fío', 'ío', 'fiío'],
         parent_action: 'El niño toca el vaso frío; tiritad juntos “¡brrr!” encogiendo los hombros.',
       },
       {
         label: 'caliente', emoji: '🥤',
+        pictogram: 'vaso-caliente',
         tts_trigger: 'Y este otro vaso, ¿cómo está? Di: caliente.',
         stt_expected_array: ['caliente', 'aliente', 'caiente', 'tatiente', 'cayente'],
         parent_action: 'Tocad el vaso tibio y abanicaos la mano como si quemara, exagerando mucho.',
@@ -792,12 +802,14 @@ export const CONTRAST_CAPSULES: ContrastCapsule[] = [
     rounds: [
       {
         label: 'encender', emoji: '💡',
+        pictogram: 'bombilla-encendida',
         tts_trigger: 'Está oscuro… ¿Qué hacemos con la luz? ¡A ENCENDER! Di: encender.',
         stt_expected_array: ['encender', 'encende', 'cender', 'ende', 'encendé'],
         parent_action: 'El niño pulsa el interruptor justo al decirlo y celebráis la luz con un “¡ooooh!”.',
       },
       {
         label: 'apagar', emoji: '💡',
+        pictogram: 'bombilla-apagada',
         tts_trigger: 'Ahora al revés. ¿Qué hacemos con la luz? ¡A APAGAR! Di: apagar.',
         stt_expected_array: ['apagar', 'apaga', 'paga', 'agar', 'apagá'],
         parent_action: 'El niño apaga la luz y os decís “buenas noches” con voz de susurro.',
@@ -811,12 +823,14 @@ export const CONTRAST_CAPSULES: ContrastCapsule[] = [
     rounds: [
       {
         label: 'lleno', emoji: '🧺',
+        pictogram: 'cesta-llena',
         tts_trigger: '¿Cuál es la cesta LLENA de cosas? ¡Señálala y dilo! Di: lleno.',
         stt_expected_array: ['lleno', 'yeno', 'eno', 'lleno lleno', 'nono'],
         parent_action: 'El niño señala la cesta llena; levantadla juntos exagerando lo mucho que pesa: “¡uf, llenaaa!”.',
       },
       {
         label: 'vacío', emoji: '🧺',
+        pictogram: 'cesta-vacia',
         tts_trigger: 'Y esta otra cesta, ¿cómo está? ¡Mira dentro! Di: vacío.',
         stt_expected_array: ['vacío', 'vacio', 'asio', 'bacío', 'ío'],
         parent_action: 'Poned la cesta vacía boca abajo sobre la cabeza del niño como un sombrero: no cae nada, ¡está vacía!',
@@ -830,12 +844,14 @@ export const CONTRAST_CAPSULES: ContrastCapsule[] = [
     rounds: [
       {
         label: 'meter', emoji: '📥',
+        pictogram: 'juguete-dentro',
         tts_trigger: 'Los juguetes van a su casa. ¿Qué hacemos? ¡A METER! Di: meter.',
         stt_expected_array: ['meter', 'mete', 'eter', 'metel', 'meté'],
         parent_action: 'El niño mete un juguete en la caja con cada palabra; celebrad el último con un “¡todos dentro!”.',
       },
       {
         label: 'sacar', emoji: '📤',
+        pictogram: 'juguete-fuera',
         tts_trigger: 'Ahora al revés. ¿Qué hacemos con los juguetes? ¡A SACAR! Di: sacar.',
         stt_expected_array: ['sacar', 'saca', 'acar', 'tacar', 'sacá'],
         parent_action: 'El niño saca los juguetes uno a uno; contádlos en fila al salir: “¡uno, dos y tres fuera!”.',

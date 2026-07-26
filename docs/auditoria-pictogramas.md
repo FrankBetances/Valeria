@@ -20,7 +20,7 @@ justo lo que ES-12 necesita. Se dibuja en casa, con clave propia en el dato.
 
 - **114** claves visuales distintas, en **292** usos sobre los tres bancos de Expansión Semántica y los cuatro de Pares Mínimos.
 - **26** con riesgo de *tofu* · **6** que ilustran un atributo · **14** a revisar con ACOPROS · **68** sin sospecha.
-- **16** cápsulas de contraste muestran el MISMO emoji en sus dos vueltas. Son las que dejan la vuelta de comprensión de ES-12 irresoluble.
+- **16** cápsulas de contraste muestran el MISMO emoji en sus dos vueltas: **16** ya se distinguen por pictograma propio y **0** siguen irresolubles.
 
 ## Cómo leer el motivo
 
@@ -35,12 +35,12 @@ justo lo que ES-12 necesita. Se dibuja en casa, con clave propia en el dato.
 
 | Emoji | Motivo | Usos | Palabras | Bloques | Lenguas | Con clave | Veredicto ACOPROS |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 🥄 | `TOFU` | 12 | limpio, cuchara, sucio, garbi, koilara, zikin | Escenario, Contraste | es, es-DO, eu | 0/12 | |
-| 🥤 | `TOFU` | 9 | beber, frío, caliente, edan, hotz, bero | Escenario, Contraste | es, es-DO, eu | 0/9 | |
+| 🥄 | `TOFU` | 12 | limpio, cuchara, sucio, garbi, koilara, zikin | Escenario, Contraste | es, es-DO, eu | 6/12 | |
+| 🥤 | `TOFU` | 9 | beber, frío, caliente, edan, hotz, bero | Escenario, Contraste | es, es-DO, eu | 6/9 | |
 | 🧼 | `TOFU` | 6 | lavar, jabón, garbitu, xaboia | Escenario | es, es-DO, eu | 0/6 | |
-| 🧸 | `TOFU` | 6 | grande, pequeño, chiquito, handia, txikia | Contraste | es, es-DO, eu | 0/6 | |
+| 🧸 | `TOFU` | 6 | grande, pequeño, chiquito, handia, txikia | Contraste | es, es-DO, eu | 6/6 | |
 | 🥛 | `TOFU` | 4 | vaso, leche, basoa, esnea | Escenario, Progresión | es, eu | 0/4 | |
-| 🧺 | `TOFU` | 4 | lleno, vacío, cesta | Contraste, Escenario, Pares | es, es-DO, gl | 0/4 | |
+| 🧺 | `TOFU` | 4 | lleno, vacío, cesta | Contraste, Escenario, Pares | es, es-DO, gl | 2/4 | |
 | 🪥 | `TOFU` | 3 | cepillo, eskuila | Escenario | es, es-DO, eu | 0/3 | |
 | 🤗 | `TOFU` | 3 | abrazar, besarkatu | Escenario | es, es-DO, eu | 0/3 | |
 | 🛞 | `TOFU` | 3 | rueda, goma, gurpila | Progresión | es, es-DO, eu | 0/3 | |
@@ -61,12 +61,12 @@ justo lo que ES-12 necesita. Se dibuja en casa, con clave propia en el dato.
 | 🫵 | `TOFU` | 1 | zu | Pares | eu | 0/1 | |
 | 🥶 | `TOFU` | 1 | hotz | Pares | eu | 0/1 | |
 | 🫓 | `TOFU` | 1 | talo | Pares | eu | 0/1 | |
-| ⬆️ | `ATRIBUTO` | 6 | salta, subir, brinca, salto, igo | Progresión, Contraste | es, es-DO, eu | 0/6 | |
-| ⬇️ | `ATRIBUTO` | 6 | cae, bajar, erortzen, jaitsi | Progresión, Contraste | es, es-DO, eu | 0/6 | |
-| 📦 | `ATRIBUTO` | 6 | abrir, cerrar, ireki, itxi | Contraste | es, es-DO, eu | 0/6 | |
-| 💡 | `ATRIBUTO` | 6 | encender, apagar, prender, piztu, itzali | Contraste | es, es-DO, eu | 0/6 | |
-| 📥 | `ATRIBUTO` | 1 | meter | Contraste | es | 0/1 | |
-| 📤 | `ATRIBUTO` | 1 | sacar | Contraste | es | 0/1 | |
+| ⬆️ | `ATRIBUTO` | 6 | salta, subir, brinca, salto, igo | Progresión, Contraste | es, es-DO, eu | 3/6 | |
+| ⬇️ | `ATRIBUTO` | 6 | cae, bajar, erortzen, jaitsi | Progresión, Contraste | es, es-DO, eu | 3/6 | |
+| 📦 | `ATRIBUTO` | 6 | abrir, cerrar, ireki, itxi | Contraste | es, es-DO, eu | 6/6 | |
+| 💡 | `ATRIBUTO` | 6 | encender, apagar, prender, piztu, itzali | Contraste | es, es-DO, eu | 6/6 | |
+| 📥 | `ATRIBUTO` | 1 | meter | Contraste | es | 1/1 | |
+| 📤 | `ATRIBUTO` | 1 | sacar | Contraste | es | 1/1 | |
 | 😋 | `REVISAR` | 6 | comer, ñam ñam, jan | Escenario | es, es-DO, eu | 0/6 | |
 | 😴 | `REVISAR` | 6 | dormir, duerme, lo, lo egiten | Escenario, Progresión | es, es-DO, eu | 0/6 | |
 | 🐦 | `REVISAR` | 6 | pájaro, vuela, txoria, hegan | Progresión | es, es-DO, eu | 0/6 | |
@@ -152,8 +152,11 @@ justo lo que ES-12 necesita. Se dibuja en casa, con clave propia en el dato.
 
 ## Cápsulas de contraste con emoji repetido
 
-Estas son las que bloquean ES-12: con la regla de congruencia de ES-13 ambas vueltas muestran
-el mismo objeto, así que con emoji la vuelta de comprensión enseña dos tarjetas idénticas.
+Con la regla de congruencia de ES-13 ambas vueltas muestran el mismo objeto, así que con
+emoji la vuelta de comprensión enseña dos tarjetas idénticas. Lo que decide si la cápsula
+funciona es tener un pictograma DISTINTO por vuelta.
+
+### Resueltas por pictograma (16)
 
 - `es-DO/do-cap-abrir-cerrar`
 - `es-DO/do-cap-frio-caliente`
@@ -171,4 +174,8 @@ el mismo objeto, así que con emoji la vuelta de comprensión enseña dos tarjet
 - `eu/cap-hotz-bero`
 - `eu/cap-ireki-itxi`
 - `eu/cap-piztu-itzali`
+
+### Todavía irresolubles
+
+Ninguna. El gate `scripts/check-pictogram-coverage.js` lo verifica en cada build.
 

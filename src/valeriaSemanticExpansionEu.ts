@@ -506,12 +506,14 @@ export const CONTRAST_CAPSULES_EU: ContrastCapsule[] = [
     rounds: [
       {
         label: 'handia', emoji: '🧸',
+        pictogram: 'osito-grande',
         tts_trigger: 'Zein da panpina HANDIA? Emadazu eta esan! Esan: handia.',
         stt_expected_array: ['handia', 'andia', 'hania', 'handi'],
         parent_action: 'Haurrak panpina handia ematen dizu esaten duen bitartean; besarkatu zein erraldoia den puztuz.',
       },
       {
         label: 'txikia', emoji: '🧸',
+        pictogram: 'osito-pequeno',
         tts_trigger: 'Orain alderantziz: zein hartzatxo da TXIKIA? Emadazu eta esan! Esan: txikia.',
         stt_expected_array: ['txikia', 'tikia', 'txiia', 'txiki'],
         parent_action: 'Haurrak txikia ematen dizu; ezkutatu esku batean eta esan "txikia" ahots txiki-txikiz.',
@@ -524,12 +526,14 @@ export const CONTRAST_CAPSULES_EU: ContrastCapsule[] = [
     rounds: [
       {
         label: 'zikin', emoji: '🥄',
+        pictogram: 'cuchara-sucia',
         tts_trigger: 'Seinalatu koilara ZIKINA. Nola dago hau? Esan: zikin.',
         stt_expected_array: ['zikin', 'ikin', 'ziki', 'tikin'],
         parent_action: 'Haurrak koilara zikina seinalatzen du eta biok "puaj!" aurpegia jartzen duzue baztertuz.',
       },
       {
         label: 'garbi', emoji: '🥄',
+        pictogram: 'cuchara-limpia',
         tts_trigger: 'Eta beste koilara hau, nola dago? Begira nola distiratzen duen! Esan: garbi.',
         stt_expected_array: ['garbi', 'gabi', 'abi', 'garb'],
         parent_action: 'Seinalatu garbia, putz egin haren gainean distiratuko balira bezala eta jo bostekoa.',
@@ -542,12 +546,14 @@ export const CONTRAST_CAPSULES_EU: ContrastCapsule[] = [
     rounds: [
       {
         label: 'ireki', emoji: '📦',
+        pictogram: 'caja-abierta',
         tts_trigger: 'Jostailua barruan dago. Zer egingo dugu ateratzeko? Goazen IREKITZERA! Esan: ireki.',
         stt_expected_array: ['ireki', 'irek', 'ieki', 'ike'],
         parent_action: 'Ireki kutxa elkarrekin, oso poliki, eta ospatu jostailua aurkitzea "tatxan!" batekin.',
       },
       {
         label: 'itxi', emoji: '📦',
+        pictogram: 'caja-cerrada',
         tts_trigger: 'Jostailua gordeko dugu. Zer egingo dugu estalkiarekin? ITXI dezagun! Esan: itxi.',
         stt_expected_array: ['itxi', 'iti', 'txi', 'itx'],
         parent_action: 'Haurrak estalkia bultzatzen du erabat itxi arte hitza esaten duen bitartean.',
@@ -560,12 +566,14 @@ export const CONTRAST_CAPSULES_EU: ContrastCapsule[] = [
     rounds: [
       {
         label: 'igo', emoji: '⬆️',
+        pictogram: 'coche-subiendo',
         tts_trigger: 'Kotxea mendira doa. Zer egiten du? IGO egiten du! Esan: igo.',
         stt_expected_array: ['igo', 'io', 'go', 'igu'],
         parent_action: 'Igo kotxea arrapalatik oso poliki hitza entzuten den bitartean.',
       },
       {
         label: 'jaitsi', emoji: '⬇️',
+        pictogram: 'coche-bajando',
         tts_trigger: 'Orain kotxea behera doa! Zer egiten du? Esan: jaitsi.',
         stt_expected_array: ['jaitsi', 'aitsi', 'jaisi', 'jaits'],
         parent_action: 'Askatu kotxea eta utzi bakarrik jaisten arrapalatik; esan "jaitsiii!" erortzen den bitartean.',
@@ -578,12 +586,14 @@ export const CONTRAST_CAPSULES_EU: ContrastCapsule[] = [
     rounds: [
       {
         label: 'hotz', emoji: '🥤',
+        pictogram: 'vaso-frio',
         tts_trigger: 'Ukitu basoak. Zein dago HOTZ? Brrr! Esan: hotz.',
         stt_expected_array: ['hotz', 'otz', 'hots', 'ho'],
         parent_action: 'Haurrak baso hotza ukitzen du; dardaratu biok "brrr!" sorbaldak uzkurtuz.',
       },
       {
         label: 'bero', emoji: '🥤',
+        pictogram: 'vaso-caliente',
         tts_trigger: 'Eta beste baso hau, nola dago? Esan: bero.',
         stt_expected_array: ['bero', 'ero', 'beo', 'bebo'],
         parent_action: 'Ukitu baso epela eta haizeztatu eskua erreko balizue bezala, asko puztuz.',
@@ -596,12 +606,14 @@ export const CONTRAST_CAPSULES_EU: ContrastCapsule[] = [
     rounds: [
       {
         label: 'piztu', emoji: '💡',
+        pictogram: 'bombilla-encendida',
         tts_trigger: 'Ilun dago… Zer egingo dugu argiarekin? PIZTU dezagun! Esan: piztu.',
         stt_expected_array: ['piztu', 'iztu', 'pistu', 'pitu'],
         parent_action: 'Haurrak etengailua sakatzen du esatean eta argia ospatzen duzue "ooooh!" batekin.',
       },
       {
         label: 'itzali', emoji: '💡',
+        pictogram: 'bombilla-apagada',
         tts_trigger: 'Orain alderantziz. Zer egingo dugu argiarekin? ITZALI dezagun! Esan: itzali.',
         stt_expected_array: ['itzali', 'itali', 'izali', 'itza'],
         parent_action: 'Haurrak argia itzaltzen du eta "gabon" esaten diozue elkarri xuxurla ahotsez.',

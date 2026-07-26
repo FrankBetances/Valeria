@@ -32,6 +32,11 @@ interface Sesion {
   // Respuestas libres del niño registradas por voz o escrito durante la
   // sesión (PR-1 «¿qué es esto?», PR-2 adaptación del discurso…).
   responses?: { code: string; name: string; text: string }[];
+  // ES-12 · Las cápsulas de contraste evalúan DOS habilidades distintas:
+  // comprender (tocar la imagen correcta) y producir (decir la palabra). Un
+  // único promedio las mezcla y esconde el caso más frecuente en clínica —el
+  // niño entiende el par pero todavía no lo dice—, así que se guardan aparte.
+  split?: { comprension: number | null; produccion: number | null };
 }
 
 // Registro por ensayo de pares mínimos (escribe ValeriaMinimalPairsScreen).
@@ -194,7 +199,12 @@ export const ValeriaPatientResultsDashboardScreen: React.FC<{ navigation?: any }
         const resp = (s.responses ?? [])
           .map((r) => `\n    · ${r.code} respondió: “${r.text}”`)
           .join('');
-        return `• ${s.date} · ${s.name} — ${s.avg.toFixed(1)}/3 ${starString(s.avg)}${resp}`;
+        // ES-12: en las cápsulas de contraste el promedio único mezcla dos
+        // habilidades. El informe que se comparte con el logopeda las separa.
+        const split = s.split
+          ? ` [comprende ${s.split.comprension?.toFixed(1) ?? '–'}/3 · produce ${s.split.produccion?.toFixed(1) ?? '–'}/3]`
+          : '';
+        return `• ${s.date} · ${s.name} — ${s.avg.toFixed(1)}/3 ${starString(s.avg)}${split}${resp}`;
       })
       .join('\n');
     const pmLineas = pmFonemas
@@ -433,6 +443,24 @@ export const ValeriaPatientResultsDashboardScreen: React.FC<{ navigation?: any }
                   <Text style={st.histStars}>{starString(s.avg)}</Text>
                   <Text style={st.histAvg}>Promedio: {s.avg.toFixed(1)} / 3</Text>
                 </View>
+                {/* ES-12 · Cuando la sesión evaluó las dos mecánicas, el
+                    promedio único no basta: se muestran separadas. */}
+                {!!s.split && (
+                  <View style={st.splitRow}>
+                    <View style={st.splitChip}>
+                      <Text style={st.splitChipKicker}>👆 COMPRENDE</Text>
+                      <Text style={st.splitChipVal}>
+                        {s.split.comprension != null ? `${s.split.comprension.toFixed(1)} / 3` : '–'}
+                      </Text>
+                    </View>
+                    <View style={st.splitChip}>
+                      <Text style={st.splitChipKicker}>🗣 PRODUCE</Text>
+                      <Text style={st.splitChipVal}>
+                        {s.split.produccion != null ? `${s.split.produccion.toFixed(1)} / 3` : '–'}
+                      </Text>
+                    </View>
+                  </View>
+                )}
                 {!!s.responses?.length && (
                   <View style={st.histResp}>
                     <Text style={st.histRespKicker}>📝 RESPUESTAS REGISTRADAS</Text>
@@ -566,6 +594,12 @@ const st = StyleSheet.create({
   histScoreRow: { flexDirection: 'row', alignItems: 'center', marginTop: 6 },
   histStars: { fontSize: 13, letterSpacing: 1, color: '#f5b301', marginRight: 8 },
   histAvg: { fontSize: 12.5, fontWeight: V.font.extrabold, color: V.color.textSecondary },
+
+  // Desglose comprensión / producción (ES-12)
+  splitRow: { flexDirection: 'row', gap: 8, marginTop: 8 },
+  splitChip: { flex: 1, borderWidth: 1, borderColor: V.color.border, borderRadius: 10, paddingVertical: 7, paddingHorizontal: 9, backgroundColor: '#fbfbfb' },
+  splitChipKicker: { fontSize: 9.5, fontWeight: V.font.extrabold, color: V.color.textMuted, letterSpacing: 0.4 },
+  splitChipVal: { fontSize: 14, fontWeight: V.font.extrabold, color: V.color.textPrimary, marginTop: 2 },
   histResp: {
     marginTop: 8, backgroundColor: '#fffdf5', borderWidth: 1, borderColor: '#f0e6c8',
     borderRadius: 10, paddingVertical: 8, paddingHorizontal: 10,

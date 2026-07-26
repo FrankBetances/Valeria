@@ -102,11 +102,17 @@ try {
   // ---- Agrupación por clave visual (emoji + palabra) ---------------------
   // Dentro de una cápsula, dos vueltas con el MISMO emoji son el patrón de
   // ES-12: hay que mirar la cápsula, no el emoji suelto.
-  const capsulasConEmojiRepetido = new Set();
+  // Emoji repetido en las dos vueltas es el DIAGNÓSTICO; lo que dice si la
+  // cápsula sigue rota es si además le faltan pictogramas que las distingan.
+  const capsulasResueltas = new Set();
+  const capsulasRotas = new Set();
   for (const [lang, , , capsulas] of bancosSem) {
     for (const c of capsulas ?? []) {
       const e = c.rounds.map((r) => r.emoji);
-      if (e[0] === e[1]) capsulasConEmojiRepetido.add(`${lang}/${c.id}`);
+      if (e[0] !== e[1]) continue;
+      const k = c.rounds.map((r) => r.pictogram);
+      const distinguible = k[0] && k[1] && k[0] !== k[1];
+      (distinguible ? capsulasResueltas : capsulasRotas).add(`${lang}/${c.id}`);
     }
   }
 
@@ -146,13 +152,16 @@ try {
     atributo: cuenta('ATRIBUTO'),
     revisar: cuenta('REVISAR'),
     ok: cuenta('OK'),
-    capsulasConEmojiRepetido: capsulasConEmojiRepetido.size,
+    capsulasResueltas: capsulasResueltas.size,
+    capsulasRotas: capsulasRotas.size,
   };
 
   console.log('\n── Inventario visual ──');
   console.log(`  ${resumen.clavesVisuales} claves visuales distintas en ${resumen.usosTotales} usos`);
   console.log(`  TOFU ${resumen.tofu} · ATRIBUTO ${resumen.atributo} · REVISAR ${resumen.revisar} · OK ${resumen.ok}`);
-  console.log(`  Cápsulas de contraste con el MISMO emoji en las dos vueltas: ${resumen.capsulasConEmojiRepetido}`);
+  console.log(`  Cápsulas con el MISMO emoji en las dos vueltas: ${resumen.capsulasResueltas + resumen.capsulasRotas}`);
+  console.log(`    · resueltas por pictograma: ${resumen.capsulasResueltas}`);
+  console.log(`    · TODAVÍA IRRESOLUBLES:     ${resumen.capsulasRotas}`);
 
   if (escribirMd) {
     const L = [];
@@ -178,7 +187,7 @@ try {
     L.push('');
     L.push(`- **${resumen.clavesVisuales}** claves visuales distintas, en **${resumen.usosTotales}** usos sobre los tres bancos de Expansión Semántica y los cuatro de Pares Mínimos.`);
     L.push(`- **${resumen.tofu}** con riesgo de *tofu* · **${resumen.atributo}** que ilustran un atributo · **${resumen.revisar}** a revisar con ACOPROS · **${resumen.ok}** sin sospecha.`);
-    L.push(`- **${resumen.capsulasConEmojiRepetido}** cápsulas de contraste muestran el MISMO emoji en sus dos vueltas. Son las que dejan la vuelta de comprensión de ES-12 irresoluble.`);
+    L.push(`- **${resumen.capsulasResueltas + resumen.capsulasRotas}** cápsulas de contraste muestran el MISMO emoji en sus dos vueltas: **${resumen.capsulasResueltas}** ya se distinguen por pictograma propio y **${resumen.capsulasRotas}** siguen irresolubles.`);
     L.push('');
     L.push('## Cómo leer el motivo');
     L.push('');
@@ -200,10 +209,23 @@ try {
     L.push('');
     L.push('## Cápsulas de contraste con emoji repetido');
     L.push('');
-    L.push('Estas son las que bloquean ES-12: con la regla de congruencia de ES-13 ambas vueltas muestran');
-    L.push('el mismo objeto, así que con emoji la vuelta de comprensión enseña dos tarjetas idénticas.');
+    L.push('Con la regla de congruencia de ES-13 ambas vueltas muestran el mismo objeto, así que con');
+    L.push('emoji la vuelta de comprensión enseña dos tarjetas idénticas. Lo que decide si la cápsula');
+    L.push('funciona es tener un pictograma DISTINTO por vuelta.');
     L.push('');
-    for (const c of [...capsulasConEmojiRepetido].sort()) L.push(`- \`${c}\``);
+    L.push(`### Resueltas por pictograma (${capsulasResueltas.size})`);
+    L.push('');
+    for (const c of [...capsulasResueltas].sort()) L.push(`- \`${c}\``);
+    L.push('');
+    if (capsulasRotas.size) {
+      L.push(`### Todavía irresolubles (${capsulasRotas.size})`);
+      L.push('');
+      for (const c of [...capsulasRotas].sort()) L.push(`- \`${c}\``);
+    } else {
+      L.push('### Todavía irresolubles');
+      L.push('');
+      L.push('Ninguna. El gate `scripts/check-pictogram-coverage.js` lo verifica en cada build.');
+    }
     L.push('');
     const destino = path.join(ROOT, 'docs', 'auditoria-pictogramas.md');
     fs.writeFileSync(destino, L.join('\n') + '\n', 'utf8');
