@@ -12,7 +12,7 @@ import { AcademyBadge, AcademyDomain } from './academyTypes';
 
 // Orden canónico de presentación en el hub.
 export const ACADEMY_DOMAINS: AcademyDomain[] = [
-  'lenguaje', 'hipoacusia', 'dislalias', 'dislexia', 'tea',
+  'lenguaje', 'hipoacusia', 'dislalias', 'dislexia', 'tea', 'signos',
 ];
 
 export interface AcademyDomainMeta {
@@ -78,6 +78,16 @@ export const DOMAIN_META: Record<AcademyDomain, AcademyDomainMeta> = {
     accentFg: '#2e9e5b',
     blurb: 'Comunicación, anticipación y regulación en el espectro autista.',
     levelNames: ['Novato', 'Acompañante', 'Guía', 'Mentor', 'Experto en TEA'],
+  },
+  signos: {
+    id: 'signos',
+    label: 'Lengua de Signos (LSE)',
+    short: 'LSE',
+    icon: '🤟',
+    accentBg: '#efe9fd',
+    accentFg: '#6d4ac2',
+    blurb: 'Qué es la LSE, por qué no frena el habla y los primeros signos útiles.',
+    levelNames: ['Novato', 'Iniciado', 'Practicante', 'Avanzado', 'Experto en LSE'],
   },
 };
 

@@ -24,6 +24,7 @@ import { AcademyBadge, AcademyCapsule, AcademyDomain } from './academyTypes';
 import { AcademyDomainCard } from './AcademyDomainCard';
 import { AcademyPriorityFeed } from './AcademyPriorityFeed';
 import { HipoacusiaBottomSheet } from './HipoacusiaBottomSheet';
+import { SignFigure } from './AcademySignosSvg';
 
 type View4 = 'hub' | 'list' | 'read' | 'quiz';
 
@@ -188,6 +189,12 @@ const CapsuleReader: React.FC<{
         <View style={s.slideCard}>
           {!!slide.icon && <Text style={s.slideEmoji}>{slide.icon}</Text>}
           <Text style={s.slideHeading}>{slide.heading}</Text>
+          {/* Figura dibujada (LSE): configuración de mano. Si la clave no tiene
+              dibujo registrado, SignFigure devuelve null y la diapositiva se
+              muestra igual, sin hueco. */}
+          {!!slide.figure && (
+            <View style={s.slideFigure}><SignFigure figure={slide.figure} size={132} /></View>
+          )}
           <Text style={s.slideBody}>{slide.body}</Text>
         </View>
       </ScrollView>
@@ -372,6 +379,7 @@ const s = StyleSheet.create({
   dots: { flexDirection: 'row', gap: 6, marginTop: 12 },
   dot: { width: 22, height: 5, borderRadius: 3 },
 
+  slideFigure: { alignItems: 'center', marginTop: 14, marginBottom: 2 },
   slideCard: { backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.border, borderRadius: 18, padding: 20, ...V.shadow.card },
   slideEmoji: { fontSize: 46, textAlign: 'center', marginBottom: 6 },
   slideHeading: { fontSize: 19, fontWeight: '800', color: V.color.textPrimary, textAlign: 'center', marginTop: 6 },

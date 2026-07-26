@@ -27,6 +27,11 @@ const PRIORITY_BY_DOMAIN: Record<AcademyDomain, string[]> = {
   dislalias:  ['dis-punto', 'dev-input'],
   dislexia:   ['dlx-fonologica', 'dev-input'],
   tea:        ['tea-anticipar', 'med-adulto'],
+  // LSE: se entra por qué es la lengua, no por el vocabulario. La cápsula que
+  // responde «¿signar retrasa el habla?» va la segunda a propósito: es la duda
+  // que trae la familia, y contestarla antes de nada evita que el resto del
+  // módulo se lea con esa sospecha de fondo.
+  signos:     ['lse-que-es', 'lse-no-frena'],
 };
 
 const byId = (id: string): AcademyCapsule | undefined => ACADEMY_CAPSULES.find((c) => c.id === id);

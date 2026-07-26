@@ -34,6 +34,7 @@ export {
 export { ACADEMY_CAPSULES, ACADEMY_TOTAL } from './academyContent';
 export { HIPOACUSIA_CONCEPTS, HEARING_DEVICES, HIPOACUSIA_UNITS } from './academyHardware';
 export { DOMAIN_TOTALS, ACADEMY_GRAND_TOTAL } from './academyRegistry';
+export { SignFigure, hasSignFigure } from './AcademySignosSvg';
 export type {
   AcademyDomain,
   ValeriaAcademyState,
