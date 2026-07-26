@@ -413,14 +413,41 @@ export const asrSupported = (): boolean => Voice != null;
 export interface ListenCallbacks {
   onPartial?: (text: string) => void;
   onResult: (alternatives: string[]) => void;
-  onError: (message: string) => void;
+  // ES-04 · `noMatch` distingue el fallo del MOTOR (no captó nada, se agotó la
+  // ventana) del fallo del NIÑO. Las pantallas usan esa diferencia para no
+  // gastarle un intento ni una estrella por un tropiezo del reconocedor.
+  onError: (message: string, noMatch: boolean) => void;
   onEnd?: () => void;
 }
+
+// ES-04 · Ventana de escucha. Las logopedas informaron de hasta TRES repeticiones
+// para que se aceptase un ensayo. Voice.start() se llamaba sin opciones, así que
+// Android aplicaba su ventana por defecto —pensada para un adulto que dicta un
+// mensaje, no para un niño de cuatro años que tarda en arrancar—: en cuanto
+// mediaba un silencio corto, el motor cerraba y devolvía ERROR_NO_MATCH.
+//
+// Estos extras solo afectan a CUÁNDO deja de escuchar el micrófono. NO tocan el
+// umbral de aceptación fonética (matchExpected), que es materia clínica: aflojarlo
+// reintroduciría los falsos positivos que el pliegue dialectal de es-DO corrigió.
+const ANDROID_LISTEN_EXTRAS = {
+  // Silencio que da la frase por terminada: 3 s en vez del defecto (~1 s).
+  EXTRA_SPEECH_INPUT_COMPLETE_SILENCE_LENGTH_MILLIS: 3000,
+  EXTRA_SPEECH_INPUT_POSSIBLY_COMPLETE_SILENCE_LENGTH_MILLIS: 3000,
+  // Margen mínimo antes de considerar siquiera que la frase acabó.
+  EXTRA_SPEECH_INPUT_MINIMUM_LENGTH_MILLIS: 4000,
+  // Parciales activos: son la red de seguridad cuando el resultado final
+  // llega vacío (el motor oyó algo y luego se rindió).
+  EXTRA_PARTIAL_RESULTS: true,
+};
+
+// Códigos de @react-native-voice/voice que significan «el motor no captó»,
+// no «el niño lo dijo mal»: 6 = SPEECH_TIMEOUT, 7 = NO_MATCH.
+const NO_MATCH_CODES = new Set(['6', '7']);
 
 // Inicia una escucha en español. Devuelve false si no se pudo empezar.
 export async function startListening(cb: ListenCallbacks): Promise<boolean> {
   if (!Voice) {
-    cb.onError('El reconocimiento de voz no está disponible en este dispositivo.');
+    cb.onError('El reconocimiento de voz no está disponible en este dispositivo.', false);
     return false;
   }
   if (Platform.OS === 'android') {
@@ -435,11 +462,11 @@ export async function startListening(cb: ListenCallbacks): Promise<boolean> {
         },
       );
       if (granted !== PermissionsAndroid.RESULTS.GRANTED) {
-        cb.onError('Concede el permiso de micrófono para jugar con la voz.');
+        cb.onError('Concede el permiso de micrófono para jugar con la voz.', false);
         return false;
       }
     } catch (e) {
-      cb.onError('No se pudo pedir el permiso de micrófono.');
+      cb.onError('No se pudo pedir el permiso de micrófono.', false);
       return false;
     }
   }
@@ -448,14 +475,19 @@ export async function startListening(cb: ListenCallbacks): Promise<boolean> {
       if (e?.value?.length) cb.onPartial?.(String(e.value[0]));
     };
     Voice.onSpeechResults = (e: any) => cb.onResult((e?.value ?? []).map(String));
-    Voice.onSpeechError = (e: any) =>
-      cb.onError(e?.error?.message ? 'No te escuché bien. ¡Probamos otra vez!' : 'No se pudo escuchar.');
+    Voice.onSpeechError = (e: any) => {
+      const code = String(e?.error?.code ?? '');
+      cb.onError(
+        e?.error?.message ? 'No te escuché bien. ¡Probamos otra vez!' : 'No se pudo escuchar.',
+        NO_MATCH_CODES.has(code),
+      );
+    };
     Voice.onSpeechEnd = () => cb.onEnd?.();
     stopSpeaking(); // que la app no se escuche a sí misma
-    await Voice.start(speechLocale());
+    await Voice.start(speechLocale(), Platform.OS === 'android' ? ANDROID_LISTEN_EXTRAS : undefined);
     return true;
   } catch (e) {
-    cb.onError('No se pudo iniciar el micrófono. Inténtalo de nuevo.');
+    cb.onError('No se pudo iniciar el micrófono. Inténtalo de nuevo.', false);
     return false;
   }
 }

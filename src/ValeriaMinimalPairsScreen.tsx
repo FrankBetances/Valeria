@@ -27,7 +27,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { V, STORAGE_KEYS } from './valeriaTheme';
 import { ProUnlockPill, ProPinModal } from './ValeriaProPin';
 import { registerSession, SessionReward } from './valeriaGamification';
-import { markBlockCompleted } from './valeriaTelemetry';
+import { markBlockCompleted, trackListenStart, trackListenNoMatch } from './valeriaTelemetry';
 import {
   speakToChild, speakWordSlow, stopSpeaking,
   asrSupported, startListening, stopListening, releaseListening, matchPair, PairResult,
@@ -394,6 +394,10 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
     if (!mounted.current) return;
     setStep('listen'); setListening(true); setHeard('');
     listeningRef.current = true;
+    // ES-04 · La ventana de escucha ampliada llega a esta pantalla por
+    // startListening; medir aquí también hace comparable el antes/después de
+    // los dos bloques que usan micrófono.
+    trackListenStart();
     const ok = await startListening({
       onPartial: (t) => mounted.current && listeningRef.current && setHeard(t),
       onResult: (alts) => {
@@ -403,10 +407,11 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
         setHeard(alts[0] ?? '');
         resolveBranch(p, matchPair(alts, p.target, p.foil));
       },
-      onError: () => {
+      onError: (_msg, noMatch) => {
         if (!mounted.current || !listeningRef.current) return;
         listeningRef.current = false;
         setListening(false);
+        if (noMatch) trackListenNoMatch();
         resolveBranch(p, 'none');
       },
     });

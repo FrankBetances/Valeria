@@ -1445,16 +1445,15 @@
       ]
     },
     "fase2": {
-      "estado": "parcial",
-      "completados": [
+      "estado": "completada",
+      "items": [
+        "ES-04",
+        "ES-11",
         "ES-13",
         "GEN-01"
       ],
-      "pendientes": [
-        "ES-04",
-        "ES-11"
-      ],
-      "nota": "ES-13 se adelantó a la fase 3 porque la regla de congruencia se aplicó junto con el resto del contenido. GEN-01 cerrado el 2026-07-26 (franjas configurables, con chequeo en CI). Siguen pendientes ES-04 (sensibilidad del reconocedor) y ES-11 (antesala de material)."
+      "nota": "ES-13 se adelantó a la fase 3 con el resto del contenido. GEN-01, ES-11 y ES-04 se cerraron el 2026-07-26. Ninguno tocó texto locutado: la antesala de ES-11 se lee y no se locuta, que es la condición de diseño que mantuvo la fase entera fuera del procedimiento de regeneración del corpus.",
+      "pendienteDeMedicion": "El entregable de la fase pide medir la tasa de reintentos antes/después de ES-04. La instrumentación ya está (telemetría listen.started / listen.noMatch en las dos pantallas con micrófono), pero la comparación exige sesiones reales con niños."
     },
     "fase3": {
       "estado": "completada",
@@ -1805,7 +1804,7 @@
     ],
     "estado": "desbloqueado · sin dependencias externas pendientes tras la validación del 2026-07-26",
     "estadoLotes": {
-      "L1": "parcial · GEN-01 cerrado (2026-07-26). Pendientes ES-11 y ES-04.",
+      "L1": "completado (2026-07-26) · GEN-01, ES-11 y ES-04. Cierra la fase 2.",
       "L2": "completado (2026-07-26) · auditoría en docs/auditoria-pictogramas.md y registro por clave en ValeriaPictograms.",
       "L3": "completado (2026-07-26) · 16 pictogramas sobre 8 objetos, claves en los tres bancos, apaño de escala retirado, dashboard y exportación separando comprensión de producción, gate en CI.",
       "L4": "pendiente · a la espera del veredicto de ACOPROS sobre la columna de la auditoría.",

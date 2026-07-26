@@ -26,7 +26,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { V, STORAGE_KEYS } from './valeriaTheme';
 import { ProUnlockPill, ProPinModal } from './ValeriaProPin';
 import { registerSession, SessionReward } from './valeriaGamification';
-import { markBlockCompleted } from './valeriaTelemetry';
+import { markBlockCompleted, trackListenStart, trackListenNoMatch } from './valeriaTelemetry';
 import {
   speakToChild, speakPhraseSlow, stopSpeaking,
   asrSupported, startListening, stopListening, releaseListening, matchExpected,
@@ -53,7 +53,6 @@ interface PracticeStep {
   expected: string[];    // strings válidos para el STT
   actionKicker: string;  // encabezado de la tarjeta de acción física
   action: string;        // parent_tpr_action del paso
-  setup?: string;        // setup físico previo (solo primera vuelta de contrastes)
   // ES-12 (DC-3): las cápsulas de contraste hacen DOS vueltas de distinta
   // naturaleza — la primera evalúa COMPRENSIÓN (el niño toca la imagen correcta
   // entre las dos, que ya estaban en el dato) y la segunda PRODUCCIÓN (la dice).
@@ -68,6 +67,12 @@ interface Session {
   title: string;
   code: string;
   steps: PracticeStep[];
+  // ES-11 · Material que el adulto tiene que preparar ANTES de empezar. Solo
+  // las cápsulas de contraste lo declaran: son las que piden objetos concretos
+  // («dos cucharas iguales, una limpia y otra sucia»). En escenarios y
+  // progresiones la antesala explica la dinámica con las acciones ya escritas
+  // de cada paso, sin inventar prosa nueva.
+  setup?: string;
 }
 
 // ---- Constructores: datos → sesión de pasos --------------------------------
@@ -103,6 +108,7 @@ const contrastSession = (bank: SemanticBank, id: string): Session => {
   const cp = bank.capsules.find((c) => c.id === id)!;
   return {
     kind: 'contrast', title: `${cp.pair[0]} / ${cp.pair[1]}`, code: cp.code,
+    setup: cp.physical_setup,
     steps: cp.rounds.map((r, i) => ({
       kicker: i === 0
         ? `${cp.kind === 'adjetivos' ? 'CONTRASTE DE ADJETIVOS' : 'VERBOS ANTÓNIMOS'} · VUELTA 1 · COMPRENDER`
@@ -112,7 +118,6 @@ const contrastSession = (bank: SemanticBank, id: string): Session => {
       tts: r.tts_trigger, expected: r.stt_expected_array,
       actionKicker: i === 0 ? 'ACCIÓN FÍSICA EN PAREJA' : 'ACCIÓN FÍSICA · SEGUNDA VUELTA',
       action: r.parent_action,
-      setup: i === 0 ? cp.physical_setup : undefined,
       // Vuelta 1: el niño elige entre las DOS imágenes de la cápsula. Las dos
       // vueltas comparten objeto (regla de congruencia ES-13) y solo difieren
       // en el atributo, así que lo que distingue las tarjetas es el pictograma
@@ -126,7 +131,12 @@ const contrastSession = (bank: SemanticBank, id: string): Session => {
   };
 };
 
-type Phase = 'pick' | 'play' | 'done';
+// ES-11 · 'setup' es una antesala OBLIGATORIA entre la lista y el reproductor:
+// las logopedas señalaron que la app pide hacer la tarea sin haber explicado
+// antes el material ni la dinámica, y que en los apartados con material físico
+// las indicaciones aparecían con la tarea ya empezada. Ahora nada suena hasta
+// que el adulto confirma que lo tiene todo.
+type Phase = 'pick' | 'setup' | 'play' | 'done';
 // 'idle': tarjeta del paso mostrada sin sonido, esperando el botón ▶ (ES-03).
 // 'ready': la consigna ya sonó y el micro espera al botón del adulto (PM-04),
 // salvo que la preferencia de grabación automática esté activada.
@@ -166,6 +176,12 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
   // Posición aleatoria de las dos tarjetas en la vuelta de comprensión, para
   // que el niño no aprenda «siempre la de la izquierda».
   const [pickLeftFirst, setPickLeftFirst] = useState(true);
+  // ES-04: el último intento no se captó (fallo del motor, no del niño). No
+  // consume intento ni estrella, y la tarjeta de reintento lo dice así.
+  const [notHeard, setNotHeard] = useState(false);
+  // ES-11: la antesala se abrió para releerla desde dentro de la sesión, no
+  // para empezarla. Cambia el botón de salida y evita reiniciar el paso.
+  const [setupRevisit, setSetupRevisit] = useState(false);
   // PM-04/ES-03: por defecto MANUAL — nada suena ni escucha solo.
   const [autoRecord, setAutoRecord] = useState(false);
   // Prescripción del logopeda: { [id]: boolean } sobre escenarios, progresiones
@@ -177,6 +193,9 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
 
   const attemptsRef = useRef(0);
   const listeningRef = useRef(false);
+  // ES-04: mejor parcial de la escucha en curso. Si el resultado final llega
+  // vacío, se evalúa esto en vez de dar el intento por perdido.
+  const bestPartialRef = useRef('');
   const mounted = useRef(true);
   const pulse = useRef(new Animated.Value(0)).current;
   // Vuelve arriba al cambiar de paso: sin esto el nuevo paso aparecía con el
@@ -207,7 +226,9 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
   // activo, no cierra la pantalla entera.
   useEffect(() => {
     const sub = BackHandler.addEventListener('hardwareBackPress', () => {
-      if (phase === 'play' || phase === 'done') {
+      // Releyendo la antesala en mitad de la sesión, atrás vuelve al paso.
+      if (phase === 'setup' && setupRevisit) { leaveSetup(); return true; }
+      if (phase === 'setup' || phase === 'play' || phase === 'done') {
         stopSpeaking(); stopListening();
         setPhase('pick');
         return true;
@@ -215,7 +236,7 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
       return false;
     });
     return () => sub.remove();
-  }, [phase]);
+  }, [phase, setupRevisit]);
 
   useEffect(() => {
     if (!listening) { pulse.setValue(0); return; }
@@ -249,14 +270,24 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
 
   // ---------------------------------------------------------------- sesión --
   // ES-03: nada suena al entrar en un paso — la tarjeta espera el botón ▶.
+  // ES-11: y antes del primer paso se pasa por la antesala de preparación.
   const start = (sess: Session) => {
-    setSession(sess); setPhase('play'); setLog([]); setReward(null);
+    setSession(sess); setLog([]); setReward(null);
     setStepIdx(0); attemptsRef.current = 0; setHeard(''); setLivePrompt(null);
     setState('idle');
+    setSetupRevisit(false);
+    setPhase('setup');
+  };
+
+  // Salida de la antesala. Si se abrió para releerla en mitad de la sesión,
+  // devuelve al paso donde estaba sin reiniciar nada.
+  const leaveSetup = () => {
+    setPhase('play');
+    setSetupRevisit(false);
   };
 
   const sayStep = (sess: Session, idx: number) => {
-    setState('say'); setHeard(''); setListening(false);
+    setState('say'); setHeard(''); setListening(false); setNotHeard(false);
     const st = sess.steps[idx];
     setLivePrompt({ text: st.tts, mode: 'child' });
     speakToChild(st.tts, afterSpeak(() => {
@@ -304,26 +335,68 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
   };
 
   // --------------------------------------------------------------- escucha --
+  // ES-04 · Las logopedas informaron de hasta tres repeticiones para que se
+  // aceptase un ensayo. Tres correcciones, todas del lado de la CAPTURA:
+  //   1. La ventana de escucha se amplía en valeriaVoice (extras de Android).
+  //   2. El mejor parcial se guarda y se evalúa si el resultado final llega
+  //      vacío: el motor llegó a oír algo antes de rendirse.
+  //   3. Un fallo del motor NO consume intento ni estrella. Pares Mínimos ya
+  //      distinguía ese caso ('none'); aquí un onError resolvía resolve(0) y
+  //      se lo cobraba al niño.
   const listenNow = async (sess: Session, idx: number) => {
     if (!mounted.current) return;
     const st = sess.steps[idx];
-    setState('listen'); setListening(true); setHeard('');
+    setState('listen'); setListening(true); setHeard(''); setNotHeard(false);
     listeningRef.current = true;
+    bestPartialRef.current = '';
+    trackListenStart();
+
+    // Cierre común: evalúa con lo que haya, cayendo al mejor parcial.
+    const cerrar = (alts: string[]) => {
+      listeningRef.current = false; setListening(false);
+      const partial = bestPartialRef.current.trim();
+      const candidatos = alts.filter(Boolean);
+      if (!candidatos.length && partial) candidatos.push(partial);
+      setHeard(candidatos[0] ?? '');
+      if (!candidatos.length) { noCaptado(); return; }
+      resolve(matchExpected(candidatos, st.expected));
+    };
+
     const ok = await startListening({
-      onPartial: (t) => mounted.current && listeningRef.current && setHeard(t),
+      onPartial: (t) => {
+        if (!mounted.current || !listeningRef.current) return;
+        // El parcial más largo es el que más información trae; guardarlo evita
+        // perder un acierto cuando el resultado final llega vacío.
+        if (t.trim().length > bestPartialRef.current.length) bestPartialRef.current = t;
+        setHeard(t);
+      },
       onResult: (alts) => {
         if (!mounted.current || !listeningRef.current) return;
-        listeningRef.current = false; setListening(false);
-        setHeard(alts[0] ?? '');
-        resolve(matchExpected(alts, st.expected));
+        cerrar(alts);
       },
-      onError: () => {
+      onError: (_msg, noMatch) => {
         if (!mounted.current || !listeningRef.current) return;
+        // Con un parcial rescatable se evalúa igualmente; si el motor no captó
+        // nada, no se penaliza: se vuelve a modelar sin gastar intento.
+        if (bestPartialRef.current.trim()) { cerrar([]); return; }
         listeningRef.current = false; setListening(false);
-        resolve(0);
+        if (noMatch) { noCaptado(); return; }
+        setState('judge');
       },
     });
     if (!ok && mounted.current) { listeningRef.current = false; setListening(false); setState('judge'); }
+  };
+
+  // ES-04 · «No te he oído»: se re-modela sin consumir intento ni estrella,
+  // igual que la rama 'none' de Pares Mínimos. Es la diferencia entre que el
+  // niño falle y que falle el micrófono.
+  const noCaptado = () => {
+    trackListenNoMatch();
+    setNotHeard(true);
+    setState('retry');
+    const notHeard = noHearPhrase();
+    setLivePrompt({ text: notHeard, mode: 'child' });
+    speakToChild(notHeard);
   };
 
   // ------------------------------------------------------------ evaluación --
@@ -599,6 +672,72 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
 
   const sess = session!;
 
+  // ================================================================== SETUP ==
+  // ES-11 · Antesala: qué material hace falta y qué vais a hacer, ANTES de que
+  // suene nada. Es una pantalla para el ADULTO —se lee mientras reúne los
+  // objetos—, así que no locuta: por eso este item no arrastra la regeneración
+  // del corpus de voz. Las acciones de cada paso sí conservan su botón de
+  // escucha dentro del reproductor, donde van dirigidas a la pareja.
+  if (phase === 'setup') {
+    const conMaterial = !!sess.setup;
+    return (
+      <View style={s.flex}>
+        <View style={s.header}>
+          <Pressable
+            onPress={() => { if (setupRevisit) leaveSetup(); else setPhase('pick'); }}
+            style={s.backPill}
+          >
+            <Text style={s.backPillTxt}>‹ {setupRevisit ? 'Seguir' : 'Volver'}</Text>
+          </Pressable>
+          <Text style={s.logoFallback}>valeria+</Text>
+          <Text style={s.headerTitle}>Preparación</Text>
+          <Text style={s.headerSub}>{sess.title}</Text>
+        </View>
+
+        <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
+          {conMaterial && (
+            <View style={s.setupCard}>
+              <Text style={s.setupKicker}>🧰 MATERIAL QUE NECESITÁIS</Text>
+              <Text style={s.setupTxt}>{sess.setup}</Text>
+            </View>
+          )}
+
+          <View style={s.setupCard}>
+            <Text style={s.setupKicker}>🤝 QUÉ VAIS A HACER · {sess.steps.length} {sess.steps.length === 1 ? 'PASO' : 'PASOS'}</Text>
+            {sess.steps.map((st, i) => (
+              <View key={`${st.label}-${i}`} style={s.setupStep}>
+                <View style={s.setupStepNum}><Text style={s.setupStepNumTxt}>{i + 1}</Text></View>
+                <View style={{ flex: 1 }}>
+                  <Text style={s.setupStepLabel}>
+                    {st.label}
+                    {st.mode === 'comprension' ? ' · el niño señala' : ''}
+                  </Text>
+                  <Text style={s.setupStepAction}>{st.action}</Text>
+                </View>
+              </View>
+            ))}
+          </View>
+
+          {!conMaterial && (
+            <Text style={s.setupHint}>
+              Esta actividad no necesita material: basta con vuestras manos y un sitio tranquilo.
+            </Text>
+          )}
+
+          <Pressable
+            onPress={leaveSetup}
+            style={s.setupGoBtn}
+            accessibilityRole="button"
+            accessibilityLabel={setupRevisit ? 'Volver a la sesión' : 'Ya lo tengo todo, empezar'}
+          >
+            <Text style={{ fontSize: 22 }}>{setupRevisit ? '↩' : '✅'}</Text>
+            <Text style={s.setupGoBtnTxt}>{setupRevisit ? 'Volver a la sesión' : 'Ya lo tengo todo'}</Text>
+          </Pressable>
+        </ScrollView>
+      </View>
+    );
+  }
+
   // =================================================================== DONE ==
   if (phase === 'done') {
     const avg = log.reduce((a, r) => a + r.stars, 0) / (log.length || 1);
@@ -703,8 +842,18 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
         </View>
 
         {/* Setup físico previo (primera vuelta de las cápsulas de contraste) */}
-        {!!st.setup && (state === 'idle' || state === 'say' || state === 'ready' || state === 'listen' || state === 'judge') &&
-          actionCard('SETUP FÍSICO · PREPARA ANTES DE EMPEZAR', st.setup)}
+        {/* ES-11 · La preparación ya no se pinta dentro del paso: era la queja
+            exacta de las logopedas —«prepara dos peluches» apareciendo con la
+            consigna ya locutándose—. Vive en la antesala, y desde aquí se
+            puede releer sin perder el paso. */}
+        <Pressable
+          onPress={() => { stopSpeaking(); stopListening(); setSetupRevisit(true); setPhase('setup'); }}
+          style={s.reviewSetupPill}
+          accessibilityRole="button"
+          accessibilityLabel="Volver a ver el material y la dinámica"
+        >
+          <Text style={s.reviewSetupTxt}>🧰 Ver preparación</Text>
+        </Pressable>
 
         {/* ===== Estado del paso ===== */}
         {state === 'idle' && (
@@ -781,11 +930,32 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
             </Animated.View>
             <Text style={s.stateTxt}>¡Ahora el niño! Di la palabra al micrófono…</Text>
             {!!heard && <Text style={s.partialTxt}>✨ {heard}</Text>}
+            {/* ES-04 · El veredicto del adulto está disponible DURANTE la
+                escucha, no solo cuando el reconocedor se rinde: quien está
+                delante del niño oye antes y mejor que el micrófono. */}
+            <View style={s.judgeRow}>
+              <Pressable
+                onPress={() => { listeningRef.current = false; setListening(false); stopListening(); resolve(2); }}
+                style={[s.judgeBtn, { backgroundColor: V.color.successBg, borderColor: '#bfe9d4' }]}
+                accessibilityRole="button"
+                accessibilityLabel="Lo dijo bien, dar por válido"
+              >
+                <Text style={{ fontSize: 22 }}>✅</Text><Text style={s.judgeTxt}>Lo dijo</Text>
+              </Pressable>
+              <Pressable
+                onPress={() => { listeningRef.current = false; setListening(false); stopListening(); resolve(1); }}
+                style={[s.judgeBtn, { backgroundColor: '#fffbeb', borderColor: '#f4e6b8' }]}
+                accessibilityRole="button"
+                accessibilityLabel="Casi, volver a intentarlo"
+              >
+                <Text style={{ fontSize: 22 }}>💪</Text><Text style={s.judgeTxt}>Casi / otra vez</Text>
+              </Pressable>
+            </View>
             <Pressable
               onPress={() => { listeningRef.current = false; setListening(false); stopListening(); setState('judge'); }}
               style={s.stopPill}
             >
-              <Text style={s.stopPillTxt}>Parar · el adulto decide</Text>
+              <Text style={s.stopPillTxt}>Parar sin decidir</Text>
             </Pressable>
           </View>
         )}
@@ -825,11 +995,18 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
 
         {state === 'retry' && (
           <>
+            {/* ES-04 · No es lo mismo que el niño se quede corto que que el
+                micrófono no captase nada. Decirle «casi casi» cuando el fallo
+                fue del motor le atribuye un error que no cometió. */}
             <View style={[s.verdictCard, s.verdictWarn]}>
-              <Text style={{ fontSize: 26 }}>💪</Text>
+              <Text style={{ fontSize: 26 }}>{notHeard ? '🎤' : '💪'}</Text>
               <View style={{ flex: 1 }}>
-                <Text style={s.verdictTitle}>¡Casi casi!</Text>
-                <Text style={s.verdictSub}>Escuchad el modelo despacio y probad otra vez.</Text>
+                <Text style={s.verdictTitle}>{notHeard ? 'No te oí bien' : '¡Casi casi!'}</Text>
+                <Text style={s.verdictSub}>
+                  {notHeard
+                    ? 'El micrófono no captó nada, así que este intento no cuenta. Acercaos un poco y probad otra vez.'
+                    : 'Escuchad el modelo despacio y probad otra vez.'}
+                </Text>
               </View>
             </View>
             <View style={s.retryRow}>
@@ -883,6 +1060,21 @@ const s = StyleSheet.create({
   dots: { flexDirection: 'row', gap: 6, marginTop: 14 },
   dot: { flex: 1, height: 7, borderRadius: 4 },
   scroll: { padding: 16, paddingBottom: 32 },
+
+  // Antesala de preparación (ES-11)
+  setupCard: { backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.border, borderRadius: 16, padding: 15, marginBottom: 12, ...V.shadow.card },
+  setupKicker: { fontSize: 11, fontWeight: '800', color: V.color.textMuted, letterSpacing: 0.5, marginBottom: 9 },
+  setupTxt: { fontSize: 14.5, fontWeight: '600', color: V.color.textPrimary, lineHeight: 21 },
+  setupStep: { flexDirection: 'row', gap: 11, alignItems: 'flex-start', paddingVertical: 8, borderTopWidth: 1, borderTopColor: '#f1f5f4' },
+  setupStepNum: { width: 24, height: 24, borderRadius: 12, backgroundColor: V.color.primaryLight, alignItems: 'center', justifyContent: 'center' },
+  setupStepNumTxt: { fontSize: 12, fontWeight: '800', color: V.color.primaryDark },
+  setupStepLabel: { fontSize: 13.5, fontWeight: '800', color: V.color.textPrimary },
+  setupStepAction: { fontSize: 12.5, fontWeight: '600', color: V.color.textSecondary, marginTop: 2, lineHeight: 18 },
+  setupHint: { fontSize: 12.5, fontWeight: '600', color: V.color.textMuted, textAlign: 'center', marginBottom: 12, lineHeight: 18 },
+  setupGoBtn: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 10, backgroundColor: V.color.primary, borderRadius: 16, paddingVertical: 15, ...V.shadow.button },
+  setupGoBtnTxt: { color: '#fff', fontSize: 15.5, fontWeight: '800' },
+  reviewSetupPill: { alignSelf: 'flex-start', borderWidth: 1, borderColor: V.color.border, backgroundColor: '#fff', borderRadius: 999, paddingVertical: 7, paddingHorizontal: 13, marginBottom: 12 },
+  reviewSetupTxt: { fontSize: 12.5, fontWeight: '800', color: V.color.textSecondary },
 
   // pick
   howCard: { backgroundColor: V.color.primaryTint, borderWidth: 1.5, borderColor: '#b8eee9', borderRadius: 16, padding: 14, marginBottom: 12 },
