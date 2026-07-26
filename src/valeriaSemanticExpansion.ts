@@ -43,6 +43,7 @@ export interface LexicalItem {
   type: WordType;
   label: string;               // palabra que se muestra en la ficha
   emoji: string;               // marcador visual mientras no hay asset definitivo
+  pictogram?: string;          // clave del pictograma propio (ES-09); ausente → cae al emoji
   visual_prompt: string;       // Descripción técnica de la imagen (sin fondos, alto contraste)
   tts_string: string;          // Texto exacto a locutar
   stt_expected_array: string[]; // Lista de strings válidos (incluye aproximaciones)
@@ -338,6 +339,7 @@ export interface ProgressionPhase {
   kind: ProgressionPhaseKind;
   label: string;
   emoji: string;
+  pictogram?: string;           // clave del pictograma propio (ES-09)
   visual_prompt: string;        // Asset visual
   tts_string: string;           // Prompt TTS
   stt_expected_array: string[]; // Target STT (incluye aproximaciones fonéticas de la edad)
@@ -666,6 +668,12 @@ export type ContrastKind = 'adjetivos' | 'verbos';
 export interface ContrastRound {
   label: string;                // palabra objetivo de esta vuelta
   emoji: string;
+  // ES-12 · Clave del pictograma de ESTA vuelta. En una cápsula, las dos
+  // vueltas comparten objeto (regla de congruencia ES-13) y solo difieren en
+  // el atributo, así que con emoji las dos tarjetas de la vuelta de
+  // comprensión salen idénticas y la tarea es irresoluble. La clave es lo que
+  // permite dibujar «cuchara sucia» frente a «cuchara limpia».
+  pictogram?: string;
   tts_trigger: string;          // Disparador TTS: la pregunta exacta que emite la app
   stt_expected_array: string[]; // objetivo + aproximaciones fonéticas válidas
   parent_action: string;        // gesto físico en pareja que ancla la palabra

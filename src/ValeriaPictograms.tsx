@@ -1,5 +1,5 @@
 // ============================================================================
-// Valeria+ · Pictogramas de ficha (V1.0)
+// Valeria+ · Pictogramas de ficha (V2.0)
 // Los testers veían fichas "rotas": varios emojis del banco (🪚 sierra, 🪣 cubo,
 // 🪥 cepillo, 🛝 tobogán…) son de Unicode 13/14 y en muchos Android se pintan
 // como un cuadro vacío (tofu); otros (💇 pelo, 0️⃣/8️⃣, 🌉) se ven pero son
@@ -9,8 +9,33 @@
 // grueso y colores planos, como exige el visual_prompt clínico— con fallback
 // a emoji para el resto de palabras.
 //
-//   <FichaVisual word="sierra" emoji="🪚" size={58} />
-//     → pinta el SVG si la palabra tiene pictograma registrado; si no, el emoji.
+// ---------------------------------------------------------------------------
+// V2 · CLAVE EXPLÍCITA (DC-4 · ES-09 · ES-12)
+//
+// Las logopedas de ACOPROS pidieron sustituir las imágenes ambiguas por
+// pictogramas. Se descartó adoptar un banco externo: ARASAAC es CC BY-NC-SA
+// (la cláusula NC bloquea el uso comercial), Mulberry es CC BY-SA (el
+// share-alike se contagiaría al diseño de la app) y Sclera añade ND. Pero el
+// argumento que decide no es la licencia: NINGÚN banco, ni de pago, trae
+// «cuchara sucia» y «cuchara limpia» como par sobre el mismo objeto, que es
+// exactamente lo que ES-12 necesita. Eso hay que dibujarlo a propósito.
+//
+// Por eso el dato ahora nombra el pictograma por una CLAVE, en vez de que este
+// módulo lo adivine a partir de la palabra o del emoji:
+//
+//   · Adivinar por palabra falla en los contrastes, donde el label nombra el
+//     ATRIBUTO («sucio») y no el objeto, y falla fuera del castellano, donde la
+//     ficha dice «eskuila» o «txirristra» (fue lo que obligó a añadir el
+//     registro por emoji).
+//   · Adivinar por emoji falla dentro de una cápsula, donde las dos vueltas
+//     comparten emoji por la regla de congruencia de ES-13.
+//   · La clave es independiente de la lengua: un dibujo sirve a es, es-DO, gl
+//     y eu sin duplicar.
+//
+// Orden de resolución: clave → palabra → emoji → emoji crudo. Una clave sin
+// dibujo no rompe nada: cae al emoji, sin hueco visual.
+//
+//   <FichaVisual pic="cuchara-sucia" word="sucio" emoji="🥄" size={58} />
 // ============================================================================
 import React from 'react';
 import { Text } from 'react-native';
@@ -145,6 +170,27 @@ const PICTOGRAMS: Record<string, Pic> = {
 // crudo \u2014 y justo estos SVG se crearon para SUSTITUIR emojis Unicode 13/14 que
 // se pintan como tofu (cuadro vac\u00edo) en muchos Android. Mapeando tambi\u00e9n por el
 // emoji, la ficha pinta el SVG en CUALQUIER variedad sin duplicar por idioma.
+// ----------------------------------------------------------------------------
+// Registro CLAVE → pictograma (V2). Es el registro preferente y el único capaz
+// de distinguir dos variantes del mismo objeto. Las claves se escriben en
+// kebab-case y en castellano, con la forma «objeto» u «objeto-atributo»; son
+// identificadores, no texto visible, así que no se traducen.
+//
+// Se llena por tandas (ver docs/auditoria-pictogramas.md). Los ocho dibujos
+// heredados de la V1 entran aquí también, para que el registro por clave sea
+// la única puerta que hay que mirar.
+// ----------------------------------------------------------------------------
+const PICTOGRAMS_BY_KEY: Record<string, Pic> = {
+  cepillo: CepilloPic,
+  tobogan: ToboganPic,
+  cubo: CuboPic,
+  sierra: SierraPic,
+  pelo: PeloPic,
+  puente: PuentePic,
+  'numero-ocho': numberPic('8', '#7c4fd0'),
+  'numero-cero': numberPic('0', '#f59e0b'),
+};
+
 const PICTOGRAMS_BY_EMOJI: Record<string, Pic> = {
   '\ud83e\udea5': CepilloPic,
   '\ud83d\udedd': ToboganPic,
@@ -161,12 +207,22 @@ const normalizeWord = (w: string): string =>
 
 export const hasPictogram = (word: string): boolean => normalizeWord(word) in PICTOGRAMS;
 
-// Visual de ficha: SVG propio si la palabra (o el emoji) lo tiene registrado;
-// emoji crudo solo como \u00faltimo recurso.
-export const FichaVisual: React.FC<{ word: string; emoji: string; size?: number }> = ({
-  word, emoji, size = 58,
-}) => {
-  const Pic = PICTOGRAMS[normalizeWord(word)] ?? PICTOGRAMS_BY_EMOJI[emoji?.trim()];
+// \u00bfExiste dibujo para esta clave? Lo usa el gate de cobertura para no dejar
+// pasar una c\u00e1psula de contraste cuya vuelta de comprensi\u00f3n ser\u00eda irresoluble.
+export const hasPictogramKey = (key: string): boolean => key.trim() in PICTOGRAMS_BY_KEY;
+
+// Claves con dibujo, para la auditor\u00eda e inventario (docs/auditoria-pictogramas.md).
+export const pictogramKeys = (): string[] => Object.keys(PICTOGRAMS_BY_KEY).sort();
+
+// Visual de ficha. Orden de resoluci\u00f3n: clave expl\u00edcita \u2192 palabra \u2192 emoji \u2192
+// emoji crudo. Que una clave no tenga dibujo NO es un error: es la ca\u00edda
+// prevista mientras el banco propio se completa por tandas.
+export const FichaVisual: React.FC<{
+  word: string; emoji: string; size?: number; pic?: string;
+}> = ({ word, emoji, size = 58, pic }) => {
+  const Pic = (pic ? PICTOGRAMS_BY_KEY[pic.trim()] : undefined)
+    ?? PICTOGRAMS[normalizeWord(word)]
+    ?? PICTOGRAMS_BY_EMOJI[emoji?.trim()];
   if (Pic) return <Pic size={Math.round(size * 1.15)} />;
   return <Text style={{ fontSize: size }}>{emoji}</Text>;
 };

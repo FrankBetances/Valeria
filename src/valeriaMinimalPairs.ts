@@ -15,8 +15,10 @@ export interface MinimalPair {
   group: PairGroup;
   target: string;          // palabra que pide el TTS
   targetEmoji: string;
+  targetPictogram?: string; // clave del pictograma propio (ES-09); ausente → emoji
   foil: string;            // palabra que produce el error habitual
   foilEmoji: string;
+  foilPictogram?: string;
   phoneme: string;         // contraste, p. ej. 'r̄ → l'
   errorLabel: string;      // nombre clínico del error que detecta
   prompt: string;          // consigna TTS (speakToChild)
