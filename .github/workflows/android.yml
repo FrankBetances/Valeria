@@ -118,6 +118,12 @@ jobs:
       - name: Comprobar pictogramas de contraste (ES-12)
         run: node scripts/check-pictogram-coverage.js
 
+      # Progresión de dificultad de las categorías léxicas (ES-08). El orden de
+      # escritura ES el orden de práctica: un ítem avanzado colado entre los
+      # iniciales se le presenta al niño en su primera sesión.
+      - name: Comprobar dificultad léxica (ES-08)
+        run: node scripts/check-lexical-difficulty.js
+
       - name: Comprobar tipos
         run: npm run typecheck
 

@@ -23,7 +23,7 @@
 // banco base (mismos tipos), solo cambian datos.
 // ============================================================================
 import {
-  DailyScenario, ProgressionSequence, ContrastCapsule,
+  DailyScenario, LexicalCategory, ProgressionSequence, ContrastCapsule,
 } from './valeriaSemanticExpansion';
 
 // ---------------------------------------------------------------------------
@@ -291,6 +291,263 @@ export const DAILY_SCENARIOS_ESDO: DailyScenario[] = [
         tts_string: 'La lechuza hace cu, cu. Di: cu, cu.',
         stt_expected_array: ['cu cu', 'cucu', 'cu', 'tu tu', 'uu'],
         parent_tpr_action: 'Pongan las manos como gafas alrededor de los ojos y giren la cabeza como una lechuza: “¡cu, cu!”.',
+      },
+    ],
+  },
+];
+
+// ---------------------------------------------------------------------------
+// CATEGORÍAS LÉXICAS · versión dominicana (DC-1 opción C · ES-08)
+//
+// La frecuencia léxica NO se hereda entre variedades, y la fruta es el caso de
+// libro: en República Dominicana «plátano» es el de freír —el del mangú, el de
+// los tostones— y el que se come crudo es el GUINEO. Copiar la lista peninsular
+// de ACOPROS tal cual pondría al niño dominicano a nombrar una fruta que en su
+// casa se llama de otra forma, que es exactamente el sesgo que la guía dialectal
+// corrigió. Lo mismo con la lechosa (papaya) y la chinola (maracuyá), que aquí
+// son cotidianas y en la península no existen.
+//
+// El nivel 1 se calibra por lo que hay en un colmado y en una mesa dominicana,
+// no por lo que hay en un supermercado peninsular.
+// ---------------------------------------------------------------------------
+export const LEXICAL_CATEGORIES_ESDO: LexicalCategory[] = [
+  {
+    id: 'do-cat-frutas', title: 'Frutas', icon: '🍎',
+    subtitle: 'De la fruta de todos los días a la que se ve de vez en cuando',
+    items: [
+      {
+        id: 'do-cat-frutas-guineo', type: 'sustantivo', label: 'guineo', emoji: '🍌', difficulty: 1,
+        visual_prompt: 'Guineo (banana) amarillo curvado de perfil, sin fondo, alto contraste, contorno grueso.',
+        tts_string: 'Esto es un guineo. Di: guineo.',
+        stt_expected_array: ['guineo', 'gineo', 'uineo', 'guineito', 'ineo'],
+        parent_tpr_action: 'Pelen un guineo juntos bajando cada tira despacio mientras dicen la palabra.',
+      },
+      {
+        id: 'do-cat-frutas-manzana', type: 'sustantivo', label: 'manzana', emoji: '🍎', difficulty: 1,
+        visual_prompt: 'Manzana roja de frente con hoja verde, sin fondo, alto contraste, contorno grueso.',
+        tts_string: 'Esto es una manzana. Di: manzana.',
+        stt_expected_array: ['manzana', 'mansana', 'mazana', 'manana', 'ana'],
+        parent_tpr_action: 'Dale un mordisco a una manzana y que el nene imite el crujido: ¡ñac!',
+      },
+      {
+        id: 'do-cat-frutas-naranja', type: 'sustantivo', label: 'naranja', emoji: '🍊', difficulty: 1,
+        visual_prompt: 'Naranja entera de frente con hoja, sin fondo, alto contraste, contorno grueso.',
+        tts_string: 'Esto es una naranja. Di: naranja.',
+        stt_expected_array: ['naranja', 'naanja', 'aranja', 'nanja', 'china'],
+        parent_tpr_action: 'Rueden una naranja por la mesa de uno a otro, nombrándola en cada pase.',
+      },
+      {
+        id: 'do-cat-frutas-pina', type: 'sustantivo', label: 'piña', emoji: '🍍', difficulty: 2,
+        visual_prompt: 'Piña entera con corona de hojas, sin fondo, alto contraste, contorno grueso.',
+        tts_string: 'Esto es una piña. Di: piña.',
+        stt_expected_array: ['piña', 'pina', 'iña', 'pinia', 'piñia'],
+        parent_tpr_action: 'Pónganse las manos abiertas sobre la cabeza como la corona de la piña.',
+      },
+      {
+        id: 'do-cat-frutas-lechosa', type: 'sustantivo', label: 'lechosa', emoji: '🥭', difficulty: 3,
+        visual_prompt: 'Lechosa (papaya) partida por la mitad con las semillas a la vista, sin fondo, alto contraste, contorno grueso.',
+        tts_string: 'Esto es una lechosa. Di: lechosa.',
+        stt_expected_array: ['lechosa', 'lechoa', 'echosa', 'lechosha', 'leshosa'],
+        parent_tpr_action: 'Abran una lechosa (o dibújenla) y cuenten juntos las semillas de dentro.',
+      },
+      {
+        id: 'do-cat-frutas-chinola', type: 'sustantivo', label: 'chinola', emoji: '🍈', difficulty: 3,
+        visual_prompt: 'Chinola (maracuyá) partida por la mitad, pulpa visible, sin fondo, alto contraste, contorno grueso.',
+        tts_string: 'Esto es una chinola. Di: chinola.',
+        stt_expected_array: ['chinola', 'chinoa', 'inola', 'shinola', 'chinolita'],
+        parent_tpr_action: 'Preparen un jugo de chinola y que el nene revuelva mientras dice la palabra.',
+      },
+    ],
+  },
+  {
+    id: 'do-cat-animales', title: 'Animales', icon: '🐶',
+    subtitle: 'De los del patio a los que solo se ven en el zoológico',
+    items: [
+      {
+        id: 'do-cat-animales-perro', type: 'sustantivo', label: 'perro', emoji: '🐶', difficulty: 1,
+        visual_prompt: 'Cabeza de perro de frente, orejas caídas, sin fondo, alto contraste, contorno grueso.',
+        tts_string: 'Esto es un perro. Di: perro.',
+        stt_expected_array: ['perro', 'pero', 'peo', 'pelo', 'peyo'],
+        parent_tpr_action: 'Pónganse en cuatro patas y den tres pasos ladrando juntos.',
+      },
+      {
+        id: 'do-cat-animales-gato', type: 'sustantivo', label: 'gato', emoji: '🐱', difficulty: 1,
+        visual_prompt: 'Cabeza de gato de frente con bigotes marcados, sin fondo, alto contraste, contorno grueso.',
+        tts_string: 'Esto es un gato. Di: gato.',
+        stt_expected_array: ['gato', 'tato', 'ato', 'gao', 'katto'],
+        parent_tpr_action: 'Estírense como un gato al despertar y froten la cabeza contra el brazo del otro.',
+      },
+      {
+        id: 'do-cat-animales-pollo', type: 'sustantivo', label: 'pollo', emoji: '🐓', difficulty: 2,
+        visual_prompt: 'Gallo o pollo de perfil con cresta roja, sin fondo, alto contraste, contorno grueso.',
+        tts_string: 'Esto es un pollo. Di: pollo.',
+        stt_expected_array: ['pollo', 'poyo', 'oyo', 'poo', 'poio'],
+        parent_tpr_action: 'Caminen picoteando el suelo con el dedo, como los pollos del patio.',
+      },
+      {
+        id: 'do-cat-animales-vaca', type: 'sustantivo', label: 'vaca', emoji: '🐄', difficulty: 2,
+        visual_prompt: 'Vaca de perfil con manchas, sin fondo, alto contraste, contorno grueso.',
+        tts_string: 'Esto es una vaca. Di: vaca.',
+        stt_expected_array: ['vaca', 'baca', 'aca', 'taca', 'bata'],
+        parent_tpr_action: 'Pónganse dos dedos en la cabeza como cuernos y digan la palabra mirándose.',
+      },
+      {
+        id: 'do-cat-animales-elefante', type: 'sustantivo', label: 'elefante', emoji: '🐘', difficulty: 3,
+        visual_prompt: 'Elefante de perfil con trompa levantada, sin fondo, alto contraste, contorno grueso.',
+        tts_string: 'Esto es un elefante. Di: elefante.',
+        stt_expected_array: ['elefante', 'efante', 'elefan', 'efate', 'lefante'],
+        parent_tpr_action: 'Hagan la trompa con el brazo colgando delante de la cara y baláncenla al decirlo.',
+      },
+      {
+        id: 'do-cat-animales-jirafa', type: 'sustantivo', label: 'jirafa', emoji: '🦒', difficulty: 3,
+        visual_prompt: 'Jirafa de cuerpo entero con cuello largo y manchas, sin fondo, alto contraste, contorno grueso.',
+        tts_string: 'Esto es una jirafa. Di: jirafa.',
+        stt_expected_array: ['jirafa', 'irafa', 'jifafa', 'girafa', 'jiafa'],
+        parent_tpr_action: 'Estiren el cuello y los brazos hacia arriba, lo más alto posible, para alcanzar una hoja.',
+      },
+    ],
+  },
+  {
+    id: 'do-cat-transportes', title: 'Transportes', icon: '🚌',
+    subtitle: 'De la guagua de la esquina a lo que casi no se ve',
+    items: [
+      {
+        id: 'do-cat-transportes-carro', type: 'sustantivo', label: 'carro', emoji: '🚗', difficulty: 1,
+        visual_prompt: 'Carro de perfil, colores planos, sin fondo, alto contraste, contorno grueso.',
+        tts_string: 'Esto es un carro. Di: carro.',
+        stt_expected_array: ['carro', 'caro', 'cao', 'calo', 'tarro'],
+        parent_tpr_action: 'Empujen un carrito por el piso hasta chocar suavecito con el pie del nene.',
+      },
+      {
+        id: 'do-cat-transportes-guagua', type: 'sustantivo', label: 'guagua', emoji: '🚌', difficulty: 1,
+        visual_prompt: 'Guagua (autobús) de perfil con ventanas, sin fondo, alto contraste, contorno grueso.',
+        tts_string: 'Esto es una guagua. Di: guagua.',
+        stt_expected_array: ['guagua', 'guaua', 'uagua', 'awawa', 'gagua'],
+        parent_tpr_action: 'Pónganse en fila como si subieran a la guagua y siéntense de dos en dos.',
+      },
+      {
+        id: 'do-cat-transportes-motor', type: 'sustantivo', label: 'motor', emoji: '🏍️', difficulty: 2,
+        visual_prompt: 'Motocicleta de perfil, colores planos, sin fondo, alto contraste, contorno grueso.',
+        tts_string: 'Esto es un motor. Di: motor.',
+        stt_expected_array: ['motor', 'motó', 'moto', 'motol', 'otor'],
+        parent_tpr_action: 'Agarren un manubrio imaginario y aceleren los dos a la vez haciendo ruido.',
+      },
+      {
+        id: 'do-cat-transportes-barco', type: 'sustantivo', label: 'barco', emoji: '🚢', difficulty: 2,
+        visual_prompt: 'Barco de perfil sobre una línea de agua, sin fondo, alto contraste, contorno grueso.',
+        tts_string: 'Esto es un barco. Di: barco.',
+        stt_expected_array: ['barco', 'baco', 'arco', 'balco', 'bato'],
+        parent_tpr_action: 'Siéntense en el piso y baláncense como si el barco subiera y bajara con las olas.',
+      },
+      {
+        id: 'do-cat-transportes-avion', type: 'sustantivo', label: 'avión', emoji: '✈️', difficulty: 3,
+        visual_prompt: 'Avión visto desde abajo con las alas extendidas, sin fondo, alto contraste, contorno grueso.',
+        tts_string: 'Esto es un avión. Di: avión.',
+        stt_expected_array: ['avión', 'avion', 'abión', 'aión', 'ión'],
+        parent_tpr_action: 'Abran los brazos como alas y den una vuelta inclinándose en las curvas.',
+      },
+      {
+        id: 'do-cat-transportes-camion', type: 'sustantivo', label: 'camión', emoji: '🚚', difficulty: 3,
+        visual_prompt: 'Camión de perfil con caja de carga, sin fondo, alto contraste, contorno grueso.',
+        tts_string: 'Esto es un camión. Di: camión.',
+        stt_expected_array: ['camión', 'camion', 'camió', 'tamión', 'mión'],
+        parent_tpr_action: 'Carguen tres juguetes en una caja y arrástrenla juntos como si fuera el remolque.',
+      },
+    ],
+  },
+  {
+    id: 'do-cat-colores', title: 'Colores', icon: '🎨',
+    subtitle: 'Del rojo y el azul a los que cuesta más nombrar',
+    items: [
+      {
+        id: 'do-cat-colores-rojo', type: 'adjetivo', label: 'rojo', emoji: '🔴', pictogram: 'color-rojo', difficulty: 1,
+        visual_prompt: 'Círculo rojo pleno con contorno grueso, sin fondo, sin degradados.',
+        tts_string: 'Este color es rojo. Di: rojo.',
+        stt_expected_array: ['rojo', 'ojo', 'lojo', 'roho', 'oo'],
+        parent_tpr_action: 'Busquen juntos tres cosas rojas por la casa y tóquenlas nombrando el color.',
+      },
+      {
+        id: 'do-cat-colores-azul', type: 'adjetivo', label: 'azul', emoji: '🔵', pictogram: 'color-azul', difficulty: 1,
+        visual_prompt: 'Círculo azul pleno con contorno grueso, sin fondo, sin degradados.',
+        tts_string: 'Este color es azul. Di: azul.',
+        stt_expected_array: ['azul', 'asul', 'aul', 'atul', 'azú'],
+        parent_tpr_action: 'Señalen el cielo o algo azul de la ropa del nene y digan el color a la vez.',
+      },
+      {
+        id: 'do-cat-colores-amarillo', type: 'adjetivo', label: 'amarillo', emoji: '🟡', pictogram: 'color-amarillo', difficulty: 2,
+        visual_prompt: 'Círculo amarillo pleno con contorno grueso, sin fondo, sin degradados.',
+        tts_string: 'Este color es amarillo. Di: amarillo.',
+        stt_expected_array: ['amarillo', 'amariyo', 'amaillo', 'marillo', 'amayo'],
+        parent_tpr_action: 'Hagan un sol grande con los brazos y digan el color mirando hacia arriba.',
+      },
+      {
+        id: 'do-cat-colores-verde', type: 'adjetivo', label: 'verde', emoji: '🟢', pictogram: 'color-verde', difficulty: 2,
+        visual_prompt: 'Círculo verde pleno con contorno grueso, sin fondo, sin degradados.',
+        tts_string: 'Este color es verde. Di: verde.',
+        stt_expected_array: ['verde', 'bede', 'erde', 'velde', 'bere'],
+        parent_tpr_action: 'Salgan al patio a buscar una hoja y tóquenla mientras dicen el color.',
+      },
+      {
+        id: 'do-cat-colores-morado', type: 'adjetivo', label: 'morado', emoji: '🟣', pictogram: 'color-morado', difficulty: 3,
+        visual_prompt: 'Círculo morado pleno con contorno grueso, sin fondo, sin degradados.',
+        tts_string: 'Este color es morado. Di: morado.',
+        stt_expected_array: ['morado', 'morao', 'moado', 'molado', 'orado'],
+        parent_tpr_action: 'Mezclen delante del nene un poco de rojo y azul y nombren lo que sale.',
+      },
+      {
+        id: 'do-cat-colores-marron', type: 'adjetivo', label: 'marrón', emoji: '🟤', pictogram: 'color-marron', difficulty: 3,
+        visual_prompt: 'Círculo marrón pleno con contorno grueso, sin fondo, sin degradados.',
+        tts_string: 'Este color es marrón. Di: marrón.',
+        stt_expected_array: ['marrón', 'marron', 'maón', 'malón', 'marró'],
+        parent_tpr_action: 'Toquen juntos algo de madera —una mesa, una mecedora— y digan el color al tocarlo.',
+      },
+    ],
+  },
+  {
+    id: 'do-cat-cuerpo', title: 'El cuerpo', icon: '🖐️',
+    subtitle: 'De lo que se señala solo a lo que hay que buscar',
+    items: [
+      {
+        id: 'do-cat-cuerpo-mano', type: 'sustantivo', label: 'mano', emoji: '🖐️', pictogram: 'mano', difficulty: 1,
+        visual_prompt: 'Mano abierta de frente con los cinco dedos separados, sin fondo, alto contraste, contorno grueso.',
+        tts_string: 'Esto es la mano. Di: mano.',
+        stt_expected_array: ['mano', 'ano', 'mao', 'manno', 'nano'],
+        parent_tpr_action: 'Choquen las palmas tres veces, una por cada sílaba, mirándose a los ojos.',
+      },
+      {
+        id: 'do-cat-cuerpo-pie', type: 'sustantivo', label: 'pie', emoji: '🦶', pictogram: 'pie', difficulty: 1,
+        visual_prompt: 'Pie descalzo de perfil, sin fondo, alto contraste, contorno grueso.',
+        tts_string: 'Esto es el pie. Di: pie.',
+        stt_expected_array: ['pie', 'pi', 'ie', 'bie', 'pié'],
+        parent_tpr_action: 'Pongan sus pies juntos y comparen el tamaño antes de dar tres pisotones.',
+      },
+      {
+        id: 'do-cat-cuerpo-boca', type: 'sustantivo', label: 'boca', emoji: '👄', pictogram: 'boca', difficulty: 2,
+        visual_prompt: 'Boca de frente ligeramente abierta, sin fondo, alto contraste, contorno grueso.',
+        tts_string: 'Esto es la boca. Di: boca.',
+        stt_expected_array: ['boca', 'oca', 'bota', 'poca', 'boa'],
+        parent_tpr_action: 'Pónganse frente al espejo y abran y cierren la boca a la vez, bien despacio.',
+      },
+      {
+        id: 'do-cat-cuerpo-ojo', type: 'sustantivo', label: 'ojo', emoji: '👁️', pictogram: 'ojo', difficulty: 2,
+        visual_prompt: 'Ojo abierto de frente con pestañas, sin fondo, alto contraste, contorno grueso.',
+        tts_string: 'Esto es el ojo. Di: ojo.',
+        stt_expected_array: ['ojo', 'oo', 'oho', 'oyo', 'ojjo'],
+        parent_tpr_action: 'Jueguen a taparse los ojos y destaparlos con un “¡cucú!” cada vez que dicen la palabra.',
+      },
+      {
+        id: 'do-cat-cuerpo-rodilla', type: 'sustantivo', label: 'rodilla', emoji: '🦵', pictogram: 'rodilla', difficulty: 3,
+        visual_prompt: 'Pierna de perfil con la rodilla marcada y flexionada, sin fondo, alto contraste, contorno grueso.',
+        tts_string: 'Esto es la rodilla. Di: rodilla.',
+        stt_expected_array: ['rodilla', 'rodiya', 'odilla', 'lodilla', 'diya'],
+        parent_tpr_action: 'Doblen las rodillas a la vez hasta quedar en cuclillas y suban diciendo la palabra.',
+      },
+      {
+        id: 'do-cat-cuerpo-codo', type: 'sustantivo', label: 'codo', emoji: '💪', pictogram: 'codo', difficulty: 3,
+        visual_prompt: 'Brazo doblado de perfil con el codo bien marcado, sin fondo, alto contraste, contorno grueso.',
+        tts_string: 'Esto es el codo. Di: codo.',
+        stt_expected_array: ['codo', 'oto', 'todo', 'coo', 'colo'],
+        parent_tpr_action: 'Salúdense chocando los codos tres veces seguidas.',
       },
     ],
   },

@@ -72,6 +72,7 @@ export const STORAGE_KEYS = {
   expansionSemantica: '@valeria_expansion_semantica', // Registro por sesión de expansión semántica / progresión léxica
   paresPrescripcion: '@valeria_prescripcion_pares',   // Prescripción del logopeda: { [pairId]: boolean } (ausente = activo)
   expansionPrescripcion: '@valeria_prescripcion_expansion', // Prescripción del logopeda: { [id]: boolean } (ausente = activo)
+  expansionNivelMax: '@valeria_expansion_nivel_max', // ES-08: tope de dificultad de las categorías léxicas
   tea: '@valeria_prescripcion_tea',            // Prescripción del módulo TEA (boolean[])
   dislexia: '@valeria_prescripcion_dislexia',  // Prescripción del módulo Dislexia (boolean[])
   teaConsent: '@valeria_tea_consentimiento',   // Consentimiento informado del Quiebre Pragmático (Modo Familia)

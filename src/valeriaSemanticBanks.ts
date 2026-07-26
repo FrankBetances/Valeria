@@ -9,15 +9,16 @@
 // valeriaPairBanks (pares mínimos por variedad).
 // ============================================================================
 import {
-  DAILY_SCENARIOS, PROGRESSION_SEQUENCES, CONTRAST_CAPSULES,
-  DailyScenario, ProgressionSequence, ContrastCapsule,
+  DAILY_SCENARIOS, LEXICAL_CATEGORIES, PROGRESSION_SEQUENCES, CONTRAST_CAPSULES,
+  DailyScenario, LexicalCategory, ProgressionSequence, ContrastCapsule,
 } from './valeriaSemanticExpansion';
 import {
-  DAILY_SCENARIOS_ESDO, PROGRESSION_SEQUENCES_ESDO, CONTRAST_CAPSULES_ESDO,
+  DAILY_SCENARIOS_ESDO, LEXICAL_CATEGORIES_ESDO, PROGRESSION_SEQUENCES_ESDO,
+  CONTRAST_CAPSULES_ESDO,
 } from './valeriaSemanticExpansionEsDO';
 import {
-  DAILY_SCENARIOS_EU, PROGRESSION_SEQUENCES_EU, CONTRAST_CAPSULES_EU,
-  SEM_RETRY_EU, SEM_SESSION_DONE_EU,
+  DAILY_SCENARIOS_EU, LEXICAL_CATEGORIES_EU, PROGRESSION_SEQUENCES_EU,
+  CONTRAST_CAPSULES_EU, SEM_RETRY_EU, SEM_SESSION_DONE_EU,
 } from './valeriaSemanticExpansionEu';
 import { Locale } from './valeriaLocale';
 
@@ -29,6 +30,7 @@ const SEM_SESSION_DONE_ES = '¡Sesión completada! ¡Choca esos cinco!';
 
 export interface SemanticBank {
   scenarios: DailyScenario[];
+  categories: LexicalCategory[];   // DC-1 opción C · vocabulario por campo
   sequences: ProgressionSequence[];
   capsules: ContrastCapsule[];
   retry: (label: string) => string; // consigna de reintento hablada
@@ -39,6 +41,7 @@ export function semanticForLocale(loc: Locale): SemanticBank {
   if (loc === 'es-DO') {
     return {
       scenarios: DAILY_SCENARIOS_ESDO,
+      categories: LEXICAL_CATEGORIES_ESDO,
       sequences: PROGRESSION_SEQUENCES_ESDO,
       capsules: CONTRAST_CAPSULES_ESDO,
       retry: SEM_RETRY_ES,
@@ -48,6 +51,7 @@ export function semanticForLocale(loc: Locale): SemanticBank {
   if (loc === 'eu') {
     return {
       scenarios: DAILY_SCENARIOS_EU,
+      categories: LEXICAL_CATEGORIES_EU,
       sequences: PROGRESSION_SEQUENCES_EU,
       capsules: CONTRAST_CAPSULES_EU,
       retry: SEM_RETRY_EU,
@@ -57,6 +61,7 @@ export function semanticForLocale(loc: Locale): SemanticBank {
   // Castellano y galego comparten el banco base (el galego locuta con Celtia).
   return {
     scenarios: DAILY_SCENARIOS,
+    categories: LEXICAL_CATEGORIES,
     sequences: PROGRESSION_SEQUENCES,
     capsules: CONTRAST_CAPSULES,
     retry: SEM_RETRY_ES,

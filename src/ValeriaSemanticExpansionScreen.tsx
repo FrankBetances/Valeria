@@ -34,7 +34,9 @@ import {
 } from './valeriaVoice';
 import { SpeakButton, TurnPhaseStrip } from './ValeriaVoiceUI';
 import { FichaVisual } from './ValeriaPictograms';
-import { WORD_TYPE_LABEL, PHASE_LABEL, SECTION_GOAL } from './valeriaSemanticExpansion';
+import {
+  WORD_TYPE_LABEL, PHASE_LABEL, SECTION_GOAL, DIFFICULTY_LABEL, DifficultyLevel,
+} from './valeriaSemanticExpansion';
 import { semanticForLocale, SemanticBank } from './valeriaSemanticBanks';
 import { getLocale } from './valeriaLocale';
 import { getAutoRecordPref, setAutoRecordPref } from './valeriaRecordingPref';
@@ -63,7 +65,7 @@ interface PracticeStep {
 }
 
 interface Session {
-  kind: 'scenario' | 'sequence' | 'contrast';
+  kind: 'scenario' | 'category' | 'sequence' | 'contrast';
   title: string;
   code: string;
   steps: PracticeStep[];
@@ -85,6 +87,25 @@ const scenarioSession = (bank: SemanticBank, id: string): Session => {
     steps: sc.items.map((it) => ({
       kicker: WORD_TYPE_LABEL[it.type].toUpperCase(),
       emoji: it.emoji, label: it.label, visualPrompt: it.visual_prompt,
+      tts: it.tts_string, expected: it.stt_expected_array,
+      actionKicker: 'MISIÓN FÍSICA DEL ADULTO', action: it.parent_tpr_action,
+    })),
+  };
+};
+
+// DC-1 opción C · ES-08: los ítems se practican de menos a más difícil, y el
+// logopeda puede recortar el nivel máximo desde el PIN profesional. Con el tope
+// en 1, la primera sesión de una categoría solo presenta lo más familiar, que
+// es el criterio de aceptación literal de ES-08.
+const categorySession = (bank: SemanticBank, id: string, maxLevel: DifficultyLevel): Session => {
+  const ct = bank.categories.find((c) => c.id === id)!;
+  const items = ct.items.filter((it) => (it.difficulty ?? 1) <= maxLevel);
+  return {
+    kind: 'category', title: ct.title, code: ct.id,
+    steps: items.map((it) => ({
+      kicker: DIFFICULTY_LABEL[(it.difficulty ?? 1) as DifficultyLevel].toUpperCase(),
+      emoji: it.emoji, label: it.label, pictogram: it.pictogram,
+      visualPrompt: it.visual_prompt,
       tts: it.tts_string, expected: it.stt_expected_array,
       actionKicker: 'MISIÓN FÍSICA DEL ADULTO', action: it.parent_tpr_action,
     })),
@@ -163,7 +184,7 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
   // es/gl usan el base; es-DO el dominicano (léxico local + registro caribeño).
   const bank = useRef<SemanticBank>(semanticForLocale(getLocale())).current;
   const [phase, setPhase] = useState<Phase>('pick');
-  const [tab, setTab] = useState<'scenario' | 'sequence' | 'contrast'>('scenario');
+  const [tab, setTab] = useState<'scenario' | 'category' | 'sequence' | 'contrast'>('scenario');
   const [session, setSession] = useState<Session | null>(null);
   const [stepIdx, setStepIdx] = useState(0);
   const [state, setState] = useState<StepState>('idle');
@@ -187,6 +208,9 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
   // Prescripción del logopeda: { [id]: boolean } sobre escenarios, progresiones
   // y contrastes (id ausente = activo). El PIN profesional desbloquea la edición.
   const [prescribed, setPrescribed] = useState<Record<string, boolean>>({});
+  // ES-08 · Nivel máximo de dificultad que el logopeda deja practicar. Por
+  // defecto los tres; se ajusta con el PIN profesional y se persiste.
+  const [maxLevel, setMaxLevel] = useState<DifficultyLevel>(3);
   const [unlocked, setUnlocked] = useState(false);
   const [pinOpen, setPinOpen] = useState(false);
   const [toast, setToast] = useState('');
@@ -209,6 +233,8 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
     mounted.current = true;
     (async () => {
       try {
+        const nivel = await AsyncStorage.getItem(STORAGE_KEYS.expansionNivelMax);
+        if (nivel === '1' || nivel === '2' || nivel === '3') setMaxLevel(Number(nivel) as DifficultyLevel);
         const raw = await AsyncStorage.getItem(STORAGE_KEYS.expansionPrescripcion);
         if (raw) {
           const p = JSON.parse(raw);
@@ -263,9 +289,12 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
   };
 
   const savePrescription = async () => {
-    try { await AsyncStorage.setItem(STORAGE_KEYS.expansionPrescripcion, JSON.stringify(prescribed)); } catch (e) { /* noop */ }
+    try {
+      await AsyncStorage.setItem(STORAGE_KEYS.expansionPrescripcion, JSON.stringify(prescribed));
+      await AsyncStorage.setItem(STORAGE_KEYS.expansionNivelMax, String(maxLevel));
+    } catch (e) { /* noop */ }
     setUnlocked(false);
-    setToast(`Prescripción guardada · ${activeCount} de ${TOTAL_ACTIVITIES} actividades activas.`);
+    setToast(`Prescripción guardada · ${activeCount} de ${TOTAL_ACTIVITIES} actividades activas · nivel máximo ${maxLevel}.`);
   };
 
   // ---------------------------------------------------------------- sesión --
@@ -554,7 +583,7 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
           <Text style={s.headerTitle}>Expansión Semántica</Text>
           <Text style={s.headerSub}>{unlocked ? 'Edición profesional habilitada' : 'Progresión léxica · del símbolo al mundo real del niño'}</Text>
           <View style={s.tabs}>
-            {([['scenario', 'Escenarios'], ['sequence', 'Progresión'], ['contrast', 'Contrastes']] as const).map(([t, lbl]) => {
+            {([['scenario', 'Escenarios'], ['category', 'Categorías'], ['sequence', 'Progresión'], ['contrast', 'Contrastes']] as const).map(([t, lbl]) => {
               const on = tab === t;
               return (
                 <Pressable key={t} onPress={() => setTab(t)} style={[s.tab, on && s.tabOn]} accessibilityRole="tab" accessibilityState={{ selected: on }}>
@@ -599,9 +628,40 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
           <View style={{ marginBottom: 12, marginTop: 12 }}>
             <ProUnlockPill unlocked={unlocked} onPress={() => setPinOpen(true)} />
           </View>
+
+          {/* ES-08 · Tope de dificultad. Solo aparece en Categorías, que es el
+              único bloque con progresión por frecuencia, y solo con el PIN: es
+              una decisión del logopeda, no del acompañante. */}
+          {tab === 'category' && unlocked && (
+            <View style={s.levelCard}>
+              <Text style={s.levelKicker}>📶 NIVEL MÁXIMO DE DIFICULTAD</Text>
+              <Text style={s.levelHint}>
+                Con el tope en 1, la sesión solo presenta las palabras más familiares de cada categoría.
+              </Text>
+              <View style={s.levelRow}>
+                {([1, 2, 3] as const).map((n) => {
+                  const on = maxLevel === n;
+                  return (
+                    <Pressable
+                      key={n}
+                      onPress={() => setMaxLevel(n)}
+                      style={[s.levelBtn, on && s.levelBtnOn]}
+                      accessibilityRole="radio"
+                      accessibilityState={{ selected: on }}
+                      accessibilityLabel={DIFFICULTY_LABEL[n]}
+                    >
+                      <Text style={[s.levelBtnTxt, on && s.levelBtnTxtOn]}>{DIFFICULTY_LABEL[n]}</Text>
+                    </Pressable>
+                  );
+                })}
+              </View>
+            </View>
+          )}
           <View style={s.listHead}>
             <Text style={s.listLabel}>
-              {tab === 'scenario' ? 'ESCENARIOS DIARIOS' : tab === 'sequence' ? 'PROGRESIÓN LÉXICA' : 'CÁPSULAS DE CONTRASTE'}
+              {tab === 'scenario' ? 'ESCENARIOS DIARIOS'
+                : tab === 'category' ? 'CATEGORÍAS LÉXICAS'
+                  : tab === 'sequence' ? 'PROGRESIÓN LÉXICA' : 'CÁPSULAS DE CONTRASTE'}
             </Text>
             <View style={s.countBadge}><Text style={s.countBadgeTxt}>{activeCount} prescritas</Text></View>
           </View>
@@ -623,6 +683,23 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
               </View>
             </>,
           ))}
+
+          {tab === 'category' && bank.categories.map((ct) => {
+            const disponibles = ct.items.filter((it) => (it.difficulty ?? 1) <= maxLevel);
+            return prescribableRow(
+              ct.id, `categoría ${ct.title}`, () => start(categorySession(bank, ct.id, maxLevel)),
+              <>
+                <Text style={{ fontSize: 30 }}>{ct.icon}</Text>
+                <View style={{ flex: 1 }}>
+                  <Text style={s.pickName}>{ct.title}</Text>
+                  <Text style={s.pickCat}>
+                    {ct.subtitle} · {disponibles.length} de {ct.items.length} palabras
+                  </Text>
+                  <Text style={s.pickCat}>{disponibles.map((it) => it.label).join(', ')}</Text>
+                </View>
+              </>,
+            );
+          })}
 
           {tab === 'sequence' && bank.sequences.map((sq) => prescribableRow(
             sq.id, `progresión ${sq.theme}`, () => start(sequenceSession(bank, sq.id)),
@@ -1060,6 +1137,16 @@ const s = StyleSheet.create({
   dots: { flexDirection: 'row', gap: 6, marginTop: 14 },
   dot: { flex: 1, height: 7, borderRadius: 4 },
   scroll: { padding: 16, paddingBottom: 32 },
+
+  // Tope de dificultad (ES-08)
+  levelCard: { backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.border, borderRadius: 14, padding: 13, marginBottom: 12 },
+  levelKicker: { fontSize: 11, fontWeight: '800', color: V.color.textMuted, letterSpacing: 0.5 },
+  levelHint: { fontSize: 12, fontWeight: '600', color: V.color.textSecondary, marginTop: 5, lineHeight: 17 },
+  levelRow: { flexDirection: 'row', gap: 7, marginTop: 10 },
+  levelBtn: { flex: 1, borderWidth: 1, borderColor: V.color.border, borderRadius: 10, paddingVertical: 8, paddingHorizontal: 6, backgroundColor: '#fbfbfb' },
+  levelBtnOn: { borderColor: V.color.primary, backgroundColor: '#effcfb' },
+  levelBtnTxt: { fontSize: 10.5, fontWeight: '800', color: V.color.textSecondary, textAlign: 'center' },
+  levelBtnTxtOn: { color: V.color.primary },
 
   // Antesala de preparación (ES-11)
   setupCard: { backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.border, borderRadius: 16, padding: 15, marginBottom: 12, ...V.shadow.card },

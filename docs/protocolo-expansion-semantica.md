@@ -107,6 +107,40 @@ Cinco escenarios; cada uno con **2 sustantivos, 2 verbos, 1 adjetivo y 1 onomato
 | 🛁 Hora del baño | bañera, jabón | bañar, frotar | caliente | chof |
 | 🌙 A dormir | luna, cuento | dormir, abrazar | oscuro | uh uh |
 
+## 1-bis. Categorías léxicas · Vocabulario por campo (DC-1, opción C)
+
+Cinco categorías de seis palabras cada una, **ordenadas de más a menos
+familiar**. No sustituyen a los escenarios: ACOPROS eligió la opción B
+(repetición verbal) como objetivo de los Escenarios diarios y dejó la opción C
+«planificada como versión propia», así que son un bloque aparte con su propio
+objetivo terapéutico.
+
+| Bloque | Qué manda | Objetivo |
+| --- | --- | --- |
+| Escenarios | el contexto (la rutina) | repetición verbal dentro de una situación |
+| Categorías | el campo semántico | ampliar vocabulario, de lo familiar a lo raro |
+
+| Categoría | Nivel 1 · lo más familiar | Nivel 2 | Nivel 3 · menos frecuente |
+| --- | --- | --- | --- |
+| 🍎 Frutas | manzana, plátano, naranja | pera | piña, cereza |
+| 🐶 Animales | perro, gato | pato, vaca | elefante, jirafa |
+| 🚗 Transportes | coche, moto | tren, barco | avión, camión |
+| 🎨 Colores | rojo, azul | amarillo, verde | morado, marrón |
+| 🖐️ El cuerpo | mano, pie | boca, ojo | rodilla, codo |
+
+El nivel 1 de Frutas es literalmente el ejemplo que puso ACOPROS, y el nivel 3
+también. **La progresión la marca la familiaridad, no la dificultad de
+pronunciación** — que es asunto de Pares Mínimos. Criterio completo y fuentes:
+[`criterio-dificultad-lexica.md`](./criterio-dificultad-lexica.md).
+
+El logopeda fija desde el PIN profesional el **nivel máximo** que se practica.
+Con el tope en 1, la sesión solo presenta las palabras más familiares.
+
+**La frecuencia no se hereda entre variedades.** En República Dominicana
+«plátano» es el de freír y el que se come crudo es el **guineo**; el banco es-DO
+tiene su nivel 1 propio y sube a nivel 3 la **lechosa** y la **chinola**, que en
+la península no existen. En transportes empieza por **carro** y **guagua**.
+
 ## 2. Progresión · Campo semántico del concepto
 
 Nueve secuencias que **amplían el campo semántico** de un concepto en cuatro

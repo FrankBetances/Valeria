@@ -773,6 +773,77 @@ const TortaPic: Pic = ({ size }) => (
   </Svg>
 );
 
+// ============================================================================
+// CATEGORÍAS LÉXICAS (DC-1 opción C · ES-08)
+// Los círculos de color 🟡🟢🟣🟤 y las partes del cuerpo 🦶🦵 son de Unicode 12:
+// el mismo riesgo de cuadro vacío que cerró la tanda 3. Se dibujan para no
+// reabrirlo con contenido nuevo.
+// ============================================================================
+
+// Muestra de color: un disco pleno de contorno grueso. Nada más — cualquier
+// adorno compite con lo único que hay que mirar, que es el color.
+const colorPic = (fill: string): Pic => {
+  const ColorPic: Pic = ({ size }) => (
+    <Svg width={size} height={size} viewBox="0 0 100 100">
+      <Circle cx={50} cy={50} r={38} fill={fill} stroke={INK} strokeWidth={6} />
+    </Svg>
+  );
+  return ColorPic;
+};
+
+const PiePic: Pic = ({ size }) => (
+  <Svg width={size} height={size} viewBox="0 0 100 100">
+    <Path d="M30 82 q-8 -22 -2 -38 q5 -14 20 -14 q16 0 20 14 q5 16 -2 38 Z"
+      fill="#fde3c0" stroke={INK} strokeWidth={5} strokeLinejoin="round" />
+    {/* dedos */}
+    <Circle cx={34} cy={26} r={6} fill="#fde3c0" stroke={INK} strokeWidth={4} />
+    <Circle cx={46} cy={21} r={5} fill="#fde3c0" stroke={INK} strokeWidth={4} />
+    <Circle cx={56} cy={21} r={4.5} fill="#fde3c0" stroke={INK} strokeWidth={4} />
+    <Circle cx={65} cy={24} r={4} fill="#fde3c0" stroke={INK} strokeWidth={4} />
+    <Circle cx={72} cy={29} r={3.5} fill="#fde3c0" stroke={INK} strokeWidth={4} />
+  </Svg>
+);
+
+const BocaPic: Pic = ({ size }) => (
+  <Svg width={size} height={size} viewBox="0 0 100 100">
+    <Path d="M12 50 q38 -30 76 0 q-38 34 -76 0 Z" fill="#e05070" stroke={INK} strokeWidth={5} strokeLinejoin="round" />
+    {/* dientes arriba: lo que distingue una boca de unos labios cerrados */}
+    <Path d="M22 44 q28 -18 56 0 Z" fill="#ffffff" stroke={INK} strokeWidth={4} strokeLinejoin="round" />
+    <Line x1={40} y1={38} x2={40} y2={44} stroke={INK} strokeWidth={2.5} />
+    <Line x1={52} y1={36} x2={52} y2={44} stroke={INK} strokeWidth={2.5} />
+    <Line x1={64} y1={39} x2={64} y2={44} stroke={INK} strokeWidth={2.5} />
+  </Svg>
+);
+
+const OjoPic: Pic = ({ size }) => (
+  <Svg width={size} height={size} viewBox="0 0 100 100">
+    <Path d="M8 50 q42 -32 84 0 q-42 32 -84 0 Z" fill="#ffffff" stroke={INK} strokeWidth={5} strokeLinejoin="round" />
+    <Circle cx={50} cy={50} r={16} fill="#5b8dd6" stroke={INK} strokeWidth={4} />
+    <Circle cx={50} cy={50} r={7} fill={INK} />
+    <Circle cx={45} cy={45} r={3} fill="#ffffff" />
+    {/* pestañas */}
+    <Path d="M20 34 L14 26 M50 26 L50 17 M80 34 L86 26" stroke={INK} strokeWidth={4} strokeLinecap="round" />
+  </Svg>
+);
+
+const RodillaPic: Pic = ({ size }) => (
+  <Svg width={size} height={size} viewBox="0 0 100 100">
+    {/* pierna doblada: muslo y pantorrilla */}
+    <Path d="M22 12 L22 46 q0 14 14 14 L74 60" fill="none" stroke="#fde3c0" strokeWidth={22} strokeLinecap="round" strokeLinejoin="round" />
+    <Path d="M22 12 L22 46 q0 14 14 14 L74 60" fill="none" stroke={INK} strokeWidth={5} strokeLinecap="round" strokeLinejoin="round" />
+    {/* la rótula, que es lo que se nombra */}
+    <Circle cx={30} cy={52} r={11} fill="#f4c9a8" stroke={INK} strokeWidth={5} />
+  </Svg>
+);
+
+const CodoPic: Pic = ({ size }) => (
+  <Svg width={size} height={size} viewBox="0 0 100 100">
+    <Path d="M78 14 L78 44 q0 12 -12 12 L26 56" fill="none" stroke="#fde3c0" strokeWidth={20} strokeLinecap="round" strokeLinejoin="round" />
+    <Path d="M78 14 L78 44 q0 12 -12 12 L26 56" fill="none" stroke={INK} strokeWidth={5} strokeLinecap="round" strokeLinejoin="round" />
+    <Circle cx={70} cy={50} r={10} fill="#f4c9a8" stroke={INK} strokeWidth={5} />
+  </Svg>
+);
+
 // ----------------------------------------------------------------------------
 // Registro palabra → pictograma. Claves normalizadas (minúsculas, sin acentos).
 // ----------------------------------------------------------------------------
@@ -871,6 +942,19 @@ const PICTOGRAMS_BY_KEY: Record<string, Pic> = {
   senalar: SenalarPic,
   'frio-cara': FrioCaraPic,
   torta: TortaPic,
+
+  // Categorías léxicas (DC-1 opción C)
+  'color-rojo': colorPic('#e23b3b'),
+  'color-azul': colorPic('#2f6fd0'),
+  'color-amarillo': colorPic('#f4c430'),
+  'color-verde': colorPic('#2fa84f'),
+  'color-morado': colorPic('#7c4fd0'),
+  'color-marron': colorPic('#8a5a2b'),
+  pie: PiePic,
+  boca: BocaPic,
+  ojo: OjoPic,
+  rodilla: RodillaPic,
+  codo: CodoPic,
 };
 
 const PICTOGRAMS_BY_EMOJI: Record<string, Pic> = {

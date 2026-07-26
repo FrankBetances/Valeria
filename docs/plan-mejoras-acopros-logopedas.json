@@ -4,7 +4,7 @@
   "version": "1.1.0",
   "titulo": "Plan de revisión · Feedback clínico de las logopedas de ACOPROS (julio 2026)",
   "fecha": "2026-07-24",
-  "estado": "completado · las mejoras recomendadas por las logopedas de ACOPROS están implementadas y validadas. Diferido con motivo: ES-08 y la opción C de DC-1.",
+  "estado": "completado en código · ES-08 y DC-1 opción C incluidos. Pendiente la síntesis de voz de las 218 locuciones nuevas y la validación del bloque de categorías (asignación de niveles y euskera).",
   "descripcion": "Convierte el feedback cualitativo de las logopedas de ACOPROS sobre Pares Mínimos, Expansión Semántica y recordatorios en un backlog trazable: cada observación se verifica contra el código real del repositorio, se propone un cambio concreto con sus ficheros, se marca si requiere una decisión clínica previa y se cierra con criterios de aceptación comprobables en dispositivo.",
   "origen": {
     "fuente": "Correo de las logopedas de ACOPROS tras la prueba de la app",
@@ -1461,28 +1461,28 @@
         "PM-02",
         "ES-06",
         "ES-07",
+        "ES-08",
         "ES-10",
         "ES-12",
         "ES-09",
         "X-03"
-      ],
-      "diferido": {
-        "ES-08": "La progresión por frecuencia léxica presupone las categorías de la opción C de DC-1, planificada para más adelante. Sin categorías no hay dónde aplicarla."
-      }
+      ]
     },
     "verificacionAutomatica": [
       "scripts/check-voice-corpus-coverage.js — falla si una locución de es/gl/eu no tiene asset de voz neuronal.",
       "scripts/check-content-rules.js — verifica ES-06, ES-10 y ES-13 sobre los tres bancos.",
       "scripts/check-reminder-slots.js — verifica los cuatro criterios de GEN-01, incluido que apagar una franja cancele sus avisos ya en cola.",
       "scripts/check-pictogram-coverage.js — falla si una vuelta de cápsula no declara pictograma, si la clave no tiene dibujo o si las dos vueltas usan la MISMA clave (el fallo que no se ve leyendo el dato).",
-      "Los tres corren en el workflow de Android junto al typecheck. Hasta el 2026-07-26 solo estaba enganchado el de cobertura de corpus: check-content-rules.js figuraba como gate en este plan sin que nada lo ejecutase."
+      "Los tres corren en el workflow de Android junto al typecheck. Hasta el 2026-07-26 solo estaba enganchado el de cobertura de corpus: check-content-rules.js figuraba como gate en este plan sin que nada lo ejecutase.",
+      "scripts/check-lexical-difficulty.js — verifica que las categorías declaren nivel, estén escritas en orden ascendente, tengan nivel 1 y existan en las tres variedades (ES-08)."
     ],
     "pendienteHumano": [
-      "CERRADO (2026-07-26) · Escucha de una sesión completa en es, gl y eu, validada por ACOPROS.",
-      "CERRADO (2026-07-26) · Validación por hablantes de euskera de las cadenas nuevas.",
-      "ABIERTO · Ver en dispositivo los 46 pictogramas propios: son geometría escrita a mano y ningún script comprueba que un dibujo se RECONOZCA, solo que exista.",
+      "CERRADO (2026-07-26) · Escucha de una sesión completa en es, gl y eu, y validación del euskera por hablantes nativos, sobre el contenido anterior a las categorías léxicas.",
+      "ABIERTO · BLOQUEANTE · Las 218 locuciones nuevas de las categorías léxicas necesitan síntesis (workflow Generate Voice Assets en es y eu) y después escucha en dispositivo. Hasta entonces esas palabras caen a la voz del sistema.",
+      "ABIERTO · BLOQUEANTE · El bloque de categorías en EUSKERA es posterior a la validación de julio: son cadenas que ningún hablante nativo ha leído. Marcado como borrador en el propio fichero.",
+      "ABIERTO · Que ACOPROS revise la asignación de nivel ítem a ítem: es una primera pasada, no una consulta a bases de frecuencia.",
+      "ABIERTO · Ver en dispositivo los pictogramas propios: ningún script comprueba que un dibujo se RECONOZCA, solo que exista.",
       "ABIERTO · Medir la tasa de reintentos de ES-04 con sesiones reales; la instrumentación ya está.",
-      "ABIERTO · Devolver la columna de veredicto de docs/auditoria-pictogramas.md sobre los 5 emoji marcados REVISAR que siguen sin dibujo.",
       "ABIERTO · Decidir si la frase portadora se recupera como modo avanzado. Es decisión de producto."
     ],
     "hallazgo": "RESUELTO (2026-07-26) · La congruencia de ES-13 obliga a que ambas vueltas de una cápsula muestren el mismo objeto, lo que con emoji dejaba la vuelta de comprensión irresoluble salvo en tamaño. El inventario midió el alcance real: 16 de las 20 cápsulas de los tres bancos, no 8. Se resuelve con pictogramas propios por clave —ocho objetos con dos variantes de atributo cada uno— y lo protege scripts/check-pictogram-coverage.js.",
@@ -1492,7 +1492,14 @@
       "alcance": "Escucha de sesión completa en es, gl y eu con voz neuronal, y revisión de las cadenas nuevas en euskera.",
       "consecuencia": "Cae la última condición de salida humana de las fases 1 y 3. El plan de cierre (planDeCierre) queda desbloqueado por completo: no hay ningún item a la espera de validación clínica o lingüística."
     },
-    "hallazgoContenido": "Al cablear los pictogramas apareció un desajuste de contenido que ninguna regla detectaba: el ítem «limpio» del escenario de mañana usaba el emoji de cuchara 🥄 en los TRES bancos, mientras su propio visual_prompt pedía «mano abierta y reluciente con destellos». El emoji contradecía al dato. Corregido con el pictograma mano-limpia."
+    "hallazgoContenido": "Al cablear los pictogramas apareció un desajuste de contenido que ninguna regla detectaba: el ítem «limpio» del escenario de mañana usaba el emoji de cuchara 🥄 en los TRES bancos, mientras su propio visual_prompt pedía «mano abierta y reluciente con destellos». El emoji contradecía al dato. Corregido con el pictograma mano-limpia.",
+    "dc1OpcionC": {
+      "fecha": "2026-07-26",
+      "resumen": "Implementada como bloque aparte, no como sustitución: ACOPROS eligió la opción B para los Escenarios diarios y dejó la C «planificada como versión propia». Cinco categorías (frutas, animales, transportes, colores, cuerpo) de seis palabras, en es, es-DO y eu; gl comparte el banco base.",
+      "es08": "El nivel de dificultad lo ordena la FAMILIARIDAD, no la complejidad articulatoria: lo fija el propio ejemplo de ACOPROS, donde «manzana» (3 sílabas) va antes que «piña» (2). Criterio y fuentes en docs/criterio-dificultad-lexica.md; el logopeda fija el nivel máximo desde el PIN.",
+      "riesgoDialectalAtendido": "En es-DO el nivel 1 de frutas es guineo/manzana/naranja, no plátano: en RD el plátano es el de freír. Lechosa y chinola entran en nivel 3. En transportes, carro y guagua.",
+      "corpus": "218 locuciones nuevas (113 es, 113→105 eu), 0 retiradas: el diff del corpus es puramente aditivo, sin deriva entre pantalla y corpus. Pendiente la síntesis en CI y la escucha en dispositivo."
+    }
   },
   "planDeCierre": {
     "titulo": "Plan de cierre · lo que falta para dar por completadas las mejoras de ACOPROS",
@@ -1802,9 +1809,7 @@
       "Y lo que ningún script cierra: escuchar una sesión completa en es, gl y eu, y validar el euskera con un hablante nativo (sigue abierto desde la fase 3)"
     ],
     "fueraDeAlcance": [
-      "ES-08 · progresión por frecuencia léxica: presupone las categorías de la opción C de DC-1, planificada como versión propia. Sin categorías no hay dónde aplicarla",
-      "DC-1 opción C · reorganización de Escenarios en categorías semánticas: rediseño del banco en las cuatro variedades, propio de una versión mayor",
-      "La frase portadora como modo avanzado: se retiró del flujo y del corpus, y su módulo se conserva. Es una decisión pendiente de producto, no trabajo de este cierre"
+      "La frase portadora como modo avanzado: se retiró del flujo y del corpus, y su módulo se conserva. Es una decisión pendiente de producto, no trabajo de este cierre."
     ],
     "estado": "completado (2026-07-26) · los cinco lotes cerrados",
     "estadoLotes": {
