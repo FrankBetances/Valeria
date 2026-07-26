@@ -4,7 +4,7 @@
   "version": "1.1.0",
   "titulo": "Plan de revisión · Feedback clínico de las logopedas de ACOPROS (julio 2026)",
   "fecha": "2026-07-24",
-  "estado": "fases 1 y 3 publicadas · fase 2 parcial · plan de cierre trazado (planDeCierre) para ES-04, ES-11, GEN-01, la ejecución de DC-4 y el resto de ES-12",
+  "estado": "fases 1 y 3 publicadas y validadas por ACOPROS y por hablantes de euskera · fase 2 en cierre · plan de cierre en ejecución (planDeCierre)",
   "descripcion": "Convierte el feedback cualitativo de las logopedas de ACOPROS sobre Pares Mínimos, Expansión Semántica y recordatorios en un backlog trazable: cada observación se verifica contra el código real del repositorio, se propone un cambio concreto con sus ficheros, se marca si requiere una decisión clínica previa y se cierra con criterios de aceptación comprobables en dispositivo.",
   "origen": {
     "fuente": "Correo de las logopedas de ACOPROS tras la prueba de la app",
@@ -1476,11 +1476,17 @@
       "scripts/check-content-rules.js — verifica ES-06, ES-10 y ES-13 sobre los tres bancos."
     ],
     "pendienteHumano": [
-      "ESCUCHAR una sesión completa en es, gl y eu: es la única comprobación que detecta la caída a la voz del sistema.",
-      "Validación por hablante nativo de las cadenas nuevas en euskera; el banco eu sigue marcado como borrador en el código.",
-      "Decidir si la frase portadora se recupera como modo avanzado: se retiró del flujo y del corpus, pero su módulo se conserva."
+      "CERRADO (2026-07-26) · Escucha de una sesión completa en es, gl y eu: validada por ACOPROS con voz neuronal en las tres lenguas.",
+      "CERRADO (2026-07-26) · Validación por hablantes de euskera de las cadenas nuevas: los bancos eu dejan de figurar como borrador en el código (valeriaVoiceCorpus.ts, valeriaCarrierPhrases.ts).",
+      "ABIERTO · Decidir si la frase portadora se recupera como modo avanzado: se retiró del flujo y del corpus, pero su módulo se conserva. Es decisión de producto, no de este plan."
     ],
-    "hallazgo": "Al aplicar la congruencia de ES-13, ambas vueltas de una cápsula muestran el mismo objeto. Eso deja la vuelta de comprensión de ES-12 limitada a los contrastes de TAMAÑO (se marcan con la escala de la ficha) mientras no haya pictogramas: limpio/sucio o frío/caliente no son distinguibles solo con emoji. ES-12 depende por tanto parcialmente de DC-4."
+    "hallazgo": "Al aplicar la congruencia de ES-13, ambas vueltas de una cápsula muestran el mismo objeto. Eso deja la vuelta de comprensión de ES-12 limitada a los contrastes de TAMAÑO (se marcan con la escala de la ficha) mientras no haya pictogramas: limpio/sucio o frío/caliente no son distinguibles solo con emoji. ES-12 depende por tanto parcialmente de DC-4.",
+    "validacionHumana": {
+      "fecha": "2026-07-26",
+      "validadoPor": "ACOPROS (logopedas) y hablantes de euskera",
+      "alcance": "Escucha de sesión completa en es, gl y eu con voz neuronal, y revisión de las cadenas nuevas en euskera.",
+      "consecuencia": "Cae la última condición de salida humana de las fases 1 y 3. El plan de cierre (planDeCierre) queda desbloqueado por completo: no hay ningún item a la espera de validación clínica o lingüística."
+    }
   },
   "planDeCierre": {
     "titulo": "Plan de cierre · lo que falta para dar por completadas las mejoras de ACOPROS",
@@ -1793,6 +1799,7 @@
       "ES-08 · progresión por frecuencia léxica: presupone las categorías de la opción C de DC-1, planificada como versión propia. Sin categorías no hay dónde aplicarla",
       "DC-1 opción C · reorganización de Escenarios en categorías semánticas: rediseño del banco en las cuatro variedades, propio de una versión mayor",
       "La frase portadora como modo avanzado: se retiró del flujo y del corpus, y su módulo se conserva. Es una decisión pendiente de producto, no trabajo de este cierre"
-    ]
+    ],
+    "estado": "desbloqueado · sin dependencias externas pendientes tras la validación del 2026-07-26"
   }
 }

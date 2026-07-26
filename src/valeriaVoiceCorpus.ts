@@ -196,9 +196,9 @@ export function buildVoiceCorpus(): VoiceCorpusEntry[] {
   addGl('child', VOICE_SAMPLE_PHRASE_GL, 'util/muestra');
 
   // ============================ EUSKERA (eu) ============================
-  // Contenido del plan ILENIA/NEL-GAITU (EU-2.x), BORRADOR pendiente de
-  // revisión; se sintetiza con la voz HiTZ-TTS y se emite en las sesiones en
-  // euskera. Espejo estructural del bloque galego.
+  // Contenido del plan ILENIA/NEL-GAITU (EU-2.x), validado por hablantes de
+  // euskera (julio 2026); se sintetiza con la voz HiTZ-TTS y se emite en las
+  // sesiones en euskera. Espejo estructural del bloque galego.
   const addEu = mkAdd('eu');
 
   for (const p of MINIMAL_PAIRS_EU) {
