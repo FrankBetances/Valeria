@@ -35,48 +35,48 @@ justo lo que ES-12 necesita. Se dibuja en casa, con clave propia en el dato.
 
 | Emoji | Motivo | Usos | Palabras | Bloques | Lenguas | Con clave | Veredicto ACOPROS |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 🥄 | `TOFU` | 12 | limpio, cuchara, sucio, garbi, koilara, zikin | Escenario, Contraste | es, es-DO, eu | 6/12 | |
-| 🥤 | `TOFU` | 9 | beber, frío, caliente, edan, hotz, bero | Escenario, Contraste | es, es-DO, eu | 6/9 | |
-| 🧼 | `TOFU` | 6 | lavar, jabón, garbitu, xaboia | Escenario | es, es-DO, eu | 0/6 | |
+| 🥄 | `TOFU` | 12 | limpio, cuchara, sucio, garbi, koilara, zikin | Escenario, Contraste | es, es-DO, eu | 12/12 | |
+| 🥤 | `TOFU` | 9 | beber, frío, caliente, edan, hotz, bero | Escenario, Contraste | es, es-DO, eu | 9/9 | |
+| 🧼 | `TOFU` | 6 | lavar, jabón, garbitu, xaboia | Escenario | es, es-DO, eu | 6/6 | |
 | 🧸 | `TOFU` | 6 | grande, pequeño, chiquito, handia, txikia | Contraste | es, es-DO, eu | 6/6 | |
-| 🥛 | `TOFU` | 4 | vaso, leche, basoa, esnea | Escenario, Progresión | es, eu | 0/4 | |
-| 🧺 | `TOFU` | 4 | lleno, vacío, cesta | Contraste, Escenario, Pares | es, es-DO, gl | 2/4 | |
-| 🪥 | `TOFU` | 3 | cepillo, eskuila | Escenario | es, es-DO, eu | 0/3 | |
-| 🤗 | `TOFU` | 3 | abrazar, besarkatu | Escenario | es, es-DO, eu | 0/3 | |
-| 🛞 | `TOFU` | 3 | rueda, goma, gurpila | Progresión | es, es-DO, eu | 0/3 | |
-| 🤲 | `TOFU` | 3 | mojado, busti | Progresión | es, es-DO, eu | 0/3 | |
-| 🪶 | `TOFU` | 3 | pluma, luma | Progresión | es, es-DO, eu | 0/3 | |
-| 🪣 | `TOFU` | 3 | cubo | Pares | es, es-DO, gl | 0/3 | |
-| 🧪 | `TOFU` | 3 | tubo | Pares | es, es-DO, gl | 0/3 | |
-| 🛝 | `TOFU` | 2 | tobogán, txirristra | Escenario | es, eu | 0/2 | |
-| 🤸 | `TOFU` | 2 | saltar, salto | Escenario | es, eu | 0/2 | |
-| 🧽 | `TOFU` | 2 | frotar, igurtzi | Escenario | es, eu | 0/2 | |
-| 🧶 | `TOFU` | 2 | lana | Pares | es, es-DO | 0/2 | |
-| 🥫 | `TOFU` | 2 | lata | Pares | es, es-DO | 0/2 | |
-| 🧵 | `TOFU` | 1 | cuerda | Progresión | es | 0/1 | |
-| 🧻 | `TOFU` | 1 | secar | Escenario | es-DO | 0/1 | |
-| 🪚 | `TOFU` | 1 | sierra | Pares | es | 0/1 | |
-| 🤚 | `TOFU` | 1 | piel | Pares | es | 0/1 | |
-| 🪵 | `TOFU` | 1 | palo | Pares | es | 0/1 | |
-| 🫵 | `TOFU` | 1 | zu | Pares | eu | 0/1 | |
-| 🥶 | `TOFU` | 1 | hotz | Pares | eu | 0/1 | |
-| 🫓 | `TOFU` | 1 | talo | Pares | eu | 0/1 | |
-| ⬆️ | `ATRIBUTO` | 6 | salta, subir, brinca, salto, igo | Progresión, Contraste | es, es-DO, eu | 3/6 | |
+| 🥛 | `TOFU` | 4 | vaso, leche, basoa, esnea | Escenario, Progresión | es, eu | 4/4 | |
+| 🧺 | `TOFU` | 4 | lleno, vacío, cesta | Contraste, Escenario, Pares | es, es-DO, gl | 4/4 | |
+| 🪥 | `TOFU` | 3 | cepillo, eskuila | Escenario | es, es-DO, eu | 3/3 | |
+| 🤗 | `TOFU` | 3 | abrazar, besarkatu | Escenario | es, es-DO, eu | 3/3 | |
+| 🛞 | `TOFU` | 3 | rueda, goma, gurpila | Progresión | es, es-DO, eu | 3/3 | |
+| 🤲 | `TOFU` | 3 | mojado, busti | Progresión | es, es-DO, eu | 3/3 | |
+| 🪶 | `TOFU` | 3 | pluma, luma | Progresión | es, es-DO, eu | 3/3 | |
+| 🪣 | `TOFU` | 3 | cubo | Pares | es, es-DO, gl | 3/3 | |
+| 🧪 | `TOFU` | 3 | tubo | Pares | es, es-DO, gl | 3/3 | |
+| 🛝 | `TOFU` | 2 | tobogán, txirristra | Escenario | es, eu | 2/2 | |
+| 🤸 | `TOFU` | 2 | saltar, salto | Escenario | es, eu | 2/2 | |
+| 🧽 | `TOFU` | 2 | frotar, igurtzi | Escenario | es, eu | 2/2 | |
+| 🧶 | `TOFU` | 2 | lana | Pares | es, es-DO | 2/2 | |
+| 🥫 | `TOFU` | 2 | lata | Pares | es, es-DO | 2/2 | |
+| 🧵 | `TOFU` | 1 | cuerda | Progresión | es | 1/1 | |
+| 🧻 | `TOFU` | 1 | secar | Escenario | es-DO | 1/1 | |
+| 🪚 | `TOFU` | 1 | sierra | Pares | es | 1/1 | |
+| 🤚 | `TOFU` | 1 | piel | Pares | es | 1/1 | |
+| 🪵 | `TOFU` | 1 | palo | Pares | es | 1/1 | |
+| 🫵 | `TOFU` | 1 | zu | Pares | eu | 1/1 | |
+| 🥶 | `TOFU` | 1 | hotz | Pares | eu | 1/1 | |
+| 🫓 | `TOFU` | 1 | talo | Pares | eu | 1/1 | |
+| ⬆️ | `ATRIBUTO` | 6 | salta, subir, brinca, salto, igo | Progresión, Contraste | es, es-DO, eu | 5/6 | |
 | ⬇️ | `ATRIBUTO` | 6 | cae, bajar, erortzen, jaitsi | Progresión, Contraste | es, es-DO, eu | 3/6 | |
 | 📦 | `ATRIBUTO` | 6 | abrir, cerrar, ireki, itxi | Contraste | es, es-DO, eu | 6/6 | |
 | 💡 | `ATRIBUTO` | 6 | encender, apagar, prender, piztu, itzali | Contraste | es, es-DO, eu | 6/6 | |
 | 📥 | `ATRIBUTO` | 1 | meter | Contraste | es | 1/1 | |
 | 📤 | `ATRIBUTO` | 1 | sacar | Contraste | es | 1/1 | |
-| 😋 | `REVISAR` | 6 | comer, ñam ñam, jan | Escenario | es, es-DO, eu | 0/6 | |
-| 😴 | `REVISAR` | 6 | dormir, duerme, lo, lo egiten | Escenario, Progresión | es, es-DO, eu | 0/6 | |
-| 🐦 | `REVISAR` | 6 | pájaro, vuela, txoria, hegan | Progresión | es, es-DO, eu | 0/6 | |
-| 💨 | `REVISAR` | 4 | corre, sopla, dabil | Progresión | es, es-DO, eu | 0/4 | |
-| 🛀 | `REVISAR` | 3 | bañar, bainatu | Escenario | es, es-DO, eu | 0/3 | |
-| 👕 | `REVISAR` | 2 | vestir, jantzi | Escenario | es, eu | 0/2 | |
-| 🏃 | `REVISAR` | 2 | correr, korrika | Escenario | es, eu | 0/2 | |
+| 😋 | `REVISAR` | 6 | comer, ñam ñam, jan | Escenario | es, es-DO, eu | 6/6 | |
+| 😴 | `REVISAR` | 6 | dormir, duerme, lo, lo egiten | Escenario, Progresión | es, es-DO, eu | 6/6 | |
+| 🐦 | `REVISAR` | 6 | pájaro, vuela, txoria, hegan | Progresión | es, es-DO, eu | 6/6 | |
+| 💨 | `REVISAR` | 4 | corre, sopla, dabil | Progresión | es, es-DO, eu | 4/4 | |
+| 🛀 | `REVISAR` | 3 | bañar, bainatu | Escenario | es, es-DO, eu | 3/3 | |
+| 👕 | `REVISAR` | 2 | vestir, jantzi | Escenario | es, eu | 2/2 | |
+| 🏃 | `REVISAR` | 2 | correr, korrika | Escenario | es, eu | 2/2 | |
 | 🌿 | `REVISAR` | 2 | come, jaten | Progresión | es, eu | 0/2 | |
-| 🛑 | `REVISAR` | 2 | para, gelditzen | Progresión | es, eu | 0/2 | |
-| 🏊 | `REVISAR` | 2 | nada, mojado | Progresión | es-DO | 0/2 | |
+| 🛑 | `REVISAR` | 2 | para, gelditzen | Progresión | es, eu | 2/2 | |
+| 🏊 | `REVISAR` | 2 | nada, mojado | Progresión | es-DO | 2/2 | |
 | 🙋 | `REVISAR` | 1 | quiero pan | Progresión | es | 0/1 | |
 | 💵 | `REVISAR` | 1 | comprar | Escenario | es-DO | 0/1 | |
 | 💪 | `REVISAR` | 1 | cargar | Escenario | es-DO | 0/1 | |
@@ -85,7 +85,7 @@ justo lo que ES-12 necesita. Se dibuja en casa, con clave propia en el dato.
 | 🐕 | `OK` | 6 | perro, peludo, txakurra, iletsua | Progresión | es, es-DO, eu | 0/6 | |
 | 💧 | `OK` | 5 | agua, ura, gota | Progresión, Escenario, Pares | es, es-DO, eu | 0/5 | |
 | ⚽ | `OK` | 4 | pelota, boing, pilota | Escenario | es, eu | 0/4 | |
-| 💦 | `OK` | 4 | chof, mojado, txof | Escenario | es, es-DO, eu | 0/4 | |
+| 💦 | `OK` | 4 | chof, mojado, txof | Escenario | es, es-DO, eu | 1/4 | |
 | 🌙 | `OK` | 4 | luna, ilargia, lúa | Escenario, Pares | es, es-DO, eu, gl | 0/4 | |
 | 🚗 | `OK` | 4 | coche, rápido, kotxea, azkarra | Progresión | es, eu | 0/4 | |
 | 🐄 | `OK` | 4 | vaca, grande, behia, handia | Progresión | es, eu | 0/4 | |
@@ -103,7 +103,7 @@ justo lo que ES-12 necesita. Se dibuja en casa, con clave propia en el dato.
 | 🐤 | `OK` | 3 | pequeño, chiquito, txikia | Progresión | es, es-DO, eu | 0/3 | |
 | 🐓 | `OK` | 3 | gallo, cresta, grande | Progresión | es-DO | 0/3 | |
 | ⛲ | `OK` | 3 | fuente, fonte | Pares | es, es-DO, gl | 0/3 | |
-| 🌉 | `OK` | 3 | puente, ponte | Pares | es, es-DO, gl | 0/3 | |
+| 🌉 | `OK` | 3 | puente, ponte | Pares | es, es-DO, gl | 3/3 | |
 | 🦒 | `OK` | 2 | alto, altu | Escenario | es, eu | 0/2 | |
 | 🛁 | `OK` | 2 | bañera, bainuontzia | Escenario | es, eu | 0/2 | |
 | ♨️ | `OK` | 2 | caliente, bero | Escenario | es, eu | 0/2 | |
@@ -114,7 +114,7 @@ justo lo que ES-12 necesita. Se dibuja en casa, con clave propia en el dato.
 | 🚌 | `OK` | 2 | guagua, llena | Progresión | es-DO | 0/2 | |
 | 🐸 | `OK` | 2 | rana | Pares | es, es-DO | 0/2 | |
 | 🐶 | `OK` | 2 | perro | Pares | es, es-DO | 0/2 | |
-| 💇 | `OK` | 2 | pelo | Pares | es, es-DO | 0/2 | |
+| 💇 | `OK` | 2 | pelo | Pares | es, es-DO | 2/2 | |
 | 🐀 | `OK` | 2 | rata | Pares | es, es-DO | 0/2 | |
 | 🏠 | `OK` | 2 | casa | Pares | es, gl | 0/2 | |
 | 🏹 | `OK` | 2 | caza | Pares | es, gl | 0/2 | |

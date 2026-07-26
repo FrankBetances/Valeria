@@ -45,6 +45,7 @@ export const DAILY_SCENARIOS_ESDO: DailyScenario[] = [
       },
       {
         id: 'do-manana-cepillo', type: 'sustantivo', label: 'cepillo', emoji: '🪥',
+        pictogram: 'cepillo',
         visual_prompt: 'Cepillo de dientes en horizontal con una raya de pasta, sin fondo, alto contraste, contorno grueso.',
         tts_string: 'Esto es el cepillo. Di: cepillo.',
         stt_expected_array: ['cepillo', 'pillo', 'tepillo', 'epillo'],
@@ -59,6 +60,7 @@ export const DAILY_SCENARIOS_ESDO: DailyScenario[] = [
       },
       {
         id: 'do-manana-lavar', type: 'verbo', label: 'lavar', emoji: '🧼',
+        pictogram: 'jabon',
         visual_prompt: 'Dos manos frotándose con burbujas de jabón, sin fondo, alto contraste, contorno grueso.',
         tts_string: 'Nos lavamos las manos. Di: lavar.',
         stt_expected_array: ['lavar', 'lava', 'aba', 'avar', 'laba'],
@@ -66,6 +68,7 @@ export const DAILY_SCENARIOS_ESDO: DailyScenario[] = [
       },
       {
         id: 'do-manana-limpio', type: 'adjetivo', label: 'limpio', emoji: '🥄',
+        pictogram: 'mano-limpia',
         visual_prompt: 'Mano abierta y reluciente con destellos alrededor, sin fondo, alto contraste, contorno grueso.',
         tts_string: 'Las manos están limpias. Di: limpio.',
         stt_expected_array: ['limpio', 'impio', 'limpi', 'inpio', 'pio'],
@@ -88,6 +91,7 @@ export const DAILY_SCENARIOS_ESDO: DailyScenario[] = [
     items: [
       {
         id: 'do-comida-cuchara', type: 'sustantivo', label: 'cuchara', emoji: '🥄',
+        pictogram: 'cuchara',
         visual_prompt: 'Cuchara sola vista desde arriba, sin fondo, alto contraste, contorno grueso, sin brillos.',
         tts_string: 'Esto es la cuchara. Di: cuchara.',
         stt_expected_array: ['cuchara', 'tuchara', 'chara', 'uchara', 'chacha'],
@@ -102,6 +106,7 @@ export const DAILY_SCENARIOS_ESDO: DailyScenario[] = [
       },
       {
         id: 'do-comida-comer', type: 'verbo', label: 'comer', emoji: '😋',
+        pictogram: 'comer',
         visual_prompt: 'Boca abierta recibiendo una cuchara con comida, de perfil simple, sin fondo, alto contraste, contorno grueso.',
         tts_string: 'Vamos a comer. Di: comer.',
         stt_expected_array: ['comer', 'come', 'omer', 'tome', 'omé'],
@@ -109,6 +114,7 @@ export const DAILY_SCENARIOS_ESDO: DailyScenario[] = [
       },
       {
         id: 'do-comida-beber', type: 'verbo', label: 'beber', emoji: '🥤',
+        pictogram: 'vaso',
         visual_prompt: 'Silueta infantil bebiendo de un vaso inclinado, sin fondo, alto contraste, contorno grueso.',
         tts_string: 'Vamos a beber jugo. Di: beber.',
         stt_expected_array: ['beber', 'bebe', 'ebe', 'bebé', 'meme'],
@@ -123,6 +129,7 @@ export const DAILY_SCENARIOS_ESDO: DailyScenario[] = [
       },
       {
         id: 'do-comida-nam', type: 'onomatopeya', label: 'ñam ñam', emoji: '😋',
+        pictogram: 'comer',
         visual_prompt: 'Boca masticando con migas alrededor y líneas de movimiento, sin fondo, alto contraste, contorno grueso.',
         tts_string: 'La boca hace ñam, ñam. Di: ñam, ñam.',
         stt_expected_array: ['ñam ñam', 'ñam', 'nam nam', 'nam', 'am am'],
@@ -166,6 +173,7 @@ export const DAILY_SCENARIOS_ESDO: DailyScenario[] = [
       },
       {
         id: 'do-colmado-lleno', type: 'adjetivo', label: 'lleno', emoji: '🧺',
+        pictogram: 'cesta',
         visual_prompt: 'Funda o canasta rebosando de productos, sin fondo, alto contraste, contorno grueso.',
         tts_string: 'La funda está bien llena. Di: lleno.',
         stt_expected_array: ['lleno', 'yeno', 'eno', 'lleto', 'yeto'],
@@ -195,6 +203,7 @@ export const DAILY_SCENARIOS_ESDO: DailyScenario[] = [
       },
       {
         id: 'do-bano-jabon', type: 'sustantivo', label: 'jabón', emoji: '🧼',
+        pictogram: 'jabon',
         visual_prompt: 'Pastilla de jabón con tres burbujas alrededor, sin fondo, alto contraste, contorno grueso.',
         tts_string: 'Esto es el jabón. Di: jabón.',
         stt_expected_array: ['jabón', 'jabon', 'jabo', 'abón', 'bon'],
@@ -202,6 +211,7 @@ export const DAILY_SCENARIOS_ESDO: DailyScenario[] = [
       },
       {
         id: 'do-bano-banar', type: 'verbo', label: 'bañar', emoji: '🛀',
+        pictogram: 'banar',
         visual_prompt: 'Silueta infantil dentro de una bañera con burbujas, sin fondo, alto contraste, contorno grueso.',
         tts_string: 'Vamos a bañar al muñeco. Di: bañar.',
         stt_expected_array: ['bañar', 'baña', 'añar', 'bana', 'añá'],
@@ -209,6 +219,7 @@ export const DAILY_SCENARIOS_ESDO: DailyScenario[] = [
       },
       {
         id: 'do-bano-secar', type: 'verbo', label: 'secar', emoji: '🧻',
+        pictogram: 'papel',
         visual_prompt: 'Toalla envolviendo a una silueta infantil, sin fondo, alto contraste, contorno grueso.',
         tts_string: 'Ahora vamos a secar. Di: secar.',
         stt_expected_array: ['secar', 'seca', 'ecar', 'tetá', 'secá'],
@@ -216,6 +227,7 @@ export const DAILY_SCENARIOS_ESDO: DailyScenario[] = [
       },
       {
         id: 'do-bano-mojado', type: 'adjetivo', label: 'mojado', emoji: '💦',
+        pictogram: 'manos-mojadas',
         visual_prompt: 'Mano con gotas de agua resbalando y pequeñas salpicaduras, sin fondo, alto contraste, contorno grueso.',
         tts_string: 'La mano está mojada. Di: mojado.',
         stt_expected_array: ['mojado', 'mojao', 'ojao', 'moja', 'moxao'],
@@ -252,6 +264,7 @@ export const DAILY_SCENARIOS_ESDO: DailyScenario[] = [
       },
       {
         id: 'do-noche-dormir', type: 'verbo', label: 'dormir', emoji: '😴',
+        pictogram: 'dormir',
         visual_prompt: 'Carita con ojos cerrados sobre una almohada y tres “Z”, sin fondo, alto contraste, contorno grueso.',
         tts_string: 'Ya es hora de dormir. Di: dormir.',
         stt_expected_array: ['dormir', 'dormi', 'mimir', 'mimí', 'omir'],
@@ -259,6 +272,7 @@ export const DAILY_SCENARIOS_ESDO: DailyScenario[] = [
       },
       {
         id: 'do-noche-abrazar', type: 'verbo', label: 'abrazar', emoji: '🤗',
+        pictogram: 'abrazo',
         visual_prompt: 'Dos siluetas abrazándose con un corazón pequeño encima, sin fondo, alto contraste, contorno grueso.',
         tts_string: 'Damos un abrazo a mami y a papi. Di: abrazar.',
         stt_expected_array: ['abrazar', 'abraza', 'brazar', 'asasar', 'abazá'],
@@ -300,6 +314,7 @@ export const PROGRESSION_SEQUENCES_ESDO: ProgressionSequence[] = [
       },
       {
         kind: 'parte', label: 'goma', emoji: '🛞',
+        pictogram: 'rueda',
         visual_prompt: 'Una goma de guagua de frente, negra con aro claro, sin fondo, alto contraste, contorno grueso.',
         tts_string: 'La guagua tiene gomas. Di: goma.',
         stt_expected_array: ['goma', 'oma', 'goa', 'gomma', 'gona'],
@@ -307,6 +322,7 @@ export const PROGRESSION_SEQUENCES_ESDO: ProgressionSequence[] = [
       },
       {
         kind: 'accion', label: 'corre', emoji: '💨',
+        pictogram: 'correr',
         visual_prompt: 'Guagua con líneas de velocidad detrás avanzando hacia la derecha, sin fondo, alto contraste, contorno grueso.',
         tts_string: 'La guagua corre por la calle. Di: corre.',
         stt_expected_array: ['corre', 'core', 'ore', 'totte', 'coé'],
@@ -373,6 +389,7 @@ export const PROGRESSION_SEQUENCES_ESDO: ProgressionSequence[] = [
       },
       {
         kind: 'accion', label: 'duerme', emoji: '😴',
+        pictogram: 'dormir',
         visual_prompt: 'Gato acurrucado con los ojos cerrados y tres “Z” encima, sin fondo, alto contraste, contorno grueso.',
         tts_string: 'El gato duerme en su camita. Di: duerme.',
         stt_expected_array: ['duerme', 'uerme', 'dueme', 'deme', 'duemme'],
@@ -413,6 +430,7 @@ export const PROGRESSION_SEQUENCES_ESDO: ProgressionSequence[] = [
       },
       {
         kind: 'cualidad', label: 'mojado', emoji: '🤲',
+        pictogram: 'manos-mojadas',
         visual_prompt: 'Dos manos abiertas con gotas de agua resbalando y pequeñas salpicaduras, sin fondo, alto contraste, contorno grueso.',
         tts_string: 'La mano está mojada. Di: mojado.',
         stt_expected_array: ['mojado', 'mojao', 'ojao', 'moja', 'moxao'],
@@ -472,6 +490,7 @@ export const PROGRESSION_SEQUENCES_ESDO: ProgressionSequence[] = [
       },
       {
         kind: 'accion', label: 'nada', emoji: '🏊',
+        pictogram: 'nadar',
         visual_prompt: 'Silueta infantil nadando de perfil con ondas de agua alrededor, sin fondo, alto contraste, contorno grueso.',
         tts_string: 'El niño nada en el mar. Di: nada.',
         stt_expected_array: ['nada', 'naa', 'ada', 'nala', 'ná'],
@@ -479,6 +498,7 @@ export const PROGRESSION_SEQUENCES_ESDO: ProgressionSequence[] = [
       },
       {
         kind: 'cualidad', label: 'mojado', emoji: '🏊',
+        pictogram: 'manos-mojadas',
         visual_prompt: 'Silueta infantil saliendo del agua chorreando gotas, sin fondo, alto contraste, contorno grueso.',
         tts_string: 'El niño sale del mar mojado. Di: mojado.',
         stt_expected_array: ['mojado', 'mojao', 'ojao', 'moja', 'moxao'],
@@ -491,6 +511,7 @@ export const PROGRESSION_SEQUENCES_ESDO: ProgressionSequence[] = [
     phases: [
       {
         kind: 'concepto', label: 'pájaro', emoji: '🐦',
+        pictogram: 'pajaro',
         visual_prompt: 'Pájaro pequeño de perfil posado en una rama, colores planos, sin fondo, alto contraste, contorno grueso.',
         tts_string: 'Este es el pájaro. Di: pájaro.',
         stt_expected_array: ['pájaro', 'pajaro', 'ájaro', 'pajalo', 'payaro'],
@@ -498,6 +519,7 @@ export const PROGRESSION_SEQUENCES_ESDO: ProgressionSequence[] = [
       },
       {
         kind: 'parte', label: 'pluma', emoji: '🪶',
+        pictogram: 'pluma',
         visual_prompt: 'Una pluma suelta vista de frente, con el raquis marcado, sin fondo, alto contraste, contorno grueso.',
         tts_string: 'El pájaro tiene plumas. Di: pluma.',
         stt_expected_array: ['pluma', 'plumas', 'uma', 'puma', 'luma'],
@@ -505,6 +527,7 @@ export const PROGRESSION_SEQUENCES_ESDO: ProgressionSequence[] = [
       },
       {
         kind: 'accion', label: 'vuela', emoji: '🐦',
+        pictogram: 'pajaro',
         visual_prompt: 'Pájaro con las alas abiertas en pleno vuelo y una curva de trayectoria, sin fondo, alto contraste, contorno grueso.',
         tts_string: 'El pájaro vuela por el cielo. Di: vuela.',
         stt_expected_array: ['vuela', 'buela', 'uela', 'bela', 'guela'],

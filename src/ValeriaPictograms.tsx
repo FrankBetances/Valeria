@@ -411,6 +411,368 @@ const JugueteFueraPic: Pic = ({ size }) => (
   </Svg>
 );
 
+// ============================================================================
+// TANDA 2 · VERBOS Y ACCIONES (ES-09) — «algunas imágenes resultan ambiguas
+// (por ejemplo, la de comer)». Un emoji de cara saboreando no dice «comer»:
+// dice «qué rico». El pictograma muestra la ACCIÓN, con el objeto y el gesto.
+// ============================================================================
+
+// Perfil de cabeza reutilizable: la misma cara para todas las acciones que
+// pasan por la boca (comer, soplar, dormir), para que el niño reconozca al
+// mismo personaje y solo lea el cambio de acción.
+const perfil = (cx: number, cy: number, r: number) => (
+  <>
+    <Circle cx={cx} cy={cy} r={r} fill="#fde3c0" stroke={INK} strokeWidth={5} />
+    <Circle cx={cx + r * 0.28} cy={cy - r * 0.22} r={r * 0.12} fill={INK} />
+  </>
+);
+
+const ComerPic: Pic = ({ size }) => (
+  <Svg width={size} height={size} viewBox="0 0 100 100">
+    {perfil(36, 44, 24)}
+    {/* boca abierta */}
+    <Path d="M56 50 q6 8 -2 12" fill="none" stroke={INK} strokeWidth={4} strokeLinecap="round" />
+    {/* cuchara con comida entrando en la boca */}
+    <Path d="M92 78 L68 58" stroke={INK} strokeWidth={6} strokeLinecap="round" />
+    <Ellipse cx={64} cy={54} rx={11} ry={8} fill="#e2e8f0" stroke={INK} strokeWidth={4} transform="rotate(-40 64 54)" />
+    <Circle cx={64} cy={52} r={4} fill="#e8924a" />
+  </Svg>
+);
+
+const DormirPic: Pic = ({ size }) => (
+  <Svg width={size} height={size} viewBox="0 0 100 100">
+    {/* almohada */}
+    <Rect x={10} y={58} width={64} height={22} rx={10} fill="#cfe3f5" stroke={INK} strokeWidth={5} />
+    <Circle cx={40} cy={44} r={22} fill="#fde3c0" stroke={INK} strokeWidth={5} />
+    {/* ojos cerrados */}
+    <Path d="M30 42 q5 5 10 0 M46 42 q5 5 10 0" fill="none" stroke={INK} strokeWidth={4} strokeLinecap="round" />
+    {/* zzz */}
+    <SvgText x={76} y={34} fontSize={26} fontWeight="bold" fill="#7c4fd0" stroke={INK} strokeWidth={1.5}>z</SvgText>
+    <SvgText x={72} y={16} fontSize={17} fontWeight="bold" fill="#7c4fd0" stroke={INK} strokeWidth={1}>z</SvgText>
+  </Svg>
+);
+
+const SoplarPic: Pic = ({ size }) => (
+  <Svg width={size} height={size} viewBox="0 0 100 100">
+    {perfil(30, 50, 22)}
+    {/* boca en O */}
+    <Circle cx={50} cy={56} r={5} fill={INK} />
+    {/* ráfagas */}
+    <Path d="M60 50 q14 -4 26 0 M60 60 q18 -3 32 0 M60 70 q12 -3 22 0"
+      fill="none" stroke="#7cc4f5" strokeWidth={5} strokeLinecap="round" />
+  </Svg>
+);
+
+const BanarPic: Pic = ({ size }) => (
+  <Svg width={size} height={size} viewBox="0 0 100 100">
+    {/* bañera */}
+    <Path d="M10 48 L90 48 L82 82 L18 82 Z" fill="#eef2f7" stroke={INK} strokeWidth={5} strokeLinejoin="round" />
+    <Path d="M15 60 L85 60 L80 80 L20 80 Z" fill="#7cc4f5" />
+    <Path d="M10 48 L90 48 L82 82 L18 82 Z" fill="none" stroke={INK} strokeWidth={5} strokeLinejoin="round" />
+    {/* cabeza asomando y espuma */}
+    <Circle cx={50} cy={40} r={13} fill="#fde3c0" stroke={INK} strokeWidth={5} />
+    <Circle cx={34} cy={52} r={7} fill="#ffffff" stroke={INK} strokeWidth={3} />
+    <Circle cx={68} cy={54} r={6} fill="#ffffff" stroke={INK} strokeWidth={3} />
+    {/* patas */}
+    <Line x1={26} y1={84} x2={22} y2={92} stroke={INK} strokeWidth={5} strokeLinecap="round" />
+    <Line x1={74} y1={84} x2={78} y2={92} stroke={INK} strokeWidth={5} strokeLinecap="round" />
+  </Svg>
+);
+
+const VestirPic: Pic = ({ size }) => (
+  <Svg width={size} height={size} viewBox="0 0 100 100">
+    {/* cabeza asomando por el cuello */}
+    <Circle cx={50} cy={22} r={14} fill="#fde3c0" stroke={INK} strokeWidth={5} />
+    {/* camiseta entrando */}
+    <Path d="M24 46 L38 38 Q50 48 62 38 L76 46 L70 58 L64 55 L64 86 L36 86 L36 55 L30 58 Z"
+      fill="#00c4be" stroke={INK} strokeWidth={5} strokeLinejoin="round" />
+    {/* flecha de que baja */}
+    <Path d="M88 30 L88 46 M82 40 L88 47 L94 40" fill="none" stroke="#16a34a" strokeWidth={4.5}
+      strokeLinecap="round" strokeLinejoin="round" />
+  </Svg>
+);
+
+const CorrerPic: Pic = ({ size }) => (
+  <Svg width={size} height={size} viewBox="0 0 100 100">
+    <Circle cx={58} cy={20} r={11} fill="#fde3c0" stroke={INK} strokeWidth={5} />
+    {/* tronco y extremidades en zancada */}
+    <Path d="M56 32 L48 56" stroke={INK} strokeWidth={7} strokeLinecap="round" />
+    <Path d="M48 56 L64 74 M48 56 L30 68" stroke={INK} strokeWidth={7} strokeLinecap="round" />
+    <Path d="M54 40 L74 34 M54 42 L34 40" stroke={INK} strokeWidth={6} strokeLinecap="round" />
+    {/* líneas de velocidad */}
+    <Path d="M6 34 L24 34 M4 48 L20 48 M8 62 L22 62" stroke="#9ca3af" strokeWidth={4} strokeLinecap="round" />
+  </Svg>
+);
+
+const NadarPic: Pic = ({ size }) => (
+  <Svg width={size} height={size} viewBox="0 0 100 100">
+    <Circle cx={34} cy={38} r={12} fill="#fde3c0" stroke={INK} strokeWidth={5} />
+    {/* brazo en brazada y cuerpo */}
+    <Path d="M44 44 L74 52" stroke={INK} strokeWidth={7} strokeLinecap="round" />
+    <Path d="M40 30 Q54 12 70 22" fill="none" stroke={INK} strokeWidth={7} strokeLinecap="round" />
+    {/* agua */}
+    <Path d="M6 66 q10 -7 20 0 q10 7 20 0 q10 -7 20 0 q10 7 20 0"
+      fill="none" stroke="#3b82f6" strokeWidth={6} strokeLinecap="round" />
+    <Path d="M6 80 q10 -7 20 0 q10 7 20 0 q10 -7 20 0 q10 7 20 0"
+      fill="none" stroke="#7cc4f5" strokeWidth={6} strokeLinecap="round" />
+  </Svg>
+);
+
+const PararPic: Pic = ({ size }) => (
+  <Svg width={size} height={size} viewBox="0 0 100 100">
+    <Path d="M34 8 L66 8 L92 34 L92 66 L66 92 L34 92 L8 66 L8 34 Z"
+      fill="#ef4444" stroke={INK} strokeWidth={5} strokeLinejoin="round" />
+    {/* mano abierta */}
+    <Path d="M38 74 L38 44 q0 -6 6 -6 t6 6 L50 34 q0 -6 6 -6 t6 6 L62 40 q0 -5 5 -5 t5 5 L72 66 q0 10 -10 10 Z"
+      fill="#ffffff" stroke={INK} strokeWidth={4} strokeLinejoin="round" />
+  </Svg>
+);
+
+const PajaroPic: Pic = ({ size }) => (
+  <Svg width={size} height={size} viewBox="0 0 100 100">
+    {/* cuerpo */}
+    <Ellipse cx={46} cy={58} rx={26} ry={19} fill="#7cc4f5" stroke={INK} strokeWidth={5} />
+    {/* cabeza */}
+    <Circle cx={72} cy={42} r={14} fill="#7cc4f5" stroke={INK} strokeWidth={5} />
+    <Circle cx={77} cy={39} r={2.6} fill={INK} />
+    {/* pico */}
+    <Path d="M86 44 L96 48 L86 51 Z" fill="#f59e0b" stroke={INK} strokeWidth={3} strokeLinejoin="round" />
+    {/* ala levantada */}
+    <Path d="M40 52 Q34 30 18 34 Q30 44 34 58 Z" fill="#3b82f6" stroke={INK} strokeWidth={4} strokeLinejoin="round" />
+    {/* cola y patas */}
+    <Path d="M20 62 L6 56 L8 70 Z" fill="#3b82f6" stroke={INK} strokeWidth={4} strokeLinejoin="round" />
+    <Line x1={44} y1={77} x2={44} y2={88} stroke={INK} strokeWidth={4} strokeLinecap="round" />
+    <Line x1={56} y1={77} x2={56} y2={88} stroke={INK} strokeWidth={4} strokeLinecap="round" />
+  </Svg>
+);
+
+// ============================================================================
+// TANDA 3 · EMOJI DE UNICODE 12+ (ES-09) — se pintan como cuadro vacío en
+// muchos Android. Aquí el problema no es de criterio clínico sino de
+// renderizado: la ficha se ve rota y el niño no ve nada que nombrar.
+// ============================================================================
+
+const JabonPic: Pic = ({ size }) => (
+  <Svg width={size} height={size} viewBox="0 0 100 100">
+    <Rect x={16} y={48} width={58} height={32} rx={9} fill="#7cc4f5" stroke={INK} strokeWidth={5} />
+    <Path d="M26 60 q8 -6 16 0" fill="none" stroke="#ffffff" strokeWidth={4} strokeLinecap="round" />
+    {/* burbujas */}
+    <Circle cx={74} cy={30} r={11} fill="#ffffff" stroke={INK} strokeWidth={4} />
+    <Circle cx={54} cy={22} r={8} fill="#ffffff" stroke={INK} strokeWidth={4} />
+    <Circle cx={88} cy={52} r={6} fill="#ffffff" stroke={INK} strokeWidth={3.5} />
+  </Svg>
+);
+
+const VasoLechePic: Pic = ({ size }) => (
+  <Svg width={size} height={size} viewBox="0 0 100 100">
+    <Path d="M30 22 L70 22 L64 86 L36 86 Z" fill="#eef2f7" stroke={INK} strokeWidth={5} strokeLinejoin="round" />
+    <Path d="M32 38 L68 38 L63 84 L37 84 Z" fill="#ffffff" />
+    <Path d="M30 22 L70 22 L64 86 L36 86 Z" fill="none" stroke={INK} strokeWidth={5} strokeLinejoin="round" />
+    <Line x1={32} y1={38} x2={68} y2={38} stroke={INK} strokeWidth={4} />
+  </Svg>
+);
+
+const CestaPic: Pic = ({ size }) => (
+  <Svg width={size} height={size} viewBox="0 0 100 100">{cesta}</Svg>
+);
+
+// Objeto neutro, sin el atributo contrastado: el mismo dibujo que usan los
+// pares de contraste sirve para nombrar la cosa a secas («cuchara», «vaso»).
+const CucharaPic: Pic = ({ size }) => (
+  <Svg width={size} height={size} viewBox="0 0 100 100">{cuchara}</Svg>
+);
+
+const VasoPic: Pic = ({ size }) => (
+  <Svg width={size} height={size} viewBox="0 0 100 100">{vaso('#7cc4f5')}</Svg>
+);
+
+const AbrazoPic: Pic = ({ size }) => (
+  <Svg width={size} height={size} viewBox="0 0 100 100">
+    {/* dos cuerpos que se rodean */}
+    <Circle cx={34} cy={32} r={16} fill="#fde3c0" stroke={INK} strokeWidth={5} />
+    <Circle cx={66} cy={32} r={16} fill="#f4c9a8" stroke={INK} strokeWidth={5} />
+    <Path d="M14 84 q6 -32 20 -32 q14 0 20 20" fill="#00c4be" stroke={INK} strokeWidth={5} strokeLinejoin="round" />
+    <Path d="M86 84 q-6 -32 -20 -32 q-14 0 -20 20" fill="#f59e0b" stroke={INK} strokeWidth={5} strokeLinejoin="round" />
+    {/* brazos cruzados */}
+    <Path d="M22 62 q28 14 56 0" fill="none" stroke={INK} strokeWidth={6} strokeLinecap="round" />
+    <Path d="M78 70 q-28 14 -56 0" fill="none" stroke={INK} strokeWidth={6} strokeLinecap="round" />
+  </Svg>
+);
+
+const RuedaPic: Pic = ({ size }) => (
+  <Svg width={size} height={size} viewBox="0 0 100 100">
+    <Circle cx={50} cy={50} r={40} fill="#374151" stroke={INK} strokeWidth={5} />
+    <Circle cx={50} cy={50} r={20} fill="#cbd5e1" stroke={INK} strokeWidth={5} />
+    <Circle cx={50} cy={50} r={6} fill={INK} />
+    {/* tacos */}
+    <Path d="M50 10 L50 22 M50 78 L50 90 M10 50 L22 50 M78 50 L90 50"
+      stroke={INK} strokeWidth={5} strokeLinecap="round" />
+  </Svg>
+);
+
+const ManosMojadasPic: Pic = ({ size }) => (
+  <Svg width={size} height={size} viewBox="0 0 100 100">
+    {/* dos manos abiertas hacia arriba */}
+    <Path d="M12 54 q0 -18 10 -18 t10 18 l0 12 q0 14 -14 14 t-14 -14 Z" fill="#fde3c0" stroke={INK} strokeWidth={5} strokeLinejoin="round" />
+    <Path d="M64 54 q0 -18 10 -18 t10 18 l0 12 q0 14 -14 14 t-14 -14 Z" fill="#fde3c0" stroke={INK} strokeWidth={5} strokeLinejoin="round" />
+    {/* gotas */}
+    <Path d="M44 20 q7 11 0 15 q-7 -4 0 -15" fill="#3b82f6" stroke={INK} strokeWidth={3} />
+    <Path d="M32 40 q5 8 0 11 q-5 -3 0 -11" fill="#7cc4f5" stroke={INK} strokeWidth={2.5} />
+    <Path d="M58 44 q5 8 0 11 q-5 -3 0 -11" fill="#7cc4f5" stroke={INK} strokeWidth={2.5} />
+  </Svg>
+);
+
+const PlumaPic: Pic = ({ size }) => (
+  <Svg width={size} height={size} viewBox="0 0 100 100">
+    <Path d="M78 14 Q30 26 22 74 Q56 72 70 52 Q80 36 78 14 Z"
+      fill="#cfe3f5" stroke={INK} strokeWidth={5} strokeLinejoin="round" />
+    <Path d="M78 14 L20 86" stroke={INK} strokeWidth={5} strokeLinecap="round" />
+    <Path d="M62 30 L44 40 M68 44 L48 54 M60 56 L40 64" stroke={INK} strokeWidth={3} opacity={0.5} />
+  </Svg>
+);
+
+const TuboPic: Pic = ({ size }) => (
+  <Svg width={size} height={size} viewBox="0 0 100 100">
+    <Path d="M38 10 L62 10 L62 72 q0 14 -12 14 t-12 -14 Z"
+      fill="#eef2f7" stroke={INK} strokeWidth={5} strokeLinejoin="round" />
+    <Path d="M39 50 L61 50 L61 72 q0 12 -11 12 t-11 -12 Z" fill="#22c55e" />
+    <Path d="M38 10 L62 10 L62 72 q0 14 -12 14 t-12 -14 Z"
+      fill="none" stroke={INK} strokeWidth={5} strokeLinejoin="round" />
+    <Line x1={32} y1={10} x2={68} y2={10} stroke={INK} strokeWidth={6} strokeLinecap="round" />
+  </Svg>
+);
+
+const SaltarPic: Pic = ({ size }) => (
+  <Svg width={size} height={size} viewBox="0 0 100 100">
+    <Suelo />
+    <Circle cx={50} cy={22} r={12} fill="#fde3c0" stroke={INK} strokeWidth={5} />
+    <Path d="M50 34 L50 56" stroke={INK} strokeWidth={7} strokeLinecap="round" />
+    {/* brazos arriba y piernas recogidas */}
+    <Path d="M50 40 L30 24 M50 40 L70 24" stroke={INK} strokeWidth={6} strokeLinecap="round" />
+    <Path d="M50 56 L36 74 M50 56 L64 74" stroke={INK} strokeWidth={6} strokeLinecap="round" />
+    {/* arco de salto */}
+    <Path d="M18 82 q32 -22 64 0" fill="none" stroke="#16a34a" strokeWidth={4}
+      strokeLinecap="round" strokeDasharray="6 6" />
+  </Svg>
+);
+
+const EsponjaPic: Pic = ({ size }) => (
+  <Svg width={size} height={size} viewBox="0 0 100 100">
+    <Rect x={12} y={30} width={76} height={44} rx={12} fill="#f4d35e" stroke={INK} strokeWidth={5} />
+    <Circle cx={32} cy={46} r={5} fill="#c9a227" />
+    <Circle cx={54} cy={56} r={6} fill="#c9a227" />
+    <Circle cx={70} cy={42} r={4.5} fill="#c9a227" />
+    <Circle cx={40} cy={64} r={4} fill="#c9a227" />
+  </Svg>
+);
+
+const LanaPic: Pic = ({ size }) => (
+  <Svg width={size} height={size} viewBox="0 0 100 100">
+    <Circle cx={46} cy={52} r={34} fill="#f47ba7" stroke={INK} strokeWidth={5} />
+    {/* hebras cruzadas */}
+    <Path d="M20 34 q26 20 46 40 M14 56 q30 8 52 -18 M34 82 q18 -34 44 -30"
+      fill="none" stroke={INK} strokeWidth={3.5} opacity={0.65} />
+    {/* hilo suelto */}
+    <Path d="M80 52 q14 8 8 24" fill="none" stroke="#f47ba7" strokeWidth={5} strokeLinecap="round" />
+  </Svg>
+);
+
+const LataPic: Pic = ({ size }) => (
+  <Svg width={size} height={size} viewBox="0 0 100 100">
+    <Path d="M28 24 L72 24 L72 78 L28 78 Z" fill="#cbd5e1" stroke={INK} strokeWidth={5} />
+    <Ellipse cx={50} cy={24} rx={22} ry={8} fill="#e2e8f0" stroke={INK} strokeWidth={5} />
+    <Ellipse cx={50} cy={78} rx={22} ry={8} fill="#cbd5e1" stroke={INK} strokeWidth={5} />
+    {/* etiqueta */}
+    <Rect x={28} y={40} width={44} height={20} fill="#ef4444" />
+    <Line x1={28} y1={40} x2={72} y2={40} stroke={INK} strokeWidth={4} />
+    <Line x1={28} y1={60} x2={72} y2={60} stroke={INK} strokeWidth={4} />
+  </Svg>
+);
+
+// Los siete de una sola aparición. Se dibujan igual porque el criterio de la
+// tanda 3 no es la frecuencia sino el riesgo de no verse: un cuadro vacío deja
+// la ficha sin nada que nombrar, y da lo mismo que salga una vez o diez.
+const CuerdaPic: Pic = ({ size }) => (
+  <Svg width={size} height={size} viewBox="0 0 100 100">
+    <Path d="M10 70 q16 -34 34 -18 t34 -18" fill="none" stroke="#c98a3c" strokeWidth={11} strokeLinecap="round" />
+    <Path d="M10 70 q16 -34 34 -18 t34 -18" fill="none" stroke={INK} strokeWidth={4} strokeLinecap="round" strokeDasharray="7 9" />
+  </Svg>
+);
+
+const PapelPic: Pic = ({ size }) => (
+  <Svg width={size} height={size} viewBox="0 0 100 100">
+    <Rect x={24} y={20} width={52} height={46} rx={6} fill="#ffffff" stroke={INK} strokeWidth={5} />
+    <Ellipse cx={50} cy={20} rx={26} ry={9} fill="#eef2f7" stroke={INK} strokeWidth={5} />
+    <Circle cx={50} cy={20} r={7} fill="#cbd5e1" stroke={INK} strokeWidth={4} />
+    {/* hoja colgando */}
+    <Path d="M76 44 L90 48 L90 84 L76 80 Z" fill="#ffffff" stroke={INK} strokeWidth={5} strokeLinejoin="round" />
+  </Svg>
+);
+
+const ManoPic: Pic = ({ size }) => (
+  <Svg width={size} height={size} viewBox="0 0 100 100">
+    <Path d="M28 88 L28 42 q0 -7 7 -7 t7 7 L42 26 q0 -7 7 -7 t7 7 L56 32 q0 -6 6 -6 t6 6 L68 36 q0 -5 5 -5 t5 5 L78 70 q0 18 -18 18 Z"
+      fill="#fde3c0" stroke={INK} strokeWidth={5} strokeLinejoin="round" />
+  </Svg>
+);
+
+// El escenario de mañana ilustraba «limpio» con una cuchara 🥄 en los tres
+// bancos, cuando su propio visual_prompt pedía «mano abierta y reluciente con
+// destellos». El emoji contradecía al dato: ambigüedad de ES-09 de manual.
+const ManoLimpiaPic: Pic = ({ size }) => (
+  <Svg width={size} height={size} viewBox="0 0 100 100">
+    <Path d="M26 90 L26 46 q0 -7 7 -7 t7 7 L40 30 q0 -7 7 -7 t7 7 L54 36 q0 -6 6 -6 t6 6 L66 40 q0 -5 5 -5 t5 5 L76 72 q0 18 -18 18 Z"
+      fill="#fde3c0" stroke={INK} strokeWidth={5} strokeLinejoin="round" />
+    {/* destellos: lo que dice «limpia» sin palabras */}
+    <Path d="M16 20 L16 34 M9 27 L23 27" stroke="#f4c430" strokeWidth={4.5} strokeLinecap="round" />
+    <Path d="M86 22 L86 32 M81 27 L91 27" stroke="#f4c430" strokeWidth={4} strokeLinecap="round" />
+    <Path d="M88 56 L88 64 M84 60 L92 60" stroke="#f4c430" strokeWidth={3.5} strokeLinecap="round" />
+  </Svg>
+);
+
+const PaloPic: Pic = ({ size }) => (
+  <Svg width={size} height={size} viewBox="0 0 100 100">
+    <Rect x={12} y={44} width={76} height={14} rx={7} fill="#b9793a" stroke={INK} strokeWidth={5}
+      transform="rotate(-20 50 51)" />
+    {/* nudo y ramita */}
+    <Circle cx={58} cy={44} r={4} fill={INK} opacity={0.4} />
+    <Path d="M64 42 L76 28" stroke="#b9793a" strokeWidth={8} strokeLinecap="round" />
+    <Path d="M64 42 L76 28" stroke={INK} strokeWidth={3} strokeLinecap="round" opacity={0.5} />
+  </Svg>
+);
+
+const SenalarPic: Pic = ({ size }) => (
+  <Svg width={size} height={size} viewBox="0 0 100 100">
+    {/* puño con índice extendido hacia el frente */}
+    <Path d="M8 46 L46 46 L46 34 q0 -7 7 -7 t7 7 L60 46 q16 0 16 14 L76 72 q0 12 -14 12 L34 84 q-12 0 -12 -12 Z"
+      fill="#fde3c0" stroke={INK} strokeWidth={5} strokeLinejoin="round" />
+    <Path d="M84 52 L96 58 L84 64" fill="none" stroke="#16a34a" strokeWidth={5}
+      strokeLinecap="round" strokeLinejoin="round" />
+  </Svg>
+);
+
+const FrioCaraPic: Pic = ({ size }) => (
+  <Svg width={size} height={size} viewBox="0 0 100 100">
+    <Circle cx={50} cy={52} r={32} fill="#a8d8f5" stroke={INK} strokeWidth={5} />
+    <Circle cx={39} cy={46} r={3.5} fill={INK} />
+    <Circle cx={61} cy={46} r={3.5} fill={INK} />
+    {/* boca tiritando */}
+    <Path d="M38 66 q4 -5 8 0 q4 5 8 0 q4 -5 8 0" fill="none" stroke={INK} strokeWidth={4} strokeLinecap="round" />
+    {/* copo */}
+    <Path d="M84 16 L84 34 M76 20 L92 30 M92 20 L76 30" stroke="#3b82f6" strokeWidth={4} strokeLinecap="round" />
+  </Svg>
+);
+
+const TortaPic: Pic = ({ size }) => (
+  <Svg width={size} height={size} viewBox="0 0 100 100">
+    <Ellipse cx={50} cy={52} rx={38} ry={28} fill="#e8c184" stroke={INK} strokeWidth={5} />
+    <Circle cx={38} cy={44} r={4} fill="#c98a3c" />
+    <Circle cx={60} cy={56} r={5} fill="#c98a3c" />
+    <Circle cx={62} cy={40} r={3.5} fill="#c98a3c" />
+    <Circle cx={40} cy={62} r={3.5} fill="#c98a3c" />
+  </Svg>
+);
+
 // ----------------------------------------------------------------------------
 // Registro palabra → pictograma. Claves normalizadas (minúsculas, sin acentos).
 // ----------------------------------------------------------------------------
@@ -471,6 +833,44 @@ const PICTOGRAMS_BY_KEY: Record<string, Pic> = {
   'coche-bajando': CocheBajandoPic,
   'juguete-dentro': JugueteDentroPic,
   'juguete-fuera': JugueteFueraPic,
+
+  // Tanda 2 · verbos y acciones. La observación literal de ACOPROS era «algunas
+  // imágenes resultan ambiguas (por ejemplo, la de comer)»: un emoji de cara
+  // saboreando no dice «comer», dice «qué rico».
+  comer: ComerPic,
+  dormir: DormirPic,
+  soplar: SoplarPic,
+  banar: BanarPic,
+  vestir: VestirPic,
+  correr: CorrerPic,
+  nadar: NadarPic,
+  parar: PararPic,
+  pajaro: PajaroPic,
+
+  // Tanda 3 · emoji de Unicode 12+ que en muchos Android se pintan como cuadro
+  // vacío. Aquí el problema no es de criterio clínico sino de renderizado.
+  jabon: JabonPic,
+  'vaso-leche': VasoLechePic,
+  cesta: CestaPic,
+  cuchara: CucharaPic,
+  vaso: VasoPic,
+  abrazo: AbrazoPic,
+  rueda: RuedaPic,
+  'manos-mojadas': ManosMojadasPic,
+  pluma: PlumaPic,
+  tubo: TuboPic,
+  saltar: SaltarPic,
+  esponja: EsponjaPic,
+  lana: LanaPic,
+  lata: LataPic,
+  cuerda: CuerdaPic,
+  papel: PapelPic,
+  mano: ManoPic,
+  'mano-limpia': ManoLimpiaPic,
+  palo: PaloPic,
+  senalar: SenalarPic,
+  'frio-cara': FrioCaraPic,
+  torta: TortaPic,
 };
 
 const PICTOGRAMS_BY_EMOJI: Record<string, Pic> = {

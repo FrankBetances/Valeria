@@ -1488,7 +1488,8 @@
       "validadoPor": "ACOPROS (logopedas) y hablantes de euskera",
       "alcance": "Escucha de sesión completa en es, gl y eu con voz neuronal, y revisión de las cadenas nuevas en euskera.",
       "consecuencia": "Cae la última condición de salida humana de las fases 1 y 3. El plan de cierre (planDeCierre) queda desbloqueado por completo: no hay ningún item a la espera de validación clínica o lingüística."
-    }
+    },
+    "hallazgoContenido": "Al cablear los pictogramas apareció un desajuste de contenido que ninguna regla detectaba: el ítem «limpio» del escenario de mañana usaba el emoji de cuchara 🥄 en los TRES bancos, mientras su propio visual_prompt pedía «mano abierta y reluciente con destellos». El emoji contradecía al dato. Corregido con el pictograma mano-limpia."
   },
   "planDeCierre": {
     "titulo": "Plan de cierre · lo que falta para dar por completadas las mejoras de ACOPROS",
@@ -1807,7 +1808,7 @@
       "L1": "completado (2026-07-26) · GEN-01, ES-11 y ES-04. Cierra la fase 2.",
       "L2": "completado (2026-07-26) · auditoría en docs/auditoria-pictogramas.md y registro por clave en ValeriaPictograms.",
       "L3": "completado (2026-07-26) · 16 pictogramas sobre 8 objetos, claves en los tres bancos, apaño de escala retirado, dashboard y exportación separando comprensión de producción, gate en CI.",
-      "L4": "pendiente · a la espera del veredicto de ACOPROS sobre la columna de la auditoría.",
+      "L4": "completado (2026-07-26) · aprobado por ACOPROS. 29 pictogramas nuevos: los verbos que señalaron y todos los emoji con riesgo de tofu, que quedan al 100 %. Los 5 emoji que siguen sin dibujo (🌿 🙋 💵 💪 🎵) se renderizan bien y solo están marcados como REVISAR: son juicio clínico, no fallo técnico.",
       "L5": "pendiente · X-03 (protocolos), X-06 (port iOS)."
     },
     "correccionDeEstimacion": "El plan estimaba 8 cápsulas afectadas contando solo el banco castellano. El inventario encontró 16 de 20 sumando es, es-DO y eu. No cambió el coste: las tres lenguas contrastan los MISMOS objetos (osito/hartzatxo, cuchara/koilara, caja/kutxa), y como la clave no depende del idioma, los mismos 16 dibujos cubren las 20 cápsulas."

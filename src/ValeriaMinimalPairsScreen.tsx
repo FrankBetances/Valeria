@@ -203,7 +203,7 @@ const RoleSwapOverlay: React.FC<{ pair: MinimalPair; onDone: () => void }> = ({ 
       accessibilityRole="button"
       accessibilityLabel={which === 'target' ? pair.target : pair.foil}
     >
-      <FichaVisual word={which === 'target' ? pair.target : pair.foil} emoji={which === 'target' ? pair.targetEmoji : pair.foilEmoji} size={46} />
+      <FichaVisual word={which === 'target' ? pair.target : pair.foil} emoji={which === 'target' ? pair.targetEmoji : pair.foilEmoji} pic={which === 'target' ? pair.targetPictogram : pair.foilPictogram} size={46} />
       <Text style={s.swapTileCap}>{which === 'target' ? pair.target : pair.foil}</Text>
     </Pressable>
   );
@@ -548,7 +548,7 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
     const bad = step === 'correction' && correctionKind === 'foil' && !isTarget;
     return (
       <View key={which} style={[s.bigTile, ok && s.bigTileOk, bad && s.bigTileBad]}>
-        <FichaVisual word={isTarget ? p.target : p.foil} emoji={isTarget ? p.targetEmoji : p.foilEmoji} size={58} />
+        <FichaVisual word={isTarget ? p.target : p.foil} emoji={isTarget ? p.targetEmoji : p.foilEmoji} pic={isTarget ? p.targetPictogram : p.foilPictogram} size={58} />
         <Text style={s.bigTileCap}>{isTarget ? p.target : p.foil}</Text>
         {ok && <Text style={s.tileBadge}>✅</Text>}
         {bad && <Text style={s.tileBadge}>👂</Text>}
@@ -568,11 +568,11 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
         }}
         style={s.overridePill}
       >
-        <FichaVisual word={p.target} emoji={p.targetEmoji} size={13} />
+        <FichaVisual word={p.target} emoji={p.targetEmoji} pic={p.targetPictogram} size={13} />
         <Text style={s.overridePillTxt}>dijo “{p.target}”</Text>
       </Pressable>
       <Pressable onPress={() => step !== 'correction' && resolveBranch(p, 'foil')} style={s.overridePill}>
-        <FichaVisual word={p.foil} emoji={p.foilEmoji} size={13} />
+        <FichaVisual word={p.foil} emoji={p.foilEmoji} pic={p.foilPictogram} size={13} />
         <Text style={s.overridePillTxt}>dijo “{p.foil}”</Text>
       </Pressable>
     </View>
@@ -657,8 +657,8 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
                       : on ? `Practicar el par ${p.target} y ${p.foil}` : `Par ${p.target} y ${p.foil} no prescrito`}
                   >
                     <View style={s.codeChip}><Text style={s.codeChipTxt}>{p.code}</Text></View>
-                    <FichaVisual word={p.target} emoji={p.targetEmoji} size={26} />
-                    <FichaVisual word={p.foil} emoji={p.foilEmoji} size={26} />
+                    <FichaVisual word={p.target} emoji={p.targetEmoji} pic={p.targetPictogram} size={26} />
+                    <FichaVisual word={p.foil} emoji={p.foilEmoji} pic={p.foilPictogram} size={26} />
                     <View style={{ flex: 1 }}>
                       <Text style={s.pickName}>{p.target} / {p.foil}</Text>
                       <Text style={s.pickCat}>{p.errorLabel} · {p.phoneme}{p.region ? ' · solo variedades con distinción s/z' : ''}</Text>
@@ -850,10 +850,10 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
             <Text style={s.stateTxt}>El padre hace de juez: ¿qué dijo el niño?</Text>
             <View style={s.judgeRow}>
               <Pressable onPress={() => resolveBranch(p, 'target')} style={[s.judgeBtn, { backgroundColor: V.color.successBg, borderColor: '#bfe9d4' }]}>
-                <FichaVisual word={p.target} emoji={p.targetEmoji} size={22} /><Text style={s.judgeTxt}>Dijo “{p.target}”</Text>
+                <FichaVisual word={p.target} emoji={p.targetEmoji} pic={p.targetPictogram} size={22} /><Text style={s.judgeTxt}>Dijo “{p.target}”</Text>
               </Pressable>
               <Pressable onPress={() => resolveBranch(p, 'foil')} style={[s.judgeBtn, { backgroundColor: '#fffbeb', borderColor: '#f4e6b8' }]}>
-                <FichaVisual word={p.foil} emoji={p.foilEmoji} size={22} /><Text style={s.judgeTxt}>Dijo “{p.foil}”</Text>
+                <FichaVisual word={p.foil} emoji={p.foilEmoji} pic={p.foilPictogram} size={22} /><Text style={s.judgeTxt}>Dijo “{p.foil}”</Text>
               </Pressable>
             </View>
             <Pressable onPress={() => retry(p)}><Text style={s.linkBtn}>No se entendió · repetir consigna</Text></Pressable>
