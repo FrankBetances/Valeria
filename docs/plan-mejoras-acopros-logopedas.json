@@ -4,7 +4,7 @@
   "version": "1.1.0",
   "titulo": "Plan de revisión · Feedback clínico de las logopedas de ACOPROS (julio 2026)",
   "fecha": "2026-07-24",
-  "estado": "completado en código · ES-08 y DC-1 opción C incluidos. Pendiente la síntesis de voz de las 218 locuciones nuevas y la validación del bloque de categorías (asignación de niveles y euskera).",
+  "estado": "completado en código y con el corpus de voz sintetizado · pendiente la escucha en dispositivo de las categorías léxicas y la validación del bloque en euskera",
   "descripcion": "Convierte el feedback cualitativo de las logopedas de ACOPROS sobre Pares Mínimos, Expansión Semántica y recordatorios en un backlog trazable: cada observación se verifica contra el código real del repositorio, se propone un cambio concreto con sus ficheros, se marca si requiere una decisión clínica previa y se cierra con criterios de aceptación comprobables en dispositivo.",
   "origen": {
     "fuente": "Correo de las logopedas de ACOPROS tras la prueba de la app",
@@ -1478,7 +1478,8 @@
     ],
     "pendienteHumano": [
       "CERRADO (2026-07-26) · Escucha de una sesión completa en es, gl y eu, y validación del euskera por hablantes nativos, sobre el contenido anterior a las categorías léxicas.",
-      "ABIERTO · BLOQUEANTE · Las 218 locuciones nuevas de las categorías léxicas necesitan síntesis (workflow Generate Voice Assets en es y eu) y después escucha en dispositivo. Hasta entonces esas palabras caen a la voz del sistema.",
+      "CERRADO (2026-07-26) · Síntesis de voz de las 218 locuciones de las categorías léxicas: hecha en CI, cobertura 1734/1734.",
+      "ABIERTO · BLOQUEANTE · ESCUCHAR en dispositivo las categorías léxicas en es y eu. Es la única comprobación que detecta la caída a la voz del sistema, y ningún gate la sustituye.",
       "ABIERTO · BLOQUEANTE · El bloque de categorías en EUSKERA es posterior a la validación de julio: son cadenas que ningún hablante nativo ha leído. Marcado como borrador en el propio fichero.",
       "ABIERTO · Que ACOPROS revise la asignación de nivel ítem a ítem: es una primera pasada, no una consulta a bases de frecuencia.",
       "ABIERTO · Ver en dispositivo los pictogramas propios: ningún script comprueba que un dibujo se RECONOZCA, solo que exista.",
@@ -1498,7 +1499,7 @@
       "resumen": "Implementada como bloque aparte, no como sustitución: ACOPROS eligió la opción B para los Escenarios diarios y dejó la C «planificada como versión propia». Cinco categorías (frutas, animales, transportes, colores, cuerpo) de seis palabras, en es, es-DO y eu; gl comparte el banco base.",
       "es08": "El nivel de dificultad lo ordena la FAMILIARIDAD, no la complejidad articulatoria: lo fija el propio ejemplo de ACOPROS, donde «manzana» (3 sílabas) va antes que «piña» (2). Criterio y fuentes en docs/criterio-dificultad-lexica.md; el logopeda fija el nivel máximo desde el PIN.",
       "riesgoDialectalAtendido": "En es-DO el nivel 1 de frutas es guineo/manzana/naranja, no plátano: en RD el plátano es el de freír. Lechosa y chinola entran en nivel 3. En transportes, carro y guagua.",
-      "corpus": "218 locuciones nuevas (113 es, 113→105 eu), 0 retiradas: el diff del corpus es puramente aditivo, sin deriva entre pantalla y corpus. Pendiente la síntesis en CI y la escucha en dispositivo."
+      "corpus": "218 locuciones nuevas (113 es, 105 eu), 0 retiradas: diff puramente aditivo, sin deriva entre pantalla y corpus. SINTETIZADAS el 2026-07-26 por el workflow Generate Voice Assets (run 40): es con Sharvard/piper y eu con AhoTTS/HiTZ; gl se saltó porque la Expansión Semántica no se enumera para galego. Mapa valeriaVoiceAssets.ts regenerado y cobertura del corpus en verde: 1734/1734."
     }
   },
   "planDeCierre": {
