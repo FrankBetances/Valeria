@@ -1,10 +1,10 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "id": "valeria-plus/plan-mejoras-acopros-logopedas",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "titulo": "Plan de revisión · Feedback clínico de las logopedas de ACOPROS (julio 2026)",
   "fecha": "2026-07-24",
-  "estado": "implementado · decisiones clínicas DC-1 a DC-5 validadas por ACOPROS (julio 2026)",
+  "estado": "fases 1 y 3 publicadas · fase 2 parcial · plan de cierre trazado (planDeCierre) para ES-04, ES-11, GEN-01, la ejecución de DC-4 y el resto de ES-12",
   "descripcion": "Convierte el feedback cualitativo de las logopedas de ACOPROS sobre Pares Mínimos, Expansión Semántica y recordatorios en un backlog trazable: cada observación se verifica contra el código real del repositorio, se propone un cambio concreto con sus ficheros, se marca si requiere una decisión clínica previa y se cierra con criterios de aceptación comprobables en dispositivo.",
   "origen": {
     "fuente": "Correo de las logopedas de ACOPROS tras la prueba de la app",
@@ -1277,6 +1277,39 @@
         "Que ningún texto visible de la familia contiene el término retirado"
       ],
       "prioridad": "P1"
+    },
+    {
+      "id": "X-06",
+      "titulo": "El port iOS contradice decisiones ya validadas por ACOPROS",
+      "porQue": "ios-native/Valeria/SemanticExpansionView.swift lleva contenido de demostración escrito a mano que quedó congelado antes de la fase 3: mantiene una fase «FASE 1 · ONOMATOPEYA» que DC-2/ES-10 retiró, y unos contrastes de elefante/hormiga que no existen en ningún banco de RN. No es deuda cosmética: si se enseña el iOS a las logopedas, verán justo lo que dieron por corregido.",
+      "afectaA": [
+        "ES-04",
+        "ES-06",
+        "ES-09",
+        "ES-10",
+        "ES-11",
+        "ES-12",
+        "GEN-01"
+      ],
+      "ficheros": [
+        "ios-native/Valeria/SemanticExpansionView.swift",
+        "ios-native/Valeria/ExerciseSelectionView.swift",
+        "ios-native/Valeria/MinimalPairsView.swift"
+      ],
+      "opciones": [
+        {
+          "opcion": "A · Resincronizar",
+          "implica": "Portar el contenido y las mecánicas nuevas (antesala, doble vuelta, pictogramas) al SwiftUI.",
+          "coste": "L"
+        },
+        {
+          "opcion": "B · Congelar y etiquetar",
+          "implica": "Declarar el port como demostrador de arquitectura y marcarlo en pantalla, sin usarlo en validación clínica.",
+          "coste": "S"
+        }
+      ],
+      "recomendacionTecnica": "B para este cierre y A cuando el iOS entre en validación real. Resincronizar ahora duplica el coste de cada item del plan de cierre sin que nadie use ese binario con pacientes; dejarlo sin etiquetar, en cambio, es lo que produce el malentendido.",
+      "prioridad": "P1"
     }
   ],
   "fases": [
@@ -1448,5 +1481,318 @@
       "Decidir si la frase portadora se recupera como modo avanzado: se retiró del flujo y del corpus, pero su módulo se conserva."
     ],
     "hallazgo": "Al aplicar la congruencia de ES-13, ambas vueltas de una cápsula muestran el mismo objeto. Eso deja la vuelta de comprensión de ES-12 limitada a los contrastes de TAMAÑO (se marcan con la escala de la ficha) mientras no haya pictogramas: limpio/sucio o frío/caliente no son distinguibles solo con emoji. ES-12 depende por tanto parcialmente de DC-4."
+  },
+  "planDeCierre": {
+    "titulo": "Plan de cierre · lo que falta para dar por completadas las mejoras de ACOPROS",
+    "fecha": "2026-07-26",
+    "puntoDePartida": "Fases 1 y 3 publicadas y validadas por las logopedas. Quedan abiertos los tres items de la fase 2 (ES-04, ES-11, GEN-01), la ejecución de DC-4 (pictogramas) y el tramo de ES-12 que el hallazgo dejó a medias: la vuelta de comprensión solo es resoluble en los contrastes de tamaño.",
+    "lecturaCorta": "Son dos frentes que NO dependen entre sí y pueden ir en paralelo. El frente de fiabilidad (ES-04, ES-11, GEN-01) cierra la fase 2 y, si se diseña bien, no toca una sola cadena locutada: no dispara la regeneración del corpus, que es lo caro de este repositorio. El frente visual (DC-4 → pictogramas → ES-12 completo) es el único camino para que la vuelta de comprensión funcione en las ocho cápsulas y no solo en grande/pequeño.",
+    "condicionDeDiseñoQueAhorraLaTuberiaDeVoz": {
+      "afirmacion": "Ninguno de los cinco items de este cierre está en bloqueoDePublicacion.itemsQueLoRequieren: ES-04, ES-09, ES-11, ES-12 y GEN-01 figuran todos en itemsQueNoLoRequieren.",
+      "condicion": "Se mantiene solo si la antesala de ES-11 se LEE y no se LOCUTA, y si los pictogramas de ES-12 no vienen acompañados de una consigna nueva para la selección. Ambas cosas son decisiones de diseño, no consecuencias inevitables.",
+      "siSeIncumple": "En cuanto se añada una sola cadena hablada, este cierre pasa a requerir el procedimiento de 7 pasos de bloqueoDePublicacion, incluidas las tres síntesis y la escucha en dispositivo: de días a semanas.",
+      "recomendacion": "Mantener la condición. La antesala es un texto para el ADULTO (prepara dos cucharas…), que es precisamente a quien no hay que locutar nada."
+    },
+    "resolucionOperativaDC4": {
+      "queDijoACOPROS": "«Auditar y corregir los emoji ambiguos ahora; la adopción de un banco de pictogramas queda pendiente de resolver la licencia (ARASAAC es CC BY-NC-SA, incompatible con uso comercial cerrado).»",
+      "bancosEvaluados": [
+        {
+          "banco": "ARASAAC",
+          "licencia": "CC BY-NC-SA",
+          "veredicto": "descartado",
+          "porQue": "la cláusula NC bloquea el uso comercial; ya declarado por ACOPROS"
+        },
+        {
+          "banco": "Mulberry Symbols",
+          "licencia": "CC BY-SA",
+          "veredicto": "descartado",
+          "porQue": "el share-alike se contagia a la obra derivada: obligaría a licenciar el diseño de la app bajo la misma licencia"
+        },
+        {
+          "banco": "Sclera",
+          "licencia": "CC BY-NC-ND",
+          "veredicto": "descartado",
+          "porQue": "NC y además ND: prohíbe la adaptación, que es justo lo que exige el par contrastado"
+        },
+        {
+          "banco": "Bancos comerciales de stock (Noun Project, Streamline…)",
+          "licencia": "comercial de pago",
+          "veredicto": "viable pero insuficiente",
+          "porQue": "resuelven el pictograma por palabra, no el PAR por atributo que necesita ES-12"
+        },
+        {
+          "banco": "Banco propio SVG (la vía ya abierta en src/ValeriaPictograms.tsx)",
+          "licencia": "IP propia",
+          "veredicto": "recomendado",
+          "porQue": "sin atribución, sin coste de licencia, sin peso de bundle (son componentes, no binarios) y con control del criterio clínico que el propio dato ya declara en visual_prompt"
+        }
+      ],
+      "argumentoDecisivo": "Ningún banco externo, ni siquiera de pago, trae «cuchara sucia» y «cuchara limpia» como par sobre el MISMO objeto. ES-12 no necesita un pictograma por palabra: necesita dos variantes de un mismo dibujo que solo difieran en el atributo contrastado. Eso hay que dibujarlo a propósito, se compre el banco que se compre.",
+      "loQueDC4SigueDebiendo": "La auditoría de ambigüedad que ACOPROS pidió «ahora» no está hecha como documento. Se entrega como docs/auditoria-pictogramas.md, con las 120 claves visuales en uso clasificadas y una columna para el veredicto de las logopedas."
+    },
+    "arquitecturaDelBancoPropio": {
+      "problemaActual": "FichaVisual resuelve por palabra normalizada y, en su defecto, por emoji. Las dos claves fallan en los contrastes: en CT-2 las dos vueltas comparten el emoji 🥄 y sus labels («sucio», «limpio») nombran el ATRIBUTO, no el objeto. Con las claves de hoy no hay forma de pedir «la cuchara sucia».",
+      "cambio": [
+        "Campo opcional `pictogram` (clave estable en kebab-case, p. ej. 'cuchara-sucia') en ContrastRound, LexicalItem, ProgressionPhase y MinimalPair",
+        "Registro central PICTOGRAMS_BY_KEY en src/ValeriaPictograms.tsx; FichaVisual acepta `pic?: string` con prioridad clave → palabra → emoji → emoji crudo",
+        "Piezas compuestas: un componente de objeto con prop `variant` para el atributo (cuchara limpia/sucia, cesta llena/vacía…), no dos dibujos independientes"
+      ],
+      "ventajaLateral": "La clave es independiente de la lengua, así que un pictograma sirve a es, es-DO, gl y eu sin duplicar. Es exactamente el agujero que obligó a añadir el mapeo por emoji cuando la ficha en euskera («eskuila», «txirristra») caía al emoji crudo.",
+      "retrocompatibilidad": "Los ocho SVG existentes y los dos registros actuales se conservan; el nuevo registro se consulta primero."
+    },
+    "inventarioVisual": {
+      "clavesDistintasEnUso": 120,
+      "desglose": {
+        "expansionSemantica": 78,
+        "paresMinimos": 46,
+        "solapan": 4
+      },
+      "yaCubiertasPorSVGPropio": 8,
+      "conRiesgoDeTofu": {
+        "total": 26,
+        "pendientes": 18,
+        "criterio": "emoji introducidos en Unicode 12 o posterior (rangos 1FA70–1FAFF, 1F90C–1F978, 1F9CB–1F9FF, 1F6D5–1F6DF), que en muchos Android se pintan como cuadro vacío",
+        "ejemplos": [
+          "🛞",
+          "🥶",
+          "🧪",
+          "🧶",
+          "🫓",
+          "🫵",
+          "🪵",
+          "🧻"
+        ]
+      },
+      "nota": "El inventario se genera con un script, no a mano: es la entrada de la auditoría y el gate de cobertura lo vuelve a calcular en CI."
+    },
+    "lotes": [
+      {
+        "lote": "L1 · Cierre de la fase 2 (fiabilidad y control)",
+        "items": [
+          "GEN-01",
+          "ES-11",
+          "ES-04"
+        ],
+        "objetivo": "Que el reconocedor no penalice al niño por sus propios fallos, que el material se explique antes de empezar y que los recordatorios hagan lo que la app promete.",
+        "regeneracionCorpus": {
+          "requerida": false,
+          "condicion": "se mantiene mientras la antesala de ES-11 no se locute"
+        },
+        "estimacion": "1 semana",
+        "bloqueadoPor": [],
+        "trabajo": [
+          {
+            "item": "GEN-01",
+            "porQueVaPrimero": "es el más aislado del plan: no toca ninguna pantalla de terapia y su riesgo es bajo",
+            "pasos": [
+              "Convertir REMINDER_HOURS (constante de módulo en src/valeriaNotifications.ts:25) en preferencia de franjas persistida en AsyncStorage, con las cuatro activas por defecto",
+              "Parametrizar scheduleDailyContent, enableDailyReminders y refreshDailyReminders con el subconjunto elegido",
+              "UI de cuatro franjas dentro de la tarjeta de recordatorios (src/ValeriaExerciseSelectionScreen.tsx:246-254), con la de las 20:00 etiquetada como consejo para el adulto",
+              "Cero franjas activas equivale a desactivar: apagar el interruptor maestro y cancelar lo programado",
+              "Reescribir el texto de la tarjeta para que describa lo que se puede configurar, no el límite del sistema"
+            ],
+            "trampa": "scheduleDailyContent ya empieza por cancelAllScheduledNotificationsAsync, así que reprogramar cancela las franjas retiradas. La trampa está en el camino contrario: si alguna vez se reprograma sin cancelar, las franjas desactivadas siguen sonando. El test de X-05 debe cubrir ese caso."
+          },
+          {
+            "item": "ES-11",
+            "pasos": [
+              "Nueva fase 'setup' en el tipo Phase de src/ValeriaSemanticExpansionScreen.tsx:124, entre la lista y el reproductor",
+              "La antesala se alimenta de physical_setup y muestra material + dinámica + botón «Ya lo tengo todo»",
+              "Retirar la tarjeta SETUP FÍSICO de dentro del paso (línea 696-697): pasa a ser antesala, no adorno del primer paso",
+              "Marcar en el dato qué escenarios y progresiones necesitan material, para no mostrar una antesala vacía; hoy solo las cápsulas declaran physical_setup",
+              "Botón de relectura de la antesala desde la cabecera de la sesión (criterio de aceptación explícito)"
+            ],
+            "decisionDeDiseño": "La antesala NO se locuta. Es texto dirigido al adulto y locutarla arrastraría todo el lote al procedimiento de regeneración del corpus."
+          },
+          {
+            "item": "ES-04",
+            "pasos": [
+              "Pasar extras de reconocimiento en Voice.start (src/valeriaVoice.ts:449): silencio previo y de fin ampliados y resultados parciales activos, hoy se llama sin opciones",
+              "Acumular el mejor parcial y evaluarlo cuando el resultado final llegue vacío (hoy el parcial se muestra y se descarta)",
+              "Distinguir el fallo del motor del fallo del niño: portar la rama 'none' de Pares Mínimos (src/ValeriaMinimalPairsScreen.tsx:410,456) a src/ValeriaSemanticExpansionScreen.tsx:315, donde hoy un onError resuelve resolve(0) y consume intento y estrella",
+              "Mostrar el veredicto manual del adulto durante toda la escucha, no solo al pasar a 'judge'",
+              "Contador de reintentos por paso en src/valeriaTelemetry.ts, que hoy no lo tiene, para poder medir el antes/después que pide el entregable de la fase"
+            ],
+            "lineaRoja": "No se toca matchExpected. Este item afina la CAPTURA, no el umbral de aceptación fonética; aflojar el emparejamiento reintroduciría los falsos positivos que el pliegue dialectal de es-DO corrigió."
+          }
+        ],
+        "entregable": "Build para ACOPROS con la fase 2 cerrada y la tasa de reintentos medida antes/después.",
+        "cierraLaFase": true
+      },
+      {
+        "lote": "L2 · Auditoría visual y motor de pictogramas",
+        "items": [
+          "DC-4"
+        ],
+        "objetivo": "Cerrar DC-4 con un documento y una arquitectura, antes de dibujar nada.",
+        "regeneracionCorpus": {
+          "requerida": false
+        },
+        "estimacion": "3-4 días",
+        "trabajo": [
+          "Script de inventario que extrae las 120 claves visuales de los bancos y las clasifica (cubierta por SVG · riesgo de tofu · ambigua por atributo · ambigua clínicamente)",
+          "docs/auditoria-pictogramas.md con el inventario y una columna de veredicto para las logopedas: es el entregable que DC-4 pedía «ahora»",
+          "Registro PICTOGRAMS_BY_KEY y prop `pic` en FichaVisual, con la cadena de resolución clave → palabra → emoji",
+          "Declarar en el plan la resolución de licencia: banco propio, sin dependencia externa"
+        ],
+        "entregable": "Auditoría revisable por ACOPROS y motor listo para recibir dibujos, sin ninguna pantalla tocada todavía."
+      },
+      {
+        "lote": "L3 · Pictogramas de contraste y ES-12 completo",
+        "items": [
+          "ES-12",
+          "ES-09 (tanda 1)"
+        ],
+        "objetivo": "Que la vuelta de comprensión funcione en las OCHO cápsulas y no solo en grande/pequeño.",
+        "regeneracionCorpus": {
+          "requerida": false,
+          "condicion": "se mantiene mientras no se redacte una consigna nueva para la selección"
+        },
+        "estimacion": "1-2 semanas",
+        "bloqueadoPor": [
+          "L2"
+        ],
+        "trabajo": [
+          "Dieciséis claves sobre ocho objetos base, una pareja por cápsula: osito grande/pequeño (CT-1), cuchara sucia/limpia (CT-2), caja abierta/cerrada (CT-3), coche subiendo/bajando (CT-4), vaso frío/caliente (CT-5), bombilla encendida/apagada (CT-6), cesta llena/vacía (CT-7), juguete dentro/fuera de la caja (CT-8)",
+          "Retirar el apaño de escala de src/ValeriaSemanticExpansionScreen.tsx:756 —el `size` calculado con una expresión regular sobre «grande|handia|pequeñ|txiki»— y sustituirlo por el pictograma de la clave",
+          "Rellenar el campo `pictogram` en las cápsulas de los tres bancos (es, es-DO, eu); gl comparte el banco base",
+          "Cerrar el criterio de aceptación pendiente de ES-12: el dashboard de resultados debe separar comprensión de producción. El dato ya se guarda por paso (StepRecord.mode) y el resumen de sesión ya lo redacta, pero src/ValeriaPatientResultsDashboardScreen.tsx no lo lee",
+          "Gate en CI: scripts/check-pictogram-coverage.js falla si una ronda de cápsula no tiene clave registrada en los tres bancos, porque sin ella la vuelta de comprensión no es resoluble"
+        ],
+        "porQueEsteEsElNudo": "Es el hallazgo registrado al cerrar la fase 3: la regla de congruencia de ES-13 obliga a que las dos vueltas muestren el mismo objeto, y con emoji eso deja dos tarjetas idénticas en todo lo que no sea tamaño. El pictograma por atributo es lo que convierte ES-12 de «implementado» en «funciona».",
+        "entregable": "Las ocho cápsulas con vuelta de comprensión real y el dashboard distinguiendo las dos mecánicas."
+      },
+      {
+        "lote": "L4 · Resto de ES-09 (ambigüedad y tofu)",
+        "items": [
+          "ES-09 (tandas 2 y 3)"
+        ],
+        "objetivo": "Cerrar la observación original de las logopedas: «algunas imágenes resultan ambiguas, por ejemplo la de comer».",
+        "regeneracionCorpus": {
+          "requerida": false
+        },
+        "estimacion": "1-2 semanas, troceable",
+        "bloqueadoPor": [
+          "L2",
+          "auditoría devuelta por ACOPROS"
+        ],
+        "trabajo": [
+          "Tanda 2 · verbos que ACOPROS señaló: comer, lavar, vestir, más los que devuelva la auditoría",
+          "Tanda 3 · los 18 emoji con riesgo de tofu que aún no tienen SVG, por orden de frecuencia de uso",
+          "Regla de caída: toda clave sin pictograma sigue pintando su emoji, sin hueco visual. La cobertura puede quedar incompleta sin romper nada",
+          "La pantalla de créditos NO necesita atribución nueva: al ser banco propio no hay licencia que acreditar (el criterio de aceptación de ES-09 lo pedía asumiendo un banco externo, y decae con la resolución de DC-4)"
+        ],
+        "entregable": "Cobertura de pictogramas suficiente para que ACOPROS valide que ninguna imagen en uso es ambigua."
+      },
+      {
+        "lote": "L5 · Transversales de cierre",
+        "items": [
+          "X-03",
+          "X-05",
+          "X-06"
+        ],
+        "objetivo": "Que lo cerrado no se reabra solo.",
+        "estimacion": "3-4 días, repartidos dentro de L1-L4",
+        "trabajo": [
+          "X-05 · pruebas de la lógica pura tocada: programación de recordatorios con subconjuntos de franjas (incluida la lista vacía), resolución de claves de pictograma y construcción de la sesión de contraste con sus dos modos",
+          "X-03 · docs/protocolo-expansion-semantica.md y docs/expansion-protocolos-v2.md: la antesala de material y la vuelta de comprensión con pictogramas son mecánicas nuevas que el protocolo todavía no describe",
+          "X-06 · decidir qué se hace con el port iOS, que hoy muestra una fase de onomatopeya que DC-2 retiró y unos contrastes que no existen en RN"
+        ]
+      }
+    ],
+    "secuenciaDePR": [
+      {
+        "pr": 1,
+        "contenido": "GEN-01 · franjas de recordatorio configurables + test",
+        "lote": "L1",
+        "riesgo": "bajo",
+        "corpus": false
+      },
+      {
+        "pr": 2,
+        "contenido": "ES-11 · antesala de preparación (no locutada)",
+        "lote": "L1",
+        "riesgo": "bajo",
+        "corpus": false
+      },
+      {
+        "pr": 3,
+        "contenido": "ES-04 · captura de voz: extras, parciales, no penalizar al motor, veredicto siempre visible, telemetría",
+        "lote": "L1",
+        "riesgo": "medio",
+        "corpus": false,
+        "cierra": "fase 2"
+      },
+      {
+        "pr": 4,
+        "contenido": "DC-4 · auditoría visual + PICTOGRAMS_BY_KEY (sin dibujos nuevos)",
+        "lote": "L2",
+        "riesgo": "bajo",
+        "corpus": false
+      },
+      {
+        "pr": 5,
+        "contenido": "ES-12 completo · 16 pictogramas de contraste, retirada del apaño de escala, dashboard por mecánica, gate de cobertura",
+        "lote": "L3",
+        "riesgo": "medio",
+        "corpus": false
+      },
+      {
+        "pr": 6,
+        "contenido": "ES-09 · tandas de verbos ambiguos y de riesgo de tofu",
+        "lote": "L4",
+        "riesgo": "bajo",
+        "corpus": false
+      },
+      {
+        "pr": 7,
+        "contenido": "X-03 y X-06 · protocolos actualizados y resolución del port iOS",
+        "lote": "L5",
+        "riesgo": "bajo",
+        "corpus": false
+      }
+    ],
+    "paralelizacion": "L1 y L2 no comparten un solo fichero: el frente de fiabilidad toca notificaciones, captura de voz y la máquina de estados de la pantalla; el frente visual toca datos y componentes de dibujo. Pueden ir a la vez. L3 depende de L2 y L4 depende además del veredicto de las logopedas sobre la auditoría.",
+    "rutaCritica": [
+      "L2 (motor y auditoría)",
+      "L3 (ES-12 real)",
+      "validación de ACOPROS sobre la auditoría",
+      "L4"
+    ],
+    "riesgos": [
+      {
+        "riesgo": "Que alguien locute la antesala de ES-11 o redacte una consigna nueva para la selección",
+        "impacto": "el cierre entero pasa a requerir el procedimiento de 7 pasos y tres síntesis de voz",
+        "mitigacion": "queda declarado como condición de diseño en este plan y es lo primero que debe mirar la revisión de esos dos PR"
+      },
+      {
+        "riesgo": "Aflojar el emparejamiento fonético al perseguir ES-04",
+        "impacto": "falsos positivos clínicos, justo lo que el pliegue dialectal de es-DO corrigió",
+        "mitigacion": "línea roja explícita: matchExpected no se toca; el item afina la captura"
+      },
+      {
+        "riesgo": "Dibujar los 120 pictogramas antes de que ACOPROS diga cuáles son ambiguos",
+        "impacto": "semanas de trabajo sobre imágenes que nadie pidió",
+        "mitigacion": "L2 entrega la auditoría antes que L4; solo las 16 piezas de contraste se dibujan sin esperar, porque las exige ES-12"
+      },
+      {
+        "riesgo": "Que el cambio de mecánica de ES-12 rompa la lectura de la serie histórica",
+        "impacto": "las estrellas de antes y de después significan cosas distintas",
+        "mitigacion": "ya recogido en el riesgo del propio item: definir el corte de serie al tocar el dashboard, en el PR 5"
+      }
+    ],
+    "definicionDeHechoDelCierre": [
+      "Los tres items de la fase 2 cerrados y la fase marcada como completada en estadoImplementacion",
+      "Las ocho cápsulas de contraste con vuelta de comprensión resoluble, verificada en dispositivo",
+      "docs/auditoria-pictogramas.md devuelto por ACOPROS con su veredicto por fila",
+      "El gate de cobertura de pictogramas en verde junto a los dos chequeos que ya existen",
+      "Protocolos actualizados con la antesala y la doble vuelta con pictogramas",
+      "Y lo que ningún script cierra: escuchar una sesión completa en es, gl y eu, y validar el euskera con un hablante nativo (sigue abierto desde la fase 3)"
+    ],
+    "fueraDeAlcance": [
+      "ES-08 · progresión por frecuencia léxica: presupone las categorías de la opción C de DC-1, planificada como versión propia. Sin categorías no hay dónde aplicarla",
+      "DC-1 opción C · reorganización de Escenarios en categorías semánticas: rediseño del banco en las cuatro variedades, propio de una versión mayor",
+      "La frase portadora como modo avanzado: se retiró del flujo y del corpus, y su módulo se conserva. Es una decisión pendiente de producto, no trabajo de este cierre"
+    ]
   }
 }
