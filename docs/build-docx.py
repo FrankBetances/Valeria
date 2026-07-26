@@ -6,7 +6,7 @@ Uso:
     python3 docs/build-docx.py
 
 Requiere las capturas de docs/screenshots/ (ver docs/capture-screenshots.js).
-Mantiene el mismo contenido que docs/manual-casos-de-uso.html (v9.0).
+Mantiene el mismo contenido que docs/manual-casos-de-uso.html (v9.1).
 """
 import os
 from docx import Document
@@ -64,7 +64,7 @@ for name, size, color, before in (('Heading 1', 17, PRIMARY, 14),
 
 footer_p = sec.footer.paragraphs[0]
 footer_p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-run = footer_p.add_run('Valeria+ · Manual de Casos de Uso · v9.0 (con capturas de pantalla) · Julio de 2026')
+run = footer_p.add_run('Valeria+ · Manual de Casos de Uso · v9.1 (con capturas de pantalla) · Julio de 2026')
 run.font.size = Pt(8)
 run.font.color.rgb = MUTED
 
@@ -266,7 +266,7 @@ for _ in range(4):
     p('', space_after=0)
 p('valeria+', bold=True, size=16, color=PRIMARY_BRIGHT)
 p('🐻', size=52, align=WD_ALIGN_PARAGRAPH.LEFT, space_after=18)
-p('Manual de usuario · v9.0 · con capturas de pantalla', bold=True, size=10, color=PRIMARY)
+p('Manual de usuario · v9.1 · con capturas de pantalla', bold=True, size=10, color=PRIMARY)
 p('Manual de Casos de Uso', bold=True, size=34, color=INK, space_after=10)
 p('Aplicación de terapia auditivo-verbal y del lenguaje para niñas y niños con hipoacusia, '
   'implante coclear, dislalias, dislexia, TEA o dificultades del lenguaje.', size=13, color=INK2, space_after=16)
@@ -286,18 +286,19 @@ toc = [
     ('CU-02', 'Elegir un bloque de terapia (hub de bloques)'),
     ('CU-03', 'Academy: formarse con las Cápsulas de Conocimiento'),
     ('CU-04', 'Pares Mínimos para dislalias'),
-    ('CU-05', 'Expansión Semántica / progresión léxica'),
+    ('CU-05', 'Expansión Semántica: escenarios, categorías, progresión y contrastes'),
     ('CU-06', 'Prescribir terapias (Audición, Lenguaje, TEA y Dislexia · Modo Profesional)'),
     ('CU-07', 'Retomar un paciente e iniciar sesión'),
     ('CU-08', 'Test de Ling previo (audífono / implante)'),
     ('CU-09', 'Realizar una sesión de ejercicios'),
-    ('CU-10', 'Configurar recordatorios diarios'),
+    ('CU-10', 'Configurar recordatorios diarios (elegir franjas)'),
     ('CU-11', 'Motivación: racha, niveles e insignias'),
     ('CU-12', 'Consultar el panel de resultados'),
     ('CU-13', 'Cambiar entre Modo Familia y Modo Profesional'),
     ('CU-14', 'Exportar la evidencia de usabilidad del piloto (QR + compartir)'),
     ('CU-15', 'Elegir la variedad de terapia (Castellano · Galego · Dominicano · Euskera)'),
     ('CU-16', 'Panel del Adulto: carga comunicativa (ruido, doble tarea, quiebre)'),
+    ('CU-17', 'Academy: aprender lo básico de Lengua de Signos Española'),
     ('', 'ANEXOS'),
     ('A', 'Preguntas frecuentes y resolución de problemas'),
     ('B', 'Historial de versiones'),
@@ -405,7 +406,7 @@ data_table(['Variedad', 'Voz y particularidades'], [
 ], widths=[4.4, 12.6])
 doc.add_heading('Academy: formación del cuidador', level=3)
 p('En la terapia auditivo-verbal el adulto es el motor de cada sesión, así que aprender a acompañar forma parte del '
-  'tratamiento. Academy es un espacio de formación para el adulto, no para el niño, organizado en cinco dominios '
+  'tratamiento. Academy es un espacio de formación para el adulto, no para el niño, organizado en seis dominios '
   '(Lenguaje, Hipoacusia, Dislalias, Dislexia y TEA). Cada dominio ofrece Cápsulas de Conocimiento de unos dos minutos '
   '—cómo aprenden a hablar los niños, el porqué del movimiento (TPR), los vicios a evitar, el manejo de los '
   'dispositivos auditivos…— que terminan con un quiz de respuesta explicada, y lleva su propia escala de niveles e '
@@ -586,7 +587,7 @@ uc_meta('Adulto que dirige la sesión (familia o cuidador)', 'Prescripción de T
         'Ninguna; disponible desde el primer día', 'Cápsula completada y progreso guardado en su dominio')
 p('Academy es el espacio de formación para el adulto. En la terapia auditivo-verbal la persona que acompaña al niño es '
   'el motor de la sesión, así que Academy le enseña —en pequeñas dosis— a hacerlo mejor. No es un curso '
-  'único: se organiza en cinco dominios de formación, cada uno con su propia lista de cápsulas, su escala de niveles '
+  'único: se organiza en seis dominios de formación, cada uno con su propia lista de cápsulas, su escala de niveles '
   '(de Novato a “Experto en…”) y sus insignias. Un feed de prioridad destaca arriba el dominio que corresponde a la '
   'patología de la ficha del paciente, para que el cuidador empiece por lo que más le sirve.')
 data_table(['Dominio', 'Qué se aprende'], [
@@ -647,34 +648,55 @@ figures([('06-pares-banco.png', 'Banco de contrastes: los pares agrupados por ti
          ('09-pares-veredicto.png', 'Acierto: misión física de celebración y sello doble.')])
 
 # ---- CU-05 · EXPANSIÓN SEMÁNTICA ----
-uc_header('CU-05', 'Familia', 'Expansión Semántica / progresión léxica', violet=True)
+uc_header('CU-05', 'Familia', 'Expansión Semántica: escenarios, categorías, progresión y contrastes', violet=True)
 uc_meta('Tutor + niño/a', 'Expansión Semántica · Progresión Léxica', 'Actividad prescrita por el logopeda',
         'Palabras trabajadas uniendo símbolo, voz y cuerpo')
 par = doc.add_paragraph()
 rich(par, [('Rehabilitación léxica ', False), ('offline', True),
            (' para intervención temprana. Cada palabra une imagen, voz y una ', False),
            ('acción física del adulto', True),
-           (' que la ancla al mundo real del niño. Tres modos de práctica en pestañas:', False)])
-data_table(['Modo', 'Qué contiene'], [
-    [[('Escenarios', True)], '5 rutinas diarias (mañana, comida, parque…), 6 palabras cada una.'],
-    [[('Progresión', True)], '9 secuencias que suben Onomatopeya → Sustantivo → Verbo → Adjetivo (el coche, el perro, la vaca, el gato, la lluvia, el tren, el pájaro, el pan, el globo…). “El desayuno” da el salto a la combinación de dos palabras (“quiero pan”).'],
-    [[('Contrastes', True)], '8 cápsulas TPR de pares: grande/pequeño, limpio/sucio, abrir/cerrar, subir/bajar, lleno/vacío, meter/sacar…'],
-], widths=[3.6, 13.4])
+           (' que la ancla al mundo real del niño. ', False),
+           ('Cada bloque declara un objetivo terapéutico único', True),
+           (', visible antes de empezar, y se practica en cuatro pestañas:', False)])
+data_table(['Modo', 'Objetivo declarado', 'Qué contiene'], [
+    [[('Escenarios', True)], 'Repetición verbal dentro de una rutina', '5 rutinas diarias (mañana, comida, parque, baño, dormir), 6 palabras cada una.'],
+    [[('Categorías', True)], 'Vocabulario nuevo por campo, de lo familiar a lo raro', '5 categorías de 6 palabras (frutas, animales, transportes, colores, el cuerpo) con progresión de dificultad: se empieza por lo más familiar y se avanza a lo menos frecuente.'],
+    [[('Progresión', True)], 'Ampliar el campo semántico de un concepto', '9 secuencias de cuatro pasos: concepto → parte → acción → cualidad (coche → rueda → corre → rápido). “El desayuno” da el salto a la combinación de dos palabras (“quiero pan”).'],
+    [[('Contrastes', True)], 'Opuestos: primero comprender, después decir', '8 cápsulas TPR de pares: grande/pequeño, limpio/sucio, abrir/cerrar, subir/bajar, frío/caliente, encender/apagar, lleno/vacío, meter/sacar.'],
+], widths=[2.8, 4.4, 9.8])
 p('Como en Pares Mínimos, una barra de fase de turno (Escucha → Repite → Veredicto → Misión) guía cada paso.')
+h4('Antes de empezar: la antesala de preparación')
+par = doc.add_paragraph()
+rich(par, [('Toda actividad pasa primero por una ', False), ('pantalla de preparación', True),
+           (' con el material necesario y los pasos que vienen. ', False),
+           ('Nada suena hasta que el adulto pulsa “Ya lo tengo todo”', True),
+           ('. Se puede volver a consultar en cualquier momento desde “Ver preparación”, sin perder el paso en curso.', False)])
 h4('Flujo principal')
 numbered([
-    'Elegir la pestaña (Escenarios, Progresión o Contrastes) y pulsar ▶ en una actividad prescrita.',
-    [('La app ', False), ('enseña la imagen y dice la palabra', True), (' (“Esto es la cama… Di: cama”). El niño la repite.', False)],
+    'Elegir la pestaña (Escenarios, Categorías, Progresión o Contrastes) y pulsar ▶ en una actividad prescrita.',
+    [('Leer la ', False), ('antesala', True), (': qué material hace falta y qué vais a hacer. Confirmar con “Ya lo tengo todo”.', False)],
+    [('La app ', False), ('enseña la imagen y dice la palabra', True), (' (“Esto es la cama. Di: cama”). El niño la repite.', False)],
     [('El micrófono valora el intento aceptando las ', False), ('aproximaciones propias de la edad', True),
-     ('; sin micrófono, el adulto decide (“Lo dijo / Casi”).', False)],
+     ('. Si el micrófono no capta nada, el intento ', False), ('no cuenta', True),
+     (' y se vuelve a modelar. El adulto puede dar por válido el intento en cualquier momento de la escucha.', False)],
     [('Cada palabra se cierra con la ', False), ('acción física del adulto', True),
      (' (“Da unas palmaditas en la cama y sentaos en ella”). Se avanza al siguiente paso.', False)],
 ])
-callout('Por qué funciona', 'La palabra se aprende cuando el niño la vive con el cuerpo, no solo cuando la oye. Las '
-        'cápsulas de contraste añaden una “segunda vuelta” con la palabra opuesta para consolidar el par.',
+h4('Contrastes: dos vueltas de distinta naturaleza')
+p('Una cápsula de contraste evalúa dos habilidades distintas, y por eso tiene dos vueltas:')
+numbered([
+    [('Comprensión.', True), (' Se muestran las dos imágenes a la vez y el niño toca la correcta. No hay micrófono.', False)],
+    [('Producción.', True), (' El niño dice la palabra opuesta y se evalúa por voz.', False)],
+])
+p('El panel de resultados y el informe que se comparte con el logopeda las muestran por separado. Un promedio único '
+  'escondía el caso más frecuente en clínica: el niño entiende el par pero todavía no lo dice.')
+callout('Por qué funciona', 'La palabra se aprende cuando el niño la vive con el cuerpo, no solo cuando la oye. En una '
+        'cápsula, el objeto que nombra el audio, el que muestra la imagen y el que pide la preparación son el mismo: lo '
+        'único que cambia entre las dos vueltas es el atributo contrastado (la misma cuchara, limpia y sucia). Por eso '
+        'las imágenes son pictogramas propios y no emoji: dos emoji iguales harían la vuelta de comprensión irresoluble.',
         fill=FILL_VIOLET, label_color=VIOLET_DARK)
 figures([('10-expansion-escenarios.png', 'Escenarios diarios: mañana, comida y parque.'),
-         ('11-expansion-progresion.png', 'Progresión léxica: de onomatopeya a adjetivo.'),
+         ('11-expansion-progresion.png', 'Progresión léxica. Captura de la v9: desde la v9.1 las fases son concepto → parte → acción → cualidad, y hay una cuarta pestaña de Categorías.'),
          ('12-expansion-juego.png', 'Paso: imagen, consigna y misión física del adulto.')])
 
 # ---- CU-06 · PRESCRIPCIÓN AUD/LENG ----
@@ -772,17 +794,26 @@ figures([('17-ejercicio.png', 'Ficha ilustrada: consigna, imágenes ampliables y
 # ---- CU-10 · RECORDATORIOS ----
 uc_header('CU-10', 'Familia', 'Configurar recordatorios diarios')
 uc_meta('Tutor o logopeda', 'Hub → “Recordatorios de sesión”', 'Permiso de notificaciones del sistema',
-        'Avisos en la pantalla de bloqueo')
+        'Avisos en la pantalla de bloqueo, solo en las franjas elegidas')
+p('Hay cuatro franjas y se elige cuáles se quieren: de las cuatro a ninguna. No es un “todo o nada”.')
+data_table(['Franja', 'Qué llega'], [
+    [[('Mañana · 9:00', True)], 'Invitación a la sesión del día.'],
+    [[('Mediodía · 13:00', True)], 'Recordatorio corto a media jornada.'],
+    [[('Tarde · 17:00', True)], 'Última llamada para no perder la racha.'],
+    [[('Noche · 20:00', True)], 'Consejo para el adulto, no aviso de juego: uno de los cinco consejos de “el hogar como centro de rehabilitación”, que rota cada día. Va dirigido a quien acompaña, no al niño.'],
+], widths=[4.4, 12.6])
 h4('Flujo principal')
 numbered([
     [('En la tarjeta ', False), ('“Recordatorios de sesión”', True), (' del hub, activar el interruptor.', False)],
     'Conceder el permiso de notificaciones si el sistema lo pide.',
-    [('La app programa hasta ', False), ('4 avisos al día', True), (' —a las ', False),
-     ('9:00, 13:00, 17:00 y 20:00', True), ('— con un consejo para padres que rota a diario.', False)],
+    [('Marcar o desmarcar las ', False), ('franjas', True),
+     (' que se quieran. El texto de la tarjeta muestra en todo momento cuántos avisos llegarán y a qué hora.', False)],
 ])
 bullets([
     [('Permiso denegado:', True), (' aparece un aviso pidiendo conceder el permiso en los ajustes del sistema.', False)],
-    [('Desactivar:', True), (' el mismo interruptor cancela todos los recordatorios.', False)],
+    [('Desactivar una franja:', True), (' deja de llegar de inmediato. No solo se deja de reprogramar: se cancelan también los avisos que ya estaban en cola.', False)],
+    [('Quitar las cuatro:', True), (' equivale a apagar los recordatorios, y el interruptor maestro se apaga solo.', False)],
+    [('Al actualizar desde una versión anterior:', True), (' quedan activas las cuatro, como hasta ahora. Nadie pierde avisos por el cambio.', False)],
 ])
 
 # ---- CU-11 · GAMIFICACIÓN ----
@@ -938,6 +969,48 @@ callout('Siempre en manos del adulto',
 figures([('23-panel-adulto.png', 'Panel del Adulto desplegado: ruido de fondo, oso distractor y quiebre pragmático.')],
         width_cm=6.4)
 
+# ---- CU-17 · ACADEMY · LENGUA DE SIGNOS ----
+uc_header('CU-17', 'Familia', 'Academy: aprender lo básico de Lengua de Signos Española', violet=True)
+uc_meta('Adulto que acompaña al niño', 'Academy → dominio “Lengua de Signos (LSE)”', 'Ninguna; disponible desde el primer día',
+        'Base para entender la LSE y decidir con criterio')
+p('Sexto dominio de Academy, propuesto por las logopedas de ACOPROS. Seis cápsulas que dan una puerta de entrada a la '
+  'Lengua de Signos Española: qué es, qué relación tiene con el habla y cómo empezar a comunicaros hoy mismo.')
+data_table(['Cápsula', 'Qué responde'], [
+    [[('La LSE es una lengua, no mímica', True)], 'Tiene léxico, orden de frase y morfología propios; no es español traducido a gestos. Está reconocida por la Ley 27/2007.'],
+    [[('¿Signar retrasa el habla?', True)], 'La duda que trae casi toda familia. Lo que compromete el desarrollo es no tener acceso pleno a ninguna lengua en los primeros años, no la exposición a dos.'],
+    [[('De qué está hecho un signo', True)], 'Configuración, lugar, orientación y movimiento, más la expresión facial. Cambiar un solo parámetro puede cambiar la palabra.'],
+    [[('El alfabeto dactilológico', True)], 'Deletrear con la mano, con las configuraciones dibujadas. Sirve para nombres propios y palabras aún sin signo conocido.'],
+    [[('Primeros signos con utilidad real', True)], 'No los colores ni los animales: los que le permiten pedir (más, comer, ayuda). Un niño que puede pedir deja de tener que llorar para que le entiendan.'],
+    [[('Dónde se aprende de verdad', True)], 'Con personas sordas signantes y cursos oficiales. Ninguna app sustituye la conversación real.'],
+], widths=[5.8, 11.2])
+callout('Qué es y qué no es este módulo',
+        'Un signo combina configuración de la mano, lugar, orientación y movimiento. Un dibujo estático captura los tres '
+        'primeros y NO el cuarto. Por eso el módulo enseña lo que sí es enseñable así —el alfabeto dactilológico, cuyas '
+        'configuraciones son posturas fijas— y para el léxico signado remite a fuente signada. Es una puerta de entrada, '
+        'no un curso de LSE.')
+h4('¿Y la prioridad de la audición?')
+p('Valeria+ da prioridad al oído dentro de sus ejercicios auditivo-verbales: nombra antes de mostrar, para que el niño '
+  'entrene la escucha. Eso sigue valiendo. La LSE es otra cosa: una lengua con estatuto legal propio a la que tu hijo '
+  'puede tener derecho, y su adopción la decidís la familia y el equipo clínico, no una app. La primera cápsula del '
+  'módulo aborda esa relación de frente para que no queden dos mensajes sueltos que parezcan reñidos.')
+h4('Flujo principal')
+numbered([
+    [('Abrir ', False), ('Academy', True), (' desde la tarjeta del hub y elegir el dominio ', False), ('Lengua de Signos (LSE)', True), ('.', False)],
+    [('Empezar por ', False), ('“La LSE es una lengua, no mímica”', True), (', y seguir por ', False),
+     ('“¿Signar retrasa el habla?”', True), (': el feed las propone en ese orden a propósito.', False)],
+    'Leer las diapositivas —las de configuraciones muestran el dibujo de la mano— y responder el quiz.',
+    'Practicar el alfabeto frente al espejo deletreando el nombre del niño, cada día, hasta que lo reconozca.',
+    'Contarle a la logopeda que estáis empezando con signos, para que el plan de casa y el de la sesión sean uno solo.',
+])
+bullets([
+    [('Progreso independiente:', True), (' la XP de este dominio no se mezcla con la del resto; tiene su propia escala (“Experto en LSE”) e insignias.', False)],
+    [('Al actualizar:', True), (' el dominio aparece con el progreso a cero y el del resto de dominios se conserva intacto.', False)],
+])
+callout('Validación',
+        'El contenido de las seis cápsulas y las configuraciones de mano dibujadas fueron revisados y aprobados por una '
+        'persona sorda signante. Es la única revisión que puede decir si una silueta se reconoce como la letra que dice ser.',
+        fill=FILL_OK, label_color=RGBColor(0x04, 0x78, 0x57))
+
 # ============================ ANEXO ============================
 doc.add_page_break()
 kicker('Anexo A')
@@ -982,14 +1055,14 @@ data_table(['Situación', 'Qué hacer'], [
     ['¿Qué son los bloques de TEA y Dislexia?',
      'TEA (6 terapias, protocolo PRT + TCC) y Dislexia (6 terapias de conciencia fonológica y acceso léxico). Se prescriben con el mismo PIN que el resto y sus estresores los activa siempre el adulto (CU-06).'],
     ['¿Qué es la tarjeta “Academy” del hub?',
-     'Es la formación para el adulto, organizada en cinco dominios (Lenguaje, Hipoacusia, Dislalias, Dislexia y TEA). Cápsulas breves con quiz sobre cómo aprenden a hablar los niños, el manejo de los dispositivos auditivos, los sonidos difíciles y más; un feed destaca el dominio que encaja con la patología de la ficha. No es un ejercicio para el niño (CU-03).'],
+     'Es la formación para el adulto, organizada en seis dominios (Lenguaje, Hipoacusia, Dislalias, Dislexia, TEA y Lengua de Signos). Cápsulas breves con quiz sobre cómo aprenden a hablar los niños, el manejo de los dispositivos auditivos, los sonidos difíciles y más; un feed destaca el dominio que encaja con la patología de la ficha. No es un ejercicio para el niño (CU-03).'],
 ], widths=[6.0, 11.0])
 
 # ============================ ANEXO B · HISTORIAL ============================
 doc.add_page_break()
 kicker('Anexo B')
 doc.add_heading('Historial de versiones', level=1)
-p('Este manual describe Valeria+ en su estado actual (v9.0). La siguiente tabla resume, a título informativo, cómo ha '
+p('Este manual describe Valeria+ en su estado actual (v9.1). La siguiente tabla resume, a título informativo, cómo ha '
   'ido creciendo la app, por si resulta útil a quienes usaron versiones anteriores.')
 data_table(['Versión', 'Hitos principales'], [
     [[('v5', True)],
@@ -1012,9 +1085,18 @@ data_table(['Versión', 'Hitos principales'], [
     [[('v9', True)],
      'Bloques de TEA y Dislexia, Audición ampliada a 18 terapias (escucha en ruido), banco castellano de 15 pares, '
      'cuarta variedad (Euskera) y Academy multidominio.'],
+    [[('v9.1', True)],
+     'Mejoras nacidas de la revisión clínica de las logopedas de ACOPROS: categorías léxicas con progresión de '
+     'dificultad, antesala de preparación antes de cada actividad, contrastes con doble vuelta (comprender y decir) '
+     'sobre pictogramas propios, escucha más tolerante que no penaliza los fallos del micrófono, recordatorios por '
+     'franjas y el módulo de Lengua de Signos Española en Academy.'],
 ], widths=[2.4, 14.6])
+p('Sobre las capturas de pantalla. Las imágenes de este manual se tomaron en la v9. Los textos describen el '
+  'comportamiento de la v9.1, así que en las pantallas de Expansión Semántica y de recordatorios verás alguna '
+  'diferencia respecto a la captura: la cuarta pestaña de Categorías, la antesala de preparación y el selector de '
+  'franjas son posteriores a esas capturas.')
 p('', space_after=4)
-p('Valeria+ · Manual de Casos de Uso · v9.0 (con capturas de pantalla) · Julio de 2026 · Terapia auditivo-verbal y del '
+p('Valeria+ · Manual de Casos de Uso · v9.1 (con capturas de pantalla) · Julio de 2026 · Terapia auditivo-verbal y del '
   'lenguaje para la infancia. Documento de apoyo para logopedas y familias. Disponible en Castellano, Galego (Proxecto '
   'Nós), Dominicano (Quisqueya Habla) y Euskera (batua · ILENIA/NEL-GAITU). Los datos personales se tratan localmente '
   'conforme a RGPD/HIPAA; la sincronización en la nube y la telemetría anónima del piloto son opcionales.', size=8.5, color=MUTED)
