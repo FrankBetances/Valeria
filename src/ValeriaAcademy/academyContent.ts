@@ -878,9 +878,15 @@ export const ACADEMY_CAPSULES: AcademyCapsule[] = [
         figure: 'mano-v',
       },
       {
+        icon: '🔠',
+        heading: 'El abecedario completo',
+        body: 'Aquí tienes las 27 configuraciones, de la A a la Z. Las cuatro marcadas con ↻ —J, Ñ, X y Z— no son solo una postura: llevan un trazo o un vaivén, y la flecha verde te indica hacia dónde va. Esas cuatro apréndelas de un vídeo o de una persona signante; el dibujo solo te dice de dónde parte la mano. Deja esta pantalla abierta mientras deletreas: es el panel de consulta del módulo.',
+        chart: 'dactilologico',
+      },
+      {
         icon: '🪞',
         heading: 'Cómo practicarlo',
-        body: 'Deletrea tu nombre delante del espejo, despacio, hasta que las manos vayan solas. Las letras con movimiento —las hay— no se aprenden bien de un dibujo: para esas, busca vídeo. Un buen ejercicio con tu hijo es deletrear su nombre cada día hasta que lo reconozca.',
+        body: 'Deletrea tu nombre delante del espejo, despacio, hasta que las manos vayan solas. Empieza por las letras de su nombre, no por la A: son las que vais a usar de verdad. Un buen ejercicio con tu hijo es deletrear su nombre cada día hasta que lo reconozca.',
       },
     ],
     quiz: [
@@ -895,6 +901,12 @@ export const ACADEMY_CAPSULES: AcademyCapsule[] = [
         options: ['Porque casi todas sus configuraciones son posturas fijas', 'Porque es más importante que el léxico', 'Porque no necesita las manos'],
         answer: 0,
         rationale: 'Al ser posturas estáticas, un dibujo las transmite; los signos con movimiento no.',
+      },
+      {
+        prompt: 'En el panel del abecedario, ¿qué significa la marca ↻ de la J, la Ñ, la X y la Z?',
+        options: ['Que son letras poco frecuentes', 'Que llevan movimiento y el dibujo solo muestra de dónde parte la mano', 'Que se hacen con las dos manos'],
+        answer: 1,
+        rationale: 'Su identidad está en el trazo: esas cuatro pídelas en vídeo o a una persona signante.',
       },
     ],
   },

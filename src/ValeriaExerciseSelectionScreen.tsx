@@ -1,11 +1,16 @@
 // ============================================================================
-// Valeria+ · Selección y Prescripción de Terapias (V2.3)
-// Pestañas Audición (18) + Lenguaje (7). Modo Familia (solo lectura) y Modo
-// Profesional desbloqueado por PIN (validación por hash SHA-256, sin texto plano).
+// Valeria+ · Selección y Prescripción de Terapias (V2.4)
+// Hub de bloques + lista prescribible de UN bloque. Audición (18), Lenguaje (7),
+// TEA (6) y Dislexia (6) son bloques INDEPENDIENTES: cada uno se abre desde su
+// tarjeta del hub y su lista no ofrece salto lateral a otro bloque. Hasta V2.3,
+// Audición y Lenguaje compartían una barra de pestañas dentro de la lista y se
+// percibían como una sola pantalla fusionada.
+// Modo Familia (solo lectura) y Modo Profesional desbloqueado por PIN
+// (validación por hash SHA-256, sin texto plano).
 // Persistencia: AsyncStorage. Si la ficha activa indica audífono/implante, navega
 // primero al Test de Ling; si no, va directo a navigation.navigate('ExercisePlayer', { id }).
-// V2.3: botón "Sesión completa" por pestaña — encadena todos los ejercicios
-// prescritos del bloque en una sola sesión ({ ids }) en lugar de uno a uno.
+// Botón "Sesión completa" por bloque — encadena todos los ejercicios prescritos
+// del bloque abierto en una sola sesión ({ ids }) en lugar de uno a uno.
 // ============================================================================
 import React, { useEffect, useState } from 'react';
 import { View, Text, Pressable, ScrollView, Switch, StyleSheet, Modal } from 'react-native';
@@ -344,34 +349,25 @@ export const ValeriaExerciseSelectionScreen: React.FC<{ navigation: any }> = ({ 
           </ScrollView>
         </>
       ) : (
-        // ==================== LISTA: audición / lenguaje ====================
+        // ============== LISTA DE UN BLOQUE (audición · lenguaje · TEA · dislexia) ==============
         <>
           <View style={s.header}>
             <Pressable onPress={() => { setView('hub'); setToast(''); }} style={s.backPill}><Text style={s.backPillTxt}>‹ Bloques</Text></Pressable>
             <Text style={s.logoFallback}>valeria+</Text>
             <Text style={s.headerTitle}>{TAB_INFO[tab].title}</Text>
             <Text style={s.headerSub}>{unlocked ? 'Edición profesional habilitada' : 'Modo Familia · solo lectura'}</Text>
-            {/* Las pestañas emparejan solo Audición↔Lenguaje (protocolos hermanos);
-                TEA y Dislexia entran cada uno por su tarjeta del hub. */}
-            {(tab === 'audicion' || tab === 'lenguaje') && (
-              <View style={s.tabs}>
-                {(['audicion', 'lenguaje'] as const).map((t) => {
-                  const on = tab === t;
-                  const count = t === 'audicion' ? EXERCISES_AUD.length : EXERCISES_LEN.length;
-                  return (
-                    <Pressable key={t} onPress={() => { setTab(t); setToast(''); }} style={[s.tab, on && s.tabOn]} accessibilityRole="tab" accessibilityState={{ selected: on }}>
-                      <Text style={[s.tabTxt, { color: on ? V.color.primaryDark : 'rgba(255,255,255,.85)' }]}>{t === 'audicion' ? 'Audición' : 'Lenguaje'}</Text>
-                      <View style={[s.tabBadge, { backgroundColor: on ? V.color.primaryLight : 'rgba(255,255,255,.22)' }]}>
-                        <Text style={{ fontSize: 11, fontWeight: '800', color: on ? V.color.primaryDark : '#fff' }}>{count}</Text>
-                      </View>
-                    </Pressable>
-                  );
-                })}
-              </View>
-            )}
+            {/* Audición y Lenguaje son bloques INDEPENDIENTES, cada uno con su
+                acceso desde el hub, igual que TEA y Dislexia. Antes compartían
+                una barra de pestañas dentro de la lista: al entrar en Audición
+                se veía también Lenguaje y las dos pantallas se percibían como
+                una sola («están fusionadas»), con la sesión completa y el
+                recuento cambiando de bloque sin salir de la vista. */}
+            <View style={s.blockChip}>
+              <Text style={s.blockChipTxt}>{list.length} terapias · {activeCount} prescritas</Text>
+            </View>
           </View>
 
-          {/* key por pestaña: cambiar de vista o de pestaña arranca arriba,
+          {/* key por bloque: cambiar de vista o de bloque arranca arriba,
               sin heredar el desplazamiento anterior. */}
           <ScrollView key={`list-${tab}`} contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
             {toastBar}
@@ -572,11 +568,10 @@ const s = StyleSheet.create({
   gameRow: { flexDirection: 'row', gap: 8, marginTop: 12 },
   gameChip: { backgroundColor: 'rgba(255,255,255,.18)', borderWidth: 1, borderColor: 'rgba(255,255,255,.32)', borderRadius: 11, paddingHorizontal: 11, paddingVertical: 6 },
   gameChipTxt: { color: '#fff', fontSize: 12, fontWeight: '800' },
-  tabs: { flexDirection: 'row', gap: 4, backgroundColor: 'rgba(255,255,255,.16)', borderRadius: 13, padding: 4, marginTop: 14 },
-  tab: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 7, paddingVertical: 9, borderRadius: 10 },
-  tabOn: { backgroundColor: '#fff' },
-  tabTxt: { fontSize: 14, fontWeight: '800' },
-  tabBadge: { paddingHorizontal: 7, paddingVertical: 1, borderRadius: 8 },
+  // Chip de recuento del bloque abierto (sustituye a la antigua barra de
+  // pestañas Audición↔Lenguaje: cada bloque es ahora una vista independiente).
+  blockChip: { alignSelf: 'flex-start', backgroundColor: 'rgba(255,255,255,.18)', borderWidth: 1, borderColor: 'rgba(255,255,255,.32)', borderRadius: 11, paddingHorizontal: 11, paddingVertical: 6, marginTop: 12 },
+  blockChipTxt: { color: '#fff', fontSize: 12, fontWeight: '800' },
 
   scroll: { padding: 18, paddingBottom: 32 },
   hubLabel: { fontSize: 12, fontWeight: '800', color: V.color.textMuted, letterSpacing: 0.5, marginBottom: 12, marginHorizontal: 2 },

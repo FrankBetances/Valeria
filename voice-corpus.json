@@ -1,11 +1,11 @@
 {
- "generatedAt": "2026-07-26T17:37:52.737Z",
- "entries": 1734,
+ "generatedAt": "2026-07-27T06:12:16.079Z",
+ "entries": 2438,
  "byStyle": {
-  "child": 962,
-  "slow": 384,
+  "child": 1293,
+  "slow": 569,
   "clinical": 27,
-  "tutor": 361
+  "tutor": 549
  },
  "bySource": {
   "pares/intro": 27,
@@ -25,8 +25,8 @@
   "banco/no-oido": 9,
   "banco/juntos": 9,
   "util/muestra": 3,
-  "expansion": 831,
-  "ejercicios": 521
+  "expansion": 1278,
+  "ejercicios": 778
  },
  "corpus": [
   {
@@ -6958,6 +6958,4934 @@
    "style": "child",
    "text": "Ola! Así soará a miña voz nos exercicios. A que soa ben?",
    "source": "util/muestra"
+  },
+  {
+   "id": "gl_child_a797b603_24",
+   "lang": "gl",
+   "style": "child",
+   "text": "Isto é a cama. Di: cama.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_61e5f519_20",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: cama.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_a797b603_24",
+   "lang": "gl",
+   "style": "slow",
+   "text": "Isto é a cama. Di: cama.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_10b654ed_80",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Dálle unhas palmadiñas á cama e séntate nela coa nena antes de erguervos xuntos.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_c48c3abb_30",
+   "lang": "gl",
+   "style": "child",
+   "text": "Isto é o cepillo. Di: cepillo.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_d4158aa9_23",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: cepillo.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_c48c3abb_30",
+   "lang": "gl",
+   "style": "slow",
+   "text": "Isto é o cepillo. Di: cepillo.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_57b87916_87",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Pon o cepillo (sen pasta) na man da nena e guiade xuntos o xesto de cepillar os dentes.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_3138f034_27",
+   "lang": "gl",
+   "style": "child",
+   "text": "Lavamos as mans. Di: lavar.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_6d3bf66d_21",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: lavar.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_3138f034_27",
+   "lang": "gl",
+   "style": "slow",
+   "text": "Lavamos as mans. Di: lavar.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_9502673f_93",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Frega as túas mans coma se te enxaboases e anima á nena a fregar as súas ao ritmo da palabra.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_1a62390f_31",
+   "lang": "gl",
+   "style": "child",
+   "text": "Poñemos a camiseta. Di: vestir.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_0c7ffcb4_22",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: vestir.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_1a62390f_31",
+   "lang": "gl",
+   "style": "slow",
+   "text": "Poñemos a camiseta. Di: vestir.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_b5e13fd1_76",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Pasa unha camiseta pola cabeza da nena e, ao asomar, celebrádeo cun “cucú!”.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_d36087c9_32",
+   "lang": "gl",
+   "style": "child",
+   "text": "As mans están limpas. Di: limpo.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_5d5c5798_21",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: limpo.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_d36087c9_32",
+   "lang": "gl",
+   "style": "slow",
+   "text": "As mans están limpas. Di: limpo.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_622238b8_81",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Amosa as túas mans limpas, sopra sobre elas coma se brillasen e chocade os cinco.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_8a312684_40",
+   "lang": "gl",
+   "style": "child",
+   "text": "O espertador fai rin, rin. Di: rin, rin.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_6f3c4571_23",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: rin rin.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_8a312684_40",
+   "lang": "gl",
+   "style": "slow",
+   "text": "O espertador fai rin, rin. Di: rin, rin.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_c129bc97_95",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Tápate coma se durmises e, ao dicir “rin, rin!”, esperta de golpe estirando os brazos coa nena.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_3c3d6537_28",
+   "lang": "gl",
+   "style": "child",
+   "text": "Isto é a culler. Di: culler.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_1ddade92_22",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: culler.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_3c3d6537_28",
+   "lang": "gl",
+   "style": "slow",
+   "text": "Isto é a culler. Di: culler.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_542dcf79_77",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Pon a culler na man da nena e levádea xuntos á boca facendo o xesto de comer.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_bdef2a75_24",
+   "lang": "gl",
+   "style": "child",
+   "text": "Isto é o vaso. Di: vaso.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_39de1c5a_20",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: vaso.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_bdef2a75_24",
+   "lang": "gl",
+   "style": "slow",
+   "text": "Isto é o vaso. Di: vaso.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_3a63a757_67",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Achega o vaso aos beizos da nena e bebede á vez facendo “glu, glu”.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_fb2919fc_22",
+   "lang": "gl",
+   "style": "child",
+   "text": "Imos comer. Di: comer.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_afe4420f_21",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: comer.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_fb2919fc_22",
+   "lang": "gl",
+   "style": "slow",
+   "text": "Imos comer. Di: comer.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_6ffe4537_79",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Frega a barriga, abre moito a boca e fai coma se mastigases esaxerando o xesto.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_19d091e8_27",
+   "lang": "gl",
+   "style": "child",
+   "text": "Imos beber auga. Di: beber.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_702a64b7_21",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: beber.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_19d091e8_27",
+   "lang": "gl",
+   "style": "slow",
+   "text": "Imos beber auga. Di: beber.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_4b0f7477_87",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Inclina un vaso baleiro sobre a túa boca e fai “glu, glu” convidando á nena a imitarte.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_8261b073_29",
+   "lang": "gl",
+   "style": "child",
+   "text": "A comida está rica. Di: rico.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_2456cbce_20",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: rico.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_8261b073_29",
+   "lang": "gl",
+   "style": "slow",
+   "text": "A comida está rica. Di: rico.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_453080d1_83",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Lambe os beizos, frega a barriga e pon cara de gusto dicindo “mmm, rico!” coa nena.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_ed5e42f4_34",
+   "lang": "gl",
+   "style": "child",
+   "text": "A boca fai ñam, ñam. Di: ñam, ñam.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_b16d65d1_23",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: ñam ñam.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_ed5e42f4_34",
+   "lang": "gl",
+   "style": "slow",
+   "text": "A boca fai ñam, ñam. Di: ñam, ñam.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_220ffd89_104",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Mastiga de forma esaxerada movendo moito a mandíbula e que a nena mastigue contigo ao dicir “ñam, ñam!”.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_bd0d7bd7_28",
+   "lang": "gl",
+   "style": "child",
+   "text": "Isto é a pelota. Di: pelota.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_3a17bfbc_22",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: pelota.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_bd0d7bd7_28",
+   "lang": "gl",
+   "style": "slow",
+   "text": "Isto é a pelota. Di: pelota.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_d00bbef9_93",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Fai rodar unha pelota real cara á nena e agardade a que a devolva antes de repetir a palabra.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_da0e0e7b_30",
+   "lang": "gl",
+   "style": "child",
+   "text": "Isto é o tobogán. Di: tobogán.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_1604c365_23",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: tobogán.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_da0e0e7b_30",
+   "lang": "gl",
+   "style": "slow",
+   "text": "Isto é o tobogán. Di: tobogán.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_8967c616_80",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Desliza a man da nena polo teu brazo inclinado coma se fose a rampla do tobogán.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_04e68925_34",
+   "lang": "gl",
+   "style": "child",
+   "text": "No parque imos correr. Di: correr.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_d02f1bc4_22",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: correr.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_04e68925_34",
+   "lang": "gl",
+   "style": "slow",
+   "text": "No parque imos correr. Di: correr.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_126ee0eb_81",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Corre no sitio movendo moito os brazos e anima á nena a correr contigo uns pasos.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_aaad9f80_34",
+   "lang": "gl",
+   "style": "child",
+   "text": "Saltamos coma unha ra. Di: saltar.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_d383dc92_22",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: saltar.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_aaad9f80_34",
+   "lang": "gl",
+   "style": "slow",
+   "text": "Saltamos coma unha ra. Di: saltar.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_c83ca8b9_83",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Salta cos dous pés xuntos dicindo “salta!” en cada bote e que a nena salte contigo.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_611097be_33",
+   "lang": "gl",
+   "style": "child",
+   "text": "O bambán sobe moi alto. Di: alto.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_fca62e53_20",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: alto.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_611097be_33",
+   "lang": "gl",
+   "style": "slow",
+   "text": "O bambán sobe moi alto. Di: alto.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_0a1f4b0a_83",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Estírate de puntas cos brazos cara ao ceo e ergue á nena en brazos dicindo “alto!”.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_0113520a_30",
+   "lang": "gl",
+   "style": "child",
+   "text": "A pelota fai boing. Di: boing.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_1770c8b2_21",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: boing.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_0113520a_30",
+   "lang": "gl",
+   "style": "slow",
+   "text": "A pelota fai boing. Di: boing.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_ae1dffc3_89",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Bota unha pelota (ou ti mesmo cos xeonllos) dicindo “boing!” en cada rebote xunto á nena.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_932680df_30",
+   "lang": "gl",
+   "style": "child",
+   "text": "Isto é a bañeira. Di: bañeira.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_48716dc4_23",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: bañeira.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_932680df_30",
+   "lang": "gl",
+   "style": "slow",
+   "text": "Isto é a bañeira. Di: bañeira.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_e3ead27d_100",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Sinala a bañeira (ou un barreño) e facede xuntos o xesto de meterse dentro erguendo moito as pernas.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_3ec80237_26",
+   "lang": "gl",
+   "style": "child",
+   "text": "Isto é o xabón. Di: xabón.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_591ac7bb_21",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: xabón.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_3ec80237_26",
+   "lang": "gl",
+   "style": "slow",
+   "text": "Isto é o xabón. Di: xabón.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_4f5c0189_84",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Pon a pastilla de xabón nas mans da nena e xirádea xuntos facendo escuma imaxinaria.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_89778b69_31",
+   "lang": "gl",
+   "style": "child",
+   "text": "Imos bañar o boneco. Di: bañar.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_cda73da8_21",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: bañar.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_89778b69_31",
+   "lang": "gl",
+   "style": "slow",
+   "text": "Imos bañar o boneco. Di: bañar.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_0bc19ee2_82",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Frega suavemente os brazos da nena coma se a enxaboases mentres repetides “bañar”.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_df4264f4_41",
+   "lang": "gl",
+   "style": "child",
+   "text": "Pasamos a esponxa polo brazo. Di: fregar.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_13a13452_22",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: fregar.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_df4264f4_41",
+   "lang": "gl",
+   "style": "slow",
+   "text": "Pasamos a esponxa polo brazo. Di: fregar.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_132c1a0b_84",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Fai círculos suaves nas costas da nena coa man ou cunha esponxa ao ritmo da palabra.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_4a8736a8_33",
+   "lang": "gl",
+   "style": "child",
+   "text": "A auga está quentiña. Di: quente.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_0ac8c439_22",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: quente.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_4a8736a8_33",
+   "lang": "gl",
+   "style": "slow",
+   "text": "A auga está quentiña. Di: quente.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_ba037b9c_71",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Tocade a auga morna cun dedo e abanade a man esaxerando: “uf, quente!”.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_cb8e1371_26",
+   "lang": "gl",
+   "style": "child",
+   "text": "A auga fai chof. Di: chof.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_ceed5f89_20",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: chof.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_cb8e1371_26",
+   "lang": "gl",
+   "style": "slow",
+   "text": "A auga fai chof. Di: chof.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_3de4bc08_79",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Dade palmadiñas sobre a auga (ou sobre a coxa) dicindo “chof!” en cada palmada.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_bcabdcbb_22",
+   "lang": "gl",
+   "style": "child",
+   "text": "Isto é a lúa. Di: lúa.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_67f2436a_19",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: lúa.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_bcabdcbb_22",
+   "lang": "gl",
+   "style": "slow",
+   "text": "Isto é a lúa. Di: lúa.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_d40b8aac_74",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Debuxade xuntos un círculo grande no aire co dedo mentres dicides “lúúúa”.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_0a9c1afe_42",
+   "lang": "gl",
+   "style": "child",
+   "text": "Antes de durmir lemos un conto. Di: conto.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_ab26243e_21",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: conto.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_0a9c1afe_42",
+   "lang": "gl",
+   "style": "slow",
+   "text": "Antes de durmir lemos un conto. Di: conto.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_ee2f7941_73",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Colle o seu conto favorito, ponllo nas mans e abrídeo xuntos moi amodiño.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_910bd5a3_31",
+   "lang": "gl",
+   "style": "child",
+   "text": "É a hora de durmir. Di: durmir.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_ddc2401c_22",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: durmir.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_910bd5a3_31",
+   "lang": "gl",
+   "style": "slow",
+   "text": "É a hora de durmir. Di: durmir.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_5c4dc144_74",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Xunta as mans baixo a meixela, pechade os ollos e roncade fluxiño os dous.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_7322834b_33",
+   "lang": "gl",
+   "style": "child",
+   "text": "Dámonos unha aperta. Di: abrazar.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_1e0c37d4_23",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: abrazar.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_7322834b_33",
+   "lang": "gl",
+   "style": "slow",
+   "text": "Dámonos unha aperta. Di: abrazar.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_4cea5da4_85",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Dádevos unha aperta longa de verdade e apertade un pouquiño xusto ao dicir a palabra.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_3a950f1a_33",
+   "lang": "gl",
+   "style": "child",
+   "text": "Está todo moi escuro. Di: escuro.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_f159abae_22",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: escuro.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_3a950f1a_33",
+   "lang": "gl",
+   "style": "slow",
+   "text": "Está todo moi escuro. Di: escuro.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_32607dcd_95",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Tapade os ollos da nena suavemente coas súas propias mans e destapade de golpe: “escuro… luz!”.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_a7a5a491_32",
+   "lang": "gl",
+   "style": "child",
+   "text": "A curuxa fai uh, uh. Di: uh, uh.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_cd15a7af_21",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: uh uh.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_a7a5a491_32",
+   "lang": "gl",
+   "style": "slow",
+   "text": "A curuxa fai uh, uh. Di: uh, uh.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_7b01cf95_99",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Poñede as mans coma lentes ao redor dos ollos e xirade a cabeza coma unha curuxa dicindo “uh, uh!”.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_511dc97a_27",
+   "lang": "gl",
+   "style": "child",
+   "text": "Isto é unha mazá. Di: mazá.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_50779646_20",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: mazá.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_511dc97a_27",
+   "lang": "gl",
+   "style": "slow",
+   "text": "Isto é unha mazá. Di: mazá.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_fe980183_90",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Dálle un trabo a unha mazá de verdade (ou de xoguete) e que a nena imite o crequenar: ñac!",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_fcb8f789_31",
+   "lang": "gl",
+   "style": "child",
+   "text": "Isto é un plátano. Di: plátano.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_333788a4_23",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: plátano.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_fcb8f789_31",
+   "lang": "gl",
+   "style": "slow",
+   "text": "Isto é un plátano. Di: plátano.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_2aa82d6d_76",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Pelade xuntos un plátano baixando cada tira amodo mentres dicides a palabra.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_039e36d2_33",
+   "lang": "gl",
+   "style": "child",
+   "text": "Isto é unha laranxa. Di: laranxa.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_e74af860_23",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: laranxa.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_039e36d2_33",
+   "lang": "gl",
+   "style": "slow",
+   "text": "Isto é unha laranxa. Di: laranxa.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_e803a6dd_73",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Facede rodar unha laranxa pola mesa dun ao outro, nomeándoa en cada pase.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_42e1f6ae_27",
+   "lang": "gl",
+   "style": "child",
+   "text": "Isto é unha pera. Di: pera.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_1e3411e1_20",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: pera.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_42e1f6ae_27",
+   "lang": "gl",
+   "style": "slow",
+   "text": "Isto é unha pera. Di: pera.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_49fc4e43_74",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Debuxade a silueta da pera no aire co dedo: ancha abaixo, estreita arriba.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_c3f52f15_29",
+   "lang": "gl",
+   "style": "child",
+   "text": "Isto é un ananás. Di: ananás.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_e4bd34f3_22",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: ananás.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_c3f52f15_29",
+   "lang": "gl",
+   "style": "slow",
+   "text": "Isto é un ananás. Di: ananás.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_5bbf4773_80",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Poñede as mans abertas sobre a cabeza coma a coroa do ananás e dicide a palabra.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_0ab04b62_33",
+   "lang": "gl",
+   "style": "child",
+   "text": "Isto é unha cereixa. Di: cereixa.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_2811efc8_23",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: cereixa.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_0ab04b62_33",
+   "lang": "gl",
+   "style": "slow",
+   "text": "Isto é unha cereixa. Di: cereixa.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_f528c276_90",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Pendurade dúas cereixas (ou dúas boliñas de papel) da orella coma pendentes e ride xuntos.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_d5fbf51b_23",
+   "lang": "gl",
+   "style": "child",
+   "text": "Isto é un can. Di: can.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_768f1fdf_19",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: can.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_d5fbf51b_23",
+   "lang": "gl",
+   "style": "slow",
+   "text": "Isto é un can. Di: can.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_2e1d4d13_58",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Poñédevos a catro patas e dade tres pasos ladrando xuntos.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_321c24a5_25",
+   "lang": "gl",
+   "style": "child",
+   "text": "Isto é un gato. Di: gato.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_2cd085e0_20",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: gato.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_321c24a5_25",
+   "lang": "gl",
+   "style": "slow",
+   "text": "Isto é un gato. Di: gato.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_dec74f5e_80",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Estirádevos coma un gato ao espertar e fregade a cabeza contra o brazo do outro.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_c950f819_25",
+   "lang": "gl",
+   "style": "child",
+   "text": "Isto é un pato. Di: pato.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_ce0e5ad1_20",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: pato.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_c950f819_25",
+   "lang": "gl",
+   "style": "slow",
+   "text": "Isto é un pato. Di: pato.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_c38cddb8_53",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Camiñade en fila movendo o cu coma patos ata a porta.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_a64b9a56_27",
+   "lang": "gl",
+   "style": "child",
+   "text": "Isto é unha vaca. Di: vaca.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_e72e4a0c_20",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: vaca.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_a64b9a56_27",
+   "lang": "gl",
+   "style": "slow",
+   "text": "Isto é unha vaca. Di: vaca.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_df47aea3_70",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Poñede dous dedos na cabeza coma cornos e dicide a palabra mirándovos.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_193081f9_33",
+   "lang": "gl",
+   "style": "child",
+   "text": "Isto é un elefante. Di: elefante.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_f659d995_24",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: elefante.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_193081f9_33",
+   "lang": "gl",
+   "style": "slow",
+   "text": "Isto é un elefante. Di: elefante.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_ce110856_71",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Facede a trompa co brazo colgando diante da cara e abaneádea ao dicilo.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_6332ceaa_31",
+   "lang": "gl",
+   "style": "child",
+   "text": "Isto é unha xirafa. Di: xirafa.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_b00d8836_22",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: xirafa.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_6332ceaa_31",
+   "lang": "gl",
+   "style": "slow",
+   "text": "Isto é unha xirafa. Di: xirafa.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_3b7d27f3_90",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Estirade o pescozo e os brazos cara arriba, o máis alto posible, para alcanzar unha folla.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_d1728833_27",
+   "lang": "gl",
+   "style": "child",
+   "text": "Isto é un coche. Di: coche.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_9fee87f1_21",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: coche.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_d1728833_27",
+   "lang": "gl",
+   "style": "slow",
+   "text": "Isto é un coche. Di: coche.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_7c2c675c_76",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Empurrade un coche de xoguete polo chan ata chocar suavemente co pé da nena.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_8b6e5256_27",
+   "lang": "gl",
+   "style": "child",
+   "text": "Isto é unha moto. Di: moto.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_045acc30_20",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: moto.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_8b6e5256_27",
+   "lang": "gl",
+   "style": "slow",
+   "text": "Isto é unha moto. Di: moto.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_ce66b52a_80",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Agarrade un guiador imaxinario e acelerade os dous á vez facendo ruído de motor.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_eb212bd5_25",
+   "lang": "gl",
+   "style": "child",
+   "text": "Isto é un tren. Di: tren.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_4b059ac8_20",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: tren.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_eb212bd5_25",
+   "lang": "gl",
+   "style": "slow",
+   "text": "Isto é un tren. Di: tren.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_8f322760_75",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Facede un tren: a nena agárrase á túa cintura e dades unha volta ao cuarto.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_29bfab71_27",
+   "lang": "gl",
+   "style": "child",
+   "text": "Isto é un barco. Di: barco.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_75765b3c_21",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: barco.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_29bfab71_27",
+   "lang": "gl",
+   "style": "slow",
+   "text": "Isto é un barco. Di: barco.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_5ff6f512_74",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Sentade no chan e abaneádevos coma se o barco subise e baixase coas ondas.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_f7388149_27",
+   "lang": "gl",
+   "style": "child",
+   "text": "Isto é un avión. Di: avión.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_bc687000_21",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: avión.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_f7388149_27",
+   "lang": "gl",
+   "style": "slow",
+   "text": "Isto é un avión. Di: avión.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_8329678f_80",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Abride os brazos coma ás e dade unha volta polo cuarto inclinándovos nas curvas.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_e13cd8f1_29",
+   "lang": "gl",
+   "style": "child",
+   "text": "Isto é un camión. Di: camión.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_039914ce_22",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: camión.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_e13cd8f1_29",
+   "lang": "gl",
+   "style": "slow",
+   "text": "Isto é un camión. Di: camión.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_78b759ca_79",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Cargade tres xoguetes nunha caixa e arrastrádea xuntos coma se fose o remolque.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_79406f38_34",
+   "lang": "gl",
+   "style": "child",
+   "text": "Esta cor é vermella. Di: vermello.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_652d652f_24",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: vermello.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_79406f38_34",
+   "lang": "gl",
+   "style": "slow",
+   "text": "Esta cor é vermella. Di: vermello.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_16761a31_75",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Buscade xuntos tres cousas vermellas polo cuarto e tocádeas nomeando a cor.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_ca2c7a26_26",
+   "lang": "gl",
+   "style": "child",
+   "text": "Esta cor é azul. Di: azul.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_5d41610d_20",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: azul.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_ca2c7a26_26",
+   "lang": "gl",
+   "style": "slow",
+   "text": "Esta cor é azul. Di: azul.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_25d5f394_66",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Sinalade o ceo ou algo azul da roupa da nena e dicide a cor á vez.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_b29aad7c_32",
+   "lang": "gl",
+   "style": "child",
+   "text": "Esta cor é amarela. Di: amarelo.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_4ded8bf6_23",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: amarelo.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_b29aad7c_32",
+   "lang": "gl",
+   "style": "slow",
+   "text": "Esta cor é amarela. Di: amarelo.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_8a6a7649_67",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Facede un sol grande cos brazos e dicide a cor mirando cara arriba.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_661e8f84_28",
+   "lang": "gl",
+   "style": "child",
+   "text": "Esta cor é verde. Di: verde.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_58abda0f_21",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: verde.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_661e8f84_28",
+   "lang": "gl",
+   "style": "slow",
+   "text": "Esta cor é verde. Di: verde.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_9313c1ad_71",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Saíde buscar unha folla ou unha planta e tocádea mentres dicides a cor.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_5492b384_30",
+   "lang": "gl",
+   "style": "child",
+   "text": "Esta cor é morada. Di: morado.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_ff515cef_22",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: morado.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_5492b384_30",
+   "lang": "gl",
+   "style": "slow",
+   "text": "Esta cor é morada. Di: morado.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_6bf939e4_97",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Mesturade diante da nena un pouco de vermello e azul (pintura ou plastilina) e nomeade o que sae.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_164477ee_30",
+   "lang": "gl",
+   "style": "child",
+   "text": "Esta cor é marrón. Di: marrón.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_c662cf86_22",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: marrón.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_164477ee_30",
+   "lang": "gl",
+   "style": "slow",
+   "text": "Esta cor é marrón. Di: marrón.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_9f24331e_81",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Tocade xuntos algo de madeira —unha mesa, unha cadeira— e dicide a cor ao tocalo.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_2266517d_22",
+   "lang": "gl",
+   "style": "child",
+   "text": "Isto é a man. Di: man.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_5419e2a5_19",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: man.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_2266517d_22",
+   "lang": "gl",
+   "style": "slow",
+   "text": "Isto é a man. Di: man.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_66fbc17d_72",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Chocade as palmas tres veces, unha por cada golpe, mirándovos aos ollos.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_62980bcd_20",
+   "lang": "gl",
+   "style": "child",
+   "text": "Isto é o pé. Di: pé.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_18804cde_18",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: pé.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_62980bcd_20",
+   "lang": "gl",
+   "style": "slow",
+   "text": "Isto é o pé. Di: pé.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_2e69a2f0_82",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Poñede os vosos pés xuntos e comparade o tamaño antes de dar tres pisadas no chan.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_c84fbb3f_24",
+   "lang": "gl",
+   "style": "child",
+   "text": "Isto é a boca. Di: boca.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_c84fbb3f_24",
+   "lang": "gl",
+   "style": "slow",
+   "text": "Isto é a boca. Di: boca.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_62fed6a9_71",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Poñédevos fronte ao espello e abride e pechade a boca á vez, moi amodo.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_eb0a8141_24",
+   "lang": "gl",
+   "style": "child",
+   "text": "Isto é o ollo. Di: ollo.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_9bf202e9_20",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: ollo.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_eb0a8141_24",
+   "lang": "gl",
+   "style": "slow",
+   "text": "Isto é o ollo. Di: ollo.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_deea2593_83",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Xogade a taparvos os ollos e destapalos cun “cucú!” cada vez que dicides a palabra.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_20001465_30",
+   "lang": "gl",
+   "style": "child",
+   "text": "Isto é o xeonllo. Di: xeonllo.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_1ac3a35c_23",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: xeonllo.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_20001465_30",
+   "lang": "gl",
+   "style": "slow",
+   "text": "Isto é o xeonllo. Di: xeonllo.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_887f6cd3_74",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Dobrade os xeonllos á vez ata quedar en crocas e subide dicindo a palabra.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_8470844d_28",
+   "lang": "gl",
+   "style": "child",
+   "text": "Isto é o cóbado. Di: cóbado.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_48a9d9a9_22",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: cóbado.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_8470844d_28",
+   "lang": "gl",
+   "style": "slow",
+   "text": "Isto é o cóbado. Di: cóbado.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_ce4ef80f_79",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Saudádevos chocando os cóbados, coma se facía na pandemia, tres veces seguidas.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_013f30ef_26",
+   "lang": "gl",
+   "style": "child",
+   "text": "Isto é o coche. Di: coche.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_013f30ef_26",
+   "lang": "gl",
+   "style": "slow",
+   "text": "Isto é o coche. Di: coche.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_39e211a9_80",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Pon o coche na man da nena, sinálao e repetide xuntos “coche” mentres o movedes.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_b83627d6_34",
+   "lang": "gl",
+   "style": "child",
+   "text": "O coche ten catro rodas. Di: roda.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_ca59928b_20",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: roda.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_b83627d6_34",
+   "lang": "gl",
+   "style": "slow",
+   "text": "O coche ten catro rodas. Di: roda.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_d6c388cc_83",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Collede o coche e xirade unha roda co dedo da nena, repetindo “roda” en cada volta.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_725b985d_25",
+   "lang": "gl",
+   "style": "child",
+   "text": "O coche corre. Di: corre.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_4356315e_21",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: corre.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_725b985d_25",
+   "lang": "gl",
+   "style": "slow",
+   "text": "O coche corre. Di: corre.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_d84f4be3_87",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Fai correr o coche pola mesa e despois polo brazo da nena, acelerando ao dicir “corre”.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_df0521b1_33",
+   "lang": "gl",
+   "style": "child",
+   "text": "O coche é moi rápido. Di: rápido.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_f05d4c3e_22",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: rápido.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_df0521b1_33",
+   "lang": "gl",
+   "style": "slow",
+   "text": "O coche é moi rápido. Di: rápido.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_51c7abec_77",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Corre coa nena da man uns pasos e frenade de golpe dicindo “rápido… e stop!”.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_3aa4c917_22",
+   "lang": "gl",
+   "style": "child",
+   "text": "Isto é o can. Di: can.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_3aa4c917_22",
+   "lang": "gl",
+   "style": "slow",
+   "text": "Isto é o can. Di: can.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_40f73b5b_74",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Sinala un can de xoguete ou unha foto e acariñádeo xuntos repetindo “can”.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_b9a7207c_32",
+   "lang": "gl",
+   "style": "child",
+   "text": "O can ten catro patas. Di: pata.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_4e13a17f_20",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: pata.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_b9a7207c_32",
+   "lang": "gl",
+   "style": "slow",
+   "text": "O can ten catro patas. Di: pata.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_687c83bd_90",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Poñede as mans no chan coma patas e camiñade a catro patas un par de pasos dicindo “pata”.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_0f012b50_44",
+   "lang": "gl",
+   "style": "child",
+   "text": "O can salta para coller a pelota. Di: salta.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_e665998c_21",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: salta.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_0f012b50_44",
+   "lang": "gl",
+   "style": "slow",
+   "text": "O can salta para coller a pelota. Di: salta.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_35a93eaa_69",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Fai saltar o can de xoguete e saltade os dous á vez dicindo “salta!”.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_94bc422d_38",
+   "lang": "gl",
+   "style": "child",
+   "text": "O can é brandiño e peludo. Di: peludo.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_e45e0c30_22",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: peludo.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_94bc422d_38",
+   "lang": "gl",
+   "style": "slow",
+   "text": "O can é brandiño e peludo. Di: peludo.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_99040da6_79",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Acariñade un peluche ou unha manta suave e dicide “peludo” pasando a man amodo.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_21259523_24",
+   "lang": "gl",
+   "style": "child",
+   "text": "Isto é a vaca. Di: vaca.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_21259523_24",
+   "lang": "gl",
+   "style": "slow",
+   "text": "Isto é a vaca. Di: vaca.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_a787f7f4_93",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Sinala unha vaca de xoguete ou unha foto e percorrede as súas manchas co dedo dicindo “vaca”.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_b3877abe_31",
+   "lang": "gl",
+   "style": "child",
+   "text": "Da vaca sae o leite. Di: leite.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_47df2d16_21",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: leite.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_b3877abe_31",
+   "lang": "gl",
+   "style": "slow",
+   "text": "Da vaca sae o leite. Di: leite.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_9cfb30ee_93",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Servide un pouco de leite no seu vaso e dade un grolo cada un dicindo “leite” antes de beber.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_813c0004_28",
+   "lang": "gl",
+   "style": "child",
+   "text": "A vaca come herba. Di: come.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_a8e4407f_20",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: come.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_813c0004_28",
+   "lang": "gl",
+   "style": "slow",
+   "text": "A vaca come herba. Di: come.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_26944daf_94",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Agacha a cabeza coma a vaca e facede que mastigades herba movendo a mandíbula ao dicir “come”.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_19bd535a_32",
+   "lang": "gl",
+   "style": "child",
+   "text": "A vaca é moi grande. Di: grande.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_e95b7b90_22",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: grande.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_19bd535a_32",
+   "lang": "gl",
+   "style": "slow",
+   "text": "A vaca é moi grande. Di: grande.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_9557db90_79",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Abride os brazos todo o que poidades e poñédevos de puntas dicindo “graaande!”.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_68fcd3c1_24",
+   "lang": "gl",
+   "style": "child",
+   "text": "Isto é o gato. Di: gato.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_68fcd3c1_24",
+   "lang": "gl",
+   "style": "slow",
+   "text": "Isto é o gato. Di: gato.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_5ed3f95c_79",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Sinala un gato de xoguete ou unha foto e acariñádelle o lombo repetindo “gato”.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_dac92f76_42",
+   "lang": "gl",
+   "style": "child",
+   "text": "O gato ten uns bigotes longos. Di: bigote.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_f457a94f_22",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: bigote.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_dac92f76_42",
+   "lang": "gl",
+   "style": "slow",
+   "text": "O gato ten uns bigotes longos. Di: bigote.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_4a17a006_89",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Debuxade bigotes no aire desde o nariz cara ás meixelas da nena mentres dicides “bigote”.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_b3352fd9_36",
+   "lang": "gl",
+   "style": "child",
+   "text": "O gato dorme na súa cama. Di: dorme.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_fa1d4ac8_21",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: dorme.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_b3352fd9_36",
+   "lang": "gl",
+   "style": "slow",
+   "text": "O gato dorme na súa cama. Di: dorme.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_da261cac_96",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Xunta as mans baixo a meixela, pecha os ollos e fai “shhh” convidando á nena a “durmir” contigo.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_be33751b_38",
+   "lang": "gl",
+   "style": "child",
+   "text": "O pelo do gato é moi suave. Di: suave.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_c7e317fb_21",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: suave.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_be33751b_38",
+   "lang": "gl",
+   "style": "slow",
+   "text": "O pelo do gato é moi suave. Di: suave.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_5a57d6ec_74",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Pasade unha pluma ou un pano polo brazo da nena moi amodo dicindo “suave”.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_1ee6e6e3_24",
+   "lang": "gl",
+   "style": "child",
+   "text": "Isto é a auga. Di: auga.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_a71a0ea1_20",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: auga.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_1ee6e6e3_24",
+   "lang": "gl",
+   "style": "slow",
+   "text": "Isto é a auga. Di: auga.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_5ab6621d_85",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Mollade un dedo en auga real e tocádevos a man notando o frío mentres dicides “auga”.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_a12b5177_29",
+   "lang": "gl",
+   "style": "child",
+   "text": "A auga sae da nube. Di: nube.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_c812348b_20",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: nube.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_a12b5177_29",
+   "lang": "gl",
+   "style": "slow",
+   "text": "A auga sae da nube. Di: nube.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_e326045d_90",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Sinalade unha nube pola ventá (ou debuxade unha no aire) e dicide “nube” soprando fluxiño.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_b0dcea0b_27",
+   "lang": "gl",
+   "style": "child",
+   "text": "A auga cae do ceo. Di: cae.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_747dd398_19",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: cae.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_b0dcea0b_27",
+   "lang": "gl",
+   "style": "slow",
+   "text": "A auga cae do ceo. Di: cae.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_4f282f79_75",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Ergue as mans arriba e báixaas movendo os dedos ata o chan dicindo “caeee”.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_2a9e4910_32",
+   "lang": "gl",
+   "style": "child",
+   "text": "A man está mollada. Di: mollado.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_a186a9cf_23",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: mollado.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_2a9e4910_32",
+   "lang": "gl",
+   "style": "slow",
+   "text": "A man está mollada. Di: mollado.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_9b3738a8_81",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Molla un pouco a man da nena cunha toalliña e dicide “mollado” sacudindo as mans.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_839c2c91_24",
+   "lang": "gl",
+   "style": "child",
+   "text": "Isto é o tren. Di: tren.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_839c2c91_24",
+   "lang": "gl",
+   "style": "slow",
+   "text": "Isto é o tren. Di: tren.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_abc1644e_91",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Facede un treniño: a nena agárrase á túa cintura e avanzade polo corredor repetindo “tren”.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_e59882ea_37",
+   "lang": "gl",
+   "style": "child",
+   "text": "O tren leva moitos vagóns. Di: vagón.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_22b066dc_21",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: vagón.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_e59882ea_37",
+   "lang": "gl",
+   "style": "slow",
+   "text": "O tren leva moitos vagóns. Di: vagón.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_b81b8367_91",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Poñede en fila tres caixas ou coxíns coma vagóns e enganchádeos dicindo “vagón” en cada un.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_a6b980eb_34",
+   "lang": "gl",
+   "style": "child",
+   "text": "O tren para na estación. Di: para.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_59a025fd_20",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: para.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_a6b980eb_34",
+   "lang": "gl",
+   "style": "slow",
+   "text": "O tren para na estación. Di: para.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_675ddd04_89",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Avanzade coma un tren e frenade en seco ao dicir “para!”, quedando completamente quietos.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_c406673c_30",
+   "lang": "gl",
+   "style": "child",
+   "text": "O tren é moi longo. Di: longo.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_fd905d3c_21",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: longo.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_c406673c_30",
+   "lang": "gl",
+   "style": "slow",
+   "text": "O tren é moi longo. Di: longo.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_415afbd1_69",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Separade os brazos todo o posible marcando o “loooongo” que é o tren.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_876495f5_28",
+   "lang": "gl",
+   "style": "child",
+   "text": "Isto é o paxaro. Di: paxaro.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_c3c9db0a_22",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: paxaro.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_876495f5_28",
+   "lang": "gl",
+   "style": "slow",
+   "text": "Isto é o paxaro. Di: paxaro.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_b7d66a30_80",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Sinalade un paxaro pola ventá ou nunha foto e seguídeo co dedo dicindo “paxaro”.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_27b70465_38",
+   "lang": "gl",
+   "style": "child",
+   "text": "O paxaro ten moitas plumas. Di: pluma.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_eb27cdb6_21",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: pluma.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_27b70465_38",
+   "lang": "gl",
+   "style": "slow",
+   "text": "O paxaro ten moitas plumas. Di: pluma.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_911e9b9e_99",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Soprade unha pluma de verdade (ou un anaquiño de papel) para que flote e dicide “pluma” ao collela.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_b0cf4a93_31",
+   "lang": "gl",
+   "style": "child",
+   "text": "O paxaro voa polo ceo. Di: voa.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_d2cd16f3_19",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: voa.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_b0cf4a93_31",
+   "lang": "gl",
+   "style": "slow",
+   "text": "O paxaro voa polo ceo. Di: voa.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_34005fac_79",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Abride os brazos coma ás e dade unha volta polo cuarto “voando” ao dicir “voa”.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_2f3b2f6e_36",
+   "lang": "gl",
+   "style": "child",
+   "text": "O paxaro é moi pequeno. Di: pequeno.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_25850d9c_23",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: pequeno.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_2f3b2f6e_36",
+   "lang": "gl",
+   "style": "slow",
+   "text": "O paxaro é moi pequeno. Di: pequeno.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_3df8b382_83",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Xuntade o índice e o polgar deixando un ocoíño e mirade por el dicindo “pequeniño”.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_21242a75_22",
+   "lang": "gl",
+   "style": "child",
+   "text": "Isto é o pan. Di: pan.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_6df536d8_19",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: pan.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_21242a75_22",
+   "lang": "gl",
+   "style": "slow",
+   "text": "Isto é o pan. Di: pan.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_de405238_72",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Pon un anaco de pan na man da nena e ulídeo xuntos antes de dicir “pan”.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_148be96d_39",
+   "lang": "gl",
+   "style": "child",
+   "text": "No almorzo bebemos da cunca. Di: cunca.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_dcf78df3_21",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: cunca.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_148be96d_39",
+   "lang": "gl",
+   "style": "slow",
+   "text": "No almorzo bebemos da cunca. Di: cunca.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_7fc6065f_82",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Collede a cunca do almorzo pola asa entre os dous e dade un grolo dicindo “cunca”.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_df48520c_33",
+   "lang": "gl",
+   "style": "child",
+   "text": "Tes fame e pídelo. Di: quero pan.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_b62362c2_25",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: quero pan.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_df48520c_33",
+   "lang": "gl",
+   "style": "slow",
+   "text": "Tes fame e pídelo. Di: quero pan.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_db9e64d6_83",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Suxeita o pan á vista pero fóra do seu alcance e agarda a petición antes de darllo.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_3a7db63f_32",
+   "lang": "gl",
+   "style": "child",
+   "text": "O pan está torrado. Di: torrado.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_eb94b64e_23",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: torrado.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_3a7db63f_32",
+   "lang": "gl",
+   "style": "slow",
+   "text": "O pan está torrado. Di: torrado.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_9616bc50_87",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Comparade unha rebanda branda e unha torrada tocándoas: a torrada crequena ao apertala.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_f840c3b5_26",
+   "lang": "gl",
+   "style": "child",
+   "text": "Isto é o globo. Di: globo.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_8dd02864_21",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: globo.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_f840c3b5_26",
+   "lang": "gl",
+   "style": "slow",
+   "text": "Isto é o globo. Di: globo.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_d6363268_75",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Dálle un globo á nena e suxeitádeo entre os dous mentres repetides “globo”.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_5db72e7d_34",
+   "lang": "gl",
+   "style": "child",
+   "text": "O globo ten unha corda. Di: corda.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_6f4c9c3c_21",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: corda.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_5db72e7d_34",
+   "lang": "gl",
+   "style": "slow",
+   "text": "O globo ten unha corda. Di: corda.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_cd6805c5_73",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Atade unha corda ao globo e deixade que a nena tire dela dicindo “corda”.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_538aa46f_40",
+   "lang": "gl",
+   "style": "child",
+   "text": "Sopramos para inflar o globo. Di: sopra.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_81ee4e40_21",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: sopra.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_538aa46f_40",
+   "lang": "gl",
+   "style": "slow",
+   "text": "Sopramos para inflar o globo. Di: sopra.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_c83f6af7_84",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Soprade os dous á vez sobre a man do outro para notar o aire antes de dicir “sopra”.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_53cddb69_31",
+   "lang": "gl",
+   "style": "child",
+   "text": "O globo é redondo. Di: redondo.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_4df86194_23",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: redondo.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_53cddb69_31",
+   "lang": "gl",
+   "style": "slow",
+   "text": "O globo é redondo. Di: redondo.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_72f27a57_71",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Debuxade un círculo grande no aire cos dous brazos dicindo “redooondo”.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_933d3c7f_143",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Prepara dous osiños de peluche iguais pero de distinto tamaño: un claramente GRANDE e outro claramente PEQUENO. Colócaos xuntos diante da nena.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_cf342e9b_45",
+   "lang": "gl",
+   "style": "child",
+   "text": "Cal é o osiño GRANDE? Dámo e dío! Di: grande.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_cf342e9b_45",
+   "lang": "gl",
+   "style": "slow",
+   "text": "Cal é o osiño GRANDE? Dámo e dío! Di: grande.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_1abe95a2_83",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "A nena entrégache o osiño grande mentres o di; abrazádeo esaxerando o enorme que é.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_f9c50bce_63",
+   "lang": "gl",
+   "style": "child",
+   "text": "Agora ao revés: cal é o osiño PEQUENO? Dámo e dío! Di: pequeno.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_f9c50bce_63",
+   "lang": "gl",
+   "style": "slow",
+   "text": "Agora ao revés: cal é o osiño PEQUENO? Dámo e dío! Di: pequeno.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_9d9d6e1f_86",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "A nena dache o osiño pequeno; escondédeo nunha man e dicide “pequeno” con vociña mini.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_c72272cc_135",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Colle dúas culleres iguais: lava unha ata deixala brillante e mancha a outra cun pouco de comida ou barro. Ponas unha ao lado da outra.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_44bc951d_54",
+   "lang": "gl",
+   "style": "child",
+   "text": "Sinala a culler SUCIA. Como está esta? Dío. Di: sucio.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_cf50da4e_21",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: sucio.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_44bc951d_54",
+   "lang": "gl",
+   "style": "slow",
+   "text": "Sinala a culler SUCIA. Como está esta? Dío. Di: sucio.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_6f38fc73_74",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "A nena sinala a culler sucia e poñedes os dous cara de “puaj!” apartándoa.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_bcdc86d5_60",
+   "lang": "gl",
+   "style": "child",
+   "text": "E esta outra culler, como está? Mira como brilla! Di: limpo.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_bcdc86d5_60",
+   "lang": "gl",
+   "style": "slow",
+   "text": "E esta outra culler, como está? Mira como brilla! Di: limpo.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_2d050e4f_72",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Sinalade a limpa, soprade sobre ela coma se brillase e chocade os cinco.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_4fa53fef_100",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Pon diante da nena unha caixa con tapa e mete dentro, á vista, o seu xoguete favorito. Pecha a tapa.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_e37950f1_67",
+   "lang": "gl",
+   "style": "child",
+   "text": "O xoguete está dentro da caixa. Que facemos para sacalo? Di: abrir.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_dc5c8839_21",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: abrir.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_e37950f1_67",
+   "lang": "gl",
+   "style": "slow",
+   "text": "O xoguete está dentro da caixa. Que facemos para sacalo? Di: abrir.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_6a4e62f1_77",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Abride a caixa xuntos, moi amodo, e celebrade atopar o xoguete cun “tachán!”.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_ea5b870b_62",
+   "lang": "gl",
+   "style": "child",
+   "text": "Gardamos o xoguete na caixa. Que facemos coa tapa? Di: pechar.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_3e885a76_22",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: pechar.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_ea5b870b_62",
+   "lang": "gl",
+   "style": "slow",
+   "text": "Gardamos o xoguete na caixa. Que facemos coa tapa? Di: pechar.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_9d8bb379_63",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "A nena empurra a tapa ata pechala de todo mentres di a palabra.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_37b02900_96",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Fai unha rampla apoiando un libro grande inclinado e coloca un coche de xoguete ao pé da rampla.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_d932233b_59",
+   "lang": "gl",
+   "style": "child",
+   "text": "O coche vai á montaña. Que fai? Vai cara arriba! Di: subir.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_90a9e506_21",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: subir.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_d932233b_59",
+   "lang": "gl",
+   "style": "slow",
+   "text": "O coche vai á montaña. Que fai? Vai cara arriba! Di: subir.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_693b5b35_59",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Subide o coche pola rampla moi amodo mentres soa a palabra.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_c6276a76_51",
+   "lang": "gl",
+   "style": "child",
+   "text": "Agora o coche vai cara abaixo! Que fai? Di: baixar.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_94343906_22",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: baixar.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_c6276a76_51",
+   "lang": "gl",
+   "style": "slow",
+   "text": "Agora o coche vai cara abaixo! Que fai? Di: baixar.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_421d218b_74",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Soltade o coche e que baixe só pola rampla; dicide “baixaaa!” mentres cae.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_1dba6ff6_103",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Prepara dous vasos: un con auga ben fría (con xeo se hai) e outro con auga morna. Ponos diante da nena.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_e132d200_45",
+   "lang": "gl",
+   "style": "child",
+   "text": "Toca os vasos. Cal está FRÍO? Brrr! Di: frío.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_6e5da683_20",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: frío.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_e132d200_45",
+   "lang": "gl",
+   "style": "slow",
+   "text": "Toca os vasos. Cal está FRÍO? Brrr! Di: frío.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_59c0b9da_70",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "A nena toca o vaso frío; tiritade xuntos “brrr!” encollendo os ombros.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_11f43b82_41",
+   "lang": "gl",
+   "style": "child",
+   "text": "E este outro vaso, como está? Di: quente.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_11f43b82_41",
+   "lang": "gl",
+   "style": "slow",
+   "text": "E este outro vaso, como está? Di: quente.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_25a0187e_71",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Tocade o vaso morno e abanade a man coma se queimase, esaxerando moito.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_d195dc03_104",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Colócate coa nena xunto ao interruptor da luz (ou colle unha lanterna). O cuarto empeza coa luz apagada.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_e7d05865_61",
+   "lang": "gl",
+   "style": "child",
+   "text": "Está escuro… Que facemos coa luz do interruptor? Di: acender.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_24a4a77b_23",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: acender.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_e7d05865_61",
+   "lang": "gl",
+   "style": "slow",
+   "text": "Está escuro… Que facemos coa luz do interruptor? Di: acender.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_095349cb_74",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "A nena preme o interruptor xusto ao dicilo e celebrades a luz cun “oooh!”.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_085b1cc0_63",
+   "lang": "gl",
+   "style": "child",
+   "text": "Agora ao revés. Que facemos coa luz do interruptor? Di: apagar.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_5ea8c571_22",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: apagar.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_085b1cc0_63",
+   "lang": "gl",
+   "style": "slow",
+   "text": "Agora ao revés. Que facemos coa luz do interruptor? Di: apagar.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_441ad59c_66",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "A nena apaga a luz e dicídesvos “boas noites” con voz de murmurio.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_488e2930_145",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Prepara dúas cestas ou caixas iguais: enche unha ata arriba de xoguetes ou calcetíns e deixa a outra completamente baleira. Ponas diante da nena.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_0029aacb_54",
+   "lang": "gl",
+   "style": "child",
+   "text": "Cal é a cesta CHEA de cousas? Sinálaa e dío! Di: cheo.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_dad3f636_20",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: cheo.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_0029aacb_54",
+   "lang": "gl",
+   "style": "slow",
+   "text": "Cal é a cesta CHEA de cousas? Sinálaa e dío! Di: cheo.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_56bd3e69_87",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "A nena sinala a cesta chea; erguédea xuntos esaxerando o moito que pesa: “uf, cheaaa!”.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_695b8d01_56",
+   "lang": "gl",
+   "style": "child",
+   "text": "E esta outra cesta, como está? Mira dentro! Di: baleiro.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_847c490b_23",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: baleiro.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_695b8d01_56",
+   "lang": "gl",
+   "style": "slow",
+   "text": "E esta outra cesta, como está? Mira dentro! Di: baleiro.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_5b763b1b_104",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Poñede a cesta baleira boca abaixo sobre a cabeza da nena coma un sombreiro: non cae nada, está baleira!",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_96b8ad32_99",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Colle unha caixa aberta e tres xoguetes pequenos. Coloca os xoguetes FÓRA da caixa, diante da nena.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_d90b28d4_68",
+   "lang": "gl",
+   "style": "child",
+   "text": "Os xoguetes van á súa casa, dentro da caixa. Que facemos? Di: meter.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_3c3bc9ce_21",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: meter.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_d90b28d4_68",
+   "lang": "gl",
+   "style": "slow",
+   "text": "Os xoguetes van á súa casa, dentro da caixa. Que facemos? Di: meter.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_e3128a03_89",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "A nena mete un xoguete na caixa con cada palabra; celebrade o último cun “todos dentro!”.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_5238ea7f_61",
+   "lang": "gl",
+   "style": "child",
+   "text": "Agora ao revés. Que facemos cos xoguetes da caixa? Di: sacar.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_f5e283d3_21",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: sacar.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_slow_5238ea7f_61",
+   "lang": "gl",
+   "style": "slow",
+   "text": "Agora ao revés. Que facemos cos xoguetes da caixa? Di: sacar.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_tutor_cfb81239_84",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "A nena saca os xoguetes un a un; contádeos en fila ao saír: “un, dous e tres fóra!”.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_620439e8_36",
+   "lang": "gl",
+   "style": "child",
+   "text": "Sesión completada! Choca eses cinco!",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_66bc9cf6_25",
+   "lang": "gl",
+   "style": "child",
+   "text": "Imos escoitala outra vez.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_07d357ee_31",
+   "lang": "gl",
+   "style": "child",
+   "text": "Case! Imos intentalo outra vez.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_a1a66339_25",
+   "lang": "gl",
+   "style": "child",
+   "text": "Primeiro toca unha imaxe.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_4e8865c8_7",
+   "lang": "gl",
+   "style": "child",
+   "text": "Alegría",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_797add51_8",
+   "lang": "gl",
+   "style": "child",
+   "text": "Tristeza",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_6fae48ca_6",
+   "lang": "gl",
+   "style": "child",
+   "text": "Enfado",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_3e6da932_3",
+   "lang": "gl",
+   "style": "child",
+   "text": "Dor",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_abc64d97_18",
+   "lang": "gl",
+   "style": "child",
+   "text": "Sesión completada!",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_9c123d23_36",
+   "lang": "gl",
+   "style": "child",
+   "text": "Aí só hai un. Busca onde hai moitos.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_tutor_1f92b1cb_46",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Como se sente? Alegría, Tristeza, Enfado, Dor?",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_tutor_ec369742_105",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "A nena toca unha imaxe para oír o seu nome e despois toca a vocal coa que empeza. A app dille se acertou.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_8e12ec88_65",
+   "lang": "gl",
+   "style": "child",
+   "text": "Debuxade a vocal no aire co brazo ben grande cada vez que acerte.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_slow_a4d86fa3_5",
+   "lang": "gl",
+   "style": "slow",
+   "text": "araña",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_slow_b4217197_8",
+   "lang": "gl",
+   "style": "slow",
+   "text": "elefante",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_slow_5e0fc9a7_4",
+   "lang": "gl",
+   "style": "slow",
+   "text": "illa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_slow_d98047ff_21",
+   "lang": "gl",
+   "style": "slow",
+   "text": "araña, elefante, illa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_slow_c4206de8_3",
+   "lang": "gl",
+   "style": "slow",
+   "text": "oso",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_slow_b166178e_4",
+   "lang": "gl",
+   "style": "slow",
+   "text": "uvas",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_slow_b4141684_5",
+   "lang": "gl",
+   "style": "slow",
+   "text": "avión",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_slow_ff00df96_16",
+   "lang": "gl",
+   "style": "slow",
+   "text": "oso, uvas, avión",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_slow_a4a8e01a_5",
+   "lang": "gl",
+   "style": "slow",
+   "text": "aguia",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_slow_44715083_6",
+   "lang": "gl",
+   "style": "slow",
+   "text": "ourizo",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_slow_b10cd292_6",
+   "lang": "gl",
+   "style": "slow",
+   "text": "ovella",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_slow_3098f35f_21",
+   "lang": "gl",
+   "style": "slow",
+   "text": "aguia, ourizo, ovella",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_tutor_1e27babb_103",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Di ti primeiro a palabra, preto da nena e amodo, e anímaa a repetila. A voz da app é só un apoio extra.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_2f4637f5_68",
+   "lang": "gl",
+   "style": "child",
+   "text": "Marchade pola sala pisando forte unha sílaba en cada paso: ZA-PA-TO.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_slow_6bed91f2_6",
+   "lang": "gl",
+   "style": "slow",
+   "text": "zapato",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_slow_c6b9ecb4_6",
+   "lang": "gl",
+   "style": "slow",
+   "text": "pelota",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_slow_692170ab_9",
+   "lang": "gl",
+   "style": "slow",
+   "text": "bolboreta",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_slow_3fa2f581_6",
+   "lang": "gl",
+   "style": "slow",
+   "text": "tomate",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_tutor_2ddc18cd_117",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Primeiro preme 🔊 para que a nena oia a palabra completa. Despois, que toque a vocal que lle falta á palabra escrita.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_8026d5d6_59",
+   "lang": "gl",
+   "style": "child",
+   "text": "Cando atope a vocal, brazos arriba formando un sol xigante.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_slow_e2363da1_3",
+   "lang": "gl",
+   "style": "slow",
+   "text": "sol",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_slow_4f55eeec_3",
+   "lang": "gl",
+   "style": "slow",
+   "text": "pan",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_slow_4291fd60_3",
+   "lang": "gl",
+   "style": "slow",
+   "text": "luz",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_slow_dda2ec8b_3",
+   "lang": "gl",
+   "style": "slow",
+   "text": "mar",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_tutor_782f04a6_111",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Preme 🔊 para oír o nome das catro palabras. Tres van xuntas e unha non. A nena toca a que NON vai coas demais.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_264b2058_63",
+   "lang": "gl",
+   "style": "child",
+   "text": "Se se come, tocade a barriga; se é a intrusa, salto de estrela!",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_slow_b57f0fa7_25",
+   "lang": "gl",
+   "style": "slow",
+   "text": "mazá, plátano, uva, coche",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_61652956_4",
+   "lang": "gl",
+   "style": "child",
+   "text": "mazá",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_b2ccca14_7",
+   "lang": "gl",
+   "style": "child",
+   "text": "plátano",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_4799fa89_3",
+   "lang": "gl",
+   "style": "child",
+   "text": "uva",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_35fb238b_5",
+   "lang": "gl",
+   "style": "child",
+   "text": "coche",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_tutor_a19ec90c_112",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Preme 🔊 para oír o nome das catro palabras. Tres son animais e unha non. A nena toca a que NON vai coas demais.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_slow_aea732aa_23",
+   "lang": "gl",
+   "style": "slow",
+   "text": "can, gato, vaca, zapato",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_f0743965_3",
+   "lang": "gl",
+   "style": "child",
+   "text": "can",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_1c60f484_4",
+   "lang": "gl",
+   "style": "child",
+   "text": "gato",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_1cd686a0_4",
+   "lang": "gl",
+   "style": "child",
+   "text": "vaca",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_6bed91f2_6",
+   "lang": "gl",
+   "style": "child",
+   "text": "zapato",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_tutor_b8796031_118",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Preme 🔊 para oír o nome das catro palabras. Tres son para vestirse e unha non. A nena toca a que NON vai coas demais.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_slow_9da3cf89_32",
+   "lang": "gl",
+   "style": "slow",
+   "text": "gorro, camiseta, zapato, plátano",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_ab37d84c_5",
+   "lang": "gl",
+   "style": "child",
+   "text": "gorro",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_32f94bac_8",
+   "lang": "gl",
+   "style": "child",
+   "text": "camiseta",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_tutor_6b9fbb70_87",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Preme 🔊 para oír a adiviña (ou léea ti). A nena responde tocando unha das tres imaxes.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_9dd309e8_64",
+   "lang": "gl",
+   "style": "child",
+   "text": "Buscade polo cuarto un obxecto real que empece pola mesma letra.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_tutor_993b6dee_54",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Empeza por pe, e é unha froita amarela e longa. Que é?",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_acf02d1f_4",
+   "lang": "gl",
+   "style": "child",
+   "text": "pera",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_c6b9ecb4_6",
+   "lang": "gl",
+   "style": "child",
+   "text": "pelota",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_tutor_53198d8d_58",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Empeza por eme, e é unha froita vermella e redonda. Que é?",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_692170ab_9",
+   "lang": "gl",
+   "style": "child",
+   "text": "bolboreta",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_12467974_4",
+   "lang": "gl",
+   "style": "child",
+   "text": "moto",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_tutor_6f0bfe1f_51",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Empeza por ese, brilla no ceo e dános calor. Que é?",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_e2363da1_3",
+   "lang": "gl",
+   "style": "child",
+   "text": "sol",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_12b1b9ce_5",
+   "lang": "gl",
+   "style": "child",
+   "text": "serpe",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_e331a50c_4",
+   "lang": "gl",
+   "style": "child",
+   "text": "sopa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_tutor_425894ae_54",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Empeza por u, é pequena, morada e vén en acios. Que é?",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_344367f1_6",
+   "lang": "gl",
+   "style": "child",
+   "text": "sandía",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_tutor_f27f13cf_117",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Colle o boneco e a roupa. Dálle á nena unha orde cada vez: «Ponlle o gorro ao boneco». Cambia de peza en cada quenda.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_9556f3d7_72",
+   "lang": "gl",
+   "style": "child",
+   "text": "Xogade a vestirse de verdade: que traia o gorro correndo e que llo poña.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_tutor_eba728f5_108",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "A nena toca a tarxeta onde hai MOITOS. Despois pregúntalle «que son?» para que o diga co ese final: «gatos».",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_4da3cdaa_66",
+   "lang": "gl",
+   "style": "child",
+   "text": "Un salto grande se hai UN, moitos saltiños seguidos se hai MOITOS.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_slow_a3a1a0d5_5",
+   "lang": "gl",
+   "style": "slow",
+   "text": "gatos",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_bcbcbfa3_7",
+   "lang": "gl",
+   "style": "child",
+   "text": "un gato",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_d1d4a4c0_12",
+   "lang": "gl",
+   "style": "child",
+   "text": "moitos gatos",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_tutor_74340102_109",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "A nena toca a tarxeta onde hai MOITAS. Despois pregúntalle «que son?» para que o diga co ese final: «flores».",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_slow_c1c4efae_6",
+   "lang": "gl",
+   "style": "slow",
+   "text": "flores",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_734c15e4_9",
+   "lang": "gl",
+   "style": "child",
+   "text": "unha flor",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_1d4e858f_13",
+   "lang": "gl",
+   "style": "child",
+   "text": "moitas flores",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_tutor_5abd14b1_114",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "A nena toca a tarxeta onde hai MOITOS. Despois pregúntalle «que son?» para que o diga rematado en «-es»: «peixes».",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_slow_f0b771bf_6",
+   "lang": "gl",
+   "style": "slow",
+   "text": "peixes",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_e392bdfb_8",
+   "lang": "gl",
+   "style": "child",
+   "text": "un peixe",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_451e91e8_13",
+   "lang": "gl",
+   "style": "child",
+   "text": "moitos peixes",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_tutor_911aa17b_125",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Preme 🔊 para oír a palabra. A nena toca a imaxe correcta. Despois xogade ao revés: ti sinalas unha imaxe e ela di a palabra.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_e13c91ab_66",
+   "lang": "gl",
+   "style": "child",
+   "text": "Un lado da sala é \"neno\" e o outro \"nena\": corre ao lado correcto!",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_slow_65d92e55_4",
+   "lang": "gl",
+   "style": "slow",
+   "text": "nena",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_67d9317b_4",
+   "lang": "gl",
+   "style": "child",
+   "text": "neno",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_65d92e55_4",
+   "lang": "gl",
+   "style": "child",
+   "text": "nena",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_slow_f484ed36_4",
+   "lang": "gl",
+   "style": "slow",
+   "text": "avoa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_b2655a67_3",
+   "lang": "gl",
+   "style": "child",
+   "text": "avó",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_f484ed36_4",
+   "lang": "gl",
+   "style": "child",
+   "text": "avoa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_45f488bb_3",
+   "lang": "gl",
+   "style": "child",
+   "text": "rei",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_3d900c95_5",
+   "lang": "gl",
+   "style": "child",
+   "text": "raíña",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_slow_22edc6fc_6",
+   "lang": "gl",
+   "style": "slow",
+   "text": "galiña",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_1c4bd9cc_4",
+   "lang": "gl",
+   "style": "child",
+   "text": "galo",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_22edc6fc_6",
+   "lang": "gl",
+   "style": "child",
+   "text": "galiña",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_tutor_a0131f7a_120",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Preme 🔊 para que a nena oia a frase. Despois, que toque as palabras en orde para construíla: quen, que fai e que cousa.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_fd61c4ef_73",
+   "lang": "gl",
+   "style": "child",
+   "text": "Teatralizade a frase: a nena fai de actriz e \"come\" unha mazá imaxinaria.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_26abf41c_19",
+   "lang": "gl",
+   "style": "child",
+   "text": "O neno come a mazá.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_slow_67d9317b_4",
+   "lang": "gl",
+   "style": "slow",
+   "text": "neno",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_slow_fd42bc61_4",
+   "lang": "gl",
+   "style": "slow",
+   "text": "come",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_slow_61652956_4",
+   "lang": "gl",
+   "style": "slow",
+   "text": "mazá",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_28a955a4_22",
+   "lang": "gl",
+   "style": "child",
+   "text": "A nena lanza a pelota.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_slow_089afead_5",
+   "lang": "gl",
+   "style": "slow",
+   "text": "lanza",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_38c8b690_17",
+   "lang": "gl",
+   "style": "child",
+   "text": "O can come o óso.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_slow_f0743965_3",
+   "lang": "gl",
+   "style": "slow",
+   "text": "can",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_slow_4be55b64_3",
+   "lang": "gl",
+   "style": "slow",
+   "text": "óso",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_tutor_d17c4f88_100",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Sinala cousas do cuarto e pregúntalle: «Que é isto?». Grava ou escribe abaixo o que responda a nena.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_bb6b5e61_85",
+   "lang": "gl",
+   "style": "child",
+   "text": "Paseade pola casa coma exploradores sinalando obxectos: \"que é isto?\" en cada parada.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_tutor_027781ac_129",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "O peluche está durmido: falade moi baixiño para non espertalo. Cando «esperte», volvede á voz normal. Rexistra abaixo como o fai.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_f6cc7dd9_70",
+   "lang": "gl",
+   "style": "child",
+   "text": "Camiñade de puntas falando baixiño; ao sinal, voz normal e paso forte!",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_f5365ebe_54",
+   "lang": "gl",
+   "style": "child",
+   "text": "Shhh… o peluche está durmido. Falamos moi moi baixiño.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_487fba0c_52",
+   "lang": "gl",
+   "style": "child",
+   "text": "Xa espertou o peluche! Agora falamos con voz normal.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_tutor_c4363339_93",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Mira a cara grande coa nena. Preme 🔊 se quere oír as opcións. Ela toca como se sente a cara.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_8a0c7f9a_70",
+   "lang": "gl",
+   "style": "child",
+   "text": "Imitade a emoción con todo o corpo: cara, brazos e postura de estatua.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_tutor_ac7dfa8f_150",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Tapa a boca e di unha palabra case sen voz. Se a nena non a entende, debe pedirche: «que?» ou «como?». Iso é o que practicamos: pedir que llo repitan.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_3f9589bd_82",
+   "lang": "gl",
+   "style": "child",
+   "text": "Murmura unha orde desde lonxe; se non se entende, que veña correndo e pida \"que?\".",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_slow_f342aca3_4",
+   "lang": "gl",
+   "style": "slow",
+   "text": "como",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_tutor_9fa2a2da_276",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Primeiro en silencio: dille coa túa voz normal «busca a vaca» e que a toque. Cando acerte tranquila, sobe POUCO A POUCO o ruído de fondo desde o Panel do Adulto (abaixo) e repite con outro animal. A túa voz é o sinal: non berres nin esaxeres; se a ves fatigada, baixa o ruído.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_b0ed2e2e_85",
+   "lang": "gl",
+   "style": "child",
+   "text": "Granxa na casa: escondede os animais de peluche e buscádeos coa música posta baixiña.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_tutor_2ae30d77_13",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Busca a vaca.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_b10cd292_6",
+   "lang": "gl",
+   "style": "child",
+   "text": "ovella",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_89bd99a1_6",
+   "lang": "gl",
+   "style": "child",
+   "text": "cabalo",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_tutor_357ecc11_15",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Busca a ovella.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_tutor_564ab17b_15",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Busca a galiña.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_tutor_fb84a570_256",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "PRIMEIRO sen voz: di a palabra só movendo os beizos, amodo e coa túa cara ben iluminada, e que a nena toque a imaxe lendo os teus beizos. DESPOIS preme 🔊 para devolverlle o son e confirmar. Non a corrixas cun «non»: repite o modelo con voz e beizos á vez.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_89e0a73c_90",
+   "lang": "gl",
+   "style": "child",
+   "text": "Xogade ao espello mudo: un di unha palabra sen voz e o outro adivíñaa. Cambiade os papeis!",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_slow_878751ef_4",
+   "lang": "gl",
+   "style": "slow",
+   "text": "pato",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_878751ef_4",
+   "lang": "gl",
+   "style": "child",
+   "text": "pato",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_2eaebd26_3",
+   "lang": "gl",
+   "style": "child",
+   "text": "lúa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_c3b10f72_4",
+   "lang": "gl",
+   "style": "child",
+   "text": "boca",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_b8c80eb6_4",
+   "lang": "gl",
+   "style": "child",
+   "text": "flor",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_728b3cb4_4",
+   "lang": "gl",
+   "style": "child",
+   "text": "tren",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_c4206de8_3",
+   "lang": "gl",
+   "style": "child",
+   "text": "oso",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_c84d8272_2",
+   "lang": "gl",
+   "style": "child",
+   "text": "pé",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_tutor_dc87a76d_268",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Catro palabras que soan case igual. Di ti a palabra obxectivo con voz normal e que a toque. En cada rolda faino un pouco máis difícil CO TEU CORPO: baixa o volume da túa voz ou afástate un paso máis. A app non toca o volume: o estresor es ti, e ti decides cando parar.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_19de9d2b_77",
+   "lang": "gl",
+   "style": "child",
+   "text": "Teléfono viaxeiro: murmúralle a palabra ao oído desde cada esquina do cuarto.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_slow_ba91aa67_5",
+   "lang": "gl",
+   "style": "slow",
+   "text": "prato",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_ba91aa67_5",
+   "lang": "gl",
+   "style": "child",
+   "text": "prato",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_slow_1c60f484_4",
+   "lang": "gl",
+   "style": "slow",
+   "text": "gato",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_tutor_a505b944_234",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Preme 🔊 para que oia a orde COMPLETA de tres pasos. Despois, cadeado humano: suxeita as súas mans con suavidade e conta ata 5 en silencio antes de deixala tocar. Esa espera obriga a gardar a orde na memoria, non a baleirala correndo.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_f81e9813_97",
+   "lang": "gl",
+   "style": "child",
+   "text": "Circuíto de ordes: «toca a porta, logo o sofá e despois a ventá», coa mesma espera de 5 segundos.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_b870b98c_40",
+   "lang": "gl",
+   "style": "child",
+   "text": "Toca o sol, logo o can e despois a casa.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_40758627_41",
+   "lang": "gl",
+   "style": "child",
+   "text": "Toca a lúa, logo o gato e despois a flor.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_slow_2eaebd26_3",
+   "lang": "gl",
+   "style": "slow",
+   "text": "lúa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_slow_b8c80eb6_4",
+   "lang": "gl",
+   "style": "slow",
+   "text": "flor",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_0e46c425_44",
+   "lang": "gl",
+   "style": "child",
+   "text": "Toca o pan, logo o peixe e despois a árbore.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_slow_54ac9ad6_5",
+   "lang": "gl",
+   "style": "slow",
+   "text": "peixe",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_slow_53a43570_6",
+   "lang": "gl",
+   "style": "slow",
+   "text": "árbore",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_tutor_42f02242_200",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Ponte DETRÁS da nena, onde non te vexa. Fai soar o obxecto a un lado (esquerda ou dereita) e que sinale co brazo de onde veu o son ANTES de virarse a mirar. Alterna os lados sen seguir un patrón fixo.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_3709a40c_74",
+   "lang": "gl",
+   "style": "child",
+   "text": "Marco Polo sonoro: cos ollos pechados, que camiñe cara á campaíña que soa.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_tutor_44c0673d_122",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Achega as burbullas moi preto da túa cara e chama polo seu nome. Busca un contacto visual breve, aínda que sexa dun intre.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_tutor_23fbf934_94",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Fai burbullas a un brazo de distancia. Chama polo seu nome e sinala co dedo cara ás burbullas.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_tutor_04ae4336_94",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Desde o outro lado do cuarto, chama polo seu nome unha soa vez sen estímulo motivador á vista.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_124cf143_68",
+   "lang": "gl",
+   "style": "child",
+   "text": "Perseguide e rebentade burbullas xuntos: unha burbulla, unha mirada.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_tutor_4e429249_81",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Aplaude amodo fronte a ela e guía as súas mans a primeira vez. Repite o xesto só.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_tutor_27968d96_92",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Toca o tambor dúas veces e di \"pa-pa\". Agarda a que imite o xesto ou o son sen axuda física.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_tutor_daaa58d2_126",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Combina un xesto e unha sílaba nova (\"ta-ta\" + saltar) e observa se o imita en espello, inmediatamente e sen repetir o modelo.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_6f9c45f3_75",
+   "lang": "gl",
+   "style": "child",
+   "text": "Espello humano: imitade xestos grandes (brazos, saltos, xiros) por quendas.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_tutor_ae05f34b_55",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Dille \"Dáme a pelota\" mentres sinalas a pelota co dedo.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_tutor_5139dff4_61",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Pídelle \"Toca o nariz\" e \"Toca a cabeza\" sen xestos de apoio.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_tutor_5b66fc69_92",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Dille sen ningún xesto: \"Dáme a pelota e séntate\". Observa se executa os dous pasos en orde.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_bc7b7566_57",
+   "lang": "gl",
+   "style": "child",
+   "text": "Xogade a \"Simón di\" con ordes dun paso e partes do corpo.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_tutor_0474a445_76",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Amósalle o boneco do can e modela: \"Guau\". Agarda a que repita a onomatopea.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_tutor_8bcb2e98_69",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Amósalle un vaso de auga sen dicir nada e pregúntalle: \"Que é isto?\".",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_tutor_d8f46dd6_102",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Ofrécelle o vaso baleiro e agarda a que pida espontaneamente \"quero auga\" combinando as dúas palabras.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_59ad58c5_63",
+   "lang": "gl",
+   "style": "child",
+   "text": "Carreira ata a billa: só se abre se di a palabra máxica \"auga\".",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_slow_0cf3915d_10",
+   "lang": "gl",
+   "style": "slow",
+   "text": "quero auga",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_tutor_d002ec93_94",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Detén un xogo divertido (cóxegas, bambán) e modela o xesto + palabra \"máis\". Axúdaa a imitalo.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_tutor_a07456fc_104",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Dálle un bote pechado con algo que lle guste dentro e agarda. Se se frustra, suxire a media voz \"axuda\".",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_tutor_8fd73711_115",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Crea outra situación de necesidade (xoguete fóra do alcance) sen dar ningunha pista e agarda a petición espontánea.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_783cb2a4_65",
+   "lang": "gl",
+   "style": "child",
+   "text": "Bambán, avión ou cóxegas: para o xogo e agarda a que pida \"máis\".",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_tutor_da7ffd67_96",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Amósalle a imaxe da seguinte actividade e fai unha conta atrás visual de 5 a 1 antes de cambiar.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_tutor_f5d37460_83",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Avisa do cambio unha soa vez e ofrece unha ficha ao rematar a actividade con calma.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_tutor_486b28e7_89",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Deixa que consulte soa a súa axenda visual e faga a transición sen que teñas que avisala.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_2cf4d600_78",
+   "lang": "gl",
+   "style": "child",
+   "text": "Marchade xuntos cara á seguinte actividade cantando a canción das transicións.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_tutor_fa5b6882_82",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Amontoa un bloque e dille \"agora ti\". Axúdaa fisicamente se non responde á quenda.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_tutor_9dcc5819_106",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Ofrécelle un boneco e unha culler; modela \"imos darlle de comer\" e agarda a que continúe o xogo simbólico.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_tutor_4dda1e8e_90",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Deixa que propoña ela un xogo de quendas ou simbólico e mantén o intercambio sen dirixilo.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_f7631a82_70",
+   "lang": "gl",
+   "style": "child",
+   "text": "Pasádevos unha pelota rodando: só fala quen a ten. Quenda e movemento!",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_tutor_b04e7943_265",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Coloca un obxecto moi motivador entre a túa cara e a nena. Agarda 3 segundos ANTES de dar ningunha pista (instigación retardada): o botón do selo desbloquéase só tras esa espera. Preme o Selo Dobre UNICAMENTE cando haxa contacto visual real contigo, non co obxecto.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_6a13dbd8_92",
+   "lang": "gl",
+   "style": "child",
+   "text": "Esconde o obxecto tras as costas e camiña amodo: que che busque a mirada antes de amosarllo.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_tutor_b868213d_310",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Este exercicio usa o Quebre Pragmático do Panel do Adulto: conxelas a app a propósito (orde absurda ou silencio) e observas como repara a nena a comunicación. É un estresor MANUAL e reversible ao instante: ti decides cando empeza e cando acaba. Ábreo abaixo no Panel do Adulto e rexistra a estratexia que uses.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_5bbcc4f2_74",
+   "lang": "gl",
+   "style": "child",
+   "text": "Tras cada reparación lograda, celebrádeo cun choque de mans ben esaxerado.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_tutor_4c3d8730_213",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Preme 🔊 para que a voz da app dite a orde motora e, MENTRES soa, fai ti unha acción contraditoria (a voz di «toca o nariz» e ti tocas a cabeza). O obxectivo é que a nena siga o AUDIO e iniba a copia do teu xesto.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_993890b7_89",
+   "lang": "gl",
+   "style": "child",
+   "text": "Xogade a «a voz manda»: a orde sonora vale, o xesto do adulto engana. Cambiade os papeis!",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_tutor_8c37633d_238",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "A metade do xogo que máis lle estea gustando, preme «Interromper agora»: aparecerá unha cápsula de movemento abrupta. Observa a transición: tólera­a, protesta e segue, ou abandona? Ti decides o momento exacto; a app xamais interrompe soa.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_cb46c9f3_98",
+   "lang": "gl",
+   "style": "child",
+   "text": "Convertede a interrupción en xogo: «estatua!», tres respiracións sopradas e de volta á actividade.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_tutor_ba6193b5_249",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Preme 🔊 para oír as catro palabras. Tres van xuntas e unha non: a nena toca a que NON vai coas demais. Despois sobe POUCO A POUCO o ruído de fondo desde o Panel do Adulto e repite con outra rolda: anota como cambia o acerto con cada nivel de ruído.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_47dd16cb_98",
+   "lang": "gl",
+   "style": "child",
+   "text": "Clasificade xoguetes reais en dúas caixas (animais / cousas de comer) con música de fondo baixiña.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_slow_6117142f_25",
+   "lang": "gl",
+   "style": "slow",
+   "text": "can, gato, cabalo, culler",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_57ee38d6_6",
+   "lang": "gl",
+   "style": "child",
+   "text": "culler",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_tutor_ce765318_181",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Preme 🔊 para oír as catro palabras. Tres cómense e unha non: a nena toca a que NON vai coas demais. Sobe o ruído desde o Panel do Adulto rolda a rolda e anota como cambia o acerto.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_slow_d9b427f9_25",
+   "lang": "gl",
+   "style": "slow",
+   "text": "mazá, pan, queixo, pelota",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_4f55eeec_3",
+   "lang": "gl",
+   "style": "child",
+   "text": "pan",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_67e9ee34_6",
+   "lang": "gl",
+   "style": "child",
+   "text": "queixo",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_tutor_fe895cad_188",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Preme 🔊 para oír as catro palabras. Tres son para vestirse e unha non: a nena toca a que NON vai coas demais. Mantén o nivel de ruído que esteas a probar e compara coas roldas anteriores.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_slow_c32f4fb3_32",
+   "lang": "gl",
+   "style": "slow",
+   "text": "gorro, camiseta, zapato, amorodo",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_50d78b22_7",
+   "lang": "gl",
+   "style": "child",
+   "text": "amorodo",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_tutor_042dc2a8_325",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Preme 🔊 para oír a orde con DÚAS pistas á vez (forma E cor). Se atende a unha soa pista e falla (toca o círculo vermello), NON a penalices: verbaliza ti a continxencia con naturalidade —«ese é vermello, pero é un círculo; eu quero o cadrado»— e deixa que o intente outra vez. Premia o intento comunicativo, non a perfección.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_e2ee627b_84",
+   "lang": "gl",
+   "style": "child",
+   "text": "Busca con dúas pistas pola casa: «tráeme algo BRANDO e AZUL». Celebrade cada achado.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_tutor_de074744_19",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "O cadrado vermello.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_85539e55_16",
+   "lang": "gl",
+   "style": "child",
+   "text": "cadrado vermello",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_8d8e66cc_16",
+   "lang": "gl",
+   "style": "child",
+   "text": "círculo vermello",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_283920f3_12",
+   "lang": "gl",
+   "style": "child",
+   "text": "cadrado azul",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_tutor_8b8f8b15_15",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "O círculo azul.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_9748666e_12",
+   "lang": "gl",
+   "style": "child",
+   "text": "círculo azul",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_tutor_88f506b1_18",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "A estrela amarela.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_28d9c9e9_15",
+   "lang": "gl",
+   "style": "child",
+   "text": "círculo amarelo",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_86e340d6_15",
+   "lang": "gl",
+   "style": "child",
+   "text": "estrela amarela",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_b1d3b9f4_15",
+   "lang": "gl",
+   "style": "child",
+   "text": "corazón amarelo",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_tutor_04abeca9_166",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Preme 🔊 para que a voz dite a serie completa. Tres palabras riman e unha non: a nena toca o altofalante da que NON soa como as demais. Sen apoio de texto: só o oído.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_a5f07cdd_81",
+   "lang": "gl",
+   "style": "child",
+   "text": "Palmada no xeonllo con cada palabra que rima; brazos en cruz cando soe a intrusa.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_slow_5a1885d8_22",
+   "lang": "gl",
+   "style": "slow",
+   "text": "gato, pato, rato, mesa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_a88392f5_4",
+   "lang": "gl",
+   "style": "child",
+   "text": "rato",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_aa00cce7_4",
+   "lang": "gl",
+   "style": "child",
+   "text": "mesa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_slow_2f1fdf2e_18",
+   "lang": "gl",
+   "style": "slow",
+   "text": "can, pan, man, sol",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_e9a2ff6f_3",
+   "lang": "gl",
+   "style": "child",
+   "text": "man",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_slow_da64e4e2_23",
+   "lang": "gl",
+   "style": "slow",
+   "text": "casa, pasa, masa, porta",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_9f253efd_4",
+   "lang": "gl",
+   "style": "child",
+   "text": "casa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_8d7a8f6e_4",
+   "lang": "gl",
+   "style": "child",
+   "text": "pasa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_ed774edb_4",
+   "lang": "gl",
+   "style": "child",
+   "text": "masa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_cf098f45_5",
+   "lang": "gl",
+   "style": "child",
+   "text": "porta",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_slow_b2f28bf3_19",
+   "lang": "gl",
+   "style": "slow",
+   "text": "sol, col, gol, mesa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_f28dd471_3",
+   "lang": "gl",
+   "style": "child",
+   "text": "col",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_401b9265_3",
+   "lang": "gl",
+   "style": "child",
+   "text": "gol",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_tutor_ac90d5e0_216",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "A nena le a frase da pantalla en voz alta, dun tirón e sen silabear. Cando o consiga en calma, activa o Oso Distractor e algo de ruído desde o Panel do Adulto e repite con outra rolda: valora ti a fluidez, non a app.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_8b442a53_71",
+   "lang": "gl",
+   "style": "child",
+   "text": "Lede a frase camiñando: un paso por palabra, sen pararse entre sílabas.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_slow_147ac774_14",
+   "lang": "gl",
+   "style": "slow",
+   "text": "o oso come pan",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_slow_58c41cab_16",
+   "lang": "gl",
+   "style": "slow",
+   "text": "a nena bebe zume",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_slow_1382ff29_21",
+   "lang": "gl",
+   "style": "slow",
+   "text": "o meu gato salta alto",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_tutor_efdfd58b_221",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Preme «Oír os sons»: a app emite cada son por separado, cunha pausa entre eles. A nena debe unilos e dicir a palabra completa. Recolle a fusión co micro; se o recoñecemento falla ou vai lento, valora ti abaixo coa escala.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_2233fdd0_70",
+   "lang": "gl",
+   "style": "child",
+   "text": "Un salto por cada son e, ao dicir a palabra enteira, salto de estrela!",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_slow_e9a2ff6f_3",
+   "lang": "gl",
+   "style": "slow",
+   "text": "man",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_slow_ca99d446_3",
+   "lang": "gl",
+   "style": "slow",
+   "text": "mmm",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_slow_e40c292c_1",
+   "lang": "gl",
+   "style": "slow",
+   "text": "a",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_slow_11b54859_3",
+   "lang": "gl",
+   "style": "slow",
+   "text": "nnn",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_slow_c33f0730_3",
+   "lang": "gl",
+   "style": "slow",
+   "text": "sss",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_slow_a42935e4_3",
+   "lang": "gl",
+   "style": "slow",
+   "text": "ooo",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_slow_365991eb_3",
+   "lang": "gl",
+   "style": "slow",
+   "text": "lll",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_slow_f00c3c10_1",
+   "lang": "gl",
+   "style": "slow",
+   "text": "u",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_tutor_5d61128e_214",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "A palabra da pantalla é inventada: non se pode adiviñar, só descodificar. A nena léea en voz alta tal cal soa. Máximo 5 ensaios: ao chegar ao límite, a app propón unha pausa de movemento obrigatoria para descargar.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_6bd19400_63",
+   "lang": "gl",
+   "style": "child",
+   "text": "Dicide a pseudopalabra dando unha palmada por sílaba: ME-PO-TI.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_slow_98bd3905_6",
+   "lang": "gl",
+   "style": "slow",
+   "text": "mepoti",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_slow_2169127a_7",
+   "lang": "gl",
+   "style": "slow",
+   "text": "faslumo",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_slow_05246fc2_6",
+   "lang": "gl",
+   "style": "slow",
+   "text": "tinelo",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_slow_b7a317f8_7",
+   "lang": "gl",
+   "style": "slow",
+   "text": "burdina",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_tutor_c25b80f6_221",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Dille á nena que letra buscar (a grande do recadro) e que toque TODAS as que atope no panel. As letras xemelgas xiradas (b/d, p/q) intentan enganala. Se queres carga extra, activa o Oso Distractor desde o Panel do Adulto.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_e34a26e2_92",
+   "lang": "gl",
+   "style": "child",
+   "text": "Debuxade a letra obxectivo xigante no aire: a barriga do «b» mira cara adiante, coma ao ler.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_tutor_9be81376_282",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "A nena nomea cada debuxo EN VOZ ALTA e en orde de lectura (de esquerda a dereita), tocándoo ao nomealo. O estresor es ti: persegue o seu dedo pola pantalla co teu, coma un xogo de pilla-pilla. Sen cronómetros: se a ves acelerada ou frustrada, frea o teu dedo ou detén a persecución.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_a497ef5b_92",
+   "lang": "gl",
+   "style": "child",
+   "text": "RAN da casa: percorrede unha estantería nomeando cada obxecto seguido, coma lendo unha liña.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_slow_d26cdb06_64",
+   "lang": "gl",
+   "style": "slow",
+   "text": "sol, gato, pan, flor, pan, flor, sol, gato, gato, sol, flor, pan",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_slow_84ae34a5_67",
+   "lang": "gl",
+   "style": "slow",
+   "text": "lúa, can, casa, peixe, casa, peixe, lúa, can, can, lúa, peixe, casa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_slow_db6b573d_8",
+   "lang": "gl",
+   "style": "slow",
+   "text": "vermello",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_slow_49019a1b_4",
+   "lang": "gl",
+   "style": "slow",
+   "text": "azul",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_slow_d2a54155_5",
+   "lang": "gl",
+   "style": "slow",
+   "text": "verde",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_slow_a787663e_7",
+   "lang": "gl",
+   "style": "slow",
+   "text": "amarelo",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_slow_ced82f70_94",
+   "lang": "gl",
+   "style": "slow",
+   "text": "vermello, azul, verde, amarelo, verde, amarelo, vermello, azul, azul, verde, amarelo, vermello",
+   "source": "ejercicios"
   },
   {
    "id": "eu_child_536bf7c0_40",

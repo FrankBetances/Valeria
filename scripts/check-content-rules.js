@@ -3,7 +3,7 @@
  * Valeria+ · Reglas de contenido de Expansión Semántica (X-05 del plan ACOPROS)
  *   node scripts/check-content-rules.js
  *
- * Comprueba sobre los TRES bancos (es, es-DO, eu) las reglas que ACOPROS fijó
+ * Comprueba sobre los CUATRO bancos (es, es-DO, eu, gl) las reglas que ACOPROS fijó
  * al resolver DC-1, DC-2 y DC-3, y que hasta ahora solo vivían en la cabeza de
  * quien escribía el contenido:
  *
@@ -38,6 +38,7 @@ try {
     path.join(ROOT, 'src', 'valeriaSemanticExpansion.ts'),
     path.join(ROOT, 'src', 'valeriaSemanticExpansionEsDO.ts'),
     path.join(ROOT, 'src', 'valeriaSemanticExpansionEu.ts'),
+    path.join(ROOT, 'src', 'valeriaSemanticExpansionGl.ts'),
   ];
   execSync(
     ['npx tsc', ...entradas.map((e) => JSON.stringify(e)),
@@ -49,11 +50,13 @@ try {
   const base = require(path.join(tmp, 'valeriaSemanticExpansion.js'));
   const esdo = require(path.join(tmp, 'valeriaSemanticExpansionEsDO.js'));
   const eu = require(path.join(tmp, 'valeriaSemanticExpansionEu.js'));
+  const gl = require(path.join(tmp, 'valeriaSemanticExpansionGl.js'));
 
   const BANCOS = [
     { lang: 'es', scenarios: base.DAILY_SCENARIOS, categories: base.LEXICAL_CATEGORIES, sequences: base.PROGRESSION_SEQUENCES, capsules: base.CONTRAST_CAPSULES, pedir: /\bdi:\s*/i },
     { lang: 'es-DO', scenarios: esdo.DAILY_SCENARIOS_ESDO, categories: esdo.LEXICAL_CATEGORIES_ESDO, sequences: esdo.PROGRESSION_SEQUENCES_ESDO, capsules: esdo.CONTRAST_CAPSULES_ESDO, pedir: /\bdi:\s*/i },
     { lang: 'eu', scenarios: eu.DAILY_SCENARIOS_EU, categories: eu.LEXICAL_CATEGORIES_EU, sequences: eu.PROGRESSION_SEQUENCES_EU, capsules: eu.CONTRAST_CAPSULES_EU, pedir: /\besan:\s*/i },
+    { lang: 'gl', scenarios: gl.DAILY_SCENARIOS_GL, categories: gl.LEXICAL_CATEGORIES_GL, sequences: gl.PROGRESSION_SEQUENCES_GL, capsules: gl.CONTRAST_CAPSULES_GL, pedir: /\bdi:\s*/i },
   ];
 
   for (const b of BANCOS) {
@@ -130,4 +133,4 @@ if (fallos) {
   console.error('  Ver docs/plan-mejoras-acopros-logopedas.json → ES-06, ES-10, ES-13.');
   process.exit(1);
 }
-console.log('\n✓ Los tres bancos cumplen las reglas de contenido (ES-06, ES-10, ES-13).');
+console.log('\n✓ Los cuatro bancos cumplen las reglas de contenido (ES-06, ES-10, ES-13).');

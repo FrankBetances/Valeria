@@ -207,8 +207,39 @@ más larga; se subdivide por bloque de terapia para poder publicar por partes.*
 > portadoras procedurales gl (motor multi-idioma en `valeriaCarrierPhrases`),
 > cápsulas TPR, Rutas de Rutina y bancos de reforzo (`valeriaContentGl`).
 > Validación logopédica y de gallego normativo cumplida; una sesión de Pares
-> Mínimos en galego suena 100% con Celtia. Pendientes de esta fase: GL-2.4
-> (Audición/Lenguaje), GL-2.5 (Ling) y GL-2.6 (frases CC0).
+> Mínimos en galego suena 100% con Celtia. Pendientes de esta fase: GL-2.5
+> (Ling) y GL-2.6 (frases CC0).
+>
+> **GL-2.3 y GL-2.4 · ✅ APROBADAS PARA PRODUCCIÓN (27 jul 2026).** La revisora
+> logopeda gallegohablante (GL-0.3) dio el visto bueno al contenido gallego de
+> Expansión Semántica y de Audición/Lenguaje (con TEA y Dislexia). Con eso, el
+> galego deja de estar limitado a Pares Mínimos: **todos los bloques de terapia
+> tienen banco gallego propio y se locutan con Celtia**.
+>
+> **Actualización (jul 2026) · GL-2.3 y GL-2.4 cableadas.** El piloto reportó
+> que «el gallego solo está en Pares Mínimos; en el resto de ejercicios
+> desaparece y habla una voz del sistema leyendo gallego con acento
+> castellano». La causa era de datos, no de motor: Expansión Semántica y
+> Audición/Lenguaje **compartían el banco castellano** (`semanticForLocale` y
+> `dbForLocale` devolvían el banco base para `gl`), así que en galego no había
+> nada que sintetizar con Celtia y la sesión se locutaba en castellano; cuando
+> el texto sí era gallego (refuerzos, pares) y no tenía asset, caía a
+> expo-speech, que sin voz `gl-*` instalada usa la voz castellana del sistema.
+> Ahora existen bancos gallegos propios:
+>
+> - `src/valeriaSemanticExpansionGl.ts` — 5 escenarios · 5 categorías léxicas ·
+>   9 progresións · 8 cápsulas de contraste, con `stt_expected_array` propio del
+>   galego infantil (GL-2.3).
+> - `src/valeriaExerciseGl.ts` — Audición (18), Linguaxe (7), TEA (6) e Dislexia
+>   (6) reautorizados: consigna, fichas, prompts, EPT-3 e movemento, máis as
+>   constantes de pantalla (emocións, plural con determinante galego, veredictos
+>   de micro) (GL-2.4).
+>
+> Ambos se enumeran en el corpus (`gl/expansion` + `gl/ejercicios`), de 112 a
+> 816 locuciones gallegas, que el workflow «Generate Voice Assets» sintetiza con
+> Celtia. Además, `trySpokenAsset` ya no recae en el asset castellano cuando
+> falta el gallego: ese respaldo existía por el banco compartido y provocaba
+> saltos de voz Celtia↔Sharvard dentro del mismo ejercicio.
 
 ---
 
@@ -243,6 +274,23 @@ más larga; se subdivide por bloque de terapia para poder publicar por partes.*
 >
 > Para el gallego solo queda: corpus `gl` (Fase 2 de este plan) + activar el
 > motor `coqui`/Celtia en `generate-voice-assets.py` (`--lang gl`).
+
+> **Estado (27 jul 2026): ✅ FASE 3 CERRADA PARA EL GALLEGO.** El corpus gallego
+> completo está sintetizado con **Celtia** y empaquetado:
+>
+> | Dato | Valor |
+> | --- | --- |
+> | Locuciones gallegas | **816** (antes 112: solo pares, TPR, rutas y refuerzos) |
+> | Duración total | 45,8 min (2749,9 s) |
+> | Peso | **16,5 MB** en AAC a −3 dBFS |
+> | Clips vacíos o fallidos | 0 |
+>
+> - **GL-3.4 remedido con el corpus completo:** 16,5 MB de gallego, dentro del
+>   presupuesto orientativo (<25 MB por variedad). El total de `assets/voice/`
+>   —castellano, gallego y euskera juntos— queda en 89 MB, que es el dato que
+>   importa para el APK y conviene vigilar cuando entren nuevas variedades.
+> - La síntesis corre entera en CI (`voice-assets.yml`): los modelos de Nós
+>   jamás se ejecutan en el dispositivo.
 
 ---
 
@@ -311,7 +359,8 @@ Checklist maestro (marcar al completar; una PR por tarea o grupo pequeño):
 
 - [ ] **Fase 0**: GL-0.1 · GL-0.2 · GL-0.3 · GL-0.4
 - [ ] **Fase 1**: GL-1.1 · GL-1.2 · GL-1.3 · GL-1.4 · GL-1.5
-- [ ] **Fase 2**: GL-2.1 · GL-2.2 · GL-2.3 · GL-2.4 · GL-2.5 · GL-2.6
+- [ ] **Fase 2**: GL-2.1 · ~~GL-2.2~~ ✅ · ~~GL-2.3~~ ✅ · ~~GL-2.4~~ ✅ · GL-2.5 · GL-2.6
+  (GL-2.2 aprobada jul 2026; GL-2.3 y GL-2.4 aprobadas por la revisora logopeda el 27 jul 2026 y en producción)
 - [ ] **Fase 3**: GL-3.1 · GL-3.2 · GL-3.3 · GL-3.4 · GL-3.5
 - [ ] **Fase 4**: GL-4.1 · GL-4.2 · GL-4.3 · GL-4.4 (condicional)
 - [ ] **Fase 5**: GL-5.1 · GL-5.2 · GL-5.3 · GL-5.4

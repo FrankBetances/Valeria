@@ -29,6 +29,11 @@ import {
   dbForLocale, variantsForLocale, pluralOneLabelFor, pluralManyLabelFor,
 } from './valeriaExerciseBank';
 import { EXERCISE_FIXED_LINES_EU } from './valeriaExerciseEu';
+import { EXERCISE_FIXED_LINES_GL } from './valeriaExerciseGl';
+import {
+  DAILY_SCENARIOS_GL, LEXICAL_CATEGORIES_GL, PROGRESSION_SEQUENCES_GL,
+  CONTRAST_CAPSULES_GL, SEM_RETRY_GL, SEM_SESSION_DONE_GL,
+} from './valeriaSemanticExpansionGl';
 import {
   PRAISE_BANK, ALMOST_BANK, NO_HEAR_BANK, TOGETHER_BANK,
   SESSION_CONTINUE_PHRASE, ROUTE_DONE_PHRASE, VOICE_SAMPLE_PHRASE,
@@ -194,6 +199,29 @@ export function buildVoiceCorpus(): VoiceCorpusEntry[] {
   for (const t of NO_HEAR_BANK_GL) addGl('child', t, 'banco/no-oido');
   for (const t of TOGETHER_BANK_GL) addGl('child', t, 'banco/juntos');
   addGl('child', VOICE_SAMPLE_PHRASE_GL, 'util/muestra');
+
+  // Expansión Semántica en galego: hasta ahora esta pantalla compartía el banco
+  // castellano, así que en gallego no había NADA que sintetizar con Celtia y la
+  // sesión se locutaba en castellano. Con banco propio, cada locución tiene su
+  // asset gallego.
+  for (const l of enumerateSemanticSpeechFor({
+    scenarios: DAILY_SCENARIOS_GL,
+    categories: LEXICAL_CATEGORIES_GL,
+    sequences: PROGRESSION_SEQUENCES_GL,
+    capsules: CONTRAST_CAPSULES_GL,
+    retry: SEM_RETRY_GL,
+    sessionDone: SEM_SESSION_DONE_GL,
+  })) addGl(l.style, l.text, 'expansion');
+
+  // Audición y Lenguaje (+ TEA/Dislexia) en galego: mismo espejo que en
+  // euskera, locutado con Celtia en vez de caer a la voz del sistema.
+  for (const l of enumerateExerciseSpeechFor({
+    db: dbForLocale('gl'),
+    variants: variantsForLocale('gl'),
+    fixed: EXERCISE_FIXED_LINES_GL,
+    pluralOne: (p) => pluralOneLabelFor('gl', p),
+    pluralMany: (p) => pluralManyLabelFor('gl', p),
+  })) addGl(l.style, l.text, 'ejercicios');
 
   // ============================ EUSKERA (eu) ============================
   // Contenido del plan ILENIA/NEL-GAITU (EU-2.x), validado por hablantes de

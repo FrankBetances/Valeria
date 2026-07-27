@@ -236,12 +236,15 @@ const trySpokenAsset = (style: VoiceStyle, text: string, opts: Speech.SpeechOpti
   // null y siempre cae a expo-speech con el locale latino.
   const al = assetLang();
   if (al == null) return false;
-  let source = VOICE_ASSETS[voiceCorpusId(style, text, al)];
-  // En galego, los bancos compartidos con el castellano (Expansión Semántica,
-  // Audición y Lenguaje) solo tienen asset con id es: se reproduce ese audio
-  // neuronal antes que caer a expo-speech con gl-ES, que en dispositivos sin
-  // voz gallega instalada no arranca y deja el ejercicio en silencio.
-  if (source == null && al !== 'es') source = VOICE_ASSETS[voiceCorpusId(style, text, 'es')];
+  // Solo el asset de la PROPIA variedad. Antes, si en galego no había asset se
+  // reproducía el castellano con el mismo texto: como Expansión Semántica y
+  // Audición y Lenguaje compartían banco con el castellano, media sesión en
+  // galego sonaba con Sharvard (castellano) y la otra media con Celtia, y las
+  // palabras que existen igual en las dos lenguas («gato», «sol», «pan») daban
+  // un salto de voz en mitad del ejercicio. Ahora el galego tiene banco propio
+  // en TODAS las pantallas y su corpus completo (gate de cobertura en CI), así
+  // que ese respaldo ya no protege de nada y sí rompía la continuidad de voz.
+  const source = VOICE_ASSETS[voiceCorpusId(style, text, al)];
   if (source == null) return false;
   const token = ++speakToken; // preempta cadenas de expo-speech pendientes
   Speech.stop();

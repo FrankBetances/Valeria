@@ -148,7 +148,7 @@ insignias, y el progreso nunca se mezcla entre ellos.
 | 🗣️ **Dislalias** | Puntos de articulación y práctica de los sonidos difíciles. |
 | 🔤 **Dislexia** | Conciencia fonológica y apoyo a la lectura emergente. |
 | 🧩 **TEA** | Comunicación, anticipación y regulación en el espectro autista. |
-| 🤟 **Lengua de Signos (LSE)** | Qué es la LSE y por qué no es mímica, si signar retrasa el habla, de qué está hecho un signo, el **alfabeto dactilológico** con las configuraciones dibujadas, los primeros signos útiles y dónde se aprende de verdad. |
+| 🤟 **Lengua de Signos (LSE)** | Qué es la LSE y por qué no es mímica, si signar retrasa el habla, de qué está hecho un signo, el **alfabeto dactilológico completo** (27 configuraciones dibujadas, con panel de consulta de una sola pantalla), los primeros signos útiles y dónde se aprende de verdad. |
 
 > [!IMPORTANT]
 > **Sobre el módulo de LSE.** Un signo combina configuración de la mano, lugar,
@@ -157,7 +157,13 @@ insignias, y el progreso nunca se mezcla entre ellos.
 > dactilológico, cuyas configuraciones son posturas fijas— y para el léxico
 > signado **remite a fuente signada**: vídeo, curso oficial y, sobre todo,
 > personas sordas signantes. Lo dice en pantalla, no solo en el código.
-> Contenido y configuraciones **validados por persona sorda signante**.
+> Contenido y **las 27 configuraciones del abecedario dactilológico**,
+> validados por personas sordas signantes: las nueve iniciales por una persona
+> sorda signante y las 18 restantes por **la logopeda y las personas sordas de
+> ACOPROS**. Esa revisión es insustituible —un chequeo automático comprueba que
+> un dibujo exista, nunca que se reconozca como la letra que dice ser—, así que
+> toda figura nueva vuelve a pasar por ella. Las cuatro letras con movimiento
+> (J, Ñ, X, Z) se marcan con ↻ y remiten a vídeo.
 
 - **Gamificación funcional por dominio**: XP, niveles con nombre propio de cada
   silo (Novato → *Experto en Hipoacusia*, *Experto en LSE*…) e insignias
@@ -206,17 +212,19 @@ reconocedor/voz del sistema y si conviene preferir voces latinas.
 | Variedad | Voz | Reconocimiento (ASR) |
 | --- | --- | --- |
 | 🇪🇸 **Castellano** (`es`) | Voz neuronal **Sharvard** pregenerada y empaquetada (offline). | Voz del sistema `es-ES`. |
-| **Galego** (`gl`) — *Proxecto Nós* | Voz neuronal **Celtia** pregenerada (Proxecto Nós), empaquetada. El contenido compartido con el castellano (Expansión Semántica, Audición y Lenguaje) suena con el asset **Sharvard** hasta que Celtia lo cubra. | Sistema `gl-ES` con recaída a `expo-speech`. |
+| **Galego** (`gl`) — *Proxecto Nós* | Voz neuronal **Celtia** pregenerada (Proxecto Nós), empaquetada. Cubre pares mínimos, cápsulas TPR, rutas, Expansión Semántica, Audición, Lenguaje, TEA y Dislexia: todos los bloques tienen banco gallego propio. | Sistema `gl-ES` con recaída a `expo-speech`. |
 | 🇩🇴 **Dominicano** (`es-DO`) — *Quisqueya Habla* | Voz **latina del dispositivo** (`es-US`/`es-MX`); sin audio propio pregenerado. | Sistema `es-DO`, priorizando el catálogo latino. |
 | **Euskara** (`eu`) — *ILENIA/NEL-GAITU · HiTZ* | Voz neuronal **HiTZ-TTS** pregenerada (UPV/EHU · Aholab), empaquetada. Cubre pares mínimos, expansión semántica, Audición, Lenguaje, TEA, Dislexia y Test de Ling en euskera batua. | Sistema `eu-ES` con recaída a `es-ES` + pliegue vasco (`foldBasque`, ⟨h⟩ muda). |
 
-- **Voz neuronal offline.** El audio de castellano y gallego se sintetiza en CI
-  (nunca en el dispositivo) y viaja empaquetado en el APK: **1174 locuciones**
-  (`assets/voice/`, versión `es-sharvard+gl-celtia-2026-07-19`). Cada id del
-  corpus se resuelve contra `src/valeriaVoiceAssets.ts` (mapa generado); en
-  gallego, si una locución no tiene asset propio se reproduce el asset
-  castellano equivalente, y lo no cubierto por ninguno cae con elegancia a
-  `expo-speech` en runtime.
+- **Voz neuronal offline.** El audio de castellano, gallego y euskera se
+  sintetiza en CI (nunca en el dispositivo) y viaja empaquetado en el APK. El
+  corpus enumerado son **2438 locuciones** (878 `es` · 816 `gl` · 744 `eu`), y
+  cada id se resuelve contra `src/valeriaVoiceAssets.ts` (mapa generado). Una
+  variedad **solo reproduce assets de su propia voz**: si falta uno, cae con
+  elegancia a `expo-speech`, nunca a la voz de otra lengua (mezclar Celtia y
+  Sharvard en el mismo ejercicio se oía como un salto de locutor). El gate
+  `check-voice-corpus-coverage.js` impide empaquetar un APK con locuciones sin
+  asset en `es`/`gl`/`eu`.
 - **Quisqueya Habla (es‑DO)** es un proyecto **editorial**, no de traducción:
   usa léxico y registro dominicanos y, sobre todo, **no penaliza como trastorno
   los rasgos dialectales normales** del español caribeño (seseo, aspiración de
@@ -361,7 +369,7 @@ compila la app en cada push/fusión a `main` (y en ramas `claude/**`). Con los
 secrets de firma configurados genera el APK y el **AAB firmados**; sin secrets
 solo compila el APK. El `versionCode` se deriva del número de run.
 
-Antes de compilar corren **cinco chequeos de contenido** que fallan rápido. No
+Antes de compilar corren **seis chequeos de contenido** que fallan rápido. No
 son tests unitarios: cada uno protege un acuerdo clínico concreto que el
 typecheck y el diff no ven.
 
@@ -372,6 +380,7 @@ typecheck y el diff no ven.
 | `check-pictogram-coverage.js` | Que una cápsula de contraste quede **irresoluble**: si las dos vueltas comparten clave de pictograma, el niño ve dos tarjetas idénticas (ES‑12). |
 | `check-lexical-difficulty.js` | Que un ítem avanzado se cuele entre los iniciales: **el orden de escritura ES el orden de práctica** (ES‑08). |
 | `check-reminder-slots.js` | Que apagar una franja de recordatorio deje de reprogramarla pero **no cancele sus avisos ya en cola** (GEN‑01). |
+| `check-sign-figures.js` | Que una cápsula de LSE pida una figura **sin dibujo registrado** o que el abecedario dactilológico quede incompleto: `SignFigure` devuelve `null` a propósito, así que el fallo es invisible salvo para este gate (LSE‑01). |
 
 Todos se pueden ejecutar en local: `node scripts/<nombre>.js`.
 
@@ -414,6 +423,43 @@ Guía completa de configuración y despliegue: [`docs/firebase-setup.md`](docs/f
 ## 🕑 Historial de versiones
 
 <details open>
+<summary><strong>V9.2</strong> — el galego, en todos los bloques (aprobado para producción)</summary>
+
+Hasta esta versión el gallego solo estaba completo en **Pares Mínimos**: la
+Expansión Semántica y los ejercicios de Audición y Lenguaje compartían el banco
+castellano, así que una sesión en galego se locutaba en castellano y, cuando el
+texto sí era gallego sin asset propio, sonaba con la voz del sistema en acento
+castellano. **Aprobado por la revisora logopeda gallegohablante (jul 2026).**
+
+- **Banco gallego propio en todos los bloques**: Expansión Semántica
+  (`valeriaSemanticExpansionGl.ts` — 5 escenarios, 5 categorías léxicas, 9
+  progresiones y 8 cápsulas de contraste) y Audición, Lenguaje, TEA y Dislexia
+  (`valeriaExerciseGl.ts` — 37 ejercicios reautorizados, con plural de
+  determinante gallego, emociones, veredictos de micro y pistas propias).
+- **Corpus de voz gallego de 112 → 816 locuciones**, sintetizadas con **Celtia**
+  (Proxecto Nós) en CI y empaquetadas en el APK.
+- **Sin saltos de voz**: cada variedad reproduce solo assets de su propia voz. El
+  respaldo que hacía sonar el asset castellano cuando faltaba el gallego era un
+  apaño del banco compartido y mezclaba Celtia y Sharvard dentro del mismo
+  ejercicio.
+- **Intruso Fonológico (DX-1)**: las fichas llevan su número desde el principio y
+  la revelación se anuncia como la solución de la serie. Se leía como un fallo de
+  pintado («no se ve nada y al tocar aparece todo»). El protocolo auditivo puro
+  no cambia.
+- **Audición y Lenguaje, bloques independientes**: cada uno se abre desde su
+  tarjeta del hub, como TEA y Dislexia. Antes compartían una barra de pestañas
+  dentro de la lista y se percibían como una sola pantalla.
+- **Academy · LSE**: alfabeto dactilológico **completo** (27 configuraciones
+  dibujadas, **validadas por la logopeda y las personas sordas de ACOPROS**) con
+  panel de consulta en una sola pantalla y muestra visible al entrar en el
+  dominio. Las letras con movimiento (J, Ñ, X, Z) se marcan con ↻ y remiten a
+  fuente signada.
+- **Sexto chequeo de contenido en CI** (`check-sign-figures.js`) y los gates de
+  contenido, pictogramas y dificultad léxica cubren ya el banco gallego.
+
+</details>
+
+<details>
 <summary><strong>V9.1</strong> — mejoras clínicas de las logopedas de ACOPROS, vocabulario por categorías y Lengua de Signos</summary>
 
 Ciclo nacido de una revisión clínica de las logopedas de ACOPROS sobre la app en
