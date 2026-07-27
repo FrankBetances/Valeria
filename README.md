@@ -421,6 +421,42 @@ Guía completa de configuración y despliegue: [`docs/firebase-setup.md`](docs/f
 ## 🕑 Historial de versiones
 
 <details open>
+<summary><strong>V9.2</strong> — el galego, en todos los bloques (aprobado para producción)</summary>
+
+Hasta esta versión el gallego solo estaba completo en **Pares Mínimos**: la
+Expansión Semántica y los ejercicios de Audición y Lenguaje compartían el banco
+castellano, así que una sesión en galego se locutaba en castellano y, cuando el
+texto sí era gallego sin asset propio, sonaba con la voz del sistema en acento
+castellano. **Aprobado por la revisora logopeda gallegohablante (jul 2026).**
+
+- **Banco gallego propio en todos los bloques**: Expansión Semántica
+  (`valeriaSemanticExpansionGl.ts` — 5 escenarios, 5 categorías léxicas, 9
+  progresiones y 8 cápsulas de contraste) y Audición, Lenguaje, TEA y Dislexia
+  (`valeriaExerciseGl.ts` — 37 ejercicios reautorizados, con plural de
+  determinante gallego, emociones, veredictos de micro y pistas propias).
+- **Corpus de voz gallego de 112 → 816 locuciones**, sintetizadas con **Celtia**
+  (Proxecto Nós) en CI y empaquetadas en el APK.
+- **Sin saltos de voz**: cada variedad reproduce solo assets de su propia voz. El
+  respaldo que hacía sonar el asset castellano cuando faltaba el gallego era un
+  apaño del banco compartido y mezclaba Celtia y Sharvard dentro del mismo
+  ejercicio.
+- **Intruso Fonológico (DX-1)**: las fichas llevan su número desde el principio y
+  la revelación se anuncia como la solución de la serie. Se leía como un fallo de
+  pintado («no se ve nada y al tocar aparece todo»). El protocolo auditivo puro
+  no cambia.
+- **Audición y Lenguaje, bloques independientes**: cada uno se abre desde su
+  tarjeta del hub, como TEA y Dislexia. Antes compartían una barra de pestañas
+  dentro de la lista y se percibían como una sola pantalla.
+- **Academy · LSE**: alfabeto dactilológico **completo** (27 configuraciones
+  dibujadas) con panel de consulta en una sola pantalla y muestra visible al
+  entrar en el dominio. Las letras con movimiento (J, Ñ, X, Z) se marcan con ↻ y
+  remiten a fuente signada.
+- **Sexto chequeo de contenido en CI** (`check-sign-figures.js`) y los gates de
+  contenido, pictogramas y dificultad léxica cubren ya el banco gallego.
+
+</details>
+
+<details>
 <summary><strong>V9.1</strong> — mejoras clínicas de las logopedas de ACOPROS, vocabulario por categorías y Lengua de Signos</summary>
 
 Ciclo nacido de una revisión clínica de las logopedas de ACOPROS sobre la app en

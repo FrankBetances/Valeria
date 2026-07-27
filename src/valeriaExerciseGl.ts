@@ -16,6 +16,10 @@
 //     («un gato» / «moitos gatos»), que constrúe pluralOneLabelFor.
 //   · Dislexia: rimas, síntese fonémica e pseudopalabras propias do galego.
 //
+// ESTADO: ✅ APROBADO PARA PRODUCIÓN (27 de xullo de 2026). Revisión logopédica
+// cumprida sobre as consignas, o léxico e os criterios EPT-3 en galego;
+// locútase coa voz neuronal Celtia.
+//
 // Módulo PURO: só importa o tipo Exercise do banco base.
 // ============================================================================
 import type { Exercise } from './valeriaExerciseBank';

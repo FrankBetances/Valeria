@@ -210,6 +210,12 @@ más larga; se subdivide por bloque de terapia para poder publicar por partes.*
 > Mínimos en galego suena 100% con Celtia. Pendientes de esta fase: GL-2.5
 > (Ling) y GL-2.6 (frases CC0).
 >
+> **GL-2.3 y GL-2.4 · ✅ APROBADAS PARA PRODUCCIÓN (27 jul 2026).** La revisora
+> logopeda gallegohablante (GL-0.3) dio el visto bueno al contenido gallego de
+> Expansión Semántica y de Audición/Lenguaje (con TEA y Dislexia). Con eso, el
+> galego deja de estar limitado a Pares Mínimos: **todos los bloques de terapia
+> tienen banco gallego propio y se locutan con Celtia**.
+>
 > **Actualización (jul 2026) · GL-2.3 y GL-2.4 cableadas.** El piloto reportó
 > que «el gallego solo está en Pares Mínimos; en el resto de ejercicios
 > desaparece y habla una voz del sistema leyendo gallego con acento
@@ -336,7 +342,8 @@ Checklist maestro (marcar al completar; una PR por tarea o grupo pequeño):
 
 - [ ] **Fase 0**: GL-0.1 · GL-0.2 · GL-0.3 · GL-0.4
 - [ ] **Fase 1**: GL-1.1 · GL-1.2 · GL-1.3 · GL-1.4 · GL-1.5
-- [ ] **Fase 2**: GL-2.1 · GL-2.2 · GL-2.3 · GL-2.4 · GL-2.5 · GL-2.6
+- [ ] **Fase 2**: GL-2.1 · ~~GL-2.2~~ ✅ · ~~GL-2.3~~ ✅ · ~~GL-2.4~~ ✅ · GL-2.5 · GL-2.6
+  (GL-2.2 aprobada jul 2026; GL-2.3 y GL-2.4 aprobadas por la revisora logopeda el 27 jul 2026 y en producción)
 - [ ] **Fase 3**: GL-3.1 · GL-3.2 · GL-3.3 · GL-3.4 · GL-3.5
 - [ ] **Fase 4**: GL-4.1 · GL-4.2 · GL-4.3 · GL-4.4 (condicional)
 - [ ] **Fase 5**: GL-5.1 · GL-5.2 · GL-5.3 · GL-5.4

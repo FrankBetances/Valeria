@@ -14,6 +14,10 @@
 // castelán). Con este banco, o galego está presente en TODOS os exercicios e
 // cada locución ten o seu asset neuronal de Celtia (enumerado no corpus).
 //
+// ESTADO: ✅ APROBADO PARA PRODUCIÓN (27 de xullo de 2026). Revisión logopédica
+// cumprida sobre o contido galego dos catro bloques; sintetízase con Celtia
+// (Proxecto Nós) e emítese nas sesións en galego.
+//
 // Módulo PURO (enumerable en build-time): só importa tipos do banco base.
 // ============================================================================
 import {
