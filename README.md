@@ -157,11 +157,13 @@ insignias, y el progreso nunca se mezcla entre ellos.
 > dactilológico, cuyas configuraciones son posturas fijas— y para el léxico
 > signado **remite a fuente signada**: vídeo, curso oficial y, sobre todo,
 > personas sordas signantes. Lo dice en pantalla, no solo en el código.
-> Contenido y las nueve configuraciones iniciales, **validados por persona sorda
-> signante**; las 18 restantes del abecedario completo (`SignAlphabetChart`)
-> están **pendientes de esa misma revisión**: ningún chequeo automático puede
-> decir si un dibujo se reconoce como la letra que dice ser. Las cuatro letras
-> con movimiento (J, Ñ, X, Z) se marcan con ↻ y remiten a vídeo.
+> Contenido y **las 27 configuraciones del abecedario dactilológico**,
+> validados por personas sordas signantes: las nueve iniciales por una persona
+> sorda signante y las 18 restantes por **la logopeda y las personas sordas de
+> ACOPROS**. Esa revisión es insustituible —un chequeo automático comprueba que
+> un dibujo exista, nunca que se reconozca como la letra que dice ser—, así que
+> toda figura nueva vuelve a pasar por ella. Las cuatro letras con movimiento
+> (J, Ñ, X, Z) se marcan con ↻ y remiten a vídeo.
 
 - **Gamificación funcional por dominio**: XP, niveles con nombre propio de cada
   silo (Novato → *Experto en Hipoacusia*, *Experto en LSE*…) e insignias
@@ -448,9 +450,10 @@ castellano. **Aprobado por la revisora logopeda gallegohablante (jul 2026).**
   tarjeta del hub, como TEA y Dislexia. Antes compartían una barra de pestañas
   dentro de la lista y se percibían como una sola pantalla.
 - **Academy · LSE**: alfabeto dactilológico **completo** (27 configuraciones
-  dibujadas) con panel de consulta en una sola pantalla y muestra visible al
-  entrar en el dominio. Las letras con movimiento (J, Ñ, X, Z) se marcan con ↻ y
-  remiten a fuente signada.
+  dibujadas, **validadas por la logopeda y las personas sordas de ACOPROS**) con
+  panel de consulta en una sola pantalla y muestra visible al entrar en el
+  dominio. Las letras con movimiento (J, Ñ, X, Z) se marcan con ↻ y remiten a
+  fuente signada.
 - **Sexto chequeo de contenido en CI** (`check-sign-figures.js`) y los gates de
   contenido, pictogramas y dificultad léxica cubren ya el banco gallego.
 

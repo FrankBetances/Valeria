@@ -18,11 +18,14 @@
 // Las siluetas siguen el mismo criterio visual que ValeriaPictograms: sin
 // fondo, contorno grueso, color plano, alto contraste.
 //
-// VALIDACIÓN: las nueve figuras originales (A, B, C, L, O, V, índice, mano
-// plana y dos manos) están aprobadas por una persona sorda signante (jul 2026)
-// y se conservan intactas. Las configuraciones añadidas para completar el
-// abecedario quedan PENDIENTES de esa misma revisión: ningún chequeo automático
-// puede decir si un dibujo se reconoce como la letra que dice ser.
+// VALIDACIÓN: ✅ abecedario COMPLETO aprobado. Las nueve figuras originales
+// (A, B, C, L, O, V, índice, mano plana y dos manos) las validó una persona
+// sorda signante el 26 de julio de 2026; las 18 restantes, hasta las 27
+// configuraciones del abecedario dactilológico, las aprobaron la logopeda y las
+// personas sordas de ACOPROS el 27 de julio de 2026. Esa revisión es
+// insustituible: un script comprueba que un dibujo EXISTA, nunca que se
+// reconozca como la letra que dice ser. Cualquier figura nueva vuelve a
+// necesitarla antes de entrar en producción.
 // ============================================================================
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';

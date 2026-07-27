@@ -1826,7 +1826,7 @@
       "titulo": "Módulo de Lengua de Signos Española en Valeria Academy",
       "fecha": "2026-07-26",
       "origen": "Sugerencia de las logopedas de ACOPROS al aprobar la escucha en dispositivo.",
-      "estado": "implementado · seis cápsulas y nueve configuraciones validadas por persona sorda signante; abecedario completo (27 letras, jul 2026) pendiente de esa misma revisión",
+      "estado": "implementado y validado · seis cápsulas y las 27 configuraciones del abecedario dactilológico aprobadas (persona sorda signante 26 jul 2026; logopeda y personas sordas de ACOPROS 27 jul 2026)",
       "alcance": "Sexto dominio de Academy ('signos') con seis cápsulas: qué es la LSE, si signar retrasa el habla, los parámetros del signo, el alfabeto dactilológico con configuraciones dibujadas, primeros signos funcionales y dónde aprender de verdad.",
       "ampliacion": {
         "fecha": "2026-07-27",
@@ -1839,13 +1839,20 @@
       "sinMigracion": "El store absorbe el silo nuevo al hidratar ({ ...emptyDomains(), ...parsed.domains }), así que una instalación con progreso guardado arranca el dominio a cero y conserva el resto.",
       "pendiente": [
         "Decidir si el módulo debe remitir a una entidad concreta (CNSE, asociación local) en la cápsula de dónde aprender.",
-        "Validar con persona sorda signante las 18 configuraciones nuevas del abecedario (D, E, F, G, H, I, J, K, M, N, Ñ, P, Q, R, S, T, U, W, X, Y, Z). Las nueve originales (A, B, C, L, O, V, índice, mano plana, dos manos) ya están aprobadas y se conservan sin tocar."
+        "Mantener la regla: toda figura NUEVA que se añada al banco vuelve a necesitar validación por personas sordas signantes antes de producción. El gate check-sign-figures.js comprueba que el dibujo exista, nunca que se reconozca como la letra que dice ser."
       ],
       "validacion": {
         "fecha": "2026-07-26",
         "validadoPor": "Persona sorda signante",
-        "alcance": "Contenido de las seis cápsulas y las nueve configuraciones de mano dibujadas hasta el 2026-07-26 (A, B, C, L, O, V, índice, mano plana y dos manos). NO cubre las 18 configuraciones añadidas el 2026-07-27 para completar el abecedario.",
+        "alcance": "Contenido de las seis cápsulas y las nueve configuraciones de mano dibujadas hasta el 2026-07-26 (A, B, C, L, O, V, índice, mano plana y dos manos).",
         "porQueImporta": "Las configuraciones eran el punto que ningún chequeo automático podía cubrir: un script verifica que un dibujo EXISTA, nunca que se reconozca como la letra que dice ser. Solo una persona que usa la lengua puede decir si una silueta es legible."
+      },
+      "validacionAbecedario": {
+        "fecha": "2026-07-27",
+        "validadoPor": "Logopeda y personas sordas de ACOPROS",
+        "alcance": "Las 18 configuraciones añadidas para completar el abecedario dactilológico (D, E, F, G, H, I, J, K, M, N, Ñ, P, Q, R, S, T, U, W, X, Y, Z), el panel SignAlphabetChart y el marcado ↻ de las letras con movimiento (J, Ñ, X, Z).",
+        "resultado": "Aprobado. Con esto el abecedario dactilológico queda completo y validado de la A a la Z, y el módulo de LSE entra en producción con dibujo en las cuatro cápsulas que lo requieren.",
+        "porQueImporta": "Que lo revisen a la vez la logopeda y personas sordas signantes cubre las dos preguntas que ningún gate puede responder: si la silueta se reconoce como la letra y si el material sirve en la mano de una familia oyente que empieza."
       }
     }
   ]
