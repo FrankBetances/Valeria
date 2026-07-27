@@ -34,7 +34,10 @@ let fallos = 0;
 const fallo = (msg) => { fallos += 1; console.error('  ✖ ' + msg); };
 
 try {
-  const entradas = ['valeriaSemanticExpansion', 'valeriaSemanticExpansionEsDO', 'valeriaSemanticExpansionEu'];
+  const entradas = [
+    'valeriaSemanticExpansion', 'valeriaSemanticExpansionEsDO', 'valeriaSemanticExpansionEu',
+    'valeriaSemanticExpansionGl',
+  ];
   execSync(
     ['npx tsc', ...entradas.map((e) => JSON.stringify(path.join(ROOT, 'src', `${e}.ts`))),
       '--module commonjs', '--target es2020', '--moduleResolution node',
@@ -47,6 +50,7 @@ try {
     { lang: 'es', categories: mod('valeriaSemanticExpansion').LEXICAL_CATEGORIES },
     { lang: 'es-DO', categories: mod('valeriaSemanticExpansionEsDO').LEXICAL_CATEGORIES_ESDO },
     { lang: 'eu', categories: mod('valeriaSemanticExpansionEu').LEXICAL_CATEGORIES_EU },
+    { lang: 'gl', categories: mod('valeriaSemanticExpansionGl').LEXICAL_CATEGORIES_GL },
   ];
 
   for (const b of BANCOS) {

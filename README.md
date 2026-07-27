@@ -206,17 +206,19 @@ reconocedor/voz del sistema y si conviene preferir voces latinas.
 | Variedad | Voz | Reconocimiento (ASR) |
 | --- | --- | --- |
 | 🇪🇸 **Castellano** (`es`) | Voz neuronal **Sharvard** pregenerada y empaquetada (offline). | Voz del sistema `es-ES`. |
-| **Galego** (`gl`) — *Proxecto Nós* | Voz neuronal **Celtia** pregenerada (Proxecto Nós), empaquetada. El contenido compartido con el castellano (Expansión Semántica, Audición y Lenguaje) suena con el asset **Sharvard** hasta que Celtia lo cubra. | Sistema `gl-ES` con recaída a `expo-speech`. |
+| **Galego** (`gl`) — *Proxecto Nós* | Voz neuronal **Celtia** pregenerada (Proxecto Nós), empaquetada. Cubre pares mínimos, cápsulas TPR, rutas, Expansión Semántica, Audición, Lenguaje, TEA y Dislexia: todos los bloques tienen banco gallego propio. | Sistema `gl-ES` con recaída a `expo-speech`. |
 | 🇩🇴 **Dominicano** (`es-DO`) — *Quisqueya Habla* | Voz **latina del dispositivo** (`es-US`/`es-MX`); sin audio propio pregenerado. | Sistema `es-DO`, priorizando el catálogo latino. |
 | **Euskara** (`eu`) — *ILENIA/NEL-GAITU · HiTZ* | Voz neuronal **HiTZ-TTS** pregenerada (UPV/EHU · Aholab), empaquetada. Cubre pares mínimos, expansión semántica, Audición, Lenguaje, TEA, Dislexia y Test de Ling en euskera batua. | Sistema `eu-ES` con recaída a `es-ES` + pliegue vasco (`foldBasque`, ⟨h⟩ muda). |
 
-- **Voz neuronal offline.** El audio de castellano y gallego se sintetiza en CI
-  (nunca en el dispositivo) y viaja empaquetado en el APK: **1174 locuciones**
-  (`assets/voice/`, versión `es-sharvard+gl-celtia-2026-07-19`). Cada id del
-  corpus se resuelve contra `src/valeriaVoiceAssets.ts` (mapa generado); en
-  gallego, si una locución no tiene asset propio se reproduce el asset
-  castellano equivalente, y lo no cubierto por ninguno cae con elegancia a
-  `expo-speech` en runtime.
+- **Voz neuronal offline.** El audio de castellano, gallego y euskera se
+  sintetiza en CI (nunca en el dispositivo) y viaja empaquetado en el APK. El
+  corpus enumerado son **2438 locuciones** (878 `es` · 816 `gl` · 744 `eu`), y
+  cada id se resuelve contra `src/valeriaVoiceAssets.ts` (mapa generado). Una
+  variedad **solo reproduce assets de su propia voz**: si falta uno, cae con
+  elegancia a `expo-speech`, nunca a la voz de otra lengua (mezclar Celtia y
+  Sharvard en el mismo ejercicio se oía como un salto de locutor). El gate
+  `check-voice-corpus-coverage.js` impide empaquetar un APK con locuciones sin
+  asset en `es`/`gl`/`eu`.
 - **Quisqueya Habla (es‑DO)** es un proyecto **editorial**, no de traducción:
   usa léxico y registro dominicanos y, sobre todo, **no penaliza como trastorno
   los rasgos dialectales normales** del español caribeño (seseo, aspiración de

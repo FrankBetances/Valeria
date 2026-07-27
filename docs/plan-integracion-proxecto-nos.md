@@ -207,8 +207,33 @@ más larga; se subdivide por bloque de terapia para poder publicar por partes.*
 > portadoras procedurales gl (motor multi-idioma en `valeriaCarrierPhrases`),
 > cápsulas TPR, Rutas de Rutina y bancos de reforzo (`valeriaContentGl`).
 > Validación logopédica y de gallego normativo cumplida; una sesión de Pares
-> Mínimos en galego suena 100% con Celtia. Pendientes de esta fase: GL-2.4
-> (Audición/Lenguaje), GL-2.5 (Ling) y GL-2.6 (frases CC0).
+> Mínimos en galego suena 100% con Celtia. Pendientes de esta fase: GL-2.5
+> (Ling) y GL-2.6 (frases CC0).
+>
+> **Actualización (jul 2026) · GL-2.3 y GL-2.4 cableadas.** El piloto reportó
+> que «el gallego solo está en Pares Mínimos; en el resto de ejercicios
+> desaparece y habla una voz del sistema leyendo gallego con acento
+> castellano». La causa era de datos, no de motor: Expansión Semántica y
+> Audición/Lenguaje **compartían el banco castellano** (`semanticForLocale` y
+> `dbForLocale` devolvían el banco base para `gl`), así que en galego no había
+> nada que sintetizar con Celtia y la sesión se locutaba en castellano; cuando
+> el texto sí era gallego (refuerzos, pares) y no tenía asset, caía a
+> expo-speech, que sin voz `gl-*` instalada usa la voz castellana del sistema.
+> Ahora existen bancos gallegos propios:
+>
+> - `src/valeriaSemanticExpansionGl.ts` — 5 escenarios · 5 categorías léxicas ·
+>   9 progresións · 8 cápsulas de contraste, con `stt_expected_array` propio del
+>   galego infantil (GL-2.3).
+> - `src/valeriaExerciseGl.ts` — Audición (18), Linguaxe (7), TEA (6) e Dislexia
+>   (6) reautorizados: consigna, fichas, prompts, EPT-3 e movemento, máis as
+>   constantes de pantalla (emocións, plural con determinante galego, veredictos
+>   de micro) (GL-2.4).
+>
+> Ambos se enumeran en el corpus (`gl/expansion` + `gl/ejercicios`), de 112 a
+> 816 locuciones gallegas, que el workflow «Generate Voice Assets» sintetiza con
+> Celtia. Además, `trySpokenAsset` ya no recae en el asset castellano cuando
+> falta el gallego: ese respaldo existía por el banco compartido y provocaba
+> saltos de voz Celtia↔Sharvard dentro del mismo ejercicio.
 
 ---
 

@@ -2,7 +2,10 @@
 // Valeria+ · Selección del banco de Expansión Semántica por VARIEDAD (locale)
 // Punto único donde la variedad activa decide qué contenido de expansión
 // semántica usa la pantalla, sin duplicar lógica de UI:
-//   'es' / 'gl' → banco base castellano (ValeriaSemanticExpansionScreen).
+//   'es'        → banco base castellano (ValeriaSemanticExpansionScreen).
+//   'gl'        → banco galego (Proxecto Nós · GL-2.x), locutado con Celtia.
+//                 Antes compartía el banco castellano, así que una sesión en
+//                 galego locutaba castellano en toda esta pantalla.
 //   'es-DO'     → banco dominicano (Quisqueya Habla · QH-2.2): léxico local
 //                 (colmado, guagua, funda…) y consignas en registro caribeño.
 // Vive aparte del banco base para no crear ciclos y espejar el patrón de
@@ -20,6 +23,10 @@ import {
   DAILY_SCENARIOS_EU, LEXICAL_CATEGORIES_EU, PROGRESSION_SEQUENCES_EU,
   CONTRAST_CAPSULES_EU, SEM_RETRY_EU, SEM_SESSION_DONE_EU,
 } from './valeriaSemanticExpansionEu';
+import {
+  DAILY_SCENARIOS_GL, LEXICAL_CATEGORIES_GL, PROGRESSION_SEQUENCES_GL,
+  CONTRAST_CAPSULES_GL, SEM_RETRY_GL, SEM_SESSION_DONE_GL,
+} from './valeriaSemanticExpansionGl';
 import { Locale } from './valeriaLocale';
 
 // Textos fijos de la pantalla (reintento y cierre). Se localizan junto al banco
@@ -58,7 +65,17 @@ export function semanticForLocale(loc: Locale): SemanticBank {
       sessionDone: SEM_SESSION_DONE_EU,
     };
   }
-  // Castellano y galego comparten el banco base (el galego locuta con Celtia).
+  if (loc === 'gl') {
+    return {
+      scenarios: DAILY_SCENARIOS_GL,
+      categories: LEXICAL_CATEGORIES_GL,
+      sequences: PROGRESSION_SEQUENCES_GL,
+      capsules: CONTRAST_CAPSULES_GL,
+      retry: SEM_RETRY_GL,
+      sessionDone: SEM_SESSION_DONE_GL,
+    };
+  }
+  // Castellano: banco base (Sharvard).
   return {
     scenarios: DAILY_SCENARIOS,
     categories: LEXICAL_CATEGORIES,

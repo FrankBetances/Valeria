@@ -874,19 +874,33 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
 
               {/* DX-1 · Intruso Fonológico AUDITIVO PURO: sin apoyo textual. El
                   niño escucha la serie y responde por posición; la palabra de
-                  cada ficha solo se revela DESPUÉS de responder. */}
+                  cada ficha solo se revela DESPUÉS de responder.
+                  Los testers leían ese diseño como un fallo de pintado ("no se
+                  ve nada en las tarjetas y al tocar una aparecen todas"): las
+                  cuatro fichas salían idénticas —mismo 🔊, sin nada que las
+                  distinguiera— y la revelación simultánea parecía un glitch.
+                  Ahora cada ficha lleva SIEMPRE su número bien visible (nunca
+                  está vacía) y la revelación se anuncia como lo que es: la
+                  solución de la serie, ya respondida. El protocolo no cambia:
+                  sigue sin haber apoyo textual antes de responder. */}
               {ex.stage === 'intruder' && ex.auditoryOnly && (
                 <>
                   <Text style={s.stageHint}>Solo por el oído: primero escuchad la serie completa; después el niño toca el altavoz de la palabra que no suena como las demás.</Text>
                   <View style={{ alignItems: 'center', marginBottom: 14 }}>
                     <SpeakButton text={ex.intruder!.map((t) => t.cap).join(', ')} label="Oír la serie completa" voice="slow" />
                   </View>
+                  <Text style={s.audLegend}>
+                    {intruderPick >= 0
+                      ? '✅ Solución de la serie: estas eran las palabras que sonaron, en el mismo orden.'
+                      : '🔊 Cada tarjeta es una palabra de la serie, en el orden en que suenan. Las palabras se ven al responder.'}
+                  </Text>
                   <View style={s.grid2}>
                     {ex.intruder!.map((t, i) => {
                       const tapped = intruderPick === i;
                       const isAns = i === ex.intruderAnswer;
                       const ok = intruderPick >= 0 && isAns;
                       const bad = tapped && !isAns;
+                      const revealed = intruderPick >= 0;
                       return (
                         <Pressable
                           key={i}
@@ -896,12 +910,19 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                             speakToChildSeq([t.cap, isAns ? praisePhrase() : almostPhrase()]);
                           }}
                           accessibilityRole="button"
-                          accessibilityLabel={`Responder la palabra de la posición ${i + 1}`}
+                          accessibilityLabel={revealed
+                            ? `Palabra ${i + 1} de la serie: ${t.cap}`
+                            : `Responder la palabra ${i + 1} de la serie`}
                           style={[s.gridTile, s.audTile, ok && s.gridTileOk, bad && s.gridTileBad]}
                         >
+                          {/* Identidad estable de la ficha: el número está desde
+                              el primer momento, antes y después de responder. */}
+                          <View style={s.audNumBadge}><Text style={s.audNumTxt}>{i + 1}</Text></View>
                           <Text style={{ fontSize: 34 }}>🔊</Text>
                           <View style={s.gridCapRow}>
-                            <Text style={s.gridCap}>{intruderPick >= 0 ? t.cap : `posición ${i + 1}`}</Text>
+                            <Text style={[s.gridCap, revealed && s.gridCapRevealed]}>
+                              {revealed ? t.cap : `palabra ${i + 1}`}
+                            </Text>
                             <Text style={{ fontSize: 13 }}>{ok ? '✅' : bad ? '❌' : ''}</Text>
                           </View>
                         </Pressable>
@@ -1535,6 +1556,12 @@ const s = StyleSheet.create({
 
   // DX-1 · intruso auditivo puro (fichas de altavoz por posición)
   audTile: { alignItems: 'center', paddingVertical: 16 },
+  // Leyenda que explica por qué las fichas no llevan dibujo y avisa de cuándo
+  // se revelan las palabras (se leía como un fallo de pintado).
+  audLegend: { textAlign: 'center', fontSize: 11.5, fontWeight: '700', color: V.color.textMuted, lineHeight: 16, marginBottom: 12, paddingHorizontal: 6 },
+  audNumBadge: { minWidth: 26, height: 26, borderRadius: 13, backgroundColor: V.color.primaryLight, borderWidth: 1, borderColor: V.color.borderActive, alignItems: 'center', justifyContent: 'center', marginBottom: 6 },
+  audNumTxt: { fontSize: 13, fontWeight: '800', color: V.color.primaryDark },
+  gridCapRevealed: { color: V.color.textPrimary, fontWeight: '800' },
 
   // DX-3 · síntesis fonémica
   synBtn: { backgroundColor: V.color.primaryLight, borderWidth: 1, borderColor: V.color.borderActive, borderRadius: 13, paddingHorizontal: 14, paddingVertical: 10 },
