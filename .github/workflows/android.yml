@@ -124,6 +124,14 @@ jobs:
       - name: Comprobar dificultad léxica (ES-08)
         run: node scripts/check-lexical-difficulty.js
 
+      # Figuras de LSE en Academy (LSE-01). SignFigure devuelve null cuando la
+      # clave no tiene dibujo —a propósito, para no romper la diapositiva—, así
+      # que una clave equivocada no se ve ni en el diff ni en el typecheck:
+      # simplemente desaparece el dibujo. Este gate comprueba que el abecedario
+      # dactilológico está completo y que toda figura pedida existe.
+      - name: Comprobar figuras de LSE (LSE-01)
+        run: node scripts/check-sign-figures.js
+
       - name: Comprobar tipos
         run: npm run typecheck
 

@@ -1826,18 +1826,25 @@
       "titulo": "Módulo de Lengua de Signos Española en Valeria Academy",
       "fecha": "2026-07-26",
       "origen": "Sugerencia de las logopedas de ACOPROS al aprobar la escucha en dispositivo.",
-      "estado": "implementado y validado · aprobado por persona sorda signante, incluidas las configuraciones de mano",
+      "estado": "implementado · seis cápsulas y nueve configuraciones validadas por persona sorda signante; abecedario completo (27 letras, jul 2026) pendiente de esa misma revisión",
       "alcance": "Sexto dominio de Academy ('signos') con seis cápsulas: qué es la LSE, si signar retrasa el habla, los parámetros del signo, el alfabeto dactilológico con configuraciones dibujadas, primeros signos funcionales y dónde aprender de verdad.",
+      "ampliacion": {
+        "fecha": "2026-07-27",
+        "motivo": "Reporte de uso: «en Academy pedí los pictogramas de LSE pero no hay nada». El módulo SÍ tenía nueve figuras, pero vivían solo dentro de las diapositivas y las dos primeras cápsulas son de texto: quien abría el dominio y hojeaba no llegaba a ver ningún dibujo. Además el alfabeto solo dibujaba 5 de las 27 letras, así que no servía para deletrear un nombre, que es justo para lo que existe.",
+        "cambio": "27 configuraciones dactilológicas (A-Z + Ñ) construidas sobre las mismas piezas (puño, dedo, pulgar) para que se lean como una serie; panel SignAlphabetChart con todas a la vez dentro de la cápsula del alfabeto; tira compacta de muestra en el catálogo del dominio, visible antes de abrir ninguna cápsula; pregunta de quiz sobre la marca ↻.",
+        "limiteMantenido": "Las cuatro letras cuya identidad está en el trazo (J, Ñ, X, Z) se dibujan con su postura de partida y una flecha verde, se marcan con ↻ en el panel y el texto remite a vídeo o a persona signante. La flecha es un aviso de que ahí el dibujo se queda corto, no una animación."
+      },
       "limiteAsumido": "Un signo combina configuración, lugar, orientación y MOVIMIENTO, más expresión facial. Un dibujo estático captura los tres primeros. Por eso el módulo enseña lo que es enseñable así —el alfabeto dactilológico, cuyas configuraciones son posturas fijas— y para el léxico signado remite a fuente signada en vez de fingir que una silueta enseña un signo. El propio módulo lo dice en pantalla.",
       "tensionResuelta": "La app prioriza la audición y lo afirma en la cápsula «El baño de lenguaje». Añadir LSE sin más habría dejado dos mensajes que parecen reñidos. La primera cápsula del módulo aborda la relación de frente: la prioridad auditiva vale DENTRO de los ejercicios auditivo-verbales; la LSE es una lengua con estatuto propio y su adopción la deciden la familia y el equipo clínico.",
       "sinMigracion": "El store absorbe el silo nuevo al hidratar ({ ...emptyDomains(), ...parsed.domains }), así que una instalación con progreso guardado arranca el dominio a cero y conserva el resto.",
       "pendiente": [
-        "Decidir si el módulo debe remitir a una entidad concreta (CNSE, asociación local) en la cápsula de dónde aprender."
+        "Decidir si el módulo debe remitir a una entidad concreta (CNSE, asociación local) en la cápsula de dónde aprender.",
+        "Validar con persona sorda signante las 18 configuraciones nuevas del abecedario (D, E, F, G, H, I, J, K, M, N, Ñ, P, Q, R, S, T, U, W, X, Y, Z). Las nueve originales (A, B, C, L, O, V, índice, mano plana, dos manos) ya están aprobadas y se conservan sin tocar."
       ],
       "validacion": {
         "fecha": "2026-07-26",
         "validadoPor": "Persona sorda signante",
-        "alcance": "Contenido de las seis cápsulas y las nueve configuraciones de mano dibujadas.",
+        "alcance": "Contenido de las seis cápsulas y las nueve configuraciones de mano dibujadas hasta el 2026-07-26 (A, B, C, L, O, V, índice, mano plana y dos manos). NO cubre las 18 configuraciones añadidas el 2026-07-27 para completar el abecedario.",
         "porQueImporta": "Las configuraciones eran el punto que ningún chequeo automático podía cubrir: un script verifica que un dibujo EXISTA, nunca que se reconozca como la letra que dice ser. Solo una persona que usa la lengua puede decir si una silueta es legible."
       }
     }

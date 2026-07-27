@@ -32,6 +32,11 @@ export interface AcademySlide {
   // LSE para mostrar una configuración de mano; sin dibujo registrado, la
   // diapositiva se muestra igual y no queda hueco.
   figure?: string;
+  // Panel de figuras: 'dactilologico' pinta el abecedario completo (27
+  // configuraciones) en la propia diapositiva. Una letra por diapositiva
+  // obligaba a pasar 27 pantallas para deletrear un nombre, y quien entraba a
+  // hojear el módulo no veía ningún dibujo hasta la cuarta cápsula.
+  chart?: 'dactilologico';
 }
 
 // Pregunta de validación ágil. `answer` es el índice de la opción correcta.

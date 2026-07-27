@@ -148,7 +148,7 @@ insignias, y el progreso nunca se mezcla entre ellos.
 | 🗣️ **Dislalias** | Puntos de articulación y práctica de los sonidos difíciles. |
 | 🔤 **Dislexia** | Conciencia fonológica y apoyo a la lectura emergente. |
 | 🧩 **TEA** | Comunicación, anticipación y regulación en el espectro autista. |
-| 🤟 **Lengua de Signos (LSE)** | Qué es la LSE y por qué no es mímica, si signar retrasa el habla, de qué está hecho un signo, el **alfabeto dactilológico** con las configuraciones dibujadas, los primeros signos útiles y dónde se aprende de verdad. |
+| 🤟 **Lengua de Signos (LSE)** | Qué es la LSE y por qué no es mímica, si signar retrasa el habla, de qué está hecho un signo, el **alfabeto dactilológico completo** (27 configuraciones dibujadas, con panel de consulta de una sola pantalla), los primeros signos útiles y dónde se aprende de verdad. |
 
 > [!IMPORTANT]
 > **Sobre el módulo de LSE.** Un signo combina configuración de la mano, lugar,
@@ -157,7 +157,11 @@ insignias, y el progreso nunca se mezcla entre ellos.
 > dactilológico, cuyas configuraciones son posturas fijas— y para el léxico
 > signado **remite a fuente signada**: vídeo, curso oficial y, sobre todo,
 > personas sordas signantes. Lo dice en pantalla, no solo en el código.
-> Contenido y configuraciones **validados por persona sorda signante**.
+> Contenido y las nueve configuraciones iniciales, **validados por persona sorda
+> signante**; las 18 restantes del abecedario completo (`SignAlphabetChart`)
+> están **pendientes de esa misma revisión**: ningún chequeo automático puede
+> decir si un dibujo se reconoce como la letra que dice ser. Las cuatro letras
+> con movimiento (J, Ñ, X, Z) se marcan con ↻ y remiten a vídeo.
 
 - **Gamificación funcional por dominio**: XP, niveles con nombre propio de cada
   silo (Novato → *Experto en Hipoacusia*, *Experto en LSE*…) e insignias
@@ -363,7 +367,7 @@ compila la app en cada push/fusión a `main` (y en ramas `claude/**`). Con los
 secrets de firma configurados genera el APK y el **AAB firmados**; sin secrets
 solo compila el APK. El `versionCode` se deriva del número de run.
 
-Antes de compilar corren **cinco chequeos de contenido** que fallan rápido. No
+Antes de compilar corren **seis chequeos de contenido** que fallan rápido. No
 son tests unitarios: cada uno protege un acuerdo clínico concreto que el
 typecheck y el diff no ven.
 
@@ -374,6 +378,7 @@ typecheck y el diff no ven.
 | `check-pictogram-coverage.js` | Que una cápsula de contraste quede **irresoluble**: si las dos vueltas comparten clave de pictograma, el niño ve dos tarjetas idénticas (ES‑12). |
 | `check-lexical-difficulty.js` | Que un ítem avanzado se cuele entre los iniciales: **el orden de escritura ES el orden de práctica** (ES‑08). |
 | `check-reminder-slots.js` | Que apagar una franja de recordatorio deje de reprogramarla pero **no cancele sus avisos ya en cola** (GEN‑01). |
+| `check-sign-figures.js` | Que una cápsula de LSE pida una figura **sin dibujo registrado** o que el abecedario dactilológico quede incompleto: `SignFigure` devuelve `null` a propósito, así que el fallo es invisible salvo para este gate (LSE‑01). |
 
 Todos se pueden ejecutar en local: `node scripts/<nombre>.js`.
 

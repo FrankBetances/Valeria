@@ -24,7 +24,7 @@ import { AcademyBadge, AcademyCapsule, AcademyDomain } from './academyTypes';
 import { AcademyDomainCard } from './AcademyDomainCard';
 import { AcademyPriorityFeed } from './AcademyPriorityFeed';
 import { HipoacusiaBottomSheet } from './HipoacusiaBottomSheet';
-import { SignFigure } from './AcademySignosSvg';
+import { SignAlphabetChart, SignFigure } from './AcademySignosSvg';
 
 type View4 = 'hub' | 'list' | 'read' | 'quiz';
 
@@ -117,6 +117,22 @@ export const ValeriaAcademyScreen: React.FC<{ navigation: any }> = ({ navigation
         </View>
 
         <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
+          {/* LSE: muestra de las configuraciones dibujadas ANTES de entrar en
+              ninguna cápsula. Las figuras vivían solo dentro de las
+              diapositivas, así que quien abría el dominio y hojeaba las dos
+              primeras cápsulas —que son de texto— concluía que el módulo no
+              tenía dibujos. El panel completo está en «El alfabeto
+              dactilológico». */}
+          {activeDomain === 'signos' && (
+            <View style={s.signPreview}>
+              <Text style={s.signPreviewTitle}>🤟 Configuraciones de mano dibujadas</Text>
+              <SignAlphabetChart compact />
+              <Text style={s.signPreviewSub}>
+                Las 27 letras del alfabeto dactilológico están en la cápsula «El alfabeto dactilológico».
+                Un dibujo no enseña un signo con movimiento: para el léxico signado, fuente signada.
+              </Text>
+            </View>
+          )}
           <Text style={s.listLabel}>CÁPSULAS DE CONOCIMIENTO</Text>
           {capsules.length === 0 && (
             <View style={s.emptyCard}>
@@ -196,6 +212,9 @@ const CapsuleReader: React.FC<{
             <View style={s.slideFigure}><SignFigure figure={slide.figure} size={132} /></View>
           )}
           <Text style={s.slideBody}>{slide.body}</Text>
+          {/* Panel del abecedario dactilológico: las 27 configuraciones juntas,
+              para consultarlas mientras se deletrea sin pasar 27 pantallas. */}
+          {slide.chart === 'dactilologico' && <SignAlphabetChart />}
         </View>
       </ScrollView>
 
@@ -362,6 +381,11 @@ const s = StyleSheet.create({
 
   scroll: { padding: 18, paddingBottom: 28 },
   listLabel: { fontSize: 12, fontWeight: '800', color: V.color.textMuted, letterSpacing: 0.5, marginBottom: 12, marginHorizontal: 2 },
+
+  // Muestra de configuraciones de mano en el catálogo del dominio LSE.
+  signPreview: { backgroundColor: '#f7f4fe', borderWidth: 1, borderColor: '#e5dcfa', borderRadius: 16, padding: 13, marginBottom: 16 },
+  signPreviewTitle: { fontSize: 13, fontWeight: '800', color: '#4b3a7a', marginBottom: 9 },
+  signPreviewSub: { fontSize: 11.5, fontWeight: '600', color: '#6b6383', lineHeight: 16, marginTop: 9 },
 
   emptyCard: { backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.border, borderRadius: 16, padding: 18, marginBottom: 11 },
   emptyTxt: { fontSize: 13.5, fontWeight: '600', color: V.color.textMuted, lineHeight: 20, textAlign: 'center' },
