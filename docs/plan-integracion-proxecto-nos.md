@@ -275,6 +275,23 @@ más larga; se subdivide por bloque de terapia para poder publicar por partes.*
 > Para el gallego solo queda: corpus `gl` (Fase 2 de este plan) + activar el
 > motor `coqui`/Celtia en `generate-voice-assets.py` (`--lang gl`).
 
+> **Estado (27 jul 2026): ✅ FASE 3 CERRADA PARA EL GALLEGO.** El corpus gallego
+> completo está sintetizado con **Celtia** y empaquetado:
+>
+> | Dato | Valor |
+> | --- | --- |
+> | Locuciones gallegas | **816** (antes 112: solo pares, TPR, rutas y refuerzos) |
+> | Duración total | 45,8 min (2749,9 s) |
+> | Peso | **16,5 MB** en AAC a −3 dBFS |
+> | Clips vacíos o fallidos | 0 |
+>
+> - **GL-3.4 remedido con el corpus completo:** 16,5 MB de gallego, dentro del
+>   presupuesto orientativo (<25 MB por variedad). El total de `assets/voice/`
+>   —castellano, gallego y euskera juntos— queda en 89 MB, que es el dato que
+>   importa para el APK y conviene vigilar cuando entren nuevas variedades.
+> - La síntesis corre entera en CI (`voice-assets.yml`): los modelos de Nós
+>   jamás se ejecutan en el dispositivo.
+
 ---
 
 ### Fase 4 · ASR en gallego
