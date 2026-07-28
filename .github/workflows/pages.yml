@@ -1,0 +1,50 @@
+name: Deploy Legal Site (GitHub Pages)
+
+# Publica ÚNICAMENTE el contenido de `site/` en GitHub Pages. El resto del
+# repositorio (código, docs internas de planificación, corpus de voz) NO se
+# publica: el artefacto se construye a partir de esa carpeta y de nada más.
+#
+# URL resultante: https://frankbetances.github.io/Valeria/
+# Política de privacidad para la ficha de Play Store:
+#   https://frankbetances.github.io/Valeria/privacidad.html
+#
+# Requisito de una sola vez en el repositorio:
+#   Settings → Pages → Build and deployment → Source: "GitHub Actions".
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'site/**'
+      - '.github/workflows/pages.yml'
+  # Permite publicar a mano desde la pestaña Actions (útil la primera vez).
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Un despliegue a la vez; no cancela el que ya está en curso.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/configure-pages@v5
+
+      - name: Subir la carpeta site/ como artefacto de Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+      - id: deployment
+        uses: actions/deploy-pages@v4

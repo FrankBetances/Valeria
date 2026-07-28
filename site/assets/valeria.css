@@ -1,0 +1,249 @@
+/* ==========================================================================
+   Valeria+ · Hoja de estilo del sitio legal (GitHub Pages)
+   Sin dependencias externas: sin CDN, sin fuentes remotas, sin JS.
+   Compatible con tema claro y oscuro del sistema.
+   ========================================================================== */
+
+:root {
+  --teal: #00c4be;
+  --teal-dark: #00807c;
+  --ink: #12312f;
+  --body: #33514f;
+  --muted: #6b8785;
+  --bg: #f6fbfb;
+  --card: #ffffff;
+  --line: #d9e9e8;
+  --note-bg: #eefaf9;
+  --warn-bg: #fff6e6;
+  --warn-line: #f0c98a;
+  --warn-ink: #6b4a10;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --teal: #34dcd6;
+    --teal-dark: #7ef0eb;
+    --ink: #eaf7f6;
+    --body: #c2d6d5;
+    --muted: #8fa9a8;
+    --bg: #0d1918;
+    --card: #132523;
+    --line: #24403e;
+    --note-bg: #12302e;
+    --warn-bg: #2e2413;
+    --warn-line: #6b5320;
+    --warn-ink: #f2d9a4;
+  }
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  padding: 0 1.25rem 5rem;
+  background: var(--bg);
+  color: var(--body);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  font-size: 17px;
+  line-height: 1.65;
+}
+
+.wrap { max-width: 46rem; margin: 0 auto; }
+
+/* --- Cabecera ---------------------------------------------------------- */
+
+header.hero {
+  margin: 0 -1.25rem 2.5rem;
+  padding: 2.75rem 1.25rem 2.25rem;
+  background: linear-gradient(160deg, var(--teal) 0%, var(--teal-dark) 100%);
+  color: #ffffff;
+}
+
+header.hero .wrap { max-width: 46rem; }
+
+header.hero .kicker {
+  margin: 0 0 .35rem;
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  opacity: .85;
+}
+
+header.hero h1 {
+  margin: 0 0 .6rem;
+  font-size: clamp(1.7rem, 5vw, 2.35rem);
+  line-height: 1.2;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+header.hero p {
+  margin: 0;
+  font-size: 1.02rem;
+  opacity: .95;
+}
+
+header.hero a { color: #ffffff; }
+
+/* --- Tipografía -------------------------------------------------------- */
+
+h2 {
+  margin: 2.75rem 0 .85rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--line);
+  font-size: 1.32rem;
+  line-height: 1.3;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+h2:first-of-type { border-top: 0; padding-top: 0; }
+
+h3 {
+  margin: 1.85rem 0 .5rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+p, li { color: var(--body); }
+
+ul, ol { padding-left: 1.35rem; }
+
+li { margin: .4rem 0; }
+
+a { color: var(--teal-dark); text-decoration: underline; text-underline-offset: 2px; }
+
+a:hover { text-decoration-thickness: 2px; }
+
+strong { color: var(--ink); }
+
+code {
+  padding: .1rem .35rem;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  background: var(--card);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: .88em;
+  word-break: break-word;
+}
+
+/* --- Bloques ----------------------------------------------------------- */
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem 1.5rem;
+  margin: 0 0 2.5rem;
+  padding: .9rem 1.1rem;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--card);
+  font-size: .9rem;
+  color: var(--muted);
+}
+
+.note {
+  margin: 1.5rem 0;
+  padding: 1rem 1.15rem;
+  border-left: 4px solid var(--teal);
+  border-radius: 0 10px 10px 0;
+  background: var(--note-bg);
+}
+
+.note p:first-child { margin-top: 0; }
+.note p:last-child { margin-bottom: 0; }
+
+.warn {
+  margin: 1.5rem 0;
+  padding: 1rem 1.15rem;
+  border: 1px solid var(--warn-line);
+  border-left-width: 4px;
+  border-radius: 0 10px 10px 0;
+  background: var(--warn-bg);
+  color: var(--warn-ink);
+}
+
+.warn strong { color: var(--warn-ink); }
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: 1rem;
+  margin: 2rem 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cards li { margin: 0; }
+
+.cards a {
+  display: block;
+  height: 100%;
+  padding: 1.15rem 1.25rem;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--card);
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.cards a:hover { border-color: var(--teal); }
+
+.cards .t { display: block; font-weight: 700; margin-bottom: .3rem; }
+.cards .d { display: block; font-size: .92rem; color: var(--muted); }
+
+/* --- Tablas ------------------------------------------------------------ */
+
+.table-scroll {
+  overflow-x: auto;
+  margin: 1.25rem 0;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--card);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .93rem;
+}
+
+th, td {
+  padding: .7rem .9rem;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  vertical-align: top;
+}
+
+th {
+  color: var(--ink);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+tbody tr:last-child td { border-bottom: 0; }
+
+/* --- Idioma / pie ------------------------------------------------------ */
+
+.lang {
+  margin: 0 0 2rem;
+  font-size: .92rem;
+  color: var(--muted);
+}
+
+footer {
+  margin-top: 3.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--line);
+  font-size: .88rem;
+  color: var(--muted);
+}
+
+footer p { color: var(--muted); margin: .4rem 0; }
+
+img { max-width: 100%; height: auto; }

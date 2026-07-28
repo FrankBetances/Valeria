@@ -64,6 +64,7 @@ dificultades del lenguaje.**
 - [Builds (EAS)](#-builds-eas)
 - [Build automático (GitHub Actions)](#-build-automático-github-actions)
 - [Backend opcional (Firebase)](#-backend-opcional-firebase)
+- [Privacidad y ficha de Play Store](#️-privacidad-y-ficha-de-play-store)
 - [Historial de versiones](#-historial-de-versiones)
 
 </td>
@@ -417,6 +418,33 @@ La app sigue funcionando en local sin conexión si no se activa.
   por las Security Rules de [`firestore.rules`](firestore.rules).
 
 Guía completa de configuración y despliegue: [`docs/firebase-setup.md`](docs/firebase-setup.md).
+
+---
+
+## 🛡️ Privacidad y ficha de Play Store
+
+Google Play exige una **política de privacidad accesible en una URL pública**
+para toda app que solicite permisos sensibles (Valeria+ pide micrófono y
+reconocimiento de voz) o que esté dirigida a menores. Esa política se sirve
+desde **GitHub Pages**, publicada por el workflow
+[`.github/workflows/pages.yml`](.github/workflows/pages.yml) a partir de la
+carpeta [`site/`](site/) — y **solo** de esa carpeta: el código, las docs
+internas y el corpus de voz no se publican.
+
+| Campo de Play Console | URL |
+| --- | --- |
+| **Política de Privacidad** (Ficha de Play Store y Contenido de la app) | `https://frankbetances.github.io/Valeria/privacidad.html` |
+| Privacy Policy (inglés, para la ficha localizada en `en-US`) | `https://frankbetances.github.io/Valeria/privacy.html` |
+| **Eliminación de datos** (obligatoria al declarar cuentas de usuario) | `https://frankbetances.github.io/Valeria/eliminacion-de-datos.html` |
+
+**Activación (una sola vez):** *Settings → Pages → Build and deployment →
+Source: **GitHub Actions***. Después, cada push a `main` que toque `site/`
+republica el sitio; también puede lanzarse a mano desde la pestaña *Actions*.
+
+> Al cambiar lo que la app recoge —un permiso nuevo, un campo nuevo en la ficha
+> del paciente, un SDK de terceros— hay que actualizar en el mismo PR la
+> política de `site/` **y** el formulario de *Seguridad de los datos* de Play
+> Console: son declaraciones que Google contrasta entre sí.
 
 ---
 
