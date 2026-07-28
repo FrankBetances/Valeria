@@ -1,0 +1,9 @@
+# Sitio legal de Valeria+ · https://frankbetances.github.io/Valeria/
+# La política de privacidad debe ser accesible y rastreable: Google Play y los
+# revisores comprueban la URL declarada en la ficha, y una política indexable
+# es más fácil de verificar y de citar.
+
+User-agent: *
+Allow: /
+
+Sitemap: https://frankbetances.github.io/Valeria/sitemap.xml
