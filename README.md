@@ -437,13 +437,18 @@ internas y el corpus de voz no se publican.
 | Privacy Policy (inglés, para la ficha localizada en `en-US`) | `https://frankbetances.github.io/Valeria/privacy.html` |
 | **Eliminación de datos** (obligatoria al declarar cuentas de usuario) | `https://frankbetances.github.io/Valeria/eliminacion-de-datos.html` |
 
-**Activación (una sola vez, manual e inevitable):** *Settings → Pages → Build
-and deployment → Source: **GitHub Actions***. El `GITHUB_TOKEN` de Actions
-puede publicar en un sitio de Pages existente, pero **no puede crearlo** —eso
-exige permisos de administración del repositorio—, así que `enablement: true`
-falla con *«Create Pages site failed: Resource not accessible by
-integration»*. Hecha esa activación, cada push a `main` que toque `site/`
-republica el sitio; también puede lanzarse a mano desde la pestaña *Actions*.
+**Activación (una sola vez, manual e inevitable — ya hecha):** *Settings →
+Pages → Build and deployment → Source: **GitHub Actions***. El `GITHUB_TOKEN`
+de Actions puede publicar en un sitio de Pages existente, pero **no puede
+crearlo** —eso exige permisos de administración del repositorio—, así que
+`enablement: true` falla con *«Create Pages site failed: Resource not
+accessible by integration»*. Hecha esa activación, cada push a `main` que
+toque `site/` republica el sitio; también puede lanzarse desde *Actions*.
+
+> Si la fuente vuelve a *«Deploy from a branch»*, el despliegue falla **antes
+> de arrancar**: un par de segundos, sin runner, sin pasos y sin logs. Ese
+> fallo mudo —y la aparición de runs de *«pages build and deployment»*— es la
+> firma de que la fuente ya no es «GitHub Actions».
 
 > Al cambiar lo que la app recoge —un permiso nuevo, un campo nuevo en la ficha
 > del paciente, un SDK de terceros— hay que actualizar en el mismo PR la

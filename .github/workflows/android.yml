@@ -20,10 +20,19 @@ on:
     branches:
       - main
       - claude/**
+    # El sitio legal (`site/`) y su workflow no entran en el APK: compilarlo
+    # por un cambio de la política de privacidad quema minutos de CI y deja
+    # ruido rojo/verde sin relación con la app.
+    paths-ignore:
+      - 'site/**'
+      - '.github/workflows/pages.yml'
   pull_request:
     branches:
       - main
       - claude/**
+    paths-ignore:
+      - 'site/**'
+      - '.github/workflows/pages.yml'
   # Relanzo tras la síntesis de voz. El APK debe empaquetar los assets de voz
   # neuronal del corpus que compila, y "Generate Voice Assets" los sintetiza y
   # los COMMITEA a la rama en paralelo a este build. Ese commit lo hace el

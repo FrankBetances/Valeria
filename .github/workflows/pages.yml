@@ -8,8 +8,12 @@ name: Deploy Legal Site (GitHub Pages)
 # Política de privacidad para la ficha de Play Store:
 #   https://frankbetances.github.io/Valeria/privacidad.html
 #
-# Requisito de una sola vez en el repositorio:
+# Requisito de una sola vez en el repositorio, YA APLICADO:
 #   Settings → Pages → Build and deployment → Source: "GitHub Actions".
+# Si alguna vez vuelve a "Deploy from a branch", este job falla ANTES de
+# arrancar —sin runner, sin pasos y sin logs, en un par de segundos— porque el
+# entorno `github-pages` queda en manos del constructor legacy de Jekyll. Ese
+# fallo mudo es la firma de que la fuente no es "GitHub Actions".
 #
 # No se puede automatizar: `configure-pages` acepta `enablement: true`, pero el
 # GITHUB_TOKEN de Actions no puede DAR DE ALTA el sitio de Pages —crearlo exige
