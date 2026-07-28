@@ -8,12 +8,15 @@ name: Deploy Legal Site (GitHub Pages)
 # Política de privacidad para la ficha de Play Store:
 #   https://frankbetances.github.io/Valeria/privacidad.html
 #
-# `enablement: true` hace que el propio workflow dé de alta el sitio de Pages
-# con el permiso `pages: write`, en lugar de exigir un paso manual previo en
-# Settings → Pages. Si la organización o el plan del repositorio no permiten
-# el alta por API, la acción falla con "Get Pages site failed" y entonces sí
-# hay que activarlo a mano en Settings → Pages → Build and deployment →
-# Source: "GitHub Actions".
+# Requisito de una sola vez en el repositorio:
+#   Settings → Pages → Build and deployment → Source: "GitHub Actions".
+#
+# No se puede automatizar: `configure-pages` acepta `enablement: true`, pero el
+# GITHUB_TOKEN de Actions no puede DAR DE ALTA el sitio de Pages —crearlo exige
+# permisos de administración del repositorio que el token no lleva— y la acción
+# falla con "Create Pages site failed: Resource not accessible by integration".
+# Comprobado en el run #2 de este workflow. Con `pages: write` basta para
+# publicar en un sitio que ya existe, que es lo que hace este job.
 
 on:
   push:
@@ -44,8 +47,6 @@ jobs:
       - uses: actions/checkout@v4
 
       - uses: actions/configure-pages@v5
-        with:
-          enablement: true
 
       - name: Subir la carpeta site/ como artefacto de Pages
         uses: actions/upload-pages-artifact@v3

@@ -437,12 +437,13 @@ internas y el corpus de voz no se publican.
 | Privacy Policy (inglés, para la ficha localizada en `en-US`) | `https://frankbetances.github.io/Valeria/privacy.html` |
 | **Eliminación de datos** (obligatoria al declarar cuentas de usuario) | `https://frankbetances.github.io/Valeria/eliminacion-de-datos.html` |
 
-El workflow da de alta el sitio de Pages por sí mismo (`enablement: true`), así
-que no hace falta configurar nada a mano: cada push a `main` que toque `site/`
-republica el sitio, y también puede lanzarse desde la pestaña *Actions*. Si el
-alta por API estuviera restringida, la acción falla con *«Get Pages site
-failed»*; en ese caso, actívalo una vez en *Settings → Pages → Build and
-deployment → Source: **GitHub Actions***.
+**Activación (una sola vez, manual e inevitable):** *Settings → Pages → Build
+and deployment → Source: **GitHub Actions***. El `GITHUB_TOKEN` de Actions
+puede publicar en un sitio de Pages existente, pero **no puede crearlo** —eso
+exige permisos de administración del repositorio—, así que `enablement: true`
+falla con *«Create Pages site failed: Resource not accessible by
+integration»*. Hecha esa activación, cada push a `main` que toque `site/`
+republica el sitio; también puede lanzarse a mano desde la pestaña *Actions*.
 
 > Al cambiar lo que la app recoge —un permiso nuevo, un campo nuevo en la ficha
 > del paciente, un SDK de terceros— hay que actualizar en el mismo PR la
