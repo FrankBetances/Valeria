@@ -8,7 +8,7 @@
 // el repositorio, así que la mantenemos fuera del código fuente.
 //
 // Proyecto Firebase: valeria-b500f  ·  número 477839657795
-// App Android registrada: package health.earlify.valeria
+// App Android: package eu.futureforkids.valeria (ver app.json → android.package)
 // (messagingSenderId === project number)
 //
 // Dónde se definen las variables:

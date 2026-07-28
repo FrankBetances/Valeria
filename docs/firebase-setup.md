@@ -6,7 +6,12 @@ Authentication (email/contraseña)** + **Cloud Firestore**.
 - **SDK:** `firebase` (SDK JS), no `@react-native-firebase`. Funciona en
   Android, iOS y web con el mismo código, sin módulos nativos ni rebuilds.
 - **Proyecto Firebase:** `valeria-b500f` (número `477839657795`).
-- **App:** Android, package `health.earlify.valeria`.
+- **App:** Android, package `eu.futureforkids.valeria` (definido en `app.json` →
+  `expo.android.package`). La app Android que hay registrada en el proyecto
+  Firebase se creó con el package anterior `health.earlify.valeria`: como
+  usamos el **SDK JS** (config por `apiKey`/`appId`, sin `google-services.json`),
+  el cambio de package no rompe Auth ni Firestore, pero conviene registrar la
+  app con el package nuevo y actualizar las restricciones de la API key.
 
 ## Dónde vive la config del SDK (y por qué no va en el código)
 
@@ -38,7 +43,7 @@ además emite un *warning* en el resumen del run cuando faltan los secrets.
 > que trata la clave como comprometida. En
 > [Google Cloud Console → APIs & Services → Credentials](https://console.cloud.google.com/apis/credentials?project=valeria-b500f)
 > regenera la clave (*Regenerate key*) o, como mínimo, restríngela: restricción
-> de aplicación **Android** (package `health.earlify.valeria` + huella SHA-1 del
+> de aplicación **Android** (package `eu.futureforkids.valeria` + huella SHA-1 del
 > certificado de firma) y restricción de APIs a las que usa Firebase (Identity
 > Toolkit, Token Service, Firestore). Después actualiza `.env`, los secrets de
 > Actions y las variables de EAS con el valor nuevo.
@@ -79,7 +84,7 @@ para hacerlos yo desde este entorno.
 
    ```bash
    npx -y firebase-tools@latest apps:create ANDROID "Valeria+ Android" \
-     --package-name health.earlify.valeria --project valeria-b500f
+     --package-name eu.futureforkids.valeria --project valeria-b500f
    ```
 
 3. **Obtener las claves del SDK y rellenar `.env`** (nunca las escribas en
