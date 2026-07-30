@@ -16,6 +16,7 @@ ios-native/
 ├── Config/                     # firma y opciones de exportación (ver al final)
 ├── scripts/
 │   ├── preflight.sh            # ¿le falta algo a este clon para compilar?
+│   ├── team-id.sh              # averigua el Team ID y escribe la firma local
 │   └── archive.sh              # archive + export del .ipa
 └── Valeria/
     ├── ValeriaApp.swift        # @main + init defensiva de Firebase
@@ -167,14 +168,35 @@ asociados: no hay ni un `.entitlements`), así que compila entero.
 
 ### Puesta a punto
 
-1. En Xcode, *Settings → Accounts → +* y añade tu Apple ID. Aparecerá un equipo
-   llamado **(Personal Team)**; su Team ID está en esa misma fila.
-2. `cp Config/Signing.local.xcconfig.example Config/Signing.local.xcconfig` y
-   escribe ese Team ID.
-3. Conecta el dispositivo, elígelo arriba en Xcode y ⌘R.
+1. En Xcode, *Settings (⌘,) → Accounts → +* y añade tu Apple ID. Aparecerá un
+   equipo llamado **(Personal Team)**.
+2. Abre `Valeria.xcodeproj`, pestaña *Signing & Capabilities*, y elige ese
+   equipo una vez: es lo que hace que Xcode genere el certificado de firma.
+3. Deja la configuración local escrita:
+
+   ```bash
+   ./scripts/team-id.sh --write
+   ```
+
+4. Conecta el dispositivo, elígelo arriba en Xcode y ⌘R.
 
 La primera vez, el iPhone o iPad pedirá confiar en el certificado:
 *Ajustes → General → VPN y gestión de dispositivos → tu Apple ID → Confiar*.
+
+> **El Team ID no es tu correo.** `DEVELOPMENT_TEAM` lleva un código de 10
+> caracteres (tipo `A1B2C3D4E5`) que Apple asigna a la cuenta. Con cuenta
+> gratuita no aparece en `developer.apple.com` —esa web es del programa de
+> pago—, así que hay que leerlo del Mac: eso es lo que hace `team-id.sh`, que lo
+> saca del campo **OU** del certificado de firma.
+>
+> Cuidado con una confusión fácil: el certificado se llama
+> `Apple Development: tu@correo (XXXXXXXXXX)`, y **ese código entre paréntesis
+> no es el Team ID**, es el identificador del propio certificado. Por eso el
+> script lee el OU y no el nombre.
+>
+> Si tienes más de un equipo (el personal y el de la organización), el script
+> los lista pero no elige: firmar con el equipo equivocado da errores de
+> identificador que cuesta relacionar con la causa.
 
 ### Si Xcode dice que el identificador no está disponible
 
