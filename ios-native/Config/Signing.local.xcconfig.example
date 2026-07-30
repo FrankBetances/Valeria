@@ -3,10 +3,26 @@
 //
 //   cp Signing.local.xcconfig.example Signing.local.xcconfig
 //
-// y escribe tu Team ID de 10 caracteres. Lo encuentras en
-// https://developer.apple.com/account → Membership details → Team ID.
-//
 // Signing.local.xcconfig está en .gitignore: no lo añadas al repositorio.
 // ============================================================================
 
+// Team ID de 10 caracteres.
+//
+//   · Cuenta de pago: https://developer.apple.com/account → Membership details.
+//   · Cuenta GRATUITA (Personal Team): no aparece en esa web. Se ve en Xcode,
+//     en Settings → Accounts → selecciona tu Apple ID → la columna Team ID de
+//     la fila «(Personal Team)». También sale con:
+//         security find-identity -v -p codesigning
+//     dentro del paréntesis de «Apple Development: tu@correo (XXXXXXXXXX)».
+//
+// También puedes dejar esta línea comentada y elegir el equipo en Xcode
+// (pestaña Signing & Capabilities). El inconveniente es que Xcode lo escribe
+// dentro de project.pbxproj y te deja un cambio sin querer en el repositorio.
 DEVELOPMENT_TEAM = ABCDE12345
+
+// Identificador propio del bundle. Descoméntalo SOLO si Xcode se queja de que
+// «health.earlify.valeria» no está disponible para tu equipo: ese nombre ya
+// está registrado por otra cuenta y un identificador solo puede tener un dueño.
+// Al vivir aquí, tu identificador local no toca el que se publica.
+//
+// VALERIA_BUNDLE_ID = health.earlify.valeria.fbr

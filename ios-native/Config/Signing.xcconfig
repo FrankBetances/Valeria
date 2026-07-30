@@ -28,5 +28,29 @@ DEVELOPMENT_TEAM = $(VALERIA_DEVELOPMENT_TEAM)
 // (scripts/archive.sh ya lo pasa).
 CODE_SIGN_STYLE = Automatic
 
+// ----------------------------------------------------------------------------
+// Identificador del bundle
+// ----------------------------------------------------------------------------
+// El valor de producción es el de la ficha de Apple, y es el que se queda por
+// defecto. Se declara aquí, y no en el pbxproj, porque hay un caso en el que
+// hay que cambiarlo y no debería obligar a tocar el proyecto:
+//
+// Un identificador solo puede registrarlo UN equipo. Si «health.earlify.valeria»
+// ya está registrado por la cuenta de la organización y compilas con una cuenta
+// personal distinta, Xcode responde:
+//
+//     Failed to register bundle identifier. The app identifier
+//     "health.earlify.valeria" cannot be registered to your development team
+//     because it is not available. Change your bundle identifier to a unique
+//     string.
+//
+// No es un fallo del proyecto: es que ese nombre ya tiene dueño. La salida es
+// darle uno propio en Signing.local.xcconfig (sin versionar), y así la firma
+// local no cambia lo que se publica:
+//
+//     VALERIA_BUNDLE_ID = health.earlify.valeria.tuiniciales
+//
+VALERIA_BUNDLE_ID = health.earlify.valeria
+
 // La sobrescritura local va al final: en un .xcconfig gana la última asignación.
 #include? "Signing.local.xcconfig"

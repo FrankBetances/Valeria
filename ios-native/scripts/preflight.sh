@@ -85,17 +85,42 @@ echo "── Firma ────────────────────�
 
 if [ -f Config/Signing.local.xcconfig ]; then
   EQUIPO=$(sed -n 's/^[[:space:]]*DEVELOPMENT_TEAM[[:space:]]*=[[:space:]]*//p' Config/Signing.local.xcconfig | tr -d ' \r')
+  IDENT=$(sed -n 's/^[[:space:]]*VALERIA_BUNDLE_ID[[:space:]]*=[[:space:]]*//p' Config/Signing.local.xcconfig | tr -d ' \r')
   if [ -z "$EQUIPO" ] || [ "$EQUIPO" = "ABCDE12345" ]; then
     aviso "Config/Signing.local.xcconfig existe pero el Team ID sigue siendo el de la plantilla."
   else
     ok "Team ID local configurado ($EQUIPO)"
   fi
+  [ -n "$IDENT" ] && ok "bundle ID propio: $IDENT"
 elif [ -n "${VALERIA_DEVELOPMENT_TEAM:-}" ]; then
   ok "Team ID en el entorno ($VALERIA_DEVELOPMENT_TEAM)"
 else
-  aviso "Sin Team ID. El SIMULADOR compila igual; archivar fallará.
-      Para arreglarlo:  cp Config/Signing.local.xcconfig.example Config/Signing.local.xcconfig
-      y escribe dentro tu Team ID (developer.apple.com → Membership details)."
+  aviso "Sin Team ID. El SIMULADOR compila igual: para revisar navegación y
+      estética no hace falta ninguna cuenta. Solo se necesita para instalarlo en
+      un iPhone o iPad real.
+      Para configurarlo:  cp Config/Signing.local.xcconfig.example Config/Signing.local.xcconfig
+      (el .example explica dónde está el Team ID, también el de cuenta gratuita)."
+fi
+
+# Un identificador solo puede registrarlo un equipo. Con cuenta gratuita y el
+# identificador de producción, el fallo aparece al conectar el dispositivo, no
+# al compilar, y el mensaje de Xcode no dice que la salida es cambiarlo.
+if command -v security >/dev/null 2>&1; then
+  if security find-identity -v -p codesigning 2>/dev/null | grep -q "Apple Development"; then
+    ok "hay un certificado «Apple Development» en el llavero"
+    if ! security find-identity -v -p codesigning 2>/dev/null | grep -qi "Apple Distribution\|iPhone Distribution"; then
+      aviso "Sin certificado de distribución: es lo normal con cuenta gratuita.
+      Puedes compilar y ejecutar en tu dispositivo, pero NO exportar para
+      Firebase App Distribution ni TestFlight (eso pide el programa de pago).
+      Para un .ipa de desarrollo:  ./scripts/archive.sh dev
+      Recuerda que la firma gratuita CADUCA A LOS 7 DÍAS: pasado ese plazo la
+      app deja de abrirse en el dispositivo y hay que reinstalarla desde Xcode."
+    fi
+  else
+    aviso "No hay ningún certificado de firma en el llavero todavía. Xcode lo crea
+      solo la primera vez que añades tu Apple ID en Settings → Accounts y eliges
+      el equipo en la pestaña Signing & Capabilities."
+  fi
 fi
 
 echo

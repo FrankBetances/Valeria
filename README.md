@@ -380,9 +380,13 @@ open Valeria.xcodeproj     # esquema Valeria · ⌘R
 **El proyecto de Xcode es `ios-native/Valeria.xcodeproj`, no la raíz**: aquí no
 hay ningún `.xcodeproj` ni carpeta `ios/`. Dependencias por Swift Package
 Manager (Firebase), **sin CocoaPods**: no hay `Podfile` ni `pod install` que
-ejecutar, y se abre el `.xcodeproj`, no un *workspace*. El simulador funciona
-sin cuenta de Apple Developer; para dispositivo o exportación hace falta el
-Team ID.
+ejecutar, y se abre el `.xcodeproj`, no un *workspace*.
+
+El **simulador** no necesita ninguna cuenta de Apple. Con una cuenta **gratuita**
+se compila y se ejecuta en tu propio iPhone o iPad (el proyecto no usa ninguna
+capacidad de las que exigen cuenta de pago), con dos límites que conviene saber:
+la firma **caduca a los 7 días** y no hay forma de distribuir por TestFlight ni
+Firebase App Distribution — eso sí requiere el Apple Developer Program.
 
 Todo el detalle —firma, `archive`, exportación del `.ipa`, y en qué se
 diferencia de esta app RN— está en [`ios-native/README.md`](ios-native/README.md).

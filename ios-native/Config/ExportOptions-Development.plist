@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  Valeria+ · Exportación de desarrollo.
+
+  Es la ÚNICA de las tres que funciona con una cuenta gratuita de Apple
+  (Personal Team): ad-hoc y app-store necesitan un certificado de distribución,
+  y ese solo lo emite el Apple Developer Program de pago.
+
+  El .ipa que sale de aquí se instala en los dispositivos de tu propia cuenta,
+  y caduca a los 7 días como cualquier firma de desarrollo gratuita. Para
+  probar en tu iPad no hace falta ni exportarlo: con ⌘R desde Xcode basta.
+-->
+<plist version="1.0">
+<dict>
+	<key>method</key>
+	<string>development</string>
+	<key>signingStyle</key>
+	<string>automatic</string>
+	<key>destination</key>
+	<string>export</string>
+	<key>stripSwiftSymbols</key>
+	<true/>
+	<!-- Sin subida de símbolos: una firma de desarrollo no va a Crashlytics. -->
+	<key>uploadSymbols</key>
+	<false/>
+</dict>
+</plist>

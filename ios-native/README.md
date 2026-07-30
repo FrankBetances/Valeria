@@ -156,9 +156,74 @@ repositorio todavía porque solo lo puede generar Xcode.
 
 El **simulador** funciona sin nada más: no hace falta Team ID ni firma. Es
 suficiente para revisar la navegación y la estética, que es para lo que existe
-este port. Para instalarlo en un iPad o iPhone real sí hace falta una cuenta
-(basta la gratuita para desarrollo personal; para App Distribution o TestFlight,
-la de pago).
+este port.
+
+## Compilar con cuenta gratuita (Personal Team)
+
+Una cuenta gratuita —tu Apple ID, sin pagar los 99 €/año— **sirve para compilar
+y ejecutar en tu propio iPhone o iPad**. Este proyecto no usa ninguna capacidad
+de las que requieren cuenta de pago (sin push, sin App Groups, sin dominios
+asociados: no hay ni un `.entitlements`), así que compila entero.
+
+### Puesta a punto
+
+1. En Xcode, *Settings → Accounts → +* y añade tu Apple ID. Aparecerá un equipo
+   llamado **(Personal Team)**; su Team ID está en esa misma fila.
+2. `cp Config/Signing.local.xcconfig.example Config/Signing.local.xcconfig` y
+   escribe ese Team ID.
+3. Conecta el dispositivo, elígelo arriba en Xcode y ⌘R.
+
+La primera vez, el iPhone o iPad pedirá confiar en el certificado:
+*Ajustes → General → VPN y gestión de dispositivos → tu Apple ID → Confiar*.
+
+### Si Xcode dice que el identificador no está disponible
+
+> Failed to register bundle identifier. The app identifier
+> "health.earlify.valeria" cannot be registered to your development team
+> because it is not available.
+
+No es un fallo del proyecto: ese identificador solo puede registrarlo un equipo,
+y si ya lo tiene la cuenta de la organización, tu cuenta personal no puede
+reutilizarlo. Descomenta esta línea en `Config/Signing.local.xcconfig` con un
+nombre propio y listo:
+
+```
+VALERIA_BUNDLE_ID = health.earlify.valeria.fbr
+```
+
+Al vivir en el archivo local sin versionar, **tu identificador de pruebas no
+cambia el que se publica**.
+
+### Los tres límites que vas a notar
+
+| | Cuenta gratuita | Cuenta de pago |
+| --- | --- | --- |
+| Simulador | ✅ | ✅ |
+| Tu propio dispositivo | ✅ | ✅ |
+| Duración de la firma | **7 días** | 1 año |
+| App Distribution / TestFlight | ❌ | ✅ |
+| App Store | ❌ | ✅ |
+
+- **Caducidad a los 7 días.** Pasado ese plazo la app deja de abrirse en el
+  dispositivo y hay que reinstalarla desde Xcode. Es la limitación que más
+  molesta si quieres dejar el iPad en manos de una logopeda una semana larga.
+- **Límite de identificadores**: 10 App IDs nuevos por cada 7 días, y hasta 3
+  apps de cuenta gratuita instaladas a la vez en un dispositivo.
+- **Nada de distribución.** `./scripts/archive.sh adhoc` y `appstore` fallarán:
+  necesitan un certificado de distribución que solo emite el programa de pago.
+  El script lo detecta y te lo dice en vez de dejar un error de firma críptico.
+  Lo que sí funciona:
+
+  ```bash
+  ./scripts/archive.sh dev     # .ipa de desarrollo, también con firma de 7 días
+  ```
+
+  Aunque para probar en tu propio dispositivo no hace falta ni eso: ⌘R basta.
+
+> Si en algún momento hay que poner la app en manos de varias logopedas para el
+> piloto, ahí sí toca el Apple Developer Program: es el único camino a
+> TestFlight y a Firebase App Distribution. Todo lo demás del proyecto ya está
+> preparado para ese día (`ExportOptions`, `archive.sh`, numeración de builds).
 
 ## Paso manual pendiente: credenciales Firebase
 
@@ -196,15 +261,20 @@ mejor un error claro que un archivo firmado con la cuenta equivocada.
 
 ```bash
 cd ios-native
+./scripts/archive.sh dev            # .ipa de desarrollo (único modo con cuenta gratuita)
 ./scripts/archive.sh adhoc          # .ipa para Firebase App Distribution
 ./scripts/archive.sh appstore 7     # .ipa para App Store Connect, build 7
 ```
 
 El script resuelve los paquetes SPM, archiva en Release para
 `generic/platform=iOS` y exporta con el `ExportOptions` correspondiente
-(`Config/ExportOptions-AdHoc.plist` o `Config/ExportOptions-AppStore.plist`).
-Desde Xcode, el equivalente es *Product → Archive* con el esquema **Valeria**,
-que ya está compartido y archiva en Release.
+(`Config/ExportOptions-{Development,AdHoc,AppStore}.plist`). Desde Xcode, el
+equivalente es *Product → Archive* con el esquema **Valeria**, que ya está
+compartido y archiva en Release.
+
+`adhoc` y `appstore` necesitan un certificado de distribución, o sea cuenta de
+pago; con una gratuita el modo que funciona es `dev` (ver el apartado de cuenta
+gratuita más arriba).
 
 ### 3. Numeración de versiones
 
@@ -277,7 +347,14 @@ archivar, como si faltara el equipo de firma.
 ```
 Config/
 ├── Signing.xcconfig                  # configuración base (versionada, sin secretos)
-├── Signing.local.xcconfig.example    # plantilla del Team ID local
+├── Signing.local.xcconfig.example    # plantilla del Team ID y del bundle ID locales
+├── ExportOptions-Development.plist   # desarrollo · la única válida con cuenta gratuita
 ├── ExportOptions-AdHoc.plist         # exportación para Firebase App Distribution
 └── ExportOptions-AppStore.plist      # exportación para App Store Connect
 ```
+
+`Signing.xcconfig` es la configuración base de las dos configuraciones del
+target, así que de ahí salen el equipo de firma **y** el identificador del
+bundle (`VALERIA_BUNDLE_ID`). El `project.pbxproj` ya no lleva ninguno de los
+dos escritos a pelo: cualquiera puede firmar con su cuenta y su identificador
+sin dejar un cambio en el proyecto versionado.
