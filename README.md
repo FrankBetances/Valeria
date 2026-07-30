@@ -62,6 +62,7 @@ dificultades del lenguaje.**
 - [Documentación](#-documentación)
 - [Puesta en marcha](#-puesta-en-marcha)
 - [Builds (EAS)](#-builds-eas)
+- [Port nativo iOS (Xcode)](#-port-nativo-ios-xcode)
 - [Build automático (GitHub Actions)](#-build-automático-github-actions)
 - [Backend opcional (Firebase)](#-backend-opcional-firebase)
 - [Privacidad y ficha de Play Store](#️-privacidad-y-ficha-de-play-store)
@@ -360,6 +361,36 @@ El perfil `apk` limita las arquitecturas a `armeabi-v7a` y `arm64-v8a` (los
 móviles reales), eliminando las librerías x86 de emulador del binario. Para
 publicar en Google Play usa siempre el App Bundle: Play genera un APK optimizado
 por dispositivo y la descarga es bastante menor.
+
+---
+
+## 🍎 Port nativo iOS (Xcode)
+
+En [`ios-native/`](ios-native/) vive un **port SwiftUI** del flujo completo,
+pensado para evaluar navegación y estética en dispositivo físico. Es un
+demostrador: la app clínica —la que validó ACOPROS— es la de React Native de
+esta raíz, y se compila con EAS, no con Xcode.
+
+```bash
+cd ios-native
+./scripts/preflight.sh     # ¿le falta algo a este clon? (segundos)
+open Valeria.xcodeproj     # esquema Valeria · ⌘R
+```
+
+**El proyecto de Xcode es `ios-native/Valeria.xcodeproj`, no la raíz**: aquí no
+hay ningún `.xcodeproj` ni carpeta `ios/`. Dependencias por Swift Package
+Manager (Firebase), **sin CocoaPods**: no hay `Podfile` ni `pod install` que
+ejecutar, y se abre el `.xcodeproj`, no un *workspace*. El simulador funciona
+sin cuenta de Apple Developer; para dispositivo o exportación hace falta el
+Team ID.
+
+Todo el detalle —firma, `archive`, exportación del `.ipa`, y en qué se
+diferencia de esta app RN— está en [`ios-native/README.md`](ios-native/README.md).
+
+> Para sacar la app **React Native** por Xcode habría que hacer antes
+> `npx expo prebuild`, que genera la carpeta `ios/` (ignorada en git) **con**
+> CocoaPods; a partir de ahí sí se abriría el `.xcworkspace`. Hoy no hace falta:
+> ese camino lo cubre `eas build -p ios`.
 
 ---
 

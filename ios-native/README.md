@@ -13,6 +13,10 @@ ios-native/
 │   ├── project.pbxproj
 │   ├── project.xcworkspace/    # resolución de paquetes SPM
 │   └── xcshareddata/xcschemes/ # esquema compartido (CI / App Distribution)
+├── Config/                     # firma y opciones de exportación (ver al final)
+├── scripts/
+│   ├── preflight.sh            # ¿le falta algo a este clon para compilar?
+│   └── archive.sh              # archive + export del .ipa
 └── Valeria/
     ├── ValeriaApp.swift        # @main + init defensiva de Firebase
     ├── RootView.swift          # NavigationStack + Router (flujo completo)
@@ -27,7 +31,7 @@ ios-native/
     ├── AcademyView.swift       # hub/lista/lectura/quiz + feed de prioridad
     ├── AcademyHardwareView.swift # sheet de Hipoacusia + esquemas (SVG → Canvas)
     ├── Info.plist
-    ├── Assets.xcassets/        # AppIcon + AccentColor (#00c4be)
+    ├── Assets.xcassets/        # AppIcon 1024² (sin alfa) + AccentColor (#00c4be)
     └── Preview Content/
 ```
 
@@ -108,6 +112,54 @@ Las dos vías de exportación iOS que existen ahora mismo, por tanto:
 2. **App React Native** (la real, la de ACOPROS) → `eas build --platform ios`,
    que ya resuelve firma y Pods en la nube sin tocar Xcode.
 
+## Compilar tras clonar el repositorio
+
+```bash
+git clone https://github.com/FrankBetances/Valeria.git
+cd Valeria/ios-native
+./scripts/preflight.sh          # comprueba que no falta nada (segundos)
+open Valeria.xcodeproj          # esquema Valeria · ⌘R
+```
+
+**Se abre `ios-native/Valeria.xcodeproj`, no la carpeta raíz del repositorio.**
+En la raíz no hay ningún proyecto de Xcode: vive la app React Native, que se
+compila con Expo/EAS y no por Xcode (ver más abajo). Si clonas desde el propio
+Xcode (*Integrate → Clone*), al terminar navega hasta `ios-native/` y abre el
+`.xcodeproj` desde ahí.
+
+`preflight.sh` responde a la única pregunta que importa al clonar: ¿le falta
+algo a esta copia? Comprueba la versión de Xcode, que todos los `.swift` estén
+registrados en el `pbxproj`, el icono, el Team ID y las credenciales de
+Firebase, y cada aviso dice qué hacer. Con `--build` compila además para
+simulador, que es la respuesta definitiva:
+
+```bash
+./scripts/preflight.sh --build
+```
+
+### Qué pasa la primera vez que abres el proyecto
+
+Xcode resuelve los paquetes Swift (Firebase y sus dependencias) al abrir. Tarda
+varios minutos y **necesita conexión**; hasta que termina, el editor marca
+errores falsos de «no such module FirebaseCore». No es un fallo: hay que
+esperar a que la barra de progreso de *Package Dependencies* acabe. Si se
+atasca, *File → Packages → Reset Package Caches*.
+
+Al terminar, Xcode escribe un `Package.resolved` con las versiones exactas.
+**Vale la pena versionarlo** (`git add` en
+`Valeria.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved`):
+a partir de ahí todo el mundo compila contra las mismas versiones de Firebase
+en vez de contra «la última 11.x que hubiera ese día». No está en el
+repositorio todavía porque solo lo puede generar Xcode.
+
+### Sin cuenta de Apple Developer
+
+El **simulador** funciona sin nada más: no hace falta Team ID ni firma. Es
+suficiente para revisar la navegación y la estética, que es para lo que existe
+este port. Para instalarlo en un iPad o iPhone real sí hace falta una cuenta
+(basta la gratuita para desarrollo personal; para App Distribution o TestFlight,
+la de pago).
+
 ## Paso manual pendiente: credenciales Firebase
 
 1. Descarga `GoogleService-Info.plist` desde la consola de Firebase.
@@ -178,6 +230,31 @@ uno nuevo — el segundo argumento de `archive.sh` lo inyecta sin tocar archivos
   identificador (p. ej. `health.earlify.valeria.native`) antes de subir nada.
 - `GoogleService-Info.plist` no se versiona; sin él la app arranca igual, pero
   el archivo no reportará a Crashlytics ni a Analytics.
+- El icono de la app está generado desde `assets/icon.png` (el mismo del
+  proyecto Expo) a 1024×1024 y **sin canal alfa**. La transparencia en el icono
+  es motivo de rechazo automático (ITMS-90717), así que si algún día se
+  reemplaza el dibujo, hay que reexportarlo opaco.
+
+### Crashlytics: los informes llegan sin símbolos
+
+El proyecto enlaza `FirebaseCrashlytics` pero **no tiene la fase de subida de
+dSYM**. En los envíos a App Store Connect no importa —`uploadSymbols` va a
+`true` en el `ExportOptions`—, pero en los `.ipa` ad-hoc que van a App
+Distribution los informes de caída llegan como direcciones de memoria.
+
+Si esos informes empiezan a hacer falta, la fase se añade a mano en Xcode
+(*Build Phases → New Run Script Phase*, la última de la lista):
+
+```bash
+"${BUILD_DIR%/Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run"
+```
+
+con `$(TARGET_BUILD_DIR)/$(INFOPLIST_PATH)` y `${DWARF_DSYM_FOLDER_PATH}` como
+archivos de entrada, y poniendo `ENABLE_USER_SCRIPT_SANDBOXING = NO` (hoy está
+en `YES`, y con el sandbox activo el script no puede leer los dSYM). No se ha
+añadido de serie porque depende de una ruta interna de la resolución de SPM que
+cambia entre versiones de Xcode, y un build que falla por eso confunde mucho
+más que unos informes sin simbolizar en un demostrador.
 
 ## ⚠️ Regla innegociable de gobernanza del `project.pbxproj`
 
