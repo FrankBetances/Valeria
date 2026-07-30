@@ -38,7 +38,7 @@
 //   <FichaVisual pic="cuchara-sucia" word="sucio" emoji="🥄" size={58} />
 // ============================================================================
 import React from 'react';
-import { Text } from 'react-native';
+import { Text, View } from 'react-native';
 import Svg, { Circle, Ellipse, Line, Path, Rect, Text as SvgText } from 'react-native-svg';
 
 const INK = '#1f2937'; // trazo de contorno grueso, igual que textPrimary
@@ -301,9 +301,15 @@ const bombilla = (vidrio: string, rosca: string) => (
 
 const BombillaEncendidaPic: Pic = ({ size }) => (
   <Svg width={size} height={size} viewBox="0 0 100 100">
-    {/* rayos: lo que convierte «bombilla» en «bombilla encendida» */}
+    {/* Rayos: lo que convierte «bombilla» en «bombilla encendida». Van DENTRO
+        del viewBox contando el grosor del trazo y el remate redondo (2,5 de
+        holgura por punta). Antes llegaban a x=99 e y=0 con strokeWidth 5, así
+        que el propio lienzo los recortaba: el rayo de arriba salía partido por
+        la mitad y los laterales, a media punta. Justo la señal que distingue
+        «encendida» de «apagada» —y la única que hace resoluble la vuelta de
+        comprensión de la cápsula encender/apagar (piztu/itzali, acender/apagar). */}
     <Path
-      d="M50 6 L50 0 M14 16 L9 11 M86 16 L91 11 M8 44 L1 44 M92 44 L99 44"
+      d="M50 10 L50 4 M16 18 L11 13 M84 18 L89 13 M10 44 L4 44 M90 44 L96 44"
       stroke="#f4c430" strokeWidth={5} strokeLinecap="round"
     />
     {bombilla('#ffd84d', '#9ca3af')}
@@ -858,11 +864,11 @@ const PICTOGRAMS: Record<string, Pic> = {
   cero: numberPic('0', '#f59e0b'),
 };
 
-// Registro EMOJI \u2192 pictograma. El registro por palabra (arriba) solo casa con
-// el l\u00e9xico castellano; en euskera/galego la ficha usa palabras propias
-// (\u00abeskuila\u00bb, \u00abtxirristra\u00bb) que no est\u00e1n registradas, as\u00ed que ca\u00eda al emoji
-// crudo \u2014 y justo estos SVG se crearon para SUSTITUIR emojis Unicode 13/14 que
-// se pintan como tofu (cuadro vac\u00edo) en muchos Android. Mapeando tambi\u00e9n por el
+// Registro EMOJI → pictograma. El registro por palabra (arriba) solo casa con
+// el léxico castellano; en euskera/galego la ficha usa palabras propias
+// («eskuila», «txirristra») que no están registradas, así que caía al emoji
+// crudo — y justo estos SVG se crearon para SUSTITUIR emojis Unicode 13/14 que
+// se pintan como tofu (cuadro vacío) en muchos Android. Mapeando también por el
 // emoji, la ficha pinta el SVG en CUALQUIER variedad sin duplicar por idioma.
 // ----------------------------------------------------------------------------
 // Registro CLAVE → pictograma (V2). Es el registro preferente y el único capaz
@@ -973,24 +979,53 @@ const normalizeWord = (w: string): string =>
 
 export const hasPictogram = (word: string): boolean => normalizeWord(word) in PICTOGRAMS;
 
-// \u00bfExiste dibujo para esta clave? Lo usa el gate de cobertura para no dejar
-// pasar una c\u00e1psula de contraste cuya vuelta de comprensi\u00f3n ser\u00eda irresoluble.
+// ¿Existe dibujo para esta clave? Lo usa el gate de cobertura para no dejar
+// pasar una cápsula de contraste cuya vuelta de comprensión sería irresoluble.
 export const hasPictogramKey = (key: string): boolean => key.trim() in PICTOGRAMS_BY_KEY;
 
-// Claves con dibujo, para la auditor\u00eda e inventario (docs/auditoria-pictogramas.md).
+// Claves con dibujo, para la auditoría e inventario (docs/auditoria-pictogramas.md).
 export const pictogramKeys = (): string[] => Object.keys(PICTOGRAMS_BY_KEY).sort();
 
-// Visual de ficha. Orden de resoluci\u00f3n: clave expl\u00edcita \u2192 palabra \u2192 emoji \u2192
-// emoji crudo. Que una clave no tenga dibujo NO es un error: es la ca\u00edda
+// Visual de ficha. Orden de resolución: clave explícita → palabra → emoji →
+// emoji crudo. Que una clave no tenga dibujo NO es un error: es la caída
 // prevista mientras el banco propio se completa por tandas.
+//
+// Las dos ramas se pintan dentro de la MISMA caja cuadrada y con la misma
+// altura reservada. No es cosmética: la rama de emoji era un <Text> suelto y
+// heredaba dos comportamientos de texto que a un dibujo no le sirven —
+//
+//   · Escalaba con el tamaño de fuente del sistema (allowFontScaling va a true
+//     por defecto). Con la accesibilidad al máximo, un emoji de 64 se pinta
+//     cerca de 100 y se sale del marco de la ficha y de las dos tarjetas de la
+//     vuelta de comprensión, que se ven cortadas. El SVG no escalaba, así que
+//     la misma pantalla mezclaba fichas correctas y fichas recortadas.
+//   · Se ajustaba a la caja de línea de la tipografía, más estrecha que la
+//     tinta de muchos emoji, que quedaban rebanados por arriba o por abajo.
+//
+// Se nota sobre todo fuera del castellano: euskera y galego usan palabras
+// propias que el registro por palabra no rescata, así que caen a emoji mucho
+// más a menudo que el castellano.
 export const FichaVisual: React.FC<{
   word: string; emoji: string; size?: number; pic?: string;
 }> = ({ word, emoji, size = 58, pic }) => {
   const Pic = (pic ? PICTOGRAMS_BY_KEY[pic.trim()] : undefined)
     ?? PICTOGRAMS[normalizeWord(word)]
     ?? PICTOGRAMS_BY_EMOJI[emoji?.trim()];
-  if (Pic) return <Pic size={Math.round(size * 1.15)} />;
-  return <Text style={{ fontSize: size }}>{emoji}</Text>;
+  const box = Math.round(size * 1.15);
+  return (
+    <View style={{ width: box, height: box, alignItems: 'center', justifyContent: 'center' }}>
+      {Pic ? (
+        <Pic size={box} />
+      ) : (
+        <Text
+          allowFontScaling={false}
+          style={{ fontSize: size, lineHeight: Math.round(size * 1.3), textAlign: 'center' }}
+        >
+          {emoji}
+        </Text>
+      )}
+    </View>
+  );
 };
 
 export default FichaVisual;

@@ -88,13 +88,36 @@ try {
     console.log(`  ${(b.capsules ?? []).length} cápsulas revisadas`);
   }
   console.log(`\n${capsulas} cápsulas en total.`);
+
+  // P4 · La clave declarada en el dato tiene que LLEGAR a la ficha. Los cuatro
+  // constructores de sesión aplanan su bloque a un PracticeStep común, y basta
+  // con que uno olvide copiar `pictogram` para que ese bloque entero se quede
+  // sin dibujo propio sin que falle nada: la ficha cae al emoji y el fallo pasa
+  // por «esa palabra aún no tiene pictograma». Ocurrió con escenarios y
+  // progresiones, y se vio primero en euskera, donde no hay rescate por palabra
+  // (el registro por palabra es castellano) y la caída deja emoji de Unicode
+  // 13/14 que muchos Android pintan como cuadro vacío.
+  const pantalla = fs.readFileSync(
+    path.join(ROOT, 'src', 'ValeriaSemanticExpansionScreen.tsx'), 'utf8',
+  );
+  for (const ctor of ['scenarioSession', 'categorySession', 'sequenceSession', 'contrastSession']) {
+    const bloque = pantalla.match(new RegExp(`const ${ctor}[\\s\\S]*?\\n\\};`));
+    if (!bloque) {
+      fallo(`P4 no se encontró el constructor ${ctor} en ValeriaSemanticExpansionScreen.tsx`);
+      continue;
+    }
+    if (!/\bpictogram:/.test(bloque[0])) {
+      fallo(`P4 ${ctor} no propaga «pictogram» al paso: ese bloque entero pintaría emoji en vez del pictograma propio`);
+    }
+  }
 } finally {
   fs.rmSync(tmp, { recursive: true, force: true });
 }
 
 if (fallos) {
-  console.error(`\n✖ ${fallos} cápsulas con la vuelta de comprensión irresoluble.`);
+  console.error(`\n✖ ${fallos} fallo(s) de cobertura de pictogramas.`);
   console.error('  Ver docs/plan-mejoras-acopros-logopedas.json → ES-12, ES-09, DC-4.');
   process.exit(1);
 }
-console.log('\n✓ Todas las cápsulas distinguen sus dos vueltas con pictograma propio (ES-12).');
+console.log('\n✓ Todas las cápsulas distinguen sus dos vueltas con pictograma propio (ES-12)');
+console.log('✓ Los cuatro constructores de sesión propagan la clave a la ficha (P4).');

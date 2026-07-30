@@ -1,0 +1,12 @@
+// ============================================================================
+// Plantilla de la configuración LOCAL de firma.
+//
+//   cp Signing.local.xcconfig.example Signing.local.xcconfig
+//
+// y escribe tu Team ID de 10 caracteres. Lo encuentras en
+// https://developer.apple.com/account → Membership details → Team ID.
+//
+// Signing.local.xcconfig está en .gitignore: no lo añadas al repositorio.
+// ============================================================================
+
+DEVELOPMENT_TEAM = ABCDE12345

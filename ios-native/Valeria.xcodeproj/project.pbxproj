@@ -57,6 +57,10 @@
 		AA0000000000000000000004 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AA0000000000000000000006 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		AA0000000000000000000005 /* Valeria.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Valeria.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A30000000000000000000001 /* Signing.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Signing.xcconfig; sourceTree = "<group>"; };
+		A30000000000000000000002 /* Signing.local.xcconfig.example */ = {isa = PBXFileReference; lastKnownFileType = text; path = Signing.local.xcconfig.example; sourceTree = "<group>"; };
+		A30000000000000000000003 /* ExportOptions-AdHoc.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ExportOptions-AdHoc.plist"; sourceTree = "<group>"; };
+		A30000000000000000000004 /* ExportOptions-AppStore.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ExportOptions-AppStore.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,8 +81,20 @@
 			isa = PBXGroup;
 			children = (
 				EE0000000000000000000002 /* Valeria */,
+				EE0000000000000000000005 /* Config */,
 				EE0000000000000000000003 /* Products */,
 			);
+			sourceTree = "<group>";
+		};
+		EE0000000000000000000005 /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				A30000000000000000000001 /* Signing.xcconfig */,
+				A30000000000000000000002 /* Signing.local.xcconfig.example */,
+				A30000000000000000000003 /* ExportOptions-AdHoc.plist */,
+				A30000000000000000000004 /* ExportOptions-AppStore.plist */,
+			);
+			path = Config;
 			sourceTree = "<group>";
 		};
 		EE0000000000000000000002 /* Valeria */ = {
@@ -347,10 +363,10 @@
 		};
 		DA0000000000000000000003 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A30000000000000000000001 /* Signing.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Valeria/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
@@ -372,10 +388,10 @@
 		};
 		DA0000000000000000000004 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A30000000000000000000001 /* Signing.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Valeria/Preview Content\"";
 				ENABLE_PREVIEWS = YES;

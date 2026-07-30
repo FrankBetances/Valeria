@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  Valeria+ · Exportación para App Store Connect (TestFlight y ficha de tienda).
+
+  «app-store» es el nombre clásico del método; Xcode 15.3 y posteriores lo
+  llaman «app-store-connect» y siguen aceptando el antiguo.
+-->
+<plist version="1.0">
+<dict>
+	<key>method</key>
+	<string>app-store</string>
+	<key>signingStyle</key>
+	<string>automatic</string>
+	<key>destination</key>
+	<string>export</string>
+	<key>stripSwiftSymbols</key>
+	<true/>
+	<key>uploadSymbols</key>
+	<true/>
+	<!-- En NO: la numeración la fija el proyecto (MARKETING_VERSION y
+	     CURRENT_PROJECT_VERSION). Con esto en YES, Xcode reescribe el número de
+	     build por su cuenta al exportar y deja de coincidir con lo que dice el
+	     repositorio, que es justo lo que hay que poder auditar cuando una
+	     versión concreta se manda a evaluación clínica. -->
+	<key>manageAppVersionAndBuildNumber</key>
+	<false/>
+</dict>
+</plist>

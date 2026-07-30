@@ -86,7 +86,15 @@ const scenarioSession = (bank: SemanticBank, id: string): Session => {
     kind: 'scenario', title: sc.title, code: sc.title,
     steps: sc.items.map((it) => ({
       kicker: WORD_TYPE_LABEL[it.type].toUpperCase(),
-      emoji: it.emoji, label: it.label, visualPrompt: it.visual_prompt,
+      // La clave del pictograma viaja SIEMPRE con el paso. Olvidarla aquí no
+      // dejaba la ficha vacía —caía al emoji— pero convertía el fallback en la
+      // norma: fuera del castellano no hay red de rescate por palabra
+      // («eskuila», «xaboia» no están en el registro), así que en euskera y
+      // galego la ficha acababa mostrando emoji de Unicode 13/14 que muchos
+      // Android pintan como cuadro vacío, y algún emoji que contradecía al
+      // dato (el escenario de mañana ilustraba «garbi» con una cuchara 🥄).
+      emoji: it.emoji, label: it.label, pictogram: it.pictogram,
+      visualPrompt: it.visual_prompt,
       tts: it.tts_string, expected: it.stt_expected_array,
       actionKicker: 'MISIÓN FÍSICA DEL ADULTO', action: it.parent_tpr_action,
     })),
@@ -118,7 +126,10 @@ const sequenceSession = (bank: SemanticBank, id: string): Session => {
     kind: 'sequence', title: sq.theme, code: sq.theme,
     steps: sq.phases.map((ph) => ({
       kicker: PHASE_LABEL[ph.kind].toUpperCase(),
-      emoji: ph.emoji, label: ph.label, visualPrompt: ph.visual_prompt,
+      // Misma regla que en los escenarios: la clave la declara el dato, la
+      // pantalla solo la transporta.
+      emoji: ph.emoji, label: ph.label, pictogram: ph.pictogram,
+      visualPrompt: ph.visual_prompt,
       tts: ph.tts_string, expected: ph.stt_expected_array,
       actionKicker: 'INSTRUCCIÓN TPR PARA EL PADRE', action: ph.parent_tpr_action,
     })),

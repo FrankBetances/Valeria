@@ -16,10 +16,16 @@
 	<string>$(PRODUCT_NAME)</string>
 	<key>CFBundlePackageType</key>
 	<string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
+	<!-- La numeración la fijan los ajustes de build (MARKETING_VERSION y
+	     CURRENT_PROJECT_VERSION), no este archivo. Escribirla a mano aquí crea
+	     dos fuentes de verdad que acaban divergiendo: el .ipa se sube con un
+	     número y el proyecto dice otro, y App Store Connect rechaza la subida
+	     por número de build repetido sin que se vea por qué. Con la variable,
+	     `xcodebuild ... CURRENT_PROJECT_VERSION=7` basta para un envío nuevo. -->
 	<key>CFBundleShortVersionString</key>
-	<string>3.0.0</string>
+	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UILaunchScreen</key>
@@ -43,6 +49,15 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<!-- Cumplimiento de exportación. Sin esta clave, CADA subida a TestFlight o
+	     App Store Connect se queda parada preguntando si la app usa cifrado, y
+	     hay que contestarlo a mano en la web antes de poder distribuir. La app
+	     solo usa HTTPS a través de las API del sistema, que es exactamente la
+	     excepción prevista, así que la respuesta es «no» y se declara aquí. Si
+	     algún día se añade cifrado propio (por ejemplo, cifrar en local la ficha
+	     del paciente con una implementación propia), hay que revisarla. -->
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Valeria+ usa el micrófono para los juegos de voz de los ejercicios.</string>
 	<key>NSSpeechRecognitionUsageDescription</key>

@@ -101,6 +101,11 @@ build/
 *.hmap
 *.dSYM/
 *.dSYM.zip
+*.xcarchive
+
+## Firma local: el Team ID es de cada persona que compila, no del repositorio.
+## La plantilla versionada es Signing.local.xcconfig.example.
+ios-native/Config/Signing.local.xcconfig
 
 ## Estado local de usuario Xcode (bloqueo explícito)
 *.xcuserstate

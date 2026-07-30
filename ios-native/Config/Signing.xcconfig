@@ -1,0 +1,32 @@
+// ============================================================================
+// Valeria+ · Firma de código del port nativo iOS
+// ----------------------------------------------------------------------------
+// Este archivo SÍ se versiona: no contiene ningún secreto. El Team ID de Apple
+// Developer no es una credencial, pero tampoco es un dato del repositorio: cada
+// persona que compile puede tener el suyo (cuenta personal, cuenta de la
+// organización, cuenta de un cliente). Por eso el valor no se escribe aquí.
+//
+// El equipo se resuelve, en este orden:
+//
+//   1. Signing.local.xcconfig — copia local sin versionar (ver el .example).
+//      Es la vía cómoda para trabajar desde Xcode: se escribe una vez y el
+//      botón de Archive ya funciona.
+//   2. VALERIA_DEVELOPMENT_TEAM pasado a xcodebuild como ajuste de build:
+//         xcodebuild ... VALERIA_DEVELOPMENT_TEAM=ABCDE12345
+//      Es la vía de CI, donde no hay archivo local que copiar.
+//
+// Sin ninguna de las dos, DEVELOPMENT_TEAM queda vacío. Compilar para simulador
+// sigue funcionando; archivar falla con «Signing for "Valeria" requires a
+// development team», que es el comportamiento correcto: mejor un error claro
+// que un archivo firmado con un equipo equivocado.
+// ============================================================================
+
+DEVELOPMENT_TEAM = $(VALERIA_DEVELOPMENT_TEAM)
+
+// Firma automática: Xcode crea y renueva el perfil de aprovisionamiento. Desde
+// línea de comandos hace falta añadir -allowProvisioningUpdates al xcodebuild
+// (scripts/archive.sh ya lo pasa).
+CODE_SIGN_STYLE = Automatic
+
+// La sobrescritura local va al final: en un .xcconfig gana la última asignación.
+#include? "Signing.local.xcconfig"

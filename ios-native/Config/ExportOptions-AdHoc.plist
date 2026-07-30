@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  Valeria+ · Exportación ad-hoc del port nativo iOS.
+
+  Es la salida que consume Firebase App Distribution: un .ipa firmado para los
+  dispositivos registrados en el equipo, sin pasar por App Store Connect. Es el
+  camino previsto para las pruebas de usabilidad en dispositivo que motivan este
+  port (ver README).
+
+  «ad-hoc» es el nombre clásico del método; Xcode 15.3 y posteriores lo llaman
+  «release-testing» y siguen aceptando el nombre antiguo. El proyecto declara
+  LastUpgradeCheck = 1520 (Xcode 15.2), así que se usa el clásico.
+
+  teamID se deja fuera a propósito: xcodebuild lo toma del archivo (.xcarchive),
+  que ya viene firmado con el equipo de Signing.xcconfig. Si tienes varias
+  cuentas y la exportación pide desambiguar, añade aquí <key>teamID</key>.
+-->
+<plist version="1.0">
+<dict>
+	<key>method</key>
+	<string>ad-hoc</string>
+	<key>signingStyle</key>
+	<string>automatic</string>
+	<key>destination</key>
+	<string>export</string>
+	<key>stripSwiftSymbols</key>
+	<true/>
+	<!-- Sube los dSYM a Crashlytics: sin ellos los informes de caída llegan
+	     como direcciones de memoria y no sirven para nada. -->
+	<key>uploadSymbols</key>
+	<true/>
+	<!-- El .ipa se genera para los dispositivos ya registrados; no añade los
+	     nuevos por su cuenta. Registrar un iPad nuevo obliga a reexportar. -->
+	<key>thinning</key>
+	<string>&lt;none&gt;</string>
+</dict>
+</plist>
