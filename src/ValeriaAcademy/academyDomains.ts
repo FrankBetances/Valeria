@@ -11,8 +11,12 @@
 import { AcademyBadge, AcademyDomain } from './academyTypes';
 
 // Orden canónico de presentación en el hub.
+// 'mitos' va SEGUNDO a propósito: es la sección que responde a lo que la
+// familia ya trae oído de casa ("ya hablará", "lo confunden dos idiomas", "eso
+// es vagancia"). Dejarla al final la escondía bajo seis tarjetas justo para
+// quien más falta le hace leerla antes de empezar nada.
 export const ACADEMY_DOMAINS: AcademyDomain[] = [
-  'lenguaje', 'hipoacusia', 'dislalias', 'dislexia', 'tea', 'signos',
+  'lenguaje', 'mitos', 'hipoacusia', 'dislalias', 'dislexia', 'tea', 'signos',
 ];
 
 export interface AcademyDomainMeta {
@@ -38,6 +42,16 @@ export const DOMAIN_META: Record<AcademyDomain, AcademyDomainMeta> = {
     accentFg: '#3b6fd4',
     blurb: 'Cómo aprenden a hablar, el porqué del TPR y qué vicios evitar.',
     levelNames: ['Novato', 'Acompañante', 'Guía', 'Mentor', 'Experto en Lenguaje'],
+  },
+  mitos: {
+    id: 'mitos',
+    label: 'Mitos y verdades',
+    short: 'Mitos',
+    icon: '🕵️',
+    accentBg: '#ffe9e4',
+    accentFg: '#cf4b39',
+    blurb: '¿Mito o realidad? Lo que se dice del habla, el autismo y la dislexia.',
+    levelNames: ['Curioso', 'Preguntón', 'Detective', 'Cazamitos', 'Experto en Mitos'],
   },
   hipoacusia: {
     id: 'hipoacusia',

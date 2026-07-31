@@ -23,6 +23,11 @@ import { AcademyCapsule, AcademyDomain } from './academyTypes';
 // Cada id apunta a una cápsula real; su XP siempre irá a su silo de origen.
 const PRIORITY_BY_DOMAIN: Record<AcademyDomain, string[]> = {
   lenguaje:   ['dev-input', 'med-adulto'],
+  // Mitos: se entra por el que sostiene a todos los demás («se aprende
+  // imitando»), porque desmontarlo es lo que hace entendible el resto del
+  // método; el segundo es el que más caro se paga si nadie lo contradice a
+  // tiempo («ya hablará»).
+  mitos:      ['mito-imitacion', 'mito-esperar'],
   hipoacusia: ['dev-input', 'med-adulto'],
   dislalias:  ['dis-punto', 'dev-input'],
   dislexia:   ['dlx-fonologica', 'dev-input'],

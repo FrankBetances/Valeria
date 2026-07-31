@@ -5,7 +5,11 @@
 //     objetivo y las órdenes de las Cápsulas TPR en español (es-ES).
 //     La voz se elige entre las instaladas priorizando las neuronales /
 //     "enhanced", y cada locución se trocea por frases con micro-variaciones
-//     de tono y pausas de respiración para sonar humana, no robótica.
+//     de tono y pausas de respiración para sonar humana, no robótica. Cuánto
+//     se trocea y cuánto silencio se deja lo decide el perfil de prosodia de
+//     la variedad activa (valeriaSpeechProsody): en es-DO, que suena con la
+//     voz del sistema, el troceo se reduce al mínimo porque cada locución
+//     encadenada arrastra la latencia de arranque del motor.
 //   · Reconocimiento de voz (ASR) con @react-native-voice/voice: juegos de
 //     micrófono donde el niño repite la palabra y la app valora el intento.
 //
@@ -30,6 +34,7 @@ import { voiceCorpusId, VoiceStyle } from './valeriaVoiceCorpus';
 import { VOICE_ASSETS } from './valeriaVoiceAssets';
 import { playVoiceAsset, stopVoiceAsset } from './valeriaVoicePlayback';
 import { getLocale, assetLang, speechLocale, prefersLatinVoice } from './valeriaLocale';
+import { prosodyFor, splitForSpeech, tightenPauses } from './valeriaSpeechProsody';
 
 // ----------------------------------------------------------------------------
 // Selección de voz: el motor TTS del sistema suele traer varias voces es-*.
@@ -184,15 +189,15 @@ const ttsLang = (): string => {
   return speechLocale();
 };
 
-const splitSentences = (text: string): string[] => {
-  const parts = text.match(/[^.!?…]+[.!?…]*/g);
-  const out = (parts ?? [text]).map((p) => p.trim()).filter(Boolean);
-  return out.length ? out : [text];
-};
-
 const speakChain = (text: string, opts: Speech.SpeechOptions, token: number, rateCeil = 1.3) => {
   const { onDone, onError, ...rest } = opts;
-  const sentences = splitSentences(text);
+  // Perfil de prosodia de la variedad activa: decide si este enunciado se trocea
+  // por frases o va de una tirada, y cuánto silencio se añade entre trozos. En
+  // es-DO (voz del sistema) el troceo era la causa de las pausas anchas que
+  // rompían el ritmo — ver valeriaSpeechProsody.
+  const prosody = prosodyFor(getLocale());
+  const sentences = splitForSpeech(text, prosody);
+  if (!sentences.length) { onDone?.(); return; }
   const baseRate = rest.rate ?? 0.92;
   const basePitch = rest.pitch ?? 1.0;
 
@@ -213,8 +218,10 @@ const speakChain = (text: string, opts: Speech.SpeechOptions, token: number, rat
         if (token !== speakToken) return;
         if (i + 1 >= sentences.length) { onDone?.(); return; }
         // Respiración corta entre frases: los testers notaban demasiado delay
-        // en los apoyos de voz, así que la pausa se mantiene mínima.
-        setTimeout(() => sayFrom(i + 1), 110);
+        // en los apoyos de voz, así que la pausa se mantiene mínima. El motor
+        // ya añade la suya al arrancar cada locución, y esa parte no se puede
+        // recortar: por eso en es-DO el perfil casi no encadena.
+        setTimeout(() => sayFrom(i + 1), prosody.gapMs);
       },
       onError: (e) => { if (token === speakToken) onError?.(e); },
     });
@@ -324,7 +331,11 @@ export const speakClinical = (text: string, opts: Speech.SpeechOptions = {}) => 
   const go = () => {
     if (token !== speakToken) return;
     const { onDone, onError, ...rest } = opts;
-    Speech.speak(text, {
+    // Una sola locución, pero con la puntuación de pausa larga normalizada: los
+    // dos puntos de la petición («Di: cama») y los puntos suspensivos abrían un
+    // hueco en mitad de la frase portadora, justo donde va el fonema objetivo.
+    // No se toca ni una letra, así que el modelo fonético es el mismo.
+    Speech.speak(tightenPauses(text), {
       language: ttsLang(),
       ...rest,
       rate: clamp(rest.rate ?? 0.8, 0.6, 0.9),   // techo bajo: nunca acelera el fonema

@@ -31,10 +31,14 @@ type View4 = 'hub' | 'list' | 'read' | 'quiz';
 interface Accent { bg: string; fg: string; label: string }
 
 // Acento de una cápsula: color por su dominio; etiqueta con el eje temático en
-// Lenguaje (subfamilia) o el nombre del dominio en el resto.
+// Lenguaje (subfamilia) o el nombre del dominio en el resto. Mitos también usa
+// su eje: «¿MITO O REALIDAD?» anticipa de qué va la cápsula, mientras que
+// repetir el nombre del dominio no añade nada a la cabecera que ya lo dice.
 const accentFor = (c: AcademyCapsule): Accent => {
   const dm = DOMAIN_META[c.domain];
-  const label = c.domain === 'lenguaje' ? TRACK_ACCENT[c.track].label : dm.label.toUpperCase();
+  const label = c.domain === 'lenguaje' || c.track === 'mitos'
+    ? TRACK_ACCENT[c.track].label
+    : dm.label.toUpperCase();
   return { bg: dm.accentBg, fg: dm.accentFg, label };
 };
 

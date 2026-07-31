@@ -141,6 +141,13 @@ jobs:
       - name: Comprobar figuras de LSE (LSE-01)
         run: node scripts/check-sign-figures.js
 
+      # Prosodia de la voz del SISTEMA (es-DO). La normalización de pausas
+      # reescribe la puntuación de todo lo que locuta expo-speech: si una regla
+      # se pasa de frenada y se come una palabra, no lo ve el diff ni el
+      # typecheck — solo se oye, y ya en la tablet de una familia.
+      - name: Comprobar prosodia de la voz del sistema (es-DO)
+        run: node scripts/check-speech-prosody.js
+
       - name: Comprobar tipos
         run: npm run typecheck
 

@@ -19,7 +19,13 @@
 // absorbe el silo nuevo sin migración: al hidratar hace
 // { ...emptyDomains(), ...parsed.domains }, así que una instalación con estado
 // guardado antes de este dominio arranca con su silo a cero y conserva el resto.
-export type AcademyDomain = 'lenguaje' | 'hipoacusia' | 'dislalias' | 'dislexia' | 'tea' | 'signos';
+// 'mitos' es TRANSVERSAL: sus cápsulas desmontan creencias populares de
+// lenguaje, autismo y dislexia. Es un dominio propio —y no capsulas repartidas
+// por los otros silos— porque la familia no llega buscando "dislexia": llega
+// con una frase que le dijeron ("ya hablará", "es vagancia") y necesita un
+// sitio donde buscarla. Su silo de XP funciona igual que el resto.
+export type AcademyDomain =
+  'lenguaje' | 'mitos' | 'hipoacusia' | 'dislalias' | 'dislexia' | 'tea' | 'signos';
 
 // --- Contenido (datos puros, sin estado de usuario) -------------------------
 
@@ -51,7 +57,7 @@ export interface AcademyQuizQuestion {
 // Familia temática de la cápsula → determina el color de acento en la UI.
 // (Subfamilia visual dentro del dominio Lenguaje; los demás dominios usan el
 // acento de su propio dominio.)
-export type AcademyTrack = 'desarrollo' | 'tpr' | 'vicios' | 'mediada';
+export type AcademyTrack = 'desarrollo' | 'tpr' | 'vicios' | 'mediada' | 'mitos';
 
 // Una "Cápsula de Conocimiento": consumo rápido (≈1-2 min) + micro-quiz.
 export interface AcademyCapsule {

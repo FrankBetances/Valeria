@@ -13,6 +13,7 @@ export const TRACK_ACCENT: Record<AcademyTrack, { bg: string; fg: string; label:
   tpr:        { bg: '#d6f5f2', fg: '#00a39e', label: 'POR QUÉ EL TPR' },
   vicios:     { bg: '#fdeef2', fg: '#c2477e', label: 'VICIOS A EVITAR' },
   mediada:    { bg: '#fff1dc', fg: '#d98a1f', label: 'TERAPIA MEDIADA' },
+  mitos:      { bg: '#ffe9e4', fg: '#cf4b39', label: '¿MITO O REALIDAD?' },
 };
 
 // Umbral de aprobado del micro-quiz (aciertos / preguntas). Ágil, no punitivo.
@@ -1008,6 +1009,404 @@ export const ACADEMY_CAPSULES: AcademyCapsule[] = [
         options: ['No decírselo al equipo clínico para no interferir', 'Contárselo, para que el plan sea uno solo', 'Esperar a que la logopeda lo proponga'],
         answer: 1,
         rationale: 'Un plan compartido evita que el trabajo de casa y el de la sesión se contradigan.',
+      },
+    ],
+  },
+
+  // =================================================================== MITOS
+  // Sección transversal «Mitos y verdades». Toca lenguaje, autismo y dislexia,
+  // y por eso NO cuelga de esos silos: la familia no llega buscando un dominio
+  // clínico, llega con una frase que le dijeron en la casa, en el colmado o en
+  // la puerta del colegio, y necesita un sitio donde buscarla tal cual.
+  //
+  // Tres reglas de escritura de esta sección:
+  //   1. Cada cápsula sigue el mismo esqueleto: 🚫 el mito · ✅ lo que se sabe ·
+  //      🎯 qué hacer con eso mañana. Sin el tercer paso, desmontar una creencia
+  //      solo deja a la familia sin plan.
+  //   2. NO se ridiculiza a quien lo cree. Casi todos estos mitos los repiten
+  //      abuelas, vecinas y a veces profesionales, con buena intención. El tono
+  //      es «se pensaba esto, hoy sabemos esto otro», nunca «qué ignorancia».
+  //   3. Ni un diagnóstico ni una promesa de resultado (regla MDR de la app):
+  //      donde toca decidir, decide el profesional, y aquí solo se dice qué
+  //      observar y con quién hablarlo.
+  {
+    id: 'mito-imitacion',
+    domain: 'mitos',
+    track: 'mitos',
+    icon: '🦜',
+    title: '«Se aprende a hablar imitando»',
+    summary: 'El loro imita y no habla. El niño no copia: construye.',
+    minutes: 3,
+    xp: 25,
+    slides: [
+      {
+        icon: '🚫',
+        heading: 'El mito: "repite conmigo"',
+        body: 'Es la creencia más extendida de todas: que hablar se aprende copiando, y que por tanto la tarea del adulto es hacer repetir. De ahí salen las sesiones de "di agua… di agua… di AGUA" que acaban con el niño callado y el adulto agotado.',
+      },
+      {
+        icon: '✅',
+        heading: 'La realidad: se aprende por estimulación',
+        body: 'El lenguaje se construye con ESTIMULACIÓN: oír muchísimo lenguaje con sentido, en situaciones reales, y tener con quién ir y venir por turnos. La imitación es una herramienta más dentro de ese baño de lenguaje, no el motor. Un loro imita a la perfección y no tiene lenguaje; un niño entiende cientos de palabras antes de decir la primera.',
+      },
+      {
+        icon: '🔬',
+        heading: 'La prueba está en sus errores',
+        body: '¿Has oído "yo no sabo", "se ha rompido" o "cabo dos pies"? Nadie en casa habla así: no lo ha copiado de nadie. Lo ha DEDUCIDO aplicando una regla que su cerebro extrajo del lenguaje que recibe. Esos errores tan graciosos son la mejor evidencia de que ahí dentro se está construyendo un sistema, no archivando copias.',
+      },
+      {
+        icon: '🎯',
+        heading: 'Qué cambia mañana en casa',
+        body: 'Cambia el reparto: menos exigirle producir y más darle materia prima. Narra lo que hacéis, comenta lo que él mira, espera en silencio unos segundos y amplía lo que diga ("agua" → "sí, agua fría"). Pedirle que repita sigue valiendo como MODELO puntual —"mira: a-gua"—, pero como método no sostiene el aprendizaje.',
+      },
+    ],
+    quiz: [
+      {
+        prompt: '🦜 "Un niño aprende a hablar copiando lo que oye, como un loro."',
+        options: ['🚫 Mito', '✅ Realidad'],
+        answer: 0,
+        rationale: 'Copiar es una herramienta más. El lenguaje se construye con estimulación e interacción: input abundante, con sentido y por turnos.',
+      },
+      {
+        prompt: 'Que tu peque diga "se ha rompido" demuestra que…',
+        options: ['🧠 Está deduciendo reglas del idioma', '🙈 Lo ha copiado mal de alguien', '⚠️ Necesita más ejercicios de repetición'],
+        answer: 0,
+        rationale: 'Nadie dice "rompido" en casa: lo ha generado aplicando la regla del participado regular. Es señal de un sistema en construcción.',
+      },
+      {
+        prompt: 'Tu peque señala el perro y dice "peo". La respuesta más estimuladora es…',
+        options: ['🔁 "Repite: pe-rro. Otra vez"', '🌟 "¡Sí! Un PERRO grande y peludo"', '🤫 Esperar a que lo diga bien para contestar'],
+        answer: 1,
+        rationale: 'Devolverle la palabra bien dicha y ampliada le da modelo y significado sin cortar la comunicación. Es el recast de la terapia mediada.',
+      },
+    ],
+  },
+  {
+    id: 'mito-esperar',
+    domain: 'mitos',
+    track: 'mitos',
+    icon: '⏳',
+    title: '«Ya hablará, dale tiempo»',
+    summary: 'Esperar también es una decisión, y no siempre es gratis.',
+    minutes: 3,
+    xp: 25,
+    slides: [
+      {
+        icon: '🚫',
+        heading: 'El mito: esperar no cuesta nada',
+        body: '"Los varones hablan más tarde", "su papá habló a los cuatro y mira", "cuando entre al colegio se le suelta la lengua". Son frases dichas con cariño y para tranquilizar. El problema no es la frase: es que convierte la espera en la opción por defecto, la única que nadie tiene que justificar.',
+      },
+      {
+        icon: '✅',
+        heading: 'La realidad: unos alcanzan y otros no',
+        body: 'Es verdad que una parte de los niños que hablan tarde se pone al día sola. Lo que NO se puede es saber de antemano cuál de los dos casos tienes delante. Y mientras se espera, sigue corriendo la etapa en la que el cerebro aprende lenguaje con menos esfuerzo. Esperar no es neutral: es apostar.',
+      },
+      {
+        icon: '⚖️',
+        heading: 'Qué se pierde y qué se arriesga',
+        body: 'Consultar cuando no hacía falta te cuesta una cita y una tranquilidad. No consultar cuando sí hacía falta cuesta meses de la mejor ventana de aprendizaje. Cuando las dos equivocaciones son tan distintas de caras, la prudente está bastante clara.',
+      },
+      {
+        icon: '🎯',
+        heading: 'Qué hacer sin alarmarte',
+        body: 'No hace falta elegir entre "esperar" y "asustarse". Observa y anota ejemplos concretos (qué dice, cuánto se le entiende, si te mira y busca comunicarse), estimula en casa desde ya —eso beneficia a cualquier niño, hable como hable— y comparte lo anotado con tu pediatra o logopeda. Quien decide si hay que intervenir es el profesional, no la app ni el vecino.',
+      },
+    ],
+    quiz: [
+      {
+        prompt: '⏳ "Si a los dos años apenas dice palabras, lo mejor es esperar a los cuatro sin hacer nada."',
+        options: ['🚫 Mito', '✅ Realidad'],
+        answer: 0,
+        rationale: 'Algunos se ponen al día solos, pero no hay forma de saber cuáles por adelantado, y mientras tanto pasa la etapa en la que aprender lenguaje cuesta menos.',
+      },
+      {
+        prompt: 'Ante la duda, la actitud más útil de la familia es…',
+        options: ['😰 Buscar el diagnóstico en internet', '📝 Observar, anotar ejemplos y consultar', '🤐 Callar para no preocupar a nadie'],
+        answer: 1,
+        rationale: 'La familia aporta las observaciones del día a día; el diagnóstico y la decisión de intervenir son del profesional.',
+      },
+      {
+        prompt: '"Los niños varones siempre hablan más tarde que las niñas."',
+        options: ['🚫 Mito', '✅ Realidad'],
+        answer: 0,
+        rationale: 'Hay diferencias medias muy pequeñas entre grupos, y no sirven para explicar el caso de tu hijo. Usarlas como excusa retrasa la consulta.',
+      },
+    ],
+  },
+  {
+    id: 'mito-pantallas',
+    domain: 'mitos',
+    track: 'mitos',
+    icon: '📺',
+    title: '«Con los videos aprende a hablar»',
+    summary: 'La pantalla habla mucho, pero no te responde a ti.',
+    minutes: 2,
+    xp: 25,
+    slides: [
+      {
+        icon: '🚫',
+        heading: 'El mito: mucho input es mucho aprendizaje',
+        body: 'Parece lógico: si el lenguaje se aprende oyendo, un canal infantil que nombra colores y animales seis horas al día debería enseñar muchísimo. Y además el peque se queda quieto y contento, que no es poca cosa en una casa con prisa.',
+      },
+      {
+        icon: '✅',
+        heading: 'La realidad: falta la otra mitad',
+        body: 'El lenguaje no se aprende solo por oír: se aprende oyendo A ALGUIEN QUE TE RESPONDE. Lo que la pantalla no hace es seguir tu mirada, esperar tu turno, repetir cuando no entendiste ni nombrar justo lo que a ti te interesaba en ese momento. Sin ese ida y vuelta, el vocabulario del video se queda en el video. Y de fondo, con la tele encendida, los adultos de la casa hablan menos.',
+      },
+      {
+        icon: '🎯',
+        heading: 'Qué hacer con la pantalla',
+        body: 'No hay que demonizarla: hay que acompañarla. Míralo con él y conviértelo en conversación ("¡uy, se cayó!", "¿dónde está el gato?"). Cinco minutos de dibujos comentados contigo valen más que una hora en soledad. Es exactamente el criterio de Valeria+: la tablet propone, pero quien enseña eres tú.',
+      },
+    ],
+    quiz: [
+      {
+        prompt: '📺 "Ver muchos dibujos que nombran cosas hace que el niño amplíe su vocabulario."',
+        options: ['🚫 Mito', '✅ Realidad'],
+        answer: 0,
+        rationale: 'Sin alguien que responda, siga la mirada y ajuste lo que dice, el lenguaje de la pantalla no se transfiere al niño pequeño.',
+      },
+      {
+        prompt: 'Lo que la pantalla NO puede darle a tu peque es…',
+        options: ['🎨 Colores y sonidos', '🏓 Turnos y respuestas ajustadas a él', '🎵 Canciones'],
+        answer: 1,
+        rationale: 'El ida y vuelta contingente —te miro, te espero, te contesto a ti— es lo que construye lenguaje, y es justo lo que un video no hace.',
+      },
+      {
+        prompt: 'Si ponéis dibujos, lo que los vuelve útiles es…',
+        options: ['👀 Verlos juntos y comentarlos', '⏱️ Que duren más rato', '🔊 Subir el volumen'],
+        answer: 0,
+        rationale: 'Con un adulto que comenta y pregunta, la pantalla pasa a ser un contexto de conversación más.',
+      },
+    ],
+  },
+  {
+    id: 'mito-bilingue',
+    domain: 'mitos',
+    track: 'mitos',
+    icon: '🌍',
+    title: '«Dos idiomas lo confunden»',
+    summary: 'El bilingüismo no causa trastornos del lenguaje.',
+    minutes: 2,
+    xp: 25,
+    slides: [
+      {
+        icon: '🚫',
+        heading: 'El mito: mejor un idioma, y luego ya veremos',
+        body: 'Es un consejo que muchas familias migrantes reciben incluso de profesionales: "háblenle solo español, que lo van a confundir". Y duele, porque a menudo significa pedirle a una madre que le hable a su hijo en una lengua que no es la suya.',
+      },
+      {
+        icon: '✅',
+        heading: 'La realidad: dos lenguas caben de sobra',
+        body: 'Crecer con dos lenguas no causa un trastorno del lenguaje ni lo empeora. Un niño bilingüe puede tener menos vocabulario en CADA lengua por separado, pero sumando las dos está donde le toca. Y mezclarlas en una misma frase no es un lío: es un recurso normal, que los adultos bilingües también usan.',
+      },
+      {
+        icon: '🔎',
+        heading: 'La pista que sí importa',
+        body: 'Una dificultad real del lenguaje aparece en LAS DOS lenguas, no solo en la de la escuela. Si tu peque se maneja bien en casa y solo cojea en la otra, lo más probable es que le falte exposición, no que tenga un trastorno. Por eso la evaluación debe tener en cuenta las dos lenguas: valorar solo una da una foto falsa.',
+      },
+      {
+        icon: '🎯',
+        heading: 'Qué hacer en casa',
+        body: 'Háblale en la lengua en la que le cantas, le regañas y le dices que lo quieres: la calidad de la interacción importa mucho más que qué idioma sea. Y díselo al equipo clínico —qué lengua se habla, con quién y cuánto—, porque eso cambia cómo se interpreta lo que el niño hace.',
+      },
+    ],
+    quiz: [
+      {
+        prompt: '🌍 "Hablarle en dos idiomas retrasa el lenguaje y hay que elegir uno."',
+        options: ['🚫 Mito', '✅ Realidad'],
+        answer: 0,
+        rationale: 'El bilingüismo no causa ni agrava un trastorno del lenguaje. Renunciar a la lengua materna sí empobrece la interacción en casa.',
+      },
+      {
+        prompt: 'Que mezcle palabras de los dos idiomas en una frase es…',
+        options: ['🚨 Señal de confusión', '👌 Un recurso normal en bilingües', '🛑 Motivo para dejar un idioma'],
+        answer: 1,
+        rationale: 'La alternancia de lenguas es habitual también en adultos bilingües competentes y no indica ningún problema.',
+      },
+      {
+        prompt: 'Una dificultad real del lenguaje en un niño bilingüe se nota…',
+        options: ['🏫 Solo en la lengua de la escuela', '🌐 En las dos lenguas', '🏠 Solo en casa'],
+        answer: 1,
+        rationale: 'Si solo falla una lengua, lo esperable es que sea cuestión de exposición. El trastorno afecta al sistema del lenguaje, y por tanto a las dos.',
+      },
+    ],
+  },
+  {
+    id: 'mito-frenillo',
+    domain: 'mitos',
+    track: 'mitos',
+    icon: '👅',
+    title: '«Es el frenillo» (y el chupete)',
+    summary: 'Casi siempre el problema no está en la boca, sino en el sistema de sonidos.',
+    minutes: 2,
+    xp: 25,
+    slides: [
+      {
+        icon: '🚫',
+        heading: 'El mito: hay una causa mecánica',
+        body: 'Cuando a un niño no se le entiende, la primera explicación que aparece suele ser anatómica: el frenillo, el chupete, los dientes. Es una explicación tentadora porque promete una solución rápida y visible: se corta, se quita, y listo.',
+      },
+      {
+        icon: '✅',
+        heading: 'La realidad: casi siempre es fonológico',
+        body: 'La mayoría de las dificultades del habla infantil no vienen de la anatomía, sino de cómo el cerebro organiza los sonidos: qué fonemas ha adquirido, cuáles simplifica y en qué posiciones. Por eso muchas familias cuentan que "le cortaron el frenillo y siguió igual": se operó lo que se veía, no lo que fallaba.',
+      },
+      {
+        icon: '🔎',
+        heading: 'Qué hay de cierto en cada cosa',
+        body: 'Un frenillo verdaderamente corto existe y puede afectar a algunos sonidos y a la lactancia, pero es minoría y quien lo valora es el equipo médico junto con el logopeda, con exploración, no a ojo. Y el chupete: usado mucho tiempo puede influir en la mordida y en algunos sonidos, así que conviene ir retirándolo; pero no es la causa de un retraso del lenguaje.',
+      },
+      {
+        icon: '🎯',
+        heading: 'Qué hacer',
+        body: 'Antes de plantear cualquier corte, pide una valoración logopédica del habla: qué sonidos tiene, cuáles no y cómo los sustituye. Esa evaluación es la que dice si sobra lengua o falta sistema. Y si finalmente hay indicación quirúrgica, seguirá haciendo falta terapia: la cirugía no enseña a articular.',
+      },
+    ],
+    quiz: [
+      {
+        prompt: '👅 "Si no se le entiende al hablar, lo más probable es que sea el frenillo."',
+        options: ['🚫 Mito', '✅ Realidad'],
+        answer: 0,
+        rationale: 'La mayoría de las dificultades del habla son fonológicas: están en cómo se organizan los sonidos, no en la anatomía de la boca.',
+      },
+      {
+        prompt: 'Antes de decidir cortar un frenillo, lo indicado es…',
+        options: ['✂️ Cortarlo cuanto antes, por si acaso', '🔬 Valoración médica y logopédica del habla', '⏰ Esperar a los seis años'],
+        answer: 1,
+        rationale: 'La indicación se establece con exploración y valoración del habla; operar sin ella arriesga intervenir lo que no fallaba.',
+      },
+      {
+        prompt: 'Sobre el chupete, lo correcto es…',
+        options: ['😱 Causa retraso del lenguaje', '🦷 Conviene retirarlo con el tiempo por la mordida y algunos sonidos', '🤷 Da igual hasta los seis años'],
+        answer: 1,
+        rationale: 'El uso prolongado puede influir en la mordida y en la articulación de algunos fonemas, pero no provoca por sí solo un retraso del lenguaje.',
+      },
+    ],
+  },
+  {
+    id: 'mito-tea',
+    domain: 'mitos',
+    track: 'mitos',
+    icon: '🧩',
+    title: 'Mitos sobre el autismo',
+    summary: 'Ni vacunas, ni padres fríos, ni un molde único.',
+    minutes: 3,
+    xp: 30,
+    slides: [
+      {
+        icon: '💉',
+        heading: 'Mito 1: "lo causaron las vacunas"',
+        body: 'Es falso, y se sabe con una solidez poco frecuente en ciencia: el estudio que lo insinuó en 1998 resultó fraudulento, fue retirado y su autor perdió la licencia médica. Después se ha estudiado en millones de niños en varios países sin encontrar relación alguna. El mito, sin embargo, sí ha causado daño: brotes de sarampión en niños sin vacunar.',
+      },
+      {
+        icon: '❄️',
+        heading: 'Mito 2: "es por la crianza"',
+        body: 'La teoría de la "madre nevera" —padres poco afectuosos que provocarían el autismo— quedó descartada hace décadas, pero su culpa sigue viva en muchas familias. El autismo es una condición del neurodesarrollo con una base biológica importante. Ni lo causaste tú, ni tenías nada que corregir en cómo querías a tu hijo.',
+      },
+      {
+        icon: '🙈',
+        heading: 'Mito 3: "si te mira y te abraza, no es autismo"',
+        body: 'El espectro es ancho de verdad. Hay niños autistas cariñosos, que miran, que abrazan y que hablan mucho; y los hay sin lenguaje oral. Que no mire no significa que no le importes: a menudo significa que mirar y escuchar a la vez le cuesta demasiado. Y al revés: la simpatía no descarta nada. Quien diagnostica es el equipo especializado, no una lista de señales sueltas.',
+      },
+      {
+        icon: '⚠️',
+        heading: 'Mito 4: "existe una cura milagrosa"',
+        body: 'Dietas milagro, quelación, cámaras hiperbáricas, suplementos "desintoxicantes", lejía disfrazada de suplemento: se venden caras, no funcionan y algunas son directamente peligrosas. El autismo no es una enfermedad que se cure: es una forma de funcionar. Lo que sí ayuda —y tiene evidencia— es el apoyo a la comunicación, los ajustes del entorno y una familia que entiende a su hijo.',
+      },
+      {
+        icon: '🎯',
+        heading: 'Qué hacer con todo esto',
+        body: 'Cuando te ofrezcan un tratamiento, haz tres preguntas: ¿qué estudios lo respaldan?, ¿qué riesgos tiene?, ¿qué me pasaría si no lo hago? Y consúltalo con el equipo que atiende a tu hijo antes de pagar nada. El dinero, el tiempo y la esperanza de una familia son recursos limitados: merecen ir a lo que sí funciona.',
+      },
+    ],
+    quiz: [
+      {
+        prompt: '💉 "Las vacunas pueden causar autismo."',
+        options: ['🚫 Mito', '✅ Realidad'],
+        answer: 0,
+        rationale: 'El estudio que lo sugirió fue fraudulento y retirado. Estudios posteriores con millones de niños no han hallado ninguna relación.',
+      },
+      {
+        prompt: '🤗 "Un niño que mira a los ojos y es cariñoso no puede ser autista."',
+        options: ['🚫 Mito', '✅ Realidad'],
+        answer: 0,
+        rationale: 'El espectro es muy amplio: hay niños autistas afectuosos, que miran y que hablan. El diagnóstico lo hace un equipo especializado.',
+      },
+      {
+        prompt: 'Ante una "terapia" que promete curar el autismo con dietas o suplementos…',
+        options: ['🛒 Probarla, por si acaso', '🧐 Preguntar por su evidencia y consultarlo con el equipo', '📢 Recomendarla a otras familias'],
+        answer: 1,
+        rationale: 'No hay cura para el autismo, y varias de esas pseudoterapias son caras y peligrosas. Lo que ayuda es el apoyo a la comunicación y al entorno.',
+      },
+      {
+        prompt: 'Que tu hijo sea autista se debe a…',
+        options: ['🧬 Factores del neurodesarrollo con base biológica', '❄️ Haber sido unos padres poco cariñosos', '📱 Demasiadas pantallas de bebé'],
+        answer: 0,
+        rationale: 'La teoría de la "madre nevera" está descartada desde hace décadas. La culpa que deja no ayuda a nadie, y menos al niño.',
+      },
+    ],
+  },
+  {
+    id: 'mito-dislexia',
+    domain: 'mitos',
+    track: 'mitos',
+    icon: '🔤',
+    title: 'Mitos sobre la dislexia',
+    summary: 'Ni vagancia, ni problema de vista, ni cosa de letras al revés.',
+    minutes: 3,
+    xp: 30,
+    slides: [
+      {
+        icon: '🪞',
+        heading: 'Mito 1: "escribe las letras al revés"',
+        body: 'Girar la b y la d o escribir algún número en espejo es normal mientras se aprende a escribir, y en la mayoría de los niños se va solo. No es el rasgo que define la dislexia. Lo que de verdad pesa es otra cosa: la dificultad para manejar los SONIDOS de las palabras —segmentarlos, unirlos, asociarlos a su letra— y una lectura lenta y costosa que no mejora al ritmo esperado.',
+      },
+      {
+        icon: '😤',
+        heading: 'Mito 2: "es vagancia, no se esfuerza"',
+        body: 'Es el mito que más daño hace, porque convierte una dificultad en un defecto de carácter. La realidad suele ser la contraria: un niño con dislexia dedica a leer mucho más esfuerzo que sus compañeros para obtener menos resultado. Si además lo llaman vago, deja de intentarlo, y entonces sí parece que no se esfuerza.',
+      },
+      {
+        icon: '👓',
+        heading: 'Mito 3: "es la vista"',
+        body: 'La dislexia no es un problema de agudeza visual, y por eso no se corrige con gafas. Los filtros y lentes de colores, que se anuncian mucho, no tienen respaldo científico como tratamiento de la dislexia. Revisar la vista y el oído del niño es siempre buena idea —descarta otras causas—, pero no es el tratamiento.',
+      },
+      {
+        icon: '🧠',
+        heading: 'Mito 4: "es falta de inteligencia" y "se le quita con la edad"',
+        body: 'La dislexia no guarda relación con la inteligencia: aparece en todos los niveles. Y no desaparece al crecer: lo que mejora, y mucho, es la manera de compensarla. Con intervención estructurada y sistemática sobre los sonidos y su relación con las letras, y con los apoyos adecuados en el aula, se aprende a leer y se llega a la universidad.',
+      },
+      {
+        icon: '🎯',
+        heading: 'Qué hacer',
+        body: 'Separa el esfuerzo del resultado: elogia lo que hizo, no lo que le salió. Sigue leyéndole en voz alta cuentos por encima de su nivel lector, porque su comprensión y su vocabulario no tienen por qué esperar a que descifre bien. Y si sospechas, pide evaluación: los apoyos escolares (más tiempo, examen oral, no leer en público) existen y se piden con un informe.',
+      },
+    ],
+    quiz: [
+      {
+        prompt: '🪞 "Escribir alguna letra al revés a los cinco años ya es dislexia."',
+        options: ['🚫 Mito', '✅ Realidad'],
+        answer: 0,
+        rationale: 'Las inversiones son frecuentes mientras se aprende a escribir. El núcleo de la dislexia está en el procesamiento de los sonidos y en una lectura lenta y costosa.',
+      },
+      {
+        prompt: '😤 "Si se esforzara más, leería bien."',
+        options: ['🚫 Mito', '✅ Realidad'],
+        answer: 0,
+        rationale: 'Suele esforzarse más que nadie para lograr menos. Llamarle vago añade daño emocional a una dificultad real.',
+      },
+      {
+        prompt: 'Sobre las lentes y filtros de colores para la dislexia…',
+        options: ['👓 Son el tratamiento de elección', '🚫 No tienen respaldo científico', '🌈 Curan la mitad de los casos'],
+        answer: 1,
+        rationale: 'No hay evidencia que los respalde. Lo que funciona es la intervención estructurada sobre sonidos y letras, más los apoyos escolares.',
+      },
+      {
+        prompt: 'Con apoyo adecuado, un niño con dislexia…',
+        options: ['🎓 Aprende a leer y puede llegar tan lejos como quiera', '📉 Nunca leerá con soltura', '⏳ Se le pasará solo con la edad'],
+        answer: 0,
+        rationale: 'La dislexia persiste, pero la compensación mejora muchísimo. No guarda relación con la inteligencia.',
       },
     ],
   },
