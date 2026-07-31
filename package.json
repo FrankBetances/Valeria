@@ -7,9 +7,14 @@
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
+    "start:go": "expo start --go",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
     "web": "expo start --web",
+    "prebuild:ios": "expo prebuild -p ios",
+    "prebuild:ios:clean": "expo prebuild -p ios --clean",
+    "ios:device": "expo run:ios --device --configuration Debug",
+    "ios:release": "expo run:ios --device --configuration Release",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
@@ -21,6 +26,7 @@
     "expo-asset": "~12.0.13",
     "expo-audio": "~1.1.1",
     "expo-build-properties": "~1.0.10",
+    "expo-dev-client": "~6.0.21",
     "expo-notifications": "~0.32.17",
     "expo-speech": "~14.0.8",
     "expo-splash-screen": "~31.0.13",

@@ -62,6 +62,7 @@ dificultades del lenguaje.**
 - [Documentación](#-documentación)
 - [Puesta en marcha](#-puesta-en-marcha)
 - [Builds (EAS)](#-builds-eas)
+- [Build iOS en local (Mac + Xcode)](#-build-ios-en-local-mac--xcode)
 - [Port nativo iOS (Xcode)](#-port-nativo-ios-xcode)
 - [Build automático (GitHub Actions)](#-build-automático-github-actions)
 - [Backend opcional (Firebase)](#-backend-opcional-firebase)
@@ -331,22 +332,48 @@ chromium --headless --no-pdf-header-footer \
 
 ## 🚀 Puesta en marcha
 
-> **Requisitos:** Node.js 18+, `npm` y la app **Expo Go** en el móvil (o un
-> emulador Android/iOS). No hace falta configurar nada más para probarla en local.
+> **Requisitos:** Node.js 18+, `npm` y una **build de desarrollo** instalada en
+> el dispositivo (o un emulador Android / simulador iOS). Para un vistazo rápido
+> también sirve **Expo Go**, con los límites que se explican abajo.
 
 ```bash
 npm install       # instala dependencias
-npm start         # expo start — abre el panel de Metro (escanea el QR con Expo Go)
+npm start         # expo start — abre el panel de Metro
 npm run typecheck # tsc --noEmit — comprobación de tipos
 ```
 
 | Comando | Qué hace |
 | --- | --- |
-| `npm start` | Arranca Metro; escanea el QR con **Expo Go**. |
-| `npm run android` | Abre en emulador o dispositivo **Android**. |
-| `npm run ios` | Abre en simulador **iOS** (solo macOS). |
+| `npm start` | Arranca Metro en modo **dev client**: el QR abre la build de desarrollo instalada. |
+| `npm run start:go` | Fuerza `--go`: arranca Metro contra **Expo Go**. |
+| `npm run android` | `expo run:android` — compila e instala la build de desarrollo en emulador o dispositivo **Android** (requiere Android SDK). |
+| `npm run ios` | `expo run:ios` — compila e instala en el simulador **iOS** (solo macOS). |
 | `npm run web` | Abre la versión **web** en el navegador. |
 | `npm run typecheck` | Verifica los tipos de TypeScript. |
+
+> `npm run android` y `npm run ios` **compilan**; no son atajos para abrir Expo
+> Go. Para el vistazo rápido sin cadena nativa instalada, usa `npm run start:go`.
+> Es `expo prebuild` quien fija esos dos valores: los reescribe a `expo run:*`
+> cada vez que se ejecuta, así que no tiene sentido devolverlos a `expo start`.
+
+### 📱 Expo Go vs. build de desarrollo
+
+El proyecto incluye [`expo-dev-client`](https://docs.expo.dev/develop/development-builds/introduction/),
+así que `expo start` arranca por defecto apuntando a la **build de desarrollo**.
+Es el mismo binario nativo de la app —con sus módulos y sus permisos— pero
+cargando el JavaScript desde Metro: recarga en caliente sin recompilar nada.
+
+Importa porque **dos piezas centrales de Valeria+ no existen en Expo Go**:
+
+| Módulo | En Expo Go | En build de desarrollo |
+| --- | --- | --- |
+| `@react-native-voice/voice` (STT) | ❌ no está enlazado: los juegos de voz no reconocen nada | ✅ funciona |
+| `expo-notifications` (recordatorios) | ⚠️ sin push remoto y con avisos limitados en iOS | ✅ funciona |
+
+Traducción práctica: Expo Go vale para retocar interfaz, textos o navegación;
+en cuanto tocas pares mínimos, expansión semántica o los recordatorios, hay que
+usar la build de desarrollo. Basta compilarla **una vez** por dispositivo —
+después solo se recarga JavaScript.
 
 ---
 
@@ -362,6 +389,126 @@ móviles reales), eliminando las librerías x86 de emulador del binario. Para
 publicar en Google Play usa siempre el App Bundle: Play genera un APK optimizado
 por dispositivo y la descarga es bastante menor.
 
+### Perfiles de [`eas.json`](eas.json)
+
+| Perfil | Plataforma | Qué produce | Necesita cuenta Apple de pago |
+| --- | --- | --- | --- |
+| `development` | Android + iOS | Build de desarrollo (`developmentClient`), distribución interna | Sí en iOS (ad hoc: el dispositivo debe estar registrado) |
+| `ios-simulator` | iOS | Build de desarrollo para el **simulador** (`.app`) | **No** — el simulador no firma |
+| `apk` | Android | `.apk` directo, solo ARM | — |
+| `ios-preview` | iOS | `.ipa` en Release, distribución interna | Sí |
+| `production` | Android + iOS | `.aab` para Play · `.ipa` en Release para App Store | Sí |
+
+```bash
+npx eas build -p ios --profile ios-simulator   # no necesita cuenta de pago
+npx eas build -p ios --profile development     # dev client sobre iPad/iPhone real
+npx eas build -p ios --profile production      # App Store Connect
+```
+
+Los perfiles iOS existen **por si algún día conviene compilar en la nube**; hoy
+el camino recomendado es el build local en Mac de la sección siguiente, que no
+consume cola de EAS ni exige subir credenciales de firma.
+
+`appVersionSource: "remote"` hace que EAS lleve la cuenta del `versionCode` de
+Android y del `buildNumber` de iOS; `autoIncrement` en `production` los sube
+solo. No los edites a mano en `app.json`.
+
+---
+
+## 🍏 Build iOS en local (Mac + Xcode)
+
+Esta es la app **React Native** de la raíz. En el repositorio no hay carpeta
+`ios/`: está en [`.gitignore`](.gitignore) porque la genera Expo. El flujo
+completo, desde un clon limpio:
+
+> **Requisitos:** macOS con **Xcode** (y sus Command Line Tools), **CocoaPods**
+> y Node.js 18+. Para el simulador no hace falta ninguna cuenta de Apple; para
+> instalar en un iPad o iPhone físico basta una cuenta **gratuita**.
+
+```bash
+npm install
+npx expo prebuild -p ios     # genera ios/ con Podfile y ejecuta pod install
+npm run ios                  # compila y abre el simulador
+```
+
+Para un **iPad físico** —el escenario real de la terapia— conéctalo por USB y:
+
+```bash
+npm run ios:device           # elige el dispositivo de la lista y compila en Debug
+```
+
+`expo run:ios` compila **una sola vez** e instala la build de desarrollo. A
+partir de ahí, para iterar basta con dejar Metro corriendo:
+
+```bash
+npm start                    # la app en el iPad recarga en caliente desde Metro
+```
+
+Solo hay que repetir el `prebuild` + compilación cuando cambia algo **nativo**:
+una dependencia nueva con módulo nativo, un plugin de `app.json`, los permisos
+o la versión del SDK. Editar pantallas, textos o corpus no lo requiere.
+
+### Scripts iOS
+
+| Comando | Qué hace |
+| --- | --- |
+| `npm run prebuild:ios` | Genera `ios/` a partir de `app.json` y ejecuta `pod install`. |
+| `npm run prebuild:ios:clean` | Igual, pero **borra** `ios/` antes: el arreglo cuando CocoaPods se atasca. |
+| `npm run ios` | Compila e instala en el **simulador**. |
+| `npm run ios:device` | Compila en **Debug** sobre un iPad/iPhone conectado. |
+| `npm run ios:release` | Compila en **Release** sobre el dispositivo: rendimiento real, sin Metro. |
+
+`expo run:ios` ejecuta el `prebuild` por su cuenta si todavía no existe `ios/`,
+así que el paso explícito solo hace falta cuando quieres inspeccionar o firmar
+el proyecto en Xcode antes de compilar.
+
+Usa `ios:release` antes de una sesión clínica de verdad: la build de Debug
+carga el JavaScript desde Metro y arrastra el *dev menu*, así que no sirve para
+medir cómo responde la app en las manos del niño.
+
+### Firma en Xcode
+
+`prebuild` deja el proyecto listo, pero la firma es tuya:
+
+```bash
+open ios/Valeria.xcworkspace   # ⚠️ el workspace, no el .xcodeproj — hay CocoaPods
+```
+
+En **Signing & Capabilities** elige tu equipo (una cuenta gratuita de Apple
+sirve). El *bundle identifier* es `health.earlify.valeria`, declarado en
+[`app.json`](app.json).
+
+Con cuenta gratuita hay dos límites que conviene tener presentes: la firma
+**caduca a los 7 días** —hay que reinstalar desde el Mac— y no existe TestFlight.
+Distribuir a terceros exige el Apple Developer Program.
+
+### Permisos que verás en el dispositivo
+
+Los genera el plugin de `@react-native-voice/voice` declarado en `app.json`; no
+se editan a mano en el `Info.plist`, porque `prebuild` lo regenera:
+
+| Clave | Para qué |
+| --- | --- |
+| `NSMicrophoneUsageDescription` | Los juegos de voz de los ejercicios |
+| `NSSpeechRecognitionUsageDescription` | Valorar las palabras que dice el niño |
+
+Si cambias lo que la app recoge, actualiza en el mismo cambio la política de
+[`site/`](site/) y el formulario de *Seguridad de los datos* de Play Console.
+
+### Problemas habituales
+
+| Síntoma | Causa y arreglo |
+| --- | --- |
+| `pod install` falla tras cambiar dependencias | `npm run prebuild:ios:clean` regenera `ios/` desde cero |
+| La app abre pero no conecta con Metro | Mac e iPad deben estar en la **misma red**; o usa `npx expo start --tunnel` |
+| El STT no reconoce nada | Estás en **Expo Go**, no en la build de desarrollo (ver tabla de arriba) |
+| Cambié `app.json` y no se aplica | Los cambios nativos exigen `prebuild` + recompilar |
+| Xcode se queja de la firma | Falta el equipo en *Signing & Capabilities*, o caducó la firma de 7 días |
+
+> `ios/` es un artefacto generado: **no lo versiones**. Todo lo que deba
+> persistir —permisos, plugins, identificadores— vive en `app.json` y en
+> [`plugins/`](plugins/).
+
 ---
 
 ## 🍎 Port nativo iOS (Xcode)
@@ -369,7 +516,16 @@ por dispositivo y la descarga es bastante menor.
 En [`ios-native/`](ios-native/) vive un **port SwiftUI** del flujo completo,
 pensado para evaluar navegación y estética en dispositivo físico. Es un
 demostrador: la app clínica —la que validó ACOPROS— es la de React Native de
-esta raíz, y se compila con EAS, no con Xcode.
+esta raíz.
+
+> ⚠️ **No confundir con la sección anterior.** Son dos apps distintas:
+>
+> | | [Build iOS local](#-build-ios-en-local-mac--xcode) | Port nativo (esta sección) |
+> | --- | --- | --- |
+> | Código | React Native / TypeScript (`src/`) | SwiftUI (`ios-native/`) |
+> | Proyecto Xcode | `ios/Valeria.xcworkspace`, **generado** por `prebuild` | `ios-native/Valeria.xcodeproj`, **versionado** |
+> | Dependencias | CocoaPods | Swift Package Manager |
+> | Estado | App clínica real | Demostrador de estética y navegación |
 
 ```bash
 cd ios-native
@@ -377,8 +533,8 @@ cd ios-native
 open Valeria.xcodeproj     # esquema Valeria · ⌘R
 ```
 
-**El proyecto de Xcode es `ios-native/Valeria.xcodeproj`, no la raíz**: aquí no
-hay ningún `.xcodeproj` ni carpeta `ios/`. Dependencias por Swift Package
+**El proyecto de Xcode de este port es `ios-native/Valeria.xcodeproj`**, y es el
+único `.xcodeproj` versionado del repositorio. Dependencias por Swift Package
 Manager (Firebase), **sin CocoaPods**: no hay `Podfile` ni `pod install` que
 ejecutar, y se abre el `.xcodeproj`, no un *workspace*.
 
@@ -391,10 +547,10 @@ Firebase App Distribution — eso sí requiere el Apple Developer Program.
 Todo el detalle —firma, `archive`, exportación del `.ipa`, y en qué se
 diferencia de esta app RN— está en [`ios-native/README.md`](ios-native/README.md).
 
-> Para sacar la app **React Native** por Xcode habría que hacer antes
-> `npx expo prebuild`, que genera la carpeta `ios/` (ignorada en git) **con**
-> CocoaPods; a partir de ahí sí se abriría el `.xcworkspace`. Hoy no hace falta:
-> ese camino lo cubre `eas build -p ios`.
+> Para sacar la app **React Native** por Xcode, el camino está documentado en
+> [Build iOS en local](#-build-ios-en-local-mac--xcode): `npx expo prebuild -p ios`
+> genera la carpeta `ios/` (ignorada en git) **con** CocoaPods, y a partir de ahí
+> se abre el `.xcworkspace`.
 
 ---
 
