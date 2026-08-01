@@ -11,7 +11,7 @@
 > **AR-2 VRA Digitalizado** (reflejo de orientación auditiva) y
 > **AR-3 Selección Semántica por Fijación**.
 >
-> Encuadre regulatorio: **SaMD Clase IIa (MDR)** · **permiso de cámara nuevo**
+> Encuadre regulatorio: **SaMD Clase I (MDR)** · **permiso de cámara nuevo**
 > (RGPD art. 9 + Google Play *Datos de usuario*, *Permisos sensibles* y
 > *Familias*).
 >
@@ -928,7 +928,7 @@ entera deja de ser cierta y el módulo pasa a otra categoría regulatoria.
 | Play Console · Familias | Revisión reforzada. Preparar el texto de justificación y, si es viable, un vídeo de demostración del flujo |
 | Consentimiento in-app | Pantalla previa de consentimiento informado **persistida por paciente**, siguiendo el patrón ya implementado para el Quiebre Pragmático del módulo TEA |
 
-### 9.3 Muro MDR
+### 9.3 Muro MDR · el muro es lo que sostiene la Clase I
 
 Los tres ejercicios producen medidas que *suenan* a diagnóstico (latencia VRA,
 índice de redondeo). El módulo:
@@ -939,6 +939,27 @@ Los tres ejercicios producen medidas que *suenan* a diagnóstico (latencia VRA,
 - No adapta umbrales entre ensayos ni entre sesiones.
 - Todo umbral es un valor que **el adulto fijó** y que viaja en el registro para
   que el dato sea interpretable a posteriori.
+
+> **Por qué esto pasa de buena práctica a restricción dura.** El encuadre de este
+> módulo es **SaMD Clase I**, y esa clasificación **se gana precisamente con las
+> cuatro reglas de arriba**: el módulo instrumenta y registra, y la decisión
+> clínica la toma íntegramente una persona a partir de datos crudos. En el
+> momento en que un ejercicio puntuara automáticamente, comparara contra valores
+> normativos o ajustara su propia dificultad, dejaría de describir lo observado y
+> pasaría a **informar una decisión diagnóstica o terapéutica**, que es el
+> territorio de la Clase IIa —con su organismo notificado, su evaluación de
+> conformidad y su calendario—.
+>
+> Dicho de otro modo: el muro MDR ya no es solo higiene de diseño, es **el
+> argumento de clasificación**. Cualquier propuesta futura del tipo «que la app
+> avise si la latencia es alta para la edad» no es una mejora de producto: es un
+> cambio de clase regulatoria. Debe rechazarse en revisión de código, o
+> escalarse como decisión de negocio consciente, nunca colarse como refinamiento.
+
+**Consecuencia práctica para el dashboard y la exportación:** el panel del
+paciente y el `fullLog` muestran **series y magnitudes**, no semáforos ni
+etiquetas de severidad. Un gráfico de latencias por ensayo es descripción; un
+badge rojo de «por debajo de lo esperado» es interpretación, y no cabe en Clase I.
 
 ---
 
@@ -1225,6 +1246,7 @@ analítica de terceros que Apple exige.
 | **Frustración por reinicio de contador** | Medio (clínico) | Decaimiento en vez de reinicio · progreso continuo visible |
 | **Solo Android en v1** | Medio | §13 · `FaceSignals` en vocabulario ARKit-compatible e interfaces desde el día 1: iOS es una implementación más, no un rediseño |
 | **Confundido de método si iOS usa ARKit y Android MediaPipe** | Medio (académico) | MediaPipe en ambas plataformas (§13.2) · si conviven, plataforma y motor de señal viajan en cada registro como covariable |
+| **Deriva de Clase I a IIa** por añadir puntuación automática, comparación normativa o dificultad adaptativa | **Alto (regulatorio)** | El muro MDR es el argumento de clasificación (§9.3) · se verifica en cada PR · una propuesta así se escala como decisión de negocio, nunca se acepta como refinamiento |
 | **Divergencia de assets GLB ↔ USDZ** en v2 | Bajo-medio | Script de verificación en `scripts/` que compruebe nombres de animación en ambos formatos, como ya se hace con el corpus de voz |
 | **Sobre-ingeniería del módulo nativo** | Medio | El nativo **solo** mide y renderiza: no persiste, no cifra, no sincroniza. Todo eso sigue en JS |
 | **Luz ambiental pobre en consulta** | Bajo-medio | Detector de calidad de tracking · aviso al adulto antes de armar el ensayo, nunca durante |
@@ -1283,6 +1305,7 @@ está; lo que hay por delante es la Fase 0.
 - [ ] **Fase 10** (v2) — Capa de recompensa RealityKit + pipeline USDZ
 
 **Verificación transversal en cada PR:** `npm run typecheck` en verde · humo
-manual de los 6 bloques actuales sin cambio · muro MDR intacto (cero ajuste
-automático de umbrales, cero veredicto algorítmico) · las tres afirmaciones de
+manual de los 6 bloques actuales sin cambio · **muro MDR intacto** (cero ajuste
+automático de umbrales, cero veredicto algorítmico, cero comparación normativa:
+es el argumento que sostiene la Clase I, §9.3) · las tres afirmaciones de
 privacidad de §9.1 siguen siendo literalmente ciertas en el código.
