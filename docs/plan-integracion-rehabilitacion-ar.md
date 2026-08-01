@@ -15,6 +15,10 @@
 > (RGPD art. 9 + Google Play *Datos de usuario*, *Permisos sensibles* y
 > *Familias*).
 >
+> **Hardware del piloto: teléfonos móviles Android de gama media / media-alta**
+> (no tablets). iOS no es requisito de v1, pero el diseño reserva el camino
+> (§13).
+>
 > Estado: 🟡 planificación · Rama de trabajo: `claude/rehab-ar-planning-s1f8qo`
 
 ---
@@ -24,6 +28,7 @@
 - [1. Objetivo y principio rector](#1-objetivo-y-principio-rector)
 - [2. Estado real de las dos dependencias externas](#2-estado-real-de-las-dos-dependencias-externas)
 - [3. La decisión de arquitectura (la que condiciona todo el resto)](#3-la-decisión-de-arquitectura-la-que-condiciona-todo-el-resto)
+  - [3.4 Perfil de hardware del piloto y sus consecuencias](#34-perfil-de-hardware-del-piloto-y-sus-consecuencias)
 - [4. Arquitectura objetivo](#4-arquitectura-objetivo)
 - [5. Capa de señal: qué extrae MediaPipe y cómo se normaliza](#5-capa-de-señal-qué-extrae-mediapipe-y-cómo-se-normaliza)
 - [6. Capa de recompensa: el contrato de Feedback Visual Desacoplado](#6-capa-de-recompensa-el-contrato-de-feedback-visual-desacoplado)
@@ -36,9 +41,10 @@
 - [10. Superficie de integración (cambios por archivo)](#10-superficie-de-integración-cambios-por-archivo)
 - [11. Garantías de no regresión](#11-garantías-de-no-regresión)
 - [12. Plan de trabajo por fases](#12-plan-de-trabajo-por-fases)
-- [13. Riesgos y mitigaciones](#13-riesgos-y-mitigaciones)
-- [14. Decisiones abiertas que necesitan a Frank](#14-decisiones-abiertas-que-necesitan-a-frank)
-- [15. Seguimiento](#15-seguimiento)
+- [13. Plan de iOS (v2, no bloqueante)](#13-plan-de-ios-v2-no-bloqueante)
+- [14. Riesgos y mitigaciones](#14-riesgos-y-mitigaciones)
+- [15. Decisiones abiertas que necesitan a Frank](#15-decisiones-abiertas-que-necesitan-a-frank)
+- [16. Seguimiento](#16-seguimiento)
 
 ---
 
@@ -154,7 +160,7 @@ decisión, no como olvido.
 ### 3.3 Constraint dura que conviene decir en voz alta
 
 **No se puede hacer AR de mundo real (cámara trasera + ARCore) y seguimiento
-facial (cámara frontal) a la vez** en las tablets Android típicas: es una sola
+facial (cámara frontal) a la vez** en un móvil Android típico: es una sola
 sesión de cámara. Y los tres ejercicios necesitan la cara del niño.
 
 Consecuencia de diseño: la «realidad aumentada» aquí es **AR de espejo** —el
@@ -166,6 +172,85 @@ ARCore**. Se usa `io.github.sceneview:sceneview` (solo 3D), **no**
 `arsceneview`. Eso elimina de golpe la lista de dispositivos certificados
 ARCore, el permiso de ubicación y decenas de MB de APK. Si más adelante se
 quisiera AR real, sería un ejercicio distinto, no una variante de estos tres.
+
+### 3.4 Perfil de hardware del piloto y sus consecuencias
+
+El piloto corre en **teléfonos móviles Android de gama media / media-alta**.
+Cuatro consecuencias de diseño que no son matices: cambian ejercicios.
+
+#### a) La geometría del móvil estrangula AR-3
+
+Una pantalla de 6,1″ (≈ 141 × 65 mm) en horizontal, a 35 cm de la cara, abarca
+**~23° de campo visual total**. Repartir tres dianas ahí deja los centros a
+**~7,6° entre sí**:
+
+| Distancia | FOV horizontal (landscape) | Separación con **3** dianas | Separación con **2** dianas |
+| --- | --- | --- | --- |
+| 30 cm | 26,4° | **8,9°** | 17,8° |
+| 35 cm | 22,7° | **7,6°** | 15,3° |
+| 40 cm | 20,0° | **6,7°** | 13,4° |
+| 50 cm | 16,0° | **5,4°** | 10,7° |
+
+> **Corrección a la versión anterior de este plan.** Ahí se pedían **≥ 20° de
+> separación** entre dianas. Ese número **no es alcanzable en un móvil** —ni
+> siquiera en una tablet de 10,5″, que da 10,7° a 40 cm—. Estaba tomado de la
+> literatura de *eye tracking* con monitores de escritorio y no traslada. La
+> cifra correcta de trabajo es **7-9°**, y eso reordena AR-3 (§7.3).
+
+Regla derivada: una diana es discriminable si la separación supera **≈ 3× el
+jitter RMS del puntero**. Con 7,6° de separación hace falta un puntero por
+debajo de **~2,5° RMS**. Ese, y no los fps, es el criterio que decide si AR-3
+lleva tres dianas o dos. Lo mide la Fase 0.
+
+#### b) El móvil no lateraliza sonido, y el Bluetooth mata la medida
+
+La mayoría de móviles de gama media llevan **un solo altavoz** inferior, o un
+par asimétrico auricular + altavoz que no produce una imagen estéreo utilizable.
+Para AR-2 eso significa que **el altavoz del teléfono no sirve para lateralizar**
+ni siquiera de forma orientativa.
+
+Y la salida obvia está vetada: **el audio Bluetooth queda descartado en AR-2**.
+Añade entre 100 y 300 ms de latencia variable ensayo a ensayo, que es
+exactamente la magnitud que el ejercicio pretende medir. Sería medir la radio,
+no al niño.
+
+**Vía obligatoria: transductor por cable** (auriculares con adaptador USB-C, o
+altavoces externos cableados). Detalle en §7.2.
+
+#### c) El móvil se sostiene en la mano, y eso confunde el giro cefálico
+
+MediaPipe mide la pose de la cabeza **relativa a la cámara**. Si el adulto
+sostiene el teléfono, cualquier movimiento de su muñeca se lee como giro de la
+cabeza del niño. En una tablet apoyada esto se ignora; en un móvil, no.
+
+Dos mitigaciones, ambas necesarias:
+
+1. **Soporte de sobremesa obligatorio** (trípode o *stand* plegable) para AR-2 y
+   AR-3. Pasa a ser material del protocolo, como la campanita de RA-5.
+2. **Compensación por IMU.** Un `DeviceAttitudeCompensator` que lee
+   `TYPE_GAME_ROTATION_VECTOR` y resta la actitud del dispositivo, de modo que
+   el yaw registrado sea **cabeza respecto al mundo**, no cabeza respecto a la
+   cámara. Además, **descartar el ensayo** si la velocidad angular del
+   dispositivo supera un umbral durante la ventana de respuesta. Un ensayo
+   perdido es barato; un ensayo contaminado envenena el dataset.
+
+#### d) El móvil se calienta antes que una tablet
+
+Cámara a 30 fps + inferencia + Filament en un chasis pequeño y sin disipación:
+la gama media entra en *throttling* térmico en minutos. Consecuencias:
+
+- La Fase 0 mide fps en un **run sostenido de 10 minutos**, no en 30 segundos.
+  Un pico de 30 fps que cae a 12 fps al cuarto minuto es un fracaso disfrazado.
+- Sesión con **límite de duración** y cápsula TPR intercalada — lo que además
+  coincide con lo clínicamente deseable a estas edades.
+- Vigilar `PowerManager.getCurrentThermalStatus()`: al llegar a
+  `THERMAL_STATUS_MODERATE`, avisar al adulto y **sellar el dato** con el estado
+  térmico, para poder descartar después los ensayos degradados.
+
+> **Nota positiva:** la gama media-alta actual (Snapdragon 6/7, Dimensity
+> 7000/8000, Exynos 1x80) tiene delegado GPU y debería sostener el Face
+> Landmarker a 640×480 sin problema. El riesgo no es la potencia bruta: es la
+> **sostenida**, la geometría y el audio.
 
 ---
 
@@ -231,9 +316,10 @@ FaceLandmarkerOptions.builder()
 
 ### 5.1 El problema de la normalización (y por qué la distancia euclídea cruda no sirve)
 
-La distancia euclídea entre comisuras **escala con la distancia del niño a la
-tablet**. Un niño que se acerca 10 cm «redondea los labios» sin mover un
-músculo. Y si gira la cabeza, la anchura bucal se escorza. Toda métrica
+La distancia euclídea entre comisuras **escala con la distancia del niño al
+teléfono**. A las distancias de trabajo de un móvil (30-40 cm) el efecto es
+todavía más agresivo que en una tablet: un niño que se acerca 10 cm «redondea
+los labios» sin mover un músculo. Y si gira la cabeza, la anchura bucal se escorza. Toda métrica
 geométrica debe ser:
 
 1. **Adimensional** — dividida por una referencia rígida. La distancia
@@ -346,8 +432,9 @@ Este es el ejercicio con más valor académico y **el de mayor riesgo de
 ingeniería**. La latencia solo vale si se mide bien.
 
 **El problema de la medición.** `Date.now()` cuando llamas a `play()` **no es**
-el instante en que sale el sonido. El camino de audio de una tablet añade entre
-40 y 200 ms, variable por dispositivo. Y la marca de tiempo del callback de
+el instante en que sale el sonido. El camino de audio de un móvil añade entre
+40 y 200 ms por cable, y entre 100 y 300 ms adicionales por Bluetooth (§3.4b),
+variable por dispositivo. Y la marca de tiempo del callback de
 MediaPipe no es la de captura del sensor. Medir mal aquí no da un dato ruidoso:
 da un dato **sesgado**, que es peor.
 
@@ -374,11 +461,25 @@ honestas.
   respuesta», no «error».
 - **Intervalo inter-ensayo** aleatorio 3-6 s, para que el niño no anticipe.
 
-**Transductor.** Los altavoces de una tablet no lateralizan de forma fiable. Para
-sesiones de investigación se exige auriculares o altavoces externos separados, y
-el registro **sella qué transductor se usó y con qué ganancia relativa**. En
-usuarios de implante unilateral la vía ipsi/contralateral es información
-clínica: se registra el canal físico excitado, no una etiqueta «derecha».
+**Transductor (crítico en móvil).** Como se argumenta en §3.4b, **el altavoz del
+teléfono no es una opción**: la mayoría de los móviles de gama media son mono o
+asimétricos, y el Bluetooth introduce 100-300 ms de latencia variable justo en
+la magnitud que se quiere medir. Dos configuraciones admisibles, y solo dos:
+
+| Configuración | Cableado | Qué mide de verdad | Uso |
+| --- | --- | --- | --- |
+| **Auriculares por cable** (adaptador USB-C) | Sí | **Lateralización** por diferencias interaurales (ILD/ITD) | Rutina clínica y dataset |
+| **Dos altavoces externos cableados** a ±45-90° | Sí | **Localización en campo libre** (el VRA clásico) | Investigación, montaje fijo |
+| ~~Altavoz del teléfono~~ | — | Nada utilizable | ❌ |
+| ~~Cualquier transductor Bluetooth~~ | — | La latencia del enlace | ❌ |
+
+**Lateralización ≠ localización, y hay que decirlo en el artículo.** Con
+auriculares el niño discrimina *de qué oído viene*; en campo libre *de qué punto
+del espacio*. Son constructos distintos y no deben mezclarse en la misma columna
+del dataset. El registro sella `transducer` con esa granularidad.
+
+En usuarios de implante unilateral la vía ipsi/contralateral es información
+clínica: se registra el **canal físico excitado**, no una etiqueta «derecha».
 
 > Nota de continuidad: ya existe **RA-5 «Localización del sonido»** en
 > `AUDICION_META` como ejercicio manual con campanita. AR-2 no lo sustituye: es
@@ -405,8 +506,10 @@ class IrisPointer   : PointerSource   // preciso, ruidoso en gama baja
 class NoseRayPointer: PointerSource   // robusto, coarse; rayo desde punta de nariz
 ```
 
-El ejercicio no sabe cuál está activa. Si el spike muestra jitter de iris > 3° en
-la tablet objetivo, se conmuta a nariz sin tocar la lógica de tarea.
+El ejercicio no sabe cuál está activa. Si el spike muestra jitter de iris > 2,5°
+en el móvil objetivo, se conmuta a nariz sin tocar la lógica de tarea. Y si
+tampoco `noseRay` baja de 2,5°, la conmutación siguiente no es de puntero sino
+de **número de dianas** (§7.3).
 
 **Calibración (obligatoria, no opcional).** Un rayo facial sin calibrar no
 apunta a nada. Rutina de **5 puntos** (4 esquinas + centro, ~15 s, con la osita
@@ -425,9 +528,27 @@ trabajo declarada.
    frustrante.
 
 **Problema de Midas.** Con *dwell* puro, todo lo que se mira se selecciona. Se
-mitiga con una **zona neutra** central (el *dwell* solo acumula dentro de un
-objeto) y separación angular amplia entre objetos (**≥ 20°**, es decir tres
-objetos en los tercios de la pantalla, nunca cuatro o más en v1).
+mitiga con una **zona neutra** central: el *dwell* solo acumula dentro de un
+objeto, nunca en el fondo.
+
+**Geometría en móvil: dos o tres dianas, lo decide la Fase 0.** Por §3.4a, tres
+dianas en un móvil quedan a **~7,6°** entre centros a 35 cm, no a los 20° que
+pedía la versión anterior de este plan. Eso obliga a un protocolo de encuadre
+rígido y a un modo degradado:
+
+| Parámetro | Valor |
+| --- | --- |
+| Orientación | **Landscape obligatorio** en AR-3 (en vertical la pantalla abarca ~10°: inviable) |
+| Distancia de trabajo | **30-35 cm**, con soporte. Más cerca degrada el encuadre facial; más lejos comprime las dianas |
+| Modo nominal | **3 dianas** a 1/6, 1/2 y 5/6 del ancho · separación ~8° |
+| Modo degradado | **2 dianas** a 1/6 y 5/6 · separación ~15-18° · elección forzada entre dos alternativas |
+| Regla de conmutación | Si el RMS de calibración implica jitter > **2,5°**, la sesión arranca en modo de 2 dianas **y lo registra** |
+
+El modo de 2 dianas no es una derrota: la elección forzada entre dos
+alternativas es un paradigma estándar en evaluación de comprensión, con la
+contrapartida conocida de un 50 % de acierto por azar —que se corrige con más
+ensayos, no con más dianas—. Lo que sí sería un error es dejar tres dianas
+indiscriminables y llamar «error de comprensión» a un fallo de puntería.
 
 **Distinguir primera mirada de selección final.** Clínicamente son dos variables
 distintas: adónde mira primero (sesgo de comprensión inmediata) y qué acaba
@@ -573,22 +694,26 @@ ejercicios: sigue el riesgo.**
 
 ### Fase 0 · Spike de viabilidad (2 semanas · **puerta de decisión**)
 
-App Kotlin desechable, fuera del árbol de Valeria+, ejecutada en **la tablet de
-gama baja que se vaya a usar de verdad**, no en un buque insignia:
-
-- fps sostenidos de Face Landmarker con GPU delegate y con CPU;
-- jitter de iris y de *head pose* en reposo (grados RMS);
-- latencia de salida de audio medida con `AudioTrack.getTimestamp()`;
-- convivencia de CameraX + Filament en el mismo frame sin *drop*.
+App Kotlin desechable, fuera del árbol de Valeria+, ejecutada en **los modelos
+concretos de móvil que va a usar el piloto**, no en un buque insignia. Cada
+medida se toma **con el teléfono en su soporte, a 30-35 cm, en landscape** — las
+condiciones reales, no las de laboratorio.
 
 **Criterios de salida (numéricos, no impresionistas):**
 
-| Métrica | Umbral | Si no se cumple |
-| --- | --- | --- |
-| fps sostenidos | ≥ 20 | AR-2 y AR-3 no son viables en ese hardware |
-| Jitter de *head pose* en reposo | < 2° RMS | AR-2 pierde fiabilidad de umbral |
-| Jitter de iris | < 3° RMS | AR-3 va a `noseRay` por defecto |
-| Incertidumbre de latencia de audio | < 20 ms | El dato de AR-2 no es publicable sin calibración por dispositivo |
+| Métrica | Cómo se mide | Umbral | Si no se cumple |
+| --- | --- | --- | --- |
+| **fps sostenidos** | Run continuo de **10 min**, percentil 5 de la serie | ≥ 20 | AR-2 y AR-3 no viables en ese modelo |
+| **Caída térmica** | fps del minuto 10 ÷ fps del minuto 1 | ≥ 0,7 | Límite de sesión más corto + aviso térmico obligatorio |
+| **Jitter de *head pose*** en reposo | RMS en grados, 60 s | < 2° | AR-2 pierde fiabilidad de umbral a 15° |
+| **Jitter de iris** | RMS en grados, 60 s | < 2,5° | AR-3 arranca en `noseRay` |
+| **Jitter de `noseRay`** | RMS en grados, tras calibrar | < 2,5° | **AR-3 va a modo de 2 dianas** (§7.3) |
+| **Incertidumbre de latencia de audio** | Desviación de `AudioTrack.getTimestamp()` sobre 50 disparos, por transductor cableado | < 20 ms | El dato de AR-2 no es publicable sin calibración por dispositivo |
+| **Deriva del IMU** | Error de yaw compensado tras 2 min de manipulación normal | < 1,5° | El soporte deja de ser recomendación y pasa a ser requisito duro |
+
+**Entregable de la fase:** una tabla con estas siete filas **por modelo de
+teléfono**, que se convierte en la matriz de compatibilidad del piloto y en un
+apéndice de método publicable.
 
 **No se escribe nada más hasta cerrar esta fase.** Es el punto donde el plan
 puede cambiar barato.
@@ -640,46 +765,142 @@ README a 7 bloques · revisión de tamaño de APK (§13).
 
 ---
 
-## 13. Riesgos y mitigaciones
+## 13. Plan de iOS (v2, no bloqueante)
+
+iOS no entra en v1, pero **la decisión que lo abarata se toma ahora**: si la capa
+de señal se define en el vocabulario correcto, iOS es una implementación más y no
+un rediseño. Si no, es reescribir los tres ejercicios.
+
+### 13.1 La palanca: los 52 blendshapes son los mismos
+
+Los blendshapes que emite MediaPipe son **compatibles con ARKit**: la misma
+nomenclatura y el mismo rango 0-1 que `ARFaceAnchor.blendShapes`. Y ambas
+plataformas entregan una matriz de transformación facial 4×4.
+
+Por tanto, **`FaceSignals` se define en ese vocabulario neutro** —52 coeficientes
++ matriz 4×4 + landmarks normalizados + `tCaptureUs`— y **no** en tipos de
+MediaPipe. Consecuencia: los ejercicios, los umbrales, la calibración, la
+histéresis y la telemetría son **código compartido y agnóstico de plataforma**.
+Lo que se porta a iOS es únicamente:
+
+| Capa | Android (v1) | iOS (v2) | Tamaño del port |
+| --- | --- | --- | --- |
+| Captura | CameraX | AVCaptureSession | Pequeño |
+| Señal facial | MediaPipe `tasks-vision` | **MediaPipe `MediaPipeTasksVision`** (recomendado) o ARKit | Pequeño si MediaPipe |
+| Compensación de dispositivo | `TYPE_GAME_ROTATION_VECTOR` | CoreMotion `deviceMotion.attitude` | Pequeño |
+| Estímulo + timestamp | `AudioTrack.getTimestamp()` | AVAudioEngine + `AVAudioSession.outputLatency` | Pequeño (iOS lo pone más fácil) |
+| Escena 3D | SceneView / Filament | **RealityKit directo** | Medio |
+| Lógica de ejercicio | **Compartida** | **Compartida** | **Cero** |
+
+### 13.2 MediaPipe en iOS, no ARKit — y la razón es de investigación
+
+ARKit tienta: es gratis, más preciso y de menor latencia. Pero mezclar en un
+mismo dataset medidas derivadas de ARKit y de MediaPipe introduce un **confundido
+de método**: una diferencia entre dos niños podría ser la plataforma, no el niño.
+Para un dataset destinado a publicación eso es un defecto de diseño, no un
+detalle.
+
+**Recomendación: `MediaPipeTasksVision` también en iOS**, para paridad de
+algoritmo. ARKit queda como vía opcional para el modo «juego» (donde la precisión
+del dato no se publica) o como plan B si el rendimiento en iOS decepciona. Si
+alguna vez se usan las dos, **la plataforma y el motor de señal viajan en cada
+registro** y se controlan como covariable.
+
+### 13.3 SceneView en iOS: no
+
+La capa iOS de SceneView es alpha, exige iOS 17+ y su podspec **omite a propósito**
+`SceneViewSwift`, que hay que añadir a mano por SPM. Y la capa de recompensa que
+necesitamos es diminuta: cargar un modelo, reproducir una animación, trasladar en
+Z, girar 360°. Eso son ~200 líneas de RealityKit sin dependencias externas.
+
+Contrapartida a presupuestar: **doble pipeline de assets**, GLB para Android y
+USDZ para iOS, con verificación de que ambas exportaciones tienen las mismas
+animaciones con los mismos nombres. Se resuelve con un script en `scripts/`,
+igual que ya se hace con el corpus de voz.
+
+### 13.4 Lo que hay que hacer *hoy* para no pagarlo después
+
+Tres reglas que no cuestan nada en v1 y ahorran el rediseño en v2:
+
+1. **`FaceSignals` en vocabulario ARKit-compatible**, nunca en tipos de MediaPipe.
+2. **`SceneHost`, `PointerSource` y `StimulusPlayer` como interfaces** desde el
+   primer día, aunque solo exista una implementación de cada una.
+3. **El puente `valeriaArBridge.ts` no menciona Android** en su API pública.
+   `isArAvailable()` sondea; no pregunta por plataforma.
+
+### 13.5 Cuándo
+
+Después de la Fase 7, como fases F8-F10: (F8) arnés de paridad de señal —grabar
+al mismo niño en ambas plataformas y comparar distribuciones de blendshapes y
+pose antes de dar por buena la equivalencia—, (F9) host iOS, (F10) capa de
+recompensa RealityKit + pipeline USDZ.
+
+Encaja con el árbol actual: ya existen `ios-native/`, el flujo de `expo prebuild
+-p ios` y el blueprint de exportación a iOS documentado. Y añade sus propios
+deberes regulatorios: `NSCameraUsageDescription`, *privacy nutrition labels* y,
+si se entra en **Kids Category**, la barrera parental y la prohibición de
+analítica de terceros que Apple exige.
+
+---
+
+## 14. Riesgos y mitigaciones
 
 | Riesgo | Impacto | Mitigación |
 | --- | --- | --- |
-| **Rendimiento en tablets de gama baja** (el hardware real de las consultas) | **Alto** | Fase 0 como puerta con umbrales numéricos · GPU delegate · análisis a 640×480 · `BACKPRESSURE_KEEP_LATEST` · degradar a `noseRay` |
-| **Latencia de audio mal medida en AR-2** → dato sesgado, no ruidoso | **Alto (académico)** | `AudioTrack.getTimestamp()` + `frameTimestampMs` de sensor · calibración por dispositivo · publicar la incertidumbre residual |
+| **Geometría del móvil en AR-3** (7,6° entre dianas, no 20°) | **Alto (validez)** | Landscape + soporte a 30-35 cm · modo de 2 dianas conmutado por RMS de calibración (§7.3) · nunca llamar «error de comprensión» a un fallo de puntería |
+| **Latencia de audio mal medida en AR-2** → dato sesgado, no ruidoso | **Alto (académico)** | `AudioTrack.getTimestamp()` + `frameTimestampMs` de sensor · **Bluetooth vetado** · solo transductor cableado · calibración por dispositivo · publicar la incertidumbre residual |
+| **Throttling térmico en móvil** | **Alto** | Fase 0 mide fps sostenidos a 10 min y la caída térmica · límite de duración de sesión · sellar `thermalStatus` en cada ensayo para poder descartar los degradados |
+| **Movimiento del dispositivo leído como giro cefálico** | **Alto (validez)** | Soporte obligatorio en AR-2/AR-3 · compensación por IMU (`GAME_ROTATION_VECTOR`) · descartar ensayos con velocidad angular del móvil por encima del umbral |
+| **Rendimiento de inferencia en gama media** | Medio | GPU delegate · análisis a 640×480 · `BACKPRESSURE_KEEP_LATEST` · degradar a `noseRay` |
 | **Rechazo de Play por cámara en app de Familias** | **Alto (negocio)** | Las tres afirmaciones de §9.1 como restricciones de arquitectura · política y Data Safety en el mismo cambio · justificación preparada + vídeo de demo |
 | **Binding RN de SceneView alpha sin raycast** | Alto si se elige la opción A | Opción B: el raycast vive en Kotlin, donde sí existe |
 | **`react-native-mediapipe` abandonado** (dic. 2024) | Alto si se elige la opción A | Opción B: `tasks-vision` nativo, mantenido por Google |
 | **Tamaño del APK** (Filament + MediaPipe `.task` ≈ 40-60 MB) | Medio | Sin ARCore (§3.3) · Play Asset Delivery o *feature module* on-demand · *ABI splits* · modelo `face_landmarker` en *asset pack* |
 | **Falsos positivos en AR-2** (giro espontáneo leído como detección) | Medio (validez) | Ensayos trampa ~20 % · postura armada previa · intervalo inter-ensayo aleatorio |
-| **Midas touch en AR-3** | Medio | Zona neutra · doble hitbox · separación ≥ 20° · máximo 3 objetos |
+| **Midas touch en AR-3** | Medio | Zona neutra · doble hitbox · máximo 3 objetos |
 | **Frustración por reinicio de contador** | Medio (clínico) | Decaimiento en vez de reinicio · progreso continuo visible |
-| **Solo Android en v1** | Medio | Decisión documentada · el puente se diseña agnóstico para que iOS sea una implementación más, no un rediseño |
+| **Solo Android en v1** | Medio | §13 · `FaceSignals` en vocabulario ARKit-compatible e interfaces desde el día 1: iOS es una implementación más, no un rediseño |
+| **Confundido de método si iOS usa ARKit y Android MediaPipe** | Medio (académico) | MediaPipe en ambas plataformas (§13.2) · si conviven, plataforma y motor de señal viajan en cada registro como covariable |
+| **Divergencia de assets GLB ↔ USDZ** en v2 | Bajo-medio | Script de verificación en `scripts/` que compruebe nombres de animación en ambos formatos, como ya se hace con el corpus de voz |
 | **Sobre-ingeniería del módulo nativo** | Medio | El nativo **solo** mide y renderiza: no persiste, no cifra, no sincroniza. Todo eso sigue en JS |
 | **Luz ambiental pobre en consulta** | Bajo-medio | Detector de calidad de tracking · aviso al adulto antes de armar el ensayo, nunca durante |
 
 ---
 
-## 14. Decisiones abiertas que necesitan a Frank
+## 15. Decisiones abiertas que necesitan a Frank
 
-1. **Opción de arquitectura.** El plan recomienda **B (módulo nativo Android)**,
-   asumiendo **v1 solo Android**. Si iOS es requisito de v1, hay que replantear
-   el calendario, no el diseño.
-2. **Tablet objetivo del piloto.** El spike de la Fase 0 necesita el modelo
-   concreto. Sin ese dato los umbrales de la puerta son teóricos.
-3. **Transductor para AR-2.** ¿Se acepta el altavoz de la tablet para uso
-   clínico rutinario, reservando auriculares/altavoces externos para las
-   sesiones de investigación? Afecta a qué se puede publicar.
-4. **AR-2 y RA-5.** ¿AR-2 se presenta como versión instrumentada de RA-5
+**Cerradas** (2026-08-01): arquitectura **opción B, módulo nativo Android** ·
+**v1 solo Android**, con el camino de iOS reservado en §13 · hardware del piloto
+= **móviles de gama media / media-alta**.
+
+Quedan abiertas:
+
+1. **Modelos concretos de teléfono.** La Fase 0 produce una fila por modelo. Sin
+   la lista, los umbrales de la puerta son teóricos. Es lo único que bloquea el
+   arranque.
+2. **Material del protocolo.** El móvil obliga a **soporte de sobremesa** y
+   **transductor por cable** (§3.4b, §3.4c). ¿Se incluyen en el kit del piloto o
+   se pide a cada centro que los aporte? Si no están garantizados, AR-2 y AR-3
+   no producen dato publicable.
+3. **AR-2: auriculares o altavoces externos.** Auriculares miden
+   **lateralización**; dos altavoces a ±45-90° miden **localización en campo
+   libre**, que es el VRA clásico. Son constructos distintos y condicionan cómo
+   se redacta el artículo. Se puede hacer las dos cosas, pero como dos
+   condiciones etiquetadas, no como una sola columna.
+4. **AR-3: ¿se acepta arrancar en modo de 2 dianas?** Si la Fase 0 dice que el
+   jitter no baja de 2,5°, la alternativa es elección forzada entre dos, con más
+   ensayos para compensar el azar. ¿Aceptable clínicamente?
+5. **AR-2 y RA-5.** ¿AR-2 se presenta como versión instrumentada de RA-5
    («Localización del sonido») o como ejercicio independiente en el hub?
-5. **Distribución del módulo.** ¿APK único más grande o *feature module*
+6. **Distribución del módulo.** ¿APK único más grande o *feature module*
    descargable a demanda? Afecta a la conversión en mercados con datos caros —
    relevante para el despliegue en LATAM.
 
 ---
 
-## 15. Seguimiento
+## 16. Seguimiento
 
-- [ ] **Fase 0** — Spike de viabilidad en hardware real · 4 umbrales numéricos medidos
+- [ ] **Fase 0** — Spike en los móviles reales del piloto · matriz de 7 umbrales × modelo
 - [ ] **Fase 1** — Andamiaje nativo + puente + consentimiento + **privacidad y Data Safety actualizados**
 - [ ] **Fase 2** — Capa de señal + calibración de 5 puntos + pantalla de diagnóstico
 - [ ] **Fase 3** — `RewardChannel` con histéresis + `SceneHost` con los 3 GLB
@@ -687,6 +908,9 @@ README a 7 bloques · revisión de tamaño de APK (§13).
 - [ ] **Fase 5** — AR-3 Selección por fijación jugable
 - [ ] **Fase 6** — AR-2 VRA digitalizado con latencias calibradas
 - [ ] **Fase 7** — Dashboard, protocolo clínico, Academy, README a 7 bloques
+- [ ] **Fase 8** (v2) — Arnés de paridad de señal Android ↔ iOS
+- [ ] **Fase 9** (v2) — Host iOS (AVCaptureSession + MediaPipeTasksVision + CoreMotion)
+- [ ] **Fase 10** (v2) — Capa de recompensa RealityKit + pipeline USDZ
 
 **Verificación transversal en cada PR:** `npm run typecheck` en verde · humo
 manual de los 6 bloques actuales sin cambio · muro MDR intacto (cero ajuste
