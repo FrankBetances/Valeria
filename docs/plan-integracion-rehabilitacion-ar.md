@@ -30,7 +30,8 @@
 - [3. La decisión de arquitectura (la que condiciona todo el resto)](#3-la-decisión-de-arquitectura-la-que-condiciona-todo-el-resto)
   - [3.4 Perfil de hardware: BYOD de gama media en LATAM](#34-perfil-de-hardware-byod-de-gama-media-en-latam)
   - [3.5 Prueba de Aptitud del Dispositivo](#35-prueba-de-aptitud-del-dispositivo-el-sustituto-de-conocer-el-modelo)
-  - [3.6 Modelo de despliegue en dos niveles](#36-modelo-de-despliegue-en-dos-niveles-consecuencia-de-las-decisiones)
+  - [3.6 Restricción de material: qué sobrevive con presupuesto cero](#36-restricción-de-material-qué-sobrevive-con-presupuesto-cero)
+  - [3.7 Modelo de despliegue en dos niveles](#37-modelo-de-despliegue-en-dos-niveles-consecuencia-de-las-decisiones)
 - [4. Arquitectura objetivo](#4-arquitectura-objetivo)
 - [5. Capa de señal: qué extrae MediaPipe y cómo se normaliza](#5-capa-de-señal-qué-extrae-mediapipe-y-cómo-se-normaliza)
 - [6. Capa de recompensa: el contrato de Feedback Visual Desacoplado](#6-capa-de-recompensa-el-contrato-de-feedback-visual-desacoplado)
@@ -45,7 +46,7 @@
 - [12. Plan de trabajo por fases](#12-plan-de-trabajo-por-fases)
 - [13. Plan de iOS (v2, no bloqueante)](#13-plan-de-ios-v2-no-bloqueante)
 - [14. Riesgos y mitigaciones](#14-riesgos-y-mitigaciones)
-- [15. Decisiones abiertas que necesitan a Frank](#15-decisiones-abiertas-que-necesitan-a-frank)
+- [15. Decisiones (todas cerradas)](#15-decisiones-todas-cerradas)
 - [16. Seguimiento](#16-seguimiento)
 
 ---
@@ -251,7 +252,7 @@ no al niño.
 **localización en campo libre** —el VRA clásico— en lugar de lateralización por
 auriculares. Gana constructo clínico y comparabilidad con la literatura
 audiológica, y a cambio impone un montaje fijo que reordena dónde se juega AR-2
-(§3.6). Especificación completa en §7.2.
+(§3.7). Especificación completa en §7.2.
 
 #### c) El móvil se sostiene en la mano, y eso confunde el giro cefálico
 
@@ -343,7 +344,7 @@ las esquinas, escuchar dos sonidos—, no como un diagnóstico técnico.
 
 | Nivel | Condiciones | Qué se habilita |
 | --- | --- | --- |
-| **A · Instrumento** | fps p5 ≥ 20 · caída térmica ≥ 0,7 · timestamps `REALTIME` · dispersión de audio < 20 ms · puntero < 2,5° | Los tres ejercicios · **dato publicable** · es el **criterio de inclusión de sesión** del estudio (§3.6) |
+| **A · Instrumento** | fps p5 ≥ 20 · caída térmica ≥ 0,7 · timestamps `REALTIME` · dispersión de audio < 20 ms · puntero < 2,5° | Los tres ejercicios · **dato publicable** · es el **criterio de inclusión de sesión** del estudio (§3.7) |
 | **B · Clínico** | fps p5 ≥ 20 · puntero < 2,5° · timestamps no fiables **o** sin ruta USB a los altavoces | AR-1 y AR-3 completos · AR-2 **solo como juego**, sin registrar latencia |
 | **C · Reducido** | fps p5 ≥ 15 · puntero ≥ 2,5° | AR-1 completo · AR-3 en **modo de 2 dianas** · AR-2 solo juego |
 | **D · No apto** | fps p5 < 15 o sin cámara frontal utilizable | El bloque AR **no aparece**. Los otros seis siguen intactos |
@@ -367,7 +368,66 @@ la viabilidad de la rehabilitación digital con hardware doméstico en LATAM —
 tipo de dato que casi nadie reporta y que cualquiera que quiera replicar
 necesita.
 
-### 3.6 Modelo de despliegue en dos niveles (consecuencia de las decisiones)
+### 3.6 Restricción de material: qué sobrevive con presupuesto cero
+
+**Decidido (2026-08-01): no hay material de protocolo.** Ni el proyecto ni los
+centros aportan soporte de sobremesa ni transductor. Es una restricción dura y
+el plan se ajusta a ella en lugar de asumir un material que no va a llegar.
+
+**Consecuencia que hay que decir de una vez y sin rodeos:** el montaje de campo
+libre de §7.2 **no se puede construir sin comprar altavoces**. Combinado con la
+decisión 5 (solo nivel A entra en el estudio), tal cual queda **AR-2 no produce
+dataset de latencias**. No es un problema de ingeniería: es aritmética de
+inventario.
+
+Lo que sí sobrevive, y no es poco:
+
+| Ejercicio | ¿Necesita material? | Estado con presupuesto cero |
+| --- | --- | --- |
+| **AR-1** Cinemática Orofacial | **No** | ✅ Íntegro, incluido dato publicable. No mide dirección ni tiempo absoluto: un teléfono en la mano le afecta poco, y el filtro de pose ya descarta los frames malos |
+| **AR-3** Selección por fijación | Solo estabilidad, no compra | ⚠️ Viable con el **protocolo de apoyo improvisado** (abajo) |
+| **AR-2** VRA instrumentado | **Sí: dos altavoces** | ❌ Solo como juego (`latencyMs: null`). Sin dataset de latencias |
+
+#### El apoyo improvisado: que lo garantice el software, no el hardware
+
+Un soporte de móvil cuesta unos pocos euros, pero si no hay ninguno, la respuesta
+correcta **no es renunciar a AR-3: es que la app imponga la geometría que el
+soporte habría garantizado**. Ya hay dos piezas en el plan que sirven para esto:
+
+1. **El IMU** (§3.4c) sabe si el teléfono está quieto. Se convierte en un
+   **requisito armado**: el ensayo no arranca si el dispositivo no lleva 800 ms
+   estable, y se anula si se mueve durante la ventana.
+2. **El telémetro por distancia interocular** (§3.4a) sabe a qué distancia está
+   la cara. Se usa para guiar la colocación antes de empezar.
+
+El protocolo pasa a ser: **apoyar el teléfono en un libro, una caja o la pared**,
+en horizontal, y dejar que la pantalla confirme en verde que la posición es
+válida. Cuesta cero y es reproducible; lo que se pierde es comodidad, no validez,
+porque la validez la vigila el software ensayo a ensayo.
+
+> **La honestidad del caso:** esto sube la tasa de ensayos anulados, sobre todo
+> con niños inquietos. Hay que medir esa tasa desde la Fase 5 y reportarla. Si
+> resulta que se anula más de la mitad, la conclusión no será «AR-3 no funciona»
+> sino «AR-3 necesita 6 € de soporte», y ese será un dato para reabrir la
+> decisión con cifras en la mano en vez de con una intuición.
+
+#### La vía sin coste para AR-2: el equipo que los centros ya tienen
+
+Antes de dar AR-2 por perdido conviene mirar el inventario existente. Un servicio
+de audiología o logopedia que ya hace VRA **suele tener salida de campo libre en
+su audiómetro, o altavoces de sala calibrados**. Si un solo centro colaborador
+los tiene, AR-2 se hace ahí:
+
+- no requiere compra, solo un cable y un permiso;
+- el equipo ya está **calibrado**, que es mejor que unos altavoces de consumo;
+- encaja con el modelo de dos niveles (§3.7): AR-2 ya era ejercicio de centro.
+
+**Acción concreta y barata:** un censo de equipamiento a los centros
+colaboradores antes de la Fase 6. Es una pregunta por correo, no una partida
+presupuestaria. Mientras no haya respuesta afirmativa, **AR-2 se planifica como
+ejercicio de juego** y el peso académico del módulo recae en AR-1 y AR-3.
+
+### 3.7 Modelo de despliegue en dos niveles (consecuencia de las decisiones)
 
 Dos decisiones tomadas el 2026-08-01 —**altavoces externos** en AR-2 y **solo
 nivel A** admitido en el estudio— se combinan en algo que conviene ver junto,
@@ -385,9 +445,16 @@ otro modo habría aparecido en mitad del reclutamiento.
 **Por qué esto encaja y no es un parche.** El montaje de campo libre exige una
 sala con los altavoces colocados, medidos y equilibrados: eso ya no es portátil
 ni desplegable en casa, sea cual sea el teléfono. Y si AR-2 solo se puede hacer
-en un centro, **el centro puede poner también el teléfono** —uno cualificado como
-nivel A, comprado una vez y validado—. La restricción de solo-nivel-A deja de ser
-un riesgo de reclutamiento y pasa a ser una propiedad del montaje.
+en un centro, es razonable que el teléfono de medición sea también del centro.
+
+> **Ajuste por la restricción de material (§3.6).** Al no haber presupuesto de
+> kit, el «teléfono cualificado del centro» **no se compra**: se identifica. El
+> teléfono personal de la logopeda, o el de un familiar, que la Prueba de Aptitud
+> clasifique como nivel A sirve exactamente igual —lo que cualifica un
+> dispositivo son sus siete sondas, no su factura—. Basta con que sea **el mismo
+> teléfono a lo largo del estudio** y quede sellado su `DeviceProfile`. La
+> columna «Centro · medición» de la tabla sigue siendo válida; lo que cambia es
+> de dónde sale el aparato.
 
 **Consecuencias que hay que asumir:**
 
@@ -402,9 +469,9 @@ un riesgo de reclutamiento y pasa a ser una propiedad del montaje.
    puntero < 2,5° por definición. El modo de 2 dianas queda para el uso clínico y
    doméstico (niveles B y C), donde no se publica. Eso desactiva de golpe la
    preocupación estadística del 50 % de azar en el dataset (§7.3).
-4. **Hay que presupuestar los teléfonos de centro**, no solo el banco de
-   referencia de la Fase 0. Son la misma compra hecha dos veces con propósitos
-   distintos: unos para caracterizar el suelo, otros para medir.
+4. **El teléfono de medición no se compra, se cualifica** (recuadro anterior).
+   Lo único que se compra es el banco de referencia de la Fase 0, con los 150 €
+   asignados (§15).
 
 ---
 
@@ -635,6 +702,14 @@ valor de publicarlo. El registro sella `transducer` de todos modos: si algún d�
 se añade la condición de auriculares, será una condición etiquetada aparte y
 nunca la misma columna.
 
+> **Estado real (2026-08-01): el montaje no está financiado (§3.6).** La
+> especificación siguiente queda **escrita y lista**, pero AR-2 se planifica por
+> defecto como **ejercicio de juego sin registro de latencia**. Se activa el modo
+> instrumento solo si un centro colaborador aporta salida de campo libre ya
+> existente —audiómetro o altavoces de sala calibrados—, que es la vía sin coste
+> descrita en §3.6. El código se escribe igual: la diferencia es un
+> `DeviceProfile` y un montaje, no una rama distinta.
+
 #### Montaje de campo libre (especificación del protocolo)
 
 | Parámetro | Valor | Por qué |
@@ -754,7 +829,7 @@ ensayos, no con más dianas—. Lo que sí sería un error es dejar tres dianas
 indiscriminables y llamar «error de comprensión» a un fallo de puntería.
 
 > **Aceptado (2026-08-01), y con menos coste del previsto.** Como el estudio
-> admite solo sesiones de nivel A (§3.6) y el nivel A exige por definición
+> admite solo sesiones de nivel A (§3.7) y el nivel A exige por definición
 > puntero < 2,5°, **el dataset publicable va siempre a 3 dianas**. El modo de 2
 > queda para el uso clínico y doméstico en niveles B y C, donde no se publica y
 > por tanto el 50 % de azar no contamina ningún análisis. Aun así se registra
@@ -922,17 +997,39 @@ valida un dispositivo: valida la envolvente y construye el instrumento que
 medirá cada dispositivo en campo**.
 
 App Kotlin desechable, fuera del árbol de Valeria+, sobre un **banco de
-referencia** de 3-4 teléfonos comprados de segunda mano para representar el
-parque real, no un buque insignia:
+referencia** que hay que ajustar al presupuesto real.
 
-| Perfil del banco | Papel |
-| --- | --- |
-| Xiaomi Redmi Note, gama media reciente (~2 años) | Caso nominal alto |
-| Samsung Galaxy A, gama media (~2-3 años) | Caso nominal, otro proveedor de cámara y otra capa |
-| Motorola Moto G o Redmi de entrada (~3-4 años) | **Caso peor deliberado**: es el que dirá dónde está el suelo |
-| Un cuarto con cámara `LEGACY` si se consigue | Valida el camino `TIMESTAMP_SOURCE_UNKNOWN` (§3.4e) |
+**Presupuesto asignado: 150 €.** En el mercado europeo de segunda mano eso no
+llega a 3-4 teléfonos: un Redmi Note de ~2 años ronda los 80-110 €, un Galaxy A
+de 2-3 años los 60-90 €, y solo el de gama baja antigua baja de 40 €. Con 150 €
+se compran **dos**, no cuatro. Antes de comprar, conviene confirmar precios en el
+mercado local, que puede ser bastante más barato que el europeo.
 
-Todas las medidas, **con el teléfono en su soporte, a 30-35 cm, en landscape**.
+**Reparto propuesto (comprar dos, y bien elegidos):**
+
+| Compra | Presupuesto | Papel | Por qué este y no otro |
+| --- | --- | --- | --- |
+| **Gama baja antigua** (Redmi de entrada o Moto G de 3-4 años, a ser posible con cámara `LEGACY`) | ~40 € | **Caso peor deliberado** | Es el que **define el suelo** y el único que valida el camino `TIMESTAMP_SOURCE_UNKNOWN` (§3.4e). Sin él, la Prueba de Aptitud no se puede calibrar: un banco donde todo pasa no discrimina nada |
+| **Gama media reciente** (Redmi Note o Galaxy A de ~2 años) | ~100 € | Caso nominal | Es el teléfono de desarrollo diario y el que debe salir nivel A |
+
+**Y la parte que no cuesta dinero: un censo de dispositivos prestados.** La
+Prueba de Aptitud (§3.5) **es portátil y dura 90 segundos**. No hace falta poseer
+un teléfono para caracterizarlo: basta con ejecutarla en los móviles de
+compañeros, personal del centro y familias que ya acuden a consulta. Veinte
+teléfonos prestados en dos semanas dan **muchísima más información sobre el
+parque real** que cuatro comprados a ojo, y cuestan cero.
+
+Los teléfonos comprados sirven para lo que sí exige propiedad: desarrollar a
+diario y volver a probar cada cambio. La caracterización del parque sale del
+censo.
+
+> **Efecto secundario valioso:** ese censo, con `Build.MANUFACTURER`/`MODEL` y el
+> nivel de aptitud de cada teléfono, es literalmente la tabla de viabilidad de
+> hardware doméstico en LATAM que §8 señala como resultado publicable. Se obtiene
+> antes de escribir el módulo, no después del piloto.
+
+Todas las medidas, **con el teléfono apoyado y estable, a 30-35 cm, en
+landscape** (§3.6).
 
 **Criterios de salida:**
 
@@ -944,12 +1041,15 @@ Todas las medidas, **con el teléfono en su soporte, a 30-35 cm, en landscape**.
    en el que clasifica como D, efectivamente no.
 3. **La `Prueba de Aptitud` corre en menos de 90 s** y produce un `DeviceProfile`
    serializable.
-4. **El caso peor está caracterizado**: al menos un teléfono del banco debe
-   fallar alguna sonda, y su modo degradado tiene que ser una experiencia
-   aceptable, no un error.
+4. **El caso peor está caracterizado**: el teléfono de gama baja debe fallar
+   alguna sonda, y su modo degradado tiene que ser una experiencia aceptable, no
+   un error.
+5. **El censo tiene al menos 15 teléfonos prestados** con su nivel de aptitud
+   registrado.
 
-**Entregable:** la prueba de aptitud como componente reutilizable + la tabla de
-los 3-4 teléfonos del banco, que es el apéndice de método del futuro artículo.
+**Entregable:** la prueba de aptitud como componente reutilizable + la tabla del
+censo, que es el apéndice de método del futuro artículo y la base para decidir
+qué proporción del parque podrá usar el módulo.
 
 **No se escribe nada más hasta cerrar esta fase.** Es el punto donde el plan
 puede cambiar barato.
@@ -993,16 +1093,23 @@ El más simple: sin precisión temporal, sin calibración espacial.
 
 Necesita calibración (Fase 2) pero no *timing* de audio.
 **Salida:** tres objetos, *dwell* con anillo de progreso, primera fijación y
-selección registradas por separado.
+selección registradas por separado. **Añadido por la restricción de material
+(§3.6):** ensayo armado solo con 800 ms de IMU estable, anulación si el teléfono
+se mueve, y **la tasa de anulación como métrica de primera clase** — es el dato
+que decidirá si reabrir la compra de soportes.
 
 ### Fase 6 · AR-2 VRA digitalizado
 
-El último **a propósito**: es el que depende de la calibración de latencia, del
-diseño de ensayos trampa y del **montaje de campo libre** (§7.2), que es material
-físico y protocolo de sala, no solo código. Incluye la rutina de balance de
-canales y el lazo acústico de calibración.
-**Salida:** dataset de latencias exportable con barras de error y nivel de
-presentación declarado.
+El último **a propósito**, y ahora además **condicionado**: el montaje de campo
+libre no está financiado (§3.6). Se implementa el ejercicio completo —ensayos
+trampa, postura armada, aleatorización— y **se entrega como juego**, con
+`latencyMs: null`. El camino instrumento (balance de canales, lazo acústico,
+dB SPL sellado) se escribe igual pero solo se activa si el censo de equipamiento
+encuentra un centro con campo libre ya calibrado.
+**Requisito previo, sin coste:** hacer ese censo por correo **antes** de arrancar
+la fase, para saber si se entrega juego o instrumento.
+**Salida:** AR-2 jugable en cualquier caso · dataset de latencias solo si hubo
+montaje.
 
 ### Fase 7 · Cierre clínico y regulatorio
 
@@ -1100,11 +1207,13 @@ analítica de terceros que Apple exige.
 | **Movimiento del dispositivo leído como giro cefálico** | **Alto (validez)** | Soporte obligatorio en AR-2/AR-3 · compensación por IMU (`GAME_ROTATION_VECTOR`) · descartar ensayos con velocidad angular del móvil por encima del umbral |
 | **Hardware desconocido y heterogéneo (BYOD)** | **Alto** | Prueba de Aptitud en el propio teléfono (§3.5) · cuatro niveles con degradación explícita · `DeviceProfile` sellado en cada sesión como covariable |
 | **Cámara `LEGACY` sin `TIMESTAMP_SOURCE_REALTIME`** → latencia de AR-2 no alineable | **Alto (académico)** | Detección en la prueba de aptitud · el teléfono baja a nivel B y AR-2 registra `latencyMs: null` con motivo, en vez de un número inventado |
-| **Buena parte del parque cae en nivel C/D** | Medio (alcance) | Se descubre en la Fase 0 con el banco de referencia, no al analizar datos · la proporción por nivel es en sí un resultado publicable · **la medición no depende del parque**: va sobre teléfono de centro (§3.6) |
+| **Buena parte del parque cae en nivel C/D** | Medio (alcance) | Se descubre en la Fase 0 con el banco de referencia, no al analizar datos · la proporción por nivel es en sí un resultado publicable · **la medición no depende del parque**: va sobre teléfono de centro (§3.7) |
 | **Desbalance entre altavoces leído como asimetría auditiva del niño** | **Alto (validez)** | Comprobación de balance con el micrófono en la posición de la cabeza antes de cada sesión · corte duro si Δ > 1,5 dB (§7.2) |
 | **Nivel de presentación no declarado** → latencias no interpretables | Medio (académico) | dB SPL medido en la posición de la cabeza y sellado en la sesión · a más nivel, menos latencia: sin el dato, la comparación entre centros no se sostiene |
 | **Reverberación de sala degrada la localización** | Medio (validez) | Requisito de sala en el protocolo · registrar la sala como identificador para poder modelar el efecto de centro |
-| **AR-2 solo se puede hacer donde hay montaje** | Medio (alcance) | Explícito en §3.6: AR-2 es ejercicio de centro · RA-5 manual sigue cubriendo el resto de sitios · AR-1 y AR-3 siguen siendo domésticos |
+| **AR-2 sin montaje financiado** → sin dataset de latencias | **Alto (académico)** | Asumido y explícito (§3.6) · AR-2 se planifica como juego · el peso académico recae en AR-1 y AR-3 · censo de equipamiento a los centros como vía sin coste antes de la Fase 6 |
+| **Sin soporte de móvil** → AR-3 pierde calibración al moverse el teléfono | **Alto (validez)** | El software impone la geometría que el soporte habría dado: ensayo armado solo con 800 ms de IMU estable, anulado si se mueve · **medir y reportar la tasa de anulación desde la Fase 5** |
+| **Tasa de anulación alta en AR-3 con niños inquietos** | Medio | Si supera el 50 %, se reabre la decisión de material **con cifras**, no con intuición (§3.6) |
 | **Rendimiento de inferencia en gama media** | Medio | GPU delegate · análisis a 640×480 · `BACKPRESSURE_KEEP_LATEST` · degradar a `noseRay` |
 | **Gestión agresiva de batería (MIUI/HyperOS, One UI)** | Bajo-medio | Módulo en primer plano y sesiones cortas · aviso al adulto de no salir de la app durante el ejercicio |
 | **Rechazo de Play por cámara en app de Familias** | **Alto (negocio)** | Las tres afirmaciones de §9.1 como restricciones de arquitectura · política y Data Safety en el mismo cambio · justificación preparada + vídeo de demo |
@@ -1122,46 +1231,52 @@ analítica de terceros que Apple exige.
 
 ---
 
-## 15. Decisiones abiertas que necesitan a Frank
+## 15. Decisiones (todas cerradas)
 
-**Cerradas** (2026-08-01):
+Las siete decisiones planteadas quedaron resueltas el **2026-08-01**:
 
 | # | Decisión | Consecuencia principal |
 | --- | --- | --- |
 | — | Arquitectura **opción B**: módulo nativo Android | Valeria+ no migra a Nueva Arquitectura |
 | — | **v1 solo Android** | Camino de iOS reservado en §13 |
 | — | Hardware **BYOD gama media LATAM**, modelo desconocido | Prueba de Aptitud del Dispositivo (§3.5) |
+| 1 | Banco de referencia: **150 €** | Alcanza para **dos** teléfonos, no cuatro: uno de gama baja antigua (~40 €, define el suelo) y uno de gama media reciente (~100 €, desarrollo diario). La cobertura del parque sale de un **censo de móviles prestados**, que cuesta cero (§12, Fase 0) |
+| 2 | **Sin material de protocolo**: ni kit del proyecto ni aportación de los centros | AR-1 intacto · AR-3 con apoyo improvisado validado por software · **AR-2 sin dataset de latencias** salvo que un centro aporte campo libre ya existente (§3.6) |
 | 3 | AR-2 con **dos altavoces externos cableados** | Mide localización en campo libre · montaje de centro · habilita el lazo acústico (§7.2) |
 | 4 | **Sí** al modo de 2 dianas en AR-3 | Queda para niveles B y C; el estudio va siempre a 3 (§7.3) |
-| 5 | El estudio admite **solo nivel A** | Criterio de inclusión de sesión · medición sobre teléfono de centro (§3.6) |
+| 5 | El estudio admite **solo nivel A** | Criterio de inclusión de sesión · medición sobre teléfono de centro (§3.7) |
 | 6 | AR-2 con **tarjeta propia** en el hub, documentado como versión instrumentada de RA-5 | RA-5 manual sigue vivo donde no hay montaje (§7.2) |
 | 7 | **Paquete único**, sin *feature module* | Presupuesto duro de +25 MB de descarga, medido en la Fase 3 (§14) |
 
 Las decisiones 3 y 5 se combinan en un **modelo de despliegue en dos niveles**
-—casa para practicar, centro para medir— que está desarrollado en §3.6. Es el
-cambio de mayor alcance de esta tanda.
+—casa para practicar, centro para medir— que está desarrollado en §3.7. Es el
+cambio de mayor alcance de esta tanda. La decisión 2 (sin material) las acota:
+§3.6 detalla qué sobrevive con presupuesto cero.
 
-Quedan abiertas **dos**, y ambas son de presupuesto:
+**No quedan decisiones abiertas.** El plan está completo y ejecutable tal como
+está; lo que hay por delante es la Fase 0.
 
-1. **Banco de referencia de la Fase 0.** 3-4 teléfonos de segunda mano que
-   representen el parque, incluido **uno deliberadamente malo**. Es lo único que
-   bloquea el arranque.
-2. **Kit de centro.** Ahora está mejor definido que antes: teléfono cualificado
-   nivel A + dos altavoces autoamplificados + DAC USB-C + soporte + cableado.
-   ¿Lo aporta el proyecto o cada centro? Sin él, AR-2 no produce dato — y con la
-   decisión 5, tampoco lo produce ningún otro ejercicio fuera de nivel A.
+**Lo que conviene revisar más adelante, con datos en la mano y no antes:**
+
+- **Tasa de anulación de ensayos en AR-3** sin soporte (se mide en la Fase 5). Un
+  soporte de sobremesa cuesta unos pocos euros y es, con diferencia, el material
+  con mejor relación entre coste y validez recuperada. Si la tasa resulta alta,
+  merece reabrirse **con la cifra delante**.
+- **Censo de equipamiento de campo libre** en los centros colaboradores, antes de
+  la Fase 6. Es una pregunta por correo, no una partida presupuestaria, y es la
+  única vía que devuelve a AR-2 su valor académico sin gastar.
 
 ---
 
 ## 16. Seguimiento
 
-- [ ] **Fase 0** — Banco de referencia (3-4 teléfonos, uno deliberadamente malo) · las 7 sondas discriminan · umbrales de nivel calibrados
+- [ ] **Fase 0** — Banco de 2 teléfonos (150 €: gama baja antigua + gama media) · **censo de ≥ 15 móviles prestados** · las 7 sondas discriminan · umbrales calibrados
 - [ ] **Fase 1** — Andamiaje nativo + puente + consentimiento + **Prueba de Aptitud del Dispositivo** + **privacidad y Data Safety actualizados**
 - [ ] **Fase 2** — Capa de señal + calibración de 5 puntos + pantalla de diagnóstico
 - [ ] **Fase 3** — `RewardChannel` con histéresis + `SceneHost` con los 3 GLB · delta de descarga ≤ +25 MB
 - [ ] **Fase 4** — AR-1 Cinemática Orofacial jugable
-- [ ] **Fase 5** — AR-3 Selección por fijación jugable
-- [ ] **Fase 6** — AR-2 VRA en campo libre · montaje ±60° · balance de canales · lazo acústico · latencias calibradas
+- [ ] **Fase 5** — AR-3 Selección por fijación jugable · apoyo improvisado validado por IMU · tasa de anulación medida
+- [ ] **Fase 6** — Censo de equipamiento a los centros · AR-2 jugable · modo instrumento (±60°, balance, lazo acústico) **solo si hay campo libre disponible**
 - [ ] **Fase 7** — Dashboard, protocolo clínico, Academy, README a 7 bloques
 - [ ] **Fase 8** (v2) — Arnés de paridad de señal Android ↔ iOS
 - [ ] **Fase 9** (v2) — Host iOS (AVCaptureSession + MediaPipeTasksVision + CoreMotion)
