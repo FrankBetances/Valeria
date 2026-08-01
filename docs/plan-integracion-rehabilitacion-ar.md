@@ -30,6 +30,7 @@
 - [3. La decisión de arquitectura (la que condiciona todo el resto)](#3-la-decisión-de-arquitectura-la-que-condiciona-todo-el-resto)
   - [3.4 Perfil de hardware: BYOD de gama media en LATAM](#34-perfil-de-hardware-byod-de-gama-media-en-latam)
   - [3.5 Prueba de Aptitud del Dispositivo](#35-prueba-de-aptitud-del-dispositivo-el-sustituto-de-conocer-el-modelo)
+  - [3.6 Modelo de despliegue en dos niveles](#36-modelo-de-despliegue-en-dos-niveles-consecuencia-de-las-decisiones)
 - [4. Arquitectura objetivo](#4-arquitectura-objetivo)
 - [5. Capa de señal: qué extrae MediaPipe y cómo se normaliza](#5-capa-de-señal-qué-extrae-mediapipe-y-cómo-se-normaliza)
 - [6. Capa de recompensa: el contrato de Feedback Visual Desacoplado](#6-capa-de-recompensa-el-contrato-de-feedback-visual-desacoplado)
@@ -246,8 +247,11 @@ Añade entre 100 y 300 ms de latencia variable ensayo a ensayo, que es
 exactamente la magnitud que el ejercicio pretende medir. Sería medir la radio,
 no al niño.
 
-**Vía obligatoria: transductor por cable** (auriculares con adaptador USB-C, o
-altavoces externos cableados). Detalle en §7.2.
+**Decidido (2026-08-01): dos altavoces externos cableados.** Es la vía que mide
+**localización en campo libre** —el VRA clásico— en lugar de lateralización por
+auriculares. Gana constructo clínico y comparabilidad con la literatura
+audiológica, y a cambio impone un montaje fijo que reordena dónde se juega AR-2
+(§3.6). Especificación completa en §7.2.
 
 #### c) El móvil se sostiene en la mano, y eso confunde el giro cefálico
 
@@ -329,7 +333,8 @@ las esquinas, escuchar dos sonidos—, no como un diagnóstico técnico.
 | Rendimiento | fps p5 con delegado GPU, con la escena 3D ya montada | 25 s |
 | Térmica | pendiente de fps + `getCurrentThermalStatus()` | (durante la anterior) |
 | Marcas de tiempo | `SENSOR_INFO_TIMESTAMP_SOURCE` + desfase boottime↔monotonic | < 1 s |
-| Audio | dispersión de `AudioTrack.getTimestamp()` sobre 20 disparos · tipo de ruta de salida | 10 s |
+| Audio | dispersión de `AudioTrack.getTimestamp()` sobre 20 disparos · ruta de salida (`AudioDeviceInfo`: se exige USB, no altavoz ni Bluetooth) · **lazo acústico** por micrófono si hay altavoces (§7.2) | 10 s |
+| Balance de canales | tono por canal medido con el micrófono en la posición de la cabeza · corta si Δ > 1,5 dB | 8 s (solo en montaje de centro) |
 | Puntero | RMS de `noseRay` e iris durante la calibración de 5 puntos | 15 s (reutiliza la calibración) |
 | IMU | presencia y deriva de `GAME_ROTATION_VECTOR` | 5 s |
 | Geometría | mm de pantalla + distancia estimada → separación angular alcanzable | inmediato |
@@ -338,8 +343,8 @@ las esquinas, escuchar dos sonidos—, no como un diagnóstico técnico.
 
 | Nivel | Condiciones | Qué se habilita |
 | --- | --- | --- |
-| **A · Instrumento** | fps p5 ≥ 20 · caída térmica ≥ 0,7 · timestamps `REALTIME` · dispersión de audio < 20 ms · puntero < 2,5° | Los tres ejercicios · **dato publicable** |
-| **B · Clínico** | fps p5 ≥ 20 · puntero < 2,5° · timestamps no fiables **o** sin transductor por cable | AR-1 y AR-3 completos · AR-2 **solo como juego**, sin registrar latencia |
+| **A · Instrumento** | fps p5 ≥ 20 · caída térmica ≥ 0,7 · timestamps `REALTIME` · dispersión de audio < 20 ms · puntero < 2,5° | Los tres ejercicios · **dato publicable** · es el **criterio de inclusión de sesión** del estudio (§3.6) |
+| **B · Clínico** | fps p5 ≥ 20 · puntero < 2,5° · timestamps no fiables **o** sin ruta USB a los altavoces | AR-1 y AR-3 completos · AR-2 **solo como juego**, sin registrar latencia |
 | **C · Reducido** | fps p5 ≥ 15 · puntero ≥ 2,5° | AR-1 completo · AR-3 en **modo de 2 dianas** · AR-2 solo juego |
 | **D · No apto** | fps p5 < 15 o sin cámara frontal utilizable | El bloque AR **no aparece**. Los otros seis siguen intactos |
 
@@ -361,6 +366,45 @@ La proporción real de cada nivel **es en sí misma un resultado publicable** so
 la viabilidad de la rehabilitación digital con hardware doméstico en LATAM —el
 tipo de dato que casi nadie reporta y que cualquiera que quiera replicar
 necesita.
+
+### 3.6 Modelo de despliegue en dos niveles (consecuencia de las decisiones)
+
+Dos decisiones tomadas el 2026-08-01 —**altavoces externos** en AR-2 y **solo
+nivel A** admitido en el estudio— se combinan en algo que conviene ver junto,
+porque **parte el módulo en dos escenarios de uso** y resuelve una tensión que de
+otro modo habría aparecido en mitad del reclutamiento.
+
+| | **Casa · práctica** | **Centro · medición** |
+| --- | --- | --- |
+| Dispositivo | El teléfono de la familia (BYOD) | Teléfono **cualificado nivel A** del centro |
+| Ejercicios | AR-1 y AR-3 | Los tres, incluido AR-2 |
+| Audio | El del teléfono (AR-1 y AR-3 no lo necesitan lateralizado) | Montaje de altavoces a ±45-90° (§7.2) |
+| Niveles admitidos | A, B y C, con su degradación | **Solo A** |
+| Destino del dato | Adherencia, progreso, gamificación | **Dataset publicable** |
+
+**Por qué esto encaja y no es un parche.** El montaje de campo libre exige una
+sala con los altavoces colocados, medidos y equilibrados: eso ya no es portátil
+ni desplegable en casa, sea cual sea el teléfono. Y si AR-2 solo se puede hacer
+en un centro, **el centro puede poner también el teléfono** —uno cualificado como
+nivel A, comprado una vez y validado—. La restricción de solo-nivel-A deja de ser
+un riesgo de reclutamiento y pasa a ser una propiedad del montaje.
+
+**Consecuencias que hay que asumir:**
+
+1. **El BYOD sigue siendo real donde importa para la adherencia** (la práctica en
+   casa, que es lo que se hace a diario) y desaparece donde arruinaría el dato
+   (la medición).
+2. **El nivel A pasa a ser criterio de inclusión de sesión**, no solo un ajuste
+   técnico. Cada cribado —incluidos los fallidos— se registra, para poder
+   reportar la tasa de exclusión por dispositivo en el diagrama de flujo del
+   estudio.
+3. **AR-3 en el estudio va siempre con 3 dianas**, porque el nivel A exige
+   puntero < 2,5° por definición. El modo de 2 dianas queda para el uso clínico y
+   doméstico (niveles B y C), donde no se publica. Eso desactiva de golpe la
+   preocupación estadística del 50 % de azar en el dataset (§7.3).
+4. **Hay que presupuestar los teléfonos de centro**, no solo el banco de
+   referencia de la Fase 0. Son la misma compra hecha dos veces con propósitos
+   distintos: unos para caracterizar el suelo, otros para medir.
 
 ---
 
@@ -578,31 +622,70 @@ la magnitud que se quiere medir. Dos configuraciones admisibles, y solo dos:
 
 | Configuración | Cableado | Qué mide de verdad | Uso |
 | --- | --- | --- | --- |
-| **Auriculares por cable** (adaptador USB-C) | Sí | **Lateralización** por diferencias interaurales (ILD/ITD) | Rutina clínica y dataset |
-| **Dos altavoces externos cableados** a ±45-90° | Sí | **Localización en campo libre** (el VRA clásico) | Investigación, montaje fijo |
+| **Dos altavoces externos cableados** a ±45-90° | Sí | **Localización en campo libre** (el VRA clásico) | ✅ **Elegido** · montaje de centro |
+| Auriculares por cable (adaptador USB-C) | Sí | Lateralización por diferencias interaurales (ILD/ITD) | Reserva documentada, no en uso |
 | ~~Altavoz del teléfono~~ | — | Nada utilizable | ❌ |
 | ~~Cualquier transductor Bluetooth~~ | — | La latencia del enlace | ❌ |
 
-**Lateralización ≠ localización, y hay que decirlo en el artículo.** Con
-auriculares el niño discrimina *de qué oído viene*; en campo libre *de qué punto
-del espacio*. Son constructos distintos y no deben mezclarse en la misma columna
-del dataset. El registro sella `transducer` con esa granularidad.
+**Lateralización ≠ localización, y por eso importa la elección.** Con auriculares
+el niño discrimina *de qué oído viene*; en campo libre, *de qué punto del
+espacio*. Al elegir campo libre, AR-2 mide el mismo constructo que el VRA de
+cabina y **es comparable con la literatura audiológica**, que es donde está el
+valor de publicarlo. El registro sella `transducer` de todos modos: si algún día
+se añade la condición de auriculares, será una condición etiquetada aparte y
+nunca la misma columna.
 
-**En BYOD, AR-2 tiene dos modos y el dispositivo decide cuál.** Si el
-`DeviceProfile` no llega a nivel A —marcas de tiempo no alineables (§3.4e), o
-sin transductor por cable conectado—, el ejercicio **se juega igual pero no
-registra latencia**: el niño gira, el perro celebra, y el registro guarda
-acierto/fallo y `latencyMs: null` con el motivo. Un dato ausente y etiquetado es
-honesto; un dato presente y sesgado, no. La detección del transductor se hace en
-caliente (`AudioDeviceInfo`), y si el adulto desconecta los auriculares a mitad
-de sesión, los ensayos siguientes bajan de modo y quedan marcados.
+#### Montaje de campo libre (especificación del protocolo)
+
+| Parámetro | Valor | Por qué |
+| --- | --- | --- |
+| Azimut | **±60°** respecto al eje de la mirada (dentro del rango ±45-90°) | Suficiente separación para exigir giro real, sin salir del campo alcanzable por un niño sentado |
+| Distancia | 1 m a cada altavoz, **equidistantes** | Una asimetría de distancia es una asimetría de nivel encubierta |
+| Altura | A la altura del oído del niño sentado | El VRA es horizontal; la elevación introduce confusión frente-atrás |
+| Cadena | Salida USB-C → DAC/interfaz → altavoces **autoamplificados** | La mayoría de la gama media no lleva jack de 3,5 mm |
+| Nivel | Fijado y **medido en la posición de la cabeza**; se registra en dB SPL | Sin nivel declarado, la latencia no es interpretable: a más nivel, menos latencia |
+| Sala | Sin reverberación marcada, sin superficies duras cercanas | La reverberación degrada las claves de localización |
+
+**Equilibrio de canales: una comprobación obligatoria antes de cada sesión.** Un
+desbalance de 2-3 dB entre altavoces sesga sistemáticamente las respuestas hacia
+el lado más fuerte, y se leería como asimetría auditiva del niño. Es decir:
+produciría exactamente el hallazgo falso que el ejercicio busca detectar. La
+rutina de montaje reproduce un tono por cada canal y **lo mide con el micrófono
+del propio teléfono** colocado en la posición de la cabeza; si la diferencia
+supera 1,5 dB, no deja arrancar.
+
+**El regalo inesperado de los altavoces: la latencia se puede medir de verdad.**
+Con auriculares había que confiar en `AudioTrack.getTimestamp()`. Con altavoces
+externos, **el micrófono del teléfono oye el estímulo**, así que se puede cerrar
+un lazo acústico y medir la latencia real de extremo a extremo —cadena USB, DAC,
+amplificación y propagación incluidas— con un tren de clics al inicio de la
+sesión. Eso convierte la incertidumbre de §3.4e de estimada a **medida**, y es
+una mejora sustancial en la defensa metodológica del dato. Se corrige el tiempo
+de vuelo (≈ 2,9 ms/m) y se registra el residuo.
+
+**AR-2 tiene dos modos y el montaje decide cuál.** En el centro, con altavoces
+montados y teléfono de nivel A, mide. En casa —sin montaje, o con un
+`DeviceProfile` por debajo de A, o con marcas de tiempo no alineables (§3.4e)—
+el ejercicio **se juega igual pero no registra latencia**: el niño gira, el perro
+celebra, y el registro guarda acierto/fallo y `latencyMs: null` con el motivo. Un
+dato ausente y etiquetado es honesto; un dato presente y sesgado, no.
+
+La detección de la ruta de salida se hace en caliente (`AudioDeviceInfo`): si
+alguien desconecta el DAC a mitad de sesión, los ensayos siguientes bajan de modo
+y quedan marcados, sin interrumpir al niño.
 
 En usuarios de implante unilateral la vía ipsi/contralateral es información
 clínica: se registra el **canal físico excitado**, no una etiqueta «derecha».
 
-> Nota de continuidad: ya existe **RA-5 «Localización del sonido»** en
-> `AUDICION_META` como ejercicio manual con campanita. AR-2 no lo sustituye: es
-> su versión instrumentada. Conviene enlazarlos en el hub y en la Academy.
+> **Decidido (2026-08-01): tarjeta propia en el hub, parentesco documentado.**
+> Ya existe **RA-5 «Localización del sonido»** en `AUDICION_META` como ejercicio
+> manual con campanita. AR-2 **no lo sustituye ni se esconde dentro de él**:
+> tiene su propia entrada en el bloque de Realidad Aumentada, y la documentación
+> clínica y la cápsula de Academy lo presentan como **la versión instrumentada de
+> RA-5**. Así RA-5 sigue disponible donde no hay montaje —que va a ser la mayoría
+> de los sitios— y AR-2 no queda enterrado bajo un ejercicio de otro bloque.
+> `META_BY_ID` gana un campo opcional `instrumentaA: 'ra5'` para que el
+> parentesco viva en los datos y no solo en la prosa.
 
 | Datos por ensayo | `side`, `isCatch`, `transducer`, `gain`, `tStimulusUs`, `tTurnUs`, `latencyMs`, `peakYawDeg`, `correctSide`, `timedOut`, `deviceLatencyUncertaintyMs` |
 | --- | --- |
@@ -669,6 +752,14 @@ alternativas es un paradigma estándar en evaluación de comprensión, con la
 contrapartida conocida de un 50 % de acierto por azar —que se corrige con más
 ensayos, no con más dianas—. Lo que sí sería un error es dejar tres dianas
 indiscriminables y llamar «error de comprensión» a un fallo de puntería.
+
+> **Aceptado (2026-08-01), y con menos coste del previsto.** Como el estudio
+> admite solo sesiones de nivel A (§3.6) y el nivel A exige por definición
+> puntero < 2,5°, **el dataset publicable va siempre a 3 dianas**. El modo de 2
+> queda para el uso clínico y doméstico en niveles B y C, donde no se publica y
+> por tanto el 50 % de azar no contamina ningún análisis. Aun así se registra
+> `targetCount` en cada ensayo: mezclar 2 y 3 dianas en un mismo informe de
+> progreso individual seguiría siendo engañoso.
 
 **Distinguir primera mirada de selección final.** Clínicamente son dos variables
 distintas: adónde mira primero (sesgo de comprensión inmediata) y qué acaba
@@ -889,7 +980,9 @@ sus valores numéricos (herramienta de la logopeda, no del niño).
 `RewardChannel` con histéresis y decaimiento + `SceneHost` con los 3 GLB y sus
 animaciones.
 **Salida:** el coche acelera con un *slider* manual. El refuerzo funciona antes
-de que exista ningún ejercicio.
+de que exista ningún ejercicio. **Criterio duro añadido:** el delta de descarga
+del AAB frente a la versión sin módulo AR se mide aquí y no puede superar
+**+25 MB** (decisión 7).
 
 ### Fase 4 · AR-1 Cinemática Orofacial
 
@@ -904,10 +997,12 @@ selección registradas por separado.
 
 ### Fase 6 · AR-2 VRA digitalizado
 
-El último **a propósito**: es el que depende de la calibración de latencia de
-audio por dispositivo, del diseño de ensayos trampa y del protocolo de
-transductor. Llega cuando todo lo demás está estable.
-**Salida:** dataset de latencias exportable con barras de error.
+El último **a propósito**: es el que depende de la calibración de latencia, del
+diseño de ensayos trampa y del **montaje de campo libre** (§7.2), que es material
+físico y protocolo de sala, no solo código. Incluye la rutina de balance de
+canales y el lazo acústico de calibración.
+**Salida:** dataset de latencias exportable con barras de error y nivel de
+presentación declarado.
 
 ### Fase 7 · Cierre clínico y regulatorio
 
@@ -1005,13 +1100,17 @@ analítica de terceros que Apple exige.
 | **Movimiento del dispositivo leído como giro cefálico** | **Alto (validez)** | Soporte obligatorio en AR-2/AR-3 · compensación por IMU (`GAME_ROTATION_VECTOR`) · descartar ensayos con velocidad angular del móvil por encima del umbral |
 | **Hardware desconocido y heterogéneo (BYOD)** | **Alto** | Prueba de Aptitud en el propio teléfono (§3.5) · cuatro niveles con degradación explícita · `DeviceProfile` sellado en cada sesión como covariable |
 | **Cámara `LEGACY` sin `TIMESTAMP_SOURCE_REALTIME`** → latencia de AR-2 no alineable | **Alto (académico)** | Detección en la prueba de aptitud · el teléfono baja a nivel B y AR-2 registra `latencyMs: null` con motivo, en vez de un número inventado |
-| **Buena parte del parque cae en nivel C/D** | Medio (alcance) | Se descubre en la Fase 0 con el banco de referencia, no al analizar datos · la proporción por nivel es en sí un resultado publicable |
+| **Buena parte del parque cae en nivel C/D** | Medio (alcance) | Se descubre en la Fase 0 con el banco de referencia, no al analizar datos · la proporción por nivel es en sí un resultado publicable · **la medición no depende del parque**: va sobre teléfono de centro (§3.6) |
+| **Desbalance entre altavoces leído como asimetría auditiva del niño** | **Alto (validez)** | Comprobación de balance con el micrófono en la posición de la cabeza antes de cada sesión · corte duro si Δ > 1,5 dB (§7.2) |
+| **Nivel de presentación no declarado** → latencias no interpretables | Medio (académico) | dB SPL medido en la posición de la cabeza y sellado en la sesión · a más nivel, menos latencia: sin el dato, la comparación entre centros no se sostiene |
+| **Reverberación de sala degrada la localización** | Medio (validez) | Requisito de sala en el protocolo · registrar la sala como identificador para poder modelar el efecto de centro |
+| **AR-2 solo se puede hacer donde hay montaje** | Medio (alcance) | Explícito en §3.6: AR-2 es ejercicio de centro · RA-5 manual sigue cubriendo el resto de sitios · AR-1 y AR-3 siguen siendo domésticos |
 | **Rendimiento de inferencia en gama media** | Medio | GPU delegate · análisis a 640×480 · `BACKPRESSURE_KEEP_LATEST` · degradar a `noseRay` |
 | **Gestión agresiva de batería (MIUI/HyperOS, One UI)** | Bajo-medio | Módulo en primer plano y sesiones cortas · aviso al adulto de no salir de la app durante el ejercicio |
 | **Rechazo de Play por cámara en app de Familias** | **Alto (negocio)** | Las tres afirmaciones de §9.1 como restricciones de arquitectura · política y Data Safety en el mismo cambio · justificación preparada + vídeo de demo |
 | **Binding RN de SceneView alpha sin raycast** | Alto si se elige la opción A | Opción B: el raycast vive en Kotlin, donde sí existe |
 | **`react-native-mediapipe` abandonado** (dic. 2024) | Alto si se elige la opción A | Opción B: `tasks-vision` nativo, mantenido por Google |
-| **Tamaño del APK** (Filament + MediaPipe `.task` ≈ 40-60 MB) | Medio | Sin ARCore (§3.3) · Play Asset Delivery o *feature module* on-demand · *ABI splits* · modelo `face_landmarker` en *asset pack* |
+| **Tamaño del paquete** (Filament + MediaPipe `.task` ≈ 40-60 MB) | Medio | **Decidido: paquete único, sin *feature module*.** Se apoya en que el **AAB de Play ya entrega por ABI y densidad**, así que la descarga real es bastante menor que el universal · sin ARCore (§3.3) · GLB con Draco/meshopt · **presupuesto duro: +25 MB de descarga**, medido como criterio de salida de la Fase 3 |
 | **Falsos positivos en AR-2** (giro espontáneo leído como detección) | Medio (validez) | Ensayos trampa ~20 % · postura armada previa · intervalo inter-ensayo aleatorio |
 | **Midas touch en AR-3** | Medio | Zona neutra · doble hitbox · máximo 3 objetos |
 | **Frustración por reinicio de contador** | Medio (clínico) | Decaimiento en vez de reinicio · progreso continuo visible |
@@ -1025,39 +1124,32 @@ analítica de terceros que Apple exige.
 
 ## 15. Decisiones abiertas que necesitan a Frank
 
-**Cerradas** (2026-08-01): arquitectura **opción B, módulo nativo Android** ·
-**v1 solo Android**, con el camino de iOS reservado en §13 · hardware =
-**BYOD, gama media LATAM (Xiaomi / Samsung / Motorola), modelo desconocido hasta
-el campo** → se resuelve con la Prueba de Aptitud del Dispositivo (§3.5), no
-esperando el dato.
+**Cerradas** (2026-08-01):
 
-Quedan abiertas:
+| # | Decisión | Consecuencia principal |
+| --- | --- | --- |
+| — | Arquitectura **opción B**: módulo nativo Android | Valeria+ no migra a Nueva Arquitectura |
+| — | **v1 solo Android** | Camino de iOS reservado en §13 |
+| — | Hardware **BYOD gama media LATAM**, modelo desconocido | Prueba de Aptitud del Dispositivo (§3.5) |
+| 3 | AR-2 con **dos altavoces externos cableados** | Mide localización en campo libre · montaje de centro · habilita el lazo acústico (§7.2) |
+| 4 | **Sí** al modo de 2 dianas en AR-3 | Queda para niveles B y C; el estudio va siempre a 3 (§7.3) |
+| 5 | El estudio admite **solo nivel A** | Criterio de inclusión de sesión · medición sobre teléfono de centro (§3.6) |
+| 6 | AR-2 con **tarjeta propia** en el hub, documentado como versión instrumentada de RA-5 | RA-5 manual sigue vivo donde no hay montaje (§7.2) |
+| 7 | **Paquete único**, sin *feature module* | Presupuesto duro de +25 MB de descarga, medido en la Fase 3 (§14) |
 
-1. **Presupuesto del banco de referencia.** 3-4 teléfonos de segunda mano que
+Las decisiones 3 y 5 se combinan en un **modelo de despliegue en dos niveles**
+—casa para practicar, centro para medir— que está desarrollado en §3.6. Es el
+cambio de mayor alcance de esta tanda.
+
+Quedan abiertas **dos**, y ambas son de presupuesto:
+
+1. **Banco de referencia de la Fase 0.** 3-4 teléfonos de segunda mano que
    representen el parque, incluido **uno deliberadamente malo**. Es lo único que
-   bloquea el arranque de la Fase 0, y es una compra pequeña.
-2. **Material del protocolo.** El móvil obliga a **soporte de sobremesa** y
-   **transductor por cable** (§3.4b, §3.4c). ¿Se incluyen en el kit del piloto o
-   se pide a cada centro que los aporte? Si no están garantizados, AR-2 y AR-3
-   no producen dato publicable.
-3. **AR-2: auriculares o altavoces externos.** Auriculares miden
-   **lateralización**; dos altavoces a ±45-90° miden **localización en campo
-   libre**, que es el VRA clásico. Son constructos distintos y condicionan cómo
-   se redacta el artículo. Se puede hacer las dos cosas, pero como dos
-   condiciones etiquetadas, no como una sola columna.
-4. **AR-3: ¿se acepta el modo de 2 dianas?** En BYOD no es un caso raro: es el
-   modo que le va a tocar a una parte del parque. La alternativa a tres dianas
-   indiscriminables es elección forzada entre dos, con más ensayos para
-   compensar el 50 % de azar. ¿Aceptable clínicamente?
-5. **¿Qué nivel de aptitud mínimo se admite en el estudio?** Solo el nivel A da
-   dato publicable en AR-2. ¿Las sesiones de nivel B y C entran en el análisis
-   clínico aunque queden fuera del dataset de latencias, o se excluyen del
-   piloto? Condiciona el tamaño muestral alcanzable.
-6. **AR-2 y RA-5.** ¿AR-2 se presenta como versión instrumentada de RA-5
-   («Localización del sonido») o como ejercicio independiente en el hub?
-7. **Distribución del módulo.** ¿APK único más grande o *feature module*
-   descargable a demanda? Afecta a la conversión en mercados con datos caros —
-   relevante para el despliegue en LATAM.
+   bloquea el arranque.
+2. **Kit de centro.** Ahora está mejor definido que antes: teléfono cualificado
+   nivel A + dos altavoces autoamplificados + DAC USB-C + soporte + cableado.
+   ¿Lo aporta el proyecto o cada centro? Sin él, AR-2 no produce dato — y con la
+   decisión 5, tampoco lo produce ningún otro ejercicio fuera de nivel A.
 
 ---
 
@@ -1066,10 +1158,10 @@ Quedan abiertas:
 - [ ] **Fase 0** — Banco de referencia (3-4 teléfonos, uno deliberadamente malo) · las 7 sondas discriminan · umbrales de nivel calibrados
 - [ ] **Fase 1** — Andamiaje nativo + puente + consentimiento + **Prueba de Aptitud del Dispositivo** + **privacidad y Data Safety actualizados**
 - [ ] **Fase 2** — Capa de señal + calibración de 5 puntos + pantalla de diagnóstico
-- [ ] **Fase 3** — `RewardChannel` con histéresis + `SceneHost` con los 3 GLB
+- [ ] **Fase 3** — `RewardChannel` con histéresis + `SceneHost` con los 3 GLB · delta de descarga ≤ +25 MB
 - [ ] **Fase 4** — AR-1 Cinemática Orofacial jugable
 - [ ] **Fase 5** — AR-3 Selección por fijación jugable
-- [ ] **Fase 6** — AR-2 VRA digitalizado con latencias calibradas
+- [ ] **Fase 6** — AR-2 VRA en campo libre · montaje ±60° · balance de canales · lazo acústico · latencias calibradas
 - [ ] **Fase 7** — Dashboard, protocolo clínico, Academy, README a 7 bloques
 - [ ] **Fase 8** (v2) — Arnés de paridad de señal Android ↔ iOS
 - [ ] **Fase 9** (v2) — Host iOS (AVCaptureSession + MediaPipeTasksVision + CoreMotion)
