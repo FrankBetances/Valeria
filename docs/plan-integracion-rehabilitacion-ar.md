@@ -28,7 +28,8 @@
 - [1. Objetivo y principio rector](#1-objetivo-y-principio-rector)
 - [2. Estado real de las dos dependencias externas](#2-estado-real-de-las-dos-dependencias-externas)
 - [3. La decisión de arquitectura (la que condiciona todo el resto)](#3-la-decisión-de-arquitectura-la-que-condiciona-todo-el-resto)
-  - [3.4 Perfil de hardware del piloto y sus consecuencias](#34-perfil-de-hardware-del-piloto-y-sus-consecuencias)
+  - [3.4 Perfil de hardware: BYOD de gama media en LATAM](#34-perfil-de-hardware-byod-de-gama-media-en-latam)
+  - [3.5 Prueba de Aptitud del Dispositivo](#35-prueba-de-aptitud-del-dispositivo-el-sustituto-de-conocer-el-modelo)
 - [4. Arquitectura objetivo](#4-arquitectura-objetivo)
 - [5. Capa de señal: qué extrae MediaPipe y cómo se normaliza](#5-capa-de-señal-qué-extrae-mediapipe-y-cómo-se-normaliza)
 - [6. Capa de recompensa: el contrato de Feedback Visual Desacoplado](#6-capa-de-recompensa-el-contrato-de-feedback-visual-desacoplado)
@@ -173,10 +174,21 @@ ARCore**. Se usa `io.github.sceneview:sceneview` (solo 3D), **no**
 ARCore, el permiso de ubicación y decenas de MB de APK. Si más adelante se
 quisiera AR real, sería un ejercicio distinto, no una variante de estos tres.
 
-### 3.4 Perfil de hardware del piloto y sus consecuencias
+### 3.4 Perfil de hardware: BYOD de gama media en LATAM
 
-El piloto corre en **teléfonos móviles Android de gama media / media-alta**.
-Cuatro consecuencias de diseño que no son matices: cambian ejercicios.
+El piloto corre en **teléfonos Android de gama media que pone la familia**
+(BYOD). El modelo concreto **no se puede conocer hasta el trabajo de campo**:
+depende de qué teléfono tenga cada padre o madre. El perfil de partida es el
+parque popular latinoamericano —**Xiaomi (Redmi Note, Redmi, Poco)** y **Samsung
+(Galaxy A)**, con Motorola (Moto G) como tercer actor—, en gama media y con
+antigüedad de dos a cuatro años.
+
+> **Esto no es un dato que falte: es una propiedad del despliegue.** Y obliga a
+> un cambio de enfoque, no a esperar. Si el hardware es desconocido y
+> heterogéneo, la app no puede asumir capacidades: **tiene que medirlas en cada
+> teléfono, en tiempo de ejecución, y adaptarse o negarse** (§3.5).
+
+Cinco consecuencias de diseño que no son matices: cambian ejercicios.
 
 #### a) La geometría del móvil estrangula AR-3
 
@@ -200,7 +212,27 @@ Una pantalla de 6,1″ (≈ 141 × 65 mm) en horizontal, a 35 cm de la cara, aba
 Regla derivada: una diana es discriminable si la separación supera **≈ 3× el
 jitter RMS del puntero**. Con 7,6° de separación hace falta un puntero por
 debajo de **~2,5° RMS**. Ese, y no los fps, es el criterio que decide si AR-3
-lleva tres dianas o dos. Lo mide la Fase 0.
+lleva tres dianas o dos.
+
+**Y en BYOD la tabla de arriba no se puede precalcular.** Las pantallas del
+parque van de 6,1″ a 6,8″ y la distancia de trabajo la elige la familia. Por
+tanto **las dianas se colocan en grados, no en píxeles**, con la geometría
+resuelta en tiempo de ejecución:
+
+```kotlin
+// El layout se deriva del dispositivo real, no de una constante.
+val anchoMm   = displayMetrics.widthPixels / displayMetrics.xdpi * 25.4f
+val distMm    = distanceEstimator.currentMm()   // de la distancia interocular
+val sepGrados = degrees(atan((anchoMm / 3f) / distMm))
+```
+
+**La cara del niño es el telémetro.** La distancia interocular en píxeles, junto
+con las intrínsecas de la cámara, da una estimación de la distancia de trabajo.
+Es aproximada —la interocular infantil varía entre ~48 y ~58 mm, así que el
+error ronda el ±15 %— y por eso **no se usa para medir, sino para dos cosas
+honestas**: avisar al adulto («acerca un poco el teléfono») y **registrar la
+separación angular realmente conseguida en cada ensayo**, que pasa a ser una
+covariable del análisis en vez de un supuesto.
 
 #### b) El móvil no lateraliza sonido, y el Bluetooth mata la medida
 
@@ -247,10 +279,88 @@ la gama media entra en *throttling* térmico en minutos. Consecuencias:
   `THERMAL_STATUS_MODERATE`, avisar al adulto y **sellar el dato** con el estado
   térmico, para poder descartar después los ensayos degradados.
 
-> **Nota positiva:** la gama media-alta actual (Snapdragon 6/7, Dimensity
-> 7000/8000, Exynos 1x80) tiene delegado GPU y debería sostener el Face
-> Landmarker a 640×480 sin problema. El riesgo no es la potencia bruta: es la
-> **sostenida**, la geometría y el audio.
+#### e) La fragmentación BYOD tiene un filo concreto: las marcas de tiempo
+
+De todos los caprichos del parque Android barato, **uno invalida directamente el
+dato de AR-2** y conviene conocerlo antes de escribir una línea:
+
+**`CameraCharacteristics.SENSOR_INFO_TIMESTAMP_SOURCE`.** Si vale
+`TIMESTAMP_SOURCE_REALTIME`, las marcas de tiempo de los frames están en la misma
+base de reloj que el resto del sistema y **se pueden alinear con el audio**. Si
+vale `TIMESTAMP_SOURCE_UNKNOWN` —frecuente en cámaras `LEGACY` de gama baja—,
+**no existe una conversión fiable** y la latencia estímulo→giro deja de ser
+medible en ese teléfono. Sigue siendo un juego perfectamente válido; deja de ser
+un instrumento.
+
+Aun con `REALTIME` hay un paso obligatorio: las marcas de cámara van en base
+*boottime* (`elapsedRealtimeNanos`, incluye suspensión) y las de `AudioTrack`
+suelen ir en *monotonic* (`uptimeNanos`, la excluye). **Hay que medir el desfase
+entre ambas bases al inicio de cada sesión** y aplicarlo; el spike debe
+verificar el comportamiento real por dispositivo antes de darlo por bueno.
+
+Otros filos del mismo perfil, menos graves pero reales:
+
+- **Gestión agresiva de batería** en MIUI/HyperOS y One UI: puede matar procesos
+  o limitar sensores en segundo plano. El módulo AR es de primer plano y corto,
+  lo que ayuda, pero el aviso al adulto de no salir de la app es necesario.
+- **Delegado GPU no disponible** en algunos SoC de entrada → caída a CPU, que la
+  prueba de aptitud detecta como fps insuficientes sin necesidad de saber el
+  modelo.
+- **Almacenamiento libre escaso**, muy común en teléfonos de 64 GB compartidos en
+  familia. Refuerza la entrega del módulo como descarga a demanda (§14).
+
+> **Nota positiva:** una gama media reciente (Snapdragon 6/7, Dimensity
+> 6100+/7025, Helio G99, Exynos 1280/1330) tiene delegado GPU y debería sostener
+> el Face Landmarker a 640×480. El riesgo no es la potencia bruta: es la
+> **sostenida**, la geometría, el audio y las marcas de tiempo.
+
+### 3.5 Prueba de Aptitud del Dispositivo (el sustituto de conocer el modelo)
+
+Si no se puede saber qué teléfono habrá, **se mide el que haya**. La respuesta de
+ingeniería a BYOD es convertir la puerta de la Fase 0 en una **función de la app**:
+una rutina automática de 60-90 s que corre la primera vez que una familia abre el
+módulo, y que se repite si cambia el dispositivo o la versión de Android.
+
+Se presenta al niño como un juego de calentamiento —mirar a la osita, seguirla a
+las esquinas, escuchar dos sonidos—, no como un diagnóstico técnico.
+
+| Sonda | Qué mide | Duración |
+| --- | --- | --- |
+| Rendimiento | fps p5 con delegado GPU, con la escena 3D ya montada | 25 s |
+| Térmica | pendiente de fps + `getCurrentThermalStatus()` | (durante la anterior) |
+| Marcas de tiempo | `SENSOR_INFO_TIMESTAMP_SOURCE` + desfase boottime↔monotonic | < 1 s |
+| Audio | dispersión de `AudioTrack.getTimestamp()` sobre 20 disparos · tipo de ruta de salida | 10 s |
+| Puntero | RMS de `noseRay` e iris durante la calibración de 5 puntos | 15 s (reutiliza la calibración) |
+| IMU | presencia y deriva de `GAME_ROTATION_VECTOR` | 5 s |
+| Geometría | mm de pantalla + distancia estimada → separación angular alcanzable | inmediato |
+
+**Salida: un `DeviceProfile` con un nivel de aptitud**, que decide qué se ofrece:
+
+| Nivel | Condiciones | Qué se habilita |
+| --- | --- | --- |
+| **A · Instrumento** | fps p5 ≥ 20 · caída térmica ≥ 0,7 · timestamps `REALTIME` · dispersión de audio < 20 ms · puntero < 2,5° | Los tres ejercicios · **dato publicable** |
+| **B · Clínico** | fps p5 ≥ 20 · puntero < 2,5° · timestamps no fiables **o** sin transductor por cable | AR-1 y AR-3 completos · AR-2 **solo como juego**, sin registrar latencia |
+| **C · Reducido** | fps p5 ≥ 15 · puntero ≥ 2,5° | AR-1 completo · AR-3 en **modo de 2 dianas** · AR-2 solo juego |
+| **D · No apto** | fps p5 < 15 o sin cámara frontal utilizable | El bloque AR **no aparece**. Los otros seis siguen intactos |
+
+Tres propiedades que hacen que esto valga la pena:
+
+1. **Nunca hay una experiencia rota.** Un teléfono flojo no da un ejercicio que
+   va a tirones: da un ejercicio distinto, o ninguno. Es la misma política de
+   degradación elegante que ya usa `valeriaNoise` con `expo-audio` (§11).
+2. **El `DeviceProfile` viaja en cada registro de telemetría** (§8). En un
+   estudio BYOD el hardware es un confundido inevitable; medido y sellado, pasa
+   a ser una **covariable** y se puede modelar o estratificar. Sin medir, mete
+   ruido en los resultados y no hay forma de saber cuánto.
+3. **El nivel A define qué sesiones entran en el dataset publicable**, con un
+   criterio explícito y auditable en vez de «se usaron teléfonos diversos».
+
+**El coste honesto:** una parte del parque va a caer en C o D. Es preferible
+saberlo por adelantado y por dispositivo que descubrirlo al analizar los datos.
+La proporción real de cada nivel **es en sí misma un resultado publicable** sobre
+la viabilidad de la rehabilitación digital con hardware doméstico en LATAM —el
+tipo de dato que casi nadie reporta y que cualquiera que quiera replicar
+necesita.
 
 ---
 
@@ -478,6 +588,15 @@ auriculares el niño discrimina *de qué oído viene*; en campo libre *de qué p
 del espacio*. Son constructos distintos y no deben mezclarse en la misma columna
 del dataset. El registro sella `transducer` con esa granularidad.
 
+**En BYOD, AR-2 tiene dos modos y el dispositivo decide cuál.** Si el
+`DeviceProfile` no llega a nivel A —marcas de tiempo no alineables (§3.4e), o
+sin transductor por cable conectado—, el ejercicio **se juega igual pero no
+registra latencia**: el niño gira, el perro celebra, y el registro guarda
+acierto/fallo y `latencyMs: null` con el motivo. Un dato ausente y etiquetado es
+honesto; un dato presente y sesgado, no. La detección del transductor se hace en
+caliente (`AudioDeviceInfo`), y si el adulto desconecta los auriculares a mitad
+de sesión, los ensayos siguientes bajan de modo y quedan marcados.
+
 En usuarios de implante unilateral la vía ipsi/contralateral es información
 clínica: se registra el **canal físico excitado**, no una etiqueta «derecha».
 
@@ -542,7 +661,8 @@ rígido y a un modo degradado:
 | Distancia de trabajo | **30-35 cm**, con soporte. Más cerca degrada el encuadre facial; más lejos comprime las dianas |
 | Modo nominal | **3 dianas** a 1/6, 1/2 y 5/6 del ancho · separación ~8° |
 | Modo degradado | **2 dianas** a 1/6 y 5/6 · separación ~15-18° · elección forzada entre dos alternativas |
-| Regla de conmutación | Si el RMS de calibración implica jitter > **2,5°**, la sesión arranca en modo de 2 dianas **y lo registra** |
+| Regla de conmutación | El `DeviceProfile` (§3.5) manda: nivel **C** → 2 dianas. Dentro de la sesión, si el RMS de calibración implica jitter > **2,5°**, baja a 2 dianas **y lo registra** |
+| Colocación | En **grados calculados en caliente** desde los mm reales de pantalla y la distancia estimada (§3.4a), nunca en píxeles fijos |
 
 El modo de 2 dianas no es una derrota: la elección forzada entre dos
 alternativas es un paradigma estándar en evaluación de comprensión, con la
@@ -573,6 +693,18 @@ Se reutiliza `valeriaTelemetry` tal como está pensado: registrar, no decidir.
   `normalizeSession()` lo rellena a `[]` — el patrón de migración tolerante ya
   está escrito en el fichero.
 - Se respeta `MAX_EVENTS = 300`.
+
+**El `DeviceProfile` viaja con la sesión.** En un estudio BYOD el hardware es
+heterogéneo por definición; sellarlo lo convierte de ruido en covariable. Se
+guarda **una vez por sesión**, no por ensayo (es constante), con el nivel de
+aptitud, las siete sondas, `Build.MANUFACTURER`/`MODEL`, versión de Android y
+mm de pantalla. Y cada ensayo lleva lo que sí varía dentro de la sesión: estado
+térmico, separación angular conseguida, transductor vivo y modo efectivo.
+
+Eso permite tres cosas que sin ello son imposibles: filtrar el dataset por nivel
+A, estratificar por gama de teléfono, y **reportar qué porcentaje del parque
+familiar real alcanzó cada nivel** —resultado publicable por sí mismo sobre la
+viabilidad del despliegue doméstico en LATAM—.
 
 **Regla dura: un registro por ensayo, jamás por frame.** A 30 fps, tres minutos
 de ejercicio son 5.400 eventos. La agregación ocurre en el módulo nativo; al JS
@@ -694,36 +826,56 @@ ejercicios: sigue el riesgo.**
 
 ### Fase 0 · Spike de viabilidad (2 semanas · **puerta de decisión**)
 
-App Kotlin desechable, fuera del árbol de Valeria+, ejecutada en **los modelos
-concretos de móvil que va a usar el piloto**, no en un buque insignia. Cada
-medida se toma **con el teléfono en su soporte, a 30-35 cm, en landscape** — las
-condiciones reales, no las de laboratorio.
+Como el modelo de teléfono es desconocido por diseño (§3.4), esta fase **no
+valida un dispositivo: valida la envolvente y construye el instrumento que
+medirá cada dispositivo en campo**.
 
-**Criterios de salida (numéricos, no impresionistas):**
+App Kotlin desechable, fuera del árbol de Valeria+, sobre un **banco de
+referencia** de 3-4 teléfonos comprados de segunda mano para representar el
+parque real, no un buque insignia:
 
-| Métrica | Cómo se mide | Umbral | Si no se cumple |
-| --- | --- | --- | --- |
-| **fps sostenidos** | Run continuo de **10 min**, percentil 5 de la serie | ≥ 20 | AR-2 y AR-3 no viables en ese modelo |
-| **Caída térmica** | fps del minuto 10 ÷ fps del minuto 1 | ≥ 0,7 | Límite de sesión más corto + aviso térmico obligatorio |
-| **Jitter de *head pose*** en reposo | RMS en grados, 60 s | < 2° | AR-2 pierde fiabilidad de umbral a 15° |
-| **Jitter de iris** | RMS en grados, 60 s | < 2,5° | AR-3 arranca en `noseRay` |
-| **Jitter de `noseRay`** | RMS en grados, tras calibrar | < 2,5° | **AR-3 va a modo de 2 dianas** (§7.3) |
-| **Incertidumbre de latencia de audio** | Desviación de `AudioTrack.getTimestamp()` sobre 50 disparos, por transductor cableado | < 20 ms | El dato de AR-2 no es publicable sin calibración por dispositivo |
-| **Deriva del IMU** | Error de yaw compensado tras 2 min de manipulación normal | < 1,5° | El soporte deja de ser recomendación y pasa a ser requisito duro |
+| Perfil del banco | Papel |
+| --- | --- |
+| Xiaomi Redmi Note, gama media reciente (~2 años) | Caso nominal alto |
+| Samsung Galaxy A, gama media (~2-3 años) | Caso nominal, otro proveedor de cámara y otra capa |
+| Motorola Moto G o Redmi de entrada (~3-4 años) | **Caso peor deliberado**: es el que dirá dónde está el suelo |
+| Un cuarto con cámara `LEGACY` si se consigue | Valida el camino `TIMESTAMP_SOURCE_UNKNOWN` (§3.4e) |
 
-**Entregable de la fase:** una tabla con estas siete filas **por modelo de
-teléfono**, que se convierte en la matriz de compatibilidad del piloto y en un
-apéndice de método publicable.
+Todas las medidas, **con el teléfono en su soporte, a 30-35 cm, en landscape**.
+
+**Criterios de salida:**
+
+1. **La envolvente existe.** Las siete sondas de §3.5 discriminan de verdad
+   entre los teléfonos del banco: el caso peor cae en C o D y el nominal en A o
+   B. Una sonda que da el mismo veredicto para todos no sirve y se rediseña.
+2. **Los umbrales de nivel están calibrados** contra observación real: en el
+   teléfono que la sonda clasifica como A, el ejercicio se ve y se juega bien;
+   en el que clasifica como D, efectivamente no.
+3. **La `Prueba de Aptitud` corre en menos de 90 s** y produce un `DeviceProfile`
+   serializable.
+4. **El caso peor está caracterizado**: al menos un teléfono del banco debe
+   fallar alguna sonda, y su modo degradado tiene que ser una experiencia
+   aceptable, no un error.
+
+**Entregable:** la prueba de aptitud como componente reutilizable + la tabla de
+los 3-4 teléfonos del banco, que es el apéndice de método del futuro artículo.
 
 **No se escribe nada más hasta cerrar esta fase.** Es el punto donde el plan
 puede cambiar barato.
 
+> **Corolario de calendario:** al no depender de conocer los teléfonos de las
+> familias, esta fase **puede empezar ya**. Lo único que hay que decidir es el
+> presupuesto del banco de referencia (§15).
+
 ### Fase 1 · Andamiaje (sin ejercicios)
 
 `ValeriaArActivity` + config plugin + permiso + puente RN + pantalla de
-consentimiento + **actualización de política de privacidad y Data Safety**.
-Pantalla que solo muestra el preview y un cubo 3D girando.
-**Salida:** se abre y se cierra desde Valeria+ sin tocar los 6 bloques.
+consentimiento + **actualización de política de privacidad y Data Safety** +
+**la Prueba de Aptitud del Dispositivo integrada** (§3.5), con su `DeviceProfile`
+persistido y el enrutado por nivel: en nivel D la tarjeta del hub no se
+renderiza.
+**Salida:** se abre y se cierra desde Valeria+ sin tocar los 6 bloques, y un
+teléfono no apto lo dice antes de frustrar a nadie.
 
 ### Fase 2 · Capa de señal + calibración
 
@@ -851,7 +1003,11 @@ analítica de terceros que Apple exige.
 | **Latencia de audio mal medida en AR-2** → dato sesgado, no ruidoso | **Alto (académico)** | `AudioTrack.getTimestamp()` + `frameTimestampMs` de sensor · **Bluetooth vetado** · solo transductor cableado · calibración por dispositivo · publicar la incertidumbre residual |
 | **Throttling térmico en móvil** | **Alto** | Fase 0 mide fps sostenidos a 10 min y la caída térmica · límite de duración de sesión · sellar `thermalStatus` en cada ensayo para poder descartar los degradados |
 | **Movimiento del dispositivo leído como giro cefálico** | **Alto (validez)** | Soporte obligatorio en AR-2/AR-3 · compensación por IMU (`GAME_ROTATION_VECTOR`) · descartar ensayos con velocidad angular del móvil por encima del umbral |
+| **Hardware desconocido y heterogéneo (BYOD)** | **Alto** | Prueba de Aptitud en el propio teléfono (§3.5) · cuatro niveles con degradación explícita · `DeviceProfile` sellado en cada sesión como covariable |
+| **Cámara `LEGACY` sin `TIMESTAMP_SOURCE_REALTIME`** → latencia de AR-2 no alineable | **Alto (académico)** | Detección en la prueba de aptitud · el teléfono baja a nivel B y AR-2 registra `latencyMs: null` con motivo, en vez de un número inventado |
+| **Buena parte del parque cae en nivel C/D** | Medio (alcance) | Se descubre en la Fase 0 con el banco de referencia, no al analizar datos · la proporción por nivel es en sí un resultado publicable |
 | **Rendimiento de inferencia en gama media** | Medio | GPU delegate · análisis a 640×480 · `BACKPRESSURE_KEEP_LATEST` · degradar a `noseRay` |
+| **Gestión agresiva de batería (MIUI/HyperOS, One UI)** | Bajo-medio | Módulo en primer plano y sesiones cortas · aviso al adulto de no salir de la app durante el ejercicio |
 | **Rechazo de Play por cámara en app de Familias** | **Alto (negocio)** | Las tres afirmaciones de §9.1 como restricciones de arquitectura · política y Data Safety en el mismo cambio · justificación preparada + vídeo de demo |
 | **Binding RN de SceneView alpha sin raycast** | Alto si se elige la opción A | Opción B: el raycast vive en Kotlin, donde sí existe |
 | **`react-native-mediapipe` abandonado** (dic. 2024) | Alto si se elige la opción A | Opción B: `tasks-vision` nativo, mantenido por Google |
@@ -870,14 +1026,16 @@ analítica de terceros que Apple exige.
 ## 15. Decisiones abiertas que necesitan a Frank
 
 **Cerradas** (2026-08-01): arquitectura **opción B, módulo nativo Android** ·
-**v1 solo Android**, con el camino de iOS reservado en §13 · hardware del piloto
-= **móviles de gama media / media-alta**.
+**v1 solo Android**, con el camino de iOS reservado en §13 · hardware =
+**BYOD, gama media LATAM (Xiaomi / Samsung / Motorola), modelo desconocido hasta
+el campo** → se resuelve con la Prueba de Aptitud del Dispositivo (§3.5), no
+esperando el dato.
 
 Quedan abiertas:
 
-1. **Modelos concretos de teléfono.** La Fase 0 produce una fila por modelo. Sin
-   la lista, los umbrales de la puerta son teóricos. Es lo único que bloquea el
-   arranque.
+1. **Presupuesto del banco de referencia.** 3-4 teléfonos de segunda mano que
+   representen el parque, incluido **uno deliberadamente malo**. Es lo único que
+   bloquea el arranque de la Fase 0, y es una compra pequeña.
 2. **Material del protocolo.** El móvil obliga a **soporte de sobremesa** y
    **transductor por cable** (§3.4b, §3.4c). ¿Se incluyen en el kit del piloto o
    se pide a cada centro que los aporte? Si no están garantizados, AR-2 y AR-3
@@ -887,12 +1045,17 @@ Quedan abiertas:
    libre**, que es el VRA clásico. Son constructos distintos y condicionan cómo
    se redacta el artículo. Se puede hacer las dos cosas, pero como dos
    condiciones etiquetadas, no como una sola columna.
-4. **AR-3: ¿se acepta arrancar en modo de 2 dianas?** Si la Fase 0 dice que el
-   jitter no baja de 2,5°, la alternativa es elección forzada entre dos, con más
-   ensayos para compensar el azar. ¿Aceptable clínicamente?
-5. **AR-2 y RA-5.** ¿AR-2 se presenta como versión instrumentada de RA-5
+4. **AR-3: ¿se acepta el modo de 2 dianas?** En BYOD no es un caso raro: es el
+   modo que le va a tocar a una parte del parque. La alternativa a tres dianas
+   indiscriminables es elección forzada entre dos, con más ensayos para
+   compensar el 50 % de azar. ¿Aceptable clínicamente?
+5. **¿Qué nivel de aptitud mínimo se admite en el estudio?** Solo el nivel A da
+   dato publicable en AR-2. ¿Las sesiones de nivel B y C entran en el análisis
+   clínico aunque queden fuera del dataset de latencias, o se excluyen del
+   piloto? Condiciona el tamaño muestral alcanzable.
+6. **AR-2 y RA-5.** ¿AR-2 se presenta como versión instrumentada de RA-5
    («Localización del sonido») o como ejercicio independiente en el hub?
-6. **Distribución del módulo.** ¿APK único más grande o *feature module*
+7. **Distribución del módulo.** ¿APK único más grande o *feature module*
    descargable a demanda? Afecta a la conversión en mercados con datos caros —
    relevante para el despliegue en LATAM.
 
@@ -900,8 +1063,8 @@ Quedan abiertas:
 
 ## 16. Seguimiento
 
-- [ ] **Fase 0** — Spike en los móviles reales del piloto · matriz de 7 umbrales × modelo
-- [ ] **Fase 1** — Andamiaje nativo + puente + consentimiento + **privacidad y Data Safety actualizados**
+- [ ] **Fase 0** — Banco de referencia (3-4 teléfonos, uno deliberadamente malo) · las 7 sondas discriminan · umbrales de nivel calibrados
+- [ ] **Fase 1** — Andamiaje nativo + puente + consentimiento + **Prueba de Aptitud del Dispositivo** + **privacidad y Data Safety actualizados**
 - [ ] **Fase 2** — Capa de señal + calibración de 5 puntos + pantalla de diagnóstico
 - [ ] **Fase 3** — `RewardChannel` con histéresis + `SceneHost` con los 3 GLB
 - [ ] **Fase 4** — AR-1 Cinemática Orofacial jugable
