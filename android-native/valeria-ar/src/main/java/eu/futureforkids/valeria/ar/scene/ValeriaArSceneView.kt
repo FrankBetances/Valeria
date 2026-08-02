@@ -120,7 +120,8 @@ private class FilamentStage {
             modelViewer.view.blendMode = FilamentView.BlendMode.TRANSLUCENT
             modelViewer.renderer.clearOptions = Renderer.ClearOptions().apply {
                 clear = true
-                clearColor = floatArrayOf(0f, 0f, 0f, 0f)
+                // double[] y no float[]: es la firma real de Filament 1.72.1.
+                clearColor = doubleArrayOf(0.0, 0.0, 0.0, 0.0)
             }
 
             // Una luz direccional cálida en vez de un mapa de entorno: se

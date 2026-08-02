@@ -46,7 +46,7 @@ class ValeriaArModule(private val reactContext: ReactApplicationContext) :
     private var pendingTransform: ((WritableMap) -> Any?)? = null
 
     private val activityListener: ActivityEventListener = object : BaseActivityEventListener() {
-        override fun onActivityResult(activity: Activity?, requestCode: Int, resultCode: Int, data: Intent?) {
+        override fun onActivityResult(activity: Activity, requestCode: Int, resultCode: Int, data: Intent?) {
             if (requestCode != pendingRequest) return
             val promise = pending ?: return
             val transform = pendingTransform
@@ -150,7 +150,10 @@ class ValeriaArModule(private val reactContext: ReactApplicationContext) :
         promise: Promise,
         transform: ((WritableMap) -> Any?)? = null,
     ) {
-        val activity = currentActivity
+        // reactApplicationContext.currentActivity y no el heredado del módulo:
+        // en RN 0.81 ese quedó deprecado y, al ser una función Kotlin, ni
+        // siquiera expone la propiedad sintética.
+        val activity = reactContext.currentActivity
         if (activity == null) {
             promise.reject("E_AR_NO_ACTIVITY", "No hay actividad en primer plano")
             return
