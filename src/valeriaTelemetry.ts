@@ -298,6 +298,39 @@ export function trackArSession(payload: {
   scheduleFlush();
 }
 
+/**
+ * Lectura de los ensayos de RA para el panel del paciente.
+ *
+ * El log vive cifrado y este módulo es su única puerta: el dashboard no toca
+ * AsyncStorage por su cuenta. Devuelve MAGNITUDES en crudo, ordenadas por
+ * tiempo, y ni un solo agregado interpretativo — quien decide si 1.240 ms es
+ * mucho o poco es una persona, no esta función.
+ */
+export async function readArHistory(): Promise<{
+  trials: ArTrial[];
+  device: ArDeviceProfile | null;
+  thresholds: ArThresholds | null;
+  sessions: number;
+}> {
+  try {
+    // La sesión en curso todavía no está en disco: se sella antes de leer para
+    // que el panel no muestre una sesión de menos justo al volver del ejercicio.
+    await flushNow();
+    const store = await loadStore();
+    const withAr = store.sessions.filter((s) => (s.arTrials ?? []).length > 0);
+    const trials = withAr.flatMap((s) => s.arTrials ?? []).sort((a, b) => a.at - b.at);
+    const last = withAr[withAr.length - 1];
+    return {
+      trials,
+      device: last?.arDevice ?? null,
+      thresholds: last?.arThresholds ?? null,
+      sessions: withAr.length,
+    };
+  } catch (e) {
+    return { trials: [], device: null, thresholds: null, sessions: 0 };
+  }
+}
+
 // ---- Hitos: bloques completados → posible disparo del SUS ----
 export function markBlockCompleted(block: BlockId): void {
   if (!cur.blocks.includes(block)) cur.blocks.push(block);

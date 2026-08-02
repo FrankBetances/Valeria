@@ -36,9 +36,14 @@ interface SceneHost {
 }
 
 /**
- * Los modelos del bloque. El fichero puede no existir todavía: la escena
- * arranca igual con una forma primitiva, de modo que los ejercicios se pueden
- * probar de punta a punta antes de que exista un solo GLB.
+ * Los modelos del bloque. Los GLB viven en `assets/models/` (obra propia, CC0,
+ * generados por `npm run build:ar-models`) y el config plugin los copia a los
+ * assets del módulo en cada prebuild.
+ *
+ * Estos nombres de animación son un CONTRATO, no una convención: los verifica
+ * `npm run check:ar-models` contra los ficheros reales. Una reexportación que
+ * renombre `celebrate` a `Celebrate` compila, carga el modelo y deja al niño sin
+ * refuerzo — sin error visible en ninguna parte.
  * Contrato de assets y licencias: `assets/models/README.md`.
  */
 enum class ArModel(val asset: String, val animation: String?) {
@@ -160,19 +165,7 @@ fun RewardOverlay(state: SceneState, modifier: Modifier = Modifier) {
     }
 }
 
-/**
- * Punto de montaje de Filament. Se aísla en su propia función para que el resto
- * del módulo no dependa de la API de SceneView: si mañana cambia (o si en iOS
- * es RealityKit), lo que se reescribe es esto y nada más.
- *
- * Nota de Fase 3: la carga real del GLB con `ModelNode` + `autoAnimate` se
- * cablea aquí, y el criterio de salida de esa fase es que el delta de descarga
- * del AAB frente a la versión sin RA no supere +25 MB.
- */
-@Composable
-fun ValeriaArSceneView(state: SceneState, modifier: Modifier = Modifier) {
-    // Mientras no haya GLB en el árbol, la sobreimpresión 2D es la escena
-    // completa y el ejercicio es jugable igualmente. Degradación elegante: el
-    // mismo idioma que valeriaNoise con expo-audio.
-    RewardOverlay(state, modifier)
-}
+// El montaje de Filament vive en ValeriaArSceneView.kt: es el único fichero del
+// módulo que conoce la API de SceneView, y se aísla ahí para que el día que
+// cambie —o que en iOS sea RealityKit— se reescriba una sola pieza y no el
+// bloque entero.

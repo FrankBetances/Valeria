@@ -46,6 +46,26 @@ export const HIPOACUSIA_CONCEPTS: AcademyGuideUnit[] = [
     heading: 'Tu papel con el dispositivo',
     body: 'Tú garantizas que el dispositivo esté puesto, encendido y en buen estado durante todas las horas de vigilia ("ojos abiertos, oídos puestos"). Detectas si algo no suena bien y avisas al audiólogo. Nunca ajustas la programación por tu cuenta: eso lo hace el profesional. Tu constancia diaria es la mitad de la terapia.',
   },
+  // Bloque de Realidad Aumentada · AR-2. Va aquí, en Conceptos Clínicos, y no
+  // como cápsula suelta: quien pregunta "¿oye de dónde viene?" está ya dentro
+  // de este eje. Explica qué mide el VRA y por qué en casa se juega sin
+  // cronómetro, que es la duda que aparece al ver `latencyMs` vacío.
+  {
+    id: 'hip-vra-que-es',
+    domain: 'hipoacusia',
+    xp: 20,
+    icon: '🔔',
+    heading: 'Girar la cabeza hacia el sonido',
+    body: 'Oír no es solo detectar: es saber de DÓNDE viene. Esa orientación —girar la cabeza hacia la fuente— es una de las conductas más antiguas que evalúa la audiología infantil, y se llama VRA. Lo que importa no es solo si gira, sino cuánto tarda: un giro seguro y rápido no dice lo mismo que uno dudoso a los dos segundos. Hasta ahora eso se anotaba a ojo.',
+  },
+  {
+    id: 'hip-vra-instrumentado',
+    domain: 'hipoacusia',
+    xp: 20,
+    icon: '⏱️',
+    heading: 'La versión con cronómetro',
+    body: 'El ejercicio AR-2 hace lo mismo que la campanita de siempre, pero la cámara mide el giro en milisegundos en lugar de estimarlo. Para que ese número valga hacen falta dos altavoces por cable a los lados: el altavoz del móvil no separa izquierda de derecha, y el Bluetooth añade un retraso variable justo del tamaño de lo que se quiere medir. Sin ese montaje el juego funciona igual —tu peque gira, el perro celebra— pero la app NO apunta un tiempo en vez de apuntar uno inventado. Un dato que falta y lo dice es honesto; uno que parece bueno y está sesgado, no.',
+  },
 ];
 
 // --- Eje 2 · Manejo de Dispositivos -----------------------------------------

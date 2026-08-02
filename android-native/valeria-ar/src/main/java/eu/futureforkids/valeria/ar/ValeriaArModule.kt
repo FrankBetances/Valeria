@@ -117,6 +117,20 @@ class ValeriaArModule(private val reactContext: ReactApplicationContext) :
         launchActivity(intent, REQUEST_EXERCISE, promise)
     }
 
+    /**
+     * Pantalla de señales en vivo (Fase 2). Herramienta de la logopeda: no
+     * registra nada, no produce ensayos y no toca la telemetría. Sirve para
+     * colocar el teléfono con criterio y para entender qué mide cada ejercicio.
+     */
+    @ReactMethod
+    fun openDiagnostics(promise: Promise) {
+        launchActivity(
+            ValeriaArActivity.intent(reactContext, ValeriaArActivity.MODE_DIAGNOSTICS),
+            REQUEST_DIAGNOSTICS,
+            promise,
+        )
+    }
+
     @ReactMethod
     fun calibrate(patientKey: String, pointerSource: String, promise: Promise) {
         val intent = ValeriaArActivity.intent(reactContext, ValeriaArActivity.MODE_CALIBRATION)
@@ -161,6 +175,7 @@ class ValeriaArModule(private val reactContext: ReactApplicationContext) :
         private const val REQUEST_EXERCISE = 8801
         private const val REQUEST_APTITUDE = 8802
         private const val REQUEST_CALIBRATION = 8803
+        private const val REQUEST_DIAGNOSTICS = 8804
     }
 }
 

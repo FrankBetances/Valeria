@@ -12,9 +12,16 @@
 apply plugin: 'com.android.library'
 apply plugin: 'org.jetbrains.kotlin.android'
 apply plugin: 'org.jetbrains.kotlin.plugin.compose'
-// El plugin de React Native lo aplica la app; aquí solo se necesita para que
-// `com.facebook.react:react-android` resuelva versión sin fijarla a mano.
-apply plugin: 'com.facebook.react'
+
+// Versión de React Native leída del árbol real de node_modules, no fijada a
+// mano: cuando Expo suba de SDK y arrastre otra RN, este módulo la sigue sin
+// que nadie tenga que acordarse de tocar este fichero. Y no se aplica el plugin
+// Gradle de React Native, que es de la APP: un módulo de librería no debe
+// depender de que ese plugin esté aplicado para resolver una dependencia.
+def rnPackageJson = file("${rootDir}/../node_modules/react-native/package.json")
+def reactNativeVersion = rnPackageJson.exists()
+        ? new groovy.json.JsonSlurper().parseText(rnPackageJson.text).version
+        : '+'
 
 android {
     namespace 'eu.futureforkids.valeria.ar'
@@ -67,7 +74,10 @@ tasks.configureEach { task ->
 }
 
 dependencies {
-    implementation 'com.facebook.react:react-android'
+    // compileOnly y no implementation: la app ya trae React Native en tiempo de
+    // ejecución. Empaquetarlo otra vez desde aquí produce clases duplicadas en
+    // el dex, que es un fallo que aparece al final del build y no dice por qué.
+    compileOnly "com.facebook.react:react-android:$reactNativeVersion"
 
     implementation 'org.jetbrains.kotlin:kotlin-stdlib'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.9.0'

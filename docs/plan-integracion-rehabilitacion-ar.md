@@ -1324,17 +1324,27 @@ Leyenda: ✅ hecho y verificado · 🟩 **código escrito, sin compilar ni proba
 teléfono** · ⬜ pendiente. La distinción importa: un módulo que compila en la
 cabeza de nadie no es un módulo que funcione.
 
-- ⬜ **Fase 0** — Banco de 2 teléfonos (150 €: gama baja antigua + gama media) · **censo de ≥ 15 móviles prestados** · las 7 sondas discriminan · umbrales calibrados. **Es la puerta de decisión y sigue cerrada:** exige comprar hardware y salir al campo, no escribir código
-- 🟩 **Fase 1** — Andamiaje nativo (`ValeriaArActivity`) + `plugins/withValeriaAR.js` + permiso de cámara + puente `valeriaArBridge.ts` + pantalla de consentimiento por paciente + Prueba de Aptitud integrada con enrutado por nivel (D → la tarjeta no se renderiza) · ✅ **privacidad actualizada en `site/privacidad.html` y `site/privacy.html`** · ⬜ ficha de *Data Safety* en Play Console (formulario, no código)
-- 🟩 **Fase 2** — `FaceSignalEngine`, normalización por distancia inter-ocular, línea base en reposo, descomposición de *head pose*, `PointerSource` × 2, homografía de 5 puntos · ⬜ pantalla de diagnóstico interna para la logopeda
-- 🟩 **Fase 3** — `RewardChannel` con histéresis y decaimiento + `SceneHost` como interfaz · ✅ **los 5 GLB generados** (`npm run build:ar-models`: obra propia, CC0, 74 KB los cinco, cero errores en el validador de Khronos) con `npm run check:ar-models` verificando que sus animaciones siguen coincidiendo con el enum `ArModel` · ⬜ carga real del GLB con `ModelNode` en Filament · ⬜ delta de descarga ≤ +25 MB, que solo se puede medir con un AAB real (holgado: assets 3D 74 KB + modelo de señal 3,6 MB)
+- ⬜ **Fase 0** — Banco de 2 teléfonos (150 €) · **censo de ≥ 15 móviles prestados** · las 7 sondas discriminan · umbrales calibrados. **Sigue siendo la puerta y sigue cerrada**: exige comprar hardware y salir al campo. Lo que sí está hecho es quitarle fricción: la Prueba de Aptitud produce una ficha compartible desde la propia app («Compartir ficha del teléfono»), así que caracterizar un móvil prestado son 90 s en una sala de espera
+- 🟩 **Fase 1** — Andamiaje nativo + config plugin + permiso + puente + consentimiento por paciente + Prueba de Aptitud con enrutado por nivel · ✅ **privacidad actualizada (ES/EN)** · ⬜ ficha de *Data Safety* en Play Console (formulario, no código)
+- 🟩 **Fase 2** — `FaceSignalEngine`, normalización por distancia inter-ocular, línea base en reposo, *head pose*, `PointerSource` × 2, homografía de 5 puntos · 🟩 **pantalla de diagnóstico** con las señales en vivo y sus valores numéricos (`MODE_DIAGNOSTICS`, herramienta de la logopeda: sin refuerzo y sin registrar nada)
+- 🟩 **Fase 3** — `RewardChannel` con histéresis y decaimiento · ✅ **los 5 GLB** (obra propia, CC0, 74 KB, cero errores en el validador de Khronos) con `check:ar-models` vigilando los nombres de animación · 🟩 **montaje de Filament** (`ValeriaArSceneView.kt`: carga del GLB, traslación en Z proporcional al progreso y animación por nombre, con la sobreimpresión 2D siempre encima como red) · ⬜ delta de descarga ≤ +25 MB, medible solo con un AAB real (holgado: 74 KB de 3D + 3,6 MB de modelo de señal)
 - 🟩 **Fase 4** — AR-1 Cinemática Orofacial con registro por ensayo
-- 🟩 **Fase 5** — AR-3 Selección por fijación · apoyo improvisado armado por IMU (800 ms estable, anulación si se mueve) · ⬜ tasa de anulación medida con niños, que es el dato que decidirá si reabrir la compra de soportes
-- 🟩 **Fase 6** — AR-2 completo con ensayos trampa, postura armada y aleatorización, entregado **como juego** (`latencyMs: null` con motivo). El camino instrumento está escrito y se activa solo con montaje · ⬜ censo de equipamiento a los centros (una pregunta por correo, no una partida presupuestaria)
-- ⬜ **Fase 7** — Dashboard del paciente con métricas de RA, protocolo clínico en `docs/`, cápsula de Academy, revisión de tamaño de APK · ✅ README a 7 bloques
-- [ ] **Fase 8** (v2) — Arnés de paridad de señal Android ↔ iOS
-- [ ] **Fase 9** (v2) — Host iOS (AVCaptureSession + MediaPipeTasksVision + CoreMotion)
-- [ ] **Fase 10** (v2) — Capa de recompensa RealityKit + pipeline USDZ
+- 🟩 **Fase 5** — AR-3 Selección por fijación · apoyo improvisado armado por IMU · ⬜ tasa de anulación medida con niños (la métrica ya viaja en cada ensayo y en la exportación)
+- 🟩 **Fase 6** — AR-2 completo, entregado **como juego** (`latencyMs: null` con motivo); el camino instrumento está escrito y se activa con montaje · ⬜ censo de equipamiento a los centros (una pregunta por correo)
+- 🟩 **Fase 7** — ✅ **dashboard del paciente** con las series de RA (magnitudes y sello del aparato, sin semáforos) · ✅ **protocolo clínico** en [`protocolo-realidad-aumentada.md`](protocolo-realidad-aumentada.md) · ✅ **Academy**: cápsula `dis-ar-gesto` + micro-guías de VRA en Hipoacusia · ✅ README a 7 bloques · ⬜ revisión de tamaño de APK real
+- ⬜ **Fase 8** (v2) — Arnés de paridad de señal Android ↔ iOS
+- ⬜ **Fase 9** (v2) — Host iOS (AVCaptureSession + MediaPipeTasksVision + CoreMotion)
+- ⬜ **Fase 10** (v2) — Capa de recompensa RealityKit + pipeline USDZ
+
+> **Por qué las fases 8-10 no se adelantan.** Son v2 por decisión del propio
+> plan, pero además hay una razón práctica: escribir un host de iOS a ciegas,
+> sin Xcode donde compilarlo ni dispositivo donde ver si el *frame rate*
+> aguanta, produciría bastante Swift verosímil y ninguna garantía. La palanca
+> que las abarata **ya está echada** y era lo único urgente: `FaceSignals` habla
+> el vocabulario ARKit-compatible (§13.1) y `SceneHost`, `PointerSource` y
+> `StimulusPlayer` son interfaces desde el primer día, así que la lógica de los
+> tres ejercicios es código compartido y lo que se porta es la captura, la
+> señal y el render.
 
 **Verificación transversal en cada PR:** `npm run typecheck` en verde · humo
 manual de los 6 bloques actuales sin cambio · **muro MDR intacto** (cero ajuste

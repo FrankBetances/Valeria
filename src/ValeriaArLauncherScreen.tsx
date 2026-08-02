@@ -21,13 +21,13 @@
 // interpretación, y eso ya no cabe en Clase I.
 // ============================================================================
 import React, { useCallback, useEffect, useState } from 'react';
-import { View, Text, Pressable, ScrollView, ActivityIndicator, StyleSheet } from 'react-native';
+import { View, Text, Pressable, ScrollView, ActivityIndicator, Share, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { V, STORAGE_KEYS } from './valeriaTheme';
 import { sha256 } from './ValeriaProPin';
 import { AR_META } from './valeriaExerciseMeta';
 import {
-  isArAvailable, runAptitudeTest, launchAr, calibrateAr, hasArCalibration,
+  isArAvailable, runAptitudeTest, launchAr, calibrateAr, hasArCalibration, openArDiagnostics,
 } from './valeriaArBridge';
 import type { ArDeviceProfile, ArExerciseId, ArThresholds, ArSessionResult } from './valeriaArBridge';
 import {
@@ -105,6 +105,41 @@ export const ValeriaArLauncherScreen: React.FC<{ navigation?: any }> = ({ naviga
   }, []);
 
   const updateThresholds = (t: ArThresholds) => { setThresholds(t); void saveArThresholds(t); };
+
+  /**
+   * Ficha del teléfono para el censo de la Fase 0.
+   *
+   * La Prueba de Aptitud es portátil y dura 90 segundos, así que no hace falta
+   * POSEER un teléfono para caracterizarlo: basta con correrla en el móvil de
+   * un compañero, del personal del centro o de una familia que ya viene a
+   * consulta. Veinte teléfonos prestados dan muchísima más información sobre el
+   * parque real que cuatro comprados a ojo, y cuestan cero. Este botón es lo
+   * que convierte ese censo en algo que se hace en una sala de espera: se
+   * comparte una línea de texto y se acabó.
+   */
+  const shareDeviceProfile = async () => {
+    if (!profile) return;
+    const p = profile.probes;
+    try {
+      await Share.share({
+        title: 'Valeria+ · ficha de aptitud del teléfono',
+        message:
+          `VALERIA+ · Censo de dispositivos (bloque de Realidad Aumentada)\n\n` +
+          `Fabricante: ${profile.manufacturer}\nModelo: ${profile.model}\n` +
+          `Sistema: ${profile.osVersion}\n` +
+          `NIVEL DE APTITUD: ${profile.level} (${arPolicyFor(profile.level).label})\n\n` +
+          `fps sostenidos (p5): ${p.fpsP5.toFixed(1)}\n` +
+          `Caída térmica: ${p.thermalSlope.toFixed(2)}\n` +
+          `Marcas de tiempo de cámara: ${p.timestampSource}\n` +
+          `Jitter de audio: ${p.audioJitterMs != null ? `${p.audioJitterMs.toFixed(1)} ms` : 'sin medir (sin montaje)'}\n` +
+          `RMS del puntero: ${p.pointerRmsDeg.toFixed(2)}°\n` +
+          `IMU disponible: ${p.imuAvailable ? 'sí' : 'no'}\n` +
+          `Pantalla: ${p.screenWidthMm.toFixed(0)} × ${p.screenHeightMm.toFixed(0)} mm\n` +
+          `Separación alcanzable con 3 dianas: ${p.achievableSeparationDeg.toFixed(1)}°\n\n` +
+          `Medido el ${new Date(profile.measuredAt).toLocaleDateString()}. Sin datos del niño: es la ficha del aparato.`,
+      });
+    } catch (e) { /* el usuario canceló el diálogo de compartir */ }
+  };
 
   const start = async (exerciseId: ArExerciseId) => {
     if (!thresholds || !profile) return;
@@ -370,9 +405,15 @@ export const ValeriaArLauncherScreen: React.FC<{ navigation?: any }> = ({ naviga
         <View style={s.levelCard}>
           <Text style={s.levelTitle}>📱 {profile.manufacturer} {profile.model} · nivel {profile.level} ({policy.label})</Text>
           <Text style={s.levelTxt}>{policy.note}</Text>
-          <Pressable onPress={runAptitude} accessibilityRole="button" accessibilityLabel="Repetir el calentamiento de este teléfono">
-            <Text style={s.levelRedo}>Repetir el calentamiento</Text>
-          </Pressable>
+          <View style={s.levelActions}>
+            <Pressable onPress={runAptitude} accessibilityRole="button" accessibilityLabel="Repetir el calentamiento de este teléfono">
+              <Text style={s.levelRedo}>Repetir el calentamiento</Text>
+            </Pressable>
+            {/* Censo de la Fase 0: caracterizar un móvil prestado sin poseerlo. */}
+            <Pressable onPress={shareDeviceProfile} accessibilityRole="button" accessibilityLabel="Compartir la ficha técnica de este teléfono">
+              <Text style={s.levelRedo}>Compartir ficha del teléfono</Text>
+            </Pressable>
+          </View>
         </View>
 
         <Text style={s.hubLabel}>EJERCICIOS DISPONIBLES</Text>
@@ -399,6 +440,21 @@ export const ValeriaArLauncherScreen: React.FC<{ navigation?: any }> = ({ naviga
             </Pressable>
           );
         })}
+
+        {/* Herramienta de la logopeda, no del niño. Va después de los ejercicios
+            y con otro tono a propósito: no es parte del juego. */}
+        <Pressable onPress={() => { void openArDiagnostics(); }} style={s.proTool}
+          accessibilityRole="button" accessibilityLabel="Ver las señales en vivo, herramienta para la logopeda">
+          <Text style={{ fontSize: 16 }}>📈</Text>
+          <View style={{ flex: 1 }}>
+            <Text style={s.proToolTitle}>Ver las señales en vivo</Text>
+            <Text style={s.proToolSub}>
+              Para la logopeda: distancia, grados de giro, apertura de labios y fotogramas por
+              segundo, en crudo. Sin refuerzo y sin registrar nada.
+            </Text>
+          </View>
+          <Text style={s.exGo}>›</Text>
+        </Pressable>
 
         <View style={s.setupCard}>
           <Text style={s.setupTitle}>🧱 Cómo colocar el teléfono</Text>
@@ -450,7 +506,12 @@ const s = StyleSheet.create({
   levelCard: { backgroundColor: '#eef6ff', borderWidth: 1, borderColor: '#d3e5fb', borderRadius: 14, padding: 13, marginBottom: 16 },
   levelTitle: { fontSize: 12.5, fontWeight: '800', color: '#2c5382' },
   levelTxt: { fontSize: 11.5, fontWeight: '600', color: '#2c5382', lineHeight: 16, marginTop: 5 },
-  levelRedo: { fontSize: 12, fontWeight: '800', color: V.color.primaryDark, marginTop: 9 },
+  levelActions: { flexDirection: 'row', flexWrap: 'wrap', gap: 16, marginTop: 9 },
+  levelRedo: { fontSize: 12, fontWeight: '800', color: V.color.primaryDark },
+
+  proTool: { flexDirection: 'row', alignItems: 'center', gap: 11, backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.border, borderRadius: 14, padding: 13, marginTop: 4, ...V.shadow.card },
+  proToolTitle: { fontSize: 13.5, fontWeight: '800', color: V.color.textPrimary },
+  proToolSub: { fontSize: 11, fontWeight: '600', color: V.color.textMuted, marginTop: 2, lineHeight: 15 },
 
   exCard: { flexDirection: 'row', alignItems: 'center', gap: 12, backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.borderActive, borderRadius: 15, padding: 13, marginBottom: 10, ...V.shadow.card },
   exCardOff: { opacity: 0.5, borderColor: V.color.border },

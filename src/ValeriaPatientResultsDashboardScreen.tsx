@@ -21,6 +21,8 @@ import Svg, { Circle, Line, Polyline, Polygon, Text as SvgText } from 'react-nat
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { V, STORAGE_KEYS } from './valeriaTheme';
 import { loadGame, liveStreak, levelFor, levelName, levelProgress, xpToNext, BADGES, GameState } from './valeriaGamification';
+import { readArHistory } from './valeriaTelemetry';
+import type { ArTrial, ArDeviceProfile, ArThresholds } from './valeriaArBridge';
 // import logoWhite from '../../assets/valeria-logo-white.png';
 
 interface Sesion {
@@ -49,6 +51,42 @@ const substPct = (s: PmSession): number => {
   if (!s.trials?.length) return 0;
   const n = s.trials.filter((t) => (t.foils ?? (t.attempts > 0 ? 1 : 0)) > 0).length;
   return Math.round((n / s.trials.length) * 100);
+};
+
+// ---------------------------------------------------------------------------
+// Realidad Aumentada · qué serie se dibuja para cada ejercicio.
+//
+// Muro MDR (§9.3 del plan): aquí se muestran SERIES Y MAGNITUDES, nunca
+// semáforos ni etiquetas de severidad. Un gráfico de latencias por ensayo es
+// descripción; un badge rojo de «por debajo de lo esperado» es interpretación,
+// y eso ya no cabe en la Clase I. Si alguien propone colorear estas series por
+// rango normativo, es un cambio de clase regulatoria, no una mejora de UI.
+// ---------------------------------------------------------------------------
+const AR_SERIES: Record<string, {
+  label: string; unit: string; icon: string; hint: string;
+  value: (t: any) => number | null;
+}> = {
+  ar1: {
+    label: 'Sostén del gesto', unit: 'ms', icon: '👄',
+    hint: 'Milisegundos que mantuvo el redondeo labial en cada ensayo. La línea de puntos es el objetivo que fijasteis vosotros.',
+    value: (t) => (t.holdMaxMs > 0 ? t.holdMaxMs : null),
+  },
+  ar2: {
+    label: 'Latencia del giro', unit: 'ms', icon: '👂',
+    hint: 'Milisegundos entre el sonido y el giro de cabeza. Solo aparecen los ensayos que se pudieron cronometrar.',
+    value: (t) => t.latencyMs,
+  },
+  ar3: {
+    label: 'Fijación hasta elegir', unit: 'ms', icon: '👀',
+    hint: 'Milisegundos de mirada sostenida hasta confirmar el dibujo.',
+    value: (t) => (t.dwellMs > 0 ? t.dwellMs : null),
+  },
+};
+
+const AR_NAMES: Record<string, string> = {
+  ar1: 'AR-1 · Cinemática orofacial',
+  ar2: 'AR-2 · Localización del sonido',
+  ar3: 'AR-3 · Selección por fijación',
 };
 
 const MESES = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
@@ -102,6 +140,13 @@ export const ValeriaPatientResultsDashboardScreen: React.FC<{ navigation?: any }
   const [pmSesiones, setPmSesiones] = useState<PmSession[]>([]);
   const [pmFonema, setPmFonema] = useState('');
   const [patientLine, setPatientLine] = useState(PATIENT_LINE_DEFECTO);
+  // Realidad Aumentada: los ensayos viven en el log cifrado de telemetría, no
+  // en una clave suelta de AsyncStorage. valeriaTelemetry es su única puerta.
+  const [arTrials, setArTrials] = useState<ArTrial[]>([]);
+  const [arDevice, setArDevice] = useState<ArDeviceProfile | null>(null);
+  const [arThresholds, setArThresholds] = useState<ArThresholds | null>(null);
+  const [arSessions, setArSessions] = useState(0);
+  const [arEjercicio, setArEjercicio] = useState('');
 
   useEffect(() => {
     (async () => {
@@ -127,6 +172,16 @@ export const ValeriaPatientResultsDashboardScreen: React.FC<{ navigation?: any }
           }
         }
       } catch (e) { /* registro de pares no disponible */ }
+      try {
+        const ar = await readArHistory();
+        if (ar.trials.length) {
+          setArTrials(ar.trials);
+          setArDevice(ar.device);
+          setArThresholds(ar.thresholds);
+          setArSessions(ar.sessions);
+          setArEjercicio((prev) => prev || ar.trials[ar.trials.length - 1].exerciseId);
+        }
+      } catch (e) { /* sin ejercicios de realidad aumentada todavía */ }
       try {
         setGame(await loadGame());
       } catch (e) { /* gamificación no disponible */ }
@@ -162,6 +217,51 @@ export const ValeriaPatientResultsDashboardScreen: React.FC<{ navigation?: any }
   }, [sesiones]);
 
   const historial = useMemo(() => sesiones.slice().reverse(), [sesiones]);
+
+  /* Realidad Aumentada: serie de magnitudes del ejercicio seleccionado.
+     Los ensayos ANULADOS (el teléfono se movió) se excluyen de la serie pero
+     se cuentan aparte: su proporción es en sí un dato del método, no un
+     defecto que convenga esconder. */
+  const arEjercicios = useMemo(
+    () => Array.from(new Set(arTrials.map((t) => t.exerciseId))),
+    [arTrials],
+  );
+  const ar = useMemo(() => {
+    const delEjercicio = arTrials.filter((t) => t.exerciseId === arEjercicio);
+    const serie = AR_SERIES[arEjercicio];
+    const anulados = delEjercicio.filter((t) => t.voided).length;
+    if (!serie || !delEjercicio.length) {
+      // Misma forma que la rama con datos: que las dos ramas devuelvan campos
+      // distintos obliga al consumidor a razonar sobre una unión, y eso no
+      // aporta nada aquí.
+      return {
+        pts: [], line: '', valores: [] as number[], anulados,
+        total: delEjercicio.length, objetivo: null as number | null, yObjetivo: null as number | null,
+      };
+    }
+    const valores = delEjercicio
+      .filter((t) => !t.voided)
+      .map((t) => serie.value(t))
+      .filter((v): v is number => v != null)
+      .slice(-12);
+
+    // Escala derivada de los datos, no fija: un sostén de 900 ms y una latencia
+    // de 400 ms no comparten eje, y forzarlo aplanaría una de las dos series.
+    const objetivo = arEjercicio === 'ar1' ? arThresholds?.holdMs ?? null : null;
+    const maxDato = Math.max(...valores, objetivo ?? 0, 1);
+    const top = maxDato * 1.15;
+    const yArb = (v: number) => CHART.padT + (1 - v / top) * plotH;
+    const pts = valores.map((v, i) => ({ x: xFor(i, valores.length), y: yArb(v), val: v }));
+    return {
+      pts,
+      line: pts.map((p) => `${p.x},${p.y}`).join(' '),
+      valores,
+      anulados,
+      total: delEjercicio.length,
+      objetivo,
+      yObjetivo: objetivo != null ? yArb(objetivo) : null,
+    };
+  }, [arTrials, arEjercicio, arThresholds]);
 
   /* Pares mínimos: evolución del % de sustitución del fonema seleccionado */
   const pmFonemas = useMemo(
@@ -214,6 +314,34 @@ export const ValeriaPatientResultsDashboardScreen: React.FC<{ navigation?: any }
         return `• ${f}: ${substPct(ult)}% de sustitución en la última sesión (${ss.length} ${ss.length === 1 ? 'sesión' : 'sesiones'})`;
       })
       .join('\n');
+    // Realidad aumentada: magnitudes y su condición de medida. El sello del
+    // aparato va con ellas porque sin él las cifras no son comparables entre
+    // sesiones hechas en teléfonos distintos.
+    const arLineas = arEjercicios
+      .map((id) => {
+        const serie = AR_SERIES[id];
+        if (!serie) return '';
+        const delEj = arTrials.filter((t) => t.exerciseId === id);
+        const vals = delEj.filter((t) => !t.voided)
+          .map((t) => serie.value(t))
+          .filter((v): v is number => v != null);
+        const anulados = delEj.filter((t) => t.voided).length;
+        const media = vals.length ? Math.round(vals.reduce((a, b) => a + b, 0) / vals.length) : null;
+        const medida = media != null
+          ? `${serie.label.toLowerCase()} media ${media} ${serie.unit} (máx. ${Math.max(...vals)} ${serie.unit}, n=${vals.length})`
+          : `sin medida cronometrada`;
+        return `• ${AR_NAMES[id] ?? id}: ${delEj.length} ensayos · ${medida}` +
+          (anulados ? ` · ${anulados} anulados por movimiento del teléfono` : '');
+      })
+      .filter(Boolean)
+      .join('\n') +
+      (arDevice
+        ? `\n  Medido en ${arDevice.manufacturer} ${arDevice.model} · nivel de aptitud ${arDevice.level} · ${arDevice.probes.fpsP5.toFixed(0)} fps sostenidos` +
+          (arThresholds
+            ? `\n  Umbrales fijados por el adulto: sostén ${arThresholds.holdMs} ms · giro ${arThresholds.turnDeg}° · ventana ${arThresholds.responseWindowMs} ms · fijación ${arThresholds.dwellMs} ms`
+            : '')
+        : '');
+
     try {
       await Share.share({
         title: 'Resultados Valeria+',
@@ -222,6 +350,7 @@ export const ValeriaPatientResultsDashboardScreen: React.FC<{ navigation?: any }
           `Adherencia semanal: ${pct}% (${done}/${META_SEMANAL})\n` +
           `Tendencia: ${trendLabel}\n\nHistorial de sesiones:\n${lineas}\n` +
           (pmLineas ? `\nPares mínimos · sustitución por fonema:\n${pmLineas}\n` : '') +
+          (arLineas ? `\nRealidad aumentada · magnitudes medidas:\n${arLineas}\n` : '') +
           `\nInforme local-first generado en el dispositivo.`,
       });
     } catch (e) {
@@ -424,6 +553,116 @@ export const ValeriaPatientResultsDashboardScreen: React.FC<{ navigation?: any }
           </View>
         )}
 
+        {/* REALIDAD AUMENTADA · magnitudes por ensayo.
+            Se muestran los números medidos y el umbral que fijó el adulto, sin
+            ninguna valoración: la interpretación es de la logopeda. */}
+        {arEjercicios.length > 0 && AR_SERIES[arEjercicio] && (
+          <View style={st.card}>
+            <View style={st.evoHeader}>
+              <View style={[st.cardHeader, { flex: 1, marginRight: 8 }]}>
+                <View style={st.chip}><Text style={st.chipIcon}>{AR_SERIES[arEjercicio].icon}</Text></View>
+                <Text style={[st.cardTitle, { flexShrink: 1 }]} numberOfLines={2}>
+                  {AR_SERIES[arEjercicio].label}
+                </Text>
+              </View>
+              <View style={st.trendPill}>
+                <Text style={st.trendText}>{arSessions} {arSessions === 1 ? 'sesión' : 'sesiones'}</Text>
+              </View>
+            </View>
+
+            {/* Selector de ejercicio, solo si hay más de uno con datos. */}
+            {arEjercicios.length > 1 && (
+              <View style={st.arTabs}>
+                {arEjercicios.map((id) => {
+                  const on = id === arEjercicio;
+                  return (
+                    <Pressable key={id} onPress={() => setArEjercicio(id)}
+                      style={[st.arTab, on && st.arTabOn]}
+                      accessibilityRole="button" accessibilityState={{ selected: on }}
+                      accessibilityLabel={AR_NAMES[id] ?? id}>
+                      <Text style={[st.arTabTxt, on && st.arTabTxtOn]}>{id.toUpperCase()}</Text>
+                    </Pressable>
+                  );
+                })}
+              </View>
+            )}
+
+            <Text style={st.evoSub}>{AR_SERIES[arEjercicio].hint}</Text>
+
+            {ar.pts.length > 0 ? (
+              <Svg width="100%" height={178} viewBox={`0 0 ${CHART.W} ${CHART.H}`}>
+                {/* Línea del objetivo fijado por el adulto: es el único
+                    referente dibujado, y es SUYO, no una norma poblacional. */}
+                {ar.yObjetivo != null && (
+                  <React.Fragment>
+                    <Line
+                      x1={CHART.padL} y1={ar.yObjetivo} x2={CHART.W - CHART.padR} y2={ar.yObjetivo}
+                      stroke={V.color.textMuted} strokeWidth={1.5} strokeDasharray="5 4"
+                    />
+                    <SvgText x={CHART.W - CHART.padR} y={ar.yObjetivo - 6} textAnchor="end"
+                      fontSize={10} fontWeight="700" fill={V.color.textMuted}>
+                      {`objetivo ${ar.objetivo} ms`}
+                    </SvgText>
+                  </React.Fragment>
+                )}
+                <Polyline points={ar.line} fill="none" stroke={V.color.primary} strokeWidth={3}
+                  strokeLinejoin="round" strokeLinecap="round" />
+                {ar.pts.map((p, i) => (
+                  <React.Fragment key={i}>
+                    <Circle cx={p.x} cy={p.y} r={5} fill="#fff" stroke={V.color.primary} strokeWidth={3} />
+                    {(i === 0 || i === ar.pts.length - 1) && (
+                      <SvgText x={p.x} y={p.y - 12} textAnchor="middle" fontSize={11} fontWeight="800"
+                        fill={V.color.textPrimary}>{`${Math.round(p.val)}`}</SvgText>
+                    )}
+                  </React.Fragment>
+                ))}
+                <SvgText x={CHART.padL} y={172} textAnchor="start" fontSize={10.5} fontWeight="700"
+                  fill={V.color.textMuted}>ensayo 1</SvgText>
+                <SvgText x={CHART.W - CHART.padR} y={172} textAnchor="end" fontSize={10.5} fontWeight="700"
+                  fill={V.color.textMuted}>{`ensayo ${ar.pts.length}`}</SvgText>
+              </Svg>
+            ) : (
+              <Text style={st.arEmpty}>
+                {arEjercicio === 'ar2'
+                  ? 'Se jugó sin cronometrar: hacen falta altavoces externos por cable para medir los tiempos. Los aciertos sí quedaron registrados.'
+                  : 'Todavía no hay ensayos con medida en este ejercicio.'}
+              </Text>
+            )}
+
+            <View style={st.arFacts}>
+              <View style={st.arFact}>
+                <Text style={st.arFactVal}>{ar.total}</Text>
+                <Text style={st.arFactKey}>ensayos</Text>
+              </View>
+              <View style={st.arFact}>
+                <Text style={st.arFactVal}>
+                  {ar.valores.length ? Math.round(ar.valores.reduce((a, b) => a + b, 0) / ar.valores.length) : '–'}
+                </Text>
+                <Text style={st.arFactKey}>media ({AR_SERIES[arEjercicio].unit})</Text>
+              </View>
+              <View style={st.arFact}>
+                <Text style={st.arFactVal}>{ar.valores.length ? Math.max(...ar.valores) : '–'}</Text>
+                <Text style={st.arFactKey}>máximo ({AR_SERIES[arEjercicio].unit})</Text>
+              </View>
+              <View style={st.arFact}>
+                <Text style={st.arFactVal}>{ar.anulados}</Text>
+                <Text style={st.arFactKey}>anulados</Text>
+              </View>
+            </View>
+
+            {/* Sello del aparato: los resultados dependen del teléfono, así que
+                sin esta línea las cifras de arriba no son comparables entre
+                sesiones hechas en dispositivos distintos. */}
+            {arDevice && (
+              <Text style={st.arDevice}>
+                📱 Medido en {arDevice.manufacturer} {arDevice.model} · nivel {arDevice.level} ·{' '}
+                {arDevice.probes.fpsP5.toFixed(0)} fps sostenidos
+                {ar.anulados > 0 ? ` · ${ar.anulados} ensayo${ar.anulados === 1 ? '' : 's'} anulado${ar.anulados === 1 ? '' : 's'} por movimiento del teléfono` : ''}
+              </Text>
+            )}
+          </View>
+        )}
+
         {/* HISTORIAL DE SESIONES */}
         <View style={st.summaryRow}>
           <Text style={st.summaryLabel}>HISTORIAL DE SESIONES</Text>
@@ -566,6 +805,19 @@ const st = StyleSheet.create({
   trendPill: { backgroundColor: V.color.primaryLight, paddingHorizontal: 9, paddingVertical: 5, borderRadius: 9 },
   trendText: { fontSize: 12, fontWeight: V.font.extrabold, color: V.color.primary },
   evoSub: { fontSize: 12.5, fontWeight: V.font.semibold, color: V.color.textMuted, marginBottom: 6 },
+
+  // Realidad Aumentada
+  arTabs: { flexDirection: 'row', gap: 6, marginBottom: 8 },
+  arTab: { paddingHorizontal: 11, paddingVertical: 7, borderRadius: 10, backgroundColor: '#f1f5f4' },
+  arTabOn: { backgroundColor: V.color.primary },
+  arTabTxt: { fontSize: 11.5, fontWeight: V.font.extrabold, color: V.color.textMuted, letterSpacing: 0.3 },
+  arTabTxtOn: { color: '#fff' },
+  arEmpty: { fontSize: 12.5, fontWeight: V.font.semibold, color: V.color.textMuted, lineHeight: 18, paddingVertical: 14 },
+  arFacts: { flexDirection: 'row', gap: 8, marginTop: 10 },
+  arFact: { flex: 1, backgroundColor: V.color.pageBg, borderRadius: 12, paddingVertical: 10, alignItems: 'center' },
+  arFactVal: { fontSize: 16, fontWeight: V.font.extrabold, color: V.color.textPrimary },
+  arFactKey: { fontSize: 10, fontWeight: V.font.bold, color: V.color.textMuted, marginTop: 2, textAlign: 'center' },
+  arDevice: { fontSize: 10.5, fontWeight: V.font.semibold, color: V.color.textMuted, marginTop: 10, lineHeight: 15 },
 
   pmChipsRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 7, marginBottom: 10, marginTop: 4 },
   pmChip: { backgroundColor: '#f7fafa', borderWidth: 1, borderColor: '#eef3f3', borderRadius: 10, paddingHorizontal: 11, paddingVertical: 6 },

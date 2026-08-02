@@ -434,6 +434,66 @@ export const ACADEMY_CAPSULES: AcademyCapsule[] = [
     ],
   },
 
+  // Cápsula del bloque de Realidad Aumentada. Vive en el silo de dislalias
+  // porque AR-1 es un ejercicio de dislalia funcional, y porque es donde la
+  // familia va a buscarla: llega preguntando por la /r/, no por "realidad
+  // aumentada". Explica QUÉ hace la cámara y POR QUÉ el micro está apagado,
+  // que son las dos preguntas que aparecen la primera vez.
+  {
+    id: 'dis-ar-gesto',
+    domain: 'dislalias',
+    track: 'tpr',
+    icon: '🎯',
+    title: 'Premiar el gesto antes que el sonido',
+    summary: 'Por qué en los juegos de cámara el micrófono está apagado.',
+    minutes: 2,
+    xp: 25,
+    slides: [
+      {
+        icon: '😣',
+        heading: 'El problema de premiar solo el sonido',
+        body: 'Cuando el premio depende de que la palabra suene bien, un peque con dislalia se oye fallar una y otra vez. Se frustra antes de haber aprendido a COLOCAR la boca, que es el paso anterior. Y un niño frustrado deja de intentarlo, que es lo único que no nos podemos permitir.',
+      },
+      {
+        icon: '📷',
+        heading: 'La cámara mira, no graba',
+        body: 'En estos juegos la cámara frontal funciona como un sensor de movimiento: mira si redondea los labios, si gira la cabeza hacia un sonido o si sostiene la mirada en un dibujo. Ninguna imagen se guarda ni sale del teléfono, y no reconoce la cara de nadie: solo mide gestos.',
+      },
+      {
+        icon: '🚗',
+        heading: 'El coche avanza mientras aguanta',
+        body: 'El coche no salta de golpe al final: acelera POCO A POCO mientras tu peque mantiene la boquita de beso. Ese avance gradual es el que le enseña qué está haciendo bien. Y si pierde el gesto un momento, el progreso baja un poco pero no vuelve a cero: empezar de cero cada vez es la mejor forma de que no lo consiga nunca.',
+      },
+      {
+        icon: '🤫',
+        heading: 'Y el micrófono, apagado',
+        body: 'En dos de los tres juegos el micrófono está apagado a propósito. Primero se consolida el gesto motor; pedirle el sonido viene después. No es que la app "se olvide" de escuchar: es el objetivo terapéutico.',
+      },
+    ],
+    quiz: [
+      {
+        prompt: 'En los juegos de cámara, el premio aparece cuando…',
+        options: [
+          'Pasa un rato jugando',
+          'El peque hace el gesto de la boca que se le pide',
+          'Un adulto pulsa un botón',
+        ],
+        answer: 1,
+        rationale: 'El refuerzo está atado SOLO a la conducta motora. Ni el tiempo ni el adulto pueden dispararlo: por eso el niño aprende exactamente qué le premió.',
+      },
+      {
+        prompt: '¿Qué pasa con las imágenes de la cámara?',
+        options: [
+          'Se guardan para revisarlas luego',
+          'Se envían al logopeda',
+          'Se analizan al instante y se descartan, sin salir del teléfono',
+        ],
+        answer: 2,
+        rationale: 'No hay grabación en ningún momento. Solo se conservan números: grados, milisegundos y proporciones.',
+      },
+    ],
+  },
+
   // ================================================================ DISLEXIA
   {
     id: 'dlx-fonologica',

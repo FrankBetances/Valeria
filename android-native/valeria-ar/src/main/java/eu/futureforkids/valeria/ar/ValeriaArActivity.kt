@@ -23,8 +23,10 @@ import androidx.camera.view.PreviewView
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -33,6 +35,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -88,6 +91,7 @@ class ValeriaArActivity : ComponentActivity() {
     private var patientKey = "anon"
     private var startedAt = 0L
 
+    private val diagnostics = DiagnosticsState()
     private var statusText by mutableStateOf("")
     private var calibrationTarget by mutableStateOf<PointF?>(null)
 
@@ -127,7 +131,15 @@ class ValeriaArActivity : ComponentActivity() {
         imu = DeviceAttitudeCompensator(this)
         startedAt = System.currentTimeMillis()
 
-        setContent { ArHostScreen(previewView, scene, statusText, calibrationTarget) }
+        setContent {
+            ArHostScreen(
+                previewView = previewView,
+                scene = scene,
+                status = statusText,
+                calibrationTarget = calibrationTarget,
+                diagnostics = if (mode == MODE_DIAGNOSTICS) diagnostics else null,
+            )
+        }
 
         // Salir a mitad de sesión no es un error: es un niño que se ha cansado.
         // Se cierra con lo medido hasta ahí, nunca dejando el registro a medias.
@@ -194,6 +206,13 @@ class ValeriaArActivity : ComponentActivity() {
         when (mode) {
             MODE_CALIBRATION -> collectCalibrationSample(signals)
             MODE_APTITUDE -> collectPointerJitter(signals)
+            MODE_DIAGNOSTICS -> diagnostics.update(
+                signals = signals,
+                yawCompensated = imu.compensatedYaw(signals.headPose.yawDeg),
+                distanceMm = distance.currentMm,
+                separationDeg = geometry.separationDeg(distance.currentMm, 3),
+                steady = imu.isSteady(),
+            )
             else -> exercise?.onSignals(signals)
         }
     }
@@ -204,6 +223,9 @@ class ValeriaArActivity : ComponentActivity() {
         when (mode) {
             MODE_APTITUDE -> runAptitudeFlow()
             MODE_CALIBRATION -> runCalibrationFlow()
+            // Diagnóstico: no hay flujo que orquestar. La pantalla se limita a
+            // mostrar lo que llega, y se cierra cuando la logopeda quiere.
+            MODE_DIAGNOSTICS -> { statusText = "Señales en vivo · pulsa atrás para salir" }
             else -> runExerciseFlow()
         }
     }
@@ -418,6 +440,7 @@ class ValeriaArActivity : ComponentActivity() {
         const val MODE_EXERCISE = "exercise"
         const val MODE_APTITUDE = "aptitude"
         const val MODE_CALIBRATION = "calibration"
+        const val MODE_DIAGNOSTICS = "diagnostics"
 
         private const val APTITUDE_MS = 25_000L
 
@@ -445,6 +468,7 @@ private fun ArHostScreen(
     scene: SceneState,
     status: String,
     calibrationTarget: PointF?,
+    diagnostics: DiagnosticsState?,
 ) {
     Box(Modifier.fillMaxSize().background(Color.Black)) {
         // Preview de la cámara frontal como fondo: es AR de espejo, el niño se
@@ -452,6 +476,8 @@ private fun ArHostScreen(
         AndroidView(factory = { previewView }, modifier = Modifier.fillMaxSize())
 
         ValeriaArSceneView(scene, Modifier.fillMaxSize())
+
+        diagnostics?.let { DiagnosticsPanel(it, Modifier.align(Alignment.TopStart)) }
 
         calibrationTarget?.let { t ->
             val density = androidx.compose.ui.platform.LocalDensity.current
@@ -471,6 +497,64 @@ private fun ArHostScreen(
                 Text(status, color = Color.White.copy(alpha = 0.85f), fontSize = 13.sp)
             }
         }
+    }
+}
+
+/**
+ * Panel de señales en vivo (Fase 2). Cifras crudas, monoespaciadas y en una
+ * columna estrecha para que quepan sobre el preview sin taparle la cara al
+ * niño: la logopeda tiene que poder ver a la vez el número y a quién lo produce.
+ */
+@Composable
+private fun DiagnosticsPanel(d: DiagnosticsState, modifier: Modifier = Modifier) {
+    val line = @Composable { label: String, value: String, ok: Boolean? ->
+        Row(Modifier.padding(vertical = 1.dp)) {
+            Text(
+                label.padEnd(11),
+                color = Color.White.copy(alpha = 0.62f),
+                fontSize = 11.sp,
+                fontFamily = FontFamily.Monospace,
+            )
+            Text(
+                value,
+                color = when (ok) {
+                    true -> Color(0xFF7BE3A0)
+                    false -> Color(0xFFFFC46B)   // ámbar: «fuera de rango», no «mal»
+                    null -> Color.White
+                },
+                fontSize = 11.sp,
+                fontFamily = FontFamily.Monospace,
+            )
+        }
+    }
+
+    Column(
+        modifier
+            .padding(12.dp)
+            .background(Color.Black.copy(alpha = 0.55f), RoundedCornerShape(12.dp))
+            .padding(horizontal = 12.dp, vertical = 10.dp),
+    ) {
+        Text(
+            "SEÑALES EN VIVO",
+            color = Color(0xFF00C4BE),
+            fontSize = 10.sp,
+            fontFamily = FontFamily.Monospace,
+            modifier = Modifier.padding(bottom = 6.dp),
+        )
+        line("fps", "%.1f".format(d.fps), d.fps >= 20f)
+        line("distancia", "${d.distanceMm.toInt()} mm", d.distanceMm in 250f..450f)
+        line("separac.3", "%.1f°".format(d.separation3), null)
+        line("yaw", "%.1f°".format(d.yaw), null)
+        line("yaw mundo", "%.1f°".format(d.yawWorld), null)
+        line("pitch", "%.1f°".format(d.pitch), null)
+        line("roll", "%.1f°".format(d.roll), null)
+        line("pucker", "%.2f".format(d.pucker), null)
+        line("funnel", "%.2f".format(d.funnel), null)
+        line("jawOpen", "%.2f".format(d.jawOpen), null)
+        line("landmarks", "${d.landmarks}", d.landmarks > 400)
+        line("cono ±12°", if (d.withinCone) "dentro" else "fuera", d.withinCone)
+        line("móvil", if (d.steady) "quieto" else "en movimiento", d.steady)
+        line("válidos", "${d.framesValid}/${d.framesTotal}", null)
     }
 }
 

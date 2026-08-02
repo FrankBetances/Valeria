@@ -202,6 +202,7 @@ interface ArNativeModule {
   launch: (cfg: ArExerciseConfig) => Promise<ArSessionResult>;
   calibrate: (patientKey: string, pointerSource: ArPointerSource) => Promise<{ rmsPx: number; rmsDeg: number }>;
   hasCalibration: (patientKey: string) => Promise<boolean>;
+  openDiagnostics: () => Promise<unknown>;
 }
 
 let Native: ArNativeModule | null = null;
@@ -267,6 +268,23 @@ export async function hasArCalibration(patientKey: string): Promise<boolean> {
   if (!Native) return false;
   try {
     return await Native.hasCalibration(patientKey);
+  } catch (e) {
+    return false;
+  }
+}
+
+/**
+ * Pantalla de señales en vivo. Es una herramienta de la LOGOPEDA, no del niño:
+ * no hay refuerzo, no se registra nada y no produce ensayos. Sirve para colocar
+ * el teléfono con criterio —distancia, separación angular, cono de pose— y para
+ * ver qué mide cada ejercicio. Quien no puede ver la señal tampoco puede
+ * defender el dato que sale de ella.
+ */
+export async function openArDiagnostics(): Promise<boolean> {
+  if (!Native || typeof Native.openDiagnostics !== 'function') return false;
+  try {
+    await Native.openDiagnostics();
+    return true;
   } catch (e) {
     return false;
   }
