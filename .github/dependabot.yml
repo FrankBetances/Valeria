@@ -41,6 +41,28 @@ updates:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
 
+  # --- ⚠️ Segunda lección: el PR que parece una subida y es una BAJADA ------
+  # Los workflows referencian las actions por su TAG MAYOR (`@v4`, `@v5`), que
+  # es móvil y siempre apunta a la última de esa línea. Dependabot no lo sabe:
+  # lee la cadena "4", ve que existe una release "4.8.0" y abre un PR
+  # `@v4 → @v4.8.0` etiquetado como semver-minor.
+  #
+  # Eso NO es una actualización. Hace dos cosas, las dos malas:
+  #   1. CONGELA esa action en una versión concreta mientras las otras siete
+  #      siguen flotando — una incoherencia difícil de ver al revisar el diff.
+  #   2. Puede ser un DOWNGRADE. Ocurrió el 2026-08-01 con actions/setup-java:
+  #      el PR proponía fijar 4.8.0 cuando `@v4` ya resolvía a 4.9.0. Mismo
+  #      diff de una línea, versión anterior en el runner.
+  #
+  # Regla: un PR de dependabot que cambie `@vN` por `@vN.x.y` se CIERRA sin
+  # fusionar. Los que sí valen son los que suben el tag mayor (`@v4 → @v5`),
+  # y esos ya están en `ignore` para que se decidan a mano.
+  #
+  # Comprobación de treinta segundos antes de decidir:
+  #   git ls-remote --tags --refs https://github.com/actions/<action> | grep -E 'v4$|v4\.'
+  # Si el SHA de `@v4` coincide con el de una versión MAYOR que la propuesta,
+  # el PR es una bajada.
+
   # NOTA: el ecosistema `npm` se omite a propósito (ver cabecera). No añadir
   # aquí `package-ecosystem: npm` para "version updates": las dependencias
   # Expo se alinean con `expo install --fix`, no con bumps sueltos.
