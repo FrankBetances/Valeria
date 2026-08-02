@@ -10,8 +10,7 @@ import android.os.Bundle
 import android.os.SystemClock
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
-import androidx.activity.addCallback
-import androidx.activity.compose.setContent
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
@@ -27,7 +26,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Text
+import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -35,12 +34,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.lifecycleScope
 import eu.futureforkids.valeria.ar.aptitude.AptitudeTest
 import eu.futureforkids.valeria.ar.aptitude.FpsMeter
 import eu.futureforkids.valeria.ar.audio.StimulusPlayer
@@ -58,6 +58,10 @@ import eu.futureforkids.valeria.ar.signal.FaceSignalEngine
 import eu.futureforkids.valeria.ar.signal.FaceSignals
 import eu.futureforkids.valeria.ar.signal.ScreenGeometry
 import eu.futureforkids.valeria.ar.signal.pointerFor
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.json.JSONObject
@@ -84,6 +88,10 @@ class ValeriaArActivity : ComponentActivity() {
     private var engine: FaceSignalEngine? = null
     private var exercise: ArExercise? = null
     private val analysisExecutor = Executors.newSingleThreadExecutor()
+    // Scope propio en vez de lifecycleScope: evita depender de
+    // androidx.lifecycle:lifecycle-runtime-ktx y deja explícito dónde se
+    // cancelan las corrutinas (onDestroy), que con una cámara abierta importa.
+    private val scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
     private val fpsMeter = FpsMeter()
 
     private var mode = MODE_EXERCISE
@@ -131,21 +139,31 @@ class ValeriaArActivity : ComponentActivity() {
         imu = DeviceAttitudeCompensator(this)
         startedAt = System.currentTimeMillis()
 
-        setContent {
-            ArHostScreen(
-                previewView = previewView,
-                scene = scene,
-                status = statusText,
-                calibrationTarget = calibrationTarget,
-                diagnostics = if (mode == MODE_DIAGNOSTICS) diagnostics else null,
-            )
-        }
+        // ComposeView en vez de setContent: `setContent` vive en
+        // androidx.activity:activity-compose, una dependencia más que declarar
+        // y versionar. ComponentActivity ya instala los ViewTree owners que
+        // ComposeView necesita, así que esto es equivalente y trae menos grafo.
+        setContentView(
+            ComposeView(this).apply {
+                setContent {
+                    ArHostScreen(
+                        previewView = previewView,
+                        scene = scene,
+                        status = statusText,
+                        calibrationTarget = calibrationTarget,
+                        diagnostics = if (mode == MODE_DIAGNOSTICS) diagnostics else null,
+                    )
+                }
+            }
+        )
 
         // Salir a mitad de sesión no es un error: es un niño que se ha cansado.
         // Se cierra con lo medido hasta ahí, nunca dejando el registro a medias.
-        onBackPressedDispatcher.addCallback(this) {
-            finishWith(outcome = if (exercise?.finished == true) "completed" else "aborted")
-        }
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                finishWith(outcome = if (exercise?.finished == true) "completed" else "aborted")
+            }
+        })
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
             startPipeline()
@@ -274,7 +292,7 @@ class ValeriaArActivity : ComponentActivity() {
         scene.setModel(exercise!!.model)
         statusText = exercise!!.setupHint
 
-        lifecycleScope.launch {
+        scope.launch {
             while (exercise?.finished == false) {
                 exercise?.onTick(SystemClock.elapsedRealtime())
                 delay(33)
@@ -292,7 +310,7 @@ class ValeriaArActivity : ComponentActivity() {
     private fun runAptitudeFlow() {
         statusText = "Mira a la osita y sigue sus saltos…"
         fpsMeter.start(APTITUDE_MS)
-        lifecycleScope.launch {
+        scope.launch {
             delay(APTITUDE_MS)
 
             val distanceMm = distance.currentMm
@@ -352,7 +370,7 @@ class ValeriaArActivity : ComponentActivity() {
             PointF(w * 0.5f, h * 0.5f),
         )
 
-        lifecycleScope.launch {
+        scope.launch {
             statusText = "Sigue a la osita con la mirada"
             for (p in points) {
                 calibrationTarget = p
@@ -424,6 +442,7 @@ class ValeriaArActivity : ComponentActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+        scope.cancel()
         exercise?.close()
         engine?.close()
         imu.stop()
@@ -483,9 +502,9 @@ private fun ArHostScreen(
             val density = androidx.compose.ui.platform.LocalDensity.current
             val xDp = with(density) { t.x.toDp() }
             val yDp = with(density) { t.y.toDp() }
-            Text(
+            BasicText(
                 "🐻",
-                fontSize = 44.sp,
+                style = TextStyle(fontSize = 44.sp),
                 modifier = Modifier.padding(start = xDp - 22.dp, top = yDp - 22.dp),
             )
         }
@@ -494,7 +513,10 @@ private fun ArHostScreen(
             Column(
                 Modifier.align(Alignment.BottomCenter).padding(18.dp),
             ) {
-                Text(status, color = Color.White.copy(alpha = 0.85f), fontSize = 13.sp)
+                BasicText(
+                    status,
+                    style = TextStyle(color = Color.White.copy(alpha = 0.85f), fontSize = 13.sp),
+                )
             }
         }
     }
@@ -509,21 +531,25 @@ private fun ArHostScreen(
 private fun DiagnosticsPanel(d: DiagnosticsState, modifier: Modifier = Modifier) {
     val line = @Composable { label: String, value: String, ok: Boolean? ->
         Row(Modifier.padding(vertical = 1.dp)) {
-            Text(
+            BasicText(
                 label.padEnd(11),
-                color = Color.White.copy(alpha = 0.62f),
-                fontSize = 11.sp,
-                fontFamily = FontFamily.Monospace,
+                style = TextStyle(
+                    color = Color.White.copy(alpha = 0.62f),
+                    fontSize = 11.sp,
+                    fontFamily = FontFamily.Monospace,
+                ),
             )
-            Text(
+            BasicText(
                 value,
-                color = when (ok) {
-                    true -> Color(0xFF7BE3A0)
-                    false -> Color(0xFFFFC46B)   // ámbar: «fuera de rango», no «mal»
-                    null -> Color.White
-                },
-                fontSize = 11.sp,
-                fontFamily = FontFamily.Monospace,
+                style = TextStyle(
+                    color = when (ok) {
+                        true -> Color(0xFF7BE3A0)
+                        false -> Color(0xFFFFC46B)   // ámbar: «fuera de rango», no «mal»
+                        null -> Color.White
+                    },
+                    fontSize = 11.sp,
+                    fontFamily = FontFamily.Monospace,
+                ),
             )
         }
     }
@@ -534,11 +560,13 @@ private fun DiagnosticsPanel(d: DiagnosticsState, modifier: Modifier = Modifier)
             .background(Color.Black.copy(alpha = 0.55f), RoundedCornerShape(12.dp))
             .padding(horizontal = 12.dp, vertical = 10.dp),
     ) {
-        Text(
+        BasicText(
             "SEÑALES EN VIVO",
-            color = Color(0xFF00C4BE),
-            fontSize = 10.sp,
-            fontFamily = FontFamily.Monospace,
+            style = TextStyle(
+                color = Color(0xFF00C4BE),
+                fontSize = 10.sp,
+                fontFamily = FontFamily.Monospace,
+            ),
             modifier = Modifier.padding(bottom = 6.dp),
         )
         line("fps", "%.1f".format(d.fps), d.fps >= 20f)

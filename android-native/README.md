@@ -9,7 +9,7 @@ Es el espejo de `ios-native/`, que hace lo mismo para Xcode.
 
 | Módulo | Qué es | Cómo entra en el build |
 | --- | --- | --- |
-| `valeria-ar/` | Host nativo del bloque de **Realidad Aumentada**: CameraX → MediaPipe Face Landmarker → capa de recompensa → escena 3D (SceneView/Filament) | [`plugins/withValeriaAR.js`](../plugins/withValeriaAR.js) |
+| `valeria-ar/` | Host nativo del bloque de **Realidad Aumentada**: CameraX → MediaPipe Face Landmarker → capa de recompensa → escena 3D (Filament) | [`plugins/withValeriaAR.js`](../plugins/withValeriaAR.js) |
 
 ## Cómo lo monta el plugin
 
@@ -59,8 +59,8 @@ ejercicios siguen siendo jugables y medibles. Si faltara el `.task`, el
 
 ## Estado
 
-El código está escrito contra las APIs estables de `tasks-vision` y
-`sceneview` 4.25.0, pero **no se ha compilado todavía contra un SDK de Android
+El código está escrito contra las APIs estables de `tasks-vision` 0.10.29 y
+Filament 1.72.1, pero **no se ha compilado todavía contra un SDK de Android
 real**: eso es lo primero de la Fase 1 del
 [plan](../docs/plan-integracion-rehabilitacion-ar.md#fase-1--andamiaje-sin-ejercicios).
 Los índices de landmark canónicos (33/263 cantos externos, 61/291 comisuras,

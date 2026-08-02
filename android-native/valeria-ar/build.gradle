@@ -1,36 +1,72 @@
 // ============================================================================
 // Valeria+ · Módulo nativo del bloque de Realidad Aumentada
-// Librería Android independiente que el config plugin withValeriaAR copia a
-// android/valeria-ar e incluye en el build de la app.
+// Librería Android que el config plugin withValeriaAR copia a android/valeria-ar
+// e incluye en el build de la app.
 //
-// Decisión de dependencias (§3.3 del plan): se usa `sceneview` (solo 3D), NO
-// `arsceneview`. Aquí no hay world tracking —la escena se compone sobre el
-// preview de la cámara frontal, es AR de espejo—, así que ARCore sobra: eso
-// elimina de golpe la lista de dispositivos certificados, el permiso de
-// ubicación y decenas de MB de APK.
+// ── Decisiones de dependencia, y por qué ───────────────────────────────────
+//
+// **Filament directo, NO SceneView.** El plan proponía `io.github.sceneview`,
+// pero todas sus versiones (4.16 en adelante) se compilan con Kotlin ≥ 2.3 y
+// Expo SDK 54 fija **Kotlin 2.1.20**: un compilador 2.1 no puede leer los
+// metadatos de una librería 2.3/2.4 y el build falla al resolver. Además
+// SceneView importa `compose-bom:2026.06.01`, que habría subido Compose en
+// TODA la app —incluidos los seis bloques en producción— como efecto colateral
+// de un módulo nuevo. Filament es lo que SceneView envuelve, está en Maven
+// Central, y `filament-utils` se compila con Kotlin 2.0.21 (más antiguo que el
+// del proyecto, luego legible). Cuesta unas líneas más de código y elimina las
+// dos incompatibilidades de raíz.
+//
+// **Sin ARCore** (§3.3 del plan): aquí no hay world tracking, la escena se
+// compone sobre el preview de la cámara frontal. Eso ahorra la lista de
+// dispositivos certificados, el permiso de ubicación y decenas de MB.
+//
+// **Versiones**: todas contrastadas, ninguna a ojo.
+//   · CameraX 1.4.2 y MediaPipe 0.10.29 → las del ejemplo oficial de
+//     face_landmarker de Google, que es exactamente esta combinación.
+//   · Compose 1.9.0 y el plugin de Compose por `kotlinVersion` → el patrón que
+//     ya compila en este mismo proyecto (expo-dev-menu, expo-dev-launcher).
+//   · appcompat 1.7.0 → la del catálogo de versiones de React Native 0.81.
 // ============================================================================
+
+// El plugin del compilador de Compose no viene en el classpath del proyecto
+// raíz de Expo. Se añade aquí, con el mismo patrón que usan expo-dev-menu y
+// expo-dev-launcher en este árbol: buildscript propio del módulo, sin tocar el
+// build.gradle de la app.
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.jetbrains.kotlin.plugin.compose:org.jetbrains.kotlin.plugin.compose.gradle.plugin:${kotlinVersion}")
+    }
+}
+
 apply plugin: 'com.android.library'
 apply plugin: 'org.jetbrains.kotlin.android'
 apply plugin: 'org.jetbrains.kotlin.plugin.compose'
 
 // Versión de React Native leída del árbol real de node_modules, no fijada a
 // mano: cuando Expo suba de SDK y arrastre otra RN, este módulo la sigue sin
-// que nadie tenga que acordarse de tocar este fichero. Y no se aplica el plugin
-// Gradle de React Native, que es de la APP: un módulo de librería no debe
-// depender de que ese plugin esté aplicado para resolver una dependencia.
+// que nadie tenga que acordarse de tocar este fichero.
 def rnPackageJson = file("${rootDir}/../node_modules/react-native/package.json")
 def reactNativeVersion = rnPackageJson.exists()
         ? new groovy.json.JsonSlurper().parseText(rnPackageJson.text).version
         : '+'
 
+// Las SDK las manda el proyecto raíz de Expo: fijarlas aquí a mano las dejaría
+// desalineadas el día que Expo suba de versión.
+def expoCompileSdk = rootProject.ext.has('compileSdkVersion') ? rootProject.ext.compileSdkVersion : 36
+def expoMinSdk = rootProject.ext.has('minSdkVersion') ? rootProject.ext.minSdkVersion : 24
+def expoTargetSdk = rootProject.ext.has('targetSdkVersion') ? rootProject.ext.targetSdkVersion : 36
+
 android {
     namespace 'eu.futureforkids.valeria.ar'
-    compileSdk 36
+    compileSdk expoCompileSdk
 
     defaultConfig {
-        // minSdk 24 es el suelo de SceneView 4.25.0 y de tasks-vision.
-        minSdk 24
-        targetSdk 36
+        // 24 es el suelo real de tasks-vision y de Filament.
+        minSdk Math.max(expoMinSdk as int, 24)
+        targetSdk expoTargetSdk
         consumerProguardFiles 'consumer-rules.pro'
     }
 
@@ -47,8 +83,8 @@ android {
         jvmTarget = '17'
     }
 
-    // El .task de MediaPipe pesa ~3,5 MB y ya viene comprimido: volver a
-    // comprimirlo en el APK solo añade tiempo de arranque al descomprimirlo.
+    // El .task de MediaPipe pesa 3,6 MB y ya viene comprimido; los .glb también.
+    // Volver a comprimirlos en el APK solo añade tiempo de arranque al abrirlos.
     androidResources {
         noCompress 'task', 'glb'
     }
@@ -56,7 +92,6 @@ android {
 
 // Guardia de compilación: sin el modelo de Face Landmarker el módulo compila
 // pero el ejercicio no arranca en el teléfono, y eso se descubre tarde y mal.
-// Mejor fallar aquí, con la instrucción delante.
 tasks.configureEach { task ->
     if (task.name == 'preBuild') {
         task.doFirst {
@@ -79,28 +114,29 @@ dependencies {
     // el dex, que es un fallo que aparece al final del build y no dice por qué.
     compileOnly "com.facebook.react:react-android:$reactNativeVersion"
 
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib'
+    // ComponentActivity, ciclo de vida y ContextCompat. Misma versión que trae
+    // React Native 0.81, para no introducir una segunda en el grafo.
+    implementation 'androidx.appcompat:appcompat:1.7.0'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.9.0'
 
     // --- Cámara ---
-    def camerax = '1.4.1'
-    implementation "androidx.camera:camera-core:$camerax"
-    implementation "androidx.camera:camera-camera2:$camerax"
-    implementation "androidx.camera:camera-lifecycle:$camerax"
-    implementation "androidx.camera:camera-view:$camerax"
+    def cameraxVersion = '1.4.2'
+    implementation "androidx.camera:camera-core:$cameraxVersion"
+    implementation "androidx.camera:camera-camera2:$cameraxVersion"
+    implementation "androidx.camera:camera-lifecycle:$cameraxVersion"
+    implementation "androidx.camera:camera-view:$cameraxVersion"
 
-    // --- Señal facial: 478 landmarks + 52 blendshapes ARKit + matriz 4x4 ---
-    implementation 'com.google.mediapipe:tasks-vision:0.10.26'
+    // --- Señal facial: 478 landmarks + 52 blendshapes ARKit + matriz 4×4 ---
+    implementation 'com.google.mediapipe:tasks-vision:0.10.29'
 
-    // --- Escena 3D (Filament). Solo 3D: sin ARCore, ver cabecera. ---
-    implementation 'io.github.sceneview:sceneview:4.25.0'
+    // --- Escena 3D: Filament directo (ver cabecera) ---
+    def filamentVersion = '1.72.1'
+    implementation "com.google.android.filament:filament-android:$filamentVersion"
+    implementation "com.google.android.filament:gltfio-android:$filamentVersion"
+    implementation "com.google.android.filament:filament-utils-android:$filamentVersion"
 
-    // --- Compose ---
-    def composeBom = platform('androidx.compose:compose-bom:2025.06.00')
-    implementation composeBom
-    implementation 'androidx.compose.ui:ui'
-    implementation 'androidx.compose.foundation:foundation'
-    implementation 'androidx.compose.material3:material3'
-    implementation 'androidx.activity:activity-compose:1.10.1'
-    implementation 'androidx.lifecycle:lifecycle-runtime-compose:2.9.0'
+    // --- Compose: las versiones que ya compilan en este proyecto ---
+    def composeVersion = '1.9.0'
+    implementation "androidx.compose.ui:ui:$composeVersion"
+    implementation "androidx.compose.foundation:foundation-android:$composeVersion"
 }

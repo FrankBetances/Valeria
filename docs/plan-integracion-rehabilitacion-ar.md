@@ -112,7 +112,7 @@ Esto es lo que condiciona el plan entero.
 
 | Aspecto | Estado (comprobado 2026-08-01) |
 | --- | --- |
-| Artefactos Android | `io.github.sceneview:sceneview:4.25.0` (solo 3D) · `io.github.sceneview:arsceneview:4.25.0` (3D + ARCore) |
+| Artefactos Android | `io.github.sceneview:sceneview:4.25.0` (solo 3D) · `io.github.sceneview:arsceneview:4.25.0` (3D + ARCore) — **descartados, ver corrección abajo** |
 | Requisitos Android | `minSdk 24`, `targetSdk 36`, Kotlin 2.4.x, Jetpack Compose |
 | Madurez Android | **Estable.** Carga glTF/GLB, `ModelNode` con `autoAnimate`, `animationName`, `animationSpeed`; hit-test declarativo |
 | Binding React Native | `@sceneview-sdk/react-native` v4.25.0 (npm, publicado 2026-07-21) — **alpha, Fabric** |
@@ -123,6 +123,35 @@ Esto es lo que condiciona el plan entero.
 > raycasting. AR-3 es *literalmente* un ejercicio de raycasting con *dwell
 > time*. Construir sobre el binding RN alpha significa construir sobre el hueco
 > exacto que necesitamos.
+
+> ### ⛔ Corrección (2026-08-02): SceneView queda descartado, también en Kotlin
+>
+> La tabla de arriba mira el binding de React Native, pero el problema real
+> estaba en la fila «Requisitos Android: **Kotlin 2.4.x**». Lo descubrió el
+> primer build de CI:
+>
+> - **Expo SDK 54 fija Kotlin 2.1.20.** Todas las versiones publicadas de
+>   `io.github.sceneview` (de la 4.16 a la 4.25) se compilan con Kotlin ≥ 2.3, y
+>   un compilador 2.1 **no puede leer los metadatos** de una librería 2.3/2.4.
+>   No es un aviso: el build no resuelve.
+> - **SceneView importa `androidx.compose:compose-bom:2026.06.01`**, que habría
+>   subido Compose en TODA la app —los seis bloques en producción incluidos—
+>   como efecto colateral de añadir un módulo. Exactamente el tipo de peaje que
+>   §3.2 rechazó para la Nueva Arquitectura.
+>
+> Subir el proyecto a Kotlin 2.4 para acomodar una librería de conveniencia
+> tiene el mismo perfil de riesgo que migrar a la Nueva Arquitectura, y se
+> rechaza por el mismo motivo: **radio de explosión cero**.
+>
+> **Decisión: Filament directo** (`com.google.android.filament:filament-android`
+> + `gltfio-android` + `filament-utils-android` 1.72.1), que es la capa que
+> SceneView envuelve. Está en Maven Central, y `filament-utils` se compila con
+> Kotlin 2.0.21 —más antiguo que el del proyecto, luego legible—. Cuesta unas
+> decenas de líneas más en `ValeriaArSceneView.kt` y elimina las dos
+> incompatibilidades de raíz. El resto del módulo no se entera: la escena
+> siempre estuvo detrás de la interfaz `SceneHost`, y esa decisión de §13.4
+> —tomada para abaratar iOS— es la que ha hecho que cambiar de motor 3D sea un
+> fichero y no un rediseño.
 
 ### 2.2 MediaPipe — cámara-diagnóstico
 
@@ -1327,7 +1356,7 @@ cabeza de nadie no es un módulo que funcione.
 - ⬜ **Fase 0** — Banco de 2 teléfonos (150 €) · **censo de ≥ 15 móviles prestados** · las 7 sondas discriminan · umbrales calibrados. **Sigue siendo la puerta y sigue cerrada**: exige comprar hardware y salir al campo. Lo que sí está hecho es quitarle fricción: la Prueba de Aptitud produce una ficha compartible desde la propia app («Compartir ficha del teléfono»), así que caracterizar un móvil prestado son 90 s en una sala de espera
 - 🟩 **Fase 1** — Andamiaje nativo + config plugin + permiso + puente + consentimiento por paciente + Prueba de Aptitud con enrutado por nivel · ✅ **privacidad actualizada (ES/EN)** · ⬜ ficha de *Data Safety* en Play Console (formulario, no código)
 - 🟩 **Fase 2** — `FaceSignalEngine`, normalización por distancia inter-ocular, línea base en reposo, *head pose*, `PointerSource` × 2, homografía de 5 puntos · 🟩 **pantalla de diagnóstico** con las señales en vivo y sus valores numéricos (`MODE_DIAGNOSTICS`, herramienta de la logopeda: sin refuerzo y sin registrar nada)
-- 🟩 **Fase 3** — `RewardChannel` con histéresis y decaimiento · ✅ **los 5 GLB** (obra propia, CC0, 74 KB, cero errores en el validador de Khronos) con `check:ar-models` vigilando los nombres de animación · 🟩 **montaje de Filament** (`ValeriaArSceneView.kt`: carga del GLB, traslación en Z proporcional al progreso y animación por nombre, con la sobreimpresión 2D siempre encima como red) · ⬜ delta de descarga ≤ +25 MB, medible solo con un AAB real (holgado: 74 KB de 3D + 3,6 MB de modelo de señal)
+- 🟩 **Fase 3** — `RewardChannel` con histéresis y decaimiento · **motor 3D cambiado de SceneView a Filament directo** por incompatibilidad de Kotlin (ver corrección en §2.1) · ✅ **los 5 GLB** (obra propia, CC0, 74 KB, cero errores en el validador de Khronos) con `check:ar-models` vigilando los nombres de animación · 🟩 **montaje de Filament** (`ValeriaArSceneView.kt`: `ModelViewer` sobre `SurfaceView` translúcido, carga del GLB, luz direccional por código —sin asset IBL—, traslación en Z proporcional al progreso y animación buscada por nombre, con la sobreimpresión 2D siempre encima como red) · ⬜ delta de descarga ≤ +25 MB, medible solo con un AAB real (holgado: 74 KB de 3D + 3,6 MB de modelo de señal)
 - 🟩 **Fase 4** — AR-1 Cinemática Orofacial con registro por ensayo
 - 🟩 **Fase 5** — AR-3 Selección por fijación · apoyo improvisado armado por IMU · ⬜ tasa de anulación medida con niños (la métrica ya viaja en cada ensayo y en la exportación)
 - 🟩 **Fase 6** — AR-2 completo, entregado **como juego** (`latencyMs: null` con motivo); el camino instrumento está escrito y se activa con montaje · ⬜ censo de equipamiento a los centros (una pregunta por correo)
