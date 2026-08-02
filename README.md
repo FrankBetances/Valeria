@@ -354,6 +354,9 @@ npm run typecheck # tsc --noEmit — comprobación de tipos
 | `npm run ios` | `expo run:ios` — compila e instala en el simulador **iOS** (solo macOS). |
 | `npm run web` | Abre la versión **web** en el navegador. |
 | `npm run typecheck` | Verifica los tipos de TypeScript. |
+| `npm run build:ar-models` | Regenera los cinco modelos 3D del bloque de Realidad Aumentada (`assets/models/*.glb`). Deterministas: si nada cambia, no producen diff. |
+| `npm run fetch:ar-model` | Descarga el modelo de señal facial de MediaPipe desde su revisión fijada y verifica su SHA‑256. Idempotente. |
+| `npm run check:ar-models` | Comprueba que los `.glb` y el `.task` están, caben en su presupuesto y **que sus nombres de animación siguen coincidiendo con el enum `ArModel` de Kotlin**. |
 
 > `npm run android` y `npm run ios` **compilan**; no son atajos para abrir Expo
 > Go. Para el vistazo rápido sin cadena nativa instalada, usa `npm run start:go`.
@@ -565,7 +568,7 @@ compila la app en cada push/fusión a `main` (y en ramas `claude/**`). Con los
 secrets de firma configurados genera el APK y el **AAB firmados**; sin secrets
 solo compila el APK. El `versionCode` se deriva del número de run.
 
-Antes de compilar corren **seis chequeos de contenido** que fallan rápido. No
+Antes de compilar corren **siete chequeos de contenido** que fallan rápido. No
 son tests unitarios: cada uno protege un acuerdo clínico concreto que el
 typecheck y el diff no ven.
 
@@ -577,6 +580,7 @@ typecheck y el diff no ven.
 | `check-lexical-difficulty.js` | Que un ítem avanzado se cuele entre los iniciales: **el orden de escritura ES el orden de práctica** (ES‑08). |
 | `check-reminder-slots.js` | Que apagar una franja de recordatorio deje de reprogramarla pero **no cancele sus avisos ya en cola** (GEN‑01). |
 | `check-sign-figures.js` | Que una cápsula de LSE pida una figura **sin dibujo registrado** o que el abecedario dactilológico quede incompleto: `SignFigure` devuelve `null` a propósito, así que el fallo es invisible salvo para este gate (LSE‑01). |
+| `check-ar-models.js` | Que un modelo 3D del bloque de RA se reexporte con **otro nombre de animación** del que invoca el código. Ese desajuste compila, carga el modelo y deja al niño **sin refuerzo**: no hay error en ninguna parte, solo un ejercicio que deja de ser terapéutico. |
 
 Todos se pueden ejecutar en local: `node scripts/<nombre>.js`.
 
@@ -619,8 +623,9 @@ Guía completa de configuración y despliegue: [`docs/firebase-setup.md`](docs/f
 ## 🛡️ Privacidad y ficha de Play Store
 
 Google Play exige una **política de privacidad accesible en una URL pública**
-para toda app que solicite permisos sensibles (Valeria+ pide micrófono y
-reconocimiento de voz) o que esté dirigida a menores. Esa política se sirve
+para toda app que solicite permisos sensibles (Valeria+ pide micrófono,
+reconocimiento de voz y —desde el bloque de Realidad Aumentada— **cámara**) o
+que esté dirigida a menores. Esa política se sirve
 desde **GitHub Pages**, publicada por el workflow
 [`.github/workflows/pages.yml`](.github/workflows/pages.yml) a partir de la
 carpeta [`site/`](site/) — y **solo** de esa carpeta: el código, las docs
@@ -655,6 +660,67 @@ toque `site/` republica el sitio; también puede lanzarse desde *Actions*.
 ## 🕑 Historial de versiones
 
 <details open>
+<summary><strong>V10</strong> — séptimo bloque: Realidad Aumentada</summary>
+
+La cámara frontal deja de ser un grabador y pasa a ser un **sensor de conducta
+motora**. Es el primer bloque con host **nativo Android** (Kotlin), y el primero
+en el que el refuerzo **no depende de que el niño acierte al hablar**.
+
+**El principio, que es clínico antes que técnico.** En los seis bloques
+anteriores la estrella llega cuando el reconocedor valida la palabra. Eso tiene
+un coste conocido en dislalia funcional: el niño se oye fallar y se frustra
+**antes** de haber consolidado el gesto motor. Aquí el refuerzo visual 3D se
+condiciona **solo** a la conducta motora objetivo —postura labial, giro
+cefálico, fijación sostenida— y en dos de los tres ejercicios **el micrófono
+está apagado a propósito**.
+
+- **AR‑1 · Cinemática Orofacial**: el coche acelera de forma *proporcional*
+  mientras sostiene el redondeo labial, con histéresis y **decaimiento en vez de
+  reinicio** (volver a cero en un niño de cuatro años garantiza que no lo
+  consiga nunca). Control de simetría para no premiar una mueca compensatoria.
+- **AR‑2 · Localización del Sonido Instrumentada**: la versión con cronómetro de
+  **RA‑5**, con ensayos trampa (~20 %), postura armada y latencia medida entre
+  `AudioTrack.getTimestamp()` y la marca de captura del sensor. Sin montaje de
+  altavoces se juega igual y registra `latencyMs: null` **con el motivo**: un
+  dato ausente y etiquetado es honesto; uno presente y sesgado, no.
+- **AR‑3 · Selección Semántica por Fijación**: comprensión léxica sin que la
+  motricidad fina contamine el resultado. Dianas colocadas **en grados**
+  resueltos en caliente, no en píxeles.
+- **Prueba de Aptitud del Dispositivo**: en un despliegue BYOD el teléfono es
+  desconocido por diseño, así que la app **lo mide** (90 s presentados como
+  juego de calentamiento) y decide qué ofrece. En nivel D el bloque no aparece;
+  los otros seis funcionan igual.
+- **Muro MDR**: el módulo registra magnitudes físicas —milisegundos, grados,
+  ratios— y **ningún veredicto**. Sin puntuación automática, sin comparación
+  normativa y sin dificultad adaptativa: es el argumento que sostiene la
+  clasificación **SaMD Clase I**.
+- **Privacidad**: ningún fotograma se graba, se almacena ni sale del teléfono, y
+  no hay identificación biométrica. Las tres afirmaciones son restricciones de
+  arquitectura, no promesas, y están en `site/privacidad.html` y `privacy.html`
+  con su base jurídica.
+- **Assets propios**: los cinco modelos 3D los genera un script (obra propia,
+  **CC0**, 74 KB los cinco, cero errores en el validador de Khronos) y el modelo
+  de señal facial se fija por **SHA‑256**.
+- **Motor 3D: Filament directo, no SceneView.** SceneView se compila con
+  Kotlin ≥ 2.3 y Expo SDK 54 fija 2.1.20; además arrastraba un `compose-bom` que
+  habría subido Compose en toda la app. Filament es la capa que hay debajo y no
+  tiene ninguno de los dos problemas.
+- **Radio de explosión cero**: `newArchEnabled` sigue en `false`, los seis
+  bloques no se tocan y, si el host nativo no está, la tarjeta **no se
+  renderiza**.
+
+Documentación: [`docs/protocolo-realidad-aumentada.md`](docs/protocolo-realidad-aumentada.md)
+· plan técnico en [`docs/plan-integracion-rehabilitacion-ar.md`](docs/plan-integracion-rehabilitacion-ar.md).
+
+> **Estado honesto.** El módulo **compila y empaqueta el APK de release en CI**,
+> pero **todavía no se ha ejecutado en un teléfono**: que compile no dice nada
+> sobre si la cámara enfoca o si los fps aguantan. Y la **Fase 0** del plan
+> —banco de referencia y censo de móviles prestados para calibrar los umbrales
+> de las sondas— sigue pendiente.
+
+</details>
+
+<details>
 <summary><strong>V9.2</strong> — el galego, en todos los bloques (aprobado para producción)</summary>
 
 Hasta esta versión el gallego solo estaba completo en **Pares Mínimos**: la
