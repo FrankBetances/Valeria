@@ -59,10 +59,17 @@ ejercicios siguen siendo jugables y medibles. Si faltara el `.task`, el
 
 ## Estado
 
-El código está escrito contra las APIs estables de `tasks-vision` 0.10.29 y
-Filament 1.72.1, pero **no se ha compilado todavía contra un SDK de Android
-real**: eso es lo primero de la Fase 1 del
+**El módulo compila** contra el SDK de Android real (`compileReleaseKotlin` y
+`assembleRelease` en verde en CI, 2026-08-02) y produce su AAR. Las APIs de
+`tasks-vision` 0.10.29 y Filament 1.72.1 están verificadas por el compilador,
+no solo por inspección.
+
+Lo que **todavía no ha ocurrido** es ejecutarlo en un teléfono: que compile no
+dice nada sobre si la cámara enfoca, si el Face Landmarker carga el modelo, si
+la escena se compone sobre el preview o si los fps aguantan. Eso sigue siendo
+la Fase 1 del
 [plan](../docs/plan-integracion-rehabilitacion-ar.md#fase-1--andamiaje-sin-ejercicios).
+
 Los índices de landmark canónicos (33/263 cantos externos, 61/291 comisuras,
-13/14 borde labial) están marcados en el código como *a verificar contra el
-modelo real*, no como constantes de fe.
+13/14 borde labial) siguen marcados en el código como *a verificar contra el
+modelo real*, no como constantes de fe: el compilador no puede opinar sobre eso.

@@ -19,7 +19,7 @@
 > (no tablets). iOS no es requisito de v1, pero el diseño reserva el camino
 > (§13).
 >
-> Estado: 🟢 **módulo generado, sin verificar en dispositivo** ·
+> Estado: 🟢 **módulo generado y compilando en CI, sin verificar en dispositivo** ·
 Rama de trabajo: `claude/modulo-realidad-aumentada-npc20l`
 (planificación previa: `claude/rehab-ar-planning-s1f8qo`)
 
@@ -31,8 +31,9 @@ Rama de trabajo: `claude/modulo-realidad-aumentada-npc20l`
 > script (obra propia, CC0) y el `face_landmarker.task` de Google fijado por
 > SHA-256, con `npm run check:ar-models` vigilando que no se separen del código.
 >
-> **Qué NO existe todavía, y conviene tenerlo presente:** nada de esto se ha
-> compilado contra un SDK de Android ni ejecutado en un teléfono. La Fase 0
+> **Qué NO existe todavía, y conviene tenerlo presente:** el módulo compila
+> contra el SDK real y produce su AAR (CI en verde el 2026-08-02), pero **no se
+> ha ejecutado en un teléfono**. La Fase 0
 > —banco de referencia, censo de móviles prestados y calibración de los umbrales
 > de las siete sondas— sigue pendiente y es la que puede cambiar decisiones
 > baratas antes de que salgan caras.
@@ -1349,9 +1350,9 @@ está; lo que hay por delante es la Fase 0.
 
 ## 16. Seguimiento
 
-Leyenda: ✅ hecho y verificado · 🟩 **código escrito, sin compilar ni probar en
-teléfono** · ⬜ pendiente. La distinción importa: un módulo que compila en la
-cabeza de nadie no es un módulo que funcione.
+Leyenda: ✅ hecho y verificado · 🟩 **compila en CI, sin probar en teléfono** ·
+⬜ pendiente. La distinción importa: que el compilador acepte el módulo no dice
+nada sobre si la cámara enfoca o si los fps aguantan.
 
 - ⬜ **Fase 0** — Banco de 2 teléfonos (150 €) · **censo de ≥ 15 móviles prestados** · las 7 sondas discriminan · umbrales calibrados. **Sigue siendo la puerta y sigue cerrada**: exige comprar hardware y salir al campo. Lo que sí está hecho es quitarle fricción: la Prueba de Aptitud produce una ficha compartible desde la propia app («Compartir ficha del teléfono»), así que caracterizar un móvil prestado son 90 s en una sala de espera
 - 🟩 **Fase 1** — Andamiaje nativo + config plugin + permiso + puente + consentimiento por paciente + Prueba de Aptitud con enrutado por nivel · ✅ **privacidad actualizada (ES/EN)** · ⬜ ficha de *Data Safety* en Play Console (formulario, no código)
