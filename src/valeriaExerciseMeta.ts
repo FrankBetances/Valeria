@@ -12,6 +12,12 @@ export interface ExerciseMeta {
   name: string;
   category: string;
   age?: string; // edad orientativa (solo Audición; pedida por los evaluadores)
+  // Parentesco entre ejercicios: id del ejercicio MANUAL que este instrumenta.
+  // Nace con AR-2, que es la versión con cámara y cronómetro de RA-5
+  // («Localización del sonido»). RA-5 sigue vivo donde no hay montaje de
+  // altavoces —que será la mayoría de los sitios—, así que el parentesco vive
+  // en los datos y no solo en la prosa del manual.
+  instrumentaA?: string;
 }
 
 // Bandas de edad conocidas, en el orden en que se listan las secciones de
@@ -75,7 +81,20 @@ export const DISLEXIA_META: ExerciseMeta[] = [
   { id: 'dx6', code: 'DX-6', name: 'Denominación Rápida (RAN)', category: 'Acceso léxico · persecución manual' },
 ];
 
+// Módulo de Realidad Aumentada (Gamificación Condicionada): la cámara frontal
+// deja de ser un grabador y pasa a ser un sensor de conducta motora. El refuerzo
+// visual 3D se dispara SOLO por el gesto motor objetivo —nunca por acierto
+// acústico ni por paso del tiempo—, que es justo lo que rompe el lazo entre
+// esfuerzo y frustración en las dislalias funcionales.
+// Estos ejercicios NO los sirve el player: los abre el host nativo de cámara +
+// escena 3D a través de ValeriaArLauncherScreen.
+export const AR_META: ExerciseMeta[] = [
+  { id: 'ar1', code: 'AR-1', name: 'Cinemática Orofacial', category: 'Postura labial como gatillo · micrófono apagado', age: '3-4 años' },
+  { id: 'ar2', code: 'AR-2', name: 'Localización del Sonido Instrumentada', category: 'VRA digitalizado · latencia del giro cefálico', age: '3-4 años', instrumentaA: 'ra5' },
+  { id: 'ar3', code: 'AR-3', name: 'Selección Semántica por Fijación', category: 'Comprensión sin motricidad fina · dwell time', age: '4-5 años' },
+];
+
 // Índice por id para el player (DB de mini-juegos).
 export const META_BY_ID: Record<string, ExerciseMeta> = Object.fromEntries(
-  [...AUDICION_META, ...LENGUAJE_META, ...TEA_META, ...DISLEXIA_META].map((m) => [m.id, m]),
+  [...AUDICION_META, ...LENGUAJE_META, ...TEA_META, ...DISLEXIA_META, ...AR_META].map((m) => [m.id, m]),
 );

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Valeria+ · Manifiesto del módulo de Realidad Aumentada.
+
+  El permiso de CÁMARA se declara aquí, junto al código que lo usa, para que
+  nunca pueda quedar declarado sin motivo: si algún día se retira el módulo,
+  el permiso se va con él.
+
+  `uses-feature` con `required="false"`: un teléfono sin cámara frontal debe
+  poder instalar Valeria+ igual (los otros seis bloques no la necesitan); lo
+  que hace el módulo es no ofrecerse en ese aparato.
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature android:name="android.hardware.camera.front" android:required="false" />
+    <uses-feature android:name="android.hardware.camera.any" android:required="false" />
+
+    <application>
+        <!--
+          Pantalla completa, orientación fija en horizontal y sin barra de
+          navegación: AR-3 es inviable en vertical (la pantalla abarca ~10° y
+          las dianas quedarían indistinguibles), y una rotación a mitad de
+          ensayo invalidaría la calibración.
+
+          `screenOrientation="sensorLandscape"` y no `landscape` a secas para
+          que el adulto pueda apoyar el teléfono en cualquiera de los dos
+          sentidos: la compensación por IMU se encarga del resto.
+        -->
+        <activity
+            android:name=".ValeriaArActivity"
+            android:exported="false"
+            android:screenOrientation="sensorLandscape"
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden|uiMode"
+            android:theme="@style/Theme.ValeriaAr" />
+    </application>
+
+</manifest>

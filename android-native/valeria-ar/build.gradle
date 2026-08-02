@@ -1,0 +1,95 @@
+// ============================================================================
+// Valeria+ · Módulo nativo del bloque de Realidad Aumentada
+// Librería Android independiente que el config plugin withValeriaAR copia a
+// android/valeria-ar e incluye en el build de la app.
+//
+// Decisión de dependencias (§3.3 del plan): se usa `sceneview` (solo 3D), NO
+// `arsceneview`. Aquí no hay world tracking —la escena se compone sobre el
+// preview de la cámara frontal, es AR de espejo—, así que ARCore sobra: eso
+// elimina de golpe la lista de dispositivos certificados, el permiso de
+// ubicación y decenas de MB de APK.
+// ============================================================================
+apply plugin: 'com.android.library'
+apply plugin: 'org.jetbrains.kotlin.android'
+apply plugin: 'org.jetbrains.kotlin.plugin.compose'
+// El plugin de React Native lo aplica la app; aquí solo se necesita para que
+// `com.facebook.react:react-android` resuelva versión sin fijarla a mano.
+apply plugin: 'com.facebook.react'
+
+android {
+    namespace 'eu.futureforkids.valeria.ar'
+    compileSdk 36
+
+    defaultConfig {
+        // minSdk 24 es el suelo de SceneView 4.25.0 y de tasks-vision.
+        minSdk 24
+        targetSdk 36
+        consumerProguardFiles 'consumer-rules.pro'
+    }
+
+    buildFeatures {
+        compose true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = '17'
+    }
+
+    // El .task de MediaPipe pesa ~3,5 MB y ya viene comprimido: volver a
+    // comprimirlo en el APK solo añade tiempo de arranque al descomprimirlo.
+    androidResources {
+        noCompress 'task', 'glb'
+    }
+}
+
+// Guardia de compilación: sin el modelo de Face Landmarker el módulo compila
+// pero el ejercicio no arranca en el teléfono, y eso se descubre tarde y mal.
+// Mejor fallar aquí, con la instrucción delante.
+tasks.configureEach { task ->
+    if (task.name == 'preBuild') {
+        task.doFirst {
+            def model = file('src/main/assets/face_landmarker.task')
+            if (!model.exists()) {
+                throw new GradleException(
+                    "Falta ${model}.\n" +
+                    "Descarga el Face Landmarker (float16) del catálogo de MediaPipe Tasks\n" +
+                    "y colócalo ahí. Ver android-native/README.md."
+                )
+            }
+        }
+    }
+}
+
+dependencies {
+    implementation 'com.facebook.react:react-android'
+
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.9.0'
+
+    // --- Cámara ---
+    def camerax = '1.4.1'
+    implementation "androidx.camera:camera-core:$camerax"
+    implementation "androidx.camera:camera-camera2:$camerax"
+    implementation "androidx.camera:camera-lifecycle:$camerax"
+    implementation "androidx.camera:camera-view:$camerax"
+
+    // --- Señal facial: 478 landmarks + 52 blendshapes ARKit + matriz 4x4 ---
+    implementation 'com.google.mediapipe:tasks-vision:0.10.26'
+
+    // --- Escena 3D (Filament). Solo 3D: sin ARCore, ver cabecera. ---
+    implementation 'io.github.sceneview:sceneview:4.25.0'
+
+    // --- Compose ---
+    def composeBom = platform('androidx.compose:compose-bom:2025.06.00')
+    implementation composeBom
+    implementation 'androidx.compose.ui:ui'
+    implementation 'androidx.compose.foundation:foundation'
+    implementation 'androidx.compose.material3:material3'
+    implementation 'androidx.activity:activity-compose:1.10.1'
+    implementation 'androidx.lifecycle:lifecycle-runtime-compose:2.9.0'
+}

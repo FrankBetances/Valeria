@@ -72,6 +72,7 @@
         <tr><td>Preferencias de la App (idioma y variedad dialectal, nivel de ruido, grabación automática, recordatorios)</td><td>Recordar la configuración elegida por la persona adulta entre sesiones.</td></tr>
         <tr><td>Progreso de los ejercicios, aciertos y errores de la sesión en curso</td><td>Mostrar los resultados del ejercicio y adaptar la sesión que se está realizando.</td></tr>
         <tr><td>PIN profesional (almacenado como resumen criptográfico, nunca en claro)</td><td>Impedir que el menor acceda por sí mismo al panel de administración.</td></tr>
+        <tr><td>Medidas de los ejercicios de Realidad Aumentada: duración del gesto en milisegundos, grados de giro de la cabeza, proporciones faciales adimensionales y qué dibujo se ha mirado, junto con los umbrales que fijó la persona adulta y una ficha técnica del teléfono (marca, modelo, versión de Android, fotogramas por segundo y milímetros de pantalla)</td><td>Mostrar a la persona adulta lo observado en la sesión y permitir el seguimiento de la evolución. <strong>Son números, no imágenes</strong>: ningún fotograma se guarda en ningún momento. La ficha técnica del teléfono se registra porque los resultados dependen del aparato y sin ella no serían interpretables. Se guardan cifradas en el dispositivo y solo salen de él si la persona adulta pulsa «Exportar» y las comparte.</td></tr>
         <tr><td>Telemetría de usabilidad del piloto clínico: tiempo activo por pantalla, toques sin efecto, abandonos de una cápsula de ejercicios, nivel de ruido elegido manualmente y respuestas al cuestionario de usabilidad SUS</td><td>Evaluar la usabilidad de la App dentro del pilotaje clínico del proyecto. <strong>Se guarda cifrada</strong> en el almacenamiento privado de la App y <strong>no se envía a ningún servidor</strong>: solo sale del dispositivo si la persona adulta pulsa expresamente «Exportar» y la comparte ella misma. Tras una exportación correcta, el registro se borra del dispositivo.</td></tr>
       </tbody>
     </table>
@@ -103,6 +104,11 @@
           <td>Los ejercicios de voz quedan inhabilitados. El resto de la App sigue funcionando.</td>
         </tr>
         <tr>
+          <td><strong>Cámara</strong><br><code>CAMERA</code></td>
+          <td>Los ejercicios de <strong>Realidad Aumentada</strong> usan la cámara frontal como <strong>sensor de movimiento</strong>: miden si el menor redondea los labios, gira la cabeza hacia un sonido o mantiene la mirada en un dibujo, y esos gestos son los que hacen reaccionar a las figuras en 3D. La cámara <strong>solo se activa dentro de uno de esos ejercicios</strong>, con la imagen visible en pantalla e indicador del sistema, y se apaga al salir. <strong>La App no graba, no guarda y no envía ninguna imagen ni vídeo</strong>: cada fotograma se analiza en el propio dispositivo y se descarta de inmediato; lo único que se conserva son medidas numéricas (grados de giro, milisegundos, proporciones). <strong>No se realiza identificación biométrica</strong>: los puntos faciales se usan para medir conducta motora, nunca para reconocer ni identificar a una persona.</td>
+          <td>El bloque de Realidad Aumentada no aparece. Los otros seis bloques de terapia funcionan exactamente igual.</td>
+        </tr>
+        <tr>
           <td><strong>Reconocimiento de voz</strong><br>(servicio del sistema)</td>
           <td>La App entrega el audio del turno de habla al <strong>servicio de reconocimiento de voz instalado en el dispositivo</strong> y recibe de vuelta el texto reconocido, que compara con la palabra esperada.</td>
           <td>No se puede valorar la producción oral; el adulto puede seguir puntuando manualmente.</td>
@@ -122,6 +128,16 @@
   </div>
 
   <div class="warn">
+    <p><strong>Sobre la cámara en los ejercicios de Realidad Aumentada.</strong> Estas tres afirmaciones no son promesas de intención: son <strong>restricciones de diseño</strong> del código, comprobables en el repositorio público del proyecto.</p>
+    <ul>
+      <li><strong>Ningún fotograma sale del dispositivo.</strong> El análisis de la imagen se realiza íntegramente en el teléfono, sin conexión a internet y sin componentes de terceros que envíen datos por su cuenta.</li>
+      <li><strong>Ningún fotograma se almacena.</strong> No hay grabación, ni captura, ni copia temporal en disco: la imagen se procesa y se libera en el mismo instante. Solo persisten valores numéricos derivados.</li>
+      <li><strong>No hay identificación biométrica.</strong> La App no compara caras, no crea plantillas faciales y no puede reconocer a nadie. Mide gestos, no identidades. Por eso este tratamiento <strong>no constituye tratamiento de datos biométricos dirigido a identificar de manera unívoca a una persona física</strong> en el sentido del artículo 9.1 del RGPD.</li>
+    </ul>
+    <p>Si alguna vez se añadiera una función de grabación de vídeo, esta declaración dejaría de ser cierta y la política se actualizaría <strong>antes</strong> de publicar esa versión.</p>
+  </div>
+
+  <div class="warn">
     <p><strong>Sobre las grabaciones de voz.</strong> Valeria+ <strong>no guarda, no reproduce y no envía a sus servidores ningún archivo de audio</strong> del menor. El audio se procesa de forma efímera durante el turno de habla y se descarta; lo único que la App conserva es el resultado de la valoración (acierto o error). Ahora bien, el reconocimiento del habla lo realiza el servicio del sistema operativo del dispositivo —normalmente el de Google—, y ese servicio puede procesar el audio en sus propios servidores conforme a su propia política de privacidad, ajena a Valeria+. En muchos dispositivos Android es posible instalar el paquete de idioma sin conexión para que el reconocimiento se realice íntegramente en local.</p>
   </div>
 
@@ -132,6 +148,7 @@
       <tbody>
         <tr><td>Prestar las funciones terapéuticas y de práctica del lenguaje de la App</td><td>Ejecución de la relación con la persona usuaria (art. 6.1.b) e interés legítimo en el funcionamiento del servicio (art. 6.1.f).</td></tr>
         <tr><td>Tratar datos de salud de pacientes en el contexto de una intervención logopédica</td><td>Consentimiento explícito de la persona titular o de quien ejerza su representación legal (art. 9.2.a) o, en su caso, asistencia sanitaria prestada por un profesional sujeto a secreto (art. 9.2.h). Lo recaba el profesional responsable.</td></tr>
+        <tr><td>Medir gestos faciales con la cámara frontal en los ejercicios de Realidad Aumentada (postura labial, giro de cabeza, fijación de la mirada)</td><td>Consentimiento explícito de quien ejerza la representación legal del menor, recabado en la App antes de activar la cámara por primera vez (art. 6.1.a). El tratamiento se limita a medidas de conducta motora y <strong>no persigue identificar de manera unívoca a una persona física</strong>, por lo que no constituye tratamiento de datos biométricos del art. 9.1 del RGPD; en la medida en que las medidas se incorporen a una intervención logopédica, resulta además de aplicación el art. 9.2.h.</td></tr>
         <tr><td>Autenticar la cuenta profesional y proteger el acceso</td><td>Ejecución del contrato (art. 6.1.b).</td></tr>
         <tr><td>Recoger telemetría de usabilidad dentro del pilotaje clínico</td><td>Consentimiento (art. 6.1.a) e interés legítimo en la investigación y mejora de la usabilidad (art. 6.1.f). Los datos son de uso de la interfaz, no clínicos, y no salen del dispositivo salvo exportación manual.</td></tr>
         <tr><td>Enviar recordatorios locales de práctica</td><td>Consentimiento, manifestado al conceder el permiso de notificaciones y configurar el horario (art. 6.1.a).</td></tr>

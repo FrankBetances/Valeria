@@ -25,8 +25,9 @@ import { loadGame, liveStreak, levelFor, levelName } from './valeriaGamification
 import { ProUnlockPill, ProPinModal } from './ValeriaProPin';
 import { ValeriaProExportModal } from './ValeriaProExport';
 import { VoiceQualityCard } from './ValeriaVoiceUI';
-import { AUDICION_META, LENGUAJE_META, TEA_META, DISLEXIA_META, AGE_BANDS } from './valeriaExerciseMeta';
+import { AUDICION_META, LENGUAJE_META, TEA_META, DISLEXIA_META, AR_META, AGE_BANDS } from './valeriaExerciseMeta';
 import { AcademyHubCard } from './ValeriaAcademy';
+import { isArAvailable } from './valeriaArBridge';
 // import logoWhite from '../../assets/valeria-logo-white.png';
 
 // ----------------------------------------------------------------------------
@@ -36,6 +37,12 @@ const EXERCISES_AUD = AUDICION_META;
 const EXERCISES_LEN = LENGUAJE_META;
 const EXERCISES_TEA = TEA_META;
 const EXERCISES_DIX = DISLEXIA_META;
+const EXERCISES_AR = AR_META;
+
+// Sonda de una sola vez por arranque: el host nativo de RA está o no está, y
+// eso no cambia en mitad de una sesión. Fuera del componente para que ningún
+// re-render vuelva a preguntarlo.
+const AR_ON = isArAvailable();
 
 type BlockTab = 'audicion' | 'lenguaje' | 'tea' | 'dislexia';
 
@@ -285,6 +292,18 @@ export const ValeriaExerciseSelectionScreen: React.FC<{ navigation: any }> = ({ 
               title: 'Dislexia', sub: 'Conciencia fonológica, síntesis fonémica, pseudopalabras y rastreo de letras giradas (b/d, p/q).',
               onPress: () => { setTab('dislexia'); setToast(''); setView('list'); },
               a11y: 'Abrir terapias del módulo Dislexia', total: EXERCISES_DIX.length, activeN: activeDix.filter(Boolean).length,
+            })}
+            {/* Séptimo bloque · Realidad Aumentada. La tarjeta SOLO se renderiza
+                si hay host nativo de cámara + escena 3D: sin él (Expo Go, build
+                sin el config plugin, iOS todavía) el bloque no existe para el
+                usuario, en vez de existir y fallar al tocarlo. Su prescripción
+                no vive en esta pantalla: qué ejercicios se ofrecen lo decide la
+                Prueba de Aptitud del propio teléfono. */}
+            {AR_ON && blockCard({
+              icon: '🎯', accentBg: '#e6f9f8', accentFg: V.color.primaryDark,
+              title: 'Realidad Aumentada', sub: 'La cámara mira el gesto y el coche, el perro o la manzana reaccionan a él. Sin grabar nada y con el micrófono apagado.',
+              onPress: () => { setToast(''); navigation.navigate('ArLauncher'); },
+              a11y: `Abrir el bloque de realidad aumentada, ${EXERCISES_AR.length} ejercicios`,
             })}
 
             {/* GEN-01 · Elegir las franjas, no solo encender o apagar. El texto

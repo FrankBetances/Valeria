@@ -27,9 +27,12 @@
 import { InteractionManager } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { encryptJSON, decryptJSON } from './valeriaCrypto';
+// Solo tipos: el puente de RA no se carga aquí ni en dispositivos sin el host
+// nativo. La telemetría no debe poder romperse por un módulo opcional.
+import type { ArTrial, ArDeviceProfile, ArThresholds, ArAptitudeLevel } from './valeriaArBridge';
 
-export type BlockId = 'audicion' | 'lenguaje' | 'pares' | 'expansion' | 'tea' | 'dislexia';
-export const ALL_BLOCKS: BlockId[] = ['audicion', 'lenguaje', 'pares', 'expansion', 'tea', 'dislexia'];
+export type BlockId = 'audicion' | 'lenguaje' | 'pares' | 'expansion' | 'tea' | 'dislexia' | 'ar';
+export const ALL_BLOCKS: BlockId[] = ['audicion', 'lenguaje', 'pares', 'expansion', 'tea', 'dislexia', 'ar'];
 
 // Umbral de disparo del SUS: N bloques DISTINTOS completados en la sesión.
 // Desacoplado del total de ALL_BLOCKS a propósito: cuando la familia de bloques
@@ -97,6 +100,20 @@ export interface SessionRecord {
   // `noMatch` cuenta solo las escuchas en que el motor no captó nada, que son
   // las que antes le costaban al niño un intento y una estrella.
   listen?: { started: number; noMatch: number };
+  // ---- Módulo de Realidad Aumentada (bloque 7) ----
+  // Regla dura: UN registro por ensayo, jamás por frame. A 30 fps, tres minutos
+  // de ejercicio serían 5.400 eventos; la agregación ocurre en el host nativo y
+  // al JS solo llega el resumen del ensayo. Campos opcionales: una sesión
+  // persistida antes del módulo se sigue leyendo igual.
+  arTrials?: ArTrial[];
+  // El hardware es un confundido inevitable en un despliegue BYOD. Sellado una
+  // vez por sesión (es constante), pasa de ruido a covariable: permite filtrar
+  // el dataset por nivel A, estratificar por gama y reportar qué porcentaje del
+  // parque familiar real alcanzó cada nivel.
+  arDevice?: ArDeviceProfile;
+  // Los umbrales que el ADULTO fijó y que estuvieron vigentes toda la sesión.
+  // Sin ellos, "sostuvo 1.240 ms" no es interpretable a posteriori.
+  arThresholds?: ArThresholds;
 }
 interface TlmStore { sessions: SessionRecord[]; lastSusAt: number; }
 
@@ -118,6 +135,7 @@ function freshSession(): SessionRecord {
     routes: { started: 0, validated: 0, failed: 0, skipped: 0 },
     blocks: [], noiseEvents: [], repairEvents: [], dualTaskWindows: [],
     listen: { started: 0, noMatch: 0 },
+    arTrials: [],
   };
 }
 
@@ -140,6 +158,9 @@ function normalizeSession(s: any): SessionRecord {
     noiseEvents: s?.noiseEvents ?? [],
     repairEvents: s?.repairEvents ?? [],
     dualTaskWindows: s?.dualTaskWindows ?? [],
+    arTrials: s?.arTrials ?? [],
+    ...(s?.arDevice ? { arDevice: s.arDevice } : {}),
+    ...(s?.arThresholds ? { arThresholds: s.arThresholds } : {}),
     ...(s?.likert ? { likert: s.likert } : {}),
   };
 }
@@ -170,6 +191,7 @@ function snapshotCur(): SessionRecord {
     noiseEvents: [...cur.noiseEvents],
     repairEvents: [...cur.repairEvents],
     dualTaskWindows: cur.dualTaskWindows.map((w) => ({ ...w })),
+    arTrials: [...(cur.arTrials ?? [])],
   };
 }
 
@@ -257,6 +279,25 @@ export function setDualTaskActive(on: boolean): void {
 }
 export const isDualTaskActive = (): boolean => dualTaskOn;
 
+// ---- 8) Realidad Aumentada: el resumen de una sesión del host nativo ----
+// Llega ya agregado por ensayo desde el módulo nativo (que no persiste nada) y
+// se enruta aquí, igual que hace el player con sus resultados: una sola fuente
+// de verdad para los datos del piloto. El sello del dispositivo y los umbrales
+// se guardan una vez —son constantes de la sesión—; los ensayos se acumulan
+// respetando el tope defensivo de MAX_EVENTS.
+export function trackArSession(payload: {
+  trials: ArTrial[];
+  deviceProfile?: ArDeviceProfile;
+  thresholds?: ArThresholds;
+}): void {
+  if (!cur.arTrials) cur.arTrials = [];
+  const room = MAX_EVENTS - cur.arTrials.length;
+  if (room > 0) cur.arTrials.push(...payload.trials.slice(0, room));
+  if (payload.deviceProfile) cur.arDevice = payload.deviceProfile;
+  if (payload.thresholds) cur.arThresholds = payload.thresholds;
+  scheduleFlush();
+}
+
 // ---- Hitos: bloques completados → posible disparo del SUS ----
 export function markBlockCompleted(block: BlockId): void {
   if (!cur.blocks.includes(block)) cur.blocks.push(block);
@@ -319,12 +360,81 @@ export async function attachLikert(score: number, question: string): Promise<voi
 }
 
 // ---- Exportación: resumen (QR) + log crudo completo (ShareSheet) ----
+export interface ArExportSummary {
+  sessions: number;              // sesiones con al menos un ensayo de RA
+  trials: number;
+  /** Sesiones por nivel de aptitud: la viabilidad del parque doméstico real. */
+  levels: Record<ArAptitudeLevel, number>;
+  /** Sesiones de nivel A, las únicas admisibles en el dataset publicable. */
+  publishableSessions: number;
+  /** AR-1 · sostén máximo medio del redondeo labial, en ms. */
+  holdMeanMs: number | null;
+  /** AR-2 · mediana de latencia estímulo→giro. Solo ensayos con reloj alineable. */
+  vraLatencyMedianMs: number | null;
+  vraLatencyN: number;
+  /** AR-2 · giros en ensayo TRAMPA (sin sonido): el control que separa demo de instrumento. */
+  catchFalsePositiveRate: number | null;
+  /** AR-3 · tasa de ensayos anulados: el dato que decide si hacen falta soportes. */
+  voidRate: number | null;
+}
+
+const median = (xs: number[]): number | null => {
+  if (!xs.length) return null;
+  const s = [...xs].sort((a, b) => a - b);
+  const mid = s.length >> 1;
+  return s.length % 2 ? s[mid] : +((s[mid - 1] + s[mid]) / 2).toFixed(1);
+};
+
+// Agregados de RA sobre TODAS las sesiones persistidas. Se separan del bucle
+// principal porque el criterio de inclusión es distinto en cada métrica: la
+// latencia solo cuenta ensayos con reloj alineable, la anulación cuenta todos.
+function summarizeAr(sessions: SessionRecord[]): ArExportSummary {
+  const levels: Record<ArAptitudeLevel, number> = { A: 0, B: 0, C: 0, D: 0 };
+  const holds: number[] = [];
+  const latencies: number[] = [];
+  let trials = 0, arSessions = 0, publishable = 0;
+  let catchTrials = 0, catchTurns = 0, voided = 0;
+
+  for (const s of sessions) {
+    const ts = s.arTrials ?? [];
+    if (!ts.length) continue;
+    arSessions += 1;
+    trials += ts.length;
+    const level = s.arDevice?.level;
+    if (level) { levels[level] += 1; if (level === 'A') publishable += 1; }
+    for (const t of ts) {
+      if (t.voided) { voided += 1; continue; } // un ensayo anulado no aporta señal, solo tasa
+      if (t.exerciseId === 'ar1') holds.push(t.holdMaxMs);
+      if (t.exerciseId === 'ar2') {
+        if (t.latencyMs != null) latencies.push(t.latencyMs);
+        if (t.isCatch) { catchTrials += 1; if (!t.timedOut) catchTurns += 1; }
+      }
+    }
+  }
+
+  return {
+    sessions: arSessions,
+    trials,
+    levels,
+    publishableSessions: publishable,
+    holdMeanMs: holds.length ? Math.round(holds.reduce((a, b) => a + b, 0) / holds.length) : null,
+    vraLatencyMedianMs: median(latencies),
+    vraLatencyN: latencies.length,
+    catchFalsePositiveRate: catchTrials ? +(catchTurns / catchTrials).toFixed(3) : null,
+    voidRate: trials ? +(voided / trials).toFixed(3) : null,
+  };
+}
+
 export interface ExportBundle {
   summary: {
     v: string; sessions: number; abandonRate: number;
     misclicks: number; misclicksDualTask: number;
     likertMean: number | null; likertN: number; fullBlockRuns: number;
     noiseSessions: number; repairEvents: number; routeValidationRate: number | null;
+    // Agregados del bloque de Realidad Aumentada. Son magnitudes descriptivas
+    // —medianas, medias y tasas— nunca veredictos ni comparaciones normativas:
+    // es el mismo muro MDR que sostiene la clasificación Clase I del módulo.
+    ar: ArExportSummary;
     generatedAt: number;
   };
   qrPayload: string;   // resumen estadístico compacto para el QR (offline puro)
@@ -383,10 +493,13 @@ export async function buildExport(): Promise<ExportBundle> {
     misclicks: mcUi + mcDual, misclicksDualTask: mcDual,
     likertMean, likertN, fullBlockRuns: fullRuns,
     noiseSessions, repairEvents: repairs, routeValidationRate,
+    ar: summarizeAr(sessions),
     generatedAt: Date.now(),
   };
   // Payload del QR: MUY compacto (claves cortas) para que quepa holgado y sea
   // legible por cámaras móviles. Solo el resumen estadístico, sin datos crudos.
+  // NO crece con el bloque de RA: los ensayos y el perfil de dispositivo van en
+  // el fullLog, que es donde tienen sentido y donde no hay límite de bits.
   const qrPayload = JSON.stringify({
     v: 'vlr2', n: sessions.length, ab: abandonRate,
     mc: mcUi + mcDual, mcd: mcDual,

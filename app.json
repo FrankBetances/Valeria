@@ -43,7 +43,8 @@
         }
       ],
       "./plugins/withSpeechRecognitionQueries",
-      "./plugins/withJetifier"
+      "./plugins/withJetifier",
+      "./plugins/withValeriaAR"
     ],
     "ios": {
       "supportsTablet": true,
@@ -54,7 +55,10 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#00c4be"
-      }
+      },
+      "permissions": [
+        "android.permission.CAMERA"
+      ]
     },
     "web": {
       "bundler": "metro"

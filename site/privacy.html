@@ -72,6 +72,7 @@
         <tr><td>App preferences (language and dialect variety, noise level, auto-record, reminders)</td><td>Remembering the adult's chosen configuration between sessions.</td></tr>
         <tr><td>Exercise progress, hits and errors within the current session</td><td>Showing exercise results and adapting the ongoing session.</td></tr>
         <tr><td>Professional PIN (stored as a cryptographic digest, never in clear text)</td><td>Preventing the child from reaching the administration panel unaided.</td></tr>
+        <tr><td>Augmented Reality exercise measurements: gesture duration in milliseconds, degrees of head turn, dimensionless facial ratios and which picture was looked at, together with the thresholds set by the adult and a technical profile of the phone (make, model, Android version, frames per second and screen millimetres)</td><td>Showing the adult what happened in the session and allowing progress to be followed. <strong>These are numbers, not images</strong>: no video frame is ever stored. The phone's technical profile is recorded because results depend on the device and would not be interpretable without it. Stored encrypted on the device; it leaves the device only if the adult taps “Export” and shares it.</td></tr>
         <tr><td>Clinical-pilot usability telemetry: active time per screen, dead taps, drop-outs from an exercise capsule, manually chosen noise level, and SUS usability questionnaire answers</td><td>Evaluating the App's usability within the project's clinical pilot. It is <strong>stored encrypted</strong> in the App's private storage and <strong>is never sent to any server</strong>: it leaves the device only if the adult explicitly taps “Export” and shares it themselves. After a successful export the log is deleted from the device.</td></tr>
       </tbody>
     </table>
@@ -103,6 +104,11 @@
           <td>Voice exercises are disabled. The rest of the App keeps working.</td>
         </tr>
         <tr>
+          <td><strong>Camera</strong><br><code>CAMERA</code></td>
+          <td>The <strong>Augmented Reality</strong> exercises use the front camera as a <strong>motion sensor</strong>: they measure whether the child rounds their lips, turns their head towards a sound or holds their gaze on a picture, and those gestures are what make the 3D figures react. The camera is <strong>active only inside one of those exercises</strong>, with the image visible on screen and the system indicator showing, and it switches off on exit. <strong>The App does not record, store or upload any image or video</strong>: each frame is analysed on the device itself and discarded immediately; only numeric measurements are kept (degrees of turn, milliseconds, ratios). <strong>No biometric identification takes place</strong>: facial points are used to measure motor behaviour, never to recognise or identify a person.</td>
+          <td>The Augmented Reality block does not appear. The other six therapy blocks work exactly the same.</td>
+        </tr>
+        <tr>
           <td><strong>Speech recognition</strong><br>(system service)</td>
           <td>The App hands the speaking-turn audio to the <strong>speech recognition service installed on the device</strong> and receives the recognised text back, which it compares against the expected word.</td>
           <td>Spoken production cannot be scored automatically; the adult can still score manually.</td>
@@ -122,6 +128,16 @@
   </div>
 
   <div class="warn">
+    <p><strong>About the camera in the Augmented Reality exercises.</strong> These three statements are not declarations of intent: they are <strong>design constraints</strong> of the code, verifiable in the project's public repository.</p>
+    <ul>
+      <li><strong>No video frame leaves the device.</strong> Image analysis runs entirely on the phone, with no network connection and no third-party components sending data of their own.</li>
+      <li><strong>No video frame is stored.</strong> There is no recording, no screenshot and no temporary copy on disk: the image is processed and released in the same instant. Only derived numeric values persist.</li>
+      <li><strong>There is no biometric identification.</strong> The App does not compare faces, does not build facial templates and cannot recognise anyone. It measures gestures, not identities. This processing therefore <strong>does not constitute processing of biometric data for the purpose of uniquely identifying a natural person</strong> within the meaning of Article 9(1) GDPR.</li>
+    </ul>
+    <p>Were a video-recording feature ever added, this statement would cease to be true and the policy would be updated <strong>before</strong> that version was published.</p>
+  </div>
+
+  <div class="warn">
     <p><strong>About voice recordings.</strong> Valeria+ <strong>does not store, replay or upload any audio file</strong> of the child to its servers. Audio is processed ephemerally during the speaking turn and discarded; the App keeps only the outcome of the assessment (hit or miss). That said, speech recognition is performed by the device's operating-system service — typically Google's — and that service may process the audio on its own servers under its own privacy policy, which is outside Valeria+'s control. On many Android devices you can install the offline language pack so recognition happens entirely on-device.</p>
   </div>
 
@@ -132,6 +148,7 @@
       <tbody>
         <tr><td>Providing the App's therapeutic and language-practice features</td><td>Performance of the relationship with the user (Art. 6(1)(b)) and legitimate interest in operating the service (Art. 6(1)(f)).</td></tr>
         <tr><td>Processing patients' health data in the context of speech therapy</td><td>Explicit consent of the data subject or their legal representative (Art. 9(2)(a)) or, where applicable, healthcare provided by a professional bound by professional secrecy (Art. 9(2)(h)). Obtained by the responsible professional.</td></tr>
+        <tr><td>Measuring facial gestures with the front camera in the Augmented Reality exercises (lip posture, head turn, gaze fixation)</td><td>Explicit consent of the child's legal representative, obtained in the App before the camera is enabled for the first time (Art. 6(1)(a)). Processing is limited to motor-behaviour measurements and <strong>does not aim to uniquely identify a natural person</strong>, so it does not constitute processing of biometric data under Art. 9(1) GDPR; where the measurements form part of a speech-therapy intervention, Art. 9(2)(h) also applies.</td></tr>
         <tr><td>Authenticating the professional account and protecting access</td><td>Performance of a contract (Art. 6(1)(b)).</td></tr>
         <tr><td>Collecting usability telemetry within the clinical pilot</td><td>Consent (Art. 6(1)(a)) and legitimate interest in usability research and improvement (Art. 6(1)(f)). The data concerns interface use, not clinical content, and never leaves the device unless manually exported.</td></tr>
         <tr><td>Sending local practice reminders</td><td>Consent, expressed by granting the notification permission and setting a schedule (Art. 6(1)(a)).</td></tr>

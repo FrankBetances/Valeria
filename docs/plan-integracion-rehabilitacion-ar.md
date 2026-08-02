@@ -19,7 +19,20 @@
 > (no tablets). iOS no es requisito de v1, pero el diseño reserva el camino
 > (§13).
 >
-> Estado: 🟡 planificación · Rama de trabajo: `claude/rehab-ar-planning-s1f8qo`
+> Estado: 🟢 **módulo generado, sin verificar en dispositivo** ·
+Rama de trabajo: `claude/modulo-realidad-aumentada-npc20l`
+(planificación previa: `claude/rehab-ar-planning-s1f8qo`)
+
+> **Qué existe ya en el árbol** (ver §16 para el detalle por fase): el módulo
+> nativo Kotlin completo en `android-native/valeria-ar/`, su config plugin, el
+> puente de RN, la pantalla anfitriona, los umbrales en el Panel del Adulto, la
+> telemetría de RA y la política de privacidad actualizada en los dos idiomas.
+>
+> **Qué NO existe todavía, y conviene tenerlo presente:** nada de esto se ha
+> compilado contra un SDK de Android ni ejecutado en un teléfono. La Fase 0
+> —banco de referencia, censo de móviles prestados y calibración de los umbrales
+> de las siete sondas— sigue pendiente y es la que puede cambiar decisiones
+> baratas antes de que salgan caras.
 
 ---
 
@@ -1075,6 +1088,18 @@ qué proporción del parque podrá usar el módulo.
 **No se escribe nada más hasta cerrar esta fase.** Es el punto donde el plan
 puede cambiar barato.
 
+> **Salvedad registrada (2026-08-02).** El andamiaje de las fases 1-6 se ha
+> escrito **antes** de cerrar la Fase 0, por decisión explícita de ejecutar el
+> plan de una tanda. Conviene saber qué queda expuesto por ese orden: los
+> **umbrales de las siete sondas** (§3.5) están puestos con los valores del
+> plan, no calibrados contra teléfonos reales, y los **índices de landmark
+> canónicos** (§5.1) están sin verificar contra el modelo `.task`. Ambos son
+> constantes aisladas —`AptitudeTest.classify` y `FaceIdx`—, así que cerrar la
+> Fase 0 los corrige en dos ficheros y no obliga a rehacer nada. Lo que la Fase 0
+> sigue decidiendo, y no puede decidir el código, es si la envolvente existe:
+> si ninguna sonda discrimina entre un teléfono bueno y uno malo, sobra la
+> Prueba de Aptitud entera.
+
 > **Corolario de calendario:** al no depender de conocer los teléfonos de las
 > familias, esta fase **puede empezar ya**. Lo único que hay que decidir es el
 > presupuesto del banco de referencia (§15).
@@ -1292,14 +1317,18 @@ está; lo que hay por delante es la Fase 0.
 
 ## 16. Seguimiento
 
-- [ ] **Fase 0** — Banco de 2 teléfonos (150 €: gama baja antigua + gama media) · **censo de ≥ 15 móviles prestados** · las 7 sondas discriminan · umbrales calibrados
-- [ ] **Fase 1** — Andamiaje nativo + puente + consentimiento + **Prueba de Aptitud del Dispositivo** + **privacidad y Data Safety actualizados**
-- [ ] **Fase 2** — Capa de señal + calibración de 5 puntos + pantalla de diagnóstico
-- [ ] **Fase 3** — `RewardChannel` con histéresis + `SceneHost` con los 3 GLB · delta de descarga ≤ +25 MB
-- [ ] **Fase 4** — AR-1 Cinemática Orofacial jugable
-- [ ] **Fase 5** — AR-3 Selección por fijación jugable · apoyo improvisado validado por IMU · tasa de anulación medida
-- [ ] **Fase 6** — Censo de equipamiento a los centros · AR-2 jugable · modo instrumento (±60°, balance, lazo acústico) **solo si hay campo libre disponible**
-- [ ] **Fase 7** — Dashboard, protocolo clínico, Academy, README a 7 bloques
+Leyenda: ✅ hecho y verificado · 🟩 **código escrito, sin compilar ni probar en
+teléfono** · ⬜ pendiente. La distinción importa: un módulo que compila en la
+cabeza de nadie no es un módulo que funcione.
+
+- ⬜ **Fase 0** — Banco de 2 teléfonos (150 €: gama baja antigua + gama media) · **censo de ≥ 15 móviles prestados** · las 7 sondas discriminan · umbrales calibrados. **Es la puerta de decisión y sigue cerrada:** exige comprar hardware y salir al campo, no escribir código
+- 🟩 **Fase 1** — Andamiaje nativo (`ValeriaArActivity`) + `plugins/withValeriaAR.js` + permiso de cámara + puente `valeriaArBridge.ts` + pantalla de consentimiento por paciente + Prueba de Aptitud integrada con enrutado por nivel (D → la tarjeta no se renderiza) · ✅ **privacidad actualizada en `site/privacidad.html` y `site/privacy.html`** · ⬜ ficha de *Data Safety* en Play Console (formulario, no código)
+- 🟩 **Fase 2** — `FaceSignalEngine`, normalización por distancia inter-ocular, línea base en reposo, descomposición de *head pose*, `PointerSource` × 2, homografía de 5 puntos · ⬜ pantalla de diagnóstico interna para la logopeda
+- 🟩 **Fase 3** — `RewardChannel` con histéresis y decaimiento + `SceneHost` como interfaz · ⬜ los 3 GLB (contrato en `assets/models/README.md`; sin ellos la escena cae a la sobreimpresión 2D y el ejercicio sigue siendo jugable) · ⬜ delta de descarga ≤ +25 MB, que solo se puede medir con un AAB real
+- 🟩 **Fase 4** — AR-1 Cinemática Orofacial con registro por ensayo
+- 🟩 **Fase 5** — AR-3 Selección por fijación · apoyo improvisado armado por IMU (800 ms estable, anulación si se mueve) · ⬜ tasa de anulación medida con niños, que es el dato que decidirá si reabrir la compra de soportes
+- 🟩 **Fase 6** — AR-2 completo con ensayos trampa, postura armada y aleatorización, entregado **como juego** (`latencyMs: null` con motivo). El camino instrumento está escrito y se activa solo con montaje · ⬜ censo de equipamiento a los centros (una pregunta por correo, no una partida presupuestaria)
+- ⬜ **Fase 7** — Dashboard del paciente con métricas de RA, protocolo clínico en `docs/`, cápsula de Academy, revisión de tamaño de APK · ✅ README a 7 bloques
 - [ ] **Fase 8** (v2) — Arnés de paridad de señal Android ↔ iOS
 - [ ] **Fase 9** (v2) — Host iOS (AVCaptureSession + MediaPipeTasksVision + CoreMotion)
 - [ ] **Fase 10** (v2) — Capa de recompensa RealityKit + pipeline USDZ

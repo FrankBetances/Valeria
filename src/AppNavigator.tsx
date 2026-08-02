@@ -45,6 +45,10 @@ import ValeriaExercisePlayerScreen from './ValeriaExercisePlayerScreen';
 import ValeriaMinimalPairsScreen from './ValeriaMinimalPairsScreen';
 import ValeriaSemanticExpansionScreen from './ValeriaSemanticExpansionScreen';
 import ValeriaAcademyScreen from './ValeriaAcademy';
+// Bloque 7 · Realidad Aumentada. La pantalla es solo la antesala en JS: el
+// ejercicio corre en el host nativo de cámara + escena 3D. Si ese host no
+// existe, la tarjeta del hub ni siquiera se renderiza (valeriaArBridge).
+import ValeriaArLauncherScreen from './ValeriaArLauncherScreen';
 // [V3.1] La ruta Results la sirve el panel de paciente. ValeriaResultsScreen (V2.x)
 // fue eliminada de la base de código.
 import ValeriaPatientResultsDashboardScreen from './ValeriaPatientResultsDashboardScreen';
@@ -59,6 +63,7 @@ export type ValeriaStackParamList = {
   ExercisePlayer: { id?: string } | undefined;
   MinimalPairs: undefined;
   SemanticExpansion: undefined;
+  ArLauncher: undefined;
   Academy: undefined;
   Results: undefined;
 };
@@ -80,6 +85,7 @@ export const ValeriaNavigator: React.FC = () => (
     <Stack.Screen name="ExercisePlayer" component={ValeriaExercisePlayerScreen} />
     <Stack.Screen name="MinimalPairs" component={ValeriaMinimalPairsScreen} />
     <Stack.Screen name="SemanticExpansion" component={ValeriaSemanticExpansionScreen} />
+    <Stack.Screen name="ArLauncher" component={ValeriaArLauncherScreen} />
     <Stack.Screen name="Academy" component={ValeriaAcademyScreen} />
     <Stack.Screen name="Results" component={ValeriaPatientResultsDashboardScreen} />
   </Stack.Navigator>

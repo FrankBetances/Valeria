@@ -26,8 +26,18 @@ const VOICE_CREDIT =
   'En galego (próximamente): «Celtia» · Proxecto Nós. ' +
   'Euskaraz: HiTZ-TTS · ILENIA/NEL-GAITU (UPV/EHU · Aholab).';
 
-// Secuencia de entrada: marca, kicker, autor, divisor, colaboradores, voces y CTA.
-const SECTIONS = 6 + COLABORADORES.length;
+// Atribución de la tecnología del bloque de Realidad Aumentada. Las licencias
+// piden acreditar los componentes de terceros, y la de los modelos 3D obliga
+// además a nombrar autoría: el contrato de assets vive en assets/models/README.md
+// y esta línea es donde se hace público lo que allí queda registrado.
+const AR_CREDIT =
+  'Realidad Aumentada: seguimiento facial con MediaPipe Tasks (Google, Apache 2.0) ' +
+  'y escena 3D con SceneView/Filament (Apache 2.0), ambos ejecutándose íntegramente ' +
+  'en el dispositivo. Modelos 3D: ver assets/models.';
+
+// Secuencia de entrada: marca, kicker, autor, divisor, colaboradores, voces,
+// tecnología de RA y CTA.
+const SECTIONS = 7 + COLABORADORES.length;
 
 export const ValeriaCreditsScreen: React.FC<{ navigation?: any }> = ({ navigation }) => {
   const float = useRef(new Animated.Value(0)).current;
@@ -118,6 +128,9 @@ export const ValeriaCreditsScreen: React.FC<{ navigation?: any }> = ({ navigatio
 
         {/* atribución de voces neuronales */}
         <Animated.Text style={[s.voiceCredit, fadeUp(4 + COLABORADORES.length)]}>{VOICE_CREDIT}</Animated.Text>
+
+        {/* atribución de la tecnología de Realidad Aumentada */}
+        <Animated.Text style={[s.voiceCredit, fadeUp(5 + COLABORADORES.length)]}>{AR_CREDIT}</Animated.Text>
       </ScrollView>
 
       {/* acción */}
