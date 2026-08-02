@@ -33,7 +33,7 @@ const VOICE_CREDIT =
 const AR_CREDIT =
   'Realidad Aumentada: seguimiento facial con MediaPipe Tasks (Google, Apache 2.0) ' +
   'y escena 3D con SceneView/Filament (Apache 2.0), ambos ejecutándose íntegramente ' +
-  'en el dispositivo. Modelos 3D: ver assets/models.';
+  'en el dispositivo. Modelos 3D generados para el proyecto y liberados en CC0.';
 
 // Secuencia de entrada: marca, kicker, autor, divisor, colaboradores, voces,
 // tecnología de RA y CTA.

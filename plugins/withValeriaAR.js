@@ -30,6 +30,10 @@ const {
 
 const MODULE_NAME = 'valeria-ar';
 const SOURCE_DIR = path.join('android-native', MODULE_NAME);
+// Los .glb viven en assets/models porque son del proyecto, no del módulo
+// Android: una sola copia versionada, visible, y reutilizable el día que iOS
+// necesite su equivalente en USDZ. El prebuild los deja donde Android los lee.
+const MODELS_DIR = path.join('assets', 'models');
 const GRADLE_PATH = `:${MODULE_NAME}`;
 const PACKAGE_IMPORT = 'import eu.futureforkids.valeria.ar.ValeriaArPackage';
 const PACKAGE_ADD = 'add(ValeriaArPackage())';
@@ -62,6 +66,26 @@ const withArSources = (config) =>
       // no puede quedarse vivo en el árbol generado y compilar por su cuenta.
       fs.rmSync(to, { recursive: true, force: true });
       copyDir(from, to);
+
+      // Los modelos 3D, a los assets del módulo. El enum ArModel de Kotlin los
+      // busca en `models/<nombre>.glb`, así que la subcarpeta importa.
+      const modelsFrom = path.join(cfg.modRequest.projectRoot, MODELS_DIR);
+      const modelsTo = path.join(to, 'src', 'main', 'assets', 'models');
+      const glbs = fs.existsSync(modelsFrom)
+        ? fs.readdirSync(modelsFrom).filter((f) => f.endsWith('.glb'))
+        : [];
+      if (glbs.length) {
+        fs.mkdirSync(modelsTo, { recursive: true });
+        glbs.forEach((f) => fs.copyFileSync(path.join(modelsFrom, f), path.join(modelsTo, f)));
+      } else {
+        // No es un error: sin GLB la escena cae a la sobreimpresión 2D y los
+        // tres ejercicios siguen siendo jugables y medibles. Pero conviene
+        // saberlo al mirar el log del build y no al mirar el teléfono.
+        console.warn(
+          '[withValeriaAR] No hay .glb en assets/models: la escena 3D usará las formas de respaldo. ' +
+          'Genera los modelos con `npm run build:ar-models`.',
+        );
+      }
       return cfg;
     },
   ]);

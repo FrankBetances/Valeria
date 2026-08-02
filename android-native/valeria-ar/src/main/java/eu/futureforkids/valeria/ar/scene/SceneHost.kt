@@ -42,12 +42,15 @@ interface SceneHost {
  * Contrato de assets y licencias: `assets/models/README.md`.
  */
 enum class ArModel(val asset: String, val animation: String?) {
-    /** AR-1 · traslación en Z proporcional al progreso. */
-    CAR("models/coche.glb", null),
+    /** AR-1 · la traslación en Z la hace el código; `celebrate` es la meta. */
+    CAR("models/coche.glb", "celebrate"),
     /** AR-2 · celebración solo ante giro correcto dentro de ventana. */
     DOG("models/perro.glb", "celebrate"),
     /** AR-3 · giro de 360° al confirmar la selección. */
     APPLE("models/manzana.glb", "spin360"),
+    /** AR-3 · distractores. Mismo giro: nada en el movimiento delata la diana. */
+    BALL("models/pelota.glb", "spin360"),
+    SHOE("models/zapato.glb", "spin360"),
     NONE("", null),
 }
 

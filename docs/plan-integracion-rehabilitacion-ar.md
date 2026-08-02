@@ -27,6 +27,9 @@ Rama de trabajo: `claude/modulo-realidad-aumentada-npc20l`
 > nativo Kotlin completo en `android-native/valeria-ar/`, su config plugin, el
 > puente de RN, la pantalla anfitriona, los umbrales en el Panel del Adulto, la
 > telemetría de RA y la política de privacidad actualizada en los dos idiomas.
+> **Los assets también están completos**: los cinco modelos 3D generados por
+> script (obra propia, CC0) y el `face_landmarker.task` de Google fijado por
+> SHA-256, con `npm run check:ar-models` vigilando que no se separen del código.
 >
 > **Qué NO existe todavía, y conviene tenerlo presente:** nada de esto se ha
 > compilado contra un SDK de Android ni ejecutado en un teléfono. La Fase 0
@@ -1324,7 +1327,7 @@ cabeza de nadie no es un módulo que funcione.
 - ⬜ **Fase 0** — Banco de 2 teléfonos (150 €: gama baja antigua + gama media) · **censo de ≥ 15 móviles prestados** · las 7 sondas discriminan · umbrales calibrados. **Es la puerta de decisión y sigue cerrada:** exige comprar hardware y salir al campo, no escribir código
 - 🟩 **Fase 1** — Andamiaje nativo (`ValeriaArActivity`) + `plugins/withValeriaAR.js` + permiso de cámara + puente `valeriaArBridge.ts` + pantalla de consentimiento por paciente + Prueba de Aptitud integrada con enrutado por nivel (D → la tarjeta no se renderiza) · ✅ **privacidad actualizada en `site/privacidad.html` y `site/privacy.html`** · ⬜ ficha de *Data Safety* en Play Console (formulario, no código)
 - 🟩 **Fase 2** — `FaceSignalEngine`, normalización por distancia inter-ocular, línea base en reposo, descomposición de *head pose*, `PointerSource` × 2, homografía de 5 puntos · ⬜ pantalla de diagnóstico interna para la logopeda
-- 🟩 **Fase 3** — `RewardChannel` con histéresis y decaimiento + `SceneHost` como interfaz · ⬜ los 3 GLB (contrato en `assets/models/README.md`; sin ellos la escena cae a la sobreimpresión 2D y el ejercicio sigue siendo jugable) · ⬜ delta de descarga ≤ +25 MB, que solo se puede medir con un AAB real
+- 🟩 **Fase 3** — `RewardChannel` con histéresis y decaimiento + `SceneHost` como interfaz · ✅ **los 5 GLB generados** (`npm run build:ar-models`: obra propia, CC0, 74 KB los cinco, cero errores en el validador de Khronos) con `npm run check:ar-models` verificando que sus animaciones siguen coincidiendo con el enum `ArModel` · ⬜ carga real del GLB con `ModelNode` en Filament · ⬜ delta de descarga ≤ +25 MB, que solo se puede medir con un AAB real (holgado: assets 3D 74 KB + modelo de señal 3,6 MB)
 - 🟩 **Fase 4** — AR-1 Cinemática Orofacial con registro por ensayo
 - 🟩 **Fase 5** — AR-3 Selección por fijación · apoyo improvisado armado por IMU (800 ms estable, anulación si se mueve) · ⬜ tasa de anulación medida con niños, que es el dato que decidirá si reabrir la compra de soportes
 - 🟩 **Fase 6** — AR-2 completo con ensayos trampa, postura armada y aleatorización, entregado **como juego** (`latencyMs: null` con motivo). El camino instrumento está escrito y se activa solo con montaje · ⬜ censo de equipamiento a los centros (una pregunta por correo, no una partida presupuestaria)

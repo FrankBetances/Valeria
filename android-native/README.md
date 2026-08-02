@@ -38,18 +38,24 @@ Al editar Kotlin hay que **volver a lanzar el prebuild** (o editar
 `android/valeria-ar` y copiar los cambios de vuelta a mano antes de commitear:
 lo que se versiona es `android-native/`, no `android/`).
 
-## Lo que este árbol NO trae
+## Assets
 
-- **Los modelos 3D** (`coche.glb`, `perro.glb`, `manzana.glb` y distractores).
-  Su contrato —nombres de animación, presupuesto de polígonos y licencia— está
-  en [`assets/models/README.md`](../assets/models/README.md). Sin ellos la
-  escena arranca igual, con formas primitivas: el ejercicio se puede probar
-  antes de que exista un solo GLB.
-- **El modelo `.task` de MediaPipe** (`face_landmarker.task`, ~3,5 MB). Se
-  descarga del catálogo de Google y se coloca en
-  `android-native/valeria-ar/src/main/assets/`. No se versiona porque es un
-  binario de terceros con su propia licencia; el `build.gradle` del módulo
-  falla con un mensaje claro si falta.
+Ambos están ya en el repositorio; estos comandos existen para regenerarlos o
+verificarlos, no para completar un hueco.
+
+| Asset | Dónde | Cómo se obtiene |
+| --- | --- | --- |
+| **Modelos 3D** (`coche`, `perro`, `manzana`, `pelota`, `zapato`) | `assets/models/*.glb` — el plugin los copia a `src/main/assets/models/` en cada prebuild | `npm run build:ar-models` · obra propia, CC0, 74 KB los cinco |
+| **Modelo de señal facial** (`face_landmarker.task`, 3,6 MB) | `valeria-ar/src/main/assets/` | `npm run fetch:ar-model` · Google, Apache-2.0, revisión fijada con SHA-256 verificado |
+
+`npm run check:ar-models` comprueba las dos cosas y, sobre todo, que los nombres
+de animación de los `.glb` siguen coincidiendo con los que invoca el enum
+`ArModel` de Kotlin. Ese desajuste no rompe el build: rompe el refuerzo, en
+silencio y en el teléfono de una familia.
+
+Si faltaran los `.glb`, la escena cae a la sobreimpresión 2D y los tres
+ejercicios siguen siendo jugables y medibles. Si faltara el `.task`, el
+`build.gradle` del módulo falla con la instrucción delante.
 
 ## Estado
 

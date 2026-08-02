@@ -57,8 +57,9 @@ tasks.configureEach { task ->
             if (!model.exists()) {
                 throw new GradleException(
                     "Falta ${model}.\n" +
-                    "Descarga el Face Landmarker (float16) del catálogo de MediaPipe Tasks\n" +
-                    "y colócalo ahí. Ver android-native/README.md."
+                    "Ejecuta `npm run fetch:ar-model` en la raíz del repositorio: descarga la\n" +
+                    "revisión fijada del Face Landmarker y verifica su SHA-256.\n" +
+                    "Ver android-native/README.md."
                 )
             }
         }
