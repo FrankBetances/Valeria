@@ -4,9 +4,7 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
@@ -69,24 +67,40 @@ data class SceneTarget(
     val label: String,
 )
 
-/** Estado observable de la escena, compartido entre el ejercicio y el Composable. */
+/**
+ * Estado observable de la escena, compartido entre el ejercicio y el Composable.
+ *
+ * Los estados son PRIVADOS y se exponen como `val` de solo lectura: la única
+ * forma de mutarlos es a través del contrato `SceneHost`. No es una manía de
+ * encapsulación, son dos cosas concretas:
+ *
+ *  1. **Refuerza la asimetría que hace auditable la contingencia estricta.** La
+ *     escena lee; solo el ejercicio escribe, y solo por los métodos del
+ *     contrato. Nadie puede colar un `state.reward = Fired(...)` desde la capa
+ *     de dibujo.
+ *  2. **Evita un choque de firmas en la JVM.** Un `var model` genera un
+ *     `setModel(ArModel)` que colisiona con el `setModel` de la interfaz —el
+ *     compilador lo rechaza con «platform declaration clash»—. Con un `val` de
+ *     getter propio solo se genera `getModel()` y el conflicto desaparece.
+ */
 class SceneState : SceneHost {
-    var model by mutableStateOf(ArModel.NONE)
-        private set
-    var reward by mutableStateOf<RewardState>(RewardState.Idle)
-        private set
-    var targets by mutableStateOf<List<SceneTarget>>(emptyList())
-        private set
-    var pointer by mutableStateOf<Triple<Float, Float, Float>?>(null)
-        private set
+    private val modelState = mutableStateOf(ArModel.NONE)
+    private val rewardState = mutableStateOf<RewardState>(RewardState.Idle)
+    private val targetsState = mutableStateOf<List<SceneTarget>>(emptyList())
+    private val pointerState = mutableStateOf<Triple<Float, Float, Float>?>(null)
 
-    override fun setModel(model: ArModel) { this.model = model }
-    override fun setReward(state: RewardState) { this.reward = state }
-    override fun setTargets(targets: List<SceneTarget>) { this.targets = targets }
+    val model: ArModel get() = modelState.value
+    val reward: RewardState get() = rewardState.value
+    val targets: List<SceneTarget> get() = targetsState.value
+    val pointer: Triple<Float, Float, Float>? get() = pointerState.value
+
+    override fun setModel(model: ArModel) { modelState.value = model }
+    override fun setReward(state: RewardState) { rewardState.value = state }
+    override fun setTargets(targets: List<SceneTarget>) { targetsState.value = targets }
     override fun setPointer(x: Float, y: Float, dwellProgress: Float) {
-        pointer = Triple(x, y, dwellProgress)
+        pointerState.value = Triple(x, y, dwellProgress)
     }
-    fun hidePointer() { pointer = null }
+    fun hidePointer() { pointerState.value = null }
 }
 
 /**
@@ -100,7 +114,7 @@ class SceneState : SceneHost {
  * hace falta ARCore, y eso ahorra la lista de dispositivos certificados, el
  * permiso de ubicación y decenas de MB de APK.
  *
- * La capa de Filament (SceneView 4.25.0) se monta en `ValeriaArSceneView`. Aquí
+ * La capa de Filament se monta en `ValeriaArSceneView`. Aquí
  * va la sobreimpresión 2D —anillo de progreso, dianas, puntero—, que es lo que
  * el niño necesita para entender qué está consiguiendo.
  */
