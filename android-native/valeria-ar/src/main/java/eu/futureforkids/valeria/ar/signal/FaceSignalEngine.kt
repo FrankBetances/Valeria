@@ -74,6 +74,18 @@ class FaceSignalEngine(
     /** Instante en que se envió la inferencia en vuelo. 0 = ninguna. */
     @Volatile private var inferenceStartedMs = 0L
 
+    /**
+     * Primer fallo al convertir un frame a bitmap, si lo hubo.
+     *
+     * `ImageProxy.toBitmap()` acepta YUV_420_888, JPEG y RGBA_8888 y lanza
+     * `IllegalArgumentException` con cualquier otro formato. Si un teléfono
+     * entregara algo inesperado, sin esto el síntoma sería un espejo en negro
+     * sin explicación —y ya hemos gastado demasiadas rondas interpretando
+     * síntomas—. Con esto, el mensaje exacto sale en la ficha de cámara.
+     */
+    @Volatile var frameError: String? = null
+        private set
+
     // detectAsync solo admite milisegundos, pero la latencia de AR-2 se defiende
     // en microsegundos. Se guarda la marca exacta indexada por su milisegundo y
     // se recupera al volver del listener; si se perdiera, se reconstruye con la
@@ -159,7 +171,16 @@ class FaceSignalEngine(
 
             // Sin `image.close()` en los returns: lo hace el `finally`. Cerrarlo
             // dos veces descuenta dos veces en la cola de CameraX.
-            val bitmap = image.toRotatedBitmap(isFrontCamera) ?: return
+            val bitmap = try {
+                image.toRotatedBitmap(isFrontCamera)
+            } catch (e: Throwable) {
+                if (frameError == null) frameError = "${e.javaClass.simpleName}: ${e.message}"
+                null
+            }
+            if (bitmap == null) {
+                if (frameError == null) frameError = "la conversión a bitmap no devolvió imagen"
+                return
+            }
 
             // El espejo primero y siempre: es lo que el adulto necesita para
             // colocar al niño, y no puede depender de que la inferencia vaya
@@ -289,11 +310,10 @@ class FaceSignalEngine(
  * de memoria; `recycle()` devuelve el buffer al instante.
  */
 private fun ImageProxy.toRotatedBitmap(isFrontCamera: Boolean): Bitmap? {
-    val source = try {
-        toBitmap()
-    } catch (e: Throwable) {
-        return null
-    }
+    // `toBitmap()` se deja fallar hacia arriba a propósito: quien llama guarda
+    // el mensaje para la ficha de cámara. Tragárselo aquí es lo que convertía un
+    // formato no soportado en un espejo negro sin causa visible.
+    val source = toBitmap()
     val rotation = imageInfo.rotationDegrees
     if (rotation == 0 && !isFrontCamera) return source
     val matrix = Matrix().apply {

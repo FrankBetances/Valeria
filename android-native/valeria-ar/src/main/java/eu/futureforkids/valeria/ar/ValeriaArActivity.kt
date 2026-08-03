@@ -9,6 +9,7 @@ import android.graphics.Bitmap
 import android.graphics.PointF
 import android.os.Bundle
 import android.os.SystemClock
+import android.util.Log
 import android.view.Surface
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
@@ -16,6 +17,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
+import androidx.camera.core.ImageProxy
 import androidx.camera.core.resolutionselector.ResolutionSelector
 import androidx.camera.core.resolutionselector.ResolutionStrategy
 import androidx.camera.lifecycle.ProcessCameraProvider
@@ -155,10 +157,19 @@ class ValeriaArActivity : ComponentActivity() {
      */
     private var mirrorFrame by mutableStateOf<ImageBitmap?>(null)
 
-    /** Frames entregados por la cámara e inferencias completadas. Diagnóstico. */
+    // ---- Ficha de la cámara ---------------------------------------------------
+    // Deja de ser un adjetivo («se ve raro») y pasa a ser una cifra. Con el
+    // espejo dibujándose desde los mismos bitmaps que analiza MediaPipe, estas
+    // cuatro líneas dicen si el frame llega, con qué tamaño, en qué formato y
+    // con qué stride — que es exactamente lo que hay que saber para distinguir
+    // una conversión mal hecha de una resolución absurda o de una cámara que
+    // devuelve basura de verdad.
     @Volatile private var framesFromCamera = 0L
     @Volatile private var framesInferred = 0L
-    private var cameraFailure by mutableStateOf("")
+    @Volatile private var facesSeen = 0L
+    @Volatile private var frameGeometry = ""
+    @Volatile private var mirrorGeometry = ""
+    private var cameraReport by mutableStateOf("")
 
     // Calibración: pares (punto de cara observado → punto de pantalla mostrado).
     private val calObserved = ArrayList<PointF>(5)
@@ -197,7 +208,7 @@ class ValeriaArActivity : ComponentActivity() {
                         mirror = mirrorFrame,
                         scene = scene,
                         status = statusText,
-                        cameraFailure = cameraFailure,
+                        cameraReport = cameraReport,
                         bearTarget = bearTarget,
                         diagnostics = if (mode == MODE_DIAGNOSTICS) diagnostics else null,
                     )
@@ -252,7 +263,29 @@ class ValeriaArActivity : ComponentActivity() {
                         .build()
                 )
                 .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
-                .setOutputImageFormat(ImageAnalysis.OUTPUT_IMAGE_FORMAT_RGBA_8888)
+                // ── Sin OUTPUT_IMAGE_FORMAT_RGBA_8888, y esto es un cambio de
+                // fondo ─────────────────────────────────────────────────────
+                // Pedir RGBA no es pedir un formato: es pedirle a CameraX que
+                // monte una etapa de conversión YUV→RGBA dentro del pipeline,
+                // con una superficie RGBA extra y un `ImageWriter` por medio.
+                // Esa etapa depende del HAL de cámara y del driver de cada
+                // teléfono, y es el único sitio del recorrido donde los píxeles
+                // se reescriben antes de que los veamos.
+                //
+                // Con el espejo dibujándose desde estos mismos bitmaps quedó
+                // demostrado que la basura viene YA en el frame, no del dibujo,
+                // así que la etapa de conversión pasa a ser el sospechoso
+                // principal. Sin esta línea, `ImageAnalysis` entrega el
+                // YUV_420_888 nativo del sensor y la conversión a bitmap la hace
+                // `ImageProxy.toBitmap()` con libyuv, en la CPU y en nuestro
+                // proceso: unos milisegundos más por frame a cambio de quitar
+                // del medio una etapa que no controlamos.
+                //
+                // El HAL tampoco necesita el caso de uso `Preview` para entregar
+                // frames sanos, por si acaso se sugiere: el rastreo facial ya
+                // fallaba en la primera versión, cuando `Preview` sí estaba
+                // enlazado. Esa hipótesis la descarta la cronología.
+                //
                 // Explícita, no heredada: la Activity es `sensorLandscape` y
                 // absorbe los cambios de configuración sin recrearse, así que
                 // nadie la actualizaría sola. Sin esto, girar el teléfono 180°
@@ -269,6 +302,7 @@ class ValeriaArActivity : ComponentActivity() {
             // `onFrameProcessed`, es decir, inferencias acabadas.
             analysis.setAnalyzer(analysisExecutor) { image ->
                 framesFromCamera += 1
+                if (frameGeometry.isEmpty()) describeFrame(image)
                 engine?.analyze(image, isFrontCamera = true)
             }
             analysisUseCase = analysis
@@ -311,30 +345,65 @@ class ValeriaArActivity : ComponentActivity() {
      * adulto usa para encuadrar a un niño, la certeza vale más que el salto.
      */
     private fun publishMirror(bitmap: Bitmap) {
-        val image = bitmap.asImageBitmap()
-        runOnUiThread {
-            mirrorFrame = image
-            if (cameraFailure.isNotEmpty()) cameraFailure = ""
+        if (mirrorGeometry.isEmpty()) {
+            mirrorGeometry = "${bitmap.width}×${bitmap.height} ${bitmap.config}"
         }
+        val image = bitmap.asImageBitmap()
+        runOnUiThread { mirrorFrame = image }
     }
 
     /**
-     * Vigilancia de la cámara, con un mensaje que se pueda REPORTAR.
+     * Ficha del primer frame: lo que hay que mirar cuando la imagen sale mal.
      *
-     * Si a los tres segundos no ha llegado ni un frame, el problema no es el
-     * encuadre: es la cámara. Antes eso se veía como un fondo raro y había que
-     * adivinar qué significaba; ahora lo dice con palabras y deja en pantalla el
-     * modelo del teléfono, que es lo que hace falta para diagnosticarlo sin
-     * tenerlo delante.
+     * `rowStride` y `pixelStride` son el par que delata una conversión mal
+     * hecha —una fila que se lee con el ancho equivocado produce exactamente
+     * bloques de color abstractos—, y `width × height` delata el otro caso
+     * clásico: una resolución minúscula negociada con el sensor y estirada a
+     * pantalla completa. Se toma del PRIMER frame y no de cada uno porque no
+     * cambia durante la sesión.
+     */
+    private fun describeFrame(image: ImageProxy) {
+        val plane = image.planes.firstOrNull()
+        frameGeometry = buildString {
+            append("${image.width}×${image.height}")
+            append(" fmt=${image.format}")
+            append(" planos=${image.planes.size}")
+            if (plane != null) {
+                append(" rowStride=${plane.rowStride}")
+                append(" pxStride=${plane.pixelStride}")
+            }
+            append(" rot=${image.imageInfo.rotationDegrees}°")
+        }
+        Log.i(LOG_TAG, "frame: $frameGeometry")
+    }
+
+    /**
+     * Vigilancia de la cámara, con una ficha que se pueda REPORTAR.
+     *
+     * Mientras no se haya reconocido NI UNA cara, algo va mal y la pantalla lo
+     * dice con cifras en vez de con un fondo raro que hay que interpretar. En
+     * cuanto aparece la primera cara, la ficha desaparece sola: al niño no le
+     * sobra ni un elemento en pantalla, y a la logopeda no le falta ninguno
+     * cuando lo necesita.
      */
     private fun watchCameraHealth() {
         scope.launch {
             delay(CAMERA_HEALTH_MS)
-            if (framesFromCamera == 0L) {
-                cameraFailure = "La cámara no está entregando imágenes en este teléfono.\n" +
-                    "${android.os.Build.MANUFACTURER} ${android.os.Build.MODEL} · " +
-                    "Android ${android.os.Build.VERSION.RELEASE} (API ${android.os.Build.VERSION.SDK_INT})"
+            while (facesSeen == 0L) {
+                cameraReport = buildString {
+                    appendLine("${android.os.Build.MANUFACTURER} ${android.os.Build.MODEL} · Android ${android.os.Build.VERSION.RELEASE} (API ${android.os.Build.VERSION.SDK_INT})")
+                    if (framesFromCamera == 0L) {
+                        appendLine("La cámara no está entregando ninguna imagen.")
+                    } else {
+                        appendLine("sensor  $frameGeometry")
+                        appendLine("espejo  $mirrorGeometry")
+                    }
+                    engine?.frameError?.let { appendLine("error   $it") }
+                    append("frames $framesFromCamera · inferencias $framesInferred · caras $facesSeen")
+                }
+                delay(CAMERA_REPORT_TICK_MS)
             }
+            cameraReport = ""
         }
     }
 
@@ -346,6 +415,7 @@ class ValeriaArActivity : ComponentActivity() {
 
     private fun onSignals(signals: FaceSignals) {
         lastFaceMs = SystemClock.elapsedRealtime()
+        facesSeen += 1
         distance.update(signals)
         when (mode) {
             MODE_CALIBRATION -> collectCalibrationSample(signals)
@@ -690,8 +760,11 @@ class ValeriaArActivity : ComponentActivity() {
          */
         private const val SESSION_MAX_MS = 8 * 60_000L
 
-        /** Margen para el primer frame antes de dar la cámara por muda. */
+        /** Margen antes de empezar a mostrar la ficha de la cámara. */
         private const val CAMERA_HEALTH_MS = 3_000L
+        private const val CAMERA_REPORT_TICK_MS = 500L
+
+        private const val LOG_TAG = "ValeriaAR"
 
         /**
          * Vocabulario de arranque de AR-3. La primera palabra de cada fila es la
@@ -716,7 +789,7 @@ private fun ArHostScreen(
     mirror: ImageBitmap?,
     scene: SceneState,
     status: String,
-    cameraFailure: String,
+    cameraReport: String,
     bearTarget: PointF?,
     diagnostics: DiagnosticsState?,
 ) {
@@ -744,22 +817,24 @@ private fun ArHostScreen(
 
         diagnostics?.let { DiagnosticsPanel(it, Modifier.align(Alignment.TopStart)) }
 
-        // Fallo de cámara: se dice con palabras y con la ficha del teléfono
-        // delante, no con un fondo raro que hay que interpretar.
-        if (cameraFailure.isNotEmpty()) {
-            Column(
-                Modifier.align(Alignment.Center).padding(24.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                BasicText(
-                    cameraFailure,
-                    style = TextStyle(
-                        color = Color(0xFFFFC46B),
-                        fontSize = 13.sp,
-                        fontFamily = FontFamily.Monospace,
-                    ),
-                )
-            }
+        // Ficha de la cámara mientras no se reconozca ninguna cara. Desaparece
+        // sola en cuanto aparece la primera: es un diagnóstico, no adorno.
+        if (cameraReport.isNotEmpty()) {
+            BasicText(
+                cameraReport,
+                style = TextStyle(
+                    color = Color(0xFFFFC46B),
+                    fontSize = 11.sp,
+                    fontFamily = FontFamily.Monospace,
+                ),
+                // TopEnd: el panel de señales en vivo ya ocupa TopStart, y en
+                // diagnóstico se muestran los dos a la vez.
+                modifier = Modifier
+                    .align(Alignment.TopEnd)
+                    .padding(12.dp)
+                    .background(Color.Black.copy(alpha = 0.55f), RoundedCornerShape(10.dp))
+                    .padding(horizontal = 10.dp, vertical = 8.dp),
+            )
         }
 
         // `offset` y no `padding`: un padding negativo lanza IllegalArgumentException

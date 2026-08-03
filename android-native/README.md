@@ -81,9 +81,32 @@ que un preview por hardware, y la escena paga la copia por GPU de un
 `TextureView`. A cambio, la composición es determinista en vez de depender del
 teléfono que le toque a cada familia.
 
-Si la cámara no entrega ni un frame en 3 segundos, la pantalla lo dice con
-palabras y muestra el modelo del teléfono: un fallo de cámara ya no se
-manifiesta como un fondo raro que hay que interpretar.
+## La ficha de cámara
+
+Mientras no se haya reconocido **ni una cara**, la pantalla muestra arriba a la
+derecha lo único que sirve para diagnosticar sin tener el teléfono delante:
+
+```
+Xiaomi 22120RN86G · Android 14 (API 34)
+sensor  640×480 fmt=35 planos=3 rowStride=640 pxStride=1 rot=270°
+espejo  480×640 ARGB_8888
+frames 312 · inferencias 104 · caras 0
+```
+
+Cada cifra descarta una hipótesis concreta:
+
+- **`frames 0`** → la cámara no entrega nada; el resto del recorrido es
+  irrelevante.
+- **`width × height` minúsculo** → resolución absurda negociada con el sensor y
+  estirada a pantalla completa, que se ve igual que una conversión rota.
+- **`rowStride` distinto de lo esperado para el formato** → los bytes se leen
+  con el ancho equivocado, que es lo que produce bloques de color abstractos.
+- **`error …`** → `toBitmap()` rechazó el formato, con su mensaje exacto.
+- **`caras 0` con todo lo demás sano** → el problema está en el modelo o en el
+  encuadre, no en la cámara.
+
+Desaparece sola en cuanto llega la primera cara: es un diagnóstico, no adorno,
+y al niño no le sobra ni un elemento en pantalla.
 
 ## Assets
 
