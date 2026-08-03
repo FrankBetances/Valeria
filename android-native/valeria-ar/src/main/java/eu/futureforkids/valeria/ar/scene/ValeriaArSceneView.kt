@@ -2,7 +2,7 @@ package eu.futureforkids.valeria.ar.scene
 
 import android.content.Context
 import android.view.Choreographer
-import android.view.SurfaceView
+import android.view.TextureView
 import android.view.View
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -50,31 +50,32 @@ import java.nio.ByteBuffer
  * anillo de fijación, dianas— y el ejercicio se juega y se mide igual. Un fallo
  * de render nunca puede costarle a una familia una sesión de terapia.
  *
- * ── La composición con la cámara, que es de dónde vino el fondo roto ───────
- * Un `SurfaceView` no dibuja en la ventana: dibuja en una superficie propia y
- * **recorta un agujero transparente** en la ventana para dejarla ver. Eso obliga
- * a que las tres capas —preview de cámara, escena 3D e interfaz 2D— estén en el
- * orden correcto de *sublayer*, y a que la superficie de Filament sea
- * TRANSPARENTE de verdad. Quien decide las dos cosas es `UiHelper`, no nosotros:
- * `attachTo(SurfaceView)` **sobrescribe** el `setZOrderOnTop()` y el
- * `setFormat()` que se le hayan puesto antes al holder, y devuelve
- * `CONFIG_TRANSPARENT` al crear el swapchain solo si `isOpaque == false`.
+ * ── TextureView y no SurfaceView, que es lo que hace que se vea ────────────
+ * Un `SurfaceView` no dibuja en la ventana: dibuja en una superficie propia,
+ * fuera de ella, y recorta un agujero transparente para dejarse ver. Componer
+ * eso con la cámara resultó ser terreno de arenas movedizas —depende del HAL de
+ * cámara y del driver gráfico de cada teléfono, y en el de campo daba basura
+ * gráfica en lugar de la cara del niño—, así que el espejo se dibuja ahora
+ * dentro de la ventana, desde los frames de `ImageAnalysis` (ver `mirrorFrame`
+ * en `ValeriaArActivity`).
  *
- * Con el `UiHelper` por defecto (opaco) el resultado era exactamente el fallo
- * reportado: la superficie de Filament recortaba su agujero encima del preview
- * —borrándolo— y lo que se veía por él era un swapchain OPACO cuyo contenido
- * fuera del modelo es indefinido, es decir, memoria gráfica reciclada: bloques y
- * polígonos gigantes de colores planos. La osita se veía bien porque la osita SÍ
- * la dibuja Filament, y el texto 2D también porque se pinta en la ventana
- * después del recorte.
+ * Eso decide esta pieza: un `SurfaceView` quedaría siempre en un sublayer por
+ * DEBAJO de la ventana, es decir tapado por el propio espejo, y la osita no se
+ * vería. Con `TextureView` la escena es una vista normal de la jerarquía y el
+ * orden de dibujo es el que se lee en el Composable, sin negociación de
+ * superficies ni sublayers de por medio:
  *
- * El orden correcto, y por qué cada pieza está donde está:
- *   · preview de cámara → `SurfaceView` (sublayer −2), el de más abajo;
- *   · escena 3D → `setMediaOverlay(true)` (sublayer −1), encima de la cámara y
- *     DEBAJO de la ventana, con `isOpaque = false` para que su alfa sea real;
- *   · interfaz 2D de Compose → la ventana (sublayer 0), siempre encima.
- * `setZOrderOnTop(true)` —lo que hacía antes— habría puesto la escena por encima
- * de la ventana, tapando el anillo de progreso y las dianas.
+ *     espejo de cámara → escena 3D → sobreimpresión 2D → texto
+ *
+ * `isOpaque = false` en el `UiHelper` sigue siendo imprescindible: es lo que
+ * hace que `attachTo()` ponga `textureView.isOpaque = false` y que el swapchain
+ * se cree con `CONFIG_TRANSPARENT`. Sin ello la escena se dibuja sobre un fondo
+ * opaco y tapa el espejo entero.
+ *
+ * El precio es una copia por GPU de la escena en cada frame, que es lo que
+ * cuesta un TextureView frente a un SurfaceView. Para un modelo sobre fondo
+ * transparente es asumible, y compra que la composición sea determinista en
+ * lugar de dependiente del teléfono.
  */
 @Composable
 fun ValeriaArSceneView(state: SceneState, modifier: Modifier = Modifier) {
@@ -95,12 +96,11 @@ private fun FilamentLayer(state: SceneState) {
     val stage = remember { FilamentStage() }
 
     AndroidView(
-        // El z-order y el formato del holder NO se tocan aquí: los fija
-        // `UiHelper` dentro de `stage.attach()` a partir de `isOpaque` y
-        // `isMediaOverlay`, y sobrescribiría cualquier cosa que pusiéramos
-        // antes. Ponerlos en los dos sitios es la forma de que un día dejen de
-        // coincidir sin que nadie se entere.
-        factory = { ctx -> SurfaceView(ctx).also { stage.attach(it) } },
+        // La transparencia NO se toca aquí: la fija `UiHelper` dentro de
+        // `stage.attach()` a partir de `isOpaque`, y sobrescribiría cualquier
+        // cosa que pusiéramos antes. Ponerlo en los dos sitios es la forma de
+        // que un día dejen de coincidir sin que nadie se entere.
+        factory = { ctx -> TextureView(ctx).also { stage.attach(it) } },
         modifier = Modifier.fillMaxSize(),
     )
 
@@ -130,7 +130,7 @@ private class FilamentStage {
 
     /**
      * Cierre en un solo sentido. `ModelViewer` se AUTODESTRUYE cuando su
-     * `SurfaceView` sale de la ventana —registra un `OnAttachStateChangeListener`
+     * `TextureView` sale de la ventana —registra un `OnAttachStateChangeListener`
      * que llama a `destroy()`, y `destroy()` incluye `engine.destroy()`—, así que
      * a partir de ese instante cualquier `render()`, `loadModel()` o
      * `applyReward()` es una llamada nativa sobre un motor liberado: un cierre
@@ -146,19 +146,16 @@ private class FilamentStage {
     private var animationStartedNanos = 0L
     private var animationLoop = false
 
-    fun attach(surface: SurfaceView) {
+    fun attach(surface: TextureView) {
         runCatching {
             ensureNativeLibrary()
 
-            // Las dos líneas que arreglan el fondo. `isOpaque = false` hace que
-            // el swapchain se cree con CONFIG_TRANSPARENT y que el holder pase a
-            // PixelFormat.TRANSLUCENT; `isMediaOverlay = true` deja la superficie
-            // en el sublayer −1: encima del preview de la cámara y debajo de la
-            // interfaz 2D. Ambas TIENEN que fijarse antes de `attachTo()`, que es
-            // lo que hace el constructor de ModelViewer.
+            // `isOpaque = false` es lo que hace que la escena se componga sobre
+            // el espejo en vez de taparlo: pone `textureView.isOpaque = false` y
+            // crea el swapchain con CONFIG_TRANSPARENT. Tiene que fijarse ANTES
+            // de `attachTo()`, que es lo que hace el constructor de ModelViewer.
             val uiHelper = UiHelper(UiHelper.ContextErrorPolicy.DONT_CHECK).apply {
                 isOpaque = false
-                isMediaOverlay = true
             }
             val modelViewer = ModelViewer(surface, Engine.create(), uiHelper)
             viewer = modelViewer

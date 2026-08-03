@@ -38,32 +38,52 @@ Al editar Kotlin hay que **volver a lanzar el prebuild** (o editar
 `android/valeria-ar` y copiar los cambios de vuelta a mano antes de commitear:
 lo que se versiona es `android-native/`, no `android/`).
 
-## Cómo se componen las tres capas (no tocar a la ligera)
+## Todo se dibuja en la ventana. No metas SurfaceViews aquí
 
-La pantalla de RA son tres superficies distintas, y el orden entre ellas es
-frágil porque un `SurfaceView` **no dibuja en la ventana**: dibuja en una
-superficie propia y recorta un agujero transparente en la ventana para dejarla
-ver. Todo lo que se hubiera pintado ahí debajo desaparece.
+La pantalla de RA son cuatro capas y **las cuatro se pintan dentro de la
+ventana**, en el orden en que se leen en el Composable:
 
-| Capa | Cómo se implementa | Sublayer |
-| --- | --- | --- |
-| Preview de la cámara | `PreviewView` en modo **PERFORMANCE** (`SurfaceView`) | −2 |
-| Escena 3D de Filament | `SurfaceView` con `UiHelper.isOpaque = false` y `isMediaOverlay = true` | −1 |
-| Interfaz 2D de Compose | La ventana (texto, dianas, anillo de progreso, panel de señales) | 0 |
+```
+espejo de cámara → escena 3D (Filament) → sobreimpresión 2D → texto
+```
 
-Dos reglas que se rompieron una vez y costaron una sesión de campo entera:
+| Capa | Cómo se implementa |
+| --- | --- |
+| Espejo de la cámara | Los frames de `ImageAnalysis`, ya orientados, pintados con `Image` de Compose |
+| Escena 3D de Filament | `TextureView` con `UiHelper.isOpaque = false` |
+| Interfaz 2D | Compose: texto, dianas, anillo de progreso, panel de señales |
 
-1. **El preview no puede ir en modo `COMPATIBLE`.** Ese modo lo dibuja en un
-   `TextureView`, es decir dentro de la ventana, y el `SurfaceView` de Filament
-   —que se compone después— lo borra al recortar su agujero.
-2. **El `UiHelper` de Filament tiene que ser translúcido**, y hay que
-   configurarlo *antes* de `attachTo()`. `attachTo()` sobrescribe el
-   `setZOrderOnTop()` y el `setFormat()` del holder, y solo pide un swapchain
-   `CONFIG_TRANSPARENT` si `isOpaque` es `false`. Con el helper por defecto la
-   superficie sale OPACA: el niño ve el contenido indefinido del buffer —bloques
-   y polígonos de colores planos— en lugar de su propia cara, con el modelo 3D
-   dibujándose correctamente encima y el texto 2D intacto, que es exactamente el
-   cuadro que hay que reconocer si vuelve a aparecer.
+Esto es una decisión tomada a golpes, así que conviene saber qué se rompió:
+
+1. **El caso de uso `Preview` de CameraX se retiró.** En el teléfono de campo el
+   fondo era basura gráfica —polígonos verdes y marrones— en lugar de la cara del
+   niño, **con los dos modos** de `PreviewView`: `COMPATIBLE` (TextureView) y
+   `PERFORMANCE` (SurfaceView). Que fallaran los dos es el dato que resuelve el
+   caso: una superficie de preview a la que la cámara nunca escribe se ve así en
+   ambos —búfer sin inicializar en uno, textura GL sin inicializar en el otro—.
+   La cámara capturaba y `ImageAnalysis` recibía frames; lo que no se cumplía era
+   la petición de superficie del `Preview`. Esa negociación depende del HAL de
+   cámara y del driver de cada teléfono, y en BYOD no se puede ni depurar a
+   distancia ni garantizar.
+2. **Un `SurfaceView` no dibuja en la ventana**: dibuja fuera y recorta un
+   agujero transparente para dejarse ver, siempre en un sublayer por debajo de
+   ella. Con el espejo ya dentro de la ventana, cualquier `SurfaceView` queda
+   tapado por él. Por eso la escena 3D va en `TextureView`, que es una vista
+   normal de la jerarquía.
+3. **El `UiHelper` de Filament tiene que ser translúcido**, y hay que
+   configurarlo *antes* de `attachTo()` —que es lo que hace el constructor de
+   `ModelViewer`—. Es lo que pone `textureView.isOpaque = false` y crea el
+   swapchain con `CONFIG_TRANSPARENT`. Con el helper por defecto la escena se
+   dibuja sobre fondo opaco y tapa el espejo entero.
+
+El precio de todo esto: el espejo son 640×480 escalados, así que sale más blando
+que un preview por hardware, y la escena paga la copia por GPU de un
+`TextureView`. A cambio, la composición es determinista en vez de depender del
+teléfono que le toque a cada familia.
+
+Si la cámara no entrega ni un frame en 3 segundos, la pantalla lo dice con
+palabras y muestra el modelo del teléfono: un fallo de cámara ya no se
+manifiesta como un fondo raro que hay que interpretar.
 
 ## Assets
 
@@ -96,7 +116,7 @@ un compilador no puede ver. Los cuatro fallos y su corrección:
 
 | Síntoma en el teléfono | Causa | Dónde se corrigió |
 | --- | --- | --- |
-| Fondo de cámara como bloques de colores planos | Superficie de Filament opaca recortando el preview (ver arriba) | `ValeriaArSceneView`, `ValeriaArActivity` |
+| Fondo de cámara como bloques de colores planos | La superficie del `Preview` de CameraX nunca recibía frames (ver arriba) | `ValeriaArActivity`, `FaceSignalEngine`, `ValeriaArSceneView` |
 | La sesión no avanzaba nunca a la tarea siguiente | Los tres ejercicios solo progresan con la cara dentro; sin ella el bucle giraba indefinidamente | `ValeriaArActivity` (vigilancia y cierre con `timeout`) |
 | Cierre inesperado tras unos minutos | Frames encolados dentro de MediaPipe con su bitmap, sin contrapresión, más un mapa de marcas de tiempo compartido por dos hilos | `FaceSignalEngine`, `FpsMeter` |
 | «Mira a la osita» sin osita en pantalla | La Prueba de Aptitud no dibujaba ninguna diana | `ValeriaArActivity` |

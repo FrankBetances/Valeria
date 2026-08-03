@@ -42,6 +42,18 @@ class FaceSignalEngine(
      * Se llama en el hilo del listener de MediaPipe, no en el de UI.
      */
     private val onFaceLost: () -> Unit = {},
+    /**
+     * Cada frame ya orientado como lo ve el niño, para pintarlo como espejo.
+     *
+     * Se entrega SIEMPRE, también cuando el frame se descarta por contrapresión:
+     * dibujar es barato y la inferencia no, así que el espejo va fluido aunque el
+     * teléfono infiera a la mitad de velocidad. El bitmap es el MISMO que recibe
+     * MediaPipe —ambos lo leen y ninguno lo modifica—, así que el espejo no
+     * cuesta ni una copia extra.
+     *
+     * Se llama en el hilo del executor de análisis.
+     */
+    private val onFrame: (Bitmap) -> Unit = {},
     /** Se llama en el hilo del listener de MediaPipe, no en el de UI. */
     private val onSignals: (FaceSignals) -> Unit,
 ) {
@@ -140,22 +152,30 @@ class FaceSignalEngine(
     fun analyze(image: ImageProxy, isFrontCamera: Boolean) {
         if (closed) { image.close(); return }
 
-        // Compuerta de un frame en vuelo, con válvula de seguridad temporal: si
-        // una inferencia se perdiera sin devolver resultado, el hueco se libera
-        // solo y la sesión sigue, en vez de quedarse sin cámara para siempre.
-        val now = SystemClock.elapsedRealtime()
-        val busySince = inferenceStartedMs
-        if (busySince != 0L && now - busySince < STALE_INFERENCE_MS) { image.close(); return }
-
         try {
             // Marca de tiempo de CAPTURA del sensor, no del callback.
             val tCaptureUs = image.imageInfo.timestamp / 1_000L
             val tMs = tCaptureUs / 1_000L
-            synchronized(pendingCaptureUs) { pendingCaptureUs[tMs] = tCaptureUs }
 
-            // Sin `image.close()` aquí: lo hace el `finally`. Cerrarlo dos veces
-            // descuenta dos veces en la contabilidad de la cola de CameraX.
+            // Sin `image.close()` en los returns: lo hace el `finally`. Cerrarlo
+            // dos veces descuenta dos veces en la cola de CameraX.
             val bitmap = image.toRotatedBitmap(isFrontCamera) ?: return
+
+            // El espejo primero y siempre: es lo que el adulto necesita para
+            // colocar al niño, y no puede depender de que la inferencia vaya
+            // sobrada. Un espejo a 30 fps sobre una señal a 12 es exactamente lo
+            // que se quiere, no una concesión.
+            onFrame(bitmap)
+
+            // Compuerta de un frame en vuelo, con válvula de seguridad temporal:
+            // si una inferencia se perdiera sin devolver resultado, el hueco se
+            // libera solo y la sesión sigue, en vez de quedarse sin señal para
+            // siempre.
+            val now = SystemClock.elapsedRealtime()
+            val busySince = inferenceStartedMs
+            if (busySince != 0L && now - busySince < STALE_INFERENCE_MS) return
+
+            synchronized(pendingCaptureUs) { pendingCaptureUs[tMs] = tCaptureUs }
             val mpImage = BitmapImageBuilder(bitmap).build()
             inferenceStartedMs = now
             synchronized(lock) {

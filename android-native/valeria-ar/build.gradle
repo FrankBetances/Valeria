@@ -120,11 +120,14 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.9.0'
 
     // --- Cámara ---
+    // Sin `camera-view`: el módulo ya no usa `PreviewView`. El espejo se dibuja
+    // desde los frames de `ImageAnalysis` en la capa de Compose, porque la
+    // negociación de superficies del caso de uso `Preview` resultó no ser fiable
+    // en el parque real (ver el encabezado de `mirrorFrame` en ValeriaArActivity).
     def cameraxVersion = '1.4.2'
     implementation "androidx.camera:camera-core:$cameraxVersion"
     implementation "androidx.camera:camera-camera2:$cameraxVersion"
     implementation "androidx.camera:camera-lifecycle:$cameraxVersion"
-    implementation "androidx.camera:camera-view:$cameraxVersion"
 
     // --- Señal facial: 478 landmarks + 52 blendshapes ARKit + matriz 4×4 ---
     implementation 'com.google.mediapipe:tasks-vision:0.10.29'

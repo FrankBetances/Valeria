@@ -5,20 +5,21 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.graphics.PointF
 import android.os.Bundle
 import android.os.SystemClock
+import android.view.Surface
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
-import androidx.camera.core.Preview
 import androidx.camera.core.resolutionselector.ResolutionSelector
 import androidx.camera.core.resolutionselector.ResolutionStrategy
 import androidx.camera.lifecycle.ProcessCameraProvider
-import androidx.camera.view.PreviewView
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -35,12 +36,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import eu.futureforkids.valeria.ar.aptitude.AptitudeTest
 import eu.futureforkids.valeria.ar.aptitude.FpsMeter
@@ -119,28 +122,43 @@ class ValeriaArActivity : ComponentActivity() {
     private var cameraProvider: ProcessCameraProvider? = null
     private var analysisUseCase: ImageAnalysis? = null
 
-    // La PreviewView se crea aquí y no dentro del Composable porque el caso de
-    // uso de CameraX necesita su SurfaceProvider: sin ese cable, la cámara se
-    // enlaza y analiza correctamente pero el niño ve una pantalla negra.
-    //
-    // PERFORMANCE y no COMPATIBLE, y es media cura del fondo roto. COMPATIBLE
-    // dibuja el preview en un `TextureView`, es decir DENTRO de la ventana; la
-    // escena 3D vive en un `SurfaceView`, que recorta un agujero transparente en
-    // esa misma ventana y por tanto BORRA el preview que se había pintado
-    // debajo. Con PERFORMANCE el preview pasa a ser otra superficie, en el
-    // sublayer de más abajo, y las tres capas se apilan como deben (ver el
-    // encabezado de `ValeriaArSceneView`). De paso se ahorra la copia por GPU de
-    // cada frame que hace TextureView, que en la gama baja del parque LATAM es
-    // justo donde aparecían los bloques de color.
-    //
-    // No es un riesgo de compatibilidad: CameraX cae a TextureView por su cuenta
-    // en los dispositivos donde sabe que la superficie no se comporta.
-    private val previewView: PreviewView by lazy {
-        PreviewView(this).apply {
-            scaleType = PreviewView.ScaleType.FILL_CENTER
-            implementationMode = PreviewView.ImplementationMode.PERFORMANCE
-        }
-    }
+    /**
+     * El espejo: el último frame de la cámara, ya orientado, listo para pintar.
+     *
+     * ── Por qué el espejo NO usa el caso de uso `Preview` de CameraX ────────
+     * Lo usaba, y en el teléfono de campo se veía basura gráfica —polígonos
+     * verdes y marrones— en lugar de la cara del niño, con los dos modos de
+     * `PreviewView`: `COMPATIBLE` (TextureView) y `PERFORMANCE` (SurfaceView).
+     * Que fallen los dos es el dato: una superficie de preview a la que la
+     * cámara NUNCA escribe se ve así en ambos casos —búfer sin inicializar en
+     * uno, textura GL sin inicializar en el otro—, así que el modo no era la
+     * variable. La cámara capturaba (el punto verde del sistema estaba
+     * encendido) y `ImageAnalysis` recibía frames; lo que no llegaba a
+     * cumplirse era la petición de superficie del `Preview`.
+     *
+     * Esa negociación de superficies depende del HAL de cámara y del driver
+     * gráfico de cada teléfono, y en un despliegue BYOD eso no se puede depurar
+     * a distancia ni garantizar. Así que se elimina: los frames del espejo son
+     * los MISMOS que ya se convierten a bitmap para MediaPipe, y se pintan en la
+     * capa de Compose —la única que ha renderizado correctamente en todos los
+     * informes de campo—. Un solo flujo de cámara, un solo camino de dibujo,
+     * cero negociación de superficies.
+     *
+     * Tiene además una propiedad que el preview por hardware no daba: el adulto
+     * ve EXACTAMENTE los frames que ve el rastreador facial. Cuando la logopeda
+     * dice «no le coge la cara», está mirando la misma imagen que se le está
+     * pasando al modelo, no otra parecida.
+     *
+     * El coste es real y conviene decirlo: son 640×480 escalados a la pantalla,
+     * así que el espejo sale más blando que un preview por hardware. Para que un
+     * niño se vea y un adulto lo encuadre, sobra.
+     */
+    private var mirrorFrame by mutableStateOf<ImageBitmap?>(null)
+
+    /** Frames entregados por la cámara e inferencias completadas. Diagnóstico. */
+    @Volatile private var framesFromCamera = 0L
+    @Volatile private var framesInferred = 0L
+    private var cameraFailure by mutableStateOf("")
 
     // Calibración: pares (punto de cara observado → punto de pantalla mostrado).
     private val calObserved = ArrayList<PointF>(5)
@@ -176,9 +194,10 @@ class ValeriaArActivity : ComponentActivity() {
             ComposeView(this).apply {
                 setContent {
                     ArHostScreen(
-                        previewView = previewView,
+                        mirror = mirrorFrame,
                         scene = scene,
                         status = statusText,
+                        cameraFailure = cameraFailure,
                         bearTarget = bearTarget,
                         diagnostics = if (mode == MODE_DIAGNOSTICS) diagnostics else null,
                     )
@@ -208,6 +227,7 @@ class ValeriaArActivity : ComponentActivity() {
         engine = FaceSignalEngine(
             context = this,
             onFaceLost = { onFrameProcessed() },
+            onFrame = { bitmap -> publishMirror(bitmap) },
             onSignals = { signals -> onFrameProcessed(); onSignals(signals) },
         )
         if (engine?.isReady != true) { finishWith(outcome = "aborted"); return }
@@ -216,9 +236,6 @@ class ValeriaArActivity : ComponentActivity() {
         providerFuture.addListener({
             val provider = providerFuture.get()
             cameraProvider = provider
-            val preview = Preview.Builder().build().apply {
-                surfaceProvider = previewView.surfaceProvider
-            }
 
             // 640×480 y BACKPRESSURE_KEEP_LATEST: a mayor resolución la gama
             // media no sostiene la inferencia, y encolar frames viejos empeora
@@ -236,23 +253,33 @@ class ValeriaArActivity : ComponentActivity() {
                 )
                 .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
                 .setOutputImageFormat(ImageAnalysis.OUTPUT_IMAGE_FORMAT_RGBA_8888)
+                // Explícita, no heredada: la Activity es `sensorLandscape` y
+                // absorbe los cambios de configuración sin recrearse, así que
+                // nadie la actualizaría sola. Sin esto, girar el teléfono 180°
+                // —cosa que el soporte de mesa invita a hacer— deja el espejo
+                // boca abajo y el rastreador midiendo una cara invertida.
+                .setTargetRotation(displayRotation())
                 .build()
 
             // El contador de fps NO va aquí. Aquí se cuentan los frames que la
-            // cámara entrega, y el analizador ahora descarta los que llegan
-            // mientras MediaPipe todavía infiere: contarlos daría 30 fps en un
-            // teléfono que en realidad procesa 12, y la Prueba de Aptitud
-            // clasificaría de nivel A un aparato que no sostiene el ejercicio.
-            // Se cuentan en `onFrameProcessed`, es decir, inferencias acabadas.
+            // cámara entrega, y el analizador descarta los que llegan mientras
+            // MediaPipe todavía infiere: contarlos daría 30 fps en un teléfono
+            // que en realidad procesa 12, y la Prueba de Aptitud clasificaría de
+            // nivel A un aparato que no sostiene el ejercicio. Se cuentan en
+            // `onFrameProcessed`, es decir, inferencias acabadas.
             analysis.setAnalyzer(analysisExecutor) { image ->
+                framesFromCamera += 1
                 engine?.analyze(image, isFrontCamera = true)
             }
             analysisUseCase = analysis
 
             try {
                 provider.unbindAll()
-                provider.bindToLifecycle(this, CameraSelector.DEFAULT_FRONT_CAMERA, preview, analysis)
+                // Un solo caso de uso. El `Preview` de CameraX ya no se enlaza:
+                // el espejo se dibuja desde estos mismos frames (ver `mirrorFrame`).
+                provider.bindToLifecycle(this, CameraSelector.DEFAULT_FRONT_CAMERA, analysis)
                 lastFaceMs = SystemClock.elapsedRealtime()
+                watchCameraHealth()
                 startModeFlow()
             } catch (e: Throwable) {
                 finishWith(outcome = "aborted")
@@ -260,8 +287,60 @@ class ValeriaArActivity : ComponentActivity() {
         }, ContextCompat.getMainExecutor(this))
     }
 
+    @Suppress("DEPRECATION")
+    private fun displayRotation(): Int =
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
+            display?.rotation ?: Surface.ROTATION_0
+        } else {
+            windowManager.defaultDisplay.rotation
+        }
+
+    override fun onConfigurationChanged(newConfig: android.content.res.Configuration) {
+        super.onConfigurationChanged(newConfig)
+        // La Activity declara `configChanges="orientation|screenSize|…"`, así que
+        // aquí es donde hay que enterarse de que el teléfono se dio la vuelta.
+        analysisUseCase?.targetRotation = displayRotation()
+    }
+
+    /**
+     * Publica el frame como espejo.
+     *
+     * Se salta al hilo principal a propósito. Escribir estado de Compose desde
+     * un hilo cualquiera funciona, pero la visibilidad depende de cuándo avance
+     * la instantánea global; con 30 escrituras por segundo de una imagen que el
+     * adulto usa para encuadrar a un niño, la certeza vale más que el salto.
+     */
+    private fun publishMirror(bitmap: Bitmap) {
+        val image = bitmap.asImageBitmap()
+        runOnUiThread {
+            mirrorFrame = image
+            if (cameraFailure.isNotEmpty()) cameraFailure = ""
+        }
+    }
+
+    /**
+     * Vigilancia de la cámara, con un mensaje que se pueda REPORTAR.
+     *
+     * Si a los tres segundos no ha llegado ni un frame, el problema no es el
+     * encuadre: es la cámara. Antes eso se veía como un fondo raro y había que
+     * adivinar qué significaba; ahora lo dice con palabras y deja en pantalla el
+     * modelo del teléfono, que es lo que hace falta para diagnosticarlo sin
+     * tenerlo delante.
+     */
+    private fun watchCameraHealth() {
+        scope.launch {
+            delay(CAMERA_HEALTH_MS)
+            if (framesFromCamera == 0L) {
+                cameraFailure = "La cámara no está entregando imágenes en este teléfono.\n" +
+                    "${android.os.Build.MANUFACTURER} ${android.os.Build.MODEL} · " +
+                    "Android ${android.os.Build.VERSION.RELEASE} (API ${android.os.Build.VERSION.SDK_INT})"
+            }
+        }
+    }
+
     /** Un frame que ha COMPLETADO inferencia, con cara o sin ella. */
     private fun onFrameProcessed() {
+        framesInferred += 1
         fpsMeter.onFrame()
     }
 
@@ -611,6 +690,9 @@ class ValeriaArActivity : ComponentActivity() {
          */
         private const val SESSION_MAX_MS = 8 * 60_000L
 
+        /** Margen para el primer frame antes de dar la cámara por muda. */
+        private const val CAMERA_HEALTH_MS = 3_000L
+
         /**
          * Vocabulario de arranque de AR-3. La primera palabra de cada fila es la
          * correcta. Es intencionadamente pequeño y provisional: la fuente buena
@@ -631,20 +713,54 @@ class ValeriaArActivity : ComponentActivity() {
 
 @Composable
 private fun ArHostScreen(
-    previewView: PreviewView,
+    mirror: ImageBitmap?,
     scene: SceneState,
     status: String,
+    cameraFailure: String,
     bearTarget: PointF?,
     diagnostics: DiagnosticsState?,
 ) {
     Box(Modifier.fillMaxSize().background(Color.Black)) {
-        // Preview de la cámara frontal como fondo: es AR de espejo, el niño se
-        // ve a sí mismo y la escena 3D se compone encima.
-        AndroidView(factory = { previewView }, modifier = Modifier.fillMaxSize())
+        // El espejo, como fondo: el niño se ve a sí mismo y la escena 3D se
+        // compone encima.
+        //
+        // `Fit` y no `Crop`, aunque deje franjas negras a los lados. El frame es
+        // 4:3 y la pantalla ronda 19,5:9, así que recortar para llenarla se come
+        // casi el 40 % del alto —frente y barbilla— y devuelve el problema que
+        // este bloque tiene delante: un adulto que no consigue encuadrar al niño
+        // y un rastreador que pierde la cara sin que nadie entienda por qué. Con
+        // `Fit`, lo que se ve en pantalla es EXACTAMENTE lo que ve el modelo, y
+        // «se le sale la cara» pasa de ser una conjetura a ser algo visible.
+        mirror?.let { frame ->
+            Image(
+                bitmap = frame,
+                contentDescription = null,
+                modifier = Modifier.fillMaxSize(),
+                contentScale = ContentScale.Fit,
+            )
+        }
 
         ValeriaArSceneView(scene, Modifier.fillMaxSize())
 
         diagnostics?.let { DiagnosticsPanel(it, Modifier.align(Alignment.TopStart)) }
+
+        // Fallo de cámara: se dice con palabras y con la ficha del teléfono
+        // delante, no con un fondo raro que hay que interpretar.
+        if (cameraFailure.isNotEmpty()) {
+            Column(
+                Modifier.align(Alignment.Center).padding(24.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                BasicText(
+                    cameraFailure,
+                    style = TextStyle(
+                        color = Color(0xFFFFC46B),
+                        fontSize = 13.sp,
+                        fontFamily = FontFamily.Monospace,
+                    ),
+                )
+            }
+        }
 
         // `offset` y no `padding`: un padding negativo lanza IllegalArgumentException
         // y las dianas de las esquinas caen a un 10-12 % del borde, que en una
