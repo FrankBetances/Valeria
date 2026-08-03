@@ -3,12 +3,12 @@
 > **Documento de planificación.** Dos trabajos encadenados pero **independientes**,
 > que se pueden parar por separado:
 >
-> - **Fase A · Reconocimiento offline con el motor del sistema.** Conseguir que el
+> - **Fase A · Reconocimiento local con el motor del sistema.** Conseguir que el
 >   audio del turno de habla del menor **no salga del dispositivo** usando el
 >   reconocedor que ya trae el móvil. Coste bajo, beneficio regulatorio inmediato.
-> - **Fase B · Prueba de concepto de un motor local propio** (`sherpa-onnx` +
->   whisper-small o un Conformer-CTC español). **Es una medición, no una
->   integración**: termina en una cifra y una decisión GO/NO-GO, no en una app.
+> - **Fase B · Prueba de concepto de un motor local propio** (`sherpa-onnx`).
+>   **Es una medición, no una integración**: termina en una cifra y una decisión
+>   GO/NO-GO, no en una app.
 >
 > **El adulto sigue siendo el juez final en todo momento.** Ninguna de las dos
 > fases toca `matchPair`/`matchExpected` ni el pliegue dialectal: el motor solo
@@ -21,8 +21,14 @@
 > Encuadre regulatorio: **SaMD Clase I (MDR)** · **RGPD art. 9** (datos de salud de
 > menores) · **Play Console → Seguridad de los datos**.
 >
-> Estado: 🟡 **plan redactado, nada implementado.** Fase A sin empezar; Fase B sin
-> empezar. Rama de trabajo: `claude/valeria-voice-recognition-mva9qq`.
+> **Estado: 🟢 desbloqueado, listo para empezar** (2026-08-03). Las dos decisiones
+> que bloqueaban el arranque están cerradas:
+> **D1 · migración a `@jamsch/expo-speech-recognition` confirmada** (§3.1) y
+> **D3 · consentimiento de grabación resuelto**, con firma en papel el día de la
+> sesión (§4.2). Queda abierto el **umbral clínico** de la puerta de la Fase A
+> (§3.5), que no impide empezar: bloquea cerrar, no arrancar.
+>
+> Rama de trabajo: `claude/valeria-voice-recognition-mva9qq`.
 
 ---
 
@@ -30,12 +36,12 @@
 
 - [1. Objetivo y principio rector](#1-objetivo-y-principio-rector)
 - [2. Punto de partida verificado](#2-punto-de-partida-verificado)
-- [3. Fase A · Reconocimiento offline con el motor del sistema](#3-fase-a--reconocimiento-offline-con-el-motor-del-sistema)
+- [3. Fase A · Reconocimiento local con el motor del sistema](#3-fase-a--reconocimiento-local-con-el-motor-del-sistema)
 - [4. Fase B · PoC de motor local con sherpa-onnx](#4-fase-b--poc-de-motor-local-con-sherpa-onnx)
 - [5. Fuera de alcance (explícito)](#5-fuera-de-alcance-explícito)
 - [6. Riesgos y mitigaciones](#6-riesgos-y-mitigaciones)
 - [7. Impacto regulatorio](#7-impacto-regulatorio)
-- [8. Decisiones abiertas](#8-decisiones-abiertas)
+- [8. Decisiones](#8-decisiones)
 - [9. Seguimiento](#9-seguimiento)
 
 ---
@@ -59,7 +65,7 @@ de privacidad del proyecto, y es evitable.
 
 > **Reducir la salida de audio no puede costar precisión clínica.**
 
-Un reconocedor offline que falle más produce más falsos negativos: al niño se le
+Un reconocedor local que falle más produce más falsos negativos: al niño se le
 dice "no te escuché" cuando sí lo dijo bien. Eso es peor que el problema que se
 intenta resolver. Por eso ninguna de las dos fases se acepta "porque es más
 privada": las dos tienen que **medirse contra el comportamiento actual** y
@@ -74,6 +80,8 @@ superar un umbral antes de entrar.
 | El pliegue dialectal se aplica a la hipótesis, venga del motor que venga | `foldDominican` (`:535`), `foldBasque` (`:550`) |
 | El umbral de aceptación fonética es materia clínica y no se afloja | `matchPair` (`:598`), `matchExpected` (`:608`) |
 | La ventana de escucha ES-04 (3 s de silencio) es un requisito de logopedas | `ANDROID_LISTEN_EXTRAS` (`:446`) |
+| La distinción `noMatch` —fallo del motor ≠ fallo del niño— no se pierde | `NO_MATCH_CODES` (`:459`), `ListenCallbacks.onError` |
+| **Nunca se sesga el reconocedor hacia la palabra objetivo** | §3.4 |
 | `newArchEnabled` sigue en `false` | `app.json:9` |
 
 ---
@@ -94,7 +102,7 @@ escuchar**, no dónde se procesa.
 
 ### 2.2 El hallazgo que condiciona la Fase A
 
-**Añadir `EXTRA_PREFER_OFFLINE: true` a `ANDROID_LISTEN_EXTRAS` no haría nada.**
+**Añadir `EXTRA_PREFER_OFFLINE` a `ANDROID_LISTEN_EXTRAS` no haría nada.**
 
 El módulo Android de `@react-native-voice/voice@3.2.4` recorre las opciones que
 llegan de JS con un `switch (key)` que acepta **exactamente seis claves**
@@ -118,31 +126,32 @@ speech.startListening(intent);
 
 Una clave desconocida se cae sin error, sin log y sin aviso. Es decir: la mejora
 se habría dado por hecha, habría pasado revisión, se habría anunciado en la
-política de privacidad y **el audio habría seguido saliendo igual**. Esto obliga
-a que la Fase A empiece por una decisión de mecanismo (§3.1), no por editar un
-objeto en TypeScript.
+política de privacidad y **el audio habría seguido saliendo igual**.
 
 **En iOS el problema es mayor.** `ios/Voice/Voice.m` crea la petición y solo le
 pone `shouldReportPartialResults`; **nunca** toca `requiresOnDeviceRecognition`,
 que es la propiedad que fuerza el reconocimiento local en `SFSpeechRecognizer`
 (iOS 13+). Con esta librería iOS no tiene camino on-device en absoluto.
 
-**Dato de contexto:** la librería es lo bastante antigua como para seguir
-dependiendo de `com.android.support:*`, y por eso el proyecto arrastra
-`plugins/withJetifier.js`. No es una dependencia con la que convenga casarse a
-largo plazo.
+**Dato de contexto:** la librería sigue dependiendo de `com.android.support:*`, y
+por eso el proyecto arrastra `plugins/withJetifier.js`. No es una dependencia con
+la que convenga casarse a largo plazo.
 
-### 2.3 Lo que ya declara la política de privacidad
+### 2.3 La palanca correcta no es `EXTRA_PREFER_OFFLINE`
 
-| Ubicación | Qué dice | Qué pasaría si la Fase A sale bien |
-| --- | --- | --- |
-| `privacidad.html:112` | Fila "Reconocimiento de voz (servicio del sistema)" | Se matiza: se ejecuta en local cuando el dispositivo puede |
-| `privacidad.html:141` | "ese servicio puede procesar el audio en sus propios servidores" | Se reescribe: pasa a ser la excepción, no la norma |
-| `privacidad.html:163` | Lista al reconocedor como destinatario tercero | **Podría salir de la lista** en configuración offline |
-| `eliminacion-de-datos.html:64` | Remite a `myactivity.google.com` para el historial | Deja de aplicar cuando no hay envío |
+Corrección sobre la primera versión de este plan, que giraba alrededor de esa
+clave. `EXTRA_PREFER_OFFLINE` es **una pista** que Android puede ignorar. Lo que
+de verdad hace falta son cuatro piezas, y ninguna existe en la librería actual:
 
-Y lo mismo en `privacy.html` (EN). Es un beneficio regulatorio tangible y
-declarable, no cosmético.
+| Pieza | Qué garantiza |
+| --- | --- |
+| `requiresOnDeviceRecognition` | *"Prevent device from sending audio over the network. Only enabled if the device supports it."* Es una garantía condicionada, no una preferencia. Existe en Android y en iOS |
+| `androidRecognitionServicePackage` + `getSpeechRecognitionServices()` | **Selección dura del motor**: apuntar a `com.google.android.as` (Android System Intelligence, local) en vez de `com.google.android.googlequicksearchbox` (red) |
+| `supportsOnDeviceRecognition()` | Comprobación en tiempo de ejecución antes de prometer nada |
+| `getSupportedLocales()` | Si el paquete de idioma está instalado, **por locale** (§3.3) |
+
+Esto es lo que colapsa la decisión D1: no es una clave en un `switch`, son cinco
+APIs en dos plataformas.
 
 ### 2.4 Relación con el NO-GO de `asr-euskera-ilenia.md`
 
@@ -157,9 +166,10 @@ pendiente**, con dos diferencias que cambian el cálculo:
 2. **Cambia la motivación.** Aquello buscaba *cobertura* (que el euskera se
    reconociera). Esto busca *privacidad*, que aplica a todas las variedades.
 
-La conclusión técnica de aquel documento sigue vigente y se hereda: **whisper
-large es inviable en gama media; la vía realista es un modelo pequeño
-cuantizado**. Este plan la pone a prueba con números.
+Sus dos conclusiones técnicas se heredan y se confirman: **whisper large es
+inviable en gama media**, y **CTC es preferible a Whisper para este uso** por ser
+"más ligero y determinista" — razón que §4.4 desarrolla y convierte en el orden
+de evaluación.
 
 ### 2.5 Por qué no se sigue la propuesta "Distilled YODAS"
 
@@ -181,118 +191,159 @@ banco de medida (§4.3).
 
 ---
 
-## 3. Fase A · Reconocimiento offline con el motor del sistema
+## 3. Fase A · Reconocimiento local con el motor del sistema
 
 **Pregunta que responde:** ¿puede el audio del turno de habla quedarse en el
 dispositivo sin perder precisión clínica, usando el reconocedor que ya trae el
 móvil?
 
-### 3.1 A.0 · Decisión de mecanismo (bloqueante, va primero)
+### 3.1 A.0 · Mecanismo — ✅ DECIDIDO (2026-08-03)
 
-Como `@react-native-voice/voice` no reenvía la clave (§2.2), hay tres caminos.
-Hay que elegir **antes** de tocar nada.
+**Se migra a `@jamsch/expo-speech-recognition`.**
 
-| Opción | Qué implica | A favor | En contra |
-| --- | --- | --- | --- |
-| **1. Parchear la dependencia** (`patch-package`) | Añadir el `case "EXTRA_PREFER_OFFLINE"` al `switch` de `VoiceModule.java` | Cambio mínimo, no toca el resto de la app | Introduce `patch-package` y un `postinstall` que hoy no existe; **no resuelve iOS**; el parche hay que revalidarlo en cada bump |
-| **2. Bifurcar la librería** | Fork propio, mantenido en el repo | Control total, se podría arreglar también iOS y AndroidX | Mantenimiento indefinido de código ajeno; el peor coste a largo plazo |
-| **3. Migrar a `@jamsch/expo-speech-recognition`** ⭐ | Sustituir la dependencia de ASR | Soporta de fábrica lo que hace falta (abajo); quita la deuda de `withJetifier`; resuelve iOS | Cambia la superficie de la API de escucha; hay que reescribir `startListening`; versión 0.2.15 (pre-1.0) |
+Las tres opciones que se barajaron:
 
-**Recomendación: opción 3.** Verificado sobre el tarball de la v0.2.15, expone
-exactamente las piezas que faltan:
+| Opción | Veredicto |
+| --- | --- |
+| 1. Parchear la dependencia (`patch-package`) | ❌ Descartada. Dejó de ser barata al saber que hacen falta cinco APIs en dos plataformas (§2.3), no una clave en un `switch`. Sería reescribir la librería dentro de un parche |
+| 2. Bifurcar la librería | ❌ Descartada. Es la opción 1 con mantenimiento indefinido de código ajeno que aún depende de `com.android.support` |
+| 3. **Migrar a `@jamsch/expo-speech-recognition`** | ✅ **Elegida** |
+
+Verificado sobre el tarball de la v0.2.15, expone de fábrica todo lo que falta:
 
 ```ts
-requiresOnDeviceRecognition?: boolean          // iOS y Android
-androidIntentOptions?: { EXTRA_PREFER_OFFLINE: boolean, … }
-getSupportedLocales({ … })                     // ¿está instalado el paquete offline?
+requiresOnDeviceRecognition?: boolean          // iOS y Android — la garantía
+androidRecognitionServicePackage?: string      // fijar el motor local
+supportsOnDeviceRecognition(): boolean         // comprobación en runtime
+getSupportedLocales({ … })                     // ¿paquete offline instalado?
 androidTriggerOfflineModelDownload({ … })      // instalarlo desde la app
-recordingOptions.persist                       // guardar el audio (clave para la Fase B)
-audioSource                                    // reconocer desde un WAV (clave para la Fase B)
+androidIntentOptions?: { EXTRA_PREFER_OFFLINE, … }
+recordingOptions.persist                       // guardar audio → Fase B
+audioSource                                    // reconocer desde WAV → Fase B
 ```
 
-Las dos últimas convierten la Fase B en algo **medible y reproducible** (§4.3):
-la misma grabación se puede pasar por el motor del sistema y por sherpa-onnx y
-comparar. Con la librería actual eso no se puede hacer.
+Las dos últimas hacen la Fase B **reproducible** (§4.5): la misma grabación
+pasada por el motor del sistema y por sherpa-onnx, comparable. Con la librería
+actual eso es imposible.
 
-`getSupportedLocales()` y `androidTriggerOfflineModelDownload()` son además la
-respuesta al problema de §3.3.
+**Beneficios colaterales:** elimina `plugins/withJetifier.js` (existe solo por la
+librería vieja) y abre iOS, que hoy no tiene ningún camino on-device.
 
-> **Riesgo asumido:** es una dependencia pre-1.0. Se mitiga con la misma
-> disciplina que ya usa el proyecto: toda la superficie queda encapsulada dentro
-> de `valeriaVoice.ts` (como ya lo está hoy), de modo que un cambio de librería
-> no se propaga a las pantallas.
+**Precio asumido conscientemente:** es una dependencia **pre-1.0** (0.2.15) en una
+app de contexto sanitario. Se mitiga encapsulando toda su superficie dentro de
+`valeriaVoice.ts` —como ya está hoy—, de modo que volver atrás sea un cambio de
+un solo archivo y las pantallas nunca vean la librería.
 
 ### 3.2 A.1 · Cambios por archivo
 
-Solo se enumeran; la implementación va después de cerrar A.0.
-
 | Archivo | Cambio |
 | --- | --- |
-| `package.json` | Sustituir `@react-native-voice/voice` por la librería elegida |
-| `app.json` | Sustituir la entrada del plugin y sus textos de permiso (los mensajes actuales en castellano se conservan literalmente) |
-| `plugins/withJetifier.js` | **Retirar** si se va a la opción 3 (existe solo por la librería vieja) |
-| `plugins/withSpeechRecognitionQueries.js` | Revisar: la `<queries>` del manifiesto puede cambiar de destinatario |
-| `src/valeriaVoice.ts` | Reescribir el bloque ASR (`:419`–`:520`) contra la API nueva. **`ANDROID_LISTEN_EXTRAS` y sus valores ES-04 se conservan tal cual**; se les añade `EXTRA_PREFER_OFFLINE` y `requiresOnDeviceRecognition` |
-| `src/valeriaVoice.ts` | Nuevo: `asrOfflineStatus()` — expone si el reconocimiento se está haciendo en local, para la telemetría y para el Panel del Adulto |
-| `src/valeriaTelemetry.ts` | Registrar por sesión: modo (local/red), locale, y tasa de `noMatch` |
+| `package.json` | Quitar `@react-native-voice/voice`, añadir `@jamsch/expo-speech-recognition` |
+| `app.json` | Sustituir la entrada del plugin y sus textos de permiso (**los mensajes actuales en castellano se conservan literalmente**) |
+| `plugins/withJetifier.js` | **Retirar** |
+| `plugins/withSpeechRecognitionQueries.js` | Revisar: la `<queries>` del manifiesto cambia de destinatario |
+| `src/valeriaVoice.ts` | Reescribir el bloque ASR (`:419`–`:520`). **`ANDROID_LISTEN_EXTRAS` y sus valores ES-04 se conservan tal cual** |
+| `src/valeriaVoice.ts` | ⚠️ **Traducir `NO_MATCH_CODES`** — ver aviso abajo |
+| `src/valeriaVoice.ts` | Nuevo: `asrOfflineStatus()` — expone si el reconocimiento es local, para telemetría y Panel del Adulto |
+| `src/valeriaTelemetry.ts` | Registrar por sesión: modo (local/red), locale, tasa de `noMatch` |
 | `site/privacidad.html` · `site/privacy.html` | §7 |
 
 **No se tocan** `ValeriaMinimalPairsScreen.tsx` ni `ValeriaSemanticExpansionScreen.tsx`:
 consumen `startListening`/`matchPair`/`matchExpected`, cuyo contrato no cambia.
 Ese es el criterio de que la fase está bien hecha.
 
-### 3.3 A.2 · El problema del paquete de idioma, y la política de degradación
+> ⚠️ **El punto delicado de la migración: `NO_MATCH_CODES`.**
+> `valeriaVoice.ts:459` distingue "el motor no captó" de "el niño lo dijo mal"
+> mediante los códigos `'6'` (SPEECH_TIMEOUT) y `'7'` (NO_MATCH) del
+> `SpeechRecognizer` de Android. La librería nueva expone los errores de otra
+> forma. **Si esa traducción se hace mal, se rompe ES-04** y la app empieza a
+> gastarle intentos y estrellas al niño por tropiezos del reconocedor. Es un
+> invariante clínico (§1.3): se traduce con una tabla explícita y se verifica
+> provocando ambos casos a mano antes de cerrar la fase.
 
-`EXTRA_PREFER_OFFLINE` es **una pista, no una garantía**: Android puede no
-honrarla. Y en un dispositivo sin el paquete de idioma español instalado, forzar
-offline degrada el reconocimiento o lo hace fallar.
+### 3.3 A.2 · Política de degradación, **por locale**
 
-Esto importa clínicamente: un fallo del motor **no debe gastarle un intento ni
-una estrella al niño**. La distinción ya existe en el código —`ListenCallbacks.onError`
-recibe `noMatch` para separar "el motor no captó" de "el niño lo dijo mal"
-(`valeriaVoice.ts:~432`)— y hay que preservarla intacta.
+Corrección sobre la primera versión: la disponibilidad del paquete de idioma es
+**por locale**, no global. Es razonable que exista para castellano; para **gallego
+y euskera es mucho menos probable**. Forzar reconocimiento local de forma global
+rompería desproporcionadamente `gl` y `eu`, que son variedades con planes propios
+en el repo.
 
-**Política de degradación propuesta (a validar con datos de A.4):**
+Flujo, evaluado **para el locale activo** en cada sesión:
 
-1. Al primer uso, `getSupportedLocales()` comprueba si el locale activo está
-   disponible sin conexión.
-2. Si **lo está** → se pide offline y se registra `modo=local`.
-3. Si **no lo está** → se ofrece al adulto, **una vez y de forma explícita**,
-   descargar el paquete (`androidTriggerOfflineModelDownload`), explicando en
-   una frase que sirve para que la voz del menor no salga del teléfono.
-4. Si el adulto declina o la descarga no está disponible → **se sigue con el
-   motor de red, como hoy**, y se registra `modo=red`. No se rompe el ejercicio
-   por privacidad.
+1. `supportsOnDeviceRecognition()` → ¿el dispositivo sabe hacerlo?
+2. `getSupportedLocales()` → ¿está el paquete de **este** locale?
+3. Si **sí** → `requiresOnDeviceRecognition: true` + fijar el paquete de servicio
+   local. Se registra `modo=local`.
+4. Si **no** → se ofrece al adulto, **una vez y de forma explícita**, descargar el
+   paquete (`androidTriggerOfflineModelDownload`), explicando en una frase que
+   sirve para que la voz del menor no salga del teléfono.
+5. Si declina o no está disponible → **se sigue con el motor de red, como hoy**, y
+   se registra `modo=red`. No se rompe el ejercicio por privacidad.
 
-El punto 4 es deliberado: la app es una herramienta de rehabilitación antes que
-un manifiesto de privacidad.
+El punto 5 es deliberado: la app es una herramienta de rehabilitación antes que un
+manifiesto de privacidad. Y el resultado esperado es **mixto por variedad**:
+castellano probablemente en local, gallego y euskera probablemente en red. Eso hay
+que declararlo con precisión en la política (§7) en lugar de prometer "todo local".
 
-### 3.4 A.3 · Verificación (sin esto la fase no se cierra)
+### 3.4 A.3 · Prohibición explícita: nada de sesgar el reconocedor
+
+La librería expone `contextualStrings` (`EXTRA_BIASING_STRINGS` en Android 13+,
+`SFSpeechRecognitionRequest.contextualStrings` en iOS), que sesga el reconocedor
+hacia palabras concretas.
+
+**Está prohibido usarlo con la palabra objetivo del ejercicio.** Parece una mejora
+obvia —le pasas *perro* y reconoce mejor— y es exactamente lo contrario: sesgar
+hacia *perro* hace que el motor devuelva *perro* aunque el niño haya dicho *pelo*.
+Es fabricar el falso positivo que todo el ejercicio existe para detectar, y
+destruye el valor clínico de los pares mínimos.
+
+Queda registrado aquí porque **alguien lo propondrá como optimización** al ver
+que el reconocimiento falla, probablemente con buena intención y sin conocer el
+protocolo.
+
+### 3.5 A.4 · Verificación (sin esto la fase no se cierra)
 
 El fallo de §2.2 enseña que la comprobación no puede ser "leer el código y darlo
-por bueno". Hacen falta **dos pruebas de dispositivo**:
+por bueno". Y la primera versión de este plan cometía un error propio: proponía la
+prueba del modo avión como demostración suficiente. **No lo es.**
 
-1. **Prueba de la clave.** Con `adb shell dumpsys` / logcat del reconocedor, o
-   con `getSupportedLocales()` + la señal de modo, confirmar que el
-   comportamiento cambia entre `EXTRA_PREFER_OFFLINE: true` y `false`. Si no se
-   observa diferencia, la clave no está llegando.
-2. **Prueba del avión.** Poner el teléfono en modo avión y ejecutar un ejercicio
-   completo de pares mínimos. Si reconoce, es local. Es la prueba más barata y
-   la más difícil de falsear.
+> **La prueba del avión demuestra capacidad, no política.** Que el reconocimiento
+> funcione sin red prueba que el dispositivo *puede* hacerlo en local. **No prueba
+> que, con red disponible, el audio se quede dentro.** Un móvil puede pasar la
+> prueba del avión y seguir enviando audio cuando está online.
 
-### 3.5 A.4 · Criterios de aceptación (puerta de la Fase A)
+Verificación en tres niveles, de más débil a más fuerte:
+
+| Nivel | Prueba | Qué demuestra |
+| --- | --- | --- |
+| 1 | Modo avión: ejercicio completo de pares mínimos | El dispositivo *puede* reconocer en local |
+| 2 | `supportsOnDeviceRecognition()` + `modo=local` en telemetría + paquete de servicio fijado a `com.google.android.as` | Se está **pidiendo** el motor local y el sistema lo concede |
+| 3 | **Inspección de tráfico de red** durante un turno de habla con red activa | El audio **no sale**. Es la única prueba concluyente |
+
+El nivel 3 es el que cierra la fase. Los niveles 1 y 2 son diagnóstico rápido
+durante el desarrollo.
+
+### 3.6 A.5 · Criterios de aceptación (puerta de la Fase A)
 
 | Criterio | Umbral |
 | --- | --- |
-| Prueba del avión en ≥ 2 modelos Android distintos | Reconoce en los dos |
-| Tasa de `noMatch` en local vs red, sobre el mismo banco de palabras | Degradación **≤ 5 puntos** |
-| Veredictos `matchPair` que cambian de rama al pasar a local | **≤ 5 %** del total |
+| Verificación de nivel 3 en ≥ 2 modelos Android distintos | Sin salida de audio en los dos |
+| Tasa de `noMatch` en local vs red, sobre el corpus (§4.2) | 🟡 **provisional: ≤ 5 puntos** |
+| Veredictos `matchPair` que cambian de rama al pasar a local | 🟡 **provisional: ≤ 5 %** |
+| `noMatch` correctamente distinguido tras la migración (ES-04) | Verificado a mano en ambos casos |
 | Ejercicios en producción sin regresión (pares mínimos, expansión, Ling) | Los tres pasan |
 | `npm run typecheck` y el CI de Android | En verde |
 | Política de privacidad y Play Data Safety actualizados | En el mismo commit |
 
-Si la degradación supera el umbral: **la Fase A se queda en "offline opcional,
-por defecto apagado"** y se documenta. No se fuerza.
+> 🟡 **Los dos umbrales marcados son provisionales y me los inventé.** No salen de
+> ninguna evidencia clínica. La pregunta que los fija, pendiente con ACOPROS:
+> *¿cuántos "no te escuché" de más por sesión son tolerables antes de que el
+> ejercicio pierda valor terapéutico?* Se puede implementar y medir sin la
+> respuesta; **no se puede cerrar la fase sin ella.**
+
+Si la degradación supera el umbral final: **la Fase A se queda en "local
+opcional, por defecto apagado"** y se documenta. No se fuerza.
 
 ---
 
@@ -314,36 +365,43 @@ niño dijo *perro* o *pelo*. Un motor con WER peor pero que preserve el contrast
 fonológico clínico es preferible a uno con WER mejor que lo pierda. Toda la
 evaluación se construye sobre esa distinción.
 
-### 4.2 B.1 · Corpus de evaluación (lo primero, y lo que más cuidado exige)
+### 4.2 B.1 · Corpus de evaluación — ✅ consentimiento resuelto (2026-08-03)
 
-Sin audio real de niños esto no se puede medir, y el audio de niños con
-dificultades del lenguaje es precisamente el dato más sensible del proyecto.
+**El consentimiento está preparado y se firma en papel el día de la grabación.**
+Eso desbloquea la Fase B y, además, permite validar la Fase A con rigor (§3.6) en
+lugar de a ojo.
 
-**Reglas innegociables del corpus:**
+**Reglas operativas de la sesión de grabación:**
 
-- **Consentimiento informado explícito y por escrito** de las familias, específico
-  para "grabar y conservar la voz con fines de evaluación técnica", separado del
-  consentimiento de uso de la app. Es RGPD art. 9: categoría especial.
+- **No se graba nada antes de la firma.** El consentimiento es previo al
+  tratamiento, no posterior; en papel el mismo día es válido siempre que se firme
+  antes de encender el micro.
+- **Plan para quien declina:** la familia que no firme hace su sesión con
+  normalidad, simplemente sin grabación. No puede haber presión implícita, y
+  conviene tenerlo previsto para no improvisar ese día.
+- **Seudonimización:** las grabaciones se identifican con un código, nunca con
+  nombre. **Los consentimientos en papel se archivan separados del audio**, y la
+  tabla que los vincula vive aparte de los ficheros.
+- **Plazo de conservación definido** y borrado documentado al cerrar la fase.
+
+**Reglas técnicas (heredadas y no negociables):**
+
 - Las grabaciones **no salen del equipo de desarrollo** y **no se suben al
   repositorio** (regla ya vigente para el corpus de voz, ver `.github/workflows/pages.yml`).
-- `recordingOptions.persist` **jamás se activa en una build de producción**. Se
-  usa en una build de desarrollo dedicada. Conviene un test o comprobación en CI
-  que falle si aparece activado en release.
-- Plazo de conservación definido y borrado al cerrar la fase.
-- Si el consentimiento no se consigue: se degrada a **habla adulta imitando los
-  contrastes** y se documenta que los resultados son una cota superior optimista.
-  Un PoC con datos adultos sigue siendo informativo para descartar candidatos
-  malos; no basta para un GO.
+- `recordingOptions.persist` **jamás se activa en una build de producción**. Se usa
+  en una build de desarrollo dedicada. Conviene una comprobación en CI que falle
+  si aparece activado en release.
+- `.gitignore` explícito para el directorio de audio.
 
 **Tamaño mínimo útil:** ~200 enunciados que cubran los contrastes de
-`valeriaMinimalPairsEsDO.ts`, con al menos 4 hablantes, incluyendo producciones
-erróneas reales (que son justo las que el motor tiene que *no* corregir).
+`valeriaMinimalPairsEsDO.ts`, con al menos 4 hablantes, **incluyendo producciones
+erróneas reales** — que son justo las que el motor tiene que *no* corregir.
 
-> **Trampa a evitar:** un STT genérico entrenado con castellano de YouTube tiende
-> a "arreglar" lo que oye y devolver la palabra bien formada. Si el niño dice
-> *pelo* y el motor devuelve *perro* porque el contexto lo sugiere, el ejercicio
-> queda inservible. **Este es el riesgo clínico principal de todo el plan**, y el
-> corpus tiene que estar diseñado para detectarlo.
+> **Trampa a evitar:** un STT genérico tiende a "arreglar" lo que oye y devolver
+> la palabra bien formada. Si el niño dice *pelo* y el motor devuelve *perro*, el
+> ejercicio queda inservible. **Este es el riesgo clínico principal de todo el
+> plan** (R1), y el corpus tiene que estar diseñado para detectarlo: sin
+> producciones erróneas grabadas, el banco de medida no puede verlo.
 
 ### 4.3 B.2 · Verdad de referencia
 
@@ -355,14 +413,25 @@ Cada enunciado del corpus se etiqueta con:
   escritorio** (§2.5), como segunda opinión de alta calidad. No sustituye al
   adulto; ayuda a localizar desacuerdos que merezcan una segunda escucha.
 
-### 4.4 B.3 · Candidatos a evaluar
+### 4.4 B.3 · Candidatos, **ordenados por idoneidad clínica**
+
+Corrección sobre la primera versión, que ponía Whisper primero por comodidad de
+implementación. El orden correcto es el inverso, por una razón estructural:
+
+> **El decodificador de Whisper es un modelo de lenguaje.** Genera texto fluido y
+> coherente porque para eso está entrenado. Ante habla infantil con dislalia, su
+> sesgo natural es devolver la palabra bien formada — es decir, **Whisper es el
+> arquetipo del riesgo R1**. Un modelo **CTC** emite evidencia fonética por frame
+> sin ese sesgo de fluidez: peor WER en habla normal, pero mucho más fiel a lo que
+> el niño realmente produjo. Para pares mínimos eso es exactamente lo que se
+> necesita, y coincide con lo que ya recomendaba `asr-euskera-ilenia.md`.
 
 | # | Motor | Tamaño aprox. | Notas |
 | --- | --- | --- | --- |
-| 0 | **Reconocedor del sistema** (resultado de la Fase A) | 0 MB | **Es la línea base.** Todo se compara contra esto |
-| 1 | `whisper-small` multilingüe, INT8, vía sherpa-onnx | ~250 MB | Prebuilt disponible; probablemente demasiado grande |
-| 2 | `whisper-base` multilingüe, INT8, vía sherpa-onnx | ~80 MB | El más prometedor en relación peso/calidad |
-| 3 | Conformer-CTC español de NeMo → ONNX → sherpa-onnx | ~40–120 MB | Requiere exportación propia; es la vía que ya recomendaba `asr-euskera-ilenia.md` |
+| 0 | **Reconocedor del sistema** (resultado de la Fase A) | 0 MB | **Línea base.** Todo se compara contra esto |
+| 1 | **Conformer-CTC español** (NeMo) → ONNX → sherpa-onnx | ~40–120 MB | **Favorito clínico.** Requiere exportación propia; sin sesgo de LM |
+| 2 | `whisper-base` multilingüe, INT8, vía sherpa-onnx | ~80 MB | Prebuilt disponible; buen peso, pero con el sesgo de §4.4 |
+| 3 | `whisper-small` multilingüe, INT8, vía sherpa-onnx | ~250 MB | Probablemente demasiado grande; solo si 1 y 2 fallan |
 
 Se evalúan **en escritorio primero** (barato, rápido, con el binario de
 sherpa-onnx). Solo los que pasen el filtro clínico llegan al teléfono.
@@ -371,13 +440,13 @@ sherpa-onnx). Solo los que pasen el filtro clínico llegan al teléfono.
 
 Dos etapas, para no gastar trabajo de integración en candidatos que van a caer.
 
-**Etapa 1 · Escritorio** (script en `scripts/`, siguiendo el patrón verificable
-de `fetch-ar-model.js`: URL fijada + SHA-256 + bytes):
+**Etapa 1 · Escritorio** (script en `scripts/`, siguiendo el patrón verificable de
+`fetch-ar-model.js`: URL fijada + SHA-256 + bytes):
 
 | Métrica | Cómo | Por qué importa |
 | --- | --- | --- |
 | **Acierto de veredicto** | Pasar la hipótesis por `normalizeSpeech` + pliegue + `matchPair`, comparar con el juicio del adulto | **La métrica decisiva** |
-| Falsos positivos de contraste | Casos donde el niño falló y el motor "arregló" la palabra | El riesgo de §4.2 |
+| **Falsos positivos de contraste** | Casos donde el niño falló y el motor "arregló" la palabra | El riesgo R1 |
 | WER | Estándar, informativo | Comparabilidad externa |
 | RTF | Tiempo de inferencia / duración del audio | Predice la latencia en móvil |
 
@@ -392,14 +461,14 @@ de `fetch-ar-model.js`: URL fijada + SHA-256 + bytes):
 
 Los umbrales de latencia y RAM salen de la experiencia ya registrada en
 `asr-euskera-ilenia.md` (whisper.cpp `base`: 1–3 s por enunciado en gama media).
-El perfil de hardware de referencia es el mismo del piloto: **Android de gama
+El perfil de hardware de referencia es el del piloto: **Android de gama
 media/media-alta en LATAM**, según `plan-integracion-rehabilitacion-ar.md` §3.4.
 
 ### 4.6 B.5 · Integración mínima (solo si la etapa 2 pasa)
 
 Detrás de `asrSupported()`, como capacidad **opcional** que degrada a la Fase A,
-exactamente igual que el bloque de RA degrada a la sobreimpresión 2D. El modelo
-se descargaría bajo demanda con verificación SHA-256, extendiendo
+exactamente igual que el bloque de RA degrada a la sobreimpresión 2D. El modelo se
+descargaría bajo demanda con verificación SHA-256, extendiendo
 `scripts/fetch-ar-model.js` en lugar de crear un pipeline paralelo.
 
 **No se escribe una línea de esta integración antes de tener la tabla de §4.5.**
@@ -408,14 +477,14 @@ se descargaría bajo demanda con verificación SHA-256, extendiendo
 
 **GO** si, y solo si, **todos**:
 
-- Acierto de veredicto **≥ el de la línea base** (motor del sistema), con margen ≤ 2 puntos por debajo como tolerancia.
+- Acierto de veredicto **≥ el de la línea base**, con margen ≤ 2 puntos por debajo como tolerancia.
 - Falsos positivos de contraste **no superiores** a la línea base.
 - Latencia, RAM y tamaño dentro de §4.5.
 - Existe un candidato que cumpla lo anterior **por debajo de 150 MB**.
 
 **NO-GO** en cuanto falle uno. Y el NO-GO es un resultado perfectamente bueno:
-significa que la Fase A ya resolvió el problema de privacidad al coste correcto,
-y se documenta con las cifras para no volver a abrir el debate sin datos nuevos
+significa que la Fase A ya resolvió el problema de privacidad al coste correcto, y
+se documenta con las cifras para no volver a abrir el debate sin datos nuevos
 —igual que hizo `asr-euskera-ilenia.md`.
 
 ---
@@ -424,16 +493,17 @@ y se documenta con las cifras para no volver a abrir el debate sin datos nuevos
 
 Para que no se cuele por la puerta de atrás:
 
-- **Migración a la Nueva Arquitectura.** `newArchEnabled` sigue en `false`. Si
-  algún día hace falta, es un proyecto propio con su propio plan y su propio
-  riesgo sobre el módulo `valeria-ar`.
+- **Migración a la Nueva Arquitectura.** `newArchEnabled` sigue en `false`. Si algún
+  día hace falta, es un proyecto propio con su propio plan y su propio riesgo sobre
+  el módulo `valeria-ar`.
 - **TurboModules / JSI / C++ propio.** No hay ninguna evidencia de que la
   serialización del puente sea el cuello de botella; el cuello de botella es la
   inferencia. Optimizar el puente antes de medir la inferencia es orden inverso.
 - **Modelos de 230 MB o más** sin haber pasado §4.7.
+- **Sesgar el reconocedor** hacia la palabra objetivo (§3.4).
 - **Cualquier veredicto automático.** El adulto sigue siendo el juez (§1.3).
 - **Un modal de validación nuevo.** Ya existe y funciona.
-- **iOS como requisito.** Se evalúa en la Fase A porque la librería nueva lo
+- **iOS como requisito.** Se aborda en la Fase A porque la librería nueva lo
   facilita; no bloquea nada.
 
 ---
@@ -442,14 +512,17 @@ Para que no se cuele por la puerta de atrás:
 
 | # | Riesgo | Prob. | Impacto | Mitigación |
 | --- | --- | --- | --- | --- |
-| R1 | El motor "arregla" la palabra mal pronunciada y destruye el contraste clínico | Media | **Crítico** | Es la métrica principal de §4.5; corpus diseñado con producciones erróneas reales |
-| R2 | Una opción se da por implementada sin estarlo (como §2.2) | Media | Alto | Prueba del avión (§3.4); nada se cierra sin verificación de dispositivo |
-| R3 | El reconocimiento offline degrada y aumentan los falsos `noMatch` | Media | Alto | Umbral de §3.5; política de degradación de §3.3; se puede dejar apagado por defecto |
-| R4 | No se consigue consentimiento para el corpus infantil | Media | Alto | Degradar a habla adulta y marcar los resultados como cota optimista (§4.2) |
-| R5 | La librería nueva (pre-1.0) se abandona o rompe | Baja | Medio | Toda la superficie encapsulada en `valeriaVoice.ts`; volver atrás es un cambio de un archivo |
-| R6 | `react-native-sherpa-onnx-stt` está en v0.2.2, muy temprana | Alta | Medio | Solo afecta a la Fase B, que es un experimento; si la librería no sirve, se mide con el binario nativo de sherpa-onnx |
-| R7 | El corpus de audio infantil se filtra al repositorio | Baja | **Crítico** | `.gitignore` explícito + comprobación en CI; nunca en `site/` |
-| R8 | Fase A migra la librería y rompe un ejercicio en producción | Media | Alto | El contrato de `startListening`/`matchPair` no cambia; los tres ejercicios son criterio de aceptación (§3.5) |
+| R1 | El motor "arregla" la palabra mal pronunciada y destruye el contraste clínico | Media | **Crítico** | Métrica principal de §4.5; corpus con producciones erróneas reales (§4.2); CTC antes que Whisper (§4.4); prohibición de biasing (§3.4) |
+| R2 | Una opción se da por implementada sin estarlo (como §2.2) | Media | Alto | Verificación de nivel 3 (§3.5); nada se cierra sin inspección de tráfico |
+| R3 | El reconocimiento local degrada y aumentan los falsos `noMatch` | Media | Alto | Umbral de §3.6; política de degradación por locale (§3.3); se puede dejar apagado por defecto |
+| R4 | ~~No se consigue consentimiento~~ → **Resuelto** (§4.2) | — | — | Consentimiento listo, firma en papel el día de la grabación |
+| R5 | La librería nueva (pre-1.0) se abandona o rompe | Baja | Medio | Superficie encapsulada en `valeriaVoice.ts`; volver atrás es un cambio de un archivo |
+| R6 | `react-native-sherpa-onnx-stt` está en v0.2.2, muy temprana | Alta | Medio | Solo afecta a la Fase B, que es un experimento; si no sirve, se mide con el binario nativo de sherpa-onnx |
+| R7 | El corpus de audio infantil se filtra al repositorio | Baja | **Crítico** | `.gitignore` explícito + comprobación en CI; nunca en `site/`; seudonimización (§4.2) |
+| R8 | La migración rompe un ejercicio en producción | Media | Alto | El contrato de `startListening`/`matchPair` no cambia; los tres ejercicios son criterio de aceptación (§3.6) |
+| **R9** | **La traducción de `NO_MATCH_CODES` se hace mal y rompe ES-04** | **Media** | **Alto** | Tabla de traducción explícita + verificación manual de ambos casos antes de cerrar (§3.2) |
+| **R10** | **`gl`/`eu` se degradan al forzar local por no tener paquete de idioma** | **Alta** | **Medio** | Política por locale (§3.3); la promesa pública se redacta por variedad (§7) |
+| **R11** | **Una familia declina firmar el día de la grabación** | Media | Bajo | Previsto en §4.2: sesión normal sin grabación, sin presión implícita |
 
 ---
 
@@ -461,10 +534,17 @@ actualizan en el mismo cambio.** Google contrasta ambas declaraciones.
 
 | Momento | Qué hay que actualizar |
 | --- | --- |
-| **Fase A entra** | `privacidad.html` §3.3 y §163 + `privacy.html` equivalente: el reconocimiento pasa a ser local cuando el dispositivo lo permite; revisar si el reconocedor deja de ser destinatario tercero. Play: revisar "Compartición de datos" |
-| **Fase B, corpus** | **No toca la política pública**: es una build de desarrollo, no de producción. Sí exige el consentimiento informado específico de §4.2 |
+| **Fase A entra** | `privacidad.html` §3.3 y §163 + `privacy.html`: el reconocimiento pasa a ser local **cuando el dispositivo y el locale lo permiten**. Revisar si el reconocedor deja de ser destinatario tercero. Play: revisar "Compartición de datos" |
+| **Fase B, corpus** | **No toca la política pública**: es una build de desarrollo, no de producción. Sí exige el consentimiento en papel y las reglas de §4.2 |
 | **Fase B, si GO** | Declarar la descarga del modelo; revisar el tamaño de la app en la ficha; confirmar que se elimina la salida de audio |
 | **En ambos casos** | El correo de contacto es y sigue siendo `frank.alberto.betances.reinoso@gmail.com` |
+
+> ⚠️ **Cuidado con la redacción.** Por §3.3 el resultado esperado es **mixto**:
+> castellano probablemente en local, gallego y euskera probablemente en red.
+> **No se puede escribir "el reconocimiento se hace siempre en el dispositivo"** —
+> sería una declaración falsa ante Play y ante las familias. La política tiene que
+> decir con precisión que depende del dispositivo y de la variedad, y que la app lo
+> indica.
 
 **Marco MDR:** ninguna de las dos fases altera la clasificación. El motor propone
 hipótesis; el adulto decide. Ese es el argumento que sostiene la Clase I y no se
@@ -472,21 +552,29 @@ toca.
 
 ---
 
-## 8. Decisiones abiertas
+## 8. Decisiones
+
+### Cerradas
+
+| # | Decisión | Resultado | Fecha |
+| --- | --- | --- | --- |
+| **D1** | Mecanismo de la Fase A | **Migrar a `@jamsch/expo-speech-recognition`** (§3.1). Riesgo pre-1.0 asumido a cambio de resolver iOS y quitar `withJetifier` | 2026-08-03 |
+| **D3** | Consentimiento del corpus | **Listo**, firma en papel el día de la grabación (§4.2). Desbloquea la Fase B y permite validar la Fase A con rigor | 2026-08-03 |
+
+### Abiertas
 
 | # | Decisión | Quién | Bloquea |
 | --- | --- | --- | --- |
-| D1 | Mecanismo de la Fase A: parche, fork o migración (§3.1) | Frank | Todo el trabajo de la Fase A |
-| D2 | ¿Se pide el paquete de idioma offline al adulto, o solo se usa si ya está? (§3.3) | Frank + criterio clínico | A.1 |
-| D3 | ¿Hay vía para conseguir consentimiento de grabación en el piloto ACOPROS? (§4.2) | Frank | Toda la Fase B |
-| D4 | ¿Offline por defecto, o *opt-in* del adulto? | Tras los datos de §3.5 | Cierre de la Fase A |
-| D5 | ¿La Fase B se lanza aunque la Fase A cumpla holgadamente? | Frank | Arranque de la Fase B |
+| **D6** | **Umbral clínico**: ¿cuántos `noMatch` de más por sesión son tolerables? (§3.6) | ACOPROS | **Cerrar** la Fase A. No impide empezar |
+| D2 | ¿Se ofrece al adulto descargar el paquete de idioma, o solo se usa si ya está? (§3.3) | Frank + criterio clínico | Detalle de A.1; se puede implementar la detección antes |
+| D4 | ¿Local por defecto, o *opt-in* del adulto? | Tras los datos de §3.6 | Cierre de la Fase A |
+| D5 | ¿Se lanza la Fase B aunque la Fase A cumpla holgadamente? | Frank, con datos de A | Arranque de la Fase B |
 
-**D5 merece una nota:** si la Fase A consigue la prueba del avión en la mayoría
-de dispositivos del piloto, el problema de privacidad está resuelto y la Fase B
-pasa a ser una mejora de *cobertura* (dispositivos sin paquete offline), no de
-privacidad. Eso baja mucho su prioridad. Conviene decidirlo con los datos de A
-delante y no antes.
+**D5 merece una nota:** si la Fase A consigue la verificación de nivel 3 en la
+mayoría de dispositivos del piloto, el problema de privacidad está resuelto y la
+Fase B pasa a ser una mejora de *cobertura* (dispositivos y variedades sin paquete
+local), no de privacidad. Eso baja mucho su prioridad. Conviene decidirlo con los
+datos de A delante y no antes.
 
 ---
 
@@ -494,23 +582,28 @@ delante y no antes.
 
 ### Fase A
 
-- [ ] **D1 · decidir el mecanismo** (§3.1) ← *empieza aquí*
-- [ ] Sustituir/parchear la dependencia de ASR
+- [x] **D1 · mecanismo decidido** → migrar a `@jamsch/expo-speech-recognition`
+- [ ] Sustituir la dependencia (`package.json`, `app.json`, retirar `withJetifier`)
 - [ ] Reescribir el bloque ASR de `valeriaVoice.ts` conservando ES-04 y el contrato
+- [ ] ⚠️ Traducir `NO_MATCH_CODES` con tabla explícita y verificar ambos casos a mano (R9)
+- [ ] Implementar la política de degradación **por locale** (§3.3)
 - [ ] Añadir `asrOfflineStatus()` y la telemetría de modo
-- [ ] Implementar la política de degradación (§3.3)
-- [ ] **Prueba de la clave** y **prueba del avión** en ≥ 2 dispositivos (§3.4)
+- [ ] Verificación de niveles 1 y 2 durante el desarrollo (§3.5)
+- [ ] **Verificación de nivel 3 (tráfico de red)** en ≥ 2 dispositivos
 - [ ] Medir degradación de `noMatch` y de veredicto contra la línea base
 - [ ] Verificar los tres ejercicios sin regresión
-- [ ] Actualizar `privacidad.html`, `privacy.html` y Play Data Safety
-- [ ] Puerta §3.5
+- [ ] **D6 · fijar el umbral clínico con ACOPROS**
+- [ ] Actualizar `privacidad.html`, `privacy.html` y Play Data Safety (§7, con el aviso de redacción)
+- [ ] Puerta §3.6
 
 ### Fase B
 
-- [ ] **D3 · consentimiento** (§4.2) ← *bloqueante*
-- [ ] Reunir y etiquetar el corpus de evaluación
+- [x] **D3 · consentimiento resuelto** (firma en papel el día de la grabación)
+- [ ] Preparar la build de desarrollo con `recordingOptions.persist` + `.gitignore` + comprobación en CI
+- [ ] Sesión de grabación: firma previa, seudonimización, plan para quien declina
+- [ ] Etiquetar el corpus con el juicio del adulto (§4.3)
 - [ ] Script de banco de medida en escritorio (`scripts/`)
-- [ ] Evaluar candidatos 0–3 en escritorio (§4.4)
+- [ ] Evaluar candidatos 0–3 en escritorio, **CTC primero** (§4.4)
 - [ ] Llevar los supervivientes a dispositivo (§4.5 etapa 2)
 - [ ] Redactar la tabla de resultados
 - [ ] **Puerta GO/NO-GO** (§4.7) — y documentar el resultado sea cual sea
@@ -518,8 +611,11 @@ delante y no antes.
 ---
 
 > **Nota de método.** Este plan nace de auditar una propuesta que declaraba
-> "CUMPLIDO (100 %)" en cinco criterios de un sistema que nunca se había
-> compilado, apoyada en un modelo que no existe. La lección está incorporada a
-> propósito: aquí **nada se da por cumplido sin una medición de dispositivo**, y
-> las dos fases terminan en una puerta con umbrales numéricos fijados de
-> antemano. Un NO-GO documentado con cifras vale más que un GO sin ellas.
+> "CUMPLIDO (100 %)" en cinco criterios de un sistema que nunca se había compilado,
+> apoyada en un modelo que no existe. La lección está incorporada a propósito: aquí
+> **nada se da por cumplido sin una medición de dispositivo**, y las dos fases
+> terminan en una puerta con umbrales fijados de antemano. La revisión del propio
+> plan (2026-08-03) corrigió tres errores nuestros —la palanca equivocada, una
+> verificación insuficiente y un orden de candidatos que ignoraba el sesgo de
+> Whisper— y dejó marcados en amarillo los umbrales que aún son inventados. Un
+> NO-GO documentado con cifras vale más que un GO sin ellas.
