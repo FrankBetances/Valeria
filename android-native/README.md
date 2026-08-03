@@ -53,33 +53,51 @@ espejo de cámara → escena 3D (Filament) → sobreimpresión 2D → texto
 | Escena 3D de Filament | `TextureView` con `UiHelper.isOpaque = false` |
 | Interfaz 2D | Compose: texto, dianas, anillo de progreso, panel de señales |
 
-Esto es una decisión tomada a golpes, así que conviene saber qué se rompió:
+Dos de estas tres piezas se decidieron sobre un diagnóstico equivocado, y hay
+que saberlo antes de tocarlas:
 
-1. **El caso de uso `Preview` de CameraX se retiró.** En el teléfono de campo el
-   fondo era basura gráfica —polígonos verdes y marrones— en lugar de la cara del
-   niño, **con los dos modos** de `PreviewView`: `COMPATIBLE` (TextureView) y
-   `PERFORMANCE` (SurfaceView). Que fallaran los dos es el dato que resuelve el
-   caso: una superficie de preview a la que la cámara nunca escribe se ve así en
-   ambos —búfer sin inicializar en uno, textura GL sin inicializar en el otro—.
-   La cámara capturaba y `ImageAnalysis` recibía frames; lo que no se cumplía era
-   la petición de superficie del `Preview`. Esa negociación depende del HAL de
-   cámara y del driver de cada teléfono, y en BYOD no se puede ni depurar a
-   distancia ni garantizar.
-2. **Un `SurfaceView` no dibuja en la ventana**: dibuja fuera y recorta un
-   agujero transparente para dejarse ver, siempre en un sublayer por debajo de
-   ella. Con el espejo ya dentro de la ventana, cualquier `SurfaceView` queda
-   tapado por él. Por eso la escena 3D va en `TextureView`, que es una vista
-   normal de la jerarquía.
-3. **El `UiHelper` de Filament tiene que ser translúcido**, y hay que
-   configurarlo *antes* de `attachTo()` —que es lo que hace el constructor de
-   `ModelViewer`—. Es lo que pone `textureView.isOpaque = false` y crea el
-   swapchain con `CONFIG_TRANSPARENT`. Con el helper por defecto la escena se
-   dibuja sobre fondo opaco y tapa el espejo entero.
+1. **El caso de uso `Preview` de CameraX se retiró — sobre una premisa falsa.**
+   Se creyó que su superficie no recibía frames porque el fondo salía como
+   polígonos planos de colores. La causa real era que las pruebas se hacían en el
+   **emulador de Android Studio**, cuya cámara sirve una escena sintética con ese
+   aspecto exacto. El `Preview` funcionaba; mostraba lo que el emulador le daba.
+   En un móvil real, un `PreviewView` es mejor —resolución completa del sensor y
+   composición por hardware, sin bitmap ni textura por frame—. Volver a él es una
+   **decisión abierta**, a tomar con un teléfono delante.
+2. **La escena 3D va en `TextureView` por consecuencia, no por elección.** Un
+   `SurfaceView` dibuja fuera de la ventana y siempre en un sublayer por debajo
+   de ella, así que con el espejo dentro de la ventana quedaría tapado. Si el
+   espejo vuelve al `Preview`, esto debería volver a `SurfaceView` con
+   `isMediaOverlay = true` y ahorrarse la copia por GPU de cada frame.
+3. **El `UiHelper` de Filament tiene que ser translúcido. Esto sí era un fallo
+   real.** Hay que configurarlo *antes* de `attachTo()` —que es lo que hace el
+   constructor de `ModelViewer`—: es lo que pone `isOpaque = false` en la vista y
+   crea el swapchain con `CONFIG_TRANSPARENT`. El código original ponía
+   `setZOrderOnTop(true)` y `PixelFormat.TRANSLUCENT` sobre el holder por su
+   cuenta, y no servía de nada, porque `attachTo()` sobrescribe ambas. Con el
+   helper por defecto la escena se dibuja sobre fondo opaco y tapa la cámara
+   entera: eso habría roto la composición en cualquier teléfono.
 
-El precio de todo esto: el espejo son 640×480 escalados, así que sale más blando
-que un preview por hardware, y la escena paga la copia por GPU de un
-`TextureView`. A cambio, la composición es determinista en vez de depender del
-teléfono que le toque a cada familia.
+Precio actual: el espejo son 640×480 escalados —más blandos que un preview por
+hardware— y la escena paga la copia por GPU de un `TextureView`.
+
+## El bloque de RA NO se puede evaluar en un emulador
+
+Costó cuatro rondas de depuración, así que queda escrito. El emulador de Android
+Studio **no simula una cámara con una cara delante**: sirve una escena sintética
+de polígonos planos verdes, marrones y grises. Eso produce dos síntomas que
+imitan a la perfección sendos fallos que no existen:
+
+- el fondo parece **memoria gráfica corrupta**, y no lo está: es esa escena,
+  renderizada correctamente;
+- el rastreo facial reporta **cero caras**, con toda la razón, porque en esa
+  escena no hay ninguna cara — y como los tres ejercicios solo progresan con la
+  cara dentro, la sesión no avanza.
+
+La app lo detecta (`isEmulator()` en `ValeriaArActivity`) y lo dice en pantalla
+desde el primer segundo. **Solo avisa, nunca bloquea**: en el emulador se
+desarrollan la interfaz, los flujos y la telemetría con toda normalidad. Lo
+único que no se puede hacer ahí es juzgar la imagen ni la señal facial.
 
 ## La ficha de cámara
 
@@ -95,6 +113,8 @@ frames 312 · inferencias 104 · caras 0
 
 Cada cifra descarta una hipótesis concreta:
 
+- **La primera línea** → fabricante y modelo. Si dice `sdk_gphone` o `Emulator`,
+  ya está: no hay nada que depurar, es el emulador.
 - **`frames 0`** → la cámara no entrega nada; el resto del recorrido es
   irrelevante.
 - **`width × height` minúsculo** → resolución absurda negociada con el sensor y
@@ -134,19 +154,27 @@ ejercicios siguen siendo jugables y medibles. Si faltara el `.task`, el
 `tasks-vision` 0.10.29 y Filament 1.72.1 están verificadas por el compilador,
 no solo por inspección.
 
-**Ya ha corrido en un teléfono**, y esa primera ejecución encontró justo lo que
-un compilador no puede ver. Los cuatro fallos y su corrección:
+**Ha corrido en emulador, no todavía en un teléfono.** Esa distinción es la
+lección cara de este módulo: dos de los «fallos» que se persiguieron —el fondo
+corrupto y la ausencia de rastreo facial— eran el emulador comportándose con
+normalidad (ver la sección de arriba). El resto sí eran defectos reales, y la
+ejecución los sacó a la luz aunque fuera por el motivo equivocado:
 
-| Síntoma en el teléfono | Causa | Dónde se corrigió |
-| --- | --- | --- |
-| Fondo de cámara como bloques de colores planos | La superficie del `Preview` de CameraX nunca recibía frames (ver arriba) | `ValeriaArActivity`, `FaceSignalEngine`, `ValeriaArSceneView` |
-| La sesión no avanzaba nunca a la tarea siguiente | Los tres ejercicios solo progresan con la cara dentro; sin ella el bucle giraba indefinidamente | `ValeriaArActivity` (vigilancia y cierre con `timeout`) |
-| Cierre inesperado tras unos minutos | Frames encolados dentro de MediaPipe con su bitmap, sin contrapresión, más un mapa de marcas de tiempo compartido por dos hilos | `FaceSignalEngine`, `FpsMeter` |
-| «Mira a la osita» sin osita en pantalla | La Prueba de Aptitud no dibujaba ninguna diana | `ValeriaArActivity` |
+| Defecto real | Dónde se corrigió |
+| --- | --- |
+| La escena 3D se creaba con un swapchain opaco que habría tapado la cámara entera | `ValeriaArSceneView` |
+| La sesión no terminaba nunca sin cara: el bucle de ejercicio giraba indefinidamente con la cámara abierta | `ValeriaArActivity` (vigilancia y cierre con `timeout`) |
+| Frames encolándose dentro de MediaPipe con su bitmap, sin contrapresión | `FaceSignalEngine` |
+| Mapa de marcas de tiempo y `FpsMeter` tocados por dos hilos; `FpsMeter` además crecía sin techo | `FaceSignalEngine`, `AptitudeTest` |
+| El motor de Filament no se destruía: `destroyModel()` deja vivos motor, renderer, swapchain y contexto EGL | `ValeriaArSceneView` |
+| Cierre del motor de señal antes de parar el executor que le entrega frames | `ValeriaArActivity` |
+| «Mira a la osita» sin ninguna osita en pantalla | `ValeriaArActivity` |
+| `targetRotation` sin actualizar: girar el móvil 180° dejaba la imagen boca abajo | `ValeriaArActivity` |
 
-Lo que sigue **sin verificarse en campo** son los fps sostenidos, la carga del
-Face Landmarker en gama baja y la calidad real de la señal facial: eso es la
-Fase 1 del
+Sigue **sin verificarse en un teléfono real** absolutamente todo lo que depende
+de la cámara y de la señal: que el espejo muestre la cara, que el Face
+Landmarker cargue y detecte, los fps sostenidos, y si los cierres inesperados
+persisten. Eso es la Fase 1 del
 [plan](../docs/plan-integracion-rehabilitacion-ar.md#fase-1--andamiaje-sin-ejercicios).
 
 Los índices de landmark canónicos (33/263 cantos externos, 61/291 comisuras,

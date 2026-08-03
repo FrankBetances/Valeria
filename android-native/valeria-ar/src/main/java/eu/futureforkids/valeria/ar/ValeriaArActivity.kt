@@ -128,32 +128,24 @@ class ValeriaArActivity : ComponentActivity() {
      * El espejo: el último frame de la cámara, ya orientado, listo para pintar.
      *
      * ── Por qué el espejo NO usa el caso de uso `Preview` de CameraX ────────
-     * Lo usaba, y en el teléfono de campo se veía basura gráfica —polígonos
-     * verdes y marrones— en lugar de la cara del niño, con los dos modos de
-     * `PreviewView`: `COMPATIBLE` (TextureView) y `PERFORMANCE` (SurfaceView).
-     * Que fallen los dos es el dato: una superficie de preview a la que la
-     * cámara NUNCA escribe se ve así en ambos casos —búfer sin inicializar en
-     * uno, textura GL sin inicializar en el otro—, así que el modo no era la
-     * variable. La cámara capturaba (el punto verde del sistema estaba
-     * encendido) y `ImageAnalysis` recibía frames; lo que no llegaba a
-     * cumplirse era la petición de superficie del `Preview`.
+     * **AVISO SOBRE ESTA DECISIÓN: se tomó sobre un diagnóstico equivocado.**
+     * Se retiró el `Preview` creyendo que su superficie no recibía frames,
+     * porque el fondo se veía como polígonos planos de colores. La causa real
+     * era que las pruebas se hicieron en el EMULADOR de Android Studio, cuya
+     * cámara sirve una escena sintética con ese aspecto. El `Preview` funcionaba
+     * correctamente; lo que mostraba era lo que el emulador le daba.
      *
-     * Esa negociación de superficies depende del HAL de cámara y del driver
-     * gráfico de cada teléfono, y en un despliegue BYOD eso no se puede depurar
-     * a distancia ni garantizar. Así que se elimina: los frames del espejo son
-     * los MISMOS que ya se convierten a bitmap para MediaPipe, y se pintan en la
-     * capa de Compose —la única que ha renderizado correctamente en todos los
-     * informes de campo—. Un solo flujo de cámara, un solo camino de dibujo,
-     * cero negociación de superficies.
+     * Lo que hay ahora, por tanto, no está justificado por el fallo que decía
+     * resolver, y en un móvil real un `PreviewView` es mejor por dos razones
+     * concretas: entrega la resolución completa del sensor —esto son 640×480
+     * escalados, más blandos— y se compone por hardware, sin convertir un bitmap
+     * ni subir una textura por frame.
      *
-     * Tiene además una propiedad que el preview por hardware no daba: el adulto
-     * ve EXACTAMENTE los frames que ve el rastreador facial. Cuando la logopeda
-     * dice «no le coge la cara», está mirando la misma imagen que se le está
-     * pasando al modelo, no otra parecida.
-     *
-     * El coste es real y conviene decirlo: son 640×480 escalados a la pantalla,
-     * así que el espejo sale más blando que un preview por hardware. Para que un
-     * niño se vea y un adulto lo encuadre, sobra.
+     * Se mantiene de momento porque tiene una propiedad que sí vale por sí sola:
+     * el adulto ve EXACTAMENTE los frames que ve el rastreador facial, así que
+     * «no le coge la cara» deja de ser una conjetura. Volver al `Preview` por
+     * hardware es una decisión abierta, y hay que tomarla con un móvil real
+     * delante, no con este comentario.
      */
     private var mirrorFrame by mutableStateOf<ImageBitmap?>(null)
 
@@ -263,28 +255,19 @@ class ValeriaArActivity : ComponentActivity() {
                         .build()
                 )
                 .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
-                // ── Sin OUTPUT_IMAGE_FORMAT_RGBA_8888, y esto es un cambio de
-                // fondo ─────────────────────────────────────────────────────
-                // Pedir RGBA no es pedir un formato: es pedirle a CameraX que
-                // monte una etapa de conversión YUV→RGBA dentro del pipeline,
-                // con una superficie RGBA extra y un `ImageWriter` por medio.
-                // Esa etapa depende del HAL de cámara y del driver de cada
-                // teléfono, y es el único sitio del recorrido donde los píxeles
-                // se reescriben antes de que los veamos.
+                // ── Sin OUTPUT_IMAGE_FORMAT_RGBA_8888 ───────────────────────
+                // **AVISO: también esto se quitó persiguiendo el fallo del
+                // emulador.** Se sospechaba de la etapa de conversión YUV→RGBA
+                // que CameraX monta dentro del pipeline; no había tal fallo, la
+                // imagen «corrupta» era la escena sintética del emulador.
                 //
-                // Con el espejo dibujándose desde estos mismos bitmaps quedó
-                // demostrado que la basura viene YA en el frame, no del dibujo,
-                // así que la etapa de conversión pasa a ser el sospechoso
-                // principal. Sin esta línea, `ImageAnalysis` entrega el
-                // YUV_420_888 nativo del sensor y la conversión a bitmap la hace
-                // `ImageProxy.toBitmap()` con libyuv, en la CPU y en nuestro
-                // proceso: unos milisegundos más por frame a cambio de quitar
-                // del medio una etapa que no controlamos.
-                //
-                // El HAL tampoco necesita el caso de uso `Preview` para entregar
-                // frames sanos, por si acaso se sugiere: el rastreo facial ya
-                // fallaba en la primera versión, cuando `Preview` sí estaba
-                // enlazado. Esa hipótesis la descarta la cronología.
+                // Sin esta línea, `ImageAnalysis` entrega el YUV_420_888 nativo
+                // y la conversión la hace `ImageProxy.toBitmap()` con libyuv, en
+                // la CPU: unos milisegundos más por frame. El ejemplo oficial de
+                // MediaPipe usa RGBA precisamente para ahorrárselos, así que
+                // restaurarlo es candidato en cuanto haya medidas de fps en un
+                // móvil real. Se deja como está para no encadenar otro cambio
+                // sin verificar sobre uno ya hecho sin verificar.
                 //
                 // Explícita, no heredada: la Activity es `sensorLandscape` y
                 // absorbe los cambios de configuración sin recrearse, así que
@@ -378,6 +361,32 @@ class ValeriaArActivity : ComponentActivity() {
     }
 
     /**
+     * ¿Estamos en un emulador?
+     *
+     * Esta comprobación existe porque su ausencia costó cuatro rondas de
+     * depuración. El emulador de Android Studio no simula una cámara con una
+     * cara delante: sirve una **escena sintética** —polígonos planos verdes,
+     * marrones y grises—. Eso se ve exactamente igual que memoria gráfica
+     * corrupta, y encima el rastreo facial reporta cero caras con toda la razón,
+     * porque en esa escena no hay ninguna cara. El síntoma imita a la perfección
+     * un fallo de render y un fallo de señal a la vez, y no lo es ninguno de los
+     * dos: el bloque de RA **no se puede evaluar en un emulador**.
+     *
+     * La heurística es la de siempre —`goldfish`/`ranchu` son los dispositivos
+     * virtuales de QEMU— y se usa solo para AVISAR, nunca para bloquear: en el
+     * emulador se desarrolla la interfaz, los flujos y la telemetría con toda
+     * normalidad. Lo único que no se puede hacer ahí es juzgar la imagen.
+     */
+    private fun isEmulator(): Boolean =
+        android.os.Build.HARDWARE.contains("goldfish") ||
+            android.os.Build.HARDWARE.contains("ranchu") ||
+            android.os.Build.FINGERPRINT.startsWith("generic") ||
+            android.os.Build.FINGERPRINT.contains("emulator") ||
+            android.os.Build.MODEL.contains("Emulator") ||
+            android.os.Build.MODEL.contains("Android SDK built for") ||
+            android.os.Build.PRODUCT.contains("sdk_gphone")
+
+    /**
      * Vigilancia de la cámara, con una ficha que se pueda REPORTAR.
      *
      * Mientras no se haya reconocido NI UNA cara, algo va mal y la pantalla lo
@@ -387,11 +396,25 @@ class ValeriaArActivity : ComponentActivity() {
      * cuando lo necesita.
      */
     private fun watchCameraHealth() {
+        val emulator = isEmulator()
+        if (emulator) Log.w(LOG_TAG, "emulador detectado: la cámara sirve una escena sintética, no una cara")
+
         scope.launch {
-            delay(CAMERA_HEALTH_MS)
+            // En un emulador el aviso sale de inmediato: no hay nada que esperar,
+            // ahí nunca va a aparecer una cara. En un teléfono se le da margen
+            // para que la ficha no parpadee mientras arranca la cámara.
+            if (!emulator) delay(CAMERA_HEALTH_MS)
             while (facesSeen == 0L) {
                 cameraReport = buildString {
                     appendLine("${android.os.Build.MANUFACTURER} ${android.os.Build.MODEL} · Android ${android.os.Build.VERSION.RELEASE} (API ${android.os.Build.VERSION.SDK_INT})")
+                    if (emulator) {
+                        appendLine("")
+                        appendLine("EMULADOR. Su cámara sirve una escena sintética —polígonos")
+                        appendLine("planos de colores—, no una cara: el fondo que ves NO está")
+                        appendLine("roto y el rastreo facial no puede encontrar nada.")
+                        appendLine("Este bloque solo se puede evaluar en un móvil real.")
+                        appendLine("")
+                    }
                     if (framesFromCamera == 0L) {
                         appendLine("La cámara no está entregando ninguna imagen.")
                     } else {

@@ -50,32 +50,31 @@ import java.nio.ByteBuffer
  * anillo de fijación, dianas— y el ejercicio se juega y se mide igual. Un fallo
  * de render nunca puede costarle a una familia una sesión de terapia.
  *
- * ── TextureView y no SurfaceView, que es lo que hace que se vea ────────────
+ * ── TextureView y no SurfaceView ───────────────────────────────────────────
  * Un `SurfaceView` no dibuja en la ventana: dibuja en una superficie propia,
- * fuera de ella, y recorta un agujero transparente para dejarse ver. Componer
- * eso con la cámara resultó ser terreno de arenas movedizas —depende del HAL de
- * cámara y del driver gráfico de cada teléfono, y en el de campo daba basura
- * gráfica en lugar de la cara del niño—, así que el espejo se dibuja ahora
- * dentro de la ventana, desde los frames de `ImageAnalysis` (ver `mirrorFrame`
- * en `ValeriaArActivity`).
- *
- * Eso decide esta pieza: un `SurfaceView` quedaría siempre en un sublayer por
- * DEBAJO de la ventana, es decir tapado por el propio espejo, y la osita no se
+ * fuera de ella, y recorta un agujero transparente para dejarse ver, siempre en
+ * un sublayer por DEBAJO de la ventana. Como el espejo se pinta ahora dentro de
+ * la ventana, desde los frames de `ImageAnalysis` (ver `mirrorFrame` en
+ * `ValeriaArActivity`), un `SurfaceView` quedaría tapado por él y la osita no se
  * vería. Con `TextureView` la escena es una vista normal de la jerarquía y el
- * orden de dibujo es el que se lee en el Composable, sin negociación de
- * superficies ni sublayers de por medio:
+ * orden de dibujo es el que se lee en el Composable:
  *
  *     espejo de cámara → escena 3D → sobreimpresión 2D → texto
  *
- * `isOpaque = false` en el `UiHelper` sigue siendo imprescindible: es lo que
- * hace que `attachTo()` ponga `textureView.isOpaque = false` y que el swapchain
- * se cree con `CONFIG_TRANSPARENT`. Sin ello la escena se dibuja sobre un fondo
- * opaco y tapa el espejo entero.
+ * Es una consecuencia, no una elección: si algún día el espejo vuelve al
+ * `Preview` por hardware —decisión abierta, ver el comentario de `mirrorFrame`—,
+ * esta pieza debería volver a `SurfaceView` con `isMediaOverlay = true`, que
+ * ahorra la copia por GPU que cuesta un TextureView en cada frame.
  *
- * El precio es una copia por GPU de la escena en cada frame, que es lo que
- * cuesta un TextureView frente a un SurfaceView. Para un modelo sobre fondo
- * transparente es asumible, y compra que la composición sea determinista en
- * lugar de dependiente del teléfono.
+ * ── `isOpaque = false`, y esto sí es un fallo real corregido ───────────────
+ * Es lo que hace que `attachTo()` ponga `textureView.isOpaque = false` y que el
+ * swapchain se cree con `CONFIG_TRANSPARENT`. El código original ponía
+ * `setZOrderOnTop(true)` y `PixelFormat.TRANSLUCENT` sobre el holder por su
+ * cuenta, y no servía de nada: `UiHelper.attachTo()` sobrescribe las dos cosas
+ * al engancharse y solo pide un swapchain transparente si `isOpaque` es
+ * `false`. Con el helper por defecto la escena se dibuja sobre fondo opaco y
+ * tapa la cámara entera. Eso habría roto la composición en cualquier teléfono,
+ * con emulador o sin él.
  */
 @Composable
 fun ValeriaArSceneView(state: SceneState, modifier: Modifier = Modifier) {
