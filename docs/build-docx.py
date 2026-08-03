@@ -470,6 +470,19 @@ callout('Sincronización en la nube (opcional)',
         'aditiva y opcional: cada profesional autenticado solo accede a sus propios datos, protegidos por reglas de '
         'seguridad. Si no se activa, todo sigue guardándose únicamente en el dispositivo.',
         fill=FILL_VIOLET, label_color=VIOLET_DARK)
+callout('La voz del menor y el reconocimiento del habla',
+        'Valeria+ no guarda, no reproduce y no envía a ningún servidor propio ningún archivo de audio del menor: el '
+        'sonido se procesa durante el turno de habla y se descarta, y lo único que la app conserva es el resultado de la '
+        'valoración (acierto o error). Quien reconoce las palabras es el servicio de reconocimiento del propio teléfono. '
+        'Desde esta versión, la app le pide que trabaje sin conexión, dentro del dispositivo, para que la voz del menor '
+        'no salga de él. Que lo consiga depende del teléfono y de la variedad de habla: hace falta que el paquete de '
+        'idioma esté descargado en el aparato. Es lo habitual en castellano; en galego y en euskera es mucho menos '
+        'frecuente, y ahí el reconocimiento puede seguir haciéndose a través del servicio en línea del sistema, conforme '
+        'a la política de privacidad de ese servicio, ajena a Valeria+. En otras palabras: la app pide siempre lo más '
+        'privado que el teléfono permita, pero no puede prometer lo mismo en todos los dispositivos ni en todas las '
+        'variedades. Si la privacidad del audio es determinante en su caso, instale el paquete de idioma sin conexión '
+        'desde los ajustes del teléfono.')
+
 callout('Telemetría de usabilidad del piloto',
         'Durante el piloto, la app recoge métricas de usabilidad anónimas (tiempo por pantalla, toques fuera de zona útil '
         'y cápsulas de movimiento saltadas) y una encuesta breve de satisfacción. No incluyen nombres, ni audio, ni el '
@@ -1020,6 +1033,8 @@ data_table(['Situación', 'Qué hacer'], [
      'El PIN lo define el logopeda. En la demo es 1985 y es el mismo en todos los bloques. Si se olvida en producción, debe restablecerse desde la configuración de la app.'],
     ['El micrófono no reconoce la voz',
      'En Expo Go y en el navegador web no hay reconocimiento de voz: use el modo juez (el adulto valora con botones). En la app instalada, revise el permiso de micrófono.'],
+    ['El micrófono falla más en galego o en euskera',
+     'Es esperable: el reconocimiento sin conexión necesita el paquete de idioma de esa variedad instalado en el teléfono, y en galego y euskera es poco frecuente. Puede instalarlo desde los ajustes de voz del sistema. Recuerde que el adulto siempre puede corregir el veredicto, y que un fallo del micrófono no le gasta el intento al niño.'],
     ['La app oyó mal en Pares Mínimos',
      'El padre es el juez final: use “dijo rana / dijo lana” para corregir el veredicto. Un falso positivo no penaliza al niño.'],
     ['No avanza tras la misión física',
@@ -1062,7 +1077,8 @@ data_table(['Situación', 'Qué hacer'], [
 doc.add_page_break()
 kicker('Anexo B')
 doc.add_heading('Historial de versiones', level=1)
-p('Este manual describe Valeria+ en su estado actual (v9.1). La siguiente tabla resume, a título informativo, cómo ha '
+p('Este manual describe Valeria+ en su estado actual (v9.1, con el cambio de reconocimiento de voz de la v10.1). '
+  'La siguiente tabla resume, a título informativo, cómo ha '
   'ido creciendo la app, por si resulta útil a quienes usaron versiones anteriores.')
 data_table(['Versión', 'Hitos principales'], [
     [[('v5', True)],
@@ -1090,7 +1106,15 @@ data_table(['Versión', 'Hitos principales'], [
      'dificultad, antesala de preparación antes de cada actividad, contrastes con doble vuelta (comprender y decir) '
      'sobre pictogramas propios, escucha más tolerante que no penaliza los fallos del micrófono, recordatorios por '
      'franjas y el módulo de Lengua de Signos Española en Academy.'],
+    [[('v10.1', True)],
+     'El audio del turno de habla deja de salir del teléfono siempre que el dispositivo lo permita: la app pide ahora '
+     'reconocimiento sin conexión, decidido variedad por variedad. No cambia nada de lo clínico —la ventana de escucha '
+     'larga, la tolerancia a los fallos del micrófono y el pliegue dialectal siguen igual—, y el adulto sigue siendo el '
+     'juez final.'],
 ], widths=[2.4, 14.6])
+p('Sobre la cobertura de este manual. Los capítulos paso a paso describen las funciones hasta la v9.1. El bloque '
+  'de Realidad Aumentada (v10) todavía no está documentado aquí. El cambio de la v10.1 no añade pantallas nuevas: '
+  'afecta a cómo se reconoce la voz por dentro, y está explicado en el capítulo 2, en «Privacidad de los datos».')
 p('Sobre las capturas de pantalla. Las imágenes de este manual se tomaron en la v9. Los textos describen el '
   'comportamiento de la v9.1, así que en las pantallas de Expansión Semántica y de recordatorios verás alguna '
   'diferencia respecto a la captura: la cuarta pestaña de Categorías, la antesala de preparación y el selector de '

@@ -215,10 +215,24 @@ reconocedor/voz del sistema y si conviene preferir voces latinas.
 
 | Variedad | Voz | Reconocimiento (ASR) |
 | --- | --- | --- |
-| 🇪🇸 **Castellano** (`es`) | Voz neuronal **Sharvard** pregenerada y empaquetada (offline). | Voz del sistema `es-ES`. |
+| 🇪🇸 **Castellano** (`es`) | Voz neuronal **Sharvard** pregenerada y empaquetada (offline). | Sistema `es-ES`, **pidiendo reconocimiento local** si el paquete de idioma está instalado. |
 | **Galego** (`gl`) — *Proxecto Nós* | Voz neuronal **Celtia** pregenerada (Proxecto Nós), empaquetada. Cubre pares mínimos, cápsulas TPR, rutas, Expansión Semántica, Audición, Lenguaje, TEA y Dislexia: todos los bloques tienen banco gallego propio. | Sistema `gl-ES` con recaída a `expo-speech`. |
 | 🇩🇴 **Dominicano** (`es-DO`) — *Quisqueya Habla* | Voz **latina del dispositivo** (`es-US`/`es-MX`); sin audio propio pregenerado. | Sistema `es-DO`, priorizando el catálogo latino. |
 | **Euskara** (`eu`) — *ILENIA/NEL-GAITU · HiTZ* | Voz neuronal **HiTZ-TTS** pregenerada (UPV/EHU · Aholab), empaquetada. Cubre pares mínimos, expansión semántica, Audición, Lenguaje, TEA, Dislexia y Test de Ling en euskera batua. | Sistema `eu-ES` con recaída a `es-ES` + pliegue vasco (`foldBasque`, ⟨h⟩ muda). |
+
+> **Reconocimiento local (Fase A).** Desde la migración a `expo-speech-recognition`,
+> la app **pide** que el reconocimiento se haga dentro del teléfono
+> (`requiresOnDeviceRecognition` + fijando el motor local `com.google.android.as`),
+> para que el audio del menor no salga del dispositivo. **No es una promesa
+> global**: la decisión se toma **por variedad**, porque depende de que el paquete
+> de idioma esté descargado. Es razonable que lo esté en castellano; en galego y
+> euskera es mucho menos probable, y ahí se sigue usando el reconocedor de red
+> como antes. La telemetría registra qué modo tocó en cada escucha
+> (`SessionRecord.asr`) precisamente para saberlo con datos y no por suposición.
+> Ver [`docs/plan-asr-privacidad-y-motor-local.md`](docs/plan-asr-privacidad-y-motor-local.md).
+>
+> ⚠️ **Pendiente de verificar en dispositivo**: que el audio no salga con red
+> activa solo lo demuestra una inspección de tráfico, no el modo avión.
 
 - **Voz neuronal offline.** El audio de castellano, gallego y euskera se
   sintetiza en CI (nunca en el dispositivo) y viaja empaquetado en el APK. El
@@ -311,7 +325,7 @@ con *debounce* vía `InteractionManager`, de modo que el cifrado y el guardado e
 | [`docs/guia-dialectal-es-DO.md`](docs/guia-dialectal-es-DO.md) | Guía clínica dominicana (QH‑0.2): qué es rasgo dialectal normal y qué es error terapéutico. Regla **bloqueante** para todo dataset es‑DO. |
 | [`docs/plan-integracion-proxecto-nos.md`](docs/plan-integracion-proxecto-nos.md) | Plan por fases de la versión en gallego apoyada en los recursos abiertos del Proxecto Nós (contenido, voz Celtia, ASR). |
 | [`docs/plan-integracion-quisqueya-habla.md`](docs/plan-integracion-quisqueya-habla.md) | Plan de la variante dominicana (es‑DO), que reutiliza la infraestructura de variedad del plan gallego. |
-| [`docs/plan-asr-privacidad-y-motor-local.md`](docs/plan-asr-privacidad-y-motor-local.md) | Plan en dos fases para que el audio del turno de habla **no salga del dispositivo**: (A) reconocimiento offline con el motor del sistema —incluye el hallazgo de que `@react-native-voice/voice` descarta en silencio las claves que no conoce— y (B) prueba de concepto medida de un motor local (`sherpa-onnx`), con puerta GO/NO‑GO numérica. Revisa el NO‑GO de [`docs/asr-euskera-ilenia.md`](docs/asr-euskera-ilenia.md). |
+| [`docs/plan-asr-privacidad-y-motor-local.md`](docs/plan-asr-privacidad-y-motor-local.md) | Plan en dos fases para que el audio del turno de habla **no salga del dispositivo**: (A) reconocimiento local con el motor del sistema —**migración hecha**, pendiente de verificar en dispositivo— y (B) prueba de concepto medida de un motor local (`sherpa-onnx`), con puerta GO/NO‑GO numérica. Incluye el hallazgo de que `@react-native-voice/voice` descartaba en silencio las claves que no conocía, y revisa el NO‑GO de [`docs/asr-euskera-ilenia.md`](docs/asr-euskera-ilenia.md). |
 | [`docs/plan-mejoras-acopros-logopedas.json`](docs/plan-mejoras-acopros-logopedas.json) | **Fuente de verdad** del plan de mejoras nacido del feedback clínico de ACOPROS: cada observación verificada contra el código, con decisiones clínicas (DC‑1…DC‑5), criterios de aceptación y estado. Incluye el **bloqueo de publicación** del corpus de voz. |
 | [`docs/criterio-dificultad-lexica.md`](docs/criterio-dificultad-lexica.md) | Criterio del campo `difficulty` de las categorías léxicas (ES‑08): la progresión la marca la **familiaridad**, no la dificultad de pronunciación. Incluye por qué la frecuencia **no se hereda entre variedades** (en RD el plátano es el de freír; el que se come crudo es el guineo). |
 | [`docs/auditoria-pictogramas.md`](docs/auditoria-pictogramas.md) | Inventario de toda la carga visual en uso, clasificada por riesgo (*tofu*, atributo, revisar) con columna de veredicto para ACOPROS. Se **regenera** con `node scripts/audit-pictograms.js --markdown`. |
@@ -510,6 +524,7 @@ Si cambias lo que la app recoge, actualiza en el mismo cambio la política de
 | `pod install` falla tras cambiar dependencias | `npm run prebuild:ios:clean` regenera `ios/` desde cero |
 | La app abre pero no conecta con Metro | Mac e iPad deben estar en la **misma red**; o usa `npx expo start --tunnel` |
 | El STT no reconoce nada | Estás en **Expo Go**, no en la build de desarrollo (ver tabla de arriba) |
+| El STT falla solo en galego/euskera | Probablemente no hay paquete de idioma local para esa variedad; se usa el reconocedor de red. Ver la nota de reconocimiento local |
 | Cambié `app.json` y no se aplica | Los cambios nativos exigen `prebuild` + recompilar |
 | Xcode se queja de la firma | Falta el equipo en *Signing & Capabilities*, o caducó la firma de 7 días |
 
@@ -638,6 +653,15 @@ internas y el corpus de voz no se publican.
 | Privacy Policy (inglés, para la ficha localizada en `en-US`) | `https://frankbetances.github.io/Valeria/privacy.html` |
 | **Eliminación de datos** (obligatoria al declarar cuentas de usuario) | `https://frankbetances.github.io/Valeria/eliminacion-de-datos.html` |
 
+> ⚠️ **Pendiente tras la Fase A del ASR.** La política de `site/` y el formulario
+> de *Seguridad de los datos* de Play describen el reconocimiento de voz como un
+> servicio del sistema que **puede** procesar el audio en sus servidores. Con el
+> reconocimiento local eso pasa a ser la excepción en castellano, pero **no en
+> todas las variedades**: la redacción tiene que decir que depende del dispositivo
+> y de la variedad. Escribir «el reconocimiento se hace siempre en el dispositivo»
+> sería una declaración falsa ante Play y ante las familias. Se actualiza cuando
+> haya datos de dispositivo real (§7 del plan).
+
 **Activación (una sola vez, manual e inevitable — ya hecha):** *Settings →
 Pages → Build and deployment → Source: **GitHub Actions***. El `GITHUB_TOKEN`
 de Actions puede publicar en un sitio de Pages existente, pero **no puede
@@ -661,6 +685,57 @@ toque `site/` republica el sitio; también puede lanzarse desde *Actions*.
 ## 🕑 Historial de versiones
 
 <details open>
+<summary><strong>V10.1</strong> — el audio del turno de habla deja de salir del teléfono (Fase A)</summary>
+
+Hasta aquí, el reconocimiento del habla del menor lo hacía el servicio del
+sistema —en Android, normalmente el de Google—, que **puede procesar el audio en
+sus servidores**. La política de privacidad ya lo declaraba con honestidad. Era
+la única vía por la que material biométrico de un menor salía del dispositivo, y
+para una app de salud pediátrica bajo RGPD art. 9 era el punto débil del
+argumento de privacidad del proyecto.
+
+**El obstáculo no era el que parecía.** La idea inicial era añadir
+`EXTRA_PREFER_OFFLINE` a las opciones de escucha. Al leer el código de
+`@react-native-voice/voice@3.2.4` resultó que **no habría hecho nada**: el módulo
+Android filtraba las opciones con un `switch` de seis claves y **sin rama
+`default`**, así que cualquier clave desconocida se descartaba en silencio, sin
+error y sin log. La mejora se habría dado por hecha, habría pasado revisión y el
+audio habría seguido saliendo igual. Y en iOS la librería nunca tocaba
+`requiresOnDeviceRecognition`, de modo que allí no había camino on-device.
+
+**Lo que se hizo.** Migrar a `expo-speech-recognition`, que sí expone las cuatro
+piezas necesarias: `requiresOnDeviceRecognition` (garantía condicionada, no
+pista), `androidRecognitionServicePackage` (selección **dura** del motor local
+`com.google.android.as`), `supportsOnDeviceRecognition()` y `getSupportedLocales()`.
+
+**La decisión es por variedad, no global.** Depende de que el paquete de idioma
+esté descargado: razonable en castellano, poco probable en galego y euskera. Se
+consulta por locale y, si no lo hay, se sigue con el reconocedor de red **sin
+romper el ejercicio** — la app es una herramienta de rehabilitación antes que un
+manifiesto de privacidad. La telemetría particiona ahora la tasa de fallo del
+reconocedor por modo y por variedad, porque la cifra agregada mezclaba ambos
+casos y no permitía decidir nada.
+
+**Lo que NO cambió, por ser materia clínica:** la ventana de escucha larga de
+ES-04, la distinción entre «no captó el motor» y «lo dijo mal el niño» (que evita
+gastarle un intento al niño por un tropiezo del reconocedor), el pliegue dialectal
+dominicano y vasco, y el contrato de las pantallas de ejercicios, que no se
+tocaron. **El adulto sigue siendo el juez final.**
+
+De regalo: desapareció la vulnerabilidad crítica `xmldom` que
+[`SECURITY.md`](SECURITY.md) daba por riesgo aceptado, porque entraba por la
+cadena de la librería retirada. También se retiraron dos config plugins que solo
+existían por ella (`withJetifier`, `withSpeechRecognitionQueries`).
+
+> ⚠️ **Verificación pendiente en dispositivo.** Que el audio no salga con red
+> activa solo lo demuestra una inspección de tráfico; el modo avión prueba
+> capacidad, no política. Hasta entonces, esto es lo que la app **pide**, no lo
+> que está confirmado que **consigue**. El plan completo, con sus puertas y
+> umbrales, en [`docs/plan-asr-privacidad-y-motor-local.md`](docs/plan-asr-privacidad-y-motor-local.md).
+
+</details>
+
+<details>
 <summary><strong>V10</strong> — séptimo bloque: Realidad Aumentada</summary>
 
 La cámara frontal deja de ser un grabador y pasa a ser un **sensor de conducta

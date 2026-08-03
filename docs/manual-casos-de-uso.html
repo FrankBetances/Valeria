@@ -345,6 +345,22 @@
     dispositivo.</p>
   </div>
 
+  <div class="callout violet">
+    <div class="lbl">La voz del menor y el reconocimiento del habla</div>
+    <p style="margin:4px 0 0">Valeria+ <strong>no guarda, no reproduce y no envía a ningún servidor propio ningún archivo
+    de audio</strong> del menor: el sonido se procesa durante el turno de habla y se descarta, y lo único que la app
+    conserva es el resultado de la valoración (acierto o error).</p>
+    <p style="margin:8px 0 0">Quien reconoce las palabras es el <strong>servicio de reconocimiento del propio teléfono</strong>.
+    Desde esta versión, la app <strong>le pide que trabaje sin conexión</strong>, dentro del dispositivo, para que la voz
+    del menor no salga de él. <strong>Que lo consiga depende del teléfono y de la variedad de habla</strong>: hace falta
+    que el paquete de idioma esté descargado en el aparato. Es lo habitual en castellano; en galego y en euskera es mucho
+    menos frecuente, y ahí el reconocimiento puede seguir haciéndose a través del servicio en línea del sistema, conforme
+    a la política de privacidad de ese servicio, ajena a Valeria+.</p>
+    <p style="margin:8px 0 0">En otras palabras: la app pide siempre lo más privado que el teléfono permita, pero
+    <strong>no puede prometer lo mismo en todos los dispositivos ni en todas las variedades</strong>. Si la privacidad del
+    audio es determinante en su caso, instale el paquete de idioma sin conexión desde los ajustes del teléfono.</p>
+  </div>
+
   <div class="callout">
     <div class="lbl">Telemetría de usabilidad del piloto</div>
     <p style="margin:4px 0 0">Durante el piloto, la app recoge métricas de usabilidad <strong>anónimas</strong> (tiempo por
@@ -1146,6 +1162,7 @@
     <tr><th style="width:38%">Situación</th><th>Qué hacer</th></tr>
     <tr><td>No recuerdo el PIN profesional</td><td>El PIN lo define el logopeda. En la demo es <strong>1985</strong> y es el mismo en todos los bloques. Si se olvida en producción, debe restablecerse desde la configuración de la app.</td></tr>
     <tr><td>El micrófono no reconoce la voz</td><td>En Expo Go y en el navegador web no hay reconocimiento de voz: use el modo juez (el adulto valora con botones). En la app instalada, revise el permiso de micrófono.</td></tr>
+    <tr><td>El micrófono falla más en galego o en euskera</td><td>Es esperable: el reconocimiento sin conexión necesita el paquete de idioma de esa variedad instalado en el teléfono, y en galego y euskera es poco frecuente. Puede instalarlo desde los ajustes de voz del sistema. Recuerde que <strong>el adulto siempre puede corregir el veredicto</strong>, y que un fallo del micrófono no le gasta el intento al niño.</td></tr>
     <tr><td>La app oyó mal en Pares Mínimos</td><td>El padre es el juez final: use “dijo rana / dijo lana” para corregir el veredicto. Un falso positivo no penaliza al niño.</td></tr>
     <tr><td>No avanza tras la misión física</td><td>Es el <strong>sello doble</strong>: padre e hijo deben pulsar las dos huellas a la vez. Con una sola mano, mantenga pulsada una huella 2 segundos.</td></tr>
     <tr><td>No aparece el Test de Ling</td><td>Solo se muestra en los ejercicios de Audición si la patología indica audífono o implante coclear (CU‑08).</td></tr>
@@ -1172,7 +1189,7 @@
 <section class="page-break">
   <div class="chapter-kicker">Anexo B</div>
   <h2 class="chapter">Historial de versiones</h2>
-  <p style="margin-top:12px">Este manual describe Valeria+ en su <strong>estado actual (v9.1)</strong>. La siguiente tabla
+  <p style="margin-top:12px">Este manual describe Valeria+ en su <strong>estado actual (v9.1, con el cambio de reconocimiento de voz de la v10.1)</strong>. La siguiente tabla
   resume, a título informativo, cómo ha ido creciendo la app, por si resulta útil a quienes usaron versiones
   anteriores.</p>
   <table>
@@ -1184,8 +1201,14 @@
     <tr><td><strong>v8.1</strong></td><td>Botón de reingreso a tamaño completo, resultados y Test de Ling con el paciente real, y voz gallega que siempre arranca.</td></tr>
     <tr><td><strong>v8.2</strong></td><td>Academy: primeras Cápsulas de Conocimiento para el cuidador, con quiz y progreso por niveles.</td></tr>
     <tr><td><strong>v9</strong></td><td>Bloques de TEA y Dislexia, Audición ampliada a 18 terapias (escucha en ruido), banco castellano de 15 pares, cuarta variedad (Euskera) y Academy multidominio.</td></tr>
+    <tr><td><strong>v10.1</strong></td><td><strong>El audio del turno de habla deja de salir del teléfono siempre que el dispositivo lo permita</strong>: la app pide ahora reconocimiento <strong>sin conexión</strong>, decidido variedad por variedad. No cambia nada de lo clínico —la ventana de escucha larga, la tolerancia a los fallos del micrófono y el pliegue dialectal siguen igual—, y <strong>el adulto sigue siendo el juez final</strong>.</td></tr>
     <tr><td><strong>v9.1</strong></td><td>Mejoras nacidas de la revisión clínica de las logopedas de ACOPROS: <strong>categorías léxicas</strong> con progresión de dificultad, <strong>antesala de preparación</strong> antes de cada actividad, contrastes con <strong>doble vuelta</strong> (comprender y decir) sobre pictogramas propios, escucha más tolerante que no penaliza los fallos del micrófono, <strong>recordatorios por franjas</strong> y el módulo de <strong>Lengua de Signos Española</strong> en Academy.</td></tr>
   </table>
+
+  <p style="margin-top:14px"><strong>Sobre la cobertura de este manual.</strong> Los capítulos paso a paso describen
+  las funciones hasta la <strong>v9.1</strong>. El bloque de <strong>Realidad Aumentada</strong> (v10) todavía no está
+  documentado aquí. El cambio de la v10.1 no añade pantallas nuevas: afecta a cómo se reconoce la voz por dentro, y está
+  explicado en el capítulo&nbsp;2, en «Privacidad de los datos».</p>
 
   <p style="margin-top:14px"><strong>Sobre las capturas de pantalla.</strong> Las imágenes de este manual se tomaron
   en la v9. Los textos describen el comportamiento de la <strong>v9.1</strong>, así que en las pantallas de Expansión
