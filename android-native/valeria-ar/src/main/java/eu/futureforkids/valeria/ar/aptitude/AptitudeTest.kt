@@ -202,6 +202,64 @@ class FpsMeter {
 }
 
 /**
+ * Ruido del puntero facial, en grados. Decide si el teléfono puede repartir tres
+ * dianas o solo dos, así que la cifra tiene que medir lo que dice medir.
+ *
+ * **No es la desviación típica de la posición a lo largo de la prueba**, que es
+ * como estaba calculado. Durante el calentamiento la osita salta a propósito de
+ * una esquina a otra y el niño la sigue: esa desviación describe el recorrido
+ * buscado —decenas de grados— y no el temblor del landmark, así que cualquier
+ * teléfono, por bueno que fuera, salía muy por encima del umbral de 2,5° y
+ * quedaba clasificado a la baja. El defecto estaba latente desde el principio y
+ * se volvió sistemático al añadir la osita que faltaba: antes el niño miraba una
+ * pantalla sin nada que seguir y la mirada vagaba menos.
+ *
+ * Lo que se mide aquí es la MEDIANA de las desviaciones típicas dentro de
+ * ventanas cortas (~medio segundo). En medio segundo el movimiento voluntario
+ * apenas ha empezado; lo que queda dentro de cada ventana es el ruido del
+ * estimador. La mediana, además, descarta sola las ventanas que caen justo en un
+ * salto de la osita, sin necesidad de saber cuándo saltó.
+ *
+ * Sincronizado por lo mismo que `FpsMeter`: lo alimenta el hilo del listener de
+ * MediaPipe y lo lee la corrutina de UI al cerrar la prueba.
+ */
+class PointerJitterMeter(private val windowSize: Int = 15) {
+    private val window = ArrayList<Float>(16)
+    private val windowSds = ArrayList<Float>(128)
+
+    @Synchronized
+    fun addSampleDeg(valueDeg: Float) {
+        if (!valueDeg.isFinite()) return
+        window.add(valueDeg)
+        if (window.size < windowSize) return
+
+        val mean = window.average()
+        val variance = window.sumOf { val d = it - mean; d * d } / window.size
+        windowSds.add(kotlin.math.sqrt(variance).toFloat())
+        window.clear()
+        // Techo de memoria: la prueba dura 25 s, pero el modo diagnóstico puede
+        // quedarse abierto lo que la logopeda quiera.
+        if (windowSds.size > 512) windowSds.removeAt(0)
+    }
+
+    /** null si no hay ventanas suficientes: un dato ausente y etiquetado es honesto. */
+    @Synchronized
+    fun jitterDeg(): Float? {
+        if (windowSds.size < MIN_WINDOWS) return null
+        val sorted = windowSds.sorted()
+        return sorted[sorted.size / 2]
+    }
+
+    @Synchronized
+    fun clear() { window.clear(); windowSds.clear() }
+
+    private companion object {
+        /** Cuatro ventanas ≈ 2 s de señal válida. Por debajo no se afirma nada. */
+        const val MIN_WINDOWS = 4
+    }
+}
+
+/**
  * Dispersión de `AudioTrack.getTimestamp()` sobre varios disparos. Es la sonda
  * que decide si la latencia de AR-2 se puede publicar con barras de error
  * honestas o no se puede publicar en absoluto.

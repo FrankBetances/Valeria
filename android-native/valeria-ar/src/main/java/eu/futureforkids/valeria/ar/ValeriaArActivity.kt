@@ -49,12 +49,14 @@ import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
 import eu.futureforkids.valeria.ar.aptitude.AptitudeTest
 import eu.futureforkids.valeria.ar.aptitude.FpsMeter
+import eu.futureforkids.valeria.ar.aptitude.PointerJitterMeter
 import eu.futureforkids.valeria.ar.audio.StimulusPlayer
 import eu.futureforkids.valeria.ar.exercises.Ar1Orofacial
 import eu.futureforkids.valeria.ar.exercises.Ar2Vra
 import eu.futureforkids.valeria.ar.exercises.Ar3Fixation
 import eu.futureforkids.valeria.ar.exercises.ArExercise
 import eu.futureforkids.valeria.ar.exercises.ExerciseContext
+import eu.futureforkids.valeria.ar.scene.ArModel
 import eu.futureforkids.valeria.ar.scene.SceneState
 import eu.futureforkids.valeria.ar.scene.ValeriaArSceneView
 import eu.futureforkids.valeria.ar.signal.Calibration
@@ -64,6 +66,7 @@ import eu.futureforkids.valeria.ar.signal.FaceSignalEngine
 import eu.futureforkids.valeria.ar.signal.FaceSignals
 import eu.futureforkids.valeria.ar.signal.ScreenGeometry
 import eu.futureforkids.valeria.ar.signal.pointerFor
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -95,10 +98,24 @@ class ValeriaArActivity : ComponentActivity() {
     private var engine: FaceSignalEngine? = null
     private var exercise: ArExercise? = null
     private val analysisExecutor = Executors.newSingleThreadExecutor()
+    /**
+     * Red de seguridad del scope. Una excepción no capturada en una corrutina de
+     * UI mata el PROCESO: la familia ve la app desaparecer entera, sin sesión y
+     * sin explicación. Con esto, lo peor que puede pasar es que se cierre esta
+     * pantalla y se devuelva lo medido hasta ahí, que es justo la diferencia
+     * entre perder un ensayo y perder la sesión.
+     *
+     * No sustituye a arreglar los fallos —las carreras entre hilos que había
+     * están corregidas en su sitio—, cubre los que todavía no conocemos.
+     */
+    private val crashGuard = CoroutineExceptionHandler { _, _ ->
+        runCatching { finishWith(outcome = "aborted") }
+    }
+
     // Scope propio en vez de lifecycleScope: evita depender de
     // androidx.lifecycle:lifecycle-runtime-ktx y deja explícito dónde se
     // cancelan las corrutinas (onDestroy), que con una cámara abierta importa.
-    private val scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
+    private val scope = CoroutineScope(Dispatchers.Main + SupervisorJob() + crashGuard)
     private val fpsMeter = FpsMeter()
 
     private var mode = MODE_EXERCISE
@@ -166,9 +183,17 @@ class ValeriaArActivity : ComponentActivity() {
     // Calibración: pares (punto de cara observado → punto de pantalla mostrado).
     private val calObserved = ArrayList<PointF>(5)
     private val calScreen = ArrayList<PointF>(5)
+
+    // `calSamples` la ESCRIBE el hilo del listener de MediaPipe y la LEE la
+    // corrutina de UI entre diana y diana. Sin candado, el `map{}.average()` de
+    // la corrutina se cruzaba con un `add()` del listener: mismo defecto que
+    // tenía `FpsMeter`, y con la misma consecuencia —la app cerrándose sola—,
+    // solo que aquí a mitad de la rutina de calibración.
+    private val calLock = Any()
     private val calSamples = ArrayList<PointF>(60)
-    private var calCollecting = false
-    private val pointerRmsSamples = ArrayList<Float>(300)
+    @Volatile private var calCollecting = false
+
+    private val pointerJitter = PointerJitterMeter()
 
     private val cameraPermission = registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
         if (granted) startPipeline() else finishWith(outcome = "denied")
@@ -557,6 +582,15 @@ class ValeriaArActivity : ComponentActivity() {
      */
     private fun runAptitudeFlow() {
         statusText = "Mira a la osita y sigue sus saltos…"
+
+        // La escena 3D se monta DURANTE la medida, y no es decoración: lo que
+        // ahoga a la gama de entrada no es la cámara sola ni la inferencia sola,
+        // es la combinación cámara + MediaPipe + Filament sosteniéndose a la vez.
+        // Midiendo sin la escena, un teléfono salía nivel B y luego se arrastraba
+        // en el ejercicio real — que es exactamente el «fracaso disfrazado» que
+        // esta prueba existe para detectar.
+        scene.setModel(ArModel.CAR)
+
         fpsMeter.start(APTITUDE_MS)
 
         // La osita tiene que EXISTIR. La instrucción pedía seguir sus saltos y en
@@ -581,6 +615,7 @@ class ValeriaArActivity : ComponentActivity() {
 
         scope.launch {
             delay(APTITUDE_MS)
+            scene.setModel(ArModel.NONE)
 
             val distanceMm = distance.currentMm
             val probes = DeviceProbes(
@@ -594,7 +629,9 @@ class ValeriaArActivity : ComponentActivity() {
                 // null explícito: el nivel A no se alcanza, y eso es correcto.
                 audioJitterMs = null,
                 channelBalanceDb = null,
-                pointerRmsDeg = pointerRms(),
+                // MAX_VALUE si no hubo ventanas suficientes: sin medida no se
+                // afirma que el puntero sea estable, se afirma lo contrario.
+                pointerRmsDeg = pointerJitter.jitterDeg() ?: Float.MAX_VALUE,
                 imuAvailable = imu.available,
                 screenWidthMm = geometry.widthMm,
                 screenHeightMm = geometry.heightMm,
@@ -608,20 +645,12 @@ class ValeriaArActivity : ComponentActivity() {
         }
     }
 
-    /** RMS del puntero durante el calentamiento, en grados. Decide 3 dianas o 2. */
+    /** Ruido del puntero durante el calentamiento, en grados. Decide 3 dianas o 2. */
     private fun collectPointerJitter(signals: FaceSignals) {
         val p = pointerFor(config?.thresholds?.pointerSource ?: PointerKind.NOSE_RAY).rawPoint(signals) ?: return
         val pxPerDeg = geometry.pxPerDeg(distance.currentMm)
         if (pxPerDeg <= 0f) return
-        pointerRmsSamples.add(p.x * geometry.widthPx / pxPerDeg)
-        if (pointerRmsSamples.size > 600) pointerRmsSamples.removeAt(0)
-    }
-
-    private fun pointerRms(): Float {
-        if (pointerRmsSamples.size < 30) return Float.MAX_VALUE
-        val mean = pointerRmsSamples.average()
-        val variance = pointerRmsSamples.sumOf { val d = it - mean; d * d } / pointerRmsSamples.size
-        return kotlin.math.sqrt(variance).toFloat()
+        pointerJitter.addSampleDeg(p.x * geometry.widthPx / pxPerDeg)
     }
 
     /** Rutina de 5 puntos: 4 esquinas + centro, con la osita como diana. */
@@ -643,16 +672,19 @@ class ValeriaArActivity : ComponentActivity() {
             statusText = "Sigue a la osita con la mirada"
             for (p in points) {
                 bearTarget = p
-                calSamples.clear()
+                synchronized(calLock) { calSamples.clear() }
                 delay(700)               // que llegue la mirada antes de muestrear
                 calCollecting = true
                 delay(1200)
                 calCollecting = false
-                if (calSamples.isNotEmpty()) {
+                // Se copia bajo candado y se promedia fuera: el listener de
+                // MediaPipe sigue entregando frames mientras esto ocurre.
+                val samples = synchronized(calLock) { ArrayList(calSamples) }
+                if (samples.isNotEmpty()) {
                     calObserved.add(
                         PointF(
-                            calSamples.map { it.x }.average().toFloat(),
-                            calSamples.map { it.y }.average().toFloat(),
+                            samples.map { it.x }.average().toFloat(),
+                            samples.map { it.y }.average().toFloat(),
                         )
                     )
                     calScreen.add(p)
@@ -680,7 +712,9 @@ class ValeriaArActivity : ComponentActivity() {
         // Solo se muestrea con el teléfono quieto: una calibración tomada con el
         // móvil en la mano describe la mano, no la mirada.
         if (!imu.isSteady(300L)) return
-        calibrationPointer?.rawPoint(signals)?.let { calSamples.add(it) }
+        calibrationPointer?.rawPoint(signals)?.let {
+            synchronized(calLock) { calSamples.add(it) }
+        }
     }
 
     // ---- Cierre -------------------------------------------------------------
