@@ -54,7 +54,7 @@ export function assetLang(loc: Locale = active): VoiceLang | null {
   return loc === 'gl' ? 'gl' : loc === 'eu' ? 'eu' : loc === 'es' ? 'es' : null;
 }
 
-// Locale BCP-47 para el ASR (@react-native-voice) y la voz del sistema (TTS).
+// Locale BCP-47 para el ASR (expo-speech-recognition) y la voz del sistema (TTS).
 export function speechLocale(loc: Locale = active): string {
   return loc === 'gl' ? 'gl-ES' : loc === 'eu' ? 'eu-ES' : loc === 'es-DO' ? 'es-DO' : 'es-ES';
 }

@@ -6,7 +6,6 @@
   "descripcion": "Instrucciones portables para replicar en OTROS repositorios la arquitectura con la que Valeria+ se exporta a iOS: cómo conviven una app React Native/Expo de flujo gestionado (que no versiona la carpeta ios/) y un proyecto Xcode nativo versionado (que sí la tiene), cómo se mantiene la identidad de firma FUERA del repositorio, cómo se archiva y exporta el .ipa en sus tres modos, y qué comprueba el preflight antes de que alguien abra Xcode. Es descriptivo y prescriptivo: describe la implementación real de este repo y da los pasos para portarla.",
   "generadoPor": "Extraído del repositorio Valeria+ (ios-native/, app.json, eas.json, plugins/, .gitignore, README.md, ios-native/README.md).",
   "fecha": "2026-07-31",
-
   "alcance": {
     "cubre": [
       "Convivencia de DOS vías de exportación iOS en un mismo repositorio, sin que se estorben.",
@@ -24,14 +23,12 @@
       "Contenido de la app: para eso están los otros documentos de docs/."
     ]
   },
-
   "decisionCentral": {
     "titulo": "Dos vías de exportación, una sola ficha de App Store",
     "resumen": "El repositorio exporta a iOS por dos caminos que NO son alternativas de la misma cosa: uno saca la app real (React Native, flujo gestionado de Expo) y otro saca un demostrador nativo de navegación y estética (SwiftUI, proyecto Xcode versionado). Confundirlos cuesta horas, porque la respuesta a «¿se abre el .xcodeproj o el .xcworkspace?», «¿hay que hacer pod install?» y «¿cómo se exporta?» es distinta en cada uno.",
     "porQueDosVias": "El port nativo existe para iterar usabilidad en dispositivo a máxima velocidad (sin bundler, sin Metro, sin ciclo de prebuild) y para evaluar la estética en device. La app clínica —la validada por las logopedas— es la de React Native. Un repositorio que solo tenga app RN puede ignorar el bloque viaB por completo.",
     "trampaCompartida": "Las dos declaran el MISMO bundle identifier (health.earlify.valeria). Eso significa una única ficha en App Store Connect: no pueden convivir ahí un envío del port nativo y uno de la app RN. Si se quiere distribuir el demostrador en paralelo, hay que darle identificador propio ANTES de subir nada (p. ej. <BUNDLE_ID>.native)."
   },
-
   "principiosDeDiseno": [
     {
       "id": "P1",
@@ -86,7 +83,6 @@
       "razon": "Caso real de este repo: el port mostraba una fase de ejercicio retirada por decisión clínica y un contraste prohibido por otra. Nadie lo miró durante meses porque «es solo el demo»."
     }
   ],
-
   "dosViasDeExportacion": {
     "tablaComparada": [
       {
@@ -132,7 +128,6 @@
     ],
     "reglaDeOro": "Antes de responder a cualquier pregunta de build iOS en un repo con este patrón, decide primero de cuál de las dos vías se está hablando. La mitad de las respuestas cambian."
   },
-
   "viaA_expoGestionado": {
     "titulo": "App React Native con flujo gestionado de Expo",
     "requisitos": [
@@ -160,33 +155,54 @@
       ]
     },
     "scriptsNpm": [
-      { "comando": "prebuild:ios", "hace": "Genera ios/ desde app.json y ejecuta pod install." },
-      { "comando": "prebuild:ios:clean", "hace": "Igual pero BORRA ios/ antes. Es el arreglo cuando CocoaPods se atasca." },
-      { "comando": "ios", "hace": "Compila e instala en el simulador." },
-      { "comando": "ios:device", "hace": "Compila en Debug sobre un dispositivo conectado." },
-      { "comando": "ios:release", "hace": "Compila en Release sobre el dispositivo. Es el que hay que usar antes de una sesión real: la build de Debug carga el JS desde Metro y arrastra el dev menu." }
+      {
+        "comando": "prebuild:ios",
+        "hace": "Genera ios/ desde app.json y ejecuta pod install."
+      },
+      {
+        "comando": "prebuild:ios:clean",
+        "hace": "Igual pero BORRA ios/ antes. Es el arreglo cuando CocoaPods se atasca."
+      },
+      {
+        "comando": "ios",
+        "hace": "Compila e instala en el simulador."
+      },
+      {
+        "comando": "ios:device",
+        "hace": "Compila en Debug sobre un dispositivo conectado."
+      },
+      {
+        "comando": "ios:release",
+        "hace": "Compila en Release sobre el dispositivo. Es el que hay que usar antes de una sesión real: la build de Debug carga el JS desde Metro y arrastra el dev menu."
+      }
     ],
     "configPluginsPropios": {
       "porQue": "Cuando una librería necesita un ajuste nativo que su propio plugin no hace, se escribe un config plugin local en plugins/ y se referencia por ruta relativa en app.json (\"./plugins/withX\"). Así el ajuste sobrevive a cada prebuild sin parchear ios/ ni android/ a mano.",
       "ejemplosEnEsteRepo": [
         {
-          "archivo": "plugins/withSpeechRecognitionQueries.js",
+          "archivo": "plugins/withValeriaAR.js",
           "plataforma": "Android",
-          "queHace": "Añade al AndroidManifest la <queries> del servicio de reconocimiento de voz; sin ella, en Android 11+ la app no ve el reconocedor del sistema."
+          "queHace": "Monta el módulo nativo Kotlin del bloque de Realidad Aumentada: lo copia al árbol generado, lo incluye en settings.gradle, añade la dependencia, registra el ReactPackage y declara el permiso de cámara."
         },
         {
-          "archivo": "plugins/withJetifier.js",
+          "archivo": "(retirados en 2026-08-03)",
           "plataforma": "Android",
-          "queHace": "Reactiva android.enableJetifier en gradle.properties, que la plantilla de RN 0.81 ya no trae y que la librería de voz todavía necesita."
+          "queHace": "withSpeechRecognitionQueries.js y withJetifier.js existían por @react-native-voice/voice: el primero declaraba la <queries> del reconocedor y el segundo reactivaba Jetifier porque aquella librería aún dependía de com.android.support. Al migrar a expo-speech-recognition los dos dejaron de hacer falta: su plugin ya declara la <queries> (y acepta androidSpeechServicePackages para hacer visible también el motor local com.google.android.as) y la librería es AndroidX nativa."
         }
       ],
       "leccionPortable": "Los dos ejemplos son de Android, y aun así el patrón es el que importa: NINGÚN ajuste nativo se escribe dentro de la carpeta generada. Si hace falta tocar el Info.plist de la app RN, se hace con un config plugin (withInfoPlist), no editando ios/."
     },
     "permisosIos": {
-      "declaradosEn": "app.json → plugins → @react-native-voice/voice",
+      "declaradosEn": "app.json → plugins → expo-speech-recognition",
       "claves": [
-        { "clave": "NSMicrophoneUsageDescription", "para": "Juegos de voz de los ejercicios" },
-        { "clave": "NSSpeechRecognitionUsageDescription", "para": "Valorar las palabras que dice el niño" }
+        {
+          "clave": "NSMicrophoneUsageDescription",
+          "para": "Juegos de voz de los ejercicios"
+        },
+        {
+          "clave": "NSSpeechRecognitionUsageDescription",
+          "para": "Valorar las palabras que dice el niño"
+        }
       ],
       "reglaDeCumplimiento": "Si cambia lo que la app recoge (permiso nuevo, campo nuevo, SDK de terceros), hay que actualizar EN EL MISMO CAMBIO la política de privacidad publicada y el formulario de seguridad de datos de la tienda. Las dos declaraciones se contrastan entre sí."
     },
@@ -194,16 +210,40 @@
       "archivo": "eas.json",
       "appVersionSource": "remote — EAS lleva la cuenta del versionCode de Android y del buildNumber de iOS; autoIncrement en production los sube solo.",
       "perfiles": [
-        { "perfil": "development", "plataformas": "Android + iOS", "produce": "Build de desarrollo (developmentClient), distribución interna", "firmaIos": "Sí (ad hoc: el dispositivo debe estar registrado)" },
-        { "perfil": "ios-simulator", "plataformas": "iOS", "produce": ".app para el simulador", "firmaIos": "No — el simulador no firma; no necesita cuenta de pago" },
-        { "perfil": "apk", "plataformas": "Android", "produce": "APK solo ARM con ProGuard y shrinkResources", "firmaIos": "N/A" },
-        { "perfil": "ios-preview", "plataformas": "iOS", "produce": ".ipa en Release, distribución interna", "firmaIos": "Sí" },
-        { "perfil": "production", "plataformas": "Android + iOS", "produce": ".aab para Play y .ipa en Release para App Store", "firmaIos": "Sí" }
+        {
+          "perfil": "development",
+          "plataformas": "Android + iOS",
+          "produce": "Build de desarrollo (developmentClient), distribución interna",
+          "firmaIos": "Sí (ad hoc: el dispositivo debe estar registrado)"
+        },
+        {
+          "perfil": "ios-simulator",
+          "plataformas": "iOS",
+          "produce": ".app para el simulador",
+          "firmaIos": "No — el simulador no firma; no necesita cuenta de pago"
+        },
+        {
+          "perfil": "apk",
+          "plataformas": "Android",
+          "produce": "APK solo ARM con ProGuard y shrinkResources",
+          "firmaIos": "N/A"
+        },
+        {
+          "perfil": "ios-preview",
+          "plataformas": "iOS",
+          "produce": ".ipa en Release, distribución interna",
+          "firmaIos": "Sí"
+        },
+        {
+          "perfil": "production",
+          "plataformas": "Android + iOS",
+          "produce": ".aab para Play y .ipa en Release para App Store",
+          "firmaIos": "Sí"
+        }
       ],
       "cuandoUsarlo": "EAS es la vía sin Mac: compila en la nube y resuelve firma y Pods sin tocar Xcode. En este repo los perfiles iOS existen por si conviene, pero el camino habitual es el build local, que no consume cola ni exige subir credenciales."
     }
   },
-
   "viaB_portNativoSwiftUI": {
     "titulo": "Proyecto Xcode versionado (SwiftUI + SPM, sin CocoaPods)",
     "estructura": {
@@ -294,20 +334,56 @@
       }
     ],
     "exportOptions": [
-      { "archivo": "ExportOptions-Development.plist", "method": "development", "uploadSymbols": false, "cuenta": "gratuita o de pago", "nota": "Única válida con cuenta gratuita. El .ipa caduca a los 7 días." },
-      { "archivo": "ExportOptions-AdHoc.plist", "method": "ad-hoc", "cuenta": "de pago", "nota": "Para distribución interna tipo Firebase App Distribution." },
-      { "archivo": "ExportOptions-AppStore.plist", "method": "app-store", "uploadSymbols": true, "cuenta": "de pago", "nota": "Para TestFlight y la tienda." }
+      {
+        "archivo": "ExportOptions-Development.plist",
+        "method": "development",
+        "uploadSymbols": false,
+        "cuenta": "gratuita o de pago",
+        "nota": "Única válida con cuenta gratuita. El .ipa caduca a los 7 días."
+      },
+      {
+        "archivo": "ExportOptions-AdHoc.plist",
+        "method": "ad-hoc",
+        "cuenta": "de pago",
+        "nota": "Para distribución interna tipo Firebase App Distribution."
+      },
+      {
+        "archivo": "ExportOptions-AppStore.plist",
+        "method": "app-store",
+        "uploadSymbols": true,
+        "cuenta": "de pago",
+        "nota": "Para TestFlight y la tienda."
+      }
     ]
   },
-
   "matrizDeCuentaApple": {
     "proposito": "La pregunta «¿puedo hacer X sin pagar los 99 €/año?» aparece en todos los proyectos y casi nunca está contestada en un solo sitio.",
     "capacidades": [
-      { "capacidad": "Compilar y ejecutar en el simulador", "gratuita": true, "dePago": true },
-      { "capacidad": "Instalar en tu propio iPhone/iPad", "gratuita": true, "dePago": true },
-      { "capacidad": "Exportar .ipa de desarrollo", "gratuita": true, "dePago": true },
-      { "capacidad": "Firebase App Distribution / TestFlight", "gratuita": false, "dePago": true },
-      { "capacidad": "App Store", "gratuita": false, "dePago": true }
+      {
+        "capacidad": "Compilar y ejecutar en el simulador",
+        "gratuita": true,
+        "dePago": true
+      },
+      {
+        "capacidad": "Instalar en tu propio iPhone/iPad",
+        "gratuita": true,
+        "dePago": true
+      },
+      {
+        "capacidad": "Exportar .ipa de desarrollo",
+        "gratuita": true,
+        "dePago": true
+      },
+      {
+        "capacidad": "Firebase App Distribution / TestFlight",
+        "gratuita": false,
+        "dePago": true
+      },
+      {
+        "capacidad": "App Store",
+        "gratuita": false,
+        "dePago": true
+      }
     ],
     "limitesDeLaCuentaGratuita": [
       "La firma CADUCA A LOS 7 DÍAS: pasado ese plazo la app deja de abrirse y hay que reinstalarla desde Xcode. Es el límite que más molesta si quieres dejar un dispositivo en manos de alguien una semana larga.",
@@ -318,7 +394,6 @@
     "requisitoDelProyecto": "Esto solo se sostiene si el proyecto no usa capacidades de pago. Comprobación rápida: si no hay ningún archivo .entitlements (sin push, sin App Groups, sin dominios asociados), una cuenta gratuita compila el proyecto entero.",
     "primeraInstalacion": "El dispositivo pedirá confiar en el certificado: Ajustes → General → VPN y gestión de dispositivos → tu Apple ID → Confiar."
   },
-
   "checklistPrimerEnvioAppStore": [
     {
       "item": "ITSAppUsesNonExemptEncryption declarado en el Info.plist",
@@ -352,7 +427,6 @@
       "porQueNoEstaDeSerie": "Depende de una ruta interna de la resolución de SPM que cambia entre versiones de Xcode, y un build que falla por eso confunde más que unos informes sin simbolizar en un demostrador."
     }
   ],
-
   "erroresFrecuentes": [
     {
       "sintoma": "«Failed to register bundle identifier … cannot be registered to your development team because it is not available.»",
@@ -400,21 +474,82 @@
       "arreglo": "Abrir el .xcodeproj y usar -project en xcodebuild."
     }
   ],
-
   "gitignoreMinimo": {
     "proposito": "Lo que NUNCA debe entrar en git en un repositorio iOS. Copiable tal cual.",
     "bloques": [
-      { "titulo": "Carpetas nativas generadas (flujo Expo)", "entradas": ["android/", "ios/", "*.ipa", "*.apk", "*.aab"] },
-      { "titulo": "Salidas de build de Xcode", "entradas": ["DerivedData/", "build/", "*.moved-aside", "*.hmap", "*.dSYM/", "*.dSYM.zip", "*.xcarchive"] },
-      { "titulo": "Firma local", "entradas": ["<ruta>/Config/Signing.local.xcconfig", "*.mobileprovision", "*.p8", "*.p12", "*.key", "*.jks"] },
-      { "titulo": "Estado local de usuario de Xcode (bloqueo explícito)", "entradas": ["*.xcuserstate", "xcuserdata/", "**/xcuserdata/", "**/*.xcodeproj/xcuserdata/", "**/*.xcodeproj/project.xcworkspace/xcuserdata/", "**/*.xcworkspace/xcuserdata/", "*.xcscmblueprint", "*.xccheckout"] },
-      { "titulo": "Swift Package Manager", "entradas": [".build/", ".swiftpm/", "Packages/", "Package.pins"] },
-      { "titulo": "CocoaPods (preventivo si algún día hay flujo híbrido)", "entradas": ["Pods/"] },
-      { "titulo": "Credenciales de servicios", "entradas": ["GoogleService-Info.plist", "google-services.json", ".env", ".env.*.local"] }
+      {
+        "titulo": "Carpetas nativas generadas (flujo Expo)",
+        "entradas": [
+          "android/",
+          "ios/",
+          "*.ipa",
+          "*.apk",
+          "*.aab"
+        ]
+      },
+      {
+        "titulo": "Salidas de build de Xcode",
+        "entradas": [
+          "DerivedData/",
+          "build/",
+          "*.moved-aside",
+          "*.hmap",
+          "*.dSYM/",
+          "*.dSYM.zip",
+          "*.xcarchive"
+        ]
+      },
+      {
+        "titulo": "Firma local",
+        "entradas": [
+          "<ruta>/Config/Signing.local.xcconfig",
+          "*.mobileprovision",
+          "*.p8",
+          "*.p12",
+          "*.key",
+          "*.jks"
+        ]
+      },
+      {
+        "titulo": "Estado local de usuario de Xcode (bloqueo explícito)",
+        "entradas": [
+          "*.xcuserstate",
+          "xcuserdata/",
+          "**/xcuserdata/",
+          "**/*.xcodeproj/xcuserdata/",
+          "**/*.xcodeproj/project.xcworkspace/xcuserdata/",
+          "**/*.xcworkspace/xcuserdata/",
+          "*.xcscmblueprint",
+          "*.xccheckout"
+        ]
+      },
+      {
+        "titulo": "Swift Package Manager",
+        "entradas": [
+          ".build/",
+          ".swiftpm/",
+          "Packages/",
+          "Package.pins"
+        ]
+      },
+      {
+        "titulo": "CocoaPods (preventivo si algún día hay flujo híbrido)",
+        "entradas": [
+          "Pods/"
+        ]
+      },
+      {
+        "titulo": "Credenciales de servicios",
+        "entradas": [
+          "GoogleService-Info.plist",
+          "google-services.json",
+          ".env",
+          ".env.*.local"
+        ]
+      }
     ],
     "excepcionImportante": "Package.resolved SÍ se versiona (ver dependencias.packageResolved). Está dentro de xcshareddata, no de xcuserdata: cuidado con reglas demasiado anchas que se lo lleven por delante."
   },
-
   "comoPortarloAOtroRepo": {
     "placeholders": {
       "<APP>": "Nombre del target y del .xcodeproj",
@@ -471,7 +606,6 @@
       "Renombrar un archivo de código y olvidarse del pbxproj: el preflight lo detecta ANTES de compilar."
     ]
   },
-
   "antipatrones": [
     {
       "antipatron": "Elegir el equipo en la pestaña Signing & Capabilities y commitear",
@@ -502,19 +636,54 @@
       "porQueDuele": "Los errores de firma de xcodebuild son crípticos. Sin traducción a lenguaje humano, el script no ahorra el trabajo que de verdad cuesta."
     }
   ],
-
   "referenciasEnEsteRepositorio": [
-    { "ruta": "ios-native/README.md", "que": "Documentación larga del port nativo: clonado, cuenta gratuita, firma, exportación y gobernanza del pbxproj." },
-    { "ruta": "ios-native/Config/Signing.xcconfig", "que": "Implementación de la cadena de resolución del equipo y del bundle ID." },
-    { "ruta": "ios-native/Config/Signing.local.xcconfig.example", "que": "Plantilla versionada con las instrucciones para encontrar el Team ID." },
-    { "ruta": "ios-native/scripts/preflight.sh", "que": "Comprobación previa al primer build (incluye la verificación del pbxproj)." },
-    { "ruta": "ios-native/scripts/team-id.sh", "que": "Resolución del Team ID desde el llavero." },
-    { "ruta": "ios-native/scripts/archive.sh", "que": "Archivado y exportación en tres modos con errores traducidos." },
-    { "ruta": "ios-native/Valeria/Info.plist", "que": "Numeración por variables y cumplimiento de exportación documentado en el propio archivo." },
-    { "ruta": "app.json", "que": "Fuente de verdad de la configuración nativa de la app RN (plugins, permisos, bundle ID)." },
-    { "ruta": "eas.json", "que": "Perfiles de build en la nube." },
-    { "ruta": "plugins/", "que": "Config plugins propios: el patrón para no tocar nunca la carpeta generada." },
-    { "ruta": ".gitignore", "que": "Bloque Xcode/Apple con el bloqueo explícito del estado local." },
-    { "ruta": "README.md", "que": "Secciones «Builds (EAS)», «Build iOS en local» y «Port nativo iOS»." }
+    {
+      "ruta": "ios-native/README.md",
+      "que": "Documentación larga del port nativo: clonado, cuenta gratuita, firma, exportación y gobernanza del pbxproj."
+    },
+    {
+      "ruta": "ios-native/Config/Signing.xcconfig",
+      "que": "Implementación de la cadena de resolución del equipo y del bundle ID."
+    },
+    {
+      "ruta": "ios-native/Config/Signing.local.xcconfig.example",
+      "que": "Plantilla versionada con las instrucciones para encontrar el Team ID."
+    },
+    {
+      "ruta": "ios-native/scripts/preflight.sh",
+      "que": "Comprobación previa al primer build (incluye la verificación del pbxproj)."
+    },
+    {
+      "ruta": "ios-native/scripts/team-id.sh",
+      "que": "Resolución del Team ID desde el llavero."
+    },
+    {
+      "ruta": "ios-native/scripts/archive.sh",
+      "que": "Archivado y exportación en tres modos con errores traducidos."
+    },
+    {
+      "ruta": "ios-native/Valeria/Info.plist",
+      "que": "Numeración por variables y cumplimiento de exportación documentado en el propio archivo."
+    },
+    {
+      "ruta": "app.json",
+      "que": "Fuente de verdad de la configuración nativa de la app RN (plugins, permisos, bundle ID)."
+    },
+    {
+      "ruta": "eas.json",
+      "que": "Perfiles de build en la nube."
+    },
+    {
+      "ruta": "plugins/",
+      "que": "Config plugins propios: el patrón para no tocar nunca la carpeta generada."
+    },
+    {
+      "ruta": ".gitignore",
+      "que": "Bloque Xcode/Apple con el bloqueo explícito del estado local."
+    },
+    {
+      "ruta": "README.md",
+      "que": "Secciones «Builds (EAS)», «Build iOS en local» y «Port nativo iOS»."
+    }
   ]
 }

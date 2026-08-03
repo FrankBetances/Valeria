@@ -57,13 +57,13 @@ Entran dentro del alcance, entre otros:
 
 ## Vulnerabilidades conocidas en dependencias
 
-- **`xmldom` (crítica, GHSA-crh6-fp67-6883 y relacionadas)**: entra de forma
-  transitiva a través de `@react-native-voice/voice → @expo/plist`. Es una
-  dependencia de **tiempo de build** (parseo de archivos `.plist` en el
-  prebuild nativo), no de ejecución en el dispositivo del usuario final. La
-  corrección (`npm audit fix --force`) degrada `@react-native-voice/voice` a
-  una versión con cambios de ruptura, por lo que se pospone hasta poder
-  validar el reconocimiento de voz. Riesgo aceptado y bajo seguimiento.
+- ~~**`xmldom` (crítica, GHSA-crh6-fp67-6883 y relacionadas)**: entra de forma
+  transitiva a través de `@react-native-voice/voice → @expo/plist`.~~
+  **RESUELTA** (2026-08-03). La cadena que la traía desapareció al sustituir
+  `@react-native-voice/voice` por `expo-speech-recognition` en la Fase A de
+  [`docs/plan-asr-privacidad-y-motor-local.md`](docs/plan-asr-privacidad-y-motor-local.md).
+  El motivo de aquella migración era de privacidad, no de seguridad; cerrar esta
+  vulnerabilidad fue un efecto colateral. `npm audit` ya no reporta `xmldom`.
 
 Para revisar el estado actual: `npm audit`.
 

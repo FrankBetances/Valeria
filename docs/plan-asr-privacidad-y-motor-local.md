@@ -21,12 +21,13 @@
 > Encuadre regulatorio: **SaMD Clase I (MDR)** · **RGPD art. 9** (datos de salud de
 > menores) · **Play Console → Seguridad de los datos**.
 >
-> **Estado: 🟢 desbloqueado, listo para empezar** (2026-08-03). Las dos decisiones
-> que bloqueaban el arranque están cerradas:
-> **D1 · migración a `@jamsch/expo-speech-recognition` confirmada** (§3.1) y
-> **D3 · consentimiento de grabación resuelto**, con firma en papel el día de la
-> sesión (§4.2). Queda abierto el **umbral clínico** de la puerta de la Fase A
-> (§3.5), que no impide empezar: bloquea cerrar, no arrancar.
+> **Estado: 🟠 Fase A en curso** (2026-08-03). Decisiones de arranque cerradas:
+> **D1 · migración confirmada** (§3.1) y **D3 · consentimiento resuelto**, con
+> firma en papel el día de la sesión (§4.2).
+>
+> **Migración de librería hecha y verificada en `expo prebuild`**; falta todo lo
+> que solo se puede comprobar con un teléfono delante (§3.5). Queda abierto el
+> **umbral clínico** de la puerta (§3.6): bloquea cerrar, no arrancar.
 >
 > Rama de trabajo: `claude/valeria-voice-recognition-mva9qq`.
 
@@ -76,11 +77,11 @@ superar un umbral antes de entrar.
 | Invariante | Dónde vive |
 | --- | --- |
 | El adulto corrige siempre el veredicto del STT | `ValeriaMinimalPairsScreen.tsx:15`, `:559`, `:850` |
-| Sin ASR, la pantalla oculta el micro y el adulto juzga con botones | `ValeriaMinimalPairsScreen.tsx:21`, `asrSupported()` en `valeriaVoice.ts:425` |
-| El pliegue dialectal se aplica a la hipótesis, venga del motor que venga | `foldDominican` (`:535`), `foldBasque` (`:550`) |
-| El umbral de aceptación fonética es materia clínica y no se afloja | `matchPair` (`:598`), `matchExpected` (`:608`) |
-| La ventana de escucha ES-04 (3 s de silencio) es un requisito de logopedas | `ANDROID_LISTEN_EXTRAS` (`:446`) |
-| La distinción `noMatch` —fallo del motor ≠ fallo del niño— no se pierde | `NO_MATCH_CODES` (`:459`), `ListenCallbacks.onError` |
+| Sin ASR, la pantalla oculta el micro y el adulto juzga con botones | `ValeriaMinimalPairsScreen.tsx:21`, `asrSupported()` en `valeriaVoice.ts:437` |
+| El pliegue dialectal se aplica a la hipótesis, venga del motor que venga | `foldDominican` (`:687`), `foldBasque` (`:702`) |
+| El umbral de aceptación fonética es materia clínica y no se afloja | `matchPair` (`:750`), `matchExpected` (`:760`) |
+| La ventana de escucha ES-04 (3 s de silencio) es un requisito de logopedas | `ANDROID_LISTEN_EXTRAS` (`:527`) |
+| La distinción `noMatch` —fallo del motor ≠ fallo del niño— no se pierde | `NO_MATCH_ERRORS` (`:556`), `ListenCallbacks.onError` |
 | **Nunca se sesga el reconocedor hacia la palabra objetivo** | §3.4 |
 | `newArchEnabled` sigue en `false` | `app.json:9` |
 
@@ -92,9 +93,12 @@ Todo lo de esta sección está comprobado sobre el árbol y sobre el código rea
 las dependencias (tarball de npm de la versión exacta que usa el proyecto), no
 supuesto.
 
-### 2.1 Lo que hace hoy la app
+### 2.1 De dónde se partía
 
-`src/valeriaVoice.ts` concentra TTS y ASR. El ASR carga `@react-native-voice/voice`
+> Esta sección describe el estado **anterior** a la Fase A, que es lo que justifica
+> el resto del plan. Para el estado actual, ver §3.2.
+
+`src/valeriaVoice.ts` concentra TTS y ASR. El ASR cargaba `@react-native-voice/voice`
 de forma perezosa (`:419`), expone `asrSupported()` (`:425`) para degradar sin
 romper en Expo Go, y arranca con `Voice.start(speechLocale(), ANDROID_LISTEN_EXTRAS)`
 (`:501`). Los extras actuales son cuatro y todos regulan **cuándo deja de
@@ -197,9 +201,9 @@ banco de medida (§4.3).
 dispositivo sin perder precisión clínica, usando el reconocedor que ya trae el
 móvil?
 
-### 3.1 A.0 · Mecanismo — ✅ DECIDIDO (2026-08-03)
+### 3.1 A.0 · Mecanismo — ✅ DECIDIDO Y EJECUTADO (2026-08-03)
 
-**Se migra a `@jamsch/expo-speech-recognition`.**
+**Se migró a `expo-speech-recognition@3.1.3`.**
 
 Las tres opciones que se barajaron:
 
@@ -207,9 +211,21 @@ Las tres opciones que se barajaron:
 | --- | --- |
 | 1. Parchear la dependencia (`patch-package`) | ❌ Descartada. Dejó de ser barata al saber que hacen falta cinco APIs en dos plataformas (§2.3), no una clave en un `switch`. Sería reescribir la librería dentro de un parche |
 | 2. Bifurcar la librería | ❌ Descartada. Es la opción 1 con mantenimiento indefinido de código ajeno que aún depende de `com.android.support` |
-| 3. **Migrar a `@jamsch/expo-speech-recognition`** | ✅ **Elegida** |
+| 3. **Migrar a la librería mantenida** | ✅ **Elegida y ejecutada** |
 
-Verificado sobre el tarball de la v0.2.15, expone de fábrica todo lo que falta:
+> **Nota de ejecución.** La decisión se tomó sobre `@jamsch/expo-speech-recognition@0.2.15`,
+> pero al instalarla npm avisó de que **está deprecada: el paquete se movió a
+> `expo-speech-recognition`**, sin ámbito. La sucesora se renumeró para alinearse
+> con el SDK de Expo, así que la serie `56.x` apunta a SDK 56 y **la que
+> corresponde a este proyecto (SDK 54) es la `3.1.3`**, cuyo `devDependencies.expo`
+> es `~54.0.32` frente al `~54.0.35` del repositorio.
+>
+> **Esto mejora el trato de D1**: el precio que se aceptó era depender de una
+> pre-1.0, y `3.1.3` ya no lo es. La API verificada es la misma, con un cambio:
+> los listeners se registran con `ExpoSpeechRecognitionModule.addListener(...)`
+> en vez del export suelto `addSpeechRecognitionListener` de la 0.2.x.
+
+Expone de fábrica todo lo que falta:
 
 ```ts
 requiresOnDeviceRecognition?: boolean          // iOS y Android — la garantía
@@ -226,27 +242,35 @@ Las dos últimas hacen la Fase B **reproducible** (§4.5): la misma grabación
 pasada por el motor del sistema y por sherpa-onnx, comparable. Con la librería
 actual eso es imposible.
 
-**Beneficios colaterales:** elimina `plugins/withJetifier.js` (existe solo por la
-librería vieja) y abre iOS, que hoy no tiene ningún camino on-device.
+**Beneficios colaterales, los tres confirmados al ejecutar:**
 
-**Precio asumido conscientemente:** es una dependencia **pre-1.0** (0.2.15) en una
-app de contexto sanitario. Se mitiga encapsulando toda su superficie dentro de
-`valeriaVoice.ts` —como ya está hoy—, de modo que volver atrás sea un cambio de
-un solo archivo y las pantallas nunca vean la librería.
+1. Elimina `plugins/withJetifier.js` **y** `plugins/withSpeechRecognitionQueries.js`
+   (el plugin de la librería nueva ya declara la `<queries>`). Verificado: el
+   `gradle.properties` generado ya no lleva `android.enableJetifier`.
+2. Abre iOS, que con la librería anterior no tenía ningún camino on-device.
+3. **Cierra una vulnerabilidad crítica.** `SECURITY.md` documentaba `xmldom`
+   (GHSA-crh6-fp67-6883) como riesgo aceptado, entrando por
+   `@react-native-voice/voice → @expo/plist`. Al desaparecer esa cadena, `npm audit`
+   ya no la reporta. No era el objetivo de la migración; salió de regalo.
+
+**Precio asumido conscientemente:** una dependencia de ASR nueva en una app de
+contexto sanitario. Se mitiga encapsulando toda su superficie dentro de
+`valeriaVoice.ts` —como ya estaba—, de modo que volver atrás sea un cambio de un
+solo archivo y las pantallas nunca vean la librería.
 
 ### 3.2 A.1 · Cambios por archivo
 
 | Archivo | Cambio |
 | --- | --- |
-| `package.json` | Quitar `@react-native-voice/voice`, añadir `@jamsch/expo-speech-recognition` |
-| `app.json` | Sustituir la entrada del plugin y sus textos de permiso (**los mensajes actuales en castellano se conservan literalmente**) |
-| `plugins/withJetifier.js` | **Retirar** |
-| `plugins/withSpeechRecognitionQueries.js` | Revisar: la `<queries>` del manifiesto cambia de destinatario |
-| `src/valeriaVoice.ts` | Reescribir el bloque ASR (`:419`–`:520`). **`ANDROID_LISTEN_EXTRAS` y sus valores ES-04 se conservan tal cual** |
-| `src/valeriaVoice.ts` | ⚠️ **Traducir `NO_MATCH_CODES`** — ver aviso abajo |
-| `src/valeriaVoice.ts` | Nuevo: `asrOfflineStatus()` — expone si el reconocimiento es local, para telemetría y Panel del Adulto |
-| `src/valeriaTelemetry.ts` | Registrar por sesión: modo (local/red), locale, tasa de `noMatch` |
-| `site/privacidad.html` · `site/privacy.html` | §7 |
+| `package.json` | ✅ Quitado `@react-native-voice/voice`, añadido `expo-speech-recognition@^3.1.3` |
+| `app.json` | ✅ Plugin sustituido, textos de permiso en castellano conservados literalmente, y `androidSpeechServicePackages` declarando **también `com.google.android.as`** — sin eso el motor local no es visible en Android 11+ y la Fase A fallaría en silencio |
+| `plugins/withJetifier.js` | ✅ Retirado |
+| `plugins/withSpeechRecognitionQueries.js` | ✅ Retirado: el plugin de la librería nueva ya declara la `<queries>` |
+| `src/valeriaVoice.ts` | ✅ Bloque ASR reescrito. **Los tres valores de silencio de ES-04 se conservan tal cual**; el cuarto extra, `EXTRA_PARTIAL_RESULTS`, no existe como intent option en la librería nueva y pasa a la opción multiplataforma `interimResults: true` |
+| `src/valeriaVoice.ts` | ✅ `NO_MATCH_CODES` traducido a `NO_MATCH_ERRORS` — ver aviso abajo |
+| `src/valeriaVoice.ts` | ✅ Nuevo: `asrOfflineStatus()` y la resolución **por locale** de `canRecognizeOnDevice()` |
+| `src/valeriaTelemetry.ts` | ✅ `SessionRecord.asr`: `noMatch` particionado por modo + `byLocale`. Lo empuja `valeriaVoice` con `trackAsrMode()`; la telemetría **no importa** el módulo de voz, para no romper su regla de no depender de nada opcional |
+| `site/privacidad.html` · `site/privacy.html` | ⏳ Pendiente — §7, con el aviso de redacción |
 
 **No se tocan** `ValeriaMinimalPairsScreen.tsx` ni `ValeriaSemanticExpansionScreen.tsx`:
 consumen `startListening`/`matchPair`/`matchExpected`, cuyo contrato no cambia.
@@ -516,7 +540,7 @@ Para que no se cuele por la puerta de atrás:
 | R2 | Una opción se da por implementada sin estarlo (como §2.2) | Media | Alto | Verificación de nivel 3 (§3.5); nada se cierra sin inspección de tráfico |
 | R3 | El reconocimiento local degrada y aumentan los falsos `noMatch` | Media | Alto | Umbral de §3.6; política de degradación por locale (§3.3); se puede dejar apagado por defecto |
 | R4 | ~~No se consigue consentimiento~~ → **Resuelto** (§4.2) | — | — | Consentimiento listo, firma en papel el día de la grabación |
-| R5 | La librería nueva (pre-1.0) se abandona o rompe | Baja | Medio | Superficie encapsulada en `valeriaVoice.ts`; volver atrás es un cambio de un archivo |
+| R5 | La librería nueva se abandona o rompe | Baja | Medio | Superficie encapsulada en `valeriaVoice.ts`; volver atrás es un cambio de un archivo. Rebajado: la instalada es `3.1.3`, no una pre-1.0 (§3.1) |
 | R6 | `react-native-sherpa-onnx-stt` está en v0.2.2, muy temprana | Alta | Medio | Solo afecta a la Fase B, que es un experimento; si no sirve, se mide con el binario nativo de sherpa-onnx |
 | R7 | El corpus de audio infantil se filtra al repositorio | Baja | **Crítico** | `.gitignore` explícito + comprobación en CI; nunca en `site/`; seudonimización (§4.2) |
 | R8 | La migración rompe un ejercicio en producción | Media | Alto | El contrato de `startListening`/`matchPair` no cambia; los tres ejercicios son criterio de aceptación (§3.6) |
@@ -558,7 +582,7 @@ toca.
 
 | # | Decisión | Resultado | Fecha |
 | --- | --- | --- | --- |
-| **D1** | Mecanismo de la Fase A | **Migrar a `@jamsch/expo-speech-recognition`** (§3.1). Riesgo pre-1.0 asumido a cambio de resolver iOS y quitar `withJetifier` | 2026-08-03 |
+| **D1** | Mecanismo de la Fase A | **Migrar a `expo-speech-recognition@3.1.3`** (§3.1). Ejecutado. El riesgo pre-1.0 que se aceptó resultó no existir: la librería decidida estaba deprecada y su sucesora mantenida ya va por 3.x | 2026-08-03 |
 | **D3** | Consentimiento del corpus | **Listo**, firma en papel el día de la grabación (§4.2). Desbloquea la Fase B y permite validar la Fase A con rigor | 2026-08-03 |
 
 ### Abiertas
@@ -583,11 +607,11 @@ datos de A delante y no antes.
 ### Fase A
 
 - [x] **D1 · mecanismo decidido** → migrar a `@jamsch/expo-speech-recognition`
-- [ ] Sustituir la dependencia (`package.json`, `app.json`, retirar `withJetifier`)
-- [ ] Reescribir el bloque ASR de `valeriaVoice.ts` conservando ES-04 y el contrato
-- [ ] ⚠️ Traducir `NO_MATCH_CODES` con tabla explícita y verificar ambos casos a mano (R9)
-- [ ] Implementar la política de degradación **por locale** (§3.3)
-- [ ] Añadir `asrOfflineStatus()` y la telemetría de modo
+- [x] Sustituir la dependencia (`package.json`, `app.json`, retirar `withJetifier` y `withSpeechRecognitionQueries`)
+- [x] Reescribir el bloque ASR de `valeriaVoice.ts` conservando ES-04 y el contrato
+- [x] Traducir `NO_MATCH_CODES` con tabla explícita — ⏳ **falta verificar ambos casos a mano en dispositivo** (R9)
+- [x] Implementar la política de degradación **por locale** (§3.3)
+- [x] Añadir `asrOfflineStatus()` y la telemetría de modo
 - [ ] Verificación de niveles 1 y 2 durante el desarrollo (§3.5)
 - [ ] **Verificación de nivel 3 (tráfico de red)** en ≥ 2 dispositivos
 - [ ] Medir degradación de `noMatch` y de veredicto contra la línea base

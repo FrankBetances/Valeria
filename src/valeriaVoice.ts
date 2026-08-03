@@ -10,14 +10,16 @@
 //     la variedad activa (valeriaSpeechProsody): en es-DO, que suena con la
 //     voz del sistema, el troceo se reduce al mínimo porque cada locución
 //     encadenada arrastra la latencia de arranque del motor.
-//   · Reconocimiento de voz (ASR) con @react-native-voice/voice: juegos de
+//   · Reconocimiento de voz (ASR) con expo-speech-recognition: juegos de
 //     micrófono donde el niño repite la palabra y la app valora el intento.
+//     Se pide reconocimiento LOCAL cuando el dispositivo y la variedad lo
+//     permiten, para que el audio del menor no salga del teléfono.
 //
 // Degradación elegante: el ASR es un módulo nativo (no existe en Expo Go).
 // Si no está disponible, asrSupported() devuelve false y las pantallas ocultan
 // el juego de micrófono; el TTS funciona siempre.
 // ============================================================================
-import { PermissionsAndroid, Platform } from 'react-native';
+import { Platform } from 'react-native';
 import * as Speech from 'expo-speech';
 import {
   PRAISE_BANK, ALMOST_BANK, NO_HEAR_BANK, TOGETHER_BANK, VOICE_SAMPLE_PHRASE,
@@ -35,6 +37,7 @@ import { VOICE_ASSETS } from './valeriaVoiceAssets';
 import { playVoiceAsset, stopVoiceAsset } from './valeriaVoicePlayback';
 import { getLocale, assetLang, speechLocale, prefersLatinVoice } from './valeriaLocale';
 import { prosodyFor, splitForSpeech, tightenPauses } from './valeriaSpeechProsody';
+import { trackAsrMode } from './valeriaTelemetry';
 
 // ----------------------------------------------------------------------------
 // Selección de voz: el motor TTS del sistema suele traer varias voces es-*.
@@ -413,16 +416,94 @@ export const togetherPhrase = () => pickPhrase('together', bankFor(TOGETHER_BANK
 // ----------------------------------------------------------------------------
 // Reconocimiento de voz (ASR) — opcional según plataforma/build
 // ----------------------------------------------------------------------------
-let Voice: any = null;
+// Motor: expo-speech-recognition (Fase A de
+// docs/plan-asr-privacidad-y-motor-local.md). Sustituyó a @react-native-voice/voice
+// por una razón que no era de comodidad: aquella librería filtraba las opciones
+// que le llegaban de JS con un `switch` de seis claves y SIN rama `default`, así
+// que cualquier ajuste que no conociera —incluido pedir reconocimiento local— se
+// descartaba en silencio, sin error y sin log. Y en iOS nunca tocaba
+// `requiresOnDeviceRecognition`, de modo que allí no había camino on-device en
+// absoluto. El objetivo de la Fase A es que el audio del turno de habla del menor
+// no salga del dispositivo; con la librería anterior era inalcanzable.
+let Asr: any = null;
 try {
   // Carga perezosa: en Expo Go el módulo nativo no existe y el require falla.
-  Voice = require('@react-native-voice/voice').default;
-  if (!Voice || typeof Voice.start !== 'function') Voice = null;
+  Asr = require('expo-speech-recognition');
+  if (typeof Asr?.ExpoSpeechRecognitionModule?.start !== 'function') Asr = null;
 } catch (e) {
-  Voice = null;
+  Asr = null;
 }
 
-export const asrSupported = (): boolean => Voice != null;
+export const asrSupported = (): boolean => Asr != null;
+
+// ----------------------------------------------------------------------------
+// Modo de reconocimiento: ¿el audio se queda en el teléfono?
+// ----------------------------------------------------------------------------
+// 'local'        el motor reconoce en el dispositivo; el audio no sale
+// 'red'          el motor puede enviarlo a sus servidores (comportamiento previo)
+// 'desconocido'  todavía no se ha escuchado nada en esta sesión
+//
+// Lo consume la telemetría y el Panel del Adulto. NO es una promesa: es lo que
+// se pidió y el sistema concedió. La comprobación concluyente de que el audio no
+// sale es la inspección de tráfico de red (§3.5 del plan), no este valor.
+export type AsrMode = 'local' | 'red' | 'desconocido';
+
+let lastAsrMode: AsrMode = 'desconocido';
+export const asrOfflineStatus = (): AsrMode => lastAsrMode;
+
+// Paquete del reconocedor LOCAL de Android (Android System Intelligence). El de
+// red es 'com.google.android.googlequicksearchbox'. Fijar el paquete es selección
+// dura del motor; `requiresOnDeviceRecognition` por sí solo es una garantía
+// condicionada a que el dispositivo pueda cumplirla.
+const ANDROID_ON_DEVICE_SERVICE = 'com.google.android.as';
+
+// Normaliza 'es-ES', 'es_ES' y 'es' a una forma comparable.
+const localeKey = (s: string): string => s.toLowerCase().replace('_', '-');
+
+// ¿Hay reconocimiento local para ESTE locale? La respuesta es por variedad, no
+// global: es razonable que el paquete de castellano esté instalado, pero en
+// galego y euskera es mucho menos probable. Forzar el modo local a ciegas
+// degradaría gl/eu sin avisar, así que se pregunta por cada uno.
+//
+// Se cachea por locale porque son llamadas nativas y esto corre en cada escucha.
+const onDeviceCache = new Map<string, boolean>();
+
+async function canRecognizeOnDevice(locale: string): Promise<boolean> {
+  const key = localeKey(locale);
+  const cached = onDeviceCache.get(key);
+  if (cached !== undefined) return cached;
+
+  let ok = false;
+  try {
+    const M = Asr.ExpoSpeechRecognitionModule;
+    if (M.supportsOnDeviceRecognition()) {
+      if (Platform.OS === 'android') {
+        // En Android hace falta además que el servicio local exista y que el
+        // paquete de idioma esté DESCARGADO (installedLocales, no locales:
+        // "soportado" no es lo mismo que "instalado").
+        const services: string[] = M.getSpeechRecognitionServices() ?? [];
+        if (services.includes(ANDROID_ON_DEVICE_SERVICE)) {
+          const { installedLocales } = await M.getSupportedLocales({
+            androidRecognitionServicePackage: ANDROID_ON_DEVICE_SERVICE,
+          });
+          const installed = (installedLocales ?? []).map(localeKey);
+          const want = key;
+          ok = installed.includes(want)
+            || installed.some((l: string) => l.split('-')[0] === want.split('-')[0]);
+        }
+      } else {
+        // En iOS el reparto de modelos lo gestiona el sistema: si el
+        // reconocedor dice que soporta on-device, se pide y punto.
+        ok = true;
+      }
+    }
+  } catch (e) {
+    ok = false; // ante la duda, el comportamiento de siempre
+  }
+
+  onDeviceCache.set(key, ok);
+  return ok;
+}
 
 export interface ListenCallbacks {
   onPartial?: (text: string) => void;
@@ -449,75 +530,146 @@ const ANDROID_LISTEN_EXTRAS = {
   EXTRA_SPEECH_INPUT_POSSIBLY_COMPLETE_SILENCE_LENGTH_MILLIS: 3000,
   // Margen mínimo antes de considerar siquiera que la frase acabó.
   EXTRA_SPEECH_INPUT_MINIMUM_LENGTH_MILLIS: 4000,
-  // Parciales activos: son la red de seguridad cuando el resultado final
-  // llega vacío (el motor oyó algo y luego se rindió).
-  EXTRA_PARTIAL_RESULTS: true,
+  // NOTA DE MIGRACIÓN: el cuarto extra era EXTRA_PARTIAL_RESULTS: true. La
+  // librería nueva no lo expone como extra del intent porque tiene una opción
+  // propia y multiplataforma, `interimResults`, que se pasa en start(). Los
+  // parciales siguen activos —son la red de seguridad cuando el resultado final
+  // llega vacío—, solo cambia por dónde se piden.
 };
 
-// Códigos de @react-native-voice/voice que significan «el motor no captó»,
-// no «el niño lo dijo mal»: 6 = SPEECH_TIMEOUT, 7 = NO_MATCH.
-const NO_MATCH_CODES = new Set(['6', '7']);
+// ES-04 · Traducción de los códigos de error al indicador `noMatch`.
+//
+// PUNTO DELICADO DE LA MIGRACIÓN. La librería anterior devolvía códigos
+// numéricos del SpeechRecognizer de Android y aquí se miraban dos: 6
+// (SPEECH_TIMEOUT) y 7 (NO_MATCH). La nueva devuelve cadenas, y el equivalente
+// exacto de ese par es "no-speech" ("No final speech was detected"), más el
+// evento `nomatch`, que se emite cuando hay resultado final sin reconocimiento
+// significativo. Se traduce SOLO eso, para que el comportamiento clínico salga
+// de la migración exactamente igual que entró.
+//
+// Queda dicho, porque se ve al hacer la tabla: "network", "audio-capture",
+// "busy" y "client" TAMBIÉN son fallos del motor y no del niño, y con la lógica
+// de ES-04 tampoco deberían gastarle un intento. La librería vieja no los
+// distinguía y esto los sigue tratando como antes. Ampliar el conjunto es una
+// decisión clínica —va con el umbral que tiene que fijar ACOPROS (D6 del plan)—,
+// no un detalle de la migración, y por eso no se hace aquí de tapadillo.
+const NO_MATCH_ERRORS = new Set(['no-speech']);
 
-// Inicia una escucha en español. Devuelve false si no se pudo empezar.
+// El permiso denegado NO es un fallo del motor: necesita acción del adulto, y la
+// pantalla debe mostrarlo como tal en vez de tragárselo como un intento fallido.
+const PERMISSION_ERRORS = new Set(['not-allowed', 'service-not-allowed']);
+
+// Suscripciones activas del reconocedor. La librería devuelve objetos con
+// .remove(); hay que soltarlas al parar o se acumulan entre escuchas.
+let asrSubs: Array<{ remove: () => void }> = [];
+
+const clearAsrSubs = (): void => {
+  asrSubs.forEach((s) => { try { s.remove(); } catch (e) { /* noop */ } });
+  asrSubs = [];
+};
+
+// Inicia una escucha en la variedad activa. Devuelve false si no se pudo empezar.
 export async function startListening(cb: ListenCallbacks): Promise<boolean> {
-  if (!Voice) {
+  if (!Asr) {
     cb.onError('El reconocimiento de voz no está disponible en este dispositivo.', false);
     return false;
   }
-  if (Platform.OS === 'android') {
-    try {
-      const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
-        {
-          title: 'Micrófono para los juegos de voz',
-          message: 'Valeria+ necesita el micrófono para escuchar la palabra que dice el niño.',
-          buttonPositive: 'Permitir',
-          buttonNegative: 'Ahora no',
-        },
-      );
-      if (granted !== PermissionsAndroid.RESULTS.GRANTED) {
-        cb.onError('Concede el permiso de micrófono para jugar con la voz.', false);
-        return false;
-      }
-    } catch (e) {
-      cb.onError('No se pudo pedir el permiso de micrófono.', false);
+  const M = Asr.ExpoSpeechRecognitionModule;
+
+  // Permisos: la librería los pide en las dos plataformas (micrófono y, en iOS,
+  // también reconocimiento de voz), así que ya no hace falta el camino manual
+  // con PermissionsAndroid.
+  try {
+    const perm = await M.requestPermissionsAsync();
+    if (!perm?.granted) {
+      cb.onError('Concede el permiso de micrófono para jugar con la voz.', false);
       return false;
     }
+  } catch (e) {
+    cb.onError('No se pudo pedir el permiso de micrófono.', false);
+    return false;
   }
+
+  const locale = speechLocale();
+  const onDevice = await canRecognizeOnDevice(locale);
+  lastAsrMode = onDevice ? 'local' : 'red';
+  // La telemetría particiona la tasa de noMatch por modo: sin eso, la cifra
+  // agregada mezcla escuchas locales y de red y no permite decidir la fase.
+  try { trackAsrMode(lastAsrMode, locale); } catch (e) { /* nunca romper por medir */ }
+
+  clearAsrSubs();
   try {
-    Voice.onSpeechPartialResults = (e: any) => {
-      if (e?.value?.length) cb.onPartial?.(String(e.value[0]));
+    const sub = (name: string, fn: (e: any) => void) => {
+      asrSubs.push(M.addListener(name, fn));
     };
-    Voice.onSpeechResults = (e: any) => cb.onResult((e?.value ?? []).map(String));
-    Voice.onSpeechError = (e: any) => {
-      const code = String(e?.error?.code ?? '');
+
+    sub('result', (e: any) => {
+      const alts: string[] = (e?.results ?? [])
+        .map((r: any) => String(r?.transcript ?? ''))
+        .filter((t: string) => t.length > 0);
+      if (e?.isFinal) cb.onResult(alts);
+      else if (alts.length) cb.onPartial?.(alts[0]);
+    });
+
+    // `nomatch`: resultado final sin reconocimiento significativo. Es fallo del
+    // motor, igual que el viejo código 7.
+    sub('nomatch', () => {
+      cb.onError('No te escuché bien. ¡Probamos otra vez!', true);
+    });
+
+    sub('error', (e: any) => {
+      const code = String(e?.error ?? '');
+      if (PERMISSION_ERRORS.has(code)) {
+        cb.onError('Concede el permiso de micrófono para jugar con la voz.', false);
+        return;
+      }
       cb.onError(
-        e?.error?.message ? 'No te escuché bien. ¡Probamos otra vez!' : 'No se pudo escuchar.',
-        NO_MATCH_CODES.has(code),
+        NO_MATCH_ERRORS.has(code)
+          ? 'No te escuché bien. ¡Probamos otra vez!'
+          : 'No se pudo escuchar.',
+        NO_MATCH_ERRORS.has(code),
       );
-    };
-    Voice.onSpeechEnd = () => cb.onEnd?.();
+    });
+
+    sub('end', () => cb.onEnd?.());
+
     stopSpeaking(); // que la app no se escuche a sí misma
-    await Voice.start(speechLocale(), Platform.OS === 'android' ? ANDROID_LISTEN_EXTRAS : undefined);
+
+    M.start({
+      lang: locale,
+      // Sustituye a EXTRA_PARTIAL_RESULTS del intent: misma red de seguridad.
+      interimResults: true,
+      maxAlternatives: 5,
+      // Fase A · que el audio no salga del teléfono cuando el dispositivo pueda.
+      requiresOnDeviceRecognition: onDevice,
+      ...(onDevice && Platform.OS === 'android'
+        ? { androidRecognitionServicePackage: ANDROID_ON_DEVICE_SERVICE }
+        : {}),
+      // ES-04 · la ventana de escucha larga, intacta.
+      ...(Platform.OS === 'android' ? { androidIntentOptions: ANDROID_LISTEN_EXTRAS } : {}),
+      // NUNCA `contextualStrings` con la palabra objetivo: sesgaría el motor a
+      // devolverla y fabricaría el falso positivo que el ejercicio existe para
+      // detectar (§3.4 del plan). Si alguien lo añade "para que reconozca
+      // mejor", está rompiendo la medida clínica.
+    });
     return true;
   } catch (e) {
+    clearAsrSubs();
     cb.onError('No se pudo iniciar el micrófono. Inténtalo de nuevo.', false);
     return false;
   }
 }
 
 export async function stopListening(): Promise<void> {
-  if (!Voice) return;
-  try { await Voice.stop(); } catch (e) { /* noop */ }
+  if (!Asr) return;
+  try { Asr.ExpoSpeechRecognitionModule.stop(); } catch (e) { /* noop */ }
 }
 
 // Libera el reconocedor y sus listeners (llamar al desmontar la pantalla).
 export async function releaseListening(): Promise<void> {
-  if (!Voice) return;
-  try {
-    await Voice.destroy();
-    Voice.removeAllListeners?.();
-  } catch (e) { /* noop */ }
+  if (!Asr) return;
+  try { Asr.ExpoSpeechRecognitionModule.abort(); } catch (e) { /* noop */ }
+  clearAsrSubs();
 }
 
 // ----------------------------------------------------------------------------

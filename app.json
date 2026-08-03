@@ -36,14 +36,16 @@
         }
       ],
       [
-        "@react-native-voice/voice",
+        "expo-speech-recognition",
         {
           "microphonePermission": "Valeria+ usa el micrófono para los juegos de voz de los ejercicios.",
-          "speechRecognitionPermission": "Valeria+ usa el reconocimiento de voz para valorar las palabras que dice el niño."
+          "speechRecognitionPermission": "Valeria+ usa el reconocimiento de voz para valorar las palabras que dice el niño.",
+          "androidSpeechServicePackages": [
+            "com.google.android.googlequicksearchbox",
+            "com.google.android.as"
+          ]
         }
       ],
-      "./plugins/withSpeechRecognitionQueries",
-      "./plugins/withJetifier",
       "./plugins/withValeriaAR"
     ],
     "ios": {

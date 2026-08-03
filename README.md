@@ -375,7 +375,7 @@ Importa porque **dos piezas centrales de Valeria+ no existen en Expo Go**:
 
 | Módulo | En Expo Go | En build de desarrollo |
 | --- | --- | --- |
-| `@react-native-voice/voice` (STT) | ❌ no está enlazado: los juegos de voz no reconocen nada | ✅ funciona |
+| `expo-speech-recognition` (STT) | ❌ no está enlazado: los juegos de voz no reconocen nada | ✅ funciona |
 | `expo-notifications` (recordatorios) | ⚠️ sin push remoto y con avisos limitados en iOS | ✅ funciona |
 
 Traducción práctica: Expo Go vale para retocar interfaz, textos o navegación;
@@ -492,7 +492,7 @@ Distribuir a terceros exige el Apple Developer Program.
 
 ### Permisos que verás en el dispositivo
 
-Los genera el plugin de `@react-native-voice/voice` declarado en `app.json`; no
+Los genera el plugin de `expo-speech-recognition` declarado en `app.json`; no
 se editan a mano en el `Info.plist`, porque `prebuild` lo regenera:
 
 | Clave | Para qué |

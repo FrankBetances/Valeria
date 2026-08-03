@@ -100,6 +100,19 @@ export interface SessionRecord {
   // `noMatch` cuenta solo las escuchas en que el motor no captó nada, que son
   // las que antes le costaban al niño un intento y una estrella.
   listen?: { started: number; noMatch: number };
+  // Fase A (docs/plan-asr-privacidad-y-motor-local.md) · Partición por modo del
+  // reconocedor. La tasa de `noMatch` agregada no sirve para decidir nada:
+  // mezcla escuchas resueltas DENTRO del teléfono con escuchas que fueron a la
+  // red. La comparación local vs red sobre el mismo banco de palabras es el
+  // criterio de aceptación de la fase.
+  // `byLocale` responde a la otra pregunta abierta (R10): si el gallego y el
+  // euskera llegan a tener reconocimiento local alguna vez, o se quedan siempre
+  // en red por no existir paquete de idioma para su variedad.
+  asr?: {
+    local: { started: number; noMatch: number };
+    red: { started: number; noMatch: number };
+    byLocale: Record<string, { local: number; red: number }>;
+  };
   // ---- Módulo de Realidad Aumentada (bloque 7) ----
   // Regla dura: UN registro por ensayo, jamás por frame. A 30 fps, tres minutos
   // de ejercicio serían 5.400 eventos; la agregación ocurre en el host nativo y
@@ -237,11 +250,38 @@ export function trackCapsuleSkip(): void { cur.capsules.skipped += 1; scheduleFl
 export function trackListenStart(): void {
   if (!cur.listen) cur.listen = { started: 0, noMatch: 0 };
   cur.listen.started += 1;
+  if (lastAsrMode) asrBucket()[lastAsrMode].started += 1;
   scheduleFlush();
 }
 export function trackListenNoMatch(): void {
   if (!cur.listen) cur.listen = { started: 0, noMatch: 0 };
   cur.listen.noMatch += 1;
+  if (lastAsrMode) asrBucket()[lastAsrMode].noMatch += 1;
+  scheduleFlush();
+}
+
+// Fase A · Modo del reconocedor de la escucha en curso. Lo empuja valeriaVoice
+// al arrancar cada escucha; NO se importa desde aquí, porque este módulo tiene
+// la regla de no depender de nada opcional (el ASR puede no existir en el
+// dispositivo) y romperse por ello.
+let lastAsrMode: 'local' | 'red' | null = null;
+
+function asrBucket() {
+  if (!cur.asr) {
+    cur.asr = {
+      local: { started: 0, noMatch: 0 },
+      red: { started: 0, noMatch: 0 },
+      byLocale: {},
+    };
+  }
+  return cur.asr;
+}
+
+export function trackAsrMode(mode: 'local' | 'red', locale: string): void {
+  lastAsrMode = mode;
+  const asr = asrBucket();
+  if (!asr.byLocale[locale]) asr.byLocale[locale] = { local: 0, red: 0 };
+  asr.byLocale[locale][mode] += 1;
   scheduleFlush();
 }
 
