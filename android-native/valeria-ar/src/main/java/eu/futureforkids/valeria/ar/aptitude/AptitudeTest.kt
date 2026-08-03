@@ -123,9 +123,17 @@ object AptitudeTest {
  * esconde. La gama media entra en *throttling* térmico en minutos —cámara a
  * 30 fps + inferencia + Filament en un chasis pequeño y sin disipación—, así
  * que el riesgo no es la potencia bruta: es la sostenida.
+ *
+ * **Sincronizado y acotado, y las dos cosas son correcciones de fallo.** Los
+ * frames los cuenta el hilo del listener de MediaPipe y el percentil lo lee el
+ * hilo principal: ordenar la lista mientras el otro hilo le añade produce un
+ * `ConcurrentModificationException` justo al terminar la prueba. Y la lista
+ * crecía sin techo mientras la cámara estuviera abierta, en modos donde nadie
+ * llega a leerla nunca —ejercicio y diagnóstico—, así que ahora es un anillo.
  */
 class FpsMeter {
-    private val frameIntervalsMs = ArrayList<Long>(2048)
+    private val frameIntervalsMs = ArrayList<Long>(MAX_SAMPLES)
+    private var writeIdx = 0
     private var lastFrameMs = 0L
     private var firstHalfSum = 0.0
     private var firstHalfN = 0
@@ -134,8 +142,10 @@ class FpsMeter {
     private var startedMs = 0L
     private var windowMs = 0L
 
+    @Synchronized
     fun start(expectedDurationMs: Long) {
         frameIntervalsMs.clear()
+        writeIdx = 0
         lastFrameMs = 0L
         firstHalfSum = 0.0; firstHalfN = 0
         secondHalfSum = 0.0; secondHalfN = 0
@@ -143,12 +153,18 @@ class FpsMeter {
         windowMs = expectedDurationMs
     }
 
+    @Synchronized
     fun onFrame() {
         val now = SystemClock.elapsedRealtime()
         if (lastFrameMs != 0L) {
             val dt = now - lastFrameMs
             if (dt in 1..2000) {
-                frameIntervalsMs.add(dt)
+                if (frameIntervalsMs.size < MAX_SAMPLES) {
+                    frameIntervalsMs.add(dt)
+                } else {
+                    frameIntervalsMs[writeIdx] = dt
+                    writeIdx = (writeIdx + 1) % MAX_SAMPLES
+                }
                 val fps = 1000.0 / dt
                 if (now - startedMs < windowMs / 2) { firstHalfSum += fps; firstHalfN++ }
                 else { secondHalfSum += fps; secondHalfN++ }
@@ -158,6 +174,7 @@ class FpsMeter {
     }
 
     /** Percentil 5 de fps = percentil 95 de intervalo entre frames. */
+    @Synchronized
     fun fpsP5(): Float {
         if (frameIntervalsMs.isEmpty()) return 0f
         val sorted = frameIntervalsMs.sorted()
@@ -170,11 +187,17 @@ class FpsMeter {
      * Caída térmica: fps de la segunda mitad / fps de la primera. Por debajo de
      * 0,7 el teléfono no sostiene la sesión, aunque arranque bien.
      */
+    @Synchronized
     fun thermalSlope(): Float {
         if (firstHalfN == 0 || secondHalfN == 0) return 1f
         val first = firstHalfSum / firstHalfN
         val second = secondHalfSum / secondHalfN
         return if (first <= 0.0) 1f else (second / first).toFloat()
+    }
+
+    private companion object {
+        /** ~2 minutos a 30 fps. La ventana de la prueba usa menos de 800. */
+        const val MAX_SAMPLES = 4096
     }
 }
 

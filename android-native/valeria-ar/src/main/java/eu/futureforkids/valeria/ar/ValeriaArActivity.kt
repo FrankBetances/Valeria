@@ -24,6 +24,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicText
@@ -66,6 +67,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 import java.util.concurrent.Executors
+import java.util.concurrent.TimeUnit
 
 /**
  * Valeria+ · Host nativo del bloque de Realidad Aumentada.
@@ -101,15 +103,42 @@ class ValeriaArActivity : ComponentActivity() {
 
     private val diagnostics = DiagnosticsState()
     private var statusText by mutableStateOf("")
-    private var calibrationTarget by mutableStateOf<PointF?>(null)
+    /** Diana de la osita: la sigue la mirada en calibración y en la Prueba de Aptitud. */
+    private var bearTarget by mutableStateOf<PointF?>(null)
+
+    /**
+     * Último frame con cara dentro, en `elapsedRealtime`. Es lo que convierte
+     * «no llegan señales» en un hecho con reloj: sin esto el bucle de ejercicio
+     * gira para siempre esperando ensayos que nadie va a producir, con la cámara
+     * abierta y el teléfono calentándose.
+     */
+    @Volatile private var lastFaceMs = 0L
+
+    // Para desenlazar la cámara de forma explícita al cerrar, sin depender solo
+    // del ciclo de vida: mientras siga enlazada sigue habiendo frames en vuelo.
+    private var cameraProvider: ProcessCameraProvider? = null
+    private var analysisUseCase: ImageAnalysis? = null
 
     // La PreviewView se crea aquí y no dentro del Composable porque el caso de
     // uso de CameraX necesita su SurfaceProvider: sin ese cable, la cámara se
     // enlaza y analiza correctamente pero el niño ve una pantalla negra.
+    //
+    // PERFORMANCE y no COMPATIBLE, y es media cura del fondo roto. COMPATIBLE
+    // dibuja el preview en un `TextureView`, es decir DENTRO de la ventana; la
+    // escena 3D vive en un `SurfaceView`, que recorta un agujero transparente en
+    // esa misma ventana y por tanto BORRA el preview que se había pintado
+    // debajo. Con PERFORMANCE el preview pasa a ser otra superficie, en el
+    // sublayer de más abajo, y las tres capas se apilan como deben (ver el
+    // encabezado de `ValeriaArSceneView`). De paso se ahorra la copia por GPU de
+    // cada frame que hace TextureView, que en la gama baja del parque LATAM es
+    // justo donde aparecían los bloques de color.
+    //
+    // No es un riesgo de compatibilidad: CameraX cae a TextureView por su cuenta
+    // en los dispositivos donde sabe que la superficie no se comporta.
     private val previewView: PreviewView by lazy {
         PreviewView(this).apply {
             scaleType = PreviewView.ScaleType.FILL_CENTER
-            implementationMode = PreviewView.ImplementationMode.COMPATIBLE
+            implementationMode = PreviewView.ImplementationMode.PERFORMANCE
         }
     }
 
@@ -150,7 +179,7 @@ class ValeriaArActivity : ComponentActivity() {
                         previewView = previewView,
                         scene = scene,
                         status = statusText,
-                        calibrationTarget = calibrationTarget,
+                        bearTarget = bearTarget,
                         diagnostics = if (mode == MODE_DIAGNOSTICS) diagnostics else null,
                     )
                 }
@@ -176,12 +205,17 @@ class ValeriaArActivity : ComponentActivity() {
 
     private fun startPipeline() {
         imu.start()
-        engine = FaceSignalEngine(this) { signals -> onSignals(signals) }
+        engine = FaceSignalEngine(
+            context = this,
+            onFaceLost = { onFrameProcessed() },
+            onSignals = { signals -> onFrameProcessed(); onSignals(signals) },
+        )
         if (engine?.isReady != true) { finishWith(outcome = "aborted"); return }
 
         val providerFuture = ProcessCameraProvider.getInstance(this)
         providerFuture.addListener({
             val provider = providerFuture.get()
+            cameraProvider = provider
             val preview = Preview.Builder().build().apply {
                 surfaceProvider = previewView.surfaceProvider
             }
@@ -204,14 +238,21 @@ class ValeriaArActivity : ComponentActivity() {
                 .setOutputImageFormat(ImageAnalysis.OUTPUT_IMAGE_FORMAT_RGBA_8888)
                 .build()
 
+            // El contador de fps NO va aquí. Aquí se cuentan los frames que la
+            // cámara entrega, y el analizador ahora descarta los que llegan
+            // mientras MediaPipe todavía infiere: contarlos daría 30 fps en un
+            // teléfono que en realidad procesa 12, y la Prueba de Aptitud
+            // clasificaría de nivel A un aparato que no sostiene el ejercicio.
+            // Se cuentan en `onFrameProcessed`, es decir, inferencias acabadas.
             analysis.setAnalyzer(analysisExecutor) { image ->
-                fpsMeter.onFrame()
                 engine?.analyze(image, isFrontCamera = true)
             }
+            analysisUseCase = analysis
 
             try {
                 provider.unbindAll()
                 provider.bindToLifecycle(this, CameraSelector.DEFAULT_FRONT_CAMERA, preview, analysis)
+                lastFaceMs = SystemClock.elapsedRealtime()
                 startModeFlow()
             } catch (e: Throwable) {
                 finishWith(outcome = "aborted")
@@ -219,7 +260,13 @@ class ValeriaArActivity : ComponentActivity() {
         }, ContextCompat.getMainExecutor(this))
     }
 
+    /** Un frame que ha COMPLETADO inferencia, con cara o sin ella. */
+    private fun onFrameProcessed() {
+        fpsMeter.onFrame()
+    }
+
     private fun onSignals(signals: FaceSignals) {
+        lastFaceMs = SystemClock.elapsedRealtime()
         distance.update(signals)
         when (mode) {
             MODE_CALIBRATION -> collectCalibrationSample(signals)
@@ -290,11 +337,40 @@ class ValeriaArActivity : ComponentActivity() {
         }
 
         scene.setModel(exercise!!.model)
-        statusText = exercise!!.setupHint
+        val setupHint = exercise!!.setupHint
+        statusText = setupHint
 
+        // Bucle de ejercicio con vigilancia, y no es una precaución teórica: los
+        // tres ejercicios AVANZAN SOLO CON LA CARA DENTRO. AR-1 necesita 90
+        // frames válidos para su línea base antes de premiar nada; AR-2 no
+        // dispara el primer estímulo hasta que el niño lleva medio segundo
+        // mirando al frente. Si la cara no se ve —el peque se fue, el teléfono se
+        // cayó de lado, el encuadre nunca fue bueno— `finished` no llega a ser
+        // cierto NUNCA y el bucle original giraba indefinidamente: la app no
+        // avanzaba a la siguiente tarea, con la cámara abierta y el teléfono
+        // calentándose hasta que el sistema lo mataba.
+        //
+        // Las tres salidas de aquí abajo lo convierten en algo acotado: un aviso
+        // al adulto a los pocos segundos, un cierre honesto si la ausencia se
+        // prolonga y un techo absoluto de duración. Un cierre con `timeout` y
+        // cero ensayos es un resultado; un bucle infinito no lo es.
         scope.launch {
+            val startedMs = SystemClock.elapsedRealtime()
+            var hinting = false
             while (exercise?.finished == false) {
-                exercise?.onTick(SystemClock.elapsedRealtime())
+                val now = SystemClock.elapsedRealtime()
+                exercise?.onTick(now)
+
+                val sinceFace = now - lastFaceMs
+                when {
+                    sinceFace >= NO_FACE_STOP_MS -> { finishWith(outcome = "timeout"); return@launch }
+                    sinceFace >= NO_FACE_HINT_MS -> {
+                        if (!hinting) { statusText = NO_FACE_HINT; hinting = true }
+                    }
+                    hinting -> { statusText = setupHint; hinting = false }
+                }
+                if (now - startedMs >= SESSION_MAX_MS) { finishWith(outcome = "timeout"); return@launch }
+
                 delay(33)
             }
             finishWith(outcome = "completed")
@@ -310,6 +386,27 @@ class ValeriaArActivity : ComponentActivity() {
     private fun runAptitudeFlow() {
         statusText = "Mira a la osita y sigue sus saltos…"
         fpsMeter.start(APTITUDE_MS)
+
+        // La osita tiene que EXISTIR. La instrucción pedía seguir sus saltos y en
+        // pantalla no había nada que seguir: el niño miraba una cámara en negro
+        // sin tarea, y la sonda de RMS del puntero —que decide si AR-3 se juega
+        // con tres dianas o con dos— se alimentaba de una mirada errante en vez
+        // de una mirada dirigida. Saltando por el mismo recorrido que la
+        // calibración, la prueba mide lo que dice medir.
+        scope.launch {
+            val w = geometry.widthPx.toFloat()
+            val h = geometry.heightPx.toFloat()
+            val deadline = SystemClock.elapsedRealtime() + APTITUDE_MS
+            var hop = 0
+            while (SystemClock.elapsedRealtime() < deadline) {
+                val (fx, fy) = APTITUDE_HOPS[hop % APTITUDE_HOPS.size]
+                bearTarget = PointF(w * fx, h * fy)
+                hop += 1
+                delay(APTITUDE_HOP_MS)
+            }
+            bearTarget = null
+        }
+
         scope.launch {
             delay(APTITUDE_MS)
 
@@ -373,7 +470,7 @@ class ValeriaArActivity : ComponentActivity() {
         scope.launch {
             statusText = "Sigue a la osita con la mirada"
             for (p in points) {
-                calibrationTarget = p
+                bearTarget = p
                 calSamples.clear()
                 delay(700)               // que llegue la mirada antes de muestrear
                 calCollecting = true
@@ -389,7 +486,7 @@ class ValeriaArActivity : ComponentActivity() {
                     calScreen.add(p)
                 }
             }
-            calibrationTarget = null
+            bearTarget = null
 
             val pxPerDeg = geometry.pxPerDeg(distance.currentMm)
             val calibration = Calibration.fit(calObserved, calScreen, pxPerDeg)
@@ -440,13 +537,31 @@ class ValeriaArActivity : ComponentActivity() {
         finish()
     }
 
+    /**
+     * El orden de aquí importa y antes estaba invertido: se cerraba el motor de
+     * señal ANTES de parar el executor que le entrega frames, así que un frame en
+     * vuelo podía entrar en un landmarker recién cerrado. El cierre correcto va
+     * de fuera hacia dentro —primero se corta el grifo, después se cierra lo que
+     * bebía de él— y se espera un momento a que el hilo de análisis termine.
+     */
     override fun onDestroy() {
         super.onDestroy()
         scope.cancel()
-        exercise?.close()
-        engine?.close()
-        imu.stop()
+
+        runCatching { analysisUseCase?.clearAnalyzer() }
+        runCatching { cameraProvider?.unbindAll() }
+        analysisUseCase = null
+        cameraProvider = null
+
         analysisExecutor.shutdown()
+        // Tope, no coste esperado: un frame tarda milisegundos en soltarse. Está
+        // para que el cierre no dependa de la suerte, no para esperar de verdad.
+        runCatching { analysisExecutor.awaitTermination(300, TimeUnit.MILLISECONDS) }
+
+        engine?.close()
+        engine = null
+        exercise?.close()
+        imu.stop()
     }
 
     companion object {
@@ -462,6 +577,39 @@ class ValeriaArActivity : ComponentActivity() {
         const val MODE_DIAGNOSTICS = "diagnostics"
 
         private const val APTITUDE_MS = 25_000L
+        private const val APTITUDE_HOP_MS = 2_000L
+
+        /**
+         * Recorrido de la osita durante la Prueba de Aptitud, en fracción de
+         * pantalla. Barre las cuatro esquinas y el centro —el mismo espacio que
+         * cubre la calibración— para que el RMS del puntero se mida sobre miradas
+         * dirigidas a todo el campo y no solo al centro.
+         */
+        private val APTITUDE_HOPS = listOf(
+            0.5f to 0.5f, 0.12f to 0.18f, 0.88f to 0.18f, 0.5f to 0.5f,
+            0.88f to 0.82f, 0.12f to 0.82f, 0.5f to 0.5f, 0.12f to 0.5f,
+            0.88f to 0.5f, 0.5f to 0.18f, 0.5f to 0.82f, 0.5f to 0.5f,
+        )
+
+        /** Aviso al adulto: la cara lleva un rato fuera, pero la sesión sigue. */
+        private const val NO_FACE_HINT_MS = 5_000L
+        private const val NO_FACE_HINT =
+            "No veo la carita. Coloca el teléfono apoyado, a un palmo y medio, con la cara centrada."
+
+        /**
+         * Ausencia sostenida: se cierra con `timeout`. Un minuto es tiempo de
+         * sobra para recolocar a un niño que se ha movido, y poco para que un
+         * teléfono se caliente con la cámara abierta sin medir nada.
+         */
+        private const val NO_FACE_STOP_MS = 60_000L
+
+        /**
+         * Techo absoluto de la sesión. El ejercicio más largo (AR-2, 20 ensayos
+         * con intervalos de 3-6 s) ronda los 3-4 minutos; ocho es holgura, no
+         * presupuesto. Existe para que ningún camino raro deje la cámara abierta
+         * indefinidamente.
+         */
+        private const val SESSION_MAX_MS = 8 * 60_000L
 
         /**
          * Vocabulario de arranque de AR-3. La primera palabra de cada fila es la
@@ -486,7 +634,7 @@ private fun ArHostScreen(
     previewView: PreviewView,
     scene: SceneState,
     status: String,
-    calibrationTarget: PointF?,
+    bearTarget: PointF?,
     diagnostics: DiagnosticsState?,
 ) {
     Box(Modifier.fillMaxSize().background(Color.Black)) {
@@ -498,14 +646,18 @@ private fun ArHostScreen(
 
         diagnostics?.let { DiagnosticsPanel(it, Modifier.align(Alignment.TopStart)) }
 
-        calibrationTarget?.let { t ->
+        // `offset` y no `padding`: un padding negativo lanza IllegalArgumentException
+        // y las dianas de las esquinas caen a un 10-12 % del borde, que en una
+        // pantalla densa son menos de los 22 dp que hay que restar para centrar
+        // el emoji. Con `offset` el recorrido puede llegar al borde sin romper.
+        bearTarget?.let { t ->
             val density = androidx.compose.ui.platform.LocalDensity.current
             val xDp = with(density) { t.x.toDp() }
             val yDp = with(density) { t.y.toDp() }
             BasicText(
                 "🐻",
                 style = TextStyle(fontSize = 44.sp),
-                modifier = Modifier.padding(start = xDp - 22.dp, top = yDp - 22.dp),
+                modifier = Modifier.offset(x = xDp - 22.dp, y = yDp - 22.dp),
             )
         }
 

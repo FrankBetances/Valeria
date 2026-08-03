@@ -181,8 +181,18 @@ export type ArTrial = Ar1Trial | Ar2Trial | Ar3Trial;
 
 export interface ArSessionResult {
   exerciseId: ArExerciseId;
-  /** 'completed' | 'aborted' (el adulto cerró) | 'denied' (permiso de cámara). */
-  outcome: 'completed' | 'aborted' | 'denied';
+  /**
+   * 'completed' | 'aborted' (el adulto cerró) | 'denied' (permiso de cámara) |
+   * 'timeout' (el nativo cerró la sesión solo).
+   *
+   * 'timeout' llega cuando el host no vio la cara del niño durante un minuto
+   * seguido, o cuando la sesión rebasó su techo de duración. Los tres ejercicios
+   * solo avanzan con la cara dentro del encuadre, así que sin ella no hay nada
+   * que medir: cerrar con un resultado —aunque venga con cero ensayos— es lo
+   * honesto, y evita dejar la cámara abierta esperando a alguien que no está.
+   * Los ensayos que se hubieran completado antes viajan igual.
+   */
+  outcome: 'completed' | 'aborted' | 'denied' | 'timeout';
   startedAt: number;
   endedAt: number;
   /** Umbrales realmente vigentes, tal cual los aplicó el nativo. */

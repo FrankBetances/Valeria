@@ -1,9 +1,9 @@
 package eu.futureforkids.valeria.ar.scene
 
 import android.content.Context
-import android.graphics.PixelFormat
 import android.view.Choreographer
 import android.view.SurfaceView
+import android.view.View
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -14,10 +14,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
 import com.google.android.filament.Colors
+import com.google.android.filament.Engine
 import com.google.android.filament.EntityManager
 import com.google.android.filament.LightManager
 import com.google.android.filament.Renderer
 import com.google.android.filament.View as FilamentView
+import com.google.android.filament.android.UiHelper
 import com.google.android.filament.utils.ModelViewer
 import com.google.android.filament.utils.Utils
 import eu.futureforkids.valeria.ar.reward.RewardState
@@ -47,6 +49,32 @@ import java.nio.ByteBuffer
  * interrumpen la sesión**. El niño ve la sobreimpresión 2D —barra de carga,
  * anillo de fijación, dianas— y el ejercicio se juega y se mide igual. Un fallo
  * de render nunca puede costarle a una familia una sesión de terapia.
+ *
+ * ── La composición con la cámara, que es de dónde vino el fondo roto ───────
+ * Un `SurfaceView` no dibuja en la ventana: dibuja en una superficie propia y
+ * **recorta un agujero transparente** en la ventana para dejarla ver. Eso obliga
+ * a que las tres capas —preview de cámara, escena 3D e interfaz 2D— estén en el
+ * orden correcto de *sublayer*, y a que la superficie de Filament sea
+ * TRANSPARENTE de verdad. Quien decide las dos cosas es `UiHelper`, no nosotros:
+ * `attachTo(SurfaceView)` **sobrescribe** el `setZOrderOnTop()` y el
+ * `setFormat()` que se le hayan puesto antes al holder, y devuelve
+ * `CONFIG_TRANSPARENT` al crear el swapchain solo si `isOpaque == false`.
+ *
+ * Con el `UiHelper` por defecto (opaco) el resultado era exactamente el fallo
+ * reportado: la superficie de Filament recortaba su agujero encima del preview
+ * —borrándolo— y lo que se veía por él era un swapchain OPACO cuyo contenido
+ * fuera del modelo es indefinido, es decir, memoria gráfica reciclada: bloques y
+ * polígonos gigantes de colores planos. La osita se veía bien porque la osita SÍ
+ * la dibuja Filament, y el texto 2D también porque se pinta en la ventana
+ * después del recorte.
+ *
+ * El orden correcto, y por qué cada pieza está donde está:
+ *   · preview de cámara → `SurfaceView` (sublayer −2), el de más abajo;
+ *   · escena 3D → `setMediaOverlay(true)` (sublayer −1), encima de la cámara y
+ *     DEBAJO de la ventana, con `isOpaque = false` para que su alfa sea real;
+ *   · interfaz 2D de Compose → la ventana (sublayer 0), siempre encima.
+ * `setZOrderOnTop(true)` —lo que hacía antes— habría puesto la escena por encima
+ * de la ventana, tapando el anillo de progreso y las dianas.
  */
 @Composable
 fun ValeriaArSceneView(state: SceneState, modifier: Modifier = Modifier) {
@@ -67,16 +95,12 @@ private fun FilamentLayer(state: SceneState) {
     val stage = remember { FilamentStage() }
 
     AndroidView(
-        factory = { ctx ->
-            SurfaceView(ctx).also { surface ->
-                // Encima del preview de la cámara y con alfa real: es AR de
-                // espejo, el niño se ve a sí mismo y el modelo se compone sobre
-                // su imagen. Sin translucidez, la escena taparía la cara.
-                surface.setZOrderOnTop(true)
-                surface.holder.setFormat(PixelFormat.TRANSLUCENT)
-                stage.attach(surface)
-            }
-        },
+        // El z-order y el formato del holder NO se tocan aquí: los fija
+        // `UiHelper` dentro de `stage.attach()` a partir de `isOpaque` y
+        // `isMediaOverlay`, y sobrescribiría cualquier cosa que pusiéramos
+        // antes. Ponerlos en los dos sitios es la forma de que un día dejen de
+        // coincidir sin que nadie se entere.
+        factory = { ctx -> SurfaceView(ctx).also { stage.attach(it) } },
         modifier = Modifier.fillMaxSize(),
     )
 
@@ -104,6 +128,19 @@ private class FilamentStage {
     private var frameCallback: Choreographer.FrameCallback? = null
     private var lightEntity = 0
 
+    /**
+     * Cierre en un solo sentido. `ModelViewer` se AUTODESTRUYE cuando su
+     * `SurfaceView` sale de la ventana —registra un `OnAttachStateChangeListener`
+     * que llama a `destroy()`, y `destroy()` incluye `engine.destroy()`—, así que
+     * a partir de ese instante cualquier `render()`, `loadModel()` o
+     * `applyReward()` es una llamada nativa sobre un motor liberado: un cierre
+     * inesperado sin excepción de Java que `runCatching` no puede atrapar. Esta
+     * bandera es lo que garantiza que no ocurra.
+     */
+    @Volatile private var released = false
+    private var attachedToWindow = false
+    private var everAttached = false
+
     /** Índice de la animación en curso y cuándo empezó, para avanzarla por frame. */
     private var animationIndex = -1
     private var animationStartedNanos = 0L
@@ -112,8 +149,40 @@ private class FilamentStage {
     fun attach(surface: SurfaceView) {
         runCatching {
             ensureNativeLibrary()
-            val modelViewer = ModelViewer(surface)
+
+            // Las dos líneas que arreglan el fondo. `isOpaque = false` hace que
+            // el swapchain se cree con CONFIG_TRANSPARENT y que el holder pase a
+            // PixelFormat.TRANSLUCENT; `isMediaOverlay = true` deja la superficie
+            // en el sublayer −1: encima del preview de la cámara y debajo de la
+            // interfaz 2D. Ambas TIENEN que fijarse antes de `attachTo()`, que es
+            // lo que hace el constructor de ModelViewer.
+            val uiHelper = UiHelper(UiHelper.ContextErrorPolicy.DONT_CHECK).apply {
+                isOpaque = false
+                isMediaOverlay = true
+            }
+            val modelViewer = ModelViewer(surface, Engine.create(), uiHelper)
             viewer = modelViewer
+            attachedToWindow = surface.isAttachedToWindow
+            everAttached = attachedToWindow
+            surface.addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
+                override fun onViewAttachedToWindow(v: View) {
+                    attachedToWindow = true
+                    everAttached = true
+                }
+                // Este listener se registra DESPUÉS del de ModelViewer, así que
+                // cuando llega aquí el motor ya está destruido: lo único que se
+                // puede hacer es parar el reloj y soltar la referencia.
+                override fun onViewDetachedFromWindow(v: View) {
+                    attachedToWindow = false
+                    released = true
+                    stopFrameLoop()
+                    viewer = null
+                    if (lightEntity != 0) {
+                        runCatching { EntityManager.get().destroy(lightEntity) }
+                        lightEntity = 0
+                    }
+                }
+            })
 
             // Fondo transparente de verdad: sin skybox y limpiando con alfa 0.
             modelViewer.scene.skybox = null
@@ -142,6 +211,7 @@ private class FilamentStage {
     }
 
     fun loadModel(context: Context, model: ArModel) {
+        if (released) return
         val modelViewer = viewer ?: return
         if (model == ArModel.NONE || model.asset.isEmpty()) return
         runCatching {
@@ -161,7 +231,7 @@ private class FilamentStage {
     }
 
     fun applyReward(reward: RewardState, model: ArModel) {
-        val modelViewer = viewer ?: return
+        if (released || viewer == null) return
         runCatching {
             when (reward) {
                 is RewardState.Idle -> {
@@ -203,6 +273,7 @@ private class FilamentStage {
     }
 
     private fun setTranslationZ(z: Float) {
+        if (released) return
         val modelViewer = viewer ?: return
         val asset = modelViewer.asset ?: return
         val transformManager = modelViewer.engine.transformManager
@@ -221,11 +292,16 @@ private class FilamentStage {
     }
 
     private fun startFrameLoop() {
-        val modelViewer = viewer ?: return
+        if (viewer == null) return
         val chore = Choreographer.getInstance()
         choreographer = chore
         val callback = object : Choreographer.FrameCallback {
             override fun doFrame(frameTimeNanos: Long) {
+                // El motor puede haberse destruido entre dos vsyncs (la ventana
+                // se cerró). Se comprueba ANTES de repostar y ANTES de tocarlo:
+                // renderizar sobre un motor liberado cierra la app en nativo.
+                if (released) return
+                val modelViewer = viewer ?: return
                 choreographer?.postFrameCallback(this)
                 runCatching {
                     val animator = modelViewer.animator
@@ -248,21 +324,48 @@ private class FilamentStage {
         chore.postFrameCallback(callback)
     }
 
+    private fun stopFrameLoop() {
+        frameCallback?.let { cb -> runCatching { choreographer?.removeFrameCallback(cb) } }
+        frameCallback = null
+        choreographer = null
+    }
+
+    /**
+     * Cierre desde Compose (`onDispose`).
+     *
+     * La regla es **destruir exactamente una vez**. `ModelViewer.destroy()` no es
+     * idempotente: la segunda llamada entra en un `ResourceLoader` ya liberado con
+     * el puntero nativo a cero. Como el propio ModelViewer destruye el motor al
+     * salir la vista de la ventana, aquí solo se suelta la luz —que es nuestra y
+     * él no conoce— y se deja el motor en sus manos. El único caso en que hay que
+     * destruirlo a mano es el de una vista que nunca llegó a entrar en la
+     * ventana: ahí ese listener no se va a disparar jamás.
+     *
+     * Lo que ya no se hace es `destroyModel()` a secas, que era todo lo que
+     * había: suelta el GLB y deja vivos el motor, el renderer, el swapchain y el
+     * contexto EGL de la sesión entera.
+     */
     fun release() {
-        runCatching {
-            frameCallback?.let { choreographer?.removeFrameCallback(it) }
-            frameCallback = null
-            choreographer = null
-            viewer?.let { modelViewer ->
-                if (lightEntity != 0) {
-                    modelViewer.scene.removeEntity(lightEntity)
-                    modelViewer.engine.destroyEntity(lightEntity)
-                    EntityManager.get().destroy(lightEntity)
-                    lightEntity = 0
+        if (released) return
+        released = true
+        stopFrameLoop()
+        val modelViewer = viewer
+        viewer = null
+        if (modelViewer != null) {
+            if (attachedToWindow) {
+                runCatching {
+                    if (lightEntity != 0) {
+                        modelViewer.scene.removeEntity(lightEntity)
+                        modelViewer.engine.destroyEntity(lightEntity)
+                    }
                 }
-                modelViewer.destroyModel()
+            } else if (!everAttached) {
+                runCatching { modelViewer.destroy() }
             }
-            viewer = null
+        }
+        if (lightEntity != 0) {
+            runCatching { EntityManager.get().destroy(lightEntity) }
+            lightEntity = 0
         }
     }
 

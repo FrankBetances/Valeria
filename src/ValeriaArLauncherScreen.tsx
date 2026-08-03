@@ -177,6 +177,19 @@ export const ValeriaArLauncherScreen: React.FC<{ navigation?: any }> = ({ naviga
       return;
     }
 
+    // El nativo cerró solo porque dejó de ver la cara del peque. No es un fallo
+    // de la app ni del niño: casi siempre es el encuadre. Se dice en palabras
+    // del adulto y con la instrucción concreta, no con un error técnico.
+    if (res.outcome === 'timeout') {
+      trackArSession({ trials: res.trials, deviceProfile: res.deviceProfile, thresholds: res.thresholds });
+      setNotice(
+        'El ejercicio se cerró porque la cámara dejó de ver la cara del peque. Apoya el teléfono en ' +
+        'horizontal, a un palmo y medio de su cara y a la altura de sus ojos, y prueba otra vez.',
+      );
+      setPhase('menu');
+      return;
+    }
+
     // Enrutado del dato: el nativo no persiste nada, lo hace la telemetría de
     // siempre. El perfil del dispositivo se sella con la sesión (covariable).
     trackArSession({ trials: res.trials, deviceProfile: res.deviceProfile, thresholds: res.thresholds });
