@@ -22,7 +22,8 @@
     "check:asr-capture": "node scripts/check-asr-capture-guard.js",
     "asr:bench": "node scripts/asr-bench.js",
     "asr:audit-pairs": "node scripts/asr-bench.js --audit-pairs",
-    "asr:bench-selftest": "node scripts/asr-bench.js --selftest"
+    "asr:bench-selftest": "node scripts/asr-bench.js --selftest",
+    "asr:d7-sim": "node scripts/asr-d7-sim.js"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "2.2.0",

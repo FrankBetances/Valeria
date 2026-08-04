@@ -467,6 +467,44 @@ Lo que sí queda hecho: la comprobación es **ejecutable y repetible**, y la
 autoprueba del banco (`--selftest`) fija el comportamiento actual como aserción,
 de modo que el día que alguien cambie el umbral, la prueba lo dirá.
 
+#### La decisión, con números — [`d7-simulacion-contraste.md`](d7-simulacion-contraste.md)
+
+`node scripts/asr-d7-sim.js` simula las salidas posibles y mide cada una, para
+que la conversación con ACOPROS sea entre cifras y no entre intuiciones. La
+«habla aproximada» **no está inventada**: sale de las **1619 aproximaciones ya
+validadas clínicamente** en los `stt_expected_array` de la Expansión Semántica.
+
+| Regla | Contrastes recuperados | Aprox. que siguen siendo acierto | → «casi» | → error ajeno |
+| --- | --- | --- | --- | --- |
+| **Hoy** (tolerancia de 1 letra) | 10 / 35 | 116 / 157 | 27 | 0 |
+| **O1** · exactitud con distractor | 35 / 35 | 2 / 157 | 141 | 0 |
+| **O2** · vecino más cercano | 35 / 35 | 59 / 157 | 97 | 0 |
+| **O4** · exactitud + lista por par | 35 / 35 | cobertura (suelo: O1) | — | 0 |
+
+Cuatro cosas que la simulación deja resueltas y no hay que volver a discutir:
+
+1. **O1 está dominada por O2**: no es mejor en nada. Se descarta sin decidir nada
+   clínico.
+2. **Ninguna regla le atribuye al niño un error que no cometió** (0 casos en las
+   tres). El precio de recuperar el contraste no es acusarle de fallar: es
+   **quitarle estrellas**. Eso reduce la pregunta a una sola magnitud.
+3. **El 61 % de las aproximaciones que el proyecto ya acepta están a una letra** —
+   la tolerancia hace trabajo clínico real— pero **el 35 % están a dos o más y se
+   aceptan por estar escritas una a una**. El proyecto ya resuelve esto por
+   enumeración en todos los ejercicios menos en pares mínimos. De ahí sale O4.
+4. **O3 (rediseñar el banco) exigiría sustituir 30 de los 35 pares**, incluidos
+   contrastes clínicos estándar (*cubo/tubo*, *boca/bota*, *miel/piel*). Lo que
+   sobrevive lo hace por accidente ortográfico —*perro/pelo* pasa porque «rr» son
+   dos letras—, no por ser un contraste más fácil.
+
+Y una que **ninguna regla resuelve**: de las 174 producciones aproximadas
+generadas, **17 coinciden exactamente con el distractor**. Si el niño dice
+*lana*, ningún texto permite saber si intentaba decir *rana* y le salió mal —el
+error que el ejercicio busca— o si estaba diciendo *lana*. El conjunto de
+aproximaciones aceptables y el de errores clínicos **se solapan por
+construcción**; por eso el adulto es el juez final. Lo único decidible es hacia
+qué lado cae la app por defecto.
+
 ### 4.1 B.0 · La pregunta que decide
 
 > ¿Un modelo pequeño cuantizado corriendo en el propio dispositivo acierta el
@@ -719,7 +757,7 @@ toca.
 
 | # | Decisión | Quién | Bloquea |
 | --- | --- | --- | --- |
-| **D7** | **El umbral fonético se come el contraste de 25 de 35 pares mínimos** (§4.0). ¿Se aprieta `matchTarget` para los pares? ¿Se exige coincidencia exacta solo cuando hay `foil`? ¿Se rediseñan los pares para que se diferencien en más de una letra? | ACOPROS + Frank | **La utilidad de la Fase B.** Grabar el corpus antes de resolverlo desperdicia la sesión |
+| **D7** | **El umbral fonético se come el contraste de 25 de 35 pares mínimos** (§4.0). Opciones simuladas y medidas en [`d7-simulacion-contraste.md`](d7-simulacion-contraste.md): **O2** (vecino más cercano, coste = 57 aciertos que pasan a «casi») u **O4** (exactitud + ~157 aproximaciones escritas a mano). O1 está dominada; O3 exige rehacer 30 pares | ACOPROS + Frank | **La utilidad de la Fase B.** Grabar el corpus antes de resolverlo desperdicia la sesión |
 | **D6** | **Umbral clínico**: ¿cuántos `noMatch` de más por sesión son tolerables? (§3.6) | ACOPROS | **Cerrar** la Fase A. No impide empezar |
 | D4 | ¿Local por defecto, o *opt-in* del adulto? | Tras los datos de §3.6 | Cierre de la Fase A |
 
@@ -760,7 +798,9 @@ datos de A delante y no antes.
 - [x] Build de desarrollo con `recordingOptions.persist`, doble candado `__DEV__` + variable, aviso en pantalla, `.gitignore` y gate en CI
 - [x] Banco de medida en escritorio: `scripts/asr-bench.js`, con autoprueba
 - [x] Auditoría del árbitro (`--audit-pairs`) — **y ha encontrado D7/R12** (§4.0)
-- [ ] 🔴 **D7 · resolver el contraste de los pares mínimos con ACOPROS.** Todo lo de abajo depende de esto: sin árbitro que distinga, el corpus mide poco
+- [x] Simular y medir las salidas de D7 → [`d7-simulacion-contraste.md`](d7-simulacion-contraste.md)
+- [ ] 🔴 **D7 · llevar esas cifras a ACOPROS y elegir entre O2 y O4.** Todo lo de abajo depende de esto: sin árbitro que distinga, el corpus mide poco
+- [ ] Implementar la opción elegida en `matchPair` (+ el campo de aproximaciones si es O4)
 - [ ] Sesión de grabación: firma previa, seudonimización, plan para quien declina
 - [ ] Etiquetar el corpus con el juicio del adulto (§4.3) en el formato del manifiesto
 - [ ] Transcribir el corpus con cada candidato y volcarlo al formato de hipótesis

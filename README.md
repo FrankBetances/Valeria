@@ -638,6 +638,12 @@ maniquíes) en vez de reimplementar el matcher.
 > está abierto como **D7** en §4.0 del plan; hasta resolverlo, grabar el corpus
 > rinde menos de lo que cuesta.
 
+`npm run asr:d7-sim` simula las salidas posibles a D7 y mide cada una, para que la
+decisión con ACOPROS sea entre números. La «habla aproximada» sobre la que mide no
+está inventada: sale de las **1619 aproximaciones ya validadas clínicamente** en los
+`stt_expected_array` de la Expansión Semántica. El informe generado vive en
+[`docs/d7-simulacion-contraste.md`](docs/d7-simulacion-contraste.md).
+
 El workflow [`.github/workflows/voice-assets.yml`](.github/workflows/voice-assets.yml)
 **sintetiza la voz neuronal** (Sharvard para `es`, Celtia para `gl`) a partir de
 [`voice-corpus.json`](voice-corpus.json), masteriza el audio, regenera el mapa
