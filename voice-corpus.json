@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-07-27T06:12:16.079Z",
+ "generatedAt": "2026-08-04T11:44:28.827Z",
  "entries": 2438,
  "byStyle": {
   "child": 1293,
@@ -72,17 +72,17 @@
    "source": "pares/modelado"
   },
   {
-   "id": "child_5090dcf8_59",
+   "id": "child_ad2bb964_64",
    "lang": "es",
    "style": "child",
-   "text": "¡Uy! Papá dijo rana. ¡Escucha otra vez en el próximo turno!",
+   "text": "¡Uy! El adulto dijo rana. ¡Escucha otra vez en el próximo turno!",
    "source": "pares/roleswap"
   },
   {
-   "id": "child_39193f5e_59",
+   "id": "child_072352f2_64",
    "lang": "es",
    "style": "child",
-   "text": "¡Uy! Papá dijo lana. ¡Escucha otra vez en el próximo turno!",
+   "text": "¡Uy! El adulto dijo lana. ¡Escucha otra vez en el próximo turno!",
    "source": "pares/roleswap"
   },
   {
@@ -128,17 +128,17 @@
    "source": "pares/modelado"
   },
   {
-   "id": "child_05d615ce_60",
+   "id": "child_7c37949a_65",
    "lang": "es",
    "style": "child",
-   "text": "¡Uy! Papá dijo perro. ¡Escucha otra vez en el próximo turno!",
+   "text": "¡Uy! El adulto dijo perro. ¡Escucha otra vez en el próximo turno!",
    "source": "pares/roleswap"
   },
   {
-   "id": "child_f9cce656_59",
+   "id": "child_b513feb2_64",
    "lang": "es",
    "style": "child",
-   "text": "¡Uy! Papá dijo pelo. ¡Escucha otra vez en el próximo turno!",
+   "text": "¡Uy! El adulto dijo pelo. ¡Escucha otra vez en el próximo turno!",
    "source": "pares/roleswap"
   },
   {
@@ -184,17 +184,17 @@
    "source": "pares/modelado"
   },
   {
-   "id": "child_47fb7616_59",
+   "id": "child_0b469ad2_64",
    "lang": "es",
    "style": "child",
-   "text": "¡Uy! Papá dijo rata. ¡Escucha otra vez en el próximo turno!",
+   "text": "¡Uy! El adulto dijo rata. ¡Escucha otra vez en el próximo turno!",
    "source": "pares/roleswap"
   },
   {
-   "id": "child_ba682bf0_59",
+   "id": "child_acb19604_64",
    "lang": "es",
    "style": "child",
-   "text": "¡Uy! Papá dijo lata. ¡Escucha otra vez en el próximo turno!",
+   "text": "¡Uy! El adulto dijo lata. ¡Escucha otra vez en el próximo turno!",
    "source": "pares/roleswap"
   },
   {
@@ -240,17 +240,17 @@
    "source": "pares/modelado"
   },
   {
-   "id": "child_138c0b2f_60",
+   "id": "child_2c11129b_65",
    "lang": "es",
    "style": "child",
-   "text": "¡Uy! Papá dijo cerro. ¡Escucha otra vez en el próximo turno!",
+   "text": "¡Uy! El adulto dijo cerro. ¡Escucha otra vez en el próximo turno!",
    "source": "pares/roleswap"
   },
   {
-   "id": "child_3a44a9f7_59",
+   "id": "child_374300eb_64",
    "lang": "es",
    "style": "child",
-   "text": "¡Uy! Papá dijo cero. ¡Escucha otra vez en el próximo turno!",
+   "text": "¡Uy! El adulto dijo cero. ¡Escucha otra vez en el próximo turno!",
    "source": "pares/roleswap"
   },
   {
@@ -296,17 +296,17 @@
    "source": "pares/modelado"
   },
   {
-   "id": "child_96936340_59",
+   "id": "child_e9038244_64",
    "lang": "es",
    "style": "child",
-   "text": "¡Uy! Papá dijo casa. ¡Escucha otra vez en el próximo turno!",
+   "text": "¡Uy! El adulto dijo casa. ¡Escucha otra vez en el próximo turno!",
    "source": "pares/roleswap"
   },
   {
-   "id": "child_7f93f2f1_59",
+   "id": "child_77cf26d5_64",
    "lang": "es",
    "style": "child",
-   "text": "¡Uy! Papá dijo caza. ¡Escucha otra vez en el próximo turno!",
+   "text": "¡Uy! El adulto dijo caza. ¡Escucha otra vez en el próximo turno!",
    "source": "pares/roleswap"
   },
   {
@@ -352,17 +352,17 @@
    "source": "pares/modelado"
   },
   {
-   "id": "child_fe95bd5e_61",
+   "id": "child_b3a51faa_66",
    "lang": "es",
    "style": "child",
-   "text": "¡Uy! Papá dijo sierra. ¡Escucha otra vez en el próximo turno!",
+   "text": "¡Uy! El adulto dijo sierra. ¡Escucha otra vez en el próximo turno!",
    "source": "pares/roleswap"
   },
   {
-   "id": "child_f85fc599_61",
+   "id": "child_6743802d_66",
    "lang": "es",
    "style": "child",
-   "text": "¡Uy! Papá dijo tierra. ¡Escucha otra vez en el próximo turno!",
+   "text": "¡Uy! El adulto dijo tierra. ¡Escucha otra vez en el próximo turno!",
    "source": "pares/roleswap"
   },
   {
@@ -408,17 +408,17 @@
    "source": "pares/modelado"
   },
   {
-   "id": "child_6c3826d7_59",
+   "id": "child_9606645b_64",
    "lang": "es",
    "style": "child",
-   "text": "¡Uy! Papá dijo ocho. ¡Escucha otra vez en el próximo turno!",
+   "text": "¡Uy! El adulto dijo ocho. ¡Escucha otra vez en el próximo turno!",
    "source": "pares/roleswap"
   },
   {
-   "id": "child_3385bc81_58",
+   "id": "child_96e1980d_63",
    "lang": "es",
    "style": "child",
-   "text": "¡Uy! Papá dijo oso. ¡Escucha otra vez en el próximo turno!",
+   "text": "¡Uy! El adulto dijo oso. ¡Escucha otra vez en el próximo turno!",
    "source": "pares/roleswap"
   },
   {
@@ -464,17 +464,17 @@
    "source": "pares/modelado"
   },
   {
-   "id": "child_647434b7_59",
+   "id": "child_3b7895cb_64",
    "lang": "es",
    "style": "child",
-   "text": "¡Uy! Papá dijo cubo. ¡Escucha otra vez en el próximo turno!",
+   "text": "¡Uy! El adulto dijo cubo. ¡Escucha otra vez en el próximo turno!",
    "source": "pares/roleswap"
   },
   {
-   "id": "child_b0f55588_59",
+   "id": "child_2479d8a4_64",
    "lang": "es",
    "style": "child",
-   "text": "¡Uy! Papá dijo tubo. ¡Escucha otra vez en el próximo turno!",
+   "text": "¡Uy! El adulto dijo tubo. ¡Escucha otra vez en el próximo turno!",
    "source": "pares/roleswap"
   },
   {
@@ -520,17 +520,17 @@
    "source": "pares/modelado"
   },
   {
-   "id": "child_b373bce3_59",
+   "id": "child_3a75ff4f_64",
    "lang": "es",
    "style": "child",
-   "text": "¡Uy! Papá dijo boca. ¡Escucha otra vez en el próximo turno!",
+   "text": "¡Uy! El adulto dijo boca. ¡Escucha otra vez en el próximo turno!",
    "source": "pares/roleswap"
   },
   {
-   "id": "child_61a89450_59",
+   "id": "child_890ad384_64",
    "lang": "es",
    "style": "child",
-   "text": "¡Uy! Papá dijo bota. ¡Escucha otra vez en el próximo turno!",
+   "text": "¡Uy! El adulto dijo bota. ¡Escucha otra vez en el próximo turno!",
    "source": "pares/roleswap"
   },
   {
@@ -576,17 +576,17 @@
    "source": "pares/modelado"
   },
   {
-   "id": "child_2a53d655_61",
+   "id": "child_c72a7b99_66",
    "lang": "es",
    "style": "child",
-   "text": "¡Uy! Papá dijo fuente. ¡Escucha otra vez en el próximo turno!",
+   "text": "¡Uy! El adulto dijo fuente. ¡Escucha otra vez en el próximo turno!",
    "source": "pares/roleswap"
   },
   {
-   "id": "child_5600729b_61",
+   "id": "child_744897e7_66",
    "lang": "es",
    "style": "child",
-   "text": "¡Uy! Papá dijo puente. ¡Escucha otra vez en el próximo turno!",
+   "text": "¡Uy! El adulto dijo puente. ¡Escucha otra vez en el próximo turno!",
    "source": "pares/roleswap"
   },
   {
@@ -632,10 +632,10 @@
    "source": "pares/modelado"
   },
   {
-   "id": "child_65496acd_59",
+   "id": "child_4f4ea539_64",
    "lang": "es",
    "style": "child",
-   "text": "¡Uy! Papá dijo gota. ¡Escucha otra vez en el próximo turno!",
+   "text": "¡Uy! El adulto dijo gota. ¡Escucha otra vez en el próximo turno!",
    "source": "pares/roleswap"
   },
   {
@@ -681,17 +681,17 @@
    "source": "pares/modelado"
   },
   {
-   "id": "child_f6c90bab_59",
+   "id": "child_bf1e31cf_64",
    "lang": "es",
    "style": "child",
-   "text": "¡Uy! Papá dijo beso. ¡Escucha otra vez en el próximo turno!",
+   "text": "¡Uy! El adulto dijo beso. ¡Escucha otra vez en el próximo turno!",
    "source": "pares/roleswap"
   },
   {
-   "id": "child_b289bee1_60",
+   "id": "child_6cd09b35_65",
    "lang": "es",
    "style": "child",
-   "text": "¡Uy! Papá dijo queso. ¡Escucha otra vez en el próximo turno!",
+   "text": "¡Uy! El adulto dijo queso. ¡Escucha otra vez en el próximo turno!",
    "source": "pares/roleswap"
   },
   {
@@ -737,10 +737,10 @@
    "source": "pares/modelado"
   },
   {
-   "id": "child_94715f87_59",
+   "id": "child_1bb9236b_64",
    "lang": "es",
    "style": "child",
-   "text": "¡Uy! Papá dijo foca. ¡Escucha otra vez en el próximo turno!",
+   "text": "¡Uy! El adulto dijo foca. ¡Escucha otra vez en el próximo turno!",
    "source": "pares/roleswap"
   },
   {
@@ -786,17 +786,17 @@
    "source": "pares/modelado"
   },
   {
-   "id": "child_e206da77_59",
+   "id": "child_659fa7e3_64",
    "lang": "es",
    "style": "child",
-   "text": "¡Uy! Papá dijo miel. ¡Escucha otra vez en el próximo turno!",
+   "text": "¡Uy! El adulto dijo miel. ¡Escucha otra vez en el próximo turno!",
    "source": "pares/roleswap"
   },
   {
-   "id": "child_01a1d082_59",
+   "id": "child_a8aa4136_64",
    "lang": "es",
    "style": "child",
-   "text": "¡Uy! Papá dijo piel. ¡Escucha otra vez en el próximo turno!",
+   "text": "¡Uy! El adulto dijo piel. ¡Escucha otra vez en el próximo turno!",
    "source": "pares/roleswap"
   },
   {
@@ -842,17 +842,17 @@
    "source": "pares/modelado"
   },
   {
-   "id": "child_3c0bc29a_59",
+   "id": "child_eb53ae4e_64",
    "lang": "es",
    "style": "child",
-   "text": "¡Uy! Papá dijo pato. ¡Escucha otra vez en el próximo turno!",
+   "text": "¡Uy! El adulto dijo pato. ¡Escucha otra vez en el próximo turno!",
    "source": "pares/roleswap"
   },
   {
-   "id": "child_3b89cc42_59",
+   "id": "child_4a6b1d86_64",
    "lang": "es",
    "style": "child",
-   "text": "¡Uy! Papá dijo palo. ¡Escucha otra vez en el próximo turno!",
+   "text": "¡Uy! El adulto dijo palo. ¡Escucha otra vez en el próximo turno!",
    "source": "pares/roleswap"
   },
   {
@@ -863,17 +863,17 @@
    "source": "pares/fin"
   },
   {
-   "id": "child_274343de_53",
+   "id": "child_4c9d7d0c_58",
    "lang": "es",
    "style": "child",
-   "text": "¡Cambio de papeles! Ahora el niño manda y papá habla.",
+   "text": "¡Cambio de papeles! Ahora manda el niño y habla el adulto.",
    "source": "pares/roleswap"
   },
   {
-   "id": "child_d2b08ea2_34",
+   "id": "child_db0b6479_37",
    "lang": "es",
    "style": "child",
-   "text": "No escuché bien a papá. ¡Otra vez!",
+   "text": "No escuché bien al adulto. ¡Otra vez!",
    "source": "pares/roleswap"
   },
   {
@@ -5182,10 +5182,10 @@
    "source": "ejercicios"
   },
   {
-   "id": "tutor_a738597f_274",
+   "id": "tutor_0439668f_291",
    "lang": "es",
    "style": "tutor",
-   "text": "Primero en silencio: dile con tu voz normal «busca la vaca» y que la toque. Cuando acierte tranquilo, sube POCO A POCO el ruido de fondo desde el Panel del Adulto (abajo) y repite con otro animal. Tu voz es la señal: no grites ni exageres; si lo ves fatigado, baja el ruido.",
+   "text": "Primero en silencio: di SOLO el nombre del animal con tu voz normal —«vaca»— y que lo toque. Cuando acierte tranquilo, sube POCO A POCO el ruido de fondo desde el Panel del Adulto (abajo) y repite con otro animal. Tu voz es la señal: no grites ni exageres; si lo ves fatigado, baja el ruido.",
    "source": "ejercicios"
   },
   {
@@ -5196,10 +5196,10 @@
    "source": "ejercicios"
   },
   {
-   "id": "tutor_d4e96ff9_14",
+   "id": "tutor_1cd686a0_4",
    "lang": "es",
    "style": "tutor",
-   "text": "Busca la vaca.",
+   "text": "vaca",
    "source": "ejercicios"
   },
   {
@@ -5217,17 +5217,17 @@
    "source": "ejercicios"
   },
   {
-   "id": "tutor_38477d85_15",
+   "id": "tutor_24aec1a2_5",
    "lang": "es",
    "style": "tutor",
-   "text": "Busca la oveja.",
+   "text": "oveja",
    "source": "ejercicios"
   },
   {
-   "id": "tutor_34f6a630_17",
+   "id": "tutor_ae1de82d_7",
    "lang": "es",
    "style": "tutor",
-   "text": "Busca la gallina.",
+   "text": "gallina",
    "source": "ejercicios"
   },
   {
@@ -5427,24 +5427,24 @@
    "source": "ejercicios"
   },
   {
-   "id": "tutor_432d1d16_83",
+   "id": "tutor_b7627455_118",
    "lang": "es",
    "style": "tutor",
-   "text": "Aplaude despacio frente a él y guía sus manos la primera vez. Repite el gesto solo.",
+   "text": "Aplaude despacio frente a él y guía sus manos la primera vez. Repite el gesto solo, sin pedirle todavía ningún sonido.",
    "source": "ejercicios"
   },
   {
-   "id": "tutor_99d94e4d_96",
+   "id": "tutor_d13c97b3_114",
    "lang": "es",
    "style": "tutor",
-   "text": "Toca el tambor dos veces y di \"pa-pa\". Espera a que imite el gesto o el sonido sin ayuda física.",
+   "text": "Toca el tambor dos veces y di \"pa-pa\". Cuando lo repita, usa esa misma sílaba dentro de una palabra corta: \"pato\".",
    "source": "ejercicios"
   },
   {
-   "id": "tutor_ffa3d9c6_127",
+   "id": "tutor_597cf03f_164",
    "lang": "es",
    "style": "tutor",
-   "text": "Combina un gesto y una sílaba nueva (\"ta-ta\" + saltar) y observa si lo imita en espejo, inmediatamente y sin repetir el modelo.",
+   "text": "Combina un gesto y una palabra corta nueva (\"salta\" mientras saltas, \"vamos\" mientras andáis) y observa si la imita en espejo, a la primera y sin repetir el modelo.",
    "source": "ejercicios"
   },
   {
@@ -5553,10 +5553,10 @@
    "source": "ejercicios"
   },
   {
-   "id": "tutor_3a72a2dc_83",
+   "id": "tutor_a88b4c92_94",
    "lang": "es",
    "style": "tutor",
-   "text": "Avisa el cambio una sola vez y ofrece una ficha al terminar la actividad con calma.",
+   "text": "Avisa el cambio una sola vez y dale al terminar, con calma, la recompensa que hayáis acordado.",
    "source": "ejercicios"
   },
   {
@@ -6218,17 +6218,17 @@
    "source": "pares/modelado"
   },
   {
-   "id": "gl_child_d54d6901_55",
+   "id": "gl_child_f5dc32a7_59",
    "lang": "gl",
    "style": "child",
-   "text": "Ui! Papá dixo rúa. Escoita outra vez na próxima quenda!",
+   "text": "Ui! O adulto dixo rúa. Escoita outra vez na próxima quenda!",
    "source": "pares/roleswap"
   },
   {
-   "id": "gl_child_d01f03d3_55",
+   "id": "gl_child_2d77788d_59",
    "lang": "gl",
    "style": "child",
-   "text": "Ui! Papá dixo lúa. Escoita outra vez na próxima quenda!",
+   "text": "Ui! O adulto dixo lúa. Escoita outra vez na próxima quenda!",
    "source": "pares/roleswap"
   },
   {
@@ -6274,17 +6274,17 @@
    "source": "pares/modelado"
   },
   {
-   "id": "gl_child_52fe246e_55",
+   "id": "gl_child_12ead028_59",
    "lang": "gl",
    "style": "child",
-   "text": "Ui! Papá dixo rei. Escoita outra vez na próxima quenda!",
+   "text": "Ui! O adulto dixo rei. Escoita outra vez na próxima quenda!",
    "source": "pares/roleswap"
   },
   {
-   "id": "gl_child_e67d3d3c_55",
+   "id": "gl_child_2a651ed2_59",
    "lang": "gl",
    "style": "child",
-   "text": "Ui! Papá dixo lei. Escoita outra vez na próxima quenda!",
+   "text": "Ui! O adulto dixo lei. Escoita outra vez na próxima quenda!",
    "source": "pares/roleswap"
   },
   {
@@ -6330,17 +6330,17 @@
    "source": "pares/modelado"
   },
   {
-   "id": "gl_child_c10bdf6e_56",
+   "id": "gl_child_31b6edb0_60",
    "lang": "gl",
    "style": "child",
-   "text": "Ui! Papá dixo casa. Escoita outra vez na próxima quenda!",
+   "text": "Ui! O adulto dixo casa. Escoita outra vez na próxima quenda!",
    "source": "pares/roleswap"
   },
   {
-   "id": "gl_child_86080f8f_56",
+   "id": "gl_child_8c9da681_60",
    "lang": "gl",
    "style": "child",
-   "text": "Ui! Papá dixo caza. Escoita outra vez na próxima quenda!",
+   "text": "Ui! O adulto dixo caza. Escoita outra vez na próxima quenda!",
    "source": "pares/roleswap"
   },
   {
@@ -6386,17 +6386,17 @@
    "source": "pares/modelado"
   },
   {
-   "id": "gl_child_e19b9bb4_57",
+   "id": "gl_child_737cb3d2_61",
    "lang": "gl",
    "style": "child",
-   "text": "Ui! Papá dixo cesta. Escoita outra vez na próxima quenda!",
+   "text": "Ui! O adulto dixo cesta. Escoita outra vez na próxima quenda!",
    "source": "pares/roleswap"
   },
   {
-   "id": "gl_child_6e3100c1_57",
+   "id": "gl_child_5d88a9ab_61",
    "lang": "gl",
    "style": "child",
-   "text": "Ui! Papá dixo testa. Escoita outra vez na próxima quenda!",
+   "text": "Ui! O adulto dixo testa. Escoita outra vez na próxima quenda!",
    "source": "pares/roleswap"
   },
   {
@@ -6442,17 +6442,17 @@
    "source": "pares/modelado"
   },
   {
-   "id": "gl_child_b3e1f9c9_56",
+   "id": "gl_child_9603b007_60",
    "lang": "gl",
    "style": "child",
-   "text": "Ui! Papá dixo cubo. Escoita outra vez na próxima quenda!",
+   "text": "Ui! O adulto dixo cubo. Escoita outra vez na próxima quenda!",
    "source": "pares/roleswap"
   },
   {
-   "id": "gl_child_0003fe42_56",
+   "id": "gl_child_58036a5c_60",
    "lang": "gl",
    "style": "child",
-   "text": "Ui! Papá dixo tubo. Escoita outra vez na próxima quenda!",
+   "text": "Ui! O adulto dixo tubo. Escoita outra vez na próxima quenda!",
    "source": "pares/roleswap"
   },
   {
@@ -6498,17 +6498,17 @@
    "source": "pares/modelado"
   },
   {
-   "id": "gl_child_2c9a59e5_56",
+   "id": "gl_child_db0e86b3_60",
    "lang": "gl",
    "style": "child",
-   "text": "Ui! Papá dixo boca. Escoita outra vez na próxima quenda!",
+   "text": "Ui! O adulto dixo boca. Escoita outra vez na próxima quenda!",
    "source": "pares/roleswap"
   },
   {
-   "id": "gl_child_bfed1c1a_56",
+   "id": "gl_child_0aa92bec_60",
    "lang": "gl",
    "style": "child",
-   "text": "Ui! Papá dixo bota. Escoita outra vez na próxima quenda!",
+   "text": "Ui! O adulto dixo bota. Escoita outra vez na próxima quenda!",
    "source": "pares/roleswap"
   },
   {
@@ -6554,17 +6554,17 @@
    "source": "pares/modelado"
   },
   {
-   "id": "gl_child_897f6ce6_57",
+   "id": "gl_child_ecc25d58_61",
    "lang": "gl",
    "style": "child",
-   "text": "Ui! Papá dixo fonte. Escoita outra vez na próxima quenda!",
+   "text": "Ui! O adulto dixo fonte. Escoita outra vez na próxima quenda!",
    "source": "pares/roleswap"
   },
   {
-   "id": "gl_child_023700c4_57",
+   "id": "gl_child_69eae082_61",
    "lang": "gl",
    "style": "child",
-   "text": "Ui! Papá dixo ponte. Escoita outra vez na próxima quenda!",
+   "text": "Ui! O adulto dixo ponte. Escoita outra vez na próxima quenda!",
    "source": "pares/roleswap"
   },
   {
@@ -6575,17 +6575,17 @@
    "source": "pares/fin"
   },
   {
-   "id": "gl_child_11c09123_49",
+   "id": "gl_child_a1c2c9b1_53",
    "lang": "gl",
    "style": "child",
-   "text": "Cambio de papeis! Agora manda o neno e papá fala.",
+   "text": "Cambio de papeis! Agora manda o neno e fala o adulto.",
    "source": "pares/roleswap"
   },
   {
-   "id": "gl_child_be47387c_35",
+   "id": "gl_child_185bac8f_37",
    "lang": "gl",
    "style": "child",
-   "text": "Non escoitei ben a papá. Outra vez!",
+   "text": "Non escoitei ben o adulto. Outra vez!",
    "source": "pares/roleswap"
   },
   {
@@ -11930,17 +11930,17 @@
    "source": "pares/modelado"
   },
   {
-   "id": "eu_child_f0401652_54",
+   "id": "eu_child_e0f5d73a_56",
    "lang": "eu",
    "style": "child",
-   "text": "Ui! Aitak su esan du. Entzun berriro hurrengo txandan!",
+   "text": "Ui! Helduak su esan du. Entzun berriro hurrengo txandan!",
    "source": "pares/roleswap"
   },
   {
-   "id": "eu_child_fce7152f_54",
+   "id": "eu_child_973b01e7_56",
    "lang": "eu",
    "style": "child",
-   "text": "Ui! Aitak zu esan du. Entzun berriro hurrengo txandan!",
+   "text": "Ui! Helduak zu esan du. Entzun berriro hurrengo txandan!",
    "source": "pares/roleswap"
   },
   {
@@ -11986,17 +11986,17 @@
    "source": "pares/modelado"
   },
   {
-   "id": "eu_child_9a7a80c1_56",
+   "id": "eu_child_93b1fa19_58",
    "lang": "eu",
    "style": "child",
-   "text": "Ui! Aitak hotz esan du. Entzun berriro hurrengo txandan!",
+   "text": "Ui! Helduak hotz esan du. Entzun berriro hurrengo txandan!",
    "source": "pares/roleswap"
   },
   {
-   "id": "eu_child_449d948e_56",
+   "id": "eu_child_85142f76_58",
    "lang": "eu",
    "style": "child",
-   "text": "Ui! Aitak hots esan du. Entzun berriro hurrengo txandan!",
+   "text": "Ui! Helduak hots esan du. Entzun berriro hurrengo txandan!",
    "source": "pares/roleswap"
   },
   {
@@ -12042,17 +12042,17 @@
    "source": "pares/modelado"
   },
   {
-   "id": "eu_child_77574e53_56",
+   "id": "eu_child_0cbdf1eb_58",
    "lang": "eu",
    "style": "child",
-   "text": "Ui! Aitak hitz esan du. Entzun berriro hurrengo txandan!",
+   "text": "Ui! Helduak hitz esan du. Entzun berriro hurrengo txandan!",
    "source": "pares/roleswap"
   },
   {
-   "id": "eu_child_7f6ddde0_56",
+   "id": "eu_child_c58622a8_58",
    "lang": "eu",
    "style": "child",
-   "text": "Ui! Aitak hits esan du. Entzun berriro hurrengo txandan!",
+   "text": "Ui! Helduak hits esan du. Entzun berriro hurrengo txandan!",
    "source": "pares/roleswap"
   },
   {
@@ -12098,17 +12098,17 @@
    "source": "pares/modelado"
   },
   {
-   "id": "eu_child_0ae939f0_57",
+   "id": "eu_child_f7f59158_59",
    "lang": "eu",
    "style": "child",
-   "text": "Ui! Aitak txalo esan du. Entzun berriro hurrengo txandan!",
+   "text": "Ui! Helduak txalo esan du. Entzun berriro hurrengo txandan!",
    "source": "pares/roleswap"
   },
   {
-   "id": "eu_child_14f16ec8_56",
+   "id": "eu_child_66108b90_58",
    "lang": "eu",
    "style": "child",
-   "text": "Ui! Aitak talo esan du. Entzun berriro hurrengo txandan!",
+   "text": "Ui! Helduak talo esan du. Entzun berriro hurrengo txandan!",
    "source": "pares/roleswap"
   },
   {
@@ -12154,17 +12154,17 @@
    "source": "pares/modelado"
   },
   {
-   "id": "eu_child_b2dfc363_57",
+   "id": "eu_child_74759c0b_59",
    "lang": "eu",
    "style": "child",
-   "text": "Ui! Aitak karta esan du. Entzun berriro hurrengo txandan!",
+   "text": "Ui! Helduak karta esan du. Entzun berriro hurrengo txandan!",
    "source": "pares/roleswap"
   },
   {
-   "id": "eu_child_6a1b6716_57",
+   "id": "eu_child_ca8a4b8e_59",
    "lang": "eu",
    "style": "child",
-   "text": "Ui! Aitak tarta esan du. Entzun berriro hurrengo txandan!",
+   "text": "Ui! Helduak tarta esan du. Entzun berriro hurrengo txandan!",
    "source": "pares/roleswap"
   },
   {
@@ -12175,17 +12175,17 @@
    "source": "pares/fin"
   },
   {
-   "id": "eu_child_6e6b8b06_62",
+   "id": "eu_child_aefcfbce_64",
    "lang": "eu",
    "style": "child",
-   "text": "Rolak aldatzen! Orain umeak agintzen du eta aitak hitz egiten.",
+   "text": "Rolak aldatzen! Orain umeak agintzen du eta helduak hitz egiten.",
    "source": "pares/roleswap"
   },
   {
-   "id": "eu_child_443b9066_33",
+   "id": "eu_child_4da3f04e_35",
    "lang": "eu",
    "style": "child",
-   "text": "Ez dut aita ondo entzun. Berriro!",
+   "text": "Ez dut heldua ondo entzun. Berriro!",
    "source": "pares/roleswap"
   },
   {

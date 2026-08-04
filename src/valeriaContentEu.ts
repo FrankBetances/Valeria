@@ -131,12 +131,12 @@ export const VOICE_SAMPLE_PHRASE_EU = 'Kaixo! Honela entzungo da nire ahotsa ari
 export const PAIRS_DONE_PHRASE_EU = 'Pareen saioa amaituta! Jo bostekoa aitarekin!';
 
 // Frases fijas del overlay de rotación de roles (Pares Mínimos) en euskera.
-export const ROLESWAP_INTRO_EU = 'Rolak aldatzen! Orain umeak agintzen du eta aitak hitz egiten.';
-export const ROLESWAP_NOT_HEARD_EU = 'Ez dut aita ondo entzun. Berriro!';
+export const ROLESWAP_INTRO_EU = 'Rolak aldatzen! Orain umeak agintzen du eta helduak hitz egiten.';
+export const ROLESWAP_NOT_HEARD_EU = 'Ez dut heldua ondo entzun. Berriro!';
 export const ROLESWAP_HIT_EU = 'Hori da! Zer belarri fina!';
 export const ROLESWAP_MISS_OTHER_EU = 'Ui! Bestea zen. Entzun berriro hurrengo txandan!';
 export const roleswapParentSaidEu = (word: string): string =>
-  `Ui! Aitak ${word} esan du. Entzun berriro hurrengo txandan!`;
+  `Ui! Helduak ${word} esan du. Entzun berriro hurrengo txandan!`;
 
 // Formatos fijos del ensayo de pares en euskera (deben coincidir con el corpus).
 export const pairIntroEu = (target: string, foil: string, prompt: string): string =>

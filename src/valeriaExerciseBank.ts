@@ -214,9 +214,9 @@ export const DB: Record<string, Exercise> = {
   // ajusta la relación señal/ruido ni mide umbrales.
   // ==========================================================================
   ra1: { ...meta('ra1'),
-    read: 'Primero en silencio: dile con tu voz normal «busca la vaca» y que la toque. Cuando acierte tranquilo, sube POCO A POCO el ruido de fondo desde el Panel del Adulto (abajo) y repite con otro animal. Tu voz es la señal: no grites ni exageres; si lo ves fatigado, baja el ruido.',
+    read: 'Primero en silencio: di SOLO el nombre del animal con tu voz normal —«vaca»— y que lo toque. Cuando acierte tranquilo, sube POCO A POCO el ruido de fondo desde el Panel del Adulto (abajo) y repite con otro animal. Tu voz es la señal: no grites ni exageres; si lo ves fatigado, baja el ruido.',
     stage: 'choice', stageLabel: 'Escucha la voz del adulto y toca el animal',
-    choicePrompt: 'Busca la vaca.', choiceLabel: 'Apoyo: oír la orden', choiceVoice: 'tutor',
+    choicePrompt: 'vaca', choiceLabel: 'Apoyo: oír la palabra', choiceVoice: 'tutor',
     options: [{ cap: 'vaca', emoji: '🐄' }, { cap: 'oveja', emoji: '🐑' }, { cap: 'caballo', emoji: '🐴' }, { cap: 'gallina', emoji: '🐔' }],
     optionAnswer: 0,
     move: 'Granja en casa: esconded los animales de peluche y buscadlos con la música puesta bajita.',
@@ -272,14 +272,14 @@ export const DB: Record<string, Exercise> = {
     ] },
   imitacion: { ...meta('imitacion'),
     materials: 'Nada imprescindible: tus manos bastan. Si lo tienes, un tambor o cualquier cosa que suene al golpearla (una caja, una olla con una cuchara de madera).',
-    read: 'Haz un gesto (aplaudir, tocar el tambor) y anímale a imitarte. Ahora una sílaba: "pa-pa".',
-    stage: 'instruction', instrIcon: '👏', instrHint: 'Imita gestos motores gruesos y vocalizaciones simples en espejo.',
-    ept: ['Todavía no copia gestos ni sonidos.', 'Imita gestos o sonidos sueltos con ayuda del adulto.', 'Repite gestos y sonidos justo después de verlos, como un espejo.'],
+    read: 'Haz un gesto (aplaudir, tocar el tambor) y anímale a imitarte. Después una sílaba: "pa-pa". Y cuando la repita, una palabra corta: "pato".',
+    stage: 'instruction', instrIcon: '👏', instrHint: 'Imita en espejo gestos motores gruesos, sílabas y, al final, palabras cortas de dos sílabas.',
+    ept: ['Todavía no copia gestos ni sonidos.', 'Imita gestos o sonidos sueltos con ayuda del adulto.', 'Repite gestos, sílabas y palabras cortas justo después de verlos, como un espejo.'],
     move: 'Espejo humano: imitad gestos grandes (brazos, saltos, giros) por turnos.',
     levels: [
-      { label: 'Inicial', instrIcon: '👏', read: 'Aplaude despacio frente a él y guía sus manos la primera vez. Repite el gesto solo.', instrHint: 'Gesto motor grueso aislado, con ayuda física si es necesario.' },
-      { label: 'Intermedio', instrIcon: '🥁', read: 'Toca el tambor dos veces y di "pa-pa". Espera a que imite el gesto o el sonido sin ayuda física.', instrHint: 'Secuencia corta de gesto + sílaba, sin apoyo físico, solo modelo visual.' },
-      { label: 'Avanzado', instrIcon: '🪞', read: 'Combina un gesto y una sílaba nueva ("ta-ta" + saltar) y observa si lo imita en espejo, inmediatamente y sin repetir el modelo.', instrHint: 'Imitación inmediata de una combinación nueva, sin repetición del modelo.' },
+      { label: 'Inicial', instrIcon: '👏', read: 'Aplaude despacio frente a él y guía sus manos la primera vez. Repite el gesto solo, sin pedirle todavía ningún sonido.', instrHint: 'Gesto motor grueso aislado, con ayuda física si es necesario. Todavía no se pide voz.' },
+      { label: 'Intermedio', instrIcon: '🥁', read: 'Toca el tambor dos veces y di "pa-pa". Cuando lo repita, usa esa misma sílaba dentro de una palabra corta: "pato".', instrHint: 'De la sílaba repetida a la palabra de dos sílabas que empieza igual, sin apoyo físico.' },
+      { label: 'Avanzado', instrIcon: '🪞', read: 'Combina un gesto y una palabra corta nueva ("salta" mientras saltas, "vamos" mientras andáis) y observa si la imita en espejo, a la primera y sin repetir el modelo.', instrHint: 'Imitación inmediata de gesto + palabra nueva, sin repetición del modelo.' },
     ] },
   comprension: { ...meta('comprension'),
     materials: 'Una pelota y dos o tres objetos que él conozca bien y sepa nombrar (su vaso, un coche, un peluche). Las partes del cuerpo no necesitan material.',
@@ -330,7 +330,7 @@ export const DB: Record<string, Exercise> = {
     move: 'Marchad juntos hacia la siguiente actividad cantando la canción de las transiciones.',
     levels: [
       { label: 'Inicial', instrIcon: '🖼️', read: 'Muéstrale la imagen de la siguiente actividad y haz una cuenta atrás visual de 5 a 1 antes de cambiar.', instrHint: 'Anticipación con apoyo visual fuerte y cuenta atrás.' },
-      { label: 'Intermedio', instrIcon: '🎫', read: 'Avisa el cambio una sola vez y ofrece una ficha al terminar la actividad con calma.', instrHint: 'Acepta el cambio con una recompensa elegida con él: la que le motive, no la que nos parezca a nosotros.' },
+      { label: 'Intermedio', instrIcon: '🎫', read: 'Avisa el cambio una sola vez y dale al terminar, con calma, la recompensa que hayáis acordado.', instrHint: 'Acepta el cambio con una recompensa elegida con él: la que le motive, no la que nos parezca a nosotros.' },
       { label: 'Avanzado', instrIcon: '📅', read: 'Deja que consulte solo su agenda visual y haga la transición sin que tengas que avisarle.', instrHint: 'Transición autónoma siguiendo la agenda que preparasteis antes, sin aviso directo del tutor.' },
     ] },
   interaccion_social: { ...meta('interaccion_social'),
@@ -525,8 +525,8 @@ export const VARIANTS: Record<string, Partial<Exercise>[]> = {
   // ---- Rehabilitación auditiva ACOPROS ----
   ra1: [
     {},
-    { choicePrompt: 'Busca la oveja.', optionAnswer: 1 },
-    { choicePrompt: 'Busca la gallina.', optionAnswer: 3 },
+    { choicePrompt: 'oveja', optionAnswer: 1 },
+    { choicePrompt: 'gallina', optionAnswer: 3 },
   ],
   ra2: [
     {},
