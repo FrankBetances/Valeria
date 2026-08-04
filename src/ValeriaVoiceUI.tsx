@@ -264,6 +264,9 @@ export const ResponseCaptureCard: React.FC<{
     if (listening) { await stopListening(); setListening(false); return; }
     setErrMsg(''); setListening(true);
     const ok = await startListening({
+      // Aquí sí se espera habla libre (una frase entera del niño), no una
+      // palabra objetivo: el modelo de dictado es el correcto.
+      expect: 'phrase',
       onPartial: (t) => mounted.current && setText(t),
       onResult: (alts) => {
         if (!mounted.current) return;

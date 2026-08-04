@@ -500,6 +500,28 @@ const statusCache = new Map<string, AsrLocaleStatus>();
 // sitio y aun así el motor local no servir en este aparato.
 const localDemoted = new Set<string>();
 
+// Escuchas LOCALES seguidas en las que el motor abrió el micrófono y no captó
+// absolutamente nada: ni un parcial, ni el evento de comienzo de habla.
+//
+// Hace falta contarlas porque hay una segunda forma de que el reconocedor local
+// no sirva, y la política de degradación anterior no la veía. Cuando el motor
+// local no arranca, avisa con un error de arranque y ahí se degrada la variedad
+// (§3.3 paso 7). Pero cuando arranca y está SORDO —el caso descrito por la
+// propia librería para el on-device de Android 12— no da error de arranque: da
+// `no-speech`, que es indistinguible de un niño callado. Como `no-speech` se
+// clasifica (con razón) como fallo del motor y no del niño, la variedad se
+// quedaba igualmente atascada: cada escucha volvía a pedir local, volvía a no
+// oír nada, y el niño oía siempre «no te escuché bien».
+//
+// Regla: dos escuchas locales seguidas sin UN SOLO indicio de voz y la variedad
+// pasa al reconocedor de red por el resto de la sesión. Un indicio de voz —un
+// parcial, el `speechstart`— reinicia la cuenta, así que un niño que habla
+// nunca degrada la variedad por ser callado en un ensayo. La degradación se
+// anuncia en el Panel del Adulto (localFailed) como cualquier otra: si el audio
+// pasa a salir del teléfono, se dice.
+const localBlankStreak = new Map<string, number>();
+const LOCAL_BLANK_LIMIT = 2;
+
 // `getSupportedLocales` puede no contestar nunca: por dentro es un callback del
 // SpeechRecognizer y si el servicio no responde, la promesa se queda colgada. Sin
 // tope, `startListening` no llegaría ni a abrir el micrófono y la pantalla se
@@ -603,8 +625,13 @@ export async function asrLocaleStatus(locale?: string): Promise<AsrLocaleStatus 
 // también la degradación: tras una descarga el motor local merece otra
 // oportunidad, y si vuelve a fallar se degradará otra vez en la primera escucha.
 export const forgetAsrLocale = (locale?: string): void => {
-  if (locale) { statusCache.delete(localeKey(locale)); localDemoted.delete(localeKey(locale)); }
-  else { statusCache.clear(); localDemoted.clear(); }
+  if (locale) {
+    statusCache.delete(localeKey(locale));
+    localDemoted.delete(localeKey(locale));
+    localBlankStreak.delete(localeKey(locale));
+  } else {
+    statusCache.clear(); localDemoted.clear(); localBlankStreak.clear();
+  }
 };
 
 export type OfflineDownloadResult = 'ok' | 'dialogo' | 'cancelado' | 'error';
@@ -661,6 +688,11 @@ export interface ListenCallbacks {
   // gastarle un intento ni una estrella por un tropiezo del reconocedor.
   onError: (message: string, noMatch: boolean) => void;
   onEnd?: () => void;
+  // Qué tipo de enunciado se espera (ver ListenExpect). Por defecto 'word':
+  // casi todo lo que la app escucha es una palabra objetivo, y pedir el modelo
+  // de dictado para una palabra suelta es justo lo que hace que el motor no
+  // devuelva nada. Quien espere habla libre debe pedir 'phrase'.
+  expect?: ListenExpect;
 }
 
 // ES-04 · Ventana de escucha. Las logopedas informaron de hasta TRES repeticiones
@@ -684,6 +716,38 @@ const ANDROID_LISTEN_EXTRAS = {
   // parciales siguen activos —son la red de seguridad cuando el resultado final
   // llega vacío—, solo cambia por dónde se piden.
 };
+
+// ----------------------------------------------------------------------------
+// Qué se espera oír, y por qué eso cambia el reconocedor
+// ----------------------------------------------------------------------------
+// 'word'   una palabra suelta o un enunciado de una o dos palabras: Pares
+//          Mínimos («rana»), el juego de micrófono, el Test de Ling, la
+//          Expansión Semántica. Es la inmensa mayoría de la app.
+// 'phrase' habla libre del niño o del adulto (registro de respuesta abierta).
+//
+// No es cosmético. El SpeechRecognizer de Android trae por defecto el modelo de
+// lenguaje `free_form`, pensado para dictar mensajes, y con él **una palabra
+// corta y aislada suele no devolver NINGÚN resultado**: el motor se queda
+// esperando a que sigas hablando y acaba cerrando con ERROR_NO_MATCH. Es un
+// defecto conocido del reconocedor (Google issuetracker 280288200) y el propio
+// equipo de Android recomienda como remedio pedir el modelo `web_search`, que
+// es el que sabe cerrar sobre términos sueltos. La librería solo pone el
+// `free_form` por defecto si NO le mandamos la clave, así que basta con
+// mandarla.
+//
+// Esto es exactamente el síntoma que se estaba reportando en Pares Mínimos —el
+// ejercicio que pide SIEMPRE una palabra suelta—: la app respondía «no te
+// escuché bien, probamos otra vez» ensayo tras ensayo aunque el niño dijera la
+// palabra perfectamente. No lo arregló el trabajo anterior (que corrigió la
+// CLASIFICACIÓN de los errores del motor) porque aquí el motor no se estaba
+// equivocando al informar: se le estaba pidiendo el modelo de lenguaje
+// equivocado para la tarea.
+//
+// En iOS el equivalente es `iosTaskHint: 'confirmation'`, la pista de tarea
+// para enunciados cortos tipo «sí», «no», una palabra.
+export type ListenExpect = 'word' | 'phrase';
+
+const ANDROID_SINGLE_WORD_MODEL = { EXTRA_LANGUAGE_MODEL: 'web_search' as const };
 
 // ES-04 · Traducción de los códigos de error al indicador `noMatch`.
 //
@@ -797,8 +861,17 @@ export async function startListening(cb: ListenCallbacks): Promise<boolean> {
   // no ha hablado: se puede reintentar sin perderle el turno) de "arrancó y algo
   // salió mal después" (ahí reintentar sería pedirle que repita sin decírselo).
   let ready = false;
+  // ¿Entró voz por el micrófono en algún momento? Un parcial o el `speechstart`
+  // del motor. Es lo que separa "el niño no dijo nada" de "el reconocedor local
+  // está sordo": ver localBlankStreak.
+  let heardVoice = false;
   // `end`s que hay que tragarse: los del intento abortado al cambiar de motor.
   let swallowEnds = 0;
+
+  // Una palabra suelta (lo normal en esta app) necesita otro modelo de lenguaje;
+  // con el de dictado el motor no cierra y devuelve ERROR_NO_MATCH. Ver
+  // ListenExpect.
+  const singleWord = (cb.expect ?? 'word') === 'word';
 
   clearAsrSubs();
 
@@ -813,8 +886,18 @@ export async function startListening(cb: ListenCallbacks): Promise<boolean> {
       ...(onDevice && Platform.OS === 'android'
         ? { androidRecognitionServicePackage: ANDROID_ON_DEVICE_SERVICE }
         : {}),
-      // ES-04 · la ventana de escucha larga, intacta.
-      ...(Platform.OS === 'android' ? { androidIntentOptions: ANDROID_LISTEN_EXTRAS } : {}),
+      // iOS · pista de tarea para enunciados cortos (una palabra objetivo).
+      ...(singleWord && Platform.OS === 'ios' ? { iosTaskHint: 'confirmation' as const } : {}),
+      // ES-04 · la ventana de escucha larga, intacta, más el modelo de lenguaje
+      // de término suelto cuando se espera una palabra.
+      ...(Platform.OS === 'android'
+        ? {
+          androidIntentOptions: {
+            ...ANDROID_LISTEN_EXTRAS,
+            ...(singleWord ? ANDROID_SINGLE_WORD_MODEL : {}),
+          },
+        }
+        : {}),
       // Fase B · guardar el WAV del turno de habla. Ver el bloque de arriba:
       // esto no puede llegar encendido a una build de producción.
       ...(ASR_CAPTURE
@@ -832,13 +915,31 @@ export async function startListening(cb: ListenCallbacks): Promise<boolean> {
     const sub = (name: string, fn: (e: any) => void) => {
       asrSubs.push(M.addListener(name, fn));
     };
+    // Cuenta (o reinicia) la racha de escuchas locales sordas de esta variedad.
+    // Al llegar al tope, la variedad se degrada a red para la SIGUIENTE escucha:
+    // no se reintenta esta, que el niño ya habló —o ya calló— y repetirla sería
+    // hacerle esperar dos veces.
+    const noteBlankListen = () => {
+      const k = localeKey(locale);
+      if (!onDevice) return;
+      if (heardVoice) { localBlankStreak.delete(k); return; }
+      const n = (localBlankStreak.get(k) ?? 0) + 1;
+      localBlankStreak.set(k, n);
+      if (n >= LOCAL_BLANK_LIMIT) { localDemoted.add(k); localBlankStreak.delete(k); }
+    };
+
     const fail = (message: string, noMatch: boolean) => {
       if (settled || !mine()) return;
       settled = true;
+      if (noMatch) noteBlankListen();
       cb.onError(message, noMatch);
     };
 
     sub('start', () => { if (mine()) ready = true; });
+
+    // El motor detectó que empieza a entrar voz: el micrófono no está sordo,
+    // aunque después no consiga transcribir nada.
+    sub('speechstart', () => { if (mine()) { ready = true; heardVoice = true; } });
 
     sub('result', (e: any) => {
       if (!mine()) return;
@@ -848,9 +949,12 @@ export async function startListening(cb: ListenCallbacks): Promise<boolean> {
       if (e?.isFinal) {
         if (settled) return;
         settled = true;
+        if (alts.length) { heardVoice = true; localBlankStreak.delete(localeKey(locale)); }
         cb.onResult(alts);
       } else if (alts.length) {
         ready = true; // ya hay voz entrando: el motor arrancó
+        heardVoice = true;
+        localBlankStreak.delete(localeKey(locale));
         cb.onPartial?.(alts[0]);
       }
     });

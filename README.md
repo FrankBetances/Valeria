@@ -616,6 +616,8 @@ un dato de salud de un menor— que el typecheck y el diff no ven.
 | `check-speech-prosody.js` | Que el troceo por frases vuelva a meterse en la voz del sistema de es‑DO: cada locución encadenada arrastra la latencia de arranque del motor, y el resultado son pausas anchas que rompen el ritmo de la sesión. |
 | `check-asr-capture-guard.js` | Que la **captura de corpus de la Fase B del ASR** llegue a producción, o que una grabación acabe versionada. Comprueba que la persistencia de audio viva en un solo archivo, que siga exigiendo `__DEV__` **y** `EXPO_PUBLIC_ASR_CAPTURE`, que ningún archivo versionado encienda la variable, que `corpus-asr/` esté ignorado y que git no rastree ninguna grabación. Es voz de un menor: art. 9 del RGPD (R7 del plan). |
 
+| `check-asr-listen-options.js` | Que se abra el micrófono con las opciones equivocadas. El módulo del ASR se carga con `require` perezoso y queda tipado como `any`, así que lo que se le pasa a `start()` no lo ve el typecheck ni el diff: pedir el modelo de lenguaje de **dictado** para escuchar una palabra suelta compila, arranca y deja Pares Mínimos respondiendo «no te escuché bien» en todos los ensayos. Ya pasó. Comprueba el modelo de término suelto (Android) y la pista de tarea corta (iOS), que siga la ventana de escucha de ES‑04, que se pidan parciales y que **nunca** se sesgue el motor con la palabra objetivo (§3.4 del plan). |
+
 Todos se pueden ejecutar en local: `node scripts/<nombre>.js`.
 
 > `check-ar-models.js` **no** está en esa lista y no corre en CI: vive como

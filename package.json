@@ -20,6 +20,7 @@
     "fetch:ar-model": "node scripts/fetch-ar-model.js",
     "check:ar-models": "node scripts/check-ar-models.js",
     "check:asr-capture": "node scripts/check-asr-capture-guard.js",
+    "check:asr-listen": "node scripts/check-asr-listen-options.js",
     "asr:bench": "node scripts/asr-bench.js",
     "asr:audit-pairs": "node scripts/asr-bench.js --audit-pairs",
     "asr:bench-selftest": "node scripts/asr-bench.js --selftest",

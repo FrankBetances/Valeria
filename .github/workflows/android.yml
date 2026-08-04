@@ -156,6 +156,14 @@ jobs:
       - name: Comprobar el candado de la captura de corpus (ASR Fase B)
         run: node scripts/check-asr-capture-guard.js
 
+      # Opciones con las que se abre el micrófono. El módulo del ASR se carga
+      # con require perezoso y queda tipado como `any`, así que lo que se le
+      # pasa a start() no lo comprueba nadie: quitar el modelo de lenguaje de
+      # palabra suelta compila, arranca y deja Pares Mínimos respondiendo «no te
+      # escuché bien» en todos los ensayos. Ya ocurrió.
+      - name: Comprobar las opciones de escucha del ASR
+        run: node scripts/check-asr-listen-options.js
+
       - name: Comprobar tipos
         run: npm run typecheck
 

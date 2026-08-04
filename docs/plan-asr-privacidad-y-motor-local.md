@@ -362,6 +362,27 @@ Flujo, evaluado **para el locale activo** en cada sesión (`probeLocale()` en
 > privacidad es peor que el problema que se quería resolver— aplicado al caso en
 > el que el sistema promete lo que luego no cumple.
 
+> **El paso 7 tenía un agujero: solo veía el motor local que NO ARRANCA, no el
+> que arranca SORDO** (cerrado el 2026-08-04, segunda ronda). Un reconocedor
+> local que no puede servir avisa a veces con un error de arranque —y ahí sí
+> degradaba— y a veces arranca sin problema y no oye nunca nada. Ese segundo
+> caso lo describe la propia librería para el on-device de Android 12: «you'll
+> likely see that it starts and then stops with an error event and the code
+> `no-speech`». Y `no-speech` está —con razón— clasificado como fallo del motor
+> por ES-04, así que la escucha se cerraba «bien», sin error de arranque, sin
+> degradar nada, y la siguiente volvía a pedir local. El mismo callejón sin
+> salida que el paso 7 vino a cerrar, por otra puerta.
+>
+> Regla añadida: **dos escuchas locales seguidas sin un solo indicio de voz**
+> —ni un parcial, ni el evento `speechstart`— degradan la variedad a red para el
+> resto de la sesión (`localBlankStreak` en `valeriaVoice.ts`). Cualquier
+> indicio de voz reinicia la cuenta, de modo que un niño que habla nunca degrada
+> la variedad por estar callado en un ensayo. Aquí **no se reintenta la misma
+> escucha**, a diferencia del paso 7: el turno ya se consumió, y repetirlo sería
+> hacerle esperar dos veces. La degradación se anuncia como cualquier otra
+> (`localFailed`, bloque del adulto): si el audio pasa a salir del teléfono, se
+> dice.
+
 > **Dos límites del sistema que conviene tener escritos**, porque explican
 > resultados que si no parecen fallos de la app:
 >
@@ -386,6 +407,55 @@ El punto 5 es deliberado: la app es una herramienta de rehabilitación antes que
 manifiesto de privacidad. Y el resultado esperado es **mixto por variedad**:
 castellano probablemente en local, gallego y euskera probablemente en red. Eso hay
 que declararlo con precisión en la política (§7) en lugar de prometer "todo local".
+
+### 3.3-bis · El modelo de lenguaje: por qué la app decía «no te escuché» siempre
+
+Descubierto el 2026-08-04, después de dar por arreglado el reconocimiento dos
+veces. El síntoma que llegaba de las pruebas era literal: **en Pares Mínimos, la
+app respondía «no te escuché bien, probamos otra vez» en todos los ensayos**,
+dijera el niño lo que dijera.
+
+Las dos rondas anteriores buscaron el fallo donde parecía estar —en cómo se
+CLASIFICABAN los errores del motor (R9) y en la política de degradación (R11)—.
+Las dos encontraron defectos reales y ninguna curó el síntoma, porque el motor no
+se estaba equivocando al informar: **se le estaba pidiendo la tarea equivocada.**
+
+`SpeechRecognizer` trae por defecto el modelo de lenguaje `free_form`, que está
+pensado para dictar un mensaje. Con `free_form`, una **palabra corta y aislada
+suele no devolver ningún resultado**: el motor se queda esperando a que sigas
+hablando y acaba cerrando con `ERROR_NO_MATCH`. Está documentado por el equipo de
+Android ([issuetracker 280288200](https://issuetracker.google.com/issues/280288200#comment28))
+y la librería lo recoge en su README como el primer problema de la lista de
+Android: *«Single words/letters/characters not recognized»*. El remedio que
+recomienda Google es pedir el modelo **`web_search`**, que sí sabe cerrar sobre
+términos sueltos. En iOS el equivalente es `iosTaskHint: 'confirmation'`.
+
+Y Pares Mínimos es, literalmente, el ejercicio que pide siempre una palabra
+suelta: «rana», «lata», «oso», «cubo». El ejercicio más expuesto al defecto era
+el que más se estaba probando.
+
+Decisión: `startListening` acepta `expect: 'word' | 'phrase'` y **por defecto es
+`'word'`**, porque casi todo lo que esta app escucha es una palabra objetivo. Solo
+el registro de respuesta libre (`ResponseCaptureCard`, habla espontánea del niño)
+pide `'phrase'` y conserva el modelo de dictado.
+
+> **Por qué esto no lo vio nadie durante dos rondas.** El módulo del ASR se carga
+> con `require` perezoso —en Expo Go no existe— y queda tipado como `any`. Lo que
+> se le pasa a `start()` no lo comprueba el typecheck, no se ve en el diff y no
+> rompe el build: la app compila, el micrófono se abre, los eventos llegan. El
+> único sitio donde se nota es la tablet de una familia. Por eso el arreglo lleva
+> gate propio (`scripts/check-asr-listen-options.js`), con la misma lógica que
+> los gates de corpus y prosodia: lo que solo se puede comprobar oyendo, se
+> comprueba en CI leyendo el código que abre el micrófono.
+
+Se añade además la red de seguridad que Expansión Semántica ya tenía y Pares
+Mínimos no: si el resultado final llega vacío después de haber ido devolviendo
+parciales correctos, **el turno se evalúa con el mejor parcial** en vez de
+perderse. Y cuando el turno se pierde por algo que el adulto puede resolver
+—permiso de micrófono, reconocedor no disponible—, Pares Mínimos ahora **enseña
+el mensaje del motor al adulto** en vez de traducirlo todo al mismo «no te
+escuché bien» dicho al niño: esa traducción indiscriminada es la que hizo que el
+defecto tardara dos rondas en localizarse.
 
 ### 3.4 A.3 · Prohibición explícita: nada de sesgar el reconocedor
 
@@ -755,6 +825,7 @@ Para que no se cuele por la puerta de atrás:
 | **R11** | **Se pide el motor local, el sistema dice que sí y el motor no arranca**: sin salida, la variedad queda atascada y toda escucha falla igual | Media | **Alto** | Paso 7 de §3.3: reintento en red dentro de la misma escucha + degradación por variedad y sesión |
 | **R10** | **`gl`/`eu` se degradan al forzar local por no tener paquete de idioma** | **Alta** | **Medio** | Política por locale (§3.3); la promesa pública se redacta por variedad (§7) |
 | **R11** | **Una familia declina firmar el día de la grabación** | Media | Bajo | Previsto en §4.2: sesión normal sin grabación, sin presión implícita |
+| **R13** | **Se le pide al reconocedor el modelo de lenguaje de DICTADO para escuchar una palabra suelta**: con `free_form`, una palabra corta y aislada no devuelve resultado y todo turno acaba en `no-speech` | ~~—~~ · **OCURRIÓ** desde la Fase A (2026-08-04, tercera ronda) | **Alto** | §3.3-bis: `expect: 'word'` por defecto → `EXTRA_LANGUAGE_MODEL: 'web_search'` en Android y `iosTaskHint: 'confirmation'` en iOS, con gate en CI (`check-asr-listen-options.js`) porque el módulo es `any` y nada más lo comprueba |
 | **R12** | ~~El árbitro no ve el contraste: 25 de 35 pares mínimos puntúan el distractor como acierto~~ → **Resuelto** (§4.0, D7) | — | — | O2 implementado en `matchPair`; `--audit-pairs` da 0 de 35 pares ciegos y `--selftest` lo fija como aserción para que no vuelva. Queda confirmar el precio en sesión real |
 
 ---
@@ -823,6 +894,15 @@ datos de A delante y no antes.
       2026-08-04 (faltaba `'speech-timeout'`, el antiguo código 6); ⏳ **sigue
       faltando verificar ambos casos a mano en dispositivo** (R9)
 - [x] Paso 7 de §3.3 · salida cuando el reconocedor local no arranca (R11)
+- [x] **§3.3-bis · modelo de lenguaje de palabra suelta** (R13): `expect: 'word'`
+      por defecto, `web_search` en Android, `iosTaskHint: 'confirmation'` en iOS,
+      gate en CI. Es la causa real del «no te escuché bien» en todos los ensayos
+- [x] Degradación del motor local **sordo** (dos escuchas locales seguidas sin un
+      solo indicio de voz), que el paso 7 no cubría
+- [x] Rescate del mejor parcial en Pares Mínimos y aviso del motor **al adulto**
+      cuando el fallo es suyo y no del niño
+- [ ] **Probar en dispositivo con un niño real** que los tres arreglos anteriores
+      cierran el síntoma: es lo único que lo confirma
 - [x] Implementar la política de degradación **por locale** (§3.3)
 - [x] Añadir `asrOfflineStatus()` y la telemetría de modo
 - [x] **D2 · ofrecer la descarga del paquete**, una vez y explícita (§3.3)
