@@ -327,7 +327,7 @@ con *debounce* vía `InteractionManager`, de modo que el cifrado y el guardado e
 
 | Documento | Descripción |
 | --- | --- |
-| **Manual de usuario con casos de uso** (v10.2) · [HTML](docs/manual-casos-de-uso.html) · [PDF](docs/Valeria-Manual-Casos-de-Uso.pdf) · [Word](docs/Valeria-Manual-Casos-de-Uso.docx) | **22 casos de uso** paso a paso ilustrados con capturas reales (`docs/screenshots/`): **Academy · hub de formación multidominio (CU‑03)**, los **siete bloques** (Pares Mínimos, Expansión Semántica, Audición, Lenguaje, TEA, Dislexia y **Realidad Aumentada**), el hub, la gráfica de sustitución por fonema, la telemetría del piloto (CU‑14), la variedad lingüística —Castellano, Galego, Dominicano y Euskera— (CU‑15), el Panel del Adulto / carga comunicativa (CU‑16), el **módulo de Lengua de Signos Española (CU‑17)** y el **bloque de Realidad Aumentada completo (CU‑18 a CU‑22)**: permiso de cámara y prueba de aptitud, los tres ejercicios y los umbrales clínicos. Cubre las novedades v6 → v10.2. |
+| **Manual de usuario con casos de uso** (v10.3) · [HTML](docs/manual-casos-de-uso.html) · [PDF](docs/Valeria-Manual-Casos-de-Uso.pdf) · [Word](docs/Valeria-Manual-Casos-de-Uso.docx) | **22 casos de uso** paso a paso ilustrados con capturas reales (`docs/screenshots/`): **Academy · hub de formación multidominio (CU‑03)**, los **siete bloques** (Pares Mínimos, Expansión Semántica, Audición, Lenguaje, TEA, Dislexia y **Realidad Aumentada**), el hub, la gráfica de sustitución por fonema, la telemetría del piloto (CU‑14), la variedad lingüística —Castellano, Galego, Dominicano y Euskera— (CU‑15), el Panel del Adulto / carga comunicativa (CU‑16), el **módulo de Lengua de Signos Española (CU‑17)** y el **bloque de Realidad Aumentada completo (CU‑18 a CU‑22)**: permiso de cámara y prueba de aptitud, los tres ejercicios y los umbrales clínicos. Cubre las novedades v6 → v10.3, incluida la tarjeta de **material necesario**, la lista de **formas alternativas** de una misma actividad, la **chuleta del adulto** de la lectura labiofacial y el **aviso del siguiente ejercicio** antes de puntuar (CU‑09). |
 | [`docs/protocolo-pares-minimos.md`](docs/protocolo-pares-minimos.md) | Protocolo de pares mínimos para dislalias fonológicas: 10 pares accionables con flujo TTS→STT, feedback por rama y misiones físicas. Implementado en `src/ValeriaMinimalPairsScreen.tsx` + `src/valeriaMinimalPairs.ts`. |
 | [`docs/protocolo-pares-minimos-es-DO.md`](docs/protocolo-pares-minimos-es-DO.md) | Protocolo de pares mínimos en español dominicano (Quisqueya Habla). Implementado en `src/valeriaMinimalPairsEsDO.ts`. |
 | [`docs/protocolo-expansion-semantica.md`](docs/protocolo-expansion-semantica.md) | Protocolo de expansión semántica / progresión léxica offline. Implementado en `src/ValeriaSemanticExpansionScreen.tsx` + `src/valeriaSemanticExpansion.ts`. |
@@ -613,10 +613,16 @@ un dato de salud de un menor— que el typecheck y el diff no ven.
 | `check-lexical-difficulty.js` | Que un ítem avanzado se cuele entre los iniciales: **el orden de escritura ES el orden de práctica** (ES‑08). |
 | `check-reminder-slots.js` | Que apagar una franja de recordatorio deje de reprogramarla pero **no cancele sus avisos ya en cola** (GEN‑01). |
 | `check-sign-figures.js` | Que una cápsula de LSE pida una figura **sin dibujo registrado** o que el abecedario dactilológico quede incompleto: `SignFigure` devuelve `null` a propósito, así que el fallo es invisible salvo para este gate (LSE‑01). |
-| `check-ar-models.js` | Que un modelo 3D del bloque de RA se reexporte con **otro nombre de animación** del que invoca el código. Ese desajuste compila, carga el modelo y deja al niño **sin refuerzo**: no hay error en ninguna parte, solo un ejercicio que deja de ser terapéutico. |
+| `check-speech-prosody.js` | Que el troceo por frases vuelva a meterse en la voz del sistema de es‑DO: cada locución encadenada arrastra la latencia de arranque del motor, y el resultado son pausas anchas que rompen el ritmo de la sesión. |
 | `check-asr-capture-guard.js` | Que la **captura de corpus de la Fase B del ASR** llegue a producción, o que una grabación acabe versionada. Comprueba que la persistencia de audio viva en un solo archivo, que siga exigiendo `__DEV__` **y** `EXPO_PUBLIC_ASR_CAPTURE`, que ningún archivo versionado encienda la variable, que `corpus-asr/` esté ignorado y que git no rastree ninguna grabación. Es voz de un menor: art. 9 del RGPD (R7 del plan). |
 
 Todos se pueden ejecutar en local: `node scripts/<nombre>.js`.
+
+> `check-ar-models.js` **no** está en esa lista y no corre en CI: vive como
+> `npm run check:ar-models` y hay que lanzarlo a mano tras reexportar un modelo
+> 3D. Comprueba que el nombre de la animación siga siendo el que invoca el
+> código; si no coincide, la escena compila, carga el modelo y deja al niño
+> **sin refuerzo**, sin error por ninguna parte.
 
 #### Banco de medida del ASR (Fase B)
 
@@ -767,6 +773,91 @@ toque `site/` republica el sitio; también puede lanzarse desde *Actions*.
 ## 🕑 Historial de versiones
 
 <details open>
+<summary><strong>V10.3</strong> — el micrófono vuelve a escuchar, y Lenguaje dice qué material hace falta</summary>
+
+Dos cosas que llegaron juntas: el reconocimiento de voz había dejado de
+funcionar, y las logopedas de ACOPROS mandaron una segunda tanda de feedback.
+
+### El micrófono repetía siempre que no oía nada
+
+Tres defectos que se suman en el mismo síntoma, los tres entrados con la Fase A.
+
+**Faltaba un código en la traducción de errores, y era el que más importa.** La
+librería anterior devolvía números y aquí se miraban dos: `6` (SPEECH_TIMEOUT) y
+`7` (NO_MATCH). La migración tradujo ese **par** a un solo código, `'no-speech'`,
+afirmando en el comentario que era «el equivalente exacto». No lo es:
+`'no-speech'` es el 7, y el 6 se llama **`'speech-timeout'`**. Y el 6 es justo el
+caso que ES‑04 existe para cubrir —el niño que tarda en arrancar y al que el
+motor le cierra la ventana antes de que diga nada—, así que se contaba como fallo
+**del niño**: mensaje seco, Expansión Semántica saltando al juicio del adulto en
+vez de re‑modelar, y el contador de `noMatch` sin registrar nada. Con lo cual el
+propio umbral de la Fase A se estaba midiendo sobre una cifra incompleta.
+
+El plan lo tenía escrito como riesgo **R9** y dejaba la verificación pendiente.
+Nadie la hizo, y el riesgo se materializó.
+
+> La lección, para la próxima tabla de traducción: no basta con enumerar los
+> códigos de **origen**; hay que enumerar los de **destino** y comprobar que la
+> aplicación es exhaustiva en ambos sentidos.
+
+**Faltaba la salida cuando el reconocedor local no arranca** (paso 7 de §3.3 del
+plan, nuevo). Los pasos 1‑3 le preguntan al sistema; el sistema puede contestar
+que sí y el motor local no servir en ese aparato. Sin salida, cada escucha volvía
+a pedir local, volvía a fallar y la variedad quedaba **atascada para siempre** —
+ese era el «siempre dice lo mismo». Ahora se reintenta la misma escucha con el
+reconocedor de red y la variedad se degrada el resto de la sesión, y el Panel del
+Adulto lo dice con esas palabras. Solo se reintenta si el micrófono **no llegó a
+abrirse**: así no se le pide al niño que repita una palabra que ya dijo.
+
+**Un turno de habla podía producir dos veredictos.** El módulo nativo emite
+`nomatch` **y** `error` para el mismo `ERROR_NO_MATCH`, y `abort()` emitía un
+error propio que llegaba a la pantalla como si fuera del motor.
+
+Además: tope de 4 s a `getSupportedLocales`, que por dentro es un callback del
+`SpeechRecognizer` y puede no contestar nunca —dejando la pantalla en
+«Escuchando…» sin haber abierto siquiera el micrófono—.
+
+### Segunda ronda de ACOPROS
+
+**Lo primero fue comprobar qué seguía roto.** Buena parte del correo describía
+una build anterior al 26 de julio: citaba literalmente una consigna que ya no
+existe en el código, y que sobrevive solo como comentario documentando cómo era
+antes. Verificados uno por uno, los seis puntos de Expansión Semántica que daban
+por pendientes estaban resueltos. La única excepción real era la sensibilidad del
+micrófono, que es el defecto de arriba.
+
+Lo que sí era nuevo:
+
+| Bloque | Cambio |
+| --- | --- |
+| **Lenguaje** | Los **siete** ejercicios declaran su material antes de empezar. Se pedía en cinco de siete y no lo tenía ninguno: el campo existía desde RA‑5, pero solo lo usaban tres ejercicios de Audición. En Comunicación Funcional la lista es **abierta**: lo que hace funcionar el ejercicio es la *situación* —algo que le guste y no pueda conseguir solo—, no un objeto concreto |
+| **M‑1 · Atención Conjunta** | Cinco **formas alternativas** de hacer la misma actividad. Repetida siempre igual, el niño anticipa la respuesta y la ejecuta en automático, con lo que deja de medir lo que dice medir |
+| **M‑2 · Imitación** | Los tres niveles pasan a ser una progresión real: gesto sin voz → sílaba repetida y la palabra corta que empieza igual («pa‑pa» → «pato») → gesto + palabra nueva. La sílaba suelta ya no es el techo |
+| **M‑6 · Regulación Conductual** | «Ficha» pasa a **recompensa acordada con el niño**, y se explica cómo montar la **agenda visual** que el nivel avanzado daba por hecha. Va en la tarjeta de material porque es lo único que se enseña *antes* de empezar |
+| **SE‑2 · Adivinanza** | El texto se **muestra**, no solo se locuta |
+| **RA‑2 · Lectura labiofacial** | Chuleta plegada **«solo para el adulto»**. Antes, saber qué palabra decir sin voz exigía pulsar «oír la palabra» delante del niño — que es exactamente lo que invalida el ejercicio |
+| **RA‑1 · Escucha en ruido** | La app locuta **solo la palabra objetivo** («vaca»), no la orden entera, y la consigna del adulto cambia con ella |
+| **Pares Mínimos** | «Padre» → «el adulto» en la pantalla y en las 25 misiones físicas de los bancos es/gl; en euskera, de «aitak» a «aitak edo amak». Y el **Sello Doble** explica para qué sirve: la mecánica estaba explicada, faltaba el motivo |
+| **Toda la sesión** | La app **anuncia el siguiente ejercicio** antes de que puntúes. ACOPROS lo pidió sobre M‑6, pero el salto seco al puntuar es el mismo problema en cualquier bloque |
+
+**66 locuciones resintetizadas** (38 es, 16 gl, 12 eu) con Sharvard/piper, Celtia
+y AhoTTS/HiTZ. Cobertura del corpus de vuelta en 2438/2438.
+
+> ⚠️ **Reserva clínica sobre RA‑1.** La frase portadora tiene una función real en
+> identificación en ruido: **avisa de que el objetivo viene**. Al quitarla, el
+> niño pierde ese aviso. Se ha hecho porque ACOPROS lo pidió explícitamente y son
+> las expertas; si al probarlo ven que cuesta más, la salida no es volver a la
+> orden completa sino un **portador corto y fijo**.
+
+Pendiente de personas: provocar a mano los dos casos de `noMatch` en dispositivo
+(R9 sigue sin verificarse: el arreglo sale de leer el fuente de la librería),
+escuchar las 66 locuciones nuevas, y decidir si «el adulto» le vale a ACOPROS.
+Y **45 de las 70 palabras de Pares Mínimos siguen cayendo a emoji** por no tener
+pictograma propio — medido, con desglose por banco, en el plan.
+
+</details>
+
+<details>
 <summary><strong>V10.2</strong> — los pares mínimos vuelven a detectar la sustitución</summary>
 
 Al construir el banco de medida de la Fase B, lo primero que se midió no fue
