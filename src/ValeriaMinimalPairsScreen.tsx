@@ -282,6 +282,13 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
   const [step, setStep] = useState<TrialStep>('say');
   const [correctionKind, setCorrectionKind] = useState<CorrectionKind>('none');
   const [heard, setHeard] = useState('');
+  // Aviso PARA EL ADULTO cuando el turno se pierde por algo que no es el niño y
+  // que él puede resolver (permiso del micrófono, reconocedor no disponible).
+  // Antes, cualquier fallo del motor se traducía en el mismo «no te escuché
+  // bien» dicho al niño y el adulto no tenía forma de saber qué pasaba: la
+  // sesión parecía rota sin decir por qué. El mensaje del motor solo se enseña
+  // cuando NO es un no-match, que es el único caso en el que hay algo que hacer.
+  const [asrNote, setAsrNote] = useState('');
   const [leftIsTarget, setLeftIsTarget] = useState(true);
   const [log, setLog] = useState<TrialRecord[]>([]);
   const [pendingStars, setPendingStars] = useState<1 | 2 | 3>(3);
@@ -311,6 +318,12 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
   const scrollRef = useRef<ScrollView | null>(null);
   // Evita que un resultado tardío del ASR pise el veredicto manual del padre.
   const listeningRef = useRef(false);
+  // Mejor parcial de la escucha en curso. Android cierra a veces el turno con
+  // un resultado final vacío después de haber ido devolviendo parciales
+  // correctos; sin esta red, ese turno se perdía como si el niño no hubiera
+  // hablado. La Expansión Semántica ya rescataba el parcial (ES-04); Pares
+  // Mínimos lo tiraba.
+  const bestPartialRef = useRef('');
   const mounted = useRef(true);
   const pulse = useRef(new Animated.Value(0)).current;
 
@@ -384,7 +397,7 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
   };
 
   const startTrial = (p: MinimalPair, idx: number) => {
-    setStep('say'); setHeard(''); setListening(false);
+    setStep('say'); setHeard(''); setListening(false); setAsrNote('');
     // 1.ª vez: bombardeo auditivo de contraste; después alternancia entre
     // consigna clínica y frase portadora procedural (ver trialPrompt).
     const spec = trialPrompt(p, idx, loc);
@@ -401,26 +414,44 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
   // --------------------------------------------------------------- escucha --
   const listenNow = async (p: MinimalPair) => {
     if (!mounted.current) return;
-    setStep('listen'); setListening(true); setHeard('');
+    setStep('listen'); setListening(true); setHeard(''); setAsrNote('');
     listeningRef.current = true;
+    bestPartialRef.current = '';
     // ES-04 · La ventana de escucha ampliada llega a esta pantalla por
     // startListening; medir aquí también hace comparable el antes/después de
     // los dos bloques que usan micrófono.
     trackListenStart();
+
+    // Cierra el turno con lo que haya: las alternativas finales o, si llegan
+    // vacías, el mejor parcial. Sin candidatos es 'none' de verdad.
+    const cerrar = (alts: string[]) => {
+      listeningRef.current = false;
+      setListening(false);
+      const partial = bestPartialRef.current.trim();
+      const candidatos = alts.filter(Boolean);
+      if (!candidatos.length && partial) candidatos.push(partial);
+      setHeard(candidatos[0] ?? '');
+      resolveBranch(p, candidatos.length ? matchPair(candidatos, p.target, p.foil) : 'none');
+    };
+
     const ok = await startListening({
-      onPartial: (t) => mounted.current && listeningRef.current && setHeard(t),
+      onPartial: (t) => {
+        if (!mounted.current || !listeningRef.current) return;
+        if (t.trim().length > bestPartialRef.current.length) bestPartialRef.current = t.trim();
+        setHeard(t);
+      },
       onResult: (alts) => {
         if (!mounted.current || !listeningRef.current) return;
-        listeningRef.current = false;
-        setListening(false);
-        setHeard(alts[0] ?? '');
-        resolveBranch(p, matchPair(alts, p.target, p.foil));
+        cerrar(alts);
       },
-      onError: (_msg, noMatch) => {
+      onError: (msg, noMatch) => {
         if (!mounted.current || !listeningRef.current) return;
+        // Con un parcial rescatable el turno se evalúa igual: el niño habló.
+        if (bestPartialRef.current.trim()) { cerrar([]); return; }
         listeningRef.current = false;
         setListening(false);
         if (noMatch) trackListenNoMatch();
+        else setAsrNote(msg); // esto lo arregla el adulto, no el niño
         resolveBranch(p, 'none');
       },
     });
@@ -866,6 +897,14 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
               </Pressable>
             </View>
             <Pressable onPress={() => retry(p)}><Text style={s.linkBtn}>No se entendió · repetir consigna</Text></Pressable>
+            {/* Si el micrófono ni llegó a abrirse, el adulto pasa a juez: aquí
+                también tiene que poder leer por qué. */}
+            {!!asrNote && (
+              <View style={s.asrNote}>
+                <Text style={s.asrNoteKicker}>👤 PARA EL ADULTO · EL MICRÓFONO</Text>
+                <Text style={s.asrNoteTxt}>{asrNote}</Text>
+              </View>
+            )}
           </View>
         )}
 
@@ -902,6 +941,15 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
                 </Text>
               </View>
             </View>
+            {/* Lo que el motor dijo de verdad, para el adulto: sin esto, un
+                permiso de micrófono denegado o un reconocedor no disponible se
+                veían igual que un niño que habla flojito. */}
+            {!!asrNote && (
+              <View style={s.asrNote}>
+                <Text style={s.asrNoteKicker}>👤 PARA EL ADULTO · EL MICRÓFONO</Text>
+                <Text style={s.asrNoteTxt}>{asrNote}</Text>
+              </View>
+            )}
             {correctionKind === 'foil' && missionCard('MISIÓN FÍSICA CORRECTIVA', p.onFoil.mission)}
             <View style={s.retryRow}>
               <SpeakButton text={p.target} label="Oír modelo despacio" voice="slow" />
@@ -1034,6 +1082,10 @@ const s = StyleSheet.create({
   verdictTitle: { fontSize: 14.5, fontWeight: '800', color: V.color.textPrimary },
   verdictSub: { fontSize: 12, fontWeight: '600', color: V.color.textSecondary, marginTop: 2, lineHeight: 17 },
   verdictStars: { fontSize: 16, color: V.color.star, letterSpacing: 1 },
+
+  asrNote: { backgroundColor: '#eef2ff', borderColor: '#c7d2fe', borderWidth: 1.5, borderRadius: 14, padding: 12, marginTop: 10 },
+  asrNoteKicker: { fontSize: 10.5, fontWeight: '800', letterSpacing: 0.6, color: '#4338ca' },
+  asrNoteTxt: { marginTop: 5, fontSize: 12.5, fontWeight: '600', color: '#3730a3', lineHeight: 18 },
 
   missionCard: { backgroundColor: '#fff7ed', borderColor: '#fcd9a8', borderWidth: 1.5, borderRadius: 16, padding: 14, marginTop: 12 },
   missionHead: { flexDirection: 'row', alignItems: 'center', gap: 9 },
