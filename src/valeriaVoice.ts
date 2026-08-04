@@ -486,10 +486,29 @@ export interface AsrLocaleStatus {
   localeInstalled: boolean;
   // ¿Tiene sentido ofrecerle al adulto descargarlo? (§3.3 paso 4)
   canOfferDownload: boolean;
+  // El sistema decía que sí y, al escuchar de verdad, el reconocedor local no
+  // arrancó: esta variedad está degradada a red para el resto de la sesión.
+  // Es un caso distinto de "no está instalado" y merece su propia explicación.
+  localFailed: boolean;
 }
 
 // Se cachea por locale porque son llamadas nativas y esto corre en cada escucha.
 const statusCache = new Map<string, AsrLocaleStatus>();
+
+// Variedades cuyo reconocedor LOCAL se probó de verdad y no arrancó. Ver
+// `startListening`: el diagnóstico del sistema puede decir que todo está en su
+// sitio y aun así el motor local no servir en este aparato.
+const localDemoted = new Set<string>();
+
+// `getSupportedLocales` puede no contestar nunca: por dentro es un callback del
+// SpeechRecognizer y si el servicio no responde, la promesa se queda colgada. Sin
+// tope, `startListening` no llegaría ni a abrir el micrófono y la pantalla se
+// quedaría en «Escuchando…» para siempre. Al agotarse se sigue por el lado
+// conservador (sin paquete → red), que es el que nunca rompe el ejercicio.
+const LOCALE_PROBE_TIMEOUT_MS = 4000;
+
+const withTimeout = <T,>(p: Promise<T>, ms: number, fallback: T): Promise<T> =>
+  Promise.race([p, new Promise<T>((r) => { setTimeout(() => r(fallback), ms); })]);
 
 const redStatus = (locale: string): AsrLocaleStatus => ({
   locale,
@@ -498,6 +517,7 @@ const redStatus = (locale: string): AsrLocaleStatus => ({
   serviceAvailable: false,
   localeInstalled: false,
   canOfferDownload: false,
+  localFailed: false,
 });
 
 async function probeLocale(locale: string): Promise<AsrLocaleStatus> {
@@ -520,6 +540,7 @@ async function probeLocale(locale: string): Promise<AsrLocaleStatus> {
         serviceAvailable: deviceCapable,
         localeInstalled: deviceCapable,
         canOfferDownload: false,
+        localFailed: false,
       };
     } else {
       const services: string[] = M.getSpeechRecognitionServices() ?? [];
@@ -530,9 +551,11 @@ async function probeLocale(locale: string): Promise<AsrLocaleStatus> {
         // OJO: en Android 12 y anteriores esto devuelve listas vacías (la API
         // del sistema no existe), así que el resultado será "red". Es el lado
         // conservador y correcto: sin poder comprobarlo, no se promete nada.
-        const { installedLocales } = await M.getSupportedLocales({
-          androidRecognitionServicePackage: ANDROID_ON_DEVICE_SERVICE,
-        });
+        const { installedLocales } = await withTimeout(
+          M.getSupportedLocales({ androidRecognitionServicePackage: ANDROID_ON_DEVICE_SERVICE }),
+          LOCALE_PROBE_TIMEOUT_MS,
+          { installedLocales: [] as string[] },
+        );
         const installed = (installedLocales ?? []).map(localeKey);
         localeInstalled = installed.includes(key)
           || installed.some((l: string) => l.split('-')[0] === key.split('-')[0]);
@@ -547,6 +570,7 @@ async function probeLocale(locale: string): Promise<AsrLocaleStatus> {
         canOfferDownload:
           deviceCapable && serviceAvailable && !localeInstalled
           && Number(Platform.Version) >= ANDROID_DOWNLOAD_MIN_API,
+        localFailed: false,
       };
     }
   } catch (e) {
@@ -557,20 +581,30 @@ async function probeLocale(locale: string): Promise<AsrLocaleStatus> {
   return st;
 }
 
+// Lo que el sistema dice MENOS lo que ya se demostró falso escuchando de verdad.
+// Es el modo que se va a pedir, y por tanto el único que se puede enseñar sin
+// mentir: un reconocedor local que no arranca no protege ningún audio.
+const effectiveStatus = (st: AsrLocaleStatus): AsrLocaleStatus =>
+  st.mode === 'local' && localDemoted.has(localeKey(st.locale))
+    ? { ...st, mode: 'red', canOfferDownload: false, localFailed: true }
+    : st;
+
 // Estado del reconocedor para la variedad activa (o la que se pida). Lo consume
 // la tarjeta del adulto; `startListening` usa el mismo camino, así que lo que
 // se muestra es exactamente lo que se va a pedir.
 export async function asrLocaleStatus(locale?: string): Promise<AsrLocaleStatus | null> {
   if (!Asr) return null;
-  return probeLocale(locale ?? speechLocale());
+  return effectiveStatus(await probeLocale(locale ?? speechLocale()));
 }
 
 // Invalida el diagnóstico cacheado. Necesario tras descargar un paquete de
 // idioma: sin esto, el `false` de antes de la descarga se quedaría pegado toda
-// la sesión y el adulto vería "en red" con el paquete ya instalado.
+// la sesión y el adulto vería "en red" con el paquete ya instalado. Levanta
+// también la degradación: tras una descarga el motor local merece otra
+// oportunidad, y si vuelve a fallar se degradará otra vez en la primera escucha.
 export const forgetAsrLocale = (locale?: string): void => {
-  if (locale) statusCache.delete(localeKey(locale));
-  else statusCache.clear();
+  if (locale) { statusCache.delete(localeKey(locale)); localDemoted.delete(localeKey(locale)); }
+  else { statusCache.clear(); localDemoted.clear(); }
 };
 
 export type OfflineDownloadResult = 'ok' | 'dialogo' | 'cancelado' | 'error';
@@ -653,25 +687,50 @@ const ANDROID_LISTEN_EXTRAS = {
 
 // ES-04 · Traducción de los códigos de error al indicador `noMatch`.
 //
-// PUNTO DELICADO DE LA MIGRACIÓN. La librería anterior devolvía códigos
-// numéricos del SpeechRecognizer de Android y aquí se miraban dos: 6
-// (SPEECH_TIMEOUT) y 7 (NO_MATCH). La nueva devuelve cadenas, y el equivalente
-// exacto de ese par es "no-speech" ("No final speech was detected"), más el
-// evento `nomatch`, que se emite cuando hay resultado final sin reconocimiento
-// significativo. Se traduce SOLO eso, para que el comportamiento clínico salga
-// de la migración exactamente igual que entró.
+// PUNTO DELICADO DE LA MIGRACIÓN, y se hizo mal (R9 del plan, que quedó marcado
+// como "falta verificar a mano" y no se verificó). La librería anterior devolvía
+// códigos numéricos del SpeechRecognizer de Android y aquí se miraban dos:
 //
-// Queda dicho, porque se ve al hacer la tabla: "network", "audio-capture",
-// "busy" y "client" TAMBIÉN son fallos del motor y no del niño, y con la lógica
-// de ES-04 tampoco deberían gastarle un intento. La librería vieja no los
-// distinguía y esto los sigue tratando como antes. Ampliar el conjunto es una
+//   6 · ERROR_SPEECH_TIMEOUT → la librería nueva lo llama 'speech-timeout'
+//   7 · ERROR_NO_MATCH       → la librería nueva lo llama 'no-speech'
+//                              (y además emite el evento `nomatch`)
+//
+// La migración tradujo el PAR a un solo código, 'no-speech', dejando fuera el 6.
+// Y el 6 es justamente el caso de ES-04: el niño que tarda en arrancar y al que
+// el motor cierra la ventana antes de que diga nada. Al no contarse como fallo
+// del motor, la app lo trataba como fallo del niño: mensaje seco («No se pudo
+// escuchar»), Expansión Semántica saltando al juicio del adulto y el contador
+// de noMatch sin registrar nada. Se restituye el par completo.
+//
+// Sigue en pie lo que anotó la migración, y sigue sin hacerse aquí: "network",
+// "audio-capture", "busy" y "client" TAMBIÉN son fallos del motor y no del niño,
+// y con la lógica de ES-04 tampoco deberían gastarle un intento. Con la librería
+// vieja no se distinguían y se tratan como entonces. Ampliar el conjunto es una
 // decisión clínica —va con el umbral que tiene que fijar ACOPROS (D6 del plan)—,
-// no un detalle de la migración, y por eso no se hace aquí de tapadillo.
-const NO_MATCH_ERRORS = new Set(['no-speech']);
+// no un arreglo de este defecto. Lo que sí cambia aquí es que algunos de esos
+// códigos disparan la vuelta al reconocedor de red: eso es política de motor
+// (§3.3 paso 7), no reclasificación del intento del niño.
+const NO_MATCH_ERRORS = new Set(['no-speech', 'speech-timeout']);
 
 // El permiso denegado NO es un fallo del motor: necesita acción del adulto, y la
 // pantalla debe mostrarlo como tal en vez de tragárselo como un intento fallido.
 const PERMISSION_ERRORS = new Set(['not-allowed', 'service-not-allowed']);
+
+// Fallos que significan «el reconocedor no llegó a abrir el micrófono». En modo
+// LOCAL son un callejón sin salida: el diagnóstico de `probeLocale` dice que el
+// paquete está instalado, así que la escucha siguiente volvería a pedir local y
+// a fallar igual, para siempre. Ver `startListening`.
+const ENGINE_START_FAILURES = new Set([
+  'language-not-supported', // el paquete figura instalado pero el motor no lo sirve
+  'client',                 // createOnDeviceSpeechRecognizer no pudo atender
+  'audio-capture',          // el servicio local no pudo tomar el micrófono
+  'unknown',
+]);
+
+// `abort()` (releaseListening) emite su propio evento de error. Es teardown
+// nuestro, no un fallo del motor: no puede llegarle a la pantalla como si el
+// niño hubiera fallado un intento.
+const ABORT_ERROR = 'aborted';
 
 // Suscripciones activas del reconocedor. La librería devuelve objetos con
 // .remove(); hay que soltarlas al parar o se acumulan entre escuchas.
@@ -681,6 +740,12 @@ const clearAsrSubs = (): void => {
   asrSubs.forEach((s) => { try { s.remove(); } catch (e) { /* noop */ } });
   asrSubs = [];
 };
+
+// Identifica la escucha en curso. Los eventos del módulo nativo son globales y
+// pueden llegar tarde (el `end` del intento que acaba de abortarse, el `error`
+// de un `abort()`), así que cada evento comprueba de qué escucha viene antes de
+// tocar la pantalla de la que ya no es dueño.
+let listenSession = 0;
 
 // Inicia una escucha en la variedad activa. Devuelve false si no se pudo empezar.
 export async function startListening(cb: ListenCallbacks): Promise<boolean> {
@@ -705,60 +770,39 @@ export async function startListening(cb: ListenCallbacks): Promise<boolean> {
   }
 
   const locale = speechLocale();
-  const onDevice = (await probeLocale(locale)).mode === 'local';
-  lastAsrMode = onDevice ? 'local' : 'red';
+  const session = ++listenSession;
+  // El modo que se va a pedir: el diagnóstico del sistema, salvo que el motor
+  // local de esta variedad ya se haya demostrado inservible en esta sesión.
+  let onDevice = !localDemoted.has(localeKey(locale))
+    && (await probeLocale(locale)).mode === 'local';
+
   // La telemetría particiona la tasa de noMatch por modo: sin eso, la cifra
-  // agregada mezcla escuchas locales y de red y no permite decidir la fase.
-  try { trackAsrMode(lastAsrMode, locale); } catch (e) { /* nunca romper por medir */ }
+  // agregada mezcla escuchas locales y de red y no permite decidir la fase. Si
+  // hay degradación a mitad de turno se anota DOS veces (el intento local que
+  // falló y la escucha de red que sí llevó el audio): sobra un evento, pero la
+  // cuenta de red nunca se queda corta, que es el lado por el que una métrica de
+  // privacidad no puede equivocarse. La degradación ocurre una vez por variedad
+  // y sesión, así que el sesgo es de un evento, no de una tendencia.
+  const noteMode = () => {
+    lastAsrMode = onDevice ? 'local' : 'red';
+    try { trackAsrMode(lastAsrMode, locale); } catch (e) { /* nunca romper por medir */ }
+  };
+  noteMode();
+
+  // Un desenlace por escucha. El módulo nativo emite `nomatch` Y `error` para el
+  // mismo ERROR_NO_MATCH, así que sin esto la pantalla recibía dos veredictos
+  // por un solo turno de habla.
+  let settled = false;
+  // ¿Llegó a abrirse el micrófono? Distingue "el motor no arrancó" (el niño aún
+  // no ha hablado: se puede reintentar sin perderle el turno) de "arrancó y algo
+  // salió mal después" (ahí reintentar sería pedirle que repita sin decírselo).
+  let ready = false;
+  // `end`s que hay que tragarse: los del intento abortado al cambiar de motor.
+  let swallowEnds = 0;
 
   clearAsrSubs();
-  try {
-    const sub = (name: string, fn: (e: any) => void) => {
-      asrSubs.push(M.addListener(name, fn));
-    };
 
-    sub('result', (e: any) => {
-      const alts: string[] = (e?.results ?? [])
-        .map((r: any) => String(r?.transcript ?? ''))
-        .filter((t: string) => t.length > 0);
-      if (e?.isFinal) cb.onResult(alts);
-      else if (alts.length) cb.onPartial?.(alts[0]);
-    });
-
-    // `nomatch`: resultado final sin reconocimiento significativo. Es fallo del
-    // motor, igual que el viejo código 7.
-    sub('nomatch', () => {
-      cb.onError('No te escuché bien. ¡Probamos otra vez!', true);
-    });
-
-    sub('error', (e: any) => {
-      const code = String(e?.error ?? '');
-      if (PERMISSION_ERRORS.has(code)) {
-        cb.onError('Concede el permiso de micrófono para jugar con la voz.', false);
-        return;
-      }
-      cb.onError(
-        NO_MATCH_ERRORS.has(code)
-          ? 'No te escuché bien. ¡Probamos otra vez!'
-          : 'No se pudo escuchar.',
-        NO_MATCH_ERRORS.has(code),
-      );
-    });
-
-    sub('end', () => cb.onEnd?.());
-
-    if (ASR_CAPTURE) {
-      // El fichero no es legible hasta `audioend`. Se registra la ruta para que
-      // quien dirige la sesión pueda emparejarla con el código seudonimizado de
-      // la ficha en papel: el manifiesto del banco de medida se escribe a mano
-      // y esa correspondencia es lo único que la une al consentimiento.
-      sub('audioend', (e: any) => {
-        if (e?.uri) console.warn(`[ASR-CAPTURA] ${e.uri}`);
-      });
-    }
-
-    stopSpeaking(); // que la app no se escuche a sí misma
-
+  const startEngine = () => {
     M.start({
       lang: locale,
       // Sustituye a EXTRA_PARTIAL_RESULTS del intent: misma red de seguridad.
@@ -781,6 +825,86 @@ export async function startListening(cb: ListenCallbacks): Promise<boolean> {
       // detectar (§3.4 del plan). Si alguien lo añade "para que reconozca
       // mejor", está rompiendo la medida clínica.
     });
+  };
+
+  try {
+    const mine = () => session === listenSession;
+    const sub = (name: string, fn: (e: any) => void) => {
+      asrSubs.push(M.addListener(name, fn));
+    };
+    const fail = (message: string, noMatch: boolean) => {
+      if (settled || !mine()) return;
+      settled = true;
+      cb.onError(message, noMatch);
+    };
+
+    sub('start', () => { if (mine()) ready = true; });
+
+    sub('result', (e: any) => {
+      if (!mine()) return;
+      const alts: string[] = (e?.results ?? [])
+        .map((r: any) => String(r?.transcript ?? ''))
+        .filter((t: string) => t.length > 0);
+      if (e?.isFinal) {
+        if (settled) return;
+        settled = true;
+        cb.onResult(alts);
+      } else if (alts.length) {
+        ready = true; // ya hay voz entrando: el motor arrancó
+        cb.onPartial?.(alts[0]);
+      }
+    });
+
+    // `nomatch`: resultado final sin reconocimiento significativo. Es fallo del
+    // motor, igual que el viejo código 7.
+    sub('nomatch', () => fail('No te escuché bien. ¡Probamos otra vez!', true));
+
+    sub('error', (e: any) => {
+      if (!mine()) return;
+      const code = String(e?.error ?? '');
+      if (code === ABORT_ERROR) return; // teardown propio, no fallo del motor
+      if (PERMISSION_ERRORS.has(code)) {
+        fail('Concede el permiso de micrófono para jugar con la voz.', false);
+        return;
+      }
+      // §3.3 · el paso que faltaba en la política de degradación: el sistema
+      // decía que el paquete local estaba instalado y, al escuchar de verdad, el
+      // reconocedor local no arranca. Sin esta salida la variedad se queda
+      // atascada — cada escucha vuelve a pedir local, vuelve a fallar y el niño
+      // oye siempre lo mismo, que no se le escucha. Se reintenta UNA vez con el
+      // reconocedor de red (el de siempre) y se degrada la variedad para el
+      // resto de la sesión. Solo si el micrófono no llegó a abrirse: así el
+      // reintento no le cuesta al niño repetir una palabra que ya dijo.
+      if (onDevice && !ready && !settled && ENGINE_START_FAILURES.has(code)) {
+        localDemoted.add(localeKey(locale));
+        onDevice = false;
+        noteMode(); // el Panel del Adulto tiene que decir «red», que es la verdad
+        swallowEnds += 1;
+        try { startEngine(); return; } catch (err) { /* sigue al mensaje normal */ }
+      }
+      const noMatch = NO_MATCH_ERRORS.has(code);
+      fail(noMatch ? 'No te escuché bien. ¡Probamos otra vez!' : 'No se pudo escuchar.', noMatch);
+    });
+
+    sub('end', () => {
+      if (!mine()) return;
+      if (swallowEnds > 0) { swallowEnds -= 1; return; }
+      cb.onEnd?.();
+    });
+
+    if (ASR_CAPTURE) {
+      // El fichero no es legible hasta `audioend`. Se registra la ruta para que
+      // quien dirige la sesión pueda emparejarla con el código seudonimizado de
+      // la ficha en papel: el manifiesto del banco de medida se escribe a mano
+      // y esa correspondencia es lo único que la une al consentimiento.
+      sub('audioend', (e: any) => {
+        if (e?.uri) console.warn(`[ASR-CAPTURA] ${e.uri}`);
+      });
+    }
+
+    stopSpeaking(); // que la app no se escuche a sí misma
+
+    startEngine();
     return true;
   } catch (e) {
     clearAsrSubs();
@@ -795,8 +919,11 @@ export async function stopListening(): Promise<void> {
 }
 
 // Libera el reconocedor y sus listeners (llamar al desmontar la pantalla).
+// Se invalida la escucha ANTES de abortar: `abort()` emite eventos de forma
+// síncrona y ninguno de ellos tiene ya dueño.
 export async function releaseListening(): Promise<void> {
   if (!Asr) return;
+  listenSession += 1;
   try { Asr.ExpoSpeechRecognitionModule.abort(); } catch (e) { /* noop */ }
   clearAsrSubs();
 }

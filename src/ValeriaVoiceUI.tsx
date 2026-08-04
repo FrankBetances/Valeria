@@ -20,6 +20,7 @@ import {
   asrSupported, startListening, stopListening, releaseListening, matchTarget, MatchLevel,
   VoiceStatus, refreshVoiceCatalog,
   asrLocaleStatus, requestOfflineModel, asrOfflineStatus, AsrLocaleStatus, asrCaptureEnabled,
+  forgetAsrLocale,
 } from './valeriaVoice';
 import { getLocale, setLocale, assetLang, Locale } from './valeriaLocale';
 import { micVerdictSayFor } from './valeriaExerciseBank';
@@ -169,6 +170,13 @@ export const MicPracticeCard: React.FC<{ target: string; prompt?: string; altTar
       onError: (m) => {
         if (!mounted.current) return;
         setErrMsg(m); setPhase('error');
+      },
+      // Sin esto, al cerrar el motor sin veredicto (el adulto toca el micro para
+      // parar, o el reconocedor se cierra solo) la tarjeta se quedaba con el
+      // pulso de «Escuchando…» encendido para siempre.
+      onEnd: () => {
+        if (!mounted.current) return;
+        setPhase((p) => (p === 'listening' ? 'idle' : p));
       },
     });
     if (!ok && mounted.current && phase !== 'error') setPhase('error');
@@ -361,9 +369,15 @@ export const SpeechPrivacyBlock: React.FC<{ locale: Locale }> = ({ locale }) => 
 
   const offerKey = `${STORAGE_KEYS.asrOfertaLocal}_${locale}`;
 
-  const probe = async () => {
+  // `fresh`: la comprobación la pidió el adulto a mano. Entonces se tira el
+  // diagnóstico cacheado Y la degradación de la sesión, para que el reconocedor
+  // local vuelva a tener una oportunidad — que es lo que promete el botón. El
+  // sondeo automático (montaje, cambio de variedad) no la levanta: si el motor
+  // local ya falló escuchando de verdad, insistir solo alarga el ejercicio.
+  const probe = async (fresh = false) => {
     setChecking(true);
     try {
+      if (fresh) forgetAsrLocale();
       const [next, raw] = await Promise.all([
         asrLocaleStatus(),
         AsyncStorage.getItem(offerKey).catch(() => null),
@@ -414,13 +428,15 @@ export const SpeechPrivacyBlock: React.FC<{ locale: Locale }> = ({ locale }) => 
     ? 'Comprobando dónde se procesa la voz del niño en esta variedad…'
     : local
       ? `En ${label} el reconocimiento se hace dentro del teléfono: el audio del turno de habla no sale del dispositivo.`
-      : !st.deviceCapable
-        ? `Este dispositivo no sabe reconocer voz sin conexión, así que en ${label} el audio del turno de habla lo procesa el servicio de reconocimiento del sistema, que puede enviarlo a sus servidores.`
-        : !st.serviceAvailable
-          ? `Falta el motor de reconocimiento local del sistema, así que en ${label} el audio lo procesa el servicio de reconocimiento habitual, que puede enviarlo a sus servidores.`
-          : st.canOfferDownload
-            ? `Este móvil puede reconocer sin conexión, pero le falta el paquete de ${label}. Mientras tanto, el audio del turno de habla lo procesa el servicio del sistema, que puede enviarlo a sus servidores.`
-            : `Falta el paquete de ${label} y esta versión de Android no permite descargarlo desde la app. Puedes instalarlo en Ajustes → Sistema → Idiomas → Entrada por voz; hasta entonces el audio lo procesa el servicio del sistema.`;
+      : st.localFailed
+        ? `El paquete de ${label} figura instalado, pero al escuchar de verdad el reconocedor del teléfono no arrancó. Para no dejar el ejercicio roto, la app ha vuelto al servicio de reconocimiento del sistema, que puede enviar el audio a sus servidores. Toca «Volver a comprobar» para intentarlo otra vez en local.`
+        : !st.deviceCapable
+          ? `Este dispositivo no sabe reconocer voz sin conexión, así que en ${label} el audio del turno de habla lo procesa el servicio de reconocimiento del sistema, que puede enviarlo a sus servidores.`
+          : !st.serviceAvailable
+            ? `Falta el motor de reconocimiento local del sistema, así que en ${label} el audio lo procesa el servicio de reconocimiento habitual, que puede enviarlo a sus servidores.`
+            : st.canOfferDownload
+              ? `Este móvil puede reconocer sin conexión, pero le falta el paquete de ${label}. Mientras tanto, el audio del turno de habla lo procesa el servicio del sistema, que puede enviarlo a sus servidores.`
+              : `Falta el paquete de ${label} y esta versión de Android no permite descargarlo desde la app. Puedes instalarlo en Ajustes → Sistema → Idiomas → Entrada por voz; hasta entonces el audio lo procesa el servicio del sistema.`;
 
   // Modo de la ÚLTIMA escucha real de la sesión. La comprobación de arriba dice
   // lo que se va a pedir; esto dice lo que se pidió. Sirve de diagnóstico rápido
@@ -477,7 +493,7 @@ export const SpeechPrivacyBlock: React.FC<{ locale: Locale }> = ({ locale }) => 
 
       <View style={s.privBtnRow}>
         <Pressable
-          onPress={probe}
+          onPress={() => { void probe(true); }}
           disabled={checking}
           style={[s.privBtn, checking && { opacity: 0.5 }]}
           accessibilityRole="button"
