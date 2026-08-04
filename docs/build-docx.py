@@ -6,7 +6,7 @@ Uso:
     python3 docs/build-docx.py
 
 Requiere las capturas de docs/screenshots/ (ver docs/capture-screenshots.js).
-Mantiene el mismo contenido que docs/manual-casos-de-uso.html (v10.2).
+Mantiene el mismo contenido que docs/manual-casos-de-uso.html (v10.3).
 
 OJO: este script NO lee el HTML; lleva el texto duplicado dentro. Todo cambio
 de contenido hay que aplicarlo en LOS DOS sitios o el Word y el PDF se quedan
@@ -68,7 +68,7 @@ for name, size, color, before in (('Heading 1', 17, PRIMARY, 14),
 
 footer_p = sec.footer.paragraphs[0]
 footer_p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-run = footer_p.add_run('Valeria+ · Manual de Casos de Uso · v10.2 (con capturas de pantalla) · Agosto de 2026')
+run = footer_p.add_run('Valeria+ · Manual de Casos de Uso · v10.3 (con capturas de pantalla) · Agosto de 2026')
 run.font.size = Pt(8)
 run.font.color.rgb = MUTED
 
@@ -270,7 +270,7 @@ for _ in range(4):
     p('', space_after=0)
 p('valeria+', bold=True, size=16, color=PRIMARY_BRIGHT)
 p('🐻', size=52, align=WD_ALIGN_PARAGRAPH.LEFT, space_after=18)
-p('Manual de usuario · v10.2 · con capturas de pantalla', bold=True, size=10, color=PRIMARY)
+p('Manual de usuario · v10.3 · con capturas de pantalla', bold=True, size=10, color=PRIMARY)
 p('Manual de Casos de Uso', bold=True, size=34, color=INK, space_after=10)
 p('Aplicación de terapia auditivo-verbal y del lenguaje para niñas y niños con hipoacusia, '
   'implante coclear, dislalias, dislexia, TEA o dificultades del lenguaje.', size=13, color=INK2, space_after=16)
@@ -351,7 +351,7 @@ p('Desde la pantalla Prescripción de Terapias se elige uno de estos bloques. Ca
 data_table(['Bloque', 'Para qué sirve'], [
     [[('🗣️ Pares Mínimos', True)],
      'Dislalias fonológicas. 15 pares de palabras casi iguales (rana/lana) en 6 grupos —rotacismo, sigmatismo, '
-     'velares, labiodental, nasales y laterales— con juego de voz, misión física y sello doble padre-hijo.'],
+     'velares, labiodental, nasales y laterales— con juego de voz, misión física y sello doble adulto-niño.'],
     [[('🧩 Expansión Semántica', True)],
      'Progresión léxica para intervención temprana: 5 escenarios diarios, 9 progresiones (onomatopeya → adjetivo) y '
      '8 cápsulas de contraste, uniendo imagen, voz y acción física.'],
@@ -539,7 +539,7 @@ data_table(['Término', 'Significado'], [
     ['Hub de bloques', 'Pantalla “Prescripción de Terapias”: siete tarjetas (Pares Mínimos, Expansión Semántica, Audición, Lenguaje, TEA, Dislexia y Realidad Aumentada) más la tarjeta Academy, desde donde se practica o prescribe.'],
     ['Par mínimo', 'Dos palabras que solo se distinguen por un fonema (rana / lana). Entrenan el contraste que el niño sustituye.'],
     ['Sustitución', 'Error fonológico habitual: el niño dice la palabra contraria (r̄ → l). La app la detecta y la corrige.'],
-    ['Sello doble', 'Mecánica anti-pasividad: padre e hijo pulsan dos huellas a la vez para avanzar (o mantienen una pulsada 2 s).'],
+    ['Sello doble', 'Mecánica anti-pasividad: el adulto y el niño pulsan dos huellas a la vez para avanzar (o mantienen una \n     pulsada 2 s). La app explica en la propia tarjeta para qué sirve: hasta que no están las dos manos, el ejercicio espera.'],
     ['TPR', 'Total Physical Response: aprender una palabra asociándola a una acción física del cuerpo.'],
     ['Fase de turno', 'Barra guía de Pares Mínimos y Expansión Semántica que marca en qué momento va el ejercicio: Escucha → Repite → Veredicto → Misión.'],
     ['Sesión completa', 'Botón que encadena en una sola sesión todos los ejercicios prescritos de un bloque, en vez de lanzarlos de uno en uno.'],
@@ -669,27 +669,27 @@ par = doc.add_paragraph()
 rich(par, [('Bloque para ', False), ('dislalias fonológicas', True),
            ('. Se muestran dos fichas casi iguales (por ejemplo ', False), ('rana / lana', True),
            ('); la app pide una en voz alta y el niño la dice al micrófono. Con reconocimiento de voz, la app detecta '
-            'si salió el fonema o la sustitución habitual; sin micrófono, ', False), ('el padre hace de juez', True),
+            'si salió el fonema o la sustitución habitual; sin micrófono, ', False), ('el adulto hace de juez', True),
            ('. Una ', False), ('barra de fase de turno', True),
            (' (Escucha → Repite → Veredicto → Misión) muestra en todo momento en qué paso va el ensayo.', False)])
 h4('Flujo principal')
 numbered([
     [('En el ', False), ('banco de contrastes', True), (', elegir un par prescrito (15 disponibles en 6 grupos: rotacismo, sigmatismo, velares, labiodental, nasales y laterales). Pulsar ▶.', False)],
-    [('La app ', False), ('pide una ficha', True), (' en voz alta (“¡Dile a papá cuál quieres! Di: rana”). El niño la dice. La fase de turno avanza de Escucha a Repite.', False)],
+    [('La app ', False), ('pide una ficha', True), (' en voz alta (“Di: rana”). El niño la dice. La fase de turno avanza de Escucha a Repite.', False)],
     [('La app evalúa comparando lo que oyó con ', False), ('las dos palabras del par', True),
      (' y quedándose con la más parecida: ', False), ('acierto', True), (' (3★ al primer intento, 2★ tras corrección), ', False),
      ('sustitución', True), (' detectada (corrección específica del par) o ', False), ('aproximación', True), (' (reintento). '
       'Si lo oído se parece igual a las dos, la app no se moja: dice «casi» y deja el veredicto al adulto.', False)],
     [('Cada acierto trae una ', False), ('misión física', True), (' (“¡Salto de rana!”) y termina con el ', False),
-     ('sello doble', True), (': padre e hijo pulsan dos huellas a la vez para continuar.', False)],
+     ('sello doble', True), (': el adulto y el niño pulsan dos huellas a la vez para continuar.', False)],
     [('A lo largo de los 10 ensayos hay ', False), ('rotación de roles', True), (' (“¡Ahora mandas tú!”) y una ', False),
      ('cápsula TPR', True), (' de movimiento. Al final se guarda la sesión y la evolución del fonema.', False)],
 ])
 h4('Flujos alternativos')
 bullets([
-    [('El padre es el juez final:', True), (' si la app oyó mal, corrige el veredicto con “dijo rana / dijo lana”.', False)],
+    [('El adulto es el juez final:', True), (' si la app oyó mal, corrige el veredicto con “dijo rana / dijo lana”.', False)],
     [('Dos correcciones seguidas:', True), (' la app pasa a imitación asistida (1★) para no frustrar; nunca hay un tercer fallo seguido.', False)],
-    [('Sin reconocimiento de voz', True), (' (Expo Go / navegador): el padre valora con los botones “Dijo …”.', False)],
+    [('Sin reconocimiento de voz', True), (' (Expo Go / navegador): el adulto valora con los botones “Dijo …”.', False)],
 ])
 callout('Anti-pasividad', 'Nada avanza sin las manos de los dos: el sello doble obliga a que el adulto participe en '
         'cada ensayo. La rotación de roles convierte al niño en “juez” que discrimina qué palabra dijo el adulto.',
@@ -701,7 +701,7 @@ callout('Cómo decide la app entre las dos palabras',
         'alguna pronunciación aproximada que antes daba estrella ahora da «casi» y pide otro intento: es el precio de '
         'que el ejercicio detecte de verdad la sustitución, y el adulto puede corregirlo siempre.')
 figures([('06-pares-banco.png', 'Banco de contrastes: los pares agrupados por tipo de error.'),
-         ('08-pares-juego.png', 'Ensayo: dos fichas, la consigna y el juez del padre.'),
+         ('08-pares-juego.png', 'Ensayo: dos fichas, la consigna y el juez del adulto.'),
          ('09-pares-veredicto.png', 'Acierto: misión física de celebración y sello doble.')])
 
 # ---- CU-05 · EXPANSIÓN SEMÁNTICA ----
@@ -823,6 +823,10 @@ uc_meta('Tutor + niño/a', 'Reproductor de Ejercicios → Resultados', 'Terapia 
         'Sesión valorada y guardada en el historial')
 h4('Flujo principal')
 numbered([
+    [('Antes de nada, si la actividad necesita ', False), ('material real', True),
+     (' (burbujas, una pelota, un muñeco, un tambor…), la app lo dice en una tarjeta ', False),
+     ('“ANTES DE EMPEZAR · NECESITARÁS”', True),
+     (', arriba del todo. Está ahí a propósito: leer el material a mitad de la actividad no sirve de nada.', False)],
     [('Cada mini-juego sigue un flujo numerado ', False), ('PASO 1→4', True),
      (': consigna → juego → movimiento → evaluación. La app presenta ', False), ('fichas ilustradas', True),
      (' grandes; ', False), ('toque cualquier imagen para ampliarla', True), (' a pantalla completa.', False)],
@@ -834,6 +838,9 @@ numbered([
     [('Cada ejercicio ofrece una ', False), ('“versión en movimiento”', True),
      ('; entre ejercicios aparecen ', False), ('pausas activas', True),
      ('. Los de Lenguaje añaden voz (TTS), juego del micrófono y cápsulas TPR.', False)],
+    [('Junto a la evaluación, la app muestra ', False), ('qué ejercicio viene después', True),
+     (', para que el adulto pueda anunciarlo antes de puntuar. Al tocar la estrella se pasa al siguiente de inmediato, '
+      'y ese salto sin aviso es justo lo que descoloca a los niños que peor llevan las transiciones.', False)],
     [('Al terminar se calcula la media y se muestran las ', False), ('recompensas', True),
      (' (XP, racha, nivel, insignias). Ver CU-11.', False)],
 ])
@@ -843,7 +850,20 @@ bullets([
      'en una sola tanda (pasando por el Test de Ling si la ficha lo indica), en vez de lanzarlos de uno en uno.', False)],
     [('Sesión perfecta:', True), (' si todos los ejercicios obtienen ★★★, se desbloquea la insignia “Sesión estrella”.', False)],
     [('Salir a mitad:', True), (' se puede volver atrás; lo valorado hasta ese punto no cuenta como sesión completada.', False)],
+    [('Actividades que se repiten sesión tras sesión:', True), (' algunas —como Atención Conjunta— traen una lista de '
+     '“🔀 OTRAS FORMAS DE HACERLA”. Es la misma actividad con el mismo objetivo, cambiando solo el envoltorio: repetida '
+     'siempre igual, el niño anticipa la respuesta y la ejecuta en automático, con lo que deja de medir lo que dice medir.', False)],
 ])
+callout('Dos ayudas para el adulto en los ejercicios de escucha',
+        'En la adivinanza por letra (SE-2) el texto se muestra escrito además de locutarse, para poder leerlo o '
+        'repetirlo con otras palabras sin tener que reproducir el audio primero. En la lectura labiofacial (RA-2) el '
+        'adulto tiene que decir la palabra sin voz, y antes la única forma de saber cuál era, era pulsar “oír la '
+        'palabra” delante del niño —que es exactamente lo que invalida el ejercicio—. Ahora hay una chuleta plegada '
+        '“🙈 SOLO PARA EL ADULTO”: se abre apartando la pantalla, se lee y se vuelve a cerrar. Empieza siempre cerrada.')
+callout('Escucha en ruido (RA-1)',
+        'La app locuta solo la palabra objetivo («vaca»), no la orden entera, porque lo que el ejercicio mide es '
+        'reconocer esa palabra con ruido de fondo. La consigna del adulto va en la misma línea: di solo el nombre del '
+        'animal, con tu voz normal.', fill=FILL_WARN)
 figures([('17-ejercicio.png', 'Ficha ilustrada: consigna, imágenes ampliables y versión en movimiento.'),
          ('18-evaluacion-ept3.png', 'Evaluación EPT-3: el adulto toca 1★, 2★ o 3★.'),
          ('19-sesion-completada.png', 'Fin de sesión: XP, racha, nivel y promedio EPT-3.')])
@@ -1273,9 +1293,9 @@ data_table(['Situación', 'Qué hacer'], [
     ['En AR-3 la mirada no selecciona nada',
      'Falta la calibración de 5 puntos, que es obligatoria por paciente y por teléfono. Si el puntero tiembla, cambie de iris a rayo desde la nariz en el Panel (CU-21 y CU-22).'],
     ['La app oyó mal en Pares Mínimos',
-     'El padre es el juez final: use “dijo rana / dijo lana” para corregir el veredicto. Un falso positivo no penaliza al niño.'],
+     'El adulto es el juez final: use “dijo rana / dijo lana” para corregir el veredicto. Un falso positivo no penaliza al niño.'],
     ['No avanza tras la misión física',
-     'Es el sello doble: padre e hijo deben pulsar las dos huellas a la vez. Con una sola mano, mantenga pulsada una huella 2 segundos.'],
+     'Es el sello doble: el adulto y el niño deben pulsar las dos huellas a la vez. Sirve para que el ejercicio no siga solo. Con una sola mano, mantenga pulsada una huella 2 segundos.'],
     ['No aparece el Test de Ling',
      'Solo se muestra en los ejercicios de Audición si la patología indica audífono o implante coclear (CU-08).'],
     ['La racha volvió a cero',
@@ -1314,7 +1334,7 @@ data_table(['Situación', 'Qué hacer'], [
 doc.add_page_break()
 kicker('Anexo B')
 doc.add_heading('Historial de versiones', level=1)
-p('Este manual describe Valeria+ en su estado actual (v10.2). '
+p('Este manual describe Valeria+ en su estado actual (v10.3). '
   'La siguiente tabla resume, a título informativo, cómo ha '
   'ido creciendo la app, por si resulta útil a quienes usaron versiones anteriores.')
 data_table(['Versión', 'Hitos principales'], [
@@ -1360,17 +1380,29 @@ data_table(['Versión', 'Hitos principales'], [
      'equivocada podía puntuar como acierto. Ahora se compara con las dos palabras del par y gana la más parecida; si '
      'empatan, sale «casi» y decide el adulto. Cuesta algún «casi» de más en pronunciaciones aproximadas, y a cambio el '
      'ejercicio mide lo que dice medir.'],
+    [[('v10.3', True)],
+     'El micrófono vuelve a escuchar, y el bloque de Lenguaje dice qué material hace falta. El reconocimiento de voz '
+     'había dejado de contar bien el caso más común —el niño que tarda en arrancar—, y con ello repetía siempre que no '
+     'se le escuchaba; además, cuando el reconocedor del propio teléfono no arrancaba, la variedad se quedaba atascada '
+     'sin salida. Las dos cosas están corregidas. Del lado clínico, y a petición de ACOPROS: los siete ejercicios de '
+     'Lenguaje declaran su material antes de empezar, Atención Conjunta trae varias formas de hacerla para que no se '
+     'mecanice, Imitación progresa de la sílaba a la palabra corta, Regulación Conductual habla de recompensa acordada '
+     'con el niño y explica cómo montar la agenda visual, la adivinanza se puede leer, la lectura labiofacial tiene '
+     'chuleta para el adulto, la escucha en ruido locuta solo la palabra objetivo y la app anuncia el siguiente '
+     'ejercicio antes de puntuar.'],
 ], widths=[2.4, 14.6])
 p('Sobre la cobertura de este manual. Los capítulos paso a paso cubren ya los siete bloques, incluida la Realidad '
   'Aumentada de la v10 (CU-18 a CU-22). Los cambios de la v10.1 y la v10.2 no añaden pantallas: afectan a cómo se '
-  'reconoce y se valora la voz por dentro, y están explicados en el capítulo 2 («Privacidad de los datos») y en CU-04.')
+  'reconoce y se valora la voz por dentro, y están explicados en el capítulo 2 («Privacidad de los datos») y en CU-04. '
+  'La v10.3 sí añade elementos visibles —la tarjeta de material, la lista de formas alternativas, la chuleta del adulto '
+  'y el aviso del siguiente ejercicio—, todos descritos en CU-09.')
 p('Sobre las capturas de pantalla. Las imágenes de este manual se tomaron en la v9, así que en las pantallas de '
   'Expansión Semántica y de recordatorios verás alguna diferencia respecto al texto: la cuarta pestaña de Categorías, '
   'la antesala de preparación y el selector de franjas son posteriores a esas capturas. El capítulo de Realidad '
   'Aumentada no lleva capturas, y la razón está explicada al final de CU-22: cualquier imagen fiel de esos ejercicios '
   'mostraría la cara de un niño.')
 p('', space_after=4)
-p('Valeria+ · Manual de Casos de Uso · v10.2 (con capturas de pantalla) · Agosto de 2026 · Terapia auditivo-verbal y del '
+p('Valeria+ · Manual de Casos de Uso · v10.3 (con capturas de pantalla) · Agosto de 2026 · Terapia auditivo-verbal y del '
   'lenguaje para la infancia. Documento de apoyo para logopedas y familias. Disponible en Castellano, Galego (Proxecto '
   'Nós), Dominicano (Quisqueya Habla) y Euskera (batua · ILENIA/NEL-GAITU). Los datos personales se tratan localmente '
   'conforme a RGPD/HIPAA; la sincronización en la nube y la telemetría anónima del piloto son opcionales.', size=8.5, color=MUTED)
