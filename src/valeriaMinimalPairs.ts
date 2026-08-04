@@ -42,12 +42,12 @@ export const MINIMAL_PAIRS: MinimalPair[] = [
     prompt: 'Di: rana.',
     onTarget: {
       say: '¡Rrrana! ¡Tu lengua vibró como una moto!',
-      mission: '¡Salto de rana! Tres saltos hasta chocar los cinco con papá.',
+      mission: '¡Salto de rana! Tres saltos hasta chocar los cinco con el adulto.',
     },
     onFoil: {
       say: 'Escuché lana, la del ovillo. Yo pedí rrrana. Escucha…',
       cue: 'La lengua hace la moto detrás de los dientes: rrr.',
-      mission: 'Mano en la garganta de papá: papá sostiene rrrrr tres segundos y el niño siente la vibración. Luego, al revés.',
+      mission: 'Mano en la garganta del adulto: el adulto sostiene rrrrr tres segundos y el niño siente la vibración. Luego, al revés.',
     },
   },
   {
@@ -57,7 +57,7 @@ export const MINIMAL_PAIRS: MinimalPair[] = [
     prompt: 'Di: perro.',
     onTarget: {
       say: '¡Perrro! ¡Qué erre tan fuerte!',
-      mission: '¡A cuatro patas! Gatea ladrando hasta papá y que te rasque la cabeza.',
+      mission: '¡A cuatro patas! Gatea ladrando hasta el adulto y que te rasque la cabeza.',
     },
     onFoil: {
       say: 'Escuché pelo, el de la cabeza. El perro se quedó sin ladrar. Vamos: perrro.',
@@ -72,12 +72,12 @@ export const MINIMAL_PAIRS: MinimalPair[] = [
     prompt: 'Di: rata.',
     onTarget: {
       say: '¡Rrrata veloz! ¡Te salió la erre!',
-      mission: '¡Pilla-pilla de ratas! Persigue a papá por la habitación hasta tocarle la espalda.',
+      mission: '¡Pilla-pilla de ratas! Persigue al adulto por la habitación hasta tocarle la espalda.',
     },
     onFoil: {
       say: 'Escuché lata, la de la cocina. La lengua se quedó dormida. ¡Despiértala!: rrrata.',
       cue: 'Punta de la lengua arriba, y que tiemble.',
-      mission: 'Tambor de lengua: papá marca ta-ta-ta con palmadas en los muslos y el niño responde ra-ra-ra, cada vez más rápido.',
+      mission: 'Tambor de lengua: el adulto marca ta-ta-ta con palmadas en los muslos y el niño responde ra-ra-ra, cada vez más rápido.',
     },
   },
   {
@@ -87,12 +87,12 @@ export const MINIMAL_PAIRS: MinimalPair[] = [
     prompt: 'Di: cerro.',
     onTarget: {
       say: '¡Cerrro! ¡Esa erre sube hasta la cima!',
-      mission: 'Escalada: palmas contra palmas con papá y paso de escalador en el sitio hasta la cima.',
+      mission: 'Escalada: palmas contra palmas con el adulto y paso de escalador en el sitio hasta la cima.',
     },
     onFoil: {
       say: 'Escuché cero, el número redondo. Cerro tiene la moto larga: cerrro.',
       cue: 'La erre corta es un toque; la del cerro tiembla mucho rato.',
-      mission: 'La cuerda: por cada rrr largo del niño, papá tira de él un paso hacia la cima (el sofá). Tres tirones y ¡cima!',
+      mission: 'La cuerda: por cada rrr largo del niño, el adulto tira de él un paso hacia la cima (el sofá). Tres tirones y ¡cima!',
     },
   },
   {
@@ -108,7 +108,7 @@ export const MINIMAL_PAIRS: MinimalPair[] = [
     onFoil: {
       say: 'Escuché caza, la de la flecha. Tu serpiente se escapó entre los dientes. Ciérralos: casa.',
       cue: 'Dientes juntos, sonrisa, y la serpiente sopla por detrás: sss.',
-      mission: 'Serpiente viajera: mientras dura la sss, papá desliza un dedo del hombro a la mano del niño. Si la ese se rompe, la serpiente vuelve al hombro.',
+      mission: 'Serpiente viajera: mientras dura la sss, el adulto desliza un dedo del hombro a la mano del niño. Si la ese se rompe, la serpiente vuelve al hombro.',
     },
   },
   {
@@ -123,7 +123,7 @@ export const MINIMAL_PAIRS: MinimalPair[] = [
     onFoil: {
       say: 'Escuché tierra, la del suelo. La ese no explota: sopla largo. Sierra.',
       cue: 'La te da un golpe; la ese es aire que no se acaba.',
-      mission: 'El molinillo: palma de papá delante de la boca del niño. Con t-t-t siente golpes; con sss, un viento seguido que empuja la mano tres segundos.',
+      mission: 'El molinillo: palma del adulto delante de la boca del niño. Con t-t-t siente golpes; con sss, un viento seguido que empuja la mano tres segundos.',
     },
   },
   {
@@ -133,7 +133,7 @@ export const MINIMAL_PAIRS: MinimalPair[] = [
     prompt: 'Di: ocho.',
     onTarget: {
       say: '¡Ocho! ¡Ese tren arrancó genial!',
-      mission: 'Tren del ocho: agárrate a la cintura de papá y dad una vuelta en forma de ocho haciendo ch-ch-ch.',
+      mission: 'Tren del ocho: agárrate a la cintura del adulto y dad una vuelta en forma de ocho haciendo ch-ch-ch.',
     },
     onFoil: {
       say: 'Escuché oso, el peludo. Yo pedí ocho, el número. La che arranca como un tren: ocho.',
@@ -148,7 +148,7 @@ export const MINIMAL_PAIRS: MinimalPair[] = [
     prompt: 'Di: cubo.',
     onTarget: {
       say: '¡Cubo! ¡Esa ka salió de la cueva de la garganta!',
-      mission: 'Transporta el cojín-cubo pesadísimo hasta los pies de papá, que lo vacía levantándote en volandas.',
+      mission: 'Transporta el cojín-cubo pesadísimo hasta los pies del adulto, que lo vacía levantándote en volandas.',
     },
     onFoil: {
       say: 'Escuché tubo, el del laboratorio. La ka del cubo nace atrás, en la cueva: cubo.',
@@ -163,7 +163,7 @@ export const MINIMAL_PAIRS: MinimalPair[] = [
     prompt: 'Di: boca.',
     onTarget: {
       say: '¡Boca! ¡Qué bien suena esa ka en medio!',
-      mission: 'Cuenta-dientes: sonrisa gigante de papá y el niño le cuenta cinco dientes con el dedo. Luego, al revés.',
+      mission: 'Cuenta-dientes: sonrisa gigante del adulto y el niño le cuenta cinco dientes con el dedo. Luego, al revés.',
     },
     onFoil: {
       say: 'Escuché bota, la del pie. Boca suena atrás: boca.',
@@ -178,12 +178,12 @@ export const MINIMAL_PAIRS: MinimalPair[] = [
     prompt: 'Di: fuente.',
     onTarget: {
       say: '¡Fuente! ¡Ese soplido de conejo moja todo!',
-      mission: 'Fuente humana: agáchate y brota hacia arriba salpicando a papá, que se sacude el pelo empapado.',
+      mission: 'Fuente humana: agáchate y brota hacia arriba salpicando al adulto, que se sacude el pelo empapado.',
     },
     onFoil: {
       say: 'Escuché puente, el de cruzar. La efe muerde el labio y sopla: fuente.',
       cue: 'Dientes de conejo sobre el labio de abajo, y sopla.',
-      mission: 'El papel volador: papelito en la palma de papá. Con fff se inclina y aguanta; con pe solo da un salto. Reto: tres segundos volando.',
+      mission: 'El papel volador: papelito en la palma del adulto. Con fff se inclina y aguanta; con pe solo da un salto. Reto: tres segundos volando.',
     },
   },
   // --------------------------------------------------------------------------
@@ -235,7 +235,7 @@ export const MINIMAL_PAIRS: MinimalPair[] = [
     onFoil: {
       say: 'Escuché boca, la de los besos. La foca sopla con los dientes en el labio: foca.',
       cue: 'Dientes de conejo sobre el labio de abajo, y aire largo: fff.',
-      mission: 'Viento en la mano: palma de papá delante de la boca del niño. Con fff hay brisa seguida; con be, solo un golpecito.',
+      mission: 'Viento en la mano: palma del adulto delante de la boca del niño. Con fff hay brisa seguida; con be, solo un golpecito.',
     },
   },
   {

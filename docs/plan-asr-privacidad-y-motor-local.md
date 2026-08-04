@@ -307,6 +307,21 @@ Ese es el criterio de que la fase está bien hecha.
 > gastarle intentos y estrellas al niño por tropiezos del reconocedor. Es un
 > invariante clínico (§1.3): se traduce con una tabla explícita y se verifica
 > provocando ambos casos a mano antes de cerrar la fase.
+>
+> ❌ **Y se hizo mal. R9 se materializó** (corregido el 2026-08-04). La migración
+> tradujo el PAR `{6, 7}` a un solo código, `'no-speech'`, afirmando en el
+> comentario que era "el equivalente exacto". No lo es: `'no-speech'` es el 7, y
+> el 6 se llama **`'speech-timeout'`** en esta librería —se ve en
+> `getErrorInfo()` del módulo Android—. El 6 es justo el caso de ES-04: el niño
+> que tarda en arrancar y al que el motor cierra la ventana antes de que diga
+> nada. Al quedar fuera, se contaba como fallo del NIÑO: mensaje seco («No se
+> pudo escuchar»), Expansión Semántica saltando al juicio del adulto en vez de
+> re-modelar, y el contador de `noMatch` sin registrar nada — con lo que el
+> propio umbral de §3.6 se estaba midiendo sobre una cifra incompleta.
+>
+> La lección para la próxima tabla de traducción: **no basta con enumerar los
+> códigos de origen; hay que enumerar los de destino y comprobar que la
+> aplicación es exhaustiva en ambos sentidos.**
 
 ### 3.3 A.2 · Política de degradación, **por locale**
 
@@ -331,6 +346,21 @@ Flujo, evaluado **para el locale activo** en cada sesión (`probeLocale()` en
    sirve para que la voz del menor no salga del teléfono.
 6. Si declina o no está disponible → **se sigue con el motor de red, como hoy**, y
    se registra `modo=red`. No se rompe el ejercicio por privacidad.
+7. **Si se pidió local y el reconocedor local no arranca** → se reintenta la misma
+   escucha con el motor de red y la variedad queda degradada a `red` durante el
+   resto de la sesión (`localDemoted` en `valeriaVoice.ts`). Se registra
+   `modo=red` y el bloque del adulto lo dice con esas palabras.
+
+> **El paso 7 faltaba, y su ausencia era un callejón sin salida.** Los pasos 1-3
+> preguntan al sistema; el sistema puede contestar que sí y luego el motor local
+> no servir en ese aparato (`language-not-supported` con el paquete figurando
+> instalado, `client` al crear el reconocedor on-device). Sin salida, cada escucha
+> repetía la misma petición, fallaba igual y el niño oía siempre lo mismo: que no
+> se le escucha. El reintento solo se hace si el micrófono **no llegó a abrirse**
+> (no hubo evento `start` ni parciales): así no se le pide al niño repetir una
+> palabra que ya dijo. Es el mismo criterio del paso 6 —un ejercicio roto por
+> privacidad es peor que el problema que se quería resolver— aplicado al caso en
+> el que el sistema promete lo que luego no cumple.
 
 > **Dos límites del sistema que conviene tener escritos**, porque explican
 > resultados que si no parecen fallos de la app:
@@ -721,7 +751,8 @@ Para que no se cuele por la puerta de atrás:
 | R6 | `react-native-sherpa-onnx-stt` está en v0.2.2, muy temprana | Alta | Medio | Solo afecta a la Fase B, que es un experimento; si no sirve, se mide con el binario nativo de sherpa-onnx |
 | R7 | El corpus de audio infantil se filtra al repositorio | Baja | **Crítico** | ✅ Mitigado: `.gitignore` + `check-asr-capture-guard.js` en el CI + doble condición `__DEV__`/variable + aviso en pantalla; nunca en `site/`; seudonimización (§4.2) |
 | R8 | La migración rompe un ejercicio en producción | Media | Alto | El contrato de `startListening`/`matchPair` no cambia; los tres ejercicios son criterio de aceptación (§3.6) |
-| **R9** | **La traducción de `NO_MATCH_CODES` se hace mal y rompe ES-04** | **Media** | **Alto** | Tabla de traducción explícita + verificación manual de ambos casos antes de cerrar (§3.2) |
+| **R9** | **La traducción de `NO_MATCH_CODES` se hace mal y rompe ES-04** | ~~Media~~ · **OCURRIÓ** (2026-08-03 → corregido 2026-08-04) | **Alto** | Tabla de traducción explícita + verificación manual de ambos casos antes de cerrar (§3.2). La verificación quedó pendiente y el defecto llegó a la app: faltaba `'speech-timeout'` (§3.2) |
+| **R11** | **Se pide el motor local, el sistema dice que sí y el motor no arranca**: sin salida, la variedad queda atascada y toda escucha falla igual | Media | **Alto** | Paso 7 de §3.3: reintento en red dentro de la misma escucha + degradación por variedad y sesión |
 | **R10** | **`gl`/`eu` se degradan al forzar local por no tener paquete de idioma** | **Alta** | **Medio** | Política por locale (§3.3); la promesa pública se redacta por variedad (§7) |
 | **R11** | **Una familia declina firmar el día de la grabación** | Media | Bajo | Previsto en §4.2: sesión normal sin grabación, sin presión implícita |
 | **R12** | ~~El árbitro no ve el contraste: 25 de 35 pares mínimos puntúan el distractor como acierto~~ → **Resuelto** (§4.0, D7) | — | — | O2 implementado en `matchPair`; `--audit-pairs` da 0 de 35 pares ciegos y `--selftest` lo fija como aserción para que no vuelva. Queda confirmar el precio en sesión real |
@@ -788,7 +819,10 @@ datos de A delante y no antes.
 - [x] **D1 · mecanismo decidido** → migrar a `@jamsch/expo-speech-recognition`
 - [x] Sustituir la dependencia (`package.json`, `app.json`, retirar `withJetifier` y `withSpeechRecognitionQueries`)
 - [x] Reescribir el bloque ASR de `valeriaVoice.ts` conservando ES-04 y el contrato
-- [x] Traducir `NO_MATCH_CODES` con tabla explícita — ⏳ **falta verificar ambos casos a mano en dispositivo** (R9)
+- [x] Traducir `NO_MATCH_CODES` con tabla explícita — ❌ salió mal y se corrigió el
+      2026-08-04 (faltaba `'speech-timeout'`, el antiguo código 6); ⏳ **sigue
+      faltando verificar ambos casos a mano en dispositivo** (R9)
+- [x] Paso 7 de §3.3 · salida cuando el reconocedor local no arranca (R11)
 - [x] Implementar la política de degradación **por locale** (§3.3)
 - [x] Añadir `asrOfflineStatus()` y la telemetría de modo
 - [x] **D2 · ofrecer la descarga del paquete**, una vez y explícita (§3.3)

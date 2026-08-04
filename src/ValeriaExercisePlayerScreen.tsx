@@ -182,6 +182,39 @@ const ZoomModal: React.FC<{ emoji: string; cap: string; visible: boolean; onClos
 };
 
 // ----------------------------------------------------------------------------
+// Chuleta del adulto (RA-2 · lectura labiofacial)
+// El adulto tiene que pronunciar la palabra SIN VOZ. Para saber cuál era, la
+// única vía era pulsar «oír la palabra» delante del niño — y oírla resuelve la
+// tarea, que consiste precisamente en no oírla. Aquí la palabra se le da por
+// escrito, PLEGADA: se abre apartando la pantalla, se lee y se vuelve a cerrar.
+// Empieza cerrada siempre (no recuerda el estado entre ejercicios) porque el
+// riesgo no es la incomodidad de un toque, es que quede abierta sin querer.
+// ----------------------------------------------------------------------------
+const AdultOnlyPrompt: React.FC<{ word: string }> = ({ word }) => {
+  const [shown, setShown] = useState(false);
+  useEffect(() => { setShown(false); }, [word]);
+  return (
+    <View style={s.adultOnlyCard}>
+      <Pressable
+        onPress={() => setShown((v) => !v)}
+        accessibilityRole="button"
+        accessibilityLabel={shown ? 'Ocultar la palabra que debes pronunciar' : 'Ver la palabra que debes pronunciar, sin enseñar la pantalla al niño'}
+        style={s.adultOnlyHead}
+      >
+        <Text style={{ fontSize: 15 }}>{shown ? '🙉' : '🙈'}</Text>
+        <View style={{ flex: 1 }}>
+          <Text style={s.adultOnlyKicker}>SOLO PARA EL ADULTO</Text>
+          <Text style={s.adultOnlySub}>
+            {shown ? 'Aparta la pantalla del niño. Toca para volver a ocultarla.' : 'Toca para ver qué palabra tienes que decir sin voz.'}
+          </Text>
+        </View>
+      </Pressable>
+      {shown && <Text style={s.adultOnlyWord}>{word}</Text>}
+    </View>
+  );
+};
+
+// ----------------------------------------------------------------------------
 // Confeti ligero: piezas emoji que caen al completar la sesión.
 // ----------------------------------------------------------------------------
 const CONFETTI = ['🎉', '⭐', '🎊', '✨', '💚', '🌟'];
@@ -307,6 +340,9 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
   const [patientName, setPatientName] = useState('');
 
   const baseEx = db[sessionIds[idx]] ?? db.ff1;
+  // Siguiente ejercicio de la sesión (undefined en el último): lo consume la
+  // tarjeta de anticipación de la transición.
+  const nextEx = idx + 1 < sessionIds.length ? db[sessionIds[idx + 1]] : undefined;
   const variants = variantsMap[sessionIds[idx]] ?? [];
   const totalRounds = variants.length;
   // Ejercicio efectivo de la ronda actual: los campos de la variante pisan a los base.
@@ -682,6 +718,22 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                   <Text style={s.materialsKicker}>ANTES DE EMPEZAR · NECESITARÁS</Text>
                   <Text style={s.materialsTxt}>{ex.materials}</Text>
                 </View>
+              </View>
+            )}
+
+            {/* Otras formas de hacer la MISMA actividad. Repetida siempre igual,
+                el niño anticipa la respuesta y la ejecuta de forma mecánica
+                (ACOPROS): con esto el adulto puede alternar entre sesiones sin
+                cambiar de ejercicio ni de objetivo. */}
+            {!!ex.proposals?.length && (
+              <View style={s.proposalsCard}>
+                <Text style={s.proposalsKicker}>🔀 OTRAS FORMAS DE HACERLA · ALTERNA ENTRE SESIONES</Text>
+                {ex.proposals.map((p) => (
+                  <View key={p} style={s.proposalRow}>
+                    <Text style={s.proposalDot}>·</Text>
+                    <Text style={s.proposalTxt}>{p}</Text>
+                  </View>
+                ))}
               </View>
             )}
 
@@ -1096,6 +1148,21 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                       voice={ex.choiceVoice === 'slow' ? 'slow' : 'tutor'}
                     />
                   </View>
+
+                  {/* SE-2 · la adivinanza también se puede LEER: hasta ahora solo
+                      se podía oír, y el adulto que quería repetirla con sus
+                      palabras tenía que reproducir el audio para saber qué decía. */}
+                  {ex.promptDisplay === 'visible' && (
+                    <View style={s.promptTextCard}>
+                      <Text style={s.promptTextKicker}>TEXTO · PUEDES LEERLO TÚ EN VOZ ALTA</Text>
+                      <Text style={s.promptTextTxt}>«{ex.choicePrompt}»</Text>
+                    </View>
+                  )}
+
+                  {/* RA-2 · el adulto tiene que decir la palabra SIN VOZ. Saberla
+                      exigía reproducir el audio delante del niño, que es
+                      exactamente lo que invalida la lectura labiofacial. */}
+                  {ex.promptDisplay === 'adulto' && <AdultOnlyPrompt word={ex.choicePrompt!} />}
                   <AnswerTileGrid
                     tiles={ex.options!}
                     answer={ex.optionAnswer!}
@@ -1370,6 +1437,22 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
               })}
             </View>
 
+            {/* Anticipación de la transición (ACOPROS, sobre M-6): al puntuar se
+                pasa al ejercicio siguiente de golpe, y el cambio sin avisar es
+                justo lo que descoloca a los niños que peor llevan las
+                transiciones. Se enseña qué viene ANTES de tocar la puntuación,
+                para que el adulto pueda anunciarlo. Vale para toda la sesión, no
+                solo para M-6: es el mismo problema en cualquier bloque. */}
+            {!!nextEx && (
+              <View style={s.nextUpCard}>
+                <Text style={{ fontSize: 16 }}>➡️</Text>
+                <View style={{ flex: 1 }}>
+                  <Text style={s.nextUpKicker}>A CONTINUACIÓN · ANÚNCIASELO ANTES DE CAMBIAR</Text>
+                  <Text style={s.nextUpTxt}>{nextEx.code} · {nextEx.name}</Text>
+                </View>
+              </View>
+            )}
+
             {/* ===== Panel del adulto · caos comunicativo (Fase 2) ===== */}
             <ValeriaAdultChaosPanel
               distractorOn={distractorOn}
@@ -1502,6 +1585,26 @@ const s = StyleSheet.create({
   materialsCard: { flexDirection: 'row', alignItems: 'center', gap: 11, backgroundColor: '#fffbeb', borderColor: '#f4e6b8', borderWidth: 1.5, borderRadius: 16, padding: 13, marginBottom: 12 },
   materialsKicker: { fontSize: 10.5, fontWeight: '800', letterSpacing: 0.6, color: '#92711a' },
   materialsTxt: { fontSize: 13, fontWeight: '700', color: '#7c4a0e', marginTop: 3, lineHeight: 18 },
+
+  nextUpCard: { flexDirection: 'row', alignItems: 'center', gap: 10, backgroundColor: V.color.pageBg, borderColor: V.color.border, borderWidth: 1, borderRadius: 14, padding: 12, marginTop: 12 },
+  nextUpKicker: { fontSize: 10, fontWeight: '800', letterSpacing: 0.5, color: V.color.textMuted },
+  nextUpTxt: { fontSize: 13, fontWeight: '800', color: V.color.textPrimary, marginTop: 3 },
+
+  proposalsCard: { backgroundColor: '#f5f0ff', borderColor: '#ddccfa', borderWidth: 1.5, borderRadius: 16, padding: 13, marginBottom: 12 },
+  proposalsKicker: { fontSize: 10.5, fontWeight: '800', letterSpacing: 0.5, color: '#6d3fc4', marginBottom: 7 },
+  proposalRow: { flexDirection: 'row', gap: 7, marginTop: 4 },
+  proposalDot: { fontSize: 13, fontWeight: '800', color: '#7c4fd0', lineHeight: 18 },
+  proposalTxt: { flex: 1, fontSize: 12.5, fontWeight: '600', color: V.color.textSecondary, lineHeight: 18 },
+
+  promptTextCard: { backgroundColor: V.color.pageBg, borderColor: V.color.border, borderWidth: 1, borderRadius: 13, padding: 11, marginBottom: 12 },
+  promptTextKicker: { fontSize: 10, fontWeight: '800', letterSpacing: 0.5, color: V.color.textMuted },
+  promptTextTxt: { fontSize: 14.5, fontWeight: '700', color: V.color.textPrimary, marginTop: 4, lineHeight: 21 },
+
+  adultOnlyCard: { backgroundColor: '#fff', borderColor: V.color.border, borderWidth: 1.5, borderStyle: 'dashed', borderRadius: 13, padding: 11, marginBottom: 12 },
+  adultOnlyHead: { flexDirection: 'row', alignItems: 'center', gap: 9 },
+  adultOnlyKicker: { fontSize: 10, fontWeight: '800', letterSpacing: 0.5, color: V.color.textMuted },
+  adultOnlySub: { fontSize: 11.5, fontWeight: '600', color: V.color.textSecondary, marginTop: 2, lineHeight: 16 },
+  adultOnlyWord: { fontSize: 26, fontWeight: '800', color: V.color.textPrimary, textAlign: 'center', marginTop: 10, letterSpacing: 1 },
 
   instructionCard: { backgroundColor: V.color.primaryTint, borderColor: '#b8eee9', borderWidth: 1.5, borderRadius: 18, padding: 16, ...V.shadow.card },
   instructionHead: { flexDirection: 'row', alignItems: 'center', gap: 10 },
