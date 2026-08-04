@@ -10,9 +10,11 @@
 >   **Es una medición, no una integración**: termina en una cifra y una decisión
 >   GO/NO-GO, no en una app.
 >
-> **El adulto sigue siendo el juez final en todo momento.** Ninguna de las dos
-> fases toca `matchPair`/`matchExpected` ni el pliegue dialectal: el motor solo
-> aporta la hipótesis de texto; quién decide el veredicto no cambia.
+> **El adulto sigue siendo el juez final en todo momento.** El motor solo aporta
+> la hipótesis de texto; quién decide el veredicto no cambia. `matchExpected` y el
+> pliegue dialectal siguen intactos; `matchPair` **sí cambió**, pero no por la
+> migración de motor: la Fase B destapó que no veía el contraste de 25 de los 35
+> pares, y se corrigió con D7 (§4.0). No es aflojar el umbral, es lo contrario.
 >
 > Origen: evaluación del documento externo *"Integración del Motor STT Local
 > (Distilled YODAS Spanish)"*, cuya premisa central resultó ser falsa (§2.5).
@@ -35,13 +37,15 @@
 > ACOPROS: la inspección de tráfico, los dos casos de `noMatch` a mano, la
 > medida contra la línea base y el **umbral clínico** de la puerta (§3.6, D6).
 >
-> **Fase B: 🔴 lanzada (D5) y frenada en seco por su primer hallazgo.** La
+> **Fase B: 🟠 lanzada (D5), y su primer hallazgo ya corregido.** La
 > infraestructura está construida y probada —candado de captura de corpus con
-> gate en CI, y banco de medida con autoprueba—, pero lo primero que se midió
-> fue el propio árbitro: **25 de los 35 pares mínimos puntúan como acierto que
-> el niño diga el distractor**, con transcripción perfecta y sin motor de por
-> medio (§4.0). Hasta resolver eso (D7, con ACOPROS) grabar el corpus rinde
-> mucho menos de lo que cuesta.
+> gate en CI, y banco de medida con autoprueba—, y lo primero que midió fue el
+> propio árbitro: **25 de los 35 pares mínimos puntuaban como acierto que el niño
+> dijera el distractor**, con transcripción perfecta y sin motor de por medio.
+> **D7 se cerró con O2** (vecino más cercano) sobre cifras medidas, no sobre
+> intuiciones (§4.0 y [`d7-simulacion-contraste.md`](d7-simulacion-contraste.md)):
+> hoy la auditoría da **0 de 35 pares ciegos**. Queda confirmar el precio con
+> logopedas y grabar el corpus.
 >
 > Rama de trabajo: `claude/new-voice-recognition-0rcwl9` (continúa
 > `claude/valeria-voice-recognition-mva9qq`).
@@ -94,7 +98,7 @@ superar un umbral antes de entrar.
 | El adulto corrige siempre el veredicto del STT | `ValeriaMinimalPairsScreen.tsx:15`, `:559`, `:850` |
 | Sin ASR, la pantalla oculta el micro y el adulto juzga con botones | `ValeriaMinimalPairsScreen.tsx:21`, `asrSupported()` en `valeriaVoice.ts:437` |
 | El pliegue dialectal se aplica a la hipótesis, venga del motor que venga | `foldDominican` (`:687`), `foldBasque` (`:702`) |
-| El umbral de aceptación fonética es materia clínica y no se afloja | `matchPair` (`:750`), `matchExpected` (`:760`) |
+| El umbral de aceptación fonética es materia clínica y no se afloja | `matchPair`, `matchExpected`. D7 lo **apretó** en `matchPair` (§4.0) con cifras medidas y decisión de Frank; `matchExpected` sigue igual |
 | La ventana de escucha ES-04 (3 s de silencio) es un requisito de logopedas | `ANDROID_LISTEN_EXTRAS` (`:527`) |
 | La distinción `noMatch` —fallo del motor ≠ fallo del niño— no se pierde | `NO_MATCH_ERRORS` (`:556`), `ListenCallbacks.onError` |
 | **Nunca se sesga el reconocedor hacia la palabra objetivo** | §3.4 |
@@ -419,7 +423,7 @@ opcional, por defecto apagado"** y se documenta. No se fuerza.
 **Naturaleza de esta fase: es un experimento con puerta de decisión.** Termina en
 una tabla de números y un GO/NO-GO. No termina en una funcionalidad de la app.
 
-### 4.0 B.−1 · El hallazgo que condiciona la Fase B — 🔴 abierto (2026-08-04)
+### 4.0 B.−1 · El hallazgo que condicionaba la Fase B — ✅ resuelto (2026-08-04)
 
 Igual que la Fase A empezó descubriendo que la palanca elegida no hacía nada
 (§2.2), la Fase B empieza descubriendo que **el árbitro no ve el contraste que
@@ -456,12 +460,20 @@ puerta §4.7 daría un GO que no significa nada. **Grabar el corpus antes de
 resolver esto es gastar la sesión de grabación —y el consentimiento— en un banco
 de medida que no puede discriminar.**
 
-**Por qué no se ha tocado aquí.** El umbral de aceptación fonética es materia
-clínica (§1.3) y apretarlo tiene un coste real y previsible: más falsos «no te
-escuché» por sesión, que es exactamente la magnitud que D6 tiene que fijar con
-ACOPROS. Cambiarlo por iniciativa técnica sería el mismo error que este plan
-documenta en su nota de método. Queda como **D7**, y va en la misma conversación
-que D6.
+**Cómo se resolvió.** No por iniciativa técnica —eso habría sido el mismo error
+que este plan documenta en su nota de método— sino midiendo las salidas posibles
+y llevándole las cifras a Frank, que eligió **O2 · vecino más cercano** el
+2026-08-04. En vez de decidir por umbral, `matchPair` mide la distancia de lo
+oído a las dos palabras y **gana la más próxima**; el empate devuelve `close`,
+porque un empate es literalmente que el texto no distingue y ahí el juez es el
+adulto. `matchTarget` y `matchExpected` **no se tocaron**: los usan el juego de
+micrófono, la Expansión Semántica y el Test de Ling, que no tienen distractor.
+
+**Resultado:** la auditoría pasa de 25 pares ciegos a **0 de 35**. El precio
+aceptado, medido sobre 157 producciones aproximadas: las que puntuaban acierto
+bajan de 116 a 59 y 97 pasan a «casi» —una estrella y un reintento—. **Ninguna
+aproximación se envía a la rama de error**: nunca se le dice a un niño que dijo
+la otra palabra por haber articulado de forma aproximada.
 
 Lo que sí queda hecho: la comprobación es **ejecutable y repetible**, y la
 autoprueba del banco (`--selftest`) fija el comportamiento actual como aserción,
@@ -712,7 +724,7 @@ Para que no se cuele por la puerta de atrás:
 | **R9** | **La traducción de `NO_MATCH_CODES` se hace mal y rompe ES-04** | **Media** | **Alto** | Tabla de traducción explícita + verificación manual de ambos casos antes de cerrar (§3.2) |
 | **R10** | **`gl`/`eu` se degradan al forzar local por no tener paquete de idioma** | **Alta** | **Medio** | Política por locale (§3.3); la promesa pública se redacta por variedad (§7) |
 | **R11** | **Una familia declina firmar el día de la grabación** | Media | Bajo | Previsto en §4.2: sesión normal sin grabación, sin presión implícita |
-| **R12** | **El árbitro no ve el contraste: 25 de 35 pares mínimos puntúan el distractor como acierto** (§4.0) | **Confirmada** | **Crítico** | Detectado y medido con `--audit-pairs`; fijado como aserción en `--selftest`. **Bloquea la utilidad de la Fase B**: sin resolverlo, la línea base arregla la palabra ella sola y la puerta §4.7 daría un GO vacío. Es D7, materia de ACOPROS junto con D6 |
+| **R12** | ~~El árbitro no ve el contraste: 25 de 35 pares mínimos puntúan el distractor como acierto~~ → **Resuelto** (§4.0, D7) | — | — | O2 implementado en `matchPair`; `--audit-pairs` da 0 de 35 pares ciegos y `--selftest` lo fija como aserción para que no vuelva. Queda confirmar el precio en sesión real |
 
 ---
 
@@ -751,13 +763,13 @@ toca.
 | **D1** | Mecanismo de la Fase A | **Migrar a `expo-speech-recognition@3.1.3`** (§3.1). Ejecutado. El riesgo pre-1.0 que se aceptó resultó no existir: la librería decidida estaba deprecada y su sucesora mantenida ya va por 3.x | 2026-08-03 |
 | **D3** | Consentimiento del corpus | **Listo**, firma en papel el día de la grabación (§4.2). Desbloquea la Fase B y permite validar la Fase A con rigor | 2026-08-03 |
 | **D5** | ¿Se lanza la Fase B? | **Sí**, por decisión de Frank, sin esperar a los datos de la Fase A. Se ha construido toda la infraestructura de medida; la primera cosa que ha medido es el propio árbitro, y ha salido D7 (§4.0) | 2026-08-04 |
+| **D7** | El umbral fonético se comía el contraste de 25 de 35 pares mínimos (§4.0) | **O2 · vecino más cercano.** Elegida por Frank sobre las cifras de [`d7-simulacion-contraste.md`](d7-simulacion-contraste.md). O1 quedaba dominada por O2; O3 exigía rehacer 30 pares, incluidos contrastes clínicos estándar; O4 sigue disponible si O2 se queda corto. Auditoría: 0 de 35 pares ciegos | 2026-08-04 |
 | **D2** | ¿Ofrecer la descarga del paquete de idioma? | **Sí, una vez y de forma explícita** (§3.3). Sin ofrecerla, castellano se quedaría en red en todos los móviles que no traigan el paquete de fábrica y la Fase A se perdería en el 90 % de los casos por un motivo evitable. Si el adulto declina, se recuerda por variedad y no se vuelve a insistir | 2026-08-04 |
 
 ### Abiertas
 
 | # | Decisión | Quién | Bloquea |
 | --- | --- | --- | --- |
-| **D7** | **El umbral fonético se come el contraste de 25 de 35 pares mínimos** (§4.0). Opciones simuladas y medidas en [`d7-simulacion-contraste.md`](d7-simulacion-contraste.md): **O2** (vecino más cercano, coste = 57 aciertos que pasan a «casi») u **O4** (exactitud + ~157 aproximaciones escritas a mano). O1 está dominada; O3 exige rehacer 30 pares | ACOPROS + Frank | **La utilidad de la Fase B.** Grabar el corpus antes de resolverlo desperdicia la sesión |
 | **D6** | **Umbral clínico**: ¿cuántos `noMatch` de más por sesión son tolerables? (§3.6) | ACOPROS | **Cerrar** la Fase A. No impide empezar |
 | D4 | ¿Local por defecto, o *opt-in* del adulto? | Tras los datos de §3.6 | Cierre de la Fase A |
 
@@ -799,8 +811,8 @@ datos de A delante y no antes.
 - [x] Banco de medida en escritorio: `scripts/asr-bench.js`, con autoprueba
 - [x] Auditoría del árbitro (`--audit-pairs`) — **y ha encontrado D7/R12** (§4.0)
 - [x] Simular y medir las salidas de D7 → [`d7-simulacion-contraste.md`](d7-simulacion-contraste.md)
-- [ ] 🔴 **D7 · llevar esas cifras a ACOPROS y elegir entre O2 y O4.** Todo lo de abajo depende de esto: sin árbitro que distinga, el corpus mide poco
-- [ ] Implementar la opción elegida en `matchPair` (+ el campo de aproximaciones si es O4)
+- [x] **D7 cerrada con O2** e implementada en `matchPair`; auditoría en 0 de 35 pares ciegos
+- [ ] Confirmar con ACOPROS el precio de O2 en sesión real (97 «casi» de más es estimación, no observación) y qué hacer con los empates
 - [ ] Sesión de grabación: firma previa, seudonimización, plan para quien declina
 - [ ] Etiquetar el corpus con el juicio del adulto (§4.3) en el formato del manifiesto
 - [ ] Transcribir el corpus con cada candidato y volcarlo al formato de hipótesis

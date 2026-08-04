@@ -871,15 +871,80 @@ export type MatchLevel = 0 | 1 | 2; // 0 = no coincide · 1 = casi · 2 = ¡lo d
 // Evaluación de PAR MÍNIMO: los pares se eligen para que el error de
 // sustitución habitual produzca exactamente la otra palabra del par (rotacismo:
 // pido "rana" → dice /lána/ → el ASR capta "lana"). Detectar el error es, por
-// tanto, reconocer la palabra contraria. El objetivo solo puntúa con
-// coincidencia exacta (nivel 2) para mitigar la autocorrección del ASR hacia
-// palabras frecuentes; el padre siempre puede corregir el veredicto en la UI.
+// tanto, reconocer la palabra contraria.
 export type PairResult = 'target' | 'foil' | 'close' | 'none';
 
+// D7 · Desambiguación por VECINO MÁS CERCANO (decidida el 2026-08-04).
+//
+// La versión anterior preguntaba `matchTarget(…, target) === 2` y, solo si
+// fallaba, miraba el distractor. Como `matchTarget` concede el nivel 2 con hasta
+// UNA letra de diferencia por palabra, en todo par que se diferencie en una sola
+// letra —rana/lana, cubo/tubo, boca/bota, miel/piel— decir el distractor
+// puntuaba como acierto y la rama del distractor no se alcanzaba nunca.
+// Afectaba a 25 de los 35 pares de los cuatro bancos, con transcripción perfecta
+// y sin motor de por medio: el ejercicio no podía detectar el error que existe
+// para detectar.
+//
+// La regla de ahora no elige por umbral sino por CERCANÍA RELATIVA: se mide la
+// distancia de lo oído a las dos palabras y gana la más próxima. El empate no se
+// resuelve a favor de nadie —devuelve 'close'— porque un empate es literalmente
+// que el texto no permite distinguir, y ahí el juez es el adulto.
+//
+// Lo que esto cuesta, medido y aceptado (docs/d7-simulacion-contraste.md, sobre
+// las 1619 aproximaciones ya validadas de `stt_expected_array`): de 157
+// producciones aproximadas del objetivo, las que puntuaban acierto pasan de 116
+// a 59; 97 pasan a 'close', que cuesta una estrella y un reintento. A cambio,
+// los 35 contrastes se recuperan y **ninguna aproximación se envía a la rama de
+// error**: nunca se le dice a un niño que dijo la otra palabra por haber
+// articulado de forma aproximada.
+//
+// Se cambia SOLO aquí. `matchTarget` y `matchExpected` quedan intactos: los usan
+// el juego de micrófono, la Expansión Semántica y el Test de Ling, que no tienen
+// distractor y para los que la tolerancia sigue siendo lo correcto.
+//
+// Distancia de lo oído a una palabra, con la misma forma que usa `matchTarget`:
+//   0        el objetivo aparece literal (o como palabra suelta de la frase)
+//   n        cada palabra del objetivo tiene una a n letras como mucho
+//   Infinity ni eso
+// Nota: aquí no se aplica el guardián `length > 3` de `matchTarget`, así que en
+// palabras de tres letras o menos esto tolera una letra donde antes exigía
+// exactitud. Es seguro precisamente por la desambiguación: el distractor se mide
+// con la misma vara, y si queda igual de cerca el resultado es 'close', no un
+// veredicto inventado.
+const pairDistance = (alternatives: string[], word: string): number => {
+  const t = normalizeSpeech(word);
+  if (!t) return Infinity;
+  const tWords = t.split(' ');
+  let best = Infinity;
+  for (const alt of alternatives) {
+    const h = normalizeSpeech(alt);
+    if (!h) continue;
+    if (h === t || h.includes(t)) return 0;
+    const hWords = h.split(' ');
+    // La palabra del objetivo PEOR emparejada manda: si una no aparece, no vale.
+    let worst = 0;
+    for (const tw of tWords) {
+      let d = Infinity;
+      for (const hw of hWords) d = Math.min(d, editDistance(hw, tw));
+      worst = Math.max(worst, d);
+    }
+    best = Math.min(best, worst);
+  }
+  return best;
+};
+
 export function matchPair(alternatives: string[], target: string, foil: string): PairResult {
-  if (matchTarget(alternatives, target) === 2) return 'target';
-  if (matchTarget(alternatives, foil) === 2) return 'foil';
-  return matchTarget(alternatives, target) === 1 ? 'close' : 'none';
+  const dt = pairDistance(alternatives, target);
+  const df = pairDistance(alternatives, foil);
+
+  if (dt === 0) return 'target';
+  if (df === 0) return 'foil';
+  if (dt <= 1 && dt < df) return 'target';
+  if (df <= 1 && df < dt) return 'foil';
+  // Empate a un fonema de distancia: el texto no distingue. Que lo resuelva el
+  // adulto, y que al niño se le diga "casi" en vez de acusarle de nada.
+  if (dt <= 1 && dt === df) return 'close';
+  return matchTarget(alternatives, target) >= 1 ? 'close' : 'none';
 }
 
 // Evaluación contra una LISTA de strings válidos (stt_expected_array de la

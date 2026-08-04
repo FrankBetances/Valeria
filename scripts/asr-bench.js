@@ -420,9 +420,9 @@ function selftest(app) {
       // Variedad dominicana: la elisión de /s/ en coda es rasgo dialectal, no
       // error, y el pliegue tiene que hacer equivalentes "las casas"/"la casa".
       { id: 'T5', locale: 'es-DO', target: 'las casas', adultVerdict: 'la casa', durationSec: 1 },
-      // Par de UNA letra de diferencia: el matcher NO lo distingue. Se deja aquí
-      // deliberadamente para que la autoprueba documente ese comportamiento en
-      // vez de esconderlo. Ver auditPairs().
+      // Par de UNA letra de diferencia. Hasta D7 (2026-08-04) el matcher NO lo
+      // distinguía y esta aserción documentaba el fallo; desde que `matchPair`
+      // desambigua por vecino más cercano, decir el distractor se detecta.
       { id: 'T6', locale: 'es', target: 'rana', foil: 'lana', adultVerdict: 'lana', durationSec: 1 },
     ],
   };
@@ -459,10 +459,10 @@ function selftest(app) {
   comprobar(Math.abs(P.rtf - 0.2) < 1e-9, 'El RTF se calcula como inferencia / duración (0.2)');
 
   comprobar(corpus.items.length === P.n, 'Se puntúan todos los enunciados del corpus');
-  comprobar(P.erroredN === 2 && P.correctN === 4,
-    'El corpus se parte en 2 producciones erróneas (T3, T4) y 4 tenidas por correctas (T1, T2, T5 y —mal— T6)');
+  comprobar(P.erroredN === 3 && P.correctN === 3,
+    'El corpus se parte en 3 producciones erróneas (T3, T4, T6) y 3 correctas (T1, T2, T5)');
 
-  comprobar(A.contrastFP === 2 && A.contrastFPRate === 100,
+  comprobar(A.contrastFP === 3 && A.contrastFPRate === 100,
     'El «arreglador» fabrica falsos positivos en el 100 % de las producciones erróneas — es el riesgo R1');
   comprobar(A.verdictAccuracy < P.verdictAccuracy, 'El «arreglador» acierta menos veredictos que el perfecto');
   comprobar(A.falseNeg === 0, 'El «arreglador» no produce falsos negativos: su defecto es el contrario');
@@ -482,12 +482,18 @@ function selftest(app) {
   comprobar(E.perItem[0].reference !== 'target',
     'El pliegue NO se aplica en castellano: «la casa» no acierta «las casas» fuera de es-DO');
 
-  // Comportamiento conocido, no deseado, y por eso escrito como aserción: si
-  // algún día alguien aprieta el umbral fonético, esta línea fallará y hará
-  // falta mirar `--audit-pairs` y actualizar el plan. Es la señal, no el error.
+  // D7 · el contraste de un solo fonema se detecta. Esta línea era la que
+  // documentaba el fallo antes del 2026-08-04; ahora vigila que no vuelva.
   const t6 = P.perItem.find((i) => i.id === 'T6');
-  comprobar(t6.reference === 'target',
-    'CONOCIDO: en pares de UNA letra (rana/lana) decir el distractor puntúa como acierto — ver --audit-pairs');
+  comprobar(t6.reference === 'foil',
+    'D7: en pares de UNA letra (rana/lana) decir el distractor se detecta como error, no como acierto');
+
+  // Y el reverso: la desambiguación no puede haberse llevado por delante la
+  // tolerancia con habla aproximada que no es el distractor.
+  const aprox = { corpus: 'x', items: [{ id: 'A1', locale: 'es', target: 'rana', foil: 'lana', adultVerdict: 'rana', durationSec: 1 }] };
+  const Ap = scoreEngine(app, aprox, { engine: 'p', items: { A1: { alternatives: ['ana'], inferSec: 0.1 } } });
+  comprobar(Ap.perItem[0].engine !== 'foil',
+    'D7: una aproximación del objetivo («ana» por «rana») nunca se atribuye al distractor');
 
   console.log(`\n${fallos ? '✗' : '✓'} Autoprueba del banco: ${fallos} fallo(s).`);
   return fallos;

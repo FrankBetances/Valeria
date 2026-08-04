@@ -631,18 +631,36 @@ motor «arregló» la palabra—. Para no medir otra app, el banco carga la lóg
 de `valeriaVoice.ts` (compilada con `tsc`, con los módulos nativos sustituidos por
 maniquíes) en vez de reimplementar el matcher.
 
-> ⚠️ `--audit-pairs` ya ha encontrado algo: **25 de los 35 pares mínimos puntúan
-> como acierto que el niño diga el distractor**, con transcripción perfecta y sin
-> motor de por medio. La tolerancia de una letra de `matchTarget` se come el
-> contraste de todo par que se diferencie en un solo fonema. Es materia clínica y
-> está abierto como **D7** en §4.0 del plan; hasta resolverlo, grabar el corpus
-> rinde menos de lo que cuesta.
+> `--audit-pairs` encontró el primer fallo, y no estaba en ningún motor: **25 de los
+> 35 pares mínimos puntuaban como acierto que el niño dijera el distractor**, con
+> transcripción perfecta. La tolerancia de una letra de `matchTarget` se comía el
+> contraste de todo par que se diferenciase en un solo fonema. **Corregido** — ver
+> abajo. Hoy la auditoría da 0 de 35.
 
-`npm run asr:d7-sim` simula las salidas posibles a D7 y mide cada una, para que la
-decisión con ACOPROS sea entre números. La «habla aproximada» sobre la que mide no
-está inventada: sale de las **1619 aproximaciones ya validadas clínicamente** en los
-`stt_expected_array` de la Expansión Semántica. El informe generado vive en
+#### D7 · el contraste de los pares mínimos
+
+`npm run asr:d7-sim` simuló las salidas posibles y midió cada una, para que la
+decisión fuese entre números. La «habla aproximada» sobre la que mide no está
+inventada: sale de las **1619 aproximaciones ya validadas clínicamente** en los
+`stt_expected_array` de la Expansión Semántica. Informe:
 [`docs/d7-simulacion-contraste.md`](docs/d7-simulacion-contraste.md).
+
+**Se eligió O2 · vecino más cercano.** `matchPair` ya no decide por umbral: mide
+la distancia de lo oído a las dos palabras del par y gana la más próxima; el
+empate devuelve «casi», porque un empate es que el texto no distingue y ahí el
+juez es el adulto. `matchTarget` y `matchExpected` **no se tocaron** — los usan el
+juego de micrófono, la Expansión Semántica y el Test de Ling, que no tienen
+distractor.
+
+| | Antes de D7 | Ahora (O2) |
+| --- | --- | --- |
+| Contrastes que se detectan | 10 / 35 | **35 / 35** |
+| Aproximaciones del objetivo que siguen siendo acierto | 116 / 157 | 59 / 157 |
+| Aproximaciones enviadas a la rama de error | 0 | **0** |
+
+El precio son 97 «casi» de más —una estrella y un reintento—, aceptado a cambio de
+que el ejercicio detecte el error que existe para detectar. Queda confirmarlo en
+sesión real con logopedas: 97 es una estimación sobre habla generada, no observada.
 
 El workflow [`.github/workflows/voice-assets.yml`](.github/workflows/voice-assets.yml)
 **sintetiza la voz neuronal** (Sharvard para `es`, Celtia para `gl`) a partir de

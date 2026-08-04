@@ -180,8 +180,19 @@ const distMin = (alts, w) => Math.min(...alts.map((a) => Math.min(
   editDistance(a, w), ...palabras(a).map((p) => editDistance(p, w)),
 )));
 
-function reglaBase(app, alts, target, foil) {
-  // La de hoy, tal cual: se llama al matchPair real de la app.
+// La regla ANTERIOR a D7, reproducida aquí a mano. Ya no está en la app —se
+// sustituyó por O2 el 2026-08-04— pero sin ella la tabla perdería el «antes» y
+// dejaría de explicar por qué se cambió nada.
+function reglaPreD7(app, alts, target, foil) {
+  if (app.voice.matchTarget(alts.raw, target) === 2) return 'target';
+  if (app.voice.matchTarget(alts.raw, foil) === 2) return 'foil';
+  return app.voice.matchTarget(alts.raw, target) === 1 ? 'close' : 'none';
+}
+
+// La que está viva en la app ahora mismo. Se llama al `matchPair` real en vez de
+// reimplementarlo: así, si la implementación se desviara de lo que se aprobó,
+// esta fila dejaría de coincidir con la de O2 y se vería aquí.
+function reglaVigente(app, alts, target, foil) {
   return app.voice.matchPair(alts.raw, target, foil);
 }
 
@@ -293,10 +304,11 @@ function main() {
 
   // --- 3 · Simulación de las reglas ---------------------------------------
   const reglas = [
-    { id: 'BASE', label: 'Hoy (tolerancia de 1 letra)', fn: reglaBase },
+    { id: 'BASE', label: 'Antes de D7 · tolerancia de 1 letra', fn: reglaPreD7 },
     { id: 'O1', label: 'O1 · exactitud cuando hay distractor', fn: reglaO1 },
     { id: 'O2', label: 'O2 · vecino más cercano', fn: reglaO2 },
     { id: 'O4', label: 'O4 · exactitud + lista de aproximaciones', fn: reglaO4 },
+    { id: 'VIGENTE', label: '**Vigente en la app** (`matchPair` real)', fn: reglaVigente },
   ];
 
   const res = {};
@@ -392,7 +404,7 @@ function main() {
     && a.aprox.foil <= b.aprox.foil && a.aprox.none <= b.aprox.none
     && (a.contrastes > b.contrastes || a.aprox.target > b.aprox.target
       || a.aprox.foil < b.aprox.foil || a.aprox.none < b.aprox.none);
-  const comparables = reglas.filter((r) => r.id !== 'O4');
+  const comparables = reglas.filter((r) => r.id !== 'O4' && r.id !== 'VIGENTE');
   for (const x of comparables) {
     for (const y of comparables) {
       if (x.id !== y.id && domina(res[x.id], res[y.id])) {
@@ -404,6 +416,17 @@ function main() {
   console.log('> **BASE y O2 no se dominan entre sí**, y ahí está la decisión de verdad: BASE conserva');
   console.log(`> ${res.BASE.aprox.target} aciertos sobre habla aproximada pero solo ve ${res.BASE.contrastes} de ${pares.length} contrastes; O2 ve los ${res.O2.contrastes}`);
   console.log(`> a cambio de bajar a ${res.O2.aprox.target}. Eso es un intercambio clínico, no técnico.\n`);
+
+  // --- 3d · ¿lo que está en la app es lo que se aprobó? --------------------
+  // La fila «Vigente» llama al `matchPair` real. Si alguna vez deja de coincidir
+  // con O2, es que la implementación se desvió de la decisión, y hay que mirar
+  // por qué antes de fiarse de ninguna otra cifra de este documento.
+  const v = res.VIGENTE; const o2r = res.O2;
+  const coincide = v.contrastes === o2r.contrastes
+    && ['target', 'close', 'foil', 'none'].every((k) => v.aprox[k] === o2r.aprox[k]);
+  console.log(coincide
+    ? '\n> ✅ **La app implementa O2**: la fila «Vigente» —que llama al `matchPair` real—\n> reproduce exactamente la fila O2. Lo que se decidió es lo que está corriendo.\n'
+    : '\n> 🔴 **ATENCIÓN: la app NO implementa O2.** La fila «Vigente» no coincide con O2.\n> La implementación se ha desviado de la decisión: revisar `matchPair` antes de\n> dar por buena ninguna otra cifra de este documento.\n');
 
   console.log('\n**Y sobre las colisiones** (la aproximación es la palabra del distractor):\n');
   console.log('| Regla | → acierto | → «casi» | → error detectado | → «no te escuché» |');
@@ -446,27 +469,29 @@ function main() {
   console.log(`| O3 | Sustituir ${rehacer.length} pares en 4 bancos | Alto y clínico: hay que reinventar contrastes, con pictogramas, consignas, misiones y locuciones nuevas |`);
   console.log(`| O4 | \`matchPair\` + un campo nuevo por par | ~${seguras} entradas que hay que **escribir y validar** una a una, como ya se hizo con los 1619 \`stt_expected_array\` |`);
 
-  console.log('\n## 6. Lo que hay que preguntarle a ACOPROS\n');
-  const o1 = res.O1; const o2 = res.O2; const o4 = res.O4; const base = res.BASE;
-  console.log(`1. **Hoy la app da por bueno que el niño diga el distractor en ${base.contrastesTotal - base.contrastes} de ${base.contrastesTotal} pares.**`);
-  console.log('   ¿Es eso aceptable mientras el adulto corrige a mano, o invalida el ejercicio?');
-  console.log('2. **Buena noticia que acota la conversación:** ninguna de las reglas propuestas le');
-  console.log(`   atribuye al niño un error que no cometió sobre habla aproximada (${o1.aprox.foil}, ${o2.aprox.foil} y ${o4.aprox.foil} casos).`);
-  console.log('   El precio de recuperar el contraste **no es acusarle de fallar: es quitarle estrellas.**');
-  console.log(`   Con O2, ${base.aprox.target} aproximaciones que hoy son acierto pasan a ${o2.aprox.target}, y ${o2.aprox.close} se convierten en «casi»`);
-  console.log('   (reintento). ¿Es asumible ese cambio en una sesión real, o desmotiva al niño?');
-  console.log(`3. ¿Merece la pena escribir ~${seguras} aproximaciones a mano (O4) para tener las dos cosas?`);
-  console.log(`   Es el patrón que el proyecto ya usa en Expansión Semántica —${totalAprox} entradas— y funciona.`);
-  console.log(`   Si la lista se queda corta, el niño recibe un «casi», nunca un error atribuido.`);
-  console.log(`4. O3 (rediseñar el banco) exigiría sustituir ${rehacer.length} de los ${pares.length} pares, incluidos contrastes`);
-  console.log('   clínicos estándar. ¿Tiene sentido, o es adaptar la clínica a la herramienta?');
-  console.log('5. Esta pregunta va junto con **D6** (cuántos «no te escuché» de más por sesión son');
+  console.log('\n## 6. La decisión tomada, y lo que queda por confirmar\n');
+  const o2 = res.O2; const base = res.BASE;
+  console.log(`**D7 se cerró el 2026-08-04 con O2**, por decisión de Frank sobre estas cifras.`);
+  console.log(`Los ${o2.contrastes} contrastes se recuperan y ninguna aproximación se envía a la rama de error.`);
+  console.log(`El precio aceptado: de ${seguras} producciones aproximadas del objetivo, las que puntuaban`);
+  console.log(`acierto pasan de ${base.aprox.target} a ${o2.aprox.target}, y ${o2.aprox.close} pasan a «casi» —una estrella y un reintento—.\n`);
+  console.log('Lo que sigue abierto, y que solo se puede cerrar con logopedas y con sesiones reales:\n');
+  console.log(`1. **¿Aguanta ese precio en sesión?** ${o2.aprox.close} «casi» de más es una estimación sobre habla`);
+  console.log('   aproximada generada, no observada. Hay que verlo con niños delante.');
+  console.log('2. **Los empates.** Cuando lo oído queda igual de cerca de las dos palabras, la app');
+  console.log('   dice «casi» y no se moja. ¿Es lo que quieren las logopedas, o prefieren que se');
+  console.log('   incline hacia el distractor —más sensible al error— o hacia el objetivo —más amable—?');
+  console.log(`3. **Las ${colisiones} colisiones siguen sin solución posible** y no la tienen: son el límite`);
+  console.log('   del texto como evidencia. El adulto es el juez, y ahí no hay regla que ayude.');
+  console.log(`4. **O4 sigue disponible** si O2 se queda corto: ~${seguras} aproximaciones escritas a mano`);
+  console.log(`   recuperarían los aciertos perdidos. Es el patrón de los ${totalAprox} \`stt_expected_array\`.`);
+  console.log('5. Todo esto va junto con **D6** (cuántos «no te escuché» de más por sesión son');
   console.log('   tolerables): son la misma magnitud clínica mirada desde dos sitios.');
 
   console.log('\n---\n');
   console.log('_Generado por `node scripts/asr-d7-sim.js`. El inventario de procesos sale de datos_');
   console.log('_reales del repositorio; su aplicación a los pares mínimos es una extrapolación._');
-  console.log('_Si ACOPROS corrige el inventario, se vuelve a correr y las cifras se actualizan solas._');
+  console.log('_La fila «Vigente» llama al `matchPair` real: si se desviara de O2, este informe lo diría._');
 }
 
 if (require.main === module) {
