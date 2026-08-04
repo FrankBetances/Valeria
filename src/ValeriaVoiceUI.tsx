@@ -19,7 +19,7 @@ import {
   speak, speakToChild, speakWordSlow, speakPhraseSlow, speakClinical, stopSpeaking, speakVoiceSample,
   asrSupported, startListening, stopListening, releaseListening, matchTarget, MatchLevel,
   VoiceStatus, refreshVoiceCatalog,
-  asrLocaleStatus, requestOfflineModel, asrOfflineStatus, AsrLocaleStatus,
+  asrLocaleStatus, requestOfflineModel, asrOfflineStatus, AsrLocaleStatus, asrCaptureEnabled,
 } from './valeriaVoice';
 import { getLocale, setLocale, assetLang, Locale } from './valeriaLocale';
 import { micVerdictSayFor } from './valeriaExerciseBank';
@@ -429,6 +429,16 @@ export const SpeechPrivacyBlock: React.FC<{ locale: Locale }> = ({ locale }) => 
 
   return (
     <View style={s.privBlock}>
+      {/* Fase B · si la build guarda el audio, tiene que verse a la primera y
+          sin buscarlo. Una build de captura en manos de una familia sería una
+          fuga de datos de salud de un menor (R7 del plan). */}
+      {asrCaptureEnabled() && (
+        <Text style={s.privCapture}>
+          ⏺ CAPTURA DE CORPUS ACTIVA. Esta build guarda en el dispositivo el audio del turno de habla.
+          No es una build de producción: no debe usarse en una sesión normal ni quedarse en el aparato de una familia.
+        </Text>
+      )}
+
       <View style={s.privHead}>
         <Text style={s.privKicker}>{local ? '🔒' : '☁️'} MICRÓFONO DEL EJERCICIO</Text>
         <View style={[s.privChip, local ? s.privChipLocal : s.privChipNet]}>
@@ -703,6 +713,7 @@ const s = StyleSheet.create({
   privBtnTxt: { fontSize: 11.5, fontWeight: '800', color: V.color.textSecondary },
   privNote: { fontSize: 11, fontWeight: '700', color: V.color.textSecondary, marginTop: 9, lineHeight: 15 },
   privFoot: { fontSize: 10.5, fontWeight: '600', color: V.color.textMuted, marginTop: 8 },
+  privCapture: { fontSize: 11.5, fontWeight: '800', color: '#fff', backgroundColor: V.color.error, borderRadius: 9, padding: 9, marginBottom: 10, lineHeight: 15.5 },
 
   phaseStrip: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 4, backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.border, borderRadius: 13, paddingVertical: 7, paddingHorizontal: 8, marginTop: 12 },
   phaseArrow: { fontSize: 12, fontWeight: '800', color: V.color.textMuted },

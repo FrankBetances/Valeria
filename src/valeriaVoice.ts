@@ -596,6 +596,29 @@ export async function requestOfflineModel(locale?: string): Promise<OfflineDownl
   }
 }
 
+// ----------------------------------------------------------------------------
+// Fase B · Captura del corpus de evaluación — SOLO en build de desarrollo
+// ----------------------------------------------------------------------------
+// §4.2 del plan: para comparar un motor local contra la línea base hace falta
+// el MISMO audio pasado por los dos, y eso obliga a guardarlo. Guardar la voz
+// de un menor con dificultades del lenguaje es dato de salud del art. 9 del
+// RGPD, así que la captura vive detrás de DOS condiciones simultáneas:
+//
+//   1. `__DEV__` — en release vale false y el minificador se lleva la rama
+//      entera. En el AAB que sube a Play este código no existe.
+//   2. `EXPO_PUBLIC_ASR_CAPTURE === '1'` — hay que pedirlo a propósito al
+//      construir. No está en `.env.example` con valor, no lo pone el CI: se
+//      escribe a mano para la sesión de grabación y se borra al terminar.
+//
+// `scripts/check-asr-capture-guard.js` comprueba en CI que no se caiga ninguna
+// de las dos y que nada versionado encienda la variable. Y la app lo grita en
+// pantalla mientras está activo (`SpeechPrivacyBlock`), porque el fallo que hay
+// que hacer imposible no es técnico: es que una build con captura encendida
+// acabe en la tablet de una familia sin que nadie se dé cuenta.
+const ASR_CAPTURE = __DEV__ && process.env.EXPO_PUBLIC_ASR_CAPTURE === '1';
+
+export const asrCaptureEnabled = (): boolean => ASR_CAPTURE;
+
 export interface ListenCallbacks {
   onPartial?: (text: string) => void;
   onResult: (alternatives: string[]) => void;
@@ -724,6 +747,16 @@ export async function startListening(cb: ListenCallbacks): Promise<boolean> {
 
     sub('end', () => cb.onEnd?.());
 
+    if (ASR_CAPTURE) {
+      // El fichero no es legible hasta `audioend`. Se registra la ruta para que
+      // quien dirige la sesión pueda emparejarla con el código seudonimizado de
+      // la ficha en papel: el manifiesto del banco de medida se escribe a mano
+      // y esa correspondencia es lo único que la une al consentimiento.
+      sub('audioend', (e: any) => {
+        if (e?.uri) console.warn(`[ASR-CAPTURA] ${e.uri}`);
+      });
+    }
+
     stopSpeaking(); // que la app no se escuche a sí misma
 
     M.start({
@@ -738,6 +771,11 @@ export async function startListening(cb: ListenCallbacks): Promise<boolean> {
         : {}),
       // ES-04 · la ventana de escucha larga, intacta.
       ...(Platform.OS === 'android' ? { androidIntentOptions: ANDROID_LISTEN_EXTRAS } : {}),
+      // Fase B · guardar el WAV del turno de habla. Ver el bloque de arriba:
+      // esto no puede llegar encendido a una build de producción.
+      ...(ASR_CAPTURE
+        ? { recordingOptions: { persist: true, outputFileName: `valeria_${localeKey(locale)}_${Date.now()}.wav` } }
+        : {}),
       // NUNCA `contextualStrings` con la palabra objetivo: sesgaría el motor a
       // devolverla y fabricaría el falso positivo que el ejercicio existe para
       // detectar (§3.4 del plan). Si alguien lo añade "para que reconozca

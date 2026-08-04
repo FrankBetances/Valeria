@@ -35,6 +35,14 @@
 > ACOPROS: la inspección de tráfico, los dos casos de `noMatch` a mano, la
 > medida contra la línea base y el **umbral clínico** de la puerta (§3.6, D6).
 >
+> **Fase B: 🔴 lanzada (D5) y frenada en seco por su primer hallazgo.** La
+> infraestructura está construida y probada —candado de captura de corpus con
+> gate en CI, y banco de medida con autoprueba—, pero lo primero que se midió
+> fue el propio árbitro: **25 de los 35 pares mínimos puntúan como acierto que
+> el niño diga el distractor**, con transcripción perfecta y sin motor de por
+> medio (§4.0). Hasta resolver eso (D7, con ACOPROS) grabar el corpus rinde
+> mucho menos de lo que cuesta.
+>
 > Rama de trabajo: `claude/new-voice-recognition-0rcwl9` (continúa
 > `claude/valeria-voice-recognition-mva9qq`).
 
@@ -411,6 +419,54 @@ opcional, por defecto apagado"** y se documenta. No se fuerza.
 **Naturaleza de esta fase: es un experimento con puerta de decisión.** Termina en
 una tabla de números y un GO/NO-GO. No termina en una funcionalidad de la app.
 
+### 4.0 B.−1 · El hallazgo que condiciona la Fase B — 🔴 abierto (2026-08-04)
+
+Igual que la Fase A empezó descubriendo que la palanca elegida no hacía nada
+(§2.2), la Fase B empieza descubriendo que **el árbitro no ve el contraste que
+se le pide medir**.
+
+`node scripts/asr-bench.js --audit-pairs` simula la **transcripción perfecta del
+distractor** —el niño dice exactamente la otra palabra del par, y el motor la
+transcribe sin ningún error— y mira qué veredicto sale de `matchPair`. Debería
+salir `foil`. El resultado real:
+
+| Banco | Pares ciegos |
+| --- | --- |
+| Castellano (`es`) | **12 / 15** |
+| Dominicano (`es-DO`) | **6 / 8** |
+| Galego (`gl`) | **5 / 7** |
+| Euskara (`eu`) | **2 / 5** |
+| **Total** | **25 / 35** |
+
+**Por qué pasa.** `matchPair` pregunta primero por el objetivo, y `matchTarget`
+concede el nivel 2 con hasta **una letra de diferencia por palabra**. Esa
+tolerancia está puesta a propósito y por una buena razón —un niño en
+rehabilitación no articula perfecto—, pero los pares mínimos se construyen
+justamente para diferenciarse en **un solo fonema**. En cuanto ese fonema es una
+sola letra (*rana*/*lana*, *cubo*/*tubo*, *boca*/*bota*, *miel*/*piel*), decir el
+distractor puntúa como acierto y **la rama del distractor no se alcanza nunca**.
+*perro*/*pelo* funciona solo por accidente: se diferencian en dos letras.
+
+**Por qué bloquea la Fase B.** El plan mide si un motor «arregla» la palabra mal
+pronunciada (R1). Pero en esos 25 pares **la línea base ya la arregla ella sola,
+con transcripción perfecta**, antes de que intervenga ningún reconocedor. Medir
+candidatos contra esa referencia no compara lo que se quiere comparar: los
+falsos positivos de contraste saldrían bajos para todos, incluido Whisper, y la
+puerta §4.7 daría un GO que no significa nada. **Grabar el corpus antes de
+resolver esto es gastar la sesión de grabación —y el consentimiento— en un banco
+de medida que no puede discriminar.**
+
+**Por qué no se ha tocado aquí.** El umbral de aceptación fonética es materia
+clínica (§1.3) y apretarlo tiene un coste real y previsible: más falsos «no te
+escuché» por sesión, que es exactamente la magnitud que D6 tiene que fijar con
+ACOPROS. Cambiarlo por iniciativa técnica sería el mismo error que este plan
+documenta en su nota de método. Queda como **D7**, y va en la misma conversación
+que D6.
+
+Lo que sí queda hecho: la comprobación es **ejecutable y repetible**, y la
+autoprueba del banco (`--selftest`) fija el comportamiento actual como aserción,
+de modo que el día que alguien cambie el umbral, la prueba lo dirá.
+
 ### 4.1 B.0 · La pregunta que decide
 
 > ¿Un modelo pequeño cuantizado corriendo en el propio dispositivo acierta el
@@ -447,10 +503,19 @@ lugar de a ojo.
 
 - Las grabaciones **no salen del equipo de desarrollo** y **no se suben al
   repositorio** (regla ya vigente para el corpus de voz, ver `.github/workflows/pages.yml`).
-- `recordingOptions.persist` **jamás se activa en una build de producción**. Se usa
-  en una build de desarrollo dedicada. Conviene una comprobación en CI que falle
-  si aparece activado en release.
-- `.gitignore` explícito para el directorio de audio.
+- `recordingOptions.persist` **jamás se activa en una build de producción**. ✅
+  Implementado: la captura exige `__DEV__` **y** `EXPO_PUBLIC_ASR_CAPTURE=1` a la
+  vez, así que una build de release la ignora aunque la variable esté puesta, y
+  el minificador se lleva la rama entera. Mientras está activa, la app **lo grita
+  en pantalla** en la tarjeta «Voz de la app»: el fallo que hay que hacer
+  imposible no es técnico, es que una build de captura acabe en la tablet de una
+  familia.
+- ✅ `.gitignore` explícito para `corpus-asr/`, y
+  [`scripts/check-asr-capture-guard.js`](../scripts/check-asr-capture-guard.js)
+  en el CI de Android comprobando las cinco cosas que fallan por descuido: que la
+  persistencia viva en un solo archivo, que la bandera siga exigiendo `__DEV__`,
+  que ningún archivo versionado encienda la variable, que el directorio esté
+  ignorado y que git no rastree ninguna grabación.
 
 **Tamaño mínimo útil:** ~200 enunciados que cubran los contrastes de
 `valeriaMinimalPairsEsDO.ts`, con al menos 4 hablantes, **incluyendo producciones
@@ -499,15 +564,42 @@ sherpa-onnx). Solo los que pasen el filtro clínico llegan al teléfono.
 
 Dos etapas, para no gastar trabajo de integración en candidatos que van a caer.
 
-**Etapa 1 · Escritorio** (script en `scripts/`, siguiendo el patrón verificable de
-`fetch-ar-model.js`: URL fijada + SHA-256 + bytes):
+**Etapa 1 · Escritorio** — ✅ **implementada**: [`scripts/asr-bench.js`](../scripts/asr-bench.js).
+
+```bash
+node scripts/asr-bench.js --corpus corpus-asr/manifiesto.json \
+  --hyp corpus-asr/hyp-sistema.json --hyp corpus-asr/hyp-ctc.json \
+  --baseline sistema --json corpus-asr/resultados.json
+
+node scripts/asr-bench.js --audit-pairs   # ¿distingue el matcher cada par? (§4.0)
+node scripts/asr-bench.js --selftest      # ¿mide bien el propio banco?
+```
 
 | Métrica | Cómo | Por qué importa |
 | --- | --- | --- |
 | **Acierto de veredicto** | Pasar la hipótesis por `normalizeSpeech` + pliegue + `matchPair`, comparar con el juicio del adulto | **La métrica decisiva** |
 | **Falsos positivos de contraste** | Casos donde el niño falló y el motor "arregló" la palabra | El riesgo R1 |
+| Falsos negativos | El niño lo dijo bien y el motor no lo reconoce | Es el daño de ES-04: "no te escuché" de más |
 | WER | Estándar, informativo | Comparabilidad externa |
 | RTF | Tiempo de inferencia / duración del audio | Predice la latencia en móvil |
+
+Tres decisiones de diseño del banco que conviene no deshacer:
+
+1. **Carga el código real de la app**, compilado con `tsc` y con los módulos
+   nativos sustituidos por maniquíes. El veredicto lo deciden `matchPair` y el
+   pliegue de `valeriaVoice.ts`, no una reimplementación: si alguien toca el
+   umbral fonético, la medida se mueve con él, que es lo correcto. Reimplementar
+   la lógica en el banco sería medir otra app sin enterarse.
+2. **Fija el locale de cada enunciado antes de puntuarlo**, porque el pliegue es
+   por variedad. Un corpus mezclado se puntuaría mal en silencio.
+3. **El WER se calcula SIN pliegue dialectal**, a propósito: está solo para poder
+   comparar con cifras publicadas fuera del proyecto, y plegar la /s/ dominicana
+   lo volvería incomparable. Las métricas que deciden no lo usan.
+
+El banco tiene autoprueba (`--selftest`) con dos motores sintéticos —el que
+acierta siempre y el «arreglador» del R1— porque produce las cifras de un
+GO/NO-GO: un error en la definición de una métrica daría una tabla creíble y
+falsa, que es justo el defecto que originó este plan.
 
 **Etapa 2 · Dispositivo** (app de laboratorio aparte, **no** Valeria+):
 
@@ -577,11 +669,12 @@ Para que no se cuele por la puerta de atrás:
 | R4 | ~~No se consigue consentimiento~~ → **Resuelto** (§4.2) | — | — | Consentimiento listo, firma en papel el día de la grabación |
 | R5 | La librería nueva se abandona o rompe | Baja | Medio | Superficie encapsulada en `valeriaVoice.ts`; volver atrás es un cambio de un archivo. Rebajado: la instalada es `3.1.3`, no una pre-1.0 (§3.1) |
 | R6 | `react-native-sherpa-onnx-stt` está en v0.2.2, muy temprana | Alta | Medio | Solo afecta a la Fase B, que es un experimento; si no sirve, se mide con el binario nativo de sherpa-onnx |
-| R7 | El corpus de audio infantil se filtra al repositorio | Baja | **Crítico** | `.gitignore` explícito + comprobación en CI; nunca en `site/`; seudonimización (§4.2) |
+| R7 | El corpus de audio infantil se filtra al repositorio | Baja | **Crítico** | ✅ Mitigado: `.gitignore` + `check-asr-capture-guard.js` en el CI + doble condición `__DEV__`/variable + aviso en pantalla; nunca en `site/`; seudonimización (§4.2) |
 | R8 | La migración rompe un ejercicio en producción | Media | Alto | El contrato de `startListening`/`matchPair` no cambia; los tres ejercicios son criterio de aceptación (§3.6) |
 | **R9** | **La traducción de `NO_MATCH_CODES` se hace mal y rompe ES-04** | **Media** | **Alto** | Tabla de traducción explícita + verificación manual de ambos casos antes de cerrar (§3.2) |
 | **R10** | **`gl`/`eu` se degradan al forzar local por no tener paquete de idioma** | **Alta** | **Medio** | Política por locale (§3.3); la promesa pública se redacta por variedad (§7) |
 | **R11** | **Una familia declina firmar el día de la grabación** | Media | Bajo | Previsto en §4.2: sesión normal sin grabación, sin presión implícita |
+| **R12** | **El árbitro no ve el contraste: 25 de 35 pares mínimos puntúan el distractor como acierto** (§4.0) | **Confirmada** | **Crítico** | Detectado y medido con `--audit-pairs`; fijado como aserción en `--selftest`. **Bloquea la utilidad de la Fase B**: sin resolverlo, la línea base arregla la palabra ella sola y la puerta §4.7 daría un GO vacío. Es D7, materia de ACOPROS junto con D6 |
 
 ---
 
@@ -619,15 +712,16 @@ toca.
 | --- | --- | --- | --- |
 | **D1** | Mecanismo de la Fase A | **Migrar a `expo-speech-recognition@3.1.3`** (§3.1). Ejecutado. El riesgo pre-1.0 que se aceptó resultó no existir: la librería decidida estaba deprecada y su sucesora mantenida ya va por 3.x | 2026-08-03 |
 | **D3** | Consentimiento del corpus | **Listo**, firma en papel el día de la grabación (§4.2). Desbloquea la Fase B y permite validar la Fase A con rigor | 2026-08-03 |
+| **D5** | ¿Se lanza la Fase B? | **Sí**, por decisión de Frank, sin esperar a los datos de la Fase A. Se ha construido toda la infraestructura de medida; la primera cosa que ha medido es el propio árbitro, y ha salido D7 (§4.0) | 2026-08-04 |
 | **D2** | ¿Ofrecer la descarga del paquete de idioma? | **Sí, una vez y de forma explícita** (§3.3). Sin ofrecerla, castellano se quedaría en red en todos los móviles que no traigan el paquete de fábrica y la Fase A se perdería en el 90 % de los casos por un motivo evitable. Si el adulto declina, se recuerda por variedad y no se vuelve a insistir | 2026-08-04 |
 
 ### Abiertas
 
 | # | Decisión | Quién | Bloquea |
 | --- | --- | --- | --- |
+| **D7** | **El umbral fonético se come el contraste de 25 de 35 pares mínimos** (§4.0). ¿Se aprieta `matchTarget` para los pares? ¿Se exige coincidencia exacta solo cuando hay `foil`? ¿Se rediseñan los pares para que se diferencien en más de una letra? | ACOPROS + Frank | **La utilidad de la Fase B.** Grabar el corpus antes de resolverlo desperdicia la sesión |
 | **D6** | **Umbral clínico**: ¿cuántos `noMatch` de más por sesión son tolerables? (§3.6) | ACOPROS | **Cerrar** la Fase A. No impide empezar |
 | D4 | ¿Local por defecto, o *opt-in* del adulto? | Tras los datos de §3.6 | Cierre de la Fase A |
-| D5 | ¿Se lanza la Fase B aunque la Fase A cumpla holgadamente? | Frank, con datos de A | Arranque de la Fase B |
 
 **D5 merece una nota:** si la Fase A consigue la verificación de nivel 3 en la
 mayoría de dispositivos del piloto, el problema de privacidad está resuelto y la
@@ -662,10 +756,14 @@ datos de A delante y no antes.
 ### Fase B
 
 - [x] **D3 · consentimiento resuelto** (firma en papel el día de la grabación)
-- [ ] Preparar la build de desarrollo con `recordingOptions.persist` + `.gitignore` + comprobación en CI
+- [x] **D5 · Fase B lanzada** (2026-08-04)
+- [x] Build de desarrollo con `recordingOptions.persist`, doble candado `__DEV__` + variable, aviso en pantalla, `.gitignore` y gate en CI
+- [x] Banco de medida en escritorio: `scripts/asr-bench.js`, con autoprueba
+- [x] Auditoría del árbitro (`--audit-pairs`) — **y ha encontrado D7/R12** (§4.0)
+- [ ] 🔴 **D7 · resolver el contraste de los pares mínimos con ACOPROS.** Todo lo de abajo depende de esto: sin árbitro que distinga, el corpus mide poco
 - [ ] Sesión de grabación: firma previa, seudonimización, plan para quien declina
-- [ ] Etiquetar el corpus con el juicio del adulto (§4.3)
-- [ ] Script de banco de medida en escritorio (`scripts/`)
+- [ ] Etiquetar el corpus con el juicio del adulto (§4.3) en el formato del manifiesto
+- [ ] Transcribir el corpus con cada candidato y volcarlo al formato de hipótesis
 - [ ] Evaluar candidatos 0–3 en escritorio, **CTC primero** (§4.4)
 - [ ] Llevar los supervivientes a dispositivo (§4.5 etapa 2)
 - [ ] Redactar la tabla de resultados

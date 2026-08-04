@@ -148,6 +148,14 @@ jobs:
       - name: Comprobar prosodia de la voz del sistema (es-DO)
         run: node scripts/check-speech-prosody.js
 
+      # Captura de corpus del ASR (Fase B · R7). No protege una función de la
+      # app: protege de que una build que GRABA la voz de un niño llegue a
+      # producción, o de que una grabación acabe versionada. Las dos cosas
+      # pasan por descuido y ninguna la ve el typecheck ni el diff.
+      # Ver docs/plan-asr-privacidad-y-motor-local.md §4.2.
+      - name: Comprobar el candado de la captura de corpus (ASR Fase B)
+        run: node scripts/check-asr-capture-guard.js
+
       - name: Comprobar tipos
         run: npm run typecheck
 

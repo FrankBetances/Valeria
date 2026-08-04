@@ -335,7 +335,7 @@ con *debounce* vía `InteractionManager`, de modo que el cifrado y el guardado e
 | [`docs/guia-dialectal-es-DO.md`](docs/guia-dialectal-es-DO.md) | Guía clínica dominicana (QH‑0.2): qué es rasgo dialectal normal y qué es error terapéutico. Regla **bloqueante** para todo dataset es‑DO. |
 | [`docs/plan-integracion-proxecto-nos.md`](docs/plan-integracion-proxecto-nos.md) | Plan por fases de la versión en gallego apoyada en los recursos abiertos del Proxecto Nós (contenido, voz Celtia, ASR). |
 | [`docs/plan-integracion-quisqueya-habla.md`](docs/plan-integracion-quisqueya-habla.md) | Plan de la variante dominicana (es‑DO), que reutiliza la infraestructura de variedad del plan gallego. |
-| [`docs/plan-asr-privacidad-y-motor-local.md`](docs/plan-asr-privacidad-y-motor-local.md) | Plan en dos fases para que el audio del turno de habla **no salga del dispositivo**: (A) reconocimiento local con el motor del sistema —**migración hecha**, pendiente de verificar en dispositivo— y (B) prueba de concepto medida de un motor local (`sherpa-onnx`), con puerta GO/NO‑GO numérica. Incluye el hallazgo de que `@react-native-voice/voice` descartaba en silencio las claves que no conocía, y revisa el NO‑GO de [`docs/asr-euskera-ilenia.md`](docs/asr-euskera-ilenia.md). |
+| [`docs/plan-asr-privacidad-y-motor-local.md`](docs/plan-asr-privacidad-y-motor-local.md) | Plan en dos fases para que el audio del turno de habla **no salga del dispositivo**: (A) reconocimiento local con el motor del sistema —**software terminado**, pendiente de verificar en dispositivo— y (B) prueba de concepto medida de un motor local (`sherpa-onnx`), con puerta GO/NO‑GO numérica y banco de medida ya implementado. Contiene dos hallazgos que cambiaron el plan: que `@react-native-voice/voice` descartaba en silencio las claves que no conocía (§2.2), y que **25 de los 35 pares mínimos puntúan como acierto que el niño diga el distractor** (§4.0). Revisa el NO‑GO de [`docs/asr-euskera-ilenia.md`](docs/asr-euskera-ilenia.md). |
 | [`docs/plan-mejoras-acopros-logopedas.json`](docs/plan-mejoras-acopros-logopedas.json) | **Fuente de verdad** del plan de mejoras nacido del feedback clínico de ACOPROS: cada observación verificada contra el código, con decisiones clínicas (DC‑1…DC‑5), criterios de aceptación y estado. Incluye el **bloqueo de publicación** del corpus de voz. |
 | [`docs/criterio-dificultad-lexica.md`](docs/criterio-dificultad-lexica.md) | Criterio del campo `difficulty` de las categorías léxicas (ES‑08): la progresión la marca la **familiaridad**, no la dificultad de pronunciación. Incluye por qué la frecuencia **no se hereda entre variedades** (en RD el plátano es el de freír; el que se come crudo es el guineo). |
 | [`docs/auditoria-pictogramas.md`](docs/auditoria-pictogramas.md) | Inventario de toda la carga visual en uso, clasificada por riesgo (*tofu*, atributo, revisar) con columna de veredicto para ACOPROS. Se **regenera** con `node scripts/audit-pictograms.js --markdown`. |
@@ -594,9 +594,9 @@ compila la app en cada push/fusión a `main` (y en ramas `claude/**`). Con los
 secrets de firma configurados genera el APK y el **AAB firmados**; sin secrets
 solo compila el APK. El `versionCode` se deriva del número de run.
 
-Antes de compilar corren **siete chequeos de contenido** que fallan rápido. No
-son tests unitarios: cada uno protege un acuerdo clínico concreto que el
-typecheck y el diff no ven.
+Antes de compilar corren **ocho chequeos** que fallan rápido. No son tests
+unitarios: cada uno protege un acuerdo clínico concreto —o, en el último caso,
+un dato de salud de un menor— que el typecheck y el diff no ven.
 
 | Chequeo | Qué impide |
 | --- | --- |
@@ -607,8 +607,36 @@ typecheck y el diff no ven.
 | `check-reminder-slots.js` | Que apagar una franja de recordatorio deje de reprogramarla pero **no cancele sus avisos ya en cola** (GEN‑01). |
 | `check-sign-figures.js` | Que una cápsula de LSE pida una figura **sin dibujo registrado** o que el abecedario dactilológico quede incompleto: `SignFigure` devuelve `null` a propósito, así que el fallo es invisible salvo para este gate (LSE‑01). |
 | `check-ar-models.js` | Que un modelo 3D del bloque de RA se reexporte con **otro nombre de animación** del que invoca el código. Ese desajuste compila, carga el modelo y deja al niño **sin refuerzo**: no hay error en ninguna parte, solo un ejercicio que deja de ser terapéutico. |
+| `check-asr-capture-guard.js` | Que la **captura de corpus de la Fase B del ASR** llegue a producción, o que una grabación acabe versionada. Comprueba que la persistencia de audio viva en un solo archivo, que siga exigiendo `__DEV__` **y** `EXPO_PUBLIC_ASR_CAPTURE`, que ningún archivo versionado encienda la variable, que `corpus-asr/` esté ignorado y que git no rastree ninguna grabación. Es voz de un menor: art. 9 del RGPD (R7 del plan). |
 
 Todos se pueden ejecutar en local: `node scripts/<nombre>.js`.
+
+#### Banco de medida del ASR (Fase B)
+
+[`scripts/asr-bench.js`](scripts/asr-bench.js) compara motores de reconocimiento
+sobre el mismo corpus y produce la tabla que decide la puerta GO/NO‑GO del plan.
+**No corre en CI**: necesita un corpus grabado, que por definición no vive en el
+repositorio.
+
+```bash
+npm run asr:audit-pairs        # ¿distingue el matcher clínico cada par mínimo?
+npm run asr:bench-selftest     # ¿mide bien el propio banco?
+npm run asr:bench -- --corpus corpus-asr/manifiesto.json \
+  --hyp corpus-asr/hyp-sistema.json --hyp corpus-asr/hyp-ctc.json --baseline sistema
+```
+
+La métrica principal **no es el WER**: es el acierto de veredicto clínico y, sobre
+todo, los **falsos positivos de contraste** —los casos en que el niño falló y el
+motor «arregló» la palabra—. Para no medir otra app, el banco carga la lógica real
+de `valeriaVoice.ts` (compilada con `tsc`, con los módulos nativos sustituidos por
+maniquíes) en vez de reimplementar el matcher.
+
+> ⚠️ `--audit-pairs` ya ha encontrado algo: **25 de los 35 pares mínimos puntúan
+> como acierto que el niño diga el distractor**, con transcripción perfecta y sin
+> motor de por medio. La tolerancia de una letra de `matchTarget` se come el
+> contraste de todo par que se diferencie en un solo fonema. Es materia clínica y
+> está abierto como **D7** en §4.0 del plan; hasta resolverlo, grabar el corpus
+> rinde menos de lo que cuesta.
 
 El workflow [`.github/workflows/voice-assets.yml`](.github/workflows/voice-assets.yml)
 **sintetiza la voz neuronal** (Sharvard para `es`, Celtia para `gl`) a partir de

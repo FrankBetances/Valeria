@@ -142,3 +142,10 @@ scripts/.voices/
 # Python bytecode
 __pycache__/
 *.pyc
+
+# Fase B del ASR · corpus de habla infantil grabada en sesión (docs/plan-asr-privacidad-y-motor-local.md §4.2).
+# NUNCA se versiona: son datos de salud de menores del art. 9 del RGPD (R7 del
+# plan). Las grabaciones no salen del equipo de desarrollo y los consentimientos
+# en papel se archivan aparte del audio. `scripts/check-asr-capture-guard.js`
+# falla en CI si algo de aquí llega a estar rastreado por git.
+/corpus-asr/
