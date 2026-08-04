@@ -81,6 +81,7 @@ export const STORAGE_KEYS = {
   arUmbrales: '@valeria_ar_umbrales',          // RA: umbrales clínicos fijados por el adulto (sostén, giro, ventana, dwell, puntero)
   arConsentimiento: '@valeria_ar_consentimiento', // RA: consentimiento informado de cámara, con sufijo POR PACIENTE
   arPerfilDispositivo: '@valeria_ar_perfil_dispositivo', // RA: DeviceProfile de la Prueba de Aptitud + huella del aparato
+  asrOfertaLocal: '@valeria_asr_oferta_local', // ASR §3.3: variedades a las que el adulto ya declinó la descarga del paquete local (sufijo por variedad)
 };
 
 // Marca / mascota: oso "Valeria" en blanco sobre turquesa. El componente

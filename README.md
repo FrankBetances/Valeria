@@ -231,6 +231,16 @@ reconocedor/voz del sistema y si conviene preferir voces latinas.
 > (`SessionRecord.asr`) precisamente para saberlo con datos y no por suposición.
 > Ver [`docs/plan-asr-privacidad-y-motor-local.md`](docs/plan-asr-privacidad-y-motor-local.md).
 >
+> **Lo que ve el adulto.** La tarjeta «Voz de la app» lleva debajo un bloque que
+> dice, para la variedad activa, si se está escuchando **en el teléfono** o con
+> el **servicio del sistema**, y *por qué* cuando es lo segundo (el móvil no
+> sabe, falta el motor local, o falta el paquete de idioma). Si el único
+> impedimento es el paquete, ofrece descargarlo **una vez**
+> (`androidTriggerOfflineModelDownload`, Android 13+); si el adulto declina, se
+> recuerda y no se vuelve a insistir. Ese bloque es además el diagnóstico rápido
+> del nivel 2 en dispositivo: muestra el modo de la última escucha real sin
+> tener que exportar la telemetría.
+>
 > ⚠️ **Pendiente de verificar en dispositivo**: que el audio no salga con red
 > activa solo lo demuestra una inspección de tráfico, no el modo avión.
 
@@ -653,14 +663,27 @@ internas y el corpus de voz no se publican.
 | Privacy Policy (inglés, para la ficha localizada en `en-US`) | `https://frankbetances.github.io/Valeria/privacy.html` |
 | **Eliminación de datos** (obligatoria al declarar cuentas de usuario) | `https://frankbetances.github.io/Valeria/eliminacion-de-datos.html` |
 
-> ⚠️ **Pendiente tras la Fase A del ASR.** La política de `site/` y el formulario
-> de *Seguridad de los datos* de Play describen el reconocimiento de voz como un
-> servicio del sistema que **puede** procesar el audio en sus servidores. Con el
-> reconocimiento local eso pasa a ser la excepción en castellano, pero **no en
-> todas las variedades**: la redacción tiene que decir que depende del dispositivo
-> y de la variedad. Escribir «el reconocimiento se hace siempre en el dispositivo»
-> sería una declaración falsa ante Play y ante las familias. Se actualiza cuando
-> haya datos de dispositivo real (§7 del plan).
+#### Reconocimiento de voz en *Seguridad de los datos* (tras la Fase A)
+
+La política de `site/` ya está redactada con la Fase A dentro (4 de agosto de
+2026): la app **pide** reconocimiento local y lo declara **por variedad**, no
+como promesa global. El formulario de Play tiene que decir lo mismo, porque
+Google contrasta ambas declaraciones:
+
+| Pregunta del formulario | Respuesta y por qué |
+| --- | --- |
+| ¿Se recopila o comparte **Audio → Grabaciones de voz o sonido**? | **Sí, se comparte** (no se recopila: Valeria+ no guarda ni sube ningún archivo). El destinatario es el servicio de reconocimiento del sistema |
+| Finalidad | *Funcionalidad de la app*. Nunca analítica, publicidad ni personalización |
+| ¿Es opcional para el usuario? | **Sí**: sin permiso de micrófono el resto de la app funciona y el adulto puntúa a mano |
+| ¿Los datos se cifran en tránsito? | Sí, lo gestiona el servicio del sistema |
+| ¿Se pueden solicitar la eliminación? | El audio es efímero: no hay nada almacenado que borrar |
+
+> ⚠️ **No marques «los datos no salen del dispositivo».** Sería falso mientras
+> exista un solo dispositivo o una sola variedad que caiga al reconocedor de red
+> —y galego y euskera van a caer casi siempre—. La declaración correcta sigue
+> siendo «se comparte», con la matización de la política. Solo podría revisarse
+> si algún día **todas** las variedades del piloto resolvieran en local y la
+> verificación de tráfico (§3.5 del plan) lo confirmara en dispositivo.
 
 **Activación (una sola vez, manual e inevitable — ya hecha):** *Settings →
 Pages → Build and deployment → Source: **GitHub Actions***. El `GITHUB_TOKEN`
@@ -721,6 +744,15 @@ ES-04, la distinción entre «no captó el motor» y «lo dijo mal el niño» (q
 gastarle un intento al niño por un tropiezo del reconocedor), el pliegue dialectal
 dominicano y vasco, y el contrato de las pantallas de ejercicios, que no se
 tocaron. **El adulto sigue siendo el juez final.**
+
+**Y se le cuenta al adulto.** Debajo de «Voz de la app» hay ahora un bloque que
+dice, para la variedad activa, si se escucha en el teléfono o con el servicio del
+sistema, y por qué cuando es lo segundo. Si lo único que falta es el paquete de
+idioma, ofrece descargarlo **una vez**; si el adulto dice que no, se recuerda y
+no se insiste. La política de privacidad (ES y EN) se reescribió en el mismo
+sentido: **por variedad y sin promesa global**, porque escribir «el
+reconocimiento se hace siempre en el dispositivo» sería falso ante Play y ante
+las familias.
 
 De regalo: desapareció la vulnerabilidad crítica `xmldom` que
 [`SECURITY.md`](SECURITY.md) daba por riesgo aceptado, porque entraba por la

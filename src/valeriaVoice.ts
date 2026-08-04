@@ -457,52 +457,143 @@ export const asrOfflineStatus = (): AsrMode => lastAsrMode;
 // condicionada a que el dispositivo pueda cumplirla.
 const ANDROID_ON_DEVICE_SERVICE = 'com.google.android.as';
 
+// `androidTriggerOfflineModelDownload` es de Android 13+ (API 33). En versiones
+// anteriores no hay forma de pedir la descarga desde la app, así que tampoco se
+// le ofrece al adulto un botón que no haría nada.
+const ANDROID_DOWNLOAD_MIN_API = 33;
+
 // Normaliza 'es-ES', 'es_ES' y 'es' a una forma comparable.
 const localeKey = (s: string): string => s.toLowerCase().replace('_', '-');
 
-// ¿Hay reconocimiento local para ESTE locale? La respuesta es por variedad, no
-// global: es razonable que el paquete de castellano esté instalado, pero en
+// Diagnóstico del reconocedor PARA UNA VARIEDAD. La respuesta es por variedad,
+// no global: es razonable que el paquete de castellano esté instalado, pero en
 // galego y euskera es mucho menos probable. Forzar el modo local a ciegas
 // degradaría gl/eu sin avisar, así que se pregunta por cada uno.
 //
+// Los cuatro campos se exponen —y no solo el veredicto— porque la tarjeta del
+// adulto tiene que poder decir POR QUÉ está en red: no es lo mismo "este móvil
+// no sabe reconocer en local" que "sabe, pero le falta el paquete de esta
+// variedad", y solo el segundo caso admite oferta de descarga (§3.3 del plan).
+export interface AsrLocaleStatus {
+  locale: string;
+  mode: 'local' | 'red';
+  // supportsOnDeviceRecognition(): ¿el dispositivo sabe reconocer sin red?
+  deviceCapable: boolean;
+  // Android: ¿está instalado el servicio local (Android System Intelligence)?
+  serviceAvailable: boolean;
+  // ¿Está DESCARGADO el paquete de idioma de esta variedad? (installedLocales,
+  // no locales: "soportado" no es lo mismo que "instalado").
+  localeInstalled: boolean;
+  // ¿Tiene sentido ofrecerle al adulto descargarlo? (§3.3 paso 4)
+  canOfferDownload: boolean;
+}
+
 // Se cachea por locale porque son llamadas nativas y esto corre en cada escucha.
-const onDeviceCache = new Map<string, boolean>();
+const statusCache = new Map<string, AsrLocaleStatus>();
 
-async function canRecognizeOnDevice(locale: string): Promise<boolean> {
+const redStatus = (locale: string): AsrLocaleStatus => ({
+  locale,
+  mode: 'red',
+  deviceCapable: false,
+  serviceAvailable: false,
+  localeInstalled: false,
+  canOfferDownload: false,
+});
+
+async function probeLocale(locale: string): Promise<AsrLocaleStatus> {
   const key = localeKey(locale);
-  const cached = onDeviceCache.get(key);
-  if (cached !== undefined) return cached;
+  const cached = statusCache.get(key);
+  if (cached) return cached;
 
-  let ok = false;
+  let st = redStatus(locale);
   try {
     const M = Asr.ExpoSpeechRecognitionModule;
-    if (M.supportsOnDeviceRecognition()) {
-      if (Platform.OS === 'android') {
-        // En Android hace falta además que el servicio local exista y que el
-        // paquete de idioma esté DESCARGADO (installedLocales, no locales:
-        // "soportado" no es lo mismo que "instalado").
-        const services: string[] = M.getSpeechRecognitionServices() ?? [];
-        if (services.includes(ANDROID_ON_DEVICE_SERVICE)) {
-          const { installedLocales } = await M.getSupportedLocales({
-            androidRecognitionServicePackage: ANDROID_ON_DEVICE_SERVICE,
-          });
-          const installed = (installedLocales ?? []).map(localeKey);
-          const want = key;
-          ok = installed.includes(want)
-            || installed.some((l: string) => l.split('-')[0] === want.split('-')[0]);
-        }
-      } else {
-        // En iOS el reparto de modelos lo gestiona el sistema: si el
-        // reconocedor dice que soporta on-device, se pide y punto.
-        ok = true;
+    const deviceCapable = M.supportsOnDeviceRecognition() === true;
+
+    if (Platform.OS !== 'android') {
+      // En iOS el reparto de modelos lo gestiona el sistema: si el reconocedor
+      // dice que soporta on-device, se pide y punto. No hay descarga que ofrecer.
+      st = {
+        locale,
+        mode: deviceCapable ? 'local' : 'red',
+        deviceCapable,
+        serviceAvailable: deviceCapable,
+        localeInstalled: deviceCapable,
+        canOfferDownload: false,
+      };
+    } else {
+      const services: string[] = M.getSpeechRecognitionServices() ?? [];
+      const serviceAvailable = services.includes(ANDROID_ON_DEVICE_SERVICE);
+
+      let localeInstalled = false;
+      if (deviceCapable && serviceAvailable) {
+        // OJO: en Android 12 y anteriores esto devuelve listas vacías (la API
+        // del sistema no existe), así que el resultado será "red". Es el lado
+        // conservador y correcto: sin poder comprobarlo, no se promete nada.
+        const { installedLocales } = await M.getSupportedLocales({
+          androidRecognitionServicePackage: ANDROID_ON_DEVICE_SERVICE,
+        });
+        const installed = (installedLocales ?? []).map(localeKey);
+        localeInstalled = installed.includes(key)
+          || installed.some((l: string) => l.split('-')[0] === key.split('-')[0]);
       }
+
+      st = {
+        locale,
+        mode: deviceCapable && serviceAvailable && localeInstalled ? 'local' : 'red',
+        deviceCapable,
+        serviceAvailable,
+        localeInstalled,
+        canOfferDownload:
+          deviceCapable && serviceAvailable && !localeInstalled
+          && Number(Platform.Version) >= ANDROID_DOWNLOAD_MIN_API,
+      };
     }
   } catch (e) {
-    ok = false; // ante la duda, el comportamiento de siempre
+    st = redStatus(locale); // ante la duda, el comportamiento de siempre
   }
 
-  onDeviceCache.set(key, ok);
-  return ok;
+  statusCache.set(key, st);
+  return st;
+}
+
+// Estado del reconocedor para la variedad activa (o la que se pida). Lo consume
+// la tarjeta del adulto; `startListening` usa el mismo camino, así que lo que
+// se muestra es exactamente lo que se va a pedir.
+export async function asrLocaleStatus(locale?: string): Promise<AsrLocaleStatus | null> {
+  if (!Asr) return null;
+  return probeLocale(locale ?? speechLocale());
+}
+
+// Invalida el diagnóstico cacheado. Necesario tras descargar un paquete de
+// idioma: sin esto, el `false` de antes de la descarga se quedaría pegado toda
+// la sesión y el adulto vería "en red" con el paquete ya instalado.
+export const forgetAsrLocale = (locale?: string): void => {
+  if (locale) statusCache.delete(localeKey(locale));
+  else statusCache.clear();
+};
+
+export type OfflineDownloadResult = 'ok' | 'dialogo' | 'cancelado' | 'error';
+
+// §3.3 paso 4 · Descarga del paquete de idioma, a petición EXPLÍCITA del adulto.
+// Nunca se lanza sola: abre una interfaz del sistema y consume datos, y la app
+// es una herramienta de rehabilitación antes que un manifiesto de privacidad.
+// En Android 13 el sistema solo puede abrir su diálogo ('opened_dialog'); en 14+
+// devuelve el resultado real de la descarga.
+export async function requestOfflineModel(locale?: string): Promise<OfflineDownloadResult> {
+  if (!Asr || Platform.OS !== 'android') return 'error';
+  const target = locale ?? speechLocale();
+  try {
+    const { status } = await Asr.ExpoSpeechRecognitionModule
+      .androidTriggerOfflineModelDownload({ locale: target });
+    if (status === 'download_canceled') return 'cancelado';
+    // Tanto si la descarga terminó como si solo se abrió el diálogo, lo
+    // cacheado ya no vale: hay que volver a preguntarle al sistema.
+    forgetAsrLocale(target);
+    return status === 'download_success' ? 'ok' : 'dialogo';
+  } catch (e) {
+    return 'error';
+  }
 }
 
 export interface ListenCallbacks {
@@ -591,7 +682,7 @@ export async function startListening(cb: ListenCallbacks): Promise<boolean> {
   }
 
   const locale = speechLocale();
-  const onDevice = await canRecognizeOnDevice(locale);
+  const onDevice = (await probeLocale(locale)).mode === 'local';
   lastAsrMode = onDevice ? 'local' : 'red';
   // La telemetría particiona la tasa de noMatch por modo: sin eso, la cifra
   // agregada mezcla escuchas locales y de red y no permite decidir la fase.

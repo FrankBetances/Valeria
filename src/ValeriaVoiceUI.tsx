@@ -13,11 +13,13 @@
 // ============================================================================
 import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, Pressable, TextInput, StyleSheet, Animated, Easing, Platform, Linking } from 'react-native';
-import { V } from './valeriaTheme';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { V, STORAGE_KEYS } from './valeriaTheme';
 import {
   speak, speakToChild, speakWordSlow, speakPhraseSlow, speakClinical, stopSpeaking, speakVoiceSample,
   asrSupported, startListening, stopListening, releaseListening, matchTarget, MatchLevel,
   VoiceStatus, refreshVoiceCatalog,
+  asrLocaleStatus, requestOfflineModel, asrOfflineStatus, AsrLocaleStatus,
 } from './valeriaVoice';
 import { getLocale, setLocale, assetLang, Locale } from './valeriaLocale';
 import { micVerdictSayFor } from './valeriaExerciseBank';
@@ -327,6 +329,163 @@ const LOCALES: Array<{ id: Locale; label: string; beta?: boolean }> = [
   { id: 'eu', label: 'Euskara' },
 ];
 
+const localeLabel = (id: Locale): string => LOCALES.find((l) => l.id === id)?.label ?? String(id);
+
+// ----------------------------------------------------------------------------
+// Bloque "¿dónde se escucha?" — Fase A de docs/plan-asr-privacidad-y-motor-local.md
+// ----------------------------------------------------------------------------
+// La app PIDE que el reconocimiento del turno de habla se haga dentro del
+// teléfono, para que el audio del menor no salga del dispositivo. No siempre se
+// puede: depende del móvil y, sobre todo, de que esté descargado el paquete de
+// idioma de ESTA variedad. Es razonable que lo esté en castellano; en galego y
+// euskera es mucho menos probable.
+//
+// Este bloque existe por dos razones, y conviene no perder ninguna de las dos:
+//   1. Decirle al adulto la verdad de lo que pasa con la voz de su hijo, por
+//      variedad, sin la frase cómoda de "todo se hace en el dispositivo".
+//   2. Ofrecer la descarga del paquete UNA vez y de forma explícita (§3.3 paso
+//      4). Si declina, se sigue con el reconocedor de red y no se vuelve a
+//      insistir: la app es una herramienta de rehabilitación antes que un
+//      manifiesto de privacidad, y un ejercicio roto por privacidad es peor
+//      que el problema que se quería resolver.
+//
+// Lo que este bloque NO es: una garantía. Muestra lo que se pide y lo que el
+// sistema concede. La prueba concluyente de que el audio no sale es la
+// inspección de tráfico de red (§3.5 del plan), no este texto.
+export const SpeechPrivacyBlock: React.FC<{ locale: Locale }> = ({ locale }) => {
+  const [st, setSt] = useState<AsrLocaleStatus | null>(null);
+  const [checking, setChecking] = useState(false);
+  const [declined, setDeclined] = useState(false);
+  const [note, setNote] = useState('');
+  const mounted = useRef(true);
+
+  const offerKey = `${STORAGE_KEYS.asrOfertaLocal}_${locale}`;
+
+  const probe = async () => {
+    setChecking(true);
+    try {
+      const [next, raw] = await Promise.all([
+        asrLocaleStatus(),
+        AsyncStorage.getItem(offerKey).catch(() => null),
+      ]);
+      if (!mounted.current) return;
+      setSt(next);
+      setDeclined(raw === 'no');
+    } finally {
+      if (mounted.current) setChecking(false);
+    }
+  };
+
+  useEffect(() => {
+    mounted.current = true;
+    return () => { mounted.current = false; };
+  }, []);
+
+  // Se re-consulta al cambiar de variedad: la respuesta es por locale, y el
+  // selector de arriba cambia el locale activo de forma síncrona antes de que
+  // este efecto corra, así que `asrLocaleStatus()` ya mira la variedad nueva.
+  useEffect(() => { setNote(''); void probe(); }, [locale]);
+
+  if (!asrSupported()) return null;
+
+  const download = async () => {
+    setNote('');
+    setChecking(true);
+    const res = await requestOfflineModel();
+    if (!mounted.current) return;
+    setChecking(false);
+    if (res === 'ok') setNote('✓ Paquete descargado. A partir de ahora la voz se reconoce dentro del teléfono.');
+    else if (res === 'dialogo') setNote('Se abrió la pantalla de descarga del sistema. Cuando termine, toca «Volver a comprobar».');
+    else if (res === 'cancelado') setNote('Descarga cancelada. Se sigue usando el reconocimiento del sistema.');
+    else setNote('No se pudo pedir la descarga en este dispositivo. Puedes hacerlo desde Ajustes → Sistema → Idiomas → Entrada por voz.');
+    if (res === 'ok' || res === 'dialogo') void probe();
+  };
+
+  const decline = async () => {
+    setDeclined(true);
+    setNote('Sin problema: los ejercicios funcionan igual con el reconocimiento del sistema.');
+    try { await AsyncStorage.setItem(offerKey, 'no'); } catch (e) { /* preferencia, no dato clínico */ }
+  };
+
+  const label = localeLabel(locale);
+  const local = st?.mode === 'local';
+
+  const detail = st == null
+    ? 'Comprobando dónde se procesa la voz del niño en esta variedad…'
+    : local
+      ? `En ${label} el reconocimiento se hace dentro del teléfono: el audio del turno de habla no sale del dispositivo.`
+      : !st.deviceCapable
+        ? `Este dispositivo no sabe reconocer voz sin conexión, así que en ${label} el audio del turno de habla lo procesa el servicio de reconocimiento del sistema, que puede enviarlo a sus servidores.`
+        : !st.serviceAvailable
+          ? `Falta el motor de reconocimiento local del sistema, así que en ${label} el audio lo procesa el servicio de reconocimiento habitual, que puede enviarlo a sus servidores.`
+          : st.canOfferDownload
+            ? `Este móvil puede reconocer sin conexión, pero le falta el paquete de ${label}. Mientras tanto, el audio del turno de habla lo procesa el servicio del sistema, que puede enviarlo a sus servidores.`
+            : `Falta el paquete de ${label} y esta versión de Android no permite descargarlo desde la app. Puedes instalarlo en Ajustes → Sistema → Idiomas → Entrada por voz; hasta entonces el audio lo procesa el servicio del sistema.`;
+
+  // Modo de la ÚLTIMA escucha real de la sesión. La comprobación de arriba dice
+  // lo que se va a pedir; esto dice lo que se pidió. Sirve de diagnóstico rápido
+  // en dispositivo (nivel 2 de §3.5) sin tener que exportar la telemetría.
+  const last = asrOfflineStatus();
+
+  return (
+    <View style={s.privBlock}>
+      <View style={s.privHead}>
+        <Text style={s.privKicker}>{local ? '🔒' : '☁️'} MICRÓFONO DEL EJERCICIO</Text>
+        <View style={[s.privChip, local ? s.privChipLocal : s.privChipNet]}>
+          <Text style={[s.privChipTxt, { color: local ? '#0f8a63' : '#92711a' }]}>
+            {checking && st == null ? 'Comprobando…' : local ? 'En el teléfono' : 'Servicio del sistema'}
+          </Text>
+        </View>
+      </View>
+
+      <Text style={s.privDetail}>{detail}</Text>
+
+      {st != null && st.canOfferDownload && !declined && (
+        <>
+          <Text style={s.privOffer}>
+            Si descargas el paquete de {label}, la voz del niño deja de salir del teléfono. Ocupa espacio y se
+            descarga una sola vez; los ejercicios funcionan igual si prefieres no hacerlo.
+          </Text>
+          <View style={s.privBtnRow}>
+            <Pressable
+              onPress={download}
+              disabled={checking}
+              style={[s.privBtn, s.privBtnPrimary, checking && { opacity: 0.5 }]}
+              accessibilityRole="button"
+              accessibilityLabel={`Descargar el paquete de reconocimiento de voz en ${label}`}
+            >
+              <Text style={[s.privBtnTxt, { color: '#fff' }]}>⬇️ Descargar el paquete</Text>
+            </Pressable>
+            <Pressable onPress={decline} style={s.privBtn} accessibilityRole="button" accessibilityLabel="No descargar el paquete de voz">
+              <Text style={s.privBtnTxt}>Ahora no</Text>
+            </Pressable>
+          </View>
+        </>
+      )}
+
+      {!!note && <Text style={s.privNote}>{note}</Text>}
+
+      <View style={s.privBtnRow}>
+        <Pressable
+          onPress={probe}
+          disabled={checking}
+          style={[s.privBtn, checking && { opacity: 0.5 }]}
+          accessibilityRole="button"
+          accessibilityLabel="Volver a comprobar dónde se reconoce la voz"
+        >
+          <Text style={s.privBtnTxt}>🔄 Volver a comprobar</Text>
+        </Pressable>
+      </View>
+
+      {last !== 'desconocido' && (
+        <Text style={s.privFoot}>
+          Última escucha de esta sesión: {last === 'local' ? 'en el teléfono' : 'servicio del sistema'}.
+        </Text>
+      )}
+    </View>
+  );
+};
+
 export const VoiceQualityCard: React.FC = () => {
   const [status, setStatus] = useState<VoiceStatus | null>(null);
   const [checking, setChecking] = useState(false);
@@ -459,6 +618,11 @@ export const VoiceQualityCard: React.FC = () => {
           descarga la voz de Español (España). Después vuelve aquí y toca «Volver a comprobar».
         </Text>
       )}
+
+      {/* Lo de arriba es la voz que la app PRODUCE; esto es lo que la app
+          ESCUCHA. Van juntos a propósito: el adulto elige la variedad una sola
+          vez y ve en el mismo sitio qué implica para la voz del niño. */}
+      <SpeechPrivacyBlock locale={locale} />
     </View>
   );
 };
@@ -523,6 +687,22 @@ const s = StyleSheet.create({
   vqBtnPrimary: { backgroundColor: V.color.primary, borderColor: V.color.primary },
   vqBtnTxt: { fontSize: 12, fontWeight: '800', color: V.color.primaryDark },
   vqHint: { fontSize: 11, fontWeight: '600', color: V.color.textSecondary, marginTop: 10, lineHeight: 15, backgroundColor: V.color.pageBg, borderRadius: 10, padding: 10 },
+
+  privBlock: { backgroundColor: V.color.pageBg, borderWidth: 1, borderColor: V.color.border, borderRadius: 12, padding: 11, marginTop: 12 },
+  privHead: { flexDirection: 'row', alignItems: 'center', gap: 8 },
+  privKicker: { flex: 1, fontSize: 10.5, fontWeight: '800', letterSpacing: 0.5, color: V.color.textMuted },
+  privChip: { paddingHorizontal: 8, paddingVertical: 3, borderRadius: 8 },
+  privChipLocal: { backgroundColor: V.color.successBg },
+  privChipNet: { backgroundColor: '#fffbeb' },
+  privChipTxt: { fontSize: 10.5, fontWeight: '800' },
+  privDetail: { fontSize: 11.5, fontWeight: '600', color: V.color.textSecondary, marginTop: 7, lineHeight: 15.5 },
+  privOffer: { fontSize: 11.5, fontWeight: '700', color: V.color.textPrimary, marginTop: 8, lineHeight: 15.5 },
+  privBtnRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginTop: 9 },
+  privBtn: { backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.border, borderRadius: 10, paddingHorizontal: 10, paddingVertical: 7 },
+  privBtnPrimary: { backgroundColor: V.color.primary, borderColor: V.color.primary },
+  privBtnTxt: { fontSize: 11.5, fontWeight: '800', color: V.color.textSecondary },
+  privNote: { fontSize: 11, fontWeight: '700', color: V.color.textSecondary, marginTop: 9, lineHeight: 15 },
+  privFoot: { fontSize: 10.5, fontWeight: '600', color: V.color.textMuted, marginTop: 8 },
 
   phaseStrip: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 4, backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.border, borderRadius: 13, paddingVertical: 7, paddingHorizontal: 8, marginTop: 12 },
   phaseArrow: { fontSize: 12, fontWeight: '800', color: V.color.textMuted },

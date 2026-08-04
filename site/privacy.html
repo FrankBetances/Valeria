@@ -26,7 +26,7 @@
   <p class="lang"><a href="privacidad.html">Versión en español</a> · <strong>English</strong> · <a href="eliminacion-de-datos.html">Data deletion</a></p>
 
   <div class="meta">
-    <span><strong>Last updated:</strong> 28 July 2026</span>
+    <span><strong>Last updated:</strong> 4 August 2026</span>
     <span><strong>Effective:</strong> 28 July 2026</span>
     <span><strong>App version:</strong> 3.0.0</span>
   </div>
@@ -110,7 +110,7 @@
         </tr>
         <tr>
           <td><strong>Speech recognition</strong><br>(system service)</td>
-          <td>The App hands the speaking-turn audio to the <strong>speech recognition service installed on the device</strong> and receives the recognised text back, which it compares against the expected word.</td>
+          <td>The App hands the speaking-turn audio to a <strong>speech recognition service installed on the device</strong> and receives the recognised text back, which it compares against the expected word. The App <strong>asks for that recognition to run on the device itself, offline</strong>, whenever the phone and the speech variety in use allow it; where that is not possible, the usual recognition service is used and it may process the audio on its servers. The “Voz de la app” card shows which of the two modes is active. See the box on voice recordings below.</td>
           <td>Spoken production cannot be scored automatically; the adult can still score manually.</td>
         </tr>
         <tr>
@@ -138,7 +138,10 @@
   </div>
 
   <div class="warn">
-    <p><strong>About voice recordings.</strong> Valeria+ <strong>does not store, replay or upload any audio file</strong> of the child to its servers. Audio is processed ephemerally during the speaking turn and discarded; the App keeps only the outcome of the assessment (hit or miss). That said, speech recognition is performed by the device's operating-system service — typically Google's — and that service may process the audio on its own servers under its own privacy policy, which is outside Valeria+'s control. On many Android devices you can install the offline language pack so recognition happens entirely on-device.</p>
+    <p><strong>About voice recordings.</strong> Valeria+ <strong>does not store, replay or upload any audio file</strong> of the child to its servers. Audio is processed ephemerally during the speaking turn and discarded; the App keeps only the outcome of the assessment (hit or miss).</p>
+    <p><strong>Where that audio is recognised.</strong> The App <strong>asks the system to perform speech recognition on the device itself</strong>, so that the child's audio does not leave the phone. <strong>This is not stated as a universal guarantee, because it is not one</strong>: it depends on two conditions the App does not control — that the device is capable of offline recognition, and that the relevant language pack has been downloaded. The decision is made <strong>separately for each speech variety</strong>: the pack is commonly available for Castilian Spanish, and considerably less likely for Galician and Basque.</p>
+    <p><strong>Where on-device recognition is unavailable</strong>, the App continues to work using the <strong>operating system's speech recognition service</strong> — typically Google's — and that service may process the audio on its own servers under its own privacy policy, which is outside Valeria+'s control. This is a deliberate choice: interrupting a rehabilitation exercise on these grounds would harm the child more than the problem it seeks to avoid.</p>
+    <p>The App <strong>always shows which of the two modes is in use</strong> for the active variety, in the “Voz de la app” card, and offers to download the offline language pack where the device supports it.</p>
   </div>
 
   <h2>4. Purposes and legal bases</h2>
@@ -160,7 +163,7 @@
   <p>Valeria+ <strong>does not sell or transfer personal data to third parties for commercial or advertising purposes</strong>. The only disclosures are:</p>
   <ul>
     <li><strong>Google Firebase</strong> (Google Ireland Limited / Google LLC), as the provider of <em>Firebase Authentication</em> and <em>Cloud Firestore</em>, hosts the professional accounts and patient records described in section 3.2, acting as a data processor. See the <a href="https://firebase.google.com/support/privacy" rel="noopener">Firebase privacy and security terms</a>.</li>
-    <li><strong>The device's speech recognition service</strong> (usually Google), as described in section 3.3.</li>
+    <li><strong>The device's speech recognition service</strong> (usually Google), <strong>only where recognition cannot be performed on the device itself</strong>, as described in section 3.3.</li>
     <li><strong>Recipients chosen by the adult</strong> when they export a report or log and share it through Android's share sheet (for example, by email). That disclosure is initiated and fully controlled by the person performing it.</li>
     <li><strong>Public authorities</strong>, where there is a legal obligation to disclose.</li>
   </ul>

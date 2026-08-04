@@ -21,15 +21,22 @@
 > Encuadre regulatorio: **SaMD Clase I (MDR)** · **RGPD art. 9** (datos de salud de
 > menores) · **Play Console → Seguridad de los datos**.
 >
-> **Estado: 🟠 Fase A en curso** (2026-08-03). Decisiones de arranque cerradas:
-> **D1 · migración confirmada** (§3.1) y **D3 · consentimiento resuelto**, con
-> firma en papel el día de la sesión (§4.2).
+> **Estado: 🟠 Fase A — todo el software escrito, pendiente de dispositivo**
+> (2026-08-04). Decisiones cerradas: **D1 · migración** (§3.1), **D3 ·
+> consentimiento** (§4.2) y **D2 · sí se ofrece la descarga del paquete**, una
+> vez y de forma explícita (§3.3).
 >
-> **Migración de librería hecha y verificada en `expo prebuild`**; falta todo lo
-> que solo se puede comprobar con un teléfono delante (§3.5). Queda abierto el
-> **umbral clínico** de la puerta (§3.6): bloquea cerrar, no arrancar.
+> Hecho y verificado en `expo prebuild` + `typecheck`: la migración de librería,
+> la política de degradación por locale, la telemetría por modo, **el bloque del
+> adulto que dice dónde se está escuchando y ofrece el paquete local**, y **la
+> política de privacidad ES/EN redactada por variedad** (§7).
 >
-> Rama de trabajo: `claude/valeria-voice-recognition-mva9qq`.
+> Lo que falta **solo se puede hacer con un teléfono delante** (§3.5) o con
+> ACOPROS: la inspección de tráfico, los dos casos de `noMatch` a mano, la
+> medida contra la línea base y el **umbral clínico** de la puerta (§3.6, D6).
+>
+> Rama de trabajo: `claude/new-voice-recognition-0rcwl9` (continúa
+> `claude/valeria-voice-recognition-mva9qq`).
 
 ---
 
@@ -268,9 +275,13 @@ solo archivo y las pantallas nunca vean la librería.
 | `plugins/withSpeechRecognitionQueries.js` | ✅ Retirado: el plugin de la librería nueva ya declara la `<queries>` |
 | `src/valeriaVoice.ts` | ✅ Bloque ASR reescrito. **Los tres valores de silencio de ES-04 se conservan tal cual**; el cuarto extra, `EXTRA_PARTIAL_RESULTS`, no existe como intent option en la librería nueva y pasa a la opción multiplataforma `interimResults: true` |
 | `src/valeriaVoice.ts` | ✅ `NO_MATCH_CODES` traducido a `NO_MATCH_ERRORS` — ver aviso abajo |
-| `src/valeriaVoice.ts` | ✅ Nuevo: `asrOfflineStatus()` y la resolución **por locale** de `canRecognizeOnDevice()` |
+| `src/valeriaVoice.ts` | ✅ Nuevo: `asrOfflineStatus()` y la resolución **por locale**, hoy en `probeLocale()` |
+| `src/valeriaVoice.ts` | ✅ Nuevo (D2): `asrLocaleStatus()` devuelve el diagnóstico completo —`deviceCapable`, `serviceAvailable`, `localeInstalled`, `canOfferDownload`— y no solo el veredicto; `requestOfflineModel()` envuelve `androidTriggerOfflineModelDownload`; `forgetAsrLocale()` invalida la caché tras descargar |
 | `src/valeriaTelemetry.ts` | ✅ `SessionRecord.asr`: `noMatch` particionado por modo + `byLocale`. Lo empuja `valeriaVoice` con `trackAsrMode()`; la telemetría **no importa** el módulo de voz, para no romper su regla de no depender de nada opcional |
-| `site/privacidad.html` · `site/privacy.html` | ⏳ Pendiente — §7, con el aviso de redacción |
+| `src/ValeriaVoiceUI.tsx` | ✅ Nuevo `<SpeechPrivacyBlock>` dentro de «Voz de la app»: modo de la variedad activa, motivo cuando es de red, oferta de descarga una sola vez y modo de la última escucha real (diagnóstico de nivel 2) |
+| `src/valeriaTheme.ts` | ✅ `STORAGE_KEYS.asrOfertaLocal`, con sufijo por variedad: recuerda a qué variedades el adulto ya declinó la descarga |
+| `site/privacidad.html` · `site/privacy.html` | ✅ §3.3, el recuadro de grabaciones de voz y el §5 de destinatarios, redactados **por variedad** y sin promesa global (§7). Fecha de última actualización al 2026-08-04 |
+| `README.md` | ✅ Tabla de respuestas de *Seguridad de los datos* de Play, con el aviso de no marcar «los datos no salen del dispositivo» |
 
 **No se tocan** `ValeriaMinimalPairsScreen.tsx` ni `ValeriaSemanticExpansionScreen.tsx`:
 consumen `startListening`/`matchPair`/`matchExpected`, cuyo contrato no cambia.
@@ -293,17 +304,41 @@ y euskera es mucho menos probable**. Forzar reconocimiento local de forma global
 rompería desproporcionadamente `gl` y `eu`, que son variedades con planes propios
 en el repo.
 
-Flujo, evaluado **para el locale activo** en cada sesión:
+Flujo, evaluado **para el locale activo** en cada sesión (`probeLocale()` en
+`valeriaVoice.ts`, con caché por locale):
 
 1. `supportsOnDeviceRecognition()` → ¿el dispositivo sabe hacerlo?
-2. `getSupportedLocales()` → ¿está el paquete de **este** locale?
-3. Si **sí** → `requiresOnDeviceRecognition: true` + fijar el paquete de servicio
+2. `getSpeechRecognitionServices()` → ¿está instalado `com.google.android.as`?
+3. `getSupportedLocales({ androidRecognitionServicePackage })` → ¿está
+   **descargado** el paquete de **este** locale? Se mira `installedLocales`, no
+   `locales`: "soportado" no es lo mismo que "instalado".
+4. Si **sí** → `requiresOnDeviceRecognition: true` + fijar el paquete de servicio
    local. Se registra `modo=local`.
-4. Si **no** → se ofrece al adulto, **una vez y de forma explícita**, descargar el
+5. Si **no** → se ofrece al adulto, **una vez y de forma explícita**, descargar el
    paquete (`androidTriggerOfflineModelDownload`), explicando en una frase que
    sirve para que la voz del menor no salga del teléfono.
-5. Si declina o no está disponible → **se sigue con el motor de red, como hoy**, y
+6. Si declina o no está disponible → **se sigue con el motor de red, como hoy**, y
    se registra `modo=red`. No se rompe el ejercicio por privacidad.
+
+> **Dos límites del sistema que conviene tener escritos**, porque explican
+> resultados que si no parecen fallos de la app:
+>
+> - En **Android 12 y anteriores** `getSupportedLocales()` devuelve listas
+>   vacías: la API del sistema no existe. Sin poder comprobarlo, el diagnóstico
+>   se queda en `red`. Es el lado conservador y es el correcto: no se promete lo
+>   que no se puede verificar.
+> - `androidTriggerOfflineModelDownload()` es de **Android 13+**, y en 13 solo
+>   puede abrir el diálogo del sistema (`opened_dialog`); el resultado real de la
+>   descarga (`download_success` / `download_canceled`) llega en 14+. Por eso el
+>   botón de descarga solo aparece con API ≥ 33, y en 13 el texto pide volver a
+>   comprobar cuando la descarga termine.
+
+**Lo que ve el adulto** (D2, cerrada el 2026-08-04): un bloque bajo «Voz de la
+app» con el modo de la variedad activa, el **motivo** cuando es de red —no es lo
+mismo "este móvil no sabe" que "le falta el paquete de galego"—, la oferta de
+descarga cuando ese motivo es el paquete, y el modo de la última escucha real de
+la sesión. Esto último es, además, el diagnóstico de nivel 2 del §3.5 sin tener
+que exportar la telemetría.
 
 El punto 5 es deliberado: la app es una herramienta de rehabilitación antes que un
 manifiesto de privacidad. Y el resultado esperado es **mixto por variedad**:
@@ -558,7 +593,7 @@ actualizan en el mismo cambio.** Google contrasta ambas declaraciones.
 
 | Momento | Qué hay que actualizar |
 | --- | --- |
-| **Fase A entra** | `privacidad.html` §3.3 y §163 + `privacy.html`: el reconocimiento pasa a ser local **cuando el dispositivo y el locale lo permiten**. Revisar si el reconocedor deja de ser destinatario tercero. Play: revisar "Compartición de datos" |
+| **Fase A entra** | ✅ **Hecho el 2026-08-04** en `privacidad.html` y `privacy.html`: §3.3 (fila del reconocedor), el recuadro de grabaciones de voz —reescrito en cuatro párrafos: qué no se guarda, dónde se reconoce, qué pasa cuando no se puede, y que la app lo muestra— y el §5, donde el reconocedor pasa a ser destinatario **solo cuando el reconocimiento no puede hacerse en el dispositivo**. Las respuestas de *Seguridad de los datos* están escritas en el README; **falta trasladarlas a la consola** |
 | **Fase B, corpus** | **No toca la política pública**: es una build de desarrollo, no de producción. Sí exige el consentimiento en papel y las reglas de §4.2 |
 | **Fase B, si GO** | Declarar la descarga del modelo; revisar el tamaño de la app en la ficha; confirmar que se elimina la salida de audio |
 | **En ambos casos** | El correo de contacto es y sigue siendo `frank.alberto.betances.reinoso@gmail.com` |
@@ -584,13 +619,13 @@ toca.
 | --- | --- | --- | --- |
 | **D1** | Mecanismo de la Fase A | **Migrar a `expo-speech-recognition@3.1.3`** (§3.1). Ejecutado. El riesgo pre-1.0 que se aceptó resultó no existir: la librería decidida estaba deprecada y su sucesora mantenida ya va por 3.x | 2026-08-03 |
 | **D3** | Consentimiento del corpus | **Listo**, firma en papel el día de la grabación (§4.2). Desbloquea la Fase B y permite validar la Fase A con rigor | 2026-08-03 |
+| **D2** | ¿Ofrecer la descarga del paquete de idioma? | **Sí, una vez y de forma explícita** (§3.3). Sin ofrecerla, castellano se quedaría en red en todos los móviles que no traigan el paquete de fábrica y la Fase A se perdería en el 90 % de los casos por un motivo evitable. Si el adulto declina, se recuerda por variedad y no se vuelve a insistir | 2026-08-04 |
 
 ### Abiertas
 
 | # | Decisión | Quién | Bloquea |
 | --- | --- | --- | --- |
 | **D6** | **Umbral clínico**: ¿cuántos `noMatch` de más por sesión son tolerables? (§3.6) | ACOPROS | **Cerrar** la Fase A. No impide empezar |
-| D2 | ¿Se ofrece al adulto descargar el paquete de idioma, o solo se usa si ya está? (§3.3) | Frank + criterio clínico | Detalle de A.1; se puede implementar la detección antes |
 | D4 | ¿Local por defecto, o *opt-in* del adulto? | Tras los datos de §3.6 | Cierre de la Fase A |
 | D5 | ¿Se lanza la Fase B aunque la Fase A cumpla holgadamente? | Frank, con datos de A | Arranque de la Fase B |
 
@@ -612,12 +647,16 @@ datos de A delante y no antes.
 - [x] Traducir `NO_MATCH_CODES` con tabla explícita — ⏳ **falta verificar ambos casos a mano en dispositivo** (R9)
 - [x] Implementar la política de degradación **por locale** (§3.3)
 - [x] Añadir `asrOfflineStatus()` y la telemetría de modo
-- [ ] Verificación de niveles 1 y 2 durante el desarrollo (§3.5)
+- [x] **D2 · ofrecer la descarga del paquete**, una vez y explícita (§3.3)
+- [x] Bloque del adulto con el modo por variedad, el motivo y la oferta (`SpeechPrivacyBlock`)
+- [x] Actualizar `privacidad.html` y `privacy.html` — redacción **por variedad**, sin promesa global (§7)
+- [x] Dejar escritas las respuestas de *Seguridad de los datos* de Play en el README (§7)
+- [ ] **Trasladar esas respuestas al formulario de Play Console** — trabajo de consola, no de repositorio
+- [ ] Verificación de niveles 1 y 2 durante el desarrollo (§3.5) — el bloque del adulto ya muestra lo que hace falta mirar
 - [ ] **Verificación de nivel 3 (tráfico de red)** en ≥ 2 dispositivos
 - [ ] Medir degradación de `noMatch` y de veredicto contra la línea base
 - [ ] Verificar los tres ejercicios sin regresión
 - [ ] **D6 · fijar el umbral clínico con ACOPROS**
-- [ ] Actualizar `privacidad.html`, `privacy.html` y Play Data Safety (§7, con el aviso de redacción)
 - [ ] Puerta §3.6
 
 ### Fase B
