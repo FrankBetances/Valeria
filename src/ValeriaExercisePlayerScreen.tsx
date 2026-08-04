@@ -340,6 +340,9 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
   const [patientName, setPatientName] = useState('');
 
   const baseEx = db[sessionIds[idx]] ?? db.ff1;
+  // Siguiente ejercicio de la sesión (undefined en el último): lo consume la
+  // tarjeta de anticipación de la transición.
+  const nextEx = idx + 1 < sessionIds.length ? db[sessionIds[idx + 1]] : undefined;
   const variants = variantsMap[sessionIds[idx]] ?? [];
   const totalRounds = variants.length;
   // Ejercicio efectivo de la ronda actual: los campos de la variante pisan a los base.
@@ -1434,6 +1437,22 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
               })}
             </View>
 
+            {/* Anticipación de la transición (ACOPROS, sobre M-6): al puntuar se
+                pasa al ejercicio siguiente de golpe, y el cambio sin avisar es
+                justo lo que descoloca a los niños que peor llevan las
+                transiciones. Se enseña qué viene ANTES de tocar la puntuación,
+                para que el adulto pueda anunciarlo. Vale para toda la sesión, no
+                solo para M-6: es el mismo problema en cualquier bloque. */}
+            {!!nextEx && (
+              <View style={s.nextUpCard}>
+                <Text style={{ fontSize: 16 }}>➡️</Text>
+                <View style={{ flex: 1 }}>
+                  <Text style={s.nextUpKicker}>A CONTINUACIÓN · ANÚNCIASELO ANTES DE CAMBIAR</Text>
+                  <Text style={s.nextUpTxt}>{nextEx.code} · {nextEx.name}</Text>
+                </View>
+              </View>
+            )}
+
             {/* ===== Panel del adulto · caos comunicativo (Fase 2) ===== */}
             <ValeriaAdultChaosPanel
               distractorOn={distractorOn}
@@ -1566,6 +1585,10 @@ const s = StyleSheet.create({
   materialsCard: { flexDirection: 'row', alignItems: 'center', gap: 11, backgroundColor: '#fffbeb', borderColor: '#f4e6b8', borderWidth: 1.5, borderRadius: 16, padding: 13, marginBottom: 12 },
   materialsKicker: { fontSize: 10.5, fontWeight: '800', letterSpacing: 0.6, color: '#92711a' },
   materialsTxt: { fontSize: 13, fontWeight: '700', color: '#7c4a0e', marginTop: 3, lineHeight: 18 },
+
+  nextUpCard: { flexDirection: 'row', alignItems: 'center', gap: 10, backgroundColor: V.color.pageBg, borderColor: V.color.border, borderWidth: 1, borderRadius: 14, padding: 12, marginTop: 12 },
+  nextUpKicker: { fontSize: 10, fontWeight: '800', letterSpacing: 0.5, color: V.color.textMuted },
+  nextUpTxt: { fontSize: 13, fontWeight: '800', color: V.color.textPrimary, marginTop: 3 },
 
   proposalsCard: { backgroundColor: '#f5f0ff', borderColor: '#ddccfa', borderWidth: 1.5, borderRadius: 16, padding: 13, marginBottom: 12 },
   proposalsKicker: { fontSize: 10.5, fontWeight: '800', letterSpacing: 0.5, color: '#6d3fc4', marginBottom: 7 },
