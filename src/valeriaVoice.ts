@@ -451,11 +451,49 @@ export type AsrMode = 'local' | 'red' | 'desconocido';
 let lastAsrMode: AsrMode = 'desconocido';
 export const asrOfflineStatus = (): AsrMode => lastAsrMode;
 
-// Paquete del reconocedor LOCAL de Android (Android System Intelligence). El de
-// red es 'com.google.android.googlequicksearchbox'. Fijar el paquete es selección
-// dura del motor; `requiresOnDeviceRecognition` por sí solo es una garantía
-// condicionada a que el dispositivo pueda cumplirla.
-const ANDROID_ON_DEVICE_SERVICE = 'com.google.android.as';
+// ----------------------------------------------------------------------------
+// POR QUÉ AQUÍ YA NO SE FIJA UN PAQUETE DE RECONOCEDOR
+// ----------------------------------------------------------------------------
+// Hasta el 2026-08-04 este módulo fijaba `com.google.android.as` (Android System
+// Intelligence) en dos sitios: al PREGUNTAR qué paquetes de idioma hay
+// instalados y al ESCUCHAR. La idea era que fijar el paquete es "selección dura
+// del motor" y `requiresOnDeviceRecognition` a secas una garantía condicionada.
+//
+// La idea era falsa, y salía cara. Lo que hace la librería de verdad:
+//
+//   · start() — en Android 13+, si `requiresOnDeviceRecognition` es true llama a
+//     `SpeechRecognizer.createOnDeviceSpeechRecognizer(context)` y **descarta
+//     `androidRecognitionServicePackage`**. La selección dura que creíamos estar
+//     haciendo no se hacía: el reconocedor real es el on-device DEL SISTEMA, sea
+//     cual sea su paquete. (Y en Android 12, donde esa API no existe, pasar el
+//     paquete solo sirve para intentar enlazar un componente que puede no estar,
+//     lo que revienta con `audio-capture`.)
+//
+//   · androidTriggerOfflineModelDownload() — el botón «Descargar el paquete» que
+//     usa el adulto también va por `createOnDeviceSpeechRecognizer`: descarga en
+//     el reconocedor on-device DEL SISTEMA.
+//
+//   · getSupportedLocales({ androidRecognitionServicePackage }) — este SÍ respeta
+//     el paquete: interroga a ESE componente. Y si el paquete no expone un
+//     RecognitionService en el aparato, la promesa se RECHAZA.
+//
+// Es decir: se descargaba el modelo en el reconocedor A, se escuchaba con el
+// reconocedor A, y se le preguntaba al reconocedor B si el modelo estaba. En
+// cualquier móvil cuyo servicio local no sea exactamente `com.google.android.as`
+// —que son muchos fuera de los Pixel—, la respuesta era siempre «no instalado»:
+// la variedad se quedaba en `red` toda la sesión y el adulto veía una y otra vez
+// el botón de descarga. Descargaba, y seguía sin usarse. Reportado con estas
+// palabras: «había descargado el modelo de reconocimiento de voz, y tampoco
+// funcionaba».
+//
+// Ahora se pregunta SIN paquete, que es lo que hace que `getSupportedLocales`
+// interrogue al mismo `createOnDeviceSpeechRecognizer` que se va a usar para
+// escuchar y en el que se descargó el modelo. Las tres operaciones hablan por fin
+// del mismo motor.
+//
+// La promesa de privacidad no se debilita: `createOnDeviceSpeechRecognizer` es la
+// API del sistema que enlaza con el reconocedor local y no puede irse a la red.
+// Es una selección MÁS dura que la que se creía tener.
 
 // `androidTriggerOfflineModelDownload` es de Android 13+ (API 33). En versiones
 // anteriores no hay forma de pedir la descarga desde la app, así que tampoco se
@@ -479,8 +517,13 @@ export interface AsrLocaleStatus {
   mode: 'local' | 'red';
   // supportsOnDeviceRecognition(): ¿el dispositivo sabe reconocer sin red?
   deviceCapable: boolean;
-  // Android: ¿está instalado el servicio local (Android System Intelligence)?
+  // ¿El sistema expone ALGÚN servicio de reconocimiento de voz?
   serviceAvailable: boolean;
+  // Paquete del servicio de reconocimiento configurado en el sistema. No decide
+  // nada: es diagnóstico para el adulto y para quien depure en dispositivo, que
+  // es justo lo que faltaba para ver por qué un modelo descargado no se usaba.
+  // '' si el sistema no lo dice.
+  serviceName: string;
   // ¿Está DESCARGADO el paquete de idioma de esta variedad? (installedLocales,
   // no locales: "soportado" no es lo mismo que "instalado").
   localeInstalled: boolean;
@@ -537,10 +580,18 @@ const redStatus = (locale: string): AsrLocaleStatus => ({
   mode: 'red',
   deviceCapable: false,
   serviceAvailable: false,
+  serviceName: '',
   localeInstalled: false,
   canOfferDownload: false,
   localFailed: false,
 });
+
+// Paquete del servicio de reconocimiento que el sistema tiene configurado. Solo
+// para enseñárselo al adulto: no decide nada (ver el bloque de arriba sobre por
+// qué ya no se fija ningún paquete). Nunca puede tumbar el diagnóstico.
+const defaultServiceName = (M: any): string => {
+  try { return String(M.getDefaultRecognitionService?.()?.packageName ?? ''); } catch (e) { return ''; }
+};
 
 async function probeLocale(locale: string): Promise<AsrLocaleStatus> {
   const key = localeKey(locale);
@@ -560,21 +611,32 @@ async function probeLocale(locale: string): Promise<AsrLocaleStatus> {
         mode: deviceCapable ? 'local' : 'red',
         deviceCapable,
         serviceAvailable: deviceCapable,
+        serviceName: '',
         localeInstalled: deviceCapable,
         canOfferDownload: false,
         localFailed: false,
       };
     } else {
+      // Que el sistema tenga ALGÚN reconocedor. No se exige un paquete concreto:
+      // exigirlo era el defecto que dejaba sin usar los modelos ya descargados.
       const services: string[] = M.getSpeechRecognitionServices() ?? [];
-      const serviceAvailable = services.includes(ANDROID_ON_DEVICE_SERVICE);
+      const serviceAvailable = services.length > 0;
 
       let localeInstalled = false;
-      if (deviceCapable && serviceAvailable) {
-        // OJO: en Android 12 y anteriores esto devuelve listas vacías (la API
-        // del sistema no existe), así que el resultado será "red". Es el lado
+      if (deviceCapable) {
+        // SIN `androidRecognitionServicePackage`: así la librería pregunta al
+        // mismo `createOnDeviceSpeechRecognizer` que usará para escuchar y en el
+        // que el adulto descargó el modelo. Con paquete se interrogaba a otro
+        // motor —y en muchos móviles ni existía, con lo que la promesa se
+        // rechazaba y todo caía a `red` con el modelo ya en el aparato.
+        // Se pasa `{}`, no nada: la firma nativa espera el objeto de opciones, y
+        // es el objeto SIN paquete lo que elige el reconocedor on-device.
+        //
+        // OJO: en Android 12 y anteriores esto devuelve listas vacías (la API del
+        // sistema no existe), así que el resultado será "red". Es el lado
         // conservador y correcto: sin poder comprobarlo, no se promete nada.
         const { installedLocales } = await withTimeout(
-          M.getSupportedLocales({ androidRecognitionServicePackage: ANDROID_ON_DEVICE_SERVICE }),
+          M.getSupportedLocales({}),
           LOCALE_PROBE_TIMEOUT_MS,
           { installedLocales: [] as string[] },
         );
@@ -585,12 +647,16 @@ async function probeLocale(locale: string): Promise<AsrLocaleStatus> {
 
       st = {
         locale,
-        mode: deviceCapable && serviceAvailable && localeInstalled ? 'local' : 'red',
+        // El veredicto ya no depende de que exista un paquete concreto: depende
+        // de que el aparato sepa reconocer sin red y de que el modelo de ESTA
+        // variedad esté descargado en el reconocedor que se va a usar.
+        mode: deviceCapable && localeInstalled ? 'local' : 'red',
         deviceCapable,
         serviceAvailable,
+        serviceName: defaultServiceName(M),
         localeInstalled,
         canOfferDownload:
-          deviceCapable && serviceAvailable && !localeInstalled
+          deviceCapable && !localeInstalled
           && Number(Platform.Version) >= ANDROID_DOWNLOAD_MIN_API,
         localFailed: false,
       };
@@ -796,6 +862,27 @@ const ENGINE_START_FAILURES = new Set([
 // niño hubiera fallado un intento.
 const ABORT_ERROR = 'aborted';
 
+// Qué se le dice al ADULTO cuando el turno se pierde por el motor y no por el
+// niño. «No se pudo escuchar» valía para todo y no servía para nada: sin saber
+// si falta cobertura, si el micrófono está cogido o si el idioma no está, no hay
+// nada que hacer salvo repetir y volver a fallar. Cada mensaje dice qué pasó y
+// qué se puede intentar. El niño nunca los oye: las pantallas le hablan con su
+// propio banco de frases.
+const ENGINE_ERROR_MESSAGES: Record<string, string> = {
+  network: 'El reconocimiento se está haciendo por internet y no hay conexión. Conecta el '
+    + 'aparato a la red, o descarga el paquete de voz desde «Voz de la app» para que '
+    + 'funcione sin conexión.',
+  'audio-capture': 'Otra aplicación está usando el micrófono. Ciérrala (o corta la llamada) y probad otra vez.',
+  busy: 'El reconocedor de voz está ocupado con otra petición. Esperad un momento y probad otra vez.',
+  client: 'El reconocedor de voz del sistema no pudo atender la petición. Probad otra vez; si sigue, reiniciad el aparato.',
+  'language-not-supported': 'El reconocedor del sistema no tiene esta lengua. Descarga su paquete '
+    + 'de voz desde «Voz de la app», o cambia de variedad en esa misma tarjeta.',
+  'service-not-allowed': 'El sistema no permite a la app usar el reconocimiento de voz. Revisa los permisos en Ajustes.',
+};
+
+const engineErrorMessage = (code: string): string =>
+  ENGINE_ERROR_MESSAGES[code] ?? `No se pudo escuchar (${code || 'motivo desconocido'}).`;
+
 // Suscripciones activas del reconocedor. La librería devuelve objetos con
 // .remove(); hay que soltarlas al parar o se acumulan entre escuchas.
 let asrSubs: Array<{ remove: () => void }> = [];
@@ -882,10 +969,11 @@ export async function startListening(cb: ListenCallbacks): Promise<boolean> {
       interimResults: true,
       maxAlternatives: 5,
       // Fase A · que el audio no salga del teléfono cuando el dispositivo pueda.
+      // Sin fijar paquete: en Android 13+ la librería lo descarta cuando esto va
+      // a true (usa `createOnDeviceSpeechRecognizer`, el reconocedor local del
+      // sistema), y en Android 12 fijarlo solo sirve para intentar enlazar un
+      // componente que puede no existir. Ver el bloque de arriba.
       requiresOnDeviceRecognition: onDevice,
-      ...(onDevice && Platform.OS === 'android'
-        ? { androidRecognitionServicePackage: ANDROID_ON_DEVICE_SERVICE }
-        : {}),
       // iOS · pista de tarea para enunciados cortos (una palabra objetivo).
       ...(singleWord && Platform.OS === 'ios' ? { iosTaskHint: 'confirmation' as const } : {}),
       // ES-04 · la ventana de escucha larga, intacta, más el modelo de lenguaje
@@ -987,7 +1075,7 @@ export async function startListening(cb: ListenCallbacks): Promise<boolean> {
         try { startEngine(); return; } catch (err) { /* sigue al mensaje normal */ }
       }
       const noMatch = NO_MATCH_ERRORS.has(code);
-      fail(noMatch ? 'No te escuché bien. ¡Probamos otra vez!' : 'No se pudo escuchar.', noMatch);
+      fail(noMatch ? 'No te escuché bien. ¡Probamos otra vez!' : engineErrorMessage(code), noMatch);
     });
 
     sub('end', () => {

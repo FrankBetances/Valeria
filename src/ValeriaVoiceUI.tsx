@@ -436,7 +436,7 @@ export const SpeechPrivacyBlock: React.FC<{ locale: Locale }> = ({ locale }) => 
         : !st.deviceCapable
           ? `Este dispositivo no sabe reconocer voz sin conexión, así que en ${label} el audio del turno de habla lo procesa el servicio de reconocimiento del sistema, que puede enviarlo a sus servidores.`
           : !st.serviceAvailable
-            ? `Falta el motor de reconocimiento local del sistema, así que en ${label} el audio lo procesa el servicio de reconocimiento habitual, que puede enviarlo a sus servidores.`
+            ? `Este dispositivo no expone ningún servicio de reconocimiento de voz, así que en ${label} el juego de micrófono no puede funcionar. Comprueba en Ajustes que el reconocimiento de voz del sistema esté instalado y activado.`
             : st.canOfferDownload
               ? `Este móvil puede reconocer sin conexión, pero le falta el paquete de ${label}. Mientras tanto, el audio del turno de habla lo procesa el servicio del sistema, que puede enviarlo a sus servidores.`
               : `Falta el paquete de ${label} y esta versión de Android no permite descargarlo desde la app. Puedes instalarlo en Ajustes → Sistema → Idiomas → Entrada por voz; hasta entonces el audio lo procesa el servicio del sistema.`;
@@ -510,6 +510,13 @@ export const SpeechPrivacyBlock: React.FC<{ locale: Locale }> = ({ locale }) => 
         <Text style={s.privFoot}>
           Última escucha de esta sesión: {last === 'local' ? 'en el teléfono' : 'servicio del sistema'}.
         </Text>
+      )}
+
+      {/* Qué motor contesta de verdad. Es la línea que faltaba: sin ella no
+          había forma de ver que la app preguntaba por el modelo a un
+          reconocedor distinto del que usaba para escuchar. */}
+      {!!st?.serviceName && (
+        <Text style={s.privFoot}>Reconocedor del sistema: {st.serviceName}.</Text>
       )}
     </View>
   );

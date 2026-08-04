@@ -222,7 +222,7 @@ reconocedor/voz del sistema y si conviene preferir voces latinas.
 
 > **Reconocimiento local (Fase A).** Desde la migración a `expo-speech-recognition`,
 > la app **pide** que el reconocimiento se haga dentro del teléfono
-> (`requiresOnDeviceRecognition` + fijando el motor local `com.google.android.as`),
+> (`requiresOnDeviceRecognition`, que en Android 13+ enlaza con el reconocedor local del sistema),
 > para que el audio del menor no salga del dispositivo. **No es una promesa
 > global**: la decisión se toma **por variedad**, porque depende de que el paquete
 > de idioma esté descargado. Es razonable que lo esté en castellano; en galego y
@@ -616,7 +616,7 @@ un dato de salud de un menor— que el typecheck y el diff no ven.
 | `check-speech-prosody.js` | Que el troceo por frases vuelva a meterse en la voz del sistema de es‑DO: cada locución encadenada arrastra la latencia de arranque del motor, y el resultado son pausas anchas que rompen el ritmo de la sesión. |
 | `check-asr-capture-guard.js` | Que la **captura de corpus de la Fase B del ASR** llegue a producción, o que una grabación acabe versionada. Comprueba que la persistencia de audio viva en un solo archivo, que siga exigiendo `__DEV__` **y** `EXPO_PUBLIC_ASR_CAPTURE`, que ningún archivo versionado encienda la variable, que `corpus-asr/` esté ignorado y que git no rastree ninguna grabación. Es voz de un menor: art. 9 del RGPD (R7 del plan). |
 
-| `check-asr-listen-options.js` | Que se abra el micrófono con las opciones equivocadas. El módulo del ASR se carga con `require` perezoso y queda tipado como `any`, así que lo que se le pasa a `start()` no lo ve el typecheck ni el diff: pedir el modelo de lenguaje de **dictado** para escuchar una palabra suelta compila, arranca y deja Pares Mínimos respondiendo «no te escuché bien» en todos los ensayos. Ya pasó. Comprueba el modelo de término suelto (Android) y la pista de tarea corta (iOS), que siga la ventana de escucha de ES‑04, que se pidan parciales y que **nunca** se sesgue el motor con la palabra objetivo (§3.4 del plan). |
+| `check-asr-listen-options.js` | Que se abra el micrófono con las opciones equivocadas. El módulo del ASR se carga con `require` perezoso y queda tipado como `any`, así que lo que se le pasa a `start()` no lo ve el typecheck ni el diff: pedir el modelo de lenguaje de **dictado** para escuchar una palabra suelta compila, arranca y deja Pares Mínimos respondiendo «no te escuché bien» en todos los ensayos. Ya pasó. Comprueba el modelo de término suelto (Android) y la pista de tarea corta (iOS), que siga la ventana de escucha de ES‑04, que se pidan parciales, que **nunca** se sesgue el motor con la palabra objetivo (§3.4 del plan) y que se pregunte por los modelos instalados **al mismo reconocedor que escucha** — preguntarle a otro es lo que hacía que un modelo ya descargado se declarase ausente (§3.3‑ter). |
 
 Todos se pueden ejecutar en local: `node scripts/<nombre>.js`.
 
@@ -924,8 +924,9 @@ audio habría seguido saliendo igual. Y en iOS la librería nunca tocaba
 
 **Lo que se hizo.** Migrar a `expo-speech-recognition`, que sí expone las cuatro
 piezas necesarias: `requiresOnDeviceRecognition` (garantía condicionada, no
-pista), `androidRecognitionServicePackage` (selección **dura** del motor local
-`com.google.android.as`), `supportsOnDeviceRecognition()` y `getSupportedLocales()`.
+pista), `supportsOnDeviceRecognition()` y `getSupportedLocales()` **sin fijar
+paquete de servicio**, para que la pregunta por el modelo descargado vaya al mismo
+reconocedor que después escucha.
 
 **La decisión es por variedad, no global.** Depende de que el paquete de idioma
 esté descargado: razonable en castellano, poco probable en galego y euskera. Se

@@ -169,7 +169,7 @@ de verdad hace falta son cuatro piezas, y ninguna existe en la librería actual:
 | Pieza | Qué garantiza |
 | --- | --- |
 | `requiresOnDeviceRecognition` | *"Prevent device from sending audio over the network. Only enabled if the device supports it."* Es una garantía condicionada, no una preferencia. Existe en Android y en iOS |
-| `androidRecognitionServicePackage` + `getSpeechRecognitionServices()` | **Selección dura del motor**: apuntar a `com.google.android.as` (Android System Intelligence, local) en vez de `com.google.android.googlequicksearchbox` (red) |
+| ~~`androidRecognitionServicePackage`~~ | Se creía que era **selección dura del motor** (apuntar a `com.google.android.as` en vez de al de red). **No lo es**: con `requiresOnDeviceRecognition` en true y Android 13+, la librería lo descarta y usa `createOnDeviceSpeechRecognizer`. Ya no se fija (§3.3-ter) |
 | `supportsOnDeviceRecognition()` | Comprobación en tiempo de ejecución antes de prometer nada |
 | `getSupportedLocales()` | Si el paquete de idioma está instalado, **por locale** (§3.3) |
 
@@ -335,10 +335,13 @@ Flujo, evaluado **para el locale activo** en cada sesión (`probeLocale()` en
 `valeriaVoice.ts`, con caché por locale):
 
 1. `supportsOnDeviceRecognition()` → ¿el dispositivo sabe hacerlo?
-2. `getSpeechRecognitionServices()` → ¿está instalado `com.google.android.as`?
-3. `getSupportedLocales({ androidRecognitionServicePackage })` → ¿está
-   **descargado** el paquete de **este** locale? Se mira `installedLocales`, no
-   `locales`: "soportado" no es lo mismo que "instalado".
+2. `getSpeechRecognitionServices()` → ¿el sistema expone **algún** reconocedor?
+   (Antes se exigía uno concreto, `com.google.android.as`. Era el defecto de
+   §3.3-ter.)
+3. `getSupportedLocales({})`, **sin paquete de servicio** → ¿está **descargado**
+   el paquete de **este** locale? Se mira `installedLocales`, no `locales`:
+   "soportado" no es lo mismo que "instalado". Sin paquete, la pregunta va al
+   mismo `createOnDeviceSpeechRecognizer` que escuchará (§3.3-ter).
 4. Si **sí** → `requiresOnDeviceRecognition: true` + fijar el paquete de servicio
    local. Se registra `modo=local`.
 5. Si **no** → se ofrece al adulto, **una vez y de forma explícita**, descargar el
@@ -457,6 +460,58 @@ el mensaje del motor al adulto** en vez de traducirlo todo al mismo «no te
 escuché bien» dicho al niño: esa traducción indiscriminada es la que hizo que el
 defecto tardara dos rondas en localizarse.
 
+### 3.3-ter · Se preguntaba por el modelo a un motor distinto del que escuchaba
+
+Descubierto el 2026-08-04, y solo porque llegó este dato: **«había descargado el
+modelo de reconocimiento de voz, y tampoco funcionaba»**. Sin esa frase, §3.3-bis
+habría pasado por explicación completa y esto seguiría ahí.
+
+Hasta ahora el módulo fijaba `com.google.android.as` en dos sitios. Lo que hace
+de verdad la librería:
+
+| Operación | Qué motor usa realmente |
+| --- | --- |
+| `start({ requiresOnDeviceRecognition: true })` | En Android 13+, `createOnDeviceSpeechRecognizer(context)` — el reconocedor local **del sistema**. **`androidRecognitionServicePackage` se descarta.** |
+| `androidTriggerOfflineModelDownload()` — el botón «Descargar el paquete» | También `createOnDeviceSpeechRecognizer(context)`: descarga en ese mismo motor |
+| `getSupportedLocales({ androidRecognitionServicePackage })` | Este **sí** respeta el paquete: interroga a ESE componente, y si no expone un `RecognitionService`, **rechaza la promesa** |
+
+Es decir: **se descargaba el modelo en el motor A, se escuchaba con el motor A, y
+se le preguntaba al motor B si el modelo estaba.** En cualquier aparato cuyo
+servicio local no sea exactamente `com.google.android.as` —que son muchos fuera
+de los Pixel— la respuesta era siempre «no instalado»:
+
+1. El bloque del adulto decía «servicio del sistema» y ofrecía la descarga.
+2. El adulto descargaba. **La descarga funcionaba de verdad.**
+3. Se reconsultaba, se volvía a preguntar al paquete equivocado, seguía en `red`.
+4. Toda la sesión iba por el reconocedor de red — y ahí, o mordía el defecto del
+   modelo de lenguaje (§3.3-bis), o directamente fallaba con `network` si el
+   aparato no tenía cobertura.
+
+Y el paso 2 del flujo (`getSpeechRecognitionServices()` debe contener
+`com.google.android.as`) cerraba el círculo: en esos aparatos ni siquiera se
+llegaba a preguntar.
+
+**Corrección:** no se fija paquete en ningún sitio. `getSupportedLocales({})` sin
+paquete interroga al mismo `createOnDeviceSpeechRecognizer` que va a escuchar y
+en el que se descargó el modelo; el paso 2 pasa a comprobar que el sistema expone
+**algún** reconocedor. Las tres operaciones hablan por fin del mismo motor.
+
+> **La promesa de privacidad no se debilita, se corrige.** El plan justificaba
+> fijar el paquete como «selección dura del motor», frente a
+> `requiresOnDeviceRecognition`, que sería «una garantía condicionada». Era
+> falso en los dos sentidos: la selección dura **nunca estuvo en efecto** —la
+> librería descartaba el parámetro—, y `createOnDeviceSpeechRecognizer` es
+> precisamente la API del sistema que enlaza con el reconocedor local y no puede
+> irse a la red. Lo que había era una promesa apoyada en un parámetro que el
+> código de abajo tiraba a la basura.
+
+Se añaden además dos cosas que faltaban para poder depurar esto sin leer el
+código: el bloque del adulto **nombra el reconocedor** que el sistema tiene
+configurado (`serviceName`), y los fallos del motor dejan de traducirse todos a
+«No se pudo escuchar» — cada código dice qué pasó y qué se puede hacer, empezando
+por el más probable en una tablet sin datos: *«El reconocimiento se está haciendo
+por internet y no hay conexión.»*
+
 ### 3.4 A.3 · Prohibición explícita: nada de sesgar el reconocedor
 
 La librería expone `contextualStrings` (`EXTRA_BIASING_STRINGS` en Android 13+,
@@ -489,7 +544,7 @@ Verificación en tres niveles, de más débil a más fuerte:
 | Nivel | Prueba | Qué demuestra |
 | --- | --- | --- |
 | 1 | Modo avión: ejercicio completo de pares mínimos | El dispositivo *puede* reconocer en local |
-| 2 | `supportsOnDeviceRecognition()` + `modo=local` en telemetría + paquete de servicio fijado a `com.google.android.as` | Se está **pidiendo** el motor local y el sistema lo concede |
+| 2 | `supportsOnDeviceRecognition()` + `modo=local` en telemetría + el bloque del adulto nombrando el reconocedor del sistema | Se está **pidiendo** el motor local y el sistema lo concede |
 | 3 | **Inspección de tráfico de red** durante un turno de habla con red activa | El audio **no sale**. Es la única prueba concluyente |
 
 El nivel 3 es el que cierra la fase. Los niveles 1 y 2 son diagnóstico rápido
@@ -825,6 +880,7 @@ Para que no se cuele por la puerta de atrás:
 | **R11** | **Se pide el motor local, el sistema dice que sí y el motor no arranca**: sin salida, la variedad queda atascada y toda escucha falla igual | Media | **Alto** | Paso 7 de §3.3: reintento en red dentro de la misma escucha + degradación por variedad y sesión |
 | **R10** | **`gl`/`eu` se degradan al forzar local por no tener paquete de idioma** | **Alta** | **Medio** | Política por locale (§3.3); la promesa pública se redacta por variedad (§7) |
 | **R11** | **Una familia declina firmar el día de la grabación** | Media | Bajo | Previsto en §4.2: sesión normal sin grabación, sin presión implícita |
+| **R14** | **Se pregunta por los modelos instalados a un paquete de reconocedor distinto del que escucha y del que descarga**: un modelo YA descargado se declara ausente y la variedad queda en red toda la sesión | ~~—~~ · **OCURRIÓ** desde la Fase A (2026-08-04, cuarta ronda) | **Alto** | §3.3-ter: no se fija paquete en ningún sitio; `getSupportedLocales({})` interroga al mismo `createOnDeviceSpeechRecognizer` que escucha. Gate A6/A7 en CI |
 | **R13** | **Se le pide al reconocedor el modelo de lenguaje de DICTADO para escuchar una palabra suelta**: con `free_form`, una palabra corta y aislada no devuelve resultado y todo turno acaba en `no-speech` | ~~—~~ · **OCURRIÓ** desde la Fase A (2026-08-04, tercera ronda) | **Alto** | §3.3-bis: `expect: 'word'` por defecto → `EXTRA_LANGUAGE_MODEL: 'web_search'` en Android y `iosTaskHint: 'confirmation'` en iOS, con gate en CI (`check-asr-listen-options.js`) porque el módulo es `any` y nada más lo comprueba |
 | **R12** | ~~El árbitro no ve el contraste: 25 de 35 pares mínimos puntúan el distractor como acierto~~ → **Resuelto** (§4.0, D7) | — | — | O2 implementado en `matchPair`; `--audit-pairs` da 0 de 35 pares ciegos y `--selftest` lo fija como aserción para que no vuelva. Queda confirmar el precio en sesión real |
 
@@ -901,8 +957,14 @@ datos de A delante y no antes.
       solo indicio de voz), que el paso 7 no cubría
 - [x] Rescate del mejor parcial en Pares Mínimos y aviso del motor **al adulto**
       cuando el fallo es suyo y no del niño
-- [ ] **Probar en dispositivo con un niño real** que los tres arreglos anteriores
-      cierran el síntoma: es lo único que lo confirma
+- [x] **§3.3-ter · el sondeo y la escucha hablan del mismo motor** (R14): sin
+      esto, el modelo que el adulto descargaba no se usaba nunca
+- [x] Mensajes de fallo del motor por código, y el reconocedor del sistema a la
+      vista en el bloque del adulto — el diagnóstico que no existía
+- [ ] **Probar en dispositivo con un niño real** que los arreglos anteriores
+      cierran el síntoma: es lo único que lo confirma. Con el modelo ya
+      descargado, el bloque del adulto debe decir «En el teléfono»; si sigue
+      diciendo «Servicio del sistema», el sondeo sigue mal
 - [x] Implementar la política de degradación **por locale** (§3.3)
 - [x] Añadir `asrOfflineStatus()` y la telemetría de modo
 - [x] **D2 · ofrecer la descarga del paquete**, una vez y explícita (§3.3)

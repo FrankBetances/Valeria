@@ -28,6 +28,17 @@
  *        / EXTRA_BIASING_STRINGS). Sesgarlo fabricaría el falso positivo que el
  *        ejercicio existe para detectar (§3.4 del plan). Esta es la única regla
  *        del gate que es clínica y no técnica.
+ *   A6 · Se pregunta por los modelos instalados AL MISMO reconocedor que va a
+ *        escuchar. `getSupportedLocales` con `androidRecognitionServicePackage`
+ *        interroga a ESE paquete, mientras que escuchar con
+ *        `requiresOnDeviceRecognition` y descargar el modelo van los dos por
+ *        `createOnDeviceSpeechRecognizer` — el del sistema, se llame como se
+ *        llame. Fijar el paquete al preguntar es exactamente el defecto que
+ *        dejaba sin usar un modelo ya descargado: la app decía «falta el
+ *        paquete» con el paquete puesto, y toda la sesión iba por red.
+ *   A7 · No se fija paquete de reconocedor al escuchar. En Android 13+ la
+ *        librería lo descarta cuando se pide reconocimiento local, y en 12 solo
+ *        sirve para intentar enlazar un componente que puede no existir.
  * ========================================================================== */
 const fs = require('fs');
 const path = require('path');
@@ -100,6 +111,32 @@ if (/contextualStrings\s*:/.test(codigo) || /EXTRA_BIASING_STRINGS/.test(codigo)
     + 'fabrica el falso positivo que el ejercicio existe para detectar (§3.4).');
 } else {
   ok('A5 · no se sesga el reconocedor con la palabra objetivo.');
+}
+
+// Código del módulo entero sin comentarios: A6 vive en probeLocale, no en
+// startListening, pero es la otra mitad de la misma coherencia.
+const moduloSinComentarios = src
+  .replace(/\/\*[\s\S]*?\*\//g, ' ')
+  .replace(/^\s*\/\/.*$/gm, ' ');
+
+// A6 · preguntar al mismo motor que escucha.
+const sondeoConPaquete = /getSupportedLocales\s*\(\s*\{[^}]*androidRecognitionServicePackage/.test(moduloSinComentarios);
+if (sondeoConPaquete) {
+  fallo('A6 · se le pregunta por los modelos instalados a un paquete fijo, pero se '
+    + 'escucha y se descarga con el reconocedor local del sistema. En cuanto el '
+    + 'aparato no use ese paquete exacto, un modelo YA descargado se declara '
+    + 'ausente y la variedad se queda en red toda la sesión.');
+} else {
+  ok('A6 · los modelos instalados se consultan al mismo reconocedor que escucha.');
+}
+
+// A7 · no fijar paquete al escuchar.
+if (/androidRecognitionServicePackage/.test(codigo)) {
+  fallo('A7 · se fija un paquete de reconocedor al escuchar. En Android 13+ la '
+    + 'librería lo descarta al pedir reconocimiento local, y en 12 hace que se '
+    + 'intente enlazar un componente que puede no existir.');
+} else {
+  ok('A7 · no se fija paquete de reconocedor al escuchar.');
 }
 
 if (fallos) {
