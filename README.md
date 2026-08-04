@@ -327,7 +327,7 @@ con *debounce* vía `InteractionManager`, de modo que el cifrado y el guardado e
 
 | Documento | Descripción |
 | --- | --- |
-| **Manual de usuario con casos de uso** (v9.1) · [HTML](docs/manual-casos-de-uso.html) · [PDF](docs/Valeria-Manual-Casos-de-Uso.pdf) · [Word](docs/Valeria-Manual-Casos-de-Uso.docx) | 17 casos de uso paso a paso ilustrados con capturas reales (`docs/screenshots/`): **Academy · hub de formación multidominio (CU‑03, uno de los primeros casos)**, los seis bloques (Pares Mínimos, Expansión Semántica, Audición, Lenguaje, TEA y Dislexia), el hub, la gráfica de sustitución por fonema, la telemetría del piloto (CU‑14), la variedad lingüística —Castellano, Galego, Dominicano y Euskera— (CU‑15), el Panel del Adulto / carga comunicativa (CU‑16), el **módulo de Lengua de Signos Española (CU‑17)** y las novedades v6/v7/v8/v8.1/v8.2/v9/v9.1. |
+| **Manual de usuario con casos de uso** (v10.2) · [HTML](docs/manual-casos-de-uso.html) · [PDF](docs/Valeria-Manual-Casos-de-Uso.pdf) · [Word](docs/Valeria-Manual-Casos-de-Uso.docx) | **22 casos de uso** paso a paso ilustrados con capturas reales (`docs/screenshots/`): **Academy · hub de formación multidominio (CU‑03)**, los **siete bloques** (Pares Mínimos, Expansión Semántica, Audición, Lenguaje, TEA, Dislexia y **Realidad Aumentada**), el hub, la gráfica de sustitución por fonema, la telemetría del piloto (CU‑14), la variedad lingüística —Castellano, Galego, Dominicano y Euskera— (CU‑15), el Panel del Adulto / carga comunicativa (CU‑16), el **módulo de Lengua de Signos Española (CU‑17)** y el **bloque de Realidad Aumentada completo (CU‑18 a CU‑22)**: permiso de cámara y prueba de aptitud, los tres ejercicios y los umbrales clínicos. Cubre las novedades v6 → v10.2. |
 | [`docs/protocolo-pares-minimos.md`](docs/protocolo-pares-minimos.md) | Protocolo de pares mínimos para dislalias fonológicas: 10 pares accionables con flujo TTS→STT, feedback por rama y misiones físicas. Implementado en `src/ValeriaMinimalPairsScreen.tsx` + `src/valeriaMinimalPairs.ts`. |
 | [`docs/protocolo-pares-minimos-es-DO.md`](docs/protocolo-pares-minimos-es-DO.md) | Protocolo de pares mínimos en español dominicano (Quisqueya Habla). Implementado en `src/valeriaMinimalPairsEsDO.ts`. |
 | [`docs/protocolo-expansion-semantica.md`](docs/protocolo-expansion-semantica.md) | Protocolo de expansión semántica / progresión léxica offline. Implementado en `src/ValeriaSemanticExpansionScreen.tsx` + `src/valeriaSemanticExpansion.ts`. |
@@ -354,8 +354,15 @@ chromium --headless --no-pdf-header-footer \
   --print-to-pdf=docs/Valeria-Manual-Casos-de-Uso.pdf docs/manual-casos-de-uso.html
 ```
 
-> El DOCX se construye con un script propio (`build-docx.py`) que **replica** el
-> contenido del HTML: al cambiar el manual hay que editar ambos.
+> ⚠️ El DOCX se construye con un script propio (`build-docx.py`) que **replica** el
+> contenido del HTML en vez de leerlo: `build-docx.py` **no abre el HTML en ningún
+> momento**, lleva el texto duplicado dentro. Al cambiar el manual hay que editar
+> **los dos archivos** y regenerar los **dos** derivados, o el Word y el PDF se
+> quedan desincronizados sin que nada avise.
+>
+> El capítulo de **Realidad Aumentada** (CU‑18 a CU‑22) no lleva capturas a
+> propósito: esos ejercicios solo funcionan con la cámara abierta en un teléfono
+> físico, y cualquier captura fiel mostraría la cara de un niño.
 
 ---
 
@@ -760,6 +767,50 @@ toque `site/` republica el sitio; también puede lanzarse desde *Actions*.
 ## 🕑 Historial de versiones
 
 <details open>
+<summary><strong>V10.2</strong> — los pares mínimos vuelven a detectar la sustitución</summary>
+
+Al construir el banco de medida de la Fase B, lo primero que se midió no fue
+ningún motor: fue **el propio árbitro**. Y salió mal.
+
+`matchPair` preguntaba «¿se parece bastante a la palabra pedida?», y
+`matchTarget` concede el acierto con **hasta una letra de diferencia** por
+palabra. Como los pares mínimos se construyen justamente para diferenciarse en
+**un solo fonema**, en *rana/lana*, *cubo/tubo*, *boca/bota* o *miel/piel* decir
+el distractor puntuaba como **acierto**, y la rama del distractor no se alcanzaba
+nunca. Afectaba a **25 de los 35 pares** de los cuatro bancos, con transcripción
+perfecta y sin motor de por medio: el ejercicio no podía detectar el error que
+existe para detectar. *perro/pelo* funcionaba por accidente, porque «rr» se
+escribe con dos letras.
+
+**No se arregló por intuición.** Se simularon las salidas posibles y se midió
+cada una sobre las **1619 aproximaciones ya validadas clínicamente** en los
+`stt_expected_array` de la Expansión Semántica
+([`docs/d7-simulacion-contraste.md`](docs/d7-simulacion-contraste.md)). Con esas
+cifras delante se eligió el **vecino más cercano**: la app ya no decide por
+umbral, sino comparando lo oído con **las dos palabras del par** y quedándose con
+la más próxima. El empate no se resuelve a favor de nadie —devuelve «casi»—,
+porque un empate es literalmente que el texto no distingue, y ahí el juez es el
+adulto.
+
+| | Antes | Ahora |
+| --- | --- | --- |
+| Contrastes que se detectan | 10 / 35 | **35 / 35** |
+| Aproximaciones del objetivo que siguen siendo acierto | 116 / 157 | 59 / 157 |
+| Aproximaciones enviadas a la rama de error | 0 | **0** |
+
+El precio son 97 «casi» de más —una estrella y un reintento—, aceptado a cambio
+de que el ejercicio mida lo que dice medir. **Ninguna aproximación se envía a la
+rama de error**: nunca se le dice a un niño que dijo la otra palabra por haber
+articulado de forma aproximada. `matchTarget` y `matchExpected` **no se tocaron**:
+los usan el juego de micrófono, la Expansión Semántica y el Test de Ling, que no
+tienen distractor.
+
+Queda confirmar el precio en sesión real con logopedas: 97 es una estimación
+sobre habla generada, no observada.
+
+</details>
+
+<details>
 <summary><strong>V10.1</strong> — el audio del turno de habla deja de salir del teléfono (Fase A)</summary>
 
 Hasta aquí, el reconocimiento del habla del menor lo hacía el servicio del

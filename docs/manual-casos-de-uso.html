@@ -174,6 +174,12 @@
     <li><span class="num">CU‑15</span><span class="txt">Elegir la variedad de terapia (Castellano · Galego · Dominicano · Euskera)</span></li>
     <li><span class="num">CU‑16</span><span class="txt">Panel del Adulto: carga comunicativa (ruido, doble tarea, quiebre)</span></li>
     <li><span class="num">CU‑17</span><span class="txt">Academy: aprender lo básico de Lengua de Signos Española</span></li>
+    <li class="section-label">Realidad Aumentada</li>
+    <li><span class="num">CU‑18</span><span class="txt">Realidad Aumentada: permiso de cámara y prueba de aptitud del teléfono</span></li>
+    <li><span class="num">CU‑19</span><span class="txt">AR‑1 · Cinemática Orofacial: la boquita de beso mueve el coche</span></li>
+    <li><span class="num">CU‑20</span><span class="txt">AR‑2 · Localización del sonido: de «¿giró?» a milisegundos</span></li>
+    <li><span class="num">CU‑21</span><span class="txt">AR‑3 · Selección semántica por fijación: elegir mirando</span></li>
+    <li><span class="num">CU‑22</span><span class="txt">Ajustar los umbrales de Realidad Aumentada y ver las señales en vivo</span></li>
     <li class="section-label">Anexos</li>
     <li><span class="num">A</span><span class="txt">Preguntas frecuentes y resolución de problemas</span></li>
     <li><span class="num">B</span><span class="txt">Historial de versiones</span></li>
@@ -205,7 +211,7 @@
     familias o cuidadores (que realizan las sesiones en casa). Este manual cubre a ambos perfiles.</p>
   </div>
 
-  <h3>Los seis bloques de terapia</h3>
+  <h3>Los siete bloques de terapia</h3>
   <p>Desde la pantalla <strong>Prescripción de Terapias</strong> se elige uno de estos bloques. Cada uno responde a un
   perfil clínico distinto, pero todos comparten la misma lógica: el adulto guía la sesión y tiene la última palabra.</p>
   <table>
@@ -222,6 +228,8 @@
       <td>Protocolo PRT + TCC para el espectro autista: atención conjunta triangulada, quiebre pragmático (con consentimiento), espejo asimétrico, transición interrumpida, categorización bajo ruido y múltiples señales. Todos los estresores son <strong>manuales</strong> (Panel del Adulto).</td></tr>
     <tr><td>📖 <strong>Dislexia</strong> — 6 terapias</td>
       <td>Fonología y acceso léxico: intruso fonológico, rastreo léxico con interferencia, síntesis fonémica rítmica, criba de pseudopalabras, rastreo visual de rotaciones (b/d · p/q) y denominación rápida (RAN).</td></tr>
+    <tr><td>🎯 <strong>Realidad Aumentada</strong> — 3 ejercicios<br><span class="small muted">Solo Android, en teléfono</span></td>
+      <td>La cámara frontal como <strong>sensor de movimiento</strong>: postura labial (AR‑1), giro de la cabeza hacia un sonido (AR‑2) y elección de dibujo con la mirada (AR‑3). El premio en 3D se gana <strong>con el gesto, no con la voz</strong>; en dos de los tres el micrófono está apagado. Requiere permiso de cámara y una prueba de aptitud del aparato (CU‑18 a CU‑22).</td></tr>
   </table>
   <p class="small muted">Además, el <strong>Test de Ling</strong> es una comprobación auditiva rápida (6 sonidos) previa a los
   ejercicios de audición; <strong>Academy</strong> forma al cuidador (ver CU‑03), y la <strong>gamificación</strong>
@@ -296,8 +304,9 @@
   <p>Valeria+ es <strong>plenamente funcional sin conexión</strong>: toda la información del paciente (ficha, historial,
   evolución por fonema, progreso y avance de Academy) se guarda <strong>cifrada en el dispositivo</strong>, conforme a
   RGPD/HIPAA. Para pruebas con profesionales existe una <strong>sincronización en la nube opcional y aditiva</strong>
-  (acceso con correo y contraseña); si no se activa, todo permanece únicamente en el dispositivo. El capítulo&nbsp;2
-  detalla los roles, el PIN y la privacidad.</p>
+  (acceso con correo y contraseña); si no se activa, todo permanece únicamente en el dispositivo. Los ejercicios de
+  <strong>Realidad Aumentada</strong> usan la cámara sin grabar ni enviar una sola imagen: analizan cada fotograma en el
+  teléfono y lo descartan, y de ellos solo quedan números. El capítulo&nbsp;2 detalla los roles, el PIN y la privacidad.</p>
 </section>
 
 <!-- ================= 2. ROLES ================= -->
@@ -357,8 +366,23 @@
     menos frecuente, y ahí el reconocimiento puede seguir haciéndose a través del servicio en línea del sistema, conforme
     a la política de privacidad de ese servicio, ajena a Valeria+.</p>
     <p style="margin:8px 0 0">En otras palabras: la app pide siempre lo más privado que el teléfono permita, pero
-    <strong>no puede prometer lo mismo en todos los dispositivos ni en todas las variedades</strong>. Si la privacidad del
-    audio es determinante en su caso, instale el paquete de idioma sin conexión desde los ajustes del teléfono.</p>
+    <strong>no puede prometer lo mismo en todos los dispositivos ni en todas las variedades</strong>. Por eso la tarjeta
+    <strong>“Voz de la app”</strong> muestra, para la variedad activa, si se está escuchando <strong>dentro del teléfono</strong>
+    o a través del servicio del sistema, y <strong>por qué</strong> cuando es lo segundo. Si lo único que falta es el paquete
+    de idioma, la app <strong>le ofrece descargarlo</strong>; si prefiere no hacerlo, los ejercicios funcionan igual y no se
+    vuelve a insistir.</p>
+  </div>
+
+  <div class="callout violet">
+    <div class="lbl">La cámara en los ejercicios de Realidad Aumentada</div>
+    <p style="margin:4px 0 0">El séptimo bloque usa la cámara frontal como <strong>sensor de movimiento</strong>. Tres
+    afirmaciones que no son intenciones sino restricciones del propio código, comprobables en el repositorio público:
+    <strong>no se graba ni se guarda ninguna imagen</strong> —cada fotograma se analiza y se descarta al instante—,
+    <strong>ningún vídeo sale del teléfono</strong> y <strong>no se reconoce la cara de nadie</strong>.</p>
+    <p style="margin:8px 0 0">Lo único que se conserva son <strong>números</strong>: grados de giro, milisegundos,
+    proporciones y qué dibujo se miró. Por eso este tratamiento <strong>no es identificación biométrica</strong>: mide
+    conducta motora, no identidades. El permiso se pide <strong>una vez por paciente</strong>, con esas tres afirmaciones
+    a la vista, y puede retirarse en cualquier momento desde los ajustes de Android (CU‑18).</p>
   </div>
 
   <div class="callout">
@@ -377,8 +401,9 @@
   <h2 class="chapter">Mapa de pantallas y glosario</h2>
 
   <p style="margin-top:12px">Tras el alta o la selección del paciente se llega al <strong>hub de Prescripción</strong>,
-  desde donde se abre cualquiera de los seis bloques (o Academy). El Test de Ling solo precede a los ejercicios de audición
-  cuando el paciente usa audífono o implante coclear.</p>
+  desde donde se abre cualquiera de los siete bloques (o Academy). El Test de Ling solo precede a los ejercicios de audición
+  cuando el paciente usa audífono o implante coclear, y el bloque de <strong>Realidad Aumentada</strong> pasa antes por su
+  propia preparación (permiso de cámara y prueba de aptitud).</p>
 
   <div class="flowmap">
     <span class="node">Bienvenida</span><span class="arrow">→</span>
@@ -391,10 +416,12 @@
     <span class="node">Lenguaje</span>
     <span class="node">TEA</span>
     <span class="node">Dislexia</span>
+    <span class="node">Realidad Aumentada**</span>
     <span class="arrow">→</span>
     <span class="node">Resultados</span>
   </div>
-  <p class="small muted">* Los ejercicios de Audición pasan antes por el Test de Ling si la patología indica audífono o implante.</p>
+  <p class="small muted">* Los ejercicios de Audición pasan antes por el Test de Ling si la patología indica audífono o implante.
+  <br>** Realidad Aumentada solo aparece en teléfonos Android con la app instalada, y pasa antes por el permiso de cámara y la prueba de aptitud (CU‑18).</p>
 
   <div class="shots">
     <figure class="shot">
@@ -414,7 +441,7 @@
   <h3>Glosario</h3>
   <table>
     <tr><th style="width:26%">Término</th><th>Significado</th></tr>
-    <tr><td><strong>Hub de bloques</strong></td><td>Pantalla “Prescripción de Terapias”: seis tarjetas (Pares Mínimos, Expansión Semántica, Audición, Lenguaje, TEA y Dislexia) más la tarjeta Academy, desde donde se practica o prescribe.</td></tr>
+    <tr><td><strong>Hub de bloques</strong></td><td>Pantalla “Prescripción de Terapias”: siete tarjetas (Pares Mínimos, Expansión Semántica, Audición, Lenguaje, TEA, Dislexia y Realidad Aumentada) más la tarjeta Academy, desde donde se practica o prescribe.</td></tr>
     <tr><td><strong>Par mínimo</strong></td><td>Dos palabras que solo se distinguen por un fonema (rana / lana). Sirven para entrenar el contraste que el niño sustituye.</td></tr>
     <tr><td><strong>Sustitución</strong></td><td>Error fonológico habitual: el niño dice la palabra contraria (r̄ → l). La app la detecta y la corrige.</td></tr>
     <tr><td><strong>Sello doble</strong></td><td>Mecánica anti‑pasividad: padre e hijo pulsan dos huellas a la vez para avanzar (o mantienen una pulsada 2&nbsp;s).</td></tr>
@@ -443,6 +470,14 @@
     <tr><td><strong>Frase portadora</strong></td><td>Frase natural en la que se incrusta la palabra objetivo (“El oso encontró una rana…”) para practicarla con entonación real en vez de aislada.</td></tr>
     <tr><td><strong>Carga comunicativa</strong></td><td>Conjunto de retos que el <em>adulto</em> activa a mano en su panel: ruido de fondo, distractor visual y quiebre de la comunicación. Nunca los activa la app sola.</td></tr>
     <tr><td><strong>Quiebre pragmático</strong></td><td>Tarea en la que el adulto rompe la comunicación a propósito (murmura o pide algo absurdo) para observar cómo el niño la <strong>repara</strong>.</td></tr>
+    <tr><td><strong>Realidad Aumentada (RA)</strong></td><td>Séptimo bloque, solo en teléfonos Android. La cámara frontal mide gestos —labios, giro de cabeza, mirada— y esos gestos mueven figuras en 3D. No graba imagen y no identifica a nadie.</td></tr>
+    <tr><td><strong>Prueba de aptitud</strong></td><td>Calentamiento de minuto y medio que mide qué puede sostener <em>este teléfono</em>. Devuelve un nivel (A a D) que decide qué ejercicios de RA se ofrecen. Describe el aparato, no al niño.</td></tr>
+    <tr><td><strong>Sostén</strong></td><td>Tiempo seguido que el niño mantiene un gesto (por ejemplo la boquita de beso). En AR‑1 es lo que hace avanzar el coche, y la serie de sostenes es el dato clínico.</td></tr>
+    <tr><td><strong>Fijación (<em>dwell</em>)</strong></td><td>Mantener la mirada sobre un dibujo el tiempo suficiente para elegirlo, sin tocar la pantalla. Es cómo se responde en AR‑3.</td></tr>
+    <tr><td><strong>Calibración de mirada</strong></td><td>Rutina de 5 puntos con la osita (~15 s) que enseña al teléfono dónde mira ese niño. Obligatoria en AR‑3 y propia de cada paciente y cada aparato.</td></tr>
+    <tr><td><strong>Latencia</strong></td><td>Milisegundos que tarda el niño en girar la cabeza hacia un sonido (AR‑2). Es la versión medible de la pregunta «¿giró?».</td></tr>
+    <tr><td><strong>Ensayo trampa</strong></td><td>Ensayo de AR‑2 en el que <strong>no suena nada</strong>. Sirve para distinguir que el niño oye de que mueve la cabeza por su cuenta. Sin ellos, la prueba sería una demostración, no una medida.</td></tr>
+    <tr><td><strong>Ensayo anulado</strong></td><td>Ensayo que la app descarta porque el teléfono se movió durante la respuesta. Se anula a propósito: un ensayo contaminado estropea el registro entero.</td></tr>
   </table>
 </section>
 
@@ -589,7 +624,7 @@
       <ol class="flow">
         <li>En el <strong>banco de contrastes</strong>, elegir un par prescrito (15 disponibles en 6 grupos: rotacismo, sigmatismo, velares, labiodental, nasales y laterales). Pulsar ▶.</li>
         <li>La app <strong>pide una ficha</strong> en voz alta (“¡Dile a papá cuál quieres! Di: rana”). El niño la dice. La fase de turno avanza de <strong>Escucha</strong> a <strong>Repite</strong>.</li>
-        <li>La app evalúa: <strong>acierto</strong> (3★ al primer intento, 2★ tras corrección), <strong>sustitución</strong> detectada (corrección específica del par) o <strong>aproximación</strong> (reintento).</li>
+        <li>La app evalúa comparando lo que oyó con <strong>las dos palabras del par</strong> y quedándose con la más parecida: <strong>acierto</strong> (3★ al primer intento, 2★ tras corrección), <strong>sustitución</strong> detectada (corrección específica del par) o <strong>aproximación</strong> (reintento). Si lo oído se parece igual a las dos, la app <strong>no se moja</strong>: dice «casi» y deja el veredicto al adulto.</li>
         <li>Cada acierto trae una <strong>misión física</strong> (“¡Salto de rana!”) y termina con el <strong>sello doble</strong>: padre e hijo pulsan dos huellas a la vez para continuar.</li>
         <li>A lo largo de los 10 ensayos hay <strong>rotación de roles</strong> (“¡Ahora mandas tú!”) y una <strong>cápsula TPR</strong> de movimiento. Al final se guarda la sesión y la evolución del fonema.</li>
       </ol>
@@ -600,6 +635,7 @@
         <li><strong>Sin reconocimiento de voz</strong> (Expo Go / navegador): el padre valora con los botones “Dijo …”.</li>
       </ul>
       <div class="callout violet"><div class="lbl">Anti‑pasividad</div><p style="margin:4px 0 0">Nada avanza sin las manos de los dos: el sello doble obliga a que el adulto participe en cada ensayo. La rotación de roles convierte al niño en “juez” que discrimina qué palabra dijo el adulto.</p></div>
+      <div class="callout"><div class="lbl">Cómo decide la app entre las dos palabras</div><p style="margin:4px 0 0">Los pares se diferencian a menudo en <strong>una sola letra</strong> (rana/lana, cubo/tubo, boca/bota). Por eso la app no pregunta «¿se parece bastante al objetivo?» —con esa pregunta, decir el distractor pasaría por acierto— sino <strong>a cuál de las dos se parece más</strong>. El empate se resuelve con un «casi», nunca inventando un veredicto. A cambio, alguna pronunciación aproximada que antes daba estrella ahora da «casi» y pide otro intento: es el precio de que el ejercicio detecte de verdad la sustitución, y <strong>el adulto puede corregirlo siempre</strong>.</p></div>
       <div class="shots">
         <figure class="shot">
           <img src="screenshots/06-pares-banco.png" alt="Banco de contrastes de pares mínimos">
@@ -1154,6 +1190,205 @@
   </div>
 </section>
 
+<!-- CU-18 · RA · PREPARACIÓN -->
+<section class="page-break">
+  <div class="uc">
+    <div class="uc-head">
+      <div class="id">CU‑18 · <span class="tag" style="background:rgba(255,255,255,.24);color:#fff">Familia</span></div>
+      <div class="title">Realidad Aumentada: permiso de cámara y prueba de aptitud del teléfono</div>
+    </div>
+    <div class="uc-body">
+      <div class="uc-grid">
+        <div><div class="k">Actor</div><div class="v">Tutor (el niño solo para el calentamiento)</div></div>
+        <div><div class="k">Pantalla</div><div class="v">Realidad Aumentada · preparación</div></div>
+        <div><div class="k">Precondición</div><div class="v">Teléfono <strong>Android</strong> con la app instalada (APK)</div></div>
+        <div><div class="k">Resultado</div><div class="v">Consentimiento dado, nivel de aptitud medido y ejercicios habilitados</div></div>
+      </div>
+      <p>El séptimo bloque usa la <strong>cámara frontal como sensor de movimiento</strong>: mide si el niño redondea los
+      labios, gira la cabeza hacia un sonido o mantiene la mirada en un dibujo, y esos gestos son los que hacen reaccionar
+      a unas figuras en 3D. <strong>En dos de los tres ejercicios el micrófono está apagado</strong>, a propósito: se premia
+      el esfuerzo motor <em>antes</em> de pedirle que hable, para que no escuche su propio error y se frustre antes de haber
+      consolidado el gesto.</p>
+      <p>Antes de la primera sesión hay dos pasos que se hacen una sola vez, y merece la pena no saltárselos.</p>
+      <h4>Flujo principal</h4>
+      <ol class="flow">
+        <li>Abrir la tarjeta <strong>Realidad Aumentada</strong> del hub. Si el teléfono o la versión de la app no lo admiten, la app lo dice y no ofrece nada más.</li>
+        <li>Leer <strong>“Qué hace la cámara en estos juegos”</strong> y aceptar. Se pide <strong>una vez por paciente</strong>.</li>
+        <li>Hacer el <strong>calentamiento de minuto y medio</strong> con la osita. Es la <strong>prueba de aptitud</strong>: mide lo que este aparato concreto puede sostener.</li>
+        <li><strong>Colocar el teléfono apoyado</strong> —en un libro, una caja o contra la pared—, <strong>horizontal</strong> y a <strong>30‑35 cm</strong> de la cara. La app avisa en verde cuando la posición vale.</li>
+        <li>Elegir uno de los tres ejercicios habilitados para el nivel obtenido.</li>
+      </ol>
+      <h4>Qué habilita cada nivel de aptitud</h4>
+      <table>
+        <tr><th style="width:22%">Nivel</th><th>Qué se puede hacer</th></tr>
+        <tr><td><strong>A · Instrumento</strong></td><td>Los tres ejercicios, y los tiempos de AR‑2 sirven como medida.</td></tr>
+        <tr><td><strong>B · Clínico</strong></td><td>Los tres ejercicios; AR‑2 <strong>solo como juego</strong> (sus tiempos no son defendibles).</td></tr>
+        <tr><td><strong>C · Reducido</strong></td><td>AR‑1 y AR‑3, este último con <strong>2 dibujos</strong> en vez de 3.</td></tr>
+        <tr><td><strong>D · No apto</strong></td><td>El bloque no aparece. Los otros seis funcionan exactamente igual.</td></tr>
+      </table>
+      <h4>Flujos alternativos</h4>
+      <ul class="alt">
+        <li><strong>Sin permiso de cámara:</strong> el bloque no se abre y el resto de la app sigue igual. El permiso se puede retirar en cualquier momento desde los ajustes de Android.</li>
+        <li><strong>El teléfono se mueve durante un ensayo:</strong> la app <strong>anula ese ensayo</strong>. Un ensayo anulado es barato; uno contaminado estropea el registro.</li>
+        <li><strong>La cámara deja de ver la cara:</strong> el ejercicio se cierra solo y la app explica que hay que apoyar mejor el teléfono.</li>
+        <li><strong>El aparato se calienta:</strong> la app avisa. Conviene parar y volver otro día: un ejercicio a tirones no mide nada.</li>
+      </ul>
+      <div class="callout"><div class="lbl">Un nivel bajo no es culpa del niño</div><p style="margin:4px 0 0">El nivel de aptitud describe el <strong>teléfono</strong>, no al paciente ni al centro. Conviene decirlo así a la familia, porque el aparato lo pone ella. Con un nivel C el ejercicio de mirada usa dos dibujos en vez de tres, y eso <strong>no es una versión peor</strong>: elegir entre dos alternativas es un formato de evaluación perfectamente estándar.</p></div>
+      <div class="callout warn"><div class="lbl">Sobre la cámara, tres cosas que no cambian</div><p style="margin:4px 0 0">No se graba ni se guarda ninguna imagen: cada fotograma se analiza y se descarta al instante. Ningún vídeo sale del teléfono. Y <strong>no se reconoce la cara de nadie</strong>: se miden gestos —grados, milisegundos y proporciones—, nunca identidades.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CU-19 · AR-1 -->
+<section class="page-break">
+  <div class="uc">
+    <div class="uc-head">
+      <div class="id">CU‑19 · <span class="tag" style="background:rgba(255,255,255,.24);color:#fff">Familia</span></div>
+      <div class="title">AR‑1 · Cinemática Orofacial: la boquita de beso mueve el coche</div>
+    </div>
+    <div class="uc-body">
+      <div class="uc-grid">
+        <div><div class="k">Actor</div><div class="v">Tutor + niño/a (3‑4 años)</div></div>
+        <div><div class="k">Pantalla</div><div class="v">Realidad Aumentada · AR‑1</div></div>
+        <div><div class="k">Precondición</div><div class="v">Consentimiento y aptitud A, B o C (CU‑18)</div></div>
+        <div><div class="k">Resultado</div><div class="v">Serie de sostén del gesto por ensayo</div></div>
+      </div>
+      <p>Sirve para trabajar el <strong>gesto motor previo a /o/ y /u/</strong> en dislalias funcionales, separándolo del
+      sonido. El niño pone <strong>boquita de beso</strong> y, <em>mientras la sostiene</em>, un coche en 3D acelera. No se
+      le pide que diga nada: <strong>el micrófono está apagado</strong>.</p>
+      <h4>Flujo principal</h4>
+      <ol class="flow">
+        <li>Al entrar, <strong>3 segundos de reposo</strong>: la app toma la línea base de la boca <em>de ese niño</em>. La boca de uno de tres años y la de uno de seis no admiten la misma medida.</li>
+        <li>Consigna única: <strong>«Pon boquita de beso para que el coche avance.»</strong></li>
+        <li>El coche <strong>acelera mientras el gesto se sostiene</strong> y frena si se pierde. El premio llega al mantenerlo <strong>1,5 segundos</strong> (ajustable entre 0,8 y 3 s en el Panel, CU‑22).</li>
+        <li>Se repite en ensayos cortos, con una <strong>cápsula de movimiento</strong> intercalada.</li>
+      </ol>
+      <h4>Flujos alternativos</h4>
+      <ul class="alt">
+        <li><strong>Mueca asimétrica:</strong> si una comisura tira mucho más que la otra, <strong>no cuenta</strong>. Ese patrón compensatorio es justo el que la terapia intenta deshacer.</li>
+        <li><strong>No lo consigue en varios intentos:</strong> el umbral está por encima de lo que hoy puede sostener. <strong>Bájelo usted en el Panel</strong>; la app nunca lo ajusta sola.</li>
+      </ul>
+      <div class="callout violet"><div class="lbl">Por qué el premio es progresivo</div><p style="margin:4px 0 0">El coche no aparece de golpe al cumplir el tiempo: <strong>acelera a la vez que el niño sostiene</strong>. Un premio de todo o nada no le enseña qué está haciendo bien. Y si pierde el gesto un instante, el progreso <strong>baja, no se borra</strong>: reiniciar a cero a un niño de cuatro años es asegurarse de que no lo consiga nunca.</p></div>
+      <div class="callout warn"><div class="lbl">No se puede “ayudar” desde fuera</div><p style="margin:4px 0 0">El premio no llega por el paso del tiempo, ni por un toque del adulto, ni por el micrófono. Si el gesto no se hace, no hay coche. Eso es deliberado: es lo que hace que el refuerzo signifique algo.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CU-20 · AR-2 -->
+<section class="page-break">
+  <div class="uc">
+    <div class="uc-head">
+      <div class="id">CU‑20 · <span class="tag pro">Profesional</span></div>
+      <div class="title">AR‑2 · Localización del sonido: de «¿giró?» a milisegundos</div>
+    </div>
+    <div class="uc-body">
+      <div class="uc-grid">
+        <div><div class="k">Actor</div><div class="v">Logopeda (o tutor, en modo juego)</div></div>
+        <div><div class="k">Pantalla</div><div class="v">Realidad Aumentada · AR‑2</div></div>
+        <div><div class="k">Precondición</div><div class="v">Aptitud A para medir tiempos; B o C solo como juego</div></div>
+        <div><div class="k">Resultado</div><div class="v">Latencia del giro cefálico por ensayo, o acierto/fallo con el motivo</div></div>
+      </div>
+      <p>Es la versión <strong>instrumentada</strong> del ejercicio RA‑5 del bloque de Audición, que sigue disponible con
+      campanita donde no haya montaje. Convierte una observación cualitativa —«¿giró la cabeza?»— en una
+      <strong>latencia en milisegundos</strong>.</p>
+      <h4>Dos modos, y el montaje decide cuál</h4>
+      <table>
+        <tr><th style="width:26%"></th><th>Modo juego (casa)</th><th>Modo instrumento (centro)</th></tr>
+        <tr><td><strong>Altavoz</strong></td><td>El del propio teléfono</td><td>Dos altavoces <strong>con cable</strong> a ±60°, a 1 m y a la altura del oído</td></tr>
+        <tr><td><strong>Qué registra</strong></td><td>Acierto o fallo, sin tiempo <em>y diciendo por qué</em></td><td>Latencia real de cada ensayo</td></tr>
+      </table>
+      <h4>Flujo principal</h4>
+      <ol class="flow">
+        <li>La app espera a que el niño lleve <strong>medio segundo mirando al frente</strong>. Sin eso, media latencia sería el tiempo que tardó en volver la cabeza.</li>
+        <li>Suena el estímulo por un lado, <strong>elegido al azar</strong> (nunca más de dos veces seguidas el mismo).</li>
+        <li>El niño gira. Hay <strong>2 segundos de ventana</strong>; pasada, se anota «sin respuesta», <strong>nunca “error”</strong>.</li>
+        <li>Entre ensayo y ensayo pasan <strong>de 3 a 6 segundos al azar</strong>, para que no anticipe.</li>
+        <li>Uno de cada cinco ensayos, aproximadamente, <strong>no suena</strong>. Es el control que distingue oír de mover la cabeza porque sí.</li>
+      </ol>
+      <h4>Flujos alternativos</h4>
+      <ul class="alt">
+        <li><strong>Altavoz Bluetooth:</strong> <strong>vetado</strong>. Añade un retraso variable de 100‑300 ms, que es exactamente lo que se quiere medir. La app lo detecta y registra el ensayo sin tiempo.</li>
+        <li><strong>Sin montaje cableado o teléfono por debajo del nivel A:</strong> el ejercicio funciona igual como juego, y cada registro dice por qué no lleva tiempo.</li>
+      </ul>
+      <div class="callout warn"><div class="lbl">Durante el ensayo, el adulto no existe</div><p style="margin:4px 0 0">No señalar, no mirar hacia el altavoz, no reaccionar. Es la fuente de sesgo más fácil de introducir y la más difícil de detectar después en los datos.</p></div>
+      <div class="callout"><div class="lbl">Un tiempo vacío no es un fallo</div><p style="margin:4px 0 0">Cuando el registro no trae latencia, <strong>dice el motivo</strong>: ensayo sin sonido, sin respuesta, salida Bluetooth, sin altavoces cableados o teléfono insuficiente. Cada motivo se lee distinto, y por eso se guarda.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CU-21 · AR-3 -->
+<section class="page-break">
+  <div class="uc">
+    <div class="uc-head">
+      <div class="id">CU‑21 · <span class="tag" style="background:rgba(255,255,255,.24);color:#fff">Familia</span></div>
+      <div class="title">AR‑3 · Selección semántica por fijación: elegir mirando</div>
+    </div>
+    <div class="uc-body">
+      <div class="uc-grid">
+        <div><div class="k">Actor</div><div class="v">Tutor + niño/a (4‑5 años)</div></div>
+        <div><div class="k">Pantalla</div><div class="v">Realidad Aumentada · AR‑3</div></div>
+        <div><div class="k">Precondición</div><div class="v">Calibración de 5 puntos hecha para ese paciente y ese teléfono</div></div>
+        <div><div class="k">Resultado</div><div class="v">Primera mirada y elección final por ensayo</div></div>
+      </div>
+      <p>Evalúa <strong>comprensión de vocabulario sin que la mano estorbe</strong>: pensado para niños con parálisis
+      cerebral, dispraxia o cualquier dificultad de motricidad fina. El niño <strong>elige mirando</strong>, no señalando.</p>
+      <h4>Flujo principal</h4>
+      <ol class="flow">
+        <li><strong>Calibración obligatoria</strong>: 5 puntos con la osita, unos 15 segundos. Sin ella el puntero no apunta a nada. Se guarda por paciente y por teléfono.</li>
+        <li>Aparecen <strong>3 dibujos</strong> (2 si el teléfono es de nivel C), colocados por ángulos, no por píxeles.</li>
+        <li>La app <strong>dice la palabra una sola vez</strong> y espera.</li>
+        <li>El niño mira el dibujo. Un <strong>anillo de progreso</strong> se va cerrando mientras sostiene la mirada; a <strong>1,2 segundos</strong> queda elegido (ajustable en el Panel).</li>
+        <li>El acierto dispara un <strong>giro de 360°</strong> de la figura.</li>
+      </ol>
+      <h4>Flujos alternativos</h4>
+      <ul class="alt">
+        <li><strong>Mira al fondo, entre dibujos:</strong> no acumula nada. El anillo solo avanza dentro de un dibujo, para que no elija sin querer.</li>
+        <li><strong>El puntero tiembla:</strong> en el Panel se puede cambiar de <strong>iris</strong> (preciso pero nervioso) a <strong>rayo desde la nariz</strong> (más grueso pero estable). El ejercicio ni se entera del cambio.</li>
+      </ul>
+      <div class="callout violet"><div class="lbl">Dos datos que no significan lo mismo</div><p style="margin:4px 0 0">La <strong>primera mirada</strong> dice adónde fue de entrada —comprensión inmediata—; la <strong>elección final</strong> es lo que acaba escogiendo, con posible corrección por el camino. Solo la segunda dispara el premio. Conviene no confundirlas al leer el panel.</p></div>
+      <div class="callout warn"><div class="lbl">No mezcle sesiones de 2 y de 3 dibujos</div><p style="margin:4px 0 0">Con dos alternativas se acierta la mitad de las veces por azar, y eso se corrige con más ensayos, no comparándolo con sesiones de tres. El registro guarda cuántos dibujos había justo para poder separarlas.</p></div>
+      <div class="callout"><div class="lbl">Diga la palabra una sola vez</div><p style="margin:4px 0 0">Repetirla reinicia la búsqueda del niño y estropea el dato de primera mirada. Si no responde, es un dato; insistir lo borra.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CU-22 · PANEL RA -->
+<section class="page-break">
+  <div class="uc">
+    <div class="uc-head">
+      <div class="id">CU‑22 · <span class="tag pro">Profesional</span></div>
+      <div class="title">Ajustar los umbrales de Realidad Aumentada y ver las señales en vivo</div>
+    </div>
+    <div class="uc-body">
+      <div class="uc-grid">
+        <div><div class="k">Actor</div><div class="v">Logopeda</div></div>
+        <div><div class="k">Pantalla</div><div class="v">Realidad Aumentada · Panel del Adulto</div></div>
+        <div><div class="k">Precondición</div><div class="v">Modo Profesional (PIN)</div></div>
+        <div><div class="k">Resultado</div><div class="v">Umbrales adaptados a ese niño y comprobación de que el aparato ve bien</div></div>
+      </div>
+      <p>El bloque no adapta su dificultad solo. <strong>Lo hace usted</strong>, y esa es una decisión de diseño, no una
+      carencia: un software que ajusta su propio criterio clínico deja de ser un instrumento.</p>
+      <h4>Flujo principal</h4>
+      <ol class="flow">
+        <li>Abrir el <strong>Panel del Adulto</strong> dentro del bloque de RA (bajo los ejercicios, no delante del niño).</li>
+        <li>Ajustar el <strong>sostén de AR‑1</strong> (0,8‑3 s), la <strong>ventana de respuesta de AR‑2</strong>, el <strong>tiempo de fijación de AR‑3</strong> y el <strong>tipo de puntero</strong>.</li>
+        <li>Usar <strong>“Ver las señales en vivo”</strong> para comprobar distancia, grados de giro, apertura de labios y fotogramas por segundo antes de una sesión que importe.</li>
+      </ol>
+      <div class="callout"><div class="lbl">Qué encontrará en el panel del paciente, y qué no</div><p style="margin:4px 0 0">Encontrará <strong>series y magnitudes</strong>: sostén en milisegundos, latencia por ensayo, fijación hasta elegir, ensayos anulados y la ficha del aparato. <strong>No</strong> encontrará percentiles, comparación con «lo esperado para la edad», semáforos de gravedad ni etiquetas diagnósticas, y su ausencia es deliberada: un gráfico es descripción, un semáforo rojo es interpretación, y <strong>la interpretación es suya</strong>.</p></div>
+      <div class="callout warn"><div class="lbl">Dos sesiones en teléfonos distintos no se comparan sin más</div><p style="margin:4px 0 0">Cada registro lleva marca, modelo, nivel de aptitud y fotogramas por segundo sostenidos, precisamente porque el aparato condiciona la medida. Mírelo antes de leer una evolución como mejoría o empeoramiento.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="callout" style="margin-top:4px">
+    <div class="lbl">Por qué este capítulo no lleva capturas</div>
+    <p style="margin:4px 0 0">Los tres ejercicios de Realidad Aumentada solo funcionan con la cámara abierta en un teléfono
+    físico, y cualquier captura fiel mostraría <strong>la cara de un niño</strong>. Preferimos describirlos con palabras antes
+    que incluir una imagen de un menor en un documento que circula, o una recreación que no se parezca a lo que verá.</p>
+  </div>
+</section>
+
 <section>
   <div class="chapter-kicker">Anexo A</div>
   <h2 class="chapter">Preguntas frecuentes y resolución de problemas</h2>
@@ -1162,7 +1397,9 @@
     <tr><th style="width:38%">Situación</th><th>Qué hacer</th></tr>
     <tr><td>No recuerdo el PIN profesional</td><td>El PIN lo define el logopeda. En la demo es <strong>1985</strong> y es el mismo en todos los bloques. Si se olvida en producción, debe restablecerse desde la configuración de la app.</td></tr>
     <tr><td>El micrófono no reconoce la voz</td><td>En Expo Go y en el navegador web no hay reconocimiento de voz: use el modo juez (el adulto valora con botones). En la app instalada, revise el permiso de micrófono.</td></tr>
-    <tr><td>El micrófono falla más en galego o en euskera</td><td>Es esperable: el reconocimiento sin conexión necesita el paquete de idioma de esa variedad instalado en el teléfono, y en galego y euskera es poco frecuente. Puede instalarlo desde los ajustes de voz del sistema. Recuerde que <strong>el adulto siempre puede corregir el veredicto</strong>, y que un fallo del micrófono no le gasta el intento al niño.</td></tr>
+    <tr><td>El micrófono falla más en galego o en euskera</td><td>Es esperable: el reconocimiento sin conexión necesita el paquete de idioma de esa variedad instalado en el teléfono, y en galego y euskera es poco frecuente. La tarjeta <strong>“Voz de la app”</strong> le dice, para la variedad activa, si se está escuchando <strong>dentro del teléfono</strong> o a través del servicio del sistema, y <strong>le ofrece descargar el paquete</strong> cuando el aparato lo permite. Recuerde que <strong>el adulto siempre puede corregir el veredicto</strong>, y que un fallo del micrófono no le gasta el intento al niño.</td></tr>
+    <tr><td>¿Cómo sé si la voz de mi hijo sale del teléfono?</td><td>En la tarjeta <strong>“Voz de la app”</strong>, debajo del selector de variedad. Indica «En el teléfono» o «Servicio del sistema» y, cuando es lo segundo, <strong>explica por qué</strong> (el aparato no sabe, falta el motor local o falta el paquete de ese idioma).</td></tr>
+    <tr><td>En Pares Mínimos ahora sale “casi” más veces que antes</td><td>Es un cambio buscado. Cuando lo que se oye se parece igual a las dos palabras del par, la app <strong>ya no da el acierto por defecto</strong>: dice «casi» y le deja a usted el veredicto. Antes, en los pares que se distinguen por una sola letra, decir la palabra equivocada podía puntuar como acierto, y eso vaciaba el ejercicio (CU‑04).</td></tr>
     <tr><td>La app oyó mal en Pares Mínimos</td><td>El padre es el juez final: use “dijo rana / dijo lana” para corregir el veredicto. Un falso positivo no penaliza al niño.</td></tr>
     <tr><td>No avanza tras la misión física</td><td>Es el <strong>sello doble</strong>: padre e hijo deben pulsar las dos huellas a la vez. Con una sola mano, mantenga pulsada una huella 2 segundos.</td></tr>
     <tr><td>No aparece el Test de Ling</td><td>Solo se muestra en los ejercicios de Audición si la patología indica audífono o implante coclear (CU‑08).</td></tr>
@@ -1180,6 +1417,12 @@
     <tr><td>Marca como error algo que en mi país se dice así</td><td>En la variedad dominicana la app <strong>respeta los rasgos del habla caribeña</strong> (seseo, “s” aspirada, “r/l” final). Y recuerde: el adulto es siempre el juez final del veredicto.</td></tr>
     <tr><td>Apareció ruido de fondo o un oso moviéndose</td><td>Son módulos del <strong>Panel del Adulto</strong> (carga comunicativa) del piloto; solo se activan a mano. Desactívelos desde ese mismo panel (CU‑16).</td></tr>
     <tr><td>¿Qué son los bloques de TEA y Dislexia?</td><td><strong>TEA</strong> (6 terapias, protocolo PRT + TCC) y <strong>Dislexia</strong> (6 terapias de conciencia fonológica y acceso léxico). Se prescriben con el mismo PIN que el resto y sus estresores los activa siempre el adulto (CU‑06).</td></tr>
+    <tr><td>No veo el bloque de Realidad Aumentada</td><td>Solo aparece en <strong>teléfonos Android</strong> con la app instalada (no en tablet, ni en Expo Go, ni en el navegador), y solo si la <strong>prueba de aptitud</strong> da nivel A, B o C. Con nivel D el bloque no se ofrece y los otros seis funcionan igual (CU‑18).</td></tr>
+    <tr><td>El ejercicio de Realidad Aumentada se cierra solo</td><td>La cámara ha dejado de ver la cara del niño. <strong>Apoye el teléfono</strong> en un libro o una caja, en horizontal y a 30‑35 cm; nunca lo sostenga en la mano (CU‑18).</td></tr>
+    <tr><td>¿Se graba a mi hijo con la cámara?</td><td><strong>No.</strong> Cada fotograma se analiza dentro del teléfono y se descarta en el mismo instante. No hay grabación, no sale ninguna imagen del aparato y <strong>no se reconoce la cara de nadie</strong>: solo se miden gestos (grados, milisegundos y proporciones).</td></tr>
+    <tr><td>El coche de AR‑1 no arranca aunque el niño pone la boca</td><td>Puede que la mueca salga <strong>asimétrica</strong> (una comisura tira más que la otra), que no cuenta a propósito, o que el tiempo de sostén esté por encima de lo que hoy puede aguantar. <strong>Bájelo usted</strong> en el Panel del Adulto; la app nunca lo ajusta sola (CU‑19 y CU‑22).</td></tr>
+    <tr><td>En AR‑2 no aparecen los tiempos</td><td>Los milisegundos solo son defendibles con teléfono de nivel A y <strong>altavoces con cable</strong>. Con Bluetooth se vetan a propósito (añade un retraso variable que es justo lo que se quiere medir). El ejercicio sigue funcionando como juego y el registro <strong>dice por qué</strong> no lleva tiempo (CU‑20).</td></tr>
+    <tr><td>En AR‑3 la mirada no selecciona nada</td><td>Falta la <strong>calibración de 5 puntos</strong>, que es obligatoria por paciente y por teléfono. Si el puntero tiembla, cambie de iris a <strong>rayo desde la nariz</strong> en el Panel (CU‑21 y CU‑22).</td></tr>
     <tr><td>¿Qué es la tarjeta “Academy” del hub?</td><td>Es la <strong>formación para el adulto</strong>, organizada en cinco dominios (Lenguaje, Hipoacusia, Dislalias, Dislexia y TEA). Cápsulas breves con quiz sobre cómo aprenden a hablar los niños, el manejo de los dispositivos auditivos, los sonidos difíciles y más; un feed destaca el dominio que encaja con la patología de la ficha. No es un ejercicio para el niño (CU‑03).</td></tr>
 
   </table>
@@ -1189,7 +1432,7 @@
 <section class="page-break">
   <div class="chapter-kicker">Anexo B</div>
   <h2 class="chapter">Historial de versiones</h2>
-  <p style="margin-top:12px">Este manual describe Valeria+ en su <strong>estado actual (v9.1, con el cambio de reconocimiento de voz de la v10.1)</strong>. La siguiente tabla
+  <p style="margin-top:12px">Este manual describe Valeria+ en su <strong>estado actual (v10.2)</strong>. La siguiente tabla
   resume, a título informativo, cómo ha ido creciendo la app, por si resulta útil a quienes usaron versiones
   anteriores.</p>
   <table>
@@ -1201,22 +1444,25 @@
     <tr><td><strong>v8.1</strong></td><td>Botón de reingreso a tamaño completo, resultados y Test de Ling con el paciente real, y voz gallega que siempre arranca.</td></tr>
     <tr><td><strong>v8.2</strong></td><td>Academy: primeras Cápsulas de Conocimiento para el cuidador, con quiz y progreso por niveles.</td></tr>
     <tr><td><strong>v9</strong></td><td>Bloques de TEA y Dislexia, Audición ampliada a 18 terapias (escucha en ruido), banco castellano de 15 pares, cuarta variedad (Euskera) y Academy multidominio.</td></tr>
-    <tr><td><strong>v10.1</strong></td><td><strong>El audio del turno de habla deja de salir del teléfono siempre que el dispositivo lo permita</strong>: la app pide ahora reconocimiento <strong>sin conexión</strong>, decidido variedad por variedad. No cambia nada de lo clínico —la ventana de escucha larga, la tolerancia a los fallos del micrófono y el pliegue dialectal siguen igual—, y <strong>el adulto sigue siendo el juez final</strong>.</td></tr>
     <tr><td><strong>v9.1</strong></td><td>Mejoras nacidas de la revisión clínica de las logopedas de ACOPROS: <strong>categorías léxicas</strong> con progresión de dificultad, <strong>antesala de preparación</strong> antes de cada actividad, contrastes con <strong>doble vuelta</strong> (comprender y decir) sobre pictogramas propios, escucha más tolerante que no penaliza los fallos del micrófono, <strong>recordatorios por franjas</strong> y el módulo de <strong>Lengua de Signos Española</strong> en Academy.</td></tr>
+    <tr><td><strong>v10</strong></td><td><strong>Séptimo bloque: Realidad Aumentada</strong> (solo Android, en teléfono). La cámara frontal pasa a ser un sensor de movimiento y el premio en 3D se gana con el gesto —labios, giro de cabeza, mirada—, no con la voz: en dos de los tres ejercicios el micrófono está apagado. Incluye permiso de cámara por paciente, prueba de aptitud del aparato y umbrales que ajusta el profesional (CU‑18 a CU‑22).</td></tr>
+    <tr><td><strong>v10.1</strong></td><td><strong>El audio del turno de habla deja de salir del teléfono siempre que el dispositivo lo permita</strong>: la app pide ahora reconocimiento <strong>sin conexión</strong>, decidido variedad por variedad, y lo <strong>muestra en la tarjeta “Voz de la app”</strong>, donde también ofrece descargar el paquete de idioma que falte. No cambia nada de lo clínico —la ventana de escucha larga, la tolerancia a los fallos del micrófono y el pliegue dialectal siguen igual—, y <strong>el adulto sigue siendo el juez final</strong>.</td></tr>
+    <tr><td><strong>v10.2</strong></td><td><strong>Los pares mínimos vuelven a detectar la sustitución.</strong> Al comparar lo oído con la palabra pedida, la app toleraba una letra de diferencia; como la mayoría de los pares se distinguen por una sola letra, decir la palabra equivocada podía puntuar como acierto. Ahora se compara con <strong>las dos palabras del par</strong> y gana la más parecida; si empatan, sale «casi» y decide el adulto. Cuesta algún «casi» de más en pronunciaciones aproximadas, y a cambio el ejercicio mide lo que dice medir.</td></tr>
   </table>
 
-  <p style="margin-top:14px"><strong>Sobre la cobertura de este manual.</strong> Los capítulos paso a paso describen
-  las funciones hasta la <strong>v9.1</strong>. El bloque de <strong>Realidad Aumentada</strong> (v10) todavía no está
-  documentado aquí. El cambio de la v10.1 no añade pantallas nuevas: afecta a cómo se reconoce la voz por dentro, y está
-  explicado en el capítulo&nbsp;2, en «Privacidad de los datos».</p>
+  <p style="margin-top:14px"><strong>Sobre la cobertura de este manual.</strong> Los capítulos paso a paso cubren ya
+  <strong>los siete bloques</strong>, incluida la <strong>Realidad Aumentada</strong> de la v10 (CU‑18 a CU‑22). Los cambios
+  de la v10.1 y la v10.2 no añaden pantallas: afectan a cómo se reconoce y se valora la voz por dentro, y están explicados
+  en el capítulo&nbsp;2 («Privacidad de los datos») y en CU‑04.</p>
 
   <p style="margin-top:14px"><strong>Sobre las capturas de pantalla.</strong> Las imágenes de este manual se tomaron
-  en la v9. Los textos describen el comportamiento de la <strong>v9.1</strong>, así que en las pantallas de Expansión
-  Semántica y de recordatorios verás alguna diferencia respecto a la captura: la cuarta pestaña de Categorías, la
-  antesala de preparación y el selector de franjas son posteriores a esas capturas.</p>
+  en la v9, así que en las pantallas de Expansión Semántica y de recordatorios verás alguna diferencia respecto al texto:
+  la cuarta pestaña de Categorías, la antesala de preparación y el selector de franjas son posteriores a esas capturas.
+  El capítulo de <strong>Realidad Aumentada</strong> no lleva capturas, y la razón está explicada al final de CU‑22:
+  cualquier imagen fiel de esos ejercicios mostraría la cara de un niño.</p>
 
   <div class="footer-note">
-    <strong>Valeria+</strong> · Manual de Casos de Uso · v9.1 (con capturas de pantalla) · Julio de 2026 ·
+    <strong>Valeria+</strong> · Manual de Casos de Uso · v10.2 (con capturas de pantalla) · Agosto de 2026 ·
     Terapia auditivo‑verbal y del lenguaje para la infancia. Documento de apoyo para logopedas y familias.
     <br>Disponible en Castellano, Galego (Proxecto Nós), Dominicano (Quisqueya Habla) y Euskera (batua · ILENIA/NEL‑GAITU). Los datos personales se tratan localmente conforme a RGPD/HIPAA; la sincronización en la nube y la telemetría anónima del piloto son opcionales.
   </div>

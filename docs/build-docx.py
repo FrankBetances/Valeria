@@ -6,7 +6,11 @@ Uso:
     python3 docs/build-docx.py
 
 Requiere las capturas de docs/screenshots/ (ver docs/capture-screenshots.js).
-Mantiene el mismo contenido que docs/manual-casos-de-uso.html (v9.1).
+Mantiene el mismo contenido que docs/manual-casos-de-uso.html (v10.2).
+
+OJO: este script NO lee el HTML; lleva el texto duplicado dentro. Todo cambio
+de contenido hay que aplicarlo en LOS DOS sitios o el Word y el PDF se quedan
+desincronizados sin que nada avise.
 """
 import os
 from docx import Document
@@ -64,7 +68,7 @@ for name, size, color, before in (('Heading 1', 17, PRIMARY, 14),
 
 footer_p = sec.footer.paragraphs[0]
 footer_p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-run = footer_p.add_run('Valeria+ · Manual de Casos de Uso · v9.1 (con capturas de pantalla) · Julio de 2026')
+run = footer_p.add_run('Valeria+ · Manual de Casos de Uso · v10.2 (con capturas de pantalla) · Agosto de 2026')
 run.font.size = Pt(8)
 run.font.color.rgb = MUTED
 
@@ -266,7 +270,7 @@ for _ in range(4):
     p('', space_after=0)
 p('valeria+', bold=True, size=16, color=PRIMARY_BRIGHT)
 p('🐻', size=52, align=WD_ALIGN_PARAGRAPH.LEFT, space_after=18)
-p('Manual de usuario · v9.1 · con capturas de pantalla', bold=True, size=10, color=PRIMARY)
+p('Manual de usuario · v10.2 · con capturas de pantalla', bold=True, size=10, color=PRIMARY)
 p('Manual de Casos de Uso', bold=True, size=34, color=INK, space_after=10)
 p('Aplicación de terapia auditivo-verbal y del lenguaje para niñas y niños con hipoacusia, '
   'implante coclear, dislalias, dislexia, TEA o dificultades del lenguaje.', size=13, color=INK2, space_after=16)
@@ -299,6 +303,12 @@ toc = [
     ('CU-15', 'Elegir la variedad de terapia (Castellano · Galego · Dominicano · Euskera)'),
     ('CU-16', 'Panel del Adulto: carga comunicativa (ruido, doble tarea, quiebre)'),
     ('CU-17', 'Academy: aprender lo básico de Lengua de Signos Española'),
+    ('', 'REALIDAD AUMENTADA'),
+    ('CU-18', 'Realidad Aumentada: permiso de cámara y prueba de aptitud del teléfono'),
+    ('CU-19', 'AR-1 · Cinemática Orofacial: la boquita de beso mueve el coche'),
+    ('CU-20', 'AR-2 · Localización del sonido: de «¿giró?» a milisegundos'),
+    ('CU-21', 'AR-3 · Selección semántica por fijación: elegir mirando'),
+    ('CU-22', 'Ajustar los umbrales de Realidad Aumentada y ver las señales en vivo'),
     ('', 'ANEXOS'),
     ('A', 'Preguntas frecuentes y resolución de problemas'),
     ('B', 'Historial de versiones'),
@@ -323,7 +333,7 @@ par = doc.add_paragraph()
 rich(par, [('Valeria+', True), (' es una aplicación móvil (Expo SDK 54 / React Native) diseñada para acompañar las ', False),
            ('sesiones de terapia auditivo-verbal y del lenguaje', True),
            (' de niñas y niños. Reúne en un solo lugar el registro del paciente, una comprobación auditiva previa '
-            '(Test de Ling), seis bloques de terapia, un espacio de formación para el cuidador (Academy) y un panel '
+            '(Test de Ling), siete bloques de terapia, un espacio de formación para el cuidador (Academy) y un panel '
             'de resultados para seguir la evolución.', False)])
 par = doc.add_paragraph()
 rich(par, [('La app parte de un principio clave: ', False),
@@ -335,7 +345,7 @@ rich(par, [('La app parte de un principio clave: ', False),
 callout('A quién va dirigida',
         'Logopedas y profesionales de audición/lenguaje (que prescriben y supervisan) y familias o cuidadores '
         '(que realizan las sesiones en casa). Este manual cubre a ambos perfiles.')
-doc.add_heading('Los seis bloques de terapia', level=3)
+doc.add_heading('Los siete bloques de terapia', level=3)
 p('Desde la pantalla Prescripción de Terapias se elige uno de estos bloques. Cada uno responde a un perfil clínico '
   'distinto, pero todos comparten la misma lógica: el adulto guía la sesión y tiene la última palabra.')
 data_table(['Bloque', 'Para qué sirve'], [
@@ -358,6 +368,10 @@ data_table(['Bloque', 'Para qué sirve'], [
     [[('📖 Dislexia', True), (' — 6 terapias', False)],
      'Fonología y acceso léxico: intruso fonológico, rastreo léxico con interferencia, síntesis fonémica rítmica, '
      'criba de pseudopalabras, rastreo visual de rotaciones (b/d · p/q) y denominación rápida (RAN).'],
+    [[('🎯 Realidad Aumentada', True), (' — 3 ejercicios (solo Android, en teléfono)', False)],
+     'La cámara frontal como sensor de movimiento: postura labial (AR-1), giro de la cabeza hacia un sonido (AR-2) y '
+     'elección de dibujo con la mirada (AR-3). El premio en 3D se gana con el gesto, no con la voz; en dos de los tres '
+     'el micrófono está apagado. Requiere permiso de cámara y una prueba de aptitud del aparato (CU-18 a CU-22).'],
 ], widths=[4.8, 12.2])
 p('Además, el Test de Ling es una comprobación auditiva rápida (6 sonidos) previa a los ejercicios de audición; '
   'Academy forma al cuidador (ver CU-03), y la gamificación (XP, racha, niveles e insignias) mantiene la motivación '
@@ -480,8 +494,19 @@ callout('La voz del menor y el reconocimiento del habla',
         'frecuente, y ahí el reconocimiento puede seguir haciéndose a través del servicio en línea del sistema, conforme '
         'a la política de privacidad de ese servicio, ajena a Valeria+. En otras palabras: la app pide siempre lo más '
         'privado que el teléfono permita, pero no puede prometer lo mismo en todos los dispositivos ni en todas las '
-        'variedades. Si la privacidad del audio es determinante en su caso, instale el paquete de idioma sin conexión '
-        'desde los ajustes del teléfono.')
+        'variedades. Por eso la tarjeta “Voz de la app” muestra, para la variedad activa, si se está escuchando dentro '
+        'del teléfono o a través del servicio del sistema, y por qué cuando es lo segundo. Si lo único que falta es el '
+        'paquete de idioma, la app le ofrece descargarlo; si prefiere no hacerlo, los ejercicios funcionan igual y no se '
+        'vuelve a insistir.')
+
+callout('La cámara en los ejercicios de Realidad Aumentada',
+        'El séptimo bloque usa la cámara frontal como sensor de movimiento. Tres afirmaciones que no son intenciones '
+        'sino restricciones del propio código, comprobables en el repositorio público: no se graba ni se guarda ninguna '
+        'imagen —cada fotograma se analiza y se descarta al instante—, ningún vídeo sale del teléfono y no se reconoce '
+        'la cara de nadie. Lo único que se conserva son números: grados de giro, milisegundos, proporciones y qué dibujo '
+        'se miró. Por eso este tratamiento no es identificación biométrica: mide conducta motora, no identidades. El '
+        'permiso se pide una vez por paciente, con esas tres afirmaciones a la vista, y puede retirarse en cualquier '
+        'momento desde los ajustes de Android (CU-18).', fill=FILL_VIOLET, label_color=VIOLET_DARK)
 
 callout('Telemetría de usabilidad del piloto',
         'Durante el piloto, la app recoge métricas de usabilidad anónimas (tiempo por pantalla, toques fuera de zona útil '
@@ -495,20 +520,23 @@ doc.add_page_break()
 kicker('Capítulo 3')
 doc.add_heading('Mapa de pantallas y glosario', level=1)
 p('Tras el alta o la selección del paciente se llega al hub de Prescripción, desde donde se abre cualquiera de los '
-  'seis bloques (o Academy). El Test de Ling solo precede a los ejercicios de audición cuando el paciente usa audífono '
-  'o implante coclear.')
+  'siete bloques (o Academy). El Test de Ling solo precede a los ejercicios de audición cuando el paciente usa audífono '
+  'o implante coclear, y el bloque de Realidad Aumentada pasa antes por su propia preparación (permiso de cámara y '
+  'prueba de aptitud).')
 p('Bienvenida  →  Créditos  →  Ficha / Selección  →  Hub de bloques  →  '
-  'Pares Mínimos · Expansión Semántica · Audición* · Lenguaje · TEA · Dislexia  →  Resultados',
+  'Pares Mínimos · Expansión Semántica · Audición* · Lenguaje · TEA · Dislexia · Realidad Aumentada**  →  Resultados',
   bold=True, color=PRIMARY, align=WD_ALIGN_PARAGRAPH.CENTER)
 p('* Los ejercicios de Audición pasan antes por el Test de Ling si la patología indica audífono o implante.',
   size=9, color=MUTED)
+p('** Realidad Aumentada solo aparece en teléfonos Android con la app instalada, y pasa antes por el permiso de '
+  'cámara y la prueba de aptitud (CU-18).', size=9, color=MUTED)
 figures([('01-bienvenida.png', 'Bienvenida: “Comenzar” o “Ya tengo un paciente registrado”.'),
          ('02-creditos.png', 'Créditos del proyecto y colaboradores.'),
          ('05-hub-bloques.png', 'Hub de Prescripción: los bloques de terapia y la tarjeta Academy.')],
         width_cm=4.2)
 doc.add_heading('Glosario', level=3)
 data_table(['Término', 'Significado'], [
-    ['Hub de bloques', 'Pantalla “Prescripción de Terapias”: seis tarjetas (Pares Mínimos, Expansión Semántica, Audición, Lenguaje, TEA y Dislexia) más la tarjeta Academy, desde donde se practica o prescribe.'],
+    ['Hub de bloques', 'Pantalla “Prescripción de Terapias”: siete tarjetas (Pares Mínimos, Expansión Semántica, Audición, Lenguaje, TEA, Dislexia y Realidad Aumentada) más la tarjeta Academy, desde donde se practica o prescribe.'],
     ['Par mínimo', 'Dos palabras que solo se distinguen por un fonema (rana / lana). Entrenan el contraste que el niño sustituye.'],
     ['Sustitución', 'Error fonológico habitual: el niño dice la palabra contraria (r̄ → l). La app la detecta y la corrige.'],
     ['Sello doble', 'Mecánica anti-pasividad: padre e hijo pulsan dos huellas a la vez para avanzar (o mantienen una pulsada 2 s).'],
@@ -537,6 +565,14 @@ data_table(['Término', 'Significado'], [
     ['Frase portadora', 'Frase natural en la que se incrusta la palabra objetivo (“El oso encontró una rana…”) para practicarla con entonación real en vez de aislada.'],
     ['Carga comunicativa', 'Conjunto de retos que el adulto activa a mano en su panel: ruido de fondo, distractor visual y quiebre de la comunicación. Nunca los activa la app sola.'],
     ['Quiebre pragmático', 'Tarea en la que el adulto rompe la comunicación a propósito (murmura o pide algo absurdo) para observar cómo el niño la repara.'],
+    ['Realidad Aumentada (RA)', 'Séptimo bloque, solo en teléfonos Android. La cámara frontal mide gestos —labios, giro de cabeza, mirada— y esos gestos mueven figuras en 3D. No graba imagen y no identifica a nadie.'],
+    ['Prueba de aptitud', 'Calentamiento de minuto y medio que mide qué puede sostener este teléfono. Devuelve un nivel (A a D) que decide qué ejercicios de RA se ofrecen. Describe el aparato, no al niño.'],
+    ['Sostén', 'Tiempo seguido que el niño mantiene un gesto (por ejemplo la boquita de beso). En AR-1 es lo que hace avanzar el coche, y la serie de sostenes es el dato clínico.'],
+    ['Fijación (dwell)', 'Mantener la mirada sobre un dibujo el tiempo suficiente para elegirlo, sin tocar la pantalla. Es cómo se responde en AR-3.'],
+    ['Calibración de mirada', 'Rutina de 5 puntos con la osita (~15 s) que enseña al teléfono dónde mira ese niño. Obligatoria en AR-3 y propia de cada paciente y cada aparato.'],
+    ['Latencia', 'Milisegundos que tarda el niño en girar la cabeza hacia un sonido (AR-2). Es la versión medible de la pregunta «¿giró?».'],
+    ['Ensayo trampa', 'Ensayo de AR-2 en el que no suena nada. Sirve para distinguir que el niño oye de que mueve la cabeza por su cuenta. Sin ellos, la prueba sería una demostración, no una medida.'],
+    ['Ensayo anulado', 'Ensayo que la app descarta porque el teléfono se movió durante la respuesta. Se anula a propósito: un ensayo contaminado estropea el registro entero.'],
 ], widths=[4.2, 12.8])
 
 # ============================ CASOS DE USO ============================
@@ -640,8 +676,10 @@ h4('Flujo principal')
 numbered([
     [('En el ', False), ('banco de contrastes', True), (', elegir un par prescrito (15 disponibles en 6 grupos: rotacismo, sigmatismo, velares, labiodental, nasales y laterales). Pulsar ▶.', False)],
     [('La app ', False), ('pide una ficha', True), (' en voz alta (“¡Dile a papá cuál quieres! Di: rana”). El niño la dice. La fase de turno avanza de Escucha a Repite.', False)],
-    [('La app evalúa: ', False), ('acierto', True), (' (3★ al primer intento, 2★ tras corrección), ', False),
-     ('sustitución', True), (' detectada (corrección específica del par) o ', False), ('aproximación', True), (' (reintento).', False)],
+    [('La app evalúa comparando lo que oyó con ', False), ('las dos palabras del par', True),
+     (' y quedándose con la más parecida: ', False), ('acierto', True), (' (3★ al primer intento, 2★ tras corrección), ', False),
+     ('sustitución', True), (' detectada (corrección específica del par) o ', False), ('aproximación', True), (' (reintento). '
+      'Si lo oído se parece igual a las dos, la app no se moja: dice «casi» y deja el veredicto al adulto.', False)],
     [('Cada acierto trae una ', False), ('misión física', True), (' (“¡Salto de rana!”) y termina con el ', False),
      ('sello doble', True), (': padre e hijo pulsan dos huellas a la vez para continuar.', False)],
     [('A lo largo de los 10 ensayos hay ', False), ('rotación de roles', True), (' (“¡Ahora mandas tú!”) y una ', False),
@@ -656,6 +694,12 @@ bullets([
 callout('Anti-pasividad', 'Nada avanza sin las manos de los dos: el sello doble obliga a que el adulto participe en '
         'cada ensayo. La rotación de roles convierte al niño en “juez” que discrimina qué palabra dijo el adulto.',
         fill=FILL_VIOLET, label_color=VIOLET_DARK)
+callout('Cómo decide la app entre las dos palabras',
+        'Los pares se diferencian a menudo en una sola letra (rana/lana, cubo/tubo, boca/bota). Por eso la app no '
+        'pregunta «¿se parece bastante al objetivo?» —con esa pregunta, decir el distractor pasaría por acierto— sino a '
+        'cuál de las dos se parece más. El empate se resuelve con un «casi», nunca inventando un veredicto. A cambio, '
+        'alguna pronunciación aproximada que antes daba estrella ahora da «casi» y pide otro intento: es el precio de '
+        'que el ejercicio detecte de verdad la sustitución, y el adulto puede corregirlo siempre.')
 figures([('06-pares-banco.png', 'Banco de contrastes: los pares agrupados por tipo de error.'),
          ('08-pares-juego.png', 'Ensayo: dos fichas, la consigna y el juez del padre.'),
          ('09-pares-veredicto.png', 'Acierto: misión física de celebración y sello doble.')])
@@ -729,7 +773,7 @@ bullets([
     [('PIN incorrecto:', True), (' los puntos se marcan en rojo y se pueden reintroducir.', False)],
     [('Solo consulta (sin PIN):', True), (' se ve la lista, pero los interruptores están atenuados.', False)],
     [('Practicar sin editar:', True), (' el botón ▶ de cada fila inicia esa terapia, incluso en Modo Familia. '
-     'El mismo PIN prescribe en los seis bloques (Pares Mínimos, Expansión Semántica, Audición, Lenguaje, TEA y Dislexia).', False)],
+     'El mismo PIN prescribe en los siete bloques (Pares Mínimos, Expansión Semántica, Audición, Lenguaje, TEA, Dislexia y Realidad Aumentada).', False)],
     [('Consentimiento del módulo TEA:', True), (' el Quiebre Pragmático Inducido (TEA-2) exige aceptar antes un '
      'encuadre de consentimiento informado; hasta entonces queda bloqueado.', False)],
 ])
@@ -1026,6 +1070,183 @@ callout('Validación',
 
 # ============================ ANEXO ============================
 doc.add_page_break()
+# ================= REALIDAD AUMENTADA (CU-18 … CU-22) =================
+kicker('Realidad Aumentada')
+doc.add_heading('El séptimo bloque', level=1)
+p('Los cinco casos siguientes cubren el bloque de Realidad Aumentada, disponible solo en teléfonos Android con la app '
+  'instalada. No llevan capturas, y la razón está al final del capítulo.')
+
+# ---- CU-18 · PREPARACIÓN ----
+uc_header('CU-18', 'Familia', 'Realidad Aumentada: permiso de cámara y prueba de aptitud del teléfono')
+uc_meta('Tutor (el niño solo para el calentamiento)', 'Realidad Aumentada · preparación',
+        'Teléfono Android con la app instalada (APK)',
+        'Consentimiento dado, nivel de aptitud medido y ejercicios habilitados')
+par = doc.add_paragraph()
+rich(par, [('El séptimo bloque usa la ', False), ('cámara frontal como sensor de movimiento', True),
+           (': mide si el niño redondea los labios, gira la cabeza hacia un sonido o mantiene la mirada en un dibujo, '
+            'y esos gestos son los que hacen reaccionar a unas figuras en 3D. ', False),
+           ('En dos de los tres ejercicios el micrófono está apagado', True),
+           (', a propósito: se premia el esfuerzo motor antes de pedirle que hable, para que no escuche su propio error '
+            'y se frustre antes de haber consolidado el gesto.', False)])
+p('Antes de la primera sesión hay dos pasos que se hacen una sola vez, y merece la pena no saltárselos.')
+h4('Flujo principal')
+numbered([
+    [('Abrir la tarjeta ', False), ('Realidad Aumentada', True), (' del hub. Si el teléfono o la versión de la app no lo admiten, la app lo dice y no ofrece nada más.', False)],
+    [('Leer ', False), ('“Qué hace la cámara en estos juegos”', True), (' y aceptar. Se pide una vez por paciente.', False)],
+    [('Hacer el ', False), ('calentamiento de minuto y medio', True), (' con la osita. Es la prueba de aptitud: mide lo que este aparato concreto puede sostener.', False)],
+    [('Colocar el teléfono ', False), ('apoyado', True), (' —en un libro, una caja o contra la pared—, horizontal y a 30-35 cm de la cara. La app avisa en verde cuando la posición vale.', False)],
+    'Elegir uno de los tres ejercicios habilitados para el nivel obtenido.',
+])
+h4('Qué habilita cada nivel de aptitud')
+data_table(['Nivel', 'Qué se puede hacer'], [
+    [[('A · Instrumento', True)], 'Los tres ejercicios, y los tiempos de AR-2 sirven como medida.'],
+    [[('B · Clínico', True)], 'Los tres ejercicios; AR-2 solo como juego (sus tiempos no son defendibles).'],
+    [[('C · Reducido', True)], 'AR-1 y AR-3, este último con 2 dibujos en vez de 3.'],
+    [[('D · No apto', True)], 'El bloque no aparece. Los otros seis funcionan exactamente igual.'],
+], widths=[4.0, 13.0])
+h4('Flujos alternativos')
+bullets([
+    [('Sin permiso de cámara:', True), (' el bloque no se abre y el resto de la app sigue igual. El permiso se puede retirar en cualquier momento desde los ajustes de Android.', False)],
+    [('El teléfono se mueve durante un ensayo:', True), (' la app anula ese ensayo. Un ensayo anulado es barato; uno contaminado estropea el registro.', False)],
+    [('La cámara deja de ver la cara:', True), (' el ejercicio se cierra solo y la app explica que hay que apoyar mejor el teléfono.', False)],
+    [('El aparato se calienta:', True), (' la app avisa. Conviene parar y volver otro día: un ejercicio a tirones no mide nada.', False)],
+])
+callout('Un nivel bajo no es culpa del niño',
+        'El nivel de aptitud describe el teléfono, no al paciente ni al centro. Conviene decirlo así a la familia, '
+        'porque el aparato lo pone ella. Con un nivel C el ejercicio de mirada usa dos dibujos en vez de tres, y eso no '
+        'es una versión peor: elegir entre dos alternativas es un formato de evaluación perfectamente estándar.')
+callout('Sobre la cámara, tres cosas que no cambian',
+        'No se graba ni se guarda ninguna imagen: cada fotograma se analiza y se descarta al instante. Ningún vídeo '
+        'sale del teléfono. Y no se reconoce la cara de nadie: se miden gestos —grados, milisegundos y proporciones—, '
+        'nunca identidades.', fill=FILL_WARN, label_color=VIOLET_DARK)
+
+# ---- CU-19 · AR-1 ----
+uc_header('CU-19', 'Familia', 'AR-1 · Cinemática Orofacial: la boquita de beso mueve el coche')
+uc_meta('Tutor + niño/a (3-4 años)', 'Realidad Aumentada · AR-1', 'Consentimiento y aptitud A, B o C (CU-18)',
+        'Serie de sostén del gesto por ensayo')
+par = doc.add_paragraph()
+rich(par, [('Sirve para trabajar el ', False), ('gesto motor previo a /o/ y /u/', True),
+           (' en dislalias funcionales, separándolo del sonido. El niño pone ', False), ('boquita de beso', True),
+           (' y, mientras la sostiene, un coche en 3D acelera. No se le pide que diga nada: ', False),
+           ('el micrófono está apagado', True), ('.', False)])
+h4('Flujo principal')
+numbered([
+    [('Al entrar, ', False), ('3 segundos de reposo', True), (': la app toma la línea base de la boca de ese niño. La boca de uno de tres años y la de uno de seis no admiten la misma medida.', False)],
+    [('Consigna única: ', False), ('«Pon boquita de beso para que el coche avance.»', True)],
+    [('El coche ', False), ('acelera mientras el gesto se sostiene', True), (' y frena si se pierde. El premio llega al mantenerlo 1,5 segundos (ajustable entre 0,8 y 3 s en el Panel, CU-22).', False)],
+    [('Se repite en ensayos cortos, con una ', False), ('cápsula de movimiento', True), (' intercalada.', False)],
+])
+h4('Flujos alternativos')
+bullets([
+    [('Mueca asimétrica:', True), (' si una comisura tira mucho más que la otra, no cuenta. Ese patrón compensatorio es justo el que la terapia intenta deshacer.', False)],
+    [('No lo consigue en varios intentos:', True), (' el umbral está por encima de lo que hoy puede sostener. Bájelo usted en el Panel; la app nunca lo ajusta sola.', False)],
+])
+callout('Por qué el premio es progresivo',
+        'El coche no aparece de golpe al cumplir el tiempo: acelera a la vez que el niño sostiene. Un premio de todo o '
+        'nada no le enseña qué está haciendo bien. Y si pierde el gesto un instante, el progreso baja, no se borra: '
+        'reiniciar a cero a un niño de cuatro años es asegurarse de que no lo consiga nunca.',
+        fill=FILL_VIOLET, label_color=VIOLET_DARK)
+callout('No se puede “ayudar” desde fuera',
+        'El premio no llega por el paso del tiempo, ni por un toque del adulto, ni por el micrófono. Si el gesto no se '
+        'hace, no hay coche. Eso es deliberado: es lo que hace que el refuerzo signifique algo.', fill=FILL_WARN)
+
+# ---- CU-20 · AR-2 ----
+uc_header('CU-20', 'Profesional', 'AR-2 · Localización del sonido: de «¿giró?» a milisegundos')
+uc_meta('Logopeda (o tutor, en modo juego)', 'Realidad Aumentada · AR-2',
+        'Aptitud A para medir tiempos; B o C solo como juego',
+        'Latencia del giro cefálico por ensayo, o acierto/fallo con el motivo')
+par = doc.add_paragraph()
+rich(par, [('Es la versión ', False), ('instrumentada', True),
+           (' del ejercicio RA-5 del bloque de Audición, que sigue disponible con campanita donde no haya montaje. '
+            'Convierte una observación cualitativa —«¿giró la cabeza?»— en una ', False),
+           ('latencia en milisegundos', True), ('.', False)])
+h4('Dos modos, y el montaje decide cuál')
+data_table(['', 'Modo juego (casa)', 'Modo instrumento (centro)'], [
+    [[('Altavoz', True)], 'El del propio teléfono', 'Dos altavoces con cable a ±60°, a 1 m y a la altura del oído'],
+    [[('Qué registra', True)], 'Acierto o fallo, sin tiempo y diciendo por qué', 'Latencia real de cada ensayo'],
+], widths=[3.4, 6.4, 7.2])
+h4('Flujo principal')
+numbered([
+    [('La app espera a que el niño lleve ', False), ('medio segundo mirando al frente', True), ('. Sin eso, media latencia sería el tiempo que tardó en volver la cabeza.', False)],
+    [('Suena el estímulo por un lado, ', False), ('elegido al azar', True), (' (nunca más de dos veces seguidas el mismo).', False)],
+    [('El niño gira. Hay ', False), ('2 segundos de ventana', True), ('; pasada, se anota «sin respuesta», nunca “error”.', False)],
+    [('Entre ensayo y ensayo pasan ', False), ('de 3 a 6 segundos al azar', True), (', para que no anticipe.', False)],
+    [('Uno de cada cinco ensayos, aproximadamente, ', False), ('no suena', True), ('. Es el control que distingue oír de mover la cabeza porque sí.', False)],
+])
+h4('Flujos alternativos')
+bullets([
+    [('Altavoz Bluetooth:', True), (' vetado. Añade un retraso variable de 100-300 ms, que es exactamente lo que se quiere medir. La app lo detecta y registra el ensayo sin tiempo.', False)],
+    [('Sin montaje cableado o teléfono por debajo del nivel A:', True), (' el ejercicio funciona igual como juego, y cada registro dice por qué no lleva tiempo.', False)],
+])
+callout('Durante el ensayo, el adulto no existe',
+        'No señalar, no mirar hacia el altavoz, no reaccionar. Es la fuente de sesgo más fácil de introducir y la más '
+        'difícil de detectar después en los datos.', fill=FILL_WARN)
+callout('Un tiempo vacío no es un fallo',
+        'Cuando el registro no trae latencia, dice el motivo: ensayo sin sonido, sin respuesta, salida Bluetooth, sin '
+        'altavoces cableados o teléfono insuficiente. Cada motivo se lee distinto, y por eso se guarda.')
+
+# ---- CU-21 · AR-3 ----
+uc_header('CU-21', 'Familia', 'AR-3 · Selección semántica por fijación: elegir mirando')
+uc_meta('Tutor + niño/a (4-5 años)', 'Realidad Aumentada · AR-3',
+        'Calibración de 5 puntos hecha para ese paciente y ese teléfono',
+        'Primera mirada y elección final por ensayo')
+par = doc.add_paragraph()
+rich(par, [('Evalúa ', False), ('comprensión de vocabulario sin que la mano estorbe', True),
+           (': pensado para niños con parálisis cerebral, dispraxia o cualquier dificultad de motricidad fina. El niño ', False),
+           ('elige mirando', True), (', no señalando.', False)])
+h4('Flujo principal')
+numbered([
+    [('Calibración obligatoria', True), (': 5 puntos con la osita, unos 15 segundos. Sin ella el puntero no apunta a nada. Se guarda por paciente y por teléfono.', False)],
+    [('Aparecen ', False), ('3 dibujos', True), (' (2 si el teléfono es de nivel C), colocados por ángulos, no por píxeles.', False)],
+    [('La app ', False), ('dice la palabra una sola vez', True), (' y espera.', False)],
+    [('El niño mira el dibujo. Un ', False), ('anillo de progreso', True), (' se va cerrando mientras sostiene la mirada; a 1,2 segundos queda elegido (ajustable en el Panel).', False)],
+    [('El acierto dispara un ', False), ('giro de 360°', True), (' de la figura.', False)],
+])
+h4('Flujos alternativos')
+bullets([
+    [('Mira al fondo, entre dibujos:', True), (' no acumula nada. El anillo solo avanza dentro de un dibujo, para que no elija sin querer.', False)],
+    [('El puntero tiembla:', True), (' en el Panel se puede cambiar de iris (preciso pero nervioso) a rayo desde la nariz (más grueso pero estable). El ejercicio ni se entera del cambio.', False)],
+])
+callout('Dos datos que no significan lo mismo',
+        'La primera mirada dice adónde fue de entrada —comprensión inmediata—; la elección final es lo que acaba '
+        'escogiendo, con posible corrección por el camino. Solo la segunda dispara el premio. Conviene no confundirlas '
+        'al leer el panel.', fill=FILL_VIOLET, label_color=VIOLET_DARK)
+callout('No mezcle sesiones de 2 y de 3 dibujos',
+        'Con dos alternativas se acierta la mitad de las veces por azar, y eso se corrige con más ensayos, no '
+        'comparándolo con sesiones de tres. El registro guarda cuántos dibujos había justo para poder separarlas.',
+        fill=FILL_WARN)
+callout('Diga la palabra una sola vez',
+        'Repetirla reinicia la búsqueda del niño y estropea el dato de primera mirada. Si no responde, es un dato; '
+        'insistir lo borra.')
+
+# ---- CU-22 · PANEL RA ----
+uc_header('CU-22', 'Profesional', 'Ajustar los umbrales de Realidad Aumentada y ver las señales en vivo')
+uc_meta('Logopeda', 'Realidad Aumentada · Panel del Adulto', 'Modo Profesional (PIN)',
+        'Umbrales adaptados a ese niño y comprobación de que el aparato ve bien')
+par = doc.add_paragraph()
+rich(par, [('El bloque no adapta su dificultad solo. ', False), ('Lo hace usted', True),
+           (', y esa es una decisión de diseño, no una carencia: un software que ajusta su propio criterio clínico deja '
+            'de ser un instrumento.', False)])
+h4('Flujo principal')
+numbered([
+    [('Abrir el ', False), ('Panel del Adulto', True), (' dentro del bloque de RA (bajo los ejercicios, no delante del niño).', False)],
+    [('Ajustar el ', False), ('sostén de AR-1', True), (' (0,8-3 s), la ventana de respuesta de AR-2, el tiempo de fijación de AR-3 y el tipo de puntero.', False)],
+    [('Usar ', False), ('“Ver las señales en vivo”', True), (' para comprobar distancia, grados de giro, apertura de labios y fotogramas por segundo antes de una sesión que importe.', False)],
+])
+callout('Qué encontrará en el panel del paciente, y qué no',
+        'Encontrará series y magnitudes: sostén en milisegundos, latencia por ensayo, fijación hasta elegir, ensayos '
+        'anulados y la ficha del aparato. No encontrará percentiles, comparación con «lo esperado para la edad», '
+        'semáforos de gravedad ni etiquetas diagnósticas, y su ausencia es deliberada: un gráfico es descripción, un '
+        'semáforo rojo es interpretación, y la interpretación es suya.')
+callout('Dos sesiones en teléfonos distintos no se comparan sin más',
+        'Cada registro lleva marca, modelo, nivel de aptitud y fotogramas por segundo sostenidos, precisamente porque '
+        'el aparato condiciona la medida. Mírelo antes de leer una evolución como mejoría o empeoramiento.',
+        fill=FILL_WARN)
+callout('Por qué este capítulo no lleva capturas',
+        'Los tres ejercicios de Realidad Aumentada solo funcionan con la cámara abierta en un teléfono físico, y '
+        'cualquier captura fiel mostraría la cara de un niño. Preferimos describirlos con palabras antes que incluir '
+        'una imagen de un menor en un documento que circula, o una recreación que no se parezca a lo que verá.')
+
 kicker('Anexo A')
 doc.add_heading('Preguntas frecuentes y resolución de problemas', level=1)
 data_table(['Situación', 'Qué hacer'], [
@@ -1034,7 +1255,23 @@ data_table(['Situación', 'Qué hacer'], [
     ['El micrófono no reconoce la voz',
      'En Expo Go y en el navegador web no hay reconocimiento de voz: use el modo juez (el adulto valora con botones). En la app instalada, revise el permiso de micrófono.'],
     ['El micrófono falla más en galego o en euskera',
-     'Es esperable: el reconocimiento sin conexión necesita el paquete de idioma de esa variedad instalado en el teléfono, y en galego y euskera es poco frecuente. Puede instalarlo desde los ajustes de voz del sistema. Recuerde que el adulto siempre puede corregir el veredicto, y que un fallo del micrófono no le gasta el intento al niño.'],
+     'Es esperable: el reconocimiento sin conexión necesita el paquete de idioma de esa variedad instalado en el teléfono, y en galego y euskera es poco frecuente. La tarjeta “Voz de la app” le dice, para la variedad activa, si se está escuchando dentro del teléfono o a través del servicio del sistema, y le ofrece descargar el paquete cuando el aparato lo permite. Recuerde que el adulto siempre puede corregir el veredicto, y que un fallo del micrófono no le gasta el intento al niño.'],
+    ['¿Cómo sé si la voz de mi hijo sale del teléfono?',
+     'En la tarjeta “Voz de la app”, debajo del selector de variedad. Indica «En el teléfono» o «Servicio del sistema» y, cuando es lo segundo, explica por qué (el aparato no sabe, falta el motor local o falta el paquete de ese idioma).'],
+    ['En Pares Mínimos ahora sale “casi” más veces que antes',
+     'Es un cambio buscado. Cuando lo que se oye se parece igual a las dos palabras del par, la app ya no da el acierto por defecto: dice «casi» y le deja a usted el veredicto. Antes, en los pares que se distinguen por una sola letra, decir la palabra equivocada podía puntuar como acierto, y eso vaciaba el ejercicio (CU-04).'],
+    ['No veo el bloque de Realidad Aumentada',
+     'Solo aparece en teléfonos Android con la app instalada (no en tablet, ni en Expo Go, ni en el navegador), y solo si la prueba de aptitud da nivel A, B o C. Con nivel D el bloque no se ofrece y los otros seis funcionan igual (CU-18).'],
+    ['El ejercicio de Realidad Aumentada se cierra solo',
+     'La cámara ha dejado de ver la cara del niño. Apoye el teléfono en un libro o una caja, en horizontal y a 30-35 cm; nunca lo sostenga en la mano (CU-18).'],
+    ['¿Se graba a mi hijo con la cámara?',
+     'No. Cada fotograma se analiza dentro del teléfono y se descarta en el mismo instante. No hay grabación, no sale ninguna imagen del aparato y no se reconoce la cara de nadie: solo se miden gestos (grados, milisegundos y proporciones).'],
+    ['El coche de AR-1 no arranca aunque el niño pone la boca',
+     'Puede que la mueca salga asimétrica (una comisura tira más que la otra), que no cuenta a propósito, o que el tiempo de sostén esté por encima de lo que hoy puede aguantar. Bájelo usted en el Panel del Adulto; la app nunca lo ajusta sola (CU-19 y CU-22).'],
+    ['En AR-2 no aparecen los tiempos',
+     'Los milisegundos solo son defendibles con teléfono de nivel A y altavoces con cable. Con Bluetooth se vetan a propósito (añade un retraso variable que es justo lo que se quiere medir). El ejercicio sigue funcionando como juego y el registro dice por qué no lleva tiempo (CU-20).'],
+    ['En AR-3 la mirada no selecciona nada',
+     'Falta la calibración de 5 puntos, que es obligatoria por paciente y por teléfono. Si el puntero tiembla, cambie de iris a rayo desde la nariz en el Panel (CU-21 y CU-22).'],
     ['La app oyó mal en Pares Mínimos',
      'El padre es el juez final: use “dijo rana / dijo lana” para corregir el veredicto. Un falso positivo no penaliza al niño.'],
     ['No avanza tras la misión física',
@@ -1077,7 +1314,7 @@ data_table(['Situación', 'Qué hacer'], [
 doc.add_page_break()
 kicker('Anexo B')
 doc.add_heading('Historial de versiones', level=1)
-p('Este manual describe Valeria+ en su estado actual (v9.1, con el cambio de reconocimiento de voz de la v10.1). '
+p('Este manual describe Valeria+ en su estado actual (v10.2). '
   'La siguiente tabla resume, a título informativo, cómo ha '
   'ido creciendo la app, por si resulta útil a quienes usaron versiones anteriores.')
 data_table(['Versión', 'Hitos principales'], [
@@ -1106,21 +1343,34 @@ data_table(['Versión', 'Hitos principales'], [
      'dificultad, antesala de preparación antes de cada actividad, contrastes con doble vuelta (comprender y decir) '
      'sobre pictogramas propios, escucha más tolerante que no penaliza los fallos del micrófono, recordatorios por '
      'franjas y el módulo de Lengua de Signos Española en Academy.'],
+    [[('v10', True)],
+     'Séptimo bloque: Realidad Aumentada (solo Android, en teléfono). La cámara frontal pasa a ser un sensor de '
+     'movimiento y el premio en 3D se gana con el gesto —labios, giro de cabeza, mirada—, no con la voz: en dos de los '
+     'tres ejercicios el micrófono está apagado. Incluye permiso de cámara por paciente, prueba de aptitud del aparato '
+     'y umbrales que ajusta el profesional (CU-18 a CU-22).'],
     [[('v10.1', True)],
      'El audio del turno de habla deja de salir del teléfono siempre que el dispositivo lo permita: la app pide ahora '
-     'reconocimiento sin conexión, decidido variedad por variedad. No cambia nada de lo clínico —la ventana de escucha '
+     'reconocimiento sin conexión, decidido variedad por variedad, y lo muestra en la tarjeta “Voz de la app”, donde '
+     'también ofrece descargar el paquete de idioma que falte. No cambia nada de lo clínico —la ventana de escucha '
      'larga, la tolerancia a los fallos del micrófono y el pliegue dialectal siguen igual—, y el adulto sigue siendo el '
      'juez final.'],
+    [[('v10.2', True)],
+     'Los pares mínimos vuelven a detectar la sustitución. Al comparar lo oído con la palabra pedida, la app toleraba '
+     'una letra de diferencia; como la mayoría de los pares se distinguen por una sola letra, decir la palabra '
+     'equivocada podía puntuar como acierto. Ahora se compara con las dos palabras del par y gana la más parecida; si '
+     'empatan, sale «casi» y decide el adulto. Cuesta algún «casi» de más en pronunciaciones aproximadas, y a cambio el '
+     'ejercicio mide lo que dice medir.'],
 ], widths=[2.4, 14.6])
-p('Sobre la cobertura de este manual. Los capítulos paso a paso describen las funciones hasta la v9.1. El bloque '
-  'de Realidad Aumentada (v10) todavía no está documentado aquí. El cambio de la v10.1 no añade pantallas nuevas: '
-  'afecta a cómo se reconoce la voz por dentro, y está explicado en el capítulo 2, en «Privacidad de los datos».')
-p('Sobre las capturas de pantalla. Las imágenes de este manual se tomaron en la v9. Los textos describen el '
-  'comportamiento de la v9.1, así que en las pantallas de Expansión Semántica y de recordatorios verás alguna '
-  'diferencia respecto a la captura: la cuarta pestaña de Categorías, la antesala de preparación y el selector de '
-  'franjas son posteriores a esas capturas.')
+p('Sobre la cobertura de este manual. Los capítulos paso a paso cubren ya los siete bloques, incluida la Realidad '
+  'Aumentada de la v10 (CU-18 a CU-22). Los cambios de la v10.1 y la v10.2 no añaden pantallas: afectan a cómo se '
+  'reconoce y se valora la voz por dentro, y están explicados en el capítulo 2 («Privacidad de los datos») y en CU-04.')
+p('Sobre las capturas de pantalla. Las imágenes de este manual se tomaron en la v9, así que en las pantallas de '
+  'Expansión Semántica y de recordatorios verás alguna diferencia respecto al texto: la cuarta pestaña de Categorías, '
+  'la antesala de preparación y el selector de franjas son posteriores a esas capturas. El capítulo de Realidad '
+  'Aumentada no lleva capturas, y la razón está explicada al final de CU-22: cualquier imagen fiel de esos ejercicios '
+  'mostraría la cara de un niño.')
 p('', space_after=4)
-p('Valeria+ · Manual de Casos de Uso · v9.1 (con capturas de pantalla) · Julio de 2026 · Terapia auditivo-verbal y del '
+p('Valeria+ · Manual de Casos de Uso · v10.2 (con capturas de pantalla) · Agosto de 2026 · Terapia auditivo-verbal y del '
   'lenguaje para la infancia. Documento de apoyo para logopedas y familias. Disponible en Castellano, Galego (Proxecto '
   'Nós), Dominicano (Quisqueya Habla) y Euskera (batua · ILENIA/NEL-GAITU). Los datos personales se tratan localmente '
   'conforme a RGPD/HIPAA; la sincronización en la nube y la telemetría anónima del piloto son opcionales.', size=8.5, color=MUTED)
