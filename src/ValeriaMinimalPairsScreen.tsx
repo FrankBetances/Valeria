@@ -137,13 +137,22 @@ const DoubleSeal: React.FC<{ label: string; onUnlock: () => void }> = ({ label, 
       onTouchCancel={() => setTouchCount(0)}
     >
       <Text style={s.sealKicker}>🤝 SELLO DOBLE PARA CONTINUAR</Text>
+      {/* ACOPROS: el sello se veía pero no se entendía para qué servía. La
+          mecánica ya se explicaba («pulsad a la vez»); lo que faltaba era el
+          motivo, que es el único que justifica el estorbo de pedir dos manos. */}
+      <Text style={s.sealWhy}>
+        Sirve para que el ejercicio no siga solo: hasta que no ponéis las dos manos, la app espera.
+        Así cerráis juntos cada intento y el adulto no se queda mirando desde fuera.
+      </Text>
       <Text style={s.sealLabel}>{label}</Text>
       <View style={s.sealRow}>
-        {seal('✋', 'PAPÁ / MAMÁ')}
+        {seal('✋', 'ADULTO')}
         <Text style={s.sealPlus}>a la vez</Text>
         {seal('🖐️', 'YO')}
       </View>
-      <Text style={s.sealHint}>¿Una sola mano libre? Mantén pulsada una huella 2 segundos.</Text>
+      <Text style={s.sealHint}>
+        Mamá, papá o quien acompañe. ¿Una sola mano libre? Mantén pulsada una huella 2 segundos.
+      </Text>
     </View>
   );
 };
@@ -839,7 +848,7 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
               onPress={() => { listeningRef.current = false; setListening(false); stopListening(); setStep('judge'); }}
               style={s.stopPill}
             >
-              <Text style={s.stopPillTxt}>Parar · el padre decide</Text>
+              <Text style={s.stopPillTxt}>Parar · decide el adulto</Text>
             </Pressable>
           </View>
         )}
@@ -847,7 +856,7 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
         {step === 'judge' && (
           <View style={s.stateCard}>
             <Text style={{ fontSize: 26 }}>👂</Text>
-            <Text style={s.stateTxt}>El padre hace de juez: ¿qué dijo el niño?</Text>
+            <Text style={s.stateTxt}>El adulto hace de juez: ¿qué dijo el niño?</Text>
             <View style={s.judgeRow}>
               <Pressable onPress={() => resolveBranch(p, 'target')} style={[s.judgeBtn, { backgroundColor: V.color.successBg, borderColor: '#bfe9d4' }]}>
                 <FichaVisual word={p.target} emoji={p.targetEmoji} pic={p.targetPictogram} size={22} /><Text style={s.judgeTxt}>Dijo “{p.target}”</Text>
@@ -866,7 +875,7 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
               <Text style={{ fontSize: 26 }}>🎉</Text>
               <View style={{ flex: 1 }}>
                 <Text style={s.verdictTitle}>¡Fonema conseguido!</Text>
-                <Text style={s.verdictSub}>{heard ? `La app escuchó: “${heard}”` : 'Veredicto del padre.'} · {pendingStars}★</Text>
+                <Text style={s.verdictSub}>{heard ? `La app escuchó: “${heard}”` : 'Veredicto del adulto.'} · {pendingStars}★</Text>
               </View>
               <Text style={s.verdictStars}>{'★'.repeat(pendingStars)}</Text>
             </View>
@@ -1044,6 +1053,7 @@ const s = StyleSheet.create({
   // sello doble
   sealCard: { backgroundColor: '#f5f0ff', borderWidth: 1.5, borderColor: '#ddccfa', borderRadius: 18, padding: 14, marginTop: 12, alignItems: 'center' },
   sealKicker: { fontSize: 11, fontWeight: '800', letterSpacing: 0.6, color: '#6d3fc4' },
+  sealWhy: { fontSize: 11, fontWeight: '600', color: V.color.textMuted, textAlign: 'center', marginTop: 6, lineHeight: 15.5 },
   sealLabel: { fontSize: 12.5, fontWeight: '700', color: V.color.textSecondary, textAlign: 'center', marginTop: 6, lineHeight: 17 },
   sealRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', alignSelf: 'stretch', marginTop: 12 },
   sealBtn: { width: 92, height: 92, borderRadius: 26, backgroundColor: '#fff', borderWidth: 2, borderColor: '#ddccfa', alignItems: 'center', justifyContent: 'center', gap: 2 },

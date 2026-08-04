@@ -50,6 +50,23 @@ export interface Exercise {
   instrIcon?: string; instrHint?: string;
   // 'choice': escucha un audio y toca la imagen correcta (adivinanzas, género)
   choicePrompt?: string; choiceLabel?: string; choiceVoice?: 'slow' | 'tutor'; options?: Tile[]; optionAnswer?: number;
+  // ¿Se ENSEÑA el texto de `choicePrompt`, además de locutarse? Por defecto no:
+  // en una tarea de identificación auditiva, imprimir la respuesta en pantalla
+  // la resuelve sin escuchar. Dos excepciones pedidas por ACOPROS:
+  //   'visible' · SE-2. La adivinanza solo se podía OÍR, así que el adulto que
+  //               prefiere leerla —o que necesita repetirla con sus palabras—
+  //               tenía que reproducir el audio para enterarse de qué decía.
+  //   'adulto'  · RA-2. El adulto tiene que pronunciar la palabra SIN VOZ, y
+  //               para saber cuál era no le quedaba más remedio que reproducir
+  //               el audio delante del niño, que es justo lo que arruina la
+  //               tarea. Se le da el texto, plegado y con aviso de no enseñarlo.
+  promptDisplay?: 'visible' | 'adulto';
+  // Formas alternativas de ejecutar la MISMA actividad. Nace de ACOPROS sobre
+  // Atención Conjunta: repetida siempre igual, el niño anticipa la respuesta y
+  // la ejecuta de forma mecánica, con lo que deja de medir lo que dice medir.
+  // No es contenido nuevo ni otro ejercicio: es el mismo objetivo con otro
+  // envoltorio, para que el adulto pueda alternar entre sesiones.
+  proposals?: string[];
   // 'plural': tarjeta con UNO frente a tarjeta con MUCHOS. `gender` da la
   // concordancia del artículo/cuantificador («una flor», «muchas flores»).
   plural?: { cap: string; capPlural: string; emoji: string; gender: 'm' | 'f' };
@@ -130,6 +147,7 @@ export const DB: Record<string, Exercise> = {
     read: 'Pulsa 🔊 para oír la adivinanza (o léela tú). El niño responde tocando una de las tres imágenes.',
     stage: 'choice', stageLabel: 'Escucha la adivinanza y toca la respuesta',
     choicePrompt: 'Empieza por pe, y es una fruta amarilla y alargada. ¿Qué es?', choiceLabel: 'Oír la adivinanza', choiceVoice: 'tutor',
+    promptDisplay: 'visible',
     options: [{ cap: 'plátano', emoji: '🍌' }, { cap: 'pera', emoji: '🍐' }, { cap: 'pelota', emoji: '⚽' }], optionAnswer: 0,
     move: 'Buscad por la habitación un objeto real que empiece por la misma letra.',
     ept: ['Todavía no adivina la respuesta, ni con más pistas.', 'Acierta después de repetirle la adivinanza o darle otra pista.', 'Acierta a la primera, solo con oír la adivinanza.'] },
@@ -207,6 +225,7 @@ export const DB: Record<string, Exercise> = {
     read: 'PRIMERO sin voz: di la palabra solo moviendo los labios, despacio y con tu cara bien iluminada, y que el niño toque la imagen leyendo tus labios. DESPUÉS pulsa 🔊 para devolverle el sonido y confirmar. No le corrijas con un «no»: repite el modelo con voz y labios a la vez.',
     stage: 'choice', stageLabel: 'Lee los labios del adulto y toca la imagen',
     choicePrompt: 'pato', choiceLabel: 'Después: oír la palabra con voz', choiceVoice: 'slow',
+    promptDisplay: 'adulto',
     options: [{ cap: 'pato', emoji: '🦆' }, { cap: 'luna', emoji: '🌙' }, { cap: 'sol', emoji: '☀️' }],
     optionAnswer: 0,
     move: 'Jugad al espejo mudo: uno dice una palabra sin voz y el otro la adivina. ¡Cambiad de papeles!',
@@ -234,6 +253,14 @@ export const DB: Record<string, Exercise> = {
     move: 'Marco Polo sonoro: con los ojos cerrados, que camine hacia la campanita que suena.',
     ept: ['Todavía no localiza el lado del sonido: señala al azar o no responde.', 'Acierta el lado si repites el sonido varias veces o es muy fuerte.', 'Señala el lado correcto a la primera, incluso con sonidos suaves.'] },
   atencion_conjunta: { ...meta('atencion_conjunta'),
+    materials: 'Un bote de burbujas. Si no tienes, sirve cualquier cosa que le llame mucho la atención y puedas mover: una linterna, un molinillo, un juguete con luz o un globo.',
+    proposals: [
+      'Burbujas: hazlas cerca de tu cara y espera. Cada vez que te mire, sopla otra.',
+      'Linterna a oscuras: mueve el haz por la pared y llévalo despacio hasta tu cara.',
+      'Globo hinchado y suelto: mírale a los ojos, di su nombre y suéltalo cuando te mire.',
+      'Ventana o espejo: mirad juntos algo que pase fuera y señálalo; busca que siga tu dedo.',
+      'Juguete de cuerda: dale cuerda, ponlo entre los dos y espera a que te mire antes de soltarlo.',
+    ],
     read: 'Llama al niño por su nombre y haz burbujas. Busca su mirada y el contacto visual.',
     stage: 'instruction', instrIcon: '👀', instrHint: 'Desarrolla contacto visual, seguimiento de la mirada y respuesta al nombre.',
     ept: ['Necesita ayuda física para sostener la mirada un instante.', 'Responde a su nombre después de llamarlo varias veces.', 'Te mira él solo y sigue tu mirada.'],
@@ -244,6 +271,7 @@ export const DB: Record<string, Exercise> = {
       { label: 'Avanzado', instrIcon: '🙋', read: 'Desde el otro lado de la habitación, llama su nombre una sola vez sin estímulo motivador a la vista.', instrHint: 'Busca respuesta espontánea al nombre sin apoyo visual ni cercanía.' },
     ] },
   imitacion: { ...meta('imitacion'),
+    materials: 'Nada imprescindible: tus manos bastan. Si lo tienes, un tambor o cualquier cosa que suene al golpearla (una caja, una olla con una cuchara de madera).',
     read: 'Haz un gesto (aplaudir, tocar el tambor) y anímale a imitarte. Ahora una sílaba: "pa-pa".',
     stage: 'instruction', instrIcon: '👏', instrHint: 'Imita gestos motores gruesos y vocalizaciones simples en espejo.',
     ept: ['Todavía no copia gestos ni sonidos.', 'Imita gestos o sonidos sueltos con ayuda del adulto.', 'Repite gestos y sonidos justo después de verlos, como un espejo.'],
@@ -254,6 +282,7 @@ export const DB: Record<string, Exercise> = {
       { label: 'Avanzado', instrIcon: '🪞', read: 'Combina un gesto y una sílaba nueva ("ta-ta" + saltar) y observa si lo imita en espejo, inmediatamente y sin repetir el modelo.', instrHint: 'Imitación inmediata de una combinación nueva, sin repetición del modelo.' },
     ] },
   comprension: { ...meta('comprension'),
+    materials: 'Una pelota y dos o tres objetos que él conozca bien y sepa nombrar (su vaso, un coche, un peluche). Las partes del cuerpo no necesitan material.',
     read: 'Dale una orden de un paso: "Dame la pelota". Pídele que señale partes del cuerpo.',
     stage: 'instruction', instrIcon: '🧠', instrHint: 'Comprende instrucciones de un paso e identifica partes del cuerpo y objetos.',
     ept: ['No obedece instrucciones ni señala elementos solicitados.', 'Ejecuta la orden con ayuda de gestos de señalamiento.', 'Comprende la instrucción puramente verbal y la ejecuta.'],
@@ -264,6 +293,7 @@ export const DB: Record<string, Exercise> = {
       { label: 'Avanzado', instrIcon: '🧩', read: 'Dile sin ningún gesto: "Dame la pelota y siéntate". Observa si ejecuta los dos pasos en orden.', instrHint: 'Orden verbal de dos pasos, sin ningún apoyo gestual.' },
     ] },
   expresion: { ...meta('expresion'),
+    materials: 'Un vaso y agua a la vista pero fuera de su alcance, y un muñeco o lámina de un perro. La clave es que el agua se vea y no la pueda coger solo: es lo que crea la necesidad de pedirla.',
     read: '¿Cómo hace el perro? "Guau". Anímale a nombrar y pedir: "quiero agua".',
     stage: 'phrase', stageLabel: 'Evoca y nombra', phrase: 'QUIERO AGUA', phraseEmoji: '💧',
     ept: ['Solo usa gestos o balbuceos para pedir lo que necesita.', 'Dice palabras sencillas después de oírtelas a ti.', 'Dice palabras y frases de dos palabras él solo.'],
@@ -274,6 +304,11 @@ export const DB: Record<string, Exercise> = {
       { label: 'Avanzado', instrIcon: '🗣️', read: 'Ofrécele el vaso vacío y espera a que pida espontáneamente "quiero agua" combinando las dos palabras.', instrHint: 'Combinación espontánea de dos palabras en una petición funcional.' },
     ] },
   comunicacion_funcional: { ...meta('comunicacion_funcional'),
+    // Lista deliberadamente ABIERTA (petición de ACOPROS): lo que hace que el
+    // ejercicio funcione no es un material concreto sino la SITUACIÓN —algo que
+    // le guste mucho y que no pueda conseguir solo—. Cerrar la lista dejaría
+    // fuera a las familias que no tengan justo esos objetos.
+    materials: 'Cualquier cosa que le guste mucho y que no pueda conseguir él solo. Ideas, no lista cerrada: un bote con rosca que no abra, su juguete favorito en un estante alto, una bolsa de gusanitos cerrada, pompas, un juego de cosquillas o de columpio (aquí el "material" eres tú).',
     read: 'Para de hacer algo divertido y espera. Anímale a pedir "más" o "ayuda".',
     stage: 'instruction', instrIcon: '🙌', instrHint: 'Pide juego o ayuda con palabras, gestos o signos.',
     ept: ['Se frustra o no intenta comunicarse cuando algo no sale.', 'Pide ayuda o "más" si tú le dices antes la palabra.', 'Pide con palabras o signos, él solo y con intención clara.'],
@@ -284,16 +319,22 @@ export const DB: Record<string, Exercise> = {
       { label: 'Avanzado', instrIcon: '💬', read: 'Crea otra situación de necesidad (juguete fuera de alcance) sin dar ninguna pista y espera la petición espontánea.', instrHint: 'Inicio espontáneo de la petición, sin pistas verbales ni gestuales.' },
     ] },
   regulacion_conductual: { ...meta('regulacion_conductual'),
+    // El nivel Avanzado da por hecha una agenda visual que nadie ha explicado
+    // cómo se hace (ACOPROS). Se explica AQUÍ porque `materials` es lo único
+    // que la pantalla enseña ANTES de empezar: leerlo a mitad de la transición
+    // no sirve de nada, hay que haberla montado antes de sentarse con el niño.
+    materials: 'Una agenda visual, preparada ANTES de empezar. Se hace en cinco minutos: elige 3 o 4 actividades del rato que vais a pasar juntos, pon una imagen de cada una (pictograma, foto o dibujo tuyo) en tiras de cartón o en una hoja, colócalas de izquierda a derecha en el orden real y di en voz alta cuánto dura cada una («cuentos, un ratito corto; luego baño»). Al terminar cada actividad, él mismo retira o tacha su imagen. Además, algo que le guste de verdad para la recompensa del paso 2: no tiene que ser una ficha ni una pegatina, vale lo que a él le funcione.',
     read: 'Avisa del cambio de actividad con la agenda visual y espera con tranquilidad.',
-    stage: 'instruction', instrIcon: '🗂️', instrHint: 'Anticipa y acepta el cambio de actividad con apoyo visual y fichas.',
-    ept: ['Se enfada o se descontrola en los cambios de actividad.', 'Acepta el cambio si gana una ficha como premio.', 'Cambia de actividad tranquilo y por sí mismo.'],
+    stage: 'instruction', instrIcon: '🗂️', instrHint: 'Anticipa y acepta el cambio de actividad con apoyo visual y una recompensa que le motive de verdad.',
+    ept: ['Se enfada o se descontrola en los cambios de actividad.', 'Acepta el cambio si al terminar gana la recompensa acordada.', 'Cambia de actividad tranquilo y por sí mismo.'],
     move: 'Marchad juntos hacia la siguiente actividad cantando la canción de las transiciones.',
     levels: [
       { label: 'Inicial', instrIcon: '🖼️', read: 'Muéstrale la imagen de la siguiente actividad y haz una cuenta atrás visual de 5 a 1 antes de cambiar.', instrHint: 'Anticipación con apoyo visual fuerte y cuenta atrás.' },
-      { label: 'Intermedio', instrIcon: '🎫', read: 'Avisa el cambio una sola vez y ofrece una ficha al terminar la actividad con calma.', instrHint: 'Acepta el cambio con ayuda de fichas-premio.' },
-      { label: 'Avanzado', instrIcon: '📅', read: 'Deja que consulte solo su agenda visual y haga la transición sin que tengas que avisarle.', instrHint: 'Transición autónoma siguiendo la agenda, sin aviso directo del tutor.' },
+      { label: 'Intermedio', instrIcon: '🎫', read: 'Avisa el cambio una sola vez y ofrece una ficha al terminar la actividad con calma.', instrHint: 'Acepta el cambio con una recompensa elegida con él: la que le motive, no la que nos parezca a nosotros.' },
+      { label: 'Avanzado', instrIcon: '📅', read: 'Deja que consulte solo su agenda visual y haga la transición sin que tengas que avisarle.', instrHint: 'Transición autónoma siguiendo la agenda que preparasteis antes, sin aviso directo del tutor.' },
     ] },
   interaccion_social: { ...meta('interaccion_social'),
+    materials: 'Bloques o piezas apilables para los turnos, y un muñeco con una cuchara y un plato para el juego simbólico. Una pelota que rueda vale para la variante en movimiento.',
     read: 'Juega por turnos: "Ahora tú, ahora yo". Inicia un juego simbólico sencillo.',
     stage: 'instruction', instrIcon: '🤝', instrHint: 'Respeta turnos, inicia juego simbólico y responde afectivamente.',
     ept: ['Juega solo y rechaza compartir turnos.', 'Acepta turnos y participa si tú guías el juego.', 'Empieza juegos con otros y mantiene el toma y daca.'],

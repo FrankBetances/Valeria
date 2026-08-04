@@ -28,7 +28,7 @@ export const MINIMAL_PAIRS_GL: MinimalPair[] = [
     onFoil: {
       say: 'Escoitei lúa, a do ceo. Eu pedín rrrúa. Escoita…',
       cue: 'A lingua fai a moto detrás dos dentes: rrr.',
-      mission: 'Man na gorxa de papá: papá sostén rrrr tres segundos e o neno sente a vibración. Despois, ao revés.',
+      mission: 'Man na gorxa do adulto: o adulto sostén rrrr tres segundos e o neno sente a vibración. Despois, ao revés.',
     },
   },
   {
@@ -38,12 +38,12 @@ export const MINIMAL_PAIRS_GL: MinimalPair[] = [
     prompt: 'Di: rei.',
     onTarget: {
       say: 'Rrrei! Que erre tan forte!',
-      mission: 'Coroación: papá ponche unha coroa imaxinaria e ti fas unha reverencia moi seria.',
+      mission: 'Coroación: o adulto ponche unha coroa imaxinaria e ti fas unha reverencia moi seria.',
     },
     onFoil: {
       say: 'Escoitei lei, a dos xuíces. O rei quedou sen coroa. Veña: rrrei.',
       cue: 'Punta da lingua arriba, e que trema.',
-      mission: 'Trono real: o neno séntase no sofá coma un rei mentres di un rrr longo; papá aplaude cada erre.',
+      mission: 'Trono real: o neno séntase no sofá coma un rei mentres di un rrr longo; o adulto aplaude cada erre.',
     },
   },
   {
@@ -58,7 +58,7 @@ export const MINIMAL_PAIRS_GL: MinimalPair[] = [
     onFoil: {
       say: 'Escoitei caza, a da frecha. A túa serpe escapou entre os dentes. Péchaos: casa.',
       cue: 'Dentes xuntos, sorriso, e a serpe sopra por detrás: sss.',
-      mission: 'Serpe viaxeira: mentres dura o sss, papá esvara un dedo do ombreiro á man do neno. Se o ese rompe, a serpe volve ao ombreiro.',
+      mission: 'Serpe viaxeira: mentres dura o sss, o adulto esvara un dedo do ombreiro á man do neno. Se o ese rompe, a serpe volve ao ombreiro.',
     },
   },
   {
@@ -73,7 +73,7 @@ export const MINIMAL_PAIRS_GL: MinimalPair[] = [
     onFoil: {
       say: 'Escoitei testa, a da cabeza. O ese non explota: sopra longo. Cesta.',
       cue: 'O te dá un golpe; o ese é aire que non se acaba.',
-      mission: 'O muíño: palma de papá diante da boca do neno. Con t-t-t sente golpes; con sss, un vento seguido que empuxa a man tres segundos.',
+      mission: 'O muíño: palma do adulto diante da boca do neno. Con t-t-t sente golpes; con sss, un vento seguido que empuxa a man tres segundos.',
     },
   },
   {
@@ -83,7 +83,7 @@ export const MINIMAL_PAIRS_GL: MinimalPair[] = [
     prompt: 'Di: cubo.',
     onTarget: {
       say: 'Cubo! Ese ka saíu da cova da gorxa!',
-      mission: 'Transporta o coxín-cubo pesadísimo ata os pés de papá, que o baleira levantándote no aire.',
+      mission: 'Transporta o coxín-cubo pesadísimo ata os pés do adulto, que o baleira levantándote no aire.',
     },
     onFoil: {
       say: 'Escoitei tubo, o do laboratorio. O ka do cubo nace atrás, na cova: cubo.',
@@ -98,7 +98,7 @@ export const MINIMAL_PAIRS_GL: MinimalPair[] = [
     prompt: 'Di: boca.',
     onTarget: {
       say: 'Boca! Que ben soa ese ka no medio!',
-      mission: 'Conta-dentes: sorriso xigante de papá e o neno cóntalle cinco dentes co dedo. Despois, ao revés.',
+      mission: 'Conta-dentes: sorriso xigante do adulto e o neno cóntalle cinco dentes co dedo. Despois, ao revés.',
     },
     onFoil: {
       say: 'Escoitei bota, a do pé. Boca soa atrás: boca.',
@@ -113,12 +113,12 @@ export const MINIMAL_PAIRS_GL: MinimalPair[] = [
     prompt: 'Di: fonte.',
     onTarget: {
       say: 'Fonte! Ese sopro de coello mólla todo!',
-      mission: 'Fonte humana: agáchate e brota cara arriba salpicando a papá, que sacode o pelo empapado.',
+      mission: 'Fonte humana: agáchate e brota cara arriba salpicando o adulto, que sacode o pelo empapado.',
     },
     onFoil: {
       say: 'Escoitei ponte, a de cruzar. O efe morde o labio e sopra: fonte.',
       cue: 'Dentes de coello sobre o labio de abaixo, e sopra.',
-      mission: 'O papel voador: papeliño na palma de papá. Con fff inclínase e aguanta; con pe só dá un salto. Reto: tres segundos voando.',
+      mission: 'O papel voador: papeliño na palma do adulto. Con fff inclínase e aguanta; con pe só dá un salto. Reto: tres segundos voando.',
     },
   },
 ];

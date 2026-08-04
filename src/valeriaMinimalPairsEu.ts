@@ -81,7 +81,7 @@ export const MINIMAL_PAIRS_EU: MinimalPair[] = [
     onFoil: {
       say: 'Talo entzun dut, artoarena, jatekoa. Nik txalo eskatu dut, eskuena. Trena bezala: txalo.',
       cue: 'Tx trena da: mihia sabaira igo eta "txu" egiten du; t-k kolpe soil bat baino ez.',
-      mission: 'Trena eta kolpea: aitak "t-t-t" (kolpeak) eta gero "txu-txu" (trena) egiten ditu; umeak asmatu behar du zein den txalo-koa.',
+      mission: 'Trena eta kolpea: aitak edo amak "t-t-t" (kolpeak) eta gero "txu-txu" (trena) egiten ditu; umeak asmatu behar du zein den txalo-koa.',
     },
   },
   {
