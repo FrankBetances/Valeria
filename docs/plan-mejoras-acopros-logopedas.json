@@ -1,10 +1,10 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "id": "valeria-plus/plan-mejoras-acopros-logopedas",
-  "version": "1.1.0",
-  "titulo": "Plan de revisión · Feedback clínico de las logopedas de ACOPROS (julio 2026)",
+  "version": "2.0.0",
+  "titulo": "Plan de revisión · Feedback clínico de las logopedas de ACOPROS (julio y agosto 2026)",
   "fecha": "2026-07-24",
-  "estado": "completado y validado · plan de ACOPROS cerrado, escuchado en dispositivo; módulo de LSE aprobado por persona sorda signante",
+  "estado": "primera ronda (julio) completada y validada · SEGUNDA RONDA (2026-08-04) implementada, pendiente de validación en dispositivo",
   "descripcion": "Convierte el feedback cualitativo de las logopedas de ACOPROS sobre Pares Mínimos, Expansión Semántica y recordatorios en un backlog trazable: cada observación se verifica contra el código real del repositorio, se propone un cambio concreto con sus ficheros, se marca si requiere una decisión clínica previa y se cierra con criterios de aceptación comprobables en dispositivo.",
   "origen": {
     "fuente": "Correo de las logopedas de ACOPROS tras la prueba de la app",
@@ -1855,5 +1855,115 @@
         "porQueImporta": "Que lo revisen a la vez la logopeda y personas sordas signantes cubre las dos preguntas que ningún gate puede responder: si la silueta se reconoce como la letra y si el material sirve en la mano de una familia oyente que empieza."
       }
     }
-  ]
+  ],
+  "segundaRonda": {
+    "fecha": "2026-08-04",
+    "origen": "Segundo correo de las logopedas tras probar la app. Amplía la revisión a dos bloques que la primera ronda no tocó: Audición y Lenguaje.",
+    "hallazgoPrevio": {
+      "titulo": "GRAN PARTE DE ESTE CORREO DESCRIBE UNA BUILD ANTERIOR AL 26 DE JULIO",
+      "evidencia": "El correo cita literalmente «Esto es la cama. Por la mañana saltamos en la cama. Di: cama». Esa cadena ya no existe en el código: sobrevive solo como comentario en valeriaSemanticExpansion.ts, documentando cómo era ANTES de que ES-06 la cambiara a «Esto es la cama. Di: cama.».",
+      "verificadoUnoPorUno": {
+        "ES-01": "resuelto · la explicación dice «presenta la palabra en una frase corta»",
+        "ES-02": "resuelto · navigation.goBack() devuelve al submenú del bloque",
+        "ES-03": "resuelto · autoRecord arranca APAGADO; el texto pide pulsar ▶ y 🎤",
+        "ES-05": "resuelto · speakPhraseSlow repite la frase entera, no la palabra",
+        "ES-06": "resuelto · es la cadena que el correo cita como defecto",
+        "ES-13": "resuelto · congruencia audio/imagen cerrada con pictogramas propios"
+      },
+      "unicaExcepcionReal": "La baja sensibilidad del micrófono (ES-04) SÍ seguía viva, pero no por lo que parecía: la migración del ASR del 2026-08-03 dejó fuera el código «speech-timeout» y volvió a romper ES-04. Ver plan-asr-privacidad-y-motor-local.md → R9.",
+      "consecuencia": "Antes de reescribir contenido conviene confirmar con ACOPROS con qué versión probaron. Reimplementar lo ya implementado es el riesgo principal de esta ronda."
+    },
+    "itemsNuevos": [
+      {
+        "id": "PM-05",
+        "bloque": "Pares Mínimos",
+        "observacion": "Sustituir «padre» por una denominación inclusiva",
+        "estado": "hecho",
+        "nota": "Pantalla y las 25 misiones físicas de es/gl → «el adulto» / «o adulto»; eu «aitak» → «aitak edo amak». Las misiones se locutan pero NO están en el corpus, así que no dispara regeneración. Pendiente: que ACOPROS confirme si «el adulto» les vale."
+      },
+      {
+        "id": "PM-06",
+        "bloque": "Pares Mínimos",
+        "observacion": "No se entiende para qué sirve el Sello Doble",
+        "estado": "hecho",
+        "nota": "La mecánica ya estaba explicada; faltaba el motivo, que es lo único que justifica pedir dos manos. La huella deja de decir «PAPÁ / MAMÁ»."
+      },
+      {
+        "id": "PM-07",
+        "bloque": "Pares Mínimos",
+        "observacion": "Sustituir emojis por pictogramas",
+        "estado": "ABIERTO · medido, no ejecutado",
+        "nota": "45 de las 70 palabras caen a emoji por no tener dibujo propio: 11/30 es, 7/16 es-DO, 4/14 gl, 3/10 eu. Son ~30 conceptos únicos de SVG a mano y ningún script puede comprobar que un dibujo SE RECONOZCA (mismo límite que dejó abierto DC-4). Hacer por tandas con revisión humana."
+      },
+      {
+        "id": "AUD-01",
+        "bloque": "Audición",
+        "observacion": "SE-2: la adivinanza solo se puede escuchar, no leer",
+        "estado": "hecho",
+        "nota": "Nuevo campo promptDisplay: «visible». Por defecto NO se enseña el texto: imprimir la respuesta resolvería sin escuchar las demás tareas de identificación auditiva."
+      },
+      {
+        "id": "AUD-02",
+        "bloque": "Audición",
+        "observacion": "RA-1: locutar solo la palabra objetivo, no «Busca la oveja»",
+        "estado": "hecho · con reserva clínica",
+        "nota": "La app dice «vaca», «oveja», «gallina», y la consigna del tutor cambia con ella para no contradecirla. RESERVA: la frase portadora avisa de que el objetivo viene, y quitarla deja al niño sin ese aviso. Si al probarlo cuesta más, la salida no es volver a la orden completa sino un portador corto y fijo."
+      },
+      {
+        "id": "AUD-03",
+        "bloque": "Audición",
+        "observacion": "RA-2: el adulto necesita el listado de palabras sin reproducir el audio",
+        "estado": "hecho",
+        "nota": "Chuleta plegada «solo para el adulto» (promptDisplay: «adulto»). Empieza siempre cerrada y no recuerda el estado: el riesgo no es el toque de más, es que quede abierta sin querer. Antes, saber la palabra exigía pulsar «oír la palabra» delante del niño, que es justo lo que invalida la lectura labiofacial."
+      },
+      {
+        "id": "LEN-01",
+        "bloque": "Lenguaje",
+        "observacion": "Indicar el material necesario en los ejercicios del bloque",
+        "estado": "hecho",
+        "nota": "Se pedía en cinco de siete y no lo declaraba ninguno: `materials` existía desde RA-5 pero solo lo usaban tres ejercicios de Audición. Ahora lo tienen los siete."
+      },
+      {
+        "id": "LEN-02",
+        "bloque": "Lenguaje",
+        "observacion": "M-1: varias propuestas de ejecución para que no se mecanice",
+        "estado": "hecho",
+        "nota": "Nuevo campo `proposals`, cinco formas de hacer la MISMA actividad con el mismo objetivo. Genérico: extenderlo a otro ejercicio es una línea de datos."
+      },
+      {
+        "id": "LEN-03",
+        "bloque": "Lenguaje",
+        "observacion": "M-2: incorporar palabras sencillas además de sílabas",
+        "estado": "hecho",
+        "nota": "Los tres niveles pasan a ser progresión real: gesto sin voz → sílaba repetida y la palabra corta que empieza igual («pa-pa» → «pato») → gesto + palabra nueva."
+      },
+      {
+        "id": "LEN-04",
+        "bloque": "Lenguaje",
+        "observacion": "M-5: proponer materiales sin cerrar la lista",
+        "estado": "hecho",
+        "nota": "Lista deliberadamente abierta: lo que hace funcionar el ejercicio es la SITUACIÓN (algo que le guste y no pueda conseguir solo), no un objeto concreto."
+      },
+      {
+        "id": "LEN-05",
+        "bloque": "Lenguaje",
+        "observacion": "M-6: «ficha» → «recompensa»; orientaciones para la agenda visual; anticipar la siguiente actividad",
+        "estado": "hecho",
+        "nota": "La agenda se explica en `materials`, que es lo único que la pantalla enseña ANTES de empezar. Y el player anuncia el siguiente ejercicio junto a la puntuación EPT-3: el salto seco al puntuar es el mismo problema en cualquier bloque, no solo en M-6."
+      }
+    ],
+    "corpusDeVoz": {
+      "locucionesTocadas": 66,
+      "reparto": "38 es · 16 gl · 12 eu",
+      "estado": "SINTETIZADAS el 2026-08-04 por Generate Voice Assets (run 43): es con Sharvard/piper, gl con Celtia, eu con AhoTTS/HiTZ. Cobertura de vuelta en 2438/2438.",
+      "pendienteHumano": "Escuchar las 66 en dispositivo. Es el paso del bloqueoDePublicacion que ningún script puede cerrar."
+    },
+    "pendienteHumano": [
+      "ABIERTO · Provocar a mano los dos casos de noMatch en dispositivo (R9 del plan de ASR sigue sin verificarse: el arreglo sale de leer el fuente de la librería, no de probarlo).",
+      "ABIERTO · Escucha en dispositivo de las 66 locuciones nuevas.",
+      "ABIERTO · Confirmar con ACOPROS si «el adulto» les vale o prefieren algo más cercano.",
+      "ABIERTO · Probar RA-1 sin frase portadora y decidir si hace falta un portador corto y fijo.",
+      "ABIERTO · PM-07: dibujar los ~30 pictogramas que faltan, por tandas y con revisión humana."
+    ]
+  }
 }
