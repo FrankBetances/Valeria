@@ -39,6 +39,7 @@ import { ValeriaSessionBreakOverlay, pickSessionBreak, SessionBreak } from './Va
 import { PAIR_GROUPS, MinimalPair } from './valeriaMinimalPairs';
 import { pairsForLocale } from './valeriaPairBanks';
 import { getLocale, Locale } from './valeriaLocale';
+import { useT } from './i18n';
 import {
   pairIntro, pairRetry, pairsDone, roleSwapPhrases,
 } from './valeriaPairSpeech';
@@ -51,7 +52,7 @@ import { ValeriaDistractorBear } from './ValeriaDistractorBear';
 const TOTAL_TRIALS = 10;
 const SWAP_TRIALS = [3, 7];   // antes de estos ensayos (0-index): ¡Ahora mandas tú!
 const TPR_TRIAL = 5;          // antes de este ensayo: cápsula TPR de movimiento
-const MONTHS = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
+
 
 // Consigna del ensayo (DC-5, resuelta por ACOPROS en julio de 2026):
 // TODOS los ensayos usan el mismo formato — presentación del par seguida de la
@@ -104,6 +105,7 @@ const afterSpeak = (fn: () => void, maxWaitMs = 15000) => {
 // poder avanzar (bug reportado: los ensayos no avanzaban ni puntuaban).
 // ----------------------------------------------------------------------------
 const DoubleSeal: React.FC<{ label: string; onUnlock: () => void }> = ({ label, onUnlock }) => {
+  const t = useT();
   const [touchCount, setTouchCount] = useState(0);
   const fired = useRef(false);
   const unlock = () => { if (!fired.current) { fired.current = true; onUnlock(); } };
@@ -136,23 +138,18 @@ const DoubleSeal: React.FC<{ label: string; onUnlock: () => void }> = ({ label, 
       onTouchEnd={countTouches}
       onTouchCancel={() => setTouchCount(0)}
     >
-      <Text style={s.sealKicker}>🤝 SELLO DOBLE PARA CONTINUAR</Text>
+      <Text style={s.sealKicker}>{t.pairs.sealKicker}</Text>
       {/* ACOPROS: el sello se veía pero no se entendía para qué servía. La
           mecánica ya se explicaba («pulsad a la vez»); lo que faltaba era el
           motivo, que es el único que justifica el estorbo de pedir dos manos. */}
-      <Text style={s.sealWhy}>
-        Sirve para que el ejercicio no siga solo: hasta que no ponéis las dos manos, la app espera.
-        Así cerráis juntos cada intento y el adulto no se queda mirando desde fuera.
-      </Text>
+      <Text style={s.sealWhy}>{t.pairs.sealWhy}</Text>
       <Text style={s.sealLabel}>{label}</Text>
       <View style={s.sealRow}>
-        {seal('✋', 'ADULTO')}
-        <Text style={s.sealPlus}>a la vez</Text>
-        {seal('🖐️', 'YO')}
+        {seal('✋', t.pairs.sealAdult)}
+        <Text style={s.sealPlus}>{t.pairs.sealPlus}</Text>
+        {seal('🖐️', t.pairs.sealChild)}
       </View>
-      <Text style={s.sealHint}>
-        Mamá, papá o quien acompañe. ¿Una sola mano libre? Mantén pulsada una huella 2 segundos.
-      </Text>
+      <Text style={s.sealHint}>{t.pairs.sealHint}</Text>
     </View>
   );
 };
@@ -163,6 +160,7 @@ const DoubleSeal: React.FC<{ label: string; onUnlock: () => void }> = ({ label, 
 // dijo el padre; sin STT confirma el propio padre.
 // ----------------------------------------------------------------------------
 const RoleSwapOverlay: React.FC<{ pair: MinimalPair; onDone: () => void }> = ({ pair, onDone }) => {
+  const t = useT();
   const asr = asrSupported();
   const rs = roleSwapPhrases(getLocale()); // frases por variedad (gl → Celtia)
   const [stage, setStage] = useState<'intro' | 'listen' | 'tap' | 'result'>('intro');
@@ -220,8 +218,8 @@ const RoleSwapOverlay: React.FC<{ pair: MinimalPair; onDone: () => void }> = ({ 
   return (
     <View style={s.overlay}>
       <View style={s.overlayCard}>
-        <Text style={s.swapKicker}>👑 ¡AHORA MANDAS TÚ!</Text>
-        <Text style={s.swapTitle}>El niño hace de juez</Text>
+        <Text style={s.swapKicker}>{t.pairs.swapKicker}</Text>
+        <Text style={s.swapTitle}>{t.pairs.swapTitle}</Text>
 
         {stage === 'intro' && (
           <>
@@ -235,11 +233,11 @@ const RoleSwapOverlay: React.FC<{ pair: MinimalPair; onDone: () => void }> = ({ 
           </>
         )}
 
-        {stage === 'listen' && <Text style={s.swapText}>👂 Escuchando a papá…</Text>}
+        {stage === 'listen' && <Text style={s.swapText}>{t.pairs.swapListening}</Text>}
 
         {(stage === 'tap' || stage === 'result') && (
           <>
-            <Text style={s.swapText}>¿Cuál dijo papá? ¡Tócala!</Text>
+            <Text style={s.swapText}>{t.pairs.swapWhich}</Text>
             <View style={s.swapRow}>{card('target')}{card('foil')}</View>
           </>
         )}
@@ -247,21 +245,21 @@ const RoleSwapOverlay: React.FC<{ pair: MinimalPair; onDone: () => void }> = ({ 
         {stage === 'result' && !parentSaid && confirmOk === null && (
           <View style={s.swapRow}>
             <Pressable onPress={() => { setConfirmOk(true); speakToChild(rs.hit); }} style={[s.swapBtn, { flex: 1 }]}>
-              <Text style={s.swapBtnTxt}>✅ ¡Acertó!</Text>
+              <Text style={s.swapBtnTxt}>{t.pairs.swapHit}</Text>
             </Pressable>
             <Pressable onPress={() => { setConfirmOk(false); speakToChild(rs.missOther); }} style={[s.swapBtn, { flex: 1, backgroundColor: '#f59e0b' }]}>
-              <Text style={s.swapBtnTxt}>❌ Era la otra</Text>
+              <Text style={s.swapBtnTxt}>{t.pairs.swapMiss}</Text>
             </Pressable>
           </View>
         )}
 
         {stage === 'result' && (parentSaid !== null || confirmOk !== null) && (
           <Pressable onPress={onDone} style={[s.swapBtn, { alignSelf: 'stretch' }]}>
-            <Text style={s.swapBtnTxt}>Seguimos con la sesión →</Text>
+            <Text style={s.swapBtnTxt}>{t.pairs.swapContinue}</Text>
           </Pressable>
         )}
 
-        <Pressable onPress={onDone}><Text style={s.swapSkip}>Saltar esta vez</Text></Pressable>
+        <Pressable onPress={onDone}><Text style={s.swapSkip}>{t.pairs.swapSkip}</Text></Pressable>
       </View>
     </View>
   );
@@ -271,6 +269,7 @@ const RoleSwapOverlay: React.FC<{ pair: MinimalPair; onDone: () => void }> = ({ 
 // Pantalla principal
 // ----------------------------------------------------------------------------
 export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
+  const t = useT();
   // Variedad y banco activos (es / gl / es-DO). Se fijan al montar la pantalla
   // para no cambiar a media sesión; la variedad se elige antes, en la tarjeta
   // «Voz de la app». loc localiza consignas, reintentos, cierre y rotación.
@@ -551,7 +550,7 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
       const hist = raw ? JSON.parse(raw) : [];
       const d = new Date();
       hist.push({
-        date: `${d.getDate()} ${MONTHS[d.getMonth()]}`,
+        date: `${d.getDate()} ${t.ling.months.split(' ')[d.getMonth()]}`,
         name: `Pares mínimos · ${p.target} / ${p.foil}`,
         avg: +avg.toFixed(1),
         note: substitutions === 0
@@ -600,7 +599,7 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
   // en corrección por un falso "foil", ese intento espurio se devuelve.
   const overrideRow = (p: MinimalPair) => (
     <View style={s.overrideRow}>
-      <Text style={s.overrideLbl}>¿La app oyó mal? Corrige tú:</Text>
+      <Text style={s.overrideLbl}>{t.pairs.overrideLabel}</Text>
       <Pressable
         onPress={() => {
           if (step === 'correction' && correctionKind !== 'none') attemptsRef.current = Math.max(0, attemptsRef.current - 1);
@@ -609,11 +608,11 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
         style={s.overridePill}
       >
         <FichaVisual word={p.target} emoji={p.targetEmoji} pic={p.targetPictogram} size={13} />
-        <Text style={s.overridePillTxt}>dijo “{p.target}”</Text>
+        <Text style={s.overridePillTxt}>{t.pairs.overridePill(p.target)}</Text>
       </Pressable>
       <Pressable onPress={() => step !== 'correction' && resolveBranch(p, 'foil')} style={s.overridePill}>
         <FichaVisual word={p.foil} emoji={p.foilEmoji} pic={p.foilPictogram} size={13} />
-        <Text style={s.overridePillTxt}>dijo “{p.foil}”</Text>
+        <Text style={s.overridePillTxt}>{t.pairs.overridePill(p.foil)}</Text>
       </Pressable>
     </View>
   );
@@ -634,10 +633,10 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
     return (
       <View style={s.flex}>
         <View style={s.header}>
-          <Pressable onPress={() => navigation.goBack()} style={s.backPill}><Text style={s.backPillTxt}>‹ Volver</Text></Pressable>
+          <Pressable onPress={() => navigation.goBack()} style={s.backPill}><Text style={s.backPillTxt}>{`‹ ${t.common.back}`}</Text></Pressable>
           <Text style={s.logoFallback}>valeria+</Text>
           <Text style={s.headerTitle}>Pares Mínimos</Text>
-          <Text style={s.headerSub}>{unlocked ? 'Edición profesional habilitada' : 'Dislalias fonológicas · el niño pide la palabra con su voz'}</Text>
+          <Text style={s.headerSub}>{unlocked ? t.pairs.editingOn : t.pairs.subtitlePick}</Text>
         </View>
         <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
           {!!toast && (
@@ -647,21 +646,16 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
             </View>
           )}
           <View style={s.howCard}>
-            <Text style={s.howKicker}>⚡ CÓMO FUNCIONA</Text>
-            <Text style={s.howTxt}>
-              Aparecen dos palabras casi iguales (rana / lana). La app pide una en voz alta, el niño
-              la dice al micrófono y la app detecta si salió el fonema o la sustitución habitual.
-              Cada ensayo termina con una misión física en pareja y el sello doble: ¡sin las manos
-              de los dos en la pantalla no se avanza!
-            </Text>
+            <Text style={s.howKicker}>{t.pairs.howKicker}</Text>
+            <Text style={s.howTxt}>{t.pairs.howBody}</Text>
           </View>
 
           {/* PM-04: por defecto el micro espera al botón; aquí se puede volver
               al arranque automático para familias que ya tenían el ritmo cogido. */}
           <View style={s.autoRecordRow}>
             <View style={{ flex: 1 }}>
-              <Text style={s.autoRecordTxt}>Grabación automática tras la consigna</Text>
-              <Text style={s.autoRecordSub}>Por defecto, apagada: el micro espera a que pulséis “Ya estoy listo”.</Text>
+              <Text style={s.autoRecordTxt}>{t.pairs.autoRecord}</Text>
+              <Text style={s.autoRecordSub}>{t.pairs.autoRecordSub}</Text>
             </View>
             <Switch
               value={autoRecord}
@@ -674,8 +668,8 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
             <ProUnlockPill unlocked={unlocked} onPress={() => setPinOpen(true)} />
           </View>
           <View style={s.listHead}>
-            <Text style={s.listLabel}>BANCO DE CONTRASTES</Text>
-            <View style={s.countBadge}><Text style={s.countBadgeTxt}>{activeCount} prescritos</Text></View>
+            <Text style={s.listLabel}>{t.pairs.bankLabel}</Text>
+            <View style={s.countBadge}><Text style={s.countBadgeTxt}>{t.pairs.prescribedCount(activeCount)}</Text></View>
           </View>
 
           {/* Solo los grupos con pares en la variedad activa: los bancos
@@ -693,8 +687,8 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
                     style={[s.pickRow, !on && s.pickRowOff]}
                     accessibilityRole="button"
                     accessibilityLabel={unlocked
-                      ? `${on ? 'Desactivar' : 'Activar'} el par ${p.target} y ${p.foil}`
-                      : on ? `Practicar el par ${p.target} y ${p.foil}` : `Par ${p.target} y ${p.foil} no prescrito`}
+                      ? t.pairs.toggleA11y(on, p.target, p.foil)
+                      : on ? t.pairs.practiceA11y(p.target, p.foil) : t.pairs.notPrescribedA11y(p.target, p.foil)}
                   >
                     <View style={s.codeChip}><Text style={s.codeChipTxt}>{p.code}</Text></View>
                     <FichaVisual word={p.target} emoji={p.targetEmoji} pic={p.targetPictogram} size={26} />
@@ -719,13 +713,13 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
 
           {unlocked ? (
             <>
-              <Pressable onPress={savePrescription} style={s.primaryBtn}><Text style={s.primaryBtnTxt}>Guardar Prescripción</Text></Pressable>
-              <Text style={s.helper}>La selección se guarda en el dispositivo y la edición se bloquea de nuevo.</Text>
+              <Pressable onPress={savePrescription} style={s.primaryBtn}><Text style={s.primaryBtnTxt}>{t.pairs.savePrescription}</Text></Pressable>
+              <Text style={s.helper}>{t.pairs.saveHelper}</Text>
             </>
           ) : (
             <View style={s.lockedHint}>
               <Text style={{ fontSize: 13 }}>🔒</Text>
-              <Text style={s.lockedHintTxt}>Modo Familia · solo el logopeda puede cambiar qué pares se practican.</Text>
+              <Text style={s.lockedHintTxt}>{t.pairs.lockedHint}</Text>
             </View>
           )}
         </ScrollView>
@@ -753,13 +747,13 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
               no al hub — solo desde 'pick' Volver sale de la pantalla. */}
           <Pressable onPress={() => { stopSpeaking(); setPhase('pick'); }} style={s.backPill}><Text style={s.backPillTxt}>‹ Volver</Text></Pressable>
           <Text style={s.logoFallback}>valeria+</Text>
-          <Text style={s.headerTitle}>¡Par completado!</Text>
+          <Text style={s.headerTitle}>{t.pairs.doneTitle}</Text>
           <Text style={s.headerSub}>{p.code} · {p.target} / {p.foil}</Text>
         </View>
         <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
           <View style={s.doneCard}>
             <Text style={{ fontSize: 44 }}>🎉</Text>
-            <Text style={s.doneTitle}>¡Sesión de pares completada!</Text>
+            <Text style={s.doneTitle}>{t.pairs.doneSessionTitle}</Text>
             <Text style={s.doneBig}>{avg.toFixed(1)}<Text style={s.doneSlash}> / 3 ★</Text></Text>
             <Text style={s.doneSub}>
               {substitutions === 0
@@ -780,9 +774,9 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
                 <View style={[s.rewardChip, { backgroundColor: '#fff4e5' }]}><Text style={s.rewardBig}>🔥 {reward.streak}</Text><Text style={s.rewardLbl}>{reward.streak === 1 ? 'día de racha' : 'días de racha'}</Text></View>
               </View>
             )}
-            <Pressable onPress={() => navigation.navigate('Results')} style={s.primaryBtn}><Text style={s.primaryBtnTxt}>Ver Resultados →</Text></Pressable>
-            <Pressable onPress={() => restart(p)}><Text style={s.linkBtn}>Repetir este par</Text></Pressable>
-            <Pressable onPress={() => setPhase('pick')}><Text style={s.linkBtn}>Elegir otro par</Text></Pressable>
+            <Pressable onPress={() => navigation.navigate('Results')} style={s.primaryBtn}><Text style={s.primaryBtnTxt}>{t.pairs.seeResults}</Text></Pressable>
+            <Pressable onPress={() => restart(p)}><Text style={s.linkBtn}>{t.pairs.repeatPair}</Text></Pressable>
+            <Pressable onPress={() => setPhase('pick')}><Text style={s.linkBtn}>{t.pairs.otherPair}</Text></Pressable>
           </View>
         </ScrollView>
       </View>
@@ -829,7 +823,7 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
             <View style={s.promptIcon}><Text style={{ fontSize: 18 }}>📢</Text></View>
             <View style={{ flex: 1 }}>
               <Text style={s.promptKicker}>
-                {livePrompt?.mode === 'slow' ? 'LA APP MODELA DESPACIO' : 'LA APP DICE'}
+                {livePrompt?.mode === 'slow' ? t.pairs.appSpeaksSlow : t.pairs.appSpeaks}
               </Text>
               <Text style={s.promptTxt}>“{livePrompt?.text ?? p.prompt}”</Text>
             </View>
@@ -845,25 +839,25 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
         {step === 'say' && (
           <View style={s.stateCard}>
             <Text style={{ fontSize: 30 }}>🔊</Text>
-            <Text style={s.stateTxt}>La app está hablando… preparad la voz.</Text>
+            <Text style={s.stateTxt}>{t.pairs.stepSay}</Text>
           </View>
         )}
 
         {step === 'ready' && (
           <View style={s.stateCard}>
             <Text style={{ fontSize: 30 }}>🙂</Text>
-            <Text style={s.stateTxt}>Preparad la voz. Cuando el niño esté listo, pulsad el micrófono.</Text>
+            <Text style={s.stateTxt}>{t.pairs.stepReady}</Text>
             <Pressable
               onPress={() => listenNow(p)}
               style={s.readyMicBtn}
               accessibilityRole="button"
-              accessibilityLabel="Ya estoy listo. Empezar a escuchar."
+              accessibilityLabel={t.pairs.readyBtnA11y}
             >
               <Text style={{ fontSize: 24 }}>🎤</Text>
-              <Text style={s.readyMicBtnTxt}>Ya estoy listo</Text>
+              <Text style={s.readyMicBtnTxt}>{t.pairs.readyBtn}</Text>
             </Pressable>
             <Pressable onPress={() => { const s2 = trialPrompt(p, trialIdx, loc); setLivePrompt(s2); speakToChild(s2.text); }}>
-              <Text style={s.linkBtn}>Repetir consigna</Text>
+              <Text style={s.linkBtn}>{t.pairs.repeatPrompt}</Text>
             </Pressable>
           </View>
         )}
@@ -873,13 +867,13 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
             <Animated.View style={{ transform: [{ scale: micScale }] }}>
               <View style={s.micRing}><Text style={{ fontSize: 30 }}>🎤</Text></View>
             </Animated.View>
-            <Text style={s.stateTxt}>¡Ahora el niño! Di la palabra al micrófono…</Text>
+            <Text style={s.stateTxt}>{t.pairs.stepListen}</Text>
             {!!heard && <Text style={s.partialTxt}>✨ {heard}</Text>}
             <Pressable
               onPress={() => { listeningRef.current = false; setListening(false); stopListening(); setStep('judge'); }}
               style={s.stopPill}
             >
-              <Text style={s.stopPillTxt}>Parar · decide el adulto</Text>
+              <Text style={s.stopPillTxt}>{t.pairs.stopListening}</Text>
             </Pressable>
           </View>
         )}
@@ -887,21 +881,21 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
         {step === 'judge' && (
           <View style={s.stateCard}>
             <Text style={{ fontSize: 26 }}>👂</Text>
-            <Text style={s.stateTxt}>El adulto hace de juez: ¿qué dijo el niño?</Text>
+            <Text style={s.stateTxt}>{t.pairs.stepJudge}</Text>
             <View style={s.judgeRow}>
               <Pressable onPress={() => resolveBranch(p, 'target')} style={[s.judgeBtn, { backgroundColor: V.color.successBg, borderColor: '#bfe9d4' }]}>
-                <FichaVisual word={p.target} emoji={p.targetEmoji} pic={p.targetPictogram} size={22} /><Text style={s.judgeTxt}>Dijo “{p.target}”</Text>
+                <FichaVisual word={p.target} emoji={p.targetEmoji} pic={p.targetPictogram} size={22} /><Text style={s.judgeTxt}>{t.pairs.saidWord(p.target)}</Text>
               </Pressable>
               <Pressable onPress={() => resolveBranch(p, 'foil')} style={[s.judgeBtn, { backgroundColor: '#fffbeb', borderColor: '#f4e6b8' }]}>
-                <FichaVisual word={p.foil} emoji={p.foilEmoji} pic={p.foilPictogram} size={22} /><Text style={s.judgeTxt}>Dijo “{p.foil}”</Text>
+                <FichaVisual word={p.foil} emoji={p.foilEmoji} pic={p.foilPictogram} size={22} /><Text style={s.judgeTxt}>{t.pairs.saidWord(p.foil)}</Text>
               </Pressable>
             </View>
-            <Pressable onPress={() => retry(p)}><Text style={s.linkBtn}>No se entendió · repetir consigna</Text></Pressable>
+            <Pressable onPress={() => retry(p)}><Text style={s.linkBtn}>{t.pairs.notUnderstood}</Text></Pressable>
             {/* Si el micrófono ni llegó a abrirse, el adulto pasa a juez: aquí
                 también tiene que poder leer por qué. */}
             {!!asrNote && (
               <View style={s.asrNote}>
-                <Text style={s.asrNoteKicker}>👤 PARA EL ADULTO · EL MICRÓFONO</Text>
+                <Text style={s.asrNoteKicker}>{t.pairs.micNoteKicker}</Text>
                 <Text style={s.asrNoteTxt}>{asrNote}</Text>
               </View>
             )}
@@ -913,14 +907,14 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
             <View style={[s.verdictCard, s.verdictOk]}>
               <Text style={{ fontSize: 26 }}>🎉</Text>
               <View style={{ flex: 1 }}>
-                <Text style={s.verdictTitle}>¡Fonema conseguido!</Text>
-                <Text style={s.verdictSub}>{heard ? `La app escuchó: “${heard}”` : 'Veredicto del adulto.'} · {pendingStars}★</Text>
+                <Text style={s.verdictTitle}>{t.pairs.successTitle}</Text>
+                <Text style={s.verdictSub}>{heard ? t.pairs.heardBy(heard) : t.pairs.adultVerdict} · {pendingStars}★</Text>
               </View>
               <Text style={s.verdictStars}>{'★'.repeat(pendingStars)}</Text>
             </View>
-            {missionCard('MISIÓN FÍSICA DE CELEBRACIÓN', p.onTarget.mission)}
+            {missionCard(t.pairs.missionCelebration, p.onTarget.mission)}
             {asrSupported() && overrideRow(p)}
-            <DoubleSeal label="Misión hecha: ¡sellad juntos para el siguiente ensayo!" onUnlock={() => onSealSuccess(p)} />
+            <DoubleSeal label={t.pairs.sealSuccess} onUnlock={() => onSealSuccess(p)} />
           </>
         )}
 
@@ -930,14 +924,14 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
               <Text style={{ fontSize: 26 }}>{correctionKind === 'foil' ? '👂' : correctionKind === 'close' ? '💪' : '😅'}</Text>
               <View style={{ flex: 1 }}>
                 <Text style={s.verdictTitle}>
-                  {correctionKind === 'foil' ? `Escuché “${p.foil}”… ¡era la otra palabra!`
-                    : correctionKind === 'close' ? '¡Casi casi!'
-                      : 'No te escuché bien'}
+                  {correctionKind === 'foil' ? t.pairs.heardFoil(p.foil)
+                    : correctionKind === 'close' ? t.pairs.almostTitle
+                      : t.pairs.notHeardTitle}
                 </Text>
                 <Text style={s.verdictSub}>
-                  {correctionKind === 'foil' ? `Pista: ${p.onFoil.cue}`
-                    : correctionKind === 'close' ? 'Se parece mucho. Escuchad el modelo despacio y otra vez.'
-                      : 'Este intento no cuenta. Acercaos al micrófono y repetimos.'}
+                  {correctionKind === 'foil' ? t.pairs.cuePrefix(p.onFoil.cue)
+                    : correctionKind === 'close' ? t.pairs.almostSub
+                      : t.pairs.notHeardSub}
                 </Text>
               </View>
             </View>
@@ -946,14 +940,14 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
                 veían igual que un niño que habla flojito. */}
             {!!asrNote && (
               <View style={s.asrNote}>
-                <Text style={s.asrNoteKicker}>👤 PARA EL ADULTO · EL MICRÓFONO</Text>
+                <Text style={s.asrNoteKicker}>{t.pairs.micNoteKicker}</Text>
                 <Text style={s.asrNoteTxt}>{asrNote}</Text>
               </View>
             )}
-            {correctionKind === 'foil' && missionCard('MISIÓN FÍSICA CORRECTIVA', p.onFoil.mission)}
+            {correctionKind === 'foil' && missionCard(t.pairs.missionCorrective, p.onFoil.mission)}
             <View style={s.retryRow}>
-              <SpeakButton text={p.target} label="Oír modelo despacio" voice="slow" />
-              <Pressable onPress={() => retry(p)} style={s.retryBtn}><Text style={s.retryBtnTxt}>🎤 ¡Otra vez!</Text></Pressable>
+              <SpeakButton text={p.target} label={t.pairs.hearSlowModel} voice="slow" />
+              <Pressable onPress={() => retry(p)} style={s.retryBtn}><Text style={s.retryBtnTxt}>{t.pairs.retryBtn}</Text></Pressable>
             </View>
             {asrSupported() && correctionKind !== 'none' && overrideRow(p)}
           </>
@@ -964,17 +958,14 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
             <View style={[s.verdictCard, s.verdictNeutral]}>
               <Text style={{ fontSize: 26 }}>🤝</Text>
               <View style={{ flex: 1 }}>
-                <Text style={s.verdictTitle}>Imitación juntos (1★)</Text>
-                <Text style={s.verdictSub}>
-                  Papá dice “{p.target}” muy despacio tocando la mejilla del niño, y el niño la repite
-                  a la vez. Sin prisa: hoy la practicamos, mañana sale sola.
-                </Text>
+                <Text style={s.verdictTitle}>{t.pairs.assistTitle}</Text>
+                <Text style={s.verdictSub}>{t.pairs.assistSub(p.target)}</Text>
               </View>
             </View>
             <View style={s.retryRow}>
-              <SpeakButton text={p.target} label="Oír modelo despacio" voice="slow" />
+              <SpeakButton text={p.target} label={t.pairs.hearSlowModel} voice="slow" />
             </View>
-            <DoubleSeal label="¿La dijisteis juntos? ¡Sellad y seguimos!" onUnlock={() => onSealAssist(p)} />
+            <DoubleSeal label={t.pairs.sealAssist} onUnlock={() => onSealAssist(p)} />
           </>
         )}
 

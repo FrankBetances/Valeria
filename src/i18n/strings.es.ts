@@ -281,6 +281,151 @@ export const ES = {
                       : 'No se ha podido completar la operación. Inténtalo de nuevo.',
   },
 
+  // Test de Ling. Los SEIS SONIDOS y sus consignas no están aquí: salen de
+  // `lingContentForLocale`, que se localiza por VARIEDAD de terapia. Aquí vive
+  // lo que lee el adulto: la pregunta previa, la escala de valoración y el
+  // veredicto.
+  ling: {
+    title: 'Test de Ling',
+    titleDone: 'Test completado',
+    subAsk: (name: string): string => `${name} · Comprobación auditiva`,
+    subTest: (name: string): string => `${name} · 6 sonidos de Ling`,
+    subDone: (name: string): string => `${name} · Resultado de hoy`,
+
+    askTitle: 'Antes de empezar',
+    askQuestion1: '¿El paciente usa ',
+    askQuestionHearingAids: 'audífonos',
+    askQuestionOr: ' o ',
+    askQuestionImplant: 'implante coclear',
+    askQuestion2: '?',
+    askSub: 'Si los usa, conviene comprobar primero que oye bien hoy con el Test de Ling.',
+    yesTitle: 'Sí, usa audífonos / implante',
+    yesSub: 'Realizar Test de Ling (6 sonidos)',
+    noTitle: 'No',
+    noSub: 'Ir directamente a los ejercicios',
+
+    instrKicker: 'TU TURNO, TUTOR',
+    instrTitle: 'Cúbrete la boca y produce el sonido',
+    stageLabel: 'PRODUCE ESTE SONIDO',
+    scaleTitle: '¿Cómo respondió?',
+    scaleSub: 'Marca la respuesta del niño a este sonido',
+    scaleIdentifies: 'Identifica',
+    scaleIdentifiesDesc: 'Repite o reconoce el sonido correctamente.',
+    scaleDetects: 'Detecta',
+    scaleDetectsDesc: 'Reacciona o levanta la mano al oírlo.',
+    scaleNoResponse: 'Sin respuesta',
+    scaleNoResponseDesc: 'No reacciona al sonido.',
+    legendNoResponseShort: 'Sin resp.',
+
+    resultGoodTitle: '¡Oye con claridad!',
+    resultGoodSub: 'Identificó los 6 sonidos. El equipo auditivo funciona bien hoy.',
+    resultGoodRec: 'Todo en orden. Puedes continuar con los ejercicios de audición con normalidad.',
+    resultCheckTitle: 'Revisar el equipo',
+    resultCheckSub: 'No reaccionó a algún sonido. Comprueba pilas, molde y volumen antes de seguir.',
+    resultCheckRec: 'Revisa el audífono / implante (pilas, conexión, programa) y repite el test. Si persiste, consulta con el ORL.',
+    resultDetectTitle: 'Detecta todos los sonidos',
+    resultDetectSub: (ident: number, total: number): string =>
+      `Detectó los ${total}, e identificó ${ident} de ${total}. Puede continuar con la sesión.`,
+    resultDetectRec: 'Refuerza con apoyo del tutor los sonidos más agudos (sh, s). Puedes continuar con los ejercicios.',
+
+    startExercises: 'Comenzar ejercicios →',
+    repeat: 'Repetir test',
+    months: 'ene feb mar abr may jun jul ago sep oct nov dic',
+  },
+
+  // Pares Mínimos. NO están aquí: las palabras del par, la consigna, la pista,
+  // las misiones físicas ni la etiqueta de error — todo eso sale del banco de
+  // la VARIEDAD activa (valeriaMinimalPairs*). Aquí vive el andamiaje que lee
+  // el adulto.
+  pairs: {
+    title: 'Pares Mínimos',
+    subtitlePick: 'Dislalias fonológicas · el niño pide la palabra con su voz',
+    editingOn: 'Edición profesional habilitada',
+
+    howKicker: '⚡ CÓMO FUNCIONA',
+    howBody:
+      'Aparecen dos palabras casi iguales (rana / lana). La app pide una en voz alta, el niño '
+      + 'la dice al micrófono y la app detecta si salió el fonema o la sustitución habitual. '
+      + 'Cada ensayo termina con una misión física en pareja y el sello doble: ¡sin las manos '
+      + 'de los dos en la pantalla no se avanza!',
+    autoRecord: 'Grabación automática tras la consigna',
+    autoRecordSub: 'Por defecto, apagada: el micro espera a que pulséis “Ya estoy listo”.',
+    bankLabel: 'BANCO DE CONTRASTES',
+    prescribedCount: (n: number): string => `${n} prescritos`,
+    toggleA11y: (on: boolean, a: string, b: string): string => `${on ? 'Desactivar' : 'Activar'} el par ${a} y ${b}`,
+    practiceA11y: (a: string, b: string): string => `Practicar el par ${a} y ${b}`,
+    notPrescribedA11y: (a: string, b: string): string => `Par ${a} y ${b} no prescrito`,
+    savePrescription: 'Guardar Prescripción',
+    saveHelper: 'La selección se guarda en el dispositivo y la edición se bloquea de nuevo.',
+    lockedHint: 'Modo Familia · solo el logopeda puede cambiar qué pares se practican.',
+
+    appSpeaksSlow: 'LA APP MODELA DESPACIO',
+    appSpeaks: 'LA APP DICE',
+    stepSay: 'La app está hablando… preparad la voz.',
+    stepReady: 'Preparad la voz. Cuando el niño esté listo, pulsad el micrófono.',
+    readyBtn: 'Ya estoy listo',
+    readyBtnA11y: 'Ya estoy listo. Empezar a escuchar.',
+    repeatPrompt: 'Repetir consigna',
+    stepListen: '¡Ahora el niño! Di la palabra al micrófono…',
+    stopListening: 'Parar · decide el adulto',
+    stepJudge: 'El adulto hace de juez: ¿qué dijo el niño?',
+    saidWord: (w: string): string => `Dijo “${w}”`,
+    notUnderstood: 'No se entendió · repetir consigna',
+    micNoteKicker: '👤 PARA EL ADULTO · EL MICRÓFONO',
+
+    successTitle: '¡Fonema conseguido!',
+    heardBy: (w: string): string => `La app escuchó: “${w}”`,
+    adultVerdict: 'Veredicto del adulto.',
+    missionCelebration: 'MISIÓN FÍSICA DE CELEBRACIÓN',
+    missionCorrective: 'MISIÓN FÍSICA CORRECTIVA',
+    sealSuccess: 'Misión hecha: ¡sellad juntos para el siguiente ensayo!',
+
+    heardFoil: (w: string): string => `Escuché “${w}”… ¡era la otra palabra!`,
+    almostTitle: '¡Casi casi!',
+    notHeardTitle: 'No te escuché bien',
+    cuePrefix: (cue: string): string => `Pista: ${cue}`,
+    almostSub: 'Se parece mucho. Escuchad el modelo despacio y otra vez.',
+    notHeardSub: 'Este intento no cuenta. Acercaos al micrófono y repetimos.',
+    hearSlowModel: 'Oír modelo despacio',
+    retryBtn: '🎤 ¡Otra vez!',
+
+    assistTitle: 'Imitación juntos (1★)',
+    assistSub: (w: string): string =>
+      `El adulto dice “${w}” muy despacio tocando la mejilla del niño, y el niño la repite `
+      + 'a la vez. Sin prisa: hoy la practicamos, mañana sale sola.',
+    sealAssist: '¿La dijisteis juntos? ¡Sellad y seguimos!',
+
+    overrideLabel: '¿La app oyó mal? Corrige tú:',
+    overridePill: (w: string): string => `dijo “${w}”`,
+
+    doneTitle: '¡Par completado!',
+    doneSessionTitle: '¡Sesión de pares completada!',
+    seeResults: 'Ver Resultados →',
+    repeatPair: 'Repetir este par',
+    otherPair: 'Elegir otro par',
+
+    // Rotación de roles: el niño pasa a juez. «El adulto» y no «papá»: el
+    // acompañante puede ser cualquiera, y es el criterio que ACOPROS ya obligó
+    // a aplicar en los bancos.
+    swapKicker: '👑 ¡AHORA MANDAS TÚ!',
+    swapTitle: 'El niño hace de juez',
+    swapListening: '👂 Escuchando al adulto…',
+    swapWhich: '¿Cuál dijo el adulto? ¡Tócala!',
+    swapHit: '✅ ¡Acertó!',
+    swapMiss: '❌ Era la otra',
+    swapContinue: 'Seguimos con la sesión →',
+    swapSkip: 'Saltar esta vez',
+
+    sealKicker: '🤝 SELLO DOBLE PARA CONTINUAR',
+    sealWhy:
+      'Sirve para que el ejercicio no siga solo: hasta que no ponéis las dos manos, la app espera. '
+      + 'Así cerráis juntos cada intento y el adulto no se queda mirando desde fuera.',
+    sealAdult: 'ADULTO',
+    sealChild: 'YO',
+    sealPlus: 'a la vez',
+    sealHint: 'Quien acompañe al niño. ¿Una sola mano libre? Mantén pulsada una huella 2 segundos.',
+  },
+
   settings: {
     uiLangTitle: 'Idioma de la aplicación',
     // El adulto necesita entender que son dos cosas distintas, o va a pensar

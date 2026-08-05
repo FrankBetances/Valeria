@@ -22,22 +22,26 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { V, STORAGE_KEYS } from './valeriaTheme';
 import { getLocale } from './valeriaLocale';
 import { lingContentForLocale } from './valeriaLingContent';
+import { useT, UiStrings } from './i18n';
 // import logoWhite from '../../assets/valeria-logo-white.png';
 
 type Phase = 'ask' | 'test' | 'done';
 
 interface ScaleOpt { level: 0 | 1 | 2; title: string; desc: string; color: string; }
 
-const SCALE: ScaleOpt[] = [
-  { level: 2, title: 'Identifica',    desc: 'Repite o reconoce el sonido correctamente.', color: '#10b981' },
-  { level: 1, title: 'Detecta',       desc: 'Reacciona o levanta la mano al oírlo.',       color: '#f59e0b' },
-  { level: 0, title: 'Sin respuesta', desc: 'No reacciona al sonido.',                     color: '#ef4444' },
+// La escala la valora el ADULTO, así que sigue al idioma de interfaz (no a la
+// variedad de terapia, que es lo que decide los seis sonidos).
+const buildScale = (t: UiStrings): ScaleOpt[] => [
+  { level: 2, title: t.ling.scaleIdentifies,  desc: t.ling.scaleIdentifiesDesc,  color: '#10b981' },
+  { level: 1, title: t.ling.scaleDetects,     desc: t.ling.scaleDetectsDesc,     color: '#f59e0b' },
+  { level: 0, title: t.ling.scaleNoResponse,  desc: t.ling.scaleNoResponseDesc,  color: '#ef4444' },
 ];
-
-const MONTHS = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
 
 export const ValeriaLingTestScreen: React.FC<{ navigation: any; route?: any }> = ({ navigation, route }) => {
   const sessionParams = route?.params ?? undefined;
+  const t = useT();
+  const SCALE = buildScale(t);
+  const MONTHS = t.ling.months.split(' ');
   // Contenido de la variedad activa: los 6 sonidos son universales; cambian las
   // consignas y pistas (registro es-DO · Quisqueya Habla, QH-2.4).
   const { sounds: SOUNDS, copy } = useRef(lingContentForLocale(getLocale())).current;
@@ -112,20 +116,22 @@ export const ValeriaLingTestScreen: React.FC<{ navigation: any; route?: any }> =
   const ident = results.filter((r) => r === 2).length;
   const detect = results.filter((r) => r >= 1).length;
 
-  let resultIcon = '🎉', resultBadgeBg = V.color.primaryLight, resultTitle = '¡Oye con claridad!';
-  let resultSub = 'Identificó los 6 sonidos. El equipo auditivo funciona bien hoy.';
+  let resultIcon = '🎉', resultBadgeBg = V.color.primaryLight, resultTitle = t.ling.resultGoodTitle;
+  let resultSub = t.ling.resultGoodSub;
   let recIcon = '✅', recBg = V.color.successBg, recBorder = '#bfe9d4', recColor = '#0a7d54';
-  let recText = 'Todo en orden. Puedes continuar con los ejercicios de audición con normalidad.';
+  let recText = t.ling.resultGoodRec;
   if (detect < total) {
-    resultIcon = '🔧'; resultBadgeBg = '#fff1e6'; resultTitle = 'Revisar el equipo';
-    resultSub = 'No reaccionó a algún sonido. Comprueba pilas, molde y volumen antes de seguir.';
+    resultIcon = '🔧'; resultBadgeBg = '#fff1e6'; resultTitle = t.ling.resultCheckTitle;
+    resultSub = t.ling.resultCheckSub;
     recIcon = '⚠️'; recBg = '#fff7ed'; recBorder = '#fcd9a8'; recColor = '#9a5b13';
-    recText = 'Revisa el audífono / implante (pilas, conexión, programa) y repite el test. Si persiste, consulta con el ORL.';
+    recText = t.ling.resultCheckRec;
   } else if (ident < total) {
-    resultIcon = '👂'; resultBadgeBg = '#fffbeb'; resultTitle = 'Detecta todos los sonidos';
-    resultSub = `Detectó los 6, e identificó ${ident} de 6. Puede continuar con la sesión.`;
+    resultIcon = '👂'; resultBadgeBg = '#fffbeb'; resultTitle = t.ling.resultDetectTitle;
+    // Antes decía «los 6» literal aunque el banco de la variedad trajera otro
+    // número de sonidos; ahora el total sale del propio banco.
+    resultSub = t.ling.resultDetectSub(ident, total);
     recIcon = '💡'; recBg = '#fffdf3'; recBorder = '#f4e6b8'; recColor = '#8a7320';
-    recText = 'Refuerza con apoyo del tutor los sonidos más agudos (sh, s). Puedes continuar con los ejercicios.';
+    recText = t.ling.resultDetectRec;
   }
 
   const rippleScale = ripple.interpolate({ inputRange: [0, 1], outputRange: [0.7, 1.7] });
@@ -137,16 +143,16 @@ export const ValeriaLingTestScreen: React.FC<{ navigation: any; route?: any }> =
 
       {/* ===== Cabecera ===== */}
       <View style={s.header}>
-        <Pressable onPress={onBack} style={s.backPill}><Text style={s.backPillTxt}>‹ Volver</Text></Pressable>
+        <Pressable onPress={onBack} style={s.backPill}><Text style={s.backPillTxt}>{`‹ ${t.common.back}`}</Text></Pressable>
         <View style={s.headerRow}>
           <View style={{ flex: 1 }}>
             {/* <Image source={logoWhite} style={s.logo} /> */}
             <Text style={s.logoFallback}>valeria+</Text>
-            <Text style={s.headerTitle}>{phase === 'done' ? 'Test completado' : 'Test de Ling'}</Text>
+            <Text style={s.headerTitle}>{phase === 'done' ? t.ling.titleDone : t.ling.title}</Text>
             <Text style={s.headerSub}>
-              {phase === 'ask' ? `${patientName} · Comprobación auditiva`
-                : phase === 'test' ? `${patientName} · 6 sonidos de Ling`
-                : `${patientName} · Resultado de hoy`}
+              {phase === 'ask' ? t.ling.subAsk(patientName)
+                : phase === 'test' ? t.ling.subTest(patientName)
+                : t.ling.subDone(patientName)}
             </Text>
           </View>
           {phase === 'test' && (
@@ -171,16 +177,16 @@ export const ValeriaLingTestScreen: React.FC<{ navigation: any; route?: any }> =
           <View>
             <View style={s.askHero}>
               <View style={s.askIcon}><Text style={{ fontSize: 38 }}>👂</Text></View>
-              <Text style={s.askTitle}>Antes de empezar</Text>
-              <Text style={s.askQuestion}>¿El paciente usa <Text style={s.bold}>audífonos</Text> o <Text style={s.bold}>implante coclear</Text>?</Text>
-              <Text style={s.askSub}>Si los usa, conviene comprobar primero que oye bien hoy con el Test de Ling.</Text>
+              <Text style={s.askTitle}>{t.ling.askTitle}</Text>
+              <Text style={s.askQuestion}>{t.ling.askQuestion1}<Text style={s.bold}>{t.ling.askQuestionHearingAids}</Text>{t.ling.askQuestionOr}<Text style={s.bold}>{t.ling.askQuestionImplant}</Text>{t.ling.askQuestion2}</Text>
+              <Text style={s.askSub}>{t.ling.askSub}</Text>
             </View>
 
             <Pressable onPress={answerYes} style={[s.choice, s.choiceYes]} accessibilityRole="button">
               <View style={[s.choiceIcon, { backgroundColor: V.color.primary }]}><Text style={{ fontSize: 22 }}>🦻</Text></View>
               <View style={{ flex: 1 }}>
-                <Text style={s.choiceTitle}>Sí, usa audífonos / implante</Text>
-                <Text style={s.choiceSub}>Realizar Test de Ling (6 sonidos)</Text>
+                <Text style={s.choiceTitle}>{t.ling.yesTitle}</Text>
+                <Text style={s.choiceSub}>{t.ling.yesSub}</Text>
               </View>
               <Text style={[s.choiceChev, { color: V.color.primaryDark }]}>›</Text>
             </Pressable>
@@ -188,8 +194,8 @@ export const ValeriaLingTestScreen: React.FC<{ navigation: any; route?: any }> =
             <Pressable onPress={goExercises} style={[s.choice, s.choiceNo]} accessibilityRole="button">
               <View style={[s.choiceIcon, { backgroundColor: '#f1f5f4' }]}><Text style={{ fontSize: 22 }}>🚀</Text></View>
               <View style={{ flex: 1 }}>
-                <Text style={s.choiceTitle}>No</Text>
-                <Text style={s.choiceSub}>Ir directamente a los ejercicios</Text>
+                <Text style={s.choiceTitle}>{t.ling.noTitle}</Text>
+                <Text style={s.choiceSub}>{t.ling.noSub}</Text>
               </View>
               <Text style={[s.choiceChev, { color: V.color.textMuted }]}>›</Text>
             </Pressable>
@@ -209,8 +215,8 @@ export const ValeriaLingTestScreen: React.FC<{ navigation: any; route?: any }> =
               <View style={s.instrHead}>
                 <View style={s.instrIcon}><Text style={{ fontSize: 18 }}>🤫</Text></View>
                 <View style={{ flex: 1 }}>
-                  <Text style={s.instrKicker}>TU TURNO, TUTOR</Text>
-                  <Text style={s.instrTitle}>Cúbrete la boca y produce el sonido</Text>
+                  <Text style={s.instrKicker}>{t.ling.instrKicker}</Text>
+                  <Text style={s.instrTitle}>{t.ling.instrTitle}</Text>
                 </View>
               </View>
               <Text style={s.instrBody}>{copy.instrBody}</Text>
@@ -218,7 +224,7 @@ export const ValeriaLingTestScreen: React.FC<{ navigation: any; route?: any }> =
 
             {/* Escenario del sonido */}
             <View style={s.stage}>
-              <Text style={s.stageLabel}>PRODUCE ESTE SONIDO</Text>
+              <Text style={s.stageLabel}>{t.ling.stageLabel}</Text>
               <View style={s.soundWrap}>
                 <Animated.View style={[s.ripple, { transform: [{ scale: rippleScale }], opacity: rippleOpacity }]} />
                 <View style={s.soundCircle}><Text style={s.soundSym}>{ex.sym}</Text></View>
@@ -233,8 +239,8 @@ export const ValeriaLingTestScreen: React.FC<{ navigation: any; route?: any }> =
 
             {/* Escala de respuesta */}
             <View style={s.scaleCard}>
-              <Text style={s.scaleTitle}>¿Cómo respondió?</Text>
-              <Text style={s.scaleSub}>Marca la respuesta del niño a este sonido</Text>
+              <Text style={s.scaleTitle}>{t.ling.scaleTitle}</Text>
+              <Text style={s.scaleSub}>{t.ling.scaleSub}</Text>
               {SCALE.map((o) => {
                 const on = picked === o.level;
                 return (
@@ -278,9 +284,9 @@ export const ValeriaLingTestScreen: React.FC<{ navigation: any; route?: any }> =
               </View>
 
               <View style={s.legend}>
-                <Legend color="#10b981" label="Identifica" />
-                <Legend color="#f59e0b" label="Detecta" />
-                <Legend color="#ef4444" label="Sin resp." />
+                <Legend color="#10b981" label={t.ling.scaleIdentifies} />
+                <Legend color="#f59e0b" label={t.ling.scaleDetects} />
+                <Legend color="#ef4444" label={t.ling.legendNoResponseShort} />
               </View>
             </View>
 
@@ -289,8 +295,8 @@ export const ValeriaLingTestScreen: React.FC<{ navigation: any; route?: any }> =
               <Text style={[s.recTxt, { color: recColor }]}>{recText}</Text>
             </View>
 
-            <Pressable onPress={goExercises} style={s.primaryBtn} accessibilityRole="button"><Text style={s.primaryBtnTxt}>Comenzar ejercicios →</Text></Pressable>
-            <Pressable onPress={restart} style={{ marginTop: 11, alignItems: 'center' }} accessibilityRole="button"><Text style={s.restartTxt}>Repetir test</Text></Pressable>
+            <Pressable onPress={goExercises} style={s.primaryBtn} accessibilityRole="button"><Text style={s.primaryBtnTxt}>{t.ling.startExercises}</Text></Pressable>
+            <Pressable onPress={restart} style={{ marginTop: 11, alignItems: 'center' }} accessibilityRole="button"><Text style={s.restartTxt}>{t.ling.repeat}</Text></Pressable>
           </View>
         )}
       </ScrollView>

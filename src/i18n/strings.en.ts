@@ -293,6 +293,148 @@ export const EN: UiStrings = {
                       : 'We couldn’t complete that. Please try again.',
   },
 
+  // The six Ling sounds and their prompts are NOT here: they come from
+  // `lingContentForLocale`, localised by therapy variety. What lives here is
+  // what the grown-up reads: the screening question, the rating scale and the
+  // verdict.
+  ling: {
+    title: 'Ling Sound Check',
+    titleDone: 'Check complete',
+    subAsk: (name: string): string => `${name} · Hearing check`,
+    subTest: (name: string): string => `${name} · Ling 6 sounds`,
+    subDone: (name: string): string => `${name} · Today’s result`,
+
+    askTitle: 'Before you start',
+    askQuestion1: 'Does this child wear ',
+    askQuestionHearingAids: 'hearing aids',
+    askQuestionOr: ' or a ',
+    askQuestionImplant: 'cochlear implant',
+    askQuestion2: '?',
+    askSub: 'If they do, it’s worth checking that they’re hearing well today with the Ling Sound Check.',
+    yesTitle: 'Yes, hearing aids / implant',
+    yesSub: 'Run the Ling Sound Check (6 sounds)',
+    noTitle: 'No',
+    noSub: 'Go straight to the exercises',
+
+    instrKicker: 'YOUR TURN, GROWN-UP',
+    instrTitle: 'Cover your mouth and make the sound',
+    stageLabel: 'MAKE THIS SOUND',
+    scaleTitle: 'How did they respond?',
+    scaleSub: 'Score how the child responded to this sound',
+    scaleIdentifies: 'Identifies',
+    scaleIdentifiesDesc: 'Repeats or recognizes the sound correctly.',
+    scaleDetects: 'Detects',
+    scaleDetectsDesc: 'Reacts or raises a hand on hearing it.',
+    scaleNoResponse: 'No response',
+    scaleNoResponseDesc: 'Does not react to the sound.',
+    legendNoResponseShort: 'None',
+
+    resultGoodTitle: 'Hearing clearly!',
+    resultGoodSub: 'Identified all 6 sounds. The hearing equipment is working well today.',
+    resultGoodRec: 'All good. You can go on with the listening exercises as usual.',
+    resultCheckTitle: 'Check the equipment',
+    resultCheckSub: 'Did not react to one of the sounds. Check batteries, earmold and volume before going on.',
+    resultCheckRec: 'Check the hearing aid / implant (batteries, connection, program) and repeat the check. If it persists, contact the ENT.',
+    resultDetectTitle: 'Detects every sound',
+    resultDetectSub: (ident: number, total: number): string =>
+      `Detected all ${total}, and identified ${ident} of ${total}. You can go on with the session.`,
+    resultDetectRec: 'Give extra support on the high-frequency sounds (sh, s). You can go on with the exercises.',
+
+    startExercises: 'Start exercises →',
+    repeat: 'Repeat check',
+    months: 'Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec',
+  },
+
+  // NOT here: the words of the pair, the prompt, the cue, the physical missions
+  // and the error label — those come from the active VARIETY's bank
+  // (valeriaMinimalPairs*). What lives here is the scaffolding the grown-up reads.
+  pairs: {
+    title: 'Minimal Pairs',
+    subtitlePick: 'Speech sound errors · the child asks for the word with their own voice',
+    editingOn: 'Professional editing enabled',
+
+    howKicker: '⚡ HOW IT WORKS',
+    howBody:
+      'Two nearly identical words appear (rake / wake). The app says one out loud, the child '
+      + 'says it into the mic, and the app detects whether the target sound came out or the '
+      + 'usual substitution did. Every trial ends with a physical mission for the two of you '
+      + 'and the double seal: without both pairs of hands on the screen, nothing moves on!',
+    autoRecord: 'Start recording automatically after the prompt',
+    autoRecordSub: 'Off by default: the mic waits until you tap “I’m ready”.',
+    bankLabel: 'CONTRAST BANK',
+    prescribedCount: (n: number): string => `${n} assigned`,
+    toggleA11y: (on: boolean, a: string, b: string): string => `${on ? 'Turn off' : 'Turn on'} the pair ${a} and ${b}`,
+    practiceA11y: (a: string, b: string): string => `Practice the pair ${a} and ${b}`,
+    notPrescribedA11y: (a: string, b: string): string => `Pair ${a} and ${b} not assigned`,
+    savePrescription: 'Save plan',
+    saveHelper: 'Your selection is saved on this device and editing locks again.',
+    lockedHint: 'Family mode · only the clinician can change which pairs are practiced.',
+
+    appSpeaksSlow: 'THE APP MODELS IT SLOWLY',
+    appSpeaks: 'THE APP SAYS',
+    stepSay: 'The app is speaking… get your voices ready.',
+    stepReady: 'Get ready. When your child is set, tap the microphone.',
+    readyBtn: 'I’m ready',
+    readyBtnA11y: 'I’m ready. Start listening.',
+    repeatPrompt: 'Say it again',
+    stepListen: 'Your turn! Say the word into the microphone…',
+    stopListening: 'Stop · the grown-up decides',
+    stepJudge: 'You’re the judge: what did your child say?',
+    saidWord: (w: string): string => `Said “${w}”`,
+    notUnderstood: 'Couldn’t tell · say the prompt again',
+    micNoteKicker: '👤 FOR THE GROWN-UP · THE MICROPHONE',
+
+    successTitle: 'You got the sound!',
+    heardBy: (w: string): string => `The app heard: “${w}”`,
+    adultVerdict: 'Scored by the grown-up.',
+    missionCelebration: 'CELEBRATION MISSION',
+    missionCorrective: 'CORRECTIVE MISSION',
+    sealSuccess: 'Mission done: seal it together for the next trial!',
+
+    heardFoil: (w: string): string => `I heard “${w}”… that was the other word!`,
+    almostTitle: 'So close!',
+    notHeardTitle: 'I didn’t catch that',
+    cuePrefix: (cue: string): string => `Hint: ${cue}`,
+    almostSub: 'Very close. Listen to the slow model and try once more.',
+    notHeardSub: 'This try doesn’t count. Move closer to the mic and let’s go again.',
+    hearSlowModel: 'Hear it slowly',
+    retryBtn: '🎤 One more time!',
+
+    assistTitle: 'Say it together (1★)',
+    assistSub: (w: string): string =>
+      `The grown-up says “${w}” very slowly while touching the child’s cheek, and the child `
+      + 'says it at the same time. No rush: we practice today, tomorrow it comes on its own.',
+    sealAssist: 'Did you say it together? Seal it and off we go!',
+
+    overrideLabel: 'Did the app mishear? Fix it here:',
+    overridePill: (w: string): string => `said “${w}”`,
+
+    doneTitle: 'Pair complete!',
+    doneSessionTitle: 'Minimal pairs session complete!',
+    seeResults: 'See results →',
+    repeatPair: 'Repeat this pair',
+    otherPair: 'Pick another pair',
+
+    swapKicker: '👑 NOW YOU’RE IN CHARGE!',
+    swapTitle: 'The child is the judge',
+    swapListening: '👂 Listening to the grown-up…',
+    swapWhich: 'Which one did the grown-up say? Tap it!',
+    swapHit: '✅ Got it!',
+    swapMiss: '❌ It was the other one',
+    swapContinue: 'Back to the session →',
+    swapSkip: 'Skip this time',
+
+    sealKicker: '🤝 DOUBLE SEAL TO CONTINUE',
+    sealWhy:
+      'It keeps the exercise from running on its own: until both of you put a hand down, the '
+      + 'app waits. That way you close each try together and the grown-up isn’t left watching '
+      + 'from the outside.',
+    sealAdult: 'GROWN-UP',
+    sealChild: 'ME',
+    sealPlus: 'together',
+    sealHint: 'Whoever is with the child. Only one hand free? Press and hold one print for 2 seconds.',
+  },
+
   settings: {
     uiLangTitle: 'App language',
     uiLangHint:
