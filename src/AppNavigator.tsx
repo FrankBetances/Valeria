@@ -29,6 +29,7 @@ import { NavigationContainer, createNavigationContainerRef } from '@react-naviga
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { initNotifications, refreshDailyReminders } from './valeriaNotifications';
+import { subscribeUiLang } from './valeriaUiLang';
 import { V } from './valeriaTheme';
 import { AuthProvider } from './firebase/AuthContext';
 import { noteScreen } from './valeriaTelemetry';
@@ -123,6 +124,13 @@ export const ValeriaApp: React.FC = () => {
   // Handler y canal Android de los recordatorios diarios (pantalla de bloqueo),
   // más la rotación diaria del consejo para padres si los avisos están activos.
   useEffect(() => { initNotifications(); refreshDailyReminders(); }, []);
+
+  // Los recordatorios se PROGRAMAN por adelantado con su texto ya dentro, así
+  // que un cambio de idioma no alcanza a los que están en cola: seguirían
+  // llegando a la pantalla de bloqueo en el idioma anterior durante días.
+  // Reprogramarlos al cambiar cuesta una llamada y evita esa incoherencia.
+  // (`refreshDailyReminders` no hace nada si el adulto los tiene apagados.)
+  useEffect(() => subscribeUiLang(() => { void refreshDailyReminders(); }), []);
   const lastRoute = useRef<string | null>(null);
   // Cierra el tramo de la pantalla anterior y abre el nuevo en cada cambio de
   // ruta. Solo hace aritmética de timestamps → no bloquea el hilo principal.

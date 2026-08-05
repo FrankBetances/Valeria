@@ -5,8 +5,11 @@
 //
 //   useT()  — pantallas React. Se suscribe al idioma activo, así que cambiarlo
 //             en ajustes repinta la app entera sin reiniciar ni volver atrás.
-//   tNow()  — módulos que no son componentes (notificaciones, exportación de
-//             informes). Lee el idioma del momento, sin suscripción.
+//   tNow()  — módulos que NO son componentes (notificaciones, exportación de
+//             informes). Vive en `./catalog`, que es un módulo puro sin React:
+//             los gates de CI compilan esos módulos y los ejecutan en Node.
+//             Importar `tNow` desde aquí también funciona en la app, pero un
+//             script debe importarlo de `./i18n/catalog` para no arrastrar React.
 //
 // Uso en pantalla:
 //   const t = useT();
@@ -18,13 +21,7 @@
 // ============================================================================
 import { useSyncExternalStore } from 'react';
 import { getUiLang, subscribeUiLang } from '../valeriaUiLang';
-import { ES, UiStrings } from './strings.es';
-import { EN } from './strings.en';
-
-const CATALOGUES: Record<'es' | 'en', UiStrings> = { es: ES, en: EN };
-
-// Catálogo activo ahora mismo. Para módulos fuera del árbol de React.
-export const tNow = (): UiStrings => CATALOGUES[getUiLang()];
+import { CATALOGUES, tNow, UiStrings } from './catalog';
 
 // Catálogo activo, reactivo. `getUiLang` como snapshot es estable (devuelve un
 // literal), así que useSyncExternalStore no entra en bucle de renders.
@@ -33,4 +30,5 @@ export function useT(): UiStrings {
   return CATALOGUES[lang];
 }
 
+export { tNow };
 export type { UiStrings };

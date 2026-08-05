@@ -46,7 +46,8 @@
           ]
         }
       ],
-      "./plugins/withValeriaAR"
+      "./plugins/withValeriaAR",
+      "./plugins/withValeriaPermissionStrings"
     ],
     "ios": {
       "supportsTablet": true,

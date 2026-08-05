@@ -386,9 +386,9 @@ funcionando en castellano exactamente igual.
 | --- | --- | --- |
 | **EN-2.1** | Crear `src/valeriaUiLang.ts` (tipo `UiLang`, persistencia, `defaultUiLangFor`) y `src/i18n/` (`strings.es.ts`, `strings.en.ts`, `t()` con claves **tipadas**: una clave que falte en un catálogo debe romper el `typecheck`, no aparecer en blanco en pantalla) | CA: `npm run typecheck` falla si un catálogo pierde una clave |
 | **EN-2.2** | Selector de **idioma de la interfaz** en ajustes, separado del selector de variedad, con la relación por defecto de §5.1 explicada al adulto | CA: se puede tener UI en español con terapia en inglés y al revés |
-| **EN-2.3** | Migrar las pantallas al catálogo por **tramos**, en orden de recorrido del usuario. **1** Welcome · Credits · PatientSelect ✅ — **2** FichaRegistro · ExerciseSelection · Auth ✅ — **3** ExercisePlayer · MinimalPairs · SemanticExpansion · LingTest ✅ — **4** AdultChaosPanel · PatientResultsDashboard · ProExport · modales (SUS, PragmaticBreak, SessionBreak, ProPin, TPRCapsule) ✅ — **5** notificaciones y permisos | Una PR por tramo; CA por pantalla: idéntica en castellano, íntegra en inglés. **La build de EN-0.9 sale al cerrar el tramo 4** |
-| **EN-2.4** | Localizar **notificaciones**: los 12 avisos y los 20 consejos largos del adulto (`valeriaNotifications.ts`), más el nombre del canal Android (hoy `valeria-recordatorios`) | CA: `check-reminder-slots.js` pasa con los dos catálogos |
-| **EN-2.5** | Localizar los **permisos del sistema**: las cadenas de micrófono/reconocimiento de voz de `app.json` y de cámara (AR) están hoy en castellano y son lo primero que lee un usuario estadounidense. Requiere `InfoPlist.strings` por idioma en iOS y `strings.xml` por locale en Android, vía config plugin (hay precedente: `plugins/withValeriaAR.js`) | CA: en un dispositivo con el sistema en inglés, el diálogo de permiso sale en inglés |
+| **EN-2.3** | Migrar las pantallas al catálogo por **tramos**, en orden de recorrido del usuario. **1** Welcome · Credits · PatientSelect ✅ — **2** FichaRegistro · ExerciseSelection · Auth ✅ — **3** ExercisePlayer · MinimalPairs · SemanticExpansion · LingTest ✅ — **4** AdultChaosPanel · PatientResultsDashboard · ProExport · modales (SUS, PragmaticBreak, SessionBreak, ProPin, TPRCapsule) ✅ — **5** notificaciones y permisos ✅ | Una PR por tramo; CA por pantalla: idéntica en castellano, íntegra en inglés. **La build de EN-0.9 sale al cerrar el tramo 4** |
+| **EN-2.4** ✅ | Localizar **notificaciones**: los 12 avisos rotatorios y los 5 consejos largos del adulto (`valeriaNotifications.ts`), más el nombre visible del canal Android. Los avisos se **reprograman** al cambiar de idioma: se encolan con el texto dentro, así que sin eso seguirían llegando días en el idioma anterior | CA: `check-reminder-slots.js` pasa con los dos catálogos ✅ |
+| **EN-2.5** ✅ | Localizar los **permisos del sistema**. Hallazgo al implementarlo: **Android no lo necesita** —el diálogo de permiso runtime lo redacta el sistema y ya viene traducido—, así que el trabajo es solo de iOS. `plugins/withValeriaPermissionStrings.js` declara `CFBundleLocalizations` y escribe `{es,en}.lproj/InfoPlist.strings` con las tres claves de uso (micrófono, reconocimiento de voz, cámara) | CA: en un dispositivo iOS en inglés, el diálogo sale en inglés. **Probado el plugin en aislado** (escribe los dos .lproj con formato válido); ⏳ pendiente de verificar en un `expo prebuild -p ios` real |
 | **EN-2.6** ✅ | Localizar el **informe exportado** (`ValeriaProExport`) y las etiquetas del panel de resultados: es lo que el clínico enseña a la familia | CA: informe generado íntegramente en inglés ✅ (texto compartido y panel completos) |
 | **EN-2.7** | Decidir y aplicar el tratamiento de **Valeria Academy** con UI en inglés (ocultar o marcar «Spanish only»), según §1 | CA: no hay pantallas medio traducidas visibles |
 | **EN-2.8** | Gate `scripts/check-ui-strings.js`: falla si aparece una cadena visible literal en un `.tsx` ya migrado. Sin gate, la UI se «des-traduce» sola en tres PRs | CA: el gate corre en CI y detecta una regresión introducida a propósito |
@@ -404,11 +404,10 @@ evaluación de EN-0.9**.
 > en castellano». Sin los tramos 1–4 de EN-2.3 no hay build que enviarle, así
 > que la i18n es ahora el **camino crítico** del proyecto entero.
 >
-> **Estado:** ⏳ EN-2.1 ✅ · EN-2.2 ✅ · EN-2.3 (**tramos 1–4 de 5 cerrados**:
-> el recorrido completo de la app se hace ya en inglés). Queda el tramo 5
-> (notificaciones y permisos del sistema), que **no bloquea** la build de
-> evaluación: los permisos ya están declarados como alcance conocido en el
-> protocolo. **EN-0.9 pasa a estar listo para generarse.**
+> **Estado:** ✅ EN-2.1 · EN-2.2 · EN-2.3 (**los 5 tramos cerrados**) · EN-2.4 ·
+> EN-2.5 · EN-2.6. La app se usa entera en inglés, notificaciones y permisos
+> incluidos. Quedan EN-2.7 (tratamiento de Academy con UI inglesa) y EN-2.8
+> (gate `check-ui-strings.js`). **EN-0.9 listo para generarse.**
 
 ---
 

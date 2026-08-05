@@ -33,10 +33,12 @@ por el CI del proyecto (`.github/workflows/android.yml`).
 3. Al primer arranque, la app pide permiso de **micrófono** (juegos de voz) y,
    si se entra al bloque de Realidad Aumentada, de **cámara**.
 
-> ⚠️ **Aviso que hay que darle por escrito al enviarle el enlace.** Los textos
-> de los diálogos de permiso del sistema **siguen en castellano** en esta
-> versión: la localización de `app.json` (EN-2.5) requiere un config plugin y no
-> entra en esta build. No es un fallo que deba reportar; es alcance conocido.
+> ℹ️ **Sobre los diálogos de permiso.** En **Android** —el caso de esta
+> evaluación— el texto del diálogo de permiso lo redacta el propio sistema y
+> viene ya traducido: no es algo que la app controle. Las cadenas de `app.json`
+> que sí controlamos son las de **iOS**, y desde EN-2.5 están localizadas por
+> idioma del dispositivo con un config plugin. Si aun así aparece algún texto
+> de permiso en castellano, **sí conviene que lo reporte**.
 
 ### 1.2 Poner la app en inglés
 
@@ -58,7 +60,6 @@ Reportarlo no aporta, ya está registrado como pendiente:
 | --- | --- |
 | Contenido de los ejercicios (palabras, consignas, frases) | En **castellano** a propósito. El contenido inglés es la Fase 3 |
 | Voz que locuta los ejercicios | Voz castellana o del sistema; la voz neuronal inglesa (Piper) es la Fase 4 |
-| Diálogos de permisos del sistema | En castellano (EN-2.5) |
 | Valeria Academy (formación profesional) | En castellano; fuera del alcance de esta iteración |
 | Pantallas aún sin traducir | Ver §4: la migración va por tramos y no todas están en inglés todavía |
 
@@ -182,7 +183,7 @@ como fallo lo que aún no ha llegado.
 | 2 · Alta y hub | Ficha de registro · Hub de ejercicios · Auth | ✅ en inglés |
 | 3 · Bloques de terapia | Player · Pares Mínimos · Expansión Semántica · Test de Ling | ✅ en inglés |
 | 4 · Adulto y datos | Panel del adulto · Resultados · Exportación · modales | ✅ en inglés |
-| 5 · Sistema | Notificaciones · permisos (`app.json`) | ⏳ pendiente |
+| 5 · Sistema | Notificaciones · permisos (`app.json`) | ✅ en inglés |
 
 > **Regla:** no se le manda la build hasta cerrar el tramo 4. Una app medio
 > traducida gasta su tiempo en reportar lo que ya sabemos y nos devuelve un

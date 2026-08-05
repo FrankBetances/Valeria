@@ -880,6 +880,46 @@ export const EN: UiStrings = {
       `\n  Thresholds set by the grown-up: hold ${hold} ms · turn ${turn}° · window ${win} ms · fixation ${dwell} ms`,
   },
 
+  notifications: {
+    channelName: 'Session reminders',
+    messages: (): Array<{ title: string; body: string }> => [
+      { title: '🧸 Valeria the bear is waiting!', body: '5 little minutes of play are worth a lot. Quick session?' },
+      { title: '🔥 Don’t lose your streak!', body: 'One session a day keeps the flame alive. Let’s play!' },
+      { title: '👂 Time to listen', body: 'How about the sounds game? It only takes a few minutes.' },
+      { title: '⭐ Time to earn stars', body: 'Every exercise adds XP. Go for all 3 stars!' },
+      { title: '🐸 Jump and learn!', body: 'The movement games are the favorites. Shall we play?' },
+      { title: '🎯 Small challenge, big step', body: 'One exercise now = a big step in their therapy.' },
+      { title: '🎉 Valeria has a new game!', body: 'Come in and find today’s movement break.' },
+      { title: '💪 Consistency = progress', body: 'Families who practice daily see twice the progress.' },
+      { title: '🌈 A little time together', body: 'Play, move and learn: all in one Valeria session.' },
+      { title: '🏆 Your achievement is waiting', body: 'You’re close to unlocking a new badge. Come and get it!' },
+      { title: '🎵 Hear that?', body: 'It’s time for the Ling Sound Check and the listening games.' },
+      { title: '🧩 Last call for today', body: 'There’s still time to add today’s session. You’ve got this!' },
+    ],
+    parentTips: (): Array<{ title: string; body: string }> => [
+      {
+        title: '👀 Tip 1 · Your eyes and mouth are their map',
+        body: 'To learn to articulate, your child needs to see how words are made. Get down to their level, meet their eyes and let them see your mouth: their brain is a mirror that copies your movements. If you talk from another room, with your back turned or while looking at your phone, you take away the visual map they need to move their lips and tongue.',
+      },
+      {
+        title: '📵 Tip 2 · The educational-screen trap',
+        body: 'Phones, tablets and TVs do not teach a child to talk, even when the program repeats numbers or colors. Live language needs turns: speaking, listening and answering. A screen does not pause to listen to your child, does not smile when they try, and does not correct them kindly. Only you can give them the hours of real practice.',
+      },
+      {
+        title: '🤫 Tip 3 · The silence rule',
+        body: 'Grown-ups talk fast and fill every silence. When you offer something (milk, for example) and ask “what do you want?”, pause and count to five in your head. Give their brain time to process and organize the muscles. That strategic silence is what pushes them to use a sound, a gesture or a word.',
+      },
+      {
+        title: '🛁 Tip 4 · Routine is your best therapy',
+        body: 'You don’t need an hour of exercises or expensive materials. The best moment for language is what you already do every day: while you bathe them, name the soap, the water and the body parts; while you put clothes away, name the colors. Repeating simple words in real situations at home is what fixes vocabulary for good.',
+      },
+      {
+        title: '🐶 Tip 5 · Expand what they say, without correcting them',
+        body: 'If they point at a dog and say “woof woof”, don’t say “that’s not how you say it”: give the sentence back improved — “yes, it’s a big dog!”. If they say “water”, answer “you want to drink water”. Expanding their words without criticizing gives them the correct model and confirms that their attempt to communicate worked and mattered.',
+      },
+    ],
+  },
+
   settings: {
     uiLangTitle: 'App language',
     uiLangHint:

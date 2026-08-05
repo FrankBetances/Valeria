@@ -876,6 +876,51 @@ export const ES = {
       `\n  Umbrales fijados por el adulto: sostén ${hold} ms · giro ${turn}° · ventana ${win} ms · fijación ${dwell} ms`,
   },
 
+  // Notificaciones locales. Las escribe la app y las lee el ADULTO en la
+  // pantalla de bloqueo, así que siguen al idioma de interfaz. Los mensajes se
+  // programan por adelantado: al cambiar de idioma hay que REPROGRAMAR, o los
+  // avisos ya en cola seguirían llegando en el idioma anterior (lo hace
+  // AppNavigator al suscribirse al cambio).
+  notifications: {
+    channelName: 'Recordatorios de sesión',
+    messages: (): Array<{ title: string; body: string }> => [
+      { title: '🧸 ¡La osita Valeria te espera!', body: '5 minutitos de juego valen oro. ¿Hacemos una sesión rápida?' },
+      { title: '🔥 ¡No pierdas tu racha!', body: 'Una sesión al día mantiene viva la llama. ¡Vamos a jugar!' },
+      { title: '👂 Momento de escuchar', body: '¿Probamos el juego de los sonidos? Solo toma unos minutos.' },
+      { title: '⭐ Hora de ganar estrellas', body: 'Cada ejercicio suma XP. ¡A por las 3 estrellas!' },
+      { title: '🐸 ¡A saltar y aprender!', body: 'Los juegos con movimiento son los favoritos. ¿Jugamos?' },
+      { title: '🎯 Pequeño reto, gran avance', body: 'Un ejercicio ahora = un gran paso en su terapia.' },
+      { title: '🎉 ¡Valeria tiene un juego nuevo!', body: 'Entra y descubre la pausa activa de hoy.' },
+      { title: '💪 Constancia = progreso', body: 'Las familias que practican a diario ven el doble de avance.' },
+      { title: '🌈 Un ratito juntos', body: 'Jugar, mover el cuerpo y aprender: todo en una sesión Valeria.' },
+      { title: '🏆 Tu logro te espera', body: 'Estás cerca de desbloquear una insignia nueva. ¡Entra a por ella!' },
+      { title: '🎵 ¿Oyes eso?', body: 'Es la hora del Test de Ling y los juegos de audición.' },
+      { title: '🧩 Última llamada del día', body: 'Todavía estás a tiempo de sumar la sesión de hoy. ¡Ánimo!' },
+    ],
+    parentTips: (): Array<{ title: string; body: string }> => [
+      {
+        title: '👀 Consejo 1 · Tus ojos y tu boca son su mapa',
+        body: 'Para aprender a articular, tu hijo necesita ver cómo se fabrican las palabras. Agáchate a su nivel, mírale a los ojos y deja que vea tu boca: su cerebro es un espejo que copia tus movimientos. Si le hablas desde otra habitación, de espaldas o mirando el celular, le quitas el mapa visual que necesita para mover los labios y la lengua.',
+      },
+      {
+        title: '📵 Consejo 2 · La trampa de las pantallas educativas',
+        body: 'Celulares, tabletas y televisores no enseñan a hablar, aunque el programa repita números o colores. El lenguaje vivo requiere turnos: hablar, escuchar y responder. Una pantalla no hace pausas para escuchar a tu hijo, no le sonríe cuando lo intenta ni le corrige con cariño. Las horas de práctica real solo se las puedes dar tú.',
+      },
+      {
+        title: '🤫 Consejo 3 · La regla del silencio',
+        body: 'Los adultos hablamos rápido y llenamos todos los silencios. Cuando le ofrezcas algo (por ejemplo, leche) y le preguntes "¿qué quieres?", haz una pausa y cuenta mentalmente hasta cinco. Dale tiempo a su cerebro para procesar y organizar los músculos. Ese silencio estratégico es el que lo empuja a usar un sonido, un gesto o una palabra.',
+      },
+      {
+        title: '🛁 Consejo 4 · La rutina es tu mejor terapia',
+        body: 'No necesitas una hora de ejercicios ni materiales costosos. El mejor momento para el lenguaje es lo que ya haces cada día: mientras lo bañas, nombra el jabón, el agua y las partes del cuerpo; mientras recogen la ropa, nombra los colores. Repetir palabras sencillas en situaciones reales de la casa graba el vocabulario de forma definitiva.',
+      },
+      {
+        title: '🐶 Consejo 5 · Expande lo que dice, sin regañar',
+        body: 'Si señala un perro y dice "guau guau", no le digas "así no se dice": devuélvele la frase mejorada, "¡sí, es un perro grande!". Si dice "agua", respóndele "quieres tomar agua". Al expandir sus palabras sin criticarlo le das el modelo correcto y le confirmas que su intento de comunicarse fue exitoso y valorado.',
+      },
+    ],
+  },
+
   settings: {
     uiLangTitle: 'Idioma de la aplicación',
     // El adulto necesita entender que son dos cosas distintas, o va a pensar
