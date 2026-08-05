@@ -14,7 +14,10 @@
 > todo, **compartían la interfaz en castellano**. El inglés no puede: una
 > familia de Ohio no va a navegar una app cuyos botones dicen «Continuar».
 >
-> Estado: 🟡 **Fase 0 · propuesta, pendiente de decisiones** · Rama de trabajo:
+> Estado: 🟡 **Fase 0 en curso** · Decisiones ya cerradas: **revisión clínica
+> confirmada** (profesora SLP con licencia, *Howard University* — EN-0.3),
+> **separación de ejes UI/terapia aprobada** (§5.1) y **guía dialectal como
+> regla bloqueante** (EN-0.5). Rama de trabajo:
 > `claude/us-english-integration-plan-pne3ge`
 
 ---
@@ -100,7 +103,7 @@ sostenible, y de ahí salen las tres diferencias estructurales del plan:
 | **Distancia lingüística** | Fonología y morfosintaxis próximas o vecinas | Sistema vocálico ~14 vocales, grupos consonánticos, ortografía opaca → **rediseño clínico completo**, no adaptación |
 | **Voz TTS** | Motor nuevo por idioma (coqui, AhoTTS) | Motor **ya implementado** (`piper`): la fase de voz es la más barata hasta la fecha |
 | **ASR del sistema** | `gl-ES`/`eu-ES` rara vez tienen paquete local | `en-US` es **el locale mejor soportado** en Android e iOS: el reconocimiento local es aquí realista |
-| **Riesgo dialectal** | Alto en `es-DO` (seseo, codas líquidas) | **Alto y con más carga**: AAVE, inglés sureño e inglés con influencia del español coexisten en el mismo mercado |
+| **Riesgo dialectal** | Alto en `es-DO` (seseo, codas líquidas) | **Alto y con más carga**: inglés afroamericano (AAE), inglés sureño e inglés con influencia del español coexisten en el mismo mercado |
 
 La consecuencia práctica: **la Fase 2 (i18n de UI) es la que decide el
 calendario**, no la de contenido ni la de voz. Es también la única fase cuyo
@@ -136,13 +139,15 @@ futuro de interfaz.
    un par mínimo castellano traducido produce material clínicamente inútil
    (*perro/cerro* → *dog/hill* no contrasta nada). El material clínico se
    rediseña desde la fonología del inglés americano.
-4. **Diferencia dialectal ≠ trastorno.** Regla bloqueante heredada de `es-DO` y
-   ampliada: en el mercado estadounidense conviven el **AAVE** (donde
-   *mouth*→[maʊf], la reducción de grupos finales y la pérdida de /r/
-   postvocálica son rasgos regulares de la variedad, no errores), el inglés
-   sureño y el inglés con influencia del español. Un banco que puntúe esos
-   rasgos como fallo convierte la app en un instrumento de discriminación
-   lingüística. Ver EN-0.5.
+4. **Diferencia dialectal ≠ trastorno.** ✅ *Aprobado como regla bloqueante.*
+   Heredada de `es-DO` y ampliada: en el mercado estadounidense conviven el
+   **inglés afroamericano** (AAE, también llamado AAVE, donde *mouth*→[maʊf],
+   la reducción de grupos consonánticos finales y la pérdida de /r/
+   postvocálica son rasgos regulares y reglados de la variedad, no errores), el
+   inglés sureño y el inglés con influencia del español. Un banco que puntúe
+   esos rasgos como fallo convierte la app en un instrumento de discriminación
+   lingüística. **Ningún dataset `en` entra en `main` sin veredicto dialectal**
+   (EN-0.5), y ese apartado lo firma la revisora clínica de EN-0.3.
 5. **Modularidad real.** Cada fase termina con la app compilando, las cinco
    variedades funcionando y un entregable demostrable. El proyecto se puede
    pausar al final de cualquier fase.
@@ -150,8 +155,8 @@ futuro de interfaz.
    **misma interfaz TypeScript** (patrón `…Gl.ts` / `…Eu.ts`); las pantallas no
    saben en qué idioma trabajan, solo consumen lo que les inyecta la capa de
    variedad.
-7. **Idioma de interfaz e idioma de terapia son ejes distintos** (nuevo). Ver
-   §5.1: es la decisión de arquitectura más importante del plan.
+7. **Idioma de interfaz e idioma de terapia son ejes distintos.** ✅ *Aprobado.*
+   Ver §5.1: es la decisión de arquitectura más importante del plan.
 
 ### 4.1 La fonología del inglés americano: por qué el banco se diseña de cero
 
@@ -262,7 +267,9 @@ app.json / plugins/             ◆ permisos de micrófono y cámara localizados
 site/                           ◆ privacy.html alineada + data-deletion.html (EN)
 ```
 
-### 5.1 Decisión de arquitectura: dos ejes, no uno
+### 5.1 Decisión de arquitectura: dos ejes, no uno ✅
+
+> **Decidido (ago 2026).** Se implementa la separación de ejes descrita abajo.
 
 Hoy `Locale` significa **variedad de terapia** y la UI es siempre castellana.
 La tentación es hacer que `en-US` cambie las dos cosas a la vez. **No conviene**,
@@ -311,13 +318,37 @@ Convención de tareas: `EN-<fase>.<n>`. Cada tarea indica **Entregable** y
 | --- | --- | --- |
 | **EN-0.1** | Auditar licencias de las voces Piper `en_US` candidatas (leer la `MODEL_CARD` de cada una: las licencias **no son uniformes** dentro de `rhasspy/piper-voices`) y redactar la atribución | Texto legal para `ValeriaCreditsScreen`; CA: licencia compatible con uso comercial confirmada por escrito |
 | **EN-0.2** | Elegir la voz escuchando muestras con consignas reales de la app (propuesta: femenina y cálida, homóloga de Sharvard/Celtia/Maider; candidatas `en_US-hfc_female-medium` y `en_US-lessac-medium`) | Decisión registrada aquí; CA: audio de muestra aprobado |
-| **EN-0.3** | Confirmar persona revisora: **SLP con licencia en EE. UU.** (idealmente CCC-SLP y bilingüe español-inglés) para las Fases 3, 5 y 7 | CA: revisor confirmado y flujo de revisión acordado |
+| **EN-0.3** ✅ | Confirmar persona revisora: **SLP con licencia en EE. UU.** para las Fases 3, 5 y 7 → **profesora SLP con licencia de *Howard University*** (asesoría confirmada, ago 2026) | CA: revisora confirmada ✅ · pendiente acordar el **flujo de revisión** (formato de entrega, tiempos y qué constituye «aprobado») antes de abrir la Fase 3 |
 | **EN-0.4** | Verificar en dispositivos objetivo: voces TTS `en-US` del sistema, ASR `en-US` y —clave— disponibilidad real de **reconocimiento local** (`supportsOnDeviceRecognition`) | Tabla de soporte por plataforma en `docs/`; CA: sabemos si la promesa de audio-que-no-sale-del-móvil se sostiene en `en-US` |
-| **EN-0.5** | Redactar [`docs/guia-dialectal-en-US.md`](./guia-dialectal-en-US.md): qué es rasgo dialectal normal (AAVE, inglés sureño, inglés con influencia del español) y qué es objetivo terapéutico. **Regla bloqueante para todo dataset `en`** | Guía aprobada por EN-0.3; CA: cada par mínimo candidato lleva veredicto dialectal |
+| **EN-0.5** 🔴 | Redactar [`docs/guia-dialectal-en-US.md`](./guia-dialectal-en-US.md): qué es rasgo dialectal normal (**AAE**, inglés sureño, inglés con influencia del español) y qué es objetivo terapéutico. **Regla bloqueante para todo dataset `en`.** Es la tarea de más riesgo del plan (§8) y la primera que se pone sobre la mesa de la revisora de EN-0.3 | Guía firmada por EN-0.3; CA: cada par mínimo candidato lleva veredicto dialectal explícito |
 | **EN-0.6** | Decidir el **modelo de publicación**: misma ficha de app con idiomas añadidos vs. ficha/listing separado para EE. UU.; y si `en-US` viaja en el mismo binario (impacto de tamaño, EN-4.4) | Decisión registrada; CA: elección con su justificación de coste/tamaño |
 | **EN-0.7** | Fijar el alcance de i18n de UI: qué pantallas entran en la Fase 2 y en qué orden (propuesta en EN-2.3) | Lista ordenada de pantallas; CA: alcance cerrado y estimado |
+| **EN-0.8** | **Hoja de revisión clínica**: script que exporta los datasets `en` a una tabla legible (Markdown/CSV) con columnas *ítem · objetivo fonológico · veredicto dialectal · aprobado/cambios*. Los bancos son TypeScript; nadie revisa clínica leyendo un `.ts` | `scripts/export-review-sheet.js`; CA: la revisora de EN-0.3 puede anotar y devolver el fichero sin tocar el repositorio |
 
 **Salida de fase:** decisiones cerradas; ningún cambio de comportamiento.
+
+> **Sobre la revisión clínica (EN-0.3).** La asesoría corre a cargo de una
+> **profesora SLP con licencia de Howard University**. Dos consecuencias
+> prácticas para el plan:
+>
+> 1. **EN-0.5 deja de ser el punto ciego del proyecto.** El riesgo nº 1 (§8) era
+>    que un banco escrito desde fuera penalizara rasgos del inglés
+>    afroamericano como si fueran errores articulatorios. Howard es una HBCU y
+>    el perfil encaja de lleno con esa cuestión, así que la guía dialectal se
+>    escribe **con** la revisora desde el principio, no se le manda a validar
+>    después. Conviene confirmarle explícitamente que asume ese apartado y con
+>    qué marco de referencia lo aborda (p. ej. la distinción
+>    *dialectal difference vs. disorder* de ASHA), y dejarlo escrito en la guía.
+> 2. **Perfil académico ⇒ vía natural para el piloto.** Una profesora en
+>    activo da acceso a supervisión clínica y, potencialmente, a estudiantes de
+>    prácticas para EN-7.3. Merece la pena preguntarlo pronto: el piloto
+>    estadounidense era el otro punto sin resolver del plan.
+>
+> Queda pendiente de EN-0.3 únicamente el **flujo de revisión**: en qué formato
+> se le entrega el material (los bancos son ficheros TypeScript; para revisar
+> hace falta una vista legible, tipo tabla exportada), qué plazos maneja y qué
+> significa exactamente «aprobado» para poder cerrar una fase. Sin eso escrito,
+> la Fase 3 se atasca en la primera entrega.
 
 ---
 
@@ -451,7 +482,7 @@ en paralelo desde la Fase 0: puede cambiar decisiones de producto.
 | --- | --- | --- |
 | **EN-7.1** | Pasada QA multivariedad: matriz pantalla × variedad (`es`/`gl`/`es-DO`/`eu`/`en-US`) × idioma de UI (`es`/`en`) × plataforma (Android, iOS, Expo Go, web), incluidas las degradaciones sin micrófono y sin assets | Checklist QA en `docs/`; CA: sin regresiones en las cuatro variedades previas |
 | **EN-7.2** | Telemetría: etiquetar sesiones con la variedad `en-US` **y** con el idioma de UI, para poder leer el bilingüismo en el panel | CA: el dashboard distingue `en-US` y el eje de UI |
-| **EN-7.3** | Mini-piloto con 2–3 familias angloparlantes y la persona SLP revisora; SUS (`ValeriaSUSModal`) en inglés | Informe de piloto; CA: feedback triado en tareas |
+| **EN-7.3** | Mini-piloto con 2–3 familias angloparlantes y la revisora SLP de EN-0.3; SUS (`ValeriaSUSModal`) en inglés. Explorar con ella la vía **universitaria** (supervisión clínica y estudiantes en prácticas), que da una muestra mejor que el boca a boca | Informe de piloto; CA: feedback triado en tareas |
 | **EN-7.4** | Revisión de **calidad de la traducción de UI** por hablante nativo: no basta con que sea correcta, tiene que sonar a app estadounidense (*caregiver* y no *tutor*, *speech-language pathologist* y no *speech therapist* en contexto clínico) | CA: pasada nativa aplicada |
 | **EN-7.5** | Actualizar README (tabla de idiomas y variedades, badges), protocolos e historial de versiones | CA: documentación al día |
 
@@ -490,7 +521,7 @@ es el camino más corto al lanzamiento.
 
 | Riesgo | Impacto | Mitigación |
 | --- | --- | --- |
-| El banco inglés penaliza rasgos del **AAVE** o del inglés sureño como si fueran errores | **Muy alto** (clínico y reputacional: convierte la app en un instrumento de discriminación lingüística) | Guía dialectal bloqueante (EN-0.5) revisada por SLP estadounidense; veredicto dialectal por par; posibilidad de marcar el par con `region` cuando dependa de variedad, patrón que ya existe |
+| El banco inglés penaliza rasgos del **inglés afroamericano (AAE)** o del inglés sureño como si fueran errores | **Muy alto** (clínico y reputacional: convierte la app en un instrumento de discriminación lingüística) | Guía dialectal bloqueante (EN-0.5) **coescrita** con la revisora de EN-0.3 —profesora SLP de Howard, perfil que ataca este riesgo de frente—, veredicto dialectal por par y posibilidad de marcar el par con `region` cuando dependa de variedad, patrón que ya existe. **Sigue siendo el riesgo nº 1**: tener a la persona adecuada lo reduce, no lo elimina |
 | La Fase 2 (i18n) se desborda y bloquea todo lo demás | Alto (calendario) | Migración **pantalla a pantalla**, cada PR publicable; gate `check-ui-strings.js` para que no retroceda; la Fase 3 avanza en paralelo |
 | Traducir la UI a medias: pantallas mezcladas español/inglés | Alto (percepción de calidad) | El gate + la regla de EN-2.7: una pantalla no se marca migrada hasta que **ninguna** cadena visible queda fuera del catálogo |
 | Traducción literal del contenido clínico (pares que no contrastan nada) | Alto | Regla dura: el banco se diseña; validación mecánica con CMUdict (EN-3.1) + revisión SLP (EN-3.2) |
@@ -501,28 +532,38 @@ es el camino más corto al lanzamiento.
 | Licencia de la voz Piper elegida resulta no ser apta para uso comercial | Medio | EN-0.1 verifica la `MODEL_CARD` **voz por voz** antes de sintetizar nada; hay varias candidatas |
 | Soporte y atención en inglés (correo de contacto, respuestas de tienda) | Bajo-medio | El correo de contacto es el fijo del proyecto; prever plantillas de respuesta en inglés en la Fase 6 |
 
-## 9. Decisiones abiertas (para Frank)
+## 9. Decisiones
 
-Estas cinco no las puede cerrar el plan; condicionan fases enteras:
+### 9.1 Cerradas
+
+| Decisión | Resolución | Fecha |
+| --- | --- | --- |
+| **Revisión clínica** (EN-0.3) | **Profesora SLP con licencia de *Howard University***. Era el cuello de botella real del plan, como lo fueron ACOPROS, la revisora gallegohablante y Ulertuz | ago 2026 |
+| **Ejes UI / terapia** (§5.1) | Se **separan**: `UiLang` (`es`\|`en`) independiente de `Locale`, con defecto derivado y desacople explícito por el adulto | ago 2026 |
+| **Guía dialectal** (EN-0.5) | **Regla bloqueante**: ningún dataset `en` entra en `main` sin veredicto dialectal firmado | ago 2026 |
+
+### 9.2 Abiertas (para Frank)
+
+Estas cuatro no las puede cerrar el plan; condicionan fases enteras:
 
 1. **¿Ficha de tienda única o separada para EE. UU.?** (EN-0.6) Afecta a
    marketing, a las capturas y a si el inglés viaja en el mismo binario.
-2. **¿Quién revisa clínicamente?** (EN-0.3) Sin SLP con licencia en EE. UU. las
-   Fases 3, 5 y 7 no pueden cerrarse. Es el cuello de botella real, como lo
-   fueron ACOPROS, la revisora gallega y Ulertuz.
-3. **¿Se acomete la i18n de UI completa o se lanza primero como «contenido en
+2. **¿Se acomete la i18n de UI completa o se lanza primero como «contenido en
    inglés con UI en español»?** La segunda opción es más rápida pero,
    honestamente, no vende en el mercado estadounidense: es media app.
-4. **¿Entra Valeria Academy en inglés?** Son ~1.500 líneas de formación
-   profesional; puede duplicar la Fase 2.
-5. **¿Se declara la app como *Designed for Families* / Kids Category?** (EN-6.2)
+   *Recomendación: i18n completa, en paralelo con la Fase 3.*
+3. **¿Entra Valeria Academy en inglés?** Son ~1.500 líneas de formación
+   profesional; puede duplicar la Fase 2. *Recomendación: no en esta iteración*
+   —aunque con una profesora universitaria en el equipo asesor, Academy en
+   inglés gana sentido como fase posterior con contenido propio, no traducido.
+4. **¿Se declara la app como *Designed for Families* / Kids Category?** (EN-6.2)
    Da visibilidad, pero restringe analítica y SDK de terceros para siempre.
 
 ## 10. Seguimiento
 
 Checklist maestro (marcar al completar; una PR por tarea o grupo pequeño):
 
-- [ ] **Fase 0**: EN-0.1 · EN-0.2 · EN-0.3 · EN-0.4 · EN-0.5 · EN-0.6 · EN-0.7
+- [~] **Fase 0**: EN-0.1 · EN-0.2 · **EN-0.3 ✅** (revisora confirmada; falta acordar el flujo de revisión) · EN-0.4 · EN-0.5 🔴 · EN-0.6 · EN-0.7 · EN-0.8
 - [ ] **Fase 1**: EN-1.1 · EN-1.2 · EN-1.3 · EN-1.4 · EN-1.5
 - [ ] **Fase 2**: EN-2.1 · EN-2.2 · EN-2.3 · EN-2.4 · EN-2.5 · EN-2.6 · EN-2.7 · EN-2.8
 - [ ] **Fase 3**: EN-3.1 · EN-3.2 · EN-3.3 · EN-3.4 · EN-3.5 · EN-3.6 · EN-3.7 · EN-3.8
