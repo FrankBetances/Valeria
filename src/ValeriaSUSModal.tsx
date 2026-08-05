@@ -10,18 +10,29 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
 import { V } from './valeriaTheme';
 import { onSusRequest, attachLikert } from './valeriaTelemetry';
+import { useT, UiStrings } from './i18n';
 
-// Ítem adaptado del System Usability Scale, orientado a integración en la rutina.
-const SUS_QUESTION = 'Fue fácil integrar este ejercicio en la rutina de mi hijo/a.';
-const SCALE: Array<{ v: number; label: string }> = [
-  { v: 1, label: 'Nada de acuerdo' },
-  { v: 2, label: 'Poco' },
-  { v: 3, label: 'Neutral' },
-  { v: 4, label: 'Bastante' },
-  { v: 5, label: 'Muy de acuerdo' },
+// Ítem adaptado del System Usability Scale, orientado a integración en la
+// rutina. Lo responde el ADULTO, así que el texto que VE sigue al idioma de la
+// interfaz (t.sus.question).
+//
+// Lo que se REGISTRA, en cambio, es este identificador canónico y fijo. Guardar
+// la frase ya traducida partiría los datos del piloto en dos series —una por
+// idioma— que no se pueden agregar, y la comparación entre familias es justo
+// para lo que existe la escala. El número (1..5) tampoco cambia nunca.
+const SUS_QUESTION_ID = 'Fue fácil integrar este ejercicio en la rutina de mi hijo/a.';
+
+const buildScale = (t: UiStrings): Array<{ v: number; label: string }> => [
+  { v: 1, label: t.sus.disagree },
+  { v: 2, label: t.sus.slightly },
+  { v: 3, label: t.sus.neutral },
+  { v: 4, label: t.sus.somewhat },
+  { v: 5, label: t.sus.agree },
 ];
 
 export const ValeriaSUSModal: React.FC = () => {
+  const t = useT();
+  const SCALE = buildScale(t);
   const [open, setOpen] = useState(false);
   const [picked, setPicked] = useState<number | null>(null);
   const [sent, setSent] = useState(false);
@@ -33,7 +44,7 @@ export const ValeriaSUSModal: React.FC = () => {
   const submit = async (score: number) => {
     setPicked(score);
     setSent(true);
-    await attachLikert(score, SUS_QUESTION);
+    await attachLikert(score, SUS_QUESTION_ID);
     setTimeout(() => setOpen(false), 900);
   };
 
@@ -41,22 +52,22 @@ export const ValeriaSUSModal: React.FC = () => {
     <View style={s.overlay}>
       <View style={s.modal}>
         <Pressable onPress={() => setOpen(false)} style={s.close}><Text style={s.closeTxt}>✕</Text></Pressable>
-        <Text style={s.kicker}>💬 UNA PREGUNTA RÁPIDA</Text>
+        <Text style={s.kicker}>{t.sus.kicker}</Text>
         {sent ? (
           <View style={s.thanks}>
             <Text style={s.thanksEmoji}>🙌</Text>
-            <Text style={s.thanksTxt}>¡Gracias por ayudarnos a mejorar Valeria+!</Text>
+            <Text style={s.thanksTxt}>{t.sus.thanks}</Text>
           </View>
         ) : (
           <>
-            <Text style={s.question}>{SUS_QUESTION}</Text>
-            <Text style={s.sub}>Toca la carita que mejor lo describa. Es anónimo y solo tardas un segundo.</Text>
+            <Text style={s.question}>{t.sus.question}</Text>
+            <Text style={s.sub}>{t.sus.sub}</Text>
             <View style={s.scaleRow}>
               {SCALE.map((it) => {
                 const on = picked === it.v;
                 return (
                   <Pressable key={it.v} onPress={() => submit(it.v)} style={[s.scaleBtn, on && s.scaleBtnOn]}
-                    accessibilityRole="button" accessibilityLabel={`${it.v} de 5: ${it.label}`}>
+                    accessibilityRole="button" accessibilityLabel={t.sus.scaleA11y(it.v, it.label)}>
                     <Text style={s.scaleNum}>{it.v}</Text>
                     <Text style={s.scaleFace}>{['😟', '🙁', '😐', '🙂', '😀'][it.v - 1]}</Text>
                   </Pressable>
@@ -64,8 +75,8 @@ export const ValeriaSUSModal: React.FC = () => {
               })}
             </View>
             <View style={s.ends}>
-              <Text style={s.endTxt}>Nada de acuerdo</Text>
-              <Text style={s.endTxt}>Muy de acuerdo</Text>
+              <Text style={s.endTxt}>{t.sus.disagree}</Text>
+              <Text style={s.endTxt}>{t.sus.agree}</Text>
             </View>
           </>
         )}

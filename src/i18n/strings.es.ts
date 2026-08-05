@@ -675,6 +675,207 @@ export const ES = {
     redirecting: (s: number): string => `Redirigiendo a resultados en ${s}s…`,
   },
 
+  // Panel del adulto, modales y resultados. Regla de siempre: lo que la app
+  // LOCUTA (órdenes TPR, rutas de rutina) sale del banco de la variedad; lo que
+  // el adulto LEE está aquí. El quiebre pragmático y la escala de reparación son
+  // instrucciones y observación clínica PARA EL ADULTO, así que son interfaz.
+  adult: {
+    kicker: '🎛️ PANEL DEL ADULTO · RETO EXTRA',
+    openA11y: 'Abrir el panel del adulto',
+    closeA11y: 'Cerrar el panel del adulto',
+    distractorTitle: '🐻 Oso distractor (doble tarea)',
+    distractorSub: 'El oso se asoma y se mueve por el borde; el niño debe seguir atendiendo a la voz. Tocarlo no cuenta como error.',
+    launchPragmatic: '🎭 Lanzar un quiebre pragmático',
+    arKicker: '🎯 REALIDAD AUMENTADA · UMBRALES CLÍNICOS',
+    gazePointer: 'Puntero de la mirada (AR-3)',
+    pointerIris: 'Iris',
+    pointerNose: 'Nariz',
+    pointerIrisA11y: 'Puntero por iris',
+    pointerNoseA11y: 'Puntero por nariz',
+  },
+
+  pragmatic: {
+    kicker: '🎭 QUIEBRE PRAGMÁTICO · SOLO ADULTOS',
+    warnTitle: 'Esta tarea generará frustración útil',
+    warnBody:
+      'Vas a romper la comunicación A PROPÓSITO para observar cómo tu hijo/a la repara. '
+      + 'Es normal (y valioso) que se extrañe, proteste o se frustre un poco: esa reacción '
+      + 'ES el ejercicio. Hazlo una sola vez, con calma, y termina siempre con un abrazo '
+      + 'y la orden dicha bien.',
+    closeLoopUpset:
+      'Cierra ahora el quiebre: repite la orden bien dicha, valida la emoción («te confundí, '
+      + '¿verdad?») y dad un abrazo. La reparación adulta también enseña.',
+    notToday: 'Hoy no',
+    understood: 'Entendido, seguimos',
+    swapVariant: 'Prefiero la otra variante →',
+    didIt: 'Ya lo hice · ¿qué hizo el niño?',
+    repairTitle: '¿Cómo reparó el quiebre?',
+    repairBody: 'Elige lo PRIMERO que hizo tu hijo/a. No hay respuestas malas: todas informan.',
+    recorded: 'Registrado',
+    closeLoop: 'Cierra el círculo: repite la orden bien dicha y celebra su reacción. Reparar es una habilidad, ¡y la acaba de practicar!',
+    backToSession: 'Volver a la sesión',
+    // Estresores: instrucciones para el adulto, no texto locutado.
+    stressorMurmurTitle: 'Murmullo',
+    stressorMurmurText: 'Da una orden sencilla en voz MUY baja y poco clara, mirando hacia otro lado. Ejemplo: “tráeme el…” (ininteligible).',
+    stressorAbsurdTitle: 'Orden absurda',
+    stressorAbsurdText: 'Pide algo imposible o sin sentido con cara seria. Ejemplo: “Pon el zapato dentro de la nevera” o “Dame la nube de la mesa”.',
+    // Escala de reparación: observación clínica del adulto.
+    repairAskLabel: 'Pidió repetición',
+    repairAskDesc: '“¿Qué?”, “¿otra vez?”, se acercó a escuchar',
+    repairRephraseLabel: 'Reformuló',
+    repairRephraseDesc: 'Corrigió o negoció la orden absurda con sus palabras',
+    repairGestureLabel: 'Usó gestos',
+    repairGestureDesc: 'Señaló, encogió los hombros, buscó tu mirada',
+    repairWithdrawLabel: 'Se aisló',
+    repairWithdrawDesc: 'Se retiró de la interacción o cambió de actividad',
+    repairCryLabel: 'Llanto',
+    repairCryDesc: 'Desborde emocional ante el quiebre',
+    repairNoneLabel: 'No registró el quiebre',
+    repairNoneDesc: 'Siguió como si la orden hubiera sido normal',
+  },
+
+  breaks: {
+    routeKicker: '🏠 RUTA DE RUTINA · TPR 2.0',
+    adultBanner: '👤 Panel del adulto · el niño NO toca la pantalla: escucha y actúa con objetos reales.',
+    ready: '▶ Estamos listos',
+    repeatOrder: '🔊 Repetir la orden',
+    repeatOrderA11y: 'Repetir la orden en voz alta',
+    notThisTime: '✖️ No esta vez',
+    skip: 'Saltar esta vez',
+    tprKicker: '🧩 CÁPSULA TPR · ESCUCHA Y MUÉVETE',
+    tprSub: 'La app dice la orden en voz alta y el niño responde con el cuerpo (Total Physical Response).',
+    tprRepeat: '🔊 Repetir orden',
+    tprDoneLast: '✅ ¡Hecho! Seguimos →',
+    tprDone: '✅ ¡Lo hizo!',
+    routeDoneLast: '✅ Lo hizo · terminar',
+    routeDone: '✅ Lo hizo',
+  },
+
+  pro: {
+    unlockPill: 'Desbloquear Edición Profesional',
+    unlockedPill: 'Modo profesional activo',
+    modalTitle: 'Modo Profesional',
+    pinError: 'PIN incorrecto. Inténtalo de nuevo.',
+    demoPin: 'PIN de demostración: 1985',
+    pinSubtitleDefault: 'Introduce el PIN de 4 dígitos del logopeda para editar la prescripción.',
+    shareCancelled: 'Exportación cancelada · el log se conserva para reintentar.',
+    shareFailed: 'No se pudo abrir el menú de compartir · el log se conserva.',
+    exportKicker: '🔓 MODO PROFESIONAL · EXPORTACIÓN',
+    exportTitle: 'Evidencia de usabilidad',
+    exportSub: 'Escanea el QR para el resumen offline o comparte el log completo cuando haya conexión.',
+    qrCaption: 'Resumen offline · escaneable con la cámara',
+    shareLog: '📤 Compartir log completo (email · WhatsApp)',
+    packaging: 'Empaquetando log…',
+    shareTitle: 'Log de usabilidad · Valeria+ (piloto)',
+  },
+
+  sus: {
+    kicker: '💬 UNA PREGUNTA RÁPIDA',
+    question: 'Fue fácil integrar este ejercicio en la rutina de mi hijo/a.',
+    scaleA11y: (v: number, label: string): string => `${v} de 5: ${label}`,
+    thanks: '¡Gracias por ayudarnos a mejorar Valeria+!',
+    sub: 'Toca la carita que mejor lo describa. Es anónimo y solo tardas un segundo.',
+    disagree: 'Nada de acuerdo',
+    agree: 'Muy de acuerdo',
+    neutral: 'Neutral',
+    somewhat: 'Bastante',
+    slightly: 'Poco',
+  },
+
+  results: {
+    back: '‹ Volver a ejercicios',
+    title: 'Resultados y Evolución',
+    noPatient: 'Paciente sin ficha registrada',
+    recordNumber: (nhc: string): string => `NHC ${nhc}`,
+
+    gameTitle: 'Motivación y logros',
+    currentStreak: 'racha actual',
+    totalXp: 'XP total',
+    bestStreak: 'mejor racha',
+    level: (n: number, name: string): string => `Nivel ${n} · ${name}`,
+    xpToNext: (n: number): string => `${n} XP para el siguiente nivel`,
+    badgesLabel: (won: number, total: number): string => `INSIGNIAS · ${won}/${total}`,
+
+    adherenceTitle: 'Adherencia semanal',
+    adherenceLabel: 'Adherencia de la semana',
+    adherenceValue: (done: number, goal: number): string => `${done} de ${goal} sesiones completadas`,
+
+    evolutionTitle: 'Evolución por estrellas',
+    evolutionSub: (n: number): string => `Promedio de estrellas · últimas ${n} sesiones`,
+    trendUp: (d: number): string => `▲ +${d} ★`,
+    trendDown: (d: number): string => `▼ ${d} ★`,
+    trendStable: '= estable',
+
+    phonemeTitle: 'Sustitución por fonema',
+    pmFirstSession: 'primera sesión',
+    pmImproving: (d: number): string => `▼ ${d} pp · mejora`,
+    pmWorsening: (d: number): string => `▲ +${d} pp · reforzar`,
+
+    arNoTiming: 'Se jugó sin cronometrar: hacen falta altavoces externos por cable para medir los tiempos. Los aciertos sí quedaron registrados.',
+    arNoTrials: 'Todavía no hay ensayos con medida en este ejercicio.',
+    arTrials: 'ensayos',
+    arVoided: 'anulados',
+    arMean: (unit: string): string => `media (${unit})`,
+    arMax: (unit: string): string => `máximo (${unit})`,
+    arShareLine: (name: string, n: number, medida: string): string => `• ${name}: ${n} ensayos · ${medida}`,
+    arTrial1: 'ensayo 1',
+    arLabel: (id: string): string =>
+      id === 'ar1' ? 'Sostén del gesto' : id === 'ar2' ? 'Latencia del giro' : 'Fijación hasta elegir',
+    arHint: (id: string): string =>
+      id === 'ar1' ? 'Milisegundos que mantuvo el redondeo labial en cada ensayo. La línea de puntos es el objetivo que fijasteis vosotros.'
+        : id === 'ar2' ? 'Milisegundos entre el sonido y el giro de cabeza. Solo aparecen los ensayos que se pudieron cronometrar.'
+          : 'Milisegundos de mirada sostenida hasta confirmar el dibujo.',
+    arTitle: (id: string): string =>
+      id === 'ar1' ? 'AR-1 · Cinemática orofacial'
+        : id === 'ar2' ? 'AR-2 · Localización del sonido'
+          : 'AR-3 · Selección por fijación',
+    arTrialN: (n: number): string => `ensayo ${n}`,
+
+    historyLabel: 'HISTORIAL DE SESIONES',
+    historyCount: (n: number): string => `${n} registradas`,
+    average: (v: string): string => `Promedio: ${v} / 3`,
+    understands: '👆 COMPRENDE',
+    produces: '🗣 PRODUCE',
+    responsesKicker: '📝 RESPUESTAS REGISTRADAS',
+
+    newSession: 'Iniciar nueva sesión →',
+    backGhost: '↩ Volver a ejercicios',
+    sharePdf: '📄 Compartir PDF',
+    footNote: 'Historial almacenado únicamente en este dispositivo (local-first).',
+    shareTitle: 'Resultados Valeria+',
+    // Historial de EJEMPLO que se muestra antes de que existan sesiones reales.
+    demoHistory: (): Array<{ date: string; name: string; note: string }> => [
+      { date: '10 jun', name: 'Asociación vocal inicial', note: 'Le costó arrancar, pero acabó asociando las vocales con apoyo.' },
+      { date: '12 jun', name: 'Detección del intruso', note: 'Buena sesión, encontró el intruso tras la pregunta guía.' },
+      { date: '15 jun', name: 'Reconocimiento de emociones', note: 'Muy concentrado hoy, nombró casi todas las emociones.' },
+      { date: '17 jun', name: 'Estructura S-V-O', note: 'Construyó frases completas con los dados, gran avance.' },
+      { date: '19 jun', name: 'Sesión de terapia', note: 'Excelente. Respondió las consignas casi sin ayuda.' },
+    ],
+    // Informe que el clínico comparte. Lo lee una persona, así que sigue al
+    // idioma de la interfaz.
+    shareHeader: 'VALERIA+ · Resultados y Evolución',
+    shareAdherence: (pct: number, done: number, goal: number): string => `Adherencia semanal: ${pct}% (${done}/${goal})`,
+    shareTrend: (trend: string): string => `Tendencia: ${trend}`,
+    shareHistory: 'Historial de sesiones:',
+    sharePm: 'Pares mínimos · sustitución por fonema:',
+    shareAr: 'Realidad aumentada · magnitudes medidas:',
+    shareFoot: 'Informe local-first generado en el dispositivo.',
+    shareSessionLine: (date: string, name: string, avg: string, stars: string, split: string, resp: string): string =>
+      `• ${date} · ${name} — ${avg}/3 ${stars}${split}${resp}`,
+    shareSplit: (comp: string, prod: string): string => ` [comprende ${comp}/3 · produce ${prod}/3]`,
+    shareResponse: (code: string, text: string): string => `\n    · ${code} respondió: “${text}”`,
+    sharePmLine: (phoneme: string, pct: number, n: number): string =>
+      `• ${phoneme}: ${pct}% de sustitución en la última sesión (${n} ${n === 1 ? 'sesión' : 'sesiones'})`,
+    shareArMeasure: (label: string, mean: number, unit: string, max: number, n: number): string =>
+      `${label.toLowerCase()} media ${mean} ${unit} (máx. ${max} ${unit}, n=${n})`,
+    shareArNoTiming: 'sin medida cronometrada',
+    shareArVoided: (n: number): string => ` · ${n} anulados por movimiento del teléfono`,
+    shareDevice: (mk: string, model: string, level: string, fps: string): string =>
+      `\n  Medido en ${mk} ${model} · nivel de aptitud ${level} · ${fps} fps sostenidos`,
+    shareThresholds: (hold: number, turn: number, win: number, dwell: number): string =>
+      `\n  Umbrales fijados por el adulto: sostén ${hold} ms · giro ${turn}° · ventana ${win} ms · fijación ${dwell} ms`,
+  },
+
   settings: {
     uiLangTitle: 'Idioma de la aplicación',
     // El adulto necesita entender que son dos cosas distintas, o va a pensar

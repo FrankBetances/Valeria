@@ -20,6 +20,7 @@ import { View, Text, ScrollView, Pressable, Share, StyleSheet, StatusBar } from 
 import Svg, { Circle, Line, Polyline, Polygon, Text as SvgText } from 'react-native-svg';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { V, STORAGE_KEYS } from './valeriaTheme';
+import { useT, UiStrings } from './i18n';
 import { loadGame, liveStreak, levelFor, levelName, levelProgress, xpToNext, BADGES, GameState } from './valeriaGamification';
 import { readArHistory } from './valeriaTelemetry';
 import type { ArTrial, ArDeviceProfile, ArThresholds } from './valeriaArBridge';
@@ -62,63 +63,49 @@ const substPct = (s: PmSession): number => {
 // y eso ya no cabe en la Clase I. Si alguien propone colorear estas series por
 // rango normativo, es un cambio de clase regulatoria, no una mejora de UI.
 // ---------------------------------------------------------------------------
+// Solo lo que NO es texto: unidad, icono y de qué campo del ensayo sale el
+// número. La etiqueta, la pista y el nombre largo viven en el catálogo
+// (t.results.arLabel / arHint / arTitle), porque los lee el adulto.
 const AR_SERIES: Record<string, {
-  label: string; unit: string; icon: string; hint: string;
-  value: (t: any) => number | null;
+  unit: string; icon: string;
+  value: (trial: any) => number | null;
 }> = {
-  ar1: {
-    label: 'Sostén del gesto', unit: 'ms', icon: '👄',
-    hint: 'Milisegundos que mantuvo el redondeo labial en cada ensayo. La línea de puntos es el objetivo que fijasteis vosotros.',
-    value: (t) => (t.holdMaxMs > 0 ? t.holdMaxMs : null),
-  },
-  ar2: {
-    label: 'Latencia del giro', unit: 'ms', icon: '👂',
-    hint: 'Milisegundos entre el sonido y el giro de cabeza. Solo aparecen los ensayos que se pudieron cronometrar.',
-    value: (t) => t.latencyMs,
-  },
-  ar3: {
-    label: 'Fijación hasta elegir', unit: 'ms', icon: '👀',
-    hint: 'Milisegundos de mirada sostenida hasta confirmar el dibujo.',
-    value: (t) => (t.dwellMs > 0 ? t.dwellMs : null),
-  },
+  ar1: { unit: 'ms', icon: '👄', value: (trial) => (trial.holdMaxMs > 0 ? trial.holdMaxMs : null) },
+  ar2: { unit: 'ms', icon: '👂', value: (trial) => trial.latencyMs },
+  ar3: { unit: 'ms', icon: '👀', value: (trial) => (trial.dwellMs > 0 ? trial.dwellMs : null) },
 };
 
-const AR_NAMES: Record<string, string> = {
-  ar1: 'AR-1 · Cinemática orofacial',
-  ar2: 'AR-2 · Localización del sonido',
-  ar3: 'AR-3 · Selección por fijación',
-};
 
-const MESES = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
-const shortDate = (iso: string): string => {
+const shortDate = (iso: string, months: string[]): string => {
   const d = new Date(iso);
-  return isNaN(d.getTime()) ? '' : `${d.getDate()} ${MESES[d.getMonth()]}`;
+  return isNaN(d.getTime()) ? '' : `${d.getDate()} ${months[d.getMonth()]}`;
 };
 
 const META_SEMANAL = 5;
-const PATIENT_LINE_DEFECTO = 'Paciente sin ficha registrada';
+
 
 // Línea de cabecera con el paciente ACTIVO (ficha de STORAGE_KEYS.registro).
-const patientLineFrom = (raw: string | null): string => {
+// Recibe el catálogo: la línea de paciente («Paciente sin ficha registrada»,
+// «NHC 1234») la lee el adulto, así que sigue al idioma de la interfaz.
+const patientLineFrom = (raw: string | null, t: UiStrings): string => {
   try {
     const p = raw ? JSON.parse(raw) : null;
-    if (!p || typeof p !== 'object') return PATIENT_LINE_DEFECTO;
+    if (!p || typeof p !== 'object') return t.results.noPatient;
     const nombre = typeof p.nombre === 'string' ? p.nombre.trim() : '';
     const nhc = typeof p.nhc === 'string' ? p.nhc.trim() : '';
-    if (!nombre && !nhc) return PATIENT_LINE_DEFECTO;
-    return [nombre, nhc ? `NHC ${nhc}` : ''].filter(Boolean).join(' · ');
+    if (!nombre && !nhc) return t.results.noPatient;
+    return [nombre, nhc ? t.results.recordNumber(nhc) : ''].filter(Boolean).join(' · ');
   } catch (e) {
-    return PATIENT_LINE_DEFECTO;
+    return t.results.noPatient;
   }
 };
 
-const HISTORIAL_DEFECTO: Sesion[] = [
-  { date: '10 jun', name: 'Asociación vocal inicial',    avg: 1.8, completed: true, note: 'Le costó arrancar, pero acabó asociando las vocales con apoyo.' },
-  { date: '12 jun', name: 'Detección del intruso',       avg: 2.0, completed: true, note: 'Buena sesión, encontró el intruso tras la pregunta guía.' },
-  { date: '15 jun', name: 'Reconocimiento de emociones', avg: 2.4, completed: true, note: 'Muy concentrado hoy, nombró casi todas las emociones.' },
-  { date: '17 jun', name: 'Estructura S-V-O',            avg: 2.5, completed: true, note: 'Construyó frases completas con los dados, gran avance.' },
-  { date: '19 jun', name: 'Sesión de terapia',           avg: 2.6, completed: true, note: 'Excelente. Respondió las consignas casi sin ayuda.' },
-];
+// Historial de EJEMPLO mientras no hay sesiones reales guardadas. Las medias
+// son las de siempre; el texto sale del catálogo para que no se lea en
+// castellano con la interfaz en inglés.
+const AVGS_DEFECTO = [1.8, 2.0, 2.4, 2.5, 2.6];
+const historialDefecto = (t: UiStrings): Sesion[] =>
+  t.results.demoHistory().map((d, i) => ({ ...d, avg: AVGS_DEFECTO[i], completed: true }));
 
 /* Geometría del gráfico de línea */
 const CHART = { W: 320, H: 178, padL: 32, padR: 12, padT: 14, padB: 36, yMin: 1, yMax: 3 };
@@ -135,11 +122,12 @@ const starString = (avg: number): string => {
 };
 
 export const ValeriaPatientResultsDashboardScreen: React.FC<{ navigation?: any }> = ({ navigation }) => {
-  const [sesiones, setSesiones] = useState<Sesion[]>(HISTORIAL_DEFECTO);
+  const t = useT();
+  const [sesiones, setSesiones] = useState<Sesion[]>(() => historialDefecto(t));
   const [game, setGame] = useState<GameState | null>(null);
   const [pmSesiones, setPmSesiones] = useState<PmSession[]>([]);
   const [pmFonema, setPmFonema] = useState('');
-  const [patientLine, setPatientLine] = useState(PATIENT_LINE_DEFECTO);
+  const [patientLine, setPatientLine] = useState('');
   // Realidad Aumentada: los ensayos viven en el log cifrado de telemetría, no
   // en una clave suelta de AsyncStorage. valeriaTelemetry es su única puerta.
   const [arTrials, setArTrials] = useState<ArTrial[]>([]);
@@ -151,7 +139,7 @@ export const ValeriaPatientResultsDashboardScreen: React.FC<{ navigation?: any }
   useEffect(() => {
     (async () => {
       try {
-        setPatientLine(patientLineFrom(await AsyncStorage.getItem(STORAGE_KEYS.registro)));
+        setPatientLine(patientLineFrom(await AsyncStorage.getItem(STORAGE_KEYS.registro), t));
       } catch (e) { /* ficha no disponible: queda el rótulo por defecto */ }
       try {
         const raw = await AsyncStorage.getItem(STORAGE_KEYS.historial);
@@ -212,7 +200,7 @@ export const ValeriaPatientResultsDashboardScreen: React.FC<{ navigation?: any }
     const first = data[0]?.avg ?? 0;
     const last = data[data.length - 1]?.avg ?? 0;
     const diff = Number((last - first).toFixed(1));
-    const trend = diff > 0 ? `▲ +${diff} ★` : diff < 0 ? `▼ ${diff} ★` : '= estable';
+    const trend = diff > 0 ? t.results.trendUp(diff) : diff < 0 ? t.results.trendDown(diff) : t.results.trendStable;
     return { puntos: pts, linePoints: line, areaPoints: area, trendLabel: trend };
   }, [sesiones]);
 
@@ -274,7 +262,7 @@ export const ValeriaPatientResultsDashboardScreen: React.FC<{ navigation?: any }
       x: xFor(i, data.length),
       y: yPct(substPct(s)),
       val: substPct(s),
-      date: shortDate(s.date),
+      date: shortDate(s.date, t.ling.months.split(' ')),
     }));
     const line = pts.map((p) => `${p.x},${p.y}`).join(' ');
     const baseY = yPct(0);
@@ -284,12 +272,12 @@ export const ValeriaPatientResultsDashboardScreen: React.FC<{ navigation?: any }
     // En este eje, BAJAR es mejorar: menos sustituciones detectadas.
     const diff = pts.length >= 2 ? pts[pts.length - 1].val - pts[0].val : 0;
     const trend = pts.length < 2
-      ? { txt: 'primera sesión', bg: V.color.primaryLight, fg: V.color.primaryDark }
+      ? { txt: t.results.pmFirstSession, bg: V.color.primaryLight, fg: V.color.primaryDark }
       : diff < 0
-        ? { txt: `▼ ${Math.abs(diff)} pp · mejora`, bg: V.color.successBg, fg: V.color.success }
+        ? { txt: t.results.pmImproving(Math.abs(diff)), bg: V.color.successBg, fg: V.color.success }
         : diff > 0
-          ? { txt: `▲ +${diff} pp · reforzar`, bg: V.color.errorBg, fg: V.color.error }
-          : { txt: '= estable', bg: V.color.primaryLight, fg: V.color.primaryDark };
+          ? { txt: t.results.pmWorsening(diff), bg: V.color.errorBg, fg: V.color.error }
+          : { txt: t.results.trendStable, bg: V.color.primaryLight, fg: V.color.primaryDark };
     return { pts, line, area, trend };
   }, [pmSesiones, pmFonema]);
 
@@ -297,21 +285,21 @@ export const ValeriaPatientResultsDashboardScreen: React.FC<{ navigation?: any }
     const lineas = sesiones
       .map((s) => {
         const resp = (s.responses ?? [])
-          .map((r) => `\n    · ${r.code} respondió: “${r.text}”`)
+          .map((r) => t.results.shareResponse(r.code, r.text))
           .join('');
         // ES-12: en las cápsulas de contraste el promedio único mezcla dos
         // habilidades. El informe que se comparte con el logopeda las separa.
         const split = s.split
-          ? ` [comprende ${s.split.comprension?.toFixed(1) ?? '–'}/3 · produce ${s.split.produccion?.toFixed(1) ?? '–'}/3]`
+          ? t.results.shareSplit(s.split.comprension?.toFixed(1) ?? '–', s.split.produccion?.toFixed(1) ?? '–')
           : '';
-        return `• ${s.date} · ${s.name} — ${s.avg.toFixed(1)}/3 ${starString(s.avg)}${split}${resp}`;
+        return t.results.shareSessionLine(s.date, s.name, s.avg.toFixed(1), starString(s.avg), split, resp);
       })
       .join('\n');
     const pmLineas = pmFonemas
       .map((f) => {
         const ss = pmSesiones.filter((s) => s.phoneme === f);
         const ult = ss[ss.length - 1];
-        return `• ${f}: ${substPct(ult)}% de sustitución en la última sesión (${ss.length} ${ss.length === 1 ? 'sesión' : 'sesiones'})`;
+        return t.results.sharePmLine(f, substPct(ult), ss.length);
       })
       .join('\n');
     // Realidad aumentada: magnitudes y su condición de medida. El sello del
@@ -328,30 +316,30 @@ export const ValeriaPatientResultsDashboardScreen: React.FC<{ navigation?: any }
         const anulados = delEj.filter((t) => t.voided).length;
         const media = vals.length ? Math.round(vals.reduce((a, b) => a + b, 0) / vals.length) : null;
         const medida = media != null
-          ? `${serie.label.toLowerCase()} media ${media} ${serie.unit} (máx. ${Math.max(...vals)} ${serie.unit}, n=${vals.length})`
-          : `sin medida cronometrada`;
-        return `• ${AR_NAMES[id] ?? id}: ${delEj.length} ensayos · ${medida}` +
-          (anulados ? ` · ${anulados} anulados por movimiento del teléfono` : '');
+          ? t.results.shareArMeasure(t.results.arLabel(id), media, serie.unit, Math.max(...vals), vals.length)
+          : t.results.shareArNoTiming;
+        return t.results.arShareLine(t.results.arTitle(id), delEj.length, medida) +
+          (anulados ? t.results.shareArVoided(anulados) : '');
       })
       .filter(Boolean)
       .join('\n') +
       (arDevice
-        ? `\n  Medido en ${arDevice.manufacturer} ${arDevice.model} · nivel de aptitud ${arDevice.level} · ${arDevice.probes.fpsP5.toFixed(0)} fps sostenidos` +
+        ? t.results.shareDevice(arDevice.manufacturer, arDevice.model, String(arDevice.level), arDevice.probes.fpsP5.toFixed(0)) +
           (arThresholds
-            ? `\n  Umbrales fijados por el adulto: sostén ${arThresholds.holdMs} ms · giro ${arThresholds.turnDeg}° · ventana ${arThresholds.responseWindowMs} ms · fijación ${arThresholds.dwellMs} ms`
+            ? t.results.shareThresholds(arThresholds.holdMs, arThresholds.turnDeg, arThresholds.responseWindowMs, arThresholds.dwellMs)
             : '')
         : '');
 
     try {
       await Share.share({
-        title: 'Resultados Valeria+',
+        title: t.results.shareTitle,
         message:
-          `VALERIA+ · Resultados y Evolución\n${patientLine}\n\n` +
-          `Adherencia semanal: ${pct}% (${done}/${META_SEMANAL})\n` +
-          `Tendencia: ${trendLabel}\n\nHistorial de sesiones:\n${lineas}\n` +
-          (pmLineas ? `\nPares mínimos · sustitución por fonema:\n${pmLineas}\n` : '') +
-          (arLineas ? `\nRealidad aumentada · magnitudes medidas:\n${arLineas}\n` : '') +
-          `\nInforme local-first generado en el dispositivo.`,
+          `${t.results.shareHeader}\n${patientLine}\n\n` +
+          `${t.results.shareAdherence(pct, done, META_SEMANAL)}\n` +
+          `${t.results.shareTrend(trendLabel)}\n\n${t.results.shareHistory}\n${lineas}\n` +
+          (pmLineas ? `\n${t.results.sharePm}\n${pmLineas}\n` : '') +
+          (arLineas ? `\n${t.results.shareAr}\n${arLineas}\n` : '') +
+          `\n${t.results.shareFoot}`,
       });
     } catch (e) {
       console.warn('Error al compartir:', e);
@@ -365,11 +353,11 @@ export const ValeriaPatientResultsDashboardScreen: React.FC<{ navigation?: any }
       {/* Cabecera teal unificada */}
       <View style={st.header}>
         <Pressable style={st.back} onPress={() => navigation?.navigate('ExerciseSelection')}>
-          <Text style={st.backText}>‹ Volver a ejercicios</Text>
+          <Text style={st.backText}>{t.results.back}</Text>
         </Pressable>
         {/* <Image source={logoWhite} style={st.logo} /> */}
         <Text style={st.brand}>valeria</Text>
-        <Text style={st.title}>Resultados y Evolución</Text>
+        <Text style={st.title}>{t.results.title}</Text>
         <Text style={st.subtitle}>{patientLine}</Text>
       </View>
 
@@ -379,33 +367,33 @@ export const ValeriaPatientResultsDashboardScreen: React.FC<{ navigation?: any }
           <View style={st.card}>
             <View style={st.cardHeader}>
               <View style={st.chip}><Text style={st.chipIcon}>🏅</Text></View>
-              <Text style={st.cardTitle}>Motivación y logros</Text>
+              <Text style={st.cardTitle}>{t.results.gameTitle}</Text>
             </View>
 
             <View style={st.gameStatsRow}>
               <View style={st.gameStat}>
                 <Text style={st.gameStatBig}>🔥 {liveStreak(game)}</Text>
-                <Text style={st.gameStatLbl}>racha actual</Text>
+                <Text style={st.gameStatLbl}>{t.results.currentStreak}</Text>
               </View>
               <View style={st.gameStat}>
                 <Text style={st.gameStatBig}>⭐ {game.xp}</Text>
-                <Text style={st.gameStatLbl}>XP total</Text>
+                <Text style={st.gameStatLbl}>{t.results.totalXp}</Text>
               </View>
               <View style={st.gameStat}>
                 <Text style={st.gameStatBig}>🏆 {game.bestStreak}</Text>
-                <Text style={st.gameStatLbl}>mejor racha</Text>
+                <Text style={st.gameStatLbl}>{t.results.bestStreak}</Text>
               </View>
             </View>
 
             <View style={st.gameLevelRow}>
-              <Text style={st.gameLevelLbl}>Nivel {levelFor(game.xp)} · {levelName(levelFor(game.xp))}</Text>
+              <Text style={st.gameLevelLbl}>{t.results.level(levelFor(game.xp), t.hub.levelNameByIndex(levelFor(game.xp) - 1))}</Text>
               <View style={st.gameLevelTrack}>
                 <View style={[st.gameLevelFill, { width: `${Math.round(levelProgress(game.xp) * 100)}%` }]} />
               </View>
-              <Text style={st.gameLevelToGo}>{xpToNext(game.xp)} XP para el siguiente nivel</Text>
+              <Text style={st.gameLevelToGo}>{t.results.xpToNext(xpToNext(game.xp))}</Text>
             </View>
 
-            <Text style={st.gameBadgesLbl}>INSIGNIAS · {game.badges.length}/{BADGES.length}</Text>
+            <Text style={st.gameBadgesLbl}>{t.results.badgesLabel(game.badges.length, BADGES.length)}</Text>
             <View style={st.gameBadgesGrid}>
               {BADGES.map((b) => {
                 const won = game.badges.includes(b.id);
@@ -424,7 +412,7 @@ export const ValeriaPatientResultsDashboardScreen: React.FC<{ navigation?: any }
         <View style={st.card}>
           <View style={st.cardHeader}>
             <View style={st.chip}><Text style={st.chipIcon}>📊</Text></View>
-            <Text style={st.cardTitle}>Adherencia semanal</Text>
+            <Text style={st.cardTitle}>{t.results.adherenceTitle}</Text>
           </View>
 
           <View style={st.adherenceRow}>
@@ -444,8 +432,8 @@ export const ValeriaPatientResultsDashboardScreen: React.FC<{ navigation?: any }
             </View>
 
             <View style={st.adherenceBody}>
-              <Text style={st.adherenceLabel}>Adherencia de la semana</Text>
-              <Text style={st.adherenceValue}>{done} de {META_SEMANAL} sesiones completadas</Text>
+              <Text style={st.adherenceLabel}>{t.results.adherenceLabel}</Text>
+              <Text style={st.adherenceValue}>{t.results.adherenceValue(done, META_SEMANAL)}</Text>
               <View style={st.barTrack}>
                 <View style={[st.barFill, { width: `${pct}%` }]} />
               </View>
@@ -468,11 +456,11 @@ export const ValeriaPatientResultsDashboardScreen: React.FC<{ navigation?: any }
           <View style={st.evoHeader}>
             <View style={st.cardHeader}>
               <View style={st.chip}><Text style={st.chipIcon}>⭐</Text></View>
-              <Text style={st.cardTitle}>Evolución por estrellas</Text>
+              <Text style={st.cardTitle}>{t.results.evolutionTitle}</Text>
             </View>
             <View style={st.trendPill}><Text style={st.trendText}>{trendLabel}</Text></View>
           </View>
-          <Text style={st.evoSub}>Promedio de estrellas · últimas {puntos.length} sesiones</Text>
+          <Text style={st.evoSub}>{t.results.evolutionSub(puntos.length)}</Text>
 
           <Svg width="100%" height={178} viewBox={`0 0 ${CHART.W} ${CHART.H}`}>
             {[3, 2, 1].map((v) => {
@@ -502,7 +490,7 @@ export const ValeriaPatientResultsDashboardScreen: React.FC<{ navigation?: any }
             <View style={st.evoHeader}>
               <View style={[st.cardHeader, { flex: 1, marginRight: 8 }]}>
                 <View style={st.chip}><Text style={st.chipIcon}>🗣️</Text></View>
-                <Text style={[st.cardTitle, { flexShrink: 1 }]} numberOfLines={2}>Sustitución por fonema</Text>
+                <Text style={[st.cardTitle, { flexShrink: 1 }]} numberOfLines={2}>{t.results.phonemeTitle}</Text>
               </View>
               <View style={[st.trendPill, { backgroundColor: pm.trend.bg }]}>
                 <Text style={[st.trendText, { color: pm.trend.fg }]}>{pm.trend.txt}</Text>
@@ -562,7 +550,7 @@ export const ValeriaPatientResultsDashboardScreen: React.FC<{ navigation?: any }
               <View style={[st.cardHeader, { flex: 1, marginRight: 8 }]}>
                 <View style={st.chip}><Text style={st.chipIcon}>{AR_SERIES[arEjercicio].icon}</Text></View>
                 <Text style={[st.cardTitle, { flexShrink: 1 }]} numberOfLines={2}>
-                  {AR_SERIES[arEjercicio].label}
+                  {t.results.arLabel(arEjercicio)}
                 </Text>
               </View>
               <View style={st.trendPill}>
@@ -579,7 +567,7 @@ export const ValeriaPatientResultsDashboardScreen: React.FC<{ navigation?: any }
                     <Pressable key={id} onPress={() => setArEjercicio(id)}
                       style={[st.arTab, on && st.arTabOn]}
                       accessibilityRole="button" accessibilityState={{ selected: on }}
-                      accessibilityLabel={AR_NAMES[id] ?? id}>
+                      accessibilityLabel={t.results.arTitle(id)}>
                       <Text style={[st.arTabTxt, on && st.arTabTxtOn]}>{id.toUpperCase()}</Text>
                     </Pressable>
                   );
@@ -587,7 +575,7 @@ export const ValeriaPatientResultsDashboardScreen: React.FC<{ navigation?: any }
               </View>
             )}
 
-            <Text style={st.evoSub}>{AR_SERIES[arEjercicio].hint}</Text>
+            <Text style={st.evoSub}>{t.results.arHint(arEjercicio)}</Text>
 
             {ar.pts.length > 0 ? (
               <Svg width="100%" height={178} viewBox={`0 0 ${CHART.W} ${CHART.H}`}>
@@ -617,36 +605,36 @@ export const ValeriaPatientResultsDashboardScreen: React.FC<{ navigation?: any }
                   </React.Fragment>
                 ))}
                 <SvgText x={CHART.padL} y={172} textAnchor="start" fontSize={10.5} fontWeight="700"
-                  fill={V.color.textMuted}>ensayo 1</SvgText>
+                  fill={V.color.textMuted}>{t.results.arTrial1}</SvgText>
                 <SvgText x={CHART.W - CHART.padR} y={172} textAnchor="end" fontSize={10.5} fontWeight="700"
-                  fill={V.color.textMuted}>{`ensayo ${ar.pts.length}`}</SvgText>
+                  fill={V.color.textMuted}>{t.results.arTrialN(ar.pts.length)}</SvgText>
               </Svg>
             ) : (
               <Text style={st.arEmpty}>
                 {arEjercicio === 'ar2'
-                  ? 'Se jugó sin cronometrar: hacen falta altavoces externos por cable para medir los tiempos. Los aciertos sí quedaron registrados.'
-                  : 'Todavía no hay ensayos con medida en este ejercicio.'}
+                  ? t.results.arNoTiming
+                  : t.results.arNoTrials}
               </Text>
             )}
 
             <View style={st.arFacts}>
               <View style={st.arFact}>
                 <Text style={st.arFactVal}>{ar.total}</Text>
-                <Text style={st.arFactKey}>ensayos</Text>
+                <Text style={st.arFactKey}>{t.results.arTrials}</Text>
               </View>
               <View style={st.arFact}>
                 <Text style={st.arFactVal}>
                   {ar.valores.length ? Math.round(ar.valores.reduce((a, b) => a + b, 0) / ar.valores.length) : '–'}
                 </Text>
-                <Text style={st.arFactKey}>media ({AR_SERIES[arEjercicio].unit})</Text>
+                <Text style={st.arFactKey}>{t.results.arMean(AR_SERIES[arEjercicio].unit)}</Text>
               </View>
               <View style={st.arFact}>
                 <Text style={st.arFactVal}>{ar.valores.length ? Math.max(...ar.valores) : '–'}</Text>
-                <Text style={st.arFactKey}>máximo ({AR_SERIES[arEjercicio].unit})</Text>
+                <Text style={st.arFactKey}>{t.results.arMax(AR_SERIES[arEjercicio].unit)}</Text>
               </View>
               <View style={st.arFact}>
                 <Text style={st.arFactVal}>{ar.anulados}</Text>
-                <Text style={st.arFactKey}>anulados</Text>
+                <Text style={st.arFactKey}>{t.results.arVoided}</Text>
               </View>
             </View>
 
@@ -665,8 +653,8 @@ export const ValeriaPatientResultsDashboardScreen: React.FC<{ navigation?: any }
 
         {/* HISTORIAL DE SESIONES */}
         <View style={st.summaryRow}>
-          <Text style={st.summaryLabel}>HISTORIAL DE SESIONES</Text>
-          <Text style={st.summaryCount}>{sesiones.length} registradas</Text>
+          <Text style={st.summaryLabel}>{t.results.historyLabel}</Text>
+          <Text style={st.summaryCount}>{t.results.historyCount(sesiones.length)}</Text>
         </View>
 
         {historial.map((s, i) => (
@@ -680,20 +668,20 @@ export const ValeriaPatientResultsDashboardScreen: React.FC<{ navigation?: any }
                 </View>
                 <View style={st.histScoreRow}>
                   <Text style={st.histStars}>{starString(s.avg)}</Text>
-                  <Text style={st.histAvg}>Promedio: {s.avg.toFixed(1)} / 3</Text>
+                  <Text style={st.histAvg}>{t.results.average(s.avg.toFixed(1))}</Text>
                 </View>
                 {/* ES-12 · Cuando la sesión evaluó las dos mecánicas, el
                     promedio único no basta: se muestran separadas. */}
                 {!!s.split && (
                   <View style={st.splitRow}>
                     <View style={st.splitChip}>
-                      <Text style={st.splitChipKicker}>👆 COMPRENDE</Text>
+                      <Text style={st.splitChipKicker}>{t.results.understands}</Text>
                       <Text style={st.splitChipVal}>
                         {s.split.comprension != null ? `${s.split.comprension.toFixed(1)} / 3` : '–'}
                       </Text>
                     </View>
                     <View style={st.splitChip}>
-                      <Text style={st.splitChipKicker}>🗣 PRODUCE</Text>
+                      <Text style={st.splitChipKicker}>{t.results.produces}</Text>
                       <Text style={st.splitChipVal}>
                         {s.split.produccion != null ? `${s.split.produccion.toFixed(1)} / 3` : '–'}
                       </Text>
@@ -702,7 +690,7 @@ export const ValeriaPatientResultsDashboardScreen: React.FC<{ navigation?: any }
                 )}
                 {!!s.responses?.length && (
                   <View style={st.histResp}>
-                    <Text style={st.histRespKicker}>📝 RESPUESTAS REGISTRADAS</Text>
+                    <Text style={st.histRespKicker}>{t.results.responsesKicker}</Text>
                     {s.responses.map((r) => (
                       <Text key={r.code} style={st.histRespText}>
                         <Text style={st.histRespCode}>{r.code} · {r.name}: </Text>“{r.text}”
@@ -720,19 +708,19 @@ export const ValeriaPatientResultsDashboardScreen: React.FC<{ navigation?: any }
 
         {/* Acciones */}
         <Pressable style={({ pressed }) => [st.primaryBtn, pressed && { opacity: 0.92 }]} onPress={() => navigation?.navigate('ExercisePlayer')}>
-          <Text style={st.primaryBtnText}>Iniciar nueva sesión →</Text>
+          <Text style={st.primaryBtnText}>{t.results.newSession}</Text>
         </Pressable>
 
         <View style={st.actionRow}>
           <Pressable style={st.ghostBtn} onPress={() => navigation?.navigate('ExerciseSelection')}>
-            <Text style={st.ghostText}>↩ Volver a ejercicios</Text>
+            <Text style={st.ghostText}>{t.results.backGhost}</Text>
           </Pressable>
           <Pressable style={st.ghostBtn} onPress={compartir}>
-            <Text style={st.ghostText}>📄 Compartir PDF</Text>
+            <Text style={st.ghostText}>{t.results.sharePdf}</Text>
           </Pressable>
         </View>
 
-        <Text style={st.footNote}>Historial almacenado únicamente en este dispositivo (local-first).</Text>
+        <Text style={st.footNote}>{t.results.footNote}</Text>
       </ScrollView>
     </View>
   );

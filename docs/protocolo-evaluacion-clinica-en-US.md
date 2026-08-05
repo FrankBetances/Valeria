@@ -181,12 +181,17 @@ como fallo lo que aún no ha llegado.
 | 1 · Entrada | Welcome · Credits · Selección de paciente | ✅ en inglés |
 | 2 · Alta y hub | Ficha de registro · Hub de ejercicios · Auth | ✅ en inglés |
 | 3 · Bloques de terapia | Player · Pares Mínimos · Expansión Semántica · Test de Ling | ✅ en inglés |
-| 4 · Adulto y datos | Panel del adulto · Resultados · Exportación · modales | ⏳ pendiente |
+| 4 · Adulto y datos | Panel del adulto · Resultados · Exportación · modales | ✅ en inglés |
 | 5 · Sistema | Notificaciones · permisos (`app.json`) | ⏳ pendiente |
 
 > **Regla:** no se le manda la build hasta cerrar el tramo 4. Una app medio
 > traducida gasta su tiempo en reportar lo que ya sabemos y nos devuelve un
 > informe peor.
+>
+> ✅ **Tramo 4 cerrado (ago 2026): el recorrido completo de la app se puede
+> hacer en inglés.** Queda solo el tramo 5 (notificaciones y diálogos de
+> permiso del sistema), que ya está declarado como alcance conocido en §1.3 y
+> no bloquea la evaluación.
 
 ---
 

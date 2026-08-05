@@ -17,20 +17,24 @@ import React, { useState } from 'react';
 import { View, Text, Pressable, StyleSheet, ScrollView } from 'react-native';
 import { V } from './valeriaTheme';
 import { trackRepairStrategy, RepairStrategy } from './valeriaTelemetry';
+import { useT, UiStrings } from './i18n';
 
 // Guiones de quiebre entre los que elige el adulto (nunca la app por él).
-const BREAK_SCRIPTS = [
-  { id: 'murmullo', emoji: '🤫', title: 'Murmullo', text: 'Da una orden sencilla en voz MUY baja y poco clara, mirando hacia otro lado. Ejemplo: “tráeme el…” (ininteligible).' },
-  { id: 'absurdo', emoji: '🙃', title: 'Orden absurda', text: 'Pide algo imposible o sin sentido con cara seria. Ejemplo: “Pon el zapato dentro de la nevera” o “Dame la nube de la mesa”.' },
-] as const;
+// Guiones y escala de reparación: son INSTRUCCIONES y OBSERVACIÓN CLÍNICA para
+// el adulto —la app no locuta nada de esto—, así que siguen al idioma de la
+// interfaz. El `value` es el id que viaja a telemetría y NO cambia nunca.
+const buildScripts = (t: UiStrings) => [
+  { id: 'murmullo', emoji: '🤫', title: t.pragmatic.stressorMurmurTitle, text: t.pragmatic.stressorMurmurText },
+  { id: 'absurdo', emoji: '🙃', title: t.pragmatic.stressorAbsurdTitle, text: t.pragmatic.stressorAbsurdText },
+];
 
-const STRATEGIES: Array<{ value: RepairStrategy; emoji: string; label: string; desc: string }> = [
-  { value: 'peticion_repeticion', emoji: '🔁', label: 'Pidió repetición', desc: '“¿Qué?”, “¿otra vez?”, se acercó a escuchar' },
-  { value: 'reformulacion', emoji: '💬', label: 'Reformuló', desc: 'Corrigió o negoció la orden absurda con sus palabras' },
-  { value: 'gesto', emoji: '👉', label: 'Usó gestos', desc: 'Señaló, encogió los hombros, buscó tu mirada' },
-  { value: 'aislamiento', emoji: '🚪', label: 'Se aisló', desc: 'Se retiró de la interacción o cambió de actividad' },
-  { value: 'llanto', emoji: '😢', label: 'Llanto', desc: 'Desborde emocional ante el quiebre' },
-  { value: 'sin_respuesta', emoji: '🫥', label: 'No registró el quiebre', desc: 'Siguió como si la orden hubiera sido normal' },
+const buildStrategies = (t: UiStrings): Array<{ value: RepairStrategy; emoji: string; label: string; desc: string }> => [
+  { value: 'peticion_repeticion', emoji: '🔁', label: t.pragmatic.repairAskLabel, desc: t.pragmatic.repairAskDesc },
+  { value: 'reformulacion', emoji: '💬', label: t.pragmatic.repairRephraseLabel, desc: t.pragmatic.repairRephraseDesc },
+  { value: 'gesto', emoji: '👉', label: t.pragmatic.repairGestureLabel, desc: t.pragmatic.repairGestureDesc },
+  { value: 'aislamiento', emoji: '🚪', label: t.pragmatic.repairWithdrawLabel, desc: t.pragmatic.repairWithdrawDesc },
+  { value: 'llanto', emoji: '😢', label: t.pragmatic.repairCryLabel, desc: t.pragmatic.repairCryDesc },
+  { value: 'sin_respuesta', emoji: '🫥', label: t.pragmatic.repairNoneLabel, desc: t.pragmatic.repairNoneDesc },
 ];
 
 type Stage = 'warning' | 'script' | 'observe' | 'done';
@@ -38,6 +42,9 @@ type Stage = 'warning' | 'script' | 'observe' | 'done';
 export const ValeriaPragmaticBreakOverlay: React.FC<{
   onClose: () => void;
 }> = ({ onClose }) => {
+  const t = useT();
+  const BREAK_SCRIPTS = buildScripts(t);
+  const STRATEGIES = buildStrategies(t);
   const [stage, setStage] = useState<Stage>('warning');
   const [scriptIdx, setScriptIdx] = useState(0);
   const [picked, setPicked] = useState<RepairStrategy | null>(null);
@@ -52,24 +59,19 @@ export const ValeriaPragmaticBreakOverlay: React.FC<{
   return (
     <View style={s.overlay}>
       <View style={s.card}>
-        <Text style={s.kicker}>🎭 QUIEBRE PRAGMÁTICO · SOLO ADULTOS</Text>
+        <Text style={s.kicker}>{t.pragmatic.kicker}</Text>
 
         {stage === 'warning' && (
           <>
             <Text style={s.warnEmoji}>⚠️</Text>
-            <Text style={s.title}>Esta tarea generará frustración útil</Text>
-            <Text style={s.body}>
-              Vas a romper la comunicación A PROPÓSITO para observar cómo tu hijo/a la repara.
-              Es normal (y valioso) que se extrañe, proteste o se frustre un poco: esa reacción
-              ES el ejercicio. Hazlo una sola vez, con calma, y termina siempre con un abrazo
-              y la orden dicha bien.
-            </Text>
+            <Text style={s.title}>{t.pragmatic.warnTitle}</Text>
+            <Text style={s.body}>{t.pragmatic.warnBody}</Text>
             <View style={s.row}>
               <Pressable onPress={onClose} style={s.ghostBtn} accessibilityRole="button">
-                <Text style={s.ghostBtnTxt}>Hoy no</Text>
+                <Text style={s.ghostBtnTxt}>{t.pragmatic.notToday}</Text>
               </Pressable>
               <Pressable onPress={() => setStage('script')} style={s.mainBtn} accessibilityRole="button">
-                <Text style={s.mainBtnTxt}>Entendido, seguimos</Text>
+                <Text style={s.mainBtnTxt}>{t.pragmatic.understood}</Text>
               </Pressable>
             </View>
           </>
@@ -84,18 +86,18 @@ export const ValeriaPragmaticBreakOverlay: React.FC<{
               onPress={() => setScriptIdx((scriptIdx + 1) % BREAK_SCRIPTS.length)}
               accessibilityRole="button"
             >
-              <Text style={s.swapLink}>Prefiero la otra variante →</Text>
+              <Text style={s.swapLink}>{t.pragmatic.swapVariant}</Text>
             </Pressable>
             <Pressable onPress={() => setStage('observe')} style={s.mainBtn} accessibilityRole="button">
-              <Text style={s.mainBtnTxt}>Ya lo hice · ¿qué hizo el niño?</Text>
+              <Text style={s.mainBtnTxt}>{t.pragmatic.didIt}</Text>
             </Pressable>
           </>
         )}
 
         {stage === 'observe' && (
           <>
-            <Text style={s.title}>¿Cómo reparó el quiebre?</Text>
-            <Text style={s.body}>Elige lo PRIMERO que hizo tu hijo/a. No hay respuestas malas: todas informan.</Text>
+            <Text style={s.title}>{t.pragmatic.repairTitle}</Text>
+            <Text style={s.body}>{t.pragmatic.repairBody}</Text>
             <ScrollView style={{ alignSelf: 'stretch', maxHeight: 320 }} showsVerticalScrollIndicator={false}>
               {STRATEGIES.map((st) => (
                 <Pressable
@@ -119,14 +121,14 @@ export const ValeriaPragmaticBreakOverlay: React.FC<{
         {stage === 'done' && (
           <>
             <Text style={s.warnEmoji}>🤗</Text>
-            <Text style={s.title}>Registrado</Text>
+            <Text style={s.title}>{t.pragmatic.recorded}</Text>
             <Text style={s.body}>
               {picked === 'llanto' || picked === 'aislamiento'
-                ? 'Cierra ahora el quiebre: repite la orden bien dicha, valida la emoción (“te confundí, ¿verdad?”) y dad un abrazo. La reparación adulta también enseña.'
-                : 'Cierra el círculo: repite la orden bien dicha y celebra su reacción. Reparar es una habilidad, ¡y la acaba de practicar!'}
+                ? t.pragmatic.closeLoopUpset
+                : t.pragmatic.closeLoop}
             </Text>
             <Pressable onPress={onClose} style={s.mainBtn} accessibilityRole="button">
-              <Text style={s.mainBtnTxt}>Volver a la sesión</Text>
+              <Text style={s.mainBtnTxt}>{t.pragmatic.backToSession}</Text>
             </Pressable>
           </>
         )}

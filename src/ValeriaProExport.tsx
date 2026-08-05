@@ -11,10 +11,12 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Pressable, StyleSheet, Share, ScrollView } from 'react-native';
 import { V } from './valeriaTheme';
+import { useT } from './i18n';
 import { ValeriaQRCode } from './ValeriaQRCode';
 import { buildExport, purgeAfterExport, ExportBundle } from './valeriaTelemetry';
 
 export const ValeriaProExportModal: React.FC<{ open: boolean; onClose: () => void }> = ({ open, onClose }) => {
+  const t = useT();
   const [bundle, setBundle] = useState<ExportBundle | null>(null);
   const [purged, setPurged] = useState(false);
   const [sharedOnce, setSharedOnce] = useState(false);
@@ -38,7 +40,7 @@ export const ValeriaProExportModal: React.FC<{ open: boolean; onClose: () => voi
   const doShare = async (b: ExportBundle) => {
     try {
       const res = await Share.share({
-        title: 'Log de usabilidad · Valeria+ (piloto)',
+        title: t.pro.shareTitle,
         message: b.fullLog, // ACTION_SEND: log transaccional completo en crudo
       });
       if (res.action === Share.sharedAction) {
@@ -46,10 +48,10 @@ export const ValeriaProExportModal: React.FC<{ open: boolean; onClose: () => voi
         setPurged(true);
         setNote('Log exportado y purgado del dispositivo.');
       } else {
-        setNote('Exportación cancelada · el log se conserva para reintentar.');
+        setNote(t.pro.shareCancelled);
       }
     } catch (e) {
-      setNote('No se pudo abrir el menú de compartir · el log se conserva.');
+      setNote(t.pro.shareFailed);
     }
   };
 
@@ -59,18 +61,18 @@ export const ValeriaProExportModal: React.FC<{ open: boolean; onClose: () => voi
     <View style={s.overlay}>
       <View style={s.modal}>
         <View style={s.head}>
-          <Text style={s.kicker}>🔓 MODO PROFESIONAL · EXPORTACIÓN</Text>
+          <Text style={s.kicker}>{t.pro.exportKicker}</Text>
           <Pressable onPress={onClose} style={s.close}><Text style={s.closeTxt}>✕</Text></Pressable>
         </View>
         <ScrollView contentContainerStyle={{ alignItems: 'center', paddingBottom: 6 }} showsVerticalScrollIndicator={false}>
-          <Text style={s.title}>Evidencia de usabilidad</Text>
-          <Text style={s.sub}>Escanea el QR para el resumen offline o comparte el log completo cuando haya conexión.</Text>
+          <Text style={s.title}>{t.pro.exportTitle}</Text>
+          <Text style={s.sub}>{t.pro.exportSub}</Text>
 
           {bundle ? (
             <>
               {/* Offline puro: QR con el resumen estadístico comprimido */}
               <ValeriaQRCode value={bundle.qrPayload} size={216} />
-              <Text style={s.qrCaption}>Resumen offline · escaneable con la cámara</Text>
+              <Text style={s.qrCaption}>{t.pro.qrCaption}</Text>
 
               <View style={s.stats}>
                 <Stat label="Sesiones" value={String(bundle.summary.sessions)} />
@@ -83,12 +85,12 @@ export const ValeriaProExportModal: React.FC<{ open: boolean; onClose: () => voi
 
               {/* ShareSheet: log transaccional completo en crudo */}
               <Pressable onPress={() => doShare(bundle)} style={s.shareBtn} accessibilityRole="button">
-                <Text style={s.shareBtnTxt}>📤 Compartir log completo (email · WhatsApp)</Text>
+                <Text style={s.shareBtnTxt}>{t.pro.shareLog}</Text>
               </Pressable>
               {!!note && <Text style={[s.note, purged && s.notePurged]}>{note}</Text>}
             </>
           ) : (
-            <Text style={s.loading}>Empaquetando log…</Text>
+            <Text style={s.loading}>{t.pro.packaging}</Text>
           )}
         </ScrollView>
       </View>

@@ -7,6 +7,7 @@
 import React, { useState } from 'react';
 import { View, Text, Pressable, ScrollView, StyleSheet } from 'react-native';
 import { V } from './valeriaTheme';
+import { useT } from './i18n';
 
 // ----------------------------------------------------------------------------
 // Seguridad: SHA-256 en JS puro (compatible con Hermes, sin crypto.subtle).
@@ -66,13 +67,16 @@ export const MASTER_PIN_HASH = '78e370b587b145920213731b7c7c725e512b3b6577c51c80
 // ----------------------------------------------------------------------------
 // Píldora de estado: bloqueado (abre el modal) / modo profesional activo.
 // ----------------------------------------------------------------------------
-export const ProUnlockPill: React.FC<{ unlocked: boolean; onPress: () => void }> = ({ unlocked, onPress }) => (
+export const ProUnlockPill: React.FC<{ unlocked: boolean; onPress: () => void }> = ({ unlocked, onPress }) => {
+  const t = useT();
+  return (
   <Pressable onPress={() => !unlocked && onPress()} style={[s.pill, unlocked ? s.pillUnlocked : s.pillLocked]} accessibilityRole="button">
     <Text style={{ fontSize: 15 }}>{unlocked ? '🔓' : '🔒'}</Text>
-    <Text style={[s.pillTxt, { color: unlocked ? '#0a7d54' : V.color.textPrimary }]}>{unlocked ? 'Modo profesional activo' : 'Desbloquear Edición Profesional'}</Text>
+    <Text style={[s.pillTxt, { color: unlocked ? '#0a7d54' : V.color.textPrimary }]}>{unlocked ? t.pro.unlockedPill : t.pro.unlockPill}</Text>
     {!unlocked && <Text style={s.pillChev}>›</Text>}
   </Pressable>
-);
+  );
+};
 
 // ----------------------------------------------------------------------------
 // Modal de PIN de 4 dígitos. Gestiona su propio estado de tecleo y error;
@@ -84,6 +88,7 @@ export const ProPinModal: React.FC<{
   onUnlock: () => void;
   subtitle?: string;
 }> = ({ open, onClose, onUnlock, subtitle }) => {
+  const t = useT();
   const [pin, setPin] = useState('');
   const [pinErr, setPinErr] = useState(false);
 
@@ -118,15 +123,15 @@ export const ProPinModal: React.FC<{
           <View style={s.modalIcon}><Text style={{ fontSize: 20 }}>🔐</Text></View>
           <Pressable onPress={close} style={s.modalClose}><Text style={{ color: '#6b7280', fontWeight: '700' }}>✕</Text></Pressable>
         </View>
-        <Text style={s.modalTitle}>Modo Profesional</Text>
-        <Text style={s.modalSub}>{subtitle ?? 'Introduce el PIN de 4 dígitos del logopeda para editar la prescripción.'}</Text>
+        <Text style={s.modalTitle}>{t.pro.modalTitle}</Text>
+        <Text style={s.modalSub}>{subtitle ?? t.pro.pinSubtitleDefault}</Text>
         <View style={s.pinRow}>
           {[0, 1, 2, 3].map((i) => {
             const filled = i < pin.length;
             return <View key={i} style={[s.pinCell, pinErr ? s.pinCellErr : filled ? s.pinCellOn : s.pinCellOff]} />;
           })}
         </View>
-        <Text style={[s.pinError, { opacity: pinErr ? 1 : 0 }]}>PIN incorrecto. Inténtalo de nuevo.</Text>
+        <Text style={[s.pinError, { opacity: pinErr ? 1 : 0 }]}>{t.pro.pinError}</Text>
         <View style={s.keypad}>
           {['1', '2', '3', '4', '5', '6', '7', '8', '9'].map((d) => (
             <Pressable key={d} onPress={() => pressDigit(d)} style={s.key}><Text style={s.keyTxt}>{d}</Text></Pressable>
@@ -135,7 +140,7 @@ export const ProPinModal: React.FC<{
           <Pressable onPress={() => pressDigit('0')} style={s.key}><Text style={s.keyTxt}>0</Text></Pressable>
           <Pressable onPress={() => setPin((p) => p.slice(0, -1))} style={[s.key, { backgroundColor: '#fff' }]}><Text style={[s.keyTxt, { fontSize: 20, color: '#6b7280' }]}>⌫</Text></Pressable>
         </View>
-        <Text style={s.demoPin}>PIN de demostración: 1985</Text>
+        <Text style={s.demoPin}>{t.pro.demoPin}</Text>
         </ScrollView>
       </View>
     </View>

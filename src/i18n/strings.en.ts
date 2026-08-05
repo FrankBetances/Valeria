@@ -683,6 +683,203 @@ export const EN: UiStrings = {
     redirecting: (s: number): string => `Going to results in ${s}s…`,
   },
 
+  // Caregiver panel, modals and results. Same rule as always: what the app
+  // SPEAKS (TPR commands, routine routes) comes from the variety bank; what the
+  // grown-up READS lives here. The pragmatic breakdown and the repair scale are
+  // instructions and clinical observation FOR THE GROWN-UP, so they are interface.
+  adult: {
+    kicker: '🎛️ CAREGIVER PANEL · EXTRA CHALLENGE',
+    openA11y: 'Open the caregiver panel',
+    closeA11y: 'Close the caregiver panel',
+    distractorTitle: '🐻 Distractor bear (dual task)',
+    distractorSub: 'The bear peeks in and moves along the edge; the child has to keep attending to the voice. Tapping it does not count as an error.',
+    launchPragmatic: '🎭 Trigger a pragmatic breakdown',
+    arKicker: '🎯 AUGMENTED REALITY · CLINICAL THRESHOLDS',
+    gazePointer: 'Gaze pointer (AR-3)',
+    pointerIris: 'Iris',
+    pointerNose: 'Nose',
+    pointerIrisA11y: 'Iris-based pointer',
+    pointerNoseA11y: 'Nose-based pointer',
+  },
+
+  pragmatic: {
+    kicker: '🎭 PRAGMATIC BREAKDOWN · GROWN-UPS ONLY',
+    warnTitle: 'This task will create useful frustration',
+    warnBody:
+      'You are about to break communication ON PURPOSE to watch how your child repairs it. '
+      + 'It is normal (and valuable) for them to be puzzled, to protest or to get a little '
+      + 'frustrated: that reaction IS the exercise. Do it once, calmly, and always finish with '
+      + 'a hug and the instruction said properly.',
+    closeLoopUpset:
+      'Close the breakdown now: repeat the instruction properly, name the feeling (“I confused '
+      + 'you, didn’t I?”) and give them a hug. Repair by the grown-up teaches too.',
+    notToday: 'Not today',
+    understood: 'Understood, let’s go',
+    swapVariant: 'I’d rather use the other variant →',
+    didIt: 'Done · what did your child do?',
+    repairTitle: 'How did they repair the breakdown?',
+    repairBody: 'Pick the FIRST thing your child did. There are no wrong answers: they all tell us something.',
+    recorded: 'Recorded',
+    closeLoop: 'Close the loop: repeat the instruction properly and celebrate their reaction. Repairing is a skill, and they just practiced it!',
+    backToSession: 'Back to the session',
+    stressorMurmurTitle: 'Mumble',
+    stressorMurmurText: 'Give a simple instruction in a VERY quiet, unclear voice, looking away. Example: “bring me the…” (unintelligible).',
+    stressorAbsurdTitle: 'Absurd instruction',
+    stressorAbsurdText: 'Ask for something impossible or nonsensical with a straight face. Example: “Put the shoe inside the fridge” or “Hand me the cloud on the table”.',
+    repairAskLabel: 'Asked for repetition',
+    repairAskDesc: '“What?”, “again?”, moved closer to listen',
+    repairRephraseLabel: 'Rephrased',
+    repairRephraseDesc: 'Corrected or negotiated the absurd instruction in their own words',
+    repairGestureLabel: 'Used gestures',
+    repairGestureDesc: 'Pointed, shrugged, looked to you',
+    repairWithdrawLabel: 'Withdrew',
+    repairWithdrawDesc: 'Pulled out of the interaction or switched activity',
+    repairCryLabel: 'Cried',
+    repairCryDesc: 'Emotional overflow at the breakdown',
+    repairNoneLabel: 'Didn’t notice the breakdown',
+    repairNoneDesc: 'Carried on as if the instruction had been normal',
+  },
+
+  breaks: {
+    routeKicker: '🏠 ROUTINE ROUTE · TPR 2.0',
+    adultBanner: '👤 Caregiver panel · the child does NOT touch the screen: they listen and act with real objects.',
+    ready: '▶ We’re ready',
+    repeatOrder: '🔊 Repeat the instruction',
+    repeatOrderA11y: 'Repeat the instruction out loud',
+    notThisTime: '✖️ Not this time',
+    skip: 'Skip this time',
+    tprKicker: '🧩 TPR CAPSULE · LISTEN AND MOVE',
+    tprSub: 'The app says the instruction out loud and the child responds with their body (Total Physical Response).',
+    tprRepeat: '🔊 Repeat instruction',
+    tprDoneLast: '✅ Done! Let’s go →',
+    tprDone: '✅ They did it!',
+    routeDoneLast: '✅ Did it · finish',
+    routeDone: '✅ Did it',
+  },
+
+  pro: {
+    unlockPill: 'Unlock professional editing',
+    unlockedPill: 'Professional mode active',
+    modalTitle: 'Professional Mode',
+    pinError: 'Wrong PIN. Try again.',
+    demoPin: 'Demo PIN: 1985',
+    pinSubtitleDefault: 'Enter the clinician’s 4-digit PIN to edit the therapy plan.',
+    shareCancelled: 'Export cancelled · the log is kept so you can retry.',
+    shareFailed: 'Couldn’t open the share menu · the log is kept.',
+    exportKicker: '🔓 PROFESSIONAL MODE · EXPORT',
+    exportTitle: 'Usability evidence',
+    exportSub: 'Scan the QR code for the offline summary, or share the full log when you have a connection.',
+    qrCaption: 'Offline summary · scannable with the camera',
+    shareLog: '📤 Share full log (email · WhatsApp)',
+    packaging: 'Packaging log…',
+    shareTitle: 'Usability log · Valeria+ (pilot)',
+  },
+
+  sus: {
+    kicker: '💬 ONE QUICK QUESTION',
+    question: 'It was easy to fit this exercise into my child’s routine.',
+    scaleA11y: (v: number, label: string): string => `${v} of 5: ${label}`,
+    thanks: 'Thanks for helping us make Valeria+ better!',
+    sub: 'Tap the face that fits best. It’s anonymous and takes a second.',
+    disagree: 'Strongly disagree',
+    agree: 'Strongly agree',
+    neutral: 'Neutral',
+    somewhat: 'Somewhat agree',
+    slightly: 'Somewhat disagree',
+  },
+
+  results: {
+    back: '‹ Back to exercises',
+    title: 'Results and Progress',
+    noPatient: 'No patient record',
+    recordNumber: (nhc: string): string => `Record ${nhc}`,
+
+    gameTitle: 'Motivation and achievements',
+    currentStreak: 'current streak',
+    totalXp: 'total XP',
+    bestStreak: 'best streak',
+    level: (n: number, name: string): string => `Level ${n} · ${name}`,
+    xpToNext: (n: number): string => `${n} XP to the next level`,
+    badgesLabel: (won: number, total: number): string => `BADGES · ${won}/${total}`,
+
+    adherenceTitle: 'Weekly adherence',
+    adherenceLabel: 'This week’s adherence',
+    adherenceValue: (done: number, goal: number): string => `${done} of ${goal} sessions completed`,
+
+    evolutionTitle: 'Progress by stars',
+    evolutionSub: (n: number): string => `Average stars · last ${n} sessions`,
+    trendUp: (d: number): string => `▲ +${d} ★`,
+    trendDown: (d: number): string => `▼ ${d} ★`,
+    trendStable: '= steady',
+
+    phonemeTitle: 'Substitution by phoneme',
+    pmFirstSession: 'first session',
+    pmImproving: (d: number): string => `▼ ${d} pp · improving`,
+    pmWorsening: (d: number): string => `▲ +${d} pp · needs work`,
+
+    arNoTiming: 'Played without timing: measuring the times needs external wired speakers. The correct answers were recorded.',
+    arNoTrials: 'No measured trials in this exercise yet.',
+    arTrials: 'trials',
+    arVoided: 'voided',
+    arMean: (unit: string): string => `mean (${unit})`,
+    arMax: (unit: string): string => `max (${unit})`,
+    arShareLine: (name: string, n: number, medida: string): string => `• ${name}: ${n} trials · ${medida}`,
+    arTrial1: 'trial 1',
+    arLabel: (id: string): string =>
+      id === 'ar1' ? 'Lip-rounding hold' : id === 'ar2' ? 'Head-turn latency' : 'Fixation before choosing',
+    arHint: (id: string): string =>
+      id === 'ar1' ? 'Milliseconds the lip rounding was held in each trial. The dotted line is the target you set yourselves.'
+        : id === 'ar2' ? 'Milliseconds between the sound and the head turn. Only trials that could be timed appear here.'
+          : 'Milliseconds of sustained gaze before confirming the picture.',
+    arTitle: (id: string): string =>
+      id === 'ar1' ? 'AR-1 · Orofacial kinematics'
+        : id === 'ar2' ? 'AR-2 · Sound localization'
+          : 'AR-3 · Selection by fixation',
+    arTrialN: (n: number): string => `trial ${n}`,
+
+    historyLabel: 'SESSION HISTORY',
+    historyCount: (n: number): string => `${n} recorded`,
+    average: (v: string): string => `Average: ${v} / 3`,
+    understands: '👆 UNDERSTANDS',
+    produces: '🗣 PRODUCES',
+    responsesKicker: '📝 RECORDED RESPONSES',
+
+    newSession: 'Start a new session →',
+    backGhost: '↩ Back to exercises',
+    sharePdf: '📄 Share PDF',
+    footNote: 'History stored on this device only (local-first).',
+    shareTitle: 'Valeria+ results',
+    // EXAMPLE history shown before any real session exists.
+    demoHistory: (): Array<{ date: string; name: string; note: string }> => [
+      { date: 'Jun 10', name: 'Initial vowel matching', note: 'Slow to start, but ended up matching the vowels with support.' },
+      { date: 'Jun 12', name: 'Odd-one-out detection', note: 'Good session, found the odd one out after the guiding question.' },
+      { date: 'Jun 15', name: 'Emotion recognition', note: 'Very focused today, named almost all the emotions.' },
+      { date: 'Jun 17', name: 'S-V-O structure', note: 'Built complete sentences with the dice, big step forward.' },
+      { date: 'Jun 19', name: 'Therapy session', note: 'Excellent. Answered the prompts with almost no help.' },
+    ],
+    shareHeader: 'VALERIA+ · Results and Progress',
+    shareAdherence: (pct: number, done: number, goal: number): string => `Weekly adherence: ${pct}% (${done}/${goal})`,
+    shareTrend: (trend: string): string => `Trend: ${trend}`,
+    shareHistory: 'Session history:',
+    sharePm: 'Minimal pairs · substitution by phoneme:',
+    shareAr: 'Augmented reality · measured values:',
+    shareFoot: 'Local-first report generated on the device.',
+    shareSessionLine: (date: string, name: string, avg: string, stars: string, split: string, resp: string): string =>
+      `• ${date} · ${name} — ${avg}/3 ${stars}${split}${resp}`,
+    shareSplit: (comp: string, prod: string): string => ` [understands ${comp}/3 · produces ${prod}/3]`,
+    shareResponse: (code: string, text: string): string => `\n    · ${code} answered: “${text}”`,
+    sharePmLine: (phoneme: string, pct: number, n: number): string =>
+      `• ${phoneme}: ${pct}% substitution in the last session (${n} ${n === 1 ? 'session' : 'sessions'})`,
+    shareArMeasure: (label: string, mean: number, unit: string, max: number, n: number): string =>
+      `${label.toLowerCase()} mean ${mean} ${unit} (max ${max} ${unit}, n=${n})`,
+    shareArNoTiming: 'no timed measurement',
+    shareArVoided: (n: number): string => ` · ${n} voided by phone movement`,
+    shareDevice: (mk: string, model: string, level: string, fps: string): string =>
+      `\n  Measured on ${mk} ${model} · capability level ${level} · ${fps} sustained fps`,
+    shareThresholds: (hold: number, turn: number, win: number, dwell: number): string =>
+      `\n  Thresholds set by the grown-up: hold ${hold} ms · turn ${turn}° · window ${win} ms · fixation ${dwell} ms`,
+  },
+
   settings: {
     uiLangTitle: 'App language',
     uiLangHint:

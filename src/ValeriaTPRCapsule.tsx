@@ -8,6 +8,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, Pressable, StyleSheet, Animated, Easing } from 'react-native';
 import { V } from './valeriaTheme';
+import { useT } from './i18n';
 import { speakToChild, stopSpeaking } from './valeriaVoice';
 import { TprCapsule, TPR_CAPSULES, pickTprCapsule } from './valeriaTprBank';
 import { SESSION_CONTINUE_PHRASE } from './valeriaPhraseBank';
@@ -28,6 +29,7 @@ export const ValeriaTPRCapsuleOverlay: React.FC<{
   onDone: () => void;
   onSkip: () => void;
 }> = ({ capsule, onDone, onSkip }) => {
+  const t = useT();
   const [step, setStep] = useState(0);
   const pulse = useRef(new Animated.Value(0)).current;
   const cmd = capsule.commands[step];
@@ -65,9 +67,9 @@ export const ValeriaTPRCapsuleOverlay: React.FC<{
   return (
     <View style={s.overlay}>
       <View style={s.card}>
-        <Text style={s.kicker}>🧩 CÁPSULA TPR · ESCUCHA Y MUÉVETE</Text>
+        <Text style={s.kicker}>{t.breaks.tprKicker}</Text>
         <Text style={s.title}>{capsule.icon} {capsule.title}</Text>
-        <Text style={s.sub}>La app dice la orden en voz alta y el niño responde con el cuerpo (Total Physical Response).</Text>
+        <Text style={s.sub}>{t.breaks.tprSub}</Text>
 
         <Animated.Text style={[s.emoji, { transform: [{ scale }] }]}>{cmd.emoji}</Animated.Text>
         <Text style={s.cmd}>“{cmd.text}”</Text>
@@ -79,16 +81,16 @@ export const ValeriaTPRCapsuleOverlay: React.FC<{
         </View>
 
         <View style={s.row}>
-          <Pressable onPress={() => speakToChild(cmd.text)} style={s.repeatBtn} accessibilityRole="button" accessibilityLabel="Repetir la orden en voz alta">
-            <Text style={s.repeatBtnTxt}>🔊 Repetir orden</Text>
+          <Pressable onPress={() => speakToChild(cmd.text)} style={s.repeatBtn} accessibilityRole="button" accessibilityLabel={t.breaks.repeatOrderA11y}>
+            <Text style={s.repeatBtnTxt}>{t.breaks.tprRepeat}</Text>
           </Pressable>
           <Pressable onPress={next} style={s.okBtn} accessibilityRole="button">
-            <Text style={s.okBtnTxt}>{last ? '✅ ¡Hecho! Seguimos →' : '✅ ¡Lo hizo!'}</Text>
+            <Text style={s.okBtnTxt}>{last ? t.breaks.tprDoneLast : t.breaks.tprDone}</Text>
           </Pressable>
         </View>
 
         <Pressable onPress={() => { stopSpeaking(); onSkip(); }} accessibilityRole="button">
-          <Text style={s.skip}>Saltar esta vez</Text>
+          <Text style={s.skip}>{t.breaks.skip}</Text>
         </Pressable>
       </View>
     </View>

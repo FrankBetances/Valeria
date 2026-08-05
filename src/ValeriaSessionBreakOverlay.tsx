@@ -10,6 +10,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
 import { V } from './valeriaTheme';
+import { useT } from './i18n';
 import { speakClinical, stopSpeaking } from './valeriaVoice';
 import { ValeriaTPRCapsuleOverlay } from './ValeriaTPRCapsule';
 import { TPR_CAPSULES, TprCapsule } from './valeriaTprBank';
@@ -51,6 +52,7 @@ const RoutineRouteOverlay: React.FC<{
   onDone: () => void;
   onSkip: () => void;
 }> = ({ route, onDone, onSkip }) => {
+  const t = useT();
   const [stage, setStage] = useState<'scene' | 'run'>('scene');
   const [step, setStep] = useState(0);
   const cmd = route.commands[step];
@@ -77,17 +79,17 @@ const RoutineRouteOverlay: React.FC<{
   return (
     <View style={s.overlay}>
       <View style={s.card}>
-        <Text style={s.kicker}>🏠 RUTA DE RUTINA · TPR 2.0</Text>
+        <Text style={s.kicker}>{t.breaks.routeKicker}</Text>
         <Text style={s.title}>{route.icon} {route.title}</Text>
         <View style={s.adultBanner}>
-          <Text style={s.adultBannerTxt}>👤 Panel del adulto · el niño NO toca la pantalla: escucha y actúa con objetos reales.</Text>
+          <Text style={s.adultBannerTxt}>{t.breaks.adultBanner}</Text>
         </View>
 
         {stage === 'scene' ? (
           <>
             <Text style={s.scene}>{route.scene}</Text>
             <Pressable onPress={() => setStage('run')} style={s.okBtn} accessibilityRole="button">
-              <Text style={s.okBtnTxt}>▶ Estamos listos</Text>
+              <Text style={s.okBtnTxt}>{t.breaks.ready}</Text>
             </Pressable>
           </>
         ) : (
@@ -102,24 +104,24 @@ const RoutineRouteOverlay: React.FC<{
               ))}
             </View>
 
-            <Pressable onPress={() => speakClinical(cmd.text)} style={s.repeatBtn} accessibilityRole="button" accessibilityLabel="Repetir la orden en voz alta">
-              <Text style={s.repeatBtnTxt}>🔊 Repetir la orden</Text>
+            <Pressable onPress={() => speakClinical(cmd.text)} style={s.repeatBtn} accessibilityRole="button" accessibilityLabel={t.breaks.repeatOrderA11y}>
+              <Text style={s.repeatBtnTxt}>{t.breaks.repeatOrder}</Text>
             </Pressable>
 
             {/* Validación binaria del cuidador: alimenta routes.validated/failed */}
             <View style={s.row}>
               <Pressable onPress={() => validate(false)} style={s.noBtn} accessibilityRole="button">
-                <Text style={s.noBtnTxt}>✖️ No esta vez</Text>
+                <Text style={s.noBtnTxt}>{t.breaks.notThisTime}</Text>
               </Pressable>
               <Pressable onPress={() => validate(true)} style={s.okBtn} accessibilityRole="button">
-                <Text style={s.okBtnTxt}>{last ? '✅ Lo hizo · terminar' : '✅ Lo hizo'}</Text>
+                <Text style={s.okBtnTxt}>{last ? t.breaks.routeDoneLast : t.breaks.routeDone}</Text>
               </Pressable>
             </View>
           </>
         )}
 
         <Pressable onPress={() => { stopSpeaking(); onSkip(); }} accessibilityRole="button">
-          <Text style={s.skip}>Saltar esta vez</Text>
+          <Text style={s.skip}>{t.breaks.skip}</Text>
         </Pressable>
       </View>
     </View>

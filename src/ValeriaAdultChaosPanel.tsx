@@ -25,6 +25,7 @@
 import React, { useState } from 'react';
 import { View, Text, Pressable, Switch, StyleSheet } from 'react-native';
 import { V } from './valeriaTheme';
+import { useT } from './i18n';
 import { ValeriaManualNoiseSlider } from './ValeriaManualNoiseSlider';
 import { AR_THRESHOLD_RANGES } from './valeriaArSettings';
 import type { ArThresholds } from './valeriaArBridge';
@@ -65,6 +66,7 @@ export const ValeriaAdultChaosPanel: React.FC<{
   arThresholds?: ArThresholds;
   onArThresholdsChange?: (t: ArThresholds) => void;
 }> = ({ distractorOn, onDistractorChange, onLaunchPragmatic, arThresholds, onArThresholdsChange }) => {
+  const t = useT();
   const [open, setOpen] = useState(false);
   const showAr = !!arThresholds && !!onArThresholdsChange;
   const patchAr = (patch: Partial<ArThresholds>) => {
@@ -77,9 +79,9 @@ export const ValeriaAdultChaosPanel: React.FC<{
         onPress={() => setOpen(!open)}
         style={s.head}
         accessibilityRole="button"
-        accessibilityLabel={open ? 'Cerrar el panel del adulto' : 'Abrir el panel del adulto'}
+        accessibilityLabel={open ? t.adult.closeA11y : t.adult.openA11y}
       >
-        <Text style={s.kicker}>🎛️ PANEL DEL ADULTO · RETO EXTRA</Text>
+        <Text style={s.kicker}>{t.adult.kicker}</Text>
         <Text style={s.chev}>{open ? '▾' : '▸'}</Text>
       </Pressable>
       {open && (
@@ -91,8 +93,8 @@ export const ValeriaAdultChaosPanel: React.FC<{
           <ValeriaManualNoiseSlider />
           <View style={s.dualRow}>
             <View style={{ flex: 1 }}>
-              <Text style={s.dualTitle}>🐻 Oso distractor (doble tarea)</Text>
-              <Text style={s.dualSub}>El oso se asoma y se mueve por el borde; el niño debe seguir atendiendo a la voz. Tocarlo no cuenta como error.</Text>
+              <Text style={s.dualTitle}>{t.adult.distractorTitle}</Text>
+              <Text style={s.dualSub}>{t.adult.distractorSub}</Text>
             </View>
             <Switch
               value={distractorOn}
@@ -102,14 +104,14 @@ export const ValeriaAdultChaosPanel: React.FC<{
             />
           </View>
           <Pressable onPress={onLaunchPragmatic} style={s.pragBtn} accessibilityRole="button">
-            <Text style={s.pragBtnTxt}>🎭 Lanzar un quiebre pragmático</Text>
+            <Text style={s.pragBtnTxt}>{t.adult.launchPragmatic}</Text>
           </Pressable>
 
           {/* [RA] Umbrales del bloque de Realidad Aumentada. Se fijan aquí y
               quedan CONSTANTES durante toda la sesión: la app no los toca. */}
           {showAr && arThresholds && (
             <View style={s.arBox}>
-              <Text style={s.arKicker}>🎯 REALIDAD AUMENTADA · UMBRALES CLÍNICOS</Text>
+              <Text style={s.arKicker}>{t.adult.arKicker}</Text>
               <Text style={s.arHint}>
                 Lo que se le va a exigir al peque en cada ejercicio. Los fijas tú antes de
                 empezar y no cambian durante la sesión: la app mide y registra, el criterio
@@ -151,7 +153,7 @@ export const ValeriaAdultChaosPanel: React.FC<{
 
               <View style={s.pointerRow}>
                 <View style={{ flex: 1 }}>
-                  <Text style={s.stepLabel}>Puntero de la mirada (AR-3)</Text>
+                  <Text style={s.stepLabel}>{t.adult.gazePointer}</Text>
                   <Text style={s.stepHint}>
                     El iris es más preciso; la nariz, más estable en teléfonos modestos. Si el
                     puntero tiembla, cambia a nariz: el ejercicio no se entera.
@@ -164,8 +166,8 @@ export const ValeriaAdultChaosPanel: React.FC<{
                       <Pressable key={src} onPress={() => patchAr({ pointerSource: src })}
                         style={[s.segBtn, on && s.segBtnOn]}
                         accessibilityRole="button" accessibilityState={{ selected: on }}
-                        accessibilityLabel={src === 'iris' ? 'Puntero por iris' : 'Puntero por nariz'}>
-                        <Text style={[s.segTxt, on && s.segTxtOn]}>{src === 'iris' ? 'Iris' : 'Nariz'}</Text>
+                        accessibilityLabel={src === 'iris' ? t.adult.pointerIrisA11y : t.adult.pointerNoseA11y}>
+                        <Text style={[s.segTxt, on && s.segTxtOn]}>{src === 'iris' ? t.adult.pointerIris : t.adult.pointerNose}</Text>
                       </Pressable>
                     );
                   })}
