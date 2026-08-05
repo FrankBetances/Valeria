@@ -10,6 +10,14 @@
 //             sin audio propio (Quisqueya Habla no pregenera para lanzar).
 //   'eu'    → euskera batua · voz neuronal HiTZ-TTS (pregenerada, ILENIA/
 //             NEL-GAITU, UPV/EHU · Aholab). Ver docs/plan-integracion-euskera.md.
+//   'en-US' → inglés de EE. UU. · voz neuronal Piper en_US (pregenerada; el
+//             motor `piper` ya existía para Sharvard). Ver
+//             docs/plan-integracion-ingles-en-US.md.
+//
+// OJO — esta variedad NO decide el idioma de la INTERFAZ. Ese es un segundo eje
+// independiente que vive en `valeriaUiLang.ts`, para no dejar fuera el caso
+// bilingüe (UI en español, terapia en inglés, o al revés). Aquí solo se decide
+// lo que se le dice, se le muestra y se le evalúa AL NIÑO.
 //
 // La variedad decide tres cosas, desacopladas a propósito:
 //   1) assetLang()    — qué banco de audio pregenerado usar (o ninguno).
@@ -22,10 +30,10 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { VoiceLang } from './valeriaVoiceCorpus';
 
-export type Locale = 'es' | 'gl' | 'es-DO' | 'eu';
-export const ALL_LOCALES: Locale[] = ['es', 'gl', 'es-DO', 'eu'];
+export type Locale = 'es' | 'gl' | 'es-DO' | 'eu' | 'en-US';
+export const ALL_LOCALES: Locale[] = ['es', 'gl', 'es-DO', 'eu', 'en-US'];
 export const isLocale = (v: unknown): v is Locale =>
-  v === 'es' || v === 'gl' || v === 'es-DO' || v === 'eu';
+  v === 'es' || v === 'gl' || v === 'es-DO' || v === 'eu' || v === 'en-US';
 
 const KEY = '@valeria_locale';
 const LEGACY_KEY = '@valeria_voice_lang'; // clave anterior (solo es|gl)
@@ -51,12 +59,20 @@ export async function setLocale(loc: Locale): Promise<void> {
 // Banco de voz PRE-GENERADA de la variedad, o null si usa la voz del sistema.
 // (es-DO no pregenera: suena con la voz latina del dispositivo.)
 export function assetLang(loc: Locale = active): VoiceLang | null {
-  return loc === 'gl' ? 'gl' : loc === 'eu' ? 'eu' : loc === 'es' ? 'es' : null;
+  return loc === 'gl' ? 'gl'
+    : loc === 'eu' ? 'eu'
+      : loc === 'en-US' ? 'en'
+        : loc === 'es' ? 'es'
+          : null;
 }
 
 // Locale BCP-47 para el ASR (expo-speech-recognition) y la voz del sistema (TTS).
 export function speechLocale(loc: Locale = active): string {
-  return loc === 'gl' ? 'gl-ES' : loc === 'eu' ? 'eu-ES' : loc === 'es-DO' ? 'es-DO' : 'es-ES';
+  return loc === 'gl' ? 'gl-ES'
+    : loc === 'eu' ? 'eu-ES'
+      : loc === 'en-US' ? 'en-US'
+        : loc === 'es-DO' ? 'es-DO'
+          : 'es-ES';
 }
 
 // ¿Preferir voces latinoamericanas (es-US/es-MX/es-DO) al puntuar el catálogo?

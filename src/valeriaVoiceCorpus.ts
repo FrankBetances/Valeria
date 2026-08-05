@@ -62,7 +62,7 @@ export type VoiceStyle = 'tutor' | 'child' | 'clinical' | 'slow';
 // Idiomas del corpus (planes Nós y ILENIA/NEL-GAITU): un MISMO texto puede
 // existir en varias lenguas ("boca", "casa") con audios distintos → el idioma
 // forma parte del id. es conserva su forma histórica; el resto lleva prefijo.
-export type VoiceLang = 'es' | 'gl' | 'eu';
+export type VoiceLang = 'es' | 'gl' | 'eu' | 'en';
 
 export interface VoiceCorpusEntry {
   id: string;         // clave del mapa y nombre de asset (incluye idioma si ≠ es)

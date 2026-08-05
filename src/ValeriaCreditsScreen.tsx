@@ -10,36 +10,24 @@ import React, { useEffect, useRef } from 'react';
 import { View, Text, Pressable, ScrollView, StyleSheet, Animated, Easing, StatusBar } from 'react-native';
 import { V } from './valeriaTheme';
 import { BearMark } from './ValeriaBearLogo';
+import { useT } from './i18n';
+import { ValeriaUiLangPicker } from './ValeriaUiLangPicker';
 // import logoWhite from '../../assets/valeria-logo-white.png';
 
-interface Colaborador { icon: string; nombre: string; desc: string; }
-
-const COLABORADORES: Colaborador[] = [
-  { icon: '🤝', nombre: 'Acopros', desc: 'Asociación de Colaboración y Promoción del Sordo' },
-  { icon: '🗣️', nombre: 'Quisqueya Habla', desc: 'Rehabilitación del lenguaje' },
-];
-
-// Atribución de las voces neuronales pre-generadas (plan ILENIA/Nós): las
-// licencias de los modelos piden acreditar la voz utilizada.
-const VOICE_CREDIT =
-  'Voz neuronal en castellano: «Sharvard» (Piper · rhasspy/piper-voices). ' +
-  'En galego (próximamente): «Celtia» · Proxecto Nós. ' +
-  'Euskaraz: HiTZ-TTS · ILENIA/NEL-GAITU (UPV/EHU · Aholab).';
-
-// Atribución de la tecnología del bloque de Realidad Aumentada. Las licencias
-// piden acreditar los componentes de terceros, y la de los modelos 3D obliga
-// además a nombrar autoría: el contrato de assets vive en assets/models/README.md
-// y esta línea es donde se hace público lo que allí queda registrado.
-const AR_CREDIT =
-  'Realidad Aumentada: seguimiento facial con MediaPipe Tasks (Google, Apache 2.0) ' +
-  'y escena 3D con Filament (Google, Apache 2.0), ambos ejecutándose íntegramente ' +
-  'en el dispositivo. Modelos 3D generados para el proyecto y liberados en CC0.';
-
-// Secuencia de entrada: marca, kicker, autor, divisor, colaboradores, voces,
-// tecnología de RA y CTA.
-const SECTIONS = 7 + COLABORADORES.length;
+// Secuencia de entrada: marca, kicker, autor, divisor, dos colaboradores,
+// voces, tecnología de RA, selector de idioma y CTA.
+const COLLABORATOR_COUNT = 2;
+const SECTIONS = 8 + COLLABORATOR_COUNT;
 
 export const ValeriaCreditsScreen: React.FC<{ navigation?: any }> = ({ navigation }) => {
+  const t = useT();
+
+  // Los colaboradores llevan nombre propio (no se traduce) y descripción (sí).
+  const colaboradores = [
+    { icon: '🤝', nombre: 'Acopros', desc: t.credits.acoprosDesc },
+    { icon: '🗣️', nombre: 'Quisqueya Habla', desc: t.credits.quisqueyaDesc },
+  ];
+
   const float = useRef(new Animated.Value(0)).current;
   const pulse = useRef(new Animated.Value(0)).current;
   const sections = useRef(Array.from({ length: SECTIONS }, () => new Animated.Value(0))).current;
@@ -93,7 +81,7 @@ export const ValeriaCreditsScreen: React.FC<{ navigation?: any }> = ({ navigatio
           <Text style={s.brand}>valeria</Text>
         </Animated.View>
 
-        <Animated.Text style={[s.kicker, fadeUp(1)]}>Proyecto desarrollado por</Animated.Text>
+        <Animated.Text style={[s.kicker, fadeUp(1)]}>{t.credits.kicker}</Animated.Text>
 
         {/* tarjeta del autor */}
         <Animated.View style={[s.doctorCard, fadeUp(2)]}>
@@ -101,19 +89,19 @@ export const ValeriaCreditsScreen: React.FC<{ navigation?: any }> = ({ navigatio
             <Text style={s.doctorAvatarIcon}>🩺</Text>
           </Animated.View>
           <Text style={s.doctorName}>Dr. Frank Betances</Text>
-          <Text style={s.doctorRole}>Otorrinolaringólogo infantil</Text>
+          <Text style={s.doctorRole}>{t.credits.authorRole}</Text>
         </Animated.View>
 
         {/* divisor */}
         <Animated.View style={[s.dividerRow, fadeUp(3)]}>
           <View style={s.dividerLine} />
-          <Text style={s.dividerLabel}>En colaboración con</Text>
+          <Text style={s.dividerLabel}>{t.credits.collaborators}</Text>
           <View style={s.dividerLine} />
         </Animated.View>
 
         {/* colaboradores */}
         <View style={s.collabList}>
-          {COLABORADORES.map((c, i) => (
+          {colaboradores.map((c, i) => (
             <Animated.View key={c.nombre} style={[s.collabCard, fadeUp(4 + i)]}>
               <View style={s.collabIcon}>
                 <Text style={s.collabIconText}>{c.icon}</Text>
@@ -127,10 +115,18 @@ export const ValeriaCreditsScreen: React.FC<{ navigation?: any }> = ({ navigatio
         </View>
 
         {/* atribución de voces neuronales */}
-        <Animated.Text style={[s.voiceCredit, fadeUp(4 + COLABORADORES.length)]}>{VOICE_CREDIT}</Animated.Text>
+        <Animated.Text style={[s.voiceCredit, fadeUp(4 + COLLABORATOR_COUNT)]}>{t.credits.voiceCredit}</Animated.Text>
 
         {/* atribución de la tecnología de Realidad Aumentada */}
-        <Animated.Text style={[s.voiceCredit, fadeUp(5 + COLABORADORES.length)]}>{AR_CREDIT}</Animated.Text>
+        <Animated.Text style={[s.voiceCredit, fadeUp(5 + COLLABORATOR_COUNT)]}>{t.credits.arCredit}</Animated.Text>
+
+        {/* Selector de idioma de INTERFAZ. Vive aquí porque Créditos es la
+            primera pantalla que ve quien entra por «Comenzar»: quien no lee
+            castellano puede cambiar el idioma antes de llegar a la ficha, sin
+            tener que atravesar el alta a ciegas. */}
+        <Animated.View style={[s.langBlock, fadeUp(6 + COLLABORATOR_COUNT)]}>
+          <ValeriaUiLangPicker />
+        </Animated.View>
       </ScrollView>
 
       {/* acción */}
@@ -139,7 +135,7 @@ export const ValeriaCreditsScreen: React.FC<{ navigation?: any }> = ({ navigatio
           style={({ pressed }) => [s.cta, pressed && { opacity: 0.9 }]}
           onPress={() => navigation?.navigate('FichaRegistro')}
         >
-          <Text style={s.ctaText}>Continuar</Text>
+          <Text style={s.ctaText}>{t.common.continue}</Text>
         </Pressable>
       </Animated.View>
     </View>
@@ -198,6 +194,8 @@ const s = StyleSheet.create({
     marginTop: 16, fontSize: 10.5, fontWeight: V.font.bold, lineHeight: 15,
     color: 'rgba(255,255,255,0.72)', textAlign: 'center', paddingHorizontal: 6,
   },
+
+  langBlock: { marginTop: 24, width: '100%' },
 
   actions: { paddingHorizontal: 28, paddingTop: 8, paddingBottom: 22 },
   cta: {

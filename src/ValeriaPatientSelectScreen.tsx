@@ -16,6 +16,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, Pressable, ScrollView, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { V, STORAGE_KEYS } from './valeriaTheme';
+import { useT } from './i18n';
 // import logoWhite from '../../assets/valeria-logo-white.png';
 
 interface Paciente {
@@ -34,6 +35,7 @@ const avatarFor = (p: Paciente): string => {
 };
 
 export const ValeriaPatientSelectScreen: React.FC<{ navigation?: any }> = ({ navigation }) => {
+  const t = useT();
   const [pacientes, setPacientes] = useState<Paciente[]>([]);
 
   useEffect(() => {
@@ -69,23 +71,18 @@ export const ValeriaPatientSelectScreen: React.FC<{ navigation?: any }> = ({ nav
     navigation?.navigate('ExerciseSelection');
   };
 
-  const subtitle =
-    pacientes.length > 0
-      ? pacientes.length === 1
-        ? '1 paciente registrado en este dispositivo'
-        : `${pacientes.length} pacientes registrados en este dispositivo`
-      : 'Continúa donde lo dejaste';
+  const subtitle = t.patientSelect.subtitle(pacientes.length);
 
   return (
     <View style={s.flex}>
       {/* Cabecera teal */}
       <View style={s.header}>
         <Pressable style={s.back} onPress={() => navigation?.navigate('Welcome')}>
-          <Text style={s.backText}>‹ Volver</Text>
+          <Text style={s.backText}>{`‹ ${t.common.back}`}</Text>
         </Pressable>
         {/* <Image source={logoWhite} style={s.logo} /> */}
         <Text style={s.brand}>valeria</Text>
-        <Text style={s.title}>Selecciona un paciente</Text>
+        <Text style={s.title}>{t.patientSelect.title}</Text>
         <Text style={s.subtitle}>{subtitle}</Text>
       </View>
 
@@ -101,8 +98,8 @@ export const ValeriaPatientSelectScreen: React.FC<{ navigation?: any }> = ({ nav
               <Text style={s.avatarIcon}>{avatarFor(p)}</Text>
             </View>
             <View style={s.cardBody}>
-              <Text style={s.name} numberOfLines={1}>{p.nombre || 'Paciente'}</Text>
-              <Text style={s.diag} numberOfLines={1}>{p.patologia || 'Sin diagnóstico asignado'}</Text>
+              <Text style={s.name} numberOfLines={1}>{p.nombre || t.patientSelect.patientFallback}</Text>
+              <Text style={s.diag} numberOfLines={1}>{p.patologia || t.patientSelect.noDiagnosis}</Text>
             </View>
             <View style={s.nhcPill}>
               <Text style={s.nhcText}>{p.nhc || '—'}</Text>
@@ -117,10 +114,8 @@ export const ValeriaPatientSelectScreen: React.FC<{ navigation?: any }> = ({ nav
             <View style={s.emptyIcon}>
               <Text style={{ fontSize: 32 }}>🗂️</Text>
             </View>
-            <Text style={s.emptyTitle}>Aún no hay pacientes</Text>
-            <Text style={s.emptyDesc}>
-              Registra tu primer paciente para empezar a prescribir terapias.
-            </Text>
+            <Text style={s.emptyTitle}>{t.patientSelect.emptyTitle}</Text>
+            <Text style={s.emptyDesc}>{t.patientSelect.emptyBody}</Text>
           </View>
         )}
 
@@ -130,11 +125,11 @@ export const ValeriaPatientSelectScreen: React.FC<{ navigation?: any }> = ({ nav
           onPress={() => navigation?.navigate('FichaRegistro')}
         >
           <Text style={s.newPlus}>＋</Text>
-          <Text style={s.newText}>Registrar nuevo paciente</Text>
+          <Text style={s.newText}>{t.patientSelect.newPatient}</Text>
         </Pressable>
 
         <View style={s.privacy}>
-          <Text style={s.privacyText}>🔒  Pacientes almacenados y cifrados en este dispositivo.</Text>
+          <Text style={s.privacyText}>{`🔒  ${t.patientSelect.privacy}`}</Text>
         </View>
       </ScrollView>
     </View>

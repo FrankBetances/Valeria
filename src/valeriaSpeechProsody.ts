@@ -42,7 +42,7 @@
 // añade una variedad, `prosodyFor(getLocale())` deja de compilar en
 // valeriaVoice.ts, que es exactamente el aviso que queremos —una variedad nueva
 // necesita decidir su perfil de pausas, no heredar el de defecto en silencio.
-export type ProsodyLocale = 'es' | 'gl' | 'es-DO' | 'eu';
+export type ProsodyLocale = 'es' | 'gl' | 'es-DO' | 'eu' | 'en-US';
 
 export interface ProsodyProfile {
   // Silencio EXPLÍCITO que añadimos entre frases encadenadas (ms). Se suma a la
@@ -69,8 +69,15 @@ export const PROSODY_LATIN: ProsodyProfile = { gapMs: 40, chainMinWords: 14, mer
 // nunca alcanza al audio pregenerado, que se resuelve antes de llegar aquí.
 export const PROSODY_DEFAULT: ProsodyProfile = { gapMs: 110, chainMinWords: 0, mergeMinWords: 0 };
 
+// `en-US` va de momento con el perfil de VOZ DEL SISTEMA (el mismo que es-DO),
+// no con el de banco pregenerado, porque hoy no tiene assets Piper: expo-speech
+// es su camino habitual, no el de rescate, y ahí trocear cada frase con 110 ms
+// de silencio suena peor que dejar que el motor ponga la entonación.
+// Revisar en EN-4.3, cuando el banco neuronal inglés exista: entonces `en-US`
+// pasa a comportarse como es/gl/eu. Es también una de las preguntas para la
+// revisora clínica (¿el ritmo inglés resultante sirve para terapia?).
 export const prosodyFor = (loc: ProsodyLocale): ProsodyProfile =>
-  loc === 'es-DO' ? PROSODY_LATIN : PROSODY_DEFAULT;
+  loc === 'es-DO' || loc === 'en-US' ? PROSODY_LATIN : PROSODY_DEFAULT;
 
 const wordCount = (s: string): number => (s.match(/\S+/g) ?? []).length;
 

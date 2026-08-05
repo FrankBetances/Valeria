@@ -10,9 +10,11 @@ import React, { useEffect, useRef } from 'react';
 import { View, Text, Pressable, StyleSheet, Animated, Easing, StatusBar } from 'react-native';
 import { V } from './valeriaTheme';
 import { BearMark } from './ValeriaBearLogo';
+import { useT } from './i18n';
 // import logoWhite from '../../assets/valeria-logo-white.png';
 
 export const ValeriaWelcomeScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
+  const t = useT();
   const intro = useRef(new Animated.Value(0)).current;   // entrada elástica de la mascota
   const float = useRef(new Animated.Value(0)).current;   // flotación + balanceo continuo
   const jump = useRef(new Animated.Value(0)).current;    // salto de alegría periódico
@@ -100,23 +102,21 @@ export const ValeriaWelcomeScreen: React.FC<{ navigation: any }> = ({ navigation
           {/* <Image source={logoWhite} style={s.logo} /> */}
           <Text style={s.logoFallback}>valeria+</Text>
 
-          <Text style={s.tagline}>Terapia auditiva y de lenguaje, en casa y guiada por ti.</Text>
-          <Text style={s.sub}>
-            Tú diriges cada ejercicio y valoras la respuesta del niño. Valeria registra el progreso.
-          </Text>
+          <Text style={s.tagline}>{t.welcome.tagline}</Text>
+          <Text style={s.sub}>{t.welcome.sub}</Text>
         </Animated.View>
       </View>
 
       <Animated.View style={[s.actions, contentStyle]}>
         <Pressable onPress={() => navigation.navigate('Credits')} style={s.primaryBtn} accessibilityRole="button">
-          <Text style={s.primaryBtnTxt}>Comenzar</Text>
+          <Text style={s.primaryBtnTxt}>{t.welcome.start}</Text>
         </Pressable>
         <Pressable onPress={() => navigation.navigate('PatientSelect')} style={s.secondaryBtn} accessibilityRole="button">
-          <Text style={s.secondaryBtnTxt}>Ya tengo un paciente registrado</Text>
+          <Text style={s.secondaryBtnTxt}>{t.welcome.hasPatient}</Text>
         </Pressable>
         <View style={s.trust}>
           <Text style={{ fontSize: 11 }}>🔒</Text>
-          <Text style={s.trustTxt}>Datos cifrados en el dispositivo · RGPD / HIPAA</Text>
+          <Text style={s.trustTxt}>{t.welcome.trust}</Text>
         </View>
       </Animated.View>
     </View>
