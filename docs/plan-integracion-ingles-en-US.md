@@ -323,7 +323,8 @@ Convención de tareas: `EN-<fase>.<n>`. Cada tarea indica **Entregable** y
 | **EN-0.5** 🔴 | Redactar [`docs/guia-dialectal-en-US.md`](./guia-dialectal-en-US.md): qué es rasgo dialectal normal (**AAE**, inglés sureño, inglés con influencia del español) y qué es objetivo terapéutico. **Regla bloqueante para todo dataset `en`.** Es la tarea de más riesgo del plan (§8) y la primera que se pone sobre la mesa de la revisora de EN-0.3 | Guía firmada por EN-0.3; CA: cada par mínimo candidato lleva veredicto dialectal explícito |
 | **EN-0.6** | Decidir el **modelo de publicación**: misma ficha de app con idiomas añadidos vs. ficha/listing separado para EE. UU.; y si `en-US` viaja en el mismo binario (impacto de tamaño, EN-4.4) | Decisión registrada; CA: elección con su justificación de coste/tamaño |
 | **EN-0.7** | Fijar el alcance de i18n de UI: qué pantallas entran en la Fase 2 y en qué orden (propuesta en EN-2.3) | Lista ordenada de pantallas; CA: alcance cerrado y estimado |
-| **EN-0.8** | **Hoja de revisión clínica**: script que exporta los datasets `en` a una tabla legible (Markdown/CSV) con columnas *ítem · objetivo fonológico · veredicto dialectal · aprobado/cambios*. Los bancos son TypeScript; nadie revisa clínica leyendo un `.ts` | `scripts/export-review-sheet.js`; CA: la revisora de EN-0.3 puede anotar y devolver el fichero sin tocar el repositorio |
+| **EN-0.8** | **Hoja de revisión clínica**: script que exporta los datasets `en` a una tabla legible (Markdown/CSV) con columnas *ítem · objetivo fonológico · veredicto dialectal · aprobado/cambios*. Los bancos son TypeScript; nadie revisa clínica leyendo un `.ts`. *Se necesita a partir de la Fase 3, no antes: la primera vuelta de revisión es con la app en la mano* | `scripts/export-review-sheet.js`; CA: la revisora de EN-0.3 puede anotar y devolver el fichero sin tocar el repositorio |
+| **EN-0.9** 🔴 | **Build de evaluación para la revisora** (Android APK firmado del CI) con la **interfaz en inglés y el contenido aún en castellano**, más el [protocolo de evaluación](./protocolo-evaluacion-clinica-en-US.md) que estructura su informe. **Bloquea la Fase 3**: su criterio vale más antes de escribir los bancos que después | APK + protocolo enviados; CA: la revisora completa el recorrido de las 16 pantallas y devuelve el informe en el formato acordado |
 
 **Salida de fase:** decisiones cerradas; ningún cambio de comportamiento.
 
@@ -385,7 +386,7 @@ funcionando en castellano exactamente igual.
 | --- | --- | --- |
 | **EN-2.1** | Crear `src/valeriaUiLang.ts` (tipo `UiLang`, persistencia, `defaultUiLangFor`) y `src/i18n/` (`strings.es.ts`, `strings.en.ts`, `t()` con claves **tipadas**: una clave que falte en un catálogo debe romper el `typecheck`, no aparecer en blanco en pantalla) | CA: `npm run typecheck` falla si un catálogo pierde una clave |
 | **EN-2.2** | Selector de **idioma de la interfaz** en ajustes, separado del selector de variedad, con la relación por defecto de §5.1 explicada al adulto | CA: se puede tener UI en español con terapia en inglés y al revés |
-| **EN-2.3** | Migrar las pantallas al catálogo, en orden de recorrido del usuario: Welcome → Auth → PatientSelect → FichaRegistro → ExerciseSelection → ExercisePlayer → MinimalPairs → SemanticExpansion → LingTest → AdultChaosPanel → PatientResultsDashboard → ProExport → Credits → modales (SUS, PragmaticBreak, SessionBreak, ProPin, TPRCapsule) | Una PR por pantalla o grupo pequeño; CA por pantalla: idéntica en castellano, íntegra en inglés |
+| **EN-2.3** | Migrar las pantallas al catálogo por **tramos**, en orden de recorrido del usuario. **1** Welcome · Credits · PatientSelect ✅ — **2** FichaRegistro · ExerciseSelection · Auth — **3** ExercisePlayer · MinimalPairs · SemanticExpansion · LingTest — **4** AdultChaosPanel · PatientResultsDashboard · ProExport · modales (SUS, PragmaticBreak, SessionBreak, ProPin, TPRCapsule) — **5** notificaciones y permisos | Una PR por tramo; CA por pantalla: idéntica en castellano, íntegra en inglés. **La build de EN-0.9 sale al cerrar el tramo 4** |
 | **EN-2.4** | Localizar **notificaciones**: los 12 avisos y los 20 consejos largos del adulto (`valeriaNotifications.ts`), más el nombre del canal Android (hoy `valeria-recordatorios`) | CA: `check-reminder-slots.js` pasa con los dos catálogos |
 | **EN-2.5** | Localizar los **permisos del sistema**: las cadenas de micrófono/reconocimiento de voz de `app.json` y de cámara (AR) están hoy en castellano y son lo primero que lee un usuario estadounidense. Requiere `InfoPlist.strings` por idioma en iOS y `strings.xml` por locale en Android, vía config plugin (hay precedente: `plugins/withValeriaAR.js`) | CA: en un dispositivo con el sistema en inglés, el diálogo de permiso sale en inglés |
 | **EN-2.6** | Localizar el **informe exportado** (`ValeriaProExport`) y las etiquetas del panel de resultados: es lo que el clínico enseña a la familia | CA: informe generado íntegramente en inglés |
@@ -393,8 +394,17 @@ funcionando en castellano exactamente igual.
 | **EN-2.8** | Gate `scripts/check-ui-strings.js`: falla si aparece una cadena visible literal en un `.tsx` ya migrado. Sin gate, la UI se «des-traduce» sola en tres PRs | CA: el gate corre en CI y detecta una regresión introducida a propósito |
 
 **Salida de fase:** app completamente usable en inglés (con contenido
-terapéutico todavía castellano si se para aquí).
-**Depende de:** Fase 1 (solo de EN-1.1). **Se puede paralelizar con la Fase 3.**
+terapéutico todavía castellano si se para aquí) → **es exactamente la build de
+evaluación de EN-0.9**.
+**Depende de:** Fase 1 (solo de EN-1.1).
+
+> **Reordenación (ago 2026).** Esta fase deja de poder paralelizarse con la
+> Fase 3 y pasa a **precederla**: la revisora clínica evalúa con la app en la
+> mano, no con hojas de datos, y la versión acordada es «UI en inglés, contenido
+> en castellano». Sin los tramos 1–4 de EN-2.3 no hay build que enviarle, así
+> que la i18n es ahora el **camino crítico** del proyecto entero.
+>
+> **Estado:** ⏳ EN-2.1 ✅ · EN-2.2 ✅ · EN-2.3 en curso (tramo 1 de 5).
 
 ---
 
@@ -494,7 +504,9 @@ en paralelo desde la Fase 0: puede cambiar decisiones de producto.
 graph LR
   F0[Fase 0<br/>Preparación] --> F1[Fase 1<br/>Infra variedad en-US]
   F1 --> F2[Fase 2<br/>i18n de la UI]
-  F1 --> F3[Fase 3<br/>Contenido clínico]
+  F2 --> EV{{EN-0.9<br/>Build de evaluación<br/>UI inglés · contenido español}}
+  EV --> INF[/Informe de la<br/>revisora clínica/]
+  INF --> F3[Fase 3<br/>Contenido clínico]
   F3 --> F4[Fase 4<br/>Voz Piper en_US]
   F3 --> F5[Fase 5<br/>ASR en-US]
   F2 --> F6[Fase 6<br/>Cumplimiento y tiendas]
@@ -503,11 +515,16 @@ graph LR
   F6 --> F7
 ```
 
+La Fase 2 ya no corre en paralelo a la Fase 3: **es su requisito**. El informe
+de la revisora se recoge con la app en la mano y antes de escribir los bancos
+ingleses, que es donde su criterio ahorra más retrabajo.
+
 | Fase | Recurso protagonista | Tamaño relativo | Publicable al terminar |
 | --- | --- | --- | --- |
 | 0 · Preparación | — (licencias, decisiones, guía dialectal) | S | Sí (sin cambios) |
 | 1 · Infra variedad | — (extiende la capa existente) | S | Sí |
-| 2 · **i18n de UI** | Catálogo `es`/`en` + gate | **XL** (27 pantallas) | Sí, pantalla a pantalla |
+| 2 · **i18n de UI** | Catálogo `es`/`en` + gate | **XL** (27 pantallas) | Sí, tramo a tramo · **camino crítico** |
+| — · Evaluación clínica | Build Android + protocolo (EN-0.9) | S | — (puerta de entrada a la Fase 3) |
 | 3 · Contenido clínico | CMUdict · SUBTLEX-US · CDI | L (por bloques) | Sí, bloque a bloque |
 | 4 · Voz | **Piper `en_US`** (motor ya existente) | S–M | Sí |
 | 5 · Micrófono | ASR del sistema `en-US` | M | Sí |
@@ -563,9 +580,9 @@ Estas cuatro no las puede cerrar el plan; condicionan fases enteras:
 
 Checklist maestro (marcar al completar; una PR por tarea o grupo pequeño):
 
-- [~] **Fase 0**: EN-0.1 · EN-0.2 · **EN-0.3 ✅** (revisora confirmada; falta acordar el flujo de revisión) · EN-0.4 · EN-0.5 🔴 · EN-0.6 · EN-0.7 · EN-0.8
-- [ ] **Fase 1**: EN-1.1 · EN-1.2 · EN-1.3 · EN-1.4 · EN-1.5
-- [ ] **Fase 2**: EN-2.1 · EN-2.2 · EN-2.3 · EN-2.4 · EN-2.5 · EN-2.6 · EN-2.7 · EN-2.8
+- [~] **Fase 0**: EN-0.1 · EN-0.2 · **EN-0.3 ✅** (revisora confirmada; falta acordar el flujo de revisión) · EN-0.4 · EN-0.5 🔴 · EN-0.6 · EN-0.7 · EN-0.8 · **EN-0.9 🔴** (protocolo ✅, build pendiente del tramo 4 de EN-2.3)
+- [~] **Fase 1**: **EN-1.1 ✅** (`Locale += 'en-US'`) · **EN-1.2 ✅** (`VoiceLang += 'en'`) · EN-1.3 · EN-1.4 · EN-1.5
+- [~] **Fase 2**: **EN-2.1 ✅** (catálogo tipado + `useT`) · **EN-2.2 ✅** (selector con modo automático) · EN-2.3 ⏳ (tramo 1/5) · EN-2.4 · EN-2.5 · EN-2.6 · EN-2.7 · EN-2.8
 - [ ] **Fase 3**: EN-3.1 · EN-3.2 · EN-3.3 · EN-3.4 · EN-3.5 · EN-3.6 · EN-3.7 · EN-3.8
 - [ ] **Fase 4**: EN-4.1 · EN-4.2 · EN-4.3 · EN-4.4 · EN-4.5
 - [ ] **Fase 5**: EN-5.1 · EN-5.2 · EN-5.3 · EN-5.4
