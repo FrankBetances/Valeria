@@ -21,13 +21,14 @@ import {
   loadReminderSlots, setReminderSlots as persistReminderSlots,
   REMINDER_SLOTS, ALL_REMINDER_SLOTS, ReminderSlot,
 } from './valeriaNotifications';
-import { loadGame, liveStreak, levelFor, levelName } from './valeriaGamification';
+import { loadGame, liveStreak, levelFor } from './valeriaGamification';
 import { ProUnlockPill, ProPinModal } from './ValeriaProPin';
 import { ValeriaProExportModal } from './ValeriaProExport';
 import { VoiceQualityCard } from './ValeriaVoiceUI';
 import { AUDICION_META, LENGUAJE_META, TEA_META, DISLEXIA_META, AR_META, AGE_BANDS } from './valeriaExerciseMeta';
 import { AcademyHubCard } from './ValeriaAcademy';
 import { isArAvailable } from './valeriaArBridge';
+import { useT, UiStrings } from './i18n';
 // import logoWhite from '../../assets/valeria-logo-white.png';
 
 // ----------------------------------------------------------------------------
@@ -47,15 +48,19 @@ const AR_ON = isArAvailable();
 type BlockTab = 'audicion' | 'lenguaje' | 'tea' | 'dislexia';
 
 // Cabecera y etiqueta de lista por bloque meta-dirigido.
-const TAB_INFO: Record<BlockTab, { title: string; label: string }> = {
-  audicion: { title: '👂 Audición', label: 'PROTOCOLO ACOPROS · AUDICIÓN' },
-  lenguaje: { title: '💬 Lenguaje', label: 'PROTOCOLO FAMILIAR · LENGUAJE' },
-  tea: { title: '🧠 TEA', label: 'PROTOCOLO TEA · PRT + TCC' },
-  dislexia: { title: '📖 Dislexia', label: 'PROTOCOLO DISLEXIA · FONOLOGÍA Y ACCESO LÉXICO' },
-};
+// Títulos y etiqueta de protocolo por bloque. Se construye DENTRO del
+// componente (buildTabInfo) para que siga al idioma de interfaz activo.
+const buildTabInfo = (t: UiStrings): Record<BlockTab, { title: string; label: string }> => ({
+  audicion: { title: t.hub.tabHearing, label: t.hub.protocolHearing },
+  lenguaje: { title: t.hub.tabLanguage, label: t.hub.protocolLanguage },
+  tea: { title: t.hub.tabAutism, label: t.hub.protocolAutism },
+  dislexia: { title: t.hub.tabDyslexia, label: t.hub.protocolDyslexia },
+});
 
 // ----------------------------------------------------------------------------
 export const ValeriaExerciseSelectionScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
+  const t = useT();
+  const tabInfo = buildTabInfo(t);
   const [tab, setTab] = useState<BlockTab>('audicion');
   // 'hub' = las tarjetas de bloques · 'list' = la lista prescribible del bloque.
   const [view, setView] = useState<'hub' | 'list'>('hub');
@@ -113,12 +118,10 @@ export const ValeriaExerciseSelectionScreen: React.FC<{ navigation: any }> = ({ 
   // selector. GEN-01: el texto de la tarjeta debe describir lo CONFIGURADO,
   // no el límite del sistema.
   const remindersSummary = (slots: ReminderSlot[]): string => {
-    if (!slots.length) return 'Sin avisos: no llegará ninguna notificación.';
+    if (!slots.length) return t.hub.remindersNone;
     const horas = REMINDER_SLOTS.filter((d) => slots.includes(d.slot))
-      .map((d) => `${d.hour}:00`).join(', ');
-    return slots.length === 1
-      ? `1 aviso al día (${horas}) en la pantalla de bloqueo.`
-      : `${slots.length} avisos al día (${horas}) en la pantalla de bloqueo.`;
+      .map((d) => t.hub.slotLabel(d.slot, d.hour).split('· ')[1] ?? `${d.hour}:00`).join(', ');
+    return t.hub.remindersSummary(slots.length, horas);
   };
 
   const toggleReminders = async (next: boolean) => {
@@ -131,12 +134,12 @@ export const ValeriaExerciseSelectionScreen: React.FC<{ navigation: any }> = ({ 
       setReminders(ok);
       if (ok) setReminderSlots(slots);
       setToast(ok
-        ? `Recordatorios activados: ${remindersSummary(slots)} 🔔`
-        : 'No se pudo activar: concede el permiso de notificaciones al sistema.');
+        ? t.hub.remindersOn(remindersSummary(slots))
+        : t.hub.remindersNoPermission);
     } else {
       await disableReminders();
       setReminders(false);
-      setToast('Recordatorios desactivados.');
+      setToast(t.hub.remindersDisabled);
     }
   };
 
@@ -150,8 +153,8 @@ export const ValeriaExerciseSelectionScreen: React.FC<{ navigation: any }> = ({ 
     const ok = await persistReminderSlots(next);
     setReminders(ok);
     setToast(next.length
-      ? (ok ? remindersSummary(next) : 'No se pudo programar: concede el permiso de notificaciones al sistema.')
-      : 'Sin franjas activas: recordatorios desactivados.');
+      ? (ok ? remindersSummary(next) : t.hub.remindersNoSchedule)
+      : t.hub.remindersNoSlots);
   };
 
   const isAud = tab === 'audicion';
@@ -175,7 +178,7 @@ export const ValeriaExerciseSelectionScreen: React.FC<{ navigation: any }> = ({ 
     } catch (e) { /* noop */ }
     const n = activeAud.filter(Boolean).length + activeLen.filter(Boolean).length
       + activeTea.filter(Boolean).length + activeDix.filter(Boolean).length;
-    setUnlocked(false); setToast(`Prescripción guardada · ${n} terapias activas.`);
+    setUnlocked(false); setToast(t.hub.savedPrescription(n));
   };
 
   // Módulo TEA: la primera entrada exige aceptar el encuadre del Quiebre
@@ -206,9 +209,9 @@ export const ValeriaExerciseSelectionScreen: React.FC<{ navigation: any }> = ({ 
         {opts.total != null && (
           <View style={s.blockMeta}>
             <View style={[s.blockBadge, { backgroundColor: opts.accentBg }]}>
-              <Text style={[s.blockBadgeTxt, { color: opts.accentFg }]}>{opts.total} terapias</Text>
+              <Text style={[s.blockBadgeTxt, { color: opts.accentFg }]}>{t.hub.therapiesBadge(opts.total)}</Text>
             </View>
-            <Text style={s.blockActive}>{opts.activeN} activas</Text>
+            <Text style={s.blockActive}>{t.hub.activeBadge(opts.activeN ?? 0)}</Text>
           </View>
         )}
       </View>
@@ -229,16 +232,16 @@ export const ValeriaExerciseSelectionScreen: React.FC<{ navigation: any }> = ({ 
         // ===================== HUB: tarjetas de bloques =====================
         <>
           <View style={s.header}>
-            <Pressable onPress={() => navigation.goBack()} style={s.backPill}><Text style={s.backPillTxt}>‹ Volver</Text></Pressable>
+            <Pressable onPress={() => navigation.goBack()} style={s.backPill}><Text style={s.backPillTxt}>{`‹ ${t.common.back}`}</Text></Pressable>
             <Text style={s.logoFallback}>valeria+</Text>
-            <Text style={s.headerTitle}>Prescripción de Terapias</Text>
-            <Text style={s.headerSub}>Elige un bloque para practicar o prescribir</Text>
+            <Text style={s.headerTitle}>{t.hub.title}</Text>
+            <Text style={s.headerSub}>{t.hub.subtitle}</Text>
             <View style={s.gameRow}>
               <View style={s.gameChip}>
-                <Text style={s.gameChipTxt}>🔥 {streak} {streak === 1 ? 'día de racha' : 'días de racha'}</Text>
+                <Text style={s.gameChipTxt}>{`🔥 ${t.hub.streak(streak)}`}</Text>
               </View>
               <View style={s.gameChip}>
-                <Text style={s.gameChipTxt}>🏅 Nivel {level} · {levelName(level)}</Text>
+                <Text style={s.gameChipTxt}>{`🏅 ${t.hub.level(level, t.hub.levelNameByIndex(level - 1))}`}</Text>
               </View>
             </View>
           </View>
@@ -252,46 +255,46 @@ export const ValeriaExerciseSelectionScreen: React.FC<{ navigation: any }> = ({ 
                 prominente con la misma jerarquía visual que los bloques. Se
                 suscribe sola al store (useSyncExternalStore): su progreso se
                 actualiza en tiempo real sin re-renderizar el resto del hub. */}
-            <Text style={s.hubLabel}>TU FORMACIÓN</Text>
+            <Text style={s.hubLabel}>{t.hub.sectionTraining}</Text>
             <AcademyHubCard onPress={() => { setToast(''); navigation.navigate('Academy'); }} />
 
-            <Text style={[s.hubLabel, { marginTop: 6 }]}>BLOQUES DE TERAPIA</Text>
+            <Text style={[s.hubLabel, { marginTop: 6 }]}>{t.hub.sectionBlocks}</Text>
 
             {blockCard({
               icon: '🗣️', accentBg: '#ede4fc', accentFg: '#7c4fd0',
-              title: 'Pares Mínimos', sub: 'Dislalias: rotacismo, sigmatismo y más con juego de voz.',
+              title: t.hub.pairsTitle, sub: t.hub.pairsSub,
               onPress: () => navigation.navigate('MinimalPairs'),
-              a11y: 'Practicar pares mínimos para dislalias',
+              a11y: t.hub.pairsA11y,
             })}
             {blockCard({
               icon: '🧩', accentBg: '#d6f5f2', accentFg: V.color.primaryDark,
-              title: 'Expansión Semántica', sub: 'Escenarios diarios, progresión léxica y contrastes con acción física.',
+              title: t.hub.semanticTitle, sub: t.hub.semanticSub,
               onPress: () => navigation.navigate('SemanticExpansion'),
-              a11y: 'Practicar expansión semántica y progresión léxica',
+              a11y: t.hub.semanticA11y,
             })}
             {blockCard({
               icon: '👂', accentBg: '#e0edff', accentFg: '#3b6fd4',
-              title: 'Audición', sub: 'Inspirado en el protocolo ACOPROS: sonidos, vocabulario, frases y uso social, organizado por edades.',
+              title: t.hub.hearingTitle, sub: t.hub.hearingSub,
               onPress: () => { setTab('audicion'); setToast(''); setView('list'); },
-              a11y: 'Abrir terapias de audición', total: EXERCISES_AUD.length, activeN: activeAud.filter(Boolean).length,
+              a11y: t.hub.hearingA11y, total: EXERCISES_AUD.length, activeN: activeAud.filter(Boolean).length,
             })}
             {blockCard({
               icon: '💬', accentBg: '#fff1dc', accentFg: '#d98a1f',
-              title: 'Lenguaje', sub: 'Protocolo familiar: atención conjunta, imitación, comprensión y más.',
+              title: t.hub.languageTitle, sub: t.hub.languageSub,
               onPress: () => { setTab('lenguaje'); setToast(''); setView('list'); },
-              a11y: 'Abrir terapias de lenguaje', total: EXERCISES_LEN.length, activeN: activeLen.filter(Boolean).length,
+              a11y: t.hub.languageA11y, total: EXERCISES_LEN.length, activeN: activeLen.filter(Boolean).length,
             })}
             {blockCard({
               icon: '🧠', accentBg: '#fdeef2', accentFg: '#c2477e',
-              title: 'TEA', sub: 'PRT + TCC: atención conjunta triangulada, reparación comunicativa y flexibilidad. Estresores siempre manuales.',
+              title: t.hub.autismTitle, sub: t.hub.autismSub,
               onPress: openTea,
-              a11y: 'Abrir terapias del módulo TEA', total: EXERCISES_TEA.length, activeN: activeTea.filter(Boolean).length,
+              a11y: t.hub.autismA11y, total: EXERCISES_TEA.length, activeN: activeTea.filter(Boolean).length,
             })}
             {blockCard({
               icon: '📖', accentBg: '#f3e8fd', accentFg: '#8b5cf6',
-              title: 'Dislexia', sub: 'Conciencia fonológica, síntesis fonémica, pseudopalabras y rastreo de letras giradas (b/d, p/q).',
+              title: t.hub.dyslexiaTitle, sub: t.hub.dyslexiaSub,
               onPress: () => { setTab('dislexia'); setToast(''); setView('list'); },
-              a11y: 'Abrir terapias del módulo Dislexia', total: EXERCISES_DIX.length, activeN: activeDix.filter(Boolean).length,
+              a11y: t.hub.dyslexiaA11y, total: EXERCISES_DIX.length, activeN: activeDix.filter(Boolean).length,
             })}
             {/* Séptimo bloque · Realidad Aumentada. La tarjeta SOLO se renderiza
                 si hay host nativo de cámara + escena 3D: sin él (Expo Go, build
@@ -301,9 +304,9 @@ export const ValeriaExerciseSelectionScreen: React.FC<{ navigation: any }> = ({ 
                 Prueba de Aptitud del propio teléfono. */}
             {AR_ON && blockCard({
               icon: '🎯', accentBg: '#e6f9f8', accentFg: V.color.primaryDark,
-              title: 'Realidad Aumentada', sub: 'La cámara mira el gesto y el coche, el perro o la manzana reaccionan a él. Sin grabar nada y con el micrófono apagado.',
+              title: t.hub.arTitle, sub: t.hub.arSub,
               onPress: () => { setToast(''); navigation.navigate('ArLauncher'); },
-              a11y: `Abrir el bloque de realidad aumentada, ${EXERCISES_AR.length} ejercicios`,
+              a11y: t.hub.arA11y(EXERCISES_AR.length),
             })}
 
             {/* GEN-01 · Elegir las franjas, no solo encender o apagar. El texto
@@ -313,11 +316,11 @@ export const ValeriaExerciseSelectionScreen: React.FC<{ navigation: any }> = ({ 
               <View style={s.remindRow}>
                 <View style={s.remindIcon}><Text style={{ fontSize: 17 }}>🔔</Text></View>
                 <View style={{ flex: 1 }}>
-                  <Text style={s.remindTitle}>Recordatorios de sesión</Text>
+                  <Text style={s.remindTitle}>{t.hub.remindersTitle}</Text>
                   <Text style={s.remindSub}>
                     {reminders
-                      ? `${remindersSummary(reminderSlots)} Elige abajo las franjas que quieras.`
-                      : 'Avisos en la pantalla de bloqueo para no perder la racha. Tú eliges en qué franjas, de una a cuatro.'}
+                      ? `${remindersSummary(reminderSlots)} ${t.hub.remindersPickHint}`
+                      : t.hub.remindersOff}
                   </Text>
                 </View>
                 <Switch value={reminders} onValueChange={toggleReminders}
@@ -335,12 +338,12 @@ export const ValeriaExerciseSelectionScreen: React.FC<{ navigation: any }> = ({ 
                         style={[s.slotRow, on && s.slotRowOn]}
                         accessibilityRole="checkbox"
                         accessibilityState={{ checked: on }}
-                        accessibilityLabel={`${d.label}. ${d.hint}`}
+                        accessibilityLabel={`${t.hub.slotLabel(d.slot, d.hour)}. ${t.hub.slotHint(d.slot)}`}
                       >
                         <Text style={[s.slotCheck, on && s.slotCheckOn]}>{on ? '✓' : ''}</Text>
                         <View style={{ flex: 1 }}>
-                          <Text style={[s.slotLabel, on && s.slotLabelOn]}>{d.label}</Text>
-                          <Text style={s.slotHint}>{d.hint}</Text>
+                          <Text style={[s.slotLabel, on && s.slotLabelOn]}>{t.hub.slotLabel(d.slot, d.hour)}</Text>
+                          <Text style={s.slotHint}>{t.hub.slotHint(d.slot)}</Text>
                         </View>
                       </Pressable>
                     );
@@ -357,11 +360,11 @@ export const ValeriaExerciseSelectionScreen: React.FC<{ navigation: any }> = ({ 
                 Profesional y lanza la exportación dual de la evidencia de
                 usabilidad (QR offline + ShareSheet del log completo). */}
             <Pressable onPress={() => setHubPinOpen(true)} style={s.proAccess}
-              accessibilityRole="button" accessibilityLabel="Acceso profesional: exportar evidencia de usabilidad">
+              accessibilityRole="button" accessibilityLabel={t.hub.proAccessA11y}>
               <View style={s.proAccessIcon}><Text style={{ fontSize: 16 }}>🔐</Text></View>
               <View style={{ flex: 1 }}>
-                <Text style={s.proAccessTitle}>Acceso Profesional</Text>
-                <Text style={s.proAccessSub}>Exportar evidencia de usabilidad del piloto (PIN del logopeda).</Text>
+                <Text style={s.proAccessTitle}>{t.hub.proAccessTitle}</Text>
+                <Text style={s.proAccessSub}>{t.hub.proAccessSub}</Text>
               </View>
               <Text style={s.proAccessChev}>›</Text>
             </Pressable>
@@ -371,10 +374,10 @@ export const ValeriaExerciseSelectionScreen: React.FC<{ navigation: any }> = ({ 
         // ============== LISTA DE UN BLOQUE (audición · lenguaje · TEA · dislexia) ==============
         <>
           <View style={s.header}>
-            <Pressable onPress={() => { setView('hub'); setToast(''); }} style={s.backPill}><Text style={s.backPillTxt}>‹ Bloques</Text></Pressable>
+            <Pressable onPress={() => { setView('hub'); setToast(''); }} style={s.backPill}><Text style={s.backPillTxt}>{`‹ ${t.hub.backToBlocks}`}</Text></Pressable>
             <Text style={s.logoFallback}>valeria+</Text>
-            <Text style={s.headerTitle}>{TAB_INFO[tab].title}</Text>
-            <Text style={s.headerSub}>{unlocked ? 'Edición profesional habilitada' : 'Modo Familia · solo lectura'}</Text>
+            <Text style={s.headerTitle}>{tabInfo[tab].title}</Text>
+            <Text style={s.headerSub}>{unlocked ? t.hub.editingOn : t.hub.editingOff}</Text>
             {/* Audición y Lenguaje son bloques INDEPENDIENTES, cada uno con su
                 acceso desde el hub, igual que TEA y Dislexia. Antes compartían
                 una barra de pestañas dentro de la lista: al entrar en Audición
@@ -382,7 +385,7 @@ export const ValeriaExerciseSelectionScreen: React.FC<{ navigation: any }> = ({ 
                 una sola («están fusionadas»), con la sesión completa y el
                 recuento cambiando de bloque sin salir de la vista. */}
             <View style={s.blockChip}>
-              <Text style={s.blockChipTxt}>{list.length} terapias · {activeCount} prescritas</Text>
+              <Text style={s.blockChipTxt}>{t.hub.blockChip(list.length, activeCount)}</Text>
             </View>
           </View>
 
@@ -405,12 +408,12 @@ export const ValeriaExerciseSelectionScreen: React.FC<{ navigation: any }> = ({ 
                   disabled={!prescribedIds.length}
                   style={[s.sessionBtn, !prescribedIds.length && { opacity: 0.5 }]}
                   accessibilityRole="button"
-                  accessibilityLabel={`Practicar los ${prescribedIds.length} ejercicios prescritos seguidos`}
+                  accessibilityLabel={t.hub.fullSessionA11y(prescribedIds.length)}
                 >
                   <Text style={{ fontSize: 17 }}>🎯</Text>
                   <View style={{ flex: 1 }}>
-                    <Text style={s.sessionBtnTitle}>Sesión completa</Text>
-                    <Text style={s.sessionBtnSub}>Los {prescribedIds.length} ejercicios prescritos seguidos, con pausas de movimiento</Text>
+                    <Text style={s.sessionBtnTitle}>{t.hub.fullSession}</Text>
+                    <Text style={s.sessionBtnSub}>{t.hub.fullSessionSub(prescribedIds.length)}</Text>
                   </View>
                   <Text style={s.sessionBtnGo}>▶</Text>
                 </Pressable>
@@ -418,8 +421,8 @@ export const ValeriaExerciseSelectionScreen: React.FC<{ navigation: any }> = ({ 
             })()}
 
             <View style={s.listHead}>
-              <Text style={s.listLabel}>{TAB_INFO[tab].label}</Text>
-              <View style={s.countBadge}><Text style={s.countBadgeTxt}>{activeCount} prescritos</Text></View>
+              <Text style={s.listLabel}>{tabInfo[tab].label}</Text>
+              <View style={s.countBadge}><Text style={s.countBadgeTxt}>{t.hub.prescribedCount(activeCount)}</Text></View>
             </View>
 
             {/* Referencia del bloque: los evaluadores pedían saber en qué se
@@ -427,33 +430,19 @@ export const ValeriaExerciseSelectionScreen: React.FC<{ navigation: any }> = ({ 
             {isAud && (
               <View style={s.refCard}>
                 <Text style={{ fontSize: 15 }}>ℹ️</Text>
-                <Text style={s.refCardTxt}>
-                  Actividades inspiradas en los materiales de rehabilitación auditiva de ACOPROS
-                  (Asociación Coruñesa de Promoción del Sordo), organizadas en 4 áreas: sonidos,
-                  vocabulario, frases y uso social. Las edades son orientativas: empieza por las de
-                  la edad de tu peque y deja que el logopeda ajuste la prescripción.
-                </Text>
+                <Text style={s.refCardTxt}>{t.hub.refHearing}</Text>
               </View>
             )}
             {tab === 'tea' && (
               <View style={s.refCard}>
                 <Text style={{ fontSize: 15 }}>ℹ️</Text>
-                <Text style={s.refCardTxt}>
-                  Batería PRT + TCC: la app orquesta las contingencias, pero la carga (quiebre
-                  pragmático, ruido, oso distractor) SIEMPRE la acciona el adulto desde el Panel del
-                  Adulto y es reversible al instante. La app nunca interrumpe ni ajusta nada sola, y
-                  el veredicto clínico es siempre tuyo y de tu logopeda.
-                </Text>
+                <Text style={s.refCardTxt}>{t.hub.refAutism}</Text>
               </View>
             )}
             {tab === 'dislexia' && (
               <View style={s.refCard}>
                 <Text style={{ fontSize: 15 }}>ℹ️</Text>
-                <Text style={s.refCardTxt}>
-                  Batería de conciencia fonológica y acceso léxico. La validación por voz respeta el
-                  habla de cada variedad (en dominicano, el seseo o la ese aspirada NUNCA cuentan
-                  como error) y la Criba de Pseudopalabras corta en 5 ensayos con pausa de descarga.
-                </Text>
+                <Text style={s.refCardTxt}>{t.hub.refDyslexia}</Text>
               </View>
             )}
 
@@ -473,7 +462,7 @@ export const ValeriaExerciseSelectionScreen: React.FC<{ navigation: any }> = ({ 
                   band: band as string | null,
                   rows: indexed.filter(({ item }) => item.age === band),
                 })),
-                ...(noAge.length ? [{ band: 'Otras' as string | null, rows: noAge }] : []),
+                ...(noAge.length ? [{ band: t.hub.otherAges as string | null, rows: noAge }] : []),
               ];
             })().map(({ band, rows }) => {
               if (!rows.length) return null;
@@ -498,7 +487,7 @@ export const ValeriaExerciseSelectionScreen: React.FC<{ navigation: any }> = ({ 
                         </View>
                         <Pressable
                           onPress={() => navigation.navigate(usesHearingDevice ? 'LingTest' : 'ExercisePlayer', { id: item.id })}
-                          style={s.playBtn} hitSlop={6} accessibilityRole="button" accessibilityLabel={`Practicar ${item.name}`}>
+                          style={s.playBtn} hitSlop={6} accessibilityRole="button" accessibilityLabel={t.hub.practiceA11y(item.name)}>
                           <Text style={{ color: V.color.primaryDark, fontSize: 17 }}>▶</Text>
                         </Pressable>
                         <Switch value={on} onValueChange={() => toggle(i)} disabled={!unlocked}
@@ -513,13 +502,13 @@ export const ValeriaExerciseSelectionScreen: React.FC<{ navigation: any }> = ({ 
 
             {unlocked ? (
               <View style={{ marginTop: 18 }}>
-                <Pressable onPress={save} style={s.primaryBtn}><Text style={s.primaryBtnTxt}>Guardar Prescripción</Text></Pressable>
-                <Text style={s.helper}>La selección se guarda en el dispositivo y la edición se bloquea de nuevo.</Text>
+                <Pressable onPress={save} style={s.primaryBtn}><Text style={s.primaryBtnTxt}>{t.hub.savePrescription}</Text></Pressable>
+                <Text style={s.helper}>{t.hub.saveHelper}</Text>
               </View>
             ) : (
               <View style={s.lockedHint}>
                 <Text style={{ fontSize: 13 }}>🔒</Text>
-                <Text style={s.lockedHintTxt}>Modo Familia · solo el logopeda puede modificar la prescripción.</Text>
+                <Text style={s.lockedHintTxt}>{t.hub.lockedHint}</Text>
               </View>
             )}
           </ScrollView>
@@ -530,14 +519,14 @@ export const ValeriaExerciseSelectionScreen: React.FC<{ navigation: any }> = ({ 
       <ProPinModal
         open={modalOpen}
         onClose={() => setModalOpen(false)}
-        onUnlock={() => { setModalOpen(false); setUnlocked(true); setToast('Modo profesional desbloqueado.'); }}
+        onUnlock={() => { setModalOpen(false); setUnlocked(true); setToast(t.hub.proUnlocked); }}
       />
 
       {/* ===== Acceso Profesional del hub: PIN 1985 → exportación dual ===== */}
       <ProPinModal
         open={hubPinOpen}
         onClose={() => setHubPinOpen(false)}
-        subtitle="Introduce el PIN del logopeda para exportar la evidencia de usabilidad del piloto."
+        subtitle={t.hub.proPinSubtitle}
         onUnlock={() => { setHubPinOpen(false); setExportOpen(true); }}
       />
       <ValeriaProExportModal open={exportOpen} onClose={() => setExportOpen(false)} />
@@ -549,24 +538,23 @@ export const ValeriaExerciseSelectionScreen: React.FC<{ navigation: any }> = ({ 
         <View style={s.consentOverlay}>
           <View style={s.consentCard}>
             <Text style={{ fontSize: 34, textAlign: 'center' }}>🧠</Text>
-            <Text style={s.consentTitle}>Antes de empezar con TEA</Text>
+            <Text style={s.consentTitle}>{t.hub.teaConsentTitle}</Text>
             <Text style={s.consentTxt}>
-              Este módulo incluye el <Text style={{ fontWeight: '800' }}>Quiebre Pragmático</Text>: un
-              ejercicio en el que TÚ congelas la app a propósito (una orden absurda o un silencio) para
-              observar cómo tu peque repara la comunicación. Puede generarle una frustración breve y
-              controlada — es el objetivo terapéutico, pautado por vuestro logopeda.
+              {t.hub.teaConsentBody1}
+              <Text style={{ fontWeight: '800' }}>{t.hub.teaConsentBreak}</Text>
+              {t.hub.teaConsentBody2}
             </Text>
             <View style={s.consentList}>
-              <Text style={s.consentItem}>✋ El estresor lo lanzas siempre tú, desde el Panel del Adulto.</Text>
-              <Text style={s.consentItem}>↩️ Es reversible al instante: un toque y la app vuelve a la normalidad.</Text>
-              <Text style={s.consentItem}>🚫 La app nunca interrumpe, sube la dificultad ni diagnostica sola.</Text>
-              <Text style={s.consentItem}>🛑 Si tu peque se desborda, para: no hay ningún mínimo que cumplir.</Text>
+              <Text style={s.consentItem}>{t.hub.teaConsentItem1}</Text>
+              <Text style={s.consentItem}>{t.hub.teaConsentItem2}</Text>
+              <Text style={s.consentItem}>{t.hub.teaConsentItem3}</Text>
+              <Text style={s.consentItem}>{t.hub.teaConsentItem4}</Text>
             </View>
-            <Pressable onPress={acceptTeaConsent} style={s.consentAccept} accessibilityRole="button" accessibilityLabel="Aceptar el encuadre y entrar al módulo TEA">
-              <Text style={s.consentAcceptTxt}>Lo entiendo y acepto el encuadre</Text>
+            <Pressable onPress={acceptTeaConsent} style={s.consentAccept} accessibilityRole="button" accessibilityLabel={t.hub.teaConsentAcceptA11y}>
+              <Text style={s.consentAcceptTxt}>{t.hub.teaConsentAccept}</Text>
             </Pressable>
-            <Pressable onPress={() => setTeaConsentOpen(false)} accessibilityRole="button" accessibilityLabel="Ahora no">
-              <Text style={s.consentCancel}>Ahora no</Text>
+            <Pressable onPress={() => setTeaConsentOpen(false)} accessibilityRole="button" accessibilityLabel={t.hub.teaConsentLater}>
+              <Text style={s.consentCancel}>{t.hub.teaConsentLater}</Text>
             </Pressable>
           </View>
         </View>

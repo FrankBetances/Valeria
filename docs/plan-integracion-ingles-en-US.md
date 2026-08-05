@@ -386,7 +386,7 @@ funcionando en castellano exactamente igual.
 | --- | --- | --- |
 | **EN-2.1** | Crear `src/valeriaUiLang.ts` (tipo `UiLang`, persistencia, `defaultUiLangFor`) y `src/i18n/` (`strings.es.ts`, `strings.en.ts`, `t()` con claves **tipadas**: una clave que falte en un catálogo debe romper el `typecheck`, no aparecer en blanco en pantalla) | CA: `npm run typecheck` falla si un catálogo pierde una clave |
 | **EN-2.2** | Selector de **idioma de la interfaz** en ajustes, separado del selector de variedad, con la relación por defecto de §5.1 explicada al adulto | CA: se puede tener UI en español con terapia en inglés y al revés |
-| **EN-2.3** | Migrar las pantallas al catálogo por **tramos**, en orden de recorrido del usuario. **1** Welcome · Credits · PatientSelect ✅ — **2** FichaRegistro · ExerciseSelection · Auth — **3** ExercisePlayer · MinimalPairs · SemanticExpansion · LingTest — **4** AdultChaosPanel · PatientResultsDashboard · ProExport · modales (SUS, PragmaticBreak, SessionBreak, ProPin, TPRCapsule) — **5** notificaciones y permisos | Una PR por tramo; CA por pantalla: idéntica en castellano, íntegra en inglés. **La build de EN-0.9 sale al cerrar el tramo 4** |
+| **EN-2.3** | Migrar las pantallas al catálogo por **tramos**, en orden de recorrido del usuario. **1** Welcome · Credits · PatientSelect ✅ — **2** FichaRegistro · ExerciseSelection · Auth ✅ — **3** ExercisePlayer · MinimalPairs · SemanticExpansion · LingTest — **4** AdultChaosPanel · PatientResultsDashboard · ProExport · modales (SUS, PragmaticBreak, SessionBreak, ProPin, TPRCapsule) — **5** notificaciones y permisos | Una PR por tramo; CA por pantalla: idéntica en castellano, íntegra en inglés. **La build de EN-0.9 sale al cerrar el tramo 4** |
 | **EN-2.4** | Localizar **notificaciones**: los 12 avisos y los 20 consejos largos del adulto (`valeriaNotifications.ts`), más el nombre del canal Android (hoy `valeria-recordatorios`) | CA: `check-reminder-slots.js` pasa con los dos catálogos |
 | **EN-2.5** | Localizar los **permisos del sistema**: las cadenas de micrófono/reconocimiento de voz de `app.json` y de cámara (AR) están hoy en castellano y son lo primero que lee un usuario estadounidense. Requiere `InfoPlist.strings` por idioma en iOS y `strings.xml` por locale en Android, vía config plugin (hay precedente: `plugins/withValeriaAR.js`) | CA: en un dispositivo con el sistema en inglés, el diálogo de permiso sale en inglés |
 | **EN-2.6** | Localizar el **informe exportado** (`ValeriaProExport`) y las etiquetas del panel de resultados: es lo que el clínico enseña a la familia | CA: informe generado íntegramente en inglés |
@@ -404,7 +404,8 @@ evaluación de EN-0.9**.
 > en castellano». Sin los tramos 1–4 de EN-2.3 no hay build que enviarle, así
 > que la i18n es ahora el **camino crítico** del proyecto entero.
 >
-> **Estado:** ⏳ EN-2.1 ✅ · EN-2.2 ✅ · EN-2.3 en curso (tramo 1 de 5).
+> **Estado:** ⏳ EN-2.1 ✅ · EN-2.2 ✅ · EN-2.3 en curso (**tramos 1 y 2 de 5**
+> cerrados: entrada, alta y hub).
 
 ---
 
@@ -558,6 +559,7 @@ es el camino más corto al lanzamiento.
 | **Revisión clínica** (EN-0.3) | **Profesora SLP con licencia de *Howard University***. Era el cuello de botella real del plan, como lo fueron ACOPROS, la revisora gallegohablante y Ulertuz | ago 2026 |
 | **Ejes UI / terapia** (§5.1) | Se **separan**: `UiLang` (`es`\|`en`) independiente de `Locale`, con defecto derivado y desacople explícito por el adulto | ago 2026 |
 | **Guía dialectal** (EN-0.5) | **Regla bloqueante**: ningún dataset `en` entra en `main` sin veredicto dialectal firmado | ago 2026 |
+| **Cómo puntúa un rasgo dialectal** (EN-0.5) | **Como ACIERTO.** Un rasgo regular de la variedad del niño no es un error terapéutico y no puede restar. Decisión de producto de Frank, **pendiente de confirmación por la revisora** (es la pregunta 2 del [protocolo de evaluación](./protocolo-evaluacion-clinica-en-US.md)) | ago 2026 |
 
 ### 9.2 Abiertas (para Frank)
 

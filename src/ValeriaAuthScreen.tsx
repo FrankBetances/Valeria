@@ -28,7 +28,8 @@ import {
 } from 'react-native';
 import { V } from './valeriaTheme';
 import { useAuth } from './firebase/AuthContext';
-import { authErrorToMessage } from './firebase/authErrors';
+import { authErrorCode } from './firebase/authErrors';
+import { useT } from './i18n';
 import { firebaseConfigIsPlaceholder } from './firebase/firebaseConfig';
 
 type Mode = 'signin' | 'signup';
@@ -37,22 +38,23 @@ const ValeriaAuthScreen: React.FC<{ onAuthenticated?: () => void }> = ({
   onAuthenticated,
 }) => {
   const { signIn, signUp, resetPassword } = useAuth();
+  const t = useT();
 
   const [mode, setMode] = useState<Mode>('signin');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [busy, setBusy] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [notice, setNotice] = useState<string | null>(null);
+  const [errorCode, setErrorCode] = useState<string | null>(null);
+  const [noticeKey, setNoticeKey] = useState<'resetSent' | null>(null);
 
   const isSignup = mode === 'signup';
 
   const submit = async () => {
-    setError(null);
-    setNotice(null);
+    setErrorCode(null);
+    setNoticeKey(null);
     if (!email.trim() || !password) {
-      setError('Escribe tu correo y contraseña.');
+      setErrorCode('missingFields');
       return;
     }
     setBusy(true);
@@ -64,25 +66,25 @@ const ValeriaAuthScreen: React.FC<{ onAuthenticated?: () => void }> = ({
       }
       onAuthenticated?.();
     } catch (e) {
-      setError(authErrorToMessage(e));
+      setErrorCode(authErrorCode(e));
     } finally {
       setBusy(false);
     }
   };
 
   const onReset = async () => {
-    setError(null);
-    setNotice(null);
+    setErrorCode(null);
+    setNoticeKey(null);
     if (!email.trim()) {
-      setError('Escribe tu correo para enviarte el enlace de recuperación.');
+      setErrorCode('missingEmailForReset');
       return;
     }
     setBusy(true);
     try {
       await resetPassword(email);
-      setNotice('Te hemos enviado un correo para restablecer la contraseña.');
+      setNoticeKey('resetSent');
     } catch (e) {
-      setError(authErrorToMessage(e));
+      setErrorCode(authErrorCode(e));
     } finally {
       setBusy(false);
     }
@@ -101,11 +103,11 @@ const ValeriaAuthScreen: React.FC<{ onAuthenticated?: () => void }> = ({
           <View style={s.badge}>
             <Text style={{ fontSize: 26 }}>🐻</Text>
           </View>
-          <Text style={s.title}>Acceso profesional</Text>
+          <Text style={s.title}>{t.auth.title}</Text>
           <Text style={s.subtitle}>
             {isSignup
-              ? 'Crea tu cuenta para guardar tus pacientes y sesiones en la nube.'
-              : 'Inicia sesión para acceder a tus pacientes y sesiones.'}
+              ? t.auth.subtitleSignup
+              : t.auth.subtitleSignin}
           </Text>
 
           {firebaseConfigIsPlaceholder && (
@@ -119,7 +121,7 @@ const ValeriaAuthScreen: React.FC<{ onAuthenticated?: () => void }> = ({
 
           {isSignup && (
             <View style={s.field}>
-              <Text style={s.label}>Nombre</Text>
+              <Text style={s.label}>{t.auth.name}</Text>
               <TextInput
                 style={s.input}
                 value={name}
@@ -133,7 +135,7 @@ const ValeriaAuthScreen: React.FC<{ onAuthenticated?: () => void }> = ({
           )}
 
           <View style={s.field}>
-            <Text style={s.label}>Correo electrónico</Text>
+            <Text style={s.label}>{t.auth.email}</Text>
             <TextInput
               style={s.input}
               value={email}
@@ -149,12 +151,12 @@ const ValeriaAuthScreen: React.FC<{ onAuthenticated?: () => void }> = ({
           </View>
 
           <View style={s.field}>
-            <Text style={s.label}>Contraseña</Text>
+            <Text style={s.label}>{t.auth.password}</Text>
             <TextInput
               style={s.input}
               value={password}
               onChangeText={setPassword}
-              placeholder="Mínimo 6 caracteres"
+              placeholder={t.auth.passwordPlaceholder}
               placeholderTextColor={V.color.textMuted}
               secureTextEntry
               autoCapitalize="none"
@@ -162,14 +164,18 @@ const ValeriaAuthScreen: React.FC<{ onAuthenticated?: () => void }> = ({
             />
           </View>
 
-          {error && (
+          {errorCode && (
             <View style={[s.banner, s.bannerError]}>
-              <Text style={s.bannerErrorTxt}>{error}</Text>
+              <Text style={s.bannerErrorTxt}>
+                {errorCode === 'missingFields' ? t.auth.missingFields
+                  : errorCode === 'missingEmailForReset' ? t.auth.missingEmailForReset
+                    : t.auth.error(errorCode)}
+              </Text>
             </View>
           )}
-          {notice && (
+          {noticeKey && (
             <View style={[s.banner, s.bannerOk]}>
-              <Text style={s.bannerOkTxt}>{notice}</Text>
+              <Text style={s.bannerOkTxt}>{t.auth.resetSent}</Text>
             </View>
           )}
 
@@ -183,31 +189,31 @@ const ValeriaAuthScreen: React.FC<{ onAuthenticated?: () => void }> = ({
               <ActivityIndicator color="#fff" />
             ) : (
               <Text style={s.primaryBtnTxt}>
-                {isSignup ? 'Crear cuenta' : 'Iniciar sesión'}
+                {isSignup ? t.auth.signup : t.auth.signin}
               </Text>
             )}
           </Pressable>
 
           {!isSignup && (
             <Pressable onPress={onReset} disabled={busy} style={s.linkBtn}>
-              <Text style={s.linkTxt}>¿Olvidaste tu contraseña?</Text>
+              <Text style={s.linkTxt}>{t.auth.forgot}</Text>
             </Pressable>
           )}
 
           <View style={s.switchRow}>
             <Text style={s.switchTxt}>
-              {isSignup ? '¿Ya tienes cuenta?' : '¿Aún no tienes cuenta?'}
+              {isSignup ? t.auth.haveAccount : t.auth.noAccount}
             </Text>
             <Pressable
               onPress={() => {
                 setMode(isSignup ? 'signin' : 'signup');
-                setError(null);
-                setNotice(null);
+                setErrorCode(null);
+                setNoticeKey(null);
               }}
               disabled={busy}
             >
               <Text style={s.switchLink}>
-                {isSignup ? 'Inicia sesión' : 'Créala aquí'}
+                {isSignup ? t.auth.goSignin : t.auth.goSignup}
               </Text>
             </Pressable>
           </View>

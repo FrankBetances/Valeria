@@ -95,9 +95,27 @@ habla una variedad distinta de la General American:
 - Inglés con influencia del español (población bilingüe).
 
 Pregunta concreta: **¿qué debe hacer la app cuando el niño produce un rasgo
-dialectal regular?** ¿No puntuarlo? ¿Puntuarlo como acierto? ¿Avisar al adulto?
-¿Permitir declarar la variedad del niño en su ficha? La respuesta determina el
-diseño del banco inglés entero.
+dialectal regular?** La respuesta determina el diseño del banco inglés entero.
+
+> **Posición de partida del proyecto (Frank, ago 2026):** se puntúa **como
+> acierto**. Un rasgo regular de la variedad del niño no es un error terapéutico
+> y no puede restar. Lo que pedimos a la revisora es **confirmarlo o corregirlo**,
+> y resolver la consecuencia técnica que se deriva, que no es menor:
+>
+> Para saber que una producción es dialectal *y no un error*, caben dos vías:
+>
+> 1. **Declarar la variedad del niño en su ficha** y aceptar como acierto los
+>    rasgos regulares de esa variedad. Más preciso, pero obliga al adulto a
+>    etiquetar al niño —con lo que eso tiene de delicado— y falla con los niños
+>    bidialectales, que son muchos.
+> 2. **Aceptar como acierto cualquier realización dialectal conocida del
+>    objetivo**, sin preguntar la variedad. Nunca penaliza a nadie, a costa de
+>    dar por bueno algún caso que sí era un error articulatorio.
+>
+> El coste de la vía 2 se amortigua solo, porque en Valeria+ **el adulto es
+> siempre el juez final**: el veredicto del micrófono es una pista, no la nota.
+> Aun así, cuál de las dos vías es defendible en la práctica estadounidense es
+> decisión clínica, no de producto.
 
 ### P3 · Registro y terminología del inglés de la interfaz
 
@@ -161,7 +179,7 @@ como fallo lo que aún no ha llegado.
 | Tramo | Pantallas | Estado |
 | --- | --- | --- |
 | 1 · Entrada | Welcome · Credits · Selección de paciente | ✅ en inglés |
-| 2 · Alta y hub | Ficha de registro · Hub de ejercicios · Auth | ⏳ pendiente |
+| 2 · Alta y hub | Ficha de registro · Hub de ejercicios · Auth | ✅ en inglés |
 | 3 · Bloques de terapia | Player · Pares Mínimos · Expansión Semántica · Test de Ling | ⏳ pendiente |
 | 4 · Adulto y datos | Panel del adulto · Resultados · Exportación · modales | ⏳ pendiente |
 | 5 · Sistema | Notificaciones · permisos (`app.json`) | ⏳ pendiente |

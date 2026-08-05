@@ -1,8 +1,31 @@
 // ============================================================================
-// Valeria+ · Traducción de códigos de error de Firebase Auth a mensajes claros
-// en español para mostrar al profesional.
+// Valeria+ · Normalización de errores de Firebase Auth
+//
+// Antes este módulo devolvía la frase en castellano ya montada. Con la app en
+// dos idiomas (EN-2.3) eso no vale: el mensaje se guarda en el estado de la
+// pantalla y, si viniera cerrado, cambiar de idioma con un error visible lo
+// dejaría en el idioma anterior. Y de fondo hay algo peor: un módulo de
+// infraestructura acabaría siendo dueño de texto de interfaz.
+//
+// Aquí solo se NORMALIZA. Varios códigos de Firebase colapsan a propósito en un
+// mismo caso: «usuario no encontrado», «contraseña incorrecta» y «credencial
+// inválida» son, para quien mira la pantalla, lo mismo —y distinguirlos le
+// diría a un atacante si el correo existe—. La traducción vive en el catálogo
+// (`t.auth.error`).
 // ============================================================================
-export function authErrorToMessage(error: unknown): string {
+
+export type AuthErrorCode =
+  | 'invalidEmail'
+  | 'missingPassword'
+  | 'weakPassword'
+  | 'emailInUse'
+  | 'badCredentials'
+  | 'tooManyRequests'
+  | 'network'
+  | 'notAllowed'
+  | 'unknown';
+
+export function authErrorCode(error: unknown): AuthErrorCode {
   const code =
     typeof error === 'object' && error !== null && 'code' in error
       ? String((error as { code: unknown }).code)
@@ -10,24 +33,24 @@ export function authErrorToMessage(error: unknown): string {
 
   switch (code) {
     case 'auth/invalid-email':
-      return 'El correo no tiene un formato válido.';
+      return 'invalidEmail';
     case 'auth/missing-password':
-      return 'Escribe tu contraseña.';
+      return 'missingPassword';
     case 'auth/weak-password':
-      return 'La contraseña debe tener al menos 6 caracteres.';
+      return 'weakPassword';
     case 'auth/email-already-in-use':
-      return 'Ya existe una cuenta con ese correo.';
+      return 'emailInUse';
     case 'auth/user-not-found':
     case 'auth/wrong-password':
     case 'auth/invalid-credential':
-      return 'Correo o contraseña incorrectos.';
+      return 'badCredentials';
     case 'auth/too-many-requests':
-      return 'Demasiados intentos. Inténtalo de nuevo en unos minutos.';
+      return 'tooManyRequests';
     case 'auth/network-request-failed':
-      return 'Sin conexión. Comprueba tu red e inténtalo otra vez.';
+      return 'network';
     case 'auth/operation-not-allowed':
-      return 'El acceso por correo y contraseña no está habilitado en el proyecto.';
+      return 'notAllowed';
     default:
-      return 'No se ha podido completar la operación. Inténtalo de nuevo.';
+      return 'unknown';
   }
 }

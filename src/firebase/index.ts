@@ -5,5 +5,6 @@
 export { app, auth, db } from './firebaseApp';
 export { firebaseConfig, firebaseConfigIsPlaceholder } from './firebaseConfig';
 export { AuthProvider, useAuth } from './AuthContext';
-export { authErrorToMessage } from './authErrors';
+export { authErrorCode } from './authErrors';
+export type { AuthErrorCode } from './authErrors';
 export * from './firestoreService';
