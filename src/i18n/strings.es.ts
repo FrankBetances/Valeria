@@ -415,6 +415,13 @@ export const ES = {
     swapMiss: '❌ Era la otra',
     swapContinue: 'Seguimos con la sesión →',
     swapSkip: 'Saltar esta vez',
+    swapIntro: 'El adulto elige EN SECRETO una de las dos palabras y la dice en voz alta, sin señalar.',
+    swapIntroAsr: ' La app también escuchará para comprobar.',
+    swapSpeakNow: '🎤 ¡Ahora, en voz alta!',
+    swapAlreadySaid: '🗣️ Ya la dijo → seguir',
+    subtitlePlay: 'Dislalias fonológicas · el niño pide la palabra con su voz',
+    regionNote: ' · solo variedades con distinción s/z',
+    streakChip: (n: number): string => (n === 1 ? 'día de racha' : 'días de racha'),
 
     sealKicker: '🤝 SELLO DOBLE PARA CONTINUAR',
     sealWhy:
@@ -424,6 +431,248 @@ export const ES = {
     sealChild: 'YO',
     sealPlus: 'a la vez',
     sealHint: 'Quien acompañe al niño. ¿Una sola mano libre? Mantén pulsada una huella 2 segundos.',
+  },
+
+  // Expansión Semántica. Del banco de la VARIEDAD salen los escenarios, las
+  // categorías, las palabras, las consignas locutadas y las acciones físicas.
+  // Aquí vive lo que lee el adulto — incluidas cuatro etiquetas (objetivo de
+  // sección, nivel de dificultad, fase de progresión y tipo de palabra) que
+  // vivían en `valeriaSemanticExpansion.ts`: son texto de interfaz, no
+  // contenido, y por eso siguen al idioma de la UI y no a la variedad.
+  semantic: {
+    title: 'Expansión Semántica',
+    setupTitle: 'Preparación',
+    doneTitle: '¡Completado!',
+
+    howKicker: '⚡ CÓMO FUNCIONA',
+    howBody:
+      'Pulsando ▶ la app enseña una imagen y presenta la palabra en una frase corta antes de '
+      + 'pedirla («Esto es la cama. Di: cama.»). El niño la repite con su voz y el micrófono '
+      + 'valora el intento, aceptando las aproximaciones propias de la edad. Cada palabra se '
+      + 'cierra con una acción física del adulto que la ancla al cuerpo y al entorno real.',
+    autoRecord: 'Audio y grabación automáticos',
+    autoRecordSub: 'Por defecto, apagado: pulsad ▶ para oír el modelo y 🎤 para grabar.',
+
+    levelKicker: '📶 NIVEL MÁXIMO DE DIFICULTAD',
+    levelHint: 'Con el tope en 1, la sesión solo presenta las palabras más familiares de cada categoría.',
+    difficultyLabel: (n: number): string =>
+      n === 1 ? 'Nivel 1 · lo más familiar'
+        : n === 2 ? 'Nivel 2 · familiar'
+          : 'Nivel 3 · menos frecuente',
+
+    sectionScenarios: 'ESCENARIOS DIARIOS',
+    sectionCategories: 'CATEGORÍAS LÉXICAS',
+    sectionSequences: 'PROGRESIÓN LÉXICA',
+    sectionCapsules: 'CÁPSULAS DE CONTRASTE',
+    prescribedCount: (n: number): string => `${n} prescritas`,
+    goalKicker: '🎯 QUÉ SE TRABAJA AQUÍ',
+    sectionGoal: (section: string): string =>
+      section === 'scenario' ? 'Repetición verbal: el niño imita la palabra objetivo en situaciones del día a día.'
+        : section === 'category' ? 'Vocabulario nuevo por campo: se empieza por las palabras más familiares y se avanza a las menos frecuentes.'
+          : section === 'sequence' ? 'Vocabulario alrededor de un concepto: qué es, qué tiene, qué hace y cómo es.'
+            : 'Opuestos: primero elegir la imagen correcta y después decir la palabra.',
+    phaseLabel: (kind: string): string =>
+      kind === 'concepto' ? 'Paso 1 · Qué es'
+        : kind === 'parte' ? 'Paso 2 · Qué tiene'
+          : kind === 'accion' ? 'Paso 3 · Qué hace'
+            : 'Paso 4 · Cómo es',
+    wordTypeLabel: (kind: string): string =>
+      kind === 'sustantivo' ? 'Sustantivo'
+        : kind === 'verbo' ? 'Verbo'
+          : kind === 'adjetivo' ? 'Adjetivo'
+            : 'Onomatopeya',
+    wordCount: (n: number): string => `${n} palabras`,
+
+    savePrescription: 'Guardar Prescripción',
+    saveHelper: 'La selección se guarda en el dispositivo y la edición se bloquea de nuevo.',
+    lockedHint: 'Modo Familia · solo el logopeda puede cambiar qué actividades se practican.',
+    pinSubtitle: 'Introduce el PIN de 4 dígitos del logopeda para elegir qué actividades practica la familia.',
+
+    setupKicker: '🧰 MATERIAL QUE NECESITÁIS',
+    stepsKicker: (n: number): string => `🤝 QUÉ VAIS A HACER · ${n} ${n === 1 ? 'PASO' : 'PASOS'}`,
+    reviewSetup: '🧰 Ver preparación',
+    reviewSetupA11y: 'Volver a ver el material y la dinámica',
+
+    appSpeaksSlow: 'LA APP MODELA DESPACIO',
+    appSpeaks: 'LA APP DICE',
+    listen: 'Escuchar',
+    listenA11y: 'Escuchar el modelo de este paso',
+    stepSay: 'La app está hablando… preparad la voz.',
+    stepReady: 'Preparad la voz. Cuando el niño esté listo, pulsad el micrófono.',
+    readyBtn: 'Ya estoy listo',
+    readyBtnA11y: 'Ya estoy listo. Empezar a escuchar.',
+    tapImage: '¡Toca la imagen correcta!',
+    repeatQuestion: 'Repetir la pregunta',
+    stepListen: '¡Ahora el niño! Di la palabra al micrófono…',
+    saidIt: 'Lo dijo',
+    saidItA11y: 'Lo dijo bien, dar por válido',
+    almost: 'Casi / otra vez',
+    almostA11y: 'Casi, volver a intentarlo',
+    stopWithoutDeciding: 'Parar sin decidir',
+    stepJudge: 'El adulto hace de juez: ¿lo intentó decir?',
+    notUnderstood: 'No se entendió · repetir consigna',
+
+    successTitle: '¡Palabra conseguida!',
+    heardBy: (w: string): string => `La app escuchó: “${w}”`,
+    adultVerdict: 'Veredicto del adulto.',
+    finish: '✅ ¡Terminar!',
+    nextStep: '✅ ¡Hecho! Siguiente →',
+    notHeardTitle: 'No te oí bien',
+    almostTitle: '¡Casi casi!',
+    hearSlowModel: 'Oír modelo despacio',
+    retryBtn: '🎤 ¡Otra vez!',
+    assistTitle: 'Imitación juntos (1★)',
+    finishShort: '¡Terminar!',
+    saidTogether: 'La dijimos → seguir',
+
+    doneSessionTitle: '¡Sesión completada!',
+    streakChip: (n: number): string => (n === 1 ? 'día de racha' : 'días de racha'),
+    seeResults: 'Ver Resultados →',
+    repeatBlock: 'Repetir este bloque',
+    otherBlock: 'Elegir otro bloque',
+    subtitlePick: 'Progresión léxica · del símbolo al mundo real del niño',
+    editingOn: 'Edición profesional habilitada',
+    tabScenarios: 'Escenarios',
+    tabCategories: 'Categorías',
+    tabSequences: 'Progresión',
+    tabContrasts: 'Contrastes',
+    kindScenario: 'Escenario',
+    kindSequence: 'Progresión',
+    kindContrast: 'Contraste',
+    stepPoints: ' · el niño señala',
+    setupBack: 'Volver a la sesión',
+    setupReady: 'Ya lo tengo todo',
+    setupReadyA11y: 'Ya lo tengo todo, empezar',
+    notHeardSub: 'El micrófono no captó nada, así que este intento no cuenta. Acercaos un poco y probad otra vez.',
+    almostSub: 'Escuchad el modelo despacio y probad otra vez.',
+    actionKickerAdult: 'MISIÓN FÍSICA DEL ADULTO',
+    actionKickerTpr: 'INSTRUCCIÓN TPR PARA EL ADULTO',
+    actionKickerPair: 'ACCIÓN FÍSICA EN PAREJA',
+    actionKickerSecond: 'ACCIÓN FÍSICA · SEGUNDA VUELTA',
+    capsuleKickerAdj: 'CONTRASTE DE ADJETIVOS',
+    capsuleKickerVerb: 'VERBOS ANTÓNIMOS',
+    capsuleRound1: 'VUELTA 1 · COMPRENDER',
+    capsuleRound2: 'VUELTA 2 · DECIR',
+    capsuleVisualPrompt: (a: string, b: string): string => `Par en contraste: ${a} / ${b}.`,
+    capsuleKindAdj: 'Par de adjetivos',
+    capsuleKindVerb: 'Verbos antónimos',
+    capsuleMeta: 'cápsula TPR · 2 vueltas',
+    rowScenarioA11y: (title: string): string => `escenario ${title}`,
+    rowCategoryA11y: (title: string): string => `categoría ${title}`,
+    rowSequenceA11y: (theme: string): string => `progresión ${theme}`,
+    rowCapsuleA11y: (a: string, b: string): string => `cápsula de contraste ${a} y ${b}`,
+  },
+
+  // Reproductor de ejercicios. Del banco de la VARIEDAD salen: nombre, código,
+  // consigna (`read`), frase, materiales, propuestas alternativas, escala EPT
+  // por ejercicio (`ex.ept`) y todo el contenido de las rondas. Aquí vive el
+  // andamiaje: pasos, botonera de juez, explicación de la escala y cierre.
+  player: {
+    zoomClose: 'Toca para cerrar',
+    zoomCloseA11y: 'Cerrar imagen ampliada',
+    zoomTip: '🔍 Para ampliar una imagen: tócala, o en los juegos mantenla pulsada',
+    zoomIconA11y: 'Ampliar el icono',
+    zoomFaceA11y: 'Ampliar la cara',
+
+    adultOnlyKicker: 'SOLO PARA EL ADULTO',
+    adultOnlyShow: 'Toca para ver qué palabra tienes que decir sin voz.',
+    adultOnlyHide: 'Aparta la pantalla del niño. Toca para volver a ocultarla.',
+    adultOnlyShowA11y: 'Ver la palabra que debes pronunciar, sin enseñar la pantalla al niño',
+    adultOnlyHideA11y: 'Ocultar la palabra que debes pronunciar',
+
+    judgeSaidIt: '👍 Lo dijo',
+    judgeSaidItA11y: 'Juez: lo dijo bien',
+    judgeAlmost: '🤏 Casi',
+    judgeAlmostA11y: 'Juez: casi lo dijo',
+    judgeHint: '¿El micro va lento o no le entiende? Valora tú el intento:',
+
+    materialsKicker: 'ANTES DE EMPEZAR · NECESITARÁS',
+    proposalsKicker: '🔀 OTRAS FORMAS DE HACERLA · ALTERNA ENTRE SESIONES',
+    step1Kicker: 'PASO 1 · CONSIGNA DEL TUTOR',
+    step1Small: 'Este texto es para el adulto: díselo al niño con tus palabras',
+    listenPrompt: 'Escuchar consigna',
+    newRound: '🔄 Otra ronda',
+    newRoundA11y: 'Cambiar a otra ronda con contenido nuevo',
+    step2: (label: string): string => `PASO 2 · ${label}`,
+    levelLabel: (label: string): string => `NIVEL ${label.toUpperCase()}`,
+    guidedActivity: 'Actividad guiada',
+    hearWordSlow: 'Oír la palabra despacio',
+    modelNote: '💡 El mejor modelo es tu voz: dísela tú primero, cerca y despacio. La voz de la app es solo un refuerzo.',
+    trialKicker: (n: number, max: number): string => `⚖️ JUEZ · ENSAYO ${n} DE ${max}`,
+    trialHint: 'Si el micro falla o va lento, valora tú cada intento. Al llegar al límite, la app propone una pausa de movimiento para descargar.',
+
+    vowelHint: '1º Toca una imagen para oír su nombre · 2º Toca la vocal con la que empieza',
+    allMatched: '🎉 ¡Todas unidas! Puedes pasar a otra ronda o evaluar abajo.',
+    allFound: '🎉 ¡Todas encontradas! Puedes pasar a otra ronda o evaluar abajo.',
+    matrixDone: '🎉 ¡Matriz completa! Puedes pasar a otra ronda o evaluar abajo.',
+    hearAllNames: 'Oír todos los nombres',
+    hearFullWord: '1º Oír la palabra completa',
+    hearWords: 'Oír las palabras',
+    hearFullSeries: 'Oír la serie completa',
+    hearOptions: 'Oír las opciones',
+    hearSentence: '1º Oír la frase',
+    intruderHint: 'Solo por el oído: primero escuchad la serie completa; después el niño toca el altavoz de la palabra que no suena como las demás.',
+    synthesisHint: 'La app dice cada sonido por separado, con una pausa entre ellos. El niño los une y dice la palabra completa.',
+    synthesisA11y: 'Oír los sonidos por separado',
+    findAllOf: 'BUSCA TODAS LAS',
+    namedLabel: 'NOMBRADOS',
+    orderHint: 'En orden de lectura (→): el niño NOMBRA el dibujo en voz alta y lo toca. Tú persigues su dedo con el tuyo, como pilla-pilla.',
+    startOver: '↺ Volver a empezar',
+    sentenceRetry: 'Casi… vuelve a escuchar la frase y probad otra vez.',
+    promptTextKicker: 'TEXTO · PUEDES LEERLO TÚ EN VOZ ALTA',
+    hearExample: '🔊 Oír ejemplo',
+
+    selloKicker: '🤝 SELLO DOBLE · INSTIGACIÓN RETARDADA',
+    selloWait: (s: number): string => `⏳ Espera ${s} s…`,
+    selloGive: '🤝 Dar el Sello Doble',
+    selloGiveA11y: 'Dar el sello doble por contacto visual real',
+    selloCount: (stars: string, n: number): string => `Sellos por contacto visual: ${stars} (${n})`,
+    breakNow: '⏸️ Interrumpir ahora (cápsula sorpresa)',
+    breakNowA11y: 'Interrumpir ahora con una cápsula de movimiento sorpresa',
+
+    step3Kicker: 'PASO 3 · VERSIÓN EN MOVIMIENTO',
+    waitTxt: 'Espera y observa la respuesta del niño',
+
+    step4Kicker: 'PASO 4 · EVALUACIÓN',
+    scoreTitle: '¿Cómo le ha salido?',
+    scoreSubRounds: 'Jugad las rondas que queráis y toca la frase que mejor describa su respuesta',
+    scoreSub: 'Toca la frase que mejor describa su respuesta',
+    eptToggle: '¿Qué es la escala EPT-3?',
+    eptToggleA11y: 'Qué es la escala EPT-3',
+    eptExplain:
+      'La EPT-3 es la escala de 3 niveles con la que se anota cómo respondió el niño en cada '
+      + 'actividad: 1★ todavía no lo consigue, 2★ lo consigue con ayuda del adulto y 3★ lo '
+      + 'consigue él solo. No es una nota: sirve para que el logopeda vea el progreso entre sesiones.',
+    nextUpKicker: 'A CONTINUACIÓN · ANÚNCIASELO ANTES DE CAMBIAR',
+
+    doneTitle: '¡Sesión completada!',
+    streakChip: (n: number): string => (n === 1 ? 'día de racha' : 'días de racha'),
+    streakExtended: '¡Racha ampliada! Vuelve mañana para no perderla.',
+    levelChip: (n: number, name: string, up: boolean): string =>
+      `Nivel ${n} · ${name}${up ? '  🎊 ¡SUBISTE DE NIVEL!' : ''}`,
+    xpToNext: (n: number): string => `${n} XP para el siguiente nivel`,
+    badgesTitle: '🏅 ¡LOGROS DESBLOQUEADOS!',
+    doneStatKicker: 'PROMEDIO DE LA SESIÓN · ESCALA EPT-3 (DE 1★ A 3★)',
+    seeResults: 'Ver Resultados →',
+    repeatSession: 'Repetir sesión',
+    sessionName: 'Sesión de terapia',
+    headerDone: 'Sesión Completada',
+    headerPlaying: 'Sesión de Terapia',
+    noteGreat: 'Sesión muy fluida, gran respuesta en las consignas.',
+    noteGood: 'Buena sesión, alguna consigna costó pero se mantuvo atento.',
+    noteHard: 'Sesión difícil hoy, conviene reforzar con más apoyo del tutor.',
+    seriesSolved: '✅ Solución de la serie: estas eran las palabras que sonaron, en el mismo orden.',
+    seriesHint: '🔊 Cada tarjeta es una palabra de la serie, en el orden en que suenan. Las palabras se ven al responder.',
+    hearQuestion: 'Oír la pregunta',
+    // Roles S-V-O del juego de construir frases. El ROL lo declara el banco de
+    // contenido (castellano); la pregunta que se le enseña al niño es andamiaje.
+    // Los roles que no son S-V-O (Primero/Luego/Después) se muestran tal cual.
+    roleQuestion: (role: string): string =>
+      role === 'Sujeto' ? '¿Quién?'
+        : role === 'Verbo' ? '¿Qué hace?'
+          : role === 'Objeto' ? '¿Qué cosa?'
+            : role,
+    redirecting: (s: number): string => `Redirigiendo a resultados en ${s}s…`,
   },
 
   settings: {

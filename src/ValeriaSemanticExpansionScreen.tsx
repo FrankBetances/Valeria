@@ -24,6 +24,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, Pressable, ScrollView, StyleSheet, Animated, Easing, Switch, BackHandler } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { V, STORAGE_KEYS } from './valeriaTheme';
+import { useT, UiStrings } from './i18n';
 import { ProUnlockPill, ProPinModal } from './ValeriaProPin';
 import { registerSession, SessionReward } from './valeriaGamification';
 import { markBlockCompleted, trackListenStart, trackListenNoMatch } from './valeriaTelemetry';
@@ -35,7 +36,7 @@ import {
 import { SpeakButton, TurnPhaseStrip } from './ValeriaVoiceUI';
 import { FichaVisual } from './ValeriaPictograms';
 import {
-  WORD_TYPE_LABEL, PHASE_LABEL, SECTION_GOAL, DIFFICULTY_LABEL, DifficultyLevel,
+  DifficultyLevel,
 } from './valeriaSemanticExpansion';
 import { semanticForLocale, SemanticBank } from './valeriaSemanticBanks';
 import { getLocale } from './valeriaLocale';
@@ -80,12 +81,12 @@ interface Session {
 // ---- Constructores: datos → sesión de pasos --------------------------------
 // Reciben el banco de la variedad activa (es/gl base, es-DO dominicano) para no
 // acoplarse a un contenido concreto: la pantalla es la misma, cambian los datos.
-const scenarioSession = (bank: SemanticBank, id: string): Session => {
+const scenarioSession = (bank: SemanticBank, id: string, t: UiStrings): Session => {
   const sc = bank.scenarios.find((s) => s.id === id)!;
   return {
     kind: 'scenario', title: sc.title, code: sc.title,
     steps: sc.items.map((it) => ({
-      kicker: WORD_TYPE_LABEL[it.type].toUpperCase(),
+      kicker: t.semantic.wordTypeLabel(it.type).toUpperCase(),
       // La clave del pictograma viaja SIEMPRE con el paso. Olvidarla aquí no
       // dejaba la ficha vacía —caía al emoji— pero convertía el fallback en la
       // norma: fuera del castellano no hay red de rescate por palabra
@@ -96,7 +97,7 @@ const scenarioSession = (bank: SemanticBank, id: string): Session => {
       emoji: it.emoji, label: it.label, pictogram: it.pictogram,
       visualPrompt: it.visual_prompt,
       tts: it.tts_string, expected: it.stt_expected_array,
-      actionKicker: 'MISIÓN FÍSICA DEL ADULTO', action: it.parent_tpr_action,
+      actionKicker: t.semantic.actionKickerAdult, action: it.parent_tpr_action,
     })),
   };
 };
@@ -105,50 +106,49 @@ const scenarioSession = (bank: SemanticBank, id: string): Session => {
 // logopeda puede recortar el nivel máximo desde el PIN profesional. Con el tope
 // en 1, la primera sesión de una categoría solo presenta lo más familiar, que
 // es el criterio de aceptación literal de ES-08.
-const categorySession = (bank: SemanticBank, id: string, maxLevel: DifficultyLevel): Session => {
+const categorySession = (bank: SemanticBank, id: string, maxLevel: DifficultyLevel, t: UiStrings): Session => {
   const ct = bank.categories.find((c) => c.id === id)!;
   const items = ct.items.filter((it) => (it.difficulty ?? 1) <= maxLevel);
   return {
     kind: 'category', title: ct.title, code: ct.id,
     steps: items.map((it) => ({
-      kicker: DIFFICULTY_LABEL[(it.difficulty ?? 1) as DifficultyLevel].toUpperCase(),
+      kicker: t.semantic.difficultyLabel(it.difficulty ?? 1).toUpperCase(),
       emoji: it.emoji, label: it.label, pictogram: it.pictogram,
       visualPrompt: it.visual_prompt,
       tts: it.tts_string, expected: it.stt_expected_array,
-      actionKicker: 'MISIÓN FÍSICA DEL ADULTO', action: it.parent_tpr_action,
+      actionKicker: t.semantic.actionKickerAdult, action: it.parent_tpr_action,
     })),
   };
 };
 
-const sequenceSession = (bank: SemanticBank, id: string): Session => {
+const sequenceSession = (bank: SemanticBank, id: string, t: UiStrings): Session => {
   const sq = bank.sequences.find((s) => s.id === id)!;
   return {
     kind: 'sequence', title: sq.theme, code: sq.theme,
     steps: sq.phases.map((ph) => ({
-      kicker: PHASE_LABEL[ph.kind].toUpperCase(),
+      kicker: t.semantic.phaseLabel(ph.kind).toUpperCase(),
       // Misma regla que en los escenarios: la clave la declara el dato, la
       // pantalla solo la transporta.
       emoji: ph.emoji, label: ph.label, pictogram: ph.pictogram,
       visualPrompt: ph.visual_prompt,
       tts: ph.tts_string, expected: ph.stt_expected_array,
-      actionKicker: 'INSTRUCCIÓN TPR PARA EL PADRE', action: ph.parent_tpr_action,
+      actionKicker: t.semantic.actionKickerTpr, action: ph.parent_tpr_action,
     })),
   };
 };
 
-const contrastSession = (bank: SemanticBank, id: string): Session => {
+const contrastSession = (bank: SemanticBank, id: string, t: UiStrings): Session => {
   const cp = bank.capsules.find((c) => c.id === id)!;
   return {
     kind: 'contrast', title: `${cp.pair[0]} / ${cp.pair[1]}`, code: cp.code,
     setup: cp.physical_setup,
     steps: cp.rounds.map((r, i) => ({
-      kicker: i === 0
-        ? `${cp.kind === 'adjetivos' ? 'CONTRASTE DE ADJETIVOS' : 'VERBOS ANTÓNIMOS'} · VUELTA 1 · COMPRENDER`
-        : `${cp.kind === 'adjetivos' ? 'CONTRASTE DE ADJETIVOS' : 'VERBOS ANTÓNIMOS'} · VUELTA 2 · DECIR`,
+      kicker: `${cp.kind === 'adjetivos' ? t.semantic.capsuleKickerAdj : t.semantic.capsuleKickerVerb}`
+        + ` · ${i === 0 ? t.semantic.capsuleRound1 : t.semantic.capsuleRound2}`,
       emoji: r.emoji, label: r.label, pictogram: r.pictogram,
-      visualPrompt: `Par en contraste: ${cp.pair[0]} / ${cp.pair[1]}.`,
+      visualPrompt: t.semantic.capsuleVisualPrompt(cp.pair[0], cp.pair[1]),
       tts: r.tts_trigger, expected: r.stt_expected_array,
-      actionKicker: i === 0 ? 'ACCIÓN FÍSICA EN PAREJA' : 'ACCIÓN FÍSICA · SEGUNDA VUELTA',
+      actionKicker: i === 0 ? t.semantic.actionKickerPair : t.semantic.actionKickerSecond,
       action: r.parent_action,
       // Vuelta 1: el niño elige entre las DOS imágenes de la cápsula. Las dos
       // vueltas comparten objeto (regla de congruencia ES-13) y solo difieren
@@ -191,6 +191,7 @@ const afterSpeak = (fn: () => void, maxWaitMs = 15000) => {
 };
 
 export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
+  const t = useT();
   // Banco de la variedad activa (fijado al montar, como en Pares Mínimos):
   // es/gl usan el base; es-DO el dominicano (léxico local + registro caribeño).
   const bank = useRef<SemanticBank>(semanticForLocale(getLocale())).current;
@@ -512,7 +513,7 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
       const raw = await AsyncStorage.getItem(STORAGE_KEYS.historial);
       const hist = raw ? JSON.parse(raw) : [];
       const d = new Date();
-      const kindLbl = sess.kind === 'scenario' ? 'Escenario' : sess.kind === 'sequence' ? 'Progresión' : 'Contraste';
+      const kindLbl = sess.kind === 'scenario' ? t.semantic.kindScenario : sess.kind === 'sequence' ? t.semantic.kindSequence : t.semantic.kindContrast;
       // ES-12: en los contrastes la nota separa lo que el niño COMPRENDE de lo
       // que PRODUCE. Son dos habilidades distintas y mezclarlas en una sola
       // media oculta el caso típico: entiende el par pero aún no lo dice.
@@ -589,15 +590,15 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
     return (
       <View style={s.flex}>
         <View style={s.header}>
-          <Pressable onPress={() => navigation.goBack()} style={s.backPill}><Text style={s.backPillTxt}>‹ Volver</Text></Pressable>
+          <Pressable onPress={() => navigation.goBack()} style={s.backPill}><Text style={s.backPillTxt}>{`‹ ${t.common.back}`}</Text></Pressable>
           <Text style={s.logoFallback}>valeria+</Text>
-          <Text style={s.headerTitle}>Expansión Semántica</Text>
-          <Text style={s.headerSub}>{unlocked ? 'Edición profesional habilitada' : 'Progresión léxica · del símbolo al mundo real del niño'}</Text>
+          <Text style={s.headerTitle}>{t.semantic.title}</Text>
+          <Text style={s.headerSub}>{unlocked ? t.semantic.editingOn : t.semantic.subtitlePick}</Text>
           <View style={s.tabs}>
-            {([['scenario', 'Escenarios'], ['category', 'Categorías'], ['sequence', 'Progresión'], ['contrast', 'Contrastes']] as const).map(([t, lbl]) => {
-              const on = tab === t;
+            {([['scenario', t.semantic.tabScenarios], ['category', t.semantic.tabCategories], ['sequence', t.semantic.tabSequences], ['contrast', t.semantic.tabContrasts]] as const).map(([tabKey, lbl]) => {
+              const on = tab === tabKey;
               return (
-                <Pressable key={t} onPress={() => setTab(t)} style={[s.tab, on && s.tabOn]} accessibilityRole="tab" accessibilityState={{ selected: on }}>
+                <Pressable key={tabKey} onPress={() => setTab(tabKey)} style={[s.tab, on && s.tabOn]} accessibilityRole="tab" accessibilityState={{ selected: on }}>
                   <Text style={[s.tabTxt, { color: on ? V.color.primaryDark : 'rgba(255,255,255,.9)' }]}>{lbl}</Text>
                 </Pressable>
               );
@@ -613,21 +614,16 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
             </View>
           )}
           <View style={s.howCard}>
-            <Text style={s.howKicker}>⚡ CÓMO FUNCIONA</Text>
-            <Text style={s.howTxt}>
-              Pulsando ▶ la app enseña una imagen y presenta la palabra en una frase corta antes de
-              pedirla («Esto es la cama. Di: cama.»). El niño la repite con su voz y el micrófono
-              valora el intento, aceptando las aproximaciones propias de la edad. Cada palabra se
-              cierra con una acción física del adulto que la ancla al cuerpo y al entorno real.
-            </Text>
+            <Text style={s.howKicker}>{t.semantic.howKicker}</Text>
+            <Text style={s.howTxt}>{t.semantic.howBody}</Text>
           </View>
 
           {/* PM-04/ES-03: por defecto nada suena ni escucha solo; aquí se
               puede volver al arranque automático para quien ya tenía el ritmo. */}
           <View style={s.autoRecordRow}>
             <View style={{ flex: 1 }}>
-              <Text style={s.autoRecordTxt}>Audio y grabación automáticos</Text>
-              <Text style={s.autoRecordSub}>Por defecto, apagado: pulsad ▶ para oír el modelo y 🎤 para grabar.</Text>
+              <Text style={s.autoRecordTxt}>{t.semantic.autoRecord}</Text>
+              <Text style={s.autoRecordSub}>{t.semantic.autoRecordSub}</Text>
             </View>
             <Switch
               value={autoRecord}
@@ -645,10 +641,8 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
               una decisión del logopeda, no del acompañante. */}
           {tab === 'category' && unlocked && (
             <View style={s.levelCard}>
-              <Text style={s.levelKicker}>📶 NIVEL MÁXIMO DE DIFICULTAD</Text>
-              <Text style={s.levelHint}>
-                Con el tope en 1, la sesión solo presenta las palabras más familiares de cada categoría.
-              </Text>
+              <Text style={s.levelKicker}>{t.semantic.levelKicker}</Text>
+              <Text style={s.levelHint}>{t.semantic.levelHint}</Text>
               <View style={s.levelRow}>
                 {([1, 2, 3] as const).map((n) => {
                   const on = maxLevel === n;
@@ -659,9 +653,9 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
                       style={[s.levelBtn, on && s.levelBtnOn]}
                       accessibilityRole="radio"
                       accessibilityState={{ selected: on }}
-                      accessibilityLabel={DIFFICULTY_LABEL[n]}
+                      accessibilityLabel={t.semantic.difficultyLabel(n)}
                     >
-                      <Text style={[s.levelBtnTxt, on && s.levelBtnTxtOn]}>{DIFFICULTY_LABEL[n]}</Text>
+                      <Text style={[s.levelBtnTxt, on && s.levelBtnTxtOn]}>{t.semantic.difficultyLabel(n)}</Text>
                     </Pressable>
                   );
                 })}
@@ -670,27 +664,27 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
           )}
           <View style={s.listHead}>
             <Text style={s.listLabel}>
-              {tab === 'scenario' ? 'ESCENARIOS DIARIOS'
-                : tab === 'category' ? 'CATEGORÍAS LÉXICAS'
-                  : tab === 'sequence' ? 'PROGRESIÓN LÉXICA' : 'CÁPSULAS DE CONTRASTE'}
+              {tab === 'scenario' ? t.semantic.sectionScenarios
+                : tab === 'category' ? t.semantic.sectionCategories
+                  : tab === 'sequence' ? t.semantic.sectionSequences : t.semantic.sectionCapsules}
             </Text>
-            <View style={s.countBadge}><Text style={s.countBadgeTxt}>{activeCount} prescritas</Text></View>
+            <View style={s.countBadge}><Text style={s.countBadgeTxt}>{t.semantic.prescribedCount(activeCount)}</Text></View>
           </View>
 
           {/* ES-07: cada apartado declara su objetivo terapéutico en una línea,
               para que el adulto sepa qué se trabaja antes de elegir actividad. */}
           <View style={s.goalCard}>
-            <Text style={s.goalKicker}>🎯 QUÉ SE TRABAJA AQUÍ</Text>
-            <Text style={s.goalTxt}>{SECTION_GOAL[tab]}</Text>
+            <Text style={s.goalKicker}>{t.semantic.goalKicker}</Text>
+            <Text style={s.goalTxt}>{t.semantic.sectionGoal(tab)}</Text>
           </View>
 
           {tab === 'scenario' && bank.scenarios.map((sc) => prescribableRow(
-            sc.id, `escenario ${sc.title}`, () => start(scenarioSession(bank, sc.id)),
+            sc.id, t.semantic.rowScenarioA11y(sc.title), () => start(scenarioSession(bank, sc.id, t)),
             <>
               <Text style={{ fontSize: 30 }}>{sc.icon}</Text>
               <View style={{ flex: 1 }}>
                 <Text style={s.pickName}>{sc.title}</Text>
-                <Text style={s.pickCat}>{sc.subtitle} · {sc.items.length} palabras</Text>
+                <Text style={s.pickCat}>{`${sc.subtitle} · ${t.semantic.wordCount(sc.items.length)}`}</Text>
               </View>
             </>,
           ))}
@@ -698,7 +692,7 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
           {tab === 'category' && bank.categories.map((ct) => {
             const disponibles = ct.items.filter((it) => (it.difficulty ?? 1) <= maxLevel);
             return prescribableRow(
-              ct.id, `categoría ${ct.title}`, () => start(categorySession(bank, ct.id, maxLevel)),
+              ct.id, t.semantic.rowCategoryA11y(ct.title), () => start(categorySession(bank, ct.id, maxLevel, t)),
               <>
                 <Text style={{ fontSize: 30 }}>{ct.icon}</Text>
                 <View style={{ flex: 1 }}>
@@ -713,7 +707,7 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
           })}
 
           {tab === 'sequence' && bank.sequences.map((sq) => prescribableRow(
-            sq.id, `progresión ${sq.theme}`, () => start(sequenceSession(bank, sq.id)),
+            sq.id, t.semantic.rowSequenceA11y(sq.theme), () => start(sequenceSession(bank, sq.id, t)),
             <>
               <Text style={{ fontSize: 30 }}>{sq.icon}</Text>
               <View style={{ flex: 1 }}>
@@ -724,26 +718,26 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
           ))}
 
           {tab === 'contrast' && bank.capsules.map((cp) => prescribableRow(
-            cp.id, `cápsula de contraste ${cp.pair[0]} y ${cp.pair[1]}`, () => start(contrastSession(bank, cp.id)),
+            cp.id, t.semantic.rowCapsuleA11y(cp.pair[0], cp.pair[1]), () => start(contrastSession(bank, cp.id, t)),
             <>
               <View style={s.codeChip}><Text style={s.codeChipTxt}>{cp.code}</Text></View>
               <Text style={{ fontSize: 26 }}>{cp.icon}</Text>
               <View style={{ flex: 1 }}>
                 <Text style={s.pickName}>{cp.pair[0]} / {cp.pair[1]}</Text>
-                <Text style={s.pickCat}>{cp.kind === 'adjetivos' ? 'Par de adjetivos' : 'Verbos antónimos'} · cápsula TPR · 2 vueltas</Text>
+                <Text style={s.pickCat}>{`${cp.kind === 'adjetivos' ? t.semantic.capsuleKindAdj : t.semantic.capsuleKindVerb} · ${t.semantic.capsuleMeta}`}</Text>
               </View>
             </>,
           ))}
 
           {unlocked ? (
             <>
-              <Pressable onPress={savePrescription} style={s.primaryBtn}><Text style={s.primaryBtnTxt}>Guardar Prescripción</Text></Pressable>
-              <Text style={s.helper}>La selección se guarda en el dispositivo y la edición se bloquea de nuevo.</Text>
+              <Pressable onPress={savePrescription} style={s.primaryBtn}><Text style={s.primaryBtnTxt}>{t.semantic.savePrescription}</Text></Pressable>
+              <Text style={s.helper}>{t.semantic.saveHelper}</Text>
             </>
           ) : (
             <View style={s.lockedHint}>
               <Text style={{ fontSize: 13 }}>🔒</Text>
-              <Text style={s.lockedHintTxt}>Modo Familia · solo el logopeda puede cambiar qué actividades se practican.</Text>
+              <Text style={s.lockedHintTxt}>{t.semantic.lockedHint}</Text>
             </View>
           )}
         </ScrollView>
@@ -752,7 +746,7 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
           open={pinOpen}
           onClose={() => setPinOpen(false)}
           onUnlock={() => { setPinOpen(false); setUnlocked(true); setToast('Modo profesional desbloqueado.'); }}
-          subtitle="Introduce el PIN de 4 dígitos del logopeda para elegir qué actividades practica la familia."
+          subtitle={t.semantic.pinSubtitle}
         />
       </View>
     );
@@ -778,27 +772,27 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
             <Text style={s.backPillTxt}>‹ {setupRevisit ? 'Seguir' : 'Volver'}</Text>
           </Pressable>
           <Text style={s.logoFallback}>valeria+</Text>
-          <Text style={s.headerTitle}>Preparación</Text>
+          <Text style={s.headerTitle}>{t.semantic.setupTitle}</Text>
           <Text style={s.headerSub}>{sess.title}</Text>
         </View>
 
         <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
           {conMaterial && (
             <View style={s.setupCard}>
-              <Text style={s.setupKicker}>🧰 MATERIAL QUE NECESITÁIS</Text>
+              <Text style={s.setupKicker}>{t.semantic.setupKicker}</Text>
               <Text style={s.setupTxt}>{sess.setup}</Text>
             </View>
           )}
 
           <View style={s.setupCard}>
-            <Text style={s.setupKicker}>🤝 QUÉ VAIS A HACER · {sess.steps.length} {sess.steps.length === 1 ? 'PASO' : 'PASOS'}</Text>
+            <Text style={s.setupKicker}>{t.semantic.stepsKicker(sess.steps.length)}</Text>
             {sess.steps.map((st, i) => (
               <View key={`${st.label}-${i}`} style={s.setupStep}>
                 <View style={s.setupStepNum}><Text style={s.setupStepNumTxt}>{i + 1}</Text></View>
                 <View style={{ flex: 1 }}>
                   <Text style={s.setupStepLabel}>
                     {st.label}
-                    {st.mode === 'comprension' ? ' · el niño señala' : ''}
+                    {st.mode === 'comprension' ? t.semantic.stepPoints : ''}
                   </Text>
                   <Text style={s.setupStepAction}>{st.action}</Text>
                 </View>
@@ -816,10 +810,10 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
             onPress={leaveSetup}
             style={s.setupGoBtn}
             accessibilityRole="button"
-            accessibilityLabel={setupRevisit ? 'Volver a la sesión' : 'Ya lo tengo todo, empezar'}
+            accessibilityLabel={setupRevisit ? t.semantic.setupBack : t.semantic.setupReadyA11y}
           >
             <Text style={{ fontSize: 22 }}>{setupRevisit ? '↩' : '✅'}</Text>
-            <Text style={s.setupGoBtnTxt}>{setupRevisit ? 'Volver a la sesión' : 'Ya lo tengo todo'}</Text>
+            <Text style={s.setupGoBtnTxt}>{setupRevisit ? t.semantic.setupBack : t.semantic.setupReady}</Text>
           </Pressable>
         </ScrollView>
       </View>
@@ -836,13 +830,13 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
               activo, no al hub — solo desde 'pick' Volver sale de la pantalla. */}
           <Pressable onPress={() => { stopSpeaking(); setPhase('pick'); }} style={s.backPill}><Text style={s.backPillTxt}>‹ Volver</Text></Pressable>
           <Text style={s.logoFallback}>valeria+</Text>
-          <Text style={s.headerTitle}>¡Completado!</Text>
+          <Text style={s.headerTitle}>{t.semantic.doneTitle}</Text>
           <Text style={s.headerSub}>{sess.title}</Text>
         </View>
         <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
           <View style={s.doneCard}>
             <Text style={{ fontSize: 44 }}>🎉</Text>
-            <Text style={s.doneTitle}>¡Sesión completada!</Text>
+            <Text style={s.doneTitle}>{t.semantic.doneSessionTitle}</Text>
             <Text style={s.doneBig}>{avg.toFixed(1)}<Text style={s.doneSlash}> / 3 ★</Text></Text>
             <Text style={s.doneSub}>
               {sess.steps.length} palabras trabajadas uniendo imagen, voz y acción física. La palabra
@@ -859,12 +853,12 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
             {reward && (
               <View style={s.rewardRow}>
                 <View style={s.rewardChip}><Text style={s.rewardBig}>+{reward.xpGained}</Text><Text style={s.rewardLbl}>XP</Text></View>
-                <View style={[s.rewardChip, { backgroundColor: '#fff4e5' }]}><Text style={s.rewardBig}>🔥 {reward.streak}</Text><Text style={s.rewardLbl}>{reward.streak === 1 ? 'día de racha' : 'días de racha'}</Text></View>
+                <View style={[s.rewardChip, { backgroundColor: '#fff4e5' }]}><Text style={s.rewardBig}>🔥 {reward.streak}</Text><Text style={s.rewardLbl}>{t.semantic.streakChip(reward.streak)}</Text></View>
               </View>
             )}
-            <Pressable onPress={() => navigation.navigate('Results')} style={s.primaryBtn}><Text style={s.primaryBtnTxt}>Ver Resultados →</Text></Pressable>
-            <Pressable onPress={() => start(sess)}><Text style={s.linkBtn}>Repetir este bloque</Text></Pressable>
-            <Pressable onPress={() => setPhase('pick')}><Text style={s.linkBtn}>Elegir otro bloque</Text></Pressable>
+            <Pressable onPress={() => navigation.navigate('Results')} style={s.primaryBtn}><Text style={s.primaryBtnTxt}>{t.semantic.seeResults}</Text></Pressable>
+            <Pressable onPress={() => start(sess)}><Text style={s.linkBtn}>{t.semantic.repeatBlock}</Text></Pressable>
+            <Pressable onPress={() => setPhase('pick')}><Text style={s.linkBtn}>{t.semantic.otherBlock}</Text></Pressable>
           </View>
         </ScrollView>
       </View>
@@ -918,7 +912,7 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
           <View style={s.promptHead}>
             <View style={s.promptIcon}><Text style={{ fontSize: 18 }}>📢</Text></View>
             <View style={{ flex: 1 }}>
-              <Text style={s.promptKicker}>{livePrompt?.mode === 'slowPhrase' ? 'LA APP MODELA DESPACIO' : 'LA APP DICE'}</Text>
+              <Text style={s.promptKicker}>{livePrompt?.mode === 'slowPhrase' ? t.semantic.appSpeaksSlow : t.semantic.appSpeaks}</Text>
               <Text style={s.promptTxt}>“{livePrompt?.text ?? st.tts}”</Text>
             </View>
             <SpeakButton
@@ -938,9 +932,9 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
           onPress={() => { stopSpeaking(); stopListening(); setSetupRevisit(true); setPhase('setup'); }}
           style={s.reviewSetupPill}
           accessibilityRole="button"
-          accessibilityLabel="Volver a ver el material y la dinámica"
+          accessibilityLabel={t.semantic.reviewSetupA11y}
         >
-          <Text style={s.reviewSetupTxt}>🧰 Ver preparación</Text>
+          <Text style={s.reviewSetupTxt}>{t.semantic.reviewSetup}</Text>
         </Pressable>
 
         {/* ===== Estado del paso ===== */}
@@ -950,10 +944,10 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
               onPress={() => sayStep(sess, stepIdx)}
               style={s.playBigBtn}
               accessibilityRole="button"
-              accessibilityLabel="Escuchar el modelo de este paso"
+              accessibilityLabel={t.semantic.listenA11y}
             >
               <Text style={{ fontSize: 24 }}>▶</Text>
-              <Text style={s.playBigBtnTxt}>Escuchar</Text>
+              <Text style={s.playBigBtnTxt}>{t.semantic.listen}</Text>
             </Pressable>
           </View>
         )}
@@ -961,22 +955,22 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
         {state === 'say' && (
           <View style={s.stateCard}>
             <Text style={{ fontSize: 30 }}>🔊</Text>
-            <Text style={s.stateTxt}>La app está hablando… preparad la voz.</Text>
+            <Text style={s.stateTxt}>{t.semantic.stepSay}</Text>
           </View>
         )}
 
         {state === 'ready' && (
           <View style={s.stateCard}>
             <Text style={{ fontSize: 30 }}>🙂</Text>
-            <Text style={s.stateTxt}>Preparad la voz. Cuando el niño esté listo, pulsad el micrófono.</Text>
+            <Text style={s.stateTxt}>{t.semantic.stepReady}</Text>
             <Pressable
               onPress={() => listenNow(sess, stepIdx)}
               style={s.readyMicBtn}
               accessibilityRole="button"
-              accessibilityLabel="Ya estoy listo. Empezar a escuchar."
+              accessibilityLabel={t.semantic.readyBtnA11y}
             >
               <Text style={{ fontSize: 24 }}>🎤</Text>
-              <Text style={s.readyMicBtnTxt}>Ya estoy listo</Text>
+              <Text style={s.readyMicBtnTxt}>{t.semantic.readyBtn}</Text>
             </Pressable>
           </View>
         )}
@@ -984,7 +978,7 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
         {state === 'seleccion' && !!st.choices && (
           <View style={s.stateCard}>
             <Text style={{ fontSize: 26 }}>👆</Text>
-            <Text style={s.stateTxt}>¡Toca la imagen correcta!</Text>
+            <Text style={s.stateTxt}>{t.semantic.tapImage}</Text>
             <View style={s.pickRowCards}>
               {(pickLeftFirst ? st.choices : [...st.choices].reverse()).map((c) => (
                 <Pressable
@@ -1006,7 +1000,7 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
               ))}
             </View>
             <Pressable onPress={() => { setLivePrompt({ text: st.tts, mode: 'child' }); speakToChild(st.tts); }}>
-              <Text style={s.linkBtn}>Repetir la pregunta</Text>
+              <Text style={s.linkBtn}>{t.semantic.repeatQuestion}</Text>
             </Pressable>
           </View>
         )}
@@ -1016,7 +1010,7 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
             <Animated.View style={{ transform: [{ scale: micScale }] }}>
               <View style={s.micRing}><Text style={{ fontSize: 30 }}>🎤</Text></View>
             </Animated.View>
-            <Text style={s.stateTxt}>¡Ahora el niño! Di la palabra al micrófono…</Text>
+            <Text style={s.stateTxt}>{t.semantic.stepListen}</Text>
             {!!heard && <Text style={s.partialTxt}>✨ {heard}</Text>}
             {/* ES-04 · El veredicto del adulto está disponible DURANTE la
                 escucha, no solo cuando el reconocedor se rinde: quien está
@@ -1026,24 +1020,24 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
                 onPress={() => { listeningRef.current = false; setListening(false); stopListening(); resolve(2); }}
                 style={[s.judgeBtn, { backgroundColor: V.color.successBg, borderColor: '#bfe9d4' }]}
                 accessibilityRole="button"
-                accessibilityLabel="Lo dijo bien, dar por válido"
+                accessibilityLabel={t.semantic.saidItA11y}
               >
-                <Text style={{ fontSize: 22 }}>✅</Text><Text style={s.judgeTxt}>Lo dijo</Text>
+                <Text style={{ fontSize: 22 }}>✅</Text><Text style={s.judgeTxt}>{t.semantic.saidIt}</Text>
               </Pressable>
               <Pressable
                 onPress={() => { listeningRef.current = false; setListening(false); stopListening(); resolve(1); }}
                 style={[s.judgeBtn, { backgroundColor: '#fffbeb', borderColor: '#f4e6b8' }]}
                 accessibilityRole="button"
-                accessibilityLabel="Casi, volver a intentarlo"
+                accessibilityLabel={t.semantic.almostA11y}
               >
-                <Text style={{ fontSize: 22 }}>💪</Text><Text style={s.judgeTxt}>Casi / otra vez</Text>
+                <Text style={{ fontSize: 22 }}>💪</Text><Text style={s.judgeTxt}>{t.semantic.almost}</Text>
               </Pressable>
             </View>
             <Pressable
               onPress={() => { listeningRef.current = false; setListening(false); stopListening(); setState('judge'); }}
               style={s.stopPill}
             >
-              <Text style={s.stopPillTxt}>Parar sin decidir</Text>
+              <Text style={s.stopPillTxt}>{t.semantic.stopWithoutDeciding}</Text>
             </Pressable>
           </View>
         )}
@@ -1051,16 +1045,16 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
         {state === 'judge' && (
           <View style={s.stateCard}>
             <Text style={{ fontSize: 26 }}>👂</Text>
-            <Text style={s.stateTxt}>El adulto hace de juez: ¿lo intentó decir?</Text>
+            <Text style={s.stateTxt}>{t.semantic.stepJudge}</Text>
             <View style={s.judgeRow}>
               <Pressable onPress={() => resolve(2)} style={[s.judgeBtn, { backgroundColor: V.color.successBg, borderColor: '#bfe9d4' }]}>
-                <Text style={{ fontSize: 22 }}>✅</Text><Text style={s.judgeTxt}>Lo dijo</Text>
+                <Text style={{ fontSize: 22 }}>✅</Text><Text style={s.judgeTxt}>{t.semantic.saidIt}</Text>
               </Pressable>
               <Pressable onPress={() => resolve(1)} style={[s.judgeBtn, { backgroundColor: '#fffbeb', borderColor: '#f4e6b8' }]}>
-                <Text style={{ fontSize: 22 }}>💪</Text><Text style={s.judgeTxt}>Casi / otra vez</Text>
+                <Text style={{ fontSize: 22 }}>💪</Text><Text style={s.judgeTxt}>{t.semantic.almost}</Text>
               </Pressable>
             </View>
-            <Pressable onPress={retry}><Text style={s.linkBtn}>No se entendió · repetir consigna</Text></Pressable>
+            <Pressable onPress={retry}><Text style={s.linkBtn}>{t.semantic.notUnderstood}</Text></Pressable>
           </View>
         )}
 
@@ -1069,14 +1063,14 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
             <View style={[s.verdictCard, s.verdictOk]}>
               <Text style={{ fontSize: 26 }}>🎉</Text>
               <View style={{ flex: 1 }}>
-                <Text style={s.verdictTitle}>¡Palabra conseguida!</Text>
-                <Text style={s.verdictSub}>{heard ? `La app escuchó: “${heard}”` : 'Veredicto del adulto.'} · {pendingStars}★</Text>
+                <Text style={s.verdictTitle}>{t.semantic.successTitle}</Text>
+                <Text style={s.verdictSub}>{heard ? t.semantic.heardBy(heard) : t.semantic.adultVerdict} · {pendingStars}★</Text>
               </View>
               <Text style={s.verdictStars}>{'★'.repeat(pendingStars)}</Text>
             </View>
             {actionCard(st.actionKicker, st.action)}
             <Pressable onPress={() => next({ stars: pendingStars, heard, mode: st.mode ?? 'produccion' })} style={s.primaryBtn}>
-              <Text style={s.primaryBtnTxt}>{stepIdx + 1 >= total ? '✅ ¡Terminar!' : '✅ ¡Hecho! Siguiente →'}</Text>
+              <Text style={s.primaryBtnTxt}>{stepIdx + 1 >= total ? t.semantic.finish : t.semantic.nextStep}</Text>
             </Pressable>
           </>
         )}
@@ -1089,17 +1083,15 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
             <View style={[s.verdictCard, s.verdictWarn]}>
               <Text style={{ fontSize: 26 }}>{notHeard ? '🎤' : '💪'}</Text>
               <View style={{ flex: 1 }}>
-                <Text style={s.verdictTitle}>{notHeard ? 'No te oí bien' : '¡Casi casi!'}</Text>
+                <Text style={s.verdictTitle}>{notHeard ? t.semantic.notHeardTitle : t.semantic.almostTitle}</Text>
                 <Text style={s.verdictSub}>
-                  {notHeard
-                    ? 'El micrófono no captó nada, así que este intento no cuenta. Acercaos un poco y probad otra vez.'
-                    : 'Escuchad el modelo despacio y probad otra vez.'}
+                  {notHeard ? t.semantic.notHeardSub : t.semantic.almostSub}
                 </Text>
               </View>
             </View>
             <View style={s.retryRow}>
-              <SpeakButton text={st.tts} label="Oír modelo despacio" voice="slowPhrase" />
-              <Pressable onPress={retry} style={s.retryBtn}><Text style={s.retryBtnTxt}>🎤 ¡Otra vez!</Text></Pressable>
+              <SpeakButton text={st.tts} label={t.semantic.hearSlowModel} voice="slowPhrase" />
+              <Pressable onPress={retry} style={s.retryBtn}><Text style={s.retryBtnTxt}>{t.semantic.retryBtn}</Text></Pressable>
             </View>
           </>
         )}
@@ -1109,7 +1101,7 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
             <View style={[s.verdictCard, s.verdictNeutral]}>
               <Text style={{ fontSize: 26 }}>🤝</Text>
               <View style={{ flex: 1 }}>
-                <Text style={s.verdictTitle}>Imitación juntos (1★)</Text>
+                <Text style={s.verdictTitle}>{t.semantic.assistTitle}</Text>
                 <Text style={s.verdictSub}>
                   El adulto dice “{st.label}” muy despacio mirando al niño, y lo repiten a la vez.
                   Sin prisa: hoy la practicamos, mañana sale sola.
@@ -1118,9 +1110,9 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
             </View>
             {actionCard(st.actionKicker, st.action)}
             <View style={s.retryRow}>
-              {st.mode !== 'comprension' && <SpeakButton text={st.tts} label="Oír modelo despacio" voice="slowPhrase" />}
+              {st.mode !== 'comprension' && <SpeakButton text={st.tts} label={t.semantic.hearSlowModel} voice="slowPhrase" />}
               <Pressable onPress={() => next({ stars: 1, heard, mode: st.mode ?? 'produccion' })} style={s.retryBtn}>
-                <Text style={s.retryBtnTxt}>{stepIdx + 1 >= total ? '¡Terminar!' : 'La dijimos → seguir'}</Text>
+                <Text style={s.retryBtnTxt}>{stepIdx + 1 >= total ? t.semantic.finishShort : t.semantic.saidTogether}</Text>
               </Pressable>
             </View>
           </>

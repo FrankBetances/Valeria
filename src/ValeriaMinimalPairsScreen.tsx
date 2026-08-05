@@ -224,11 +224,11 @@ const RoleSwapOverlay: React.FC<{ pair: MinimalPair; onDone: () => void }> = ({ 
         {stage === 'intro' && (
           <>
             <Text style={s.swapText}>
-              Papá elige EN SECRETO una de las dos palabras y la dice en voz alta, sin señalar.
-              {asr ? ' La app también escuchará para comprobar.' : ''}
+              {t.pairs.swapIntro}
+              {asr ? t.pairs.swapIntroAsr : ''}
             </Text>
             <Pressable onPress={begin} style={s.swapBtn}>
-              <Text style={s.swapBtnTxt}>{asr ? '🎤 Papá, ¡habla ya!' : '🗣️ Ya la dijo → seguir'}</Text>
+              <Text style={s.swapBtnTxt}>{asr ? t.pairs.swapSpeakNow : t.pairs.swapAlreadySaid}</Text>
             </Pressable>
           </>
         )}
@@ -695,7 +695,7 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
                     <FichaVisual word={p.foil} emoji={p.foilEmoji} pic={p.foilPictogram} size={26} />
                     <View style={{ flex: 1 }}>
                       <Text style={s.pickName}>{p.target} / {p.foil}</Text>
-                      <Text style={s.pickCat}>{p.errorLabel} · {p.phoneme}{p.region ? ' · solo variedades con distinción s/z' : ''}</Text>
+                      <Text style={s.pickCat}>{p.errorLabel} · {p.phoneme}{p.region ? t.pairs.regionNote : ''}</Text>
                     </View>
                     {unlocked ? (
                       <Switch value={on} onValueChange={() => togglePrescribed(p.id)}
@@ -771,7 +771,7 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
             {reward && (
               <View style={s.rewardRow}>
                 <View style={s.rewardChip}><Text style={s.rewardBig}>+{reward.xpGained}</Text><Text style={s.rewardLbl}>XP</Text></View>
-                <View style={[s.rewardChip, { backgroundColor: '#fff4e5' }]}><Text style={s.rewardBig}>🔥 {reward.streak}</Text><Text style={s.rewardLbl}>{reward.streak === 1 ? 'día de racha' : 'días de racha'}</Text></View>
+                <View style={[s.rewardChip, { backgroundColor: '#fff4e5' }]}><Text style={s.rewardBig}>🔥 {reward.streak}</Text><Text style={s.rewardLbl}>{t.pairs.streakChip(reward.streak)}</Text></View>
               </View>
             )}
             <Pressable onPress={() => navigation.navigate('Results')} style={s.primaryBtn}><Text style={s.primaryBtnTxt}>{t.pairs.seeResults}</Text></Pressable>

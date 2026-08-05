@@ -423,6 +423,13 @@ export const EN: UiStrings = {
     swapMiss: '❌ It was the other one',
     swapContinue: 'Back to the session →',
     swapSkip: 'Skip this time',
+    swapIntro: 'The grown-up SECRETLY picks one of the two words and says it out loud, without pointing.',
+    swapIntroAsr: ' The app will listen too, to check.',
+    swapSpeakNow: '🎤 Now, say it out loud!',
+    swapAlreadySaid: '🗣️ Already said it → keep going',
+    subtitlePlay: 'Speech sound errors · the child asks for the word with their own voice',
+    regionNote: ' · only varieties that distinguish s/z',
+    streakChip: (n: number): string => (n === 1 ? 'day streak' : 'day streak'),
 
     sealKicker: '🤝 DOUBLE SEAL TO CONTINUE',
     sealWhy:
@@ -433,6 +440,247 @@ export const EN: UiStrings = {
     sealChild: 'ME',
     sealPlus: 'together',
     sealHint: 'Whoever is with the child. Only one hand free? Press and hold one print for 2 seconds.',
+  },
+
+  // Scenarios, categories, words, spoken prompts and physical actions come from
+  // the active VARIETY's bank. What lives here is what the grown-up reads —
+  // including four labels (section goal, difficulty level, progression phase
+  // and word type) that used to live in `valeriaSemanticExpansion.ts`: they are
+  // interface text, not content, so they follow the UI language, not the variety.
+  semantic: {
+    title: 'Semantic Expansion',
+    setupTitle: 'Getting ready',
+    doneTitle: 'All done!',
+
+    howKicker: '⚡ HOW IT WORKS',
+    howBody:
+      'Tap ▶ and the app shows a picture and puts the word in a short sentence before asking '
+      + 'for it (“This is the bed. Say: bed.”). Your child repeats it in their own voice and the '
+      + 'microphone scores the attempt, accepting the approximations that are normal for their '
+      + 'age. Every word ends with a physical action led by the grown-up that anchors it to the '
+      + 'body and to the real world.',
+    autoRecord: 'Play audio and record automatically',
+    autoRecordSub: 'Off by default: tap ▶ to hear the model and 🎤 to record.',
+
+    levelKicker: '📶 MAXIMUM DIFFICULTY LEVEL',
+    levelHint: 'With the cap at 1, the session only presents the most familiar words in each category.',
+    difficultyLabel: (n: number): string =>
+      n === 1 ? 'Level 1 · most familiar'
+        : n === 2 ? 'Level 2 · familiar'
+          : 'Level 3 · less frequent',
+
+    sectionScenarios: 'EVERYDAY ROUTINES',
+    sectionCategories: 'VOCABULARY CATEGORIES',
+    sectionSequences: 'VOCABULARY PROGRESSION',
+    sectionCapsules: 'CONTRAST CAPSULES',
+    prescribedCount: (n: number): string => `${n} assigned`,
+    goalKicker: '🎯 WHAT THIS WORKS ON',
+    sectionGoal: (section: string): string =>
+      section === 'scenario' ? 'Verbal repetition: the child imitates the target word in everyday situations.'
+        : section === 'category' ? 'New vocabulary by field: start with the most familiar words and move to less frequent ones.'
+          : section === 'sequence' ? 'Vocabulary around one concept: what it is, what it has, what it does and what it’s like.'
+            : 'Opposites: first pick the right picture, then say the word.',
+    phaseLabel: (kind: string): string =>
+      kind === 'concepto' ? 'Step 1 · What it is'
+        : kind === 'parte' ? 'Step 2 · What it has'
+          : kind === 'accion' ? 'Step 3 · What it does'
+            : 'Step 4 · What it’s like',
+    wordTypeLabel: (kind: string): string =>
+      kind === 'sustantivo' ? 'Noun'
+        : kind === 'verbo' ? 'Verb'
+          : kind === 'adjetivo' ? 'Adjective'
+            : 'Sound word',
+    wordCount: (n: number): string => `${n} words`,
+
+    savePrescription: 'Save plan',
+    saveHelper: 'Your selection is saved on this device and editing locks again.',
+    lockedHint: 'Family mode · only the clinician can change which activities are practiced.',
+    pinSubtitle: 'Enter the clinician’s 4-digit PIN to choose which activities the family practices.',
+
+    setupKicker: '🧰 WHAT YOU’LL NEED',
+    stepsKicker: (n: number): string => `🤝 WHAT YOU’LL DO · ${n} ${n === 1 ? 'STEP' : 'STEPS'}`,
+    reviewSetup: '🧰 See setup',
+    reviewSetupA11y: 'See the materials and the routine again',
+
+    appSpeaksSlow: 'THE APP MODELS IT SLOWLY',
+    appSpeaks: 'THE APP SAYS',
+    listen: 'Listen',
+    listenA11y: 'Hear the model for this step',
+    stepSay: 'The app is speaking… get your voices ready.',
+    stepReady: 'Get ready. When your child is set, tap the microphone.',
+    readyBtn: 'I’m ready',
+    readyBtnA11y: 'I’m ready. Start listening.',
+    tapImage: 'Tap the right picture!',
+    repeatQuestion: 'Ask again',
+    stepListen: 'Your turn! Say the word into the microphone…',
+    saidIt: 'Said it',
+    saidItA11y: 'Said it correctly, count it',
+    almost: 'Almost / again',
+    almostA11y: 'Almost, try again',
+    stopWithoutDeciding: 'Stop without scoring',
+    stepJudge: 'You’re the judge: did they try to say it?',
+    notUnderstood: 'Couldn’t tell · say the prompt again',
+
+    successTitle: 'You got the word!',
+    heardBy: (w: string): string => `The app heard: “${w}”`,
+    adultVerdict: 'Scored by the grown-up.',
+    finish: '✅ Finish!',
+    nextStep: '✅ Done! Next →',
+    notHeardTitle: 'I didn’t catch that',
+    almostTitle: 'So close!',
+    hearSlowModel: 'Hear it slowly',
+    retryBtn: '🎤 One more time!',
+    assistTitle: 'Say it together (1★)',
+    finishShort: 'Finish!',
+    saidTogether: 'We said it → keep going',
+
+    doneSessionTitle: 'Session complete!',
+    streakChip: (n: number): string => (n === 1 ? 'day streak' : 'day streak'),
+    seeResults: 'See results →',
+    repeatBlock: 'Repeat this block',
+    otherBlock: 'Pick another block',
+    subtitlePick: 'Vocabulary progression · from the symbol to the child’s real world',
+    editingOn: 'Professional editing enabled',
+    tabScenarios: 'Routines',
+    tabCategories: 'Categories',
+    tabSequences: 'Progression',
+    tabContrasts: 'Contrasts',
+    kindScenario: 'Routine',
+    kindSequence: 'Progression',
+    kindContrast: 'Contrast',
+    stepPoints: ' · the child points',
+    setupBack: 'Back to the session',
+    setupReady: 'I have everything',
+    setupReadyA11y: 'I have everything, start',
+    notHeardSub: 'The microphone didn’t pick anything up, so this try doesn’t count. Move a little closer and try again.',
+    almostSub: 'Listen to the slow model and try again.',
+    actionKickerAdult: 'PHYSICAL MISSION FOR THE GROWN-UP',
+    actionKickerTpr: 'TPR INSTRUCTION FOR THE GROWN-UP',
+    actionKickerPair: 'PHYSICAL ACTION TOGETHER',
+    actionKickerSecond: 'PHYSICAL ACTION · SECOND ROUND',
+    capsuleKickerAdj: 'ADJECTIVE CONTRAST',
+    capsuleKickerVerb: 'OPPOSITE VERBS',
+    capsuleRound1: 'ROUND 1 · UNDERSTAND',
+    capsuleRound2: 'ROUND 2 · SAY IT',
+    capsuleVisualPrompt: (a: string, b: string): string => `Contrasting pair: ${a} / ${b}.`,
+    capsuleKindAdj: 'Adjective pair',
+    capsuleKindVerb: 'Opposite verbs',
+    capsuleMeta: 'TPR capsule · 2 rounds',
+    rowScenarioA11y: (title: string): string => `routine ${title}`,
+    rowCategoryA11y: (title: string): string => `category ${title}`,
+    rowSequenceA11y: (theme: string): string => `progression ${theme}`,
+    rowCapsuleA11y: (a: string, b: string): string => `contrast capsule ${a} and ${b}`,
+  },
+
+  // Exercise name, code, prompt (`read`), phrase, materials, alternative
+  // proposals, the per-exercise EPT wording (`ex.ept`) and all round content
+  // come from the active VARIETY's bank. What lives here is the scaffolding:
+  // steps, the judge buttons, the scale explanation and the wrap-up.
+  player: {
+    zoomClose: 'Tap to close',
+    zoomCloseA11y: 'Close enlarged image',
+    zoomTip: '🔍 To enlarge an image: tap it, or press and hold it during games',
+    zoomIconA11y: 'Enlarge the icon',
+    zoomFaceA11y: 'Enlarge the face',
+
+    adultOnlyKicker: 'FOR THE GROWN-UP ONLY',
+    adultOnlyShow: 'Tap to see which word you have to say without your voice.',
+    adultOnlyHide: 'Turn the screen away from your child. Tap to hide it again.',
+    adultOnlyShowA11y: 'See the word you have to say, without showing the screen to the child',
+    adultOnlyHideA11y: 'Hide the word you have to say',
+
+    judgeSaidIt: '👍 Said it',
+    judgeSaidItA11y: 'Judge: said it correctly',
+    judgeAlmost: '🤏 Almost',
+    judgeAlmostA11y: 'Judge: almost said it',
+    judgeHint: 'Is the mic slow or not understanding? Score the attempt yourself:',
+
+    materialsKicker: 'BEFORE YOU START · YOU’LL NEED',
+    proposalsKicker: '🔀 OTHER WAYS TO DO IT · ALTERNATE BETWEEN SESSIONS',
+    step1Kicker: 'STEP 1 · WHAT THE GROWN-UP SAYS',
+    step1Small: 'This text is for you: say it to your child in your own words',
+    listenPrompt: 'Hear the prompt',
+    newRound: '🔄 Another round',
+    newRoundA11y: 'Switch to another round with new content',
+    step2: (label: string): string => `STEP 2 · ${label}`,
+    levelLabel: (label: string): string => `LEVEL ${label.toUpperCase()}`,
+    guidedActivity: 'Guided activity',
+    hearWordSlow: 'Hear the word slowly',
+    modelNote: '💡 The best model is your own voice: say it first, up close and slowly. The app’s voice is only backup.',
+    trialKicker: (n: number, max: number): string => `⚖️ JUDGE · TRIAL ${n} OF ${max}`,
+    trialHint: 'If the mic fails or lags, score each attempt yourself. At the limit, the app offers a movement break to let off steam.',
+
+    vowelHint: '1st Tap a picture to hear its name · 2nd Tap the vowel it starts with',
+    allMatched: '🎉 All matched! You can go to another round or score below.',
+    allFound: '🎉 All found! You can go to another round or score below.',
+    matrixDone: '🎉 Grid complete! You can go to another round or score below.',
+    hearAllNames: 'Hear all the names',
+    hearFullWord: '1st Hear the whole word',
+    hearWords: 'Hear the words',
+    hearFullSeries: 'Hear the whole series',
+    hearOptions: 'Hear the options',
+    hearSentence: '1st Hear the sentence',
+    intruderHint: 'By ear only: first listen to the whole series; then the child taps the speaker of the word that doesn’t sound like the rest.',
+    synthesisHint: 'The app says each sound separately, with a pause between them. The child blends them and says the whole word.',
+    synthesisA11y: 'Hear the sounds separately',
+    findAllOf: 'FIND ALL THE',
+    namedLabel: 'NAMED',
+    orderHint: 'In reading order (→): the child NAMES the picture out loud and taps it. You chase their finger with yours, like tag.',
+    startOver: '↺ Start over',
+    sentenceRetry: 'Almost… listen to the sentence again and try once more.',
+    promptTextKicker: 'TEXT · YOU CAN READ IT OUT LOUD',
+    hearExample: '🔊 Hear an example',
+
+    selloKicker: '🤝 DOUBLE SEAL · TIME DELAY',
+    selloWait: (s: number): string => `⏳ Wait ${s} s…`,
+    selloGive: '🤝 Give the Double Seal',
+    selloGiveA11y: 'Give the double seal for real eye contact',
+    selloCount: (stars: string, n: number): string => `Seals for eye contact: ${stars} (${n})`,
+    breakNow: '⏸️ Interrupt now (surprise capsule)',
+    breakNowA11y: 'Interrupt now with a surprise movement capsule',
+
+    step3Kicker: 'STEP 3 · MOVEMENT VERSION',
+    waitTxt: 'Wait and watch how your child responds',
+
+    step4Kicker: 'STEP 4 · SCORING',
+    scoreTitle: 'How did it go?',
+    scoreSubRounds: 'Play as many rounds as you like, then tap the sentence that best describes the response',
+    scoreSub: 'Tap the sentence that best describes the response',
+    eptToggle: 'What is the EPT-3 scale?',
+    eptToggleA11y: 'What the EPT-3 scale is',
+    eptExplain:
+      'EPT-3 is the 3-level scale used to record how the child responded in each activity: '
+      + '1★ can’t do it yet, 2★ does it with the grown-up’s help, and 3★ does it alone. It is '
+      + 'not a grade: it lets the SLP see progress from session to session.',
+    nextUpKicker: 'UP NEXT · TELL THEM BEFORE YOU SWITCH',
+
+    doneTitle: 'Session complete!',
+    streakChip: (n: number): string => (n === 1 ? 'day streak' : 'day streak'),
+    streakExtended: 'Streak extended! Come back tomorrow so you don’t lose it.',
+    levelChip: (n: number, name: string, up: boolean): string =>
+      `Level ${n} · ${name}${up ? '  🎊 LEVELED UP!' : ''}`,
+    xpToNext: (n: number): string => `${n} XP to the next level`,
+    badgesTitle: '🏅 BADGES UNLOCKED!',
+    doneStatKicker: 'SESSION AVERAGE · EPT-3 SCALE (1★ TO 3★)',
+    seeResults: 'See results →',
+    repeatSession: 'Repeat session',
+    sessionName: 'Therapy session',
+    headerDone: 'Session Complete',
+    headerPlaying: 'Therapy Session',
+    noteGreat: 'Very smooth session, great responses to the prompts.',
+    noteGood: 'Good session, some prompts were hard but attention held.',
+    noteHard: 'Hard session today, worth reinforcing with more support from the grown-up.',
+    seriesSolved: '✅ Series solution: these were the words that played, in the same order.',
+    seriesHint: '🔊 Each card is a word from the series, in the order they play. The words appear once you answer.',
+    hearQuestion: 'Hear the question',
+    // The ROLE id comes from the (Spanish) content bank; the question shown to
+    // the child is scaffolding. Non-S-V-O roles pass through unchanged.
+    roleQuestion: (role: string): string =>
+      role === 'Sujeto' ? 'Who?'
+        : role === 'Verbo' ? 'Doing what?'
+          : role === 'Objeto' ? 'What thing?'
+            : role,
+    redirecting: (s: number): string => `Going to results in ${s}s…`,
   },
 
   settings: {

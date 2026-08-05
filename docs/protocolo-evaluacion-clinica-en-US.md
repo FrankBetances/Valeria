@@ -180,7 +180,7 @@ como fallo lo que aún no ha llegado.
 | --- | --- | --- |
 | 1 · Entrada | Welcome · Credits · Selección de paciente | ✅ en inglés |
 | 2 · Alta y hub | Ficha de registro · Hub de ejercicios · Auth | ✅ en inglés |
-| 3 · Bloques de terapia | Player · Pares Mínimos · Expansión Semántica · Test de Ling | ⏳ pendiente |
+| 3 · Bloques de terapia | Player · Pares Mínimos · Expansión Semántica · Test de Ling | ✅ en inglés |
 | 4 · Adulto y datos | Panel del adulto · Resultados · Exportación · modales | ⏳ pendiente |
 | 5 · Sistema | Notificaciones · permisos (`app.json`) | ⏳ pendiente |
 
