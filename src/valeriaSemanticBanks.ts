@@ -35,6 +35,11 @@ import { Locale } from './valeriaLocale';
 const SEM_RETRY_ES = (label: string): string => `¡Otra vez! Di: ${label}.`;
 const SEM_SESSION_DONE_ES = '¡Sesión completada! ¡Choca esos cinco!';
 
+import {
+  DAILY_SCENARIOS_EN, LEXICAL_CATEGORIES_EN, PROGRESSION_SEQUENCES_EN,
+  CONTRAST_CAPSULES_EN, SEM_RETRY_EN, SEM_SESSION_DONE_EN,
+} from './valeriaSemanticExpansionEn';
+
 export interface SemanticBank {
   scenarios: DailyScenario[];
   categories: LexicalCategory[];   // DC-1 opción C · vocabulario por campo
@@ -73,6 +78,16 @@ export function semanticForLocale(loc: Locale): SemanticBank {
       capsules: CONTRAST_CAPSULES_GL,
       retry: SEM_RETRY_GL,
       sessionDone: SEM_SESSION_DONE_GL,
+    };
+  }
+  if (loc === 'en-US') {
+    return {
+      scenarios: DAILY_SCENARIOS_EN,
+      categories: LEXICAL_CATEGORIES_EN,
+      sequences: PROGRESSION_SEQUENCES_EN,
+      capsules: CONTRAST_CAPSULES_EN,
+      retry: SEM_RETRY_EN,
+      sessionDone: SEM_SESSION_DONE_EN,
     };
   }
   // Castellano: banco base (Sharvard).

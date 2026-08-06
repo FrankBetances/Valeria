@@ -46,7 +46,7 @@ try {
 
   const entradas = [
     'valeriaSemanticExpansion', 'valeriaSemanticExpansionEsDO', 'valeriaSemanticExpansionEu',
-    'valeriaSemanticExpansionGl',
+    'valeriaSemanticExpansionGl', 'valeriaSemanticExpansionEn',
   ];
   execSync(
     ['npx tsc', ...entradas.map((e) => JSON.stringify(path.join(ROOT, 'src', `${e}.ts`))),
@@ -61,6 +61,7 @@ try {
     { lang: 'es-DO', capsules: mod('valeriaSemanticExpansionEsDO').CONTRAST_CAPSULES_ESDO },
     { lang: 'eu', capsules: mod('valeriaSemanticExpansionEu').CONTRAST_CAPSULES_EU },
     { lang: 'gl', capsules: mod('valeriaSemanticExpansionGl').CONTRAST_CAPSULES_GL },
+    { lang: 'en', capsules: mod('valeriaSemanticExpansionEn').CONTRAST_CAPSULES_EN },
   ];
 
   console.log(`\n${dibujadas.size} claves con dibujo registrado.`);

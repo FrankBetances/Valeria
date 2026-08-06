@@ -1,0 +1,124 @@
+{
+ "license": "BSD-like, libre",
+ "note": "Dato DERIVADO \u2014 regenerar con scripts/build-cmudict-en.py",
+ "source": "CMU Pronouncing Dictionary (cmudict, PyPI)",
+ "words": {
+  "beach": [
+   [
+    "B",
+    "IY1",
+    "CH"
+   ]
+  ],
+  "fin": [
+   [
+    "F",
+    "IH1",
+    "N"
+   ]
+  ],
+  "key": [
+   [
+    "K",
+    "IY1"
+   ]
+  ],
+  "lock": [
+   [
+    "L",
+    "AA1",
+    "K"
+   ]
+  ],
+  "nail": [
+   [
+    "N",
+    "EY1",
+    "L"
+   ]
+  ],
+  "peach": [
+   [
+    "P",
+    "IY1",
+    "CH"
+   ]
+  ],
+  "rake": [
+   [
+    "R",
+    "EY1",
+    "K"
+   ]
+  ],
+  "rock": [
+   [
+    "R",
+    "AA1",
+    "K"
+   ]
+  ],
+  "sea": [
+   [
+    "S",
+    "IY1"
+   ]
+  ],
+  "seat": [
+   [
+    "S",
+    "IY1",
+    "T"
+   ]
+  ],
+  "sheep": [
+   [
+    "SH",
+    "IY1",
+    "P"
+   ]
+  ],
+  "ship": [
+   [
+    "SH",
+    "IH1",
+    "P"
+   ]
+  ],
+  "sip": [
+   [
+    "S",
+    "IH1",
+    "P"
+   ]
+  ],
+  "snail": [
+   [
+    "S",
+    "N",
+    "EY1",
+    "L"
+   ]
+  ],
+  "tea": [
+   [
+    "T",
+    "IY1"
+   ]
+  ],
+  "thin": [
+   [
+    "TH",
+    "IH1",
+    "N"
+   ]
+  ],
+  "wake": [
+   [
+    "W",
+    "EY1",
+    "K"
+   ]
+  ]
+ }
+}

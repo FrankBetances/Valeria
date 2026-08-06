@@ -351,6 +351,9 @@ export const EN: UiStrings = {
   // and the error label — those come from the active VARIETY's bank
   // (valeriaMinimalPairs*). What lives here is the scaffolding the grown-up reads.
   pairs: {
+    dialectSensitive: 'BEFORE YOU SCORE THIS PAIR',
+    dialectTransfer: 'BEFORE YOU SCORE: BILINGUAL CHILD',
+    dialectRegularIn: (v: string): string => `Regular feature in: ${v}.`,
     title: 'Minimal Pairs',
     subtitlePick: 'Speech sound errors · the child asks for the word with their own voice',
     editingOn: 'Professional editing enabled',

@@ -36,8 +36,8 @@ import {
 import { SpeakButton, TurnPhaseStrip } from './ValeriaVoiceUI';
 import { FichaVisual } from './ValeriaPictograms';
 import { ValeriaSessionBreakOverlay, pickSessionBreak, SessionBreak } from './ValeriaSessionBreakOverlay';
-import { PAIR_GROUPS, MinimalPair } from './valeriaMinimalPairs';
-import { pairsForLocale } from './valeriaPairBanks';
+import { MinimalPair } from './valeriaMinimalPairs';
+import { pairsForLocale, pairGroupsForLocale } from './valeriaPairBanks';
 import { getLocale, Locale } from './valeriaLocale';
 import { useT } from './i18n';
 import {
@@ -675,7 +675,7 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
           {/* Solo los grupos con pares en la variedad activa: los bancos
               localizados (gl, es-DO, eu) no cubren todos los grupos del
               banco castellano y una sección vacía confunde al prescriptor. */}
-          {PAIR_GROUPS.filter((g) => pairs.some((p) => p.group === g)).map((g) => (
+          {pairGroupsForLocale(loc).filter((g) => pairs.some((p) => p.group === g)).map((g) => (
             <View key={g}>
               <Text style={s.groupLabel}>{g.toUpperCase()}</Text>
               {pairs.filter((p) => p.group === g).map((p) => {
@@ -809,6 +809,26 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
       </View>
 
       <ScrollView ref={scrollRef} contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
+        {/* Veredicto dialectal (EN-0.5). Va ARRIBA del ensayo y no escondido en
+            un desplegable a propósito: si el «error» que este par detecta es un
+            rasgo regular de la variedad del niño —el TH-fronting del inglés
+            afroamericano, la fusión tenso/laxo de un bilingüe—, puntuarlo como
+            fallo convierte la app en un instrumento de discriminación
+            lingüística. La app no sabe qué variedad habla el niño, así que
+            decide el adulto: es el principio nº 2 del proyecto aplicado al
+            único sitio donde de verdad hace falta. */}
+        {p.dialect && p.dialect.verdict !== 'developmental' && !!p.dialect.note && (
+          <View style={s.dialectCard}>
+            <Text style={s.dialectKicker}>
+              🗣️ {p.dialect.verdict === 'transfer' ? t.pairs.dialectTransfer : t.pairs.dialectSensitive}
+            </Text>
+            <Text style={s.dialectTxt}>{p.dialect.note}</Text>
+            {!!p.dialect.regularIn?.length && (
+              <Text style={s.dialectFoot}>{t.pairs.dialectRegularIn(p.dialect.regularIn.join(' · '))}</Text>
+            )}
+          </View>
+        )}
+
         {/* Mapa del turno: en qué fase del ensayo estamos */}
         <TurnPhaseStrip active={phaseIdx} />
 
@@ -1085,6 +1105,10 @@ const s = StyleSheet.create({
   missionTxt: { marginTop: 9, fontSize: 13.5, fontWeight: '700', color: '#7c4a0e', lineHeight: 19 },
 
   overrideRow: { flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', gap: 7, marginTop: 10, paddingHorizontal: 2 },
+  dialectCard: { backgroundColor: '#fff7ed', borderWidth: 1.5, borderColor: '#fcd9a8', borderRadius: 14, padding: 12, marginTop: 12 },
+  dialectKicker: { fontSize: 11, fontWeight: '800', letterSpacing: 0.4, color: '#9a5b12' },
+  dialectTxt: { fontSize: 12.5, fontWeight: '600', color: V.color.textPrimary, marginTop: 6, lineHeight: 17.5 },
+  dialectFoot: { fontSize: 11, fontWeight: '700', color: '#9a5b12', marginTop: 7 },
   overrideLbl: { fontSize: 11, fontWeight: '700', color: V.color.textMuted },
   overridePill: { flexDirection: 'row', alignItems: 'center', gap: 4, backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.border, borderRadius: 10, paddingHorizontal: 9, paddingVertical: 5 },
   overridePillTxt: { fontSize: 11.5, fontWeight: '800', color: V.color.textSecondary },

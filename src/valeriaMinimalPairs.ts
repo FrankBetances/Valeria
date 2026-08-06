@@ -7,7 +7,41 @@
 // Protocolo completo: docs/protocolo-pares-minimos.md
 // ============================================================================
 
-export type PairGroup = 'Rotacismo' | 'Sigmatismo' | 'Velares' | 'Labiodental' | 'Nasales' | 'Laterales';
+export type PairGroup =
+  | 'Rotacismo' | 'Sigmatismo' | 'Velares' | 'Labiodental' | 'Nasales' | 'Laterales'
+  // Grupos del banco inglés (en-US). No se traducen los castellanos: cada banco
+  // usa los suyos y la pantalla pinta los del locale activo (pairGroupsForLocale).
+  | 'Gliding' | 'Fronting' | 'Cluster reduction' | 'Final consonant'
+  | 'Voicing' | 'Sibilants' | 'Vowels';
+
+// ----------------------------------------------------------------------------
+// Veredicto dialectal (EN-0.5) — regla BLOQUEANTE del banco inglés.
+// ----------------------------------------------------------------------------
+// El contraste que detecta un par puede ser, en la variedad del propio niño, un
+// rasgo REGULAR y no un error: el TH-fronting del inglés afroamericano
+// (mouth→[maʊf]) es el caso de manual. Un banco que lo puntúe como fallo mide
+// distancia respecto al inglés blanco de clase media, no lengua. Por eso cada
+// par inglés declara aquí su veredicto y `scripts/check-minimal-pairs-en.js` lo
+// exige: un par sin `dialect` no pasa el gate.
+//
+// Veredictos y qué implican, según docs/guia-dialectal-en-US.md §3:
+//   developmental      · proceso evolutivo universal, sin colisión → puntúa normal
+//   dialect-sensitive  · rasgo regular de alguna variedad de EE. UU. → puntúa,
+//                        pero la pantalla AVISA al adulto antes del ensayo
+//   transfer           · transferencia de la L1 en un bilingüe, no trastorno
+// Es opcional en el tipo porque los bancos es/gl/eu/es-DO son anteriores y
+// tienen su propia guía (guia-dialectal-es-DO.md); en inglés es obligatorio.
+export type DialectClass = 'developmental' | 'dialect-sensitive' | 'transfer';
+
+export interface DialectVerdict {
+  verdict: DialectClass;
+  // Variedades en las que el «error» detectado es rasgo regular. Vacío en
+  // `developmental`; obligatorio en los otros dos.
+  regularIn?: string[];
+  // Aviso que la pantalla muestra AL ADULTO (no al niño) antes del ensayo.
+  // Obligatorio salvo en `developmental`.
+  note?: string;
+}
 
 export interface MinimalPair {
   id: string;
@@ -32,6 +66,7 @@ export interface MinimalPair {
     mission: string;       // misión física correctiva en pareja
   };
   region?: 'distincion';   // solo variedades con /s/–/θ/ (España)
+  dialect?: DialectVerdict; // obligatorio en el banco en-US (EN-0.5)
 }
 
 export const MINIMAL_PAIRS: MinimalPair[] = [

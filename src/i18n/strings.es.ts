@@ -340,6 +340,12 @@ export const ES = {
   // la VARIEDAD activa (valeriaMinimalPairs*). Aquí vive el andamiaje que lee
   // el adulto.
   pairs: {
+    // Aviso dialectal del par (EN-0.5). El texto largo vive en el propio par
+    // (dialect.note), porque es contenido clínico y cambia con cada contraste;
+    // aquí solo van las etiquetas del marco.
+    dialectSensitive: 'ANTES DE PUNTUAR ESTE PAR',
+    dialectTransfer: 'ANTES DE PUNTUAR: NIÑO BILINGÜE',
+    dialectRegularIn: (v: string): string => `Rasgo regular en: ${v}.`,
     title: 'Pares Mínimos',
     subtitlePick: 'Dislalias fonológicas · el niño pide la palabra con su voz',
     editingOn: 'Edición profesional habilitada',
