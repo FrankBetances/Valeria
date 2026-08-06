@@ -48,10 +48,22 @@ const to = (v: number) => Animated.spring(press, {
 
 ### 0.2 Háptica sin dependencia nativa
 
-`expo-haptics` es un módulo nativo → rebuild del dev client. Si en Sprint 4 no
-hay rebuild previsto por otro motivo, se usa `Vibration` del core de RN
-(`Vibration.vibrate(10)`), que ya está disponible. Si sí lo hay, `expo-haptics`
-da mejor textura en iOS. **Decisión diferida a Sprint 4** — no bloquea nada.
+`expo-haptics` es un módulo nativo → rebuild del dev client. La alternativa era
+`Vibration` del core de RN, que no necesita rebuild.
+
+**RESUELTO EN SPRINT 4.4: no se añade háptica, por ninguna de las dos vías.**
+
+Al comprobarlo, `android.permission.VIBRATE` **no está declarado** en `app.json`
+(que solo pide `CAMERA`) ni lo aporta ninguna dependencia —`expo-notifications`
+declara `RECEIVE_BOOT_COMPLETED` y `POST_NOTIFICATIONS`, no `VIBRATE`—. Usar
+`Vibration` obligaría a añadir un permiso al manifiesto de una app sanitaria, y
+Play Console muestra los permisos al usuario. Cambiar la superficie de permisos
+de un producto sanitario a cambio de una vibración al pulsar una tarjeta es un
+mal canje.
+
+El muelle de pulsación (`Animated`, §0.1) ya da el acuse de recibo del toque.
+Si algún día hay un rebuild por otro motivo, `expo-haptics` se puede reconsiderar
+como mejora aislada.
 
 ---
 
@@ -304,6 +316,12 @@ y perdería la sesión en curso. Se cambia el valor y se recarga.
 
 ## 5. Sprints
 
+> **Estado.** Sprints 1, 2, 3 y 4.1–4.4 **implementados** tras `ENABLE_V11_UI`
+> (`false` por defecto). Las tareas **4.5 (validación con testers)** y
+> **4.6 (encender el flag y borrar el screen clásico)** están **pendientes a
+> propósito**: 4.5 es una sesión con personas y 4.6 depende de su resultado.
+> Ver §5.1.
+
 ### Sprint 1 · Tokens y tarjeta del grid
 *Sin tocar ninguna pantalla existente.*
 
@@ -375,6 +393,29 @@ reescribirlo. El diff debe leerse como un corta-pega, no como una versión nueva
   `ValeriaExerciseSelectionScreen.tsx`.
 
 **El borrado del screen antiguo es el último paso, no el primero.**
+
+### 5.1 Por qué 4.5 y 4.6 siguen abiertas
+
+Lo implementado compila, pasa los nueve gates de CI y respeta el muro de
+contención. **Nada de ello se ha ejecutado en un dispositivo**, y hay al menos
+dos comprobaciones que el compilador no puede hacer:
+
+* El **doble safe area** de la barra de pestañas (§3.1 de este plan) solo se ve
+  en Android 15 edge-to-edge, con gestos y con los tres botones clásicos.
+* Que `navigationRef.getCurrentRoute()` devuelva la ruta interna correcta con
+  navegador anidado, que es de lo que depende toda la telemetría (§3.2).
+
+Encender `ENABLE_V11_UI` cambia la pantalla principal de un producto sanitario
+en un piloto con menores en curso. Esa decisión es del responsable clínico —no
+del compilador ni de quien escribe el código— y su requisito previo es la
+tarea 4.5: una sesión con 3–5 testers, preferiblemente **los mismos que
+reportaron el problema**, contra las métricas de §6.
+
+Cuando llegue ese momento, encender la v11 es **una línea**
+(`src/valeriaFeatureFlags.ts`) y apagarla otra vez, la misma línea: no hay
+despliegue que revertir. El borrado de `ValeriaExerciseSelectionScreen.tsx` y
+de la propia bandera va después de una tanda de validación en verde, nunca
+antes.
 
 ---
 

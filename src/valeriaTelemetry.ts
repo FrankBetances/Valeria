@@ -30,6 +30,7 @@ import { encryptJSON, decryptJSON } from './valeriaCrypto';
 // Solo tipos: el puente de RA no se carga aquí ni en dispositivos sin el host
 // nativo. La telemetría no debe poder romperse por un módulo opcional.
 import type { ArTrial, ArDeviceProfile, ArThresholds, ArAptitudeLevel } from './valeriaArBridge';
+import { ENABLE_V11_UI } from './valeriaFeatureFlags';
 
 export type BlockId = 'audicion' | 'lenguaje' | 'pares' | 'expansion' | 'tea' | 'dislexia' | 'ar';
 export const ALL_BLOCKS: BlockId[] = ['audicion', 'lenguaje', 'pares', 'expansion', 'tea', 'dislexia', 'ar'];
@@ -86,6 +87,16 @@ export interface SessionRecord {
   startedAt: number;
   updatedAt: number;
   screens: Record<string, number>;   // ms activos por pantalla
+  // [v11] Interfaz con la que se registró ESTA sesión. Sin este campo, activar
+  // las pestañas a mitad del piloto contaminaría la serie en dos frentes:
+  //   · La barra inferior es superficie interactiva nueva, así que los toques
+  //     sobre ella dejan de contar como misclick. No son errores —es correcto—
+  //     pero mueve la línea base de la métrica.
+  //   · Los tiempos por pantalla se reparten distinto: `BlockList` es una ruta
+  //     nueva que antes se imputaba entera a `ExerciseSelection`.
+  // Marcando la sesión se pueden separar los tramos pre/post por DATO en vez
+  // de por fecha de despliegue, que es aproximada y se pierde al reinstalar.
+  ui?: 'v10' | 'v11';
   misclicks: MisclickSplit;
   capsules: { started: number; done: number; skipped: number };
   routes: RouteStats;
@@ -143,7 +154,7 @@ let dualTaskOn = false; // flag vivo: hay distractor visual en pantalla AHORA
 function freshSession(): SessionRecord {
   return {
     id: newId(), v: 2, startedAt: Date.now(), updatedAt: Date.now(),
-    screens: {}, misclicks: { ui: 0, dualTask: 0 },
+    screens: {}, ui: ENABLE_V11_UI ? 'v11' : 'v10', misclicks: { ui: 0, dualTask: 0 },
     capsules: { started: 0, done: 0, skipped: 0 },
     routes: { started: 0, validated: 0, failed: 0, skipped: 0 },
     blocks: [], noiseEvents: [], repairEvents: [], dualTaskWindows: [],
@@ -162,6 +173,8 @@ function normalizeSession(s: any): SessionRecord {
     id: s?.id ?? newId(), v: 2,
     startedAt: s?.startedAt ?? 0, updatedAt: s?.updatedAt ?? 0,
     screens: s?.screens ?? {},
+    // Sesión guardada sin el campo = anterior a la v11, que aún no existía.
+    ui: s?.ui === 'v11' ? 'v11' : 'v10',
     misclicks: typeof mc === 'number'
       ? { ui: mc, dualTask: 0 }
       : { ui: mc?.ui ?? 0, dualTask: mc?.dualTask ?? 0 },
@@ -501,6 +514,10 @@ function summarizeAr(sessions: SessionRecord[]): ArExportSummary {
 export interface ExportBundle {
   summary: {
     v: string; sessions: number; abandonRate: number;
+    /** Sesiones del lote registradas con la interfaz v11 (pestañas). Si está
+     *  entre 0 y `sessions`, la muestra mezcla interfaces y `misclicks` no es
+     *  una serie homogénea. */
+    sessionsV11: number;
     misclicks: number; misclicksDualTask: number;
     likertMean: number | null; likertN: number; fullBlockRuns: number;
     noiseSessions: number; repairEvents: number; routeValidationRate: number | null;
@@ -544,7 +561,14 @@ export async function buildExport(): Promise<ExportBundle> {
   const sessions = store.sessions;
   let started = 0, skipped = 0, mcUi = 0, mcDual = 0, likertSum = 0, likertN = 0, fullRuns = 0;
   let noiseSessions = 0, repairs = 0, routeStarted = 0, routeValidated = 0;
+  // [v11] Cuántas de estas sesiones se registraron ya con las pestañas. Los
+  // misclicks agregados NO son comparables entre las dos interfaces (la barra
+  // inferior es superficie nueva y absorbe toques que antes caían en zona
+  // muerta), así que quien lea el resumen necesita saber si está mirando una
+  // muestra mezclada antes de sacar conclusiones de `mc`.
+  let sessionsV11 = 0;
   for (const s of sessions) {
+    if (s.ui === 'v11') sessionsV11 += 1;
     started += s.capsules.started;
     skipped += s.capsules.skipped;
     mcUi += s.misclicks.ui;
@@ -562,7 +586,7 @@ export async function buildExport(): Promise<ExportBundle> {
   const likertMean = likertN ? +(likertSum / likertN).toFixed(2) : null;
   const routeValidationRate = routeStarted ? +(routeValidated / routeStarted).toFixed(3) : null;
   const summary = {
-    v: 'vlr2', sessions: sessions.length, abandonRate,
+    v: 'vlr2', sessions: sessions.length, sessionsV11, abandonRate,
     misclicks: mcUi + mcDual, misclicksDualTask: mcDual,
     likertMean, likertN, fullBlockRuns: fullRuns,
     noiseSessions, repairEvents: repairs, routeValidationRate,
@@ -574,7 +598,7 @@ export async function buildExport(): Promise<ExportBundle> {
   // NO crece con el bloque de RA: los ensayos y el perfil de dispositivo van en
   // el fullLog, que es donde tienen sentido y donde no hay límite de bits.
   const qrPayload = JSON.stringify({
-    v: 'vlr2', n: sessions.length, ab: abandonRate,
+    v: 'vlr2', n: sessions.length, n11: sessionsV11, ab: abandonRate,
     mc: mcUi + mcDual, mcd: mcDual,
     lk: likertMean, lkn: likertN, b4: fullRuns,
     nz: noiseSessions, rp: repairs,

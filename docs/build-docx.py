@@ -530,6 +530,32 @@ p('* Los ejercicios de Audición pasan antes por el Test de Ling si la patologí
   size=9, color=MUTED)
 p('** Realidad Aumentada solo aparece en teléfonos Android con la app instalada, y pasa antes por el permiso de '
   'cámara y la prueba de aptitud (CU-18).', size=9, color=MUTED)
+
+doc.add_heading('Interfaz v11: la barra de pestañas', level=3)
+p('Las familias del piloto nos dijeron dos cosas muy concretas: que el uso «se hace muy engorroso» y que hay '
+  '«mucho texto». Tenían razón, y era medible: el hub reunía cinco tareas en una sola pantalla —los bloques, la '
+  'lista para prescribir, los recordatorios, la calidad de la voz y el acceso profesional— y había que bajar dos '
+  'pantallas y media para llegar a los ajustes.')
+p('La versión 11 reordena esa pantalla. No cambia ningún ejercicio, ninguna consigna y ninguna regla clínica: '
+  'solo dónde están las cosas.')
+p('Hub de bloques  →  Terapias · Academy · Ajustes', bold=True, color=PRIMARY, align=WD_ALIGN_PARAGRAPH.CENTER)
+bullets([
+    'Terapias muestra los bloques en una cuadrícula de dos columnas. Las tarjetas ya no llevan párrafo '
+    'descriptivo: enseñan el icono, el nombre y cuántas terapias hay prescritas («12/18»).',
+    'Academy deja de estar a media pantalla de desplazamiento y pasa a estar siempre a un toque.',
+    'Ajustes reúne los recordatorios de sesión, la calidad de la voz, el idioma de la aplicación y el acceso '
+    'profesional. Antes vivían al final del hub, donde casi nadie llegaba.',
+])
+callout('La descripción de cada bloque no se ha perdido',
+        'Ahora aparece al abrirlo, en el recuadro azul de la parte superior, junto a la referencia del protocolo. '
+        'Se lee justo antes de usarlo, en lugar de leer siete descripciones seguidas de bloques que quizá no se van '
+        'a abrir esa tarde. Avisos importantes como «los estresores los lanza siempre el adulto» (TEA) o «sin grabar '
+        'nada y con el micrófono apagado» (Realidad Aumentada) siguen estando, palabra por palabra.')
+p('También se corrigió un fallo que molestaba en Android: dentro de la lista de un bloque, el botón físico de atrás '
+  'no volvía al hub, sino que salía de la pantalla entera y obligaba a rehacer el camino. Ahora vuelve donde debe.')
+p('La interfaz v11 se despliega con un interruptor interno y llega de forma escalonada: según la versión instalada, '
+  'la pantalla principal puede verse como la lista clásica o como la cuadrícula con pestañas. Las dos hacen '
+  'exactamente lo mismo y la prescripción guardada se conserva al pasar de una a otra.', size=9, color=MUTED)
 figures([('01-bienvenida.png', 'Bienvenida: “Comenzar” o “Ya tengo un paciente registrado”.'),
          ('02-creditos.png', 'Créditos del proyecto y colaboradores.'),
          ('05-hub-bloques.png', 'Hub de Prescripción: los bloques de terapia y la tarjeta Academy.')],
@@ -537,6 +563,8 @@ figures([('01-bienvenida.png', 'Bienvenida: “Comenzar” o “Ya tengo un paci
 doc.add_heading('Glosario', level=3)
 data_table(['Término', 'Significado'], [
     ['Hub de bloques', 'Pantalla “Prescripción de Terapias”: siete tarjetas (Pares Mínimos, Expansión Semántica, Audición, Lenguaje, TEA, Dislexia y Realidad Aumentada) más la tarjeta Academy, desde donde se practica o prescribe.'],
+    ['Pestañas (v11)', 'Barra inferior con tres apartados —Terapias, Academy y Ajustes— disponible en las versiones con la interfaz v11. Sustituye al desplazamiento largo del hub: lo que antes estaba al final de la lista ahora está siempre a un toque.'],
+    ['Ajustes', 'Apartado donde viven los recordatorios de sesión y sus franjas horarias, la calidad de la voz, el idioma de la aplicación y el acceso profesional (PIN). En la interfaz clásica estos ajustes están al final del hub de bloques.'],
     ['Par mínimo', 'Dos palabras que solo se distinguen por un fonema (rana / lana). Entrenan el contraste que el niño sustituye.'],
     ['Sustitución', 'Error fonológico habitual: el niño dice la palabra contraria (r̄ → l). La app la detecta y la corrige.'],
     ['Sello doble', 'Mecánica anti-pasividad: el adulto y el niño pulsan dos huellas a la vez para avanzar (o mantienen una \n     pulsada 2 s). La app explica en la propia tarjeta para qué sirve: hasta que no están las dos manos, el ejercicio espera.'],

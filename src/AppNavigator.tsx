@@ -42,6 +42,8 @@ import ValeriaPatientSelectScreen from './ValeriaPatientSelectScreen';
 import ValeriaFichaRegistroScreen from './ValeriaFichaRegistroScreen';
 import ValeriaExerciseSelectionScreen from './ValeriaExerciseSelectionScreen';
 import MainTabNavigator from './MainTabNavigator';
+import ValeriaBlockListScreen from './ValeriaBlockListScreen';
+import { BlockKey } from './valeriaBlocks';
 import { ENABLE_V11_UI } from './valeriaFeatureFlags';
 import ValeriaLingTestScreen from './ValeriaLingTestScreen';
 import ValeriaExercisePlayerScreen from './ValeriaExercisePlayerScreen';
@@ -62,6 +64,11 @@ export type ValeriaStackParamList = {
   PatientSelect: undefined;
   FichaRegistro: undefined;
   ExerciseSelection: undefined;
+  // [v11] Lista prescribible de UN bloque. En la v10.2 era un `useState`
+  // dentro de ExerciseSelection, no una ruta: por eso el atrás de Android
+  // salía de la pantalla entera y la telemetría no sabía distinguir navegar
+  // de prescribir. Clave NUEVA en telemetry.screens — adición, no ruptura.
+  BlockList: { block: BlockKey };
   LingTest: { id?: string } | undefined;
   ExercisePlayer: { id?: string } | undefined;
   MinimalPairs: undefined;
@@ -92,6 +99,10 @@ export const ValeriaNavigator: React.FC = () => (
       name="ExerciseSelection"
       component={ENABLE_V11_UI ? MainTabNavigator : ValeriaExerciseSelectionScreen}
     />
+    {/* [v11] Solo la alcanza el hub v11. Vive en el stack RAÍZ, no dentro de
+        las pestañas: prescribir es una tarea con principio y fin, y la barra
+        inferior invitaría a abandonarla a medias. */}
+    <Stack.Screen name="BlockList" component={ValeriaBlockListScreen} />
     <Stack.Screen name="LingTest" component={ValeriaLingTestScreen} />
     <Stack.Screen name="ExercisePlayer" component={ValeriaExercisePlayerScreen} />
     <Stack.Screen name="MinimalPairs" component={ValeriaMinimalPairsScreen} />

@@ -284,6 +284,45 @@ flowchart LR
     H -.-> AC[Academy]
 ```
 
+### Interfaz v11 · pestañas inferiores (tras *feature flag*)
+
+Los testers del piloto reportaron que el uso «se hace muy engorroso y hay mucho
+texto». El hub de la v10.2 concentraba cinco tareas en una sola pantalla
+—bloques, lista prescribible, recordatorios, calidad de voz y acceso
+profesional— con unos **1.490 px de scroll**, dos pantallas y media, para llegar
+a los ajustes.
+
+La **v11** reorganiza esa pantalla sin tocar el resto de la app. Vive detrás de
+[`ENABLE_V11_UI`](src/valeriaFeatureFlags.ts), **`false` por defecto**: mientras
+no se cambie, la app arranca exactamente el flujo clásico de arriba.
+
+```mermaid
+flowchart LR
+    H[ExerciseSelection] --> T{{MainTabNavigator}}
+    T --> HB[Terapias · grid 2 col]
+    T --> AC[Academy]
+    T --> ST[Ajustes]
+    HB --> BL[BlockList · un bloque]
+    BL --> L[LingTest]
+    L --> E[ExercisePlayer]
+    HB -.-> MP[MinimalPairs]
+    HB -.-> SE[SemanticExpansion]
+    HB -.-> AR[ArLauncher]
+```
+
+| Qué cambia | Por qué |
+| --- | --- |
+| Cuadrícula de 2 columnas **sin subtítulos** | Los ~718 caracteres de prosa del hub se reubican al `refCard` del bloque, donde se leen justo antes de usarlo. Ninguna clave i18n se borra: varias llevan carga MDR («Estresores siempre manuales», «Sin grabar nada y con el micrófono apagado»). |
+| Recordatorios, voz y acceso profesional → **Ajustes** | Al fondo del hub eran, en la práctica, invisibles. |
+| La lista de un bloque pasa a ser **ruta real** (`BlockList`) | En la v10.2 era un `useState`: el botón atrás de Android no volvía al hub, salía de `ExerciseSelection` entera. Como ruta, se arregla solo. |
+| El player **no** vive bajo las pestañas | Durante el ejercicio la pantalla es del niño; no puede haber salidas laterales a un toque. |
+
+**Los nombres de ruta no se traducen ni se renombran.** La pestaña se llama
+`ExerciseSelection` y solo muestra «Terapias» como etiqueta visible: la
+telemetría indexa el tiempo por nombre de ruta y rebautizarla partiría la serie
+del piloto. Plan completo y muro de contención en
+[`docs/plan-evolucion-ux-v11.md`](docs/plan-evolucion-ux-v11.md).
+
 ---
 
 ## 📊 Telemetría del piloto clínico
@@ -303,9 +342,10 @@ con *debounce* vía `InteractionManager`, de modo que el cifrado y el guardado e
 | 🧩 **Abandono intra‑cápsula TPR** | Se cuentan cápsulas mostradas vs. saltadas vs. completadas en el player. |
 | 💬 **Evaluación subjetiva (SUS adaptado)** | Modal Likert 1‑5 (`ValeriaSUSModal`) orientado a la **carga de uso real** ("integrar el ejercicio en la rutina de mi hijo/a"). *Rate limiting* para evitar sesgo de fatiga: solo en el **hito de 4 bloques distintos** (umbral desacoplado del total de 6: los módulos TEA/Dislexia ni lo bloquean ni lo fuerzan) y **máx. 1 vez/semana** por dispositivo. |
 | 🔒 **Persistencia y correlación** | Telemetría + Likert se guardan en un **JSON cifrado en reposo** (`valeriaCrypto`, keystream SHA‑256 en JS puro) bajo el **mismo id de sesión**. Se **purga solo tras una exportación exitosa**, evitando el desborde de memoria semana a semana. |
+| 🎛️ **Interfaz de la sesión** (`ui: 'v10' \| 'v11'`) | Sella con qué interfaz se registró cada sesión. Activar las pestañas mueve la línea base de dos métricas: la barra inferior absorbe toques que antes caían en zona muerta (menos *misclicks*, sin que nadie se equivoque menos) y `BlockList` se lleva un tiempo que antes se imputaba a `ExerciseSelection`. Con el sello, los tramos pre/post se separan **por dato** y no por fecha de despliegue —que es aproximada y se pierde al reinstalar—. El resumen exportado incluye `sessionsV11`: si está entre 0 y `sessions`, la muestra mezcla interfaces y los *misclicks* agregados no son una serie homogénea. |
 
-**Exportación dual** (Modo Profesional, PIN `1985` desde el hub de bloques →
-`ValeriaProExport`):
+**Exportación dual** (Modo Profesional, PIN `1985` → `ValeriaProExport`; en la
+interfaz clásica se entra desde el hub de bloques, en la v11 desde **Ajustes**):
 
 - **Offline puro** → **código QR** con el resumen estadístico comprimido
   (abandonos, misclicks, media Likert), legible por cámaras móviles. El
@@ -328,6 +368,7 @@ con *debounce* vía `InteractionManager`, de modo que el cifrado y el guardado e
 | Documento | Descripción |
 | --- | --- |
 | **Manual de usuario con casos de uso** (v10.3) · [HTML](docs/manual-casos-de-uso.html) · [PDF](docs/Valeria-Manual-Casos-de-Uso.pdf) · [Word](docs/Valeria-Manual-Casos-de-Uso.docx) | **22 casos de uso** paso a paso ilustrados con capturas reales (`docs/screenshots/`): **Academy · hub de formación multidominio (CU‑03)**, los **siete bloques** (Pares Mínimos, Expansión Semántica, Audición, Lenguaje, TEA, Dislexia y **Realidad Aumentada**), el hub, la gráfica de sustitución por fonema, la telemetría del piloto (CU‑14), la variedad lingüística —Castellano, Galego, Dominicano y Euskera— (CU‑15), el Panel del Adulto / carga comunicativa (CU‑16), el **módulo de Lengua de Signos Española (CU‑17)** y el **bloque de Realidad Aumentada completo (CU‑18 a CU‑22)**: permiso de cámara y prueba de aptitud, los tres ejercicios y los umbrales clínicos. Cubre las novedades v6 → v10.3, incluida la tarjeta de **material necesario**, la lista de **formas alternativas** de una misma actividad, la **chuleta del adulto** de la lectura labiofacial y el **aviso del siguiente ejercicio** antes de puntuar (CU‑09). |
+| [`docs/plan-evolucion-ux-v11.md`](docs/plan-evolucion-ux-v11.md) | Plan de evolución UX/UI v10.2 → v11 en respuesta al feedback del piloto («engorroso», «mucho texto»): diagnóstico medido sobre el código, cuadrícula de 2 columnas, pestañas inferiores y el **muro de contención** que garantiza cero regresiones clínicas y cero pérdida de la serie de telemetría. Implementado tras `ENABLE_V11_UI` en `src/valeriaFeatureFlags.ts`. |
 | [`docs/protocolo-pares-minimos.md`](docs/protocolo-pares-minimos.md) | Protocolo de pares mínimos para dislalias fonológicas: 10 pares accionables con flujo TTS→STT, feedback por rama y misiones físicas. Implementado en `src/ValeriaMinimalPairsScreen.tsx` + `src/valeriaMinimalPairs.ts`. |
 | [`docs/protocolo-pares-minimos-es-DO.md`](docs/protocolo-pares-minimos-es-DO.md) | Protocolo de pares mínimos en español dominicano (Quisqueya Habla). Implementado en `src/valeriaMinimalPairsEsDO.ts`. |
 | [`docs/protocolo-expansion-semantica.md`](docs/protocolo-expansion-semantica.md) | Protocolo de expansión semántica / progresión léxica offline. Implementado en `src/ValeriaSemanticExpansionScreen.tsx` + `src/valeriaSemanticExpansion.ts`. |

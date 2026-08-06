@@ -37,7 +37,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { V } from './valeriaTheme';
 import { useT } from './i18n';
 import ValeriaAcademyScreen from './ValeriaAcademy';
-import { TherapiesPlaceholder, SettingsPlaceholder } from './ValeriaTabPlaceholders';
+import ValeriaHubV11Screen from './ValeriaHubV11Screen';
+import ValeriaSettingsScreen from './ValeriaSettingsScreen';
 
 export type ValeriaTabParamList = {
   ExerciseSelection: undefined;
@@ -70,7 +71,7 @@ export const MainTabNavigator: React.FC = () => {
     >
       <Tab.Screen
         name="ExerciseSelection"
-        component={TherapiesPlaceholder}
+        component={ValeriaHubV11Screen}
         options={{
           tabBarLabel: t.tabs.therapies,
           tabBarIcon: tabIcon('🏠'),
@@ -88,7 +89,7 @@ export const MainTabNavigator: React.FC = () => {
       />
       <Tab.Screen
         name="Settings"
-        component={SettingsPlaceholder}
+        component={ValeriaSettingsScreen}
         options={{
           tabBarLabel: t.tabs.settings,
           tabBarIcon: tabIcon('⚙️'),

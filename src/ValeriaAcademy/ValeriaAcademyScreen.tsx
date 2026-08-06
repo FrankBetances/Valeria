@@ -52,6 +52,15 @@ export const ValeriaAcademyScreen: React.FC<{ navigation: any }> = ({ navigation
 
   useEffect(() => { hydrateAcademy(); }, []);
 
+  // [v11 · Sprint 3.5] Academy es a la vez una ruta del stack clásico y una
+  // PESTAÑA de la interfaz v11. Como pestaña no debe llevar botón «atrás»: no
+  // hay adónde volver, y `goBack()` haría algo distinto de lo que anuncia
+  // —con backBehavior 'firstRoute' saltaría a Terapias, y desde la ruta
+  // inicial burbujearía al stack y saldría de ExerciseSelection entera—.
+  // El navegador al que pertenece la pantalla lo dice él mismo, así que la
+  // píldora se oculta sola sin necesidad de prop ni de leer el feature flag.
+  const inTabs = navigation?.getState?.()?.type === 'tab';
+
   const results = getResults();
   const bump = () => setRefreshKey((k) => k + 1);
 
@@ -71,9 +80,11 @@ export const ValeriaAcademyScreen: React.FC<{ navigation: any }> = ({ navigation
     return (
       <View style={s.flex}>
         <View style={s.header}>
-          <Pressable onPress={() => navigation.goBack()} style={s.backPill}>
-            <Text style={s.backPillTxt}>‹ Volver</Text>
-          </Pressable>
+          {!inTabs && (
+            <Pressable onPress={() => navigation.goBack()} style={s.backPill}>
+              <Text style={s.backPillTxt}>‹ Volver</Text>
+            </Pressable>
+          )}
           <Text style={s.logoFallback}>valeria+ · academy</Text>
           <Text style={s.headerTitle}>🎓 Academy</Text>
           <Text style={s.headerSub}>Tu hub de formación por dominios para acompañar la terapia como un profesional.</Text>
