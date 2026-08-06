@@ -11,7 +11,7 @@ on:
   workflow_dispatch:
     inputs:
       lang:
-        description: 'Idioma del corpus a sintetizar (es · gl · eu)'
+        description: 'Idioma del corpus a sintetizar (es · gl · eu · en)'
         required: false
         default: 'es'
   # Disparo automático cuando cambia la propia tubería o el corpus en ramas de
@@ -71,6 +71,14 @@ jobs:
       # Incremental: cada idioma sintetiza SOLO las locuciones sin asset.
       - name: Synthesize es (Sharvard · piper)
         run: python3 scripts/generate-voice-assets.py --lang es
+
+      # Inglés de EE. UU. (plan en-US, EN-4.2): mismo motor `piper` que Sharvard,
+      # así que no necesita instalar nada más ni comprobar antes si falta algo —
+      # el script sale sin descargar el modelo cuando el idioma está al día. La
+      # voz es LJSpeech (dominio público + modelo MIT): las dos candidatas que
+      # proponía el plan quedaron descartadas por licencia en EN-0.1.
+      - name: Synthesize en (LJSpeech · piper)
+        run: python3 scripts/generate-voice-assets.py --lang en
 
       # coqui-tts (torch CPU, ~2 GB) solo se instala si faltan assets gl.
       - name: Check missing gl assets

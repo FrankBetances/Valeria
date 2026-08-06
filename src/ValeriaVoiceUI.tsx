@@ -22,7 +22,9 @@ import {
   asrLocaleStatus, requestOfflineModel, asrOfflineStatus, AsrLocaleStatus, asrCaptureEnabled,
   forgetAsrLocale,
 } from './valeriaVoice';
-import { getLocale, setLocale, assetLang, Locale } from './valeriaLocale';
+import { getLocale, setLocale, assetLang, contentLocale, Locale } from './valeriaLocale';
+import { syncUiLangToLocale } from './valeriaUiLang';
+import { useT, UiStrings } from './i18n';
 import { micVerdictSayFor } from './valeriaExerciseBank';
 
 // ----------------------------------------------------------------------------
@@ -39,7 +41,8 @@ export const SpeakButton: React.FC<{
   // pantalla usa el que corresponde a lo que su modelo normal ya dice.
   voice?: 'tutor' | 'child' | 'slow' | 'slowPhrase' | 'clinical';
   compact?: boolean;
-}> = ({ text, label = 'Escuchar', voice = 'tutor', compact = false }) => {
+}> = ({ text, label, voice = 'tutor', compact = false }) => {
+  const t = useT();
   const onPress = () => {
     if (voice === 'child') speakToChild(text);
     else if (voice === 'slow') speakWordSlow(text);
@@ -51,11 +54,11 @@ export const SpeakButton: React.FC<{
     <Pressable
       onPress={onPress}
       accessibilityRole="button"
-      accessibilityLabel={`Escuchar: ${text}`}
+      accessibilityLabel={t.voice.listenA11y(text)}
       style={({ pressed }) => [s.speakPill, compact && s.speakPillCompact, pressed && { opacity: 0.7, transform: [{ scale: 0.96 }] }]}
     >
       <Text style={{ fontSize: compact ? 12 : 14 }}>🔊</Text>
-      {!compact && <Text style={s.speakPillTxt}>{label}</Text>}
+      {!compact && <Text style={s.speakPillTxt}>{label ?? t.voice.listen}</Text>}
     </Pressable>
   );
 };
@@ -64,47 +67,50 @@ export const SpeakButton: React.FC<{
 // Mapa del turno: chips con las fases del ensayo y la fase activa resaltada.
 // Responde a la queja de los testers de que "no se sabe qué toca ahora".
 // ----------------------------------------------------------------------------
-const DEFAULT_PHASES = [
-  { icon: '🔊', label: 'Escucha' },
-  { icon: '🎤', label: 'Repite' },
-  { icon: '🏅', label: 'Veredicto' },
-  { icon: '🏃', label: 'Misión' },
+const defaultPhases = (t: UiStrings) => [
+  { icon: '🔊', label: t.voice.phaseListen },
+  { icon: '🎤', label: t.voice.phaseRepeat },
+  { icon: '🏅', label: t.voice.phaseVerdict },
+  { icon: '🏃', label: t.voice.phaseMission },
 ];
 
 export const TurnPhaseStrip: React.FC<{
   active: number;
   phases?: { icon: string; label: string }[];
-}> = ({ active, phases = DEFAULT_PHASES }) => (
-  <View style={s.phaseStrip} accessibilityRole="progressbar" accessibilityLabel={`Fase actual: ${phases[active]?.label ?? ''}`}>
-    {phases.map((ph, i) => (
-      <React.Fragment key={ph.label}>
-        {i > 0 && <Text style={s.phaseArrow}>›</Text>}
-        <View style={[s.phaseChip, i === active && s.phaseChipOn, i < active && s.phaseChipDone]}>
-          <Text style={{ fontSize: 13, opacity: i === active ? 1 : 0.55 }}>{i < active ? '✓' : ph.icon}</Text>
-          <Text style={[s.phaseChipTxt, i === active && s.phaseChipTxtOn]}>{ph.label}</Text>
-        </View>
-      </React.Fragment>
-    ))}
-  </View>
-);
+}> = ({ active, phases }) => {
+  const t = useT();
+  const items = phases ?? defaultPhases(t);
+  return (
+    <View style={s.phaseStrip} accessibilityRole="progressbar" accessibilityLabel={t.voice.currentPhase(items[active]?.label ?? '')}>
+      {items.map((ph, i) => (
+        <React.Fragment key={ph.label}>
+          {i > 0 && <Text style={s.phaseArrow}>›</Text>}
+          <View style={[s.phaseChip, i === active && s.phaseChipOn, i < active && s.phaseChipDone]}>
+            <Text style={{ fontSize: 13, opacity: i === active ? 1 : 0.55 }}>{i < active ? '✓' : ph.icon}</Text>
+            <Text style={[s.phaseChipTxt, i === active && s.phaseChipTxtOn]}>{ph.label}</Text>
+          </View>
+        </React.Fragment>
+      ))}
+    </View>
+  );
+};
 
 // ----------------------------------------------------------------------------
 // Juego de micrófono: escucha al niño y compara con la palabra objetivo.
 // ----------------------------------------------------------------------------
 type MicPhase = 'idle' | 'listening' | 'scored' | 'error';
 
-// Lo VISUAL del veredicto (para el adulto) queda en castellano; lo HABLADO
-// (para el niño) se localiza por variedad vía micVerdictSayFor, de modo que en
-// euskera suena el veredicto vasco horneado (HiTZ) y no un salto al castellano.
-const VERDICT: Record<MatchLevel, { icon: string; title: string; sub: string }> = {
-  2: { icon: '🎉', title: '¡Lo dijo genial!', sub: 'La app entendió la palabra objetivo.' },
-  1: { icon: '💪', title: '¡Casi casi!', sub: 'Se parece mucho. Repetid el modelo y probad otra vez.' },
-  0: { icon: '👂', title: 'Otra vez juntos', sub: 'Escuchad la palabra despacio y repetid a la vez.' },
-};
+// Lo VISUAL del veredicto lo lee el ADULTO, así que sale del catálogo de
+// interfaz (t.voice.micVerdicts, indexado por MatchLevel); lo HABLADO lo oye el
+// NIÑO y se localiza por VARIEDAD vía micVerdictSayFor, de modo que en euskera
+// suena el veredicto vasco horneado (HiTZ) y no un salto al castellano. Son los
+// dos ejes de §5.1 del plan en-US en una sola tarjeta: el adulto puede estar
+// leyendo en inglés mientras el niño trabaja objetivos en castellano.
 
 // `altTargets`: respuestas alternativas igual de válidas que `target`
 // (PR-4 acepta «¿qué?» además de «¿cómo?»); puntúa la mejor coincidencia.
 export const MicPracticeCard: React.FC<{ target: string; prompt?: string; altTargets?: string[] }> = ({ target, prompt, altTargets }) => {
+  const t = useT();
   const [phase, setPhase] = useState<MicPhase>('idle');
   const [heard, setHeard] = useState('');
   const [score, setScore] = useState<MatchLevel>(0);
@@ -142,9 +148,7 @@ export const MicPracticeCard: React.FC<{ target: string; prompt?: string; altTar
     return (
       <View style={s.micUnavailable}>
         <Text style={{ fontSize: 14 }}>🎤</Text>
-        <Text style={s.micUnavailableTxt}>
-          El juego de micrófono se activa en la app instalada (APK). Mientras tanto, el niño puede repetir la palabra y tú valoras abajo.
-        </Text>
+        <Text style={s.micUnavailableTxt}>{t.voice.micUnavailable}</Text>
       </View>
     );
   }
@@ -187,37 +191,37 @@ export const MicPracticeCard: React.FC<{ target: string; prompt?: string; altTar
 
   return (
     <View style={s.micCard}>
-      <Text style={s.micKicker}>🎤 JUEGO DE VOZ · ¡AHORA EL NIÑO!</Text>
-      <Text style={s.micPrompt}>{prompt ?? `Pulsa el micro y que diga: “${target}”`}</Text>
+      <Text style={s.micKicker}>{t.voice.micKicker}</Text>
+      <Text style={s.micPrompt}>{prompt ?? t.voice.micPrompt(target)}</Text>
 
       <View style={s.micRow}>
-        <SpeakButton text={target} label="Oír modelo" voice="slow" />
+        <SpeakButton text={target} label={t.voice.micHearModel} voice="slow" />
         <Animated.View style={{ transform: [{ scale: micScale }] }}>
           <Pressable
             onPress={listen}
             accessibilityRole="button"
-            accessibilityLabel={listening ? 'Dejar de escuchar' : 'Empezar a escuchar'}
+            accessibilityLabel={listening ? t.voice.micStopA11y : t.voice.micStartA11y}
             style={[s.micBtn, listening && s.micBtnOn]}
           >
             <Text style={{ fontSize: 26 }}>{listening ? '👂' : '🎤'}</Text>
           </Pressable>
         </Animated.View>
-        <Text style={s.micState}>{listening ? 'Escuchando…' : 'Toca para hablar'}</Text>
+        <Text style={s.micState}>{listening ? t.voice.micListening : t.voice.micTapToSpeak}</Text>
       </View>
 
       {!!heard && (
         <View style={s.heardBox}>
-          <Text style={s.heardLbl}>La app escuchó:</Text>
+          <Text style={s.heardLbl}>{t.voice.micHeard}</Text>
           <Text style={s.heardTxt}>“{heard}”</Text>
         </View>
       )}
 
       {phase === 'scored' && (
         <View style={[s.verdict, score === 2 ? s.verdictOk : score === 1 ? s.verdictAlmost : s.verdictRetry]}>
-          <Text style={{ fontSize: 22 }}>{VERDICT[score].icon}</Text>
+          <Text style={{ fontSize: 22 }}>{t.voice.micVerdicts[score].icon}</Text>
           <View style={{ flex: 1 }}>
-            <Text style={s.verdictTitle}>{VERDICT[score].title}</Text>
-            <Text style={s.verdictSub}>{VERDICT[score].sub}</Text>
+            <Text style={s.verdictTitle}>{t.voice.micVerdicts[score].title}</Text>
+            <Text style={s.verdictSub}>{t.voice.micVerdicts[score].sub}</Text>
           </View>
           <Text style={s.verdictStars}>{'★'.repeat(score + 1)}</Text>
         </View>
@@ -244,6 +248,7 @@ export const ResponseCaptureCard: React.FC<{
   prompt?: string;
   onCapture?: (text: string) => void;
 }> = ({ prompt, onCapture }) => {
+  const t = useT();
   const [text, setTextRaw] = useState('');
   const [listening, setListening] = useState(false);
   const [errMsg, setErrMsg] = useState('');
@@ -284,34 +289,32 @@ export const ResponseCaptureCard: React.FC<{
 
   return (
     <View style={s.captureCard}>
-      <Text style={s.captureKicker}>📝 REGISTRA SU RESPUESTA</Text>
-      <Text style={s.capturePrompt}>{prompt ?? 'Graba con el micro o escribe lo que dijo el niño.'}</Text>
+      <Text style={s.captureKicker}>{t.voice.captureKicker}</Text>
+      <Text style={s.capturePrompt}>{prompt ?? t.voice.capturePrompt}</Text>
       <View style={s.captureRow}>
         <TextInput
           style={s.captureInput}
           value={text}
           onChangeText={setText}
-          placeholder="Escribe aquí lo que dijo…"
+          placeholder={t.voice.capturePlaceholder}
           placeholderTextColor={V.color.textMuted}
           multiline
-          accessibilityLabel="Escribir la respuesta del niño"
+          accessibilityLabel={t.voice.captureWriteA11y}
         />
         {asrSupported() && (
           <Pressable
             onPress={record}
             accessibilityRole="button"
-            accessibilityLabel={listening ? 'Dejar de grabar' : 'Grabar la respuesta con el micrófono'}
+            accessibilityLabel={listening ? t.voice.captureStopA11y : t.voice.captureRecordA11y}
             style={[s.captureMicBtn, listening && s.captureMicBtnOn]}
           >
             <Text style={{ fontSize: 20 }}>{listening ? '👂' : '🎤'}</Text>
           </Pressable>
         )}
       </View>
-      {listening && <Text style={s.captureState}>Escuchando… habla ahora</Text>}
+      {listening && <Text style={s.captureState}>{t.voice.captureListening}</Text>}
       {!!errMsg && <Text style={s.captureErr}>{errMsg}</Text>}
-      {!!text && !listening && (
-        <Text style={s.captureOk}>✓ Respuesta registrada: se guardará con la sesión en Resultados.</Text>
-      )}
+      {!!text && !listening && <Text style={s.captureOk}>{t.voice.captureOk}</Text>}
     </View>
   );
 };
@@ -326,21 +329,27 @@ export const ResponseCaptureCard: React.FC<{
 const GOOGLE_TTS_MARKET = 'market://details?id=com.google.android.tts';
 const GOOGLE_TTS_WEB = 'https://play.google.com/store/apps/details?id=com.google.android.tts';
 
-// Variedades ofrecidas por el selector (las tres aprobadas para producción):
+// Variedades ofrecidas por el selector:
 //   · Castellano → voz neuronal Sharvard (empaquetada).
 //   · Galego → voz neuronal Celtia (Proxecto Nós, empaquetada).
 //   · Dominicano (es-DO · Quisqueya Habla) → voz y micrófono del SISTEMA en
 //     español latino (es-US/es-MX).
 //   · Euskara → voz neuronal HiTZ-TTS (ILENIA/NEL-GAITU, empaquetada).
-// El campo `beta` se conserva para futuras variedades aún no validadas.
-const LOCALES: Array<{ id: Locale; label: string; beta?: boolean }> = [
-  { id: 'es', label: 'Castellano' },
-  { id: 'gl', label: 'Galego' },
-  { id: 'es-DO', label: 'Dominicano' },
-  { id: 'eu', label: 'Euskara' },
+//   · English (US) → voz neuronal Piper en_US (empaquetada). Marcada `beta`
+//     porque su BANCO CLÍNICO todavía no existe (Fase 3 del plan en-US): hoy
+//     elegirla pone la interfaz en inglés y deja el contenido en castellano
+//     — es la build de evaluación EN-0.9. El detalle de la tarjeta lo explica
+//     con todas las letras para que nadie lo lea como un fallo.
+const LOCALES: Array<{ id: Locale; label: (t: UiStrings) => string; beta?: boolean }> = [
+  { id: 'es', label: (t) => t.voice.localeEs },
+  { id: 'gl', label: (t) => t.voice.localeGl },
+  { id: 'es-DO', label: (t) => t.voice.localeEsDO },
+  { id: 'eu', label: (t) => t.voice.localeEu },
+  { id: 'en-US', label: (t) => t.voice.localeEnUS, beta: true },
 ];
 
-const localeLabel = (id: Locale): string => LOCALES.find((l) => l.id === id)?.label ?? String(id);
+const localeLabel = (t: UiStrings, id: Locale): string =>
+  LOCALES.find((l) => l.id === id)?.label(t) ?? String(id);
 
 // ----------------------------------------------------------------------------
 // Bloque "¿dónde se escucha?" — Fase A de docs/plan-asr-privacidad-y-motor-local.md
@@ -364,6 +373,7 @@ const localeLabel = (id: Locale): string => LOCALES.find((l) => l.id === id)?.la
 // sistema concede. La prueba concluyente de que el audio no sale es la
 // inspección de tráfico de red (§3.5 del plan), no este texto.
 export const SpeechPrivacyBlock: React.FC<{ locale: Locale }> = ({ locale }) => {
+  const t = useT();
   const [st, setSt] = useState<AsrLocaleStatus | null>(null);
   const [checking, setChecking] = useState(false);
   const [declined, setDeclined] = useState(false);
@@ -411,35 +421,39 @@ export const SpeechPrivacyBlock: React.FC<{ locale: Locale }> = ({ locale }) => 
     const res = await requestOfflineModel();
     if (!mounted.current) return;
     setChecking(false);
-    if (res === 'ok') setNote('✓ Paquete descargado. A partir de ahora la voz se reconoce dentro del teléfono.');
-    else if (res === 'dialogo') setNote('Se abrió la pantalla de descarga del sistema. Cuando termine, toca «Volver a comprobar».');
-    else if (res === 'cancelado') setNote('Descarga cancelada. Se sigue usando el reconocimiento del sistema.');
-    else setNote('No se pudo pedir la descarga en este dispositivo. Puedes hacerlo desde Ajustes → Sistema → Idiomas → Entrada por voz.');
+    if (res === 'ok') setNote(t.voice.privNoteOk);
+    else if (res === 'dialogo') setNote(t.voice.privNoteDialog);
+    else if (res === 'cancelado') setNote(t.voice.privNoteCancelled);
+    else setNote(t.voice.privNoteFailed);
     if (res === 'ok' || res === 'dialogo') void probe();
   };
 
   const decline = async () => {
     setDeclined(true);
-    setNote('Sin problema: los ejercicios funcionan igual con el reconocimiento del sistema.');
+    setNote(t.voice.privNoteDeclined);
     try { await AsyncStorage.setItem(offerKey, 'no'); } catch (e) { /* preferencia, no dato clínico */ }
   };
 
-  const label = localeLabel(locale);
+  // El paquete que se sondea es el de la variedad cuyo CONTENIDO se está
+  // usando: con `en-US` y el banco inglés aún sin escribir, quien escucha es el
+  // reconocedor castellano, y anunciar «falta el paquete de English (US)»
+  // mandaría al adulto a descargar el paquete equivocado.
+  const label = localeLabel(t, contentLocale(locale));
   const local = st?.mode === 'local';
 
   const detail = st == null
-    ? 'Comprobando dónde se procesa la voz del niño en esta variedad…'
+    ? t.voice.privChecking
     : local
-      ? `En ${label} el reconocimiento se hace dentro del teléfono: el audio del turno de habla no sale del dispositivo.`
+      ? t.voice.privLocal(label)
       : st.localFailed
-        ? `El paquete de ${label} figura instalado, pero al escuchar de verdad el reconocedor del teléfono no arrancó. Para no dejar el ejercicio roto, la app ha vuelto al servicio de reconocimiento del sistema, que puede enviar el audio a sus servidores. Toca «Volver a comprobar» para intentarlo otra vez en local.`
+        ? t.voice.privLocalFailed(label)
         : !st.deviceCapable
-          ? `Este dispositivo no sabe reconocer voz sin conexión, así que en ${label} el audio del turno de habla lo procesa el servicio de reconocimiento del sistema, que puede enviarlo a sus servidores.`
+          ? t.voice.privNotCapable(label)
           : !st.serviceAvailable
-            ? `Este dispositivo no expone ningún servicio de reconocimiento de voz, así que en ${label} el juego de micrófono no puede funcionar. Comprueba en Ajustes que el reconocimiento de voz del sistema esté instalado y activado.`
+            ? t.voice.privNoService(label)
             : st.canOfferDownload
-              ? `Este móvil puede reconocer sin conexión, pero le falta el paquete de ${label}. Mientras tanto, el audio del turno de habla lo procesa el servicio del sistema, que puede enviarlo a sus servidores.`
-              : `Falta el paquete de ${label} y esta versión de Android no permite descargarlo desde la app. Puedes instalarlo en Ajustes → Sistema → Idiomas → Entrada por voz; hasta entonces el audio lo procesa el servicio del sistema.`;
+              ? t.voice.privCanDownload(label)
+              : t.voice.privNoDownload(label);
 
   // Modo de la ÚLTIMA escucha real de la sesión. La comprobación de arriba dice
   // lo que se va a pedir; esto dice lo que se pidió. Sirve de diagnóstico rápido
@@ -451,18 +465,13 @@ export const SpeechPrivacyBlock: React.FC<{ locale: Locale }> = ({ locale }) => 
       {/* Fase B · si la build guarda el audio, tiene que verse a la primera y
           sin buscarlo. Una build de captura en manos de una familia sería una
           fuga de datos de salud de un menor (R7 del plan). */}
-      {asrCaptureEnabled() && (
-        <Text style={s.privCapture}>
-          ⏺ CAPTURA DE CORPUS ACTIVA. Esta build guarda en el dispositivo el audio del turno de habla.
-          No es una build de producción: no debe usarse en una sesión normal ni quedarse en el aparato de una familia.
-        </Text>
-      )}
+      {asrCaptureEnabled() && <Text style={s.privCapture}>{t.voice.privCapture}</Text>}
 
       <View style={s.privHead}>
-        <Text style={s.privKicker}>{local ? '🔒' : '☁️'} MICRÓFONO DEL EJERCICIO</Text>
+        <Text style={s.privKicker}>{local ? '🔒' : '☁️'} {t.voice.privKicker}</Text>
         <View style={[s.privChip, local ? s.privChipLocal : s.privChipNet]}>
           <Text style={[s.privChipTxt, { color: local ? '#0f8a63' : '#92711a' }]}>
-            {checking && st == null ? 'Comprobando…' : local ? 'En el teléfono' : 'Servicio del sistema'}
+            {checking && st == null ? t.voice.chipChecking : local ? t.voice.privChipLocal : t.voice.privChipNet}
           </Text>
         </View>
       </View>
@@ -471,22 +480,19 @@ export const SpeechPrivacyBlock: React.FC<{ locale: Locale }> = ({ locale }) => 
 
       {st != null && st.canOfferDownload && !declined && (
         <>
-          <Text style={s.privOffer}>
-            Si descargas el paquete de {label}, la voz del niño deja de salir del teléfono. Ocupa espacio y se
-            descarga una sola vez; los ejercicios funcionan igual si prefieres no hacerlo.
-          </Text>
+          <Text style={s.privOffer}>{t.voice.privOffer(label)}</Text>
           <View style={s.privBtnRow}>
             <Pressable
               onPress={download}
               disabled={checking}
               style={[s.privBtn, s.privBtnPrimary, checking && { opacity: 0.5 }]}
               accessibilityRole="button"
-              accessibilityLabel={`Descargar el paquete de reconocimiento de voz en ${label}`}
+              accessibilityLabel={t.voice.privDownloadA11y(label)}
             >
-              <Text style={[s.privBtnTxt, { color: '#fff' }]}>⬇️ Descargar el paquete</Text>
+              <Text style={[s.privBtnTxt, { color: '#fff' }]}>{t.voice.privDownload}</Text>
             </Pressable>
-            <Pressable onPress={decline} style={s.privBtn} accessibilityRole="button" accessibilityLabel="No descargar el paquete de voz">
-              <Text style={s.privBtnTxt}>Ahora no</Text>
+            <Pressable onPress={decline} style={s.privBtn} accessibilityRole="button" accessibilityLabel={t.voice.privNotNowA11y}>
+              <Text style={s.privBtnTxt}>{t.voice.privNotNow}</Text>
             </Pressable>
           </View>
         </>
@@ -500,29 +506,26 @@ export const SpeechPrivacyBlock: React.FC<{ locale: Locale }> = ({ locale }) => 
           disabled={checking}
           style={[s.privBtn, checking && { opacity: 0.5 }]}
           accessibilityRole="button"
-          accessibilityLabel="Volver a comprobar dónde se reconoce la voz"
+          accessibilityLabel={t.voice.privRecheckA11y}
         >
-          <Text style={s.privBtnTxt}>🔄 Volver a comprobar</Text>
+          <Text style={s.privBtnTxt}>{t.voice.recheck}</Text>
         </Pressable>
       </View>
 
       {last !== 'desconocido' && (
-        <Text style={s.privFoot}>
-          Última escucha de esta sesión: {last === 'local' ? 'en el teléfono' : 'servicio del sistema'}.
-        </Text>
+        <Text style={s.privFoot}>{t.voice.privLastListen(last === 'local')}</Text>
       )}
 
       {/* Qué motor contesta de verdad. Es la línea que faltaba: sin ella no
           había forma de ver que la app preguntaba por el modelo a un
           reconocedor distinto del que usaba para escuchar. */}
-      {!!st?.serviceName && (
-        <Text style={s.privFoot}>Reconocedor del sistema: {st.serviceName}.</Text>
-      )}
+      {!!st?.serviceName && <Text style={s.privFoot}>{t.voice.privRecognizer(st.serviceName)}</Text>}
     </View>
   );
 };
 
 export const VoiceQualityCard: React.FC = () => {
+  const t = useT();
   const [status, setStatus] = useState<VoiceStatus | null>(null);
   const [checking, setChecking] = useState(false);
   const [locale, setLoc] = useState<Locale>(getLocale());
@@ -548,6 +551,12 @@ export const VoiceQualityCard: React.FC = () => {
       stopSpeaking();
       setLoc(l);
       void setLocale(l);
+      // Segundo eje (§5.1 del plan en-US): elegir la variedad ARRASTRA el idioma
+      // de la interfaz —`en-US` la pone en inglés, cualquier otra en castellano—
+      // pero solo si el adulto no la ha fijado a mano en el selector de idioma.
+      // Es la regla que hace que «seleccionar inglés» cambie también la UI sin
+      // quitarle al caseload bilingüe la posibilidad de desacoplarlas.
+      void syncUiLangToLocale(l);
       // Re-escanear el catálogo cuando la variedad depende (o puede depender) de
       // la voz del sistema: es/es-DO (sin banco propio), y también eu, que hoy
       // recae en la voz del sistema y prefiere una voz vasca nativa si existe.
@@ -570,52 +579,61 @@ export const VoiceQualityCard: React.FC = () => {
   const tier = status?.tier ?? 'desconocida';
   const good = tier === 'neural';
   const noSpanish = status != null && status.voicesFound === 0;
-  const chip = checking ? { txt: 'Comprobando…', bg: '#f1f5f4', fg: V.color.textMuted }
-    : good ? { txt: '✓ Voz natural', bg: V.color.successBg, fg: '#0f8a63' }
-      : tier === 'estandar' ? { txt: 'Voz estándar', bg: '#fffbeb', fg: '#92711a' }
-        : { txt: 'Voz mejorable', bg: V.color.errorBg, fg: V.color.error };
+  const chip = checking ? { txt: t.voice.chipChecking, bg: '#f1f5f4', fg: V.color.textMuted }
+    : good ? { txt: t.voice.chipNatural, bg: V.color.successBg, fg: '#0f8a63' }
+      : tier === 'estandar' ? { txt: t.voice.chipStandard, bg: '#fffbeb', fg: '#92711a' }
+        : { txt: t.voice.chipPoor, bg: V.color.errorBg, fg: V.color.error };
 
   // Galego → voz neuronal Celtia empaquetada; Euskara → voz neuronal HiTZ-TTS
-  // empaquetada: ninguna depende del motor del sistema. Dominicano (es-DO) →
-  // voz del sistema en español LATINO (es-US/es-MX): la detección de calidad y
-  // la guía de instalación siguen aplicando, pero apuntando a una voz latina.
+  // empaquetada; English (US) → voz neuronal Piper en_US empaquetada: ninguna
+  // depende del motor del sistema. Dominicano (es-DO) → voz del sistema en
+  // español LATINO (es-US/es-MX): la detección de calidad y la guía de
+  // instalación siguen aplicando, pero apuntando a una voz latina.
   // Castellano → comportamiento histórico.
+  //
+  // El detalle de gl y eu está escrito EN SU PROPIA LENGUA a propósito: quien
+  // elige esa variedad la lee. El inglés no puede hacer lo mismo todavía —el
+  // texto tiene que explicar que la sesión sigue en castellano—, así que sale
+  // del catálogo y se lee en el idioma de interfaz del adulto.
   const isGl = locale === 'gl';
   const isEu = locale === 'eu';
-  const packaged = isGl || isEu; // voz neuronal incluida en la app, offline
+  const isEn = locale === 'en-US';
+  const packaged = isGl || isEu || isEn; // voz neuronal incluida en la app, offline
   const isDo = locale === 'es-DO';
   const detail = isGl
     ? 'En galego a app fala coa voz neuronal Celtia (Proxecto Nós), incluída na app: soa igual en calquera dispositivo, sen conexión.'
     : isEu
       ? 'Euskaraz aplikazioak HiTZ-en ahots neuronalarekin (ILENIA/NEL-GAITU) hitz egiten du, aplikazioan bertan sartuta: berdin entzuten da edozein gailutan, konexiorik gabe.'
-      : checking ? 'Buscando la mejor voz en español instalada en este dispositivo…'
-        : noSpanish ? 'No hay ninguna voz en español instalada: la app no podrá leer las consignas hasta descargarla.'
-          : isDo
-            ? `En dominicano la app usa la voz latina del dispositivo${status?.name ? ` («${status.name}»)` : ''} y el micrófono en es-DO. Si suena peninsular o robótica, instala una voz de Español (Latinoamérica).`
-            : good ? `La app usará la mejor voz del dispositivo${status?.name ? ` («${status.name}»)` : ''}. Suena natural, no robótica.`
-              : Platform.OS === 'android'
-                ? 'Este dispositivo solo ofrece una voz sencilla y puede sonar robótica. Instala las voces de Google (gratis y sin conexión) para que la app suene natural.'
-                : 'Puedes mejorar la voz en Ajustes → Accesibilidad → Contenido leído → Voces → Español, descargando la voz mejorada.';
+      : isEn ? t.voice.detailEnPending
+        : checking ? t.voice.detailSearching
+          : noSpanish ? t.voice.detailNoVoice
+            : isDo ? t.voice.detailDo(status?.name ?? '')
+              : good ? t.voice.detailGood(status?.name ?? '')
+                : Platform.OS === 'android' ? t.voice.detailAndroidPoor : t.voice.detailIosPoor;
   // La guía de voces de Google aplica a las variedades con voz del sistema
-  // (castellano y dominicano); galego (Celtia) y euskara (HiTZ) van empaquetadas.
+  // (castellano y dominicano); galego (Celtia), euskara (HiTZ) e inglés (Piper)
+  // van empaquetadas.
   const showInstall = !packaged && (!good || noSpanish) && Platform.OS === 'android';
 
   return (
     <View style={s.vqCard}>
       <View style={s.vqHead}>
         <View style={s.vqIcon}><Text style={{ fontSize: 17 }}>🎙️</Text></View>
-        <Text style={s.vqTitle}>Voz de la app</Text>
+        <Text style={s.vqTitle}>{t.voice.cardTitle}</Text>
         <View style={[s.vqChip, { backgroundColor: packaged ? V.color.successBg : chip.bg }]}>
-          <Text style={[s.vqChipTxt, { color: packaged ? '#0f8a63' : chip.fg }]}>{isGl ? '✓ Voz Celtia' : isEu ? '✓ HiTZ ahotsa' : chip.txt}</Text>
+          <Text style={[s.vqChipTxt, { color: packaged ? '#0f8a63' : chip.fg }]}>
+            {isGl ? t.voice.chipCeltia : isEu ? t.voice.chipHitz : isEn ? t.voice.chipPiperEn : chip.txt}
+          </Text>
         </View>
       </View>
 
       {/* Selector de variedad de la voz (se guarda en el dispositivo). Tocar una
           opción la elige y reproduce la muestra para oírla al instante. */}
-      <Text style={s.vqLangLabel}>Variedad de la voz</Text>
+      <Text style={s.vqLangLabel}>{t.voice.varietyLabel}</Text>
       <View style={s.vqLangRow}>
         {LOCALES.map((it) => {
           const on = locale === it.id;
+          const label = it.label(t);
           return (
             <Pressable
               key={it.id}
@@ -623,9 +641,9 @@ export const VoiceQualityCard: React.FC = () => {
               style={[s.vqLangBtn, on && s.vqLangBtnOn]}
               accessibilityRole="button"
               accessibilityState={{ selected: on }}
-              accessibilityLabel={`Voz en ${it.label}${it.beta ? ', en pruebas' : ''}`}
+              accessibilityLabel={t.voice.varietyA11y(label, !!it.beta)}
             >
-              <Text style={[s.vqLangTxt, on && s.vqLangTxtOn]}>{it.label}</Text>
+              <Text style={[s.vqLangTxt, on && s.vqLangTxtOn]}>{label}</Text>
               {it.beta && <Text style={[s.vqBeta, on && { color: '#fff', borderColor: 'rgba(255,255,255,.6)' }]}>beta</Text>}
             </Pressable>
           );
@@ -634,26 +652,21 @@ export const VoiceQualityCard: React.FC = () => {
 
       <Text style={s.vqDetail}>{detail}</Text>
       <View style={s.vqBtnRow}>
-        <Pressable onPress={speakVoiceSample} style={s.vqBtn} accessibilityRole="button" accessibilityLabel="Probar cómo suena la voz">
-          <Text style={s.vqBtnTxt}>▶ Probar la voz</Text>
+        <Pressable onPress={speakVoiceSample} style={s.vqBtn} accessibilityRole="button" accessibilityLabel={t.voice.testVoiceA11y}>
+          <Text style={s.vqBtnTxt}>{t.voice.testVoice}</Text>
         </Pressable>
         {showInstall && (
-          <Pressable onPress={openGoogleVoices} style={[s.vqBtn, s.vqBtnPrimary]} accessibilityRole="button" accessibilityLabel="Instalar las voces de Google">
-            <Text style={[s.vqBtnTxt, { color: '#fff' }]}>⬇️ Instalar voces de Google</Text>
+          <Pressable onPress={openGoogleVoices} style={[s.vqBtn, s.vqBtnPrimary]} accessibilityRole="button" accessibilityLabel={t.voice.installGoogleA11y}>
+            <Text style={[s.vqBtnTxt, { color: '#fff' }]}>{t.voice.installGoogle}</Text>
           </Pressable>
         )}
         {!packaged && (
-          <Pressable onPress={check} disabled={checking} style={[s.vqBtn, checking && { opacity: 0.5 }]} accessibilityRole="button" accessibilityLabel="Volver a comprobar la voz">
-            <Text style={s.vqBtnTxt}>🔄 Volver a comprobar</Text>
+          <Pressable onPress={check} disabled={checking} style={[s.vqBtn, checking && { opacity: 0.5 }]} accessibilityRole="button" accessibilityLabel={t.voice.recheckA11y}>
+            <Text style={s.vqBtnTxt}>{t.voice.recheck}</Text>
           </Pressable>
         )}
       </View>
-      {showInstall && !checking && (
-        <Text style={s.vqHint}>
-          Tras instalar: Ajustes → Sistema → Salida de texto a voz → elige «Motor de voz de Google» y
-          descarga la voz de Español (España). Después vuelve aquí y toca «Volver a comprobar».
-        </Text>
-      )}
+      {showInstall && !checking && <Text style={s.vqHint}>{t.voice.installHint}</Text>}
 
       {/* Lo de arriba es la voz que la app PRODUCE; esto es lo que la app
           ESCUCHA. Van juntos a propósito: el adulto elige la variedad una sola

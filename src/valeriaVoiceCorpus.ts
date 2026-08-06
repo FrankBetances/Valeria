@@ -53,6 +53,11 @@ import {
   PAIRS_DONE_PHRASE_EU, pairIntroEu, pairRetryEu,
   ROLESWAP_INTRO_EU, ROLESWAP_NOT_HEARD_EU, ROLESWAP_HIT_EU, ROLESWAP_MISS_OTHER_EU, roleswapParentSaidEu,
 } from './valeriaContentEu';
+import {
+  PRAISE_BANK_EN, ALMOST_BANK_EN, NO_HEAR_BANK_EN, TOGETHER_BANK_EN, MIC_VERDICT_SAY_EN,
+  SESSION_CONTINUE_PHRASE_EN, ROUTE_DONE_PHRASE_EN, VOICE_SAMPLE_PHRASE_EN, PAIRS_DONE_PHRASE_EN,
+  ROLESWAP_INTRO_EN, ROLESWAP_NOT_HEARD_EN, ROLESWAP_HIT_EN, ROLESWAP_MISS_OTHER_EN,
+} from './valeriaContentEn';
 
 // Estilos de locución de valeriaVoice. El audio pre-generado "hornea" el
 // estilo (prosodia, velocidad) en el propio WAV, así que un mismo texto en dos
@@ -280,6 +285,36 @@ export function buildVoiceCorpus(): VoiceCorpusEntry[] {
     pluralOne: (p) => pluralOneLabelFor('eu', p),
     pluralMany: (p) => pluralManyLabelFor('eu', p),
   })) addEu(l.style, l.text, 'ejercicios');
+
+  // ========================= INGLÉS DE EE. UU. (en) =========================
+  // Plan en-US, Fase 4: se sintetiza con la voz neuronal Piper `en_US`
+  // (scripts/generate-voice-assets.py, VOICES['en']).
+  //
+  // Bloque CORTO a propósito, y esa brevedad es el estado real del proyecto,
+  // no un olvido: el contenido clínico inglés (pares mínimos, TPR, expansión
+  // semántica) es la Fase 3 y está bloqueado por la guía dialectal EN-0.5. Lo
+  // que sí existe ya en inglés son las frases de aplicación de
+  // valeriaContentEn.ts, así que es lo único que se hornea. Cuando la Fase 3
+  // escriba los bancos, este bloque crece hasta ser el espejo exacto del
+  // euskera (EN-3.8) sin que cambie nada de la tubería.
+  const addEn = mkAdd('en');
+
+  for (const t of PRAISE_BANK_EN) addEn('child', t, 'banco/elogio');
+  for (const t of ALMOST_BANK_EN) addEn('child', t, 'banco/casi');
+  for (const t of NO_HEAR_BANK_EN) addEn('child', t, 'banco/no-oido');
+  for (const t of TOGETHER_BANK_EN) addEn('child', t, 'banco/juntos');
+  for (const t of MIC_VERDICT_SAY_EN) addEn('child', t, 'ejercicios/veredicto');
+  addEn('child', SESSION_CONTINUE_PHRASE_EN, 'tpr/fin');
+  addEn('clinical', ROUTE_DONE_PHRASE_EN, 'rutas/fin');
+  addEn('child', PAIRS_DONE_PHRASE_EN, 'pares/fin');
+  addEn('child', ROLESWAP_INTRO_EN, 'pares/roleswap');
+  addEn('child', ROLESWAP_NOT_HEARD_EN, 'pares/roleswap');
+  addEn('child', ROLESWAP_HIT_EN, 'pares/roleswap');
+  addEn('child', ROLESWAP_MISS_OTHER_EN, 'pares/roleswap');
+  // La muestra de voz es la ÚNICA locución inglesa que suena hoy en la app: es
+  // lo que reproduce «Test the voice» al elegir English (US) en el selector,
+  // con la sesión todavía en contenido castellano (build de evaluación EN-0.9).
+  addEn('child', VOICE_SAMPLE_PHRASE_EN, 'util/muestra');
 
   return Array.from(entries.values());
 }

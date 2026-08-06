@@ -1,10 +1,10 @@
 {
- "generatedAt": "2026-08-04T11:45:51.878Z",
- "entries": 2438,
+ "generatedAt": "2026-08-06T06:31:30.478Z",
+ "entries": 2465,
  "byStyle": {
-  "child": 1293,
+  "child": 1319,
   "slow": 569,
-  "clinical": 27,
+  "clinical": 28,
   "tutor": 549
  },
  "bySource": {
@@ -14,19 +14,20 @@
   "pares/correccion": 27,
   "pares/retry": 27,
   "pares/modelado": 27,
-  "pares/roleswap": 64,
-  "pares/fin": 3,
+  "pares/roleswap": 68,
+  "pares/fin": 4,
   "tpr": 72,
-  "tpr/fin": 3,
+  "tpr/fin": 4,
   "rutas": 24,
-  "rutas/fin": 3,
-  "banco/elogio": 18,
-  "banco/casi": 12,
-  "banco/no-oido": 9,
-  "banco/juntos": 9,
-  "util/muestra": 3,
+  "rutas/fin": 4,
+  "banco/elogio": 24,
+  "banco/casi": 16,
+  "banco/no-oido": 12,
+  "banco/juntos": 12,
+  "util/muestra": 4,
   "expansion": 1278,
-  "ejercicios": 778
+  "ejercicios": 778,
+  "ejercicios/veredicto": 3
  },
  "corpus": [
   {
@@ -17094,6 +17095,195 @@
    "style": "slow",
    "text": "gorria, urdina, berdea, horia, berdea, horia, gorria, urdina, urdina, berdea, horia, gorria",
    "source": "ejercicios"
+  },
+  {
+   "id": "en_child_56a13493_31",
+   "lang": "en",
+   "style": "child",
+   "text": "Awesome! You said it perfectly!",
+   "source": "banco/elogio"
+  },
+  {
+   "id": "en_child_ac0e65ae_24",
+   "lang": "en",
+   "style": "child",
+   "text": "Yes! That sounded great!",
+   "source": "banco/elogio"
+  },
+  {
+   "id": "en_child_54f1bc6f_22",
+   "lang": "en",
+   "style": "child",
+   "text": "You got it! Nice work!",
+   "source": "banco/elogio"
+  },
+  {
+   "id": "en_child_83b43e94_44",
+   "lang": "en",
+   "style": "child",
+   "text": "Wonderful! You’re getting better every time!",
+   "source": "banco/elogio"
+  },
+  {
+   "id": "en_child_27a7e3f1_31",
+   "lang": "en",
+   "style": "child",
+   "text": "Super! That was nice and clear!",
+   "source": "banco/elogio"
+  },
+  {
+   "id": "en_child_cb1d8824_26",
+   "lang": "en",
+   "style": "child",
+   "text": "Way to go! Great speaking!",
+   "source": "banco/elogio"
+  },
+  {
+   "id": "en_child_a6653f74_41",
+   "lang": "en",
+   "style": "child",
+   "text": "So close! Listen carefully and try again…",
+   "source": "banco/casi"
+  },
+  {
+   "id": "en_child_acc248ea_33",
+   "lang": "en",
+   "style": "child",
+   "text": "Almost! Let’s give it another go.",
+   "source": "banco/casi"
+  },
+  {
+   "id": "en_child_74869ae7_40",
+   "lang": "en",
+   "style": "child",
+   "text": "You’ve almost got it! Listen and repeat.",
+   "source": "banco/casi"
+  },
+  {
+   "id": "en_child_4f0df528_51",
+   "lang": "en",
+   "style": "child",
+   "text": "A little bit more and you’ve got it. One more time!",
+   "source": "banco/casi"
+  },
+  {
+   "id": "en_child_3a7c94c0_41",
+   "lang": "en",
+   "style": "child",
+   "text": "I didn’t quite hear you. Let’s try again!",
+   "source": "banco/no-oido"
+  },
+  {
+   "id": "en_child_6e121e4c_66",
+   "lang": "en",
+   "style": "child",
+   "text": "Oops, your voice didn’t reach me! Come closer and we’ll try again.",
+   "source": "banco/no-oido"
+  },
+  {
+   "id": "en_child_394459ec_47",
+   "lang": "en",
+   "style": "child",
+   "text": "I missed your word. Say it to me one more time!",
+   "source": "banco/no-oido"
+  },
+  {
+   "id": "en_child_d319ed75_37",
+   "lang": "en",
+   "style": "child",
+   "text": "Let’s say it together, nice and slow.",
+   "source": "banco/juntos"
+  },
+  {
+   "id": "en_child_970c2ad0_47",
+   "lang": "en",
+   "style": "child",
+   "text": "We’ll say it at the same time, slowly, no rush.",
+   "source": "banco/juntos"
+  },
+  {
+   "id": "en_child_bc791ff0_39",
+   "lang": "en",
+   "style": "child",
+   "text": "Now as a team: we both say it together.",
+   "source": "banco/juntos"
+  },
+  {
+   "id": "en_child_7907cac1_33",
+   "lang": "en",
+   "style": "child",
+   "text": "Let’s listen to it one more time.",
+   "source": "ejercicios/veredicto"
+  },
+  {
+   "id": "en_child_559b700f_27",
+   "lang": "en",
+   "style": "child",
+   "text": "Almost! Let’s try it again.",
+   "source": "ejercicios/veredicto"
+  },
+  {
+   "id": "en_child_b61752d6_33",
+   "lang": "en",
+   "style": "child",
+   "text": "Great job! You said it perfectly!",
+   "source": "ejercicios/veredicto"
+  },
+  {
+   "id": "en_child_06c2bd9a_45",
+   "lang": "en",
+   "style": "child",
+   "text": "Great job! Let’s keep going with the session!",
+   "source": "tpr/fin"
+  },
+  {
+   "id": "en_clinical_350b2f90_50",
+   "lang": "en",
+   "style": "clinical",
+   "text": "Route complete. Let’s keep going with the session.",
+   "source": "rutas/fin"
+  },
+  {
+   "id": "en_child_3eb03e9f_50",
+   "lang": "en",
+   "style": "child",
+   "text": "Word pairs complete! High five with your grown-up!",
+   "source": "pares/fin"
+  },
+  {
+   "id": "en_child_cc3baac0_59",
+   "lang": "en",
+   "style": "child",
+   "text": "Switch! Now the child is in charge and the grown-up speaks.",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "en_child_3b0a52e7_50",
+   "lang": "en",
+   "style": "child",
+   "text": "I didn’t hear the grown-up clearly. One more time!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "en_child_370e1dd1_32",
+   "lang": "en",
+   "style": "child",
+   "text": "That’s it! What great listening!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "en_child_4dd1430e_58",
+   "lang": "en",
+   "style": "child",
+   "text": "Oops! It was the other one. Listen again on the next turn!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "en_child_fdbcd555_76",
+   "lang": "en",
+   "style": "child",
+   "text": "Hi! This is how my voice will sound in the exercises. Doesn’t it sound nice?",
+   "source": "util/muestra"
   }
  ]
 }

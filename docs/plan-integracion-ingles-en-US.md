@@ -14,11 +14,17 @@
 > todo, **compartían la interfaz en castellano**. El inglés no puede: una
 > familia de Ohio no va a navegar una app cuyos botones dicen «Continuar».
 >
-> Estado: 🟡 **Fase 0 en curso** · Decisiones ya cerradas: **revisión clínica
-> confirmada** (profesora SLP con licencia, *Howard University* — EN-0.3),
-> **separación de ejes UI/terapia aprobada** (§5.1) y **guía dialectal como
-> regla bloqueante** (EN-0.5). Rama de trabajo:
-> `claude/us-english-integration-plan-pne3ge`
+> Estado: 🟢 **Fase 2 cerrada en lo esencial · Fase 4 (voz) integrada** · La app
+> se usa entera en inglés y la variedad **English (US)** ya está en el selector
+> de «Voz de la app» con **voz neuronal Piper `en_US` empaquetada**. Lo que
+> falta para que el inglés sea inglés de verdad es la **Fase 3**: el contenido
+> clínico, bloqueado por la guía dialectal (EN-0.5) y por el informe de la
+> revisora (EN-0.9). Decisiones cerradas: **revisión clínica confirmada**
+> (profesora SLP con licencia, *Howard University* — EN-0.3), **separación de
+> ejes UI/terapia** (§5.1), **guía dialectal como regla bloqueante** (EN-0.5),
+> **licencia y voz Piper** (EN-0.1 / EN-0.2) y **contenido castellano mientras
+> el banco inglés no exista** (§9.1). Rama de trabajo:
+> `claude/english-neural-voice-integration-758skt`
 
 ---
 
@@ -114,7 +120,7 @@ futuro de interfaz.
 
 | Recurso | Qué es | Uso en Valeria+ | Licencia |
 | --- | --- | --- | --- |
-| **Piper `en_US`** (`rhasspy/piper-voices`: `en_US-lessac-medium`, `en_US-hfc_female-medium`, `en_US-amy-medium`, `en_US-ryan-high`) | Voces VITS abiertas en inglés americano | Pre-generar en CI el audio de todas las consignas inglesas y empaquetarlo como assets | **Varía por voz** (CC0 / CC BY / MIT según dataset): verificar la `MODEL_CARD` de cada una en EN-0.1 |
+| **Piper `en_US`** → ✅ **`en_US-ljspeech-high`** (`rhasspy/piper-voices`) | Voz VITS abierta en inglés americano, femenina | Pre-generar en CI el audio de todas las consignas inglesas y empaquetarlo como assets | **MIT** (modelo) sobre **LJSpeech**, grabaciones de LibriVox en **dominio público**. Auditoría completa en EN-0.1: `hfc_female` y `lessac`, las dos candidatas del plan original, **quedaron descartadas** |
 | **ASR del sistema** (`expo-speech-recognition`, `en-US`) | Reconocimiento nativo Android/iOS | Juegos de micrófono; primera variedad donde `requiresOnDeviceRecognition` debería resolver en local de forma habitual | Plataforma |
 | **CMUdict** (Carnegie Mellon Pronouncing Dictionary) | Diccionario fonético de ~134k palabras del inglés americano | Validar que cada par mínimo candidato **contrasta exactamente un fonema** y generar los `stt_expected` a partir de la transcripción real, no de la intuición | BSD-like (libre) |
 | **SUBTLEX-US** / **Wordbank–CDI (MacArthur-Bates)** | Normas de frecuencia léxica y de edad de adquisición del inglés americano infantil | Ordenar el vocabulario por **familiaridad**, que es el criterio declarado del campo `difficulty` (ver [`criterio-dificultad-lexica.md`](./criterio-dificultad-lexica.md)) | Académica / CC |
@@ -316,8 +322,8 @@ Convención de tareas: `EN-<fase>.<n>`. Cada tarea indica **Entregable** y
 
 | Tarea | Descripción | Entregable / CA |
 | --- | --- | --- |
-| **EN-0.1** | Auditar licencias de las voces Piper `en_US` candidatas (leer la `MODEL_CARD` de cada una: las licencias **no son uniformes** dentro de `rhasspy/piper-voices`) y redactar la atribución | Texto legal para `ValeriaCreditsScreen`; CA: licencia compatible con uso comercial confirmada por escrito |
-| **EN-0.2** | Elegir la voz escuchando muestras con consignas reales de la app (propuesta: femenina y cálida, homóloga de Sharvard/Celtia/Maider; candidatas `en_US-hfc_female-medium` y `en_US-lessac-medium`) | Decisión registrada aquí; CA: audio de muestra aprobado |
+| **EN-0.1** ✅ | Auditar licencias de las voces Piper `en_US` candidatas y redactar la atribución. **Resultado: las dos candidatas que proponía este plan no sirven.** `en_US-hfc_female-medium` sale del dataset *Hi-Fi Captain* (NICT), **CC BY-NC-SA 4.0 → uso no comercial**; `en_US-lessac-medium` sale del *Blizzard Challenge 2013*, con licencia de investigación. Apta y elegida: **`en_US-ljspeech-high`** (modelo MIT sobre grabaciones de LibriVox en dominio público); alternativa también apta, `en_US-amy-medium` (MIT) | Atribución en `ValeriaCreditsScreen` ✅ · CA: licencia comercial confirmada ✅. **Era el riesgo de §8 y se materializó**: de haber sintetizado con la candidata propuesta, el banco inglés entero habría sido inutilizable |
+| **EN-0.2** ✅⏳ | Elegir la voz escuchando muestras con consignas reales de la app. Elegida por defecto **`en_US-ljspeech-high`** —femenina, de lectura pausada, la homóloga natural de Sharvard— por ser la única candidata de calidad `high` con licencia comercial limpia. Para comparar sin tocar código: `python3 scripts/generate-voice-assets.py --lang en --voice en_US-amy-medium` | Decisión registrada aquí ✅; ⏳ **pendiente del visto bueno de Frank tras escuchar las 27 locuciones inglesas ya sintetizadas** |
 | **EN-0.3** ✅ | Confirmar persona revisora: **SLP con licencia en EE. UU.** para las Fases 3, 5 y 7 → **profesora SLP con licencia de *Howard University*** (asesoría confirmada, ago 2026) | CA: revisora confirmada ✅ · pendiente acordar el **flujo de revisión** (formato de entrega, tiempos y qué constituye «aprobado») antes de abrir la Fase 3 |
 | **EN-0.4** | Verificar en dispositivos objetivo: voces TTS `en-US` del sistema, ASR `en-US` y —clave— disponibilidad real de **reconocimiento local** (`supportsOnDeviceRecognition`) | Tabla de soporte por plataforma en `docs/`; CA: sabemos si la promesa de audio-que-no-sale-del-móvil se sostiene en `en-US` |
 | **EN-0.5** 🔴 | Redactar [`docs/guia-dialectal-en-US.md`](./guia-dialectal-en-US.md): qué es rasgo dialectal normal (**AAE**, inglés sureño, inglés con influencia del español) y qué es objetivo terapéutico. **Regla bloqueante para todo dataset `en`.** Es la tarea de más riesgo del plan (§8) y la primera que se pone sobre la mesa de la revisora de EN-0.3 | Guía firmada por EN-0.3; CA: cada par mínimo candidato lleva veredicto dialectal explícito |
@@ -363,8 +369,8 @@ se extiende.*
 | --- | --- | --- |
 | **EN-1.1** | Extender `valeriaLocale.ts`: `Locale += 'en-US'`, `ALL_LOCALES`, `isLocale`, `assetLang('en-US')='en'`, `speechLocale('en-US')='en-US'`, `prefersLatinVoice` sin cambios | CA: la variedad se selecciona y persiste en `AsyncStorage` y en la ficha del paciente |
 | **EN-1.2** | Extender `VoiceLang` en `valeriaVoiceCorpus.ts` a `'es'\|'gl'\|'eu'\|'en'`; el prefijo de id ya lo aplica `voiceCorpusId` a todo `lang ≠ es` | CA: `buildVoiceCorpus()` compila y acepta entradas `en` sin colisión de ids |
-| **EN-1.3** | Añadir **«English (US)»** al selector «Voz de la app» (`ValeriaVoiceUI`) y al refinamiento por paciente, con su muestra de voz | CA: con `en-US` activa, la app enruta a los bancos ingleses |
-| **EN-1.4** | Crear los módulos `*En.ts` con contenido provisional mínimo (1 par mínimo, 1 cápsula TPR, frases fijas) para probar el cableado extremo a extremo | CA: una sesión en `en-US` muestra y locuta el contenido provisional con la voz del sistema `en-US` |
+| **EN-1.3** ✅ | Añadir **«English (US)»** al selector «Voz de la app» (`ValeriaVoiceUI`), marcada `beta`, con su muestra de voz y **arrastrando el idioma de interfaz** (`syncUiLangToLocale`, §5.1) | CA: elegir la variedad pone la UI en inglés salvo que el adulto haya fijado el idioma a mano ✅ · «Probar la voz» suena con Piper `en_US` ✅. El **refinamiento por paciente** queda fuera: hoy no existe selector de variedad en la ficha en NINGUNA variedad, así que sería una función nueva, no la extensión de una |
+| **EN-1.4** ✅⏳ | Crear los módulos `*En.ts` con contenido provisional mínimo. Hecho **solo la mitad no clínica**: `valeriaContentEn.ts` trae las frases de aplicación (refuerzo, veredictos, muestra, cierres, rotación de roles) y el corpus las hornea. El par mínimo y la cápsula TPR **no se escriben aquí**: son dataset `en` y los bloquea EN-0.5 | CA: `buildVoiceCorpus()` enumera 27 locuciones `en` ✅ · ⏳ el recorrido completo con contenido inglés depende de la Fase 3 |
 | **EN-1.5** | Verificar que ninguna pantalla de terapia asume castellano: todo pasa por `pairsForLocale`, `semanticForLocale`, `dbForLocale`, `emoForLocale` | CA: recorrido completo en `en-US` sin caer a datos de otra variedad |
 
 **Salida de fase:** app con cinco variedades funcional e inglés de muestra.
@@ -408,6 +414,17 @@ evaluación de EN-0.9**.
 > EN-2.5 · EN-2.6. La app se usa entera en inglés, notificaciones y permisos
 > incluidos. Quedan EN-2.7 (tratamiento de Academy con UI inglesa) y EN-2.8
 > (gate `check-ui-strings.js`). **EN-0.9 listo para generarse.**
+>
+> **Tramo 6 (ago 2026), no previsto en la lista original.** Los cinco tramos
+> iban por PANTALLAS, y `ValeriaVoiceUI.tsx` no es una pantalla: es el fichero
+> de componentes compartidos (botón de escucha, mapa del turno, juego de
+> micrófono, registro de respuesta, tarjeta «Voz de la app» y bloque de
+> privacidad del micrófono) que se incrusta dentro de pantallas ya migradas.
+> Se quedó fuera de los cinco tramos y dejaba la mitad del hub de ejercicios en
+> castellano con la UI en inglés — justo el defecto que EN-2.8 existe para
+> impedir. Migrado ahora junto con EN-1.3, que vive en el mismo fichero. **Es la
+> evidencia de que el gate `check-ui-strings.js` hace falta**: el repaso a ojo
+> ya se dejó un fichero de 750 líneas.
 
 ---
 
@@ -440,11 +457,11 @@ Sharvard, así que es configuración y CI, no ingeniería nueva.*
 
 | Tarea | Descripción | Entregable / CA |
 | --- | --- | --- |
-| **EN-4.1** | Añadir `VOICES['en']` en `scripts/generate-voice-assets.py` (engine `piper`, voz de EN-0.2, URLs `.onnx` + `.onnx.json`) y soportar `--lang en` | CA: `python3 scripts/generate-voice-assets.py --lang en` sintetiza de forma incremental y escribe `assets/voice/*.m4a` + `voice-assets-manifest.en.json` |
-| **EN-4.2** | Extender `.github/workflows/voice-assets.yml` (matriz de idioma += `en`) y commitear los assets | CA: un push que cambie el corpus `en` regenera **solo** los assets `en` afectados |
-| **EN-4.3** | Verificar la integración runtime: `valeriaVoicePlayback` + `valeriaVoice` resuelven el asset `en` por id; orden audio empaquetado → voz del sistema `en-US` → nada de salto a otra variedad (la regla «cada variedad reproduce solo assets de su propia voz» ya está en producción) | CA: sesión completa en inglés con voz Piper; sin asset, degrada sin silencio y sin acento cruzado |
+| **EN-4.1** ✅ | Añadir `VOICES['en']` en `scripts/generate-voice-assets.py` (engine `piper`, voz de EN-0.2). Las URLs ya no se copian a mano: `piper_urls(nombre)` las deriva de la ruta regular de `rhasspy/piper-voices`, y de ahí sale gratis el `--voice` de EN-0.2 | CA: `python3 scripts/generate-voice-assets.py --lang en` sintetiza de forma incremental y escribe `assets/voice/*.m4a` + `voice-assets-manifest.en.json` ✅ (las URLs `es` salen idénticas a las anteriores: sin resíntesis de Sharvard) |
+| **EN-4.2** ✅ | Extender `.github/workflows/voice-assets.yml` con el paso `en`. No necesita instalar nada: `piper-tts` ya está para Sharvard, y el script sale sin descargar el modelo cuando el idioma está al día. `scripts/check-voice-corpus-coverage.js` pasa a cubrir `en`, pero **solo desde que el banco tiene su primer asset**: exigirlo antes dejaría el build de la rama en rojo sin salida (el `workflow_run` que lo relanza solo actúa desde la rama por defecto) | CA: un push que cambie el corpus `en` regenera **solo** los assets `en` afectados |
+| **EN-4.3** ⏳ | Verificar la integración runtime: `valeriaVoicePlayback` + `valeriaVoice` resuelven el asset `en` por id; orden audio empaquetado → voz del sistema `en-US` → nada de salto a otra variedad. **Camino cableado y probado en la muestra de voz** (`speakVoiceSample` resuelve el asset `en_*` y, sin él, cae a `en-US` del sistema sin arrastrar la voz española cacheada). La sesión completa depende de la Fase 3 | CA: sesión completa en inglés con voz Piper ⏳; sin asset, degrada sin silencio y sin acento cruzado ✅ |
 | **EN-4.4** | Medir el impacto en tamaño (referencia: ~10 MB AAC por variedad; con `en` serían cinco bancos) y decidir según EN-0.6 si todo viaja en el mismo binario o se descarga bajo demanda | Nota de tamaño en este documento; CA: build EAS dentro del presupuesto acordado |
-| **EN-4.5** | Añadir los créditos de la voz Piper `en_US` a `ValeriaCreditsScreen` junto a Sharvard, Celtia y HiTZ | CA: atribución visible en la app |
+| **EN-4.5** ✅ | Añadir los créditos de la voz Piper `en_US` a `ValeriaCreditsScreen` junto a Sharvard, Celtia y HiTZ | CA: atribución visible en la app ✅ (en los dos catálogos, con la mención al dominio público de LibriVox) |
 
 **Salida de fase:** experiencia inglesa con voz neuronal, offline.
 **Depende de:** Fase 3 (necesita las cadenas finales y EN-3.8).
@@ -549,7 +566,7 @@ es el camino más corto al lanzamiento.
 | El ASR falla con habla infantil inglesa y el reconocedor «corrige» hacia palabras frecuentes | Medio-alto | El adulto sigue siendo juez final; `stt_expected` ajustados en dispositivo real (EN-5.2); auditoría `asr:audit-pairs` para que el distractor nunca puntúe como acierto |
 | Tamaño de la app con cinco bancos de audio | Medio | Hash por contenido (regenera solo lo cambiado), AAC a 40 kbps, y decisión de empaquetado en EN-0.6 / EN-4.4 (binario único vs. descarga bajo demanda) |
 | **COPPA** obliga a cambiar lo que la app recoge de menores | Medio-alto (producto) | Arrancar EN-6.1 desde la Fase 0, no al final: si obliga a recortar telemetría o cuentas, mejor saberlo antes de construir |
-| Licencia de la voz Piper elegida resulta no ser apta para uso comercial | Medio | EN-0.1 verifica la `MODEL_CARD` **voz por voz** antes de sintetizar nada; hay varias candidatas |
+| ~~Licencia de la voz Piper elegida resulta no ser apta para uso comercial~~ **MATERIALIZADO Y RESUELTO** | Medio | Ocurrió: las **dos** candidatas del plan eran inservibles (`hfc_female` CC BY-NC-SA, `lessac` licencia Blizzard). EN-0.1 lo cazó antes de sintetizar nada y la variedad entró con `ljspeech` (MIT + dominio público). Lección para la próxima lengua: auditar la `MODEL_CARD` **antes** de escribirla en el plan, no después |
 | Soporte y atención en inglés (correo de contacto, respuestas de tienda) | Bajo-medio | El correo de contacto es el fijo del proyecto; prever plantillas de respuesta en inglés en la Fase 6 |
 
 ## 9. Decisiones
@@ -561,6 +578,8 @@ es el camino más corto al lanzamiento.
 | **Revisión clínica** (EN-0.3) | **Profesora SLP con licencia de *Howard University***. Era el cuello de botella real del plan, como lo fueron ACOPROS, la revisora gallegohablante y Ulertuz | ago 2026 |
 | **Ejes UI / terapia** (§5.1) | Se **separan**: `UiLang` (`es`\|`en`) independiente de `Locale`, con defecto derivado y desacople explícito por el adulto | ago 2026 |
 | **Guía dialectal** (EN-0.5) | **Regla bloqueante**: ningún dataset `en` entra en `main` sin veredicto dialectal firmado | ago 2026 |
+| **Qué se locuta mientras no exista el banco inglés** | **Castellano, con voz castellana.** Con `en-US` activa y la Fase 3 sin escribir, las pantallas ya caían al banco castellano; lo que faltaba era impedir que la voz y el micrófono siguieran pidiendo `en-US`, porque un TTS inglés leyendo «perro» no suena a castellano con acento, suena a ruido. Punto único: `EN_THERAPY_CONTENT_READY` en `valeriaLocale.ts` — mientras sea `false`, `contentLocale('en-US')` es `'es'` y de ahí beben el banco de audio, el locale de voz/ASR y el perfil de prosodia. Lo único que suena en inglés es lo que **está escrito** en inglés: la muestra de voz. Al cerrar EN-3.8 se pone a `true` y la variedad se comporta como el resto | ago 2026 |
+| **Voz Piper `en_US`** (EN-0.1 / EN-0.2) | **`en_US-ljspeech-high`** (MIT sobre LibriVox en dominio público). Las dos candidatas del plan original, descartadas por licencia | ago 2026 |
 | **Cómo puntúa un rasgo dialectal** (EN-0.5) | **Como ACIERTO.** Un rasgo regular de la variedad del niño no es un error terapéutico y no puede restar. Decisión de producto de Frank, **pendiente de confirmación por la revisora** (es la pregunta 2 del [protocolo de evaluación](./protocolo-evaluacion-clinica-en-US.md)) | ago 2026 |
 
 ### 9.2 Abiertas (para Frank)
@@ -584,11 +603,11 @@ Estas cuatro no las puede cerrar el plan; condicionan fases enteras:
 
 Checklist maestro (marcar al completar; una PR por tarea o grupo pequeño):
 
-- [~] **Fase 0**: EN-0.1 · EN-0.2 · **EN-0.3 ✅** (revisora confirmada; falta acordar el flujo de revisión) · EN-0.4 · EN-0.5 🔴 · EN-0.6 · EN-0.7 · EN-0.8 · **EN-0.9 🔴** (protocolo ✅, build pendiente del tramo 4 de EN-2.3)
-- [~] **Fase 1**: **EN-1.1 ✅** (`Locale += 'en-US'`) · **EN-1.2 ✅** (`VoiceLang += 'en'`) · EN-1.3 · EN-1.4 · EN-1.5
+- [~] **Fase 0**: **EN-0.1 ✅** (licencias auditadas; dos candidatas descartadas) · **EN-0.2 ✅⏳** (`ljspeech-high`; falta que Frank la escuche) · **EN-0.3 ✅** (revisora confirmada; falta acordar el flujo de revisión) · EN-0.4 · EN-0.5 🔴 · EN-0.6 · EN-0.7 · EN-0.8 · **EN-0.9 🔴** (protocolo ✅, build ya generable)
+- [~] **Fase 1**: **EN-1.1 ✅** (`Locale += 'en-US'`) · **EN-1.2 ✅** (`VoiceLang += 'en'`) · **EN-1.3 ✅** (selector + arrastre de UI) · **EN-1.4 ✅⏳** (frases de app; el dataset clínico lo bloquea EN-0.5) · EN-1.5
 - [~] **Fase 2**: **EN-2.1 ✅** (catálogo tipado + `useT`) · **EN-2.2 ✅** (selector con modo automático) · EN-2.3 ⏳ (tramo 1/5) · EN-2.4 · EN-2.5 · EN-2.6 · EN-2.7 · EN-2.8
 - [ ] **Fase 3**: EN-3.1 · EN-3.2 · EN-3.3 · EN-3.4 · EN-3.5 · EN-3.6 · EN-3.7 · EN-3.8
-- [ ] **Fase 4**: EN-4.1 · EN-4.2 · EN-4.3 · EN-4.4 · EN-4.5
+- [~] **Fase 4**: **EN-4.1 ✅** · **EN-4.2 ✅** · **EN-4.3 ⏳** (cableado y probado en la muestra; la sesión completa espera a la Fase 3) · EN-4.4 · **EN-4.5 ✅**
 - [ ] **Fase 5**: EN-5.1 · EN-5.2 · EN-5.3 · EN-5.4
 - [ ] **Fase 6**: EN-6.1 · EN-6.2 · EN-6.3 · EN-6.4 · EN-6.5 · EN-6.6
 - [ ] **Fase 7**: EN-7.1 · EN-7.2 · EN-7.3 · EN-7.4 · EN-7.5

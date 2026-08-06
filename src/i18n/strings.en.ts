@@ -45,7 +45,9 @@ export const EN: UiStrings = {
     voiceCredit:
       'Neural voice in Spanish: "Sharvard" (Piper · rhasspy/piper-voices). '
       + 'In Galician: "Celtia" · Proxecto Nós. '
-      + 'In Basque: HiTZ-TTS · ILENIA/NEL-GAITU (UPV/EHU · Aholab).',
+      + 'In Basque: HiTZ-TTS · ILENIA/NEL-GAITU (UPV/EHU · Aholab). '
+      + 'In English: "LJSpeech" (Piper · rhasspy/piper-voices, MIT), built from '
+      + 'public-domain LibriVox recordings.',
     arCredit:
       'Augmented Reality: face tracking with MediaPipe Tasks (Google, Apache 2.0) '
       + 'and 3D rendering with Filament (Google, Apache 2.0), both running entirely '
@@ -918,6 +920,140 @@ export const EN: UiStrings = {
         body: 'If they point at a dog and say “woof woof”, don’t say “that’s not how you say it”: give the sentence back improved — “yes, it’s a big dog!”. If they say “water”, answer “you want to drink water”. Expanding their words without criticizing gives them the correct model and confirms that their attempt to communicate worked and mattered.',
       },
     ],
+  },
+
+  voice: {
+    listen: 'Listen',
+    listenA11y: (text: string): string => `Listen: ${text}`,
+
+    phaseListen: 'Listen',
+    phaseRepeat: 'Repeat',
+    phaseVerdict: 'Result',
+    phaseMission: 'Mission',
+    currentPhase: (label: string): string => `Current step: ${label}`,
+
+    micKicker: '🎤 VOICE GAME · THE CHILD’S TURN!',
+    micPrompt: (target: string): string => `Tap the mic and have them say: “${target}”`,
+    micHearModel: 'Hear the model',
+    micStartA11y: 'Start listening',
+    micStopA11y: 'Stop listening',
+    micListening: 'Listening…',
+    micTapToSpeak: 'Tap to speak',
+    micHeard: 'The app heard:',
+    micUnavailable:
+      'The microphone game works in the installed app (APK). In the meantime, your child can repeat '
+      + 'the word and you score it below.',
+    micVerdicts: [
+      { icon: '👂', title: 'Let’s try together', sub: 'Listen to the word slowly and say it together.' },
+      { icon: '💪', title: 'So close!', sub: 'That was very close. Repeat the model and try again.' },
+      { icon: '🎉', title: 'They nailed it!', sub: 'The app understood the target word.' },
+    ],
+
+    captureKicker: '📝 RECORD THEIR ANSWER',
+    capturePrompt: 'Record with the mic or type what your child said.',
+    capturePlaceholder: 'Type what they said here…',
+    captureWriteA11y: 'Type the child’s answer',
+    captureRecordA11y: 'Record the answer with the microphone',
+    captureStopA11y: 'Stop recording',
+    captureListening: 'Listening… speak now',
+    captureOk: '✓ Answer saved: it will be stored with the session in Results.',
+
+    cardTitle: 'App voice',
+    varietyLabel: 'Voice variety',
+    localeEs: 'Spanish (Spain)',
+    localeGl: 'Galician',
+    localeEsDO: 'Dominican Spanish',
+    localeEu: 'Basque',
+    localeEnUS: 'English (US)',
+    varietyA11y: (label: string, beta: boolean): string =>
+      `${label} voice${beta ? ', in testing' : ''}`,
+
+    chipChecking: 'Checking…',
+    chipNatural: '✓ Natural voice',
+    chipStandard: 'Standard voice',
+    chipPoor: 'Voice can be improved',
+    chipCeltia: '✓ Celtia voice',
+    chipHitz: '✓ HiTZ ahotsa',
+    chipPiperEn: '✓ Piper en_US',
+
+    detailSearching: 'Looking for the best Spanish voice installed on this device…',
+    detailNoVoice:
+      'There is no Spanish voice installed: the app cannot read the prompts out loud until you '
+      + 'download one.',
+    detailDo: (name: string): string =>
+      `In Dominican Spanish the app uses the device’s Latin American voice${name ? ` (“${name}”)` : ''} `
+      + 'and the microphone in es-DO. If it sounds European or robotic, install a Spanish (Latin '
+      + 'America) voice.',
+    detailGood: (name: string): string =>
+      `The app will use the best voice on this device${name ? ` (“${name}”)` : ''}. It sounds natural, `
+      + 'not robotic.',
+    detailAndroidPoor:
+      'This device only offers a basic voice and it may sound robotic. Install the Google voices '
+      + '(free and offline) so the app sounds natural.',
+    detailIosPoor:
+      'You can improve the voice in Settings → Accessibility → Spoken Content → Voices → English, '
+      + 'downloading the enhanced voice.',
+    detailEnPending:
+      'The English neural voice (Piper en_US) already ships with the app: tap “Test the voice” to hear '
+      + 'it. The English exercises are still in clinical review, so for now the session keeps its '
+      + 'content and voice in Spanish; what does change when you pick this variety is the language of '
+      + 'the interface.',
+
+    testVoice: '▶ Test the voice',
+    testVoiceA11y: 'Hear how the voice sounds',
+    installGoogle: '⬇️ Install the Google voices',
+    installGoogleA11y: 'Install the Google voices',
+    recheck: '🔄 Check again',
+    recheckA11y: 'Check the voice again',
+    installHint:
+      'After installing: Settings → System → Text-to-speech output → pick “Google Speech Services” and '
+      + 'download the Spanish (Spain) voice. Then come back here and tap “Check again”.',
+
+    privCapture:
+      '⏺ CORPUS CAPTURE IS ON. This build stores the audio of the speaking turn on the device. It is '
+      + 'not a production build: it must not be used in a normal session or left on a family’s device.',
+    privKicker: 'EXERCISE MICROPHONE',
+    privChipLocal: 'On the phone',
+    privChipNet: 'System service',
+    privChecking: 'Checking where your child’s voice is processed for this variety…',
+    privLocal: (label: string): string =>
+      `In ${label}, recognition happens inside the phone: the audio of the speaking turn never leaves `
+      + 'the device.',
+    privLocalFailed: (label: string): string =>
+      `The ${label} pack shows as installed, but when it came to actually listening, the phone’s `
+      + 'recognizer did not start. So the exercise would not break, the app fell back to the system '
+      + 'recognition service, which may send audio to its servers. Tap “Check again” to retry on-device.',
+    privNotCapable: (label: string): string =>
+      `This device cannot recognize speech offline, so in ${label} the audio of the speaking turn is `
+      + 'handled by the system recognition service, which may send it to its servers.',
+    privNoService: (label: string): string =>
+      `This device exposes no speech recognition service at all, so in ${label} the microphone game `
+      + 'cannot work. Check in Settings that the system speech recognition is installed and enabled.',
+    privCanDownload: (label: string): string =>
+      `This phone can recognize speech offline, but the ${label} pack is missing. In the meantime the `
+      + 'audio of the speaking turn is handled by the system service, which may send it to its servers.',
+    privNoDownload: (label: string): string =>
+      `The ${label} pack is missing and this version of Android does not allow downloading it from the `
+      + 'app. You can install it in Settings → System → Languages → Voice input; until then the audio '
+      + 'is handled by the system service.',
+    privOffer: (label: string): string =>
+      `If you download the ${label} pack, your child’s voice stops leaving the phone. It takes up space `
+      + 'and downloads only once; the exercises work just the same if you would rather not.',
+    privDownload: '⬇️ Download the pack',
+    privDownloadA11y: (label: string): string => `Download the ${label} speech recognition pack`,
+    privNotNow: 'Not now',
+    privNotNowA11y: 'Do not download the speech pack',
+    privRecheckA11y: 'Check again where speech is recognized',
+    privNoteOk: '✓ Pack downloaded. From now on, speech is recognized inside the phone.',
+    privNoteDialog: 'The system download screen opened. When it finishes, tap “Check again”.',
+    privNoteCancelled: 'Download cancelled. The system recognition service is still being used.',
+    privNoteFailed:
+      'The download could not be requested on this device. You can do it from Settings → System → '
+      + 'Languages → Voice input.',
+    privNoteDeclined: 'No problem: the exercises work just the same with the system recognition.',
+    privLastListen: (local: boolean): string =>
+      `Last listen this session: ${local ? 'on the phone' : 'system service'}.`,
+    privRecognizer: (name: string): string => `System recognizer: ${name}.`,
   },
 
   settings: {

@@ -32,10 +32,11 @@ import {
   VOICE_SAMPLE_PHRASE_EU,
   PRAISE_BANK_EU, ALMOST_BANK_EU, NO_HEAR_BANK_EU, TOGETHER_BANK_EU,
 } from './valeriaContentEu';
+import { VOICE_SAMPLE_PHRASE_EN } from './valeriaContentEn';
 import { voiceCorpusId, VoiceStyle } from './valeriaVoiceCorpus';
 import { VOICE_ASSETS } from './valeriaVoiceAssets';
 import { playVoiceAsset, stopVoiceAsset } from './valeriaVoicePlayback';
-import { getLocale, assetLang, speechLocale, prefersLatinVoice } from './valeriaLocale';
+import { getLocale, assetLang, speechLocale, prefersLatinVoice, contentLocale } from './valeriaLocale';
 import { prosodyFor, splitForSpeech, tightenPauses } from './valeriaSpeechProsody';
 import { trackAsrMode } from './valeriaTelemetry';
 
@@ -198,7 +199,9 @@ const speakChain = (text: string, opts: Speech.SpeechOptions, token: number, rat
   // por frases o va de una tirada, y cuánto silencio se añade entre trozos. En
   // es-DO (voz del sistema) el troceo era la causa de las pausas anchas que
   // rompían el ritmo — ver valeriaSpeechProsody.
-  const prosody = prosodyFor(getLocale());
+  // contentLocale y no getLocale: mientras el banco inglés no exista, `en-US`
+  // locuta castellano, y el troceo/pausas tienen que ser los del castellano.
+  const prosody = prosodyFor(contentLocale());
   const sentences = splitForSpeech(text, prosody);
   if (!sentences.length) { onDone?.(); return; }
   const baseRate = rest.rate ?? 0.92;
@@ -357,9 +360,27 @@ export const speakClinical = (text: string, opts: Speech.SpeechOptions = {}) => 
 
 // Frase de prueba para que la familia escuche la voz elegida. En galego usa
 // la muestra propia, que resuelve el asset neuronal de Celtia (id gl_*).
+//
+// El inglés es el único caso que NO puede pasar por speakToChild: mientras el
+// banco clínico inglés no exista, contentLocale('en-US') es 'es' y todo lo demás
+// suena en castellano a propósito (ver valeriaLocale). Pero la muestra sí está
+// escrita en inglés, y es justo lo que el adulto quiere oír antes de elegir la
+// variedad: aquí se resuelve el asset `en_*` de Piper directamente y, si no
+// está empaquetado, se cae al TTS del sistema pidiéndole en-US.
 export const speakVoiceSample = () => {
   const l = getLocale();
+  if (l === 'en-US') { speakSampleEn(); return; }
   speakToChild(l === 'gl' ? VOICE_SAMPLE_PHRASE_GL : l === 'eu' ? VOICE_SAMPLE_PHRASE_EU : VOICE_SAMPLE_PHRASE);
+};
+
+const speakSampleEn = (): void => {
+  const source = VOICE_ASSETS[voiceCorpusId('child', VOICE_SAMPLE_PHRASE_EN, 'en')];
+  speakToken += 1;   // preempta cualquier cadena de expo-speech pendiente
+  Speech.stop();
+  stopVoiceAsset();
+  if (source != null && playVoiceAsset(source)) return;
+  // Sin `voice`: la mejor voz cacheada es española y leería el inglés como tal.
+  Speech.speak(VOICE_SAMPLE_PHRASE_EN, { language: 'en-US', pitch: 1.15, rate: 0.85 });
 };
 
 // Palabra objetivo bien articulada, muy despacio (modelado fonético).

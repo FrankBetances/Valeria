@@ -22,7 +22,17 @@ const path = require('path');
 const ROOT = path.join(__dirname, '..');
 const ENTRY = path.join(ROOT, 'src', 'valeriaVoiceCorpus.ts');
 const ASSETS_DIR = path.join(ROOT, 'assets', 'voice');
-const LANGS_WITH_ASSETS = ['es', 'gl', 'eu'];
+const LANGS_WITH_ASSETS = ['es', 'gl', 'eu', 'en'];
+
+// Idiomas que aún NO se exigen si su banco no se ha sintetizado NUNCA (cero
+// assets). Es la ventana de alta de una variedad nueva: el corpus `en` entra en
+// una PR y sus assets llegan después, en el commit del workflow «Generate Voice
+// Assets». Exigirlos antes dejaría el build de la rama en rojo sin salida —el
+// `workflow_run` que lo relanza solo actúa desde la rama por defecto, y el push
+// del bot no dispara workflows—. En cuanto existe UN asset del idioma, el banco
+// está generado y a partir de ahí cualquier locución sin asset es un defecto
+// real y bloquea igual que es/gl/eu.
+const LANGS_PENDING_FIRST_BATCH = ['en'];
 
 const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'valeria-voice-corpus-check-'));
 try {
@@ -42,21 +52,33 @@ try {
     fs.existsSync(ASSETS_DIR) ? fs.readdirSync(ASSETS_DIR).filter((f) => f.endsWith('.m4a')) : [],
   );
 
+  // Un idioma «pendiente del primer lote» se exige solo si ya tiene algún asset.
+  const generated = (lang) => corpus.some((e) => e.lang === lang && files.has(`${e.id}.m4a`));
+  const required = LANGS_WITH_ASSETS.filter(
+    (l) => !LANGS_PENDING_FIRST_BATCH.includes(l) || generated(l),
+  );
+  const waiting = LANGS_WITH_ASSETS.filter((l) => !required.includes(l));
+
   const missingByLang = {};
   let missingTotal = 0;
   for (const e of corpus) {
-    if (!LANGS_WITH_ASSETS.includes(e.lang)) continue; // es-DO: voz del sistema, sin asset
+    if (!required.includes(e.lang)) continue; // es-DO: voz del sistema, sin asset
     if (!files.has(`${e.id}.m4a`)) {
       missingByLang[e.lang] = (missingByLang[e.lang] ?? 0) + 1;
       missingTotal += 1;
     }
   }
 
-  const relevant = corpus.filter((e) => LANGS_WITH_ASSETS.includes(e.lang)).length;
-  console.log(`Corpus: ${corpus.length} locuciones (${relevant} en es/gl/eu, con asset esperado).`);
+  const relevant = corpus.filter((e) => required.includes(e.lang)).length;
+  console.log(`Corpus: ${corpus.length} locuciones (${relevant} en ${required.join('/')}, con asset esperado).`);
+  for (const lang of waiting) {
+    const n = corpus.filter((e) => e.lang === lang).length;
+    console.log(`Aviso: ${n} locuciones '${lang}' sin sintetizar todavía (alta de variedad en curso; `
+      + 'lanza «Generate Voice Assets» para hornearlas). No bloquea.');
+  }
 
   if (missingTotal > 0) {
-    console.error(`\n✖ Faltan ${missingTotal} assets de voz en es/gl/eu:`);
+    console.error(`\n✖ Faltan ${missingTotal} assets de voz en ${required.join('/')}:`);
     for (const [lang, n] of Object.entries(missingByLang)) console.error(`  · ${lang}: ${n} locuciones sin asset`);
     console.error(
       '\nUn cambio de texto locutado sin regenerar el corpus de voz degrada la sesión a la voz\n' +
@@ -79,7 +101,7 @@ try {
     process.exit(1);
   }
 
-  console.log('✓ Cobertura completa: toda locución en es/gl/eu tiene su asset de voz.');
+  console.log(`✓ Cobertura completa: toda locución en ${required.join('/')} tiene su asset de voz.`);
 } finally {
   fs.rmSync(tmp, { recursive: true, force: true });
 }

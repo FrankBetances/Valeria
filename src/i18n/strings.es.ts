@@ -44,7 +44,9 @@ export const ES = {
     voiceCredit:
       'Voz neuronal en castellano: «Sharvard» (Piper · rhasspy/piper-voices). '
       + 'En galego: «Celtia» · Proxecto Nós. '
-      + 'Euskaraz: HiTZ-TTS · ILENIA/NEL-GAITU (UPV/EHU · Aholab).',
+      + 'Euskaraz: HiTZ-TTS · ILENIA/NEL-GAITU (UPV/EHU · Aholab). '
+      + 'In English: «LJSpeech» (Piper · rhasspy/piper-voices, MIT), '
+      + 'a partir de grabaciones de LibriVox en dominio público.',
     arCredit:
       'Realidad Aumentada: seguimiento facial con MediaPipe Tasks (Google, Apache 2.0) '
       + 'y escena 3D con Filament (Google, Apache 2.0), ambos ejecutándose íntegramente '
@@ -919,6 +921,154 @@ export const ES = {
         body: 'Si señala un perro y dice "guau guau", no le digas "así no se dice": devuélvele la frase mejorada, "¡sí, es un perro grande!". Si dice "agua", respóndele "quieres tomar agua". Al expandir sus palabras sin criticarlo le das el modelo correcto y le confirmas que su intento de comunicarse fue exitoso y valorado.',
       },
     ],
+  },
+
+  // Componentes de voz compartidos (ValeriaVoiceUI): botón de escucha, mapa del
+  // turno, juego de micrófono, registro de respuesta, tarjeta «Voz de la app» y
+  // bloque de privacidad del micrófono. Se migran juntos porque los cinco viven
+  // en el mismo fichero y aparecen dentro de pantallas ya traducidas: sin esto,
+  // elegir English dejaba media pantalla en castellano (EN-1.3).
+  voice: {
+    listen: 'Escuchar',
+    listenA11y: (text: string): string => `Escuchar: ${text}`,
+
+    phaseListen: 'Escucha',
+    phaseRepeat: 'Repite',
+    phaseVerdict: 'Veredicto',
+    phaseMission: 'Misión',
+    currentPhase: (label: string): string => `Fase actual: ${label}`,
+
+    micKicker: '🎤 JUEGO DE VOZ · ¡AHORA EL NIÑO!',
+    micPrompt: (target: string): string => `Pulsa el micro y que diga: “${target}”`,
+    micHearModel: 'Oír modelo',
+    micStartA11y: 'Empezar a escuchar',
+    micStopA11y: 'Dejar de escuchar',
+    micListening: 'Escuchando…',
+    micTapToSpeak: 'Toca para hablar',
+    micHeard: 'La app escuchó:',
+    micUnavailable:
+      'El juego de micrófono se activa en la app instalada (APK). Mientras tanto, '
+      + 'el niño puede repetir la palabra y tú valoras abajo.',
+    // Veredicto VISUAL del intento (para el adulto). Lo HABLADO va por
+    // micVerdictSayFor, en los bancos por variedad: son cosas distintas.
+    micVerdicts: [
+      { icon: '👂', title: 'Otra vez juntos', sub: 'Escuchad la palabra despacio y repetid a la vez.' },
+      { icon: '💪', title: '¡Casi casi!', sub: 'Se parece mucho. Repetid el modelo y probad otra vez.' },
+      { icon: '🎉', title: '¡Lo dijo genial!', sub: 'La app entendió la palabra objetivo.' },
+    ],
+
+    captureKicker: '📝 REGISTRA SU RESPUESTA',
+    capturePrompt: 'Graba con el micro o escribe lo que dijo el niño.',
+    capturePlaceholder: 'Escribe aquí lo que dijo…',
+    captureWriteA11y: 'Escribir la respuesta del niño',
+    captureRecordA11y: 'Grabar la respuesta con el micrófono',
+    captureStopA11y: 'Dejar de grabar',
+    captureListening: 'Escuchando… habla ahora',
+    captureOk: '✓ Respuesta registrada: se guardará con la sesión en Resultados.',
+
+    cardTitle: 'Voz de la app',
+    varietyLabel: 'Variedad de la voz',
+    // Nombres de las variedades. En castellano se usan los endónimos de siempre;
+    // en inglés, los nombres que un cuidador estadounidense reconoce.
+    localeEs: 'Castellano',
+    localeGl: 'Galego',
+    localeEsDO: 'Dominicano',
+    localeEu: 'Euskara',
+    localeEnUS: 'English (US)',
+    varietyA11y: (label: string, beta: boolean): string =>
+      `Voz en ${label}${beta ? ', en pruebas' : ''}`,
+
+    chipChecking: 'Comprobando…',
+    chipNatural: '✓ Voz natural',
+    chipStandard: 'Voz estándar',
+    chipPoor: 'Voz mejorable',
+    chipCeltia: '✓ Voz Celtia',
+    chipHitz: '✓ HiTZ ahotsa',
+    chipPiperEn: '✓ Piper en_US',
+
+    detailSearching: 'Buscando la mejor voz en español instalada en este dispositivo…',
+    detailNoVoice:
+      'No hay ninguna voz en español instalada: la app no podrá leer las consignas hasta descargarla.',
+    detailDo: (name: string): string =>
+      `En dominicano la app usa la voz latina del dispositivo${name ? ` («${name}»)` : ''} y el micrófono `
+      + 'en es-DO. Si suena peninsular o robótica, instala una voz de Español (Latinoamérica).',
+    detailGood: (name: string): string =>
+      `La app usará la mejor voz del dispositivo${name ? ` («${name}»)` : ''}. Suena natural, no robótica.`,
+    detailAndroidPoor:
+      'Este dispositivo solo ofrece una voz sencilla y puede sonar robótica. Instala las voces de '
+      + 'Google (gratis y sin conexión) para que la app suene natural.',
+    detailIosPoor:
+      'Puedes mejorar la voz en Ajustes → Accesibilidad → Contenido leído → Voces → Español, '
+      + 'descargando la voz mejorada.',
+    // Inglés: la voz neuronal ya está integrada, pero el banco clínico es la
+    // Fase 3. Decirlo aquí es lo que evita que el adulto crea que la app está
+    // rota cuando el ejercicio le sale en castellano (EN_THERAPY_CONTENT_READY).
+    detailEnPending:
+      'La voz neuronal en inglés (Piper en_US) ya viaja en la app: toca «Probar la voz» para oírla. '
+      + 'Los ejercicios en inglés están todavía en revisión clínica, así que por ahora la sesión '
+      + 'mantiene el contenido y la voz en castellano; lo que sí cambia al elegir esta variedad es '
+      + 'el idioma de la interfaz.',
+
+    testVoice: '▶ Probar la voz',
+    testVoiceA11y: 'Probar cómo suena la voz',
+    installGoogle: '⬇️ Instalar voces de Google',
+    installGoogleA11y: 'Instalar las voces de Google',
+    recheck: '🔄 Volver a comprobar',
+    recheckA11y: 'Volver a comprobar la voz',
+    installHint:
+      'Tras instalar: Ajustes → Sistema → Salida de texto a voz → elige «Motor de voz de Google» y '
+      + 'descarga la voz de Español (España). Después vuelve aquí y toca «Volver a comprobar».',
+
+    privCapture:
+      '⏺ CAPTURA DE CORPUS ACTIVA. Esta build guarda en el dispositivo el audio del turno de habla. '
+      + 'No es una build de producción: no debe usarse en una sesión normal ni quedarse en el aparato '
+      + 'de una familia.',
+    privKicker: 'MICRÓFONO DEL EJERCICIO',
+    privChipLocal: 'En el teléfono',
+    privChipNet: 'Servicio del sistema',
+    privChecking: 'Comprobando dónde se procesa la voz del niño en esta variedad…',
+    privLocal: (label: string): string =>
+      `En ${label} el reconocimiento se hace dentro del teléfono: el audio del turno de habla no sale `
+      + 'del dispositivo.',
+    privLocalFailed: (label: string): string =>
+      `El paquete de ${label} figura instalado, pero al escuchar de verdad el reconocedor del teléfono `
+      + 'no arrancó. Para no dejar el ejercicio roto, la app ha vuelto al servicio de reconocimiento '
+      + 'del sistema, que puede enviar el audio a sus servidores. Toca «Volver a comprobar» para '
+      + 'intentarlo otra vez en local.',
+    privNotCapable: (label: string): string =>
+      `Este dispositivo no sabe reconocer voz sin conexión, así que en ${label} el audio del turno de `
+      + 'habla lo procesa el servicio de reconocimiento del sistema, que puede enviarlo a sus servidores.',
+    privNoService: (label: string): string =>
+      `Este dispositivo no expone ningún servicio de reconocimiento de voz, así que en ${label} el juego `
+      + 'de micrófono no puede funcionar. Comprueba en Ajustes que el reconocimiento de voz del sistema '
+      + 'esté instalado y activado.',
+    privCanDownload: (label: string): string =>
+      `Este móvil puede reconocer sin conexión, pero le falta el paquete de ${label}. Mientras tanto, el `
+      + 'audio del turno de habla lo procesa el servicio del sistema, que puede enviarlo a sus servidores.',
+    privNoDownload: (label: string): string =>
+      `Falta el paquete de ${label} y esta versión de Android no permite descargarlo desde la app. Puedes `
+      + 'instalarlo en Ajustes → Sistema → Idiomas → Entrada por voz; hasta entonces el audio lo procesa '
+      + 'el servicio del sistema.',
+    privOffer: (label: string): string =>
+      `Si descargas el paquete de ${label}, la voz del niño deja de salir del teléfono. Ocupa espacio y se `
+      + 'descarga una sola vez; los ejercicios funcionan igual si prefieres no hacerlo.',
+    privDownload: '⬇️ Descargar el paquete',
+    privDownloadA11y: (label: string): string =>
+      `Descargar el paquete de reconocimiento de voz en ${label}`,
+    privNotNow: 'Ahora no',
+    privNotNowA11y: 'No descargar el paquete de voz',
+    privRecheckA11y: 'Volver a comprobar dónde se reconoce la voz',
+    privNoteOk: '✓ Paquete descargado. A partir de ahora la voz se reconoce dentro del teléfono.',
+    privNoteDialog:
+      'Se abrió la pantalla de descarga del sistema. Cuando termine, toca «Volver a comprobar».',
+    privNoteCancelled: 'Descarga cancelada. Se sigue usando el reconocimiento del sistema.',
+    privNoteFailed:
+      'No se pudo pedir la descarga en este dispositivo. Puedes hacerlo desde Ajustes → Sistema → '
+      + 'Idiomas → Entrada por voz.',
+    privNoteDeclined: 'Sin problema: los ejercicios funcionan igual con el reconocimiento del sistema.',
+    privLastListen: (local: boolean): string =>
+      `Última escucha de esta sesión: ${local ? 'en el teléfono' : 'servicio del sistema'}.`,
+    privRecognizer: (name: string): string => `Reconocedor del sistema: ${name}.`,
   },
 
   settings: {

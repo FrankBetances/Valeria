@@ -3,6 +3,7 @@
 # Valeria+ · Generador de assets de voz neuronal — V2 (multi-idioma, incremental)
 #   python3 scripts/generate-voice-assets.py --lang es
 #   python3 scripts/generate-voice-assets.py --lang gl
+#   python3 scripts/generate-voice-assets.py --lang en [--voice en_US-amy-medium]
 #
 # Consume voice-corpus.json (scripts/export-voice-corpus.js), filtra por
 # idioma y sintetiza SOLO las locuciones sin asset (incremental: regenerar no
@@ -17,6 +18,10 @@
 #     acoplarse a nombres internos del repo.
 #   · es → «Sharvard» femenina (rhasspy/piper-voices): VITS femenina abierta,
 #     homóloga de Celtia en castellano.
+#   · en → «LJSpeech» femenina (rhasspy/piper-voices, calidad high): homóloga
+#     de Sharvard en inglés americano. Ver la nota de licencias en VOICES['en']:
+#     las dos candidatas que proponía el plan (hfc_female, lessac) NO son aptas
+#     para uso comercial y quedaron descartadas en EN-0.1.
 #
 # Masterización: pico a -3 dBFS (la Pista B de babble va a -6 dBFS: la voz
 # conserva +3 dB y la suma no satura). Estilos del corpus:
@@ -52,15 +57,43 @@ AAC_BITRATE = "40k"
 
 LENGTH_SCALE = {"tutor": 1.0, "child": 1.05, "clinical": 1.15, "slow": 1.6}
 
+
+def piper_urls(name: str) -> list[str]:
+    """URLs del modelo y su config en rhasspy/piper-voices a partir del nombre.
+
+    El repo tiene una ruta perfectamente regular —`<lang>/<locale>/<hablante>/
+    <calidad>/<locale>-<hablante>-<calidad>.onnx`—, así que la voz se identifica
+    con UNA cadena y las URLs se derivan. Es lo que permite el `--voice` de
+    EN-0.2: comparar candidatas sin tocar el código."""
+    locale, speaker, quality = name.split("-", 2)
+    base = (f"https://huggingface.co/rhasspy/piper-voices/resolve/main/"
+            f"{locale.split('_')[0]}/{locale}/{speaker}/{quality}/{name}")
+    return [f"{base}.onnx", f"{base}.onnx.json"]
+
+
 VOICES = {
     "es": {
         "engine": "piper",
         "name": "es_ES-sharvard-medium",
         "label": "Sharvard (femenina) · rhasspy/piper-voices",
-        "urls": [
-            "https://huggingface.co/rhasspy/piper-voices/resolve/main/es/es_ES/sharvard/medium/es_ES-sharvard-medium.onnx",
-            "https://huggingface.co/rhasspy/piper-voices/resolve/main/es/es_ES/sharvard/medium/es_ES-sharvard-medium.onnx.json",
-        ],
+        "urls": piper_urls("es_ES-sharvard-medium"),
+    },
+    "en": {
+        "engine": "piper",
+        # LICENCIA (EN-0.1, ago 2026) — auditada voz por voz, porque en
+        # rhasspy/piper-voices NO es uniforme:
+        #   · en_US-hfc_female-medium → dataset Hi-Fi Captain (NICT),
+        #     CC BY-NC-SA 4.0 ⇒ NO COMERCIAL. Descartada.
+        #   · en_US-lessac-medium → Blizzard Challenge 2013 (Lessac/C. Byers),
+        #     licencia de investigación del Blizzard ⇒ descartada.
+        #   · en_US-ljspeech-high → LJSpeech, grabaciones de LibriVox en
+        #     DOMINIO PÚBLICO, modelo publicado con licencia MIT. ✅ Elegida.
+        #   · en_US-amy-medium → MIT, calidad `medium`. Alternativa válida:
+        #     `--voice en_US-amy-medium` sintetiza con ella sin tocar nada más.
+        # Femenina y de lectura pausada: la homóloga natural de Sharvard.
+        "name": "en_US-ljspeech-high",
+        "label": "LJSpeech (femenina, dominio público) · rhasspy/piper-voices",
+        "urls": piper_urls("en_US-ljspeech-high"),
     },
     "gl": {
         "engine": "coqui",
@@ -525,8 +558,20 @@ ENGINES = {
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--lang", default="es", choices=sorted(VOICES))
+    # EN-0.2: escuchar candidatas con las consignas REALES de la app, que es la
+    # única forma honesta de elegir una voz. Solo aplica a motores piper (las
+    # demás voces no viven en rhasspy/piper-voices).
+    ap.add_argument("--voice", default=None, metavar="es_ES-sharvard-medium",
+                    help="Voz alternativa de rhasspy/piper-voices (solo motor piper)")
     args = ap.parse_args()
-    voice = VOICES[args.lang]
+    voice = dict(VOICES[args.lang])
+    if args.voice:
+        if voice["engine"] != "piper":
+            die(f"--voice solo aplica al motor piper; '{args.lang}' usa {voice['engine']}.")
+        voice.update(name=args.voice, label=f"{args.voice} · rhasspy/piper-voices",
+                     urls=piper_urls(args.voice))
+        print(f"⚠ Voz sobrescrita a mano: {args.voice}. Verifica su MODEL_CARD "
+              "antes de publicar: las licencias de piper-voices NO son uniformes.")
 
     if not CORPUS.exists():
         die("Falta voice-corpus.json — ejecuta antes: node scripts/export-voice-corpus.js")
