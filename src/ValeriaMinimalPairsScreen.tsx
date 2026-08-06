@@ -551,11 +551,11 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
       const d = new Date();
       hist.push({
         date: `${d.getDate()} ${t.ling.months.split(' ')[d.getMonth()]}`,
-        name: `Pares mínimos · ${p.target} / ${p.foil}`,
+        name: t.pairs.sessionName(p.target, p.foil),
         avg: +avg.toFixed(1),
         note: substitutions === 0
-          ? `Contraste ${p.phoneme} sin sustituciones detectadas. ¡Fonema consolidándose!`
-          : `Sustitución detectada en ${substitutions} de ${res.length} ensayos; ${corrections} con corrección (${p.errorLabel.toLowerCase()}).`,
+          ? t.pairs.noteClean(p.phoneme)
+          : t.pairs.noteSubs(substitutions, res.length, corrections, p.errorLabel.toLowerCase()),
         completed: true,
       });
       await AsyncStorage.setItem(STORAGE_KEYS.historial, JSON.stringify(hist));
@@ -635,7 +635,7 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
         <View style={s.header}>
           <Pressable onPress={() => navigation.goBack()} style={s.backPill}><Text style={s.backPillTxt}>{`‹ ${t.common.back}`}</Text></Pressable>
           <Text style={s.logoFallback}>valeria+</Text>
-          <Text style={s.headerTitle}>Pares Mínimos</Text>
+          <Text style={s.headerTitle}>{t.hub.pairsTitle}</Text>
           <Text style={s.headerSub}>{unlocked ? t.pairs.editingOn : t.pairs.subtitlePick}</Text>
         </View>
         <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
@@ -745,7 +745,7 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
         <View style={s.header}>
           {/* ES-02: dentro de una sesión, Volver regresa al banco de contrastes,
               no al hub — solo desde 'pick' Volver sale de la pantalla. */}
-          <Pressable onPress={() => { stopSpeaking(); setPhase('pick'); }} style={s.backPill}><Text style={s.backPillTxt}>‹ Volver</Text></Pressable>
+          <Pressable onPress={() => { stopSpeaking(); setPhase('pick'); }} style={s.backPill}><Text style={s.backPillTxt}>{`‹ ${t.common.back}`}</Text></Pressable>
           <Text style={s.logoFallback}>valeria+</Text>
           <Text style={s.headerTitle}>{t.pairs.doneTitle}</Text>
           <Text style={s.headerSub}>{p.code} · {p.target} / {p.foil}</Text>
@@ -757,8 +757,8 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
             <Text style={s.doneBig}>{avg.toFixed(1)}<Text style={s.doneSlash}> / 3 ★</Text></Text>
             <Text style={s.doneSub}>
               {substitutions === 0
-                ? `Ninguna sustitución detectada en el contraste ${p.phoneme}. ¡El fonema se está consolidando!`
-                : `El micrófono detectó la sustitución en ${substitutions} de ${log.length} ensayos. Es normal: cada corrección es práctica del contraste.`}
+                ? t.pairs.doneClean(p.phoneme)
+                : t.pairs.doneSubs(substitutions, log.length)}
             </Text>
             <View style={s.doneStarsRow}>
               {log.map((r, i) => (
@@ -792,11 +792,11 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
   return (
     <View style={s.flex}>
       <View style={s.header}>
-        <Pressable onPress={() => { stopSpeaking(); stopListening(); setPhase('pick'); }} style={s.backPill}><Text style={s.backPillTxt}>‹ Volver</Text></Pressable>
+        <Pressable onPress={() => { stopSpeaking(); stopListening(); setPhase('pick'); }} style={s.backPill}><Text style={s.backPillTxt}>{`‹ ${t.common.back}`}</Text></Pressable>
         <Text style={s.logoFallback}>valeria+</Text>
         <View style={{ flexDirection: 'row', alignItems: 'flex-start', gap: 12 }}>
           <View style={{ flex: 1 }}>
-            <Text style={s.headerTitle}>Pares Mínimos</Text>
+            <Text style={s.headerTitle}>{t.hub.pairsTitle}</Text>
             <Text style={s.headerSub} numberOfLines={1}>{p.code} · {p.errorLabel} ({p.phoneme})</Text>
           </View>
           <View style={s.counter}><Text style={s.counterTxt}>{trialIdx + 1} / {TOTAL_TRIALS}</Text></View>

@@ -828,7 +828,7 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
         <View style={s.header}>
           {/* ES-02: dentro de una sesión, Volver regresa a la lista del tab
               activo, no al hub — solo desde 'pick' Volver sale de la pantalla. */}
-          <Pressable onPress={() => { stopSpeaking(); setPhase('pick'); }} style={s.backPill}><Text style={s.backPillTxt}>‹ Volver</Text></Pressable>
+          <Pressable onPress={() => { stopSpeaking(); setPhase('pick'); }} style={s.backPill}><Text style={s.backPillTxt}>{`‹ ${t.common.back}`}</Text></Pressable>
           <Text style={s.logoFallback}>valeria+</Text>
           <Text style={s.headerTitle}>{t.semantic.doneTitle}</Text>
           <Text style={s.headerSub}>{sess.title}</Text>
@@ -877,11 +877,11 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
       <View style={s.header}>
         {/* ES-02: dentro de una sesión, Volver regresa a la lista del tab
             activo, no al hub. */}
-        <Pressable onPress={() => { stopSpeaking(); stopListening(); setPhase('pick'); }} style={s.backPill}><Text style={s.backPillTxt}>‹ Volver</Text></Pressable>
+        <Pressable onPress={() => { stopSpeaking(); stopListening(); setPhase('pick'); }} style={s.backPill}><Text style={s.backPillTxt}>{`‹ ${t.common.back}`}</Text></Pressable>
         <Text style={s.logoFallback}>valeria+</Text>
         <View style={{ flexDirection: 'row', alignItems: 'flex-start', gap: 12 }}>
           <View style={{ flex: 1 }}>
-            <Text style={s.headerTitle}>Expansión Semántica</Text>
+            <Text style={s.headerTitle}>{t.hub.semanticTitle}</Text>
             <Text style={s.headerSub} numberOfLines={1}>{sess.title}</Text>
           </View>
           <View style={s.counter}><Text style={s.counterTxt}>{stepIdx + 1} / {total}</Text></View>

@@ -340,6 +340,15 @@ export const ES = {
   // la VARIEDAD activa (valeriaMinimalPairs*). Aquí vive el andamiaje que lee
   // el adulto.
   pairs: {
+    sessionName: (a: string, b: string): string => `Pares mínimos · ${a} / ${b}`,
+    noteClean: (phoneme: string): string =>
+      `Contraste ${phoneme} sin sustituciones detectadas. ¡Fonema consolidándose!`,
+    noteSubs: (subs: number, total: number, corr: number, err: string): string =>
+      `Sustitución detectada en ${subs} de ${total} ensayos; ${corr} con corrección (${err}).`,
+    doneClean: (phoneme: string): string =>
+      `Ninguna sustitución detectada en el contraste ${phoneme}. ¡El fonema se está consolidando!`,
+    doneSubs: (subs: number, total: number): string =>
+      `El micrófono detectó la sustitución en ${subs} de ${total} ensayos. Es normal: cada corrección es práctica del contraste.`,
     // Aviso dialectal del par (EN-0.5). El texto largo vive en el propio par
     // (dialect.note), porque es contenido clínico y cambia con cada contraste;
     // aquí solo van las etiquetas del marco.

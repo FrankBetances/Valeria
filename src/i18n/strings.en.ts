@@ -351,6 +351,15 @@ export const EN: UiStrings = {
   // and the error label — those come from the active VARIETY's bank
   // (valeriaMinimalPairs*). What lives here is the scaffolding the grown-up reads.
   pairs: {
+    sessionName: (a: string, b: string): string => `Minimal pairs · ${a} / ${b}`,
+    noteClean: (phoneme: string): string =>
+      `No substitutions detected on the ${phoneme} contrast. The sound is settling in!`,
+    noteSubs: (subs: number, total: number, corr: number, err: string): string =>
+      `Substitution detected in ${subs} of ${total} trials; ${corr} self-corrected (${err}).`,
+    doneClean: (phoneme: string): string =>
+      `No substitutions detected on the ${phoneme} contrast. The sound is settling in!`,
+    doneSubs: (subs: number, total: number): string =>
+      `The microphone picked up the substitution in ${subs} of ${total} trials. That is normal: every correction is practice on the contrast.`,
     dialectSensitive: 'BEFORE YOU SCORE THIS PAIR',
     dialectTransfer: 'BEFORE YOU SCORE: BILINGUAL CHILD',
     dialectRegularIn: (v: string): string => `Regular feature in: ${v}.`,
