@@ -170,6 +170,9 @@ export const ES = {
     arSub: 'La cámara mira el gesto y el coche, el perro o la manzana reaccionan a él. Sin grabar nada y con el micrófono apagado.',
     arA11y: (n: number): string => `Abrir el bloque de realidad aumentada, ${n} ejercicios`,
 
+    pairsBadge: (n: number): string => `${n} pares`,
+    semanticBadge: (n: number): string => `${n} escenarios`,
+    academyStrip: (done: number, total: number): string => `${done} de ${total} cápsulas`,
     therapiesBadge: (n: number): string => `${n} terapias`,
     activeBadge: (n: number): string => `${n} activas`,
 

@@ -72,26 +72,28 @@ export const ValeriaBlockTile: React.FC<ValeriaBlockTileProps> = React.memo(({
       accessibilityHint={accessibilityHint}
       style={[s.press, style]}
     >
-      <Animated.View style={[s.card, { transform: [{ scale }] }]}>
+      <Animated.View style={[s.card, { backgroundColor: accentBg, transform: [{ scale }] }]}>
         {!!tag && (
-          <View style={[s.tag, { backgroundColor: accentBg }]}>
+          <View style={s.tag}>
             <Text style={[s.tagTxt, { color: accentFg }]} numberOfLines={1}>{tag}</Text>
           </View>
         )}
 
-        <View style={[s.icon, { backgroundColor: accentBg }]}>
+        <View style={s.icon}>
           <Text style={s.iconGlyph}>{icon}</Text>
         </View>
 
-        {/* Dos líneas reservadas: mantiene los badges alineados entre tarjetas
-            de títulos de distinto largo ("Audición" vs "Expansión Semántica"). */}
-        <Text style={s.title} numberOfLines={2}>{title}</Text>
-
-        {!!badge && (
-          <View style={[s.badge, { backgroundColor: accentBg }]}>
-            <Text style={[s.badgeTxt, { color: accentFg }]} numberOfLines={1}>{badge}</Text>
-          </View>
-        )}
+        {/* Bloque inferior: el `space-between` de la tarjeta lo empuja al fondo,
+            así que títulos de una y de dos líneas quedan igual de asentados sin
+            reservar altura en vacío (era el hueco muerto de la primera versión). */}
+        <View>
+          <Text style={s.title} numberOfLines={2}>{title}</Text>
+          {!!badge && (
+            <View style={s.badge}>
+              <Text style={[s.badgeTxt, { color: accentFg }]} numberOfLines={1}>{badge}</Text>
+            </View>
+          )}
+        </View>
       </Animated.View>
     </Pressable>
   );
@@ -104,21 +106,25 @@ const s = StyleSheet.create({
   // interior, para que la sombra escale junto con la tarjeta.
   press: { flex: 1 },
 
+  // La tarjeta se tiñe con el acento del bloque en vez de ser una caja blanca:
+  // la identidad "cada bloque tiene su color" ya estaba en la v10.2 y la
+  // primera versión de la cuadrícula la había reducido a un cuadradito.
   card: {
     flex: 1,
-    minHeight: 132, // > V.touchMin con holgura
-    backgroundColor: V.color.card,
-    borderWidth: 1,
-    borderColor: V.color.border,
+    minHeight: 132,
+    justifyContent: 'space-between', // icono arriba · texto asentado abajo
     borderRadius: V.radius.card,
     padding: V.space.md,
     ...V.shadow.card,
   },
 
+  // Chip blanco sobre el fondo teñido: invierte la relación anterior y da
+  // profundidad sin sombras ni degradados.
   icon: {
     width: V.touchMin,
     height: V.touchMin,
     borderRadius: V.radius.field,
+    backgroundColor: 'rgba(255,255,255,0.72)',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -129,15 +135,15 @@ const s = StyleSheet.create({
     fontWeight: V.font.extrabold,
     color: V.color.textPrimary,
     marginTop: V.space.sm,
-    minHeight: V.type.title.lineHeight * 2,
   },
 
   badge: {
     alignSelf: 'flex-start',
-    marginTop: V.space.xs,
+    marginTop: V.space.sm,
     paddingHorizontal: V.space.sm,
     paddingVertical: 3,
     borderRadius: V.space.sm,
+    backgroundColor: 'rgba(255,255,255,0.78)',
   },
   badgeTxt: { ...V.type.caption, fontWeight: V.font.extrabold },
 
@@ -145,6 +151,7 @@ const s = StyleSheet.create({
     position: 'absolute',
     top: V.space.md,
     right: V.space.md,
+    backgroundColor: 'rgba(255,255,255,0.78)',
     paddingHorizontal: V.space.sm,
     paddingVertical: 2,
     borderRadius: V.space.sm,

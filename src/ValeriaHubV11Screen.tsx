@@ -27,6 +27,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { V, STORAGE_KEYS } from './valeriaTheme';
 import { BLOCKS, BLOCK_ORDER, BlockKey } from './valeriaBlocks';
 import { AR_META } from './valeriaExerciseMeta';
+import { MINIMAL_PAIRS } from './valeriaMinimalPairs';
+import { DAILY_SCENARIOS } from './valeriaSemanticExpansion';
+import { hydrateAcademy, useAcademySummary } from './ValeriaAcademy';
 import { ValeriaBlockTile } from './ValeriaBlockTile';
 import { loadGame, liveStreak, levelFor } from './valeriaGamification';
 import { isArAvailable } from './valeriaArBridge';
@@ -123,11 +126,13 @@ export const ValeriaHubV11Screen: React.FC<{ navigation: any }> = ({ navigation 
   const tiles: Tile[] = [
     {
       key: 'pairs', icon: '🗣️', title: t.hub.pairsTitle, hint: t.hub.pairsSub, a11y: t.hub.pairsA11y,
-      bg: '#ede4fc', fg: '#7c4fd0', onPress: () => navigation.navigate('MinimalPairs'),
+      bg: '#ede4fc', fg: '#7c4fd0', badge: t.hub.pairsBadge(MINIMAL_PAIRS.length),
+      onPress: () => navigation.navigate('MinimalPairs'),
     },
     {
       key: 'semantic', icon: '🧩', title: t.hub.semanticTitle, hint: t.hub.semanticSub, a11y: t.hub.semanticA11y,
-      bg: '#d6f5f2', fg: V.color.primaryDark, onPress: () => navigation.navigate('SemanticExpansion'),
+      bg: '#d6f5f2', fg: V.color.primaryDark, badge: t.hub.semanticBadge(DAILY_SCENARIOS.length),
+      onPress: () => navigation.navigate('SemanticExpansion'),
     },
     {
       key: 'audicion', icon: BLOCKS.audicion.icon, title: t.hub.hearingTitle, hint: t.hub.hearingSub, a11y: a11yFor('audicion', t.hub.hearingA11y),
@@ -150,7 +155,8 @@ export const ValeriaHubV11Screen: React.FC<{ navigation: any }> = ({ navigation 
     // de existir y fallar al tocarlo.
     ...(AR_ON ? [{
       key: 'ar', icon: '🎯', title: t.hub.arTitle, hint: t.hub.arSub, a11y: t.hub.arA11y(AR_META.length),
-      bg: '#e6f9f8', fg: V.color.primaryDark, onPress: () => navigation.navigate('ArLauncher'),
+      bg: '#e6f9f8', fg: V.color.primaryDark, badge: t.hub.therapiesBadge(AR_META.length),
+      onPress: () => navigation.navigate('ArLauncher'),
     } as Tile] : []),
   ];
 
@@ -172,12 +178,15 @@ export const ValeriaHubV11Screen: React.FC<{ navigation: any }> = ({ navigation 
           >
             <Text style={s.backPillTxt}>{`‹ ${t.common.back}`}</Text>
           </Pressable>
-          <View style={s.chips}>
-            <View style={s.gameChip}><Text style={s.gameChipTxt}>{`🔥 ${streak}`}</Text></View>
-            <View style={s.gameChip}><Text style={s.gameChipTxt}>{`🏅 ${level}`}</Text></View>
-          </View>
         </View>
         <Text style={s.headerTitle}>{t.hub.title}</Text>
+        <Text style={s.headerSub}>{t.hub.subtitle}</Text>
+        {/* Los chips vuelven a DECIR algo. La primera versión los dejó en
+            «🔥 0» y «🏅 2»: eso no es sintetizar, es quitar el significado. */}
+        <View style={s.chips}>
+          <View style={s.gameChip}><Text style={s.gameChipTxt}>{`🔥 ${t.hub.streak(streak)}`}</Text></View>
+          <View style={s.gameChip}><Text style={s.gameChipTxt}>{`🏅 ${t.hub.level(level, t.hub.levelNameByIndex(level - 1))}`}</Text></View>
+        </View>
       </View>
 
       <FlatList
@@ -187,6 +196,7 @@ export const ValeriaHubV11Screen: React.FC<{ navigation: any }> = ({ navigation 
         columnWrapperStyle={s.col}
         contentContainerStyle={s.grid}
         showsVerticalScrollIndicator={false}
+        ListFooterComponent={<AcademyStrip onPress={() => navigation.navigate('Academy')} />}
         renderItem={({ item }) => (item ? (
           <ValeriaBlockTile
             icon={item.icon}
@@ -210,6 +220,32 @@ export const ValeriaHubV11Screen: React.FC<{ navigation: any }> = ({ navigation 
         onDismiss={() => setTeaConsentOpen(false)}
       />
     </View>
+  );
+};
+
+// Academy volvió a ser solo una pestaña y el hub se quedó con un hueco de casi
+// media pantalla. Esta tira lo devuelve al hub con su progreso vivo y sin el
+// párrafo de 101 caracteres de la tarjeta antigua: barra + recuento.
+const AcademyStrip: React.FC<{ onPress: () => void }> = ({ onPress }) => {
+  const t = useT();
+  const summary = useAcademySummary();
+  useEffect(() => { hydrateAcademy(); }, []);
+  const pct = Math.round(summary.progress * 100);
+  return (
+    <Pressable
+      onPress={onPress}
+      style={s.academy}
+      accessibilityRole="button"
+      accessibilityLabel={`${t.tabs.academy}. ${t.hub.academyStrip(summary.completedCount, summary.totalCount)}`}
+    >
+      <View style={s.academyIcon}><Text style={s.academyGlyph}>🎓</Text></View>
+      <View style={{ flex: 1 }}>
+        <Text style={s.academyTitle}>{t.tabs.academy}</Text>
+        <Text style={s.academyMeta}>{t.hub.academyStrip(summary.completedCount, summary.totalCount)}</Text>
+        <View style={s.bar}><View style={[s.barFill, { width: `${pct}%` }]} /></View>
+      </View>
+      <Text style={s.academyChev}>›</Text>
+    </Pressable>
   );
 };
 
@@ -256,7 +292,7 @@ const s = StyleSheet.create({
     borderRadius: 11, paddingHorizontal: 11, paddingVertical: 5,
   },
   backPillTxt: { color: '#fff', fontSize: 12, fontWeight: V.font.extrabold },
-  chips: { flexDirection: 'row', gap: V.space.sm },
+  chips: { flexDirection: 'row', gap: V.space.sm, marginTop: V.space.md, flexWrap: 'wrap' },
   gameChip: {
     backgroundColor: 'rgba(255,255,255,.18)', borderWidth: 1, borderColor: 'rgba(255,255,255,.32)',
     borderRadius: 11, paddingHorizontal: 10, paddingVertical: 5,
@@ -264,7 +300,24 @@ const s = StyleSheet.create({
   gameChipTxt: { color: '#fff', fontSize: 12, fontWeight: V.font.extrabold },
   headerTitle: { ...V.type.display, color: '#fff', fontWeight: V.font.extrabold, letterSpacing: -0.4 },
 
+  headerSub: { ...V.type.body, color: 'rgba(255,255,255,.9)', fontWeight: V.font.semibold, marginTop: V.space.xs },
   grid: { padding: V.space.lg, paddingBottom: V.space.xxl },
+
+  academy: {
+    flexDirection: 'row', alignItems: 'center', gap: V.space.md, backgroundColor: V.color.card,
+    borderWidth: 1, borderColor: V.color.border, borderRadius: V.radius.card,
+    padding: V.space.md, marginTop: V.space.xs, minHeight: V.touchMin, ...V.shadow.card,
+  },
+  academyIcon: {
+    width: V.touchMin, height: V.touchMin, borderRadius: V.radius.field,
+    backgroundColor: '#eef0ff', alignItems: 'center', justifyContent: 'center',
+  },
+  academyGlyph: { fontSize: 22 },
+  academyTitle: { ...V.type.title, fontWeight: V.font.extrabold, color: V.color.textPrimary },
+  academyMeta: { ...V.type.caption, fontWeight: V.font.bold, color: V.color.textMuted, marginTop: 2 },
+  bar: { height: 6, borderRadius: 3, backgroundColor: '#eef0ff', marginTop: V.space.sm, overflow: 'hidden' },
+  barFill: { height: '100%', borderRadius: 3, backgroundColor: '#5b6ee0' },
+  academyChev: { fontSize: 20, color: V.color.textMuted, fontWeight: V.font.extrabold },
   col: { gap: V.space.md, marginBottom: V.space.md },
   ghost: { flex: 1 },
 

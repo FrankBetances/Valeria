@@ -183,6 +183,9 @@ export const EN: UiStrings = {
     arSub: 'The camera watches the movement and the car, the dog or the apple reacts to it. Nothing is recorded and the mic stays off.',
     arA11y: (n: number): string => `Open the augmented reality block, ${n} exercises`,
 
+    pairsBadge: (n: number): string => `${n} pairs`,
+    semanticBadge: (n: number): string => `${n} scenarios`,
+    academyStrip: (done: number, total: number): string => `${done} of ${total} capsules`,
     therapiesBadge: (n: number): string => `${n} exercises`,
     activeBadge: (n: number): string => `${n} active`,
 
