@@ -28,6 +28,18 @@ export const EN: UiStrings = {
     loading: 'Loading…',
   },
 
+  // [v11] Bottom tab bar labels. These are VISIBLE labels, not route names:
+  // route names stay untranslated and unchanged, because the pilot telemetry
+  // indexes screen time by route name (valeriaTelemetry.noteScreen).
+  tabs: {
+    therapies: 'Therapies',
+    academy: 'Academy',
+    settings: 'Settings',
+    therapiesA11y: 'Therapies. Exercise blocks to practise or prescribe.',
+    academyA11y: 'Academy. Training for the caregiving adult.',
+    settingsA11y: 'Settings. Reminders, voice, language and professional access.',
+  },
+
   welcome: {
     tagline: 'Listening and language therapy at home, guided by you.',
     sub: 'You lead every exercise and score how your child responds. Valeria keeps track of the progress.',

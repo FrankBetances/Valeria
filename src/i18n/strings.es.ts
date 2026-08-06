@@ -27,6 +27,19 @@ export const ES = {
     loading: 'Cargando…',
   },
 
+  // [v11] Etiquetas de la barra de pestañas inferior. OJO: son etiquetas
+  // VISIBLES, no nombres de ruta. Los nombres de ruta internos no se traducen
+  // ni se renombran, porque la telemetría del piloto indexa por nombre de ruta
+  // (valeriaTelemetry.noteScreen) y renombrarlos partiría la serie histórica.
+  tabs: {
+    therapies: 'Terapias',
+    academy: 'Academy',
+    settings: 'Ajustes',
+    therapiesA11y: 'Terapias. Bloques de ejercicios para practicar o prescribir.',
+    academyA11y: 'Academy. Formación para el adulto cuidador.',
+    settingsA11y: 'Ajustes. Recordatorios, voz, idioma y acceso profesional.',
+  },
+
   welcome: {
     tagline: 'Terapia auditiva y de lenguaje, en casa y guiada por ti.',
     sub: 'Tú diriges cada ejercicio y valoras la respuesta del niño. Valeria registra el progreso.',

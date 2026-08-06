@@ -347,6 +347,13 @@ y perdería la sesión en curso. Se cambia el valor y se recarga.
   reescribir su lógica**.
 - **3.4** Reubicar los `sub` al `refCard` de cada bloque (§2.3). Solo cambia
   *dónde se renderiza* la clave i18n, no la clave.
+- **3.5** *(hallazgo del Sprint 2)* El «‹ Volver» de `ValeriaAcademyScreen.tsx:74`
+  llama a `navigation.goBack()`. Dentro de una pestaña eso ya no significa lo
+  mismo: con `backBehavior: 'firstRoute'` devuelve a la pestaña Terapias, y si
+  Academy fuera la ruta inicial burbujearía al stack y saldría de
+  `ExerciseSelection` entera. Una pestaña no lleva botón «atrás»: **ocultar la
+  píldora cuando el screen se monta bajo las pestañas**, sin borrarla (el stack
+  clásico sigue usándola mientras el flag esté en `false`).
 - **QA:** prescribir → guardar → practicar, en los 4 bloques. Verificar
   AsyncStorage: las 4 claves de prescripción escriben igual que antes.
 

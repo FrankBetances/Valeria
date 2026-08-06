@@ -39,6 +39,31 @@ export const V = {
     bold: '700' as const,
     extrabold: '800' as const,
   },
+  // --------------------------------------------------------------------------
+  // [v11] Escala de espaciado y de tipografía. ADITIVO: ninguna clave anterior
+  // cambia de valor, para que las pantallas actuales sigan pintando idénticas.
+  // Las pantallas v11 usan SOLO estas escalas; las clásicas conservan sus
+  // valores sueltos (11, 13, 15, 18…) hasta que se retiren.
+  // --------------------------------------------------------------------------
+
+  // Múltiplos de 4. El hub actual mezcla 11/13/15/18 px sin sistema: esa es
+  // parte de la sensación de "amontonado" que reportaron los testers.
+  space: { xs: 4, sm: 8, md: 12, lg: 16, xl: 24, xxl: 32 },
+
+  // Cinco tamaños con su interlineado. Los PESOS no se duplican aquí: siguen
+  // siendo los de `V.font` (regular/semibold/bold/extrabold), que ya existían.
+  type: {
+    caption: { fontSize: 11, lineHeight: 14 },
+    body: { fontSize: 13, lineHeight: 18 },
+    title: { fontSize: 15, lineHeight: 20 },
+    heading: { fontSize: 20, lineHeight: 26 },
+    display: { fontSize: 24, lineHeight: 30 },
+  },
+
+  // Área táctil mínima accesible: 48 dp Android / 44 pt iOS. Se toma el mayor
+  // de los dos como un único número seguro en ambas plataformas.
+  touchMin: 48,
+
   shadow: {
     card: {
       shadowColor: 'rgba(15, 23, 42, 0.08)',

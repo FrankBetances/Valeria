@@ -41,6 +41,8 @@ import ValeriaCreditsScreen from './ValeriaCreditsScreen';
 import ValeriaPatientSelectScreen from './ValeriaPatientSelectScreen';
 import ValeriaFichaRegistroScreen from './ValeriaFichaRegistroScreen';
 import ValeriaExerciseSelectionScreen from './ValeriaExerciseSelectionScreen';
+import MainTabNavigator from './MainTabNavigator';
+import { ENABLE_V11_UI } from './valeriaFeatureFlags';
 import ValeriaLingTestScreen from './ValeriaLingTestScreen';
 import ValeriaExercisePlayerScreen from './ValeriaExercisePlayerScreen';
 import ValeriaMinimalPairsScreen from './ValeriaMinimalPairsScreen';
@@ -81,7 +83,15 @@ export const ValeriaNavigator: React.FC = () => (
     <Stack.Screen name="Credits" component={ValeriaCreditsScreen} />
     <Stack.Screen name="PatientSelect" component={ValeriaPatientSelectScreen} />
     <Stack.Screen name="FichaRegistro" component={ValeriaFichaRegistroScreen} />
-    <Stack.Screen name="ExerciseSelection" component={ValeriaExerciseSelectionScreen} />
+    {/* [v11] Punto ÚNICO de conmutación entre la interfaz clásica y la nueva.
+        El nombre de ruta se conserva a los dos lados del interruptor: la
+        telemetría del piloto indexa por nombre de ruta (noteScreen) y
+        rebautizarlo partiría la serie histórica. Con el flag en `false` —su
+        valor por defecto— aquí no cambia absolutamente nada. */}
+    <Stack.Screen
+      name="ExerciseSelection"
+      component={ENABLE_V11_UI ? MainTabNavigator : ValeriaExerciseSelectionScreen}
+    />
     <Stack.Screen name="LingTest" component={ValeriaLingTestScreen} />
     <Stack.Screen name="ExercisePlayer" component={ValeriaExercisePlayerScreen} />
     <Stack.Screen name="MinimalPairs" component={ValeriaMinimalPairsScreen} />
