@@ -88,6 +88,7 @@ const PAIR_BANKS = [
   { locale: 'es', mod: 'valeriaMinimalPairs', exp: 'MINIMAL_PAIRS', label: 'Castellano' },
   { locale: 'gl', mod: 'valeriaMinimalPairsGl', exp: 'MINIMAL_PAIRS_GL', label: 'Galego' },
   { locale: 'eu', mod: 'valeriaMinimalPairsEu', exp: 'MINIMAL_PAIRS_EU', label: 'Euskara' },
+  { locale: 'en-US', mod: 'valeriaMinimalPairsEn', exp: 'MINIMAL_PAIRS_EN', label: 'English (US)' },
 ];
 
 function loadAppLogic() {

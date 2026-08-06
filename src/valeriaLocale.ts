@@ -11,10 +11,10 @@
 //   'eu'    → euskera batua · voz neuronal HiTZ-TTS (pregenerada, ILENIA/
 //             NEL-GAITU, UPV/EHU · Aholab). Ver docs/plan-integracion-euskera.md.
 //   'en-US' → inglés de EE. UU. · voz neuronal Piper en_US (pregenerada; el
-//             motor `piper` ya existía para Sharvard). Ver
-//             docs/plan-integracion-ingles-en-US.md. Su contenido clínico es
-//             la Fase 3 y todavía no existe: hasta entonces la variedad muestra
-//             y locuta el banco castellano — ver EN_THERAPY_CONTENT_READY abajo.
+//             motor `piper` ya existía para Sharvard). Banco clínico propio,
+//             diseñado desde la fonología del inglés americano y sujeto a la
+//             guía dialectal docs/guia-dialectal-en-US.md. Ver
+//             docs/plan-integracion-ingles-en-US.md.
 //
 // OJO — esta variedad NO decide el idioma de la INTERFAZ. Ese es un segundo eje
 // independiente que vive en `valeriaUiLang.ts`, para no dejar fuera el caso
@@ -61,21 +61,18 @@ export async function setLocale(loc: Locale): Promise<void> {
 // ---------------------------------------------------------------------------
 // ¿Existe ya el banco clínico INGLÉS? (plan en-US, Fase 3)
 // ---------------------------------------------------------------------------
-// Hoy no. Con `en-US` activa, las pantallas caen al banco castellano
-// (pairsForLocale, semanticForLocale, dbForLocale…), que es exactamente la
-// build de evaluación EN-0.9: «interfaz en inglés, contenido en castellano»,
-// la versión acordada para que la revisora SLP evalúe con la app en la mano.
+// Ya SÍ (ago 2026, EN-3.2…EN-3.8): pares mínimos, expansión semántica,
+// Audición, Lenguaje, TEA, Dislexia y Test de Ling propios, y el corpus enumera
+// el 100 % de lo que la app dice en `en-US`.
 //
-// La consecuencia hay que tratarla, no ignorarla: si en ese estado la variedad
-// pidiera voz y micrófono en `en-US`, el TTS inglés leería «perro» y el
-// reconocedor inglés escucharía castellano. No es «castellano con acento»: es
-// ruido. Mientras esto sea false, la variedad inglesa SE LOCUTA Y SE ESCUCHA en
-// castellano, y lo único que suena en inglés es lo que de verdad está escrito
-// en inglés (la muestra de voz, vía speakVoiceSample).
-//
-// Al cerrar la Fase 3 (EN-3.8: el corpus enumera el 100 % de lo que la app dice
-// en `en-US`) esto pasa a `true` y la variedad se comporta como el resto.
-export const EN_THERAPY_CONTENT_READY = false;
+// El interruptor se conserva porque la transición tenía trampa y conviene no
+// olvidarla: mientras el banco no existía, `en-US` mostraba contenido
+// CASTELLANO, y pedirle al TTS inglés que leyera «perro» no produce castellano
+// con acento, produce ruido. Con esto en false la variedad se locuta y se
+// escucha en castellano; en true se comporta como cualquier otra. Es el
+// conmutador que hay que bajar si algún día se añade una variedad nueva antes
+// que su contenido.
+export const EN_THERAPY_CONTENT_READY = true;
 
 // Variedad de la que sale el contenido que se está usando REALMENTE. Coincide
 // con la elegida salvo en el caso de arriba. Punto único: lo consumen el banco

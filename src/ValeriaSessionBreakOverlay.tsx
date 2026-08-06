@@ -18,6 +18,7 @@ import { ROUTINE_ROUTES, RoutineRoute } from './valeriaRoutineRoutes';
 import { ROUTE_DONE_PHRASE } from './valeriaPhraseBank';
 import { TPR_CAPSULES_GL, ROUTINE_ROUTES_GL, ROUTE_DONE_PHRASE_GL } from './valeriaContentGl';
 import { TPR_CAPSULES_EU, ROUTINE_ROUTES_EU, ROUTE_DONE_PHRASE_EU } from './valeriaContentEu';
+import { TPR_CAPSULES_EN, ROUTINE_ROUTES_EN } from './valeriaContentEn';
 import { getLocale } from './valeriaLocale';
 import {
   trackCapsuleStart, trackCapsuleDone, trackCapsuleSkip,
@@ -36,8 +37,10 @@ const pick = <T,>(arr: T[]): T => arr[Math.floor(Math.random() * arr.length)];
 // suenan con Celtia); en el resto, las castellanas.
 export const pickSessionBreak = (): SessionBreak => {
   const loc = getLocale();
-  const capsules = loc === 'gl' ? TPR_CAPSULES_GL : loc === 'eu' ? TPR_CAPSULES_EU : TPR_CAPSULES;
-  const routes = loc === 'gl' ? ROUTINE_ROUTES_GL : loc === 'eu' ? ROUTINE_ROUTES_EU : ROUTINE_ROUTES;
+  const capsules = loc === 'gl' ? TPR_CAPSULES_GL : loc === 'eu' ? TPR_CAPSULES_EU
+    : loc === 'en-US' ? TPR_CAPSULES_EN : TPR_CAPSULES;
+  const routes = loc === 'gl' ? ROUTINE_ROUTES_GL : loc === 'eu' ? ROUTINE_ROUTES_EU
+    : loc === 'en-US' ? ROUTINE_ROUTES_EN : ROUTINE_ROUTES;
   return Math.random() < 0.5
     ? { kind: 'capsule', capsule: pick(capsules) }
     : { kind: 'route', route: pick(routes) };

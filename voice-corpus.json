@@ -1,33 +1,32 @@
 {
- "generatedAt": "2026-08-06T06:38:10.813Z",
- "entries": 2465,
+ "generatedAt": "2026-08-06T07:19:07.876Z",
+ "entries": 3052,
  "byStyle": {
-  "child": 1319,
-  "slow": 569,
-  "clinical": 28,
-  "tutor": 549
+  "child": 1626,
+  "slow": 708,
+  "clinical": 36,
+  "tutor": 682
  },
  "bySource": {
-  "pares/intro": 27,
-  "pares/prompt": 27,
-  "pares/celebracion": 27,
-  "pares/correccion": 27,
-  "pares/retry": 27,
-  "pares/modelado": 27,
-  "pares/roleswap": 68,
+  "pares/intro": 36,
+  "pares/prompt": 36,
+  "pares/celebracion": 36,
+  "pares/correccion": 36,
+  "pares/retry": 36,
+  "pares/modelado": 36,
+  "pares/roleswap": 85,
   "pares/fin": 4,
-  "tpr": 72,
+  "tpr": 87,
   "tpr/fin": 4,
-  "rutas": 24,
+  "rutas": 32,
   "rutas/fin": 4,
   "banco/elogio": 24,
   "banco/casi": 16,
   "banco/no-oido": 12,
   "banco/juntos": 12,
   "util/muestra": 4,
-  "expansion": 1278,
-  "ejercicios": 778,
-  "ejercicios/veredicto": 3
+  "expansion": 1517,
+  "ejercicios": 1035
  },
  "corpus": [
   {
@@ -17097,6 +17096,4136 @@
    "source": "ejercicios"
   },
   {
+   "id": "en_child_fc1ae37d_50",
+   "lang": "en",
+   "style": "child",
+   "text": "This one is rake. And this one is wake. Say: rake.",
+   "source": "pares/intro"
+  },
+  {
+   "id": "en_child_9e01e7e3_10",
+   "lang": "en",
+   "style": "child",
+   "text": "Say: rake.",
+   "source": "pares/prompt"
+  },
+  {
+   "id": "en_child_2e94fe64_48",
+   "lang": "en",
+   "style": "child",
+   "text": "Rrrake! Your lips stayed wide open for that /r/!",
+   "source": "pares/celebracion"
+  },
+  {
+   "id": "en_child_2b3097e5_57",
+   "lang": "en",
+   "style": "child",
+   "text": "I heard wake, like waking up. I asked for rrrake. Listen…",
+   "source": "pares/correccion"
+  },
+  {
+   "id": "en_child_e2123f2e_25",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: rake.",
+   "source": "pares/retry"
+  },
+  {
+   "id": "en_slow_9ea85410_4",
+   "lang": "en",
+   "style": "slow",
+   "text": "rake",
+   "source": "pares/modelado"
+  },
+  {
+   "id": "en_child_5132e597_60",
+   "lang": "en",
+   "style": "child",
+   "text": "Oops! The grown-up said rake. Listen again on the next turn!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "en_child_7da5c4c2_60",
+   "lang": "en",
+   "style": "child",
+   "text": "Oops! The grown-up said wake. Listen again on the next turn!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "en_child_517c7d92_50",
+   "lang": "en",
+   "style": "child",
+   "text": "This one is rock. And this one is lock. Say: rock.",
+   "source": "pares/intro"
+  },
+  {
+   "id": "en_child_ff68d9ef_10",
+   "lang": "en",
+   "style": "child",
+   "text": "Say: rock.",
+   "source": "pares/prompt"
+  },
+  {
+   "id": "en_child_e116a2a6_30",
+   "lang": "en",
+   "style": "child",
+   "text": "Rrrock! That was a strong /r/!",
+   "source": "pares/celebracion"
+  },
+  {
+   "id": "en_child_b71aacc7_65",
+   "lang": "en",
+   "style": "child",
+   "text": "I heard lock, the one on the door. I asked for rrrock. Let’s try…",
+   "source": "pares/correccion"
+  },
+  {
+   "id": "en_child_559032b2_25",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: rock.",
+   "source": "pares/retry"
+  },
+  {
+   "id": "en_slow_3a1b4ab4_4",
+   "lang": "en",
+   "style": "slow",
+   "text": "rock",
+   "source": "pares/modelado"
+  },
+  {
+   "id": "en_child_fe17878b_60",
+   "lang": "en",
+   "style": "child",
+   "text": "Oops! The grown-up said rock. Listen again on the next turn!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "en_child_0169556d_60",
+   "lang": "en",
+   "style": "child",
+   "text": "Oops! The grown-up said lock. Listen again on the next turn!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "en_child_a80cda07_47",
+   "lang": "en",
+   "style": "child",
+   "text": "This one is key. And this one is tea. Say: key.",
+   "source": "pares/intro"
+  },
+  {
+   "id": "en_child_f324a71d_9",
+   "lang": "en",
+   "style": "child",
+   "text": "Say: key.",
+   "source": "pares/prompt"
+  },
+  {
+   "id": "en_child_7170dd9f_42",
+   "lang": "en",
+   "style": "child",
+   "text": "Key! The back of your tongue did the work!",
+   "source": "pares/celebracion"
+  },
+  {
+   "id": "en_child_4f249792_56",
+   "lang": "en",
+   "style": "child",
+   "text": "I heard tea, the one you drink. I asked for key. Listen…",
+   "source": "pares/correccion"
+  },
+  {
+   "id": "en_child_6467f162_24",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: key.",
+   "source": "pares/retry"
+  },
+  {
+   "id": "en_slow_6815c86c_3",
+   "lang": "en",
+   "style": "slow",
+   "text": "key",
+   "source": "pares/modelado"
+  },
+  {
+   "id": "en_child_c066ccd1_59",
+   "lang": "en",
+   "style": "child",
+   "text": "Oops! The grown-up said key. Listen again on the next turn!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "en_child_4253034c_59",
+   "lang": "en",
+   "style": "child",
+   "text": "Oops! The grown-up said tea. Listen again on the next turn!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "en_child_547883b8_53",
+   "lang": "en",
+   "style": "child",
+   "text": "This one is peach. And this one is beach. Say: peach.",
+   "source": "pares/intro"
+  },
+  {
+   "id": "en_child_95667767_11",
+   "lang": "en",
+   "style": "child",
+   "text": "Say: peach.",
+   "source": "pares/prompt"
+  },
+  {
+   "id": "en_child_66bbe66a_35",
+   "lang": "en",
+   "style": "child",
+   "text": "Peach! Nice and quiet at the start!",
+   "source": "pares/celebracion"
+  },
+  {
+   "id": "en_child_c0d9b81a_74",
+   "lang": "en",
+   "style": "child",
+   "text": "I heard beach, with the sand and the sea. I asked for peach. Let’s listen…",
+   "source": "pares/correccion"
+  },
+  {
+   "id": "en_child_b40d8af4_26",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: peach.",
+   "source": "pares/retry"
+  },
+  {
+   "id": "en_slow_a0d51666_5",
+   "lang": "en",
+   "style": "slow",
+   "text": "peach",
+   "source": "pares/modelado"
+  },
+  {
+   "id": "en_child_641bcceb_61",
+   "lang": "en",
+   "style": "child",
+   "text": "Oops! The grown-up said peach. Listen again on the next turn!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "en_child_2f969c91_61",
+   "lang": "en",
+   "style": "child",
+   "text": "Oops! The grown-up said beach. Listen again on the next turn!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "en_child_062ca70f_49",
+   "lang": "en",
+   "style": "child",
+   "text": "This one is ship. And this one is sip. Say: ship.",
+   "source": "pares/intro"
+  },
+  {
+   "id": "en_child_839a427a_10",
+   "lang": "en",
+   "style": "child",
+   "text": "Say: ship.",
+   "source": "pares/prompt"
+  },
+  {
+   "id": "en_child_94f6d9c5_34",
+   "lang": "en",
+   "style": "child",
+   "text": "Ship! That was a long, quiet shhh!",
+   "source": "pares/celebracion"
+  },
+  {
+   "id": "en_child_75a6475b_60",
+   "lang": "en",
+   "style": "child",
+   "text": "I heard sip, like sipping a drink. I asked for ship. Listen…",
+   "source": "pares/correccion"
+  },
+  {
+   "id": "en_child_dee0937f_25",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: ship.",
+   "source": "pares/retry"
+  },
+  {
+   "id": "en_slow_ac56f17f_4",
+   "lang": "en",
+   "style": "slow",
+   "text": "ship",
+   "source": "pares/modelado"
+  },
+  {
+   "id": "en_child_d809f828_60",
+   "lang": "en",
+   "style": "child",
+   "text": "Oops! The grown-up said ship. Listen again on the next turn!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "en_child_a5579412_59",
+   "lang": "en",
+   "style": "child",
+   "text": "Oops! The grown-up said sip. Listen again on the next turn!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "en_child_f5a4f8a3_52",
+   "lang": "en",
+   "style": "child",
+   "text": "This one is snail. And this one is nail. Say: snail.",
+   "source": "pares/intro"
+  },
+  {
+   "id": "en_child_7020cc13_11",
+   "lang": "en",
+   "style": "child",
+   "text": "Say: snail.",
+   "source": "pares/prompt"
+  },
+  {
+   "id": "en_child_7a7569ca_37",
+   "lang": "en",
+   "style": "child",
+   "text": "Snail! You kept both sounds together!",
+   "source": "pares/celebracion"
+  },
+  {
+   "id": "en_child_6083666e_92",
+   "lang": "en",
+   "style": "child",
+   "text": "I heard nail, the one on your finger. I asked for snail — it starts with a long sss. Listen…",
+   "source": "pares/correccion"
+  },
+  {
+   "id": "en_child_41580de0_26",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: snail.",
+   "source": "pares/retry"
+  },
+  {
+   "id": "en_slow_8afbb84a_5",
+   "lang": "en",
+   "style": "slow",
+   "text": "snail",
+   "source": "pares/modelado"
+  },
+  {
+   "id": "en_child_b09ed257_61",
+   "lang": "en",
+   "style": "child",
+   "text": "Oops! The grown-up said snail. Listen again on the next turn!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "en_child_6571f35a_60",
+   "lang": "en",
+   "style": "child",
+   "text": "Oops! The grown-up said nail. Listen again on the next turn!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "en_child_ec7c53c0_49",
+   "lang": "en",
+   "style": "child",
+   "text": "This one is seat. And this one is sea. Say: seat.",
+   "source": "pares/intro"
+  },
+  {
+   "id": "en_child_b1f74173_10",
+   "lang": "en",
+   "style": "child",
+   "text": "Say: seat.",
+   "source": "pares/prompt"
+  },
+  {
+   "id": "en_child_a3f0a22a_39",
+   "lang": "en",
+   "style": "child",
+   "text": "Seat! You put the /t/ right at the end!",
+   "source": "pares/celebracion"
+  },
+  {
+   "id": "en_child_94c6aa1d_77",
+   "lang": "en",
+   "style": "child",
+   "text": "I heard sea, the water. I asked for seat — it needs a /t/ at the end. Listen…",
+   "source": "pares/correccion"
+  },
+  {
+   "id": "en_child_4fd0ef2e_25",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: seat.",
+   "source": "pares/retry"
+  },
+  {
+   "id": "en_slow_70507c68_4",
+   "lang": "en",
+   "style": "slow",
+   "text": "seat",
+   "source": "pares/modelado"
+  },
+  {
+   "id": "en_child_ab8a791f_60",
+   "lang": "en",
+   "style": "child",
+   "text": "Oops! The grown-up said seat. Listen again on the next turn!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "en_child_0b85a001_59",
+   "lang": "en",
+   "style": "child",
+   "text": "Oops! The grown-up said sea. Listen again on the next turn!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "en_child_da052426_49",
+   "lang": "en",
+   "style": "child",
+   "text": "This one is thin. And this one is fin. Say: thin.",
+   "source": "pares/intro"
+  },
+  {
+   "id": "en_child_d04dca75_10",
+   "lang": "en",
+   "style": "child",
+   "text": "Say: thin.",
+   "source": "pares/prompt"
+  },
+  {
+   "id": "en_child_bc2ff8ca_48",
+   "lang": "en",
+   "style": "child",
+   "text": "Thin! Your tongue peeked out between your teeth!",
+   "source": "pares/celebracion"
+  },
+  {
+   "id": "en_child_fcc12372_55",
+   "lang": "en",
+   "style": "child",
+   "text": "I heard fin, like a fish fin. I asked for thin. Listen…",
+   "source": "pares/correccion"
+  },
+  {
+   "id": "en_child_0491a280_25",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: thin.",
+   "source": "pares/retry"
+  },
+  {
+   "id": "en_slow_c52bb172_4",
+   "lang": "en",
+   "style": "slow",
+   "text": "thin",
+   "source": "pares/modelado"
+  },
+  {
+   "id": "en_child_f62f5219_60",
+   "lang": "en",
+   "style": "child",
+   "text": "Oops! The grown-up said thin. Listen again on the next turn!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "en_child_2e7af97b_59",
+   "lang": "en",
+   "style": "child",
+   "text": "Oops! The grown-up said fin. Listen again on the next turn!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "en_child_29f99abd_52",
+   "lang": "en",
+   "style": "child",
+   "text": "This one is sheep. And this one is ship. Say: sheep.",
+   "source": "pares/intro"
+  },
+  {
+   "id": "en_child_60cb2b75_11",
+   "lang": "en",
+   "style": "child",
+   "text": "Say: sheep.",
+   "source": "pares/prompt"
+  },
+  {
+   "id": "en_child_1bd9e380_41",
+   "lang": "en",
+   "style": "child",
+   "text": "Sheep! You made that vowel nice and long!",
+   "source": "pares/celebracion"
+  },
+  {
+   "id": "en_child_c275899c_78",
+   "lang": "en",
+   "style": "child",
+   "text": "I heard ship, the one on the water. I asked for sheep — a longer eeee. Listen…",
+   "source": "pares/correccion"
+  },
+  {
+   "id": "en_child_451616f2_26",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: sheep.",
+   "source": "pares/retry"
+  },
+  {
+   "id": "en_slow_07cc25f4_5",
+   "lang": "en",
+   "style": "slow",
+   "text": "sheep",
+   "source": "pares/modelado"
+  },
+  {
+   "id": "en_child_94cb9271_61",
+   "lang": "en",
+   "style": "child",
+   "text": "Oops! The grown-up said sheep. Listen again on the next turn!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "en_child_f20102bb_16",
+   "lang": "en",
+   "style": "child",
+   "text": "Touch your head.",
+   "source": "tpr"
+  },
+  {
+   "id": "en_child_45f7ebd8_16",
+   "lang": "en",
+   "style": "child",
+   "text": "Touch your nose.",
+   "source": "tpr"
+  },
+  {
+   "id": "en_child_2c21ed6a_26",
+   "lang": "en",
+   "style": "child",
+   "text": "Put your arms way up high.",
+   "source": "tpr"
+  },
+  {
+   "id": "en_child_04d76050_16",
+   "lang": "en",
+   "style": "child",
+   "text": "Hop like a frog.",
+   "source": "tpr"
+  },
+  {
+   "id": "en_child_965d3219_31",
+   "lang": "en",
+   "style": "child",
+   "text": "Walk like a bear, on all fours.",
+   "source": "tpr"
+  },
+  {
+   "id": "en_child_400b322e_36",
+   "lang": "en",
+   "style": "child",
+   "text": "Fly like a bird, flapping your arms.",
+   "source": "tpr"
+  },
+  {
+   "id": "en_child_39b388db_17",
+   "lang": "en",
+   "style": "child",
+   "text": "Jump three times.",
+   "source": "tpr"
+  },
+  {
+   "id": "en_child_9fecd65f_24",
+   "lang": "en",
+   "style": "child",
+   "text": "Spin all the way around.",
+   "source": "tpr"
+  },
+  {
+   "id": "en_child_9de272bf_22",
+   "lang": "en",
+   "style": "child",
+   "text": "Sit down on the floor.",
+   "source": "tpr"
+  },
+  {
+   "id": "en_child_08a9ecbe_38",
+   "lang": "en",
+   "style": "child",
+   "text": "Walk very, very slowly, like a turtle.",
+   "source": "tpr"
+  },
+  {
+   "id": "en_child_291893bb_31",
+   "lang": "en",
+   "style": "child",
+   "text": "Run in place, fast, fast, fast!",
+   "source": "tpr"
+  },
+  {
+   "id": "en_child_295f33b7_38",
+   "lang": "en",
+   "style": "child",
+   "text": "Statue! Freeze and do not move at all.",
+   "source": "tpr"
+  },
+  {
+   "id": "en_child_26d27c5a_24",
+   "lang": "en",
+   "style": "child",
+   "text": "Clap as loud as you can.",
+   "source": "tpr"
+  },
+  {
+   "id": "en_child_ed540a0d_28",
+   "lang": "en",
+   "style": "child",
+   "text": "Wave goodbye with your hand.",
+   "source": "tpr"
+  },
+  {
+   "id": "en_child_59bed171_30",
+   "lang": "en",
+   "style": "child",
+   "text": "Give the grown-up a high five.",
+   "source": "tpr"
+  },
+  {
+   "id": "en_clinical_45d8180d_29",
+   "lang": "en",
+   "style": "clinical",
+   "text": "Put the red cup on the chair.",
+   "source": "rutas"
+  },
+  {
+   "id": "en_clinical_dd064102_37",
+   "lang": "en",
+   "style": "clinical",
+   "text": "Give the small spoon to the grown-up.",
+   "source": "rutas"
+  },
+  {
+   "id": "en_clinical_c5b4a415_31",
+   "lang": "en",
+   "style": "clinical",
+   "text": "Put the napkin under the plate.",
+   "source": "rutas"
+  },
+  {
+   "id": "en_clinical_166541fb_47",
+   "lang": "en",
+   "style": "clinical",
+   "text": "Take the biggest fruit and put it on the table.",
+   "source": "rutas"
+  },
+  {
+   "id": "en_clinical_2fc54988_39",
+   "lang": "en",
+   "style": "clinical",
+   "text": "Put the blue toothbrush inside the cup.",
+   "source": "rutas"
+  },
+  {
+   "id": "en_clinical_cea3cd48_48",
+   "lang": "en",
+   "style": "clinical",
+   "text": "Bring the small towel and leave it on the chair.",
+   "source": "rutas"
+  },
+  {
+   "id": "en_clinical_442c2136_37",
+   "lang": "en",
+   "style": "clinical",
+   "text": "Put the rubber duck in the empty tub.",
+   "source": "rutas"
+  },
+  {
+   "id": "en_clinical_3e894b2f_51",
+   "lang": "en",
+   "style": "clinical",
+   "text": "Give the soap to the grown-up with your other hand.",
+   "source": "rutas"
+  },
+  {
+   "id": "en_child_caf3c5d3_41",
+   "lang": "en",
+   "style": "child",
+   "text": "Every morning we hop out of it. Say: bed.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_3a08b36a_24",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: bed.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_caf3c5d3_41",
+   "lang": "en",
+   "style": "slow",
+   "text": "Every morning we hop out of it. Say: bed.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_0bed31fe_59",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Pat the mattress twice together, then both hop off the bed.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_b4c3a35b_43",
+   "lang": "en",
+   "style": "child",
+   "text": "We pull this one over our head. Say: shirt.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_0509a0e3_26",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: shirt.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_b4c3a35b_43",
+   "lang": "en",
+   "style": "slow",
+   "text": "We pull this one over our head. Say: shirt.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_acce93b6_75",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Hold the shirt up and pop your child’s head through the neck hole together.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_2eab0aba_39",
+   "lang": "en",
+   "style": "child",
+   "text": "Up and down on every tooth. Say: brush.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_486fc633_26",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: brush.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_2eab0aba_39",
+   "lang": "en",
+   "style": "slow",
+   "text": "Up and down on every tooth. Say: brush.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_10051aa7_68",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Both of you brush in the air, up and down, counting to ten out loud.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_355ee6cc_48",
+   "lang": "en",
+   "style": "child",
+   "text": "Hands under the water, rub, rub, rub. Say: wash.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_5c5425d4_25",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: wash.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_355ee6cc_48",
+   "lang": "en",
+   "style": "slow",
+   "text": "Hands under the water, rub, rub, rub. Say: wash.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_3c9dee03_81",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Rub your hands together like you are washing, then blow the pretend bubbles away.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_143727ec_60",
+   "lang": "en",
+   "style": "child",
+   "text": "Your eyes are still heavy and you want to yawn. Say: sleepy.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_317788bb_27",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: sleepy.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_143727ec_60",
+   "lang": "en",
+   "style": "slow",
+   "text": "Your eyes are still heavy and you want to yawn. Say: sleepy.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_350ec502_74",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Have a big pretend yawn together and stretch your arms as wide as they go.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_fc6e421f_51",
+   "lang": "en",
+   "style": "child",
+   "text": "The alarm clock wakes everybody up. Say: beep beep.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_4e6c2eab_30",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: beep beep.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_fc6e421f_51",
+   "lang": "en",
+   "style": "slow",
+   "text": "The alarm clock wakes everybody up. Say: beep beep.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_6c4d2f8e_77",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Press your child’s nose like a button and shout it together, then swap roles.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_9e87505a_38",
+   "lang": "en",
+   "style": "child",
+   "text": "We scoop the soup with it. Say: spoon.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_69861b34_26",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: spoon.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_9e87505a_38",
+   "lang": "en",
+   "style": "slow",
+   "text": "We scoop the soup with it. Say: spoon.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_7bda8497_56",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Take turns scooping pretend soup and feeding each other.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_2a42d94f_38",
+   "lang": "en",
+   "style": "child",
+   "text": "We drink our milk out of it. Say: cup.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_e173d0ff_24",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: cup.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_2a42d94f_38",
+   "lang": "en",
+   "style": "slow",
+   "text": "We drink our milk out of it. Say: cup.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_c6f79162_57",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Clink your cups together and take a sip at the same time.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_f208b3ee_39",
+   "lang": "en",
+   "style": "child",
+   "text": "Open wide and chew it all up. Say: eat.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_1dcbe905_24",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: eat.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_f208b3ee_39",
+   "lang": "en",
+   "style": "slow",
+   "text": "Open wide and chew it all up. Say: eat.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_9f9a44c4_54",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Chew a big pretend bite together and rub your tummies.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_413a9cc0_48",
+   "lang": "en",
+   "style": "child",
+   "text": "Tip the jug slowly so nothing spills. Say: pour.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_3d0f4567_25",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: pour.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_413a9cc0_48",
+   "lang": "en",
+   "style": "slow",
+   "text": "Tip the jug slowly so nothing spills. Say: pour.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_a929afcb_69",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Guide your child’s hands on the jug and pour a little water together.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_2c75cd70_51",
+   "lang": "en",
+   "style": "child",
+   "text": "The steam is coming up, so we blow first. Say: hot.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_30327562_24",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: hot.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_2c75cd70_51",
+   "lang": "en",
+   "style": "slow",
+   "text": "The steam is coming up, so we blow first. Say: hot.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_49a49948_64",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Blow on a spoonful together and wave a hand like it is too warm.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_5d57ec9d_63",
+   "lang": "en",
+   "style": "child",
+   "text": "That is what we say when the food is really good. Say: yum yum.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_4d59194f_28",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: yum yum.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_5d57ec9d_63",
+   "lang": "en",
+   "style": "slow",
+   "text": "That is what we say when the food is really good. Say: yum yum.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_780a1a53_55",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Rub your tummies and say it together, louder each time.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_0c044e2d_47",
+   "lang": "en",
+   "style": "child",
+   "text": "It makes all the bubbles in the tub. Say: soap.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_8d201eec_25",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: soap.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_0c044e2d_47",
+   "lang": "en",
+   "style": "slow",
+   "text": "It makes all the bubbles in the tub. Say: soap.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_f5ec1fcf_78",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Rub the bar between your hands until it foams and show your child the bubbles.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_9b043848_45",
+   "lang": "en",
+   "style": "child",
+   "text": "We wrap up in it when we get out. Say: towel.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_0e42de5e_26",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: towel.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_9b043848_45",
+   "lang": "en",
+   "style": "slow",
+   "text": "We wrap up in it when we get out. Say: towel.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_d1f8ac9f_58",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Wrap your child up like a burrito and give them a squeeze.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_364f2928_49",
+   "lang": "en",
+   "style": "child",
+   "text": "The water takes all the bubbles away. Say: rinse.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_a499892c_26",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: rinse.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_364f2928_49",
+   "lang": "en",
+   "style": "slow",
+   "text": "The water takes all the bubbles away. Say: rinse.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_b3894190_74",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Pour a cup of water down your child’s arm and watch the bubbles disappear.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_b08750cc_56",
+   "lang": "en",
+   "style": "child",
+   "text": "Rub the towel all over until no water is left. Say: dry.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_2a32c1dc_24",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: dry.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_b08750cc_56",
+   "lang": "en",
+   "style": "slow",
+   "text": "Rub the towel all over until no water is left. Say: dry.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_e2dd2dad_79",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Rub your child’s hair with the towel while they say it, then let them do yours.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_76ab5f9a_51",
+   "lang": "en",
+   "style": "child",
+   "text": "Water is dripping right off your fingers. Say: wet.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_42ac6dc7_24",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: wet.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_76ab5f9a_51",
+   "lang": "en",
+   "style": "slow",
+   "text": "Water is dripping right off your fingers. Say: wet.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_d625cb5f_68",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Touch your child’s wet hand to your cheek and pull a surprised face.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_04e7cb0a_60",
+   "lang": "en",
+   "style": "child",
+   "text": "That is the sound your hands make in the water. Say: splash.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_9c8aadec_27",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: splash.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_04e7cb0a_60",
+   "lang": "en",
+   "style": "slow",
+   "text": "That is the sound your hands make in the water. Say: splash.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_2645c569_63",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Slap the water together three times and let it splash you both.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_68068af6_35",
+   "lang": "en",
+   "style": "child",
+   "text": "Red, round and crunchy. Say: apple.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_38c9fe57_26",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: apple.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_68068af6_35",
+   "lang": "en",
+   "style": "slow",
+   "text": "Red, round and crunchy. Say: apple.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_fdef17df_41",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Take a big crunchy pretend bite together.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_0ffe0454_54",
+   "lang": "en",
+   "style": "child",
+   "text": "Yellow and curved, and you peel it first. Say: banana.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_b7bd6876_27",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: banana.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_0ffe0454_54",
+   "lang": "en",
+   "style": "slow",
+   "text": "Yellow and curved, and you peel it first. Say: banana.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_72cdf331_50",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Peel an imaginary one from the top down, together.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_df1eb40b_56",
+   "lang": "en",
+   "style": "child",
+   "text": "Round, and it comes apart in little pieces. Say: orange.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_3c6fb92b_27",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: orange.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_df1eb40b_56",
+   "lang": "en",
+   "style": "slow",
+   "text": "Round, and it comes apart in little pieces. Say: orange.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_b14d08b0_49",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Pull apart an imaginary one and share the pieces.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_d5dda684_54",
+   "lang": "en",
+   "style": "child",
+   "text": "Little purple balls that grow in a bunch. Say: grapes.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_a1343ee1_27",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: grapes.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_d5dda684_54",
+   "lang": "en",
+   "style": "slow",
+   "text": "Little purple balls that grow in a bunch. Say: grapes.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_0ef3d492_72",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Pick them off an imaginary bunch one by one and pop them in your mouths.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_51912525_53",
+   "lang": "en",
+   "style": "child",
+   "text": "Sweet, juicy and it drips down your chin. Say: mango.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_75aecda5_26",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: mango.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_51912525_53",
+   "lang": "en",
+   "style": "slow",
+   "text": "Sweet, juicy and it drips down your chin. Say: mango.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_0993b80f_57",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Eat an imaginary slice and wipe the juice off your chins.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_ce6a93b9_41",
+   "lang": "en",
+   "style": "child",
+   "text": "It wags its tail and goes woof. Say: dog.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_368778f1_24",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: dog.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_ce6a93b9_41",
+   "lang": "en",
+   "style": "slow",
+   "text": "It wags its tail and goes woof. Say: dog.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_27acb7ff_46",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Get on all fours and bark at each other twice.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_19e5bd50_48",
+   "lang": "en",
+   "style": "child",
+   "text": "Soft, with whiskers, and it goes meow. Say: cat.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_036f9da7_24",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: cat.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_19e5bd50_48",
+   "lang": "en",
+   "style": "slow",
+   "text": "Soft, with whiskers, and it goes meow. Say: cat.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_77334213_59",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Stroke each other’s arm like petting fur and purr together.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_2496d174_42",
+   "lang": "en",
+   "style": "child",
+   "text": "It has feathers and flies away. Say: bird.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_0d0fc168_25",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: bird.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_2496d174_42",
+   "lang": "en",
+   "style": "slow",
+   "text": "It has feathers and flies away. Say: bird.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_2b983e06_59",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Flap your arms like wings and fly across the room together.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_b434fe00_55",
+   "lang": "en",
+   "style": "child",
+   "text": "Big, with a long mane, and you can ride it. Say: horse.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_67cdb3dc_26",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: horse.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_b434fe00_55",
+   "lang": "en",
+   "style": "slow",
+   "text": "Big, with a long mane, and you can ride it. Say: horse.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_de26f412_55",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Gallop around the room slapping your thighs for hooves.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_4a0fa44a_45",
+   "lang": "en",
+   "style": "child",
+   "text": "Black and white stripes all over. Say: zebra.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_a649e3ef_26",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: zebra.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_4a0fa44a_45",
+   "lang": "en",
+   "style": "slow",
+   "text": "Black and white stripes all over. Say: zebra.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_12c68401_50",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Draw stripes down each other’s arms with a finger.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_a7ba036d_49",
+   "lang": "en",
+   "style": "child",
+   "text": "It goes on your foot before we go out. Say: shoe.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_362a3100_25",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: shoe.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_a7ba036d_49",
+   "lang": "en",
+   "style": "slow",
+   "text": "It goes on your foot before we go out. Say: shoe.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_634dc6ea_45",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Put one on together and pull the strap tight.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_aeb18dae_44",
+   "lang": "en",
+   "style": "child",
+   "text": "It goes right on top of your head. Say: hat.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_9dea4820_24",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: hat.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_aeb18dae_44",
+   "lang": "en",
+   "style": "slow",
+   "text": "It goes right on top of your head. Say: hat.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_ef86e24c_51",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Pop it on each other’s head and pull the brim down.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_a5c2ef6b_38",
+   "lang": "en",
+   "style": "child",
+   "text": "It goes on before the shoe. Say: sock.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_360c9b65_25",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: sock.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_a5c2ef6b_38",
+   "lang": "en",
+   "style": "slow",
+   "text": "It goes on before the shoe. Say: sock.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_a0da4e9a_61",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Pull one onto your child’s foot while they say it, then swap.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_2d7ebeb9_44",
+   "lang": "en",
+   "style": "child",
+   "text": "We zip it up when it gets cold. Say: jacket.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_3dd6c90b_27",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: jacket.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_2d7ebeb9_44",
+   "lang": "en",
+   "style": "slow",
+   "text": "We zip it up when it gets cold. Say: jacket.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_b1583e17_61",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Zip an imaginary one all the way up to the chin, both of you.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_ba8596c8_49",
+   "lang": "en",
+   "style": "child",
+   "text": "It wraps around and around your neck. Say: scarf.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_8588ee7c_26",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: scarf.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_ba8596c8_49",
+   "lang": "en",
+   "style": "slow",
+   "text": "It wraps around and around your neck. Say: scarf.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_99968f91_60",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Wind it around each other’s neck twice and tuck the ends in.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_844aa63a_36",
+   "lang": "en",
+   "style": "child",
+   "text": "The color of a fire truck. Say: red.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_2b3d021a_24",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: red.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_844aa63a_36",
+   "lang": "en",
+   "style": "slow",
+   "text": "The color of a fire truck. Say: red.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_726883ad_73",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Race to touch something of that color in the room before your child does.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_84ea8b64_47",
+   "lang": "en",
+   "style": "child",
+   "text": "The color of the sky on a clear day. Say: blue.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_094bfe1d_25",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: blue.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_84ea8b64_47",
+   "lang": "en",
+   "style": "slow",
+   "text": "The color of the sky on a clear day. Say: blue.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_f617e2a3_73",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Point up at the sky together, then find something the same color indoors.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_04c8e1ab_42",
+   "lang": "en",
+   "style": "child",
+   "text": "The color of grass and leaves. Say: green.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_a165fe9a_26",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: green.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_04c8e1ab_42",
+   "lang": "en",
+   "style": "slow",
+   "text": "The color of grass and leaves. Say: green.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_2b00a0dd_69",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Wiggle your fingers like grass growing and find something that color.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_8e7b8c53_47",
+   "lang": "en",
+   "style": "child",
+   "text": "The color of the sun and a banana. Say: yellow.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_94a51969_27",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: yellow.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_8e7b8c53_47",
+   "lang": "en",
+   "style": "slow",
+   "text": "The color of the sun and a banana. Say: yellow.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_c29eb117_61",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Make a big sun shape with your arms over your heads together.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_77fcd8a7_47",
+   "lang": "en",
+   "style": "child",
+   "text": "The color of grapes and eggplants. Say: purple.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_96318437_27",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: purple.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_77fcd8a7_47",
+   "lang": "en",
+   "style": "slow",
+   "text": "The color of grapes and eggplants. Say: purple.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_33864486_70",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Hunt around the room for that color and clap when one of you finds it.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_7ff0b944_45",
+   "lang": "en",
+   "style": "child",
+   "text": "Five fingers, and we wave with it. Say: hand.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_1550de46_25",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: hand.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_7ff0b944_45",
+   "lang": "en",
+   "style": "slow",
+   "text": "Five fingers, and we wave with it. Say: hand.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_f737cfb5_57",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Press your palms together and count the fingers out loud.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_b1a82fcb_58",
+   "lang": "en",
+   "style": "child",
+   "text": "Right in the middle of your face, for smelling. Say: nose.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_962486f0_25",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: nose.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_b1a82fcb_58",
+   "lang": "en",
+   "style": "slow",
+   "text": "Right in the middle of your face, for smelling. Say: nose.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_6085c41e_48",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Boop each other’s nose and make a beeping sound.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_7aec603f_35",
+   "lang": "en",
+   "style": "child",
+   "text": "It goes inside the shoe. Say: foot.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_5d25bb91_25",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: foot.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_7aec603f_35",
+   "lang": "en",
+   "style": "slow",
+   "text": "It goes inside the shoe. Say: foot.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_66db202a_47",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Stand sole to sole and compare whose is bigger.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_80b50dbd_43",
+   "lang": "en",
+   "style": "child",
+   "text": "It rumbles when you are hungry. Say: tummy.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_79055b73_26",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: tummy.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_80b50dbd_43",
+   "lang": "en",
+   "style": "slow",
+   "text": "It rumbles when you are hungry. Say: tummy.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_eed0c7eb_63",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Rub your bellies in circles and make a rumbling noise together.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_dad59bf5_58",
+   "lang": "en",
+   "style": "child",
+   "text": "It is where your arm joins the rest of you. Say: shoulder.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_f95f023d_29",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: shoulder.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_dad59bf5_58",
+   "lang": "en",
+   "style": "slow",
+   "text": "It is where your arm joins the rest of you. Say: shoulder.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_936c9c23_64",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Shrug them up to your ears and drop them down, three times each.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_12393bd0_44",
+   "lang": "en",
+   "style": "child",
+   "text": "It takes us places on four wheels. Say: car.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_e37e75d1_24",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: car.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_12393bd0_44",
+   "lang": "en",
+   "style": "slow",
+   "text": "It takes us places on four wheels. Say: car.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_48bd822a_50",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Roll a toy car along the floor towards your child.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_7b145587_52",
+   "lang": "en",
+   "style": "child",
+   "text": "This round part is what turns and turns. Say: wheel.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_2ef5e01a_26",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: wheel.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_7b145587_52",
+   "lang": "en",
+   "style": "slow",
+   "text": "This round part is what turns and turns. Say: wheel.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_e6b903ff_56",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Spin the wheel with a finger and let your child stop it.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_9eb15329_45",
+   "lang": "en",
+   "style": "child",
+   "text": "Hands on the wheel and off we go. Say: drive.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_d355e937_26",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: drive.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_9eb15329_45",
+   "lang": "en",
+   "style": "slow",
+   "text": "Hands on the wheel and off we go. Say: drive.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_c9d38f37_69",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Hold an imaginary steering wheel and turn it left and right together.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_34c90f13_53",
+   "lang": "en",
+   "style": "child",
+   "text": "Zooming along with the speed lines behind. Say: fast.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_8008bfbf_25",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: fast.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_34c90f13_53",
+   "lang": "en",
+   "style": "slow",
+   "text": "Zooming along with the speed lines behind. Say: fast.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_cc207521_61",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Race the toy car across the floor as quickly as you both can.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_9f0cf272_41",
+   "lang": "en",
+   "style": "child",
+   "text": "It lives with us and goes woof. Say: dog.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_9f0cf272_41",
+   "lang": "en",
+   "style": "slow",
+   "text": "It lives with us and goes woof. Say: dog.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_3fbc76d5_55",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Walk a stuffed dog across the table towards your child.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_e24ef0a0_55",
+   "lang": "en",
+   "style": "child",
+   "text": "This is the part that wags when it is happy. Say: tail.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_c9af6003_25",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: tail.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_e24ef0a0_55",
+   "lang": "en",
+   "style": "slow",
+   "text": "This is the part that wags when it is happy. Say: tail.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_1029c982_58",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Wag a hand behind you like a tail while your child copies.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_a0b44794_46",
+   "lang": "en",
+   "style": "child",
+   "text": "Four legs going as fast as they can. Say: run.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_dd889ef0_24",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: run.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_a0b44794_46",
+   "lang": "en",
+   "style": "slow",
+   "text": "Four legs going as fast as they can. Say: run.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_35b045c0_42",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Run on the spot together for five seconds.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_c4b7769c_53",
+   "lang": "en",
+   "style": "child",
+   "text": "That is how the fur feels under your hand. Say: soft.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_748cbc35_25",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: soft.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_c4b7769c_53",
+   "lang": "en",
+   "style": "slow",
+   "text": "That is how the fur feels under your hand. Say: soft.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_1b7d153f_78",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Stroke the stuffed dog and then your child’s cheek with the same gentle touch.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_b1670398_155",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Get two teddy bears that look the same but are clearly different sizes: one clearly BIG and one clearly SMALL. Put both teddy bears in front of your child.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_bae1d05b_64",
+   "lang": "en",
+   "style": "child",
+   "text": "Which teddy is the BIG one? Hand it to me and tell me! Say: big.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_232eebd1_24",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: big.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_bae1d05b_64",
+   "lang": "en",
+   "style": "slow",
+   "text": "Which teddy is the BIG one? Hand it to me and tell me! Say: big.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_41d2554d_92",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Your child hands you the big teddy; hug it wide and puff your cheeks to show how huge it is.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_5d40fd2d_66",
+   "lang": "en",
+   "style": "child",
+   "text": "Now the other way round: which teddy is the SMALL one? Say: small.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_84791612_26",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: small.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_5d40fd2d_66",
+   "lang": "en",
+   "style": "slow",
+   "text": "Now the other way round: which teddy is the SMALL one? Say: small.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_4810d0df_95",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Your child hands you the small teddy; hide it in one hand and whisper the word in a tiny voice.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_8c4681c7_120",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Take two identical spoons: wash one until it shines and smear the other spoon with a little food. Put them side by side.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_70cc2592_70",
+   "lang": "en",
+   "style": "child",
+   "text": "Point to the spoon with food all over it. How is this one? Say: dirty.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_5c72f723_26",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: dirty.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_70cc2592_70",
+   "lang": "en",
+   "style": "slow",
+   "text": "Point to the spoon with food all over it. How is this one? Say: dirty.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_23cb81d7_71",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Your child points at it and you both pull a yuck face and push it away.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_445ef288_64",
+   "lang": "en",
+   "style": "child",
+   "text": "And this other spoon, how is it? Look how it shines! Say: clean.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_62f56b7c_26",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: clean.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_445ef288_64",
+   "lang": "en",
+   "style": "slow",
+   "text": "And this other spoon, how is it? Look how it shines! Say: clean.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_f588181b_76",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Point at the shiny one, blow on it like you are polishing it, and high five.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_f1ef161d_122",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Put a box with a lid in front of your child and place their favourite toy inside where they can see it. Close the box lid.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_21f1e501_61",
+   "lang": "en",
+   "style": "child",
+   "text": "The toy is stuck inside. What do we do to the box? Say: open.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_873e6ae9_25",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: open.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_21f1e501_61",
+   "lang": "en",
+   "style": "slow",
+   "text": "The toy is stuck inside. What do we do to the box? Say: open.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_27b8e601_63",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Lift the lid together the moment your child says it, and cheer.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_38fffee2_71",
+   "lang": "en",
+   "style": "child",
+   "text": "Now the toy goes back to sleep in the box. How is the lid? Say: closed.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_b8e43c7d_27",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: closed.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_38fffee2_71",
+   "lang": "en",
+   "style": "slow",
+   "text": "Now the toy goes back to sleep in the box. How is the lid? Say: closed.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_d47d1d04_44",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Push the lid down together and pat it twice.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_4acdaee0_118",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Fill one cup with cold water and another cup with warm (not hot) water. Put both cups where your child can touch them.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_9785f4e6_50",
+   "lang": "en",
+   "style": "child",
+   "text": "Touch this cup. Brrr, how does it feel? Say: cold.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_7a0b0417_25",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: cold.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_9785f4e6_50",
+   "lang": "en",
+   "style": "slow",
+   "text": "Touch this cup. Brrr, how does it feel? Say: cold.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_0ada975b_60",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Both of you touch the cup and shiver with your shoulders up.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_a4c03b5c_69",
+   "lang": "en",
+   "style": "child",
+   "text": "Now touch the other cup, carefully. How does this one feel? Say: hot.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_a4c03b5c_69",
+   "lang": "en",
+   "style": "slow",
+   "text": "Now touch the other cup, carefully. How does this one feel? Say: hot.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_4f3547f2_72",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Touch it, pull your hand back quickly and blow on your fingers together.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_e705d79c_28",
+   "lang": "en",
+   "style": "child",
+   "text": "Session complete! High five!",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_7907cac1_33",
+   "lang": "en",
+   "style": "child",
+   "text": "Let’s listen to it one more time.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_559b700f_27",
+   "lang": "en",
+   "style": "child",
+   "text": "Almost! Let’s try it again.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_b61752d6_33",
+   "lang": "en",
+   "style": "child",
+   "text": "Great job! You said it perfectly!",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_012e9721_33",
+   "lang": "en",
+   "style": "child",
+   "text": "First, touch one of the pictures.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_99863551_5",
+   "lang": "en",
+   "style": "child",
+   "text": "happy",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_e61cac07_3",
+   "lang": "en",
+   "style": "child",
+   "text": "sad",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_b50aaefe_5",
+   "lang": "en",
+   "style": "child",
+   "text": "angry",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_62bdfdb8_4",
+   "lang": "en",
+   "style": "child",
+   "text": "hurt",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_8a684b09_17",
+   "lang": "en",
+   "style": "child",
+   "text": "Session complete!",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_b18350f9_48",
+   "lang": "en",
+   "style": "child",
+   "text": "That one shows just one. Find the one with many.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_tutor_5c58951c_42",
+   "lang": "en",
+   "style": "tutor",
+   "text": "How do they feel? happy, sad, angry, hurt?",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_tutor_1c3575c0_126",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Your child touches a picture to hear its name, then touches the vowel it starts with. The app tells them if they got it right.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_cf4dc7f7_72",
+   "lang": "en",
+   "style": "child",
+   "text": "Draw the letter in the air with a big arm every time they get one right.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_10bc2abf_5",
+   "lang": "en",
+   "style": "slow",
+   "text": "apple",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_e5f12404_8",
+   "lang": "en",
+   "style": "slow",
+   "text": "elephant",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_e61921fd_5",
+   "lang": "en",
+   "style": "slow",
+   "text": "igloo",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_940ace18_22",
+   "lang": "en",
+   "style": "slow",
+   "text": "apple, elephant, igloo",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_c4206de8_3",
+   "lang": "en",
+   "style": "slow",
+   "text": "oso",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_b166178e_4",
+   "lang": "en",
+   "style": "slow",
+   "text": "uvas",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_b4141684_5",
+   "lang": "en",
+   "style": "slow",
+   "text": "avión",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_ff00df96_16",
+   "lang": "en",
+   "style": "slow",
+   "text": "oso, uvas, avión",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_61c155f8_6",
+   "lang": "en",
+   "style": "slow",
+   "text": "águila",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_a915a3ee_5",
+   "lang": "en",
+   "style": "slow",
+   "text": "erizo",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_24aec1a2_5",
+   "lang": "en",
+   "style": "slow",
+   "text": "oveja",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_f62b470a_20",
+   "lang": "en",
+   "style": "slow",
+   "text": "águila, erizo, oveja",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_tutor_8ca88d03_121",
+   "lang": "en",
+   "style": "tutor",
+   "text": "You say the word first, close to your child and slowly, and encourage them to copy you. The app’s voice is only a backup.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_0a392f4e_36",
+   "lang": "en",
+   "style": "child",
+   "text": "Hop once for each syllable: RA-BBIT.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_cb619ce5_6",
+   "lang": "en",
+   "style": "slow",
+   "text": "rabbit",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_95ec7ea7_46",
+   "lang": "en",
+   "style": "child",
+   "text": "Flap your arms once per syllable: BU-TTER-FLY.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_03d5b964_9",
+   "lang": "en",
+   "style": "slow",
+   "text": "butterfly",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_tutor_b29e1d8c_120",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Press 🔊 first so your child hears the whole word. Then have them touch the vowel that is missing from the written word.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_abfcfe3a_62",
+   "lang": "en",
+   "style": "child",
+   "text": "When they find the vowel, stretch both arms up like a big cat.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_06745c07_3",
+   "lang": "en",
+   "style": "slow",
+   "text": "cat",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_4f55eeec_3",
+   "lang": "en",
+   "style": "slow",
+   "text": "pan",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_05033d87_4",
+   "lang": "en",
+   "style": "slow",
+   "text": "luna",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_1e5dfd21_4",
+   "lang": "en",
+   "style": "slow",
+   "text": "pino",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_tutor_644dcc75_129",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Press 🔊 to hear the name of all four cards. Three go together and one does not. Your child touches the one that does NOT belong.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_b1e563b0_82",
+   "lang": "en",
+   "style": "child",
+   "text": "If it is something you eat, touch your tummy; if it is the odd one out, star jump!",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_f3df72bb_21",
+   "lang": "en",
+   "style": "slow",
+   "text": "dog, cat, horse, shoe",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_e668bd09_3",
+   "lang": "en",
+   "style": "child",
+   "text": "dog",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_06745c07_3",
+   "lang": "en",
+   "style": "child",
+   "text": "cat",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_9b8951a6_5",
+   "lang": "en",
+   "style": "child",
+   "text": "horse",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_9b47cc32_4",
+   "lang": "en",
+   "style": "child",
+   "text": "shoe",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_tutor_9f2f8b80_108",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Press 🔊 to play the riddle (or read it yourself). Your child answers by touching one of the three pictures.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_3b070a86_71",
+   "lang": "en",
+   "style": "child",
+   "text": "Hunt around the room for a real object that starts with the same sound.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_tutor_a6bbb982_67",
+   "lang": "en",
+   "style": "tutor",
+   "text": "It is yellow, it is long and soft, and monkeys love it. What is it?",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_d9889f50_6",
+   "lang": "en",
+   "style": "child",
+   "text": "banana",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_d01fc26d_4",
+   "lang": "en",
+   "style": "child",
+   "text": "pear",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_348f1364_4",
+   "lang": "en",
+   "style": "child",
+   "text": "ball",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_tutor_33abf45a_56",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Empieza por eme, y es una fruta roja y redonda. ¿Qué es?",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_9d12ab97_7",
+   "lang": "en",
+   "style": "child",
+   "text": "manzana",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_ada25977_8",
+   "lang": "en",
+   "style": "child",
+   "text": "mariposa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_12467974_4",
+   "lang": "en",
+   "style": "child",
+   "text": "moto",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_tutor_3e7cf442_60",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Empieza por ese, brilla en el cielo y nos da calor. ¿Qué es?",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_e2363da1_3",
+   "lang": "en",
+   "style": "child",
+   "text": "sol",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_3ad4f3ee_9",
+   "lang": "en",
+   "style": "child",
+   "text": "serpiente",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_e331a50c_4",
+   "lang": "en",
+   "style": "child",
+   "text": "sopa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_tutor_d6f074be_62",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Empieza por u, es pequeña, morada y viene en racimos. ¿Qué es?",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_4799fa89_3",
+   "lang": "en",
+   "style": "child",
+   "text": "uva",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_acf02d1f_4",
+   "lang": "en",
+   "style": "child",
+   "text": "pera",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_344367f1_6",
+   "lang": "en",
+   "style": "child",
+   "text": "sandía",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_tutor_7b0340dc_133",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Take the doll and the clothes. Give your child one instruction at a time: \"Put the hat on the doll.\" Take turns changing the clothes.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_c09fc326_69",
+   "lang": "en",
+   "style": "child",
+   "text": "Every time they dress the doll, they put the same item on themselves.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_tutor_64d65a4c_122",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Two cards: one shows a single thing and the other shows many. Your child touches the one you ask for and says it out loud.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_8b656330_42",
+   "lang": "en",
+   "style": "child",
+   "text": "Clap once for one, and clap fast for many.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_30e2470e_4",
+   "lang": "en",
+   "style": "slow",
+   "text": "dogs",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_18539641_7",
+   "lang": "en",
+   "style": "child",
+   "text": "one dog",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_0d673975_9",
+   "lang": "en",
+   "style": "child",
+   "text": "many dogs",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_b3068a53_5",
+   "lang": "en",
+   "style": "slow",
+   "text": "shoes",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_a377d10a_8",
+   "lang": "en",
+   "style": "child",
+   "text": "one shoe",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_9b1d6036_10",
+   "lang": "en",
+   "style": "child",
+   "text": "many shoes",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_tutor_607a58bb_134",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Press 🔊 and listen. Some words do not just add an -s: one foot, two feet. Your child touches the picture that matches what they hear.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_4e89b308_51",
+   "lang": "en",
+   "style": "child",
+   "text": "Stamp one foot for \"foot\" and both feet for \"feet\".",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_tutor_457cb5b0_54",
+   "lang": "en",
+   "style": "tutor",
+   "text": "I can see two feet. Touch the picture that shows feet.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_2d505a99_4",
+   "lang": "en",
+   "style": "child",
+   "text": "foot",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_bb357f55_4",
+   "lang": "en",
+   "style": "child",
+   "text": "feet",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_tutor_13aee407_6",
+   "lang": "en",
+   "style": "tutor",
+   "text": "abuela",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_09aed449_6",
+   "lang": "en",
+   "style": "child",
+   "text": "abuelo",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_13aee407_6",
+   "lang": "en",
+   "style": "child",
+   "text": "abuela",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_tutor_35f46f8b_3",
+   "lang": "en",
+   "style": "tutor",
+   "text": "rey",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_35f46f8b_3",
+   "lang": "en",
+   "style": "child",
+   "text": "rey",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_c92b6d6a_5",
+   "lang": "en",
+   "style": "child",
+   "text": "reina",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_tutor_ae1de82d_7",
+   "lang": "en",
+   "style": "tutor",
+   "text": "gallina",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_2e6fea5e_5",
+   "lang": "en",
+   "style": "child",
+   "text": "gallo",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_ae1de82d_7",
+   "lang": "en",
+   "style": "child",
+   "text": "gallina",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_tutor_6b05776a_103",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Three cards make one sentence. Your child puts them in order and then says the whole sentence out loud.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_cad1e014_59",
+   "lang": "en",
+   "style": "child",
+   "text": "Take one step forward for each card as you say it out loud.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_5d4854f6_22",
+   "lang": "en",
+   "style": "child",
+   "text": "The dog eats the bone.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_ba7d9c5e_7",
+   "lang": "en",
+   "style": "slow",
+   "text": "the dog",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_0764c662_4",
+   "lang": "en",
+   "style": "slow",
+   "text": "eats",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_779a3ada_8",
+   "lang": "en",
+   "style": "slow",
+   "text": "the bone",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_3c496a43_24",
+   "lang": "en",
+   "style": "child",
+   "text": "La niña lanza la pelota.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_211718ee_4",
+   "lang": "en",
+   "style": "slow",
+   "text": "niña",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_089afead_5",
+   "lang": "en",
+   "style": "slow",
+   "text": "lanza",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_c6b9ecb4_6",
+   "lang": "en",
+   "style": "slow",
+   "text": "pelota",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_558a0f75_23",
+   "lang": "en",
+   "style": "child",
+   "text": "El perro come el hueso.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_8e40a2f7_5",
+   "lang": "en",
+   "style": "slow",
+   "text": "perro",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_fd42bc61_4",
+   "lang": "en",
+   "style": "slow",
+   "text": "come",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_0b9432e3_5",
+   "lang": "en",
+   "style": "slow",
+   "text": "hueso",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_tutor_048b640e_144",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Show your child a picture or an object and ask \"what is this?\". Wait five whole seconds before helping — that silence is what makes them answer.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_23c515e4_31",
+   "lang": "en",
+   "style": "child",
+   "text": "Every answer earns a high five.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_tutor_2b7d23b1_142",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Your child tells the same little story twice: once to you and once to a younger toy or sibling. The point is that they change HOW they say it.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_d9cb0c37_76",
+   "lang": "en",
+   "style": "child",
+   "text": "Sit on the floor for the younger listener and stand up for the grown-up one.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_ca0e062e_55",
+   "lang": "en",
+   "style": "child",
+   "text": "Shhh… el peluche está dormido. Hablamos muy muy bajito.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_addc1f4e_58",
+   "lang": "en",
+   "style": "child",
+   "text": "¡Ya se despertó el peluche! Ahora hablamos con voz normal.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_tutor_3dde15e0_94",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Look at the face together. Your child says how that person feels and then makes the same face.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_bc2143e4_68",
+   "lang": "en",
+   "style": "child",
+   "text": "Both of you pull the same face and hold it while you count to three.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_tutor_4113a2db_123",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Say something on purpose too quietly to hear. Your child has to ask you to say it again instead of guessing or going quiet.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_4cb2a598_69",
+   "lang": "en",
+   "style": "child",
+   "text": "Cup a hand behind your ear together as the signal for \"say it again\".",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_856e942f_4",
+   "lang": "en",
+   "style": "slow",
+   "text": "what",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_tutor_adc132a4_104",
+   "lang": "en",
+   "style": "tutor",
+   "text": "The app plays a word with background noise. Your child touches the picture that matches what they heard.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_49fd4ba5_64",
+   "lang": "en",
+   "style": "child",
+   "text": "Point at the picture and then make that animal’s sound together.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_tutor_c08091db_29",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Touch the picture of the dog.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_977128b2_4",
+   "lang": "en",
+   "style": "child",
+   "text": "bird",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_tutor_24aec1a2_5",
+   "lang": "en",
+   "style": "tutor",
+   "text": "oveja",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_tutor_072f68bd_180",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Say the word with NO voice at all — just your mouth. Your child has to read your lips and touch the right picture. The text is folded away so you can check it without showing them.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_1d0d6f3b_61",
+   "lang": "en",
+   "style": "child",
+   "text": "Swap over: your child mouths a word and you have to guess it.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_fa56340f_3",
+   "lang": "en",
+   "style": "slow",
+   "text": "cup",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_fa56340f_3",
+   "lang": "en",
+   "style": "child",
+   "text": "cup",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_336f28b6_5",
+   "lang": "en",
+   "style": "child",
+   "text": "spoon",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_0d523ad5_4",
+   "lang": "en",
+   "style": "child",
+   "text": "sock",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_c3b10f72_4",
+   "lang": "en",
+   "style": "slow",
+   "text": "boca",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_c3b10f72_4",
+   "lang": "en",
+   "style": "child",
+   "text": "boca",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_b8c80eb6_4",
+   "lang": "en",
+   "style": "child",
+   "text": "flor",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_728b3cb4_4",
+   "lang": "en",
+   "style": "child",
+   "text": "tren",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_c4206de8_3",
+   "lang": "en",
+   "style": "child",
+   "text": "oso",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_6a40feb5_3",
+   "lang": "en",
+   "style": "child",
+   "text": "pie",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_tutor_35ea4a7b_101",
+   "lang": "en",
+   "style": "tutor",
+   "text": "The app plays a short instruction with the sound degraded. Your child picks the picture it asked for.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_ea31875b_52",
+   "lang": "en",
+   "style": "child",
+   "text": "Run to fetch the real object as soon as they choose.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_tutor_5a299694_14",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Find the ball.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_047458e1_3",
+   "lang": "en",
+   "style": "child",
+   "text": "car",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_tutor_1c60f484_4",
+   "lang": "en",
+   "style": "tutor",
+   "text": "gato",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_tutor_6bed91f2_6",
+   "lang": "en",
+   "style": "tutor",
+   "text": "zapato",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_tutor_396905d5_114",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Three cards make a sequence. Your child listens, waits for the whole thing to finish, and then puts them in order.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_e55cce6c_40",
+   "lang": "en",
+   "style": "child",
+   "text": "Act out each step as you place its card.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_dc0464f2_55",
+   "lang": "en",
+   "style": "child",
+   "text": "First we wake up, then we get dressed, and last we eat.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_ecc908c2_7",
+   "lang": "en",
+   "style": "slow",
+   "text": "wake up",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_8e1bcf41_11",
+   "lang": "en",
+   "style": "slow",
+   "text": "get dressed",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_6c6e2525_3",
+   "lang": "en",
+   "style": "slow",
+   "text": "eat",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_bf37f29d_46",
+   "lang": "en",
+   "style": "child",
+   "text": "Toca la luna, luego el gato y después la flor.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_1c60f484_4",
+   "lang": "en",
+   "style": "slow",
+   "text": "gato",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_b8c80eb6_4",
+   "lang": "en",
+   "style": "slow",
+   "text": "flor",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_e7b691e5_45",
+   "lang": "en",
+   "style": "child",
+   "text": "Toca el pan, luego el pez y después el árbol.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_634b810c_3",
+   "lang": "en",
+   "style": "slow",
+   "text": "pez",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_f4de04ab_5",
+   "lang": "en",
+   "style": "slow",
+   "text": "árbol",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_tutor_b0b3e035_118",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Stand behind your child and make a sound from one side. They point to where it came from without turning around first.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_ac4906bb_65",
+   "lang": "en",
+   "style": "child",
+   "text": "Every time they get it right, they get to make the sound for you.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_tutor_7f2c9af4_52",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Name what they are already looking at. Nothing else.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_tutor_655bf941_46",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Name it and then wait for them to look at you.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_tutor_9f233e0f_59",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Offer something new and wait for them to bring you into it.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_490f2840_33",
+   "lang": "en",
+   "style": "child",
+   "text": "Every shared look earns a bubble.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_tutor_1cd83d47_55",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Clap. Just clapping, over and over, until they join in.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_tutor_6cbfb3c0_40",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Tap a drum rhythm and have them copy it.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_tutor_a31b3ab4_76",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Clap out the syllables of a word and have them copy the rhythm and the word.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_44dff145_24",
+   "lang": "en",
+   "style": "child",
+   "text": "Every copy earns a clap.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_tutor_b39762e3_54",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Touch your own body part and ask them to touch theirs.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_tutor_596caf89_52",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Ask for an object that is in sight but out of reach.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_tutor_515b72c4_53",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Ask for a whole category: \"give me something we eat\".",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_bce59556_65",
+   "lang": "en",
+   "style": "child",
+   "text": "Each instruction they follow earns a step towards a hiding place.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_tutor_14d832c5_38",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Animal sounds: you start, they finish.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_tutor_994440bc_42",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Name what is in the picture with one word.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_tutor_6163441a_43",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Two words together: \"more milk\", \"big dog\".",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_4d833c81_44",
+   "lang": "en",
+   "style": "child",
+   "text": "Act out the animal while you make its sound.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_e89e80ae_3",
+   "lang": "en",
+   "style": "slow",
+   "text": "moo",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_tutor_ce7d8153_53",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Wait for any signal at all: a look, a reach, a sound.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_tutor_34920672_26",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Wait for \"more\" or \"help\".",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_tutor_f28422af_33",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Wait for \"I want\" plus the thing.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_0036c812_43",
+   "lang": "en",
+   "style": "child",
+   "text": "The moment they ask, they get it. No delay.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_tutor_247d4775_29",
+   "lang": "en",
+   "style": "tutor",
+   "text": "One warning, then the change.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_tutor_4c16c3b1_36",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Use a picture schedule they can see.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_tutor_25af6abc_44",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Let them choose the order of two activities.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_16e0425f_71",
+   "lang": "en",
+   "style": "child",
+   "text": "Sing the same short song for every transition so it becomes the signal.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_tutor_f62f2653_43",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Two turns, then stop while it is still fun.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_tutor_6f7bd1ef_36",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Bring a third person into the turns.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_tutor_ae7bd8db_47",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Pretend play with roles: shop, doctor, kitchen.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_955b6a57_53",
+   "lang": "en",
+   "style": "child",
+   "text": "Pass a small object back and forth as the turn token.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_tutor_ad2a4023_124",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Hold the toy up next to your own eyes and wait. You are looking for the double seal: your child looks at the toy AND at you.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_48119846_48",
+   "lang": "en",
+   "style": "child",
+   "text": "Hand the toy over the instant both looks happen.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_tutor_fdcb53ff_120",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Hand your child something on purpose that is wrong or broken, and wait for them to tell you. The repair is the exercise.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_1b39023d_45",
+   "lang": "en",
+   "style": "child",
+   "text": "Fix it together the moment they let you know.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_tutor_9f66f1b5_103",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Do an action and ask your child NOT to copy it, but to do the paired one instead: you clap, they stamp.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_bf2ac76c_32",
+   "lang": "en",
+   "style": "child",
+   "text": "Swap who leads every five turns.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_tutor_fd8781c0_105",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Start a routine your child knows well and stop it halfway on purpose. Wait for them to handle the change.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_0dbf9aed_62",
+   "lang": "en",
+   "style": "child",
+   "text": "Finish the routine together as soon as they accept the change.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_tutor_1fae45c9_98",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Same sorting task, but with background noise on. Your child touches the card that does not belong.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_05c5ee5e_51",
+   "lang": "en",
+   "style": "child",
+   "text": "Turn the noise down together once they have chosen.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_58c205f0_23",
+   "lang": "en",
+   "style": "slow",
+   "text": "shirt, hat, sock, apple",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_43e36503_5",
+   "lang": "en",
+   "style": "child",
+   "text": "shirt",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_f2bf17c2_3",
+   "lang": "en",
+   "style": "child",
+   "text": "hat",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_10bc2abf_5",
+   "lang": "en",
+   "style": "child",
+   "text": "apple",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_tutor_9bfc0ba5_189",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Pulsa 🔊 para oír las cuatro palabras. Tres se comen y una no: el niño toca la que NO va con las demás. Sube el ruido desde el Panel del Adulto ronda a ronda y anota cómo cambia el acierto.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_de737a4c_27",
+   "lang": "en",
+   "style": "slow",
+   "text": "manzana, pan, queso, pelota",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_4f55eeec_3",
+   "lang": "en",
+   "style": "child",
+   "text": "pan",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_0ed0d71c_5",
+   "lang": "en",
+   "style": "child",
+   "text": "queso",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_c6b9ecb4_6",
+   "lang": "en",
+   "style": "child",
+   "text": "pelota",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_tutor_0dbde55c_193",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Pulsa 🔊 para oír las cuatro palabras. Tres son para vestirse y una no: el niño toca la que NO va con las demás. Mantén el nivel de ruido que estés probando y compara con las rondas anteriores.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_a5660add_30",
+   "lang": "en",
+   "style": "slow",
+   "text": "gorro, camiseta, zapato, fresa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_ab37d84c_5",
+   "lang": "en",
+   "style": "child",
+   "text": "gorro",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_32f94bac_8",
+   "lang": "en",
+   "style": "child",
+   "text": "camiseta",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_6bed91f2_6",
+   "lang": "en",
+   "style": "child",
+   "text": "zapato",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_b428d034_5",
+   "lang": "en",
+   "style": "child",
+   "text": "fresa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_tutor_36423336_98",
+   "lang": "en",
+   "style": "tutor",
+   "text": "The app gives a sound cue and a visual cue at the same time. Your child has to use both to choose.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_c98d1403_62",
+   "lang": "en",
+   "style": "child",
+   "text": "Find a real object that matches both parts of the instruction.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_tutor_13951fdf_23",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Touch the big red ball.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_d80d28ef_12",
+   "lang": "en",
+   "style": "child",
+   "text": "big red ball",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_7572e528_14",
+   "lang": "en",
+   "style": "child",
+   "text": "small red ball",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_3b645d8c_13",
+   "lang": "en",
+   "style": "child",
+   "text": "big blue ball",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_tutor_aa143d7b_16",
+   "lang": "en",
+   "style": "tutor",
+   "text": "El círculo azul.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_9748666e_12",
+   "lang": "en",
+   "style": "child",
+   "text": "círculo azul",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_4437be56_13",
+   "lang": "en",
+   "style": "child",
+   "text": "cuadrado azul",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_4ad53f40_12",
+   "lang": "en",
+   "style": "child",
+   "text": "círculo rojo",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_tutor_5adcbbc1_21",
+   "lang": "en",
+   "style": "tutor",
+   "text": "La estrella amarilla.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_f91e6631_16",
+   "lang": "en",
+   "style": "child",
+   "text": "círculo amarillo",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_5f49b4f0_17",
+   "lang": "en",
+   "style": "child",
+   "text": "estrella amarilla",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_df2e4b32_16",
+   "lang": "en",
+   "style": "child",
+   "text": "corazón amarillo",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_tutor_edf30141_136",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Listen only — no writing on screen. The app says four words. Three rhyme and one does not. Your child says which one is the odd one out.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_69f7913a_74",
+   "lang": "en",
+   "style": "child",
+   "text": "Jump once for every word that rhymes and freeze for the one that does not.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_d78923f1_18",
+   "lang": "en",
+   "style": "slow",
+   "text": "top, mop, hop, cup",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_a710dc3c_3",
+   "lang": "en",
+   "style": "child",
+   "text": "top",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_d39e5f9f_3",
+   "lang": "en",
+   "style": "child",
+   "text": "mop",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_fac3a188_3",
+   "lang": "en",
+   "style": "child",
+   "text": "hop",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_tutor_2975b3eb_116",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Two letters, one sound. Your child finds every word on the card that starts with the same two letters as the target.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_44a0ac3a_51",
+   "lang": "en",
+   "style": "child",
+   "text": "Put a finger on your lips for every \"sh\" they find.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_b4dab898_17",
+   "lang": "en",
+   "style": "slow",
+   "text": "la niña bebe zumo",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_d869e60d_18",
+   "lang": "en",
+   "style": "slow",
+   "text": "mi gato salta alto",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_tutor_515ce672_110",
+   "lang": "en",
+   "style": "tutor",
+   "text": "The app says the sounds one at a time with a gap between them. Your child blends them into a word and says it.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_7bf69d6a_51",
+   "lang": "en",
+   "style": "child",
+   "text": "Slide a hand along the table as the sounds join up.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_3f520f5e_2",
+   "lang": "en",
+   "style": "slow",
+   "text": "sh",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_ec0c35c4_1",
+   "lang": "en",
+   "style": "slow",
+   "text": "i",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_f50c43ef_1",
+   "lang": "en",
+   "style": "slow",
+   "text": "p",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_e2363da1_3",
+   "lang": "en",
+   "style": "slow",
+   "text": "sol",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_c33f0730_3",
+   "lang": "en",
+   "style": "slow",
+   "text": "sss",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_a42935e4_3",
+   "lang": "en",
+   "style": "slow",
+   "text": "ooo",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_365991eb_3",
+   "lang": "en",
+   "style": "slow",
+   "text": "lll",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_f00c3c10_1",
+   "lang": "en",
+   "style": "slow",
+   "text": "u",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_11b54859_3",
+   "lang": "en",
+   "style": "slow",
+   "text": "nnn",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_e40c292c_1",
+   "lang": "en",
+   "style": "slow",
+   "text": "a",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_tutor_8b7e15cc_159",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Reading made-up words is what shows whether the rules have stuck, because they cannot be recognised from memory. Your child reads what is on the card out loud.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_44066423_67",
+   "lang": "en",
+   "style": "child",
+   "text": "Say it once short and once with the silent e stretched: mip / mipe.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_16286a47_4",
+   "lang": "en",
+   "style": "slow",
+   "text": "tane",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_3c5d3e29_4",
+   "lang": "en",
+   "style": "slow",
+   "text": "fope",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_tutor_5a6b809d_116",
+   "lang": "en",
+   "style": "tutor",
+   "text": "A grid of letters that mirror each other. Your child crosses out only the target letter and leaves its mirror alone.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_0e5e3bfb_55",
+   "lang": "en",
+   "style": "child",
+   "text": "Make the letter shape with your fists before you start.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_tutor_cb08954b_100",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Your child names every picture out loud, left to right, as fast as they can without making mistakes.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_09c2ccf8_53",
+   "lang": "en",
+   "style": "child",
+   "text": "Tap the table once for every picture as they name it.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_e04e3f61_3",
+   "lang": "en",
+   "style": "slow",
+   "text": "sun",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_348f1364_4",
+   "lang": "en",
+   "style": "slow",
+   "text": "ball",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_9b47cc32_4",
+   "lang": "en",
+   "style": "slow",
+   "text": "shoe",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_afad8963_4",
+   "lang": "en",
+   "style": "slow",
+   "text": "fish",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_be565411_31",
+   "lang": "en",
+   "style": "slow",
+   "text": "cat, sun, ball, shoe, fish, cup",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_9f253efd_4",
+   "lang": "en",
+   "style": "slow",
+   "text": "casa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_b3d88d76_70",
+   "lang": "en",
+   "style": "slow",
+   "text": "luna, perro, casa, pez, casa, pez, luna, perro, perro, luna, pez, casa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_1603b8b9_4",
+   "lang": "en",
+   "style": "slow",
+   "text": "rojo",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_49019a1b_4",
+   "lang": "en",
+   "style": "slow",
+   "text": "azul",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_d2a54155_5",
+   "lang": "en",
+   "style": "slow",
+   "text": "verde",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_817bf290_8",
+   "lang": "en",
+   "style": "slow",
+   "text": "amarillo",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_1b222b80_85",
+   "lang": "en",
+   "style": "slow",
+   "text": "rojo, azul, verde, amarillo, verde, amarillo, rojo, azul, azul, verde, amarillo, rojo",
+   "source": "ejercicios"
+  },
+  {
    "id": "en_child_56a13493_31",
    "lang": "en",
    "style": "child",
@@ -17207,27 +21336,6 @@
    "style": "child",
    "text": "Now as a team: we both say it together.",
    "source": "banco/juntos"
-  },
-  {
-   "id": "en_child_7907cac1_33",
-   "lang": "en",
-   "style": "child",
-   "text": "Let’s listen to it one more time.",
-   "source": "ejercicios/veredicto"
-  },
-  {
-   "id": "en_child_559b700f_27",
-   "lang": "en",
-   "style": "child",
-   "text": "Almost! Let’s try it again.",
-   "source": "ejercicios/veredicto"
-  },
-  {
-   "id": "en_child_b61752d6_33",
-   "lang": "en",
-   "style": "child",
-   "text": "Great job! You said it perfectly!",
-   "source": "ejercicios/veredicto"
   },
   {
    "id": "en_child_06c2bd9a_45",

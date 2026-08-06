@@ -669,6 +669,11 @@ export const pluralManyLabel = (p: PluralData): string => `${p.gender === 'f' ? 
 // de variedades usa el banco base sin cambios.
 import { EXERCISE_ESDO, VARIANTS_ESDO } from './valeriaExerciseEsDO';
 import {
+  EXERCISE_EN, VARIANTS_EN, EMO_EN, SESSION_DONE_LEAD_EN,
+  PLURAL_HINT_EN, EMOTION_PROMPT_EN, TOUCH_IMAGE_HINT_EN,
+} from './valeriaExerciseEn';
+import { MIC_VERDICT_SAY_EN } from './valeriaContentEn';
+import {
   EXERCISE_EU, VARIANTS_EU, EMO_EU, MIC_VERDICT_SAY_EU,
   SESSION_DONE_LEAD_EU, PLURAL_HINT_EU, EMOTION_PROMPT_EU, TOUCH_IMAGE_HINT_EU,
 } from './valeriaExerciseEu';
@@ -683,7 +688,8 @@ import {
 // dialectales), eu (contenido vasco reautorizado) y gl (contenido galego
 // reautorizado: antes el galego caía al castellano en TODA esta pantalla).
 export function dbForLocale(loc: string): Record<string, Exercise> {
-  const ov = loc === 'es-DO' ? EXERCISE_ESDO : loc === 'eu' ? EXERCISE_EU : loc === 'gl' ? EXERCISE_GL : null;
+  const ov = loc === 'es-DO' ? EXERCISE_ESDO : loc === 'eu' ? EXERCISE_EU : loc === 'gl' ? EXERCISE_GL
+    : loc === 'en-US' ? EXERCISE_EN : null;
   if (!ov) return DB;
   const out: Record<string, Exercise> = {};
   for (const [id, ex] of Object.entries(DB)) out[id] = { ...ex, ...(ov[id] ?? {}) };
@@ -694,6 +700,7 @@ export function variantsForLocale(loc: string): Record<string, Partial<Exercise>
   if (loc === 'es-DO') return { ...VARIANTS, ...VARIANTS_ESDO };
   if (loc === 'eu') return { ...VARIANTS, ...VARIANTS_EU };
   if (loc === 'gl') return { ...VARIANTS, ...VARIANTS_GL };
+  if (loc === 'en-US') return { ...VARIANTS, ...VARIANTS_EN };
   return VARIANTS;
 }
 
@@ -701,28 +708,34 @@ export function variantsForLocale(loc: string): Record<string, Partial<Exercise>
 // El player las consume por variedad activa (patrón dbForLocale). En eu cambian
 // las emociones, el cierre de sesión, la pista de plural y el prompt de emoción.
 export const emoForLocale = (loc: string): { face: string; label: string }[] =>
-  loc === 'eu' ? EMO_EU : loc === 'gl' ? EMO_GL : EMO;
+  loc === 'eu' ? EMO_EU : loc === 'gl' ? EMO_GL : loc === 'en-US' ? EMO_EN : EMO;
 export const sessionDoneLeadFor = (loc: string): string =>
-  loc === 'eu' ? SESSION_DONE_LEAD_EU : loc === 'gl' ? SESSION_DONE_LEAD_GL : SESSION_DONE_LEAD;
+  loc === 'eu' ? SESSION_DONE_LEAD_EU : loc === 'gl' ? SESSION_DONE_LEAD_GL
+    : loc === 'en-US' ? SESSION_DONE_LEAD_EN : SESSION_DONE_LEAD;
 export const pluralHintFor = (loc: string): string =>
-  loc === 'eu' ? PLURAL_HINT_EU : loc === 'gl' ? PLURAL_HINT_GL : PLURAL_HINT;
+  loc === 'eu' ? PLURAL_HINT_EU : loc === 'gl' ? PLURAL_HINT_GL
+    : loc === 'en-US' ? PLURAL_HINT_EN : PLURAL_HINT;
 // Aviso de "toca una imagen" (FF-1 sin ficha elegida): en euskera resuelve el
 // asset neuronal HiTZ y en galego el de Celtia; en el resto, el castellano
 // (Sharvard / voz del sistema).
 export const touchImageHintFor = (loc: string): string =>
-  loc === 'eu' ? TOUCH_IMAGE_HINT_EU : loc === 'gl' ? TOUCH_IMAGE_HINT_GL : TOUCH_IMAGE_HINT;
+  loc === 'eu' ? TOUCH_IMAGE_HINT_EU : loc === 'gl' ? TOUCH_IMAGE_HINT_GL
+    : loc === 'en-US' ? TOUCH_IMAGE_HINT_EN : TOUCH_IMAGE_HINT;
 // Veredicto hablado del micro por variedad: en euskera locuta el veredicto
 // vasco (asset HiTZ) y en galego el galego (asset Celtia); el resto usa el
 // castellano, que en las sesiones es resuelve el asset de Sharvard.
 export const micVerdictSayFor = (loc: string, lvl: 0 | 1 | 2): string =>
-  loc === 'eu' ? MIC_VERDICT_SAY_EU[lvl] : loc === 'gl' ? MIC_VERDICT_SAY_GL[lvl] : MIC_VERDICT_SAY[lvl];
+  loc === 'eu' ? MIC_VERDICT_SAY_EU[lvl] : loc === 'gl' ? MIC_VERDICT_SAY_GL[lvl]
+    : loc === 'en-US' ? MIC_VERDICT_SAY_EN[lvl] : MIC_VERDICT_SAY[lvl];
 // Pregunta corta de la emoción (título/zoom) y prompt hablado (con opciones).
 export const emotionQuestionFor = (loc: string): string =>
-  loc === 'eu' ? EMOTION_PROMPT_EU : loc === 'gl' ? EMOTION_PROMPT_GL : '¿Cómo se siente?';
+  loc === 'eu' ? EMOTION_PROMPT_EU : loc === 'gl' ? EMOTION_PROMPT_GL
+    : loc === 'en-US' ? EMOTION_PROMPT_EN : '¿Cómo se siente?';
 export const emotionPromptFor = (loc: string, emo: { label: string }[]): string => {
   const opciones = emo.map((e) => e.label).join(', ');
   if (loc === 'eu') return `${EMOTION_PROMPT_EU} ${opciones}?`;
   if (loc === 'gl') return `${EMOTION_PROMPT_GL} ${opciones}?`;
+  if (loc === 'en-US') return `${EMOTION_PROMPT_EN} ${opciones}?`;
   return `¿Cómo se siente? ¿${opciones}?`;
 };
 
@@ -730,11 +743,16 @@ export const emotionPromptFor = (loc: string, emo: { label: string }[]): string 
 // determinante con género propio («un gato»/«moitos gatos», «unha flor»/«moitas
 // flores»), así que no puede reutilizar el constructor castellano.
 export const pluralOneLabelFor = (loc: string, p: NonNullable<Exercise['plural']>): string => {
+  // El inglés no tiene género gramatical: el determinante es invariable y el
+  // número lo marca la -s. Por eso `gender` se ignora aquí, aunque el tipo lo
+  // exija para los bancos iberorrománicos.
+  if (loc === 'en-US') return `one ${p.cap}`;
   if (loc === 'eu') return `${p.cap} bat`;
   if (loc === 'gl') return `${p.gender === 'f' ? 'unha' : 'un'} ${p.cap}`;
   return pluralOneLabel(p);
 };
 export const pluralManyLabelFor = (loc: string, p: NonNullable<Exercise['plural']>): string => {
+  if (loc === 'en-US') return `many ${p.capPlural}`;
   if (loc === 'eu') return `${p.cap} asko`;
   if (loc === 'gl') return `${p.gender === 'f' ? 'moitas' : 'moitos'} ${p.capPlural}`;
   return pluralManyLabel(p);

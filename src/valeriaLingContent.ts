@@ -61,10 +61,30 @@ export const LING_COPY_EU: LingCopy = {
   tip: 'Ling Testak ez du mikrofonoa erabiltzen. Zuk soinu bakoitza egiten duzu eta umeak nola erantzuten duen markatzen duzu.',
 };
 
+// ------------------------------- en-US (inglés) -----------------------------
+// Los seis sonidos son universales —miden audibilidad por frecuencia, no
+// variedad de habla—, así que en inglés solo se reescriben las consignas y las
+// pistas. Es el único bloque clínico del plan que de verdad se traduce, y por
+// eso el plan lo separaba del resto (EN-3.7).
+export const LING_SOUNDS_EN: LingSound[] = [
+  { sym: 'm',  say: '“mmm”',  freq: 'Low · ~250 Hz',       fc: '#3b82f6', hint: 'Nasal sound; you feel the buzz in your lips.' },
+  { sym: 'u',  say: '“ooo”',  freq: 'Low · ~300 Hz',       fc: '#3b82f6', hint: 'Back vowel, lips rounded, as in "boot".' },
+  { sym: 'a',  say: '“aaa”',  freq: 'Mid · ~1 kHz',        fc: '#10b981', hint: 'Open central vowel, as in "father".' },
+  { sym: 'i',  say: '“eee”',  freq: 'Mid-high · ~2 kHz',   fc: '#f59e0b', hint: 'Close front vowel with a wide smile, as in "see".' },
+  { sym: 'sh', say: '“shhh”', freq: 'High · ~3 kHz',       fc: '#f97316', hint: 'Fricative, steady airflow — the "quiet down" sound.' },
+  { sym: 's',  say: '“sss”',  freq: 'Very high · ~5 kHz',  fc: '#ef4444', hint: 'High fricative — the hardest sound to hear, and the first one lost.' },
+];
+
+export const LING_COPY_EN: LingCopy = {
+  instrBody: 'Make sure your child cannot read your lips. Say the sound 2–3 times and watch how they react.',
+  tip: 'The Ling check does not use the microphone. You make each sound and you score how your child responds.',
+};
+
 export interface LingContent { sounds: LingSound[]; copy: LingCopy; }
 
 export function lingContentForLocale(loc: string): LingContent {
   if (loc === 'es-DO') return { sounds: LING_SOUNDS_ESDO, copy: LING_COPY_ESDO };
   if (loc === 'eu') return { sounds: LING_SOUNDS_EU, copy: LING_COPY_EU };
+  if (loc === 'en-US') return { sounds: LING_SOUNDS_EN, copy: LING_COPY_EN };
   return { sounds: LING_SOUNDS, copy: LING_COPY };
 }

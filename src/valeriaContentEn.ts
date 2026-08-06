@@ -3,23 +3,97 @@
 // Módulo PURO (sin imports de RN/Expo): el corpus de voz lo enumera en
 // build-time para pre-generar su audio con la voz neuronal Piper `en_US`.
 //
-// ALCANCE DELIBERADAMENTE ESTRECHO. Aquí SOLO están las frases de APLICACIÓN:
-// refuerzo, veredictos, muestras de voz y cierres de sesión. Es lo que la app
-// dice pase cual pase el contenido, así que no depende de la fonología inglesa
-// y se puede escribir —y sintetizar— sin esperar a la Fase 3.
+// Contiene lo mismo que sus hermanos valeriaContentGl/Eu.ts: cápsulas TPR,
+// rutas de rutina, bancos de refuerzo, veredictos y frases fijas. El banco de
+// PARES MÍNIMOS vive aparte, en valeriaMinimalPairsEn.ts, porque es el único
+// dataset sujeto a la regla bloqueante EN-0.5 (veredicto dialectal por ítem).
 //
-// Lo que NO está aquí, y no debe colarse:
-//   · pares mínimos ingleses → EN-3.2, y BLOQUEADO por la guía dialectal
-//     EN-0.5: ningún dataset `en` entra en main sin veredicto dialectal
-//     firmado (AAE, inglés sureño, inglés con influencia del español).
-//   · cápsulas TPR, rutas de rutina, expansión semántica → EN-3.4 / EN-3.5.
-// Es el espejo estructural de valeriaContentGl/Eu.ts, pero con la mitad de
-// arriba vacía a propósito hasta que la revisora clínica (EN-0.3) entre.
+// Las misiones y las rutas se adaptan al hogar estadounidense en vez de
+// traducirse: no hay merienda ni siesta, y el registro es el de una app
+// infantil de allí («grown-up», no «parent» ni «tutor»).
 //
+import { TprCapsule } from './valeriaTprBank';
+import { RoutineRoute } from './valeriaRoutineRoutes';
+
 // ESTADO: 🟡 provisional, pendiente de la pasada de hablante nativo (EN-7.4) y
 // de la revisión SLP de los bancos de refuerzo (EN-3.4). El registro buscado es
 // el de una app infantil estadounidense: «grown-up», no «parent» ni «tutor».
 // ============================================================================
+
+// ---------------------------------------------------------------------------
+// Cápsulas TPR (EN-3.4). Órdenes cortas, imperativas y muy visuales (Asher).
+// Las misiones se adaptan al hogar estadounidense: no hay siesta ni merienda,
+// y las órdenes se apoyan en objetos que están en cualquier casa.
+// ---------------------------------------------------------------------------
+export const TPR_CAPSULES_EN: TprCapsule[] = [
+  {
+    icon: '🙆', title: 'Simon says… body!',
+    commands: [
+      { emoji: '🧠', text: 'Touch your head.' },
+      { emoji: '👃', text: 'Touch your nose.' },
+      { emoji: '🙌', text: 'Put your arms way up high.' },
+    ],
+  },
+  {
+    icon: '🐾', title: 'Animals on the move',
+    commands: [
+      { emoji: '🐸', text: 'Hop like a frog.' },
+      { emoji: '🐻', text: 'Walk like a bear, on all fours.' },
+      { emoji: '🐦', text: 'Fly like a bird, flapping your arms.' },
+    ],
+  },
+  {
+    icon: '⚡', title: 'Time to move!',
+    commands: [
+      { emoji: '🦘', text: 'Jump three times.' },
+      { emoji: '🌀', text: 'Spin all the way around.' },
+      { emoji: '🪑', text: 'Sit down on the floor.' },
+    ],
+  },
+  {
+    icon: '🐢', title: 'Fast and slow',
+    commands: [
+      { emoji: '🐢', text: 'Walk very, very slowly, like a turtle.' },
+      { emoji: '🏃', text: 'Run in place, fast, fast, fast!' },
+      { emoji: '🗿', text: 'Statue! Freeze and do not move at all.' },
+    ],
+  },
+  {
+    icon: '👏', title: 'Hands that talk',
+    commands: [
+      { emoji: '👏', text: 'Clap as loud as you can.' },
+      { emoji: '👋', text: 'Wave goodbye with your hand.' },
+      { emoji: '🤝', text: 'Give the grown-up a high five.' },
+    ],
+  },
+];
+
+// ---------------------------------------------------------------------------
+// Rutas de rutina (EN-3.4): órdenes transaccionales en el entorno real. Se
+// dictan con speakClinical (prosodia continua, sin jitter).
+// ---------------------------------------------------------------------------
+export const ROUTINE_ROUTES_EN: RoutineRoute[] = [
+  {
+    id: 'comedor', icon: '🍽️', title: 'Kitchen table route',
+    scene: 'Go to the kitchen table together with cups, spoons and napkins within reach.',
+    commands: [
+      { emoji: '🥤', text: 'Put the red cup on the chair.', focus: 'object + color + place' },
+      { emoji: '🥄', text: 'Give the small spoon to the grown-up.', focus: 'object + size + who gets it' },
+      { emoji: '🧻', text: 'Put the napkin under the plate.', focus: 'object + place preposition' },
+      { emoji: '🍎', text: 'Take the biggest fruit and put it on the table.', focus: 'superlative + two-step sequence' },
+    ],
+  },
+  {
+    id: 'bano', icon: '🛁', title: 'Bathroom route',
+    scene: 'Go to the bathroom together with a toothbrush, a towel and a cup in plain sight.',
+    commands: [
+      { emoji: '🪥', text: 'Put the blue toothbrush inside the cup.', focus: 'object + color + container' },
+      { emoji: '🧺', text: 'Bring the small towel and leave it on the chair.', focus: 'object + size + two-step sequence' },
+      { emoji: '🦆', text: 'Put the rubber duck in the empty tub.', focus: 'object + property of the place' },
+      { emoji: '🧼', text: 'Give the soap to the grown-up with your other hand.', focus: 'who gets it + which side' },
+    ],
+  },
+];
 
 export const PRAISE_BANK_EN = [
   'Awesome! You said it perfectly!',

@@ -54,10 +54,18 @@ import {
   ROLESWAP_INTRO_EU, ROLESWAP_NOT_HEARD_EU, ROLESWAP_HIT_EU, ROLESWAP_MISS_OTHER_EU, roleswapParentSaidEu,
 } from './valeriaContentEu';
 import {
+  TPR_CAPSULES_EN, ROUTINE_ROUTES_EN,
   PRAISE_BANK_EN, ALMOST_BANK_EN, NO_HEAR_BANK_EN, TOGETHER_BANK_EN, MIC_VERDICT_SAY_EN,
   SESSION_CONTINUE_PHRASE_EN, ROUTE_DONE_PHRASE_EN, VOICE_SAMPLE_PHRASE_EN, PAIRS_DONE_PHRASE_EN,
   ROLESWAP_INTRO_EN, ROLESWAP_NOT_HEARD_EN, ROLESWAP_HIT_EN, ROLESWAP_MISS_OTHER_EN,
+  pairIntroEn, pairRetryEn, roleswapParentSaidEn,
 } from './valeriaContentEn';
+import { MINIMAL_PAIRS_EN } from './valeriaMinimalPairsEn';
+import {
+  DAILY_SCENARIOS_EN, LEXICAL_CATEGORIES_EN, PROGRESSION_SEQUENCES_EN,
+  CONTRAST_CAPSULES_EN, SEM_RETRY_EN, SEM_SESSION_DONE_EN,
+} from './valeriaSemanticExpansionEn';
+import { EXERCISE_FIXED_LINES_EN } from './valeriaExerciseEn';
 
 // Estilos de locución de valeriaVoice. El audio pre-generado "hornea" el
 // estilo (prosodia, velocidad) en el propio WAV, así que un mismo texto en dos
@@ -290,14 +298,42 @@ export function buildVoiceCorpus(): VoiceCorpusEntry[] {
   // Plan en-US, Fase 4: se sintetiza con la voz neuronal Piper `en_US`
   // (scripts/generate-voice-assets.py, VOICES['en']).
   //
-  // Bloque CORTO a propósito, y esa brevedad es el estado real del proyecto,
-  // no un olvido: el contenido clínico inglés (pares mínimos, TPR, expansión
-  // semántica) es la Fase 3 y está bloqueado por la guía dialectal EN-0.5. Lo
-  // que sí existe ya en inglés son las frases de aplicación de
-  // valeriaContentEn.ts, así que es lo único que se hornea. Cuando la Fase 3
-  // escriba los bancos, este bloque crece hasta ser el espejo exacto del
-  // euskera (EN-3.8) sin que cambie nada de la tubería.
+  // Espejo exacto del bloque vasco (EN-3.8): el corpus enumera el 100 % de lo
+  // que la app dice en `en-US`, que es la condición para que la variedad hable
+  // con voz neuronal de principio a fin y no salte a la voz del sistema a
+  // media sesión.
   const addEn = mkAdd('en');
+
+  for (const p of MINIMAL_PAIRS_EN) {
+    addEn('child', pairIntroEn(p.target, p.foil, p.prompt), 'pares/intro');
+    addEn('child', p.prompt, 'pares/prompt');
+    addEn('child', p.onTarget.say, 'pares/celebracion');
+    addEn('child', p.onFoil.say, 'pares/correccion');
+    addEn('child', pairRetryEn(p.target), 'pares/retry');
+    addEn('slow', p.target.toLowerCase(), 'pares/modelado');
+    addEn('child', roleswapParentSaidEn(p.target), 'pares/roleswap');
+    addEn('child', roleswapParentSaidEn(p.foil), 'pares/roleswap');
+  }
+
+  for (const c of TPR_CAPSULES_EN) for (const cmd of c.commands) addEn('child', cmd.text, 'tpr');
+  for (const r of ROUTINE_ROUTES_EN) for (const cmd of r.commands) addEn('clinical', cmd.text, 'rutas');
+
+  for (const l of enumerateSemanticSpeechFor({
+    scenarios: DAILY_SCENARIOS_EN,
+    categories: LEXICAL_CATEGORIES_EN,
+    sequences: PROGRESSION_SEQUENCES_EN,
+    capsules: CONTRAST_CAPSULES_EN,
+    retry: SEM_RETRY_EN,
+    sessionDone: SEM_SESSION_DONE_EN,
+  })) addEn(l.style, l.text, 'expansion');
+
+  for (const l of enumerateExerciseSpeechFor({
+    db: dbForLocale('en-US'),
+    variants: variantsForLocale('en-US'),
+    fixed: EXERCISE_FIXED_LINES_EN,
+    pluralOne: (p) => pluralOneLabelFor('en-US', p),
+    pluralMany: (p) => pluralManyLabelFor('en-US', p),
+  })) addEn(l.style, l.text, 'ejercicios');
 
   for (const t of PRAISE_BANK_EN) addEn('child', t, 'banco/elogio');
   for (const t of ALMOST_BANK_EN) addEn('child', t, 'banco/casi');
