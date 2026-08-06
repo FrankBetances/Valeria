@@ -623,5 +623,13 @@ Reglas de trabajo:
 2. Una fase no se cierra hasta pasar su criterio de aceptación y comprobar
    **regresión cero en `es`, `gl`, `es-DO` y `eu`**.
 3. Ningún dataset `en` entra en `main` sin el veredicto dialectal de EN-0.5.
+   **Excepción registrada (ago 2026):** el banco inglés se fusiona a `main` con
+   la guía dialectal **escrita y aplicada pero SIN FIRMAR**, por decisión
+   expresa de Frank, para poder generar la build de evaluación. La regla no se
+   deroga: sigue en pie para publicar. Mientras la §6 de
+   [`guia-dialectal-en-US.md`](./guia-dialectal-en-US.md) tenga casillas sin
+   marcar, `main` contiene un dataset clínico **no validado** y la app no puede
+   salir a tienda en EE. UU. Anotarlo aquí es la diferencia entre una excepción
+   consciente y una regla incumplida en silencio.
 4. Este documento es la fuente única del plan: cualquier cambio de alcance se
    edita aquí en la misma PR que lo introduce.
