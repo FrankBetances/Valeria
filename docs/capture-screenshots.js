@@ -108,7 +108,7 @@ const pause = (page, ms) => page.waitForTimeout(ms);
 
   // 05 · HUB de 4 bloques (Prescripción de Terapias rediseñada)
   await page.getByText('Continuar a Prescripción →').click();
-  await page.getByText('BLOQUES DE TERAPIA', { exact: true }).waitFor();
+  await page.getByText('Prescripción de Terapias', { exact: true }).waitFor({ timeout: 120000 });
   await pause(page, 700);
   await shot(page, '05-hub-bloques');
   console.log('05 hub ✓');
@@ -139,7 +139,7 @@ const pause = (page, ms) => page.waitForTimeout(ms);
 
   // Iniciar una sesión de pares (primer par: rana / lana)
   await page.getByLabel(/Practicar el par rana/).click();
-  await page.getByText('LA APP PIDE', { exact: true }).waitFor();
+  await page.getByText('LA APP DICE', { exact: true }).waitFor();
   await pause(page, 900);
   await shot(page, '08-pares-juego');           // 08 · pantalla de juego (2 fichas + consigna)
   console.log('08 pares juego ✓');
@@ -159,7 +159,7 @@ const pause = (page, ms) => page.waitForTimeout(ms);
     await page.getByText('Selecciona un paciente').waitFor();
     await pause(page, 400);
     await page.getByText('Lucía Martínez').click();
-    await page.getByText('BLOQUES DE TERAPIA', { exact: true }).waitFor();
+    await page.getByText('Prescripción de Terapias', { exact: true }).waitFor({ timeout: 120000 });
     await pause(page, 400);
   };
 
@@ -183,6 +183,12 @@ const pause = (page, ms) => page.waitForTimeout(ms);
   await page.getByText('ESCENARIOS DIARIOS', { exact: true }).waitFor();
   await pause(page, 300);
   await page.getByLabel(/Practicar escenario Rutina de mañana/).click();
+  // Los escenarios abren primero una PREPARACIÓN («qué vais a hacer» + material)
+  // que se confirma antes de empezar. Tolerante: si un escenario no la trae, sigue.
+  const listo = page.getByText('Ya lo tengo todo', { exact: true });
+  if (await listo.isVisible({ timeout: 15000 }).catch(() => false)) {
+    await listo.click();
+  }
   await page.getByText('LA APP DICE', { exact: true }).waitFor();
   await pause(page, 900);
   // marcar "Lo dijo" → success con acción física
@@ -201,7 +207,7 @@ const pause = (page, ms) => page.waitForTimeout(ms);
   await shot(page, '16-pacientes');             // 16 · selección de paciente
   console.log('16 pacientes ✓');
   await page.getByText('Lucía Martínez').click();
-  await page.getByText('BLOQUES DE TERAPIA', { exact: true }).waitFor();
+  await page.getByText('Prescripción de Terapias', { exact: true }).waitFor({ timeout: 120000 });
   await pause(page, 400);
   await page.getByText('Audición', { exact: true }).click();
   await page.getByText('PROTOCOLO ACOPROS · AUDICIÓN', { exact: true }).waitFor();
@@ -262,9 +268,14 @@ const pause = (page, ms) => page.waitForTimeout(ms);
   }
 
   // ===================== CU-14 · VOZ DE LA APP / VARIEDAD =====================
-  // La tarjeta "Voz de la app" (con el selector de variedad) vive al final del
-  // hub. Volver a él y centrar el selector para que se vean los tres chips.
+  // [v11] La tarjeta de voz ya NO vive al final del hub: se mudó a la pestaña
+  // Ajustes, junto con recordatorios, idioma y acceso profesional. Se entra por
+  // la barra inferior, que es justo lo que la v11 vino a arreglar.
   await openHubFresh();
+  await page.getByText('Ajustes', { exact: true }).click();
+  await pause(page, 800);
+  await shot(page, '24-ajustes');               // 24 · pestaña Ajustes (v11)
+  console.log('24 ajustes ✓');
   const variedad = page.getByText('Variedad de la voz', { exact: true });
   await variedad.waitFor({ timeout: 30000 });
   await page.getByText('Dominicano', { exact: true }).waitFor({ timeout: 30000 });
@@ -278,11 +289,14 @@ const pause = (page, ms) => page.waitForTimeout(ms);
   // ===================== CU-15 · PANEL DEL ADULTO (CARGA COMUNICATIVA) =====================
   // Aparece en la pantalla de juego de Pares Mínimos; desplegarlo para ver los
   // tres módulos (ruido babble, oso distractor y quiebre pragmático).
+  await page.getByText('Terapias', { exact: true }).click();
+  await page.getByText('Prescripción de Terapias', { exact: true }).waitFor({ timeout: 120000 });
+  await pause(page, 400);
   await page.getByText('Pares Mínimos', { exact: true }).click();
   await page.getByText('BANCO DE CONTRASTES', { exact: true }).waitFor();
   await pause(page, 500);
   await page.getByLabel(/Practicar el par rana/).click();
-  await page.getByText('LA APP PIDE', { exact: true }).waitFor();
+  await page.getByText('LA APP DICE', { exact: true }).waitFor();
   await pause(page, 800);
   const panel = page.getByText(/PANEL DEL ADULTO/);
   await panel.waitFor({ timeout: 30000 });

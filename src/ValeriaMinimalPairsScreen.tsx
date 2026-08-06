@@ -296,7 +296,9 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
   const [reward, setReward] = useState<SessionReward | null>(null);
   const [listening, setListening] = useState(false);
   // Consigna viva del ensayo (frase portadora o consigna del par) para la
-  // tarjeta "LA APP PIDE" y su botón de repetición con la voz adecuada.
+  // tarjeta "LA APP DICE" (pairs.appSpeaks) y su botón de repetición con la
+  // voz adecuada. El rótulo real es ese: el comentario decía "LA APP PIDE",
+  // una cadena que ya no se renderiza, y el script de capturas la esperaba.
   const [livePrompt, setLivePrompt] = useState<TrialPromptSpec | null>(null);
   // Panel del adulto (Fase 2): controles SIEMPRE manuales del caos comunicativo.
   const [distractorOn, setDistractorOn] = useState(false);

@@ -558,7 +558,9 @@ p('La interfaz v11 es ya la pantalla principal de la aplicación. En dispositivo
   'prescripción guardada se conserva al pasar de una a otra, sin perder nada.', size=9, color=MUTED)
 figures([('01-bienvenida.png', 'Bienvenida: “Comenzar” o “Ya tengo un paciente registrado”.'),
          ('02-creditos.png', 'Créditos del proyecto y colaboradores.'),
-         ('05-hub-bloques.png', 'Hub de Prescripción: los bloques de terapia y la tarjeta Academy.')],
+         ('05-hub-bloques.png', 'Hub de Prescripción (v11): los bloques en cuadrícula, con las terapias prescritas de cada uno, y las pestañas inferiores.')],
+        width_cm=4.2)
+figures([('24-ajustes.png', 'Ajustes: recordatorios, voz de la app e idioma, ahora a un toque desde la barra inferior.')],
         width_cm=4.2)
 doc.add_heading('Glosario', level=3)
 data_table(['Término', 'Significado'], [

@@ -724,8 +724,13 @@ const s = StyleSheet.create({
   vqChipTxt: { fontSize: 11, fontWeight: '800' },
 
   vqLangLabel: { fontSize: 10.5, fontWeight: '800', letterSpacing: 0.5, color: V.color.textMuted, marginTop: 12, marginBottom: 6, textTransform: 'uppercase' },
-  vqLangRow: { flexDirection: 'row', gap: 8 },
-  vqLangBtn: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6, backgroundColor: V.color.pageBg, borderWidth: 1.5, borderColor: V.color.border, borderRadius: 12, paddingVertical: 10 },
+  // El selector nació con 3 variedades y cabían en una fila. Hoy son 5
+  // (Euskara e English se sumaron después) y sin `flexWrap` los chips se
+  // comprimían hasta solaparse: «Castellano» salía cortado y la etiqueta
+  // «beta» se montaba sobre «English (US)». Ahora la fila envuelve y cada
+  // chip tiene un ancho mínimo legible en vez de repartirse a la fuerza.
+  vqLangRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
+  vqLangBtn: { flexGrow: 1, flexBasis: 96, minWidth: 96, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6, backgroundColor: V.color.pageBg, borderWidth: 1.5, borderColor: V.color.border, borderRadius: 12, paddingVertical: 10, paddingHorizontal: 8 },
   vqLangBtnOn: { backgroundColor: V.color.primary, borderColor: V.color.primary },
   vqLangTxt: { fontSize: 13.5, fontWeight: '800', color: V.color.textSecondary },
   vqLangTxtOn: { color: '#fff' },

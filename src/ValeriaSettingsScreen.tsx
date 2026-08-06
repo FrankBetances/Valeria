@@ -142,7 +142,9 @@ export const ValeriaSettingsScreen: React.FC = () => {
         <VoiceQualityCard />
 
         {/* ---- Idioma de la interfaz ---- */}
-        <View style={s.pickerWrap}><ValeriaUiLangPicker /></View>
+        {/* `onLight`: el selector está estilado para la cabecera turquesa de
+            Créditos (texto blanco sobre translúcido). Aquí el fondo es claro. */}
+        <View style={s.pickerWrap}><ValeriaUiLangPicker onLight /></View>
 
         {/* ---- Acceso Profesional: PIN → exportación dual de evidencia ---- */}
         <Pressable onPress={() => setPinOpen(true)} style={s.proAccess}

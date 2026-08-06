@@ -27,7 +27,11 @@ import { getLocale } from './valeriaLocale';
 
 type Choice = 'auto' | UiLang;
 
-export const ValeriaUiLangPicker: React.FC<{ compact?: boolean }> = ({ compact }) => {
+// `onLight`: el selector nació para vivir SOBRE LA CABECERA TURQUESA (Créditos),
+// así que su paleta es blanca y translúcida. Puesto tal cual sobre el fondo claro
+// de página, el texto blanco queda ilegible y la tarjeta se ve lavada. Esta
+// variante cambia solo los colores; sin la prop, el aspecto es el de siempre.
+export const ValeriaUiLangPicker: React.FC<{ compact?: boolean; onLight?: boolean }> = ({ compact, onLight }) => {
   const t = useT();
 
   // Estado local espejo: el módulo de idioma no es un store de React, así que
@@ -49,9 +53,9 @@ export const ValeriaUiLangPicker: React.FC<{ compact?: boolean }> = ({ compact }
   ];
 
   return (
-    <View style={[s.card, compact && s.cardCompact]}>
-      <Text style={s.title}>{t.settings.uiLangTitle}</Text>
-      <Text style={s.hint}>{t.settings.uiLangHint}</Text>
+    <View style={[s.card, compact && s.cardCompact, onLight && s.cardLight]}>
+      <Text style={[s.title, onLight && s.titleLight]}>{t.settings.uiLangTitle}</Text>
+      <Text style={[s.hint, onLight && s.hintLight]}>{t.settings.uiLangHint}</Text>
 
       <View style={s.row}>
         {options.map((o) => {
@@ -63,15 +67,15 @@ export const ValeriaUiLangPicker: React.FC<{ compact?: boolean }> = ({ compact }
               accessibilityRole="radio"
               accessibilityState={{ selected: on }}
               accessibilityLabel={o.label}
-              style={[s.chip, on && s.chipOn]}
+              style={[s.chip, onLight && s.chipLight, on && s.chipOn, on && onLight && s.chipOnLight]}
             >
-              <Text style={[s.chipTxt, on && s.chipTxtOn]}>{o.label}</Text>
+              <Text style={[s.chipTxt, onLight && s.chipTxtLight, on && s.chipTxtOn, on && onLight && s.chipTxtOnLight]}>{o.label}</Text>
             </Pressable>
           );
         })}
       </View>
 
-      {current === 'auto' ? <Text style={s.autoHint}>{t.settings.uiLangAutoHint}</Text> : null}
+      {current === 'auto' ? <Text style={[s.autoHint, onLight && s.autoHintLight]}>{t.settings.uiLangAutoHint}</Text> : null}
     </View>
   );
 };
@@ -101,6 +105,16 @@ const s = StyleSheet.create({
     marginTop: 9, fontSize: 11, fontWeight: V.font.bold,
     color: 'rgba(255,255,255,0.66)',
   },
+
+  // ---- Variante sobre fondo claro (pestaña Ajustes) ----
+  cardLight: { backgroundColor: V.color.card, borderColor: V.color.border, ...V.shadow.card },
+  titleLight: { color: V.color.textPrimary },
+  hintLight: { color: V.color.textMuted },
+  chipLight: { borderColor: V.color.border, backgroundColor: V.color.pageBg },
+  chipOnLight: { backgroundColor: V.color.primary, borderColor: V.color.primary },
+  chipTxtLight: { color: V.color.textSecondary },
+  chipTxtOnLight: { color: '#fff' },
+  autoHintLight: { color: V.color.textMuted },
 });
 
 export default ValeriaUiLangPicker;
