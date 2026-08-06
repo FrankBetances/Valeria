@@ -30,7 +30,6 @@ import { encryptJSON, decryptJSON } from './valeriaCrypto';
 // Solo tipos: el puente de RA no se carga aquí ni en dispositivos sin el host
 // nativo. La telemetría no debe poder romperse por un módulo opcional.
 import type { ArTrial, ArDeviceProfile, ArThresholds, ArAptitudeLevel } from './valeriaArBridge';
-import { ENABLE_V11_UI } from './valeriaFeatureFlags';
 
 export type BlockId = 'audicion' | 'lenguaje' | 'pares' | 'expansion' | 'tea' | 'dislexia' | 'ar';
 export const ALL_BLOCKS: BlockId[] = ['audicion', 'lenguaje', 'pares', 'expansion', 'tea', 'dislexia', 'ar'];
@@ -96,6 +95,9 @@ export interface SessionRecord {
   //     nueva que antes se imputaba entera a `ExerciseSelection`.
   // Marcando la sesión se pueden separar los tramos pre/post por DATO en vez
   // de por fecha de despliegue, que es aproximada y se pierde al reinstalar.
+  // Retirado el interruptor, toda sesión nueva es 'v11'; el campo se mantiene
+  // porque el log ya acumula sesiones 'v10' del piloto y hay que poder
+  // distinguirlas al analizar.
   ui?: 'v10' | 'v11';
   misclicks: MisclickSplit;
   capsules: { started: number; done: number; skipped: number };
@@ -154,7 +156,7 @@ let dualTaskOn = false; // flag vivo: hay distractor visual en pantalla AHORA
 function freshSession(): SessionRecord {
   return {
     id: newId(), v: 2, startedAt: Date.now(), updatedAt: Date.now(),
-    screens: {}, ui: ENABLE_V11_UI ? 'v11' : 'v10', misclicks: { ui: 0, dualTask: 0 },
+    screens: {}, ui: 'v11', misclicks: { ui: 0, dualTask: 0 },
     capsules: { started: 0, done: 0, skipped: 0 },
     routes: { started: 0, validated: 0, failed: 0, skipped: 0 },
     blocks: [], noiseEvents: [], repairEvents: [], dualTaskWindows: [],

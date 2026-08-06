@@ -292,16 +292,17 @@ texto». El hub de la v10.2 concentraba cinco tareas en una sola pantalla
 profesional— con unos **1.490 px de scroll**, dos pantallas y media, para llegar
 a los ajustes.
 
-La **v11** reorganiza esa pantalla sin tocar el resto de la app. Está **activa**
-desde el visto bueno de los testers: [`ENABLE_V11_UI`](src/valeriaFeatureFlags.ts)
-en `true`, y la app arranca en `MainTabNavigator` en lugar del hub clásico.
+La **v11** reorganiza esa pantalla sin tocar el resto de la app, y es la
+interfaz que arranca: `MainTabNavigator` va cableado directo en
+[`AppNavigator`](src/AppNavigator.tsx).
 
-> **La vía de vuelta sigue puesta.** `ValeriaExerciseSelectionScreen` no se ha
-> borrado: continúa enganchada a la rama `false` del interruptor. Volver a la
-> interfaz clásica es cambiar una línea y publicar — sin despliegue que revertir
-> y sin migrar datos, porque **las claves de AsyncStorage son las mismas en las
-> dos interfaces**. El borrado del screen clásico y de la bandera va después de
-> una tanda de uso real con la v11 encendida.
+> **Sin interruptor.** Durante el desarrollo hubo un `ENABLE_V11_UI` que
+> permitía construir la v11 sin tocar producción. Cumplió su papel, pero
+> también permitía compilar una versión en la que no se veía ningún cambio, y
+> eso costó un build entregado a evaluación externa con la interfaz antigua.
+> Se ha retirado junto con `ValeriaExerciseSelectionScreen`: **lo que está en
+> `main` es lo que sale al compilar**. Volver atrás es un revert de git, no
+> cambiar una constante.
 
 ```mermaid
 flowchart LR
@@ -375,7 +376,7 @@ interfaz clásica se entra desde el hub de bloques, en la v11 desde **Ajustes**)
 | Documento | Descripción |
 | --- | --- |
 | **Manual de usuario con casos de uso** (v10.3) · [HTML](docs/manual-casos-de-uso.html) · [PDF](docs/Valeria-Manual-Casos-de-Uso.pdf) · [Word](docs/Valeria-Manual-Casos-de-Uso.docx) | **22 casos de uso** paso a paso ilustrados con capturas reales (`docs/screenshots/`): **Academy · hub de formación multidominio (CU‑03)**, los **siete bloques** (Pares Mínimos, Expansión Semántica, Audición, Lenguaje, TEA, Dislexia y **Realidad Aumentada**), el hub, la gráfica de sustitución por fonema, la telemetría del piloto (CU‑14), la variedad lingüística —Castellano, Galego, Dominicano y Euskera— (CU‑15), el Panel del Adulto / carga comunicativa (CU‑16), el **módulo de Lengua de Signos Española (CU‑17)** y el **bloque de Realidad Aumentada completo (CU‑18 a CU‑22)**: permiso de cámara y prueba de aptitud, los tres ejercicios y los umbrales clínicos. Cubre las novedades v6 → v10.3, incluida la tarjeta de **material necesario**, la lista de **formas alternativas** de una misma actividad, la **chuleta del adulto** de la lectura labiofacial y el **aviso del siguiente ejercicio** antes de puntuar (CU‑09). |
-| [`docs/plan-evolucion-ux-v11.md`](docs/plan-evolucion-ux-v11.md) | Plan de evolución UX/UI v10.2 → v11 en respuesta al feedback del piloto («engorroso», «mucho texto»): diagnóstico medido sobre el código, cuadrícula de 2 columnas, pestañas inferiores y el **muro de contención** que garantiza cero regresiones clínicas y cero pérdida de la serie de telemetría. Implementado tras `ENABLE_V11_UI` en `src/valeriaFeatureFlags.ts`. |
+| [`docs/plan-evolucion-ux-v11.md`](docs/plan-evolucion-ux-v11.md) | Plan de evolución UX/UI v10.2 → v11 en respuesta al feedback del piloto («engorroso», «mucho texto»): diagnóstico medido sobre el código, cuadrícula de 2 columnas, pestañas inferiores y el **muro de contención** que garantiza cero regresiones clínicas y cero pérdida de la serie de telemetría. Implementado y activo; el interruptor `ENABLE_V11_UI` se retiró al cerrar el Sprint 4.6. |
 | [`docs/protocolo-pares-minimos.md`](docs/protocolo-pares-minimos.md) | Protocolo de pares mínimos para dislalias fonológicas: 10 pares accionables con flujo TTS→STT, feedback por rama y misiones físicas. Implementado en `src/ValeriaMinimalPairsScreen.tsx` + `src/valeriaMinimalPairs.ts`. |
 | [`docs/protocolo-pares-minimos-es-DO.md`](docs/protocolo-pares-minimos-es-DO.md) | Protocolo de pares mínimos en español dominicano (Quisqueya Habla). Implementado en `src/valeriaMinimalPairsEsDO.ts`. |
 | [`docs/protocolo-expansion-semantica.md`](docs/protocolo-expansion-semantica.md) | Protocolo de expansión semántica / progresión léxica offline. Implementado en `src/ValeriaSemanticExpansionScreen.tsx` + `src/valeriaSemanticExpansion.ts`. |

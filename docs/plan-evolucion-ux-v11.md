@@ -316,11 +316,10 @@ y perdería la sesión en curso. Se cambia el valor y se recarga.
 
 ## 5. Sprints
 
-> **Estado.** Sprints 1, 2, 3 y 4.1–4.5 **completados**. Los testers dieron el
-> visto bueno y `ENABLE_V11_UI` está en **`true`**: la v11 es la interfaz
-> activa. Queda abierta la **4.6** —retirar la bandera y borrar
-> `ValeriaExerciseSelectionScreen`—, que es deliberadamente posterior a una
-> tanda de uso real con la v11 encendida. Ver §5.1.
+> **Estado. Plan cerrado.** Sprints 1 a 4 completados, incluida la 4.6: el
+> interruptor `ENABLE_V11_UI` y `ValeriaExerciseSelectionScreen` están
+> eliminados y `MainTabNavigator` va cableado directo. Lo que hay en `main`
+> es lo que sale al compilar. Ver §5.1 para por qué se adelantó la 4.6.
 
 ### Sprint 1 · Tokens y tarjeta del grid
 *Sin tocar ninguna pantalla existente.*
@@ -394,34 +393,30 @@ reescribirlo. El diff debe leerse como un corta-pega, no como una versión nueva
 
 **El borrado del screen antiguo es el último paso, no el primero.**
 
-### 5.1 Por qué 4.6 sigue abierta con la v11 ya encendida
+### 5.1 Por qué la 4.6 se adelantó
 
-La 4.5 se cerró con el visto bueno de los testers y el interruptor está en
-`true`. La 4.6 —retirar la bandera y borrar `ValeriaExerciseSelectionScreen`—
-**no se hace en el mismo movimiento**, y no es prudencia decorativa.
+El plan reservaba el borrado del interruptor para después de una tanda de uso
+real. Se adelantó porque el propio interruptor causó el incidente que debía
+evitar: un build entregado a una evaluación externa salió de un commit con
+`ENABLE_V11_UI` en `false` y llegó **sin ninguna de las mejoras**, con la
+pantalla clásica y sin que nada delatara el problema hasta abrirlo.
 
-Mientras el screen clásico siga enganchado a la rama `false`, revertir cuesta
-una línea: no hay despliegue que deshacer y no hay datos que migrar, porque
-**las dos interfaces leen y escriben las mismas claves de AsyncStorage**.
-Borrarlo el mismo día que se enciende la v11 tiraría la red de seguridad justo
-en la ventana en que más falta hace.
+Ese es el fallo de fondo de un feature flag de pantalla completa: convierte
+«está mergeado» y «se ve» en dos cosas distintas, y la diferencia solo se
+descubre compilando. Retirado el interruptor, `main` solo puede producir la
+v11.
 
-Hay además dos comprobaciones que ningún compilador ni ninguna sesión de
-laboratorio agota, y que solo el uso continuado en el parque real de
-dispositivos confirma:
+Lo que se pierde es el rollback de una línea. A cambio desaparece la clase de
+error entera. Revertir sigue siendo posible —el screen clásico vive en el
+historial de git— pero es un revert explícito, no una constante que alguien
+pueda dejar mal sin enterarse.
 
-* El **doble safe area** de la barra de pestañas (§3.1) depende de Android 15
-  edge-to-edge y varía entre navegación por gestos y por los tres botones.
-* Que `navigationRef.getCurrentRoute()` devuelva la ruta interna correcta con
-  navegador anidado, de lo que depende toda la telemetría (§3.2). El sello
-  `ui: 'v10' | 'v11'` de cada sesión permite verificarlo **con datos** en la
-  siguiente exportación: si `BlockList` aparece en `screens` con tiempos
-  razonables, el anidamiento resuelve bien.
+Sigue sin comprobarse en dispositivo lo que ningún compilador puede ver: el
+doble safe area de la barra en Android 15 edge-to-edge, y que
+`getCurrentRoute()` resuelva bien el navegador anidado. Esto último se
+verifica **con datos** en la siguiente exportación: si `BlockList` aparece en
+`screens` con tiempos razonables, el anidamiento resuelve.
 
-Criterio para ejecutar la 4.6: una tanda de uso real con la v11 activa, sin
-reversión, y una exportación de evidencia que muestre `sessionsV11 > 0` con
-`BlockList` registrando tiempo. Entonces —y solo entonces— se borran el screen
-clásico y la bandera.
 
 ---
 

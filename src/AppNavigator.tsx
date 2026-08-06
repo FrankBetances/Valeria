@@ -40,11 +40,9 @@ import ValeriaWelcomeScreen from './ValeriaWelcomeScreen';
 import ValeriaCreditsScreen from './ValeriaCreditsScreen';
 import ValeriaPatientSelectScreen from './ValeriaPatientSelectScreen';
 import ValeriaFichaRegistroScreen from './ValeriaFichaRegistroScreen';
-import ValeriaExerciseSelectionScreen from './ValeriaExerciseSelectionScreen';
 import MainTabNavigator from './MainTabNavigator';
 import ValeriaBlockListScreen from './ValeriaBlockListScreen';
 import { BlockKey } from './valeriaBlocks';
-import { ENABLE_V11_UI } from './valeriaFeatureFlags';
 import ValeriaLingTestScreen from './ValeriaLingTestScreen';
 import ValeriaExercisePlayerScreen from './ValeriaExercisePlayerScreen';
 import ValeriaMinimalPairsScreen from './ValeriaMinimalPairsScreen';
@@ -90,15 +88,16 @@ export const ValeriaNavigator: React.FC = () => (
     <Stack.Screen name="Credits" component={ValeriaCreditsScreen} />
     <Stack.Screen name="PatientSelect" component={ValeriaPatientSelectScreen} />
     <Stack.Screen name="FichaRegistro" component={ValeriaFichaRegistroScreen} />
-    {/* [v11] Punto ÚNICO de conmutación entre la interfaz clásica y la nueva.
-        El nombre de ruta se conserva a los dos lados del interruptor: la
-        telemetría del piloto indexa por nombre de ruta (noteScreen) y
-        rebautizarlo partiría la serie histórica. Con el flag en `false` —su
-        valor por defecto— aquí no cambia absolutamente nada. */}
-    <Stack.Screen
-      name="ExerciseSelection"
-      component={ENABLE_V11_UI ? MainTabNavigator : ValeriaExerciseSelectionScreen}
-    />
+    {/* La interfaz v11 va cableada DIRECTA. Hubo un interruptor
+        (`ENABLE_V11_UI`) para poder construirla sin tocar la app en
+        producción, y cumplió su papel — pero también permitía compilar una
+        versión en la que no se veía ningún cambio, y eso costó un build
+        entregado a evaluación externa sin la interfaz nueva. Retirado: si
+        está en `main`, está en la app.
+
+        El nombre de ruta se conserva: la telemetría del piloto indexa el
+        tiempo por nombre de ruta y rebautizarlo partiría la serie. */}
+    <Stack.Screen name="ExerciseSelection" component={MainTabNavigator} />
     {/* [v11] Solo la alcanza el hub v11. Vive en el stack RAÍZ, no dentro de
         las pestañas: prescribir es una tarea con principio y fin, y la barra
         inferior invitaría a abandonarla a medias. */}
