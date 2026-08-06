@@ -553,9 +553,9 @@ callout('La descripción de cada bloque no se ha perdido',
         'nada y con el micrófono apagado» (Realidad Aumentada) siguen estando, palabra por palabra.')
 p('También se corrigió un fallo que molestaba en Android: dentro de la lista de un bloque, el botón físico de atrás '
   'no volvía al hub, sino que salía de la pantalla entera y obligaba a rehacer el camino. Ahora vuelve donde debe.')
-p('La interfaz v11 se despliega con un interruptor interno y llega de forma escalonada: según la versión instalada, '
-  'la pantalla principal puede verse como la lista clásica o como la cuadrícula con pestañas. Las dos hacen '
-  'exactamente lo mismo y la prescripción guardada se conserva al pasar de una a otra.', size=9, color=MUTED)
+p('La interfaz v11 es ya la pantalla principal de la aplicación. En dispositivos con una versión anterior '
+  'instalada puede seguir viéndose la lista clásica hasta que se actualice: las dos hacen exactamente lo mismo y la '
+  'prescripción guardada se conserva al pasar de una a otra, sin perder nada.', size=9, color=MUTED)
 figures([('01-bienvenida.png', 'Bienvenida: “Comenzar” o “Ya tengo un paciente registrado”.'),
          ('02-creditos.png', 'Créditos del proyecto y colaboradores.'),
          ('05-hub-bloques.png', 'Hub de Prescripción: los bloques de terapia y la tarjeta Academy.')],

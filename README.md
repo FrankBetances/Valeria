@@ -284,7 +284,7 @@ flowchart LR
     H -.-> AC[Academy]
 ```
 
-### Interfaz v11 · pestañas inferiores (tras *feature flag*)
+### Interfaz v11 · pestañas inferiores ✅ **activa**
 
 Los testers del piloto reportaron que el uso «se hace muy engorroso y hay mucho
 texto». El hub de la v10.2 concentraba cinco tareas en una sola pantalla
@@ -292,9 +292,16 @@ texto». El hub de la v10.2 concentraba cinco tareas en una sola pantalla
 profesional— con unos **1.490 px de scroll**, dos pantallas y media, para llegar
 a los ajustes.
 
-La **v11** reorganiza esa pantalla sin tocar el resto de la app. Vive detrás de
-[`ENABLE_V11_UI`](src/valeriaFeatureFlags.ts), **`false` por defecto**: mientras
-no se cambie, la app arranca exactamente el flujo clásico de arriba.
+La **v11** reorganiza esa pantalla sin tocar el resto de la app. Está **activa**
+desde el visto bueno de los testers: [`ENABLE_V11_UI`](src/valeriaFeatureFlags.ts)
+en `true`, y la app arranca en `MainTabNavigator` en lugar del hub clásico.
+
+> **La vía de vuelta sigue puesta.** `ValeriaExerciseSelectionScreen` no se ha
+> borrado: continúa enganchada a la rama `false` del interruptor. Volver a la
+> interfaz clásica es cambiar una línea y publicar — sin despliegue que revertir
+> y sin migrar datos, porque **las claves de AsyncStorage son las mismas en las
+> dos interfaces**. El borrado del screen clásico y de la bandera va después de
+> una tanda de uso real con la v11 encendida.
 
 ```mermaid
 flowchart LR

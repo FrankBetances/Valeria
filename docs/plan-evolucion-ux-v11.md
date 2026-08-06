@@ -316,11 +316,11 @@ y perdería la sesión en curso. Se cambia el valor y se recarga.
 
 ## 5. Sprints
 
-> **Estado.** Sprints 1, 2, 3 y 4.1–4.4 **implementados** tras `ENABLE_V11_UI`
-> (`false` por defecto). Las tareas **4.5 (validación con testers)** y
-> **4.6 (encender el flag y borrar el screen clásico)** están **pendientes a
-> propósito**: 4.5 es una sesión con personas y 4.6 depende de su resultado.
-> Ver §5.1.
+> **Estado.** Sprints 1, 2, 3 y 4.1–4.5 **completados**. Los testers dieron el
+> visto bueno y `ENABLE_V11_UI` está en **`true`**: la v11 es la interfaz
+> activa. Queda abierta la **4.6** —retirar la bandera y borrar
+> `ValeriaExerciseSelectionScreen`—, que es deliberadamente posterior a una
+> tanda de uso real con la v11 encendida. Ver §5.1.
 
 ### Sprint 1 · Tokens y tarjeta del grid
 *Sin tocar ninguna pantalla existente.*
@@ -394,28 +394,34 @@ reescribirlo. El diff debe leerse como un corta-pega, no como una versión nueva
 
 **El borrado del screen antiguo es el último paso, no el primero.**
 
-### 5.1 Por qué 4.5 y 4.6 siguen abiertas
+### 5.1 Por qué 4.6 sigue abierta con la v11 ya encendida
 
-Lo implementado compila, pasa los nueve gates de CI y respeta el muro de
-contención. **Nada de ello se ha ejecutado en un dispositivo**, y hay al menos
-dos comprobaciones que el compilador no puede hacer:
+La 4.5 se cerró con el visto bueno de los testers y el interruptor está en
+`true`. La 4.6 —retirar la bandera y borrar `ValeriaExerciseSelectionScreen`—
+**no se hace en el mismo movimiento**, y no es prudencia decorativa.
 
-* El **doble safe area** de la barra de pestañas (§3.1 de este plan) solo se ve
-  en Android 15 edge-to-edge, con gestos y con los tres botones clásicos.
+Mientras el screen clásico siga enganchado a la rama `false`, revertir cuesta
+una línea: no hay despliegue que deshacer y no hay datos que migrar, porque
+**las dos interfaces leen y escriben las mismas claves de AsyncStorage**.
+Borrarlo el mismo día que se enciende la v11 tiraría la red de seguridad justo
+en la ventana en que más falta hace.
+
+Hay además dos comprobaciones que ningún compilador ni ninguna sesión de
+laboratorio agota, y que solo el uso continuado en el parque real de
+dispositivos confirma:
+
+* El **doble safe area** de la barra de pestañas (§3.1) depende de Android 15
+  edge-to-edge y varía entre navegación por gestos y por los tres botones.
 * Que `navigationRef.getCurrentRoute()` devuelva la ruta interna correcta con
-  navegador anidado, que es de lo que depende toda la telemetría (§3.2).
+  navegador anidado, de lo que depende toda la telemetría (§3.2). El sello
+  `ui: 'v10' | 'v11'` de cada sesión permite verificarlo **con datos** en la
+  siguiente exportación: si `BlockList` aparece en `screens` con tiempos
+  razonables, el anidamiento resuelve bien.
 
-Encender `ENABLE_V11_UI` cambia la pantalla principal de un producto sanitario
-en un piloto con menores en curso. Esa decisión es del responsable clínico —no
-del compilador ni de quien escribe el código— y su requisito previo es la
-tarea 4.5: una sesión con 3–5 testers, preferiblemente **los mismos que
-reportaron el problema**, contra las métricas de §6.
-
-Cuando llegue ese momento, encender la v11 es **una línea**
-(`src/valeriaFeatureFlags.ts`) y apagarla otra vez, la misma línea: no hay
-despliegue que revertir. El borrado de `ValeriaExerciseSelectionScreen.tsx` y
-de la propia bandera va después de una tanda de validación en verde, nunca
-antes.
+Criterio para ejecutar la 4.6: una tanda de uso real con la v11 activa, sin
+reversión, y una exportación de evidencia que muestre `sessionsV11 > 0` con
+`BlockList` registrando tiempo. Entonces —y solo entonces— se borran el screen
+clásico y la bandera.
 
 ---
 
