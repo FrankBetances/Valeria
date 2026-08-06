@@ -1,0 +1,172 @@
+{
+ "lang": "en",
+ "voice": "LJSpeech (femenina, dominio p\u00fablico) \u00b7 rhasspy/piper-voices",
+ "peakDbfs": -3.0,
+ "entries": 27,
+ "totalBytes": 409191,
+ "totalSeconds": 73.8,
+ "files": [
+  {
+   "id": "en_child_56a13493_31",
+   "file": "en_child_56a13493_31.m4a",
+   "seconds": 2.02,
+   "bytes": 11589
+  },
+  {
+   "id": "en_child_ac0e65ae_24",
+   "file": "en_child_ac0e65ae_24.m4a",
+   "seconds": 1.85,
+   "bytes": 10604
+  },
+  {
+   "id": "en_child_54f1bc6f_22",
+   "file": "en_child_54f1bc6f_22.m4a",
+   "seconds": 1.58,
+   "bytes": 9173
+  },
+  {
+   "id": "en_child_83b43e94_44",
+   "file": "en_child_83b43e94_44.m4a",
+   "seconds": 2.4,
+   "bytes": 13448
+  },
+  {
+   "id": "en_child_27a7e3f1_31",
+   "file": "en_child_27a7e3f1_31.m4a",
+   "seconds": 2.32,
+   "bytes": 13006
+  },
+  {
+   "id": "en_child_cb1d8824_26",
+   "file": "en_child_cb1d8824_26.m4a",
+   "seconds": 1.85,
+   "bytes": 10628
+  },
+  {
+   "id": "en_child_a6653f74_41",
+   "file": "en_child_a6653f74_41.m4a",
+   "seconds": 3.09,
+   "bytes": 17052
+  },
+  {
+   "id": "en_child_acc248ea_33",
+   "file": "en_child_acc248ea_33.m4a",
+   "seconds": 2.19,
+   "bytes": 12512
+  },
+  {
+   "id": "en_child_74869ae7_40",
+   "file": "en_child_74869ae7_40.m4a",
+   "seconds": 2.71,
+   "bytes": 15147
+  },
+  {
+   "id": "en_child_4f0df528_51",
+   "file": "en_child_4f0df528_51.m4a",
+   "seconds": 3.01,
+   "bytes": 16533
+  },
+  {
+   "id": "en_child_3a7c94c0_41",
+   "file": "en_child_3a7c94c0_41.m4a",
+   "seconds": 2.66,
+   "bytes": 14876
+  },
+  {
+   "id": "en_child_6e121e4c_66",
+   "file": "en_child_6e121e4c_66.m4a",
+   "seconds": 4.21,
+   "bytes": 22704
+  },
+  {
+   "id": "en_child_394459ec_47",
+   "file": "en_child_394459ec_47.m4a",
+   "seconds": 2.93,
+   "bytes": 16172
+  },
+  {
+   "id": "en_child_d319ed75_37",
+   "file": "en_child_d319ed75_37.m4a",
+   "seconds": 2.26,
+   "bytes": 12763
+  },
+  {
+   "id": "en_child_970c2ad0_47",
+   "file": "en_child_970c2ad0_47.m4a",
+   "seconds": 3.52,
+   "bytes": 19036
+  },
+  {
+   "id": "en_child_bc791ff0_39",
+   "file": "en_child_bc791ff0_39.m4a",
+   "seconds": 2.88,
+   "bytes": 15835
+  },
+  {
+   "id": "en_child_7907cac1_33",
+   "file": "en_child_7907cac1_33.m4a",
+   "seconds": 2.04,
+   "bytes": 11506
+  },
+  {
+   "id": "en_child_559b700f_27",
+   "file": "en_child_559b700f_27.m4a",
+   "seconds": 2.0,
+   "bytes": 11281
+  },
+  {
+   "id": "en_child_b61752d6_33",
+   "file": "en_child_b61752d6_33.m4a",
+   "seconds": 2.23,
+   "bytes": 12518
+  },
+  {
+   "id": "en_child_06c2bd9a_45",
+   "file": "en_child_06c2bd9a_45.m4a",
+   "seconds": 2.72,
+   "bytes": 15078
+  },
+  {
+   "id": "en_clinical_350b2f90_50",
+   "file": "en_clinical_350b2f90_50.m4a",
+   "seconds": 2.96,
+   "bytes": 16436
+  },
+  {
+   "id": "en_child_3eb03e9f_50",
+   "file": "en_child_3eb03e9f_50.m4a",
+   "seconds": 2.91,
+   "bytes": 16045
+  },
+  {
+   "id": "en_child_cc3baac0_59",
+   "file": "en_child_cc3baac0_59.m4a",
+   "seconds": 3.81,
+   "bytes": 20649
+  },
+  {
+   "id": "en_child_3b0a52e7_50",
+   "file": "en_child_3b0a52e7_50.m4a",
+   "seconds": 3.13,
+   "bytes": 17273
+  },
+  {
+   "id": "en_child_370e1dd1_32",
+   "file": "en_child_370e1dd1_32.m4a",
+   "seconds": 1.78,
+   "bytes": 10404
+  },
+  {
+   "id": "en_child_4dd1430e_58",
+   "file": "en_child_4dd1430e_58.m4a",
+   "seconds": 3.6,
+   "bytes": 19635
+  },
+  {
+   "id": "en_child_fdbcd555_76",
+   "file": "en_child_fdbcd555_76.m4a",
+   "seconds": 5.12,
+   "bytes": 27288
+  }
+ ]
+}

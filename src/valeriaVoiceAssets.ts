@@ -1,12 +1,12 @@
 // ============================================================================
 // Valeria+ · Mapa id → asset de voz neuronal — ARCHIVO GENERADO, NO EDITAR
 // Regenerado por scripts/build-voice-asset-map.js (tubería de Fase 2,
-// .github/workflows/voice-assets.yml). Cobertura: 2438/2438 locuciones
+// .github/workflows/voice-assets.yml). Cobertura: 2465/2465 locuciones
 // del corpus; lo no cubierto cae a expo-speech en runtime.
 // ============================================================================
 
 // Versión del lote de audio empaquetado ('none' = sin audio pre-generado).
-export const VOICE_ASSETS_VERSION = "es-sharvard+eu-ahotts+gl-celtia-2026-08-04";
+export const VOICE_ASSETS_VERSION = "en-ljspeech+es-sharvard+eu-ahotts+gl-celtia-2026-08-06";
 
 // id de corpus (valeriaVoiceCorpus.voiceCorpusId) → módulo de asset de Metro.
 export const VOICE_ASSETS: Record<string, number> = {
@@ -501,6 +501,33 @@ export const VOICE_ASSETS: Record<string, number> = {
   "clinical_9d2f7fb6_40": require('../assets/voice/clinical_9d2f7fb6_40.m4a'),
   "clinical_e8cccd59_36": require('../assets/voice/clinical_e8cccd59_36.m4a'),
   "clinical_eabcd84c_44": require('../assets/voice/clinical_eabcd84c_44.m4a'),
+  "en_child_06c2bd9a_45": require('../assets/voice/en_child_06c2bd9a_45.m4a'),
+  "en_child_27a7e3f1_31": require('../assets/voice/en_child_27a7e3f1_31.m4a'),
+  "en_child_370e1dd1_32": require('../assets/voice/en_child_370e1dd1_32.m4a'),
+  "en_child_394459ec_47": require('../assets/voice/en_child_394459ec_47.m4a'),
+  "en_child_3a7c94c0_41": require('../assets/voice/en_child_3a7c94c0_41.m4a'),
+  "en_child_3b0a52e7_50": require('../assets/voice/en_child_3b0a52e7_50.m4a'),
+  "en_child_3eb03e9f_50": require('../assets/voice/en_child_3eb03e9f_50.m4a'),
+  "en_child_4dd1430e_58": require('../assets/voice/en_child_4dd1430e_58.m4a'),
+  "en_child_4f0df528_51": require('../assets/voice/en_child_4f0df528_51.m4a'),
+  "en_child_54f1bc6f_22": require('../assets/voice/en_child_54f1bc6f_22.m4a'),
+  "en_child_559b700f_27": require('../assets/voice/en_child_559b700f_27.m4a'),
+  "en_child_56a13493_31": require('../assets/voice/en_child_56a13493_31.m4a'),
+  "en_child_6e121e4c_66": require('../assets/voice/en_child_6e121e4c_66.m4a'),
+  "en_child_74869ae7_40": require('../assets/voice/en_child_74869ae7_40.m4a'),
+  "en_child_7907cac1_33": require('../assets/voice/en_child_7907cac1_33.m4a'),
+  "en_child_83b43e94_44": require('../assets/voice/en_child_83b43e94_44.m4a'),
+  "en_child_970c2ad0_47": require('../assets/voice/en_child_970c2ad0_47.m4a'),
+  "en_child_a6653f74_41": require('../assets/voice/en_child_a6653f74_41.m4a'),
+  "en_child_ac0e65ae_24": require('../assets/voice/en_child_ac0e65ae_24.m4a'),
+  "en_child_acc248ea_33": require('../assets/voice/en_child_acc248ea_33.m4a'),
+  "en_child_b61752d6_33": require('../assets/voice/en_child_b61752d6_33.m4a'),
+  "en_child_bc791ff0_39": require('../assets/voice/en_child_bc791ff0_39.m4a'),
+  "en_child_cb1d8824_26": require('../assets/voice/en_child_cb1d8824_26.m4a'),
+  "en_child_cc3baac0_59": require('../assets/voice/en_child_cc3baac0_59.m4a'),
+  "en_child_d319ed75_37": require('../assets/voice/en_child_d319ed75_37.m4a'),
+  "en_child_fdbcd555_76": require('../assets/voice/en_child_fdbcd555_76.m4a'),
+  "en_clinical_350b2f90_50": require('../assets/voice/en_clinical_350b2f90_50.m4a'),
   "eu_child_00597938_21": require('../assets/voice/eu_child_00597938_21.m4a'),
   "eu_child_01905554_12": require('../assets/voice/eu_child_01905554_12.m4a'),
   "eu_child_02909097_72": require('../assets/voice/eu_child_02909097_72.m4a'),
