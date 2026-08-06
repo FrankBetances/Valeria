@@ -46,6 +46,16 @@ on:
     types: [completed]
   workflow_dispatch:
 
+# Un build por rama, y siempre el ÚLTIMO. Sin esto, cada push encola un build
+# completo (npm ci + 9 gates + typecheck + NDK + prebuild + Gradle) y varios
+# empujones seguidos saturan la cola: los runs lanzados a mano desde el botón
+# "Run workflow" quedan esperando detrás y parece que no se genera nada.
+# `cancel-in-progress` descarta el build en curso cuando llega un commit más
+# nuevo a la misma rama, que es el que interesa de todos modos.
+concurrency:
+  group: android-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
