@@ -729,10 +729,13 @@ const s = StyleSheet.create({
   // comprimían hasta solaparse: «Castellano» salía cortado y la etiqueta
   // «beta» se montaba sobre «English (US)». Ahora la fila envuelve y cada
   // chip tiene un ancho mínimo legible en vez de repartirse a la fuerza.
-  vqLangRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
-  vqLangBtn: { flexGrow: 1, flexBasis: 96, minWidth: 96, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6, backgroundColor: V.color.pageBg, borderWidth: 1.5, borderColor: V.color.border, borderRadius: 12, paddingVertical: 10, paddingHorizontal: 8 },
+  vqLangRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, rowGap: 8 },
+  // Sin `flexGrow`: con 5 variedades, dejar crecer hacía que la fila de 3 y
+  // la de 2 tuvieran anchos distintos y el bloque se viera desalineado.
+  // Ancho fijo por columna = rejilla pareja de 2×3.
+  vqLangBtn: { width: '31.5%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 5, backgroundColor: V.color.pageBg, borderWidth: 1.5, borderColor: V.color.border, borderRadius: 14, paddingVertical: 11, paddingHorizontal: 6 },
   vqLangBtnOn: { backgroundColor: V.color.primary, borderColor: V.color.primary },
-  vqLangTxt: { fontSize: 13.5, fontWeight: '800', color: V.color.textSecondary },
+  vqLangTxt: { fontSize: 12.5, fontWeight: '800', color: V.color.textSecondary, textAlign: 'center' },
   vqLangTxtOn: { color: '#fff' },
   vqBeta: { fontSize: 9, fontWeight: '800', color: V.color.textMuted, borderWidth: 1, borderColor: V.color.border, borderRadius: 6, paddingHorizontal: 4, paddingVertical: 1, letterSpacing: 0.4, textTransform: 'uppercase' },
   vqDetail: { fontSize: 11.5, fontWeight: '600', color: V.color.textMuted, marginTop: 8, lineHeight: 15.5 },

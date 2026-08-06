@@ -178,7 +178,7 @@ const s = StyleSheet.create({
   logo: { color: '#fff', fontWeight: V.font.extrabold, fontSize: 13, letterSpacing: 1, marginBottom: V.space.xs },
   headerTitle: { ...V.type.display, color: '#fff', fontWeight: V.font.extrabold, letterSpacing: -0.4 },
 
-  scroll: { padding: V.space.lg, paddingBottom: V.space.xxl },
+  scroll: { padding: V.space.lg, paddingBottom: 88 }, // 58 px de barra + aire
 
   toast: {
     flexDirection: 'row', alignItems: 'center', gap: V.space.sm, backgroundColor: V.color.primaryTint,

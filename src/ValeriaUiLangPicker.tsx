@@ -92,14 +92,17 @@ const s = StyleSheet.create({
     marginTop: 5, fontSize: 11.5, fontWeight: V.font.bold, lineHeight: 16,
     color: 'rgba(255,255,255,0.78)',
   },
-  row: { marginTop: 12, flexDirection: 'row', gap: 8, flexWrap: 'wrap' },
+  row: { marginTop: 12, flexDirection: 'row', gap: 8 },
   chip: {
-    paddingVertical: 9, paddingHorizontal: 14, borderRadius: 12,
+    // `flex: 1` reparte el ancho: tres opciones apiladas a la izquierda con
+    // huecos desiguales se veían amontonadas. Segmentado, ocupan la fila.
+    flex: 1, alignItems: 'center',
+    paddingVertical: 11, paddingHorizontal: 10, borderRadius: 14,
     borderWidth: 1.5, borderColor: 'rgba(255,255,255,0.45)',
     backgroundColor: 'rgba(255,255,255,0.10)',
   },
   chipOn: { backgroundColor: '#fff', borderColor: '#fff' },
-  chipTxt: { fontSize: 13.5, fontWeight: '800', color: '#fff' },
+  chipTxt: { fontSize: 13, fontWeight: '800', color: '#fff', textAlign: 'center' },
   chipTxtOn: { color: V.color.primaryDark },
   autoHint: {
     marginTop: 9, fontSize: 11, fontWeight: V.font.bold,

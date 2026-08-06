@@ -16,6 +16,7 @@
 // prescripción que el logopeda ya había guardado, sin migración de datos.
 // ============================================================================
 import { STORAGE_KEYS } from './valeriaTheme';
+import { BlockIconName } from './ValeriaBlockIcons';
 import {
   ExerciseMeta, AUDICION_META, LENGUAJE_META, TEA_META, DISLEXIA_META,
 } from './valeriaExerciseMeta';
@@ -29,7 +30,7 @@ export interface BlockDef {
   meta: ExerciseMeta[];
   /** Clave de AsyncStorage. Idéntica a la de la v10.2: sin migración. */
   storageKey: string;
-  icon: string;
+  icon: BlockIconName;
   accentBg: string;
   accentFg: string;
   /** Solo Audición secciona la lista por bandas de edad. */
@@ -39,19 +40,19 @@ export interface BlockDef {
 export const BLOCKS: Record<BlockKey, BlockDef> = {
   audicion: {
     key: 'audicion', meta: AUDICION_META, storageKey: STORAGE_KEYS.audicion,
-    icon: '👂', accentBg: '#e0edff', accentFg: '#3b6fd4', byAge: true,
+    icon: 'hearing', accentBg: '#e0edff', accentFg: '#3b6fd4', byAge: true,
   },
   lenguaje: {
     key: 'lenguaje', meta: LENGUAJE_META, storageKey: STORAGE_KEYS.lenguaje,
-    icon: '💬', accentBg: '#fff1dc', accentFg: '#d98a1f', byAge: false,
+    icon: 'language', accentBg: '#fff1dc', accentFg: '#d98a1f', byAge: false,
   },
   tea: {
     key: 'tea', meta: TEA_META, storageKey: STORAGE_KEYS.tea,
-    icon: '🧠', accentBg: '#fdeef2', accentFg: '#c2477e', byAge: false,
+    icon: 'autism', accentBg: '#fdeef2', accentFg: '#c2477e', byAge: false,
   },
   dislexia: {
     key: 'dislexia', meta: DISLEXIA_META, storageKey: STORAGE_KEYS.dislexia,
-    icon: '📖', accentBg: '#f3e8fd', accentFg: '#8b5cf6', byAge: false,
+    icon: 'dyslexia', accentBg: '#f3e8fd', accentFg: '#8b5cf6', byAge: false,
   },
 };
 

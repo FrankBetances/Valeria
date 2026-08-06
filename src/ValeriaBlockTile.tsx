@@ -1,97 +1,96 @@
 // ============================================================================
-// Valeria+ · Tarjeta del grid de bloques (v11) — Sprint 1.2
+// Valeria+ · Tarjeta del grid de bloques (v11)
 //
-// Sustituye a `blockCard` de ValeriaExerciseSelectionScreen, que era una fila
-// horizontal con icono + título + SUBTÍTULO de 1-3 líneas + badge + chevron.
-// Los testers reportaron "mucho texto": aquí NO hay subtítulo. El dato que
-// sobrevive es el badge ("12/18"), porque es dato, no prosa.
+// Tercera versión. Las dos anteriores fallaron por motivos opuestos y conviene
+// dejarlo escrito para no repetirlas:
 //
-// La descripción del bloque no se pierde: se reubica al `refCard` de la
-// pantalla del bloque (Sprint 3.4), donde se lee justo antes de usarlo. Varias
-// de esas descripciones tienen peso MDR ("Estresores siempre manuales", "Sin
-// grabar nada y con el micrófono apagado") y borrarlas sería una regresión de
-// la documentación al usuario.
+//   1ª — caja blanca con emoji y una palabra. Altura fija con todo pegado
+//        arriba: media tarjeta era hueco. Leía como pantalla sin terminar.
+//   2ª — la misma caja teñida de pastel. Ganó color pero seguía siendo plana:
+//        un bloque de color con dos textos encima no es jerarquía.
 //
-// Mientras tanto, el lector de pantalla es la ÚNICA vía a esa descripción en
-// el hub: por eso `accessibilityHint` no es decorativo aquí, es el sustituto
-// del texto que se ha quitado. Se rellena desde las claves `*A11y` y `*Sub`
-// que ya existen en i18n.
+// Esta parte de que en una cuadrícula SIN descripciones la tarjeta necesita
+// una estructura de tres pisos, no relleno:
 //
-// Animación: `Animated` del core con `useNativeDriver: true` — el scale corre
-// en el hilo de UI a 60 FPS. NO se usa react-native-reanimated a propósito:
-// exige plugin de Babel y rebuild nativo sobre un pipeline de audio/ASR que
-// hoy funciona, y para un muelle de pulsación no aporta nada.
+//   · Placa del icono — ancla visual y color del bloque.
+//   · Título — la decisión que toma el adulto.
+//   · Zócalo de estado — cuánto hay prescrito, en barra y cifra. Es lo que
+//     convierte la tarjeta en un panel y no en un botón grande.
+//
+// El acento manda MÁS cuanto menos superficie ocupa: por eso el color vuelve a
+// concentrarse en la placa, la cifra y la barra, y la tarjeta es blanca.
+//
+// El zócalo va anclado abajo con `space-between`, así que un título de una
+// línea y otro de dos quedan igual de asentados sin reservar altura vacía.
+//
+// La descripción retirada de la tarjeta no se pierde: vive en el `refCard` del
+// bloque y, aquí, en `accessibilityHint` — que no es decorativo, es la única
+// vía a ese texto para quien usa lector de pantalla.
+//
+// Animación: `Animated` del core con `useNativeDriver: true`, en el hilo de UI.
+// Nada de reanimated: exigiría plugin de Babel y rebuild nativo sobre el
+// pipeline de audio/ASR, y para un muelle de pulsación no aporta nada.
 // ============================================================================
 import React, { useRef } from 'react';
 import { Animated, Pressable, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native';
 import { V } from './valeriaTheme';
+import { BlockIcon, BlockIconName } from './ValeriaBlockIcons';
 
 export interface ValeriaBlockTileProps {
-  /** Emoji del bloque. Se mantienen los del hub actual (👂 💬 🧠 📖 🗣️ 🧩 🎯). */
-  icon: string;
+  icon: BlockIconName;
   title: string;
-  /** Fondo del acento: el mismo par de color que ya usaba cada `blockCard`. */
+  /** Tinte suave del bloque: placa del icono y carril de la barra. */
   accentBg: string;
-  /** Tinta del acento, para el badge. */
+  /** Color pleno del bloque: cifra y relleno de la barra. */
   accentFg: string;
   onPress: () => void;
-  /** Obligatorio: sin subtítulo visible, el lector de pantalla es la vía única. */
   accessibilityLabel: string;
-  /** La descripción que se ha quitado de la tarjeta (clave `*Sub` de i18n). */
   accessibilityHint?: string;
-  /** Dato compacto, p. ej. "12/18". Prosa NO. */
-  badge?: string;
-  /** Etiqueta breve en la esquina, p. ej. "PARA TI". */
-  tag?: string;
-  /** Layout desde el grid (FlatList numColumns). */
+  /** Cifra del zócalo: «18 / 18», «15 pares». Dato, nunca prosa. */
+  meta?: string;
+  /** 0..1 · dibuja la barra. Sin valor, el zócalo es solo la cifra. */
+  progress?: number;
   style?: StyleProp<ViewStyle>;
 }
 
 export const ValeriaBlockTile: React.FC<ValeriaBlockTileProps> = React.memo(({
   icon, title, accentBg, accentFg, onPress,
-  accessibilityLabel, accessibilityHint, badge, tag, style,
+  accessibilityLabel, accessibilityHint, meta, progress, style,
 }) => {
   const scale = useRef(new Animated.Value(1)).current;
-
   const spring = (toValue: number) => {
-    Animated.spring(scale, {
-      toValue,
-      useNativeDriver: true, // hilo de UI: no compite con el audio ni con el ASR
-      speed: 40,
-      bounciness: 6,
-    }).start();
+    Animated.spring(scale, { toValue, useNativeDriver: true, speed: 40, bounciness: 6 }).start();
   };
+
+  const pct = progress == null ? null : Math.max(0, Math.min(1, progress));
 
   return (
     <Pressable
       onPress={onPress}
-      onPressIn={() => spring(0.96)}
+      onPressIn={() => spring(0.97)}
       onPressOut={() => spring(1)}
       accessibilityRole="button"
       accessibilityLabel={accessibilityLabel}
       accessibilityHint={accessibilityHint}
       style={[s.press, style]}
     >
-      <Animated.View style={[s.card, { backgroundColor: accentBg, transform: [{ scale }] }]}>
-        {!!tag && (
-          <View style={s.tag}>
-            <Text style={[s.tagTxt, { color: accentFg }]} numberOfLines={1}>{tag}</Text>
-          </View>
-        )}
-
-        <View style={s.icon}>
-          <Text style={s.iconGlyph}>{icon}</Text>
+      <Animated.View style={[s.card, { transform: [{ scale }] }]}>
+        <View style={[s.iconPlate, { backgroundColor: accentFg }]}>
+          <BlockIcon name={icon} color="#ffffff" size={31} />
         </View>
 
-        {/* Bloque inferior: el `space-between` de la tarjeta lo empuja al fondo,
-            así que títulos de una y de dos líneas quedan igual de asentados sin
-            reservar altura en vacío (era el hueco muerto de la primera versión). */}
-        <View>
+        <View style={s.foot}>
           <Text style={s.title} numberOfLines={2}>{title}</Text>
-          {!!badge && (
-            <View style={s.badge}>
-              <Text style={[s.badgeTxt, { color: accentFg }]} numberOfLines={1}>{badge}</Text>
-            </View>
+
+          {!!meta && (
+            <>
+              <Text style={[s.meta, { color: accentFg }]} numberOfLines={1}>{meta}</Text>
+              {pct != null && (
+                <View style={[s.track, { backgroundColor: accentBg }]}>
+                  <View style={[s.fill, { width: `${pct * 100}%`, backgroundColor: accentFg }]} />
+                </View>
+              )}
+            </>
           )}
         </View>
       </Animated.View>
@@ -102,62 +101,50 @@ export const ValeriaBlockTile: React.FC<ValeriaBlockTileProps> = React.memo(({
 ValeriaBlockTile.displayName = 'ValeriaBlockTile';
 
 const s = StyleSheet.create({
-  // El Pressable solo gestiona el gesto; el aspecto va en la Animated.View
-  // interior, para que la sombra escale junto con la tarjeta.
   press: { flex: 1 },
 
-  // La tarjeta se tiñe con el acento del bloque en vez de ser una caja blanca:
-  // la identidad "cada bloque tiene su color" ya estaba en la v10.2 y la
-  // primera versión de la cuadrícula la había reducido a un cuadradito.
   card: {
     flex: 1,
-    minHeight: 132,
-    justifyContent: 'space-between', // icono arriba · texto asentado abajo
-    borderRadius: V.radius.card,
-    padding: V.space.md,
-    ...V.shadow.card,
+    backgroundColor: V.color.card,
+    borderRadius: 24,
+    borderWidth: 1,
+    borderColor: '#eef2f2',
+    padding: 18,
+    // Sombra baja y abierta: en una cuadrícula la elevación es lo que separa
+    // la pieza del fondo, y sin ella las tarjetas parecían recortes de papel.
+    shadowColor: 'rgba(15, 23, 42, 0.13)',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 1,
+    shadowRadius: 20,
+    elevation: 4,
   },
 
-  // Chip blanco sobre el fondo teñido: invierte la relación anterior y da
-  // profundidad sin sombras ni degradados.
-  icon: {
-    width: V.touchMin,
-    height: V.touchMin,
-    borderRadius: V.radius.field,
-    backgroundColor: 'rgba(255,255,255,0.72)',
+  // Color PLENO con el glifo en blanco. La placa pastel con el icono teñido
+  // se veía lavada; invertirla es lo que hace que la tarjeta tenga peso.
+  iconPlate: {
+    width: 60,
+    height: 60,
+    borderRadius: 20,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  iconGlyph: { fontSize: 26 },
 
+  foot: { marginTop: 16 },
   title: {
-    ...V.type.title,
+    fontSize: 16.5,
+    lineHeight: 21,
     fontWeight: V.font.extrabold,
     color: V.color.textPrimary,
-    marginTop: V.space.sm,
+    letterSpacing: -0.2,
   },
-
-  badge: {
-    alignSelf: 'flex-start',
-    marginTop: V.space.sm,
-    paddingHorizontal: V.space.sm,
-    paddingVertical: 3,
-    borderRadius: V.space.sm,
-    backgroundColor: 'rgba(255,255,255,0.78)',
+  meta: {
+    fontSize: 12.5,
+    fontWeight: V.font.extrabold,
+    marginTop: 10,
+    letterSpacing: 0.1,
   },
-  badgeTxt: { ...V.type.caption, fontWeight: V.font.extrabold },
-
-  tag: {
-    position: 'absolute',
-    top: V.space.md,
-    right: V.space.md,
-    backgroundColor: 'rgba(255,255,255,0.78)',
-    paddingHorizontal: V.space.sm,
-    paddingVertical: 2,
-    borderRadius: V.space.sm,
-    zIndex: 1,
-  },
-  tagTxt: { ...V.type.caption, fontSize: 9.5, fontWeight: V.font.extrabold, letterSpacing: 0.4 },
+  track: { height: 6, borderRadius: 3, marginTop: 8, overflow: 'hidden' },
+  fill: { height: '100%', borderRadius: 3 },
 });
 
 export default ValeriaBlockTile;

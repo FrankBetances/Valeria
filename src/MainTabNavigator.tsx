@@ -32,9 +32,10 @@
 //    tres botones clásicos.
 // ============================================================================
 import React from 'react';
-import { StyleSheet, Text } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { V } from './valeriaTheme';
+import { BlockIcon, BlockIconName } from './ValeriaBlockIcons';
 import { useT } from './i18n';
 import ValeriaAcademyScreen from './ValeriaAcademy';
 import ValeriaHubV11Screen from './ValeriaHubV11Screen';
@@ -48,10 +49,10 @@ export type ValeriaTabParamList = {
 
 const Tab = createBottomTabNavigator<ValeriaTabParamList>();
 
-// Iconos con emoji, como el resto de la app: cero dependencias de iconografía.
-// La opacidad marca el estado, no un segundo color.
-const tabIcon = (glyph: string) => ({ focused }: { focused: boolean }) => (
-  <Text style={[s.icon, !focused && s.iconOff]}>{glyph}</Text>
+// Mismo set SVG que las tarjetas del hub. Antes eran emoji del sistema, que
+// cambian de estilo y de peso entre plataformas y no casan con nada.
+const tabIcon = (name: BlockIconName) => ({ color }: { color: string }) => (
+  <BlockIcon name={name} color={color} size={23} />
 );
 
 export const MainTabNavigator: React.FC = () => {
@@ -74,7 +75,7 @@ export const MainTabNavigator: React.FC = () => {
         component={ValeriaHubV11Screen}
         options={{
           tabBarLabel: t.tabs.therapies,
-          tabBarIcon: tabIcon('🏠'),
+          tabBarIcon: tabIcon('tabTherapies'),
           tabBarAccessibilityLabel: t.tabs.therapiesA11y,
         }}
       />
@@ -83,7 +84,7 @@ export const MainTabNavigator: React.FC = () => {
         component={ValeriaAcademyScreen}
         options={{
           tabBarLabel: t.tabs.academy,
-          tabBarIcon: tabIcon('🎓'),
+          tabBarIcon: tabIcon('tabAcademy'),
           tabBarAccessibilityLabel: t.tabs.academyA11y,
         }}
       />
@@ -92,7 +93,7 @@ export const MainTabNavigator: React.FC = () => {
         component={ValeriaSettingsScreen}
         options={{
           tabBarLabel: t.tabs.settings,
-          tabBarIcon: tabIcon('⚙️'),
+          tabBarIcon: tabIcon('tabSettings'),
           tabBarAccessibilityLabel: t.tabs.settingsA11y,
         }}
       />
@@ -114,8 +115,6 @@ const s = StyleSheet.create({
   },
   item: { minHeight: V.touchMin },
   label: { ...V.type.caption, fontWeight: V.font.extrabold },
-  icon: { fontSize: 20 },
-  iconOff: { opacity: 0.45 },
 });
 
 export default MainTabNavigator;
