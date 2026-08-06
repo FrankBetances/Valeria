@@ -1,5 +1,73 @@
 # Valeria+ · Notas para Claude Code
 
+## Reglas de trabajo (obligatorias, no negociables)
+
+Nacen de errores reales cometidos en el rediseño v11 (6/8/2026), cada uno con
+su coste. No son buenas prácticas genéricas: son la lista de lo que ya salió
+mal aquí.
+
+### 1. No digas que una pantalla está hecha sin haberla mirado
+
+Prohibido dar por terminado cualquier cambio visual sin **una captura propia**.
+El repo trae todo lo necesario y no hay excusa:
+
+```bash
+npm install --no-save --legacy-peer-deps \
+  react-native-web@~0.21.0 react-dom@19.1.0 @expo/metro-runtime@~6.1.1 playwright
+BROWSER=none npx expo start --web --port 8081 --clear
+CHROMIUM_PATH=/opt/pw-browsers/chromium-1194/chrome-linux/chrome \
+  node docs/capture-screenshots.js
+```
+
+`npm run typecheck` no ve un hueco muerto en una tarjeta, ni texto blanco sobre
+fondo blanco, ni cinco chips solapados. Todo eso se entregó y lo tuvo que
+detectar Frank. **Mira la captura antes de decir "hecho".**
+
+### 2. Informa de lo que Frank VA A VER, no de lo que has hecho
+
+Primera línea de la respuesta: qué cambia en pantalla. Si un merge no cambia
+nada visible —está detrás de un flag, es refactor, es documentación— **dilo en
+la primera línea**, no en el párrafo doce.
+
+Coste real: se entregó el build 472 a una evaluación externa en Howard
+University con la interfaz antigua, porque «mergeado a main» se dijo dos veces
+con el flag apagado y la advertencia iba enterrada al final.
+
+### 3. Nada de feature flags para cambios de pantalla completa
+
+Un flag así convierte «está mergeado» y «se ve» en dos cosas distintas, y la
+diferencia solo se descubre compilando. Si en algún caso hiciera falta uno, la
+regla 2 se aplica en cada mención del merge, sin excepción.
+
+### 4. Un push por cambio, y solo a la rama destino
+
+`android.yml` lanza un build completo por push (npm ci, 9 gates, typecheck,
+NDK, prebuild, Gradle). **Nunca** empujes el mismo commit a dos ramas: duplica
+la carga de CI, satura la cola y deja los runs manuales de Frank esperando
+detrás, con la apariencia de que el botón *Run workflow* no hace nada. Ya hay
+`concurrency` con `cancel-in-progress`, pero eso no justifica generar ruido.
+
+### 5. «Premium» significa activos propios
+
+Nada de emoji del sistema como iconografía: los dibuja el fabricante del
+teléfono, cambian entre Android/iOS/web y nunca forman un set. Hay un set SVG
+propio en [`src/ValeriaBlockIcons.tsx`](src/ValeriaBlockIcons.tsx) —rejilla de
+24, grosor 1.9, terminaciones redondeadas— y `react-native-svg` ya es
+dependencia. Ícono nuevo → se dibuja ahí, con ese mismo trazo.
+
+### 6. Rediseñar, no parchear
+
+Si Frank dice que algo se ve pobre, la respuesta no es un ajuste de padding.
+Se rehace la pieza entera y **se enseña una captura**. Cuatro rondas de parches
+sobre la misma tarjeta le convirtieron a él en el control de calidad de un
+trabajo que debía llegarle ya mirado.
+
+### 7. Menos prosa, más resultado
+
+Los comentarios y los mensajes largos no son rigor. Un fichero de 44 líneas
+para una constante es tiempo robado al trabajo real. Explica lo que evita que
+alguien rompa algo (telemetría, MDR, regla clínica) y calla el resto.
+
 ## Correo de contacto (regla fija)
 
 El correo de contacto del proyecto es **siempre**:
