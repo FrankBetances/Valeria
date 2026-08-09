@@ -446,7 +446,7 @@ export const ES = {
     subtitlePick: 'Dislalias fonológicas · el niño pide la palabra con su voz',
     editingOn: 'Edición profesional habilitada',
 
-    howKicker: '⚡ CÓMO FUNCIONA',
+    howKicker: 'CÓMO FUNCIONA',
     howBody:
       'Aparecen dos palabras casi iguales (rana / lana). La app pide una en voz alta, el niño '
       + 'la dice al micrófono y la app detecta si salió el fonema o la sustitución habitual. '
@@ -548,14 +548,14 @@ export const ES = {
     setupTitle: 'Preparación',
     doneTitle: '¡Completado!',
 
-    howKicker: '⚡ CÓMO FUNCIONA',
+    howKicker: 'CÓMO FUNCIONA',
     howBody:
       'Pulsando ▶ la app enseña una imagen y presenta la palabra en una frase corta antes de '
       + 'pedirla («Esto es la cama. Di: cama.»). El niño la repite con su voz y el micrófono '
       + 'valora el intento, aceptando las aproximaciones propias de la edad. Cada palabra se '
       + 'cierra con una acción física del adulto que la ancla al cuerpo y al entorno real.',
     autoRecord: 'Audio y grabación automáticos',
-    autoRecordSub: 'Por defecto, apagado: pulsad ▶ para oír el modelo y 🎤 para grabar.',
+    autoRecordSub: 'Por defecto, apagado: pulsad para oír el modelo y para grabar.',
 
     levelKicker: '📶 NIVEL MÁXIMO DE DIFICULTAD',
     levelHint: 'Con el tope en 1, la sesión solo presenta las palabras más familiares de cada categoría.',
@@ -569,7 +569,7 @@ export const ES = {
     sectionSequences: 'PROGRESIÓN LÉXICA',
     sectionCapsules: 'CÁPSULAS DE CONTRASTE',
     prescribedCount: (n: number): string => `${n} prescritas`,
-    goalKicker: '🎯 QUÉ SE TRABAJA AQUÍ',
+    goalKicker: 'QUÉ SE TRABAJA AQUÍ',
     sectionGoal: (section: string): string =>
       section === 'scenario' ? 'Repetición verbal: el niño imita la palabra objetivo en situaciones del día a día.'
         : section === 'category' ? 'Vocabulario nuevo por campo: se empieza por las palabras más familiares y se avanza a las menos frecuentes.'
@@ -784,7 +784,7 @@ export const ES = {
   // el adulto LEE está aquí. El quiebre pragmático y la escala de reparación son
   // instrucciones y observación clínica PARA EL ADULTO, así que son interfaz.
   adult: {
-    kicker: '🎛️ PANEL DEL ADULTO · RETO EXTRA',
+    kicker: 'PANEL DEL ADULTO · RETO EXTRA',
     openA11y: 'Abrir el panel del adulto',
     closeA11y: 'Cerrar el panel del adulto',
     distractorTitle: 'Gata distractora (doble tarea)',
@@ -799,7 +799,7 @@ export const ES = {
   },
 
   pragmatic: {
-    kicker: '🎭 QUIEBRE PRAGMÁTICO · SOLO ADULTOS',
+    kicker: 'QUIEBRE PRAGMÁTICO · SOLO ADULTOS',
     warnTitle: 'Esta tarea generará frustración útil',
     warnBody:
       'Vas a romper la comunicación A PROPÓSITO para observar cómo tu hijo/a la repara. '

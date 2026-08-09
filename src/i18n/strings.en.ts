@@ -449,7 +449,7 @@ export const EN: UiStrings = {
     subtitlePick: 'Speech sound errors · the child asks for the word with their own voice',
     editingOn: 'Professional editing enabled',
 
-    howKicker: '⚡ HOW IT WORKS',
+    howKicker: 'HOW IT WORKS',
     howBody:
       'Two nearly identical words appear (rake / wake). The app says one out loud, the child '
       + 'says it into the mic, and the app detects whether the target sound came out or the '
@@ -548,7 +548,7 @@ export const EN: UiStrings = {
     setupTitle: 'Getting ready',
     doneTitle: 'All done!',
 
-    howKicker: '⚡ HOW IT WORKS',
+    howKicker: 'HOW IT WORKS',
     howBody:
       'Tap ▶ and the app shows a picture and puts the word in a short sentence before asking '
       + 'for it (“This is the bed. Say: bed.”). Your child repeats it in their own voice and the '
@@ -556,7 +556,7 @@ export const EN: UiStrings = {
       + 'age. Every word ends with a physical action led by the grown-up that anchors it to the '
       + 'body and to the real world.',
     autoRecord: 'Play audio and record automatically',
-    autoRecordSub: 'Off by default: tap ▶ to hear the model and 🎤 to record.',
+    autoRecordSub: 'Off by default: tap to hear the model and to record.',
 
     levelKicker: '📶 MAXIMUM DIFFICULTY LEVEL',
     levelHint: 'With the cap at 1, the session only presents the most familiar words in each category.',
@@ -570,7 +570,7 @@ export const EN: UiStrings = {
     sectionSequences: 'VOCABULARY PROGRESSION',
     sectionCapsules: 'CONTRAST CAPSULES',
     prescribedCount: (n: number): string => `${n} assigned`,
-    goalKicker: '🎯 WHAT THIS WORKS ON',
+    goalKicker: 'WHAT THIS WORKS ON',
     sectionGoal: (section: string): string =>
       section === 'scenario' ? 'Verbal repetition: the child imitates the target word in everyday situations.'
         : section === 'category' ? 'New vocabulary by field: start with the most familiar words and move to less frequent ones.'
@@ -784,7 +784,7 @@ export const EN: UiStrings = {
   // grown-up READS lives here. The pragmatic breakdown and the repair scale are
   // instructions and clinical observation FOR THE GROWN-UP, so they are interface.
   adult: {
-    kicker: '🎛️ CAREGIVER PANEL · EXTRA CHALLENGE',
+    kicker: 'CAREGIVER PANEL · EXTRA CHALLENGE',
     openA11y: 'Open the caregiver panel',
     closeA11y: 'Close the caregiver panel',
     distractorTitle: 'Distractor cat (dual task)',
@@ -799,7 +799,7 @@ export const EN: UiStrings = {
   },
 
   pragmatic: {
-    kicker: '🎭 PRAGMATIC BREAKDOWN · GROWN-UPS ONLY',
+    kicker: 'PRAGMATIC BREAKDOWN · GROWN-UPS ONLY',
     warnTitle: 'This task will create useful frustration',
     warnBody:
       'You are about to break communication ON PURPOSE to watch how your child repairs it. '

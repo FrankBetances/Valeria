@@ -48,6 +48,10 @@ import { ValeriaAdultChaosPanel } from './ValeriaAdultChaosPanel';
 import { releaseNoise } from './valeriaNoise';
 import { ValeriaPragmaticBreakOverlay } from './ValeriaPragmaticBreak';
 import { ValeriaDistractorBear } from './ValeriaDistractorBear';
+import { BlockIcon } from './ValeriaBlockIcons';
+import { ValeriaGameStrip } from './ValeriaGameStrip';
+import { ValeriaAwardsSheet } from './ValeriaAwardsSheet';
+import { loadGame, GameState } from './valeriaGamification';
 
 const TOTAL_TRIALS = 10;
 const SWAP_TRIALS = [3, 7];   // antes de estos ensayos (0-index): ¡Ahora mandas tú!
@@ -311,6 +315,9 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
   const [toast, setToast] = useState('');
   // PM-04: por defecto MANUAL — el micro no arranca solo tras la consigna.
   const [autoRecord, setAutoRecord] = useState(false);
+  const [howOpen, setHowOpen] = useState(false);
+  const [game, setGame] = useState<GameState | null>(null);
+  const [awardsOpen, setAwardsOpen] = useState(false);
 
   const attemptsRef = useRef(0);
   const foilsRef = useRef(0); // sustituciones detectadas en el ensayo actual
@@ -340,12 +347,16 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
       } catch (e) { /* noop */ }
       const auto = await getAutoRecordPref();
       if (mounted.current) setAutoRecord(auto);
+      // La tira de juego se relee al volver de una sesión: la racha tiene que
+      // estar ya subida cuando el niño regresa al banco.
+      try { const g = await loadGame(); if (mounted.current) setGame(g); } catch (e) { /* noop */ }
     })();
     return () => { mounted.current = false; stopSpeaking(); stopListening(); releaseListening(); releaseNoise(); };
   }, []);
 
   useEffect(() => {
     if (phase === 'play') scrollRef.current?.scrollTo({ y: 0, animated: false });
+    if (phase === 'pick') { void (async () => { try { setGame(await loadGame()); } catch (e) { /* noop */ } })(); }
   }, [phase, trialIdx]);
 
   // ES-02: el botón atrás físico de Android se comporta igual que el botón
@@ -643,14 +654,31 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
         <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
           {!!toast && (
             <View style={s.toast}>
-              <View style={s.toastCheck}><Text style={{ color: '#fff', fontWeight: '800', fontSize: 13 }}>✓</Text></View>
+              <View style={s.toastCheck}><BlockIcon name="check" color="#ffffff" size={15} /></View>
               <Text style={s.toastTxt}>{toast}</Text>
             </View>
           )}
-          <View style={s.howCard}>
+          {/* La misma tira que el hub: el niño ve su nivel y su racha también
+              desde la pantalla en la que se entra a practicar. */}
+          <ValeriaGameStrip game={game} onPress={() => setAwardsOpen(true)} />
+
+          {/* Ficha del método, PLEGADA. Eran siete líneas de prosa para el
+              adulto por delante del primer contraste. */}
+          <Pressable
+            onPress={() => setHowOpen((v) => !v)}
+            style={s.howToggle}
+            accessibilityRole="button"
+            accessibilityLabel={howOpen ? t.hub.protocolCardClose : t.hub.protocolCardOpen}
+          >
+            <BlockIcon name="info" color={V.color.primaryDark} size={18} />
             <Text style={s.howKicker}>{t.pairs.howKicker}</Text>
-            <Text style={s.howTxt}>{t.pairs.howBody}</Text>
-          </View>
+            <Text style={s.howChev}>{howOpen ? '⌃' : '⌄'}</Text>
+          </Pressable>
+          {howOpen && (
+            <View style={s.howCard}>
+              <Text style={s.howTxt}>{t.pairs.howBody}</Text>
+            </View>
+          )}
 
           {/* PM-04: por defecto el micro espera al botón; aquí se puede volver
               al arranque automático para familias que ya tenían el ritmo cogido. */}
@@ -720,11 +748,13 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
             </>
           ) : (
             <View style={s.lockedHint}>
-              <Text style={{ fontSize: 13 }}>🔒</Text>
+              <BlockIcon name="lock" color={V.color.textSecondary} size={16} />
               <Text style={s.lockedHintTxt}>{t.pairs.lockedHint}</Text>
             </View>
           )}
         </ScrollView>
+
+        <ValeriaAwardsSheet open={awardsOpen} game={game} onClose={() => setAwardsOpen(false)} />
 
         <ProPinModal
           open={pinOpen}
@@ -842,7 +872,7 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
             re-locutada con tono infantil movería el fonema objetivo). */}
         <View style={s.promptCard}>
           <View style={s.promptHead}>
-            <View style={s.promptIcon}><Text style={{ fontSize: 18 }}>📢</Text></View>
+            <View style={s.promptIcon}><BlockIcon name="speaker" color="#ffffff" size={20} /></View>
             <View style={{ flex: 1 }}>
               <Text style={s.promptKicker}>
                 {livePrompt?.mode === 'slow' ? t.pairs.appSpeaksSlow : t.pairs.appSpeaks}
@@ -860,7 +890,7 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
         {/* ===== Estado del ensayo ===== */}
         {step === 'say' && (
           <View style={s.stateCard}>
-            <Text style={{ fontSize: 30 }}>🔊</Text>
+            <BlockIcon name="speaker" color={V.color.primaryDark} size={32} />
             <Text style={s.stateTxt}>{t.pairs.stepSay}</Text>
           </View>
         )}
@@ -1034,29 +1064,35 @@ const s = StyleSheet.create({
   scroll: { padding: 16, paddingBottom: 32 },
 
   // pick
-  howCard: { backgroundColor: V.color.primaryTint, borderWidth: 1.5, borderColor: '#b8eee9', borderRadius: 16, padding: 14, marginBottom: 6 },
-  howKicker: { fontSize: 11, fontWeight: '800', letterSpacing: 0.6, color: V.color.primaryDark },
-  howTxt: { fontSize: 13, fontWeight: '600', color: V.color.textSecondary, marginTop: 7, lineHeight: 19 },
-  groupLabel: { fontSize: 12, fontWeight: '800', color: V.color.textMuted, letterSpacing: 0.4, marginTop: 16, marginBottom: 8, marginHorizontal: 4 },
+  howToggle: {
+    flexDirection: 'row', alignItems: 'center', gap: 9, backgroundColor: V.color.primaryTint,
+    borderWidth: 1.5, borderColor: '#b8eee9', borderRadius: 16, paddingHorizontal: 13,
+    paddingVertical: 12, marginTop: 14,
+  },
+  howChev: { fontSize: 15, fontWeight: '800', color: V.color.primaryDark },
+  howCard: { backgroundColor: '#f2fcfa', borderWidth: 1.5, borderTopWidth: 0, borderColor: '#b8eee9', borderBottomLeftRadius: 16, borderBottomRightRadius: 16, padding: 14, marginTop: -6 },
+  howKicker: { flex: 1, fontSize: 12, fontWeight: '800', letterSpacing: 0.4, color: V.color.primaryDark },
+  howTxt: { fontSize: 13, fontWeight: '600', color: V.color.textSecondary, lineHeight: 19 },
+  groupLabel: { fontSize: 12, fontWeight: '800', color: V.color.textSecondary, letterSpacing: 0.4, marginTop: 16, marginBottom: 8, marginHorizontal: 4 },
   autoRecordRow: { flexDirection: 'row', alignItems: 'center', gap: 10, backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.border, borderRadius: 14, padding: 12, marginTop: 10 },
   autoRecordTxt: { fontSize: 13, fontWeight: '800', color: V.color.textPrimary },
-  autoRecordSub: { fontSize: 11, fontWeight: '600', color: V.color.textMuted, marginTop: 2, lineHeight: 15 },
+  autoRecordSub: { fontSize: 11, fontWeight: '600', color: V.color.textSecondary, marginTop: 2, lineHeight: 15 },
   toast: { flexDirection: 'row', alignItems: 'center', gap: 10, backgroundColor: V.color.primaryTint, borderWidth: 1, borderColor: V.color.primary, borderRadius: 13, padding: 13, marginBottom: 14 },
   toastCheck: { width: 24, height: 24, borderRadius: 12, backgroundColor: V.color.primary, alignItems: 'center', justifyContent: 'center' },
   toastTxt: { color: V.color.textPrimary, fontSize: 13.5, fontWeight: '700', flex: 1 },
   listHead: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 16, marginHorizontal: 4 },
-  listLabel: { fontSize: 12, fontWeight: '800', color: V.color.textMuted, letterSpacing: 0.4 },
+  listLabel: { fontSize: 12, fontWeight: '800', color: V.color.textSecondary, letterSpacing: 0.4 },
   countBadge: { backgroundColor: V.color.primaryLight, paddingHorizontal: 10, paddingVertical: 5, borderRadius: 9 },
   countBadgeTxt: { fontSize: 12, fontWeight: '800', color: V.color.primaryDark },
   pickRow: { flexDirection: 'row', alignItems: 'center', gap: 9, backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.border, borderRadius: 15, padding: 12, marginBottom: 9, ...V.shadow.card },
   pickRowOff: { opacity: 0.55 },
-  helper: { textAlign: 'center', color: V.color.textMuted, fontSize: 11.5, marginTop: 11, fontWeight: '600', paddingHorizontal: 14 },
+  helper: { textAlign: 'center', color: V.color.textSecondary, fontSize: 11.5, marginTop: 11, fontWeight: '600', paddingHorizontal: 14 },
   lockedHint: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 7, marginTop: 18, paddingHorizontal: 18 },
-  lockedHintTxt: { color: V.color.textMuted, fontSize: 12, fontWeight: '700', textAlign: 'center' },
+  lockedHintTxt: { color: V.color.textSecondary, fontSize: 12, fontWeight: '700', textAlign: 'center' },
   codeChip: { backgroundColor: V.color.primaryLight, borderRadius: 9, paddingHorizontal: 8, paddingVertical: 5 },
   codeChipTxt: { color: V.color.primaryDark, fontSize: 11, fontWeight: '800', letterSpacing: 0.3 },
   pickName: { fontSize: 14.5, fontWeight: '800', color: V.color.textPrimary, textTransform: 'capitalize' },
-  pickCat: { fontSize: 11, fontWeight: '700', color: V.color.textMuted, marginTop: 2 },
+  pickCat: { fontSize: 11.5, fontWeight: '700', color: V.color.textSecondary, marginTop: 2 },
   playBtn: { width: 36, height: 36, borderRadius: 12, backgroundColor: V.color.primaryLight, alignItems: 'center', justifyContent: 'center' },
 
   // fichas del par
