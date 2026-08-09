@@ -14,7 +14,9 @@
 // tira de juego— la cara medía 26 px de alto y los rasgos se emborronaban. No
 // era un problema de dibujo: era de resolución.
 //
-//   1. MÁS REJILLA. 30×34 el cuerpo entero, 26×24 la cabeza sola.
+//   1. MÁS REJILLA. 32×38 el cuerpo entero, 32×26 la cabeza sola. 32 de lado es
+//      el lienzo que recomiendan los tutoriales de píxel art: da sitio para
+//      equilibrar orejas, ojos y nariz, y para que haya expresión.
 //   2. DOS POSES. Debajo de 90 px se pinta la CABEZA, que aprovecha todo el
 //      cuadro para la cara; por encima, el cuerpo entero. Lo elige el propio
 //      componente, así que ninguna pantalla puede pedir por error la pose que
@@ -26,13 +28,22 @@
 //      blanco del hocico se fundía con el de la pechera y de la barbilla al
 //      vientre había una sola mancha clara.
 //
-// ── Las tres pruebas que NO valieron, para no repetirlas ───────────────────
-//   · Orejas altas, estrechas y abiertas hacia fuera → DRAGÓN (dos cuernos).
-//   · Orejas bajas y redondas plantadas encima → RATÓN (dos botones). La oreja
-//     de gato es un triángulo CORTO pegado a la esquina de la cabeza.
-//   · Ojos de disco turquesa grande → CRIATURA. La ternura de una mascota está
-//     casi toda en el ojo: pequeño, oscuro y con un brillo. El turquesa de
-//     marca vive en el resto de la interfaz, no en la mirada.
+// ── Las reglas que lo arreglaron (referencias de píxel art, §Fuentes) ──────
+//   · LA OREJA NACE DEL CONTORNO DE LA CABEZA. Su base se dibuja DENTRO de la
+//     cabeza y sigue su curva; no se apoya encima. Cuatro versiones anteriores
+//     fallaron por esto y se veía como una pieza pegada.
+//   · Altura de oreja ≈ 25 % de la altura de la cabeza. Más alta y estrecha
+//     sale un dragón (dos cuernos); más baja y redonda, un ratón (dos botones).
+//   · Ojos SEPARADOS y algo por debajo del centro de la cara: es lo que baja la
+//     edad aparente. Al fondo del todo, en cambio, la cara sale con una frente
+//     enorme y ojos de mirar torcido.
+//   · Un solo píxel de brillo por ojo (catchlight). El ojo va oscuro: un iris
+//     turquesa grande convierte a la gata en una criatura, y el color de marca
+//     ya trabaja en el resto de la interfaz.
+//   · Nariz y boca pequeñas.
+//
+// Fuentes: guías de píxel art de Pixnote (draw-cat), Mega Voxels y
+// jerwoodvisualarts (how to draw cat ears), consultadas el 9/8/2026.
 //
 // Rendimiento: los píxeles contiguos de una fila se funden en UN rectángulo
 // (mergeRuns). Importa porque la mascota se pinta también dentro de listas.
@@ -47,69 +58,76 @@ type PixelMap = string[];
 
 export type CatPose = 'sit' | 'head';
 
-// Gata sentada, de frente, con la cola enroscada. 30×34.
+// Gata sentada, de frente, con la cola enroscada. 32×38.
 const SIT: PixelMap = [
-  '....o....................o....',
-  '....oo..................oo....',
-  '....opo................opo....',
-  '....oppo..............oppo....',
-  '....opppo............opppo....',
-  '....obbbbo..........obbbbo....',
-  '....oooooo....oo....oooooo....',
-  '..........oooobboooo..........',
-  '........oobbbbbbbbbboo........',
-  '.......obbbbbbbbbbbbbbo.......',
-  '......obbbuubbbbbbuubbbo......',
-  '.....obbbuwuubbbbuwuubbbo.....',
-  '.....obbbuuuubbbbuuuubbbo.....',
-  '.....obbbbuubbbbbbuubbbbo.....',
-  '.....obbbbbbbllllbbbbbbbo.....',
-  '......obbbbbllllllbbbbbo......',
-  '......occbbllllllllbbbcco.....',
-  '......ooooblllpplllbooooo.....',
-  '..........oluluululo..........',
-  '..........oblullulbo..........',
-  '..........obbllllbbo..........',
-  '..........obbbbbbbbo..........',
-  '.........obbbllllbbbo....ooo..',
-  '........obbllllllllbbo...obo..',
-  '.......obbllllllllllbbo..obo..',
-  '......obbbllllllllllbbbo.obo..',
-  '......obbbllllllllllbbbo.obo..',
-  '......obbbllllllllllbbbbobbo..',
-  '......obbbllllllllllbbbbbbbo..',
-  '......obbbbllllllllbbbbbbbo...',
-  '.......olllbbllllbbllllbbbo...',
-  '.......olllbbbbbbbblllloooo...',
-  '.......oooobbbbbbbboooo.......',
-  '...........oooooooo...........',
+  '.........o.............o........',
+  '.........oo...........oo........',
+  '........opo...........opo.......',
+  '........oppo.........oppo.......',
+  '........opppo........opppo......',
+  '.......opppppooooooooppppo......',
+  '.......obbbbbbbbbbbbbbbbbo......',
+  '......obbbbbbbbbbbbbbbbbbbo.....',
+  '......obbbbbbbbbbbbbbbbbbbo.....',
+  '......obbbbbbbbbbbbbbbbbbo......',
+  '......obbbbbbbbbbbbbbbbbbo......',
+  '.....obbbbbbbbbbbbbbbbbbbbo.....',
+  '.....obbbbbbbbbbbbbbbbbbbbo.....',
+  '.....obbbbuubbbbbbbbuubbbbo.....',
+  '.....obbbuwuubbbbbbuwuubbbo.....',
+  '.....obbbuuuubbbbbbuuuubbbo.....',
+  '.....obbbuuuubbbbbbuuuubbbo.....',
+  '......occcuubllllllbuubccco.....',
+  '......occcbblllpplllbbbccoo.....',
+  '.......obbbbllluulllbbbbo.......',
+  '........obbbbullllubbbbo........',
+  '.........oobbbubbubbboo.........',
+  '...........obbbbbbbbo...........',
+  '...........obbbbbbbbo...........',
+  '...........obbbbbbbbo......ooo..',
+  '..........obbbllllbbbo.....obo..',
+  '........oobbllllllllbboo...obo..',
+  '........obbllllllllllbbo...obo..',
+  '.......obbbllllllllllbbbo..obo..',
+  '.......obbllllllllllllbbo..obo..',
+  '.......obbllllllllllllbbboobbo..',
+  '.......obbbllllllllllbbbbbbbbo..',
+  '.......obbbllllllllllbbbbbbbo...',
+  '.......obbbbllllllllbbbbbbbbo...',
+  '.......ollllbbllllbbbllllbbbo...',
+  '.......ollllbbbbbbbbbllllbooo...',
+  '.......oooolbbbbbbbbbooooo......',
+  '...........oooooooooo...........',
 ];
 
-// Solo la cabeza. Para todo lo que se pinte pequeño. 26×23.
+// Solo la cabeza. Para todo lo que se pinte pequeño. 32×26.
 const HEAD: PixelMap = [
-  '..........................',
-  '...o..................o...',
-  '...oo................oo...',
-  '...opo..............opo...',
-  '...oppo............oppo...',
-  '...opppo..........opppo...',
-  '...obbbbo........obbbbo...',
-  '...oooooo........oooooo...',
-  '........oooooooooo........',
-  '......oobbbbbbbbbboo......',
-  '....oobbbbbbbbbbbbbboo....',
-  '...obbbbbbbbbbbbbbbbbbo...',
-  '...obbbuubbbbbbbbuubbbo...',
-  '..obbbuwuubbbbbbuwuubbbo..',
-  '..obbbuuuubbbbbbuuuubbbo..',
-  '..obbbbuubbbbbbbbuubbbbo..',
-  '...obbbbbbbllllbbbbbbbo...',
-  '...obbbbbbllllllbbbbbbo...',
-  '...occbbbllllllllbbbocco..',
-  '...oooooblllpplllboo.ooo..',
-  '........oouluuluoo........',
-  '..........oulluo..........',
-  '...........oooo...........',
+  '........o...............o.......',
+  '........oo.............oo.......',
+  '.......opo.............opo......',
+  '.......oppo...........oppo......',
+  '......oppppo.........oppppo.....',
+  '......oppppo.........oppppo.....',
+  '.....oppppppoooooooooppppppo....',
+  '.....obbbbbbbbbbbbbbbbbbbbbo....',
+  '....obbbbbbbbbbbbbbbbbbbbbbbo...',
+  '....obbbbbbbbbbbbbbbbbbbbbboo...',
+  '.....obbbbbbbbbbbbbbbbbbbbo.....',
+  '....obbbbbbbbbbbbbbbbbbbbbbo....',
+  '....obbbbbbbbbbbbbbbbbbbbbbo....',
+  '...obbbbbbbbbbbbbbbbbbbbbbbbo...',
+  '...obbbbbbbbbbbbbbbbbbbbbbbbo...',
+  '...obbbbbuubbbbbbbbbbuubbbbbo...',
+  '...obbbbuwuubbbbbbbbuwuubbbbo...',
+  '...obbbbuuuubbbbbbbbuuuubbbbo...',
+  '...obbbbuuuubbbbbbbbuuuubbbbo...',
+  '....occcbuubbbbbbbbbbuubbccco...',
+  '....occcbbbbllllllllbbbbbccoo...',
+  '.....obbbbbllllppllllbbbbbo.....',
+  '......obbbblllluullllbbbbo......',
+  '.......obbbblullllulbbbbo.......',
+  '........oobbbbubbubbbboo........',
+  '..........oooooooooooo..........',
 ];
 
 const MAPS: Record<CatPose, PixelMap> = { sit: SIT, head: HEAD };
