@@ -32,7 +32,13 @@ export type BlockIconName =
   // (📢 🔊 🎤 💡 🔄 🔍 🏃 🧺 ➡️ 🙈 ❌). Son los MISMOS pasos en todos los
   // bloques, así que tienen que ser un set, no seis dibujos de seis fabricantes.
   | 'speaker' | 'mic' | 'tip' | 'repeat' | 'zoom' | 'move' | 'material'
-  | 'next' | 'eye' | 'eyeOff' | 'cross';
+  | 'next' | 'eye' | 'eyeOff' | 'cross'
+  // Quiebre pragmático: las seis estrategias de reparación que el adulto
+  // marca tras el estresor. Son un enum clínico cerrado que viaja en la
+  // telemetría, así que sus iconos también tienen que ser un set.
+  | 'gesture' | 'door' | 'tear' | 'blank' | 'warn' | 'heart'
+  // Voz y ruido: nube (reconocedor del sistema) y altavoz tachado (silencio).
+  | 'cloud' | 'speakerOff';
 
 interface Props { name: BlockIconName; color: string; size?: number; }
 
@@ -285,6 +291,64 @@ export const BlockIcon: React.FC<Props> = ({ name, color, size = 26 }) => {
         <>
           <Path d="M6.4 6.4 17.6 17.6" {...common} />
           <Path d="M17.6 6.4 6.4 17.6" {...common} />
+        </>
+      )}
+
+      {/* Reparación por gesto · mano levantada. */}
+      {name === 'gesture' && (
+        <>
+          <Path d="M7.6 20.4v-7.2a2.2 2.2 0 0 1 4.4 0" {...common} />
+          <Path d="M12 13.2V6.4a2.2 2.2 0 0 1 4.4 0v8.4" {...common} />
+          <Path d="M16.4 12.4a2.2 2.2 0 0 1 4 1.2v3.2a4.4 4.4 0 0 1-4.4 4.4h-3.6" {...common} />
+        </>
+      )}
+
+      {/* Aislamiento · puerta. */}
+      {name === 'door' && (
+        <>
+          <Rect x="5.4" y="3.2" width="13.2" height="17.6" rx="2.2" {...common} />
+          <Circle cx="14.8" cy="12" r="1.1" {...common} />
+        </>
+      )}
+
+      {/* Llanto · lágrima. */}
+      {name === 'tear' && (
+        <Path d="M12 3.4c3.6 4.4 6 7.6 6 10.4a6 6 0 1 1-12 0c0-2.8 2.4-6 6-10.4z" {...common} />
+      )}
+
+      {/* Sin respuesta · círculo con la línea del silencio. */}
+      {name === 'blank' && (
+        <>
+          <Circle cx="12" cy="12" r="8.8" {...common} />
+          <Path d="M7.8 12h8.4" {...common} />
+        </>
+      )}
+
+      {/* Aviso · triángulo con la marca de atención. */}
+      {name === 'warn' && (
+        <>
+          <Path d="M12 3.8 21.4 20H2.6z" {...common} />
+          <Path d="M12 10.2v4.2" {...common} />
+          <Path d="M12 17.2v.1" {...common} />
+        </>
+      )}
+
+      {/* Cierre en calma · corazón. */}
+      {name === 'heart' && (
+        <Path d="M12 20.4 4.6 13a4.6 4.6 0 0 1 7.4-5.3 4.6 4.6 0 0 1 7.4 5.3z" {...common} />
+      )}
+
+      {/* Reconocimiento en el servicio del sistema · nube. */}
+      {name === 'cloud' && (
+        <Path d="M17.6 18.4H7a4.4 4.4 0 0 1-.6-8.76 6 6 0 0 1 11.5 1.6 3.6 3.6 0 0 1-.3 7.16z" {...common} />
+      )}
+
+      {/* Silencio · altavoz tachado. */}
+      {name === 'speakerOff' && (
+        <>
+          <Path d="M4 9.4h3.4L12 5.2v13.6L7.4 14.6H4z" {...common} />
+          <Path d="M16.2 9.8 20.6 14.2" {...common} />
+          <Path d="M20.6 9.8 16.2 14.2" {...common} />
         </>
       )}
 

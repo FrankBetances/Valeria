@@ -20,6 +20,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, Pressable, ScrollView, StyleSheet, Animated, Easing, StatusBar } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { V, STORAGE_KEYS } from './valeriaTheme';
+import { BlockIcon, BlockIconName } from './ValeriaBlockIcons';
 import { getLocale } from './valeriaLocale';
 import { lingContentForLocale } from './valeriaLingContent';
 import { useT, UiStrings } from './i18n';
@@ -116,21 +117,21 @@ export const ValeriaLingTestScreen: React.FC<{ navigation: any; route?: any }> =
   const ident = results.filter((r) => r === 2).length;
   const detect = results.filter((r) => r >= 1).length;
 
-  let resultIcon = '🎉', resultBadgeBg = V.color.primaryLight, resultTitle = t.ling.resultGoodTitle;
+  let resultIcon: BlockIconName = 'check', resultBadgeBg = V.color.primaryLight, resultTitle = t.ling.resultGoodTitle;
   let resultSub = t.ling.resultGoodSub;
-  let recIcon = '✅', recBg = V.color.successBg, recBorder = '#bfe9d4', recColor = '#0a7d54';
+  let recIcon: BlockIconName = 'check', recBg = V.color.successBg, recBorder = '#bfe9d4', recColor = '#0a7d54';
   let recText = t.ling.resultGoodRec;
   if (detect < total) {
-    resultIcon = '🔧'; resultBadgeBg = '#fff1e6'; resultTitle = t.ling.resultCheckTitle;
+    resultIcon = 'tip'; resultBadgeBg = '#fff1e6'; resultTitle = t.ling.resultCheckTitle;
     resultSub = t.ling.resultCheckSub;
-    recIcon = '⚠️'; recBg = '#fff7ed'; recBorder = '#fcd9a8'; recColor = '#9a5b13';
+    recIcon = 'info'; recBg = '#fff7ed'; recBorder = '#fcd9a8'; recColor = '#9a5b13';
     recText = t.ling.resultCheckRec;
   } else if (ident < total) {
-    resultIcon = '👂'; resultBadgeBg = '#fffbeb'; resultTitle = t.ling.resultDetectTitle;
+    resultIcon = 'hearing'; resultBadgeBg = '#fffbeb'; resultTitle = t.ling.resultDetectTitle;
     // Antes decía «los 6» literal aunque el banco de la variedad trajera otro
     // número de sonidos; ahora el total sale del propio banco.
     resultSub = t.ling.resultDetectSub(ident, total);
-    recIcon = '💡'; recBg = '#fffdf3'; recBorder = '#f4e6b8'; recColor = '#8a7320';
+    recIcon = 'tip'; recBg = '#fffdf3'; recBorder = '#f4e6b8'; recColor = '#8a7320';
     recText = t.ling.resultDetectRec;
   }
 
@@ -176,14 +177,14 @@ export const ValeriaLingTestScreen: React.FC<{ navigation: any; route?: any }> =
         {phase === 'ask' && (
           <View>
             <View style={s.askHero}>
-              <View style={s.askIcon}><Text style={{ fontSize: 38 }}>👂</Text></View>
+              <View style={s.askIcon}><BlockIcon name="hearing" color={V.color.primaryDark} size={40} /></View>
               <Text style={s.askTitle}>{t.ling.askTitle}</Text>
               <Text style={s.askQuestion}>{t.ling.askQuestion1}<Text style={s.bold}>{t.ling.askQuestionHearingAids}</Text>{t.ling.askQuestionOr}<Text style={s.bold}>{t.ling.askQuestionImplant}</Text>{t.ling.askQuestion2}</Text>
               <Text style={s.askSub}>{t.ling.askSub}</Text>
             </View>
 
             <Pressable onPress={answerYes} style={[s.choice, s.choiceYes]} accessibilityRole="button">
-              <View style={[s.choiceIcon, { backgroundColor: V.color.primary }]}><Text style={{ fontSize: 22 }}>🦻</Text></View>
+              <View style={[s.choiceIcon, { backgroundColor: V.color.primary }]}><BlockIcon name="hearing" color="#ffffff" size={24} /></View>
               <View style={{ flex: 1 }}>
                 <Text style={s.choiceTitle}>{t.ling.yesTitle}</Text>
                 <Text style={s.choiceSub}>{t.ling.yesSub}</Text>
@@ -192,16 +193,16 @@ export const ValeriaLingTestScreen: React.FC<{ navigation: any; route?: any }> =
             </Pressable>
 
             <Pressable onPress={goExercises} style={[s.choice, s.choiceNo]} accessibilityRole="button">
-              <View style={[s.choiceIcon, { backgroundColor: '#f1f5f4' }]}><Text style={{ fontSize: 22 }}>🚀</Text></View>
+              <View style={[s.choiceIcon, { backgroundColor: '#f1f5f4' }]}><BlockIcon name="next" color={V.color.textSecondary} size={24} /></View>
               <View style={{ flex: 1 }}>
                 <Text style={s.choiceTitle}>{t.ling.noTitle}</Text>
                 <Text style={s.choiceSub}>{t.ling.noSub}</Text>
               </View>
-              <Text style={[s.choiceChev, { color: V.color.textMuted }]}>›</Text>
+              <Text style={[s.choiceChev, { color: V.color.textSecondary }]}>›</Text>
             </Pressable>
 
             <View style={s.tip}>
-              <Text style={{ fontSize: 15 }}>💡</Text>
+              <BlockIcon name="tip" color="#8a7320" size={17} />
               <Text style={s.tipTxt}>{copy.tip}</Text>
             </View>
           </View>
@@ -213,7 +214,7 @@ export const ValeriaLingTestScreen: React.FC<{ navigation: any; route?: any }> =
             {/* Instrucción al tutor */}
             <View style={s.instruction}>
               <View style={s.instrHead}>
-                <View style={s.instrIcon}><Text style={{ fontSize: 18 }}>🤫</Text></View>
+                <View style={s.instrIcon}><BlockIcon name="eyeOff" color="#ffffff" size={20} /></View>
                 <View style={{ flex: 1 }}>
                   <Text style={s.instrKicker}>{t.ling.instrKicker}</Text>
                   <Text style={s.instrTitle}>{t.ling.instrTitle}</Text>
@@ -265,7 +266,7 @@ export const ValeriaLingTestScreen: React.FC<{ navigation: any; route?: any }> =
         {phase === 'done' && (
           <View>
             <View style={s.resultCard}>
-              <View style={[s.resultBadge, { backgroundColor: resultBadgeBg }]}><Text style={{ fontSize: 36 }}>{resultIcon}</Text></View>
+              <View style={[s.resultBadge, { backgroundColor: resultBadgeBg }]}><BlockIcon name={resultIcon} color={V.color.primaryDark} size={38} /></View>
               <Text style={s.resultTitle}>{resultTitle}</Text>
               <Text style={s.resultSub}>{resultSub}</Text>
 
@@ -291,7 +292,7 @@ export const ValeriaLingTestScreen: React.FC<{ navigation: any; route?: any }> =
             </View>
 
             <View style={[s.rec, { backgroundColor: recBg, borderColor: recBorder }]}>
-              <Text style={{ fontSize: 17 }}>{recIcon}</Text>
+              <BlockIcon name={recIcon} color={recColor} size={18} />
               <Text style={[s.recTxt, { color: recColor }]}>{recText}</Text>
             </View>
 
@@ -335,13 +336,13 @@ const s = StyleSheet.create({
   askIcon: { width: 78, height: 78, borderRadius: 24, backgroundColor: V.color.primaryLight, alignItems: 'center', justifyContent: 'center' },
   askTitle: { fontSize: 21, fontWeight: '800', color: V.color.textPrimary, marginTop: 18 },
   askQuestion: { fontSize: 14.5, fontWeight: '700', color: V.color.textSecondary, marginTop: 8, lineHeight: 21, textAlign: 'center', maxWidth: 280 },
-  askSub: { fontSize: 12.5, fontWeight: '600', color: V.color.textMuted, marginTop: 8, lineHeight: 18, textAlign: 'center', maxWidth: 285 },
+  askSub: { fontSize: 12.5, fontWeight: '600', color: V.color.textSecondary, marginTop: 8, lineHeight: 18, textAlign: 'center', maxWidth: 285 },
   choice: { flexDirection: 'row', alignItems: 'center', gap: 13, backgroundColor: '#fff', borderRadius: 17, padding: 16, marginTop: 11, ...V.shadow.card },
   choiceYes: { borderWidth: 1.5, borderColor: V.color.borderActive, marginTop: 24 },
   choiceNo: { borderWidth: 1, borderColor: V.color.border },
   choiceIcon: { width: 46, height: 46, borderRadius: 14, alignItems: 'center', justifyContent: 'center' },
   choiceTitle: { fontSize: 16, fontWeight: '800', color: V.color.textPrimary },
-  choiceSub: { fontSize: 12.5, fontWeight: '700', color: V.color.textMuted, marginTop: 2 },
+  choiceSub: { fontSize: 12.5, fontWeight: '700', color: V.color.textSecondary, marginTop: 2 },
   choiceChev: { fontSize: 18, fontWeight: '800' },
   tip: { flexDirection: 'row', gap: 9, backgroundColor: '#fffdf3', borderWidth: 1, borderColor: '#f4e6b8', borderRadius: 14, padding: 13, marginTop: 20 },
   tipTxt: { flex: 1, fontSize: 12, fontWeight: '700', color: '#8a7320', lineHeight: 18 },
@@ -356,7 +357,7 @@ const s = StyleSheet.create({
 
   // escenario
   stage: { backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.border, borderRadius: 20, paddingVertical: 22, paddingHorizontal: 16, marginTop: 12, alignItems: 'center', ...V.shadow.card },
-  stageLabel: { fontSize: 11, fontWeight: '800', letterSpacing: 0.8, color: V.color.textMuted, marginBottom: 14 },
+  stageLabel: { fontSize: 11, fontWeight: '800', letterSpacing: 0.8, color: V.color.textSecondary, marginBottom: 14 },
   soundWrap: { width: 130, height: 130, alignItems: 'center', justifyContent: 'center' },
   ripple: { position: 'absolute', width: 130, height: 130, borderRadius: 65, borderWidth: 2, borderColor: '#b8eee9' },
   soundCircle: { width: 130, height: 130, borderRadius: 65, backgroundColor: V.color.primaryDark, alignItems: 'center', justifyContent: 'center', ...V.shadow.button },
@@ -365,18 +366,18 @@ const s = StyleSheet.create({
   freqPill: { flexDirection: 'row', alignItems: 'center', gap: 7, backgroundColor: V.color.pageBg, borderWidth: 1, borderColor: '#eef2f1', borderRadius: 11, paddingHorizontal: 12, paddingVertical: 7, marginTop: 9 },
   freqDot: { width: 8, height: 8, borderRadius: 4 },
   freqTxt: { fontSize: 12, fontWeight: '800', color: V.color.textSecondary },
-  soundHint: { fontSize: 12.5, fontWeight: '600', color: V.color.textMuted, marginTop: 11, lineHeight: 18, textAlign: 'center', paddingHorizontal: 12 },
+  soundHint: { fontSize: 12.5, fontWeight: '600', color: V.color.textSecondary, marginTop: 11, lineHeight: 18, textAlign: 'center', paddingHorizontal: 12 },
 
   // escala
   scaleCard: { backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.border, borderRadius: 18, padding: 16, marginTop: 12, ...V.shadow.card },
   scaleTitle: { fontSize: 16, fontWeight: '800', color: V.color.textPrimary, textAlign: 'center' },
-  scaleSub: { fontSize: 12, fontWeight: '600', color: V.color.textMuted, textAlign: 'center', marginTop: 2, marginBottom: 13 },
+  scaleSub: { fontSize: 12, fontWeight: '600', color: V.color.textSecondary, textAlign: 'center', marginTop: 2, marginBottom: 13 },
   scaleRow: { flexDirection: 'row', alignItems: 'center', gap: 12, padding: 12, borderRadius: 14, marginBottom: 9 },
   scaleRowOff: { backgroundColor: '#f7fafa', borderWidth: 1, borderColor: '#eef3f3' },
   scaleDot: { width: 30, height: 30, borderRadius: 15, alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff' },
   scaleDotTxt: { fontSize: 14, fontWeight: '900' },
   scaleRowTitle: { fontSize: 14.5, fontWeight: '800', color: V.color.textPrimary },
-  scaleRowDesc: { fontSize: 12, fontWeight: '700', color: V.color.textMuted, marginTop: 2, lineHeight: 16 },
+  scaleRowDesc: { fontSize: 12, fontWeight: '700', color: V.color.textSecondary, marginTop: 2, lineHeight: 16 },
 
   // resultado
   resultCard: { backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.border, borderRadius: 22, paddingVertical: 26, paddingHorizontal: 20, alignItems: 'center', shadowColor: 'rgba(15,23,42,.07)', shadowOffset: { width: 0, height: 6 }, shadowOpacity: 1, shadowRadius: 22, elevation: 3 },

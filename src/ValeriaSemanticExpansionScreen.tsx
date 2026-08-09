@@ -42,6 +42,8 @@ import { semanticForLocale, SemanticBank } from './valeriaSemanticBanks';
 import { getLocale } from './valeriaLocale';
 import { getAutoRecordPref, setAutoRecordPref } from './valeriaRecordingPref';
 import { BlockIcon } from './ValeriaBlockIcons';
+import { CatPixel } from './ValeriaCatPixel';
+import { PixelAward, streakTier } from './ValeriaPixelAwards';
 import { ValeriaGameStrip } from './ValeriaGameStrip';
 import { ValeriaAwardsSheet } from './ValeriaAwardsSheet';
 import { loadGame, GameState } from './valeriaGamification';
@@ -860,7 +862,7 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
         </View>
         <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
           <View style={s.doneCard}>
-            <Text style={{ fontSize: 44 }}>🎉</Text>
+            <CatPixel size={62} />
             <Text style={s.doneTitle}>{t.semantic.doneSessionTitle}</Text>
             <Text style={s.doneBig}>{avg.toFixed(1)}<Text style={s.doneSlash}> / 3 ★</Text></Text>
             <Text style={s.doneSub}>
@@ -878,7 +880,7 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
             {reward && (
               <View style={s.rewardRow}>
                 <View style={s.rewardChip}><Text style={s.rewardBig}>+{reward.xpGained}</Text><Text style={s.rewardLbl}>XP</Text></View>
-                <View style={[s.rewardChip, { backgroundColor: '#fff4e5' }]}><Text style={s.rewardBig}>🔥 {reward.streak}</Text><Text style={s.rewardLbl}>{t.semantic.streakChip(reward.streak)}</Text></View>
+                <View style={[s.rewardChip, { backgroundColor: '#fff4e5' }]}><View style={s.rewardFlame}><PixelAward glyph="flame" tier={streakTier(reward.streak)} size={20} /><Text style={s.rewardBig}>{reward.streak}</Text></View><Text style={s.rewardLbl}>{t.semantic.streakChip(reward.streak)}</Text></View>
               </View>
             )}
             <Pressable onPress={() => navigation.navigate('Results')} style={s.primaryBtn}><Text style={s.primaryBtnTxt}>{t.semantic.seeResults}</Text></Pressable>
@@ -1285,6 +1287,7 @@ const s = StyleSheet.create({
   doneStarIdx: { fontSize: 9, fontWeight: '800', color: V.color.textMuted, textTransform: 'capitalize' },
   rewardRow: { flexDirection: 'row', gap: 10, alignSelf: 'stretch', marginTop: 16 },
   rewardChip: { flex: 1, backgroundColor: '#e6f9f8', borderRadius: 14, paddingVertical: 12, alignItems: 'center' },
+  rewardFlame: { flexDirection: 'row', alignItems: 'center', gap: 5 },
   rewardBig: { fontSize: 20, fontWeight: '800', color: V.color.textPrimary },
   rewardLbl: { fontSize: 11, fontWeight: '700', color: V.color.textMuted, marginTop: 2 },
   primaryBtn: { alignSelf: 'stretch', marginTop: 18, backgroundColor: V.color.primary, borderRadius: 15, paddingVertical: 15, alignItems: 'center', ...V.shadow.button },

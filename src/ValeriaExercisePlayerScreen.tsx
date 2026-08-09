@@ -849,7 +849,11 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                         >
                           <EmojiTile emoji={t.emoji} cap={t.cap} size={78} bgIndex={i} />
                           <Text style={s.tileCap}>{t.cap}</Text>
-                          <Text style={s.matchTileMark}>{done ? `✅ ${initialVowel(t.cap)}` : sel ? '👆 elegida' : ' '}</Text>
+                          <View style={s.matchTileMarkRow}>
+                {done ? <BlockIcon name="check" color={V.color.success} size={14} />
+                  : sel ? <BlockIcon name="gesture" color={V.color.primaryDark} size={14} /> : null}
+                <Text style={s.matchTileMark}>{done ? initialVowel(t.cap) : sel ? 'elegida' : ' '}</Text>
+              </View>
                         </Pressable>
                       );
                     })}
@@ -1013,7 +1017,8 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                   <Text style={s.stageHint}>{t.player.synthesisHint}</Text>
                   <View style={{ alignItems: 'center', marginBottom: 10 }}>
                     <Pressable onPress={playPhonemes} style={s.synBtn} accessibilityRole="button" accessibilityLabel={t.player.synthesisA11y}>
-                      <Text style={s.synBtnTxt}>🔊 Oír los sonidos · {ex.phonemes!.join(' … ')}</Text>
+                      <BlockIcon name="speaker" color={V.color.primaryDark} size={16} />
+                      <Text style={s.synBtnTxt}>Oír los sonidos · {ex.phonemes!.join(' … ')}</Text>
                     </Pressable>
                   </View>
                   <MicPracticeCard
@@ -1225,7 +1230,10 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                             {Array.from({ length: n }).map(() => ex.plural!.emoji).join(' ')}
                           </Text>
                           <Text style={s.pluralCap}>{label}</Text>
-                          <Text style={{ fontSize: 14, marginTop: 4 }}>{tapped ? (isAns ? '✅' : '❌') : ' '}</Text>
+                          <View style={{ marginTop: 4, height: 16, justifyContent: 'center' }}>
+                            {tapped ? (isAns ? <BlockIcon name="check" color={V.color.success} size={15} />
+                              : <BlockIcon name="cross" color={V.color.error} size={15} />) : null}
+                          </View>
                         </Pressable>
                       );
                     })}
@@ -1297,7 +1305,7 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                       })}
                     </View>
                     {correct && (
-                      <View style={s.sentenceBox}><Text style={s.sentenceTxt}>🎉 “{ex.sentence}”</Text></View>
+                      <View style={s.sentenceBox}><Text style={s.sentenceTxt}>{`“${ex.sentence}”`}</Text></View>
                     )}
                     {complete && !correct && (
                       <Text style={s.matchDone}>{t.player.sentenceRetry}</Text>
@@ -1667,6 +1675,7 @@ const s = StyleSheet.create({
   matchTile: { alignItems: 'center', borderRadius: 16, borderWidth: 2, borderColor: 'transparent', padding: 4 },
   matchTileSel: { borderColor: V.color.primary, backgroundColor: V.color.primaryTint },
   matchTileOk: { borderColor: V.color.success, backgroundColor: V.color.successBg },
+  matchTileMarkRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 4 },
   matchTileMark: { fontSize: 11, fontWeight: '800', color: V.color.primaryDark, marginTop: 3, minHeight: 14 },
   matchDone: { textAlign: 'center', fontSize: 13, fontWeight: '800', color: '#0f8a63', marginTop: 12 },
 

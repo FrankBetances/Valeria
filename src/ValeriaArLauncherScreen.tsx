@@ -24,6 +24,9 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { View, Text, Pressable, ScrollView, ActivityIndicator, Share, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { V, STORAGE_KEYS } from './valeriaTheme';
+import { BlockIcon } from './ValeriaBlockIcons';
+import { CatPixel } from './ValeriaCatPixel';
+import { PixelAward, streakTier } from './ValeriaPixelAwards';
 import { sha256 } from './ValeriaProPin';
 import { AR_META } from './valeriaExerciseMeta';
 import {
@@ -228,7 +231,7 @@ export const ValeriaArLauncherScreen: React.FC<{ navigation?: any }> = ({ naviga
   if (phase === 'loading' || phase === 'busy') {
     return (
       <View style={s.flex}>
-        {header('🎯 Realidad Aumentada', 'Preparando la sesión')}
+        {header('Realidad Aumentada', 'Preparando la sesión')}
         <View style={s.center}>
           <ActivityIndicator size="large" color={V.color.primary} />
           <Text style={s.busyTxt}>{busyMsg || 'Un momento…'}</Text>
@@ -240,7 +243,7 @@ export const ValeriaArLauncherScreen: React.FC<{ navigation?: any }> = ({ naviga
   if (phase === 'unsupported') {
     return (
       <View style={s.flex}>
-        {header('🎯 Realidad Aumentada', 'No disponible en este dispositivo')}
+        {header('Realidad Aumentada', 'No disponible en este dispositivo')}
         <ScrollView contentContainerStyle={s.scroll}>
           <View style={s.card}>
             <Text style={s.cardTitle}>Aquí no se puede jugar todavía</Text>
@@ -259,10 +262,10 @@ export const ValeriaArLauncherScreen: React.FC<{ navigation?: any }> = ({ naviga
   if (phase === 'consent') {
     return (
       <View style={s.flex}>
-        {header('🎯 Realidad Aumentada', 'Antes de encender la cámara')}
+        {header('Realidad Aumentada', 'Antes de encender la cámara')}
         <ScrollView contentContainerStyle={s.scroll}>
           <View style={s.card}>
-            <Text style={{ fontSize: 34, textAlign: 'center' }}>📷</Text>
+            <View style={{ alignItems: 'center' }}><BlockIcon name="ar" color={V.color.primaryDark} size={38} /></View>
             <Text style={s.cardTitle}>Qué hace la cámara en estos juegos</Text>
             <Text style={s.cardTxt}>
               En este bloque la cámara frontal no graba: <Text style={s.b}>mira</Text>. Sirve para
@@ -270,11 +273,11 @@ export const ValeriaArLauncherScreen: React.FC<{ navigation?: any }> = ({ naviga
               dibujo, y para que el coche, el perro o la manzana reaccionen a ese gesto.
             </Text>
             <View style={s.list}>
-              <Text style={s.item}>🚫 <Text style={s.b}>No se graba ni se guarda ninguna imagen.</Text> Cada fotograma se analiza y se descarta al instante.</Text>
-              <Text style={s.item}>📵 <Text style={s.b}>Ningún vídeo sale del teléfono.</Text> Todo el análisis ocurre aquí dentro, sin internet.</Text>
-              <Text style={s.item}>🙅 <Text style={s.b}>No se reconoce la cara de nadie.</Text> Solo se miden gestos: grados, milisegundos y proporciones.</Text>
-              <Text style={s.item}>🎤 En dos de los tres ejercicios el <Text style={s.b}>micrófono está apagado</Text>: se premia el esfuerzo motor antes de pedir que hable.</Text>
-              <Text style={s.item}>↩️ Puedes salir en cualquier momento y retirar este permiso desde los ajustes de Android.</Text>
+              <Text style={s.item}><Text style={s.b}>No se graba ni se guarda ninguna imagen.</Text> Cada fotograma se analiza y se descarta al instante.</Text>
+              <Text style={s.item}><Text style={s.b}>Ningún vídeo sale del teléfono.</Text> Todo el análisis ocurre aquí dentro, sin internet.</Text>
+              <Text style={s.item}><Text style={s.b}>No se reconoce la cara de nadie.</Text> Solo se miden gestos: grados, milisegundos y proporciones.</Text>
+              <Text style={s.item}>En dos de los tres ejercicios el <Text style={s.b}>micrófono está apagado</Text>: se premia el esfuerzo motor antes de pedir que hable.</Text>
+              <Text style={s.item}>Puedes salir en cualquier momento y retirar este permiso desde los ajustes de Android.</Text>
             </View>
             <Pressable onPress={acceptConsent} style={s.primaryBtn} accessibilityRole="button"
               accessibilityLabel="Aceptar el uso de la cámara y continuar">
@@ -293,15 +296,15 @@ export const ValeriaArLauncherScreen: React.FC<{ navigation?: any }> = ({ naviga
   if (phase === 'aptitude') {
     return (
       <View style={s.flex}>
-        {header('🎯 Realidad Aumentada', 'Calentamiento con la osita')}
+        {header('Realidad Aumentada', 'Calentamiento con Lúa')}
         <ScrollView contentContainerStyle={s.scroll}>
           {noticeBar}
           <View style={s.card}>
-            <Text style={{ fontSize: 34, textAlign: 'center' }}>🐻</Text>
+            <View style={{ alignItems: 'center' }}><CatPixel size={64} /></View>
             <Text style={s.cardTitle}>Un juego de calentamiento de minuto y medio</Text>
             <Text style={s.cardTxt}>
               Cada teléfono es distinto y estos ejercicios exigen bastante. Antes de empezar, la
-              app hace una prueba corta —mirar a la osita, seguirla a las esquinas, escuchar dos
+              app hace una prueba corta —mirar a Lúa, seguirla a las esquinas, escuchar dos
               sonidos— para saber qué puede ofrecer <Text style={s.b}>en este teléfono concreto</Text>.
               Se hace una sola vez.
             </Text>
@@ -323,7 +326,7 @@ export const ValeriaArLauncherScreen: React.FC<{ navigation?: any }> = ({ naviga
   if (phase === 'notApt' || !profile || !thresholds) {
     return (
       <View style={s.flex}>
-        {header('🎯 Realidad Aumentada', 'Este teléfono no da para estos juegos')}
+        {header('Realidad Aumentada', 'Este teléfono no da para estos juegos')}
         <ScrollView contentContainerStyle={s.scroll}>
           <View style={s.card}>
             <Text style={s.cardTitle}>Mejor no forzarlo</Text>
@@ -377,12 +380,17 @@ export const ValeriaArLauncherScreen: React.FC<{ navigation?: any }> = ({ naviga
 
     return (
       <View style={s.flex}>
-        {header('🎯 Sesión terminada', meta?.name ?? 'Realidad Aumentada')}
+        {header('Sesión terminada', meta?.name ?? 'Realidad Aumentada')}
         <ScrollView contentContainerStyle={s.scroll}>
           {reward && (
             <View style={s.rewardCard}>
               <Text style={s.rewardXp}>+{reward.xpGained} XP</Text>
-              <Text style={s.rewardSub}>🔥 {reward.streak} {reward.streak === 1 ? 'día' : 'días'} de racha · 🏅 Nivel {reward.level} · {reward.levelName}</Text>
+              <View style={s.rewardRow}>
+                <PixelAward glyph="flame" tier={streakTier(reward.streak)} size={20} />
+                <Text style={s.rewardSub}>
+                  {reward.streak} {reward.streak === 1 ? 'día' : 'días'} de racha · Nivel {reward.level} · {reward.levelName}
+                </Text>
+              </View>
             </View>
           )}
           <View style={s.card}>
@@ -411,7 +419,7 @@ export const ValeriaArLauncherScreen: React.FC<{ navigation?: any }> = ({ naviga
   const policy = arPolicyFor(profile.level);
   return (
     <View style={s.flex}>
-      {header('🎯 Realidad Aumentada', `Nivel de este teléfono: ${policy.label}`)}
+      {header('Realidad Aumentada', `Nivel de este teléfono: ${policy.label}`)}
       <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
         {noticeBar}
 
@@ -504,7 +512,7 @@ const s = StyleSheet.create({
   headerSub: { color: 'rgba(255,255,255,.9)', fontSize: 13, fontWeight: '600', marginTop: 4 },
 
   scroll: { padding: 18, paddingBottom: 32 },
-  hubLabel: { fontSize: 12, fontWeight: '800', color: V.color.textMuted, letterSpacing: 0.5, marginBottom: 12, marginTop: 6, marginHorizontal: 2 },
+  hubLabel: { fontSize: 12, fontWeight: '800', color: V.color.textSecondary, letterSpacing: 0.5, marginBottom: 12, marginTop: 6, marginHorizontal: 2 },
 
   card: { backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.border, borderRadius: 18, padding: 18, ...V.shadow.card },
   cardTitle: { fontSize: 17, fontWeight: '800', color: V.color.textPrimary, textAlign: 'center', marginTop: 8 },
@@ -524,14 +532,14 @@ const s = StyleSheet.create({
 
   proTool: { flexDirection: 'row', alignItems: 'center', gap: 11, backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.border, borderRadius: 14, padding: 13, marginTop: 4, ...V.shadow.card },
   proToolTitle: { fontSize: 13.5, fontWeight: '800', color: V.color.textPrimary },
-  proToolSub: { fontSize: 11, fontWeight: '600', color: V.color.textMuted, marginTop: 2, lineHeight: 15 },
+  proToolSub: { fontSize: 11, fontWeight: '600', color: V.color.textSecondary, marginTop: 2, lineHeight: 15 },
 
   exCard: { flexDirection: 'row', alignItems: 'center', gap: 12, backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.borderActive, borderRadius: 15, padding: 13, marginBottom: 10, ...V.shadow.card },
   exCardOff: { opacity: 0.5, borderColor: V.color.border },
   codeChip: { minWidth: 46, height: 30, paddingHorizontal: 8, borderRadius: 9, backgroundColor: V.color.primaryLight, alignItems: 'center', justifyContent: 'center' },
   codeChipTxt: { fontSize: 12, fontWeight: '800', color: V.color.primaryDark, letterSpacing: 0.3 },
   exName: { fontSize: 14.5, fontWeight: '800', color: V.color.textPrimary },
-  exCat: { fontSize: 11.5, fontWeight: '700', color: V.color.textMuted, marginTop: 2 },
+  exCat: { fontSize: 11.5, fontWeight: '700', color: V.color.textSecondary, marginTop: 2 },
   exFlag: { fontSize: 11, fontWeight: '700', color: '#9a5b13', marginTop: 5, lineHeight: 15 },
   exGo: { fontSize: 16, fontWeight: '800', color: V.color.primaryDark },
 
@@ -540,17 +548,18 @@ const s = StyleSheet.create({
   setupTxt: { fontSize: 11.5, fontWeight: '600', color: '#9a5b13', lineHeight: 16, marginTop: 5 },
 
   rewardCard: { backgroundColor: V.color.primaryTint, borderWidth: 1, borderColor: V.color.borderActive, borderRadius: 16, padding: 16, alignItems: 'center', marginBottom: 14 },
+  rewardRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 7, marginTop: 4 },
   rewardXp: { fontSize: 26, fontWeight: '800', color: V.color.primaryDark },
   rewardSub: { fontSize: 12, fontWeight: '700', color: V.color.textSecondary, marginTop: 6 },
 
   dataRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 12, borderTopWidth: 1, borderTopColor: V.color.border, paddingVertical: 10 },
   dataKey: { flex: 1, fontSize: 12.5, fontWeight: '700', color: V.color.textSecondary },
   dataVal: { fontSize: 13.5, fontWeight: '800', color: V.color.textPrimary },
-  mdrNote: { fontSize: 11, fontWeight: '600', color: V.color.textMuted, lineHeight: 15, marginTop: 12 },
+  mdrNote: { fontSize: 11, fontWeight: '600', color: V.color.textSecondary, lineHeight: 15, marginTop: 12 },
 
   primaryBtn: { backgroundColor: V.color.primary, borderRadius: 14, paddingVertical: 15, alignItems: 'center', marginTop: 16, ...V.shadow.button },
   primaryBtnTxt: { color: '#fff', fontSize: 15.5, fontWeight: '800' },
-  cancel: { textAlign: 'center', color: V.color.textMuted, fontSize: 13, fontWeight: '800', marginTop: 12 },
+  cancel: { textAlign: 'center', color: V.color.textSecondary, fontSize: 13, fontWeight: '800', marginTop: 12 },
 });
 
 export default ValeriaArLauncherScreen;

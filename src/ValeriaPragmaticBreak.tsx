@@ -18,23 +18,25 @@ import { View, Text, Pressable, StyleSheet, ScrollView } from 'react-native';
 import { V } from './valeriaTheme';
 import { trackRepairStrategy, RepairStrategy } from './valeriaTelemetry';
 import { useT, UiStrings } from './i18n';
+import { BlockIcon, BlockIconName } from './ValeriaBlockIcons';
 
 // Guiones de quiebre entre los que elige el adulto (nunca la app por él).
 // Guiones y escala de reparación: son INSTRUCCIONES y OBSERVACIÓN CLÍNICA para
 // el adulto —la app no locuta nada de esto—, así que siguen al idioma de la
 // interfaz. El `value` es el id que viaja a telemetría y NO cambia nunca.
-const buildScripts = (t: UiStrings) => [
-  { id: 'murmullo', emoji: '🤫', title: t.pragmatic.stressorMurmurTitle, text: t.pragmatic.stressorMurmurText },
-  { id: 'absurdo', emoji: '🙃', title: t.pragmatic.stressorAbsurdTitle, text: t.pragmatic.stressorAbsurdText },
+const buildScripts = (t: UiStrings): Array<{ id: string; icon: BlockIconName; title: string; text: string }> => [
+  { id: 'murmullo', icon: 'eyeOff', title: t.pragmatic.stressorMurmurTitle, text: t.pragmatic.stressorMurmurText },
+  { id: 'absurdo', icon: 'blank', title: t.pragmatic.stressorAbsurdTitle, text: t.pragmatic.stressorAbsurdText },
 ];
 
-const buildStrategies = (t: UiStrings): Array<{ value: RepairStrategy; emoji: string; label: string; desc: string }> => [
-  { value: 'peticion_repeticion', emoji: '🔁', label: t.pragmatic.repairAskLabel, desc: t.pragmatic.repairAskDesc },
-  { value: 'reformulacion', emoji: '💬', label: t.pragmatic.repairRephraseLabel, desc: t.pragmatic.repairRephraseDesc },
-  { value: 'gesto', emoji: '👉', label: t.pragmatic.repairGestureLabel, desc: t.pragmatic.repairGestureDesc },
-  { value: 'aislamiento', emoji: '🚪', label: t.pragmatic.repairWithdrawLabel, desc: t.pragmatic.repairWithdrawDesc },
-  { value: 'llanto', emoji: '😢', label: t.pragmatic.repairCryLabel, desc: t.pragmatic.repairCryDesc },
-  { value: 'sin_respuesta', emoji: '🫥', label: t.pragmatic.repairNoneLabel, desc: t.pragmatic.repairNoneDesc },
+// El `value` viaja a telemetría y NO cambia; el icono es solo su cara.
+const buildStrategies = (t: UiStrings): Array<{ value: RepairStrategy; icon: BlockIconName; label: string; desc: string }> => [
+  { value: 'peticion_repeticion', icon: 'repeat', label: t.pragmatic.repairAskLabel, desc: t.pragmatic.repairAskDesc },
+  { value: 'reformulacion', icon: 'language', label: t.pragmatic.repairRephraseLabel, desc: t.pragmatic.repairRephraseDesc },
+  { value: 'gesto', icon: 'gesture', label: t.pragmatic.repairGestureLabel, desc: t.pragmatic.repairGestureDesc },
+  { value: 'aislamiento', icon: 'door', label: t.pragmatic.repairWithdrawLabel, desc: t.pragmatic.repairWithdrawDesc },
+  { value: 'llanto', icon: 'tear', label: t.pragmatic.repairCryLabel, desc: t.pragmatic.repairCryDesc },
+  { value: 'sin_respuesta', icon: 'blank', label: t.pragmatic.repairNoneLabel, desc: t.pragmatic.repairNoneDesc },
 ];
 
 type Stage = 'warning' | 'script' | 'observe' | 'done';
@@ -63,7 +65,7 @@ export const ValeriaPragmaticBreakOverlay: React.FC<{
 
         {stage === 'warning' && (
           <>
-            <Text style={s.warnEmoji}>⚠️</Text>
+            <View style={s.warnIcon}><BlockIcon name="warn" color="#b45309" size={34} /></View>
             <Text style={s.title}>{t.pragmatic.warnTitle}</Text>
             <Text style={s.body}>{t.pragmatic.warnBody}</Text>
             <View style={s.row}>
@@ -79,7 +81,10 @@ export const ValeriaPragmaticBreakOverlay: React.FC<{
 
         {stage === 'script' && (
           <>
-            <Text style={s.title}>{script.emoji} {script.title}</Text>
+            <View style={s.scriptHead}>
+              <BlockIcon name={script.icon} color={V.color.primaryDark} size={20} />
+              <Text style={s.title}>{script.title}</Text>
+            </View>
             {/* Vista de instrucción: la app calla; habla (o murmura) el padre. */}
             <View style={s.scriptCard}><Text style={s.scriptTxt}>{script.text}</Text></View>
             <Pressable
@@ -107,7 +112,7 @@ export const ValeriaPragmaticBreakOverlay: React.FC<{
                   accessibilityRole="button"
                   accessibilityLabel={st.label}
                 >
-                  <Text style={{ fontSize: 22 }}>{st.emoji}</Text>
+                  <BlockIcon name={st.icon} color={V.color.primaryDark} size={22} />
                   <View style={{ flex: 1 }}>
                     <Text style={s.stratLabel}>{st.label}</Text>
                     <Text style={s.stratDesc}>{st.desc}</Text>
@@ -120,7 +125,7 @@ export const ValeriaPragmaticBreakOverlay: React.FC<{
 
         {stage === 'done' && (
           <>
-            <Text style={s.warnEmoji}>🤗</Text>
+            <View style={s.warnIcon}><BlockIcon name="heart" color={V.color.primaryDark} size={34} /></View>
             <Text style={s.title}>{t.pragmatic.recorded}</Text>
             <Text style={s.body}>
               {picked === 'llanto' || picked === 'aislamiento'
@@ -141,7 +146,8 @@ const s = StyleSheet.create({
   overlay: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(11,18,32,.6)', alignItems: 'center', justifyContent: 'center', padding: 24, zIndex: 25 },
   card: { width: '100%', maxWidth: 350, backgroundColor: '#fff', borderRadius: 24, padding: 20, alignItems: 'center' },
   kicker: { fontSize: 11.5, fontWeight: '800', letterSpacing: 1, color: '#b45309' },
-  warnEmoji: { fontSize: 42, marginTop: 10 },
+  warnIcon: { alignItems: 'center', marginTop: 12, marginBottom: 2 },
+  scriptHead: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8 },
   title: { fontSize: 19, fontWeight: '800', color: V.color.textPrimary, marginTop: 8, textAlign: 'center' },
   body: { fontSize: 13, fontWeight: '600', color: V.color.textSecondary, marginTop: 8, lineHeight: 19, textAlign: 'center' },
   row: { flexDirection: 'row', gap: 9, alignSelf: 'stretch', marginTop: 16 },
@@ -154,7 +160,7 @@ const s = StyleSheet.create({
   swapLink: { marginTop: 10, fontSize: 12.5, fontWeight: '800', color: V.color.primaryDark },
   stratRow: { flexDirection: 'row', alignItems: 'center', gap: 11, backgroundColor: V.color.pageBg, borderWidth: 1, borderColor: V.color.border, borderRadius: 13, padding: 11, marginTop: 8 },
   stratLabel: { fontSize: 13.5, fontWeight: '800', color: V.color.textPrimary },
-  stratDesc: { fontSize: 11, fontWeight: '600', color: V.color.textMuted, marginTop: 1 },
+  stratDesc: { fontSize: 11, fontWeight: '600', color: V.color.textSecondary, marginTop: 1 },
 });
 
 export default ValeriaPragmaticBreakOverlay;

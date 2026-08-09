@@ -17,6 +17,7 @@
 import React, { useRef, useState } from 'react';
 import { View, Text, StyleSheet, PanResponder, LayoutChangeEvent } from 'react-native';
 import { V } from './valeriaTheme';
+import { BlockIcon } from './ValeriaBlockIcons';
 import { setNoiseLevel, getNoiseLevel, noiseSupported } from './valeriaNoise';
 import { trackNoiseLevel } from './valeriaTelemetry';
 
@@ -67,7 +68,10 @@ export const ValeriaManualNoiseSlider: React.FC = () => {
   return (
     <View style={s.card}>
       <View style={s.head}>
-        <Text style={s.kicker}>🗣️ RUIDO DE FONDO (BABBLE)</Text>
+        <View style={s.kickerRow}>
+        <BlockIcon name="language" color={V.color.primaryDark} size={15} />
+        <Text style={s.kicker}>RUIDO DE FONDO (BABBLE)</Text>
+      </View>
         <View style={[s.badge, level > 0 && s.badgeOn]}>
           <Text style={[s.badgeTxt, level > 0 && s.badgeTxtOn]}>{level === 0 ? 'apagado' : `nivel ${level}`}</Text>
         </View>
@@ -91,8 +95,8 @@ export const ValeriaManualNoiseSlider: React.FC = () => {
         </View>
       </View>
       <View style={s.ends}>
-        <Text style={s.endTxt}>🔇 Silencio</Text>
-        <Text style={s.endTxt}>☕ Cafetería</Text>
+        <View style={s.endRow}><BlockIcon name="speakerOff" color={V.color.textSecondary} size={13} /><Text style={s.endTxt}>Silencio</Text></View>
+        <View style={s.endRow}><BlockIcon name="speaker" color={V.color.textSecondary} size={13} /><Text style={s.endTxt}>Cafetería</Text></View>
       </View>
     </View>
   );
@@ -101,6 +105,8 @@ export const ValeriaManualNoiseSlider: React.FC = () => {
 const s = StyleSheet.create({
   card: { backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.border, borderRadius: 16, padding: 13 },
   head: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
+  kickerRow: { flexDirection: 'row', alignItems: 'center', gap: 6 },
+  endRow: { flexDirection: 'row', alignItems: 'center', gap: 4 },
   kicker: { fontSize: 11, fontWeight: '800', letterSpacing: 0.6, color: V.color.primaryDark },
   badge: { backgroundColor: '#f1f5f4', borderRadius: 9, paddingHorizontal: 8, paddingVertical: 3 },
   badgeOn: { backgroundColor: '#fff7ed' },

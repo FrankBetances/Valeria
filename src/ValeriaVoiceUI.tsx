@@ -757,6 +757,7 @@ const s = StyleSheet.create({
 
   privBlock: { backgroundColor: V.color.pageBg, borderWidth: 1, borderColor: V.color.border, borderRadius: 12, padding: 11, marginTop: 12 },
   privHead: { flexDirection: 'row', alignItems: 'center', gap: 8 },
+  privKickerRow: { flexDirection: 'row', alignItems: 'center', gap: 6 },
   privKicker: { flex: 1, fontSize: 10.5, fontWeight: '800', letterSpacing: 0.5, color: V.color.textMuted },
   privChip: { paddingHorizontal: 8, paddingVertical: 3, borderRadius: 8 },
   privChipLocal: { backgroundColor: V.color.successBg },

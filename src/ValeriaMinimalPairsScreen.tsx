@@ -122,7 +122,7 @@ const DoubleSeal: React.FC<{ label: string; onUnlock: () => void }> = ({ label, 
     if (n >= 2) unlock();
   };
 
-  const seal = (emoji: string, who: string) => (
+  const seal = (who: string) => (
     <Pressable
       onLongPress={unlock}
       delayLongPress={2000}
@@ -130,7 +130,7 @@ const DoubleSeal: React.FC<{ label: string; onUnlock: () => void }> = ({ label, 
       accessibilityLabel={`Huella de ${who}. Pulsad las dos huellas a la vez para continuar, o mantén pulsada esta dos segundos.`}
       style={({ pressed }) => [s.sealBtn, (pressed || touchCount >= 2) && s.sealBtnOn]}
     >
-      <Text style={{ fontSize: 30 }}>{emoji}</Text>
+      <BlockIcon name="gesture" color={V.color.primaryDark} size={30} />
       <Text style={s.sealWho}>{who}</Text>
     </Pressable>
   );
@@ -149,9 +149,9 @@ const DoubleSeal: React.FC<{ label: string; onUnlock: () => void }> = ({ label, 
       <Text style={s.sealWhy}>{t.pairs.sealWhy}</Text>
       <Text style={s.sealLabel}>{label}</Text>
       <View style={s.sealRow}>
-        {seal('✋', t.pairs.sealAdult)}
+        {seal(t.pairs.sealAdult)}
         <Text style={s.sealPlus}>{t.pairs.sealPlus}</Text>
-        {seal('🖐️', t.pairs.sealChild)}
+        {seal(t.pairs.sealChild)}
       </View>
       <Text style={s.sealHint}>{t.pairs.sealHint}</Text>
     </View>
@@ -733,7 +733,7 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
                     ) : on ? (
                       <View style={s.playBtn}><Text style={{ color: V.color.primaryDark, fontSize: 13 }}>▶</Text></View>
                     ) : (
-                      <View style={[s.playBtn, { backgroundColor: '#f1f5f4' }]}><Text style={{ fontSize: 13 }}>🔒</Text></View>
+                      <View style={[s.playBtn, { backgroundColor: '#f1f5f4' }]}><BlockIcon name="lock" color={V.color.textSecondary} size={16} /></View>
                     )}
                   </Pressable>
                 );
