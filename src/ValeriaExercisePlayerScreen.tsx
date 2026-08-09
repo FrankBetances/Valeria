@@ -50,7 +50,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { V, STORAGE_KEYS } from './valeriaTheme';
 import { useT } from './i18n';
 import { registerSession, SessionReward, levelProgress, xpToNext } from './valeriaGamification';
-import { PixelAward, tierBg } from './ValeriaPixelAwards';
+import { PixelAward, tierBg, streakTier } from './ValeriaPixelAwards';
+import { CatPixel } from './ValeriaCatPixel';
+import { BlockIcon } from './ValeriaBlockIcons';
 import { speakToChild, speakToChildSeq, speakWordSlow, stopSpeaking, praisePhrase, almostPhrase, normalizeSpeech } from './valeriaVoice';
 import { SpeakButton, MicPracticeCard, ResponseCaptureCard } from './ValeriaVoiceUI';
 import { ValeriaSessionBreakOverlay, pickSessionBreak, SessionBreak } from './ValeriaSessionBreakOverlay';
@@ -107,7 +109,7 @@ const EmojiTile: React.FC<{
       style={({ pressed }) => [s.emojiTile, box, pressed && { transform: [{ scale: 0.92 }] }]}
     >
       <Text style={{ fontSize: size * 0.46 }}>{emoji}</Text>
-      <View style={s.zoomHintDot}><Text style={{ fontSize: 9 }}>🔍</Text></View>
+      <View style={s.zoomHintDot}><BlockIcon name="zoom" color={V.color.primaryDark} size={12} /></View>
     </Pressable>
   );
 };
@@ -150,7 +152,8 @@ const AnswerTileGrid: React.FC<{
           </View>
           <View style={s.gridCapRow}>
             <Text style={s.gridCap}>{t.cap}</Text>
-            <Text style={{ fontSize: 13 }}>{ok ? '✅' : bad ? '❌' : ''}</Text>
+            {ok ? <BlockIcon name="check" color={V.color.success} size={15} />
+              : bad ? <BlockIcon name="cross" color={V.color.error} size={15} /> : null}
           </View>
         </Pressable>
       );
@@ -204,7 +207,7 @@ const AdultOnlyPrompt: React.FC<{ word: string }> = ({ word }) => {
         accessibilityLabel={shown ? t.player.adultOnlyHideA11y : t.player.adultOnlyShowA11y}
         style={s.adultOnlyHead}
       >
-        <Text style={{ fontSize: 15 }}>{shown ? '🙉' : '🙈'}</Text>
+        <BlockIcon name={shown ? 'eye' : 'eyeOff'} color={V.color.textSecondary} size={16} />
         <View style={{ flex: 1 }}>
           <Text style={s.adultOnlyKicker}>{t.player.adultOnlyKicker}</Text>
           <Text style={s.adultOnlySub}>
@@ -218,9 +221,14 @@ const AdultOnlyPrompt: React.FC<{ word: string }> = ({ word }) => {
 };
 
 // ----------------------------------------------------------------------------
-// Confeti ligero: piezas emoji que caen al completar la sesión.
+// Confeti ligero: piezas que caen al completar la sesión.
+//
+// Eran emoji (🎉 ⭐ 🎊 ✨ 💚 🌟) y con las insignias ya en píxel art quedaba una
+// celebración con dos estéticas a la vez. Ahora son cuadrados de color de la
+// paleta de rangos: mismo lenguaje que los premios que se están entregando, y
+// además los dibuja la app y no el fabricante del teléfono (regla 5).
 // ----------------------------------------------------------------------------
-const CONFETTI = ['🎉', '⭐', '🎊', '✨', '💚', '🌟'];
+const CONFETTI = ['#00c4be', '#d9a520', '#7c4fd0', '#ef6c2e', '#00a39e', '#f4a9b6'];
 const { width: SCREEN_W, height: SCREEN_H } = Dimensions.get('window');
 
 const ConfettiBurst: React.FC = () => {
@@ -229,7 +237,8 @@ const ConfettiBurst: React.FC = () => {
       anim: new Animated.Value(0),
       x: Math.random() * (SCREEN_W - 40),
       delay: i * 130,
-      emoji: CONFETTI[i % CONFETTI.length],
+      color: CONFETTI[i % CONFETTI.length],
+      size: 9 + (i % 3) * 3,
       spin: Math.random() > 0.5 ? '360deg' : '-360deg',
     })),
   ).current;
@@ -246,19 +255,18 @@ const ConfettiBurst: React.FC = () => {
   return (
     <View pointerEvents="none" style={StyleSheet.absoluteFill}>
       {pieces.map((p, i) => (
-        <Animated.Text
+        <Animated.View
           key={i}
           style={{
-            position: 'absolute', left: p.x, top: -40, fontSize: 22,
+            position: 'absolute', left: p.x, top: -40,
+            width: p.size, height: p.size, backgroundColor: p.color, borderRadius: 2,
             opacity: p.anim.interpolate({ inputRange: [0, 0.8, 1], outputRange: [1, 1, 0] }),
             transform: [
               { translateY: p.anim.interpolate({ inputRange: [0, 1], outputRange: [0, SCREEN_H * 0.85] }) },
               { rotate: p.anim.interpolate({ inputRange: [0, 1], outputRange: ['0deg', p.spin] }) },
             ],
           }}
-        >
-          {p.emoji}
-        </Animated.Text>
+        />
       ))}
     </View>
   );
@@ -704,7 +712,8 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
               </View>
               {!!ex.age && !curLevel && (
                 <View style={s.levelBadge}>
-                  <Text style={s.levelBadgeTxt}>👶 {ex.age}</Text>
+                  <BlockIcon name="age" color={V.color.primaryDark} size={14} />
+                  <Text style={s.levelBadgeTxt}>{ex.age}</Text>
                 </View>
               )}
               {curLevel && (
@@ -717,7 +726,7 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
             {/* Material real necesario: se anuncia ANTES de empezar la actividad */}
             {!!ex.materials && (
               <View style={s.materialsCard}>
-                <Text style={{ fontSize: 18 }}>🧺</Text>
+                <BlockIcon name="material" color={V.color.primaryDark} size={20} />
                 <View style={{ flex: 1 }}>
                   <Text style={s.materialsKicker}>{t.player.materialsKicker}</Text>
                   <Text style={s.materialsTxt}>{ex.materials}</Text>
@@ -744,7 +753,7 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
             {/* Consigna del tutor */}
             <View style={s.instructionCard}>
               <View style={s.instructionHead}>
-                <View style={s.instructionIcon}><Text style={{ fontSize: 18 }}>📢</Text></View>
+                <View style={s.instructionIcon}><BlockIcon name="speaker" color="#ffffff" size={20} /></View>
                 {/* flex:1: sin él, el subtítulo largo se salía de la tarjeta */}
                 <View style={{ flex: 1 }}>
                   <Text style={s.instructionKicker}>{t.player.step1Kicker}</Text>
@@ -766,6 +775,7 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                 <View style={s.roundRow}>
                   <Text style={s.roundLbl}>Ronda {(round % totalRounds) + 1} de {totalRounds}</Text>
                   <Pressable onPress={nextRound} style={s.roundBtn} accessibilityRole="button" accessibilityLabel={t.player.newRoundA11y}>
+                    <BlockIcon name="repeat" color={V.color.primaryDark} size={15} />
                     <Text style={s.roundBtnTxt}>{t.player.newRound}</Text>
                   </Pressable>
                 </View>
@@ -791,7 +801,10 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                   </View>
                   {/* Con pérdida auditiva la voz sintética cuesta de imitar: el
                       modelo principal debe ser la voz en vivo del adulto. */}
-                  <Text style={s.modelNote}>{t.player.modelNote}</Text>
+                  <View style={s.modelNoteRow}>
+                    <BlockIcon name="tip" color={V.color.textSecondary} size={16} />
+                    <Text style={[s.modelNote, { flex: 1, marginTop: 0 }]}>{t.player.modelNote}</Text>
+                  </View>
                   <MicPracticeCard target={ex.phrase!} />
                   {/* DX-4 · Criba: límite RÍGIDO de ensayos juzgados por el
                       adulto; al alcanzarlo se intercala una cápsula TPR de
@@ -972,12 +985,13 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                           {/* Identidad estable de la ficha: el número está desde
                               el primer momento, antes y después de responder. */}
                           <View style={s.audNumBadge}><Text style={s.audNumTxt}>{i + 1}</Text></View>
-                          <Text style={{ fontSize: 34 }}>🔊</Text>
+                          <BlockIcon name="speaker" color={V.color.primaryDark} size={34} />
                           <View style={s.gridCapRow}>
                             <Text style={[s.gridCap, revealed && s.gridCapRevealed]}>
                               {revealed ? t.cap : `palabra ${i + 1}`}
                             </Text>
-                            <Text style={{ fontSize: 13 }}>{ok ? '✅' : bad ? '❌' : ''}</Text>
+                            {ok ? <BlockIcon name="check" color={V.color.success} size={15} />
+              : bad ? <BlockIcon name="cross" color={V.color.error} size={15} /> : null}
                           </View>
                         </Pressable>
                       );
@@ -1132,7 +1146,10 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                         >
                           <Text style={{ fontSize: 24 }}>{e.face}</Text>
                           <Text style={s.emoLabel}>{e.label}</Text>
-                          <Text style={{ marginLeft: 'auto', fontSize: 14 }}>{ok ? '✅' : bad ? '❌' : ''}</Text>
+                          <View style={{ marginLeft: 'auto' }}>
+                            {ok ? <BlockIcon name="check" color={V.color.success} size={16} />
+                              : bad ? <BlockIcon name="cross" color={V.color.error} size={16} /> : null}
+                          </View>
                         </Pressable>
                       );
                     })}
@@ -1375,13 +1392,16 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
               )}
               {!curLevel && !!ex.micTarget && <MicPracticeCard target={ex.micTarget} prompt={ex.micPrompt} altTargets={ex.micAlt} />}
 
-              <Text style={s.zoomTip}>{t.player.zoomTip}</Text>
+              <View style={s.zoomTipRow}>
+                <BlockIcon name="zoom" color={V.color.textSecondary} size={13} />
+                <Text style={s.zoomTip}>{t.player.zoomTip}</Text>
+              </View>
             </View>
 
             {/* Versión en movimiento */}
             <View style={s.moveCard}>
               <View style={s.moveHead}>
-                <View style={s.moveIcon}><Text style={{ fontSize: 17 }}>🏃</Text></View>
+                <View style={s.moveIcon}><BlockIcon name="move" color={V.color.primaryDark} size={19} /></View>
                 <Text style={s.moveKicker}>{t.player.step3Kicker}</Text>
                 <View style={{ marginLeft: 'auto' }}>
                   <SpeakButton text={ex.move} voice="child" compact />
@@ -1392,7 +1412,7 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
 
             {/* Espera */}
             <View style={s.waitRow}>
-              <Text style={{ fontSize: 14 }}>👂</Text>
+              <BlockIcon name="hearing" color={V.color.primaryDark} size={16} />
               <Text style={s.waitTxt}>{t.player.waitTxt}</Text>
             </View>
 
@@ -1411,7 +1431,8 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                 accessibilityLabel={t.player.eptToggleA11y}
                 style={s.eptInfoBtn}
               >
-                <Text style={s.eptInfoBtnTxt}>{`${eptInfoOpen ? '▾' : 'ℹ️'} ${t.player.eptToggle}`}</Text>
+                <BlockIcon name="info" color={V.color.primaryDark} size={15} />
+                <Text style={s.eptInfoBtnTxt}>{t.player.eptToggle}</Text>
               </Pressable>
               {eptInfoOpen && (
                 <View style={s.eptInfoBox}>
@@ -1440,7 +1461,7 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                 solo para M-6: es el mismo problema en cualquier bloque. */}
             {!!nextEx && (
               <View style={s.nextUpCard}>
-                <Text style={{ fontSize: 16 }}>➡️</Text>
+                <BlockIcon name="next" color={V.color.primaryDark} size={18} />
                 <View style={{ flex: 1 }}>
                   <Text style={s.nextUpKicker}>{t.player.nextUpKicker}</Text>
                   <Text style={s.nextUpTxt}>{nextEx.code} · {nextEx.name}</Text>
@@ -1458,7 +1479,9 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
         ) : (
           /* ===== Completado ===== */
           <View style={s.doneCard}>
-            <View style={s.doneIcon}><Text style={{ fontSize: 36 }}>🎉</Text></View>
+            {/* La gata, no un 🎉 del sistema: quien celebra es la mascota que
+                el niño reconoce, y es la misma que da los premios de abajo. */}
+            <View style={s.doneIcon}><CatPixel size={62} /></View>
             <Text style={s.doneTitle}>{t.player.doneTitle}</Text>
             <Text style={s.doneSub}>
               {total === 1
@@ -1475,7 +1498,10 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                     <Text style={s.rewardChipLbl}>XP</Text>
                   </View>
                   <View style={[s.rewardChip, { backgroundColor: '#fff4e5' }]}>
-                    <Text style={s.rewardChipBig}>🔥 {reward.streak}</Text>
+                    <View style={s.streakRow}>
+                      <PixelAward glyph="flame" tier={streakTier(reward.streak)} size={22} />
+                      <Text style={s.rewardChipBig}>{reward.streak}</Text>
+                    </View>
                     <Text style={s.rewardChipLbl}>{t.player.streakChip(reward.streak)}</Text>
                   </View>
                 </View>
@@ -1576,7 +1602,7 @@ const s = StyleSheet.create({
   codeChipTxt: { color: V.color.primaryDark, fontSize: 12, fontWeight: '800', letterSpacing: 0.3 },
   metaName: { fontSize: 15, fontWeight: '800', color: V.color.textPrimary },
   metaCat: { fontSize: 11.5, fontWeight: '700', color: V.color.textMuted },
-  levelBadge: { backgroundColor: V.color.primaryLight, borderRadius: 9, paddingHorizontal: 9, paddingVertical: 5 },
+  levelBadge: { flexDirection: 'row', alignItems: 'center', gap: 5, backgroundColor: V.color.primaryLight, borderRadius: 9, paddingHorizontal: 9, paddingVertical: 5 },
   levelBadgeTxt: { color: V.color.primaryDark, fontSize: 11, fontWeight: '800', letterSpacing: 0.2 },
 
   materialsCard: { flexDirection: 'row', alignItems: 'center', gap: 11, backgroundColor: '#fffbeb', borderColor: '#f4e6b8', borderWidth: 1.5, borderRadius: 16, padding: 13, marginBottom: 12 },
@@ -1614,7 +1640,7 @@ const s = StyleSheet.create({
   stageLabel: { fontSize: 11, fontWeight: '800', letterSpacing: 0.8, color: V.color.textMuted, textAlign: 'center', marginBottom: 14 },
   roundRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', backgroundColor: V.color.pageBg, borderWidth: 1, borderColor: '#eef2f1', borderRadius: 12, paddingVertical: 7, paddingHorizontal: 11, marginBottom: 14 },
   roundLbl: { fontSize: 12, fontWeight: '800', color: V.color.textSecondary },
-  roundBtn: { backgroundColor: V.color.primaryLight, borderWidth: 1, borderColor: V.color.borderActive, borderRadius: 10, paddingHorizontal: 10, paddingVertical: 5 },
+  roundBtn: { flexDirection: 'row', alignItems: 'center', gap: 6, backgroundColor: V.color.primaryLight, borderWidth: 1, borderColor: V.color.borderActive, borderRadius: 10, paddingHorizontal: 10, paddingVertical: 6 },
   roundBtnTxt: { fontSize: 12, fontWeight: '800', color: V.color.primaryDark },
   phraseBox: { backgroundColor: V.color.pageBg, borderWidth: 1, borderColor: '#9bdfd9', borderStyle: 'dashed', borderRadius: 16, paddingVertical: 22, paddingHorizontal: 16, alignItems: 'center', gap: 14 },
   phraseTxt: { fontSize: 32, fontWeight: '800', color: V.color.textPrimary, textAlign: 'center', letterSpacing: -0.5 },
@@ -1622,7 +1648,9 @@ const s = StyleSheet.create({
   // fichas emoji
   emojiTile: { borderRadius: 14, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: '#e1e8e7', overflow: 'hidden' },
   zoomHintDot: { position: 'absolute', bottom: 4, right: 4, width: 16, height: 16, borderRadius: 8, backgroundColor: 'rgba(255,255,255,.85)', alignItems: 'center', justifyContent: 'center' },
-  zoomTip: { textAlign: 'center', fontSize: 11, fontWeight: '700', color: V.color.textMuted, marginTop: 13 },
+  zoomTipRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6, marginTop: 13 },
+  // textSecondary y no textMuted: gris claro sobre blanco no llega a AA.
+  zoomTip: { textAlign: 'center', fontSize: 11, fontWeight: '700', color: V.color.textSecondary },
 
   tilesRow: { flexDirection: 'row', gap: 10, justifyContent: 'center', marginBottom: 16 },
   tileCap: { fontSize: 11, color: V.color.textMuted, marginTop: 5, fontWeight: '700' },
@@ -1642,7 +1670,8 @@ const s = StyleSheet.create({
   matchTileMark: { fontSize: 11, fontWeight: '800', color: V.color.primaryDark, marginTop: 3, minHeight: 14 },
   matchDone: { textAlign: 'center', fontSize: 13, fontWeight: '800', color: '#0f8a63', marginTop: 12 },
 
-  modelNote: { fontSize: 12, fontWeight: '700', color: V.color.textSecondary, lineHeight: 17, marginTop: 10, paddingHorizontal: 4 },
+  modelNoteRow: { flexDirection: 'row', alignItems: 'flex-start', gap: 7, marginTop: 10, paddingHorizontal: 4 },
+  modelNote: { fontSize: 12, fontWeight: '700', color: V.color.textSecondary, lineHeight: 17 },
 
   // MS-1 · uno / muchos
   pluralCard: { flex: 1, alignItems: 'center', backgroundColor: '#fff', borderWidth: 1.5, borderColor: '#eef3f3', borderRadius: 16, paddingVertical: 16, paddingHorizontal: 8 },
@@ -1713,7 +1742,7 @@ const s = StyleSheet.create({
   breakBtnTxt: { fontSize: 14, fontWeight: '800', color: '#9a5b13' },
 
   // Explicación EPT-3
-  eptInfoBtn: { alignSelf: 'center', marginBottom: 12, paddingHorizontal: 10, paddingVertical: 5, borderRadius: 9, backgroundColor: V.color.primaryLight },
+  eptInfoBtn: { flexDirection: 'row', alignItems: 'center', gap: 6, alignSelf: 'center', marginBottom: 12, paddingHorizontal: 11, paddingVertical: 6, borderRadius: 9, backgroundColor: V.color.primaryLight },
   eptInfoBtnTxt: { fontSize: 12, fontWeight: '800', color: V.color.primaryDark },
   eptInfoBox: { backgroundColor: V.color.pageBg, borderWidth: 1, borderColor: '#eef2f1', borderRadius: 12, padding: 12, marginBottom: 12 },
   eptInfoTxt: { fontSize: 12.5, fontWeight: '600', color: V.color.textSecondary, lineHeight: 18 },
@@ -1783,17 +1812,20 @@ const s = StyleSheet.create({
   rewardRow: { flexDirection: 'row', gap: 10 },
   rewardChip: { flex: 1, backgroundColor: '#e6f9f8', borderRadius: 14, paddingVertical: 12, alignItems: 'center' },
   rewardChipBig: { fontSize: 22, fontWeight: '800', color: V.color.textPrimary },
-  rewardChipLbl: { fontSize: 11, fontWeight: '700', color: V.color.textMuted, marginTop: 2 },
+  // textSecondary, no textMuted: es la etiqueta del premio y en gris claro
+  // sobre blanco no llegaba al contraste mínimo AA.
+  rewardChipLbl: { fontSize: 11, fontWeight: '700', color: V.color.textSecondary, marginTop: 2 },
   rewardNote: { textAlign: 'center', fontSize: 11.5, fontWeight: '700', color: '#9a5b13', marginTop: 10 },
   levelRow: { marginTop: 14 },
   levelLbl: { fontSize: 12.5, fontWeight: '800', color: V.color.textPrimary },
   levelTrack: { height: 10, backgroundColor: '#dcefed', borderRadius: 6, overflow: 'hidden', marginTop: 7 },
   levelFill: { height: '100%', backgroundColor: V.color.primary, borderRadius: 6 },
-  levelToGo: { fontSize: 11, fontWeight: '700', color: V.color.textMuted, marginTop: 5 },
+  levelToGo: { fontSize: 11, fontWeight: '700', color: V.color.textSecondary, marginTop: 5 },
   badgeWrap: { marginTop: 14, backgroundColor: '#fffbeb', borderWidth: 1, borderColor: '#f4e6b8', borderRadius: 14, padding: 12 },
   badgeTitle: { fontSize: 11, fontWeight: '800', letterSpacing: 0.6, color: '#92711a', textAlign: 'center', marginBottom: 8 },
   badgeRow: { flexDirection: 'row', alignItems: 'center', gap: 10, paddingVertical: 5 },
   badgePlate: { width: 40, height: 40, borderRadius: 13, alignItems: 'center', justifyContent: 'center' },
+  streakRow: { flexDirection: 'row', alignItems: 'center', gap: 5 },
   badgeName: { fontSize: 13.5, fontWeight: '800', color: V.color.textPrimary },
   badgeDesc: { fontSize: 11.5, fontWeight: '600', color: V.color.textSecondary, marginTop: 1 },
 

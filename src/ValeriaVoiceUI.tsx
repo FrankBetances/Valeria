@@ -15,6 +15,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, Pressable, TextInput, StyleSheet, Animated, Easing, Platform, Linking } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { V, STORAGE_KEYS } from './valeriaTheme';
+import { BlockIcon, BlockIconName } from './ValeriaBlockIcons';
 import {
   speak, speakToChild, speakWordSlow, speakPhraseSlow, speakClinical, stopSpeaking, speakVoiceSample,
   asrSupported, startListening, stopListening, releaseListening, matchTarget, MatchLevel,
@@ -57,7 +58,7 @@ export const SpeakButton: React.FC<{
       accessibilityLabel={t.voice.listenA11y(text)}
       style={({ pressed }) => [s.speakPill, compact && s.speakPillCompact, pressed && { opacity: 0.7, transform: [{ scale: 0.96 }] }]}
     >
-      <Text style={{ fontSize: compact ? 12 : 14 }}>🔊</Text>
+      <BlockIcon name="speaker" color={V.color.primaryDark} size={compact ? 14 : 17} />
       {!compact && <Text style={s.speakPillTxt}>{label ?? t.voice.listen}</Text>}
     </Pressable>
   );
@@ -67,16 +68,16 @@ export const SpeakButton: React.FC<{
 // Mapa del turno: chips con las fases del ensayo y la fase activa resaltada.
 // Responde a la queja de los testers de que "no se sabe qué toca ahora".
 // ----------------------------------------------------------------------------
-const defaultPhases = (t: UiStrings) => [
-  { icon: '🔊', label: t.voice.phaseListen },
-  { icon: '🎤', label: t.voice.phaseRepeat },
-  { icon: '🏅', label: t.voice.phaseVerdict },
-  { icon: '🏃', label: t.voice.phaseMission },
+const defaultPhases = (t: UiStrings): { icon: BlockIconName; label: string }[] => [
+  { icon: 'speaker', label: t.voice.phaseListen },
+  { icon: 'mic', label: t.voice.phaseRepeat },
+  { icon: 'level', label: t.voice.phaseVerdict },
+  { icon: 'move', label: t.voice.phaseMission },
 ];
 
 export const TurnPhaseStrip: React.FC<{
   active: number;
-  phases?: { icon: string; label: string }[];
+  phases?: { icon: BlockIconName; label: string }[];
 }> = ({ active, phases }) => {
   const t = useT();
   const items = phases ?? defaultPhases(t);
@@ -86,7 +87,14 @@ export const TurnPhaseStrip: React.FC<{
         <React.Fragment key={ph.label}>
           {i > 0 && <Text style={s.phaseArrow}>›</Text>}
           <View style={[s.phaseChip, i === active && s.phaseChipOn, i < active && s.phaseChipDone]}>
-            <Text style={{ fontSize: 13, opacity: i === active ? 1 : 0.55 }}>{i < active ? '✓' : ph.icon}</Text>
+            {/* Fase cumplida → marca de verificación; la actual y las que
+                quedan, su propio icono. Antes eran cuatro emoji del sistema
+                (🔊 🎤 🏅 🏃) en la tira que más se mira de un ensayo. */}
+            <BlockIcon
+              name={i < active ? 'check' : ph.icon}
+              color={i === active ? V.color.primaryDark : V.color.textSecondary}
+              size={14}
+            />
             <Text style={[s.phaseChipTxt, i === active && s.phaseChipTxtOn]}>{ph.label}</Text>
           </View>
         </React.Fragment>
@@ -203,7 +211,9 @@ export const MicPracticeCard: React.FC<{ target: string; prompt?: string; altTar
             accessibilityLabel={listening ? t.voice.micStopA11y : t.voice.micStartA11y}
             style={[s.micBtn, listening && s.micBtnOn]}
           >
-            <Text style={{ fontSize: 26 }}>{listening ? '👂' : '🎤'}</Text>
+            {/* Escuchando → oreja no: el icono de micro con el botón en rojo ya
+                dice que está grabando, y así el set no mezcla dos metáforas. */}
+            <BlockIcon name="mic" color="#ffffff" size={28} />
           </Pressable>
         </Animated.View>
         <Text style={s.micState}>{listening ? t.voice.micListening : t.voice.micTapToSpeak}</Text>
@@ -308,7 +318,7 @@ export const ResponseCaptureCard: React.FC<{
             accessibilityLabel={listening ? t.voice.captureStopA11y : t.voice.captureRecordA11y}
             style={[s.captureMicBtn, listening && s.captureMicBtnOn]}
           >
-            <Text style={{ fontSize: 20 }}>{listening ? '👂' : '🎤'}</Text>
+            <BlockIcon name="mic" color="#ffffff" size={22} />
           </Pressable>
         )}
       </View>

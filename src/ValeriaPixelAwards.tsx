@@ -236,6 +236,15 @@ export const PixelAward: React.FC<Props> = ({ glyph, tier, size = 34, locked }) 
   );
 };
 
+/**
+ * El metal de la llama sube con la racha: el premio se ve venir antes de
+ * ganarlo. Vive aquí y no en la tira porque lo usan las dos pantallas que
+ * pintan una racha (hub/lista y cierre de sesión), y una racha de 14 días no
+ * puede salir dorada en una y de bronce en la otra.
+ */
+export const streakTier = (streak: number): AwardTier =>
+  (streak >= 30 ? 'teal' : streak >= 14 ? 'gold' : streak >= 7 ? 'silver' : 'bronze');
+
 /** Fondo de la placa que enmarca la insignia (lo usa la colección y el player). */
 export const tierBg = (tier: AwardTier, locked?: boolean): string =>
   (locked ? LOCKED.bg : TIERS[tier].bg);

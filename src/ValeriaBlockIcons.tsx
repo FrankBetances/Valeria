@@ -27,7 +27,12 @@ export type BlockIconName =
   | 'tabTherapies' | 'tabAcademy' | 'tabSettings'
   // Lista prescribible: sustituyen a 🎯 ℹ️ 👶 🔒 ▶ ✓, que era la última
   // pantalla donde quedaban emoji del sistema haciendo de iconografía.
-  | 'session' | 'info' | 'age' | 'lock' | 'play' | 'check';
+  | 'session' | 'info' | 'age' | 'lock' | 'play' | 'check'
+  // Reproductor de sesión: los emoji que marcaban los pasos del turno
+  // (📢 🔊 🎤 💡 🔄 🔍 🏃 🧺 ➡️ 🙈 ❌). Son los MISMOS pasos en todos los
+  // bloques, así que tienen que ser un set, no seis dibujos de seis fabricantes.
+  | 'speaker' | 'mic' | 'tip' | 'repeat' | 'zoom' | 'move' | 'material'
+  | 'next' | 'eye' | 'eyeOff' | 'cross';
 
 interface Props { name: BlockIconName; color: string; size?: number; }
 
@@ -185,6 +190,102 @@ export const BlockIcon: React.FC<Props> = ({ name, color, size = 26 }) => {
       {/* Guardado · marca de verificación. */}
       {name === 'check' && (
         <Path d="M4.8 12.6l4.8 4.8 9.6-10.8" {...common} />
+      )}
+
+      {/* Escuchar · altavoz con dos ondas. El más repetido de la app: va en
+          cada botón de «oír» de todas las pantallas de voz. */}
+      {name === 'speaker' && (
+        <>
+          <Path d="M4 9.4h3.4L12 5.2v13.6L7.4 14.6H4z" {...common} />
+          <Path d="M15.6 9.6a3.4 3.4 0 0 1 0 4.8" {...common} />
+          <Path d="M18.2 7a7 7 0 0 1 0 10" {...common} />
+        </>
+      )}
+
+      {/* Turno del niño · micrófono. */}
+      {name === 'mic' && (
+        <>
+          <Rect x="9.2" y="2.8" width="5.6" height="10.4" rx="2.8" {...common} />
+          <Path d="M5.8 11.4a6.2 6.2 0 0 0 12.4 0" {...common} />
+          <Path d="M12 17.6v3.6" {...common} />
+        </>
+      )}
+
+      {/* Consejo para el adulto · bombilla. */}
+      {name === 'tip' && (
+        <>
+          <Circle cx="12" cy="9.6" r="5.4" {...common} />
+          <Path d="M9.4 16.6h5.2" {...common} />
+          <Path d="M10.3 19.4h3.4" {...common} />
+        </>
+      )}
+
+      {/* Otra ronda · dos flechas en bucle. */}
+      {name === 'repeat' && (
+        <>
+          <Path d="M3.6 12a8.4 8.4 0 0 1 14.3-6" {...common} />
+          <Path d="M20.4 12a8.4 8.4 0 0 1-14.3 6" {...common} />
+          <Path d="M18.2 2.6v3.6h-3.6" {...common} />
+          <Path d="M5.8 21.4v-3.6h3.6" {...common} />
+        </>
+      )}
+
+      {/* Ampliar la ficha · lupa. */}
+      {name === 'zoom' && (
+        <>
+          <Circle cx="10.6" cy="10.6" r="6.6" {...common} />
+          <Path d="M15.4 15.4 20.6 20.6" {...common} />
+        </>
+      )}
+
+      {/* Versión en movimiento · figura andando. */}
+      {name === 'move' && (
+        <>
+          <Circle cx="13.4" cy="4.6" r="2.1" {...common} />
+          <Path d="M8.4 20.6l2.6-5.2 3-2 1.4 3.4 3.2 1.4" {...common} />
+          <Path d="M11 15.4 9.6 11l-4 1.8" {...common} />
+        </>
+      )}
+
+      {/* Necesitarás · bandeja de material. */}
+      {name === 'material' && (
+        <>
+          <Path d="M3.2 9.6h17.6l-1.8 9a2 2 0 0 1-2 1.6H7a2 2 0 0 1-2-1.6z" {...common} />
+          <Path d="M8.4 9.6 10.6 3.6" {...common} />
+          <Path d="M15.6 9.6 13.4 3.6" {...common} />
+        </>
+      )}
+
+      {/* Siguiente ejercicio · flecha. */}
+      {name === 'next' && (
+        <>
+          <Path d="M4.4 12h14.4" {...common} />
+          <Path d="M13.4 6.6 18.8 12l-5.4 5.4" {...common} />
+        </>
+      )}
+
+      {/* Palabra a la vista / oculta · ojo. */}
+      {name === 'eye' && (
+        <>
+          <Path d="M2.4 12s3.6-6.6 9.6-6.6S21.6 12 21.6 12s-3.6 6.6-9.6 6.6S2.4 12 2.4 12z" {...common} />
+          <Circle cx="12" cy="12" r="2.9" {...common} />
+        </>
+      )}
+      {name === 'eyeOff' && (
+        <>
+          <Path d="M6.6 6.9C4 8.6 2.4 12 2.4 12s3.6 6.6 9.6 6.6c2 0 3.7-.7 5.1-1.6" {...common} />
+          <Path d="M9.9 5.7A9.9 9.9 0 0 1 12 5.4c6 0 9.6 6.6 9.6 6.6a17 17 0 0 1-2.8 3.7" {...common} />
+          <Path d="M9.9 9.9a2.9 2.9 0 0 0 4.2 4.2" {...common} />
+          <Path d="M3.6 3.6 20.4 20.4" {...common} />
+        </>
+      )}
+
+      {/* Respuesta incorrecta · aspa. Pareja de `check`. */}
+      {name === 'cross' && (
+        <>
+          <Path d="M6.4 6.4 17.6 17.6" {...common} />
+          <Path d="M17.6 6.4 6.4 17.6" {...common} />
+        </>
       )}
 
       {/* Realidad aumentada · marco de encuadre con el punto de fijación. */}

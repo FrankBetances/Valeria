@@ -17,13 +17,9 @@ import React, { useRef } from 'react';
 import { Animated, Pressable, StyleSheet, Text, View } from 'react-native';
 import { V } from './valeriaTheme';
 import { CatPixel } from './ValeriaCatPixel';
-import { PixelAward, AwardTier } from './ValeriaPixelAwards';
+import { PixelAward, streakTier } from './ValeriaPixelAwards';
 import { GameState, levelFor, levelProgress, xpToNext, liveStreak, LEVEL_COUNT } from './valeriaGamification';
 import { useT } from './i18n';
-
-/** El metal de la llama sube con la racha: el premio se ve venir antes de ganarlo. */
-const streakTier = (streak: number): AwardTier =>
-  (streak >= 30 ? 'teal' : streak >= 14 ? 'gold' : streak >= 7 ? 'silver' : 'bronze');
 
 interface Props {
   game: GameState | null;
