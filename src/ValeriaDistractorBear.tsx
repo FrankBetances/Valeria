@@ -18,7 +18,7 @@
 // ============================================================================
 import React, { useEffect, useRef } from 'react';
 import { View, Animated, Easing, InteractionManager, StyleSheet } from 'react-native';
-import { BearMark } from './ValeriaBearLogo';
+import { CatPixel } from './ValeriaCatPixel';
 import { registerDistractorZone, unregisterDistractorZone } from './ValeriaMisclickBoundary';
 import { setDualTaskActive } from './valeriaTelemetry';
 
@@ -81,7 +81,7 @@ export const ValeriaDistractorBear: React.FC = () => {
     // Periferia derecha, fuera de la zona de contenido; jamás recibe toques.
     <View ref={holderRef} onLayout={onLayout} pointerEvents="none" style={s.holder}>
       <Animated.View style={{ transform: [{ translateY }, { rotate }] }}>
-        <BearMark size={SIZE} variant="brown" />
+        <CatPixel size={SIZE} />
       </Animated.View>
     </View>
   );

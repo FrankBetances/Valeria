@@ -76,7 +76,7 @@ export const ValeriaBlockTile: React.FC<ValeriaBlockTileProps> = React.memo(({
     >
       <Animated.View style={[s.card, { transform: [{ scale }] }]}>
         <View style={[s.iconPlate, { backgroundColor: accentFg }]}>
-          <BlockIcon name={icon} color="#ffffff" size={31} />
+          <BlockIcon name={icon} color="#ffffff" size={28} />
         </View>
 
         <View style={s.foot}>
@@ -109,7 +109,12 @@ const s = StyleSheet.create({
     borderRadius: 24,
     borderWidth: 1,
     borderColor: '#eef2f2',
-    padding: 18,
+    padding: 16,
+    // El zócalo ANCLADO abajo. La cabecera del fichero lo describía desde la
+    // v11 pero nunca se aplicó, y es exactamente el hueco muerto que se ve en
+    // la cuadrícula: en una fila, la tarjeta con el título de una línea se
+    // estira hasta la de dos y deja su contenido flotando arriba.
+    justifyContent: 'space-between',
     // Sombra baja y abierta: en una cuadrícula la elevación es lo que separa
     // la pieza del fondo, y sin ella las tarjetas parecían recortes de papel.
     shadowColor: 'rgba(15, 23, 42, 0.13)',
@@ -122,17 +127,17 @@ const s = StyleSheet.create({
   // Color PLENO con el glifo en blanco. La placa pastel con el icono teñido
   // se veía lavada; invertirla es lo que hace que la tarjeta tenga peso.
   iconPlate: {
-    width: 60,
-    height: 60,
-    borderRadius: 20,
+    width: 52,
+    height: 52,
+    borderRadius: 17,
     alignItems: 'center',
     justifyContent: 'center',
   },
 
-  foot: { marginTop: 16 },
+  foot: { marginTop: 14 },
   title: {
-    fontSize: 16.5,
-    lineHeight: 21,
+    fontSize: 16,
+    lineHeight: 20,
     fontWeight: V.font.extrabold,
     color: V.color.textPrimary,
     letterSpacing: -0.2,
@@ -140,10 +145,10 @@ const s = StyleSheet.create({
   meta: {
     fontSize: 12.5,
     fontWeight: V.font.extrabold,
-    marginTop: 10,
+    marginTop: 8,
     letterSpacing: 0.1,
   },
-  track: { height: 6, borderRadius: 3, marginTop: 8, overflow: 'hidden' },
+  track: { height: 6, borderRadius: 3, marginTop: 7, overflow: 'hidden' },
   fill: { height: '100%', borderRadius: 3 },
 });
 

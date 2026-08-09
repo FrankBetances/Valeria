@@ -288,7 +288,7 @@ const pause = (page, ms) => page.waitForTimeout(ms);
 
   // ===================== CU-15 · PANEL DEL ADULTO (CARGA COMUNICATIVA) =====================
   // Aparece en la pantalla de juego de Pares Mínimos; desplegarlo para ver los
-  // tres módulos (ruido babble, oso distractor y quiebre pragmático).
+  // tres módulos (ruido babble, gata distractora y quiebre pragmático).
   await page.getByText('Terapias', { exact: true }).click();
   await page.getByText('Prescripción de Terapias', { exact: true }).waitFor({ timeout: 120000 });
   await pause(page, 400);
@@ -302,7 +302,7 @@ const pause = (page, ms) => page.waitForTimeout(ms);
   await panel.waitFor({ timeout: 30000 });
   await panel.scrollIntoViewIfNeeded();
   await panel.click();                           // abre el colapsable
-  await page.getByText(/Oso distractor/).waitFor({ timeout: 15000 });
+  await page.getByText(/Gata distractora/).waitFor({ timeout: 15000 });
   await panel.evaluate((el) => el.scrollIntoView({ block: 'start' }));
   await pause(page, 700);
   await shot(page, '23-panel-adulto');          // 23 · panel desplegado (ruido/oso/quiebre)

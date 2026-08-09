@@ -233,7 +233,7 @@ export const ES = {
       + 'la edad de tu peque y deja que el logopeda ajuste la prescripción.',
     refAutism:
       'Batería PRT + TCC: la app orquesta las contingencias, pero la carga (quiebre '
-      + 'pragmático, ruido, oso distractor) SIEMPRE la acciona el adulto desde el Panel del '
+      + 'pragmático, ruido, gata distractora) SIEMPRE la acciona el adulto desde el Panel del '
       + 'Adulto y es reversible al instante. La app nunca interrumpe ni ajusta nada sola, y '
       + 'el veredicto clínico es siempre tuyo y de tu logopeda.',
     refDyslexia:
@@ -264,8 +264,75 @@ export const ES = {
     // Nombres de nivel de la gamificación (valeriaGamification los da en
     // castellano; el índice es estable, el nombre no).
     levelNameByIndex: (i: number): string =>
-      ['Osezno', 'Oso Curioso', 'Oso Valiente', 'Oso Explorador', 'Oso Sabio', 'Gran Oso', 'Oso Legendario'][i]
-      ?? 'Oso Legendario',
+      ['Gatita', 'Gata Curiosa', 'Gata Juguetona', 'Gata Valiente',
+        'Gata Exploradora', 'Gata Saltarina', 'Gata Sabia', 'Gata Sigilosa',
+        'Gata Estrella', 'Gran Gata', 'Gata Lunar', 'Gata Legendaria'][i]
+      ?? 'Gata Legendaria',
+  },
+
+  // --------------------------------------------------------------------------
+  // Premios: la colección de Lúa. La COPIA vive aquí; qué se gana y cuándo, en
+  // valeriaGamification. Los ids son inmutables (viajan en AsyncStorage).
+  // --------------------------------------------------------------------------
+  awards: {
+    open: 'Premios',
+    title: 'Los premios de Lúa',
+    subtitle: 'Lo que has conseguido y lo que te falta.',
+    close: 'Cerrar',
+    levelLine: (n: number, name: string): string => `Nivel ${n} · ${name}`,
+    xpToNext: (n: number): string => `${n} XP para el siguiente nivel`,
+    xpTotal: (n: number): string => `${n} XP en total`,
+    maxLevel: '¡Nivel máximo alcanzado!',
+    streakLine: (n: number): string => (n === 1 ? '1 día de racha' : `${n} días de racha`),
+    streakNone: 'Empieza hoy tu racha',
+    collection: (won: number, total: number): string => `Insignias · ${won} de ${total}`,
+    levelTrack: 'Escalera de niveles',
+    lockedHint: 'Las insignias en gris todavía no están conseguidas.',
+    a11yOpen: 'Abrir la colección de premios de Lúa',
+    badgeA11y: (name: string, won: boolean): string =>
+      `${name}. ${won ? 'Conseguida' : 'Todavía no conseguida'}.`,
+
+    badgeName: (id: string): string => ({
+      primera: 'Primera huella',
+      ses10: 'Practicante',
+      ses25: 'Exploradora',
+      ses50: 'Maestra Valeria',
+      ses100: 'Centenaria',
+      racha3: 'En llamas',
+      racha7: 'Semana perfecta',
+      racha14: 'Imparable',
+      racha30: 'Un mes entero',
+      perfecta: 'Sesión estrella',
+      perf5: 'Constelación',
+      perf10: 'Vía láctea',
+      madrugadora: 'Madrugadora',
+      nocturna: 'Ronda nocturna',
+      finde: 'Finde en casa',
+      maraton: 'Ovillo largo',
+      regreso: 'Te echaba de menos',
+      nivel10: 'Cima',
+    }[id] ?? id),
+
+    badgeDesc: (id: string): string => ({
+      primera: 'Completa tu primera sesión.',
+      ses10: 'Completa 10 sesiones.',
+      ses25: 'Completa 25 sesiones.',
+      ses50: 'Completa 50 sesiones.',
+      ses100: 'Completa 100 sesiones.',
+      racha3: '3 días seguidos practicando.',
+      racha7: '7 días seguidos practicando.',
+      racha14: '14 días seguidos practicando.',
+      racha30: '30 días seguidos practicando.',
+      perfecta: 'Logra 3★ en todos los ejercicios de una sesión.',
+      perf5: 'Logra 5 sesiones perfectas.',
+      perf10: 'Logra 10 sesiones perfectas.',
+      madrugadora: 'Practica antes de las 10 de la mañana.',
+      nocturna: 'Practica después de las 8 de la tarde.',
+      finde: 'Practica un sábado o un domingo.',
+      maraton: 'Seis ejercicios o más en una sola sesión.',
+      regreso: 'Vuelve a practicar tras una semana de pausa.',
+      nivel10: 'Alcanza el nivel 10.',
+    }[id] ?? ''),
   },
 
   auth: {
@@ -716,8 +783,8 @@ export const ES = {
     kicker: '🎛️ PANEL DEL ADULTO · RETO EXTRA',
     openA11y: 'Abrir el panel del adulto',
     closeA11y: 'Cerrar el panel del adulto',
-    distractorTitle: '🐻 Oso distractor (doble tarea)',
-    distractorSub: 'El oso se asoma y se mueve por el borde; el niño debe seguir atendiendo a la voz. Tocarlo no cuenta como error.',
+    distractorTitle: 'Gata distractora (doble tarea)',
+    distractorSub: 'La gata se asoma y se mueve por el borde; el niño debe seguir atendiendo a la voz. Tocarla no cuenta como error.',
     launchPragmatic: '🎭 Lanzar un quiebre pragmático',
     arKicker: '🎯 REALIDAD AUMENTADA · UMBRALES CLÍNICOS',
     gazePointer: 'Puntero de la mirada (AR-3)',

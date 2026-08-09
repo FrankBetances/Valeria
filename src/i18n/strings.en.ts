@@ -247,7 +247,7 @@ export const EN: UiStrings = {
       + 'age band and let your SLP adjust the plan.',
     refAutism:
       'PRT + CBT battery: the app orchestrates the contingencies, but the load (pragmatic '
-      + 'breakdown, noise, distractor bear) is ALWAYS triggered by the grown-up from the '
+      + 'breakdown, noise, distractor cat) is ALWAYS triggered by the grown-up from the '
       + 'Caregiver Panel, and is reversible instantly. The app never interrupts or adjusts '
       + 'anything on its own, and the clinical judgment is always yours and your SLP’s.',
     refDyslexia:
@@ -276,8 +276,71 @@ export const EN: UiStrings = {
     teaConsentLater: 'Not now',
 
     levelNameByIndex: (i: number): string =>
-      ['Bear Cub', 'Curious Bear', 'Brave Bear', 'Explorer Bear', 'Wise Bear', 'Great Bear', 'Legendary Bear'][i]
-      ?? 'Legendary Bear',
+      ['Kitten', 'Curious Cat', 'Playful Cat', 'Brave Cat',
+        'Explorer Cat', 'Leaping Cat', 'Wise Cat', 'Silent Cat',
+        'Star Cat', 'Great Cat', 'Moon Cat', 'Legendary Cat'][i]
+      ?? 'Legendary Cat',
+  },
+
+  awards: {
+    open: 'Awards',
+    title: 'Lúa’s awards',
+    subtitle: 'What you have earned, and what is still ahead.',
+    close: 'Close',
+    levelLine: (n: number, name: string): string => `Level ${n} · ${name}`,
+    xpToNext: (n: number): string => `${n} XP to the next level`,
+    xpTotal: (n: number): string => `${n} XP in total`,
+    maxLevel: 'Top level reached!',
+    streakLine: (n: number): string => (n === 1 ? '1 day streak' : `${n} day streak`),
+    streakNone: 'Start your streak today',
+    collection: (won: number, total: number): string => `Badges · ${won} of ${total}`,
+    levelTrack: 'Level ladder',
+    lockedHint: 'Badges shown in grey have not been earned yet.',
+    a11yOpen: 'Open Lúa’s award collection',
+    badgeA11y: (name: string, won: boolean): string =>
+      `${name}. ${won ? 'Earned' : 'Not earned yet'}.`,
+
+    badgeName: (id: string): string => ({
+      primera: 'First paw print',
+      ses10: 'Regular',
+      ses25: 'Explorer',
+      ses50: 'Valeria Master',
+      ses100: 'Centurion',
+      racha3: 'On fire',
+      racha7: 'Perfect week',
+      racha14: 'Unstoppable',
+      racha30: 'A whole month',
+      perfecta: 'Star session',
+      perf5: 'Constellation',
+      perf10: 'Milky Way',
+      madrugadora: 'Early bird',
+      nocturna: 'Night watch',
+      finde: 'Weekend at home',
+      maraton: 'Long yarn',
+      regreso: 'I missed you',
+      nivel10: 'Summit',
+    }[id] ?? id),
+
+    badgeDesc: (id: string): string => ({
+      primera: 'Complete your first session.',
+      ses10: 'Complete 10 sessions.',
+      ses25: 'Complete 25 sessions.',
+      ses50: 'Complete 50 sessions.',
+      ses100: 'Complete 100 sessions.',
+      racha3: 'Practise 3 days in a row.',
+      racha7: 'Practise 7 days in a row.',
+      racha14: 'Practise 14 days in a row.',
+      racha30: 'Practise 30 days in a row.',
+      perfecta: 'Score 3★ on every exercise of a session.',
+      perf5: 'Complete 5 perfect sessions.',
+      perf10: 'Complete 10 perfect sessions.',
+      madrugadora: 'Practise before 10 in the morning.',
+      nocturna: 'Practise after 8 in the evening.',
+      finde: 'Practise on a Saturday or a Sunday.',
+      maraton: 'Six or more exercises in a single session.',
+      regreso: 'Come back after a week off.',
+      nivel10: 'Reach level 10.',
+    }[id] ?? ''),
   },
 
   auth: {
@@ -720,8 +783,8 @@ export const EN: UiStrings = {
     kicker: '🎛️ CAREGIVER PANEL · EXTRA CHALLENGE',
     openA11y: 'Open the caregiver panel',
     closeA11y: 'Close the caregiver panel',
-    distractorTitle: '🐻 Distractor bear (dual task)',
-    distractorSub: 'The bear peeks in and moves along the edge; the child has to keep attending to the voice. Tapping it does not count as an error.',
+    distractorTitle: 'Distractor cat (dual task)',
+    distractorSub: 'The cat peeks in and moves along the edge; the child has to keep attending to the voice. Tapping it does not count as an error.',
     launchPragmatic: '🎭 Trigger a pragmatic breakdown',
     arKicker: '🎯 AUGMENTED REALITY · CLINICAL THRESHOLDS',
     gazePointer: 'Gaze pointer (AR-3)',

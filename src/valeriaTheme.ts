@@ -109,8 +109,8 @@ export const STORAGE_KEYS = {
   asrOfertaLocal: '@valeria_asr_oferta_local', // ASR §3.3: variedades a las que el adulto ya declinó la descarga del paquete local (sufijo por variedad)
 };
 
-// Marca / mascota: oso "Valeria" en blanco sobre turquesa. El componente
-// reutilizable <BearMark /> y <AppIconTile /> viven en ./ValeriaBearLogo.tsx.
+// Marca / mascota: la gata Lúa en píxel art. El componente reutilizable
+// <CatPixel /> vive en ./ValeriaCatPixel.tsx (rejilla de caracteres, sin PNG).
 
 // Logo: usar el wordmark turquesa de Valeria. En cabeceras sobre fondo turquesa,
 // emplear la versión en blanco a una altura consistente de 21px.

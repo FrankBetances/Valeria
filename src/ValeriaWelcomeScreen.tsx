@@ -9,7 +9,7 @@
 import React, { useEffect, useRef } from 'react';
 import { View, Text, Pressable, StyleSheet, Animated, Easing, StatusBar } from 'react-native';
 import { V } from './valeriaTheme';
-import { BearMark } from './ValeriaBearLogo';
+import { CatPixel } from './ValeriaCatPixel';
 import { useT } from './i18n';
 // import logoWhite from '../../assets/valeria-logo-white.png';
 
@@ -94,7 +94,7 @@ export const ValeriaWelcomeScreen: React.FC<{ navigation: any }> = ({ navigation
               },
             ]}
           >
-            <BearMark size={104} variant="brown" />
+            <CatPixel size={104} />
           </Animated.View>
         </View>
 

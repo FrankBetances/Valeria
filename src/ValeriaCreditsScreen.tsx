@@ -9,7 +9,7 @@
 import React, { useEffect, useRef } from 'react';
 import { View, Text, Pressable, ScrollView, StyleSheet, Animated, Easing, StatusBar } from 'react-native';
 import { V } from './valeriaTheme';
-import { BearMark } from './ValeriaBearLogo';
+import { CatPixel } from './ValeriaCatPixel';
 import { useT } from './i18n';
 import { ValeriaUiLangPicker } from './ValeriaUiLangPicker';
 // import logoWhite from '../../assets/valeria-logo-white.png';
@@ -76,7 +76,7 @@ export const ValeriaCreditsScreen: React.FC<{ navigation?: any }> = ({ navigatio
 
       <ScrollView contentContainerStyle={s.content} showsVerticalScrollIndicator={false}>
         <Animated.View style={[s.brandRow, fadeUp(0)]}>
-          <BearMark size={54} variant="brown" />
+          <CatPixel size={54} />
           {/* <Image source={logoWhite} style={s.logo} /> */}
           <Text style={s.brand}>valeria</Text>
         </Animated.View>

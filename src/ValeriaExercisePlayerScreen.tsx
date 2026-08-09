@@ -50,6 +50,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { V, STORAGE_KEYS } from './valeriaTheme';
 import { useT } from './i18n';
 import { registerSession, SessionReward, levelProgress, xpToNext } from './valeriaGamification';
+import { PixelAward, tierBg } from './ValeriaPixelAwards';
 import { speakToChild, speakToChildSeq, speakWordSlow, stopSpeaking, praisePhrase, almostPhrase, normalizeSpeech } from './valeriaVoice';
 import { SpeakButton, MicPracticeCard, ResponseCaptureCard } from './ValeriaVoiceUI';
 import { ValeriaSessionBreakOverlay, pickSessionBreak, SessionBreak } from './ValeriaSessionBreakOverlay';
@@ -1493,10 +1494,12 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                     <Text style={s.badgeTitle}>{t.player.badgesTitle}</Text>
                     {reward.newBadges.map((b) => (
                       <View key={b.id} style={s.badgeRow}>
-                        <Text style={{ fontSize: 22 }}>{b.icon}</Text>
+                        <View style={[s.badgePlate, { backgroundColor: tierBg(b.tier) }]}>
+                          <PixelAward glyph={b.glyph} tier={b.tier} size={26} />
+                        </View>
                         <View style={{ flex: 1 }}>
-                          <Text style={s.badgeName}>{b.name}</Text>
-                          <Text style={s.badgeDesc}>{b.desc}</Text>
+                          <Text style={s.badgeName}>{t.awards.badgeName(b.id)}</Text>
+                          <Text style={s.badgeDesc}>{t.awards.badgeDesc(b.id)}</Text>
                         </View>
                       </View>
                     ))}
@@ -1790,6 +1793,7 @@ const s = StyleSheet.create({
   badgeWrap: { marginTop: 14, backgroundColor: '#fffbeb', borderWidth: 1, borderColor: '#f4e6b8', borderRadius: 14, padding: 12 },
   badgeTitle: { fontSize: 11, fontWeight: '800', letterSpacing: 0.6, color: '#92711a', textAlign: 'center', marginBottom: 8 },
   badgeRow: { flexDirection: 'row', alignItems: 'center', gap: 10, paddingVertical: 5 },
+  badgePlate: { width: 40, height: 40, borderRadius: 13, alignItems: 'center', justifyContent: 'center' },
   badgeName: { fontSize: 13.5, fontWeight: '800', color: V.color.textPrimary },
   badgeDesc: { fontSize: 11.5, fontWeight: '600', color: V.color.textSecondary, marginTop: 1 },
 

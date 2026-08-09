@@ -22,6 +22,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { V, STORAGE_KEYS } from './valeriaTheme';
 import { useT, UiStrings } from './i18n';
 import { loadGame, liveStreak, levelFor, levelName, levelProgress, xpToNext, BADGES, GameState } from './valeriaGamification';
+import { PixelAward } from './ValeriaPixelAwards';
 import { readArHistory } from './valeriaTelemetry';
 import type { ArTrial, ArDeviceProfile, ArThresholds } from './valeriaArBridge';
 // import logoWhite from '../../assets/valeria-logo-white.png';
@@ -399,8 +400,10 @@ export const ValeriaPatientResultsDashboardScreen: React.FC<{ navigation?: any }
                 const won = game.badges.includes(b.id);
                 return (
                   <View key={b.id} style={[st.gameBadge, !won && st.gameBadgeOff]}>
-                    <Text style={{ fontSize: 22, opacity: won ? 1 : 0.35 }}>{b.icon}</Text>
-                    <Text style={[st.gameBadgeName, !won && { color: '#c2cbca' }]} numberOfLines={1}>{b.name}</Text>
+                    <PixelAward glyph={b.glyph} tier={b.tier} size={24} locked={!won} />
+                    <Text style={[st.gameBadgeName, !won && { color: '#c2cbca' }]} numberOfLines={1}>
+                      {t.awards.badgeName(b.id)}
+                    </Text>
                   </View>
                 );
               })}

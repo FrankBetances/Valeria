@@ -463,18 +463,23 @@ grosor constante, terminaciones redondeadas— llevado a un canvas circular de
 - **La pantalla es circular y solo se ve Φ 32,4 mm.** Una cara diseñada en
   rectangular pierde las esquinas. Se diseña en círculo desde el primer boceto.
 
-**Dos cosas de nombre e identidad que hay que decidir (§14):**
+**Identidad · decidido (Frank, 9/8/2026): la mascota es la GATA, en píxel art.**
+El oso queda retirado de la app. Ya está hecho en el árbol:
+`ValeriaCatPixel.tsx` (rejilla 24×23, gata negra tipo smoking) sustituye a
+`BearMark` en Bienvenida, Créditos y el distractor de doble tarea, y los doce
+niveles pasan de «Osezno → Oso Legendario» a «Gatita → Gata Legendaria».
 
-- Valeria+ tiene **osa**: `ValeriaBearLogo.tsx`, `ValeriaDistractorBear.tsx`, y los
-  niveles se llaman Osezno, Oso Curioso, Oso Valiente… Introducir una **gata**
-  llamada Lúa como encarnación física del mismo sistema de XP produce dos
-  mascotas compitiendo. Lo coherente es que el aparato sea la osita que el niño
-  ya conoce.
-- **`lúa` es palabra objetivo del banco gallego.** Aparece en
-  `valeriaExerciseGl.ts` («Toca a lúa, logo o gato e despois a flor») y en
-  `valeriaSemanticExpansionGl.ts`. Llamar Lúa al aparato crea ambigüedad justo en
-  la lengua donde la palabra se está trabajando: el adulto dice «mira a Lúa» y el
-  niño no sabe si es la mascota o la luna del ejercicio.
+Esto simplifica el hardware: **el catálogo de caras de la pantalla circular sale
+de la misma rejilla que la mascota de la app.** El píxel art no es aquí un gusto
+estético, es el formato nativo de un panel de 240×240 — y significa que la cara
+de Lúa en el aparato y la de la app son literalmente el mismo dibujo, no dos
+interpretaciones que se van separando versión a versión.
+
+**Queda una decisión de nombre (§14, D-B):** `lúa` es palabra objetivo del banco
+gallego. Aparece en `valeriaExerciseGl.ts` («Toca a lúa, logo o gato e despois a
+flor») y en `valeriaSemanticExpansionGl.ts`. Llamar Lúa al aparato crea
+ambigüedad justo en la lengua donde la palabra se está trabajando: el adulto
+dice «mira a Lúa» y el niño no sabe si es la mascota o la luna del ejercicio.
 
 ---
 
@@ -580,9 +585,9 @@ ACOPROS.
 Ninguna bloquea la Fase 0: el banco de pruebas se monta igual. Pero de la 1 en
 adelante hacen falta.
 
-**D-A · ¿Osa o gata?** Recomiendo que el aparato sea la osita de Valeria+, por
-coherencia con el logo, el distractor y los siete nombres de nivel. Una segunda
-mascota diluye la que ya funciona.
+**D-A · ¿Osa o gata? — CERRADA: gata, en píxel art.** Decidido por Frank el
+9/8/2026, en contra de lo que yo recomendaba aquí (que el aparato fuera la
+osita). La app ya está migrada: mascota, niveles e insignias. El oso se retira.
 
 **D-B · ¿Se mantiene el nombre «Lúa»?** Choca con la palabra objetivo del banco
 gallego (§10). Si el proyecto se llama Lúa internamente y el aparato tiene otro
