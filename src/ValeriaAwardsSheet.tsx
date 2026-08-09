@@ -46,7 +46,7 @@ export const ValeriaAwardsSheet: React.FC<Props> = ({ open, game, onClose }) => 
 
           {/* Cabecera: la gata, el nivel y la barra al siguiente. */}
           <View style={s.head}>
-            <View style={s.catPlate}><CatPixel size={56} pose="sit" /></View>
+            <View style={s.catPlate}><CatPixel size={56} /></View>
             <View style={{ flex: 1 }}>
               <Text style={s.title}>{t.awards.title}</Text>
               <Text style={s.levelLine}>{t.awards.levelLine(level, t.hub.levelNameByIndex(level - 1))}</Text>

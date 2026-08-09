@@ -50,7 +50,7 @@ export const ValeriaGameStrip: React.FC<Props> = ({ game, onPress }) => {
       accessibilityLabel={t.awards.a11yOpen}
     >
       <Animated.View style={[s.strip, { transform: [{ scale }] }]}>
-        <View style={s.catPlate}><CatPixel size={52} pose="sit" /></View>
+        <View style={s.catPlate}><CatPixel size={52} /></View>
 
         <View style={s.middle}>
           <Text style={s.level} numberOfLines={1}>
