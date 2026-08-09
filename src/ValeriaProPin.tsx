@@ -7,6 +7,7 @@
 import React, { useState } from 'react';
 import { View, Text, Pressable, ScrollView, StyleSheet } from 'react-native';
 import { V } from './valeriaTheme';
+import { BlockIcon } from './ValeriaBlockIcons';
 import { useT } from './i18n';
 
 // ----------------------------------------------------------------------------
@@ -71,7 +72,9 @@ export const ProUnlockPill: React.FC<{ unlocked: boolean; onPress: () => void }>
   const t = useT();
   return (
   <Pressable onPress={() => !unlocked && onPress()} style={[s.pill, unlocked ? s.pillUnlocked : s.pillLocked]} accessibilityRole="button">
-    <Text style={{ fontSize: 15 }}>{unlocked ? '🔓' : '🔒'}</Text>
+    {/* Icono propio, no 🔒/🔓 del sistema (regla 5). El estado abierto se
+        distingue por el COLOR de la píldora, que ya cambia a verde. */}
+    <BlockIcon name={unlocked ? 'check' : 'lock'} color={unlocked ? '#0a7d54' : V.color.textSecondary} size={17} />
     <Text style={[s.pillTxt, { color: unlocked ? '#0a7d54' : V.color.textPrimary }]}>{unlocked ? t.pro.unlockedPill : t.pro.unlockPill}</Text>
     {!unlocked && <Text style={s.pillChev}>›</Text>}
   </Pressable>

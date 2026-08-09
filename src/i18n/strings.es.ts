@@ -241,6 +241,10 @@ export const ES = {
       + 'habla de cada variedad (en dominicano, el seseo o la ese aspirada NUNCA cuentan '
       + 'como error) y la Criba de Pseudopalabras corta en 5 ensayos con pausa de descarga.',
 
+    protocolCardOpen: 'Ver la ficha del protocolo',
+    protocolCardClose: 'Ocultar la ficha',
+    notPrescribed: 'No prescrito',
+    prescribedOf: (active: number, total: number): string => `${active} de ${total} prescritas`,
     savePrescription: 'Guardar Prescripción',
     savedPrescription: (n: number): string => `Prescripción guardada · ${n} terapias activas.`,
     saveHelper: 'La selección se guarda en el dispositivo y la edición se bloquea de nuevo.',

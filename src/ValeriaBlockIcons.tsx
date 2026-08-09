@@ -24,7 +24,10 @@ export type BlockIconName =
   | 'streak' | 'level'
   // Barra de pestañas: mismo set, para que la navegación no vuelva a mezclar
   // emoji del sistema con iconos dibujados.
-  | 'tabTherapies' | 'tabAcademy' | 'tabSettings';
+  | 'tabTherapies' | 'tabAcademy' | 'tabSettings'
+  // Lista prescribible: sustituyen a 🎯 ℹ️ 👶 🔒 ▶ ✓, que era la última
+  // pantalla donde quedaban emoji del sistema haciendo de iconografía.
+  | 'session' | 'info' | 'age' | 'lock' | 'play' | 'check';
 
 interface Props { name: BlockIconName; color: string; size?: number; }
 
@@ -138,6 +141,50 @@ export const BlockIcon: React.FC<Props> = ({ name, color, size = 26 }) => {
           <Path d="M14.4 16.8H20" {...common} />
           <Circle cx="12" cy="16.8" r="2.2" {...common} />
         </>
+      )}
+
+      {/* Sesión completa · diana: los ejercicios prescritos, uno detrás de otro. */}
+      {name === 'session' && (
+        <>
+          <Circle cx="12" cy="12" r="8.6" {...common} />
+          <Circle cx="12" cy="12" r="4.6" {...common} />
+          <Circle cx="12" cy="12" r="1" {...common} />
+        </>
+      )}
+
+      {/* Ficha del protocolo · información. */}
+      {name === 'info' && (
+        <>
+          <Circle cx="12" cy="12" r="8.8" {...common} />
+          <Path d="M12 11v5.2" {...common} />
+          <Path d="M12 7.8v.1" {...common} />
+        </>
+      )}
+
+      {/* Banda de edad · silueta de cabeza pequeña. */}
+      {name === 'age' && (
+        <>
+          <Circle cx="12" cy="8.4" r="3.9" {...common} />
+          <Path d="M4.8 20.2a7.2 7.2 0 0 1 14.4 0" {...common} />
+        </>
+      )}
+
+      {/* Prescripción bloqueada · candado. */}
+      {name === 'lock' && (
+        <>
+          <Rect x="4.6" y="10.6" width="14.8" height="9.6" rx="2.4" {...common} />
+          <Path d="M8.2 10.6V7.9a3.8 3.8 0 0 1 7.6 0v2.7" {...common} />
+        </>
+      )}
+
+      {/* Practicar · triángulo de reproducción. */}
+      {name === 'play' && (
+        <Path d="M8.4 5.6 18.6 12 8.4 18.4z" {...common} />
+      )}
+
+      {/* Guardado · marca de verificación. */}
+      {name === 'check' && (
+        <Path d="M4.8 12.6l4.8 4.8 9.6-10.8" {...common} />
       )}
 
       {/* Realidad aumentada · marco de encuadre con el punto de fijación. */}

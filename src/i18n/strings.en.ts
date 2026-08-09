@@ -255,6 +255,10 @@ export const EN: UiStrings = {
       + 'of each variety (in Dominican Spanish, seseo and aspirated /s/ NEVER count as errors) '
       + 'and the Nonword Screen stops after 5 trials with a rest break.',
 
+    protocolCardOpen: 'View the protocol note',
+    protocolCardClose: 'Hide the note',
+    notPrescribed: 'Not prescribed',
+    prescribedOf: (active: number, total: number): string => `${active} of ${total} prescribed`,
     savePrescription: 'Save plan',
     savedPrescription: (n: number): string => `Plan saved · ${n} exercises active.`,
     saveHelper: 'Your selection is saved on this device and editing locks again.',
