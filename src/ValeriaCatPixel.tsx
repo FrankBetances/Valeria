@@ -19,14 +19,20 @@
 //      cuadro para la cara; por encima, el cuerpo entero. Lo elige el propio
 //      componente, así que ninguna pantalla puede pedir por error la pose que
 //      se emborrona.
-//   3. RASGOS DIBUJADOS A MANO. Los ojos y el hocico son sprites fijos. La
+//   3. RASGOS DIBUJADOS A MANO. Ojos, orejas y hocico son sprites fijos. La
 //      versión generada por fórmula sacaba ojos rectangulares con la pupila
 //      ocupando medio ojo: se leían como gafas de sol a cualquier tamaño.
-//   4. PELO CLARO EN LA FRENTE. Una gata negra sin un segundo tono es una
-//      mancha plana en cuanto baja de 60 px.
-//   5. CUELLO. Cabeza y cuerpo eran dos elipses que se tocaban en un píxel: el
+//   4. CUELLO. Cabeza y cuerpo eran dos elipses que se tocaban en un píxel: el
 //      blanco del hocico se fundía con el de la pechera y de la barbilla al
 //      vientre había una sola mancha clara.
+//
+// ── Las tres pruebas que NO valieron, para no repetirlas ───────────────────
+//   · Orejas altas, estrechas y abiertas hacia fuera → DRAGÓN (dos cuernos).
+//   · Orejas bajas y redondas plantadas encima → RATÓN (dos botones). La oreja
+//     de gato es un triángulo CORTO pegado a la esquina de la cabeza.
+//   · Ojos de disco turquesa grande → CRIATURA. La ternura de una mascota está
+//     casi toda en el ojo: pequeño, oscuro y con un brillo. El turquesa de
+//     marca vive en el resto de la interfaz, no en la mirada.
 //
 // Rendimiento: los píxeles contiguos de una fila se funden en UN rectángulo
 // (mergeRuns). Importa porque la mascota se pinta también dentro de listas.
@@ -35,35 +41,34 @@ import React, { useMemo } from 'react';
 import Svg, { Rect } from 'react-native-svg';
 
 // Leyenda de la rejilla:
-//   .  transparente   o  contorno     b  pelo        s  pelo claro (volumen)
-//   l  blanco         p  rosa         c  rubor       e  iris
-//   u  pupila / boca  w  brillo
+//   .  transparente   o  contorno   b  pelo    l  blanco (hocico, pechera)
+//   p  rosa (oreja)    c  rubor      u  ojo / boca    w  brillo del ojo
 type PixelMap = string[];
 
 export type CatPose = 'sit' | 'head';
 
 // Gata sentada, de frente, con la cola enroscada. 30×34.
 const SIT: PixelMap = [
-  '.......o...............o......',
-  '.......oo..............o......',
-  '......opo.............opo.....',
-  '......oppo............opo.....',
-  '......obbo...........obbbo....',
-  '.....obbbsooooooooooobbbbo....',
-  '.....obbssssbbbbbbssssbbbo....',
-  '....obbssbbbbbbbbbbbbssbbbo...',
-  '....oobsbbbbbbbbbbbbbbsbooo...',
-  '......obbbbbbbbbbbbbbbbo......',
-  '......obbeeeebbbbeeeebbo......',
-  '.....obbeeeeeebbeeeeeebbo.....',
-  '.....obbewuueebbewuueebbo.....',
-  '.....obbeeuueebbeeuueebbo.....',
-  '.....obbeeeeelllleeeeebbo.....',
-  '......obbeeelllllleeebbo......',
+  '....o....................o....',
+  '....oo..................oo....',
+  '....opo................opo....',
+  '....oppo..............oppo....',
+  '....opppo............opppo....',
+  '....obbbbo..........obbbbo....',
+  '....oooooo....oo....oooooo....',
+  '..........oooobboooo..........',
+  '........oobbbbbbbbbboo........',
+  '.......obbbbbbbbbbbbbbo.......',
+  '......obbbuubbbbbbuubbbo......',
+  '.....obbbuwuubbbbuwuubbbo.....',
+  '.....obbbuuuubbbbuuuubbbo.....',
+  '.....obbbbuubbbbbbuubbbbo.....',
+  '.....obbbbbbbllllbbbbbbbo.....',
+  '......obbbbbllllllbbbbbo......',
   '......occbbllllllllbbbcco.....',
-  '......ooobblllpplllbboooo.....',
-  '.........obllluulllbo.........',
-  '..........obllllllbo..........',
+  '......ooooblllpplllbooooo.....',
+  '..........oluluululo..........',
+  '..........oblullulbo..........',
   '..........obbllllbbo..........',
   '..........obbbbbbbbo..........',
   '.........obbbllllbbbo....ooo..',
@@ -80,31 +85,30 @@ const SIT: PixelMap = [
   '...........oooooooo...........',
 ];
 
-// Solo la cabeza. Para todo lo que se pinte pequeño. 26×24.
+// Solo la cabeza. Para todo lo que se pinte pequeño. 26×23.
 const HEAD: PixelMap = [
-  '......o.............o.....',
-  '......o.............o.....',
-  '.....opo...........opo....',
-  '.....opo...........opo....',
-  '.....oppo.........oppo....',
-  '....obbbo..oooo...obbbo...',
-  '....obbssoossssooosbbbo...',
-  '....ossssssbbbbssssssbo...',
-  '...osssbbbbbbbbbbbbsssbo..',
-  '...ossbbbbbbbbbbbbbbssoo..',
-  '....obbbbbbbbbbbbbbbbo....',
+  '..........................',
+  '...o..................o...',
+  '...oo................oo...',
+  '...opo..............opo...',
+  '...oppo............oppo...',
+  '...opppo..........opppo...',
+  '...obbbbo........obbbbo...',
+  '...oooooo........oooooo...',
+  '........oooooooooo........',
+  '......oobbbbbbbbbboo......',
+  '....oobbbbbbbbbbbbbboo....',
   '...obbbbbbbbbbbbbbbbbbo...',
-  '...obbeeeebbbbbbeeeebbo...',
-  '..obbeeeeeebbbbeeeeeebbo..',
-  '..obbewuueebbbbewuueebbo..',
-  '..obbeeuueebbbbeeuueebbo..',
-  '..obbeeeeeebbbbeeeeeebbo..',
-  '...obbeeeebllllbeeeebbo...',
-  '...occbbbbllllllbbbbbcco..',
-  '...oocbbbllllllllbbbbooo..',
-  '.....obbblllpplllbbbo.....',
-  '......oobllluulllboo......',
-  '........ooollllooo........',
+  '...obbbuubbbbbbbbuubbbo...',
+  '..obbbuwuubbbbbbuwuubbbo..',
+  '..obbbuuuubbbbbbuuuubbbo..',
+  '..obbbbuubbbbbbbbuubbbbo..',
+  '...obbbbbbbllllbbbbbbbo...',
+  '...obbbbbbllllllbbbbbbo...',
+  '...occbbbllllllllbbbocco..',
+  '...oooooblllpplllboo.ooo..',
+  '........oouluuluoo........',
+  '..........oulluo..........',
   '...........oooo...........',
 ];
 
@@ -115,20 +119,19 @@ const MAPS: Record<CatPose, PixelMap> = { sit: SIT, head: HEAD };
 const HEAD_BELOW = 90;
 
 export interface CatPalette {
-  o: string; b: string; s: string; l: string; p: string;
-  c: string; e: string; u: string; w: string;
+  o: string; b: string; l: string; p: string;
+  c: string; u: string; w: string;
 }
 
 /** Smoking: negra con pechera y guantes blancos. La de marca. */
 export const CAT_TUXEDO: CatPalette = {
-  o: '#141220', b: '#3d3949', s: '#524d61', l: '#fbf9f5', p: '#f4a9b6',
-  c: '#ef8296', e: '#00e0d8', u: '#0d1420', w: '#ffffff',
+  o: '#141220', b: '#3d3949', l: '#fbf9f5', p: '#f4a9b6',
+  c: '#ef8296', u: '#0d1420', w: '#ffffff',
 };
 
 /** Silueta plana de un solo color: para marcas de agua y estados apagados. */
 export const catSilhouette = (color: string): CatPalette => ({
-  o: color, b: color, s: color, l: color, p: color,
-  c: color, e: color, u: color, w: color,
+  o: color, b: color, l: color, p: color, c: color, u: color, w: color,
 });
 
 // Píxeles contiguos del mismo color → un solo rectángulo.
