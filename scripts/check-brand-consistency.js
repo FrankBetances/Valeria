@@ -111,6 +111,34 @@ if (!/ios-native/.test(gen)) {
   fail.push('scripts/build-brand-assets.js ya no genera el icono de iOS: volvería a desfasarse en silencio.');
 }
 
+// 6 · Lúa también vive en VIA+ (FrankBetances/via, src/Components/Mascot/
+//     LuaPixel.tsx), que la copia de aquí. Este hash del DIBUJO —rejillas y
+//     paleta, sin comentarios— es el contrato entre los dos repositorios.
+//
+//     SI CAMBIAS EL SPRITE: corre `npm run build:brand`, actualiza este hash
+//     con el que imprime el error, y **vuelve a copiar el fichero entero a
+//     VIA+** actualizando allí EXPECTED en scripts/check-lua-sprite.js. Si no,
+//     las dos caras de Lúa divergen versión a versión.
+const SPRITE_SHA = '13f146b8df78ee7d397a050d7d69e347e159f3f433e1d8cb48570b919d29bc92';
+{
+  const s = fs.readFileSync(R('src/ValeriaCatPixel.tsx'), 'utf8');
+  const grid = (name) => {
+    const i = s.indexOf(`const ${name}: PixelMap = [`);
+    const j = s.indexOf('];', i);
+    return [...s.slice(i, j).matchAll(/'([.a-z]+)'/g)].map((m) => m[1]).join('|');
+  };
+  const pal = [...s
+    .slice(s.indexOf('CAT_TUXEDO: CatPalette = {'), s.indexOf('};', s.indexOf('CAT_TUXEDO')))
+    .matchAll(/(\w): '(#[0-9a-fA-F]+)'/g)].map((m) => m[1] + m[2].toLowerCase()).join(',');
+  const got = crypto.createHash('sha256')
+    .update(`${grid('HEAD')}#${grid('SIT')}#${pal}`).digest('hex');
+  if (got !== SPRITE_SHA) {
+    fail.push(`El sprite de Lúa cambió (${got.slice(0, 12)}…). Actualiza SPRITE_SHA aquí, `
+      + 'corre npm run build:brand, y copia el fichero a VIA+ (src/Components/Mascot/LuaPixel.tsx) '
+      + 'actualizando allí EXPECTED en scripts/check-lua-sprite.js.');
+  }
+}
+
 if (fail.length) {
   console.error(`\n✖ La migración de la mascota está a medias (${fail.length}):\n`);
   fail.forEach((f) => console.error('  · ' + f));
