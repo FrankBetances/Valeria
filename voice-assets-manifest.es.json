@@ -3,8 +3,8 @@
  "voice": "Sharvard (femenina) \u00b7 rhasspy/piper-voices",
  "peakDbfs": -3.0,
  "entries": 878,
- "totalBytes": 14721944,
- "totalSeconds": 2670.1,
+ "totalBytes": 14721054,
+ "totalSeconds": 2670.0,
  "files": [
   {
    "id": "child_6299d0bf_39",
@@ -5077,10 +5077,10 @@
    "bytes": 2596
   },
   {
-   "id": "tutor_3e2451c5_229",
-   "file": "tutor_3e2451c5_229.m4a",
-   "seconds": 12.93,
-   "bytes": 67744
+   "id": "tutor_d8db5ea8_231",
+   "file": "tutor_d8db5ea8_231.m4a",
+   "seconds": 12.76,
+   "bytes": 66845
   },
   {
    "id": "child_8845e178_72",
@@ -5209,10 +5209,10 @@
    "bytes": 5124
   },
   {
-   "id": "tutor_5084bbe3_235",
-   "file": "tutor_5084bbe3_235.m4a",
-   "seconds": 13.57,
-   "bytes": 71723
+   "id": "tutor_d2515084_237",
+   "file": "tutor_d2515084_237.m4a",
+   "seconds": 13.62,
+   "bytes": 71732
   },
   {
    "id": "child_e556cb81_100",
