@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-08-06T07:22:16.718Z",
+ "generatedAt": "2026-08-10T19:08:51.598Z",
  "entries": 3052,
  "byStyle": {
   "child": 1626,
@@ -5945,10 +5945,10 @@
    "source": "ejercicios"
   },
   {
-   "id": "tutor_3e2451c5_229",
+   "id": "tutor_d8db5ea8_231",
    "lang": "es",
    "style": "tutor",
-   "text": "El niño lee la frase de la pantalla en voz alta, de un tirón y sin silabear. Cuando lo consiga en calma, activa el Oso Distractor y algo de ruido desde el Panel del Adulto y repite con otra ronda: valora tú la fluidez, no la app.",
+   "text": "El niño lee la frase de la pantalla en voz alta, de un tirón y sin silabear. Cuando lo consiga en calma, activa la Gata Distractora y algo de ruido desde el Panel del Adulto y repite con otra ronda: valora tú la fluidez, no la app.",
    "source": "ejercicios"
   },
   {
@@ -6099,10 +6099,10 @@
    "source": "ejercicios"
   },
   {
-   "id": "tutor_5084bbe3_235",
+   "id": "tutor_d2515084_237",
    "lang": "es",
    "style": "tutor",
-   "text": "Di al niño qué letra buscar (la grande del recuadro) y que toque TODAS las que encuentre en el panel. Las letras gemelas giradas (b/d, p/q) intentan engañarle. Si quieres carga extra, activa el Oso Distractor desde el Panel del Adulto.",
+   "text": "Di al niño qué letra buscar (la grande del recuadro) y que toque TODAS las que encuentre en el panel. Las letras gemelas giradas (b/d, p/q) intentan engañarle. Si quieres carga extra, activa la Gata Distractora desde el Panel del Adulto.",
    "source": "ejercicios"
   },
   {
@@ -11664,10 +11664,10 @@
    "source": "ejercicios"
   },
   {
-   "id": "gl_tutor_ac90d5e0_216",
+   "id": "gl_tutor_09943301_218",
    "lang": "gl",
    "style": "tutor",
-   "text": "A nena le a frase da pantalla en voz alta, dun tirón e sen silabear. Cando o consiga en calma, activa o Oso Distractor e algo de ruído desde o Panel do Adulto e repite con outra rolda: valora ti a fluidez, non a app.",
+   "text": "A nena le a frase da pantalla en voz alta, dun tirón e sen silabear. Cando o consiga en calma, activa a Gata Distractora e algo de ruído desde o Panel do Adulto e repite con outra rolda: valora ti a fluidez, non a app.",
    "source": "ejercicios"
   },
   {
@@ -11811,10 +11811,10 @@
    "source": "ejercicios"
   },
   {
-   "id": "gl_tutor_c25b80f6_221",
+   "id": "gl_tutor_333583d1_223",
    "lang": "gl",
    "style": "tutor",
-   "text": "Dille á nena que letra buscar (a grande do recadro) e que toque TODAS as que atope no panel. As letras xemelgas xiradas (b/d, p/q) intentan enganala. Se queres carga extra, activa o Oso Distractor desde o Panel do Adulto.",
+   "text": "Dille á nena que letra buscar (a grande do recadro) e que toque TODAS as que atope no panel. As letras xemelgas xiradas (b/d, p/q) intentan enganala. Se queres carga extra, activa a Gata Distractora desde o Panel do Adulto.",
    "source": "ejercicios"
   },
   {
@@ -16865,10 +16865,10 @@
    "source": "ejercicios"
   },
   {
-   "id": "eu_tutor_e40f975c_249",
+   "id": "eu_tutor_d70ed8e6_248",
    "lang": "eu",
    "style": "tutor",
-   "text": "Umeak pantailako esaldia ozen irakurtzen du, tiraldi batean eta silabakatu gabe. Lasai lortzen duenean, aktibatu Hartz Distraitzailea eta zarata pixka bat Panel Nagusitik eta errepikatu beste txanda batekin: baloratu zuk jariotasuna, ez aplikazioak.",
+   "text": "Umeak pantailako esaldia ozen irakurtzen du, tiraldi batean eta silabakatu gabe. Lasai lortzen duenean, aktibatu Katu Distraitzailea eta zarata pixka bat Panel Nagusitik eta errepikatu beste txanda batekin: baloratu zuk jariotasuna, ez aplikazioak.",
    "source": "ejercicios"
   },
   {
@@ -17019,10 +17019,10 @@
    "source": "ejercicios"
   },
   {
-   "id": "eu_tutor_b135c9e3_223",
+   "id": "eu_tutor_604220df_222",
    "lang": "eu",
    "style": "tutor",
-   "text": "Esan umeari zein letra bilatu (laukiko handia) eta panelean aurkitzen dituen GUZTIAK uki ditzala. Letra biki biratuek (b/d, p/q) engainatu nahi dute. Karga gehiago nahi baduzu, aktibatu Hartz Distraitzailea Panel Nagusitik.",
+   "text": "Esan umeari zein letra bilatu (laukiko handia) eta panelean aurkitzen dituen GUZTIAK uki ditzala. Letra biki biratuek (b/d, p/q) engainatu nahi dute. Karga gehiago nahi baduzu, aktibatu Katu Distraitzailea Panel Nagusitik.",
    "source": "ejercicios"
   },
   {
