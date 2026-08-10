@@ -369,7 +369,7 @@ const pause = (page, ms) => page.waitForTimeout(ms);
   await page.getByText(/Gata distractora/).waitFor({ timeout: 15000 });
   await panel.evaluate((el) => el.scrollIntoView({ block: 'start' }));
   await pause(page, 700);
-  await shot(page, '23-panel-adulto');          // 23 · panel desplegado (ruido/oso/quiebre)
+  await shot(page, '23-panel-adulto');          // 23 · panel desplegado (ruido/gata/quiebre)
   console.log('23 panel adulto ✓');
 
   await browser.close();

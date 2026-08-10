@@ -6,7 +6,7 @@
   <img src="assets/valeria-logo.png" alt="Valeria+" width="320">
 </picture>
 
-### 🐻 Terapia auditivo‑verbal y del lenguaje, offline y en tu bolsillo
+### 🐈‍⬛ Terapia auditivo‑verbal y del lenguaje, offline y en tu bolsillo
 
 **App móvil para niñas y niños con hipoacusia, implante coclear, dislalias o
 dificultades del lenguaje.**
@@ -18,6 +18,7 @@ dificultades del lenguaje.**
 ![Galego](https://img.shields.io/badge/Galego-gl-005AA7?style=for-the-badge)
 ![Dominicano](https://img.shields.io/badge/Dominicano-es--DO-002D62?style=for-the-badge)
 ![Euskara](https://img.shields.io/badge/Euskara-eu-009B48?style=for-the-badge)
+![US English](https://img.shields.io/badge/US%20English-en--US-3C3B6E?style=for-the-badge)
 
 <!-- Stack -->
 ![Expo SDK 54](https://img.shields.io/badge/Expo-SDK%2054-000020?style=flat-square&logo=expo&logoColor=white)
@@ -50,6 +51,7 @@ dificultades del lenguaje.**
 - [¿Qué es Valeria+?](#-qué-es-valeria)
 - [Bloques de terapia](#-bloques-de-terapia)
 - [Academy · formación del cuidador](#-academy--formación-del-cuidador)
+- [Lúa · la mascota y la marca](#-lúa--la-mascota-y-la-marca)
 - [Panel del Adulto · Carga Comunicativa](#-panel-del-adulto--carga-comunicativa)
 - [Idiomas y variedades](#-idiomas-y-variedades)
 - [Flujo de pantallas](#-flujo-de-pantallas)
@@ -75,7 +77,7 @@ dificultades del lenguaje.**
 
 ---
 
-## 🐻 ¿Qué es Valeria+?
+## 🐈‍⬛ ¿Qué es Valeria+?
 
 Valeria+ reúne en un solo lugar el **registro del paciente**, una comprobación
 auditiva previa (**Test de Ling**), **siete bloques de terapia**, un módulo de
@@ -183,6 +185,65 @@ insignias, y el progreso nunca se mezcla entre ellos.
 
 ---
 
+## 🐈‍⬛ Lúa · la mascota y la marca
+
+<div align="center">
+<img src="docs/lua-mascota.png" alt="Lúa, la gata de Valeria+, en píxel art" width="180">
+</div>
+
+**La mascota de Valeria+ es Lúa, una gata negra tipo *smoking*, dibujada en
+píxel art.** Sustituye al **oso pardo** (`BearMark`) que acompañó al proyecto
+hasta la v11. El cambio es total y no queda ni un rastro del oso en la app: hub,
+bienvenida, créditos, celebración de sesión, distractor de doble tarea, nombres
+de nivel, icono de la app y pantalla de arranque.
+
+| Dónde aparece | Qué se ve |
+| --- | --- |
+| **Hub** | Lúa en la tira de juego, con nivel y XP |
+| **Premios** (`ValeriaAwardsSheet`) | «Los premios de Lúa»: 12 niveles y 18 insignias |
+| **Nombres de nivel** | **Gatita → Gata Curiosa → … → Gata Lunar → Gata Legendaria** (antes *Osezno → Oso Legendario*) |
+| **Doble tarea** (`ValeriaDistractorCat`) | La misma gata como distractor periférico. El Panel del Adulto lo llama **«Gata distractora»** |
+| **Calentamiento de Realidad Aumentada** | «mirar a Lúa, seguirla a las esquinas» |
+| **Icono, icono adaptativo y splash** | La cara de Lúa (`assets/icon.png`, `adaptive-icon.png`, `splash.png`) |
+
+### Un solo sprite, cero PNG a mano
+
+El dibujo vive en [`src/ValeriaCatPixel.tsx`](src/ValeriaCatPixel.tsx) como una
+**rejilla de caracteres** que se pinta como rectángulos de 1×1 en un `viewBox`:
+escala a cualquier tamaño sin perder el borde duro, y un mapa de texto **se
+revisa en el diff**; un PNG no. Dos poses, elegidas por el propio componente:
+**cabeza sola** por debajo de 90 px (a ese tamaño la cara de cuerpo entero se
+emborrona) y **cuerpo entero** por encima.
+
+Los cuatro bitmaps de marca se **generan** desde ese mismo sprite:
+
+```bash
+npm run build:brand   # → assets/icon.png · adaptive-icon.png · splash.png · docs/lua-mascota.png
+```
+
+Si mañana cambia el sprite, se vuelve a correr y los cuatro salen iguales: nadie
+redibuja ni exporta a mano. El lado del píxel es **entero** en los tres assets
+(20, 16 y 12 px) —con un lado fraccionario el antialias parte las filas del
+dibujo—, y el icono adaptativo de Android se dibuja a 512 px dentro del lienzo
+de 1024 porque el sistema recorta a círculo o *squircle* y a tamaño completo el
+recorte le comía las orejas.
+
+### La gata de la app y el aparato Lúa son el mismo personaje
+
+**Lúa** nombra también el **periférico físico** de refuerzo sobre ESP32‑C3
+([`docs/plan-integracion-lua.md`](docs/plan-integracion-lua.md), `firmware/lua/`,
+`src/valeriaLuaProtocol.ts`). No son dos cosas con el mismo nombre: el panel del
+aparato es de **240×240**, o sea que el píxel art es su formato nativo, y **la
+cara del aparato sale de la misma rejilla que la de la app**. Un solo dibujo,
+dos superficies.
+
+> El **oso sí sigue existiendo como contenido terapéutico** y eso no es un
+> descuido: «oso» es palabra de los bancos léxicos (par mínimo *ocho/oso*, frase
+> de lectura «EL OSO COME PAN», orden TPR «camina como un oso»). Es vocabulario,
+> no marca.
+
+---
+
 ## 🎛️ Panel del Adulto · Carga Comunicativa
 
 Para el piloto clínico, Valeria+ añade un **Panel del Adulto** (`ValeriaAdultChaosPanel`)
@@ -195,10 +256,10 @@ audiómetro algorítmico (SaMD), y cualquier lógica de ese tipo debe rechazarse
 | Módulo | Qué hace |
 | --- | --- |
 | 🔊 **Escucha en ruido** (`ValeriaManualNoiseSlider` + `valeriaNoise`) | Reproducción dual: la instrucción TTS sobre una pista de **ruido babble** de cafetería en bucle. El volumen del ruido muta **solo** con el slider manual (0‑10) del adulto; la telemetría se registra al soltar, no por píxel. |
-| 🐻 **Doble tarea** (`ValeriaDistractorBear`) | Un oso distractor se asoma por la periferia y se mueve **sin ser interactivo** (`pointerEvents="none"`): interferencia visual pura para el paradigma de carga cognitiva dual. Animación por el hilo nativo, arrancada tras `InteractionManager`. |
+| 🐈‍⬛ **Doble tarea** (`ValeriaDistractorCat`) | **Lúa** se asoma por la periferia y se mueve **sin ser interactiva** (`pointerEvents="none"`): interferencia visual pura para el paradigma de carga cognitiva dual. Animación por el hilo nativo, arrancada tras `InteractionManager`. Es la **misma gata** del hub, no un segundo personaje. |
 | 💬 **Quiebre pragmático** (`ValeriaPragmaticBreak`) | "Fallo deliberado": la app calla y es el adulto quien rompe la comunicación a propósito para observar cómo el niño la **repara**. La botonera de acierto se reemplaza por un selector de **estrategias de reparación**. Un modal advierte de la "frustración útil" antes de empezar. |
 
-Los overlays (oso y quiebre) viven en la raíz de la pantalla anfitriona —no
+Los overlays (gata y quiebre) viven en la raíz de la pantalla anfitriona —no
 dentro del `ScrollView`— y registran su rectángulo en `ValeriaMisclickBoundary`
 para no ensuciar la telemetría de misclicks.
 
@@ -206,12 +267,18 @@ para no ensuciar la telemetría de misclicks.
 
 ## 🌐 Idiomas y variedades
 
-Valeria+ locuta y evalúa el **contenido terapéutico** en cuatro variedades,
+Valeria+ locuta y evalúa el **contenido terapéutico** en **cinco variedades**,
 seleccionables desde la tarjeta **«Voz de la app»** (`ValeriaVoiceUI`). La
-interfaz sigue en castellano; lo que cambia es lo que se dice, se muestra y se
-evalúa. La variedad activa vive en un único módulo (`src/valeriaLocale.ts`), que
-desacopla tres decisiones: qué banco de audio usar, qué locale BCP‑47 pasar al
+variedad activa vive en un único módulo (`src/valeriaLocale.ts`), que desacopla
+tres decisiones: qué banco de audio usar, qué locale BCP‑47 pasar al
 reconocedor/voz del sistema y si conviene preferir voces latinas.
+
+**El idioma de la interfaz es una decisión aparte de la variedad de terapia**, y
+esa separación es deliberada: en un *caseload* bilingüe, la logopeda puede
+querer la app en inglés y trabajar en castellano con un niño, o al revés. Vive
+en su propio módulo (`src/valeriaUiLang.ts`, `UiLang = 'es' | 'en'`), con
+suscripción propia porque cambiar el idioma **repinta** la pantalla, mientras
+que la variedad basta con leerla en el momento de hablar.
 
 | Variedad | Voz | Reconocimiento (ASR) |
 | --- | --- | --- |
@@ -219,6 +286,21 @@ reconocedor/voz del sistema y si conviene preferir voces latinas.
 | **Galego** (`gl`) — *Proxecto Nós* | Voz neuronal **Celtia** pregenerada (Proxecto Nós), empaquetada. Cubre pares mínimos, cápsulas TPR, rutas, Expansión Semántica, Audición, Lenguaje, TEA y Dislexia: todos los bloques tienen banco gallego propio. | Sistema `gl-ES` con recaída a `expo-speech`. |
 | 🇩🇴 **Dominicano** (`es-DO`) — *Quisqueya Habla* | Voz **latina del dispositivo** (`es-US`/`es-MX`); sin audio propio pregenerado. | Sistema `es-DO`, priorizando el catálogo latino. |
 | **Euskara** (`eu`) — *ILENIA/NEL-GAITU · HiTZ* | Voz neuronal **HiTZ-TTS** pregenerada (UPV/EHU · Aholab), empaquetada. Cubre pares mínimos, expansión semántica, Audición, Lenguaje, TEA, Dislexia y Test de Ling en euskera batua. | Sistema `eu-ES` con recaída a `es-ES` + pliegue vasco (`foldBasque`, ⟨h⟩ muda). |
+| 🇺🇸 **US English** (`en-US`) | Voz neuronal **LJSpeech · piper** pregenerada (mismo motor que Sharvard; voz de dominio público con modelo MIT, tras descartar dos candidatas por licencia en EN‑0.1). **614 locuciones** empaquetadas. | Sistema `en-US`, pidiendo reconocimiento local como en castellano. |
+
+### El inglés no es una traducción: es la quinta variedad, y la primera con interfaz propia
+
+Es el trabajo que rompió el molde de los tres idiomas anteriores, porque exigió
+piezas que no existían:
+
+| Pieza | Estado |
+| --- | --- |
+| **Catálogo de interfaz en inglés** (`src/i18n/strings.en.ts`, ~1 200 líneas) | Es la **primera traducción de la UI** del proyecto. Va **tipado contra el catálogo castellano**: añadir una clave en `strings.es.ts` y olvidarla aquí **rompe el `typecheck`**. Deliberado — una cadena que falta debe romper el build, nunca salir en blanco en la tableta de una familia |
+| **Registro estadounidense, no traducción literal** | *caregiver* y no *tutor* (en EE. UU. un *tutor* da clases particulares), *child* y no *kid* en lo que lee un clínico, *sentence case* en los botones, y HIPAA antes que RGPD en la línea de confianza: audiencia US primero |
+| **Banco clínico propio** (`valeriaExerciseEn.ts`, `valeriaMinimalPairsEn.ts`, `valeriaSemanticExpansionEn.ts`, `valeriaContentEn.ts`) | Todos los bloques con contenido inglés propio, no calcado del castellano: grupos consonánticos, vocales tensa/laxa y ortografía opaca piden otros ejercicios |
+| **Interruptor de seguridad** (`EN_THERAPY_CONTENT_READY`) | Mientras el banco no existía, `en-US` habría mostrado contenido **castellano**, y pedirle al TTS inglés que lea «perro» no produce castellano con acento: produce ruido. Con el banco terminado está en `true` y la variedad se comporta como cualquier otra. Es el conmutador a bajar si algún día se añade una variedad antes que su contenido |
+| **Guía dialectal bloqueante** ([`docs/guia-dialectal-en-US.md`](docs/guia-dialectal-en-US.md)) | Qué es rasgo del inglés afroamericano o sureño y qué es error terapéutico. Espejo exacto de la guía dominicana: un rasgo dialectal **nunca** cuenta como fallo |
+| **Revisión clínica** ([`docs/protocolo-evaluacion-clinica-en-US.md`](docs/protocolo-evaluacion-clinica-en-US.md)) | Protocolo EN‑0.9 para la revisora: profesora SLP con licencia (*Howard University*) |
 
 > **Reconocimiento local (Fase A).** Desde la migración a `expo-speech-recognition`,
 > la app **pide** que el reconocimiento se haga dentro del teléfono
@@ -384,7 +466,7 @@ interfaz clásica se entra desde el hub de bloques, en la v11 desde **Ajustes**)
 | [`docs/guia-dialectal-es-DO.md`](docs/guia-dialectal-es-DO.md) | Guía clínica dominicana (QH‑0.2): qué es rasgo dialectal normal y qué es error terapéutico. Regla **bloqueante** para todo dataset es‑DO. |
 | [`docs/plan-integracion-proxecto-nos.md`](docs/plan-integracion-proxecto-nos.md) | Plan por fases de la versión en gallego apoyada en los recursos abiertos del Proxecto Nós (contenido, voz Celtia, ASR). |
 | [`docs/plan-integracion-quisqueya-habla.md`](docs/plan-integracion-quisqueya-habla.md) | Plan de la variante dominicana (es‑DO), que reutiliza la infraestructura de variedad del plan gallego. |
-| [`docs/plan-integracion-ingles-en-US.md`](docs/plan-integracion-ingles-en-US.md) | Plan por fases para el inglés de Estados Unidos (`en‑US`), **Fase 0 en curso**. Rompe el molde de los tres planes de idioma anteriores: es el primero que exige **traducir la interfaz** (hoy no hay i18n de UI: las cadenas están literales en las 27 pantallas), el primero que abre **mercado nuevo** (COPPA, *Designed for Families*, ficha de tienda y página de eliminación de datos en inglés) y el que más rediseño clínico pide (grupos consonánticos, vocales tensa/laxa, ortografía opaca). Decisiones ya cerradas: **revisión clínica confirmada** (profesora SLP con licencia, *Howard University*), **separación del idioma de interfaz respecto de la variedad de terapia** —para el *caseload* bilingüe español‑inglés— y la regla bloqueante de **diferencia dialectal vs. trastorno** para el inglés afroamericano y el sureño, espejo de la guía dominicana. |
+| [`docs/plan-integracion-ingles-en-US.md`](docs/plan-integracion-ingles-en-US.md) | Plan por fases para el inglés de Estados Unidos (`en‑US`). **Interfaz, banco clínico y voz ya implementados** — ver [Idiomas y variedades](#-idiomas-y-variedades). Rompió el molde de los tres planes de idioma anteriores: fue el primero que exigió **traducir la interfaz** (hasta entonces las cadenas estaban literales en las 27 pantallas), el primero que abre **mercado nuevo** (COPPA, *Designed for Families*, ficha de tienda y página de eliminación de datos en inglés) y el que más rediseño clínico pide (grupos consonánticos, vocales tensa/laxa, ortografía opaca). Decisiones ya cerradas: **revisión clínica confirmada** (profesora SLP con licencia, *Howard University*), **separación del idioma de interfaz respecto de la variedad de terapia** —para el *caseload* bilingüe español‑inglés— y la regla bloqueante de **diferencia dialectal vs. trastorno** para el inglés afroamericano y el sureño, espejo de la guía dominicana. |
 | [`docs/protocolo-evaluacion-clinica-en-US.md`](docs/protocolo-evaluacion-clinica-en-US.md) | Protocolo de la **evaluación clínica estadounidense** (EN‑0.9): cómo se instala la build de prueba en Android, qué debe juzgar la revisora —validez de la mecánica, **diferencia dialectal vs. trastorno**, registro del inglés y usabilidad—, qué queda **fuera de alcance** para que no gaste el informe en ello, y el formato tabulado (*tipo · gravedad · propuesta*) que permite convertir cada observación en una tarea del plan. |
 | [`docs/plan-asr-privacidad-y-motor-local.md`](docs/plan-asr-privacidad-y-motor-local.md) | Plan en dos fases para que el audio del turno de habla **no salga del dispositivo**: (A) reconocimiento local con el motor del sistema —**software terminado**, pendiente de verificar en dispositivo— y (B) prueba de concepto medida de un motor local (`sherpa-onnx`), con puerta GO/NO‑GO numérica y banco de medida ya implementado. Contiene dos hallazgos que cambiaron el plan: que `@react-native-voice/voice` descartaba en silencio las claves que no conocía (§2.2), y que **25 de los 35 pares mínimos puntúan como acierto que el niño diga el distractor** (§4.0). Revisa el NO‑GO de [`docs/asr-euskera-ilenia.md`](docs/asr-euskera-ilenia.md). |
 | [`docs/plan-mejoras-acopros-logopedas.json`](docs/plan-mejoras-acopros-logopedas.json) | **Fuente de verdad** del plan de mejoras nacido del feedback clínico de ACOPROS: cada observación verificada contra el código, con decisiones clínicas (DC‑1…DC‑5), criterios de aceptación y estado. Incluye el **bloqueo de publicación** del corpus de voz. |
@@ -826,6 +908,31 @@ toque `site/` republica el sitio; también puede lanzarse desde *Actions*.
 ## 🕑 Historial de versiones
 
 <details open>
+<summary><strong>V12</strong> — la mascota es Lúa, la gata (y por fin también el icono)</summary>
+
+**Lo que se ve al abrir la app: ya no hay ningún oso.** La mascota pasa a ser
+**Lúa**, una gata negra tipo *smoking* en píxel art, y el cambio recorre todas
+las superficies de marca. Los detalles del sprite, cómo se generan los assets y
+qué queda pendiente están en [Lúa · la mascota y la marca](#-lúa--la-mascota-y-la-marca).
+
+| Qué | Cambio |
+| --- | --- |
+| **Mascota** | `ValeriaCatPixel` sustituye a `BearMark` en hub, bienvenida, créditos y celebración de sesión. Rejilla de 32 de lado y **dos poses** (cabeza sola por debajo de 90 px, cuerpo entero por encima): a 52 px la cara de cuerpo entero medía 26 px de alto y los rasgos se emborronaban |
+| **Niveles** | *Osezno → Oso Legendario* pasa a **Gatita → Gata Legendaria** (12 niveles), en `valeriaGamification` y en el catálogo i18n |
+| **Doble tarea** | El distractor periférico es la misma gata. Fichero y componente renombrados `ValeriaDistractorBear` → **`ValeriaDistractorCat`**, y el copy de los ejercicios de dislexia (es · gl · eu) deja de mandar activar «el Oso Distractor» cuando el interruptor del Panel del Adulto ya decía «Gata distractora» |
+| **Icono y arranque** | `assets/icon.png`, `adaptive-icon.png` y `splash.png` se **generan** desde el mismo sprite con `npm run build:brand`. Hasta este cambio seguían siendo el oso: quien instalaba la app veía un oso antes de abrirla y una gata al entrar |
+| **Portada del manual** | `docs/lua-mascota.png` sale del mismo script, así que manual y app no pueden divergir |
+
+> El historial saltaba de la V10.3 a aquí. El **rediseño de interfaz v11**
+> (cuadrícula de 2 columnas, pestañas inferiores, muro de contención) está
+> documentado en [Interfaz v11](#interfaz-v11--pestañas-inferiores--activa) y en
+> [`docs/plan-evolucion-ux-v11.md`](docs/plan-evolucion-ux-v11.md); el set de
+> **iconografía propia** ([`src/ValeriaBlockIcons.tsx`](src/ValeriaBlockIcons.tsx))
+> y **Academy** con siete dominios, en sus secciones y en el manual v12.
+
+</details>
+
+<details>
 <summary><strong>V10.3</strong> — el micrófono vuelve a escuchar, y Lenguaje dice qué material hace falta</summary>
 
 Dos cosas que llegaron juntas: el reconocimiento de voz había dejado de
@@ -1345,7 +1452,7 @@ trazabilidad completa está en
 
 <br>
 
-Hecho con 🐻 por **Dr. Frank Alberto Betances Reinoso**
+Hecho con 🐈‍⬛ por **Dr. Frank Alberto Betances Reinoso**
 
 <sub>Valeria+ · terapia auditivo‑verbal y del lenguaje · offline · multivariedad</sub>
 

@@ -326,10 +326,10 @@ export const EXERCISE_EU: Record<string, Partial<Exercise>> = {
     ept: ['Oraindik ez du errimatzen ez duen hitza isolatzen, seriea errepikatuta ere.', 'Aurkitzen du seriea polikiago edo binaka errepikatzen badiozu.', 'Intrusoa berak bakarrik isolatzen du seriea behin entzunda.'],
   },
   dx2: {
-    read: 'Umeak pantailako esaldia ozen irakurtzen du, tiraldi batean eta silabakatu gabe. Lasai lortzen duenean, aktibatu Hartz Distraitzailea eta zarata pixka bat Panel Nagusitik eta errepikatu beste txanda batekin: baloratu zuk jariotasuna, ez aplikazioak.',
+    read: 'Umeak pantailako esaldia ozen irakurtzen du, tiraldi batean eta silabakatu gabe. Lasai lortzen duenean, aktibatu Katu Distraitzailea eta zarata pixka bat Panel Nagusitik eta errepikatu beste txanda batekin: baloratu zuk jariotasuna, ez aplikazioak.',
     stageLabel: 'Irakurri esaldia tiraldi batean', phrase: 'HARTZAK OGIA JATEN DU', phraseEmoji: '🐻',
     move: 'Irakurri esaldia ibiliz: pauso bat hitzeko, silaben artean gelditu gabe.',
-    ept: ['Silabakatzen du edo hitz bakoitzean gelditzen da, distraitzailerik gabe ere.', 'Jario irakurtzen du isiltasunean, baina berriro silabakatzen du hartzarekin edo zaratarekin.', 'Irakurketa jarioa mantentzen du interferentzia bisual eta zaratarekin ere.'],
+    ept: ['Silabakatzen du edo hitz bakoitzean gelditzen da, distraitzailerik gabe ere.', 'Jario irakurtzen du isiltasunean, baina berriro silabakatzen du katuarekin edo zaratarekin.', 'Irakurketa jarioa mantentzen du interferentzia bisual eta zaratarekin ere.'],
   },
   dx3: {
     read: 'Sakatu "Soinuak entzun": aplikazioak soinu bakoitza banaka ematen du, artean etenaldi batekin. Umeak lotu eta hitz osoa esan behar du. Jaso fusioa mikroarekin; ezagutzak huts egiten badu edo motel badoa, baloratu zuk behean eskalarekin.',
@@ -347,7 +347,7 @@ export const EXERCISE_EU: Record<string, Partial<Exercise>> = {
     ept: ['Oraindik ez du pseudohitza deskodetzen: benetako hitzengatik ordezkatzen du.', 'Helduaren silabakatze-laguntzarekin edo eredu batzuen ondoren irakurtzen du.', 'Berak bakarrik deskodetzen du, osorik eta benetako hitz bihurtu gabe.'],
   },
   dx5: {
-    read: 'Esan umeari zein letra bilatu (laukiko handia) eta panelean aurkitzen dituen GUZTIAK uki ditzala. Letra biki biratuek (b/d, p/q) engainatu nahi dute. Karga gehiago nahi baduzu, aktibatu Hartz Distraitzailea Panel Nagusitik.',
+    read: 'Esan umeari zein letra bilatu (laukiko handia) eta panelean aurkitzen dituen GUZTIAK uki ditzala. Letra biki biratuek (b/d, p/q) engainatu nahi dute. Karga gehiago nahi baduzu, aktibatu Katu Distraitzailea Panel Nagusitik.',
     stageLabel: 'Aurkitu letra objektibo guztiak',
     move: 'Marraztu letra objektiboa erraldoi airean: "b"-ren tripa aurrera begira dago, irakurtzean bezala.',
     ept: ['Oraindik letra biratuak sistematikoki nahasten ditu (b/d, p/q).', 'Letra objektiboak pistekin aurkitzen ditu ("begiratu norantz begiratzen duen tripak").', 'Letra objektibo guztiak berak bakarrik aurkitzen ditu, biratuetan erori gabe.'],

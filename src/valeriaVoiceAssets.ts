@@ -6,7 +6,7 @@
 // ============================================================================
 
 // Versión del lote de audio empaquetado ('none' = sin audio pre-generado).
-export const VOICE_ASSETS_VERSION = "en-ljspeech+es-sharvard+eu-ahotts+gl-celtia-2026-08-06";
+export const VOICE_ASSETS_VERSION = "en-ljspeech+es-sharvard+eu-ahotts+gl-celtia-2026-08-10";
 
 // id de corpus (valeriaVoiceCorpus.voiceCorpusId) → módulo de asset de Metro.
 export const VOICE_ASSETS: Record<string, number> = {
@@ -1755,6 +1755,7 @@ export const VOICE_ASSETS: Record<string, number> = {
   "eu_tutor_5ab4615d_63": require('../assets/voice/eu_tutor_5ab4615d_63.m4a'),
   "eu_tutor_5da960e7_79": require('../assets/voice/eu_tutor_5da960e7_79.m4a'),
   "eu_tutor_5ec93340_86": require('../assets/voice/eu_tutor_5ec93340_86.m4a'),
+  "eu_tutor_604220df_222": require('../assets/voice/eu_tutor_604220df_222.m4a'),
   "eu_tutor_613ec847_58": require('../assets/voice/eu_tutor_613ec847_58.m4a'),
   "eu_tutor_66e91aa0_75": require('../assets/voice/eu_tutor_66e91aa0_75.m4a'),
   "eu_tutor_682850f3_96": require('../assets/voice/eu_tutor_682850f3_96.m4a'),
@@ -1799,7 +1800,6 @@ export const VOICE_ASSETS: Record<string, number> = {
   "eu_tutor_af94d2d8_120": require('../assets/voice/eu_tutor_af94d2d8_120.m4a'),
   "eu_tutor_afe0feb2_69": require('../assets/voice/eu_tutor_afe0feb2_69.m4a'),
   "eu_tutor_b094412a_236": require('../assets/voice/eu_tutor_b094412a_236.m4a'),
-  "eu_tutor_b135c9e3_223": require('../assets/voice/eu_tutor_b135c9e3_223.m4a'),
   "eu_tutor_b1ac8112_112": require('../assets/voice/eu_tutor_b1ac8112_112.m4a'),
   "eu_tutor_b20b9c19_84": require('../assets/voice/eu_tutor_b20b9c19_84.m4a'),
   "eu_tutor_b3e274dd_78": require('../assets/voice/eu_tutor_b3e274dd_78.m4a'),
@@ -1830,6 +1830,7 @@ export const VOICE_ASSETS: Record<string, number> = {
   "eu_tutor_d5104922_74": require('../assets/voice/eu_tutor_d5104922_74.m4a'),
   "eu_tutor_d6b673a1_94": require('../assets/voice/eu_tutor_d6b673a1_94.m4a'),
   "eu_tutor_d6cef521_351": require('../assets/voice/eu_tutor_d6cef521_351.m4a'),
+  "eu_tutor_d70ed8e6_248": require('../assets/voice/eu_tutor_d70ed8e6_248.m4a'),
   "eu_tutor_d8feeffa_94": require('../assets/voice/eu_tutor_d8feeffa_94.m4a'),
   "eu_tutor_dd2e3ab2_89": require('../assets/voice/eu_tutor_dd2e3ab2_89.m4a'),
   "eu_tutor_de5e6de7_47": require('../assets/voice/eu_tutor_de5e6de7_47.m4a'),
@@ -1838,7 +1839,6 @@ export const VOICE_ASSETS: Record<string, number> = {
   "eu_tutor_e18ffbdf_71": require('../assets/voice/eu_tutor_e18ffbdf_71.m4a'),
   "eu_tutor_e2449004_74": require('../assets/voice/eu_tutor_e2449004_74.m4a'),
   "eu_tutor_e24b389e_87": require('../assets/voice/eu_tutor_e24b389e_87.m4a'),
-  "eu_tutor_e40f975c_249": require('../assets/voice/eu_tutor_e40f975c_249.m4a'),
   "eu_tutor_e458c558_279": require('../assets/voice/eu_tutor_e458c558_279.m4a'),
   "eu_tutor_e48f7056_76": require('../assets/voice/eu_tutor_e48f7056_76.m4a'),
   "eu_tutor_e5f8e9f1_98": require('../assets/voice/eu_tutor_e5f8e9f1_98.m4a'),
@@ -2493,6 +2493,7 @@ export const VOICE_ASSETS: Record<string, number> = {
   "gl_tutor_04abeca9_166": require('../assets/voice/gl_tutor_04abeca9_166.m4a'),
   "gl_tutor_04ae4336_94": require('../assets/voice/gl_tutor_04ae4336_94.m4a'),
   "gl_tutor_095349cb_74": require('../assets/voice/gl_tutor_095349cb_74.m4a'),
+  "gl_tutor_09943301_218": require('../assets/voice/gl_tutor_09943301_218.m4a'),
   "gl_tutor_0a1f4b0a_83": require('../assets/voice/gl_tutor_0a1f4b0a_83.m4a'),
   "gl_tutor_0bc19ee2_82": require('../assets/voice/gl_tutor_0bc19ee2_82.m4a'),
   "gl_tutor_10b654ed_80": require('../assets/voice/gl_tutor_10b654ed_80.m4a'),
@@ -2516,6 +2517,7 @@ export const VOICE_ASSETS: Record<string, number> = {
   "gl_tutor_2e1d4d13_58": require('../assets/voice/gl_tutor_2e1d4d13_58.m4a'),
   "gl_tutor_2e69a2f0_82": require('../assets/voice/gl_tutor_2e69a2f0_82.m4a'),
   "gl_tutor_32607dcd_95": require('../assets/voice/gl_tutor_32607dcd_95.m4a'),
+  "gl_tutor_333583d1_223": require('../assets/voice/gl_tutor_333583d1_223.m4a'),
   "gl_tutor_34005fac_79": require('../assets/voice/gl_tutor_34005fac_79.m4a'),
   "gl_tutor_357ecc11_15": require('../assets/voice/gl_tutor_357ecc11_15.m4a'),
   "gl_tutor_35a93eaa_69": require('../assets/voice/gl_tutor_35a93eaa_69.m4a'),
@@ -2617,7 +2619,6 @@ export const VOICE_ASSETS: Record<string, number> = {
   "gl_tutor_a787f7f4_93": require('../assets/voice/gl_tutor_a787f7f4_93.m4a'),
   "gl_tutor_abc1644e_91": require('../assets/voice/gl_tutor_abc1644e_91.m4a'),
   "gl_tutor_ac7dfa8f_150": require('../assets/voice/gl_tutor_ac7dfa8f_150.m4a'),
-  "gl_tutor_ac90d5e0_216": require('../assets/voice/gl_tutor_ac90d5e0_216.m4a'),
   "gl_tutor_ae05f34b_55": require('../assets/voice/gl_tutor_ae05f34b_55.m4a'),
   "gl_tutor_ae1dffc3_89": require('../assets/voice/gl_tutor_ae1dffc3_89.m4a'),
   "gl_tutor_b04e7943_265": require('../assets/voice/gl_tutor_b04e7943_265.m4a'),
@@ -2629,7 +2630,6 @@ export const VOICE_ASSETS: Record<string, number> = {
   "gl_tutor_ba037b9c_71": require('../assets/voice/gl_tutor_ba037b9c_71.m4a'),
   "gl_tutor_ba6193b5_249": require('../assets/voice/gl_tutor_ba6193b5_249.m4a'),
   "gl_tutor_c129bc97_95": require('../assets/voice/gl_tutor_c129bc97_95.m4a'),
-  "gl_tutor_c25b80f6_221": require('../assets/voice/gl_tutor_c25b80f6_221.m4a'),
   "gl_tutor_c38cddb8_53": require('../assets/voice/gl_tutor_c38cddb8_53.m4a'),
   "gl_tutor_c4363339_93": require('../assets/voice/gl_tutor_c4363339_93.m4a'),
   "gl_tutor_c72272cc_135": require('../assets/voice/gl_tutor_c72272cc_135.m4a'),
@@ -2929,7 +2929,6 @@ export const VOICE_ASSETS: Record<string, number> = {
   "tutor_384a95ea_89": require('../assets/voice/tutor_384a95ea_89.m4a'),
   "tutor_3a11656b_77": require('../assets/voice/tutor_3a11656b_77.m4a'),
   "tutor_3cbf925b_80": require('../assets/voice/tutor_3cbf925b_80.m4a'),
-  "tutor_3e2451c5_229": require('../assets/voice/tutor_3e2451c5_229.m4a'),
   "tutor_3e7cf442_60": require('../assets/voice/tutor_3e7cf442_60.m4a'),
   "tutor_40267c02_85": require('../assets/voice/tutor_40267c02_85.m4a'),
   "tutor_411f7e0b_212": require('../assets/voice/tutor_411f7e0b_212.m4a'),
@@ -2943,7 +2942,6 @@ export const VOICE_ASSETS: Record<string, number> = {
   "tutor_4cd8cce2_90": require('../assets/voice/tutor_4cd8cce2_90.m4a'),
   "tutor_4ded8542_71": require('../assets/voice/tutor_4ded8542_71.m4a'),
   "tutor_502a8730_78": require('../assets/voice/tutor_502a8730_78.m4a'),
-  "tutor_5084bbe3_235": require('../assets/voice/tutor_5084bbe3_235.m4a'),
   "tutor_534b3d01_66": require('../assets/voice/tutor_534b3d01_66.m4a'),
   "tutor_536a6e8c_84": require('../assets/voice/tutor_536a6e8c_84.m4a'),
   "tutor_568d3764_116": require('../assets/voice/tutor_568d3764_116.m4a'),
@@ -3034,7 +3032,9 @@ export const VOICE_ASSETS: Record<string, number> = {
   "tutor_cc52d9bf_73": require('../assets/voice/tutor_cc52d9bf_73.m4a'),
   "tutor_cfbf99f1_74": require('../assets/voice/tutor_cfbf99f1_74.m4a'),
   "tutor_d13c97b3_114": require('../assets/voice/tutor_d13c97b3_114.m4a'),
+  "tutor_d2515084_237": require('../assets/voice/tutor_d2515084_237.m4a'),
   "tutor_d6f074be_62": require('../assets/voice/tutor_d6f074be_62.m4a'),
+  "tutor_d8db5ea8_231": require('../assets/voice/tutor_d8db5ea8_231.m4a'),
   "tutor_db3c6e92_71": require('../assets/voice/tutor_db3c6e92_71.m4a'),
   "tutor_dbf65bfb_93": require('../assets/voice/tutor_dbf65bfb_93.m4a'),
   "tutor_dc6e1e03_86": require('../assets/voice/tutor_dc6e1e03_86.m4a'),

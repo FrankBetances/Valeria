@@ -149,3 +149,6 @@ __pycache__/
 # en papel se archivan aparte del audio. `scripts/check-asr-capture-guard.js`
 # falla en CI si algo de aquí llega a estar rastreado por git.
 /corpus-asr/
+
+# Worktrees temporales de comprobación (no deben acabar en el repo).
+mainwt/

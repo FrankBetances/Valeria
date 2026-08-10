@@ -180,6 +180,11 @@ jobs:
       - name: Comprobar que Lúa sigue muda (sin audio, micro ni servos)
         run: node scripts/check-lua-mute.js
 
+      # La migración de la mascota se dio por terminada tres veces a medias
+      # (PNG, componente y texto locutado). Deja de ser una promesa.
+      - name: Comprobar que la migración de la mascota está completa
+        run: node scripts/check-brand-consistency.js
+
       - name: Comprobar tipos
         run: npm run typecheck
 

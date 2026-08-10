@@ -2,8 +2,8 @@
 // Valeria+ · Panel del Adulto — Caos Comunicativo (compartido)
 // Tarjeta colapsable que agrupa los TRES controles manuales de la Fase 2:
 //   · Slider de ruido babble (ManualNoiseSlider → valeriaNoise).
-//   · Interruptor del oso distractor (doble tarea) — el anfitrión renderiza
-//     <ValeriaDistractorBear /> en la RAÍZ de su pantalla (los overlays
+//   · Interruptor de la gata distractora (doble tarea) — el anfitrión renderiza
+//     <ValeriaDistractorCat /> en la RAÍZ de su pantalla (los overlays
 //     absolutos no pueden vivir dentro del ScrollView).
 //   · Lanzador del quiebre pragmático — ídem con <ValeriaPragmaticBreakOverlay/>.
 //
