@@ -55,6 +55,25 @@ propio en [`src/ValeriaBlockIcons.tsx`](src/ValeriaBlockIcons.tsx) —rejilla de
 24, grosor 1.9, terminaciones redondeadas— y `react-native-svg` ya es
 dependencia. Ícono nuevo → se dibuja ahí, con ese mismo trazo.
 
+### 5b. La mascota es Lúa, la gata. El oso ya no existe
+
+Decidido por Frank el 9/8/2026. `BearMark` está retirado: en la app no queda ni
+un oso de marca. Lo que hay que saber antes de tocar nada:
+
+- El sprite vive en [`src/ValeriaCatPixel.tsx`](src/ValeriaCatPixel.tsx) —una
+  rejilla de caracteres, no un PNG— y de ahí salen **icono, icono adaptativo,
+  splash y la portada del manual** con `npm run build:brand`. No exportes
+  bitmaps a mano: se corre el script y salen los cuatro coherentes.
+- El distractor de doble tarea (`ValeriaDistractorCat`) es **la misma gata**, no
+  un segundo personaje.
+- La cara del **periférico Lúa** (panel 240×240, `firmware/lua/`) sale de esa
+  misma rejilla: mismo personaje, dos superficies.
+- **«Oso» sigue siendo vocabulario terapéutico** —par mínimo *ocho/oso*, «EL OSO
+  COME PAN», la orden TPR—. Eso es contenido de los bancos y no se toca.
+- Un cambio de marca no está hecho hasta que lo dicen el README y el manual. El
+  icono de la **ficha de Play Console** se sube a mano y no viaja en el APK: si
+  cambia la marca, hay que decirlo en la respuesta, no dejarlo en el commit.
+
 ### 6. Rediseñar, no parchear
 
 Si Frank dice que algo se ve pobre, la respuesta no es un ajuste de padding.

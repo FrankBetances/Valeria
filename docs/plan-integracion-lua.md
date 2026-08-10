@@ -489,9 +489,17 @@ grosor constante, terminaciones redondeadas— llevado a un canvas circular de
 
 **Identidad · decidido (Frank, 9/8/2026): la mascota es la GATA, en píxel art.**
 El oso queda retirado de la app. Ya está hecho en el árbol:
-`ValeriaCatPixel.tsx` (rejilla 24×23, gata negra tipo smoking) sustituye a
-`BearMark` en Bienvenida, Créditos y el distractor de doble tarea, y los doce
-niveles pasan de «Osezno → Oso Legendario» a «Gatita → Gata Legendaria».
+`ValeriaCatPixel.tsx` (gata negra tipo smoking, rejilla de 32 de lado y dos
+poses —cabeza sola por debajo de 90 px, cuerpo entero por encima—) sustituye a
+`BearMark` en Bienvenida, Créditos, hub y el distractor de doble tarea
+(`ValeriaDistractorCat`), y los doce niveles pasan de «Osezno → Oso Legendario»
+a «Gatita → Gata Legendaria».
+
+**Estado de la migración de marca (10/8/2026).** Hecho: pantallas, nombres de
+nivel, copy del distractor en los tres bancos (es · gl · eu), e **icono, icono
+adaptativo, splash y portada del manual**, los cuatro generados del mismo sprite
+con `npm run build:brand`. **Pendiente y no automatizable:** el icono de la
+ficha de Play Console, que se sube aparte y no viaja en el APK.
 
 Esto simplifica el hardware: **el catálogo de caras de la pantalla circular sale
 de la misma rejilla que la mascota de la app.** El píxel art no es aquí un gusto

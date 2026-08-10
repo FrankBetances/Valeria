@@ -333,10 +333,10 @@ export const EXERCISE_GL: Record<string, Partial<Exercise>> = {
     ept: ['Aínda non illa a palabra que non rima, nin repetindo a serie.', 'Atópaa se lle repites a serie máis amodo ou en parellas.', 'Illa a intrusa ela soa cunha soa escoita da serie.'],
   },
   dx2: {
-    read: 'A nena le a frase da pantalla en voz alta, dun tirón e sen silabear. Cando o consiga en calma, activa o Oso Distractor e algo de ruído desde o Panel do Adulto e repite con outra rolda: valora ti a fluidez, non a app.',
+    read: 'A nena le a frase da pantalla en voz alta, dun tirón e sen silabear. Cando o consiga en calma, activa a Gata Distractora e algo de ruído desde o Panel do Adulto e repite con outra rolda: valora ti a fluidez, non a app.',
     stageLabel: 'Le a frase dun tirón', phrase: 'O OSO COME PAN', phraseEmoji: '🐻',
     move: 'Lede a frase camiñando: un paso por palabra, sen pararse entre sílabas.',
-    ept: ['Silabea ou detense en cada palabra, mesmo sen distractores.', 'Le fluído en silencio, pero volve silabear co oso ou co ruído.', 'Mantén a lectura fluída mesmo con interferencia visual e ruído.'],
+    ept: ['Silabea ou detense en cada palabra, mesmo sen distractores.', 'Le fluído en silencio, pero volve silabear coa gata ou co ruído.', 'Mantén a lectura fluída mesmo con interferencia visual e ruído.'],
   },
   dx3: {
     read: 'Preme «Oír os sons»: a app emite cada son por separado, cunha pausa entre eles. A nena debe unilos e dicir a palabra completa. Recolle a fusión co micro; se o recoñecemento falla ou vai lento, valora ti abaixo coa escala.',
@@ -354,7 +354,7 @@ export const EXERCISE_GL: Record<string, Partial<Exercise>> = {
     ept: ['Aínda non descodifica a pseudopalabra: substitúea por palabras reais.', 'Léea con apoio silabeado do adulto ou tras varios modelos.', 'Descodifícaa ela soa, completa e sen convertela nunha palabra real.'],
   },
   dx5: {
-    read: 'Dille á nena que letra buscar (a grande do recadro) e que toque TODAS as que atope no panel. As letras xemelgas xiradas (b/d, p/q) intentan enganala. Se queres carga extra, activa o Oso Distractor desde o Panel do Adulto.',
+    read: 'Dille á nena que letra buscar (a grande do recadro) e que toque TODAS as que atope no panel. As letras xemelgas xiradas (b/d, p/q) intentan enganala. Se queres carga extra, activa a Gata Distractora desde o Panel do Adulto.',
     stageLabel: 'Atopa todas as letras obxectivo',
     move: 'Debuxade a letra obxectivo xigante no aire: a barriga do «b» mira cara adiante, coma ao ler.',
     ept: ['Aínda confunde sistematicamente as letras xiradas (b/d, p/q).', 'Atopa as letras obxectivo con pistas («mira cara a onde mira a barriga»).', 'Atopa todas as letras obxectivo ela soa, sen caer nas xiradas.'],

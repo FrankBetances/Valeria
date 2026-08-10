@@ -4,7 +4,7 @@
 > dos módulos clínicos nuevos —**Trastorno del Espectro Autista (TEA)** y
 > **Dislexia**— en la arquitectura actual de Valeria+, **reutilizando al máximo
 > la instrumentación de carga comunicativa ya existente** (Quiebre Pragmático,
-> Oso Distractor, Ruido Babble, telemetría de misclicks y pliegue dialectal
+> Gata Distractora, Ruido Babble, telemetría de misclicks y pliegue dialectal
 > es-DO) y **sin romper nada de lo que ya funciona**.
 >
 > Base clínica: *Protocolo Clínico Integral — Arquitectura Terapéutica para TEA
@@ -72,7 +72,7 @@ reutilización, no por reescritura.
 | --- | --- | --- |
 | **Quiebre Pragmático** (congelar animación/audio, medir reparación) | `ValeriaPragmaticBreakOverlay` + `trackRepairStrategy()` + enum `RepairStrategy` | Directa: es un ejercicio TEA de primera clase, ya instrumentado |
 | **Ruido Babble** (slider manual 20→80 %) | `ValeriaManualNoiseSlider` (`valeriaNoise`) + `trackNoiseLevel()` | Directa: categorización TEA y rastreo léxico Dislexia |
-| **Oso Distractor** (interferencia visual periférica, sin eventos táctiles) | `ValeriaDistractorBear` + `setDualTaskActive()` + ventanas de doble tarea | Directa: rastreo léxico y rastreo visual de rotaciones |
+| **Gata Distractora** (interferencia visual periférica, sin eventos táctiles) | `ValeriaDistractorCat` + `setDualTaskActive()` + ventanas de doble tarea | Directa: rastreo léxico y rastreo visual de rotaciones |
 | **Mapa de calor de misclicks** (X,Y fuera del *bounding box*) | `ValeriaMisclickBoundary` + `trackMisclick()` (segmenta ui vs dualTask) | Directa: rastreo visual b/d, p/q |
 | **Captura en hilo secundario** (fricción cero, `InteractionManager`) | Toda `valeriaTelemetry` vuelca con `runAfterInteractions` + debounce | Ya garantizada para los eventos nuevos |
 | **Control dialectal es-DO** (no penalizar seseo, aspiración de /s/, líquidas en coda) | `foldDominican()` en `valeriaVoice` (pliegue caribeño del ASR) | Directa: Intruso Fonológico y Criba de Pseudopalabras |
@@ -153,7 +153,7 @@ editorial-clínico + reutilización del Panel del Adulto.
 | # | Ejercicio | Encaje técnico | Evaluación |
 | --- | --- | --- | --- |
 | 1 | **El Intruso Fonológico** | `stage: 'intruder'` **auditivo puro** (sin soporte textual): la voz dicta la serie ("pino, fino, lino, mino") y el niño aísla el intruso. **Control dialectal**: la validación pasa por `foldDominican` (seseo, /s/ implosiva, líquidas en coda **no** son error). **[REUTILIZA + flag `auditoryOnly`]** | EPT-3 sobre discriminación fonológica |
-| 2 | **Rastreo Léxico con Interferencia** | Logotomas/frases en pantalla + **Oso Distractor** + **Ruido Babble** (ambos del Panel). Mide fluidez sin silabeo. **[REUTILIZA]** **[MANUAL]** | Velocidad de lectura sin silabeo (juicio del adulto) |
+| 2 | **Rastreo Léxico con Interferencia** | Logotomas/frases en pantalla + **Gata Distractora** + **Ruido Babble** (ambos del Panel). Mide fluidez sin silabeo. **[REUTILIZA]** **[MANUAL]** | Velocidad de lectura sin silabeo (juicio del adulto) |
 | 3 | **Síntesis Fonémica Rítmica** | **`stage: 'syn'` (NUEVO)**: fonemas aislados con latencia forzada de 500 ms; fusión por micro (STT) con **fallback a botonera de Juez** ("Lo dijo / Casi") en hardware lento. **[STAGE NUEVO]** | 3★/1★ + falsos negativos ASR vs Juez |
 | 4 | **Criba de Pseudopalabras** | `stage: 'phrase'`/repetición estricta de logotomas ("mepoti", "faslumo"). Límite **rígido de 5 ensayos** por bloque, intercalando cápsula TPR de descarga. Control dialectal vía `foldDominican`. **[REUTILIZA + límite de ensayos]** | Falsos negativos ASR vs correcciones del Juez |
 | 5 | **Rastreo Visual de Rotaciones** | **`stage: 'rotation'` (NUEVO)**: b/d, p/q camufladas en pictogramas SVG de alto contraste; el Oso orbita la zona; **captura de misclicks X,Y** vía `ValeriaMisclickBoundary`. **[STAGE NUEVO]** **[MANUAL]** | Densidad/coordenadas de misclicks (mapa de calor) |
@@ -180,7 +180,7 @@ pública existente cambia de forma incompatible.
 | `docs/` | Este plan + (opcional) protocolo clínico de cada módulo, como los de Pares Mínimos | Aditivo |
 
 **Sin tocar:** `AppNavigator` (los módulos no añaden rutas: reutilizan
-`ExercisePlayer` y la lista del hub), `valeriaNoise`, `ValeriaDistractorBear`,
+`ExercisePlayer` y la lista del hub), `valeriaNoise`, `ValeriaDistractorCat`,
 `ValeriaPragmaticBreak`, `ValeriaMisclickBoundary`, `valeriaCrypto`, Firebase,
 gamificación. La instrumentación se consume, no se modifica.
 

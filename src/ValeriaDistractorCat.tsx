@@ -1,18 +1,24 @@
 // ============================================================================
-// Valeria+ · Distractor de Carga Cognitiva Dual — BearMark periférico (Fase 2.3)
+// Valeria+ · Distractor de Carga Cognitiva Dual — Lúa periférica (Fase 2.3)
 // Durante una tarea auditiva, la mascota se asoma por la periferia de la
 // pantalla y se mueve SIN ser interactiva (pointerEvents="none"): interferencia
 // visual pura para el paradigma de doble tarea. Lo activa y desactiva el
 // ADULTO desde su panel (nunca la app sola: muro MDR).
 //
+// Hasta la v11 esto era BearMark, el oso pardo. Con la mascota nueva pinta a
+// Lúa (CatPixel): el estímulo distractor es la MISMA gata que celebra en el
+// hub, no un segundo personaje. Fichero, componente y copy del Panel del
+// Adulto dicen «gata» — si vuelve a aparecer la palabra «oso» en este bloque,
+// es que alguien revirtió medio cambio.
+//
 // Rendimiento (regla de oro 1): las animaciones van íntegras por el hilo
 // nativo (useNativeDriver, solo transform) y el bucle ARRANCA dentro de
-// InteractionManager.runAfterInteractions, de modo que el primer frame del
-// oso jamás compite con el TTS ni con la transición de pantalla en gama baja.
+// InteractionManager.runAfterInteractions, de modo que el primer frame de la
+// gata jamás compite con el TTS ni con la transición de pantalla en gama baja.
 //
 // Prevención de datos sucios: al montarse registra su rectángulo (con el
 // margen de la amplitud de animación) en ValeriaMisclickBoundary; los toques
-// del niño sobre el oso se DESCARTAN de la telemetría de misclicks. Además
+// del niño sobre la gata se DESCARTAN de la telemetría de misclicks. Además
 // abre/cierra la ventana dual-task (setDualTaskActive) que segmenta los
 // misclicks reales del resto de la pantalla.
 // ============================================================================
@@ -28,8 +34,8 @@ const SIZE = 76;
 
 let uid = 0;
 
-export const ValeriaDistractorBear: React.FC = () => {
-  const idRef = useRef(`bear_${++uid}`);
+export const ValeriaDistractorCat: React.FC = () => {
+  const idRef = useRef(`cat_${++uid}`);
   const bob = useRef(new Animated.Value(0)).current;
   const sway = useRef(new Animated.Value(0)).current;
   const holderRef = useRef<View | null>(null);
@@ -95,4 +101,4 @@ const s = StyleSheet.create({
   },
 });
 
-export default ValeriaDistractorBear;
+export default ValeriaDistractorCat;

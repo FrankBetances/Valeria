@@ -47,7 +47,7 @@ import { getAutoRecordPref, setAutoRecordPref } from './valeriaRecordingPref';
 import { ValeriaAdultChaosPanel } from './ValeriaAdultChaosPanel';
 import { releaseNoise } from './valeriaNoise';
 import { ValeriaPragmaticBreakOverlay } from './ValeriaPragmaticBreak';
-import { ValeriaDistractorBear } from './ValeriaDistractorBear';
+import { ValeriaDistractorCat } from './ValeriaDistractorCat';
 import { BlockIcon } from './ValeriaBlockIcons';
 import { CatPixel } from './ValeriaCatPixel';
 import { ValeriaGameStrip } from './ValeriaGameStrip';
@@ -1031,7 +1031,7 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
       </ScrollView>
 
       {/* Distractor periférico no interactivo: solo mientras el adulto lo tenga activo */}
-      {distractorOn && <ValeriaDistractorBear />}
+      {distractorOn && <ValeriaDistractorCat />}
 
       {/* Rotación de roles, pausa activa y quiebre (bloquean hasta completarse) */}
       {swapOpen && (

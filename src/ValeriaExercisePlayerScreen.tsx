@@ -57,7 +57,7 @@ import { speakToChild, speakToChildSeq, speakWordSlow, stopSpeaking, praisePhras
 import { SpeakButton, MicPracticeCard, ResponseCaptureCard } from './ValeriaVoiceUI';
 import { ValeriaSessionBreakOverlay, pickSessionBreak, SessionBreak } from './ValeriaSessionBreakOverlay';
 import { ValeriaAdultChaosPanel } from './ValeriaAdultChaosPanel';
-import { ValeriaDistractorBear } from './ValeriaDistractorBear';
+import { ValeriaDistractorCat } from './ValeriaDistractorCat';
 import { ValeriaPragmaticBreakOverlay } from './ValeriaPragmaticBreak';
 import { releaseNoise } from './valeriaNoise';
 import { AUDICION_META, LENGUAJE_META, TEA_META, DISLEXIA_META } from './valeriaExerciseMeta';
@@ -1571,7 +1571,7 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
       <ZoomModal emoji={zoom?.emoji ?? ''} cap={zoom?.cap ?? ''} visible={!!zoom} onClose={() => setZoom(null)} />
 
       {/* ===== Distractor periférico (doble tarea): solo si el adulto lo activó ===== */}
-      {distractorOn && !finished && <ValeriaDistractorBear />}
+      {distractorOn && !finished && <ValeriaDistractorCat />}
 
       {/* ===== Pausa activa entre ejercicios: cápsula TPR o Ruta de Rutina ===== */}
       {activeBreak && !finished && (

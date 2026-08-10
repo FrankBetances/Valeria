@@ -6,7 +6,7 @@
   <img src="assets/valeria-logo.png" alt="Valeria+" width="320">
 </picture>
 
-### 🐻 Terapia auditivo‑verbal y del lenguaje, offline y en tu bolsillo
+### 🐈‍⬛ Terapia auditivo‑verbal y del lenguaje, offline y en tu bolsillo
 
 **App móvil para niñas y niños con hipoacusia, implante coclear, dislalias o
 dificultades del lenguaje.**
@@ -50,6 +50,7 @@ dificultades del lenguaje.**
 - [¿Qué es Valeria+?](#-qué-es-valeria)
 - [Bloques de terapia](#-bloques-de-terapia)
 - [Academy · formación del cuidador](#-academy--formación-del-cuidador)
+- [Lúa · la mascota y la marca](#-lúa--la-mascota-y-la-marca)
 - [Panel del Adulto · Carga Comunicativa](#-panel-del-adulto--carga-comunicativa)
 - [Idiomas y variedades](#-idiomas-y-variedades)
 - [Flujo de pantallas](#-flujo-de-pantallas)
@@ -75,7 +76,7 @@ dificultades del lenguaje.**
 
 ---
 
-## 🐻 ¿Qué es Valeria+?
+## 🐈‍⬛ ¿Qué es Valeria+?
 
 Valeria+ reúne en un solo lugar el **registro del paciente**, una comprobación
 auditiva previa (**Test de Ling**), **siete bloques de terapia**, un módulo de
@@ -183,6 +184,79 @@ insignias, y el progreso nunca se mezcla entre ellos.
 
 ---
 
+## 🐈‍⬛ Lúa · la mascota y la marca
+
+<div align="center">
+<img src="docs/lua-mascota.png" alt="Lúa, la gata de Valeria+, en píxel art" width="180">
+</div>
+
+**La mascota de Valeria+ es Lúa, una gata negra tipo *smoking*, dibujada en
+píxel art.** Sustituye al **oso pardo** (`BearMark`) que acompañó al proyecto
+hasta la v11. El cambio es total y no queda ni un rastro del oso en la app: hub,
+bienvenida, créditos, celebración de sesión, distractor de doble tarea, nombres
+de nivel, icono de la app y pantalla de arranque.
+
+| Dónde aparece | Qué se ve |
+| --- | --- |
+| **Hub** | Lúa en la tira de juego, con nivel y XP |
+| **Premios** (`ValeriaAwardsSheet`) | «Los premios de Lúa»: 12 niveles y 18 insignias |
+| **Nombres de nivel** | **Gatita → Gata Curiosa → … → Gata Lunar → Gata Legendaria** (antes *Osezno → Oso Legendario*) |
+| **Doble tarea** (`ValeriaDistractorCat`) | La misma gata como distractor periférico. El Panel del Adulto lo llama **«Gata distractora»** |
+| **Calentamiento de Realidad Aumentada** | «mirar a Lúa, seguirla a las esquinas» |
+| **Icono, icono adaptativo y splash** | La cara de Lúa (`assets/icon.png`, `adaptive-icon.png`, `splash.png`) |
+
+### Un solo sprite, cero PNG a mano
+
+El dibujo vive en [`src/ValeriaCatPixel.tsx`](src/ValeriaCatPixel.tsx) como una
+**rejilla de caracteres** que se pinta como rectángulos de 1×1 en un `viewBox`:
+escala a cualquier tamaño sin perder el borde duro, y un mapa de texto **se
+revisa en el diff**; un PNG no. Dos poses, elegidas por el propio componente:
+**cabeza sola** por debajo de 90 px (a ese tamaño la cara de cuerpo entero se
+emborrona) y **cuerpo entero** por encima.
+
+Los cuatro bitmaps de marca se **generan** desde ese mismo sprite:
+
+```bash
+npm run build:brand   # → assets/icon.png · adaptive-icon.png · splash.png · docs/lua-mascota.png
+```
+
+Si mañana cambia el sprite, se vuelve a correr y los cuatro salen iguales: nadie
+redibuja ni exporta a mano. El lado del píxel es **entero** en los tres assets
+(20, 16 y 12 px) —con un lado fraccionario el antialias parte las filas del
+dibujo—, y el icono adaptativo de Android se dibuja a 512 px dentro del lienzo
+de 1024 porque el sistema recorta a círculo o *squircle* y a tamaño completo el
+recorte le comía las orejas.
+
+### La gata de la app y el aparato Lúa son el mismo personaje
+
+**Lúa** nombra también el **periférico físico** de refuerzo sobre ESP32‑C3
+([`docs/plan-integracion-lua.md`](docs/plan-integracion-lua.md), `firmware/lua/`,
+`src/valeriaLuaProtocol.ts`). No son dos cosas con el mismo nombre: el panel del
+aparato es de **240×240**, o sea que el píxel art es su formato nativo, y **la
+cara del aparato sale de la misma rejilla que la de la app**. Un solo dibujo,
+dos superficies.
+
+> [!WARNING]
+> **Dos cosas siguen sin resolver, y conviene tenerlas a la vista.**
+>
+> 1. **El icono de la ficha de Play Console sigue siendo el oso.** Ese icono se
+>    sube aparte en la Consola y **no viaja en el APK**, así que `npm run
+>    build:brand` no lo toca: hay que subirlo a mano en *Ficha principal de la
+>    tienda → Icono de la app* (512×512 PNG). Quien instale desde la tienda ve
+>    un oso en la ficha y una gata al abrir.
+> 2. **`lúa` es palabra objetivo del banco gallego** («toca a lúa, logo o gato»,
+>    `valeriaExerciseGl.ts`). Llamar Lúa al aparato crea ambigüedad justo en la
+>    lengua donde la palabra se trabaja: el adulto dice «mira a Lúa» y el niño no
+>    sabe si es la mascota o la luna del ejercicio. Decisión abierta **D‑B** en
+>    §14 de [`docs/plan-integracion-lua.md`](docs/plan-integracion-lua.md).
+
+> El **oso sí sigue existiendo como contenido terapéutico** y eso no es un
+> descuido: «oso» es palabra de los bancos léxicos (par mínimo *ocho/oso*, frase
+> de lectura «EL OSO COME PAN», orden TPR «camina como un oso»). Es vocabulario,
+> no marca.
+
+---
+
 ## 🎛️ Panel del Adulto · Carga Comunicativa
 
 Para el piloto clínico, Valeria+ añade un **Panel del Adulto** (`ValeriaAdultChaosPanel`)
@@ -195,10 +269,10 @@ audiómetro algorítmico (SaMD), y cualquier lógica de ese tipo debe rechazarse
 | Módulo | Qué hace |
 | --- | --- |
 | 🔊 **Escucha en ruido** (`ValeriaManualNoiseSlider` + `valeriaNoise`) | Reproducción dual: la instrucción TTS sobre una pista de **ruido babble** de cafetería en bucle. El volumen del ruido muta **solo** con el slider manual (0‑10) del adulto; la telemetría se registra al soltar, no por píxel. |
-| 🐻 **Doble tarea** (`ValeriaDistractorBear`) | Un oso distractor se asoma por la periferia y se mueve **sin ser interactivo** (`pointerEvents="none"`): interferencia visual pura para el paradigma de carga cognitiva dual. Animación por el hilo nativo, arrancada tras `InteractionManager`. |
+| 🐈‍⬛ **Doble tarea** (`ValeriaDistractorCat`) | **Lúa** se asoma por la periferia y se mueve **sin ser interactiva** (`pointerEvents="none"`): interferencia visual pura para el paradigma de carga cognitiva dual. Animación por el hilo nativo, arrancada tras `InteractionManager`. Es la **misma gata** del hub, no un segundo personaje. |
 | 💬 **Quiebre pragmático** (`ValeriaPragmaticBreak`) | "Fallo deliberado": la app calla y es el adulto quien rompe la comunicación a propósito para observar cómo el niño la **repara**. La botonera de acierto se reemplaza por un selector de **estrategias de reparación**. Un modal advierte de la "frustración útil" antes de empezar. |
 
-Los overlays (oso y quiebre) viven en la raíz de la pantalla anfitriona —no
+Los overlays (gata y quiebre) viven en la raíz de la pantalla anfitriona —no
 dentro del `ScrollView`— y registran su rectángulo en `ValeriaMisclickBoundary`
 para no ensuciar la telemetría de misclicks.
 
@@ -781,6 +855,15 @@ internas y el corpus de voz no se publican.
 | Privacy Policy (inglés, para la ficha localizada en `en-US`) | `https://frankbetances.github.io/Valeria/privacy.html` |
 | **Eliminación de datos** (obligatoria al declarar cuentas de usuario) | `https://frankbetances.github.io/Valeria/eliminacion-de-datos.html` |
 
+> [!WARNING]
+> **Pendiente manual en la Consola: el icono de la ficha sigue siendo el oso.**
+> El icono que se ve en la tienda (*Ficha principal de la tienda → Icono de la
+> app*, 512×512 PNG) se sube **aparte** y **no viaja en el APK**, así que
+> `npm run build:brand` regenera los tres assets de la app pero no toca ese.
+> Mientras no se suba a mano, la tienda enseña un oso y la app abre con la gata
+> [Lúa](#-lúa--la-mascota-y-la-marca). Las **capturas de la ficha** tienen el
+> mismo problema si se tomaron antes de la v12.
+
 #### Reconocimiento de voz en *Seguridad de los datos* (tras la Fase A)
 
 La política de `site/` ya está redactada con la Fase A dentro (4 de agosto de
@@ -826,6 +909,35 @@ toque `site/` republica el sitio; también puede lanzarse desde *Actions*.
 ## 🕑 Historial de versiones
 
 <details open>
+<summary><strong>V12</strong> — la mascota es Lúa, la gata (y por fin también el icono)</summary>
+
+**Lo que se ve al abrir la app: ya no hay ningún oso.** La mascota pasa a ser
+**Lúa**, una gata negra tipo *smoking* en píxel art, y el cambio recorre todas
+las superficies de marca. Los detalles del sprite, cómo se generan los assets y
+qué queda pendiente están en [Lúa · la mascota y la marca](#-lúa--la-mascota-y-la-marca).
+
+| Qué | Cambio |
+| --- | --- |
+| **Mascota** | `ValeriaCatPixel` sustituye a `BearMark` en hub, bienvenida, créditos y celebración de sesión. Rejilla de 32 de lado y **dos poses** (cabeza sola por debajo de 90 px, cuerpo entero por encima): a 52 px la cara de cuerpo entero medía 26 px de alto y los rasgos se emborronaban |
+| **Niveles** | *Osezno → Oso Legendario* pasa a **Gatita → Gata Legendaria** (12 niveles), en `valeriaGamification` y en el catálogo i18n |
+| **Doble tarea** | El distractor periférico es la misma gata. Fichero y componente renombrados `ValeriaDistractorBear` → **`ValeriaDistractorCat`**, y el copy de los ejercicios de dislexia (es · gl · eu) deja de mandar activar «el Oso Distractor» cuando el interruptor del Panel del Adulto ya decía «Gata distractora» |
+| **Icono y arranque** | `assets/icon.png`, `adaptive-icon.png` y `splash.png` se **generan** desde el mismo sprite con `npm run build:brand`. Hasta este cambio seguían siendo el oso: quien instalaba la app veía un oso antes de abrirla y una gata al entrar |
+| **Portada del manual** | `docs/lua-mascota.png` sale del mismo script, así que manual y app no pueden divergir |
+
+> ⚠️ **El icono de la ficha de Play Console sigue siendo el oso**: se sube
+> aparte en la Consola y no viaja en el APK. Ver el aviso en
+> [Privacidad y ficha de Play Store](#️-privacidad-y-ficha-de-play-store).
+
+> El historial saltaba de la V10.3 a aquí. El **rediseño de interfaz v11**
+> (cuadrícula de 2 columnas, pestañas inferiores, muro de contención) está
+> documentado en [Interfaz v11](#interfaz-v11--pestañas-inferiores--activa) y en
+> [`docs/plan-evolucion-ux-v11.md`](docs/plan-evolucion-ux-v11.md); el set de
+> **iconografía propia** ([`src/ValeriaBlockIcons.tsx`](src/ValeriaBlockIcons.tsx))
+> y **Academy** con siete dominios, en sus secciones y en el manual v12.
+
+</details>
+
+<details>
 <summary><strong>V10.3</strong> — el micrófono vuelve a escuchar, y Lenguaje dice qué material hace falta</summary>
 
 Dos cosas que llegaron juntas: el reconocimiento de voz había dejado de
@@ -1345,7 +1457,7 @@ trazabilidad completa está en
 
 <br>
 
-Hecho con 🐻 por **Dr. Frank Alberto Betances Reinoso**
+Hecho con 🐈‍⬛ por **Dr. Frank Alberto Betances Reinoso**
 
 <sub>Valeria+ · terapia auditivo‑verbal y del lenguaje · offline · multivariedad</sub>
 
