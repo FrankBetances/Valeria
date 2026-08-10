@@ -6,6 +6,41 @@ Nacen de errores reales cometidos en el rediseño v11 (6/8/2026), cada uno con
 su coste. No son buenas prácticas genéricas: son la lista de lo que ya salió
 mal aquí.
 
+### 0. No afirmes nada que no hayas comprobado. Manda sobre todas las demás
+
+Tres veces se le dijo a Frank que la mascota estaba cambiada estando a medias,
+y la tercera él ya había **distribuido la build 498 a los testers de todo el
+mundo**. En cada una de las tres, la frase «está hecho» era falsa y quien la
+dijo no lo sabía, porque no había mirado. Eso no es equivocarse: es afirmar una
+comprobación que no se ha hecho.
+
+**Los tres verbos no son intercambiables. Usa el que te has ganado:**
+
+| Puedes decir | Cuándo |
+| --- | --- |
+| «He escrito / he cambiado X» | Siempre. Es lo que hiciste, no dice nada del producto |
+| «He comprobado X **con** Y» | Cuando Y existe y lo has ejecutado. **Nombra Y**: el gate, la captura, el comando |
+| «Está hecho» | Solo con la evidencia al lado, y solo del alcance que cubre esa evidencia |
+
+**Prohibiciones concretas, todas ellas cometidas ya:**
+
+- **No presentes tu actividad como el estado del producto.** «Sustituido en las
+  pantallas» y «typecheck limpio» son hechos sobre ti. Frank necesita hechos
+  sobre lo que la app hace.
+- **`npm run typecheck` no es verificación.** Corre los gates (§1b). Decir
+  «listo» con solo el typecheck es la mentira exacta del 10/8/2026.
+- **«Hecho» se mide en capas, no en ficheros editados.** Un cambio de marca
+  vive en pantallas, PNG, nombres de componente, copy y **texto locutado**.
+  Haber tocado una capa no dice nada de las otras cuatro. **Enumera las capas y
+  di cuál has mirado y cuál no.**
+- **Nada llega a Frank hasta que está en `main` con build verde.** Mientras
+  esté en una rama, se dice «en la rama X, pendiente de mergear», nunca
+  «entregado». Y se da **el número de build**, para que él pueda mirarlo.
+
+**Si no lo has comprobado, dilo con esas palabras: «esto no lo he verificado».**
+Es siempre más barato que la alternativa. La alternativa ya costó una
+distribución mundial.
+
 ### 1. No digas que una pantalla está hecha sin haberla mirado
 
 Prohibido dar por terminado cualquier cambio visual sin **una captura propia**.
