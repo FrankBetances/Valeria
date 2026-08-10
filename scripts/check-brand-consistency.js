@@ -70,6 +70,47 @@ for (const need of ['scripts/build-brand-assets.js', 'src/ValeriaCatPixel.tsx'])
   if (!fs.existsSync(path.join(__dirname, '..', need))) fail.push(`Falta ${need}.`);
 }
 
+// 5 · Las LÁMINAS. El código estaba limpio y el icono de iOS seguía siendo el
+//     oso pardo: los PNG no los ve ningún grep, y build-brand-assets.js solo
+//     escribía en assets/, así que ios-native/ se quedó atrás sin que nadie lo
+//     notara. Un PNG desfasado no lo detecta leer el diff — hay que exigirlo.
+const crypto = require('crypto');
+const sha = (p) => crypto.createHash('sha256').update(fs.readFileSync(p)).digest('hex');
+const R = (p) => path.join(__dirname, '..', p);
+
+const IOS_ICON = 'ios-native/Valeria/Assets.xcassets/AppIcon.appiconset/AppIcon-1024.png';
+const BRAND_ASSETS = [
+  'assets/icon.png', 'assets/adaptive-icon.png', 'assets/splash.png',
+  'docs/lua-mascota.png', IOS_ICON,
+];
+
+// Láminas retiradas: si un fichero de marca vuelve a tener uno de estos
+// contenidos, es que alguien restauró la lámina vieja.
+const RETIRED = {
+  '738dc8364559c1014ac84584d98ad22016df2240f90395ebba9fa8984c79f0db':
+    'icono de iOS con la mascota anterior',
+};
+
+for (const a of BRAND_ASSETS) {
+  if (!fs.existsSync(R(a))) { fail.push(`Falta el asset de marca ${a}.`); continue; }
+  const h = sha(R(a));
+  if (RETIRED[h]) fail.push(`${a}: es una LÁMINA RETIRADA (${RETIRED[h]}). Corre npm run build:brand.`);
+}
+
+// Los dos iconos de 1024 salen del mismo lienzo y del mismo sprite: si dejan de
+// ser idénticos es que se regeneró uno y se olvidó el otro. Exactamente lo que
+// pasó.
+if (fs.existsSync(R('assets/icon.png')) && fs.existsSync(R(IOS_ICON))
+    && sha(R('assets/icon.png')) !== sha(R(IOS_ICON))) {
+  fail.push('El icono de Android y el de iOS no coinciden: se regeneró uno y no el otro. Corre npm run build:brand.');
+}
+
+// El generador tiene que seguir escribiendo las cinco láminas.
+const gen = fs.readFileSync(R('scripts/build-brand-assets.js'), 'utf8');
+if (!/ios-native/.test(gen)) {
+  fail.push('scripts/build-brand-assets.js ya no genera el icono de iOS: volvería a desfasarse en silencio.');
+}
+
 if (fail.length) {
   console.error(`\n✖ La migración de la mascota está a medias (${fail.length}):\n`);
   fail.forEach((f) => console.error('  · ' + f));

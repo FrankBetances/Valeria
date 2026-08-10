@@ -1,10 +1,16 @@
 // ============================================================================
-// Valeria+ · Genera icono, icono adaptativo y splash desde la rejilla de Lúa
+// Valeria+ · Genera los PNG de marca desde la rejilla de Lúa
 //
-// Los tres PNG de marca salen de la MISMA rejilla que usa la app
-// (src/ValeriaCatPixel.tsx). Si mañana cambia el sprite de la mascota se vuelve
-// a correr esto y los tres quedan iguales; nadie tiene que redibujar nada ni
-// acordarse de exportar a mano.
+// Los CINCO PNG de marca salen de la MISMA rejilla que usa la app
+// (src/ValeriaCatPixel.tsx): icono Android, icono adaptativo, splash, retrato
+// del manual e icono de iOS. Si mañana cambia el sprite se vuelve a correr esto
+// y los cinco quedan iguales; nadie tiene que redibujar nada ni acordarse de
+// exportar a mano.
+//
+// El de iOS se añadió tarde y por las malas: cuando ya se había dicho tres
+// veces que la mascota estaba cambiada, AppIcon-1024.png seguía siendo el oso
+// pardo porque este script solo escribía en assets/ y nadie miró ios-native/.
+// Va sin canal alfa a propósito: App Store rechaza iconos con transparencia.
 //
 //   OUT_DIR=assets CHROMIUM_PATH=/ruta/al/chrome node scripts/build-brand-assets.js
 //
@@ -112,6 +118,14 @@ const docHtml = page(
 );
 const DOCS = path.join(__dirname, '..', 'docs');
 
+// --- 5. Icono de iOS (port nativo de ios-native/) ---------------------------
+// Mismo dibujo que el icono de Android y mismo lienzo de 1024, pero se escribe
+// dentro del .appiconset porque Xcode lo lee de ahí. Sin transparencia.
+const IOS_ICON = path.join(
+  __dirname, '..', 'ios-native', 'Valeria', 'Assets.xcassets',
+  'AppIcon.appiconset', 'AppIcon-1024.png',
+);
+
 (async () => {
   const b = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH });
   const shoot = async (html, w, h, file, transparent) => {
@@ -125,6 +139,11 @@ const DOCS = path.join(__dirname, '..', 'docs');
   await shoot(adaptHtml, 1024, 1024, path.join(OUT, 'adaptive-icon.png'));
   await shoot(splashHtml, 1242, 2688, path.join(OUT, 'splash.png'));
   await shoot(docHtml, docSit.w, docSit.h, path.join(DOCS, 'lua-mascota.png'), true);
+  fs.mkdirSync(path.dirname(IOS_ICON), { recursive: true });
+  await shoot(iconHtml, 1024, 1024, IOS_ICON);   // sin omitBackground: opaco
   await b.close();
-  console.log('generados en', OUT, '· head', HEAD[0].length + 'x' + HEAD.length, '· paleta', Object.keys(PAL).join(''));
+  console.log('generados 5 PNG · head', HEAD[0].length + 'x' + HEAD.length, '· paleta', Object.keys(PAL).join(''));
+  console.log('  ' + [path.join(OUT, 'icon.png'), path.join(OUT, 'adaptive-icon.png'),
+    path.join(OUT, 'splash.png'), path.join(DOCS, 'lua-mascota.png'), IOS_ICON]
+    .map((f) => path.relative(path.join(__dirname, '..'), f)).join('\n  '));
 })();
