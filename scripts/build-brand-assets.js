@@ -70,10 +70,19 @@ const iconHtml = page(`
 // --- 2. Icono adaptativo de Android (1024×1024, primer plano) --------------
 // Android recorta a un círculo/squircle: la mascota tiene que caber en el 66 %
 // central o el recorte le come las orejas.
-const adaptCell = 16;                // 32 × 16 = 512 px, dentro de los 676 seguros
+// El primer plano lleva el turquesa HORNEADO en vez de ir transparente sobre
+// el `backgroundColor` de app.json. La forma canónica es la transparente, pero
+// obliga a fiarse de cómo lo compone cada launcher y deja el PNG del
+// repositorio en blanco: lo que se revisa no es lo que se ve. Con el fondo
+// dentro, el fichero ES el icono. La capa sigue siendo a sangre, así que el
+// parallax de los launchers que lo mueven no descubre ningún borde.
+const adaptCell = 18;                // 32 × 18 = 576 px, dentro de los 676 seguros
 const adapt = svg(HEAD, adaptCell);
 const adaptHtml = page(`
-  <div style="position:relative;width:1024px;height:1024px">
+  <div style="position:relative;width:1024px;height:1024px;
+       background:linear-gradient(150deg,#16d3cc 0%,#00c4be 55%,#00a8a2 100%)">
+    <div style="position:absolute;left:-90px;top:-170px;width:700px;height:700px;
+         border-radius:50%;background:rgba(255,255,255,.13)"></div>
     <svg width="${adapt.w}" height="${adapt.h}" style="position:absolute;
          left:${Math.round((1024 - adapt.w) / 2)}px;top:${Math.round((1024 - adapt.h) / 2)}px">${adapt.markup}</svg>
   </div>`, 1024, 1024);
@@ -101,7 +110,7 @@ const splashHtml = page(`
     await p.close();
   };
   await shoot(iconHtml, 1024, 1024, 'icon.png');
-  await shoot(adaptHtml, 1024, 1024, 'adaptive-icon.png', true);
+  await shoot(adaptHtml, 1024, 1024, 'adaptive-icon.png');
   await shoot(splashHtml, 1242, 2688, 'splash.png');
   await b.close();
   console.log('generados en', OUT, '· head', HEAD[0].length + 'x' + HEAD.length, '· paleta', Object.keys(PAL).join(''));
