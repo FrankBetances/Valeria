@@ -16,6 +16,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Pressable, ScrollView, Switch, StyleSheet } from 'react-native';
 import { V } from './valeriaTheme';
+import { BlockIcon } from './ValeriaBlockIcons';
 import {
   enableDailyReminders, disableReminders, remindersEnabled,
   loadReminderSlots, setReminderSlots as persistReminderSlots,
@@ -92,7 +93,7 @@ export const ValeriaSettingsScreen: React.FC = () => {
       <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
         {!!toast && (
           <View style={s.toast}>
-            <View style={s.toastCheck}><Text style={s.toastCheckTxt}>✓</Text></View>
+            <View style={s.toastCheck}><BlockIcon name="check" color="#ffffff" size={14} /></View>
             <Text style={s.toastTxt}>{toast}</Text>
           </View>
         )}
@@ -100,7 +101,7 @@ export const ValeriaSettingsScreen: React.FC = () => {
         {/* ---- Recordatorios de sesión (GEN-01) ---- */}
         <View style={s.card}>
           <View style={s.cardRow}>
-            <View style={[s.cardIcon, { backgroundColor: '#fffbeb' }]}><Text style={s.iconGlyph}>🔔</Text></View>
+            <View style={[s.cardIcon, { backgroundColor: '#fffbeb' }]}><BlockIcon name="bell" color="#c2870b" size={22} /></View>
             <View style={{ flex: 1 }}>
               <Text style={s.cardTitle}>{t.hub.remindersTitle}</Text>
               <Text style={s.cardSub}>
@@ -126,7 +127,9 @@ export const ValeriaSettingsScreen: React.FC = () => {
                     accessibilityState={{ checked: on }}
                     accessibilityLabel={`${t.hub.slotLabel(d.slot, d.hour)}. ${t.hub.slotHint(d.slot)}`}
                   >
-                    <Text style={[s.slotCheck, on && s.slotCheckOn]}>{on ? '✓' : ''}</Text>
+                    <View style={[s.slotCheck, on && s.slotCheckOn]}>
+                {on ? <BlockIcon name="check" color="#ffffff" size={12} /> : null}
+              </View>
                     <View style={{ flex: 1 }}>
                       <Text style={[s.slotLabel, on && s.slotLabelOn]}>{t.hub.slotLabel(d.slot, d.hour)}</Text>
                       <Text style={s.slotHint}>{t.hub.slotHint(d.slot)}</Text>
@@ -149,7 +152,7 @@ export const ValeriaSettingsScreen: React.FC = () => {
         {/* ---- Acceso Profesional: PIN → exportación dual de evidencia ---- */}
         <Pressable onPress={() => setPinOpen(true)} style={s.proAccess}
           accessibilityRole="button" accessibilityLabel={t.hub.proAccessA11y}>
-          <View style={[s.cardIcon, { backgroundColor: V.color.primaryLight }]}><Text style={s.iconGlyph}>🔐</Text></View>
+          <View style={[s.cardIcon, { backgroundColor: V.color.primaryLight }]}><BlockIcon name="lock" color={V.color.primaryDark} size={22} /></View>
           <View style={{ flex: 1 }}>
             <Text style={s.cardTitle}>{t.hub.proAccessTitle}</Text>
             <Text style={s.cardSub}>{t.hub.proAccessSub}</Text>
@@ -193,7 +196,7 @@ const s = StyleSheet.create({
   cardIcon: { width: 36, height: 36, borderRadius: 12, alignItems: 'center', justifyContent: 'center' },
   iconGlyph: { fontSize: 17 },
   cardTitle: { ...V.type.body, fontSize: 14, fontWeight: V.font.extrabold, color: V.color.textPrimary },
-  cardSub: { ...V.type.caption, fontSize: 11.5, lineHeight: 15, fontWeight: V.font.semibold, color: V.color.textMuted, marginTop: 2 },
+  cardSub: { ...V.type.caption, fontSize: 11.5, lineHeight: 15, fontWeight: V.font.semibold, color: V.color.textSecondary, marginTop: 2 },
 
   slotList: { marginTop: 11, gap: 7 },
   slotRow: {
@@ -208,7 +211,7 @@ const s = StyleSheet.create({
   slotCheckOn: { borderColor: V.color.primary, backgroundColor: V.color.primary, color: '#fff' },
   slotLabel: { fontSize: 12.5, fontWeight: V.font.extrabold, color: V.color.textPrimary },
   slotLabelOn: { color: V.color.primary },
-  slotHint: { ...V.type.caption, fontWeight: V.font.semibold, color: V.color.textMuted, marginTop: 1 },
+  slotHint: { ...V.type.caption, fontWeight: V.font.semibold, color: V.color.textSecondary, marginTop: 1 },
 
   pickerWrap: { marginTop: V.space.md },
 
@@ -217,7 +220,7 @@ const s = StyleSheet.create({
     borderColor: V.color.border, borderRadius: 14, padding: 13, marginTop: V.space.md,
     minHeight: V.touchMin, ...V.shadow.card,
   },
-  chev: { fontSize: 18, color: V.color.textMuted, fontWeight: V.font.extrabold },
+  chev: { fontSize: 18, color: V.color.textSecondary, fontWeight: V.font.extrabold },
 });
 
 export default ValeriaSettingsScreen;

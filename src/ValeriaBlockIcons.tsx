@@ -38,7 +38,10 @@ export type BlockIconName =
   // telemetría, así que sus iconos también tienen que ser un set.
   | 'gesture' | 'door' | 'tear' | 'blank' | 'warn' | 'heart'
   // Voz y ruido: nube (reconocedor del sistema) y altavoz tachado (silencio).
-  | 'cloud' | 'speakerOff';
+  | 'cloud' | 'speakerOff'
+  // Pantallas del adulto: ficha, pacientes, ajustes, resultados y la escala SUS.
+  | 'bell' | 'folder' | 'plus' | 'chart' | 'clinical' | 'family'
+  | 'moodBad' | 'moodPoor' | 'moodOk' | 'moodGood' | 'moodGreat';
 
 interface Props { name: BlockIconName; color: string; size?: number; }
 
@@ -349,6 +352,72 @@ export const BlockIcon: React.FC<Props> = ({ name, color, size = 26 }) => {
           <Path d="M4 9.4h3.4L12 5.2v13.6L7.4 14.6H4z" {...common} />
           <Path d="M16.2 9.8 20.6 14.2" {...common} />
           <Path d="M20.6 9.8 16.2 14.2" {...common} />
+        </>
+      )}
+
+      {/* Recordatorios · campana. */}
+      {name === 'bell' && (
+        <>
+          <Path d="M18.4 15.2V10a6.4 6.4 0 1 0-12.8 0v5.2L3.8 18h16.4z" {...common} />
+          <Path d="M10 21a2.4 2.4 0 0 0 4 0" {...common} />
+        </>
+      )}
+
+      {/* Pacientes guardados · carpeta. */}
+      {name === 'folder' && (
+        <Path d="M3.2 19.4V6.2a1.8 1.8 0 0 1 1.8-1.8h4l2.4 2.8h6.8a1.8 1.8 0 0 1 1.8 1.8v10.4a1.8 1.8 0 0 1-1.8 1.8H5a1.8 1.8 0 0 1-1.8-1.8z" {...common} />
+      )}
+
+      {/* Añadir · cruz. */}
+      {name === 'plus' && (
+        <>
+          <Path d="M12 5.2v13.6" {...common} />
+          <Path d="M5.2 12h13.6" {...common} />
+        </>
+      )}
+
+      {/* Resultados · barras. */}
+      {name === 'chart' && (
+        <>
+          <Path d="M4 20.4V13" {...common} />
+          <Path d="M9.4 20.4V7.6" {...common} />
+          <Path d="M14.8 20.4v-5.6" {...common} />
+          <Path d="M20.2 20.4V4.4" {...common} />
+        </>
+      )}
+
+      {/* Diagnóstico · fonendoscopio simplificado. */}
+      {name === 'clinical' && (
+        <>
+          <Path d="M6.2 3.6v5.2a4.6 4.6 0 0 0 9.2 0V3.6" {...common} />
+          <Path d="M10.8 13.4v2.4a4.4 4.4 0 0 0 8.8 0v-1.6" {...common} />
+          <Circle cx="19.6" cy="12.4" r="2" {...common} />
+        </>
+      )}
+
+      {/* Cuidador · adulto y menor. */}
+      {name === 'family' && (
+        <>
+          <Circle cx="8.4" cy="6.6" r="3.2" {...common} />
+          <Path d="M3 20.4v-2.2a5.4 5.4 0 0 1 10.8 0v2.2" {...common} />
+          <Circle cx="17.6" cy="10.4" r="2.4" {...common} />
+          <Path d="M14 20.4v-1.6a3.6 3.6 0 0 1 7.2 0v1.6" {...common} />
+        </>
+      )}
+
+      {/* Escala SUS · cinco caras. El instrumento es de cinco puntos y la cara
+          es su ayuda visual; con emoji, cada teléfono dibujaba otras cinco. */}
+      {(name === 'moodBad' || name === 'moodPoor' || name === 'moodOk'
+        || name === 'moodGood' || name === 'moodGreat') && (
+        <>
+          <Circle cx="12" cy="12" r="8.8" {...common} />
+          <Path d="M9 9.6v.1" {...common} />
+          <Path d="M15 9.6v.1" {...common} />
+          {name === 'moodBad' && <Path d="M8.4 16.6a4.6 4.6 0 0 1 7.2 0" {...common} />}
+          {name === 'moodPoor' && <Path d="M8.8 15.8a4 4 0 0 1 6.4 0" {...common} />}
+          {name === 'moodOk' && <Path d="M8.6 15.2h6.8" {...common} />}
+          {name === 'moodGood' && <Path d="M8.8 14.4a4 4 0 0 0 6.4 0" {...common} />}
+          {name === 'moodGreat' && <Path d="M8.2 13.8a4.8 4.8 0 0 0 7.6 0" {...common} />}
         </>
       )}
 

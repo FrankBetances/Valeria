@@ -22,7 +22,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { V, STORAGE_KEYS } from './valeriaTheme';
 import { useT, UiStrings } from './i18n';
 import { loadGame, liveStreak, levelFor, levelName, levelProgress, xpToNext, BADGES, GameState } from './valeriaGamification';
-import { PixelAward } from './ValeriaPixelAwards';
+import { PixelAward, streakTier } from './ValeriaPixelAwards';
+import { BlockIcon, BlockIconName } from './ValeriaBlockIcons';
 import { readArHistory } from './valeriaTelemetry';
 import type { ArTrial, ArDeviceProfile, ArThresholds } from './valeriaArBridge';
 // import logoWhite from '../../assets/valeria-logo-white.png';
@@ -68,12 +69,12 @@ const substPct = (s: PmSession): number => {
 // número. La etiqueta, la pista y el nombre largo viven en el catálogo
 // (t.results.arLabel / arHint / arTitle), porque los lee el adulto.
 const AR_SERIES: Record<string, {
-  unit: string; icon: string;
+  unit: string; icon: BlockIconName;
   value: (trial: any) => number | null;
 }> = {
-  ar1: { unit: 'ms', icon: '👄', value: (trial) => (trial.holdMaxMs > 0 ? trial.holdMaxMs : null) },
-  ar2: { unit: 'ms', icon: '👂', value: (trial) => trial.latencyMs },
-  ar3: { unit: 'ms', icon: '👀', value: (trial) => (trial.dwellMs > 0 ? trial.dwellMs : null) },
+  ar1: { unit: 'ms', icon: 'gesture', value: (trial) => (trial.holdMaxMs > 0 ? trial.holdMaxMs : null) },
+  ar2: { unit: 'ms', icon: 'hearing', value: (trial) => trial.latencyMs },
+  ar3: { unit: 'ms', icon: 'eye', value: (trial) => (trial.dwellMs > 0 ? trial.dwellMs : null) },
 };
 
 
@@ -367,13 +368,16 @@ export const ValeriaPatientResultsDashboardScreen: React.FC<{ navigation?: any }
         {game && (
           <View style={st.card}>
             <View style={st.cardHeader}>
-              <View style={st.chip}><Text style={st.chipIcon}>🏅</Text></View>
+              <View style={st.chip}><BlockIcon name="level" color={V.color.primaryDark} size={17} /></View>
               <Text style={st.cardTitle}>{t.results.gameTitle}</Text>
             </View>
 
             <View style={st.gameStatsRow}>
               <View style={st.gameStat}>
-                <Text style={st.gameStatBig}>🔥 {liveStreak(game)}</Text>
+                <View style={st.streakRow}>
+                  <PixelAward glyph="flame" tier={streakTier(liveStreak(game))} size={18} />
+                  <Text style={st.gameStatBig}>{liveStreak(game)}</Text>
+                </View>
                 <Text style={st.gameStatLbl}>{t.results.currentStreak}</Text>
               </View>
               <View style={st.gameStat}>
@@ -381,7 +385,7 @@ export const ValeriaPatientResultsDashboardScreen: React.FC<{ navigation?: any }
                 <Text style={st.gameStatLbl}>{t.results.totalXp}</Text>
               </View>
               <View style={st.gameStat}>
-                <Text style={st.gameStatBig}>🏆 {game.bestStreak}</Text>
+                <Text style={st.gameStatBig}>{game.bestStreak}</Text>
                 <Text style={st.gameStatLbl}>{t.results.bestStreak}</Text>
               </View>
             </View>
@@ -414,7 +418,7 @@ export const ValeriaPatientResultsDashboardScreen: React.FC<{ navigation?: any }
         {/* ADHERENCIA SEMANAL */}
         <View style={st.card}>
           <View style={st.cardHeader}>
-            <View style={st.chip}><Text style={st.chipIcon}>📊</Text></View>
+            <View style={st.chip}><BlockIcon name="chart" color={V.color.primaryDark} size={17} /></View>
             <Text style={st.cardTitle}>{t.results.adherenceTitle}</Text>
           </View>
 
@@ -445,7 +449,7 @@ export const ValeriaPatientResultsDashboardScreen: React.FC<{ navigation?: any }
                   const on = i < done;
                   return (
                     <View key={i} style={[st.weekDot, on ? st.weekDotOn : st.weekDotOff]}>
-                      {on ? <Text style={st.weekDotMark}>✓</Text> : null}
+                      {on ? <BlockIcon name="check" color="#ffffff" size={11} /> : null}
                     </View>
                   );
                 })}
@@ -551,7 +555,7 @@ export const ValeriaPatientResultsDashboardScreen: React.FC<{ navigation?: any }
           <View style={st.card}>
             <View style={st.evoHeader}>
               <View style={[st.cardHeader, { flex: 1, marginRight: 8 }]}>
-                <View style={st.chip}><Text style={st.chipIcon}>{AR_SERIES[arEjercicio].icon}</Text></View>
+                <View style={st.chip}><BlockIcon name={AR_SERIES[arEjercicio].icon} color={V.color.primaryDark} size={17} /></View>
                 <Text style={[st.cardTitle, { flexShrink: 1 }]} numberOfLines={2}>
                   {t.results.arLabel(arEjercicio)}
                 </Text>
@@ -646,7 +650,7 @@ export const ValeriaPatientResultsDashboardScreen: React.FC<{ navigation?: any }
                 sesiones hechas en dispositivos distintos. */}
             {arDevice && (
               <Text style={st.arDevice}>
-                📱 Medido en {arDevice.manufacturer} {arDevice.model} · nivel {arDevice.level} ·{' '}
+                Medido en {arDevice.manufacturer} {arDevice.model} · nivel {arDevice.level} ·{' '}
                 {arDevice.probes.fpsP5.toFixed(0)} fps sostenidos
                 {ar.anulados > 0 ? ` · ${ar.anulados} ensayo${ar.anulados === 1 ? '' : 's'} anulado${ar.anulados === 1 ? '' : 's'} por movimiento del teléfono` : ''}
               </Text>
@@ -763,6 +767,7 @@ const st = StyleSheet.create({
 
   gameStatsRow: { flexDirection: 'row', gap: 9, marginTop: 15 },
   gameStat: { flex: 1, backgroundColor: '#f7fafa', borderWidth: 1, borderColor: '#eef3f3', borderRadius: 13, paddingVertical: 12, alignItems: 'center' },
+  streakRow: { flexDirection: 'row', alignItems: 'center', gap: 5 },
   gameStatBig: { fontSize: 18, fontWeight: V.font.extrabold, color: V.color.textPrimary },
   gameStatLbl: { fontSize: 10.5, fontWeight: V.font.bold, color: V.color.textMuted, marginTop: 3 },
   gameLevelRow: { marginTop: 14 },

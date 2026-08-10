@@ -562,7 +562,7 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
   const actionCard = (kicker: string, text: string) => (
     <View style={s.actionCard}>
       <View style={s.actionHead}>
-        <View style={s.actionIcon}><Text style={{ fontSize: 17 }}>🤝</Text></View>
+        <View style={s.actionIcon}><BlockIcon name="autism" color={V.color.primaryDark} size={19} /></View>
         <Text style={s.actionKicker}>{kicker}</Text>
         <View style={{ marginLeft: 'auto' }}><SpeakButton text={text} voice="tutor" compact /></View>
       </View>
@@ -839,7 +839,7 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
             accessibilityRole="button"
             accessibilityLabel={setupRevisit ? t.semantic.setupBack : t.semantic.setupReadyA11y}
           >
-            <Text style={{ fontSize: 22 }}>{setupRevisit ? '↩' : '✅'}</Text>
+            <BlockIcon name={setupRevisit ? 'repeat' : 'check'} color={V.color.primaryDark} size={22} />
             <Text style={s.setupGoBtnTxt}>{setupRevisit ? t.semantic.setupBack : t.semantic.setupReady}</Text>
           </Pressable>
         </ScrollView>
@@ -937,7 +937,7 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
             no solo de la consigna inicial del paso. */}
         <View style={s.promptCard}>
           <View style={s.promptHead}>
-            <View style={s.promptIcon}><Text style={{ fontSize: 18 }}>📢</Text></View>
+            <View style={s.promptIcon}><BlockIcon name="speaker" color="#ffffff" size={20} /></View>
             <View style={{ flex: 1 }}>
               <Text style={s.promptKicker}>{livePrompt?.mode === 'slowPhrase' ? t.semantic.appSpeaksSlow : t.semantic.appSpeaks}</Text>
               <Text style={s.promptTxt}>“{livePrompt?.text ?? st.tts}”</Text>
@@ -981,14 +981,14 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
 
         {state === 'say' && (
           <View style={s.stateCard}>
-            <Text style={{ fontSize: 30 }}>🔊</Text>
+            <BlockIcon name="speaker" color={V.color.primaryDark} size={30} />
             <Text style={s.stateTxt}>{t.semantic.stepSay}</Text>
           </View>
         )}
 
         {state === 'ready' && (
           <View style={s.stateCard}>
-            <Text style={{ fontSize: 30 }}>🙂</Text>
+            <BlockIcon name="moodGood" color={V.color.primaryDark} size={30} />
             <Text style={s.stateTxt}>{t.semantic.stepReady}</Text>
             <Pressable
               onPress={() => listenNow(sess, stepIdx)}
@@ -996,7 +996,7 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
               accessibilityRole="button"
               accessibilityLabel={t.semantic.readyBtnA11y}
             >
-              <Text style={{ fontSize: 24 }}>🎤</Text>
+              <BlockIcon name="mic" color="#ffffff" size={24} />
               <Text style={s.readyMicBtnTxt}>{t.semantic.readyBtn}</Text>
             </Pressable>
           </View>
@@ -1004,7 +1004,7 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
 
         {state === 'seleccion' && !!st.choices && (
           <View style={s.stateCard}>
-            <Text style={{ fontSize: 26 }}>👆</Text>
+            <BlockIcon name="gesture" color={V.color.primaryDark} size={26} />
             <Text style={s.stateTxt}>{t.semantic.tapImage}</Text>
             <View style={s.pickRowCards}>
               {(pickLeftFirst ? st.choices : [...st.choices].reverse()).map((c) => (
@@ -1035,10 +1035,10 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
         {state === 'listen' && (
           <View style={s.stateCard}>
             <Animated.View style={{ transform: [{ scale: micScale }] }}>
-              <View style={s.micRing}><Text style={{ fontSize: 30 }}>🎤</Text></View>
+              <View style={s.micRing}><BlockIcon name="mic" color="#ffffff" size={30} /></View>
             </Animated.View>
             <Text style={s.stateTxt}>{t.semantic.stepListen}</Text>
-            {!!heard && <Text style={s.partialTxt}>✨ {heard}</Text>}
+            {!!heard && <Text style={s.partialTxt}>{heard}</Text>}
             {/* ES-04 · El veredicto del adulto está disponible DURANTE la
                 escucha, no solo cuando el reconocedor se rinde: quien está
                 delante del niño oye antes y mejor que el micrófono. */}
@@ -1049,7 +1049,7 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
                 accessibilityRole="button"
                 accessibilityLabel={t.semantic.saidItA11y}
               >
-                <Text style={{ fontSize: 22 }}>✅</Text><Text style={s.judgeTxt}>{t.semantic.saidIt}</Text>
+                <BlockIcon name="check" color={V.color.success} size={22} /><Text style={s.judgeTxt}>{t.semantic.saidIt}</Text>
               </Pressable>
               <Pressable
                 onPress={() => { listeningRef.current = false; setListening(false); stopListening(); resolve(1); }}
@@ -1057,7 +1057,7 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
                 accessibilityRole="button"
                 accessibilityLabel={t.semantic.almostA11y}
               >
-                <Text style={{ fontSize: 22 }}>💪</Text><Text style={s.judgeTxt}>{t.semantic.almost}</Text>
+                <BlockIcon name="moodOk" color={V.color.primaryDark} size={22} /><Text style={s.judgeTxt}>{t.semantic.almost}</Text>
               </Pressable>
             </View>
             <Pressable
@@ -1071,14 +1071,14 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
 
         {state === 'judge' && (
           <View style={s.stateCard}>
-            <Text style={{ fontSize: 26 }}>👂</Text>
+            <BlockIcon name="hearing" color={V.color.primaryDark} size={26} />
             <Text style={s.stateTxt}>{t.semantic.stepJudge}</Text>
             <View style={s.judgeRow}>
               <Pressable onPress={() => resolve(2)} style={[s.judgeBtn, { backgroundColor: V.color.successBg, borderColor: '#bfe9d4' }]}>
-                <Text style={{ fontSize: 22 }}>✅</Text><Text style={s.judgeTxt}>{t.semantic.saidIt}</Text>
+                <BlockIcon name="check" color={V.color.success} size={22} /><Text style={s.judgeTxt}>{t.semantic.saidIt}</Text>
               </Pressable>
               <Pressable onPress={() => resolve(1)} style={[s.judgeBtn, { backgroundColor: '#fffbeb', borderColor: '#f4e6b8' }]}>
-                <Text style={{ fontSize: 22 }}>💪</Text><Text style={s.judgeTxt}>{t.semantic.almost}</Text>
+                <BlockIcon name="moodOk" color={V.color.primaryDark} size={22} /><Text style={s.judgeTxt}>{t.semantic.almost}</Text>
               </Pressable>
             </View>
             <Pressable onPress={retry}><Text style={s.linkBtn}>{t.semantic.notUnderstood}</Text></Pressable>
@@ -1088,7 +1088,7 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
         {state === 'success' && (
           <>
             <View style={[s.verdictCard, s.verdictOk]}>
-              <Text style={{ fontSize: 26 }}>🎉</Text>
+              <CatPixel size={44} />
               <View style={{ flex: 1 }}>
                 <Text style={s.verdictTitle}>{t.semantic.successTitle}</Text>
                 <Text style={s.verdictSub}>{heard ? t.semantic.heardBy(heard) : t.semantic.adultVerdict} · {pendingStars}★</Text>
@@ -1108,7 +1108,7 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
                 micrófono no captase nada. Decirle «casi casi» cuando el fallo
                 fue del motor le atribuye un error que no cometió. */}
             <View style={[s.verdictCard, s.verdictWarn]}>
-              <Text style={{ fontSize: 26 }}>{notHeard ? '🎤' : '💪'}</Text>
+              <BlockIcon name={notHeard ? 'mic' : 'moodOk'} color={V.color.primaryDark} size={26} />
               <View style={{ flex: 1 }}>
                 <Text style={s.verdictTitle}>{notHeard ? t.semantic.notHeardTitle : t.semantic.almostTitle}</Text>
                 <Text style={s.verdictSub}>
@@ -1126,7 +1126,7 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
         {state === 'assist' && (
           <>
             <View style={[s.verdictCard, s.verdictNeutral]}>
-              <Text style={{ fontSize: 26 }}>🤝</Text>
+              <BlockIcon name="autism" color={V.color.primaryDark} size={26} />
               <View style={{ flex: 1 }}>
                 <Text style={s.verdictTitle}>{t.semantic.assistTitle}</Text>
                 <Text style={s.verdictSub}>

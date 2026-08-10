@@ -49,6 +49,7 @@ import { releaseNoise } from './valeriaNoise';
 import { ValeriaPragmaticBreakOverlay } from './ValeriaPragmaticBreak';
 import { ValeriaDistractorBear } from './ValeriaDistractorBear';
 import { BlockIcon } from './ValeriaBlockIcons';
+import { CatPixel } from './ValeriaCatPixel';
 import { ValeriaGameStrip } from './ValeriaGameStrip';
 import { ValeriaAwardsSheet } from './ValeriaAwardsSheet';
 import { loadGame, GameState } from './valeriaGamification';
@@ -602,8 +603,8 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
       <View key={which} style={[s.bigTile, ok && s.bigTileOk, bad && s.bigTileBad]}>
         <FichaVisual word={isTarget ? p.target : p.foil} emoji={isTarget ? p.targetEmoji : p.foilEmoji} pic={isTarget ? p.targetPictogram : p.foilPictogram} size={58} />
         <Text style={s.bigTileCap}>{isTarget ? p.target : p.foil}</Text>
-        {ok && <Text style={s.tileBadge}>✅</Text>}
-        {bad && <Text style={s.tileBadge}>👂</Text>}
+        {ok && <View style={s.tileBadge}><BlockIcon name="check" color={V.color.success} size={16} /></View>}
+        {bad && <View style={s.tileBadge}><BlockIcon name="hearing" color={V.color.error} size={16} /></View>}
       </View>
     );
   };
@@ -633,7 +634,7 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
   const missionCard = (title: string, text: string) => (
     <View style={s.missionCard}>
       <View style={s.missionHead}>
-        <View style={s.missionIcon}><Text style={{ fontSize: 17 }}>🏃</Text></View>
+        <View style={s.missionIcon}><BlockIcon name="move" color={V.color.primaryDark} size={19} /></View>
         <Text style={s.missionKicker}>{title}</Text>
         <View style={{ marginLeft: 'auto' }}><SpeakButton text={text} voice="child" compact /></View>
       </View>
@@ -784,7 +785,7 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
         </View>
         <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
           <View style={s.doneCard}>
-            <Text style={{ fontSize: 44 }}>🎉</Text>
+            <CatPixel size={62} />
             <Text style={s.doneTitle}>{t.pairs.doneSessionTitle}</Text>
             <Text style={s.doneBig}>{avg.toFixed(1)}<Text style={s.doneSlash}> / 3 ★</Text></Text>
             <Text style={s.doneSub}>
@@ -803,7 +804,7 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
             {reward && (
               <View style={s.rewardRow}>
                 <View style={s.rewardChip}><Text style={s.rewardBig}>+{reward.xpGained}</Text><Text style={s.rewardLbl}>XP</Text></View>
-                <View style={[s.rewardChip, { backgroundColor: '#fff4e5' }]}><Text style={s.rewardBig}>🔥 {reward.streak}</Text><Text style={s.rewardLbl}>{t.pairs.streakChip(reward.streak)}</Text></View>
+                <View style={[s.rewardChip, { backgroundColor: '#fff4e5' }]}><Text style={s.rewardBig}>{reward.streak}</Text><Text style={s.rewardLbl}>{t.pairs.streakChip(reward.streak)}</Text></View>
               </View>
             )}
             <Pressable onPress={() => navigation.navigate('Results')} style={s.primaryBtn}><Text style={s.primaryBtnTxt}>{t.pairs.seeResults}</Text></Pressable>
@@ -852,7 +853,7 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
         {p.dialect && p.dialect.verdict !== 'developmental' && !!p.dialect.note && (
           <View style={s.dialectCard}>
             <Text style={s.dialectKicker}>
-              🗣️ {p.dialect.verdict === 'transfer' ? t.pairs.dialectTransfer : t.pairs.dialectSensitive}
+              {p.dialect.verdict === 'transfer' ? t.pairs.dialectTransfer : t.pairs.dialectSensitive}
             </Text>
             <Text style={s.dialectTxt}>{p.dialect.note}</Text>
             {!!p.dialect.regularIn?.length && (
@@ -897,7 +898,7 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
 
         {step === 'ready' && (
           <View style={s.stateCard}>
-            <Text style={{ fontSize: 30 }}>🙂</Text>
+            <BlockIcon name="moodGood" color={V.color.primaryDark} size={30} />
             <Text style={s.stateTxt}>{t.pairs.stepReady}</Text>
             <Pressable
               onPress={() => listenNow(p)}
@@ -905,7 +906,7 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
               accessibilityRole="button"
               accessibilityLabel={t.pairs.readyBtnA11y}
             >
-              <Text style={{ fontSize: 24 }}>🎤</Text>
+              <BlockIcon name="mic" color="#ffffff" size={24} />
               <Text style={s.readyMicBtnTxt}>{t.pairs.readyBtn}</Text>
             </Pressable>
             <Pressable onPress={() => { const s2 = trialPrompt(p, trialIdx, loc); setLivePrompt(s2); speakToChild(s2.text); }}>
@@ -917,10 +918,10 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
         {step === 'listen' && (
           <View style={s.stateCard}>
             <Animated.View style={{ transform: [{ scale: micScale }] }}>
-              <View style={s.micRing}><Text style={{ fontSize: 30 }}>🎤</Text></View>
+              <View style={s.micRing}><BlockIcon name="mic" color="#ffffff" size={30} /></View>
             </Animated.View>
             <Text style={s.stateTxt}>{t.pairs.stepListen}</Text>
-            {!!heard && <Text style={s.partialTxt}>✨ {heard}</Text>}
+            {!!heard && <Text style={s.partialTxt}>{heard}</Text>}
             <Pressable
               onPress={() => { listeningRef.current = false; setListening(false); stopListening(); setStep('judge'); }}
               style={s.stopPill}
@@ -932,7 +933,7 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
 
         {step === 'judge' && (
           <View style={s.stateCard}>
-            <Text style={{ fontSize: 26 }}>👂</Text>
+            <BlockIcon name="hearing" color={V.color.primaryDark} size={26} />
             <Text style={s.stateTxt}>{t.pairs.stepJudge}</Text>
             <View style={s.judgeRow}>
               <Pressable onPress={() => resolveBranch(p, 'target')} style={[s.judgeBtn, { backgroundColor: V.color.successBg, borderColor: '#bfe9d4' }]}>
@@ -957,7 +958,7 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
         {step === 'success' && (
           <>
             <View style={[s.verdictCard, s.verdictOk]}>
-              <Text style={{ fontSize: 26 }}>🎉</Text>
+              <CatPixel size={44} />
               <View style={{ flex: 1 }}>
                 <Text style={s.verdictTitle}>{t.pairs.successTitle}</Text>
                 <Text style={s.verdictSub}>{heard ? t.pairs.heardBy(heard) : t.pairs.adultVerdict} · {pendingStars}★</Text>
@@ -973,7 +974,7 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
         {step === 'correction' && (
           <>
             <View style={[s.verdictCard, correctionKind === 'foil' ? s.verdictWarn : s.verdictNeutral]}>
-              <Text style={{ fontSize: 26 }}>{correctionKind === 'foil' ? '👂' : correctionKind === 'close' ? '💪' : '😅'}</Text>
+              <BlockIcon name={correctionKind === 'foil' ? 'hearing' : correctionKind === 'close' ? 'moodOk' : 'repeat'} color={V.color.primaryDark} size={26} />
               <View style={{ flex: 1 }}>
                 <Text style={s.verdictTitle}>
                   {correctionKind === 'foil' ? t.pairs.heardFoil(p.foil)
@@ -1008,7 +1009,7 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
         {step === 'assist' && (
           <>
             <View style={[s.verdictCard, s.verdictNeutral]}>
-              <Text style={{ fontSize: 26 }}>🤝</Text>
+              <BlockIcon name="autism" color={V.color.primaryDark} size={26} />
               <View style={{ flex: 1 }}>
                 <Text style={s.verdictTitle}>{t.pairs.assistTitle}</Text>
                 <Text style={s.verdictSub}>{t.pairs.assistSub(p.target)}</Text>

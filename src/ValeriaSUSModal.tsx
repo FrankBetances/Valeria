@@ -9,6 +9,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
 import { V } from './valeriaTheme';
+import { BlockIcon } from './ValeriaBlockIcons';
 import { onSusRequest, attachLikert } from './valeriaTelemetry';
 import { useT, UiStrings } from './i18n';
 
@@ -51,11 +52,11 @@ export const ValeriaSUSModal: React.FC = () => {
   return (
     <View style={s.overlay}>
       <View style={s.modal}>
-        <Pressable onPress={() => setOpen(false)} style={s.close}><Text style={s.closeTxt}>✕</Text></Pressable>
+        <Pressable onPress={() => setOpen(false)} style={s.close}><BlockIcon name="cross" color={V.color.textSecondary} size={16} /></Pressable>
         <Text style={s.kicker}>{t.sus.kicker}</Text>
         {sent ? (
           <View style={s.thanks}>
-            <Text style={s.thanksEmoji}>🙌</Text>
+            <View style={s.thanksIcon}><BlockIcon name="heart" color={V.color.primaryDark} size={34} /></View>
             <Text style={s.thanksTxt}>{t.sus.thanks}</Text>
           </View>
         ) : (
@@ -69,7 +70,13 @@ export const ValeriaSUSModal: React.FC = () => {
                   <Pressable key={it.v} onPress={() => submit(it.v)} style={[s.scaleBtn, on && s.scaleBtnOn]}
                     accessibilityRole="button" accessibilityLabel={t.sus.scaleA11y(it.v, it.label)}>
                     <Text style={s.scaleNum}>{it.v}</Text>
-                    <Text style={s.scaleFace}>{['😟', '🙁', '😐', '🙂', '😀'][it.v - 1]}</Text>
+                    {/* La escala SUS es de cinco puntos y la cara es su ayuda
+                        visual; con emoji, cada teléfono dibujaba otras cinco. */}
+                    <BlockIcon
+                      name={(['moodBad', 'moodPoor', 'moodOk', 'moodGood', 'moodGreat'] as const)[it.v - 1]}
+                      color={on ? '#ffffff' : V.color.textSecondary}
+                      size={22}
+                    />
                   </Pressable>
                 );
               })}
@@ -101,6 +108,7 @@ const s = StyleSheet.create({
   ends: { flexDirection: 'row', justifyContent: 'space-between', marginTop: 8, paddingHorizontal: 2 },
   endTxt: { fontSize: 10.5, fontWeight: '700', color: V.color.textMuted },
   thanks: { alignItems: 'center', paddingVertical: 18 },
+  thanksIcon: { alignItems: 'center', marginBottom: 6 },
   thanksEmoji: { fontSize: 44 },
   thanksTxt: { fontSize: 15, fontWeight: '800', color: V.color.textPrimary, marginTop: 10, textAlign: 'center' },
 });

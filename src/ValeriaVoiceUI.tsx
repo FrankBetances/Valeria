@@ -155,7 +155,7 @@ export const MicPracticeCard: React.FC<{ target: string; prompt?: string; altTar
   if (!asrSupported()) {
     return (
       <View style={s.micUnavailable}>
-        <Text style={{ fontSize: 14 }}>🎤</Text>
+        <BlockIcon name="mic" color="#ffffff" size={16} />
         <Text style={s.micUnavailableTxt}>{t.voice.micUnavailable}</Text>
       </View>
     );
@@ -239,7 +239,7 @@ export const MicPracticeCard: React.FC<{ target: string; prompt?: string; altTar
 
       {phase === 'error' && !!errMsg && (
         <View style={[s.verdict, s.verdictRetry]}>
-          <Text style={{ fontSize: 18 }}>😅</Text>
+          <BlockIcon name="repeat" color={V.color.textSecondary} size={19} />
           <Text style={[s.verdictSub, { flex: 1 }]}>{errMsg}</Text>
         </View>
       )}
@@ -478,7 +478,10 @@ export const SpeechPrivacyBlock: React.FC<{ locale: Locale }> = ({ locale }) => 
       {asrCaptureEnabled() && <Text style={s.privCapture}>{t.voice.privCapture}</Text>}
 
       <View style={s.privHead}>
-        <Text style={s.privKicker}>{local ? '🔒' : '☁️'} {t.voice.privKicker}</Text>
+        <View style={s.privKickerRow}>
+              <BlockIcon name={local ? 'lock' : 'cloud'} color={V.color.textSecondary} size={13} />
+              <Text style={s.privKicker}>{t.voice.privKicker}</Text>
+            </View>
         <View style={[s.privChip, local ? s.privChipLocal : s.privChipNet]}>
           <Text style={[s.privChipTxt, { color: local ? '#0f8a63' : '#92711a' }]}>
             {checking && st == null ? t.voice.chipChecking : local ? t.voice.privChipLocal : t.voice.privChipNet}
@@ -628,7 +631,7 @@ export const VoiceQualityCard: React.FC = () => {
   return (
     <View style={s.vqCard}>
       <View style={s.vqHead}>
-        <View style={s.vqIcon}><Text style={{ fontSize: 17 }}>🎙️</Text></View>
+        <View style={s.vqIcon}><BlockIcon name="mic" color={V.color.primaryDark} size={19} /></View>
         <Text style={s.vqTitle}>{t.voice.cardTitle}</Text>
         <View style={[s.vqChip, { backgroundColor: packaged ? V.color.successBg : chip.bg }]}>
           <Text style={[s.vqChipTxt, { color: packaged ? '#0f8a63' : chip.fg }]}>

@@ -424,7 +424,7 @@ export const ValeriaArLauncherScreen: React.FC<{ navigation?: any }> = ({ naviga
         {noticeBar}
 
         <View style={s.levelCard}>
-          <Text style={s.levelTitle}>📱 {profile.manufacturer} {profile.model} · nivel {profile.level} ({policy.label})</Text>
+          <Text style={s.levelTitle}>{profile.manufacturer} {profile.model} · nivel {profile.level} ({policy.label})</Text>
           <Text style={s.levelTxt}>{policy.note}</Text>
           <View style={s.levelActions}>
             <Pressable onPress={runAptitude} accessibilityRole="button" accessibilityLabel="Repetir el calentamiento de este teléfono">
@@ -466,7 +466,7 @@ export const ValeriaArLauncherScreen: React.FC<{ navigation?: any }> = ({ naviga
             y con otro tono a propósito: no es parte del juego. */}
         <Pressable onPress={() => { void openArDiagnostics(); }} style={s.proTool}
           accessibilityRole="button" accessibilityLabel="Ver las señales en vivo, herramienta para la logopeda">
-          <Text style={{ fontSize: 16 }}>📈</Text>
+          <BlockIcon name="chart" color={V.color.primaryDark} size={17} />
           <View style={{ flex: 1 }}>
             <Text style={s.proToolTitle}>Ver las señales en vivo</Text>
             <Text style={s.proToolSub}>
@@ -478,7 +478,7 @@ export const ValeriaArLauncherScreen: React.FC<{ navigation?: any }> = ({ naviga
         </Pressable>
 
         <View style={s.setupCard}>
-          <Text style={s.setupTitle}>🧱 Cómo colocar el teléfono</Text>
+          <Text style={s.setupTitle}>Cómo colocar el teléfono</Text>
           <Text style={s.setupTxt}>
             Apoyado en un libro, una caja o contra la pared, en horizontal, a un palmo y medio de la
             cara. La pantalla avisa en verde cuando la posición vale. Si el teléfono se mueve

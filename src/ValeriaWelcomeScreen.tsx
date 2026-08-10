@@ -10,6 +10,7 @@ import React, { useEffect, useRef } from 'react';
 import { View, Text, Pressable, StyleSheet, Animated, Easing, StatusBar } from 'react-native';
 import { V } from './valeriaTheme';
 import { CatPixel } from './ValeriaCatPixel';
+import { BlockIcon } from './ValeriaBlockIcons';
 import { useT } from './i18n';
 // import logoWhite from '../../assets/valeria-logo-white.png';
 
@@ -115,7 +116,7 @@ export const ValeriaWelcomeScreen: React.FC<{ navigation: any }> = ({ navigation
           <Text style={s.secondaryBtnTxt}>{t.welcome.hasPatient}</Text>
         </Pressable>
         <View style={s.trust}>
-          <Text style={{ fontSize: 11 }}>🔒</Text>
+          <BlockIcon name="lock" color="rgba(255,255,255,.85)" size={13} />
           <Text style={s.trustTxt}>{t.welcome.trust}</Text>
         </View>
       </Animated.View>

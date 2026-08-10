@@ -16,6 +16,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, Pressable, ScrollView, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { V, STORAGE_KEYS } from './valeriaTheme';
+import { BlockIcon } from './ValeriaBlockIcons';
 import { useT } from './i18n';
 // import logoWhite from '../../assets/valeria-logo-white.png';
 
@@ -27,11 +28,14 @@ interface Paciente {
   [k: string]: any;
 }
 
-const avatarFor = (p: Paciente): string => {
-  const g = (p.genero || '').toLowerCase();
-  if (g.indexOf('niña') >= 0) return '👧';
-  if (g.indexOf('niño') >= 0) return '👦';
-  return '🧒';
+// Antes el avatar salía del campo GÉNERO de la ficha: «niña» → 👧, «niño» → 👦.
+// Se cambia por la inicial del nombre, y no solo por quitar emoji: la ficha
+// admite escribir el género libremente, así que cualquier valor que no fuera
+// una de esas dos palabras caía en un tercer emoji genérico. La inicial
+// identifica al paciente sin inferir nada de él.
+const initialFor = (p: Paciente): string => {
+  const n = (p.nombre || '').trim();
+  return n ? n[0].toUpperCase() : '·';
 };
 
 export const ValeriaPatientSelectScreen: React.FC<{ navigation?: any }> = ({ navigation }) => {
@@ -95,7 +99,7 @@ export const ValeriaPatientSelectScreen: React.FC<{ navigation?: any }> = ({ nav
             onPress={() => seleccionar(p)}
           >
             <View style={s.avatar}>
-              <Text style={s.avatarIcon}>{avatarFor(p)}</Text>
+              <Text style={s.avatarIcon}>{initialFor(p)}</Text>
             </View>
             <View style={s.cardBody}>
               <Text style={s.name} numberOfLines={1}>{p.nombre || t.patientSelect.patientFallback}</Text>
@@ -112,7 +116,7 @@ export const ValeriaPatientSelectScreen: React.FC<{ navigation?: any }> = ({ nav
         {pacientes.length === 0 && (
           <View style={s.empty}>
             <View style={s.emptyIcon}>
-              <Text style={{ fontSize: 32 }}>🗂️</Text>
+              <BlockIcon name="folder" color={V.color.primaryDark} size={34} />
             </View>
             <Text style={s.emptyTitle}>{t.patientSelect.emptyTitle}</Text>
             <Text style={s.emptyDesc}>{t.patientSelect.emptyBody}</Text>
@@ -124,12 +128,13 @@ export const ValeriaPatientSelectScreen: React.FC<{ navigation?: any }> = ({ nav
           style={({ pressed }) => [s.newBtn, pressed && { backgroundColor: V.color.primaryTint }]}
           onPress={() => navigation?.navigate('FichaRegistro')}
         >
-          <Text style={s.newPlus}>＋</Text>
+          <BlockIcon name="plus" color={V.color.primaryDark} size={20} />
           <Text style={s.newText}>{t.patientSelect.newPatient}</Text>
         </Pressable>
 
         <View style={s.privacy}>
-          <Text style={s.privacyText}>{`🔒  ${t.patientSelect.privacy}`}</Text>
+          <BlockIcon name="lock" color={V.color.textSecondary} size={14} />
+          <Text style={s.privacyText}>{t.patientSelect.privacy}</Text>
         </View>
       </ScrollView>
     </View>
@@ -186,10 +191,10 @@ const s = StyleSheet.create({
     justifyContent: 'center',
     marginRight: 13,
   },
-  avatarIcon: { fontSize: 23 },
+  avatarIcon: { fontSize: 22, fontWeight: V.font.extrabold, color: V.color.primaryDark, letterSpacing: 0.5 },
   cardBody: { flex: 1, minWidth: 0 },
   name: { fontSize: 16, fontWeight: V.font.extrabold, color: V.color.textPrimary },
-  diag: { fontSize: 12, fontWeight: V.font.bold, color: V.color.textMuted, marginTop: 3 },
+  diag: { fontSize: 12, fontWeight: V.font.bold, color: V.color.textSecondary, marginTop: 3 },
   nhcPill: {
     backgroundColor: V.color.primaryLight,
     borderRadius: 9,
@@ -227,8 +232,8 @@ const s = StyleSheet.create({
   newPlus: { fontSize: 18, color: V.color.primaryDark, fontWeight: V.font.extrabold },
   newText: { fontSize: 15, color: V.color.primaryDark, fontWeight: V.font.extrabold },
 
-  privacy: { alignItems: 'center', marginTop: 18, paddingHorizontal: 10 },
-  privacyText: { fontSize: 11, fontWeight: V.font.semibold, color: V.color.textMuted, textAlign: 'center' },
+  privacy: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 7, marginTop: 18, paddingHorizontal: 10 },
+  privacyText: { fontSize: 11, fontWeight: V.font.semibold, color: V.color.textSecondary, textAlign: 'center' },
 });
 
 export default ValeriaPatientSelectScreen;

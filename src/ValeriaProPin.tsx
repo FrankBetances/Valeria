@@ -123,8 +123,8 @@ export const ProPinModal: React.FC<{
       <View style={s.modal}>
         <ScrollView showsVerticalScrollIndicator={false}>
         <View style={s.modalHead}>
-          <View style={s.modalIcon}><Text style={{ fontSize: 20 }}>🔐</Text></View>
-          <Pressable onPress={close} style={s.modalClose}><Text style={{ color: '#6b7280', fontWeight: '700' }}>✕</Text></Pressable>
+          <View style={s.modalIcon}><BlockIcon name="lock" color={V.color.primaryDark} size={22} /></View>
+          <Pressable onPress={close} style={s.modalClose}><BlockIcon name="cross" color="#6b7280" size={15} /></Pressable>
         </View>
         <Text style={s.modalTitle}>{t.pro.modalTitle}</Text>
         <Text style={s.modalSub}>{subtitle ?? t.pro.pinSubtitleDefault}</Text>

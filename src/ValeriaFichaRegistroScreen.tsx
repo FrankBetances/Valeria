@@ -8,6 +8,7 @@ import React, { useState } from 'react';
 import { View, Text, Pressable, ScrollView, TextInput, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { V, STORAGE_KEYS } from './valeriaTheme';
+import { BlockIcon, BlockIconName } from './ValeriaBlockIcons';
 import { useT } from './i18n';
 // import logoWhite from '../../assets/valeria-logo-white.png';
 
@@ -84,7 +85,7 @@ export const ValeriaFichaRegistroScreen: React.FC<{ navigation?: any }> = ({ nav
       <ScrollView contentContainerStyle={s.scroll} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false}>
         {/* ===== Niño/a ===== */}
         <View style={s.card}>
-          <SectionHead icon="🧒" title={t.ficha.sectionChild} />
+          <SectionHead icon="age" title={t.ficha.sectionChild} />
 
           <Field label={t.ficha.fullName} required error={err.nombre} errorText={t.ficha.required}>
             <TextInput value={nombre} onChangeText={(v) => { setNombre(v); setErr((e) => ({ ...e, nombre: false })); setSuccess(false); }}
@@ -122,7 +123,7 @@ export const ValeriaFichaRegistroScreen: React.FC<{ navigation?: any }> = ({ nav
 
         {/* ===== Tutor ===== */}
         <View style={s.card}>
-          <SectionHead icon="👪" title={t.ficha.sectionCaregiver} />
+          <SectionHead icon="family" title={t.ficha.sectionCaregiver} />
 
           <Field label={t.ficha.caregiverName} required error={err.tutor} errorText={t.ficha.required}>
             <TextInput value={tutor} onChangeText={(v) => { setTutor(v); setErr((e) => ({ ...e, tutor: false })); setSuccess(false); }}
@@ -158,7 +159,7 @@ export const ValeriaFichaRegistroScreen: React.FC<{ navigation?: any }> = ({ nav
 
         {/* ===== Diagnóstico y equipo médico ===== */}
         <View style={s.card}>
-          <SectionHead icon="🩺" title={t.ficha.sectionDiagnosis} />
+          <SectionHead icon="clinical" title={t.ficha.sectionDiagnosis} />
 
           <Field label={t.ficha.pathology}>
             <Pressable onPress={() => { setPatOpen((o) => !o); setVinculoOpen(false); }} style={[s.select, patOpen && s.selectOpen]}>
@@ -186,7 +187,7 @@ export const ValeriaFichaRegistroScreen: React.FC<{ navigation?: any }> = ({ nav
 
         {success && (
           <View style={s.success}>
-            <View style={s.successCheck}><Text style={{ color: '#fff', fontWeight: '800' }}>✓</Text></View>
+            <View style={s.successCheck}><BlockIcon name="check" color="#ffffff" size={15} /></View>
             <Text style={s.successTxt}>{t.ficha.saved}</Text>
           </View>
         )}
@@ -200,7 +201,7 @@ export const ValeriaFichaRegistroScreen: React.FC<{ navigation?: any }> = ({ nav
         )}
 
         <View style={s.footerNote}>
-          <Text style={{ fontSize: 11 }}>🔒</Text>
+          <BlockIcon name="lock" color={V.color.textSecondary} size={13} />
           <Text style={s.footerTxt}>{t.ficha.footer}</Text>
         </View>
       </ScrollView>
@@ -209,9 +210,9 @@ export const ValeriaFichaRegistroScreen: React.FC<{ navigation?: any }> = ({ nav
 };
 
 // --- Subcomponentes ---------------------------------------------------------
-const SectionHead = ({ icon, title }: { icon: string; title: string }) => (
+const SectionHead = ({ icon, title }: { icon: BlockIconName; title: string }) => (
   <View style={s.sectionHead}>
-    <View style={s.sectionIcon}><Text style={{ fontSize: 17 }}>{icon}</Text></View>
+    <View style={s.sectionIcon}><BlockIcon name={icon} color={V.color.primaryDark} size={19} /></View>
     <Text style={s.sectionTitle}>{title}</Text>
   </View>
 );
@@ -245,7 +246,7 @@ const s = StyleSheet.create({
   input: { backgroundColor: V.color.pageBg, borderWidth: 1, borderColor: '#e5e7eb', borderRadius: 12, paddingHorizontal: 14, paddingVertical: 13, fontSize: 15, color: V.color.textPrimary },
   inputErr: { backgroundColor: V.color.errorBg, borderColor: V.color.error },
   errText: { fontSize: 11.5, color: V.color.error, marginTop: 4, fontWeight: '700' },
-  hint: { fontSize: 11, color: V.color.textMuted, marginTop: 5, fontWeight: '600' },
+  hint: { fontSize: 11, color: V.color.textSecondary, marginTop: 5, fontWeight: '600' },
 
   segment: { flex: 1, alignItems: 'center', paddingVertical: 11, borderRadius: 12, backgroundColor: V.color.pageBg, borderWidth: 1, borderColor: '#eef2f1' },
   segmentOn: { backgroundColor: V.color.primary, borderColor: V.color.primary, ...V.shadow.button },
@@ -265,7 +266,7 @@ const s = StyleSheet.create({
   secondaryBtn: { marginTop: 11, backgroundColor: '#fff', borderWidth: 1.5, borderColor: V.color.primary, borderRadius: 14, paddingVertical: 15, alignItems: 'center' },
   secondaryBtnTxt: { color: V.color.primaryDark, fontSize: 15, fontWeight: '800' },
   footerNote: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6, marginTop: 14, paddingHorizontal: 10 },
-  footerTxt: { color: V.color.textMuted, fontSize: 11, fontWeight: '600', textAlign: 'center' },
+  footerTxt: { color: V.color.textSecondary, fontSize: 11, fontWeight: '600', textAlign: 'center' },
 });
 
 export default ValeriaFichaRegistroScreen;

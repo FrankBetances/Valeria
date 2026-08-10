@@ -27,6 +27,7 @@ import {
   View,
 } from 'react-native';
 import { V } from './valeriaTheme';
+import { CatPixel } from './ValeriaCatPixel';
 import { useAuth } from './firebase/AuthContext';
 import { authErrorCode } from './firebase/authErrors';
 import { useT } from './i18n';
@@ -101,7 +102,7 @@ const ValeriaAuthScreen: React.FC<{ onAuthenticated?: () => void }> = ({
       >
         <View style={s.card}>
           <View style={s.badge}>
-            <Text style={{ fontSize: 26 }}>🐻</Text>
+            <CatPixel size={40} />
           </View>
           <Text style={s.title}>{t.auth.title}</Text>
           <Text style={s.subtitle}>

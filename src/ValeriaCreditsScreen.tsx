@@ -10,6 +10,7 @@ import React, { useEffect, useRef } from 'react';
 import { View, Text, Pressable, ScrollView, StyleSheet, Animated, Easing, StatusBar } from 'react-native';
 import { V } from './valeriaTheme';
 import { CatPixel } from './ValeriaCatPixel';
+import { BlockIcon, BlockIconName } from './ValeriaBlockIcons';
 import { useT } from './i18n';
 import { ValeriaUiLangPicker } from './ValeriaUiLangPicker';
 // import logoWhite from '../../assets/valeria-logo-white.png';
@@ -24,8 +25,8 @@ export const ValeriaCreditsScreen: React.FC<{ navigation?: any }> = ({ navigatio
 
   // Los colaboradores llevan nombre propio (no se traduce) y descripción (sí).
   const colaboradores = [
-    { icon: '🤝', nombre: 'Acopros', desc: t.credits.acoprosDesc },
-    { icon: '🗣️', nombre: 'Quisqueya Habla', desc: t.credits.quisqueyaDesc },
+    { icon: 'autism' as BlockIconName, nombre: 'Acopros', desc: t.credits.acoprosDesc },
+    { icon: 'language' as BlockIconName, nombre: 'Quisqueya Habla', desc: t.credits.quisqueyaDesc },
   ];
 
   const float = useRef(new Animated.Value(0)).current;
@@ -86,7 +87,7 @@ export const ValeriaCreditsScreen: React.FC<{ navigation?: any }> = ({ navigatio
         {/* tarjeta del autor */}
         <Animated.View style={[s.doctorCard, fadeUp(2)]}>
           <Animated.View style={[s.doctorAvatar, { transform: [{ translateY }, { scale: pulseScale }] }]}>
-            <Text style={s.doctorAvatarIcon}>🩺</Text>
+            <BlockIcon name="clinical" color={V.color.primaryDark} size={22} />
           </Animated.View>
           <Text style={s.doctorName}>Dr. Frank Betances</Text>
           <Text style={s.doctorRole}>{t.credits.authorRole}</Text>
@@ -104,7 +105,7 @@ export const ValeriaCreditsScreen: React.FC<{ navigation?: any }> = ({ navigatio
           {colaboradores.map((c, i) => (
             <Animated.View key={c.nombre} style={[s.collabCard, fadeUp(4 + i)]}>
               <View style={s.collabIcon}>
-                <Text style={s.collabIconText}>{c.icon}</Text>
+                <BlockIcon name={c.icon} color={V.color.primaryDark} size={20} />
               </View>
               <View style={s.collabBody}>
                 <Text style={s.collabName}>{c.nombre}</Text>

@@ -11,6 +11,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Pressable, StyleSheet, Share, ScrollView } from 'react-native';
 import { V } from './valeriaTheme';
+import { BlockIcon } from './ValeriaBlockIcons';
 import { useT } from './i18n';
 import { ValeriaQRCode } from './ValeriaQRCode';
 import { buildExport, purgeAfterExport, ExportBundle } from './valeriaTelemetry';
@@ -62,7 +63,7 @@ export const ValeriaProExportModal: React.FC<{ open: boolean; onClose: () => voi
       <View style={s.modal}>
         <View style={s.head}>
           <Text style={s.kicker}>{t.pro.exportKicker}</Text>
-          <Pressable onPress={onClose} style={s.close}><Text style={s.closeTxt}>✕</Text></Pressable>
+          <Pressable onPress={onClose} style={s.close}><BlockIcon name="cross" color={V.color.textSecondary} size={16} /></Pressable>
         </View>
         <ScrollView contentContainerStyle={{ alignItems: 'center', paddingBottom: 6 }} showsVerticalScrollIndicator={false}>
           <Text style={s.title}>{t.pro.exportTitle}</Text>
