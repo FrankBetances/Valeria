@@ -1,0 +1,63 @@
+{
+  "version": 1,
+  "note": "Fuente ÚNICA de la tabla de opcodes de Lúa. La consumen tres sitios: el firmware (C), Valeria+ (TS) y VIA+ (otro repositorio). Tres copias a mano se desincronizan; de aquí salen las dos generadas y el gate de CI las compara. Ni los uuid ni los `code` cambian nunca: un aparato ya flasheado se queda con los suyos.",
+  "service": {
+    "uuid": "6c75612d-0001-4000-b000-000000000001",
+    "name": "LUA_SERVICE"
+  },
+  "characteristics": [
+    {
+      "key": "CTRL",
+      "uuid": "6c75612d-0002-4000-b000-000000000001",
+      "props": "writeNoResponse",
+      "bytes": 4,
+      "note": "Camino de latencia. Sin confirmación a propósito: pedir ACK duplica el peor caso y una celebración perdida no le importa a nadie."
+    },
+    {
+      "key": "SAFE",
+      "uuid": "6c75612d-0003-4000-b000-000000000001",
+      "props": "write",
+      "bytes": 2,
+      "note": "Silencio clínico y revocación. CON confirmación: aquí sí importa saber que llegó."
+    },
+    {
+      "key": "STATE",
+      "uuid": "6c75612d-0004-4000-b000-000000000001",
+      "props": "readNotify",
+      "bytes": 8,
+      "note": "modo, capacidad viva, segundos de concesión restantes, batería, versión de firmware."
+    },
+    {
+      "key": "CFG",
+      "uuid": "6c75612d-0005-4000-b000-000000000001",
+      "props": "write",
+      "bytes": 20,
+      "note": "Brillo y catálogo. Nunca texto: no existe el sitio donde meter un nombre."
+    }
+  ],
+  "opcodes": [
+    { "key": "PHASE", "code": 1, "param": "fase 0-3", "note": "espeja TurnPhaseStrip: escucha / repite / veredicto / misión" },
+    { "key": "VERDICT", "code": 2, "param": "MatchLevel 0-2", "note": "0 no coincide · 1 casi · 2 lo dijo. Lúa mapea nivel → animación; no interpreta." },
+    { "key": "CELEBRATE", "code": 3, "param": "intensidad 0-2", "note": "cierre de sesión, subida de nivel, insignia" },
+    { "key": "IDLE", "code": 4, "param": "—", "note": "cara neutra" },
+    { "key": "CALL", "code": 5, "param": "—", "note": "animación de llamada del Modo Vínculo" },
+    { "key": "GRANT", "code": 16, "param": "ttl en segundos (1-60)", "note": "concede capacidad visual" },
+    { "key": "HEARTBEAT", "code": 17, "param": "—", "note": "renueva la concesión viva" },
+    { "key": "BENCH", "code": 240, "param": "—", "note": "Fase 0: pinta un frame completo y devuelve por STATE el tiempo de despacho. No se usa en producción." }
+  ],
+  "safeOps": [
+    { "key": "CLINICAL_SILENCE", "code": 1, "note": "revoca toda concesión y bloquea nuevas" },
+    { "key": "UNLOCK", "code": 2, "note": "levanta el bloqueo; requiere comando explícito" }
+  ],
+  "modes": [
+    { "key": "REST", "code": 0, "note": "estado seguro y por omisión" },
+    { "key": "ACTIVE", "code": 1, "note": "solo con concesión viva" },
+    { "key": "LOCKED", "code": 2, "note": "silencio clínico" }
+  ],
+  "limits": {
+    "grantMaxSeconds": 60,
+    "heartbeatSeconds": 10,
+    "latencyBudgetMs": 300,
+    "minFps": 20
+  }
+}

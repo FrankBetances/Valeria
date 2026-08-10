@@ -25,7 +25,11 @@
     "asr:audit-pairs": "node scripts/asr-bench.js --audit-pairs",
     "asr:bench-selftest": "node scripts/asr-bench.js --selftest",
     "asr:d7-sim": "node scripts/asr-d7-sim.js",
-    "build:brand": "node scripts/build-brand-assets.js"
+    "build:brand": "node scripts/build-brand-assets.js",
+    "build:lua-protocol": "node scripts/build-lua-protocol.js",
+    "check:lua-protocol": "node scripts/check-lua-protocol.js",
+    "check:lua-mute": "node scripts/check-lua-mute.js",
+    "build:lua-faces": "node scripts/build-lua-faces.js"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "2.2.0",

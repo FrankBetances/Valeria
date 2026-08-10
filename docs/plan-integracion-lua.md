@@ -341,6 +341,30 @@ mitad de una evaluación.
 
 ---
 
+## 6.5 Dónde engancha en la clínica (aportado por el análisis del 10/8/2026)
+
+El eje A es lo que hace Lúa **dentro** de la sesión; el B, lo que hace al
+cerrarla. Todo son comandos de un solo sentido: la app decide, Lúa reacciona.
+
+**Eje A · marcador clínico durante la terapia**
+
+| Bloque | Enganche | Opcode | Por qué aporta |
+| :--- | :--- | :--- | :--- |
+| Audición · Test de Ling y escucha en ruido | el adulto califica la respuesta y Lúa celebra en silencio | `VERDICT(2)` | refuerzo visual tipo VRA, que es exactamente cómo se condiciona la respuesta en audiometría infantil |
+| Pares Mínimos | Lúa espeja `TurnPhaseStrip`: cara atenta al escuchar, expectante al repetir | `PHASE(0..3)` | da un ancla física al turno y entrena control inhibitorio en dislalias fonológicas |
+| TEA · quiebre pragmático | Lúa se queda en `IDLE` y **no** asiste al niño; solo reacciona si repara la comunicación **hacia el adulto** | `IDLE` → `VERDICT` | atención conjunta triangulada: el refuerzo premia dirigirse a la persona, no al aparato |
+
+La fila de TEA es la más delicada y conviene dejarla escrita: si Lúa reaccionase
+al niño durante el quiebre, se convertiría en la salida fácil y el ejercicio
+mediría lo contrario de lo que pretende.
+
+**Eje B · vínculo fuera de la sesión**
+
+| Momento | Opcode | Nota |
+| :--- | :--- | :--- |
+| Subida de nivel o insignia al cerrar sesión | `CELEBRATE` | lo dispara `registerSession()`, que ya devuelve `levelUp` y `newBadges` |
+| Hora de la sesión | `CALL` | va con la notificación local que ya existe; suple la falta de RTC (D-3) |
+
 ## 7. Superficie de integración en Valeria+
 
 Este repositorio contiene **solo Valeria+**. Lo de VIA+ es un contrato (§6.3, §8),
@@ -518,19 +542,36 @@ Sin fechas: cada fase abre cuando la anterior pasa su criterio. El cronograma de
 placa; si la latencia real sale mal, todo lo demás cambia y una fecha escrita hoy
 solo sirve para incumplirla.
 
-**Fase 0 · Banco de pruebas (bloqueante para todo lo demás).**
-Flashear un firmware mínimo en la placa C3: pantalla, BLE, un opcode. Medir con
-osciloscopio o con pin de traza: latencia real del camino de §4, fps sostenidos
-de la animación facial, consumo con pantalla encendida y en deep sleep, autonomía
-con la celda que se vaya a usar. En paralelo, medir la e-Paper para tener la
-referencia de autonomía.
-→ *Criterio de paso: latencia p95 ≤ 300 ms y ≥ 20 fps sostenidos.* Si no pasa,
-esta placa no sirve y hay que replantear antes de escribir una línea de app.
+**Fase 0 · Banco de pruebas — ESCRITA Y LISTA PARA CORRER.**
+Ya no es una descripción: está el firmware, el banco de medida y el
+procedimiento. Falta la placa.
 
-**Fase 1 · Protocolo.**
-Cerrar `protocol.json`, escribir el generador y los dos gates. UUIDs propios.
-Servidor GATT en el ESP32 con la máquina de estados de §5 completa, incluidos
-caducidad y latido.
+  · `firmware/lua/` — firmware mínimo con el servidor GATT, la máquina de
+    estados de §5 **entera** (concesión con caducidad y latido), pin de traza y
+    contador de fps. Medir la latencia de un firmware que luego llevará esa
+    lógica encima no dice nada si la lógica no está, así que está desde el
+    primer día.
+  · `docs/lua-bench.html` — banco por **Web Bluetooth**: mide p50/p95/peor caso
+    y lee los fps del aparato desde Chrome, sin compilar Valeria+. Es lo que
+    permite decidir sobre el hardware antes de tocar la app.
+  · `firmware/lua/README.md` — los cinco pasos, en orden, y la plantilla de lo
+    que hay que anotar.
+
+→ *Criterio de paso: p95 ≤ 300 ms, ≥ 20 fps y vuelta a reposo sin latido 100 de
+100.* Si no pasa, esta placa no sirve y hay que replantear antes de escribir una
+línea de app.
+
+⚠ **Paso 1 antes de medir: confirmar los pines del display** contra el
+esquemático. `include/board.h` lleva los que publica el fabricante para esta
+familia, pero el manual del proyecto no trae la tabla de GPIO del panel. Una
+medición sobre una asignación adivinada no vale.
+
+**Fase 1 · Protocolo — HECHA.**
+`firmware/lua/protocol.json` es la fuente única; `scripts/build-lua-protocol.js`
+genera la cabecera C y el módulo TS, y dos gates lo custodian:
+`check-lua-protocol.js` (las tres copias no se separan) y `check-lua-mute.js`
+(sin audio, sin micrófono, sin servos). Queda por cerrar en la placa: probar el
+servidor GATT con `nRF Connect` y las cien repeticiones de la caducidad.
 → *Criterio: con `nRF Connect` se puede conducir a Lúa entera sin app, y al cortar
 la conexión vuelve a reposo en ≤ 60 s, cien veces de cien.*
 
@@ -610,8 +651,8 @@ moldea, y cambia la conversación sobre marcado.
 
 | Fase | Estado |
 | :--- | :--- |
-| 0 · Banco de pruebas | ⬜ pendiente — no hay hardware flasheado |
-| 1 · Protocolo | ⬜ pendiente |
+| 0 · Banco de pruebas | 🟨 **escrito y listo para correr** — falta la placa |
+| 1 · Protocolo | 🟨 **generador y gates hechos** — falta probarlo sobre hardware |
 | 2 · Puente RN | ⬜ pendiente |
 | 3 · Primera integración visible | ⬜ pendiente |
 | 4 · Catálogo de expresiones | ⬜ pendiente |
@@ -619,4 +660,7 @@ moldea, y cambia la conversación sobre marcado.
 | 6 · VIA+ | ⬜ pendiente |
 | 7 · Campo | ⬜ pendiente |
 
-Nada de esto existe todavía en el árbol. Este documento es el único artefacto.
+Lo que YA existe en el árbol: `firmware/lua/` (protocolo, firmware de Fase 0 y
+procedimiento), `scripts/build-lua-protocol.js` con sus dos gates, y
+`docs/lua-bench.html`. Lo que NO existe: nada medido. Las cifras de §4 siguen
+siendo una hipótesis hasta que alguien enchufe la placa.

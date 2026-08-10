@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lúa · banco de la Fase 0</title>
+<!--
+  Mide la latencia de ida y vuelta y lee los fps que publica el aparato, SIN
+  compilar Valeria+. Es lo que permite ejecutar la Fase 0 con la placa y un
+  portátil, y decidir sobre el hardware antes de tocar una línea de la app.
+
+  Cómo se abre (Web Bluetooth exige contexto seguro):
+      npx serve docs        →  http://localhost:3000/lua-bench.html
+  en Chrome de escritorio o Chrome de Android. Safari no trae Web Bluetooth.
+
+  Qué NO mide: el tramo puente-JS→nativo de react-native-ble-plx, que solo
+  aparece con la app real. La cifra de aquí es el suelo: si ya se pasa de 300
+  ms, la app no lo va a arreglar.
+-->
+<style>
+  :root { --tur:#00c4be; --dark:#0b1220; --mut:#5b6b6b; }
+  * { box-sizing:border-box }
+  body { margin:0; font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+         background:#f4f8f8; color:var(--dark); padding:22px; }
+  h1 { font-size:20px; margin:0 0 4px }
+  p.sub { margin:0 0 20px; color:var(--mut); font-size:14px }
+  button { font:inherit; font-weight:700; border:0; border-radius:12px; padding:12px 18px;
+           background:var(--tur); color:#fff; cursor:pointer; margin:0 8px 8px 0 }
+  button.ghost { background:#fff; color:var(--dark); border:1px solid #d6e2e2 }
+  button:disabled { opacity:.45; cursor:default }
+  .card { background:#fff; border:1px solid #e4eded; border-radius:16px; padding:16px; margin-bottom:14px }
+  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:12px }
+  .stat { background:#f7fbfb; border-radius:12px; padding:12px }
+  .stat b { display:block; font-size:26px; letter-spacing:-.5px }
+  .stat span { font-size:12px; color:var(--mut); font-weight:600 }
+  .ok { color:#0a7d54 } .bad { color:#b3261e }
+  pre { background:#0b1220; color:#d7e3e3; padding:14px; border-radius:12px;
+        font-size:12px; overflow:auto; max-height:280px; margin:0 }
+  .hint { font-size:13px; color:var(--mut) }
+</style>
+</head>
+<body>
+<h1>Lúa · banco de la Fase 0</h1>
+<p class="sub">Latencia de ida y vuelta y fps del panel. Criterios: <b>p95 ≤ 300 ms</b> y <b>≥ 20 fps</b>.</p>
+
+<div class="card">
+  <button id="conn">Conectar con Lúa</button>
+  <button id="run" class="ghost" disabled>Medir 100 envíos</button>
+  <button id="lease" class="ghost" disabled>Probar caducidad (60 s)</button>
+  <button id="copy" class="ghost" disabled>Copiar informe</button>
+  <div class="hint" id="status">Sin conectar. La placa tiene que estar anunciando.</div>
+</div>
+
+<div class="card grid">
+  <div class="stat"><b id="p50">—</b><span>mediana ida y vuelta</span></div>
+  <div class="stat"><b id="p95">—</b><span>p95 · criterio ≤ 300 ms</span></div>
+  <div class="stat"><b id="fps">—</b><span>fps · criterio ≥ 20</span></div>
+  <div class="stat"><b id="disp">—</b><span>despacho en el aparato</span></div>
+</div>
+
+<div class="card"><pre id="log">Esperando…</pre></div>
+
+<script>
+const SERVICE = '6c75612d-0001-4000-b000-000000000001';
+const CHR = {
+  CTRL:  '6c75612d-0002-4000-b000-000000000001',
+  SAFE:  '6c75612d-0003-4000-b000-000000000001',
+  STATE: '6c75612d-0004-4000-b000-000000000001',
+};
+const OP = { PHASE:0x01, VERDICT:0x02, CELEBRATE:0x03, IDLE:0x04, CALL:0x05,
+             GRANT:0x10, HEARTBEAT:0x11, BENCH:0xF0 };
+const VER = 1;
+
+const $ = (id) => document.getElementById(id);
+const log = (m) => { $('log').textContent = (new Date().toLocaleTimeString() + '  ' + m + '\n' + $('log').textContent).slice(0, 8000); };
+const frame = (op, param = 0) => Uint8Array.from([VER, op, param & 0xff, (param >> 8) & 0xff]);
+
+let ctrl, safe, state, lastState = null, pending = null, samples = [], report = '';
+
+$('conn').onclick = async () => {
+  try {
+    const dev = await navigator.bluetooth.requestDevice({ filters: [{ services: [SERVICE] }] });
+    dev.addEventListener('gattserverdisconnected', () => {
+      $('status').textContent = 'Enlace caído. El aparato debe volver a reposo solo.';
+      log('DESCONECTADO · comprobar que la cara vuelve a neutra sin que nadie se lo pida');
+    });
+    const gatt = await dev.gatt.connect();
+    const svc = await gatt.getPrimaryService(SERVICE);
+    ctrl  = await svc.getCharacteristic(CHR.CTRL);
+    safe  = await svc.getCharacteristic(CHR.SAFE);
+    state = await svc.getCharacteristic(CHR.STATE);
+    await state.startNotifications();
+    state.addEventListener('characteristicvaluechanged', (e) => {
+      const v = e.target.value;
+      lastState = {
+        modo: v.getUint8(0), concesion_s: v.getUint8(1), cara: v.getUint8(2),
+        version: v.getUint8(3), fps: v.getUint8(4),
+        despacho_us: v.getUint8(5) | (v.getUint8(6) << 8) | (v.getUint8(7) << 16),
+      };
+      $('fps').textContent = lastState.fps;
+      $('fps').className = lastState.fps >= 20 ? 'ok' : 'bad';
+      $('disp').textContent = (lastState.despacho_us / 1000).toFixed(1) + ' ms';
+      if (pending) { samples.push(performance.now() - pending); pending = null; }
+    });
+    $('status').textContent = 'Conectado a ' + (dev.name || 'Lúa');
+    $('run').disabled = $('lease').disabled = false;
+    log('conectado · ' + (dev.name || 'sin nombre'));
+  } catch (e) { log('ERROR ' + e.message); }
+};
+
+const send = (op, param = 0) => ctrl.writeValueWithoutResponse(frame(op, param));
+
+$('run').onclick = async () => {
+  samples = [];
+  $('run').disabled = true;
+  await send(OP.GRANT, 60);
+  log('concesión de 60 s pedida · empezando 100 envíos');
+  for (let i = 0; i < 100; i++) {
+    pending = performance.now();
+    await send(OP.VERDICT, i % 3);
+    await new Promise((r) => setTimeout(r, 120));   // ritmo de un ensayo real
+  }
+  const s = samples.slice().sort((a, b) => a - b);
+  if (!s.length) { log('sin muestras: ¿llegan las notificaciones de STATE?'); $('run').disabled = false; return; }
+  const p = (q) => s[Math.min(s.length - 1, Math.floor(s.length * q))];
+  $('p50').textContent = p(0.5).toFixed(0) + ' ms';
+  $('p95').textContent = p(0.95).toFixed(0) + ' ms';
+  $('p95').className = p(0.95) <= 300 ? 'ok' : 'bad';
+  report = [
+    'Lúa · Fase 0 · ' + new Date().toISOString(),
+    'muestras: ' + s.length,
+    'ida y vuelta p50: ' + p(0.5).toFixed(1) + ' ms',
+    'ida y vuelta p95: ' + p(0.95).toFixed(1) + ' ms   (criterio ≤ 300)',
+    'peor caso: ' + s[s.length - 1].toFixed(1) + ' ms',
+    'fps del panel: ' + (lastState ? lastState.fps : '—') + '   (criterio ≥ 20)',
+    'despacho en el aparato: ' + (lastState ? (lastState.despacho_us / 1000).toFixed(2) : '—') + ' ms',
+    'VEREDICTO: ' + ((p(0.95) <= 300 && lastState && lastState.fps >= 20) ? 'PASA' : 'NO PASA'),
+  ].join('\n');
+  log(report);
+  $('copy').disabled = false;
+  $('run').disabled = false;
+};
+
+$('lease').onclick = async () => {
+  log('caducidad: se concede 3 s y NO se manda latido; la cara debe volver a neutra sola');
+  await send(OP.GRANT, 3);
+  await send(OP.CELEBRATE, 2);
+  setTimeout(() => log('modo ahora: ' + (lastState ? lastState.modo : '—') + ' (0 = reposo · esperado 0)'), 6000);
+};
+
+$('copy').onclick = () => navigator.clipboard.writeText(report).then(() => log('informe copiado'));
+
+if (!navigator.bluetooth) {
+  $('status').textContent = 'Este navegador no trae Web Bluetooth. Usa Chrome de escritorio o de Android.';
+  $('conn').disabled = true;
+}
+</script>
+</body>
+</html>
