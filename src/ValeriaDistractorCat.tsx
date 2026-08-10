@@ -5,11 +5,10 @@
 // visual pura para el paradigma de doble tarea. Lo activa y desactiva el
 // ADULTO desde su panel (nunca la app sola: muro MDR).
 //
-// Hasta la v11 esto era BearMark, el oso pardo. Con la mascota nueva pinta a
-// Lúa (CatPixel): el estímulo distractor es la MISMA gata que celebra en el
-// hub, no un segundo personaje. Fichero, componente y copy del Panel del
-// Adulto dicen «gata» — si vuelve a aparecer la palabra «oso» en este bloque,
-// es que alguien revirtió medio cambio.
+// Pinta a Lúa (CatPixel): el estímulo distractor es la MISMA gata que celebra
+// en el hub, no un segundo personaje. Fichero, componente y copy del Panel del
+// Adulto dicen «gata», y scripts/check-brand-consistency.js rompe el build si
+// alguien revierte medio cambio.
 //
 // Rendimiento (regla de oro 1): las animaciones van íntegras por el hilo
 // nativo (useNativeDriver, solo transform) y el bucle ARRANCA dentro de

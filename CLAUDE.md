@@ -75,8 +75,8 @@ dependencia. Ícono nuevo → se dibuja ahí, con ese mismo trazo.
 
 ### 5b. La mascota es Lúa, la gata. El oso ya no existe
 
-Decidido por Frank el 9/8/2026. `BearMark` está retirado: en la app no queda ni
-un oso de marca. Lo que hay que saber antes de tocar nada:
+Decidido por Frank el 9/8/2026. La mascota anterior está retirada y no queda ni
+un rastro suyo en la app. Lo que hay que saber antes de tocar nada:
 
 - El sprite vive en [`src/ValeriaCatPixel.tsx`](src/ValeriaCatPixel.tsx) —una
   rejilla de caracteres, no un PNG— y de ahí salen **icono, icono adaptativo,

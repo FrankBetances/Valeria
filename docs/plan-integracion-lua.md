@@ -491,9 +491,9 @@ grosor constante, terminaciones redondeadas— llevado a un canvas circular de
 El oso queda retirado de la app. Ya está hecho en el árbol:
 `ValeriaCatPixel.tsx` (gata negra tipo smoking, rejilla de 32 de lado y dos
 poses —cabeza sola por debajo de 90 px, cuerpo entero por encima—) sustituye a
-`BearMark` en Bienvenida, Créditos, hub y el distractor de doble tarea
-(`ValeriaDistractorCat`), y los doce niveles pasan de «Osezno → Oso Legendario»
-a «Gatita → Gata Legendaria».
+a la mascota anterior en Bienvenida, Créditos, hub y el distractor de doble
+tarea (`ValeriaDistractorCat`), y los doce niveles pasan a «Gatita → Gata
+Legendaria».
 
 **Estado de la migración de marca (10/8/2026): completa.** Pantallas, nombres de
 nivel, copy del distractor en los tres bancos (es · gl · eu) e **icono, icono
