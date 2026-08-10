@@ -82,6 +82,7 @@ const IOS_ICON = 'ios-native/Valeria/Assets.xcassets/AppIcon.appiconset/AppIcon-
 const BRAND_ASSETS = [
   'assets/icon.png', 'assets/adaptive-icon.png', 'assets/splash.png',
   'docs/lua-mascota.png', IOS_ICON,
+  'assets/valeria-logo.png', 'assets/valeria-logo-white.png',
 ];
 
 // Láminas retiradas: si un fichero de marca vuelve a tener uno de estos
@@ -89,6 +90,10 @@ const BRAND_ASSETS = [
 const RETIRED = {
   '738dc8364559c1014ac84584d98ad22016df2240f90395ebba9fa8984c79f0db':
     'icono de iOS con la mascota anterior',
+  '59c544d81702c719835b92f6dfd6065c8e2a8548ba2992b3f3dec4b5310f2edb':
+    'logotipo con las orejas redondas de la mascota anterior',
+  '4ab3af67440cd8e8771c50e54dee6d50f05288dbadc90e1436278eb53c2e55f3':
+    'logotipo blanco con las orejas redondas de la mascota anterior',
 };
 
 for (const a of BRAND_ASSETS) {
