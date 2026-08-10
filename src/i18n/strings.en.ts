@@ -595,7 +595,7 @@ export const EN: UiStrings = {
 
     setupKicker: '🧰 WHAT YOU’LL NEED',
     stepsKicker: (n: number): string => `🤝 WHAT YOU’LL DO · ${n} ${n === 1 ? 'STEP' : 'STEPS'}`,
-    reviewSetup: '🧰 See setup',
+    reviewSetup: 'See setup',
     reviewSetupA11y: 'See the materials and the routine again',
 
     appSpeaksSlow: 'THE APP MODELS IT SLOWLY',
@@ -789,7 +789,7 @@ export const EN: UiStrings = {
     closeA11y: 'Close the caregiver panel',
     distractorTitle: 'Distractor cat (dual task)',
     distractorSub: 'The cat peeks in and moves along the edge; the child has to keep attending to the voice. Tapping it does not count as an error.',
-    launchPragmatic: '🎭 Trigger a pragmatic breakdown',
+    launchPragmatic: 'Trigger a pragmatic breakdown',
     arKicker: '🎯 AUGMENTED REALITY · CLINICAL THRESHOLDS',
     gazePointer: 'Gaze pointer (AR-3)',
     pointerIris: 'Iris',

@@ -594,7 +594,7 @@ export const ES = {
 
     setupKicker: '🧰 MATERIAL QUE NECESITÁIS',
     stepsKicker: (n: number): string => `🤝 QUÉ VAIS A HACER · ${n} ${n === 1 ? 'PASO' : 'PASOS'}`,
-    reviewSetup: '🧰 Ver preparación',
+    reviewSetup: 'Ver preparación',
     reviewSetupA11y: 'Volver a ver el material y la dinámica',
 
     appSpeaksSlow: 'LA APP MODELA DESPACIO',
@@ -789,7 +789,7 @@ export const ES = {
     closeA11y: 'Cerrar el panel del adulto',
     distractorTitle: 'Gata distractora (doble tarea)',
     distractorSub: 'La gata se asoma y se mueve por el borde; el niño debe seguir atendiendo a la voz. Tocarla no cuenta como error.',
-    launchPragmatic: '🎭 Lanzar un quiebre pragmático',
+    launchPragmatic: 'Lanzar un quiebre pragmático',
     arKicker: '🎯 REALIDAD AUMENTADA · UMBRALES CLÍNICOS',
     gazePointer: 'Puntero de la mirada (AR-3)',
     pointerIris: 'Iris',

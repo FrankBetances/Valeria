@@ -961,6 +961,7 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
           accessibilityRole="button"
           accessibilityLabel={t.semantic.reviewSetupA11y}
         >
+          <BlockIcon name="material" color={V.color.textSecondary} size={15} />
           <Text style={s.reviewSetupTxt}>{t.semantic.reviewSetup}</Text>
         </Pressable>
 
@@ -1190,7 +1191,7 @@ const s = StyleSheet.create({
   setupHint: { fontSize: 12.5, fontWeight: '600', color: V.color.textSecondary, textAlign: 'center', marginBottom: 12, lineHeight: 18 },
   setupGoBtn: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 10, backgroundColor: V.color.primary, borderRadius: 16, paddingVertical: 15, ...V.shadow.button },
   setupGoBtnTxt: { color: '#fff', fontSize: 15.5, fontWeight: '800' },
-  reviewSetupPill: { alignSelf: 'flex-start', borderWidth: 1, borderColor: V.color.border, backgroundColor: '#fff', borderRadius: 999, paddingVertical: 7, paddingHorizontal: 13, marginBottom: 12 },
+  reviewSetupPill: { alignSelf: 'flex-start', flexDirection: 'row', alignItems: 'center', gap: 6, borderWidth: 1, borderColor: V.color.border, backgroundColor: '#fff', borderRadius: 999, paddingVertical: 7, paddingHorizontal: 13, marginBottom: 12 },
   reviewSetupTxt: { fontSize: 12.5, fontWeight: '800', color: V.color.textSecondary },
 
   // pick

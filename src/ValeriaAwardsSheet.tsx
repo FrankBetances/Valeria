@@ -36,7 +36,10 @@ export const ValeriaAwardsSheet: React.FC<Props> = ({ open, game, onClose }) => 
   const level = levelFor(game.xp);
   const atMax = level >= LEVEL_COUNT;
   const streak = liveStreak(game);
-  const won = game.badges.length;
+  // Solo cuentan las insignias que EXISTEN en el catálogo. AsyncStorage puede
+  // arrastrar ids de versiones viejas, y contarlos pintaba "2 de 18" con la
+  // rejilla entera en gris: el contador dice una cosa y los dibujos otra.
+  const won = BADGES.reduce((n, b) => (game.badges.includes(b.id) ? n + 1 : n), 0);
 
   return (
     <Modal visible={open} transparent animationType="slide" onRequestClose={onClose}>

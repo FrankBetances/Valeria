@@ -54,10 +54,15 @@ const pause = (page, ms) => page.waitForTimeout(ms);
         { date: '2025-07-08T10:00:00Z', pairId: 'rana-lana', phoneme: 'r̄ → l', trials: mk(1) },
       ];
       localStorage.setItem('@valeria_pares_minimos', JSON.stringify(pm));
-      // Gamificación con algo de progreso para el panel.
+      // Gamificación con progreso real para la tira del hub y la colección de
+      // premios. Las claves son las de GameState (lastDay, perfects): con las
+      // antiguas (lastPlayed, perfectSessions) la racha se pinta a 0 porque
+      // liveStreak() no encuentra el último día y la captura sale muerta.
       localStorage.setItem('@valeria_juego', JSON.stringify({
-        xp: 180, streak: 3, lastPlayed: new Date().toISOString().slice(0, 10),
-        bestStreak: 3, sessions: 4, perfectSessions: 1, badges: ['first', 'streak3'],
+        xp: 640, streak: 5, bestStreak: 9,
+        lastDay: new Date().toISOString().slice(0, 10),
+        sessions: 27, perfects: 6,
+        badges: ['primera', 'ses10', 'ses25', 'racha3', 'racha7', 'perfecta', 'perf5', 'madrugadora', 'finde'],
       }));
     } catch (e) { /* noop */ }
   });
@@ -131,8 +136,9 @@ const pause = (page, ms) => page.waitForTimeout(ms);
   await pause(page, 400);
   await shot(page, '07-pin-profesional');       // 07 · modal PIN compartido
   console.log('07 pin ✓');
-  // cerrar el modal
-  await page.getByText('✕', { exact: true }).click().catch(async () => {
+  // Cerrar el modal. El aspa es un icono SVG propio, no texto: se busca por su
+  // etiqueta accesible (getByText('✕') dejó de encontrar nada al cambiar el set).
+  await page.getByLabel('Cerrar', { exact: true }).first().click().catch(async () => {
     await page.keyboard.press('Escape');
   });
   await pause(page, 400);
@@ -286,12 +292,70 @@ const pause = (page, ms) => page.waitForTimeout(ms);
   await shot(page, '22-voz-variedad');          // 22 · selector Castellano/Galego/Dominicano
   console.log('22 voz/variedad ✓');
 
+  // ===================== PREMIOS DE LÚA (colección + escalera de niveles) =====================
+  // La tira de juego del hub abre la hoja de premios SIN pedir el PIN: es del
+  // niño, no del profesional. Se captura con el progreso sembrado arriba.
+  await openHubFresh();
+  const tira = page.getByLabel(/colección de premios/i);
+  await tira.waitFor({ timeout: 30000 });
+  await tira.click();
+  await page.getByText('Los premios de Lúa', { exact: true }).waitFor({ timeout: 15000 });
+  await pause(page, 900);
+  await shot(page, '25-premios');                // 25 · nivel, racha y escalera
+  console.log('25 premios ✓');
+  const coleccion = page.getByText(/^Insignias · /);
+  if (await coleccion.isVisible().catch(() => false)) {
+    await coleccion.evaluate((el) => el.scrollIntoView({ block: 'start' }));
+    await pause(page, 700);
+    await shot(page, '26-premios-insignias');    // 26 · las 18 insignias, ganadas y en gris
+    console.log('26 insignias ✓');
+  } else {
+    console.log('26 insignias — no visible (se omite)');
+  }
+  await page.getByText('Cerrar', { exact: true }).click().catch(() => {});
+  await pause(page, 400);
+
+  // ===================== ACADEMY (hub de dominios, cápsula y quiz) =====================
+  await page.getByText('Academy', { exact: true }).click();
+  await page.getByText('DOMINIOS DE CAPACITACIÓN', { exact: true }).waitFor({ timeout: 60000 });
+  await pause(page, 900);
+  await shot(page, '27-academy-hub');            // 27 · dominios + feed de prioridad
+  console.log('27 academy hub ✓');
+
+  // Lenguaje es el primer dominio y el más poblado; la tarjeta cabe entera en
+  // pantalla, así que el clic no compite con la barra de pestañas.
+  await page.getByLabel(/^Lenguaje\. /).click();
+  await page.getByText('CÁPSULAS DE CONOCIMIENTO', { exact: true }).waitFor({ timeout: 30000 });
+  await pause(page, 700);
+  await shot(page, '28-academy-capsulas');       // 28 · lista de cápsulas del dominio
+  console.log('28 academy cápsulas ✓');
+
+  const primeraCapsula = page.getByLabel(/^Cápsula /).first();
+  if (await primeraCapsula.isVisible().catch(() => false)) {
+    await primeraCapsula.click();
+    await pause(page, 900);
+    await shot(page, '29-academy-lector');       // 29 · lector de la cápsula
+    console.log('29 academy lector ✓');
+    // Avanzar hasta el quiz: el botón cambia de "Siguiente ›" a "Hacer el quiz →".
+    for (let i = 0; i < 12; i++) {
+      const quiz = page.getByText('Hacer el quiz →', { exact: true });
+      if (await quiz.isVisible().catch(() => false)) { await quiz.click(); break; }
+      const next = page.getByText('Siguiente ›', { exact: true });
+      if (!(await next.isVisible().catch(() => false))) break;
+      await next.click();
+      await pause(page, 350);
+    }
+    await pause(page, 900);
+    await shot(page, '30-academy-quiz');         // 30 · quiz de respuesta explicada
+    console.log('30 academy quiz ✓');
+  } else {
+    console.log('29/30 academy — sin cápsulas visibles (se omite)');
+  }
+
   // ===================== CU-15 · PANEL DEL ADULTO (CARGA COMUNICATIVA) =====================
   // Aparece en la pantalla de juego de Pares Mínimos; desplegarlo para ver los
   // tres módulos (ruido babble, gata distractora y quiebre pragmático).
-  await page.getByText('Terapias', { exact: true }).click();
-  await page.getByText('Prescripción de Terapias', { exact: true }).waitFor({ timeout: 120000 });
-  await pause(page, 400);
+  await openHubFresh();
   await page.getByText('Pares Mínimos', { exact: true }).click();
   await page.getByText('BANCO DE CONTRASTES', { exact: true }).waitFor();
   await pause(page, 500);

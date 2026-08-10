@@ -375,7 +375,7 @@ interfaz clásica se entra desde el hub de bloques, en la v11 desde **Ajustes**)
 
 | Documento | Descripción |
 | --- | --- |
-| **Manual de usuario con casos de uso** (v10.3) · [HTML](docs/manual-casos-de-uso.html) · [PDF](docs/Valeria-Manual-Casos-de-Uso.pdf) · [Word](docs/Valeria-Manual-Casos-de-Uso.docx) | **22 casos de uso** paso a paso ilustrados con capturas reales (`docs/screenshots/`): **Academy · hub de formación multidominio (CU‑03)**, los **siete bloques** (Pares Mínimos, Expansión Semántica, Audición, Lenguaje, TEA, Dislexia y **Realidad Aumentada**), el hub, la gráfica de sustitución por fonema, la telemetría del piloto (CU‑14), la variedad lingüística —Castellano, Galego, Dominicano y Euskera— (CU‑15), el Panel del Adulto / carga comunicativa (CU‑16), el **módulo de Lengua de Signos Española (CU‑17)** y el **bloque de Realidad Aumentada completo (CU‑18 a CU‑22)**: permiso de cámara y prueba de aptitud, los tres ejercicios y los umbrales clínicos. Cubre las novedades v6 → v10.3, incluida la tarjeta de **material necesario**, la lista de **formas alternativas** de una misma actividad, la **chuleta del adulto** de la lectura labiofacial y el **aviso del siguiente ejercicio** antes de puntuar (CU‑09). |
+| **Manual de usuario con casos de uso** (v12) · [HTML](docs/manual-casos-de-uso.html) · [PDF](docs/Valeria-Manual-Casos-de-Uso.pdf) · [Word](docs/Valeria-Manual-Casos-de-Uso.docx) | **22 casos de uso** paso a paso ilustrados con capturas reales (`docs/screenshots/`): **Academy · hub de formación multidominio (CU‑03)**, los **siete bloques** (Pares Mínimos, Expansión Semántica, Audición, Lenguaje, TEA, Dislexia y **Realidad Aumentada**), el hub, la gráfica de sustitución por fonema, la telemetría del piloto (CU‑14), la variedad lingüística —Castellano, Galego, Dominicano y Euskera— (CU‑15), el Panel del Adulto / carga comunicativa (CU‑16), el **módulo de Lengua de Signos Española (CU‑17)** y el **bloque de Realidad Aumentada completo (CU‑18 a CU‑22)**: permiso de cámara y prueba de aptitud, los tres ejercicios y los umbrales clínicos. Cubre las novedades v6 → v12: la mascota **Lúa** y la colección de **premios** con doce niveles y dieciocho insignias (CU‑11), Academy con **siete dominios** (CU‑03), la iconografía propia de la v12 y el **Anexo C** sobre el periférico físico. Todas las capturas están tomadas sobre la v12. |
 | [`docs/plan-evolucion-ux-v11.md`](docs/plan-evolucion-ux-v11.md) | Plan de evolución UX/UI v10.2 → v11 en respuesta al feedback del piloto («engorroso», «mucho texto»): diagnóstico medido sobre el código, cuadrícula de 2 columnas, pestañas inferiores y el **muro de contención** que garantiza cero regresiones clínicas y cero pérdida de la serie de telemetría. Implementado y activo; el interruptor `ENABLE_V11_UI` se retiró al cerrar el Sprint 4.6. |
 | [`docs/protocolo-pares-minimos.md`](docs/protocolo-pares-minimos.md) | Protocolo de pares mínimos para dislalias fonológicas: 10 pares accionables con flujo TTS→STT, feedback por rama y misiones físicas. Implementado en `src/ValeriaMinimalPairsScreen.tsx` + `src/valeriaMinimalPairs.ts`. |
 | [`docs/protocolo-pares-minimos-es-DO.md`](docs/protocolo-pares-minimos-es-DO.md) | Protocolo de pares mínimos en español dominicano (Quisqueya Habla). Implementado en `src/valeriaMinimalPairsEsDO.ts`. |
@@ -398,18 +398,18 @@ interfaz clásica se entra desde el hub de bloques, en la v11 desde **Ajustes**)
 **Regenerar el manual** tras editar [`docs/manual-casos-de-uso.html`](docs/manual-casos-de-uso.html):
 
 ```bash
-python3 docs/build-docx.py        # → Word (requiere python-docx)
-node docs/capture-screenshots.js  # regenera las capturas (Playwright sobre expo start --web)
-# → PDF: imprimir el HTML con Chromium headless
-chromium --headless --no-pdf-header-footer \
-  --print-to-pdf=docs/Valeria-Manual-Casos-de-Uso.pdf docs/manual-casos-de-uso.html
+node docs/capture-screenshots.js  # capturas (Playwright sobre expo start --web)
+node docs/build-pdf.js            # → PDF
+python3 docs/build-docx.py        # → Word (requiere python-docx y lxml)
 ```
 
-> ⚠️ El DOCX se construye con un script propio (`build-docx.py`) que **replica** el
-> contenido del HTML en vez de leerlo: `build-docx.py` **no abre el HTML en ningún
-> momento**, lleva el texto duplicado dentro. Al cambiar el manual hay que editar
-> **los dos archivos** y regenerar los **dos** derivados, o el Word y el PDF se
-> quedan desincronizados sin que nada avise.
+> El HTML es la **única fuente**: los dos generadores lo leen. Hasta la v11,
+> `build-docx.py` llevaba el texto del manual duplicado dentro y había que
+> editar los dos ficheros a mano; el Word acabó describiendo la v10.3 con la
+> mascota antigua mientras el HTML iba por la v12. Ya no puede volver a pasar.
+>
+> La mascota de la portada (`docs/lua-mascota.png`) sale del mismo sprite que
+> la app, con `node scripts/build-brand-assets.js`.
 >
 > El capítulo de **Realidad Aumentada** (CU‑18 a CU‑22) no lleva capturas a
 > propósito: esos ejercicios solo funcionan con la cámara abierta en un teléfono

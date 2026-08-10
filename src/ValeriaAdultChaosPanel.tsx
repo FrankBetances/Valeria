@@ -27,6 +27,7 @@ import { View, Text, Pressable, Switch, StyleSheet } from 'react-native';
 import { V } from './valeriaTheme';
 import { useT } from './i18n';
 import { ValeriaManualNoiseSlider } from './ValeriaManualNoiseSlider';
+import { BlockIcon } from './ValeriaBlockIcons';
 import { AR_THRESHOLD_RANGES } from './valeriaArSettings';
 import type { ArThresholds } from './valeriaArBridge';
 
@@ -104,6 +105,7 @@ export const ValeriaAdultChaosPanel: React.FC<{
             />
           </View>
           <Pressable onPress={onLaunchPragmatic} style={s.pragBtn} accessibilityRole="button">
+            <BlockIcon name="warn" color="#9a5b13" size={17} />
             <Text style={s.pragBtnTxt}>{t.adult.launchPragmatic}</Text>
           </Pressable>
 
@@ -190,7 +192,7 @@ const s = StyleSheet.create({
   dualRow: { flexDirection: 'row', alignItems: 'center', gap: 10, backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.border, borderRadius: 16, padding: 13, marginTop: 10 },
   dualTitle: { fontSize: 13, fontWeight: '800', color: V.color.textPrimary },
   dualSub: { fontSize: 11, fontWeight: '600', color: V.color.textMuted, marginTop: 3, lineHeight: 15 },
-  pragBtn: { backgroundColor: '#fff7ed', borderWidth: 1.5, borderColor: '#fcd9a8', borderRadius: 14, paddingVertical: 12, alignItems: 'center', marginTop: 10 },
+  pragBtn: { backgroundColor: '#fff7ed', borderWidth: 1.5, borderColor: '#fcd9a8', borderRadius: 14, paddingVertical: 12, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 7, marginTop: 10 },
   pragBtnTxt: { color: '#9a5b13', fontSize: 13, fontWeight: '800' },
 
   // [RA] Umbrales del bloque de Realidad Aumentada

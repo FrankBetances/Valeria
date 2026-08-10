@@ -100,18 +100,31 @@ const splashHtml = page(`
       Terapia auditiva y de lenguaje</div>
   </div>`, 1242, 2688);
 
+// --- 4. Retrato para el manual (fondo transparente) ------------------------
+// La portada del manual enseñaba un emoji de oso mientras la app ya llevaba
+// meses con la gata. Sale de esta misma rejilla para que no pueda volver a
+// desfasarse: se regenera con los otros tres y no hay que exportarlo a mano.
+const docCell = 14;                  // 32 × 14 = 448 px de ancho
+const docSit = svg(SIT, docCell);
+const docHtml = page(
+  `<svg width="${docSit.w}" height="${docSit.h}">${docSit.markup}</svg>`,
+  docSit.w, docSit.h,
+);
+const DOCS = path.join(__dirname, '..', 'docs');
+
 (async () => {
   const b = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH });
   const shoot = async (html, w, h, file, transparent) => {
     const p = await b.newPage({ viewport: { width: w, height: h } });
     await p.goto('data:text/html;charset=utf-8,' + encodeURIComponent(html));
     await p.waitForTimeout(200);
-    await p.screenshot({ path: path.join(OUT, file), omitBackground: !!transparent });
+    await p.screenshot({ path: file, omitBackground: !!transparent });
     await p.close();
   };
-  await shoot(iconHtml, 1024, 1024, 'icon.png');
-  await shoot(adaptHtml, 1024, 1024, 'adaptive-icon.png');
-  await shoot(splashHtml, 1242, 2688, 'splash.png');
+  await shoot(iconHtml, 1024, 1024, path.join(OUT, 'icon.png'));
+  await shoot(adaptHtml, 1024, 1024, path.join(OUT, 'adaptive-icon.png'));
+  await shoot(splashHtml, 1242, 2688, path.join(OUT, 'splash.png'));
+  await shoot(docHtml, docSit.w, docSit.h, path.join(DOCS, 'lua-mascota.png'), true);
   await b.close();
   console.log('generados en', OUT, '· head', HEAD[0].length + 'x' + HEAD.length, '· paleta', Object.keys(PAL).join(''));
 })();

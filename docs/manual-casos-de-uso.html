@@ -34,8 +34,23 @@
     background:rgba(255,255,255,.10); border-radius:50%; }
   .cover::after{ content:""; position:absolute; width:360px; height:360px; left:-120px; bottom:-140px;
     background:rgba(255,255,255,.08); border-radius:50%; }
+  /* Las figuras se numeran solas. Con los números escritos a mano, insertar
+     una captura en un capítulo temprano obligaba a renumerar el resto del
+     documento, y bastaba olvidarse de una para que el texto citara la figura
+     equivocada. */
+  body{ counter-reset:figura; }
+  figcaption .fig::before{ counter-increment:figura; content:"Fig. " counter(figura); }
   .cover .brand{ font-size:15pt; font-weight:800; letter-spacing:2px; text-transform:lowercase; }
-  .cover .bear{ font-size:64pt; margin:4mm 0 2mm; }
+  /* La mascota sale del MISMO sprite que la app (scripts/build-brand-assets.js).
+     image-rendering:pixelated es obligatorio: sin él, el suavizado del
+     navegador convierte el píxel art en una mancha borrosa al ampliarlo. */
+  .cover .mascot{ width:44mm; margin:4mm 0 2mm; image-rendering:pixelated; }
+  .catfig{ width:26mm; image-rendering:pixelated; vertical-align:middle; }
+  /* Punto de color del bloque, con el MISMO acento que su tarjeta en el hub.
+     Sustituye a los emoji que encabezaban estas filas: la app ya no usa ni uno
+     como iconografía y el manual no puede enseñar un juego de símbolos que en
+     pantalla no existe. */
+  .bdot{ display:inline-block; width:9px; height:9px; border-radius:3px; margin-right:7px; vertical-align:baseline; }
   .cover h1{ font-size:38pt; font-weight:800; letter-spacing:-1px; margin-top:auto; }
   .cover .sub{ font-size:15pt; font-weight:600; opacity:.95; margin-top:6mm; max-width:130mm; }
   .cover .meta{ margin-top:14mm; font-size:10.5pt; opacity:.9; line-height:1.8; z-index:2; }
@@ -134,14 +149,14 @@
 <!-- ================= PORTADA ================= -->
 <div class="cover">
   <div class="brand">valeria+</div>
-  <div class="bear">🐻</div>
+  <img class="mascot" src="lua-mascota.png" alt="Lúa, la gata de Valeria+, en píxel art">
   <div style="margin-top:auto">
-    <div class="pill">Manual de usuario · v10.3 · con capturas de pantalla</div>
+    <div class="pill">Manual de usuario · v12 · con capturas de pantalla</div>
     <h1>Manual de<br>Casos de Uso</h1>
     <div class="sub">Aplicación de terapia auditivo‑verbal y del lenguaje para niñas y niños con hipoacusia, implante coclear, dislalias, dislexia, TEA o dificultades del lenguaje.</div>
     <div class="meta">
       Guía para logopedas, familias y cuidadores<br>
-      Julio de 2026 · Documento interno<br>
+      Agosto de 2026 · Documento interno<br>
       Expo SDK 54 / React Native · Castellano · Galego · Dominicano · Euskera · Voz neuronal offline
     </div>
   </div>
@@ -167,7 +182,7 @@
     <li><span class="num">CU‑08</span><span class="txt">Test de Ling previo (audífono / implante)</span></li>
     <li><span class="num">CU‑09</span><span class="txt">Realizar una sesión de ejercicios</span></li>
     <li><span class="num">CU‑10</span><span class="txt">Configurar recordatorios diarios (elegir franjas)</span></li>
-    <li><span class="num">CU‑11</span><span class="txt">Motivación: racha, niveles e insignias</span></li>
+    <li><span class="num">CU‑11</span><span class="txt">Los premios de Lúa: XP, racha, niveles e insignias</span></li>
     <li><span class="num">CU‑12</span><span class="txt">Consultar el panel de resultados</span></li>
     <li><span class="num">CU‑13</span><span class="txt">Cambiar entre Modo Familia y Modo Profesional</span></li>
     <li><span class="num">CU‑14</span><span class="txt">Exportar la evidencia de usabilidad del piloto (QR + compartir)</span></li>
@@ -183,6 +198,7 @@
     <li class="section-label">Anexos</li>
     <li><span class="num">A</span><span class="txt">Preguntas frecuentes y resolución de problemas</span></li>
     <li><span class="num">B</span><span class="txt">Historial de versiones</span></li>
+    <li><span class="num">C</span><span class="txt">Lúa de peluche: el aparato que todavía no existe</span></li>
   </ul>
 </section>
 
@@ -194,8 +210,8 @@
   <p style="margin-top:12px">
     <strong>Valeria+</strong> es una aplicación móvil (Expo SDK 54 / React Native) diseñada para acompañar las
     <strong>sesiones de terapia auditivo‑verbal y del lenguaje</strong> de niñas y niños. Reúne en un solo lugar el
-    registro del paciente, una comprobación auditiva previa (Test de Ling), seis bloques de terapia, un espacio de
-    formación para el cuidador (Academy) y un panel de resultados para seguir la evolución.
+    registro del paciente, una comprobación auditiva previa (Test de Ling), <strong>siete bloques de terapia</strong>,
+    un espacio de formación para el cuidador (Academy) y un panel de resultados para seguir la evolución.
   </p>
 
   <p>
@@ -216,19 +232,19 @@
   perfil clínico distinto, pero todos comparten la misma lógica: el adulto guía la sesión y tiene la última palabra.</p>
   <table>
     <tr><th style="width:32%">Bloque</th><th>Para qué sirve</th></tr>
-    <tr><td>🗣️ <strong>Pares Mínimos</strong></td>
+    <tr><td><span class="bdot" style="background:#7c4fd0"></span><strong>Pares Mínimos</strong></td>
       <td>Dislalias fonológicas. <strong>15 pares</strong> de palabras casi iguales (rana/lana) en 6 grupos —rotacismo, sigmatismo, velares, labiodental, nasales y laterales— con juego de voz, misión física y sello doble adulto‑niño.</td></tr>
-    <tr><td>🧩 <strong>Expansión Semántica</strong></td>
+    <tr><td><span class="bdot" style="background:#00a39e"></span><strong>Expansión Semántica</strong></td>
       <td>Progresión léxica para intervención temprana: 5 escenarios diarios, <strong>9 progresiones</strong> (onomatopeya → adjetivo) y <strong>8 cápsulas de contraste</strong>, uniendo imagen, voz y acción física.</td></tr>
-    <tr><td>👂 <strong>Audición</strong> — 18 terapias</td>
+    <tr><td><span class="bdot" style="background:#3b6fd4"></span><strong>Audición</strong> — 18 terapias</td>
       <td>Protocolo ACOPROS: fonética‑fonología, semántica, morfosintaxis, pragmática y <strong>escucha en ruido</strong> (RA‑1…RA‑5) para pacientes con audífono, implante coclear o hipoacusia.</td></tr>
-    <tr><td>💬 <strong>Lenguaje</strong> — 7 terapias</td>
+    <tr><td><span class="bdot" style="background:#d98a1f"></span><strong>Lenguaje</strong> — 7 terapias</td>
       <td>Protocolo familiar: atención conjunta, imitación, comprensión, expresión, comunicación funcional, regulación conductual e interacción social.</td></tr>
-    <tr><td>🧠 <strong>TEA</strong> — 6 terapias</td>
+    <tr><td><span class="bdot" style="background:#c2477e"></span><strong>TEA</strong> — 6 terapias</td>
       <td>Protocolo PRT + TCC para el espectro autista: atención conjunta triangulada, quiebre pragmático (con consentimiento), espejo asimétrico, transición interrumpida, categorización bajo ruido y múltiples señales. Todos los estresores son <strong>manuales</strong> (Panel del Adulto).</td></tr>
-    <tr><td>📖 <strong>Dislexia</strong> — 6 terapias</td>
+    <tr><td><span class="bdot" style="background:#8b5cf6"></span><strong>Dislexia</strong> — 6 terapias</td>
       <td>Fonología y acceso léxico: intruso fonológico, rastreo léxico con interferencia, síntesis fonémica rítmica, criba de pseudopalabras, rastreo visual de rotaciones (b/d · p/q) y denominación rápida (RAN).</td></tr>
-    <tr><td>🎯 <strong>Realidad Aumentada</strong> — 3 ejercicios<br><span class="small muted">Solo Android, en teléfono</span></td>
+    <tr><td><span class="bdot" style="background:#00a39e"></span><strong>Realidad Aumentada</strong> — 3 ejercicios<br><span class="small muted">Solo Android, en teléfono</span></td>
       <td>La cámara frontal como <strong>sensor de movimiento</strong>: postura labial (AR‑1), giro de la cabeza hacia un sonido (AR‑2) y elección de dibujo con la mirada (AR‑3). El premio en 3D se gana <strong>con el gesto, no con la voz</strong>; en dos de los tres el micrófono está apagado. Requiere permiso de cámara y una prueba de aptitud del aparato (CU‑18 a CU‑22).</td></tr>
   </table>
   <p class="small muted">Además, el <strong>Test de Ling</strong> es una comprobación auditiva rápida (6 sonidos) previa a los
@@ -240,17 +256,17 @@
   adulto mantenga el control en cada paso.</p>
   <table>
     <tr><th style="width:32%">Elemento</th><th>Qué aporta</th></tr>
-    <tr><td>🧭 <strong>Flujo PASO 1→4</strong></td>
+    <tr><td><strong>Flujo PASO 1→4</strong></td>
       <td>Cada mini‑juego avanza por cuatro pasos visibles —<strong>consigna → juego → movimiento → evaluación</strong>—. En Pares Mínimos y Expansión Semántica una barra de <strong>fase de turno</strong> (Escucha → Repite → Veredicto → Misión) marca en todo momento en qué punto va el ensayo, con doble vuelta evaluada (objetivo + opuesta).</td></tr>
-    <tr><td>🔄 <strong>Rondas variadas</strong></td>
-      <td>El botón <strong>“🔄 Otra ronda”</strong> rota hasta 3 contenidos distintos por ejercicio para que el niño no memorice siempre el mismo ítem.</td></tr>
-    <tr><td>🎯 <strong>Sesión completa</strong></td>
+    <tr><td><strong>Rondas variadas</strong></td>
+      <td>El botón <strong>“Otra ronda”</strong> rota hasta 3 contenidos distintos por ejercicio para que el niño no memorice siempre el mismo ítem.</td></tr>
+    <tr><td><strong>Sesión completa</strong></td>
       <td>Un botón por bloque encadena todos los ejercicios prescritos en una sola tanda (pasando por el Test de Ling si procede), en vez de lanzarlos de uno en uno.</td></tr>
-    <tr><td>💬 <strong>Frases portadoras</strong></td>
+    <tr><td><strong>Frases portadoras</strong></td>
       <td>En Pares Mínimos la palabra objetivo se incrusta en una frase con entonación natural seguida de una pregunta, en vez de dictarse aislada diez veces seguidas.</td></tr>
-    <tr><td>🔊 <strong>Voz humana</strong></td>
+    <tr><td><strong>Voz humana</strong></td>
       <td>El motor prioriza voces neuronales/enhanced (Google neural/WaveNet, iOS Enhanced/Siri) y descarta las metálicas, con prosodia natural (pausas por frase, entonación en preguntas y exclamaciones) y frases de ánimo rotativas.</td></tr>
-    <tr><td>🖼️ <strong>Fichas siempre visibles</strong></td>
+    <tr><td><strong>Fichas siempre visibles</strong></td>
       <td>Pictogramas SVG de alto contraste para las palabras cuyos emojis se ven como cuadros vacíos o de bajo contraste en muchos Android, con emoji de reserva.</td></tr>
   </table>
 
@@ -271,18 +287,36 @@
   <h3>Academy: formación del cuidador</h3>
   <p>En la terapia auditivo‑verbal el adulto es el motor de cada sesión, así que aprender a acompañar forma parte del
   tratamiento. <strong>Academy</strong> es un espacio de formación <strong>para el adulto, no para el niño</strong>,
-  organizado en <strong>cinco dominios</strong> (Lenguaje, Hipoacusia, Dislalias, Dislexia y TEA). Cada dominio ofrece
+  organizado en <strong>siete dominios</strong> (Lenguaje, Mitos y verdades, Hipoacusia/Sordera, Dislalias, Dislexia,
+TEA y Lengua de Signos). Cada dominio ofrece
   <strong>Cápsulas de Conocimiento</strong> de unos dos minutos —cómo aprenden a hablar los niños, el porqué del
   movimiento (TPR), los vicios a evitar, el manejo de los dispositivos auditivos…— que terminan con un <strong>quiz</strong>
   de respuesta explicada, y lleva su propia escala de <strong>niveles e insignias</strong>. Un <strong>feed de
   prioridad</strong> destaca arriba el dominio que corresponde a la patología de la ficha, para empezar por lo que más
   sirve (ver CU‑03).</p>
 
+  <h3>Lúa, la gata que acompaña</h3>
+  <table style="border:0"><tr style="background:transparent">
+    <td style="width:32mm;border:0;background:transparent;text-align:center">
+      <img class="catfig" src="lua-mascota.png" alt="Lúa, la mascota de Valeria+">
+    </td>
+    <td style="border:0;background:transparent">
+      <p style="margin:0">La app tiene una mascota, <strong>Lúa</strong>, una gata dibujada en <strong>píxel art</strong>.
+      Aparece en el icono de la aplicación, en la pantalla de arranque, en la tira de progreso del hub, al terminar cada
+      sesión y —cuando el adulto la enciende— como distractora del ejercicio de doble tarea. Le da nombre a los niveles
+      («Gata Curiosa», «Gata Sabia») y a la colección de premios.</p>
+      <p style="margin:8px 0 0">No es decoración sin más: es la cara con la que el niño asocia la práctica diaria.
+      Por eso está dibujada píxel a píxel en el propio código y <strong>no</strong> es un emoji del sistema, que cada
+      fabricante de teléfono dibuja a su manera.</p>
+    </td>
+  </tr></table>
+
   <h3>Motivación y constancia</h3>
   <p>Al estilo de apps como Duolingo, Valeria+ premia la práctica sostenida en <strong>todos los bloques</strong> con
-  <strong>XP</strong>, <strong>racha (🔥)</strong>, <strong>niveles</strong> (de Osezno a Oso Legendario) e
-  <strong>insignias</strong>. El progreso se guarda localmente y se refleja al instante al terminar cada sesión, sin
-  re‑dibujar el resto de la pantalla (ver CU‑11).</p>
+  <strong>XP</strong>, <strong>racha</strong>, <strong>doce niveles</strong> (de Gatita a Gata Legendaria) y
+  <strong>dieciocho insignias</strong> agrupadas en familias con rango. El progreso se guarda localmente y se refleja al
+  instante al terminar cada sesión, sin re‑dibujar el resto de la pantalla. La colección entera —lo conseguido y lo que
+  falta— se abre desde el hub <strong>sin PIN</strong>: es del niño, no del profesional (ver CU‑11).</p>
 
   <h3>Herramientas para el piloto clínico</h3>
   <p>Para la validación con profesionales, la app suma un conjunto de instrumentos que <strong>no interfieren con la
@@ -290,13 +324,13 @@
   quien decide</strong>.</p>
   <table>
     <tr><th style="width:32%">Herramienta</th><th>Qué aporta</th></tr>
-    <tr><td>🎛️ <strong>Panel del Adulto · Carga comunicativa</strong></td>
-      <td>Tres módulos <strong>manuales</strong> dentro del ejercicio —escucha en ruido (slider), oso distractor de doble tarea y quiebre pragmático—. La app nunca los activa ni ajusta sola (muro MDR; ver CU‑16).</td></tr>
-    <tr><td>📊 <strong>Telemetría de usabilidad</strong></td>
+    <tr><td><strong>Panel del Adulto · Carga comunicativa</strong></td>
+      <td>Tres módulos <strong>manuales</strong> dentro del ejercicio —escucha en ruido (deslizador), <strong>gata distractora</strong> de doble tarea y quiebre pragmático—. La app nunca los activa ni ajusta sola (muro MDR; ver CU‑16).</td></tr>
+    <tr><td><strong>Telemetría de usabilidad</strong></td>
       <td>Mide de forma <strong>anónima</strong> el tiempo por pantalla, los toques fuera de zona útil (misclicks) y la proporción de cápsulas de movimiento saltadas. Sin nombres, sin audio y sin el contenido de las respuestas.</td></tr>
-    <tr><td>💬 <strong>Encuesta rápida (SUS)</strong></td>
+    <tr><td><strong>Encuesta rápida (SUS)</strong></td>
       <td>Una única pregunta de satisfacción (1–5 con caritas) sobre lo fácil que fue integrar el ejercicio en la rutina. Aparece solo tras completar cuatro bloques distintos y como mucho una vez por semana.</td></tr>
-    <tr><td>📤 <strong>Exportación dual</strong></td>
+    <tr><td><strong>Exportación dual</strong></td>
       <td>Con el PIN profesional, genera a la vez un <strong>código QR</strong> con el resumen (offline) y abre el <strong>menú de compartir</strong> con el registro completo; los datos se guardan cifrados y se purgan tras una exportación correcta (ver CU‑14).</td></tr>
   </table>
 
@@ -462,25 +496,55 @@
   anterior instalada puede seguir viéndose la lista clásica hasta que se actualice: las dos hacen exactamente lo mismo
   y la prescripción guardada se conserva al pasar de una a otra, sin perder nada.</p>
 
+  <h3>Revisión v12: Lúa, los premios y un set de iconos propio</h3>
+
+  <p>La v11 puso cada cosa en su sitio, pero el hub seguía siendo una pantalla apagada: tarjetas casi blancas, un dato
+  por tarjeta y ningún motivo para volver mañana. La <strong>v12</strong> lo rehace. Tampoco aquí cambia ningún
+  ejercicio, ninguna consigna ni ninguna regla clínica.</p>
+
+  <ul>
+    <li><strong>La tira de Lúa</strong> encabeza el hub: la gata, el nivel con su nombre, la barra de XP que falta para
+    el siguiente, la racha y un acceso <strong>“Premios ›”</strong>. Es lo primero que se ve al entrar.</li>
+    <li><strong>Los premios se pueden mirar.</strong> Hasta ahora las insignias solo aparecían un segundo al terminar
+    una sesión. Ahora hay una colección completa —escalera de doce niveles y las dieciocho insignias, las conseguidas
+    en color y las pendientes en gris con su condición— y se abre <strong>sin PIN</strong> (CU‑11).</li>
+    <li><strong>Tarjetas con color y con dato.</strong> Cada bloque lleva su acento, su icono y cuántas terapias tiene
+    prescritas, con la barra de progreso debajo. Se acabaron los huecos muertos dentro de la tarjeta.</li>
+    <li><strong>Un set de iconos propio.</strong> Los emoji del sistema han desaparecido de la iconografía de toda la
+    ruta del niño, de las pantallas del adulto y de Academy: los dibujaba el fabricante de cada teléfono, cambiaban
+    entre Android, iOS y web y nunca formaban un conjunto. En su lugar hay un juego de iconos dibujado en la propia
+    app, con la misma rejilla y el mismo grosor de trazo.</li>
+    <li><strong>Contraste legible.</strong> Los textos secundarios que quedaban por debajo del mínimo de contraste
+    (4,5:1 de la norma WCAG AA) se han subido de tono. Afectaba justo a lo que un adulto lee de lejos mientras sostiene
+    al niño.</li>
+    <li><strong>La ficha ya no deduce nada del género.</strong> En la lista de pacientes, el avatar era un muñeco o una
+    muñeca según el campo «género» de la ficha. Ahora es la <strong>inicial del nombre</strong>: identifica igual de
+    bien y no clasifica a nadie.</li>
+  </ul>
+
+  <p class="small muted">Lo que <strong>no</strong> ha cambiado: los pictogramas de los ejercicios y los iconos de las
+  cápsulas de Academy siguen siendo los mismos. Son <strong>contenido terapéutico</strong> —lo que el niño tiene que
+  reconocer y nombrar— y cambiarlos es una decisión clínica, no de diseño.</p>
+
   <div class="shots">
     <figure class="shot">
       <img src="screenshots/01-bienvenida.png" alt="Pantalla de Bienvenida de Valeria+">
-      <figcaption><span class="fig">Fig. 1</span> · Bienvenida: “Comenzar” o “Ya tengo un paciente registrado”.</figcaption>
+      <figcaption><span class="fig"></span> · Bienvenida: “Comenzar” o “Ya tengo un paciente registrado”.</figcaption>
     </figure>
     <figure class="shot">
       <img src="screenshots/02-creditos.png" alt="Pantalla de Créditos">
-      <figcaption><span class="fig">Fig. 2</span> · Créditos del proyecto y colaboradores.</figcaption>
+      <figcaption><span class="fig"></span> · Créditos del proyecto y colaboradores.</figcaption>
     </figure>
     <figure class="shot">
-      <img src="screenshots/05-hub-bloques.png" alt="Hub de Prescripción con los bloques de terapia">
-      <figcaption><span class="fig">Fig. 3</span> · Hub de Prescripción (v11): los bloques en cuadrícula, con las terapias prescritas de cada uno, y las pestañas inferiores.</figcaption>
+      <img src="screenshots/05-hub-bloques.png" alt="Hub de Prescripción con la tira de Lúa y los bloques de terapia">
+      <figcaption><span class="fig"></span> · Hub de Prescripción (v12): la tira de Lúa con el nivel y los premios, los bloques en cuadrícula con su acento y sus terapias prescritas, y las pestañas inferiores.</figcaption>
     </figure>
   </div>
 
   <h3>Glosario</h3>
   <table>
     <tr><th style="width:26%">Término</th><th>Significado</th></tr>
-    <tr><td><strong>Hub de bloques</strong></td><td>Pantalla “Prescripción de Terapias”: siete tarjetas (Pares Mínimos, Expansión Semántica, Audición, Lenguaje, TEA, Dislexia y Realidad Aumentada) más la tarjeta Academy, desde donde se practica o prescribe.</td></tr>
+    <tr><td><strong>Hub de bloques</strong></td><td>Pantalla “Prescripción de Terapias”: la tira de progreso de Lúa y siete tarjetas (Pares Mínimos, Expansión Semántica, Audición, Lenguaje, TEA, Dislexia y Realidad Aumentada), desde donde se practica o prescribe. Academy y Ajustes viven en la barra de pestañas.</td></tr>
     <tr><td><strong>Pestañas (v11)</strong></td><td>Barra inferior con tres apartados —<strong>Terapias</strong>, <strong>Academy</strong> y <strong>Ajustes</strong>— disponible en las versiones con la interfaz v11. Sustituye al desplazamiento largo del hub: lo que antes estaba al final de la lista ahora está siempre a un toque.</td></tr>
     <tr><td><strong>Ajustes</strong></td><td>Apartado donde viven los recordatorios de sesión y sus franjas horarias, la calidad de la voz, el idioma de la aplicación y el acceso profesional (PIN). En la interfaz clásica estos ajustes están al final del hub de bloques.</td></tr>
     <tr><td><strong>Par mínimo</strong></td><td>Dos palabras que solo se distinguen por un fonema (rana / lana). Sirven para entrenar el contraste que el niño sustituye.</td></tr>
@@ -493,7 +557,11 @@
     <tr><td><strong>Progresión léxica</strong></td><td>Secuencia que sube de onomatopeya → sustantivo → verbo → adjetivo sobre un mismo tema (el coche, el perro…).</td></tr>
     <tr><td><strong>Test de Ling</strong></td><td>Comprobación de 6 sonidos (m, u, a, i, sh, s) que verifica si el niño oye desde graves hasta agudos.</td></tr>
     <tr><td><strong>Escala EPT‑3</strong></td><td>Valoración unificada de 3 niveles: <span class="stars">★</span> Emergente · <span class="stars">★★</span> En proceso · <span class="stars">★★★</span> Consolidado.</td></tr>
-    <tr><td><strong>Racha (🔥)</strong></td><td>Días consecutivos en los que se ha completado al menos una sesión.</td></tr>
+    <tr><td><strong>Lúa</strong></td><td>La gata en píxel art que hace de mascota de la app. Da nombre a los doce niveles y a la colección de premios, y es la figura que se asoma como distractora en el ejercicio de doble tarea.</td></tr>
+    <tr><td><strong>Racha</strong></td><td>Días consecutivos en los que se ha completado al menos una sesión. Se mantiene si se practicó hoy o ayer.</td></tr>
+    <tr><td><strong>XP</strong></td><td>Puntos que suma cada sesión completada. Cada 100&nbsp;XP se sube un nivel.</td></tr>
+    <tr><td><strong>Premios de Lúa</strong></td><td>Hoja que se abre desde la tira del hub, sin PIN, con la escalera de doce niveles y las dieciocho insignias: en color las conseguidas, en gris las pendientes con la condición para lograrlas (CU‑11).</td></tr>
+    <tr><td><strong>Insignia con rango</strong></td><td>Insignia que forma familia con otras del mismo dibujo y distinto metal (huella, llama, estrella). Marca una progresión, no un premio suelto.</td></tr>
     <tr><td><strong>NHC</strong></td><td>Número de Historia Clínica del paciente.</td></tr>
     <tr><td><strong>Telemetría de usabilidad</strong></td><td>Métricas anónimas que la app recoge durante el piloto para medir lo fácil que resulta de usar (tiempo por pantalla, misclicks, abandono de cápsulas). Sin datos personales.</td></tr>
     <tr><td><strong>Misclick</strong></td><td>Toque en una zona “muerta” de la pantalla, fuera de cualquier botón o elemento útil. Un exceso señala que algo no se entiende o el objetivo es pequeño.</td></tr>
@@ -515,7 +583,7 @@
     <tr><td><strong>Prueba de aptitud</strong></td><td>Calentamiento de minuto y medio que mide qué puede sostener <em>este teléfono</em>. Devuelve un nivel (A a D) que decide qué ejercicios de RA se ofrecen. Describe el aparato, no al niño.</td></tr>
     <tr><td><strong>Sostén</strong></td><td>Tiempo seguido que el niño mantiene un gesto (por ejemplo la boquita de beso). En AR‑1 es lo que hace avanzar el coche, y la serie de sostenes es el dato clínico.</td></tr>
     <tr><td><strong>Fijación (<em>dwell</em>)</strong></td><td>Mantener la mirada sobre un dibujo el tiempo suficiente para elegirlo, sin tocar la pantalla. Es cómo se responde en AR‑3.</td></tr>
-    <tr><td><strong>Calibración de mirada</strong></td><td>Rutina de 5 puntos con la osita (~15 s) que enseña al teléfono dónde mira ese niño. Obligatoria en AR‑3 y propia de cada paciente y cada aparato.</td></tr>
+    <tr><td><strong>Calibración de mirada</strong></td><td>Rutina de 5 puntos con la mascota (~15 s) que enseña al teléfono dónde mira ese niño. Obligatoria en AR‑3 y propia de cada paciente y cada aparato.</td></tr>
     <tr><td><strong>Latencia</strong></td><td>Milisegundos que tarda el niño en girar la cabeza hacia un sonido (AR‑2). Es la versión medible de la pregunta «¿giró?».</td></tr>
     <tr><td><strong>Ensayo trampa</strong></td><td>Ensayo de AR‑2 en el que <strong>no suena nada</strong>. Sirve para distinguir que el niño oye de que mueve la cabeza por su cuenta. Sin ellos, la prueba sería una demostración, no una medida.</td></tr>
     <tr><td><strong>Ensayo anulado</strong></td><td>Ensayo que la app descarta porque el teléfono se movió durante la respuesta. Se anula a propósito: un ensayo contaminado estropea el registro entero.</td></tr>
@@ -529,7 +597,7 @@
   <div class="shots">
     <figure class="shot">
       <img src="screenshots/24-ajustes.png" alt="Pestaña Ajustes de Valeria+">
-      <figcaption><span class="fig">Fig. 4</span> · Ajustes: recordatorios, voz de la app e idioma, ahora a un toque desde la barra inferior.</figcaption>
+      <figcaption><span class="fig"></span> · Ajustes: recordatorios, voz de la app e idioma, ahora a un toque desde la barra inferior.</figcaption>
     </figure>
   </div>
   <h2 class="chapter">Guía paso a paso</h2>
@@ -567,11 +635,11 @@
       <div class="shots">
         <figure class="shot">
           <img src="screenshots/03-ficha-registro.png" alt="Ficha de registro con los datos del niño">
-          <figcaption><span class="fig">Fig. 5</span> · Ficha de Registro: datos del niño/a (nombre, fecha, NHC y género).</figcaption>
+          <figcaption><span class="fig"></span> · Ficha de Registro: datos del niño/a (nombre, fecha, NHC y género).</figcaption>
         </figure>
         <figure class="shot">
           <img src="screenshots/04-ficha-guardada.png" alt="Confirmación de ficha guardada">
-          <figcaption><span class="fig">Fig. 6</span> · Ficha guardada y cifrada; aparece “Continuar a Prescripción →”.</figcaption>
+          <figcaption><span class="fig"></span> · Ficha guardada y cifrada; aparece “Continuar a Prescripción →”.</figcaption>
         </figure>
       </div>
     </div>
@@ -592,15 +660,16 @@
         <div><div class="k">Precondición</div><div class="v">Ficha del paciente activa</div></div>
         <div><div class="k">Resultado</div><div class="v">Bloque de terapia abierto para practicar o prescribir</div></div>
       </div>
-      <p>El hub es el <strong>centro de mando</strong> de cada sesión. Muestra la racha 🔥 y el nivel 🏅 del paciente
-      y presenta los seis bloques como tarjetas. Audición, Lenguaje, TEA y Dislexia indican además cuántas terapias hay activas.</p>
+      <p>El hub es el <strong>centro de mando</strong> de cada sesión. Arriba, la <strong>tira de Lúa</strong> muestra el
+      nivel, lo que falta para el siguiente, la racha y el acceso a los premios; debajo, los siete bloques como tarjetas.
+      Audición, Lenguaje, TEA y Dislexia indican además cuántas terapias hay activas.</p>
       <h4>Flujo principal</h4>
       <ol class="flow">
         <li>Tocar la tarjeta del bloque deseado: <strong>Pares Mínimos</strong> (CU‑04), <strong>Expansión Semántica</strong> (CU‑05), <strong>Audición</strong>, <strong>Lenguaje</strong>, <strong>TEA</strong> o <strong>Dislexia</strong> (CU‑06 / CU‑09).</li>
-        <li>Antes de la primera sesión, abrir la tarjeta destacada <strong>“Academy”</strong> para <strong>formarse como cuidador</strong> (ver CU‑03): en la terapia auditivo‑verbal el adulto dirige la sesión, así que conviene empezar por ahí.</li>
-        <li>Desde la misma pantalla se activan los <strong>recordatorios de sesión</strong> (ver CU‑10).</li>
+        <li>Antes de la primera sesión, abrir la pestaña <strong>“Academy”</strong> de la barra inferior para <strong>formarse como cuidador</strong> (ver CU‑03): en la terapia auditivo‑verbal el adulto dirige la sesión, así que conviene empezar por ahí.</li>
+        <li>Los <strong>recordatorios de sesión</strong> están en la pestaña <strong>Ajustes</strong> (ver CU‑10), y los <strong>premios</strong> se abren desde la tira de Lúa (ver CU‑11).</li>
       </ol>
-      <div class="callout violet"><div class="lbl">Empieza por Academy</div><p style="margin:4px 0 0">La tarjeta <strong>Academy</strong> (CU‑03) comparte jerarquía visual con los bloques de terapia y no depende de nada previo: es el primer paso recomendado para que el adulto acompañe con criterio.</p></div>
+      <div class="callout violet"><div class="lbl">Empieza por Academy</div><p style="margin:4px 0 0">La pestaña <strong>Academy</strong> (CU‑03) está siempre a un toque y no depende de nada previo: es el primer paso recomendado para que el adulto acompañe con criterio.</p></div>
       <div class="callout"><div class="lbl">Dónde practica cada quién</div><p style="margin:4px 0 0">En Modo Familia todos los bloques son accesibles para practicar lo prescrito; solo el logopeda, con el PIN, cambia qué está activo en cada uno.</p></div>
     </div>
   </div>
@@ -616,28 +685,31 @@
     <div class="uc-body">
       <div class="uc-grid">
         <div><div class="k">Actor</div><div class="v">Adulto que dirige la sesión (familia o cuidador)</div></div>
-        <div><div class="k">Pantalla</div><div class="v">Prescripción de Terapias → Academy (hub de dominios)</div></div>
+        <div><div class="k">Pantalla</div><div class="v">Pestaña Academy (hub de dominios)</div></div>
         <div><div class="k">Precondición</div><div class="v">Ninguna; disponible desde el primer día</div></div>
         <div><div class="k">Resultado</div><div class="v">Cápsula completada y progreso guardado en su dominio</div></div>
       </div>
       <p><strong>Academy</strong> es el espacio de <strong>formación para el adulto</strong>. En la terapia
       auditivo‑verbal la persona que acompaña al niño es el <strong>motor de la sesión</strong>, así que Academy
       le enseña —en pequeñas dosis— a hacerlo mejor. No es un curso único: se organiza en
-      <strong>cinco dominios de formación</strong>, cada uno con su propia lista de cápsulas, su
-      <strong>escala de niveles</strong> (de Novato a “Experto en…”) y sus insignias. Un
+      <strong>siete dominios de formación</strong> con <strong>49 cápsulas</strong> en total, cada uno con su propia
+      lista, su <strong>escala de niveles</strong> (de Novato a “Experto en…”) y sus insignias. Un
       <strong>feed de prioridad</strong> destaca arriba el dominio que corresponde a la <strong>patología de la ficha</strong>
       del paciente, para que el cuidador empiece por lo que más le sirve.</p>
       <table>
         <tr><th style="width:26%">Dominio</th><th>Qué se aprende</th></tr>
-        <tr><td>💬 <strong>Lenguaje</strong></td><td>Cómo aprenden a hablar los niños (el baño de lenguaje y la conversación por turnos), el porqué del movimiento (TPR) y los vicios a evitar: <strong>remodelar</strong> en vez de corregir y <strong>comentar más que preguntar</strong>.</td></tr>
-        <tr><td>👂 <strong>Hipoacusia / Sordera</strong></td><td>Qué es la sordera y su abordaje, más <strong>micro‑guías de hardware</strong> para el manejo y cuidado del <strong>audífono</strong>, el <strong>implante coclear</strong> y los dispositivos <strong>osteointegrados</strong>.</td></tr>
-        <tr><td>🗣️ <strong>Dislalias</strong></td><td>Puntos de articulación de cada sonido, a qué edad se espera cada uno y cómo practicar en casa los sonidos difíciles (la erre, las praxias de la boca).</td></tr>
-        <tr><td>🔤 <strong>Dislexia</strong></td><td>Conciencia fonológica y apoyo a la lectura emergente: cómo suena y se segmenta cada palabra antes de leerla.</td></tr>
-        <tr><td>🧩 <strong>TEA</strong></td><td>Comunicación, anticipación y regulación en el espectro autista: cómo sostener la atención conjunta y reparar la comunicación sin presión.</td></tr>
+        <tr><td><strong>Lenguaje</strong></td><td>Cómo aprenden a hablar los niños (el baño de lenguaje y la conversación por turnos), el porqué del movimiento (TPR) y los vicios a evitar: <strong>remodelar</strong> en vez de corregir y <strong>comentar más que preguntar</strong>.</td></tr>
+        <tr><td><strong>Mitos y verdades</strong></td><td>Lo que se dice del habla, el autismo y la dislexia, contrastado una creencia por cápsula: qué hay detrás, qué dice la evidencia y qué conviene hacer en casa.</td></tr>
+        <tr><td><strong>Hipoacusia / Sordera</strong></td><td>Qué es la sordera y su abordaje, más <strong>micro‑guías de hardware</strong> para el manejo y cuidado del <strong>audífono</strong>, el <strong>implante coclear</strong> y los dispositivos <strong>osteointegrados</strong>.</td></tr>
+        <tr><td><strong>Dislalias</strong></td><td>Puntos de articulación de cada sonido, a qué edad se espera cada uno y cómo practicar en casa los sonidos difíciles (la erre, las praxias de la boca).</td></tr>
+        <tr><td><strong>Dislexia</strong></td><td>Conciencia fonológica y apoyo a la lectura emergente: cómo suena y se segmenta cada palabra antes de leerla.</td></tr>
+        <tr><td><strong>TEA</strong></td><td>Comunicación, anticipación y regulación en el espectro autista: cómo sostener la atención conjunta y reparar la comunicación sin presión.</td></tr>
+        <tr><td><strong>Lengua de Signos (LSE)</strong></td><td>Qué es la LSE, por qué no frena el habla, de qué está hecho un signo, el alfabeto dactilológico y los primeros signos con utilidad real. Se detalla en CU‑17.</td></tr>
       </table>
       <h4>Flujo principal</h4>
       <ol class="flow">
-        <li>En <strong>Prescripción de Terapias</strong>, pulsar la tarjeta <strong>“Academy”</strong> (bajo el rótulo “Tu formación”).</li>
+        <li>Pulsar la pestaña <strong>“Academy”</strong> en la barra inferior. La cabecera muestra el avance global
+        (cápsulas hechas del total), la XP acumulada y las insignias del dominio.</li>
         <li>El <strong>feed de prioridad</strong> propone el dominio que encaja con la patología de la ficha; también se puede elegir cualquier otro <strong>dominio</strong> del hub.</li>
         <li>Elegir una <strong>Cápsula de Conocimiento</strong> de la lista del dominio (unos 2 minutos cada una) —o, en Hipoacusia, una <strong>micro‑guía de hardware</strong>.</li>
         <li>Leer las <strong>diapositivas</strong> avanzando con “Siguiente” y responder el <strong>quiz rápido</strong> del final; cada respuesta muestra una breve explicación.</li>
@@ -645,6 +717,24 @@
       </ol>
       <div class="callout"><div class="lbl">Es para el adulto, no para el niño</div><p style="margin:4px 0 0">Academy vive junto a los menús de la app, que maneja siempre el adulto; la tableta se cede al niño solo cuando el ejercicio ya ha empezado. Por eso el niño no llega por error a esta formación.</p></div>
       <div class="callout"><div class="lbl">El progreso no se pierde</div><p style="margin:4px 0 0">El avance (cápsulas hechas, nivel e insignias) se guarda <strong>cifrado en el dispositivo</strong>, igual que el resto de datos, y funciona sin conexión.</p></div>
+      <div class="shots">
+        <figure class="shot">
+          <img src="screenshots/27-academy-hub.png" alt="Hub de Academy con el feed de prioridad y los dominios">
+          <figcaption><span class="fig"></span> · Academy: el feed de prioridad de hoy y los dominios, cada uno con su avance y su nivel.</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="screenshots/28-academy-capsulas.png" alt="Lista de cápsulas de un dominio de Academy">
+          <figcaption><span class="fig"></span> · Cápsulas de un dominio, con sus minutos y su XP.</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="screenshots/29-academy-lector.png" alt="Lector de una cápsula de conocimiento">
+          <figcaption><span class="fig"></span> · Lector: diapositivas cortas, una idea por pantalla.</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="screenshots/30-academy-quiz.png" alt="Quiz de una cápsula de Academy">
+          <figcaption><span class="fig"></span> · Quiz del final: cada respuesta se explica, acierte o no.</figcaption>
+        </figure>
+      </div>
     </div>
   </div>
 </section>
@@ -687,15 +777,15 @@
       <div class="shots">
         <figure class="shot">
           <img src="screenshots/06-pares-banco.png" alt="Banco de contrastes de pares mínimos">
-          <figcaption><span class="fig">Fig. 7</span> · Banco de contrastes: los pares agrupados por tipo de error.</figcaption>
+          <figcaption><span class="fig"></span> · Banco de contrastes: los pares agrupados por tipo de error.</figcaption>
         </figure>
         <figure class="shot">
           <img src="screenshots/08-pares-juego.png" alt="Pantalla de juego de pares mínimos">
-          <figcaption><span class="fig">Fig. 8</span> · Ensayo: dos fichas, la consigna y el juez del adulto.</figcaption>
+          <figcaption><span class="fig"></span> · Ensayo: dos fichas, la consigna y el juez del adulto.</figcaption>
         </figure>
         <figure class="shot">
           <img src="screenshots/09-pares-veredicto.png" alt="Veredicto con misión física y sello doble">
-          <figcaption><span class="fig">Fig. 9</span> · Acierto: misión física de celebración y sello doble.</figcaption>
+          <figcaption><span class="fig"></span> · Acierto: misión física de celebración y sello doble.</figcaption>
         </figure>
       </div>
     </div>
@@ -731,7 +821,7 @@
       <h4>Antes de empezar: la antesala de preparación</h4>
       <p>Toda actividad pasa primero por una <strong>pantalla de preparación</strong> con el material necesario y los
       pasos que vienen. <strong>Nada suena hasta que el adulto pulsa «Ya lo tengo todo»</strong>. Se puede volver a
-      consultar en cualquier momento desde «🧰 Ver preparación», sin perder el paso en curso.</p>
+      consultar en cualquier momento desde «Ver preparación», sin perder el paso en curso.</p>
 
       <h4>Flujo principal</h4>
       <ol class="flow">
@@ -755,15 +845,15 @@
       <div class="shots">
         <figure class="shot">
           <img src="screenshots/10-expansion-escenarios.png" alt="Lista de escenarios diarios">
-          <figcaption><span class="fig">Fig. 10</span> · Escenarios diarios: mañana, comida y parque.</figcaption>
+          <figcaption><span class="fig"></span> · Escenarios diarios: mañana, comida y parque.</figcaption>
         </figure>
         <figure class="shot">
           <img src="screenshots/11-expansion-progresion.png" alt="Progresión léxica">
-          <figcaption><span class="fig">Fig. 11</span> · Progresión léxica. <em>Captura tomada en la v9: desde la v9.1 las cuatro fases son concepto → parte → acción → cualidad, y hay una cuarta pestaña de Categorías.</em></figcaption>
+          <figcaption><span class="fig"></span> · Progresión léxica. <em>Captura tomada en la v9: desde la v9.1 las cuatro fases son concepto → parte → acción → cualidad, y hay una cuarta pestaña de Categorías.</em></figcaption>
         </figure>
         <figure class="shot">
           <img src="screenshots/12-expansion-juego.png" alt="Juego con acción física del adulto">
-          <figcaption><span class="fig">Fig. 12</span> · Paso: imagen, consigna y misión física del adulto.</figcaption>
+          <figcaption><span class="fig"></span> · Paso: imagen, consigna y misión física del adulto.</figcaption>
         </figure>
       </div>
     </div>
@@ -802,11 +892,11 @@
       <div class="shots">
         <figure class="shot">
           <img src="screenshots/07-pin-profesional.png" alt="Modal de PIN del Modo Profesional">
-          <figcaption><span class="fig">Fig. 13</span> · Teclado de PIN compartido por todos los bloques.</figcaption>
+          <figcaption><span class="fig"></span> · Teclado de PIN compartido por todos los bloques.</figcaption>
         </figure>
         <figure class="shot">
           <img src="screenshots/13-audicion-lista.png" alt="Lista de terapias de audición">
-          <figcaption><span class="fig">Fig. 14</span> · Audición: la descripción del bloque encabeza la lista, seguida de las 18 terapias con su interruptor de prescripción.</figcaption>
+          <figcaption><span class="fig"></span> · Audición: la descripción del bloque encabeza la lista, seguida de las 18 terapias con su interruptor de prescripción.</figcaption>
         </figure>
       </div>
     </div>
@@ -840,7 +930,7 @@
       <div class="shots">
         <figure class="shot">
           <img src="screenshots/16-pacientes.png" alt="Lista de pacientes registrados en el dispositivo">
-          <figcaption><span class="fig">Fig. 15</span> · Selección de paciente: fichas guardadas en el dispositivo.</figcaption>
+          <figcaption><span class="fig"></span> · Selección de paciente: fichas guardadas en el dispositivo.</figcaption>
         </figure>
       </div>
     </div>
@@ -870,11 +960,11 @@
       <div class="shots">
         <figure class="shot">
           <img src="screenshots/14-ling-pregunta.png" alt="Pregunta previa del Test de Ling">
-          <figcaption><span class="fig">Fig. 16</span> · Pregunta previa: ¿usa audífonos o implante coclear?</figcaption>
+          <figcaption><span class="fig"></span> · Pregunta previa: ¿usa audífonos o implante coclear?</figcaption>
         </figure>
         <figure class="shot">
           <img src="screenshots/15-ling-test.png" alt="Test de Ling con un sonido en curso">
-          <figcaption><span class="fig">Fig. 17</span> · Sonido en curso: el tutor lo produce y marca la respuesta.</figcaption>
+          <figcaption><span class="fig"></span> · Sonido en curso: el tutor lo produce y marca la respuesta.</figcaption>
         </figure>
       </div>
     </div>
@@ -899,7 +989,7 @@
       <ol class="flow">
         <li>Antes de nada, si la actividad necesita <strong>material real</strong> (burbujas, una pelota, un muñeco, un tambor…), la app lo dice en una tarjeta <strong>“ANTES DE EMPEZAR · NECESITARÁS”</strong>, arriba del todo. Está ahí a propósito: leer el material a mitad de la actividad no sirve de nada.</li>
         <li>Cada mini‑juego sigue un flujo numerado <strong>PASO 1→4</strong>: consigna → juego → movimiento → evaluación. La app presenta <strong>fichas ilustradas</strong> grandes; <strong>toque cualquier imagen para ampliarla</strong> a pantalla completa.</li>
-        <li>Con <strong>“🔄 Otra ronda”</strong> el ejercicio rota su contenido (hasta 3 variantes: vocales, palabra articulada, vocal faltante, intruso, adivinanzas, plurales, frases S‑V‑O, emociones…), para que el niño no memorice siempre el mismo ítem.</li>
+        <li>Con <strong>“Otra ronda”</strong> el ejercicio rota su contenido (hasta 3 variantes: vocales, palabra articulada, vocal faltante, intruso, adivinanzas, plurales, frases S‑V‑O, emociones…), para que el niño no memorice siempre el mismo ítem.</li>
         <li>El adulto guía la actividad y valora la respuesta con la <strong>escala EPT‑3</strong>: <span class="stars">★</span> emergente, <span class="stars">★★</span> en proceso, <span class="stars">★★★</span> consolidado.</li>
         <li>Cada ejercicio ofrece una <strong>“versión en movimiento”</strong>; entre ejercicios aparecen <strong>pausas activas</strong>. Los de Lenguaje añaden voz (TTS), juego del micrófono y cápsulas TPR.</li>
         <li>Junto a la evaluación, la app muestra <strong>qué ejercicio viene después</strong>, para que el adulto pueda anunciarlo <em>antes</em> de puntuar. Al tocar la estrella se pasa al siguiente de inmediato, y ese salto sin aviso es justo lo que descoloca a los niños que peor llevan las transiciones.</li>
@@ -907,25 +997,25 @@
       </ol>
       <h4>Flujos alternativos</h4>
       <ul class="alt">
-        <li><strong>Sesión completa:</strong> el botón <strong>“🎯 Sesión completa”</strong> de cada bloque encadena todos los ejercicios prescritos en una sola tanda (pasando por el Test de Ling si la ficha lo indica), en vez de lanzarlos de uno en uno.</li>
+        <li><strong>Sesión completa:</strong> el botón <strong>“Sesión completa”</strong> de cada bloque encadena todos los ejercicios prescritos en una sola tanda (pasando por el Test de Ling si la ficha lo indica), en vez de lanzarlos de uno en uno.</li>
         <li><strong>Sesión perfecta:</strong> si todos los ejercicios obtienen <span class="stars">★★★</span>, se desbloquea la insignia “Sesión estrella”.</li>
         <li><strong>Salir a mitad:</strong> se puede volver atrás; lo valorado hasta ese punto no cuenta como sesión completada.</li>
-        <li><strong>Actividades que se repiten sesión tras sesión:</strong> algunas —como <em>Atención Conjunta</em>— traen una lista de <strong>“🔀 OTRAS FORMAS DE HACERLA”</strong>. Es la misma actividad con el mismo objetivo, cambiando solo el envoltorio: repetida siempre igual, el niño anticipa la respuesta y la ejecuta en automático, con lo que deja de medir lo que dice medir.</li>
+        <li><strong>Actividades que se repiten sesión tras sesión:</strong> algunas —como <em>Atención Conjunta</em>— traen una lista de <strong>“OTRAS FORMAS DE HACERLA”</strong>. Es la misma actividad con el mismo objetivo, cambiando solo el envoltorio: repetida siempre igual, el niño anticipa la respuesta y la ejecuta en automático, con lo que deja de medir lo que dice medir.</li>
       </ul>
-      <div class="callout"><div class="lbl">Dos ayudas para el adulto en los ejercicios de escucha</div><p style="margin:4px 0 0">En la <strong>adivinanza por letra (SE‑2)</strong> el texto se muestra escrito además de locutarse, para poder leerlo o repetirlo con otras palabras sin tener que reproducir el audio primero.<br>En la <strong>lectura labiofacial (RA‑2)</strong> el adulto tiene que decir la palabra <strong>sin voz</strong>, y antes la única forma de saber cuál era, era pulsar “oír la palabra” delante del niño —que es exactamente lo que invalida el ejercicio—. Ahora hay una chuleta plegada <strong>“🙈 SOLO PARA EL ADULTO”</strong>: se abre apartando la pantalla, se lee y se vuelve a cerrar. Empieza siempre cerrada.</p></div>
+      <div class="callout"><div class="lbl">Dos ayudas para el adulto en los ejercicios de escucha</div><p style="margin:4px 0 0">En la <strong>adivinanza por letra (SE‑2)</strong> el texto se muestra escrito además de locutarse, para poder leerlo o repetirlo con otras palabras sin tener que reproducir el audio primero.<br>En la <strong>lectura labiofacial (RA‑2)</strong> el adulto tiene que decir la palabra <strong>sin voz</strong>, y antes la única forma de saber cuál era, era pulsar “oír la palabra” delante del niño —que es exactamente lo que invalida el ejercicio—. Ahora hay una chuleta plegada <strong>“SOLO PARA EL ADULTO”</strong>: se abre apartando la pantalla, se lee y se vuelve a cerrar. Empieza siempre cerrada.</p></div>
       <div class="callout warn"><div class="lbl">Escucha en ruido (RA‑1)</div><p style="margin:4px 0 0">La app locuta <strong>solo la palabra objetivo</strong> («vaca»), no la orden entera, porque lo que el ejercicio mide es reconocer <em>esa palabra</em> con ruido de fondo. La consigna del adulto va en la misma línea: di solo el nombre del animal, con tu voz normal.</p></div>
       <div class="shots">
         <figure class="shot">
           <img src="screenshots/17-ejercicio.png" alt="Ejercicio con fichas ilustradas">
-          <figcaption><span class="fig">Fig. 18</span> · Ficha ilustrada: consigna, imágenes ampliables y versión en movimiento.</figcaption>
+          <figcaption><span class="fig"></span> · Ficha ilustrada: consigna, imágenes ampliables y versión en movimiento.</figcaption>
         </figure>
         <figure class="shot">
           <img src="screenshots/18-evaluacion-ept3.png" alt="Evaluación con la escala EPT-3">
-          <figcaption><span class="fig">Fig. 19</span> · Evaluación EPT‑3: el adulto toca 1★, 2★ o 3★.</figcaption>
+          <figcaption><span class="fig"></span> · Evaluación EPT‑3: el adulto toca 1★, 2★ o 3★.</figcaption>
         </figure>
         <figure class="shot">
           <img src="screenshots/19-sesion-completada.png" alt="Sesión completada con recompensas">
-          <figcaption><span class="fig">Fig. 20</span> · Fin de sesión: XP, racha, nivel y promedio EPT‑3.</figcaption>
+          <figcaption><span class="fig"></span> · Fin de sesión: XP, racha, nivel y promedio EPT‑3.</figcaption>
         </figure>
       </div>
     </div>
@@ -942,7 +1032,7 @@
     <div class="uc-body">
       <div class="uc-grid">
         <div><div class="k">Actor</div><div class="v">Tutor o logopeda</div></div>
-        <div><div class="k">Pantalla</div><div class="v">Hub → “Recordatorios de sesión”</div></div>
+        <div><div class="k">Pantalla</div><div class="v">Ajustes → “Recordatorios de sesión”</div></div>
         <div><div class="k">Precondición</div><div class="v">Permiso de notificaciones del sistema</div></div>
         <div><div class="k">Resultado</div><div class="v">Avisos en la pantalla de bloqueo, solo en las franjas elegidas</div></div>
       </div>
@@ -957,7 +1047,7 @@
       </table>
       <h4>Flujo principal</h4>
       <ol class="flow">
-        <li>En la tarjeta <strong>“Recordatorios de sesión”</strong> del hub, activar el interruptor.</li>
+        <li>En la pestaña <strong>Ajustes</strong>, tarjeta <strong>“Recordatorios de sesión”</strong>, activar el interruptor.</li>
         <li>Conceder el permiso de notificaciones si el sistema lo pide.</li>
         <li>Marcar o desmarcar las <strong>franjas</strong> que se quieran. El texto de la tarjeta muestra en todo momento cuántos avisos llegarán y a qué hora.</li>
       </ol>
@@ -970,27 +1060,71 @@
     </div>
   </div>
 
-  <!-- CU-11 · GAMIFICACIÓN -->
+  <!-- CU-11 · PREMIOS DE LÚA -->
   <div class="uc" style="margin-top:16px">
     <div class="uc-head">
       <div class="id">CU‑11 · <span class="tag fam">Familia</span></div>
-      <div class="title">Motivación: racha, niveles e insignias</div>
+      <div class="title">Los premios de Lúa: XP, racha, niveles e insignias</div>
     </div>
     <div class="uc-body">
       <div class="uc-grid">
         <div><div class="k">Actor</div><div class="v">Niño/a (con apoyo del adulto)</div></div>
-        <div><div class="k">Pantalla</div><div class="v">Fin de sesión · cabecera del hub</div></div>
-        <div><div class="k">Precondición</div><div class="v">Al menos una sesión completada</div></div>
-        <div><div class="k">Resultado</div><div class="v">XP, racha y niveles actualizados</div></div>
+        <div><div class="k">Pantalla</div><div class="v">Tira de Lúa (hub) → Premios · fin de sesión</div></div>
+        <div><div class="k">Precondición</div><div class="v">Ninguna para mirar la colección; una sesión completada para empezar a sumar</div></div>
+        <div><div class="k">Resultado</div><div class="v">XP, racha, nivel e insignias actualizados y visibles</div></div>
       </div>
-      <p>Al estilo de apps como Duolingo, Valeria+ recompensa la constancia en <strong>todos los bloques</strong>. Todo se guarda localmente.</p>
-      <h4>Cómo se gana XP · Niveles · Insignias</h4>
+      <p>Al estilo de apps como Duolingo, Valeria+ recompensa la constancia en <strong>todos los bloques</strong>. Todo
+      se guarda en el dispositivo, sin cuenta y sin conexión. Lo nuevo de la v12 es que el premio <strong>se puede
+      mirar cuando se quiera</strong>: antes solo aparecía un instante al terminar la sesión, que es tanto como no
+      tenerlo.</p>
+
+      <h4>Cómo se gana</h4>
+      <table>
+        <tr><th style="width:26%">Concepto</th><th>Cómo suma</th></tr>
+        <tr><td><strong>XP por sesión</strong></td><td>Base (20 + 5 por ejercicio) + precisión (hasta +30) + racha (hasta +14) + sesión perfecta (+15).</td></tr>
+        <tr><td><strong>Nivel</strong></td><td>Uno cada <strong>100&nbsp;XP</strong>, hasta doce, con nombre propio: Gatita · Gata Curiosa · Gata Juguetona · Gata Valiente · Gata Exploradora · Gata Saltarina · Gata Sabia · Gata Sigilosa · Gata Estrella · Gran Gata · Gata Lunar · <strong>Gata Legendaria</strong>.</td></tr>
+        <tr><td><strong>Racha</strong></td><td>Días seguidos con al menos una sesión. Se mantiene si se practicó <strong>hoy o ayer</strong>.</td></tr>
+      </table>
+
+      <h4>Las dieciocho insignias</h4>
+      <p>Doce forman <strong>tres familias con rango</strong> —el mismo dibujo en cinco metales, para que se lea como
+      una progresión y no como doce premios sueltos— y seis son <strong>de ocasión</strong>.</p>
+      <table>
+        <tr><th style="width:26%">Familia</th><th>Qué reconoce</th></tr>
+        <tr><td><strong>Huella</strong> · 5 rangos</td><td>Sesiones acumuladas: 1, 10, 25, 50 y 100. De «Primera huella» a «Centenaria».</td></tr>
+        <tr><td><strong>Llama</strong> · 4 rangos</td><td>Racha sostenida: 3, 7, 14 y 30 días seguidos.</td></tr>
+        <tr><td><strong>Estrella</strong> · 3 rangos</td><td>Sesiones perfectas (todo <span class="stars">★★★</span>): 1, 5 y 10.</td></tr>
+        <tr><td><strong>De ocasión</strong> · 6</td><td>Practicar temprano o de noche, un fin de semana, una sesión larga, volver tras una pausa y llegar al nivel 10.</td></tr>
+      </table>
+
+      <h4>Flujo principal</h4>
+      <ol class="flow">
+        <li>En el hub, tocar la <strong>tira de Lúa</strong> (o el enlace <strong>“Premios ›”</strong>). <strong>No pide
+        PIN</strong>: la colección es del niño, no del profesional.</li>
+        <li>Arriba: el nivel actual con su nombre, la barra de lo que falta para el siguiente, la racha viva y la XP total.</li>
+        <li>En medio, la <strong>escalera de niveles</strong>: los doce, con los alcanzados marcados y el actual resaltado.</li>
+        <li>Abajo, las <strong>dieciocho insignias</strong>. Las conseguidas van en color; las pendientes, en gris y
+        <strong>con la condición escrita</strong> («7 días seguidos practicando»), que es lo que convierte la colección
+        en un objetivo y no en un misterio.</li>
+      </ol>
+      <h4>Flujos alternativos</h4>
       <ul class="alt">
-        <li><strong>XP por sesión:</strong> base (20 + 5 por ejercicio) + precisión (hasta +30) + racha (hasta +14) + sesión perfecta (+15).</li>
-        <li><strong>Niveles (cada 100 XP):</strong> Osezno → Oso Curioso → Oso Valiente → Oso Explorador → Oso Sabio → Gran Oso → <strong>Oso Legendario</strong>.</li>
-        <li><strong>Insignias:</strong> 🌱 Primer paso · 🔥 rachas (3/7/14 días) · 🎓 sesiones (10/25/50) · ⭐ sesiones perfectas.</li>
+        <li><strong>Al terminar una sesión</strong> el resumen muestra la XP ganada, la racha, el nivel —avisando si se ha subido— y las insignias desbloqueadas en ese momento.</li>
+        <li><strong>Insignia ganada sin darse cuenta:</strong> si una insignia nueva ya cumplía su condición con lo practicado hasta ahora, se desbloquea en la siguiente sesión. Es un regalo, no un fallo.</li>
+        <li><strong>Nivel máximo:</strong> al llegar a Gata Legendaria la barra deja de pedir XP y lo dice; la racha y las insignias siguen contando.</li>
       </ul>
       <div class="callout ok"><div class="lbl">Racha viva</div><p style="margin:4px 0 0">La racha se mantiene mientras se practique hoy o ayer. Si se salta más de un día, vuelve a cero: por eso ayudan los recordatorios de CU‑10.</p></div>
+      <div class="callout"><div class="lbl">Nadie baja de nivel</div><p style="margin:4px 0 0">Al pasar de siete a doce niveles, los nuevos se añadieron <strong>por arriba</strong> y cada nivel sigue costando 100&nbsp;XP. Una curva creciente habría sido más elegante, pero habría <strong>bajado de nivel</strong> a quien ya estaba jugando: un niño que ayer era nivel 6 abriría la app siendo nivel 4. Una recompensa que se quita no es una mejora.</p></div>
+      <div class="shots">
+        <figure class="shot">
+          <img src="screenshots/25-premios.png" alt="Hoja de premios con el nivel, la racha y la escalera de niveles">
+          <figcaption><span class="fig"></span> · Los premios de Lúa: nivel, racha, XP total y la escalera de los doce niveles.</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="screenshots/26-premios-insignias.png" alt="Colección de insignias, conseguidas y pendientes">
+          <figcaption><span class="fig"></span> · La colección: en color lo conseguido, en gris lo que falta y por qué.</figcaption>
+        </figure>
+      </div>
     </div>
   </div>
 </section>
@@ -1021,11 +1155,11 @@
       <div class="shots">
         <figure class="shot">
           <img src="screenshots/20-resultados.png" alt="Panel de resultados: motivación y adherencia">
-          <figcaption><span class="fig">Fig. 21</span> · Panel: motivación, insignias y adherencia semanal.</figcaption>
+          <figcaption><span class="fig"></span> · Panel: motivación, insignias y adherencia semanal.</figcaption>
         </figure>
         <figure class="shot">
           <img src="screenshots/21-resultados-fonema.png" alt="Gráfica de sustitución por fonema">
-          <figcaption><span class="fig">Fig. 22</span> · Evolución por estrellas y sustitución por fonema (bajar = mejorar).</figcaption>
+          <figcaption><span class="fig"></span> · Evolución por estrellas y sustitución por fonema (bajar = mejorar).</figcaption>
         </figure>
       </div>
     </div>
@@ -1048,7 +1182,7 @@
       </div>
       <h4>Flujo principal</h4>
       <ol class="flow">
-        <li>Para <strong>entrar</strong> en Modo Profesional: pulsar “Desbloquear Edición Profesional” 🔒 e introducir el PIN. El estado pasa a 🔓 “Modo profesional activo”.</li>
+        <li>Para <strong>entrar</strong> en Modo Profesional: pulsar “Desbloquear Edición Profesional” e introducir el PIN. El estado pasa a “Modo profesional activo”.</li>
         <li>Realizar los cambios de prescripción necesarios en el bloque (Pares Mínimos, Expansión Semántica, Audición, Lenguaje, TEA o Dislexia).</li>
         <li>Para <strong>salir</strong>: pulsar <strong>“Guardar Prescripción”</strong>. La edición se bloquea automáticamente y vuelve a Modo Familia.</li>
       </ol>
@@ -1067,7 +1201,7 @@
     <div class="uc-body">
       <div class="uc-grid">
         <div><div class="k">Actor</div><div class="v">Logopeda / responsable del piloto</div></div>
-        <div><div class="k">Pantalla</div><div class="v">Hub de bloques → “Acceso Profesional”</div></div>
+        <div><div class="k">Pantalla</div><div class="v">Ajustes → “Acceso Profesional”</div></div>
         <div><div class="k">Precondición</div><div class="v">Se han usado ejercicios · PIN disponible</div></div>
         <div><div class="k">Resultado</div><div class="v">Resumen en QR + registro completo compartido; datos purgados</div></div>
       </div>
@@ -1077,7 +1211,7 @@
       análisis, con dos salidas a la vez: una <strong>offline</strong> (QR) y otra <strong>online</strong> (compartir).</p>
       <h4>Flujo principal</h4>
       <ol class="flow">
-        <li>En el <strong>hub de bloques</strong>, bajar hasta la tarjeta <strong>“Acceso Profesional”</strong> y tocarla.</li>
+        <li>Abrir la pestaña <strong>Ajustes</strong> de la barra inferior y tocar <strong>“Acceso Profesional”</strong>.</li>
         <li>Introducir el <strong>PIN</strong> del logopeda (demo: <strong>1985</strong>).</li>
         <li>Se abre la pantalla de <strong>exportación</strong>: en el acto aparece un <strong>código QR</strong> con el resumen
         (nº de sesiones, % de abandono TPR, misclicks y media de la encuesta) y, a la vez, el <strong>menú de compartir</strong>
@@ -1108,7 +1242,7 @@
     <div class="uc-body">
       <div class="uc-grid">
         <div><div class="k">Actor</div><div class="v">Logopeda o tutor</div></div>
-        <div><div class="k">Pantalla</div><div class="v">Tarjeta “Voz de la app”</div></div>
+        <div><div class="k">Pantalla</div><div class="v">Ajustes → tarjeta “Voz de la app”</div></div>
         <div><div class="k">Precondición</div><div class="v">App abierta (funciona sin conexión)</div></div>
         <div><div class="k">Resultado</div><div class="v">El contenido se locuta y evalúa en la variedad elegida</div></div>
       </div>
@@ -1124,7 +1258,7 @@
       </table>
       <h4>Flujo principal</h4>
       <ol class="flow">
-        <li>Abrir la tarjeta <strong>“Voz de la app”</strong> y localizar <strong>“Variedad de la voz”</strong>.</li>
+        <li>En la pestaña <strong>Ajustes</strong>, abrir la tarjeta <strong>“Voz de la app”</strong> y localizar <strong>“Variedad de la voz”</strong>.</li>
         <li>Tocar <strong>Castellano</strong>, <strong>Galego</strong>, <strong>Dominicano</strong> o <strong>Euskera</strong>.</li>
         <li>La app cambia al instante la locución y el reconocimiento; la tarjeta muestra un aviso sobre la voz disponible.</li>
       </ol>
@@ -1138,7 +1272,7 @@
       <div class="shots">
         <figure class="shot">
           <img src="screenshots/22-voz-variedad.png" alt="Tarjeta Voz de la app con el selector de variedad">
-          <figcaption><span class="fig">Fig. 23</span> · Ajustes › “Voz de la app”: selector de variedad Castellano · Galego · Dominicano · Euskara · English (US).</figcaption>
+          <figcaption><span class="fig"></span> · Ajustes › “Voz de la app”: selector de variedad Castellano · Galego · Dominicano · Euskara · English (US).</figcaption>
         </figure>
       </div>
     </div>
@@ -1164,14 +1298,14 @@
       nunca los activa, mide ni ajusta por su cuenta; es el adulto quien decide cuándo y cuánto.</p>
       <table>
         <tr><th style="width:30%">Módulo</th><th>Qué hace</th></tr>
-        <tr><td>🔊 <strong>Escucha en ruido</strong></td><td>Un <strong>slider</strong> añade ruido de fondo (bullicio de cafetería) por debajo de la instrucción. El volumen sube o baja <strong>solo</strong> con el dedo del adulto.</td></tr>
-        <tr><td>🐻 <strong>Doble tarea</strong></td><td>Un oso distractor se asoma y se mueve por el borde de la pantalla <strong>sin ser tocable</strong>: obliga al niño a atender a la voz pese a la interferencia visual.</td></tr>
-        <tr><td>💬 <strong>Quiebre pragmático</strong></td><td>La app calla y el adulto <strong>rompe la comunicación a propósito</strong>; luego marca la <strong>estrategia de reparación</strong> que usó el niño.</td></tr>
+        <tr><td><strong>Escucha en ruido</strong></td><td>Un <strong>slider</strong> añade ruido de fondo (bullicio de cafetería) por debajo de la instrucción. El volumen sube o baja <strong>solo</strong> con el dedo del adulto.</td></tr>
+        <tr><td><strong>Doble tarea</strong></td><td><strong>Lúa</strong> se asoma y se mueve por el borde de la pantalla <strong>sin ser tocable</strong>: obliga al niño a atender a la voz pese a la interferencia visual. Tocarla no cuenta como error en la telemetría.</td></tr>
+        <tr><td><strong>Quiebre pragmático</strong></td><td>La app calla y el adulto <strong>rompe la comunicación a propósito</strong>; luego marca la <strong>estrategia de reparación</strong> que usó el niño.</td></tr>
       </table>
       <h4>Flujo principal</h4>
       <ol class="flow">
         <li>Durante el ejercicio, desplegar la tarjeta <strong>“Panel del Adulto”</strong>.</li>
-        <li>Activar el módulo deseado: mover el <strong>slider de ruido</strong>, encender el <strong>oso distractor</strong> o lanzar el <strong>quiebre pragmático</strong>.</li>
+        <li>Activar el módulo deseado: mover el <strong>slider de ruido</strong>, encender la <strong>gata distractora</strong> o lanzar el <strong>quiebre pragmático</strong>.</li>
         <li>Guiar la respuesta del niño y, en el quiebre, seleccionar la <strong>estrategia de reparación</strong> observada.</li>
         <li>Desactivar el módulo cuando convenga; el nivel de reto queda registrado de forma anónima.</li>
       </ol>
@@ -1180,7 +1314,7 @@
       <div class="shots">
         <figure class="shot">
           <img src="screenshots/23-panel-adulto.png" alt="Panel del Adulto desplegado con los tres módulos de carga">
-          <figcaption><span class="fig">Fig. 24</span> · Panel del Adulto desplegado: ruido de fondo, oso distractor y quiebre pragmático.</figcaption>
+          <figcaption><span class="fig"></span> · Panel del Adulto desplegado: ruido de fondo, gata distractora y quiebre pragmático.</figcaption>
         </figure>
       </div>
     </div>
@@ -1227,7 +1361,7 @@
 
       <h4>Flujo principal</h4>
       <ol class="flow">
-        <li>Abrir <strong>Academy</strong> desde la tarjeta del hub y elegir el dominio <strong>🤟 Lengua de Signos (LSE)</strong>.</li>
+        <li>Abrir <strong>Academy</strong> desde la tarjeta del hub y elegir el dominio <strong>Lengua de Signos (LSE)</strong>.</li>
         <li>Empezar por <strong>«La LSE es una lengua, no mímica»</strong>, y seguir por <strong>«¿Signar retrasa el habla?»</strong>: el feed las propone en ese orden a propósito.</li>
         <li>Leer las diapositivas —las de configuraciones muestran el <strong>dibujo de la mano</strong>— y responder el quiz.</li>
         <li>Practicar el <strong>alfabeto</strong> frente al espejo deletreando el nombre del niño, cada día, hasta que lo reconozca.</li>
@@ -1456,19 +1590,22 @@
     <tr><td>La app oyó mal en Pares Mínimos</td><td>El padre es el juez final: use “dijo rana / dijo lana” para corregir el veredicto. Un falso positivo no penaliza al niño.</td></tr>
     <tr><td>No avanza tras la misión física</td><td>Es el <strong>sello doble</strong>: el adulto y el niño deben pulsar las dos huellas a la vez. Sirve para que el ejercicio no siga solo. Con una sola mano, mantenga pulsada una huella 2 segundos.</td></tr>
     <tr><td>No aparece el Test de Ling</td><td>Solo se muestra en los ejercicios de Audición si la patología indica audífono o implante coclear (CU‑08).</td></tr>
-    <tr><td>La racha volvió a cero</td><td>Se perdió porque pasó más de un día sin practicar. Active los recordatorios (CU‑10) para evitarlo.</td></tr>
+    <tr><td>La racha volvió a cero</td><td>Se perdió porque pasó más de un día sin practicar. Active los recordatorios (CU‑10) para evitarlo. La <strong>mejor racha</strong> conseguida no se borra, y las insignias de llama ya ganadas se conservan.</td></tr>
+    <tr><td>¿Dónde se ven las insignias del niño?</td><td>En el hub, tocando la <strong>tira de Lúa</strong> o el enlace “Premios ›”. No hace falta el PIN. Ahí están la escalera de los doce niveles y las dieciocho insignias, con la condición escrita de las que faltan (CU‑11).</td></tr>
+    <tr><td>Han salido niveles nuevos. ¿Mi hijo ha bajado de nivel?</td><td>No. Los cinco niveles nuevos se añadieron por encima de los que había y cada nivel sigue costando 100&nbsp;XP: nadie pierde lo conseguido (CU‑11).</td></tr>
+    <tr><td>¿Por qué la app ya no usa emoji en sus botones?</td><td>Los dibujaba el fabricante de cada teléfono, así que cambiaban de un aparato a otro y no formaban un conjunto. Desde la v12 la iconografía es propia, dibujada en la app. Los <strong>pictogramas de los ejercicios</strong> no han cambiado: eso es contenido terapéutico.</td></tr>
     <tr><td>No puedo cambiar qué se practica</td><td>Está en Modo Familia (solo lectura). Desbloquee el Modo Profesional con el PIN (CU‑06 / CU‑13).</td></tr>
     <tr><td>¿Se pierden los datos al cerrar la app?</td><td>No. Ficha, prescripción, historial, evolución por fonema y progreso se guardan cifrados en el dispositivo.</td></tr>
-    <tr><td>El mismo ejercicio se repetía siempre igual</td><td>Use <strong>“🔄 Otra ronda”</strong>: cada mini‑juego rota hasta 3 contenidos distintos. Para practicar todo lo prescrito de golpe, use <strong>“🎯 Sesión completa”</strong>.</td></tr>
+    <tr><td>El mismo ejercicio se repetía siempre igual</td><td>Use <strong>“Otra ronda”</strong>: cada mini‑juego rota hasta 3 contenidos distintos. Para practicar todo lo prescrito de golpe, use <strong>“Sesión completa”</strong>.</td></tr>
     <tr><td>¿Necesito conexión o crear una cuenta?</td><td>No. La app funciona en local sin conexión. El <strong>acceso profesional con correo y contraseña</strong> (sincronización en la nube) es opcional y solo se usa para pruebas con profesionales.</td></tr>
     <tr><td>¿Qué datos recoge el piloto sobre mi hijo/a?</td><td>Solo métricas <strong>anónimas</strong> de usabilidad (tiempo por pantalla, misclicks y cápsulas saltadas) y una encuesta breve. <strong>No</strong> se guardan nombres, ni audio, ni el contenido de las respuestas. Todo se cifra en el dispositivo.</td></tr>
     <tr><td>¿Por qué apareció una encuesta con caritas?</td><td>Es la encuesta de satisfacción del piloto (SUS). Solo aparece al completar 4 bloques distintos y como mucho una vez por semana. Se puede cerrar sin responder.</td></tr>
-    <tr><td>¿Cómo exporto los datos del piloto?</td><td>Desde el hub, tarjeta <strong>“Acceso Profesional”</strong> con el PIN: la app muestra un <strong>QR</strong> con el resumen y abre el <strong>compartir</strong> con el registro completo. Tras enviarlo, los datos se purgan (CU‑14).</td></tr>
+    <tr><td>¿Cómo exporto los datos del piloto?</td><td>Desde la pestaña <strong>Ajustes</strong>, en <strong>“Acceso Profesional”</strong>, con el PIN: la app muestra un <strong>QR</strong> con el resumen y abre el <strong>compartir</strong> con el registro completo. Tras enviarlo, los datos se purgan (CU‑14).</td></tr>
     <tr><td>¿Puedo usar la app en gallego, dominicano o euskera?</td><td>Sí. En la tarjeta <strong>“Voz de la app”</strong> se elige la variedad (Castellano, Galego, Dominicano o Euskera). Cambia lo que se locuta y evalúa; los menús siguen en castellano (CU‑15).</td></tr>
     <tr><td>En dominicano la voz suena de España o robótica</td><td>Instale una voz de <strong>“Español (Latinoamérica)”</strong> en los ajustes del dispositivo. La app la detecta y la usa automáticamente.</td></tr>
     <tr><td>En galego, algunos ejercicios no hablan</td><td>La Expansión Semántica y los ejercicios de Audición y Lenguaje suenan con la voz neuronal castellana mientras Celtia no cubra ese contenido, en vez de quedar en silencio. Actualice la app si sigue ocurriendo.</td></tr>
     <tr><td>Marca como error algo que en mi país se dice así</td><td>En la variedad dominicana la app <strong>respeta los rasgos del habla caribeña</strong> (seseo, “s” aspirada, “r/l” final). Y recuerde: el adulto es siempre el juez final del veredicto.</td></tr>
-    <tr><td>Apareció ruido de fondo o un oso moviéndose</td><td>Son módulos del <strong>Panel del Adulto</strong> (carga comunicativa) del piloto; solo se activan a mano. Desactívelos desde ese mismo panel (CU‑16).</td></tr>
+    <tr><td>Apareció ruido de fondo o la gata moviéndose por el borde</td><td>Son módulos del <strong>Panel del Adulto</strong> (carga comunicativa) del piloto; solo se activan a mano. Desactívelos desde ese mismo panel (CU‑16).</td></tr>
     <tr><td>¿Qué son los bloques de TEA y Dislexia?</td><td><strong>TEA</strong> (6 terapias, protocolo PRT + TCC) y <strong>Dislexia</strong> (6 terapias de conciencia fonológica y acceso léxico). Se prescriben con el mismo PIN que el resto y sus estresores los activa siempre el adulto (CU‑06).</td></tr>
     <tr><td>No veo el bloque de Realidad Aumentada</td><td>Solo aparece en <strong>teléfonos Android</strong> con la app instalada (no en tablet, ni en Expo Go, ni en el navegador), y solo si la <strong>prueba de aptitud</strong> da nivel A, B o C. Con nivel D el bloque no se ofrece y los otros seis funcionan igual (CU‑18).</td></tr>
     <tr><td>El ejercicio de Realidad Aumentada se cierra solo</td><td>La cámara ha dejado de ver la cara del niño. <strong>Apoye el teléfono</strong> en un libro o una caja, en horizontal y a 30‑35 cm; nunca lo sostenga en la mano (CU‑18).</td></tr>
@@ -1476,7 +1613,7 @@
     <tr><td>El coche de AR‑1 no arranca aunque el niño pone la boca</td><td>Puede que la mueca salga <strong>asimétrica</strong> (una comisura tira más que la otra), que no cuenta a propósito, o que el tiempo de sostén esté por encima de lo que hoy puede aguantar. <strong>Bájelo usted</strong> en el Panel del Adulto; la app nunca lo ajusta sola (CU‑19 y CU‑22).</td></tr>
     <tr><td>En AR‑2 no aparecen los tiempos</td><td>Los milisegundos solo son defendibles con teléfono de nivel A y <strong>altavoces con cable</strong>. Con Bluetooth se vetan a propósito (añade un retraso variable que es justo lo que se quiere medir). El ejercicio sigue funcionando como juego y el registro <strong>dice por qué</strong> no lleva tiempo (CU‑20).</td></tr>
     <tr><td>En AR‑3 la mirada no selecciona nada</td><td>Falta la <strong>calibración de 5 puntos</strong>, que es obligatoria por paciente y por teléfono. Si el puntero tiembla, cambie de iris a <strong>rayo desde la nariz</strong> en el Panel (CU‑21 y CU‑22).</td></tr>
-    <tr><td>¿Qué es la tarjeta “Academy” del hub?</td><td>Es la <strong>formación para el adulto</strong>, organizada en cinco dominios (Lenguaje, Hipoacusia, Dislalias, Dislexia y TEA). Cápsulas breves con quiz sobre cómo aprenden a hablar los niños, el manejo de los dispositivos auditivos, los sonidos difíciles y más; un feed destaca el dominio que encaja con la patología de la ficha. No es un ejercicio para el niño (CU‑03).</td></tr>
+    <tr><td>¿Qué es la pestaña “Academy”?</td><td>Es la <strong>formación para el adulto</strong>, organizada en siete dominios (Lenguaje, Mitos y verdades, Hipoacusia/Sordera, Dislalias, Dislexia, TEA y Lengua de Signos). Cápsulas breves con quiz sobre cómo aprenden a hablar los niños, el manejo de los dispositivos auditivos, los sonidos difíciles y más; un feed destaca el dominio que encaja con la patología de la ficha. No es un ejercicio para el niño (CU‑03).</td></tr>
 
   </table>
 </section>
@@ -1485,7 +1622,7 @@
 <section class="page-break">
   <div class="chapter-kicker">Anexo B</div>
   <h2 class="chapter">Historial de versiones</h2>
-  <p style="margin-top:12px">Este manual describe Valeria+ en su <strong>estado actual (v10.3)</strong>. La siguiente tabla
+  <p style="margin-top:12px">Este manual describe Valeria+ en su <strong>estado actual (v12)</strong>. La siguiente tabla
   resume, a título informativo, cómo ha ido creciendo la app, por si resulta útil a quienes usaron versiones
   anteriores.</p>
   <table>
@@ -1502,6 +1639,8 @@
     <tr><td><strong>v10.1</strong></td><td><strong>El audio del turno de habla deja de salir del teléfono siempre que el dispositivo lo permita</strong>: la app pide ahora reconocimiento <strong>sin conexión</strong>, decidido variedad por variedad, y lo <strong>muestra en la tarjeta “Voz de la app”</strong>, donde también ofrece descargar el paquete de idioma que falte. No cambia nada de lo clínico —la ventana de escucha larga, la tolerancia a los fallos del micrófono y el pliegue dialectal siguen igual—, y <strong>el adulto sigue siendo el juez final</strong>.</td></tr>
     <tr><td><strong>v10.2</strong></td><td><strong>Los pares mínimos vuelven a detectar la sustitución.</strong> Al comparar lo oído con la palabra pedida, la app toleraba una letra de diferencia; como la mayoría de los pares se distinguen por una sola letra, decir la palabra equivocada podía puntuar como acierto. Ahora se compara con <strong>las dos palabras del par</strong> y gana la más parecida; si empatan, sale «casi» y decide el adulto. Cuesta algún «casi» de más en pronunciaciones aproximadas, y a cambio el ejercicio mide lo que dice medir.</td></tr>
     <tr><td><strong>v10.3</strong></td><td><strong>El micrófono vuelve a escuchar, y el bloque de Lenguaje dice qué material hace falta.</strong> El reconocimiento de voz había dejado de contar bien el caso más común —el niño que tarda en arrancar—, y con ello repetía siempre que no se le escuchaba; además, cuando el reconocedor del propio teléfono no arrancaba, la variedad se quedaba atascada sin salida. Las dos cosas están corregidas. Del lado clínico, y a petición de ACOPROS: los <strong>siete ejercicios de Lenguaje declaran su material</strong> antes de empezar, <em>Atención Conjunta</em> trae varias formas de hacerla para que no se mecanice, <em>Imitación</em> progresa de la sílaba a la palabra corta, <em>Regulación Conductual</em> habla de <strong>recompensa</strong> acordada con el niño y explica cómo montar la agenda visual, la <strong>adivinanza se puede leer</strong>, la <strong>lectura labiofacial</strong> tiene chuleta para el adulto, la <strong>escucha en ruido</strong> locuta solo la palabra objetivo y la app <strong>anuncia el siguiente ejercicio</strong> antes de puntuar.</td></tr>
+    <tr><td><strong>v11</strong></td><td><strong>El hub deja de ser una pantalla larga.</strong> Las familias del piloto dijeron que el uso «se hace muy engorroso» y que había «mucho texto»: el hub reunía cinco tareas y había que bajar dos pantallas y media para llegar a los ajustes. Ahora hay <strong>tres pestañas</strong> —Terapias, Academy y Ajustes—, los bloques van en cuadrícula y la descripción de cada uno se lee al abrirlo, no en una lista de siete seguidas. Además, el botón físico de <em>atrás</em> de Android vuelve al hub en vez de salirse de la pantalla entera.</td></tr>
+    <tr><td><strong>v12</strong></td><td><strong>Lúa, los premios visibles y un set de iconos propio.</strong> La mascota pasa a ser una <strong>gata en píxel art</strong> —icono, arranque, hub, fin de sesión y distractora de doble tarea— y da nombre a <strong>doce niveles</strong> y a una colección de <strong>dieciocho insignias</strong> que ya <strong>se puede abrir y mirar</strong> desde el hub, sin PIN, con la condición escrita de las que faltan. El hub, las pantallas de ejercicios, las del adulto y Academy se rehacen con <strong>iconografía propia</strong> en lugar de emoji del sistema, se corrige el contraste de los textos secundarios al mínimo WCAG AA y el avatar de la lista de pacientes deja de deducirse del género para ser la <strong>inicial del nombre</strong>. Ningún ejercicio, consigna ni regla clínica cambia.</td></tr>
   </table>
 
   <p style="margin-top:14px"><strong>Sobre la cobertura de este manual.</strong> Los capítulos paso a paso cubren ya
@@ -1510,17 +1649,64 @@
   en el capítulo&nbsp;2 («Privacidad de los datos») y en CU‑04. La v10.3 sí añade elementos visibles —la tarjeta de material, la
   lista de formas alternativas, la chuleta del adulto y el aviso del siguiente ejercicio—, todos descritos en CU‑09.</p>
 
-  <p style="margin-top:14px"><strong>Sobre las capturas de pantalla.</strong> Las imágenes de este manual se tomaron
-  en la v9, así que en las pantallas de Expansión Semántica y de recordatorios verás alguna diferencia respecto al texto:
-  la cuarta pestaña de Categorías, la antesala de preparación y el selector de franjas son posteriores a esas capturas.
-  El capítulo de <strong>Realidad Aumentada</strong> no lleva capturas, y la razón está explicada al final de CU‑22:
-  cualquier imagen fiel de esos ejercicios mostraría la cara de un niño.</p>
+  <p style="margin-top:14px"><strong>Sobre las capturas de pantalla.</strong> Todas las imágenes de este manual se
+  han vuelto a tomar sobre la <strong>v12</strong>, con la app en marcha, y muestran la interfaz que la familia tiene
+  hoy delante. Solo la <strong>progresión léxica</strong> conserva su aviso propio, porque el contenido de esa pantalla
+  cambió después de la captura. El capítulo de <strong>Realidad Aumentada</strong> sigue sin capturas, y la razón está
+  explicada al final de CU‑22: cualquier imagen fiel de esos ejercicios mostraría la cara de un niño.</p>
 
   <div class="footer-note">
-    <strong>Valeria+</strong> · Manual de Casos de Uso · v10.3 (con capturas de pantalla) · Agosto de 2026 ·
+    <strong>Valeria+</strong> · Manual de Casos de Uso · v12 (con capturas de pantalla) · Agosto de 2026 ·
     Terapia auditivo‑verbal y del lenguaje para la infancia. Documento de apoyo para logopedas y familias.
     <br>Disponible en Castellano, Galego (Proxecto Nós), Dominicano (Quisqueya Habla) y Euskera (batua · ILENIA/NEL‑GAITU). Los datos personales se tratan localmente conforme a RGPD/HIPAA; la sincronización en la nube y la telemetría anónima del piloto son opcionales.
   </div>
+</section>
+
+
+<!-- ================= ANEXO C · LÚA FÍSICA ================= -->
+<section class="page-break">
+  <div class="chapter-kicker">Anexo C</div>
+  <h2 class="chapter">Lúa de peluche: el aparato que todavía no existe</h2>
+
+  <div class="callout warn" style="margin-top:12px">
+    <div class="lbl">Léase esto primero</div>
+    <p style="margin:4px 0 0">Lo que sigue <strong>no está en la aplicación</strong>. No hay nada que buscar en los
+    menús, no hay nada que emparejar y ninguna familia necesita comprar nada. Es un proyecto en curso, y este anexo
+    existe porque la mascota de la app y ese aparato se llaman igual, y porque conviene que quien acompaña la terapia
+    sepa desde ya qué va a hacer y —sobre todo— qué no.</p>
+  </div>
+
+  <p>Lúa es también el nombre de una <strong>mascota física</strong> que se está desarrollando: un peluche con una
+  pantalla redonda por cara, conectado por Bluetooth a Valeria+. La idea es sencilla y deliberadamente pequeña:
+  <strong>la app decide, Lúa reacciona</strong>. Cuando el adulto da por buena una respuesta, la cara de Lúa lo celebra
+  en la mesa, fuera de la tableta, que es donde está mirando el niño.</p>
+
+  <h3>Qué no va a hacer, y no es una limitación temporal</h3>
+  <table>
+    <tr><th style="width:30%">No hace</th><th>Por qué</th></tr>
+    <tr><td><strong>No escucha</strong></td><td>No lleva micrófono, y el firmware tiene una comprobación automática que <strong>impide compilar</strong> si alguien intenta añadir entrada de audio. Un juguete que escucha de continuo junto a un menor no entra en una consulta pediátrica.</td></tr>
+    <tr><td><strong>No suena</strong></td><td>La primera versión es muda. Durante una prueba de audición, cualquier ruido del juguete contamina la medida.</td></tr>
+    <tr><td><strong>No se mueve</strong></td><td>Sin motores ni servos: nada que pellizque, atrape o se rompa en manos de un niño pequeño.</td></tr>
+    <tr><td><strong>No sabe quién es el niño</strong></td><td>El protocolo <strong>no tiene ningún campo de texto</strong>. No es que la app evite mandar el nombre: es que no existe el sitio donde meterlo. Lúa recibe órdenes de una lista cerrada («celebra», «espera») y nada más.</td></tr>
+    <tr><td><strong>No decide nada</strong></td><td>No mide, no puntúa, no guarda y no lleva la sesión. Todo lo decide el adulto en la app, exactamente igual que hoy.</td></tr>
+  </table>
+
+  <h3>Cómo vuelve sola a estar quieta</h3>
+  <p>El permiso para animarse <strong>caduca</strong>. La app se lo concede por unos segundos y lo va renovando mientras
+  todo va bien; si el Bluetooth se corta, la tableta se apaga o la app se cierra, Lúa <strong>vuelve sola a su cara en
+  reposo</strong> sin que nadie tenga que apagarla. Está montado así a propósito: el estado seguro es el de reposo, y se
+  llega a él <em>por no hacer nada</em>, que es la única forma fiable de llegar a un sitio cuando algo se ha roto.</p>
+
+  <h3>En qué punto está</h3>
+  <p>En el <strong>banco de pruebas</strong>: antes de fabricar nada hay que comprobar sobre la placa real que la cara
+  reacciona <strong>en menos de tres décimas de segundo</strong> desde que el adulto pulsa, que la animación se sostiene
+  con fluidez y que la vuelta a reposo funciona <strong>cien veces de cien</strong>. Si algo de eso no se cumple, el
+  aparato no se hace: una mascota que celebra dos segundos tarde no refuerza nada, y una que se queda animándose sola
+  cuando se pierde la conexión no es admisible.</p>
+
+  <div class="callout"><div class="lbl">Y en la valoración (VIA+), Lúa no está</div><p style="margin:4px 0 0">Durante una
+  prueba de valoración auditiva, la protección no consiste en mandarle callar, sino en que <strong>el aparato no esté en
+  la sala</strong>. Es más simple de explicar, más fácil de auditar y no depende de que ningún mensaje llegue a tiempo.</p></div>
 </section>
 
 </body>

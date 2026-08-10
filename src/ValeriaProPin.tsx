@@ -124,7 +124,12 @@ export const ProPinModal: React.FC<{
         <ScrollView showsVerticalScrollIndicator={false}>
         <View style={s.modalHead}>
           <View style={s.modalIcon}><BlockIcon name="lock" color={V.color.primaryDark} size={22} /></View>
-          <Pressable onPress={close} style={s.modalClose}><BlockIcon name="cross" color="#6b7280" size={15} /></Pressable>
+          {/* El aspa es un icono propio, no texto: sin etiqueta, TalkBack lee
+              "botón" a secas y no hay forma de saber que cierra el modal. */}
+          <Pressable onPress={close} style={s.modalClose}
+            accessibilityRole="button" accessibilityLabel={t.common.close}>
+            <BlockIcon name="cross" color="#6b7280" size={15} />
+          </Pressable>
         </View>
         <Text style={s.modalTitle}>{t.pro.modalTitle}</Text>
         <Text style={s.modalSub}>{subtitle ?? t.pro.pinSubtitleDefault}</Text>
