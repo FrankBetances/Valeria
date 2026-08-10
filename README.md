@@ -227,6 +227,33 @@ dibujo—, y el icono adaptativo de Android se dibuja a 512 px dentro del lienzo
 de 1024 porque el sistema recorta a círculo o *squircle* y a tamaño completo el
 recorte le comía las orejas.
 
+### Copiar a Lúa a otro proyecto (VIA+, o el que venga)
+
+**Lee esto antes de copiar nada.** Lúa es de los dos productos, así que este
+repositorio es su fuente. Copiar «lo que parezca la mascota» ya ha salido mal:
+lo que hay que llevarse son **tres ficheros y nada más**.
+
+| Llévate | Para qué |
+| --- | --- |
+| [`src/ValeriaCatPixel.tsx`](src/ValeriaCatPixel.tsx) | **El sprite y el componente.** Es la fuente única: la rejilla, la paleta y las dos poses. Solo necesita `react-native-svg` |
+| [`scripts/build-brand-assets.js`](scripts/build-brand-assets.js) | Genera los PNG de marca **desde ese fichero**. Ajusta las rutas de salida a tu proyecto |
+| [`scripts/check-brand-consistency.js`](scripts/check-brand-consistency.js) | El gate. Sin él, la copia se desfasa igual que se desfasó aquí |
+
+**Lo que NO debes copiar, y por qué:**
+
+- **Ningún PNG.** Ni `assets/icon.png`, ni el splash, ni el icono de iOS. Son
+  **salidas**, no fuentes: se generan con `npm run build:brand`. Copiar el PNG
+  es exactamente cómo se propagan las láminas viejas.
+- **Nada que se llame como la mascota anterior.** Si al copiar te encuentras un
+  identificador, un fichero o un texto con el oso, **no lo lleves**: es un
+  defecto de esta casa que estás a punto de exportar.
+- **El copy de los ejercicios.** «Gata distractora» y compañía es contenido
+  clínico de Valeria+, no marca. VIA+ tiene el suyo.
+
+**Después de copiar, corre el gate en el proyecto destino.** Si pasa, la copia
+está bien; si no, te dice qué falta. Es la única forma de saberlo sin depender
+de que alguien mire.
+
 ### La gata de la app y el aparato Lúa son el mismo personaje
 
 **Lúa** nombra también el **periférico físico** de refuerzo sobre ESP32‑C3
