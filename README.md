@@ -236,20 +236,6 @@ aparato es de **240×240**, o sea que el píxel art es su formato nativo, y **la
 cara del aparato sale de la misma rejilla que la de la app**. Un solo dibujo,
 dos superficies.
 
-> [!WARNING]
-> **Dos cosas siguen sin resolver, y conviene tenerlas a la vista.**
->
-> 1. **El icono de la ficha de Play Console sigue siendo el oso.** Ese icono se
->    sube aparte en la Consola y **no viaja en el APK**, así que `npm run
->    build:brand` no lo toca: hay que subirlo a mano en *Ficha principal de la
->    tienda → Icono de la app* (512×512 PNG). Quien instale desde la tienda ve
->    un oso en la ficha y una gata al abrir.
-> 2. **`lúa` es palabra objetivo del banco gallego** («toca a lúa, logo o gato»,
->    `valeriaExerciseGl.ts`). Llamar Lúa al aparato crea ambigüedad justo en la
->    lengua donde la palabra se trabaja: el adulto dice «mira a Lúa» y el niño no
->    sabe si es la mascota o la luna del ejercicio. Decisión abierta **D‑B** en
->    §14 de [`docs/plan-integracion-lua.md`](docs/plan-integracion-lua.md).
-
 > El **oso sí sigue existiendo como contenido terapéutico** y eso no es un
 > descuido: «oso» es palabra de los bancos léxicos (par mínimo *ocho/oso*, frase
 > de lectura «EL OSO COME PAN», orden TPR «camina como un oso»). Es vocabulario,
@@ -855,15 +841,6 @@ internas y el corpus de voz no se publican.
 | Privacy Policy (inglés, para la ficha localizada en `en-US`) | `https://frankbetances.github.io/Valeria/privacy.html` |
 | **Eliminación de datos** (obligatoria al declarar cuentas de usuario) | `https://frankbetances.github.io/Valeria/eliminacion-de-datos.html` |
 
-> [!WARNING]
-> **Pendiente manual en la Consola: el icono de la ficha sigue siendo el oso.**
-> El icono que se ve en la tienda (*Ficha principal de la tienda → Icono de la
-> app*, 512×512 PNG) se sube **aparte** y **no viaja en el APK**, así que
-> `npm run build:brand` regenera los tres assets de la app pero no toca ese.
-> Mientras no se suba a mano, la tienda enseña un oso y la app abre con la gata
-> [Lúa](#-lúa--la-mascota-y-la-marca). Las **capturas de la ficha** tienen el
-> mismo problema si se tomaron antes de la v12.
-
 #### Reconocimiento de voz en *Seguridad de los datos* (tras la Fase A)
 
 La política de `site/` ya está redactada con la Fase A dentro (4 de agosto de
@@ -923,10 +900,6 @@ qué queda pendiente están en [Lúa · la mascota y la marca](#-lúa--la-mascot
 | **Doble tarea** | El distractor periférico es la misma gata. Fichero y componente renombrados `ValeriaDistractorBear` → **`ValeriaDistractorCat`**, y el copy de los ejercicios de dislexia (es · gl · eu) deja de mandar activar «el Oso Distractor» cuando el interruptor del Panel del Adulto ya decía «Gata distractora» |
 | **Icono y arranque** | `assets/icon.png`, `adaptive-icon.png` y `splash.png` se **generan** desde el mismo sprite con `npm run build:brand`. Hasta este cambio seguían siendo el oso: quien instalaba la app veía un oso antes de abrirla y una gata al entrar |
 | **Portada del manual** | `docs/lua-mascota.png` sale del mismo script, así que manual y app no pueden divergir |
-
-> ⚠️ **El icono de la ficha de Play Console sigue siendo el oso**: se sube
-> aparte en la Consola y no viaja en el APK. Ver el aviso en
-> [Privacidad y ficha de Play Store](#️-privacidad-y-ficha-de-play-store).
 
 > El historial saltaba de la V10.3 a aquí. El **rediseño de interfaz v11**
 > (cuadrícula de 2 columnas, pestañas inferiores, muro de contención) está

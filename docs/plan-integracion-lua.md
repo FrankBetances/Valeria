@@ -495,11 +495,10 @@ poses —cabeza sola por debajo de 90 px, cuerpo entero por encima—) sustituye
 (`ValeriaDistractorCat`), y los doce niveles pasan de «Osezno → Oso Legendario»
 a «Gatita → Gata Legendaria».
 
-**Estado de la migración de marca (10/8/2026).** Hecho: pantallas, nombres de
-nivel, copy del distractor en los tres bancos (es · gl · eu), e **icono, icono
+**Estado de la migración de marca (10/8/2026): completa.** Pantallas, nombres de
+nivel, copy del distractor en los tres bancos (es · gl · eu) e **icono, icono
 adaptativo, splash y portada del manual**, los cuatro generados del mismo sprite
-con `npm run build:brand`. **Pendiente y no automatizable:** el icono de la
-ficha de Play Console, que se sube aparte y no viaja en el APK.
+con `npm run build:brand`.
 
 Esto simplifica el hardware: **el catálogo de caras de la pantalla circular sale
 de la misma rejilla que la mascota de la app.** El píxel art no es aquí un gusto
@@ -507,11 +506,7 @@ estético, es el formato nativo de un panel de 240×240 — y significa que la c
 de Lúa en el aparato y la de la app son literalmente el mismo dibujo, no dos
 interpretaciones que se van separando versión a versión.
 
-**Queda una decisión de nombre (§14, D-B):** `lúa` es palabra objetivo del banco
-gallego. Aparece en `valeriaExerciseGl.ts` («Toca a lúa, logo o gato e despois a
-flor») y en `valeriaSemanticExpansionGl.ts`. Llamar Lúa al aparato crea
-ambigüedad justo en la lengua donde la palabra se está trabajando: el adulto
-dice «mira a Lúa» y el niño no sabe si es la mascota o la luna del ejercicio.
+**Nombre · decidido (Frank): Lúa, y es el de la mascota** (§14, D-B cerrada).
 
 ---
 
@@ -638,9 +633,8 @@ adelante hacen falta.
 9/8/2026, en contra de lo que yo recomendaba aquí (que el aparato fuera la
 osita). La app ya está migrada: mascota, niveles e insignias. El oso se retira.
 
-**D-B · ¿Se mantiene el nombre «Lúa»?** Choca con la palabra objetivo del banco
-gallego (§10). Si el proyecto se llama Lúa internamente y el aparato tiene otro
-nombre de cara al niño, el conflicto desaparece.
+**D-B · ¿Se mantiene el nombre «Lúa»? — CERRADA: sí, y es el de la mascota.**
+Decidido por Frank. No se vuelve a abrir.
 
 **D-C · ¿Android 12+ y punto, o se paga el módulo nativo de
 `CompanionDeviceManager`?** Recomiendo 12+ (§9, opción 1) y revisar solo si el

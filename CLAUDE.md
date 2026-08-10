@@ -23,6 +23,24 @@ CHROMIUM_PATH=/opt/pw-browsers/chromium-1194/chrome-linux/chrome \
 fondo blanco, ni cinco chips solapados. Todo eso se entregó y lo tuvo que
 detectar Frank. **Mira la captura antes de decir "hecho".**
 
+### 1b. «Hecho» exige los gates, no solo el typecheck
+
+Corre los gates de `android.yml` **antes de empujar**, no después:
+
+```bash
+for s in check-voice-corpus-coverage check-content-rules check-reminder-slots \
+         check-pictogram-coverage check-lexical-difficulty check-sign-figures \
+         check-speech-prosody check-asr-capture-guard check-asr-listen-options \
+         check-lua-mute; do node scripts/$s.js || echo "FALLA $s"; done
+node scripts/build-lua-protocol.js --check
+```
+
+Coste real (10/8/2026): se cambió el texto de seis consignas y se dijo «listo»
+con typecheck y captura. El build 499 murió a los 37 segundos en el **primer**
+gate. Ese texto lo locuta la app, así que **todo cambio de texto locutado lleva
+`node scripts/export-voice-corpus.js` en el MISMO commit**; sin él, gallego y
+euskera caen a la voz del sistema en silencio y se pierden Celtia e ILENIA.
+
 ### 2. Informa de lo que Frank VA A VER, no de lo que has hecho
 
 Primera línea de la respuesta: qué cambia en pantalla. Si un merge no cambia
@@ -70,9 +88,7 @@ un oso de marca. Lo que hay que saber antes de tocar nada:
   misma rejilla: mismo personaje, dos superficies.
 - **«Oso» sigue siendo vocabulario terapéutico** —par mínimo *ocho/oso*, «EL OSO
   COME PAN», la orden TPR—. Eso es contenido de los bancos y no se toca.
-- Un cambio de marca no está hecho hasta que lo dicen el README y el manual. El
-  icono de la **ficha de Play Console** se sube a mano y no viaja en el APK: si
-  cambia la marca, hay que decirlo en la respuesta, no dejarlo en el commit.
+- Un cambio de marca no está hecho hasta que lo dicen el README y el manual.
 
 ### 6. Rediseñar, no parchear
 
