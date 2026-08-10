@@ -41,7 +41,9 @@ export type BlockIconName =
   | 'cloud' | 'speakerOff'
   // Pantallas del adulto: ficha, pacientes, ajustes, resultados y la escala SUS.
   | 'bell' | 'folder' | 'plus' | 'chart' | 'clinical' | 'family'
-  | 'moodBad' | 'moodPoor' | 'moodOk' | 'moodGood' | 'moodGreat';
+  | 'moodBad' | 'moodPoor' | 'moodOk' | 'moodGood' | 'moodGreat'
+  // Academy: guías de dominio y cuidado de los dispositivos auditivos.
+  | 'compass' | 'timer' | 'drop' | 'magnet' | 'battery';
 
 interface Props { name: BlockIconName; color: string; size?: number; }
 
@@ -418,6 +420,47 @@ export const BlockIcon: React.FC<Props> = ({ name, color, size = 26 }) => {
           {name === 'moodOk' && <Path d="M8.6 15.2h6.8" {...common} />}
           {name === 'moodGood' && <Path d="M8.8 14.4a4 4 0 0 0 6.4 0" {...common} />}
           {name === 'moodGreat' && <Path d="M8.2 13.8a4.8 4.8 0 0 0 7.6 0" {...common} />}
+        </>
+      )}
+
+      {/* Orientación · brújula. */}
+      {name === 'compass' && (
+        <>
+          <Circle cx="12" cy="12" r="8.8" {...common} />
+          <Path d="M15.4 8.6 13.8 13.8 8.6 15.4l1.6-5.2z" {...common} />
+        </>
+      )}
+
+      {/* Rutina y tiempos · cronómetro. */}
+      {name === 'timer' && (
+        <>
+          <Circle cx="12" cy="13.4" r="7.6" {...common} />
+          <Path d="M12 9.6v3.8l2.4 1.6" {...common} />
+          <Path d="M9.4 2.6h5.2" {...common} />
+        </>
+      )}
+
+      {/* Limpieza · gota. */}
+      {name === 'drop' && (
+        <Path d="M12 3.4c3.4 4.2 5.6 7.2 5.6 9.8a5.6 5.6 0 1 1-11.2 0c0-2.6 2.2-5.6 5.6-9.8z" {...common} />
+      )}
+
+      {/* Imán del implante · herradura. */}
+      {name === 'magnet' && (
+        <>
+          <Path d="M5.4 19.4V10a6.6 6.6 0 0 1 13.2 0v9.4" {...common} />
+          <Path d="M5.4 14.6h4.4" {...common} />
+          <Path d="M14.2 14.6h4.4" {...common} />
+        </>
+      )}
+
+      {/* Pilas · batería. */}
+      {name === 'battery' && (
+        <>
+          <Rect x="2.8" y="7.6" width="15.6" height="8.8" rx="2.2" {...common} />
+          <Path d="M21.2 10.6v2.8" {...common} />
+          <Path d="M6.4 10.8v2.4" {...common} />
+          <Path d="M10 10.8v2.4" {...common} />
         </>
       )}
 

@@ -9,6 +9,7 @@ import React, { useEffect } from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
 import { V } from '../valeriaTheme';
 import { hydrateAcademy, useAcademySummary } from './academyStore';
+import { BlockIcon } from '../ValeriaBlockIcons';
 
 const ACCENT_BG = '#eef0ff';
 const ACCENT_FG = '#5b6ee0';
@@ -30,7 +31,7 @@ export const AcademyHubCard: React.FC<{ onPress: () => void }> = React.memo(({ o
       accessibilityLabel={`Valeria Academy: formación para cuidadores. ${summary.completedCount} de ${summary.totalCount} cápsulas completadas.`}
     >
       <View style={[s.icon, { backgroundColor: ACCENT_BG }]}>
-        <Text style={{ fontSize: 24 }}>🎓</Text>
+        <BlockIcon name="tabAcademy" color={V.color.primaryDark} size={26} />
       </View>
       <View style={{ flex: 1 }}>
         <View style={s.titleRow}>
@@ -46,10 +47,10 @@ export const AcademyHubCard: React.FC<{ onPress: () => void }> = React.memo(({ o
         <View style={s.metaRow}>
           <Text style={s.metaTxt}>
             {complete
-              ? '✅ Formación completada'
+              ? 'Formación completada'
               : `${summary.completedCount}/${summary.totalCount} unidades · ${pct}%`}
           </Text>
-          <Text style={s.levelTxt}>✨ {summary.xp} XP</Text>
+          <Text style={s.levelTxt}>{summary.xp} XP</Text>
         </View>
       </View>
       <View style={[s.chev, { backgroundColor: ACCENT_FG }]}>
@@ -69,12 +70,12 @@ const s = StyleSheet.create({
   title: { fontSize: 16, fontWeight: '800', color: V.color.textPrimary },
   tag: { backgroundColor: ACCENT_BG, borderRadius: 7, paddingHorizontal: 7, paddingVertical: 2 },
   tagTxt: { fontSize: 9.5, fontWeight: '800', letterSpacing: 0.6, color: ACCENT_FG },
-  sub: { fontSize: 12, fontWeight: '600', color: V.color.textMuted, marginTop: 3, lineHeight: 16 },
+  sub: { fontSize: 12, fontWeight: '600', color: V.color.textSecondary, marginTop: 3, lineHeight: 16 },
   progressTrack: { height: 7, borderRadius: 4, backgroundColor: '#eef0f2', marginTop: 10, overflow: 'hidden' },
   progressFill: { height: 7, borderRadius: 4, backgroundColor: ACCENT_FG },
   metaRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 7 },
   metaTxt: { fontSize: 11.5, fontWeight: '800', color: ACCENT_FG },
-  levelTxt: { fontSize: 11, fontWeight: '700', color: V.color.textMuted },
+  levelTxt: { fontSize: 11, fontWeight: '700', color: V.color.textSecondary },
   chev: { width: 30, height: 30, borderRadius: 15, alignItems: 'center', justifyContent: 'center' },
 });
 

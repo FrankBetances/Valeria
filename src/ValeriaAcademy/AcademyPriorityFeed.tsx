@@ -17,6 +17,7 @@ import { DOMAIN_META, domainFromPatologia } from './academyDomains';
 import { ACADEMY_CAPSULES } from './academyContent';
 import { getResults } from './academyStore';
 import { AcademyCapsule, AcademyDomain } from './academyTypes';
+import { BlockIcon } from '../ValeriaBlockIcons';
 
 // Prioridad transversal sugerida por dominio activo. Mezcla la cápsula clave del
 // propio dominio con un refuerzo de Lenguaje (el sustrato común a todo el habla).
@@ -76,9 +77,10 @@ export const AcademyPriorityFeed: React.FC<{
   return (
     <View style={s.wrap}>
       <View style={s.headRow}>
-        <Text style={s.kicker}>⭐ TU PRIORIDAD DE HOY</Text>
+        <View style={s.kickerRow}><BlockIcon name="level" color="#ffffff" size={15} /><Text style={s.kicker}>TU PRIORIDAD DE HOY</Text></View>
         <View style={[s.domainTag, { backgroundColor: 'rgba(255,255,255,.18)' }]}>
-          <Text style={s.domainTagTxt}>{meta.icon} {meta.short}</Text>
+          <BlockIcon name={meta.icon} color={meta.accentFg} size={13} />
+          <Text style={s.domainTagTxt}>{meta.short}</Text>
         </View>
       </View>
       {suggestions.map((c) => {
@@ -92,7 +94,7 @@ export const AcademyPriorityFeed: React.FC<{
             accessibilityLabel={`Prioridad sugerida: ${c.title}. Dominio ${cm.short}.`}
           >
             <View style={[s.itemIcon, { backgroundColor: cm.accentBg }]}>
-              <Text style={{ fontSize: 20 }}>{c.icon}</Text>
+              <BlockIcon name={meta.icon} color={meta.accentFg} size={20} />
             </View>
             <View style={{ flex: 1 }}>
               <Text style={s.itemTitle} numberOfLines={1}>{c.title}</Text>
@@ -111,13 +113,14 @@ export const AcademyPriorityFeed: React.FC<{
 const s = StyleSheet.create({
   wrap: { backgroundColor: 'rgba(255,255,255,.14)', borderWidth: 1, borderColor: 'rgba(255,255,255,.28)', borderRadius: 16, padding: 12, marginTop: 14 },
   headRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 },
+  kickerRow: { flexDirection: 'row', alignItems: 'center', gap: 7 },
   kicker: { color: '#fff', fontSize: 11, fontWeight: '800', letterSpacing: 0.8 },
   domainTag: { borderRadius: 9, paddingHorizontal: 8, paddingVertical: 3 },
   domainTagTxt: { color: '#fff', fontSize: 10.5, fontWeight: '800' },
   item: { flexDirection: 'row', alignItems: 'center', gap: 11, backgroundColor: '#fff', borderRadius: 13, padding: 10, marginBottom: 8 },
   itemIcon: { width: 40, height: 40, borderRadius: 12, alignItems: 'center', justifyContent: 'center' },
   itemTitle: { fontSize: 14, fontWeight: '800', color: V.color.textPrimary },
-  itemSub: { fontSize: 11.5, fontWeight: '600', color: V.color.textMuted, marginTop: 1 },
+  itemSub: { fontSize: 11.5, fontWeight: '600', color: V.color.textSecondary, marginTop: 1 },
   itemChip: { borderWidth: 1.5, borderRadius: 9, paddingHorizontal: 8, paddingVertical: 4 },
   itemChipTxt: { fontSize: 10, fontWeight: '800', letterSpacing: 0.3 },
 });

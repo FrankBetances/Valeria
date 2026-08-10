@@ -18,6 +18,7 @@ import { HIPOACUSIA_CONCEPTS, HEARING_DEVICES } from './academyHardware';
 import { completeGuideUnit, isCapsuleDone, useAcademyDomainSummary } from './academyStore';
 import { EarAnatomySvg, deviceSchemaFor } from './AcademyHardwareSvg';
 import { AcademyGuideUnit, HearingDeviceKey } from './academyTypes';
+import { BlockIcon } from '../ValeriaBlockIcons';
 
 const ACCENT = DOMAIN_META.hipoacusia.accentFg;
 const ACCENT_BG = DOMAIN_META.hipoacusia.accentBg;
@@ -53,11 +54,11 @@ export const HipoacusiaBottomSheet: React.FC<{
           <View style={s.grabber} />
           <View style={s.headRow}>
             <View style={{ flex: 1 }}>
-              <Text style={s.title}>👂 Hipoacusia / Sordera</Text>
-              <Text style={s.sub}>{summary.completedCount}/{summary.totalCount} guías · {pct}% · 🏅 {summary.levelName}</Text>
+              <View style={s.titleRow}><BlockIcon name="hearing" color={V.color.primaryDark} size={20} /><Text style={s.title}>Hipoacusia / Sordera</Text></View>
+              <Text style={s.sub}>{summary.completedCount}/{summary.totalCount} guías · {pct}% · {summary.levelName}</Text>
             </View>
             <Pressable onPress={onClose} style={s.closeBtn} accessibilityRole="button" accessibilityLabel="Cerrar">
-              <Text style={s.closeTxt}>✕</Text>
+              <BlockIcon name="cross" color={V.color.textSecondary} size={15} />
             </Pressable>
           </View>
 
@@ -131,7 +132,7 @@ const GuideCard: React.FC<{
   <View style={[s.guide, done && { borderColor: ACCENT }]}>
     <View style={s.guideHead}>
       <View style={[s.guideIcon, { backgroundColor: ACCENT_BG }]}>
-        <Text style={{ fontSize: 18 }}>{unit.icon ?? '📄'}</Text>
+        <BlockIcon name="hearing" color={V.color.primaryDark} size={19} />
       </View>
       <Text style={s.guideHeading}>{unit.heading}</Text>
     </View>
@@ -144,7 +145,7 @@ const GuideCard: React.FC<{
       accessibilityLabel={done ? 'Guía completada' : `Marcar ${unit.heading} como vista`}
     >
       <Text style={[s.seenTxt, { color: done ? ACCENT : '#fff' }]}>
-        {done ? `✓ Visto · +${unit.xp} XP` : `Marcar como visto · +${unit.xp} XP`}
+        {done ? `Visto · +${unit.xp} XP` : `Marcar como visto · +${unit.xp} XP`}
       </Text>
     </Pressable>
   </View>
@@ -156,6 +157,7 @@ const s = StyleSheet.create({
   sheet: { backgroundColor: V.color.pageBg, borderTopLeftRadius: 24, borderTopRightRadius: 24, paddingHorizontal: 16, paddingTop: 8, paddingBottom: 4, maxHeight: '90%' },
   grabber: { alignSelf: 'center', width: 42, height: 5, borderRadius: 3, backgroundColor: '#d3dbdb', marginBottom: 10 },
   headRow: { flexDirection: 'row', alignItems: 'center', gap: 10, marginBottom: 12 },
+  titleRow: { flexDirection: 'row', alignItems: 'center', gap: 8 },
   title: { fontSize: 19, fontWeight: '800', color: V.color.textPrimary },
   sub: { fontSize: 12.5, fontWeight: '700', color: ACCENT, marginTop: 2 },
   closeBtn: { width: 34, height: 34, borderRadius: 17, backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.border, alignItems: 'center', justifyContent: 'center' },
@@ -169,7 +171,7 @@ const s = StyleSheet.create({
 
   scroll: { paddingTop: 14, paddingBottom: 20 },
   schemaCard: { backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.border, borderRadius: 18, paddingVertical: 16, paddingHorizontal: 12, alignItems: 'center', marginBottom: 14, ...V.shadow.card },
-  schemaCaption: { fontSize: 12.5, fontWeight: '600', color: V.color.textMuted, textAlign: 'center', marginTop: 8, lineHeight: 17 },
+  schemaCaption: { fontSize: 12.5, fontWeight: '600', color: V.color.textSecondary, textAlign: 'center', marginTop: 8, lineHeight: 17 },
   deviceLabel: { fontSize: 16, fontWeight: '800', color: V.color.textPrimary, marginTop: 6 },
 
   deviceTabs: { flexDirection: 'row', gap: 8, marginBottom: 14 },

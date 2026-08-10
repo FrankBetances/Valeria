@@ -11,6 +11,7 @@ import { V } from '../valeriaTheme';
 import { DOMAIN_META } from './academyDomains';
 import { useAcademyDomainSummary } from './academyStore';
 import { AcademyDomain } from './academyTypes';
+import { BlockIcon } from '../ValeriaBlockIcons';
 
 export const AcademyDomainCard: React.FC<{
   domain: AcademyDomain;
@@ -29,12 +30,12 @@ export const AcademyDomainCard: React.FC<{
       accessibilityLabel={`${meta.label}. ${summary.completedCount} de ${summary.totalCount} completadas. Nivel ${summary.levelName}.`}
     >
       <View style={[s.icon, { backgroundColor: meta.accentBg }]}>
-        <Text style={{ fontSize: 24 }}>{meta.icon}</Text>
+        <BlockIcon name={meta.icon} color={meta.accentFg} size={26} />
       </View>
       <View style={{ flex: 1 }}>
         <View style={s.titleRow}>
           <Text style={s.title}>{meta.label}</Text>
-          {complete && <Text style={s.done}>✓</Text>}
+          {complete && <View style={s.done}><BlockIcon name="check" color={meta.accentFg} size={15} /></View>}
         </View>
         <Text style={s.sub} numberOfLines={2}>{meta.blurb}</Text>
 
@@ -46,8 +47,8 @@ export const AcademyDomainCard: React.FC<{
             {summary.totalCount > 0 ? `${summary.completedCount}/${summary.totalCount} · ${pct}%` : 'Próximamente'}
           </Text>
           <View style={s.chips}>
-            <Text style={s.levelTxt}>🏅 {summary.levelName}</Text>
-            <Text style={s.xpTxt}>✨ {summary.xp}</Text>
+            <View style={s.chipRow}><BlockIcon name="level" color={V.color.textSecondary} size={14} /><Text style={s.levelTxt}>{summary.levelName}</Text></View>
+            <Text style={s.xpTxt}>{summary.xp} XP</Text>
           </View>
         </View>
       </View>
@@ -65,14 +66,15 @@ const s = StyleSheet.create({
   icon: { width: 48, height: 48, borderRadius: 15, alignItems: 'center', justifyContent: 'center' },
   titleRow: { flexDirection: 'row', alignItems: 'center', gap: 8 },
   title: { fontSize: 15.5, fontWeight: '800', color: V.color.textPrimary },
-  done: { fontSize: 14, fontWeight: '800', color: V.color.success },
-  sub: { fontSize: 12, fontWeight: '600', color: V.color.textMuted, marginTop: 2, lineHeight: 16 },
+  done: { alignItems: 'center', justifyContent: 'center' },
+  sub: { fontSize: 12, fontWeight: '600', color: V.color.textSecondary, marginTop: 2, lineHeight: 16 },
   progressTrack: { height: 7, borderRadius: 4, backgroundColor: '#eef0f2', marginTop: 9, overflow: 'hidden' },
   progressFill: { height: 7, borderRadius: 4 },
   metaRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 7 },
   metaTxt: { fontSize: 11.5, fontWeight: '800' },
   chips: { flexDirection: 'row', alignItems: 'center', gap: 10 },
-  levelTxt: { fontSize: 11, fontWeight: '700', color: V.color.textMuted },
+  chipRow: { flexDirection: 'row', alignItems: 'center', gap: 5 },
+  levelTxt: { fontSize: 11, fontWeight: '700', color: V.color.textSecondary },
   xpTxt: { fontSize: 11, fontWeight: '800', color: V.color.star },
   chev: { width: 30, height: 30, borderRadius: 15, alignItems: 'center', justifyContent: 'center' },
 });

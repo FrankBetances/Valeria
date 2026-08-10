@@ -8,6 +8,8 @@
 //   · Mapeo Ficha de Registro (`patologia`) → dominio principal activo, usado
 //     por la migración silenciosa y por el Feed de Prioridad.
 // ============================================================================
+import type { BlockIconName } from '../ValeriaBlockIcons';
+
 import { AcademyBadge, AcademyDomain } from './academyTypes';
 
 // Orden canónico de presentación en el hub.
@@ -23,7 +25,7 @@ export interface AcademyDomainMeta {
   id: AcademyDomain;
   label: string;        // etiqueta larga de la tarjeta
   short: string;        // etiqueta corta (chips, feed)
-  icon: string;         // emoji fallback (no rompe el binario)
+  icon: BlockIconName;  // icono del set propio (ValeriaBlockIcons)
   accentBg: string;     // fondo de acento (alto contraste con accentFg)
   accentFg: string;     // color de acento del dominio
   blurb: string;        // subtítulo de la tarjeta
@@ -37,7 +39,7 @@ export const DOMAIN_META: Record<AcademyDomain, AcademyDomainMeta> = {
     id: 'lenguaje',
     label: 'Lenguaje',
     short: 'Lenguaje',
-    icon: '💬',
+    icon: 'language',
     accentBg: '#e0edff',
     accentFg: '#3b6fd4',
     blurb: 'Cómo aprenden a hablar, el porqué del TPR y qué vicios evitar.',
@@ -47,7 +49,7 @@ export const DOMAIN_META: Record<AcademyDomain, AcademyDomainMeta> = {
     id: 'mitos',
     label: 'Mitos y verdades',
     short: 'Mitos',
-    icon: '🕵️',
+    icon: 'zoom',
     accentBg: '#ffe9e4',
     accentFg: '#cf4b39',
     blurb: '¿Mito o realidad? Lo que se dice del habla, el autismo y la dislexia.',
@@ -57,7 +59,7 @@ export const DOMAIN_META: Record<AcademyDomain, AcademyDomainMeta> = {
     id: 'hipoacusia',
     label: 'Hipoacusia / Sordera',
     short: 'Hipoacusia',
-    icon: '👂',
+    icon: 'hearing',
     accentBg: '#e5f0fb',
     accentFg: '#1f6fb2',
     blurb: 'Qué es la sordera, su abordaje y el manejo de los dispositivos.',
@@ -67,7 +69,7 @@ export const DOMAIN_META: Record<AcademyDomain, AcademyDomainMeta> = {
     id: 'dislalias',
     label: 'Dislalias',
     short: 'Dislalias',
-    icon: '🗣️',
+    icon: 'mic',
     accentBg: '#fdeef2',
     accentFg: '#c2477e',
     blurb: 'Puntos de articulación y práctica de los sonidos difíciles.',
@@ -77,7 +79,7 @@ export const DOMAIN_META: Record<AcademyDomain, AcademyDomainMeta> = {
     id: 'dislexia',
     label: 'Dislexia',
     short: 'Dislexia',
-    icon: '🔤',
+    icon: 'dyslexia',
     accentBg: '#fff1dc',
     accentFg: '#d98a1f',
     blurb: 'Conciencia fonológica y apoyo a la lectura emergente.',
@@ -87,7 +89,7 @@ export const DOMAIN_META: Record<AcademyDomain, AcademyDomainMeta> = {
     id: 'tea',
     label: 'TEA',
     short: 'TEA',
-    icon: '🧩',
+    icon: 'autism',
     accentBg: '#e9f7ee',
     accentFg: '#2e9e5b',
     blurb: 'Comunicación, anticipación y regulación en el espectro autista.',
@@ -97,7 +99,7 @@ export const DOMAIN_META: Record<AcademyDomain, AcademyDomainMeta> = {
     id: 'signos',
     label: 'Lengua de Signos (LSE)',
     short: 'LSE',
-    icon: '🤟',
+    icon: 'gesture',
     accentBg: '#efe9fd',
     accentFg: '#6d4ac2',
     blurb: 'Qué es la LSE, por qué no frena el habla y los primeros signos útiles.',
@@ -121,16 +123,16 @@ export const domainLevelName = (domain: AcademyDomain, level: number): string =>
 // mantiene su propio array; nunca se comparten entre dominios.
 export interface AcademyBadgeDef {
   key: 'primeraCapsula' | 'mitad' | 'graduado' | 'perfecto';
-  icon: string;
+  icon: BlockIconName;
   name: string;
   desc: string;
 }
 
 export const DOMAIN_BADGE_DEFS: AcademyBadgeDef[] = [
-  { key: 'primeraCapsula', icon: '📘', name: 'Primer paso',   desc: 'Completa tu primera cápsula del dominio.' },
-  { key: 'mitad',          icon: '📗', name: 'A medio camino', desc: 'Completa la mitad del dominio.' },
-  { key: 'graduado',       icon: '🎓', name: 'Dominio experto', desc: 'Completa todo el dominio.' },
-  { key: 'perfecto',       icon: '💯', name: 'Sin fallos',     desc: 'Aprueba una cápsula sin ningún error.' },
+  { key: 'primeraCapsula', icon: 'check', name: 'Primer paso',   desc: 'Completa tu primera cápsula del dominio.' },
+  { key: 'mitad',          icon: 'chart', name: 'A medio camino', desc: 'Completa la mitad del dominio.' },
+  { key: 'graduado',       icon: 'tabAcademy', name: 'Dominio experto', desc: 'Completa todo el dominio.' },
+  { key: 'perfecto',       icon: 'level', name: 'Sin fallos',     desc: 'Aprueba una cápsula sin ningún error.' },
 ];
 
 export const badgeId = (domain: AcademyDomain, key: AcademyBadgeDef['key']): string =>

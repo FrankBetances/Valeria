@@ -25,6 +25,7 @@ import { AcademyDomainCard } from './AcademyDomainCard';
 import { AcademyPriorityFeed } from './AcademyPriorityFeed';
 import { HipoacusiaBottomSheet } from './HipoacusiaBottomSheet';
 import { SignAlphabetChart, SignFigure } from './AcademySignosSvg';
+import { BlockIcon } from '../ValeriaBlockIcons';
 
 type View4 = 'hub' | 'list' | 'read' | 'quiz';
 
@@ -86,7 +87,7 @@ export const ValeriaAcademyScreen: React.FC<{ navigation: any }> = ({ navigation
             </Pressable>
           )}
           <Text style={s.logoFallback}>valeria+ · academy</Text>
-          <Text style={s.headerTitle}>🎓 Academy</Text>
+          <View style={s.titleRow}><BlockIcon name="tabAcademy" color="#ffffff" size={26} /><Text style={s.headerTitle}>Academy</Text></View>
           <Text style={s.headerSub}>Tu hub de formación por dominios para acompañar la terapia como un profesional.</Text>
 
           <View style={s.hProgress}>
@@ -96,8 +97,8 @@ export const ValeriaAcademyScreen: React.FC<{ navigation: any }> = ({ navigation
             <Text style={s.hProgressTxt}>{summary.completedCount}/{summary.totalCount} · {pct}%</Text>
           </View>
           <View style={s.gameRow}>
-            <View style={s.gameChip}><Text style={s.gameChipTxt}>✨ {summary.xp} XP</Text></View>
-            <View style={s.gameChip}><Text style={s.gameChipTxt}>🎖️ {summary.badgeCount} insignias</Text></View>
+            <View style={s.gameChip}><Text style={s.gameChipTxt}>{summary.xp} XP</Text></View>
+            <View style={s.gameChip}><BlockIcon name="level" color="#ffffff" size={13} /><Text style={s.gameChipTxt}>{summary.badgeCount} insignias</Text></View>
           </View>
 
           <AcademyPriorityFeed onOpenCapsule={openCapsule} refreshKey={refreshKey} />
@@ -140,7 +141,7 @@ export const ValeriaAcademyScreen: React.FC<{ navigation: any }> = ({ navigation
               dactilológico». */}
           {activeDomain === 'signos' && (
             <View style={s.signPreview}>
-              <Text style={s.signPreviewTitle}>🤟 Configuraciones de mano dibujadas</Text>
+              <View style={s.signRow}><BlockIcon name="gesture" color={V.color.primaryDark} size={17} /><Text style={s.signPreviewTitle}>Configuraciones de mano dibujadas</Text></View>
               <SignAlphabetChart compact />
               <Text style={s.signPreviewSub}>
                 Las 27 letras del alfabeto dactilológico están en la cápsula «El alfabeto dactilológico».
@@ -172,10 +173,10 @@ export const ValeriaAcademyScreen: React.FC<{ navigation: any }> = ({ navigation
                   <Text style={[s.capTrack, { color: accent.fg }]}>{accent.label}</Text>
                   <Text style={s.capTitle}>{c.title}</Text>
                   <Text style={s.capSummary}>{c.summary}</Text>
-                  <Text style={s.capMeta}>⏱️ {c.minutes} min · ✨ {c.xp} XP</Text>
+                  <Text style={s.capMeta}>{c.minutes} min · {c.xp} XP</Text>
                 </View>
                 <View style={[s.capState, done ? s.capStateDone : { backgroundColor: accent.bg }]}>
-                  <Text style={[s.capStateTxt, { color: done ? '#fff' : accent.fg }]}>{done ? '✓' : '›'}</Text>
+                  <Text style={[s.capStateTxt, { color: done ? '#fff' : accent.fg }]}>{done ? '·' : '›'}</Text>
                 </View>
               </Pressable>
             );
@@ -294,7 +295,7 @@ const CapsuleQuiz: React.FC<{
       <View style={s.flex}>
         <View style={[s.header, { backgroundColor: accent.fg }]}>
           <Text style={s.logoFallback}>{accent.label}</Text>
-          <Text style={s.headerTitle}>{reward.passed ? '🎉 ¡Cápsula superada!' : '💪 Casi lo tienes'}</Text>
+          <Text style={s.headerTitle}>{reward.passed ? '¡Cápsula superada!' : 'Casi lo tienes'}</Text>
         </View>
         <ScrollView contentContainerStyle={s.scroll}>
           <View style={s.resultCard}>
@@ -352,14 +353,17 @@ const CapsuleQuiz: React.FC<{
               <Text style={[s.optTxt, show && isAnswer && { color: V.color.success }, show && isPicked && !isAnswer && { color: V.color.error }]}>
                 {opt}
               </Text>
-              {show && isAnswer && <Text style={s.optMark}>✓</Text>}
-              {show && isPicked && !isAnswer && <Text style={[s.optMark, { color: V.color.error }]}>✕</Text>}
+              {show && isAnswer && <BlockIcon name="check" color={V.color.success} size={16} />}
+              {show && isPicked && !isAnswer && <BlockIcon name="cross" color={V.color.error} size={16} />}
             </Pressable>
           );
         })}
         {picked != null && (
           <View style={s.rationale}>
-            <Text style={s.rationaleTxt}>💡 {q.rationale}</Text>
+            <View style={s.rationaleRow}>
+                    <BlockIcon name="tip" color={V.color.textSecondary} size={15} />
+                    <Text style={[s.rationaleTxt, { flex: 1 }]}>{q.rationale}</Text>
+                  </View>
           </View>
         )}
       </ScrollView>
@@ -383,6 +387,8 @@ const s = StyleSheet.create({
   logoFallback: { color: 'rgba(255,255,255,.9)', fontWeight: '800', fontSize: 11.5, letterSpacing: 1, marginBottom: 6 },
   backPill: { alignSelf: 'flex-start', backgroundColor: 'rgba(255,255,255,.18)', borderWidth: 1, borderColor: 'rgba(255,255,255,.32)', borderRadius: 11, paddingHorizontal: 11, paddingVertical: 5, marginBottom: 10 },
   backPillTxt: { color: '#fff', fontSize: 12, fontWeight: '800' },
+  titleRow: { flexDirection: 'row', alignItems: 'center', gap: 10 },
+  signRow: { flexDirection: 'row', alignItems: 'center', gap: 8 },
   headerTitle: { color: '#fff', fontSize: 23, fontWeight: '800', letterSpacing: -0.4 },
   headerSub: { color: 'rgba(255,255,255,.9)', fontSize: 13, fontWeight: '600', marginTop: 4, lineHeight: 18 },
 
@@ -391,11 +397,11 @@ const s = StyleSheet.create({
   hProgressFill: { height: 8, borderRadius: 5, backgroundColor: '#fff' },
   hProgressTxt: { color: '#fff', fontSize: 12, fontWeight: '800' },
   gameRow: { flexDirection: 'row', gap: 8, marginTop: 12, flexWrap: 'wrap' },
-  gameChip: { backgroundColor: 'rgba(255,255,255,.18)', borderWidth: 1, borderColor: 'rgba(255,255,255,.32)', borderRadius: 11, paddingHorizontal: 11, paddingVertical: 6 },
+  gameChip: { flexDirection: 'row', alignItems: 'center', gap: 6, backgroundColor: 'rgba(255,255,255,.18)', borderWidth: 1, borderColor: 'rgba(255,255,255,.32)', borderRadius: 11, paddingHorizontal: 11, paddingVertical: 6 },
   gameChipTxt: { color: '#fff', fontSize: 12, fontWeight: '800' },
 
   scroll: { padding: 18, paddingBottom: 28 },
-  listLabel: { fontSize: 12, fontWeight: '800', color: V.color.textMuted, letterSpacing: 0.5, marginBottom: 12, marginHorizontal: 2 },
+  listLabel: { fontSize: 12, fontWeight: '800', color: V.color.textSecondary, letterSpacing: 0.5, marginBottom: 12, marginHorizontal: 2 },
 
   // Muestra de configuraciones de mano en el catálogo del dominio LSE.
   signPreview: { backgroundColor: '#f7f4fe', borderWidth: 1, borderColor: '#e5dcfa', borderRadius: 16, padding: 13, marginBottom: 16 },
@@ -403,14 +409,14 @@ const s = StyleSheet.create({
   signPreviewSub: { fontSize: 11.5, fontWeight: '600', color: '#6b6383', lineHeight: 16, marginTop: 9 },
 
   emptyCard: { backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.border, borderRadius: 16, padding: 18, marginBottom: 11 },
-  emptyTxt: { fontSize: 13.5, fontWeight: '600', color: V.color.textMuted, lineHeight: 20, textAlign: 'center' },
+  emptyTxt: { fontSize: 13.5, fontWeight: '600', color: V.color.textSecondary, lineHeight: 20, textAlign: 'center' },
 
   capCard: { flexDirection: 'row', alignItems: 'center', gap: 13, backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.border, borderRadius: 16, padding: 14, marginBottom: 11, ...V.shadow.card },
   capIcon: { width: 46, height: 46, borderRadius: 14, alignItems: 'center', justifyContent: 'center' },
   capTrack: { fontSize: 9.5, fontWeight: '800', letterSpacing: 0.6, marginBottom: 2 },
   capTitle: { fontSize: 15.5, fontWeight: '800', color: V.color.textPrimary },
-  capSummary: { fontSize: 12, fontWeight: '600', color: V.color.textMuted, marginTop: 2, lineHeight: 16 },
-  capMeta: { fontSize: 11, fontWeight: '700', color: V.color.textMuted, marginTop: 6 },
+  capSummary: { fontSize: 12, fontWeight: '600', color: V.color.textSecondary, marginTop: 2, lineHeight: 16 },
+  capMeta: { fontSize: 11, fontWeight: '700', color: V.color.textSecondary, marginTop: 6 },
   capState: { width: 30, height: 30, borderRadius: 15, alignItems: 'center', justifyContent: 'center' },
   capStateDone: { backgroundColor: V.color.success },
   capStateTxt: { fontSize: 15, fontWeight: '800' },
@@ -437,6 +443,7 @@ const s = StyleSheet.create({
   optTxt: { flex: 1, fontSize: 14.5, fontWeight: '700', color: V.color.textPrimary },
   optMark: { fontSize: 16, fontWeight: '800', color: V.color.success, marginLeft: 8 },
   rationale: { backgroundColor: V.color.primaryTint, borderWidth: 1, borderColor: V.color.borderActive, borderRadius: 13, padding: 13, marginTop: 4 },
+  rationaleRow: { flexDirection: 'row', alignItems: 'flex-start', gap: 7 },
   rationaleTxt: { fontSize: 13, fontWeight: '700', color: V.color.textSecondary, lineHeight: 18 },
 
   resultCard: { backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.border, borderRadius: 20, padding: 24, alignItems: 'center', ...V.shadow.card },
@@ -445,7 +452,7 @@ const s = StyleSheet.create({
   resultXp: { fontSize: 16, fontWeight: '800', color: V.color.star, marginTop: 14 },
   badgeRow: { flexDirection: 'row', alignItems: 'center', gap: 12, alignSelf: 'stretch', backgroundColor: V.color.pageBg, borderRadius: 14, padding: 13, marginTop: 12 },
   badgeName: { fontSize: 14, fontWeight: '800', color: V.color.textPrimary },
-  badgeDesc: { fontSize: 12, fontWeight: '600', color: V.color.textMuted, marginTop: 2 },
+  badgeDesc: { fontSize: 12, fontWeight: '600', color: V.color.textSecondary, marginTop: 2 },
 });
 
 export default ValeriaAcademyScreen;
