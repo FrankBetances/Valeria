@@ -31,7 +31,7 @@ Corre los gates de `android.yml` **antes de empujar**, no después:
 for s in check-voice-corpus-coverage check-content-rules check-reminder-slots \
          check-pictogram-coverage check-lexical-difficulty check-sign-figures \
          check-speech-prosody check-asr-capture-guard check-asr-listen-options \
-         check-lua-mute; do node scripts/$s.js || echo "FALLA $s"; done
+         check-lua-mute check-brand-consistency; do node scripts/$s.js || echo "FALLA $s"; done
 node scripts/build-lua-protocol.js --check
 ```
 
