@@ -54,6 +54,9 @@ export const ES = {
     collaborators: 'En colaboración con',
     acoprosDesc: 'Asociación de Colaboración y Promoción del Sordo',
     quisqueyaDesc: 'Rehabilitación del lenguaje',
+    recognition: 'Reconocimiento',
+    qualitySeal: 'Sello de Calidad',
+    qualitySealDesc: 'ITEMAS · Instituto de Salud Carlos III · 2024',
     voiceCredit:
       'Voz neuronal en castellano: «Sharvard» (Piper · rhasspy/piper-voices). '
       + 'En galego: «Celtia» · Proxecto Nós. '

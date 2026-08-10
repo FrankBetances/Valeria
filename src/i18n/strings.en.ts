@@ -54,6 +54,9 @@ export const EN: UiStrings = {
     collaborators: 'In collaboration with',
     acoprosDesc: 'Association for the Support and Advancement of the Deaf',
     quisqueyaDesc: 'Language rehabilitation',
+    recognition: 'Recognition',
+    qualitySeal: 'Quality Seal',
+    qualitySealDesc: 'ITEMAS · Instituto de Salud Carlos III · 2024',
     voiceCredit:
       'Neural voice in Spanish: "Sharvard" (Piper · rhasspy/piper-voices). '
       + 'In Galician: "Celtia" · Proxecto Nós. '

@@ -10,24 +10,27 @@ import React, { useEffect, useRef } from 'react';
 import { View, Text, Pressable, ScrollView, StyleSheet, Animated, Easing, StatusBar } from 'react-native';
 import { V } from './valeriaTheme';
 import { CatPixel } from './ValeriaCatPixel';
-import { BlockIcon, BlockIconName } from './ValeriaBlockIcons';
 import { ValeriaBetancesCrest } from './ValeriaBetancesCrest';
+import { AcoprosMark, ItemasSeal, QuisqueyaMark } from './ValeriaPartnerLogos';
 import { useT } from './i18n';
 import { ValeriaUiLangPicker } from './ValeriaUiLangPicker';
 // import logoWhite from '../../assets/valeria-logo-white.png';
 
 // Secuencia de entrada: marca, kicker, autor, divisor, dos colaboradores,
-// voces, tecnología de RA, selector de idioma y CTA.
+// divisor de reconocimiento, sello, voces, tecnología de RA, selector de
+// idioma y CTA. El índice de cada bloque sale de `step()` en orden de
+// aparición: la aritmética a mano (4 + i, 5 + COUNT…) se descuadraba en
+// cuanto se metía una sección nueva por el medio.
 const COLLABORATOR_COUNT = 2;
-const SECTIONS = 8 + COLLABORATOR_COUNT;
+const SECTIONS = 10 + COLLABORATOR_COUNT;
 
 export const ValeriaCreditsScreen: React.FC<{ navigation?: any }> = ({ navigation }) => {
   const t = useT();
 
   // Los colaboradores llevan nombre propio (no se traduce) y descripción (sí).
   const colaboradores = [
-    { icon: 'autism' as BlockIconName, nombre: 'Acopros', desc: t.credits.acoprosDesc },
-    { icon: 'language' as BlockIconName, nombre: 'Quisqueya Habla', desc: t.credits.quisqueyaDesc },
+    { mark: <AcoprosMark size={34} />, nombre: 'Acopros', desc: t.credits.acoprosDesc },
+    { mark: <QuisqueyaMark size={34} />, nombre: 'Quisqueya Habla', desc: t.credits.quisqueyaDesc },
   ];
 
   const float = useRef(new Animated.Value(0)).current;
@@ -68,6 +71,10 @@ export const ValeriaCreditsScreen: React.FC<{ navigation?: any }> = ({ navigatio
     transform: [{ translateY: sections[i].interpolate({ inputRange: [0, 1], outputRange: [22, 0] }) }],
   });
 
+  // Índice de bloque en orden de aparición. Se consume una vez por render.
+  let cursor = 0;
+  const step = () => fadeUp(cursor++);
+
   return (
     <View style={s.flex}>
       <StatusBar barStyle="light-content" />
@@ -77,16 +84,16 @@ export const ValeriaCreditsScreen: React.FC<{ navigation?: any }> = ({ navigatio
       <View style={[s.blob, { bottom: 90, right: -80, width: 220, height: 220, opacity: 0.08 }]} />
 
       <ScrollView contentContainerStyle={s.content} showsVerticalScrollIndicator={false}>
-        <Animated.View style={[s.brandRow, fadeUp(0)]}>
+        <Animated.View style={[s.brandRow, step()]}>
           <CatPixel size={54} />
           {/* <Image source={logoWhite} style={s.logo} /> */}
           <Text style={s.brand}>valeria</Text>
         </Animated.View>
 
-        <Animated.Text style={[s.kicker, fadeUp(1)]}>{t.credits.kicker}</Animated.Text>
+        <Animated.Text style={[s.kicker, step()]}>{t.credits.kicker}</Animated.Text>
 
         {/* tarjeta del autor */}
-        <Animated.View style={[s.doctorCard, fadeUp(2)]}>
+        <Animated.View style={[s.doctorCard, step()]}>
           <Animated.View style={[s.doctorAvatar, { transform: [{ translateY }, { scale: pulseScale }] }]}>
             <ValeriaBetancesCrest size={100} />
           </Animated.View>
@@ -95,7 +102,7 @@ export const ValeriaCreditsScreen: React.FC<{ navigation?: any }> = ({ navigatio
         </Animated.View>
 
         {/* divisor */}
-        <Animated.View style={[s.dividerRow, fadeUp(3)]}>
+        <Animated.View style={[s.dividerRow, step()]}>
           <View style={s.dividerLine} />
           <Text style={s.dividerLabel}>{t.credits.collaborators}</Text>
           <View style={s.dividerLine} />
@@ -103,11 +110,9 @@ export const ValeriaCreditsScreen: React.FC<{ navigation?: any }> = ({ navigatio
 
         {/* colaboradores */}
         <View style={s.collabList}>
-          {colaboradores.map((c, i) => (
-            <Animated.View key={c.nombre} style={[s.collabCard, fadeUp(4 + i)]}>
-              <View style={s.collabIcon}>
-                <BlockIcon name={c.icon} color={V.color.primaryDark} size={20} />
-              </View>
+          {colaboradores.map((c) => (
+            <Animated.View key={c.nombre} style={[s.collabCard, step()]}>
+              <View style={s.collabIcon}>{c.mark}</View>
               <View style={s.collabBody}>
                 <Text style={s.collabName}>{c.nombre}</Text>
                 <Text style={s.collabDesc}>{c.desc}</Text>
@@ -116,17 +121,32 @@ export const ValeriaCreditsScreen: React.FC<{ navigation?: any }> = ({ navigatio
           ))}
         </View>
 
+        {/* acreditación: no es un colaborador, va bajo su propio rótulo */}
+        <Animated.View style={[s.dividerRow, step()]}>
+          <View style={s.dividerLine} />
+          <Text style={s.dividerLabel}>{t.credits.recognition}</Text>
+          <View style={s.dividerLine} />
+        </Animated.View>
+
+        <Animated.View style={[s.sealCard, step()]}>
+          <ItemasSeal size={58} />
+          <View style={s.collabBody}>
+            <Text style={s.collabName}>{t.credits.qualitySeal}</Text>
+            <Text style={s.collabDesc}>{t.credits.qualitySealDesc}</Text>
+          </View>
+        </Animated.View>
+
         {/* atribución de voces neuronales */}
-        <Animated.Text style={[s.voiceCredit, fadeUp(4 + COLLABORATOR_COUNT)]}>{t.credits.voiceCredit}</Animated.Text>
+        <Animated.Text style={[s.voiceCredit, step()]}>{t.credits.voiceCredit}</Animated.Text>
 
         {/* atribución de la tecnología de Realidad Aumentada */}
-        <Animated.Text style={[s.voiceCredit, fadeUp(5 + COLLABORATOR_COUNT)]}>{t.credits.arCredit}</Animated.Text>
+        <Animated.Text style={[s.voiceCredit, step()]}>{t.credits.arCredit}</Animated.Text>
 
         {/* Selector de idioma de INTERFAZ. Vive aquí porque Créditos es la
             primera pantalla que ve quien entra por «Comenzar»: quien no lee
             castellano puede cambiar el idioma antes de llegar a la ficha, sin
             tener que atravesar el alta a ciegas. */}
-        <Animated.View style={[s.langBlock, fadeUp(6 + COLLABORATOR_COUNT)]}>
+        <Animated.View style={[s.langBlock, step()]}>
           <ValeriaUiLangPicker />
         </Animated.View>
       </ScrollView>
@@ -185,8 +205,15 @@ const s = StyleSheet.create({
     width: 42, height: 42, borderRadius: 13, backgroundColor: V.color.primaryLight,
     alignItems: 'center', justifyContent: 'center', marginRight: 13,
   },
-  collabIconText: { fontSize: 20 },
   collabBody: { flex: 1 },
+
+  // El sello trae su propio blanco y es más alto que ancho, así que va sin
+  // placa: se apoya directamente sobre la tarjeta.
+  sealCard: {
+    marginTop: 18, width: '100%', backgroundColor: 'rgba(255,255,255,0.94)', borderRadius: 15,
+    paddingVertical: 14, paddingHorizontal: 18, flexDirection: 'row', alignItems: 'center', gap: 14,
+  },
+
   collabName: { fontSize: 16, fontWeight: '900', color: V.color.dark, lineHeight: 18 },
   collabDesc: { marginTop: 3, fontSize: 12, fontWeight: V.font.bold, color: '#5b6b6a' },
 
