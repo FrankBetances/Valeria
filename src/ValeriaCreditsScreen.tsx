@@ -11,6 +11,7 @@ import { View, Text, Pressable, ScrollView, StyleSheet, Animated, Easing, Status
 import { V } from './valeriaTheme';
 import { CatPixel } from './ValeriaCatPixel';
 import { BlockIcon, BlockIconName } from './ValeriaBlockIcons';
+import { ValeriaBetancesCrest } from './ValeriaBetancesCrest';
 import { useT } from './i18n';
 import { ValeriaUiLangPicker } from './ValeriaUiLangPicker';
 // import logoWhite from '../../assets/valeria-logo-white.png';
@@ -87,7 +88,7 @@ export const ValeriaCreditsScreen: React.FC<{ navigation?: any }> = ({ navigatio
         {/* tarjeta del autor */}
         <Animated.View style={[s.doctorCard, fadeUp(2)]}>
           <Animated.View style={[s.doctorAvatar, { transform: [{ translateY }, { scale: pulseScale }] }]}>
-            <BlockIcon name="clinical" color={V.color.primaryDark} size={22} />
+            <ValeriaBetancesCrest size={100} />
           </Animated.View>
           <Text style={s.doctorName}>Dr. Frank Betances</Text>
           <Text style={s.doctorRole}>{t.credits.authorRole}</Text>
@@ -162,11 +163,9 @@ const s = StyleSheet.create({
     borderWidth: 1, borderColor: 'rgba(255,255,255,0.28)', borderRadius: 22,
     paddingVertical: 24, paddingHorizontal: 22, alignItems: 'center',
   },
-  doctorAvatar: {
-    width: 74, height: 74, borderRadius: 37, backgroundColor: 'rgba(255,255,255,0.92)',
-    alignItems: 'center', justifyContent: 'center',
-  },
-  doctorAvatarIcon: { fontSize: 34 },
+  // El emblema trae su propio disco, así que aquí no hay fondo ni recorte:
+  // un círculo blanco detrás se comería el ave clara.
+  doctorAvatar: { width: 100, height: 100, alignItems: 'center', justifyContent: 'center' },
   doctorName: { marginTop: 16, fontSize: 21, fontWeight: '900', color: '#fff', lineHeight: 24 },
   doctorRole: { marginTop: 6, fontSize: 13.5, fontWeight: V.font.bold, color: 'rgba(255,255,255,0.88)' },
 
