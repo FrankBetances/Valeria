@@ -29,11 +29,12 @@ for (const f of files) {
     fail.push(`${rel}: el fichero lleva el nombre de la mascota retirada.`);
   }
   const src = fs.readFileSync(f, 'utf8');
-  // Se ignoran las líneas de comentario que documentan la migración a propósito.
+  // Los comentarios cuentan. La cabecera de ValeriaWelcomeScreen siguió
+  // describiendo al oso mucho después de que la pantalla pintara la gata:
+  // saltarse los comentarios es justamente como sobrevivió.
   src.split('\n').forEach((line, i) => {
-    if (/^\s*(\/\/|\*)/.test(line)) return;
-    if (/\bBearMark\b|\bValeriaDistractorBear\b/.test(line)) {
-      fail.push(`${rel}:${i + 1}: identificador de la mascota retirada.`);
+    if (/\bBearMark\b|\bValeriaDistractorBear\b|oso pardo|Osezno|Oso Legendario/i.test(line)) {
+      fail.push(`${rel}:${i + 1}: rastro de la mascota retirada (los comentarios también cuentan).`);
     }
   });
 }

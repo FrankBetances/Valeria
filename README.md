@@ -192,8 +192,7 @@ insignias, y el progreso nunca se mezcla entre ellos.
 </div>
 
 **La mascota de Valeria+ es Lúa, una gata negra tipo *smoking*, dibujada en
-píxel art.** Sustituye al **oso pardo** (`BearMark`) que acompañó al proyecto
-hasta la v11. El cambio es total y no queda ni un rastro del oso en la app: hub,
+píxel art.** Es la mascota desde la v12, y lo es en todas partes: hub,
 bienvenida, créditos, celebración de sesión, distractor de doble tarea, nombres
 de nivel, icono de la app y pantalla de arranque.
 
@@ -201,7 +200,7 @@ de nivel, icono de la app y pantalla de arranque.
 | --- | --- |
 | **Hub** | Lúa en la tira de juego, con nivel y XP |
 | **Premios** (`ValeriaAwardsSheet`) | «Los premios de Lúa»: 12 niveles y 18 insignias |
-| **Nombres de nivel** | **Gatita → Gata Curiosa → … → Gata Lunar → Gata Legendaria** (antes *Osezno → Oso Legendario*) |
+| **Nombres de nivel** | **Gatita → Gata Curiosa → … → Gata Lunar → Gata Legendaria** (12 niveles) |
 | **Doble tarea** (`ValeriaDistractorCat`) | La misma gata como distractor periférico. El Panel del Adulto lo llama **«Gata distractora»** |
 | **Calentamiento de Realidad Aumentada** | «mirar a Lúa, seguirla a las esquinas» |
 | **Icono, icono adaptativo y splash** | La cara de Lúa (`assets/icon.png`, `adaptive-icon.png`, `splash.png`) |
@@ -917,9 +916,9 @@ qué queda pendiente están en [Lúa · la mascota y la marca](#-lúa--la-mascot
 
 | Qué | Cambio |
 | --- | --- |
-| **Mascota** | `ValeriaCatPixel` sustituye a `BearMark` en hub, bienvenida, créditos y celebración de sesión. Rejilla de 32 de lado y **dos poses** (cabeza sola por debajo de 90 px, cuerpo entero por encima): a 52 px la cara de cuerpo entero medía 26 px de alto y los rasgos se emborronaban |
-| **Niveles** | *Osezno → Oso Legendario* pasa a **Gatita → Gata Legendaria** (12 niveles), en `valeriaGamification` y en el catálogo i18n |
-| **Doble tarea** | El distractor periférico es la misma gata. Fichero y componente renombrados `ValeriaDistractorBear` → **`ValeriaDistractorCat`**, y el copy de los ejercicios de dislexia (es · gl · eu) deja de mandar activar «el Oso Distractor» cuando el interruptor del Panel del Adulto ya decía «Gata distractora» |
+| **Mascota** | `ValeriaCatPixel` pasa a ser la mascota en hub, bienvenida, créditos y celebración de sesión. Rejilla de 32 de lado y **dos poses** (cabeza sola por debajo de 90 px, cuerpo entero por encima): a 52 px la cara de cuerpo entero medía 26 px de alto y los rasgos se emborronaban |
+| **Niveles** | Los doce niveles pasan a **Gatita → Gata Legendaria**, en `valeriaGamification` y en el catálogo i18n |
+| **Doble tarea** | El distractor periférico es la misma gata: fichero y componente pasan a **`ValeriaDistractorCat`**, y el copy de los ejercicios de dislexia (es · gl · eu) se alinea con el interruptor del Panel del Adulto, que ya decía «Gata distractora». Ese texto va **locutado**, así que llevó corpus de voz nuevo |
 | **Icono y arranque** | `assets/icon.png`, `adaptive-icon.png` y `splash.png` se **generan** desde el mismo sprite con `npm run build:brand`. Hasta este cambio seguían siendo el oso: quien instalaba la app veía un oso antes de abrirla y una gata al entrar |
 | **Portada del manual** | `docs/lua-mascota.png` sale del mismo script, así que manual y app no pueden divergir |
 
@@ -1362,7 +1361,7 @@ trazabilidad completa está en
 
 - **Reingeniería del piloto · Carga Comunicativa manual**: Panel del Adulto
   (`ValeriaAdultChaosPanel`) con escucha en ruido babble (`valeriaNoise` +
-  `ValeriaManualNoiseSlider`), oso distractor de doble tarea (`ValeriaDistractorBear`)
+  `ValeriaManualNoiseSlider`), distractor de doble tarea (`ValeriaDistractorCat`)
   y quiebre pragmático con estrategias de reparación (`ValeriaPragmaticBreak`),
   todo bajo el muro MDR (manual, nunca automático). Frases portadoras
   combinatorias (`valeriaCarrierPhrases`) y pausa de sesión unificada
@@ -1403,8 +1402,7 @@ trazabilidad completa está en
   contenido: 5 escenarios, 7 progresiones y 6 cápsulas en Expansión Semántica.
 - **Fichas sin imágenes rotas**: pictogramas SVG de alto contraste
   (`src/ValeriaPictograms.tsx`) con fallback a emoji.
-- **Marca con oso pardo animado**: la mascota `BearMark` estrena variante `brown`;
-  bienvenida y créditos animados; iconos y splash regenerados.
+- **Marca animada**: bienvenida y créditos animados; iconos y splash regenerados.
 - **Backend opcional Firebase**: Auth email/contraseña + Firestore (ver arriba).
 - **Build firmado en CI**: APK y AAB firmados en cada push/fusión a `main`.
 
@@ -1435,8 +1433,7 @@ trazabilidad completa está en
   ejercicios.
 - **Recordatorios diarios**: notificaciones locales (máx. 4/día) con
   `expo-notifications`.
-- **Gamificación estilo Duolingo**: XP, racha 🔥, niveles (Osezno → Oso
-  Legendario) e insignias.
+- **Gamificación estilo Duolingo**: XP, racha 🔥, niveles con nombre propio e insignias.
 
 </details>
 

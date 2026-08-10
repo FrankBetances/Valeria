@@ -1,6 +1,6 @@
 // ============================================================================
 // Valeria+ · Pantalla de Bienvenida (V3.1)
-// Splash de marca a pantalla completa. Mascota oso pardo con entrada elástica,
+// Splash de marca a pantalla completa. Lúa entra con rebote elástico,
 // balanceo continuo, salto de alegría periódico y halo pulsante; el contenido
 // aparece de forma escalonada. No persiste datos; solo navega.
 //   Comenzar                       → navigation.navigate('Credits')        // [V3] pasa por créditos antes del alta
