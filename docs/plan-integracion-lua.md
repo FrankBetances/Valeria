@@ -263,6 +263,21 @@ pueda interferir se concede por tiempo limitado.**
   instante y bloquea nuevas concesiones hasta un desbloqueo explícito. No es el
   control primario (§8).
 
+> ⚠ **Pendiente de cerrar: qué renueva exactamente el latido.** Hay hoy dos
+> comportamientos distintos en dos repositorios, y es el modo de fallo del §6.3
+> aplicado a la máquina de estados en vez de a la tabla de opcodes:
+>
+> | Dónde | Al llegar un `HEARTBEAT` |
+> | :--- | :--- |
+> | `firmware/lua/src/main.cpp` (Fase 0) | la concesión vuelve **al máximo, 60 s** |
+> | `lua-firmware` · `core/src/device.cpp` | la concesión vuelve **al TTL que se concedió** |
+>
+> Las dos cumplen el «≤ 60 s» de arriba. La diferencia se ve con una concesión
+> corta: con la primera, un `GRANT(3)` seguido de un latido deja al aparato vivo
+> un minuto entero; con la segunda, tres segundos. La segunda cumple además lo
+> que la app creyó estar pidiendo, y es la que recomiendo fijar — pero se decide
+> aquí y se propaga, no al revés.
+
 ---
 
 ## 6. Protocolo BLE
@@ -590,10 +605,28 @@ Tarjeta de Lúa en Ajustes (emparejar, estado, olvidar) + espejo de
 → *Criterio: captura propia de la tarjeta de Ajustes (regla 1) y vídeo del ciclo
 completo veredicto → celebración.* Es el primer merge que Frank ve en pantalla.
 
-**Fase 4 · Catálogo de expresiones.**
-Las 6-8 caras, dibujadas en círculo, con su pipeline de generación.
+**Fase 4 · Catálogo de expresiones — DIBUJADA Y ADELANTADA.**
+Diez caras en círculo, en [`FrankBetances/lua-firmware`](https://github.com/FrankBetances/lua-firmware):
+neutra, atenta, animando, casi, lo dijo, celebración, dormida, llamada, sin
+conexión y **bloqueada**, que el catálogo de §10 no enumeraba y hace falta —el
+silencio clínico tiene que verse, no solo estar—.
+
+Se adelantó porque es lo único del plan que se puede hacer sin placa. No hay
+pipeline de bitmaps: el sprite es el mapa `HEAD` de `ValeriaCatPixel.tsx`
+copiado carácter a carácter, y las expresiones son parches de 5×5 celdas sobre
+los ojos y 5×10 sobre el hocico. Un gate compara el dibujo base con el de este
+repositorio, que es lo que hace que la promesa del §10 —«literalmente el mismo
+dibujo»— aguante más de una versión.
+
+Va con **emulador de escritorio**: el mismo núcleo en C++ que compila para el
+ESP32, corriendo en el ordenador y sacando el panel por el navegador. No emula
+la radio ni el SPI, así que no sirve para la Fase 0; sirve para ver las caras y
+conducir la máquina de estados entera sin hardware.
+
 → *Criterio: el catálogo entero grabado en vídeo sobre el aparato, no en un
-simulador.*
+simulador.* **Sigue sin cumplirse, y es lo que importa**: hay capturas propias
+del emulador, pero nada de esto se ha visto en un cristal de 32 mm. El tamaño
+aparente de los ojos y el contraste bajo luz de consulta solo los dice la placa.
 
 **Fase 5 · Gamificación y Modo Vínculo.**
 `CELEBRATE` desde `registerSession()`, `CALL` desde los recordatorios.
@@ -640,9 +673,22 @@ Decidido por Frank. No se vuelve a abrir.
 `CompanionDeviceManager`?** Recomiendo 12+ (§9, opción 1) y revisar solo si el
 censo de dispositivos del piloto lo desmiente.
 
-**D-D · ¿El firmware vive en este repositorio (`firmware/lua/`) o aparte?**
-Recomiendo aquí, por la fuente única de la tabla de opcodes. El coste es que
-`android.yml` no debe tocarlo: los gates son Node puro, no compilan ESP-IDF.
+**D-D · ¿El firmware vive en este repositorio (`firmware/lua/`) o aparte? —
+CERRADA POR LOS HECHOS: aparte.** Recomendaba aquí, por la fuente única de la
+tabla de opcodes. El firmware de producto vive en
+[`FrankBetances/lua-firmware`](https://github.com/FrankBetances/lua-firmware),
+así que el coste que preocupaba —dos copias que se separan— hay que pagarlo con
+gates en vez de con proximidad. Cómo queda:
+
+- La tabla de opcodes y el sprite **siguen decidiéndose aquí**. Allí son copias
+  declaradas, y sus dos gates aceptan `--upstream ../Valeria` para compararlas
+  contra este repositorio carácter a carácter.
+- `firmware/lua/` **se queda donde está**: es la fuente de `protocol.json`, de
+  la que dependen `build-lua-protocol.js` y los gates de `android.yml`.
+- Lo que hay que vigilar es que ahora **hay dos firmwares**: el banco de la Fase
+  0 de aquí y el de producto de allí. Mientras el primero siga siendo el que se
+  flashea para medir, las diferencias entre ambos —la del latido de §5, la
+  primera— tienen que estar escritas y no descubrirse midiendo.
 
 **D-E · ¿Cuántas unidades para el piloto?** Cambia si la carcasa se imprime o se
 moldea, y cambia la conversación sobre marcado.
@@ -657,12 +703,23 @@ moldea, y cambia la conversación sobre marcado.
 | 1 · Protocolo | 🟨 **generador y gates hechos** — falta probarlo sobre hardware |
 | 2 · Puente RN | ⬜ pendiente |
 | 3 · Primera integración visible | ⬜ pendiente |
-| 4 · Catálogo de expresiones | ⬜ pendiente |
+| 4 · Catálogo de expresiones | 🟨 **diez caras dibujadas y un emulador** — en `lua-firmware`; sin ver en el panel |
 | 5 · Gamificación y Modo Vínculo | ⬜ pendiente |
 | 6 · VIA+ | ⬜ pendiente |
 | 7 · Campo | ⬜ pendiente |
 
-Lo que YA existe en el árbol: `firmware/lua/` (protocolo, firmware de Fase 0 y
-procedimiento), `scripts/build-lua-protocol.js` con sus dos gates, y
-`docs/lua-bench.html`. Lo que NO existe: nada medido. Las cifras de §4 siguen
-siendo una hipótesis hasta que alguien enchufe la placa.
+Lo que YA existe **en este árbol**: `firmware/lua/` (protocolo, firmware de Fase
+0 y procedimiento), `scripts/build-lua-protocol.js` con sus dos gates, y
+`docs/lua-bench.html`.
+
+Lo que existe **en [`lua-firmware`](https://github.com/FrankBetances/lua-firmware)**
+(§14, D-D): el catálogo de las diez caras con sus capturas, el emulador de
+escritorio, la máquina de estados de §5 portada y probada fuera de la placa —cien
+caducidades de cien— y el objetivo del ESP32, **que no se ha compilado nunca**
+porque allí tampoco hay PlatformIO. Su `docs/hoja-de-ruta.md` dice, fase a fase,
+qué pone el firmware en cada una.
+
+Lo que NO existe: **nada medido**. Ni latencia, ni fps sostenidos, ni consumo, ni
+una sola cara vista en un cristal de 32 mm. Las cifras de §4 siguen siendo una
+hipótesis hasta que alguien enchufe la placa, y las capturas de un emulador no
+son una excepción a eso: enseñan el dibujo, no el aparato.
