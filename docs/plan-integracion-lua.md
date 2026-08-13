@@ -47,6 +47,22 @@
 > correcta con VIA+ es **la ausencia del aparato**. Si no está en la sala, no
 > contamina ninguna medición. Enmudecerlo no protegía nada que la ausencia no
 > protegiese ya, y costaba una función en un producto de rehabilitación.
+>
+> ### Y tres decisiones cerradas el mismo día (§14)
+>
+> - **D-F · Sonido: tonos para empezar.** Zumbador pasivo por PWM en v1, sobre la
+>   placa ya elegida. Sin opcode nuevo: el tono va atado al opcode que ya existe.
+>   Con una regla clínica propia de Valeria+ — **Lúa no suena mientras la tableta
+>   escucha**, o el pitido enmascara el estímulo y entra en el ASR.
+> - **D-G · Espejo puro.** Lúa muestra la misma imagen que ve el adulto en la
+>   tableta. La tableta no cambia, no hay modo de adulto y **no se rediseña
+>   ninguna pantalla clínica**.
+> - **D-H · Los mini-juegos pasan a pictogramas.** Es la partida más grande del
+>   plan: **244 pares (palabra, emoji) en los bancos de ejercicios, de los que hoy
+>   solo 1 resuelve a un dibujo**. Salen con del orden de 82 pictogramas, porque
+>   la clave no depende del idioma. Y arregla la tableta, no solo Lúa: esas 243
+>   fichas se pintan hoy con emoji del sistema, que es el defecto del tofu por el
+>   que nació `ValeriaPictograms`.
 
 > **Lo que este documento cambia respecto al borrador de partida.** Tres cosas,
 > y conviene leerlas antes que nada porque mueven dinero y semanas:
@@ -250,7 +266,8 @@ coste:
 | DAC interno + amplificador I2C | 2 | muestras cortas, calidad pobre | ocupa el puerto entero |
 | Códec I²S + altavoz | 3+ | voz y sonido real | **exige otra placa** (la e-Paper S3 lo trae, §2.2) |
 
-**Recomendación: el zumbador por PWM entra en v1.** Es un pin, cabe en la placa
+**DECIDIDO por Frank el 13/8/2026 (D-F): el zumbador por PWM entra en v1, con
+tonos.** Es un pin, cabe en la placa
 elegida, y cubre el caso que a Frank le interesa —que la celebración y el
 veredicto suenen— sin tocar el hardware. Voz y sonido muestreado son v2 y placa
 distinta, y entonces sí hay que rehacer §4 (el presupuesto de latencia no
@@ -544,13 +561,19 @@ ahí y lo heredan todas las pantallas que lo usan, sin tocarlas una a una. Es el
 enganche más barato del plan y el que cubre más superficie.
 
 **Capa 2 · el estímulo — donde hay ficha.** `PICTO` / `PICTO_PAIR` desde
-`FichaVisual`. Hoy `FichaVisual` solo se usa en Pares Mínimos y Expansión
-Semántica (verificado: son las dos únicas pantallas que la importan), así que el
-espejo del pictograma llega ahí de entrada. **Los mini-juegos visuales del player
-—MS-1 «uno/muchos», MS-2 «niño/niña», SE-2 con opciones— no pasan por
-`FichaVisual`**: dibujan sus propias tarjetas. Espejarlos exige darles clave de
-pictograma primero, y eso es trabajo de contenido, no de firmware. Queda como
-tarea explícita de la Fase 5, no como algo que salga solo.
+`FichaVisual`, que es el componente que ya decide qué dibujo va. Un solo enganche
+ahí y espeja todo lo que pase por él.
+
+Hoy `FichaVisual` solo se usa en Pares Mínimos y Expansión Semántica (verificado:
+son las dos únicas pantallas que la importan). Los mini-juegos del player —MS-1
+«uno/muchos», MS-2 «niño/niña», SE-2 con opciones— dibujan sus propias tarjetas
+con emoji crudo y por eso hoy no se espejarían.
+
+**D-H lo cierra: pasan a pictogramas.** No es trabajo de firmware sino de
+contenido —hay que dibujar del orden de 82 pictogramas y darles clave—, y es la
+partida más grande del plan. Va en la Fase 5 con su propia cuenta (§14, D-H). La
+ventaja de hacerlo por aquí es que **no hay que tocar el player**: en cuanto una
+tarjeta pasa por `FichaVisual`, el espejo le sale gratis.
 
 **Capa 3 · el premio — el cierre, sea cual sea el ejercicio.** `BADGE` y `LEVEL`
 desde `registerSession()` en `valeriaGamification.ts`, que ya devuelve `levelUp`,
@@ -720,7 +743,7 @@ tableta, que es lo que significa espejo.
 
 | Familia | Cuántos | Fuente en el árbol | Cómo llega a flash |
 | :--- | ---: | :--- | :--- |
-| Pictogramas | **66 claves** | `src/ValeriaPictograms.tsx` (`PICTOGRAMS_BY_KEY`) | rasterizados a 168×168 y 96×96 |
+| Pictogramas | **66 hoy → ~148** (D-H) | `src/ValeriaPictograms.tsx` (`PICTOGRAMS_BY_KEY`) | rasterizados a 168×168 y 96×96 |
 | Insignias | **9 glifos × 5 rangos** | `src/ValeriaPixelAwards.tsx` (`GLYPHS`, `TIERS`) | la rejilla de 12×12 tal cual: la dibuja el firmware |
 | Niveles | **12** | `valeriaGamification.ts` (`LEVEL_NAMES`) | anillo de 12 segmentos + cifra |
 | Caras | 9-10 | `src/ValeriaCatPixel.tsx` | como hasta ahora |
@@ -742,14 +765,28 @@ que el aparato y la app se separen versión a versión, igual que con la cara.
 cifra y el anillo. El nombre es texto, y el protocolo no tiene campo de texto
 (§6.1) — ni le hace falta: el nombre lo lee el adulto en la tableta.
 
-> **Presupuesto de flash — estimación, no medición.** 66 pictogramas × (168² +
-> 96²) a 8 bits por píxel son ~2,5 MB en crudo, que **no caben** con holgura en
-> los 4 MB junto al firmware y las caras. Con RLE por fila —y estos dibujos son
-> color plano con contorno, el caso bueno del RLE— la expectativa está en
-> 300-500 KB, pero **eso no lo he medido**. Es lo primero que tiene que
-> devolver `build-lua-catalog.js` cuando se escriba, y si sale mal las salidas
-> son bajar a 128×128, recortar el catálogo a las claves que usan los bancos, o
-> flash externo.
+> **Presupuesto de flash — estimación, no medición, y ahora más apretado.**
+> 66 pictogramas × (168² + 96²) a 8 bits por píxel son ~2,5 MB en crudo. **Con
+> los ~82 de D-H son ~5,5 MB**, más que la flash entera de la placa. Sin
+> comprimir no cabe, y eso ya no es una holgura cómoda sino el eje del diseño.
+>
+> Con RLE por fila —y estos dibujos son color plano con contorno, el caso bueno
+> del RLE— la expectativa está en 700 KB - 1,1 MB para el catálogo completo.
+> **No lo he medido.** Es lo primero que tiene que devolver `build-lua-catalog.js`
+> cuando se escriba, y hay que medirlo **con los 66 que ya existen** antes de
+> encargar 82 dibujos nuevos: si el ratio de compresión real desmiente la
+> estimación, es mejor saberlo con el catálogo pequeño.
+>
+> Salidas si sale mal, en orden: bajar la resolución de la variante grande a
+> 128×128, guardar **solo** el tamaño de par (96×96) y escalar por enteros en el
+> firmware, o recortar el catálogo a las claves que los bancos usan de verdad.
+>
+> **Flash externa no es una salida en esta placa.** Una SPI necesita cuatro pines
+> (CS, CLK, MOSI, MISO) y el puerto de expansión tiene **dos** I/O; ni con el
+> zumbador fuera cabría. Si el catálogo no entra comprimido en los 4 MB, la
+> conversación no es «añadir memoria»: es cambiar de placa, y entonces se revisan
+> §3 y §4 enteros. Por eso la medición del ratio de compresión es lo primero de
+> la Fase 4b y no un detalle de implementación.
 
 ### 10.2 El pictograma en el cristal: lo que hay que mirar antes de creérselo
 
@@ -945,15 +982,32 @@ estimación de §10.1 puede estar mal por un factor de cinco.
 el par «cuchara limpia / cuchara sucia» distinguible a 96 px por alguien que no
 sepa cuál es cuál.* Es el criterio que decide R-10.
 
-**Fase 5 · Gamificación, contenido y Modo Vínculo.**
+**Fase 5 · Gamificación y Modo Vínculo.**
 `BADGE` y `LEVEL` desde `registerSession()` —que cubre los 37 ejercicios de
-golpe— y `CALL` desde los recordatorios. Aquí entra también el trabajo de
-contenido que no sale solo: **dar clave de pictograma a los mini-juegos visuales
-del player** (MS-1, MS-2, SE-2), que hoy dibujan sus propias tarjetas sin pasar
-por `FichaVisual` y por eso no se espejan (§6.5, capa 2).
+golpe— y `CALL` desde los recordatorios. Con D-G cerrada en espejo puro, **aquí
+no se rediseña ninguna pantalla clínica**.
 → *Criterio: cerrar sesión en un ejercicio de cada uno de los cuatro bloques y
 ver la insignia correcta —el glifo y el rango que tocan, no una celebración
 genérica— en el cristal.*
+
+**Fase 5b · Los mini-juegos a pictogramas — NUEVA (D-H).**
+La partida más grande del plan y la única que no depende de la placa: ~82
+dibujos nuevos con su clave, para que MS-1, MS-2 y SE-2 pasen por `FichaVisual`.
+Se hace por tandas, como se hicieron los 66 que ya existen.
+
+**Corre en paralelo a todo lo demás y no espera a ningún hardware.** Es trabajo
+de contenido con las logopedas, y **arregla la tableta aunque Lúa no llegue
+nunca**: hoy esas 243 fichas caen a emoji del sistema y algunas se pintan como un
+cuadro vacío en los Android del piloto (§14, D-H).
+→ *Criterio: `check-pictogram-coverage.js` extendido a los bancos de ejercicios y
+en verde; y la tanda revisada por ACOPROS, no solo dibujada.*
+
+**Fase 5c · El zumbador (D-F).**
+Un pin, la tabla opcode → tono, el tope de volumen en firmware y la regla de que
+Lúa no suena mientras la tableta escucha.
+→ *Criterio: grabar una sesión y comprobar que **no hay ni un tono** durante las
+fases de escucha y repetición, y que `check-asr-capture-guard.js` sigue en verde.
+Y el nivel sonoro medido, no supuesto.*
 
 **Fase 6 · VIA+.**
 Recompensa de cierre en `ResultadosFinal` y `SAFE` como defensa en profundidad.
@@ -1021,28 +1075,76 @@ gates en vez de con proximidad. Cómo queda:
 **D-E · ¿Cuántas unidades para el piloto?** Cambia si la carcasa se imprime o se
 moldea, y cambia la conversación sobre marcado.
 
-**D-F · Sonido: ¿zumbador en v1 o se espera a placa con códec?** *(Abierta el
-13/8/2026. Antes no era una decisión: D-2 lo daba por prohibido, con motivos de
-VIA+ — C-3.)* Recomiendo el **zumbador pasivo por PWM en v1**: es un pin del
-puerto de expansión, cabe en la placa ya elegida y cubre lo que interesa —que el
-veredicto y la celebración suenen—. Voz y sonido muestreado exigen la placa
-e-Paper S3 o equivalente y rehacen §4. Lo que hace falta de Frank es si con
-tonos le vale para empezar, o si lo que tiene en la cabeza es voz.
+**D-F · Sonido — CERRADA (Frank, 13/8/2026): tonos para empezar.**
+Entra el **zumbador pasivo por PWM en v1**, sobre la placa C3 ya elegida: un pin
+del puerto de expansión, sin cambiar de hardware. Voz y sonido muestreado quedan
+para v2 con placa distinta (§2.2). Lo que arrastra la decisión:
 
-**D-G · ¿Qué pasa en la tableta cuando Lúa está conectada?** Sale de la premisa de
-§1 y no está resuelta. Si el niño no mira la tableta, ¿la ficha **sigue** en la
-tableta igual que hoy (espejo puro, y el adulto la ve), o la pantalla cambia a un
-modo de adulto —consigna, controles, registro— y el estímulo se va solo a Lúa?
-Recomiendo **espejo puro en v1**: no toca ninguna pantalla clínica, no arriesga
-nada y es reversible. El modo de adulto es un rediseño de siete pantallas y
-merece decidirse aparte, viendo capturas.
+1. **No hay opcode nuevo.** El tono va **atado al opcode que ya existe**, en una
+   tabla del firmware: `VERDICT(2)` suena distinto de `VERDICT(0)`, `BADGE`
+   suena, `CELEBRATE` suena. La app no manda «pita»: manda lo que ya mandaba y
+   Lúa decide si eso suena. Un opcode `SOUND` suelto solo entraría si algún día
+   hace falta un tono sin cambio visual — hoy no hace falta y no se añade.
+2. **La capacidad sonora se concede aparte de la visual** (§5) y caduca igual. Si
+   cae el enlace, Lúa se calla sola en ≤ 60 s.
+3. **El tope de volumen vive en el firmware.** La app pide, el firmware topa
+   (R-5). El adulto lo ajusta por `CFG` desde la tarjeta de Ajustes, y **el 0 es
+   un valor legítimo**: hay niños con hiperacusia y sesiones donde el sonido
+   sobra.
+4. **Regla clínica, y esta es de Valeria+, no importada de nadie: Lúa no suena
+   mientras la tableta escucha.** Ni durante la fase de escucha ni durante la de
+   repetición (`PHASE` 0 y 1). Dos motivos propios: un pitido encima del estímulo
+   hablado lo enmascara, y un pitido durante la captura entra en el micrófono de
+   la tableta y contamina el ASR — que es justo lo que vigila
+   `check-asr-capture-guard.js`. El sonido vive en el veredicto y en el premio,
+   que es donde el refuerzo tiene sentido.
+5. **§4 no se mueve.** Arrancar un tono por PWM son microsegundos; no compite con
+   el presupuesto de latencia. Lo que sí entra es la medida de nivel sonoro en
+   Fase 7, por seguridad de producto: es un aparato que suena a un palmo de la
+   cara de un niño.
 
-**D-H · ¿Los mini-juegos visuales del player entran en el espejo?** Los 37
-ejercicios espejan turno, insignia y nivel sin trabajo extra. Espejar **el
-estímulo** de MS-1, MS-2 y SE-2 exige darles clave de pictograma, que es trabajo
-de contenido con las logopedas (el mismo tipo de trabajo que la auditoría de
-ES-12). No bloquea nada; hay que saber si entra en el alcance o se queda para
-después.
+**D-G · La tableta cuando Lúa está conectada — CERRADA (Frank, 13/8/2026):
+espejo puro.** Lúa muestra **la misma imagen que ve el adulto en la tableta**. La
+tableta no cambia: sigue pintando la ficha igual que hoy. No hay modo de adulto,
+no se rediseña ninguna pantalla clínica, y el espejo es exactamente eso —lo
+mismo, en dos superficies—.
+
+Consecuencia práctica que conviene ver: **ninguna de las siete pantallas clínicas
+se toca** para que el espejo funcione. El trabajo se concentra en el puente, el
+catálogo y tres puntos de enganche (§6.5). Es la opción que menos arriesga y la
+que antes se puede enseñar en una captura.
+
+**D-H · Los mini-juegos — CERRADA (Frank, 13/8/2026): pasan a pictogramas.**
+MS-1 (uno/muchos), MS-2 (niño/niña) y SE-2 (opciones) dejan de dibujar emoji y
+pasan por `FichaVisual` con clave de pictograma. Con eso entran en el espejo sin
+tocar nada más: el enganche de la capa 2 ya está en `FichaVisual` (§6.5).
+
+**El coste hay que verlo antes de empezar, porque es la partida más grande de
+todo el plan.** Contado del árbol, no estimado:
+
+| | |
+| :--- | ---: |
+| Pares (palabra, emoji) distintos en los bancos de ejercicios, cinco lenguas | **244** |
+| De ellos, que hoy resuelven a un pictograma dibujado | **1** |
+| Que caen a emoji del sistema | **243** |
+| Emoji distintos, o sea dibujos que harían falta | **~82** |
+
+La clave de pictograma es independiente del idioma —es el argumento con el que
+nació `ValeriaPictograms`—, así que **un dibujo sirve a las cinco lenguas**: los
+244 pares se cubren con del orden de 82 dibujos, no con 244. Aun así el catálogo
+pasa de 66 a ~148, más del doble, y eso mueve el presupuesto de flash de §10.1.
+
+**Y esto no es solo trabajo para Lúa: arregla la tableta.** Esas tarjetas pintan
+emoji crudo hoy —MS-1 repite `ex.plural.emoji` dentro de un `<Text>` de 52 px—,
+que es exactamente el defecto del tofu por el que se creó `ValeriaPictograms` y
+lo que ACOPROS pidió corregir. Las 243 fichas que caen a emoji del sistema se
+ven distintas en cada Android y algunas no se ven. **La petición de Frank cierra
+un agujero que ya existía en la app, mirase o no el niño a Lúa.**
+
+Lo que hace falta decidir aparte, y no bloquea: **por qué tanda se empieza**. Los
+82 dibujos no salen de una vez, igual que los 66 salieron en tres tandas. Lo
+sensato es priorizar por los ejercicios que más se prescriben en el piloto y por
+los emoji de Unicode 12+, que son los que ya se ven rotos.
 
 ---
 
@@ -1056,7 +1158,9 @@ después.
 | 3 · Primera integración visible | ⬜ pendiente |
 | 4 · Catálogo de expresiones | 🟨 **diez caras dibujadas y un emulador** — en `lua-firmware`; sin ver en el panel |
 | 4b · Catálogo de contenido | ⬜ **pendiente, nueva** — 66 pictogramas, 45 insignias, 12 niveles |
-| 5 · Gamificación, contenido y Modo Vínculo | ⬜ pendiente |
+| 5 · Gamificación y Modo Vínculo | ⬜ pendiente |
+| 5b · Mini-juegos a pictogramas | ⬜ **pendiente, nueva** — ~82 dibujos; no depende de la placa |
+| 5c · Zumbador | ⬜ **pendiente, nueva** — un pin, tope en firmware |
 | 6 · VIA+ | ⬜ pendiente |
 | 7 · Campo | ⬜ pendiente |
 
@@ -1092,4 +1196,10 @@ vistazo:**
 | Insignias en Lúa | ✅ | ❌ | ❌ | ❌ |
 | Nivel en Lúa | ✅ | ❌ | ❌ | ❌ |
 | El espejo en todos los ejercicios | ✅ | — | ❌ | ❌ |
-| Estímulos sonoros | ✅ decisión abierta (D-F) | ❌ | ❌ prohibido por el gate | ❌ |
+| Estímulos sonoros | ✅ **decidido: tonos (D-F)** | ❌ | ❌ prohibido por el gate | ❌ |
+| Espejo puro, sin modo adulto | ✅ **decidido (D-G)** | — | — | — |
+| Mini-juegos con pictograma | ✅ **decidido (D-H)** | — | ❌ 243 fichas caen a emoji | ❌ |
+
+Las cinco decisiones abiertas que tenía este plan bajan a dos: **D-C** (Android
+12+ o módulo nativo) y **D-E** (unidades del piloto). D-F, D-G y D-H las cerró
+Frank el 13/8/2026.
