@@ -33,10 +33,21 @@ export const LUA_OP = {
   BENCH: 0xF0,
 } as const;
 
+/**
+ * Capacidades concedibles. Viajan en el byte ALTO del parámetro de `GRANT`;
+ * el byte bajo es el TTL. Una máscara de 0 concede SOLO la visual, que es lo
+ * que valía un `GRANT` antes de que este campo existiera.
+ */
+export const LUA_CAP = {
+  VISUAL: 0x01,
+  SOUND: 0x02,
+} as const;
+
 /** Operaciones de SAFE (con confirmación: aquí sí importa saber que llegó). */
 export const LUA_SAFE = {
   CLINICAL_SILENCE: 0x01,
   UNLOCK: 0x02,
+  MUTE: 0x03,
 } as const;
 
 /** Modos que publica el aparato en STATE. REST es el estado seguro. */
@@ -60,3 +71,13 @@ export type LuaOp = (typeof LUA_OP)[keyof typeof LUA_OP];
 /** Trama de CTRL: versión, opcode y parámetro de 16 bits little-endian. */
 export const luaFrame = (op: LuaOp, param = 0): Uint8Array =>
   Uint8Array.from([LUA_PROTOCOL_VERSION, op, param & 0xff, (param >> 8) & 0xff]);
+
+/**
+ * Parámetro de `GRANT`: TTL en el byte bajo, capacidades en el alto.
+ * Sin capacidades explícitas concede solo la visual — la sonora se pide, nunca
+ * se hereda.
+ */
+export const luaGrantParam = (ttlSeconds: number, caps = 0): number => {
+  const ttl = Math.max(1, Math.min(LUA_LIMITS.grantMaxSeconds, Math.trunc(ttlSeconds)));
+  return ((caps & 0xff) << 8) | ttl;
+};

@@ -46,13 +46,18 @@
     { "key": "AWARD", "code": 8, "param": "glifo 0-8 (byte bajo) + rango 0-4 (byte alto)", "note": "réplica de la insignia: familia y rango, nunca su nombre ni su descripción." },
     { "key": "LEVEL", "code": 9, "param": "nivel 1-12", "note": "réplica del nivel: doce segmentos en el anillo. Sin número y sin el nombre del nivel." },
     { "key": "PICTO_PAIR", "code": 10, "param": "índice izq (byte bajo) + índice der (byte alto)", "note": "RESERVADO · dos fichas para la vuelta de comprensión de Pares Mínimos (§6.5, capa 2). El código queda tomado para que no lo ocupe otro; el firmware todavía NO lo dibuja y lo ignora por el `default` del switch." },
-    { "key": "GRANT", "code": 16, "param": "ttl en segundos (1-60)", "note": "concede capacidad visual" },
+    { "key": "GRANT", "code": 16, "param": "ttl en segundos 1-60 (byte bajo) + máscara de capacidades (byte alto)", "note": "concede capacidades (§5 del plan). El byte alto es la máscara de `capabilities`: 0x00 significa SOLO VISUAL, que es lo que valía un GRANT antes de que el campo existiera. La capacidad sonora NUNCA es implícita: hay que pedir su bit." },
     { "key": "HEARTBEAT", "code": 17, "param": "—", "note": "renueva la concesión viva" },
     { "key": "BENCH", "code": 240, "param": "—", "note": "Fase 0: pinta un frame completo y devuelve por STATE el tiempo de despacho. No se usa en producción." }
   ],
+  "capabilities": [
+    { "key": "VISUAL", "bit": 0, "note": "dibujar en el panel. Es lo que concede un GRANT con el byte alto a 0" },
+    { "key": "SOUND", "bit": 1, "note": "emitir sonido (zumbador de la D-F). Se concede aparte de la visual y caduca con ella. MUTE la quita sin apagar la pantalla" }
+  ],
   "safeOps": [
-    { "key": "CLINICAL_SILENCE", "code": 1, "note": "revoca toda concesión y bloquea nuevas" },
-    { "key": "UNLOCK", "code": 2, "note": "levanta el bloqueo; requiere comando explícito" }
+    { "key": "CLINICAL_SILENCE", "code": 1, "note": "revoca toda concesión y bloquea nuevas. NO se toca: es el cierre total, y es el que cubre que alguien traiga el aparato a una medición que nadie planeó" },
+    { "key": "UNLOCK", "code": 2, "note": "levanta el bloqueo Y el silencio sonoro; requiere comando explícito y devuelve a REPOSO, nunca a ACTIVA" },
+    { "key": "MUTE", "code": 3, "note": "quita SOLO la capacidad sonora y deja viva la visual: la gata sigue dibujando. Pega hasta un UNLOCK explícito, así que un GRANT posterior tampoco puede devolver el sonido. Para «que no se vea nada» está CLINICAL_SILENCE" }
   ],
   "modes": [
     { "key": "REST", "code": 0, "note": "estado seguro y por omisión" },
