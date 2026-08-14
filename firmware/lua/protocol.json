@@ -37,10 +37,15 @@
   ],
   "opcodes": [
     { "key": "PHASE", "code": 1, "param": "fase 0-3", "note": "espeja TurnPhaseStrip: escucha / repite / veredicto / misión" },
-    { "key": "VERDICT", "code": 2, "param": "MatchLevel 0-2", "note": "0 no coincide · 1 casi · 2 lo dijo. Lúa mapea nivel → animación; no interpreta." },
-    { "key": "CELEBRATE", "code": 3, "param": "intensidad 0-2", "note": "cierre de sesión, subida de nivel, insignia" },
+    { "key": "VERDICT", "code": 2, "param": "MatchLevel 0-2", "note": "0 no coincide · 1 casi (Impulso ⚡) · 2 lo dijo (Calma Aprobatoria ✓). Lúa mapea nivel → animación; no interpreta." },
+    { "key": "CELEBRATE", "code": 3, "param": "intensidad 0-2", "note": "0 cierre · 1 subida de nivel (Epifanía !) · 2 insignia (Éxito Absoluto ⭐)" },
     { "key": "IDLE", "code": 4, "param": "—", "note": "cara neutra" },
     { "key": "CALL", "code": 5, "param": "—", "note": "animación de llamada del Modo Vínculo" },
+    { "key": "AFFECT", "code": 6, "param": "Emoción 0-7", "note": "0:Alegría 1:Amor 2:Gratitud 3:Tranquilidad 4:Esperanza 5:Orgullo 6:Inspiración 7:Diversión" },
+    { "key": "PICTO", "code": 7, "param": "índice del pictograma · 0xFFFF lo quita", "note": "la ficha del ejercicio en el panel. Índice del registro de ValeriaPictograms.tsx, nunca texto: el aparato no sabe qué palabra es." },
+    { "key": "AWARD", "code": 8, "param": "glifo 0-8 (byte bajo) + rango 0-4 (byte alto)", "note": "réplica de la insignia: familia y rango, nunca su nombre ni su descripción." },
+    { "key": "LEVEL", "code": 9, "param": "nivel 1-12", "note": "réplica del nivel: doce segmentos en el anillo. Sin número y sin el nombre del nivel." },
+    { "key": "PICTO_PAIR", "code": 10, "param": "índice izq (byte bajo) + índice der (byte alto)", "note": "RESERVADO · dos fichas para la vuelta de comprensión de Pares Mínimos (§6.5, capa 2). El código queda tomado para que no lo ocupe otro; el firmware todavía NO lo dibuja y lo ignora por el `default` del switch." },
     { "key": "GRANT", "code": 16, "param": "ttl en segundos (1-60)", "note": "concede capacidad visual" },
     { "key": "HEARTBEAT", "code": 17, "param": "—", "note": "renueva la concesión viva" },
     { "key": "BENCH", "code": 240, "param": "—", "note": "Fase 0: pinta un frame completo y devuelve por STATE el tiempo de despacho. No se usa en producción." }
