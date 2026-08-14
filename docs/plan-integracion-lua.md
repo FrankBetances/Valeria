@@ -280,6 +280,15 @@ pasa por la concesión con caducidad de §5, como capacidad propia y separada de
 visual. Si el enlace cae, Lúa se calla en ≤ 60 s sin que nadie se acuerde de
 apagarla. Y el volumen tiene tope en firmware, no solo en la app.
 
+**La reapertura del 14/8/2026 está cerrada, y la placa no se mueve (D-K, §14).**
+Durante unas horas la dirección pidió **locuciones pregrabadas** en el aparato, lo
+que exige I²S —tres pines— y por tanto otra placa. La respuesta de Frank es que
+**la voz la pone la tableta**: Lúa se queda con la cara, que es lo que la C3 hace
+bien. Consecuencias sobre esta sección, todas en el sentido de no tocar nada:
+la fila de la tabla que **exige otra placa** se queda sin tomar, la **D-1 no se
+reabre**, y **§4 no se rehace** —el presupuesto de latencia sigue sin tener que
+contemplar audio muestreado—.
+
 **D-3 · El "Modo Vínculo" no lleva RTC propio en v1.** El horario ya existe y ya
 es una preferencia del usuario en la app: `REMINDER_SLOTS` en
 [`src/valeriaNotifications.ts`](../src/valeriaNotifications.ts) (9:00 / 13:00 /
@@ -378,6 +387,9 @@ pueda interferir se concede por tiempo limitado.**
   visual, caduca igual, y el firmware topa el volumen aunque la app pida más. Que
   se conceda por separado es lo que permite —si algún día hiciera falta— dejar a
   Lúa mostrando el pictograma y callada, sin inventar un modo nuevo.
+  **Aplicado el 14/8/2026 (D-L):** la máscara viaja en el byte alto del parámetro
+  de `GRANT`, y `SAFE`/`MUTE` la quita sin apagar la pantalla. Ese «si algún día
+  hiciera falta» era hoy: es lo que VIA+ necesita durante la /a/ sostenida.
 - **El comando de silencio clínico sigue existiendo**, con confirmación
   obligatoria, pero como cinturón sobre los tirantes: revoca toda concesión al
   instante y bloquea nuevas concesiones hasta un desbloqueo explícito. No es el
@@ -410,7 +422,7 @@ reutilizar ninguno de ejemplo de Espressif). Cuatro características:
 | Característica | Propiedades | Tamaño | Contenido |
 | :--- | :--- | ---: | :--- |
 | `CTRL` | Write Without Response | 8 B | opcode + parámetros. Camino de latencia. |
-| `SAFE` | Write **with** Response | 2 B | silencio clínico, revocación, desbloqueo. |
+| `SAFE` | Write **with** Response | 2 B | silencio clínico, revocación, desbloqueo y **silencio sonoro** (`MUTE`, D-L). |
 | `STATE` | Read + Notify | 8 B | modo, capacidades vivas, batería, versión fw, **versión de catálogo**. |
 | `CFG`   | Write with Response | ≤ 20 B | brillo, volumen, catálogo, franjas (v2). |
 
@@ -465,7 +477,7 @@ firmware y lo que ya decodifica VIA+.
 | **`0x08`** | **`AWARD`** | **glifo 0-8 (byte bajo) · rango 0-4 (byte alto)** | **la insignia CONCRETA que se acaba de ganar** |
 | **`0x09`** | **`LEVEL`** | **nivel 1-12** | **el nivel, en doce segmentos del borde** |
 | **`0x0A`** | **`PICTO_PAIR`** | **id izq. (byte bajo) · id der. (byte alto)** | **RESERVADO · dos fichas para la vuelta de comprensión** |
-| `0x10` | `GRANT` | capacidad · ttl en s | concede capacidad (§5) |
+| `0x10` | `GRANT` | **ttl en s 1-60 (byte bajo) · máscara de capacidades (byte alto)** | concede capacidades (§5). Máscara `0x00` = solo visual. La sonora nunca es implícita (D-L) |
 | `0x11` | `HEARTBEAT` | — | renueva la concesión viva |
 | `0xF0` | `BENCH` | — | Fase 0. No se usa en producción |
 
@@ -1318,6 +1330,86 @@ están corregidos:
 Lo que **sigue cayendo a emoji** es lo de siempre y no ha cambiado: una palabra
 sin clave de pictograma —«rana», por ejemplo— se pinta con su emoji. Los 66
 dibujos cubren las claves del banco propio, no el idioma entero.
+
+**D-K · De dónde sale la voz — CERRADA (Frank, 14/8/2026): de la tableta. Lúa
+se queda con la cara.**
+
+Cierra la reapertura que la D-9 de la hoja de ruta del firmware había provocado
+el mismo día, unas horas después de la D-F: la dirección pidió **locuciones
+pregrabadas en el aparato**, y eso no cabe. La cuenta que lo decide no es de
+protocolo ni de gusto, es de placa, y está en §3:
+
+| | Cara animada 240×240 | Locuciones |
+| :--- | :---: | :---: |
+| ESP32-C3 · IPS circular (v1, D-1) | ✅ 20-30 fps | ❌ solo tonos, 1 pin |
+| ESP32-S3 · e-Paper (§2.2) | ❌ 15-20 s por refresco | ✅ códec ES8311 |
+
+**Ninguna de las placas estudiadas hace las dos cosas.** La que habla tarda
+quince segundos en sonreír, y una cara que tarda quince segundos en sonreír no es
+refuerzo inmediato. Se decide por tanto que **la voz sale por el altavoz de la
+tableta**, que es donde ya está, y Lúa conserva el trabajo que su placa hace bien.
+
+Lo que la decisión evita, que es su mayor virtud:
+
+- **No hay cuarta placa.** No se rehacen §2, §3 ni §4. La D-1 sigue en pie.
+- **No hay opcode `AudioPlay`.** La tabla de `protocol.json` no se toca, y con
+  ella no se tocan las tres copias generadas ni sus gates.
+- **No hay I²S, ni pin de audio, ni tabla de tonos.** Cero líneas de audio en los
+  tres repositorios, igual que ayer. `check-lua-mute.js` **se queda como está**,
+  aquí y en su copia del firmware.
+- **Coste de implementación: cero, y esto está comprobado, no supuesto.** VIA+ ya
+  locuta sus consignas por `@/Voice` —`speakConsigna()` en
+  `src/Screens/ExecutiveFunctions/efSpeech.ts` resuelve texto y voz juntos en las
+  cinco lenguas y degrada en silencio si no hay voz—. La fila de la matriz que
+  pedía «locución de consigna pregrabada» ya funciona, y funciona desde antes de
+  esta decisión.
+
+**Lo que la decisión NO retira:** la D-F sigue cerrada tal cual. El zumbador
+pasivo por PWM sigue **autorizado** para v1 —tonos atados a los opcodes que ya
+existen, tope de volumen en firmware, capacidad sonora aparte— y sigue **sin
+implementar**: no hay pin asignado ni tabla de tonos. Lo que se cierra aquí es
+*de dónde sale la voz*, no si Lúa puede emitir un «tilín» de acierto. Si algún día
+se quiere retirar también el zumbador, es otra decisión y la toma Frank.
+
+**D-L · El campo de capacidad de `GRANT` — CERRADO Y APLICADO (14/8/2026).**
+
+Era la discrepancia entre el §6.2 de este plan —que declara `GRANT` con
+«capacidad · ttl»— y `protocol.json`, que decía solo «ttl» y anotaba «concede
+capacidad visual». El campo existía en la prosa y no en el enlace, así que el
+estado «puede dibujar, no puede sonar» del §5 era indescriptible. Cómo queda:
+
+| | |
+| :--- | :--- |
+| **Parámetro de `GRANT`** | TTL 1-60 en el **byte bajo**, máscara de capacidades en el **alto** |
+| **Máscara** | `LUA_CAP_VISUAL` `0x01` · `LUA_CAP_SOUND` `0x02`, generadas del `.json` |
+| **Máscara `0x00`** | Solo visual — que es lo que valía un `GRANT` antes de que el campo existiera |
+| **Opcode nuevo** | **Ninguno.** Cumple la D-F |
+
+**El orden de los bytes no es estético.** Con el TTL abajo, cualquier trama
+escrita bajo el contrato de ayer —«ttl en segundos (1-60)»— significa hoy
+exactamente lo mismo, porque 60 cabe de sobra en un byte. Y al revés: un aparato
+con firmware anterior al campo lee los 16 bits enteros como TTL, obtiene un
+número grande y lo recorta a 60, que es lo que la app quería. **Las dos
+direcciones se comportan igual, y eso está probado, no supuesto.**
+
+**Y una operación nueva de `SAFE`, que es lo que de verdad desbloquea a VIA+:**
+
+| `SAFE` | Qué hace |
+| :--- | :--- |
+| `CLINICAL_SILENCE` `0x01` | **Sin tocar.** Sigue siendo el cierre TOTAL: revoca todo y bloquea |
+| `UNLOCK` `0x02` | Levanta el bloqueo **y** el silencio sonoro. Devuelve a REPOSO, nunca a ACTIVA |
+| `MUTE` `0x03` | **Nueva.** Quita solo la capacidad sonora; la visual, el modo y la ficha siguen vivos |
+
+`MUTE` **no suaviza el silencio clínico y no lo sustituye**: son dos herramientas
+para dos casos, y la de apagarlo todo sigue siendo la otra. Pega hasta un `UNLOCK`
+explícito, de modo que un `GRANT` posterior no puede devolver el sonido — si
+pudiera, bastaría con renovar la concesión para volver a poder sonar en mitad de
+una captura.
+
+Sigue **abierto** el punto de `STATE` (§6.1): promete publicar capacidades vivas y
+batería, y publica cara, fps y microsegundos. Con dos capacidades gana urgencia
+—la app puede pedirlas pero no puede verlas—, y no se ha tocado aquí porque los
+ocho bytes están llenos y cambiar la trama es una conversación propia.
 
 ---
 

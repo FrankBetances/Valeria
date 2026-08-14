@@ -276,6 +276,32 @@ pantalla no es un espejo. Por el cable no viaja el dibujo sino **su índice**
 —`PICTO(37)`, nunca «cuchara sucia»—, que es la garantía estructural de Zero‑PHI:
 el protocolo no tiene campo de texto.
 
+#### El sonido: lo dice la tableta, y Lúa se queda con la cara (D‑K, 14/8/2026)
+
+Lúa **puede** sonar —el zumbador pasivo por PWM está autorizado desde la D‑F para
+el «tilín» del acierto y la celebración, y sigue **sin implementar**: no hay pin
+asignado ni tabla de tonos—. Lo que **no** va a hacer es hablar. Las locuciones
+piden un códec I²S, que son tres pines, y el puerto de expansión de la placa son
+**dos**; la única placa estudiada que trae códec refresca en 15‑20 s y no puede
+animar una cara. Ninguna hace las dos cosas, así que **la voz sale por el altavoz
+de la tableta**, que es donde ya está el banco de locuciones. No hay cuarta placa
+y no hay opcode de audio.
+
+#### Dibujar y sonar son dos permisos distintos (D‑L, 14/8/2026)
+
+`GRANT` lleva **TTL en el byte bajo y máscara de capacidades en el alto**
+(`LUA_CAP_VISUAL`, `LUA_CAP_SOUND`, generadas de `protocol.json`). Una máscara de
+`0x00` concede **solo la visual**, que es justo lo que valía un `GRANT` antes de
+que el campo existiera, así que ninguna trama de las de ayer cambia de sentido.
+**La capacidad sonora nunca es implícita: hay que pedir su bit.**
+
+Y `SAFE` gana `MUTE`, que quita el sonido **dejando la pantalla viva**. Es lo que
+permite que la gata acompañe una medición mientras la tableta escucha, algo que
+antes era imposible porque `CLINICAL_SILENCE` bloquea el aparato entero. **Ese
+silencio clínico no se ha tocado ni suavizado**: sigue siendo el cierre total, y
+`MUTE` pega hasta un `UNLOCK` explícito —un `GRANT` posterior no devuelve el
+sonido—.
+
 > El **oso sí sigue existiendo como contenido terapéutico** y eso no es un
 > descuido: «oso» es palabra de los bancos léxicos (par mínimo *ocho/oso*, frase
 > de lectura «EL OSO COME PAN», orden TPR «camina como un oso»). Es vocabulario,

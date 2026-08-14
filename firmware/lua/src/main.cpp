@@ -43,6 +43,8 @@ static Arduino_GFX *gfx = new Arduino_GC9A01(bus, LUA_TFT_RST, 0, true);
 static uint8_t mode = LUA_MODE_REST;
 static uint32_t grantUntilMs = 0;   // 0 = sin concesión viva
 static bool locked = false;         // silencio clínico
+static uint8_t caps = 0;            // capacidades vivas de la concesión
+static bool muted = false;          // SAFE_MUTE: sin sonido, pero dibujando
 static uint8_t face = LUA_OP_IDLE;
 static volatile uint32_t dispatchUs = 0;   // último despacho medido
 static uint32_t frames = 0, fpsWindowMs = 0, fps = 0;
@@ -124,7 +126,18 @@ class CtrlCb : public NimBLECharacteristicCallbacks {
     switch (op) {
       case LUA_OP_GRANT:
         if (!locked) {
-          uint16_t ttl = param > LUA_GRANT_MAX_S ? LUA_GRANT_MAX_S : param;
+          uint8_t ttl = LUA_GRANT_TTL(param);
+          if (ttl == 0) ttl = 1;
+          if (ttl > LUA_GRANT_MAX_S) ttl = LUA_GRANT_MAX_S;
+          // Byte alto: capacidades. Una máscara de 0 es «solo visual», que es
+          // lo que valía un GRANT antes de que el campo existiera, así que las
+          // tramas de siempre siguen significando lo de siempre.
+          uint8_t want = LUA_GRANT_CAPS(param);
+          if (want == 0) want = LUA_CAP_VISUAL;
+          // El silencio sonoro pega: un GRANT no puede devolver el sonido que
+          // un MUTE quitó. Solo lo levanta un UNLOCK explícito.
+          if (muted) want &= (uint8_t)~LUA_CAP_SOUND;
+          caps = want;
           grantUntilMs = millis() + (uint32_t)ttl * 1000;
           mode = LUA_MODE_ACTIVE;
         }
@@ -142,10 +155,11 @@ class CtrlCb : public NimBLECharacteristicCallbacks {
         drawFace(face);  // frame completo, para cronometrar el volcado
         break;
       default:
-        // Cualquier gesto EXIGE concesión viva. Sin ella no se dibuja: es la
-        // diferencia entre un aparato que se calla solo y uno que depende de
-        // que llegue un mensaje.
-        if (mode == LUA_MODE_ACTIVE && !locked && millis() < grantUntilMs) {
+        // Cualquier gesto EXIGE concesión viva Y la capacidad visual. Sin
+        // ellas no se dibuja: es la diferencia entre un aparato que se calla
+        // solo y uno que depende de que llegue un mensaje.
+        if (mode == LUA_MODE_ACTIVE && !locked && millis() < grantUntilMs &&
+            (caps & LUA_CAP_VISUAL)) {
           face = op;
           drawFace(face);
         }
@@ -163,13 +177,23 @@ class SafeCb : public NimBLECharacteristicCallbacks {
     std::string v = c->getValue();
     if (v.empty()) return;
     if ((uint8_t)v[0] == LUA_SAFE_CLINICAL_SILENCE) {
+      // El cierre total, y sigue siendo total: se lleva la concesión entera.
       locked = true;
       grantUntilMs = 0;
+      caps = 0;
       mode = LUA_MODE_LOCKED;
       face = LUA_OP_IDLE;
       drawFace(face);
+    } else if ((uint8_t)v[0] == LUA_SAFE_MUTE) {
+      // Quita SOLO el sonido. La concesión visual, el modo y lo que hay en el
+      // panel siguen exactamente igual: la gata no deja de dibujar porque la
+      // tableta esté escuchando. Para apagarla está CLINICAL_SILENCE.
+      muted = true;
+      caps &= (uint8_t)~LUA_CAP_SOUND;
     } else if ((uint8_t)v[0] == LUA_SAFE_UNLOCK) {
       locked = false;
+      muted = false;
+      caps = 0;
       mode = LUA_MODE_REST;
     }
     publishState();
@@ -213,6 +237,7 @@ void loop() {
   // caso que hay que cubrir.
   if (mode == LUA_MODE_ACTIVE && millis() >= grantUntilMs) {
     mode = LUA_MODE_REST;
+    caps = 0;  // las capacidades caducan CON la concesión, no la sobreviven
     face = LUA_OP_IDLE;
     drawFace(face);
     publishState();
