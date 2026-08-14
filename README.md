@@ -263,6 +263,19 @@ aparato es de **240×240**, o sea que el píxel art es su formato nativo, y **la
 cara del aparato sale de la misma rejilla que la de la app**. Un solo dibujo,
 dos superficies.
 
+**Y desde el 14/8/2026 no es solo la cara.** Los **66 pictogramas de ficha y las
+9 insignias** son también el mismo dibujo en los dos sitios: matrices de píxel
+art de 24×24 que viven en [`src/ValeriaPixelArt.ts`](src/ValeriaPixelArt.ts) —la
+fuente única— y que el firmware **copia**, igual que copia el sprite de la gata y
+la tabla de opcodes. Se dibujaron en el repositorio del firmware y **subieron**
+aquí; es la única vez que un activo ha ido en esa dirección.
+
+Importa porque es la razón de ser del aparato: **el niño mira a la mascota, no a
+la tableta**. Un estímulo que se ve de una forma en el cristal y de otra en la
+pantalla no es un espejo. Por el cable no viaja el dibujo sino **su índice**
+—`PICTO(37)`, nunca «cuchara sucia»—, que es la garantía estructural de Zero‑PHI:
+el protocolo no tiene campo de texto.
+
 > El **oso sí sigue existiendo como contenido terapéutico** y eso no es un
 > descuido: «oso» es palabra de los bancos léxicos (par mínimo *ocho/oso*, frase
 > de lectura «EL OSO COME PAN», orden TPR «camina como un oso»). Es vocabulario,
@@ -1264,7 +1277,8 @@ trazabilidad completa está en
   **producción**. El historial y el informe al logopeda las separan, porque un
   promedio único escondía el caso más frecuente en clínica: entiende el par pero
   todavía no lo dice.
-- **Pictogramas propios** (46 dibujos SVG): se descartaron los bancos externos
+- **Pictogramas propios** (66 matrices de píxel art de 24×24, compartidas con el
+  aparato Lúa; antes eran 46 dibujos SVG): se descartaron los bancos externos
   por licencia, pero lo decisivo fue otro motivo —ninguno trae «cuchara sucia» y
   «cuchara limpia» como par sobre el **mismo objeto**, que es justo lo que la
   vuelta de comprensión necesita—. Riesgo de *tofu* (emoji que se pintan como
@@ -1427,8 +1441,10 @@ trazabilidad completa está en
 - **Fase de turno visible**: `TurnPhaseStrip` (Escucha → Repite → Veredicto →
   Misión) en Pares Mínimos y Expansión Semántica, con doble vuelta evaluada. Más
   contenido: 5 escenarios, 7 progresiones y 6 cápsulas en Expansión Semántica.
-- **Fichas sin imágenes rotas**: pictogramas SVG de alto contraste
-  (`src/ValeriaPictograms.tsx`) con fallback a emoji.
+- **Fichas sin imágenes rotas**: pictogramas propios de alto contraste
+  (`src/ValeriaPixelArt.ts`, dibujados con `FichaVisual`) con fallback a emoji.
+  Eran SVG hasta la v12; desde el 14/8/2026 son píxel art de 24×24 y **el mismo
+  dibujo que enseña el aparato**.
 - **Marca animada**: bienvenida y créditos animados; iconos y splash regenerados.
 - **Backend opcional Firebase**: Auth email/contraseña + Firestore (ver arriba).
 - **Build firmado en CI**: APK y AAB firmados en cada push/fusión a `main`.
