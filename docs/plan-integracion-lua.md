@@ -280,6 +280,15 @@ pasa por la concesión con caducidad de §5, como capacidad propia y separada de
 visual. Si el enlace cae, Lúa se calla en ≤ 60 s sin que nadie se acuerde de
 apagarla. Y el volumen tiene tope en firmware, no solo en la app.
 
+**La reapertura del 14/8/2026 está cerrada, y la placa no se mueve (D-K, §14).**
+Durante unas horas la dirección pidió **locuciones pregrabadas** en el aparato, lo
+que exige I²S —tres pines— y por tanto otra placa. La respuesta de Frank es que
+**la voz la pone la tableta**: Lúa se queda con la cara, que es lo que la C3 hace
+bien. Consecuencias sobre esta sección, todas en el sentido de no tocar nada:
+la fila de la tabla que **exige otra placa** se queda sin tomar, la **D-1 no se
+reabre**, y **§4 no se rehace** —el presupuesto de latencia sigue sin tener que
+contemplar audio muestreado—.
+
 **D-3 · El "Modo Vínculo" no lleva RTC propio en v1.** El horario ya existe y ya
 es una preferencia del usuario en la app: `REMINDER_SLOTS` en
 [`src/valeriaNotifications.ts`](../src/valeriaNotifications.ts) (9:00 / 13:00 /
@@ -1318,6 +1327,53 @@ están corregidos:
 Lo que **sigue cayendo a emoji** es lo de siempre y no ha cambiado: una palabra
 sin clave de pictograma —«rana», por ejemplo— se pinta con su emoji. Los 66
 dibujos cubren las claves del banco propio, no el idioma entero.
+
+**D-K · De dónde sale la voz — CERRADA (Frank, 14/8/2026): de la tableta. Lúa
+se queda con la cara.**
+
+Cierra la reapertura que la D-9 de la hoja de ruta del firmware había provocado
+el mismo día, unas horas después de la D-F: la dirección pidió **locuciones
+pregrabadas en el aparato**, y eso no cabe. La cuenta que lo decide no es de
+protocolo ni de gusto, es de placa, y está en §3:
+
+| | Cara animada 240×240 | Locuciones |
+| :--- | :---: | :---: |
+| ESP32-C3 · IPS circular (v1, D-1) | ✅ 20-30 fps | ❌ solo tonos, 1 pin |
+| ESP32-S3 · e-Paper (§2.2) | ❌ 15-20 s por refresco | ✅ códec ES8311 |
+
+**Ninguna de las placas estudiadas hace las dos cosas.** La que habla tarda
+quince segundos en sonreír, y una cara que tarda quince segundos en sonreír no es
+refuerzo inmediato. Se decide por tanto que **la voz sale por el altavoz de la
+tableta**, que es donde ya está, y Lúa conserva el trabajo que su placa hace bien.
+
+Lo que la decisión evita, que es su mayor virtud:
+
+- **No hay cuarta placa.** No se rehacen §2, §3 ni §4. La D-1 sigue en pie.
+- **No hay opcode `AudioPlay`.** La tabla de `protocol.json` no se toca, y con
+  ella no se tocan las tres copias generadas ni sus gates.
+- **No hay I²S, ni pin de audio, ni tabla de tonos.** Cero líneas de audio en los
+  tres repositorios, igual que ayer. `check-lua-mute.js` **se queda como está**,
+  aquí y en su copia del firmware.
+- **Coste de implementación: cero, y esto está comprobado, no supuesto.** VIA+ ya
+  locuta sus consignas por `@/Voice` —`speakConsigna()` en
+  `src/Screens/ExecutiveFunctions/efSpeech.ts` resuelve texto y voz juntos en las
+  cinco lenguas y degrada en silencio si no hay voz—. La fila de la matriz que
+  pedía «locución de consigna pregrabada» ya funciona, y funciona desde antes de
+  esta decisión.
+
+**Lo que la decisión NO retira:** la D-F sigue cerrada tal cual. El zumbador
+pasivo por PWM sigue **autorizado** para v1 —tonos atados a los opcodes que ya
+existen, tope de volumen en firmware, capacidad sonora aparte— y sigue **sin
+implementar**: no hay pin asignado ni tabla de tonos. Lo que se cierra aquí es
+*de dónde sale la voz*, no si Lúa puede emitir un «tilín» de acierto. Si algún día
+se quiere retirar también el zumbador, es otra decisión y la toma Frank.
+
+**Lo que sigue abierto y esta decisión no toca:** el campo de capacidad de `GRANT`
+(§5 y §6.2 contra `firmware/lua/protocol.json`), que es lo que da el estado «puede
+dibujar, no puede sonar». Con la D-K gana sentido en vez de perderlo: si la voz la
+pone la tableta, VIA+ necesita que Lúa **dibuje** durante la /a/ sostenida sin
+conceder jamás capacidad sonora, y hoy `SAFE`/`CLINICAL_SILENCE` bloquea el
+aparato entero. No depende de la placa y se puede cerrar ya.
 
 ---
 
