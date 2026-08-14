@@ -57,17 +57,29 @@ export const mergePixelRuns = (
 
 interface Props {
   map: readonly string[];
-  /** Lado en píxeles de pantalla. Se redondea al múltiplo entero más cercano. */
+  /** Lado en píxeles de pantalla. Se respeta EXACTAMENTE (ver abajo). */
   size?: number;
   overrides?: Record<string, string>;
 }
 
+/**
+ * El lado se respeta tal cual, sin redondear a múltiplo de 24.
+ *
+ * Es la diferencia con `PixelAward`, y no es un descuido. La ficha se pinta
+ * dentro de un `View` de lado fijo que calcula `FichaVisual`, y las pantallas
+ * piden tamaños que no son múltiplos de 24 —13, 22, 26, 46, 58, 60, 64—. Con
+ * celda entera, un tamaño de 67 se iría a 72 y **se saldría de su caja**: la
+ * ficha rebosaría la tarjeta, que es exactamente el fallo visual que el
+ * componente vino a evitar cuando la rama de emoji hacía lo mismo.
+ *
+ * El SVG escala el trazo sin pérdida, así que lo que se pierde al no redondear
+ * no es definición, es solo que el borde de celda puede caer en medio de un
+ * píxel de pantalla.
+ */
 export const ValeriaPixelSprite: React.FC<Props> = ({ map, size = 96, overrides }) => {
   const runs = useMemo(() => mergePixelRuns(map, overrides), [map, overrides]);
-  const cell = Math.max(1, Math.round(size / PIXEL_SIDE));
-  const side = cell * PIXEL_SIDE;
   return (
-    <Svg width={side} height={side} viewBox={`0 0 ${PIXEL_SIDE} ${PIXEL_SIDE}`}>
+    <Svg width={size} height={size} viewBox={`0 0 ${PIXEL_SIDE} ${PIXEL_SIDE}`}>
       {runs.map((r) => (
         // El +0,1 solapa la costura entre rectángulos vecinos. Sin él se ve una
         // rejilla de líneas de fondo entre las filas.

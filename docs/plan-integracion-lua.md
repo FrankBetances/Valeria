@@ -1292,11 +1292,32 @@ Lo que esto ya resolvió, comprobado y no supuesto:
   mapas de 12×12. Un SVG escala sin pérdida, así que el mismo dato sirve para el
   cristal de 32 mm y para diez pulgadas.
 
-**Lo que NO está hecho, y es lo único que queda de esta decisión:** las pantallas
-clínicas siguen pintando los SVG de `ValeriaPictograms.tsx`. El componente nuevo
-existe y compila, pero **ninguna pantalla lo usa todavía**. Cambiar el estímulo
-principal que ve el niño es un cambio visual, así que entra por la regla 1 —con
-captura delante— y no de rebote en este commit.
+**Las pantallas ya lo dibujan (14/8/2026).** `FichaVisual` —el único punto por el
+que pasan Pares Mínimos y Expansión Semántica— pinta las matrices de 24×24, y
+`PixelAward` hace lo propio con las insignias. Los 66 SVG anteriores y las
+rejillas de 12×12 se han retirado: conservarlos era tener dos dibujos de la misma
+cosa, que es no cerrar nada.
+
+Mirando la captura aparecieron **dos fallos que ningún typecheck ve**, y los dos
+están corregidos:
+
+1. **El rango se quedaba invisible.** De los nueve glifos, solo `yarn` y `sunrise`
+   usan celdas `a`/`b`; los otros siete se pintan con la paleta fija y salen
+   **idénticos en los cinco rangos**. En el aparato da igual —el rango tiñe el
+   panel entero—, pero cuatro de las seis pantallas que pintan una insignia lo
+   hacen **sin placa detrás**: la tira de racha, el dashboard, el player y el
+   lanzador de RA. Allí una racha de 7 días y una de 30 se habrían visto
+   exactamente iguales, y que el metal suba con la racha es la razón por la que
+   `streakTier` existe. Ahora la insignia trae **su propio disco y su anillo**,
+   como en el panel, así que el rango se lee en los seis sitios.
+2. **El núcleo del glifo se aplicaba mal.** El firmware usa el color de núcleo
+   **en lugar** del tono `b` del rango; la app lo tenía como reserva del color
+   fijo. Con eso, `yarn` cambiaba de color con el rango en la tableta y no en el
+   aparato. Ahora los dos hacen lo mismo.
+
+Lo que **sigue cayendo a emoji** es lo de siempre y no ha cambiado: una palabra
+sin clave de pictograma —«rana», por ejemplo— se pinta con su emoji. Los 66
+dibujos cubren las claves del banco propio, no el idioma entero.
 
 ---
 
@@ -1309,7 +1330,7 @@ captura delante— y no de rebote en este commit.
 | 2 · Puente RN | ⬜ pendiente |
 | 3 · Primera integración visible | ⬜ pendiente |
 | 4 · Catálogo de expresiones | 🟨 **veintidós caras y un emulador** — en `lua-firmware`; sin ver en el panel |
-| 4b · Catálogo de contenido | 🟨 **el arte ya vive aquí** (`src/ValeriaPixelArt.ts`, D-7) y el firmware lo copia · ⬜ falta que la app lo **dibuje en sus pantallas** |
+| 4b · Catálogo de contenido | ✅ **cerrada** — el arte vive en `src/ValeriaPixelArt.ts`, el firmware lo copia y las pantallas lo dibujan, con captura |
 | 5 · Gamificación y Modo Vínculo | ⬜ pendiente |
 | 5b · Mini-juegos a pictogramas | ⬜ **pendiente, nueva** — ~82 dibujos; no depende de la placa |
 | 5c · Zumbador | ⬜ **pendiente, nueva** — un pin, tope en firmware |
