@@ -126,6 +126,7 @@ coger, no un panel retroiluminado de diez pulgadas.
 | **La respuesta** | el `MatchLevel` que la app ya calcula | `VERDICT` |
 | **El premio** | la insignia concreta (glifo + rango) y el nivel | `AWARD`, `LEVEL` |
 | **El vínculo** | reposo, llamada, celebración | `IDLE`, `CALL`, `CELEBRATE` |
+| **El ánimo** | una de las ocho emociones puras — **no dice nada del ejercicio** | `AFFECT` |
 
 **Es:**
 - Un esclavo BLE sin iniciativa. No mide, no puntúa, no decide, no guarda.
