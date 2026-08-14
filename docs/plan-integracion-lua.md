@@ -124,7 +124,7 @@ coger, no un panel retroiluminado de diez pulgadas.
 | **El estímulo** | el pictograma de la ficha, por número de catálogo | `PICTO`, `PICTO_PAIR` |
 | **El turno** | escucha / repite / veredicto / misión | `PHASE` |
 | **La respuesta** | el `MatchLevel` que la app ya calcula | `VERDICT` |
-| **El premio** | la insignia concreta (glifo + rango) y el nivel | `BADGE`, `LEVEL` |
+| **El premio** | la insignia concreta (glifo + rango) y el nivel | `AWARD`, `LEVEL` |
 | **El vínculo** | reposo, llamada, celebración | `IDLE`, `CALL`, `CELEBRATE` |
 
 **Es:**
@@ -427,21 +427,30 @@ identificable: es el mismo 37 para todos los pacientes del mundo.
 
 ### 6.2 Trama de `CTRL`
 
-La trama sube de 4 a 8 bytes. El motivo es concreto: Pares Mínimos muestra **dos**
-fichas a la vez (`ValeriaMinimalPairsScreen.tsx`, la vuelta de comprensión pinta
-target y foil juntos), y dos ids de 16 bits no caben en un parámetro de 16 bits.
+**La trama se queda en cuatro bytes** (corregido el 14/8/2026; antes aquí ponía
+que subía a ocho).
 
 ```
 byte 0   : versión de protocolo         — el firmware rechaza lo que no conoce
 byte 1   : opcode
-byte 2-3 : parámetro A (u16 little-endian)
-byte 4-5 : parámetro B (u16 little-endian, 0 si el opcode no lo usa)
-byte 6   : banderas / ranura
-byte 7   : reservado (0)
+byte 2-3 : parámetro (u16 little-endian)
 ```
 
-Ocho bytes siguen entrando en un único paquete BLE sin fragmentar, así que el
-presupuesto de latencia de §4 no se mueve.
+El motivo por el que se creyó que hacían falta ocho era Pares Mínimos, que en la
+vuelta de comprensión pinta **dos** fichas a la vez
+(`ValeriaMinimalPairsScreen.tsx`) y parecía necesitar dos ids de 16 bits. No los
+necesita: con 66 pictogramas hoy y ~148 previstos (D-H), **un id cabe de sobra en
+un byte**, así que `PICTO_PAIR` manda el de la izquierda en el byte bajo y el de
+la derecha en el alto, exactamente igual que `AWARD` con glifo y rango.
+
+Queda un límite que hay que escribir para que nadie lo cruce sin verlo: **el
+catálogo no puede pasar de 256 fichas** sin ensanchar la trama, y ensancharla es
+subir `version` y dejar fuera a los aparatos ya flasheados. Con 148 previstos hay
+margen, pero es el techo real y no una cifra redonda.
+
+Ensanchar sin necesitarlo tenía un coste que ahora nos ahorramos: cuatro bytes es
+lo que el firmware ya valida (`len < 4`), lo que ya prueban los 45 722 tests del
+firmware y lo que ya decodifica VIA+.
 
 | Opcode | Nombre | Parámetros | Efecto |
 | ---: | :--- | :--- | :--- |
@@ -450,22 +459,42 @@ presupuesto de latencia de §4 no se mueve.
 | `0x03` | `CELEBRATE` | intensidad 0-2 | cierre de sesión |
 | `0x04` | `IDLE` | — | cara neutra |
 | `0x05` | `CALL` | — | animación de llamada del Modo Vínculo (D-3) |
-| **`0x06`** | **`PICTO`** | **id de catálogo** | **una ficha a pantalla completa** |
-| **`0x07`** | **`PICTO_PAIR`** | **id izq. · id der.** | **dos fichas, para la vuelta de comprensión** |
-| **`0x08`** | **`BADGE`** | **glifo 0-8 · rango 0-4** | **la insignia CONCRETA que se acaba de ganar** |
-| **`0x09`** | **`LEVEL`** | **nivel 1-12 · progreso 0-100** | **el nivel y cuánto falta para el siguiente** |
+| **`0x06`** | **`AFFECT`** | **emoción 0-7** | **una de las ocho emociones puras (§6.2c)** |
+| **`0x07`** | **`PICTO`** | **id de catálogo · `0xFFFF` la quita** | **la ficha del ejercicio, centrada** |
+| **`0x08`** | **`AWARD`** | **glifo 0-8 (byte bajo) · rango 0-4 (byte alto)** | **la insignia CONCRETA que se acaba de ganar** |
+| **`0x09`** | **`LEVEL`** | **nivel 1-12** | **el nivel, en doce segmentos del borde** |
+| **`0x0A`** | **`PICTO_PAIR`** | **id izq. (byte bajo) · id der. (byte alto)** | **RESERVADO · dos fichas para la vuelta de comprensión** |
 | `0x10` | `GRANT` | capacidad · ttl en s | concede capacidad (§5) |
 | `0x11` | `HEARTBEAT` | — | renueva la concesión viva |
 | `0xF0` | `BENCH` | — | Fase 0. No se usa en producción |
 
+⚠ **Esta asignación se corrigió el 14/8/2026, y merece un párrafo porque estuvo a
+punto de costar caro.** El firmware había implementado `0x06`–`0x09` con otro
+reparto que el que este plan escribía: aquí `0x06` era `PICTO` y allí era
+`AFFECT`, aquí `0x07` era `PICTO_PAIR` y allí `PICTO`. Dos documentos, los mismos
+códigos, cosas distintas. Se decide **adoptar la asignación del firmware** —que es
+la que está escrita, probada y con capturas— y `PICTO_PAIR` se muda a `0x0A`.
+
+Que esto se pudiera arreglar sin romper nada es pura suerte de calendario:
+**ningún aparato se ha flasheado todavía**. En cuanto se flashee el primero, la
+regla de que los `code` no cambian nunca deja de ser una convención y pasa a ser
+física. Los dos ficheros ya coinciden y el gate `--upstream` del firmware lo
+comprueba en cada build.
+
+Sobre `PICTO_PAIR`: el código queda **tomado y documentado, pero el firmware
+todavía no lo dibuja** —lo ignora por el `default` de su switch, que es la salida
+segura—. Se reserva ahora para que no lo ocupe otro opcode y para que el día que
+Pares Mínimos lo necesite no haya que mover números.
+
 Tres notas que evitan malentendidos caros:
 
-- **`BADGE` sustituye al apaño anterior.** Hasta ahora la insignia y la subida de
+- **`AWARD` sustituye al apaño anterior.** Hasta ahora la insignia y la subida de
   nivel viajaban las dos como `CELEBRATE(intensidad)`: en el cable no había forma
   de distinguir «ha ganado la racha de 14 días» de «ha subido a nivel 7». Ahora
-  `BADGE` lleva glifo y rango —los mismos nueve glifos y cinco rangos de
-  `ValeriaPixelAwards.tsx`— y `LEVEL` lleva la cifra. `CELEBRATE` se queda solo
-  para el cierre de sesión.
+  `AWARD` lleva glifo y rango —los mismos nueve glifos y cinco rangos de
+  `ValeriaPixelArt.ts`— y `LEVEL` lleva la cifra. `CELEBRATE` se queda solo
+  para el cierre de sesión. *(Se llamaba `BADGE` en las versiones anteriores de
+  este plan; el nombre que quedó es el del firmware.)*
 - **El parámetro de `VERDICT` es el nivel de coincidencia que ya calcula la app**,
   no una puntuación nueva. Lúa no interpreta: mapea nivel → animación. Si mañana
   cambia el algoritmo de scoring, Lúa no se entera.
@@ -482,18 +511,53 @@ El panel es circular y la aritmética manda. El cuadrado inscrito en un círculo
 240 px mide 240/√2 = **169 px de lado**: cualquier dibujo mayor pierde las
 esquinas.
 
-- **`PICTO`** — una ficha de **168×168** centrada. Es el tamaño máximo que no se
-  recorta.
-- **`PICTO_PAIR`** — dos de **96×96** con 16 px de separación (208 px de ancho
-  total). A la altura de sus bordes la cuerda del círculo mide 218 px, así que
-  entran, pero justo. **Esto hay que verlo en el cristal antes de darlo por bueno**
-  (§12, Fase 4): 96 px en un panel de 32,4 mm son unos 13 mm de dibujo, y si un
-  niño con retraso del lenguaje no distingue «cuchara limpia» de «cuchara sucia»
-  a ese tamaño, la vuelta de comprensión de Pares Mínimos no se puede espejar y
-  hay que decidir otra cosa —turnarlas, o dejarlas solo en la tableta—.
+- **`PICTO`** — una ficha de **72×72** centrada, con su anillo turquesa. No es el
+  máximo que cabe: es el tamaño que el arte de 24×24 usa hoy, a 3 px por celda.
+  **DECIDIDO por Frank el 14/8/2026: se queda en 72.** El máximo que no se
+  recorta sigue siendo 168, y subir a él es cambiar una constante (`cell` de 3 a
+  7 en `drawPicto`), así que la vuelta atrás está siempre a mano.
+- **`PICTO_PAIR`** — sin geometría todavía: el opcode está reservado en `0x0A` y
+  el firmware no lo dibuja. Cuando se dibuje, dos de 96×96 con 16 px de
+  separación son 208 px de ancho y la cuerda del círculo a esa altura mide 218,
+  así que entran justos.
 
-**Ninguno de estos dos números está comprobado en hardware.** Son geometría, no
+**Y aquí está el número incómodo, que conviene no perder de vista.** El panel real
+mide 32 mm, así que una ficha de 72 px de los 240 son **9,6 mm de dibujo**. A 168
+px serían 22. Nadie ha visto todavía un pictograma en el cristal —no hay placa—,
+así que **si un niño con retraso del lenguaje distingue «cuchara limpia» de
+«cuchara sucia» a 9,6 mm es una pregunta abierta**, y es la que decide si espejar
+el estímulo (D-1) sirve para algo. Es lo primero que hay que mirar en cuanto haya
+placa, antes que la latencia.
+
+**Ninguno de estos números está comprobado en hardware.** Son geometría, no
 medición.
+
+### 6.2c `AFFECT`: las ocho emociones puras
+
+`AFFECT(0…7)` es el opcode que estrena `0x06`, y es **otra cosa que el resto de la
+tabla**: no dice nada del ejercicio. No hay acierto ni fallo detrás. Es estado de
+ánimo de la mascota.
+
+| Param | Emoción | Param | Emoción |
+| ---: | :--- | ---: | :--- |
+| 0 | alegría | 4 | esperanza |
+| 1 | amor | 5 | orgullo |
+| 2 | gratitud | 6 | inspiración |
+| 3 | tranquilidad | 7 | diversión |
+
+El firmware ya las dibuja las ocho, cada una con su física de partículas, y están
+en la hoja de contactos del otro repositorio. Un parámetro que no existe **vuelve
+a la cara atenta** en vez de adivinar, y sigue haciendo falta concesión viva como
+para cualquier otro gesto.
+
+Que no digan nada del ejercicio es justo lo que las mantiene lejos del **R-4**
+—«ya que tiene pantalla, que muestre el resultado»—. Una mascota que pone cara
+según el acierto convierte cada intento en un juicio; una que tiene estados de
+ánimo propios, no.
+
+Y trae un coste que hay que medir: hasta **trescientas partículas por frame** que
+ningún ESP32-C3 ha dibujado todavía. El peor caso de la Fase 0 es `AFFECT(0)`, no
+la cara neutra. Está recogido como **R-11**.
 
 ### 6.3 Una sola fuente de verdad para la tabla
 
@@ -575,7 +639,7 @@ partida más grande del plan. Va en la Fase 5 con su propia cuenta (§14, D-H). 
 ventaja de hacerlo por aquí es que **no hay que tocar el player**: en cuanto una
 tarjeta pasa por `FichaVisual`, el espejo le sale gratis.
 
-**Capa 3 · el premio — el cierre, sea cual sea el ejercicio.** `BADGE` y `LEVEL`
+**Capa 3 · el premio — el cierre, sea cual sea el ejercicio.** `AWARD` y `LEVEL`
 desde `registerSession()` en `valeriaGamification.ts`, que ya devuelve `levelUp`,
 `level` y `newBadges`. Como todos los ejercicios cierran por ahí, **las insignias
 y el nivel se replican en Lúa en los 37 + los bancos, sin excepción y sin trabajo
@@ -593,7 +657,7 @@ técnica: es la tarea.
 
 | Momento | Opcode | Nota |
 | :--- | :--- | :--- |
-| Insignia ganada al cerrar | `BADGE(glifo, rango)` | la concreta, no un «celebra fuerte» |
+| Insignia ganada al cerrar | `AWARD(glifo, rango)` | la concreta, no un «celebra fuerte» |
 | Subida de nivel | `LEVEL(nivel, progreso)` | |
 | Cierre de sesión | `CELEBRATE(intensidad)` | |
 | Hora de la sesión | `CALL` | va con la notificación local que ya existe; suple la falta de RTC (D-3) |
@@ -611,7 +675,7 @@ no código que se escriba aquí.
 | `src/ValeriaVoiceUI.tsx` | `TurnPhaseStrip` ya recibe `active`; se añade un `useLuaPhase(active)` en el propio componente. Un solo punto y todas las pantallas que lo usan heredan el espejo del turno sin tocarse (§6.5, capa 1). | toca |
 | `src/ValeriaPictograms.tsx` | `FichaVisual` emite `PICTO` con el id de catálogo de la clave que está pintando. El espejo del estímulo sale del mismo componente que ya decide qué dibujo va (§6.5, capa 2). | toca |
 | `src/valeriaLuaCatalog.ts` | Generado: clave de pictograma → id de catálogo. Los ids **no cambian nunca**, por lo mismo que los opcodes: un aparato flasheado se queda con los suyos. Solo se añade al final. | nuevo, generado |
-| `src/valeriaGamification.ts` | `registerSession()` ya devuelve `SessionReward` con `level`, `levelUp` y `newBadges`. Ahí salen `BADGE`, `LEVEL` y `CELEBRATE` — y como todos los ejercicios cierran por aquí, cubre los 37 de golpe (§6.5, capa 3). | toca |
+| `src/valeriaGamification.ts` | `registerSession()` ya devuelve `SessionReward` con `level`, `levelUp` y `newBadges`. Ahí salen `AWARD`, `LEVEL` y `CELEBRATE` — y como todos los ejercicios cierran por aquí, cubre los 37 de golpe (§6.5, capa 3). | toca |
 | `src/valeriaNotifications.ts` | Al disparar el recordatorio local, si hay enlace, `CALL` (D-3). | toca |
 | `src/ValeriaSettingsScreen.tsx` | Tarjeta de Lúa: emparejar, estado, batería, brillo, olvidar. **Solo se renderiza si `isLuaAvailable()`.** | toca |
 | `src/ValeriaBlockIcons.tsx` | Icono `lua` en el set propio: rejilla 24, grosor 1,9, terminaciones redondeadas. Nada de 🐱 (regla 5). | toca |
@@ -743,69 +807,87 @@ tableta, que es lo que significa espejo.
 
 | Familia | Cuántos | Fuente en el árbol | Cómo llega a flash |
 | :--- | ---: | :--- | :--- |
-| Pictogramas | **66 hoy → ~148** (D-H) | `src/ValeriaPictograms.tsx` (`PICTOGRAMS_BY_KEY`) | rasterizados a 168×168 y 96×96 |
-| Insignias | **9 glifos × 5 rangos** | `src/ValeriaPixelAwards.tsx` (`GLYPHS`, `TIERS`) | la rejilla de 12×12 tal cual: la dibuja el firmware |
-| Niveles | **12** | `valeriaGamification.ts` (`LEVEL_NAMES`) | anillo de 12 segmentos + cifra |
-| Caras | 9-10 | `src/ValeriaCatPixel.tsx` | como hasta ahora |
+| Pictogramas | **66 hoy → ~148** (D-H) | `src/ValeriaPixelArt.ts` (`PICTOS`) | la matriz de 24×24 tal cual |
+| Insignias | **9 glifos × 5 rangos** | `src/ValeriaPixelArt.ts` (`AWARD_GLYPHS`, `PIXEL_TIERS`) | la matriz de 24×24 tal cual |
+| Niveles | **12** | `valeriaGamification.ts` (`LEVEL_NAMES`) | anillo de 12 segmentos |
+| Caras | 22 | `src/ValeriaCatPixel.tsx` | como hasta ahora |
 
-Las cifras están contadas del código, no estimadas. Los 66 pictogramas renderizan
-todos a SVG (comprobado ejecutando el registro fuera de React Native) y usan
-**47 colores distintos** en total, lo que decide el formato: paleta indexada de
-8 bits compartida, no RGB565 por píxel.
+**Nada se rasteriza ya, y eso se llevó por delante el problema más gordo de esta
+sección.** Hasta el 14/8/2026 los pictogramas eran SVG que había que bajar a
+bitmap en dos tamaños, y el presupuesto de flash era el eje del diseño: ~2,5 MB
+en crudo con los 66, ~5,5 MB con los ~148 de D-H —más que la flash entera de la
+placa—, y todo el apartado giraba en torno a comprimir con RLE y a qué recortar
+si no cabía.
 
-**Las insignias y el nivel no se rasterizan.** La insignia ya es una rejilla de
-12×12 con dos tonos (`a` del rango, `b` el realce); en flash caben las nueve en
-**menos de 400 bytes** y el firmware las escala a celda entera, exactamente como
-hace la app. El nivel es un anillo de doce segmentos con los llenos hasta el
-nivel actual, el color del rango y la cifra en el centro: no hace falta ni un
-bitmap. Que la insignia sea la misma rejilla en los dos sitios es lo que impide
-que el aparato y la app se separen versión a versión, igual que con la cara.
+Con el arte de 24×24 (D-7) eso desaparece. Las cifras, contadas y no estimadas:
+
+| | En crudo | De los 4 MB de la placa |
+| :--- | ---: | ---: |
+| 66 pictogramas × 24×24 | **37,1 KB** | 0,9 % |
+| 9 insignias × 24×24 | **5,1 KB** | 0,1 % |
+| **Total hoy** | **42,2 KB** | **1,0 %** |
+| Con los ~148 de D-H | 88,3 KB | 2,2 % |
+
+Sesenta veces menos de lo que se presupuestaba. **No hace falta comprimir, ni
+paleta indexada, ni RLE, ni recortar el catálogo**, y la flash externa —que no
+cabía en el puerto de expansión— deja de hacer falta para esto.
+
+El rango no se guarda cinco veces: la matriz del glifo es una, y las celdas `a` y
+`b` toman el color del rango al dibujar, igual que hace la app. Nueve glifos, no
+cuarenta y cinco.
 
 **Los nombres de nivel («Gatita», «Gata Legendaria») NO viajan.** Lúa muestra la
 cifra y el anillo. El nombre es texto, y el protocolo no tiene campo de texto
 (§6.1) — ni le hace falta: el nombre lo lee el adulto en la tableta.
 
-> **Presupuesto de flash — estimación, no medición, y ahora más apretado.**
-> 66 pictogramas × (168² + 96²) a 8 bits por píxel son ~2,5 MB en crudo. **Con
-> los ~82 de D-H son ~5,5 MB**, más que la flash entera de la placa. Sin
-> comprimir no cabe, y eso ya no es una holgura cómoda sino el eje del diseño.
+> **Presupuesto de flash — RESUELTO el 14/8/2026, y conviene dejar escrito por
+> qué, porque este recuadro fue durante días el mayor riesgo técnico del plan.**
 >
-> Con RLE por fila —y estos dibujos son color plano con contorno, el caso bueno
-> del RLE— la expectativa está en 700 KB - 1,1 MB para el catálogo completo.
-> **No lo he medido.** Es lo primero que tiene que devolver `build-lua-catalog.js`
-> cuando se escriba, y hay que medirlo **con los 66 que ya existen** antes de
-> encargar 82 dibujos nuevos: si el ratio de compresión real desmiente la
-> estimación, es mejor saberlo con el catálogo pequeño.
+> Decía que 66 pictogramas × (168² + 96²) a 8 bits eran ~2,5 MB, que con los ~82
+> de D-H serían ~5,5 MB —más que la flash entera—, y que sin comprimir con RLE no
+> cabía. De ahí salían tres salidas de emergencia (bajar a 128×128, guardar solo
+> el tamaño de par, recortar el catálogo) y un aviso de que si no entraba había
+> que **cambiar de placa** y revisar §3 y §4 enteros.
 >
-> Salidas si sale mal, en orden: bajar la resolución de la variante grande a
-> 128×128, guardar **solo** el tamaño de par (96×96) y escalar por enteros en el
-> firmware, o recortar el catálogo a las claves que los bancos usan de verdad.
+> Nada de eso hace falta. El arte de 24×24 ocupa **42,2 KB, el 1 % de la flash**,
+> y 88 KB con los ~148 de D-H. No hay que comprimir, no hay que recortar, no hay
+> `build-lua-catalog.js` que escribir para medir un ratio de compresión, y la
+> flash externa —que no cabía en el puerto de expansión de dos I/O— deja de ser
+> una conversación.
 >
-> **Flash externa no es una salida en esta placa.** Una SPI necesita cuatro pines
-> (CS, CLK, MOSI, MISO) y el puerto de expansión tiene **dos** I/O; ni con el
-> zumbador fuera cabría. Si el catálogo no entra comprimido en los 4 MB, la
-> conversación no es «añadir memoria»: es cambiar de placa, y entonces se revisan
-> §3 y §4 enteros. Por eso la medición del ratio de compresión es lo primero de
-> la Fase 4b y no un detalle de implementación.
+> La lección, que es la que vale para la próxima: el problema no era de
+> compresión, era de **resolución equivocada**. Se estaba presupuestando el
+> tamaño de un dibujo pensado para una tableta metido a la fuerza en un panel de
+> 32 mm. El coste de haberlo visto tarde fue documentación, no código.
 
 ### 10.2 El pictograma en el cristal: lo que hay que mirar antes de creérselo
 
-Un pictograma pensado para 58 px en una tableta y otro para 13 mm de cristal
-circular no son el mismo problema. La lista de lo que la Fase 4 tiene que
-resolver **mirando la placa**, no razonando:
+Un pictograma pensado para una tableta y otro para un cristal circular de 32 mm no
+son el mismo problema. **La mitad de esta lista se cayó sola el 14/8/2026**, y la
+otra mitad no la contesta ningún emulador.
 
-- Los pictogramas tienen contorno de 5 unidades sobre 100. A 96 px eso son ~5 px:
-  probablemente bien. A 96 px en 13 mm reales, no lo sabe nadie hasta verlo.
-- Tres pictogramas (`numero-ocho`, `numero-cero` y uno más) llevan `<text>`: se
-  rasterizan con la tipografía del navegador que los genera. Hay que fijar esa
-  tipografía en el generador o convertirlos a trazo, o el dibujo cambiará el día
-  que cambie la máquina que lo compila.
-- Dieciséis usan opacidad parcial. Sobre paleta indexada hay que aplanarla en
-  tiempo de compilación; el panel no tiene canal alfa.
-- **Los pares de contraste son el caso duro**: «cuchara limpia» y «cuchara sucia»
-  se distinguen por detalles pequeños sobre el mismo objeto. Es justo el par que
-  ES-12 necesita y el que peor aguanta la reducción. Si no se leen a 96 px, la
-  vuelta de comprensión de Pares Mínimos no se espeja (§6.2b).
+Lo que dejó de ser un problema al pasar a matrices de 24×24 dibujadas a mano:
+
+- ~~contorno de 5 unidades sobre 100 que a 96 px son ~5 px~~ → el contorno es
+  ahora **una celda**, dibujada, no escalada;
+- ~~tres pictogramas con `<text>`, que se rasterizan con la tipografía del
+  navegador que los genera~~ → **no hay `<text>`**: `numero-ocho` y `numero-cero`
+  son píxeles como todo lo demás, así que el dibujo no cambia con la máquina que
+  lo compila;
+- ~~dieciséis con opacidad parcial que hay que aplanar~~ → la paleta es de 21
+  colores planos y **no hay canal alfa** que aplanar.
+
+Lo que sigue abierto, y es lo que decide si la D-1 sirve de algo:
+
+- **El tamaño aparente.** La ficha ocupa 72 px de los 240, o sea **9,6 mm** en el
+  cristal. Nadie ha visto un pictograma en la placa porque no hay placa.
+- **Los pares de contraste son el caso duro.** «Cuchara limpia» y «cuchara sucia»
+  se distinguen por detalles pequeños sobre el mismo objeto, y es justo el par que
+  ES-12 necesita. Si no se leen a 9,6 mm, hay dos palancas antes de rendirse:
+  subir `cell` de 3 a 7 —168 px, 22 mm, es una constante— o dejar esa vuelta solo
+  en la tableta.
+
+**Es lo primero que hay que mirar en cuanto haya placa, antes que la latencia.**
 
 **Identidad · decidido (Frank, 9/8/2026): la mascota es la GATA, en píxel art.**
 El oso queda retirado de la app. Ya está hecho en el árbol:
@@ -922,13 +1004,18 @@ esquemático. `include/board.h` lleva los que publica el fabricante para esta
 familia, pero el manual del proyecto no trae la tabla de GPIO del panel. Una
 medición sobre una asignación adivinada no vale.
 
-**Fase 1 · Protocolo — REABIERTA el 13/8/2026.**
+**Fase 1 · Protocolo — REABIERTA el 13/8/2026 y CERRADA DE NUEVO el 14/8/2026.**
 La maquinaria está y funciona: `firmware/lua/protocol.json` es la fuente única,
 `scripts/build-lua-protocol.js` genera la cabecera C y el módulo TS, y
-`check-lua-protocol.js` impide que las copias se separen. **Lo que ya no vale es
-la tabla**: le faltan `PICTO`, `PICTO_PAIR`, `BADGE` y `LEVEL`, y la trama tiene
-que pasar de 4 a 8 bytes (§6.2). Se toca ahora y no después, porque cada semana
-que pase es más código escrito contra una tabla que hay que cambiar igual.
+`check-lua-protocol.js` impide que las copias se separen. La tabla ya trae los
+trece opcodes —`AFFECT`, `PICTO`, `AWARD`, `LEVEL` y `PICTO_PAIR` reservado— y
+**la trama se queda en cuatro bytes**, porque un id de catálogo cabe en un byte
+y la razón para ensancharla no existía (§6.2).
+
+Al cerrarla apareció lo que la reapertura no había visto: **el firmware y este
+plan habían asignado los mismos códigos a opcodes distintos**. Se resolvió
+adoptando la asignación del firmware, y el gate `--upstream` de allí lo comprueba
+ahora en cada build. El párrafo entero está en el §6.2.
 
 Como no hay ni una placa flasheada, **el cambio de trama sale gratis**: la regla
 de «los códigos no cambian nunca» protege a los aparatos que existen, y no existe
@@ -983,7 +1070,7 @@ el par «cuchara limpia / cuchara sucia» distinguible a 96 px por alguien que n
 sepa cuál es cuál.* Es el criterio que decide R-10.
 
 **Fase 5 · Gamificación y Modo Vínculo.**
-`BADGE` y `LEVEL` desde `registerSession()` —que cubre los 37 ejercicios de
+`AWARD` y `LEVEL` desde `registerSession()` —que cubre los 37 ejercicios de
 golpe— y `CALL` desde los recordatorios. Con D-G cerrada en espejo puro, **aquí
 no se rediseña ninguna pantalla clínica**.
 → *Criterio: cerrar sesión en un ejercicio de cada uno de los cuatro bloques y
@@ -1032,7 +1119,9 @@ el firmware (R-5).
 | **R-4** | Deriva de alcance hacia el **resultado clínico**: puntuaciones, porcentajes de acierto, evolución, datos de ficha | Lúa pasa a mostrar información decisoria y deja de ser accesorio no decisorio | El protocolo no tiene campo de texto ni numérico libre: solo ids de catálogo, índices e intensidades. Estructural, no disciplinar. **Re-acotado el 13/8/2026:** antes decía «que muestre el resultado» y en la práctica prohibía el pictograma y la insignia, que no son resultado clínico sino estímulo y refuerzo (C-1) |
 | **R-5** | Se cuelga un zumbador del puerto de expansión sin tope de volumen ni caducidad | Un aparato en manos de un niño que puede sonar tan fuerte como el hardware permita, y que se queda sonando si cae el enlace | D-2: la capacidad sonora se concede aparte, caduca en ≤ 60 s y el **tope de volumen vive en el firmware**, no en la app. *(Reescrito el 13/8/2026: antes el riesgo era «que suene», con «entorno audiológico» como motivo. Eso era VIA+ metido en Valeria+ — C-3.)* |
 | **R-9** | Un banco gana una clave de pictograma nueva y nadie regenera el catálogo de Lúa | El niño ve la ficha en la tableta y un hueco en Lúa. No se detecta hasta la consulta | Gate `check-lua-catalog.js` (§11) |
-| **R-10** | Los pictogramas no se leen a 96 px en un cristal de 32 mm | La vuelta de comprensión de Pares Mínimos no se puede espejar; el espejo queda incompleto justo en el ejercicio que más lo necesita | Se mide en Fase 4 sobre la placa, antes de escribir el puente. Salidas: turnar las dos fichas en vez de ponerlas juntas, o dejar esa vuelta solo en la tableta (§6.2b, §10.2) |
+| **R-10** | Los pictogramas no se leen a 96 px en un cristal de 32 mm | La vuelta de comprensión de Pares Mínimos no se puede espejar; el espejo queda incompleto justo en el ejercicio que más lo necesita | Se mide en Fase 4 sobre la placa, antes de escribir el puente. Salidas: turnar las dos fichas en vez de ponerlas juntas, o dejar esa vuelta solo en la tableta (§6.2b, §10.2). **Agravado el 14/8/2026:** la ficha de `PICTO` se queda en 72 px de los 240, o sea **9,6 mm**, no 22 |
+| **R-11** | Las ocho emociones de `AFFECT` siembran hasta 300 partículas por frame y nadie las ha dibujado en un C3 | Los fps caen por debajo de 20 justo en las caras que más se mueven, y el §4 deja de cumplirse sin que nadie lo note hasta la consulta | El peor caso de la Fase 0 pasa a ser `AFFECT(0)`, no la cara neutra. Si no da, la salida es bajar el techo de partículas: es una constante del firmware |
+| **R-12** | El índice de `PICTO` se saca de `pictogramKeys()`, que devuelve las claves **ordenadas alfabéticamente** | Los 66 índices salen distintos del orden de declaración: el niño oye «cuchara» y ve otra ficha. No lo detecta ningún test de la app, solo alguien mirando el aparato | El orden que vale es el de declaración de `PICTO_KEYS` en `ValeriaPixelArt.ts`, y está escrito en su cabecera. Cuando se escriba el puente (Fase 3), el índice sale de ahí y de ningún otro sitio |
 | **R-6** | El aparato acaba en manos de un niño en el piloto sin marcado ni carcasa | Incidente de seguridad y problema con el comité de ética | Protocolo: v1 sobre mesa, adulto, carcasa cerrada, batería inaccesible. Declarado en la solicitud al comité |
 | **R-7** | Consumo real deja el aparato en 90 min de sesión | Muere a media consulta | Fase 0 mide autonomía. Palancas: bajar brillo en reposo, apagar panel entre ejercicios, celda mayor |
 | **R-8** | El esfuerzo de firmware compite con RA y ASR, que están a medio validar | Tres frentes abiertos y ninguno cerrado | Fase 0 es barata y aislada; nada de app se toca hasta que pase. Si Frank prefiere, se congela ahí |
@@ -1081,7 +1170,7 @@ del puerto de expansión, sin cambiar de hardware. Voz y sonido muestreado queda
 para v2 con placa distinta (§2.2). Lo que arrastra la decisión:
 
 1. **No hay opcode nuevo.** El tono va **atado al opcode que ya existe**, en una
-   tabla del firmware: `VERDICT(2)` suena distinto de `VERDICT(0)`, `BADGE`
+   tabla del firmware: `VERDICT(2)` suena distinto de `VERDICT(0)`, `AWARD`
    suena, `CELEBRATE` suena. La app no manda «pita»: manda lo que ya mandaba y
    Lúa decide si eso suena. Un opcode `SOUND` suelto solo entraría si algún día
    hace falta un tono sin cambio visual — hoy no hace falta y no se añade.
@@ -1146,6 +1235,68 @@ Lo que hace falta decidir aparte, y no bloquea: **por qué tanda se empieza**. L
 sensato es priorizar por los ejercicios que más se prescriben en el piloto y por
 los emoji de Unicode 12+, que son los que ya se ven rotos.
 
+**D-I · Quién manda `AFFECT` — CERRADA (Frank, 13/8/2026): dos emisores, y
+ninguno es el aparato.**
+
+1. **El acompañante, a mano**, desde un control de la app. Lúa no tiene botón de
+   emoción y no va a tenerlo: **el aparato no elige nunca qué siente**.
+2. **La app, sola, según la evolución**, a partir de los hitos que
+   `registerSession()` ya calcula —sesión completada, subida de nivel, insignia,
+   racha, vuelta tras una ausencia—.
+
+Con cuatro límites, y el tercero es el que protege el R-4:
+
+- **Fuera del turno.** Nunca en mitad de un intento.
+- **Por hitos, y NUNCA por el `MatchLevel`.** Si la emoción la eligiera el
+  acierto, la mascota estaría expresando el resultado, que es exactamente lo que
+  el R-4 prohíbe.
+- **Una automática por sesión como mucho.** Si la mascota se emociona cada dos
+  minutos, deja de significar nada.
+- **Sin tocar la máquina de seguridad.** `AFFECT` exige concesión viva como
+  cualquier otro gesto y no altera `SAFE` ni la caducidad.
+
+**Lo que esto convierte en trabajo con fecha:** si las emociones van a llegar
+solas durante una sesión, el efecto del latido que las borra (D-6 de la hoja de
+ruta del firmware) deja de ser una curiosidad y pasa a ser un fallo que se va a
+ver en consulta. Hay que cerrarlo **antes** de encender el envío automático.
+
+**D-J · Dónde vive el arte del ejercicio — CERRADA (Frank, 14/8/2026): aquí, y
+es el arte nuevo.** *(Es la D-7 de la hoja de ruta del firmware, con la letra que
+le toca en este plan.)*
+
+Los 66 pictogramas y las 9 insignias se rehicieron como **matrices de píxel art
+de 24×24** con paleta de 21 colores, contorno, sombra y marco. Se dibujaron en
+`lua-firmware`, y durante un día fueron la tercera copia de un activo clínico
+—exactamente el modo de fallo del §6.3—.
+
+Se decide que **ese arte es el de Valeria+, no solo el del aparato**. Vive en
+`src/ValeriaPixelArt.ts`, que es la fuente única, y el firmware lo copia con
+`tools/build-art.js --upstream`, igual que ya copiaba el sprite de la gata y la
+tabla de opcodes.
+
+Es la primera vez que un activo **sube** en lugar de bajar. La excepción es de
+dirección, no de regla: desde que entró aquí, la fuente vuelve a estar arriba.
+
+Lo que esto ya resolvió, comprobado y no supuesto:
+
+- **Ningún índice se ha movido.** Los 66 nombres están en el mismo orden que
+  `PICTOGRAMS_BY_KEY`, comparado lista contra lista, y los 9 glifos también.
+- **La subida fue sin pérdida.** Las cabeceras del firmware regeneradas desde
+  este repositorio salen **idénticas byte a byte** a las que había, salvo la
+  línea que dice qué generador las escribió.
+- **El presupuesto de flash dejó de existir**: 42 KB en vez de 2,5 MB (§10.1).
+- **Cómo se dibuja 24×24 en una tableta** —la pregunta que la decisión dejaba
+  abierta— tiene respuesta y ya existe: `ValeriaPixelSprite.tsx` convierte la
+  matriz en rectángulos de SVG, que es lo que `PixelAward` ya hacía con sus
+  mapas de 12×12. Un SVG escala sin pérdida, así que el mismo dato sirve para el
+  cristal de 32 mm y para diez pulgadas.
+
+**Lo que NO está hecho, y es lo único que queda de esta decisión:** las pantallas
+clínicas siguen pintando los SVG de `ValeriaPictograms.tsx`. El componente nuevo
+existe y compila, pero **ninguna pantalla lo usa todavía**. Cambiar el estímulo
+principal que ve el niño es un cambio visual, así que entra por la regla 1 —con
+captura delante— y no de rebote en este commit.
+
 ---
 
 ## 15. Seguimiento
@@ -1153,11 +1304,11 @@ los emoji de Unicode 12+, que son los que ya se ven rotos.
 | Fase | Estado |
 | :--- | :--- |
 | 0 · Banco de pruebas | 🟨 **escrito y listo para correr** — falta la placa |
-| 1 · Protocolo | 🟧 **reabierta 13/8/2026** — el generador y los gates sirven; la tabla no (faltan `PICTO`, `BADGE`, `LEVEL`; trama 4 → 8 B) |
+| 1 · Protocolo | ✅ **cerrada de nuevo el 14/8/2026** — la tabla trae `AFFECT`, `PICTO`, `AWARD`, `LEVEL` y `PICTO_PAIR` reservado; trama en 4 B; el gate `--upstream` del firmware pasa |
 | 2 · Puente RN | ⬜ pendiente |
 | 3 · Primera integración visible | ⬜ pendiente |
-| 4 · Catálogo de expresiones | 🟨 **diez caras dibujadas y un emulador** — en `lua-firmware`; sin ver en el panel |
-| 4b · Catálogo de contenido | ⬜ **pendiente, nueva** — 66 pictogramas, 45 insignias, 12 niveles |
+| 4 · Catálogo de expresiones | 🟨 **veintidós caras y un emulador** — en `lua-firmware`; sin ver en el panel |
+| 4b · Catálogo de contenido | 🟨 **el arte ya vive aquí** (`src/ValeriaPixelArt.ts`, D-7) y el firmware lo copia · ⬜ falta que la app lo **dibuje en sus pantallas** |
 | 5 · Gamificación y Modo Vínculo | ⬜ pendiente |
 | 5b · Mini-juegos a pictogramas | ⬜ **pendiente, nueva** — ~82 dibujos; no depende de la placa |
 | 5c · Zumbador | ⬜ **pendiente, nueva** — un pin, tope en firmware |
