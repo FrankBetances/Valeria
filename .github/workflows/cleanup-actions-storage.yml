@@ -1,0 +1,144 @@
+name: Limpiar almacenamiento de Actions
+
+# Para qué existe: en repositorio PÚBLICO el almacenamiento de Actions es
+# gratis e ilimitado, así que nadie lo mira. Al pasar el repositorio a PRIVADO
+# esa misma cuenta pasa a tener 500 MB (Free), 1 GB (Pro) o 2 GB (Team) para
+# TODOS sus repositorios, y lo acumulado aquí ya no cabe.
+#
+# Lo medido por API el 15/8/2026, antes de tocar nada:
+#   android-apk  131 MB · se subía en CADA build, también en ramas claude/**
+#   android-aab  156 MB · en cada push a main
+#   ~23 APK + ~10 AAB por semana con retención de 7 días → ~4,6 GB vivos
+#
+# `android.yml` ya no deja crecer eso (poda al final de cada build), pero eso
+# solo vale de aquí en adelante. Este workflow es el que barre lo YA acumulado,
+# y de paso queda como barrido semanal por si el repositorio pasa temporadas sin
+# builds y los artefactos se quedan ahí ocupando.
+#
+# Las CACHÉS son harina de otro costal: no se facturan y no cuentan para esa
+# cuota: tienen su propio límite de 10 GB por repositorio y GitHub las expulsa
+# solas a los 7 días sin usarse. Se pueden vaciar aquí igualmente porque la
+# pantalla de Settings las suma junto a los artefactos y confunde el diagnóstico;
+# borrarlas solo cuesta que el siguiente `npm ci` baje de la red.
+
+on:
+  workflow_dispatch:
+    inputs:
+      modo:
+        description: 'informe (no borra nada) · conservar-ultimos · todo'
+        type: choice
+        required: true
+        default: informe
+        options: [informe, conservar-ultimos, todo]
+      conservar:
+        description: 'Copias de cada artefacto que sobreviven (solo en modo conservar-ultimos)'
+        required: false
+        default: '2'
+      cache:
+        description: 'Vaciar también las cachés de Actions'
+        type: boolean
+        required: false
+        default: false
+  # El barrido automático. OJO: `schedule` solo se activa con el fichero ya en
+  # la rama por defecto; en una rama de trabajo no dispara hasta fusionar a main.
+  schedule:
+    - cron: '0 5 * * 1'
+
+permissions:
+  actions: write
+
+concurrency:
+  group: cleanup-actions-storage
+  cancel-in-progress: false
+
+jobs:
+  limpiar:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      # En el barrido semanal no hay inputs: se comporta como el podado del
+      # build (conserva 2 de cada) y no toca las cachés.
+      MODO: ${{ inputs.modo || 'conservar-ultimos' }}
+      CONSERVAR: ${{ inputs.conservar || '2' }}
+      LIMPIAR_CACHE: ${{ inputs.cache || false }}
+
+    steps:
+      - name: Inventario de artefactos
+        run: |
+          gh api --paginate "repos/$GH_REPO/actions/artifacts?per_page=100" \
+            --jq '.artifacts[] | select(.expired == false) | [.name, .created_at, .id, .size_in_bytes] | @tsv' \
+            > all.tsv
+          {
+            echo "## Artefactos antes de limpiar"
+            echo ""
+            echo "| Artefacto | Copias | MB |"
+            echo "| --- | ---: | ---: |"
+            awk -F'\t' '{ s[$1] += $4; n[$1]++; t += $4 }
+              END { for (k in s) printf "| %s | %d | %d |\n", k, n[k], s[k]/1000000
+                    printf "| **TOTAL** | **%d** | **%d** |\n", NR, t/1000000 }' all.tsv
+            echo ""
+            echo "Modo: \`$MODO\`"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      # Qué sobra según el modo. Se calcula SIEMPRE, también en `informe`: así el
+      # informe dice exactamente cuánto se liberaría, que es el número que hace
+      # falta para decidir si el repositorio ya cabe en la cuota de privado.
+      - name: Decidir qué sobra
+        run: |
+          case "$MODO" in
+            todo)
+              cp all.tsv sobran.tsv
+              : > vivos.tsv
+              ;;
+            *)
+              sort -k1,1 -k2,2r all.tsv \
+                | awk -v keep="$CONSERVAR" \
+                    '{ n[$1]++; print (n[$1] <= keep ? "VIVO" : "SOBRA"), $0 }' > clasificados.tsv
+              sed -n 's/^VIVO //p'  clasificados.tsv > vivos.tsv
+              sed -n 's/^SOBRA //p' clasificados.tsv > sobran.tsv
+              ;;
+          esac
+          awk -F'\t' '{ t += $4 } END { printf "Sobran %d artefactos · %d MB\n", NR, t/1000000 }' sobran.tsv \
+            | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - name: Borrar artefactos
+        if: env.MODO != 'informe'
+        run: |
+          freed=0
+          borrados=0
+          while IFS=$'\t' read -r name created id size; do
+            [ -z "$id" ] && continue
+            if gh api -X DELETE "repos/$GH_REPO/actions/artifacts/$id" --silent; then
+              freed=$((freed + size))
+              borrados=$((borrados + 1))
+            else
+              echo "::warning::No se pudo borrar el artefacto $id ($name)."
+            fi
+          done < sobran.tsv
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "**Borrados $borrados artefactos · $((freed / 1000000)) MB liberados.**" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Inventario de cachés
+        run: |
+          gh api --paginate "repos/$GH_REPO/actions/caches?per_page=100" \
+            --jq '.actions_caches[] | [.id, .size_in_bytes, .key] | @tsv' > caches.tsv || : > caches.tsv
+          {
+            echo ""
+            awk -F'\t' '{ t += $2 } END { printf "## Cachés\n\n%d entradas · %d MB (no cuentan para la cuota facturable)\n", NR, t/1000000 }' caches.tsv
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Vaciar cachés
+        if: env.LIMPIAR_CACHE == 'true'
+        run: |
+          freed=0
+          while IFS=$'\t' read -r id size key; do
+            [ -z "$id" ] && continue
+            if gh api -X DELETE "repos/$GH_REPO/actions/caches/$id" --silent; then
+              freed=$((freed + size))
+            else
+              echo "::warning::No se pudo borrar la caché $id ($key)."
+            fi
+          done < caches.tsv
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "**Cachés vaciadas · $((freed / 1000000)) MB.**" >> "$GITHUB_STEP_SUMMARY"

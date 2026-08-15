@@ -23,9 +23,28 @@ on:
     # El sitio legal (`site/`) y su workflow no entran en el APK: compilarlo
     # por un cambio de la política de privacidad quema minutos de CI y deja
     # ruido rojo/verde sin relación con la app.
+    #
+    # La documentación tampoco entra en el APK, y sale caro: cada build son ~13
+    # min de runner y 131 MB de artefacto. Un retoque del README (100 KB, se
+    # edita en casi cada sesión) no cambia un solo byte del binario.
+    # OJO con lo que NO se puede ignorar aquí: `docs/lua-mascota.png` es entrada
+    # del gate de marca (check-brand-consistency.js compara su hash con el del
+    # icono). Por eso se ignoran extensiones concretas de `docs/`, nunca
+    # `docs/**` entero.
     paths-ignore:
       - 'site/**'
       - '.github/workflows/pages.yml'
+      - '.github/workflows/cleanup-actions-storage.yml'
+      - 'README.md'
+      - 'CLAUDE.md'
+      - 'CONTRIBUTING.md'
+      - 'SECURITY.md'
+      - 'LICENSE'
+      - 'docs/**.md'
+      - 'docs/**.pdf'
+      - 'docs/**.docx'
+      - 'docs/**.html'
+      - 'docs/screenshots/**'
   pull_request:
     branches:
       - main
@@ -33,6 +52,17 @@ on:
     paths-ignore:
       - 'site/**'
       - '.github/workflows/pages.yml'
+      - '.github/workflows/cleanup-actions-storage.yml'
+      - 'README.md'
+      - 'CLAUDE.md'
+      - 'CONTRIBUTING.md'
+      - 'SECURITY.md'
+      - 'LICENSE'
+      - 'docs/**.md'
+      - 'docs/**.pdf'
+      - 'docs/**.docx'
+      - 'docs/**.html'
+      - 'docs/screenshots/**'
   # Relanzo tras la síntesis de voz. El APK debe empaquetar los assets de voz
   # neuronal del corpus que compila, y "Generate Voice Assets" los sintetiza y
   # los COMMITEA a la rama en paralelo a este build. Ese commit lo hace el
@@ -55,6 +85,13 @@ on:
 concurrency:
   group: android-${{ github.ref }}
   cancel-in-progress: true
+
+# `actions: write` es lo único que se añade sobre el permiso de lectura, y es
+# para PODER BORRAR artefactos viejos al final del job (ver "Retirar artefactos").
+# Sin este bloque el token hereda los permisos por defecto del repositorio.
+permissions:
+  contents: read
+  actions: write
 
 jobs:
   build:
@@ -80,6 +117,15 @@ jobs:
       # defecto, no a la que se sintetizó. Se resuelve una sola vez aquí para
       # que el checkout y la condición del AAB usen ambos el mismo valor.
       TARGET_BRANCH: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.head_branch || github.ref_name }}
+      # Cuántas copias de CADA artefacto (android-apk, android-aab) sobreviven a
+      # este build. Es lo que fija el suelo de almacenamiento del repositorio:
+      #   1 → ~290 MB   2 → ~570 MB   3 → ~860 MB
+      # En repositorio PÚBLICO el almacenamiento es gratis y esto da igual; en
+      # PRIVADO la cuota es 500 MB (Free), 1 GB (Pro), 2 GB (Team) para TODA la
+      # cuenta. Con 2 quedan el build actual y el anterior, que es el mínimo para
+      # poder volver atrás si el último sale malo. Bájalo a 1 si la cuenta está
+      # en el plan Free.
+      KEEP_ARTIFACTS_PER_NAME: 2
 
     steps:
       # En `workflow_run` hay que pedir la RAMA, no el head_sha del run que nos
@@ -304,6 +350,9 @@ jobs:
           RELEASE_KEY_PASSWORD: ${{ secrets.ANDROID_RELEASE_KEY_PASSWORD }}
         run: ./gradlew bundleRelease
 
+      # `retention-days` recorta la retención del repositorio (7 días) SOLO hacia
+      # abajo. El AAB se sube a Play Console el mismo día que se compila; a los 3
+      # días ya no lo quiere nadie y son 156 MB ocupados.
       - name: Upload AAB
         if: env.HAS_SIGNING_SECRETS == 'true' && (env.TARGET_BRANCH == 'main' || github.event_name == 'workflow_dispatch')
         uses: actions/upload-artifact@v4
@@ -311,14 +360,74 @@ jobs:
           name: android-aab
           path: android/app/build/outputs/bundle/release/*.aab
           if-no-files-found: error
+          retention-days: 3
 
       - name: Build debug APK (no signing secrets configured)
         if: env.HAS_SIGNING_SECRETS != 'true'
         working-directory: ./android
         run: ./gradlew assembleDebug -PreactNativeArchitectures=armeabi-v7a,arm64-v8a
 
+      # El APK son 131 MB y en las ramas `claude/**` no se instala en ningún
+      # sitio: la regla de trabajo es que nada llega a Frank hasta estar en main
+      # con build verde, así que ese APK nacía muerto y ocupaba lo mismo. En la
+      # ventana medida (10-15 ago) fueron 10 de 18 builds con éxito, ~1,3 GB
+      # tirados. La rama SIGUE COMPILANDO —los gates y Gradle corren igual, que
+      # es para lo que sirve—; lo único que se pierde es el fichero.
+      # Para bajarse el APK de una rama: pestaña Actions → "Android Build" →
+      # botón "Run workflow" eligiendo esa rama. Ese `workflow_dispatch` sí sube.
       - name: Upload APK
+        if: env.TARGET_BRANCH == 'main' || github.event_name == 'workflow_dispatch'
         uses: actions/upload-artifact@v4
         with:
           name: android-apk
           path: android/app/build/outputs/apk/**/*.apk
+          retention-days: 5
+
+      # La retención sola no basta: entre dos barridos se acumulan todos los
+      # builds de la ventana (con 7 días eran ~4,6 GB vivos, medidos por API el
+      # 15/8/2026). Esto deja el almacenamiento en un suelo FIJO —KEEP copias de
+      # cada nombre— en vez de en algo que crece con el ritmo de commits.
+      # `always()`: también limpia si el build falló, que es cuando más falta
+      # hace no dejar basura detrás.
+      - name: Retirar artefactos de builds anteriores
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          gh api --paginate "repos/$GH_REPO/actions/artifacts?per_page=100" \
+            --jq '.artifacts[] | select(.expired == false) | [.name, .created_at, .id, .size_in_bytes] | @tsv' \
+            > all.tsv || { echo "::warning::No se pudo listar artefactos; se salta la limpieza."; exit 0; }
+
+          # Orden: por nombre, y dentro de cada nombre del más nuevo al más
+          # viejo. Los KEEP primeros de cada nombre se quedan; el resto, fuera.
+          sort -k1,1 -k2,2r all.tsv \
+            | awk -v keep="$KEEP_ARTIFACTS_PER_NAME" \
+                '{ n[$1]++; print (n[$1] <= keep ? "VIVO" : "SOBRA"), $0 }' > clasificados.tsv
+          sed -n 's/^VIVO //p'  clasificados.tsv > vivos.tsv
+          sed -n 's/^SOBRA //p' clasificados.tsv > sobran.tsv
+
+          freed=0
+          borrados=0
+          while IFS=$'\t' read -r name created id size; do
+            [ -z "$id" ] && continue
+            if gh api -X DELETE "repos/$GH_REPO/actions/artifacts/$id" --silent; then
+              freed=$((freed + size))
+              borrados=$((borrados + 1))
+              echo "borrado $name ($id · $size B · $created)"
+            else
+              echo "::warning::No se pudo borrar el artefacto $id ($name)."
+            fi
+          done < sobran.tsv
+
+          {
+            echo "### Almacenamiento de artefactos"
+            echo "Se conservan **$KEEP_ARTIFACTS_PER_NAME** copias de cada artefacto."
+            echo ""
+            echo "Borrados: **$borrados** · Liberado: **$((freed / 1000000)) MB**"
+            echo ""
+            echo "| Artefacto | Copias vivas | MB |"
+            echo "| --- | ---: | ---: |"
+            awk -F'\t' '{ s[$1] += $4; n[$1]++ }
+              END { for (k in s) printf "| %s | %d | %d |\n", k, n[k], s[k]/1000000 }' vivos.tsv
+          } >> "$GITHUB_STEP_SUMMARY"
