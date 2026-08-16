@@ -5,10 +5,13 @@
 > veredicto y el gate `scripts/check-minimal-pairs-en.js` lo exige por código:
 > un par sin `dialect` no compila el banco.
 >
-> **Estado: 🟡 BORRADOR PARA FIRMA.** Redactado desde la bibliografía publicada
+> **Estado: ✅ FIRMADA (16 ago 2026).** Redactada desde la bibliografía publicada
 > (ASHA, Green, Craig & Washington, Pearson, Goldstein & Iglesias) por el equipo
-> técnico, **no por una persona con licencia clínica en EE. UU.** No sustituye a
-> la revisión de EN-0.3 y no autoriza publicar el banco: autoriza **probarlo**.
+> técnico, y **revisada y firmada por Miguelina, profesora SLP con licencia de
+> *Howard University* (EN-0.3)**. Su práctica con hablantes de AAE le da
+> autoridad sobre el conjunto del banco, incluidos los apartados de mayor riesgo
+> (§4.1, §4.3, §4.4, §4.9). Con su firma, Miguelina y su equipo han validado
+> también la versión actual del dataset `en`.
 > Hermano de [`guia-dialectal-es-DO.md`](./guia-dialectal-es-DO.md).
 
 ---
@@ -71,7 +74,7 @@ dejaría el banco clínicamente cojo. Lo que se elimina es que la app decida sol
 reglados del AAE**, no errores articulatorios. También aparecen en SIE, donde el
 castellano latinoamericano no tiene /θ/.
 
-> **Veredicto.** El par `thin/fin` se conserva como objetivo, marcado
+> **Veredicto (firmado).** El par `thin/fin` se conserva como objetivo, marcado
 > `dialect-sensitive`. La app avisa al adulto. En un niño hablante de AAE,
 > producir [fɪn] por *thin* **es un acierto**, y el informe no debe registrarlo
 > como sustitución.
@@ -81,9 +84,10 @@ castellano latinoamericano no tiene /θ/.
 `sheep`/`ship` es un objetivo clásico, pero en un niño hispanohablante la fusión
 es **transferencia de un sistema de 5 vocales**, no un trastorno fonológico.
 
-> **Veredicto.** Se conserva como trabajo de **discriminación auditiva**, marcado
-> `transfer`. Con familias bilingües el adulto decide si puntúa; por defecto se
-> presenta como juego de escucha, no como criterio diagnóstico.
+> **Veredicto (firmado).** Puntúa, marcado `transfer`, como el resto del banco:
+> deja de ser una excepción a discreción del adulto. El aviso de `dialect.note`
+> a la familia bilingüe se mantiene antes del ensayo — informa, no convierte el
+> ítem en opcional ni lo baja a juego de escucha.
 
 ### 4.3 Reducción de grupos consonánticos
 
@@ -147,21 +151,24 @@ plural se trabaja como **producción**, nunca como juicio de gramaticalidad.
    prohibición legal y de validez, ya recogida en §3 del plan.
 5. Cualquier ítem cuyo `dialect` no esté declarado.
 
-## 6. Qué falta para levantar el bloqueo
+## 6. Firma y validación (EN-0.5 cerrada)
 
-Esta guía autoriza **probar** el banco, no publicarlo. Para cerrar EN-0.5 hacen
-falta tres firmas que el equipo técnico no puede poner:
+Firmada por **Miguelina**, profesora SLP con licencia de *Howard University*
+(EN-0.3), el 16 ago 2026:
 
-- [ ] Revisión por la persona de **EN-0.3** (SLP con licencia en EE. UU.),
+- [x] Revisión por la persona de **EN-0.3** (SLP con licencia en EE. UU.),
       confirmando el marco *difference vs. disorder* y los veredictos de §4.
-- [ ] Confirmación explícita de la decisión de §9.1 del plan (**rasgo dialectal
-      = acierto**), que hoy es decisión de producto y no clínica.
-- [ ] Veredicto sobre §4.2: si el contraste tenso/laxo debe puntuar o quedarse
-      en discriminación auditiva con familias bilingües.
+- [x] Confirmación explícita de la decisión de §9.1 del plan (**rasgo dialectal
+      = acierto**): confirmada, deja de ser solo decisión de producto.
+- [x] Veredicto sobre §4.2: el contraste tenso/laxo **puntúa**.
 
-> **Nota sobre quién firma.** El apartado del **AAE** es el de más riesgo y el
-> que exige perfil específico. Una revisora hispanohablante puede validar con
-> autoridad §4.2 (transferencia del español) y el conjunto del banco como
-> logopeda, pero los §4.1, §4.3, §4.4 y §4.9 piden a alguien que trabaje con
-> hablantes de AAE. Si son dos personas distintas, el documento debe llevar las
-> dos firmas y decir cuál firma qué.
+Con esta firma se cierra EN-0.5 como regla bloqueante, y Miguelina y su equipo
+han validado la versión actual del dataset `en` (EN-3.2, EN-3.4 a EN-3.7). Esta
+guía certifica el banco; no cierra el resto de lo que exige publicar en tienda
+en EE. UU. (Fases 5-7 del plan).
+
+> **Nota sobre quién firma (resuelta).** El apartado del **AAE** era el de más
+> riesgo y el que exigía perfil específico. Miguelina trabaja con hablantes de
+> AAE, así que firma con autoridad tanto los apartados de AAE (§4.1, §4.3,
+> §4.4, §4.9) como §4.2 y el conjunto del banco. Una sola firma cierra el
+> documento entero.

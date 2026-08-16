@@ -19,12 +19,14 @@
 > empaquetada**. Queda la **Fase 5** (ASR), la **Fase 6** (cumplimiento y
 > tiendas, requisito para publicar) y la **Fase 7** (QA y piloto).
 >
-> ⚠️ **Lo que falta NO es código: son firmas.** Todo el contenido clínico está
-> marcado 🟡 *borrador para revisión* y la guía dialectal EN-0.5 está **sin
-> firmar**. Los gates mecánicos (CMUdict, distractores, reglas de contenido,
-> dificultad léxica, pictogramas) pasan en verde, pero un gate no sustituye a
-> una logopeda: verifica que el banco es COHERENTE, no que sea CORRECTO. La
-> build es para evaluar, no para publicar.
+> ✅ **La guía dialectal EN-0.5 está firmada (16 ago 2026).** Miguelina,
+> profesora SLP con licencia de *Howard University* (EN-0.3), ha firmado
+> [`guia-dialectal-en-US.md`](./guia-dialectal-en-US.md) y, con su equipo, ha
+> validado la versión actual del dataset `en`. Los gates mecánicos (CMUdict,
+> distractores, reglas de contenido, dificultad léxica, pictogramas) ya pasaban
+> en verde; ahora la revisión clínica también cierra en verde. Queda lo que no
+> depende de firmas: las Fases 5 (ASR), 6 (cumplimiento y tiendas) y 7 (QA y
+> piloto).
 >
 > Decisiones cerradas: **revisión clínica confirmada** (EN-0.3), **separación de
 > ejes UI/terapia** (§5.1), **guía dialectal como regla bloqueante** (EN-0.5),
@@ -331,7 +333,7 @@ Convención de tareas: `EN-<fase>.<n>`. Cada tarea indica **Entregable** y
 | **EN-0.2** ✅⏳ | Elegir la voz escuchando muestras con consignas reales de la app. Elegida por defecto **`en_US-ljspeech-high`** —femenina, de lectura pausada, la homóloga natural de Sharvard— por ser la única candidata de calidad `high` con licencia comercial limpia. Para comparar sin tocar código: `python3 scripts/generate-voice-assets.py --lang en --voice en_US-amy-medium` | Decisión registrada aquí ✅ · **27 locuciones sintetizadas en CI y empaquetadas** (`voice-assets-manifest.en.json`) ✅; ⏳ **pendiente del visto bueno de Frank tras escucharlas** |
 | **EN-0.3** ✅ | Confirmar persona revisora: **SLP con licencia en EE. UU.** para las Fases 3, 5 y 7 → **profesora SLP con licencia de *Howard University*** (asesoría confirmada, ago 2026) | CA: revisora confirmada ✅ · pendiente acordar el **flujo de revisión** (formato de entrega, tiempos y qué constituye «aprobado») antes de abrir la Fase 3 |
 | **EN-0.4** | Verificar en dispositivos objetivo: voces TTS `en-US` del sistema, ASR `en-US` y —clave— disponibilidad real de **reconocimiento local** (`supportsOnDeviceRecognition`) | Tabla de soporte por plataforma en `docs/`; CA: sabemos si la promesa de audio-que-no-sale-del-móvil se sostiene en `en-US` |
-| **EN-0.5** ✅⏳ | Redactar [`docs/guia-dialectal-en-US.md`](./guia-dialectal-en-US.md): qué es rasgo dialectal normal (**AAE**, inglés sureño, inglés con influencia del español) y qué es objetivo terapéutico. **Regla bloqueante para todo dataset `en`.** Es la tarea de más riesgo del plan (§8) y la primera que se pone sobre la mesa de la revisora de EN-0.3 | Guía firmada por EN-0.3; CA: cada par mínimo candidato lleva veredicto dialectal explícito |
+| **EN-0.5** ✅ | Redactar [`docs/guia-dialectal-en-US.md`](./guia-dialectal-en-US.md): qué es rasgo dialectal normal (**AAE**, inglés sureño, inglés con influencia del español) y qué es objetivo terapéutico. **Regla bloqueante para todo dataset `en`.** Es la tarea de más riesgo del plan (§8) y la primera que se pone sobre la mesa de la revisora de EN-0.3 | Guía firmada por Miguelina (EN-0.3), 16 ago 2026; CA: cada par mínimo candidato lleva veredicto dialectal explícito ✅ |
 | **EN-0.6** | Decidir el **modelo de publicación**: misma ficha de app con idiomas añadidos vs. ficha/listing separado para EE. UU.; y si `en-US` viaja en el mismo binario (impacto de tamaño, EN-4.4) | Decisión registrada; CA: elección con su justificación de coste/tamaño |
 | **EN-0.7** | Fijar el alcance de i18n de UI: qué pantallas entran en la Fase 2 y en qué orden (propuesta en EN-2.3) | Lista ordenada de pantallas; CA: alcance cerrado y estimado |
 | **EN-0.8** | **Hoja de revisión clínica**: script que exporta los datasets `en` a una tabla legible (Markdown/CSV) con columnas *ítem · objetivo fonológico · veredicto dialectal · aprobado/cambios*. Los bancos son TypeScript; nadie revisa clínica leyendo un `.ts`. *Se necesita a partir de la Fase 3, no antes: la primera vuelta de revisión es con la app en la mano* | `scripts/export-review-sheet.js`; CA: la revisora de EN-0.3 puede anotar y devolver el fichero sin tocar el repositorio |
@@ -441,12 +443,12 @@ Se subdivide por bloque para poder publicar por partes.*
 | Tarea | Descripción | Entregable / CA |
 | --- | --- | --- |
 | **EN-3.1** ✅ | Utilidad de validación fonética contra **CMUdict**. Hace cuatro cosas más de las previstas, todas por algo que apareció al escribirla: rechaza palabras con **más de una pronunciación** (`bow` = /boʊ/ o /baʊ/ — el par `boat/bow` que proponía este plan es inválido por eso), comprueba que la etiqueta `phoneme` **dice la verdad**, exige el veredicto dialectal y **bloquea los tres contrastes prohibidos** por EN-0.5 | `scripts/check-minimal-pairs-en.js` + `scripts/data/cmudict-en.json` (subconjunto commiteado: el gate corre en el build de Android, que no tiene Python ni red); CA: probado con tres pares falsos, los caza los tres ✅ |
-| **EN-3.2** ✅⏳ | **Banco de pares mínimos**: **9 pares**, cada uno con veredicto dialectal. No son los 10 del borrador de §4.1: `boat/bow` cae por ambigüedad de CMUdict y **la /r/ vocálica queda prohibida** por EN-0.5, así que se sustituyen por `seat/sea` y `peach/beach`. Siete son `developmental`; `thin/fin` es `dialect-sensitive` (AAE) y `sheep/ship` es `transfer` (bilingüe), y en esos dos **la pantalla avisa al adulto antes de puntuar** | `valeriaMinimalPairsEn.ts` ✅; CA: `npm run asr:audit-pairs` → 0 de 9 premian al distractor ✅ · ⏳ revisión SLP pendiente de firma |
+| **EN-3.2** ✅ | **Banco de pares mínimos**: **9 pares**, cada uno con veredicto dialectal. No son los 10 del borrador de §4.1: `boat/bow` cae por ambigüedad de CMUdict y **la /r/ vocálica queda prohibida** por EN-0.5, así que se sustituyen por `seat/sea` y `peach/beach`. Siete son `developmental`; `thin/fin` es `dialect-sensitive` (AAE) y `sheep/ship` es `transfer` (bilingüe), y en esos dos **la pantalla avisa al adulto antes de puntuar** | `valeriaMinimalPairsEn.ts` ✅; CA: `npm run asr:audit-pairs` → 0 de 9 premian al distractor ✅ · validado por Miguelina (EN-0.3), 16 ago 2026 ✅ |
 | **EN-3.3** | **Frases portadoras**: `BANKS.en` en `valeriaCarrierPhrases.ts` (SVO, artículo *a/an* elegido por **sonido** inicial, pasados irregulares, elicitación natural: *"Now you say it"*) | CA: `enumerateAllCarrierPrompts('en')` produce frases gramaticales revisadas |
-| **EN-3.4** ✅⏳ | **TPR, rutas de rutina y bancos de refuerzo** (`valeriaContentEn.ts`): 5 cápsulas, 2 rutas y los cuatro bancos de refuerzo. Registro de app infantil estadounidense: *grown-up*, no *parent* ni *tutor* | CA: ⏳ revisión SLP pendiente de firma |
-| **EN-3.5** ✅⏳ | **Expansión semántica**: 3 escenarios, 5 categorías ordenadas por SUBTLEX-US/CDI, 2 progresiones y 4 cápsulas. Los pictogramas **se reutilizan tal cual**: son dibujos sin texto, así que no hubo que redibujar nada. Los `stt_expected` admiten las realizaciones dialectales como acierto, que es la guía EN-0.5 aplicada al reconocedor | CA: `check-content-rules.js`, `check-lexical-difficulty.js` y `check-pictogram-coverage.js` verdes sobre el banco `en` ✅ · ⏳ revisión SLP |
-| **EN-3.6** ✅⏳ | **Audición, Lenguaje, TEA y Dislexia** (`valeriaExerciseEn.ts`, 37 ejercicios). Dos rediseños, no traducciones: **ms2 deja de ser flexión de género** —el inglés no tiene— y pasa a **plurales irregulares** (`foot/feet`); y **Dislexia entero** cambia de sílaba/velocidad a rima, dígrafo, *silent e* y pseudopalabras. El plural regular se trabaja como PRODUCCIÓN y nunca como juicio de gramaticalidad: la variabilidad de la `-s` es rasgo regular del AAE (guía §4.9) | CA: player localizado ✅ (emociones, plural, cierre) · ⏳ revisión SLP |
-| **EN-3.7** ✅⏳ | **Test de Ling** en inglés: consignas y pistas. Es el **único bloque del plan que de verdad se traduce**, porque los seis sonidos miden audibilidad por frecuencia y no varían con la lengua | CA: ⏳ revisión pendiente de firma |
+| **EN-3.4** ✅ | **TPR, rutas de rutina y bancos de refuerzo** (`valeriaContentEn.ts`): 5 cápsulas, 2 rutas y los cuatro bancos de refuerzo. Registro de app infantil estadounidense: *grown-up*, no *parent* ni *tutor* | CA: validado por Miguelina (EN-0.3), 16 ago 2026 ✅ |
+| **EN-3.5** ✅ | **Expansión semántica**: 3 escenarios, 5 categorías ordenadas por SUBTLEX-US/CDI, 2 progresiones y 4 cápsulas. Los pictogramas **se reutilizan tal cual**: son dibujos sin texto, así que no hubo que redibujar nada. Los `stt_expected` admiten las realizaciones dialectales como acierto, que es la guía EN-0.5 aplicada al reconocedor | CA: `check-content-rules.js`, `check-lexical-difficulty.js` y `check-pictogram-coverage.js` verdes sobre el banco `en` ✅ · validado por Miguelina (EN-0.3), 16 ago 2026 ✅ |
+| **EN-3.6** ✅ | **Audición, Lenguaje, TEA y Dislexia** (`valeriaExerciseEn.ts`, 37 ejercicios). Dos rediseños, no traducciones: **ms2 deja de ser flexión de género** —el inglés no tiene— y pasa a **plurales irregulares** (`foot/feet`); y **Dislexia entero** cambia de sílaba/velocidad a rima, dígrafo, *silent e* y pseudopalabras. El plural regular se trabaja como PRODUCCIÓN y nunca como juicio de gramaticalidad: la variabilidad de la `-s` es rasgo regular del AAE (guía §4.9) | CA: player localizado ✅ (emociones, plural, cierre) · validado por Miguelina (EN-0.3), 16 ago 2026 ✅ |
+| **EN-3.7** ✅ | **Test de Ling** en inglés: consignas y pistas. Es el **único bloque del plan que de verdad se traduce**, porque los seis sonidos miden audibilidad por frecuencia y no varían con la lengua | CA: validado por Miguelina (EN-0.3), 16 ago 2026 ✅ |
 | **EN-3.8** ✅ | Cablear el bloque inglés en `buildVoiceCorpus()` (espejo exacto del bloque `eu`) y **bajar el interruptor** `EN_THERAPY_CONTENT_READY` a `true`, con lo que la variedad deja de locutar castellano y pasa a comportarse como cualquier otra | CA: `voice-corpus.json` incluye **614 locuciones `en`** ✅; `check-voice-corpus-coverage.js` exige las 614 |
 
 **Salida de fase:** app completa en inglés locutada por el TTS del sistema.
@@ -585,7 +587,7 @@ es el camino más corto al lanzamiento.
 | **Guía dialectal** (EN-0.5) | **Regla bloqueante**: ningún dataset `en` entra en `main` sin veredicto dialectal firmado | ago 2026 |
 | **Qué se locuta mientras no exista el banco inglés** | **Castellano, con voz castellana.** Con `en-US` activa y la Fase 3 sin escribir, las pantallas ya caían al banco castellano; lo que faltaba era impedir que la voz y el micrófono siguieran pidiendo `en-US`, porque un TTS inglés leyendo «perro» no suena a castellano con acento, suena a ruido. Punto único: `EN_THERAPY_CONTENT_READY` en `valeriaLocale.ts` — mientras sea `false`, `contentLocale('en-US')` es `'es'` y de ahí beben el banco de audio, el locale de voz/ASR y el perfil de prosodia. Lo único que suena en inglés es lo que **está escrito** en inglés: la muestra de voz. Al cerrar EN-3.8 se pone a `true` y la variedad se comporta como el resto | ago 2026 |
 | **Voz Piper `en_US`** (EN-0.1 / EN-0.2) | **`en_US-ljspeech-high`** (MIT sobre LibriVox en dominio público). Las dos candidatas del plan original, descartadas por licencia | ago 2026 |
-| **Cómo puntúa un rasgo dialectal** (EN-0.5) | **Como ACIERTO.** Un rasgo regular de la variedad del niño no es un error terapéutico y no puede restar. Decisión de producto de Frank, **pendiente de confirmación por la revisora** (es la pregunta 2 del [protocolo de evaluación](./protocolo-evaluacion-clinica-en-US.md)) | ago 2026 |
+| **Cómo puntúa un rasgo dialectal** (EN-0.5) | **Como ACIERTO.** Un rasgo regular de la variedad del niño no es un error terapéutico y no puede restar. Decisión de producto de Frank, **confirmada por Miguelina** (EN-0.3), profesora SLP de *Howard University* | 16 ago 2026 |
 
 ### 9.2 Abiertas (para Frank)
 
@@ -608,10 +610,10 @@ Estas cuatro no las puede cerrar el plan; condicionan fases enteras:
 
 Checklist maestro (marcar al completar; una PR por tarea o grupo pequeño):
 
-- [~] **Fase 0**: **EN-0.1 ✅** (licencias auditadas; dos candidatas descartadas) · **EN-0.2 ✅** (`ljspeech-high`, aprobada por Frank ago 2026) · **EN-0.3 ✅** (revisora confirmada; falta acordar el flujo de revisión) · EN-0.4 · **EN-0.5 ✅⏳** (guía escrita y aplicada; **pendiente de firma**) · EN-0.6 · EN-0.7 · EN-0.8 · **EN-0.9 ✅** (build generable con contenido inglés)
+- [~] **Fase 0**: **EN-0.1 ✅** (licencias auditadas; dos candidatas descartadas) · **EN-0.2 ✅** (`ljspeech-high`, aprobada por Frank ago 2026) · **EN-0.3 ✅** (revisora confirmada; falta acordar el flujo de revisión) · EN-0.4 · **EN-0.5 ✅** (guía escrita, aplicada y firmada por Miguelina, 16 ago 2026) · EN-0.6 · EN-0.7 · EN-0.8 · **EN-0.9 ✅** (build generable con contenido inglés)
 - [~] **Fase 1**: **EN-1.1 ✅** (`Locale += 'en-US'`) · **EN-1.2 ✅** (`VoiceLang += 'en'`) · **EN-1.3 ✅** (selector + arrastre de UI) · **EN-1.4 ✅⏳** (frases de app; el dataset clínico lo bloquea EN-0.5) · EN-1.5
 - [~] **Fase 2**: **EN-2.1 ✅** (catálogo tipado + `useT`) · **EN-2.2 ✅** (selector con modo automático) · EN-2.3 ⏳ (tramo 1/5) · EN-2.4 · EN-2.5 · EN-2.6 · EN-2.7 · EN-2.8
-- [~] **Fase 3**: **EN-3.1 ✅** · **EN-3.2 ✅⏳** · EN-3.3 (frases portadoras: siguen retiradas del corpus también en inglés, PM-02) · **EN-3.4 ✅⏳** · **EN-3.5 ✅⏳** · **EN-3.6 ✅⏳** · **EN-3.7 ✅⏳** · **EN-3.8 ✅** — ⏳ = escrito y con los gates verdes, **pendiente de la firma clínica**
+- [~] **Fase 3**: **EN-3.1 ✅** · **EN-3.2 ✅** · EN-3.3 (frases portadoras: siguen retiradas del corpus también en inglés, PM-02) · **EN-3.4 ✅** · **EN-3.5 ✅** · **EN-3.6 ✅** · **EN-3.7 ✅** · **EN-3.8 ✅** — validado por Miguelina (EN-0.3), 16 ago 2026
 - [~] **Fase 4**: **EN-4.1 ✅** · **EN-4.2 ✅** · **EN-4.3 ⏳** (cableado y probado en la muestra; la sesión completa espera a la Fase 3) · EN-4.4 · **EN-4.5 ✅**
 - [ ] **Fase 5**: EN-5.1 · EN-5.2 · EN-5.3 · EN-5.4
 - [ ] **Fase 6**: EN-6.1 · EN-6.2 · EN-6.3 · EN-6.4 · EN-6.5 · EN-6.6
@@ -623,13 +625,14 @@ Reglas de trabajo:
 2. Una fase no se cierra hasta pasar su criterio de aceptación y comprobar
    **regresión cero en `es`, `gl`, `es-DO` y `eu`**.
 3. Ningún dataset `en` entra en `main` sin el veredicto dialectal de EN-0.5.
-   **Excepción registrada (ago 2026):** el banco inglés se fusiona a `main` con
-   la guía dialectal **escrita y aplicada pero SIN FIRMAR**, por decisión
-   expresa de Frank, para poder generar la build de evaluación. La regla no se
-   deroga: sigue en pie para publicar. Mientras la §6 de
-   [`guia-dialectal-en-US.md`](./guia-dialectal-en-US.md) tenga casillas sin
-   marcar, `main` contiene un dataset clínico **no validado** y la app no puede
-   salir a tienda en EE. UU. Anotarlo aquí es la diferencia entre una excepción
-   consciente y una regla incumplida en silencio.
+   **Excepción registrada (ago 2026) y cerrada (16 ago 2026):** el banco inglés
+   se fusionó a `main` con la guía dialectal **escrita y aplicada pero SIN
+   FIRMAR**, por decisión expresa de Frank, para poder generar la build de
+   evaluación. Miguelina, profesora SLP con licencia de *Howard University*
+   (EN-0.3), ha firmado la guía y, con su equipo, validado la versión actual
+   del dataset `en`. La §6 de
+   [`guia-dialectal-en-US.md`](./guia-dialectal-en-US.md) ya no tiene casillas
+   sin marcar. Sigue sin resolverse el resto de lo que exige publicar en tienda
+   en EE. UU. (Fases 5-7).
 4. Este documento es la fuente única del plan: cualquier cambio de alcance se
    edita aquí en la misma PR que lo introduce.
