@@ -8,7 +8,8 @@
 > es-DO) y **sin romper nada de lo que ya funciona**.
 >
 > Base clínica: *Protocolo Clínico Integral — Arquitectura Terapéutica para TEA
-> y Dislexia en Valeria+*. Encuadre regulatorio: **SaMD Clase IIa (MDR)**.
+> y Dislexia en Valeria+*. Encuadre regulatorio: **SaMD Clase I (MDR),
+> autocertificación**.
 >
 > Estado: ✅ implementado (fases 0-5) · Rama de trabajo: `claude/tea-dislexia-integration-w9bkuz`
 
@@ -191,7 +192,7 @@ gamificación. La instrumentación se consume, no se modifica.
 La telemetría nueva **reutiliza los mismos nodos** ya cifrados y exportables. La
 tabla del protocolo mapea 1:1 sobre funciones existentes:
 
-| Módulo · estímulo | Métrica (exportable) | Función existente | Defensa MDR Clase IIa |
+| Módulo · estímulo | Métrica (exportable) | Función existente | Defensa MDR Clase I |
 | --- | --- | --- | --- |
 | TEA · Quiebre Pragmático / Transiciones | Latencia estresor→reparación (o claudicación) | `trackRepairStrategy` + `repairEvents` + `HighLoadContext` | El algoritmo nunca decide cuándo interrumpir: la «frustración útil» es 100 % humana |
 | TEA · Categorización con Ruido Babble | Tasa de aciertos vs % del slider | `trackNoiseLevel` + `noiseEvents` | No es un audiómetro: el ruido solo muta si el dedo del adulto desplaza el control |
