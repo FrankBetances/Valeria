@@ -342,7 +342,7 @@ export const EN: UiStrings = {
 
 
     itemUnlockCondition: (id: string): string => ({
-      snack_fish: 'Available from the first session',
+      snack_fish: 'Available from the start',
       neck_red_bow: 'Complete 3 therapy sessions',
       head_flower: 'Reach a 3-day streak',
       neck_bell: 'Complete 10 therapy sessions',

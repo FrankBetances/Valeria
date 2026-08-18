@@ -334,7 +334,7 @@ export const ES = {
 
 
     itemUnlockCondition: (id: string): string => ({
-      snack_fish: 'Disponible desde la primera sesión',
+      snack_fish: 'Disponible desde el principio',
       neck_red_bow: 'Completa 3 sesiones de terapia',
       head_flower: 'Alcanza una racha de 3 días',
       neck_bell: 'Completa 10 sesiones de terapia',

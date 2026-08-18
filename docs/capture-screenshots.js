@@ -15,6 +15,15 @@ const path = require('path');
 const BASE = 'http://localhost:8081';
 const OUT = process.env.OUT_DIR || path.join(__dirname, 'screenshots');
 const shot = (page, name) => page.screenshot({ path: path.join(OUT, name + '.png') });
+// Recorte alrededor de un elemento, para los detalles que a pantalla completa
+// no se aprecian (la cara de Lúa mide 64 px de ancho).
+const shotAround = async (page, loc, name, pad = 16) => {
+  const b = await (await loc.elementHandle()).boundingBox();
+  await page.screenshot({
+    path: path.join(OUT, name + '.png'),
+    clip: { x: Math.max(0, b.x - pad), y: Math.max(0, b.y - pad), width: b.width + pad * 2, height: b.height + pad * 2 },
+  });
+};
 const pause = (page, ms) => page.waitForTimeout(ms);
 
 (async () => {
@@ -312,7 +321,39 @@ const pause = (page, ms) => page.waitForTimeout(ms);
   } else {
     console.log('26 insignias — no visible (se omite)');
   }
+
+  // El armario: los cinco coleccionables que se le ponen a la gata. Con el
+  // progreso sembrado arriba (27 sesiones, racha 5, nivel 7) están los cinco
+  // desbloqueados, que es lo que hay que ver en el manual.
+  const armario = page.getByText('El armario y premios de Lúa', { exact: true });
+  if (await armario.isVisible().catch(() => false)) {
+    // Al final del todo: centrar el rótulo dejaba los dos últimos
+    // coleccionables debajo del botón «Cerrar».
+    const ultimo = page.getByLabel(/Gorro de Maga Estelar/i);
+    await (await ultimo.count() ? ultimo : armario)
+      .evaluate((el) => el.scrollIntoView({ block: 'end' }));
+    await pause(page, 800);
+    await shot(page, 'armario-lua');
+    console.log('armario ✓');
+    for (const etiqueta of [/Flor Turquesa Valeria/i, /Pajarita Escarlata/i]) {
+      const item = page.getByLabel(etiqueta);
+      if (await item.count()) { await item.click(); await pause(page, 450); }
+    }
+  } else {
+    console.log('armario — no visible (se omite)');
+  }
   await page.getByText('Cerrar', { exact: true }).click().catch(() => {});
+  await pause(page, 1200);
+
+  // Lúa con los accesorios puestos y ronroneando por una caricia.
+  const gata = page.getByLabel(/Acariciar a la gata/i);
+  if (await gata.count()) {
+    await gata.click();
+    await pause(page, 350);
+    await shotAround(page, gata, 'lua-caricia', 20);
+    console.log('caricia ✓');
+    await pause(page, 1900);
+  }
   await pause(page, 400);
 
   // ===================== ACADEMY (hub de dominios, cápsula y quiz) =====================

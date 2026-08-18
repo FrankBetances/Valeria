@@ -205,6 +205,13 @@ de nivel, icono de la app y pantalla de arranque.
 | **Calentamiento de Realidad Aumentada** | «mirar a Lúa, seguirla a las esquinas» |
 | **Icono, icono adaptativo y splash** | La cara de Lúa (`assets/icon.png`, `adaptive-icon.png`, `splash.png`) |
 
+Las **tarjetas de bloque** del hub llevan el tinte de su acento como **fondo**
+—seis tarjetas blancas con un icono de color leían como una lista— y una línea
+de qué trabaja el bloque bajo el título. La cifra de terapias prescritas va en
+**tinta sobre blanco**, no teñida: en el color del bloque no llegaba al mínimo
+de contraste AA en ninguno de los seis (2,76 el naranja de Lenguaje). Medido,
+no estimado.
+
 ### Los gestos y los accesorios salen de la misma rejilla
 
 Las caras (reposo, parpadeo, caricia y boca abierta) y los cinco coleccionables
@@ -541,7 +548,7 @@ interfaz clásica se entra desde el hub de bloques, en la v11 desde **Ajustes**)
 
 | Documento | Descripción |
 | --- | --- |
-| **Manual de usuario con casos de uso** (v12) · [HTML](docs/manual-casos-de-uso.html) · [PDF](docs/Valeria-Manual-Casos-de-Uso.pdf) · [Word](docs/Valeria-Manual-Casos-de-Uso.docx) | **22 casos de uso** paso a paso ilustrados con capturas reales (`docs/screenshots/`): **Academy · hub de formación multidominio (CU‑03)**, los **siete bloques** (Pares Mínimos, Expansión Semántica, Audición, Lenguaje, TEA, Dislexia y **Realidad Aumentada**), el hub, la gráfica de sustitución por fonema, la telemetría del piloto (CU‑14), la variedad lingüística —Castellano, Galego, Dominicano y Euskera— (CU‑15), el Panel del Adulto / carga comunicativa (CU‑16), el **módulo de Lengua de Signos Española (CU‑17)** y el **bloque de Realidad Aumentada completo (CU‑18 a CU‑22)**: permiso de cámara y prueba de aptitud, los tres ejercicios y los umbrales clínicos. Cubre las novedades v6 → v12: la mascota **Lúa** y la colección de **premios** con doce niveles y dieciocho insignias (CU‑11), Academy con **siete dominios** (CU‑03), la iconografía propia de la v12 y el **Anexo C** sobre el periférico físico. Todas las capturas están tomadas sobre la v12. |
+| **Manual de usuario con casos de uso** (v12) · [HTML](docs/manual-casos-de-uso.html) · [PDF](docs/Valeria-Manual-Casos-de-Uso.pdf) · [Word](docs/Valeria-Manual-Casos-de-Uso.docx) | **22 casos de uso** paso a paso ilustrados con capturas reales (`docs/screenshots/`): **Academy · hub de formación multidominio (CU‑03)**, los **siete bloques** (Pares Mínimos, Expansión Semántica, Audición, Lenguaje, TEA, Dislexia y **Realidad Aumentada**), el hub, la gráfica de sustitución por fonema, la telemetría del piloto (CU‑14), la variedad lingüística —Castellano, Galego, Dominicano y Euskera— (CU‑15), el Panel del Adulto / carga comunicativa (CU‑16), el **módulo de Lengua de Signos Española (CU‑17)** y el **bloque de Realidad Aumentada completo (CU‑18 a CU‑22)**: permiso de cámara y prueba de aptitud, los tres ejercicios y los umbrales clínicos. Cubre las novedades v6 → v12: la mascota **Lúa** —acariciable desde el hub—, la colección de **premios** con doce niveles y dieciocho insignias y **el armario** de cinco coleccionables (CU‑11), Academy con **siete dominios** (CU‑03), la iconografía propia de la v12 y el **Anexo C** sobre el periférico físico. Todas las capturas están tomadas sobre la v12. |
 | [`docs/plan-evolucion-ux-v11.md`](docs/plan-evolucion-ux-v11.md) | Plan de evolución UX/UI v10.2 → v11 en respuesta al feedback del piloto («engorroso», «mucho texto»): diagnóstico medido sobre el código, cuadrícula de 2 columnas, pestañas inferiores y el **muro de contención** que garantiza cero regresiones clínicas y cero pérdida de la serie de telemetría. Implementado y activo; el interruptor `ENABLE_V11_UI` se retiró al cerrar el Sprint 4.6. |
 | [`docs/protocolo-pares-minimos.md`](docs/protocolo-pares-minimos.md) | Protocolo de pares mínimos para dislalias fonológicas: 10 pares accionables con flujo TTS→STT, feedback por rama y misiones físicas. Implementado en `src/ValeriaMinimalPairsScreen.tsx` + `src/valeriaMinimalPairs.ts`. |
 | [`docs/protocolo-pares-minimos-es-DO.md`](docs/protocolo-pares-minimos-es-DO.md) | Protocolo de pares mínimos en español dominicano (Quisqueya Habla). Implementado en `src/valeriaMinimalPairsEsDO.ts`. |
