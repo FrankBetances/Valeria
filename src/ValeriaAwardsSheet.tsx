@@ -22,15 +22,47 @@ import {
   GameState, BADGES, levelFor, levelProgress, xpToNext, liveStreak, LEVEL_COUNT,
 } from './valeriaGamification';
 import { useT } from './i18n';
+import { LuaInventoryState } from './types/valeriaLua';
+import { COLLECTIBLES_CATALOG } from './components/lua/luaPixelSegments';
+import {
+  loadLuaInventory,
+  checkAndUnlockItems,
+  equipLuaAccessory,
+  DEFAULT_LUA_INVENTORY,
+} from './services/valeriaLuaInventory';
 
 interface Props {
   open: boolean;
   game: GameState | null;
   onClose: () => void;
+  onInventoryChange?: (inv: LuaInventoryState) => void;
 }
 
-export const ValeriaAwardsSheet: React.FC<Props> = ({ open, game, onClose }) => {
+export const ValeriaAwardsSheet: React.FC<Props> = ({ open, game, onClose, onInventoryChange }) => {
   const t = useT();
+  const [inventory, setInventory] = React.useState<LuaInventoryState>(DEFAULT_LUA_INVENTORY);
+
+  React.useEffect(() => {
+    if (open) {
+      void (async () => {
+        const invRes = await checkAndUnlockItems(game);
+        setInventory(invRes.inventory);
+        if (onInventoryChange) onInventoryChange(invRes.inventory);
+      })();
+    }
+  }, [open, game, onInventoryChange]);
+
+  const handleToggleEquip = async (item: typeof COLLECTIBLES_CATALOG[0]) => {
+    if (!inventory.unlockedItemIds.includes(item.id)) return;
+    if (item.slot === 'snack') return;
+
+    const current = inventory.equipped[item.slot];
+    const nextId = current === item.id ? undefined : item.id;
+    const updated = await equipLuaAccessory(item.slot, nextId);
+    setInventory(updated);
+    if (onInventoryChange) onInventoryChange(updated);
+  };
+
   if (!game) return null;
 
   const level = levelFor(game.xp);
@@ -114,6 +146,43 @@ export const ValeriaAwardsSheet: React.FC<Props> = ({ open, game, onClose }) => 
                 );
               })}
             </View>
+            <Text style={s.sectionLabel}>El Armario y Premios de Lúa</Text>
+            <View style={s.wardrobeGrid}>
+              {COLLECTIBLES_CATALOG.map((item) => {
+                const unlocked = inventory.unlockedItemIds.includes(item.id);
+                const isEquipped =
+                  item.slot !== 'snack' && inventory.equipped[item.slot] === item.id;
+
+                return (
+                  <Pressable
+                    key={item.id}
+                    onPress={() => handleToggleEquip(item)}
+                    disabled={!unlocked || item.slot === 'snack'}
+                    style={[
+                      s.itemCard,
+                      !unlocked && s.itemCardLocked,
+                      isEquipped && s.itemCardEquipped,
+                    ]}
+                    accessibilityRole="button"
+                    accessibilityLabel={`${item.name}. ${unlocked ? (isEquipped ? 'Equipado' : 'Poner') : 'Bloqueado'}`}
+                  >
+                    <View style={[s.itemIconPlate, isEquipped && s.itemIconPlateEquipped]}>
+                      <Text style={s.itemGlyph}>{item.glyph}</Text>
+                    </View>
+                    <Text style={[s.itemName, !unlocked && s.itemNameLocked]} numberOfLines={1}>
+                      {item.name}
+                    </Text>
+                    <Text style={s.itemSlotBadge}>
+                      {item.slot === 'snack' ? 'Snack' : item.slot === 'head' ? 'Cabeza' : 'Cuello'}
+                    </Text>
+                    <Text style={s.itemDesc} numberOfLines={2}>
+                      {unlocked ? (isEquipped ? '✓ Puesto en Lúa' : (item.slot === 'snack' ? 'Disponible para premiar' : 'Toca para equipar')) : item.unlockCondition}
+                    </Text>
+                  </Pressable>
+                );
+              })}
+            </View>
+
             <Text style={s.hint}>{t.awards.lockedHint}</Text>
           </ScrollView>
 
@@ -209,6 +278,28 @@ const s = StyleSheet.create({
     alignItems: 'center', marginTop: V.space.md, ...V.shadow.button,
   },
   closeTxt: { color: '#fff', ...V.type.title, fontWeight: V.font.extrabold },
+
+  wardrobeGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: V.space.sm, marginBottom: V.space.md },
+  itemCard: {
+    width: '48%', backgroundColor: V.color.card, borderRadius: 16, borderWidth: 1,
+    borderColor: V.color.borderActive, padding: V.space.sm, alignItems: 'center',
+  },
+  itemCardLocked: { borderColor: V.color.border, backgroundColor: '#fbfdfd', opacity: 0.65 },
+  itemCardEquipped: { borderColor: V.color.primary, borderWidth: 2, backgroundColor: V.color.primaryLight },
+  itemIconPlate: {
+    width: 44, height: 44, borderRadius: 12, backgroundColor: '#f0fdf9',
+    alignItems: 'center', justifyContent: 'center', marginBottom: 4,
+  },
+  itemIconPlateEquipped: { backgroundColor: '#cdeeec' },
+  itemGlyph: { fontSize: 22 },
+  itemName: { fontSize: 12, fontWeight: V.font.extrabold, color: V.color.textPrimary, textAlign: 'center' },
+  itemNameLocked: { color: V.color.textMuted },
+  itemSlotBadge: {
+    fontSize: 9.5, fontWeight: V.font.bold, color: V.color.primaryDark,
+    backgroundColor: 'rgba(0,196,190,0.12)', paddingHorizontal: 6, paddingVertical: 2,
+    borderRadius: 6, marginTop: 2, marginBottom: 3,
+  },
+  itemDesc: { fontSize: 9.5, lineHeight: 12, fontWeight: V.font.semibold, color: V.color.textSecondary, textAlign: 'center' },
 });
 
 export default ValeriaAwardsSheet;

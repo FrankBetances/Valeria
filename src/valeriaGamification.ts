@@ -26,6 +26,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { STORAGE_KEYS } from './valeriaTheme';
 // Solo tipos: no arrastra React ni react-native-svg a este módulo.
 import type { AwardGlyph, AwardTier } from './ValeriaPixelAwards';
+import type { CollectibleItem } from './types/valeriaLua';
+import { checkAndUnlockItems } from './services/valeriaLuaInventory';
 
 export interface GameState {
   xp: number;
@@ -52,6 +54,7 @@ export interface SessionReward {
   levelUp: boolean;
   levelName: string;
   newBadges: Badge[];
+  newCollectibles?: CollectibleItem[];
   perfect: boolean;
 }
 
@@ -202,6 +205,12 @@ export const registerSession = async (avg: number, exercises: number): Promise<S
   tryUnlock('regreso', gapDays >= 7);
   tryUnlock('nivel10', level >= 10);
 
+  let newCollectibles: CollectibleItem[] = [];
+  try {
+    const unlockRes = await checkAndUnlockItems(g);
+    newCollectibles = unlockRes.newlyUnlocked;
+  } catch (e) { /* noop */ }
+
   try {
     await AsyncStorage.setItem(STORAGE_KEYS.juego, JSON.stringify(g));
   } catch (e) { /* almacenamiento no disponible */ }
@@ -215,6 +224,7 @@ export const registerSession = async (avg: number, exercises: number): Promise<S
     levelUp: level > prevLevel,
     levelName: levelName(level),
     newBadges,
+    newCollectibles,
     perfect,
   };
 };

@@ -39,9 +39,9 @@ import { BlockIcon, BlockIconName } from './ValeriaBlockIcons';
 export interface ValeriaBlockTileProps {
   icon: BlockIconName;
   title: string;
-  /** Tinte suave del bloque: placa del icono y carril de la barra. */
+  /** Tinte suave del bloque: placa secundaria, píldora y carril de la barra. */
   accentBg: string;
-  /** Color pleno del bloque: cifra y relleno de la barra. */
+  /** Color pleno del bloque: placa del icono, cifra y relleno de la barra. */
   accentFg: string;
   onPress: () => void;
   accessibilityLabel: string;
@@ -59,7 +59,7 @@ export const ValeriaBlockTile: React.FC<ValeriaBlockTileProps> = React.memo(({
 }) => {
   const scale = useRef(new Animated.Value(1)).current;
   const spring = (toValue: number) => {
-    Animated.spring(scale, { toValue, useNativeDriver: true, speed: 40, bounciness: 6 }).start();
+    Animated.spring(scale, { toValue, useNativeDriver: true, speed: 42, bounciness: 6 }).start();
   };
 
   const pct = progress == null ? null : Math.max(0, Math.min(1, progress));
@@ -67,7 +67,7 @@ export const ValeriaBlockTile: React.FC<ValeriaBlockTileProps> = React.memo(({
   return (
     <Pressable
       onPress={onPress}
-      onPressIn={() => spring(0.97)}
+      onPressIn={() => spring(0.96)}
       onPressOut={() => spring(1)}
       accessibilityRole="button"
       accessibilityLabel={accessibilityLabel}
@@ -75,22 +75,28 @@ export const ValeriaBlockTile: React.FC<ValeriaBlockTileProps> = React.memo(({
       style={[s.press, style]}
     >
       <Animated.View style={[s.card, { transform: [{ scale }] }]}>
-        <View style={[s.iconPlate, { backgroundColor: accentFg }]}>
-          <BlockIcon name={icon} color="#ffffff" size={28} />
+        {/* Fila superior: Placa del icono distintivo a la izquierda + Badge métrico a la derecha */}
+        <View style={s.topRow}>
+          <View style={[s.iconPlate, { backgroundColor: accentFg }]}>
+            <BlockIcon name={icon} color="#ffffff" size={26} />
+          </View>
+          {!!meta && (
+            <View style={[s.badgePill, { backgroundColor: accentBg }]}>
+              <Text style={[s.badgeTxt, { color: accentFg }]} numberOfLines={1}>{meta}</Text>
+            </View>
+          )}
         </View>
 
-        <View style={s.foot}>
+        {/* Zona inferior: Título proporcional a 2 líneas + Barra de avance */}
+        <View style={s.bottomArea}>
           <Text style={s.title} numberOfLines={2}>{title}</Text>
 
-          {!!meta && (
-            <>
-              <Text style={[s.meta, { color: accentFg }]} numberOfLines={1}>{meta}</Text>
-              {pct != null && (
-                <View style={[s.track, { backgroundColor: accentBg }]}>
-                  <View style={[s.fill, { width: `${pct * 100}%`, backgroundColor: accentFg }]} />
-                </View>
-              )}
-            </>
+          {pct != null ? (
+            <View style={[s.track, { backgroundColor: accentBg }]}>
+              <View style={[s.fill, { width: `${Math.round(pct * 100)}%`, backgroundColor: accentFg }]} />
+            </View>
+          ) : (
+            <View style={s.spacerTrack} />
           )}
         </View>
       </Animated.View>
@@ -101,55 +107,87 @@ export const ValeriaBlockTile: React.FC<ValeriaBlockTileProps> = React.memo(({
 ValeriaBlockTile.displayName = 'ValeriaBlockTile';
 
 const s = StyleSheet.create({
-  press: { flex: 1 },
+  press: {
+    flex: 1,
+  },
 
   card: {
     flex: 1,
+    minHeight: 156,
     backgroundColor: V.color.card,
-    borderRadius: 24,
+    borderRadius: 22,
     borderWidth: 1,
-    borderColor: '#eef2f2',
-    padding: 16,
-    // El zócalo ANCLADO abajo. La cabecera del fichero lo describía desde la
-    // v11 pero nunca se aplicó, y es exactamente el hueco muerto que se ve en
-    // la cuadrícula: en una fila, la tarjeta con el título de una línea se
-    // estira hasta la de dos y deja su contenido flotando arriba.
+    borderColor: '#edf2f2',
+    padding: 15,
     justifyContent: 'space-between',
-    // Sombra baja y abierta: en una cuadrícula la elevación es lo que separa
-    // la pieza del fondo, y sin ella las tarjetas parecían recortes de papel.
-    shadowColor: 'rgba(15, 23, 42, 0.13)',
-    shadowOffset: { width: 0, height: 8 },
+    shadowColor: 'rgba(15, 23, 42, 0.10)',
+    shadowOffset: { width: 0, height: 6 },
     shadowOpacity: 1,
-    shadowRadius: 20,
-    elevation: 4,
+    shadowRadius: 16,
+    elevation: 3,
   },
 
-  // Color PLENO con el glifo en blanco. La placa pastel con el icono teñido
-  // se veía lavada; invertirla es lo que hace que la tarjeta tenga peso.
+  topRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+
   iconPlate: {
-    width: 52,
-    height: 52,
-    borderRadius: 17,
+    width: 48,
+    height: 48,
+    borderRadius: 16,
     alignItems: 'center',
     justifyContent: 'center',
+    shadowColor: 'rgba(0, 0, 0, 0.12)',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 1,
+    shadowRadius: 6,
+    elevation: 2,
   },
 
-  foot: { marginTop: 14 },
+  badgePill: {
+    paddingHorizontal: 9,
+    paddingVertical: 4,
+    borderRadius: 10,
+    maxWidth: '52%',
+  },
+
+  badgeTxt: {
+    fontSize: 11,
+    fontWeight: V.font.extrabold,
+    letterSpacing: 0.1,
+  },
+
+  bottomArea: {
+    marginTop: 12,
+  },
+
   title: {
-    fontSize: 16,
-    lineHeight: 20,
+    fontSize: 15.5,
+    lineHeight: 19.5,
     fontWeight: V.font.extrabold,
     color: V.color.textPrimary,
     letterSpacing: -0.2,
+    minHeight: 40,
   },
-  meta: {
-    fontSize: 12.5,
-    fontWeight: V.font.extrabold,
+
+  track: {
+    height: 6,
+    borderRadius: 3,
     marginTop: 8,
-    letterSpacing: 0.1,
+    overflow: 'hidden',
   },
-  track: { height: 6, borderRadius: 3, marginTop: 7, overflow: 'hidden' },
-  fill: { height: '100%', borderRadius: 3 },
+
+  fill: {
+    height: '100%',
+    borderRadius: 3,
+  },
+
+  spacerTrack: {
+    height: 6,
+    marginTop: 8,
+  },
 });
 
 export default ValeriaBlockTile;

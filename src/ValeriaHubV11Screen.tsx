@@ -33,6 +33,9 @@ import { ValeriaBlockTile } from './ValeriaBlockTile';
 import { BlockIcon, BlockIconName } from './ValeriaBlockIcons';
 import { ValeriaGameStrip } from './ValeriaGameStrip';
 import { ValeriaAwardsSheet } from './ValeriaAwardsSheet';
+import { ValeriaCatInteractiveCard } from './components/lua/ValeriaCatInteractiveCard';
+import { LuaInventoryState } from './types/valeriaLua';
+import { loadLuaInventory, DEFAULT_LUA_INVENTORY } from './services/valeriaLuaInventory';
 import { loadGame, GameState } from './valeriaGamification';
 import { isArAvailable } from './valeriaArBridge';
 import { useT, UiStrings } from './i18n';
@@ -67,6 +70,7 @@ export const ValeriaHubV11Screen: React.FC<{ navigation: any }> = ({ navigation 
     dislexia: BLOCKS.dislexia.meta.length,
   });
   const [game, setGame] = useState<GameState | null>(null);
+  const [inventory, setInventory] = useState<LuaInventoryState>(DEFAULT_LUA_INVENTORY);
   const [awardsOpen, setAwardsOpen] = useState(false);
   const [teaConsentOk, setTeaConsentOk] = useState(false);
   const [teaConsentOpen, setTeaConsentOpen] = useState(false);
@@ -90,6 +94,7 @@ export const ValeriaHubV11Screen: React.FC<{ navigation: any }> = ({ navigation 
     } catch (e) { /* noop */ }
     try {
       setGame(await loadGame());
+      setInventory(await loadLuaInventory());
     } catch (e) { /* noop */ }
   }, []);
 
@@ -193,6 +198,12 @@ export const ValeriaHubV11Screen: React.FC<{ navigation: any }> = ({ navigation 
         contentContainerStyle={s.grid}
         ListHeaderComponent={(
           <View style={s.stripWrap}>
+            <ValeriaCatInteractiveCard
+              inventory={inventory}
+              onInventoryChange={setInventory}
+              size={64}
+            />
+            <View style={{ height: V.space.md }} />
             <ValeriaGameStrip game={game} onPress={() => setAwardsOpen(true)} />
           </View>
         )}
@@ -214,7 +225,12 @@ export const ValeriaHubV11Screen: React.FC<{ navigation: any }> = ({ navigation 
 
       {/* La colección de premios. Sin PIN: XP, racha e insignias son
           motivación, no dato clínico, y el niño tiene que poder mirarlas. */}
-      <ValeriaAwardsSheet open={awardsOpen} game={game} onClose={() => setAwardsOpen(false)} />
+      <ValeriaAwardsSheet
+        open={awardsOpen}
+        game={game}
+        onClose={() => setAwardsOpen(false)}
+        onInventoryChange={setInventory}
+      />
 
       {/* Consentimiento informado del módulo TEA (Quiebre Pragmático). Mismo
           texto, misma persistencia y misma obligatoriedad que en la v10.2. */}
