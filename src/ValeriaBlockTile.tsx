@@ -78,7 +78,7 @@ export const ValeriaBlockTile: React.FC<ValeriaBlockTileProps> = React.memo(({
         {/* Fila superior: Placa del icono distintivo a la izquierda + Badge métrico a la derecha */}
         <View style={s.topRow}>
           <View style={[s.iconPlate, { backgroundColor: accentFg }]}>
-            <BlockIcon name={icon} color="#ffffff" size={26} />
+            <BlockIcon name={icon} color="#ffffff" size={24} />
           </View>
           {!!meta && (
             <View style={[s.badgePill, { backgroundColor: accentBg }]}>
@@ -113,7 +113,6 @@ const s = StyleSheet.create({
 
   card: {
     flex: 1,
-    minHeight: 156,
     backgroundColor: V.color.card,
     borderRadius: 22,
     borderWidth: 1,
@@ -137,9 +136,9 @@ const s = StyleSheet.create({
   },
 
   iconPlate: {
-    width: 48,
-    height: 48,
-    borderRadius: 16,
+    width: 44,
+    height: 44,
+    borderRadius: 15,
     alignItems: 'center',
     justifyContent: 'center',
     shadowColor: 'rgba(0, 0, 0, 0.12)',
@@ -149,17 +148,20 @@ const s = StyleSheet.create({
     elevation: 2,
   },
 
+  // Sin ancho máximo: el 52 % fijo raparía «5 escenarios» a «5 escen…», y un
+  // dato a medias en la cuadrícula del hub no es un dato.
   badgePill: {
-    paddingHorizontal: 9,
+    paddingHorizontal: 8,
     paddingVertical: 4,
     borderRadius: 10,
-    maxWidth: '52%',
+    flexShrink: 1,
+    marginLeft: 8,
   },
 
   badgeTxt: {
-    fontSize: 11,
+    fontSize: 10.5,
     fontWeight: V.font.extrabold,
-    letterSpacing: 0.1,
+    letterSpacing: 0,
   },
 
   bottomArea: {
@@ -172,7 +174,9 @@ const s = StyleSheet.create({
     fontWeight: V.font.extrabold,
     color: V.color.textPrimary,
     letterSpacing: -0.2,
-    minHeight: 40,
+    // Dos líneas reservadas: iguala la altura de «Audición» y de «Expansión
+    // Semántica» sin estirar la fila, que es de donde salía el hueco muerto.
+    minHeight: 39,
   },
 
   track: {

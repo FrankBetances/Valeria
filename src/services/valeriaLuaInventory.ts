@@ -94,17 +94,23 @@ export const equipLuaAccessory = async (
   return inv;
 };
 
-export const recordPatInteraction = async (): Promise<LuaInventoryState> => {
-  const inv = await loadLuaInventory();
-  inv.totalPatsCount = (inv.totalPatsCount || 0) + 1;
+// `current` evita el ciclo leer-de-disco / sumar / guardar: con caricias
+// seguidas, dos lecturas solapadas partían del mismo valor y una se perdía.
+export const recordPatInteraction = async (
+  current?: LuaInventoryState,
+): Promise<LuaInventoryState> => {
+  const base = current ?? await loadLuaInventory();
+  const inv: LuaInventoryState = { ...base, totalPatsCount: (base.totalPatsCount || 0) + 1 };
   await saveLuaInventory(inv);
   return inv;
 };
 
-export const feedLuaSnack = async (snackId: string): Promise<LuaInventoryState> => {
-  const inv = await loadLuaInventory();
-  inv.lastFedTimestamp = Date.now();
-  inv.lastFedSnackId = snackId;
+export const feedLuaSnack = async (
+  snackId: string,
+  current?: LuaInventoryState,
+): Promise<LuaInventoryState> => {
+  const base = current ?? await loadLuaInventory();
+  const inv: LuaInventoryState = { ...base, lastFedTimestamp: Date.now(), lastFedSnackId: snackId };
   await saveLuaInventory(inv);
   return inv;
 };

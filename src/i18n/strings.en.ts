@@ -288,16 +288,13 @@ export const EN: UiStrings = {
         'Star Cat', 'Great Cat', 'Moon Cat', 'Legendary Cat'][i]
       ?? 'Legendary Cat',
 
-    luaCompanion: 'Your companion Lúa',
     luaPurring: 'Purring!',
     luaEating: 'Yummy!',
-    luaPatHint: 'Tap to pet',
-    luaHappy: 'Lúa is so happy with you!',
-    luaReady: 'Ready for today’s session',
-    luaFeedFish: 'Reward with Little Fish',
-    luaFeedFishA11y: 'Give little fish to Lúa',
+    luaPatShort: 'Pet me',
+    luaFeedFish: 'Give the fish',
+    luaFeedFishA11y: 'Give Lúa the fish',
     luaPatA11y: 'Pet Lúa the cat',
-    luaPatHintA11y: 'Tap to pet her and feel her purr',
+    luaPatHintA11y: 'Tap to pet her and see her purr',
   },
 
   awards: {
@@ -336,13 +333,6 @@ export const EN: UiStrings = {
       head_wizard: 'Starry Wizard Hat',
     }[id] ?? id),
 
-    itemDesc: (id: string): string => ({
-      snack_fish: 'Lúa’s favorite treat to celebrate effort in therapy.',
-      neck_red_bow: 'Elegant and soft to wear around the neck.',
-      head_flower: 'A brooch with the colors of calm and constancy.',
-      neck_bell: 'Rings softly with every move.',
-      head_wizard: 'For the wisest and bravest cat in the cosmos.',
-    }[id] ?? ''),
 
     itemUnlockCondition: (id: string): string => ({
       snack_fish: 'Available from the first session',

@@ -276,13 +276,10 @@ export const ES = {
         'Gata Estrella', 'Gran Gata', 'Gata Lunar', 'Gata Legendaria'][i]
       ?? 'Gata Legendaria',
 
-    luaCompanion: 'Tu compañera Lúa',
-    luaPurring: '¡Ronroneando!',
+    luaPurring: '¡Ronroneo!',
     luaEating: '¡Qué rico!',
-    luaPatHint: 'Toca para acariciar',
-    luaHappy: '¡Lúa se siente feliz contigo!',
-    luaReady: 'Lista para la sesión de hoy',
-    luaFeedFish: 'Premiar con Pescadito',
+    luaPatShort: 'Acaríciame',
+    luaFeedFish: 'Dar pescadito',
     luaFeedFishA11y: 'Dar pescadito a Lúa',
     luaPatA11y: 'Acariciar a la gata Lúa',
     luaPatHintA11y: 'Toca para acariciarla y ver su ronroneo',
@@ -328,13 +325,6 @@ export const ES = {
       head_wizard: 'Gorro de Maga Estelar',
     }[id] ?? id),
 
-    itemDesc: (id: string): string => ({
-      snack_fish: 'El premio favorito de Lúa para celebrar el esfuerzo de la sesión.',
-      neck_red_bow: 'Elegante y suave para lucir en el cuello.',
-      head_flower: 'El broche con los colores de la calma y la constancia.',
-      neck_bell: 'Suena con suavidad al moverse.',
-      head_wizard: 'Para la gata más sabia y valiente del cosmos.',
-    }[id] ?? ''),
 
     itemUnlockCondition: (id: string): string => ({
       snack_fish: 'Disponible desde la primera sesión',

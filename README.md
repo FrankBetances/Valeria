@@ -198,12 +198,31 @@ de nivel, icono de la app y pantalla de arranque.
 
 | Dónde aparece | Qué se ve |
 | --- | --- |
-| **Hub** | Lúa en la tira de juego, con nivel y XP |
-| **Premios** (`ValeriaAwardsSheet`) | «Los premios de Lúa»: 12 niveles y 18 insignias |
+| **Hub** | Lúa entera y **acariciable**, compartiendo tarjeta con el nivel, la barra de XP y la racha. Toca la placa y ronronea; el botón le da un pescadito. Una sola tarjeta: la mascota y la tira de juego pintaban cada una su gata y se veían dos |
+| **Premios** (`ValeriaAwardsSheet`) | «Los premios de Lúa»: 12 niveles, 18 insignias y **el armario**: cinco coleccionables (pescadito, pajarita, flor, cascabel y gorro de maga) que se desbloquean con sesiones, racha y nivel, y se le ponen a la gata |
 | **Nombres de nivel** | **Gatita → Gata Curiosa → … → Gata Lunar → Gata Legendaria** (12 niveles) |
 | **Doble tarea** (`ValeriaDistractorCat`) | La misma gata como distractor periférico. El Panel del Adulto lo llama **«Gata distractora»** |
 | **Calentamiento de Realidad Aumentada** | «mirar a Lúa, seguirla a las esquinas» |
 | **Icono, icono adaptativo y splash** | La cara de Lúa (`assets/icon.png`, `adaptive-icon.png`, `splash.png`) |
+
+### Los gestos y los accesorios salen de la misma rejilla
+
+Las caras (reposo, parpadeo, caricia y boca abierta) y los cinco coleccionables
+se dibujan en [`src/components/lua/luaPixelSegments.ts`](src/components/lua/luaPixelSegments.ts)
+**sobre las coordenadas de SIT**, la matriz canónica. Dos reglas que costaron una
+revisión entera y que conviene no volver a saltarse:
+
+- **Toda fila mide 32.** Una de 33 desplaza los rasgos un píxel y saca el
+  contorno de la silueta: se ve un bulto en un solo renglón.
+- **Los ojos cerrados se dibujan con color, nunca con `.`** El transparente abre
+  un agujero por el que se ve la placa a través de la cabeza.
+- Los accesorios de cabeza se centran en el **eje de las orejas (columna 16,5)**,
+  no en el de la cabeza: las orejas de SIT van de la columna 8 a la 25 y un
+  adorno centrado en la cabeza se apoya en la oreja izquierda.
+
+El mismo dibujo sirve de icono en el armario —recortado a su propia caja, para
+que llene la placa— y de capa sobre la gata, expandido a la rejilla completa. No
+hay dos versiones que se puedan desincronizar.
 
 ### Un solo sprite, cero PNG a mano
 

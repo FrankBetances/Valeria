@@ -150,9 +150,10 @@ export const ValeriaAwardsSheet: React.FC<Props> = ({ open, game, onClose, onInv
                 );
               })}
             </View>
+            <Text style={s.hint}>{t.awards.lockedHint}</Text>
 
-            {/* Armario y accesorios de Lúa en Pixel Art nativo (sin emojis) */}
-            <Text style={s.sectionLabel}>{t.awards.wardrobeTitle}</Text>
+            {/* Armario y accesorios de Lúa, dibujados con la rejilla de la gata */}
+            <Text style={[s.sectionLabel, s.wardrobeLabel]}>{t.awards.wardrobeTitle}</Text>
             <View style={s.wardrobeGrid}>
               {COLLECTIBLES_CATALOG.map((item) => {
                 const unlocked = inventory.unlockedItemIds.includes(item.id);
@@ -168,7 +169,7 @@ export const ValeriaAwardsSheet: React.FC<Props> = ({ open, game, onClose, onInv
 
                 const statusDesc = unlocked
                   ? isEquipped
-                    ? `✓ ${t.awards.itemEquipped}`
+                    ? t.awards.itemEquipped
                     : item.slot === 'snack'
                       ? t.awards.itemSnackAvailable
                       : t.awards.itemEquipAction
@@ -188,7 +189,7 @@ export const ValeriaAwardsSheet: React.FC<Props> = ({ open, game, onClose, onInv
                     accessibilityLabel={t.awards.itemA11y(itemName, unlocked, isEquipped)}
                   >
                     <View style={[s.itemIconPlate, isEquipped && s.itemIconPlateEquipped]}>
-                      <PixelItemIcon id={item.id} size={32} />
+                      <PixelItemIcon id={item.id} size={40} />
                     </View>
                     <Text style={[s.itemName, !unlocked && s.itemNameLocked]} numberOfLines={1}>
                       {itemName}
@@ -201,8 +202,6 @@ export const ValeriaAwardsSheet: React.FC<Props> = ({ open, game, onClose, onInv
                 );
               })}
             </View>
-
-            <Text style={s.hint}>{t.awards.lockedHint}</Text>
           </ScrollView>
 
           <Pressable onPress={onClose} style={s.closeBtn} accessibilityRole="button">
@@ -244,6 +243,8 @@ const s = StyleSheet.create({
   stat: { flex: 1, alignItems: 'center' },
   statSep: { width: 1, alignSelf: 'stretch', backgroundColor: V.color.border },
   statValue: { fontSize: 26, lineHeight: 30, fontWeight: V.font.extrabold, color: V.color.textPrimary },
+  // textSecondary y no textMuted: en la versión anterior estas etiquetas iban en
+  // gris claro sobre blanco y no llegaban al contraste mínimo AA.
   statLabel: { ...V.type.caption, fontWeight: V.font.bold, color: V.color.textSecondary, marginTop: 2 },
 
   scroll: { paddingTop: V.space.lg, paddingBottom: V.space.md },
@@ -296,6 +297,9 @@ const s = StyleSheet.create({
   },
   closeTxt: { color: '#fff', ...V.type.title, fontWeight: V.font.extrabold },
 
+  // El aviso de las insignias queda justo encima: sin aire, el rótulo del
+  // armario se leía como una segunda línea suya.
+  wardrobeLabel: { marginTop: V.space.lg },
   wardrobeGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: V.space.sm, marginBottom: V.space.md },
   itemCard: {
     width: '48%', backgroundColor: V.color.card, borderRadius: 16, borderWidth: 1,
@@ -304,18 +308,18 @@ const s = StyleSheet.create({
   itemCardLocked: { borderColor: V.color.border, backgroundColor: '#fbfdfd', opacity: 0.65 },
   itemCardEquipped: { borderColor: V.color.primary, borderWidth: 2, backgroundColor: V.color.primaryLight },
   itemIconPlate: {
-    width: 48, height: 48, borderRadius: 14, backgroundColor: '#f0fdf9',
-    alignItems: 'center', justifyContent: 'center', marginBottom: 4,
+    width: 56, height: 56, borderRadius: 16, backgroundColor: '#f0fdf9',
+    alignItems: 'center', justifyContent: 'center', marginBottom: 6,
   },
   itemIconPlateEquipped: { backgroundColor: '#cdeeec' },
-  itemName: { fontSize: 12, fontWeight: V.font.extrabold, color: V.color.textPrimary, textAlign: 'center' },
+  itemName: { fontSize: 12.5, fontWeight: V.font.extrabold, color: V.color.textPrimary, textAlign: 'center' },
   itemNameLocked: { color: V.color.textMuted },
   itemSlotBadge: {
-    fontSize: 9.5, fontWeight: V.font.bold, color: V.color.primaryDark,
+    fontSize: 10.5, fontWeight: V.font.bold, color: V.color.primaryDark,
     backgroundColor: 'rgba(0,196,190,0.12)', paddingHorizontal: 6, paddingVertical: 2,
     borderRadius: 6, marginTop: 2, marginBottom: 3,
   },
-  itemDesc: { fontSize: 9.5, lineHeight: 12, fontWeight: V.font.semibold, color: V.color.textSecondary, textAlign: 'center' },
+  itemDesc: { fontSize: 11, lineHeight: 14, fontWeight: V.font.semibold, color: V.color.textSecondary, textAlign: 'center' },
 });
 
 export default ValeriaAwardsSheet;

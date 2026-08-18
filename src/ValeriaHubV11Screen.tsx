@@ -31,11 +31,10 @@ import { MINIMAL_PAIRS } from './valeriaMinimalPairs';
 import { DAILY_SCENARIOS } from './valeriaSemanticExpansion';
 import { ValeriaBlockTile } from './ValeriaBlockTile';
 import { BlockIcon, BlockIconName } from './ValeriaBlockIcons';
-import { ValeriaGameStrip } from './ValeriaGameStrip';
 import { ValeriaAwardsSheet } from './ValeriaAwardsSheet';
 import { ValeriaCatInteractiveCard } from './components/lua/ValeriaCatInteractiveCard';
 import { LuaInventoryState } from './types/valeriaLua';
-import { loadLuaInventory, createDefaultLuaInventory } from './services/valeriaLuaInventory';
+import { loadLuaInventory, createDefaultLuaInventory, checkAndUnlockItems } from './services/valeriaLuaInventory';
 import { loadGame, GameState } from './valeriaGamification';
 import { isArAvailable } from './valeriaArBridge';
 import { useT, UiStrings } from './i18n';
@@ -93,8 +92,10 @@ export const ValeriaHubV11Screen: React.FC<{ navigation: any }> = ({ navigation 
       setTeaConsentOk((await AsyncStorage.getItem(STORAGE_KEYS.teaConsent)) === 'ok');
     } catch (e) { /* noop */ }
     try {
-      setGame(await loadGame());
-      setInventory(await loadLuaInventory());
+      const g = await loadGame();
+      setGame(g);
+      const { inventory: inv } = await checkAndUnlockItems(g, await loadLuaInventory());
+      setInventory(inv);
     } catch (e) { /* noop */ }
   }, []);
 
@@ -200,11 +201,11 @@ export const ValeriaHubV11Screen: React.FC<{ navigation: any }> = ({ navigation 
           <View style={s.stripWrap}>
             <ValeriaCatInteractiveCard
               inventory={inventory}
+              game={game}
               onInventoryChange={setInventory}
+              onOpenAwards={() => setAwardsOpen(true)}
               size={64}
             />
-            <View style={{ height: V.space.md }} />
-            <ValeriaGameStrip game={game} onPress={() => setAwardsOpen(true)} />
           </View>
         )}
         showsVerticalScrollIndicator={false}

@@ -53,7 +53,6 @@ export interface SessionReward {
   levelName: string;
   newBadges: Badge[];
   perfect: boolean;
-  game: GameState;
 }
 
 // Catálogo de insignias. Tres familias con rango + seis de ocasión.
@@ -217,6 +216,5 @@ export const registerSession = async (avg: number, exercises: number): Promise<S
     levelName: levelName(level),
     newBadges,
     perfect,
-    game: { ...g },
   };
 };
