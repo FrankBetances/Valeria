@@ -1,20 +1,17 @@
 // ============================================================================
 // Valeria+ · Lúa · Segmentación anatómica canónica, paleta expandida y coleccionables
 //
-// Los mapas anatómicos derivan DIRECTAMENTE de las matrices canónicas SIT y HEAD
+// Los mapas anatómicos derivan DIRECTAMENTE de la matriz canónica SIT (32×38)
 // de ValeriaCatPixel.tsx (fuente única de verdad).
 //
 // Se compilan UNA sola vez en memoria estática (mergeRuns) para 60 fps continuos.
 // ============================================================================
-import React from 'react';
-import Svg, { Rect } from 'react-native-svg';
 import { SIT, CAT_TUXEDO, mergeRuns, Run, PixelMap } from '../../ValeriaCatPixel';
-import { COLLECTIBLES_CATALOG, CollectibleItem, getCollectibleById } from '../../types/valeriaLua';
 
 // ----------------------------------------------------------------------------
 // 1. CAPAS ANATÓMICAS DERIVADAS DE SIT CANÓNICA (32×38 total)
-//    - Cabeza: filas 0..21 (22 filas)
-//    - Tronco/Patas: filas 22..37 (16 filas)
+//    - Cabeza: filas 0..21 (22 filas exactas)
+//    - Tronco/Patas: filas 22..37 (16 filas exactas)
 //    - Cola: filas 24..35 (cols 25..31)
 // ----------------------------------------------------------------------------
 
@@ -56,10 +53,9 @@ export const LUA_HEAD_EAT_OPEN: PixelMap = [
 /**
  * Tronco y patas sentadas (32 col × 16 filas = filas 22..37 de SIT).
  * Se limpian las columnas 24..31 donde vive la cola para que la capa animada
- * de la cola se mueva libremente sin dejar sombra fija.
+ * de la cola se mueva libremente sin dejar sombra estática.
  */
 export const LUA_BODY_BASE: PixelMap = SIT.slice(22, 38).map((row, idx) => {
-  // Filas 2..13 corresponden a las filas 24..35 de SIT donde estaba la cola
   if (idx >= 2 && idx <= 13) {
     return row.slice(0, 24) + '........';
   }
@@ -127,7 +123,7 @@ const PIXEL_FISH: PixelMap = [
   '........................',
 ];
 
-// Accesorio Cuello: Pajarita Escarlata (colocada en el cuello, filas 0..8)
+// Accesorio Cuello: Pajarita Escarlata
 const PIXEL_RED_BOW: PixelMap = [
   '........................',
   '.....orrrrroo.orrrrro...',
@@ -155,7 +151,7 @@ const PIXEL_RED_BOW: PixelMap = [
   '........................',
 ];
 
-// Accesorio Cuello: Cascabel Dorado Reluciente (colocado en el cuello, filas 0..8)
+// Accesorio Cuello: Cascabel Dorado Reluciente
 const PIXEL_BELL: PixelMap = [
   '........................',
   '.........oooo...........',
@@ -183,7 +179,7 @@ const PIXEL_BELL: PixelMap = [
   '........................',
 ];
 
-// Accesorio Cabeza: Flor Turquesa Valeria (se fija en la oreja / frente, filas 0..8)
+// Accesorio Cabeza: Flor Turquesa Valeria
 const PIXEL_FLOWER: PixelMap = [
   '........................',
   '........oooo............',
@@ -211,7 +207,7 @@ const PIXEL_FLOWER: PixelMap = [
   '........................',
 ];
 
-// Accesorio Cabeza: Gorro de Maga Estelar Cósmica (filas 0..14)
+// Accesorio Cabeza: Gorro de Maga Estelar Cósmica
 const PIXEL_WIZARD_HAT: PixelMap = [
   '...........o............',
   '..........owo...........',
@@ -263,34 +259,3 @@ export const PRECOMPILED_RUNS = {
     return acc;
   }, {}),
 };
-
-// ----------------------------------------------------------------------------
-// 4. COMPONENTE SVG DE ÍTEM PIXEL-ART (Sustituto limpio de emojis de sistema)
-// ----------------------------------------------------------------------------
-
-interface PixelItemIconProps {
-  id: string;
-  size?: number;
-}
-
-export const PixelItemIcon: React.FC<PixelItemIconProps> = React.memo(({ id, size = 28 }) => {
-  const runs = PRECOMPILED_RUNS.items[id];
-  if (!runs) return null;
-
-  return (
-    <Svg width={size} height={size} viewBox="0 0 24 24">
-      {runs.map((r) => (
-        <Rect
-          key={`${id}-${r.x}-${r.y}`}
-          x={r.x}
-          y={r.y}
-          width={r.w + 0.1}
-          height={1.1}
-          fill={r.fill}
-        />
-      ))}
-    </Svg>
-  );
-});
-
-PixelItemIcon.displayName = 'PixelItemIcon';

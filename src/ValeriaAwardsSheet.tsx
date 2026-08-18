@@ -23,7 +23,7 @@ import {
 } from './valeriaGamification';
 import { useT } from './i18n';
 import { LuaInventoryState, COLLECTIBLES_CATALOG, createDefaultLuaInventory } from './types/valeriaLua';
-import { PixelItemIcon } from './components/lua/luaPixelSegments';
+import { PixelItemIcon } from './components/lua/PixelItemIcon';
 import {
   checkAndUnlockItems,
   equipLuaAccessory,

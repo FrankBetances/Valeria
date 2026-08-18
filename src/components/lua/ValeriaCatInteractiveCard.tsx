@@ -21,8 +21,8 @@ import { V } from '../../valeriaTheme';
 import { PixelAward } from '../../ValeriaPixelAwards';
 import {
   PRECOMPILED_RUNS,
-  PixelItemIcon,
 } from './luaPixelSegments';
+import { PixelItemIcon } from './PixelItemIcon';
 import { Run } from '../../ValeriaCatPixel';
 import { LuaAffectState, LuaInventoryState, getCollectibleById } from '../../types/valeriaLua';
 import { recordPatInteraction, feedLuaSnack } from '../../services/valeriaLuaInventory';

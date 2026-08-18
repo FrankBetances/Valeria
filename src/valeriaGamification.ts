@@ -24,9 +24,8 @@
 // ============================================================================
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { STORAGE_KEYS } from './valeriaTheme';
-// Solo tipos y funciones puras: no arrastra React ni react-native-svg a este módulo.
+// Solo tipos: no arrastra React ni react-native-svg a este módulo.
 import type { AwardGlyph, AwardTier } from './ValeriaPixelAwards';
-import { evaluateUnlockedItems, type CollectibleItem } from './types/valeriaLua';
 
 export interface GameState {
   xp: number;
@@ -53,8 +52,8 @@ export interface SessionReward {
   levelUp: boolean;
   levelName: string;
   newBadges: Badge[];
-  newCollectibles?: CollectibleItem[];
   perfect: boolean;
+  game: GameState;
 }
 
 // Catálogo de insignias. Tres familias con rango + seis de ocasión.
@@ -204,11 +203,6 @@ export const registerSession = async (avg: number, exercises: number): Promise<S
   tryUnlock('regreso', gapDays >= 7);
   tryUnlock('nivel10', level >= 10);
 
-  let newCollectibles: CollectibleItem[] = [];
-  try {
-    newCollectibles = evaluateUnlockedItems(g.sessions, g.streak, level, []);
-  } catch (e) { /* noop */ }
-
   try {
     await AsyncStorage.setItem(STORAGE_KEYS.juego, JSON.stringify(g));
   } catch (e) { /* almacenamiento no disponible */ }
@@ -222,7 +216,7 @@ export const registerSession = async (avg: number, exercises: number): Promise<S
     levelUp: level > prevLevel,
     levelName: levelName(level),
     newBadges,
-    newCollectibles,
     perfect,
+    game: { ...g },
   };
 };
