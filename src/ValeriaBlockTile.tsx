@@ -39,10 +39,12 @@ import { BlockIcon, BlockIconName } from './ValeriaBlockIcons';
 export interface ValeriaBlockTileProps {
   icon: BlockIconName;
   title: string;
-  /** Tinte suave del bloque: placa secundaria, píldora y carril de la barra. */
+  /** Tinte suave del bloque: es el FONDO de la tarjeta. */
   accentBg: string;
-  /** Color pleno del bloque: placa del icono, cifra y relleno de la barra. */
+  /** Color pleno del bloque: placa del icono y relleno de la barra. */
   accentFg: string;
+  /** Una línea de qué trabaja el bloque. Dos líneas como mucho. */
+  description?: string;
   onPress: () => void;
   accessibilityLabel: string;
   accessibilityHint?: string;
@@ -54,7 +56,7 @@ export interface ValeriaBlockTileProps {
 }
 
 export const ValeriaBlockTile: React.FC<ValeriaBlockTileProps> = React.memo(({
-  icon, title, accentBg, accentFg, onPress,
+  icon, title, accentBg, accentFg, description, onPress,
   accessibilityLabel, accessibilityHint, meta, progress, style,
 }) => {
   const scale = useRef(new Animated.Value(1)).current;
@@ -74,31 +76,37 @@ export const ValeriaBlockTile: React.FC<ValeriaBlockTileProps> = React.memo(({
       accessibilityHint={accessibilityHint}
       style={[s.press, style]}
     >
-      <Animated.View style={[s.card, { transform: [{ scale }] }]}>
-        {/* Fila superior: Placa del icono distintivo a la izquierda + Badge métrico a la derecha */}
+      <Animated.View style={[s.card, { backgroundColor: accentBg, transform: [{ scale }] }]}>
         <View style={s.topRow}>
           <View style={[s.iconPlate, { backgroundColor: accentFg }]}>
             <BlockIcon name={icon} color="#ffffff" size={24} />
           </View>
+          {/* Píldora blanca con la cifra en tinta, no en el color del bloque.
+              Teñida no llegaba al contraste AA en ninguno de los seis: el
+              naranja de Lenguaje se quedaba en 2,8 y el turquesa en 3,1. El
+              color de la tarjeta ya lo ponen el fondo, el icono y la barra. */}
           {!!meta && (
-            <View style={[s.badgePill, { backgroundColor: accentBg }]}>
-              <Text style={[s.badgeTxt, { color: accentFg }]} numberOfLines={1}>{meta}</Text>
+            <View style={s.badgePill}>
+              <Text style={s.badgeTxt} numberOfLines={1}>{meta}</Text>
             </View>
           )}
         </View>
 
-        {/* Zona inferior: Título proporcional a 2 líneas + Barra de avance */}
-        <View style={s.bottomArea}>
+        {/* Título y descripción reservan JUNTOS cuatro líneas. Reservarlas en el
+            título dejaba el aire entre el título y lo de abajo; así queda al
+            final del bloque de texto, donde se lee como separación. */}
+        <View style={s.textBlock}>
           <Text style={s.title} numberOfLines={2}>{title}</Text>
-
-          {pct != null ? (
-            <View style={[s.track, { backgroundColor: accentBg }]}>
-              <View style={[s.fill, { width: `${Math.round(pct * 100)}%`, backgroundColor: accentFg }]} />
-            </View>
-          ) : (
-            <View style={s.spacerTrack} />
-          )}
+          {!!description && <Text style={s.desc} numberOfLines={2}>{description}</Text>}
         </View>
+
+        {pct != null ? (
+          <View style={s.track}>
+            <View style={[s.fill, { width: `${Math.round(pct * 100)}%`, backgroundColor: accentFg }]} />
+          </View>
+        ) : (
+          <View style={s.spacerTrack} />
+        )}
       </Animated.View>
     </Pressable>
   );
@@ -111,12 +119,14 @@ const s = StyleSheet.create({
     flex: 1,
   },
 
+  // El fondo lo pone el color del bloque (accentBg). Seis tarjetas blancas con
+  // un icono de color leían como una lista; con el tinte, cada bloque se
+  // reconoce por su color desde el otro lado de la mesa.
   card: {
     flex: 1,
-    backgroundColor: V.color.card,
     borderRadius: 22,
     borderWidth: 1,
-    borderColor: '#edf2f2',
+    borderColor: 'rgba(255, 255, 255, 0.75)',
     padding: 15,
     // justifyContent: 'space-between' ancla el zócalo de estado abajo, de modo
     // que un título de una línea y otro de dos queden igual de asentados sin
@@ -151,6 +161,7 @@ const s = StyleSheet.create({
   // Sin ancho máximo: el 52 % fijo raparía «5 escenarios» a «5 escen…», y un
   // dato a medias en la cuadrícula del hub no es un dato.
   badgePill: {
+    backgroundColor: '#ffffff',
     paddingHorizontal: 8,
     paddingVertical: 4,
     borderRadius: 10,
@@ -162,10 +173,14 @@ const s = StyleSheet.create({
     fontSize: 10.5,
     fontWeight: V.font.extrabold,
     letterSpacing: 0,
+    color: V.color.textPrimary,
   },
 
-  bottomArea: {
+  textBlock: {
     marginTop: 12,
+    // Dos líneas de título + dos de descripción. Es lo que hace que todas las
+    // tarjetas midan igual sin que la fila estire ninguna.
+    minHeight: 73,
   },
 
   title: {
@@ -174,9 +189,14 @@ const s = StyleSheet.create({
     fontWeight: V.font.extrabold,
     color: V.color.textPrimary,
     letterSpacing: -0.2,
-    // Dos líneas reservadas: iguala la altura de «Audición» y de «Expansión
-    // Semántica» sin estirar la fila, que es de donde salía el hueco muerto.
-    minHeight: 39,
+  },
+
+  desc: {
+    fontSize: 11.5,
+    lineHeight: 14.5,
+    fontWeight: V.font.semibold,
+    color: V.color.textSecondary,
+    marginTop: 5,
   },
 
   track: {
@@ -184,6 +204,7 @@ const s = StyleSheet.create({
     borderRadius: 3,
     marginTop: 8,
     overflow: 'hidden',
+    backgroundColor: 'rgba(255, 255, 255, 0.85)',
   },
 
   fill: {

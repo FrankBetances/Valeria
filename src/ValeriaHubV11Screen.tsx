@@ -49,8 +49,10 @@ interface Tile {
   key: string;
   icon: BlockIconName;
   title: string;
-  /** La descripción retirada de la tarjeta: sin texto visible, el lector de
-   *  pantalla es la única vía a ella. Por eso el hint no es decorativo. */
+  /** Una línea en la tarjeta: de qué va el bloque. */
+  desc: string;
+  /** El detalle clínico completo (protocolo, técnica, límites). No cabe en la
+   *  tarjeta, así que el lector de pantalla es la única vía a él. */
   hint: string;
   a11y: string;
   bg: string;
@@ -133,36 +135,36 @@ export const ValeriaHubV11Screen: React.FC<{ navigation: any }> = ({ navigation 
 
   const tiles: Tile[] = [
     {
-      key: 'pairs', icon: 'pairs', title: t.hub.pairsTitle, hint: t.hub.pairsSub, a11y: t.hub.pairsA11y,
+      key: 'pairs', desc: t.hub.pairsBrief, icon: 'pairs', title: t.hub.pairsTitle, hint: t.hub.pairsSub, a11y: t.hub.pairsA11y,
       bg: '#ede4fc', fg: '#7c4fd0', meta: t.hub.pairsBadge(MINIMAL_PAIRS.length),
       onPress: () => navigation.navigate('MinimalPairs'),
     },
     {
-      key: 'semantic', icon: 'semantic', title: t.hub.semanticTitle, hint: t.hub.semanticSub, a11y: t.hub.semanticA11y,
+      key: 'semantic', desc: t.hub.semanticBrief, icon: 'semantic', title: t.hub.semanticTitle, hint: t.hub.semanticSub, a11y: t.hub.semanticA11y,
       bg: '#d6f5f2', fg: V.color.primaryDark, meta: t.hub.semanticBadge(DAILY_SCENARIOS.length),
       onPress: () => navigation.navigate('SemanticExpansion'),
     },
     {
-      key: 'audicion', icon: BLOCKS.audicion.icon, title: t.hub.hearingTitle, hint: t.hub.hearingSub, a11y: a11yFor('audicion', t.hub.hearingA11y),
+      key: 'audicion', desc: t.hub.hearingBrief, icon: BLOCKS.audicion.icon, title: t.hub.hearingTitle, hint: t.hub.hearingSub, a11y: a11yFor('audicion', t.hub.hearingA11y),
       bg: BLOCKS.audicion.accentBg, fg: BLOCKS.audicion.accentFg, meta: metaFor('audicion'), progress: progressFor('audicion'), onPress: () => openBlock('audicion'),
     },
     {
-      key: 'lenguaje', icon: BLOCKS.lenguaje.icon, title: t.hub.languageTitle, hint: t.hub.languageSub, a11y: a11yFor('lenguaje', t.hub.languageA11y),
+      key: 'lenguaje', desc: t.hub.languageBrief, icon: BLOCKS.lenguaje.icon, title: t.hub.languageTitle, hint: t.hub.languageSub, a11y: a11yFor('lenguaje', t.hub.languageA11y),
       bg: BLOCKS.lenguaje.accentBg, fg: BLOCKS.lenguaje.accentFg, meta: metaFor('lenguaje'), progress: progressFor('lenguaje'), onPress: () => openBlock('lenguaje'),
     },
     {
-      key: 'tea', icon: BLOCKS.tea.icon, title: t.hub.autismTitle, hint: t.hub.autismSub, a11y: a11yFor('tea', t.hub.autismA11y),
+      key: 'tea', desc: t.hub.autismBrief, icon: BLOCKS.tea.icon, title: t.hub.autismTitle, hint: t.hub.autismSub, a11y: a11yFor('tea', t.hub.autismA11y),
       bg: BLOCKS.tea.accentBg, fg: BLOCKS.tea.accentFg, meta: metaFor('tea'), progress: progressFor('tea'), onPress: openTea,
     },
     {
-      key: 'dislexia', icon: BLOCKS.dislexia.icon, title: t.hub.dyslexiaTitle, hint: t.hub.dyslexiaSub, a11y: a11yFor('dislexia', t.hub.dyslexiaA11y),
+      key: 'dislexia', desc: t.hub.dyslexiaBrief, icon: BLOCKS.dislexia.icon, title: t.hub.dyslexiaTitle, hint: t.hub.dyslexiaSub, a11y: a11yFor('dislexia', t.hub.dyslexiaA11y),
       bg: BLOCKS.dislexia.accentBg, fg: BLOCKS.dislexia.accentFg, meta: metaFor('dislexia'), progress: progressFor('dislexia'), onPress: () => openBlock('dislexia'),
     },
     // Séptimo bloque · RA. Si no hay host nativo de cámara + escena 3D, la
     // tarjeta NO se renderiza: el bloque no existe para el usuario, en lugar
     // de existir y fallar al tocarlo.
     ...(AR_ON ? [{
-      key: 'ar', icon: 'ar', title: t.hub.arTitle, hint: t.hub.arSub, a11y: t.hub.arA11y(AR_META.length),
+      key: 'ar', desc: t.hub.arBrief, icon: 'ar', title: t.hub.arTitle, hint: t.hub.arSub, a11y: t.hub.arA11y(AR_META.length),
       bg: '#e6f9f8', fg: V.color.primaryDark, meta: t.hub.therapiesBadge(AR_META.length),
       onPress: () => navigation.navigate('ArLauncher'),
     } as Tile] : []),
@@ -216,6 +218,7 @@ export const ValeriaHubV11Screen: React.FC<{ navigation: any }> = ({ navigation 
             accentBg={item.bg}
             accentFg={item.fg}
             meta={item.meta}
+            description={item.desc}
             progress={item.progress}
             accessibilityLabel={item.a11y}
             accessibilityHint={item.hint}
