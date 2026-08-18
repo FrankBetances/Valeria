@@ -275,6 +275,17 @@ export const ES = {
         'Gata Exploradora', 'Gata Saltarina', 'Gata Sabia', 'Gata Sigilosa',
         'Gata Estrella', 'Gran Gata', 'Gata Lunar', 'Gata Legendaria'][i]
       ?? 'Gata Legendaria',
+
+    luaCompanion: 'Tu compañera Lúa',
+    luaPurring: '¡Ronroneando!',
+    luaEating: '¡Qué rico!',
+    luaPatHint: 'Toca para acariciar',
+    luaHappy: '¡Lúa se siente feliz contigo!',
+    luaReady: 'Lista para la sesión de hoy',
+    luaFeedFish: 'Premiar con Pescadito',
+    luaFeedFishA11y: 'Dar pescadito a Lúa',
+    luaPatA11y: 'Acariciar a la gata Lúa',
+    luaPatHintA11y: 'Toca para acariciarla y ver su ronroneo',
   },
 
   // --------------------------------------------------------------------------
@@ -298,6 +309,40 @@ export const ES = {
     a11yOpen: 'Abrir la colección de premios de Lúa',
     badgeA11y: (name: string, won: boolean): string =>
       `${name}. ${won ? 'Conseguida' : 'Todavía no conseguida'}.`,
+
+    wardrobeTitle: 'El armario y premios de Lúa',
+    itemSlotHead: 'Cabeza',
+    itemSlotNeck: 'Cuello',
+    itemSlotSnack: 'Premio',
+    itemEquipped: 'Puesto en Lúa',
+    itemEquipAction: 'Toca para poner',
+    itemSnackAvailable: 'Disponible para premiar',
+    itemA11y: (name: string, unlocked: boolean, equipped: boolean): string =>
+      `${name}. ${unlocked ? (equipped ? 'Puesto en Lúa' : 'Toca para poner') : 'Bloqueado'}.`,
+
+    itemName: (id: string): string => ({
+      snack_fish: 'Pescadito Sabroso',
+      neck_red_bow: 'Pajarita Escarlata',
+      head_flower: 'Flor Turquesa Valeria',
+      neck_bell: 'Cascabel Reluciente',
+      head_wizard: 'Gorro de Maga Estelar',
+    }[id] ?? id),
+
+    itemDesc: (id: string): string => ({
+      snack_fish: 'El premio favorito de Lúa para celebrar el esfuerzo de la sesión.',
+      neck_red_bow: 'Elegante y suave para lucir en el cuello.',
+      head_flower: 'El broche con los colores de la calma y la constancia.',
+      neck_bell: 'Suena con suavidad al moverse.',
+      head_wizard: 'Para la gata más sabia y valiente del cosmos.',
+    }[id] ?? ''),
+
+    itemUnlockCondition: (id: string): string => ({
+      snack_fish: 'Disponible desde la primera sesión',
+      neck_red_bow: 'Completa 3 sesiones de terapia',
+      head_flower: 'Alcanza una racha de 3 días',
+      neck_bell: 'Completa 10 sesiones de terapia',
+      head_wizard: 'Alcanza el Nivel 5 de Lúa',
+    }[id] ?? ''),
 
     badgeName: (id: string): string => ({
       primera: 'Primera huella',

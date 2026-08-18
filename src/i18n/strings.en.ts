@@ -287,6 +287,17 @@ export const EN: UiStrings = {
         'Explorer Cat', 'Leaping Cat', 'Wise Cat', 'Silent Cat',
         'Star Cat', 'Great Cat', 'Moon Cat', 'Legendary Cat'][i]
       ?? 'Legendary Cat',
+
+    luaCompanion: 'Your companion Lúa',
+    luaPurring: 'Purring!',
+    luaEating: 'Yummy!',
+    luaPatHint: 'Tap to pet',
+    luaHappy: 'Lúa is so happy with you!',
+    luaReady: 'Ready for today’s session',
+    luaFeedFish: 'Reward with Little Fish',
+    luaFeedFishA11y: 'Give little fish to Lúa',
+    luaPatA11y: 'Pet Lúa the cat',
+    luaPatHintA11y: 'Tap to pet her and feel her purr',
   },
 
   awards: {
@@ -306,6 +317,40 @@ export const EN: UiStrings = {
     a11yOpen: 'Open Lúa’s award collection',
     badgeA11y: (name: string, won: boolean): string =>
       `${name}. ${won ? 'Earned' : 'Not earned yet'}.`,
+
+    wardrobeTitle: 'Lúa’s wardrobe and awards',
+    itemSlotHead: 'Head',
+    itemSlotNeck: 'Neck',
+    itemSlotSnack: 'Reward',
+    itemEquipped: 'Equipped on Lúa',
+    itemEquipAction: 'Tap to equip',
+    itemSnackAvailable: 'Available to reward',
+    itemA11y: (name: string, unlocked: boolean, equipped: boolean): string =>
+      `${name}. ${unlocked ? (equipped ? 'Equipped on Lúa' : 'Tap to equip') : 'Locked'}.`,
+
+    itemName: (id: string): string => ({
+      snack_fish: 'Tasty Little Fish',
+      neck_red_bow: 'Scarlet Bow Tie',
+      head_flower: 'Valeria Turquoise Flower',
+      neck_bell: 'Shining Bell',
+      head_wizard: 'Starry Wizard Hat',
+    }[id] ?? id),
+
+    itemDesc: (id: string): string => ({
+      snack_fish: 'Lúa’s favorite treat to celebrate effort in therapy.',
+      neck_red_bow: 'Elegant and soft to wear around the neck.',
+      head_flower: 'A brooch with the colors of calm and constancy.',
+      neck_bell: 'Rings softly with every move.',
+      head_wizard: 'For the wisest and bravest cat in the cosmos.',
+    }[id] ?? ''),
+
+    itemUnlockCondition: (id: string): string => ({
+      snack_fish: 'Available from the first session',
+      neck_red_bow: 'Complete 3 therapy sessions',
+      head_flower: 'Reach a 3-day streak',
+      neck_bell: 'Complete 10 therapy sessions',
+      head_wizard: 'Reach Lúa Level 5',
+    }[id] ?? ''),
 
     badgeName: (id: string): string => ({
       primera: 'First paw print',

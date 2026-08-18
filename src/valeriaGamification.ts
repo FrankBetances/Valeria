@@ -24,10 +24,9 @@
 // ============================================================================
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { STORAGE_KEYS } from './valeriaTheme';
-// Solo tipos: no arrastra React ni react-native-svg a este módulo.
+// Solo tipos y funciones puras: no arrastra React ni react-native-svg a este módulo.
 import type { AwardGlyph, AwardTier } from './ValeriaPixelAwards';
-import type { CollectibleItem } from './types/valeriaLua';
-import { checkAndUnlockItems } from './services/valeriaLuaInventory';
+import { evaluateUnlockedItems, type CollectibleItem } from './types/valeriaLua';
 
 export interface GameState {
   xp: number;
@@ -207,8 +206,7 @@ export const registerSession = async (avg: number, exercises: number): Promise<S
 
   let newCollectibles: CollectibleItem[] = [];
   try {
-    const unlockRes = await checkAndUnlockItems(g);
-    newCollectibles = unlockRes.newlyUnlocked;
+    newCollectibles = evaluateUnlockedItems(g.sessions, g.streak, level, []);
   } catch (e) { /* noop */ }
 
   try {

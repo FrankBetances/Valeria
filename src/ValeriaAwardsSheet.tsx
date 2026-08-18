@@ -22,13 +22,11 @@ import {
   GameState, BADGES, levelFor, levelProgress, xpToNext, liveStreak, LEVEL_COUNT,
 } from './valeriaGamification';
 import { useT } from './i18n';
-import { LuaInventoryState } from './types/valeriaLua';
-import { COLLECTIBLES_CATALOG } from './components/lua/luaPixelSegments';
+import { LuaInventoryState, COLLECTIBLES_CATALOG, createDefaultLuaInventory } from './types/valeriaLua';
+import { PixelItemIcon } from './components/lua/luaPixelSegments';
 import {
-  loadLuaInventory,
   checkAndUnlockItems,
   equipLuaAccessory,
-  DEFAULT_LUA_INVENTORY,
 } from './services/valeriaLuaInventory';
 
 interface Props {
@@ -40,7 +38,7 @@ interface Props {
 
 export const ValeriaAwardsSheet: React.FC<Props> = ({ open, game, onClose, onInventoryChange }) => {
   const t = useT();
-  const [inventory, setInventory] = React.useState<LuaInventoryState>(DEFAULT_LUA_INVENTORY);
+  const [inventory, setInventory] = React.useState<LuaInventoryState>(createDefaultLuaInventory);
 
   React.useEffect(() => {
     let isMounted = true;
@@ -152,12 +150,29 @@ export const ValeriaAwardsSheet: React.FC<Props> = ({ open, game, onClose, onInv
                 );
               })}
             </View>
-            <Text style={s.sectionLabel}>El Armario y Premios de Lúa</Text>
+
+            {/* Armario y accesorios de Lúa en Pixel Art nativo (sin emojis) */}
+            <Text style={s.sectionLabel}>{t.awards.wardrobeTitle}</Text>
             <View style={s.wardrobeGrid}>
               {COLLECTIBLES_CATALOG.map((item) => {
                 const unlocked = inventory.unlockedItemIds.includes(item.id);
                 const isEquipped =
                   item.slot !== 'snack' && inventory.equipped[item.slot] === item.id;
+                const itemName = t.awards.itemName(item.id);
+                const slotLabel =
+                  item.slot === 'snack'
+                    ? t.awards.itemSlotSnack
+                    : item.slot === 'head'
+                      ? t.awards.itemSlotHead
+                      : t.awards.itemSlotNeck;
+
+                const statusDesc = unlocked
+                  ? isEquipped
+                    ? `✓ ${t.awards.itemEquipped}`
+                    : item.slot === 'snack'
+                      ? t.awards.itemSnackAvailable
+                      : t.awards.itemEquipAction
+                  : t.awards.itemUnlockCondition(item.id);
 
                 return (
                   <Pressable
@@ -170,19 +185,17 @@ export const ValeriaAwardsSheet: React.FC<Props> = ({ open, game, onClose, onInv
                       isEquipped && s.itemCardEquipped,
                     ]}
                     accessibilityRole="button"
-                    accessibilityLabel={`${item.name}. ${unlocked ? (isEquipped ? 'Equipado' : 'Poner') : 'Bloqueado'}`}
+                    accessibilityLabel={t.awards.itemA11y(itemName, unlocked, isEquipped)}
                   >
                     <View style={[s.itemIconPlate, isEquipped && s.itemIconPlateEquipped]}>
-                      <Text style={s.itemGlyph}>{item.glyph}</Text>
+                      <PixelItemIcon id={item.id} size={32} />
                     </View>
                     <Text style={[s.itemName, !unlocked && s.itemNameLocked]} numberOfLines={1}>
-                      {item.name}
+                      {itemName}
                     </Text>
-                    <Text style={s.itemSlotBadge}>
-                      {item.slot === 'snack' ? 'Snack' : item.slot === 'head' ? 'Cabeza' : 'Cuello'}
-                    </Text>
+                    <Text style={s.itemSlotBadge}>{slotLabel}</Text>
                     <Text style={s.itemDesc} numberOfLines={2}>
-                      {unlocked ? (isEquipped ? '✓ Puesto en Lúa' : (item.slot === 'snack' ? 'Disponible para premiar' : 'Toca para equipar')) : item.unlockCondition}
+                      {statusDesc}
                     </Text>
                   </Pressable>
                 );
@@ -231,8 +244,6 @@ const s = StyleSheet.create({
   stat: { flex: 1, alignItems: 'center' },
   statSep: { width: 1, alignSelf: 'stretch', backgroundColor: V.color.border },
   statValue: { fontSize: 26, lineHeight: 30, fontWeight: V.font.extrabold, color: V.color.textPrimary },
-  // textSecondary y no textMuted: en la versión anterior estas etiquetas iban en
-  // gris claro sobre blanco y no llegaban al contraste mínimo AA.
   statLabel: { ...V.type.caption, fontWeight: V.font.bold, color: V.color.textSecondary, marginTop: 2 },
 
   scroll: { paddingTop: V.space.lg, paddingBottom: V.space.md },
@@ -293,11 +304,10 @@ const s = StyleSheet.create({
   itemCardLocked: { borderColor: V.color.border, backgroundColor: '#fbfdfd', opacity: 0.65 },
   itemCardEquipped: { borderColor: V.color.primary, borderWidth: 2, backgroundColor: V.color.primaryLight },
   itemIconPlate: {
-    width: 44, height: 44, borderRadius: 12, backgroundColor: '#f0fdf9',
+    width: 48, height: 48, borderRadius: 14, backgroundColor: '#f0fdf9',
     alignItems: 'center', justifyContent: 'center', marginBottom: 4,
   },
   itemIconPlateEquipped: { backgroundColor: '#cdeeec' },
-  itemGlyph: { fontSize: 22 },
   itemName: { fontSize: 12, fontWeight: V.font.extrabold, color: V.color.textPrimary, textAlign: 'center' },
   itemNameLocked: { color: V.color.textMuted },
   itemSlotBadge: {

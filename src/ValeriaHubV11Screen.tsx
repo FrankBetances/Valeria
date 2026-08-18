@@ -35,7 +35,7 @@ import { ValeriaGameStrip } from './ValeriaGameStrip';
 import { ValeriaAwardsSheet } from './ValeriaAwardsSheet';
 import { ValeriaCatInteractiveCard } from './components/lua/ValeriaCatInteractiveCard';
 import { LuaInventoryState } from './types/valeriaLua';
-import { loadLuaInventory, DEFAULT_LUA_INVENTORY } from './services/valeriaLuaInventory';
+import { loadLuaInventory, createDefaultLuaInventory } from './services/valeriaLuaInventory';
 import { loadGame, GameState } from './valeriaGamification';
 import { isArAvailable } from './valeriaArBridge';
 import { useT, UiStrings } from './i18n';
@@ -70,7 +70,7 @@ export const ValeriaHubV11Screen: React.FC<{ navigation: any }> = ({ navigation 
     dislexia: BLOCKS.dislexia.meta.length,
   });
   const [game, setGame] = useState<GameState | null>(null);
-  const [inventory, setInventory] = useState<LuaInventoryState>(DEFAULT_LUA_INVENTORY);
+  const [inventory, setInventory] = useState<LuaInventoryState>(createDefaultLuaInventory);
   const [awardsOpen, setAwardsOpen] = useState(false);
   const [teaConsentOk, setTeaConsentOk] = useState(false);
   const [teaConsentOpen, setTeaConsentOpen] = useState(false);

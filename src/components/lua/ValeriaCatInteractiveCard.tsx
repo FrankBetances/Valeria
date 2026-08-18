@@ -4,10 +4,10 @@
 // Combina:
 //   1. Animaciones continuas a 60 fps (hilo nativo con useNativeDriver: true):
 //      respiración pautada a 15 rpm, balanceo pendular de cola y amortiguación táctil.
-//   2. Micro-expresiones discretas estilo retro (parpadeo, ronroneo, masticar).
-//   3. Renderizado de accesorios superpuestos mediante matrices estáticas precalculadas.
+//   2. Micro-expresiones discretas basadas en la matriz canónica SIT (32×38).
+//   3. Renderizado de capas anatómicas continuas y accesorios en pixel art nativo.
 // ============================================================================
-import React, { useEffect, useRef, useState, useMemo } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   View,
   Text,
@@ -18,20 +18,21 @@ import {
 } from 'react-native';
 import Svg, { Rect } from 'react-native-svg';
 import { V } from '../../valeriaTheme';
+import { PixelAward } from '../../ValeriaPixelAwards';
 import {
   PRECOMPILED_RUNS,
-  PixelRun,
-  COLLECTIBLES_CATALOG,
-  getCollectibleById,
+  PixelItemIcon,
 } from './luaPixelSegments';
-import { LuaAffectState, LuaInventoryState } from '../../types/valeriaLua';
+import { Run } from '../../ValeriaCatPixel';
+import { LuaAffectState, LuaInventoryState, getCollectibleById } from '../../types/valeriaLua';
 import { recordPatInteraction, feedLuaSnack } from '../../services/valeriaLuaInventory';
+import { useT } from '../../i18n';
 
 interface Props {
   inventory: LuaInventoryState;
   onInventoryChange?: (newInv: LuaInventoryState) => void;
   onPressCard?: () => void;
-  size?: number; // Ancho base en px (default 64 para no sobrecargar la vista)
+  size?: number; // Ancho base en px (default 64)
 }
 
 export const ValeriaCatInteractiveCard: React.FC<Props> = ({
@@ -40,15 +41,18 @@ export const ValeriaCatInteractiveCard: React.FC<Props> = ({
   onPressCard,
   size = 64,
 }) => {
+  const t = useT();
   const cols = 32;
   const rows = 38;
-  const cell = Math.max(1, Math.round(size / cols)); // cell = 2 para size 64 -> 64x76 px
+  const cell = Math.max(1, Math.round(size / cols)); // cell = 2 para size 64 -> 64×76 px
   const svgWidth = cell * cols;
   const svgHeight = cell * rows;
+  const plateWidth = Math.max(76, svgWidth + 12);
+  const plateHeight = Math.max(84, svgHeight + 8);
 
   // Estado afectivo actual
   const [affect, setAffect] = useState<LuaAffectState>('IDLE_SERENE');
-  const [activeHeadRuns, setActiveHeadRuns] = useState<PixelRun[]>(PRECOMPILED_RUNS.headNeutral);
+  const [activeHeadRuns, setActiveHeadRuns] = useState<Run[]>(PRECOMPILED_RUNS.headNeutral);
   const [bubbleSnack, setBubbleSnack] = useState<string | null>(null);
 
   // Valores animados nativos (UI Thread)
@@ -61,7 +65,9 @@ export const ValeriaCatInteractiveCard: React.FC<Props> = ({
   const timersRef = useRef<NodeJS.Timeout[]>([]);
 
   const safeTimeout = (fn: () => void, ms: number) => {
-    const id = setTimeout(() => {
+    let id: NodeJS.Timeout;
+    id = setTimeout(() => {
+      timersRef.current = timersRef.current.filter((tId) => tId !== id);
       if (isMounted.current) fn();
     }, ms);
     timersRef.current.push(id);
@@ -122,7 +128,7 @@ export const ValeriaCatInteractiveCard: React.FC<Props> = ({
     };
   }, [breathAnim, tailAnim]);
 
-  // 3. Parpadeo aleatorio suave durante reposo (cada 4.5s)
+  // 3. Parpadeo suave durante reposo (cada 4.5s)
   useEffect(() => {
     if (affect !== 'IDLE_SERENE') return;
 
@@ -224,43 +230,49 @@ export const ValeriaCatInteractiveCard: React.FC<Props> = ({
   const neckItemRuns = neckItem ? PRECOMPILED_RUNS.items[neckItem.id] : null;
 
   return (
-    <View style={styles.cardContainer}>
-      {/* Sección Izquierda: Mascota animada contenida y proporcionada */}
+    <Pressable
+      onPress={onPressCard}
+      disabled={!onPressCard}
+      style={styles.cardContainer}
+    >
+      {/* Sección Izquierda: Mascota animada canónica sin huecos */}
       <Pressable
         onPress={handlePat}
         accessibilityRole="button"
-        accessibilityLabel="Acariciar a la gata Lúa"
-        accessibilityHint="Toca para acariciarla y ver su ronroneo"
+        accessibilityLabel={t.hub.luaPatA11y}
+        accessibilityHint={t.hub.luaPatHintA11y}
         style={styles.petWrap}
       >
         <Animated.View
           style={[
             styles.avatarPlate,
             {
+              width: plateWidth,
+              height: plateHeight,
               transform: [{ scale: touchScale }],
             },
           ]}
         >
           {bubbleSnack && (
             <View style={styles.thoughtBubble}>
-              <Text style={styles.thoughtEmoji}>🐟✨</Text>
+              <PixelItemIcon id={bubbleSnack} size={20} />
             </View>
           )}
 
           {affect === 'PURRING_LOVE' && (
             <View style={styles.loveBubble}>
-              <Text style={styles.loveEmoji}>💖</Text>
+              <PixelAward glyph="heart" tier="teal" size={16} />
             </View>
           )}
 
           <View style={{ width: svgWidth, height: svgHeight }}>
-            {/* CAPA 1: Cola oscilante */}
+            {/* CAPA 1: Cola oscilante independiente (cols 25..31, filas 24..35 de SIT) */}
             <Animated.View
               style={[
                 styles.layer,
                 {
-                  left: 21 * cell,
-                  top: 23 * cell,
+                  left: 25 * cell,
+                  top: 24 * cell,
                   transform: [
                     { rotate: rotateTail },
                     { translateY: translateYBody },
@@ -268,7 +280,7 @@ export const ValeriaCatInteractiveCard: React.FC<Props> = ({
                 },
               ]}
             >
-              <Svg width={10 * cell} height={14 * cell} viewBox="0 0 10 14">
+              <Svg width={7 * cell} height={12 * cell} viewBox="0 0 7 12">
                 {PRECOMPILED_RUNS.tailBase.map((r) => (
                   <Rect
                     key={`t-${r.x}-${r.y}`}
@@ -282,7 +294,7 @@ export const ValeriaCatInteractiveCard: React.FC<Props> = ({
               </Svg>
             </Animated.View>
 
-            {/* CAPA 2: Tronco y patas (Respiración) */}
+            {/* CAPA 2: Tronco y patas (filas 22..37 de SIT = 16 filas exactas) */}
             <Animated.View
               style={[
                 styles.layer,
@@ -307,7 +319,7 @@ export const ValeriaCatInteractiveCard: React.FC<Props> = ({
               </Svg>
             </Animated.View>
 
-            {/* CAPA 3: Cuello / Accesorio de Pechera */}
+            {/* CAPA 3: Cuello / Accesorio de Pechera (filas 18..26 de SIT) */}
             {neckItemRuns && (
               <Animated.View
                 style={[
@@ -334,7 +346,7 @@ export const ValeriaCatInteractiveCard: React.FC<Props> = ({
               </Animated.View>
             )}
 
-            {/* CAPA 4: Cabeza y Expresión Facial Activa */}
+            {/* CAPA 4: Cabeza y Expresión Facial Activa (filas 0..21 de SIT = 22 filas exactas) */}
             <Animated.View
               style={[
                 styles.layer,
@@ -348,7 +360,7 @@ export const ValeriaCatInteractiveCard: React.FC<Props> = ({
                 },
               ]}
             >
-              <Svg width={32 * cell} height={18 * cell} viewBox="0 0 32 18">
+              <Svg width={32 * cell} height={22 * cell} viewBox="0 0 32 22">
                 {activeHeadRuns.map((r) => (
                   <Rect
                     key={`h-${r.x}-${r.y}`}
@@ -362,14 +374,14 @@ export const ValeriaCatInteractiveCard: React.FC<Props> = ({
               </Svg>
             </Animated.View>
 
-            {/* CAPA 5: Accesorio de Cabeza (Gorro / Flor) */}
-            {headItemRuns && (
+            {/* CAPA 5: Accesorio de Cabeza (Flor / Gorro) */}
+            {headItemRuns && headItem && (
               <Animated.View
                 style={[
                   styles.layer,
                   {
-                    left: 4 * cell,
-                    top: -4 * cell,
+                    left: headItem.id === 'head_wizard' ? 4 * cell : 2 * cell,
+                    top: headItem.id === 'head_wizard' ? -6 * cell : 0 * cell,
                     transform: [
                       { translateY: translateYHead },
                       { translateY: headBounce },
@@ -395,21 +407,25 @@ export const ValeriaCatInteractiveCard: React.FC<Props> = ({
         </Animated.View>
       </Pressable>
 
-      {/* Sección Derecha: Información empática y botón de premiar */}
+      {/* Sección Derecha: Información empática y botón de premiar sin emojis de sistema */}
       <View style={styles.rightContent}>
         <View style={styles.badgeRow}>
           <View style={styles.statusPill}>
             <Text style={styles.statusTxt}>
-              {affect === 'PURRING_LOVE' ? '💖 ¡Ronroneando!' : affect === 'EATING_SNACK' ? '🐟 ¡Qué rico!' : '🐱 Tu compañera Lúa'}
+              {affect === 'PURRING_LOVE'
+                ? t.hub.luaPurring
+                : affect === 'EATING_SNACK'
+                  ? t.hub.luaEating
+                  : t.hub.luaCompanion}
             </Text>
           </View>
-          <Text style={styles.patHint}>Toca para acariciar</Text>
+          <Text style={styles.patHint}>{t.hub.luaPatHint}</Text>
         </View>
 
         <Text style={styles.companionTitle}>
           {affect === 'PURRING_LOVE'
-            ? '¡Lúa se siente feliz contigo!'
-            : 'Lista para la sesión de hoy'}
+            ? t.hub.luaHappy
+            : t.hub.luaReady}
         </Text>
 
         {inventory.unlockedItemIds.includes('snack_fish') && (
@@ -418,13 +434,14 @@ export const ValeriaCatInteractiveCard: React.FC<Props> = ({
             style={styles.snackBtn}
             hitSlop={8}
             accessibilityRole="button"
-            accessibilityLabel="Dar pescadito a Lúa"
+            accessibilityLabel={t.hub.luaFeedFishA11y}
           >
-            <Text style={styles.snackTxt}>🐟 Premiar con Pescadito</Text>
+            <PixelItemIcon id="snack_fish" size={16} />
+            <Text style={styles.snackTxt}>{t.hub.luaFeedFish}</Text>
           </Pressable>
         )}
       </View>
-    </View>
+    </Pressable>
   );
 };
 
@@ -445,8 +462,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   avatarPlate: {
-    width: 76,
-    height: 84,
     borderRadius: 18,
     backgroundColor: V.color.primaryLight,
     alignItems: 'center',
@@ -461,15 +476,11 @@ const styles = StyleSheet.create({
     right: -8,
     backgroundColor: '#fff',
     borderRadius: 12,
-    paddingHorizontal: 6,
-    paddingVertical: 3,
+    padding: 4,
     borderWidth: 1,
     borderColor: V.color.primary,
     ...V.shadow.card,
     zIndex: 10,
-  },
-  thoughtEmoji: {
-    fontSize: 12,
   },
   loveBubble: {
     position: 'absolute',
@@ -477,15 +488,11 @@ const styles = StyleSheet.create({
     left: -8,
     backgroundColor: '#fff0f4',
     borderRadius: 12,
-    paddingHorizontal: 6,
-    paddingVertical: 3,
+    padding: 4,
     borderWidth: 1,
     borderColor: '#ef8296',
     ...V.shadow.card,
     zIndex: 10,
-  },
-  loveEmoji: {
-    fontSize: 12,
   },
   rightContent: {
     flex: 1,
@@ -520,6 +527,9 @@ const styles = StyleSheet.create({
     color: V.color.textPrimary,
   },
   snackBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
     alignSelf: 'flex-start',
     backgroundColor: V.color.primaryTint,
     borderRadius: 10,

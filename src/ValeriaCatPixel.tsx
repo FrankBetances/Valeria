@@ -54,12 +54,12 @@ import Svg, { Rect } from 'react-native-svg';
 // Leyenda de la rejilla:
 //   .  transparente   o  contorno   b  pelo    l  blanco (hocico, pechera)
 //   p  rosa (oreja)    c  rubor      u  ojo / boca    w  brillo del ojo
-type PixelMap = string[];
+export type PixelMap = string[];
 
 export type CatPose = 'sit' | 'head';
 
-// Gata sentada, de frente, con la cola enroscada. 32×38.
-const SIT: PixelMap = [
+// Gata sentada, de frente, con la cola enroscada. 32×38. (Canónica)
+export const SIT: PixelMap = [
   '.........o.............o........',
   '.........oo...........oo........',
   '........opo...........opo.......',
@@ -100,8 +100,8 @@ const SIT: PixelMap = [
   '...........oooooooooo...........',
 ];
 
-// Solo la cabeza. Para todo lo que se pinte pequeño. 32×26.
-const HEAD: PixelMap = [
+// Solo la cabeza. Para todo lo que se pinte pequeño. 32×26. (Canónica)
+export const HEAD: PixelMap = [
   '........o...............o.......',
   '........oo.............oo.......',
   '.......opo.............opo......',
@@ -153,9 +153,9 @@ export const catSilhouette = (color: string): CatPalette => ({
 });
 
 // Píxeles contiguos del mismo color → un solo rectángulo.
-interface Run { x: number; y: number; w: number; fill: string; }
+export interface Run { x: number; y: number; w: number; fill: string; }
 
-const mergeRuns = (map: PixelMap, pal: CatPalette): Run[] => {
+export const mergeRuns = (map: PixelMap, pal: CatPalette | Record<string, string>): Run[] => {
   const runs: Run[] = [];
   map.forEach((row, y) => {
     let start = -1;

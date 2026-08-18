@@ -119,6 +119,9 @@ const s = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#edf2f2',
     padding: 15,
+    // justifyContent: 'space-between' ancla el zócalo de estado abajo, de modo
+    // que un título de una línea y otro de dos queden igual de asentados sin
+    // reservar altura vacía ni que la tarjeta lea como pantalla a medio terminar.
     justifyContent: 'space-between',
     shadowColor: 'rgba(15, 23, 42, 0.10)',
     shadowOffset: { width: 0, height: 6 },
