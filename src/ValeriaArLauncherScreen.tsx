@@ -28,7 +28,9 @@ import { BlockIcon } from './ValeriaBlockIcons';
 import { CatPixel } from './ValeriaCatPixel';
 import { PixelAward, streakTier } from './ValeriaPixelAwards';
 import { sha256 } from './ValeriaProPin';
-import { AR_META } from './valeriaExerciseMeta';
+import { getArMeta } from './valeriaExerciseMeta';
+import { getUiLang } from './valeriaUiLang';
+import { useT } from './i18n';
 import {
   isArAvailable, runAptitudeTest, launchAr, calibrateAr, hasArCalibration, openArDiagnostics,
 } from './valeriaArBridge';
@@ -55,6 +57,7 @@ const patientKeyFor = async (ficha: any): Promise<string> => {
 const TRIALS_PER_SESSION: Record<ArExerciseId, number> = { ar1: 8, ar2: 20, ar3: 12 };
 
 export const ValeriaArLauncherScreen: React.FC<{ navigation?: any }> = ({ navigation }) => {
+  const t = useT();
   const [phase, setPhase] = useState<Phase>('loading');
   const [busyMsg, setBusyMsg] = useState('');
   const [patientKey, setPatientKey] = useState('');
@@ -94,11 +97,11 @@ export const ValeriaArLauncherScreen: React.FC<{ navigation?: any }> = ({ naviga
   // Prueba de Aptitud (§3.5): 60-90 s de sondas que al niño se le presentan como
   // un juego de calentamiento. Es el sustituto de saber qué teléfono habrá.
   const runAptitude = useCallback(async () => {
-    setBusyMsg('Midiendo este teléfono… (unos 90 segundos)');
+    setBusyMsg(t.ar.busyMeasuring);
     setPhase('busy');
     const p = await runAptitudeTest();
     if (!p) {
-      setNotice('No se pudo completar la prueba en este teléfono. Puedes intentarlo de nuevo.');
+      setNotice(t.ar.noticeAptitudeFailed);
       setPhase('aptitude');
       return;
     }
@@ -125,21 +128,21 @@ export const ValeriaArLauncherScreen: React.FC<{ navigation?: any }> = ({ naviga
     const p = profile.probes;
     try {
       await Share.share({
-        title: 'Valeria+ · ficha de aptitud del teléfono',
+        title: t.ar.shareTitle,
         message:
-          `VALERIA+ · Censo de dispositivos (bloque de Realidad Aumentada)\n\n` +
-          `Fabricante: ${profile.manufacturer}\nModelo: ${profile.model}\n` +
-          `Sistema: ${profile.osVersion}\n` +
-          `NIVEL DE APTITUD: ${profile.level} (${arPolicyFor(profile.level).label})\n\n` +
-          `fps sostenidos (p5): ${p.fpsP5.toFixed(1)}\n` +
-          `Caída térmica: ${p.thermalSlope.toFixed(2)}\n` +
-          `Marcas de tiempo de cámara: ${p.timestampSource}\n` +
-          `Jitter de audio: ${p.audioJitterMs != null ? `${p.audioJitterMs.toFixed(1)} ms` : 'sin medir (sin montaje)'}\n` +
-          `RMS del puntero: ${p.pointerRmsDeg.toFixed(2)}°\n` +
-          `IMU disponible: ${p.imuAvailable ? 'sí' : 'no'}\n` +
-          `Pantalla: ${p.screenWidthMm.toFixed(0)} × ${p.screenHeightMm.toFixed(0)} mm\n` +
-          `Separación alcanzable con 3 dianas: ${p.achievableSeparationDeg.toFixed(1)}°\n\n` +
-          `Medido el ${new Date(profile.measuredAt).toLocaleDateString()}. Sin datos del niño: es la ficha del aparato.`,
+          `${t.ar.shareHeader}\n\n` +
+          `${t.ar.shareMaker}: ${profile.manufacturer}\n${t.ar.shareModel}: ${profile.model}\n` +
+          `${t.ar.shareOs}: ${profile.osVersion}\n` +
+          `${t.ar.shareLevel}: ${profile.level} (${t.ar.levelLabel(profile.level)})\n\n` +
+          `${t.ar.shareFps}: ${p.fpsP5.toFixed(1)}\n` +
+          `${t.ar.shareThermal}: ${p.thermalSlope.toFixed(2)}\n` +
+          `${t.ar.shareTimestamps}: ${p.timestampSource}\n` +
+          `${t.ar.shareJitter}: ${p.audioJitterMs != null ? `${p.audioJitterMs.toFixed(1)} ms` : t.ar.shareJitterNone}\n` +
+          `${t.ar.sharePointer}: ${p.pointerRmsDeg.toFixed(2)}°\n` +
+          `${t.ar.shareImu}: ${p.imuAvailable ? t.ar.shareYes : t.ar.shareNo}\n` +
+          `${t.ar.shareScreen}: ${p.screenWidthMm.toFixed(0)} × ${p.screenHeightMm.toFixed(0)} mm\n` +
+          `${t.ar.shareSeparation}: ${p.achievableSeparationDeg.toFixed(1)}°\n\n` +
+          `${t.ar.shareFooter(new Date(profile.measuredAt).toLocaleDateString())}`,
       });
     } catch (e) { /* el usuario canceló el diálogo de compartir */ }
   };
@@ -150,17 +153,17 @@ export const ValeriaArLauncherScreen: React.FC<{ navigation?: any }> = ({ naviga
 
     // AR-3 sin calibrar apunta a la nada: la rutina de 5 puntos no es opcional.
     if (exerciseId === 'ar3' && !(await hasArCalibration(patientKey))) {
-      setBusyMsg('Vamos a jugar a seguir a la osita por las esquinas (15 segundos)…');
+      setBusyMsg(t.ar.busyCalibrating);
       setPhase('busy');
       const cal = await calibrateAr(patientKey, thresholds.pointerSource);
       if (!cal) {
-        setNotice('La calibración no se completó. Coloca el teléfono apoyado, en horizontal, a un palmo y medio de la cara y prueba otra vez.');
+        setNotice(t.ar.noticeCalibrationFailed);
         setPhase('menu');
         return;
       }
     }
 
-    setBusyMsg('Abriendo la cámara…');
+    setBusyMsg(t.ar.busyOpeningCamera);
     setPhase('busy');
     const res = await launchAr({
       exerciseId,
@@ -170,12 +173,12 @@ export const ValeriaArLauncherScreen: React.FC<{ navigation?: any }> = ({ naviga
     });
 
     if (!res) {
-      setNotice('El ejercicio no llegó a abrirse. Comprueba que la app tiene permiso de cámara.');
+      setNotice(t.ar.noticeLaunchFailed);
       setPhase('menu');
       return;
     }
     if (res.outcome === 'denied') {
-      setNotice('Sin permiso de cámara no hay ejercicios de Realidad Aumentada. El resto de la app funciona igual.');
+      setNotice(t.ar.noticeDenied);
       setPhase('menu');
       return;
     }
@@ -185,10 +188,7 @@ export const ValeriaArLauncherScreen: React.FC<{ navigation?: any }> = ({ naviga
     // del adulto y con la instrucción concreta, no con un error técnico.
     if (res.outcome === 'timeout') {
       trackArSession({ trials: res.trials, deviceProfile: res.deviceProfile, thresholds: res.thresholds });
-      setNotice(
-        'El ejercicio se cerró porque la cámara dejó de ver la cara del peque. Apoya el teléfono en ' +
-        'horizontal, a un palmo y medio de su cara y a la altura de sus ojos, y prueba otra vez.',
-      );
+      setNotice(t.ar.noticeTimeout);
       setPhase('menu');
       return;
     }
@@ -214,8 +214,8 @@ export const ValeriaArLauncherScreen: React.FC<{ navigation?: any }> = ({ naviga
   // -------------------------------------------------------------------------
   const header = (title: string, sub: string) => (
     <View style={s.header}>
-      <Pressable onPress={() => navigation?.goBack()} style={s.backPill} accessibilityRole="button" accessibilityLabel="Volver">
-        <Text style={s.backPillTxt}>‹ Volver</Text>
+      <Pressable onPress={() => navigation?.goBack()} style={s.backPill} accessibilityRole="button" accessibilityLabel={t.common.back}>
+        <Text style={s.backPillTxt}>‹ {t.common.back}</Text>
       </Pressable>
       <Text style={s.logoFallback}>valeria+</Text>
       <Text style={s.headerTitle}>{title}</Text>
@@ -231,10 +231,10 @@ export const ValeriaArLauncherScreen: React.FC<{ navigation?: any }> = ({ naviga
   if (phase === 'loading' || phase === 'busy') {
     return (
       <View style={s.flex}>
-        {header('Realidad Aumentada', 'Preparando la sesión')}
+        {header(t.ar.title, t.ar.subPreparing)}
         <View style={s.center}>
           <ActivityIndicator size="large" color={V.color.primary} />
-          <Text style={s.busyTxt}>{busyMsg || 'Un momento…'}</Text>
+          <Text style={s.busyTxt}>{busyMsg || t.ar.oneMoment}</Text>
         </View>
       </View>
     );
@@ -243,15 +243,11 @@ export const ValeriaArLauncherScreen: React.FC<{ navigation?: any }> = ({ naviga
   if (phase === 'unsupported') {
     return (
       <View style={s.flex}>
-        {header('Realidad Aumentada', 'No disponible en este dispositivo')}
+        {header(t.ar.title, t.ar.subUnsupported)}
         <ScrollView contentContainerStyle={s.scroll}>
           <View style={s.card}>
-            <Text style={s.cardTitle}>Aquí no se puede jugar todavía</Text>
-            <Text style={s.cardTxt}>
-              Estos ejercicios necesitan la cámara frontal y una versión de la app instalada en el
-              teléfono (no funcionan en la vista previa de Expo Go). Los otros seis bloques de
-              terapia funcionan exactamente igual de bien.
-            </Text>
+            <Text style={s.cardTitle}>{t.ar.unsupportedTitle}</Text>
+            <Text style={s.cardTxt}>{t.ar.unsupportedBody}</Text>
           </View>
         </ScrollView>
       </View>
@@ -262,29 +258,27 @@ export const ValeriaArLauncherScreen: React.FC<{ navigation?: any }> = ({ naviga
   if (phase === 'consent') {
     return (
       <View style={s.flex}>
-        {header('Realidad Aumentada', 'Antes de encender la cámara')}
+        {header(t.ar.title, t.ar.subConsent)}
         <ScrollView contentContainerStyle={s.scroll}>
           <View style={s.card}>
             <View style={{ alignItems: 'center' }}><BlockIcon name="ar" color={V.color.primaryDark} size={38} /></View>
-            <Text style={s.cardTitle}>Qué hace la cámara en estos juegos</Text>
+            <Text style={s.cardTitle}>{t.ar.consentTitle}</Text>
             <Text style={s.cardTxt}>
-              En este bloque la cámara frontal no graba: <Text style={s.b}>mira</Text>. Sirve para
-              saber si tu peque redondea los labios, gira la cabeza hacia un sonido o mira un
-              dibujo, y para que el coche, el perro o la manzana reaccionen a ese gesto.
+              {t.ar.consentLead1}<Text style={s.b}>{t.ar.consentLeadStrong}</Text>{t.ar.consentLead2}
             </Text>
             <View style={s.list}>
-              <Text style={s.item}><Text style={s.b}>No se graba ni se guarda ninguna imagen.</Text> Cada fotograma se analiza y se descarta al instante.</Text>
-              <Text style={s.item}><Text style={s.b}>Ningún vídeo sale del teléfono.</Text> Todo el análisis ocurre aquí dentro, sin internet.</Text>
-              <Text style={s.item}><Text style={s.b}>No se reconoce la cara de nadie.</Text> Solo se miden gestos: grados, milisegundos y proporciones.</Text>
-              <Text style={s.item}>En dos de los tres ejercicios el <Text style={s.b}>micrófono está apagado</Text>: se premia el esfuerzo motor antes de pedir que hable.</Text>
-              <Text style={s.item}>Puedes salir en cualquier momento y retirar este permiso desde los ajustes de Android.</Text>
+              <Text style={s.item}><Text style={s.b}>{t.ar.consentNoRecordStrong}</Text>{t.ar.consentNoRecord}</Text>
+              <Text style={s.item}><Text style={s.b}>{t.ar.consentNoUploadStrong}</Text>{t.ar.consentNoUpload}</Text>
+              <Text style={s.item}><Text style={s.b}>{t.ar.consentNoFaceIdStrong}</Text>{t.ar.consentNoFaceId}</Text>
+              <Text style={s.item}>{t.ar.consentMicOffPre}<Text style={s.b}>{t.ar.consentMicOffStrong}</Text>{t.ar.consentMicOffPost}</Text>
+              <Text style={s.item}>{t.ar.consentRevoke}</Text>
             </View>
             <Pressable onPress={acceptConsent} style={s.primaryBtn} accessibilityRole="button"
-              accessibilityLabel="Aceptar el uso de la cámara y continuar">
-              <Text style={s.primaryBtnTxt}>Lo entiendo y acepto</Text>
+              accessibilityLabel={t.ar.consentAcceptA11y}>
+              <Text style={s.primaryBtnTxt}>{t.ar.consentAccept}</Text>
             </Pressable>
-            <Pressable onPress={() => navigation?.goBack()} accessibilityRole="button" accessibilityLabel="Ahora no">
-              <Text style={s.cancel}>Ahora no</Text>
+            <Pressable onPress={() => navigation?.goBack()} accessibilityRole="button" accessibilityLabel={t.ar.consentDecline}>
+              <Text style={s.cancel}>{t.ar.consentDecline}</Text>
             </Pressable>
           </View>
         </ScrollView>
@@ -296,25 +290,21 @@ export const ValeriaArLauncherScreen: React.FC<{ navigation?: any }> = ({ naviga
   if (phase === 'aptitude') {
     return (
       <View style={s.flex}>
-        {header('Realidad Aumentada', 'Calentamiento con Lúa')}
+        {header(t.ar.title, t.ar.subWarmup)}
         <ScrollView contentContainerStyle={s.scroll}>
           {noticeBar}
           <View style={s.card}>
             <View style={{ alignItems: 'center' }}><CatPixel size={64} /></View>
-            <Text style={s.cardTitle}>Un juego de calentamiento de minuto y medio</Text>
+            <Text style={s.cardTitle}>{t.ar.warmupTitle}</Text>
             <Text style={s.cardTxt}>
-              Cada teléfono es distinto y estos ejercicios exigen bastante. Antes de empezar, la
-              app hace una prueba corta —mirar a Lúa, seguirla a las esquinas, escuchar dos
-              sonidos— para saber qué puede ofrecer <Text style={s.b}>en este teléfono concreto</Text>.
-              Se hace una sola vez.
+              {t.ar.warmupBody1a}<Text style={s.b}>{t.ar.warmupBody1Strong}</Text>{t.ar.warmupBody1b}
             </Text>
             <Text style={s.cardTxt}>
-              Apoya el teléfono en un libro o una caja, en <Text style={s.b}>horizontal</Text>, a
-              un palmo y medio de la cara del peque (unos 30-35 cm), y déjalo quieto.
+              {t.ar.warmupBody2a}<Text style={s.b}>{t.ar.warmupBody2Strong}</Text>{t.ar.warmupBody2b}
             </Text>
             <Pressable onPress={runAptitude} style={s.primaryBtn} accessibilityRole="button"
-              accessibilityLabel="Empezar el calentamiento">
-              <Text style={s.primaryBtnTxt}>Empezar el calentamiento</Text>
+              accessibilityLabel={t.ar.warmupStartA11y}>
+              <Text style={s.primaryBtnTxt}>{t.ar.warmupStart}</Text>
             </Pressable>
           </View>
         </ScrollView>
@@ -326,17 +316,14 @@ export const ValeriaArLauncherScreen: React.FC<{ navigation?: any }> = ({ naviga
   if (phase === 'notApt' || !profile || !thresholds) {
     return (
       <View style={s.flex}>
-        {header('Realidad Aumentada', 'Este teléfono no da para estos juegos')}
+        {header(t.ar.title, t.ar.subNotApt)}
         <ScrollView contentContainerStyle={s.scroll}>
           <View style={s.card}>
-            <Text style={s.cardTitle}>Mejor no forzarlo</Text>
-            <Text style={s.cardTxt}>{arPolicyFor(profile?.level ?? 'D').note}</Text>
-            <Text style={s.cardTxt}>
-              No es un fallo tuyo ni del peque: la cámara y los dibujos en 3D a la vez piden más de
-              lo que este aparato puede sostener, y un ejercicio a tirones no mide nada.
-            </Text>
+            <Text style={s.cardTitle}>{t.ar.notAptTitle}</Text>
+            <Text style={s.cardTxt}>{t.ar.levelNote(profile?.level ?? 'D')}</Text>
+            <Text style={s.cardTxt}>{t.ar.notAptBody}</Text>
             <Pressable onPress={() => navigation?.goBack()} style={s.primaryBtn} accessibilityRole="button">
-              <Text style={s.primaryBtnTxt}>Volver a los bloques</Text>
+              <Text style={s.primaryBtnTxt}>{t.ar.notAptBack}</Text>
             </Pressable>
           </View>
         </ScrollView>
@@ -349,66 +336,61 @@ export const ValeriaArLauncherScreen: React.FC<{ navigation?: any }> = ({ naviga
     const trials = result.trials;
     const done = trials.filter((t) => !t.voided).length;
     const voided = trials.length - done;
-    const meta = AR_META.find((m) => m.id === result.exerciseId);
-    const rows: Array<[string, string]> = [['Ensayos jugados', String(trials.length)]];
-    if (voided) rows.push(['Ensayos anulados (el teléfono se movió)', String(voided)]);
+    const meta = getArMeta(getUiLang()).find((m) => m.id === result.exerciseId);
+    const rows: Array<[string, string]> = [[t.ar.rowTrials, String(trials.length)]];
+    if (voided) rows.push([t.ar.rowVoided, String(voided)]);
 
     if (result.exerciseId === 'ar1') {
       const holds = trials.filter((t) => t.exerciseId === 'ar1' && !t.voided).map((t: any) => t.holdMaxMs as number);
       if (holds.length) {
-        rows.push(['Sostén más largo', `${Math.max(...holds)} ms`]);
-        rows.push(['Sostén medio', `${Math.round(holds.reduce((a, b) => a + b, 0) / holds.length)} ms`]);
+        rows.push([t.ar.rowHoldMax, `${Math.max(...holds)} ms`]);
+        rows.push([t.ar.rowHoldMean, `${Math.round(holds.reduce((a, b) => a + b, 0) / holds.length)} ms`]);
       }
-      rows.push(['Objetivo fijado por vosotros', `${result.thresholds.holdMs} ms`]);
+      rows.push([t.ar.rowHoldTarget, `${result.thresholds.holdMs} ms`]);
     }
     if (result.exerciseId === 'ar2') {
       const lat = trials.filter((t) => t.exerciseId === 'ar2' && t.latencyMs != null).map((t: any) => t.latencyMs as number);
       const catches = trials.filter((t) => t.exerciseId === 'ar2' && (t as any).isCatch).length;
-      rows.push(['Ensayos sin sonido (control)', String(catches)]);
-      rows.push(['Giros medidos con reloj', lat.length ? String(lat.length) : 'ninguno: se jugó sin cronómetro']);
+      rows.push([t.ar.rowCatchTrials, String(catches)]);
+      rows.push([t.ar.rowTimedTurns, lat.length ? String(lat.length) : t.ar.rowTimedTurnsNone]);
       if (lat.length) {
         const sorted = [...lat].sort((a, b) => a - b);
-        rows.push(['Latencia mediana del giro', `${sorted[sorted.length >> 1]} ms`]);
+        rows.push([t.ar.rowLatencyMedian, `${sorted[sorted.length >> 1]} ms`]);
       }
     }
     if (result.exerciseId === 'ar3') {
       const sel = trials.filter((t) => t.exerciseId === 'ar3' && !t.voided) as any[];
       const dwells = sel.map((t) => t.dwellMs as number).filter((n) => n > 0);
-      rows.push(['Dianas en pantalla', String(sel[0]?.targetCount ?? '—')]);
-      if (dwells.length) rows.push(['Fijación media hasta elegir', `${Math.round(dwells.reduce((a, b) => a + b, 0) / dwells.length)} ms`]);
+      rows.push([t.ar.rowTargets, String(sel[0]?.targetCount ?? '—')]);
+      if (dwells.length) rows.push([t.ar.rowDwellMean, `${Math.round(dwells.reduce((a, b) => a + b, 0) / dwells.length)} ms`]);
     }
 
     return (
       <View style={s.flex}>
-        {header('Sesión terminada', meta?.name ?? 'Realidad Aumentada')}
+        {header(t.ar.sessionDone, meta?.name ?? t.ar.title)}
         <ScrollView contentContainerStyle={s.scroll}>
           {reward && (
             <View style={s.rewardCard}>
               <Text style={s.rewardXp}>+{reward.xpGained} XP</Text>
               <View style={s.rewardRow}>
                 <PixelAward glyph="flame" tier={streakTier(reward.streak)} size={20} />
-                <Text style={s.rewardSub}>
-                  {reward.streak} {reward.streak === 1 ? 'día' : 'días'} de racha · Nivel {reward.level} · {reward.levelName}
-                </Text>
+                <Text style={s.rewardSub}>{t.ar.streakLine(reward.streak, reward.level, reward.levelName)}</Text>
               </View>
             </View>
           )}
           <View style={s.card}>
-            <Text style={s.cardTitle}>Lo que se ha medido</Text>
+            <Text style={s.cardTitle}>{t.ar.measuredTitle}</Text>
             {rows.map(([k, v]) => (
               <View key={k} style={s.dataRow}>
                 <Text style={s.dataKey}>{k}</Text>
                 <Text style={s.dataVal}>{v}</Text>
               </View>
             ))}
-            <Text style={s.mdrNote}>
-              Estos son datos en bruto, no una valoración. La app mide y anota; quien interpreta si
-              esto es mucho o poco para vuestro peque es vuestra logopeda.
-            </Text>
+            <Text style={s.mdrNote}>{t.ar.mdrNote}</Text>
           </View>
           <Pressable onPress={() => { setResult(null); setReward(null); setPhase('menu'); }}
             style={s.primaryBtn} accessibilityRole="button">
-            <Text style={s.primaryBtnTxt}>Volver a los ejercicios</Text>
+            <Text style={s.primaryBtnTxt}>{t.ar.backToExercises}</Text>
           </Pressable>
         </ScrollView>
       </View>
@@ -419,26 +401,26 @@ export const ValeriaArLauncherScreen: React.FC<{ navigation?: any }> = ({ naviga
   const policy = arPolicyFor(profile.level);
   return (
     <View style={s.flex}>
-      {header('Realidad Aumentada', `Nivel de este teléfono: ${policy.label}`)}
+      {header(t.ar.title, t.ar.subLevel(t.ar.levelLabel(profile.level)))}
       <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
         {noticeBar}
 
         <View style={s.levelCard}>
-          <Text style={s.levelTitle}>{profile.manufacturer} {profile.model} · nivel {profile.level} ({policy.label})</Text>
-          <Text style={s.levelTxt}>{policy.note}</Text>
+          <Text style={s.levelTitle}>{t.ar.levelHeading(profile.manufacturer, profile.model, profile.level, t.ar.levelLabel(profile.level))}</Text>
+          <Text style={s.levelTxt}>{t.ar.levelNote(profile.level)}</Text>
           <View style={s.levelActions}>
-            <Pressable onPress={runAptitude} accessibilityRole="button" accessibilityLabel="Repetir el calentamiento de este teléfono">
-              <Text style={s.levelRedo}>Repetir el calentamiento</Text>
+            <Pressable onPress={runAptitude} accessibilityRole="button" accessibilityLabel={t.ar.warmupRedoA11y}>
+              <Text style={s.levelRedo}>{t.ar.warmupRedo}</Text>
             </Pressable>
             {/* Censo de la Fase 0: caracterizar un móvil prestado sin poseerlo. */}
-            <Pressable onPress={shareDeviceProfile} accessibilityRole="button" accessibilityLabel="Compartir la ficha técnica de este teléfono">
-              <Text style={s.levelRedo}>Compartir ficha del teléfono</Text>
+            <Pressable onPress={shareDeviceProfile} accessibilityRole="button" accessibilityLabel={t.ar.shareProfileA11y}>
+              <Text style={s.levelRedo}>{t.ar.shareProfile}</Text>
             </Pressable>
           </View>
         </View>
 
-        <Text style={s.hubLabel}>EJERCICIOS DISPONIBLES</Text>
-        {AR_META.map((m) => {
+        <Text style={s.hubLabel}>{t.ar.exercisesKicker}</Text>
+        {getArMeta(getUiLang()).map((m) => {
           const id = m.id as ArExerciseId;
           const enabled = policy.exercises.includes(id);
           const gameOnly = id === 'ar2' && enabled && !policy.ar2Instrumented;
@@ -446,16 +428,16 @@ export const ValeriaArLauncherScreen: React.FC<{ navigation?: any }> = ({ naviga
             <Pressable key={m.id} onPress={() => enabled && start(id)} disabled={!enabled}
               style={[s.exCard, !enabled && s.exCardOff]}
               accessibilityRole="button"
-              accessibilityLabel={enabled ? `Practicar ${m.name}` : `${m.name}: no disponible en este teléfono`}>
+              accessibilityLabel={enabled ? t.ar.practiceA11y(m.name) : t.ar.unavailableA11y(m.name)}>
               <View style={s.codeChip}><Text style={s.codeChipTxt}>{m.code}</Text></View>
               <View style={{ flex: 1 }}>
                 <Text style={s.exName}>{m.name}</Text>
                 <Text style={s.exCat}>{m.category}</Text>
-                {gameOnly && <Text style={s.exFlag}>Se juega, pero sin cronometrar el giro: hace falta un montaje de altavoces.</Text>}
+                {gameOnly && <Text style={s.exFlag}>{t.ar.flagGameOnly}</Text>}
                 {id === 'ar3' && enabled && policy.ar3Targets === 2 && (
-                  <Text style={s.exFlag}>Con dos dibujos en pantalla: en este teléfono tres quedarían demasiado juntos.</Text>
+                  <Text style={s.exFlag}>{t.ar.flagTwoTargets}</Text>
                 )}
-                {!enabled && <Text style={s.exFlag}>No disponible en este teléfono.</Text>}
+                {!enabled && <Text style={s.exFlag}>{t.ar.flagUnavailable}</Text>}
               </View>
               <Text style={s.exGo}>{enabled ? '▶' : '—'}</Text>
             </Pressable>
@@ -465,25 +447,18 @@ export const ValeriaArLauncherScreen: React.FC<{ navigation?: any }> = ({ naviga
         {/* Herramienta de la logopeda, no del niño. Va después de los ejercicios
             y con otro tono a propósito: no es parte del juego. */}
         <Pressable onPress={() => { void openArDiagnostics(); }} style={s.proTool}
-          accessibilityRole="button" accessibilityLabel="Ver las señales en vivo, herramienta para la logopeda">
+          accessibilityRole="button" accessibilityLabel={t.ar.liveSignalsA11y}>
           <BlockIcon name="chart" color={V.color.primaryDark} size={17} />
           <View style={{ flex: 1 }}>
-            <Text style={s.proToolTitle}>Ver las señales en vivo</Text>
-            <Text style={s.proToolSub}>
-              Para la logopeda: distancia, grados de giro, apertura de labios y fotogramas por
-              segundo, en crudo. Sin refuerzo y sin registrar nada.
-            </Text>
+            <Text style={s.proToolTitle}>{t.ar.liveSignals}</Text>
+            <Text style={s.proToolSub}>{t.ar.liveSignalsSub}</Text>
           </View>
           <Text style={s.exGo}>›</Text>
         </Pressable>
 
         <View style={s.setupCard}>
-          <Text style={s.setupTitle}>Cómo colocar el teléfono</Text>
-          <Text style={s.setupTxt}>
-            Apoyado en un libro, una caja o contra la pared, en horizontal, a un palmo y medio de la
-            cara. La pantalla avisa en verde cuando la posición vale. Si el teléfono se mueve
-            durante un ensayo, ese ensayo se anula: es preferible perderlo a apuntarlo mal.
-          </Text>
+          <Text style={s.setupTitle}>{t.ar.setupTitle}</Text>
+          <Text style={s.setupTxt}>{t.ar.setupBody}</Text>
         </View>
 
         {/* El Panel del Adulto sigue siendo la única puerta a los umbrales. */}

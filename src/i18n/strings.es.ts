@@ -1237,6 +1237,127 @@ export const ES = {
     uiLangEn: 'English',
   },
 
+
+  // Bloque de Realidad Aumentada. La cámara MIRA, no graba: el copy de
+  // consentimiento es parte del muro MDR, no adorno — se traduce entero o no se
+  // traduce (una mezcla de idiomas aquí es un consentimiento inválido).
+  ar: {
+    title: 'Realidad Aumentada',
+    subPreparing: 'Preparando la sesión',
+    subUnsupported: 'No disponible en este dispositivo',
+    subConsent: 'Antes de encender la cámara',
+    subWarmup: 'Calentamiento con Lúa',
+    subNotApt: 'Este teléfono no da para estos juegos',
+    subLevel: (label: string): string => `Nivel de este teléfono: ${label}`,
+    sessionDone: 'Sesión terminada',
+    oneMoment: 'Un momento…',
+
+    busyMeasuring: 'Midiendo este teléfono… (unos 90 segundos)',
+    busyCalibrating: 'Vamos a jugar a seguir a Lúa por las esquinas (15 segundos)…',
+    busyOpeningCamera: 'Abriendo la cámara…',
+
+    noticeAptitudeFailed: 'No se pudo completar la prueba en este teléfono. Puedes intentarlo de nuevo.',
+    noticeCalibrationFailed: 'La calibración no se completó. Coloca el teléfono apoyado, en horizontal, a un palmo y medio de la cara y prueba otra vez.',
+    noticeLaunchFailed: 'El ejercicio no llegó a abrirse. Comprueba que la app tiene permiso de cámara.',
+    noticeDenied: 'Sin permiso de cámara no hay ejercicios de Realidad Aumentada. El resto de la app funciona igual.',
+    noticeTimeout: 'El ejercicio se cerró porque la cámara dejó de ver la cara del peque. Apoya el teléfono en horizontal, a un palmo y medio de su cara y a la altura de sus ojos, y prueba otra vez.',
+
+    unsupportedTitle: 'Aquí no se puede jugar todavía',
+    unsupportedBody: 'Estos ejercicios necesitan la cámara frontal y una versión de la app instalada en el teléfono (no funcionan en la vista previa de Expo Go). Los otros seis bloques de terapia funcionan exactamente igual de bien.',
+
+    consentTitle: 'Qué hace la cámara en estos juegos',
+    consentLead1: 'En este bloque la cámara frontal no graba: ',
+    consentLeadStrong: 'mira',
+    consentLead2: '. Sirve para saber si tu peque redondea los labios, gira la cabeza hacia un sonido o mira un dibujo, y para que el coche, el perro o la manzana reaccionen a ese gesto.',
+    consentNoRecordStrong: 'No se graba ni se guarda ninguna imagen.',
+    consentNoRecord: ' Cada fotograma se analiza y se descarta al instante.',
+    consentNoUploadStrong: 'Ningún vídeo sale del teléfono.',
+    consentNoUpload: ' Todo el análisis ocurre aquí dentro, sin internet.',
+    consentNoFaceIdStrong: 'No se reconoce la cara de nadie.',
+    consentNoFaceId: ' Solo se miden gestos: grados, milisegundos y proporciones.',
+    consentMicOffPre: 'En dos de los tres ejercicios el ',
+    consentMicOffStrong: 'micrófono está apagado',
+    consentMicOffPost: ': se premia el esfuerzo motor antes de pedir que hable.',
+    consentRevoke: 'Puedes salir en cualquier momento y retirar este permiso desde los ajustes de Android.',
+    consentAccept: 'Lo entiendo y acepto',
+    consentAcceptA11y: 'Aceptar el uso de la cámara y continuar',
+    consentDecline: 'Ahora no',
+
+    warmupTitle: 'Un juego de calentamiento de minuto y medio',
+    warmupBody1a: 'Cada teléfono es distinto y estos ejercicios exigen bastante. Antes de empezar, la app hace una prueba corta —mirar a Lúa, seguirla a las esquinas, escuchar dos sonidos— para saber qué puede ofrecer ',
+    warmupBody1Strong: 'en este teléfono concreto',
+    warmupBody1b: '. Se hace una sola vez.',
+    warmupBody2a: 'Apoya el teléfono en un libro o una caja, en ',
+    warmupBody2Strong: 'horizontal',
+    warmupBody2b: ', a un palmo y medio de la cara del peque (unos 30-35 cm), y déjalo quieto.',
+    warmupStart: 'Empezar el calentamiento',
+    warmupStartA11y: 'Empezar el calentamiento',
+    warmupRedo: 'Repetir el calentamiento',
+    warmupRedoA11y: 'Repetir el calentamiento de este teléfono',
+
+    notAptTitle: 'Mejor no forzarlo',
+    notAptBody: 'No es un fallo tuyo ni del peque: la cámara y los dibujos en 3D a la vez piden más de lo que este aparato puede sostener, y un ejercicio a tirones no mide nada.',
+    notAptBack: 'Volver a los bloques',
+
+    levelLabel: (level: string): string => ({
+      A: 'Instrumento', B: 'Clínico', C: 'Reducido', D: 'No apto',
+    }[level] ?? level),
+    levelNote: (level: string): string => ({
+      A: 'Este teléfono mide con precisión suficiente: los tres ejercicios están disponibles y la sesión puede entrar en el estudio.',
+      B: 'Los ejercicios funcionan bien, pero el reloj de la cámara o la salida de audio no permiten cronometrar el giro: la localización del sonido se juega sin registrar tiempos.',
+      C: 'El puntero de este teléfono es demasiado inestable para tres dianas: la selección por mirada va con dos, que es una elección forzada perfectamente válida.',
+      D: 'Este teléfono no sostiene la cámara y la escena 3D a la vez. El bloque de Realidad Aumentada no aparece; los otros seis funcionan igual de bien.',
+    }[level] ?? ''),
+    levelHeading: (maker: string, model: string, level: string, label: string): string =>
+      `${maker} ${model} · nivel ${level} (${label})`,
+
+    shareProfile: 'Compartir ficha del teléfono',
+    shareProfileA11y: 'Compartir la ficha técnica de este teléfono',
+    shareTitle: 'Valeria+ · ficha de aptitud del teléfono',
+    shareHeader: 'VALERIA+ · Censo de dispositivos (bloque de Realidad Aumentada)',
+    shareMaker: 'Fabricante', shareModel: 'Modelo', shareOs: 'Sistema',
+    shareLevel: 'NIVEL DE APTITUD',
+    shareFps: 'fps sostenidos (p5)', shareThermal: 'Caída térmica',
+    shareTimestamps: 'Marcas de tiempo de cámara', shareJitter: 'Jitter de audio',
+    shareJitterNone: 'sin medir (sin montaje)',
+    sharePointer: 'RMS del puntero', shareImu: 'IMU disponible',
+    shareYes: 'sí', shareNo: 'no',
+    shareScreen: 'Pantalla', shareSeparation: 'Separación alcanzable con 3 dianas',
+    shareFooter: (date: string): string =>
+      `Medido el ${date}. Sin datos del niño: es la ficha del aparato.`,
+
+    exercisesKicker: 'EJERCICIOS DISPONIBLES',
+    practiceA11y: (name: string): string => `Practicar ${name}`,
+    unavailableA11y: (name: string): string => `${name}: no disponible en este teléfono`,
+    flagGameOnly: 'Se juega, pero sin cronometrar el giro: hace falta un montaje de altavoces.',
+    flagTwoTargets: 'Con dos dibujos en pantalla: en este teléfono tres quedarían demasiado juntos.',
+    flagUnavailable: 'No disponible en este teléfono.',
+
+    liveSignals: 'Ver las señales en vivo',
+    liveSignalsA11y: 'Ver las señales en vivo, herramienta para la logopeda',
+    liveSignalsSub: 'Para la logopeda: distancia, grados de giro, apertura de labios y fotogramas por segundo, en crudo. Sin refuerzo y sin registrar nada.',
+
+    setupTitle: 'Cómo colocar el teléfono',
+    setupBody: 'Apoyado en un libro, una caja o contra la pared, en horizontal, a un palmo y medio de la cara. La pantalla avisa en verde cuando la posición vale. Si el teléfono se mueve durante un ensayo, ese ensayo se anula: es preferible perderlo a apuntarlo mal.',
+
+    measuredTitle: 'Lo que se ha medido',
+    mdrNote: 'Estos son datos en bruto, no una valoración. La app mide y anota; quien interpreta si esto es mucho o poco para vuestro peque es vuestra logopeda.',
+    backToExercises: 'Volver a los ejercicios',
+    streakLine: (days: number, level: number, levelName: string): string =>
+      `${days} ${days === 1 ? 'día' : 'días'} de racha · Nivel ${level} · ${levelName}`,
+
+    rowTrials: 'Ensayos jugados',
+    rowVoided: 'Ensayos anulados (el teléfono se movió)',
+    rowHoldMax: 'Sostén más largo',
+    rowHoldMean: 'Sostén medio',
+    rowHoldTarget: 'Objetivo fijado por vosotros',
+    rowCatchTrials: 'Ensayos sin sonido (control)',
+    rowTimedTurns: 'Giros medidos con reloj',
+    rowTimedTurnsNone: 'ninguno: se jugó sin cronómetro',
+    rowLatencyMedian: 'Latencia mediana del giro',
+    rowTargets: 'Dianas en pantalla',
+    rowDwellMean: 'Fijación media hasta elegir',
+  },
   academy: {
     back: '‹ Volver',
     backA11y: 'Volver al hub de Academy',

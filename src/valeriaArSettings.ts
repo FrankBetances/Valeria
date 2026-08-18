@@ -134,30 +134,24 @@ export interface ArLevelPolicy {
   ar3Targets: 2 | 3;
   /** Solo el nivel A entra en el dataset publicable (decisión 5). */
   publishable: boolean;
-  label: string;
-  note: string;
 }
 
+// La etiqueta visible de cada nivel y su explicación son COPY y viven en i18n
+// (t.ar.levelLabel / t.ar.levelNote): esta tabla decide QUÉ se ofrece, no cómo
+// se cuenta. Tenerlo en dos sitios ya hizo que el castellano y el inglés
+// dijeran cosas distintas del mismo teléfono.
 export const AR_LEVEL_POLICY: Record<'A' | 'B' | 'C' | 'D', ArLevelPolicy> = {
   A: {
     exercises: ['ar1', 'ar2', 'ar3'], ar2Instrumented: true, ar3Targets: 3, publishable: true,
-    label: 'Instrumento',
-    note: 'Este teléfono mide con precisión suficiente: los tres ejercicios están disponibles y la sesión puede entrar en el estudio.',
   },
   B: {
     exercises: ['ar1', 'ar2', 'ar3'], ar2Instrumented: false, ar3Targets: 3, publishable: false,
-    label: 'Clínico',
-    note: 'Los ejercicios funcionan bien, pero el reloj de la cámara o la salida de audio no permiten cronometrar el giro: la localización del sonido se juega sin registrar tiempos.',
   },
   C: {
     exercises: ['ar1', 'ar3'], ar2Instrumented: false, ar3Targets: 2, publishable: false,
-    label: 'Reducido',
-    note: 'El puntero de este teléfono es demasiado inestable para tres dianas: la selección por mirada va con dos, que es una elección forzada perfectamente válida.',
   },
   D: {
     exercises: [], ar2Instrumented: false, ar3Targets: 2, publishable: false,
-    label: 'No apto',
-    note: 'Este teléfono no sostiene la cámara y la escena 3D a la vez. El bloque de Realidad Aumentada no aparece; los otros seis funcionan igual de bien.',
   },
 };
 

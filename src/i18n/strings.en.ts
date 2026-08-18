@@ -1212,6 +1212,127 @@ export const EN: UiStrings = {
     uiLangEn: 'English',
   },
 
+
+  // Bloque de Realidad Aumentada. La cámara MIRA, no graba: el copy de
+  // consentimiento es parte del muro MDR, no adorno — se traduce entero o no se
+  // traduce (una mezcla de idiomas aquí es un consentimiento inválido).
+  ar: {
+    title: 'Augmented Reality',
+    subPreparing: 'Getting the session ready',
+    subUnsupported: 'Not available on this device',
+    subConsent: 'Before you turn the camera on',
+    subWarmup: 'Warm-up with Lúa',
+    subNotApt: 'This phone cannot handle these games',
+    subLevel: (label: string): string => `This phone's tier: ${label}`,
+    sessionDone: 'Session finished',
+    oneMoment: 'One moment…',
+
+    busyMeasuring: 'Measuring this phone… (about 90 seconds)',
+    busyCalibrating: 'Let\u2019s play at following Lúa into the corners (15 seconds)…',
+    busyOpeningCamera: 'Opening the camera…',
+
+    noticeAptitudeFailed: 'The test could not be completed on this phone. You can try again.',
+    noticeCalibrationFailed: 'Calibration did not finish. Prop the phone up in landscape, about a foot from your child\u2019s face, and try again.',
+    noticeLaunchFailed: 'The exercise did not open. Check that the app has camera permission.',
+    noticeDenied: 'Without camera permission there are no Augmented Reality exercises. The rest of the app works exactly the same.',
+    noticeTimeout: 'The exercise closed because the camera lost sight of your child\u2019s face. Prop the phone up in landscape, about a foot from their face and at eye level, and try again.',
+
+    unsupportedTitle: 'These games cannot run here yet',
+    unsupportedBody: 'These exercises need the front camera and a version of the app installed on the phone (they do not work in the Expo Go preview). The other six therapy blocks work exactly as well.',
+
+    consentTitle: 'What the camera does in these games',
+    consentLead1: 'In this block the front camera does not record: it ',
+    consentLeadStrong: 'watches',
+    consentLead2: '. It tells whether your child rounds their lips, turns their head towards a sound or looks at a picture, so the car, the dog or the apple can react to that movement.',
+    consentNoRecordStrong: 'No image is ever recorded or stored.',
+    consentNoRecord: ' Every frame is analysed and discarded instantly.',
+    consentNoUploadStrong: 'No video leaves the phone.',
+    consentNoUpload: ' All the analysis happens right here, with no internet.',
+    consentNoFaceIdStrong: 'Nobody\u2019s face is recognised.',
+    consentNoFaceId: ' Only movements are measured: degrees, milliseconds and ratios.',
+    consentMicOffPre: 'In two of the three exercises the ',
+    consentMicOffStrong: 'microphone is off',
+    consentMicOffPost: ': motor effort is rewarded before your child is asked to speak.',
+    consentRevoke: 'You can leave at any time and withdraw this permission from your Android settings.',
+    consentAccept: 'I understand and agree',
+    consentAcceptA11y: 'Agree to camera use and continue',
+    consentDecline: 'Not now',
+
+    warmupTitle: 'A ninety-second warm-up game',
+    warmupBody1a: 'Every phone is different and these exercises are demanding. Before starting, the app runs a short test —looking at Lúa, following her into the corners, listening to two sounds— to find out what it can offer ',
+    warmupBody1Strong: 'on this particular phone',
+    warmupBody1b: '. It only happens once.',
+    warmupBody2a: 'Prop the phone on a book or a box, in ',
+    warmupBody2Strong: 'landscape',
+    warmupBody2b: ', about a foot from your child\u2019s face (12-14 in), and leave it still.',
+    warmupStart: 'Start the warm-up',
+    warmupStartA11y: 'Start the warm-up',
+    warmupRedo: 'Run the warm-up again',
+    warmupRedoA11y: 'Run this phone\u2019s warm-up again',
+
+    notAptTitle: 'Better not to push it',
+    notAptBody: 'This is not your fault or your child\u2019s: running the camera and 3D graphics at once asks more than this device can sustain, and a stuttering exercise measures nothing.',
+    notAptBack: 'Back to the blocks',
+
+    levelLabel: (level: string): string => ({
+      A: 'Research-grade', B: 'Clinical', C: 'Reduced', D: 'Not supported',
+    }[level] ?? level),
+    levelNote: (level: string): string => ({
+      A: 'This phone measures precisely enough: all three exercises are available and the session can enter the study.',
+      B: 'The exercises run well, but the camera clock or the audio output cannot time the head turn: sound localization is played without recording times.',
+      C: 'This phone\u2019s pointer is too unsteady for three targets: gaze selection runs with two, which is a perfectly valid forced choice.',
+      D: 'This phone cannot sustain the camera and the 3D scene at once. The Augmented Reality block is hidden; the other six work just as well.',
+    }[level] ?? ''),
+    levelHeading: (maker: string, model: string, level: string, label: string): string =>
+      `${maker} ${model} · tier ${level} (${label})`,
+
+    shareProfile: 'Share this phone\u2019s report',
+    shareProfileA11y: 'Share the technical report for this phone',
+    shareTitle: 'Valeria+ · phone aptitude report',
+    shareHeader: 'VALERIA+ · Device census (Augmented Reality block)',
+    shareMaker: 'Manufacturer', shareModel: 'Model', shareOs: 'OS',
+    shareLevel: 'APTITUDE TIER',
+    shareFps: 'sustained fps (p5)', shareThermal: 'Thermal drop',
+    shareTimestamps: 'Camera timestamps', shareJitter: 'Audio jitter',
+    shareJitterNone: 'not measured (no speaker rig)',
+    sharePointer: 'Pointer RMS', shareImu: 'IMU available',
+    shareYes: 'yes', shareNo: 'no',
+    shareScreen: 'Screen', shareSeparation: 'Separation achievable with 3 targets',
+    shareFooter: (date: string): string =>
+      `Measured on ${date}. No child data: this is the device\u2019s report.`,
+
+    exercisesKicker: 'AVAILABLE EXERCISES',
+    practiceA11y: (name: string): string => `Practice ${name}`,
+    unavailableA11y: (name: string): string => `${name}: not available on this phone`,
+    flagGameOnly: 'Playable, but the head turn is not timed: that needs a speaker rig.',
+    flagTwoTargets: 'With two pictures on screen: on this phone three would sit too close together.',
+    flagUnavailable: 'Not available on this phone.',
+
+    liveSignals: 'View the live signals',
+    liveSignalsA11y: 'View the live signals, a tool for the speech-language pathologist',
+    liveSignalsSub: 'For the SLP: distance, degrees of head turn, lip aperture and frames per second, raw. No reinforcement and nothing recorded.',
+
+    setupTitle: 'How to position the phone',
+    setupBody: 'Propped on a book, a box or against the wall, in landscape, about a foot from the face. The screen turns green when the position is good. If the phone moves during a trial, that trial is voided: better to lose it than to record it wrong.',
+
+    measuredTitle: 'What was measured',
+    mdrNote: 'These are raw figures, not an assessment. The app measures and records; your speech-language pathologist is the one who interprets whether this is a lot or a little for your child.',
+    backToExercises: 'Back to the exercises',
+    streakLine: (days: number, level: number, levelName: string): string =>
+      `${days}-day streak · Level ${level} · ${levelName}`,
+
+    rowTrials: 'Trials played',
+    rowVoided: 'Trials voided (the phone moved)',
+    rowHoldMax: 'Longest hold',
+    rowHoldMean: 'Mean hold',
+    rowHoldTarget: 'Target you set',
+    rowCatchTrials: 'Silent trials (control)',
+    rowTimedTurns: 'Head turns timed',
+    rowTimedTurnsNone: 'none: played without timing',
+    rowLatencyMedian: 'Median head-turn latency',
+    rowTargets: 'Targets on screen',
+    rowDwellMean: 'Mean dwell before choosing',
+  },
   academy: {
     back: '‹ Back',
     backA11y: 'Go back to the Academy hub',
