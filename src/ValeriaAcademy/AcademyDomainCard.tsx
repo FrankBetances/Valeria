@@ -8,17 +8,22 @@
 import React from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
 import { V } from '../valeriaTheme';
-import { DOMAIN_META } from './academyDomains';
+import { useT } from '../i18n';
+import { domainMetaFor, domainLevelName } from './academyDomains';
 import { useAcademyDomainSummary } from './academyStore';
 import { AcademyDomain } from './academyTypes';
 import { BlockIcon } from '../ValeriaBlockIcons';
+import { getUiLang } from '../valeriaUiLang';
 
 export const AcademyDomainCard: React.FC<{
   domain: AcademyDomain;
   onPress: (domain: AcademyDomain) => void;
 }> = React.memo(({ domain, onPress }) => {
+  const t = useT();
   const summary = useAcademyDomainSummary(domain);
-  const meta = DOMAIN_META[domain];
+  const lang = getUiLang();
+  const meta = domainMetaFor(domain, lang);
+  const localizedLevelName = domainLevelName(domain, summary.level, lang);
   const pct = Math.round(summary.progress * 100);
   const complete = summary.totalCount > 0 && summary.completedCount >= summary.totalCount;
 
@@ -27,7 +32,7 @@ export const AcademyDomainCard: React.FC<{
       onPress={() => onPress(domain)}
       style={s.card}
       accessibilityRole="button"
-      accessibilityLabel={`${meta.label}. ${summary.completedCount} de ${summary.totalCount} completadas. Nivel ${summary.levelName}.`}
+      accessibilityLabel={`${meta.label}. ${summary.completedCount} / ${summary.totalCount}. ${localizedLevelName}.`}
     >
       <View style={[s.icon, { backgroundColor: meta.accentBg }]}>
         <BlockIcon name={meta.icon} color={meta.accentFg} size={26} />
@@ -44,11 +49,11 @@ export const AcademyDomainCard: React.FC<{
         </View>
         <View style={s.metaRow}>
           <Text style={[s.metaTxt, { color: meta.accentFg }]}>
-            {summary.totalCount > 0 ? `${summary.completedCount}/${summary.totalCount} · ${pct}%` : 'Próximamente'}
+            {summary.totalCount > 0 ? t.academy.progressTxt(summary.completedCount, summary.totalCount, pct) : t.academy.comingSoon}
           </Text>
           <View style={s.chips}>
-            <View style={s.chipRow}><BlockIcon name="level" color={V.color.textSecondary} size={14} /><Text style={s.levelTxt}>{summary.levelName}</Text></View>
-            <Text style={s.xpTxt}>{summary.xp} XP</Text>
+            <View style={s.chipRow}><BlockIcon name="level" color={V.color.textSecondary} size={14} /><Text style={s.levelTxt}>{localizedLevelName}</Text></View>
+            <Text style={s.xpTxt}>{t.academy.xpTxt(summary.xp)}</Text>
           </View>
         </View>
       </View>

@@ -1,11 +1,11 @@
 {
- "generatedAt": "2026-08-10T19:10:08.407Z",
- "entries": 3052,
+ "generatedAt": "2026-08-18T14:44:46.268Z",
+ "entries": 3240,
  "byStyle": {
-  "child": 1626,
-  "slow": 708,
+  "child": 1714,
+  "slow": 756,
   "clinical": 36,
-  "tutor": 682
+  "tutor": 734
  },
  "bySource": {
   "pares/intro": 36,
@@ -25,7 +25,7 @@
   "banco/no-oido": 12,
   "banco/juntos": 12,
   "util/muestra": 4,
-  "expansion": 1517,
+  "expansion": 1705,
   "ejercicios": 1035
  },
  "corpus": [
@@ -18258,6 +18258,342 @@
    "source": "expansion"
   },
   {
+   "id": "en_child_4e081324_43",
+   "lang": "en",
+   "style": "child",
+   "text": "We sit and fly high in the air. Say: swing.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_463bd221_26",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: swing.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_4e081324_43",
+   "lang": "en",
+   "style": "slow",
+   "text": "We sit and fly high in the air. Say: swing.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_68e8a740_50",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Sit together and rock back and forth like a swing.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_f83d6cd0_48",
+   "lang": "en",
+   "style": "child",
+   "text": "It is round and bounces on the grass. Say: ball.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_84665fda_25",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: ball.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_f83d6cd0_48",
+   "lang": "en",
+   "style": "slow",
+   "text": "It is round and bounces on the grass. Say: ball.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_0ee35f55_49",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Roll a small ball across the floor to each other.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_cbba635c_51",
+   "lang": "en",
+   "style": "child",
+   "text": "We move our feet so fast across the park. Say: run.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_dd889ef0_24",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: run.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_cbba635c_51",
+   "lang": "en",
+   "style": "slow",
+   "text": "We move our feet so fast across the park. Say: run.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_15f856bb_47",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Jog in place together counting one, two, three!",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_d79aa814_49",
+   "lang": "en",
+   "style": "child",
+   "text": "We climb up to the top and zoom down. Say: slide.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_6eb40c74_26",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: slide.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_d79aa814_49",
+   "lang": "en",
+   "style": "slow",
+   "text": "We climb up to the top and zoom down. Say: slide.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_2a3f1bfe_56",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Make your hand slide down your arm with a zooming sound.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_7614f74b_55",
+   "lang": "en",
+   "style": "child",
+   "text": "Look at the giant tree reaching for the sky. Say: tall.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_ed4df88c_25",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: tall.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_7614f74b_55",
+   "lang": "en",
+   "style": "slow",
+   "text": "Look at the giant tree reaching for the sky. Say: tall.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_a2e44744_40",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Stretch both arms as high up as you can.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_e63578d0_47",
+   "lang": "en",
+   "style": "child",
+   "text": "Going down the slide is so much fun. Say: whee!",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_f23dff76_25",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: whee.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_e63578d0_47",
+   "lang": "en",
+   "style": "slow",
+   "text": "Going down the slide is so much fun. Say: whee!",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_27ad155c_45",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Throw your hands up in the air and yell whee!",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_c5502ee9_47",
+   "lang": "en",
+   "style": "child",
+   "text": "We put on our cozy sleep clothes. Say: pajamas.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_4e3e0384_28",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: pajamas.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_c5502ee9_47",
+   "lang": "en",
+   "style": "slow",
+   "text": "We put on our cozy sleep clothes. Say: pajamas.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_41395f49_50",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Pat your tummy and pull on imaginary cozy pajamas.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_9dc39e8c_53",
+   "lang": "en",
+   "style": "child",
+   "text": "We turn the pages to read a bedtime story. Say: book.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_2417003e_25",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: book.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_9dc39e8c_53",
+   "lang": "en",
+   "style": "slow",
+   "text": "We turn the pages to read a bedtime story. Say: book.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_f2436fbe_59",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Hold your hands together like an open book and turn a page.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_d7b04561_50",
+   "lang": "en",
+   "style": "child",
+   "text": "We look at pictures and tell the story. Say: read.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_e62247ed_25",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: read.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_d7b04561_50",
+   "lang": "en",
+   "style": "slow",
+   "text": "We look at pictures and tell the story. Say: read.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_12d6bc06_59",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Point with your index finger left-to-right on an open hand.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_19399990_50",
+   "lang": "en",
+   "style": "child",
+   "text": "We close our eyes and dream all night. Say: sleep.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_89a524ce_26",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: sleep.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_19399990_50",
+   "lang": "en",
+   "style": "slow",
+   "text": "We close our eyes and dream all night. Say: sleep.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_a45561d4_59",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Put both hands under your tilted cheek and close your eyes.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_fbe525c8_47",
+   "lang": "en",
+   "style": "child",
+   "text": "The house is calm and peaceful now. Say: quiet.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_90c45b07_26",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: quiet.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_fbe525c8_47",
+   "lang": "en",
+   "style": "slow",
+   "text": "The house is calm and peaceful now. Say: quiet.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_021adc0e_52",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Put your index finger to your lips with a soft shhh.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_7d89db89_40",
+   "lang": "en",
+   "style": "child",
+   "text": "Time for all the toys to rest. Say: shh.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_718846f8_24",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: shh.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_7d89db89_40",
+   "lang": "en",
+   "style": "slow",
+   "text": "Time for all the toys to rest. Say: shh.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_7656bb7d_46",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Gently rock an imaginary baby and whisper shh.",
+   "source": "expansion"
+  },
+  {
    "id": "en_child_68068af6_35",
    "lang": "en",
    "style": "child",
@@ -19126,13 +19462,6 @@
    "source": "expansion"
   },
   {
-   "id": "en_child_dd889ef0_24",
-   "lang": "en",
-   "style": "child",
-   "text": "One more time! Say: run.",
-   "source": "expansion"
-  },
-  {
    "id": "en_slow_a0b44794_46",
    "lang": "en",
    "style": "slow",
@@ -19175,6 +19504,748 @@
    "source": "expansion"
   },
   {
+   "id": "en_child_4e8d2b25_26",
+   "lang": "en",
+   "style": "child",
+   "text": "This is the cow. Say: cow.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_baaac7be_24",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: cow.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_4e8d2b25_26",
+   "lang": "en",
+   "style": "slow",
+   "text": "This is the cow. Say: cow.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_38c88193_63",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Trace imaginary spots on your arm and make a soft moo together.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_206210fa_41",
+   "lang": "en",
+   "style": "child",
+   "text": "The cow swishes its long tail. Say: tail.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_206210fa_41",
+   "lang": "en",
+   "style": "slow",
+   "text": "The cow swishes its long tail. Say: tail.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_873e31ab_58",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Swish one arm back and forth behind you like a happy tail.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_c5a5ab58_44",
+   "lang": "en",
+   "style": "child",
+   "text": "The cow munches sweet green grass. Say: eat.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_c5a5ab58_44",
+   "lang": "en",
+   "style": "slow",
+   "text": "The cow munches sweet green grass. Say: eat.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_81211feb_57",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Munch with your mouth open and closed like a chewing cow.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_c13d9b7e_41",
+   "lang": "en",
+   "style": "child",
+   "text": "The cow is very big and strong. Say: big.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_232eebd1_24",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: big.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_c13d9b7e_41",
+   "lang": "en",
+   "style": "slow",
+   "text": "The cow is very big and strong. Say: big.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_ad5ce274_54",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Spread both arms out wide to show how huge the cow is.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_ac39056d_33",
+   "lang": "en",
+   "style": "child",
+   "text": "This is the little cat. Say: cat.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_ac39056d_33",
+   "lang": "en",
+   "style": "slow",
+   "text": "This is the little cat. Say: cat.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_0f7f089a_46",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Stroke an imaginary kitten gently on your lap.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_54097679_55",
+   "lang": "en",
+   "style": "child",
+   "text": "The cat has tickly whiskers on its face. Say: whiskers.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_9d95681d_29",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: whiskers.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_54097679_55",
+   "lang": "en",
+   "style": "slow",
+   "text": "The cat has tickly whiskers on its face. Say: whiskers.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_19c149ed_65",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Draw three little whisker lines on your cheeks with your fingers.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_ffcac825_44",
+   "lang": "en",
+   "style": "child",
+   "text": "The cat climbs up the tall tree. Say: climb.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_9c4400e0_26",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: climb.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_ffcac825_44",
+   "lang": "en",
+   "style": "slow",
+   "text": "The cat climbs up the tall tree. Say: climb.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_f5be6ad9_51",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Climb with hand-over-hand motions reaching up high.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_d8a77db2_37",
+   "lang": "en",
+   "style": "child",
+   "text": "The cat has very soft fur. Say: soft.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_d8a77db2_37",
+   "lang": "en",
+   "style": "slow",
+   "text": "The cat has very soft fur. Say: soft.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_3c751bda_52",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Gently stroke your cheek with the back of your hand.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_d981e374_48",
+   "lang": "en",
+   "style": "child",
+   "text": "Look at the sky, here comes the rain. Say: rain.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_eaf4c56b_25",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: rain.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_d981e374_48",
+   "lang": "en",
+   "style": "slow",
+   "text": "Look at the sky, here comes the rain. Say: rain.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_bb296ad9_68",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Wiggle your fingers moving down from the sky like falling raindrops.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_442af1f0_51",
+   "lang": "en",
+   "style": "child",
+   "text": "A tiny drop of water falls on your nose. Say: drop.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_82bdf782_25",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: drop.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_442af1f0_51",
+   "lang": "en",
+   "style": "slow",
+   "text": "A tiny drop of water falls on your nose. Say: drop.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_ad2202d1_56",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Gently tap the tip of your child’s nose with one finger.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_f8c944d9_49",
+   "lang": "en",
+   "style": "child",
+   "text": "The raindrops fall all over the grass. Say: fall.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_0aa038ce_25",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: fall.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_f8c944d9_49",
+   "lang": "en",
+   "style": "slow",
+   "text": "The raindrops fall all over the grass. Say: fall.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_11f3ed46_62",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Tap your fingers rhythmically on the table, faster and faster.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_32cd41dc_45",
+   "lang": "en",
+   "style": "child",
+   "text": "Everything outside is cool and wet. Say: wet.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_32cd41dc_45",
+   "lang": "en",
+   "style": "slow",
+   "text": "Everything outside is cool and wet. Say: wet.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_45492f2b_57",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Shake your hands dry as if you just splashed in a puddle.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_2921de70_47",
+   "lang": "en",
+   "style": "child",
+   "text": "Here comes the chugga chugga train. Say: train.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_8b405959_26",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: train.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_2921de70_47",
+   "lang": "en",
+   "style": "slow",
+   "text": "Here comes the chugga chugga train. Say: train.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_c998c679_49",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Pump your bent arms in circles like train wheels.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_773545f4_50",
+   "lang": "en",
+   "style": "child",
+   "text": "The train rolls along the metal track. Say: track.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_c9644bd2_26",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: track.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_773545f4_50",
+   "lang": "en",
+   "style": "slow",
+   "text": "The train rolls along the metal track. Say: track.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_4170d818_61",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Draw two parallel lines with both index fingers on the floor.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_89fcb4cc_46",
+   "lang": "en",
+   "style": "child",
+   "text": "The train starts to go down the line. Say: go.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_ed8a58db_23",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: go.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_89fcb4cc_46",
+   "lang": "en",
+   "style": "slow",
+   "text": "The train starts to go down the line. Say: go.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_8c5e41b8_41",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Choo-choo march around the room together.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_0188edf2_55",
+   "lang": "en",
+   "style": "child",
+   "text": "The train has so many cars, it is very long. Say: long.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_e5ff9083_25",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: long.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_0188edf2_55",
+   "lang": "en",
+   "style": "slow",
+   "text": "The train has so many cars, it is very long. Say: long.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_f3adab5a_53",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Open both arms as wide as possible from side to side.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_2848ce53_44",
+   "lang": "en",
+   "style": "child",
+   "text": "Look at the colorful little bird. Say: bird.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_2848ce53_44",
+   "lang": "en",
+   "style": "slow",
+   "text": "Look at the colorful little bird. Say: bird.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_76863000_53",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Link your thumbs and flap your hands like bird wings.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_2ff5a428_43",
+   "lang": "en",
+   "style": "child",
+   "text": "The bird opens its feather wing. Say: wing.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_f551ef80_25",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: wing.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_2ff5a428_43",
+   "lang": "en",
+   "style": "slow",
+   "text": "The bird opens its feather wing. Say: wing.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_7e0060c4_47",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Flap your elbows up and down like little wings.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_91edf07e_47",
+   "lang": "en",
+   "style": "child",
+   "text": "The bird takes off and starts to fly. Say: fly.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_84a1b9b8_24",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: fly.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_91edf07e_47",
+   "lang": "en",
+   "style": "slow",
+   "text": "The bird takes off and starts to fly. Say: fly.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_acf6f5d3_51",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Soar with outstretched arms across the living room.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_a849c128_49",
+   "lang": "en",
+   "style": "child",
+   "text": "The bird flies way up in the high sky. Say: high.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_759d7f8d_25",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: high.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_a849c128_49",
+   "lang": "en",
+   "style": "slow",
+   "text": "The bird flies way up in the high sky. Say: high.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_2dd9375e_61",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Stand on your tiptoes reaching both hands toward the ceiling.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_91c4e4f9_38",
+   "lang": "en",
+   "style": "child",
+   "text": "Yummy toast for breakfast! Say: bread.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_ec0f8e45_26",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: bread.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_91c4e4f9_38",
+   "lang": "en",
+   "style": "slow",
+   "text": "Yummy toast for breakfast! Say: bread.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_afcfd3fa_60",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Pretend to butter a slice of toast in the palm of your hand.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_e2870aa8_50",
+   "lang": "en",
+   "style": "child",
+   "text": "The outside edge is the crunchy crust. Say: crust.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_dcda063e_26",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: crust.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_e2870aa8_50",
+   "lang": "en",
+   "style": "slow",
+   "text": "The outside edge is the crunchy crust. Say: crust.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_f39e15b4_50",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Tap your knuckles together making a crunchy sound.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_9db686a4_41",
+   "lang": "en",
+   "style": "child",
+   "text": "Open wide and take a big bite. Say: bite.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_eabaffcf_25",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: bite.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_9db686a4_41",
+   "lang": "en",
+   "style": "slow",
+   "text": "Open wide and take a big bite. Say: bite.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_268ab2fc_44",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Chomp your hands together like a giant bite.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_60b46b57_49",
+   "lang": "en",
+   "style": "child",
+   "text": "Fresh from the toaster, it feels warm. Say: warm.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_2b461c1e_25",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: warm.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_60b46b57_49",
+   "lang": "en",
+   "style": "slow",
+   "text": "Fresh from the toaster, it feels warm. Say: warm.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_9f1911bc_40",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Blow warm breath onto your cupped hands.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_9ed910f0_44",
+   "lang": "en",
+   "style": "child",
+   "text": "Look at the red party balloon. Say: balloon.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_dfffef82_28",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: balloon.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_9ed910f0_44",
+   "lang": "en",
+   "style": "slow",
+   "text": "Look at the red party balloon. Say: balloon.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_93c06952_47",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Pretend to hold a floating string in your hand.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_c9bb8625_43",
+   "lang": "en",
+   "style": "child",
+   "text": "Hold tight to the long string. Say: string.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_a8ff1906_27",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: string.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_c9bb8625_43",
+   "lang": "en",
+   "style": "slow",
+   "text": "Hold tight to the long string. Say: string.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_cedf13da_45",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Pinch two fingers tight and pull down gently.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_9ac6374b_43",
+   "lang": "en",
+   "style": "child",
+   "text": "When it pokes a pin, it goes pop! Say: pop.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_5e7a4206_24",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: pop.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_9ac6374b_43",
+   "lang": "en",
+   "style": "slow",
+   "text": "When it pokes a pin, it goes pop! Say: pop.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_24396694_43",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Clap hands together loudly on the word pop!",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_7cc0a8ee_49",
+   "lang": "en",
+   "style": "child",
+   "text": "Full of air, the balloon is so round. Say: round.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_8315b043_26",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: round.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_7cc0a8ee_49",
+   "lang": "en",
+   "style": "slow",
+   "text": "Full of air, the balloon is so round. Say: round.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_aa1cdaf1_52",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Draw a big circular ball in the air with both hands.",
+   "source": "expansion"
+  },
+  {
    "id": "en_tutor_b1670398_155",
    "lang": "en",
    "style": "tutor",
@@ -19186,13 +20257,6 @@
    "lang": "en",
    "style": "child",
    "text": "Which teddy is the BIG one? Hand it to me and tell me! Say: big.",
-   "source": "expansion"
-  },
-  {
-   "id": "en_child_232eebd1_24",
-   "lang": "en",
-   "style": "child",
-   "text": "One more time! Say: big.",
    "source": "expansion"
   },
   {
@@ -19336,24 +20400,24 @@
    "source": "expansion"
   },
   {
-   "id": "en_child_38fffee2_71",
+   "id": "en_child_33f593a5_80",
    "lang": "en",
    "style": "child",
-   "text": "Now the toy goes back to sleep in the box. How is the lid? Say: closed.",
+   "text": "Now the toy goes back to sleep in the box. What do we do to the lid? Say: close.",
    "source": "expansion"
   },
   {
-   "id": "en_child_b8e43c7d_27",
+   "id": "en_child_856e2883_26",
    "lang": "en",
    "style": "child",
-   "text": "One more time! Say: closed.",
+   "text": "One more time! Say: close.",
    "source": "expansion"
   },
   {
-   "id": "en_slow_38fffee2_71",
+   "id": "en_slow_33f593a5_80",
    "lang": "en",
    "style": "slow",
-   "text": "Now the toy goes back to sleep in the box. How is the lid? Say: closed.",
+   "text": "Now the toy goes back to sleep in the box. What do we do to the lid? Say: close.",
    "source": "expansion"
   },
   {
@@ -19364,10 +20428,73 @@
    "source": "expansion"
   },
   {
-   "id": "en_tutor_4acdaee0_118",
+   "id": "en_tutor_d90b6689_93",
    "lang": "en",
    "style": "tutor",
-   "text": "Fill one cup with cold water and another cup with warm (not hot) water. Put both cups where your child can touch them.",
+   "text": "Make a ramp by leaning a large hardcover book on a cushion and place a toy car at the bottom.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_11e2c34f_57",
+   "lang": "en",
+   "style": "child",
+   "text": "The car goes up the steep hill! What does it do? Say: up.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_c2bf8dae_23",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: up.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_11e2c34f_57",
+   "lang": "en",
+   "style": "slow",
+   "text": "The car goes up the steep hill! What does it do? Say: up.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_c305d69b_50",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Push the toy car slowly up the book ramp together.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_da408c6f_51",
+   "lang": "en",
+   "style": "child",
+   "text": "Now let go! The car zooms down the ramp! Say: down.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_e371abfd_25",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: down.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_da408c6f_51",
+   "lang": "en",
+   "style": "slow",
+   "text": "Now let go! The car zooms down the ramp! Say: down.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_1d9d8930_42",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Let the car roll down fast and shout whee!",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_c03199b1_108",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Fill one cup with cold water and another cup with warm water. Put both cups where your child can touch them.",
    "source": "expansion"
   },
   {
@@ -19417,6 +20544,195 @@
    "lang": "en",
    "style": "tutor",
    "text": "Touch it, pull your hand back quickly and blow on your fingers together.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_cc1f1bb1_79",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Stand next to the light switch with the light turned off, or hold a flashlight.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_bf3f7a24_56",
+   "lang": "en",
+   "style": "child",
+   "text": "It is dark in here. What do we do to the light? Say: on.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_5295bf56_23",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: on.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_bf3f7a24_56",
+   "lang": "en",
+   "style": "slow",
+   "text": "It is dark in here. What do we do to the light? Say: on.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_f019085c_50",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Your child flips the switch on and you both cheer.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_2e0522e3_55",
+   "lang": "en",
+   "style": "child",
+   "text": "Now time for bed. What do we do to the light? Say: off.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_610572c8_24",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: off.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_2e0522e3_55",
+   "lang": "en",
+   "style": "slow",
+   "text": "Now time for bed. What do we do to the light? Say: off.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_742914fe_50",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Turn the light off and whisper goodnight together.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_03033117_103",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Prepare two identical baskets: fill one to the top with toys, and leave the other one completely empty.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_cfad6476_62",
+   "lang": "en",
+   "style": "child",
+   "text": "Which basket has toys piled all the way to the top? Say: full.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_fba99d62_25",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: full.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_cfad6476_62",
+   "lang": "en",
+   "style": "slow",
+   "text": "Which basket has toys piled all the way to the top? Say: full.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_4222e152_59",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Lift the heavy basket together and grunt at how full it is.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_fc4b0e61_71",
+   "lang": "en",
+   "style": "child",
+   "text": "And look inside this other basket. There is nothing inside! Say: empty.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_087d481c_26",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: empty.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_fc4b0e61_71",
+   "lang": "en",
+   "style": "slow",
+   "text": "And look inside this other basket. There is nothing inside! Say: empty.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_6649d4e2_74",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Turn the empty basket upside down over your child’s head like a funny hat.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_d99b9f9a_72",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Place an open toy bin and three small toys on the floor outside the bin.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_307eddcd_54",
+   "lang": "en",
+   "style": "child",
+   "text": "Time to pack away the toys. Where do they go? Say: in.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_44995f34_23",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: in.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_307eddcd_54",
+   "lang": "en",
+   "style": "slow",
+   "text": "Time to pack away the toys. Where do they go? Say: in.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_b3f85318_46",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Drop a toy into the bin on each word and clap.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_40c69b50_52",
+   "lang": "en",
+   "style": "child",
+   "text": "Time to play! What do we do with the toys? Say: out.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_bb2214bf_24",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: out.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_40c69b50_52",
+   "lang": "en",
+   "style": "slow",
+   "text": "Time to play! What do we do with the toys? Say: out.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_c78396f0_36",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Dump the toys out gently on the rug.",
    "source": "expansion"
   },
   {

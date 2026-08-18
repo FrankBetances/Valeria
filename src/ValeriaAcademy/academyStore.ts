@@ -161,7 +161,7 @@ export const getResults = (): Readonly<Record<string, AcademyCapsuleResult>> => 
 // Insignias ganadas de un dominio → descriptores para la UI.
 export const getDomainBadges = (domain: AcademyDomain): AcademyBadge[] =>
   state.domains[domain].badges
-    .map(badgeFromId)
+    .map((id) => badgeFromId(id))
     .filter((b): b is AcademyBadge => b != null);
 
 // --- Suscripción (useSyncExternalStore) -------------------------------------

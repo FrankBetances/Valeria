@@ -13,11 +13,13 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { STORAGE_KEYS, V } from '../valeriaTheme';
-import { DOMAIN_META, domainFromPatologia } from './academyDomains';
-import { ACADEMY_CAPSULES } from './academyContent';
+import { useT } from '../i18n';
+import { domainMetaFor, domainFromPatologia } from './academyDomains';
+import { ACADEMY_CAPSULES, capsulesForUiLang } from './academyContent';
 import { getResults } from './academyStore';
 import { AcademyCapsule, AcademyDomain } from './academyTypes';
 import { BlockIcon } from '../ValeriaBlockIcons';
+import { getUiLang } from '../valeriaUiLang';
 
 // Prioridad transversal sugerida por dominio activo. Mezcla la cápsula clave del
 // propio dominio con un refuerzo de Lenguaje (el sustrato común a todo el habla).
@@ -40,12 +42,11 @@ const PRIORITY_BY_DOMAIN: Record<AcademyDomain, string[]> = {
   signos:     ['lse-que-es', 'lse-no-frena'],
 };
 
-const byId = (id: string): AcademyCapsule | undefined => ACADEMY_CAPSULES.find((c) => c.id === id);
-
 export const AcademyPriorityFeed: React.FC<{
   onOpenCapsule: (capsule: AcademyCapsule) => void;
   refreshKey?: number;
 }> = ({ onOpenCapsule, refreshKey }) => {
+  const t = useT();
   const [activeDomain, setActiveDomain] = useState<AcademyDomain>('lenguaje');
 
   // Lectura pasiva y única de la Ficha (JSON en claro). No bloquea el render.
@@ -62,8 +63,12 @@ export const AcademyPriorityFeed: React.FC<{
     return () => { alive = false; };
   }, []);
 
-  const results = getResults(); // refreshKey fuerza recálculo tras completar
+  const results = getResults();
   void refreshKey;
+
+  const lang = getUiLang();
+  const allCapsules = capsulesForUiLang(lang);
+  const byId = (id: string): AcademyCapsule | undefined => allCapsules.find((c) => c.id === id);
 
   const suggestions = (PRIORITY_BY_DOMAIN[activeDomain] ?? [])
     .map(byId)
@@ -72,26 +77,26 @@ export const AcademyPriorityFeed: React.FC<{
 
   if (suggestions.length === 0) return null;
 
-  const meta = DOMAIN_META[activeDomain];
+  const meta = domainMetaFor(activeDomain, lang);
 
   return (
     <View style={s.wrap}>
       <View style={s.headRow}>
-        <View style={s.kickerRow}><BlockIcon name="level" color="#ffffff" size={15} /><Text style={s.kicker}>TU PRIORIDAD DE HOY</Text></View>
+        <View style={s.kickerRow}><BlockIcon name="level" color="#ffffff" size={15} /><Text style={s.kicker}>{t.academy.priorityKicker}</Text></View>
         <View style={[s.domainTag, { backgroundColor: 'rgba(255,255,255,.18)' }]}>
           <BlockIcon name={meta.icon} color={meta.accentFg} size={13} />
           <Text style={s.domainTagTxt}>{meta.short}</Text>
         </View>
       </View>
       {suggestions.map((c) => {
-        const cm = DOMAIN_META[c.domain];
+        const cm = domainMetaFor(c.domain, lang);
         return (
           <Pressable
             key={c.id}
             onPress={() => onOpenCapsule(c)}
             style={s.item}
             accessibilityRole="button"
-            accessibilityLabel={`Prioridad sugerida: ${c.title}. Dominio ${cm.short}.`}
+            accessibilityLabel={`${c.title}. ${cm.short}.`}
           >
             <View style={[s.itemIcon, { backgroundColor: cm.accentBg }]}>
               <BlockIcon name={meta.icon} color={meta.accentFg} size={20} />

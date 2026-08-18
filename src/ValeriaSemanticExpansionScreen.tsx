@@ -48,8 +48,6 @@ import { ValeriaGameStrip } from './ValeriaGameStrip';
 import { ValeriaAwardsSheet } from './ValeriaAwardsSheet';
 import { loadGame, GameState } from './valeriaGamification';
 
-const MONTHS = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
-
 // Un "paso" genérico: la unidad que el reproductor sabe locutar y evaluar.
 // Escenarios, progresiones y contrastes se aplanan a esta forma común.
 interface PracticeStep {
@@ -532,12 +530,12 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
       const mediaNum = (xs: StepRecord[]) => (xs.length ? +(xs.reduce((a, r) => a + r.stars, 0) / xs.length).toFixed(1) : null);
       const media = (xs: StepRecord[]) => (xs.length ? mediaNum(xs)!.toFixed(1) : '–');
       hist.push({
-        date: `${d.getDate()} ${MONTHS[d.getMonth()]}`,
-        name: `Expansión semántica · ${sess.title}`,
+        date: `${d.getDate()} ${t.ling.months.split(' ')[d.getMonth()]}`,
+        name: `${t.semantic.title} · ${sess.title}`,
         avg: +avg.toFixed(1),
         note: comp.length
-          ? `${kindLbl}: comprensión ${media(comp)}/3 en ${comp.length} ${comp.length === 1 ? 'vuelta' : 'vueltas'} · producción ${media(prod)}/3 en ${prod.length}.`
-          : `${kindLbl}: ${res.length} palabras trabajadas uniendo símbolo, voz y acción física.`,
+          ? t.semantic.histNoteContrast(kindLbl, media(comp), comp.length, media(prod), prod.length)
+          : t.semantic.histNoteWords(kindLbl, res.length),
         completed: true,
         // El desglose va también como dato, no solo dentro del texto de la
         // nota: el panel de resultados y la exportación lo leen de aquí en vez

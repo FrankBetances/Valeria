@@ -6,9 +6,13 @@
 // El orden del array ES el orden de progresión sugerido dentro de cada dominio.
 // ============================================================================
 import { AcademyCapsule, AcademyTrack } from './academyTypes';
+import type { UiLang } from '../valeriaUiLang';
+import { ACADEMY_CAPSULES_EN, TRACK_ACCENT_EN } from './academyContent.en';
+
+export { ACADEMY_CAPSULES_EN, TRACK_ACCENT_EN };
 
 // Color de acento por eje temático del dominio Lenguaje (subfamilia visual).
-export const TRACK_ACCENT: Record<AcademyTrack, { bg: string; fg: string; label: string }> = {
+export const TRACK_ACCENT_ES: Record<AcademyTrack, { bg: string; fg: string; label: string }> = {
   desarrollo: { bg: '#e0edff', fg: '#3b6fd4', label: 'CÓMO APRENDEN A HABLAR' },
   tpr:        { bg: '#d6f5f2', fg: '#00a39e', label: 'POR QUÉ EL TPR' },
   vicios:     { bg: '#fdeef2', fg: '#c2477e', label: 'VICIOS A EVITAR' },
@@ -16,10 +20,15 @@ export const TRACK_ACCENT: Record<AcademyTrack, { bg: string; fg: string; label:
   mitos:      { bg: '#ffe9e4', fg: '#cf4b39', label: '¿MITO O REALIDAD?' },
 };
 
+export const trackAccentFor = (track: AcademyTrack, lang: UiLang = 'es'): { bg: string; fg: string; label: string } =>
+  (lang === 'en' ? TRACK_ACCENT_EN : TRACK_ACCENT_ES)[track];
+
+export const TRACK_ACCENT: Record<AcademyTrack, { bg: string; fg: string; label: string }> = TRACK_ACCENT_ES;
+
 // Umbral de aprobado del micro-quiz (aciertos / preguntas). Ágil, no punitivo.
 export const ACADEMY_PASS_THRESHOLD = 0.6;
 
-export const ACADEMY_CAPSULES: AcademyCapsule[] = [
+export const ACADEMY_CAPSULES_ES: AcademyCapsule[] = [
   // ================================================================ LENGUAJE
   // --------------------------------------------------------------- desarrollo
   {
@@ -1472,5 +1481,10 @@ export const ACADEMY_CAPSULES: AcademyCapsule[] = [
   },
 ];
 
+export const capsulesForUiLang = (lang: UiLang = 'es'): AcademyCapsule[] =>
+  lang === 'en' ? ACADEMY_CAPSULES_EN : ACADEMY_CAPSULES_ES;
+
+export const ACADEMY_CAPSULES: AcademyCapsule[] = ACADEMY_CAPSULES_ES;
+
 // Total global de cápsulas (todas las domains). Uso informativo/agregado.
-export const ACADEMY_TOTAL = ACADEMY_CAPSULES.length;
+export const ACADEMY_TOTAL = ACADEMY_CAPSULES_ES.length;

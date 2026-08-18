@@ -52,6 +52,8 @@ export const EXERCISE_FIXED_LINES_EN: { style: 'tutor' | 'child' | 'slow'; text:
 export const EXERCISE_EN: Record<string, Partial<Exercise>> = {
   // ======================= AUDICIÓN (fonética-fonología) ====================
   ff1: {
+    name: 'Initial vowel association',
+    category: 'Sounds and vowels (phonetics-phonology)',
     read: 'Your child touches a picture to hear its name, then touches the vowel it starts with. The app tells them if they got it right.',
     stageLabel: 'Match each picture to its first vowel',
     tiles: [{ cap: 'apple', emoji: '🍎' }, { cap: 'elephant', emoji: '🐘' }, { cap: 'igloo', emoji: '🧊' }],
@@ -63,6 +65,8 @@ export const EXERCISE_EN: Record<string, Partial<Exercise>> = {
     ],
   },
   ff2: {
+    name: 'Vowel articulation',
+    category: 'Sounds and vowels (phonetics-phonology)',
     read: 'You say the word first, close to your child and slowly, and encourage them to copy you. The app’s voice is only a backup.',
     stageLabel: 'Repeat the word', phrase: 'BANANA', phraseEmoji: '🍌',
     move: 'Walk across the room stamping hard on each syllable: BA-NA-NA.',
@@ -73,6 +77,8 @@ export const EXERCISE_EN: Record<string, Partial<Exercise>> = {
     ],
   },
   ff3: {
+    name: 'Fill in the missing vowel',
+    category: 'Sounds and vowels (phonetics-phonology)',
     read: 'Press 🔊 first so your child hears the whole word. Then have them touch the vowel that is missing from the written word.',
     stageLabel: 'Listen to the word and fill in the vowel',
     fillBefore: 'C', fillAfter: 'T', fillAnswer: 'A', fillEmoji: '🐱', fillCap: 'cat',
@@ -86,6 +92,8 @@ export const EXERCISE_EN: Record<string, Partial<Exercise>> = {
 
   // ========================== VOCABULARIO (semántica) ======================
   se1: {
+    name: 'Find the odd one out',
+    category: 'Vocabulary (semantics)',
     read: 'Press 🔊 to hear the name of all four cards. Three go together and one does not. Your child touches the one that does NOT belong.',
     stageLabel: 'Touch the card that does not belong',
     intruder: [{ cap: 'apple', emoji: '🍎' }, { cap: 'banana', emoji: '🍌' }, { cap: 'grapes', emoji: '🍇' }, { cap: 'car', emoji: '🚗' }],
@@ -98,6 +106,8 @@ export const EXERCISE_EN: Record<string, Partial<Exercise>> = {
     ],
   },
   se2: {
+    name: 'Letter riddle guessing',
+    category: 'Vocabulary (semantics)',
     read: 'Press 🔊 to play the riddle (or read it yourself). Your child answers by touching one of the three pictures.',
     stageLabel: 'Listen to the riddle and touch the answer',
     choicePrompt: 'It is yellow, it is long and soft, and monkeys love it. What is it?',
@@ -112,6 +122,8 @@ export const EXERCISE_EN: Record<string, Partial<Exercise>> = {
     ],
   },
   se3: {
+    name: 'Clothing and multi-step commands',
+    category: 'Vocabulary (semantics)',
     materials: 'A doll or puppet and some real clothes: a hat, shoes, a t-shirt…',
     read: 'Take the doll and the clothes. Give your child one instruction at a time: "Put the hat on the doll." Take turns changing the clothes.',
     stageLabel: 'Follow the clothing instructions',
@@ -125,6 +137,8 @@ export const EXERCISE_EN: Record<string, Partial<Exercise>> = {
 
   // ========================= FRASES (morfosintaxis) ========================
   ms1: {
+    name: 'Singular / plural',
+    category: 'Sentences (morphosyntax)',
     read: 'Two cards: one shows a single thing and the other shows many. Your child touches the one you ask for and says it out loud.',
     stageLabel: 'Touch the card with many',
     plural: { cap: 'cat', capPlural: 'cats', emoji: '🐱', gender: 'm' },
@@ -154,6 +168,8 @@ export const EXERCISE_EN: Record<string, Partial<Exercise>> = {
     ],
   },
   ms3: {
+    name: 'S-V-O sentence structure',
+    category: 'Sentences (morphosyntax)',
     read: 'Three cards make one sentence. Your child puts them in order and then says the whole sentence out loud.',
     stageLabel: 'Build the sentence in order',
     parts: [
@@ -172,6 +188,8 @@ export const EXERCISE_EN: Record<string, Partial<Exercise>> = {
 
   // ========================== USO SOCIAL (pragmática) ======================
   pr1: {
+    name: '"What" question answering',
+    category: 'Social communication (pragmatics)',
     read: 'Show your child a picture or an object and ask "what is this?". Wait five whole seconds before helping — that silence is what makes them answer.',
     stageLabel: 'Answer the what question',
     instrHint: 'Ask, then count to five in your head before you say anything else.',
@@ -183,6 +201,8 @@ export const EXERCISE_EN: Record<string, Partial<Exercise>> = {
     ],
   },
   pr2: {
+    name: 'Conversational adaptation',
+    category: 'Social communication (pragmatics)',
     read: 'Your child tells the same little story twice: once to you and once to a younger toy or sibling. The point is that they change HOW they say it.',
     stageLabel: 'Tell it two ways',
     instrHint: 'For the younger listener: shorter sentences, slower, more gestures.',
@@ -194,6 +214,8 @@ export const EXERCISE_EN: Record<string, Partial<Exercise>> = {
     ],
   },
   pr3: {
+    name: 'Emotion recognition',
+    category: 'Social communication (pragmatics)',
     read: 'Look at the face together. Your child says how that person feels and then makes the same face.',
     stageLabel: 'Name the feeling',
     emotionFace: '😢', emotionAnswer: 'sad',
@@ -205,6 +227,8 @@ export const EXERCISE_EN: Record<string, Partial<Exercise>> = {
     ],
   },
   pr4: {
+    name: 'Asking for clarification',
+    category: 'Social communication (pragmatics)',
     read: 'Say something on purpose too quietly to hear. Your child has to ask you to say it again instead of guessing or going quiet.',
     stageLabel: 'Ask for a repeat',
     instrHint: 'Mumble it. If they guess, stay quiet and wait — do not repeat until they ask.',
@@ -220,6 +244,8 @@ export const EXERCISE_EN: Record<string, Partial<Exercise>> = {
 
   // ================= ESCUCHA EN RUIDO (rehabilitación auditiva) ============
   ra1: {
+    name: 'Figure-ground speech in noise',
+    category: 'Auditory training (speech in noise)',
     read: 'The app plays a word with background noise. Your child touches the picture that matches what they heard.',
     stageLabel: 'Listen through the noise and touch the picture',
     choicePrompt: 'Touch the picture of the dog.',
@@ -234,6 +260,8 @@ export const EXERCISE_EN: Record<string, Partial<Exercise>> = {
     ],
   },
   ra2: {
+    name: 'Speechreading (lipreading)',
+    category: 'Auditory training (speech in noise)',
     read: 'Say the word with NO voice at all — just your mouth. Your child has to read your lips and touch the right picture. The text is folded away so you can check it without showing them.',
     stageLabel: 'Read the lips and touch the picture',
     choicePrompt: 'cup',
@@ -249,6 +277,8 @@ export const EXERCISE_EN: Record<string, Partial<Exercise>> = {
     ],
   },
   ra3: {
+    name: 'Degraded closed-set identification',
+    category: 'Auditory training (speech in noise)',
     read: 'The app plays a short instruction with the sound degraded. Your child picks the picture it asked for.',
     stageLabel: 'Listen and choose',
     choicePrompt: 'Find the ball.',
@@ -263,6 +293,8 @@ export const EXERCISE_EN: Record<string, Partial<Exercise>> = {
     ],
   },
   ra4: {
+    name: 'Sequential recall with delay',
+    category: 'Auditory training (speech in noise)',
     read: 'Three cards make a sequence. Your child listens, waits for the whole thing to finish, and then puts them in order.',
     stageLabel: 'Listen to the whole sequence, then order it',
     parts: [
@@ -279,6 +311,8 @@ export const EXERCISE_EN: Record<string, Partial<Exercise>> = {
     ],
   },
   ra5: {
+    name: 'Sound localization',
+    category: 'Auditory training (speech in noise)',
     read: 'Stand behind your child and make a sound from one side. They point to where it came from without turning around first.',
     stageLabel: 'Point to where the sound came from',
     instrHint: 'Change sides at random, and sometimes stay on the same side twice.',
@@ -292,6 +326,8 @@ export const EXERCISE_EN: Record<string, Partial<Exercise>> = {
 
   // ===================== LENGUAJE · protocolo familiar ======================
   atencion_conjunta: {
+    name: 'Joint attention',
+    category: 'Gaze, bubbles and name response',
     read: 'Follow what your child is already looking at and name it. Do not redirect them to what YOU want to show: join in first, lead later.',
     stageLabel: 'Join their attention',
     instrHint: 'Name what they are looking at, then wait. The waiting is the exercise.',
@@ -313,6 +349,8 @@ export const EXERCISE_EN: Record<string, Partial<Exercise>> = {
     ],
   },
   imitacion: {
+    name: 'Motor & verbal imitation',
+    category: 'Clapping, drumming and syllables',
     read: 'Do a short action and wait for your child to copy it. Start with the body, then move to sounds.',
     stageLabel: 'Copy the action',
     instrHint: 'Do the action, then freeze and wait. Do not do it for them.',
@@ -329,6 +367,8 @@ export const EXERCISE_EN: Record<string, Partial<Exercise>> = {
     ],
   },
   comprension: {
+    name: 'Verbal comprehension',
+    category: 'Commands, body parts and categories',
     read: 'Give one instruction at a time and wait. If they do not respond, help with a gesture before you help with words.',
     stageLabel: 'Follow the instruction',
     instrHint: 'One instruction, then silence. Two instructions at once is a different exercise.',
@@ -345,6 +385,8 @@ export const EXERCISE_EN: Record<string, Partial<Exercise>> = {
     ],
   },
   expresion: {
+    name: 'Verbal expression',
+    category: 'Animal sounds, naming and sentences',
     read: 'Give your child the first part and let them finish it. Start with sounds and build up to whole phrases.',
     stageLabel: 'Finish it off', phrase: 'MOO', phraseEmoji: '🐮',
     move: 'Act out the animal while you make its sound.',
@@ -360,6 +402,8 @@ export const EXERCISE_EN: Record<string, Partial<Exercise>> = {
     ],
   },
   comunicacion_funcional: {
+    name: 'Functional communication',
+    category: 'Requesting "more", "help", "want"',
     read: 'Set things up so your child NEEDS to ask. Put the favourite thing in sight but out of reach and wait for a request.',
     stageLabel: 'Ask for it',
     instrHint: 'A gesture, a sound or a word all count as asking. Answer straight away when they do.',
@@ -376,6 +420,8 @@ export const EXERCISE_EN: Record<string, Partial<Exercise>> = {
     ],
   },
   regulacion_conductual: {
+    name: 'Behavioral regulation',
+    category: 'Transitions, routines and rewards',
     read: 'Announce what comes next BEFORE it happens. Transitions are easier when they are predictable.',
     stageLabel: 'Get through the transition',
     instrHint: 'Warn them twice: "two more minutes", then "one more minute".',
@@ -392,6 +438,8 @@ export const EXERCISE_EN: Record<string, Partial<Exercise>> = {
     ],
   },
   interaccion_social: {
+    name: 'Social interaction',
+    category: 'Turn-taking, pretend play, emotions',
     read: 'Take turns at something your child already enjoys. The point is the turn, not the activity.',
     stageLabel: 'Take turns',
     instrHint: 'Say "my turn" and "your turn" out loud every single time.',
@@ -410,6 +458,8 @@ export const EXERCISE_EN: Record<string, Partial<Exercise>> = {
 
   // ================================= TEA ===================================
   tea1: {
+    name: 'Triangulated joint attention',
+    category: 'PRT · eye contact and dual validation',
     read: 'Hold the toy up next to your own eyes and wait. You are looking for the double seal: your child looks at the toy AND at you.',
     stageLabel: 'Wait for the double look',
     instrHint: 'Do not hand it over on the first look at the toy. Wait for the look at you.',
@@ -421,6 +471,8 @@ export const EXERCISE_EN: Record<string, Partial<Exercise>> = {
     ],
   },
   tea2: {
+    name: 'Induced pragmatic breakdown',
+    category: 'Communicative repair (caregiver-mediated)',
     read: 'Hand your child something on purpose that is wrong or broken, and wait for them to tell you. The repair is the exercise.',
     stageLabel: 'Wait for the repair',
     instrHint: 'Keep a neutral face and wait. Do not fix it until they signal.',
@@ -432,6 +484,8 @@ export const EXERCISE_EN: Record<string, Partial<Exercise>> = {
     ],
   },
   tea3: {
+    name: 'Asymmetrical mirror imitation',
+    category: 'Echopraxia inhibition',
     read: 'Do an action and ask your child NOT to copy it, but to do the paired one instead: you clap, they stamp.',
     stageLabel: 'Do the other one',
     instrHint: 'Go slowly at first. Speeding up is what makes it hard.',
@@ -443,6 +497,8 @@ export const EXERCISE_EN: Record<string, Partial<Exercise>> = {
     ],
   },
   tea4: {
+    name: 'Interrupted routine transition',
+    category: 'Cognitive flexibility (caregiver-mediated)',
     read: 'Start a routine your child knows well and stop it halfway on purpose. Wait for them to handle the change.',
     stageLabel: 'Handle the interruption',
     instrHint: 'Stay calm and quiet. The pause is the whole exercise.',
@@ -454,6 +510,8 @@ export const EXERCISE_EN: Record<string, Partial<Exercise>> = {
     ],
   },
   tea5: {
+    name: 'Categorization under sensory load',
+    category: 'Sorting with background babble noise',
     read: 'Same sorting task, but with background noise on. Your child touches the card that does not belong.',
     stageLabel: 'Sort with the noise on',
     intruder: [{ cap: 'shirt', emoji: '👕' }, { cap: 'hat', emoji: '🧢' }, { cap: 'sock', emoji: '🧦' }, { cap: 'apple', emoji: '🍎' }],
@@ -466,6 +524,8 @@ export const EXERCISE_EN: Record<string, Partial<Exercise>> = {
     ],
   },
   tea6: {
+    name: 'Multiple simultaneous cues',
+    category: 'PRT · stimulus overselectivity',
     read: 'The app gives a sound cue and a visual cue at the same time. Your child has to use both to choose.',
     stageLabel: 'Use both cues',
     choicePrompt: 'Touch the big red ball.',
@@ -484,7 +544,8 @@ export const EXERCISE_EN: Record<string, Partial<Exercise>> = {
   // El castellano es transparente y su bloque trabaja sílaba y velocidad. El
   // inglés es opaco: aquí se trabaja rima, dígrafo, silent e y pseudopalabra.
   dx1: {
-    name: 'The rhyme that does not fit',
+    name: 'Phonological intruder',
+    category: 'Phonological awareness (pure auditory)',
     read: 'Listen only — no writing on screen. The app says four words. Three rhyme and one does not. Your child says which one is the odd one out.',
     stageLabel: 'Listen and find the word that does not rhyme',
     auditoryOnly: true,
@@ -498,7 +559,8 @@ export const EXERCISE_EN: Record<string, Partial<Exercise>> = {
     ],
   },
   dx2: {
-    name: 'Digraph hunt',
+    name: 'Lexical tracking under interference',
+    category: 'Reading fluency under cognitive load',
     read: 'Two letters, one sound. Your child finds every word on the card that starts with the same two letters as the target.',
     stageLabel: 'Find the words that start with SH',
     phrase: 'SHIP', phraseEmoji: '🚢',
@@ -510,6 +572,8 @@ export const EXERCISE_EN: Record<string, Partial<Exercise>> = {
     ],
   },
   dx3: {
+    name: 'Rhythmic phonemic blending',
+    category: 'Phoneme blending with latency',
     read: 'The app says the sounds one at a time with a gap between them. Your child blends them into a word and says it.',
     stageLabel: 'Blend the sounds into a word',
     phonemes: ['sh', 'i', 'p'], phonemeGapMs: 500,
@@ -522,7 +586,8 @@ export const EXERCISE_EN: Record<string, Partial<Exercise>> = {
     ],
   },
   dx4: {
-    name: 'Silent e and nonwords',
+    name: 'Pseudoword decoding screening',
+    category: 'Phonological decoding · max 5 trials',
     read: 'Reading made-up words is what shows whether the rules have stuck, because they cannot be recognised from memory. Your child reads what is on the card out loud.',
     stageLabel: 'Read the made-up word out loud',
     phrase: 'MIPE', phraseEmoji: '🔤',
@@ -535,6 +600,8 @@ export const EXERCISE_EN: Record<string, Partial<Exercise>> = {
     ],
   },
   dx5: {
+    name: 'Visual tracking of letter rotations',
+    category: 'Letter discrimination b/d · p/q',
     read: 'A grid of letters that mirror each other. Your child crosses out only the target letter and leaves its mirror alone.',
     stageLabel: 'Find every b and leave the d alone',
     rotationTargets: { target: 'b', grid: ['b', 'd', 'p', 'b', 'q', 'd', 'b', 'p', 'd', 'q', 'b', 'd'] },
@@ -546,6 +613,8 @@ export const EXERCISE_EN: Record<string, Partial<Exercise>> = {
     ],
   },
   dx6: {
+    name: 'Rapid Automatized Naming (RAN)',
+    category: 'Lexical access · timed naming',
     read: 'Your child names every picture out loud, left to right, as fast as they can without making mistakes.',
     stageLabel: 'Name them all, left to right, quickly',
     tiles: [

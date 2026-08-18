@@ -8,6 +8,7 @@
 import React, { useEffect } from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
 import { V } from '../valeriaTheme';
+import { useT } from '../i18n';
 import { hydrateAcademy, useAcademySummary } from './academyStore';
 import { BlockIcon } from '../ValeriaBlockIcons';
 
@@ -15,6 +16,7 @@ const ACCENT_BG = '#eef0ff';
 const ACCENT_FG = '#5b6ee0';
 
 export const AcademyHubCard: React.FC<{ onPress: () => void }> = React.memo(({ onPress }) => {
+  const t = useT();
   const summary = useAcademySummary();
 
   // Lee el progreso cifrado una sola vez al montar el hub (idempotente).
@@ -28,17 +30,17 @@ export const AcademyHubCard: React.FC<{ onPress: () => void }> = React.memo(({ o
       onPress={onPress}
       style={s.card}
       accessibilityRole="button"
-      accessibilityLabel={`Valeria Academy: formación para cuidadores. ${summary.completedCount} de ${summary.totalCount} cápsulas completadas.`}
+      accessibilityLabel={`Valeria Academy: ${summary.completedCount} / ${summary.totalCount}.`}
     >
       <View style={[s.icon, { backgroundColor: ACCENT_BG }]}>
         <BlockIcon name="tabAcademy" color={V.color.primaryDark} size={26} />
       </View>
       <View style={{ flex: 1 }}>
         <View style={s.titleRow}>
-          <Text style={s.title}>Academy</Text>
-          <View style={s.tag}><Text style={s.tagTxt}>PARA TI</Text></View>
+          <Text style={s.title}>{t.academy.headerTitle}</Text>
+          <View style={s.tag}><Text style={s.tagTxt}>{t.academy.hubCardTag}</Text></View>
         </View>
-        <Text style={s.sub}>Hub multidominio: Lenguaje, Hipoacusia, Dislalias, Dislexia y TEA. Cápsulas rápidas para el cuidador.</Text>
+        <Text style={s.sub}>{t.academy.hubCardSub}</Text>
 
         {/* Barra de progreso en tiempo real */}
         <View style={s.progressTrack}>
@@ -47,10 +49,10 @@ export const AcademyHubCard: React.FC<{ onPress: () => void }> = React.memo(({ o
         <View style={s.metaRow}>
           <Text style={s.metaTxt}>
             {complete
-              ? 'Formación completada'
-              : `${summary.completedCount}/${summary.totalCount} unidades · ${pct}%`}
+              ? t.academy.completedTag
+              : t.academy.progressTxt(summary.completedCount, summary.totalCount, pct)}
           </Text>
-          <Text style={s.levelTxt}>{summary.xp} XP</Text>
+          <Text style={s.levelTxt}>{t.academy.xpTxt(summary.xp)}</Text>
         </View>
       </View>
       <View style={[s.chev, { backgroundColor: ACCENT_FG }]}>

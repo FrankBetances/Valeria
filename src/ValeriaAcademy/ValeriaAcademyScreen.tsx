@@ -12,8 +12,9 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Pressable, ScrollView, StyleSheet } from 'react-native';
 import { V } from '../valeriaTheme';
-import { ACADEMY_CAPSULES, ACADEMY_PASS_THRESHOLD, TRACK_ACCENT } from './academyContent';
-import { ACADEMY_DOMAINS, DOMAIN_META } from './academyDomains';
+import { useT } from '../i18n';
+import { ACADEMY_CAPSULES, ACADEMY_PASS_THRESHOLD, trackAccentFor, capsulesForUiLang } from './academyContent';
+import { ACADEMY_DOMAINS, domainMetaFor, domainLevelName } from './academyDomains';
 import {
   completeCapsule,
   getResults,
@@ -26,6 +27,7 @@ import { AcademyPriorityFeed } from './AcademyPriorityFeed';
 import { HipoacusiaBottomSheet } from './HipoacusiaBottomSheet';
 import { SignAlphabetChart, SignFigure } from './AcademySignosSvg';
 import { BlockIcon } from '../ValeriaBlockIcons';
+import { getUiLang } from '../valeriaUiLang';
 
 type View4 = 'hub' | 'list' | 'read' | 'quiz';
 
@@ -36,14 +38,16 @@ interface Accent { bg: string; fg: string; label: string }
 // su eje: «¿MITO O REALIDAD?» anticipa de qué va la cápsula, mientras que
 // repetir el nombre del dominio no añade nada a la cabecera que ya lo dice.
 const accentFor = (c: AcademyCapsule): Accent => {
-  const dm = DOMAIN_META[c.domain];
+  const lang = getUiLang();
+  const dm = domainMetaFor(c.domain, lang);
   const label = c.domain === 'lenguaje' || c.track === 'mitos'
-    ? TRACK_ACCENT[c.track].label
+    ? trackAccentFor(c.track, lang).label
     : dm.label.toUpperCase();
   return { bg: dm.accentBg, fg: dm.accentFg, label };
 };
 
 export const ValeriaAcademyScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
+  const t = useT();
   const summary = useAcademySummary();
   const [view, setView] = useState<View4>('hub');
   const [activeDomain, setActiveDomain] = useState<AcademyDomain>('lenguaje');
@@ -82,30 +86,30 @@ export const ValeriaAcademyScreen: React.FC<{ navigation: any }> = ({ navigation
       <View style={s.flex}>
         <View style={s.header}>
           {!inTabs && (
-            <Pressable onPress={() => navigation.goBack()} style={s.backPill}>
-              <Text style={s.backPillTxt}>‹ Volver</Text>
+            <Pressable onPress={() => navigation.goBack()} style={s.backPill} accessibilityRole="button" accessibilityLabel={t.academy.backA11y}>
+              <Text style={s.backPillTxt}>{t.academy.back}</Text>
             </Pressable>
           )}
           <Text style={s.logoFallback}>valeria+ · academy</Text>
-          <View style={s.titleRow}><BlockIcon name="tabAcademy" color="#ffffff" size={26} /><Text style={s.headerTitle}>Academy</Text></View>
-          <Text style={s.headerSub}>Tu hub de formación por dominios para acompañar la terapia como un profesional.</Text>
+          <View style={s.titleRow}><BlockIcon name="tabAcademy" color="#ffffff" size={26} /><Text style={s.headerTitle}>{t.academy.headerTitle}</Text></View>
+          <Text style={s.headerSub}>{t.academy.headerSub}</Text>
 
           <View style={s.hProgress}>
             <View style={s.hProgressTrack}>
               <View style={[s.hProgressFill, { width: `${pct}%` }]} />
             </View>
-            <Text style={s.hProgressTxt}>{summary.completedCount}/{summary.totalCount} · {pct}%</Text>
+            <Text style={s.hProgressTxt}>{t.academy.progressTxt(summary.completedCount, summary.totalCount, pct)}</Text>
           </View>
           <View style={s.gameRow}>
-            <View style={s.gameChip}><Text style={s.gameChipTxt}>{summary.xp} XP</Text></View>
-            <View style={s.gameChip}><BlockIcon name="level" color="#ffffff" size={13} /><Text style={s.gameChipTxt}>{summary.badgeCount} insignias</Text></View>
+            <View style={s.gameChip}><Text style={s.gameChipTxt}>{t.academy.xpTxt(summary.xp)}</Text></View>
+            <View style={s.gameChip}><BlockIcon name="level" color="#ffffff" size={13} /><Text style={s.gameChipTxt}>{t.academy.badgesTxt(summary.badgeCount)}</Text></View>
           </View>
 
           <AcademyPriorityFeed onOpenCapsule={openCapsule} refreshKey={refreshKey} />
         </View>
 
         <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
-          <Text style={s.listLabel}>DOMINIOS DE CAPACITACIÓN</Text>
+          <Text style={s.listLabel}>{t.academy.domainsKicker}</Text>
           {ACADEMY_DOMAINS.map((d) => (
             <AcademyDomainCard key={d} domain={d} onPress={onPickDomain} />
           ))}
@@ -119,40 +123,34 @@ export const ValeriaAcademyScreen: React.FC<{ navigation: any }> = ({ navigation
 
   // ------------------------------------------------------------------ LISTA
   if (view === 'list' || !capsule) {
-    const meta = DOMAIN_META[activeDomain];
-    const capsules = ACADEMY_CAPSULES.filter((c) => c.domain === activeDomain);
+    const lang = getUiLang();
+    const meta = domainMetaFor(activeDomain, lang);
+    const capsules = capsulesForUiLang(lang).filter((c) => c.domain === activeDomain);
     return (
       <View style={s.flex}>
         <View style={[s.header, { backgroundColor: meta.accentFg }]}>
-          <Pressable onPress={backToHub} style={s.backPill}>
-            <Text style={s.backPillTxt}>‹ Dominios</Text>
+          <Pressable onPress={backToHub} style={s.backPill} accessibilityRole="button" accessibilityLabel={t.academy.backA11y}>
+            <Text style={s.backPillTxt}>{t.academy.back}</Text>
           </Pressable>
           <Text style={s.logoFallback}>ACADEMY · {meta.label.toUpperCase()}</Text>
-          <Text style={s.headerTitle}>{meta.icon} {meta.label}</Text>
+          <Text style={s.headerTitle}>{meta.label}</Text>
           <Text style={s.headerSub}>{meta.blurb}</Text>
         </View>
 
         <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
-          {/* LSE: muestra de las configuraciones dibujadas ANTES de entrar en
-              ninguna cápsula. Las figuras vivían solo dentro de las
-              diapositivas, así que quien abría el dominio y hojeaba las dos
-              primeras cápsulas —que son de texto— concluía que el módulo no
-              tenía dibujos. El panel completo está en «El alfabeto
-              dactilológico». */}
           {activeDomain === 'signos' && (
             <View style={s.signPreview}>
-              <View style={s.signRow}><BlockIcon name="gesture" color={V.color.primaryDark} size={17} /><Text style={s.signPreviewTitle}>Configuraciones de mano dibujadas</Text></View>
+              <View style={s.signRow}><BlockIcon name="gesture" color={V.color.primaryDark} size={17} /><Text style={s.signPreviewTitle}>{t.academy.signPreviewTitle}</Text></View>
               <SignAlphabetChart compact />
               <Text style={s.signPreviewSub}>
-                Las 27 letras del alfabeto dactilológico están en la cápsula «El alfabeto dactilológico».
-                Un dibujo no enseña un signo con movimiento: para el léxico signado, fuente signada.
+                {t.academy.signPreviewSub}
               </Text>
             </View>
           )}
-          <Text style={s.listLabel}>CÁPSULAS DE CONOCIMIENTO</Text>
+          <Text style={s.listLabel}>{t.academy.capsulesKicker}</Text>
           {capsules.length === 0 && (
             <View style={s.emptyCard}>
-              <Text style={s.emptyTxt}>Contenido de este dominio en preparación. Muy pronto tendrás cápsulas aquí.</Text>
+              <Text style={s.emptyTxt}>{t.academy.comingSoon}</Text>
             </View>
           )}
           {capsules.map((c) => {
@@ -164,7 +162,7 @@ export const ValeriaAcademyScreen: React.FC<{ navigation: any }> = ({ navigation
                 onPress={() => openCapsule(c)}
                 style={[s.capCard, done && { borderColor: V.color.borderActive }]}
                 accessibilityRole="button"
-                accessibilityLabel={`Cápsula ${c.title}. ${done ? 'Completada' : 'Pendiente'}.`}
+                accessibilityLabel={`${c.title}. ${done ? t.academy.completedTag : ''}.`}
               >
                 <View style={[s.capIcon, { backgroundColor: accent.bg }]}>
                   <Text style={{ fontSize: 22 }}>{c.icon}</Text>
@@ -173,10 +171,10 @@ export const ValeriaAcademyScreen: React.FC<{ navigation: any }> = ({ navigation
                   <Text style={[s.capTrack, { color: accent.fg }]}>{accent.label}</Text>
                   <Text style={s.capTitle}>{c.title}</Text>
                   <Text style={s.capSummary}>{c.summary}</Text>
-                  <Text style={s.capMeta}>{c.minutes} min · {c.xp} XP</Text>
+                  <Text style={s.capMeta}>{t.academy.readTime(c.minutes)} · {c.xp} XP</Text>
                 </View>
                 <View style={[s.capState, done ? s.capStateDone : { backgroundColor: accent.bg }]}>
-                  <Text style={[s.capStateTxt, { color: done ? '#fff' : accent.fg }]}>{done ? '·' : '›'}</Text>
+                  <Text style={[s.capStateTxt, { color: done ? '#fff' : accent.fg }]}>{done ? '✓' : '›'}</Text>
                 </View>
               </Pressable>
             );
@@ -200,6 +198,7 @@ export const ValeriaAcademyScreen: React.FC<{ navigation: any }> = ({ navigation
 const CapsuleReader: React.FC<{
   capsule: AcademyCapsule; accent: Accent; onExit: () => void; onFinish: () => void;
 }> = ({ capsule, accent, onExit, onFinish }) => {
+  const t = useT();
   const [i, setI] = useState(0);
   const slide = capsule.slides[i];
   const last = i + 1 >= capsule.slides.length;
@@ -207,7 +206,7 @@ const CapsuleReader: React.FC<{
   return (
     <View style={s.flex}>
       <View style={[s.header, { backgroundColor: accent.fg }]}>
-        <Pressable onPress={onExit} style={s.backPill}><Text style={s.backPillTxt}>‹ Cápsulas</Text></Pressable>
+        <Pressable onPress={onExit} style={s.backPill} accessibilityRole="button" accessibilityLabel={t.academy.backA11y}><Text style={s.backPillTxt}>{t.academy.back}</Text></Pressable>
         <Text style={s.logoFallback}>{accent.label}</Text>
         <Text style={s.headerTitle}>{capsule.icon} {capsule.title}</Text>
         <View style={s.dots}>
@@ -221,15 +220,10 @@ const CapsuleReader: React.FC<{
         <View style={s.slideCard}>
           {!!slide.icon && <Text style={s.slideEmoji}>{slide.icon}</Text>}
           <Text style={s.slideHeading}>{slide.heading}</Text>
-          {/* Figura dibujada (LSE): configuración de mano. Si la clave no tiene
-              dibujo registrado, SignFigure devuelve null y la diapositiva se
-              muestra igual, sin hueco. */}
           {!!slide.figure && (
             <View style={s.slideFigure}><SignFigure figure={slide.figure} size={132} /></View>
           )}
           <Text style={s.slideBody}>{slide.body}</Text>
-          {/* Panel del abecedario dactilológico: las 27 configuraciones juntas,
-              para consultarlas mientras se deletrea sin pasar 27 pantallas. */}
           {slide.chart === 'dactilologico' && <SignAlphabetChart />}
         </View>
       </ScrollView>
@@ -237,7 +231,7 @@ const CapsuleReader: React.FC<{
       <View style={s.footer}>
         {i > 0 && (
           <Pressable onPress={() => setI(i - 1)} style={s.secondaryBtn}>
-            <Text style={s.secondaryBtnTxt}>‹ Atrás</Text>
+            <Text style={s.secondaryBtnTxt}>{t.common.back}</Text>
           </Pressable>
         )}
         <Pressable
@@ -245,7 +239,7 @@ const CapsuleReader: React.FC<{
           style={[s.primaryBtn, { backgroundColor: accent.fg, flex: 1 }]}
           accessibilityRole="button"
         >
-          <Text style={s.primaryBtnTxt}>{last ? 'Hacer el quiz →' : 'Siguiente ›'}</Text>
+          <Text style={s.primaryBtnTxt}>{last ? `${t.academy.takeQuiz} →` : `${t.academy.nextSlide} ›`}</Text>
         </Pressable>
       </View>
     </View>
@@ -258,6 +252,7 @@ const CapsuleReader: React.FC<{
 const CapsuleQuiz: React.FC<{
   capsule: AcademyCapsule; accent: Accent; onExit: () => void; onDone: () => void;
 }> = ({ capsule, accent, onExit, onDone }) => {
+  const t = useT();
   const [qi, setQi] = useState(0);
   const [picked, setPicked] = useState<number | null>(null);
   const [correct, setCorrect] = useState(0);
@@ -295,20 +290,20 @@ const CapsuleQuiz: React.FC<{
       <View style={s.flex}>
         <View style={[s.header, { backgroundColor: accent.fg }]}>
           <Text style={s.logoFallback}>{accent.label}</Text>
-          <Text style={s.headerTitle}>{reward.passed ? '¡Cápsula superada!' : 'Casi lo tienes'}</Text>
+          <Text style={s.headerTitle}>{reward.passed ? t.academy.passedTitle : t.academy.failedTitle}</Text>
         </View>
         <ScrollView contentContainerStyle={s.scroll}>
           <View style={s.resultCard}>
             <Text style={[s.resultScore, { color: accent.fg }]}>{score}%</Text>
             <Text style={s.resultSub}>
               {reward.passed
-                ? `Has completado "${capsule.title}".`
-                : `Necesitas al menos ${Math.round(ACADEMY_PASS_THRESHOLD * 100)}% para superarla. ¡Repasa y vuelve a intentarlo!`}
+                ? t.academy.scoreSub(score)
+                : t.academy.passRequirement(Math.round(ACADEMY_PASS_THRESHOLD * 100))}
             </Text>
-            {reward.xpGained > 0 && <Text style={s.resultXp}>+{reward.xpGained} XP</Text>}
+            {reward.xpGained > 0 && <Text style={s.resultXp}>{t.academy.claimGuideXp(reward.xpGained)}</Text>}
             {reward.newBadges.map((b) => (
               <View key={b.id} style={s.badgeRow}>
-                <Text style={{ fontSize: 22 }}>{b.icon}</Text>
+                <BlockIcon name={b.icon as any} color={accent.fg} size={22} />
                 <View style={{ flex: 1 }}>
                   <Text style={s.badgeName}>{b.name}</Text>
                   <Text style={s.badgeDesc}>{b.desc}</Text>
@@ -319,10 +314,10 @@ const CapsuleQuiz: React.FC<{
         </ScrollView>
         <View style={s.footer}>
           {!reward.passed && (
-            <Pressable onPress={retry} style={s.secondaryBtn}><Text style={s.secondaryBtnTxt}>Reintentar</Text></Pressable>
+            <Pressable onPress={retry} style={s.secondaryBtn}><Text style={s.secondaryBtnTxt}>{t.academy.reviewAndRetry}</Text></Pressable>
           )}
           <Pressable onPress={onDone} style={[s.primaryBtn, { backgroundColor: accent.fg, flex: 1 }]}>
-            <Text style={s.primaryBtnTxt}>{reward.passed ? 'Volver a las cápsulas' : 'Salir'}</Text>
+            <Text style={s.primaryBtnTxt}>{reward.passed ? t.academy.backToCapsules : t.academy.exitQuiz}</Text>
           </Pressable>
         </View>
       </View>
@@ -333,12 +328,12 @@ const CapsuleQuiz: React.FC<{
   return (
     <View style={s.flex}>
       <View style={[s.header, { backgroundColor: accent.fg }]}>
-        <Pressable onPress={onExit} style={s.backPill}><Text style={s.backPillTxt}>‹ Salir</Text></Pressable>
-        <Text style={s.logoFallback}>QUIZ RÁPIDO · {qi + 1}/{capsule.quiz.length}</Text>
+        <Pressable onPress={onExit} style={s.backPill} accessibilityRole="button" accessibilityLabel={t.academy.backA11y}><Text style={s.backPillTxt}>{t.academy.back}</Text></Pressable>
+        <Text style={s.logoFallback}>{t.academy.quizKicker} · {t.academy.questionOf(qi + 1, capsule.quiz.length)}</Text>
         <Text style={s.headerTitle}>{capsule.icon} {capsule.title}</Text>
       </View>
       <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
-        <Text style={s.qPrompt}>{q.prompt}</Text>
+        <Text style={s.qPrompt}>{q.prompt ?? (q as any).question}</Text>
         {q.options.map((opt, idx) => {
           const isAnswer = idx === q.answer;
           const isPicked = idx === picked;
@@ -361,9 +356,9 @@ const CapsuleQuiz: React.FC<{
         {picked != null && (
           <View style={s.rationale}>
             <View style={s.rationaleRow}>
-                    <BlockIcon name="tip" color={V.color.textSecondary} size={15} />
-                    <Text style={[s.rationaleTxt, { flex: 1 }]}>{q.rationale}</Text>
-                  </View>
+              <BlockIcon name="tip" color={V.color.textSecondary} size={15} />
+              <Text style={[s.rationaleTxt, { flex: 1 }]}>{q.rationale ?? (q as any).why}</Text>
+            </View>
           </View>
         )}
       </ScrollView>
@@ -371,9 +366,9 @@ const CapsuleQuiz: React.FC<{
         <Pressable
           onPress={next}
           disabled={picked == null}
-          style={[s.primaryBtn, { backgroundColor: accent.fg, flex: 1 }, picked == null && { opacity: 0.4 }]}
+          style={[s.primaryBtn, { backgroundColor: picked != null ? accent.fg : V.color.border, flex: 1 }]}
         >
-          <Text style={s.primaryBtnTxt}>{lastQ ? 'Ver resultado' : 'Siguiente pregunta ›'}</Text>
+          <Text style={s.primaryBtnTxt}>{lastQ ? t.academy.seeResult : `${t.academy.nextQuestion} ›`}</Text>
         </Pressable>
       </View>
     </View>

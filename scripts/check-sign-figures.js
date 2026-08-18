@@ -73,7 +73,12 @@ try {
       '--esModuleInterop', '--skipLibCheck', '--outDir', JSON.stringify(tmp)].join(' '),
     { cwd: ROOT, stdio: 'inherit' },
   );
-  const { ACADEMY_CAPSULES } = require(path.join(tmp, 'academyContent.js'));
+  const modPath = fs.existsSync(path.join(tmp, 'academyContent.js'))
+    ? path.join(tmp, 'academyContent.js')
+    : fs.existsSync(path.join(tmp, 'ValeriaAcademy', 'academyContent.js'))
+      ? path.join(tmp, 'ValeriaAcademy', 'academyContent.js')
+      : path.join(tmp, 'src', 'ValeriaAcademy', 'academyContent.js');
+  const { ACADEMY_CAPSULES } = require(modPath);
 
   console.log(`\n── figuras usadas por las cápsulas ──`);
   let usadas = 0;

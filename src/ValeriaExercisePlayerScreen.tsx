@@ -679,7 +679,7 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
           <View style={{ flex: 1 }}>
             <Text style={s.headerTitle}>{finished ? t.player.headerDone : t.player.headerPlaying}</Text>
             <Text style={s.headerSub} numberOfLines={1}>
-              {patientName ? `${patientName} · ` : ''}{total === 1 ? ex.name : `Plan prescrito · ${total} terapias`}
+              {patientName ? `${patientName} · ` : ''}{total === 1 ? ex.name : t.player.prescribedPlan(total)}
             </Text>
           </View>
           <View style={s.counter}>
@@ -1321,7 +1321,7 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
 
               {!curLevel && ex.stage === 'instruction' && (
                 <View style={{ alignItems: 'center', paddingVertical: 6 }}>
-                  <Pressable onPress={() => openZoom(ex.instrIcon!, ex.name)} accessibilityRole="imagebutton" accessibilityLabel="Ampliar el icono">
+                  <Pressable onPress={() => openZoom(ex.instrIcon!, ex.name)} accessibilityRole="imagebutton" accessibilityLabel={t.player.zoomIconA11y}>
                     <View style={s.instrHero}><Text style={{ fontSize: 54 }}>{ex.instrIcon}</Text></View>
                   </Pressable>
                   <Text style={s.instrHint}>{ex.instrHint}</Text>

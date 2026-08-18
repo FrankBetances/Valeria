@@ -31,7 +31,8 @@ import { View, Text, Pressable, ScrollView, Switch, StyleSheet } from 'react-nat
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { V, STORAGE_KEYS } from './valeriaTheme';
 import { BLOCKS, BlockKey } from './valeriaBlocks';
-import { AGE_BANDS } from './valeriaExerciseMeta';
+import { getExercisesForBlock, getAgeBands } from './valeriaExerciseMeta';
+import { getUiLang } from './valeriaUiLang';
 import { ProUnlockPill, ProPinModal } from './ValeriaProPin';
 import { BlockIcon } from './ValeriaBlockIcons';
 import { ValeriaGameStrip } from './ValeriaGameStrip';
@@ -50,10 +51,11 @@ const copyFor = (t: UiStrings, key: BlockKey) => ({
 
 export const ValeriaBlockListScreen: React.FC<{ navigation: any; route: any }> = ({ navigation, route }) => {
   const t = useT();
+  const lang = getUiLang();
   const blockKey: BlockKey = route?.params?.block ?? 'audicion';
   const block = BLOCKS[blockKey];
   const copy = copyFor(t, blockKey);
-  const list = block.meta;
+  const list = getExercisesForBlock(blockKey, lang);
 
   const [active, setActive] = useState<boolean[]>(new Array(list.length).fill(true));
   const [unlocked, setUnlocked] = useState(false);
@@ -116,16 +118,17 @@ export const ValeriaBlockListScreen: React.FC<{ navigation: any; route: any }> =
   const prescribedIds = list.filter((_, i) => active[i]).map((it) => it.id);
 
   // Secciones por edad (solo Audición). Las bandas se derivan de los datos: una
-  // edad no contemplada en AGE_BANDS añade su sección al final.
+  // edad no contemplada en ageBands añade su sección al final.
   const sections = (() => {
+    const ageBands = getAgeBands(lang);
     const indexed = list.map((item, i) => ({ item, i }));
     if (!block.byAge) return [{ band: null as string | null, rows: indexed }];
     const extra = Array.from(new Set(
-      indexed.map(({ item }) => item.age).filter((a): a is string => !!a && !AGE_BANDS.includes(a)),
+      indexed.map(({ item }) => item.age).filter((a): a is string => !!a && !ageBands.includes(a)),
     ));
     const noAge = indexed.filter(({ item }) => !item.age);
     return [
-      ...[...AGE_BANDS, ...extra].map((band) => ({
+      ...[...ageBands, ...extra].map((band) => ({
         band: band as string | null,
         rows: indexed.filter(({ item }) => item.age === band),
       })),
