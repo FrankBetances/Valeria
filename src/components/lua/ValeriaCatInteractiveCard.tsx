@@ -57,6 +57,26 @@ export const ValeriaCatInteractiveCard: React.FC<Props> = ({
   const touchScale = useRef(new Animated.Value(1)).current;
   const headBounce = useRef(new Animated.Value(0)).current;
 
+  const isMounted = useRef(true);
+  const timersRef = useRef<NodeJS.Timeout[]>([]);
+
+  const safeTimeout = (fn: () => void, ms: number) => {
+    const id = setTimeout(() => {
+      if (isMounted.current) fn();
+    }, ms);
+    timersRef.current.push(id);
+    return id;
+  };
+
+  useEffect(() => {
+    isMounted.current = true;
+    return () => {
+      isMounted.current = false;
+      timersRef.current.forEach(clearTimeout);
+      timersRef.current = [];
+    };
+  }, []);
+
   // 1. Loop continuo de respiración fisiológica (2s inhalar / 2s exhalar = 15 rpm)
   useEffect(() => {
     const breathLoop = Animated.loop(
@@ -107,8 +127,9 @@ export const ValeriaCatInteractiveCard: React.FC<Props> = ({
     if (affect !== 'IDLE_SERENE') return;
 
     const interval = setInterval(() => {
+      if (!isMounted.current) return;
       setActiveHeadRuns(PRECOMPILED_RUNS.headBlink);
-      setTimeout(() => {
+      safeTimeout(() => {
         setActiveHeadRuns(PRECOMPILED_RUNS.headNeutral);
       }, 160);
     }, 4500);
@@ -151,9 +172,9 @@ export const ValeriaCatInteractiveCard: React.FC<Props> = ({
     setActiveHeadRuns(PRECOMPILED_RUNS.headLove);
 
     const updated = await recordPatInteraction();
-    if (onInventoryChange) onInventoryChange(updated);
+    if (isMounted.current && onInventoryChange) onInventoryChange(updated);
 
-    setTimeout(() => {
+    safeTimeout(() => {
       setAffect('IDLE_SERENE');
       setActiveHeadRuns(PRECOMPILED_RUNS.headNeutral);
     }, 1800);
@@ -166,16 +187,16 @@ export const ValeriaCatInteractiveCard: React.FC<Props> = ({
 
     setActiveHeadRuns(PRECOMPILED_RUNS.headEatOpen);
 
-    setTimeout(() => {
+    safeTimeout(() => {
       setActiveHeadRuns(PRECOMPILED_RUNS.headLove);
     }, 480);
 
-    setTimeout(async () => {
+    safeTimeout(async () => {
       setBubbleSnack(null);
       setAffect('IDLE_SERENE');
       setActiveHeadRuns(PRECOMPILED_RUNS.headNeutral);
       const updated = await feedLuaSnack(snackId);
-      if (onInventoryChange) onInventoryChange(updated);
+      if (isMounted.current && onInventoryChange) onInventoryChange(updated);
     }, 1300);
   };
 

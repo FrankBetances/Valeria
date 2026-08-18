@@ -43,13 +43,19 @@ export const ValeriaAwardsSheet: React.FC<Props> = ({ open, game, onClose, onInv
   const [inventory, setInventory] = React.useState<LuaInventoryState>(DEFAULT_LUA_INVENTORY);
 
   React.useEffect(() => {
+    let isMounted = true;
     if (open) {
       void (async () => {
         const invRes = await checkAndUnlockItems(game);
-        setInventory(invRes.inventory);
-        if (onInventoryChange) onInventoryChange(invRes.inventory);
+        if (isMounted) {
+          setInventory(invRes.inventory);
+          if (onInventoryChange) onInventoryChange(invRes.inventory);
+        }
       })();
     }
+    return () => {
+      isMounted = false;
+    };
   }, [open, game, onInventoryChange]);
 
   const handleToggleEquip = async (item: typeof COLLECTIBLES_CATALOG[0]) => {
