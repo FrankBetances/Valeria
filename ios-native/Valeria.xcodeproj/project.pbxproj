@@ -9,7 +9,8 @@
 /* Begin PBXBuildFile section */
 		BB0000000000000000000001 /* ValeriaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000001 /* ValeriaApp.swift */; };
 		B20000000000000000000001 /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000001 /* AppModel.swift */; };
-		B20000000000000000000002 /* BearMark.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000002 /* BearMark.swift */; };
+		B20000000000000000000002 /* LuaMark.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000002 /* LuaMark.swift */; };
+		B20000000000000000000013 /* VStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000013 /* VStrings.swift */; };
 		B20000000000000000000003 /* CreditsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000003 /* CreditsView.swift */; };
 		B20000000000000000000004 /* ExercisePlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000004 /* ExercisePlayerView.swift */; };
 		B20000000000000000000005 /* ExerciseSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000005 /* ExerciseSelectionView.swift */; };
@@ -36,7 +37,8 @@
 /* Begin PBXFileReference section */
 		AA0000000000000000000001 /* ValeriaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValeriaApp.swift; sourceTree = "<group>"; };
 		A20000000000000000000001 /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
-		A20000000000000000000002 /* BearMark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BearMark.swift; sourceTree = "<group>"; };
+		A20000000000000000000002 /* LuaMark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LuaMark.swift; sourceTree = "<group>"; };
+		A20000000000000000000013 /* VStrings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VStrings.swift; sourceTree = "<group>"; };
 		A20000000000000000000003 /* CreditsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreditsView.swift; sourceTree = "<group>"; };
 		A20000000000000000000004 /* ExercisePlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExercisePlayerView.swift; sourceTree = "<group>"; };
 		A20000000000000000000005 /* ExerciseSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseSelectionView.swift; sourceTree = "<group>"; };
@@ -103,7 +105,8 @@
 				AA0000000000000000000001 /* ValeriaApp.swift */,
 				A2000000000000000000000C /* RootView.swift */,
 				A2000000000000000000000E /* Theme.swift */,
-				A20000000000000000000002 /* BearMark.swift */,
+				A20000000000000000000013 /* VStrings.swift */,
+				A20000000000000000000002 /* LuaMark.swift */,
 				A20000000000000000000001 /* AppModel.swift */,
 				A2000000000000000000000A /* ProPin.swift */,
 				A2000000000000000000000F /* WelcomeView.swift */,
@@ -224,7 +227,8 @@
 				BB0000000000000000000001 /* ValeriaApp.swift in Sources */,
 				B2000000000000000000000C /* RootView.swift in Sources */,
 				B2000000000000000000000E /* Theme.swift in Sources */,
-				B20000000000000000000002 /* BearMark.swift in Sources */,
+				B20000000000000000000002 /* LuaMark.swift in Sources */,
+				B20000000000000000000013 /* VStrings.swift in Sources */,
 				B20000000000000000000001 /* AppModel.swift in Sources */,
 				B2000000000000000000000A /* ProPin.swift in Sources */,
 				B2000000000000000000000F /* WelcomeView.swift in Sources */,

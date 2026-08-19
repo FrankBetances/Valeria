@@ -164,7 +164,7 @@ private func deviceSchema(_ key: HearingDeviceKey, accent: Color) -> some View {
 
 // MARK: - Esquemas vectoriales (Canvas · port de AcademyHardwareSvg.tsx)
 // Alto contraste, cero red. Los trazos aproximan la ilustración SVG original
-// sobre un viewBox 200×200, igual que BearMark.swift.
+// sobre un viewBox 200×200.
 
 private let SCHEMA_INK = Color(hex: "1f2937")
 private let SCHEMA_MUTED = Color(hex: "9aa6a5")

@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "lua-sit.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

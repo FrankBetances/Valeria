@@ -22,7 +22,8 @@ ios-native/
     ├── ValeriaApp.swift        # @main + init defensiva de Firebase
     ├── RootView.swift          # NavigationStack + Router (flujo completo)
     ├── Theme.swift             # tokens de diseño (port de valeriaTheme.ts)
-    ├── BearMark.swift          # mascota oso (SVG → Canvas SwiftUI)
+    ├── LuaMark.swift           # Lúa, la gata (PNG de npm run build:brand)
+    ├── VStrings.swift          # textos es/en de Bienvenida y Créditos
     ├── AppModel.swift          # estado en memoria + gamificación (sample data)
     ├── ProPin.swift            # modal PIN profesional (SHA-256 · demo 1985)
     ├── WelcomeView / CreditsView / PatientSelectView / FichaRegistroView.swift
@@ -33,6 +34,7 @@ ios-native/
     ├── AcademyHardwareView.swift # sheet de Hipoacusia + esquemas (SVG → Canvas)
     ├── Info.plist
     ├── Assets.xcassets/        # AppIcon 1024² (sin alfa) + AccentColor (#00c4be)
+    │                           # + DrBetancesCrest, LuaHead y LuaSit
     └── Preview Content/
 ```
 
