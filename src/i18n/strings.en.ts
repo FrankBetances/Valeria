@@ -397,6 +397,9 @@ export const EN: UiStrings = {
     subtitleSignup: 'Create an account to store your patients and sessions in the cloud.',
     subtitleSignin: 'Sign in to reach your patients and sessions.',
     name: 'Name',
+    namePlaceholder: 'Your name',
+    emailPlaceholder: 'you@email.com',
+    firebaseUnconfigured: '⚠︎ Firebase is not configured yet (the project keys are missing). See docs/firebase-setup.md.',
     email: 'Email',
     password: 'Password',
     passwordPlaceholder: 'At least 6 characters',
@@ -478,6 +481,9 @@ export const EN: UiStrings = {
   // and the error label — those come from the active VARIETY's bank
   // (valeriaMinimalPairs*). What lives here is the scaffolding the grown-up reads.
   pairs: {
+    sealA11y: (who: string): string =>
+      `${who}'s handprint. Press both handprints at once to continue, or hold this one for two seconds.`,
+    pinSubtitle: "Enter the speech-language pathologist's 4-digit PIN to choose which pairs the family practices.",
     sessionName: (a: string, b: string): string => `Minimal pairs · ${a} / ${b}`,
     noteClean: (phoneme: string): string =>
       `No substitutions detected on the ${phoneme} contrast. The sound is settling in!`,
@@ -589,6 +595,16 @@ export const EN: UiStrings = {
   // and word type) that used to live in `valeriaSemanticExpansion.ts`: they are
   // interface text, not content, so they follow the UI language, not the variety.
   semantic: {
+    togglePrescribedA11y: (name: string, on: boolean): string => `${on ? 'Turn off' : 'Turn on'} ${name}`,
+    pickRowA11y: (name: string, on: boolean): string => (on ? `Practice ${name}` : `${name} not prescribed`),
+    wordsOf: (available: number, total: number): string => `${available} of ${total} words`,
+    backPillContinue: 'Continue',
+    backPillBack: 'Back',
+    noMaterialHint: 'This activity needs no materials: your hands and a quiet spot are enough.',
+    doneSessionSub: (n: number): string =>
+      `${n} words practiced by pairing picture, voice and physical action. A word is learned when the child lives it with their body, not just when they hear it.`,
+    assistSub: (word: string): string =>
+      `The grown-up says “${word}” very slowly while looking at the child, and they say it together. No rush: today we practice it, tomorrow it comes out on its own.`,
     title: 'Semantic Expansion',
     setupTitle: 'Getting ready',
     doneTitle: 'All done!',
@@ -723,6 +739,41 @@ export const EN: UiStrings = {
   // come from the active VARIETY's bank. What lives here is the scaffolding:
   // steps, the judge buttons, the scale explanation and the wrap-up.
   player: {
+    zoomTileA11y: (cap?: string): string => `Enlarge the picture of ${cap ?? 'the card'}`,
+    answerTileA11y: (cap: string): string => `Answer ${cap}. Press and hold to enlarge the picture`,
+    roundOf: (cur: number, total: number): string => `Round ${cur} of ${total}`,
+    trialLimit: (max: number): string =>
+      `${max}-trial limit reached: wind down with the movement break and score below (or switch rounds).`,
+    matchedTileA11y: (cap: string): string => `${cap}: already matched to its vowel`,
+    pickTileA11y: (cap: string): string => `Choose the picture of ${cap}`,
+    tileChosen: 'chosen',
+    vowelA11y: (v: string): string => `Vowel ${v}`,
+    fillMicPrompt: (word: string): string =>
+      `Once they complete the word, tap the mic and have them say: “${word}”`,
+    seriesWordRevealedA11y: (n: number, cap: string): string => `Word ${n} in the series: ${cap}`,
+    seriesWordA11y: (n: number): string => `Answer word ${n} in the series`,
+    seriesWordMasked: (n: number): string => `word ${n}`,
+    hearPhonemes: (phonemes: string): string => `Hear the sounds · ${phonemes}`,
+    synthesisMicPrompt: (word: string): string =>
+      `Tap the mic and have them BLEND the sounds into the whole word: “${word}”`,
+    synthesisSolved: (word: string): string =>
+      `The word was “${word}”. You can move on to another round or score below.`,
+    letterOfA11y: (n: number, total: number): string => `Letter ${n} of ${total}`,
+    pictureOfA11y: (n: number, total: number): string => `Picture ${n} of ${total}`,
+    restart: '↺ Start over',
+    pluralCardA11y: (label: string): string => `Card with ${label}`,
+    pluralHowManyPrompt: (target: string): string =>
+      `Ask them “how many are there?” and tap the mic to have them say: “${target}”`,
+    pluralWhatArePrompt: (target: string): string =>
+      `Ask them “what are they?” and tap the mic to have them say: “${target}”`,
+    orderTilePlacedA11y: (cap: string): string => `${cap} card, already placed`,
+    orderTileA11y: (cap: string): string => `${cap} card`,
+    sceneA11y: (label: string): string => `${label}. Hear an example`,
+    selloHint: (sec: number): string =>
+      `The button unlocks after ${sec} seconds of waiting. Tap it ONLY when the child truly looks at you (not at the object); it then locks again for the next attempt.`,
+    doneSub: (total: number): string => (total === 1
+      ? 'You have scored this exercise. The result is saved on the device.'
+      : `You have scored all ${total} activities in the plan. The result is saved on the device.`),
     zoomClose: 'Tap to close',
     zoomCloseA11y: 'Close enlarged image',
     zoomTip: 'To enlarge an image: tap it, or press and hold it during games',
@@ -841,6 +892,19 @@ export const EN: UiStrings = {
     distractorTitle: 'Distractor cat (dual task)',
     distractorSub: 'The cat peeks in and moves along the edge; the child has to keep attending to the voice. Tapping it does not count as an error.',
     launchPragmatic: 'Trigger a pragmatic breakdown',
+    hint: 'Manual controls for practicing listening in a real-world environment. Use them if your speech-language pathologist prescribed them: the app never turns them on or adjusts them by itself.',
+    stepDownA11y: (label: string): string => `Decrease ${label}`,
+    stepUpA11y: (label: string): string => `Increase ${label}`,
+    arHint: 'What the child will be asked for in each exercise. You set them before you start and they stay fixed for the whole session: the app measures and records, the clinical judgment is always yours.',
+    arHoldLabel: 'Gesture hold (AR-1)',
+    arHoldHint: 'How long they must keep their lips rounded for the car to reach the finish line.',
+    arTurnLabel: 'Head turn (AR-2)',
+    arTurnHint: 'How many degrees they must turn toward the sound for it to count as localization.',
+    arWindowLabel: 'Response window (AR-2)',
+    arWindowHint: 'How long they get after the sound. Outside the window it is “no response”, never “error”.',
+    arDwellLabel: 'Dwell to select (AR-3)',
+    arDwellHint: 'How long they must look at a picture to select it. The progress ring shows them.',
+    gazePointerHint: 'The iris is more precise; the nose is steadier on modest phones. If the pointer shakes, switch to nose: the exercise does not notice.',
     arKicker: '🎯 AUGMENTED REALITY · CLINICAL THRESHOLDS',
     gazePointer: 'Gaze pointer (AR-3)',
     pointerIris: 'Iris',
@@ -893,6 +957,7 @@ export const EN: UiStrings = {
     ready: '▶ We’re ready',
     repeatOrder: '🔊 Repeat the instruction',
     repeatOrderA11y: 'Repeat the instruction out loud',
+    structure: (focus: string): string => `Structure: ${focus}`,
     notThisTime: '✖️ Not this time',
     skip: 'Skip this time',
     tprKicker: '🧩 TPR CAPSULE · LISTEN AND MOVE',
@@ -920,6 +985,13 @@ export const EN: UiStrings = {
     shareLog: '📤 Share full log (email · WhatsApp)',
     packaging: 'Packaging log…',
     shareTitle: 'Usability log · Valeria+ (pilot)',
+    exportPurged: 'Log exported and wiped from the device.',
+    statSessions: 'Sessions',
+    statTprAbandon: 'TPR drop-off',
+    statMisclicks: 'Misclicks',
+    statSusMean: 'SUS mean',
+    statSusAnswers: 'SUS answers',
+    statFullBlocks: 'All 4 blocks',
   },
 
   sus: {
@@ -954,6 +1026,13 @@ export const EN: UiStrings = {
     adherenceValue: (done: number, goal: number): string => `${done} of ${goal} sessions completed`,
 
     evolutionTitle: 'Progress by stars',
+    pairsChartSub: 'Minimal pairs · % of trials where the microphone picked up the substitution (lower = better)',
+    sessionsCount: (n: number): string => `${n} ${n === 1 ? 'session' : 'sessions'}`,
+    arTargetMs: (ms: number): string => `target ${ms} ms`,
+    arMeasuredOn: (device: string, level: string, fps: number): string =>
+      `Measured on ${device} · level ${level} · ${fps} fps sustained`,
+    arVoidedTrials: (n: number): string =>
+      ` · ${n} trial${n === 1 ? '' : 's'} voided because the phone moved`,
     evolutionSub: (n: number): string => `Average stars · last ${n} sessions`,
     trendUp: (d: number): string => `▲ +${d} ★`,
     trendDown: (d: number): string => `▼ ${d} ★`,
@@ -1201,6 +1280,16 @@ export const EN: UiStrings = {
     privRecognizer: (name: string): string => `System recognizer: ${name}.`,
   },
 
+  noise: {
+    kicker: 'BACKGROUND NOISE (BABBLE)',
+    off: 'off',
+    levelTag: (n: number): string => `level ${n}`,
+    hint: 'You are the only one who changes this: raise the cafeteria babble little by little if your speech-language pathologist told you to. The app never moves it on its own.',
+    sliderA11y: 'Background noise level',
+    silence: 'Quiet',
+    cafe: 'Cafeteria',
+  },
+
   settings: {
     uiLangTitle: 'App language',
     uiLangHint:
@@ -1387,5 +1476,24 @@ export const EN: UiStrings = {
     nextQuestion: 'Next question',
     seeResult: 'See result',
     exitQuiz: 'Exit',
+
+    schema: {
+      earA11y: 'Diagram of the ear: pinna, ear canal, eardrum and cochlea.',
+      earOuter: 'Outer',
+      earMiddle: 'Middle',
+      earCochlea: 'Cochlea',
+      aidA11y: 'Diagram of a behind-the-ear hearing aid: body, tubing and earmold.',
+      aidMic: 'Microphone',
+      aidMold: 'Earmold',
+      aidTube: 'Tubing',
+      ciA11y: 'Diagram of a cochlear implant: external processor, magnet coil and electrode array in the cochlea.',
+      ciProcessor: 'Processor',
+      ciCoil: 'Coil / magnet',
+      ciElectrodes: 'Electrodes',
+      baA11y: 'Diagram of a bone-anchored implant: processor, abutment anchored to the bone and bone-conduction transmission.',
+      baAbutment: 'Abutment (bone)',
+      baProcessor: 'Processor',
+      baBone: 'Bone conduction',
+    },
   },
 };

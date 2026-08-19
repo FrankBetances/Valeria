@@ -99,7 +99,7 @@ const RoutineRouteOverlay: React.FC<{
           <>
             <Text style={s.emoji}>{cmd.emoji}</Text>
             <Text style={s.cmd}>“{cmd.text}”</Text>
-            <Text style={s.focus}>Estructura: {cmd.focus}</Text>
+            <Text style={s.focus}>{t.breaks.structure(cmd.focus)}</Text>
 
             <View style={s.dots}>
               {route.commands.map((_, i) => (

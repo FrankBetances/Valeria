@@ -389,6 +389,9 @@ export const ES = {
     subtitleSignup: 'Crea tu cuenta para guardar tus pacientes y sesiones en la nube.',
     subtitleSignin: 'Inicia sesión para acceder a tus pacientes y sesiones.',
     name: 'Nombre',
+    namePlaceholder: 'Tu nombre',
+    emailPlaceholder: 'tu@correo.com',
+    firebaseUnconfigured: '⚠︎ Firebase aún no está configurado (faltan las claves del proyecto). Ver docs/firebase-setup.md.',
     email: 'Correo electrónico',
     password: 'Contraseña',
     passwordPlaceholder: 'Mínimo 6 caracteres',
@@ -472,6 +475,9 @@ export const ES = {
   // la VARIEDAD activa (valeriaMinimalPairs*). Aquí vive el andamiaje que lee
   // el adulto.
   pairs: {
+    sealA11y: (who: string): string =>
+      `Huella de ${who}. Pulsad las dos huellas a la vez para continuar, o mantén pulsada esta dos segundos.`,
+    pinSubtitle: 'Introduce el PIN de 4 dígitos del logopeda para elegir qué pares practica la familia.',
     sessionName: (a: string, b: string): string => `Pares mínimos · ${a} / ${b}`,
     noteClean: (phoneme: string): string =>
       `Contraste ${phoneme} sin sustituciones detectadas. ¡Fonema consolidándose!`,
@@ -589,6 +595,16 @@ export const ES = {
   // vivían en `valeriaSemanticExpansion.ts`: son texto de interfaz, no
   // contenido, y por eso siguen al idioma de la UI y no a la variedad.
   semantic: {
+    togglePrescribedA11y: (name: string, on: boolean): string => `${on ? 'Desactivar' : 'Activar'} ${name}`,
+    pickRowA11y: (name: string, on: boolean): string => (on ? `Practicar ${name}` : `${name} no prescrito`),
+    wordsOf: (available: number, total: number): string => `${available} de ${total} palabras`,
+    backPillContinue: 'Seguir',
+    backPillBack: 'Volver',
+    noMaterialHint: 'Esta actividad no necesita material: basta con vuestras manos y un sitio tranquilo.',
+    doneSessionSub: (n: number): string =>
+      `${n} palabras trabajadas uniendo imagen, voz y acción física. La palabra se aprende cuando el niño la vive con el cuerpo, no solo cuando la oye.`,
+    assistSub: (word: string): string =>
+      `El adulto dice “${word}” muy despacio mirando al niño, y lo repiten a la vez. Sin prisa: hoy la practicamos, mañana sale sola.`,
     title: 'Expansión Semántica',
     setupTitle: 'Preparación',
     doneTitle: '¡Completado!',
@@ -722,6 +738,40 @@ export const ES = {
   // por ejercicio (`ex.ept`) y todo el contenido de las rondas. Aquí vive el
   // andamiaje: pasos, botonera de juez, explicación de la escala y cierre.
   player: {
+    zoomTileA11y: (cap?: string): string => `Ampliar imagen de ${cap ?? 'la ficha'}`,
+    answerTileA11y: (cap: string): string => `Responder ${cap}. Mantén pulsado para ampliar la imagen`,
+    roundOf: (cur: number, total: number): string => `Ronda ${cur} de ${total}`,
+    trialLimit: (max: number): string =>
+      `Límite de ${max} ensayos alcanzado: descargad con la pausa de movimiento y evalúa abajo (o cambia de ronda).`,
+    matchedTileA11y: (cap: string): string => `${cap}: ya unida con su vocal`,
+    pickTileA11y: (cap: string): string => `Elegir la imagen de ${cap}`,
+    tileChosen: 'elegida',
+    vowelA11y: (v: string): string => `Vocal ${v}`,
+    fillMicPrompt: (word: string): string => `Cuando complete la palabra, pulsa el micro y que diga: “${word}”`,
+    seriesWordRevealedA11y: (n: number, cap: string): string => `Palabra ${n} de la serie: ${cap}`,
+    seriesWordA11y: (n: number): string => `Responder la palabra ${n} de la serie`,
+    seriesWordMasked: (n: number): string => `palabra ${n}`,
+    hearPhonemes: (phonemes: string): string => `Oír los sonidos · ${phonemes}`,
+    synthesisMicPrompt: (word: string): string =>
+      `Pulsa el micro y que UNA los sonidos en la palabra completa: “${word}”`,
+    synthesisSolved: (word: string): string =>
+      `La palabra era “${word}”. Puedes pasar a otra ronda o evaluar abajo.`,
+    letterOfA11y: (n: number, total: number): string => `Letra ${n} de ${total}`,
+    pictureOfA11y: (n: number, total: number): string => `Dibujo ${n} de ${total}`,
+    restart: '↺ Volver a empezar',
+    pluralCardA11y: (label: string): string => `Tarjeta con ${label}`,
+    pluralHowManyPrompt: (target: string): string =>
+      `Pregúntale «¿cuántos hay?» y pulsa el micro para que diga: “${target}”`,
+    pluralWhatArePrompt: (target: string): string =>
+      `Pregúntale «¿qué son?» y pulsa el micro para que diga: “${target}”`,
+    orderTilePlacedA11y: (cap: string): string => `Ficha ${cap}, ya colocada`,
+    orderTileA11y: (cap: string): string => `Ficha ${cap}`,
+    sceneA11y: (label: string): string => `${label}. Oír un ejemplo`,
+    selloHint: (sec: number): string =>
+      `El botón se desbloquea tras ${sec} segundos de espera. Púlsalo SOLO cuando el niño te mire de verdad a ti (no al objeto); después se bloquea para el siguiente intento.`,
+    doneSub: (total: number): string => (total === 1
+      ? 'Has evaluado este ejercicio. El resultado se ha guardado en el dispositivo.'
+      : `Has evaluado las ${total} actividades del plan. El resultado se guardó en el dispositivo.`),
     zoomClose: 'Toca para cerrar',
     zoomCloseA11y: 'Cerrar imagen ampliada',
     zoomTip: 'Para ampliar una imagen: tócala, o en los juegos mantenla pulsada',
@@ -841,6 +891,19 @@ export const ES = {
     distractorTitle: 'Gata distractora (doble tarea)',
     distractorSub: 'La gata se asoma y se mueve por el borde; el niño debe seguir atendiendo a la voz. Tocarla no cuenta como error.',
     launchPragmatic: 'Lanzar un quiebre pragmático',
+    hint: 'Controles manuales para entrenar la escucha en ambiente real. Úsalos si vuestro logopeda os lo ha pautado: la app nunca los activa ni los ajusta sola.',
+    stepDownA11y: (label: string): string => `Bajar ${label}`,
+    stepUpA11y: (label: string): string => `Subir ${label}`,
+    arHint: 'Lo que se le va a exigir al peque en cada ejercicio. Los fijas tú antes de empezar y no cambian durante la sesión: la app mide y registra, el criterio clínico es siempre vuestro.',
+    arHoldLabel: 'Sostén del gesto (AR-1)',
+    arHoldHint: 'Cuánto tiempo debe mantener los labios redondeados para que el coche llegue a la meta.',
+    arTurnLabel: 'Giro de cabeza (AR-2)',
+    arTurnHint: 'Cuántos grados debe girar hacia el sonido para contar como orientación.',
+    arWindowLabel: 'Ventana de respuesta (AR-2)',
+    arWindowHint: 'Tiempo que se le da tras el sonido. Fuera de ventana es «sin respuesta», nunca «error».',
+    arDwellLabel: 'Fijación para elegir (AR-3)',
+    arDwellHint: 'Cuánto debe mirar un dibujo para seleccionarlo. El anillo de progreso se lo enseña.',
+    gazePointerHint: 'El iris es más preciso; la nariz, más estable en teléfonos modestos. Si el puntero tiembla, cambia a nariz: el ejercicio no se entera.',
     arKicker: '🎯 REALIDAD AUMENTADA · UMBRALES CLÍNICOS',
     gazePointer: 'Puntero de la mirada (AR-3)',
     pointerIris: 'Iris',
@@ -895,6 +958,7 @@ export const ES = {
     ready: '▶ Estamos listos',
     repeatOrder: '🔊 Repetir la orden',
     repeatOrderA11y: 'Repetir la orden en voz alta',
+    structure: (focus: string): string => `Estructura: ${focus}`,
     notThisTime: '✖️ No esta vez',
     skip: 'Saltar esta vez',
     tprKicker: '🧩 CÁPSULA TPR · ESCUCHA Y MUÉVETE',
@@ -922,6 +986,13 @@ export const ES = {
     shareLog: '📤 Compartir log completo (email · WhatsApp)',
     packaging: 'Empaquetando log…',
     shareTitle: 'Log de usabilidad · Valeria+ (piloto)',
+    exportPurged: 'Log exportado y purgado del dispositivo.',
+    statSessions: 'Sesiones',
+    statTprAbandon: 'Abandono TPR',
+    statMisclicks: 'Misclicks',
+    statSusMean: 'Media SUS',
+    statSusAnswers: 'Respuestas SUS',
+    statFullBlocks: '4 bloques',
   },
 
   sus: {
@@ -956,6 +1027,13 @@ export const ES = {
     adherenceValue: (done: number, goal: number): string => `${done} de ${goal} sesiones completadas`,
 
     evolutionTitle: 'Evolución por estrellas',
+    pairsChartSub: 'Pares mínimos · % de ensayos con la sustitución detectada por el micrófono (bajar = mejorar)',
+    sessionsCount: (n: number): string => `${n} ${n === 1 ? 'sesión' : 'sesiones'}`,
+    arTargetMs: (ms: number): string => `objetivo ${ms} ms`,
+    arMeasuredOn: (device: string, level: string, fps: number): string =>
+      `Medido en ${device} · nivel ${level} · ${fps} fps sostenidos`,
+    arVoidedTrials: (n: number): string =>
+      ` · ${n} ensayo${n === 1 ? '' : 's'} anulado${n === 1 ? '' : 's'} por movimiento del teléfono`,
     evolutionSub: (n: number): string => `Promedio de estrellas · últimas ${n} sesiones`,
     trendUp: (d: number): string => `▲ +${d} ★`,
     trendDown: (d: number): string => `▼ ${d} ★`,
@@ -1224,6 +1302,18 @@ export const ES = {
     privRecognizer: (name: string): string => `Reconocedor del sistema: ${name}.`,
   },
 
+  // Slider de ruido babble del panel del adulto. Vivía suelto en el componente:
+  // no es una pantalla, así que se quedó fuera de los cinco tramos de EN-2.3.
+  noise: {
+    kicker: 'RUIDO DE FONDO (BABBLE)',
+    off: 'apagado',
+    levelTag: (n: number): string => `nivel ${n}`,
+    hint: 'Solo lo controlas tú: sube el murmullo de cafetería poco a poco si tu logopeda te lo ha indicado. La app nunca lo cambia sola.',
+    sliderA11y: 'Nivel de ruido de fondo',
+    silence: 'Silencio',
+    cafe: 'Cafetería',
+  },
+
   settings: {
     uiLangTitle: 'Idioma de la aplicación',
     // El adulto necesita entender que son dos cosas distintas, o va a pensar
@@ -1412,6 +1502,28 @@ export const ES = {
     nextQuestion: 'Siguiente pregunta',
     seeResult: 'Ver resultado',
     exitQuiz: 'Salir',
+
+    // Rótulos de los esquemas vectoriales de hardware auditivo. Van dentro del
+    // SVG y por eso están CENTRADOS: anclados a la izquierda, el inglés (más
+    // largo) se salía del viewBox de 200.
+    schema: {
+      earA11y: 'Esquema del oído: pabellón, conducto auditivo, tímpano y cóclea.',
+      earOuter: 'Externo',
+      earMiddle: 'Medio',
+      earCochlea: 'Cóclea',
+      aidA11y: 'Esquema de un audífono retroauricular: cuerpo, tubo y molde.',
+      aidMic: 'Micrófono',
+      aidMold: 'Molde',
+      aidTube: 'Tubo',
+      ciA11y: 'Esquema de un implante coclear: procesador externo, antena con imán y electrodos en la cóclea.',
+      ciProcessor: 'Procesador',
+      ciCoil: 'Antena / imán',
+      ciElectrodes: 'Electrodos',
+      baA11y: 'Esquema de un implante osteointegrado: procesador, pilar anclado al hueso y transmisión por vía ósea.',
+      baAbutment: 'Pilar (hueso)',
+      baProcessor: 'Procesador',
+      baBone: 'Vía ósea',
+    },
   },
 };
 

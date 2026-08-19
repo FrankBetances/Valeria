@@ -578,7 +578,7 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
         onPress={() => (unlocked ? togglePrescribed(id) : on && onStart())}
         style={[s.pickRow, !on && s.pickRowOff]}
         accessibilityRole="button"
-        accessibilityLabel={unlocked ? `${on ? 'Desactivar' : 'Activar'} ${name}` : on ? `Practicar ${name}` : `${name} no prescrito`}
+        accessibilityLabel={unlocked ? t.semantic.togglePrescribedA11y(name, on) : t.semantic.pickRowA11y(name, on)}
       >
         {inner}
         {unlocked ? (
@@ -721,7 +721,7 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
                 <View style={{ flex: 1 }}>
                   <Text style={s.pickName}>{ct.title}</Text>
                   <Text style={s.pickCat}>
-                    {ct.subtitle} · {disponibles.length} de {ct.items.length} palabras
+                    {ct.subtitle} · {t.semantic.wordsOf(disponibles.length, ct.items.length)}
                   </Text>
                   <Text style={s.pickCat}>{disponibles.map((it) => it.label).join(', ')}</Text>
                 </View>
@@ -794,7 +794,7 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
             onPress={() => { if (setupRevisit) leaveSetup(); else setPhase('pick'); }}
             style={s.backPill}
           >
-            <Text style={s.backPillTxt}>‹ {setupRevisit ? 'Seguir' : 'Volver'}</Text>
+            <Text style={s.backPillTxt}>‹ {setupRevisit ? t.semantic.backPillContinue : t.semantic.backPillBack}</Text>
           </Pressable>
           <Text style={s.logoFallback}>valeria+</Text>
           <Text style={s.headerTitle}>{t.semantic.setupTitle}</Text>
@@ -826,9 +826,7 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
           </View>
 
           {!conMaterial && (
-            <Text style={s.setupHint}>
-              Esta actividad no necesita material: basta con vuestras manos y un sitio tranquilo.
-            </Text>
+            <Text style={s.setupHint}>{t.semantic.noMaterialHint}</Text>
           )}
 
           <Pressable
@@ -863,10 +861,7 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
             <CatPixel size={62} />
             <Text style={s.doneTitle}>{t.semantic.doneSessionTitle}</Text>
             <Text style={s.doneBig}>{avg.toFixed(1)}<Text style={s.doneSlash}> / 3 ★</Text></Text>
-            <Text style={s.doneSub}>
-              {sess.steps.length} palabras trabajadas uniendo imagen, voz y acción física. La palabra
-              se aprende cuando el niño la vive con el cuerpo, no solo cuando la oye.
-            </Text>
+            <Text style={s.doneSub}>{t.semantic.doneSessionSub(sess.steps.length)}</Text>
             <View style={s.doneStarsRow}>
               {log.map((r, i) => (
                 <View key={i} style={s.doneStarCell}>
@@ -1128,10 +1123,7 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
               <BlockIcon name="autism" color={V.color.primaryDark} size={26} />
               <View style={{ flex: 1 }}>
                 <Text style={s.verdictTitle}>{t.semantic.assistTitle}</Text>
-                <Text style={s.verdictSub}>
-                  El adulto dice “{st.label}” muy despacio mirando al niño, y lo repiten a la vez.
-                  Sin prisa: hoy la practicamos, mañana sale sola.
-                </Text>
+                <Text style={s.verdictSub}>{t.semantic.assistSub(st.label)}</Text>
               </View>
             </View>
             {actionCard(st.actionKicker, st.action)}

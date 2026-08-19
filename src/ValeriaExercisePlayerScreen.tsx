@@ -93,6 +93,7 @@ const EmojiTile: React.FC<{
   emoji: string; cap?: string; size?: number; bgIndex?: number;
   onZoom?: (emoji: string, cap: string) => void;
 }> = ({ emoji, cap, size = 78, bgIndex = 0, onZoom }) => {
+  const t = useT();
   const box = { width: size, height: size * 0.84, backgroundColor: TILE_BGS[bgIndex % TILE_BGS.length] };
   if (!onZoom) {
     return (
@@ -105,7 +106,7 @@ const EmojiTile: React.FC<{
     <Pressable
       onPress={() => onZoom(emoji, cap ?? '')}
       accessibilityRole="imagebutton"
-      accessibilityLabel={`Ampliar imagen de ${cap ?? 'la ficha'}`}
+      accessibilityLabel={t.player.zoomTileA11y(cap)}
       style={({ pressed }) => [s.emojiTile, box, pressed && { transform: [{ scale: 0.92 }] }]}
     >
       <Text style={{ fontSize: size * 0.46 }}>{emoji}</Text>
@@ -129,9 +130,11 @@ const AnswerTileGrid: React.FC<{
   tileStyle?: object;
   center?: boolean;
   revealAnswer?: boolean;
-}> = ({ tiles, answer, picked, onPick, onZoom, size = 96, tileStyle, center = false, revealAnswer = false }) => (
+}> = ({ tiles, answer, picked, onPick, onZoom, size = 96, tileStyle, center = false, revealAnswer = false }) => {
+  const t = useT();
+  return (
   <View style={[s.grid2, center && { justifyContent: 'center' }]}>
-    {tiles.map((t, i) => {
+    {tiles.map((tile, i) => {
       const tapped = picked === i;
       const isAns = i === answer;
       const ok = (tapped && isAns) || (revealAnswer && picked >= 0 && isAns);
@@ -142,16 +145,16 @@ const AnswerTileGrid: React.FC<{
           // Toque = responder; pulsación larga = ampliar. La ficha interior es
           // plana para que ningún Pressable anidado robe el toque.
           onPress={() => { if (picked !== i) onPick(i, isAns); }}
-          onLongPress={() => onZoom(t.emoji, t.cap)}
+          onLongPress={() => onZoom(tile.emoji, tile.cap)}
           accessibilityRole="button"
-          accessibilityLabel={`Responder ${t.cap}. Mantén pulsado para ampliar la imagen`}
+          accessibilityLabel={t.player.answerTileA11y(tile.cap)}
           style={[s.gridTile, tileStyle, ok && s.gridTileOk, bad && s.gridTileBad]}
         >
           <View style={{ alignItems: 'center' }}>
-            <EmojiTile emoji={t.emoji} cap={t.cap} size={size} bgIndex={i} />
+            <EmojiTile emoji={tile.emoji} cap={tile.cap} size={size} bgIndex={i} />
           </View>
           <View style={s.gridCapRow}>
-            <Text style={s.gridCap}>{t.cap}</Text>
+            <Text style={s.gridCap}>{tile.cap}</Text>
             {ok ? <BlockIcon name="check" color={V.color.success} size={15} />
               : bad ? <BlockIcon name="cross" color={V.color.error} size={15} /> : null}
           </View>
@@ -159,7 +162,8 @@ const AnswerTileGrid: React.FC<{
       );
     })}
   </View>
-);
+  );
+};
 
 // ----------------------------------------------------------------------------
 // Modal de zoom: la imagen crece con animación de resorte a pantalla completa.
@@ -773,7 +777,7 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
               {/* Selector de ronda: contenido nuevo sin salir del ejercicio */}
               {!curLevel && totalRounds > 1 && (
                 <View style={s.roundRow}>
-                  <Text style={s.roundLbl}>Ronda {(round % totalRounds) + 1} de {totalRounds}</Text>
+                  <Text style={s.roundLbl}>{t.player.roundOf((round % totalRounds) + 1, totalRounds)}</Text>
                   <Pressable onPress={nextRound} style={s.roundBtn} accessibilityRole="button" accessibilityLabel={t.player.newRoundA11y}>
                     <BlockIcon name="repeat" color={V.color.primaryDark} size={15} />
                     <Text style={s.roundBtnTxt}>{t.player.newRound}</Text>
@@ -820,7 +824,7 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                       </View>
                       {judgeButtons(trials >= ex.maxTrials, judgeTrial)}
                       {trials >= ex.maxTrials && (
-                        <Text style={s.trialLimit}>Límite de {ex.maxTrials} ensayos alcanzado: descargad con la pausa de movimiento y evalúa abajo (o cambia de ronda).</Text>
+                        <Text style={s.trialLimit}>{t.player.trialLimit(ex.maxTrials)}</Text>
                       )}
                     </View>
                   )}
@@ -833,7 +837,7 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                 <>
                   <Text style={s.stageHint}>{t.player.vowelHint}</Text>
                   <View style={s.tilesRow}>
-                    {ex.tiles!.map((t, i) => {
+                    {ex.tiles!.map((tile, i) => {
                       const done = !!matchOk[i];
                       const sel = matchSel === i;
                       return (
@@ -842,17 +846,17 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                           // Ficha interior plana: el Pressable de zoom anidado
                           // robaba el toque y el juego "no funcionaba".
                           onPress={() => tapMatchTile(i)}
-                          onLongPress={() => openZoom(t.emoji, t.cap)}
+                          onLongPress={() => openZoom(tile.emoji, tile.cap)}
                           accessibilityRole="button"
-                          accessibilityLabel={done ? `${t.cap}: ya unida con su vocal` : `Elegir la imagen de ${t.cap}`}
+                          accessibilityLabel={done ? t.player.matchedTileA11y(tile.cap) : t.player.pickTileA11y(tile.cap)}
                           style={[s.matchTile, sel && s.matchTileSel, done && s.matchTileOk]}
                         >
-                          <EmojiTile emoji={t.emoji} cap={t.cap} size={78} bgIndex={i} />
-                          <Text style={s.tileCap}>{t.cap}</Text>
+                          <EmojiTile emoji={tile.emoji} cap={tile.cap} size={78} bgIndex={i} />
+                          <Text style={s.tileCap}>{tile.cap}</Text>
                           <View style={s.matchTileMarkRow}>
                 {done ? <BlockIcon name="check" color={V.color.success} size={14} />
                   : sel ? <BlockIcon name="gesture" color={V.color.primaryDark} size={14} /> : null}
-                <Text style={s.matchTileMark}>{done ? initialVowel(t.cap) : sel ? 'elegida' : ' '}</Text>
+                <Text style={s.matchTileMark}>{done ? initialVowel(tile.cap) : sel ? t.player.tileChosen : ' '}</Text>
               </View>
                         </Pressable>
                       );
@@ -860,14 +864,14 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                   </View>
                   <View style={s.vowelRow}>
                     {VOWELS.map((v) => {
-                      const used = ex.tiles!.some((t, i) => matchOk[i] && initialVowel(t.cap) === v);
+                      const used = ex.tiles!.some((tile, i) => matchOk[i] && initialVowel(tile.cap) === v);
                       const wrong = wrongVowel === v;
                       return (
                         <Pressable
                           key={v}
                           onPress={() => tapMatchVowel(v)}
                           accessibilityRole="button"
-                          accessibilityLabel={`Vocal ${v}`}
+                          accessibilityLabel={t.player.vowelA11y(v)}
                           style={[s.vowel, used && s.vowelRight, wrong && s.vowelWrong]}
                         >
                           <Text style={[s.vowelTxt, used && { color: '#fff' }, wrong && { color: V.color.error }]}>{v}</Text>
@@ -879,7 +883,7 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                     <Text style={s.matchDone}>{t.player.allMatched}</Text>
                   )}
                   <View style={{ alignItems: 'center', marginTop: 12 }}>
-                    <SpeakButton text={ex.tiles!.map((t) => t.cap).join(', ')} label={t.player.hearAllNames} voice="slow" />
+                    <SpeakButton text={ex.tiles!.map((tile) => tile.cap).join(', ')} label={t.player.hearAllNames} voice="slow" />
                   </View>
                 </>
               )}
@@ -916,7 +920,7 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                   {!!ex.fillCap && (
                     <MicPracticeCard
                       target={ex.fillCap}
-                      prompt={`Cuando complete la palabra, pulsa el micro y que diga: “${ex.fillCap}”`}
+                      prompt={t.player.fillMicPrompt(ex.fillCap)}
                     />
                   )}
                 </>
@@ -927,7 +931,7 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                   {/* Apoyo auditivo pedido por los evaluadores: oír las palabras
                       que aparecen antes de buscar el intruso. */}
                   <View style={{ alignItems: 'center', marginBottom: 14 }}>
-                    <SpeakButton text={ex.intruder!.map((t) => t.cap).join(', ')} label={t.player.hearWords} voice="slow" />
+                    <SpeakButton text={ex.intruder!.map((tile) => tile.cap).join(', ')} label={t.player.hearWords} voice="slow" />
                   </View>
                   <AnswerTileGrid
                     tiles={ex.intruder!}
@@ -960,13 +964,13 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                 <>
                   <Text style={s.stageHint}>{t.player.intruderHint}</Text>
                   <View style={{ alignItems: 'center', marginBottom: 14 }}>
-                    <SpeakButton text={ex.intruder!.map((t) => t.cap).join(', ')} label={t.player.hearFullSeries} voice="slow" />
+                    <SpeakButton text={ex.intruder!.map((tile) => tile.cap).join(', ')} label={t.player.hearFullSeries} voice="slow" />
                   </View>
                   <Text style={s.audLegend}>
                     {intruderPick >= 0 ? t.player.seriesSolved : t.player.seriesHint}
                   </Text>
                   <View style={s.grid2}>
-                    {ex.intruder!.map((t, i) => {
+                    {ex.intruder!.map((tile, i) => {
                       const tapped = intruderPick === i;
                       const isAns = i === ex.intruderAnswer;
                       const ok = intruderPick >= 0 && isAns;
@@ -978,12 +982,12 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                           onPress={() => {
                             if (intruderPick === i) return;
                             setIntruderPick(i);
-                            speakToChildSeq([t.cap, isAns ? praisePhrase() : almostPhrase()]);
+                            speakToChildSeq([tile.cap, isAns ? praisePhrase() : almostPhrase()]);
                           }}
                           accessibilityRole="button"
                           accessibilityLabel={revealed
-                            ? `Palabra ${i + 1} de la serie: ${t.cap}`
-                            : `Responder la palabra ${i + 1} de la serie`}
+                            ? t.player.seriesWordRevealedA11y(i + 1, tile.cap)
+                            : t.player.seriesWordA11y(i + 1)}
                           style={[s.gridTile, s.audTile, ok && s.gridTileOk, bad && s.gridTileBad]}
                         >
                           {/* Identidad estable de la ficha: el número está desde
@@ -992,7 +996,7 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                           <BlockIcon name="speaker" color={V.color.primaryDark} size={34} />
                           <View style={s.gridCapRow}>
                             <Text style={[s.gridCap, revealed && s.gridCapRevealed]}>
-                              {revealed ? t.cap : `palabra ${i + 1}`}
+                              {revealed ? tile.cap : t.player.seriesWordMasked(i + 1)}
                             </Text>
                             {ok ? <BlockIcon name="check" color={V.color.success} size={15} />
               : bad ? <BlockIcon name="cross" color={V.color.error} size={15} /> : null}
@@ -1018,18 +1022,18 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                   <View style={{ alignItems: 'center', marginBottom: 10 }}>
                     <Pressable onPress={playPhonemes} style={s.synBtn} accessibilityRole="button" accessibilityLabel={t.player.synthesisA11y}>
                       <BlockIcon name="speaker" color={V.color.primaryDark} size={16} />
-                      <Text style={s.synBtnTxt}>Oír los sonidos · {ex.phonemes!.join(' … ')}</Text>
+                      <Text style={s.synBtnTxt}>{t.player.hearPhonemes(ex.phonemes!.join(' … '))}</Text>
                     </Pressable>
                   </View>
                   <MicPracticeCard
                     target={ex.phrase!}
-                    prompt={`Pulsa el micro y que UNA los sonidos en la palabra completa: “${ex.phrase!.toLowerCase()}”`}
+                    prompt={t.player.synthesisMicPrompt(ex.phrase!.toLowerCase())}
                   />
                   {/* Fallback de Juez para hardware lento o STT caído. */}
                   <Text style={s.judgeHint}>{t.player.judgeHint}</Text>
                   {judgeButtons(false, (ok) => { setJudgePick(ok ? 'ok' : 'almost'); speakVerdict(ok); })}
                   {judgePick !== '' && (
-                    <Text style={s.matchDone}>La palabra era “{ex.phrase!.toLowerCase()}”. Puedes pasar a otra ronda o evaluar abajo.</Text>
+                    <Text style={s.matchDone}>{t.player.synthesisSolved(ex.phrase!.toLowerCase())}</Text>
                   )}
                 </>
               )}
@@ -1060,7 +1064,7 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                             disabled={found}
                             accessibilityRole="button"
                             accessibilityState={{ disabled: found }}
-                            accessibilityLabel={`Letra ${i + 1} de ${rt.grid.length}`}
+                            accessibilityLabel={t.player.letterOfA11y(i + 1, rt.grid.length)}
                             style={[s.rotTile, found && s.rotTileOk, wrong && s.rotTileBad]}
                           >
                             <Text style={[s.rotTileTxt, found && { color: '#fff' }]}>{g}</Text>
@@ -1090,7 +1094,7 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                       <Text style={s.rotHeadCount}>{named} / {ex.tiles!.length}</Text>
                     </View>
                     <View style={s.rotGrid}>
-                      {ex.tiles!.map((t, i) => {
+                      {ex.tiles!.map((tile, i) => {
                         const done = !!rotFound[i];
                         const isNext = i === named;
                         const wrong = rotWrongIdx === i;
@@ -1101,10 +1105,10 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                             disabled={done}
                             accessibilityRole="button"
                             accessibilityState={{ disabled: done }}
-                            accessibilityLabel={`Dibujo ${i + 1} de ${ex.tiles!.length}`}
+                            accessibilityLabel={t.player.pictureOfA11y(i + 1, ex.tiles!.length)}
                             style={[s.rotTile, done && s.rotTileOk, wrong && s.rotTileBad, isNext && !done && s.ranTileNext]}
                           >
-                            <Text style={{ fontSize: 30, opacity: done ? 0.45 : 1 }}>{t.emoji}</Text>
+                            <Text style={{ fontSize: 30, opacity: done ? 0.45 : 1 }}>{tile.emoji}</Text>
                           </Pressable>
                         );
                       })}
@@ -1114,7 +1118,7 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                     )}
                     {named > 0 && !complete && (
                       <Pressable onPress={() => { setRotFound([]); setRotWrongIdx(-1); }} accessibilityRole="button">
-                        <Text style={s.orderReset}>↺ Volver a empezar</Text>
+                        <Text style={s.orderReset}>{t.player.restart}</Text>
                       </Pressable>
                     )}
                   </>
@@ -1223,7 +1227,7 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                             }
                           }}
                           accessibilityRole="button"
-                          accessibilityLabel={`Tarjeta con ${label}`}
+                          accessibilityLabel={t.player.pluralCardA11y(label)}
                           style={[s.pluralCard, tapped && isAns && s.gridTileOk, tapped && !isAns && s.gridTileBad]}
                         >
                           <Text style={{ fontSize: kind === 'one' ? 52 : 30, textAlign: 'center' }}>
@@ -1246,8 +1250,8 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                       ? `${ex.pluralDeterminer} ${ex.plural!.capPlural}`
                       : ex.plural!.capPlural}
                     prompt={ex.evalPluralByDeterminer && ex.pluralDeterminer
-                      ? `Pregúntale «¿cuántos hay?» y pulsa el micro para que diga: “${ex.pluralDeterminer} ${ex.plural!.capPlural}”`
-                      : `Pregúntale «¿qué son?» y pulsa el micro para que diga: “${ex.plural!.capPlural}”`}
+                      ? t.player.pluralHowManyPrompt(`${ex.pluralDeterminer} ${ex.plural!.capPlural}`)
+                      : t.player.pluralWhatArePrompt(ex.plural!.capPlural)}
                   />
                 </>
               )}
@@ -1295,7 +1299,7 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                             disabled={used}
                             accessibilityRole="button"
                             accessibilityState={{ disabled: used }}
-                            accessibilityLabel={used ? `Ficha ${parts[i].cap}, ya colocada` : `Ficha ${parts[i].cap}`}
+                            accessibilityLabel={used ? t.player.orderTilePlacedA11y(parts[i].cap) : t.player.orderTileA11y(parts[i].cap)}
                             style={[{ flex: 1, alignItems: 'center' }, used && { opacity: 0.25 }]}
                           >
                             <EmojiTile emoji={parts[i].emoji} cap={parts[i].cap} size={82} bgIndex={i + 2} />
@@ -1312,7 +1316,7 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                     )}
                     {orderPicks.length > 0 && !complete && (
                       <Pressable onPress={() => setOrderPicks([])} accessibilityRole="button">
-                        <Text style={s.orderReset}>↺ Volver a empezar</Text>
+                        <Text style={s.orderReset}>{t.player.restart}</Text>
                       </Pressable>
                     )}
                   </>
@@ -1334,7 +1338,7 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                           key={sc.label}
                           onPress={() => speakToChild(sc.say)}
                           accessibilityRole="button"
-                          accessibilityLabel={`${sc.label}. Oír un ejemplo`}
+                          accessibilityLabel={t.player.sceneA11y(sc.label)}
                           style={s.sceneCard}
                         >
                           <Text style={{ fontSize: 34 }}>{sc.emoji}</Text>
@@ -1350,10 +1354,7 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                   {!!ex.timeDelaySec && (
                     <View style={s.selloCard}>
                       <Text style={s.selloKicker}>{t.player.selloKicker}</Text>
-                      <Text style={s.selloHint}>
-                        El botón se desbloquea tras {ex.timeDelaySec} segundos de espera. Púlsalo SOLO cuando
-                        el niño te mire de verdad a ti (no al objeto); después se bloquea para el siguiente intento.
-                      </Text>
+                      <Text style={s.selloHint}>{t.player.selloHint(ex.timeDelaySec)}</Text>
                       <Pressable
                         disabled={selloCooldown > 0}
                         onPress={() => { setSelloCount((c) => c + 1); setSelloCooldown(ex.timeDelaySec!); speakToChild(praisePhrase()); }}
@@ -1491,11 +1492,7 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                 el niño reconoce, y es la misma que da los premios de abajo. */}
             <View style={s.doneIcon}><CatPixel size={62} /></View>
             <Text style={s.doneTitle}>{t.player.doneTitle}</Text>
-            <Text style={s.doneSub}>
-              {total === 1
-                ? 'Has evaluado este ejercicio. El resultado se ha guardado en el dispositivo.'
-                : `Has evaluado las ${total} actividades del plan. El resultado se guardó en el dispositivo.`}
-            </Text>
+            <Text style={s.doneSub}>{t.player.doneSub(total)}</Text>
 
             {/* Recompensas estilo Duolingo */}
             {reward && (

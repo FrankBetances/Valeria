@@ -17,6 +17,7 @@
 import React, { useRef, useState } from 'react';
 import { View, Text, StyleSheet, PanResponder, LayoutChangeEvent } from 'react-native';
 import { V } from './valeriaTheme';
+import { useT } from './i18n';
 import { BlockIcon } from './ValeriaBlockIcons';
 import { setNoiseLevel, getNoiseLevel, noiseSupported } from './valeriaNoise';
 import { trackNoiseLevel } from './valeriaTelemetry';
@@ -24,6 +25,7 @@ import { trackNoiseLevel } from './valeriaTelemetry';
 const STEPS = 10;
 
 export const ValeriaManualNoiseSlider: React.FC = () => {
+  const t = useT();
   const [level, setLevel] = useState(getNoiseLevel());
   const trackW = useRef(1);
   const trackX = useRef(0);
@@ -70,23 +72,20 @@ export const ValeriaManualNoiseSlider: React.FC = () => {
       <View style={s.head}>
         <View style={s.kickerRow}>
         <BlockIcon name="language" color={V.color.primaryDark} size={15} />
-        <Text style={s.kicker}>RUIDO DE FONDO (BABBLE)</Text>
+        <Text style={s.kicker}>{t.noise.kicker}</Text>
       </View>
         <View style={[s.badge, level > 0 && s.badgeOn]}>
-          <Text style={[s.badgeTxt, level > 0 && s.badgeTxtOn]}>{level === 0 ? 'apagado' : `nivel ${level}`}</Text>
+          <Text style={[s.badgeTxt, level > 0 && s.badgeTxtOn]}>{level === 0 ? t.noise.off : t.noise.levelTag(level)}</Text>
         </View>
       </View>
-      <Text style={s.hint}>
-        Solo lo controlas tú: sube el murmullo de cafetería poco a poco si tu logopeda
-        te lo ha indicado. La app nunca lo cambia sola.
-      </Text>
+      <Text style={s.hint}>{t.noise.hint}</Text>
       <View
         ref={trackRef}
         onLayout={onTrackLayout}
         style={s.trackZone}
         {...pan.panHandlers}
         accessibilityRole="adjustable"
-        accessibilityLabel="Nivel de ruido de fondo"
+        accessibilityLabel={t.noise.sliderA11y}
         accessibilityValue={{ min: 0, max: STEPS, now: level }}
       >
         <View style={s.track}>
@@ -95,8 +94,8 @@ export const ValeriaManualNoiseSlider: React.FC = () => {
         </View>
       </View>
       <View style={s.ends}>
-        <View style={s.endRow}><BlockIcon name="speakerOff" color={V.color.textSecondary} size={13} /><Text style={s.endTxt}>Silencio</Text></View>
-        <View style={s.endRow}><BlockIcon name="speaker" color={V.color.textSecondary} size={13} /><Text style={s.endTxt}>Cafetería</Text></View>
+        <View style={s.endRow}><BlockIcon name="speakerOff" color={V.color.textSecondary} size={13} /><Text style={s.endTxt}>{t.noise.silence}</Text></View>
+        <View style={s.endRow}><BlockIcon name="speaker" color={V.color.textSecondary} size={13} /><Text style={s.endTxt}>{t.noise.cafe}</Text></View>
       </View>
     </View>
   );

@@ -47,7 +47,7 @@ export const ValeriaProExportModal: React.FC<{ open: boolean; onClose: () => voi
       if (res.action === Share.sharedAction) {
         await purgeAfterExport(); // purga SOLO tras exportación exitosa
         setPurged(true);
-        setNote('Log exportado y purgado del dispositivo.');
+        setNote(t.pro.exportPurged);
       } else {
         setNote(t.pro.shareCancelled);
       }
@@ -76,12 +76,12 @@ export const ValeriaProExportModal: React.FC<{ open: boolean; onClose: () => voi
               <Text style={s.qrCaption}>{t.pro.qrCaption}</Text>
 
               <View style={s.stats}>
-                <Stat label="Sesiones" value={String(bundle.summary.sessions)} />
-                <Stat label="Abandono TPR" value={`${Math.round(bundle.summary.abandonRate * 100)}%`} />
-                <Stat label="Misclicks" value={String(bundle.summary.misclicks)} />
-                <Stat label="Media SUS" value={bundle.summary.likertMean != null ? `${bundle.summary.likertMean}/5` : '—'} />
-                <Stat label="Respuestas SUS" value={String(bundle.summary.likertN)} />
-                <Stat label="4 bloques" value={String(bundle.summary.fullBlockRuns)} />
+                <Stat label={t.pro.statSessions} value={String(bundle.summary.sessions)} />
+                <Stat label={t.pro.statTprAbandon} value={`${Math.round(bundle.summary.abandonRate * 100)}%`} />
+                <Stat label={t.pro.statMisclicks} value={String(bundle.summary.misclicks)} />
+                <Stat label={t.pro.statSusMean} value={bundle.summary.likertMean != null ? `${bundle.summary.likertMean}/5` : '—'} />
+                <Stat label={t.pro.statSusAnswers} value={String(bundle.summary.likertN)} />
+                <Stat label={t.pro.statFullBlocks} value={String(bundle.summary.fullBlockRuns)} />
               </View>
 
               {/* ShareSheet: log transaccional completo en crudo */}

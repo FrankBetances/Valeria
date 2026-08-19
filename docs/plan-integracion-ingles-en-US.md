@@ -14,7 +14,7 @@
 > todo, **compartían la interfaz en castellano**. El inglés no puede: una
 > familia de Ohio no va a navegar una app cuyos botones dicen «Continuar».
 >
-> Estado: 🟢 **Fases 1, 2, 3 y 4 escritas** · La app se usa entera en inglés,
+> Estado: 🟢 **Fases 1, 2, 3 y 4 escritas · Fase 2 CERRADA** · La app se usa entera en inglés,
 > con **contenido clínico inglés propio** y **voz neuronal Piper `en_US`
 > empaquetada**. Queda la **Fase 5** (ASR), la **Fase 6** (cumplimiento y
 > tiendas, requisito para publicar) y la **Fase 7** (QA y piloto).
@@ -403,8 +403,8 @@ funcionando en castellano exactamente igual.
 | **EN-2.4** ✅ | Localizar **notificaciones**: los 12 avisos rotatorios y los 5 consejos largos del adulto (`valeriaNotifications.ts`), más el nombre visible del canal Android. Los avisos se **reprograman** al cambiar de idioma: se encolan con el texto dentro, así que sin eso seguirían llegando días en el idioma anterior | CA: `check-reminder-slots.js` pasa con los dos catálogos ✅ |
 | **EN-2.5** ✅ | Localizar los **permisos del sistema**. Hallazgo al implementarlo: **Android no lo necesita** —el diálogo de permiso runtime lo redacta el sistema y ya viene traducido—, así que el trabajo es solo de iOS. `plugins/withValeriaPermissionStrings.js` declara `CFBundleLocalizations` y escribe `{es,en}.lproj/InfoPlist.strings` con las tres claves de uso (micrófono, reconocimiento de voz, cámara) | CA: en un dispositivo iOS en inglés, el diálogo sale en inglés. **Probado el plugin en aislado** (escribe los dos .lproj con formato válido); ⏳ pendiente de verificar en un `expo prebuild -p ios` real |
 | **EN-2.6** ✅ | Localizar el **informe exportado** (`ValeriaProExport`) y las etiquetas del panel de resultados: es lo que el clínico enseña a la familia | CA: informe generado íntegramente en inglés ✅ (texto compartido y panel completos) |
-| **EN-2.7** | Decidir y aplicar el tratamiento de **Valeria Academy** con UI en inglés (ocultar o marcar «Spanish only»), según §1 | CA: no hay pantallas medio traducidas visibles |
-| **EN-2.8** | Gate `scripts/check-ui-strings.js`: falla si aparece una cadena visible literal en un `.tsx` ya migrado. Sin gate, la UI se «des-traduce» sola en tres PRs | CA: el gate corre en CI y detecta una regresión introducida a propósito |
+| **EN-2.7** ✅ | Decidir y aplicar el tratamiento de **Valeria Academy** con UI en inglés. **Resuelto por la vía contraria a la prevista**: en lugar de ocultarla o marcarla «Spanish only», Academy se tradujo entera (`academyContent.en.ts`, 1.381 líneas) | CA: no hay pantallas medio traducidas visibles ✅ (Academy recorrida con la UI en inglés, captura propia) |
+| **EN-2.8** ✅ | Gate `scripts/check-ui-strings.js`: falla si aparece una cadena visible literal en un `.tsx` ya migrado. Sin gate, la UI se «des-traduce» sola en tres PRs. Lee el AST de TypeScript, no expresiones regulares: hijos de texto JSX, props visibles (`accessibilityLabel`, `placeholder`, `label`, `hint`, `prompt`…), plantillas, concatenaciones, ternarios y `Alert.alert`. Exención por línea con `// i18n-exempt: motivo` | CA: corre en CI ✅ y detecta una regresión metida a propósito ✅ (una cadena literal en `ValeriaWelcomeScreen`: el gate falla, el typecheck pasa) |
 
 **Salida de fase:** app completamente usable en inglés (con contenido
 terapéutico todavía castellano si se para aquí) → **es exactamente la build de
@@ -419,8 +419,17 @@ evaluación de EN-0.9**.
 >
 > **Estado:** ✅ EN-2.1 · EN-2.2 · EN-2.3 (**los 5 tramos cerrados**) · EN-2.4 ·
 > EN-2.5 · EN-2.6. La app se usa entera en inglés, notificaciones y permisos
-> incluidos. Quedan EN-2.7 (tratamiento de Academy con UI inglesa) y EN-2.8
-> (gate `check-ui-strings.js`). **EN-0.9 listo para generarse.**
+> incluidos. **Fase 2 cerrada:** EN-2.7 (Academy traducida entera) y EN-2.8
+> (gate `check-ui-strings.js`) también. **EN-0.9 listo para generarse.**
+>
+> **Lo que el gate encontró al estrenarse (ago 2026): 88 cadenas visibles
+> todavía en castellano**, en once ficheros, con la Fase 2 dada por cerrada.
+> No eran restos menores: `ValeriaManualNoiseSlider` estaba entero en
+> castellano (el mismo patrón exacto que `ValeriaVoiceUI`), y con él los cuatro
+> umbrales clínicos de AR del panel del adulto, veintiséis cadenas del
+> reproductor de ejercicios y los rótulos de los esquemas de hardware de
+> Academy. Todas compilaban y todas pasaban el typecheck. Es la medida de
+> cuánto se le escapa al repaso a ojo.
 >
 > **Tramo 6 (ago 2026), no previsto en la lista original.** Los cinco tramos
 > iban por PANTALLAS, y `ValeriaVoiceUI.tsx` no es una pantalla: es el fichero
@@ -612,7 +621,7 @@ Checklist maestro (marcar al completar; una PR por tarea o grupo pequeño):
 
 - [~] **Fase 0**: **EN-0.1 ✅** (licencias auditadas; dos candidatas descartadas) · **EN-0.2 ✅** (`ljspeech-high`, aprobada por Frank ago 2026) · **EN-0.3 ✅** (revisora confirmada; falta acordar el flujo de revisión) · EN-0.4 · **EN-0.5 ✅** (guía escrita, aplicada y firmada por Miguelina, 16 ago 2026) · EN-0.6 · EN-0.7 · EN-0.8 · **EN-0.9 ✅** (build generable con contenido inglés)
 - [~] **Fase 1**: **EN-1.1 ✅** (`Locale += 'en-US'`) · **EN-1.2 ✅** (`VoiceLang += 'en'`) · **EN-1.3 ✅** (selector + arrastre de UI) · **EN-1.4 ✅⏳** (frases de app; el dataset clínico lo bloquea EN-0.5) · EN-1.5
-- [~] **Fase 2**: **EN-2.1 ✅** (catálogo tipado + `useT`) · **EN-2.2 ✅** (selector con modo automático) · EN-2.3 ⏳ (tramo 1/5) · EN-2.4 · EN-2.5 · EN-2.6 · EN-2.7 · EN-2.8
+- [x] **Fase 2**: **EN-2.1 ✅** (catálogo tipado + `useT`) · **EN-2.2 ✅** (selector con modo automático) · **EN-2.3 ✅** (los 5 tramos + el 6.º, `ValeriaVoiceUI`) · **EN-2.4 ✅** · **EN-2.5 ✅⏳** (falta verlo en un `expo prebuild -p ios` real) · **EN-2.6 ✅** · **EN-2.7 ✅** (Academy traducida entera) · **EN-2.8 ✅** (gate en CI, con 88 cadenas destapadas al estrenarlo)
 - [~] **Fase 3**: **EN-3.1 ✅** · **EN-3.2 ✅** · EN-3.3 (frases portadoras: siguen retiradas del corpus también en inglés, PM-02) · **EN-3.4 ✅** · **EN-3.5 ✅** · **EN-3.6 ✅** · **EN-3.7 ✅** · **EN-3.8 ✅** — validado por Miguelina (EN-0.3), 16 ago 2026
 - [~] **Fase 4**: **EN-4.1 ✅** · **EN-4.2 ✅** · **EN-4.3 ⏳** (cableado y probado en la muestra; la sesión completa espera a la Fase 3) · EN-4.4 · **EN-4.5 ✅**
 - [ ] **Fase 5**: EN-5.1 · EN-5.2 · EN-5.3 · EN-5.4

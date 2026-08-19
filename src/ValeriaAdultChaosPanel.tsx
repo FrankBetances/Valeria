@@ -37,6 +37,7 @@ const Stepper: React.FC<{
   label: string; hint: string; value: number; unit: string;
   min: number; max: number; step: number; onChange: (v: number) => void;
 }> = ({ label, hint, value, unit, min, max, step, onChange }) => {
+  const t = useT();
   const set = (next: number) => onChange(Math.max(min, Math.min(max, next)));
   return (
     <View style={s.stepRow}>
@@ -46,13 +47,13 @@ const Stepper: React.FC<{
       </View>
       <Pressable onPress={() => set(value - step)} disabled={value <= min}
         style={[s.stepBtn, value <= min && s.stepBtnOff]} hitSlop={6}
-        accessibilityRole="button" accessibilityLabel={`Bajar ${label}`}>
+        accessibilityRole="button" accessibilityLabel={t.adult.stepDownA11y(label)}>
         <Text style={s.stepBtnTxt}>−</Text>
       </Pressable>
       <Text style={s.stepValue} accessibilityLabel={`${label}: ${value} ${unit}`}>{value}{unit}</Text>
       <Pressable onPress={() => set(value + step)} disabled={value >= max}
         style={[s.stepBtn, value >= max && s.stepBtnOff]} hitSlop={6}
-        accessibilityRole="button" accessibilityLabel={`Subir ${label}`}>
+        accessibilityRole="button" accessibilityLabel={t.adult.stepUpA11y(label)}>
         <Text style={s.stepBtnTxt}>+</Text>
       </Pressable>
     </View>
@@ -87,10 +88,7 @@ export const ValeriaAdultChaosPanel: React.FC<{
       </Pressable>
       {open && (
         <>
-          <Text style={s.hint}>
-            Controles manuales para entrenar la escucha en ambiente real. Úsalos si vuestro
-            logopeda os lo ha pautado: la app nunca los activa ni los ajusta sola.
-          </Text>
+          <Text style={s.hint}>{t.adult.hint}</Text>
           <ValeriaManualNoiseSlider />
           <View style={s.dualRow}>
             <View style={{ flex: 1 }}>
@@ -114,39 +112,35 @@ export const ValeriaAdultChaosPanel: React.FC<{
           {showAr && arThresholds && (
             <View style={s.arBox}>
               <Text style={s.arKicker}>{t.adult.arKicker}</Text>
-              <Text style={s.arHint}>
-                Lo que se le va a exigir al peque en cada ejercicio. Los fijas tú antes de
-                empezar y no cambian durante la sesión: la app mide y registra, el criterio
-                clínico es siempre vuestro.
-              </Text>
+              <Text style={s.arHint}>{t.adult.arHint}</Text>
 
               <Stepper
-                label="Sostén del gesto (AR-1)"
-                hint="Cuánto tiempo debe mantener los labios redondeados para que el coche llegue a la meta."
+                label={t.adult.arHoldLabel}
+                hint={t.adult.arHoldHint}
                 value={arThresholds.holdMs} unit=" ms"
                 min={AR_THRESHOLD_RANGES.holdMs.min} max={AR_THRESHOLD_RANGES.holdMs.max}
                 step={AR_THRESHOLD_RANGES.holdMs.step}
                 onChange={(holdMs) => patchAr({ holdMs })}
               />
               <Stepper
-                label="Giro de cabeza (AR-2)"
-                hint="Cuántos grados debe girar hacia el sonido para contar como orientación."
+                label={t.adult.arTurnLabel}
+                hint={t.adult.arTurnHint}
                 value={arThresholds.turnDeg} unit="°"
                 min={AR_THRESHOLD_RANGES.turnDeg.min} max={AR_THRESHOLD_RANGES.turnDeg.max}
                 step={AR_THRESHOLD_RANGES.turnDeg.step}
                 onChange={(turnDeg) => patchAr({ turnDeg })}
               />
               <Stepper
-                label="Ventana de respuesta (AR-2)"
-                hint="Tiempo que se le da tras el sonido. Fuera de ventana es «sin respuesta», nunca «error»."
+                label={t.adult.arWindowLabel}
+                hint={t.adult.arWindowHint}
                 value={arThresholds.responseWindowMs} unit=" ms"
                 min={AR_THRESHOLD_RANGES.responseWindowMs.min} max={AR_THRESHOLD_RANGES.responseWindowMs.max}
                 step={AR_THRESHOLD_RANGES.responseWindowMs.step}
                 onChange={(responseWindowMs) => patchAr({ responseWindowMs })}
               />
               <Stepper
-                label="Fijación para elegir (AR-3)"
-                hint="Cuánto debe mirar un dibujo para seleccionarlo. El anillo de progreso se lo enseña."
+                label={t.adult.arDwellLabel}
+                hint={t.adult.arDwellHint}
                 value={arThresholds.dwellMs} unit=" ms"
                 min={AR_THRESHOLD_RANGES.dwellMs.min} max={AR_THRESHOLD_RANGES.dwellMs.max}
                 step={AR_THRESHOLD_RANGES.dwellMs.step}
@@ -156,10 +150,7 @@ export const ValeriaAdultChaosPanel: React.FC<{
               <View style={s.pointerRow}>
                 <View style={{ flex: 1 }}>
                   <Text style={s.stepLabel}>{t.adult.gazePointer}</Text>
-                  <Text style={s.stepHint}>
-                    El iris es más preciso; la nariz, más estable en teléfonos modestos. Si el
-                    puntero tiembla, cambia a nariz: el ejercicio no se entera.
-                  </Text>
+                  <Text style={s.stepHint}>{t.adult.gazePointerHint}</Text>
                 </View>
                 <View style={s.segment}>
                   {(['noseRay', 'iris'] as const).map((src) => {

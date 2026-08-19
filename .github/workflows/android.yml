@@ -231,6 +231,12 @@ jobs:
       - name: Comprobar que la migración de la mascota está completa
         run: node scripts/check-brand-consistency.js
 
+      # La UI se declaró migrada al catálogo con ficheros enteros todavía en
+      # castellano (ValeriaVoiceUI, ValeriaManualNoiseSlider): compilan, el
+      # typecheck pasa y la app sale mitad en inglés. Esto lo cierra.
+      - name: Comprobar que la interfaz se lee del catálogo (EN-2.8)
+        run: node scripts/check-ui-strings.js
+
       - name: Comprobar tipos
         run: npm run typecheck
 

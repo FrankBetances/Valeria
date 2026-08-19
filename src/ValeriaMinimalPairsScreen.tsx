@@ -128,7 +128,7 @@ const DoubleSeal: React.FC<{ label: string; onUnlock: () => void }> = ({ label, 
       onLongPress={unlock}
       delayLongPress={2000}
       accessibilityRole="button"
-      accessibilityLabel={`Huella de ${who}. Pulsad las dos huellas a la vez para continuar, o mantén pulsada esta dos segundos.`}
+      accessibilityLabel={t.pairs.sealA11y(who)}
       style={({ pressed }) => [s.sealBtn, (pressed || touchCount >= 2) && s.sealBtnOn]}
     >
       <BlockIcon name="gesture" color={V.color.primaryDark} size={30} />
@@ -761,7 +761,7 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
           open={pinOpen}
           onClose={() => setPinOpen(false)}
           onUnlock={() => { setPinOpen(false); setUnlocked(true); setToast('Modo profesional desbloqueado.'); }}
-          subtitle="Introduce el PIN de 4 dígitos del logopeda para elegir qué pares practica la familia."
+          subtitle={t.pairs.pinSubtitle}
         />
       </View>
     );

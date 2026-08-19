@@ -30,7 +30,7 @@ export const AcademyHubCard: React.FC<{ onPress: () => void }> = React.memo(({ o
       onPress={onPress}
       style={s.card}
       accessibilityRole="button"
-      accessibilityLabel={`Valeria Academy: ${summary.completedCount} / ${summary.totalCount}.`}
+      accessibilityLabel={t.academy.hubCardA11y(summary.completedCount, summary.totalCount)}
     >
       <View style={[s.icon, { backgroundColor: ACCENT_BG }]}>
         <BlockIcon name="tabAcademy" color={V.color.primaryDark} size={26} />

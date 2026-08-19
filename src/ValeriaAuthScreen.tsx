@@ -113,10 +113,7 @@ const ValeriaAuthScreen: React.FC<{ onAuthenticated?: () => void }> = ({
 
           {firebaseConfigIsPlaceholder && (
             <View style={[s.banner, s.bannerWarn]}>
-              <Text style={s.bannerWarnTxt}>
-                ⚠︎ Firebase aún no está configurado (faltan las claves del
-                proyecto). Ver docs/firebase-setup.md.
-              </Text>
+              <Text style={s.bannerWarnTxt}>{t.auth.firebaseUnconfigured}</Text>
             </View>
           )}
 
@@ -127,7 +124,7 @@ const ValeriaAuthScreen: React.FC<{ onAuthenticated?: () => void }> = ({
                 style={s.input}
                 value={name}
                 onChangeText={setName}
-                placeholder="Tu nombre"
+                placeholder={t.auth.namePlaceholder}
                 placeholderTextColor={V.color.textMuted}
                 autoCapitalize="words"
                 editable={!busy}
@@ -141,7 +138,7 @@ const ValeriaAuthScreen: React.FC<{ onAuthenticated?: () => void }> = ({
               style={s.input}
               value={email}
               onChangeText={setEmail}
-              placeholder="tu@correo.com"
+              placeholder={t.auth.emailPlaceholder}
               placeholderTextColor={V.color.textMuted}
               autoCapitalize="none"
               autoCorrect={false}

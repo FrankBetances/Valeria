@@ -503,9 +503,7 @@ export const ValeriaPatientResultsDashboardScreen: React.FC<{ navigation?: any }
                 <Text style={[st.trendText, { color: pm.trend.fg }]}>{pm.trend.txt}</Text>
               </View>
             </View>
-            <Text style={st.evoSub}>
-              Pares mínimos · % de ensayos con la sustitución detectada por el micrófono (bajar = mejorar)
-            </Text>
+            <Text style={st.evoSub}>{t.results.pairsChartSub}</Text>
 
             {/* Selector de fonema */}
             <View style={st.pmChipsRow}>
@@ -561,7 +559,7 @@ export const ValeriaPatientResultsDashboardScreen: React.FC<{ navigation?: any }
                 </Text>
               </View>
               <View style={st.trendPill}>
-                <Text style={st.trendText}>{arSessions} {arSessions === 1 ? 'sesión' : 'sesiones'}</Text>
+                <Text style={st.trendText}>{t.results.sessionsCount(arSessions)}</Text>
               </View>
             </View>
 
@@ -588,7 +586,7 @@ export const ValeriaPatientResultsDashboardScreen: React.FC<{ navigation?: any }
               <Svg width="100%" height={178} viewBox={`0 0 ${CHART.W} ${CHART.H}`}>
                 {/* Línea del objetivo fijado por el adulto: es el único
                     referente dibujado, y es SUYO, no una norma poblacional. */}
-                {ar.yObjetivo != null && (
+                {ar.yObjetivo != null && ar.objetivo != null && (
                   <React.Fragment>
                     <Line
                       x1={CHART.padL} y1={ar.yObjetivo} x2={CHART.W - CHART.padR} y2={ar.yObjetivo}
@@ -596,7 +594,7 @@ export const ValeriaPatientResultsDashboardScreen: React.FC<{ navigation?: any }
                     />
                     <SvgText x={CHART.W - CHART.padR} y={ar.yObjetivo - 6} textAnchor="end"
                       fontSize={10} fontWeight="700" fill={V.color.textMuted}>
-                      {`objetivo ${ar.objetivo} ms`}
+                      {t.results.arTargetMs(ar.objetivo)}
                     </SvgText>
                   </React.Fragment>
                 )}
@@ -650,9 +648,12 @@ export const ValeriaPatientResultsDashboardScreen: React.FC<{ navigation?: any }
                 sesiones hechas en dispositivos distintos. */}
             {arDevice && (
               <Text style={st.arDevice}>
-                Medido en {arDevice.manufacturer} {arDevice.model} · nivel {arDevice.level} ·{' '}
-                {arDevice.probes.fpsP5.toFixed(0)} fps sostenidos
-                {ar.anulados > 0 ? ` · ${ar.anulados} ensayo${ar.anulados === 1 ? '' : 's'} anulado${ar.anulados === 1 ? '' : 's'} por movimiento del teléfono` : ''}
+                {t.results.arMeasuredOn(
+                  `${arDevice.manufacturer} ${arDevice.model}`,
+                  arDevice.level,
+                  Number(arDevice.probes.fpsP5.toFixed(0)),
+                )}
+                {ar.anulados > 0 ? t.results.arVoidedTrials(ar.anulados) : ''}
               </Text>
             )}
           </View>

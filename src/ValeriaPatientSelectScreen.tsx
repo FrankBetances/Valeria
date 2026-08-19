@@ -103,7 +103,7 @@ export const ValeriaPatientSelectScreen: React.FC<{ navigation?: any }> = ({ nav
             </View>
             <View style={s.cardBody}>
               <Text style={s.name} numberOfLines={1}>{p.nombre || t.patientSelect.patientFallback}</Text>
-              <Text style={s.diag} numberOfLines={1}>{p.patologia || t.patientSelect.noDiagnosis}</Text>
+              <Text style={s.diag} numberOfLines={1}>{p.patologia ? t.ficha.pathologyLabel(p.patologia) : t.patientSelect.noDiagnosis}</Text>
             </View>
             <View style={s.nhcPill}>
               <Text style={s.nhcText}>{p.nhc || '—'}</Text>
