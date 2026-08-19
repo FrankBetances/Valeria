@@ -38,7 +38,8 @@ import { FichaVisual } from './ValeriaPictograms';
 import {
   DifficultyLevel,
 } from './valeriaSemanticExpansion';
-import { semanticForLocale, SemanticBank } from './valeriaSemanticBanks';
+import { semanticFor, SemanticBank } from './valeriaSemanticBanks';
+import { getUiLang } from './valeriaUiLang';
 import { getLocale } from './valeriaLocale';
 import { getAutoRecordPref, setAutoRecordPref } from './valeriaRecordingPref';
 import { BlockIcon } from './ValeriaBlockIcons';
@@ -198,7 +199,10 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
   const t = useT();
   // Banco de la variedad activa (fijado al montar, como en Pares Mínimos):
   // es/gl usan el base; es-DO el dominicano (léxico local + registro caribeño).
-  const bank = useRef<SemanticBank>(semanticForLocale(getLocale())).current;
+  // El contenido sale de la variedad; los rótulos con los que el adulto elige
+  // actividad, del idioma de la interfaz. Solo se separan si él ha desacoplado
+  // los ejes a mano: el botón de idioma mueve los dos.
+  const bank = useRef<SemanticBank>(semanticFor(getLocale(), getUiLang())).current;
   const [phase, setPhase] = useState<Phase>('pick');
   const [tab, setTab] = useState<'scenario' | 'category' | 'sequence' | 'contrast'>('scenario');
   const [session, setSession] = useState<Session | null>(null);

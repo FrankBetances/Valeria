@@ -1002,3 +1002,45 @@ export const CONTRAST_CAPSULES_EN: ContrastCapsule[] = [
 // Reintento y cierre de sesión del módulo.
 export const SEM_RETRY_EN = (label: string): string => `One more time! Say: ${label}.`;
 export const SEM_SESSION_DONE_EN = 'Session complete! High five!';
+
+// ---------------------------------------------------------------------------
+// Rótulos INGLESES del banco CASTELLANO (solo-adulto)
+// ---------------------------------------------------------------------------
+// Nada de esto es contenido nuevo para el niño: son los nombres con los que el
+// adulto NAVEGA cuando lee la app en inglés y la terapia sigue en castellano
+// (desacople manual desde «Voz de la app»). Decisión de Frank: «el adulto verá
+// Morning routine».
+//
+// Lo que NO está aquí, y no puede estarlo: los `label` de cada fase de una
+// progresión. Ese campo es la PALABRA OBJETIVO, se locuta y lo evalúa el
+// micrófono —`retry(label)` construye «¡Otra vez! Di: coche.»—, así que sigue
+// la variedad de terapia como el resto del contenido hablado. Por eso son 29
+// cadenas y no las 65 que parecían a ojo.
+export const SEM_ADULT_LABELS_EN: Record<string, { title: string; subtitle?: string }> = {
+  // Escenarios cotidianos
+  manana: { title: 'Morning Routine', subtitle: 'Waking up, washing and getting dressed' },
+  comida: { title: 'Mealtime', subtitle: 'Sitting at the table and eating' },
+  parque: { title: 'At the Park', subtitle: 'Playing and moving around outdoors' },
+  bano: { title: 'Bath Time', subtitle: 'Water, soap and bubbles' },
+  noche: { title: 'Bedtime', subtitle: 'A story, a hug and off to bed' },
+
+  // Categorías léxicas. El subtítulo describe el ORDEN por familiaridad, que es
+  // el criterio del campo `difficulty` (ver criterio-dificultad-lexica.md).
+  'cat-frutas': { title: 'Fruit', subtitle: 'From everyday fruit to the once-in-a-while kind' },
+  'cat-animales': { title: 'Animals', subtitle: 'From the ones at home to the ones you only see at the zoo' },
+  'cat-transportes': { title: 'Vehicles', subtitle: 'From what goes down your street to what you hardly ever see' },
+  'cat-colores': { title: 'Colors', subtitle: 'From red and blue to the ones that take longer to name' },
+  'cat-cuerpo': { title: 'The Body', subtitle: 'From what they point to on their own to what they have to look for' },
+
+  // Temas de progresión: familia semántica + objetivo. El objetivo se deja en
+  // inglés porque es el rótulo de navegación, no la palabra que se practica.
+  'seq-coche': { title: 'Vehicles · The car' },
+  'seq-perro': { title: 'Animals · The dog' },
+  'seq-vaca': { title: 'Animals · The cow' },
+  'seq-gato': { title: 'Animals · The cat' },
+  'seq-lluvia': { title: 'Nature · The rain' },
+  'seq-tren': { title: 'Vehicles · The train' },
+  'seq-pajaro': { title: 'Animals · The bird' },
+  'seq-pan': { title: 'Food · Breakfast' },
+  'seq-globo': { title: 'Play · The balloon' },
+};

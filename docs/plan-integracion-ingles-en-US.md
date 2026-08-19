@@ -406,11 +406,22 @@ Lo guarda [`scripts/check-variety-branches.js`](../scripts/check-variety-branche
 que persigue la FORMA y no el síntoma: cualquier sentencia o función que nombre
 a la vez un `*_GL` y un `*_EU` sin nombrar el `*_EN` equivalente.
 
-**Efecto colateral, y bueno:** Expansión Semántica se arregla sola. Su rótulos
-castellanos («Rutina de mañana · Despertar, lavarse y vestirse») aparecían
-porque la variedad seguía siendo castellana bajo una interfaz inglesa; con los
-ejes acoplados se usa el banco inglés, que existe entero. Ya no hacen falta los
-~65 rótulos que este documento daba por pendientes.
+**Efecto colateral, y bueno:** Expansión Semántica se arregla sola por el
+camino normal. Sus rótulos castellanos («Rutina de mañana · Despertar, lavarse
+y vestirse») aparecían porque la variedad seguía siendo castellana bajo una
+interfaz inglesa; con los ejes acoplados se usa el banco inglés, que existe
+entero.
+
+**Y para el desacople manual, `SEM_ADULT_LABELS_EN` (ago 2026).** Decisión de
+Frank: «el adulto verá *Morning routine*». Con la interfaz en inglés y la
+terapia en castellano, el adulto navega por rótulos ingleses —*Morning
+Routine*, *Animals · The Dog*— mientras las palabras que el niño practica
+siguen siendo `perro → pata → salta → peludo`. Son **29 cadenas**, no las ~65
+que este documento estimó a ojo: la cuenta alta incluía los `label` de cada
+fase de progresión, que son la PALABRA OBJETIVO, se locutan y las evalúa el
+micrófono, así que siguen la variedad como el resto del contenido hablado. Lo
+aplica `semanticFor(loc, uiLang)` con la misma regla que `dbFor` y
+`lingContentFor`, y lo comprueba la R5 de `check-adult-fields.js`.
 
 ## 6. Plan de trabajo por fases
 

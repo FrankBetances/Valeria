@@ -37,7 +37,7 @@ const SEM_SESSION_DONE_ES = '¡Sesión completada! ¡Choca esos cinco!';
 
 import {
   DAILY_SCENARIOS_EN, LEXICAL_CATEGORIES_EN, PROGRESSION_SEQUENCES_EN,
-  CONTRAST_CAPSULES_EN, SEM_RETRY_EN, SEM_SESSION_DONE_EN,
+  CONTRAST_CAPSULES_EN, SEM_RETRY_EN, SEM_SESSION_DONE_EN, SEM_ADULT_LABELS_EN,
 } from './valeriaSemanticExpansionEn';
 
 export interface SemanticBank {
@@ -98,5 +98,37 @@ export function semanticForLocale(loc: Locale): SemanticBank {
     capsules: CONTRAST_CAPSULES,
     retry: SEM_RETRY_ES,
     sessionDone: SEM_SESSION_DONE_ES,
+  };
+}
+
+// ---------------------------------------------------------------------------
+// Los rótulos con los que NAVEGA el adulto siguen el idioma de la interfaz
+// ---------------------------------------------------------------------------
+// Misma regla que `dbFor` en el banco de ejercicios y que `lingContentFor` en
+// el Test de Ling: solo interviene cuando los dos ejes discrepan. Hoy eso solo
+// pasa por desacople manual desde «Voz de la app», porque el botón de idioma
+// mueve los dos (setAppLanguage). Con gl, eu o es-DO no toca nada.
+//
+// Se cambian el título y el subtítulo con los que se elige la actividad, y NADA
+// más: los `label` de cada ficha y de cada fase son la palabra que se locuta y
+// que evalúa el micrófono, y esos son terapia, no navegación.
+export function semanticFor(loc: Locale, uiLang: string): SemanticBank {
+  const bank = semanticForLocale(loc);
+  if (uiLang !== 'en' || loc === 'en-US') return bank;
+  const rot = (id: string) => SEM_ADULT_LABELS_EN[id];
+  return {
+    ...bank,
+    scenarios: bank.scenarios.map((sc) => {
+      const r = rot(sc.id);
+      return r ? { ...sc, title: r.title, subtitle: r.subtitle ?? sc.subtitle } : sc;
+    }),
+    categories: bank.categories.map((ct) => {
+      const r = rot(ct.id);
+      return r ? { ...ct, title: r.title, subtitle: r.subtitle ?? ct.subtitle } : ct;
+    }),
+    sequences: bank.sequences.map((sq) => {
+      const r = rot(sq.id);
+      return r ? { ...sq, theme: r.title } : sq;
+    }),
   };
 }

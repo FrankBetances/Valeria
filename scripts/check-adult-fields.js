@@ -30,11 +30,14 @@ const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'valeria-adult-fields-'));
 
 let fallos = 0;
 const fallo = (msg) => { fallos += 1; console.error('  ✖ ' + msg); };
+// Un rótulo sigue en castellano si trae tilde, eñe o un artículo castellano.
+const SUENA_ES_TITULO = /[ñáéíóúÁÉÍÓÚÑ]|\b(el|la|los|las|un|una|del|de|en|y)\b/i;
 
 try {
   execSync(
     ['npx tsc', JSON.stringify(path.join(ROOT, 'src', 'valeriaExerciseBank.ts')),
       JSON.stringify(path.join(ROOT, 'src', 'valeriaLingContent.ts')),
+      JSON.stringify(path.join(ROOT, 'src', 'valeriaSemanticBanks.ts')),
       '--module commonjs', '--target es2020', '--moduleResolution node',
       '--esModuleInterop', '--skipLibCheck', '--outDir', JSON.stringify(tmp)].join(' '),
     { cwd: ROOT, stdio: 'inherit' },
@@ -184,6 +187,46 @@ try {
     }
   }
   if (fallos === antes4) console.log('  ✓ el Test de Ling sigue a la interfaz, y el aviso dialectal a la variedad');
+
+  // ---- R5 · Expansión Semántica -------------------------------------------
+  // Los rótulos con los que el adulto ELIGE actividad siguen la interfaz; las
+  // palabras que se locutan y que evalúa el micrófono, la variedad. Decisión de
+  // Frank: «el adulto verá Morning routine».
+  console.log('\n── R5 · los rótulos de Expansión Semántica ──');
+  const antes5 = fallos;
+  const bancos = require(path.join(tmp, 'valeriaSemanticBanks.js'));
+  const { semanticFor, semanticForLocale } = bancos;
+  const esBank = semanticForLocale('es');
+  const mixto5 = semanticFor('es', 'en');
+
+  for (const sc of mixto5.scenarios) {
+    if (SUENA_ES_TITULO.test(sc.title)) fallo(`escenario «${sc.title}» sin rótulo inglés`);
+  }
+  for (const ct of mixto5.categories) {
+    if (SUENA_ES_TITULO.test(ct.title)) fallo(`categoría «${ct.title}» sin rótulo inglés`);
+  }
+  for (const sq of mixto5.sequences) {
+    if (SUENA_ES_TITULO.test(sq.theme)) fallo(`progresión «${sq.theme}» sin rótulo inglés`);
+  }
+  // Y lo que se locuta NO se ha movido: las fichas y las fases siguen en
+  // castellano, porque son la palabra que el niño dice y el micro evalúa.
+  for (let i = 0; i < esBank.scenarios.length; i += 1) {
+    if (!eq(mixto5.scenarios[i].items, esBank.scenarios[i].items)) {
+      fallo(`las fichas de «${esBank.scenarios[i].id}» han cambiado: son lo que se locuta y se evalúa`);
+    }
+  }
+  for (let i = 0; i < esBank.sequences.length; i += 1) {
+    const a = esBank.sequences[i].phases.map((p) => p.label).join(' ');
+    const b = mixto5.sequences[i].phases.map((p) => p.label).join(' ');
+    if (a !== b) fallo(`las palabras objetivo de «${esBank.sequences[i].id}» han cambiado: se locutan`);
+  }
+  // Cuando los ejes coinciden, intacto.
+  for (const [loc, lang] of [['es', 'es'], ['en-US', 'en'], ['gl', 'es'], ['eu', 'es'], ['es-DO', 'es']]) {
+    if (!eq(semanticFor(loc, lang), semanticForLocale(loc))) {
+      fallo(`semanticFor('${loc}', '${lang}') ha cambiado el banco y no debía tocarlo`);
+    }
+  }
+  if (fallos === antes5) console.log('  ✓ el adulto navega en su idioma y el niño practica en el suyo');
 } finally {
   fs.rmSync(tmp, { recursive: true, force: true });
 }
