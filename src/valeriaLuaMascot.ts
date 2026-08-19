@@ -15,8 +15,9 @@
 // sitios.
 //
 // MÓDULO PURO. Ni React, ni AsyncStorage, ni Bluetooth: entra estado y salen
-// TRAMAS. Quien las mande —`valeriaLuaBridge.ts`, §7 del plan— todavía no
-// existe, y por eso esto se puede probar entero sin radio y sin placa.
+// TRAMAS. Quien decide cuándo mandarlas es `valeriaLuaSession.ts`; quien las
+// pone en el aire —el puente BLE, §7 del plan— todavía no existe, y por eso esto
+// se puede probar entero sin radio y sin placa.
 //
 // ⚠ Lo que este módulo NO hace, y conviene no confundirlo: no abre el enlace,
 // no concede nada y no garantiza que el aparato obedezca. El aparato solo se

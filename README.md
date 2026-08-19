@@ -336,6 +336,7 @@ tableta ya hacía.
 | :--- | :--- | :--- |
 | `MOOD` `0x0B` | estado de compañía 0‑4 | `LuaAffectState` de la tarjeta del hub: serena · antojo · ronroneo · comiendo · celebrando |
 | `ACCESSORY` `0x0C` | índice del ítem + ranura | el armario: lo que el niño le ha puesto en la cabeza y en el cuello |
+| `RELAX` `0x0D` | duración en segundos 1‑60 | el descanso visual de la regla 20‑20‑20: la gata se duerme mientras el niño mira lejos (más abajo) |
 
 La capa que los produce es [`src/valeriaLuaMascot.ts`](src/valeriaLuaMascot.ts)
 —módulo puro: entra estado y salen tramas, sin React y sin radio— y
@@ -353,10 +354,47 @@ que se muere de hambre convierte faltar a una sesión en un castigo, y el que fa
 suele ser un niño de cuatro años que no decide su agenda.
 
 **Ojo con lo que esto todavía NO es:** el espejo va de la tableta al aparato y
-**nadie lo recorre**. Las tramas están definidas y comprobadas, pero el puente BLE
-(`src/valeriaLuaBridge.ts`, §7 del plan) sigue sin escribirse, así que hoy esto no
-mueve ni un píxel en ningún aparato. Y de vuelta no hay camino: un toque en el
-cristal se cuenta allí y no llega aquí.
+**nadie lo recorre**. Las tramas están definidas y comprobadas, y desde el
+19/8/2026 hay quien decide la secuencia y los tiempos
+([`src/valeriaLuaSession.ts`](src/valeriaLuaSession.ts)), pero eso es una costura
+con un emisor registrable, **no radio**: el puente BLE de verdad (§7 del plan)
+sigue sin escribirse, así que hoy no se registra ningún emisor y esto no mueve ni
+un píxel en ningún aparato. Y de vuelta no hay camino: un toque en el cristal se
+cuenta allí y no llega aquí.
+
+#### El Ancla Visual Lejana · la regla 20‑20‑20 (19/8/2026)
+
+Cada 20 minutos de pantalla cerca, 20 segundos mirando algo lejano. Es una
+recomendación **oftalmológica**, no logopédica, y aquí hay dos maneras de meterla
+en una app de terapia: bloquear la sesión, o decírselo al adulto. Esta app hace lo
+segundo, y no por comodidad — **es Clase I porque no interviene**: en el momento en
+que la app pausa una sesión clínica por su cuenta, deja de sugerir y empieza a
+decidir.
+
+Cómo está montado:
+
+| Pieza | Qué hace |
+| :--- | :--- |
+| [`src/valeriaActiveTimeMonitor.ts`](src/valeriaActiveTimeMonitor.ts) | cuenta el tiempo de terapia activa y, pasados 20 minutos **continuos**, levanta `isVisualBreakRecommended`. Pausa en segundo plano y vuelve a cero si el corte pasa de cinco minutos |
+| [`src/ValeriaSessionBreakOverlay.tsx`](src/ValeriaSessionBreakOverlay.tsx) | la tarjeta del adulto, dentro de la pausa activa que ya existía. Sugerencia, cuenta atrás y «Ahora no» |
+| [`src/valeriaLuaSession.ts`](src/valeriaLuaSession.ts) | `triggerVisualAnchorBreak(segundos)`: manda `GRANT` y luego `RELAX` —en ese orden, porque conceder despierta la cara— y devuelve a `IDLE` al terminar |
+
+Tres decisiones que conviene no deshacer sin pensarlo:
+
+- **La app no detiene la sesión.** Ni la pausa, ni la bloquea, ni descuenta tiempo.
+  Sube una bandera, pinta una tarjeta con un botón y se calla.
+- **«Ahora no» reinicia el reloj.** Un aviso que reaparece en el ejercicio
+  siguiente deja de ser una sugerencia y pasa a ser insistencia — y lo que se
+  ignora no protege a nadie.
+- **El contador no se persiste.** Vive en memoria, no entra en `valeriaTelemetry`
+  y no se exporta: no hay dato nuevo que declarar en *Seguridad de los datos* ni
+  en la política de `site/`.
+
+En el aparato es `RELAX`, y ahí lo importante es lo que **no** hace: no renueva la
+concesión, su duración se acota al techo del `GRANT` y **el dedo del niño no
+despierta a la gata** —se pinta la onda del toque y nada más—. El caso que hay que
+cubrir es el niño de cuatro años al que acaban de decirle que mire por la ventana
+y lo primero que hace es tocar el aparato.
 
 #### El sonido: lo dice la tableta, y Lúa se queda con la cara (D‑K, 14/8/2026)
 

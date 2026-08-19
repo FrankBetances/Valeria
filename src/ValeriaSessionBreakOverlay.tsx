@@ -24,6 +24,8 @@ import {
   trackCapsuleStart, trackCapsuleDone, trackCapsuleSkip,
   trackRouteStart, trackRouteValidated, trackRouteFailed, trackRouteSkip,
 } from './valeriaTelemetry';
+import { useActiveTimeMonitor } from './valeriaActiveTimeMonitor';
+import { triggerVisualAnchorBreak, cancelVisualAnchorBreak } from './valeriaLuaSession';
 
 export type SessionBreak =
   | { kind: 'capsule'; capsule: TprCapsule }
@@ -132,6 +134,81 @@ const RoutineRouteOverlay: React.FC<{
 };
 
 // ----------------------------------------------------------------------------
+// Ancla Visual Lejana (regla 20-20-20): tarjeta SECUNDARIA, nunca un bloqueo.
+//
+// Aparece dentro de la pausa activa que el adulto ya está mirando, y solo si el
+// reloj de `useActiveTimeMonitor` pasó de veinte minutos. Es una sugerencia con
+// un botón: la app no detiene la sesión, no descuenta tiempo y no impide seguir.
+// El muro regulatorio del proyecto (Clase I) es exactamente ese: la app sugiere
+// y el adulto ejecuta. Por eso «Ahora no» también reinicia el reloj — un aviso
+// que vuelve en el ejercicio siguiente deja de ser una sugerencia y pasa a ser
+// insistencia.
+//
+// La pausa manda RELAX al aparato y la gata se echa a dormir los veinte
+// segundos, que es lo que quita del cristal lo que retiene la mirada del niño.
+// Sin aparato emparejado no pasa nada: el emisor no está registrado y la
+// tarjeta sigue valiendo como consigna para el adulto.
+// ----------------------------------------------------------------------------
+const VisualAnchorCard: React.FC = () => {
+  const t = useT();
+  const { isVisualBreakRecommended, breakSeconds, noteVisualBreakTaken } = useActiveTimeMonitor();
+  const [left, setLeft] = useState<number | null>(null);
+
+  // Cuenta atrás visible: el adulto necesita saber cuánto queda para devolver
+  // la mirada del niño a la tableta sin quedarse mirando un contador ciego.
+  useEffect(() => {
+    if (left === null) return;
+    if (left <= 0) { setLeft(null); noteVisualBreakTaken(); return; }
+    const id = setTimeout(() => setLeft(left - 1), 1000);
+    return () => clearTimeout(id);
+  }, [left, noteVisualBreakTaken]);
+
+  useEffect(() => () => cancelVisualAnchorBreak(), []);
+
+  if (!isVisualBreakRecommended && left === null) return null;
+
+  const running = left !== null;
+
+  return (
+    <View style={s.anchorCard}>
+      <Text style={s.anchorKicker}>{t.breaks.visualAnchorKicker}</Text>
+      <Text style={s.anchorTitle}>
+        {running ? t.breaks.visualAnchorRunning(left as number) : t.breaks.visualAnchorTitle}
+      </Text>
+      <Text style={s.anchorBody}>
+        {running ? t.breaks.visualAnchorFarAway : t.breaks.visualAnchorBody}
+      </Text>
+
+      {running ? (
+        <Pressable
+          onPress={() => { cancelVisualAnchorBreak(); setLeft(null); noteVisualBreakTaken(); }}
+          style={s.anchorGhostBtn}
+          accessibilityRole="button"
+        >
+          <Text style={s.anchorGhostTxt}>{t.breaks.visualAnchorResume}</Text>
+        </Pressable>
+      ) : (
+        <View style={s.row}>
+          <Pressable onPress={() => noteVisualBreakTaken()} style={s.anchorGhostBtn} accessibilityRole="button">
+            <Text style={s.anchorGhostTxt}>{t.breaks.visualAnchorLater}</Text>
+          </Pressable>
+          <Pressable
+            onPress={() => { triggerVisualAnchorBreak(breakSeconds); setLeft(breakSeconds); }}
+            style={s.anchorBtn}
+            accessibilityRole="button"
+            accessibilityHint={t.breaks.visualAnchorHint}
+          >
+            <Text style={s.anchorBtnTxt}>{t.breaks.visualAnchorStart(breakSeconds)}</Text>
+          </Pressable>
+        </View>
+      )}
+
+      <Text style={s.anchorFoot}>{t.breaks.visualAnchorFoot}</Text>
+    </View>
+  );
+};
+
+// ----------------------------------------------------------------------------
 // Envoltorio con telemetría centralizada.
 // ----------------------------------------------------------------------------
 export const ValeriaSessionBreakOverlay: React.FC<{
@@ -146,16 +223,23 @@ export const ValeriaSessionBreakOverlay: React.FC<{
     if (brk.kind === 'capsule') trackCapsuleStart(); else trackRouteStart();
   }, [brk]);
 
-  if (brk.kind === 'capsule') {
-    return (
-      <ValeriaTPRCapsuleOverlay
-        capsule={brk.capsule}
-        onDone={() => { trackCapsuleDone(); onDone(); }}
-        onSkip={() => { trackCapsuleSkip(); onSkip(); }}
-      />
-    );
-  }
-  return <RoutineRouteOverlay route={brk.route} onDone={onDone} onSkip={() => { trackRouteSkip(); onSkip(); }} />;
+  // La tarjeta del ancla visual va FUERA del formato y encima de él: es la misma
+  // sugerencia toque la cápsula o toque la ruta, y no debe duplicarse en dos
+  // sitios ni depender de cuál salió sorteado.
+  return (
+    <>
+      {brk.kind === 'capsule' ? (
+        <ValeriaTPRCapsuleOverlay
+          capsule={brk.capsule}
+          onDone={() => { trackCapsuleDone(); onDone(); }}
+          onSkip={() => { trackCapsuleSkip(); onSkip(); }}
+        />
+      ) : (
+        <RoutineRouteOverlay route={brk.route} onDone={onDone} onSkip={() => { trackRouteSkip(); onSkip(); }} />
+      )}
+      <VisualAnchorCard />
+    </>
+  );
 };
 
 // ----------------------------------------------------------------------------
@@ -180,6 +264,22 @@ const s = StyleSheet.create({
   noBtn: { flex: 1, backgroundColor: '#fff1f2', borderWidth: 1, borderColor: '#fecdd3', borderRadius: 14, paddingVertical: 13, alignItems: 'center', marginTop: 4 },
   noBtnTxt: { color: V.color.error, fontSize: 13, fontWeight: '800' },
   skip: { marginTop: 13, fontSize: 12.5, fontWeight: '700', color: V.color.textMuted },
+
+  // Ancla visual: anclada abajo y con su propio fondo oscuro, para que se lea
+  // como una nota AL MARGEN del ejercicio y no como un paso más de la pausa.
+  anchorCard: {
+    position: 'absolute', left: 18, right: 18, bottom: 20,
+    backgroundColor: '#0f2137', borderRadius: 20, padding: 16,
+    borderWidth: 1, borderColor: '#1d4ed8',
+  },
+  anchorKicker: { fontSize: 10.5, fontWeight: '800', letterSpacing: 1.1, color: '#7dd3fc' },
+  anchorTitle: { fontSize: 15.5, fontWeight: '800', color: '#fff', marginTop: 6 },
+  anchorBody: { fontSize: 12.5, fontWeight: '600', color: '#c7d7ea', marginTop: 6, lineHeight: 17.5 },
+  anchorBtn: { flex: 1.4, backgroundColor: '#38bdf8', borderRadius: 13, paddingVertical: 12, alignItems: 'center', marginTop: 4 },
+  anchorBtnTxt: { color: '#06263c', fontSize: 12.5, fontWeight: '800' },
+  anchorGhostBtn: { flex: 1, borderWidth: 1, borderColor: '#2c4a6b', borderRadius: 13, paddingVertical: 12, alignItems: 'center', marginTop: 4 },
+  anchorGhostTxt: { color: '#9fb6cd', fontSize: 12.5, fontWeight: '800' },
+  anchorFoot: { fontSize: 10.5, fontWeight: '700', color: '#7e97b1', marginTop: 9, textAlign: 'center' },
 });
 
 export default ValeriaSessionBreakOverlay;

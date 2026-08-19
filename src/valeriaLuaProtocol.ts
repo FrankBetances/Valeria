@@ -30,6 +30,7 @@ export const LUA_OP = {
   PICTO_PAIR: 0x0A,
   MOOD: 0x0B,
   ACCESSORY: 0x0C,
+  RELAX: 0x0D,
   GRANT: 0x10,
   HEARTBEAT: 0x11,
   BENCH: 0xF0,

@@ -968,6 +968,18 @@ export const EN: UiStrings = {
     tprDone: '✅ They did it!',
     routeDoneLast: '✅ Did it · finish',
     routeDone: '✅ Did it',
+    // Far Visual Anchor (20-20-20). The copy says SUGGESTION throughout:
+    // nothing here stops the session, and the footer says so outright.
+    visualAnchorKicker: '👁️ VISUAL BREAK · 20-20-20 RULE',
+    visualAnchorTitle: 'Visual break recommended',
+    visualAnchorBody: 'That’s 20 minutes of close screen work. Lúa is ready for a 20-second break: have them look at something far away —a window, the back of the room— while the cat sleeps.',
+    visualAnchorStart: (n: number): string => `▶ Start the ${n} seconds`,
+    visualAnchorRunning: (n: number): string => `Looking far away · ${n} s`,
+    visualAnchorFarAway: 'Keep them looking at the furthest thing in the room. Lúa sleeps until it’s over.',
+    visualAnchorResume: 'Resume now',
+    visualAnchorLater: 'Not now',
+    visualAnchorHint: 'Lúa falls asleep during the break. The session does not stop.',
+    visualAnchorFoot: 'Suggestion · the app never stops the session; the break is your call.',
   },
 
   pro: {

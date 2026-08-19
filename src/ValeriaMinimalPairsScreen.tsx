@@ -36,6 +36,7 @@ import {
 import { SpeakButton, TurnPhaseStrip } from './ValeriaVoiceUI';
 import { FichaVisual } from './ValeriaPictograms';
 import { ValeriaSessionBreakOverlay, pickSessionBreak, SessionBreak } from './ValeriaSessionBreakOverlay';
+import { useActiveTimeMonitor } from './valeriaActiveTimeMonitor';
 import { MinimalPair } from './valeriaMinimalPairs';
 import { pairsForLocale, pairGroupsForLocale } from './valeriaPairBanks';
 import { getLocale, Locale } from './valeriaLocale';
@@ -275,6 +276,9 @@ const RoleSwapOverlay: React.FC<{ pair: MinimalPair; onDone: () => void }> = ({ 
 // ----------------------------------------------------------------------------
 export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
   const t = useT();
+  // Reloj de las 20-20-20: pares mínimos también es pantalla cerca, y el tramo
+  // continuo se suma con el del reproductor porque son la misma sesión.
+  useActiveTimeMonitor(true);
   // Variedad y banco activos (es / gl / es-DO). Se fijan al montar la pantalla
   // para no cambiar a media sesión; la variedad se elige antes, en la tarjeta
   // «Voz de la app». loc localiza consignas, reintentos, cierre y rotación.
