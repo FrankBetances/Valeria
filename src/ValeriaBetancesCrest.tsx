@@ -15,15 +15,23 @@ const crestAsset = require('../assets/dr-betances-crest.png');
 interface Props {
   size?: number;
   style?: StyleProp<ImageStyle>;
+  /**
+   * Texto para el lector de pantalla, del catálogo de i18n. Sin él el emblema
+   * es decorativo: dentro de la tarjeta del autor, quien anuncia el nombre y
+   * la especialidad es la tarjeta, y repetirlo aquí duplica el locutado.
+   */
+  label?: string;
 }
 
-export const ValeriaBetancesCrest: React.FC<Props> = ({ size = 112, style }) => {
+export const ValeriaBetancesCrest: React.FC<Props> = ({ size = 112, style, label }) => {
   return (
     <Image
       source={crestAsset}
       style={[{ width: size, height: size, resizeMode: 'contain' }, style]}
       accessibilityRole="image"
-      accessibilityLabel="Emblema oficial del Dr. Frank Betances"
+      accessibilityLabel={label}
+      accessibilityElementsHidden={!label}
+      importantForAccessibility={label ? 'yes' : 'no-hide-descendants'}
     />
   );
 };

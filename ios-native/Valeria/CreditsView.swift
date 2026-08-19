@@ -49,10 +49,14 @@ struct CreditsView: View {
 
                         // Tarjeta del autor
                         VStack(spacing: 0) {
-                            Text("🩺").font(.system(size: 34))
-                                .frame(width: 74, height: 74)
-                                .background(Color.white.opacity(0.92))
-                                .clipShape(Circle())
+                            // Emblema oficial del autor (Assets.xcassets/DrBetancesCrest).
+                            // Va sin disco ni recorte: el PNG es transparente y trae su
+                            // propio anillo, que se apoya sobre el turquesa de la tarjeta.
+                            Image("DrBetancesCrest")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 112, height: 112)
+                                .accessibilityHidden(true)
                                 .offset(y: float ? -6 : 0)
                             Text("Dr. Frank Betances")
                                 .font(.system(size: 21, weight: .black))
