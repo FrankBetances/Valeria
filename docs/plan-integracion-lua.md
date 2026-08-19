@@ -538,7 +538,8 @@ esquinas.
 
 **Y aquí está el número incómodo, que conviene no perder de vista.** El panel real
 mide 32 mm, así que una ficha de 72 px de los 240 son **9,6 mm de dibujo**. A 168
-px serían 22. Nadie ha visto todavía un pictograma en el cristal —no hay placa—,
+px serían 22. Una ficha ya se ha visto en el cristal —`PICTO 0`, el 19/8/2026, y el
+informe la da por nítida— pero **el caso duro sigue sin mirar**: un par de contraste,
 así que **si un niño con retraso del lenguaje distingue «cuchara limpia» de
 «cuchara sucia» a 9,6 mm es una pregunta abierta**, y es la que decide si espejar
 el estímulo (D-1) sirve para algo. Es lo primero que hay que mirar en cuanto haya
@@ -896,7 +897,8 @@ Lo que dejó de ser un problema al pasar a matrices de 24×24 dibujadas a mano:
 Lo que sigue abierto, y es lo que decide si la D-1 sirve de algo:
 
 - **El tamaño aparente.** La ficha ocupa 72 px de los 240, o sea **9,6 mm** en el
-  cristal. Nadie ha visto un pictograma en la placa porque no hay placa.
+  cristal. El 19/8/2026 se vio **una** ficha en la placa V1 y el informe la da por
+  nítida; lo que decide esto no es una ficha suelta, sino el par de contraste.
 - **Los pares de contraste son el caso duro.** «Cuchara limpia» y «cuchara sucia»
   se distinguen por detalles pequeños sobre el mismo objeto, y es justo el par que
   ES-12 necesita. Si no se leen a 9,6 mm, hay dos palancas antes de rendirse:
@@ -1064,9 +1066,19 @@ Sin fechas: cada fase abre cuando la anterior pasa su criterio. El cronograma de
 placa; si la latencia real sale mal, todo lo demás cambia y una fecha escrita hoy
 solo sirve para incumplirla.
 
-**Fase 0 · Banco de pruebas — ESCRITA Y LISTA PARA CORRER.**
-Ya no es una descripción: está el firmware, el banco de medida y el
-procedimiento. Falta la placa.
+**Fase 0 · Banco de pruebas — MEDIO CERRADA EN HARDWARE (19/8/2026).**
+Ya no es una descripción, y ya no falta la placa: la **V1 compila, se flashea y
+pinta el catálogo a 27 fps** —criterio de fluidez cumplido con margen—, con el
+mapa de pines de `board_v1.h` confirmado empíricamente y 46,8 % de flash. El
+informe está en la rama `compilacion_placa_redonda_v1` del repositorio del
+firmware (`docs/validacion_hardware_v1_esp32c3.md`), **todavía sin mergear**.
+
+**La otra mitad del criterio sigue sin medir**, y conviene no darla por buena de
+rebote: aquella sesión conduce el aparato **en local** —modo demostración y
+comandos por puerto serie—, así que la latencia p95 del veredicto al primer
+fotograma, que es de extremo a extremo por BLE, no la toca. Para eso está
+`docs/lua-bench.html`, y sigue sin correrse. La caducidad 100/100 tampoco se ha
+comprobado en la placa: está probada en el núcleo, que es el mismo código.
 
   · `firmware/lua/` — firmware mínimo con el servidor GATT, la máquina de
     estados de §5 **entera** (concesión con caducidad y latido), pin de traza y
@@ -1083,10 +1095,11 @@ procedimiento. Falta la placa.
 100.* Si no pasa, esta placa no sirve y hay que replantear antes de escribir una
 línea de app.
 
-⚠ **Paso 1 antes de medir: confirmar los pines del display** contra el
-esquemático. `include/board.h` lleva los que publica el fabricante para esta
-familia, pero el manual del proyecto no trae la tabla de GPIO del panel. Una
-medición sobre una asignación adivinada no vale.
+✅ **Paso 1, hecho: los pines del display están confirmados.** Era el aviso más
+viejo de esta fase —«una medición sobre una asignación adivinada no vale»— y la
+sesión del 19/8/2026 lo cerró para la V1: SCLK 6, MOSI 7, DC 2, CS 10, BL 3 y
+RST al EN del módulo, con salida a color y contraste correcto. Los de la **V2
+siguen sin confirmar**.
 
 **Fase 1 · Protocolo — REABIERTA el 13/8/2026 y CERRADA DE NUEVO el 14/8/2026.**
 La maquinaria está y funciona: `firmware/lua/protocol.json` es la fuente única,
@@ -1517,7 +1530,7 @@ comportamiento, que es lo que un niño nota y una comparación de píxeles no.
 
 | Fase | Estado |
 | :--- | :--- |
-| 0 · Banco de pruebas | 🟨 **escrito y listo para correr** — falta la placa |
+| 0 · Banco de pruebas | 🟨 **la placa V1 ya corre el firmware (19/8/2026): 27 fps, por encima del criterio** — falta medir la latencia p95 por BLE, que es la otra mitad |
 | 1 · Protocolo | ✅ **cerrada de nuevo el 14/8/2026** — la tabla trae `AFFECT`, `PICTO`, `AWARD`, `LEVEL` y `PICTO_PAIR` reservado; trama en 4 B; el gate `--upstream` del firmware pasa |
 | 2 · Puente RN | ⬜ pendiente |
 | 3 · Primera integración visible | ⬜ pendiente |

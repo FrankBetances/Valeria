@@ -297,6 +297,15 @@ aparato es de **240×240**, o sea que el píxel art es su formato nativo, y **la
 cara del aparato sale de la misma rejilla que la de la app**. Un solo dibujo,
 dos superficies.
 
+**Y desde el 19/8/2026 el aparato existe de verdad**, no en un plano: la placa
+redonda (ESP32‑2424S012 con panel GC9A01) compila, se flashea y pinta el catálogo
+entero a **27 fps** en su disco de 32 mm, con los pines confirmados. Está en la
+rama `compilacion_placa_redonda_v1` del repositorio del firmware, sin mergear.
+Sigue sin medirse la mitad que importa para esta app —**la latencia p95 de
+extremo a extremo por Bluetooth**, que es el criterio del §4 del plan—, porque
+aquella sesión gobernó el aparato en local. Y la capa de compañía de aquí abajo
+—`MOOD`, `ACCESSORY`— es **posterior**: en el cristal no ha estado nunca.
+
 **Y desde el 14/8/2026 no es solo la cara.** Los **66 pictogramas de ficha y las
 9 insignias** son también el mismo dibujo en los dos sitios: matrices de píxel
 art de 24×24 que viven en [`src/ValeriaPixelArt.ts`](src/ValeriaPixelArt.ts) —la
