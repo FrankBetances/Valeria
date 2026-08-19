@@ -48,6 +48,15 @@ ${p.capabilities.map((c) => `#define LUA_CAP_${c.key} ${hx(capMask(c))}  // ${c.
 #define LUA_GRANT_TTL(param) ((uint8_t)((param) & 0xFF))
 #define LUA_GRANT_CAPS(param) ((uint8_t)(((param) >> 8) & 0xFF))
 
+// Estados de compañía · parámetro de MOOD. Espejan LuaAffectState en la app.
+${p.moods.map((m) => `#define LUA_MOOD_${m.key} ${hx(m.code)}  // ${m.state} · ${m.note}`).join('\n')}
+
+// Ranuras del armario · byte ALTO del parámetro de ACCESSORY.
+${p.slots.map((s) => `#define LUA_SLOT_${s.key} ${hx(s.code)}  // ${s.note}`).join('\n')}
+#define LUA_ACCESSORY_NONE ${hx(p.accessoryNone)}  // byte bajo: quita lo que hubiera
+#define LUA_ACCESSORY_ITEM(param) ((uint8_t)((param) & 0xFF))
+#define LUA_ACCESSORY_SLOT(param) ((uint8_t)(((param) >> 8) & 0xFF))
+
 // Operaciones de SAFE
 ${p.safeOps.map((o) => `#define LUA_SAFE_${o.key} ${hx(o.code)}  // ${o.note}`).join('\n')}
 
@@ -89,6 +98,24 @@ export const LUA_CAP = {
 ${p.capabilities.map((c) => `  ${c.key}: ${hx(capMask(c))},`).join('\n')}
 } as const;
 
+/**
+ * Estados de compañía · parámetro de \`MOOD\`. Es la vida de la mascota fuera
+ * del ejercicio, y el enum de la app (\`LuaAffectState\`) se mapea uno a uno
+ * contra esta tabla: \`scripts/check-lua-mascot-mirror.js\` falla si alguno de
+ * los dos crece sin el otro.
+ */
+export const LUA_MOOD = {
+${p.moods.map((m) => `  ${m.key}: ${hx(m.code)},`).join('\n')}
+} as const;
+
+/** Ranuras del armario · byte ALTO del parámetro de \`ACCESSORY\`. */
+export const LUA_SLOT = {
+${p.slots.map((s) => `  ${s.key}: ${hx(s.code)},`).join('\n')}
+} as const;
+
+/** Byte bajo de \`ACCESSORY\` que quita lo que la gata llevara puesto. */
+export const LUA_ACCESSORY_NONE = ${hx(p.accessoryNone)};
+
 /** Operaciones de SAFE (con confirmación: aquí sí importa saber que llegó). */
 export const LUA_SAFE = {
 ${p.safeOps.map((o) => `  ${o.key}: ${hx(o.code)},`).join('\n')}
@@ -123,6 +150,14 @@ export const luaGrantParam = (ttlSeconds: number, caps = 0): number => {
   const ttl = Math.max(1, Math.min(LUA_LIMITS.grantMaxSeconds, Math.trunc(ttlSeconds)));
   return ((caps & 0xff) << 8) | ttl;
 };
+
+/**
+ * Parámetro de \`ACCESSORY\`: índice del ítem en el byte bajo, ranura en el alto.
+ * \`LUA_ACCESSORY_NONE\` deja la ranura vacía — que es lo que hay que mandar al
+ * desequipar, porque el aparato no adivina que algo ha dejado de estar puesto.
+ */
+export const luaAccessoryParam = (slot: number, itemIndex: number): number =>
+  ((slot & 0xff) << 8) | (itemIndex & 0xff);
 `;
 
 const check = process.argv.includes('--check');

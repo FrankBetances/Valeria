@@ -23,6 +23,15 @@ export interface CollectibleItem {
   requiredSessions?: number;
   requiredStreak?: number;
   requiredLevel?: number;
+  /**
+   * Lo que viaja por el enlace en `ACCESSORY`: una posición, no un nombre. Se
+   * añade AL FINAL y no se reordena nunca, por lo mismo que los opcodes y los
+   * índices de pictograma — un aparato ya flasheado se queda con los suyos, y
+   * reordenar aquí le pone a la gata del aparato el gorro del vecino.
+   * `scripts/check-lua-mascot-mirror.js` lo comprueba contra una lista
+   * congelada.
+   */
+  mirrorIndex: number;
 }
 
 export interface LuaInventoryState {
@@ -40,6 +49,7 @@ export const COLLECTIBLES_CATALOG: CollectibleItem[] = [
   {
     id: 'snack_fish',
     nameKey: 'snack_fish',
+    mirrorIndex: 0,
     slot: 'snack',
     glyph: 'fish',
     descriptionKey: 'snack_fish',
@@ -49,6 +59,7 @@ export const COLLECTIBLES_CATALOG: CollectibleItem[] = [
   {
     id: 'neck_red_bow',
     nameKey: 'neck_red_bow',
+    mirrorIndex: 1,
     slot: 'neck',
     glyph: 'bow',
     descriptionKey: 'neck_red_bow',
@@ -58,6 +69,7 @@ export const COLLECTIBLES_CATALOG: CollectibleItem[] = [
   {
     id: 'head_flower',
     nameKey: 'head_flower',
+    mirrorIndex: 2,
     slot: 'head',
     glyph: 'flower',
     descriptionKey: 'head_flower',
@@ -67,6 +79,7 @@ export const COLLECTIBLES_CATALOG: CollectibleItem[] = [
   {
     id: 'neck_bell',
     nameKey: 'neck_bell',
+    mirrorIndex: 3,
     slot: 'neck',
     glyph: 'bell',
     descriptionKey: 'neck_bell',
@@ -76,6 +89,7 @@ export const COLLECTIBLES_CATALOG: CollectibleItem[] = [
   {
     id: 'head_wizard',
     nameKey: 'head_wizard',
+    mirrorIndex: 4,
     slot: 'head',
     glyph: 'wizard',
     descriptionKey: 'head_wizard',

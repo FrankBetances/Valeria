@@ -28,6 +28,8 @@ export const LUA_OP = {
   AWARD: 0x08,
   LEVEL: 0x09,
   PICTO_PAIR: 0x0A,
+  MOOD: 0x0B,
+  ACCESSORY: 0x0C,
   GRANT: 0x10,
   HEARTBEAT: 0x11,
   BENCH: 0xF0,
@@ -42,6 +44,29 @@ export const LUA_CAP = {
   VISUAL: 0x01,
   SOUND: 0x02,
 } as const;
+
+/**
+ * Estados de compañía · parámetro de `MOOD`. Es la vida de la mascota fuera
+ * del ejercicio, y el enum de la app (`LuaAffectState`) se mapea uno a uno
+ * contra esta tabla: `scripts/check-lua-mascot-mirror.js` falla si alguno de
+ * los dos crece sin el otro.
+ */
+export const LUA_MOOD = {
+  SERENE: 0x00,
+  CRAVING: 0x01,
+  PURRING: 0x02,
+  EATING: 0x03,
+  CELEBRATING: 0x04,
+} as const;
+
+/** Ranuras del armario · byte ALTO del parámetro de `ACCESSORY`. */
+export const LUA_SLOT = {
+  HEAD: 0x00,
+  NECK: 0x01,
+} as const;
+
+/** Byte bajo de `ACCESSORY` que quita lo que la gata llevara puesto. */
+export const LUA_ACCESSORY_NONE = 0xFF;
 
 /** Operaciones de SAFE (con confirmación: aquí sí importa saber que llegó). */
 export const LUA_SAFE = {
@@ -81,3 +106,11 @@ export const luaGrantParam = (ttlSeconds: number, caps = 0): number => {
   const ttl = Math.max(1, Math.min(LUA_LIMITS.grantMaxSeconds, Math.trunc(ttlSeconds)));
   return ((caps & 0xff) << 8) | ttl;
 };
+
+/**
+ * Parámetro de `ACCESSORY`: índice del ítem en el byte bajo, ranura en el alto.
+ * `LUA_ACCESSORY_NONE` deja la ranura vacía — que es lo que hay que mandar al
+ * desequipar, porque el aparato no adivina que algo ha dejado de estar puesto.
+ */
+export const luaAccessoryParam = (slot: number, itemIndex: number): number =>
+  ((slot & 0xff) << 8) | (itemIndex & 0xff);

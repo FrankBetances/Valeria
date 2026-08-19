@@ -285,6 +285,7 @@ export const ES = {
 
     luaPurring: '¡Ronroneo!',
     luaEating: '¡Qué rico!',
+    luaCraving: 'Tiene antojo',
     luaPatShort: 'Acaríciame',
     luaFeedFish: 'Dar pescadito',
     luaFeedFishA11y: 'Dar pescadito a Lúa',

@@ -21,6 +21,8 @@
 #define LUA_OP_AWARD 0x08  // réplica de la insignia: familia y rango, nunca su nombre ni su descripción.
 #define LUA_OP_LEVEL 0x09  // réplica del nivel: doce segmentos en el anillo. Sin número y sin el nombre del nivel.
 #define LUA_OP_PICTO_PAIR 0x0A  // RESERVADO · dos fichas para la vuelta de comprensión de Pares Mínimos (§6.5, capa 2). El código queda tomado para que no lo ocupe otro; el firmware todavía NO lo dibuja y lo ignora por el `default` del switch.
+#define LUA_OP_MOOD 0x0B  // espeja LuaAffectState, la vida de la mascota FUERA del ejercicio: 0 serena · 1 antojo · 2 ronroneo (caricia) · 3 comiendo · 4 celebrando. Dentro del ejercicio mandan PHASE, VERDICT y CELEBRATE, que son los que llevan el turno.
+#define LUA_OP_ACCESSORY 0x0C  // réplica del armario: la gata del aparato lleva puesto lo mismo que la de la tableta. Índice del catálogo de coleccionables de Valeria+, nunca su nombre. Se añade al final y no se reordena, igual que PICTO.
 #define LUA_OP_GRANT 0x10  // concede capacidades (§5 del plan). El byte alto es la máscara de `capabilities`: 0x00 significa SOLO VISUAL, que es lo que valía un GRANT antes de que el campo existiera. La capacidad sonora NUNCA es implícita: hay que pedir su bit.
 #define LUA_OP_HEARTBEAT 0x11  // renueva la concesión viva
 #define LUA_OP_BENCH 0xF0  // Fase 0: pinta un frame completo y devuelve por STATE el tiempo de despacho. No se usa en producción.
@@ -31,6 +33,20 @@
 #define LUA_CAP_SOUND 0x02  // emitir sonido (zumbador de la D-F). Se concede aparte de la visual y caduca con ella. MUTE la quita sin apagar la pantalla
 #define LUA_GRANT_TTL(param) ((uint8_t)((param) & 0xFF))
 #define LUA_GRANT_CAPS(param) ((uint8_t)(((param) >> 8) & 0xFF))
+
+// Estados de compañía · parámetro de MOOD. Espejan LuaAffectState en la app.
+#define LUA_MOOD_SERENE 0x00  // IDLE_SERENE · respiración pautada y cola rítmica. Es el reposo de la mascota, no el REPOSO de la máquina de estados: aquí hay concesión viva
+#define LUA_MOOD_CRAVING 0x01  // CRAVING_SNACK · hay un premio desbloqueado sin gastar. Antojo, no hambre: la mascota no se deteriora si nadie la atiende (§10.3)
+#define LUA_MOOD_PURRING 0x02  // PURRING_LOVE · respuesta a la caricia. La MISMA en las dos superficies: se toque el cristal o se toque la tableta
+#define LUA_MOOD_EATING 0x03  // EATING_SNACK · se está comiendo el premio
+#define LUA_MOOD_CELEBRATING 0x04  // CELEBRATE_AWARD · celebra un hito ya ganado. No sustituye a CELEBRATE: este viene del hub, aquel del cierre del ejercicio
+
+// Ranuras del armario · byte ALTO del parámetro de ACCESSORY.
+#define LUA_SLOT_HEAD 0x00  // entre las orejas: flor, gorro
+#define LUA_SLOT_NECK 0x01  // bajo la barbilla: pajarita, cascabel
+#define LUA_ACCESSORY_NONE 0xFF  // byte bajo: quita lo que hubiera
+#define LUA_ACCESSORY_ITEM(param) ((uint8_t)((param) & 0xFF))
+#define LUA_ACCESSORY_SLOT(param) ((uint8_t)(((param) >> 8) & 0xFF))
 
 // Operaciones de SAFE
 #define LUA_SAFE_CLINICAL_SILENCE 0x01  // revoca toda concesión y bloquea nuevas. NO se toca: es el cierre total, y es el que cubre que alguien traiga el aparato a una medición que nadie planeó

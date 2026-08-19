@@ -66,7 +66,8 @@ Corre los gates de `android.yml` **antes de empujar**, no después:
 for s in check-voice-corpus-coverage check-content-rules check-reminder-slots \
          check-pictogram-coverage check-lexical-difficulty check-sign-figures \
          check-speech-prosody check-asr-capture-guard check-asr-listen-options \
-         check-lua-mute check-brand-consistency; do node scripts/$s.js || echo "FALLA $s"; done
+         check-lua-mute check-brand-consistency check-ui-strings check-adult-fields \
+         check-variety-branches check-lua-mascot-mirror; do node scripts/$s.js || echo "FALLA $s"; done
 node scripts/build-lua-protocol.js --check
 ```
 
@@ -120,7 +121,13 @@ un rastro suyo en la app. Lo que hay que saber antes de tocar nada:
 - El distractor de doble tarea (`ValeriaDistractorCat`) es **la misma gata**, no
   un segundo personaje.
 - La cara del **periférico Lúa** (panel 240×240, `firmware/lua/`) sale de esa
-  misma rejilla: mismo personaje, dos superficies.
+  misma rejilla: mismo personaje, dos superficies. **Y desde el 19/8/2026 no es
+  solo la cara**: los estados de compañía —ronroneo, antojo, comer— y el armario
+  también se espejan, por `MOOD` y `ACCESSORY`. La capa que los traduce es
+  [`src/valeriaLuaMascot.ts`](src/valeriaLuaMascot.ts) y el gate
+  `check-lua-mascot-mirror.js` impide que las dos mascotas vuelvan a separarse.
+  Un accesorio nuevo se dibuja **aquí**, con su anclaje `device` para la pose del
+  aparato, o en el cristal no existe.
 - **«Oso» sigue siendo vocabulario terapéutico** —par mínimo *ocho/oso*, «EL OSO
   COME PAN», la orden TPR—. Eso es contenido de los bancos y no se toca.
 - Un cambio de marca no está hecho hasta que lo dicen el README y el manual.

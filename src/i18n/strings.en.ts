@@ -297,6 +297,7 @@ export const EN: UiStrings = {
 
     luaPurring: 'Purring!',
     luaEating: 'Yummy!',
+    luaCraving: 'Feeling peckish',
     luaPatShort: 'Pet me',
     luaFeedFish: 'Give the fish',
     luaFeedFishA11y: 'Give Lúa the fish',

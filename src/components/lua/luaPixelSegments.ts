@@ -77,7 +77,15 @@ export const LUA_TAIL_TIP: PixelMap = SIT.slice(24, 30).map((row) => row.slice(2
 
 // ----------------------------------------------------------------------------
 // 2. COLECCIONABLES
-//    `at` es la esquina superior izquierda en coordenadas SIT.
+//    `row`/`col` es la esquina superior izquierda en coordenadas SIT (32×38),
+//    que es la pose del hub. `device` es la misma esquina en la rejilla HEAD
+//    (32×26), que es la pose del periférico: mismo dibujo, dos superficies.
+//
+//    Las dos poses existían ya y no se pueden fundir —la cabeza sola gasta
+//    todo el cuadro en la cara—, así que un anclaje único descolocaría una de
+//    las dos. Lo que NO puede haber es dos dibujos: el arte es este, y
+//    `lua-firmware/tools/build-accessories.js` lo copia de aquí con su gate.
+//    Un ítem que no se lleva puesto —el pescado— no tiene `device`.
 // ----------------------------------------------------------------------------
 
 export const ITEM_PALETTE: Record<string, string> = {
@@ -89,7 +97,7 @@ export const ITEM_PALETTE: Record<string, string> = {
   s: '#fde047',                 // brillo de estrella
 };
 
-interface ItemSprite { row: number; col: number; art: PixelMap; }
+interface ItemSprite { row: number; col: number; art: PixelMap; device?: { row: number; col: number }; }
 
 export const ITEM_SPRITES: Record<string, ItemSprite> = {
   // Pescadito. No se pinta sobre la gata: solo en el armario, la burbuja y el
@@ -112,6 +120,7 @@ export const ITEM_SPRITES: Record<string, ItemSprite> = {
   // Pajarita al cuello, justo bajo la barbilla (filas 22..26).
   neck_red_bow: {
     row: 22, col: 10,
+    device: { row: 25, col: 10 },
     art: [
       '.ooo.oo.ooo.',
       'orrrorrorrro',
@@ -124,6 +133,7 @@ export const ITEM_SPRITES: Record<string, ItemSprite> = {
   // Flor de cuatro pétalos entre las orejas, centrada en el eje de las orejas.
   head_flower: {
     row: 1, col: 13,
+    device: { row: 2, col: 12 },
     art: [
       '...oo...',
       '..otto..',
@@ -139,6 +149,7 @@ export const ITEM_SPRITES: Record<string, ItemSprite> = {
   // Cascabel colgado de un collar escarlata.
   neck_bell: {
     row: 22, col: 10,
+    device: { row: 25, col: 10 },
     art: [
       '.orrrrrrrro.',
       '..oooooooo..',
@@ -153,6 +164,7 @@ export const ITEM_SPRITES: Record<string, ItemSprite> = {
   // Gorro de maga: cubre la coronilla y la base de las orejas.
   head_wizard: {
     row: 0, col: 11,
+    device: { row: 1, col: 10 },
     art: [
       '.....oo.....',
       '....ovvo....',

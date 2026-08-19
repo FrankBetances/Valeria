@@ -477,6 +477,8 @@ firmware y lo que ya decodifica VIA+.
 | **`0x08`** | **`AWARD`** | **glifo 0-8 (byte bajo) · rango 0-4 (byte alto)** | **la insignia CONCRETA que se acaba de ganar** |
 | **`0x09`** | **`LEVEL`** | **nivel 1-12** | **el nivel, en doce segmentos del borde** |
 | **`0x0A`** | **`PICTO_PAIR`** | **id izq. (byte bajo) · id der. (byte alto)** | **RESERVADO · dos fichas para la vuelta de comprensión** |
+| **`0x0B`** | **`MOOD`** | **estado de compañía 0-4** | **la vida de la mascota fuera del ejercicio: serena · antojo · ronroneo · comiendo · celebrando (§10.3)** |
+| **`0x0C`** | **`ACCESSORY`** | **índice del ítem (byte bajo) · ranura (byte alto) · `0xFF` la vacía** | **el armario: la gata del aparato lleva puesto lo mismo que la del hub (§10.3)** |
 | `0x10` | `GRANT` | **ttl en s 1-60 (byte bajo) · máscara de capacidades (byte alto)** | concede capacidades (§5). Máscara `0x00` = solo visual. La sonora nunca es implícita (D-L) |
 | `0x11` | `HEARTBEAT` | — | renueva la concesión viva |
 | `0xF0` | `BENCH` | — | Fase 0. No se usa en producción |
@@ -684,6 +686,7 @@ no código que se escriba aquí.
 | :--- | :--- | :--- |
 | `src/valeriaLuaBridge.ts` | **Única superficie** que ve el resto de la app: `isLuaAvailable()`, `connect()`, `send(opcode)`, `grant()`, `disconnect()`. Carga `react-native-ble-plx` con `require()` dentro de `try`, igual que [`valeriaArBridge.ts`](../src/valeriaArBridge.ts) y `valeriaNoise` con expo-audio. Sin módulo → `false` → nadie ve nada roto. | nuevo |
 | `src/valeriaLuaProtocol.ts` | Generado desde `protocol.json`. No se edita a mano. | nuevo, generado |
+| `src/valeriaLuaMascot.ts` | **La capa espejo de la mascota (§10.3)**: `LuaAffectState` → `MOOD`, el armario → `ACCESSORY`, la rotación de la caricia y la regla del antojo. Módulo PURO —ni React, ni almacenamiento, ni radio—: entra estado y salen tramas, así que se prueba sin placa. Lo consume el puente. | **existe desde el 19/8/2026** |
 | `src/valeriaLuaSession.ts` | El latido de §5 y la reconexión con backoff. Aislado del puente para poder probarlo sin radio. | nuevo |
 | `src/ValeriaVoiceUI.tsx` | `TurnPhaseStrip` ya recibe `active`; se añade un `useLuaPhase(active)` en el propio componente. Un solo punto y todas las pantallas que lo usan heredan el espejo del turno sin tocarse (§6.5, capa 1). | toca |
 | `src/ValeriaPictograms.tsx` | `FichaVisual` emite `PICTO` con el id de catálogo de la clave que está pintando. El espejo del estímulo sale del mismo componente que ya decide qué dibujo va (§6.5, capa 2). | toca |
@@ -923,19 +926,87 @@ interpretaciones que se van separando versión a versión.
 
 **Nombre · decidido (Frank): Lúa, y es el de la mascota** (§14, D-B cerrada).
 
+### 10.3 La capa de compañía: la mascota vive fuera del ejercicio (19/8/2026, D-N)
+
+Hasta el 18/8/2026 el catálogo entero hablaba **del ejercicio**: fase, veredicto,
+celebración, ficha, insignia, nivel. Ese día el hub estrenó una mascota con vida
+propia —se le acaricia y ronronea, se le da el pescadito y come, y lleva puesto lo
+que el niño le pone en el armario— y el aparato, que desde la V2 responde al dedo
+en el cristal, se quedó sin enterarse de nada.
+
+**Eso es exactamente lo que el §10 prohíbe**, y conviene ver por qué no lo cazó
+nada: no era un dibujo distinto —el gate del sprite seguía en verde—, eran dos
+**comportamientos** distintos con el mismo dibujo. Las dos partes funcionaban. Lo
+que no funcionaba era la mascota, que para el niño es una sola aunque esté en dos
+sitios.
+
+**La capa de compañía** es el vocabulario que faltaba, y tiene su propio opcode
+porque no es del ejercicio:
+
+| `MOOD` | `LuaAffectState` en la app | Qué es |
+| ---: | :--- | :--- |
+| 0 | `IDLE_SERENE` | respiración pautada y cola rítmica |
+| 1 | `CRAVING_SNACK` | hay un premio desbloqueado sin gastar |
+| 2 | `PURRING_LOVE` | le están acariciando |
+| 3 | `EATING_SNACK` | se come el premio |
+| 4 | `CELEBRATE_AWARD` | celebra un hito ya ganado |
+
+Y `ACCESSORY` replica el armario: índice del coleccionable y ranura —cabeza o
+cuello—, con `0xFF` para vaciarla. **Nunca su nombre**: es una posición en un
+catálogo flasheado, igual que `PICTO`, y por lo mismo los índices se añaden al
+final y no se reordenan nunca.
+
+Cuatro reglas que el diseño no puede perder:
+
+- **Antojo, no hambre.** La mascota **no se deteriora**. No adelgaza, no enferma y
+  no pone cara triste si nadie la atiende. Un tamagotchi que se muere de hambre
+  convierte faltar a una sesión en un castigo, y el que falta a una sesión suele
+  ser un niño de cuatro años que no decide su agenda ni su transporte. Es la misma
+  regla clínica que impide la cara triste en `VERDICT(0)`, aplicada a la capa que
+  más fácil la rompería.
+- **Compañía no es ejercicio, y no lo pisa.** Con la ficha, la insignia o el nivel
+  en el panel, un `MOOD` rezagado del hub **no se los lleva**. Es la misma regla
+  que ya gobierna el toque.
+- **El armario no es una puerta.** `MOOD` y `ACCESSORY` pasan por la misma que
+  cualquier gesto: sin `GRANT` vivo y sin capacidad visual, se descartan.
+- **El dibujo es uno y los anclajes son dos.** En el hub la gata está **sentada**
+  (32×38) y en el cristal se le ve solo la **cabeza** (32×26). El arte del armario
+  se decide aquí, en `src/components/lua/luaPixelSegments.ts`, y cada ítem que se
+  lleva puesto declara además su esquina en la rejilla del aparato (`device`).
+  Dos dibujos habrían sido la divergencia de siempre; un anclaje único habría
+  descolocado una de las dos poses.
+
+**Lo que esto NO es, y hay que decirlo en la misma página:** el espejo va **de la
+tableta al aparato** y hoy **no lo recorre nadie**. `src/valeriaLuaMascot.ts`
+produce las tramas y `scripts/check-lua-mascot-mirror.js` las comprueba, pero
+quien las mandaría —`valeriaLuaBridge.ts`, §7— sigue sin existir. De vuelta no hay
+camino: un toque en el cristal se cuenta en el aparato y **no llega a la tableta**,
+porque los ocho bytes de `STATE` están ocupados y el decodificador de VIA+ los lee
+tal cual. Es una asimetría conocida y anotada, no un olvido.
+
 ---
 
 ## 11. Garantías de no regresión y gates de CI
 
-`android.yml` corre hoy **doce pasos de gate** antes del typecheck (once
-`check-*.js` más `build-lua-protocol.js --check`), y **dos ya son de Lúa**. Lo
+`android.yml` corre hoy **quince pasos de gate** antes del typecheck (catorce
+`check-*.js` más `build-lua-protocol.js --check`), y **tres ya son de Lúa**. Lo
 que cambia con esta revisión:
 
 | Gate | Estado | Qué hace |
 | :--- | :--- | :--- |
 | `build-lua-protocol.js --check` | existe, sin cambios | las tres copias de la tabla no se separan |
+| `check-lua-mascot-mirror.js` | **existe desde el 19/8/2026** | la gata de la tableta y la del aparato no se separan en comportamiento ni en armario (§10.3) |
 | `check-lua-mute.js` → **`check-lua-mic.js`** | **renombrado y re-acotado** | prohíbe el micrófono, deja de prohibir el altavoz |
 | **`check-lua-catalog.js`** | **nuevo** | ninguna clave de pictograma se queda sin sitio en Lúa |
+
+**`scripts/check-lua-mascot-mirror.js`** — el que faltaba, y no lo habría cazado
+ninguno de los otros: el gate del sprite compara el **dibujo** y este compara el
+**comportamiento**. Falla si un `LuaAffectState` se queda sin código de `MOOD`, si
+un coleccionable cambia de índice —a un aparato ya flasheado le pondría el gorro
+del vecino—, si algo que se lleva puesto no trae anclaje para la pose del aparato,
+o si la rotación de la caricia sale del rango de `AFFECT`. Su gemelo en el
+firmware (`tools/build-accessories.js --check` y `tools/check-caress-parity.js`)
+mira lo mismo desde el otro lado.
 
 O sea: **un gate nuevo y uno reescrito**, no tres nuevos. Los tres persiguen el
 mismo modo de fallo —que la app y el aparato entiendan lo mismo de forma
@@ -1411,6 +1482,35 @@ batería, y publica cara, fps y microsegundos. Con dos capacidades gana urgencia
 —la app puede pedirlas pero no puede verlas—, y no se ha tocado aquí porque los
 ocho bytes están llenos y cambiar la trama es una conversación propia.
 
+**D-N · La mascota es UNA, y el espejo tiene dirección — CERRADA Y APLICADA
+(19/8/2026).**
+
+No la pidió nadie: salió de mirar las dos mascotas juntas. El 18/8/2026 el hub
+estrenó una gata con vida propia —ronronea con la caricia, come el premio y lleva
+puesto lo del armario— y el aparato, que desde la V2 responde al dedo, no sabía
+hacer ninguna de las tres cosas. **Ningún gate falló**, y ese es el punto: el
+sprite seguía siendo el mismo dibujo. Lo que se había separado era el
+comportamiento, que es lo que un niño nota y una comparación de píxeles no.
+
+| | |
+| :--- | :--- |
+| **Opcodes nuevos** | `MOOD` `0x0B` (estado de compañía 0-4) y `ACCESSORY` `0x0C` (índice + ranura) |
+| **Versión de protocolo** | **Sin tocar.** Se añaden al final; ninguna trama de ayer cambia de sentido |
+| **Caras nuevas en el aparato** | tres —*antojo*, *ronroneo*, *comiendo*—, montadas con los parches que ya había. `MOOD(0)` y `MOOD(4)` no estrenan cara |
+| **Arte nuevo** | **Ninguno.** El armario se dibuja aquí y allí se copia, como los pictogramas |
+| **Gates** | `check-lua-mascot-mirror.js` aquí · `build-accessories.js --check` y `check-caress-parity.js` allí |
+
+**Y lo que la decisión no concede,** para que no se lea de más:
+
+1. **El espejo es de ida y no lo recorre nadie todavía.** Las tramas existen y
+   están comprobadas; `valeriaLuaBridge.ts` (§7) sigue sin escribirse. Que el
+   aparato sepa obedecer no es que la app emita.
+2. **De vuelta no hay camino.** Un toque en el cristal no llega a la tableta, y
+   por eso el punto abierto de `STATE` de aquí arriba **gana un motivo más**: ya
+   no es solo diagnóstico del enlace.
+3. **Antojo, no hambre** (§10.3). La mascota no se deteriora si nadie la atiende,
+   y eso es una regla clínica, no un ajuste de dificultad.
+
 ---
 
 ## 15. Seguimiento
@@ -1421,7 +1521,8 @@ ocho bytes están llenos y cambiar la trama es una conversación propia.
 | 1 · Protocolo | ✅ **cerrada de nuevo el 14/8/2026** — la tabla trae `AFFECT`, `PICTO`, `AWARD`, `LEVEL` y `PICTO_PAIR` reservado; trama en 4 B; el gate `--upstream` del firmware pasa |
 | 2 · Puente RN | ⬜ pendiente |
 | 3 · Primera integración visible | ⬜ pendiente |
-| 4 · Catálogo de expresiones | 🟨 **veintidós caras y un emulador** — en `lua-firmware`; sin ver en el panel |
+| 4 · Catálogo de expresiones | 🟨 **veinticinco caras y un emulador** — en `lua-firmware`; sin ver en el panel |
+| 4c · Capa de compañía | 🟨 **la tabla, el firmware y los gates, cerrados el 19/8/2026 (D-N)** — falta el puente que las mande |
 | 4b · Catálogo de contenido | ✅ **cerrada** — el arte vive en `src/ValeriaPixelArt.ts`, el firmware lo copia y las pantallas lo dibujan, con captura |
 | 5 · Gamificación y Modo Vínculo | ⬜ pendiente |
 | 5b · Mini-juegos a pictogramas | ⬜ **pendiente, nueva** — ~82 dibujos; no depende de la placa |

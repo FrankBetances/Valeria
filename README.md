@@ -198,7 +198,7 @@ de nivel, icono de la app y pantalla de arranque.
 
 | Dónde aparece | Qué se ve |
 | --- | --- |
-| **Hub** | Lúa entera y **acariciable**, compartiendo tarjeta con el nivel, la barra de XP y la racha. Toca la placa y ronronea; el botón le da un pescadito. Una sola tarjeta: la mascota y la tira de juego pintaban cada una su gata y se veían dos |
+| **Hub** | Lúa entera y **acariciable**, compartiendo tarjeta con el nivel, la barra de XP y la racha. Toca la placa y ronronea; el botón le da un pescadito; y si tiene un premio sin gastar, **lo piensa** en una burbuja. Una sola tarjeta: la mascota y la tira de juego pintaban cada una su gata y se veían dos |
 | **Premios** (`ValeriaAwardsSheet`) | «Los premios de Lúa»: 12 niveles, 18 insignias y **el armario**: cinco coleccionables (pescadito, pajarita, flor, cascabel y gorro de maga) que se desbloquean con sesiones, racha y nivel, y se le ponen a la gata |
 | **Nombres de nivel** | **Gatita → Gata Curiosa → … → Gata Lunar → Gata Legendaria** (12 niveles) |
 | **Doble tarea** (`ValeriaDistractorCat`) | La misma gata como distractor periférico. El Panel del Adulto lo llama **«Gata distractora»** |
@@ -230,6 +230,14 @@ revisión entera y que conviene no volver a saltarse:
 El mismo dibujo sirve de icono en el armario —recortado a su propia caja, para
 que llene la placa— y de capa sobre la gata, expandido a la rejilla completa. No
 hay dos versiones que se puedan desincronizar.
+
+**Y desde el 19/8/2026, tampoco una tercera.** Cada accesorio que se lleva puesto
+declara además un `device: { row, col }`: su esquina en la rejilla de 32×26 del
+periférico, donde la gata se ve solo de cabeza. El dibujo es uno y viaja copiado
+—`tools/build-accessories.js` en el repositorio del firmware—; lo único propio de
+cada superficie es dónde se ancla, porque en el hub la gata está sentada. Un
+anclaje único descolocaría una de las dos poses; dos dibujos las separarían para
+siempre.
 
 ### Un solo sprite, cero PNG a mano
 
@@ -301,6 +309,45 @@ la tableta**. Un estímulo que se ve de una forma en el cristal y de otra en la
 pantalla no es un espejo. Por el cable no viaja el dibujo sino **su índice**
 —`PICTO(37)`, nunca «cuchara sucia»—, que es la garantía estructural de Zero‑PHI:
 el protocolo no tiene campo de texto.
+
+#### La mascota también, no solo el dibujo (D‑N, 19/8/2026)
+
+Hasta hace nada el espejo era **el dibujo**: la misma gata, los mismos
+pictogramas, las mismas insignias. Y aun así las dos mascotas se separaron, sin
+que fallara ningún gate: el 18/8/2026 la del hub aprendió a **ronronear** cuando
+la acarician, a **comer** el premio y a llevar puesto lo del **armario**, y la del
+aparato —que desde la placa V2 responde al dedo en el cristal— no se enteró de
+nada. Dos comportamientos distintos con la misma cara. Eso el niño lo nota y una
+comparación de píxeles no.
+
+Lo que lo cierra son dos opcodes que no inventan nada: los dos espejan algo que la
+tableta ya hacía.
+
+| Opcode | Qué manda | Qué espeja |
+| :--- | :--- | :--- |
+| `MOOD` `0x0B` | estado de compañía 0‑4 | `LuaAffectState` de la tarjeta del hub: serena · antojo · ronroneo · comiendo · celebrando |
+| `ACCESSORY` `0x0C` | índice del ítem + ranura | el armario: lo que el niño le ha puesto en la cabeza y en el cuello |
+
+La capa que los produce es [`src/valeriaLuaMascot.ts`](src/valeriaLuaMascot.ts)
+—módulo puro: entra estado y salen tramas, sin React y sin radio— y
+`scripts/check-lua-mascot-mirror.js` la vigila en cada build: que ningún estado de
+compañía se quede sin código, que los índices del armario **no se reordenen
+nunca** (a un aparato ya flasheado le pondrían el gorro del vecino) y que todo lo
+que se lleva puesto tenga anclaje también para la pose del aparato.
+
+Del cambio salió además algo visible en la app: **`CRAVING_SNACK` llevaba desde el
+primer día en el código sin que nada lo encendiera**. Ahora, con el pescadito
+desbloqueado y sin usar, Lúa lo piensa —burbuja sobre su cabeza en el hub, y en la
+corona del panel del aparato—. Y es **antojo, no hambre**: la mascota no se
+deteriora, no adelgaza y no pone cara triste si nadie la atiende. Un tamagotchi
+que se muere de hambre convierte faltar a una sesión en un castigo, y el que falta
+suele ser un niño de cuatro años que no decide su agenda.
+
+**Ojo con lo que esto todavía NO es:** el espejo va de la tableta al aparato y
+**nadie lo recorre**. Las tramas están definidas y comprobadas, pero el puente BLE
+(`src/valeriaLuaBridge.ts`, §7 del plan) sigue sin escribirse, así que hoy esto no
+mueve ni un píxel en ningún aparato. Y de vuelta no hay camino: un toque en el
+cristal se cuenta allí y no llega aquí.
 
 #### El sonido: lo dice la tableta, y Lúa se queda con la cara (D‑K, 14/8/2026)
 

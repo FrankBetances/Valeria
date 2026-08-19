@@ -46,10 +46,24 @@
     { "key": "AWARD", "code": 8, "param": "glifo 0-8 (byte bajo) + rango 0-4 (byte alto)", "note": "réplica de la insignia: familia y rango, nunca su nombre ni su descripción." },
     { "key": "LEVEL", "code": 9, "param": "nivel 1-12", "note": "réplica del nivel: doce segmentos en el anillo. Sin número y sin el nombre del nivel." },
     { "key": "PICTO_PAIR", "code": 10, "param": "índice izq (byte bajo) + índice der (byte alto)", "note": "RESERVADO · dos fichas para la vuelta de comprensión de Pares Mínimos (§6.5, capa 2). El código queda tomado para que no lo ocupe otro; el firmware todavía NO lo dibuja y lo ignora por el `default` del switch." },
+    { "key": "MOOD", "code": 11, "param": "estado de compañía 0-4", "note": "espeja LuaAffectState, la vida de la mascota FUERA del ejercicio: 0 serena · 1 antojo · 2 ronroneo (caricia) · 3 comiendo · 4 celebrando. Dentro del ejercicio mandan PHASE, VERDICT y CELEBRATE, que son los que llevan el turno." },
+    { "key": "ACCESSORY", "code": 12, "param": "índice del ítem (byte bajo) + ranura (byte alto) · 0xFF en el byte bajo lo quita", "note": "réplica del armario: la gata del aparato lleva puesto lo mismo que la de la tableta. Índice del catálogo de coleccionables de Valeria+, nunca su nombre. Se añade al final y no se reordena, igual que PICTO." },
     { "key": "GRANT", "code": 16, "param": "ttl en segundos 1-60 (byte bajo) + máscara de capacidades (byte alto)", "note": "concede capacidades (§5 del plan). El byte alto es la máscara de `capabilities`: 0x00 significa SOLO VISUAL, que es lo que valía un GRANT antes de que el campo existiera. La capacidad sonora NUNCA es implícita: hay que pedir su bit." },
     { "key": "HEARTBEAT", "code": 17, "param": "—", "note": "renueva la concesión viva" },
     { "key": "BENCH", "code": 240, "param": "—", "note": "Fase 0: pinta un frame completo y devuelve por STATE el tiempo de despacho. No se usa en producción." }
   ],
+  "moods": [
+    { "key": "SERENE", "code": 0, "state": "IDLE_SERENE", "note": "respiración pautada y cola rítmica. Es el reposo de la mascota, no el REPOSO de la máquina de estados: aquí hay concesión viva" },
+    { "key": "CRAVING", "code": 1, "state": "CRAVING_SNACK", "note": "hay un premio desbloqueado sin gastar. Antojo, no hambre: la mascota no se deteriora si nadie la atiende (§10.3)" },
+    { "key": "PURRING", "code": 2, "state": "PURRING_LOVE", "note": "respuesta a la caricia. La MISMA en las dos superficies: se toque el cristal o se toque la tableta" },
+    { "key": "EATING", "code": 3, "state": "EATING_SNACK", "note": "se está comiendo el premio" },
+    { "key": "CELEBRATING", "code": 4, "state": "CELEBRATE_AWARD", "note": "celebra un hito ya ganado. No sustituye a CELEBRATE: este viene del hub, aquel del cierre del ejercicio" }
+  ],
+  "slots": [
+    { "key": "HEAD", "code": 0, "note": "entre las orejas: flor, gorro" },
+    { "key": "NECK", "code": 1, "note": "bajo la barbilla: pajarita, cascabel" }
+  ],
+  "accessoryNone": 255,
   "capabilities": [
     { "key": "VISUAL", "bit": 0, "note": "dibujar en el panel. Es lo que concede un GRANT con el byte alto a 0" },
     { "key": "SOUND", "bit": 1, "note": "emitir sonido (zumbador de la D-F). Se concede aparte de la visual y caduca con ella. MUTE la quita sin apagar la pantalla" }

@@ -23,6 +23,7 @@ import { PRECOMPILED_RUNS } from './luaPixelSegments';
 import { PixelItemIcon } from './PixelItemIcon';
 import { Run } from '../../ValeriaCatPixel';
 import { LuaAffectState, LuaInventoryState, getCollectibleById } from '../../types/valeriaLua';
+import { luaCraves } from '../../valeriaLuaMascot';
 import { recordPatInteraction, feedLuaSnack } from '../../services/valeriaLuaInventory';
 import { GameState, levelFor, levelProgress, xpToNext, liveStreak, LEVEL_COUNT } from '../../valeriaGamification';
 import { useT } from '../../i18n';
@@ -101,9 +102,19 @@ export const ValeriaCatInteractiveCard: React.FC<Props> = ({
     return () => { breathLoop.stop(); tailLoop.stop(); };
   }, [breathAnim, tailAnim]);
 
-  // Parpadeo en reposo.
+  // El antojo. `CRAVING_SNACK` llevaba desde el principio en el enum sin que
+  // nada lo encendiera: la gata tenía un premio esperando y no lo pedía nunca.
+  // La regla de cuándo hay antojo vive en `valeriaLuaMascot`, que es de donde
+  // la lee también el aparato — la misma gata no puede tener hambre en la
+  // tableta y no tenerla en el cristal.
   useEffect(() => {
-    if (affect !== 'IDLE_SERENE') return;
+    if (affect !== 'IDLE_SERENE' && affect !== 'CRAVING_SNACK') return;
+    setAffect(luaCraves(inventory) ? 'CRAVING_SNACK' : 'IDLE_SERENE');
+  }, [inventory, affect]);
+
+  // Parpadeo en reposo. También con antojo: es la misma cara, esperando.
+  useEffect(() => {
+    if (affect !== 'IDLE_SERENE' && affect !== 'CRAVING_SNACK') return;
     const interval = setInterval(() => {
       if (!isMounted.current) return;
       setHeadRuns(PRECOMPILED_RUNS.headBlink);
@@ -168,7 +179,12 @@ export const ValeriaCatInteractiveCard: React.FC<Props> = ({
 
   const moodLabel = affect === 'PURRING_LOVE' ? t.hub.luaPurring
     : affect === 'EATING_SNACK' ? t.hub.luaEating
-      : t.hub.luaPatShort;
+      : affect === 'CRAVING_SNACK' ? t.hub.luaCraving
+        : t.hub.luaPatShort;
+
+  // La burbuja del antojo reutiliza la del premio: es el mismo dibujo pensando
+  // en lo mismo, y así no hay dos burbujas que mantener alineadas.
+  const bubbleItem = bubbleSnack ?? (affect === 'CRAVING_SNACK' ? 'snack_fish' : null);
 
   // Una capa de la rejilla completa: se pinta en 0,0 y cae donde se dibujó.
   const grid = (runs: Run[], keyPrefix: string) => (
@@ -194,8 +210,8 @@ export const ValeriaCatInteractiveCard: React.FC<Props> = ({
                 width: plateWidth, height: plateHeight, transform: [{ scale: touchScale }],
               }]}
             >
-              {bubbleSnack && (
-                <View style={styles.thoughtBubble}><PixelItemIcon id={bubbleSnack} size={18} /></View>
+              {bubbleItem && (
+                <View style={styles.thoughtBubble}><PixelItemIcon id={bubbleItem} size={18} /></View>
               )}
               {affect === 'PURRING_LOVE' && (
                 <View style={styles.loveBubble}><PixelAward glyph="heart" tier="teal" size={15} /></View>

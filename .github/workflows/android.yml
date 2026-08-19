@@ -237,6 +237,12 @@ jobs:
       - name: Comprobar que la interfaz se lee del catálogo (EN-2.8)
         run: node scripts/check-ui-strings.js
 
+      # La gata de la tableta aprendió a ronronear, a comer y a llevar puesta
+      # una flor; la del aparato responde al dedo desde la V2. Ninguna de las
+      # dos sabía nada de la otra, y con la misma cara eso no se nota.
+      - name: Comprobar que la mascota es la misma en la tableta y en el aparato
+        run: node scripts/check-lua-mascot-mirror.js
+
       # Un ejercicio mezcla dos audiencias: el niño lee/oye la variedad de
       # terapia, el adulto lee la interfaz. Se contradecían dentro de la misma
       # pantalla —lista en inglés, escala EPT-3 en castellano— y lo encontró

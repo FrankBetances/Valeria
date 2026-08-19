@@ -127,6 +127,14 @@ const pause = (page, ms) => page.waitForTimeout(ms);
   await shot(page, '05-hub-bloques');
   console.log('05 hub ✓');
 
+  // El antojo. Con el pescadito desbloqueado y sin usar, la gata lo piensa:
+  // misma burbuja que el aparato pinta en la corona del panel con MOOD(1).
+  const gataAntojo = page.getByLabel(/Acariciar a la gata/i);
+  if (await gataAntojo.count()) {
+    await shotAround(page, gataAntojo, 'lua-antojo', 24);
+    console.log('antojo ✓');
+  }
+
   // ---- Helper para volver al hub ----
   const goHub = async () => {
     await page.getByText('Prescripción de Terapias', { exact: true }).waitFor().catch(() => {});
