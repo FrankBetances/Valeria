@@ -88,3 +88,49 @@ export function lingContentForLocale(loc: string): LingContent {
   if (loc === 'en-US') return { sounds: LING_SOUNDS_EN, copy: LING_COPY_EN };
   return { sounds: LING_SOUNDS, copy: LING_COPY };
 }
+
+// ---- Idioma de la interfaz: en el Test de Ling lo lee TODO el adulto -------
+//
+// Esta pantalla es el caso más limpio de los dos ejes (§5.1 del plan en-US):
+// aquí la app NO locuta nada. Los seis sonidos los produce el adulto con su
+// propia boca y él mismo marca la respuesta —lo dice el propio `tip`—, así que
+// no hay ni una cadena dirigida al niño. Todo esto es interfaz.
+//
+// La grafía de `say` también: «uuu» y «ooo» cuan al MISMO fonema /u/, y cuál de
+// las dos ayuda al adulto depende de en qué lengua lee, no de en qué lengua
+// trabaja el niño. Los seis sonidos de Ling son universales por definición:
+// miden audibilidad por frecuencia, no variedad de habla.
+//
+// Igual que `dbFor` en el banco de ejercicios, esto solo interviene cuando los
+// dos ejes discrepan en el par es↔en. Con `gl` o `eu` no toca nada: ahí el
+// adulto lee la interfaz en castellano y el contenido en su lengua, que es lo
+// que ya hacía.
+const LING_SOUNDS_BY_UI: Record<'es' | 'en', LingSound[]> = { es: LING_SOUNDS, en: LING_SOUNDS_EN };
+const LING_COPY_BY_UI: Record<'es' | 'en', LingCopy> = { es: LING_COPY, en: LING_COPY_EN };
+
+// Lo único del Test de Ling que NO depende de en qué lengua lee el adulto sino
+// de la variedad del NIÑO: en dominicano la /s/ en coda se aspira o se elide
+// (guía QH-0.2 §3). El test pide una /s/ aislada, clara y sostenida, así que el
+// aviso tiene que llegarle al adulto lea en la lengua que lea. Sin esto, una
+// familia dominicana que pone la interfaz en inglés lo perdía.
+const LING_S_HINT_ESDO: Record<'es' | 'en', string> = {
+  es: LING_SOUNDS_ESDO[5].hint,
+  en: 'The /s/ is the hardest sound to hear. Produce it VERY CLEARLY and hold it (sss), '
+    + 'not the way it comes out in everyday Dominican Spanish, where the final /s/ drops.',
+};
+
+// Contenido del Test de Ling para la variedad `loc` leído por un adulto cuya
+// interfaz está en `uiLang`.
+export function lingContentFor(loc: string, uiLang: string): LingContent {
+  const ui = uiLang === 'en' ? 'en' : 'es';
+  const mismatch = (ui === 'en' && loc !== 'en-US') || (ui === 'es' && loc === 'en-US');
+  if (!mismatch) return lingContentForLocale(loc);
+
+  const sounds = LING_SOUNDS_BY_UI[ui];
+  const copy = LING_COPY_BY_UI[ui];
+  if (loc !== 'es-DO') return { sounds, copy };
+  return {
+    sounds: sounds.map((sn) => (sn.sym === 's' ? { ...sn, hint: LING_S_HINT_ESDO[ui] } : sn)),
+    copy,
+  };
+}

@@ -348,6 +348,31 @@ adulto se locuta, que los 37 ejercicios traen todos los suyos en inglés, y que
 `dbFor` devuelve de verdad la escala EPT-3 en la lengua de la interfaz con la
 consigna locutada en la de la variedad —en los dos sentidos.
 
+**El Test de Ling es el caso extremo y va entero al idioma de la interfaz.**
+Ahí la app no locuta nada: los seis sonidos los produce el adulto con su boca y
+él mismo marca la respuesta —lo dice el propio aviso de la pantalla—, así que
+no hay ni una cadena dirigida al niño. También la grafía: «uuu» y «ooo» cuan al
+mismo fonema /u/, y cuál ayuda depende de en qué lengua lee el adulto. Lo
+resuelve `lingContentFor(loc, uiLang)`.
+
+Con una excepción, que es la que enseña dónde está de verdad la frontera: el
+aviso de que en dominicano la /s/ en coda se aspira o se elide (guía QH-0.2 §3)
+depende de la variedad del NIÑO, no de la lengua del adulto. Está escrito en
+los dos idiomas y viaja con `es-DO` aunque la interfaz esté en inglés; sin eso,
+una familia dominicana que pone la app en inglés perdía la advertencia clínica.
+
+**Lo que sigue pendiente (ago 2026).** Expansión Semántica tiene el mismo
+defecto y NO se ha arreglado aquí: con la interfaz en inglés y terapia
+castellana, las tarjetas dicen «Rutina de mañana · Despertar, lavarse y
+vestirse». No admite el mismo arreglo mecánico, porque el banco inglés no es
+una traducción del castellano sino contenido propio con otros ids
+(`manana-cama` frente a `en-morning-bed`) y otros objetivos léxicos. Hacen
+falta ~65 rótulos ingleses escritos para los escenarios, categorías y
+progresiones castellanas —5 escenarios, 5 categorías, 9 secuencias con 4 fases
+cada una—, y es una decisión de producto antes que de código: si el niño
+trabaja «Rutina de mañana», ¿el adulto anglófono navega «Morning routine» o el
+nombre real del escenario que va a practicar? Pendiente de Frank.
+
 ## 6. Plan de trabajo por fases
 
 Convención de tareas: `EN-<fase>.<n>`. Cada tarea indica **Entregable** y

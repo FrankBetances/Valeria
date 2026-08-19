@@ -22,7 +22,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { V, STORAGE_KEYS } from './valeriaTheme';
 import { BlockIcon, BlockIconName } from './ValeriaBlockIcons';
 import { getLocale } from './valeriaLocale';
-import { lingContentForLocale } from './valeriaLingContent';
+import { getUiLang } from './valeriaUiLang';
+import { lingContentFor } from './valeriaLingContent';
 import { useT, UiStrings } from './i18n';
 // import logoWhite from '../../assets/valeria-logo-white.png';
 
@@ -43,9 +44,11 @@ export const ValeriaLingTestScreen: React.FC<{ navigation: any; route?: any }> =
   const t = useT();
   const SCALE = buildScale(t);
   const MONTHS = t.ling.months.split(' ');
-  // Contenido de la variedad activa: los 6 sonidos son universales; cambian las
-  // consignas y pistas (registro es-DO · Quisqueya Habla, QH-2.4).
-  const { sounds: SOUNDS, copy } = useRef(lingContentForLocale(getLocale())).current;
+  // Aquí la app no locuta nada: los seis sonidos los produce el ADULTO y él
+  // marca la respuesta, así que todo el contenido de esta pantalla lo lee él y
+  // va en el idioma de la interfaz. La variedad solo aporta el aviso dialectal
+  // de la /s/ dominicana, que depende del niño y no de en qué lengua se lee.
+  const { sounds: SOUNDS, copy } = useRef(lingContentFor(getLocale(), getUiLang())).current;
   const [phase, setPhase] = useState<Phase>('ask');
   const [idx, setIdx] = useState(0);
   const [results, setResults] = useState<number[]>([]);

@@ -34,6 +34,7 @@ const fallo = (msg) => { fallos += 1; console.error('  ✖ ' + msg); };
 try {
   execSync(
     ['npx tsc', JSON.stringify(path.join(ROOT, 'src', 'valeriaExerciseBank.ts')),
+      JSON.stringify(path.join(ROOT, 'src', 'valeriaLingContent.ts')),
       '--module commonjs', '--target es2020', '--moduleResolution node',
       '--esModuleInterop', '--skipLibCheck', '--outDir', JSON.stringify(tmp)].join(' '),
     { cwd: ROOT, stdio: 'inherit' },
@@ -124,6 +125,46 @@ try {
     }
   }
   if (fallos === antes3) console.log('  ✓ el criterio EPT-3 sigue a la interfaz y lo locutado sigue a la variedad');
+
+  // ---- R4 · Test de Ling ---------------------------------------------------
+  // Aquí la app no locuta NADA: los seis sonidos los produce el adulto y él
+  // marca la respuesta. Así que la pantalla entera es interfaz, salvo el aviso
+  // de la /s/ dominicana, que depende de la variedad del niño.
+  console.log('\n── R4 · el Test de Ling lo lee entero el adulto ──');
+  const antes4 = fallos;
+  const ling = require(path.join(tmp, 'valeriaLingContent.js'));
+  const { lingContentFor, lingContentForLocale, LING_COPY, LING_COPY_EN } = ling;
+
+  if (lingContentFor('es', 'en').copy.tip !== LING_COPY_EN.tip) {
+    fallo('el aviso del Test de Ling sigue en castellano con la UI en inglés');
+  }
+  if (lingContentFor('es', 'en').copy.instrBody !== LING_COPY_EN.instrBody) {
+    fallo('la consigna del Test de Ling sigue en castellano con la UI en inglés');
+  }
+  if (lingContentFor('en-US', 'es').copy.tip !== LING_COPY.tip) {
+    fallo('el aviso del Test de Ling sigue en inglés con la UI en castellano');
+  }
+  // El aviso dialectal dominicano no se pierde al leer en inglés: el /s/ del
+  // niño se elide igual, lea el adulto en la lengua que lea.
+  const sEsDoEn = lingContentFor('es-DO', 'en').sounds.find((x) => x.sym === 's');
+  if (!/drops|clearly/i.test(sEsDoEn.hint)) {
+    fallo('con es-DO y la UI en inglés se pierde el aviso de la /s/ dominicana (guía QH-0.2 §3)');
+  }
+  if (sEsDoEn.freq === lingContentForLocale('es-DO').sounds[5].freq) {
+    fallo('la banda de frecuencia del Test de Ling no ha pasado al inglés');
+  }
+  // Los seis sonidos siguen siendo seis y en el mismo orden: son universales.
+  for (const [loc, lang] of [['es', 'en'], ['es-DO', 'en'], ['en-US', 'es']]) {
+    const got = lingContentFor(loc, lang).sounds.map((x) => x.sym).join(' ');
+    if (got !== 'm u a i sh s') fallo(`lingContentFor('${loc}', '${lang}') altera los seis sonidos de Ling: ${got}`);
+  }
+  // gl y eu no se tocan: su adulto lee la interfaz en castellano.
+  for (const loc of ['gl', 'eu', 'es-DO']) {
+    if (JSON.stringify(lingContentFor(loc, 'es')) !== JSON.stringify(lingContentForLocale(loc))) {
+      fallo(`lingContentFor('${loc}', 'es') ha cambiado el contenido y no debía tocarlo`);
+    }
+  }
+  if (fallos === antes4) console.log('  ✓ el Test de Ling sigue a la interfaz, y el aviso dialectal a la variedad');
 } finally {
   fs.rmSync(tmp, { recursive: true, force: true });
 }
