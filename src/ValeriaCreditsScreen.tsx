@@ -95,7 +95,7 @@ export const ValeriaCreditsScreen: React.FC<{ navigation?: any }> = ({ navigatio
         {/* tarjeta del autor */}
         <Animated.View style={[s.doctorCard, step()]}>
           <Animated.View style={[s.doctorAvatar, { transform: [{ translateY }, { scale: pulseScale }] }]}>
-            <ValeriaBetancesCrest size={100} />
+            <ValeriaBetancesCrest size={112} />
           </Animated.View>
           <Text style={s.doctorName}>Dr. Frank Betances</Text>
           <Text style={s.doctorRole}>{t.credits.authorRole}</Text>
@@ -183,9 +183,9 @@ const s = StyleSheet.create({
     borderWidth: 1, borderColor: 'rgba(255,255,255,0.28)', borderRadius: 22,
     paddingVertical: 24, paddingHorizontal: 22, alignItems: 'center',
   },
-  // El emblema trae su propio disco, así que aquí no hay fondo ni recorte:
-  // un círculo blanco detrás se comería el ave clara.
-  doctorAvatar: { width: 100, height: 100, alignItems: 'center', justifyContent: 'center' },
+  // El emblema es un PNG transparente: aquí no hay fondo ni recorte, el anillo
+  // y el ave clara se apoyan directamente sobre el turquesa de la tarjeta.
+  doctorAvatar: { width: 112, height: 112, alignItems: 'center', justifyContent: 'center' },
   doctorName: { marginTop: 16, fontSize: 21, fontWeight: '900', color: '#fff', lineHeight: 24 },
   doctorRole: { marginTop: 6, fontSize: 13.5, fontWeight: V.font.bold, color: 'rgba(255,255,255,0.88)' },
 
