@@ -12,7 +12,7 @@
 // Módulo PURO: solo importa otros módulos puros de datos (valeriaExerciseMeta).
 // No debe importar react-native ni expo: un script Node lo compila y ejecuta.
 // ============================================================================
-import { META_BY_ID } from './valeriaExerciseMeta';
+import { META_BY_ID, metaIndexFor } from './valeriaExerciseMeta';
 
 // ----------------------------------------------------------------------------
 // Tipos
@@ -693,6 +693,87 @@ export function dbForLocale(loc: string): Record<string, Exercise> {
   if (!ov) return DB;
   const out: Record<string, Exercise> = {};
   for (const [id, ex] of Object.entries(DB)) out[id] = { ...ex, ...(ov[id] ?? {}) };
+  return out;
+}
+
+// ---- Campos que lee SOLO el adulto: siguen el idioma de la INTERFAZ --------
+//
+// Un ejercicio mezcla dos audiencias. Lo que se le dice o se le pide al NIÑO
+// va en la variedad de terapia (`read` y `move` los LOCUTA la app; las fichas,
+// la frase y los fonemas los evalúa el micrófono). Lo que solo lee el ADULTO
+// —el criterio EPT-3 con el que puntúa, el nombre del ejercicio, el material
+// que tiene que preparar— es interfaz, y va en su idioma.
+//
+// Sin esto los dos ejes se contradecían dentro de la misma pantalla: la lista
+// de bloques ya resolvía por idioma de interfaz (getExercisesForBlock) y el
+// player seguía resolviendo todo por variedad, así que con la UI en inglés se
+// entraba desde "Vowel articulation" a un ejercicio titulado "Articulación de
+// vocales" y se puntuaba con una escala EPT-3 en castellano. Lo cazó Frank.
+//
+// La lista es CERRADA y ninguno de sus campos entra en `linesForExercise`: si
+// alguno lo hiciera, se pediría al TTS inglés que leyera castellano, que es
+// justo lo que evita EN_THERAPY_CONTENT_READY. El gate check-adult-fields.js
+// comprueba las dos cosas.
+export const ADULT_ONLY_FIELDS = [
+  'name', 'category', 'age', 'stageLabel', 'ept',
+  'materials', 'instrHint', 'micPrompt', 'choiceLabel', 'proposals',
+] as const;
+
+// `levels` va aparte: dentro del mismo objeto conviven `read` (locutado, se
+// queda en la variedad) y `label`/`instrHint` (los lee el adulto).
+const mergeLevels = (base: Exercise['levels'], ui: Exercise['levels']): Exercise['levels'] => {
+  if (!base || !ui) return base;
+  return base.map((lv, i) => (ui[i] ? { ...lv, label: ui[i].label, instrHint: ui[i].instrHint } : lv));
+};
+
+// Banco de la variedad `loc` con los campos de adulto en el idioma `uiLang`.
+// Solo interviene cuando los dos ejes discrepan; con gl, eu o es-DO no toca
+// nada, porque su adulto lee la interfaz en castellano y el contenido en su
+// lengua, que es lo que ya hacía.
+export function dbFor(loc: string, uiLang: string): Record<string, Exercise> {
+  const db = dbForLocale(loc);
+  const adult = uiLang === 'en' && loc !== 'en-US' ? EXERCISE_EN
+    : uiLang === 'es' && loc === 'en-US' ? DB
+      : null;
+  if (!adult) return db;
+  const out: Record<string, Exercise> = {};
+  for (const [id, ex] of Object.entries(db)) {
+    const src = adult[id];
+    if (!src) { out[id] = ex; continue; }
+    const patch: Partial<Exercise> = {};
+    for (const f of ADULT_ONLY_FIELDS) {
+      if (src[f] !== undefined) (patch as Record<string, unknown>)[f] = src[f];
+    }
+    // Nombre, categoría y edad mandan desde valeriaExerciseMeta, que es de
+    // donde los saca también la lista de bloques. Un solo sitio, no dos.
+    const m = metaIndexFor(uiLang === 'en' ? 'en' : 'es')[id];
+    if (m) Object.assign(patch, { name: m.name, category: m.category, age: m.age });
+    out[id] = { ...ex, ...patch, levels: mergeLevels(ex.levels, src.levels) };
+  }
+  return out;
+}
+
+// Igual para las rondas de contenido: una variante puede traer su propio
+// `stageLabel` o su propio `ept`, y tienen que seguir la misma regla.
+export function variantsFor(loc: string, uiLang: string): Record<string, Partial<Exercise>[]> {
+  const vars = variantsForLocale(loc);
+  const adult = uiLang === 'en' && loc !== 'en-US' ? VARIANTS_EN
+    : uiLang === 'es' && loc === 'en-US' ? VARIANTS
+      : null;
+  if (!adult) return vars;
+  const out: Record<string, Partial<Exercise>[]> = {};
+  for (const [id, rounds] of Object.entries(vars)) {
+    const src = adult[id];
+    out[id] = rounds.map((r, i) => {
+      const from = src?.[i];
+      if (!from) return r;
+      const patch: Partial<Exercise> = {};
+      for (const f of ADULT_ONLY_FIELDS) {
+        if (r[f] !== undefined && from[f] !== undefined) (patch as Record<string, unknown>)[f] = from[f];
+      }
+      return { ...r, ...patch };
+    });
+  }
   return out;
 }
 

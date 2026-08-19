@@ -315,6 +315,39 @@ export const defaultUiLangFor = (loc: Locale): UiLang =>
 Es un eje más y no una complicación gratuita: sin él, el bilingüismo —que es
 justo el caso de uso más valioso del mercado estadounidense— quedaría fuera.
 
+#### La frontera pasa POR DENTRO del ejercicio (ago 2026)
+
+«`Locale` decide lo que se muestra» resultó ser demasiado grueso, y el fallo lo
+encontró Frank usando la app: con la interfaz en inglés se entraba desde
+*Vowel articulation* a un ejercicio titulado **«Articulación de vocales»** y se
+puntuaba con la escala **EPT-3 en castellano**. La lista de bloques resolvía por
+`UiLang` y el player resolvía todo por `Locale`; los dos ejes se contradecían
+dentro de la misma pantalla.
+
+Un ejercicio no tiene una audiencia, tiene dos:
+
+| Va en la VARIEDAD de terapia | Va en el IDIOMA DE INTERFAZ |
+| --- | --- |
+| Todo lo que la app **locuta**: `read`, `move`, `phrase`, `tiles[].cap`, `choicePrompt`, `sentence`, `plural`, `scenes[].say`, `micTarget`, `phonemes` | Todo lo que **solo lee el adulto**: `ept`, `name`, `category`, `age`, `stageLabel`, `materials`, `instrHint`, `micPrompt`, `choiceLabel`, `proposals` |
+| Todo lo que el **micrófono evalúa** | `levels[].label` y `levels[].instrHint` (el `read` del mismo objeto, no) |
+
+El criterio es mecánico, no de opinión: **si el texto entra en
+`linesForExercise`, va en la variedad.** Pedirle a la voz inglesa que lea
+castellano es exactamente lo que evita `EN_THERAPY_CONTENT_READY`.
+
+La lista vive en `ADULT_ONLY_FIELDS` (`valeriaExerciseBank.ts`) y la aplican
+`dbFor(loc, uiLang)` y `variantsFor(loc, uiLang)`. Solo intervienen cuando los
+dos ejes discrepan: con `gl`, `eu` o `es-DO` no tocan nada, porque ahí el adulto
+lee la interfaz en castellano y el contenido en su lengua, que es lo que ya
+hacían. `name`, `category` y `age` los manda `valeriaExerciseMeta`, que es de
+donde tira también la lista de bloques: un solo sitio, no dos.
+
+Lo guarda [`scripts/check-adult-fields.js`](../scripts/check-adult-fields.js),
+que comprueba las tres cosas sobre el banco compilado: que ningún campo de
+adulto se locuta, que los 37 ejercicios traen todos los suyos en inglés, y que
+`dbFor` devuelve de verdad la escala EPT-3 en la lengua de la interfaz con la
+consigna locutada en la de la variedad —en los dos sentidos.
+
 ## 6. Plan de trabajo por fases
 
 Convención de tareas: `EN-<fase>.<n>`. Cada tarea indica **Entregable** y

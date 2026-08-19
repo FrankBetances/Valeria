@@ -62,7 +62,8 @@ import { ValeriaPragmaticBreakOverlay } from './ValeriaPragmaticBreak';
 import { releaseNoise } from './valeriaNoise';
 import { AUDICION_META, LENGUAJE_META, TEA_META, DISLEXIA_META } from './valeriaExerciseMeta';
 import { markBlockCompleted } from './valeriaTelemetry';
-import { Tile, Exercise, DEFAULT_SESSION, dbForLocale, variantsForLocale, emoForLocale, sessionDoneLeadFor, pluralHintFor, touchImageHintFor, emotionQuestionFor, emotionPromptFor, pluralOneLabelFor, pluralManyLabelFor } from './valeriaExerciseBank';
+import { getUiLang } from './valeriaUiLang';
+import { Tile, Exercise, DEFAULT_SESSION, dbFor, variantsFor, emoForLocale, sessionDoneLeadFor, pluralHintFor, touchImageHintFor, emotionQuestionFor, emotionPromptFor, pluralOneLabelFor, pluralManyLabelFor } from './valeriaExerciseBank';
 import { getLocale } from './valeriaLocale';
 
 // Conjuntos de ids por bloque para marcar el hito de "bloque completado" (SUS).
@@ -284,8 +285,14 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
   // Banco de la variedad activa (fijado al montar): en es-DO aplica los overrides
   // dominicanos (léxico, consignas y plural por determinante · QH-2.3).
   const loc = useRef(getLocale()).current;
-  const db = useRef(dbForLocale(loc)).current;
-  const variantsMap = useRef(variantsForLocale(loc)).current;
+  // Idioma de la interfaz, fijado igual que la variedad: dentro de una sesión
+  // ya empezada no se cambia ninguno de los dos ejes. Lo que se le dice al niño
+  // sigue saliendo de `loc`; lo que lee el adulto —nombre, categoría, edad,
+  // rótulo de etapa, material y el criterio EPT-3 con el que puntúa— sale de
+  // `uiLang`, porque es interfaz y no terapia (§5.1 del plan en-US).
+  const uiLang = useRef(getUiLang()).current;
+  const db = useRef(dbFor(loc, uiLang)).current;
+  const variantsMap = useRef(variantsFor(loc, uiLang)).current;
   // Constantes de pantalla localizadas por variedad (emociones, cierre de
   // sesión, pista y etiquetas de plural): en eu son vascas (HiTZ).
   const emo = useRef(emoForLocale(loc)).current;

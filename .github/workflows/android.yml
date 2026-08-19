@@ -237,6 +237,13 @@ jobs:
       - name: Comprobar que la interfaz se lee del catálogo (EN-2.8)
         run: node scripts/check-ui-strings.js
 
+      # Un ejercicio mezcla dos audiencias: el niño lee/oye la variedad de
+      # terapia, el adulto lee la interfaz. Se contradecían dentro de la misma
+      # pantalla —lista en inglés, escala EPT-3 en castellano— y lo encontró
+      # Frank usando la app, no el typecheck.
+      - name: Comprobar que cada audiencia lee su idioma
+        run: node scripts/check-adult-fields.js
+
       - name: Comprobar tipos
         run: npm run typecheck
 

@@ -127,6 +127,7 @@ export const EXERCISE_EN: Record<string, Partial<Exercise>> = {
     materials: 'A doll or puppet and some real clothes: a hat, shoes, a t-shirt…',
     read: 'Take the doll and the clothes. Give your child one instruction at a time: "Put the hat on the doll." Take turns changing the clothes.',
     stageLabel: 'Follow the clothing instructions',
+    instrHint: 'Your child listens to your instruction and dresses the doll in the right item.',
     move: 'Every time they dress the doll, they put the same item on themselves.',
     ept: [
       'Does not follow the instruction yet, even when you point.',
@@ -203,6 +204,7 @@ export const EXERCISE_EN: Record<string, Partial<Exercise>> = {
   pr2: {
     name: 'Conversational adaptation',
     category: 'Social communication (pragmatics)',
+    materials: 'A stuffed animal or a doll',
     read: 'Your child tells the same little story twice: once to you and once to a younger toy or sibling. The point is that they change HOW they say it.',
     stageLabel: 'Tell it two ways',
     instrHint: 'For the younger listener: shorter sentences, slower, more gestures.',
@@ -313,6 +315,7 @@ export const EXERCISE_EN: Record<string, Partial<Exercise>> = {
   ra5: {
     name: 'Sound localization',
     category: 'Auditory training (speech in noise)',
+    materials: 'A small bell, a set of keys or a rattle (anything with a clear sound)',
     read: 'Stand behind your child and make a sound from one side. They point to where it came from without turning around first.',
     stageLabel: 'Point to where the sound came from',
     instrHint: 'Change sides at random, and sometimes stay on the same side twice.',
@@ -328,6 +331,7 @@ export const EXERCISE_EN: Record<string, Partial<Exercise>> = {
   atencion_conjunta: {
     name: 'Joint attention',
     category: 'Gaze, bubbles and name response',
+    materials: 'A bottle of bubbles. If you do not have any, anything that really grabs their attention and that you can move works: a flashlight, a pinwheel, a toy with lights or a balloon.',
     read: 'Follow what your child is already looking at and name it. Do not redirect them to what YOU want to show: join in first, lead later.',
     stageLabel: 'Join their attention',
     instrHint: 'Name what they are looking at, then wait. The waiting is the exercise.',
@@ -351,6 +355,7 @@ export const EXERCISE_EN: Record<string, Partial<Exercise>> = {
   imitacion: {
     name: 'Motor & verbal imitation',
     category: 'Clapping, drumming and syllables',
+    materials: 'Nothing essential: your hands are enough. If you have one, a drum or anything that makes a sound when you hit it (a box, a pot with a wooden spoon).',
     read: 'Do a short action and wait for your child to copy it. Start with the body, then move to sounds.',
     stageLabel: 'Copy the action',
     instrHint: 'Do the action, then freeze and wait. Do not do it for them.',
@@ -369,6 +374,7 @@ export const EXERCISE_EN: Record<string, Partial<Exercise>> = {
   comprension: {
     name: 'Verbal comprehension',
     category: 'Commands, body parts and categories',
+    materials: 'A ball and two or three objects they know well and can name (their cup, a car, a stuffed animal). Body parts need no materials.',
     read: 'Give one instruction at a time and wait. If they do not respond, help with a gesture before you help with words.',
     stageLabel: 'Follow the instruction',
     instrHint: 'One instruction, then silence. Two instructions at once is a different exercise.',
@@ -387,6 +393,7 @@ export const EXERCISE_EN: Record<string, Partial<Exercise>> = {
   expresion: {
     name: 'Verbal expression',
     category: 'Animal sounds, naming and sentences',
+    materials: 'A cup and water in sight but out of reach, plus a toy dog or a picture of one. The key is that they can see the water and cannot get it on their own: that is what creates the need to ask for it.',
     read: 'Give your child the first part and let them finish it. Start with sounds and build up to whole phrases.',
     stageLabel: 'Finish it off', phrase: 'MOO', phraseEmoji: '🐮',
     move: 'Act out the animal while you make its sound.',
@@ -404,6 +411,7 @@ export const EXERCISE_EN: Record<string, Partial<Exercise>> = {
   comunicacion_funcional: {
     name: 'Functional communication',
     category: 'Requesting "more", "help", "want"',
+    materials: 'Anything they really like and cannot get on their own. Ideas, not a closed list: a screw-top jar they cannot open, their favorite toy on a high shelf, a sealed bag of snacks, bubbles, a tickle game or a swing (here the "material" is you).',
     read: 'Set things up so your child NEEDS to ask. Put the favourite thing in sight but out of reach and wait for a request.',
     stageLabel: 'Ask for it',
     instrHint: 'A gesture, a sound or a word all count as asking. Answer straight away when they do.',
@@ -422,6 +430,7 @@ export const EXERCISE_EN: Record<string, Partial<Exercise>> = {
   regulacion_conductual: {
     name: 'Behavioral regulation',
     category: 'Transitions, routines and rewards',
+    materials: 'A visual schedule, made BEFORE you start. It takes five minutes: pick 3 or 4 activities from the time you are about to spend together, put a picture of each one (a symbol, a photo or your own drawing) on strips of card or a sheet of paper, lay them left to right in the real order and say out loud how long each one lasts ("books, a short while; then bath"). As each activity ends, your child takes their own picture down or crosses it out. Also, something they genuinely like for the step 2 reward: it does not have to be a token or a sticker, whatever works for them counts.',
     read: 'Announce what comes next BEFORE it happens. Transitions are easier when they are predictable.',
     stageLabel: 'Get through the transition',
     instrHint: 'Warn them twice: "two more minutes", then "one more minute".',
@@ -440,6 +449,7 @@ export const EXERCISE_EN: Record<string, Partial<Exercise>> = {
   interaccion_social: {
     name: 'Social interaction',
     category: 'Turn-taking, pretend play, emotions',
+    materials: 'Blocks or stacking pieces for turn-taking, and a doll with a spoon and a plate for pretend play. A ball that rolls works for the movement version.',
     read: 'Take turns at something your child already enjoys. The point is the turn, not the activity.',
     stageLabel: 'Take turns',
     instrHint: 'Say "my turn" and "your turn" out loud every single time.',

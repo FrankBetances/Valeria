@@ -199,6 +199,16 @@ export const META_BY_ID: Record<string, ExerciseMeta> = Object.fromEntries(
   [...AUDICION_META_ES, ...LENGUAJE_META_ES, ...TEA_META_ES, ...DISLEXIA_META_ES, ...AR_META_ES].map((m) => [m.id, m]),
 );
 
+export const META_BY_ID_EN: Record<string, ExerciseMeta> = Object.fromEntries(
+  [...AUDICION_META_EN, ...LENGUAJE_META_EN, ...TEA_META_EN, ...DISLEXIA_META_EN, ...AR_META_EN].map((m) => [m.id, m]),
+);
+
+// Nombre, categoría y edad en el idioma de la INTERFAZ. Los lee tanto la lista
+// de bloques como el player: si cada uno tirase de su lado, se entraría desde
+// «Vowel articulation» a «Articulación de vocales», que es lo que pasaba.
+export const metaIndexFor = (lang: UiLang): Record<string, ExerciseMeta> =>
+  (lang === 'en' ? META_BY_ID_EN : META_BY_ID);
+
 export const getMetaById = (lang: UiLang = 'es'): Record<string, ExerciseMeta> =>
   Object.fromEntries(
     [

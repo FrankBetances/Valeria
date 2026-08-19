@@ -30,6 +30,7 @@
     "check:lua-protocol": "node scripts/check-lua-protocol.js",
     "check:lua-mute": "node scripts/check-lua-mute.js",
     "check:ui-strings": "node scripts/check-ui-strings.js",
+    "check:adult-fields": "node scripts/check-adult-fields.js",
     "build:lua-faces": "node scripts/build-lua-faces.js"
   },
   "dependencies": {
