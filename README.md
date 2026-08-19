@@ -299,8 +299,8 @@ dos superficies.
 
 **Y desde el 19/8/2026 el aparato existe de verdad**, no en un plano: la placa
 redonda (ESP32‑2424S012 con panel GC9A01) compila, se flashea y pinta el catálogo
-entero a **27 fps** en su disco de 32 mm, con los pines confirmados. Está en la
-rama `compilacion_placa_redonda_v1` del repositorio del firmware, sin mergear.
+entero a **27 fps** en su disco de 32 mm, con los pines confirmados. El informe está
+en el `main` del firmware, en `docs/validacion_hardware_v1_esp32c3.md`.
 Sigue sin medirse la mitad que importa para esta app —**la latencia p95 de
 extremo a extremo por Bluetooth**, que es el criterio del §4 del plan—, porque
 aquella sesión gobernó el aparato en local. Y la capa de compañía de aquí abajo

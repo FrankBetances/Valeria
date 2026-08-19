@@ -1070,8 +1070,8 @@ solo sirve para incumplirla.
 Ya no es una descripción, y ya no falta la placa: la **V1 compila, se flashea y
 pinta el catálogo a 27 fps** —criterio de fluidez cumplido con margen—, con el
 mapa de pines de `board_v1.h` confirmado empíricamente y 46,8 % de flash. El
-informe está en la rama `compilacion_placa_redonda_v1` del repositorio del
-firmware (`docs/validacion_hardware_v1_esp32c3.md`), **todavía sin mergear**.
+informe está en el `main` del repositorio del firmware, en
+`docs/validacion_hardware_v1_esp32c3.md`.
 
 **La otra mitad del criterio sigue sin medir**, y conviene no darla por buena de
 rebote: aquella sesión conduce el aparato **en local** —modo demostración y
