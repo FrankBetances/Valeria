@@ -969,6 +969,18 @@ export const ES = {
     tprDone: '✅ ¡Lo hizo!',
     routeDoneLast: '✅ Lo hizo · terminar',
     routeDone: '✅ Lo hizo',
+    // Ancla Visual Lejana (20-20-20). El copy dice SUGERENCIA en todas sus
+    // formas: nada aquí detiene la sesión y el pie lo deja por escrito.
+    visualAnchorKicker: '👁️ DESCANSO VISUAL · REGLA 20-20-20',
+    visualAnchorTitle: 'Descanso visual recomendado',
+    visualAnchorBody: 'Lleváis 20 minutos de pantalla cerca. Lúa está lista para una pausa de 20 segundos: que mire algo lejano —una ventana, el fondo de la sala— mientras la gata duerme.',
+    visualAnchorStart: (n: number): string => `▶ Empezar los ${n} segundos`,
+    visualAnchorRunning: (n: number): string => `Mirando lejos · ${n} s`,
+    visualAnchorFarAway: 'Que siga mirando lo más lejos que haya en la sala. Lúa duerme hasta que termine.',
+    visualAnchorResume: 'Reanudar ahora',
+    visualAnchorLater: 'Ahora no',
+    visualAnchorHint: 'Lúa se duerme durante la pausa. La sesión no se detiene.',
+    visualAnchorFoot: 'Sugerencia · la app no detiene la sesión, la pausa la decides tú.',
   },
 
   pro: {

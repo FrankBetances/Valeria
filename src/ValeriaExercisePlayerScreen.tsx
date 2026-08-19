@@ -56,6 +56,7 @@ import { BlockIcon } from './ValeriaBlockIcons';
 import { speakToChild, speakToChildSeq, speakWordSlow, stopSpeaking, praisePhrase, almostPhrase, normalizeSpeech } from './valeriaVoice';
 import { SpeakButton, MicPracticeCard, ResponseCaptureCard } from './ValeriaVoiceUI';
 import { ValeriaSessionBreakOverlay, pickSessionBreak, SessionBreak } from './ValeriaSessionBreakOverlay';
+import { useActiveTimeMonitor } from './valeriaActiveTimeMonitor';
 import { ValeriaAdultChaosPanel } from './ValeriaAdultChaosPanel';
 import { ValeriaDistractorCat } from './ValeriaDistractorCat';
 import { ValeriaPragmaticBreakOverlay } from './ValeriaPragmaticBreak';
@@ -282,6 +283,10 @@ const ConfettiBurst: React.FC = () => {
 // ----------------------------------------------------------------------------
 export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: any }> = ({ navigation, route }) => {
   const t = useT();
+  // Reloj de las 20-20-20. Corre mientras esta pantalla esté montada, que es lo
+  // que cuenta como terapia activa: el hub y los ajustes no. Solo acumula; la
+  // sugerencia la pinta la pausa activa y la ejecuta el adulto.
+  useActiveTimeMonitor(true);
   // Banco de la variedad activa (fijado al montar): en es-DO aplica los overrides
   // dominicanos (léxico, consignas y plural por determinante · QH-2.3).
   const loc = useRef(getLocale()).current;
