@@ -4,24 +4,34 @@
 //
 //  Pantalla de Créditos · port de src/ValeriaCreditsScreen.tsx.
 //  Reconoce al autor clínico y a las entidades colaboradoras.
+//  Los textos salen de VStrings, espejo del catálogo de i18n.
 //
 
 import SwiftUI
 
 private struct Colaborador: Identifiable {
     let id = UUID()
+    // PENDIENTE: `icon` es un emoji del sistema, que la regla 5 prohíbe como
+    // iconografía. Aquí no hay puerto de las marcas de ValeriaPartnerLogos.tsx
+    // y dibujarlas a ojo en Swift sería una segunda fuente de verdad. Se queda
+    // el emoji hasta que el generador de marca sepa exportarlas a imageset:
+    // una placa vacía se vería como un fallo, no como un pendiente.
     let icon: String
+    /// Nombre propio de la entidad: no se traduce.
     let nombre: String
     let desc: String
 }
 
-private let COLABORADORES: [Colaborador] = [
-    .init(icon: "🤝", nombre: "Acopros", desc: "Asociación de Colaboración y Promoción del Sordo"),
-    .init(icon: "🗣️", nombre: "Quisqueya Habla", desc: "Rehabilitación del lenguaje"),
-]
-
 struct CreditsView: View {
     @EnvironmentObject private var router: Router
+
+    private let s = VStrings.current
+    private var colaboradores: [Colaborador] {
+        [
+            .init(icon: "🤝", nombre: "Acopros", desc: s.credits.acoprosDesc),
+            .init(icon: "🗣️", nombre: "Quisqueya Habla", desc: s.credits.quisqueyaDesc),
+        ]
+    }
     @State private var float = false
 
     var body: some View {
@@ -34,14 +44,14 @@ struct CreditsView: View {
                 ScrollView(showsIndicators: false) {
                     VStack(spacing: 0) {
                         VStack(spacing: 8) {
-                            BearMark(size: 54, variant: .brown)
+                            LuaMark(size: 54, pose: .head)
                             Text("valeria")
                                 .font(.system(size: 26, weight: .heavy))
                                 .foregroundStyle(.white)
                         }
                         .padding(.top, 36)
 
-                        Text("PROYECTO DESARROLLADO POR")
+                        Text(s.credits.kicker.uppercased())
                             .font(.system(size: 12, weight: .heavy))
                             .tracking(2.5)
                             .foregroundStyle(Color.white.opacity(0.7))
@@ -49,16 +59,20 @@ struct CreditsView: View {
 
                         // Tarjeta del autor
                         VStack(spacing: 0) {
-                            Text("🩺").font(.system(size: 34))
-                                .frame(width: 74, height: 74)
-                                .background(Color.white.opacity(0.92))
-                                .clipShape(Circle())
+                            // Emblema oficial del autor (Assets.xcassets/DrBetancesCrest).
+                            // Va sin disco ni recorte: el PNG es transparente y trae su
+                            // propio anillo, que se apoya sobre el turquesa de la tarjeta.
+                            Image("DrBetancesCrest")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 112, height: 112)
+                                .accessibilityHidden(true)
                                 .offset(y: float ? -6 : 0)
                             Text("Dr. Frank Betances")
                                 .font(.system(size: 21, weight: .black))
                                 .foregroundStyle(.white)
                                 .padding(.top, 16)
-                            Text("Otorrinolaringólogo infantil")
+                            Text(s.credits.authorRole)
                                 .font(.system(size: 13.5, weight: .bold))
                                 .foregroundStyle(Color.white.opacity(0.88))
                                 .padding(.top, 6)
@@ -73,7 +87,7 @@ struct CreditsView: View {
                         // Divisor
                         HStack(spacing: 12) {
                             Rectangle().fill(Color.white.opacity(0.3)).frame(height: 1)
-                            Text("EN COLABORACIÓN CON")
+                            Text(s.credits.collaborators.uppercased())
                                 .font(.system(size: 11.5, weight: .heavy))
                                 .tracking(1.5)
                                 .foregroundStyle(Color.white.opacity(0.75))
@@ -84,7 +98,7 @@ struct CreditsView: View {
 
                         // Colaboradores
                         VStack(spacing: 11) {
-                            ForEach(COLABORADORES) { c in
+                            ForEach(colaboradores) { c in
                                 HStack(spacing: 13) {
                                     Text(c.icon).font(.system(size: 20))
                                         .frame(width: 42, height: 42)
@@ -109,7 +123,7 @@ struct CreditsView: View {
                 }
 
                 Button { router.push(.ficha) } label: {
-                    Text("Continuar")
+                    Text(s.cont)
                         .font(.system(size: 17, weight: .heavy))
                         .foregroundStyle(VColor.primaryDark)
                         .frame(maxWidth: .infinity)

@@ -1,11 +1,11 @@
 // ============================================================================
 // Valeria+ · Genera los PNG de marca desde la rejilla de Lúa
 //
-// Los CINCO PNG de marca salen de la MISMA rejilla que usa la app
+// Los SIETE PNG de marca salen de la MISMA rejilla que usa la app
 // (src/ValeriaCatPixel.tsx): icono Android, icono adaptativo, splash, retrato
-// del manual e icono de iOS. Si mañana cambia el sprite se vuelve a correr esto
-// y los cinco quedan iguales; nadie tiene que redibujar nada ni acordarse de
-// exportar a mano.
+// del manual, icono de iOS y las dos poses que pinta el port nativo de iOS.
+// Si mañana cambia el sprite se vuelve a correr esto y los siete quedan
+// iguales; nadie tiene que redibujar nada ni acordarse de exportar a mano.
 //
 // El de iOS se añadió tarde y por las malas: cuando ya se había dicho tres
 // veces que la mascota estaba cambiada, AppIcon-1024.png seguía siendo el oso
@@ -126,6 +126,20 @@ const IOS_ICON = path.join(
   'AppIcon.appiconset', 'AppIcon-1024.png',
 );
 
+// --- 6 y 7. Poses de la mascota para el port nativo de iOS -----------------
+// SwiftUI no lee la rejilla de caracteres, así que el port nativo pintaba al
+// oso pardo mucho después de que la app lo hubiera retirado. Ahora sale de
+// aquí, en las dos poses que usa (regla del umbral en ValeriaCatPixel: cabeza
+// por debajo de 90 px de ancho, cuerpo entero por encima). Transparentes: van
+// sobre el turquesa de Bienvenida y de Créditos, no sobre un lienzo propio.
+const IOS_ASSETS = path.join(__dirname, '..', 'ios-native', 'Valeria', 'Assets.xcassets');
+const nativeCell = 16;               // 32 × 16 = 512 px de lado
+const nativeHead = svg(HEAD, nativeCell);
+const nativeSit = svg(SIT, nativeCell);
+const nativeHtml = (m) => page(`<svg width="${m.w}" height="${m.h}">${m.markup}</svg>`, m.w, m.h);
+const IOS_HEAD = path.join(IOS_ASSETS, 'LuaHead.imageset', 'lua-head.png');
+const IOS_SIT = path.join(IOS_ASSETS, 'LuaSit.imageset', 'lua-sit.png');
+
 (async () => {
   const b = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH });
   const shoot = async (html, w, h, file, transparent) => {
@@ -141,9 +155,14 @@ const IOS_ICON = path.join(
   await shoot(docHtml, docSit.w, docSit.h, path.join(DOCS, 'lua-mascota.png'), true);
   fs.mkdirSync(path.dirname(IOS_ICON), { recursive: true });
   await shoot(iconHtml, 1024, 1024, IOS_ICON);   // sin omitBackground: opaco
+  fs.mkdirSync(path.dirname(IOS_HEAD), { recursive: true });
+  fs.mkdirSync(path.dirname(IOS_SIT), { recursive: true });
+  await shoot(nativeHtml(nativeHead), nativeHead.w, nativeHead.h, IOS_HEAD, true);
+  await shoot(nativeHtml(nativeSit), nativeSit.w, nativeSit.h, IOS_SIT, true);
   await b.close();
-  console.log('generados 5 PNG · head', HEAD[0].length + 'x' + HEAD.length, '· paleta', Object.keys(PAL).join(''));
+  console.log('generados 7 PNG · head', HEAD[0].length + 'x' + HEAD.length, '· paleta', Object.keys(PAL).join(''));
   console.log('  ' + [path.join(OUT, 'icon.png'), path.join(OUT, 'adaptive-icon.png'),
-    path.join(OUT, 'splash.png'), path.join(DOCS, 'lua-mascota.png'), IOS_ICON]
+    path.join(OUT, 'splash.png'), path.join(DOCS, 'lua-mascota.png'), IOS_ICON,
+    IOS_HEAD, IOS_SIT]
     .map((f) => path.relative(path.join(__dirname, '..'), f)).join('\n  '));
 })();

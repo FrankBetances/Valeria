@@ -14,14 +14,29 @@
 import React from 'react';
 import Svg, { Circle, G, Path, Text as SvgText } from 'react-native-svg';
 
+/**
+ * Las tres marcas viven dentro de tarjetas que YA se anuncian enteras (nombre
+ * + descripción, del catálogo). Por defecto son decorativas: sin esto el
+ * lector de pantalla dice dos veces lo mismo. Quien las use suelta les pasa
+ * `label`, y el texto sale del catálogo, nunca escrito aquí.
+ */
+type MarkProps = { size?: number; label?: string };
+
+const a11y = (label?: string) => ({
+  accessibilityRole: 'image' as const,
+  accessibilityLabel: label,
+  accessibilityElementsHidden: !label,
+  importantForAccessibility: (label ? 'yes' : 'no-hide-descendants') as 'yes' | 'no-hide-descendants',
+});
+
 const ORANGE = '#F5893B';   // naranja Acopros
 const RED = '#D8382F';      // onda de voz Quisqueya Habla
 const TURQ = '#38C6C6';     // mariposa Quisqueya Habla
 const ITEM = '#1069A0';     // azul ITEMAS · ISCIII
 
 /** Acopros · espiral tipo caracola con el destello suelto del original. */
-export const AcoprosMark: React.FC<{ size?: number }> = ({ size = 34 }) => (
-  <Svg width={size} height={size} viewBox="0 0 48 48">
+export const AcoprosMark: React.FC<MarkProps> = ({ size = 34, label }) => (
+  <Svg width={size} height={size} viewBox="0 0 48 48" {...a11y(label)}>
     <Path
       d="M 21.1 9.3 A 13.7 13.7 0 0 1 34.7 23.6 A 9 9 0 0 1 25.2 32.6
          A 6 6 0 0 1 19.3 26.3 A 3.9 3.9 0 0 1 23.5 22.4 A 2.6 2.6 0 0 1 26 25.1"
@@ -40,8 +55,8 @@ export const AcoprosMark: React.FC<{ size?: number }> = ({ size = 34 }) => (
  * la isla es una barra oscura y el niño una mancha. Se conserva lo que sí
  * sobrevive al tamaño y sigue identificando a la marca.
  */
-export const QuisqueyaMark: React.FC<{ size?: number }> = ({ size = 34 }) => (
-  <Svg width={size} height={size} viewBox="0 0 48 48">
+export const QuisqueyaMark: React.FC<MarkProps> = ({ size = 34, label }) => (
+  <Svg width={size} height={size} viewBox="0 0 48 48" {...a11y(label)}>
     <Path
       d="M 4.4 39.5 C 6.6 33.6, 10 31, 12.6 31 L 14.8 22.6 L 17.9 34.6 L 20 27.6
          L 22.2 31 C 24.2 31, 25.8 28, 26.8 24.6"
@@ -84,8 +99,8 @@ const ROSETTE = (() => {
  * reproduce una marca ajena a ojo—: dentro solo va el año, y el resto lo dice
  * el texto de la tarjeta.
  */
-export const ItemasSeal: React.FC<{ size?: number }> = ({ size = 56 }) => (
-  <Svg width={size * 0.78} height={size} viewBox="0 0 64 82">
+export const ItemasSeal: React.FC<MarkProps> = ({ size = 56, label }) => (
+  <Svg width={size * 0.78} height={size} viewBox="0 0 64 82" {...a11y(label)}>
     <Path d="M 17 46 L 8 76 L 20 70 L 26 79 L 34 54 Z" fill="none" stroke={ITEM} strokeWidth={3.2} strokeLinejoin="round" />
     <Path d="M 47 46 L 56 76 L 44 70 L 38 79 L 30 54 Z" fill="none" stroke={ITEM} strokeWidth={3.2} strokeLinejoin="round" />
     <Path d={ROSETTE} fill="#ffffff" stroke={ITEM} strokeWidth={3.2} strokeLinejoin="round" />

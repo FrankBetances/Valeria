@@ -3,13 +3,16 @@
 //  Valeria
 //
 //  Pantalla de Bienvenida · port de src/ValeriaWelcomeScreen.tsx.
-//  Splash de marca con mascota (entrada elástica, flotación/balanceo, halo).
+//  Splash de marca con Lúa (entrada elástica, flotación/balanceo, halo).
+//  Los textos salen de VStrings, espejo del catálogo de i18n.
 //
 
 import SwiftUI
 
 struct WelcomeView: View {
     @EnvironmentObject private var router: Router
+
+    private let s = VStrings.current
 
     @State private var appear = false
     @State private var float = false
@@ -36,7 +39,7 @@ struct WelcomeView: View {
                         .scaleEffect(halo ? 1.55 : 1.0)
                         .opacity(halo ? 0 : 0.45)
 
-                    BearMark(size: 104, variant: .brown)
+                    LuaMark(size: 104, pose: .sit)
                         .frame(width: 150, height: 150)
                         .background(Color.white.opacity(0.9))
                         .clipShape(RoundedRectangle(cornerRadius: 42, style: .continuous))
@@ -55,7 +58,7 @@ struct WelcomeView: View {
                     .tracking(1)
                     .padding(.top, 28)
 
-                Text("Terapia auditiva y de lenguaje, en casa y guiada por ti.")
+                Text(s.welcome.tagline)
                     .font(.system(size: 17, weight: .bold))
                     .foregroundStyle(Color.white.opacity(0.95))
                     .multilineTextAlignment(.center)
@@ -63,7 +66,7 @@ struct WelcomeView: View {
                     .frame(maxWidth: 280)
                     .padding(.top, 14)
 
-                Text("Tú diriges cada ejercicio y valoras la respuesta del niño. Valeria registra el progreso.")
+                Text(s.welcome.sub)
                     .font(.system(size: 13.5, weight: .semibold))
                     .foregroundStyle(Color.white.opacity(0.78))
                     .multilineTextAlignment(.center)
@@ -76,7 +79,7 @@ struct WelcomeView: View {
                 // Acciones
                 VStack(spacing: 12) {
                     Button { router.push(.credits) } label: {
-                        Text("Comenzar")
+                        Text(s.welcome.start)
                             .font(.system(size: 17, weight: .heavy))
                             .foregroundStyle(VColor.primaryDark)
                             .frame(maxWidth: .infinity)
@@ -87,7 +90,7 @@ struct WelcomeView: View {
                     }.buttonStyle(.plain)
 
                     Button { router.push(.patientSelect) } label: {
-                        Text("Ya tengo un paciente registrado")
+                        Text(s.welcome.hasPatient)
                             .font(.system(size: 14.5, weight: .heavy))
                             .foregroundStyle(.white)
                             .padding(.vertical, 8)
@@ -95,7 +98,7 @@ struct WelcomeView: View {
 
                     HStack(spacing: 6) {
                         Text("🔒").font(.system(size: 11))
-                        Text("Datos cifrados en el dispositivo · RGPD / HIPAA")
+                        Text(s.welcome.trust)
                             .font(.system(size: 11, weight: .semibold))
                             .foregroundStyle(Color.white.opacity(0.72))
                     }

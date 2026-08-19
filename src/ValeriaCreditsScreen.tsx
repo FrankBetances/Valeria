@@ -21,6 +21,10 @@ import { ValeriaUiLangPicker } from './ValeriaUiLangPicker';
 // idioma y CTA. El índice de cada bloque sale de `step()` en orden de
 // aparición: la aritmética a mano (4 + i, 5 + COUNT…) se descuadraba en
 // cuanto se metía una sección nueva por el medio.
+// Nombre propio: no se traduce, y se escribe UNA vez para que la etiqueta del
+// lector de pantalla no vuelva a incrustarlo como literal suelto.
+const AUTHOR = 'Dr. Frank Betances';
+
 const COLLABORATOR_COUNT = 2;
 const SECTIONS = 10 + COLLABORATOR_COUNT;
 
@@ -93,16 +97,21 @@ export const ValeriaCreditsScreen: React.FC<{ navigation?: any }> = ({ navigatio
         <Animated.Text style={[s.kicker, step()]}>{t.credits.kicker}</Animated.Text>
 
         {/* tarjeta del autor */}
-        <Animated.View style={[s.doctorCard, step()]}>
+        <Animated.View
+          style={[s.doctorCard, step()]}
+          accessible
+          accessibilityRole="summary"
+          accessibilityLabel={`${t.credits.kicker}: ${AUTHOR}, ${t.credits.authorRole}`}
+        >
           <Animated.View style={[s.doctorAvatar, { transform: [{ translateY }, { scale: pulseScale }] }]}>
-            <ValeriaBetancesCrest size={100} />
+            <ValeriaBetancesCrest size={112} />
           </Animated.View>
-          <Text style={s.doctorName}>Dr. Frank Betances</Text>
+          <Text style={s.doctorName}>{AUTHOR}</Text>
           <Text style={s.doctorRole}>{t.credits.authorRole}</Text>
         </Animated.View>
 
         {/* divisor */}
-        <Animated.View style={[s.dividerRow, step()]}>
+        <Animated.View style={[s.dividerRow, step()]} accessibilityRole="header">
           <View style={s.dividerLine} />
           <Text style={s.dividerLabel}>{t.credits.collaborators}</Text>
           <View style={s.dividerLine} />
@@ -111,7 +120,12 @@ export const ValeriaCreditsScreen: React.FC<{ navigation?: any }> = ({ navigatio
         {/* colaboradores */}
         <View style={s.collabList}>
           {colaboradores.map((c) => (
-            <Animated.View key={c.nombre} style={[s.collabCard, step()]}>
+            <Animated.View
+              key={c.nombre}
+              style={[s.collabCard, step()]}
+              accessible
+              accessibilityLabel={`${c.nombre}: ${c.desc}`}
+            >
               <View style={s.collabIcon}>{c.mark}</View>
               <View style={s.collabBody}>
                 <Text style={s.collabName}>{c.nombre}</Text>
@@ -122,13 +136,17 @@ export const ValeriaCreditsScreen: React.FC<{ navigation?: any }> = ({ navigatio
         </View>
 
         {/* acreditación: no es un colaborador, va bajo su propio rótulo */}
-        <Animated.View style={[s.dividerRow, step()]}>
+        <Animated.View style={[s.dividerRow, step()]} accessibilityRole="header">
           <View style={s.dividerLine} />
           <Text style={s.dividerLabel}>{t.credits.recognition}</Text>
           <View style={s.dividerLine} />
         </Animated.View>
 
-        <Animated.View style={[s.sealCard, step()]}>
+        <Animated.View
+          style={[s.sealCard, step()]}
+          accessible
+          accessibilityLabel={`${t.credits.qualitySeal}: ${t.credits.qualitySealDesc}`}
+        >
           <ItemasSeal size={58} />
           <View style={s.collabBody}>
             <Text style={s.collabName}>{t.credits.qualitySeal}</Text>
@@ -156,6 +174,8 @@ export const ValeriaCreditsScreen: React.FC<{ navigation?: any }> = ({ navigatio
         <Pressable
           style={({ pressed }) => [s.cta, pressed && { opacity: 0.9 }]}
           onPress={() => navigation?.navigate('FichaRegistro')}
+          accessibilityRole="button"
+          accessibilityLabel={t.common.continue}
         >
           <Text style={s.ctaText}>{t.common.continue}</Text>
         </Pressable>
@@ -183,9 +203,9 @@ const s = StyleSheet.create({
     borderWidth: 1, borderColor: 'rgba(255,255,255,0.28)', borderRadius: 22,
     paddingVertical: 24, paddingHorizontal: 22, alignItems: 'center',
   },
-  // El emblema trae su propio disco, así que aquí no hay fondo ni recorte:
-  // un círculo blanco detrás se comería el ave clara.
-  doctorAvatar: { width: 100, height: 100, alignItems: 'center', justifyContent: 'center' },
+  // El emblema es un PNG transparente: aquí no hay fondo ni recorte, el anillo
+  // y el ave clara se apoyan directamente sobre el turquesa de la tarjeta.
+  doctorAvatar: { width: 112, height: 112, alignItems: 'center', justifyContent: 'center' },
   doctorName: { marginTop: 16, fontSize: 21, fontWeight: '900', color: '#fff', lineHeight: 24 },
   doctorRole: { marginTop: 6, fontSize: 13.5, fontWeight: V.font.bold, color: 'rgba(255,255,255,0.88)' },
 
