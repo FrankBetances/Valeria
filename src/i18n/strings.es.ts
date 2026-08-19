@@ -1316,11 +1316,12 @@ export const ES = {
 
   settings: {
     uiLangTitle: 'Idioma de la aplicación',
-    // El adulto necesita entender que son dos cosas distintas, o va a pensar
-    // que el selector está roto cuando cambie uno y no cambie el otro.
+    // Antes decía que esto NO cambiaba los ejercicios. Ya no es verdad y era
+    // media app en cada idioma: elegir idioma cambia la app entera.
     uiLangHint:
-      'Cambia los menús y textos que lees tú. El idioma de los ejercicios del '
-      + 'niño se elige aparte, en «Voz de la app».',
+      'Cambia la app entera: los menús que lees tú y también lo que suena en '
+      + 'los ejercicios. Si quieres la interfaz en un idioma y la terapia en '
+      + 'otro, cámbiala después en «Voz de la app».',
     uiLangAuto: 'Automático',
     uiLangAutoHint: 'Sigue al idioma de los ejercicios.',
     uiLangEs: 'Español',

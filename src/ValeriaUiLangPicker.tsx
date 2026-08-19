@@ -5,23 +5,24 @@
 //
 //   Automático · la UI sigue a la variedad de terapia (comportamiento de
 //                siempre: sin `en-US`, todo el mundo ve castellano).
-//   Español    · fija castellano pase lo que pase con la variedad.
-//   English    · fija inglés pase lo que pase con la variedad.
+//   Español    · pone la app entera en castellano.
+//   English    · pone la app entera en inglés: textos Y locuciones.
 //
 // Sin «Automático» no habría forma de VOLVER al acoplamiento por defecto una
 // vez tocado el selector, y el adulto se quedaría con una elección pegada sin
 // saber por qué su app no cambia al cambiar de variedad.
 //
-// El texto de ayuda dice explícitamente que esto NO cambia el idioma de los
-// ejercicios. Es la confusión que garantiza tickets de soporte: son dos ejes
-// distintos (ver valeriaUiLang.ts) y hay que decirlo en la propia pantalla.
+// Elegir un idioma mueve TAMBIÉN la variedad de terapia (setAppLanguage): en
+// inglés, la app suena en inglés. Quien quiera el desacople bilingüe —interfaz
+// en un idioma, terapia en otro— lo consigue tocando después «Voz de la app»,
+// que es el eje de la terapia y no se ha ido a ninguna parte.
 // ============================================================================
 import React from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
 import { V } from './valeriaTheme';
 import { useT } from './i18n';
 import {
-  UiLang, getUiLang, isUiLangExplicit, setUiLang, clearUiLangOverride, subscribeUiLang,
+  UiLang, getUiLang, isUiLangExplicit, setAppLanguage, clearUiLangOverride, subscribeUiLang,
 } from './valeriaUiLang';
 import { getLocale } from './valeriaLocale';
 
@@ -43,7 +44,8 @@ export const ValeriaUiLangPicker: React.FC<{ compact?: boolean; onLight?: boolea
 
   const choose = (c: Choice): void => {
     if (c === 'auto') { void clearUiLangOverride(getLocale()); return; }
-    void setUiLang(c);
+    // Cambia la app ENTERA: textos y locuciones. Ver setAppLanguage.
+    void setAppLanguage(c);
   };
 
   const options: { key: Choice; label: string; hint?: string }[] = [

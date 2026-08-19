@@ -29,7 +29,7 @@
 // (useSyncExternalStore la consume desde i18n/index.ts).
 // ============================================================================
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Locale } from './valeriaLocale';
+import { Locale, getLocale, setLocale } from './valeriaLocale';
 
 export type UiLang = 'es' | 'en';
 export const ALL_UI_LANGS: UiLang[] = ['es', 'en'];
@@ -82,6 +82,40 @@ export async function syncUiLangToLocale(loc: Locale): Promise<void> {
   active = next;
   try { await AsyncStorage.setItem(KEY, next); } catch (e) { /* noop */ }
   emit();
+}
+
+// ---- El botón de idioma cambia la APP ENTERA (decisión de Frank, ago 2026) --
+//
+// La separación de ejes de §5.1 sigue existiendo —un logopeda con caseload
+// bilingüe puede desacoplarlos tocando después «Voz de la app»—, pero deja de
+// ser lo que hace el botón. Poner la app en inglés la pone en inglés del todo:
+// textos y locuciones. Frank lo pidió con estas palabras: «si estamos
+// trabajando en una versión en inglés, es en inglés para toda la app».
+//
+// Lo que había antes no era medio inglés, era peor: la variedad se quedaba en
+// castellano y la voz seguía leyendo castellano bajo una interfaz inglesa, y en
+// las pantallas donde faltaba la rama inglesa se leía castellano CON VOZ
+// INGLESA. La queja que llegó.
+const KEY_PREV_LOCALE = '@valeria_locale_before_en';
+
+export async function setAppLanguage(lang: UiLang): Promise<void> {
+  const before = getLocale();
+  if (lang === 'en') {
+    // Se recuerda la variedad de la que se viene para poder devolverla: un
+    // usuario gallego que curiosea el inglés no puede acabar en castellano.
+    if (before !== 'en-US') {
+      try { await AsyncStorage.setItem(KEY_PREV_LOCALE, before); } catch (e) { /* noop */ }
+      await setLocale('en-US');
+    }
+  } else if (before === 'en-US') {
+    let prev: Locale = 'es';
+    try {
+      const stored = await AsyncStorage.getItem(KEY_PREV_LOCALE);
+      if (stored && stored !== 'en-US') prev = stored as Locale;
+    } catch (e) { /* noop */ }
+    await setLocale(prev);
+  }
+  await setUiLang(lang);
 }
 
 // Vuelve al comportamiento automático (la UI sigue a la variedad de terapia).

@@ -1293,8 +1293,9 @@ export const EN: UiStrings = {
   settings: {
     uiLangTitle: 'App language',
     uiLangHint:
-      'Changes the menus and text that you read. The language of your child’s '
-      + 'exercises is set separately, under "App voice".',
+      'Changes the whole app: the menus you read and what your child hears in '
+      + 'the exercises too. If you want the interface in one language and the '
+      + 'therapy in another, change it afterwards under "App voice".',
     uiLangAuto: 'Automatic',
     uiLangAutoHint: 'Follows the language of the exercises.',
     uiLangEs: 'Español',

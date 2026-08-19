@@ -244,6 +244,13 @@ jobs:
       - name: Comprobar que cada audiencia lee su idioma
         run: node scripts/check-adult-fields.js
 
+      # "La voz inglesa lee castellano": un selector por variedad escrito cuando
+      # solo existían gl y eu, al que nadie añadió el inglés. No lo ve el
+      # typecheck ni el corpus de voz —que enumera los bancos, no lo que la
+      # pantalla elige—: solo se oye, y llegó como queja.
+      - name: Comprobar que ninguna variedad se queda sin rama
+        run: node scripts/check-variety-branches.js
+
       - name: Comprobar tipos
         run: npm run typecheck
 

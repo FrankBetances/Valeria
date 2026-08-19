@@ -32,7 +32,10 @@ import {
   VOICE_SAMPLE_PHRASE_EU,
   PRAISE_BANK_EU, ALMOST_BANK_EU, NO_HEAR_BANK_EU, TOGETHER_BANK_EU,
 } from './valeriaContentEu';
-import { VOICE_SAMPLE_PHRASE_EN } from './valeriaContentEn';
+import {
+  VOICE_SAMPLE_PHRASE_EN,
+  PRAISE_BANK_EN, ALMOST_BANK_EN, NO_HEAR_BANK_EN, TOGETHER_BANK_EN,
+} from './valeriaContentEn';
 import { voiceCorpusId, VoiceStyle } from './valeriaVoiceCorpus';
 import { VOICE_ASSETS } from './valeriaVoiceAssets';
 import { playVoiceAsset, stopVoiceAsset } from './valeriaVoicePlayback';
@@ -59,6 +62,22 @@ const NEURAL_RE = /(neural|natural|premium|wavenet|studio|journey|enhanced)|-x-[
 // Motores heredados notoriamente metálicos.
 const LEGACY_RE = /(eloquence|compact|espeak|pico)/;
 
+const id0 = (v: Speech.Voice): string => `${v.identifier ?? ''} ${v.name ?? ''}`.toLowerCase();
+
+// Voces inglesas (variedad en-US). Se prefiere en-US sobre cualquier otro
+// inglés: el banco clínico es americano y la guía dialectal EN-0.5 se escribió
+// sobre esa variedad, así que una voz británica leyendo el banco desplaza las
+// vocales justo donde el ejercicio las contrasta.
+const scoreEnglishVoice = (v: Speech.Voice, lang: string, id: string): number => {
+  let s = lang === 'en-us' ? 4 : lang.startsWith('en-') ? 2 : 1;
+  if (v.quality === Speech.VoiceQuality.Enhanced) s += 6;
+  if (NEURAL_RE.test(id)) s += 4;
+  if (id.includes('local')) s += 2;
+  if (id.includes('network')) s += 1;
+  if (LEGACY_RE.test(id)) s -= 6;
+  return s;
+};
+
 const scoreVoice = (v: Speech.Voice): number => {
   const lang = (v.language ?? '').toLowerCase().replace('_', '-');
   // Lengua de la variedad activa: en galego/euskera se prefiere una voz NATIVA
@@ -66,7 +85,13 @@ const scoreVoice = (v: Speech.Voice): number => {
   // español como RESPALDO AUDIBLE (mejor acento castellano que silencio). El
   // castellano y el dominicano solo puntúan voces españolas.
   const loc = getLocale();
-  const primary = loc === 'gl' ? 'gl' : loc === 'eu' ? 'eu' : 'es';
+  // El inglés NO tiene respaldo español: en gl/eu una voz castellana es mejor
+  // que el silencio porque comparten fonética suficiente, pero una voz
+  // española leyendo inglés no es un respaldo, es la queja que llegó. Si la
+  // variedad es en-US solo puntúan voces inglesas; sin ninguna instalada, no
+  // se fija `voice` y el motor resuelve con `language: 'en-US'`.
+  const primary = loc === 'gl' ? 'gl' : loc === 'eu' ? 'eu' : loc === 'en-US' ? 'en' : 'es';
+  if (primary === 'en') return lang.startsWith('en') ? scoreEnglishVoice(v, lang, id0(v)) : -1;
   const isNative = primary !== 'es' && lang.startsWith(primary);
   if (!isNative && !lang.startsWith('es')) return -1;
   const id = `${v.identifier ?? ''} ${v.name ?? ''}`.toLowerCase();
@@ -361,26 +386,18 @@ export const speakClinical = (text: string, opts: Speech.SpeechOptions = {}) => 
 // Frase de prueba para que la familia escuche la voz elegida. En galego usa
 // la muestra propia, que resuelve el asset neuronal de Celtia (id gl_*).
 //
-// El inglés es el único caso que NO puede pasar por speakToChild: mientras el
-// banco clínico inglés no exista, contentLocale('en-US') es 'es' y todo lo demás
-// suena en castellano a propósito (ver valeriaLocale). Pero la muestra sí está
-// escrita en inglés, y es justo lo que el adulto quiere oír antes de elegir la
-// variedad: aquí se resuelve el asset `en_*` de Piper directamente y, si no
-// está empaquetado, se cae al TTS del sistema pidiéndole en-US.
+// El inglés pasa por el mismo camino que las demás variedades desde que existe
+// su banco clínico (EN_THERAPY_CONTENT_READY) y desde que scoreVoice puntúa
+// voces inglesas para `en-US`. Antes tenía un atajo propio —resolvía el asset
+// de Piper a mano y llamaba a Speech.speak sin `voice`, porque la mejor voz
+// cacheada era española y habría leído el inglés como castellano—; las dos
+// razones han desaparecido y el atajo con ellas.
 export const speakVoiceSample = () => {
   const l = getLocale();
-  if (l === 'en-US') { speakSampleEn(); return; }
-  speakToChild(l === 'gl' ? VOICE_SAMPLE_PHRASE_GL : l === 'eu' ? VOICE_SAMPLE_PHRASE_EU : VOICE_SAMPLE_PHRASE);
-};
-
-const speakSampleEn = (): void => {
-  const source = VOICE_ASSETS[voiceCorpusId('child', VOICE_SAMPLE_PHRASE_EN, 'en')];
-  speakToken += 1;   // preempta cualquier cadena de expo-speech pendiente
-  Speech.stop();
-  stopVoiceAsset();
-  if (source != null && playVoiceAsset(source)) return;
-  // Sin `voice`: la mejor voz cacheada es española y leería el inglés como tal.
-  Speech.speak(VOICE_SAMPLE_PHRASE_EN, { language: 'en-US', pitch: 1.15, rate: 0.85 });
+  speakToChild(l === 'gl' ? VOICE_SAMPLE_PHRASE_GL
+    : l === 'eu' ? VOICE_SAMPLE_PHRASE_EU
+      : l === 'en-US' ? VOICE_SAMPLE_PHRASE_EN
+        : VOICE_SAMPLE_PHRASE);
 };
 
 // Palabra objetivo bien articulada, muy despacio (modelado fonético).
@@ -419,20 +436,24 @@ const pickPhrase = (key: string, bank: string[]): string => {
   return bank[i];
 };
 
-// Bancos por variedad: en galego rotan las variantes gl (que suenan con Celtia
-// porque están en el corpus); es/es-DO usan los castellanos (es-DO con la voz
-// del sistema). Mismas longitudes por categoría, así la anti-repetición vale.
-// Selección del banco por variedad: galego (Celtia), euskera (HiTZ) o base
-// castellana (es/es-DO). Mismas longitudes por categoría, así la
-// anti-repetición de pickPhrase sigue valiendo en cualquier variedad.
-const bankFor = <T,>(gl: T, eu: T, base: T): T => {
+// Selección del banco de refuerzo por variedad: galego (Celtia), euskera
+// (HiTZ), inglés (Piper) o base castellana (es/es-DO, es-DO con la voz del
+// sistema). Mismas longitudes por categoría, así la anti-repetición de
+// pickPhrase sigue valiendo en cualquier variedad.
+//
+// El inglés FALTABA aquí, y es el sitio donde más se notaba: estas cuatro
+// frases se oyen en CADA ensayo. Con la variedad inglesa activa el niño oía
+// «¡Muy bien!» en castellano leído por la voz inglesa, que es exactamente la
+// queja que llegó. El banco inglés existía desde EN-3.x y estaba en el corpus
+// de voz: lo único que faltaba era consumirlo.
+const bankFor = <T,>(gl: T, eu: T, en: T, base: T): T => {
   const l = getLocale();
-  return l === 'gl' ? gl : l === 'eu' ? eu : base;
+  return l === 'gl' ? gl : l === 'eu' ? eu : l === 'en-US' ? en : base;
 };
-export const praisePhrase = () => pickPhrase('praise', bankFor(PRAISE_BANK_GL, PRAISE_BANK_EU, PRAISE_BANK));
-export const almostPhrase = () => pickPhrase('almost', bankFor(ALMOST_BANK_GL, ALMOST_BANK_EU, ALMOST_BANK));
-export const noHearPhrase = () => pickPhrase('noHear', bankFor(NO_HEAR_BANK_GL, NO_HEAR_BANK_EU, NO_HEAR_BANK));
-export const togetherPhrase = () => pickPhrase('together', bankFor(TOGETHER_BANK_GL, TOGETHER_BANK_EU, TOGETHER_BANK));
+export const praisePhrase = () => pickPhrase('praise', bankFor(PRAISE_BANK_GL, PRAISE_BANK_EU, PRAISE_BANK_EN, PRAISE_BANK));
+export const almostPhrase = () => pickPhrase('almost', bankFor(ALMOST_BANK_GL, ALMOST_BANK_EU, ALMOST_BANK_EN, ALMOST_BANK));
+export const noHearPhrase = () => pickPhrase('noHear', bankFor(NO_HEAR_BANK_GL, NO_HEAR_BANK_EU, NO_HEAR_BANK_EN, NO_HEAR_BANK));
+export const togetherPhrase = () => pickPhrase('together', bankFor(TOGETHER_BANK_GL, TOGETHER_BANK_EU, TOGETHER_BANK_EN, TOGETHER_BANK));
 
 // ----------------------------------------------------------------------------
 // Reconocimiento de voz (ASR) — opcional según plataforma/build

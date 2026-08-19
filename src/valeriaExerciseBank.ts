@@ -732,23 +732,33 @@ const mergeLevels = (base: Exercise['levels'], ui: Exercise['levels']): Exercise
 // lengua, que es lo que ya hacía.
 export function dbFor(loc: string, uiLang: string): Record<string, Exercise> {
   const db = dbForLocale(loc);
-  const adult = uiLang === 'en' && loc !== 'en-US' ? EXERCISE_EN
-    : uiLang === 'es' && loc === 'en-US' ? DB
+  const ui = uiLang === 'en' ? 'en' : 'es';
+  // Nombre, categoría y edad SIEMPRE desde valeriaExerciseMeta en el idioma de
+  // la interfaz, coincidan o no los dos ejes: el banco base los hornea con
+  // `meta()` desde el índice castellano y el overlay inglés no los repite, así
+  // que con `en-US` la ficha del ejercicio seguía enseñando «3-4 años» bajo una
+  // cabecera inglesa. Lo encontró el recorrido de la app, no el typecheck.
+  const idx = metaIndexFor(ui);
+  // El resto de campos de adulto solo hay que moverlos cuando los dos ejes
+  // discrepan; si coinciden, el banco de la variedad ya está en su idioma.
+  const adult = ui === 'en' && loc !== 'en-US' ? EXERCISE_EN
+    : ui === 'es' && loc === 'en-US' ? DB
       : null;
-  if (!adult) return db;
+
   const out: Record<string, Exercise> = {};
   for (const [id, ex] of Object.entries(db)) {
-    const src = adult[id];
-    if (!src) { out[id] = ex; continue; }
     const patch: Partial<Exercise> = {};
-    for (const f of ADULT_ONLY_FIELDS) {
-      if (src[f] !== undefined) (patch as Record<string, unknown>)[f] = src[f];
+    const src = adult?.[id];
+    if (src) {
+      for (const f of ADULT_ONLY_FIELDS) {
+        if (src[f] !== undefined) (patch as Record<string, unknown>)[f] = src[f];
+      }
     }
-    // Nombre, categoría y edad mandan desde valeriaExerciseMeta, que es de
-    // donde los saca también la lista de bloques. Un solo sitio, no dos.
-    const m = metaIndexFor(uiLang === 'en' ? 'en' : 'es')[id];
+    const m = idx[id];
     if (m) Object.assign(patch, { name: m.name, category: m.category, age: m.age });
-    out[id] = { ...ex, ...patch, levels: mergeLevels(ex.levels, src.levels) };
+    out[id] = src
+      ? { ...ex, ...patch, levels: mergeLevels(ex.levels, src.levels) }
+      : { ...ex, ...patch };
   }
   return out;
 }

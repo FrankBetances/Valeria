@@ -42,6 +42,7 @@ try {
 
   const bank = require(path.join(tmp, 'valeriaExerciseBank.js'));
   const { ADULT_ONLY_FIELDS, dbFor, dbForLocale, enumerateExerciseSpeechFor, variantsForLocale } = bank;
+  const { metaIndexFor } = require(path.join(tmp, 'valeriaExerciseMeta.js'));
   const en = require(path.join(tmp, 'valeriaExerciseEn.js'));
   const metaEn = require(path.join(tmp, 'valeriaExerciseMeta.js')).META_BY_ID_EN;
 
@@ -118,12 +119,30 @@ try {
     if (ex.read !== ingles[id].read) fallo(`${id}.read ha cambiado y eso lo locuta la voz inglesa`);
   }
 
-  // Cuando los dos ejes coinciden, no se toca nada.
+  // Cuando los dos ejes coinciden, lo único que puede cambiar es que nombre,
+  // categoría y edad vengan del índice de metadatos de ese idioma. Es lo que
+  // arregla la banda de edad: el banco base la hornea desde el índice
+  // CASTELLANO con meta(), así que con en-US se leía «3-4 años» bajo una
+  // cabecera inglesa hasta que dbFor pasó a aplicar el índice siempre.
+  const SOLO_META = new Set(['name', 'category', 'age']);
   for (const [loc, lang] of [['es', 'es'], ['en-US', 'en'], ['gl', 'es'], ['eu', 'es'], ['es-DO', 'es']]) {
-    if (!eq(dbFor(loc, lang), dbForLocale(loc))) {
-      fallo(`dbFor('${loc}', '${lang}') ha cambiado el banco y no debía tocarlo`);
+    const antesDb = dbForLocale(loc);
+    const idx = metaIndexFor(lang);
+    for (const [id, ex] of Object.entries(dbFor(loc, lang))) {
+      for (const f of Object.keys(ex)) {
+        if (SOLO_META.has(f)) continue;
+        if (!eq(ex[f], antesDb[id][f])) {
+          fallo(`dbFor('${loc}', '${lang}').${id}.${f} ha cambiado y los dos ejes coinciden`);
+        }
+      }
+      if (idx[id] && ex.age !== idx[id].age) {
+        fallo(`dbFor('${loc}', '${lang}').${id}.age no sale del índice de metadatos de '${lang}'`);
+      }
     }
   }
+  // Y en concreto: con la app entera en inglés, la banda de edad es inglesa.
+  const ffEn = dbFor('en-US', 'en').ff2;
+  if (!/years/.test(ffEn.age)) fallo(`la banda de edad sigue en castellano con la app en inglés: «${ffEn.age}»`);
   if (fallos === antes3) console.log('  ✓ el criterio EPT-3 sigue a la interfaz y lo locutado sigue a la variedad');
 
   // ---- R4 · Test de Ling ---------------------------------------------------

@@ -361,17 +361,56 @@ depende de la variedad del NIÑO, no de la lengua del adulto. Está escrito en
 los dos idiomas y viaja con `es-DO` aunque la interfaz esté en inglés; sin eso,
 una familia dominicana que pone la app en inglés perdía la advertencia clínica.
 
-**Lo que sigue pendiente (ago 2026).** Expansión Semántica tiene el mismo
-defecto y NO se ha arreglado aquí: con la interfaz en inglés y terapia
-castellana, las tarjetas dicen «Rutina de mañana · Despertar, lavarse y
-vestirse». No admite el mismo arreglo mecánico, porque el banco inglés no es
-una traducción del castellano sino contenido propio con otros ids
-(`manana-cama` frente a `en-morning-bed`) y otros objetivos léxicos. Hacen
-falta ~65 rótulos ingleses escritos para los escenarios, categorías y
-progresiones castellanas —5 escenarios, 5 categorías, 9 secuencias con 4 fases
-cada una—, y es una decisión de producto antes que de código: si el niño
-trabaja «Rutina de mañana», ¿el adulto anglófono navega «Morning routine» o el
-nombre real del escenario que va a practicar? Pendiente de Frank.
+#### Revisión de la decisión: el botón pone la app ENTERA en inglés (ago 2026)
+
+**Decidido por Frank, y revoca el defecto de §5.1 anterior.** El acoplamiento
+por defecto ya no es «la variedad arrastra la interfaz»: es que **el selector de
+idioma mueve los dos ejes**. Sus palabras: «si estamos trabajando en una versión
+en inglés, es en inglés para toda la app, tanto los textos como las locuciones».
+Lo aplica `setAppLanguage()` en `valeriaUiLang.ts`, que recuerda la variedad de
+la que se venía para poder devolverla —un usuario gallego que curiosea el
+inglés no puede acabar en castellano—.
+
+La separación de ejes **sigue existiendo** para el caseload bilingüe: quien
+quiera interfaz en un idioma y terapia en otro lo consigue tocando después
+«Voz de la app». Lo que cambia es qué hace el botón por defecto.
+
+**Lo que llegó como queja: «la voz inglesa lee castellano».** No era una
+impresión. Con la variedad `en-US` activa había selectores por variedad
+escritos cuando solo existían el galego y el euskera, a los que nunca se les
+añadió el inglés, y devolvían el banco CASTELLANO que el motor locutaba con
+`ttsLang() = 'en-US'`:
+
+| Dónde | Qué se oía |
+| --- | --- |
+| `bankFor` (`valeriaVoice.ts`) | Las cuatro frases de refuerzo —«¡Muy bien!», «Casi», «No te he oído», «Vamos juntos»— **en cada ensayo de toda la app** |
+| `ROUTE_DONE_PHRASE` (`ValeriaSessionBreakOverlay`) | El cierre de una ruta de rutina |
+| `SESSION_CONTINUE_PHRASE` (`ValeriaTPRCapsule`) | El cierre de una cápsula TPR |
+
+Y en sentido inverso, `scoreVoice` fijaba `primary = 'es'` para todo lo que no
+fuera gl/eu y descartaba con `-1` cualquier voz que no empezara por `es`: con
+`en-US` la mejor voz cacheada era **española** y se pasaba como `voice` a
+`Speech.speak` junto a `language: 'en-US'`. El inglés no admite respaldo
+español —en gl/eu una voz castellana es mejor que el silencio porque comparten
+fonética suficiente; una voz española leyendo inglés no es un respaldo—, así
+que ahora solo puntúan voces inglesas, con preferencia por `en-US` sobre
+cualquier otro inglés (una voz británica desplaza justo las vocales que el
+banco contrasta).
+
+Los textos ingleses de las tres tablas **ya existían y ya estaban sintetizados**:
+los 806 assets `en_*` llevaban empaquetados desde EN-4.x. El corpus enumera los
+bancos, no lo que la pantalla elige, así que generaba el audio inglés correcto
+mientras la app reproducía castellano por encima.
+
+Lo guarda [`scripts/check-variety-branches.js`](../scripts/check-variety-branches.js),
+que persigue la FORMA y no el síntoma: cualquier sentencia o función que nombre
+a la vez un `*_GL` y un `*_EU` sin nombrar el `*_EN` equivalente.
+
+**Efecto colateral, y bueno:** Expansión Semántica se arregla sola. Su rótulos
+castellanos («Rutina de mañana · Despertar, lavarse y vestirse») aparecían
+porque la variedad seguía siendo castellana bajo una interfaz inglesa; con los
+ejes acoplados se usa el banco inglés, que existe entero. Ya no hacen falta los
+~65 rótulos que este documento daba por pendientes.
 
 ## 6. Plan de trabajo por fases
 

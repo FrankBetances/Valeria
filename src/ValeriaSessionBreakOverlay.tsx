@@ -18,7 +18,7 @@ import { ROUTINE_ROUTES, RoutineRoute } from './valeriaRoutineRoutes';
 import { ROUTE_DONE_PHRASE } from './valeriaPhraseBank';
 import { TPR_CAPSULES_GL, ROUTINE_ROUTES_GL, ROUTE_DONE_PHRASE_GL } from './valeriaContentGl';
 import { TPR_CAPSULES_EU, ROUTINE_ROUTES_EU, ROUTE_DONE_PHRASE_EU } from './valeriaContentEu';
-import { TPR_CAPSULES_EN, ROUTINE_ROUTES_EN } from './valeriaContentEn';
+import { TPR_CAPSULES_EN, ROUTINE_ROUTES_EN, ROUTE_DONE_PHRASE_EN } from './valeriaContentEn';
 import { getLocale } from './valeriaLocale';
 import {
   trackCapsuleStart, trackCapsuleDone, trackCapsuleSkip,
@@ -70,7 +70,7 @@ const RoutineRouteOverlay: React.FC<{
   useEffect(() => () => stopSpeaking(), []);
 
   const advance = () => {
-    if (last) { const l = getLocale(); speakClinical(l === 'gl' ? ROUTE_DONE_PHRASE_GL : l === 'eu' ? ROUTE_DONE_PHRASE_EU : ROUTE_DONE_PHRASE); onDone(); }
+    if (last) { const l = getLocale(); speakClinical(l === 'gl' ? ROUTE_DONE_PHRASE_GL : l === 'eu' ? ROUTE_DONE_PHRASE_EU : l === 'en-US' ? ROUTE_DONE_PHRASE_EN : ROUTE_DONE_PHRASE); onDone(); }
     else setStep(step + 1);
   };
 
