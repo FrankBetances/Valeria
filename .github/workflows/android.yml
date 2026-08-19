@@ -257,6 +257,14 @@ jobs:
       - name: Comprobar que ninguna variedad se queda sin rama
         run: node scripts/check-variety-branches.js
 
+      # Las URLs legales que Play Console tiene declaradas salen de `site/`. Un
+      # fichero renombrado allí no rompe nada compilando, pero deja la ficha con
+      # un 404 y la publicación parada. Aquí va la mitad LOCAL del gate; la que
+      # pide las URLs de verdad vive en `legal-urls.yml`, porque el build no
+      # debe depender de la red.
+      - name: Comprobar las páginas legales declaradas en Play Console
+        run: node scripts/check-legal-urls.js --offline
+
       - name: Comprobar tipos
         run: npm run typecheck
 

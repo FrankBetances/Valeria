@@ -1,0 +1,43 @@
+name: Vigilar las URLs legales
+
+# Para qué existe: el 19/8/2026 Google rechazó la ficha con «URL provided
+# https://frankbetances.github.io/Valeria/privacidad.html does not link to a
+# valid privacy policy page, HTTP server is returning 404: Not Found».
+#
+# El fichero estaba intacto en `site/` y el último run de `pages.yml` estaba en
+# VERDE desde el 4/8/2026. No se rompió el contenido: se apagó el sitio. Al
+# preparar el repositorio para pasar a privado (c3f6cd9), Pages quedó sin
+# publicar —en el plan Free un repositorio privado no sirve Pages— y volver a
+# público no lo reactiva.
+#
+# Ese fallo es MUDO: no hay run rojo, no hay push, no hay nada que mirar. Solo
+# aparece semanas después, por boca de Google, con la publicación parada. Por eso
+# la comprobación va por calendario y no por push: entre despliegue y despliegue
+# es justo cuando el sitio se muere sin que nadie se entere.
+
+on:
+  schedule:
+    # A diario. OJO: `schedule` solo dispara con el fichero ya en `main`.
+    - cron: '0 6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: legal-urls
+  cancel-in-progress: false
+
+jobs:
+  comprobar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      # Sin `npm ci`: el gate no usa dependencias, solo el fetch de Node 20.
+      - name: Pedir las tres URLs declaradas en Play Console
+        run: node scripts/check-legal-urls.js

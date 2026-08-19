@@ -59,3 +59,19 @@ jobs:
 
       - id: deployment
         uses: actions/deploy-pages@v4
+
+      # Un deploy en verde NO demuestra que el sitio se sirva. El 19/8/2026
+      # Google rechazó la ficha por 404 en privacidad.html con este workflow en
+      # verde desde el 4/8: Pages estaba sin publicar y el run no se enteró.
+      # Desde aquí, "verde" significa que las tres URLs responden de verdad.
+      - name: Comprobar que las tres URLs legales se sirven
+        run: |
+          for intento in 1 2 3 4 5; do
+            if node scripts/check-legal-urls.js; then
+              exit 0
+            fi
+            echo "Intento $intento fallido; Pages puede tardar en propagar. Reintento en 15 s."
+            sleep 15
+          done
+          echo "::error::El despliegue terminó en verde pero las URLs legales no se sirven."
+          exit 1

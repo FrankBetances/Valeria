@@ -180,6 +180,16 @@ seguir en *Settings → Pages → Source: **GitHub Actions***; si vuelve a *Depl
 from a branch*, el despliegue falla en dos segundos sin runner, sin pasos y sin
 logs.
 
+**Pasar el repositorio a privado apaga Pages.** En el plan Free un repositorio
+privado no sirve Pages, y volver a ponerlo público **no lo reactiva**: hay que
+entrar a *Settings → Pages* y volver a dejar *Source: **GitHub Actions***. Eso
+fue el rechazo del 19/8/2026 —Google vio un 404 en `privacidad.html` con el
+fichero intacto y el último run de `pages.yml` en verde desde el 4/8—. Un
+despliegue en verde no demuestra que el sitio se sirva: lo único que lo
+demuestra es pedir las URLs, y de eso se encargan ahora
+[`scripts/check-legal-urls.js`](scripts/check-legal-urls.js) y el vigilante
+diario [`legal-urls.yml`](.github/workflows/legal-urls.yml).
+
 **Al cambiar lo que la app recoge** —un permiso nuevo, un campo nuevo en la
 ficha del paciente, un SDK de terceros— hay que actualizar en el mismo cambio
 la política de `site/` **y** el formulario de *Seguridad de los datos* de Play

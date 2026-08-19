@@ -32,7 +32,8 @@
     "check:ui-strings": "node scripts/check-ui-strings.js",
     "check:adult-fields": "node scripts/check-adult-fields.js",
     "check:variety-branches": "node scripts/check-variety-branches.js",
-    "build:lua-faces": "node scripts/build-lua-faces.js"
+    "build:lua-faces": "node scripts/build-lua-faces.js",
+    "check:legal-urls": "node scripts/check-legal-urls.js"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "2.2.0",
