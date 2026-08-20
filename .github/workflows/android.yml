@@ -313,6 +313,26 @@ jobs:
           fi
           grep -E "versionCode|versionName" android/app/build.gradle
 
+      # La plantilla del prebuild deja el daemon de Gradle en 2 GiB de heap y 512
+      # MiB de metaspace, y este proyecto no cabe ahí: TODOS los builds —también
+      # los verdes— avisan de "Daemon will be stopped at the end of the build
+      # after running out of JVM Metaspace". El 20/8/2026 el run 561 murió en
+      # :app:packageRelease con el MISMO commit (ff05ef7) que había compilado
+      # verde dos veces la tarde anterior, runs 559 y 560. Un fallo que aparece y
+      # desaparece sin tocar el código es lo que hace un build al límite.
+      # Gradle lee gradle.properties como java.util.Properties: la última
+      # definición de una clave gana, así que basta con añadir la nuestra al
+      # final y la plantilla puede cambiar sin romper esto.
+      - name: Dar memoria al daemon de Gradle
+        run: |
+          test -f android/gradle.properties
+          cat >> android/gradle.properties <<'PROPS'
+
+          # Sobrescribe el valor de la plantilla del prebuild (ver android.yml).
+          org.gradle.jvmargs=-Xmx5g -XX:MaxMetaspaceSize=1g -Dfile.encoding=UTF-8
+          PROPS
+          grep -n '^org.gradle.jvmargs' android/gradle.properties
+
       - name: Grant execute permission to Gradle wrapper
         run: chmod +x ./android/gradlew
 
@@ -371,7 +391,7 @@ jobs:
           RELEASE_STORE_PASSWORD: ${{ secrets.ANDROID_RELEASE_STORE_PASSWORD }}
           RELEASE_KEY_ALIAS: ${{ secrets.ANDROID_RELEASE_KEY_ALIAS }}
           RELEASE_KEY_PASSWORD: ${{ secrets.ANDROID_RELEASE_KEY_PASSWORD }}
-        run: ./gradlew assembleRelease -PreactNativeArchitectures=armeabi-v7a,arm64-v8a
+        run: ./gradlew assembleRelease -PreactNativeArchitectures=armeabi-v7a,arm64-v8a --stacktrace
 
       # El AAB es el formato que exige Google Play. Solo se genera en main (cada
       # fusión) o al lanzar el workflow a mano, para no alargar los builds de PR.
@@ -382,7 +402,7 @@ jobs:
           RELEASE_STORE_PASSWORD: ${{ secrets.ANDROID_RELEASE_STORE_PASSWORD }}
           RELEASE_KEY_ALIAS: ${{ secrets.ANDROID_RELEASE_KEY_ALIAS }}
           RELEASE_KEY_PASSWORD: ${{ secrets.ANDROID_RELEASE_KEY_PASSWORD }}
-        run: ./gradlew bundleRelease
+        run: ./gradlew bundleRelease --stacktrace
 
       # `retention-days` recorta la retención del repositorio (7 días) SOLO hacia
       # abajo. El AAB se sube a Play Console el mismo día que se compila; a los 3
@@ -399,7 +419,16 @@ jobs:
       - name: Build debug APK (no signing secrets configured)
         if: env.HAS_SIGNING_SECRETS != 'true'
         working-directory: ./android
-        run: ./gradlew assembleDebug -PreactNativeArchitectures=armeabi-v7a,arm64-v8a
+        run: ./gradlew assembleDebug -PreactNativeArchitectures=armeabi-v7a,arm64-v8a --stacktrace
+
+      # Cuando Gradle muere dentro de un worker (el caso del run 561), el log no
+      # dice si fue la memoria o el disco. Estas dos líneas lo dicen, y solo
+      # cuestan algo en los builds que ya han fallado.
+      - name: Qué había en la máquina cuando falló
+        if: failure()
+        run: |
+          df -h
+          free -m
 
       # El APK son 131 MB y en las ramas `claude/**` no se instala en ningún
       # sitio: la regla de trabajo es que nada llega a Frank hasta estar en main
