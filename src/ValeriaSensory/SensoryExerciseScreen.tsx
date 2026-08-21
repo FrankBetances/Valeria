@@ -33,6 +33,7 @@ import {
 } from './sensoryAudio';
 import {
   luaSensoryReady,
+  luaSensoryResume,
   luaSensoryPause,
   luaSensoryClose,
   luaSensoryIdle,
@@ -179,6 +180,9 @@ export const SensoryExerciseScreen: React.FC<{ navigation: any; route: any }> = 
   };
 
   const handleResume = () => {
+    // La gata vuelve al turno. Sin esta línea no volvía en toda la sesión: el
+    // `GRANT` de la pausa dura lo que el descanso, y nadie lo renovaba.
+    luaSensoryResume(Math.max(1, targetDuration - elapsedSec) + 10);
     setStep('EXPLORING');
     setIsStimulusActive(true);
     startStimulus(config.relativeIntensity);

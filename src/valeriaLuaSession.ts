@@ -113,22 +113,84 @@ export function triggerVisualAnchorBreak(
 //       es un atajo: el gesto es literalmente el mismo —la gata se echa a
 //       dormir para dejar de ser lo que retiene la atención— y el niño que
 //       pide pausa necesita exactamente eso.
+//   4 · La concesión se renueva con `GRANT`, NUNCA con `HEARTBEAT`. En el
+//       aparato el latido dibuja su propio efecto —un disco que late 4,5 s con
+//       un corazón detrás de la cabeza, y uno cada 10 s deja el panel latiendo
+//       media exposición—, y eso es exactamente la segunda fuente visual que
+//       este módulo existe para no tener. Un `GRANT` repetido, en cambio, es
+//       INERTE mientras la gata ya esté despierta: solo empuja la caducidad,
+//       no toca la cara y no siembra una partícula.
 //
-// Sin aparato emparejado no hay emisor registrado y estas cuatro funciones no
-// hacen nada, que es lo que pasa hoy en una tableta sola.
+// Sin aparato emparejado no hay emisor registrado y estas cinco funciones no
+// hacen nada, que es lo que pasa hoy en una tableta sola — ni el temporizador
+// de renovación llega a nadie.
+
+// Renovación de la concesión mientras el turno está abierto.
+//
+// Hace falta porque este módulo tiene dos esperas que no tienen reloj y el
+// firmware lo dejó por escrito: con `agencyMode: 'child_tap'` el sonido no
+// arranca hasta que el niño pulsa su botón —y el niño para el que está hecho
+// el módulo tarda—, y al cerrar el adulto rellena una valoración con notas.
+// Con una sola concesión de 16-28 s, en los dos casos el aparato caduca a
+// mitad y la gata se duerme justo cuando hacía falta.
+let sensoryTtlS = 0;
+let sensoryRenew: ReturnType<typeof setInterval> | null = null;
+
+const stopSensoryRenew = (): void => {
+  if (!sensoryRenew) return;
+  clearInterval(sensoryRenew);
+  sensoryRenew = null;
+};
+
+/**
+ * Renueva por debajo del TTL concedido, porque el aparato solo atiende una
+ * renovación mientras la concesión anterior siga viva: si llega tarde, ya está
+ * en REPOSO. La mitad del TTL, y como mucho cada `heartbeatSeconds`.
+ */
+const startSensoryRenew = (ttl: number): void => {
+  stopSensoryRenew();
+  sensoryTtlS = ttl;
+  const everyS = Math.max(1, Math.min(LUA_LIMITS.heartbeatSeconds, Math.floor(ttl / 2)));
+  sensoryRenew = setInterval(() => {
+    send(luaFrame(LUA_OP.GRANT, luaGrantParam(sensoryTtlS, LUA_CAP.VISUAL)));
+  }, everyS * 1000);
+};
+
+const grantSeconds = (seconds: number): number =>
+  Math.max(1, Math.min(LUA_LIMITS.grantMaxSeconds, Math.trunc(seconds) || 1));
 
 /** Anticipación: se concede lo visual y la gata se pone en fase de escucha. */
 export function luaSensoryReady(seconds: number): void {
-  const s = Math.max(1, Math.min(LUA_LIMITS.grantMaxSeconds, Math.trunc(seconds) || 1));
+  const s = grantSeconds(seconds);
   send(
     luaFrame(LUA_OP.GRANT, luaGrantParam(s, LUA_CAP.VISUAL)),
     luaFrame(LUA_OP.PHASE, 0), // 0 = escucha, la misma fase que en los ejercicios
   );
+  startSensoryRenew(s);
+}
+
+/**
+ * Reanudar después de una pausa. Es la misma trama que abrir el turno y por
+ * eso delega, pero tiene nombre propio porque **faltaba**: sin ella la gata no
+ * volvía. El `GRANT` de la pausa dura lo mismo que su descanso, así que a los
+ * veinte segundos el aparato estaba en REPOSO y ni la exposición reanudada ni
+ * el cierre lo despertaban en toda la sesión.
+ */
+export function luaSensoryResume(seconds: number): void {
+  luaSensoryReady(seconds);
 }
 
 /** Pausa segura: el mismo descanso que el Ancla Visual Lejana. */
 export function luaSensoryPause(seconds: number = 20): void {
-  const s = Math.max(1, Math.min(LUA_LIMITS.grantMaxSeconds, Math.trunc(seconds) || 1));
+  // La renovación se PARA aquí, y es deliberado: un `GRANT` que llegara en
+  // mitad del descanso despertaría a la gata —el aparato lo trata como
+  // cualquier otro gesto y corta el `RELAX`—, que es justo el estímulo que la
+  // pausa venía a quitar. Si la pausa se alarga más que el descanso, el
+  // aparato se va a REPOSO con la misma cara dormida que ya tenía; lo único
+  // que se apaga es el anillo de la concesión. Quien lo devuelve al turno es
+  // `luaSensoryResume`, cuando el adulto reanuda.
+  stopSensoryRenew();
+  const s = grantSeconds(seconds);
   send(
     luaFrame(LUA_OP.GRANT, luaGrantParam(s, LUA_CAP.VISUAL)),
     luaFrame(LUA_OP.RELAX, s),
@@ -142,9 +204,11 @@ export function luaSensoryPause(seconds: number = 20): void {
  */
 export function luaSensoryClose(): void {
   send(luaFrame(LUA_OP.CELEBRATE, 0));
+  stopSensoryRenew(); // después de mandarlo: el cierre necesita la concesión viva
 }
 
 /** Salir del módulo: la gata vuelve a su cara neutra. */
 export function luaSensoryIdle(): void {
+  stopSensoryRenew();
   send(luaFrame(LUA_OP.IDLE));
 }
