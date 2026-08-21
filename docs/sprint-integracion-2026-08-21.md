@@ -100,3 +100,36 @@ a lo que dicen a un oído humano. El gate mide espectro, no reconocimiento; eso
 se decide escuchándolos. Y la reproducción se ha comprobado en Expo **web** —el
 navegador pide y recibe el WAV al preparar el estímulo—, no en un APK sobre un
 teléfono real.
+
+### 4.1 · Segunda pasada sobre los tres ambientes (mismo día)
+
+Frank escuchó la primera tanda y pidió que los ambientes tuvieran **sonidos
+vivos** —obreros trabajando, no solo retumbo—. Tenía razón, y el propio gate lo
+decía: el contador de sucesos daba **0** en la calle. Había martillo neumático,
+pero enterrado bajo un lecho de tráfico que se comía todo el margen.
+
+Qué hay ahora en cada bucle (10 s en los tres, antes 8):
+
+| Ambiente | Sucesos |
+| --- | --- |
+| Aula de colegio | Cinco voces infantiles de fondo, la **maestra** hablando por encima dos veces, un niño que llama, tres sillas arrastrando, dos risas de grupo (tres voces con el mismo pulso de 7 Hz), un libro que cae y un lápiz contra la mesa. Reverberación de clase. |
+| Centro comercial | Murmullo lejano de doce voces, carritos rodando con una **rueda que chirría** en dos tramos, doce pasos sobre suelo duro, cuatro **pitidos de caja**, megafonía de dos notas y una voz apagada que no se entiende. |
+| Calle con obras | Tráfico de fondo, dos coches que pasan, dos rachas de **martillo neumático** (11 golpes/s), cinco **golpes de maza sobre viga** con el metal sonando, una **radial** que baja de tono al morder, el **pitido de marcha atrás** de un camión y dos obreros que se gritan algo. |
+
+Tres cosas nuevas en el pipeline:
+
+1. **Limitador blando** (`soften`) solo en los ambientes. Un ambiente se oye a
+   distancia y sus picos no se disparan como un petardo a dos metros; sin él, la
+   risa del aula se comía el margen de pico y el fichero entero se quedaba 8 dB
+   por debajo del resto. Los impulsivos de verdad —petardos, trueno, timbre— no
+   se tocan: su cresta es su identidad.
+2. **Contador de sucesos vivos** en el gate: ventanas de 25 ms, lecho en el
+   percentil 20, suceso cuando una racha lo supera en más de 9 dB. Los tres
+   ambientes tienen que traer **≥ 8 sucesos** y que el mayor sobresalga
+   **≥ 12 dB**, o el gate falla. «Ambiente vivo» deja de ser una etiqueta.
+3. Las **fichas** de los tres estímulos ahora enumeran lo que de verdad suena
+   (maza, radial, marcha atrás, pitidos de caja): es lo que el adulto lee antes
+   de decidir la exposición.
+
+Medido ahora: aula **24** sucesos (máx +19,2 dB), centro comercial **16**
+(+16,1 dB), calle **39** (+17,6 dB). Antes: 24, 2 y **0**.

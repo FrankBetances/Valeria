@@ -22,6 +22,11 @@
  *   5 · Identidad espectral: el centroide y el reparto grave/medio/agudo caen
  *       donde tiene que caer cada sonido. Es lo que separa "hay un fichero" de
  *       "hay una aspiradora": un ruido blanco cualquiera pasaría 1-4 y no 5.
+ *   6b· Los tres AMBIENTES tienen sucesos: se cuentan los transitorios que
+ *       sobresalen del lecho y cuánto sobresalen. Un ambiente sin sucesos es un
+ *       zumbido, y así estaba la primera versión de la calle: retumbo continuo
+ *       con el martillo neumático enterrado. Un aula se reconoce por la silla
+ *       que arrastra y la risa, no por el murmullo.
  *   6 · La frecuencia dominante declarada en la ficha (`baseFrequencyHz`) tiene
  *       energía de verdad en el fichero. Es lo que impide que el campo se
  *       quede de adorno, que es como estaba antes: declarado y sin consumir.
@@ -103,6 +108,34 @@ function spectrum(samples, sr) {
   };
 }
 
+/**
+ * Sucesos vivos: transitorios que sobresalen del lecho del propio fichero.
+ * Ventanas de 25 ms; el lecho es el percentil 20 de sus RMS; hay suceso cuando
+ * una racha de ventanas lo supera en más de 9 dB. Devuelve cuántos y cuánto
+ * sobresale el mayor.
+ */
+function liveEvents(s, sr) {
+  const hop = Math.floor(0.025 * sr);
+  const env = [];
+  for (let i = 0; i + hop <= s.length; i += hop) {
+    let acc = 0;
+    for (let k = 0; k < hop; k++) acc += s[i + k] * s[i + k];
+    env.push(Math.sqrt(acc / hop));
+  }
+  const bed = [...env].sort((a, b) => a - b)[Math.floor(env.length * 0.2)] || 1e-9;
+  const umbral = bed * 2.8; // ~ +9 dB
+  let count = 0, dentro = false, top = 0;
+  for (const e of env) {
+    if (e > umbral) {
+      if (!dentro) { count += 1; dentro = true; }
+      top = Math.max(top, e / bed);
+    } else {
+      dentro = false;
+    }
+  }
+  return { count, topDb: 20 * Math.log10(top || 1) };
+}
+
 /** Energía en la frecuencia declarada, en veces la mediana de las 24 bandas. */
 function baseEnergyRatio(samples, sr, base) {
   const win = Math.floor(sr * 0.5);
@@ -165,11 +198,13 @@ const EXPECTED = {
   sensory_siren_loop:       { centroid: [600, 1400],  low: [0.03, 0.30], high: [0.01, 0.25] },
   sensory_fireworks_loop:   { centroid: [120, 400],   low: [0.70, 1.00], high: [0.00, 0.08] },
   sensory_school_bell_loop: { centroid: [550, 1400],  low: [0.15, 0.50], high: [0.02, 0.25] },
-  sensory_classroom_loop:   { centroid: [330, 800],   low: [0.22, 0.58], high: [0.00, 0.12] },
-  sensory_mall_loop:        { centroid: [250, 650],   low: [0.35, 0.70], high: [0.00, 0.12] },
-  sensory_street_loop:      { centroid: [170, 450],   low: [0.60, 0.92], high: [0.00, 0.10] },
+  sensory_classroom_loop:   { centroid: [420, 850],   low: [0.30, 0.62], high: [0.00, 0.15] },
+  sensory_mall_loop:        { centroid: [290, 660],   low: [0.38, 0.68], high: [0.00, 0.12] },
+  sensory_street_loop:      { centroid: [250, 700],   low: [0.45, 0.80], high: [0.00, 0.15] },
 };
 
+const ECO_EVENTS_MIN = 8;       // sucesos por vuelta en un ambiente vivo
+const ECO_EVENT_DB_MIN = 12;    // cuánto sobresale el mayor sobre el lecho
 const BASE_ENERGY_MIN = 0.8;    // energía en la base / mediana de las bandas
 const RMS_RANGE = [-27, -17];   // dBFS
 const PEAK_MAX = -5.5;          // dBFS (el generador deja el techo en -6)
@@ -216,6 +251,7 @@ for (const st of catalog.SENSORY_TRIGGER_LIST) {
   const peakDb = 20 * Math.log10(peak || 1e-9);
   const jump = seamJump(samples);
   const sp = spectrum(samples, fmt.sampleRate);
+  const ev = liveEvents(samples, fmt.sampleRate);
   const baseRatio = st.baseFrequencyHz
     ? baseEnergyRatio(samples, fmt.sampleRate, st.baseFrequencyHz)
     : null;
@@ -225,7 +261,8 @@ for (const st of catalog.SENSORY_TRIGGER_LIST) {
       `${st.audioAssetKey.padEnd(26)} ${(samples.length / fmt.sampleRate).toFixed(1)}s ` +
       `RMS ${rmsDb.toFixed(1)} pico ${peakDb.toFixed(1)} costura ×${jump.ratio.toFixed(1)}/×${jump.envRatio.toFixed(1)} ` +
       `centroide ${sp.centroid.toFixed(0)} Hz  grave ${sp.low.toFixed(2)} medio ${sp.mid.toFixed(2)} agudo ${sp.high.toFixed(2)}  ` +
-      `base ${st.baseFrequencyHz ?? '—'} Hz ×${baseRatio === null ? '—' : baseRatio.toFixed(1)}`,
+      `base ${st.baseFrequencyHz ?? '—'} Hz ×${baseRatio === null ? '—' : baseRatio.toFixed(1)}  ` +
+      `sucesos ${String(ev.count).padStart(2)} (máx +${ev.topDb.toFixed(1)} dB)`,
     );
     continue;
   }
@@ -238,6 +275,11 @@ for (const st of catalog.SENSORY_TRIGGER_LIST) {
   }
   if (jump.ratio > LOOP_JUMP_RATIO || jump.envRatio > LOOP_ENV_RATIO) {
     fallo(`${st.id}: costura del bucle ×${jump.ratio.toFixed(1)} (envolvente ×${jump.envRatio.toFixed(1)}) · se oiría un clic en cada vuelta`);
+  }
+  if (st.category === 'ecological') {
+    if (ev.count < ECO_EVENTS_MIN || ev.topDb < ECO_EVENT_DB_MIN) {
+      fallo(`${st.id}: ${ev.count} sucesos audibles (máx +${ev.topDb.toFixed(1)} dB) · un ambiente vivo necesita ≥${ECO_EVENTS_MIN} y ≥+${ECO_EVENT_DB_MIN} dB, o es un zumbido con etiqueta`);
+    }
   }
   if (baseRatio !== null && baseRatio < BASE_ENERGY_MIN) {
     fallo(`${st.id}: la ficha declara ${st.baseFrequencyHz} Hz y ahí no hay energía (×${baseRatio.toFixed(1)}) · el campo dejaría de describir el fichero`);

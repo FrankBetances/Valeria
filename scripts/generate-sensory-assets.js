@@ -166,6 +166,103 @@ const impactInto = (buf, rand, at, { decay, tone, noiseGain, toneGain, lpf }) =>
   }
 };
 
+
+/** Frase o grito suelto: dos formantes con envolvente silábica. Es lo que hace
+ *  que en un ambiente se oiga «alguien», y no «gente». */
+const utteranceInto = (buf, rand, at, { dur, gain, f1, f2, syll = 0.18 }) => {
+  const start = Math.floor(at * SR);
+  const n = Math.floor(dur * SR);
+  const r1 = resonator(f1, 0.97);
+  const r2 = resonator(f2, 0.96);
+  let i = 0;
+  while (i < n) {
+    const len = Math.floor(SR * syll * (0.7 + rand() * 0.6));
+    for (let k = 0; k < len && i + k < n && start + i + k < buf.length; k++) {
+      const t = k / len;
+      const env = Math.sin(Math.PI * t) ** 1.2;
+      const x = rand() * 2 - 1;
+      buf[start + i + k] += (r1(x) + 0.8 * r2(x)) * env * gain;
+    }
+    i += len + Math.floor(SR * 0.045);
+  }
+};
+
+/** Golpe en metal: parciales inarmónicos que suenan y transitorio de percusión.
+ *  Un martillo sobre una viga, no un martillo sobre un tambor. */
+const metalHitInto = (buf, rand, at, { freq, decay, gain }) => {
+  const start = Math.floor(at * SR);
+  const n = Math.floor(decay * 4 * SR);
+  const ratios = [1, 2.76, 5.4, 8.9];
+  const lp = lowpass(6500);
+  for (let k = 0; k < n && start + k < buf.length; k++) {
+    const t = k / SR;
+    let s = 0;
+    for (let p = 0; p < ratios.length; p++) {
+      s += Math.sin(2 * Math.PI * freq * ratios[p] * t) * Math.exp(-t / (decay / (p * 0.5 + 1))) / (p + 1.4);
+    }
+    const click = lp(rand() * 2 - 1) * Math.exp(-t / 0.008);
+    buf[start + k] += (s + click * 1.5) * gain;
+  }
+};
+
+/** Pitido electrónico: la marcha atrás de un camión, la caja del supermercado. */
+const beepInto = (buf, at, { freq, dur, gain }) => {
+  const start = Math.floor(at * SR);
+  const n = Math.floor(dur * SR);
+  const ramp = Math.floor(0.008 * SR);
+  for (let k = 0; k < n && start + k < buf.length; k++) {
+    const t = k / SR;
+    const ph = 2 * Math.PI * freq * t;
+    const env = Math.min(1, k / ramp) * Math.min(1, (n - k) / ramp);
+    buf[start + k] += (Math.sin(ph) + Math.sin(3 * ph) / 3.5) * env * gain;
+  }
+};
+
+/** Radial / amoladora: motor muy armónico y chispas, con caída de tono al
+ *  morder el material. Sin esa caída suena a zumbido, no a herramienta. */
+const grinderInto = (buf, rand, at, { dur, gain }) => {
+  const start = Math.floor(at * SR);
+  const n = Math.floor(dur * SR);
+  const hp = highpass(1500);
+  const lp = lowpass(7000);
+  for (let k = 0; k < n && start + k < buf.length; k++) {
+    const t = k / SR;
+    const p = k / n;
+    const f = 220 * (1 - 0.18 * Math.sin(Math.PI * p));
+    let s = 0;
+    for (let h = 1; h <= 14; h++) s += Math.sin(2 * Math.PI * f * h * t) / h;
+    const env = Math.min(1, p / 0.06) * Math.min(1, (1 - p) / 0.08);
+    buf[start + k] += (lp(s) * 0.35 + hp(rand() * 2 - 1) * 0.9) * env * gain;
+  }
+};
+
+/** Chirrido de rueda: resonador muy estrecho con vaivén lento. */
+const squeakInto = (buf, rand, from, to, gain) => {
+  const s0 = Math.floor(from * SR);
+  const s1 = Math.floor(to * SR);
+  const res = resonator(2300, 0.995);
+  for (let i = s0; i < s1 && i < buf.length; i++) {
+    const t = (i - s0) / SR;
+    const am = 0.5 + 0.5 * Math.sin(2 * Math.PI * 3.5 * t);
+    const env = Math.sin((Math.PI * (i - s0)) / (s1 - s0));
+    buf[i] += res(rand() * 2 - 1) * am * env * gain;
+  }
+};
+
+/** Arrastre: una silla, una caja por el suelo. */
+const scrapeInto = (buf, rand, at, { dur, freq, gain }) => {
+  const start = Math.floor(at * SR);
+  const n = Math.floor(dur * SR);
+  const res = resonator(freq, 0.96);
+  const hp = highpass(900);
+  for (let k = 0; k < n && start + k < buf.length; k++) {
+    const t = k / n;
+    const env = Math.sin(Math.PI * t) ** 0.6;
+    const x = rand() * 2 - 1;
+    buf[start + k] += (res(x) * 1.2 + hp(x) * 0.35) * env * gain;
+  }
+};
+
 // ------------------------------------------------------------- los estímulos
 // `key` es el audioAssetKey del catálogo (src/ValeriaSensory/sensoryCatalog.ts).
 // `base` es su baseFrequencyHz: no es decorativo, el gate comprueba que la
@@ -329,99 +426,155 @@ const STIMULI = [
     },
   },
   {
-    key: 'sensory_classroom_loop', seed: 20260829, loop: 8, base: 500,
+    key: 'sensory_classroom_loop', soften: 4, seed: 20260829, loop: 10, base: 500,
     render(buf, rand) {
-      // Aula: seis voces infantiles, sillas que arrastran, dos risas y la
-      // reverberación de una clase con paredes duras.
-      babbleInto(buf, rand, { voices: 6, gain: 0.85, child: true, lpf: 5000 });
-      for (const at of [1.2, 4.4, 6.6]) {
-        const start = Math.floor(at * SR);
-        const res = resonator(320, 0.96);
-        const len = Math.floor(0.28 * SR);
-        for (let k = 0; k < len && start + k < buf.length; k++) {
-          const t = k / len;
-          const env = Math.sin(Math.PI * t) ** 0.6;
-          buf[start + k] += res(rand() * 2 - 1) * env * 1.6;
+      // Aula de colegio. El murmullo de fondo no basta: un aula se reconoce por
+      // los SUCESOS —la silla que arrastra, la risa del grupo, la maestra que
+      // habla por encima—. La primera versión los tenía tan bajos que el
+      // análisis del gate los daba como inexistentes: quedaba un zumbido.
+      babbleInto(buf, rand, { voices: 5, gain: 0.5, child: true, lpf: 4500 });
+
+      // La maestra: voz adulta, sílabas más largas y por encima del murmullo.
+      utteranceInto(buf, rand, 0.5, { dur: 1.5, gain: 1.5, f1: 520, f2: 1500, syll: 0.22 });
+      utteranceInto(buf, rand, 6.2, { dur: 1.3, gain: 1.4, f1: 480, f2: 1400, syll: 0.24 });
+
+      // Un niño que llama, dos veces y más agudo.
+      utteranceInto(buf, rand, 3.9, { dur: 0.55, gain: 1.7, f1: 780, f2: 2300, syll: 0.16 });
+      utteranceInto(buf, rand, 8.9, { dur: 0.45, gain: 1.5, f1: 820, f2: 2500, syll: 0.15 });
+
+      // Sillas arrastrando.
+      for (const at of [1.4, 4.6, 8.2]) {
+        scrapeInto(buf, rand, at, { dur: 0.32, freq: 320, gain: 2.4 });
+      }
+
+      // Risa de grupo: tres voces con el mismo pulso de 7 Hz.
+      for (const at of [2.7, 7.4]) {
+        for (let v = 0; v < 3; v++) {
+          const start = Math.floor((at + v * 0.06) * SR);
+          const r1 = resonator(650 + v * 180, 0.96);
+          const len = Math.floor(0.85 * SR);
+          for (let k = 0; k < len && start + k < buf.length; k++) {
+            const t = k / SR;
+            const laugh = 0.4 + 0.6 * Math.max(0, Math.sin(2 * Math.PI * 7 * t));
+            const env = Math.sin((Math.PI * k) / len);
+            buf[start + k] += r1(rand() * 2 - 1) * laugh * env * 1.5;
+          }
         }
       }
-      for (const at of [2.6, 5.9]) {
-        const start = Math.floor(at * SR);
-        const r1 = resonator(700, 0.96);
-        const len = Math.floor(0.9 * SR);
-        for (let k = 0; k < len && start + k < buf.length; k++) {
-          const t = k / SR;
-          const laugh = 0.5 + 0.5 * Math.sin(2 * Math.PI * 7 * t);
-          const env = Math.sin((Math.PI * k) / len);
-          buf[start + k] += r1(rand() * 2 - 1) * laugh * env * 1.1;
-        }
-      }
-      const rev = roomReverb(0.3, 1);
+
+      // Un libro que cae y un lápiz que rueda contra la mesa.
+      impactInto(buf, rand, 3.3, { decay: 0.09, tone: 130, noiseGain: 1.4, toneGain: 0.7, lpf: 1800 });
+      impactInto(buf, rand, 5.6, { decay: 0.04, tone: 320, noiseGain: 0.9, toneGain: 0.3, lpf: 3200 });
+
+      const rev = roomReverb(0.28, 1);
       for (let i = 0; i < buf.length; i++) buf[i] = rev(buf[i]);
     },
   },
   {
-    key: 'sensory_mall_loop', seed: 20260830, loop: 8, base: 300,
+    key: 'sensory_mall_loop', soften: 5, seed: 20260830, loop: 10, base: 300,
     render(buf, rand) {
-      // Centro comercial: murmullo difuso y lejano (paso bajo agresivo: la
-      // distancia se oye como falta de agudos), carritos rodando, pasos y una
-      // megafonía apagada que nunca se entiende.
-      babbleInto(buf, rand, { voices: 14, gain: 0.5, child: false, lpf: 1600 });
-      const roll = lowpass(260);
+      // Centro comercial. Murmullo LEJANO —la distancia se oye como falta de
+      // agudos— y encima lo que de verdad lo identifica: carritos rodando con
+      // una rueda que chirría, pasos, los pitidos de caja y una megafonía que
+      // nunca se entiende.
+      babbleInto(buf, rand, { voices: 12, gain: 0.34, child: false, lpf: 1600 });
+
+      const roll = lowpass(240);
       const wob = lowpass(2.5);
       for (let i = 0; i < buf.length; i++) {
-        buf[i] += roll(rand() * 2 - 1) * (0.9 + 0.6 * wob(rand() * 2 - 1)) * 1.1;
+        buf[i] += roll(rand() * 2 - 1) * (0.8 + 0.6 * wob(rand() * 2 - 1)) * 0.45;
       }
-      for (let n = 0; n < 18; n++) {
-        impactInto(buf, rand, 0.2 + n * 0.43, {
-          decay: 0.04, tone: 110, noiseGain: 0.5, toneGain: 0.25, lpf: 900,
+
+      // La rueda mal engrasada, dos veces y en tramos largos.
+      squeakInto(buf, rand, 2.2, 4.1, 3.2);
+      squeakInto(buf, rand, 7.4, 9.0, 2.8);
+
+      // Pasos sobre suelo duro.
+      // Doce pasos, no veintidós: con uno cada 0,43 s el propio lecho se volvía
+      // un suceso continuo y ya no sobresalía nada por encima.
+      for (let n = 0; n < 12; n++) {
+        impactInto(buf, rand, 0.35 + n * 0.78, {
+          decay: 0.04, tone: 110, noiseGain: 0.55, toneGain: 0.25, lpf: 1400,
         });
       }
-      const pa = lowpass(900);
+
+      // Caja de supermercado: el pitido del lector, cuatro veces.
+      for (const at of [1.1, 3.6, 6.3, 9.3]) {
+        beepInto(buf, at, { freq: 2700, dur: 0.09, gain: 1.0 });
+      }
+
+      // Megafonía: dos notas de aviso y una voz apagada detrás. No se entiende
+      // ninguna palabra, y así tiene que ser: no hay texto en este fichero.
+      const pa = lowpass(850);
       for (let i = 0; i < buf.length; i++) {
         const t = i / SR;
-        if (t > 3.0 && t < 3.9) {
-          const f = t < 3.4 ? 523 : 392; // dos notas de aviso, sin palabras
-          buf[i] += pa(Math.sin(2 * Math.PI * f * t)) * 0.35;
+        if (t > 5.0 && t < 5.8) {
+          const f = t < 5.4 ? 523 : 392;
+          const env = Math.min(1, (t - 5.0) / 0.05) * Math.min(1, (5.8 - t) / 0.05);
+          buf[i] += pa(Math.sin(2 * Math.PI * f * t)) * env * 1.0;
         }
       }
+      utteranceInto(buf, rand, 5.9, { dur: 1.6, gain: 1.3, f1: 420, f2: 1100, syll: 0.2 });
+
       const rev = roomReverb(0.38, 1.6);
       for (let i = 0; i < buf.length; i++) buf[i] = rev(buf[i]);
     },
   },
   {
-    key: 'sensory_street_loop', seed: 20260831, loop: 8, base: 200,
+    key: 'sensory_street_loop', soften: 7, seed: 20260831, loop: 10, base: 200,
     render(buf, rand) {
-      // Calle con obras: lecho de tráfico, dos coches que pasan (la resonancia
-      // barre y vuelve: eso es lo que el oído lee como "se acerca y se va"),
-      // un martillo neumático a rachas y bullicio lejano.
+      // Calle con obras. El lecho de tráfico es el DECORADO; lo que la hace
+      // reconocible son los obreros trabajando: martillo neumático, golpes de
+      // maza sobre metal, la radial y el pitido de marcha atrás de un camión.
+      // La primera versión solo tenía retumbo y un taladro enterrado.
       const lpBed = lowpass(1400);
       const brBed = brown(rand);
       const roll = resonator(420, 0.86);
       for (let i = 0; i < buf.length; i++) {
         const n = rand() * 2 - 1;
-        buf[i] = lpBed(brBed() * 1.6 + n * 0.12) * 1.4 + roll(n) * 0.5;
+        buf[i] = lpBed(brBed() * 1.4 + n * 0.12) * 0.28 + roll(n) * 0.1;
       }
-      for (const at of [1.0, 5.2]) {
+
+      // Dos coches que pasan: la banda sube y baja, que es lo que el oído lee
+      // como "se acerca y se va".
+      for (const at of [0.8, 5.6]) {
         const start = Math.floor(at * SR);
-        const len = Math.floor(2.4 * SR);
+        const len = Math.floor(2.2 * SR);
         const res = resonator(500, 0.9);
         for (let k = 0; k < len && start + k < buf.length; k++) {
           const t = k / len;
           const env = Math.sin(Math.PI * t) ** 1.4;
-          // El barrido va en la ganancia de una banda fija: un resonador con
-          // frecuencia variable por muestra se vuelve inestable.
           const band = 0.5 + 0.5 * Math.sin(Math.PI * t);
-          buf[start + k] += (res(rand() * 2 - 1) * band + (rand() * 2 - 1) * 0.25) * env * 1.5;
+          buf[start + k] += (res(rand() * 2 - 1) * band + (rand() * 2 - 1) * 0.3) * env * 0.85;
         }
       }
-      for (const at of [2.3, 6.1]) {
+
+      // Martillo neumático: dos rachas de ~1,2 s a 11 golpes por segundo.
+      for (const at of [2.0, 7.2]) {
         for (let n = 0; n < 14; n++) {
           impactInto(buf, rand, at + n * 0.085, {
-            decay: 0.03, tone: 95, noiseGain: 1.6, toneGain: 0.6, lpf: 3400,
+            decay: 0.035, tone: 95, noiseGain: 4.2, toneGain: 1.5, lpf: 3600,
           });
         }
       }
-      babbleInto(buf, rand, { voices: 5, gain: 0.28, child: false, lpf: 1400 });
+
+      // Maza contra viga: cinco golpes espaciados, con el metal sonando.
+      for (let n = 0; n < 5; n++) {
+        metalHitInto(buf, rand, 3.6 + n * 0.42, { freq: 720, decay: 0.35, gain: 3.2 });
+      }
+
+      // Radial cortando, y el pitido de marcha atrás de un camión.
+      grinderInto(buf, rand, 8.6, { dur: 1.1, gain: 1.6 });
+      for (let n = 0; n < 3; n++) {
+        beepInto(buf, 5.0 + n * 0.85, { freq: 1000, dur: 0.35, gain: 1.5 });
+      }
+
+      // Dos obreros que se dicen algo a gritos por encima del ruido.
+      utteranceInto(buf, rand, 4.9, { dur: 0.6, gain: 2.0, f1: 560, f2: 1250, syll: 0.2 });
+      utteranceInto(buf, rand, 9.4, { dur: 0.5, gain: 1.9, f1: 500, f2: 1150, syll: 0.18 });
+
+      // Y el bullicio de calle, lejos.
+      babbleInto(buf, rand, { voices: 5, gain: 0.16, child: false, lpf: 1400 });
     },
   },
 ];
@@ -460,6 +613,19 @@ for (const st of STIMULI) {
   for (let i = 0; i < F; i++) {
     const a = i / F;
     out[i] = out[i] * a + raw[loopN + i] * (1 - a);
+  }
+
+  // Los AMBIENTES pasan por un limitador blando antes de normalizar. Un
+  // ambiente se oye a distancia y sus picos no se disparan como un petardo a
+  // dos metros: sin esto, la risa del aula y el libro que cae se comían todo el
+  // margen de pico y el fichero entero se quedaba 8 dB por debajo del resto,
+  // con el murmullo casi inaudible. Los impulsivos de verdad —petardos,
+  // trueno, timbre— NO se tocan: su cresta es su identidad.
+  if (st.soften) {
+    let sq0 = 0;
+    for (let i = 0; i < loopN; i++) sq0 += out[i] * out[i];
+    const k = st.soften * Math.sqrt(sq0 / loopN);
+    if (k > 0) for (let i = 0; i < loopN; i++) out[i] = Math.tanh(out[i] / k) * k;
   }
 
   // Normalización: RMS común y techo de pico. Ver cabecera — el nivel 3 tiene
