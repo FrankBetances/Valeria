@@ -189,28 +189,44 @@ export const SensoryExerciseScreen: React.FC<{ navigation: any; route: any }> = 
             })}
           </ScrollView>
 
-          {/* Intensidad Relativa (1 - 5) */}
+          {/* Intensidad Relativa (1 - 5) con barras de volumen */}
           <Text style={s.sectionLabel}>{t.sensory.intensityLabel}</Text>
           <View style={s.optionsRow}>
-            {([1, 2, 3, 4, 5] as const).map((lvl) => (
-              <Pressable
-                key={lvl}
-                onPress={() => setConfig({ ...config, relativeIntensity: lvl })}
-                style={[s.levelBtn, config.relativeIntensity === lvl && s.levelBtnActive]}
-              >
-                <Text style={[s.levelTxt, config.relativeIntensity === lvl && s.levelTxtActive]}>
-                  {lvl}
-                </Text>
-              </Pressable>
-            ))}
+            {([1, 2, 3, 4, 5] as const).map((lvl) => {
+              const active = config.relativeIntensity === lvl;
+              return (
+                <Pressable
+                  key={lvl}
+                  onPress={() => setConfig({ ...config, relativeIntensity: lvl })}
+                  style={[s.levelBtn, active && s.levelBtnActive]}
+                  accessibilityRole="button"
+                >
+                  <View style={s.levelMeterBars}>
+                    {Array.from({ length: lvl }).map((_, barIdx) => (
+                      <View
+                        key={barIdx}
+                        style={[
+                          s.meterBar,
+                          { height: 4 + barIdx * 3 },
+                          active && s.meterBarActive,
+                        ]}
+                      />
+                    ))}
+                  </View>
+                  <Text style={[s.levelTxt, active && s.levelTxtActive]}>{lvl}</Text>
+                </Pressable>
+              );
+            })}
           </View>
-          <Text style={s.hintTxt}>
-            {config.relativeIntensity === 1 && t.sensory.intensityHint1}
-            {config.relativeIntensity === 2 && t.sensory.intensityHint2}
-            {config.relativeIntensity === 3 && t.sensory.intensityHint3}
-            {config.relativeIntensity === 4 && t.sensory.intensityHint4}
-            {config.relativeIntensity === 5 && t.sensory.intensityHint5}
-          </Text>
+          <View style={s.hintContainer}>
+            <Text style={s.hintTxt}>
+              {config.relativeIntensity === 1 && t.sensory.intensityHint1}
+              {config.relativeIntensity === 2 && t.sensory.intensityHint2}
+              {config.relativeIntensity === 3 && t.sensory.intensityHint3}
+              {config.relativeIntensity === 4 && t.sensory.intensityHint4}
+              {config.relativeIntensity === 5 && t.sensory.intensityHint5}
+            </Text>
+          </View>
 
           {/* Duración dosificada */}
           <Text style={s.sectionLabel}>{t.sensory.durationLabel}</Text>
@@ -220,6 +236,7 @@ export const SensoryExerciseScreen: React.FC<{ navigation: any; route: any }> = 
                 key={tier}
                 onPress={() => setConfig({ ...config, durationTier: tier })}
                 style={[s.tierBtn, config.durationTier === tier && s.tierBtnActive]}
+                accessibilityRole="button"
               >
                 <Text style={[s.tierTxt, config.durationTier === tier && s.tierTxtActive]}>
                   {tier === 'micro' ? t.sensory.tierMicro : tier === 'short' ? t.sensory.tierShort : t.sensory.tierMedium}
@@ -559,14 +576,19 @@ const s = StyleSheet.create({
     backgroundColor: '#ffffff',
     borderWidth: 1,
     borderColor: V.color.border,
-    borderRadius: 12,
-    paddingVertical: 12,
+    borderRadius: 14,
+    paddingVertical: 10,
     alignItems: 'center',
+    justifyContent: 'center',
   },
   levelBtnActive: { backgroundColor: '#00a39e', borderColor: '#00a39e' },
-  levelTxt: { fontSize: 15, fontWeight: '800', color: V.color.textPrimary },
+  levelMeterBars: { flexDirection: 'row', alignItems: 'flex-end', gap: 2, height: 16, marginBottom: 4 },
+  meterBar: { width: 3, backgroundColor: '#cbd5e1', borderRadius: 2 },
+  meterBarActive: { backgroundColor: '#ffffff' },
+  levelTxt: { fontSize: 14, fontWeight: '800', color: V.color.textPrimary },
   levelTxtActive: { color: '#ffffff' },
-  hintTxt: { fontSize: 12, fontWeight: '600', color: V.color.textSecondary, marginBottom: 10 },
+  hintContainer: { backgroundColor: '#f8fafc', padding: 10, borderRadius: 10, marginBottom: 12, borderWidth: 1, borderColor: '#e2e8f0' },
+  hintTxt: { fontSize: 12, fontWeight: '600', color: V.color.textSecondary },
 
   tierBtn: {
     flex: 1,

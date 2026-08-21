@@ -112,7 +112,7 @@ const s = StyleSheet.create({
   // height + paddingBottom explícitos: anulan el safe area interno de v6, que
   // aquí sería doble. Ver nota 2 de la cabecera.
   bar: {
-    height: 60,
+    height: 62,
     paddingBottom: 8,
     paddingTop: 6,
     backgroundColor: BOTTOM_TAB_THEME.backgroundColor,
@@ -121,8 +121,16 @@ const s = StyleSheet.create({
     elevation: 0,
     shadowOpacity: 0,
   },
-  item: { minHeight: V.touchMin },
-  label: { ...V.type.caption, fontWeight: V.font.extrabold },
+  item: {
+    minHeight: V.touchMin,
+    paddingVertical: 2,
+  },
+  label: {
+    ...V.type.caption,
+    fontWeight: V.font.extrabold,
+    fontSize: 11.5,
+    marginTop: -2,
+  },
 });
 
 export default MainTabNavigator;

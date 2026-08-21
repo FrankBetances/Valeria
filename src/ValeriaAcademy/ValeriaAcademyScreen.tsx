@@ -214,6 +214,25 @@ const CapsuleReader: React.FC<{
             <View key={k} style={[s.dot, { backgroundColor: k <= i ? '#fff' : 'rgba(255,255,255,.4)' }]} />
           ))}
         </View>
+
+        {capsule.slides.some((sl) => !!sl.ageBracket) && (
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} style={s.stageNavScroll} contentContainerStyle={{ gap: 6, paddingVertical: 4 }}>
+            {capsule.slides.map((sl, k) => {
+              const active = k === i;
+              const label = sl.ageBracket ?? (k === 0 ? 'Intro' : `${k + 1}`);
+              return (
+                <Pressable
+                  key={k}
+                  onPress={() => setI(k)}
+                  style={[s.stageNavPill, active && s.stageNavPillActive]}
+                  accessibilityRole="button"
+                >
+                  <Text style={[s.stageNavTxt, active && s.stageNavTxtActive]}>{label}</Text>
+                </Pressable>
+              );
+            })}
+          </ScrollView>
+        )}
       </View>
 
       <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
@@ -238,7 +257,7 @@ const CapsuleReader: React.FC<{
           {slide.chart === 'dactilologico' && <SignAlphabetChart />}
 
           {!!slide.receptive && slide.receptive.length > 0 && (
-            <View style={s.skillsSection}>
+            <View style={[s.skillsSection, s.skillsReceptive]}>
               <View style={s.skillsHeaderRow}>
                 <BlockIcon name="hearing" color="#2563eb" size={18} />
                 <Text style={[s.skillsHeaderTxt, { color: '#1d4ed8' }]}>
@@ -255,11 +274,11 @@ const CapsuleReader: React.FC<{
           )}
 
           {!!slide.expressive && slide.expressive.length > 0 && (
-            <View style={s.skillsSection}>
+            <View style={[s.skillsSection, s.skillsExpressive]}>
               <View style={s.skillsHeaderRow}>
                 <BlockIcon name="language" color="#059669" size={18} />
                 <Text style={[s.skillsHeaderTxt, { color: '#047857' }]}>
-                  {t.academy.expressiveLang ?? 'Lenguaje Expresivo (Producción)'}
+                  {t.academy.expressiveLang ?? 'Lenguaje Expresivo (Producción / Habla)'}
                 </Text>
               </View>
               {slide.expressive.map((item, idx) => (
@@ -463,6 +482,21 @@ const s = StyleSheet.create({
 
   dots: { flexDirection: 'row', gap: 6, marginTop: 12 },
   dot: { width: 22, height: 5, borderRadius: 3 },
+  stageNavScroll: { marginTop: 12, marginBottom: 2 },
+  stageNavPill: {
+    backgroundColor: 'rgba(255,255,255,0.18)',
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.3)',
+    borderRadius: 12,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+  },
+  stageNavPillActive: {
+    backgroundColor: '#ffffff',
+    borderColor: '#ffffff',
+  },
+  stageNavTxt: { fontSize: 12, fontWeight: '700', color: 'rgba(255,255,255,0.95)' },
+  stageNavTxtActive: { color: V.color.primaryDark, fontWeight: '800' },
 
   slideFigure: { alignItems: 'center', marginTop: 14, marginBottom: 2 },
   slideCard: { backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.border, borderRadius: 18, padding: 20, ...V.shadow.card },
@@ -476,12 +510,14 @@ const s = StyleSheet.create({
   disclaimerBox: { flexDirection: 'row', alignItems: 'flex-start', gap: 8, backgroundColor: '#f0fdf9', borderWidth: 1, borderColor: '#cdeeec', borderRadius: 12, padding: 12, marginTop: 12, marginBottom: 8 },
   disclaimerTxt: { flex: 1, fontSize: 12, fontWeight: '600', color: '#0d9488', lineHeight: 17 },
 
-  skillsSection: { backgroundColor: '#f8fafc', borderWidth: 1, borderColor: '#e2e8f0', borderRadius: 14, padding: 14, marginTop: 14 },
-  skillsHeaderRow: { flexDirection: 'row', alignItems: 'center', gap: 7, marginBottom: 8 },
-  skillsHeaderTxt: { fontSize: 13.5, fontWeight: '800' },
-  bulletRow: { flexDirection: 'row', alignItems: 'flex-start', gap: 7, marginTop: 5 },
-  bulletDot: { fontSize: 15, fontWeight: '800', lineHeight: 18 },
-  bulletTxt: { flex: 1, fontSize: 13, fontWeight: '600', color: V.color.textPrimary, lineHeight: 18 },
+  skillsSection: { borderRadius: 16, padding: 15, marginTop: 14, borderWidth: 1 },
+  skillsReceptive: { backgroundColor: '#eff6ff', borderColor: '#bfdbfe' },
+  skillsExpressive: { backgroundColor: '#ecfdf5', borderColor: '#a7f3d0' },
+  skillsHeaderRow: { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 10 },
+  skillsHeaderTxt: { fontSize: 14, fontWeight: '800' },
+  bulletRow: { flexDirection: 'row', alignItems: 'flex-start', gap: 8, marginTop: 6 },
+  bulletDot: { fontSize: 16, fontWeight: '800', lineHeight: 18 },
+  bulletTxt: { flex: 1, fontSize: 13.5, fontWeight: '600', color: V.color.textPrimary, lineHeight: 19 },
 
   footer: { flexDirection: 'row', gap: 10, padding: 16, paddingBottom: 22, backgroundColor: V.color.pageBg },
   primaryBtn: { borderRadius: 14, paddingVertical: 15, alignItems: 'center', ...V.shadow.button },
