@@ -8,6 +8,7 @@
 import { AcademyCapsule, AcademyTrack } from './academyTypes';
 import type { UiLang } from '../valeriaUiLang';
 import { ACADEMY_CAPSULES_EN, TRACK_ACCENT_EN } from './academyContent.en';
+import { academyAshaMilestonesEs } from './capsulas/valeriaAcademyAsha';
 
 export { ACADEMY_CAPSULES_EN, TRACK_ACCENT_EN };
 
@@ -30,6 +31,8 @@ export const ACADEMY_PASS_THRESHOLD = 0.6;
 
 export const ACADEMY_CAPSULES_ES: AcademyCapsule[] = [
   // ================================================================ LENGUAJE
+  // --------------------------------------------------------------- Brújula ASHA
+  academyAshaMilestonesEs,
   // --------------------------------------------------------------- desarrollo
   {
     id: 'dev-input',

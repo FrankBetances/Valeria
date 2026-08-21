@@ -37,6 +37,7 @@ import { LuaInventoryState } from './types/valeriaLua';
 import { loadLuaInventory, createDefaultLuaInventory, checkAndUnlockItems } from './services/valeriaLuaInventory';
 import { loadGame, GameState } from './valeriaGamification';
 import { isArAvailable } from './valeriaArBridge';
+import { AUDITORY_INTEGRATION_ACTIVITIES } from './ValeriaSensory';
 import { useT, UiStrings } from './i18n';
 
 // Sonda de una sola vez por arranque: el host nativo de RA está o no está, y
@@ -168,6 +169,19 @@ export const ValeriaHubV11Screen: React.FC<{ navigation: any }> = ({ navigation 
       bg: '#e6f9f8', fg: V.color.primaryDark, meta: t.hub.therapiesBadge(AR_META.length),
       onPress: () => navigation.navigate('ArLauncher'),
     } as Tile] : []),
+    // Octavo bloque · Integración Sensorial Auditiva (SOR, desensibilización gradual y anticipación).
+    {
+      key: 'sensory',
+      desc: t.hub.sensoryBrief,
+      icon: 'sensory',
+      title: t.hub.sensoryTitle,
+      hint: t.hub.sensorySub,
+      a11y: t.hub.sensoryA11y(AUDITORY_INTEGRATION_ACTIVITIES.length),
+      bg: '#d6f5f2',
+      fg: V.color.primaryDark,
+      meta: t.hub.sensoryBadge(AUDITORY_INTEGRATION_ACTIVITIES.length),
+      onPress: () => navigation.navigate('SensoryBlockList'),
+    },
   ];
 
   // Con un número impar de tarjetas, la última quedaría estirada a todo el

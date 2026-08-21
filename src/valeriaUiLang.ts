@@ -33,14 +33,22 @@ import { Locale, getLocale, setLocale } from './valeriaLocale';
 
 export type UiLang = 'es' | 'en';
 export const ALL_UI_LANGS: UiLang[] = ['es', 'en'];
+export const DEFAULT_UI_LANG: UiLang = 'es';
 export const isUiLang = (v: unknown): v is UiLang => v === 'es' || v === 'en';
+
+export function resolveInitialUiLang(value: unknown): UiLang {
+  if (isUiLang(value)) {
+    return value;
+  }
+  return DEFAULT_UI_LANG;
+}
 
 const KEY = '@valeria_ui_lang';
 const KEY_EXPLICIT = '@valeria_ui_lang_explicit';
 
 // Defecto seguro: castellano. Es lo que ven hoy todos los usuarios, así que
 // mientras el disco responde nadie percibe un cambio.
-let active: UiLang = 'es';
+let active: UiLang = DEFAULT_UI_LANG;
 let explicit = false;
 
 // ---------------------------------------------------------------- suscripción
@@ -136,11 +144,14 @@ export const hydrateUiLang = async (): Promise<void> => {
   try {
     const [[, stored], [, flag]] = await AsyncStorage.multiGet([KEY, KEY_EXPLICIT]);
     explicit = flag === '1';
-    if (isUiLang(stored) && stored !== active) {
-      active = stored;
+    const resolved = resolveInitialUiLang(stored);
+    if (resolved !== active) {
+      active = resolved;
       emit();
     }
-  } catch (e) { /* almacenamiento no disponible: queda 'es' */ }
+  } catch (e) {
+    active = DEFAULT_UI_LANG;
+  }
 };
 
 void hydrateUiLang();

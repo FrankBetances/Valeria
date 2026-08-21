@@ -5,6 +5,7 @@
 // ("caregiver", "child", Sentence case, HIPAA-ready).
 // ============================================================================
 import { AcademyCapsule, AcademyTrack } from "./academyTypes";
+import { academyAshaMilestonesEn } from "./capsulas/valeriaAcademyAsha";
 
 export const TRACK_ACCENT_EN: Record<AcademyTrack, { bg: string; fg: string; label: string }> = {
   desarrollo: { bg: "#e0edff", fg: "#3b6fd4", label: "HOW CHILDREN LEARN TO TALK" },
@@ -16,6 +17,8 @@ export const TRACK_ACCENT_EN: Record<AcademyTrack, { bg: string; fg: string; lab
 
 export const ACADEMY_CAPSULES_EN: AcademyCapsule[] = [
   // ================================================================ LANGUAGE
+  // --------------------------------------------------------------- ASHA Compass
+  academyAshaMilestonesEn,
   // --------------------------------------------------------------- development
   {
     id: "dev-input",

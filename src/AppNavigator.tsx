@@ -55,6 +55,7 @@ import ValeriaArLauncherScreen from './ValeriaArLauncherScreen';
 // [V3.1] La ruta Results la sirve el panel de paciente. ValeriaResultsScreen (V2.x)
 // fue eliminada de la base de código.
 import ValeriaPatientResultsDashboardScreen from './ValeriaPatientResultsDashboardScreen';
+import { SensoryBlockListScreen, SensoryExerciseScreen } from './ValeriaSensory';
 
 export type ValeriaStackParamList = {
   Welcome: undefined;
@@ -73,6 +74,8 @@ export type ValeriaStackParamList = {
   SemanticExpansion: undefined;
   ArLauncher: undefined;
   Academy: undefined;
+  SensoryBlockList: undefined;
+  SensoryExercise: { exerciseId?: string } | undefined;
   Results: undefined;
 };
 
@@ -108,6 +111,8 @@ export const ValeriaNavigator: React.FC = () => (
     <Stack.Screen name="SemanticExpansion" component={ValeriaSemanticExpansionScreen} />
     <Stack.Screen name="ArLauncher" component={ValeriaArLauncherScreen} />
     <Stack.Screen name="Academy" component={ValeriaAcademyScreen} />
+    <Stack.Screen name="SensoryBlockList" component={SensoryBlockListScreen} />
+    <Stack.Screen name="SensoryExercise" component={SensoryExerciseScreen} />
     <Stack.Screen name="Results" component={ValeriaPatientResultsDashboardScreen} />
   </Stack.Navigator>
 );

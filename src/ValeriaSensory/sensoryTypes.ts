@@ -1,0 +1,104 @@
+// ============================================================================
+// Valeria+ · Integración Sensorial Auditiva — Tipos de dominio (SaMD Clase I)
+// Protocolo multimodal de desensibilización sistemática, contracondicionamiento
+// y anticipación visual estructurada para sobre-responsividad sensorial (SOR).
+// ============================================================================
+import { Locale } from '../valeriaLocale';
+
+export type SensoryTriggerId =
+  | 'vacuum'        // Aspiradora
+  | 'blender'       // Licuadora
+  | 'hairdryer'     // Secador de pelo
+  | 'hand_dryer'    // Secador de manos
+  | 'thunder'       // Tormenta / Trueno
+  | 'siren'         // Sirena de emergencia
+  | 'fireworks'     // Pirotecnia
+  | 'school_bell';  // Timbre escolar
+
+export interface LocalizedString {
+  es: string;
+  gl: string;
+  eu: string;
+  'es-DO': string;
+  'en-US': string;
+}
+
+export interface SensoryStimulus {
+  id: SensoryTriggerId;
+  pictoIndex: number;
+  label: LocalizedString;
+  audioAssetKey: string;
+  baseFrequencyHz?: number;
+  calmStrategyTpr: LocalizedString;
+}
+
+export interface AuditorySensoryExercise {
+  id: string; // ej: 'ISA-01', 'ISA-02', etc.
+  titleKey: string;
+  descKey: string;
+  iconName: 'sensory_ear' | 'noise_filter' | 'sensory_anticipation' | 'calm_breath';
+  defaultDurationSec: number;
+  isAvailable: boolean; // MVP: ISA-01 funcional; ISA-02 a ISA-06 visibles con ficha
+}
+
+// --- Máquina de Estados del Módulo Sensorial (Muro de Control Adulto) ---------
+export type SensoryFlowState =
+  | 'IDLE'
+  | 'INTRO'
+  | 'ADULT_PREPARATION'
+  | 'ANTICIPATION'
+  | 'EXPLORING'
+  | 'PAUSED'
+  | 'CLOSING'
+  | 'COMPLETED'
+  | 'ABANDONED';
+
+// Estados de Lúa durante el ejercicio sensorial
+export type SensoryLuaVisualState =
+  | 'SENSORY_READY'         // Lúa disponible y serena
+  | 'SENSORY_ANTICIPATION'  // Lúa atenta con cuenta atrás visual
+  | 'SENSORY_EXPOSURE'      // Lúa estática y muda (cero distracción/sobrecarga)
+  | 'SENSORY_PAUSE'         // Lúa calmada validando la pausa
+  | 'SENSORY_CLOSE'         // Cierre sereno
+  | 'SENSORY_REWARD';       // Celebración suave tras validación adulta
+
+// Configuración previa obligatoria realizada por el adulto
+export interface SensoryAdultConfig {
+  triggerId: SensoryTriggerId;
+  initialChildState: 'calm' | 'sensitive' | 'tired' | 'overwhelmed';
+  relativeIntensity: 1 | 2 | 3 | 4 | 5; // 1=Muy suave, 5=Moderada (sin falsos dB)
+  durationTier: 'micro' | 'short' | 'medium'; // micro: 3s, short: 7s, medium: 15s
+  agencyMode: 'child_tap' | 'shared_tap' | 'adult_cue';
+  stopCriterion: 'button' | 'gesture' | 'word' | 'picto';
+}
+
+// Valoración adulta al cerrar la sesión
+export interface SensoryAdultRating {
+  childResponse: 'calm_regulated' | 'attentive_curious' | 'sensitive_paused' | 'overwhelmed_stopped';
+  tprApplied: boolean;
+  notes?: string;
+}
+
+// Resultado de una sesión sensorial (guardado cifrado)
+export interface SensorySessionRecord {
+  id: string;
+  exerciseId: string;
+  triggerId: SensoryTriggerId;
+  timestamp: number;
+  durationSeconds: number;
+  relativeIntensity: number;
+  completedFully: boolean;
+  pausedCount: number;
+  earnedXp: number;
+  adultRating?: SensoryAdultRating;
+}
+
+// Estado del silo sensorial persistido
+export interface ValeriaSensoryState {
+  version: number;
+  xp: number;
+  sessionsCount: number;
+  completedActivities: Record<string, number>; // id actividad -> veces completada
+  lastSessionAt: number;
+  unlockedBadges: string[];
+}

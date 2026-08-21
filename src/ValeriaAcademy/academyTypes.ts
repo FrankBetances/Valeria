@@ -43,6 +43,10 @@ export interface AcademySlide {
   // obligaba a pasar 27 pantallas para deletrear un nombre, y quien entraba a
   // hojear el módulo no veía ningún dibujo hasta la cuarta cápsula.
   chart?: 'dactilologico';
+  // Segmentación por edades (Brújula ASHA)
+  ageBracket?: string;
+  receptive?: string[];
+  expressive?: string[];
 }
 
 // Pregunta de validación ágil. `answer` es el índice de la opción correcta.
@@ -69,6 +73,7 @@ export interface AcademyCapsule {
   summary: string;          // gancho de una línea para la lista
   minutes: number;          // duración estimada de lectura
   xp: number;               // XP que otorga al completar (en su silo)
+  disclaimerText?: string;  // Disclaimer clínico / normativo visible
   slides: AcademySlide[];
   quiz: AcademyQuizQuestion[];
 }

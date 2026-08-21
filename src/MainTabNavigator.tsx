@@ -55,6 +55,13 @@ const tabIcon = (name: BlockIconName) => ({ color }: { color: string }) => (
   <BlockIcon name={name} color={color} size={23} />
 );
 
+const BOTTOM_TAB_THEME = {
+  backgroundColor: '#F8F9FA',
+  borderTopColor: '#E0E0E0',
+  activeTintColor: '#00c4be',
+  inactiveTintColor: '#757575',
+} as const;
+
 export const MainTabNavigator: React.FC = () => {
   const t = useT();
 
@@ -63,8 +70,8 @@ export const MainTabNavigator: React.FC = () => {
       initialRouteName="ExerciseSelection"
       screenOptions={{
         headerShown: false, // cada pantalla trae su cabecera turquesa
-        tabBarActiveTintColor: V.color.primaryDark,
-        tabBarInactiveTintColor: V.color.textMuted,
+        tabBarActiveTintColor: BOTTOM_TAB_THEME.activeTintColor,
+        tabBarInactiveTintColor: BOTTOM_TAB_THEME.inactiveTintColor,
         tabBarStyle: s.bar,
         tabBarLabelStyle: s.label,
         tabBarItemStyle: s.item,
@@ -105,13 +112,14 @@ const s = StyleSheet.create({
   // height + paddingBottom explícitos: anulan el safe area interno de v6, que
   // aquí sería doble. Ver nota 2 de la cabecera.
   bar: {
-    height: 58,
-    paddingBottom: 6,
+    height: 60,
+    paddingBottom: 8,
     paddingTop: 6,
-    backgroundColor: V.color.card,
+    backgroundColor: BOTTOM_TAB_THEME.backgroundColor,
     borderTopWidth: 1,
-    borderTopColor: V.color.border,
+    borderTopColor: BOTTOM_TAB_THEME.borderTopColor,
     elevation: 0,
+    shadowOpacity: 0,
   },
   item: { minHeight: V.touchMin },
   label: { ...V.type.caption, fontWeight: V.font.extrabold },

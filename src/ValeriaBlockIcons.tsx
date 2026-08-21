@@ -43,7 +43,9 @@ export type BlockIconName =
   | 'bell' | 'folder' | 'plus' | 'chart' | 'clinical' | 'family'
   | 'moodBad' | 'moodPoor' | 'moodOk' | 'moodGood' | 'moodGreat'
   // Academy: guías de dominio y cuidado de los dispositivos auditivos.
-  | 'compass' | 'timer' | 'drop' | 'magnet' | 'battery';
+  | 'compass' | 'timer' | 'drop' | 'magnet' | 'battery'
+  // Integración Sensorial Auditiva: estimulación, modulación y calma.
+  | 'sensory' | 'sensory_ear' | 'noise_filter' | 'sensory_anticipation' | 'calm_breath';
 
 interface Props { name: BlockIconName; color: string; size?: number; }
 
@@ -472,6 +474,43 @@ export const BlockIcon: React.FC<Props> = ({ name, color, size = 26 }) => {
           <Path d="M20.6 16.4v2.2a2 2 0 0 1-2 2h-2.2" {...common} />
           <Path d="M7.6 20.6H5.4a2 2 0 0 1-2-2v-2.2" {...common} />
           <Circle cx="12" cy="12" r="3.1" {...common} />
+        </>
+      )}
+
+      {/* Integración Sensorial Auditiva · oreja con ondas suaves concéntricas */}
+      {(name === 'sensory' || name === 'sensory_ear') && (
+        <>
+          <Path d="M6 8.5a5.5 5.5 0 0 1 11 0c0 5-5 5-5 8.5a3 3 0 1 1-6 0v-.9" {...common} />
+          <Path d="M14 8.5a2.5 2.5 0 0 0-5 0v1a2 2 0 0 1-2 2" {...common} />
+          <Path d="M18.5 6a8 8 0 0 1 0 9" {...common} />
+        </>
+      )}
+
+      {/* Filtro de ruido / ecualización */}
+      {name === 'noise_filter' && (
+        <>
+          <Path d="M4 6h16" {...common} />
+          <Path d="M4 12h16" {...common} />
+          <Path d="M4 18h16" {...common} />
+          <Circle cx="8" cy="6" r="2.2" {...common} />
+          <Circle cx="16" cy="12" r="2.2" {...common} />
+          <Circle cx="10" cy="18" r="2.2" {...common} />
+        </>
+      )}
+
+      {/* Anticipación sensorial · reloj de anticipación */}
+      {name === 'sensory_anticipation' && (
+        <>
+          <Circle cx="12" cy="13" r="8" {...common} />
+          <Path d="M12 9v4l2.5 2" {...common} />
+          <Path d="M10 2.5h4" {...common} />
+        </>
+      )}
+
+      {/* Respiración de calma / autorregulación */}
+      {name === 'calm_breath' && (
+        <>
+          <Path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" {...common} />
         </>
       )}
     </Svg>

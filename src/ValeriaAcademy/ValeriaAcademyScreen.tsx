@@ -219,12 +219,57 @@ const CapsuleReader: React.FC<{
       <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
         <View style={s.slideCard}>
           {!!slide.icon && <Text style={s.slideEmoji}>{slide.icon}</Text>}
+          {!!slide.ageBracket && (
+            <View style={[s.ageBracketBadge, { backgroundColor: accent.bg }]}>
+              <Text style={[s.ageBracketTxt, { color: accent.fg }]}>{slide.ageBracket}</Text>
+            </View>
+          )}
           <Text style={s.slideHeading}>{slide.heading}</Text>
+          {!!capsule.disclaimerText && i === 0 && (
+            <View style={s.disclaimerBox}>
+              <BlockIcon name="info" color={V.color.primaryDark} size={16} />
+              <Text style={s.disclaimerTxt}>{capsule.disclaimerText}</Text>
+            </View>
+          )}
           {!!slide.figure && (
             <View style={s.slideFigure}><SignFigure figure={slide.figure} size={132} /></View>
           )}
           <Text style={s.slideBody}>{slide.body}</Text>
           {slide.chart === 'dactilologico' && <SignAlphabetChart />}
+
+          {!!slide.receptive && slide.receptive.length > 0 && (
+            <View style={s.skillsSection}>
+              <View style={s.skillsHeaderRow}>
+                <BlockIcon name="hearing" color="#2563eb" size={18} />
+                <Text style={[s.skillsHeaderTxt, { color: '#1d4ed8' }]}>
+                  {t.academy.receptiveLang ?? 'Lenguaje Receptivo (Comprensión)'}
+                </Text>
+              </View>
+              {slide.receptive.map((item, idx) => (
+                <View key={idx} style={s.bulletRow}>
+                  <Text style={[s.bulletDot, { color: '#2563eb' }]}>•</Text>
+                  <Text style={s.bulletTxt}>{item}</Text>
+                </View>
+              ))}
+            </View>
+          )}
+
+          {!!slide.expressive && slide.expressive.length > 0 && (
+            <View style={s.skillsSection}>
+              <View style={s.skillsHeaderRow}>
+                <BlockIcon name="language" color="#059669" size={18} />
+                <Text style={[s.skillsHeaderTxt, { color: '#047857' }]}>
+                  {t.academy.expressiveLang ?? 'Lenguaje Expresivo (Producción)'}
+                </Text>
+              </View>
+              {slide.expressive.map((item, idx) => (
+                <View key={idx} style={s.bulletRow}>
+                  <Text style={[s.bulletDot, { color: '#059669' }]}>•</Text>
+                  <Text style={s.bulletTxt}>{item}</Text>
+                </View>
+              ))}
+            </View>
+          )}
         </View>
       </ScrollView>
 
@@ -424,6 +469,19 @@ const s = StyleSheet.create({
   slideEmoji: { fontSize: 46, textAlign: 'center', marginBottom: 6 },
   slideHeading: { fontSize: 19, fontWeight: '800', color: V.color.textPrimary, textAlign: 'center', marginTop: 6 },
   slideBody: { fontSize: 14.5, fontWeight: '600', color: V.color.textSecondary, lineHeight: 22, marginTop: 12, textAlign: 'center' },
+
+  ageBracketBadge: { alignSelf: 'center', paddingHorizontal: 12, paddingVertical: 5, borderRadius: 12, marginBottom: 8 },
+  ageBracketTxt: { fontSize: 12.5, fontWeight: '800', letterSpacing: 0.4 },
+
+  disclaimerBox: { flexDirection: 'row', alignItems: 'flex-start', gap: 8, backgroundColor: '#f0fdf9', borderWidth: 1, borderColor: '#cdeeec', borderRadius: 12, padding: 12, marginTop: 12, marginBottom: 8 },
+  disclaimerTxt: { flex: 1, fontSize: 12, fontWeight: '600', color: '#0d9488', lineHeight: 17 },
+
+  skillsSection: { backgroundColor: '#f8fafc', borderWidth: 1, borderColor: '#e2e8f0', borderRadius: 14, padding: 14, marginTop: 14 },
+  skillsHeaderRow: { flexDirection: 'row', alignItems: 'center', gap: 7, marginBottom: 8 },
+  skillsHeaderTxt: { fontSize: 13.5, fontWeight: '800' },
+  bulletRow: { flexDirection: 'row', alignItems: 'flex-start', gap: 7, marginTop: 5 },
+  bulletDot: { fontSize: 15, fontWeight: '800', lineHeight: 18 },
+  bulletTxt: { flex: 1, fontSize: 13, fontWeight: '600', color: V.color.textPrimary, lineHeight: 18 },
 
   footer: { flexDirection: 'row', gap: 10, padding: 16, paddingBottom: 22, backgroundColor: V.color.pageBg },
   primaryBtn: { borderRadius: 14, paddingVertical: 15, alignItems: 'center', ...V.shadow.button },
