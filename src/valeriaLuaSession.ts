@@ -20,6 +20,7 @@ import {
   luaGrantParam,
 } from './valeriaLuaProtocol';
 import { VISUAL_BREAK_SECONDS } from './valeriaActiveTimeMonitor';
+import { luaGrantCapsFor } from './valeriaLuaTouchPolicy';
 
 export type LuaSender = (frames: Uint8Array[]) => void;
 
@@ -134,6 +135,7 @@ export function triggerVisualAnchorBreak(
 // Con una sola concesión de 16-28 s, en los dos casos el aparato caduca a
 // mitad y la gata se duerme justo cuando hacía falta.
 let sensoryTtlS = 0;
+let sensoryCaps: number = LUA_CAP.VISUAL;
 let sensoryRenew: ReturnType<typeof setInterval> | null = null;
 
 const stopSensoryRenew = (): void => {
@@ -152,18 +154,28 @@ const startSensoryRenew = (ttl: number): void => {
   sensoryTtlS = ttl;
   const everyS = Math.max(1, Math.min(LUA_LIMITS.heartbeatSeconds, Math.floor(ttl / 2)));
   sensoryRenew = setInterval(() => {
-    send(luaFrame(LUA_OP.GRANT, luaGrantParam(sensoryTtlS, LUA_CAP.VISUAL)));
+    // Con la MISMA máscara: si la renovación perdiera el bit de bloqueo, el
+    // dedo volvería a contar a los ocho segundos de empezar la exposición.
+    send(luaFrame(LUA_OP.GRANT, luaGrantParam(sensoryTtlS, sensoryCaps)));
   }, everyS * 1000);
 };
 
 const grantSeconds = (seconds: number): number =>
   Math.max(1, Math.min(LUA_LIMITS.grantMaxSeconds, Math.trunc(seconds) || 1));
 
-/** Anticipación: se concede lo visual y la gata se pone en fase de escucha. */
-export function luaSensoryReady(seconds: number): void {
+/**
+ * Anticipación: se concede lo visual y la gata se pone en fase de escucha.
+ *
+ * La máscara sale de `luaGrantCapsFor`, que para este módulo pide además el
+ * bloqueo del táctil: durante una exposición se está midiendo cuánto tolera el
+ * niño, y un ronroneo que aparece cuando toca —y que aparecería más cuanto
+ * peor lo esté pasando— es una variable suelta dentro de la medida (D-O).
+ */
+export function luaSensoryReady(seconds: number, exerciseCode: string): void {
   const s = grantSeconds(seconds);
+  sensoryCaps = luaGrantCapsFor(exerciseCode);
   send(
-    luaFrame(LUA_OP.GRANT, luaGrantParam(s, LUA_CAP.VISUAL)),
+    luaFrame(LUA_OP.GRANT, luaGrantParam(s, sensoryCaps)),
     luaFrame(LUA_OP.PHASE, 0), // 0 = escucha, la misma fase que en los ejercicios
   );
   startSensoryRenew(s);
@@ -176,8 +188,8 @@ export function luaSensoryReady(seconds: number): void {
  * veinte segundos el aparato estaba en REPOSO y ni la exposición reanudada ni
  * el cierre lo despertaban en toda la sesión.
  */
-export function luaSensoryResume(seconds: number): void {
-  luaSensoryReady(seconds);
+export function luaSensoryResume(seconds: number, exerciseCode: string): void {
+  luaSensoryReady(seconds, exerciseCode);
 }
 
 /** Pausa segura: el mismo descanso que el Ancla Visual Lejana. */
@@ -192,7 +204,7 @@ export function luaSensoryPause(seconds: number = 20): void {
   stopSensoryRenew();
   const s = grantSeconds(seconds);
   send(
-    luaFrame(LUA_OP.GRANT, luaGrantParam(s, LUA_CAP.VISUAL)),
+    luaFrame(LUA_OP.GRANT, luaGrantParam(s, sensoryCaps)),
     luaFrame(LUA_OP.RELAX, s),
   );
 }

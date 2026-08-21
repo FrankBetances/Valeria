@@ -32,6 +32,7 @@
 // 0x00 = solo visual: es lo que valía un GRANT antes de que existiera el campo.
 #define LUA_CAP_VISUAL 0x01  // dibujar en el panel. Es lo que concede un GRANT con el byte alto a 0
 #define LUA_CAP_SOUND 0x02  // emitir sonido (zumbador de la D-F). Se concede aparte de la visual y caduca con ella. MUTE la quita sin apagar la pantalla
+#define LUA_CAP_NO_TOUCH 0x04  // el ÚNICO bit que RESTA en vez de conceder: inhibe el panel táctil durante esta concesión. Existe así, y no como un 'TOUCH' que concede, porque el dedo YA estaba atendido antes de que este bit existiera y un bit aditivo habría dejado sin caricia a todo lo ya escrito. Lo pide el ejercicio cuya DINÁMICA no admite el dedo (D-O). Caduca con la concesión, y la inhibición automática de las fases de escucha y repetición sigue aplicándose aunque no se pida.
 #define LUA_GRANT_TTL(param) ((uint8_t)((param) & 0xFF))
 #define LUA_GRANT_CAPS(param) ((uint8_t)(((param) >> 8) & 0xFF))
 

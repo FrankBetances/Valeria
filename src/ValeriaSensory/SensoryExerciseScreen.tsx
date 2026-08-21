@@ -182,7 +182,7 @@ export const SensoryExerciseScreen: React.FC<{ navigation: any; route: any }> = 
   const handleResume = () => {
     // La gata vuelve al turno. Sin esta línea no volvía en toda la sesión: el
     // `GRANT` de la pausa dura lo que el descanso, y nadie lo renovaba.
-    luaSensoryResume(Math.max(1, targetDuration - elapsedSec) + 10);
+    luaSensoryResume(Math.max(1, targetDuration - elapsedSec) + 10, exerciseId);
     setStep('EXPLORING');
     setIsStimulusActive(true);
     startStimulus(config.relativeIntensity);
@@ -419,7 +419,7 @@ export const SensoryExerciseScreen: React.FC<{ navigation: any; route: any }> = 
               setElapsedSec(0);
               // La concesión cubre cuenta atrás + exposición + margen de cierre,
               // siempre por debajo del techo de 60 s del GRANT.
-              luaSensoryReady(3 + targetDuration + 10);
+              luaSensoryReady(3 + targetDuration + 10, exerciseId);
               setStep('ANTICIPATION');
             }}
             style={s.primaryBtn}
