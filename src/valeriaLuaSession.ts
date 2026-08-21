@@ -90,3 +90,61 @@ export function triggerVisualAnchorBreak(
 
   return () => cancelVisualAnchorBreak();
 }
+
+// ---------------------------------------------------------------------------
+// Integración Sensorial Auditiva · Lúa acompaña la exposición desde el cristal
+// ---------------------------------------------------------------------------
+//
+// El módulo sensorial es el primero en el que la gata tiene que hacer MENOS,
+// no más. El niño está atendiendo a un sonido que le desborda; una mascota
+// animándose al lado es una segunda fuente de estimulación justo cuando
+// estamos midiendo su tolerancia a la primera.
+//
+// De ahí las tres reglas de esta sección:
+//
+//   1 · La concesión es SIEMPRE solo visual. Nunca se pide `LUA_CAP.SOUND`.
+//       El estímulo sale del altavoz de la tableta, bajo el dedo del adulto y
+//       con su nivel; un aparato que además sonara sería una segunda fuente
+//       sin control de intensidad, y arruinaría la jerarquía.
+//   2 · Durante la exposición no se manda NADA. Ni un opcode. La cara que dejó
+//       la anticipación se queda quieta hasta que el turno cambia: es el
+//       equivalente en el cristal del `pose="sit"` de la tableta.
+//   3 · La pausa reutiliza `RELAX`, el mismo descanso de la regla 20-20-20. No
+//       es un atajo: el gesto es literalmente el mismo —la gata se echa a
+//       dormir para dejar de ser lo que retiene la atención— y el niño que
+//       pide pausa necesita exactamente eso.
+//
+// Sin aparato emparejado no hay emisor registrado y estas cuatro funciones no
+// hacen nada, que es lo que pasa hoy en una tableta sola.
+
+/** Anticipación: se concede lo visual y la gata se pone en fase de escucha. */
+export function luaSensoryReady(seconds: number): void {
+  const s = Math.max(1, Math.min(LUA_LIMITS.grantMaxSeconds, Math.trunc(seconds) || 1));
+  send(
+    luaFrame(LUA_OP.GRANT, luaGrantParam(s, LUA_CAP.VISUAL)),
+    luaFrame(LUA_OP.PHASE, 0), // 0 = escucha, la misma fase que en los ejercicios
+  );
+}
+
+/** Pausa segura: el mismo descanso que el Ancla Visual Lejana. */
+export function luaSensoryPause(seconds: number = 20): void {
+  const s = Math.max(1, Math.min(LUA_LIMITS.grantMaxSeconds, Math.trunc(seconds) || 1));
+  send(
+    luaFrame(LUA_OP.GRANT, luaGrantParam(s, LUA_CAP.VISUAL)),
+    luaFrame(LUA_OP.RELAX, s),
+  );
+}
+
+/**
+ * Cierre del turno. `CELEBRATE(0)` es el cierre sereno, no la insignia: haber
+ * tolerado una exposición no es una hazaña que celebrar a lo grande, y para el
+ * niño que ha parado a los dos segundos una fiesta sería un contraste cruel.
+ */
+export function luaSensoryClose(): void {
+  send(luaFrame(LUA_OP.CELEBRATE, 0));
+}
+
+/** Salir del módulo: la gata vuelve a su cara neutra. */
+export function luaSensoryIdle(): void {
+  send(luaFrame(LUA_OP.IDLE));
+}

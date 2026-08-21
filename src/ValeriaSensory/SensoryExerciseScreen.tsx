@@ -24,6 +24,20 @@ import {
 } from './sensoryCatalog';
 import { recordSensorySession } from './sensoryStore';
 import {
+  prepareStimulus,
+  startStimulus,
+  stopStimulus,
+  setStimulusLevel,
+  releaseStimulus,
+  sensoryAudioSupported,
+} from './sensoryAudio';
+import {
+  luaSensoryReady,
+  luaSensoryPause,
+  luaSensoryClose,
+  luaSensoryIdle,
+} from '../valeriaLuaSession';
+import {
   SensoryAdultConfig,
   SensoryAdultRating,
   SensoryFlowState,
@@ -63,6 +77,12 @@ export const SensoryExerciseScreen: React.FC<{ navigation: any; route: any }> = 
   const [pausedCount, setPausedCount] = useState<number>(0);
   const [earnedXp, setEarnedXp] = useState<number>(20);
 
+  // ¿Hay salida de audio de verdad en este aparato? En Expo web no la hay, y la
+  // pantalla tiene que DECIRLO en vez de rotular "Sonido en reproducción"
+  // sobre el silencio. Se resuelve una vez: el módulo nativo no aparece a
+  // mitad de sesión.
+  const audioReady = useRef<boolean>(sensoryAudioSupported()).current;
+
   // --- Valoración Adulta ---
   const [rating, setRating] = useState<SensoryAdultRating>({
     childResponse: 'calm_regulated',
@@ -74,6 +94,33 @@ export const SensoryExerciseScreen: React.FC<{ navigation: any; route: any }> = 
   const targetDuration = config.durationTier === 'micro' ? 3 : config.durationTier === 'short' ? 7 : 15;
 
   // --------------------------------------------------------------------------
+  // Carga del estímulo y limpieza del nativo
+  //
+  // Se precarga al elegir el sonido, no al tocar el botón: entre el dedo del
+  // niño y el sonido tiene que haber siempre el mismo tiempo, y ese tiempo
+  // tiene que ser cero. La agencia («mi sonido, mi botón») se sostiene en eso.
+  // --------------------------------------------------------------------------
+  useEffect(() => {
+    void prepareStimulus(config.triggerId);
+  }, [config.triggerId]);
+
+  useEffect(() => () => {
+    // Salir de la pantalla —botón atrás, gesto del sistema, lo que sea— apaga
+    // el estímulo y devuelve la gata del aparato a su cara neutra. Un sonido
+    // que sobrevive a su pantalla es la peor sorpresa posible en este módulo.
+    stopStimulus();
+    releaseStimulus();
+    luaSensoryIdle();
+  }, []);
+
+  // El nivel del adulto viaja al reproductor en el acto: si lo cambia con el
+  // sonido puesto, se oye el cambio. Nada aquí decide por él (ver el muro
+  // regulatorio de sensoryAudio.ts).
+  useEffect(() => {
+    setStimulusLevel(config.relativeIntensity);
+  }, [config.relativeIntensity]);
+
+  // --------------------------------------------------------------------------
   // Efecto de Cuenta Atrás (ANTICIPATION)
   // --------------------------------------------------------------------------
   useEffect(() => {
@@ -82,8 +129,10 @@ export const SensoryExerciseScreen: React.FC<{ navigation: any; route: any }> = 
       if (countdown > 0) {
         timer = setTimeout(() => setCountdown((c) => c - 1), 1000);
       } else {
+        const autoStart = config.agencyMode !== 'child_tap';
         setStep('EXPLORING');
-        setIsStimulusActive(config.agencyMode !== 'child_tap');
+        setIsStimulusActive(autoStart);
+        if (autoStart) startStimulus(config.relativeIntensity);
       }
     }
     return () => clearTimeout(timer);
@@ -99,6 +148,7 @@ export const SensoryExerciseScreen: React.FC<{ navigation: any; route: any }> = 
         setElapsedSec((prev) => {
           const next = prev + 1;
           if (next >= targetDuration) {
+            stopStimulus();
             setIsStimulusActive(false);
             setStep('CLOSING');
             return targetDuration;
@@ -121,6 +171,8 @@ export const SensoryExerciseScreen: React.FC<{ navigation: any; route: any }> = 
 
   // Manejo de Pausa Segura (Cero penalización)
   const handleRequestPause = () => {
+    stopStimulus();
+    luaSensoryPause();
     setIsStimulusActive(false);
     setPausedCount((c) => c + 1);
     setStep('PAUSED');
@@ -129,11 +181,24 @@ export const SensoryExerciseScreen: React.FC<{ navigation: any; route: any }> = 
   const handleResume = () => {
     setStep('EXPLORING');
     setIsStimulusActive(true);
+    startStimulus(config.relativeIntensity);
   };
 
   const handleFinishEarly = () => {
+    stopStimulus();
     setIsStimulusActive(false);
     setStep('CLOSING');
+  };
+
+  /** El botón del niño. Es el único sitio donde el sonido arranca por su mano. */
+  const handleToggleStimulus = () => {
+    if (isStimulusActive) {
+      stopStimulus();
+      setIsStimulusActive(false);
+      return;
+    }
+    startStimulus(config.relativeIntensity);
+    setIsStimulusActive(true);
   };
 
   const handleSaveSession = async () => {
@@ -149,15 +214,21 @@ export const SensoryExerciseScreen: React.FC<{ navigation: any; route: any }> = 
       earnedXp: totalXp,
       adultRating: rating,
     });
+    luaSensoryClose();
     setStep('COMPLETED');
   };
 
   const selectedTrigger = SENSORY_TRIGGER_LIST.find((s) => s.id === config.triggerId);
   const triggerLabel = getTriggerLabel(config.triggerId, locale);
   const calmStrategy = getCalmStrategy(config.triggerId, locale);
-  const filteredTriggers = SENSORY_TRIGGER_LIST.filter(
-    (item) => catFilter === 'all' || item.category === catFilter
-  );
+  // La píldora se llama «Alertas y Naturaleza» y agrupa las dos categorías: con
+  // una igualdad estricta, la tormenta —única `nature`— desaparecía al filtrar
+  // por el rótulo que la nombra.
+  const filteredTriggers = SENSORY_TRIGGER_LIST.filter((item) => {
+    if (catFilter === 'all') return true;
+    if (catFilter === 'alert') return item.category === 'alert' || item.category === 'nature';
+    return item.category === catFilter;
+  });
 
   // ==========================================================================
   // VISTA 1: PREPARACIÓN DEL ADULTO
@@ -228,7 +299,7 @@ export const SensoryExerciseScreen: React.FC<{ navigation: any; route: any }> = 
                 >
                   <BlockIcon
                     name={iconName}
-                    color={active ? '#00a39e' : V.color.textSecondary}
+                    color={active ? V.color.primaryDark : V.color.textSecondary}
                     size={18}
                   />
                   <Text style={[s.triggerTxt, active && s.triggerTxtActive]}>{lbl}</Text>
@@ -326,6 +397,15 @@ export const SensoryExerciseScreen: React.FC<{ navigation: any; route: any }> = 
             </View>
             <Text style={s.tprBody}>{calmStrategy}</Text>
           </View>
+
+          {/* Sin salida de audio no hay ejercicio: se dice aquí, antes de que el
+              adulto le ceda el aparato al niño, y no después. */}
+          {!audioReady && (
+            <View style={s.noAudioBox}>
+              <BlockIcon name="info" color="#b45309" size={18} />
+              <Text style={s.noAudioTxt}>{t.sensory.noAudioWarning}</Text>
+            </View>
+          )}
         </ScrollView>
 
         <View style={s.footer}>
@@ -333,6 +413,9 @@ export const SensoryExerciseScreen: React.FC<{ navigation: any; route: any }> = 
             onPress={() => {
               setCountdown(3);
               setElapsedSec(0);
+              // La concesión cubre cuenta atrás + exposición + margen de cierre,
+              // siempre por debajo del techo de 60 s del GRANT.
+              luaSensoryReady(3 + targetDuration + 10);
               setStep('ANTICIPATION');
             }}
             style={s.primaryBtn}
@@ -377,13 +460,17 @@ export const SensoryExerciseScreen: React.FC<{ navigation: any; route: any }> = 
 
     return (
       <View style={s.flex}>
-        <View style={[s.header, { backgroundColor: isPlaying ? '#00a39e' : '#475569' }]}>
+        <View style={[s.header, { backgroundColor: isPlaying ? V.color.primary : V.color.primaryDark }]}>
           <Text style={s.logoFallback}>
             {isEco ? t.sensory.ecologicalBadge : t.sensory.exploringTag}
           </Text>
           <Text style={s.headerTitle}>{triggerLabel}</Text>
           <Text style={s.headerSub}>
-            {isPlaying ? t.sensory.listeningNotice : t.sensory.pressToStartNotice}
+            {!audioReady
+              ? t.sensory.noAudioNotice
+              : isPlaying
+              ? t.sensory.listeningNotice
+              : t.sensory.pressToStartNotice}
           </Text>
 
           {/* Barra de progreso visual */}
@@ -420,7 +507,7 @@ export const SensoryExerciseScreen: React.FC<{ navigation: any; route: any }> = 
 
           {/* Botón de agencia del niño (ISA-01 / ISA-06) */}
           <Pressable
-            onPress={() => setIsStimulusActive(!isStimulusActive)}
+            onPress={handleToggleStimulus}
             style={[s.bigActionButton, isPlaying && s.bigActionButtonPlaying]}
             accessibilityRole="button"
           >
@@ -467,7 +554,7 @@ export const SensoryExerciseScreen: React.FC<{ navigation: any; route: any }> = 
   if (step === 'PAUSED') {
     return (
       <View style={s.flex}>
-        <View style={[s.header, { backgroundColor: '#3b82f6' }]}>
+        <View style={[s.header, { backgroundColor: V.color.primaryDark }]}>
           <Text style={s.logoFallback}>{t.sensory.pausedTag}</Text>
           <Text style={s.headerTitle}>{t.sensory.pausedTitle}</Text>
           <Text style={s.headerSub}>{t.sensory.pausedSubtitle}</Text>
@@ -598,7 +685,7 @@ const s = StyleSheet.create({
   flex: { flex: 1, backgroundColor: V.color.pageBg },
   centerContainer: { justifyContent: 'center', alignItems: 'center', padding: 20 },
   header: {
-    backgroundColor: '#00a39e',
+    backgroundColor: V.color.primaryDark,
     paddingTop: 18,
     paddingHorizontal: 22,
     paddingBottom: 20,
@@ -651,7 +738,7 @@ const s = StyleSheet.create({
     paddingVertical: 7,
     marginRight: 8,
   },
-  catPillActive: { backgroundColor: '#00a39e', borderColor: '#00a39e' },
+  catPillActive: { backgroundColor: V.color.primaryDark, borderColor: V.color.primaryDark },
   catPillTxt: { fontSize: 12, fontWeight: '700', color: V.color.textPrimary },
   catPillTxtActive: { color: '#ffffff', fontWeight: '800' },
 
@@ -668,12 +755,12 @@ const s = StyleSheet.create({
     paddingVertical: 10,
     marginRight: 8,
   },
-  triggerChipActive: { backgroundColor: '#d6f5f2', borderColor: '#00a39e' },
+  triggerChipActive: { backgroundColor: V.color.primaryLight, borderColor: V.color.primaryDark },
   triggerTxt: { fontSize: 13, fontWeight: '700', color: V.color.textPrimary },
-  triggerTxtActive: { color: '#00a39e', fontWeight: '800' },
+  triggerTxtActive: { color: V.color.primaryDark, fontWeight: '800' },
 
   descCard: {
-    backgroundColor: '#f0fdf9',
+    backgroundColor: V.color.primaryTint,
     borderWidth: 1,
     borderColor: '#cdeeec',
     borderRadius: 14,
@@ -713,7 +800,7 @@ const s = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  levelBtnActive: { backgroundColor: '#00a39e', borderColor: '#00a39e' },
+  levelBtnActive: { backgroundColor: V.color.primaryDark, borderColor: V.color.primaryDark },
   levelMeterBars: { flexDirection: 'row', alignItems: 'flex-end', gap: 2, height: 16, marginBottom: 4 },
   meterBar: { width: 3, backgroundColor: '#cbd5e1', borderRadius: 2 },
   meterBarActive: { backgroundColor: '#ffffff' },
@@ -731,12 +818,12 @@ const s = StyleSheet.create({
     paddingVertical: 12,
     alignItems: 'center',
   },
-  tierBtnActive: { backgroundColor: '#00a39e', borderColor: '#00a39e' },
+  tierBtnActive: { backgroundColor: V.color.primaryDark, borderColor: V.color.primaryDark },
   tierTxt: { fontSize: 13, fontWeight: '700', color: V.color.textPrimary },
   tierTxtActive: { color: '#ffffff', fontWeight: '800' },
 
   tprPreviewCard: {
-    backgroundColor: '#f0fdf9',
+    backgroundColor: V.color.primaryTint,
     borderWidth: 1,
     borderColor: '#cdeeec',
     borderRadius: 14,
@@ -750,7 +837,7 @@ const s = StyleSheet.create({
   footer: { padding: 16, paddingBottom: 22, backgroundColor: V.color.pageBg },
   footerTwo: { flexDirection: 'row', gap: 10, padding: 16, paddingBottom: 22, backgroundColor: V.color.pageBg },
   primaryBtn: {
-    backgroundColor: '#00a39e',
+    backgroundColor: V.color.primaryDark,
     borderRadius: 14,
     paddingVertical: 15,
     alignItems: 'center',
@@ -759,7 +846,7 @@ const s = StyleSheet.create({
   primaryBtnTxt: { color: '#ffffff', fontSize: 15, fontWeight: '800' },
   primaryHalfBtn: {
     flex: 1,
-    backgroundColor: '#00a39e',
+    backgroundColor: V.color.primaryDark,
     borderRadius: 14,
     paddingVertical: 15,
     alignItems: 'center',
@@ -796,7 +883,7 @@ const s = StyleSheet.create({
     alignItems: 'center',
     marginVertical: 20,
   },
-  countdownNumber: { fontSize: 40, fontWeight: '800', color: '#00a39e' },
+  countdownNumber: { fontSize: 40, fontWeight: '800', color: V.color.primaryDark },
   luaCenter: { alignItems: 'center', marginVertical: 10 },
 
   // Exploración
@@ -812,7 +899,7 @@ const s = StyleSheet.create({
   luaExposureBox: { alignItems: 'center', marginBottom: 30 },
   luaExposureHint: { fontSize: 12, fontWeight: '600', color: V.color.textSecondary, marginTop: 8 },
   bigActionButton: {
-    backgroundColor: '#00a39e',
+    backgroundColor: V.color.primaryDark,
     width: 200,
     height: 200,
     borderRadius: 100,
@@ -821,7 +908,19 @@ const s = StyleSheet.create({
     padding: 20,
     ...V.shadow.button,
   },
-  bigActionButtonPlaying: { backgroundColor: '#0284c7' },
+  bigActionButtonPlaying: { backgroundColor: V.color.primary },
+  noAudioBox: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    backgroundColor: '#fef3c7',
+    borderColor: '#fcd34d',
+    borderWidth: 1,
+    borderRadius: 14,
+    padding: 14,
+    marginTop: 14,
+  },
+  noAudioTxt: { flex: 1, fontSize: 13, fontWeight: '700', color: '#92400e' },
   bigActionTxt: { color: '#ffffff', fontSize: 16, fontWeight: '800', textAlign: 'center', marginTop: 10 },
   timeProgressTxt: { fontSize: 15, fontWeight: '700', color: V.color.textSecondary, marginTop: 20 },
   pauseBtn: {
@@ -878,9 +977,9 @@ const s = StyleSheet.create({
     padding: 15,
     marginBottom: 8,
   },
-  ratingRowActive: { backgroundColor: '#d6f5f2', borderColor: '#00a39e' },
+  ratingRowActive: { backgroundColor: V.color.primaryLight, borderColor: V.color.primaryDark },
   ratingTxt: { fontSize: 14, fontWeight: '700', color: V.color.textPrimary },
-  ratingTxtActive: { color: '#00a39e', fontWeight: '800' },
+  ratingTxtActive: { color: V.color.primaryDark, fontWeight: '800' },
   tprToggle: {
     flexDirection: 'row',
     alignItems: 'center',

@@ -103,7 +103,7 @@ export const STORAGE_KEYS = {
   teaConsent: '@valeria_tea_consentimiento',   // Consentimiento informado del Quiebre Pragmático (Modo Familia)
   academy: '@valeria_academy',                 // Valeria Academy: progreso de cápsulas de conocimiento (cifrado con valeriaCrypto)
   sensory: '@valeria_sensory',                 // Integración Sensorial: progreso de silo (cifrado)
-  sensorySessions: '@valeria_sensory_sessions', // Registro de sesiones de desensibilización sensorial
+  sensorySessions: '@valeria_sensory_sessions', // Sesiones de desensibilización: observación clínica del adulto (cifrado)
   autoRecord: '@valeria_grabacion_automatica',  // PM-04/ES-03: 'on' arranca el micro solo tras la consigna; por defecto MANUAL (botón)
   arUmbrales: '@valeria_ar_umbrales',          // RA: umbrales clínicos fijados por el adulto (sostén, giro, ventana, dwell, puntero)
   arConsentimiento: '@valeria_ar_consentimiento', // RA: consentimiento informado de cámara, con sufijo POR PACIENTE

@@ -1605,6 +1605,12 @@ export const ES = {
     exploringTag: 'EXPLORACIÓN CONTROLADA',
     listeningNotice: 'Sonido en reproducción. Mantén la calma.',
     pressToStartNotice: 'Toca el botón cuando estés preparado/a para escuchar.',
+    // Expo web y las builds sin el módulo nativo de audio no sacan sonido. Se
+    // dice, no se disimula: la primera versión de esta pantalla rotulaba
+    // «Sonido en reproducción» sobre el silencio.
+    noAudioNotice: 'Este dispositivo no reproduce el estímulo sonoro.',
+    noAudioWarning:
+      'Este dispositivo no puede reproducir el sonido del ejercicio. La sesión se puede recorrer, pero NO hay estímulo auditivo: no la uses como exposición real.',
     luaQuietHint: 'Lúa acompaña en silencio y tranquilidad.',
     mySoundMyButton: 'Mi sonido, mi botón',
     soundActiveBtn: 'Escuchando…',

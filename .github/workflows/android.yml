@@ -257,6 +257,14 @@ jobs:
       - name: Comprobar que ninguna variedad se queda sin rama
         run: node scripts/check-variety-branches.js
 
+      # El módulo sensorial llegó con catálogo, vúmetro, el rótulo "Sonido en
+      # reproducción" y CERO audio: `audioAssetKey` estaba declarado en los once
+      # estímulos y no lo consumía nadie. El typecheck no ve el silencio y las
+      # capturas tampoco. Esto comprueba que los WAV existen, que son los del
+      # catálogo y que suenan a lo que dice su ficha.
+      - name: Comprobar que el módulo sensorial suena
+        run: node scripts/check-sensory-assets.js
+
       # Las URLs legales que Play Console tiene declaradas salen de `site/`. Un
       # fichero renombrado allí no rompe nada compilando, pero deja la ficha con
       # un 404 y la publicación parada. Aquí va la mitad LOCAL del gate; la que

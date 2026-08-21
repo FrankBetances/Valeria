@@ -1576,6 +1576,9 @@ export const EN: UiStrings = {
     exploringTag: 'CONTROLLED EXPLORATION',
     listeningNotice: 'Sound playing. Stay calm and listen.',
     pressToStartNotice: 'Tap the button when ready to listen.',
+    noAudioNotice: 'This device is not playing the sound stimulus.',
+    noAudioWarning:
+      'This device cannot play the exercise sound. You can walk through the session, but there is NO auditory stimulus: do not use it as a real exposure.',
     luaQuietHint: 'Lúa accompanies quietly in calm stillness.',
     mySoundMyButton: 'My sound, my button',
     soundActiveBtn: 'Listening…',

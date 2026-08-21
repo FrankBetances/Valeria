@@ -113,10 +113,14 @@ export const SensoryBlockListScreen: React.FC<{ navigation: any }> = ({ navigati
                 )}
               </View>
 
+              {/* El candado es el icono del set, no 🔒: ese emoji ya se sacó una
+                  vez de la lista prescribible y volvió a entrar por aquí. */}
               <View style={[s.arrowPill, act.isAvailable ? s.arrowActive : s.arrowInactive]}>
-                <Text style={[s.arrowTxt, { color: act.isAvailable ? '#ffffff' : V.color.textMuted }]}>
-                  {act.isAvailable ? '›' : '🔒'}
-                </Text>
+                {act.isAvailable ? (
+                  <Text style={[s.arrowTxt, { color: '#ffffff' }]}>›</Text>
+                ) : (
+                  <BlockIcon name="lock" color={V.color.textMuted} size={18} />
+                )}
               </View>
             </Pressable>
           );
@@ -129,7 +133,7 @@ export const SensoryBlockListScreen: React.FC<{ navigation: any }> = ({ navigati
 const s = StyleSheet.create({
   flex: { flex: 1, backgroundColor: V.color.pageBg },
   header: {
-    backgroundColor: '#00a39e',
+    backgroundColor: V.color.primaryDark,
     paddingTop: 18,
     paddingHorizontal: 22,
     paddingBottom: 20,
@@ -215,7 +219,7 @@ const s = StyleSheet.create({
   actCardDisabled: { opacity: 0.72, backgroundColor: '#fbfcfc' },
   actCardDone: { borderColor: V.color.borderActive },
   actIcon: { width: 48, height: 48, borderRadius: 14, alignItems: 'center', justifyContent: 'center' },
-  actIconActive: { backgroundColor: '#d6f5f2' },
+  actIconActive: { backgroundColor: V.color.primaryLight },
   actIconInactive: { backgroundColor: '#f1f5f9' },
 
   cardTopRow: { flexDirection: 'row', alignItems: 'center', gap: 6, marginBottom: 2 },

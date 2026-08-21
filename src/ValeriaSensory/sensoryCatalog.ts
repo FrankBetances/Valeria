@@ -8,7 +8,6 @@ import { AuditorySensoryExercise, SensoryStimulus, SensoryTriggerId } from './se
 export const SENSORY_TRIGGERS: Record<SensoryTriggerId, SensoryStimulus> = {
   vacuum: {
     id: 'vacuum',
-    pictoIndex: 45,
     category: 'appliance',
     label: {
       es: 'Aspiradora',
@@ -18,6 +17,7 @@ export const SENSORY_TRIGGERS: Record<SensoryTriggerId, SensoryStimulus> = {
       'en-US': 'Vacuum Cleaner',
     },
     audioAssetKey: 'sensory_vacuum_loop',
+    baseFrequencyHz: 120,
     calmStrategyTpr: {
       es: 'Amasar plastilina con fuerza como la gata',
       gl: 'Amasar plastilina con forza como a gata',
@@ -28,7 +28,6 @@ export const SENSORY_TRIGGERS: Record<SensoryTriggerId, SensoryStimulus> = {
   },
   blender: {
     id: 'blender',
-    pictoIndex: 46,
     category: 'appliance',
     label: {
       es: 'Licuadora',
@@ -38,6 +37,7 @@ export const SENSORY_TRIGGERS: Record<SensoryTriggerId, SensoryStimulus> = {
       'en-US': 'Blender',
     },
     audioAssetKey: 'sensory_blender_loop',
+    baseFrequencyHz: 90,
     calmStrategyTpr: {
       es: 'Manos en las rodillas y respirar profundo',
       gl: 'Mans nos xeonllos e respirar fondo',
@@ -48,7 +48,6 @@ export const SENSORY_TRIGGERS: Record<SensoryTriggerId, SensoryStimulus> = {
   },
   hairdryer: {
     id: 'hairdryer',
-    pictoIndex: 47,
     category: 'appliance',
     label: {
       es: 'Secador de pelo',
@@ -58,6 +57,7 @@ export const SENSORY_TRIGGERS: Record<SensoryTriggerId, SensoryStimulus> = {
       'en-US': 'Hair Dryer',
     },
     audioAssetKey: 'sensory_hairdryer_loop',
+    baseFrequencyHz: 200,
     calmStrategyTpr: {
       es: 'Abrazo de oso / presión en hombros',
       gl: 'Aperta forte / presión nos ombreiros',
@@ -68,7 +68,6 @@ export const SENSORY_TRIGGERS: Record<SensoryTriggerId, SensoryStimulus> = {
   },
   hand_dryer: {
     id: 'hand_dryer',
-    pictoIndex: 48,
     category: 'appliance',
     label: {
       es: 'Secador de manos',
@@ -78,6 +77,7 @@ export const SENSORY_TRIGGERS: Record<SensoryTriggerId, SensoryStimulus> = {
       'en-US': 'Hand Dryer',
     },
     audioAssetKey: 'sensory_hand_dryer_loop',
+    baseFrequencyHz: 250,
     calmStrategyTpr: {
       es: 'Frotar las palmas suavemente',
       gl: 'Fregar as palmas amodo',
@@ -88,7 +88,6 @@ export const SENSORY_TRIGGERS: Record<SensoryTriggerId, SensoryStimulus> = {
   },
   thunder: {
     id: 'thunder',
-    pictoIndex: 49,
     category: 'nature',
     label: {
       es: 'Tormenta / Trueno',
@@ -98,6 +97,7 @@ export const SENSORY_TRIGGERS: Record<SensoryTriggerId, SensoryStimulus> = {
       'en-US': 'Thunderstorm',
     },
     audioAssetKey: 'sensory_thunder_loop',
+    baseFrequencyHz: 45,
     calmStrategyTpr: {
       es: 'Mirar la pantalla fija y contar 3 respiraciones',
       gl: 'Mirar a pantalla fixa e contar 3 respiracións',
@@ -108,7 +108,6 @@ export const SENSORY_TRIGGERS: Record<SensoryTriggerId, SensoryStimulus> = {
   },
   siren: {
     id: 'siren',
-    pictoIndex: 50,
     category: 'alert',
     label: {
       es: 'Sirena',
@@ -118,6 +117,7 @@ export const SENSORY_TRIGGERS: Record<SensoryTriggerId, SensoryStimulus> = {
       'en-US': 'Siren',
     },
     audioAssetKey: 'sensory_siren_loop',
+    baseFrequencyHz: 650,
     calmStrategyTpr: {
       es: 'Tocar hombro izquierdo con mano derecha',
       gl: 'Tocar ombreiro esquerdo coa man dereita',
@@ -128,7 +128,6 @@ export const SENSORY_TRIGGERS: Record<SensoryTriggerId, SensoryStimulus> = {
   },
   fireworks: {
     id: 'fireworks',
-    pictoIndex: 51,
     category: 'alert',
     label: {
       es: 'Pirotecnia',
@@ -138,6 +137,7 @@ export const SENSORY_TRIGGERS: Record<SensoryTriggerId, SensoryStimulus> = {
       'en-US': 'Fireworks',
     },
     audioAssetKey: 'sensory_fireworks_loop',
+    baseFrequencyHz: 60,
     calmStrategyTpr: {
       es: 'Apretar cojín o manos juntas',
       gl: 'Apertar almofada ou mans xuntas',
@@ -148,7 +148,6 @@ export const SENSORY_TRIGGERS: Record<SensoryTriggerId, SensoryStimulus> = {
   },
   school_bell: {
     id: 'school_bell',
-    pictoIndex: 52,
     category: 'alert',
     label: {
       es: 'Timbre escolar',
@@ -158,6 +157,7 @@ export const SENSORY_TRIGGERS: Record<SensoryTriggerId, SensoryStimulus> = {
       'en-US': 'School Bell',
     },
     audioAssetKey: 'sensory_school_bell_loop',
+    baseFrequencyHz: 880,
     calmStrategyTpr: {
       es: 'Postura de estatua tranquila',
       gl: 'Postura de estatua tranquila',
@@ -168,7 +168,6 @@ export const SENSORY_TRIGGERS: Record<SensoryTriggerId, SensoryStimulus> = {
   },
   classroom_ambience: {
     id: 'classroom_ambience',
-    pictoIndex: 53,
     category: 'ecological',
     label: {
       es: 'Aula de colegio',
@@ -185,6 +184,7 @@ export const SENSORY_TRIGGERS: Record<SensoryTriggerId, SensoryStimulus> = {
       'en-US': 'Children murmuring, chairs moving and classroom echo',
     },
     audioAssetKey: 'sensory_classroom_loop',
+    baseFrequencyHz: 500,
     calmStrategyTpr: {
       es: 'Manos en la mesa y respirar 3 veces con la gata',
       gl: 'Mans na mesa e respirar 3 veces coa gata',
@@ -195,7 +195,6 @@ export const SENSORY_TRIGGERS: Record<SensoryTriggerId, SensoryStimulus> = {
   },
   mall_ambience: {
     id: 'mall_ambience',
-    pictoIndex: 54,
     category: 'ecological',
     label: {
       es: 'Centro comercial / Super',
@@ -212,6 +211,7 @@ export const SENSORY_TRIGGERS: Record<SensoryTriggerId, SensoryStimulus> = {
       'en-US': 'Shopping bustle, carts rolling, steps and soft PA announcements',
     },
     audioAssetKey: 'sensory_mall_loop',
+    baseFrequencyHz: 300,
     calmStrategyTpr: {
       es: 'Sostener las manos del adulto y mirar un punto fijo',
       gl: 'Soster as mans do adulto e mirar un punto fixo',
@@ -222,7 +222,6 @@ export const SENSORY_TRIGGERS: Record<SensoryTriggerId, SensoryStimulus> = {
   },
   street_ambience: {
     id: 'street_ambience',
-    pictoIndex: 55,
     category: 'ecological',
     label: {
       es: 'Calle viva y obras',
@@ -239,6 +238,7 @@ export const SENSORY_TRIGGERS: Record<SensoryTriggerId, SensoryStimulus> = {
       'en-US': 'Passing traffic, construction workers and lively city sounds',
     },
     audioAssetKey: 'sensory_street_loop',
+    baseFrequencyHz: 200,
     calmStrategyTpr: {
       es: 'Abrazo de oso firme o apretar pelota antiestrés',
       gl: 'Aperta forte ou apertar pelota antiestrés',

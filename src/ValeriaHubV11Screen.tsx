@@ -40,6 +40,11 @@ import { isArAvailable } from './valeriaArBridge';
 import { AUDITORY_INTEGRATION_ACTIVITIES } from './ValeriaSensory';
 import { useT, UiStrings } from './i18n';
 
+// La tarjeta del hub cuenta actividades JUGABLES. Anunciar «6 actividades» con
+// cuatro en «Próximamente» es prometer de más en la única pantalla desde la que
+// el adulto decide qué prescribir.
+const SENSORY_AVAILABLE_COUNT = AUDITORY_INTEGRATION_ACTIVITIES.filter((a) => a.isAvailable).length;
+
 // Sonda de una sola vez por arranque: el host nativo de RA está o no está, y
 // eso no cambia a mitad de sesión. FUERA del componente a propósito — en la
 // v11 este hub se monta y desmonta más veces (es una pestaña), y preguntarlo
@@ -176,10 +181,10 @@ export const ValeriaHubV11Screen: React.FC<{ navigation: any }> = ({ navigation 
       icon: 'sensory',
       title: t.hub.sensoryTitle,
       hint: t.hub.sensorySub,
-      a11y: t.hub.sensoryA11y(AUDITORY_INTEGRATION_ACTIVITIES.length),
+      a11y: t.hub.sensoryA11y(SENSORY_AVAILABLE_COUNT),
       bg: '#d6f5f2',
       fg: V.color.primaryDark,
-      meta: t.hub.sensoryBadge(AUDITORY_INTEGRATION_ACTIVITIES.length),
+      meta: t.hub.sensoryBadge(SENSORY_AVAILABLE_COUNT),
       onPress: () => navigation.navigate('SensoryBlockList'),
     },
   ];

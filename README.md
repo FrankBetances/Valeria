@@ -80,7 +80,7 @@ dificultades del lenguaje.**
 ## 🐈‍⬛ ¿Qué es Valeria+?
 
 Valeria+ reúne en un solo lugar el **registro del paciente**, una comprobación
-auditiva previa (**Test de Ling**), **siete bloques de terapia**, un módulo de
+auditiva previa (**Test de Ling**), **ocho bloques de terapia**, un módulo de
 **formación del cuidador** (**Academy**) y un **panel de resultados** para seguir
 la evolución.
 
@@ -108,6 +108,7 @@ cualquier dispositivo y **sin conexión**.
 | 🧠 **TEA** (6 terapias) | PRT + TCC: atención conjunta triangulada (Time Delay + Sello Doble), quiebre pragmático con consentimiento, espejo asimétrico, transición interrumpida, categorización bajo ruido y múltiples señales simultáneas. Todos los estresores son **manuales** (Panel del Adulto). |
 | 📖 **Dislexia** (6 terapias) | Fonología y acceso léxico: intruso fonológico auditivo puro, rastreo léxico con interferencia, síntesis fonémica rítmica (latencia 500 ms + Juez), criba de pseudopalabras (máx. 5 ensayos), rastreo visual de rotaciones b/d · p/q con mapa de misclicks y denominación rápida (RAN). |
 | 🎯 **Realidad Aumentada** (3 terapias · solo Android) | **Gamificación Condicionada**: la cámara frontal deja de grabar y pasa a ser un sensor de conducta motora, y el refuerzo 3D se dispara **solo** por el gesto objetivo, nunca por acierto acústico ni por paso del tiempo. Cinemática orofacial con el **micrófono apagado** (AR‑1), localización del sonido instrumentada —la versión con cronómetro de RA‑5— (AR‑2) y selección semántica por fijación de la mirada, sin motricidad fina (AR‑3). Ningún fotograma se graba ni sale del teléfono. La tarjeta solo aparece si el teléfono supera la **Prueba de Aptitud del Dispositivo**. |
+| 🎧 **Integración Sensorial Auditiva** (2 de 6 actividades) | Desensibilización sistemática para sobre-responsividad acústica (SOR). El adulto elige el estímulo, la intensidad relativa (1-5) y la duración (3, 7 o 15 s) **antes** de ceder el aparato; el niño lo dispara con su propio botón y puede pararlo en cualquier momento sin perder progreso. Once estímulos **sintetizados en el repositorio** —ocho aparatos y alertas, y tres ambientes: aula, centro comercial y calle con obras— por `scripts/generate-sensory-assets.js`: ni una grabación de terceros, ni una licencia que revisar. Lúa acompaña muda y quieta, en la tableta y en el cristal del aparato. |
 
 El **Test de Ling** (6 sonidos) precede a los ejercicios de audición cuando el
 paciente usa audífono o implante, y la **gamificación** (XP, racha 🔥, niveles e
@@ -149,7 +150,7 @@ insignias, y el progreso nunca se mezcla entre ellos.
 
 | Dominio | Qué enseña |
 | --- | --- |
-| 💬 **Lenguaje** | El baño de lenguaje (input antes que producción), la conversación por turnos (*serve and return*), por qué el TPR consolida, y los vicios a evitar: **remodelar** (*recast*) en vez de corregir y comentar más que preguntar. |
+| 💬 **Lenguaje** | El baño de lenguaje (input antes que producción), la conversación por turnos (*serve and return*), por qué el TPR consolida, los vicios a evitar —**remodelar** (*recast*) en vez de corregir y comentar más que preguntar— y **La Brújula de las Palabras**: los hitos ASHA de 0 a 5 años, con lenguaje receptivo y expresivo separados en cada tramo de edad y navegación por etapas. Es guía normativa de referencia, no un cribado: la cápsula lo dice en su primera pantalla. |
 | 👂 **Hipoacusia / Sordera** | Qué es la sordera, su abordaje y el manejo de los dispositivos (audífono, implante coclear, osteointegrado) en micro‑guías. |
 | 🗣️ **Dislalias** | Puntos de articulación y práctica de los sonidos difíciles. |
 | 🔤 **Dislexia** | Conciencia fonológica y apoyo a la lectura emergente. |

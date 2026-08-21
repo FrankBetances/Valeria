@@ -66,3 +66,37 @@
 ## 3. Estado de la Rama Git
 - Rama: `brujula`
 - Cambios preparados y probados localmente.
+
+---
+
+## 4. Addendum del 21/8/2026 (tarde) · lo que faltaba para que el módulo exista
+
+Este documento describía arriba un «Player Interactivo» con «Vúmetro de
+Intensidad Relativa» y «Ambientes Ecológicos Vivos». Nada de eso sonaba:
+`audioAssetKey` estaba declarado en los once estímulos y no lo consumía nadie,
+no había un solo fichero de audio en el repositorio y `SensoryExerciseScreen`
+no importaba `expo-audio`. La pantalla rotulaba «Sonido en reproducción» y
+«Escuchando…» sobre silencio absoluto. La matriz de la sección 2 tampoco era la
+de CI: recogía 6 comprobaciones de las 16 que corre `android.yml`.
+
+Lo cerrado desde entonces:
+
+| Qué faltaba | Qué hay ahora |
+| --- | --- |
+| Los once estímulos no existían | `scripts/generate-sensory-assets.js` los **sintetiza**: DSP determinista en Node (LCG con semilla por estímulo), mono 16 kHz/16 bit, bucle sin costura, 2,32 MB en total. Ni una grabación de terceros. |
+| Nadie reproducía nada | `src/ValeriaSensory/sensoryAudio.ts`: `expo-audio` en carga perezosa, rampas de 280 ms a la entrada y a la salida, nivel 1-5 → ganancia por tabla explícita con techo 0,62. |
+| El nivel 1-5 no controlaba nada | Controla la ganancia, y **solo** por gesto del adulto. Mismo muro regulatorio que `valeriaNoise.ts`: aquí no hay medida, ni adaptación, ni sugerencia. |
+| Sin salida de audio se mentía | `sensoryAudioSupported()`; si no hay módulo nativo la pantalla lo **dice** («no hay estímulo auditivo: no la uses como exposición real»). |
+| Lúa no se enteraba del módulo | `luaSensoryReady/Pause/Close/Idle` en `valeriaLuaSession.ts`. Concesión **solo visual** —nunca `LUA_CAP.SOUND`—, silencio de tramas durante la exposición y `RELAX` en la pausa: el mismo descanso de la regla 20-20-20. Sin opcodes nuevos: el protocolo sigue en la versión 1. |
+| Nada vigilaba que sonara | `scripts/check-sensory-assets.js`, en `android.yml`: formato, RMS, headroom, costura del bucle e **identidad espectral** por estímulo. |
+| El historial clínico iba en claro | Cifrado con `valeriaCrypto`, y declarado en `site/privacidad.html` y `site/privacy.html`. |
+| «6 actividades» con 4 bloqueadas | La tarjeta del hub cuenta las jugables. |
+| La tormenta desaparecía al filtrar | La píldora «Alertas y Naturaleza» agrupa las dos categorías. |
+| 🔒 como icono | El candado del set propio (`BlockIcon name="lock"`). |
+| README y manual sin el bloque | Ambos actualizados: ocho bloques de terapia. |
+
+**Lo que sigue sin verificar, dicho con esas palabras:** que los once WAV suenen
+a lo que dicen a un oído humano. El gate mide espectro, no reconocimiento; eso
+se decide escuchándolos. Y la reproducción se ha comprobado en Expo **web** —el
+navegador pide y recibe el WAV al preparar el estímulo—, no en un APK sobre un
+teléfono real.

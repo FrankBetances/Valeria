@@ -46,7 +46,7 @@ export const academyAshaMilestonesEs: AcademyCapsule = {
       ],
     },
     {
-      icon: '🧸',
+      icon: '🍼',
       ageBracket: '1 - 2 años',
       heading: '1 - 2 años: Explosión léxica inicial',
       body: 'Aparecen las primeras combinaciones de palabras y el seguimiento de órdenes sencillas de un solo paso.',
@@ -161,7 +161,7 @@ export const academyAshaMilestonesEn: AcademyCapsule = {
       ],
     },
     {
-      icon: '🧸',
+      icon: '🍼',
       ageBracket: '1 - 2 years',
       heading: '1 - 2 years: Early word combinations',
       body: 'First two-word phrases appear along with following single-step verbal directions.',

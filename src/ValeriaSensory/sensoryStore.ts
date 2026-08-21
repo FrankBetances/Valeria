@@ -107,15 +107,21 @@ export async function recordSensorySession(
       const encryptedState = await encryptJSON(inMemoryState);
       await AsyncStorage.setItem(STORAGE_KEYS.sensory, encryptedState);
 
-      // 2. Anexar al historial de sesiones sensoriales
+      // 2. Anexar al historial de sesiones sensoriales, TAMBIÉN cifrado.
+      //
+      // Este historial no es progreso de juego: lleva la respuesta observada
+      // del niño, si se aplicó la estrategia de regulación y las notas que
+      // escriba el adulto. Es observación clínica, y salía en claro mientras
+      // la cabecera de este fichero decía «cifrada en reposo». Lo que declara
+      // site/privacidad.html es que estos registros se guardan cifrados.
       const existingHistoryRaw = await AsyncStorage.getItem(STORAGE_KEYS.sensorySessions);
       const history: SensorySessionRecord[] = existingHistoryRaw
-        ? JSON.parse(existingHistoryRaw)
+        ? (await decryptJSON<SensorySessionRecord[]>(existingHistoryRaw)) ?? []
         : [];
       history.unshift(fullSession);
       // Mantener últimas 50 sesiones para evitar sobrecarga de almacenamiento
       const trimmed = history.slice(0, 50);
-      await AsyncStorage.setItem(STORAGE_KEYS.sensorySessions, JSON.stringify(trimmed));
+      await AsyncStorage.setItem(STORAGE_KEYS.sensorySessions, await encryptJSON(trimmed));
     } catch (error) {
       console.warn('Fallo en la persistencia local del módulo sensorial:', error);
     }

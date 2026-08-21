@@ -30,11 +30,14 @@ export interface LocalizedString {
 
 export interface SensoryStimulus {
   id: SensoryTriggerId;
-  pictoIndex: number;
   category: SensoryCategory;
   label: LocalizedString;
   description?: LocalizedString;
+  /** Clave del WAV en assets/audio/. La sintetiza scripts/generate-sensory-assets.js
+   *  y scripts/check-sensory-assets.js comprueba que existe y suena a lo que dice. */
   audioAssetKey: string;
+  /** Frecuencia dominante declarada. No es decorativa: el gate de assets
+   *  comprueba que la energía del fichero cae donde dice esta ficha. */
   baseFrequencyHz?: number;
   calmStrategyTpr: LocalizedString;
 }
