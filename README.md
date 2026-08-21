@@ -49,7 +49,9 @@ dificultades del lenguaje.**
 
 **Producto**
 - [¿Qué es Valeria+?](#-qué-es-valeria)
+- [Capturas](#-capturas)
 - [Bloques de terapia](#-bloques-de-terapia)
+- [Integración Sensorial Auditiva](#-integración-sensorial-auditiva)
 - [Academy · formación del cuidador](#-academy--formación-del-cuidador)
 - [Lúa · la mascota y la marca](#-lúa--la-mascota-y-la-marca)
 - [Panel del Adulto · Carga Comunicativa](#-panel-del-adulto--carga-comunicativa)
@@ -95,12 +97,59 @@ cualquier dispositivo y **sin conexión**.
 > juez clínico de cada respuesta y todo funciona **offline**, sin micrófono
 > obligatorio y en cualquier dispositivo (Expo Go, web, móvil).
 
+
+---
+
+## 📸 Capturas
+
+Todas salen de la app corriendo, no de un diseño: las genera
+[`docs/capture-screenshots.js`](docs/capture-screenshots.js) recorriendo Expo web
+con Playwright, y por eso envejecen con el código en lugar de quedarse atrás.
+Están las 45 en [`docs/screenshots/`](docs/screenshots/) y el manual las usa
+todas.
+
+<table>
+<tr>
+<td width="25%" align="center"><a href="docs/screenshots/05-hub-bloques.png"><img src="docs/screenshots/05-hub-bloques.png" width="190" alt="Hub de Prescripción de Terapias"></a><br><sub><b>Hub</b><br>Lúa arriba y los ocho bloques</sub></td>
+<td width="25%" align="center"><a href="docs/screenshots/31-sensorial-lista.png"><img src="docs/screenshots/31-sensorial-lista.png" width="190" alt="Actividades del módulo sensorial"></a><br><sub><b>Integración Sensorial</b><br>Muro de control adulto</sub></td>
+<td width="25%" align="center"><a href="docs/screenshots/34-sensorial-exposicion.png"><img src="docs/screenshots/34-sensorial-exposicion.png" width="190" alt="Exposición sonora con Lúa quieta"></a><br><sub><b>Exposición</b><br>El botón del niño, Lúa muda</sub></td>
+<td width="25%" align="center"><a href="docs/screenshots/38-brujula-intro.png"><img src="docs/screenshots/38-brujula-intro.png" width="190" alt="Cápsula La Brújula de las Palabras"></a><br><sub><b>La Brújula</b><br>Hitos ASHA de 0 a 5 años</sub></td>
+</tr>
+<tr>
+<td align="center"><a href="docs/screenshots/08-pares-juego.png"><img src="docs/screenshots/08-pares-juego.png" width="190" alt="Juego de pares mínimos"></a><br><sub><b>Pares Mínimos</b><br>Dos fichas y la consigna</sub></td>
+<td align="center"><a href="docs/screenshots/12-expansion-juego.png"><img src="docs/screenshots/12-expansion-juego.png" width="190" alt="Expansión semántica en juego"></a><br><sub><b>Expansión Semántica</b><br>Imagen, voz y acción física</sub></td>
+<td align="center"><a href="docs/screenshots/27-academy-hub.png"><img src="docs/screenshots/27-academy-hub.png" width="190" alt="Hub de Academy"></a><br><sub><b>Academy</b><br>Un silo de XP por dominio</sub></td>
+<td align="center"><a href="docs/screenshots/20-resultados.png"><img src="docs/screenshots/20-resultados.png" width="190" alt="Panel de resultados"></a><br><sub><b>Resultados</b><br>Motivación y adherencia</sub></td>
+</tr>
+<tr>
+<td align="center"><a href="docs/screenshots/15-ling-test.png"><img src="docs/screenshots/15-ling-test.png" width="190" alt="Test de Ling"></a><br><sub><b>Test de Ling</b><br>Seis sonidos antes de audición</sub></td>
+<td align="center"><a href="docs/screenshots/23-panel-adulto.png"><img src="docs/screenshots/23-panel-adulto.png" width="190" alt="Panel del Adulto"></a><br><sub><b>Panel del Adulto</b><br>Estresores siempre manuales</sub></td>
+<td align="center"><a href="docs/screenshots/25-premios.png"><img src="docs/screenshots/25-premios.png" width="190" alt="Premios de Lúa"></a><br><sub><b>Premios</b><br>Nivel, racha e insignias</sub></td>
+<td align="center"><a href="docs/screenshots/armario-lua.png"><img src="docs/screenshots/armario-lua.png" width="190" alt="Armario de Lúa"></a><br><sub><b>Armario</b><br>Lo que lleva puesto viaja al aparato</sub></td>
+</tr>
+</table>
+
+> **Cómo se regeneran.** Con la app servida en `localhost:8081`:
+> ```bash
+> npm install --no-save --legacy-peer-deps \
+>   react-native-web@~0.21.0 react-dom@19.1.0 @expo/metro-runtime@~6.1.1 playwright
+> BROWSER=none npx expo start --web --port 8081 --clear
+> node docs/capture-screenshots.js
+> ```
+
 ---
 
 ## 🧩 Bloques de terapia
 
+La tabla va **en el mismo orden que el hub**: Integración Sensorial abre la
+rejilla y Realidad Aumentada la cierra. No es cosmético: la sensorial es lo que
+se prescribe antes de que el niño pueda sostener el resto —si la aspiradora le
+desborda, no hay sesión de pares mínimos que aguante— y la RA es la única
+tarjeta que puede no aparecer, porque depende del aparato.
+
 | Bloque | Para qué sirve |
 | --- | --- |
+| 🎧 **Integración Sensorial Auditiva** (2 de 6 actividades) | Desensibilización sistemática para sobre-responsividad acústica (SOR). El adulto elige el estímulo, la intensidad relativa (1-5) y la duración (3, 7 o 15 s) **antes** de ceder el aparato; el niño lo dispara con su propio botón y puede pararlo en cualquier momento sin perder progreso. Once estímulos **sintetizados en el repositorio** —ocho aparatos y alertas, y tres ambientes: aula, centro comercial y calle con obras— por `scripts/generate-sensory-assets.js`: ni una grabación de terceros, ni una licencia que revisar. Lúa acompaña muda y quieta, en la tableta y en el cristal del aparato. |
 | 🗣️ **Pares Mínimos** | Dislalias fonológicas (rotacismo, sigmatismo, frontalización velar, f→p). 15 pares casi iguales (rana/lana) en 6 grupos —añade nasales y laterales— con juego de voz, misión física y sello doble padre‑hijo. |
 | 🧩 **Expansión Semántica** | Progresión léxica para intervención temprana, en cuatro bloques: 5 **escenarios** diarios, 5 **categorías léxicas** con progresión de dificultad, 9 **progresiones** de campo semántico (concepto → parte → acción → cualidad) y 8 **cápsulas de contraste** con doble vuelta (comprensión por selección de imagen + producción). Cada actividad empieza por una **antesala** con el material necesario. |
 | 👂 **Audición** (18 terapias) | Protocolo ACOPROS: fonética‑fonología, semántica, morfosintaxis, pragmática y **escucha en ruido** (RA‑1…RA‑5) para audífono, implante coclear o hipoacusia. |
@@ -108,7 +157,6 @@ cualquier dispositivo y **sin conexión**.
 | 🧠 **TEA** (6 terapias) | PRT + TCC: atención conjunta triangulada (Time Delay + Sello Doble), quiebre pragmático con consentimiento, espejo asimétrico, transición interrumpida, categorización bajo ruido y múltiples señales simultáneas. Todos los estresores son **manuales** (Panel del Adulto). |
 | 📖 **Dislexia** (6 terapias) | Fonología y acceso léxico: intruso fonológico auditivo puro, rastreo léxico con interferencia, síntesis fonémica rítmica (latencia 500 ms + Juez), criba de pseudopalabras (máx. 5 ensayos), rastreo visual de rotaciones b/d · p/q con mapa de misclicks y denominación rápida (RAN). |
 | 🎯 **Realidad Aumentada** (3 terapias · solo Android) | **Gamificación Condicionada**: la cámara frontal deja de grabar y pasa a ser un sensor de conducta motora, y el refuerzo 3D se dispara **solo** por el gesto objetivo, nunca por acierto acústico ni por paso del tiempo. Cinemática orofacial con el **micrófono apagado** (AR‑1), localización del sonido instrumentada —la versión con cronómetro de RA‑5— (AR‑2) y selección semántica por fijación de la mirada, sin motricidad fina (AR‑3). Ningún fotograma se graba ni sale del teléfono. La tarjeta solo aparece si el teléfono supera la **Prueba de Aptitud del Dispositivo**. |
-| 🎧 **Integración Sensorial Auditiva** (2 de 6 actividades) | Desensibilización sistemática para sobre-responsividad acústica (SOR). El adulto elige el estímulo, la intensidad relativa (1-5) y la duración (3, 7 o 15 s) **antes** de ceder el aparato; el niño lo dispara con su propio botón y puede pararlo en cualquier momento sin perder progreso. Once estímulos **sintetizados en el repositorio** —ocho aparatos y alertas, y tres ambientes: aula, centro comercial y calle con obras— por `scripts/generate-sensory-assets.js`: ni una grabación de terceros, ni una licencia que revisar. Lúa acompaña muda y quieta, en la tableta y en el cristal del aparato. |
 
 El **Test de Ling** (6 sonidos) precede a los ejercicios de audición cuando el
 paciente usa audífono o implante, y la **gamificación** (XP, racha 🔥, niveles e
@@ -135,6 +183,102 @@ TPR 2.0** (morfosintaxis transaccional).
 
 ---
 
+## 🎧 Integración Sensorial Auditiva
+
+Para el niño que se tapa los oídos con la aspiradora, el secador o el timbre del
+colegio: **sobre-responsividad auditiva (SOR)**. El módulo hace
+desensibilización sistemática con anticipación visual estricta y agencia del
+niño, y su regla clínica es que **parar nunca resta**: pausar o detener suma la
+misma XP que terminar.
+
+<table>
+<tr>
+<td width="25%" align="center"><a href="docs/screenshots/32-sensorial-preparacion.png"><img src="docs/screenshots/32-sensorial-preparacion.png" width="190" alt="Preparación de la sesión por el adulto"></a><br><sub><b>1 · El adulto configura</b><br>Estímulo, intensidad y duración<br><i>antes</i> de ceder el aparato</sub></td>
+<td width="25%" align="center"><a href="docs/screenshots/33-sensorial-anticipacion.png"><img src="docs/screenshots/33-sensorial-anticipacion.png" width="190" alt="Cuenta atrás de anticipación"></a><br><sub><b>2 · Anticipación</b><br>Cuenta atrás visual:<br>el sonido no sorprende</sub></td>
+<td width="25%" align="center"><a href="docs/screenshots/35-sensorial-pausa.png"><img src="docs/screenshots/35-sensorial-pausa.png" width="190" alt="Pausa segura"></a><br><sub><b>3 · Pausa segura</b><br>Parar es aprendizaje,<br>no un fallo</sub></td>
+<td width="25%" align="center"><a href="docs/screenshots/36-sensorial-valoracion.png"><img src="docs/screenshots/36-sensorial-valoracion.png" width="190" alt="Valoración clínica del adulto"></a><br><sub><b>4 · Registro clínico</b><br>El adulto anota la respuesta<br>(cifrado en el dispositivo)</sub></td>
+</tr>
+</table>
+
+### Los once estímulos están sintetizados, no grabados
+
+No hay ni una grabación de terceros: los genera
+[`scripts/generate-sensory-assets.js`](scripts/generate-sensory-assets.js) con
+DSP determinista en Node —el mismo motor que el ruido babble de
+[`generate-babble.js`](scripts/generate-babble.js)—, y salen mono 16 kHz / 16 bit,
+en bucle sin costura, **2,50 MB** los once.
+
+| | Estímulos |
+| --- | --- |
+| **Aparatos** | Aspiradora · Licuadora · Secador de pelo · Secador de manos |
+| **Alertas y naturaleza** | Sirena · Petardos · Timbre escolar · Tormenta |
+| **Ambientes vivos** | **Aula de colegio** (la maestra por encima del murmullo, sillas que arrastran, risas de grupo, un libro que cae) · **Centro comercial** (rueda de carrito que chirría, pitidos de caja, megafonía que no se entiende) · **Calle con obras** (martillo neumático, golpes de maza sobre viga, radial y el pitido de marcha atrás de un camión) |
+
+Se sintetizan por tres razones que no son estéticas:
+
+1. **Procedencia.** El expediente técnico MDR tiene que poder decir de dónde
+   sale cada estímulo que se le presenta a un niño. De un banco de sonidos no se
+   puede; de un script del repositorio, sí.
+2. **Licencia.** Cero terceros, cero atribución, cero revisión legal por sonido.
+3. **Reproducibilidad.** LCG con semilla por estímulo: el WAV de hoy es el de
+   ayer, byte a byte, y CI puede comprobarlo.
+
+Todos salen a **−20 dBFS de RMS** con techo de pico en −6, no solo normalizados
+por pico. Es una decisión clínica: si un estímulo viniera 16 dB por encima de
+otro, el «nivel 3» que fija el adulto significaría cosas distintas según el
+sonido y la jerarquía de desensibilización dejaría de ser una jerarquía.
+
+```bash
+npm run build:sensory-assets   # regenerar los once WAV
+npm run check:sensory-assets   # el gate que corre CI
+node scripts/check-sensory-assets.js --report   # las medidas, una línea por estímulo
+```
+
+### El gate que impide que el módulo vuelva a ser mudo
+
+[`scripts/check-sensory-assets.js`](scripts/check-sensory-assets.js) va en
+`android.yml` y comprueba, sobre los WAV que entran en el APK: que cada
+`audioAssetKey` del catálogo tiene fichero y que no sobra ninguno; formato, RMS
+y headroom; la **costura del bucle** —un clic en exposición es un transitorio
+nuevo, justo lo que dispara al niño que tratamos—; la **identidad espectral** de
+cada sonido, para que un ruido blanco cualquiera no pase por aspiradora; y, en
+los tres ambientes, un **contador de sucesos vivos**: al menos 8 transitorios
+por vuelta y que el mayor sobresalga 12 dB sobre el lecho. «Ambiente vivo» no es
+una etiqueta, es algo que rompe el build.
+
+Lo que el gate **no** puede comprobar, y por eso está escrito en su cabecera: si
+a un oído humano le suena a aspiradora. Eso se decide escuchando el WAV.
+
+### Muro de control adulto y muro regulatorio
+
+El adulto fija el estímulo, la **intensidad relativa** (1 a 5) y la duración
+(3, 7 o 15 s) antes de darle el aparato al niño; el niño lo dispara con su
+propio botón y lo para cuando quiera. En
+[`sensoryAudio.ts`](src/ValeriaSensory/sensoryAudio.ts) **no hay medida, ni
+adaptación, ni sugerencia de nivel**: la ganancia sale del gesto del adulto y de
+nada más, igual que en [`valeriaNoise.ts`](src/valeriaNoise.ts). Automatizarla
+convertiría el ejercicio en un procedimiento adaptativo y a la app en otra clase
+de producto.
+
+Los niveles **no son decibelios absolutos** y la interfaz no los llama así: el
+volumen real depende del aparato y de dónde esté el teléfono. Y si el
+dispositivo no puede sacar sonido —Expo web, builds sin el módulo nativo—, la
+pantalla **lo dice** en vez de rotular «Sonido en reproducción» sobre el
+silencio.
+
+### Lúa acompaña haciendo menos
+
+Es el primer módulo donde la gata tiene que hacer **menos**, no más: el niño
+está atendiendo a un sonido que le desborda y una mascota animándose al lado es
+una segunda fuente de estimulación. Por eso
+[`valeriaLuaSession.ts`](src/valeriaLuaSession.ts) manda `GRANT` **solo visual**
+—nunca `LUA_CAP.SOUND`: un aparato que además sonara sería una segunda fuente
+sin control de intensidad—, **ni un opcode** durante la exposición, y `RELAX` en
+la pausa, que es literalmente el mismo descanso de la regla 20‑20‑20. Sin
+opcodes nuevos: el protocolo sigue en la versión 1.
+
+---
+
 ## 🎓 Academy · formación del cuidador
 
 En la terapia auditivo‑verbal el **adulto es el motor clínico** de cada sesión
@@ -147,6 +291,26 @@ una **barra de progreso que se actualiza en tiempo real**.
 
 El hub es **multidominio**: cada dominio mantiene su propio silo de XP, nivel e
 insignias, y el progreso nunca se mezcla entre ellos.
+
+### La Brújula de las Palabras · hitos ASHA de 0 a 5 años
+
+La cápsula que abre el dominio de Lenguaje. Recorre los hitos normativos por
+tramos de edad —0‑12 meses, 1‑2, 2‑3, 3‑4 y 4‑5 años— separando en cada uno
+**lenguaje receptivo** (lo que comprende) de **lenguaje expresivo** (lo que
+produce), que es la distinción que un cuidador no suele tener y sin la cual «no
+habla» tapa el problema real.
+
+Empieza desmontando el «ya hablará» y lleva el *disclaimer* clínico visible en
+la primera pantalla: es **guía normativa de referencia, no un cribado**, y solo
+un profesional sanitario emite un diagnóstico. 30 XP al silo de Lenguaje y
+micro‑quiz de respuesta razonada.
+
+<table>
+<tr>
+<td width="50%" align="center"><a href="docs/screenshots/38-brujula-intro.png"><img src="docs/screenshots/38-brujula-intro.png" width="230" alt="Intro de la cápsula con el disclaimer ASHA"></a><br><sub>El mito del «ya hablará», con el disclaimer siempre visible</sub></td>
+<td width="50%" align="center"><a href="docs/screenshots/39-brujula-etapa.png"><img src="docs/screenshots/39-brujula-etapa.png" width="230" alt="Tramo de edad con receptivo y expresivo separados"></a><br><sub>Cada tramo, con receptivo y expresivo en bloques distintos</sub></td>
+</tr>
+</table>
 
 | Dominio | Qué enseña |
 | --- | --- |
@@ -547,6 +711,8 @@ flowchart LR
     H --> L[LingTest]
     L --> E[ExercisePlayer]
     E --> R[Results]
+    H -.-> SN[SensoryBlockList]
+    SN --> SX[SensoryExercise]
     H -.-> MP[MinimalPairs]
     H -.-> SE[SemanticExpansion]
     H -.-> AC[Academy]
@@ -581,6 +747,8 @@ flowchart LR
     HB --> BL[BlockList · un bloque]
     BL --> L[LingTest]
     L --> E[ExercisePlayer]
+    HB -.-> SN[SensoryBlockList]
+    SN --> SX[SensoryExercise]
     HB -.-> MP[MinimalPairs]
     HB -.-> SE[SemanticExpansion]
     HB -.-> AR[ArLauncher]
@@ -643,7 +811,8 @@ interfaz clásica se entra desde el hub de bloques, en la v11 desde **Ajustes**)
 
 | Documento | Descripción |
 | --- | --- |
-| **Manual de usuario con casos de uso** (v12) · [HTML](docs/manual-casos-de-uso.html) · [PDF](docs/Valeria-Manual-Casos-de-Uso.pdf) · [Word](docs/Valeria-Manual-Casos-de-Uso.docx) | **22 casos de uso** paso a paso ilustrados con capturas reales (`docs/screenshots/`): **Academy · hub de formación multidominio (CU‑03)**, los **siete bloques** (Pares Mínimos, Expansión Semántica, Audición, Lenguaje, TEA, Dislexia y **Realidad Aumentada**), el hub, la gráfica de sustitución por fonema, la telemetría del piloto (CU‑14), la variedad lingüística —Castellano, Galego, Dominicano y Euskera— (CU‑15), el Panel del Adulto / carga comunicativa (CU‑16), el **módulo de Lengua de Signos Española (CU‑17)** y el **bloque de Realidad Aumentada completo (CU‑18 a CU‑22)**: permiso de cámara y prueba de aptitud, los tres ejercicios y los umbrales clínicos. Cubre las novedades v6 → v12: la mascota **Lúa** —acariciable desde el hub—, la colección de **premios** con doce niveles y dieciocho insignias y **el armario** de cinco coleccionables (CU‑11), Academy con **siete dominios** (CU‑03), la iconografía propia de la v12 y el **Anexo C** sobre el periférico físico. Todas las capturas están tomadas sobre la v12. |
+| **Manual de usuario con casos de uso** (v13) · [HTML](docs/manual-casos-de-uso.html) · [PDF](docs/Valeria-Manual-Casos-de-Uso.pdf) · [Word](docs/Valeria-Manual-Casos-de-Uso.docx) | **22 casos de uso** paso a paso ilustrados con capturas reales (`docs/screenshots/`): **Academy · hub de formación multidominio (CU‑03)**, los **siete bloques** (Pares Mínimos, Expansión Semántica, Audición, Lenguaje, TEA, Dislexia y **Realidad Aumentada**), el hub, la gráfica de sustitución por fonema, la telemetría del piloto (CU‑14), la variedad lingüística —Castellano, Galego, Dominicano y Euskera— (CU‑15), el Panel del Adulto / carga comunicativa (CU‑16), el **módulo de Lengua de Signos Española (CU‑17)** y el **bloque de Realidad Aumentada completo (CU‑18 a CU‑22)**: permiso de cámara y prueba de aptitud, los tres ejercicios y los umbrales clínicos. Cubre las novedades v6 → v12: la mascota **Lúa** —acariciable desde el hub—, la colección de **premios** con doce niveles y dieciocho insignias y **el armario** de cinco coleccionables (CU‑11), Academy con **siete dominios** (CU‑03), la iconografía propia de la v12 y el **Anexo C** sobre el periférico físico. Todas las capturas están tomadas sobre la v12. |
+| [`docs/sprint-integracion-2026-08-21.md`](docs/sprint-integracion-2026-08-21.md) | Cierre del sprint de Integración Sensorial y la Brújula ASHA: qué se decidió, qué faltaba para que el módulo existiera de verdad y qué suena dentro de cada uno de los tres ambientes. |
 | [`docs/plan-evolucion-ux-v11.md`](docs/plan-evolucion-ux-v11.md) | Plan de evolución UX/UI v10.2 → v11 en respuesta al feedback del piloto («engorroso», «mucho texto»): diagnóstico medido sobre el código, cuadrícula de 2 columnas, pestañas inferiores y el **muro de contención** que garantiza cero regresiones clínicas y cero pérdida de la serie de telemetría. Implementado y activo; el interruptor `ENABLE_V11_UI` se retiró al cerrar el Sprint 4.6. |
 | [`docs/protocolo-pares-minimos.md`](docs/protocolo-pares-minimos.md) | Protocolo de pares mínimos para dislalias fonológicas: 10 pares accionables con flujo TTS→STT, feedback por rama y misiones físicas. Implementado en `src/ValeriaMinimalPairsScreen.tsx` + `src/valeriaMinimalPairs.ts`. |
 | [`docs/protocolo-pares-minimos-es-DO.md`](docs/protocolo-pares-minimos-es-DO.md) | Protocolo de pares mínimos en español dominicano (Quisqueya Habla). Implementado en `src/valeriaMinimalPairsEsDO.ts`. |
@@ -1092,6 +1261,27 @@ toque `site/` republica el sitio; también puede lanzarse desde *Actions*.
 ---
 
 ## 🕑 Historial de versiones
+
+<details open>
+<summary><strong>V13</strong> — el octavo bloque suena: Integración Sensorial Auditiva</summary>
+
+**Lo que se ve al abrir la app:** el hub arranca por una tarjeta nueva,
+**Integración Sensorial**, y Realidad Aumentada pasa a cerrar la rejilla. Dentro,
+un módulo de desensibilización para sobre‑responsividad auditiva con **once
+estímulos que suenan de verdad**, sintetizados en el propio repositorio. En
+Academy, una cápsula nueva: **La Brújula de las Palabras**.
+
+| Qué | Cambio |
+| --- | --- |
+| **Integración Sensorial** | Octavo bloque, primero en el hub. Muro de control adulto (estímulo, intensidad 1‑5 y duración 3/7/15 s antes de ceder el aparato), anticipación visual, botón de agencia del niño, pausa segura que **suma** XP y registro clínico del adulto cifrado en el dispositivo. Ver [Integración Sensorial Auditiva](#-integración-sensorial-auditiva). |
+| **Once estímulos sintetizados** | `scripts/generate-sensory-assets.js`: ocho aparatos y alertas + tres ambientes vivos (aula, centro comercial, calle con obras). Ni una grabación de terceros. 2,50 MB, mono 16 kHz, bucle sin costura, −20 dBFS RMS comunes. |
+| **Gate de audio** | `scripts/check-sensory-assets.js` en `android.yml`: formato, sonoridad, costura del bucle, identidad espectral por sonido y **contador de sucesos vivos** en los ambientes. Nació porque la primera versión del módulo tenía vúmetro, el rótulo «Sonido en reproducción» y cero audio. |
+| **Lúa en el turno sensorial** | `GRANT` solo visual —nunca `LUA_CAP.SOUND`—, silencio de tramas durante la exposición y `RELAX` en la pausa, el mismo descanso de la regla 20‑20‑20. Sin opcodes nuevos: el protocolo sigue en la versión 1. |
+| **La Brújula de las Palabras** | Cápsula de Academy con los hitos ASHA de 0 a 5 años, receptivo y expresivo separados por tramo de edad y *disclaimer* clínico visible. Abre el dominio de Lenguaje, que pasa a nueve cápsulas. |
+| **Barra inferior** | Alturas, borde y tintes revisados; sin sombra y con el turquesa de marca en la pestaña activa. |
+| **Privacidad** | El registro de sesiones sensoriales —respuesta observada, estrategia de calma y notas del adulto— se declara en `site/privacidad.html` y `site/privacy.html`, y se guarda cifrado. |
+
+</details>
 
 <details open>
 <summary><strong>V12</strong> — la mascota es Lúa, la gata (y por fin también el icono)</summary>

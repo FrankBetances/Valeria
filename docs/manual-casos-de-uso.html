@@ -151,7 +151,7 @@
   <div class="brand">valeria+</div>
   <img class="mascot" src="lua-mascota.png" alt="Lúa, la gata de Valeria+, en píxel art">
   <div style="margin-top:auto">
-    <div class="pill">Manual de usuario · v12 · con capturas de pantalla</div>
+    <div class="pill">Manual de usuario · v13 · con capturas de pantalla</div>
     <h1>Manual de<br>Casos de Uso</h1>
     <div class="sub">Aplicación de terapia auditivo‑verbal y del lenguaje para niñas y niños con hipoacusia, implante coclear, dislalias, dislexia, TEA o dificultades del lenguaje.</div>
     <div class="meta">
@@ -189,6 +189,8 @@
     <li><span class="num">CU‑15</span><span class="txt">Elegir la variedad de terapia (Castellano · Galego · Dominicano · Euskera)</span></li>
     <li><span class="num">CU‑16</span><span class="txt">Panel del Adulto: carga comunicativa (ruido, doble tarea, quiebre)</span></li>
     <li><span class="num">CU‑17</span><span class="txt">Academy: aprender lo básico de Lengua de Signos Española</span></li>
+    <li class="section-label">Integración Sensorial Auditiva</li>
+    <li><span class="num">CU‑23</span><span class="txt">Una sesión de desensibilización sonora, de principio a fin</span></li>
     <li class="section-label">Realidad Aumentada</li>
     <li><span class="num">CU‑18</span><span class="txt">Realidad Aumentada: permiso de cámara y prueba de aptitud del teléfono</span></li>
     <li><span class="num">CU‑19</span><span class="txt">AR‑1 · Cinemática Orofacial: la boquita de beso mueve el coche</span></li>
@@ -210,7 +212,7 @@
   <p style="margin-top:12px">
     <strong>Valeria+</strong> es una aplicación móvil (Expo SDK 54 / React Native) diseñada para acompañar las
     <strong>sesiones de terapia auditivo‑verbal y del lenguaje</strong> de niñas y niños. Reúne en un solo lugar el
-    registro del paciente, una comprobación auditiva previa (Test de Ling), <strong>siete bloques de terapia</strong>,
+    registro del paciente, una comprobación auditiva previa (Test de Ling), <strong>ocho bloques de terapia</strong>,
     un espacio de formación para el cuidador (Academy) y un panel de resultados para seguir la evolución.
   </p>
 
@@ -228,10 +230,12 @@
   </div>
 
   <h3>Los ocho bloques de terapia</h3>
-  <p>Desde la pantalla <strong>Prescripción de Terapias</strong> se elige uno de estos bloques. Cada uno responde a un
+  <p>Desde la pantalla <strong>Prescripción de Terapias</strong> se elige uno de estos bloques. Van <strong>en el mismo orden que en la app</strong>: Integración Sensorial abre la rejilla y Realidad Aumentada la cierra. Cada uno responde a un
   perfil clínico distinto, pero todos comparten la misma lógica: el adulto guía la sesión y tiene la última palabra.</p>
   <table>
     <tr><th style="width:32%">Bloque</th><th>Para qué sirve</th></tr>
+    <tr><td><span class="bdot" style="background:#00a39e"></span><strong>Integración Sensorial Auditiva</strong> — 2 actividades activas de 6</td>
+      <td>Para niños que se tapan los oídos ante la aspiradora, el secador o el timbre del colegio (sobre‑responsividad auditiva). El adulto elige el sonido, la <strong>intensidad relativa</strong> (1 a 5) y la duración (3, 7 o 15 segundos) <strong>antes</strong> de darle el aparato al niño; el niño lo dispara con su propio botón y puede parar cuando quiera —parar suma XP igual que terminar—. Hay once sonidos: aspiradora, licuadora, secador de pelo, secador de manos, tormenta, sirena, petardos y timbre escolar, más tres <strong>ambientes</strong> completos (aula de colegio, centro comercial y calle con obras). Todos están <strong>sintetizados</strong> dentro del proyecto, no grabados. Lúa se queda quieta y muda mientras suena, también en el aparato. Se detalla en CU‑23.</td></tr>
     <tr><td><span class="bdot" style="background:#7c4fd0"></span><strong>Pares Mínimos</strong></td>
       <td>Dislalias fonológicas. <strong>15 pares</strong> de palabras casi iguales (rana/lana) en 6 grupos —rotacismo, sigmatismo, velares, labiodental, nasales y laterales— con juego de voz, misión física y sello doble adulto‑niño.</td></tr>
     <tr><td><span class="bdot" style="background:#00a39e"></span><strong>Expansión Semántica</strong></td>
@@ -246,8 +250,6 @@
       <td>Fonología y acceso léxico: intruso fonológico, rastreo léxico con interferencia, síntesis fonémica rítmica, criba de pseudopalabras, rastreo visual de rotaciones (b/d · p/q) y denominación rápida (RAN).</td></tr>
     <tr><td><span class="bdot" style="background:#00a39e"></span><strong>Realidad Aumentada</strong> — 3 ejercicios<br><span class="small muted">Solo Android, en teléfono</span></td>
       <td>La cámara frontal como <strong>sensor de movimiento</strong>: postura labial (AR‑1), giro de la cabeza hacia un sonido (AR‑2) y elección de dibujo con la mirada (AR‑3). El premio en 3D se gana <strong>con el gesto, no con la voz</strong>; en dos de los tres el micrófono está apagado. Requiere permiso de cámara y una prueba de aptitud del aparato (CU‑18 a CU‑22).</td></tr>
-    <tr><td><span class="bdot" style="background:#00a39e"></span><strong>Integración Sensorial Auditiva</strong> — 2 actividades activas de 6</td>
-      <td>Para niños que se tapan los oídos ante la aspiradora, el secador o el timbre del colegio (sobre‑responsividad auditiva). El adulto elige el sonido, la <strong>intensidad relativa</strong> (1 a 5) y la duración (3, 7 o 15 segundos) <strong>antes</strong> de darle el aparato al niño; el niño lo dispara con su propio botón y puede parar cuando quiera —parar suma XP igual que terminar—. Hay once sonidos: aspiradora, licuadora, secador de pelo, secador de manos, tormenta, sirena, petardos y timbre escolar, más tres <strong>ambientes</strong> completos (aula de colegio, centro comercial y calle con obras). Todos están <strong>sintetizados</strong> dentro del proyecto, no grabados. Lúa se queda quieta y muda mientras suena, también en el aparato.</td></tr>
   </table>
   <p class="small muted">Además, el <strong>Test de Ling</strong> es una comprobación auditiva rápida (6 sonidos) previa a los
   ejercicios de audición; <strong>Academy</strong> forma al cuidador (ver CU‑03), y la <strong>gamificación</strong>
@@ -411,7 +413,7 @@ TEA y Lengua de Signos). Cada dominio ofrece
 
   <div class="callout violet">
     <div class="lbl">La cámara en los ejercicios de Realidad Aumentada</div>
-    <p style="margin:4px 0 0">El séptimo bloque usa la cámara frontal como <strong>sensor de movimiento</strong>. Tres
+    <p style="margin:4px 0 0">El bloque de Realidad Aumentada usa la cámara frontal como <strong>sensor de movimiento</strong>. Tres
     afirmaciones que no son intenciones sino restricciones del propio código, comprobables en el repositorio público:
     <strong>no se graba ni se guarda ninguna imagen</strong> —cada fotograma se analiza y se descarta al instante—,
     <strong>ningún vídeo sale del teléfono</strong> y <strong>no se reconoce la cara de nadie</strong>.</p>
@@ -437,7 +439,7 @@ TEA y Lengua de Signos). Cada dominio ofrece
   <h2 class="chapter">Mapa de pantallas y glosario</h2>
 
   <p style="margin-top:12px">Tras el alta o la selección del paciente se llega al <strong>hub de Prescripción</strong>,
-  desde donde se abre cualquiera de los siete bloques (o Academy). El Test de Ling solo precede a los ejercicios de audición
+  desde donde se abre cualquiera de los <strong>ocho bloques</strong> (o Academy). El Test de Ling solo precede a los ejercicios de audición
   cuando el paciente usa audífono o implante coclear, y el bloque de <strong>Realidad Aumentada</strong> pasa antes por su
   propia preparación (permiso de cámara y prueba de aptitud).</p>
 
@@ -446,6 +448,7 @@ TEA y Lengua de Signos). Cada dominio ofrece
     <span class="node">Créditos</span><span class="arrow">→</span>
     <span class="node">Ficha / Selección</span><span class="arrow">→</span>
     <span class="node">Hub de bloques</span><span class="arrow">→</span>
+    <span class="node">Integración Sensorial</span>
     <span class="node violet">Pares Mínimos</span>
     <span class="node violet">Expansión Sem.</span>
     <span class="node">Audición*</span>
@@ -680,8 +683,12 @@ TEA y Lengua de Signos). Cada dominio ofrece
       </div>
       <p>El hub es el <strong>centro de mando</strong> de cada sesión. Arriba, la <strong>tarjeta de Lúa</strong>: la
       gata —que se deja acariciar y premiar—, el nivel, lo que falta para el siguiente, la racha y el acceso a los
-      premios. Debajo, los siete bloques como tarjetas, cada una con el color de su bloque y una línea de qué trabaja.
-      Audición, Lenguaje, TEA y Dislexia indican además cuántas terapias hay activas.</p>
+      premios. Debajo, los <strong>ocho bloques</strong> como tarjetas, cada una con el color de su bloque y una línea de
+      qué trabaja. Audición, Lenguaje, TEA y Dislexia indican además cuántas terapias hay activas.</p>
+      <p><strong>Integración Sensorial abre la rejilla</strong> y Realidad Aumentada la cierra. No es un capricho de
+      maquetación: la sensorial es lo que se prescribe antes de que el niño pueda sostener el resto —si la aspiradora
+      le desborda, no hay sesión de pares mínimos que aguante— y la RA es la única tarjeta que puede no aparecer,
+      porque depende de que el teléfono supere la prueba de aptitud.</p>
       <h4>Flujo principal</h4>
       <ol class="flow">
         <li>Tocar la tarjeta del bloque deseado: <strong>Pares Mínimos</strong> (CU‑04), <strong>Expansión Semántica</strong> (CU‑05), <strong>Audición</strong>, <strong>Lenguaje</strong>, <strong>TEA</strong> o <strong>Dislexia</strong> (CU‑06 / CU‑09).</li>
@@ -736,6 +743,26 @@ TEA y Lengua de Signos). Cada dominio ofrece
       </ol>
       <div class="callout"><div class="lbl">Es para el adulto, no para el niño</div><p style="margin:4px 0 0">Academy vive junto a los menús de la app, que maneja siempre el adulto; la tableta se cede al niño solo cuando el ejercicio ya ha empezado. Por eso el niño no llega por error a esta formación.</p></div>
       <div class="callout"><div class="lbl">El progreso no se pierde</div><p style="margin:4px 0 0">El avance (cápsulas hechas, nivel e insignias) se guarda <strong>cifrado en el dispositivo</strong>, igual que el resto de datos, y funciona sin conexión.</p></div>
+      <h4>La Brújula de las Palabras · qué esperar a cada edad</h4>
+      <p>La cápsula que <strong>abre el dominio de Lenguaje</strong>. Recorre los hitos del desarrollo de 0 a 5 años
+      según la <strong>ASHA</strong> —0‑12 meses, 1‑2, 2‑3, 3‑4 y 4‑5 años— y en cada tramo separa dos columnas que
+      casi nadie distingue en casa: el <strong>lenguaje receptivo</strong> (lo que el niño comprende) y el
+      <strong>expresivo</strong> (lo que produce). Es la distinción que hace que «no habla» deje de tapar el
+      problema real, porque un niño puede comprender bien y no producir, o al revés.</p>
+      <p>Empieza desmontando el «ya hablará» y lleva el aviso clínico <strong>visible en la primera pantalla</strong>:
+      es guía normativa de referencia, <strong>no un cribado ni un diagnóstico</strong>. Solo un profesional sanitario
+      puede emitirlo. Da 30 XP al silo de Lenguaje y termina con un micro‑quiz de respuesta razonada.</p>
+      <div class="shots">
+        <figure class="shot">
+          <img src="screenshots/38-brujula-intro.png" alt="Primera pantalla de la Brújula de las Palabras con el aviso ASHA">
+          <figcaption><span class="fig"></span> · El mito del «ya hablará», con el aviso clínico siempre a la vista.</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="screenshots/39-brujula-etapa.png" alt="Tramo de edad con receptivo y expresivo separados">
+          <figcaption><span class="fig"></span> · Cada tramo de edad, con receptivo y expresivo en bloques distintos.</figcaption>
+        </figure>
+      </div>
+
       <div class="shots">
         <figure class="shot">
           <img src="screenshots/27-academy-hub.png" alt="Hub de Academy con el feed de prioridad y los dominios">
@@ -1423,6 +1450,107 @@ TEA y Lengua de Signos). Cada dominio ofrece
   </div>
 </section>
 
+<!-- ================= INTEGRACIÓN SENSORIAL AUDITIVA ================= -->
+<section class="page-break">
+  <div class="uc">
+    <div class="uc-head">
+      <div class="id">CU‑23 · <span class="tag fam" style="background:rgba(255,255,255,.22);color:#fff">Profesional / Familia</span></div>
+      <div class="title">Una sesión de desensibilización sonora, de principio a fin</div>
+    </div>
+    <div class="uc-body">
+      <div class="uc-grid">
+        <div><div class="k">Actor</div><div class="v">Adulto que configura; el niño ejecuta</div></div>
+        <div><div class="k">Pantalla</div><div class="v">Hub → Integración Sensorial → «Mi sonido, mi botón»</div></div>
+        <div><div class="k">Precondición</div><div class="v">Ninguna. El aparato debe poder reproducir sonido</div></div>
+        <div><div class="k">Resultado</div><div class="v">Exposición controlada realizada y valorada, con XP en el silo sensorial</div></div>
+      </div>
+
+      <p>Este bloque es para el niño que <strong>se tapa los oídos</strong> con la aspiradora, el secador de manos del
+      baño público o el timbre del colegio: lo que en clínica se llama <strong>sobre‑responsividad auditiva</strong>.
+      No se trata de que «se acostumbre» aguantando, sino de <strong>desensibilización sistemática</strong>: exposiciones
+      muy cortas, previsibles y bajo su control, con una estrategia de calma asociada.</p>
+
+      <div class="callout"><div class="lbl">La regla que ordena todo el módulo</div><p style="margin:4px 0 0"><strong>Parar nunca resta.</strong> Pedir pausa o detener suma la misma XP que llegar al final. Si parar costara progreso, el niño aprendería a aguantar por el premio en lugar de a regularse, que es justo lo contrario de lo que se busca.</p></div>
+
+      <h4>1 · El adulto prepara, antes de dar el aparato</h4>
+      <p>La primera pantalla no es para el niño. El adulto elige el <strong>estímulo</strong> (once disponibles), la
+      <strong>intensidad relativa</strong> del 1 al 5, la <strong>duración</strong> de la microexposición —3, 7 o 15
+      segundos— y ve la <strong>estrategia de regulación</strong> (TPR) que acompaña a ese sonido: amasar plastilina,
+      manos en la mesa y tres respiraciones, un abrazo firme.</p>
+
+      <div class="callout"><div class="lbl">Por qué «intensidad relativa» y no decibelios</div><p style="margin:4px 0 0">La app <strong>no mide</strong> el sonido que sale del altavoz: el volumen real depende del teléfono, de su altavoz y de dónde esté puesto. Llamarlo «decibelios» sería inventar una cifra clínica. Los cinco niveles son una escala relativa que el adulto ajusta con el oído puesto en la sala, y <strong>solo la mueve él</strong>: la app nunca sube ni baja sola.</p></div>
+
+      <h4>2 · Anticipación: el sonido no sorprende</h4>
+      <p>Una cuenta atrás visual antes de cada exposición. En un niño con hiperreactividad, el sobresalto no lo produce
+      solo el volumen: lo produce <strong>no saber cuándo</strong>. La cuenta atrás convierte el estímulo en algo
+      predecible, que es la mitad del tratamiento.</p>
+
+      <h4>3 · «Mi sonido, mi botón»</h4>
+      <p>El sonido lo dispara <strong>el niño</strong>, con un botón grande, y lo puede cortar cuando quiera. Esa es la
+      diferencia entre una exposición y un susto: el control lo tiene quien lo está sufriendo. Mientras suena,
+      <strong>Lúa se queda quieta y muda</strong> —también en el aparato de sobremesa, si está emparejado—: la gata
+      animándose al lado sería una segunda fuente de estimulación justo cuando estamos midiendo la tolerancia a la
+      primera.</p>
+
+      <h4>4 · Pausa segura y cierre</h4>
+      <p>Al pedir pausa, el sonido se corta con una rampa suave y la pantalla propone la estrategia de calma de ese
+      estímulo. Al cerrar, el adulto registra <strong>cómo respondió el niño</strong> y si se aplicó la estrategia.
+      Ese registro se guarda <strong>cifrado en el dispositivo</strong> y no sale de él.</p>
+
+      <div class="shots">
+        <figure class="shot">
+          <img src="screenshots/31-sensorial-lista.png" alt="Actividades del módulo de integración sensorial">
+          <figcaption><span class="fig"></span> · Las actividades del módulo, con el muro de control adulto arriba.</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="screenshots/32-sensorial-preparacion.png" alt="Preparación de la sesión por parte del adulto">
+          <figcaption><span class="fig"></span> · Preparación: estímulo, intensidad, duración y estrategia de calma.</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="screenshots/33-sensorial-anticipacion.png" alt="Cuenta atrás de anticipación visual">
+          <figcaption><span class="fig"></span> · Anticipación visual: el sonido va a empezar, sin sorpresas.</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="screenshots/34-sensorial-exposicion.png" alt="Exposición en curso con Lúa quieta">
+          <figcaption><span class="fig"></span> · Exposición: el botón del niño y Lúa acompañando en silencio.</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="screenshots/35-sensorial-pausa.png" alt="Pausa segura sin penalización">
+          <figcaption><span class="fig"></span> · Pausa segura: parar es parte del aprendizaje, no un fallo.</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="screenshots/36-sensorial-valoracion.png" alt="Valoración clínica del adulto al cerrar">
+          <figcaption><span class="fig"></span> · Cierre: el adulto registra la respuesta observada.</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="screenshots/37-sensorial-completada.png" alt="Sesión sensorial completada con XP">
+          <figcaption><span class="fig"></span> · Sesión completada: la participación siempre suma progreso.</figcaption>
+        </figure>
+      </div>
+
+      <h4>Los once estímulos</h4>
+      <table>
+        <tr><th style="width:26%">Grupo</th><th>Sonidos</th></tr>
+        <tr><td><strong>Aparatos de casa</strong></td><td>Aspiradora · Licuadora · Secador de pelo · Secador de manos</td></tr>
+        <tr><td><strong>Alertas y naturaleza</strong></td><td>Sirena de emergencia · Petardos · Timbre escolar · Tormenta</td></tr>
+        <tr><td><strong>Ambientes vivos</strong></td><td><strong>Aula de colegio</strong>: la maestra hablando por encima del murmullo de los niños, sillas que arrastran, risas de grupo, un libro que cae.<br><strong>Centro comercial</strong>: murmullo lejano, la rueda de un carrito que chirría, pasos sobre suelo duro, los pitidos de la caja y una megafonía que no se entiende.<br><strong>Calle con obras</strong>: tráfico, martillo neumático, golpes de maza sobre viga, una radial cortando, el pitido de marcha atrás de un camión y dos obreros que se gritan algo.</td></tr>
+      </table>
+
+      <div class="callout"><div class="lbl">Ningún sonido es una grabación</div><p style="margin:4px 0 0">Los once se <strong>sintetizan dentro del proyecto</strong>, con un generador que vive en el repositorio. Se hizo así por tres razones: el expediente técnico puede decir exactamente de dónde sale cada estímulo que oye un niño; no hay licencias de terceros que revisar; y el fichero de hoy es idéntico al de ayer, así que una revisión clínica sigue valiendo mañana. Todos salen a la <strong>misma sonoridad</strong>, para que el «nivel 3» signifique lo mismo con la aspiradora que con el aula.</p></div>
+
+      <h4>Cursos alternativos</h4>
+      <ul class="alt">
+        <li><strong>El niño para a los dos segundos:</strong> se cierra la sesión igual, se registra «Sensible / ha pedido pausa» y suma XP. Es información clínica, no un fracaso.</li>
+        <li><strong>El aparato no puede reproducir sonido</strong> (navegador o build sin audio): la pantalla lo <strong>avisa</strong> y advierte de que la sesión se puede recorrer pero <strong>no vale como exposición</strong>.</li>
+        <li><strong>Salir de la pantalla a mitad:</strong> el sonido se apaga solo. Nunca sobrevive a su pantalla.</li>
+        <li><strong>Cuatro actividades en «Próximamente»:</strong> el módulo publica seis fichas y hoy funcionan dos. La tarjeta del hub anuncia <strong>solo las jugables</strong>.</li>
+      </ul>
+
+      <div class="callout ok"><div class="lbl">Qué NO es este módulo</div><p style="margin:4px 0 0">No es una prueba audiológica ni mide umbrales. No sustituye la valoración de un terapeuta ocupacional ni de un logopeda. Es un apoyo estructurado para que la familia practique en casa lo que se acuerda en consulta, con el adulto llevando siempre el control.</p></div>
+    </div>
+  </div>
+</section>
+
 <!-- CU-18 · RA · PREPARACIÓN -->
 <section>
   <div class="uc">
@@ -1437,7 +1565,7 @@ TEA y Lengua de Signos). Cada dominio ofrece
         <div><div class="k">Precondición</div><div class="v">Teléfono <strong>Android</strong> con la app instalada (APK)</div></div>
         <div><div class="k">Resultado</div><div class="v">Consentimiento dado, nivel de aptitud medido y ejercicios habilitados</div></div>
       </div>
-      <p>El séptimo bloque usa la <strong>cámara frontal como sensor de movimiento</strong>: mide si el niño redondea los
+      <p>El bloque de Realidad Aumentada usa la <strong>cámara frontal como sensor de movimiento</strong>: mide si el niño redondea los
       labios, gira la cabeza hacia un sonido o mantiene la mirada en un dibujo, y esos gestos son los que hacen reaccionar
       a unas figuras en 3D. <strong>En dos de los tres ejercicios el micrófono está apagado</strong>, a propósito: se premia
       el esfuerzo motor <em>antes</em> de pedirle que hable, para que no escuche su propio error y se frustre antes de haber
@@ -1668,7 +1796,7 @@ TEA y Lengua de Signos). Cada dominio ofrece
 <section class="page-break">
   <div class="chapter-kicker">Anexo B</div>
   <h2 class="chapter">Historial de versiones</h2>
-  <p style="margin-top:12px">Este manual describe Valeria+ en su <strong>estado actual (v12)</strong>. La siguiente tabla
+  <p style="margin-top:12px">Este manual describe Valeria+ en su <strong>estado actual (v13)</strong>. La siguiente tabla
   resume, a título informativo, cómo ha ido creciendo la app, por si resulta útil a quienes usaron versiones
   anteriores.</p>
   <table>
@@ -1688,16 +1816,17 @@ TEA y Lengua de Signos). Cada dominio ofrece
     <tr><td><strong>v11</strong></td><td><strong>El hub deja de ser una pantalla larga.</strong> Las familias del piloto dijeron que el uso «se hace muy engorroso» y que había «mucho texto»: el hub reunía cinco tareas y había que bajar dos pantallas y media para llegar a los ajustes. Ahora hay <strong>tres pestañas</strong> —Terapias, Academy y Ajustes—, los bloques van en cuadrícula y la descripción de cada uno se lee al abrirlo, no en una lista de siete seguidas. Además, el botón físico de <em>atrás</em> de Android vuelve al hub en vez de salirse de la pantalla entera.</td></tr>
     <tr><td><strong>v12</strong></td><td><strong>Lúa, los premios visibles y un set de iconos propio.</strong> La mascota pasa a ser una <strong>gata en píxel art</strong> —icono, arranque, hub, fin de sesión y distractora de doble tarea— y da nombre a <strong>doce niveles</strong> y a una colección de <strong>dieciocho insignias</strong> que ya <strong>se puede abrir y mirar</strong> desde el hub, sin PIN, con la condición escrita de las que faltan. El hub, las pantallas de ejercicios, las del adulto y Academy se rehacen con <strong>iconografía propia</strong> en lugar de emoji del sistema, se corrige el contraste de los textos secundarios al mínimo WCAG AA y el avatar de la lista de pacientes deja de deducirse del género para ser la <strong>inicial del nombre</strong>. Ningún ejercicio, consigna ni regla clínica cambia.</td></tr>
     <tr><td><strong>v12.1</strong></td><td><strong>Descanso visual (regla 20‑20‑20).</strong> La app lleva la cuenta del tiempo de sesión y, pasados 20 minutos seguidos, <strong>sugiere</strong> en la pausa activa un descanso de 20 segundos mirando lejos, con la mascota Lúa durmiéndose en el aparato si lo hay. <strong>No bloquea nada</strong>: la sesión no se detiene ni se pausa sola, y el adulto decide. El contador no se guarda ni se exporta. Ningún ejercicio, consigna ni regla clínica cambia (CU‑09).</td></tr>
+    <tr><td><strong>v13</strong></td><td><strong>Octavo bloque: Integración Sensorial Auditiva</strong>, y abre el hub. Desensibilización sistemática para niños que se tapan los oídos, con muro de control adulto, anticipación visual, botón de agencia del niño y pausa que suma progreso en lugar de restarlo. <strong>Once estímulos sintetizados</strong> dentro del proyecto —ocho aparatos y alertas más tres ambientes vivos: aula, centro comercial y calle con obras—. En Academy, la cápsula <strong>La Brújula de las Palabras</strong> con los hitos ASHA de 0 a 5 años. Realidad Aumentada pasa a cerrar la rejilla del hub.</td></tr>
   </table>
 
   <p style="margin-top:14px"><strong>Sobre la cobertura de este manual.</strong> Los capítulos paso a paso cubren ya
-  <strong>los siete bloques</strong>, incluida la <strong>Realidad Aumentada</strong> de la v10 (CU‑18 a CU‑22). Los cambios
+  <strong>los ocho bloques</strong>, incluidas la <strong>Integración Sensorial Auditiva</strong> de la v13 (CU‑23) y la <strong>Realidad Aumentada</strong> de la v10 (CU‑18 a CU‑22). Los cambios
   de la v10.1 y la v10.2 no añaden pantallas: afectan a cómo se reconoce y se valora la voz por dentro, y están explicados
   en el capítulo&nbsp;2 («Privacidad de los datos») y en CU‑04. La v10.3 sí añade elementos visibles —la tarjeta de material, la
   lista de formas alternativas, la chuleta del adulto y el aviso del siguiente ejercicio—, todos descritos en CU‑09.</p>
 
   <p style="margin-top:14px"><strong>Sobre las capturas de pantalla.</strong> Todas las imágenes de este manual se
-  han vuelto a tomar sobre la <strong>v12</strong>, con la app en marcha, y muestran la interfaz que la familia tiene
+  han vuelto a tomar sobre la <strong>v13</strong>, con la app en marcha, y muestran la interfaz que la familia tiene
   hoy delante. Solo la <strong>progresión léxica</strong> conserva su aviso propio, porque el contenido de esa pantalla
   cambió después de la captura. El capítulo de <strong>Realidad Aumentada</strong> sigue sin capturas, y la razón está
   explicada al final de CU‑22: cualquier imagen fiel de esos ejercicios mostraría la cara de un niño.</p>

@@ -366,7 +366,7 @@ const pause = (page, ms) => page.waitForTimeout(ms);
 
   // ===================== ACADEMY (hub de dominios, cápsula y quiz) =====================
   await page.getByText('Academy', { exact: true }).click();
-  await page.getByText('DOMINIOS DE CAPACITACIÓN', { exact: true }).waitFor({ timeout: 60000 });
+  await page.getByText('DOMINIOS FORMATIVOS', { exact: true }).waitFor({ timeout: 60000 });
   await pause(page, 900);
   await shot(page, '27-academy-hub');            // 27 · dominios + feed de prioridad
   console.log('27 academy hub ✓');
@@ -374,14 +374,18 @@ const pause = (page, ms) => page.waitForTimeout(ms);
   // Lenguaje es el primer dominio y el más poblado; la tarjeta cabe entera en
   // pantalla, así que el clic no compite con la barra de pestañas.
   await page.getByLabel(/^Lenguaje\. /).click();
-  await page.getByText('CÁPSULAS DE CONOCIMIENTO', { exact: true }).waitFor({ timeout: 30000 });
+  await page.getByText('CÁPSULAS DISPONIBLES', { exact: true }).waitFor({ timeout: 30000 });
   await pause(page, 700);
   await shot(page, '28-academy-capsulas');       // 28 · lista de cápsulas del dominio
   console.log('28 academy cápsulas ✓');
 
-  const primeraCapsula = page.getByLabel(/^Cápsula /).first();
-  if (await primeraCapsula.isVisible().catch(() => false)) {
-    await primeraCapsula.click();
+  // La tarjeta de cápsula ya no lleva el prefijo "Cápsula " en su etiqueta
+  // accesible: es el título más el estado. Se busca por título, y se elige "El
+  // baño de lenguaje" a propósito —la Brújula abre la lista y tiene sus propias
+  // capturas (38/39), así que aquí se documenta otra—.
+  const capsulaLector = page.getByText('El baño de lenguaje', { exact: true }).last();
+  if (await capsulaLector.isVisible().catch(() => false)) {
+    await capsulaLector.click();
     await pause(page, 900);
     await shot(page, '29-academy-lector');       // 29 · lector de la cápsula
     console.log('29 academy lector ✓');
@@ -420,6 +424,75 @@ const pause = (page, ms) => page.waitForTimeout(ms);
   await pause(page, 700);
   await shot(page, '23-panel-adulto');          // 23 · panel desplegado (ruido/gata/quiebre)
   console.log('23 panel adulto ✓');
+
+  // ===================== INTEGRACIÓN SENSORIAL AUDITIVA (ISA) =====================
+  // El bloque abre el hub desde el 21/8/2026, así que la tarjeta se ve sin
+  // desplazar. El recorrido es el completo: muro del adulto → anticipación →
+  // exposición con el botón del niño → pausa segura → valoración → cierre.
+  await openHubFresh();
+  await page.getByText('Integración Sensorial', { exact: true }).first().click();
+  await page.getByText('ACTIVIDADES SENSORIALES', { exact: true }).waitFor({ timeout: 30000 });
+  await pause(page, 700);
+  await shot(page, '31-sensorial-lista');        // 31 · actividades del módulo
+  console.log('31 sensorial lista ✓');
+
+  await page.getByText('Mi sonido, mi botón', { exact: true }).first().click();
+  await page.getByText('Preparación de la Sesión', { exact: true }).waitFor({ timeout: 30000 });
+  await pause(page, 700);
+  await shot(page, '32-sensorial-preparacion');  // 32 · muro de control adulto
+  console.log('32 sensorial preparacion ✓');
+
+  await page.getByText('Iniciar sesión con el niño/a', { exact: true }).click();
+  await pause(page, 700);
+  await shot(page, '33-sensorial-anticipacion'); // 33 · cuenta atrás sin sorpresas
+  console.log('33 sensorial anticipacion ✓');
+
+  // La cuenta atrás son 3 s; después la exposición espera al dedo del niño.
+  await pause(page, 3200);
+  await page.getByText('Mi sonido, mi botón', { exact: true }).last().click();
+  await pause(page, 1200);
+  await shot(page, '34-sensorial-exposicion');   // 34 · estímulo sonando, Lúa quieta
+  console.log('34 sensorial exposicion ✓');
+
+  await page.getByText('Pedir pausa', { exact: true }).last().click();
+  await pause(page, 900);
+  await shot(page, '35-sensorial-pausa');        // 35 · pausa segura, cero penalización
+  console.log('35 sensorial pausa ✓');
+
+  await page.getByText('Finalizar y registrar', { exact: true }).last().click();
+  await pause(page, 900);
+  await shot(page, '36-sensorial-valoracion');   // 36 · registro clínico del adulto
+  console.log('36 sensorial valoracion ✓');
+
+  await page.getByText('Guardar sesión y sumar XP', { exact: true }).last().click();
+  await pause(page, 1200);
+  await shot(page, '37-sensorial-completada');   // 37 · cierre sereno con XP
+  console.log('37 sensorial completada ✓');
+
+  // ===================== ACADEMY · LA BRÚJULA DE LAS PALABRAS =====================
+  await openHubFresh();
+  await page.getByText('Academy', { exact: true }).last().click();
+  await page.getByText('DOMINIOS FORMATIVOS', { exact: true }).waitFor({ timeout: 30000 });
+  await pause(page, 800);
+  await page.getByText('Cómo aprenden a hablar, el porqué del TPR y qué vicios evitar.', { exact: true })
+    .first().click();
+  await pause(page, 900);
+  const brujula = page.getByText('La Brújula de las Palabras: Qué esperar a cada edad', { exact: true }).last();
+  if (await brujula.count()) {
+    await brujula.click();
+    await pause(page, 900);
+    await shot(page, '38-brujula-intro');        // 38 · el mito del "ya hablará" + disclaimer ASHA
+    console.log('38 brujula intro ✓');
+    const etapa = page.getByText('1 - 2 años', { exact: true }).last();
+    if (await etapa.count()) {
+      await etapa.click();
+      await pause(page, 800);
+      await shot(page, '39-brujula-etapa');      // 39 · receptivo y expresivo separados
+      console.log('39 brujula etapa ✓');
+    }
+  } else {
+    console.log('38/39 brujula — cápsula no visible (se omite)');
+  }
 
   await browser.close();
   console.log('Capturas completadas.');
