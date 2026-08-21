@@ -44,6 +44,7 @@ export const LUA_OP = {
 export const LUA_CAP = {
   VISUAL: 0x01,
   SOUND: 0x02,
+  NO_TOUCH: 0x04,
 } as const;
 
 /**
