@@ -140,6 +140,22 @@ export const ValeriaHubV11Screen: React.FC<{ navigation: any }> = ({ navigation 
     `${base}. ${t.hub.therapiesBadge(BLOCKS[key].meta.length)}, ${t.hub.activeBadge(counts[key])}.`;
 
   const tiles: Tile[] = [
+    // Integración Sensorial ABRE el hub. Decisión de Frank del 21/8/2026: es el
+    // bloque que se prescribe antes de que el niño pueda sostener el resto —si
+    // la aspiradora le desborda, no hay sesión de pares mínimos que valga— y la
+    // primera tarjeta es la que se ve sin desplazar.
+    {
+      key: 'sensory',
+      desc: t.hub.sensoryBrief,
+      icon: 'sensory',
+      title: t.hub.sensoryTitle,
+      hint: t.hub.sensorySub,
+      a11y: t.hub.sensoryA11y(SENSORY_AVAILABLE_COUNT),
+      bg: V.color.primaryLight,
+      fg: V.color.primaryDark,
+      meta: t.hub.sensoryBadge(SENSORY_AVAILABLE_COUNT),
+      onPress: () => navigation.navigate('SensoryBlockList'),
+    },
     {
       key: 'pairs', desc: t.hub.pairsBrief, icon: 'pairs', title: t.hub.pairsTitle, hint: t.hub.pairsSub, a11y: t.hub.pairsA11y,
       bg: '#ede4fc', fg: '#7c4fd0', meta: t.hub.pairsBadge(MINIMAL_PAIRS.length),
@@ -166,27 +182,15 @@ export const ValeriaHubV11Screen: React.FC<{ navigation: any }> = ({ navigation 
       key: 'dislexia', desc: t.hub.dyslexiaBrief, icon: BLOCKS.dislexia.icon, title: t.hub.dyslexiaTitle, hint: t.hub.dyslexiaSub, a11y: a11yFor('dislexia', t.hub.dyslexiaA11y),
       bg: BLOCKS.dislexia.accentBg, fg: BLOCKS.dislexia.accentFg, meta: metaFor('dislexia'), progress: progressFor('dislexia'), onPress: () => openBlock('dislexia'),
     },
-    // Séptimo bloque · RA. Si no hay host nativo de cámara + escena 3D, la
+    // La RA CIERRA la rejilla. Si no hay host nativo de cámara + escena 3D, la
     // tarjeta NO se renderiza: el bloque no existe para el usuario, en lugar
-    // de existir y fallar al tocarlo.
+    // de existir y fallar al tocarlo. Por eso va la última: es la única que
+    // puede desaparecer, y quitando la última no se descoloca ninguna otra.
     ...(AR_ON ? [{
       key: 'ar', desc: t.hub.arBrief, icon: 'ar', title: t.hub.arTitle, hint: t.hub.arSub, a11y: t.hub.arA11y(AR_META.length),
       bg: '#e6f9f8', fg: V.color.primaryDark, meta: t.hub.therapiesBadge(AR_META.length),
       onPress: () => navigation.navigate('ArLauncher'),
     } as Tile] : []),
-    // Octavo bloque · Integración Sensorial Auditiva (SOR, desensibilización gradual y anticipación).
-    {
-      key: 'sensory',
-      desc: t.hub.sensoryBrief,
-      icon: 'sensory',
-      title: t.hub.sensoryTitle,
-      hint: t.hub.sensorySub,
-      a11y: t.hub.sensoryA11y(SENSORY_AVAILABLE_COUNT),
-      bg: '#d6f5f2',
-      fg: V.color.primaryDark,
-      meta: t.hub.sensoryBadge(SENSORY_AVAILABLE_COUNT),
-      onPress: () => navigation.navigate('SensoryBlockList'),
-    },
   ];
 
   // Con un número impar de tarjetas, la última quedaría estirada a todo el
