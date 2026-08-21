@@ -6,14 +6,19 @@
 import { Locale } from '../valeriaLocale';
 
 export type SensoryTriggerId =
-  | 'vacuum'        // Aspiradora
-  | 'blender'       // Licuadora
-  | 'hairdryer'     // Secador de pelo
-  | 'hand_dryer'    // Secador de manos
-  | 'thunder'       // Tormenta / Trueno
-  | 'siren'         // Sirena de emergencia
-  | 'fireworks'     // Pirotecnia
-  | 'school_bell';  // Timbre escolar
+  | 'vacuum'              // Aspiradora
+  | 'blender'             // Licuadora
+  | 'hairdryer'           // Secador de pelo
+  | 'hand_dryer'          // Secador de manos
+  | 'thunder'             // Tormenta / Trueno
+  | 'siren'               // Sirena de emergencia
+  | 'fireworks'           // Pirotecnia
+  | 'school_bell'         // Timbre escolar
+  | 'classroom_ambience'  // Aula de colegio: murmullo, sillas y eco de clase
+  | 'mall_ambience'       // Centro comercial: carritos, megafonía y bullicio
+  | 'street_ambience';    // Calle urbana: tráfico, coches, obreros y ambiente vivo
+
+export type SensoryCategory = 'appliance' | 'nature' | 'alert' | 'ecological';
 
 export interface LocalizedString {
   es: string;
@@ -26,7 +31,9 @@ export interface LocalizedString {
 export interface SensoryStimulus {
   id: SensoryTriggerId;
   pictoIndex: number;
+  category: SensoryCategory;
   label: LocalizedString;
+  description?: LocalizedString;
   audioAssetKey: string;
   baseFrequencyHz?: number;
   calmStrategyTpr: LocalizedString;

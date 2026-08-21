@@ -31,17 +31,22 @@
   - *Disclaimer* clínico siempre visible: SaMD Clase I (guía psicoeducativa de referencia ASHA, no diagnóstica).
   - Micro-quiz final con feedback razonado e idempotencia de completado en `academyStore`.
 
-### 1.4. Integración Sensorial Auditiva (Módulo 8)
+### 1.4. Integración Sensorial Auditiva (Módulo 8) y Ambientes Ecológicos Vivos
 - **Marco Clínico (SaMD Clase I):** Aborda alteraciones del procesamiento sensorial central (hiperreactividad acústica / SOR, fallo en segregación figura-fondo y sobrecarga multisensorial) mediante desensibilización sistemática jerárquica, contracondicionamiento apetitivo y anticipación visual estricta.
-- **Catálogo de Estímulos (`SENSORY_TRIGGERS`):** 8 disparadores cotidianos (`vacuum`, `blender`, `hairdryer`, `hand_dryer`, `thunder`, `siren`, `fireworks`, `school_bell`) con pictogramas 24×24, claves de audio y estrategias TPR de calma motora en 5 variedades lingüísticas (es, gl, eu, es-DO, en-US).
-- **Catálogo de Actividades (`AUDITORY_INTEGRATION_ACTIVITIES`):** 6 actividades planificadas (`ISA-01` a `ISA-06`).
-- **Player Piloto (`ISA-01` "Mi sonido, mi botón"):**
-  - **Muro de control adulto:** Selección obligatoria de intensidad relativa (niveles 1 a 5, sin dB no calibrados), duración dosificada (micro 3s, corta 7s, media 15s), agencia y criterio de parada.
-  - **Anticipación visual:** Cuenta atrás (3.. 2.. 1..) que neutraliza errores de predicción (`HIPPEA`).
-  - **Lúa quieta y silenciosa:** Durante la reproducción sonora, Lúa se mantiene estática y muda (`SENSORY_EXPOSURE`), evitando estímulos competitivos.
-  - **Pausa segura y no punitiva:** Pausar o parar en cualquier momento no resta XP ni se cataloga como fallo.
-  - **Silo propio de progreso:** Persistencia cifrada en reposo (`@valeria_sensory`, `@valeria_sensory_sessions`) en `sensoryStore.ts` con llamada diferida (`InteractionManager`).
-  - **Tarjeta en el Hub:** 8ª tarjeta de la cuadrícula en `ValeriaHubV11Screen.tsx` con acento turquesa suave y rutas en `AppNavigator.tsx`.
+- **Catálogo de Estímulos y Ambientes Vivos (`SENSORY_TRIGGERS`):**
+  - **Sonidos aislados:** Aspiradora, licuadora, secador de pelo, secador de manos, tormenta, sirena, fuegos artificiales, timbre escolar.
+  - **Ambientes Ecológicos Vivos (Simulación Realista):**
+    1. **Aula de colegio (`classroom_ambience`):** Murmullo de niños, movimiento de sillas, risas y eco del aula. Estrategia TPR: *Manos en la mesa y 3 respiraciones guiadas*.
+    2. **Centro comercial / Supermercado (`mall_ambience`):** Ruido difuso, carritos de compras rodando, pasos y megafonía suave. Estrategia TPR: *Sostener manos del adulto y foco visual*.
+    3. **Calle urbana viva y obras (`street_ambience`):** Tráfico de coches, obreros en construcción, taladros y bullicio de calle. Estrategia TPR: *Abrazo de oso firme o apretar pelota antiestrés*.
+- **Catálogo de Actividades (`AUDITORY_INTEGRATION_ACTIVITIES`):**
+  - `ISA-01`: Mi sonido, mi botón (Control, agencia y previsibilidad).
+  - `ISA-06`: Ambientes vivos cotidianos (Simulación de entornos ecológicos con filtros por categoría).
+- **Player Interactivo:**
+  - **Selector por Categorías:** Píldoras para filtrar entre *Todos*, *Ambientes vivos*, *Electrodomésticos* y *Alertas*.
+  - **Vúmetro de Intensidad Relativa:** 5 niveles con barras visuales progresivas.
+  - **Anticipación visual y Lúa silenciosa:** Cuenta atrás y Lúa quieta durante la reproducción sonora sin interferencia acústica.
+  - **Pausa segura no punitiva:** Parar en cualquier momento suma XP y propone la estrategia de autorregulación específica del entorno.
 
 ---
 

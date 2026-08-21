@@ -44,8 +44,9 @@ export type BlockIconName =
   | 'moodBad' | 'moodPoor' | 'moodOk' | 'moodGood' | 'moodGreat'
   // Academy: guías de dominio y cuidado de los dispositivos auditivos.
   | 'compass' | 'timer' | 'drop' | 'magnet' | 'battery'
-  // Integración Sensorial Auditiva: estimulación, modulación y calma.
-  | 'sensory' | 'sensory_ear' | 'noise_filter' | 'sensory_anticipation' | 'calm_breath';
+  // Integración Sensorial Auditiva: estimulación, modulación, entornos y calma.
+  | 'sensory' | 'sensory_ear' | 'noise_filter' | 'sensory_anticipation' | 'calm_breath'
+  | 'classroom' | 'mall' | 'street';
 
 interface Props { name: BlockIconName; color: string; size?: number; }
 
@@ -511,6 +512,37 @@ export const BlockIcon: React.FC<Props> = ({ name, color, size = 26 }) => {
       {name === 'calm_breath' && (
         <>
           <Path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" {...common} />
+        </>
+      )}
+
+      {/* Aula de colegio · escuela / pupitre y pizarra */}
+      {name === 'classroom' && (
+        <>
+          <Path d="M4 19h16" {...common} />
+          <Path d="M4 15V8l8-4 8 4v7" {...common} />
+          <Path d="M12 11a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z" {...common} />
+          <Path d="M10 19v-4h4v4" {...common} />
+        </>
+      )}
+
+      {/* Centro comercial / Supermercado · tienda con toldo y bolsa */}
+      {name === 'mall' && (
+        <>
+          <Path d="M3 9l2-5h14l2 5" {...common} />
+          <Path d="M3 9a3 3 0 0 0 6 0 3 3 0 0 0 6 0 3 3 0 0 0 6 0" {...common} />
+          <Path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7" {...common} />
+          <Path d="M10 16h4" {...common} />
+        </>
+      )}
+
+      {/* Calle viva / Tráfico y obras · coche en carretera */}
+      {name === 'street' && (
+        <>
+          <Path d="M5 17h14" {...common} />
+          <Path d="M6 13l2-5h8l2 5" {...common} />
+          <Rect x="4" y="11" width="16" height="6" rx="2" {...common} />
+          <Circle cx="7.5" cy="17" r="2" {...common} />
+          <Circle cx="16.5" cy="17" r="2" {...common} />
         </>
       )}
     </Svg>

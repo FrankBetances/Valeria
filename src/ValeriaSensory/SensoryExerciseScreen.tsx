@@ -41,12 +41,17 @@ export const SensoryExerciseScreen: React.FC<{ navigation: any; route: any }> = 
   // --- Máquina de Estados ---
   const [step, setStep] = useState<SensoryFlowState>('ADULT_PREPARATION');
 
+  const isEcologicalActivity = exerciseId === 'ISA-06';
+  const [catFilter, setCatFilter] = useState<'all' | 'ecological' | 'appliance' | 'alert'>(
+    isEcologicalActivity ? 'ecological' : 'all'
+  );
+
   // --- Configuración del Adulto ---
   const [config, setConfig] = useState<SensoryAdultConfig>({
-    triggerId: 'vacuum',
+    triggerId: isEcologicalActivity ? 'classroom_ambience' : 'vacuum',
     initialChildState: 'calm',
     relativeIntensity: 2,
-    durationTier: 'micro',
+    durationTier: isEcologicalActivity ? 'short' : 'micro',
     agencyMode: 'child_tap',
     stopCriterion: 'button',
   });
@@ -147,8 +152,12 @@ export const SensoryExerciseScreen: React.FC<{ navigation: any; route: any }> = 
     setStep('COMPLETED');
   };
 
+  const selectedTrigger = SENSORY_TRIGGER_LIST.find((s) => s.id === config.triggerId);
   const triggerLabel = getTriggerLabel(config.triggerId, locale);
   const calmStrategy = getCalmStrategy(config.triggerId, locale);
+  const filteredTriggers = SENSORY_TRIGGER_LIST.filter(
+    (item) => catFilter === 'all' || item.category === catFilter
+  );
 
   // ==========================================================================
   // VISTA 1: PREPARACIÓN DEL ADULTO
@@ -171,23 +180,87 @@ export const SensoryExerciseScreen: React.FC<{ navigation: any; route: any }> = 
         </View>
 
         <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
+          {/* Filtro por Categoría */}
+          <Text style={s.sectionLabel}>{t.sensory.selectCategoryLabel}</Text>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} style={s.catScroll}>
+            {(
+              [
+                { id: 'all', label: t.sensory.catAll },
+                { id: 'ecological', label: t.sensory.catEcological },
+                { id: 'appliance', label: t.sensory.catAppliances },
+                { id: 'alert', label: t.sensory.catAlerts },
+              ] as const
+            ).map((cat) => {
+              const active = catFilter === cat.id;
+              return (
+                <Pressable
+                  key={cat.id}
+                  onPress={() => setCatFilter(cat.id)}
+                  style={[s.catPill, active && s.catPillActive]}
+                  accessibilityRole="button"
+                >
+                  <Text style={[s.catPillTxt, active && s.catPillTxtActive]}>{cat.label}</Text>
+                </Pressable>
+              );
+            })}
+          </ScrollView>
+
           {/* Selector de Estímulo */}
           <Text style={s.sectionLabel}>{t.sensory.selectStimulusLabel}</Text>
           <ScrollView horizontal showsHorizontalScrollIndicator={false} style={s.triggerScroll}>
-            {SENSORY_TRIGGER_LIST.map((item) => {
+            {filteredTriggers.map((item) => {
               const active = item.id === config.triggerId;
               const lbl = item.label[locale] ?? item.label.es;
+              const iconName: any =
+                item.id === 'classroom_ambience'
+                  ? 'classroom'
+                  : item.id === 'mall_ambience'
+                  ? 'mall'
+                  : item.id === 'street_ambience'
+                  ? 'street'
+                  : 'sensory_ear';
               return (
                 <Pressable
                   key={item.id}
                   onPress={() => setConfig({ ...config, triggerId: item.id })}
                   style={[s.triggerChip, active && s.triggerChipActive]}
+                  accessibilityRole="button"
                 >
+                  <BlockIcon
+                    name={iconName}
+                    color={active ? '#00a39e' : V.color.textSecondary}
+                    size={18}
+                  />
                   <Text style={[s.triggerTxt, active && s.triggerTxtActive]}>{lbl}</Text>
                 </Pressable>
               );
             })}
           </ScrollView>
+
+          {/* Tarjeta descriptiva del entorno cuando es ecológico */}
+          {!!selectedTrigger?.description && (
+            <View style={s.descCard}>
+              <View style={s.descHeader}>
+                <BlockIcon
+                  name={
+                    selectedTrigger.id === 'classroom_ambience'
+                      ? 'classroom'
+                      : selectedTrigger.id === 'mall_ambience'
+                      ? 'mall'
+                      : 'street'
+                  }
+                  color={V.color.primaryDark}
+                  size={20}
+                />
+                <Text style={s.descTitle}>
+                  {selectedTrigger.label[locale] ?? selectedTrigger.label.es}
+                </Text>
+              </View>
+              <Text style={s.descBody}>
+                {selectedTrigger.description[locale] ?? selectedTrigger.description.es}
+              </Text>
+            </View>
+          )}
 
           {/* Intensidad Relativa (1 - 5) con barras de volumen */}
           <Text style={s.sectionLabel}>{t.sensory.intensityLabel}</Text>
@@ -300,11 +373,14 @@ export const SensoryExerciseScreen: React.FC<{ navigation: any; route: any }> = 
   // ==========================================================================
   if (step === 'EXPLORING') {
     const isPlaying = isStimulusActive;
+    const isEco = selectedTrigger?.category === 'ecological';
 
     return (
       <View style={s.flex}>
         <View style={[s.header, { backgroundColor: isPlaying ? '#00a39e' : '#475569' }]}>
-          <Text style={s.logoFallback}>{t.sensory.exploringTag}</Text>
+          <Text style={s.logoFallback}>
+            {isEco ? t.sensory.ecologicalBadge : t.sensory.exploringTag}
+          </Text>
           <Text style={s.headerTitle}>{triggerLabel}</Text>
           <Text style={s.headerSub}>
             {isPlaying ? t.sensory.listeningNotice : t.sensory.pressToStartNotice}
@@ -333,7 +409,16 @@ export const SensoryExerciseScreen: React.FC<{ navigation: any; route: any }> = 
             <Text style={s.luaExposureHint}>{t.sensory.luaQuietHint}</Text>
           </View>
 
-          {/* Botón de agencia del niño (ISA-01) */}
+          {/* Rótulo descriptivo del ambiente simulado */}
+          {!!selectedTrigger?.description && (
+            <View style={s.ambientSceneBadge}>
+              <Text style={s.ambientSceneTxt}>
+                {selectedTrigger.description[locale] ?? selectedTrigger.description.es}
+              </Text>
+            </View>
+          )}
+
+          {/* Botón de agencia del niño (ISA-01 / ISA-06) */}
           <Pressable
             onPress={() => setIsStimulusActive(!isStimulusActive)}
             style={[s.bigActionButton, isPlaying && s.bigActionButtonPlaying]}
@@ -556,12 +641,29 @@ const s = StyleSheet.create({
     marginTop: 14,
     marginBottom: 8,
   },
-  triggerScroll: { flexDirection: 'row', marginBottom: 10 },
-  triggerChip: {
+  catScroll: { flexDirection: 'row', marginBottom: 12 },
+  catPill: {
     backgroundColor: '#ffffff',
     borderWidth: 1,
     borderColor: V.color.border,
-    borderRadius: 12,
+    borderRadius: 20,
+    paddingHorizontal: 13,
+    paddingVertical: 7,
+    marginRight: 8,
+  },
+  catPillActive: { backgroundColor: '#00a39e', borderColor: '#00a39e' },
+  catPillTxt: { fontSize: 12, fontWeight: '700', color: V.color.textPrimary },
+  catPillTxtActive: { color: '#ffffff', fontWeight: '800' },
+
+  triggerScroll: { flexDirection: 'row', marginBottom: 12 },
+  triggerChip: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 7,
+    backgroundColor: '#ffffff',
+    borderWidth: 1,
+    borderColor: V.color.border,
+    borderRadius: 14,
     paddingHorizontal: 14,
     paddingVertical: 10,
     marginRight: 8,
@@ -569,6 +671,36 @@ const s = StyleSheet.create({
   triggerChipActive: { backgroundColor: '#d6f5f2', borderColor: '#00a39e' },
   triggerTxt: { fontSize: 13, fontWeight: '700', color: V.color.textPrimary },
   triggerTxtActive: { color: '#00a39e', fontWeight: '800' },
+
+  descCard: {
+    backgroundColor: '#f0fdf9',
+    borderWidth: 1,
+    borderColor: '#cdeeec',
+    borderRadius: 14,
+    padding: 13,
+    marginBottom: 12,
+  },
+  descHeader: { flexDirection: 'row', alignItems: 'center', gap: 7, marginBottom: 5 },
+  descTitle: { fontSize: 13.5, fontWeight: '800', color: V.color.primaryDark },
+  descBody: { fontSize: 12.5, fontWeight: '600', color: V.color.textPrimary, lineHeight: 18 },
+
+  ambientSceneBadge: {
+    backgroundColor: '#e6f7f6',
+    borderWidth: 1,
+    borderColor: '#b2ebe7',
+    borderRadius: 12,
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+    marginBottom: 14,
+    marginHorizontal: 16,
+  },
+  ambientSceneTxt: {
+    fontSize: 12.5,
+    fontWeight: '700',
+    color: V.color.primaryDark,
+    textAlign: 'center',
+    lineHeight: 17,
+  },
 
   optionsRow: { flexDirection: 'row', gap: 8, marginBottom: 6 },
   levelBtn: {
