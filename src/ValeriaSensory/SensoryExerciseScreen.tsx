@@ -1,5 +1,5 @@
 // ============================================================================
-// Valeria+ · Integración Sensorial Auditiva — Player de Ejercicio (ISA-01)
+// Valeria+ · Integración Sensorial Auditiva — Player de Ejercicio (ISA-01 a ISA-06)
 // Módulo de desensibilización sistemática jerárquica con muro de control adulto,
 // anticipación visual estricta, pausa no punitiva y Lúa en silencio clínico.
 // ============================================================================
@@ -20,6 +20,7 @@ import { CatPixel } from '../ValeriaCatPixel';
 import {
   SENSORY_TRIGGER_LIST,
   getCalmStrategy,
+  getSensoryActivity,
   getTriggerLabel,
 } from './sensoryCatalog';
 import { recordSensorySession } from './sensoryStore';
@@ -41,6 +42,7 @@ import {
 import {
   SensoryAdultConfig,
   SensoryAdultRating,
+  SensoryCategoryFilter,
   SensoryFlowState,
   SensoryTriggerId,
 } from './sensoryTypes';
@@ -53,21 +55,27 @@ export const SensoryExerciseScreen: React.FC<{ navigation: any; route: any }> = 
   const locale = getLocale();
   const exerciseId = route?.params?.exerciseId ?? 'ISA-01';
 
+  // Las seis actividades comparten este player y cada una trae su punto de
+  // partida (estímulo, filtro, intensidad, duración y quién arranca el sonido).
+  // El adulto lo cambia todo aquí dentro; esto solo evita que abrir ISA-03 y
+  // abrir ISA-05 sea exactamente la misma pantalla.
+  const activity = getSensoryActivity(exerciseId);
+  const activityTitle = String((t.sensory as any)[activity.titleKey] ?? exerciseId);
+
   // --- Máquina de Estados ---
   const [step, setStep] = useState<SensoryFlowState>('ADULT_PREPARATION');
 
-  const isEcologicalActivity = exerciseId === 'ISA-06';
-  const [catFilter, setCatFilter] = useState<'all' | 'ecological' | 'appliance' | 'alert'>(
-    isEcologicalActivity ? 'ecological' : 'all'
+  const [catFilter, setCatFilter] = useState<SensoryCategoryFilter>(
+    activity.defaultConfig.categoryFilter
   );
 
   // --- Configuración del Adulto ---
   const [config, setConfig] = useState<SensoryAdultConfig>({
-    triggerId: isEcologicalActivity ? 'classroom_ambience' : 'vacuum',
+    triggerId: activity.defaultConfig.triggerId,
     initialChildState: 'calm',
-    relativeIntensity: 2,
-    durationTier: isEcologicalActivity ? 'short' : 'micro',
-    agencyMode: 'child_tap',
+    relativeIntensity: activity.defaultConfig.relativeIntensity,
+    durationTier: activity.defaultConfig.durationTier,
+    agencyMode: activity.defaultConfig.agencyMode,
     stopCriterion: 'button',
   });
 
@@ -89,6 +97,24 @@ export const SensoryExerciseScreen: React.FC<{ navigation: any; route: any }> = 
     childResponse: 'calm_regulated',
     tprApplied: false,
   });
+
+  // Las dos filas de píldoras arrancan en la opción que trae la actividad, y
+  // esa opción puede estar fuera de la parte visible: sin este desplazamiento
+  // la pantalla se abría con «Electrodomésticos» seleccionado a la derecha del
+  // borde y aparentando que no había nada elegido.
+  const catRowRef = useRef<ScrollView | null>(null);
+  const triggerRowRef = useRef<ScrollView | null>(null);
+  const catRowScrolled = useRef(false);
+  const triggerRowScrolled = useRef(false);
+  const revealChip = (
+    row: React.MutableRefObject<ScrollView | null>,
+    done: React.MutableRefObject<boolean>,
+    x: number,
+  ) => {
+    if (done.current) return;   // solo al abrir: después manda el dedo del adulto
+    done.current = true;
+    row.current?.scrollTo({ x: Math.max(0, x - 14), animated: false });
+  };
 
   // Animaciones de barra de progreso
   const progressAnim = useRef(new Animated.Value(0)).current;
@@ -249,15 +275,22 @@ export const SensoryExerciseScreen: React.FC<{ navigation: any; route: any }> = 
           >
             <Text style={s.backPillTxt}>{`‹ ${t.common.back}`}</Text>
           </Pressable>
-          <Text style={s.logoFallback}>{t.sensory.adultGateTag}</Text>
-          <Text style={s.headerTitle}>{t.sensory.prepTitle}</Text>
-          <Text style={s.headerSub}>{t.sensory.prepSubtitle}</Text>
+          {/* Las seis actividades comparten esta pantalla: si no dice cuál se
+              está configurando, el adulto no sabe en qué ejercicio entró. */}
+          <Text style={s.logoFallback}>{`${activity.id} · ${t.sensory.adultGateTag}`}</Text>
+          <Text style={s.headerTitle}>{activityTitle}</Text>
+          <Text style={s.headerSub}>{`${t.sensory.prepTitle} · ${t.sensory.prepSubtitle}`}</Text>
         </View>
 
         <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
           {/* Filtro por Categoría */}
           <Text style={s.sectionLabel}>{t.sensory.selectCategoryLabel}</Text>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false} style={s.catScroll}>
+          <ScrollView
+            ref={catRowRef}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            style={s.catScroll}
+          >
             {(
               [
                 { id: 'all', label: t.sensory.catAll },
@@ -271,6 +304,9 @@ export const SensoryExerciseScreen: React.FC<{ navigation: any; route: any }> = 
                 <Pressable
                   key={cat.id}
                   onPress={() => setCatFilter(cat.id)}
+                  onLayout={(e) => {
+                    if (active) revealChip(catRowRef, catRowScrolled, e.nativeEvent.layout.x);
+                  }}
                   style={[s.catPill, active && s.catPillActive]}
                   accessibilityRole="button"
                 >
@@ -282,7 +318,12 @@ export const SensoryExerciseScreen: React.FC<{ navigation: any; route: any }> = 
 
           {/* Selector de Estímulo */}
           <Text style={s.sectionLabel}>{t.sensory.selectStimulusLabel}</Text>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false} style={s.triggerScroll}>
+          <ScrollView
+            ref={triggerRowRef}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            style={s.triggerScroll}
+          >
             {filteredTriggers.map((item) => {
               const active = item.id === config.triggerId;
               const lbl = item.label[locale] ?? item.label.es;
@@ -298,6 +339,9 @@ export const SensoryExerciseScreen: React.FC<{ navigation: any; route: any }> = 
                 <Pressable
                   key={item.id}
                   onPress={() => setConfig({ ...config, triggerId: item.id })}
+                  onLayout={(e) => {
+                    if (active) revealChip(triggerRowRef, triggerRowScrolled, e.nativeEvent.layout.x);
+                  }}
                   style={[s.triggerChip, active && s.triggerChipActive]}
                   accessibilityRole="button"
                 >
@@ -509,7 +553,7 @@ export const SensoryExerciseScreen: React.FC<{ navigation: any; route: any }> = 
             </View>
           )}
 
-          {/* Botón de agencia del niño (ISA-01 / ISA-06) */}
+          {/* Botón de agencia del niño: su dedo enciende y apaga el sonido */}
           <Pressable
             onPress={handleToggleStimulus}
             style={[s.bigActionButton, isPlaying && s.bigActionButtonPlaying]}

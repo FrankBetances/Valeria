@@ -144,7 +144,7 @@ export const ES = {
   // terapéutico (valeriaExerciseBank), que se localiza por VARIEDAD, no por
   // idioma de interfaz.
   hub: {
-    title: 'Prescripción de Terapias',
+    title: 'Selección de Ejercicios',
     subtitle: 'Elige un bloque para practicar o prescribir',
     streak: (n: number): string => `${n} ${n === 1 ? 'día de racha' : 'días de racha'}`,
     level: (n: number, name: string): string => `Nivel ${n} · ${name}`,
@@ -1547,7 +1547,7 @@ export const ES = {
     },
   },
   sensory: {
-    blockTag: 'MÓDULO SENSORIAL · SaMD CLASE I',
+    blockTag: 'MÓDULO SENSORIAL',
     blockTitle: 'Integración Sensorial',
     blockSubtitle: 'Desensibilización sistemática, modulación y anticipación visual ante sonidos cotidianos.',
     xpTotal: (xp: number): string => `${xp} XP`,

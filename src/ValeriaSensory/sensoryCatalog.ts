@@ -251,7 +251,12 @@ export const SENSORY_TRIGGERS: Record<SensoryTriggerId, SensoryStimulus> = {
 
 export const SENSORY_TRIGGER_LIST: SensoryStimulus[] = Object.values(SENSORY_TRIGGERS);
 
-// 6 Actividades del módulo de Integración Sensorial Auditiva
+// 6 Actividades del módulo de Integración Sensorial Auditiva.
+//
+// Las seis están abiertas: comparten el player del muro adulto (elegir estímulo,
+// intensidad, duración, anticipación, pausa segura y valoración), y lo que las
+// distingue es con qué llegan configuradas y qué se le pide al niño. El adulto
+// puede cambiarlo todo dentro de la pantalla.
 export const AUDITORY_INTEGRATION_ACTIVITIES: AuditorySensoryExercise[] = [
   {
     id: 'ISA-01',
@@ -260,6 +265,14 @@ export const AUDITORY_INTEGRATION_ACTIVITIES: AuditorySensoryExercise[] = [
     iconName: 'sensory_ear',
     defaultDurationSec: 60,
     isAvailable: true,
+    // Agencia pura: el sonido no arranca hasta que su dedo lo arranca.
+    defaultConfig: {
+      categoryFilter: 'all',
+      triggerId: 'vacuum',
+      relativeIntensity: 2,
+      durationTier: 'micro',
+      agencyMode: 'child_tap',
+    },
   },
   {
     id: 'ISA-02',
@@ -267,7 +280,16 @@ export const AUDITORY_INTEGRATION_ACTIVITIES: AuditorySensoryExercise[] = [
     descKey: 'isa02Desc',
     iconName: 'sensory_anticipation',
     defaultDurationSec: 90,
-    isAvailable: false,
+    isAvailable: true,
+    // Semáforo: la señal visual manda, así que el estímulo entra solo al acabar
+    // la cuenta atrás y se apaga solo al agotarse el tiempo.
+    defaultConfig: {
+      categoryFilter: 'all',
+      triggerId: 'school_bell',
+      relativeIntensity: 2,
+      durationTier: 'micro',
+      agencyMode: 'adult_cue',
+    },
   },
   {
     id: 'ISA-03',
@@ -275,7 +297,15 @@ export const AUDITORY_INTEGRATION_ACTIVITIES: AuditorySensoryExercise[] = [
     descKey: 'isa03Desc',
     iconName: 'sensory_ear',
     defaultDurationSec: 120,
-    isAvailable: false,
+    isAvailable: true,
+    // Detective: sonidos de casa, identificables y cortos.
+    defaultConfig: {
+      categoryFilter: 'appliance',
+      triggerId: 'blender',
+      relativeIntensity: 2,
+      durationTier: 'short',
+      agencyMode: 'child_tap',
+    },
   },
   {
     id: 'ISA-04',
@@ -283,7 +313,16 @@ export const AUDITORY_INTEGRATION_ACTIVITIES: AuditorySensoryExercise[] = [
     descKey: 'isa04Desc',
     iconName: 'noise_filter',
     defaultDurationSec: 90,
-    isAvailable: false,
+    isAvailable: true,
+    // Cerca y lejos: arranca en el nivel más bajo porque lo que se trabaja es
+    // subir y bajar la intensidad con el niño delante, no el sonido en sí.
+    defaultConfig: {
+      categoryFilter: 'appliance',
+      triggerId: 'hairdryer',
+      relativeIntensity: 1,
+      durationTier: 'short',
+      agencyMode: 'child_tap',
+    },
   },
   {
     id: 'ISA-05',
@@ -291,7 +330,15 @@ export const AUDITORY_INTEGRATION_ACTIVITIES: AuditorySensoryExercise[] = [
     descKey: 'isa05Desc',
     iconName: 'noise_filter',
     defaultDurationSec: 120,
-    isAvailable: false,
+    isAvailable: true,
+    // Figura-fondo: voces sobre murmullo de aula, en suave.
+    defaultConfig: {
+      categoryFilter: 'ecological',
+      triggerId: 'classroom_ambience',
+      relativeIntensity: 2,
+      durationTier: 'short',
+      agencyMode: 'child_tap',
+    },
   },
   {
     id: 'ISA-06',
@@ -299,9 +346,21 @@ export const AUDITORY_INTEGRATION_ACTIVITIES: AuditorySensoryExercise[] = [
     descKey: 'isa06Desc',
     iconName: 'calm_breath',
     defaultDurationSec: 150,
-    isAvailable: true, // Habilitado para simulación de ambientes ecológicos vivos
+    isAvailable: true,
+    defaultConfig: {
+      categoryFilter: 'ecological',
+      triggerId: 'classroom_ambience',
+      relativeIntensity: 2,
+      durationTier: 'short',
+      agencyMode: 'child_tap',
+    },
   },
 ];
+
+/** Ficha de la actividad por id. Sin coincidencia, la primera: el player nunca
+ *  se queda sin configuración de partida. */
+export const getSensoryActivity = (id: string): AuditorySensoryExercise =>
+  AUDITORY_INTEGRATION_ACTIVITIES.find((a) => a.id === id) ?? AUDITORY_INTEGRATION_ACTIVITIES[0];
 
 export const getTriggerLabel = (triggerId: SensoryTriggerId, locale: Locale = 'es'): string => {
   const t = SENSORY_TRIGGERS[triggerId];

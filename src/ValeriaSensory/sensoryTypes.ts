@@ -42,13 +42,26 @@ export interface SensoryStimulus {
   calmStrategyTpr: LocalizedString;
 }
 
+export type SensoryCategoryFilter = 'all' | 'ecological' | 'appliance' | 'alert';
+
 export interface AuditorySensoryExercise {
   id: string; // ej: 'ISA-01', 'ISA-02', etc.
   titleKey: string;
   descKey: string;
   iconName: 'sensory_ear' | 'noise_filter' | 'sensory_anticipation' | 'calm_breath';
   defaultDurationSec: number;
-  isAvailable: boolean; // MVP: ISA-01 funcional; ISA-02 a ISA-06 visibles con ficha
+  isAvailable: boolean;
+  /** Con qué llega configurado el muro adulto al abrir la actividad. Las seis
+   *  comparten player, así que sin esto abrir ISA-03 y ISA-05 era idéntico.
+   *  El adulto lo cambia todo desde la pantalla: esto solo es el punto de
+   *  partida coherente con lo que la ficha de la actividad promete. */
+  defaultConfig: {
+    categoryFilter: SensoryCategoryFilter;
+    triggerId: SensoryTriggerId;
+    relativeIntensity: 1 | 2 | 3 | 4 | 5;
+    durationTier: 'micro' | 'short' | 'medium';
+    agencyMode: 'child_tap' | 'shared_tap' | 'adult_cue';
+  };
 }
 
 // --- Máquina de Estados del Módulo Sensorial (Muro de Control Adulto) ---------

@@ -157,7 +157,7 @@ export const EN: UiStrings = {
   // Exercise names, categories and age bands are NOT here: they come from the
   // therapy content bank, which is localised by variety, not by UI language.
   hub: {
-    title: 'Therapy plan',
+    title: 'Exercise Selection',
     subtitle: 'Pick a block to practice or to assign',
     streak: (n: number): string => `${n}-day streak`,
     level: (n: number, name: string): string => `Level ${n} · ${name}`,
@@ -1518,7 +1518,7 @@ export const EN: UiStrings = {
     },
   },
   sensory: {
-    blockTag: 'SENSORY MODULE · SaMD CLASS I',
+    blockTag: 'SENSORY MODULE',
     blockTitle: 'Sensory Integration',
     blockSubtitle: 'Systematic desensitization, modulation and visual anticipation for everyday sounds.',
     xpTotal: (xp: number): string => `${xp} XP`,
