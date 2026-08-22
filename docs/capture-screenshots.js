@@ -120,9 +120,9 @@ const pause = (page, ms) => page.waitForTimeout(ms);
   await shot(page, '04-ficha-guardada');
   console.log('04 guardada ✓');
 
-  // 05 · HUB de 4 bloques (Prescripción de Terapias rediseñada)
+  // 05 · HUB de 4 bloques (Selección de Ejercicios rediseñada)
   await page.getByText('Continuar a Prescripción →').click();
-  await page.getByText('Prescripción de Terapias', { exact: true }).waitFor({ timeout: 120000 });
+  await page.getByText('Selección de Ejercicios', { exact: true }).waitFor({ timeout: 120000 });
   await pause(page, 700);
   await shot(page, '05-hub-bloques');
   console.log('05 hub ✓');
@@ -137,7 +137,7 @@ const pause = (page, ms) => page.waitForTimeout(ms);
 
   // ---- Helper para volver al hub ----
   const goHub = async () => {
-    await page.getByText('Prescripción de Terapias', { exact: true }).waitFor().catch(() => {});
+    await page.getByText('Selección de Ejercicios', { exact: true }).waitFor().catch(() => {});
   };
 
   // ===================== PARES MÍNIMOS =====================
@@ -182,7 +182,7 @@ const pause = (page, ms) => page.waitForTimeout(ms);
     await page.getByText('Selecciona un paciente').waitFor();
     await pause(page, 400);
     await page.getByText('Lucía Martínez').click();
-    await page.getByText('Prescripción de Terapias', { exact: true }).waitFor({ timeout: 120000 });
+    await page.getByText('Selección de Ejercicios', { exact: true }).waitFor({ timeout: 120000 });
     await pause(page, 400);
   };
 
@@ -230,7 +230,7 @@ const pause = (page, ms) => page.waitForTimeout(ms);
   await shot(page, '16-pacientes');             // 16 · selección de paciente
   console.log('16 pacientes ✓');
   await page.getByText('Lucía Martínez').click();
-  await page.getByText('Prescripción de Terapias', { exact: true }).waitFor({ timeout: 120000 });
+  await page.getByText('Selección de Ejercicios', { exact: true }).waitFor({ timeout: 120000 });
   await pause(page, 400);
   await page.getByText('Audición', { exact: true }).click();
   await page.getByText('PROTOCOLO ACOPROS · AUDICIÓN', { exact: true }).waitFor();
@@ -437,7 +437,10 @@ const pause = (page, ms) => page.waitForTimeout(ms);
   console.log('31 sensorial lista ✓');
 
   await page.getByText('Mi sonido, mi botón', { exact: true }).first().click();
-  await page.getByText('Preparación de la Sesión', { exact: true }).waitFor({ timeout: 30000 });
+  // La cabecera del muro adulto rotula ahora la actividad («Mi sonido, mi
+  // botón»), no un título genérico: se espera al botón de arranque, que es
+  // único en la pantalla.
+  await page.getByText('Iniciar sesión con el niño/a', { exact: true }).waitFor({ timeout: 30000 });
   await pause(page, 700);
   await shot(page, '32-sensorial-preparacion');  // 32 · muro de control adulto
   console.log('32 sensorial preparacion ✓');

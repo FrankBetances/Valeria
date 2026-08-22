@@ -1,12 +1,19 @@
 // ============================================================================
 // Valeria+ · Integración Sensorial Auditiva — Catálogo de Actividades (v11)
 // Módulo de desensibilización sistemática, modulación y filtrado figura-fondo.
+//
+// Lista PRESCRIBIBLE: las seis actividades están abiertas, y quién practica
+// cuál lo decide el logopeda detrás del PIN profesional, igual que en Audición,
+// Lenguaje, TEA, Dislexia, Pares Mínimos y Expansión Semántica. En Modo Familia
+// los interruptores no existen: se practica lo prescrito y nada más.
 // ============================================================================
-import React from 'react';
-import { View, Text, Pressable, ScrollView, StyleSheet } from 'react-native';
-import { V } from '../valeriaTheme';
+import React, { useEffect, useState } from 'react';
+import { View, Text, Pressable, ScrollView, StyleSheet, Switch } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { V, STORAGE_KEYS } from '../valeriaTheme';
 import { useT } from '../i18n';
 import { BlockIcon } from '../ValeriaBlockIcons';
+import { ProUnlockPill, ProPinModal } from '../ValeriaProPin';
 import { AUDITORY_INTEGRATION_ACTIVITIES } from './sensoryCatalog';
 import { useSensoryState } from './sensoryStore';
 import { AuditorySensoryExercise } from './sensoryTypes';
@@ -15,8 +22,46 @@ export const SensoryBlockListScreen: React.FC<{ navigation: any }> = ({ navigati
   const t = useT();
   const sensoryState = useSensoryState();
 
+  // Prescripción del logopeda: { [id]: boolean }. Un id ausente está ACTIVO,
+  // así que una actividad nueva del catálogo entra prescrita y ninguna
+  // prescripción guardada se queda coja al crecer el módulo.
+  const [prescribed, setPrescribed] = useState<Record<string, boolean>>({});
+  const [unlocked, setUnlocked] = useState(false);
+  const [pinOpen, setPinOpen] = useState(false);
+  const [toast, setToast] = useState('');
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const raw = await AsyncStorage.getItem(STORAGE_KEYS.sensoryPrescripcion);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (parsed && typeof parsed === 'object') setPrescribed(parsed);
+        }
+      } catch (e) { /* noop */ }
+    })();
+  }, []);
+
+  const isPrescribed = (id: string) => prescribed[id] !== false;
+  const activeCount = AUDITORY_INTEGRATION_ACTIVITIES.filter(
+    (a) => a.isAvailable && isPrescribed(a.id),
+  ).length;
+
+  const togglePrescribed = (id: string) => {
+    setPrescribed((prev) => ({ ...prev, [id]: !(prev[id] !== false) }));
+    setToast('');
+  };
+
+  const savePrescription = async () => {
+    try {
+      await AsyncStorage.setItem(STORAGE_KEYS.sensoryPrescripcion, JSON.stringify(prescribed));
+    } catch (e) { /* noop */ }
+    setUnlocked(false);
+    setToast(t.sensory.savedPrescription(activeCount));
+  };
+
   const openExercise = (exercise: AuditorySensoryExercise) => {
-    if (!exercise.isAvailable) return;
+    if (!exercise.isAvailable || !isPrescribed(exercise.id)) return;
     navigation.navigate('SensoryExercise', { exerciseId: exercise.id });
   };
 
@@ -53,6 +98,13 @@ export const SensoryBlockListScreen: React.FC<{ navigation: any }> = ({ navigati
       </View>
 
       <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
+        {!!toast && (
+          <View style={s.toast}>
+            <View style={s.toastCheck}><BlockIcon name="check" color="#ffffff" size={15} /></View>
+            <Text style={s.toastTxt}>{toast}</Text>
+          </View>
+        )}
+
         {/* Banner de encuadre clínico */}
         <View style={s.clinicalCard}>
           <View style={s.clinicalHeader}>
@@ -62,39 +114,55 @@ export const SensoryBlockListScreen: React.FC<{ navigation: any }> = ({ navigati
           <Text style={s.clinicalBody}>{t.sensory.clinicalNoticeBody}</Text>
         </View>
 
-        <Text style={s.listLabel}>{t.sensory.activitiesHeader}</Text>
+        <View style={s.listHead}>
+          <Text style={s.listLabel}>{t.sensory.activitiesHeader}</Text>
+          <View style={s.countChip}>
+            <Text style={s.countChipTxt}>
+              {t.sensory.prescribedOf(activeCount, AUDITORY_INTEGRATION_ACTIVITIES.length)}
+            </Text>
+          </View>
+        </View>
 
-        {AUDITORY_INTEGRATION_ACTIVITIES.map((act, index) => {
+        {AUDITORY_INTEGRATION_ACTIVITIES.map((act) => {
           const timesDone = sensoryState.completedActivities[act.id] ?? 0;
           const isDone = timesDone > 0;
           const isPilot = act.id === 'ISA-01';
+          const on = isPrescribed(act.id);
+          // Practicable = existe y está prescrita. Con el PIN echado, una
+          // actividad no prescrita no se abre; con el PIN puesto, tocar la
+          // tarjeta la prescribe o la retira en vez de arrancar la sesión.
+          const playable = act.isAvailable && on;
 
           return (
             <Pressable
               key={act.id}
-              onPress={() => openExercise(act)}
-              disabled={!act.isAvailable}
+              onPress={() => (unlocked ? togglePrescribed(act.id) : openExercise(act))}
+              disabled={!unlocked && !playable}
               style={[
                 s.actCard,
-                !act.isAvailable && s.actCardDisabled,
-                isDone && s.actCardDone,
+                !playable && s.actCardDisabled,
+                isDone && playable && s.actCardDone,
               ]}
               accessibilityRole="button"
               accessibilityLabel={`${t.sensory[act.titleKey as keyof typeof t.sensory] ?? act.id}. ${
-                act.isAvailable ? t.sensory.availableTag : t.sensory.inDevTag
+                !act.isAvailable
+                  ? t.sensory.inDevTag
+                  : on
+                    ? t.sensory.availableTag
+                    : t.sensory.notPrescribed
               }`}
             >
-              <View style={[s.actIcon, act.isAvailable ? s.actIconActive : s.actIconInactive]}>
+              <View style={[s.actIcon, playable ? s.actIconActive : s.actIconInactive]}>
                 <BlockIcon
                   name={act.iconName}
-                  color={act.isAvailable ? V.color.primaryDark : V.color.textMuted}
+                  color={playable ? V.color.primaryDark : V.color.textMuted}
                   size={24}
                 />
               </View>
 
               <View style={{ flex: 1 }}>
                 <View style={s.cardTopRow}>
-                  <Text style={[s.actIdTag, { color: act.isAvailable ? V.color.primaryDark : V.color.textMuted }]}>
+                  <Text style={[s.actIdTag, { color: playable ? V.color.primaryDark : V.color.textMuted }]}>
                     {act.id}
                   </Text>
                   {isPilot && <Text style={s.pilotBadge}>{t.sensory.pilotBadge}</Text>}
@@ -106,6 +174,7 @@ export const SensoryBlockListScreen: React.FC<{ navigation: any }> = ({ navigati
                 <Text style={s.actDesc}>
                   {String((t.sensory as any)[act.descKey] ?? '')}
                 </Text>
+                {!on && <Text style={s.actOffTag}>{t.sensory.notPrescribed}</Text>}
                 {timesDone > 0 && (
                   <Text style={s.actTimes}>
                     {t.sensory.completedTimes(timesDone)}
@@ -113,19 +182,62 @@ export const SensoryBlockListScreen: React.FC<{ navigation: any }> = ({ navigati
                 )}
               </View>
 
-              {/* El candado es el icono del set, no 🔒: ese emoji ya se sacó una
-                  vez de la lista prescribible y volvió a entrar por aquí. */}
-              <View style={[s.arrowPill, act.isAvailable ? s.arrowActive : s.arrowInactive]}>
-                {act.isAvailable ? (
-                  <Text style={[s.arrowTxt, { color: '#ffffff' }]}>›</Text>
-                ) : (
-                  <BlockIcon name="lock" color={V.color.textMuted} size={18} />
-                )}
-              </View>
+              {/* El interruptor SOLO en edición profesional: con el PIN echado
+                  sería un control gris inerte en las seis filas. El candado es
+                  el icono del set, no 🔒: ese emoji ya se sacó una vez de la
+                  lista prescribible y volvió a entrar por aquí. */}
+              {unlocked ? (
+                <Switch
+                  value={on}
+                  onValueChange={() => togglePrescribed(act.id)}
+                  disabled={!act.isAvailable}
+                  trackColor={{ false: '#d1d5db', true: V.color.primary }}
+                  thumbColor="#ffffff"
+                />
+              ) : (
+                <View style={[s.arrowPill, playable ? s.arrowActive : s.arrowInactive]}>
+                  {playable ? (
+                    <Text style={[s.arrowTxt, { color: '#ffffff' }]}>›</Text>
+                  ) : (
+                    <BlockIcon name="lock" color={V.color.textMuted} size={18} />
+                  )}
+                </View>
+              )}
             </Pressable>
           );
         })}
+
+        {activeCount === 0 && !unlocked && (
+          <Text style={s.emptyTxt}>{t.sensory.prescriptionEmpty}</Text>
+        )}
+
+        {/* La puerta del PIN, al final del listado: en Modo Familia no hay nada
+            que editar arriba. */}
+        <View style={s.proWrap}>
+          <ProUnlockPill unlocked={unlocked} onPress={() => setPinOpen(true)} />
+        </View>
+
+        {unlocked ? (
+          <View style={{ marginTop: 14 }}>
+            <Pressable onPress={savePrescription} style={s.primaryBtn} accessibilityRole="button">
+              <Text style={s.primaryBtnTxt}>{t.sensory.savePrescription}</Text>
+            </Pressable>
+            <Text style={s.helper}>{t.sensory.saveHelper}</Text>
+          </View>
+        ) : (
+          <View style={s.lockedHint}>
+            <BlockIcon name="lock" color={V.color.textSecondary} size={16} />
+            <Text style={s.lockedHintTxt}>{t.sensory.lockedHint}</Text>
+          </View>
+        )}
       </ScrollView>
+
+      <ProPinModal
+        open={pinOpen}
+        onClose={() => setPinOpen(false)}
+        onUnlock={() => { setPinOpen(false); setUnlocked(true); setToast(t.sensory.proUnlocked); }}
+        subtitle={t.sensory.pinSubtitle}
+      />
     </View>
   );
 };
@@ -183,6 +295,25 @@ const s = StyleSheet.create({
 
   scroll: { padding: 18, paddingBottom: 32 },
 
+  toast: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    backgroundColor: '#ffffff',
+    borderWidth: 1,
+    borderColor: V.color.borderActive,
+    borderRadius: 14,
+    padding: 13,
+    marginBottom: 14,
+    ...V.shadow.card,
+  },
+  toastCheck: {
+    width: 24, height: 24, borderRadius: 12,
+    backgroundColor: V.color.primary,
+    alignItems: 'center', justifyContent: 'center',
+  },
+  toastTxt: { color: V.color.textPrimary, fontSize: 13, fontWeight: '700', flex: 1 },
+
   clinicalCard: {
     backgroundColor: '#e6f9f8',
     borderWidth: 1,
@@ -195,14 +326,30 @@ const s = StyleSheet.create({
   clinicalTitle: { fontSize: 13.5, fontWeight: '800', color: V.color.primaryDark },
   clinicalBody: { fontSize: 12.5, fontWeight: '600', color: V.color.textSecondary, lineHeight: 18 },
 
+  listHead: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: 10,
+    marginBottom: 12,
+    marginHorizontal: 2,
+  },
   listLabel: {
     fontSize: 12,
     fontWeight: '800',
     color: V.color.textSecondary,
     letterSpacing: 0.5,
-    marginBottom: 12,
-    marginHorizontal: 2,
+    flexShrink: 1,
   },
+  countChip: {
+    backgroundColor: '#ffffff',
+    borderWidth: 1,
+    borderColor: V.color.border,
+    borderRadius: 10,
+    paddingHorizontal: 9,
+    paddingVertical: 4,
+  },
+  countChipTxt: { fontSize: 11, fontWeight: '800', color: V.color.primaryDark },
 
   actCard: {
     flexDirection: 'row',
@@ -244,12 +391,57 @@ const s = StyleSheet.create({
   },
   actTitle: { fontSize: 15.5, fontWeight: '800', color: V.color.textPrimary },
   actDesc: { fontSize: 12.5, fontWeight: '600', color: V.color.textSecondary, marginTop: 2, lineHeight: 17 },
+  actOffTag: { fontSize: 11, fontWeight: '800', color: V.color.textMuted, marginTop: 6 },
   actTimes: { fontSize: 11, fontWeight: '700', color: V.color.primaryDark, marginTop: 6 },
 
   arrowPill: { width: 30, height: 30, borderRadius: 15, alignItems: 'center', justifyContent: 'center' },
   arrowActive: { backgroundColor: V.color.primaryDark },
   arrowInactive: { backgroundColor: '#e2e8f0' },
   arrowTxt: { fontSize: 15, fontWeight: '800' },
+
+  emptyTxt: {
+    fontSize: 12.5,
+    fontWeight: '700',
+    color: V.color.textSecondary,
+    textAlign: 'center',
+    marginTop: 2,
+    marginBottom: 6,
+    paddingHorizontal: 10,
+    lineHeight: 18,
+  },
+
+  proWrap: { marginTop: 8, alignItems: 'center' },
+  primaryBtn: {
+    backgroundColor: V.color.primaryDark,
+    borderRadius: 15,
+    paddingVertical: 15,
+    alignItems: 'center',
+  },
+  primaryBtnTxt: { color: '#ffffff', fontSize: 15, fontWeight: '800' },
+  helper: {
+    color: V.color.textSecondary,
+    fontSize: 11.5,
+    fontWeight: '600',
+    textAlign: 'center',
+    marginTop: 8,
+    paddingHorizontal: 10,
+    lineHeight: 16,
+  },
+  lockedHint: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 7,
+    marginTop: 14,
+    paddingHorizontal: 14,
+  },
+  lockedHintTxt: {
+    color: V.color.textSecondary,
+    fontSize: 12,
+    fontWeight: '700',
+    textAlign: 'center',
+    flexShrink: 1,
+  },
 });
 
 export default SensoryBlockListScreen;

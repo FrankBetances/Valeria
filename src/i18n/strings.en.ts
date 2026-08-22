@@ -157,7 +157,7 @@ export const EN: UiStrings = {
   // Exercise names, categories and age bands are NOT here: they come from the
   // therapy content bank, which is localised by variety, not by UI language.
   hub: {
-    title: 'Therapy plan',
+    title: 'Exercise Selection',
     subtitle: 'Pick a block to practice or to assign',
     streak: (n: number): string => `${n}-day streak`,
     level: (n: number, name: string): string => `Level ${n} · ${name}`,
@@ -1518,7 +1518,7 @@ export const EN: UiStrings = {
     },
   },
   sensory: {
-    blockTag: 'SENSORY MODULE · SaMD CLASS I',
+    blockTag: 'SENSORY MODULE',
     blockTitle: 'Sensory Integration',
     blockSubtitle: 'Systematic desensitization, modulation and visual anticipation for everyday sounds.',
     xpTotal: (xp: number): string => `${xp} XP`,
@@ -1531,6 +1531,17 @@ export const EN: UiStrings = {
     inDevBadge: 'COMING SOON',
     availableTag: 'Available',
     inDevTag: 'In development',
+
+    // Clinician's plan over the six activities (professional PIN).
+    prescribedOf: (active: number, total: number): string => `${active} of ${total} prescribed`,
+    notPrescribed: 'Not prescribed',
+    pinSubtitle: 'Enter the clinician’s 4-digit PIN to choose which sensory activities the family practices.',
+    proUnlocked: 'Professional mode unlocked.',
+    savePrescription: 'Save plan',
+    saveHelper: 'Your selection is saved on this device and editing locks again.',
+    savedPrescription: (n: number): string => `Plan saved · ${n} sensory activities active.`,
+    lockedHint: 'Family mode · only the clinician can change which sensory activities are practiced.',
+    prescriptionEmpty: 'No activities prescribed. The clinician decides which ones are practiced.',
     completedTimes: (n: number): string => `Completed ${n} ${n === 1 ? 'time' : 'times'}`,
 
     isa01Title: 'My sound, my button',
