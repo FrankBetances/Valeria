@@ -1531,6 +1531,17 @@ export const EN: UiStrings = {
     inDevBadge: 'COMING SOON',
     availableTag: 'Available',
     inDevTag: 'In development',
+
+    // Clinician's plan over the six activities (professional PIN).
+    prescribedOf: (active: number, total: number): string => `${active} of ${total} prescribed`,
+    notPrescribed: 'Not prescribed',
+    pinSubtitle: 'Enter the clinician’s 4-digit PIN to choose which sensory activities the family practices.',
+    proUnlocked: 'Professional mode unlocked.',
+    savePrescription: 'Save plan',
+    saveHelper: 'Your selection is saved on this device and editing locks again.',
+    savedPrescription: (n: number): string => `Plan saved · ${n} sensory activities active.`,
+    lockedHint: 'Family mode · only the clinician can change which sensory activities are practiced.',
+    prescriptionEmpty: 'No activities prescribed. The clinician decides which ones are practiced.',
     completedTimes: (n: number): string => `Completed ${n} ${n === 1 ? 'time' : 'times'}`,
 
     isa01Title: 'My sound, my button',

@@ -1560,6 +1560,17 @@ export const ES = {
     inDevBadge: 'PRÓXIMAMENTE',
     availableTag: 'Disponible',
     inDevTag: 'En desarrollo',
+
+    // Prescripción del logopeda sobre las seis actividades (PIN profesional).
+    prescribedOf: (active: number, total: number): string => `${active} de ${total} prescritas`,
+    notPrescribed: 'No prescrita',
+    pinSubtitle: 'Introduce el PIN de 4 dígitos del logopeda para elegir qué actividades sensoriales practica la familia.',
+    proUnlocked: 'Modo profesional desbloqueado.',
+    savePrescription: 'Guardar Prescripción',
+    saveHelper: 'La selección se guarda en el dispositivo y la edición se bloquea de nuevo.',
+    savedPrescription: (n: number): string => `Prescripción guardada · ${n} actividades sensoriales activas.`,
+    lockedHint: 'Modo Familia · solo el logopeda puede cambiar qué actividades sensoriales se practican.',
+    prescriptionEmpty: 'Sin actividades prescritas. El logopeda decide cuáles se practican.',
     completedTimes: (n: number): string => `Completada ${n} ${n === 1 ? 'vez' : 'veces'}`,
 
     isa01Title: 'Mi sonido, mi botón',
