@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-08-18T21:10:54.925Z",
+ "generatedAt": "2026-08-25T13:54:30.572Z",
  "entries": 3240,
  "byStyle": {
   "child": 1714,
@@ -44,17 +44,17 @@
    "source": "pares/prompt"
   },
   {
-   "id": "child_b2d2e00b_40",
+   "id": "child_25e133a7_38",
    "lang": "es",
    "style": "child",
-   "text": "¡Rrrana! ¡Tu lengua vibró como una moto!",
+   "text": "¡Rana! ¡Tu lengua vibró como una moto!",
    "source": "pares/celebracion"
   },
   {
-   "id": "child_cda6e19c_53",
+   "id": "child_563b1aa0_51",
    "lang": "es",
    "style": "child",
-   "text": "Escuché lana, la del ovillo. Yo pedí rrrana. Escucha…",
+   "text": "Escuché lana, la del ovillo. Yo pedí rana. Escucha…",
    "source": "pares/correccion"
   },
   {
@@ -100,17 +100,17 @@
    "source": "pares/prompt"
   },
   {
-   "id": "child_ac859fd2_30",
+   "id": "child_995c6232_29",
    "lang": "es",
    "style": "child",
-   "text": "¡Perrro! ¡Qué erre tan fuerte!",
+   "text": "¡Perro! ¡Qué erre tan fuerte!",
    "source": "pares/celebracion"
   },
   {
-   "id": "child_a2418ba1_75",
+   "id": "child_b3020c73_74",
    "lang": "es",
    "style": "child",
-   "text": "Escuché pelo, el de la cabeza. El perro se quedó sin ladrar. Vamos: perrro.",
+   "text": "Escuché pelo, el de la cabeza. El perro se quedó sin ladrar. Vamos: perro.",
    "source": "pares/correccion"
   },
   {
@@ -156,17 +156,17 @@
    "source": "pares/prompt"
   },
   {
-   "id": "child_6a0d872f_33",
+   "id": "child_5219264b_31",
    "lang": "es",
    "style": "child",
-   "text": "¡Rrrata veloz! ¡Te salió la erre!",
+   "text": "¡Rata veloz! ¡Te salió la erre!",
    "source": "pares/celebracion"
   },
   {
-   "id": "child_a508fe4a_81",
+   "id": "child_b0975c9e_79",
    "lang": "es",
    "style": "child",
-   "text": "Escuché lata, la de la cocina. La lengua se quedó dormida. ¡Despiértala!: rrrata.",
+   "text": "Escuché lata, la de la cocina. La lengua se quedó dormida. ¡Despiértala!: rata.",
    "source": "pares/correccion"
   },
   {
@@ -212,17 +212,17 @@
    "source": "pares/prompt"
   },
   {
-   "id": "child_0662d30e_38",
+   "id": "child_d21f1010_37",
    "lang": "es",
    "style": "child",
-   "text": "¡Cerrro! ¡Esa erre sube hasta la cima!",
+   "text": "¡Cerro! ¡Esa erre sube hasta la cima!",
    "source": "pares/celebracion"
   },
   {
-   "id": "child_e4b77df1_67",
+   "id": "child_bd39b5c3_66",
    "lang": "es",
    "style": "child",
-   "text": "Escuché cero, el número redondo. Cerro tiene la moto larga: cerrro.",
+   "text": "Escuché cero, el número redondo. Cerro tiene la moto larga: cerro.",
    "source": "pares/correccion"
   },
   {
@@ -6190,17 +6190,17 @@
    "source": "pares/prompt"
   },
   {
-   "id": "gl_child_45a0a416_42",
+   "id": "gl_child_5ab276f6_40",
    "lang": "gl",
    "style": "child",
-   "text": "Rrrúa! A túa lingua vibrou coma unha moto!",
+   "text": "Rúa! A túa lingua vibrou coma unha moto!",
    "source": "pares/celebracion"
   },
   {
-   "id": "gl_child_b4ce88a3_48",
+   "id": "gl_child_62d698af_46",
    "lang": "gl",
    "style": "child",
-   "text": "Escoitei lúa, a do ceo. Eu pedín rrrúa. Escoita…",
+   "text": "Escoitei lúa, a do ceo. Eu pedín rúa. Escoita…",
    "source": "pares/correccion"
   },
   {
@@ -6246,17 +6246,17 @@
    "source": "pares/prompt"
   },
   {
-   "id": "gl_child_b7c908cf_26",
+   "id": "gl_child_f701f9af_24",
    "lang": "gl",
    "style": "child",
-   "text": "Rrrei! Que erre tan forte!",
+   "text": "Rei! Que erre tan forte!",
    "source": "pares/celebracion"
   },
   {
-   "id": "gl_child_56bb6ca7_64",
+   "id": "gl_child_45553667_62",
    "lang": "gl",
    "style": "child",
-   "text": "Escoitei lei, a dos xuíces. O rei quedou sen coroa. Veña: rrrei.",
+   "text": "Escoitei lei, a dos xuíces. O rei quedou sen coroa. Veña: rei.",
    "source": "pares/correccion"
   },
   {

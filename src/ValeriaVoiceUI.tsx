@@ -27,6 +27,9 @@ import { getLocale, setLocale, assetLang, contentLocale, Locale } from './valeri
 import { syncUiLangToLocale } from './valeriaUiLang';
 import { useT, UiStrings } from './i18n';
 import { micVerdictSayFor } from './valeriaExerciseBank';
+import { SentenceWordCards } from './ValeriaSentenceWordCards';
+
+export { SentenceWordCards };
 
 // ----------------------------------------------------------------------------
 // Botón altavoz: lee `text` en voz alta. `voice` elige el tono.
@@ -218,6 +221,12 @@ export const MicPracticeCard: React.FC<{ target: string; prompt?: string; altTar
         </Animated.View>
         <Text style={s.micState}>{listening ? t.voice.micListening : t.voice.micTapToSpeak}</Text>
       </View>
+
+      <SentenceWordCards
+        target={target}
+        heard={heard}
+        isListening={listening}
+      />
 
       {!!heard && (
         <View style={s.heardBox}>

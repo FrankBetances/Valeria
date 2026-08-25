@@ -218,6 +218,14 @@ const ttsLang = (): string => {
   return speechLocale();
 };
 
+// Normalización fonética previa a TTS: previene artefactos en sintetizadores
+// de voz cuando un texto contiene repeticiones anómalas o consonantes forzadas.
+export const sanitizePhonetics = (text: string): string =>
+  text
+    .replace(/\br{2,}([aeiouáéíóúàèìòùâêîôûãõäëïöü])/gi, 'r$1')
+    .replace(/([aeiouáéíóúàèìòùâêîôûãõäëïöü])r{3,}([aeiouáéíóúàèìòùâêîôûãõäëïöü])/gi, '$1rr$2')
+    .replace(/([aeiouáéíóúàèìòùâêîôûãõäëïöü])\1{2,}/gi, '$1');
+
 const speakChain = (text: string, opts: Speech.SpeechOptions, token: number, rateCeil = 1.3) => {
   const { onDone, onError, ...rest } = opts;
   // Perfil de prosodia de la variedad activa: decide si este enunciado se trocea
@@ -227,7 +235,8 @@ const speakChain = (text: string, opts: Speech.SpeechOptions, token: number, rat
   // contentLocale y no getLocale: mientras el banco inglés no exista, `en-US`
   // locuta castellano, y el troceo/pausas tienen que ser los del castellano.
   const prosody = prosodyFor(contentLocale());
-  const sentences = splitForSpeech(text, prosody);
+  const cleanInput = sanitizePhonetics(text);
+  const sentences = splitForSpeech(cleanInput, prosody);
   if (!sentences.length) { onDone?.(); return; }
   const baseRate = rest.rate ?? 0.92;
   const basePitch = rest.pitch ?? 1.0;
@@ -362,15 +371,13 @@ export const speakClinical = (text: string, opts: Speech.SpeechOptions = {}) => 
   const go = () => {
     if (token !== speakToken) return;
     const { onDone, onError, ...rest } = opts;
-    // Una sola locución, pero con la puntuación de pausa larga normalizada: los
-    // dos puntos de la petición («Di: cama») y los puntos suspensivos abrían un
-    // hueco en mitad de la frase portadora, justo donde va el fonema objetivo.
-    // No se toca ni una letra, así que el modelo fonético es el mismo.
-    Speech.speak(tightenPauses(text), {
+    // Una sola locución, pero con la puntuación de pausa larga normalizada y saneamiento fonético:
+    // evita huecos y artefactos articulatorios en el fonema objetivo.
+    Speech.speak(tightenPauses(sanitizePhonetics(text)), {
       language: ttsLang(),
       ...rest,
-      rate: clamp(rest.rate ?? 0.8, 0.6, 0.9),   // techo bajo: nunca acelera el fonema
-      pitch: clamp(rest.pitch ?? 1.0, 0.9, 1.1), // tono plano y estable
+      rate: clamp(rest.rate ?? 0.82, 0.65, 0.92), // ritmo natural y estable
+      pitch: clamp(rest.pitch ?? 1.0, 0.9, 1.1),  // tono plano y estable
       ...(bestVoiceId && !rest.voice ? { voice: bestVoiceId } : {}),
       onDone: () => { if (token === speakToken) onDone?.(); },
       onError: (e) => { if (token === speakToken) onError?.(e); },
@@ -400,23 +407,21 @@ export const speakVoiceSample = () => {
         : VOICE_SAMPLE_PHRASE);
 };
 
-// Palabra objetivo bien articulada, muy despacio (modelado fonético).
+// Palabra objetivo bien articulada, pausada para modelado fonético sin distorsión formántica.
 export const speakWordSlow = (text: string) => {
-  const t = text.toLowerCase();
+  const t = sanitizePhonetics(text.toLowerCase());
   if (trySpokenAsset('slow', t, {})) return;
-  speakEngine(t, { pitch: 1.1, rate: 0.6 });
+  speakEngine(t, { pitch: 1.05, rate: 0.78 });
 };
 
 // Modelo LENTO DE FRASE completa (ES-05): mismo estilo 'slow' que speakWordSlow
 // (mismo length_scale en la síntesis pregenerada), pero sin minuscular ni
 // aislar una sola palabra — repite el enunciado completo tal cual lo dijo el
-// modelo normal, solo que más despacio. En Pares Mínimos el modelo objetivo SÍ
-// es la palabra aislada (speakWordSlow es lo correcto ahí); esta función es
-// solo para pantallas donde lo lento debe ser la frase entera, no un recorte.
+// modelo normal, con velocidad calibrada para no romper la coarticulación de formantes.
 export const speakPhraseSlow = (text: string) => {
-  const t = text.replace(/\s+/g, ' ').trim();
+  const t = sanitizePhonetics(text.replace(/\s+/g, ' ').trim());
   if (trySpokenAsset('slow', t, {})) return;
-  speakEngine(t, { pitch: 1.05, rate: 0.65 });
+  speakEngine(t, { pitch: 1.05, rate: 0.80 });
 };
 
 export const stopSpeaking = () => { speakToken += 1; Speech.stop(); stopVoiceAsset(); };
