@@ -17,33 +17,11 @@ import {
 } from 'react-native';
 import Svg, { Path, Circle, Line, Text as SvgText, G } from 'react-native-svg';
 import { V } from './valeriaTheme';
+import { Point, Stroke, Waypoint, ModelPathGuide } from './valeriaWritingTypes';
 
-export interface Point {
-  x: number;
-  y: number;
-}
-
-export interface Stroke {
-  points: Point[];
-  color: string;
-  width: number;
-}
-
-export interface Waypoint {
-  id: number;
-  x: number;
-  y: number;
-  label?: string;
-  order: number;
-}
-
-export interface ModelPathGuide {
-  id: string;
-  label: string;
-  svgPath: string;
-  waypoints: Waypoint[];
-  soundCue?: string;
-}
+// La geometría vive en un módulo puro (ver valeriaWritingTypes) para que el
+// banco de trazos pueda entrar en el corpus de voz sin arrastrar react-native.
+export type { Point, Stroke, Waypoint, ModelPathGuide } from './valeriaWritingTypes';
 
 export interface ValeriaWritingCanvasProps {
   guide?: ModelPathGuide;

@@ -11,23 +11,26 @@ import {
 import { V } from './valeriaTheme';
 import { BlockIcon } from './ValeriaBlockIcons';
 import { CatPixel } from './ValeriaCatPixel';
-import { useT } from './i18n';
+import { useT, UiStrings } from './i18n';
 import { speakWordSlow, speakToChild } from './valeriaVoice';
 import { ValeriaWritingCanvas, ValeriaWritingCanvasRef } from './ValeriaWritingCanvas';
-import { WRITING_EXERCISES, WritingItem } from './valeriaWritingBank';
+import { WRITING_EXERCISES, WritingItem, writingPraiseFor } from './valeriaWritingBank';
+import { contentLocale } from './valeriaLocale';
 
+// Los nombres NO viven aquí: son texto de interfaz y los lee el lector de
+// pantalla, así que salen del catálogo i18n (`t.writing.color*` / `width*`).
 const PALETTE = [
-  { id: 'turquoise', color: '#00C4BE', name: 'Turquesa' },
-  { id: 'gold', color: '#F59E0B', name: 'Dorado' },
-  { id: 'coral', color: '#F43F5E', name: 'Coral' },
-  { id: 'sky', color: '#3B82F6', name: 'Cielo' },
-  { id: 'violet', color: '#8B5CF6', name: 'Lavanda' },
+  { id: 'turquoise', color: '#00C4BE', label: (t: UiStrings) => t.writing.colorTurquoise },
+  { id: 'gold', color: '#F59E0B', label: (t: UiStrings) => t.writing.colorGold },
+  { id: 'coral', color: '#F43F5E', label: (t: UiStrings) => t.writing.colorCoral },
+  { id: 'sky', color: '#3B82F6', label: (t: UiStrings) => t.writing.colorSky },
+  { id: 'violet', color: '#8B5CF6', label: (t: UiStrings) => t.writing.colorViolet },
 ];
 
 const STROKE_WIDTHS = [
-  { id: 'fine', width: 5, label: 'Fino' },
-  { id: 'medium', width: 9, label: 'Medio' },
-  { id: 'thick', width: 15, label: 'Grueso' },
+  { id: 'fine', width: 5, label: (t: UiStrings) => t.writing.widthFine },
+  { id: 'medium', width: 9, label: (t: UiStrings) => t.writing.widthMedium },
+  { id: 'thick', width: 15, label: (t: UiStrings) => t.writing.widthThick },
 ];
 
 export interface ValeriaWritingExerciseScreenProps {
@@ -81,18 +84,18 @@ export const ValeriaWritingExerciseScreen: React.FC<ValeriaWritingExerciseScreen
 
     if (category === 'free') {
       setShowCelebration(true);
-      speakToChild('¡Qué dibujo tan bonito has hecho en la pizarra!');
+      speakToChild(writingPraiseFor(contentLocale(), 0));
       return;
     }
 
     if (evaluationResult?.success || !currentExercise?.guide.waypoints.length) {
       setShowCelebration(true);
-      speakToChild('¡Excelente! Has seguido la dirección perfecta.');
+      speakToChild(writingPraiseFor(contentLocale(), 1));
       if (Platform.OS === 'android' || Platform.OS === 'ios') {
         try { Vibration.vibrate([0, 40, 60, 40]); } catch { /* noop */ }
       }
     } else {
-      speakToChild('¡Casi casi! Sigue las flechas y los números despacito.');
+      speakToChild(writingPraiseFor(contentLocale(), 2));
     }
   };
 
@@ -114,12 +117,16 @@ export const ValeriaWritingExerciseScreen: React.FC<ValeriaWritingExerciseScreen
     <View style={s.container}>
       {/* Cabecera Principal */}
       <View style={s.header}>
-        {onBack && (
-          <Pressable onPress={onBack} style={s.backBtn} accessibilityRole="button">
-            <BlockIcon name="tabTherapies" color={V.color.primaryDark} size={20} />
-          </Pressable>
-        )}
         <View style={{ flex: 1 }}>
+          {/* Píldora «‹ Atrás», como en el resto de bloques. El icono de rejilla
+              que había aquí no se lee como una salida y dejaba la pizarra sin
+              vuelta visible. */}
+          {onBack && (
+            <Pressable onPress={onBack} style={s.backPill} hitSlop={12}
+              accessibilityRole="button" accessibilityLabel={t.common.back}>
+              <Text style={s.backPillTxt}>{`‹ ${t.common.back}`}</Text>
+            </Pressable>
+          )}
           <Text style={s.kicker}>{t.writing.kicker}</Text>
           <Text style={s.title}>{t.writing.title}</Text>
         </View>
@@ -184,7 +191,7 @@ export const ValeriaWritingExerciseScreen: React.FC<ValeriaWritingExerciseScreen
                 key={p.id}
                 onPress={() => setSelectedColor(p.color)}
                 style={[s.colorCircle, { backgroundColor: p.color }, selectedColor === p.color && s.colorCircleActive]}
-                accessibilityLabel={p.name}
+                accessibilityLabel={p.label(t)}
               />
             ))}
           </View>
@@ -196,6 +203,8 @@ export const ValeriaWritingExerciseScreen: React.FC<ValeriaWritingExerciseScreen
                 key={w.id}
                 onPress={() => setSelectedWidth(w.width)}
                 style={[s.widthBtn, selectedWidth === w.width && s.widthBtnActive]}
+                accessibilityRole="button"
+                accessibilityLabel={w.label(t)}
               >
                 <View style={[s.widthDot, { width: w.width, height: w.width, backgroundColor: selectedColor }]} />
               </Pressable>
@@ -293,23 +302,26 @@ const s = StyleSheet.create({
     borderBottomColor: '#E2E8F0',
     gap: 12,
   },
-  backBtn: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
+  backPill: {
+    alignSelf: 'flex-start',
     backgroundColor: '#E6F9F8',
-    alignItems: 'center',
-    justifyContent: 'center',
+    borderWidth: 1,
+    borderColor: V.color.borderActive,
+    borderRadius: 11,
+    paddingHorizontal: 11,
+    paddingVertical: 5,
+    marginBottom: 6,
   },
+  backPillTxt: { color: V.color.primaryDark, fontSize: 12, fontWeight: V.font.extrabold },
   kicker: {
     fontSize: 10,
-    fontFamily: V.font.bold,
+    fontWeight: V.font.bold,
     color: V.color.primaryDark,
     letterSpacing: 0.8,
   },
   title: {
     fontSize: 17,
-    fontFamily: V.font.extrabold,
+    fontWeight: V.font.extrabold,
     color: V.color.textPrimary,
   },
   headerBadge: {
@@ -327,6 +339,7 @@ const s = StyleSheet.create({
   },
   tabRow: {
     flexDirection: 'row',
+    flexWrap: 'wrap',          // en 390 px las tres píldoras no caben en una fila
     gap: 8,
     marginBottom: 14,
     width: '100%',
@@ -349,7 +362,7 @@ const s = StyleSheet.create({
   },
   tabPillTxt: {
     fontSize: 12,
-    fontFamily: V.font.bold,
+    fontWeight: V.font.bold,
     color: V.color.textSecondary,
   },
   tabPillTxtActive: {
@@ -382,17 +395,17 @@ const s = StyleSheet.create({
   },
   badgeLetterTxt: {
     fontSize: 22,
-    fontFamily: V.font.extrabold,
+    fontWeight: V.font.extrabold,
     color: V.color.primaryDark,
   },
   instructionTitle: {
     fontSize: 15,
-    fontFamily: V.font.bold,
+    fontWeight: V.font.bold,
     color: V.color.textPrimary,
   },
   instructionPrompt: {
     fontSize: 12,
-    fontFamily: V.font.regular,
+    fontWeight: V.font.regular,
     color: V.color.textSecondary,
     marginTop: 2,
   },
@@ -409,7 +422,7 @@ const s = StyleSheet.create({
   },
   hearBtnTxt: {
     fontSize: 11,
-    fontFamily: V.font.bold,
+    fontWeight: V.font.bold,
     color: V.color.primaryDark,
   },
   toolsRow: {
@@ -492,7 +505,7 @@ const s = StyleSheet.create({
   },
   clearActionTxt: {
     fontSize: 14,
-    fontFamily: V.font.bold,
+    fontWeight: V.font.bold,
     color: V.color.textSecondary,
   },
   checkActionBtn: {
@@ -512,7 +525,7 @@ const s = StyleSheet.create({
   },
   checkActionTxt: {
     fontSize: 15,
-    fontFamily: V.font.bold,
+    fontWeight: V.font.bold,
     color: '#FFFFFF',
   },
   modalOverlay: {
@@ -536,13 +549,13 @@ const s = StyleSheet.create({
   },
   modalTitle: {
     fontSize: 20,
-    fontFamily: V.font.extrabold,
+    fontWeight: V.font.extrabold,
     color: '#16A34A',
     textAlign: 'center',
   },
   modalSub: {
     fontSize: 13,
-    fontFamily: V.font.regular,
+    fontWeight: V.font.regular,
     color: V.color.textSecondary,
     textAlign: 'center',
     marginTop: 6,
@@ -558,7 +571,7 @@ const s = StyleSheet.create({
   },
   nextBtnTxt: {
     fontSize: 15,
-    fontFamily: V.font.bold,
+    fontWeight: V.font.bold,
     color: '#FFFFFF',
   },
 });

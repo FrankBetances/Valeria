@@ -1,8 +1,8 @@
 {
- "generatedAt": "2026-08-25T13:54:30.572Z",
- "entries": 3240,
+ "generatedAt": "2026-08-25T15:53:40.587Z",
+ "entries": 3252,
  "byStyle": {
-  "child": 1714,
+  "child": 1726,
   "slow": 756,
   "clinical": 36,
   "tutor": 734
@@ -26,7 +26,8 @@
   "banco/juntos": 12,
   "util/muestra": 4,
   "expansion": 1705,
-  "ejercicios": 1035
+  "ejercicios": 1035,
+  "escritura/elogio": 12
  },
  "corpus": [
   {
@@ -17110,17 +17111,17 @@
    "source": "pares/prompt"
   },
   {
-   "id": "en_child_2e94fe64_48",
+   "id": "en_child_69e29d44_46",
    "lang": "en",
    "style": "child",
-   "text": "Rrrake! Your lips stayed wide open for that /r/!",
+   "text": "Rake! Your lips stayed wide open for that /r/!",
    "source": "pares/celebracion"
   },
   {
-   "id": "en_child_2b3097e5_57",
+   "id": "en_child_ab7c8da5_55",
    "lang": "en",
    "style": "child",
-   "text": "I heard wake, like waking up. I asked for rrrake. Listen…",
+   "text": "I heard wake, like waking up. I asked for rake. Listen…",
    "source": "pares/correccion"
   },
   {
@@ -17166,17 +17167,17 @@
    "source": "pares/prompt"
   },
   {
-   "id": "en_child_e116a2a6_30",
+   "id": "en_child_c846d486_28",
    "lang": "en",
    "style": "child",
-   "text": "Rrrock! That was a strong /r/!",
+   "text": "Rock! That was a strong /r/!",
    "source": "pares/celebracion"
   },
   {
-   "id": "en_child_b71aacc7_65",
+   "id": "en_child_f469145b_63",
    "lang": "en",
    "style": "child",
-   "text": "I heard lock, the one on the door. I asked for rrrock. Let’s try…",
+   "text": "I heard lock, the one on the door. I asked for rock. Let’s try…",
    "source": "pares/correccion"
   },
   {
@@ -22708,6 +22709,90 @@
    "style": "child",
    "text": "Hi! This is how my voice will sound in the exercises. Doesn’t it sound nice?",
    "source": "util/muestra"
+  },
+  {
+   "id": "child_67473535_47",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Qué dibujo tan bonito has hecho en la pizarra!",
+   "source": "escritura/elogio"
+  },
+  {
+   "id": "child_dd94de67_46",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Excelente! Has seguido la dirección perfecta.",
+   "source": "escritura/elogio"
+  },
+  {
+   "id": "child_7ab2901f_54",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Casi casi! Sigue las flechas y los números despacito.",
+   "source": "escritura/elogio"
+  },
+  {
+   "id": "gl_child_1820836b_43",
+   "lang": "gl",
+   "style": "child",
+   "text": "Que debuxo tan bonito fixeches no encerado!",
+   "source": "escritura/elogio"
+  },
+  {
+   "id": "gl_child_1a4f8ac5_46",
+   "lang": "gl",
+   "style": "child",
+   "text": "Excelente! Seguiches a dirección á perfección.",
+   "source": "escritura/elogio"
+  },
+  {
+   "id": "gl_child_0c4b67ba_49",
+   "lang": "gl",
+   "style": "child",
+   "text": "Case case! Segue as frechas e os números amodiño.",
+   "source": "escritura/elogio"
+  },
+  {
+   "id": "eu_child_31fc20b5_41",
+   "lang": "eu",
+   "style": "child",
+   "text": "Zein marrazki polita egin duzun arbelean!",
+   "source": "escritura/elogio"
+  },
+  {
+   "id": "eu_child_6f6e19f8_44",
+   "lang": "eu",
+   "style": "child",
+   "text": "Bikain! Norabidea ezin hobeto jarraitu duzu.",
+   "source": "escritura/elogio"
+  },
+  {
+   "id": "eu_child_bdb2d3c5_51",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ia-ia! Jarraitu geziak eta zenbakiak poliki-poliki.",
+   "source": "escritura/elogio"
+  },
+  {
+   "id": "en_child_1f4a09f3_49",
+   "lang": "en",
+   "style": "child",
+   "text": "What a lovely drawing you made on the chalkboard!",
+   "source": "escritura/elogio"
+  },
+  {
+   "id": "en_child_32b3ef5d_48",
+   "lang": "en",
+   "style": "child",
+   "text": "Excellent! You followed the direction perfectly.",
+   "source": "escritura/elogio"
+  },
+  {
+   "id": "en_child_36f72f58_55",
+   "lang": "en",
+   "style": "child",
+   "text": "Almost there! Follow the arrows and the numbers slowly.",
+   "source": "escritura/elogio"
   }
  ]
 }

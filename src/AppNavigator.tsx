@@ -56,6 +56,7 @@ import ValeriaArLauncherScreen from './ValeriaArLauncherScreen';
 // fue eliminada de la base de código.
 import ValeriaPatientResultsDashboardScreen from './ValeriaPatientResultsDashboardScreen';
 import { SensoryBlockListScreen, SensoryExerciseScreen } from './ValeriaSensory';
+import { ValeriaWritingExerciseScreen } from './ValeriaWritingExerciseScreen';
 
 export type ValeriaStackParamList = {
   Welcome: undefined;
@@ -76,6 +77,7 @@ export type ValeriaStackParamList = {
   Academy: undefined;
   SensoryBlockList: undefined;
   SensoryExercise: { exerciseId?: string } | undefined;
+  Writing: undefined;
   Results: undefined;
 };
 
@@ -113,6 +115,10 @@ export const ValeriaNavigator: React.FC = () => (
     <Stack.Screen name="Academy" component={ValeriaAcademyScreen} />
     <Stack.Screen name="SensoryBlockList" component={SensoryBlockListScreen} />
     <Stack.Screen name="SensoryExercise" component={SensoryExerciseScreen} />
+    {/* La pizarra no necesita parámetros de ruta: se le pasa la vuelta atrás. */}
+    <Stack.Screen name="Writing">
+      {({ navigation: nav }) => <ValeriaWritingExerciseScreen onBack={() => nav.goBack()} />}
+    </Stack.Screen>
     <Stack.Screen name="Results" component={ValeriaPatientResultsDashboardScreen} />
   </Stack.Navigator>
 );

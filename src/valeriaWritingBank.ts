@@ -2,17 +2,60 @@
 // Valeria+ · Banco de Trazos y Grafomotricidad para Dislexia
 // Catálogo de modelos de letras críticas, lazos pre-escritura y palabras guiadas.
 // ============================================================================
-import { ModelPathGuide } from './ValeriaWritingCanvas';
+import { ModelPathGuide } from './valeriaWritingTypes';
 
 export interface WritingItem {
   id: string;
-  category: 'critical' | 'warmup' | 'words';
+  category: 'critical' | 'warmup';
   title: string;
   phoneme: string;
   prompt: string;
   contrastWith?: string;
   guide: ModelPathGuide;
 }
+
+// ----------------------------------------------------------------------------
+// Elogios LOCUTADOS de la pizarra, por variedad. Viven aquí y no en el catálogo
+// de interfaz por el mismo motivo que MIC_VERDICT_SAY: lo que la app pronuncia
+// se hornea en el corpus de voz, y el corpus solo puede importar módulos puros
+// de datos. Índices: 0 = pizarra libre · 1 = trazo correcto · 2 = casi.
+//
+// CUALQUIER retoque de estas cadenas exige `node scripts/export-voice-corpus.js`
+// en el MISMO commit; si no, el id deja de resolver y la frase cae a la voz del
+// sistema (y en gallego y euskera se pierden Celtia e ILENIA).
+// ----------------------------------------------------------------------------
+export type WritingPraise = readonly [string, string, string];
+
+export const WRITING_PRAISE: WritingPraise = [
+  '¡Qué dibujo tan bonito has hecho en la pizarra!',
+  '¡Excelente! Has seguido la dirección perfecta.',
+  '¡Casi casi! Sigue las flechas y los números despacito.',
+];
+
+export const WRITING_PRAISE_GL: WritingPraise = [
+  'Que debuxo tan bonito fixeches no encerado!',
+  'Excelente! Seguiches a dirección á perfección.',
+  'Case case! Segue as frechas e os números amodiño.',
+];
+
+export const WRITING_PRAISE_EU: WritingPraise = [
+  'Zein marrazki polita egin duzun arbelean!',
+  'Bikain! Norabidea ezin hobeto jarraitu duzu.',
+  'Ia-ia! Jarraitu geziak eta zenbakiak poliki-poliki.',
+];
+
+export const WRITING_PRAISE_EN: WritingPraise = [
+  'What a lovely drawing you made on the chalkboard!',
+  'Excellent! You followed the direction perfectly.',
+  'Almost there! Follow the arrows and the numbers slowly.',
+];
+
+/** Elogio de la variedad activa. `loc` es el contentLocale de valeriaLocale. */
+export const writingPraiseFor = (loc: string, kind: 0 | 1 | 2): string =>
+  loc === 'eu' ? WRITING_PRAISE_EU[kind]
+    : loc === 'gl' ? WRITING_PRAISE_GL[kind]
+      : loc === 'en-US' ? WRITING_PRAISE_EN[kind]
+        : WRITING_PRAISE[kind];
 
 // Modelos calibrados para canvas estándar de ~320x300 px
 export const WRITING_EXERCISES: WritingItem[] = [

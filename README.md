@@ -82,7 +82,7 @@ dificultades del lenguaje.**
 ## 🐈‍⬛ ¿Qué es Valeria+?
 
 Valeria+ reúne en un solo lugar el **registro del paciente**, una comprobación
-auditiva previa (**Test de Ling**), **ocho bloques de terapia**, un módulo de
+auditiva previa (**Test de Ling**), **nueve bloques de terapia**, un módulo de
 **formación del cuidador** (**Academy**) y un **panel de resultados** para seguir
 la evolución.
 
@@ -110,7 +110,7 @@ todas.
 
 <table>
 <tr>
-<td width="25%" align="center"><a href="docs/screenshots/05-hub-bloques.png"><img src="docs/screenshots/05-hub-bloques.png" width="190" alt="Hub de Selección de Ejercicios"></a><br><sub><b>Hub</b><br>Lúa arriba y los ocho bloques</sub></td>
+<td width="25%" align="center"><a href="docs/screenshots/05-hub-bloques.png"><img src="docs/screenshots/05-hub-bloques.png" width="190" alt="Hub de Selección de Ejercicios"></a><br><sub><b>Hub</b><br>Lúa arriba y los nueve bloques</sub></td>
 <td width="25%" align="center"><a href="docs/screenshots/31-sensorial-lista.png"><img src="docs/screenshots/31-sensorial-lista.png" width="190" alt="Actividades del módulo sensorial"></a><br><sub><b>Integración Sensorial</b><br>Muro de control adulto</sub></td>
 <td width="25%" align="center"><a href="docs/screenshots/34-sensorial-exposicion.png"><img src="docs/screenshots/34-sensorial-exposicion.png" width="190" alt="Exposición sonora con Lúa quieta"></a><br><sub><b>Exposición</b><br>El botón del niño, Lúa muda</sub></td>
 <td width="25%" align="center"><a href="docs/screenshots/38-brujula-intro.png"><img src="docs/screenshots/38-brujula-intro.png" width="190" alt="Cápsula La Brújula de las Palabras"></a><br><sub><b>La Brújula</b><br>Hitos ASHA de 0 a 5 años</sub></td>
@@ -156,6 +156,7 @@ tarjeta que puede no aparecer, porque depende del aparato.
 | 💬 **Lenguaje** (7 terapias) | Protocolo familiar: atención conjunta, imitación, comprensión, expresión, comunicación funcional, regulación e interacción social. |
 | 🧠 **TEA** (6 terapias) | PRT + TCC: atención conjunta triangulada (Time Delay + Sello Doble), quiebre pragmático con consentimiento, espejo asimétrico, transición interrumpida, categorización bajo ruido y múltiples señales simultáneas. Todos los estresores son **manuales** (Panel del Adulto). |
 | 📖 **Dislexia** (6 terapias) | Fonología y acceso léxico: intruso fonológico auditivo puro, rastreo léxico con interferencia, síntesis fonémica rítmica (latencia 500 ms + Juez), criba de pseudopalabras (máx. 5 ensayos), rastreo visual de rotaciones b/d · p/q con mapa de misclicks y denominación rápida (RAN). |
+| ✏️ **Grafomotricidad y Escritura** (6 trazos) · [captura](docs/screenshots/40-pizarra-magica.png) | La **Pizarra Mágica de Lúa**: continuación motora de Dislexia. Trazado guiado sobre lienzo SVG con dedo o lápiz óptico, pauta Montessori regulable y **puntos de control numerados** que fijan el ORDEN del trazo, que es lo que evita la inversión b/d y p/q: en la `b` el palo baja primero y la barriga abre a la derecha; en la `d` el óvalo va antes. Cuatro letras críticas (b, d, p, m), dos lazos de calentamiento y pizarra libre. El contenido de pantalla está **solo en castellano** de momento; los tres elogios que locuta sí están en las cuatro variedades. |
 | 🎯 **Realidad Aumentada** (3 terapias · solo Android) | **Gamificación Condicionada**: la cámara frontal deja de grabar y pasa a ser un sensor de conducta motora, y el refuerzo 3D se dispara **solo** por el gesto objetivo, nunca por acierto acústico ni por paso del tiempo. Cinemática orofacial con el **micrófono apagado** (AR‑1), localización del sonido instrumentada —la versión con cronómetro de RA‑5— (AR‑2) y selección semántica por fijación de la mirada, sin motricidad fina (AR‑3). Ningún fotograma se graba ni sale del teléfono. La tarjeta solo aparece si el teléfono supera la **Prueba de Aptitud del Dispositivo**. |
 
 El **Test de Ling** (6 sonidos) precede a los ejercicios de audición cuando el
@@ -477,6 +478,15 @@ art de 24×24 que viven en [`src/ValeriaPixelArt.ts`](src/ValeriaPixelArt.ts) �
 fuente única— y que el firmware **copia**, igual que copia el sprite de la gata y
 la tabla de opcodes. Se dibujaron en el repositorio del firmware y **subieron**
 aquí; es la única vez que un activo ha ido en esa dirección.
+
+> [!WARNING]
+> **Las nueve insignias están desincronizadas ahora mismo.** El rediseño del
+> 25/8/2026 volvió a dibujar los nueve glifos aquí, y `paw`, `flame` y `star`
+> además se rehicieron para que se leyeran a 30 px. En el cristal de 240×240
+> siguen los antiguos hasta que las matrices nuevas se suban al repositorio del
+> firmware. `check-lua-mascot-mirror.js` **no** lo detecta: solo vigila `MOOD` y
+> `ACCESSORY`, no los glifos de premio. Ver
+> [`docs/pizarra-magica-e-insignias.md`](docs/pizarra-magica-e-insignias.md).
 
 Importa porque es la razón de ser del aparato: **el niño mira a la mascota, no a
 la tableta**. Un estímulo que se ve de una forma en el cristal y de otra en la
@@ -812,6 +822,7 @@ interfaz clásica se entra desde el hub de bloques, en la v11 desde **Ajustes**)
 | Documento | Descripción |
 | --- | --- |
 | **Manual de usuario con casos de uso** (v13) · [HTML](docs/manual-casos-de-uso.html) · [PDF](docs/Valeria-Manual-Casos-de-Uso.pdf) · [Word](docs/Valeria-Manual-Casos-de-Uso.docx) | **22 casos de uso** paso a paso ilustrados con capturas reales (`docs/screenshots/`): **Academy · hub de formación multidominio (CU‑03)**, los **siete bloques** (Pares Mínimos, Expansión Semántica, Audición, Lenguaje, TEA, Dislexia y **Realidad Aumentada**), el hub, la gráfica de sustitución por fonema, la telemetría del piloto (CU‑14), la variedad lingüística —Castellano, Galego, Dominicano y Euskera— (CU‑15), el Panel del Adulto / carga comunicativa (CU‑16), el **módulo de Lengua de Signos Española (CU‑17)** y el **bloque de Realidad Aumentada completo (CU‑18 a CU‑22)**: permiso de cámara y prueba de aptitud, los tres ejercicios y los umbrales clínicos. Cubre las novedades v6 → v12: la mascota **Lúa** —acariciable desde el hub—, la colección de **premios** con doce niveles y dieciocho insignias y **el armario** de cinco coleccionables (CU‑11), Academy con **siete dominios** (CU‑03), la iconografía propia de la v12 y el **Anexo C** sobre el periférico físico. Todas las capturas están tomadas sobre la v12. |
+| [`docs/pizarra-magica-e-insignias.md`](docs/pizarra-magica-e-insignias.md) | El rediseño de las insignias de Lúa (y por qué tres glifos hubo que volver a dibujarlos para que se leyeran a 30 px), la limpieza de la vibrante múltiple en las cuatro variedades y las dos trampas de `sanitizePhonetics`, las láminas de frase y la Pizarra Mágica. Incluye lo que queda pendiente en el firmware. |
 | [`docs/sprint-integracion-2026-08-21.md`](docs/sprint-integracion-2026-08-21.md) | Cierre del sprint de Integración Sensorial y la Brújula ASHA: qué se decidió, qué faltaba para que el módulo existiera de verdad y qué suena dentro de cada uno de los tres ambientes. |
 | [`docs/plan-evolucion-ux-v11.md`](docs/plan-evolucion-ux-v11.md) | Plan de evolución UX/UI v10.2 → v11 en respuesta al feedback del piloto («engorroso», «mucho texto»): diagnóstico medido sobre el código, cuadrícula de 2 columnas, pestañas inferiores y el **muro de contención** que garantiza cero regresiones clínicas y cero pérdida de la serie de telemetría. Implementado y activo; el interruptor `ENABLE_V11_UI` se retiró al cerrar el Sprint 4.6. |
 | [`docs/protocolo-pares-minimos.md`](docs/protocolo-pares-minimos.md) | Protocolo de pares mínimos para dislalias fonológicas: 10 pares accionables con flujo TTS→STT, feedback por rama y misiones físicas. Implementado en `src/ValeriaMinimalPairsScreen.tsx` + `src/valeriaMinimalPairs.ts`. |

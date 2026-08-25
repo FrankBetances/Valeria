@@ -185,6 +185,13 @@ export const ES = {
     sensoryA11y: (n: number): string => `Abrir terapias de integración sensorial auditiva, ${n} actividades`,
     sensoryBadge: (n: number): string => `${n} actividades`,
 
+    // Pizarra Mágica · Grafomotricidad y Escritura.
+    writingTitle: 'Grafomotricidad',
+    writingSub: 'Trazo guiado con pauta Montessori y control del orden para evitar la inversión b / d.',
+    writingBrief: 'Trazo guiado y letras críticas.',
+    writingA11y: (n: number): string => `Abrir la pizarra mágica de Lúa, ${n} trazos guiados`,
+    writingBadge: (n: number): string => `${n} trazos`,
+
     statStreakUnit: (n: number): string => (n === 1 ? 'día de racha' : 'días de racha'),
     pairsBadge: (n: number): string => `${n} pares`,
     semanticBadge: (n: number): string => `${n} escenarios`,
@@ -368,25 +375,29 @@ export const ES = {
       nivel10: 'Reina del lenguaje',
     }[id] ?? id),
 
+    // La descripción es la REGLA de desbloqueo, no adorno: el adulto la usa para
+    // decirle al niño qué falta. Cabe en tres líneas de 10 px (numberOfLines={3}
+    // en ValeriaAwardsSheet), o sea ~55 caracteres; pasarse la corta con «…» y
+    // deja la insignia sin explicar. El nombre ya pone la voz de Lúa.
     badgeDesc: (id: string): string => ({
-      primera: 'Lúa da su primera pisada en el sendero del lenguaje.',
-      ses10: '10 sesiones caminando y aprendiendo juntos.',
-      ses25: '25 sesiones descubriendo nuevas palabras con Lúa.',
-      ses50: '50 sesiones: Lúa ya conoce el camino de memoria.',
-      ses100: '100 sesiones: un vínculo inseparable para toda la vida.',
-      racha3: '3 días seguidos haciendo cantar el cascabel de Lúa.',
-      racha7: '7 días consecutivos de práctica y voz clara.',
-      racha14: '14 días seguidos: la voz de Lúa resuena con fuerza.',
-      racha30: 'Un mes entero de racha diaria sin apagar el cascabel.',
-      perfecta: 'Sesión perfecta (3★): las orejitas de Lúa no fallan ni un sonido.',
-      perf5: '5 sesiones perfectas escuchando hasta el susurro más suave.',
-      perf10: '10 sesiones impecables de discriminación auditiva.',
-      madrugadora: 'Practica por la mañana para despertar las orejas de Lúa.',
-      nocturna: 'Sesión tranquila antes de dormir: Lúa reposa serena.',
-      finde: 'Fin de semana de juegos y palabras en familia.',
-      maraton: 'Seis ejercicios o más en una sesión tejiendo frases sin parar.',
-      regreso: '¡Lúa ronronea feliz de verte volver a entrenar!',
-      nivel10: 'Alcanza el Nivel 10: Lúa estrena su corona más brillante.',
+      primera: 'Completa tu primera sesión con Lúa.',
+      ses10: '10 sesiones de camino juntos.',
+      ses25: '25 sesiones descubriendo palabras.',
+      ses50: '50 sesiones: Lúa sabe el camino.',
+      ses100: '100 sesiones. Un vínculo para siempre.',
+      racha3: '3 días seguidos practicando.',
+      racha7: '7 días seguidos practicando.',
+      racha14: '14 días seguidos practicando.',
+      racha30: '30 días seguidos practicando.',
+      perfecta: 'Logra 3★ en todos los ejercicios de una sesión.',
+      perf5: 'Logra 5 sesiones perfectas.',
+      perf10: 'Logra 10 sesiones perfectas.',
+      madrugadora: 'Practica antes de las 10 de la mañana.',
+      nocturna: 'Practica después de las 8 de la tarde.',
+      finde: 'Practica un sábado o un domingo.',
+      maraton: 'Seis ejercicios o más en una sola sesión.',
+      regreso: 'Vuelve a practicar tras una semana de pausa.',
+      nivel10: 'Alcanza el nivel 10 y su corona.',
     }[id] ?? ''),
   },
 
@@ -1665,11 +1676,13 @@ export const ES = {
     kicker: 'PIZARRA MÁGICA DE LÚA',
     title: 'Grafomotricidad y Escritura',
     sub: 'Trazado guiado con lápiz óptico · Dislexia y discriminación de grafemas',
-    tabCritical: 'Letras Críticas (b / d)',
-    tabWarmup: 'Lazos y Calentamiento',
-    tabWords: 'Palabras y Pares',
-    tabFree: 'Pizarra Libre',
-    hearModel: 'Oír fonema',
+    tabCritical: 'Letras críticas',
+    tabWarmup: 'Lazos',
+    tabFree: 'Pizarra libre',
+    // Lo que suena es el NOMBRE de la letra, no el fonema aislado: el botón
+    // dice lo que hace. (Un modelo de fonema aislado necesitaría su propia
+    // grabación; mientras no exista, no se promete.)
+    hearModel: 'Oír la letra',
     clearCanvas: 'Limpiar pizarra',
     toggleGuide: 'Pauta Montessori',
     checkStroke: '¡Comprobar trazo!',
@@ -1685,6 +1698,17 @@ export const ES = {
     nextExercise: 'Siguiente trazo →',
     congratsTitle: '¡Pizarra completada!',
     congratsSub: 'Has completado todos los trazos de la serie con gran destreza.',
+
+
+    // Barra de herramientas: solo se leen en voz alta (lector de pantalla).
+    colorTurquoise: 'Tiza turquesa',
+    colorGold: 'Tiza dorada',
+    colorCoral: 'Tiza coral',
+    colorSky: 'Tiza azul cielo',
+    colorViolet: 'Tiza lavanda',
+    widthFine: 'Trazo fino',
+    widthMedium: 'Trazo medio',
+    widthThick: 'Trazo grueso',
   },
 };
 

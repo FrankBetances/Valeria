@@ -218,13 +218,34 @@ const ttsLang = (): string => {
   return speechLocale();
 };
 
-// Normalización fonética previa a TTS: previene artefactos en sintetizadores
-// de voz cuando un texto contiene repeticiones anómalas o consonantes forzadas.
+// Normalización ORTOGRÁFICA de la vibrante antes de mandar el texto al motor
+// de TTS: una «rrr» de énfasis («¡Rrrana!») la lee el sintetizador como una
+// consonante rara, no como un trino. Devuelve la grafía correcta del español:
+// «r» simple a principio de palabra (ya es vibrante múltiple) y dígrafo «rr»
+// entre letras.
+//
+// OJO con `\b`: en JavaScript `\w` es [A-Za-z0-9_], así que las vocales
+// acentuadas cuentan como frontera de palabra y `\brr` disparaba dentro de
+// «Ciérrala», «susúrrale» o «agárrate», que perdían el trino — justo el fonema
+// que entrena la app. Por eso aquí la clase de letra se escribe entera.
+//
+// Lo que este filtro NO hace, y son dos: tocar los alargamientos vocálicos
+// —«luuuna», «graaande», «¡ooooh!» son consigna terapéutica, el adulto estira
+// la vocal mientras dibuja el gesto— y tocar una «rrr» suelta, que no es la
+// grafía de una palabra sino el modelo del trino que la pista pide imitar
+// («la lengua hace el motor: rrr»). Por eso las dos reglas exigen letra detrás.
+const LETTER = 'A-Za-zÀ-ÖØ-öø-ÿ';
+// Letra que NO es erre: es lo que va detrás de la vibrante dentro de una
+// palabra. Pedir «letra» a secas no vale, porque la propia erre lo es y el
+// filtro se comería la «rrr» suelta de las pistas.
+const LETTER_NOT_R = 'A-QS-Za-qs-zÀ-ÖØ-öø-ÿ';
+
 export const sanitizePhonetics = (text: string): string =>
   text
-    .replace(/\br{2,}([aeiouáéíóúàèìòùâêîôûãõäëïöü])/gi, 'r$1')
-    .replace(/([aeiouáéíóúàèìòùâêîôûãõäëïöü])r{3,}([aeiouáéíóúàèìòùâêîôûãõäëïöü])/gi, '$1rr$2')
-    .replace(/([aeiouáéíóúàèìòùâêîôûãõäëïöü])\1{2,}/gi, '$1');
+    // Interior de palabra: «perrro» → «perro» (el dígrafo, nunca tres).
+    .replace(new RegExp(`([${LETTER}])(r)r{2,}(?=[${LETTER_NOT_R}])`, 'gi'), '$1$2r')
+    // Principio de palabra: «Rrrana» → «Rana» (conserva la caja del original).
+    .replace(new RegExp(`(^|[^${LETTER}])(r)r+(?=[${LETTER_NOT_R}])`, 'gi'), '$1$2');
 
 const speakChain = (text: string, opts: Speech.SpeechOptions, token: number, rateCeil = 1.3) => {
   const { onDone, onError, ...rest } = opts;
@@ -371,13 +392,15 @@ export const speakClinical = (text: string, opts: Speech.SpeechOptions = {}) => 
   const go = () => {
     if (token !== speakToken) return;
     const { onDone, onError, ...rest } = opts;
-    // Una sola locución, pero con la puntuación de pausa larga normalizada y saneamiento fonético:
-    // evita huecos y artefactos articulatorios en el fonema objetivo.
+    // Una sola locución, pero con la puntuación de pausa larga normalizada: los
+    // dos puntos de la petición («Di: cama») y los puntos suspensivos abrían un
+    // hueco en mitad de la frase portadora, justo donde va el fonema objetivo.
+    // La grafía de la vibrante se normaliza aparte; el modelo fonético es el mismo.
     Speech.speak(tightenPauses(sanitizePhonetics(text)), {
       language: ttsLang(),
       ...rest,
-      rate: clamp(rest.rate ?? 0.82, 0.65, 0.92), // ritmo natural y estable
-      pitch: clamp(rest.pitch ?? 1.0, 0.9, 1.1),  // tono plano y estable
+      rate: clamp(rest.rate ?? 0.8, 0.6, 0.9),   // techo bajo: nunca acelera el fonema
+      pitch: clamp(rest.pitch ?? 1.0, 0.9, 1.1), // tono plano y estable
       ...(bestVoiceId && !rest.voice ? { voice: bestVoiceId } : {}),
       onDone: () => { if (token === speakToken) onDone?.(); },
       onError: (e) => { if (token === speakToken) onError?.(e); },
@@ -407,21 +430,28 @@ export const speakVoiceSample = () => {
         : VOICE_SAMPLE_PHRASE);
 };
 
-// Palabra objetivo bien articulada, pausada para modelado fonético sin distorsión formántica.
+// Palabra objetivo bien articulada, muy despacio (modelado fonético).
+//
+// El asset neuronal se busca con el texto TAL CUAL: el id del corpus se calcula
+// sobre el original, así que sanear antes de mirar el mapa lo dejaría sin
+// asset. La grafía la normaliza speakChain, que es el único camino que acaba
+// en el motor del sistema.
 export const speakWordSlow = (text: string) => {
-  const t = sanitizePhonetics(text.toLowerCase());
+  const t = text.toLowerCase();
   if (trySpokenAsset('slow', t, {})) return;
-  speakEngine(t, { pitch: 1.05, rate: 0.78 });
+  speakEngine(t, { pitch: 1.1, rate: 0.6 });
 };
 
 // Modelo LENTO DE FRASE completa (ES-05): mismo estilo 'slow' que speakWordSlow
 // (mismo length_scale en la síntesis pregenerada), pero sin minuscular ni
 // aislar una sola palabra — repite el enunciado completo tal cual lo dijo el
-// modelo normal, con velocidad calibrada para no romper la coarticulación de formantes.
+// modelo normal, solo que más despacio. En Pares Mínimos el modelo objetivo SÍ
+// es la palabra aislada (speakWordSlow es lo correcto ahí); esta función es
+// solo para pantallas donde lo lento debe ser la frase entera, no un recorte.
 export const speakPhraseSlow = (text: string) => {
-  const t = sanitizePhonetics(text.replace(/\s+/g, ' ').trim());
+  const t = text.replace(/\s+/g, ' ').trim();
   if (trySpokenAsset('slow', t, {})) return;
-  speakEngine(t, { pitch: 1.05, rate: 0.80 });
+  speakEngine(t, { pitch: 1.05, rate: 0.65 });
 };
 
 export const stopSpeaking = () => { speakToken += 1; Speech.stop(); stopVoiceAsset(); };

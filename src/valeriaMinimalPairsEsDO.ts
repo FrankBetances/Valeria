@@ -29,11 +29,11 @@ export const MINIMAL_PAIRS_ESDO: MinimalPair[] = [
     phoneme: 'r̄ → l', errorLabel: 'Rotacismo inicial (ataque)',
     prompt: 'Di: rana.',
     onTarget: {
-      say: '¡Rrrana! ¡Tu lengua sonó como un motor!',
+      say: '¡Rana! ¡Tu lengua sonó como un motor!',
       mission: '¡Brinca como una rana! Tres brinquitos hasta chocar los cinco con papi.',
     },
     onFoil: {
-      say: 'Escuché lana, la del ovillo. Yo pedí rrrana. Oye bien…',
+      say: 'Escuché lana, la del ovillo. Yo pedí rana. Oye bien…',
       cue: 'La lengua hace el motor detrás de los dientes: rrr.',
       mission: 'Mano en el cuello de papi: papi aguanta rrrr tres segundos y tú sientes la vibración. Después, al revés.',
     },
@@ -44,11 +44,11 @@ export const MINIMAL_PAIRS_ESDO: MinimalPair[] = [
     phoneme: 'r̄ → l', errorLabel: 'Rotacismo inicial (generalización)',
     prompt: 'Di: rata.',
     onTarget: {
-      say: '¡Rrrata ligera! ¡Te salió la erre!',
+      say: '¡Rata ligera! ¡Te salió la erre!',
       mission: '¡Corre como la rata! Persigue a papi por la sala hasta tocarle la espalda.',
     },
     onFoil: {
-      say: 'Escuché lata, la del colmado. La lengua se quedó dormida. ¡Despiértala!: rrrata.',
+      say: 'Escuché lata, la del colmado. La lengua se quedó dormida. ¡Despiértala!: rata.',
       cue: 'Punta de la lengua arriba, que tiemble.',
       mission: 'Tambora de lengua: papi marca ta-ta-ta en las piernas y tú respondes ra-ra-ra, cada vez más rápido.',
     },
@@ -59,11 +59,11 @@ export const MINIMAL_PAIRS_ESDO: MinimalPair[] = [
     phoneme: 'r̄ → l', errorLabel: 'Rotacismo intervocálico',
     prompt: 'Di: perro.',
     onTarget: {
-      say: '¡Perrro! ¡Qué erre tan fuerte!',
+      say: '¡Perro! ¡Qué erre tan fuerte!',
       mission: '¡A cuatro patas! Camina ladrando hasta papi y que te rasque la cabeza.',
     },
     onFoil: {
-      say: 'Escuché pelo, el de la cabeza. El perro se quedó sin ladrar. Vamos: perrro.',
+      say: 'Escuché pelo, el de la cabeza. El perro se quedó sin ladrar. Vamos: perro.',
       cue: 'La erre es un motor largo en el medio de la palabra.',
       mission: 'Carrera de motores: agarra un guía imaginario frente a papi y aceleren con rrr a la vez.',
     },

@@ -153,11 +153,6 @@ export const SentenceWordCards: React.FC<SentenceWordCardsProps> = ({
     return raw.map(cleanPunctuation).filter(Boolean);
   }, [target]);
 
-  // Si no hay palabras suficientes (ej. 0 o 1 palabra suelta), no hace falta segmentar
-  if (words.length <= 1) {
-    return null;
-  }
-
   // Tokenización y emparejamiento fonético tolerante
   const { matchedArray, hitCount, currentIdx } = useMemo(() => {
     const normHeard = normalizeSpeech(heard);
@@ -185,6 +180,13 @@ export const SentenceWordCards: React.FC<SentenceWordCardsProps> = ({
   useEffect(() => {
     onWordMatch?.(hitCount, words.length);
   }, [hitCount, words.length, onWordMatch]);
+
+  // Con 0 o 1 palabra no hay nada que segmentar. La salida va DESPUÉS de los
+  // hooks a propósito: MicPracticeCard no se remonta al cambiar de objetivo, y
+  // salir antes hacía que el número de hooks variase entre renders — «Rendered
+  // more hooks than during the previous render», pantalla roja en mitad del
+  // ejercicio en cuanto un banco mezcle una palabra suelta con una frase.
+  if (words.length <= 1) return null;
 
   const total = words.length;
   const progressRatio = total > 0 ? hitCount / total : 0;
@@ -250,13 +252,13 @@ const s = StyleSheet.create({
   },
   kickerTxt: {
     fontSize: 11,
-    fontFamily: V.font.bold,
+    fontWeight: V.font.bold,
     color: V.color.primaryDark,
     letterSpacing: 0.6,
   },
   progressBadgeTxt: {
     fontSize: 12,
-    fontFamily: V.font.bold,
+    fontWeight: V.font.bold,
     color: V.color.textSecondary,
   },
   progressBadgeTxtFull: {
@@ -333,7 +335,7 @@ const s = StyleSheet.create({
   },
   badgeNumTxt: {
     fontSize: 11,
-    fontFamily: V.font.bold,
+    fontWeight: V.font.bold,
     color: V.color.textSecondary,
   },
   badgeNumTxtMatched: {
@@ -341,7 +343,7 @@ const s = StyleSheet.create({
   },
   wordTxt: {
     fontSize: 16,
-    fontFamily: V.font.bold,
+    fontWeight: V.font.bold,
     color: V.color.textPrimary,
   },
   wordTxtCompact: {

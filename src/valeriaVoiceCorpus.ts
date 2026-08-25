@@ -66,6 +66,9 @@ import {
   CONTRAST_CAPSULES_EN, SEM_RETRY_EN, SEM_SESSION_DONE_EN,
 } from './valeriaSemanticExpansionEn';
 import { EXERCISE_FIXED_LINES_EN } from './valeriaExerciseEn';
+import {
+  WRITING_PRAISE, WRITING_PRAISE_GL, WRITING_PRAISE_EU, WRITING_PRAISE_EN,
+} from './valeriaWritingBank';
 
 // Estilos de locución de valeriaVoice. El audio pre-generado "hornea" el
 // estilo (prosodia, velocidad) en el propio WAV, así que un mismo texto en dos
@@ -351,6 +354,15 @@ export function buildVoiceCorpus(): VoiceCorpusEntry[] {
   // lo que reproduce «Test the voice» al elegir English (US) en el selector,
   // con la sesión todavía en contenido castellano (build de evaluación EN-0.9).
   addEn('child', VOICE_SAMPLE_PHRASE_EN, 'util/muestra');
+
+  // ===================== PIZARRA MÁGICA (escritura) =====================
+  // Los tres elogios que locuta la pizarra, en las cuatro variedades. El resto
+  // del módulo (títulos y consignas de cada trazo) se LEE en pantalla, no se
+  // pronuncia; si algún día se locuta, entra aquí y se resintetiza.
+  for (const t of WRITING_PRAISE) add('child', t, 'escritura/elogio');
+  for (const t of WRITING_PRAISE_GL) addGl('child', t, 'escritura/elogio');
+  for (const t of WRITING_PRAISE_EU) addEu('child', t, 'escritura/elogio');
+  for (const t of WRITING_PRAISE_EN) addEn('child', t, 'escritura/elogio');
 
   return Array.from(entries.values());
 }
