@@ -2,9 +2,9 @@
  "lang": "eu",
  "voice": "AhoTTS euskera \u00abMaider\u00bb \u00b7 HiTZ/Aholab (ILENIA/NEL-GAITU, CC BY 4.0)",
  "peakDbfs": -3.0,
- "entries": 744,
- "totalBytes": 16879632,
- "totalSeconds": 3262.1,
+ "entries": 747,
+ "totalBytes": 16933003,
+ "totalSeconds": 3272.4,
  "files": [
   {
    "id": "eu_child_536bf7c0_40",
@@ -4469,6 +4469,24 @@
    "file": "eu_slow_9486a9ac_91.m4a",
    "seconds": 10.9,
    "bytes": 51912
+  },
+  {
+   "id": "eu_child_31fc20b5_41",
+   "file": "eu_child_31fc20b5_41.m4a",
+   "seconds": 3.29,
+   "bytes": 14909
+  },
+  {
+   "id": "eu_child_6f6e19f8_44",
+   "file": "eu_child_6f6e19f8_44.m4a",
+   "seconds": 3.17,
+   "bytes": 17349
+  },
+  {
+   "id": "eu_child_bdb2d3c5_51",
+   "file": "eu_child_bdb2d3c5_51.m4a",
+   "seconds": 3.91,
+   "bytes": 21113
   }
  ]
 }

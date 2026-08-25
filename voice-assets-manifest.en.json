@@ -2,9 +2,9 @@
  "lang": "en",
  "voice": "LJSpeech (femenina, dominio p\u00fablico) \u00b7 rhasspy/piper-voices",
  "peakDbfs": -3.0,
- "entries": 802,
- "totalBytes": 13760833,
- "totalSeconds": 2500.3,
+ "entries": 805,
+ "totalBytes": 13801368,
+ "totalSeconds": 2507.4,
  "files": [
   {
    "id": "en_child_fc1ae37d_50",
@@ -19,16 +19,16 @@
    "bytes": 6129
   },
   {
-   "id": "en_child_2e94fe64_48",
-   "file": "en_child_2e94fe64_48.m4a",
-   "seconds": 4.62,
-   "bytes": 24793
+   "id": "en_child_69e29d44_46",
+   "file": "en_child_69e29d44_46.m4a",
+   "seconds": 4.28,
+   "bytes": 23257
   },
   {
-   "id": "en_child_2b3097e5_57",
-   "file": "en_child_2b3097e5_57.m4a",
-   "seconds": 3.91,
-   "bytes": 21348
+   "id": "en_child_ab7c8da5_55",
+   "file": "en_child_ab7c8da5_55.m4a",
+   "seconds": 3.65,
+   "bytes": 19788
   },
   {
    "id": "en_child_e2123f2e_25",
@@ -67,16 +67,16 @@
    "bytes": 6101
   },
   {
-   "id": "en_child_e116a2a6_30",
-   "file": "en_child_e116a2a6_30.m4a",
-   "seconds": 3.19,
-   "bytes": 17498
+   "id": "en_child_c846d486_28",
+   "file": "en_child_c846d486_28.m4a",
+   "seconds": 2.82,
+   "bytes": 15642
   },
   {
-   "id": "en_child_b71aacc7_65",
-   "file": "en_child_b71aacc7_65.m4a",
-   "seconds": 4.63,
-   "bytes": 24791
+   "id": "en_child_f469145b_63",
+   "file": "en_child_f469145b_63.m4a",
+   "seconds": 4.38,
+   "bytes": 23730
   },
   {
    "id": "en_child_559032b2_25",
@@ -4817,6 +4817,24 @@
    "file": "en_child_fdbcd555_76.m4a",
    "seconds": 5.12,
    "bytes": 27288
+  },
+  {
+   "id": "en_child_1f4a09f3_49",
+   "file": "en_child_1f4a09f3_49.m4a",
+   "seconds": 2.52,
+   "bytes": 14184
+  },
+  {
+   "id": "en_child_32b3ef5d_48",
+   "file": "en_child_32b3ef5d_48.m4a",
+   "seconds": 2.66,
+   "bytes": 15083
+  },
+  {
+   "id": "en_child_36f72f58_55",
+   "file": "en_child_36f72f58_55.m4a",
+   "seconds": 3.12,
+   "bytes": 17281
   }
  ]
 }
