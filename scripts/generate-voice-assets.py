@@ -31,6 +31,8 @@
 #     Fallback atempo solo si el modelo no expone length_scale.
 #   · ahotts (eu): atempo de ffmpeg equivalente (sin re-pitch), tras normalizar.
 # ============================================================================
+from __future__ import annotations
+
 import argparse
 import audioop
 import json

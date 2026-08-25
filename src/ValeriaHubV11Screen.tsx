@@ -26,6 +26,7 @@ import { View, Text, Pressable, FlatList, StyleSheet, Modal } from 'react-native
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { V, STORAGE_KEYS } from './valeriaTheme';
 import { BLOCKS, BLOCK_ORDER, BlockKey } from './valeriaBlocks';
+import { WRITING_EXERCISES } from './valeriaWritingBank';
 import { AR_META } from './valeriaExerciseMeta';
 import { MINIMAL_PAIRS } from './valeriaMinimalPairs';
 import { DAILY_SCENARIOS } from './valeriaSemanticExpansion';
@@ -181,6 +182,14 @@ export const ValeriaHubV11Screen: React.FC<{ navigation: any }> = ({ navigation 
     {
       key: 'dislexia', desc: t.hub.dyslexiaBrief, icon: BLOCKS.dislexia.icon, title: t.hub.dyslexiaTitle, hint: t.hub.dyslexiaSub, a11y: a11yFor('dislexia', t.hub.dyslexiaA11y),
       bg: BLOCKS.dislexia.accentBg, fg: BLOCKS.dislexia.accentFg, meta: metaFor('dislexia'), progress: progressFor('dislexia'), onPress: () => openBlock('dislexia'),
+    },
+    // La Pizarra Mágica va junto a Dislexia porque es su continuación motora:
+    // el mismo par crítico b/d que se discrimina en pantalla se traza aquí.
+    {
+      key: 'writing', desc: t.hub.writingBrief, icon: 'pencil', title: t.hub.writingTitle,
+      hint: t.hub.writingSub, a11y: t.hub.writingA11y(WRITING_EXERCISES.length),
+      bg: '#fdf0e2', fg: '#c2701f', meta: t.hub.writingBadge(WRITING_EXERCISES.length),
+      onPress: () => navigation.navigate('Writing'),
     },
     // La RA CIERRA la rejilla. Si no hay host nativo de cámara + escena 3D, la
     // tarjeta NO se renderiza: el bloque no existe para el usuario, en lugar

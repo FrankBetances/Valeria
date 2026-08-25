@@ -218,6 +218,35 @@ const ttsLang = (): string => {
   return speechLocale();
 };
 
+// Normalización ORTOGRÁFICA de la vibrante antes de mandar el texto al motor
+// de TTS: una «rrr» de énfasis («¡Rrrana!») la lee el sintetizador como una
+// consonante rara, no como un trino. Devuelve la grafía correcta del español:
+// «r» simple a principio de palabra (ya es vibrante múltiple) y dígrafo «rr»
+// entre letras.
+//
+// OJO con `\b`: en JavaScript `\w` es [A-Za-z0-9_], así que las vocales
+// acentuadas cuentan como frontera de palabra y `\brr` disparaba dentro de
+// «Ciérrala», «susúrrale» o «agárrate», que perdían el trino — justo el fonema
+// que entrena la app. Por eso aquí la clase de letra se escribe entera.
+//
+// Lo que este filtro NO hace, y son dos: tocar los alargamientos vocálicos
+// —«luuuna», «graaande», «¡ooooh!» son consigna terapéutica, el adulto estira
+// la vocal mientras dibuja el gesto— y tocar una «rrr» suelta, que no es la
+// grafía de una palabra sino el modelo del trino que la pista pide imitar
+// («la lengua hace el motor: rrr»). Por eso las dos reglas exigen letra detrás.
+const LETTER = 'A-Za-zÀ-ÖØ-öø-ÿ';
+// Letra que NO es erre: es lo que va detrás de la vibrante dentro de una
+// palabra. Pedir «letra» a secas no vale, porque la propia erre lo es y el
+// filtro se comería la «rrr» suelta de las pistas.
+const LETTER_NOT_R = 'A-QS-Za-qs-zÀ-ÖØ-öø-ÿ';
+
+export const sanitizePhonetics = (text: string): string =>
+  text
+    // Interior de palabra: «perrro» → «perro» (el dígrafo, nunca tres).
+    .replace(new RegExp(`([${LETTER}])(r)r{2,}(?=[${LETTER_NOT_R}])`, 'gi'), '$1$2r')
+    // Principio de palabra: «Rrrana» → «Rana» (conserva la caja del original).
+    .replace(new RegExp(`(^|[^${LETTER}])(r)r+(?=[${LETTER_NOT_R}])`, 'gi'), '$1$2');
+
 const speakChain = (text: string, opts: Speech.SpeechOptions, token: number, rateCeil = 1.3) => {
   const { onDone, onError, ...rest } = opts;
   // Perfil de prosodia de la variedad activa: decide si este enunciado se trocea
@@ -227,7 +256,8 @@ const speakChain = (text: string, opts: Speech.SpeechOptions, token: number, rat
   // contentLocale y no getLocale: mientras el banco inglés no exista, `en-US`
   // locuta castellano, y el troceo/pausas tienen que ser los del castellano.
   const prosody = prosodyFor(contentLocale());
-  const sentences = splitForSpeech(text, prosody);
+  const cleanInput = sanitizePhonetics(text);
+  const sentences = splitForSpeech(cleanInput, prosody);
   if (!sentences.length) { onDone?.(); return; }
   const baseRate = rest.rate ?? 0.92;
   const basePitch = rest.pitch ?? 1.0;
@@ -365,8 +395,8 @@ export const speakClinical = (text: string, opts: Speech.SpeechOptions = {}) => 
     // Una sola locución, pero con la puntuación de pausa larga normalizada: los
     // dos puntos de la petición («Di: cama») y los puntos suspensivos abrían un
     // hueco en mitad de la frase portadora, justo donde va el fonema objetivo.
-    // No se toca ni una letra, así que el modelo fonético es el mismo.
-    Speech.speak(tightenPauses(text), {
+    // La grafía de la vibrante se normaliza aparte; el modelo fonético es el mismo.
+    Speech.speak(tightenPauses(sanitizePhonetics(text)), {
       language: ttsLang(),
       ...rest,
       rate: clamp(rest.rate ?? 0.8, 0.6, 0.9),   // techo bajo: nunca acelera el fonema
@@ -401,6 +431,11 @@ export const speakVoiceSample = () => {
 };
 
 // Palabra objetivo bien articulada, muy despacio (modelado fonético).
+//
+// El asset neuronal se busca con el texto TAL CUAL: el id del corpus se calcula
+// sobre el original, así que sanear antes de mirar el mapa lo dejaría sin
+// asset. La grafía la normaliza speakChain, que es el único camino que acaba
+// en el motor del sistema.
 export const speakWordSlow = (text: string) => {
   const t = text.toLowerCase();
   if (trySpokenAsset('slow', t, {})) return;

@@ -52,11 +52,11 @@ export const MINIMAL_PAIRS_EN: MinimalPair[] = [
     prompt: 'Say: rake.',
     dialect: DEVELOPMENTAL,
     onTarget: {
-      say: 'Rrrake! Your lips stayed wide open for that /r/!',
+      say: 'Rake! Your lips stayed wide open for that /r/!',
       mission: 'Rake the leaves! Three big sweeps across the floor, then high five.',
     },
     onFoil: {
-      say: 'I heard wake, like waking up. I asked for rrrake. Listen…',
+      say: 'I heard wake, like waking up. I asked for rake. Listen…',
       cue: 'Pull your tongue back and up, and keep your lips from rounding: rrr.',
       mission: 'Mirror game: the grown-up says rrr with wide lips, the child copies watching the mirror.',
     },
@@ -68,11 +68,11 @@ export const MINIMAL_PAIRS_EN: MinimalPair[] = [
     prompt: 'Say: rock.',
     dialect: DEVELOPMENTAL,
     onTarget: {
-      say: 'Rrrock! That was a strong /r/!',
+      say: 'Rock! That was a strong /r/!',
       mission: 'Be a rock: freeze completely still while the grown-up counts to five.',
     },
     onFoil: {
-      say: 'I heard lock, the one on the door. I asked for rrrock. Let’s try…',
+      say: 'I heard lock, the one on the door. I asked for rock. Let’s try…',
       cue: 'For /l/ the tongue touches behind your teeth. For /r/ it pulls back and never touches.',
       mission: 'Take turns: grown-up says lock, child says rock, faster and faster.',
     },

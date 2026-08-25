@@ -1,8 +1,8 @@
 {
- "generatedAt": "2026-08-18T21:10:54.925Z",
- "entries": 3240,
+ "generatedAt": "2026-08-25T16:06:28.894Z",
+ "entries": 3252,
  "byStyle": {
-  "child": 1714,
+  "child": 1726,
   "slow": 756,
   "clinical": 36,
   "tutor": 734
@@ -26,7 +26,8 @@
   "banco/juntos": 12,
   "util/muestra": 4,
   "expansion": 1705,
-  "ejercicios": 1035
+  "ejercicios": 1035,
+  "escritura/elogio": 12
  },
  "corpus": [
   {
@@ -44,17 +45,17 @@
    "source": "pares/prompt"
   },
   {
-   "id": "child_b2d2e00b_40",
+   "id": "child_25e133a7_38",
    "lang": "es",
    "style": "child",
-   "text": "¡Rrrana! ¡Tu lengua vibró como una moto!",
+   "text": "¡Rana! ¡Tu lengua vibró como una moto!",
    "source": "pares/celebracion"
   },
   {
-   "id": "child_cda6e19c_53",
+   "id": "child_563b1aa0_51",
    "lang": "es",
    "style": "child",
-   "text": "Escuché lana, la del ovillo. Yo pedí rrrana. Escucha…",
+   "text": "Escuché lana, la del ovillo. Yo pedí rana. Escucha…",
    "source": "pares/correccion"
   },
   {
@@ -100,17 +101,17 @@
    "source": "pares/prompt"
   },
   {
-   "id": "child_ac859fd2_30",
+   "id": "child_995c6232_29",
    "lang": "es",
    "style": "child",
-   "text": "¡Perrro! ¡Qué erre tan fuerte!",
+   "text": "¡Perro! ¡Qué erre tan fuerte!",
    "source": "pares/celebracion"
   },
   {
-   "id": "child_a2418ba1_75",
+   "id": "child_b3020c73_74",
    "lang": "es",
    "style": "child",
-   "text": "Escuché pelo, el de la cabeza. El perro se quedó sin ladrar. Vamos: perrro.",
+   "text": "Escuché pelo, el de la cabeza. El perro se quedó sin ladrar. Vamos: perro.",
    "source": "pares/correccion"
   },
   {
@@ -156,17 +157,17 @@
    "source": "pares/prompt"
   },
   {
-   "id": "child_6a0d872f_33",
+   "id": "child_5219264b_31",
    "lang": "es",
    "style": "child",
-   "text": "¡Rrrata veloz! ¡Te salió la erre!",
+   "text": "¡Rata veloz! ¡Te salió la erre!",
    "source": "pares/celebracion"
   },
   {
-   "id": "child_a508fe4a_81",
+   "id": "child_b0975c9e_79",
    "lang": "es",
    "style": "child",
-   "text": "Escuché lata, la de la cocina. La lengua se quedó dormida. ¡Despiértala!: rrrata.",
+   "text": "Escuché lata, la de la cocina. La lengua se quedó dormida. ¡Despiértala!: rata.",
    "source": "pares/correccion"
   },
   {
@@ -212,17 +213,17 @@
    "source": "pares/prompt"
   },
   {
-   "id": "child_0662d30e_38",
+   "id": "child_d21f1010_37",
    "lang": "es",
    "style": "child",
-   "text": "¡Cerrro! ¡Esa erre sube hasta la cima!",
+   "text": "¡Cerro! ¡Esa erre sube hasta la cima!",
    "source": "pares/celebracion"
   },
   {
-   "id": "child_e4b77df1_67",
+   "id": "child_bd39b5c3_66",
    "lang": "es",
    "style": "child",
-   "text": "Escuché cero, el número redondo. Cerro tiene la moto larga: cerrro.",
+   "text": "Escuché cero, el número redondo. Cerro tiene la moto larga: cerro.",
    "source": "pares/correccion"
   },
   {
@@ -6190,17 +6191,17 @@
    "source": "pares/prompt"
   },
   {
-   "id": "gl_child_45a0a416_42",
+   "id": "gl_child_5ab276f6_40",
    "lang": "gl",
    "style": "child",
-   "text": "Rrrúa! A túa lingua vibrou coma unha moto!",
+   "text": "Rúa! A túa lingua vibrou coma unha moto!",
    "source": "pares/celebracion"
   },
   {
-   "id": "gl_child_b4ce88a3_48",
+   "id": "gl_child_62d698af_46",
    "lang": "gl",
    "style": "child",
-   "text": "Escoitei lúa, a do ceo. Eu pedín rrrúa. Escoita…",
+   "text": "Escoitei lúa, a do ceo. Eu pedín rúa. Escoita…",
    "source": "pares/correccion"
   },
   {
@@ -6246,17 +6247,17 @@
    "source": "pares/prompt"
   },
   {
-   "id": "gl_child_b7c908cf_26",
+   "id": "gl_child_f701f9af_24",
    "lang": "gl",
    "style": "child",
-   "text": "Rrrei! Que erre tan forte!",
+   "text": "Rei! Que erre tan forte!",
    "source": "pares/celebracion"
   },
   {
-   "id": "gl_child_56bb6ca7_64",
+   "id": "gl_child_45553667_62",
    "lang": "gl",
    "style": "child",
-   "text": "Escoitei lei, a dos xuíces. O rei quedou sen coroa. Veña: rrrei.",
+   "text": "Escoitei lei, a dos xuíces. O rei quedou sen coroa. Veña: rei.",
    "source": "pares/correccion"
   },
   {
@@ -17110,17 +17111,17 @@
    "source": "pares/prompt"
   },
   {
-   "id": "en_child_2e94fe64_48",
+   "id": "en_child_69e29d44_46",
    "lang": "en",
    "style": "child",
-   "text": "Rrrake! Your lips stayed wide open for that /r/!",
+   "text": "Rake! Your lips stayed wide open for that /r/!",
    "source": "pares/celebracion"
   },
   {
-   "id": "en_child_2b3097e5_57",
+   "id": "en_child_ab7c8da5_55",
    "lang": "en",
    "style": "child",
-   "text": "I heard wake, like waking up. I asked for rrrake. Listen…",
+   "text": "I heard wake, like waking up. I asked for rake. Listen…",
    "source": "pares/correccion"
   },
   {
@@ -17166,17 +17167,17 @@
    "source": "pares/prompt"
   },
   {
-   "id": "en_child_e116a2a6_30",
+   "id": "en_child_c846d486_28",
    "lang": "en",
    "style": "child",
-   "text": "Rrrock! That was a strong /r/!",
+   "text": "Rock! That was a strong /r/!",
    "source": "pares/celebracion"
   },
   {
-   "id": "en_child_b71aacc7_65",
+   "id": "en_child_f469145b_63",
    "lang": "en",
    "style": "child",
-   "text": "I heard lock, the one on the door. I asked for rrrock. Let’s try…",
+   "text": "I heard lock, the one on the door. I asked for rock. Let’s try…",
    "source": "pares/correccion"
   },
   {
@@ -22708,6 +22709,90 @@
    "style": "child",
    "text": "Hi! This is how my voice will sound in the exercises. Doesn’t it sound nice?",
    "source": "util/muestra"
+  },
+  {
+   "id": "child_67473535_47",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Qué dibujo tan bonito has hecho en la pizarra!",
+   "source": "escritura/elogio"
+  },
+  {
+   "id": "child_dd94de67_46",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Excelente! Has seguido la dirección perfecta.",
+   "source": "escritura/elogio"
+  },
+  {
+   "id": "child_7ab2901f_54",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Casi casi! Sigue las flechas y los números despacito.",
+   "source": "escritura/elogio"
+  },
+  {
+   "id": "gl_child_1820836b_43",
+   "lang": "gl",
+   "style": "child",
+   "text": "Que debuxo tan bonito fixeches no encerado!",
+   "source": "escritura/elogio"
+  },
+  {
+   "id": "gl_child_1a4f8ac5_46",
+   "lang": "gl",
+   "style": "child",
+   "text": "Excelente! Seguiches a dirección á perfección.",
+   "source": "escritura/elogio"
+  },
+  {
+   "id": "gl_child_0c4b67ba_49",
+   "lang": "gl",
+   "style": "child",
+   "text": "Case case! Segue as frechas e os números amodiño.",
+   "source": "escritura/elogio"
+  },
+  {
+   "id": "eu_child_31fc20b5_41",
+   "lang": "eu",
+   "style": "child",
+   "text": "Zein marrazki polita egin duzun arbelean!",
+   "source": "escritura/elogio"
+  },
+  {
+   "id": "eu_child_6f6e19f8_44",
+   "lang": "eu",
+   "style": "child",
+   "text": "Bikain! Norabidea ezin hobeto jarraitu duzu.",
+   "source": "escritura/elogio"
+  },
+  {
+   "id": "eu_child_bdb2d3c5_51",
+   "lang": "eu",
+   "style": "child",
+   "text": "Ia-ia! Jarraitu geziak eta zenbakiak poliki-poliki.",
+   "source": "escritura/elogio"
+  },
+  {
+   "id": "en_child_1f4a09f3_49",
+   "lang": "en",
+   "style": "child",
+   "text": "What a lovely drawing you made on the chalkboard!",
+   "source": "escritura/elogio"
+  },
+  {
+   "id": "en_child_32b3ef5d_48",
+   "lang": "en",
+   "style": "child",
+   "text": "Excellent! You followed the direction perfectly.",
+   "source": "escritura/elogio"
+  },
+  {
+   "id": "en_child_36f72f58_55",
+   "lang": "en",
+   "style": "child",
+   "text": "Almost there! Follow the arrows and the numbers slowly.",
+   "source": "escritura/elogio"
   }
  ]
 }

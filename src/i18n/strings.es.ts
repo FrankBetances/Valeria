@@ -185,6 +185,13 @@ export const ES = {
     sensoryA11y: (n: number): string => `Abrir terapias de integración sensorial auditiva, ${n} actividades`,
     sensoryBadge: (n: number): string => `${n} actividades`,
 
+    // Pizarra Mágica · Grafomotricidad y Escritura.
+    writingTitle: 'Grafomotricidad',
+    writingSub: 'Trazo guiado con pauta Montessori y control del orden para evitar la inversión b / d.',
+    writingBrief: 'Trazo guiado y letras críticas.',
+    writingA11y: (n: number): string => `Abrir la pizarra mágica de Lúa, ${n} trazos guiados`,
+    writingBadge: (n: number): string => `${n} trazos`,
+
     statStreakUnit: (n: number): string => (n === 1 ? 'día de racha' : 'días de racha'),
     pairsBadge: (n: number): string => `${n} pares`,
     semanticBadge: (n: number): string => `${n} escenarios`,
@@ -348,32 +355,36 @@ export const ES = {
     }[id] ?? ''),
 
     badgeName: (id: string): string => ({
-      primera: 'Primera huella',
-      ses10: 'Practicante',
-      ses25: 'Exploradora',
-      ses50: 'Maestra Valeria',
-      ses100: 'Centenaria',
-      racha3: 'En llamas',
-      racha7: 'Semana perfecta',
-      racha14: 'Imparable',
-      racha30: 'Un mes entero',
-      perfecta: 'Sesión estrella',
-      perf5: 'Constelación',
-      perf10: 'Vía láctea',
-      madrugadora: 'Madrugadora',
-      nocturna: 'Ronda nocturna',
-      finde: 'Finde en casa',
-      maraton: 'Ovillo largo',
-      regreso: 'Te echaba de menos',
-      nivel10: 'Cima',
+      primera: 'Primer paso de Lúa',
+      ses10: 'Paseo amigo',
+      ses25: 'Gran exploradora',
+      ses50: 'Guía del sendero',
+      ses100: 'Pacto centenario',
+      racha3: 'Cascabel sonoro',
+      racha7: 'Semana cantarina',
+      racha14: 'Melodía constante',
+      racha30: 'Campana de oro',
+      perfecta: 'Oído de lince',
+      perf5: 'Radar mágico',
+      perf10: 'Antena de cristal',
+      madrugadora: 'Desayuno sonoro',
+      nocturna: 'Cuento de luna',
+      finde: 'Mochila de finde',
+      maraton: 'Ovillo de historias',
+      regreso: 'Abrazo de bienvenida',
+      nivel10: 'Reina del lenguaje',
     }[id] ?? id),
 
+    // La descripción es la REGLA de desbloqueo, no adorno: el adulto la usa para
+    // decirle al niño qué falta. Cabe en tres líneas de 10 px (numberOfLines={3}
+    // en ValeriaAwardsSheet), o sea ~55 caracteres; pasarse la corta con «…» y
+    // deja la insignia sin explicar. El nombre ya pone la voz de Lúa.
     badgeDesc: (id: string): string => ({
-      primera: 'Completa tu primera sesión.',
-      ses10: 'Completa 10 sesiones.',
-      ses25: 'Completa 25 sesiones.',
-      ses50: 'Completa 50 sesiones.',
-      ses100: 'Completa 100 sesiones.',
+      primera: 'Completa tu primera sesión con Lúa.',
+      ses10: '10 sesiones de camino juntos.',
+      ses25: '25 sesiones descubriendo palabras.',
+      ses50: '50 sesiones: Lúa sabe el camino.',
+      ses100: '100 sesiones. Un vínculo para siempre.',
       racha3: '3 días seguidos practicando.',
       racha7: '7 días seguidos practicando.',
       racha14: '14 días seguidos practicando.',
@@ -386,7 +397,7 @@ export const ES = {
       finde: 'Practica un sábado o un domingo.',
       maraton: 'Seis ejercicios o más en una sola sesión.',
       regreso: 'Vuelve a practicar tras una semana de pausa.',
-      nivel10: 'Alcanza el nivel 10.',
+      nivel10: 'Alcanza el nivel 10 y su corona.',
     }[id] ?? ''),
   },
 
@@ -1206,6 +1217,11 @@ export const ES = {
       { icon: '🎉', title: '¡Lo dijo genial!', sub: 'La app entendió la palabra objetivo.' },
     ],
 
+    sentenceCardsKicker: 'LÁMINAS DE LA FRASE',
+    sentenceCardsProgress: (hits: number, total: number): string => `${hits} de ${total} palabras conseguidas`,
+    sentenceWordMatched: (word: string): string => `Palabra conseguida: ${word}`,
+    sentenceWordPending: (word: string): string => `Palabra pendiente: ${word}`,
+
     captureKicker: '📝 REGISTRA SU RESPUESTA',
     capturePrompt: 'Graba con el micro o escribe lo que dijo el niño.',
     capturePlaceholder: 'Escribe aquí lo que dijo…',
@@ -1653,6 +1669,46 @@ export const ES = {
     wellDoneSub: 'Has explorado y regulado la escucha con éxito.',
     xpAddedToSensorySilo: 'Añadidos al progreso de Integración Sensorial',
     backToSensoryListBtn: 'Volver a actividades sensoriales',
+  },
+
+  // La Pizarra Mágica de Lúa · Módulo de Grafomotricidad, Escritura y Dislexia
+  writing: {
+    kicker: 'PIZARRA MÁGICA DE LÚA',
+    title: 'Grafomotricidad y Escritura',
+    sub: 'Trazado guiado con lápiz óptico · Dislexia y discriminación de grafemas',
+    tabCritical: 'Letras críticas',
+    tabWarmup: 'Lazos',
+    tabFree: 'Pizarra libre',
+    // Lo que suena es el NOMBRE de la letra, no el fonema aislado: el botón
+    // dice lo que hace. (Un modelo de fonema aislado necesitaría su propia
+    // grabación; mientras no exista, no se promete.)
+    hearModel: 'Oír la letra',
+    clearCanvas: 'Limpiar pizarra',
+    toggleGuide: 'Pauta Montessori',
+    checkStroke: '¡Comprobar trazo!',
+    strokeCompleted: '¡Trazo perfecto!',
+    strokeCompletedSub: 'Has seguido la dirección y el orden sin dudar.',
+    strokeAlmost: '¡Casi lo tienes!',
+    strokeAlmostSub: 'Sigue las flechas y los puntos de control en orden.',
+    strokeColor: 'Color de tiza mágica',
+    strokeWidth: 'Grosor del trazo',
+    targetLetter: (l: string): string => `Traza la letra: ${l}`,
+    targetWord: (w: string): string => `Escribe la palabra: ${w}`,
+    targetLoop: 'Sigue el camino de Lúa sin levantar el lápiz',
+    nextExercise: 'Siguiente trazo →',
+    congratsTitle: '¡Pizarra completada!',
+    congratsSub: 'Has completado todos los trazos de la serie con gran destreza.',
+
+
+    // Barra de herramientas: solo se leen en voz alta (lector de pantalla).
+    colorTurquoise: 'Tiza turquesa',
+    colorGold: 'Tiza dorada',
+    colorCoral: 'Tiza coral',
+    colorSky: 'Tiza azul cielo',
+    colorViolet: 'Tiza lavanda',
+    widthFine: 'Trazo fino',
+    widthMedium: 'Trazo medio',
+    widthThick: 'Trazo grueso',
   },
 };
 

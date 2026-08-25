@@ -22,11 +22,11 @@ export const MINIMAL_PAIRS_GL: MinimalPair[] = [
     phoneme: 'r̄ → l', errorLabel: 'Rotacismo inicial',
     prompt: 'Di: rúa.',
     onTarget: {
-      say: 'Rrrúa! A túa lingua vibrou coma unha moto!',
+      say: 'Rúa! A túa lingua vibrou coma unha moto!',
       mission: 'Carreira pola rúa: ide os dous ata a porta e volvede correndo a chocar os cinco.',
     },
     onFoil: {
-      say: 'Escoitei lúa, a do ceo. Eu pedín rrrúa. Escoita…',
+      say: 'Escoitei lúa, a do ceo. Eu pedín rúa. Escoita…',
       cue: 'A lingua fai a moto detrás dos dentes: rrr.',
       mission: 'Man na gorxa do adulto: o adulto sostén rrrr tres segundos e o neno sente a vibración. Despois, ao revés.',
     },
@@ -37,11 +37,11 @@ export const MINIMAL_PAIRS_GL: MinimalPair[] = [
     phoneme: 'r̄ → l', errorLabel: 'Rotacismo inicial (xeneralización)',
     prompt: 'Di: rei.',
     onTarget: {
-      say: 'Rrrei! Que erre tan forte!',
+      say: 'Rei! Que erre tan forte!',
       mission: 'Coroación: o adulto ponche unha coroa imaxinaria e ti fas unha reverencia moi seria.',
     },
     onFoil: {
-      say: 'Escoitei lei, a dos xuíces. O rei quedou sen coroa. Veña: rrrei.',
+      say: 'Escoitei lei, a dos xuíces. O rei quedou sen coroa. Veña: rei.',
       cue: 'Punta da lingua arriba, e que trema.',
       mission: 'Trono real: o neno séntase no sofá coma un rei mentres di un rrr longo; o adulto aplaude cada erre.',
     },

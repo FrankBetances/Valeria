@@ -55,25 +55,25 @@ export interface SessionReward {
   perfect: boolean;
 }
 
-// Catálogo de insignias. Tres familias con rango + seis de ocasión.
+// Catálogo de insignias de Lúa. Tres familias con rango + seis de ocasión/desarrollo cognitivo.
 // El ORDEN es el de la colección en pantalla: se lee como una progresión.
 export const BADGES: Badge[] = [
-  // Familia · huella (constancia acumulada)
+  // Familia · huella / paseo (constancia acumulada en el sendero)
   { id: 'primera', glyph: 'paw', tier: 'bronze' },
   { id: 'ses10', glyph: 'paw', tier: 'silver' },
   { id: 'ses25', glyph: 'paw', tier: 'gold' },
   { id: 'ses50', glyph: 'paw', tier: 'teal' },
   { id: 'ses100', glyph: 'paw', tier: 'violet' },
-  // Familia · llama (racha)
+  // Familia · cascabel sonoro (racha y modulación de voz)
   { id: 'racha3', glyph: 'flame', tier: 'bronze' },
   { id: 'racha7', glyph: 'flame', tier: 'silver' },
   { id: 'racha14', glyph: 'flame', tier: 'gold' },
   { id: 'racha30', glyph: 'flame', tier: 'teal' },
-  // Familia · estrella (precisión)
+  // Familia · orejitas atentas (discriminación auditiva y precisión)
   { id: 'perfecta', glyph: 'star', tier: 'bronze' },
   { id: 'perf5', glyph: 'star', tier: 'gold' },
   { id: 'perf10', glyph: 'star', tier: 'violet' },
-  // De ocasión
+  // De ocasión y desarrollo cognitivo
   { id: 'madrugadora', glyph: 'sunrise', tier: 'gold' },
   { id: 'nocturna', glyph: 'moon', tier: 'silver' },
   { id: 'finde', glyph: 'home', tier: 'teal' },

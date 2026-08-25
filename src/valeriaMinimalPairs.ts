@@ -76,11 +76,11 @@ export const MINIMAL_PAIRS: MinimalPair[] = [
     phoneme: 'r̄ → l', errorLabel: 'Rotacismo inicial',
     prompt: 'Di: rana.',
     onTarget: {
-      say: '¡Rrrana! ¡Tu lengua vibró como una moto!',
+      say: '¡Rana! ¡Tu lengua vibró como una moto!',
       mission: '¡Salto de rana! Tres saltos hasta chocar los cinco con el adulto.',
     },
     onFoil: {
-      say: 'Escuché lana, la del ovillo. Yo pedí rrrana. Escucha…',
+      say: 'Escuché lana, la del ovillo. Yo pedí rana. Escucha…',
       cue: 'La lengua hace la moto detrás de los dientes: rrr.',
       mission: 'Mano en la garganta del adulto: el adulto sostiene rrrrr tres segundos y el niño siente la vibración. Luego, al revés.',
     },
@@ -91,11 +91,11 @@ export const MINIMAL_PAIRS: MinimalPair[] = [
     phoneme: 'r̄ → l', errorLabel: 'Rotacismo intervocálico',
     prompt: 'Di: perro.',
     onTarget: {
-      say: '¡Perrro! ¡Qué erre tan fuerte!',
+      say: '¡Perro! ¡Qué erre tan fuerte!',
       mission: '¡A cuatro patas! Gatea ladrando hasta el adulto y que te rasque la cabeza.',
     },
     onFoil: {
-      say: 'Escuché pelo, el de la cabeza. El perro se quedó sin ladrar. Vamos: perrro.',
+      say: 'Escuché pelo, el de la cabeza. El perro se quedó sin ladrar. Vamos: perro.',
       cue: 'La erre es una moto larga en medio de la palabra.',
       mission: 'Carrera de motos: manillar imaginario frente a frente y acelerad con rrr a la vez.',
     },
@@ -106,11 +106,11 @@ export const MINIMAL_PAIRS: MinimalPair[] = [
     phoneme: 'r̄ → l', errorLabel: 'Rotacismo inicial (generalización)',
     prompt: 'Di: rata.',
     onTarget: {
-      say: '¡Rrrata veloz! ¡Te salió la erre!',
+      say: '¡Rata veloz! ¡Te salió la erre!',
       mission: '¡Pilla-pilla de ratas! Persigue al adulto por la habitación hasta tocarle la espalda.',
     },
     onFoil: {
-      say: 'Escuché lata, la de la cocina. La lengua se quedó dormida. ¡Despiértala!: rrrata.',
+      say: 'Escuché lata, la de la cocina. La lengua se quedó dormida. ¡Despiértala!: rata.',
       cue: 'Punta de la lengua arriba, y que tiemble.',
       mission: 'Tambor de lengua: el adulto marca ta-ta-ta con palmadas en los muslos y el niño responde ra-ra-ra, cada vez más rápido.',
     },
@@ -121,11 +121,11 @@ export const MINIMAL_PAIRS: MinimalPair[] = [
     phoneme: 'r̄ → ɾ', errorLabel: 'Reducción de vibrante múltiple',
     prompt: 'Di: cerro.',
     onTarget: {
-      say: '¡Cerrro! ¡Esa erre sube hasta la cima!',
+      say: '¡Cerro! ¡Esa erre sube hasta la cima!',
       mission: 'Escalada: palmas contra palmas con el adulto y paso de escalador en el sitio hasta la cima.',
     },
     onFoil: {
-      say: 'Escuché cero, el número redondo. Cerro tiene la moto larga: cerrro.',
+      say: 'Escuché cero, el número redondo. Cerro tiene la moto larga: cerro.',
       cue: 'La erre corta es un toque; la del cerro tiembla mucho rato.',
       mission: 'La cuerda: por cada rrr largo del niño, el adulto tira de él un paso hacia la cima (el sofá). Tres tirones y ¡cima!',
     },

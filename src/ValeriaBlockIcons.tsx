@@ -46,7 +46,9 @@ export type BlockIconName =
   | 'compass' | 'timer' | 'drop' | 'magnet' | 'battery'
   // Integración Sensorial Auditiva: estimulación, modulación, entornos y calma.
   | 'sensory' | 'sensory_ear' | 'noise_filter' | 'sensory_anticipation' | 'calm_breath'
-  | 'classroom' | 'mall' | 'street';
+  | 'classroom' | 'mall' | 'street'
+  // Grafomotricidad y Escritura: lápiz y borrador
+  | 'pencil' | 'eraser';
 
 interface Props { name: BlockIconName; color: string; size?: number; }
 
@@ -543,6 +545,22 @@ export const BlockIcon: React.FC<Props> = ({ name, color, size = 26 }) => {
           <Rect x="4" y="11" width="16" height="6" rx="2" {...common} />
           <Circle cx="7.5" cy="17" r="2" {...common} />
           <Circle cx="16.5" cy="17" r="2" {...common} />
+        </>
+      )}
+
+      {/* Lápiz · trazado de grafomotricidad y escritura */}
+      {name === 'pencil' && (
+        <>
+          <Path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z" {...common} />
+          <Path d="M15 5l4 4" {...common} />
+        </>
+      )}
+
+      {/* Borrador · limpiar trazo */}
+      {name === 'eraser' && (
+        <>
+          <Path d="M20 20H7L3 16a2 2 0 0 1 0-2.83l9.17-9.17a2 2 0 0 1 2.83 0L21 10a2 2 0 0 1 0 2.83L14 20" {...common} />
+          <Path d="M6 17l6-6" {...common} />
         </>
       )}
     </Svg>

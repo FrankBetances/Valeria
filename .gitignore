@@ -152,3 +152,8 @@ __pycache__/
 
 # Worktrees temporales de comprobación (no deben acabar en el repo).
 mainwt/
+
+# Gradle build cache
+.gradle/
+android-native/valeria-ar/.gradle/
+
