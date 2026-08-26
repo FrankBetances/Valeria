@@ -716,7 +716,7 @@ flowchart LR
     C --> P{Paciente}
     P -->|nuevo| F[FichaRegistro]
     P -->|existente| S[PatientSelect]
-    F --> H[ExerciseSelection]
+    F -->|Continuar con la selección de ejercicios| H[ExerciseSelection]
     S --> H
     H --> L[LingTest]
     L --> E[ExercisePlayer]
@@ -1290,6 +1290,7 @@ Academy, una cápsula nueva: **La Brújula de las Palabras**.
 | **Lúa en el turno sensorial** | `GRANT` solo visual —nunca `LUA_CAP.SOUND`—, silencio de tramas durante la exposición y `RELAX` en la pausa, el mismo descanso de la regla 20‑20‑20. Sin opcodes nuevos: el protocolo sigue en la versión 1. |
 | **La Brújula de las Palabras** | Cápsula de Academy con los hitos ASHA de 0 a 5 años, receptivo y expresivo separados por tramo de edad y *disclaimer* clínico visible. Abre el dominio de Lenguaje, que pasa a nueve cápsulas. |
 | **Barra inferior** | Alturas, borde y tintes revisados; sin sombra y con el turquesa de marca en la pestaña activa. |
+| **Ficha de Registro** | El botón que abre el hub decía «Continuar a Prescripción» y llevaba a `ExerciseSelection`: ahora dice **«Continuar con la selección de ejercicios»**, y nombra la pantalla a la que va. Misma cadena en el catálogo i18n (es · en), en la vista SwiftUI del port iOS, en el guion de capturas y en el manual. |
 | **Privacidad** | El registro de sesiones sensoriales —respuesta observada, estrategia de calma y notas del adulto— se declara en `site/privacidad.html` y `site/privacy.html`, y se guarda cifrado. |
 
 </details>
