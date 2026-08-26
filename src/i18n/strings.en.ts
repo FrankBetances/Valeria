@@ -1248,11 +1248,11 @@ export const EN: UiStrings = {
     detailIosPoor:
       'You can improve the voice in Settings → Accessibility → Spoken Content → Voices → English, '
       + 'downloading the enhanced voice.',
-    detailEnPending:
-      'The English neural voice (Piper en_US) already ships with the app: tap “Test the voice” to hear '
-      + 'it. The English exercises are still in clinical review, so for now the session keeps its '
-      + 'content and voice in Spanish; what does change when you pick this variety is the language of '
-      + 'the interface.',
+    detailEn:
+      'The English neural voice (Piper en_US) ships inside the app and works offline: tap “Test the '
+      + 'voice” to hear it. The exercises have their own bank and a signed dialect guide: African '
+      + 'American English and bilingual-speaker features are not scored as errors. Picking this '
+      + 'variety switches the voice, the microphone and the interface language.',
 
     testVoice: '▶ Test the voice',
     testVoiceA11y: 'Hear how the voice sounds',

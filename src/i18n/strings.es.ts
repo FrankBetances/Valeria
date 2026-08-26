@@ -1265,14 +1265,19 @@ export const ES = {
     detailIosPoor:
       'Puedes mejorar la voz en Ajustes → Accesibilidad → Contenido leído → Voces → Español, '
       + 'descargando la voz mejorada.',
-    // Inglés: la voz neuronal ya está integrada, pero el banco clínico es la
-    // Fase 3. Decirlo aquí es lo que evita que el adulto crea que la app está
-    // rota cuando el ejercicio le sale en castellano (EN_THERAPY_CONTENT_READY).
-    detailEnPending:
-      'La voz neuronal en inglés (Piper en_US) ya viaja en la app: toca «Probar la voz» para oírla. '
-      + 'Los ejercicios en inglés están todavía en revisión clínica, así que por ahora la sesión '
-      + 'mantiene el contenido y la voz en castellano; lo que sí cambia al elegir esta variedad es '
-      + 'el idioma de la interfaz.',
+    // Inglés. Este texto decía que los ejercicios seguían en revisión clínica y
+    // que la sesión se quedaba en castellano. Dejó de ser cierto cuando se
+    // firmó la guía dialectal (EN-0.5) y EN_THERAPY_CONTENT_READY pasó a true:
+    // el banco existe y la variedad se comporta como cualquier otra. El aviso
+    // sobrevivió al cambio y estuvo contradiciendo al propio código.
+    // Lo que sí hay que seguir diciendo aquí es el respeto dialectal, igual que
+    // en `detailDo`: es lo que el adulto necesita saber antes de la primera
+    // sesión, no el estado del proyecto.
+    detailEn:
+      'La voz neuronal en inglés (Piper en_US) viaja dentro de la app y funciona sin conexión: toca '
+      + '«Probar la voz» para oírla. Los ejercicios tienen banco propio y guía dialectal firmada: no '
+      + 'se marcan como error los rasgos del inglés afroamericano ni los del hablante bilingüe. Al '
+      + 'elegir esta variedad cambian la locución, el micrófono y el idioma de la interfaz.',
 
     testVoice: '▶ Probar la voz',
     testVoiceA11y: 'Probar cómo suena la voz',
