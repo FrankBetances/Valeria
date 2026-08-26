@@ -4,15 +4,22 @@
 // y reaccionan en tiempo real (palabra a palabra / streaming) conforme el niño
 // las pronuncia al micrófono.
 //
-// Andamiaje multimodal para longitud media del enunciado (LME), discriminación
-// léxica y reducción de ansiedad pediátrica (Regla: Lúa nunca castiga).
+// Andamiaje multimodal para discriminación léxica y reducción de ansiedad
+// pediátrica (Regla: Lúa nunca castiga).
+//
+// Esta cabecera decía que el andamiaje era «para la LME». No lo era, y el
+// equívoco duró: la LME de Brown se mide en morfemas sobre habla ESPONTÁNEA, y
+// aquí el niño repite una frase que la app le dicta. Lo que sí sale de aquí es
+// producción por enunciado IMITADO, que el panel de resultados rotula por su
+// nombre. Si algún día se quiere LME de verdad, hace falta otra tarea y otra
+// muestra, no este contador.
 // ============================================================================
 import React, { useEffect, useMemo, useRef } from 'react';
 import { View, Text, StyleSheet, Animated, Easing, Vibration, Platform } from 'react-native';
 import { V } from './valeriaTheme';
 import { BlockIcon } from './ValeriaBlockIcons';
 import { useT } from './i18n';
-import { normalizeSpeech } from './valeriaVoice';
+import { wordCoverage } from './valeriaVoice';
 
 export interface SentenceWordCardsProps {
   target: string;
@@ -24,25 +31,6 @@ export interface SentenceWordCardsProps {
 
 const cleanPunctuation = (s: string): string =>
   s.replace(/[¡!¿?.,:;"«»()—–]/g, '').trim();
-
-const editDistance = (a: string, b: string): number => {
-  const m = a.length, n = b.length;
-  if (!m) return n;
-  if (!n) return m;
-  let prev = Array.from({ length: n + 1 }, (_, j) => j);
-  for (let i = 1; i <= m; i++) {
-    const cur = [i];
-    for (let j = 1; j <= n; j++) {
-      cur[j] = Math.min(
-        prev[j] + 1,
-        cur[j - 1] + 1,
-        prev[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1),
-      );
-    }
-    prev = cur;
-  }
-  return prev[n];
-};
 
 interface WordCardItemProps {
   word: string;
@@ -153,27 +141,19 @@ export const SentenceWordCards: React.FC<SentenceWordCardsProps> = ({
     return raw.map(cleanPunctuation).filter(Boolean);
   }, [target]);
 
-  // Tokenización y emparejamiento fonético tolerante
+  // El emparejamiento NO se decide aquí. `wordCoverage` es la misma función que
+  // usa el veredicto (valeriaVoice), y por eso lámina encendida y palabra
+  // puntuada son ahora la misma cosa. Antes eran dos reglas parecidas pero
+  // distintas, y podían contradecirse en pantalla.
   const { matchedArray, hitCount, currentIdx } = useMemo(() => {
-    const normHeard = normalizeSpeech(heard);
-    const heardTokens = normHeard ? normHeard.split(' ').filter(Boolean) : [];
-
-    const matched = words.map((w) => {
-      const nw = normalizeSpeech(w);
-      if (!nw) return false;
-      if (heardTokens.length === 0) return false;
-      if (normHeard.includes(nw)) return true;
-
-      // Coincidencia por token con tolerancia de 1 fonema en palabras > 3 letras
-      return heardTokens.some((ht) =>
-        ht === nw || (nw.length > 3 && editDistance(ht, nw) <= 1),
-      );
-    });
-
+    const cov = wordCoverage(heard ? [heard] : [], words.join(' '));
+    // `wordCoverage` normaliza el objetivo por su cuenta; si su tokenización no
+    // cuadra con la de aquí (una palabra que la normalización parte o funde),
+    // se prefiere no encender nada antes que encender la lámina equivocada.
+    const matched = cov.total === words.length ? cov.matched : words.map(() => false);
     const hits = matched.filter(Boolean).length;
     const firstUnmatched = matched.findIndex((m) => !m);
     const current = firstUnmatched === -1 ? words.length - 1 : firstUnmatched;
-
     return { matchedArray: matched, hitCount: hits, currentIdx: current };
   }, [words, heard]);
 
@@ -198,9 +178,9 @@ export const SentenceWordCards: React.FC<SentenceWordCardsProps> = ({
       <View style={s.headerRow}>
         <View style={s.kickerGroup}>
           <BlockIcon name="level" color={V.color.primaryDark} size={14} />
-          <Text style={s.kickerTxt}>{t.voice.sentenceCardsKicker}</Text>
+          <Text style={s.kickerTxt} numberOfLines={1}>{t.voice.sentenceCardsKicker}</Text>
         </View>
-        <Text style={[s.progressBadgeTxt, allMatched && s.progressBadgeTxtFull]}>
+        <Text style={[s.progressBadgeTxt, allMatched && s.progressBadgeTxtFull]} numberOfLines={1}>
           {t.voice.sentenceCardsProgress(hitCount, total)}
         </Text>
       </View>
@@ -249,6 +229,8 @@ const s = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 6,
+    flexShrink: 1,
+    marginRight: 10,
   },
   kickerTxt: {
     fontSize: 11,
@@ -260,6 +242,7 @@ const s = StyleSheet.create({
     fontSize: 12,
     fontWeight: V.font.bold,
     color: V.color.textSecondary,
+    flexShrink: 0,
   },
   progressBadgeTxtFull: {
     color: '#16A34A',

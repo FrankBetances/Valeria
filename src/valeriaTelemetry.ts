@@ -113,6 +113,19 @@ export interface SessionRecord {
   // `noMatch` cuenta solo las escuchas en que el motor no captó nada, que son
   // las que antes le costaban al niño un intento y una estrella.
   listen?: { started: number; noMatch: number };
+  // Cobertura de palabras de los ensayos de FRASE (los de una sola palabra no
+  // entran: ahí "cobertura" y "acierto" son la misma cosa y no aporta nada).
+  //
+  // Se suman totales, no una entrada por ensayo: lo que se quiere responder es
+  // «¿cuánto de la frase produce este niño?», y para eso basta el cociente. Una
+  // lista por ensayo engordaría el registro sin contestar nada más, y cuanto
+  // menos se guarde de un menor, mejor.
+  //
+  // NO se guarda ninguna palabra, ni la frase, ni lo que el reconocedor oyó:
+  // solo cuántas de cuántas. Es la diferencia entre un contador y una
+  // transcripción, y es lo que mantiene esto fuera de "contenido de las
+  // respuestas" en la declaración de datos.
+  speech?: { utterances: number; wordsTarget: number; wordsHit: number };
   // Fase A (docs/plan-asr-privacidad-y-motor-local.md) · Partición por modo del
   // reconocedor. La tasa de `noMatch` agregada no sirve para decidir nada:
   // mezcla escuchas resueltas DENTRO del teléfono con escuchas que fueron a la
@@ -161,6 +174,7 @@ function freshSession(): SessionRecord {
     routes: { started: 0, validated: 0, failed: 0, skipped: 0 },
     blocks: [], noiseEvents: [], repairEvents: [], dualTaskWindows: [],
     listen: { started: 0, noMatch: 0 },
+    speech: { utterances: 0, wordsTarget: 0, wordsHit: 0 },
     arTrials: [],
   };
 }
@@ -187,6 +201,17 @@ function normalizeSession(s: any): SessionRecord {
     repairEvents: s?.repairEvents ?? [],
     dualTaskWindows: s?.dualTaskWindows ?? [],
     arTrials: s?.arTrials ?? [],
+    // Estos tres se copian de forma explícita, y conviene entender por qué se
+    // menciona: durante un tiempo NO estaban aquí. Como esta función construye
+    // un objeto literal campo a campo, todo lo que no se nombre se pierde al
+    // releer del disco —y `loadStore` pasa por aquí antes de exportar—. El
+    // resultado era que ES-04 (reintentos por fallo del reconocedor) y la
+    // partición local/red de la Fase A se recogían durante toda la sesión y
+    // desaparecían justo antes de llegar al fichero. Añadir un campo al
+    // registro exige añadirlo TAMBIÉN aquí.
+    ...(s?.listen ? { listen: s.listen } : {}),
+    ...(s?.asr ? { asr: s.asr } : {}),
+    ...(s?.speech ? { speech: s.speech } : {}),
     ...(s?.arDevice ? { arDevice: s.arDevice } : {}),
     ...(s?.arThresholds ? { arThresholds: s.arThresholds } : {}),
     ...(s?.likert ? { likert: s.likert } : {}),
@@ -275,6 +300,26 @@ export function trackListenNoMatch(): void {
   scheduleFlush();
 }
 
+// Cobertura de palabras de UN ensayo de frase, al cerrarse el veredicto.
+//
+// Se llama una vez por ensayo, con el resultado FINAL. Es deliberado: las
+// láminas se encienden en vivo con los resultados parciales del reconocedor, y
+// registrar cada parcial contaría el mismo ensayo diez veces y dispararía
+// `utterances` a un número sin significado.
+//
+// `hit` se acota a `total` porque el numerador y el denominador tienen que
+// poder dividirse sin dar más de 1: un dato imposible en el registro obliga a
+// tirar la sesión entera al analizar.
+export function trackPhraseCoverage(hit: number, total: number): void {
+  // Una sola palabra no es un enunciado: para eso ya está el veredicto.
+  if (!Number.isFinite(hit) || !Number.isFinite(total) || total < 2) return;
+  if (!cur.speech) cur.speech = { utterances: 0, wordsTarget: 0, wordsHit: 0 };
+  cur.speech.utterances += 1;
+  cur.speech.wordsTarget += total;
+  cur.speech.wordsHit += Math.max(0, Math.min(hit, total));
+  scheduleFlush();
+}
+
 // Fase A · Modo del reconocedor de la escucha en curso. Lo empuja valeriaVoice
 // al arrancar cada escucha; NO se importa desde aquí, porque este módulo tiene
 // la regla de no depender de nada opcional (el ASR puede no existir en el
@@ -351,6 +396,48 @@ export function trackArSession(payload: {
   if (payload.deviceProfile) cur.arDevice = payload.deviceProfile;
   if (payload.thresholds) cur.arThresholds = payload.thresholds;
   scheduleFlush();
+}
+
+/**
+ * Producción por enunciado, para el panel del paciente.
+ *
+ * Devuelve los totales acumulados y la media, sin adjetivos: si la media es
+ * alta o baja para la edad lo dice una logopeda, no esta función.
+ *
+ * CUIDADO al usar esto: la muestra son enunciados ELICITADOS —el niño repite
+ * una frase que la app le acaba de pedir—, no habla espontánea. Eso NO es la
+ * LME de Brown, que se calcula sobre una muestra espontánea de 50 a 100
+ * enunciados y se cuenta en morfemas. Llamar LME a esto sería inventar una
+ * cifra clínica; el panel lo rotula por lo que es.
+ */
+export async function readSpeechHistory(): Promise<{
+  utterances: number;
+  wordsTarget: number;
+  wordsHit: number;
+  wordsPerUtterance: number | null;
+  coverage: number | null;
+}> {
+  const vacio = { utterances: 0, wordsTarget: 0, wordsHit: 0, wordsPerUtterance: null, coverage: null };
+  try {
+    await flushNow();
+    const store = await loadStore();
+    let utterances = 0, wordsTarget = 0, wordsHit = 0;
+    for (const s of store.sessions) {
+      if (!s.speech) continue;
+      utterances += s.speech.utterances;
+      wordsTarget += s.speech.wordsTarget;
+      wordsHit += s.speech.wordsHit;
+    }
+    return {
+      utterances,
+      wordsTarget,
+      wordsHit,
+      wordsPerUtterance: utterances ? +(wordsHit / utterances).toFixed(2) : null,
+      coverage: wordsTarget ? +(wordsHit / wordsTarget).toFixed(3) : null,
+    };
+  } catch (e) {
+    return vacio;
+  }
 }
 
 /**
@@ -563,6 +650,7 @@ export async function buildExport(): Promise<ExportBundle> {
   const sessions = store.sessions;
   let started = 0, skipped = 0, mcUi = 0, mcDual = 0, likertSum = 0, likertN = 0, fullRuns = 0;
   let noiseSessions = 0, repairs = 0, routeStarted = 0, routeValidated = 0;
+  let uttN = 0, wordsTarget = 0, wordsHit = 0;
   // [v11] Cuántas de estas sesiones se registraron ya con las pestañas. Los
   // misclicks agregados NO son comparables entre las dos interfaces (la barra
   // inferior es superficie nueva y absorbe toques que antes caían en zona
@@ -583,15 +671,29 @@ export async function buildExport(): Promise<ExportBundle> {
     repairs += s.repairEvents.length;
     routeStarted += s.routes.validated + s.routes.failed; // órdenes juzgadas por el adulto
     routeValidated += s.routes.validated;
+    if (s.speech) {
+      uttN += s.speech.utterances;
+      wordsTarget += s.speech.wordsTarget;
+      wordsHit += s.speech.wordsHit;
+    }
   }
   const abandonRate = started ? +(skipped / started).toFixed(3) : 0;
   const likertMean = likertN ? +(likertSum / likertN).toFixed(2) : null;
   const routeValidationRate = routeStarted ? +(routeValidated / routeStarted).toFixed(3) : null;
+  // Palabras producidas por enunciado pedido, y qué proporción de la frase se
+  // recupera. `null` con cero enunciados: un 0 se leería como "no dice nada",
+  // que es un hallazgo clínico, y lo que pasa es que no hay muestra.
+  const wordsPerUtterance = uttN ? +(wordsHit / uttN).toFixed(2) : null;
+  const phraseCoverage = wordsTarget ? +(wordsHit / wordsTarget).toFixed(3) : null;
   const summary = {
     v: 'vlr2', sessions: sessions.length, sessionsV11, abandonRate,
     misclicks: mcUi + mcDual, misclicksDualTask: mcDual,
     likertMean, likertN, fullBlockRuns: fullRuns,
     noiseSessions, repairEvents: repairs, routeValidationRate,
+    // Producción por enunciado. `utterances` va al lado a propósito: una media
+    // sobre tres enunciados no se interpreta igual que sobre trescientos, y sin
+    // el n a la vista alguien la leerá como si fuera lo mismo.
+    utterances: uttN, wordsPerUtterance, phraseCoverage,
     ar: summarizeAr(sessions),
     generatedAt: Date.now(),
   };
@@ -604,6 +706,9 @@ export async function buildExport(): Promise<ExportBundle> {
     mc: mcUi + mcDual, mcd: mcDual,
     lk: likertMean, lkn: likertN, b4: fullRuns,
     nz: noiseSessions, rp: repairs,
+    // Dos números y su n. Cabe de sobra y es la cifra que el logopeda quiere
+    // leer del QR sin abrir el registro completo.
+    un: uttN, wpu: wordsPerUtterance, pc: phraseCoverage,
   });
   const fullLog = JSON.stringify({ summary, sessions: sessions.map(exportSession) }, null, 0);
   return { summary, qrPayload, fullLog };

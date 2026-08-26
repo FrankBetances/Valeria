@@ -1068,6 +1068,26 @@ export const ES = {
     trendDown: (d: number): string => `▼ ${d} ★`,
     trendStable: '= estable',
 
+    // Producción por enunciado.
+    //
+    // El rótulo NO dice «LME» y no puede decirlo. La longitud media del
+    // enunciado de Brown se calcula sobre una muestra de habla ESPONTÁNEA de
+    // 50 a 100 enunciados y se cuenta en morfemas; aquí el niño repite una
+    // frase que la app le acaba de dictar. Es una medida útil —cuánto de lo
+    // pedido llega a producir— pero es otra cosa, y ponerle el nombre de la
+    // LME haría que acabara copiada en un informe como si lo fuera.
+    speechTitle: 'Producción por enunciado',
+    speechSub: 'Palabras que el micrófono reconoce de cada frase pedida. Es imitación, no habla espontánea.',
+    speechWpu: 'palabras por enunciado',
+    speechCoverage: 'de la frase pedida',
+    speechUtterances: (n: number): string => (n === 1 ? 'enunciado medido' : 'enunciados medidos'),
+    speechNote:
+      'No es la LME (longitud media del enunciado): esa se mide en morfemas sobre habla espontánea, '
+      + 'y esto son frases que la app dicta y el niño repite. Sirve para ver la evolución de lo que '
+      + 'produce en imitación, no para sustituir una muestra de lenguaje.',
+    speechNoteThin: (n: number): string =>
+      `Con ${n} enunciado${n === 1 ? '' : 's'} la media todavía no dice gran cosa; gana sentido a partir de una veintena.`,
+
     phonemeTitle: 'Sustitución por fonema',
     pmFirstSession: 'primera sesión',
     pmImproving: (d: number): string => `▼ ${d} pp · mejora`,
@@ -1217,8 +1237,16 @@ export const ES = {
       { icon: '🎉', title: '¡Lo dijo genial!', sub: 'La app entendió la palabra objetivo.' },
     ],
 
+    // Debajo del veredicto. Dice CUÁNTO de la frase salió, que es lo que las
+    // tres estrellas no pueden decir: «casi» le toca igual a quien dijo una
+    // palabra de cinco que a quien dijo cuatro.
+    micCoverage: (hits: number, total: number): string =>
+      `${hits} de ${total} palabras de la frase`,
+
     sentenceCardsKicker: 'LÁMINAS DE LA FRASE',
-    sentenceCardsProgress: (hits: number, total: number): string => `${hits} de ${total} palabras conseguidas`,
+    // Corto a propósito: convive en la misma línea con el rótulo, y «conseguidas»
+    // lo dice ya el check verde de cada lámina.
+    sentenceCardsProgress: (hits: number, total: number): string => `${hits} de ${total} palabras`,
     sentenceWordMatched: (word: string): string => `Palabra conseguida: ${word}`,
     sentenceWordPending: (word: string): string => `Palabra pendiente: ${word}`,
 

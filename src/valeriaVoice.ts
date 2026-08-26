@@ -1357,6 +1357,53 @@ export function matchExpected(alternatives: string[], expected: string[]): Match
   return best;
 }
 
+// ----------------------------------------------------------------------------
+// Cobertura de palabras: QUÉ palabras del objetivo aparecen en lo que se oyó
+// ----------------------------------------------------------------------------
+// Punto ÚNICO. Antes esta misma regla estaba escrita dos veces —aquí dentro de
+// `matchTarget`, y otra vez en `ValeriaSentenceWordCards`— con una diferencia
+// que nadie había mirado: las láminas aceptaban además la palabra como
+// SUBCADENA de todo lo oído, y el veredicto no. Con eso, una frase podía
+// encenderle al niño las cinco láminas y recibir después un «casi» del
+// veredicto, que es la peor combinación posible: la pantalla le dice que lo
+// hizo entero y la app le dice que no.
+//
+// La regla que queda es la del VEREDICTO, tal cual estaba, porque es la que
+// puntúa. Las láminas pierden la cláusula de subcadena y con ella la única
+// forma que tenían de adelantarse. `matchTarget` no cambia de comportamiento:
+// se limita a leer de aquí.
+export interface WordCoverage {
+  /** Una entrada por palabra del objetivo, en orden. */
+  matched: boolean[];
+  hits: number;
+  total: number;
+}
+
+/** Palabras del objetivo presentes en la MEJOR de las alternativas oídas. */
+export function wordCoverage(alternatives: string[], target: string): WordCoverage {
+  const t = normalizeSpeech(target);
+  const tWords = t ? t.split(' ') : [];
+  const empty = { matched: tWords.map(() => false), hits: 0, total: tWords.length };
+  if (!tWords.length) return empty;
+
+  let best = empty;
+  for (const alt of alternatives) {
+    const h = normalizeSpeech(alt);
+    if (!h) continue;
+    const hWords = h.split(' ');
+    // Tolerancia de un fonema, y solo en palabras de más de tres letras: en
+    // «pan» o «sol» una letra de diferencia YA es otra palabra.
+    const matched = tWords.map((tw) =>
+      hWords.some((hw) => hw === tw || (tw.length > 3 && editDistance(hw, tw) <= 1)),
+    );
+    const hits = matched.filter(Boolean).length;
+    // Se queda la alternativa que más palabras recupera; el reconocedor
+    // devuelve varias y quedarse con la primera desperdicia las demás.
+    if (hits > best.hits) best = { matched, hits, total: tWords.length };
+  }
+  return best;
+}
+
 export function matchTarget(alternatives: string[], target: string): MatchLevel {
   const t = normalizeSpeech(target);
   if (!t) return 0;

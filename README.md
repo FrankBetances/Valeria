@@ -796,7 +796,17 @@ con *debounce* vía `InteractionManager`, de modo que el cifrado y el guardado e
 | 🧩 **Abandono intra‑cápsula TPR** | Se cuentan cápsulas mostradas vs. saltadas vs. completadas en el player. |
 | 💬 **Evaluación subjetiva (SUS adaptado)** | Modal Likert 1‑5 (`ValeriaSUSModal`) orientado a la **carga de uso real** ("integrar el ejercicio en la rutina de mi hijo/a"). *Rate limiting* para evitar sesgo de fatiga: solo en el **hito de 4 bloques distintos** (umbral desacoplado del total de 6: los módulos TEA/Dislexia ni lo bloquean ni lo fuerzan) y **máx. 1 vez/semana** por dispositivo. |
 | 🔒 **Persistencia y correlación** | Telemetría + Likert se guardan en un **JSON cifrado en reposo** (`valeriaCrypto`, keystream SHA‑256 en JS puro) bajo el **mismo id de sesión**. Se **purga solo tras una exportación exitosa**, evitando el desborde de memoria semana a semana. |
+| 🗣️ **Palabras producidas por enunciado** | En los ejercicios de frase con micrófono, `trackPhraseCoverage` suma cuántas palabras de la frase pedida reconoció el motor, cuántas tenía y cuántos enunciados se han medido. Se llama **una vez por ensayo y con el resultado final**: las láminas se encienden con los parciales del reconocedor, y registrar cada parcial contaría el mismo ensayo diez veces. **Solo números**: ni la frase, ni las palabras, ni lo que el reconocedor entendió. Los objetivos de una sola palabra no entran (ahí «cobertura» y «acierto» son lo mismo). |
 | 🎛️ **Interfaz de la sesión** (`ui: 'v10' \| 'v11'`) | Sella con qué interfaz se registró cada sesión. Activar las pestañas mueve la línea base de dos métricas: la barra inferior absorbe toques que antes caían en zona muerta (menos *misclicks*, sin que nadie se equivoque menos) y `BlockList` se lleva un tiempo que antes se imputaba a `ExerciseSelection`. Con el sello, los tramos pre/post se separan **por dato** y no por fecha de despliegue —que es aproximada y se pierde al reinstalar—. El resumen exportado incluye `sessionsV11`: si está entre 0 y `sessions`, la muestra mezcla interfaces y los *misclicks* agregados no son una serie homogénea. |
+
+> [!WARNING]
+> **Añadir un campo al registro exige tocar `normalizeSession`.** Esa función
+> reconstruye la sesión **campo a campo** al releerla del disco, así que todo lo
+> que no se nombre ahí se pierde entre el disco y la exportación —sin error, sin
+> aviso: se exporta un cero—. Ya pasó con `listen` (ES‑04) y con `asr` (partición
+> local/red de la Fase A), que se recogían durante toda la sesión y no llegaban
+> nunca al fichero. El gate `check-word-coverage.js` hace el viaje de ida y
+> vuelta y lo detecta.
 
 **Exportación dual** (Modo Profesional, PIN `1985` → `ValeriaProExport`; en la
 interfaz clásica se entra desde el hub de bloques, en la v11 desde **Ajustes**):
@@ -809,7 +819,12 @@ interfaz clásica se entra desde el hub de bloques, en la v11 desde **Ajustes**)
   crudo** (email/WhatsApp) para cuando haya conectividad.
 
 > **Notas para la fase regulatoria.** La telemetría es **anónima** (sin datos
-> personales, sin audio, sin el contenido de las respuestas). El cifrado en
+> personales, sin audio, sin el contenido de las respuestas). El recuento de
+> palabras producidas es lo más cerca del habla que llega el registro, y aun así
+> **son cifras**: cuántas de cuántas, nunca cuáles. Va declarado como dato propio
+> en la política de `site/` —con su base legal y su plazo—, y **el formulario de
+> Seguridad de los datos de Play Console tiene que decir lo mismo**: Google
+> contrasta las dos declaraciones entre sí. El cifrado en
 > reposo guarda la clave en `AsyncStorage`; el módulo `valeriaCrypto` está
 > aislado para migrarla a `expo-secure-store` (Keystore/Keychain) en producción.
 > Al tratarse de un piloto con menores, el **consentimiento informado** de las

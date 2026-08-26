@@ -24,7 +24,7 @@ import { useT, UiStrings } from './i18n';
 import { loadGame, liveStreak, levelFor, levelName, levelProgress, xpToNext, BADGES, GameState } from './valeriaGamification';
 import { PixelAward, streakTier } from './ValeriaPixelAwards';
 import { BlockIcon, BlockIconName } from './ValeriaBlockIcons';
-import { readArHistory } from './valeriaTelemetry';
+import { readArHistory, readSpeechHistory } from './valeriaTelemetry';
 import type { ArTrial, ArDeviceProfile, ArThresholds } from './valeriaArBridge';
 // import logoWhite from '../../assets/valeria-logo-white.png';
 
@@ -137,6 +137,9 @@ export const ValeriaPatientResultsDashboardScreen: React.FC<{ navigation?: any }
   const [arThresholds, setArThresholds] = useState<ArThresholds | null>(null);
   const [arSessions, setArSessions] = useState(0);
   const [arEjercicio, setArEjercicio] = useState('');
+  const [speech, setSpeech] = useState<{
+    utterances: number; wordsPerUtterance: number | null; coverage: number | null;
+  } | null>(null);
 
   useEffect(() => {
     (async () => {
@@ -172,6 +175,13 @@ export const ValeriaPatientResultsDashboardScreen: React.FC<{ navigation?: any }
           setArEjercicio((prev) => prev || ar.trials[ar.trials.length - 1].exerciseId);
         }
       } catch (e) { /* sin ejercicios de realidad aumentada todavía */ }
+      try {
+        const sp = await readSpeechHistory();
+        // Sin enunciados medidos la tarjeta no se pinta: un panel con «0,00
+        // palabras por enunciado» se lee como un hallazgo clínico, y lo que
+        // pasa es que este niño todavía no ha hecho ningún ejercicio de frase.
+        if (sp.utterances > 0) setSpeech(sp);
+      } catch (e) { /* sin ejercicios de frase con micrófono todavía */ }
       try {
         setGame(await loadGame());
       } catch (e) { /* gamificación no disponible */ }
@@ -546,6 +556,45 @@ export const ValeriaPatientResultsDashboardScreen: React.FC<{ navigation?: any }
           </View>
         )}
 
+        {/* PRODUCCIÓN POR ENUNCIADO · cuántas palabras de la frase pedida llegan
+            a producirse. Se enseña el número y el n, y se dice con todas las
+            letras que NO es la LME: la muestra es imitación elicitada. */}
+        {!!speech && (
+          <View style={st.card}>
+            <View style={st.cardHeader}>
+              <View style={st.chip}><BlockIcon name="mic" color={V.color.primaryDark} size={17} /></View>
+              <Text style={[st.cardTitle, { flexShrink: 1 }]} numberOfLines={2}>{t.results.speechTitle}</Text>
+            </View>
+            <Text style={[st.evoSub, { marginTop: 6 }]}>{t.results.speechSub}</Text>
+
+            <View style={st.arFacts}>
+              <View style={st.arFact}>
+                <Text style={st.arFactVal}>
+                  {speech.wordsPerUtterance != null ? speech.wordsPerUtterance.toFixed(2) : '—'}
+                </Text>
+                <Text style={st.arFactKey}>{t.results.speechWpu}</Text>
+              </View>
+              <View style={st.arFact}>
+                <Text style={st.arFactVal}>
+                  {speech.coverage != null ? `${Math.round(speech.coverage * 100)}%` : '—'}
+                </Text>
+                <Text style={st.arFactKey}>{t.results.speechCoverage}</Text>
+              </View>
+              <View style={st.arFact}>
+                <Text style={st.arFactVal}>{speech.utterances}</Text>
+                <Text style={st.arFactKey}>{t.results.speechUtterances(speech.utterances)}</Text>
+              </View>
+            </View>
+
+            {/* Con muy pocos enunciados la media es ruido. Decirlo aquí es más
+                barato que un informe apoyado en cuatro ensayos. */}
+            {speech.utterances < 20 && (
+              <Text style={st.arDevice}>{t.results.speechNoteThin(speech.utterances)}</Text>
+            )}
+            <Text style={st.speechNote}>{t.results.speechNote}</Text>
+          </View>
+        )}
+
         {/* REALIDAD AUMENTADA · magnitudes por ensayo.
             Se muestran los números medidos y el umbral que fijó el adulto, sin
             ninguna valoración: la interpretación es de la logopeda. */}
@@ -815,6 +864,13 @@ const st = StyleSheet.create({
   arFactVal: { fontSize: 16, fontWeight: V.font.extrabold, color: V.color.textPrimary },
   arFactKey: { fontSize: 10, fontWeight: V.font.bold, color: V.color.textMuted, marginTop: 2, textAlign: 'center' },
   arDevice: { fontSize: 10.5, fontWeight: V.font.semibold, color: V.color.textMuted, marginTop: 10, lineHeight: 15 },
+  // La advertencia de que esto no es la LME va enmarcada, no como pie de foto:
+  // es lo que evita que el número acabe copiado en un informe con otro nombre.
+  speechNote: {
+    fontSize: 10.5, fontWeight: V.font.semibold, color: '#92711a', lineHeight: 15,
+    backgroundColor: '#fffbeb', borderWidth: 1, borderColor: '#f4e6b8',
+    borderRadius: 11, padding: 10, marginTop: 12,
+  },
 
   pmChipsRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 7, marginBottom: 10, marginTop: 4 },
   pmChip: { backgroundColor: '#f7fafa', borderWidth: 1, borderColor: '#eef3f3', borderRadius: 10, paddingHorizontal: 11, paddingVertical: 6 },

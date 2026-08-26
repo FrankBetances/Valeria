@@ -1064,6 +1064,18 @@ export const EN: UiStrings = {
     trendDown: (d: number): string => `▼ ${d} ★`,
     trendStable: '= steady',
 
+    speechTitle: 'Output per utterance',
+    speechSub: 'Words the microphone recognises out of each prompted sentence. This is imitation, not spontaneous speech.',
+    speechWpu: 'words per utterance',
+    speechCoverage: 'of the prompted sentence',
+    speechUtterances: (n: number): string => (n === 1 ? 'utterance measured' : 'utterances measured'),
+    speechNote:
+      'This is not MLU (mean length of utterance): MLU is counted in morphemes over a spontaneous '
+      + 'language sample, and these are sentences the app prompts and the child repeats. Use it to '
+      + 'track imitated output over time, not as a substitute for a language sample.',
+    speechNoteThin: (n: number): string =>
+      `With ${n} utterance${n === 1 ? '' : 's'} the average says little yet; it becomes meaningful from about twenty on.`,
+
     phonemeTitle: 'Substitution by phoneme',
     pmFirstSession: 'first session',
     pmImproving: (d: number): string => `▼ ${d} pp · improving`,
@@ -1199,8 +1211,11 @@ export const EN: UiStrings = {
       { icon: '🎉', title: 'They nailed it!', sub: 'The app understood the target word.' },
     ],
 
+    micCoverage: (hits: number, total: number): string =>
+      `${hits} of ${total} words in the sentence`,
+
     sentenceCardsKicker: 'SENTENCE CARDS',
-    sentenceCardsProgress: (hits: number, total: number): string => `${hits} of ${total} words achieved`,
+    sentenceCardsProgress: (hits: number, total: number): string => `${hits} of ${total} words`,
     sentenceWordMatched: (word: string): string => `Word matched: ${word}`,
     sentenceWordPending: (word: string): string => `Word pending: ${word}`,
 
