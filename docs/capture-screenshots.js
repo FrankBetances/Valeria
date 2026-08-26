@@ -121,7 +121,7 @@ const pause = (page, ms) => page.waitForTimeout(ms);
   console.log('04 guardada ✓');
 
   // 05 · HUB de 4 bloques (Selección de Ejercicios rediseñada)
-  await page.getByText('Continuar a Prescripción →').click();
+  await page.getByText('Continuar con la selección de ejercicios →').click();
   await page.getByText('Selección de Ejercicios', { exact: true }).waitFor({ timeout: 120000 });
   await pause(page, 700);
   await shot(page, '05-hub-bloques');

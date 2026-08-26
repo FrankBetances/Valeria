@@ -125,7 +125,7 @@ export const EN: UiStrings = {
     recordNumberRequired: 'The record number is required.',
     saved: 'Record saved and encrypted on this device.',
     save: 'Save record',
-    continueToPrescription: 'Continue to therapy plan →',
+    continueToExerciseSelection: 'Continue to exercise selection →',
     footer: 'Encrypted local storage (AES-256) · HIPAA / GDPR compliant.',
 
     // The argument is the stored Spanish id; the return value is what the user

@@ -133,7 +133,7 @@ struct FichaRegistroView: View {
 
                     if success {
                         Button { router.push(.exerciseSelection) } label: {
-                            Text("Continuar a Prescripción →")
+                            Text("Continuar con la selección de ejercicios →")
                                 .font(.system(size: 15, weight: .heavy)).foregroundStyle(VColor.primaryDark)
                                 .frame(maxWidth: .infinity).padding(.vertical, 15)
                                 .background(Color.white)

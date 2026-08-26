@@ -196,7 +196,7 @@ export const ValeriaFichaRegistroScreen: React.FC<{ navigation?: any }> = ({ nav
 
         {success && (
           <Pressable onPress={() => navigation?.navigate('ExerciseSelection')} style={s.secondaryBtn}>
-            <Text style={s.secondaryBtnTxt}>{t.ficha.continueToPrescription}</Text>
+            <Text style={s.secondaryBtnTxt}>{t.ficha.continueToExerciseSelection}</Text>
           </Pressable>
         )}
 

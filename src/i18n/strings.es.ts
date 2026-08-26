@@ -130,7 +130,7 @@ export const ES = {
     recordNumberRequired: 'El NHC es obligatorio.',
     saved: 'Ficha guardada y cifrada en el dispositivo.',
     save: 'Guardar ficha',
-    continueToPrescription: 'Continuar a Prescripción →',
+    continueToExerciseSelection: 'Continuar con la selección de ejercicios →',
     footer: 'Almacenamiento local cifrado (AES-256) · cumple RGPD / HIPAA.',
 
     // id almacenado (castellano, inmutable) → etiqueta visible
