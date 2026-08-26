@@ -354,11 +354,13 @@ const GOOGLE_TTS_WEB = 'https://play.google.com/store/apps/details?id=com.google
 //   · Dominicano (es-DO · Quisqueya Habla) → voz y micrófono del SISTEMA en
 //     español latino (es-US/es-MX).
 //   · Euskara → voz neuronal HiTZ-TTS (ILENIA/NEL-GAITU, empaquetada).
-//   · English (US) → voz neuronal Piper en_US (empaquetada). Marcada `beta`
-//     porque su BANCO CLÍNICO todavía no existe (Fase 3 del plan en-US): hoy
-//     elegirla pone la interfaz en inglés y deja el contenido en castellano
-//     — es la build de evaluación EN-0.9. El detalle de la tarjeta lo explica
-//     con todas las letras para que nadie lo lea como un fallo.
+//   · English (US) → voz neuronal Piper en_US (empaquetada). Su banco clínico
+//     YA existe (EN_THERAPY_CONTENT_READY) y su guía dialectal está firmada
+//     (EN-0.5), así que elegirla cambia el contenido, el micrófono y la
+//     interfaz, como cualquier otra variedad. Sigue marcada `beta` por ser la
+//     más reciente y la que menos horas de uso real acumula: es una etiqueta de
+//     rodaje, NO un aviso de que falte contenido. Si alguien la quita, que sea
+//     por decisión de producto, no por leer aquí una razón caducada.
 const LOCALES: Array<{ id: Locale; label: (t: UiStrings) => string; beta?: boolean }> = [
   { id: 'es', label: (t) => t.voice.localeEs },
   { id: 'gl', label: (t) => t.voice.localeGl },
@@ -454,9 +456,10 @@ export const SpeechPrivacyBlock: React.FC<{ locale: Locale }> = ({ locale }) => 
   };
 
   // El paquete que se sondea es el de la variedad cuyo CONTENIDO se está
-  // usando: con `en-US` y el banco inglés aún sin escribir, quien escucha es el
-  // reconocedor castellano, y anunciar «falta el paquete de English (US)»
-  // mandaría al adulto a descargar el paquete equivocado.
+  // usando, que no siempre es la elegida: `contentLocale` es quien lo decide.
+  // Anunciar el paquete de una variedad que no se está locutando mandaría al
+  // adulto a descargar el equivocado. (Con el inglés ya no hay desvío —su banco
+  // existe—, pero el punto único sigue siendo el correcto para la siguiente.)
   const label = localeLabel(t, contentLocale(locale));
   const local = st?.mode === 'local';
 
@@ -614,9 +617,10 @@ export const VoiceQualityCard: React.FC = () => {
   // Castellano → comportamiento histórico.
   //
   // El detalle de gl y eu está escrito EN SU PROPIA LENGUA a propósito: quien
-  // elige esa variedad la lee. El inglés no puede hacer lo mismo todavía —el
-  // texto tiene que explicar que la sesión sigue en castellano—, así que sale
-  // del catálogo y se lee en el idioma de interfaz del adulto.
+  // elige esa variedad la lee, y no hay catálogo de interfaz en gallego ni en
+  // euskera donde ponerlo. El inglés SÍ lo tiene, así que sale del catálogo y
+  // se lee en el idioma de interfaz del adulto: quien desacopló la interfaz al
+  // castellano lo lee en castellano, y no en un idioma que no eligió.
   const isGl = locale === 'gl';
   const isEu = locale === 'eu';
   const isEn = locale === 'en-US';
@@ -626,7 +630,7 @@ export const VoiceQualityCard: React.FC = () => {
     ? 'En galego a app fala coa voz neuronal Celtia (Proxecto Nós), incluída na app: soa igual en calquera dispositivo, sen conexión.'
     : isEu
       ? 'Euskaraz aplikazioak HiTZ-en ahots neuronalarekin (ILENIA/NEL-GAITU) hitz egiten du, aplikazioan bertan sartuta: berdin entzuten da edozein gailutan, konexiorik gabe.'
-      : isEn ? t.voice.detailEnPending
+      : isEn ? t.voice.detailEn
         : checking ? t.voice.detailSearching
           : noSpanish ? t.voice.detailNoVoice
             : isDo ? t.voice.detailDo(status?.name ?? '')

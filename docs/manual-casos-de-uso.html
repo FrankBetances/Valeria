@@ -302,7 +302,7 @@
     <tr><td><strong>Galego</strong> <span class="small muted">(Proxecto Nós)</span></td><td>Voz neuronal <strong>Celtia</strong>, con banco de pares propio. El contenido compartido con el castellano recae con suavidad en la voz neuronal castellana mientras Celtia no lo cubra.</td></tr>
     <tr><td>🇩🇴 <strong>Dominicano</strong> <span class="small muted">(Quisqueya Habla)</span></td><td>Voz latina del dispositivo y micrófono en es‑DO. <strong>Respeto dialectal:</strong> no marca como error el seseo, la aspiración de la “s” ni el cambio de “r/l” a final de sílaba.</td></tr>
     <tr><td><strong>Euskera</strong> <span class="small muted">(batua · ILENIA/NEL‑GAITU)</span></td><td>Voz neuronal <strong>«Maider»</strong>, de HiTZ/Aholab (UPV/EHU). El reconocimiento usa <code>eu‑ES</code> y, donde no exista, recae en <code>es‑ES</code> con un pliegue de la ⟨h⟩ muda.</td></tr>
-    <tr><td>🇺🇸 <strong>English (US)</strong> <span class="small muted">(en pruebas)</span></td><td>Voz neuronal <strong>Piper en_US</strong> empaquetada y offline, y micrófono en <code>en‑US</code>. Es la única variedad marcada <strong>«beta»</strong> en el selector, y la única que además cambia el idioma de la interfaz. Su banco clínico se rige por una <strong>guía dialectal firmada</strong> que cubre el inglés afroamericano (AAE) y el de hablantes bilingües, para no marcar como error lo que es un rasgo del habla.</td></tr>
+    <tr><td>🇺🇸 <strong>English (US)</strong> <span class="small muted">(en pruebas)</span></td><td>Voz neuronal <strong>Piper en_US</strong> empaquetada y offline, y micrófono en <code>en‑US</code>. Tiene <strong>banco clínico propio</strong> —pares mínimos, expansión semántica, Audición, Lenguaje, TEA, Dislexia y Test de Ling—, gobernado por una <strong>guía dialectal firmada</strong> por una logopeda con licencia de <strong>Howard University</strong>: no se marcan como error los rasgos del inglés afroamericano (AAE) ni los del hablante bilingüe. Va marcada <strong>«beta»</strong> en el selector por ser la más reciente, no porque le falte contenido.</td></tr>
   </table>
 
   <h3>Academy: formación del cuidador</h3>
@@ -1387,7 +1387,7 @@ TEA y Lengua de Signos). Cada dominio ofrece
         <tr><td><strong>Galego</strong> <span class="small muted">(Proxecto Nós)</span></td><td>Voz neuronal <strong>Celtia</strong> pregenerada en gallego; contenido y pares propios. El contenido compartido con el castellano (Expansión Semántica, Audición y Lenguaje) suena con la voz neuronal castellana mientras Celtia no lo cubra.</td></tr>
         <tr><td>🇩🇴 <strong>Dominicano</strong> <span class="small muted">(Quisqueya Habla)</span></td><td>Usa la <strong>voz latina del dispositivo</strong> y el micrófono en es‑DO; respeta los rasgos del habla caribeña.</td></tr>
         <tr><td><strong>Euskera</strong> <span class="small muted">(batua · ILENIA/NEL‑GAITU)</span></td><td>Voz neuronal <strong>«Maider»</strong> pregenerada, de HiTZ/Aholab (UPV/EHU), empaquetada y offline. El reconocimiento usa <code>eu‑ES</code> donde el dispositivo lo trae; si no, recae en <code>es‑ES</code> con un <strong>pliegue de la ⟨h⟩ muda</strong> que no penaliza las sibilantes ni africadas (contraste clínico que valora el adulto).</td></tr>
-        <tr><td>🇺🇸 <strong>English (US)</strong> <span class="small muted">(marcada «beta» en el selector)</span></td><td>Voz neuronal <strong>Piper en_US</strong> pregenerada, empaquetada y offline —el botón <strong>«Probar la voz»</strong> la deja oír sin salir de la tarjeta— y micrófono en <code>en‑US</code>. Al elegirla, la interfaz pasa también a inglés. Sobre el contenido de los ejercicios, <strong>lea lo que dice la propia tarjeta</strong> debajo del selector: es la fuente al día, y esta variedad es la única que todavía se mueve.</td></tr>
+        <tr><td>🇺🇸 <strong>English (US)</strong> <span class="small muted">(marcada «beta» en el selector)</span></td><td>Voz neuronal <strong>Piper en_US</strong> pregenerada, empaquetada y offline —el botón <strong>«Probar la voz»</strong> la deja oír sin salir de la tarjeta— y micrófono en <code>en‑US</code>. Al elegirla cambian los tres a la vez: la locución, el reconocimiento y el idioma de la interfaz. Los ejercicios tienen <strong>banco propio</strong> en las siete familias de contenido, con <strong>respeto dialectal</strong> revisado y firmado (ver el recuadro de abajo).</td></tr>
       </table>
       <h4>Flujo principal</h4>
       <ol class="flow">
@@ -1403,6 +1403,14 @@ TEA y Lengua de Signos). Cada dominio ofrece
         <li><strong>Probar el inglés y volver:</strong> la app <strong>recuerda la variedad de la que se venía</strong>. Quien estaba en galego vuelve a galego, no a castellano.</li>
         <li><strong>Falta la voz pregenerada de una locución:</strong> en galego se reproduce primero el asset neuronal castellano equivalente si existe; en último término, la app recae con suavidad en la voz del sistema, sin interrumpir la sesión.</li>
       </ul>
+      <div class="callout ok"><div class="lbl">El banco inglés está validado</div><p style="margin:4px 0 0">
+      No es una variedad a medias. Los ejercicios en inglés tienen contenido propio en las siete
+      familias —pares mínimos, expansión semántica, Audición, Lenguaje, TEA, Dislexia y Test de Ling— y
+      la <strong>guía dialectal</strong> que decide qué cuenta como error y qué es habla normal fue
+      <strong>revisada y firmada por una logopeda con licencia de Howard University</strong>, cuya
+      práctica con hablantes de <strong>inglés afroamericano (AAE)</strong> es justamente lo que da
+      autoridad sobre los apartados de más riesgo. Con esa firma queda validado el conjunto del banco.
+      Ni el AAE ni los rasgos del hablante bilingüe se puntúan como fallo.</p></div>
       <div class="callout"><div class="lbl">Respeto dialectal</div><p style="margin:4px 0 0">En dominicano, la app <strong>no marca como error</strong> el seseo, la aspiración de la “s” ni el cambio de “r/l” a final de sílaba: son rasgos normales del habla, no fallos que corregir.</p></div>
       <div class="shots">
         <figure class="shot">

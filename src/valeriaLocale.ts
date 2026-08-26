@@ -63,7 +63,14 @@ export async function setLocale(loc: Locale): Promise<void> {
 // ---------------------------------------------------------------------------
 // Ya SÍ (ago 2026, EN-3.2…EN-3.8): pares mínimos, expansión semántica,
 // Audición, Lenguaje, TEA, Dislexia y Test de Ling propios, y el corpus enumera
-// el 100 % de lo que la app dice en `en-US`.
+// el 100 % de lo que la app dice en `en-US`. La guía dialectal que lo gobierna
+// (docs/guia-dialectal-en-US.md) está FIRMADA desde el 16/8/2026 por una
+// logopeda con licencia de Howard University, y con su firma queda validado
+// también el dataset `en`. O sea: esto no es un interruptor a medias.
+//
+// Quien lea este fichero buscando si el inglés «ya está»: sí. Si encuentra en
+// otro sitio un texto que diga que sigue en revisión, ese texto es el que está
+// caducado — ya pasó una vez con el detalle de la tarjeta de voz.
 //
 // El interruptor se conserva porque la transición tenía trampa y conviene no
 // olvidarla: mientras el banco no existía, `en-US` mostraba contenido
