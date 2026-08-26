@@ -136,6 +136,9 @@
   }
   .shot{ display:table-cell; width:44mm; text-align:center; vertical-align:top; }
   .shot.sm{ width:38mm; }
+  /* Figura apaisada (una tira de caras, un diagrama): a 44 mm quedaría de 17 mm
+     de alto y no se distinguiría nada. */
+  .shot.wide{ width:130mm; }
   .shot img{
     width:100%; display:block; border-radius:12px; border:1px solid var(--border);
     box-shadow:0 4px 14px rgba(11,18,32,.10);
@@ -151,13 +154,13 @@
   <div class="brand">valeria+</div>
   <img class="mascot" src="lua-mascota.png" alt="Lúa, la gata de Valeria+, en píxel art">
   <div style="margin-top:auto">
-    <div class="pill">Manual de usuario · v13 · con capturas de pantalla</div>
+    <div class="pill">Manual de usuario · v14 · con capturas de pantalla</div>
     <h1>Manual de<br>Casos de Uso</h1>
     <div class="sub">Aplicación de terapia auditivo‑verbal y del lenguaje para niñas y niños con hipoacusia, implante coclear, dislalias, dislexia, TEA o dificultades del lenguaje.</div>
     <div class="meta">
       Guía para logopedas, familias y cuidadores<br>
       Agosto de 2026 · Documento interno<br>
-      Expo SDK 54 / React Native · Castellano · Galego · Dominicano · Euskera · Voz neuronal offline
+      Expo SDK 54 / React Native · Castellano · Galego · Dominicano · Euskara · English (US) · Voz neuronal offline
     </div>
   </div>
 </div>
@@ -186,11 +189,13 @@
     <li><span class="num">CU‑12</span><span class="txt">Consultar el panel de resultados</span></li>
     <li><span class="num">CU‑13</span><span class="txt">Cambiar entre Modo Familia y Modo Profesional</span></li>
     <li><span class="num">CU‑14</span><span class="txt">Exportar la evidencia de usabilidad del piloto (QR + compartir)</span></li>
-    <li><span class="num">CU‑15</span><span class="txt">Elegir la variedad de terapia (Castellano · Galego · Dominicano · Euskera)</span></li>
+    <li><span class="num">CU‑15</span><span class="txt">Elegir la variedad de terapia (Castellano · Galego · Dominicano · Euskara · English)</span></li>
     <li><span class="num">CU‑16</span><span class="txt">Panel del Adulto: carga comunicativa (ruido, doble tarea, quiebre)</span></li>
     <li><span class="num">CU‑17</span><span class="txt">Academy: aprender lo básico de Lengua de Signos Española</span></li>
     <li class="section-label">Integración Sensorial Auditiva</li>
     <li><span class="num">CU‑23</span><span class="txt">Una sesión de desensibilización sonora, de principio a fin</span></li>
+    <li class="section-label">Grafomotricidad y Escritura</li>
+    <li><span class="num">CU‑24</span><span class="txt">La Pizarra Mágica: trazar la b y la d sin invertirlas</span></li>
     <li class="section-label">Realidad Aumentada</li>
     <li><span class="num">CU‑18</span><span class="txt">Realidad Aumentada: permiso de cámara y prueba de aptitud del teléfono</span></li>
     <li><span class="num">CU‑19</span><span class="txt">AR‑1 · Cinemática Orofacial: la boquita de beso mueve el coche</span></li>
@@ -212,7 +217,7 @@
   <p style="margin-top:12px">
     <strong>Valeria+</strong> es una aplicación móvil (Expo SDK 54 / React Native) diseñada para acompañar las
     <strong>sesiones de terapia auditivo‑verbal y del lenguaje</strong> de niñas y niños. Reúne en un solo lugar el
-    registro del paciente, una comprobación auditiva previa (Test de Ling), <strong>ocho bloques de terapia</strong>,
+    registro del paciente, una comprobación auditiva previa (Test de Ling), <strong>nueve bloques de terapia</strong>,
     un espacio de formación para el cuidador (Academy) y un panel de resultados para seguir la evolución.
   </p>
 
@@ -229,7 +234,7 @@
     familias o cuidadores (que realizan las sesiones en casa). Este manual cubre a ambos perfiles.</p>
   </div>
 
-  <h3>Los ocho bloques de terapia</h3>
+  <h3>Los nueve bloques de terapia</h3>
   <p>Desde la pantalla <strong>Selección de Ejercicios</strong> se elige uno de estos bloques. Van <strong>en el mismo orden que en la app</strong>: Integración Sensorial abre la rejilla y Realidad Aumentada la cierra. Cada uno responde a un
   perfil clínico distinto, pero todos comparten la misma lógica: el adulto guía la sesión y tiene la última palabra.</p>
   <table>
@@ -239,7 +244,7 @@
     <tr><td><span class="bdot" style="background:#7c4fd0"></span><strong>Pares Mínimos</strong></td>
       <td>Dislalias fonológicas. <strong>15 pares</strong> de palabras casi iguales (rana/lana) en 6 grupos —rotacismo, sigmatismo, velares, labiodental, nasales y laterales— con juego de voz, misión física y sello doble adulto‑niño.</td></tr>
     <tr><td><span class="bdot" style="background:#00a39e"></span><strong>Expansión Semántica</strong></td>
-      <td>Progresión léxica para intervención temprana: 5 escenarios diarios, <strong>9 progresiones</strong> (onomatopeya → adjetivo) y <strong>8 cápsulas de contraste</strong>, uniendo imagen, voz y acción física.</td></tr>
+      <td>Progresión léxica para intervención temprana, en cuatro partes: 5 <strong>escenarios</strong> diarios, 5 <strong>categorías léxicas</strong> con progresión de dificultad, <strong>9 progresiones</strong> de campo semántico (onomatopeya → adjetivo) y <strong>8 cápsulas de contraste</strong> con doble vuelta —comprender señalando y decir—, uniendo imagen, voz y acción física. Cada actividad empieza por una <strong>antesala</strong> con el material necesario.</td></tr>
     <tr><td><span class="bdot" style="background:#3b6fd4"></span><strong>Audición</strong> — 18 terapias</td>
       <td>Protocolo ACOPROS: fonética‑fonología, semántica, morfosintaxis, pragmática y <strong>escucha en ruido</strong> (RA‑1…RA‑5) para pacientes con audífono, implante coclear o hipoacusia.</td></tr>
     <tr><td><span class="bdot" style="background:#d98a1f"></span><strong>Lenguaje</strong> — 7 terapias</td>
@@ -248,6 +253,8 @@
       <td>Protocolo PRT + TCC para el espectro autista: atención conjunta triangulada, quiebre pragmático (con consentimiento), espejo asimétrico, transición interrumpida, categorización bajo ruido y múltiples señales. Todos los estresores son <strong>manuales</strong> (Panel del Adulto).</td></tr>
     <tr><td><span class="bdot" style="background:#8b5cf6"></span><strong>Dislexia</strong> — 6 terapias</td>
       <td>Fonología y acceso léxico: intruso fonológico, rastreo léxico con interferencia, síntesis fonémica rítmica, criba de pseudopalabras, rastreo visual de rotaciones (b/d · p/q) y denominación rápida (RAN).</td></tr>
+    <tr><td><span class="bdot" style="background:#c2701f"></span><strong>Grafomotricidad y Escritura</strong> — 6 trazos</td>
+      <td>La <strong>Pizarra Mágica de Lúa</strong>: la continuación motora de Dislexia. Donde aquel bloque hace <em>discriminar</em> la b de la d en pantalla, aquí se <strong>trazan</strong>, sobre un lienzo con pauta Montessori y <strong>puntos de control numerados</strong> que dicen por dónde empieza cada letra. Cuatro letras críticas (b, d, p, m), dos lazos de calentamiento y una pizarra libre, con el dedo o con lápiz óptico. No pide PIN ni prescripción, y no puntúa: es práctica, no medida (CU‑24).</td></tr>
     <tr><td><span class="bdot" style="background:#00a39e"></span><strong>Realidad Aumentada</strong> — 3 ejercicios<br><span class="small muted">Solo Android, en teléfono</span></td>
       <td>La cámara frontal como <strong>sensor de movimiento</strong>: postura labial (AR‑1), giro de la cabeza hacia un sonido (AR‑2) y elección de dibujo con la mirada (AR‑3). El premio en 3D se gana <strong>con el gesto, no con la voz</strong>; en dos de los tres el micrófono está apagado. Requiere permiso de cámara y una prueba de aptitud del aparato (CU‑18 a CU‑22).</td></tr>
   </table>
@@ -266,26 +273,36 @@
       <td>El botón <strong>“Otra ronda”</strong> rota hasta 3 contenidos distintos por ejercicio para que el niño no memorice siempre el mismo ítem.</td></tr>
     <tr><td><strong>Sesión completa</strong></td>
       <td>Un botón por bloque encadena todos los ejercicios prescritos en una sola tanda (pasando por el Test de Ling si procede), en vez de lanzarlos de uno en uno.</td></tr>
-    <tr><td><strong>Frases portadoras</strong></td>
-      <td>En Pares Mínimos la palabra objetivo se incrusta en una frase con entonación natural seguida de una pregunta, en vez de dictarse aislada diez veces seguidas.</td></tr>
+    <tr><td><strong>Consigna del par</strong></td>
+      <td>En Pares Mínimos la app <strong>presenta el par y pide el objetivo</strong> («rata… lata… dime: rata»). Hasta la v9 la palabra se incrustaba en una frase portadora generada al vuelo; las logopedas de ACOPROS fijaron esta otra consigna, y las frases portadoras <strong>ya no se locutan</strong>.</td></tr>
+    <tr><td><strong>Láminas de la frase</strong></td>
+      <td>Cuando lo que se pide es una frase y no una palabra suelta, el micrófono la parte en <strong>láminas numeradas</strong>, una por palabra, que se van encendiendo conforme se reconocen. El niño ve por dónde va y el adulto ve <strong>qué palabra se cayó</strong>, en vez de un «no te he entendido» sobre la frase entera. Con una sola palabra no se pintan.</td></tr>
     <tr><td><strong>Voz humana</strong></td>
       <td>El motor prioriza voces neuronales/enhanced (Google neural/WaveNet, iOS Enhanced/Siri) y descarta las metálicas, con prosodia natural (pausas por frase, entonación en preguntas y exclamaciones) y frases de ánimo rotativas.</td></tr>
+    <tr><td><strong>La vibrante múltiple</strong></td>
+      <td>El trino de la <em>rr</em> <strong>no se escribe con letras repetidas</strong> en los bancos. «¡Rrrana!» no suena a trino: ningún sintetizador tiene esa secuencia en su léxico, así que la deletrea o la parte. Las cuatro variedades se limpiaron y hay además una red de seguridad en tiempo de ejecución. Lo que <strong>sí</strong> se conserva es la vocal alargada de las consignas de modelado («luuuna», «graaande») y la <em>rrr</em> suelta que el adulto pide imitar: son consigna terapéutica, no una errata.</td></tr>
     <tr><td><strong>Fichas siempre visibles</strong></td>
       <td>Pictogramas propios de alto contraste para las palabras cuyos emojis se ven como cuadros vacíos o de bajo contraste en muchos Android, con emoji de reserva. Desde la v12.1 son <strong>píxel art de 24×24</strong> y son <strong>el mismo dibujo que enseña el aparato Lúa</strong>, no una versión parecida.</td></tr>
   </table>
 
-  <h3>Cuatro variedades de habla con voz neuronal offline</h3>
-  <p>El contenido terapéutico —lo que se locuta, se muestra y se evalúa— puede trabajarse en <strong>cuatro
-  variedades</strong>; la <strong>interfaz</strong> (menús y botones) permanece siempre en castellano. Castellano,
-  gallego y euskera usan <strong>voces neuronales pregeneradas empaquetadas en la app</strong>, de modo que la locución
-  suena natural y funciona sin conexión (ver CU‑15). La elección se guarda en el dispositivo y se aplica a todos los
-  bloques.</p>
+  <h3>Cinco variedades de habla con voz neuronal offline</h3>
+  <p>El contenido terapéutico —lo que se locuta, se muestra y se evalúa— puede trabajarse en <strong>cinco
+  variedades</strong>. Castellano, gallego, euskera e inglés usan <strong>voces neuronales pregeneradas empaquetadas
+  en la app</strong>, de modo que la locución suena natural y funciona sin conexión (ver CU‑15). La elección se guarda
+  en el dispositivo y se aplica a todos los bloques.</p>
+  <p><strong>El idioma de la interfaz es un eje aparte.</strong> Lo que oye el niño y el idioma en que el adulto lee
+  los menús son <strong>dos ajustes distintos</strong>, y por defecto van de la mano: elegir <em>English (US)</em> en
+  «Voz de la app» pone también la interfaz en inglés, y elegir <em>English</em> en «Idioma de la aplicación» pone
+  también la terapia en inglés. Para el <strong>desacople</strong> —interfaz en un idioma y terapia en otro, el caso
+  del logopeda con caseload bilingüe— se fija primero el idioma de la aplicación y <strong>después</strong> se cambia
+  la variedad en «Voz de la app»: esa segunda elección manda y se conserva. Se explica paso a paso en CU‑15.</p>
   <table>
     <tr><th style="width:24%">Variedad</th><th>Voz y particularidades</th></tr>
     <tr><td>🇪🇸 <strong>Castellano</strong></td><td>Voz neuronal <strong>Sharvard</strong> (offline) y reconocimiento del sistema en español de España.</td></tr>
     <tr><td><strong>Galego</strong> <span class="small muted">(Proxecto Nós)</span></td><td>Voz neuronal <strong>Celtia</strong>, con banco de pares propio. El contenido compartido con el castellano recae con suavidad en la voz neuronal castellana mientras Celtia no lo cubra.</td></tr>
     <tr><td>🇩🇴 <strong>Dominicano</strong> <span class="small muted">(Quisqueya Habla)</span></td><td>Voz latina del dispositivo y micrófono en es‑DO. <strong>Respeto dialectal:</strong> no marca como error el seseo, la aspiración de la “s” ni el cambio de “r/l” a final de sílaba.</td></tr>
-    <tr><td><strong>Euskera</strong> <span class="small muted">(batua · ILENIA/NEL‑GAITU)</span></td><td>Voz neuronal <strong>HiTZ‑TTS</strong> (UPV/EHU · Aholab). El reconocimiento usa <code>eu‑ES</code> y, donde no exista, recae en <code>es‑ES</code> con un pliegue de la ⟨h⟩ muda.</td></tr>
+    <tr><td><strong>Euskera</strong> <span class="small muted">(batua · ILENIA/NEL‑GAITU)</span></td><td>Voz neuronal <strong>«Maider»</strong>, de HiTZ/Aholab (UPV/EHU). El reconocimiento usa <code>eu‑ES</code> y, donde no exista, recae en <code>es‑ES</code> con un pliegue de la ⟨h⟩ muda.</td></tr>
+    <tr><td>🇺🇸 <strong>English (US)</strong> <span class="small muted">(en pruebas)</span></td><td>Voz neuronal <strong>Piper en_US</strong> empaquetada y offline, y micrófono en <code>en‑US</code>. Es la única variedad marcada <strong>«beta»</strong> en el selector, y la única que además cambia el idioma de la interfaz. Su banco clínico se rige por una <strong>guía dialectal firmada</strong> que cubre el inglés afroamericano (AAE) y el de hablantes bilingües, para no marcar como error lo que es un rasgo del habla.</td></tr>
   </table>
 
   <h3>Academy: formación del cuidador</h3>
@@ -439,7 +456,7 @@ TEA y Lengua de Signos). Cada dominio ofrece
   <h2 class="chapter">Mapa de pantallas y glosario</h2>
 
   <p style="margin-top:12px">Tras el alta o la selección del paciente se llega al <strong>hub de Prescripción</strong>,
-  desde donde se abre cualquiera de los <strong>ocho bloques</strong> (o Academy). El Test de Ling solo precede a los ejercicios de audición
+  desde donde se abre cualquiera de los <strong>nueve bloques</strong> (o Academy). El Test de Ling solo precede a los ejercicios de audición
   cuando el paciente usa audífono o implante coclear, y el bloque de <strong>Realidad Aumentada</strong> pasa antes por su
   propia preparación (permiso de cámara y prueba de aptitud).</p>
 
@@ -455,6 +472,7 @@ TEA y Lengua de Signos). Cada dominio ofrece
     <span class="node">Lenguaje</span>
     <span class="node">TEA</span>
     <span class="node">Dislexia</span>
+    <span class="node">Grafomotricidad</span>
     <span class="node">Realidad Aumentada**</span>
     <span class="arrow">→</span>
     <span class="node">Resultados</span>
@@ -564,7 +582,7 @@ TEA y Lengua de Signos). Cada dominio ofrece
   <h3>Glosario</h3>
   <table>
     <tr><th style="width:26%">Término</th><th>Significado</th></tr>
-    <tr><td><strong>Hub de bloques</strong></td><td>Pantalla “Selección de Ejercicios”: la tarjeta de Lúa con el progreso y siete tarjetas (Pares Mínimos, Expansión Semántica, Audición, Lenguaje, TEA, Dislexia y Realidad Aumentada), desde donde se practica o prescribe. Academy y Ajustes viven en la barra de pestañas.</td></tr>
+    <tr><td><strong>Hub de bloques</strong></td><td>Pantalla “Selección de Ejercicios”: la tarjeta de Lúa con el progreso y <strong>nueve tarjetas</strong> —Integración Sensorial, Pares Mínimos, Expansión Semántica, Audición, Lenguaje, TEA, Dislexia, Grafomotricidad y Realidad Aumentada—, desde donde se practica o prescribe. Academy y Ajustes viven en la barra de pestañas.</td></tr>
     <tr><td><strong>Pestañas (v11)</strong></td><td>Barra inferior con tres apartados —<strong>Terapias</strong>, <strong>Academy</strong> y <strong>Ajustes</strong>— disponible en las versiones con la interfaz v11. Sustituye al desplazamiento largo del hub: lo que antes estaba al final de la lista ahora está siempre a un toque.</td></tr>
     <tr><td><strong>Ajustes</strong></td><td>Apartado donde viven los recordatorios de sesión y sus franjas horarias, la calidad de la voz, el idioma de la aplicación y el acceso profesional (PIN). En la interfaz clásica estos ajustes están al final del hub de bloques.</td></tr>
     <tr><td><strong>Par mínimo</strong></td><td>Dos palabras que solo se distinguen por un fonema (rana / lana). Sirven para entrenar el contraste que el niño sustituye.</td></tr>
@@ -582,25 +600,31 @@ TEA y Lengua de Signos). Cada dominio ofrece
     <tr><td><strong>XP</strong></td><td>Puntos que suma cada sesión completada. Cada 100&nbsp;XP se sube un nivel.</td></tr>
     <tr><td><strong>Premios de Lúa</strong></td><td>Hoja que se abre desde la tarjeta del hub, sin PIN, con la escalera de doce niveles, las dieciocho insignias —en color las conseguidas, en gris las pendientes con la condición para lograrlas— y el armario (CU‑11).</td></tr>
     <tr><td><strong>Armario de Lúa</strong></td><td>Los cinco coleccionables de la gata: el <strong>pescadito</strong> (premio que se le da desde el hub) y cuatro accesorios que se le ponen —<strong>pajarita</strong> y <strong>cascabel</strong> al cuello, <strong>flor</strong> y <strong>gorro de maga</strong> en la cabeza—. Se desbloquean con las sesiones acumuladas, la racha y el nivel. Es adorno: no cambia ningún ejercicio ni ninguna medida clínica (CU‑11).</td></tr>
-    <tr><td><strong>Insignia con rango</strong></td><td>Insignia que forma familia con otras del mismo dibujo y distinto rango (huella, llama, estrella). Marca una progresión, no un premio suelto. Desde la v12.1 el rango se lee en <strong>el anillo y el fondo</strong> del medallón —bronce, plata, oro, turquesa y violeta—, que es como lo enseña el aparato.</td></tr>
+    <tr><td><strong>Insignia con rango</strong></td><td>Insignia que forma familia con otras del mismo dibujo y distinto rango: la <strong>huella</strong> (sesiones acumuladas), el <strong>cascabel</strong> (racha) y las <strong>orejitas de Lúa</strong> (sesiones perfectas). Marca una progresión, no un premio suelto. Desde la v12.1 el rango se lee en <strong>el anillo y el fondo</strong> del medallón —bronce, plata, oro, turquesa y violeta—, que es como lo enseña el aparato.</td></tr>
     <tr><td><strong>NHC</strong></td><td>Número de Historia Clínica del paciente.</td></tr>
     <tr><td><strong>Telemetría de usabilidad</strong></td><td>Métricas anónimas que la app recoge durante el piloto para medir lo fácil que resulta de usar (tiempo por pantalla, misclicks, abandono de cápsulas). Sin datos personales.</td></tr>
     <tr><td><strong>Misclick</strong></td><td>Toque en una zona “muerta” de la pantalla, fuera de cualquier botón o elemento útil. Un exceso señala que algo no se entiende o el objetivo es pequeño.</td></tr>
     <tr><td><strong>Abandono TPR</strong></td><td>Proporción de cápsulas de movimiento (TPR) que se saltan en vez de completarse. Ayuda a saber si las pausas activas encajan en la sesión.</td></tr>
     <tr><td><strong>SUS (encuesta)</strong></td><td><em>System Usability Scale</em> adaptada: una pregunta de 1 a 5 sobre la facilidad de uso real. Aparece con moderación (hito de 4 bloques distintos y máx. 1 vez/semana).</td></tr>
     <tr><td><strong>Exportación dual</strong></td><td>Salida del piloto en dos formatos a la vez: un <strong>QR</strong> con el resumen (offline) y el <strong>menú de compartir</strong> con el registro completo (online). Requiere el PIN profesional.</td></tr>
-    <tr><td><strong>Variedad</strong></td><td>Lengua o forma del habla en que la app locuta y evalúa el contenido: Castellano, Galego (Proxecto Nós), Dominicano (es‑DO, Quisqueya Habla) o Euskera (batua, proyecto ILENIA/NEL‑GAITU). Se elige en “Voz de la app”.</td></tr>
-    <tr><td><strong>Voz neuronal</strong></td><td>Locución pregenerada con modelos de voz de alta calidad (Sharvard en castellano, Celtia en gallego, HiTZ‑TTS en euskera) empaquetada en la app; suena natural y funciona sin conexión.</td></tr>
+    <tr><td><strong>Variedad</strong></td><td>Lengua o forma del habla en que la app locuta y evalúa el contenido <em>del niño</em>: Castellano, Galego (Proxecto Nós), Dominicano (es‑DO, Quisqueya Habla), Euskara (batua, proyecto ILENIA/NEL‑GAITU) o English (US, en pruebas). Se elige en “Voz de la app”.</td></tr>
+    <tr><td><strong>Idioma de la aplicación</strong></td><td>El otro eje de idioma: en qué lengua lee los menús <em>el adulto</em> —Automático, Español o English—. Va acoplado a la variedad por defecto, y se desacopla eligiendo primero el idioma y después la variedad (CU‑15).</td></tr>
+    <tr><td><strong>Voz neuronal</strong></td><td>Locución pregenerada con modelos de voz de alta calidad —Sharvard en castellano, Celtia en gallego, «Maider» de HiTZ/Aholab en euskera y Piper en_US en inglés— empaquetada en la app; suena natural y funciona sin conexión. El dominicano es la excepción: usa la voz latina del propio dispositivo.</td></tr>
     <tr><td><strong>Pliegue vasco</strong></td><td>Ajuste que ignora la ⟨h⟩ muda del euskera al comparar la voz del niño con la esperada, para que el reconocimiento no la penalice. No afecta a las sibilantes ni africadas, que son contraste clínico y valora el adulto.</td></tr>
     <tr><td><strong>TEA</strong></td><td>Trastorno del Espectro Autista. Bloque de 6 terapias (PRT + TCC) centrado en atención conjunta, reparación comunicativa, flexibilidad y regulación, con estresores siempre manuales.</td></tr>
     <tr><td><strong>Dislexia</strong></td><td>Bloque de 6 terapias de conciencia fonológica y acceso léxico (intruso fonológico, síntesis fonémica, pseudopalabras, rotaciones b/d·p/q y denominación rápida).</td></tr>
+    <tr><td><strong>Pizarra Mágica de Lúa</strong></td><td>Bloque de <strong>Grafomotricidad y Escritura</strong>: lienzo de trazado guiado con el dedo o con lápiz óptico. Cuatro letras críticas (b, d, p, m), dos lazos de calentamiento y una pizarra libre. No pide PIN, no se prescribe y no puntúa (CU‑24).</td></tr>
+    <tr><td><strong>Punto de control</strong></td><td>Cada uno de los círculos numerados del modelo de la Pizarra Mágica. Dicen <strong>por dónde empieza</strong> la letra y en qué dirección sigue —lo que separa la <em>b</em> de la <em>d</em>—. La app comprueba cuántos ha tocado el trazo; que se toquen <em>en orden</em> lo mira el adulto.</td></tr>
+    <tr><td><strong>Pauta Montessori</strong></td><td>Las tres líneas guía del lienzo de escritura (superior discontinua, media y base). Se enseñan o se esconden con el botón del ojo, según lo que necesite el niño.</td></tr>
+    <tr><td><strong>Láminas de la frase</strong></td><td>Tarjetas numeradas, una por palabra, en las que se parte la frase objetivo del ejercicio con micrófono. Se encienden conforme el reconocimiento las va identificando, para ver <strong>qué palabra falló</strong> y no solo que falló la frase.</td></tr>
+    <tr><td><strong>Sobre‑responsividad auditiva (SOR)</strong></td><td>Reacción de alarma ante sonidos cotidianos que a otros niños no les molestan (aspiradora, secador, timbre). Es lo que trabaja el bloque de <strong>Integración Sensorial Auditiva</strong> por desensibilización sistemática (CU‑23).</td></tr>
     <tr><td><strong>RAN</strong></td><td><em>Rapid Automatized Naming</em> (denominación rápida): nombrar en voz alta una serie de dibujos en orden de lectura. El ritmo lo marca la mano del adulto, nunca un cronómetro.</td></tr>
     <tr><td><strong>Escucha en ruido</strong></td><td>Categoría de Audición (RA‑1…RA‑5) que entrena la comprensión con ruido de fondo. El adulto sube o baja el ruido a mano con el deslizador del Panel del Adulto.</td></tr>
     <tr><td><strong>Rasgo dialectal</strong></td><td>Característica normal del habla de una región (p.&nbsp;ej. el seseo dominicano). No es un error clínico y la app no lo penaliza.</td></tr>
-    <tr><td><strong>Frase portadora</strong></td><td>Frase natural en la que se incrusta la palabra objetivo (“El oso encontró una rana…”) para practicarla con entonación real en vez de aislada.</td></tr>
+    <tr><td><strong>Frase portadora</strong></td><td>Frase natural en la que se incrustaba la palabra objetivo (“El oso encontró una rana…”). <strong>Retirada del flujo en la v9.1</strong>: las logopedas de ACOPROS fijaron como consigna estándar la presentación del par y la repetición del objetivo. El término se conserva aquí porque aparece en documentación anterior.</td></tr>
     <tr><td><strong>Carga comunicativa</strong></td><td>Conjunto de retos que el <em>adulto</em> activa a mano en su panel: ruido de fondo, distractor visual y quiebre de la comunicación. Nunca los activa la app sola.</td></tr>
     <tr><td><strong>Quiebre pragmático</strong></td><td>Tarea en la que el adulto rompe la comunicación a propósito (murmura o pide algo absurdo) para observar cómo el niño la <strong>repara</strong>.</td></tr>
-    <tr><td><strong>Realidad Aumentada (RA)</strong></td><td>Séptimo bloque, solo en teléfonos Android. La cámara frontal mide gestos —labios, giro de cabeza, mirada— y esos gestos mueven figuras en 3D. No graba imagen y no identifica a nadie.</td></tr>
+    <tr><td><strong>Realidad Aumentada (RA)</strong></td><td>Bloque que cierra la rejilla del hub, solo en teléfonos Android. La cámara frontal mide gestos —labios, giro de cabeza, mirada— y esos gestos mueven figuras en 3D. No graba imagen y no identifica a nadie.</td></tr>
     <tr><td><strong>Prueba de aptitud</strong></td><td>Calentamiento de minuto y medio que mide qué puede sostener <em>este teléfono</em>. Devuelve un nivel (A a D) que decide qué ejercicios de RA se ofrecen. Describe el aparato, no al niño.</td></tr>
     <tr><td><strong>Sostén</strong></td><td>Tiempo seguido que el niño mantiene un gesto (por ejemplo la boquita de beso). En AR‑1 es lo que hace avanzar el coche, y la serie de sostenes es el dato clínico.</td></tr>
     <tr><td><strong>Fijación (<em>dwell</em>)</strong></td><td>Mantener la mirada sobre un dibujo el tiempo suficiente para elegirlo, sin tocar la pantalla. Es cómo se responde en AR‑3.</td></tr>
@@ -683,15 +707,18 @@ TEA y Lengua de Signos). Cada dominio ofrece
       </div>
       <p>El hub es el <strong>centro de mando</strong> de cada sesión. Arriba, la <strong>tarjeta de Lúa</strong>: la
       gata —que se deja acariciar y premiar—, el nivel, lo que falta para el siguiente, la racha y el acceso a los
-      premios. Debajo, los <strong>ocho bloques</strong> como tarjetas, cada una con el color de su bloque y una línea de
+      premios. Debajo, los <strong>nueve bloques</strong> como tarjetas, cada una con el color de su bloque y una línea de
       qué trabaja. Audición, Lenguaje, TEA y Dislexia indican además cuántas terapias hay activas.</p>
       <p><strong>Integración Sensorial abre la rejilla</strong> y Realidad Aumentada la cierra. No es un capricho de
       maquetación: la sensorial es lo que se prescribe antes de que el niño pueda sostener el resto —si la aspiradora
       le desborda, no hay sesión de pares mínimos que aguante— y la RA es la única tarjeta que puede no aparecer,
       porque depende de que el teléfono supere la prueba de aptitud.</p>
+      <p><strong>Grafomotricidad va pegada a Dislexia</strong>, y tampoco es casual: es su continuación motora. El
+      mismo par crítico que ahí se discrimina mirando —la <em>b</em> y la <em>d</em>— aquí se traza con la mano
+      (CU‑24).</p>
       <h4>Flujo principal</h4>
       <ol class="flow">
-        <li>Tocar la tarjeta del bloque deseado: <strong>Pares Mínimos</strong> (CU‑04), <strong>Expansión Semántica</strong> (CU‑05), <strong>Audición</strong>, <strong>Lenguaje</strong>, <strong>TEA</strong> o <strong>Dislexia</strong> (CU‑06 / CU‑09).</li>
+        <li>Tocar la tarjeta del bloque deseado: <strong>Integración Sensorial</strong> (CU‑23), <strong>Pares Mínimos</strong> (CU‑04), <strong>Expansión Semántica</strong> (CU‑05), <strong>Audición</strong>, <strong>Lenguaje</strong>, <strong>TEA</strong> o <strong>Dislexia</strong> (CU‑06 / CU‑09), <strong>Grafomotricidad</strong> (CU‑24) o <strong>Realidad Aumentada</strong> (CU‑18).</li>
         <li>Antes de la primera sesión, abrir la pestaña <strong>“Academy”</strong> de la barra inferior para <strong>formarse como cuidador</strong> (ver CU‑03): en la terapia auditivo‑verbal el adulto dirige la sesión, así que conviene empezar por ahí.</li>
         <li>Los <strong>recordatorios de sesión</strong> están en la pestaña <strong>Ajustes</strong> (ver CU‑10), y los <strong>premios</strong> se abren desde la tarjeta de Lúa (ver CU‑11).</li>
       </ol>
@@ -1044,12 +1071,13 @@ TEA y Lengua de Signos). Cada dominio ofrece
       <h4>Flujos alternativos</h4>
       <ul class="alt">
         <li><strong>Sesión completa:</strong> el botón <strong>“Sesión completa”</strong> de cada bloque encadena todos los ejercicios prescritos en una sola tanda (pasando por el Test de Ling si la ficha lo indica), en vez de lanzarlos de uno en uno.</li>
-        <li><strong>Sesión perfecta:</strong> si todos los ejercicios obtienen <span class="stars">★★★</span>, se desbloquea la insignia “Sesión estrella”.</li>
+        <li><strong>Sesión perfecta:</strong> si todos los ejercicios obtienen <span class="stars">★★★</span>, se desbloquea la insignia <strong>“Oído de lince”</strong>, la primera de las orejitas de Lúa.</li>
         <li><strong>Salir a mitad:</strong> se puede volver atrás; lo valorado hasta ese punto no cuenta como sesión completada.</li>
         <li><strong>Actividades que se repiten sesión tras sesión:</strong> algunas —como <em>Atención Conjunta</em>— traen una lista de <strong>“OTRAS FORMAS DE HACERLA”</strong>. Es la misma actividad con el mismo objetivo, cambiando solo el envoltorio: repetida siempre igual, el niño anticipa la respuesta y la ejecuta en automático, con lo que deja de medir lo que dice medir.</li>
       </ul>
       <div class="callout"><div class="lbl">Dos ayudas para el adulto en los ejercicios de escucha</div><p style="margin:4px 0 0">En la <strong>adivinanza por letra (SE‑2)</strong> el texto se muestra escrito además de locutarse, para poder leerlo o repetirlo con otras palabras sin tener que reproducir el audio primero.<br>En la <strong>lectura labiofacial (RA‑2)</strong> el adulto tiene que decir la palabra <strong>sin voz</strong>, y antes la única forma de saber cuál era, era pulsar “oír la palabra” delante del niño —que es exactamente lo que invalida el ejercicio—. Ahora hay una chuleta plegada <strong>“SOLO PARA EL ADULTO”</strong>: se abre apartando la pantalla, se lee y se vuelve a cerrar. Empieza siempre cerrada.</p></div>
       <div class="callout"><div class="lbl">Descanso visual: la regla 20‑20‑20</div><p style="margin:4px 0 0">Tras <strong>20 minutos seguidos</strong> de sesión, la pausa activa añade abajo una tarjeta: <strong>«Descanso visual recomendado»</strong>, con un botón que abre <strong>20 segundos</strong> para que el niño mire algo lejano —una ventana, el fondo de la sala—. Viene de la oftalmología, no de la logopedia: es el descanso que se recomienda para el trabajo prolongado de cerca.<br>Es una <strong>sugerencia, y solo eso</strong>: la app <strong>no detiene la sesión</strong>, no la pausa y no impide seguir; quien decide y dirige el descanso es el adulto. «Ahora no» la retira sin insistir en el ejercicio siguiente. Durante la cuenta atrás se puede volver en cualquier momento con «Reanudar ahora».<br>El día que el aparato Lúa acompañe la sesión —hoy todavía <strong>no hay nada que emparejar</strong>, ver Anexo C—, la gata <strong>se dormirá</strong> esos veinte segundos: si siguiera moviéndose, sería ella lo que retuviera la mirada del niño.<br>El contador vive <strong>solo en la memoria del teléfono</strong>: no se guarda, no se exporta y no forma parte de la evidencia del piloto (CU‑14).</p></div>
+      <div class="callout"><div class="lbl">Cuando lo que se pide es una frase</div><p style="margin:4px 0 0">En los ejercicios con micrófono, si el objetivo es una frase y no una palabra suelta, la app la parte en <strong>láminas numeradas</strong>, una por palabra, encima del botón de hablar. Se van <strong>encendiendo</strong> conforme el reconocimiento identifica cada palabra, con un margen de un sonido en las de más de tres letras.<br>Sirve para lo de siempre —que el adulto vea <strong>qué palabra se cayó</strong> en vez de un «no te he entendido» sobre la frase entera— y para el niño, que ve por dónde va. Con una sola palabra objetivo no se pintan. El veredicto sigue siendo del adulto.</p></div>
       <div class="callout warn"><div class="lbl">Escucha en ruido (RA‑1)</div><p style="margin:4px 0 0">La app locuta <strong>solo la palabra objetivo</strong> («vaca»), no la orden entera, porque lo que el ejercicio mide es reconocer <em>esa palabra</em> con ruido de fondo. La consigna del adulto va en la misma línea: di solo el nombre del animal, con tu voz normal.</p></div>
       <div class="shots">
         <figure class="shot">
@@ -1063,6 +1091,14 @@ TEA y Lengua de Signos). Cada dominio ofrece
         <figure class="shot">
           <img src="screenshots/19-sesion-completada.png" alt="Sesión completada con recompensas">
           <figcaption><span class="fig"></span> · Fin de sesión: XP, racha, nivel y promedio EPT‑3.</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="screenshots/40-ancla-visual-sugerencia.png" alt="Tarjeta de descanso visual dentro de la pausa activa">
+          <figcaption><span class="fig"></span> · Descanso visual: la tarjeta aparece <strong>debajo</strong> de la pausa activa, con «Ahora no» y «Empezar los 20 segundos». La sesión sigue viva detrás.</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="screenshots/41-ancla-visual-en-curso.png" alt="Cuenta atrás del descanso visual en curso">
+          <figcaption><span class="fig"></span> · «Mirando lejos · 18 s»: la cuenta atrás, con «Reanudar ahora» siempre disponible. Al pie, la misma advertencia: la app no detiene la sesión.</figcaption>
         </figure>
       </div>
     </div>
@@ -1135,12 +1171,19 @@ TEA y Lengua de Signos). Cada dominio ofrece
 
       <h4>Las dieciocho insignias</h4>
       <p>Doce forman <strong>tres familias con rango</strong> —el mismo dibujo en cinco metales, para que se lea como
-      una progresión y no como doce premios sueltos— y seis son <strong>de ocasión</strong>.</p>
+      una progresión y no como doce premios sueltos— y seis son <strong>de ocasión</strong>. Los tres dibujos de
+      familia son de Lúa: su <strong>huella</strong>, su <strong>cascabel</strong> y sus <strong>orejitas</strong>.</p>
+      <div class="callout"><div class="lbl">Por qué cambiaron tres dibujos</div><p style="margin:4px 0 0">En la hoja de
+      premios cada insignia se ve a <strong>30 píxeles</strong>, y tres de los nueve dibujos no aguantaban ese tamaño:
+      la huella se leía como una cara, el cascabel como un bolso y las orejitas iban en el <em>mismo gris</em> con el
+      que se pintan las insignias bloqueadas —o sea, ganada y pendiente se confundían—. Se redibujaron los tres.
+      Y las descripciones volvieron a decir la <strong>condición exacta</strong> («practica antes de las 10 de la
+      mañana»): la versión anterior, más literaria, se comía la regla y encima salía cortada en la tarjeta.</p></div>
       <table>
         <tr><th style="width:26%">Familia</th><th>Qué reconoce</th></tr>
-        <tr><td><strong>Huella</strong> · 5 rangos</td><td>Sesiones acumuladas: 1, 10, 25, 50 y 100. De «Primera huella» a «Centenaria».</td></tr>
-        <tr><td><strong>Llama</strong> · 4 rangos</td><td>Racha sostenida: 3, 7, 14 y 30 días seguidos.</td></tr>
-        <tr><td><strong>Estrella</strong> · 3 rangos</td><td>Sesiones perfectas (todo <span class="stars">★★★</span>): 1, 5 y 10.</td></tr>
+        <tr><td><strong>Huella</strong> · 5 rangos</td><td>Sesiones acumuladas: 1, 10, 25, 50 y 100. De «Primer paso de Lúa» a «Pacto centenario».</td></tr>
+        <tr><td><strong>Cascabel</strong> · 4 rangos</td><td>Racha sostenida: 3, 7, 14 y 30 días seguidos. De «Cascabel sonoro» a «Campana de oro».</td></tr>
+        <tr><td><strong>Orejitas de Lúa</strong> · 3 rangos</td><td>Sesiones perfectas (todo <span class="stars">★★★</span>): 1, 5 y 10. «Oído de lince», «Radar mágico» y «Antena de cristal».</td></tr>
         <tr><td><strong>De ocasión</strong> · 6</td><td>Practicar temprano o de noche, un fin de semana, una sesión larga, volver tras una pausa y llegar al nivel 10.</td></tr>
       </table>
 
@@ -1192,6 +1235,12 @@ TEA y Lengua de Signos). Cada dominio ofrece
         <figure class="shot">
           <img src="screenshots/armario-lua.png" alt="El armario de Lúa con los cinco coleccionables">
           <figcaption><span class="fig"></span> · El armario: los cinco coleccionables, con su ranura y su estado. Tocar uno se lo pone a la gata.</figcaption>
+        </figure>
+      </div>
+      <div class="shots">
+        <figure class="shot">
+          <img src="screenshots/lua-antojo.png" alt="Lúa con un pescadito en la burbuja y el rótulo Tiene antojo">
+          <figcaption><span class="fig"></span> · «Tiene antojo»: con un pescadito sin gastar, Lúa lo piensa en una burbuja. Es antojo, no hambre: nunca se pone triste ni reprocha.</figcaption>
         </figure>
         <figure class="shot">
           <img src="screenshots/lua-caricia.png" alt="Lúa ronroneando con la flor y la pajarita puestas">
@@ -1310,7 +1359,7 @@ TEA y Lengua de Signos). Cada dominio ofrece
   <div class="uc">
     <div class="uc-head">
       <div class="id">CU‑15 · <span class="tag fam" style="background:rgba(255,255,255,.22);color:#fff">Profesional / Familia</span></div>
-      <div class="title">Elegir la variedad de terapia (Castellano · Galego · Dominicano · Euskera)</div>
+      <div class="title">Elegir la variedad de terapia (Castellano · Galego · Dominicano · Euskara · English)</div>
     </div>
     <div class="uc-body">
       <div class="uc-grid">
@@ -1319,26 +1368,39 @@ TEA y Lengua de Signos). Cada dominio ofrece
         <div><div class="k">Precondición</div><div class="v">App abierta (funciona sin conexión)</div></div>
         <div><div class="k">Resultado</div><div class="v">El contenido se locuta y evalúa en la variedad elegida</div></div>
       </div>
-      <p>Valeria+ puede trabajar el contenido terapéutico en <strong>cuatro variedades</strong>. La <strong>interfaz</strong>
-      (menús y botones) sigue en castellano; lo que cambia es <strong>lo que se dice, se muestra y se evalúa</strong>.
-      La elección se guarda en el dispositivo y se aplica a todos los bloques.</p>
+      <p>Valeria+ puede trabajar el contenido terapéutico en <strong>cinco variedades</strong>. Lo que cambia es
+      <strong>lo que se dice, se muestra y se evalúa</strong> al niño. La elección se guarda en el dispositivo y se
+      aplica a todos los bloques.</p>
+      <div class="callout violet"><div class="lbl">Dos ajustes de idioma, no uno</div><p style="margin:4px 0 0">
+      La <strong>variedad de terapia</strong> (esta tarjeta) decide lo que oye el <em>niño</em>. El
+      <strong>«Idioma de la aplicación»</strong> —tarjeta aparte, justo debajo en la misma pestaña— decide en qué
+      idioma lee los menús el <em>adulto</em>, y tiene tres opciones: <strong>Automático</strong> (sigue al idioma de
+      los ejercicios), <strong>Español</strong> e <strong>English</strong>.<br>
+      Por defecto los dos ejes van juntos, en ambos sentidos. Para separarlos —<strong>interfaz en un idioma y terapia
+      en otro</strong>— el orden importa: primero se fija el idioma de la aplicación y <strong>después</strong> se
+      elige la variedad aquí. Volver a <strong>Automático</strong> devuelve el acoplamiento.<br>
+      Un detalle que evita un susto: si se estaba en galego y se prueba el inglés, al volver al español la app
+      <strong>recupera el galego</strong>, no el castellano.</p></div>
       <table>
         <tr><th style="width:22%">Variedad</th><th>Cómo suena y evalúa</th></tr>
         <tr><td>🇪🇸 <strong>Castellano</strong></td><td>Voz neuronal <strong>Sharvard</strong> pregenerada (offline) y reconocimiento del sistema en español de España.</td></tr>
         <tr><td><strong>Galego</strong> <span class="small muted">(Proxecto Nós)</span></td><td>Voz neuronal <strong>Celtia</strong> pregenerada en gallego; contenido y pares propios. El contenido compartido con el castellano (Expansión Semántica, Audición y Lenguaje) suena con la voz neuronal castellana mientras Celtia no lo cubra.</td></tr>
         <tr><td>🇩🇴 <strong>Dominicano</strong> <span class="small muted">(Quisqueya Habla)</span></td><td>Usa la <strong>voz latina del dispositivo</strong> y el micrófono en es‑DO; respeta los rasgos del habla caribeña.</td></tr>
-        <tr><td><strong>Euskera</strong> <span class="small muted">(batua · ILENIA/NEL‑GAITU)</span></td><td>Voz neuronal <strong>HiTZ‑TTS</strong> pregenerada (UPV/EHU · Aholab), empaquetada y offline. El reconocimiento usa <code>eu‑ES</code> donde el dispositivo lo trae; si no, recae en <code>es‑ES</code> con un <strong>pliegue de la ⟨h⟩ muda</strong> que no penaliza las sibilantes ni africadas (contraste clínico que valora el adulto).</td></tr>
+        <tr><td><strong>Euskera</strong> <span class="small muted">(batua · ILENIA/NEL‑GAITU)</span></td><td>Voz neuronal <strong>«Maider»</strong> pregenerada, de HiTZ/Aholab (UPV/EHU), empaquetada y offline. El reconocimiento usa <code>eu‑ES</code> donde el dispositivo lo trae; si no, recae en <code>es‑ES</code> con un <strong>pliegue de la ⟨h⟩ muda</strong> que no penaliza las sibilantes ni africadas (contraste clínico que valora el adulto).</td></tr>
+        <tr><td>🇺🇸 <strong>English (US)</strong> <span class="small muted">(marcada «beta» en el selector)</span></td><td>Voz neuronal <strong>Piper en_US</strong> pregenerada, empaquetada y offline —el botón <strong>«Probar la voz»</strong> la deja oír sin salir de la tarjeta— y micrófono en <code>en‑US</code>. Al elegirla, la interfaz pasa también a inglés. Sobre el contenido de los ejercicios, <strong>lea lo que dice la propia tarjeta</strong> debajo del selector: es la fuente al día, y esta variedad es la única que todavía se mueve.</td></tr>
       </table>
       <h4>Flujo principal</h4>
       <ol class="flow">
         <li>En la pestaña <strong>Ajustes</strong>, abrir la tarjeta <strong>“Voz de la app”</strong> y localizar <strong>“Variedad de la voz”</strong>.</li>
-        <li>Tocar <strong>Castellano</strong>, <strong>Galego</strong>, <strong>Dominicano</strong> o <strong>Euskera</strong>.</li>
+        <li>Tocar <strong>Castellano</strong>, <strong>Galego</strong>, <strong>Dominicano</strong>, <strong>Euskara</strong> o <strong>English (US)</strong>.</li>
         <li>La app cambia al instante la locución y el reconocimiento; la tarjeta muestra un aviso sobre la voz disponible.</li>
       </ol>
       <h4>Flujos alternativos</h4>
       <ul class="alt">
         <li><strong>En dominicano suena peninsular o robótica:</strong> instalar una voz de “Español (Latinoamérica)” en los ajustes del dispositivo; la app la usará automáticamente.</li>
         <li><strong>En euskera sin reconocedor vasco:</strong> el dispositivo escucha en <code>es‑ES</code> con el pliegue de la ⟨h⟩; si tampoco hay micrófono (Expo Go / web), el adulto valora con botones, como en el resto de variedades.</li>
+        <li><strong>Interfaz en un idioma y terapia en otro:</strong> elegir primero el <strong>idioma de la aplicación</strong> y <strong>después</strong> la variedad en esta tarjeta. Hecho al revés, el idioma arrastra la variedad y se deshace lo elegido. <strong>Automático</strong> devuelve el acoplamiento por defecto.</li>
+        <li><strong>Probar el inglés y volver:</strong> la app <strong>recuerda la variedad de la que se venía</strong>. Quien estaba en galego vuelve a galego, no a castellano.</li>
         <li><strong>Falta la voz pregenerada de una locución:</strong> en galego se reproduce primero el asset neuronal castellano equivalente si existe; en último término, la app recae con suavidad en la voz del sistema, sin interrumpir la sesión.</li>
       </ul>
       <div class="callout"><div class="lbl">Respeto dialectal</div><p style="margin:4px 0 0">En dominicano, la app <strong>no marca como error</strong> el seseo, la aspiración de la “s” ni el cambio de “r/l” a final de sílaba: son rasgos normales del habla, no fallos que corregir.</p></div>
@@ -1551,10 +1613,95 @@ TEA y Lengua de Signos). Cada dominio ofrece
         <li><strong>El niño para a los dos segundos:</strong> se cierra la sesión igual, se registra «Sensible / ha pedido pausa» y suma XP. Es información clínica, no un fracaso.</li>
         <li><strong>El aparato no puede reproducir sonido</strong> (navegador o build sin audio): la pantalla lo <strong>avisa</strong> y advierte de que la sesión se puede recorrer pero <strong>no vale como exposición</strong>.</li>
         <li><strong>Salir de la pantalla a mitad:</strong> el sonido se apaga solo. Nunca sobrevive a su pantalla.</li>
-        <li><strong>Cuatro actividades en «Próximamente»:</strong> el módulo publica seis fichas y hoy funcionan dos. La tarjeta del hub anuncia <strong>solo las jugables</strong>.</li>
+        <li><strong>Las seis actividades están abiertas</strong>, y cuáles practica la familia <strong>lo decide el logopeda con el PIN</strong>, igual que en los demás bloques prescribibles. Cada una llega con su estímulo, su intensidad y su duración de partida: ISA‑02 arranca el sonido durante la cuenta atrás, e ISA‑05 e ISA‑06 abren en ambiente de aula.</li>
       </ul>
 
       <div class="callout ok"><div class="lbl">Qué NO es este módulo</div><p style="margin:4px 0 0">No es una prueba audiológica ni mide umbrales. No sustituye la valoración de un terapeuta ocupacional ni de un logopeda. Es un apoyo estructurado para que la familia practique en casa lo que se acuerda en consulta, con el adulto llevando siempre el control.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= GRAFOMOTRICIDAD Y ESCRITURA ================= -->
+<section class="page-break">
+  <div class="uc">
+    <div class="uc-head violet">
+      <div class="id">CU‑24 · <span class="tag" style="background:rgba(255,255,255,.24);color:#fff">Familia</span></div>
+      <div class="title">La Pizarra Mágica: trazar la <em>b</em> y la <em>d</em> sin invertirlas</div>
+    </div>
+    <div class="uc-body">
+      <div class="uc-grid">
+        <div><div class="k">Actor</div><div class="v">Niño/a, con el adulto al lado</div></div>
+        <div><div class="k">Pantalla</div><div class="v">Hub → Grafomotricidad → Pizarra Mágica de Lúa</div></div>
+        <div><div class="k">Precondición</div><div class="v">Ninguna. No pide PIN ni prescripción</div></div>
+        <div><div class="k">Resultado</div><div class="v">Trazos practicados con la dirección y el orden correctos</div></div>
+      </div>
+
+      <p>Este bloque es la <strong>continuación motora de Dislexia</strong>. Allí el niño <em>discrimina</em>
+      la <em>b</em> de la <em>d</em> mirando una rejilla de rotaciones; aquí las <strong>traza</strong>. Y esa
+      diferencia importa, porque confundirlas no es un problema de vista: <strong>son el mismo dibujo girado</strong>.
+      Lo que de verdad las separa es el <strong>orden del trazo</strong> —en la <em>b</em> el palo baja primero y la
+      barriga abre a la derecha; en la <em>d</em> el óvalo redondo va antes y el palo se planta a la derecha—, y eso
+      solo se aprende con la mano.</p>
+
+      <h4>Las tres pestañas</h4>
+      <table>
+        <tr><th style="width:26%">Pestaña</th><th>Qué contiene</th></tr>
+        <tr><td><strong>Letras críticas</strong></td><td>Cuatro trazos con modelo y consigna hablada: <strong>b</strong> (de barco), <strong>d</strong> (de dado), <strong>p</strong> (de pelota) y <strong>m</strong> (de moto). Son las que más se invierten y las que más se confunden entre sí.</td></tr>
+        <tr><td><strong>Lazos</strong></td><td>Dos trazos de calentamiento sin letra: <strong>olas del mar</strong> y <strong>bucles</strong>. Para el niño que aún no controla la presión ni el arranque, empezar por aquí evita que la primera experiencia con la letra sea un fallo.</td></tr>
+        <tr><td><strong>Pizarra libre</strong></td><td>Lienzo vacío, sin modelo y sin comprobación. Se dibuja por dibujar; Lúa lo celebra igual.</td></tr>
+      </table>
+
+      <h4>Flujo principal</h4>
+      <ol class="flow">
+        <li>En el hub, tocar la tarjeta <strong>Grafomotricidad</strong> —va junto a Dislexia, con el lápiz—. <strong>No pide PIN</strong>.</li>
+        <li>Elegir pestaña. Con un niño que empieza, <strong>Lazos</strong> antes que <strong>Letras críticas</strong>.</li>
+        <li>Leer la consigna de la tarjeta —«El palo baja primero, y luego la barriga a la derecha»— y tocar
+        <strong>«Oír la letra»</strong> si hace falta. Lo que suena es el <strong>nombre</strong> de la letra, no el
+        fonema aislado: el botón dice exactamente lo que hace.</li>
+        <li>Trazar sobre el modelo gris con el <strong>dedo o un lápiz óptico</strong>, pasando por los
+        <strong>puntos numerados en orden</strong>. Cada punto alcanzado da un toque de vibración, para que el niño
+        note el acierto sin apartar la vista del papel.</li>
+        <li>Tocar <strong>«¡Comprobar trazo!»</strong>. Si el trazo ha cubierto al menos <strong>tres de cada cuatro
+        puntos</strong>, Lúa lo celebra en voz alta; si no, dice «¡Casi casi! Sigue las flechas y los números
+        despacito» y se vuelve a intentar. <strong>Fallar no gasta nada</strong>: no hay intentos, ni penalización, ni cuenta atrás.</li>
+        <li><strong>«Siguiente trazo →»</strong> pasa al siguiente de la serie; al terminar el último se vuelve al primero.</li>
+      </ol>
+
+      <h4>La barra de herramientas</h4>
+      <p>Sobre el lienzo hay cinco <strong>colores de tiza</strong>, tres <strong>grosores</strong>, el <strong>ojo</strong>
+      que enseña o esconde la <strong>pauta Montessori</strong> —las tres líneas guía— y el <strong>borrador</strong>.
+      Los colores y el grosor no son decoración gratuita: un trazo grueso perdona el pulso inestable, y cambiar de
+      color permite repasar encima sin borrar lo anterior.</p>
+
+      <div class="callout warn"><div class="lbl">Qué comprueba la app y qué comprueba usted</div><p style="margin:4px 0 0">
+      La comprobación mide <strong>cobertura</strong>: cuántos puntos de control ha tocado el trazo, con un margen
+      generoso alrededor de cada uno. <strong>No verifica la secuencia.</strong> Los números están para que el niño
+      sepa por dónde empezar y para que usted pueda corregirle —«esa no, la de arriba primero»—, pero quien vigila
+      que la <em>b</em> arranque por el palo es el adulto, mirando. La app no lo sabe, y este manual no va a decir que sí.</p></div>
+
+      <h4>Flujos alternativos</h4>
+      <ul class="alt">
+        <li><strong>No se prescribe.</strong> A diferencia de Audición, Lenguaje, TEA, Dislexia o Integración Sensorial, aquí no hay nada que activar con el PIN: los <strong>seis trazos están siempre disponibles</strong>.</li>
+        <li><strong>No puntúa.</strong> La pizarra <strong>no suma XP, no cuenta para la racha y no aparece en el panel de resultados</strong>. Es práctica, no medida: si algún día hace falta evidencia de grafomotricidad, tendrá que diseñarse como tal.</li>
+        <li><strong>Solo en castellano lo escrito.</strong> Los títulos y las consignas de esta pantalla están hoy
+        <strong>solo en castellano</strong>, también con la variedad puesta en galego, dominicano o euskera. Los tres elogios
+        que Lúa <em>locuta</em> sí tienen texto propio en castellano, galego, euskara e inglés (en dominicano suenan
+        con el texto castellano, como el resto del contenido compartido).</li>
+        <li><strong>Zurdos y lápiz óptico:</strong> el lienzo no distingue la mano ni el instrumento. Si el niño tapa el modelo con la mano, gire la tableta o suba el grosor del trazo.</li>
+      </ul>
+
+      <div class="callout"><div class="lbl">Lo que este bloque no hace</div><p style="margin:4px 0 0">No corrige la
+      <strong>postura de la mano</strong> ni la prensión del lápiz, no mide <strong>presión</strong> ni
+      <strong>velocidad</strong>, y no sustituye al trabajo sobre papel. Una pantalla es lisa y un papel no: la pizarra
+      entrena la <em>dirección</em> y el <em>orden</em>, que es lo que se transfiere; el resto sigue siendo del cuaderno
+      y de la terapeuta ocupacional.</p></div>
+
+      <div class="shots">
+        <figure class="shot">
+          <img src="screenshots/40-pizarra-magica.png" alt="La Pizarra Mágica de Lúa con el modelo de la letra b y sus puntos de control numerados">
+          <figcaption><span class="fig"></span> · Letras críticas: el modelo de la <em>b</em> con sus seis puntos de control, la pauta Montessori, la tiza y el botón «Oír la letra».</figcaption>
+        </figure>
+      </div>
     </div>
   </div>
 </section>
@@ -1772,7 +1919,7 @@ TEA y Lengua de Signos). Cada dominio ofrece
     <tr><td>La app oyó mal en Pares Mínimos</td><td>El padre es el juez final: use “dijo rana / dijo lana” para corregir el veredicto. Un falso positivo no penaliza al niño.</td></tr>
     <tr><td>No avanza tras la misión física</td><td>Es el <strong>sello doble</strong>: el adulto y el niño deben pulsar las dos huellas a la vez. Sirve para que el ejercicio no siga solo. Con una sola mano, mantenga pulsada una huella 2 segundos.</td></tr>
     <tr><td>No aparece el Test de Ling</td><td>Solo se muestra en los ejercicios de Audición si la patología indica audífono o implante coclear (CU‑08).</td></tr>
-    <tr><td>La racha volvió a cero</td><td>Se perdió porque pasó más de un día sin practicar. Active los recordatorios (CU‑10) para evitarlo. La <strong>mejor racha</strong> conseguida no se borra, y las insignias de llama ya ganadas se conservan.</td></tr>
+    <tr><td>La racha volvió a cero</td><td>Se perdió porque pasó más de un día sin practicar. Active los recordatorios (CU‑10) para evitarlo. La <strong>mejor racha</strong> conseguida no se borra, y las insignias de cascabel ya ganadas se conservan.</td></tr>
     <tr><td>¿Dónde se ven las insignias del niño?</td><td>En el hub, en el enlace <strong>“Premios ›”</strong> de la tarjeta de Lúa. No hace falta el PIN. Ahí están la escalera de los doce niveles y las dieciocho insignias, con la condición escrita de las que faltan (CU‑11).</td></tr>
     <tr><td>Han salido niveles nuevos. ¿Mi hijo ha bajado de nivel?</td><td>No. Los cinco niveles nuevos se añadieron por encima de los que había y cada nivel sigue costando 100&nbsp;XP: nadie pierde lo conseguido (CU‑11).</td></tr>
     <tr><td>¿Por qué la app ya no usa emoji en sus botones?</td><td>Los dibujaba el fabricante de cada teléfono, así que cambiaban de un aparato a otro y no formaban un conjunto. Desde la v12 la iconografía es propia, dibujada en la app. Los <strong>pictogramas de los ejercicios</strong> no han cambiado: eso es contenido terapéutico.</td></tr>
@@ -1788,8 +1935,12 @@ TEA y Lengua de Signos). Cada dominio ofrece
     <tr><td>En galego, algunos ejercicios no hablan</td><td>La Expansión Semántica y los ejercicios de Audición y Lenguaje suenan con la voz neuronal castellana mientras Celtia no cubra ese contenido, en vez de quedar en silencio. Actualice la app si sigue ocurriendo.</td></tr>
     <tr><td>Marca como error algo que en mi país se dice así</td><td>En la variedad dominicana la app <strong>respeta los rasgos del habla caribeña</strong> (seseo, “s” aspirada, “r/l” final). Y recuerde: el adulto es siempre el juez final del veredicto.</td></tr>
     <tr><td>Apareció ruido de fondo o la gata moviéndose por el borde</td><td>Son módulos del <strong>Panel del Adulto</strong> (carga comunicativa) del piloto; solo se activan a mano. Desactívelos desde ese mismo panel (CU‑16).</td></tr>
+    <tr><td>¿Para qué sirve la Pizarra Mágica si mi hijo ya escribe?</td><td>No es una clase de caligrafía: trabaja el <strong>orden y la dirección</strong> del trazo, que es lo que separa la <em>b</em> de la <em>d</em> —son el mismo dibujo girado—. Un niño puede escribir con letra correcta y seguir invirtiéndolas. Si esa confusión no aparece, el bloque se puede saltar sin más (CU‑24).</td></tr>
+    <tr><td>La pizarra dice «¡Casi casi!» aunque la letra ha salido bien</td><td>La comprobación mira si el trazo ha pasado por los <strong>puntos numerados</strong>, no si la letra es bonita. Una <em>b</em> perfecta trazada por fuera de los puntos no los cubre. Suba el <strong>grosor</strong> del trazo, o pídale que pase justo por encima de los círculos. Y recuerde que fallar ahí <strong>no gasta nada</strong>: no hay intentos ni penalización (CU‑24).</td></tr>
+    <tr><td>La Pizarra Mágica está en castellano aunque tengo puesto galego</td><td>Es así de momento: los <strong>títulos y consignas escritos</strong> de esa pantalla están solo en castellano. Lo que Lúa <strong>dice en voz alta</strong> al terminar un trazo sí tiene texto propio en galego, euskara e inglés, y suena en la variedad que tenga puesta (CU‑24).</td></tr>
+    <tr><td>Las sesiones de la pizarra no aparecen en los resultados</td><td>Correcto, y es a propósito: la Pizarra Mágica <strong>no puntúa</strong>, no suma XP y no entra en el historial. Es práctica libre, no una medida clínica (CU‑24).</td></tr>
     <tr><td>¿Qué son los bloques de TEA y Dislexia?</td><td><strong>TEA</strong> (6 terapias, protocolo PRT + TCC) y <strong>Dislexia</strong> (6 terapias de conciencia fonológica y acceso léxico). Se prescriben con el mismo PIN que el resto y sus estresores los activa siempre el adulto (CU‑06).</td></tr>
-    <tr><td>No veo el bloque de Realidad Aumentada</td><td>Solo aparece en <strong>teléfonos Android</strong> con la app instalada (no en tablet, ni en Expo Go, ni en el navegador), y solo si la <strong>prueba de aptitud</strong> da nivel A, B o C. Con nivel D el bloque no se ofrece y los otros seis funcionan igual (CU‑18).</td></tr>
+    <tr><td>No veo el bloque de Realidad Aumentada</td><td>Solo aparece en <strong>teléfonos Android</strong> con la app instalada (no en tablet, ni en Expo Go, ni en el navegador), y solo si la <strong>prueba de aptitud</strong> da nivel A, B o C. Con nivel D el bloque no se ofrece y los otros ocho funcionan igual (CU‑18).</td></tr>
     <tr><td>El ejercicio de Realidad Aumentada se cierra solo</td><td>La cámara ha dejado de ver la cara del niño. <strong>Apoye el teléfono</strong> en un libro o una caja, en horizontal y a 30‑35 cm; nunca lo sostenga en la mano (CU‑18).</td></tr>
     <tr><td>¿Se graba a mi hijo con la cámara?</td><td><strong>No.</strong> Cada fotograma se analiza dentro del teléfono y se descarta en el mismo instante. No hay grabación, no sale ninguna imagen del aparato y <strong>no se reconoce la cara de nadie</strong>: solo se miden gestos (grados, milisegundos y proporciones).</td></tr>
     <tr><td>El coche de AR‑1 no arranca aunque el niño pone la boca</td><td>Puede que la mueca salga <strong>asimétrica</strong> (una comisura tira más que la otra), que no cuenta a propósito, o que el tiempo de sostén esté por encima de lo que hoy puede aguantar. <strong>Bájelo usted</strong> en el Panel del Adulto; la app nunca lo ajusta sola (CU‑19 y CU‑22).</td></tr>
@@ -1804,7 +1955,7 @@ TEA y Lengua de Signos). Cada dominio ofrece
 <section class="page-break">
   <div class="chapter-kicker">Anexo B</div>
   <h2 class="chapter">Historial de versiones</h2>
-  <p style="margin-top:12px">Este manual describe Valeria+ en su <strong>estado actual (v13)</strong>. La siguiente tabla
+  <p style="margin-top:12px">Este manual describe Valeria+ en su <strong>estado actual (v14)</strong>. La siguiente tabla
   resume, a título informativo, cómo ha ido creciendo la app, por si resulta útil a quienes usaron versiones
   anteriores.</p>
   <table>
@@ -1825,24 +1976,25 @@ TEA y Lengua de Signos). Cada dominio ofrece
     <tr><td><strong>v12</strong></td><td><strong>Lúa, los premios visibles y un set de iconos propio.</strong> La mascota pasa a ser una <strong>gata en píxel art</strong> —icono, arranque, hub, fin de sesión y distractora de doble tarea— y da nombre a <strong>doce niveles</strong> y a una colección de <strong>dieciocho insignias</strong> que ya <strong>se puede abrir y mirar</strong> desde el hub, sin PIN, con la condición escrita de las que faltan. El hub, las pantallas de ejercicios, las del adulto y Academy se rehacen con <strong>iconografía propia</strong> en lugar de emoji del sistema, se corrige el contraste de los textos secundarios al mínimo WCAG AA y el avatar de la lista de pacientes deja de deducirse del género para ser la <strong>inicial del nombre</strong>. Ningún ejercicio, consigna ni regla clínica cambia.</td></tr>
     <tr><td><strong>v12.1</strong></td><td><strong>Descanso visual (regla 20‑20‑20).</strong> La app lleva la cuenta del tiempo de sesión y, pasados 20 minutos seguidos, <strong>sugiere</strong> en la pausa activa un descanso de 20 segundos mirando lejos, con la mascota Lúa durmiéndose en el aparato si lo hay. <strong>No bloquea nada</strong>: la sesión no se detiene ni se pausa sola, y el adulto decide. El contador no se guarda ni se exporta. Ningún ejercicio, consigna ni regla clínica cambia (CU‑09).</td></tr>
     <tr><td><strong>v13</strong></td><td><strong>Octavo bloque: Integración Sensorial Auditiva</strong>, y abre el hub. Desensibilización sistemática para niños que se tapan los oídos, con muro de control adulto, anticipación visual, botón de agencia del niño y pausa que suma progreso en lugar de restarlo. <strong>Once estímulos sintetizados</strong> dentro del proyecto —ocho aparatos y alertas más tres ambientes vivos: aula, centro comercial y calle con obras—. En Academy, la cápsula <strong>La Brújula de las Palabras</strong> con los hitos ASHA de 0 a 5 años. Realidad Aumentada pasa a cerrar la rejilla del hub.</td></tr>
+    <tr><td><strong>v14</strong></td><td><strong>Noveno bloque: Grafomotricidad y Escritura</strong> —la <strong>Pizarra Mágica de Lúa</strong>—, junto a Dislexia y como su continuación motora: cuatro letras críticas, dos lazos de calentamiento y pizarra libre, con pauta Montessori y puntos de control numerados que dicen por dónde empieza cada letra (CU‑24). En los ejercicios con micrófono, la frase objetivo se parte ahora en <strong>láminas numeradas</strong> que se encienden palabra a palabra, para ver cuál falló y no solo que falló la frase (CU‑09). Las <strong>insignias</strong> se redibujan para atarlas a Lúa —huella, cascabel y orejitas— y sus descripciones vuelven a decir la condición exacta de desbloqueo (CU‑11). En la voz, el trino de la <strong>vibrante múltiple</strong> deja de escribirse como letra repetida en las cuatro variedades: ningún sintetizador tiene «rrr» en su léxico y lo deletreaba o lo rompía. Ningún ejercicio, consigna ni regla clínica de los bloques anteriores cambia.</td></tr>
   </table>
 
   <p style="margin-top:14px"><strong>Sobre la cobertura de este manual.</strong> Los capítulos paso a paso cubren ya
-  <strong>los ocho bloques</strong>, incluidas la <strong>Integración Sensorial Auditiva</strong> de la v13 (CU‑23) y la <strong>Realidad Aumentada</strong> de la v10 (CU‑18 a CU‑22). Los cambios
+  <strong>los nueve bloques</strong>, incluidas la <strong>Grafomotricidad</strong> de la v14 (CU‑24), la <strong>Integración Sensorial Auditiva</strong> de la v13 (CU‑23) y la <strong>Realidad Aumentada</strong> de la v10 (CU‑18 a CU‑22). Los cambios
   de la v10.1 y la v10.2 no añaden pantallas: afectan a cómo se reconoce y se valora la voz por dentro, y están explicados
   en el capítulo&nbsp;2 («Privacidad de los datos») y en CU‑04. La v10.3 sí añade elementos visibles —la tarjeta de material, la
   lista de formas alternativas, la chuleta del adulto y el aviso del siguiente ejercicio—, todos descritos en CU‑09.</p>
 
   <p style="margin-top:14px"><strong>Sobre las capturas de pantalla.</strong> Todas las imágenes de este manual se
-  han vuelto a tomar sobre la <strong>v13</strong>, con la app en marcha, y muestran la interfaz que la familia tiene
-  hoy delante. Solo la <strong>progresión léxica</strong> conserva su aviso propio, porque el contenido de esa pantalla
+  han tomado sobre la app en marcha, y muestran la interfaz que la familia tiene hoy delante. Las de la
+  <strong>Pizarra Mágica</strong> y las del <strong>descanso visual</strong> se incorporan en esta v14. Solo la <strong>progresión léxica</strong> conserva su aviso propio, porque el contenido de esa pantalla
   cambió después de la captura. El capítulo de <strong>Realidad Aumentada</strong> sigue sin capturas, y la razón está
   explicada al final de CU‑22: cualquier imagen fiel de esos ejercicios mostraría la cara de un niño.</p>
 
   <div class="footer-note">
-    <strong>Valeria+</strong> · Manual de Casos de Uso · v12 (con capturas de pantalla) · Agosto de 2026 ·
+    <strong>Valeria+</strong> · Manual de Casos de Uso · v14 (con capturas de pantalla) · Agosto de 2026 ·
     Terapia auditivo‑verbal y del lenguaje para la infancia. Documento de apoyo para logopedas y familias.
-    <br>Disponible en Castellano, Galego (Proxecto Nós), Dominicano (Quisqueya Habla) y Euskera (batua · ILENIA/NEL‑GAITU). Los datos personales se tratan localmente conforme a RGPD/HIPAA; la sincronización en la nube y la telemetría anónima del piloto son opcionales.
+    <br>Disponible en Castellano, Galego (Proxecto Nós), Dominicano (Quisqueya Habla), Euskara (batua · ILENIA/NEL‑GAITU) e English (US, en pruebas). Los datos personales se tratan localmente conforme a RGPD/HIPAA; la sincronización en la nube y la telemetría anónima del piloto son opcionales.
   </div>
 </section>
 
@@ -1879,8 +2031,23 @@ TEA y Lengua de Signos). Cada dominio ofrece
 
   <h3>La gata del aparato es la misma que la de la app</h3>
   <p>No se parecen: <strong>son la misma</strong>. El dibujo de la cara, los pictogramas de las fichas y las
-  insignias se dibujan una sola vez en Valeria+ y el aparato los copia, con una comprobación automática que
-  <strong>impide compilar</strong> si alguno de los dos se desvía del otro.</p>
+  insignias se dibujan una sola vez en Valeria+ y el aparato los copia. La <strong>cara</strong>, lo que la gata
+  <strong>hace</strong> y lo que <strong>lleva puesto</strong> los vigila una comprobación automática que
+  <strong>impide compilar</strong> si los dos lados se desvían.</p>
+
+  <div class="shots">
+    <figure class="shot wide">
+      <img src="screenshots/lua-panel-240.png" alt="Tres caras de Lúa a 240 por 240 píxeles: reposo, atenta y contenta">
+      <figcaption><span class="fig"></span> · Tres de las caras del panel de 240×240 del aparato —reposo, atenta durante la escucha y contenta tras un acierto—, generadas desde la <strong>misma rejilla de píxeles</strong> que dibuja a Lúa en la app.</figcaption>
+    </figure>
+  </div>
+
+  <div class="callout warn"><div class="lbl">Lo que hoy no está espejado: las insignias</div><p style="margin:4px 0 0">
+  Los <strong>nueve dibujos de las insignias</strong> los copia el firmware del prototipo, y esa copia
+  <strong>no la vigila</strong> la comprobación automática —que mira el humor y el guardarropa, no los premios—.
+  Con tres de ellos <strong>redibujados en la v14</strong> (CU‑11), el cristal del prototipo sigue pintando los
+  anteriores hasta que las nuevas matrices se suban al repositorio del firmware. No afecta a ninguna familia:
+  <strong>no hay ningún aparato en la calle</strong>. Se anota aquí para que no se dé por espejado lo que todavía no lo está.</p></div>
   <p>Desde el 19 de agosto de 2026 eso incluye también <strong>lo que hace</strong> y <strong>lo que lleva puesto</strong>:
   si el niño le pone la flor y la pajarita en el armario (CU‑11), la gata del aparato aparece con la flor y la
   pajarita; si la acaricia, ronronea igual en la tableta que en la pantalla del aparato; y si tiene un pescadito
