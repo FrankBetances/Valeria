@@ -19,6 +19,7 @@ import { BlockIcon, BlockIconName } from './ValeriaBlockIcons';
 import {
   speak, speakToChild, speakWordSlow, speakPhraseSlow, speakClinical, stopSpeaking, speakVoiceSample,
   asrSupported, startListening, stopListening, releaseListening, matchTarget, MatchLevel,
+  wordCoverage,
   VoiceStatus, refreshVoiceCatalog,
   asrLocaleStatus, requestOfflineModel, asrOfflineStatus, AsrLocaleStatus, asrCaptureEnabled,
   forgetAsrLocale,
@@ -27,6 +28,7 @@ import { getLocale, setLocale, assetLang, contentLocale, Locale } from './valeri
 import { syncUiLangToLocale } from './valeriaUiLang';
 import { useT, UiStrings } from './i18n';
 import { micVerdictSayFor } from './valeriaExerciseBank';
+import { trackPhraseCoverage } from './valeriaTelemetry';
 import { SentenceWordCards } from './ValeriaSentenceWordCards';
 
 export { SentenceWordCards };
@@ -125,6 +127,10 @@ export const MicPracticeCard: React.FC<{ target: string; prompt?: string; altTar
   const [phase, setPhase] = useState<MicPhase>('idle');
   const [heard, setHeard] = useState('');
   const [score, setScore] = useState<MatchLevel>(0);
+  // Cobertura del ensayo YA JUZGADO. Es la del veredicto, no la que las láminas
+  // van pintando en vivo: mientras el niño habla el número sube y baja, y lo
+  // que se le enseña al adulto y se registra tiene que ser el resultado final.
+  const [cover, setCover] = useState<{ hits: number; total: number } | null>(null);
   const [errMsg, setErrMsg] = useState('');
   const pulse = useRef(new Animated.Value(0)).current;
   const mounted = useRef(true);
@@ -140,7 +146,7 @@ export const MicPracticeCard: React.FC<{ target: string; prompt?: string; altTar
 
   // Nueva palabra objetivo → juego a cero.
   useEffect(() => {
-    setPhase('idle'); setHeard(''); setScore(0); setErrMsg('');
+    setPhase('idle'); setHeard(''); setScore(0); setCover(null); setErrMsg('');
   }, [target]);
 
   useEffect(() => {
@@ -169,8 +175,16 @@ export const MicPracticeCard: React.FC<{ target: string; prompt?: string; altTar
     const lvl = [target, ...(altTargets ?? [])].reduce<MatchLevel>(
       (best, t) => Math.max(best, matchTarget(alternatives, t)) as MatchLevel, 0,
     );
+    // Cobertura contra el objetivo principal. No se busca la mejor de las
+    // alternativas: el adulto necesita saber cuánto salió de LA frase que pidió,
+    // y una alternativa distinta tiene otras palabras y otro denominador.
+    const cov = wordCoverage(alternatives, target);
     setHeard(alternatives[0] ?? '');
     setScore(lvl);
+    setCover(cov.total > 1 ? { hits: cov.hits, total: cov.total } : null);
+    // Una vez por ensayo y con el resultado final. `trackPhraseCoverage`
+    // descarta por su cuenta los objetivos de una sola palabra.
+    trackPhraseCoverage(cov.hits, cov.total);
     setPhase('scored');
     speakToChild(micVerdictSayFor(getLocale(), lvl));
     if (lvl === 0) setTimeout(() => speakWordSlow(target), 1600);
@@ -241,6 +255,14 @@ export const MicPracticeCard: React.FC<{ target: string; prompt?: string; altTar
           <View style={{ flex: 1 }}>
             <Text style={s.verdictTitle}>{t.voice.micVerdicts[score].title}</Text>
             <Text style={s.verdictSub}>{t.voice.micVerdicts[score].sub}</Text>
+            {/* Cuánto de la frase salió. Las estrellas NO cambian por esto: el
+                baremo es regla clínica y sigue donde estaba. Lo que se arregla
+                es que «casi» era la misma palabra para quien dijo una de cinco
+                y para quien dijo cuatro, y el adulto no tenía forma de
+                distinguirlos si no estaba mirando las láminas en ese momento. */}
+            {!!cover && (
+              <Text style={s.verdictCover}>{t.voice.micCoverage(cover.hits, cover.total)}</Text>
+            )}
           </View>
           <Text style={s.verdictStars}>{'★'.repeat(score + 1)}</Text>
         </View>
@@ -724,6 +746,7 @@ const s = StyleSheet.create({
   verdictOk: { backgroundColor: V.color.successBg, borderColor: '#bfe9d4' },
   verdictAlmost: { backgroundColor: '#fffbeb', borderColor: '#f4e6b8' },
   verdictRetry: { backgroundColor: '#fff', borderColor: V.color.border },
+  verdictCover: { fontSize: 11.5, fontWeight: '800', color: V.color.textMuted, marginTop: 2 },
   verdictTitle: { fontSize: 14, fontWeight: '800', color: V.color.textPrimary },
   verdictSub: { fontSize: 11.5, fontWeight: '600', color: V.color.textSecondary, marginTop: 1, lineHeight: 15 },
   verdictStars: { fontSize: 15, color: V.color.star, letterSpacing: 1 },

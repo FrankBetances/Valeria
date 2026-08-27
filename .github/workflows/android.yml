@@ -237,6 +237,12 @@ jobs:
       - name: Comprobar que la interfaz se lee del catálogo (EN-2.8)
         run: node scripts/check-ui-strings.js
 
+      # La regla de "¿dijo esta palabra?" llegó a estar escrita dos veces, y no
+      # eran iguales: las láminas de la frase podían encenderse enteras y el
+      # veredicto decir «casi» en el mismo ensayo.
+      - name: Comprobar que la lámina y el veredicto cuentan igual
+        run: node scripts/check-word-coverage.js
+
       # La gata de la tableta aprendió a ronronear, a comer y a llevar puesta
       # una flor; la del aparato responde al dedo desde la V2. Ninguna de las
       # dos sabía nada de la otra, y con la misma cara eso no se nota.

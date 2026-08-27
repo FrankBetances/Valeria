@@ -1068,6 +1068,27 @@ export const ES = {
     trendDown: (d: number): string => `▼ ${d} ★`,
     trendStable: '= estable',
 
+    // Recuento del micrófono.
+    //
+    // Decisión de Frank: esto es un APOYO DEL EJERCICIO y nada más. No es una
+    // medida del lenguaje, no tiene finalidad sanitaria y no entra en ninguna
+    // decisión clínica. Por eso el rótulo no dice «producción», ni «evolución»,
+    // ni desde luego «LME» —la longitud media del enunciado se cuenta en
+    // morfemas sobre habla espontánea, y esto son frases dictadas—: cualquiera
+    // de esas palabras lo convertiría, a ojos de quien lo lea, en un indicador.
+    // Dice lo que hace: contar palabras que el micrófono reconoció.
+    speechTitle: 'Recuento del micrófono',
+    speechSub: 'Cuántas palabras de la frase pedida reconoció el micrófono. Es un apoyo del ejercicio, no una medida.',
+    speechWpu: 'palabras por frase',
+    speechCoverage: 'de la frase pedida',
+    speechUtterances: (n: number): string => (n === 1 ? 'frase practicada' : 'frases practicadas'),
+    speechNote:
+      'Esto NO es una medida clínica ni tiene finalidad sanitaria. Es un apoyo del ejercicio: sirve '
+      + 'para que el niño vea por dónde va y para que tú veas qué palabra se cayó. No evalúa el '
+      + 'lenguaje, no vale para un diagnóstico ni para un informe, y no debe usarse para tomar '
+      + 'ninguna decisión sobre el tratamiento. Quien valora cómo habla el niño eres tú, con la '
+      + 'escala EPT-3, igual que en el resto de la app.',
+
     phonemeTitle: 'Sustitución por fonema',
     pmFirstSession: 'primera sesión',
     pmImproving: (d: number): string => `▼ ${d} pp · mejora`,
@@ -1217,8 +1238,16 @@ export const ES = {
       { icon: '🎉', title: '¡Lo dijo genial!', sub: 'La app entendió la palabra objetivo.' },
     ],
 
+    // Debajo del veredicto. Dice CUÁNTO de la frase salió, que es lo que las
+    // tres estrellas no pueden decir: «casi» le toca igual a quien dijo una
+    // palabra de cinco que a quien dijo cuatro.
+    micCoverage: (hits: number, total: number): string =>
+      `${hits} de ${total} palabras de la frase`,
+
     sentenceCardsKicker: 'LÁMINAS DE LA FRASE',
-    sentenceCardsProgress: (hits: number, total: number): string => `${hits} de ${total} palabras conseguidas`,
+    // Corto a propósito: convive en la misma línea con el rótulo, y «conseguidas»
+    // lo dice ya el check verde de cada lámina.
+    sentenceCardsProgress: (hits: number, total: number): string => `${hits} de ${total} palabras`,
     sentenceWordMatched: (word: string): string => `Palabra conseguida: ${word}`,
     sentenceWordPending: (word: string): string => `Palabra pendiente: ${word}`,
 

@@ -661,6 +661,7 @@ piezas que no existían:
 | **Interruptor de seguridad** (`EN_THERAPY_CONTENT_READY`) | Mientras el banco no existía, `en-US` habría mostrado contenido **castellano**, y pedirle al TTS inglés que lea «perro» no produce castellano con acento: produce ruido. Con el banco terminado está en `true` y la variedad se comporta como cualquier otra. Es el conmutador a bajar si algún día se añade una variedad antes que su contenido |
 | **Guía dialectal bloqueante** ([`docs/guia-dialectal-en-US.md`](docs/guia-dialectal-en-US.md)) | Qué es rasgo del inglés afroamericano o sureño y qué es error terapéutico. Espejo exacto de la guía dominicana: un rasgo dialectal **nunca** cuenta como fallo |
 | **Revisión clínica** ([`docs/protocolo-evaluacion-clinica-en-US.md`](docs/protocolo-evaluacion-clinica-en-US.md)) | Protocolo EN‑0.9 para la revisora: profesora SLP con licencia (*Howard University*) |
+| **Firma** ✅ | La guía dialectal está **firmada desde el 16/8/2026**, y con esa firma queda validado también el dataset `en`. Su práctica con hablantes de AAE es lo que da autoridad sobre los apartados de más riesgo (§4.1, §4.3, §4.4, §4.9). Conviene tenerlo presente: el texto de la tarjeta de voz siguió meses diciendo que los ejercicios estaban «en revisión clínica» cuando ya no era cierto, y lo desmentía el propio código |
 
 > **Reconocimiento local (Fase A).** Desde la migración a `expo-speech-recognition`,
 > la app **pide** que el reconocimiento se haga dentro del teléfono
@@ -796,7 +797,17 @@ con *debounce* vía `InteractionManager`, de modo que el cifrado y el guardado e
 | 🧩 **Abandono intra‑cápsula TPR** | Se cuentan cápsulas mostradas vs. saltadas vs. completadas en el player. |
 | 💬 **Evaluación subjetiva (SUS adaptado)** | Modal Likert 1‑5 (`ValeriaSUSModal`) orientado a la **carga de uso real** ("integrar el ejercicio en la rutina de mi hijo/a"). *Rate limiting* para evitar sesgo de fatiga: solo en el **hito de 4 bloques distintos** (umbral desacoplado del total de 6: los módulos TEA/Dislexia ni lo bloquean ni lo fuerzan) y **máx. 1 vez/semana** por dispositivo. |
 | 🔒 **Persistencia y correlación** | Telemetría + Likert se guardan en un **JSON cifrado en reposo** (`valeriaCrypto`, keystream SHA‑256 en JS puro) bajo el **mismo id de sesión**. Se **purga solo tras una exportación exitosa**, evitando el desborde de memoria semana a semana. |
+| 🗣️ **Uso del recuento del micrófono** | En los ejercicios de frase, `trackPhraseCoverage` suma cuántas palabras reconoció el motor, cuántas tenía la frase y cuántas frases se practicaron. **No es una medida clínica y no tiene finalidad sanitaria**: el recuento es un *apoyo del ejercicio* (el niño ve por dónde va, el adulto ve qué palabra se cayó) y esto mide **cuánto se usa ese apoyo**, igual que los misclicks miden la interfaz. Se llama **una vez por ensayo y con el resultado final**: las láminas se encienden con los parciales del reconocedor, y registrar cada parcial contaría el mismo ensayo diez veces. **Solo números**: ni la frase, ni las palabras, ni lo que el reconocedor entendió. Los objetivos de una sola palabra no entran. |
 | 🎛️ **Interfaz de la sesión** (`ui: 'v10' \| 'v11'`) | Sella con qué interfaz se registró cada sesión. Activar las pestañas mueve la línea base de dos métricas: la barra inferior absorbe toques que antes caían en zona muerta (menos *misclicks*, sin que nadie se equivoque menos) y `BlockList` se lleva un tiempo que antes se imputaba a `ExerciseSelection`. Con el sello, los tramos pre/post se separan **por dato** y no por fecha de despliegue —que es aproximada y se pierde al reinstalar—. El resumen exportado incluye `sessionsV11`: si está entre 0 y `sessions`, la muestra mezcla interfaces y los *misclicks* agregados no son una serie homogénea. |
+
+> [!WARNING]
+> **Añadir un campo al registro exige tocar `normalizeSession`.** Esa función
+> reconstruye la sesión **campo a campo** al releerla del disco, así que todo lo
+> que no se nombre ahí se pierde entre el disco y la exportación —sin error, sin
+> aviso: se exporta un cero—. Ya pasó con `listen` (ES‑04) y con `asr` (partición
+> local/red de la Fase A), que se recogían durante toda la sesión y no llegaban
+> nunca al fichero. El gate `check-word-coverage.js` hace el viaje de ida y
+> vuelta y lo detecta.
 
 **Exportación dual** (Modo Profesional, PIN `1985` → `ValeriaProExport`; en la
 interfaz clásica se entra desde el hub de bloques, en la v11 desde **Ajustes**):
@@ -809,7 +820,20 @@ interfaz clásica se entra desde el hub de bloques, en la v11 desde **Ajustes**)
   crudo** (email/WhatsApp) para cuando haya conectividad.
 
 > **Notas para la fase regulatoria.** La telemetría es **anónima** (sin datos
-> personales, sin audio, sin el contenido de las respuestas). El cifrado en
+> personales, sin audio, sin el contenido de las respuestas). El recuento del
+> micrófono es lo más cerca del habla que llega el registro, y aun así **son
+> cifras**: cuántas de cuántas, nunca cuáles. Por decisión de producto es un
+> **apoyo del ejercicio sin valor ni finalidad sanitaria** —no mide el lenguaje,
+> no evalúa y no entra en ninguna decisión clínica—, y así está rotulado en la
+> app, en el panel y en el manual. Mantenerlo fuera de lo clínico es lo que evita
+> que un contador de una ayuda de pantalla se lea como una medida de Clase I.
+>
+> **Dónde está declarado.** Dentro de la fila que ya existía —*telemetría de
+> usabilidad del piloto*— como «el uso de las ayudas de pantalla», sin fila
+> propia y sin base legal nueva: es una métrica de uso, del mismo orden que los
+> misclicks. Lo que **sí** hay que hacer es que el formulario de *Seguridad de
+> los datos* de Play Console enumere lo mismo que `site/`, porque Google
+> contrasta las dos declaraciones entre sí. El cifrado en
 > reposo guarda la clave en `AsyncStorage`; el módulo `valeriaCrypto` está
 > aislado para migrarla a `expo-secure-store` (Keystore/Keychain) en producción.
 > Al tratarse de un piloto con menores, el **consentimiento informado** de las
@@ -1115,6 +1139,15 @@ un dato de salud de un menor— que el typecheck y el diff no ven.
 | `check-speech-prosody.js` | Que el troceo por frases vuelva a meterse en la voz del sistema de es‑DO: cada locución encadenada arrastra la latencia de arranque del motor, y el resultado son pausas anchas que rompen el ritmo de la sesión. |
 | `check-asr-capture-guard.js` | Que la **captura de corpus de la Fase B del ASR** llegue a producción, o que una grabación acabe versionada. Comprueba que la persistencia de audio viva en un solo archivo, que siga exigiendo `__DEV__` **y** `EXPO_PUBLIC_ASR_CAPTURE`, que ningún archivo versionado encienda la variable, que `corpus-asr/` esté ignorado y que git no rastree ninguna grabación. Es voz de un menor: art. 9 del RGPD (R7 del plan). |
 
+| `check-word-coverage.js` | Que la lámina encendida y la palabra puntuada vuelvan a contarse con reglas distintas. La regla llegó a estar escrita dos veces y no eran iguales: una frase podía encender las cinco láminas y recibir un «casi». Comprueba además que el recuento **sobrevive al viaje por disco** hasta la exportación |
+| `check-ui-strings.js` | Que una pantalla pinte texto literal en vez de leerlo del catálogo (EN‑2.8). Ya pasó dos veces con ficheros enteros dentro de pantallas migradas: compilan, el typecheck pasa y la app sale mitad en inglés y mitad en castellano |
+| `check-adult-fields.js` | Que los dos ejes de idioma se contradigan **dentro de un ejercicio**: lo que se le dice al niño va en la variedad de terapia, lo que solo lee el adulto va en el idioma de la interfaz |
+| `check-variety-branches.js` | Que una variedad se quede sin su rama en un selector escrito cuando solo existían tres. Es el patrón exacto que produjo «la voz inglesa lee castellano» |
+| `check-brand-consistency.js` | Que reaparezca la mascota retirada. La migración a Lúa se dio por terminada **tres veces** estando a medias, y la última capa que quedó fue el texto **locutado** |
+| `check-lua-mascot-mirror.js` | Que la gata de la tableta y la del aparato se separen en humor o en guardarropa. Vigila `MOOD` y `ACCESSORY`, **no** los glifos de las insignias |
+| `check-lua-mute.js` | Que el firmware de Lúa gane entrada de audio, micrófono o servos. Un juguete que escucha junto a un menor no entra en una consulta |
+| `check-sensory-assets.js` | Que el módulo sensorial vuelva a ser mudo: formato, sonoridad, costura del bucle e identidad de cada estímulo |
+| `check-legal-urls.js` | Que las URLs legales declaradas en Play Console dejen de servirse. Existe por el rechazo del 19/8/2026, con el fichero intacto y el despliegue en verde |
 | `check-asr-listen-options.js` | Que se abra el micrófono con las opciones equivocadas. El módulo del ASR se carga con `require` perezoso y queda tipado como `any`, así que lo que se le pasa a `start()` no lo ve el typecheck ni el diff: pedir el modelo de lenguaje de **dictado** para escuchar una palabra suelta compila, arranca y deja Pares Mínimos respondiendo «no te escuché bien» en todos los ensayos. Ya pasó. Comprueba el modelo de término suelto (Android) y la pista de tarea corta (iOS), que siga la ventana de escucha de ES‑04, que se pidan parciales, que **nunca** se sesgue el motor con la palabra objetivo (§3.4 del plan) y que se pregunte por los modelos instalados **al mismo reconocedor que escucha** — preguntarle a otro es lo que hacía que un modelo ya descargado se declarase ausente (§3.3‑ter). |
 
 Todos se pueden ejecutar en local: `node scripts/<nombre>.js`.
