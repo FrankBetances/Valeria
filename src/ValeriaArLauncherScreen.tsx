@@ -42,6 +42,7 @@ import {
 import { ValeriaAdultChaosPanel } from './ValeriaAdultChaosPanel';
 import { trackArSession, markBlockCompleted } from './valeriaTelemetry';
 import { registerSession } from './valeriaGamification';
+import { luaSessionReward, cancelSessionReward } from './valeriaLuaSession';
 import type { SessionReward } from './valeriaGamification';
 
 type Phase = 'loading' | 'unsupported' | 'consent' | 'aptitude' | 'notApt' | 'menu' | 'busy' | 'result';
@@ -65,6 +66,11 @@ export const ValeriaArLauncherScreen: React.FC<{ navigation?: any }> = ({ naviga
   const [thresholds, setThresholds] = useState<ArThresholds | null>(null);
   const [result, setResult] = useState<ArSessionResult | null>(null);
   const [reward, setReward] = useState<SessionReward | null>(null);
+  // Salir de la pantalla corta el desfile del premio en el aparato y deja a la
+  // gata neutra. Sin esto, cerrar a los dos segundos deja una insignia puesta
+  // en el cristal hasta que caduque la concesión.
+  useEffect(() => () => cancelSessionReward(), []);
+
   const [notice, setNotice] = useState('');
 
   useEffect(() => {
@@ -206,7 +212,9 @@ export const ValeriaArLauncherScreen: React.FC<{ navigation?: any }> = ({ naviga
       // prohíbe. Las estrellas motivan al niño; no describen su ejecución.
       const done = res.trials.filter((t) => !t.voided).length;
       const participation = res.trials.length ? done / res.trials.length : 0;
-      setReward(await registerSession(3 * participation, 1));
+      const premio = await registerSession(3 * participation, 1);
+      setReward(premio);
+      luaSessionReward(premio); // el mismo premio, en el cristal
     }
     setPhase('result');
   };

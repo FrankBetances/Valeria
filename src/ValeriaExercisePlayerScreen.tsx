@@ -50,6 +50,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { V, STORAGE_KEYS } from './valeriaTheme';
 import { useT } from './i18n';
 import { registerSession, SessionReward, levelProgress, xpToNext } from './valeriaGamification';
+import { luaSessionReward, cancelSessionReward } from './valeriaLuaSession';
 import { PixelAward, tierBg, streakTier } from './ValeriaPixelAwards';
 import { CatPixel } from './ValeriaCatPixel';
 import { BlockIcon } from './ValeriaBlockIcons';
@@ -319,6 +320,11 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
   const [finished, setFinished] = useState(false);
   const [countdown, setCountdown] = useState(10);
   const [reward, setReward] = useState<SessionReward | null>(null);
+  // Salir de la pantalla corta el desfile del premio en el aparato y deja a la
+  // gata neutra. Sin esto, cerrar a los dos segundos deja una insignia puesta
+  // en el cristal hasta que caduque la concesión.
+  useEffect(() => () => cancelSessionReward(), []);
+
   // Progresión Inicial → Intermedio → Avanzado dentro del ejercicio actual.
   const [subIdx, setSubIdx] = useState(0);
   const [levelScores, setLevelScores] = useState<number[]>([]);
@@ -640,7 +646,11 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
     } catch (e) { /* almacenamiento no disponible */ }
     try {
       // Recompensas estilo Duolingo: XP, racha y logros.
-      setReward(await registerSession(avg, res.length));
+      const premio = await registerSession(avg, res.length);
+      setReward(premio);
+      // Y lo mismo en el cristal: la gata del aparato enseña la insignia y el
+      // nivel a la vez que la tableta. Sin aparato emparejado no hace nada.
+      luaSessionReward(premio);
     } catch (e) { /* gamificación no disponible */ }
     setResults(res);
     releaseNoise(); // fin de sesión: la Pista B no sobrevive a la pantalla de logros

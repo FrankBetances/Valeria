@@ -33,6 +33,9 @@ import {
   luaFrame,
   luaAccessoryParam,
 } from './valeriaLuaProtocol';
+import { AWARD_GLYPH_KEYS, AWARD_TIER_KEYS } from './ValeriaPixelArt';
+// Solo tipos: `valeriaGamification` arrastra AsyncStorage y este módulo es puro.
+import type { Badge, SessionReward } from './valeriaGamification';
 import {
   LuaAffectState,
   LuaInventoryState,
@@ -144,4 +147,93 @@ export const luaCraves = (inv: LuaInventoryState, nowMs: number = Date.now()): b
   if (!tieneSnack) return false;
   const desdeLaUltima = nowMs - (inv.lastFedTimestamp || 0);
   return desdeLaUltima > 6 * 60 * 60 * 1000; // seis horas: una vez por sesión, no un reloj
+};
+
+// ---------------------------------------------------------------------------
+// El premio de la sesión · la insignia y el nivel, en el cristal
+// ---------------------------------------------------------------------------
+//
+// `AWARD` y `LEVEL` llevaban en la tabla desde la primera tanda, el firmware
+// los pinta —`docs/insignias/` tiene las 45 insignias capturadas— y esta app
+// no los mandaba NUNCA. La gamificación desbloqueaba una insignia, subía el
+// nivel, y en el aparato no pasaba nada: el niño veía su premio en la tableta
+// y la gata del cristal seguía con la cara de antes. Es la misma separación
+// que arreglaron `MOOD` y `ACCESSORY` el 19/8/2026, en la única capa que
+// quedaba fuera.
+//
+// Lo que viaja son DOS NÚMEROS por insignia: la familia y el rango. Ni el id
+// (`ses10`, `racha30`), ni el nombre traducido, ni la descripción. El aparato
+// enseña el dibujo número N de un catálogo que lleva flasheado y no sabe qué
+// se ha ganado — que es la garantía del §6.1 aplicada al premio.
+
+/** Parámetro de `AWARD`: glifo en el byte bajo, rango en el alto. */
+export const luaAwardParam = (glyph: number, tier: number): number =>
+  ((tier & 0xff) << 8) | (glyph & 0xff);
+
+/**
+ * La insignia, del catálogo de `valeriaGamification` al enlace.
+ *
+ * Los dos índices son la POSICIÓN en `AWARD_GLYPH_KEYS` y `AWARD_TIER_KEYS`,
+ * que es lo que el firmware tiene flasheado. Por eso esas dos listas se añaden
+ * por el final y no se reordenan nunca, igual que `PICTO_KEYS`: reordenar le
+ * pone al niño la insignia del vecino en un aparato que ya está en su casa.
+ *
+ * Devuelve `null` en vez de una trama inventada si el glifo o el rango no
+ * están en la tabla. Una insignia que el aparato no conoce se queda sin
+ * enseñar; lo que no puede pasar es que enseñe otra.
+ */
+export const luaAwardFrame = (badge: Badge): Uint8Array | null => {
+  const glyph = (AWARD_GLYPH_KEYS as readonly string[]).indexOf(badge.glyph);
+  const tier = (AWARD_TIER_KEYS as readonly string[]).indexOf(badge.tier);
+  if (glyph < 0 || tier < 0) return null;
+  return luaFrame(LUA_OP.AWARD, luaAwardParam(glyph, tier));
+};
+
+/** Los segmentos del anillo del aparato. No es `LEVEL_COUNT`: es la trama. */
+export const LUA_LEVEL_MAX = 12;
+
+/**
+ * El nivel, en los doce segmentos del anillo. Sin número y sin el nombre del
+ * nivel: en el panel no se escribe.
+ *
+ * Se acota a 1-12 aquí y no allí porque el firmware IGNORA lo que se salga
+ * (`device.cpp`: `if (param >= 1 && param <= 12)`), y `levelFor(xp)` no tiene
+ * techo. Un niño con 1 300 XP es nivel 14 en la tableta y el anillo se
+ * quedaría en el nivel de la sesión anterior sin que nadie se enterara. Es el
+ * mismo recorte que ya hace `levelName`.
+ */
+export const luaLevelFrame = (level: number): Uint8Array =>
+  luaFrame(LUA_OP.LEVEL, Math.max(1, Math.min(LUA_LEVEL_MAX, Math.trunc(level) || 1)));
+
+/**
+ * Intensidad de `CELEBRATE` que le corresponde a un premio de sesión.
+ *
+ * La tabla del protocolo ya reparte las tres —«0 cierre · 1 subida de nivel
+ * (Epifanía) · 2 insignia (Éxito Absoluto)»— y el premio trae exactamente esas
+ * tres situaciones. No hay nada que decidir aquí: se lee.
+ */
+export const luaCelebrationFor = (reward: SessionReward): number =>
+  (reward.newBadges.length ? 2 : reward.levelUp ? 1 : 0);
+
+/**
+ * El desfile entero, en orden y sin tiempos: la celebración, el nivel si ha
+ * subido y una trama por insignia nueva.
+ *
+ * NO se manda de golpe. Cada opcode SUSTITUYE la cara —`setExpression` en el
+ * firmware— así que cuatro tramas seguidas dejan ver la última y nada más. Los
+ * tiempos los pone `valeriaLuaSession.luaSessionReward`, que es de quien es esa
+ * responsabilidad en este repositorio.
+ *
+ * El orden es celebración → nivel → insignias, y no al revés: la subida de
+ * nivel es el marco («has llegado a Gata Sabia») y las insignias son lo que se
+ * mira. Terminar en el nivel dejaría el premio concreto enterrado debajo.
+ */
+export const luaSessionRewardFrames = (reward: SessionReward): Uint8Array[] => {
+  const frames: Uint8Array[] = [luaFrame(LUA_OP.CELEBRATE, luaCelebrationFor(reward))];
+  if (reward.levelUp) frames.push(luaLevelFrame(reward.level));
+  for (const badge of reward.newBadges) {
+    const f = luaAwardFrame(badge);
+    if (f) frames.push(f);
+  }
+  return frames;
 };

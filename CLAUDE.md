@@ -128,6 +128,23 @@ un rastro suyo en la app. Lo que hay que saber antes de tocar nada:
   `check-lua-mascot-mirror.js` impide que las dos mascotas vuelvan a separarse.
   Un accesorio nuevo se dibuja **aquí**, con su anclaje `device` para la pose del
   aparato, o en el cristal no existe.
+- **Y desde el 27/8/2026 se espeja también el premio.** `AWARD` y `LEVEL`
+  llevaban en la tabla desde la primera tanda y el firmware los pinta; esta app
+  no los mandaba nunca, así que el niño ganaba una insignia en la tableta y la
+  gata del cristal seguía con la cara de antes. Ahora `registerSession` va
+  seguido de `luaSessionReward(premio)`
+  ([`src/valeriaLuaSession.ts`](src/valeriaLuaSession.ts)) en las cuatro
+  pantallas que cierran sesión. Tres cosas que no se pueden perder al tocarlo:
+  · **una insignia son DOS NÚMEROS** —familia y rango, posiciones en
+    `AWARD_GLYPH_KEYS` y `AWARD_TIER_KEYS`—, nunca el id ni el nombre: en el
+    aparato no hay campo de texto;
+  · **el desfile se manda a plazos.** Cada opcode sustituye la cara en el
+    firmware, así que cuatro tramas seguidas enseñan la última y nada más. El
+    paso son 3 000 ms porque es lo que dura la cara allí (`core/src/faces.cpp`);
+  · **esas dos listas son append-only.** Los DIBUJOS pueden cambiar —el 25/8
+    cambiaron los nueve— pero el orden no: reordenar le pone al niño la insignia
+    del vecino en un aparato que ya está en su casa. Lo sujeta la comprobación 6
+    de `check-lua-mascot-mirror.js`.
 - **«Oso» sigue siendo vocabulario terapéutico** —par mínimo *ocho/oso*, «EL OSO
   COME PAN», la orden TPR—. Eso es contenido de los bancos y no se toca.
 - Un cambio de marca no está hecho hasta que lo dicen el README y el manual.

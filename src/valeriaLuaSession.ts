@@ -21,6 +21,8 @@ import {
 } from './valeriaLuaProtocol';
 import { VISUAL_BREAK_SECONDS } from './valeriaActiveTimeMonitor';
 import { luaGrantCapsFor } from './valeriaLuaTouchPolicy';
+import { luaSessionRewardFrames } from './valeriaLuaMascot';
+import type { SessionReward } from './valeriaGamification';
 
 export type LuaSender = (frames: Uint8Array[]) => void;
 
@@ -223,4 +225,114 @@ export function luaSensoryClose(): void {
 export function luaSensoryIdle(): void {
   stopSensoryRenew();
   send(luaFrame(LUA_OP.IDLE));
+}
+
+// ---------------------------------------------------------------------------
+// El premio de la sesión · el desfile en el cristal
+// ---------------------------------------------------------------------------
+//
+// `valeriaLuaMascot.luaSessionRewardFrames` dice QUÉ se manda; aquí se decide
+// CUÁNDO, que es lo que hacía falta para que se vea algo. Cada opcode sustituye
+// la cara en el aparato, así que las tramas del desfile no se pueden mandar
+// juntas: la última se comería a todas las demás y una sesión con tres
+// insignias nuevas enseñaría una.
+
+/**
+ * Cuánto dura cada paso del desfile.
+ *
+ * NO es un número elegido aquí: es lo que dura la cara en el firmware. Tanto
+ * `kFramesAward` como `kFramesLevel` son de UN pase de 3 000 ms
+ * (`core/src/faces.cpp`), y al terminar la gata vuelve sola a neutra. Mandar
+ * antes corta el premio; mandar después deja el panel en la cara neutra entre
+ * insignia e insignia, que parece un aparato que se ha quedado colgado.
+ *
+ * Es una copia, y como todas las copias del §3 se puede desincronizar: la
+ * compara `tools/check-reward-parity.js` en lua-firmware, que es el repositorio
+ * que ve los dos.
+ */
+export const LUA_REWARD_STEP_MS = 3000;
+
+/**
+ * Cuántos pasos caben en una concesión.
+ *
+ * El techo del `GRANT` son 60 s (`LUA_LIMITS.grantMaxSeconds`) y no se renueva
+ * a mitad del desfile: un `HEARTBEAT` dibuja su propio efecto en el aparato
+ * —un corazón detrás de la cabeza— y meterlo encima de una insignia es
+ * exactamente la segunda fuente visual que el §6 evita. Así que el desfile se
+ * RECORTA a lo que cabe. Hoy no llega: el máximo real que se desbloquea de una
+ * vez ronda las siete insignias, o sea ocho pasos.
+ */
+const LUA_REWARD_MAX_STEPS = Math.floor(
+  (LUA_LIMITS.grantMaxSeconds * 1000) / LUA_REWARD_STEP_MS,
+);
+
+let rewardTimer: ReturnType<typeof setTimeout> | null = null;
+
+/** ¿Hay un desfile de premio corriendo ahora mismo? */
+export const isSessionRewardActive = (): boolean => rewardTimer !== null;
+
+/**
+ * Corta el desfile y deja a la gata neutra. Lo llama la pantalla al salir.
+ *
+ * `IDLE` y no una revocación: la concesión caduca sola, que es el diseño del
+ * aparato, y revocarla apagaría el anillo delante del niño sin motivo.
+ */
+export function cancelSessionReward(silent = false): void {
+  if (!rewardTimer) return;
+  clearTimeout(rewardTimer);
+  rewardTimer = null;
+  if (!silent) send(luaFrame(LUA_OP.IDLE));
+}
+
+/**
+ * El premio de la sesión, en el cristal: celebración, nivel e insignias.
+ *
+ * Se llama con lo que devuelve `registerSession`, en el mismo sitio en que la
+ * tableta pinta su hoja de logros. La gata del aparato enseña LO MISMO que la
+ * de la tableta y en el mismo momento, que es la promesa entera del espejo.
+ *
+ * La concesión es SOLO VISUAL: el premio no es una excepción a la regla de que
+ * la capacidad sonora se pide y nunca se hereda, y hoy además no hay nada que
+ * suene. Y no pide `LUA_CAP.NO_TOUCH`: la sesión ya ha terminado, no se está
+ * midiendo nada, y ahí la caricia tiene que funcionar como en el hub.
+ *
+ * Sin aparato emparejado no hay emisor registrado y esto no hace nada, ni
+ * siquiera arranca el temporizador.
+ *
+ * @param onEnd se llama al terminar el desfile, no al cortarlo.
+ * @returns una función que lo corta, para el `useEffect` de la pantalla.
+ */
+export function luaSessionReward(reward: SessionReward, onEnd?: () => void): () => void {
+  cancelSessionReward(true); // una sesión nueva sustituye al desfile anterior
+  if (!sender) return () => {};
+
+  const frames = luaSessionRewardFrames(reward).slice(0, LUA_REWARD_MAX_STEPS);
+  if (!frames.length) return () => {};
+
+  // La concesión cubre el desfile entero y ni un segundo más de la cuenta: si
+  // la app muere a mitad, el aparato vuelve a REPOSO solo.
+  const ttl = Math.ceil((frames.length * LUA_REWARD_STEP_MS) / 1000);
+
+  // El GRANT va PRIMERO y en la misma tanda que la celebración: el firmware
+  // descarta por su `default` todo lo que llegue sin concesión viva, así que
+  // una celebración por delante se perdería entera.
+  send(luaFrame(LUA_OP.GRANT, luaGrantParam(ttl, LUA_CAP.VISUAL)), frames[0]);
+
+  let i = 1;
+  const step = (): void => {
+    if (i < frames.length) {
+      send(frames[i]);
+      i += 1;
+      rewardTimer = setTimeout(step, LUA_REWARD_STEP_MS);
+      return;
+    }
+    // El último paso se deja ver entero antes de soltar la cara. No se manda
+    // `IDLE`: la cara de insignia es de un pase y el firmware vuelve solo a
+    // neutra, y la concesión caduca justo detrás.
+    rewardTimer = null;
+    onEnd?.();
+  };
+  rewardTimer = setTimeout(step, LUA_REWARD_STEP_MS);
+
+  return () => cancelSessionReward();
 }

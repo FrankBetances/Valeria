@@ -27,6 +27,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { V, STORAGE_KEYS } from './valeriaTheme';
 import { ProUnlockPill, ProPinModal } from './ValeriaProPin';
 import { registerSession, SessionReward } from './valeriaGamification';
+import { luaSessionReward, cancelSessionReward } from './valeriaLuaSession';
 import { markBlockCompleted, trackListenStart, trackListenNoMatch } from './valeriaTelemetry';
 import {
   speakToChild, speakWordSlow, stopSpeaking,
@@ -303,6 +304,11 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
   const [swapOpen, setSwapOpen] = useState(false);
   const [activeBreak, setActiveBreak] = useState<SessionBreak | null>(null);
   const [reward, setReward] = useState<SessionReward | null>(null);
+  // Salir de la pantalla corta el desfile del premio en el aparato y deja a la
+  // gata neutra. Sin esto, cerrar a los dos segundos deja una insignia puesta
+  // en el cristal hasta que caduque la concesión.
+  useEffect(() => () => cancelSessionReward(), []);
+
   const [listening, setListening] = useState(false);
   // Consigna viva del ensayo (frase portadora o consigna del par) para la
   // tarjeta "LA APP DICE" (pairs.appSpeaks) y su botón de repetición con la
@@ -583,7 +589,11 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
       pm.push({ date: d.toISOString(), pairId: p.id, phoneme: p.phoneme, trials: res });
       await AsyncStorage.setItem(STORAGE_KEYS.paresMinimos, JSON.stringify(pm));
     } catch (e) { /* almacenamiento no disponible */ }
-    try { setReward(await registerSession(avg, res.length)); } catch (e) { /* noop */ }
+    try {
+      const premio = await registerSession(avg, res.length);
+      setReward(premio);
+      luaSessionReward(premio); // el mismo premio, en el cristal
+    } catch (e) { /* noop */ }
     markBlockCompleted('pares'); // hito de bloque para el SUS (rate-limited)
     releaseNoise(); // fin de sesión: la Pista B no sobrevive a la pantalla de logros
     setPhase('done');

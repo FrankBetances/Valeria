@@ -27,6 +27,7 @@ import { V, STORAGE_KEYS } from './valeriaTheme';
 import { useT, UiStrings } from './i18n';
 import { ProUnlockPill, ProPinModal } from './ValeriaProPin';
 import { registerSession, SessionReward } from './valeriaGamification';
+import { luaSessionReward, cancelSessionReward } from './valeriaLuaSession';
 import { markBlockCompleted, trackListenStart, trackListenNoMatch } from './valeriaTelemetry';
 import {
   speakToChild, speakPhraseSlow, stopSpeaking,
@@ -212,6 +213,11 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
   const [pendingStars, setPendingStars] = useState<1 | 2 | 3>(3);
   const [log, setLog] = useState<StepRecord[]>([]);
   const [reward, setReward] = useState<SessionReward | null>(null);
+  // Salir de la pantalla corta el desfile del premio en el aparato y deja a la
+  // gata neutra. Sin esto, cerrar a los dos segundos deja una insignia puesta
+  // en el cristal hasta que caduque la concesión.
+  useEffect(() => () => cancelSessionReward(), []);
+
   const [listening, setListening] = useState(false);
   const [livePrompt, setLivePrompt] = useState<LivePrompt | null>(null);
   // Posición aleatoria de las dos tarjetas en la vuelta de comprensión, para
@@ -552,7 +558,11 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
       se.push({ date: d.toISOString(), kind: sess.kind, title: sess.title, steps: res });
       await AsyncStorage.setItem(STORAGE_KEYS.expansionSemantica, JSON.stringify(se));
     } catch (e) { /* almacenamiento no disponible */ }
-    try { setReward(await registerSession(avg, res.length)); } catch (e) { /* noop */ }
+    try {
+      const premio = await registerSession(avg, res.length);
+      setReward(premio);
+      luaSessionReward(premio); // el mismo premio, en el cristal
+    } catch (e) { /* noop */ }
     markBlockCompleted('expansion'); // hito de bloque para el SUS (rate-limited)
     setPhase('done');
     speakToChild(bank.sessionDone);
