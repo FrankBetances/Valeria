@@ -556,45 +556,6 @@ export const ValeriaPatientResultsDashboardScreen: React.FC<{ navigation?: any }
           </View>
         )}
 
-        {/* PRODUCCIÓN POR ENUNCIADO · cuántas palabras de la frase pedida llegan
-            a producirse. Se enseña el número y el n, y se dice con todas las
-            letras que NO es la LME: la muestra es imitación elicitada. */}
-        {!!speech && (
-          <View style={st.card}>
-            <View style={st.cardHeader}>
-              <View style={st.chip}><BlockIcon name="mic" color={V.color.primaryDark} size={17} /></View>
-              <Text style={[st.cardTitle, { flexShrink: 1 }]} numberOfLines={2}>{t.results.speechTitle}</Text>
-            </View>
-            <Text style={[st.evoSub, { marginTop: 6 }]}>{t.results.speechSub}</Text>
-
-            <View style={st.arFacts}>
-              <View style={st.arFact}>
-                <Text style={st.arFactVal}>
-                  {speech.wordsPerUtterance != null ? speech.wordsPerUtterance.toFixed(2) : '—'}
-                </Text>
-                <Text style={st.arFactKey}>{t.results.speechWpu}</Text>
-              </View>
-              <View style={st.arFact}>
-                <Text style={st.arFactVal}>
-                  {speech.coverage != null ? `${Math.round(speech.coverage * 100)}%` : '—'}
-                </Text>
-                <Text style={st.arFactKey}>{t.results.speechCoverage}</Text>
-              </View>
-              <View style={st.arFact}>
-                <Text style={st.arFactVal}>{speech.utterances}</Text>
-                <Text style={st.arFactKey}>{t.results.speechUtterances(speech.utterances)}</Text>
-              </View>
-            </View>
-
-            {/* Con muy pocos enunciados la media es ruido. Decirlo aquí es más
-                barato que un informe apoyado en cuatro ensayos. */}
-            {speech.utterances < 20 && (
-              <Text style={st.arDevice}>{t.results.speechNoteThin(speech.utterances)}</Text>
-            )}
-            <Text style={st.speechNote}>{t.results.speechNote}</Text>
-          </View>
-        )}
-
         {/* REALIDAD AUMENTADA · magnitudes por ensayo.
             Se muestran los números medidos y el umbral que fijó el adulto, sin
             ninguna valoración: la interpretación es de la logopeda. */}
@@ -705,6 +666,43 @@ export const ValeriaPatientResultsDashboardScreen: React.FC<{ navigation?: any }
                 {ar.anulados > 0 ? t.results.arVoidedTrials(ar.anulados) : ''}
               </Text>
             )}
+          </View>
+        )}
+
+        {/* RECUENTO DEL MICRÓFONO · APOYO DEL EJERCICIO, NO UNA MEDIDA.
+            Va al final, después de las gráficas clínicas y del bloque de RA, y
+            no antes: puesto entre «Evolución por estrellas» y «Sustitución por
+            fonema» se leía como una tercera gráfica clínica. No lo es, no tiene
+            finalidad sanitaria y no entra en ninguna decisión de tratamiento.
+            Si alguien lo sube de sitio, vuelve a mentir por colocación. */}
+        {!!speech && (
+          <View style={[st.card, st.aidCard]}>
+            <View style={st.cardHeader}>
+              <View style={st.chip}><BlockIcon name="mic" color={V.color.textMuted} size={17} /></View>
+              <Text style={[st.cardTitle, st.aidTitle, { flexShrink: 1 }]} numberOfLines={2}>{t.results.speechTitle}</Text>
+            </View>
+            <Text style={[st.evoSub, { marginTop: 6 }]}>{t.results.speechSub}</Text>
+
+            <View style={st.arFacts}>
+              <View style={st.arFact}>
+                <Text style={[st.arFactVal, st.aidVal]}>
+                  {speech.wordsPerUtterance != null ? speech.wordsPerUtterance.toFixed(2) : '—'}
+                </Text>
+                <Text style={st.arFactKey}>{t.results.speechWpu}</Text>
+              </View>
+              <View style={st.arFact}>
+                <Text style={[st.arFactVal, st.aidVal]}>
+                  {speech.coverage != null ? `${Math.round(speech.coverage * 100)}%` : '—'}
+                </Text>
+                <Text style={st.arFactKey}>{t.results.speechCoverage}</Text>
+              </View>
+              <View style={st.arFact}>
+                <Text style={[st.arFactVal, st.aidVal]}>{speech.utterances}</Text>
+                <Text style={st.arFactKey}>{t.results.speechUtterances(speech.utterances)}</Text>
+              </View>
+            </View>
+
+            <Text style={st.speechNote}>{t.results.speechNote}</Text>
           </View>
         )}
 
@@ -864,8 +862,21 @@ const st = StyleSheet.create({
   arFactVal: { fontSize: 16, fontWeight: V.font.extrabold, color: V.color.textPrimary },
   arFactKey: { fontSize: 10, fontWeight: V.font.bold, color: V.color.textMuted, marginTop: 2, textAlign: 'center' },
   arDevice: { fontSize: 10.5, fontWeight: V.font.semibold, color: V.color.textMuted, marginTop: 10, lineHeight: 15 },
-  // La advertencia de que esto no es la LME va enmarcada, no como pie de foto:
-  // es lo que evita que el número acabe copiado en un informe con otro nombre.
+  // La tarjeta del recuento NO se pinta como las clínicas: fondo apagado, sin
+  // sombra y con el número en gris. Un apoyo del ejercicio no puede tener el
+  // mismo peso visual que la evolución por estrellas, porque lo que la gente
+  // recuerda de un panel es lo que destaca.
+  aidCard: {
+    backgroundColor: '#f7fafa',
+    borderWidth: 1,
+    borderColor: '#e7eeee',
+    shadowOpacity: 0,
+    elevation: 0,
+  },
+  aidTitle: { color: V.color.textSecondary },
+  aidVal: { color: V.color.textSecondary },
+  // La advertencia va enmarcada, no como pie de foto: es lo que evita que el
+  // número acabe copiado en un informe como si midiera algo.
   speechNote: {
     fontSize: 10.5, fontWeight: V.font.semibold, color: '#92711a', lineHeight: 15,
     backgroundColor: '#fffbeb', borderWidth: 1, borderColor: '#f4e6b8',

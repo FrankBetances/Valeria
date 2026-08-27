@@ -113,8 +113,19 @@ export interface SessionRecord {
   // `noMatch` cuenta solo las escuchas en que el motor no captó nada, que son
   // las que antes le costaban al niño un intento y una estrella.
   listen?: { started: number; noMatch: number };
-  // Cobertura de palabras de los ensayos de FRASE (los de una sola palabra no
-  // entran: ahí "cobertura" y "acierto" son la misma cosa y no aporta nada).
+  // Recuento del micrófono en los ejercicios de FRASE (los de una sola palabra
+  // no entran: ahí "cobertura" y "acierto" son la misma cosa y no aporta nada).
+  //
+  // QUÉ ES Y QUÉ NO ES. Decisión de Frank: un APOYO DEL EJERCICIO. No mide el
+  // lenguaje del niño, no tiene finalidad sanitaria y no entra en ninguna
+  // decisión clínica. Se guarda para saber cuánto se usa ese apoyo, igual que
+  // se guardan los misclicks o las cápsulas saltadas: es una métrica de USO.
+  // Quien valora cómo habla el niño es el adulto con la escala EPT-3.
+  //
+  // Si algún día alguien quiere construir sobre esto un indicador clínico, no
+  // sirve: la muestra es imitación de frases dictadas, el denominador lo pone
+  // la app y el numerador depende del reconocedor del teléfono. Haría falta
+  // otra tarea, otra muestra y otro consentimiento.
   //
   // Se suman totales, no una entrada por ensayo: lo que se quiere responder es
   // «¿cuánto de la frase produce este niño?», y para eso basta el cociente. Una
@@ -300,7 +311,8 @@ export function trackListenNoMatch(): void {
   scheduleFlush();
 }
 
-// Cobertura de palabras de UN ensayo de frase, al cerrarse el veredicto.
+// Recuento del micrófono en UN ejercicio de frase, al cerrarse el veredicto.
+// Apoyo del ejercicio, no medida clínica (ver el campo `speech`).
 //
 // Se llama una vez por ensayo, con el resultado FINAL. Es deliberado: las
 // láminas se encienden en vivo con los resultados parciales del reconocedor, y
@@ -399,16 +411,17 @@ export function trackArSession(payload: {
 }
 
 /**
- * Producción por enunciado, para el panel del paciente.
+ * Recuento del micrófono acumulado, para la tarjeta de apoyo del panel.
  *
- * Devuelve los totales acumulados y la media, sin adjetivos: si la media es
- * alta o baja para la edad lo dice una logopeda, no esta función.
+ * NO es una medida clínica y no tiene finalidad sanitaria. Devuelve cuántas
+ * palabras reconoció el micrófono de las que se pidieron, y sobre cuántas
+ * frases. Nada más.
  *
- * CUIDADO al usar esto: la muestra son enunciados ELICITADOS —el niño repite
- * una frase que la app le acaba de pedir—, no habla espontánea. Eso NO es la
- * LME de Brown, que se calcula sobre una muestra espontánea de 50 a 100
- * enunciados y se cuenta en morfemas. Llamar LME a esto sería inventar una
- * cifra clínica; el panel lo rotula por lo que es.
+ * Tres razones por las que no puede ascender a indicador, para quien venga con
+ * la tentación: la muestra es imitación de frases que dicta la app (no habla
+ * espontánea), el numerador depende del reconocedor de cada teléfono —el mismo
+ * niño puntúa distinto en dos móviles— y el denominador lo elige el banco de
+ * ejercicios. No es la LME ni se le parece.
  */
 export async function readSpeechHistory(): Promise<{
   utterances: number;

@@ -1064,17 +1064,16 @@ export const EN: UiStrings = {
     trendDown: (d: number): string => `▼ ${d} ★`,
     trendStable: '= steady',
 
-    speechTitle: 'Output per utterance',
-    speechSub: 'Words the microphone recognises out of each prompted sentence. This is imitation, not spontaneous speech.',
-    speechWpu: 'words per utterance',
+    speechTitle: 'Microphone tally',
+    speechSub: 'How many words of the prompted sentence the microphone picked up. It is an exercise aid, not a measure.',
+    speechWpu: 'words per sentence',
     speechCoverage: 'of the prompted sentence',
-    speechUtterances: (n: number): string => (n === 1 ? 'utterance measured' : 'utterances measured'),
+    speechUtterances: (n: number): string => (n === 1 ? 'sentence practised' : 'sentences practised'),
     speechNote:
-      'This is not MLU (mean length of utterance): MLU is counted in morphemes over a spontaneous '
-      + 'language sample, and these are sentences the app prompts and the child repeats. Use it to '
-      + 'track imitated output over time, not as a substitute for a language sample.',
-    speechNoteThin: (n: number): string =>
-      `With ${n} utterance${n === 1 ? '' : 's'} the average says little yet; it becomes meaningful from about twenty on.`,
+      'This is NOT a clinical measure and has no health purpose. It is an exercise aid: it lets the '
+      + 'child see how far they got and lets you see which word dropped. It does not assess language, '
+      + 'it is not valid for a diagnosis or a report, and it must not drive any treatment decision. '
+      + 'You are the one who rates how the child spoke, on the EPT-3 scale, as everywhere else in the app.',
 
     phonemeTitle: 'Substitution by phoneme',
     pmFirstSession: 'first session',

@@ -1068,25 +1068,26 @@ export const ES = {
     trendDown: (d: number): string => `▼ ${d} ★`,
     trendStable: '= estable',
 
-    // Producción por enunciado.
+    // Recuento del micrófono.
     //
-    // El rótulo NO dice «LME» y no puede decirlo. La longitud media del
-    // enunciado de Brown se calcula sobre una muestra de habla ESPONTÁNEA de
-    // 50 a 100 enunciados y se cuenta en morfemas; aquí el niño repite una
-    // frase que la app le acaba de dictar. Es una medida útil —cuánto de lo
-    // pedido llega a producir— pero es otra cosa, y ponerle el nombre de la
-    // LME haría que acabara copiada en un informe como si lo fuera.
-    speechTitle: 'Producción por enunciado',
-    speechSub: 'Palabras que el micrófono reconoce de cada frase pedida. Es imitación, no habla espontánea.',
-    speechWpu: 'palabras por enunciado',
+    // Decisión de Frank: esto es un APOYO DEL EJERCICIO y nada más. No es una
+    // medida del lenguaje, no tiene finalidad sanitaria y no entra en ninguna
+    // decisión clínica. Por eso el rótulo no dice «producción», ni «evolución»,
+    // ni desde luego «LME» —la longitud media del enunciado se cuenta en
+    // morfemas sobre habla espontánea, y esto son frases dictadas—: cualquiera
+    // de esas palabras lo convertiría, a ojos de quien lo lea, en un indicador.
+    // Dice lo que hace: contar palabras que el micrófono reconoció.
+    speechTitle: 'Recuento del micrófono',
+    speechSub: 'Cuántas palabras de la frase pedida reconoció el micrófono. Es un apoyo del ejercicio, no una medida.',
+    speechWpu: 'palabras por frase',
     speechCoverage: 'de la frase pedida',
-    speechUtterances: (n: number): string => (n === 1 ? 'enunciado medido' : 'enunciados medidos'),
+    speechUtterances: (n: number): string => (n === 1 ? 'frase practicada' : 'frases practicadas'),
     speechNote:
-      'No es la LME (longitud media del enunciado): esa se mide en morfemas sobre habla espontánea, '
-      + 'y esto son frases que la app dicta y el niño repite. Sirve para ver la evolución de lo que '
-      + 'produce en imitación, no para sustituir una muestra de lenguaje.',
-    speechNoteThin: (n: number): string =>
-      `Con ${n} enunciado${n === 1 ? '' : 's'} la media todavía no dice gran cosa; gana sentido a partir de una veintena.`,
+      'Esto NO es una medida clínica ni tiene finalidad sanitaria. Es un apoyo del ejercicio: sirve '
+      + 'para que el niño vea por dónde va y para que tú veas qué palabra se cayó. No evalúa el '
+      + 'lenguaje, no vale para un diagnóstico ni para un informe, y no debe usarse para tomar '
+      + 'ninguna decisión sobre el tratamiento. Quien valora cómo habla el niño eres tú, con la '
+      + 'escala EPT-3, igual que en el resto de la app.',
 
     phonemeTitle: 'Sustitución por fonema',
     pmFirstSession: 'primera sesión',

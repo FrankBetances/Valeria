@@ -8,11 +8,15 @@
 // pediátrica (Regla: Lúa nunca castiga).
 //
 // Esta cabecera decía que el andamiaje era «para la LME». No lo era, y el
-// equívoco duró: la LME de Brown se mide en morfemas sobre habla ESPONTÁNEA, y
-// aquí el niño repite una frase que la app le dicta. Lo que sí sale de aquí es
-// producción por enunciado IMITADO, que el panel de resultados rotula por su
-// nombre. Si algún día se quiere LME de verdad, hace falta otra tarea y otra
-// muestra, no este contador.
+// equívoco duró. Que quede dicho de una vez: las láminas y su contador son un
+// APOYO DEL EJERCICIO —el niño ve por dónde va, el adulto ve qué palabra se
+// cayó— y NO tienen valor ni finalidad sanitaria. No miden el lenguaje, no
+// evalúan nada y no entran en ninguna decisión clínica; de valorar la respuesta
+// se encarga el adulto con la escala EPT-3.
+//
+// La LME de Brown se cuenta en morfemas sobre habla ESPONTÁNEA; aquí el niño
+// repite una frase dictada. Si algún día hace falta LME de verdad, será otra
+// tarea con otra muestra, no este contador.
 // ============================================================================
 import React, { useEffect, useMemo, useRef } from 'react';
 import { View, Text, StyleSheet, Animated, Easing, Vibration, Platform } from 'react-native';
