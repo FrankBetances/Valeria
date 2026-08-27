@@ -825,7 +825,14 @@ interfaz clásica se entra desde el hub de bloques, en la v11 desde **Ajustes**)
 > **apoyo del ejercicio sin valor ni finalidad sanitaria** —no mide el lenguaje,
 > no evalúa y no entra en ninguna decisión clínica—, y así está rotulado en la
 > app, en el panel y en el manual. Mantenerlo fuera de lo clínico es lo que evita
-> que un contador de una ayuda de pantalla se lea como una medida de Clase I. El cifrado en
+> que un contador de una ayuda de pantalla se lea como una medida de Clase I.
+>
+> **Dónde está declarado.** Dentro de la fila que ya existía —*telemetría de
+> usabilidad del piloto*— como «el uso de las ayudas de pantalla», sin fila
+> propia y sin base legal nueva: es una métrica de uso, del mismo orden que los
+> misclicks. Lo que **sí** hay que hacer es que el formulario de *Seguridad de
+> los datos* de Play Console enumere lo mismo que `site/`, porque Google
+> contrasta las dos declaraciones entre sí. El cifrado en
 > reposo guarda la clave en `AsyncStorage`; el módulo `valeriaCrypto` está
 > aislado para migrarla a `expo-secure-store` (Keystore/Keychain) en producción.
 > Al tratarse de un piloto con menores, el **consentimiento informado** de las
