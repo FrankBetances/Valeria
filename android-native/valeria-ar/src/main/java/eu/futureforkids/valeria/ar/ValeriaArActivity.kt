@@ -21,14 +21,17 @@ import androidx.camera.core.ImageProxy
 import androidx.camera.core.resolutionselector.ResolutionSelector
 import androidx.camera.core.resolutionselector.ResolutionStrategy
 import androidx.camera.lifecycle.ProcessCameraProvider
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable
@@ -37,10 +40,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.input.pointer.util.VelocityTracker
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
@@ -69,6 +76,8 @@ import eu.futureforkids.valeria.ar.signal.FaceSignalEngine
 import eu.futureforkids.valeria.ar.signal.FaceSignals
 import eu.futureforkids.valeria.ar.signal.ScreenGeometry
 import eu.futureforkids.valeria.ar.signal.pointerFor
+import kotlin.math.atan2
+import kotlin.math.hypot
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -128,8 +137,8 @@ class ValeriaArActivity : ComponentActivity() {
 
     private val diagnostics = DiagnosticsState()
     private var statusText by mutableStateOf("")
-    /** Diana de la osita: la sigue la mirada en calibración y en la Prueba de Aptitud. */
-    private var bearTarget by mutableStateOf<PointF?>(null)
+    /** Diana de Lúa: la sigue la mirada en calibración y en la Prueba de Aptitud. */
+    private var luaTarget by mutableStateOf<PointF?>(null)
 
     /**
      * Último frame con cara dentro, en `elapsedRealtime`. Es lo que convierte
@@ -229,8 +238,9 @@ class ValeriaArActivity : ComponentActivity() {
                         scene = scene,
                         status = statusText,
                         cameraReport = cameraReport,
-                        bearTarget = bearTarget,
+                        luaTarget = luaTarget,
                         diagnostics = if (mode == MODE_DIAGNOSTICS) diagnostics else null,
+                        onFling = { v, deg -> exercise?.onFling(v, deg) },
                     )
                 }
             }
@@ -587,7 +597,7 @@ class ValeriaArActivity : ComponentActivity() {
      * disfrazado y la media lo esconde.
      */
     private fun runAptitudeFlow() {
-        statusText = "Mira a la osita y sigue sus saltos…"
+        statusText = "Mira a Lúa y sigue sus saltos…"
 
         // La escena 3D se monta DURANTE la medida, y no es decoración: lo que
         // ahoga a la gama de entrada no es la cámara sola ni la inferencia sola,
@@ -599,7 +609,7 @@ class ValeriaArActivity : ComponentActivity() {
 
         fpsMeter.start(APTITUDE_MS)
 
-        // La osita tiene que EXISTIR. La instrucción pedía seguir sus saltos y en
+        // Lúa tiene que EXISTIR. La instrucción pedía seguir sus saltos y en
         // pantalla no había nada que seguir: el niño miraba una cámara en negro
         // sin tarea, y la sonda de RMS del puntero —que decide si AR-3 se juega
         // con tres dianas o con dos— se alimentaba de una mirada errante en vez
@@ -612,11 +622,11 @@ class ValeriaArActivity : ComponentActivity() {
             var hop = 0
             while (SystemClock.elapsedRealtime() < deadline) {
                 val (fx, fy) = APTITUDE_HOPS[hop % APTITUDE_HOPS.size]
-                bearTarget = PointF(w * fx, h * fy)
+                luaTarget = PointF(w * fx, h * fy)
                 hop += 1
                 delay(APTITUDE_HOP_MS)
             }
-            bearTarget = null
+            luaTarget = null
         }
 
         scope.launch {
@@ -659,7 +669,7 @@ class ValeriaArActivity : ComponentActivity() {
         pointerJitter.addSampleDeg(p.x * geometry.widthPx / pxPerDeg)
     }
 
-    /** Rutina de 5 puntos: 4 esquinas + centro, con la osita como diana. */
+    /** Rutina de 5 puntos: 4 esquinas + centro, con Lúa como diana. */
     private fun runCalibrationFlow() {
         val kind = PointerKind.from(intent.getStringExtra(EXTRA_POINTER))
         // Se fija ANTES de lanzar la corrutina: el muestreo real ocurre en
@@ -675,9 +685,9 @@ class ValeriaArActivity : ComponentActivity() {
         )
 
         scope.launch {
-            statusText = "Sigue a la osita con la mirada"
+            statusText = "Sigue a Lúa con la mirada"
             for (p in points) {
-                bearTarget = p
+                luaTarget = p
                 synchronized(calLock) { calSamples.clear() }
                 delay(700)               // que llegue la mirada antes de muestrear
                 calCollecting = true
@@ -696,7 +706,7 @@ class ValeriaArActivity : ComponentActivity() {
                     calScreen.add(p)
                 }
             }
-            bearTarget = null
+            luaTarget = null
 
             val pxPerDeg = geometry.pxPerDeg(distance.currentMm)
             val calibration = Calibration.fit(calObserved, calScreen, pxPerDeg)
@@ -792,7 +802,7 @@ class ValeriaArActivity : ComponentActivity() {
         private const val APTITUDE_HOP_MS = 2_000L
 
         /**
-         * Recorrido de la osita durante la Prueba de Aptitud, en fracción de
+         * Recorrido de Lúa durante la Prueba de Aptitud, en fracción de
          * pantalla. Barre las cuatro esquinas y el centro —el mismo espacio que
          * cubre la calibración— para que el RMS del puntero se mida sobre miradas
          * dirigidas a todo el campo y no solo al centro.
@@ -853,10 +863,62 @@ private fun ArHostScreen(
     scene: SceneState,
     status: String,
     cameraReport: String,
-    bearTarget: PointF?,
+    luaTarget: PointF?,
     diagnostics: DiagnosticsState?,
+    onFling: (Float, Float) -> Unit,
 ) {
-    Box(Modifier.fillMaxSize().background(Color.Black)) {
+    Box(
+        Modifier
+            .fillMaxSize()
+            .background(Color.Black)
+            // Lectura del lanzamiento de AR-5. Se mide lo que hace el dedo: la
+            // velocidad la da el `VelocityTracker` de Compose con las posiciones
+            // reales del puntero, y el ángulo es la desviación entre la
+            // dirección del gesto y la recta que va del punto de salida a Lúa,
+            // que está en el centro. Los demás ejercicios reciben el gesto y no
+            // hacen nada con él: `onFling` tiene cuerpo vacío en la interfaz.
+            //
+            // El estado del arrastre vive dentro de `pointerInput` y no en un
+            // `remember { mutableStateOf() }`: nadie lo lee durante la
+            // composición, y como estado recompondría la pantalla entera en cada
+            // frame del dedo, justo mientras se mide.
+            .pointerInput(Unit) {
+                val center = Offset(size.width / 2f, size.height / 2f)
+                val tracker = VelocityTracker()
+                var start = Offset.Zero
+                var end = Offset.Zero
+                detectDragGestures(
+                    onDragStart = { position ->
+                        tracker.resetTracking()
+                        start = position
+                        end = position
+                    },
+                    onDrag = { change, _ ->
+                        tracker.addPosition(change.uptimeMillis, change.position)
+                        end = change.position
+                    },
+                    onDragEnd = {
+                        val throwVec = end - start
+                        // Un toque sin recorrido no tiene dirección: sin ella no
+                        // hay puntería que medir y el gesto se descarta.
+                        if (hypot(throwVec.x, throwVec.y) >= MIN_DRAG_PX) {
+                            val targetVec = center - start
+                            val velocity = tracker.calculateVelocity()
+                            val deg = Math.toDegrees(
+                                (atan2(throwVec.y, throwVec.x) - atan2(targetVec.y, targetVec.x)).toDouble()
+                            ).toFloat()
+                            // A grados con signo en (-180, 180]: 359° de
+                            // desviación son 1°, y sin normalizar entrarían como
+                            // un fallo enorme.
+                            onFling(
+                                hypot(velocity.x, velocity.y),
+                                ((deg + 540f) % 360f) - 180f,
+                            )
+                        }
+                    },
+                )
+            }
+    ) {
         // El espejo, como fondo: el niño se ve a sí mismo y la escena 3D se
         // compone encima.
         //
@@ -904,14 +966,14 @@ private fun ArHostScreen(
         // y las dianas de las esquinas caen a un 10-12 % del borde, que en una
         // pantalla densa son menos de los 22 dp que hay que restar para centrar
         // el emoji. Con `offset` el recorrido puede llegar al borde sin romper.
-        bearTarget?.let { t ->
+        luaTarget?.let { t ->
             val density = androidx.compose.ui.platform.LocalDensity.current
             val xDp = with(density) { t.x.toDp() }
             val yDp = with(density) { t.y.toDp() }
-            BasicText(
-                "🐻",
-                style = TextStyle(fontSize = 44.sp),
-                modifier = Modifier.offset(x = xDp - 22.dp, y = yDp - 22.dp),
+            LuaTargetHead(
+                Modifier
+                    .offset(x = xDp - LUA_TARGET_RADIUS_DP, y = yDp - LUA_TARGET_RADIUS_DP)
+                    .size(LUA_TARGET_RADIUS_DP * 2),
             )
         }
 
@@ -922,6 +984,68 @@ private fun ArHostScreen(
                 BasicText(
                     status,
                     style = TextStyle(color = Color.White.copy(alpha = 0.85f), fontSize = 13.sp),
+                )
+            }
+        }
+    }
+}
+
+/** Radio de la diana de Lúa. Los 22 dp de siempre, ahora dibujados. */
+private val LUA_TARGET_RADIUS_DP = 22.dp
+
+/** Recorrido mínimo del dedo para que un gesto cuente como lanzamiento. */
+private const val MIN_DRAG_PX = 48f
+
+/**
+ * La cabeza de Lúa como diana de calibración y de la Prueba de Aptitud.
+ *
+ * Dibujada, no escrita: aquí había un emoji 🐻 del sistema, que además de ser
+ * el oso retirado lo pinta el fabricante del teléfono y cambia de forma entre
+ * marcas. La diana la sigue la mirada del niño y su silueta es la referencia de
+ * la medida, así que no puede depender de la fuente que traiga el aparato.
+ *
+ * Mismo trazo que el resto de la marca: verde Valeria, orejas triangulares,
+ * hocico y bigotes en un solo color.
+ */
+@Composable
+private fun LuaTargetHead(modifier: Modifier = Modifier) {
+    Canvas(modifier) {
+        val r = size.minDimension / 2f
+        val c = Offset(size.width / 2f, size.height / 2f)
+        val fur = Color(0xFF00C4BE)
+        val ink = Color(0xFF07312F)
+
+        // Orejas: dos triángulos anclados a la circunferencia del cráneo.
+        listOf(-1f, 1f).forEach { side ->
+            val baseX = c.x + side * r * 0.62f
+            drawPath(
+                androidx.compose.ui.graphics.Path().apply {
+                    moveTo(baseX - r * 0.26f, c.y - r * 0.52f)
+                    lineTo(baseX + r * 0.26f, c.y - r * 0.46f)
+                    lineTo(baseX + side * r * 0.10f, c.y - r * 1.02f)
+                    close()
+                },
+                color = fur,
+            )
+        }
+
+        drawCircle(color = fur, radius = r * 0.78f, center = c)
+
+        // Ojos y hocico.
+        listOf(-1f, 1f).forEach { side ->
+            drawCircle(color = ink, radius = r * 0.10f, center = Offset(c.x + side * r * 0.28f, c.y - r * 0.08f))
+        }
+        drawCircle(color = ink, radius = r * 0.08f, center = Offset(c.x, c.y + r * 0.20f))
+
+        // Bigotes: tres a cada lado, del grosor del set de iconos.
+        listOf(-1f, 1f).forEach { side ->
+            listOf(-0.16f, 0f, 0.16f).forEach { dy ->
+                drawLine(
+                    color = ink,
+                    start = Offset(c.x + side * r * 0.30f, c.y + r * (0.20f + dy * 0.5f)),
+                    end = Offset(c.x + side * r * 0.86f, c.y + r * (0.20f + dy)),
+                    strokeWidth = r * 0.055f,
+                    cap = StrokeCap.Round,
                 )
             }
         }

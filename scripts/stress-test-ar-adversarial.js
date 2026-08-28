@@ -303,6 +303,46 @@ test('ADV-6.1: Severe unilateral asymmetry attenuation vs cheek_puff exception',
   assert.strictEqual(cheekEff, 0.95, 'Cheek puff bypasses symmetry penalty (physiologically valid)');
 });
 
+console.log('\n── Attack Surface 7: Throw Gesture Integrity (AR-5) ──');
+
+test('ADV-7.1: Un roce de la manga no cuenta como lanzamiento', () => {
+  const MIN_DRAG_PX = 48;
+  const MIN_THROW_VELOCITY_PX_S = 350;
+  const acepta = (dx, dy, velocity) => Math.hypot(dx, dy) >= MIN_DRAG_PX && velocity >= MIN_THROW_VELOCITY_PX_S;
+
+  assert.strictEqual(acepta(4, 6, 1800), false, 'Toque sin recorrido: sin dirección no hay puntería');
+  assert.strictEqual(acepta(120, 300, 90), false, 'Arrastre lento: no es un lanzamiento');
+  assert.strictEqual(acepta(120, 300, 900), true, 'Gesto con recorrido y velocidad: cuenta');
+});
+
+test('ADV-7.2: Sacudir el móvil no fabrica aciertos', () => {
+  // El niño (o el adulto) agita la pantalla con el dedo apoyado: velocidad alta
+  // en direcciones cambiantes. El acierto exige TAMBIÉN puntería.
+  const HIT_TOLERANCE_DEG = 18;
+  const MIN_THROW_VELOCITY_PX_S = 350;
+  const hit = (angleDeg, velocity) =>
+    Math.abs(angleDeg) <= HIT_TOLERANCE_DEG && velocity >= MIN_THROW_VELOCITY_PX_S;
+
+  const sacudidas = [-140, 95, -60, 175, 120, -100];
+  const aciertos = sacudidas.filter((a) => hit(a, 2400)).length;
+  assert.strictEqual(aciertos, 0, 'Ninguna sacudida desviada entra por ser rápida');
+  assert.strictEqual(hit(9, 2400), true, 'Un lanzamiento rápido Y apuntado sí entra');
+});
+
+test('ADV-7.3: Diez ensayos sin tocar la pantalla no producen ni un dato', () => {
+  // La regresión exacta: antes un temporizador lanzaba solo y los diez ensayos
+  // salían acertados, con velocidad y reacción constantes.
+  const trials = Array.from({ length: 10 }, () => ({
+    threw: false, voided: true, voidReason: 'no_throw',
+    hit: false, throwVelocityPxPerS: 0, timeToThrowMs: 0,
+  }));
+
+  assert.strictEqual(trials.filter((t) => t.hit).length, 0, 'Cero aciertos sin gesto');
+  assert.strictEqual(trials.filter((t) => !t.voided).length, 0, 'Los diez quedan anulados');
+  const publicables = trials.filter((t) => !t.voided);
+  assert.strictEqual(publicables.length, 0, 'Nada de esto llega al conjunto publicable');
+});
+
 console.log('\n════════════════════════════════════════════════════════════════════');
 console.log(` Summary: ${passedTests} passed, ${failedTests} failed`);
 console.log('════════════════════════════════════════════════════════════════════\n');

@@ -57,7 +57,7 @@ osita. Devuelve un **nivel de aptitud** que decide qué se ofrece:
 
 | Nivel | Qué se habilita | Lectura clínica |
 | --- | --- | --- |
-| **A · Instrumento** | Los tres ejercicios · AR-2 cronometrado | Este teléfono puede producir dato publicable |
+| **A · Instrumento** | Los seis ejercicios · AR-2 cronometrado | Este teléfono puede producir dato publicable |
 | **B · Clínico** | Los tres · AR-2 **solo como juego** | Sirve para terapia; los tiempos de AR-2 no son defendibles |
 | **C · Reducido** | AR-1 y AR-3 con **2 dianas** | El puntero tiembla demasiado para tres dianas |
 | **D · No apto** | El bloque no aparece | Los otros seis bloques funcionan igual |
@@ -156,7 +156,7 @@ el resultado** (parálisis cerebral, dispraxia). El niño elige mirando.
 | Elemento | Especificación |
 | --- | --- |
 | Puntero | Iris (preciso, ruidoso) o rayo desde la nariz (robusto, grueso). Se elige en el Panel; el ejercicio no se entera de cuál corre |
-| Calibración | **Obligatoria**, 5 puntos con la osita, ~15 s, por paciente y por dispositivo. Un rayo facial sin calibrar no apunta a nada |
+| Calibración | **Obligatoria**, 5 puntos con Lúa, ~15 s, por paciente y por dispositivo. Un rayo facial sin calibrar no apunta a nada |
 | Dianas | 3 en nivel A y B · **2 en nivel C**. Se colocan en grados calculados en caliente, no en píxeles |
 | Selección | Fijación sostenida **1200 ms** (configurable), con anillo de progreso visible |
 | Zona neutra | El *dwell* solo acumula dentro de un dibujo, nunca en el fondo (problema de Midas) |
@@ -180,7 +180,79 @@ la conducta de búsqueda y contamina la variable de primera fijación.
 
 ---
 
-## 6. Duración y fatiga
+## 6. AR-4 · Búsqueda espacial de Lúa
+
+**Para qué**: amplitud articular cervical, rastreo visual en el espacio y
+control inhibitorio de la sacada desordenada. Lúa se esconde en un cuadrante y
+el niño la localiza girando la cabeza.
+
+| Elemento | Especificación |
+| --- | --- |
+| Cuadrantes | 4, a ±22° de guiñada (izquierda/derecha) y ±18°/+14° (superiores). Se sortean por ensayo |
+| Coincidencia | Cono foveal de **8,5°**, sostenido **650 ms** |
+| Techo por ensayo | **12 s**. Agotado, el ensayo se cierra como fallido, no anulado |
+| Radar | La retícula se dibuja a la escala real del aparato (`pxPerDeg` de anchura, mm y distancia) y **se ancla al borde** cuando la diana cae fuera de pantalla |
+
+**Por qué la retícula toca el borde casi siempre**: la pantalla a un palmo y
+medio abarca unos 11°, y la diana vive a ±22°. Es decir, el objetivo está fuera
+de la pantalla durante casi todo el ensayo, y eso es el ejercicio: el borde
+indica hacia dónde girar. No es un recorte, es la tarea.
+
+**Registro**: cuadrante, guiñada y cabeceo de la diana, tiempo de adquisición
+(ms), sostén foveal (ms), **RMS de guiñada** en grados —dispersión, no error— y
+si se consiguió.
+
+---
+
+## 7. AR-5 · Lanzamiento del pez a Lúa
+
+**Para qué**: coordinación óculo-manual, puntería balística y latencia de
+iniciación motora ante una demanda comunicativa. Lúa espera hambrienta en el
+centro y el niño le lanza el pez deslizando el dedo.
+
+| Elemento | Especificación |
+| --- | --- |
+| Gatillo | **El dedo del niño.** Arrastre sobre la pantalla, mínimo 48 px de recorrido |
+| Velocidad | Del `VelocityTracker` de Compose, con las posiciones reales del puntero |
+| Puntería | Desviación con signo entre la dirección del gesto y la recta dedo→Lúa, normalizada a (−180°, 180°] |
+| Acierto | Desviación ≤ **18°** **y** velocidad ≥ **350 px/s**. Las dos condiciones, no una |
+| Vuelo | 650 ms en línea recta hasta el centro. **No hay parábola**: no se simula gravedad y pintar un arco sugeriría una física que no existe |
+| Sin lanzamiento | A los 12 s el ensayo se **anula** (`voidReason: "no_throw"`) |
+
+> **Aquí no se mide ningún tiempo de reacción de captura.** Quien atrapa el pez
+> es Lúa, que es software: cronometrarla mediría el reloj de la app, no al niño.
+> Una versión anterior de este ejercicio guardaba un `catchReactionMs` de 320 ms
+> constantes, una velocidad de 920 px/s constante y un acierto que era cierto
+> siempre, porque el lanzamiento lo disparaba un temporizador y el dedo no se
+> leía en ninguna parte. Eso llegaba al panel del paciente y, en nivel A, al
+> conjunto publicable. **Un dato constante no es una medida.**
+
+**Registro**: velocidad del lanzamiento (px/s), desviación de puntería (°),
+distancia de trabajo (mm), latencia de lanzamiento (ms) y acierto.
+
+---
+
+## 8. AR-6 · Espejo mímico con Lúa
+
+**Para qué**: praxias fonoarticulatorias, conciencia miofuncional orofacial e
+imitación motora visual. Lúa modela un gesto y el niño lo imita frente al
+espejo de AR.
+
+| Elemento | Especificación |
+| --- | --- |
+| Praxias | Sonrisa, apertura mandibular, inflado de mejillas y protrusión labial. Se sortean por ensayo |
+| Línea base | **45 frames** de reposo por ensayo, individual. La activación se normaliza restándola |
+| Umbral | Histéresis 0,52 / 0,42 con el sostén configurado en el Panel (el mismo de AR-1) |
+| Simetría | Índice bilateral por comisuras y nariz. Por encima de 0,12 de asimetría la señal se atenúa al 40 % |
+| Excepción | El inflado de mejillas **no** se penaliza por asimetría: la variación unilateral ahí es fisiológica |
+| Techo por ensayo | 14 s |
+
+**Registro**: praxia objetivo, pico de activación (0..1), sostén máximo (ms),
+índice de simetría (0..1) y si se logró la sincronía.
+
+---
+
+## 9. Duración y fatiga
 
 La cámara a 30 fps más la inferencia más la escena 3D calientan un teléfono de
 gama media en minutos, y el rendimiento cae. Coincide con lo clínicamente
@@ -193,7 +265,7 @@ deseable a estas edades:
 
 ---
 
-## 7. Cómo leer el panel del paciente
+## 10. Cómo leer el panel del paciente
 
 El panel muestra **series y magnitudes**: sostén en milisegundos, latencia por
 ensayo, fijación hasta elegir, ensayos anulados y el sello del aparato.
@@ -209,23 +281,25 @@ nivel de aptitud y fps sostenidos.
 
 ---
 
-## 8. Qué hacer si algo no va
+## 11. Qué hacer si algo no va
 
 | Síntoma | Causa habitual | Qué hacer |
 | --- | --- | --- |
 | El bloque no aparece en el hub | Teléfono de nivel D, o permiso de cámara denegado | Nada que arreglar: los otros seis bloques funcionan igual |
 | Muchos ensayos anulados | Teléfono en la mano o mesa que se mueve | Apoyarlo contra algo firme. Si persiste, anotadlo: la tasa es un dato |
 | El puntero de AR-3 tiembla | Luz pobre, o iris en un aparato modesto | Cambiar el puntero a «Nariz» en el Panel del Adulto |
+| En AR-4 la retícula vive en el borde | Es el comportamiento correcto: la diana está fuera de pantalla | Nada. El borde señala hacia dónde girar |
+| Muchos ensayos de AR-5 anulados | El peque no llega a lanzar, o solo toca sin arrastrar | Enseñarle el gesto una vez. La tasa de `no_throw` es un dato, no un fallo |
 | AR-2 no cronometra | Sin altavoces cableados, o reloj de cámara no alineable | Es esperable en casa. Se juega igual y se registra el motivo |
 | Nunca llega al premio en AR-1 | Umbral de sostén por encima de lo que hoy puede | Bajarlo en el Panel. **Lo decidís vosotros: la app no lo ajusta sola** |
 
 ---
 
-## 9. Estado de implementación
+## 12. Estado de implementación
 
 | Pieza | Estado |
 | --- | --- |
-| Host nativo, señal facial, recompensa, tres ejercicios, telemetría | Escrito |
+| Host nativo, señal facial, recompensa, **seis** ejercicios, telemetría | Escrito |
 | Modelos 3D y modelo de señal facial | En el repositorio, verificados |
 | Política de privacidad (ES/EN) | Actualizada |
 | Compilación y verificación en teléfono real | **Pendiente** (Fase 1) |

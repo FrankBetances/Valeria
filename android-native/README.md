@@ -168,7 +168,7 @@ ejecución los sacó a la luz aunque fuera por el motivo equivocado:
 | Mapa de marcas de tiempo y `FpsMeter` tocados por dos hilos; `FpsMeter` además crecía sin techo | `FaceSignalEngine`, `AptitudeTest` |
 | El motor de Filament no se destruía: `destroyModel()` deja vivos motor, renderer, swapchain y contexto EGL | `ValeriaArSceneView` |
 | Cierre del motor de señal antes de parar el executor que le entrega frames | `ValeriaArActivity` |
-| «Mira a la osita» sin ninguna osita en pantalla | `ValeriaArActivity` |
+| «Mira a Lúa» sin ninguna Lúa en pantalla | `ValeriaArActivity` |
 | `targetRotation` sin actualizar: girar el móvil 180° dejaba la imagen boca abajo | `ValeriaArActivity` |
 
 Sigue **sin verificarse en un teléfono real** absolutamente todo lo que depende

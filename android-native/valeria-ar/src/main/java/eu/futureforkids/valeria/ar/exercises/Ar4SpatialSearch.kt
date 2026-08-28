@@ -85,13 +85,30 @@ class Ar4SpatialSearch(private val ctx: ExerciseContext) : ArExercise {
         val errPitch = abs(currentPitch - targetPitchDeg)
         val totalErr = hypot(errYaw, errPitch)
 
-        // Radar / Puntero espacial
+        // Radar / Puntero espacial.
+        //
+        // La escala es la del teléfono real, no un factor inventado:
+        // `pxPerDeg` sale de la anchura en píxeles, la anchura en mm y la
+        // distancia estimada a la cara. Un `widthMm * 3.5f` dejaba el centro
+        // del radar en x≈114 de una pantalla de 1080 —pegado al borde— y movía
+        // la retícula ocho veces menos de lo que el niño giraba la cabeza.
+        //
+        // La diana vive a ±22°, y la pantalla a un palmo y medio abarca ~11°:
+        // el objetivo está FUERA de la pantalla casi todo el ensayo. Por eso la
+        // retícula se ancla al borde en vez de salirse. Eso es lo que la
+        // convierte en un radar —«tuerce hacia allá»— y no en un punto que
+        // desaparece.
         val dwellProgress = (fovealDwellMs.toFloat() / FOVEAL_HOLD_MS.toFloat()).coerceIn(0f, 1f)
-        val screenW = ctx.geometry.widthMm * 3.5f
-        val screenH = ctx.geometry.heightMm * 3.5f
-        val pointerX = (screenW / 2f) + (currentYaw - targetYawDeg) * 12f
-        val pointerY = (screenH / 2f) + (currentPitch - targetPitchDeg) * 12f
-        ctx.scene.setPointer(pointerX, pointerY, dwellProgress)
+        val pxPerDeg = ctx.geometry.pxPerDeg(ctx.distance.currentMm)
+        val widthPx = ctx.geometry.widthPx.toFloat()
+        val heightPx = ctx.geometry.heightPx.toFloat()
+        val rawX = (widthPx / 2f) + (currentYaw - targetYawDeg) * pxPerDeg
+        val rawY = (heightPx / 2f) + (currentPitch - targetPitchDeg) * pxPerDeg
+        ctx.scene.setPointer(
+            rawX.coerceIn(RADAR_EDGE_MARGIN_PX, widthPx - RADAR_EDGE_MARGIN_PX),
+            rawY.coerceIn(RADAR_EDGE_MARGIN_PX, heightPx - RADAR_EDGE_MARGIN_PX),
+            dwellProgress,
+        )
 
         if (totalErr <= FOVEAL_CONE_DEG) {
             fovealDwellMs += dt
@@ -155,5 +172,6 @@ class Ar4SpatialSearch(private val ctx: ExerciseContext) : ArExercise {
         private const val FOVEAL_CONE_DEG = 8.5f     // Cono foveal de coincidencia
         private const val FOVEAL_HOLD_MS = 650L      // Sostén de fijación foveal
         private const val MAX_SEARCH_TIME_MS = 12_000L // Techo de búsqueda por ensayo
+        private const val RADAR_EDGE_MARGIN_PX = 48f // Anclaje de la retícula al borde
     }
 }

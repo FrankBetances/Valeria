@@ -4,6 +4,20 @@
 // ============================================================================
 
 const assert = require('assert');
+const fs = require('fs');
+const path = require('path');
+
+const AR_KT = path.join(__dirname, '..', 'android-native', 'valeria-ar', 'src', 'main',
+  'java', 'eu', 'futureforkids', 'valeria', 'ar');
+const KT = {
+  contracts: path.join(AR_KT, 'ArContracts.kt'),
+  activity: path.join(AR_KT, 'ValeriaArActivity.kt'),
+  ar4: path.join(AR_KT, 'exercises', 'Ar4SpatialSearch.kt'),
+  ar5: path.join(AR_KT, 'exercises', 'Ar5FeedCatch.kt'),
+  ar6: path.join(AR_KT, 'exercises', 'Ar6BuddyMimicry.kt'),
+};
+const TS = { bridge: path.join(__dirname, '..', 'src', 'valeriaArBridge.ts') };
+const read = (f) => fs.readFileSync(f, 'utf8');
 
 let passedTests = 0;
 let failedTests = 0;
@@ -442,31 +456,91 @@ test('AR-4.3: RMS Jitter dispersion calculation', () => {
   assert(rms > 0 && rms < 0.5, `RMS jitter ${rms.toFixed(3)} deg accurately computed`);
 });
 
-// ============================================================================
-// 5. AR-5 Parabolic Kinematics & Capture Math
-// ============================================================================
-console.log('\n── AR-5: Parabolic Kinematics & Feed-Catch ──');
+test('AR-4.4: Radar a escala real del teléfono, anclado al borde', () => {
+  // pxPerDeg sale del aparato: anchura en px, anchura en mm y distancia.
+  const widthPx = 1080, heightPx = 2400, widthMm = 65.3, distanceMm = 350, margin = 48;
+  const halfDeg = Math.atan(widthMm / 2 / distanceMm) * 180 / Math.PI;
+  const pxPerDeg = (widthPx / 2) / halfDeg;
+  assert(pxPerDeg > 80 && pxPerDeg < 130, `pxPerDeg realista (${pxPerDeg.toFixed(1)})`);
 
-test('AR-5.1: 650 ms parabolic flight curve', () => {
-  const FLIGHT_DURATION_MS = 650;
-  const computeProgress = (flightTimeMs) => {
-    return Math.min(1.0, Math.max(0.0, flightTimeMs / FLIGHT_DURATION_MS));
-  };
+  const pointer = (errYawDeg, errPitchDeg) => ({
+    x: Math.min(widthPx - margin, Math.max(margin, widthPx / 2 + errYawDeg * pxPerDeg)),
+    y: Math.min(heightPx - margin, Math.max(margin, heightPx / 2 + errPitchDeg * pxPerDeg)),
+  });
 
-  assert.strictEqual(computeProgress(0), 0);
-  assert.strictEqual(computeProgress(325), 0.5);
-  assert.strictEqual(computeProgress(650), 1.0);
-  assert.strictEqual(computeProgress(800), 1.0);
-
-  // Parabolic vertical altitude: y(tau) = 4 * H * tau * (1 - tau)
-  const H = 150; // max apex height in px
-  const parabolicY = (tau) => 4 * H * tau * (1 - tau);
-  assert.strictEqual(parabolicY(0), 0);
-  assert.strictEqual(parabolicY(0.5), H, 'Apex is exactly at tau=0.5');
-  assert.strictEqual(parabolicY(1.0), 0, 'Returns to landing target at tau=1.0');
+  // Error nulo = centro exacto. El bug anterior lo dejaba en x≈114.
+  assert(approxEqual(pointer(0, 0).x, widthPx / 2, 1e-6), 'Sin error, la retícula va al centro');
+  // La diana vive a ±22° y la pantalla abarca ~11°: se ancla al borde.
+  assert.strictEqual(pointer(-22, 0).x, margin, 'Diana a la izquierda: retícula al borde izquierdo');
+  assert.strictEqual(pointer(22, 0).x, widthPx - margin, 'Diana a la derecha: retícula al borde derecho');
+  // Dentro del cono foveal la retícula ya está visible y separada del centro.
+  const dentro = pointer(4, 0).x;
+  assert(dentro > widthPx / 2 && dentro < widthPx - margin, 'Error pequeño = desplazamiento pequeño');
 });
 
-test('AR-5.2: Target distance estimation from interocular distance', () => {
+// ============================================================================
+// 5. AR-5 Throw Kinematics & Aiming Math
+// ============================================================================
+console.log('\n── AR-5: Throw Kinematics & Aiming ──');
+
+test('AR-5.1: Signed aiming deviation, normalized to (-180, 180]', () => {
+  // El ángulo que se registra es la desviación entre la dirección del gesto y
+  // la recta que va del punto de salida a Lúa, que está en el centro.
+  const deviation = (start, end, center) => {
+    const throwVec = { x: end.x - start.x, y: end.y - start.y };
+    const targetVec = { x: center.x - start.x, y: center.y - start.y };
+    const deg = (Math.atan2(throwVec.y, throwVec.x) - Math.atan2(targetVec.y, targetVec.x)) * 180 / Math.PI;
+    return ((deg + 540) % 360) - 180;
+  };
+
+  const center = { x: 540, y: 1200 };
+  // Lanzamiento recto hacia Lúa desde abajo: desviación nula.
+  assert(approxEqual(deviation({ x: 540, y: 2000 }, { x: 540, y: 1500 }, center), 0, 1e-6));
+  // Desviarse a un lado y al otro da el mismo error con signo contrario.
+  const derecha = deviation({ x: 540, y: 2000 }, { x: 700, y: 1600 }, center);
+  const izquierda = deviation({ x: 540, y: 2000 }, { x: 380, y: 1600 }, center);
+  assert(Math.abs(derecha) > 15, `Desviación apreciable (${derecha.toFixed(1)}°)`);
+  assert(approxEqual(derecha, -izquierda, 1e-6), 'Simétrica en signo a cada lado');
+  // El envoltorio no puede convertir 1° de error en 359°.
+  const casiVuelta = deviation({ x: 540, y: 2000 }, { x: 545, y: 2400 }, center);
+  assert(Math.abs(casiVuelta) <= 180, 'Siempre dentro de (-180, 180]');
+});
+
+test('AR-5.2: Acierto = puntería Y fuerza, nunca un resultado prefijado', () => {
+  const HIT_TOLERANCE_DEG = 18;
+  const MIN_THROW_VELOCITY_PX_S = 350;
+  const hit = (landed, threw, angleDeg, velocity) =>
+    landed && threw && Math.abs(angleDeg) <= HIT_TOLERANCE_DEG && velocity >= MIN_THROW_VELOCITY_PX_S;
+
+  assert.strictEqual(hit(true, true, 4.2, 900), true, 'Apuntado y con brío: entra');
+  assert.strictEqual(hit(true, true, 31.0, 900), false, 'Bien lanzado pero desviado: falla');
+  assert.strictEqual(hit(true, true, 2.0, 120), false, 'Apuntado pero sin fuerza: no llega');
+  assert.strictEqual(hit(true, false, 0, 0), false, 'Sin gesto no hay acierto');
+  // La regresión que motivó este caso: `hit` era `true` en todas las ramas.
+  const todos = [[5, 800], [40, 800], [5, 90], [90, 90]].map(([a, v]) => hit(true, true, a, v));
+  assert(todos.includes(false), 'El acierto DEBE poder ser falso');
+});
+
+test('AR-5.3: Un ensayo sin lanzamiento se anula, no se rellena', () => {
+  const buildTrial = (threw, velocity, angle, throwAtMs, startMs) => ({
+    voided: !threw,
+    voidReason: threw ? null : 'no_throw',
+    throwVelocityPxPerS: velocity,
+    throwAngleDeg: angle,
+    timeToThrowMs: threw ? throwAtMs - startMs : 0,
+  });
+
+  const sinTirar = buildTrial(false, 0, 0, 0, 0);
+  assert.strictEqual(sinTirar.voided, true);
+  assert.strictEqual(sinTirar.voidReason, 'no_throw');
+  assert.strictEqual(sinTirar.throwVelocityPxPerS, 0, 'Sin gesto no se inventa velocidad');
+
+  const tirando = buildTrial(true, 870, -6.4, 4200, 1500);
+  assert.strictEqual(tirando.voided, false);
+  assert.strictEqual(tirando.timeToThrowMs, 2700, 'Latencia medida, no constante');
+});
+
+test('AR-5.4: Estimación de distancia desde la interocular', () => {
   const ASSUMED_INTEROCULAR_MM = 53.0;
   const focalPx = 520.0;
   const estimateDistanceMm = (interocularPx) => {
@@ -475,14 +549,8 @@ test('AR-5.2: Target distance estimation from interocular distance', () => {
     return Math.min(600, Math.max(280, mm));
   };
 
-  // Standard interocular at ~35cm: dx = 78.7px
-  const dist35 = estimateDistanceMm(78.7);
-  assert(approxEqual(dist35, 350.1, 1.0), '350mm estimated accurately');
-
-  // Close child: dx = 120px -> 230mm -> clamped to 280mm
+  assert(approxEqual(estimateDistanceMm(78.7), 350.1, 1.0), '350mm estimated accurately');
   assert.strictEqual(estimateDistanceMm(120), 280, 'Clamped to min 280mm');
-
-  // Far child: dx = 40px -> 689mm -> clamped to 600mm
   assert.strictEqual(estimateDistanceMm(40), 600, 'Clamped to max 600mm');
 });
 
@@ -559,10 +627,67 @@ test('AR-6.3: Bilateral symmetry validation (> 88%) & cheek_puff bypass', () => 
 // ============================================================================
 console.log('\n── Layer Contract Synchronization ──');
 
-test('Contract: All 6 AR Exercise IDs synchronized across enums', () => {
-  const ktExercises = ['ar1', 'ar2', 'ar3', 'ar4', 'ar5', 'ar6'];
-  const tsExercises = ['ar1', 'ar2', 'ar3', 'ar4', 'ar5', 'ar6'];
-  assert.deepStrictEqual(ktExercises, tsExercises);
+test('Contract: los ids de ejercicio del Kotlin y del TypeScript coinciden', () => {
+  // Leídos de los ficheros, no escritos aquí a mano: la versión anterior de
+  // esta prueba comparaba dos arrays idénticos escritos en la misma línea, así
+  // que pasaba aunque las dos capas se hubieran separado.
+  const kt = read(KT.contracts).match(/enum class ArExerciseId[\s\S]*?;/)[0];
+  const ktIds = [...kt.matchAll(/AR\d\("(ar\d)"\)/g)].map((m) => m[1]);
+
+  const ts = read(TS.bridge).match(/export type ArExerciseId =([^;]+);/)[1];
+  const tsIds = [...ts.matchAll(/'(ar\d)'/g)].map((m) => m[1]);
+
+  assert(ktIds.length >= 6, `El enum Kotlin trae ${ktIds.length} ids`);
+  assert.deepStrictEqual(ktIds, tsIds, 'Kotlin y TypeScript ofrecen los mismos ejercicios');
+});
+
+test('Contract: los campos de Ar5 son los mismos en Kotlin y en TypeScript', () => {
+  const kt = read(KT.contracts).match(/data class Ar5\(([\s\S]*?)\) : TrialRecord\(\)/)[1];
+  const ktFields = [...kt.matchAll(/^\s+val (\w+):/gm)].map((m) => m[1]).sort();
+
+  const ts = read(TS.bridge).match(/export interface Ar5Trial extends ArTrialBase \{([\s\S]*?)\n\}/)[1];
+  const tsFields = [...ts.matchAll(/^\s+(\w+)[?]?:/gm)].map((m) => m[1])
+    .filter((f) => f !== 'exerciseId').sort();
+
+  assert.deepStrictEqual(ktFields, tsFields, 'El registro de AR-5 no puede divergir entre capas');
+  assert(!ktFields.includes('catchReactionMs'),
+    'catchReactionMs era una constante de 320 ms disfrazada de medida: no vuelve');
+});
+
+test('Contract: las constantes de esta suite son las del Kotlin', () => {
+  // Esta suite es una REIMPLEMENTACIÓN en JS de las fórmulas del Kotlin, no una
+  // prueba del Kotlin: no compila una sola línea del ejercicio real. Su valor
+  // depende por completo de que las constantes sean las mismas, y eso es lo que
+  // se comprueba aquí leyendo el fuente. Sin este anclaje la suite validó
+  // durante toda una tanda una trayectoria parabólica que el producto no tenía.
+  const esperado = [
+    [KT.ar4, 'FOVEAL_CONE_DEG', 8.5],
+    [KT.ar4, 'FOVEAL_HOLD_MS', 650],
+    [KT.ar4, 'MAX_SEARCH_TIME_MS', 12000],
+    [KT.ar4, 'RADAR_EDGE_MARGIN_PX', 48],
+    [KT.ar5, 'FLIGHT_DURATION_MS', 650],
+    [KT.ar5, 'HIT_TOLERANCE_DEG', 18],
+    [KT.ar5, 'MIN_THROW_VELOCITY_PX_S', 350],
+    [KT.ar6, 'MAX_TRIAL_DURATION_MS', 14000],
+  ];
+
+  esperado.forEach(([file, name, value]) => {
+    const m = read(file).match(new RegExp(`const val ${name}\\s*=\\s*([0-9_.]+)`));
+    assert(m, `${name} no aparece en ${path.basename(file)}`);
+    const actual = parseFloat(m[1].replace(/_/g, ''));
+    assert.strictEqual(actual, value, `${name}: el Kotlin dice ${actual}, esta suite asume ${value}`);
+  });
+});
+
+test('Contract: AR-5 lee el dedo del niño, no un temporizador', () => {
+  const ar5 = read(KT.ar5);
+  assert(/override fun onFling\(/.test(ar5), 'AR-5 debe implementar onFling');
+  assert(!/AUTO_THROW_TRIGGER_MS/.test(ar5), 'No vuelve el lanzamiento automático por timeout');
+  assert(!/completeTrial\(hit = true\)/.test(ar5), 'El acierto no puede estar prefijado en la llamada');
+
+  // El gesto tiene que llegar desde la Activity, o `onFling` no lo invoca nadie.
+  assert(/onFling\s*=\s*\{/.test(read(KT.activity)), 'La Activity debe cablear onFling');
+  assert(/detectDragGestures/.test(read(KT.activity)), 'La Activity debe leer el arrastre real');
 });
 
 console.log('\n════════════════════════════════════════════════════════════════════');

@@ -190,12 +190,14 @@ export interface Ar4Trial extends ArTrialBase {
 
 export interface Ar5Trial extends ArTrialBase {
   exerciseId: 'ar5';
+  /** Velocidad real del deslizamiento, del VelocityTracker de Compose. */
   throwVelocityPxPerS: number;
+  /** Desviación de puntería en grados respecto a la recta dedo→Lúa. */
   throwAngleDeg: number;
   targetDistanceMm: number;
+  /** Latencia de iniciación: del arranque del ensayo al dedo levantado. */
   timeToThrowMs: number;
   hit: boolean;
-  catchReactionMs: number;
 }
 
 export interface Ar6Trial extends ArTrialBase {

@@ -29,6 +29,13 @@ interface ArExercise {
     fun onSignals(signals: FaceSignals)
     /** Pulso de reloj para lo que no depende de la cara (ventanas, esperas). */
     fun onTick(nowMs: Long)
+    /**
+     * Lanzamiento del niño sobre la pantalla: velocidad real del gesto en px/s
+     * y desviación en grados respecto a la línea que une el punto de salida con
+     * la diana. Solo AR-5 lo usa; el resto lo ignora, que es justo lo que hace
+     * este cuerpo vacío.
+     */
+    fun onFling(velocityPxPerS: Float, angleDeg: Float) {}
     val trials: List<TrialRecord>
     val finished: Boolean
     fun close() {}

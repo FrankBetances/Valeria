@@ -1108,7 +1108,7 @@ export const ES = {
         case 'ar2': return 'Latencia del giro';
         case 'ar3': return 'Fijación hasta elegir';
         case 'ar4': return 'Búsqueda espacial de Lúa';
-        case 'ar5': return 'Reacción de captura';
+        case 'ar5': return 'Latencia de lanzamiento';
         case 'ar6': return 'Sostén de praxia mímica';
         default: return 'Medida AR';
       }
@@ -1119,7 +1119,7 @@ export const ES = {
         case 'ar2': return 'Milisegundos entre el sonido y el giro de cabeza. Solo aparecen los ensayos que se pudieron cronometrar.';
         case 'ar3': return 'Milisegundos de mirada sostenida hasta confirmar el dibujo.';
         case 'ar4': return 'Milisegundos hasta localizar a Lúa con la retícula foveal y alinear la postura cefálica.';
-        case 'ar5': return 'Milisegundos de reacción entre el lanzamiento parabólico del pez dorado y la captura de Lúa.';
+        case 'ar5': return 'Milisegundos desde que Lúa pide el pez hasta que el peque termina el gesto de lanzarlo.';
         case 'ar6': return 'Milisegundos que sostuvo la expresión o praxia facial guiada con simetría bilateral.';
         default: return 'Milisegundos medidos durante el ejercicio de realidad aumentada.';
       }
@@ -1542,7 +1542,8 @@ export const ES = {
     rowAcquisitionMean: 'Tiempo medio de búsqueda espacial',
     rowJitterRms: 'Estabilidad angular (Jitter RMS)',
     rowThrowVelocityMean: 'Velocidad media de lanzamiento',
-    rowCatchReaction: 'Reacción de captura y deglución',
+    rowThrowLatency: 'Latencia media de lanzamiento',
+    rowAimDeviation: 'Desviación media de puntería',
     rowMimicHoldMean: 'Sostén medio de praxia',
     rowSymmetryMean: 'Simetría bilateral media',
   },

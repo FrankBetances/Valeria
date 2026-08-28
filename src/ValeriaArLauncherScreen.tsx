@@ -386,12 +386,16 @@ export const ValeriaArLauncherScreen: React.FC<{ navigation?: any }> = ({ naviga
     if (result.exerciseId === 'ar5') {
       const valid = trials.filter((t) => t.exerciseId === 'ar5' && !t.voided) as any[];
       const vels = valid.map((t) => t.throwVelocityPxPerS as number).filter((n) => n > 0);
-      const catches = valid.map((t) => t.catchReactionMs as number).filter((n) => n > 0);
+      const latencias = valid.map((t) => t.timeToThrowMs as number).filter((n) => n > 0);
+      const desvios = valid.map((t) => Math.abs(t.throwAngleDeg as number));
       if (vels.length) {
         rows.push([t.ar.rowThrowVelocityMean, `${Math.round(vels.reduce((a, b) => a + b, 0) / vels.length)} px/s`]);
       }
-      if (catches.length) {
-        rows.push([t.ar.rowCatchReaction, `${Math.round(catches.reduce((a, b) => a + b, 0) / catches.length)} ms`]);
+      if (latencias.length) {
+        rows.push([t.ar.rowThrowLatency, `${Math.round(latencias.reduce((a, b) => a + b, 0) / latencias.length)} ms`]);
+      }
+      if (desvios.length) {
+        rows.push([t.ar.rowAimDeviation, `${(desvios.reduce((a, b) => a + b, 0) / desvios.length).toFixed(1)}°`]);
       }
     }
     if (result.exerciseId === 'ar6') {
