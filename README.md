@@ -852,7 +852,7 @@ interfaz clásica se entra desde el hub de bloques, en la v11 desde **Ajustes**)
 | [`docs/protocolo-pares-minimos.md`](docs/protocolo-pares-minimos.md) | Protocolo de pares mínimos para dislalias fonológicas: 10 pares accionables con flujo TTS→STT, feedback por rama y misiones físicas. Implementado en `src/ValeriaMinimalPairsScreen.tsx` + `src/valeriaMinimalPairs.ts`. |
 | [`docs/protocolo-pares-minimos-es-DO.md`](docs/protocolo-pares-minimos-es-DO.md) | Protocolo de pares mínimos en español dominicano (Quisqueya Habla). Implementado en `src/valeriaMinimalPairsEsDO.ts`. |
 | [`docs/protocolo-expansion-semantica.md`](docs/protocolo-expansion-semantica.md) | Protocolo de expansión semántica / progresión léxica offline. Implementado en `src/ValeriaSemanticExpansionScreen.tsx` + `src/valeriaSemanticExpansion.ts`. |
-| [`docs/protocolo-realidad-aumentada.md`](docs/protocolo-realidad-aumentada.md) | Protocolo clínico del bloque de Realidad Aumentada: consentimiento de cámara, Prueba de Aptitud del Dispositivo, colocación del teléfono y los tres ejercicios (AR‑1 cinemática orofacial, AR‑2 localización instrumentada, AR‑3 selección por fijación), con el muro MDR explicado ejercicio a ejercicio. Implementado en `android-native/valeria-ar/` + `src/ValeriaArLauncherScreen.tsx`. |
+| [`docs/protocolo-realidad-aumentada.md`](docs/protocolo-realidad-aumentada.md) | Protocolo clínico del bloque de Realidad Aumentada: consentimiento de cámara, Prueba de Aptitud del Dispositivo, colocación del teléfono y los seis ejercicios (AR‑1 cinemática orofacial, AR‑2 localización instrumentada, AR‑3 selección por fijación, AR‑4 búsqueda espacial, AR‑5 lanzamiento y AR‑6 espejo mímico), con el muro MDR explicado ejercicio a ejercicio. Implementado en `android-native/valeria-ar/` + `src/ValeriaArLauncherScreen.tsx`. |
 | [`docs/guia-dialectal-es-DO.md`](docs/guia-dialectal-es-DO.md) | Guía clínica dominicana (QH‑0.2): qué es rasgo dialectal normal y qué es error terapéutico. Regla **bloqueante** para todo dataset es‑DO. |
 | [`docs/plan-integracion-proxecto-nos.md`](docs/plan-integracion-proxecto-nos.md) | Plan por fases de la versión en gallego apoyada en los recursos abiertos del Proxecto Nós (contenido, voz Celtia, ASR). |
 | [`docs/plan-integracion-quisqueya-habla.md`](docs/plan-integracion-quisqueya-habla.md) | Plan de la variante dominicana (es‑DO), que reutiliza la infraestructura de variedad del plan gallego. |
@@ -1555,8 +1555,8 @@ anteriores la estrella llega cuando el reconocedor valida la palabra. Eso tiene
 un coste conocido en dislalia funcional: el niño se oye fallar y se frustra
 **antes** de haber consolidado el gesto motor. Aquí el refuerzo visual 3D se
 condiciona **solo** a la conducta motora objetivo —postura labial, giro
-cefálico, fijación sostenida— y en dos de los tres ejercicios **el micrófono
-está apagado a propósito**.
+cefálico, fijación sostenida, puntería, praxia imitada— y en cinco de los seis
+ejercicios **el micrófono está apagado a propósito**.
 
 - **AR‑1 · Cinemática Orofacial**: el coche acelera de forma *proporcional*
   mientras sostiene el redondeo labial, con histéresis y **decaimiento en vez de
@@ -1570,6 +1570,17 @@ está apagado a propósito**.
 - **AR‑3 · Selección Semántica por Fijación**: comprensión léxica sin que la
   motricidad fina contamine el resultado. Dianas colocadas **en grados**
   resueltos en caliente, no en píxeles.
+- **AR‑4 · Búsqueda Espacial de Lúa**: amplitud cervical y rastreo visual. Lúa se
+  esconde a ±22° y el radar se dibuja a la escala real del aparato, anclado al
+  borde mientras la diana queda fuera de pantalla: el borde ES la pista.
+- **AR‑5 · Lanzamiento del pez a Lúa**: puntería y latencia de iniciación motora.
+  El gatillo es **el dedo del niño** —velocidad real del arrastre, desviación
+  angular respecto a la recta dedo→Lúa—, y un ensayo sin lanzamiento se **anula**
+  en vez de rellenarse. No se cronometra a Lúa atrapando: eso mediría el reloj de
+  la app, no al niño.
+- **AR‑6 · Espejo Mímico con Lúa**: praxias fonoarticulatorias con línea base de
+  reposo individual por ensayo y control de simetría bilateral, con el inflado de
+  mejillas exento porque ahí la asimetría es fisiológica.
 - **Prueba de Aptitud del Dispositivo**: en un despliegue BYOD el teléfono es
   desconocido por diseño, así que la app **lo mide** (90 s presentados como
   juego de calentamiento) y decide qué ofrece. En nivel D el bloque no aparece;
@@ -1582,8 +1593,8 @@ está apagado a propósito**.
   no hay identificación biométrica. Las tres afirmaciones son restricciones de
   arquitectura, no promesas, y están en `site/privacidad.html` y `privacy.html`
   con su base jurídica.
-- **Assets propios**: los cinco modelos 3D los genera un script (obra propia,
-  **CC0**, 74 KB los cinco, cero errores en el validador de Khronos) y el modelo
+- **Assets propios**: los siete modelos 3D los genera un script (obra propia,
+  **CC0**, 139 KB los siete, cero errores en el validador de Khronos) y el modelo
   de señal facial se fija por **SHA‑256**.
 - **Motor 3D: Filament directo, no SceneView.** SceneView se compila con
   Kotlin ≥ 2.3 y Expo SDK 54 fija 2.1.20; además arrastraba un `compose-bom` que

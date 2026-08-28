@@ -279,6 +279,25 @@ jobs:
       - name: Comprobar las páginas legales declaradas en Play Console
         run: node scripts/check-legal-urls.js --offline
 
+      # Los ejercicios de RA miden magnitudes que acaban en el panel de la
+      # logopeda y, en nivel A, en el conjunto publicable. Estas dos suites son
+      # reimplementaciones en JS de las fórmulas del Kotlin —no compilan el
+      # ejercicio real—, y por eso incluyen un anclaje que lee los fuentes y
+      # falla si las constantes se separan. Nacieron pasando 20/20 sin estar
+      # cableadas a nada mientras AR-5 registraba un tiempo de reacción de 320 ms
+      # constante: pasar sin que nadie te ejecute no es pasar.
+      - name: Comprobar la aritmética clínica de los ejercicios de RA
+        run: node scripts/verify-ar-clinical-math.js
+
+      - name: Comprobar las defensas adversarias de los ejercicios de RA
+        run: node scripts/stress-test-ar-adversarial.js
+
+      # Los .glb los genera `scripts/build-ar-models.js` y los declara el enum
+      # ArModel. Un modelo declarado sin fichero deja la escena vacía en el
+      # teléfono y no rompe ninguna compilación.
+      - name: Comprobar el contrato de assets 3D de RA
+        run: node scripts/check-ar-models.js
+
       - name: Comprobar tipos
         run: npm run typecheck
 

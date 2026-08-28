@@ -36,7 +36,6 @@ caer un `.glb` con las **mismas animaciones** en esta carpeta y volver a correr
 | `zapato.glb` | AR-3 | `spin360` | Distractor visual para selección por fijación |
 | `lua.glb` | AR-4 / AR-6 | `celebrate` | Mascota Lúa 3D: celebra con salto, batir de cola y ladeo cefálico al ser localizada con la retícula foveal (AR-4) o ante imitación mímica simétrica (AR-6) |
 | `pez.glb` | AR-5 | `spin360` | Pez dorado de premio lanzado hacia Lúa; gira 360° durante la trayectoria parabólica y la captura |
-| `estrella.glb` | Recompensa (AR-4, AR-6) | `spin360` | Estrella dorada de recompensa / confeti 3D de fin de serie |
 
 > **Los distractores giran igual que la diana a propósito.** Si solo se animara
 > la respuesta correcta, el movimiento sería una pista y AR-3 dejaría de medir
@@ -57,7 +56,6 @@ si le han premiado deja de tener refuerzo, por cuidado que esté el modelo.
 | `zapato.glb` | 9,7 KB (9.748 B) | 228 | `suela`, `empeine`, `puntera`, `cordones`, raíz: `zapato` | `spin360` (giro 360° en Y en 1,0 s) | **AR-3 (Distractor semántico)**: Estímulo alternativo para discriminación léxica. |
 | `lua.glb` | 50,4 KB (50.432 B) | 1.504 | `cuerpo`, `pata_0`..`pata_3`, `craneo`, `oreja_0`..`1`, `oreja_int_0`..`1`, `ojo_0`..`1`, `hocico`, `nariz`, `collar`, `cascabel` (bajo `cabeza`), `cola_mesh` (bajo `cola`), raíz: `lua` | `celebrate` (salto 0,45m + batir de cola ±42° + ladeo cefálico) | **AR-4 (Búsqueda Espacial)** y **AR-6 (Espejo Mímico)**: Mascota interactiva Lúa (28 expresiones y opcodes). |
 | `pez.glb` | 15,9 KB (15.944 B) | 504 | `cuerpo_pez`, `cola_pez`, `aleta_dorsal`, `ojo_pez_0`, `ojo_pez_1`, raíz: `pez` | `spin360` (giro 360° en Y en 0,8 s) | **AR-5 (Lanzamiento y Captura)**: Pez dorado lanzado con cinemática hacia Lúa. |
-| `estrella.glb` | 12,9 KB (12.948 B) | 284 | `centro_estrella`, `punta_0`..`punta_4`, raíz: `estrella` | `spin360` (giro 360° en Y en 1,0 s) | **Recompensa (AR-4 / AR-6)**: Refuerzo positivo visual tridimensional de fin de serie. |
 
 ### Árbol de Jerarquía de Nodos por Modelo
 
@@ -126,17 +124,11 @@ si le han premiado deja de tener refuerzo, por cuidado que esté el modelo.
    - *Animación*: `spin360` (rotación 360° en eje Y en 0,8 s sobre `pez`)
    - *Asociación clínica*: AR-5 (Lanzamiento y Captura "Alimentar a Lúa" · Pez dorado).
 
-8. **`estrella.glb`** (Raíz: `estrella`, 12.948 B, 284 triángulos, 6 mallas)
-   - `centro_estrella` (esfera central PBR oro claro)
-   - `punta_0`, `punta_1`, `punta_2`, `punta_3`, `punta_4` (5 puntas prismáticas PBR oro)
-   - *Animación*: `spin360` (rotación 360° en eje Y en 1,0 s sobre `estrella`)
-   - *Asociación clínica*: Recompensa / Premio 3D de fin de serie (AR-4 / AR-5 / AR-6).
-
 ## Requisitos técnicos (los verifica `check:ar-models`)
 
 - **Formato**: glTF 2.0 binario (`.glb`). Los ocho pasan el validador oficial
   de Khronos con **cero errores y cero advertencias**.
-- **Peso**: < 2 MB por modelo (presupuesto contractual). Actuales: 9,7 – 50,4 KB (total: 151,3 KB para los 8 modelos).
+- **Peso**: < 2 MB por modelo (presupuesto contractual). Actuales: 9,7 – 50,4 KB (total: 138,7 KB para los 7 modelos).
 - **Polígonos**: 120 – 1.504 triángulos por modelo, normales planas. El objetivo es
   un teléfono de gama media de hace tres años sosteniendo cámara + inferencia +
   Filament a la vez a 60 FPS estables.
@@ -158,7 +150,6 @@ si le han premiado deja de tener refuerzo, por cuidado que esté el modelo.
 | `zapato.glb` | Proyecto Valeria+ · Dr. Frank Alberto Betances Reinoso | **CC0-1.0** | Obra propia · `scripts/build-ar-models.js` |
 | `lua.glb` | Proyecto Valeria+ · Dr. Frank Alberto Betances Reinoso | **CC0-1.0** | Obra propia · `scripts/build-ar-models.js` |
 | `pez.glb` | Proyecto Valeria+ · Dr. Frank Alberto Betances Reinoso | **CC0-1.0** | Obra propia · `scripts/build-ar-models.js` |
-| `estrella.glb` | Proyecto Valeria+ · Dr. Frank Alberto Betances Reinoso | **CC0-1.0** | Obra propia · `scripts/build-ar-models.js` |
 
 La autoría y la licencia viajan también dentro de cada fichero, en el campo
 `asset.copyright` del glTF: separar un modelo de este README no lo deja huérfano.

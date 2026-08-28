@@ -76,7 +76,7 @@ const AR_SERIES: Record<string, {
   ar2: { unit: 'ms', icon: 'hearing', value: (trial) => trial.latencyMs },
   ar3: { unit: 'ms', icon: 'eye', value: (trial) => (trial.dwellMs > 0 ? trial.dwellMs : null) },
   ar4: { unit: 'ms', icon: 'compass', value: (trial) => (trial.acquisitionTimeMs > 0 ? trial.acquisitionTimeMs : null) },
-  ar5: { unit: 'ms', icon: 'move', value: (trial) => (trial.catchReactionMs > 0 ? trial.catchReactionMs : null) },
+  ar5: { unit: 'ms', icon: 'move', value: (trial) => (trial.timeToThrowMs > 0 ? trial.timeToThrowMs : null) },
   ar6: { unit: 'ms', icon: 'gesture', value: (trial) => (trial.holdMs > 0 ? trial.holdMs : null) },
 };
 

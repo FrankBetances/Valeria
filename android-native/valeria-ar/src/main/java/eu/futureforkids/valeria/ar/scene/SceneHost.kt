@@ -58,8 +58,6 @@ enum class ArModel(val asset: String, val animation: String?) {
     LUA("models/lua.glb", "celebrate"),
     /** AR-5 · Pez dorado coleccionable para alimentar a Lúa. */
     FISH("models/pez.glb", "spin360"),
-    /** Recompensa / Estrella 3D de nivel. */
-    STAR("models/estrella.glb", "spin360"),
     NONE("", null),
 }
 

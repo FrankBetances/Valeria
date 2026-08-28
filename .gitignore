@@ -157,3 +157,6 @@ mainwt/
 .gradle/
 android-native/valeria-ar/.gradle/
 
+
+# Andamiaje de agentes: proceso, no producto.
+.agents/

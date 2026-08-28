@@ -711,39 +711,6 @@ function buildPez() {
   return g;
 }
 
-/**
- * Recompensa / Estrella 3D de nivel y confeti para AR-4 y AR-6.
- */
-function buildEstrella() {
-  const g = new GltfBuilder();
-  const oro = g.addMaterial('oro', PALETTE.amarillo, 0.2);
-  const centroMat = g.addMaterial('centro', [1.0, 0.92, 0.45], 0.25);
-
-  const centro = g.addNode({
-    name: 'centro_estrella',
-    mesh: g.addMesh('centro_estrella', sphere(0.28, [0, 0.44, 0], 14, 8), centroMat),
-  });
-
-  // 5 puntas de estrella
-  const puntas = [];
-  for (let i = 0; i < 5; i++) {
-    const angle = (i * Math.PI * 2) / 5;
-    const px = Math.sin(angle) * 0.42;
-    const py = Math.cos(angle) * 0.42 + 0.44;
-    puntas.push(g.addNode({
-      name: `punta_${i}`,
-      mesh: g.addMesh(`punta_${i}`, box(0.18, 0.18, 0.14, [px, py, 0]), oro),
-    }));
-  }
-
-  const root = g.addNode({ name: 'estrella', children: [centro, ...puntas] });
-  g.addRootNode(root);
-
-  const turn = fullTurn('y', 1.0);
-  g.addAnimation('spin360', [{ node: root, path: 'rotation', times: turn.times, values: turn.values }]);
-  return g;
-}
-
 // ---------------------------------------------------------------------------
 const MODELS = [
   { file: 'coche.glb', build: buildCoche, animation: 'celebrate', exercise: 'AR-1' },
@@ -753,7 +720,6 @@ const MODELS = [
   { file: 'zapato.glb', build: buildZapato, animation: 'spin360', exercise: 'AR-3 (distractor)' },
   { file: 'lua.glb', build: buildLua, animation: 'celebrate', exercise: 'AR-4 / AR-6 (Lúa Mascota)' },
   { file: 'pez.glb', build: buildPez, animation: 'spin360', exercise: 'AR-5 (Premio Pez Dorado)' },
-  { file: 'estrella.glb', build: buildEstrella, animation: 'spin360', exercise: 'Recompensa Estrella' },
 ];
 
 // Presupuesto por modelo del contrato de assets. No es decorativo: el bloque

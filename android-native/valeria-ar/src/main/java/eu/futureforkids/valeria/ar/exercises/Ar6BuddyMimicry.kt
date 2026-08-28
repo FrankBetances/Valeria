@@ -112,6 +112,11 @@ class Ar6BuddyMimicry(private val ctx: ExerciseContext) : ArExercise {
     }
 
     override fun onTick(nowMs: Long) {
+        // Sin esta guarda se apunta un ensayo de más: el bucle de la actividad
+        // evalúa `finished` y llama a `onTick` en pasos separados, y `onSignals`
+        // corre en el hilo de la cámara. Si el último ensayo se cierra entre
+        // ambos, el ensayo caducado de aquí se añade sobre el plan.
+        if (finished) return
         val elapsed = nowMs - trialStartedMs
         if (elapsed > MAX_TRIAL_DURATION_MS && trialStartedMs > 0L) {
             completeTrial(success = false)

@@ -310,7 +310,6 @@ sealed class TrialRecord {
         val targetDistanceMm: Float,
         val timeToThrowMs: Long,
         val hit: Boolean,
-        val catchReactionMs: Long,
     ) : TrialRecord() {
         override fun toJson(): JSONObject = base("ar5")
             .put("throwVelocityPxPerS", throwVelocityPxPerS.toDouble())
@@ -318,7 +317,6 @@ sealed class TrialRecord {
             .put("targetDistanceMm", targetDistanceMm.toDouble())
             .put("timeToThrowMs", timeToThrowMs)
             .put("hit", hit)
-            .put("catchReactionMs", catchReactionMs)
     }
 
     data class Ar6(

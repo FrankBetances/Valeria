@@ -1094,7 +1094,7 @@ export const EN: UiStrings = {
         case 'ar2': return 'Head-turn latency';
         case 'ar3': return 'Fixation before choosing';
         case 'ar4': return 'Spatial search acquisition';
-        case 'ar5': return 'Catch reaction time';
+        case 'ar5': return 'Throw latency';
         case 'ar6': return 'Mimicry hold time';
         default: return 'AR metric';
       }
@@ -1105,7 +1105,7 @@ export const EN: UiStrings = {
         case 'ar2': return 'Milliseconds between the sound and the head turn. Only trials that could be timed appear here.';
         case 'ar3': return 'Milliseconds of sustained gaze before confirming the picture.';
         case 'ar4': return 'Milliseconds to locate Lúa with the foveal reticle and align head pose.';
-        case 'ar5': return 'Milliseconds of reaction time between throwing the golden fish and Lúa catching it.';
+        case 'ar5': return 'Milliseconds from Lúa asking for the fish to the child completing the throwing gesture.';
         case 'ar6': return 'Milliseconds the guided facial expression was held with bilateral symmetry.';
         default: return 'Milliseconds measured during the augmented reality exercise.';
       }
@@ -1493,7 +1493,8 @@ export const EN: UiStrings = {
     rowAcquisitionMean: 'Mean spatial search time',
     rowJitterRms: 'Angular stability (Jitter RMS)',
     rowThrowVelocityMean: 'Mean throw velocity',
-    rowCatchReaction: 'Catch and ingestion reaction',
+    rowThrowLatency: 'Mean throw latency',
+    rowAimDeviation: 'Mean aiming deviation',
     rowMimicHoldMean: 'Mean praxia hold',
     rowSymmetryMean: 'Mean bilateral symmetry',
   },

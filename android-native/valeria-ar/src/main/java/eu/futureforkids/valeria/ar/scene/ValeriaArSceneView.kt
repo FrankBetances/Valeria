@@ -55,7 +55,7 @@ import java.nio.ByteBuffer
  * fuera de ella, y recorta un agujero transparente para dejarse ver, siempre en
  * un sublayer por DEBAJO de la ventana. Como el espejo se pinta ahora dentro de
  * la ventana, desde los frames de `ImageAnalysis` (ver `mirrorFrame` en
- * `ValeriaArActivity`), un `SurfaceView` quedaría tapado por él y la osita no se
+ * `ValeriaArActivity`), un `SurfaceView` quedaría tapado por él y Lúa no se
  * vería. Con `TextureView` la escena es una vista normal de la jerarquía y el
  * orden de dibujo es el que se lee en el Composable:
  *

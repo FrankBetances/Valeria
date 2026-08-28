@@ -19,6 +19,8 @@
     "build:ar-models": "node scripts/build-ar-models.js",
     "fetch:ar-model": "node scripts/fetch-ar-model.js",
     "check:ar-models": "node scripts/check-ar-models.js",
+    "check:ar-math": "node scripts/verify-ar-clinical-math.js",
+    "check:ar-adversarial": "node scripts/stress-test-ar-adversarial.js",
     "check:asr-capture": "node scripts/check-asr-capture-guard.js",
     "check:asr-listen": "node scripts/check-asr-listen-options.js",
     "asr:bench": "node scripts/asr-bench.js",

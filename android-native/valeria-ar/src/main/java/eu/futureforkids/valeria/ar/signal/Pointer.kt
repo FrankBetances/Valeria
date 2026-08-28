@@ -64,7 +64,7 @@ fun pointerFor(kind: PointerKind): PointerSource =
 
 /**
  * Homografía cara→pantalla ajustada con la rutina de 5 puntos (4 esquinas + el
- * centro, ~15 s, con la osita de Valeria como diana). Un rayo facial sin
+ * centro, ~15 s, con la gata Lúa como diana). Un rayo facial sin
  * calibrar no apunta a nada, así que esto no es opcional.
  *
  * Se guarda POR PACIENTE Y POR DISPOSITIVO. Es geometría del aparato y de la
