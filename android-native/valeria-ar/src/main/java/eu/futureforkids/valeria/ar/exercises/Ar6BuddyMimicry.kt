@@ -33,11 +33,12 @@ class Ar6BuddyMimicry(private val ctx: ExerciseContext) : ArExercise {
         "Lúa te mostrará un gesto (sonrisa, asombro o piquito). " +
             "¡Mírate en el espejo e imítala para brillar juntos!"
 
+    private val lock = Any()
     private val gate = FrameGate(ctx.imu)
     private var channel = newChannel()
     private val _trials = ArrayList<TrialRecord>()
-    override val trials: List<TrialRecord> get() = _trials
-    override val finished: Boolean get() = _trials.size >= ctx.trialsPlanned
+    override val trials: List<TrialRecord> get() = synchronized(lock) { ArrayList(_trials) }
+    override val finished: Boolean get() = synchronized(lock) { _trials.size >= ctx.trialsPlanned }
 
     private var targetExpression = "smile"
     private var blendshapePeak = 0f
@@ -45,9 +46,12 @@ class Ar6BuddyMimicry(private val ctx: ExerciseContext) : ArExercise {
     private var baselineVal: Float? = null
     private val baselineSamples = ArrayList<Float>(60)
     private var trialStartedMs = 0L
+    private var trialActive = false
 
     init {
-        nextTrial()
+        synchronized(lock) {
+            nextTrial()
+        }
     }
 
     private fun newChannel() = HysteresisRewardChannel(
@@ -64,6 +68,7 @@ class Ar6BuddyMimicry(private val ctx: ExerciseContext) : ArExercise {
         baselineVal = null
         baselineSamples.clear()
         trialStartedMs = SystemClock.elapsedRealtime()
+        trialActive = true
         gate.reset()
         channel = newChannel()
         ctx.scene.setModel(ArModel.LUA)
@@ -71,59 +76,66 @@ class Ar6BuddyMimicry(private val ctx: ExerciseContext) : ArExercise {
     }
 
     override fun onSignals(signals: FaceSignals) {
-        if (finished) return
-        if (!gate.accept(signals)) return
+        synchronized(lock) {
+            if (_trials.size >= ctx.trialsPlanned || !trialActive) return
+            if (!gate.accept(signals)) return
 
-        // 1. Lectura del gesto objetivo
-        val rawValue = when (targetExpression) {
-            "smile" -> (signals.blendshape(Blend.MOUTH_SMILE_LEFT) + signals.blendshape(Blend.MOUTH_SMILE_RIGHT)) / 2f
-            "jaw_open" -> signals.blendshape(Blend.JAW_OPEN)
-            "cheek_puff" -> signals.blendshape(Blend.CHEEK_PUFF)
-            "pucker" -> max(signals.blendshape(Blend.MOUTH_PUCKER), signals.blendshape(Blend.MOUTH_FUNNEL) * 0.8f)
-            else -> signals.blendshape(Blend.MOUTH_PUCKER)
-        }
-
-        // 2. Calibración de línea base de reposo individual (primeros 45 frames)
-        if (baselineVal == null) {
-            baselineSamples.add(rawValue)
-            if (baselineSamples.size >= 45) {
-                baselineVal = baselineSamples.average().toFloat()
+            // 1. Lectura del gesto objetivo
+            val rawValue = when (targetExpression) {
+                "smile" -> (signals.blendshape(Blend.MOUTH_SMILE_LEFT) + signals.blendshape(Blend.MOUTH_SMILE_RIGHT)) / 2f
+                "jaw_open" -> signals.blendshape(Blend.JAW_OPEN)
+                "cheek_puff" -> signals.blendshape(Blend.CHEEK_PUFF)
+                "pucker" -> max(signals.blendshape(Blend.MOUTH_PUCKER), signals.blendshape(Blend.MOUTH_FUNNEL) * 0.8f)
+                else -> signals.blendshape(Blend.MOUTH_PUCKER)
             }
-            return
-        }
 
-        val base = baselineVal ?: 0f
-        val normalized = ((rawValue - base) / (1f - base).coerceAtLeast(0.15f)).coerceIn(0f, 1f)
+            // 2. Calibración de línea base de reposo individual (primeros 45 frames)
+            if (baselineVal == null) {
+                baselineSamples.add(rawValue)
+                if (baselineSamples.size >= 45) {
+                    baselineVal = baselineSamples.average().toFloat()
+                }
+                return
+            }
 
-        // 3. Simetría bilateral
-        val symmetry = symmetryRatio(signals)
-        blendshapePeak = max(blendshapePeak, rawValue)
-        symmetryWorst = max(symmetryWorst, symmetry)
+            val base = baselineVal ?: 0f
+            val normalized = ((rawValue - base) / (1f - base).coerceAtLeast(0.15f)).coerceIn(0f, 1f)
 
-        val effective = if (symmetry > 0.12f && targetExpression != "cheek_puff") normalized * 0.4f else normalized
+            // 3. Simetría bilateral
+            val symmetry = symmetryRatio(signals)
+            blendshapePeak = max(blendshapePeak, rawValue)
+            symmetryWorst = max(symmetryWorst, symmetry)
 
-        channel.onSignal(effective, signals.tCaptureUs / 1_000L)
-        val state = channel.reward.value
-        ctx.scene.setReward(state)
+            val effective = if (symmetry > 0.12f && targetExpression != "cheek_puff") normalized * 0.4f else normalized
 
-        if (state is RewardState.Fired) {
-            completeTrial(success = true)
+            channel.onSignal(effective, signals.tCaptureUs / 1_000L)
+            val state = channel.reward.value
+            ctx.scene.setReward(state)
+
+            if (state is RewardState.Fired) {
+                completeTrial(success = true)
+            }
         }
     }
 
     override fun onTick(nowMs: Long) {
-        // Sin esta guarda se apunta un ensayo de más: el bucle de la actividad
-        // evalúa `finished` y llama a `onTick` en pasos separados, y `onSignals`
-        // corre en el hilo de la cámara. Si el último ensayo se cierra entre
-        // ambos, el ensayo caducado de aquí se añade sobre el plan.
-        if (finished) return
-        val elapsed = nowMs - trialStartedMs
-        if (elapsed > MAX_TRIAL_DURATION_MS && trialStartedMs > 0L) {
-            completeTrial(success = false)
+        synchronized(lock) {
+            // Sin esta guarda se apunta un ensayo de más: el bucle de la actividad
+            // evalúa `finished` y llama a `onTick` en pasos separados, y `onSignals`
+            // corre en el hilo de la cámara. Si el último ensayo se cierra entre
+            // ambos, el ensayo caducado de aquí se añade sobre el plan.
+            if (_trials.size >= ctx.trialsPlanned || !trialActive) return
+            val elapsed = nowMs - trialStartedMs
+            if (elapsed > MAX_TRIAL_DURATION_MS && trialStartedMs > 0L) {
+                completeTrial(success = false)
+            }
         }
     }
 
     private fun completeTrial(success: Boolean) {
+        if (!trialActive) return // Idempotency guard
+        trialActive = false
+
         _trials.add(
             TrialRecord.Ar6(
                 index = _trials.size + 1,
@@ -141,7 +153,7 @@ class Ar6BuddyMimicry(private val ctx: ExerciseContext) : ArExercise {
             )
         )
 
-        if (!finished) {
+        if (_trials.size < ctx.trialsPlanned) {
             nextTrial()
         }
     }

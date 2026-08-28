@@ -54,11 +54,12 @@ class Ar2Vra(
 
     private enum class Phase { ARMING, WAITING, WINDOW, DONE_TRIAL }
 
+    private val lock = Any()
     private val gate = FrameGate(ctx.imu)
     private val channel = EventRewardChannel()
     private val _trials = ArrayList<TrialRecord>()
-    override val trials: List<TrialRecord> get() = _trials
-    override val finished: Boolean get() = _trials.size >= ctx.trialsPlanned
+    override val trials: List<TrialRecord> get() = synchronized(lock) { ArrayList(_trials) }
+    override val finished: Boolean get() = synchronized(lock) { _trials.size >= ctx.trialsPlanned }
 
     private var phase = Phase.ARMING
     private var armedSinceMs = 0L
@@ -74,56 +75,60 @@ class Ar2Vra(
     private var transducer = Transducer.UNKNOWN
 
     override fun onSignals(signals: FaceSignals) {
-        if (finished) return
-        // El cono aquí es amplio a propósito: el ejercicio consiste justo en
-        // salirse de él. Lo que se filtra es la cara perdida y el móvil movido.
-        if (!gate.accept(signals, coneDeg = 60f)) return
+        synchronized(lock) {
+            if (_trials.size >= ctx.trialsPlanned) return
+            // El cono aquí es amplio a propósito: el ejercicio consiste justo en
+            // salirse de él. Lo que se filtra es la cara perdida y el móvil movido.
+            if (!gate.accept(signals, coneDeg = 60f)) return
 
-        val yaw = ctx.imu.compensatedYaw(signals.headPose.yawDeg)
+            val yaw = ctx.imu.compensatedYaw(signals.headPose.yawDeg)
 
-        when (phase) {
-            // ── Postura armada ──────────────────────────────────────────────
-            // Si el niño no está mirando al frente, no hay estímulo. Sin esto,
-            // media latencia sería el tiempo que tardó en volver la cabeza.
-            Phase.ARMING -> {
-                val centered = abs(yaw) < ARM_CONE_DEG
-                val steady = ctx.imu.isSteady()
-                if (centered && steady) {
-                    if (armedSinceMs == 0L) armedSinceMs = SystemClock.elapsedRealtime()
-                    if (SystemClock.elapsedRealtime() - armedSinceMs >= ARM_HOLD_MS) startTrial()
-                } else {
-                    armedSinceMs = 0L
+            when (phase) {
+                // ── Postura armada ──────────────────────────────────────────────
+                // Si el niño no está mirando al frente, no hay estímulo. Sin esto,
+                // media latencia sería el tiempo que tardó en volver la cabeza.
+                Phase.ARMING -> {
+                    val centered = abs(yaw) < ARM_CONE_DEG
+                    val steady = ctx.imu.isSteady()
+                    if (centered && steady) {
+                        if (armedSinceMs == 0L) armedSinceMs = SystemClock.elapsedRealtime()
+                        if (SystemClock.elapsedRealtime() - armedSinceMs >= ARM_HOLD_MS) startTrial()
+                    } else {
+                        armedSinceMs = 0L
+                    }
                 }
-            }
 
-            Phase.WINDOW -> {
-                if (abs(yaw) > abs(peakYaw)) peakYaw = yaw
-                if (turnUs == null && abs(yaw) >= ctx.thresholds.turnDeg) {
-                    // La detección del umbral usa la señal CRUDA, sin suavizar:
-                    // filtrar antes de medir latencia introduce un retardo
-                    // sistemático justo en el dato académico.
-                    turnUs = signals.tCaptureUs
-                    turnSide = if (yaw < 0) StimulusPlayer.Side.LEFT else StimulusPlayer.Side.RIGHT
-                    closeTrial(timedOut = false)
+                Phase.WINDOW -> {
+                    if (abs(yaw) > abs(peakYaw)) peakYaw = yaw
+                    if (turnUs == null && abs(yaw) >= ctx.thresholds.turnDeg) {
+                        // La detección del umbral usa la señal CRUDA, sin suavizar:
+                        // filtrar antes de medir latencia introduce un retardo
+                        // sistemático justo en el dato académico.
+                        turnUs = signals.tCaptureUs
+                        turnSide = if (yaw < 0) StimulusPlayer.Side.LEFT else StimulusPlayer.Side.RIGHT
+                        closeTrial(timedOut = false)
+                    }
                 }
-            }
 
-            else -> Unit
+                else -> Unit
+            }
         }
     }
 
     override fun onTick(nowMs: Long) {
-        if (finished) return
-        when (phase) {
-            Phase.WAITING -> if (nowMs >= nextStimulusAtMs) fireStimulus()
-            Phase.WINDOW -> if (nowMs - windowOpenedMs >= ctx.thresholds.responseWindowMs) {
-                closeTrial(timedOut = true)
+        synchronized(lock) {
+            if (_trials.size >= ctx.trialsPlanned) return
+            when (phase) {
+                Phase.WAITING -> if (nowMs >= nextStimulusAtMs) fireStimulus()
+                Phase.WINDOW -> if (nowMs - windowOpenedMs >= ctx.thresholds.responseWindowMs) {
+                    closeTrial(timedOut = true)
+                }
+                Phase.DONE_TRIAL -> if (nowMs >= nextStimulusAtMs) {
+                    phase = Phase.ARMING
+                    armedSinceMs = 0L
+                }
+                else -> Unit
             }
-            Phase.DONE_TRIAL -> if (nowMs >= nextStimulusAtMs) {
-                phase = Phase.ARMING
-                armedSinceMs = 0L
-            }
-            else -> Unit
         }
     }
 
@@ -154,19 +159,28 @@ class Ar2Vra(
 
     private fun fireStimulus() {
         transducer = player.currentTransducer()
-        tStimulusUs = if (isCatch) {
+        windowOpenedMs = SystemClock.elapsedRealtime()
+        phase = Phase.WINDOW
+
+        if (isCatch) {
             // En trampa no suena nada, pero el reloj del ensayo arranca igual:
             // así un giro espontáneo se registra con su tiempo y cuenta como
             // falso positivo, que es exactamente el dato que se busca.
-            SystemClock.elapsedRealtimeNanos() / 1_000L
+            tStimulusUs = SystemClock.elapsedRealtimeNanos() / 1_000L
         } else {
-            player.playLateralized(side)?.let { it + clockOffsetUs }
+            tStimulusUs = null
+            player.playLateralizedAsync(side) { presentationTimeUs ->
+                synchronized(lock) {
+                    tStimulusUs = presentationTimeUs?.let { it + clockOffsetUs }
+                }
+            }
         }
-        windowOpenedMs = SystemClock.elapsedRealtime()
-        phase = Phase.WINDOW
     }
 
     private fun closeTrial(timedOut: Boolean) {
+        if (phase != Phase.WINDOW) return // Idempotency guard: only close once per trial!
+        phase = Phase.DONE_TRIAL
+
         val correctSide = !isCatch && !timedOut && turnSide == side
 
         // Cuatro razones distintas por las que la latencia puede no existir. Se
@@ -219,11 +233,14 @@ class Ar2Vra(
         )
 
         ctx.scene.setReward(channel.reward.value)
-        phase = Phase.DONE_TRIAL
         nextStimulusAtMs = SystemClock.elapsedRealtime() + FEEDBACK_MS
     }
 
-    override fun close() = player.release()
+    override fun close() {
+        synchronized(lock) {
+            player.release()
+        }
+    }
 
     companion object {
         private const val ARM_CONE_DEG = 5f     // mirando al frente de verdad

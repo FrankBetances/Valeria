@@ -41,20 +41,24 @@ class Ar5FeedCatch(private val ctx: ExerciseContext) : ArExercise {
         "Lúa espera en el centro con hambre. Desliza el dedo hacia ella para lanzarle el pez dorado: " +
             "si apuntas bien y con brío, lo atrapa en el aire."
 
+    private val lock = Any()
     private val gate = FrameGate(ctx.imu)
     private val channel = EventRewardChannel()
     private val _trials = ArrayList<TrialRecord>()
-    override val trials: List<TrialRecord> get() = _trials
-    override val finished: Boolean get() = _trials.size >= ctx.trialsPlanned
+    override val trials: List<TrialRecord> get() = synchronized(lock) { ArrayList(_trials) }
+    override val finished: Boolean get() = synchronized(lock) { _trials.size >= ctx.trialsPlanned }
 
     private var trialStartedMs = 0L
     private var throwInitiatedMs = 0L
     private var targetDistanceMm = NOMINAL_DISTANCE_MM
     private var throwVelocity = 0f
     private var throwAngle = 0f
+    private var trialActive = false
 
     init {
-        nextTrial()
+        synchronized(lock) {
+            nextTrial()
+        }
     }
 
     private fun nextTrial() {
@@ -62,6 +66,7 @@ class Ar5FeedCatch(private val ctx: ExerciseContext) : ArExercise {
         throwInitiatedMs = 0L
         throwVelocity = 0f
         throwAngle = 0f
+        trialActive = true
         targetDistanceMm = ctx.distance.currentMm.coerceIn(MIN_DISTANCE_MM, MAX_DISTANCE_MM)
         ctx.scene.setModel(ArModel.FISH)
         ctx.scene.hidePointer()
@@ -74,10 +79,12 @@ class Ar5FeedCatch(private val ctx: ExerciseContext) : ArExercise {
      * de verdad y para llevar la cuenta de validez como los demás ejercicios.
      */
     override fun onSignals(signals: FaceSignals) {
-        if (finished) return
-        if (!gate.accept(signals, coneDeg = 30f)) return
-        if (throwInitiatedMs == 0L) {
-            targetDistanceMm = ctx.distance.currentMm.coerceIn(MIN_DISTANCE_MM, MAX_DISTANCE_MM)
+        synchronized(lock) {
+            if (_trials.size >= ctx.trialsPlanned || !trialActive) return
+            if (!gate.accept(signals, coneDeg = 30f)) return
+            if (throwInitiatedMs == 0L) {
+                targetDistanceMm = ctx.distance.currentMm.coerceIn(MIN_DISTANCE_MM, MAX_DISTANCE_MM)
+            }
         }
     }
 
@@ -87,37 +94,41 @@ class Ar5FeedCatch(private val ctx: ExerciseContext) : ArExercise {
      * congelada justo en el momento del gesto.
      */
     override fun onTick(nowMs: Long) {
-        if (finished) return
+        synchronized(lock) {
+            if (_trials.size >= ctx.trialsPlanned || !trialActive) return
 
-        if (throwInitiatedMs > 0L) {
-            val progress = ((nowMs - throwInitiatedMs).toFloat() / FLIGHT_DURATION_MS).coerceIn(0f, 1f)
-            // El pez recorre la recta desde el borde inferior hasta Lúa, en el
-            // centro. Es el indicador del proyectil, no una parábola: no hay
-            // gravedad simulada en ninguna parte y pintar un arco sugeriría una
-            // física que no existe.
-            val widthPx = ctx.geometry.widthPx.toFloat()
-            val heightPx = ctx.geometry.heightPx.toFloat()
-            ctx.scene.setPointer(
-                widthPx / 2f,
-                heightPx - (heightPx / 2f) * progress,
-                progress,
-            )
-            if (progress >= 1f) {
-                completeTrial(landed = true)
+            if (throwInitiatedMs > 0L) {
+                val progress = ((nowMs - throwInitiatedMs).toFloat() / FLIGHT_DURATION_MS).coerceIn(0f, 1f)
+                // El pez recorre la recta desde el borde inferior hasta Lúa, en el
+                // centro. Es el indicador del proyectil, no una parábola: no hay
+                // gravedad simulada en ninguna parte y pintar un arco sugeriría una
+                // física que no existe.
+                val widthPx = ctx.geometry.widthPx.toFloat()
+                val heightPx = ctx.geometry.heightPx.toFloat()
+                ctx.scene.setPointer(
+                    widthPx / 2f,
+                    heightPx - (heightPx / 2f) * progress,
+                    progress,
+                )
+                if (progress >= 1f) {
+                    completeTrial(landed = true)
+                }
+                return
             }
-            return
-        }
 
-        if (nowMs - trialStartedMs >= MAX_WAIT_MS) {
-            completeTrial(landed = false)
+            if (nowMs - trialStartedMs >= MAX_WAIT_MS) {
+                completeTrial(landed = false)
+            }
         }
     }
 
     override fun onFling(velocityPxPerS: Float, angleDeg: Float) {
-        if (finished || throwInitiatedMs > 0L) return
-        throwVelocity = velocityPxPerS
-        throwAngle = angleDeg
-        throwInitiatedMs = SystemClock.elapsedRealtime()
+        synchronized(lock) {
+            if (_trials.size >= ctx.trialsPlanned || !trialActive || throwInitiatedMs > 0L) return
+            throwVelocity = velocityPxPerS
+            throwAngle = angleDeg
+            throwInitiatedMs = SystemClock.elapsedRealtime()
+        }
     }
 
     /**
@@ -125,6 +136,9 @@ class Ar5FeedCatch(private val ctx: ExerciseContext) : ArExercise {
      *   caducó sin que el niño llegara a lanzar.
      */
     private fun completeTrial(landed: Boolean) {
+        if (!trialActive) return // Idempotency guard
+        trialActive = false
+
         val threw = throwInitiatedMs > 0L
         // Acierta quien apunta Y tira con fuerza suficiente para llegar. Las dos
         // condiciones son magnitudes del gesto, no un resultado prefijado.
@@ -158,7 +172,7 @@ class Ar5FeedCatch(private val ctx: ExerciseContext) : ArExercise {
             ctx.scene.setReward(channel.reward.value)
         }
 
-        if (!finished) {
+        if (_trials.size < ctx.trialsPlanned) {
             nextTrial()
         }
     }

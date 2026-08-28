@@ -32,11 +32,12 @@ class Ar1Orofacial(private val ctx: ExerciseContext) : ArExercise {
         "Apoya el teléfono y siéntate al lado. Dile que ponga «boquita de beso» para que el coche avance. " +
             "No hace falta que diga nada: aquí solo cuentan los labios."
 
+    private val lock = Any()
     private val gate = FrameGate(ctx.imu)
     private var channel = newChannel()
     private val _trials = ArrayList<TrialRecord>()
-    override val trials: List<TrialRecord> get() = _trials
-    override val finished: Boolean get() = _trials.size >= ctx.trialsPlanned
+    override val trials: List<TrialRecord> get() = synchronized(lock) { ArrayList(_trials) }
+    override val finished: Boolean get() = synchronized(lock) { _trials.size >= ctx.trialsPlanned }
 
     private var puckerPeak = 0f
     private var aperturePeak = 0f
@@ -51,56 +52,59 @@ class Ar1Orofacial(private val ctx: ExerciseContext) : ArExercise {
     )
 
     override fun onSignals(signals: FaceSignals) {
-        if (finished) return
-        if (!gate.accept(signals)) return
+        synchronized(lock) {
+            if (_trials.size >= ctx.trialsPlanned) return
+            if (!gate.accept(signals)) return
 
-        // ── Línea base en reposo, 3 s al entrar ────────────────────────────
-        // La morfología labial de un niño de 3 años y otro de 6 no admite un
-        // umbral global: los umbrales son *deltas* sobre su propio reposo.
-        if (baselinePucker == null) {
-            baselineSamples.add(signals.blendshape(Blend.MOUTH_PUCKER))
-            if (baselineSamples.size >= BASELINE_FRAMES) {
-                baselinePucker = baselineSamples.average().toFloat()
+            // ── Línea base en reposo, 3 s al entrar ────────────────────────────
+            // La morfología labial de un niño de 3 años y otro de 6 no admite un
+            // umbral global: los umbrales son *deltas* sobre su propio reposo.
+            if (baselinePucker == null) {
+                baselineSamples.add(signals.blendshape(Blend.MOUTH_PUCKER))
+                if (baselineSamples.size >= BASELINE_FRAMES) {
+                    baselinePucker = baselineSamples.average().toFloat()
+                }
+                return
             }
-            return
+
+            // ── Señal primaria: blendshape ─────────────────────────────────────
+            // `mouthPucker` viene entrenado y ya es invariante a escala y pose, que
+            // es exactamente lo que la distancia euclídea entre comisuras NO es: a
+            // 30-40 cm, un niño que se acerca 10 cm «redondea los labios» sin mover
+            // un músculo.
+            val pucker = signals.blendshape(Blend.MOUTH_PUCKER)
+            val funnel = signals.blendshape(Blend.MOUTH_FUNNEL)
+            val raw = max(pucker, funnel * 0.8f)
+            val base = baselinePucker ?: 0f
+            val normalized = ((raw - base) / (1f - base).coerceAtLeast(0.15f)).coerceIn(0f, 1f)
+
+            // ── Señal secundaria: la ratio geométrica, para explicabilidad ──────
+            // Un coeficiente de red no se puede defender ante un comité; una ratio
+            // medible sí («apertura vertical / anchura bucal = 0,71»). Se registran
+            // las dos, y esta es la que ve la logopeda en el informe.
+            val ratio = apertureRatio(signals)
+            val symmetry = symmetryError(signals)
+
+            puckerPeak = max(puckerPeak, pucker)
+            aperturePeak = max(aperturePeak, ratio)
+            symmetryWorst = max(symmetryWorst, symmetry)
+
+            // Sin control de simetría se premiaría una mueca asimétrica, que es
+            // justo el patrón compensatorio que la terapia intenta deshacer.
+            val effective = if (symmetry > SYMMETRY_TOLERANCE) normalized * 0.35f else normalized
+
+            channel.onSignal(effective, signals.tCaptureUs / 1_000L)
+            val state = channel.reward.value
+            ctx.scene.setReward(state)
+
+            if (state is RewardState.Fired) recordTrial()
         }
-
-        // ── Señal primaria: blendshape ─────────────────────────────────────
-        // `mouthPucker` viene entrenado y ya es invariante a escala y pose, que
-        // es exactamente lo que la distancia euclídea entre comisuras NO es: a
-        // 30-40 cm, un niño que se acerca 10 cm «redondea los labios» sin mover
-        // un músculo.
-        val pucker = signals.blendshape(Blend.MOUTH_PUCKER)
-        val funnel = signals.blendshape(Blend.MOUTH_FUNNEL)
-        val raw = max(pucker, funnel * 0.8f)
-        val base = baselinePucker ?: 0f
-        val normalized = ((raw - base) / (1f - base).coerceAtLeast(0.15f)).coerceIn(0f, 1f)
-
-        // ── Señal secundaria: la ratio geométrica, para explicabilidad ──────
-        // Un coeficiente de red no se puede defender ante un comité; una ratio
-        // medible sí («apertura vertical / anchura bucal = 0,71»). Se registran
-        // las dos, y esta es la que ve la logopeda en el informe.
-        val ratio = apertureRatio(signals)
-        val symmetry = symmetryError(signals)
-
-        puckerPeak = max(puckerPeak, pucker)
-        aperturePeak = max(aperturePeak, ratio)
-        symmetryWorst = max(symmetryWorst, symmetry)
-
-        // Sin control de simetría se premiaría una mueca asimétrica, que es
-        // justo el patrón compensatorio que la terapia intenta deshacer.
-        val effective = if (symmetry > SYMMETRY_TOLERANCE) normalized * 0.35f else normalized
-
-        channel.onSignal(effective, signals.tCaptureUs / 1_000L)
-        val state = channel.reward.value
-        ctx.scene.setReward(state)
-
-        if (state is RewardState.Fired) recordTrial()
     }
 
     override fun onTick(nowMs: Long) { /* AR-1 no tiene ventanas: lo marca la cara */ }
 
     private fun recordTrial() {
+        if (_trials.size >= ctx.trialsPlanned) return
         _trials.add(
             TrialRecord.Ar1(
                 index = _trials.size + 1,

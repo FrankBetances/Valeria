@@ -31,11 +31,12 @@ class Ar4SpatialSearch(private val ctx: ExerciseContext) : ArExercise {
         "Busca a Lúa girando la cabeza suavemente. Cuando la veas en el centro de tu visor, " +
             "¡Lúa aparecerá saltando de alegría!"
 
+    private val lock = Any()
     private val gate = FrameGate(ctx.imu)
     private val channel = EventRewardChannel()
     private val _trials = ArrayList<TrialRecord>()
-    override val trials: List<TrialRecord> get() = _trials
-    override val finished: Boolean get() = _trials.size >= ctx.trialsPlanned
+    override val trials: List<TrialRecord> get() = synchronized(lock) { ArrayList(_trials) }
+    override val finished: Boolean get() = synchronized(lock) { _trials.size >= ctx.trialsPlanned }
 
     private var trialStartedMs = 0L
     private var targetYawDeg = 0f
@@ -44,9 +45,12 @@ class Ar4SpatialSearch(private val ctx: ExerciseContext) : ArExercise {
     private var fovealDwellMs = 0L
     private var lastFrameMs = 0L
     private val yawSamples = ArrayList<Float>(60)
+    private var trialActive = false
 
     init {
-        nextTrial()
+        synchronized(lock) {
+            nextTrial()
+        }
     }
 
     private fun nextTrial() {
@@ -64,71 +68,79 @@ class Ar4SpatialSearch(private val ctx: ExerciseContext) : ArExercise {
         lastFrameMs = trialStartedMs
         fovealDwellMs = 0L
         yawSamples.clear()
+        trialActive = true
         gate.reset()
         ctx.scene.setModel(ArModel.LUA)
         ctx.scene.setPointer(0f, 0f, 0f)
     }
 
     override fun onSignals(signals: FaceSignals) {
-        if (finished) return
-        val nowMs = SystemClock.elapsedRealtime()
-        val dt = (nowMs - lastFrameMs).coerceIn(0L, 200L)
-        lastFrameMs = nowMs
+        synchronized(lock) {
+            if (_trials.size >= ctx.trialsPlanned || !trialActive) return
+            val nowMs = SystemClock.elapsedRealtime()
+            val dt = (nowMs - lastFrameMs).coerceIn(0L, 200L)
+            lastFrameMs = nowMs
 
-        if (!gate.accept(signals, coneDeg = 60f)) return
+            if (!gate.accept(signals, coneDeg = 60f)) return
 
-        val currentYaw = ctx.imu.compensatedYaw(signals.headPose.yawDeg)
-        val currentPitch = signals.headPose.pitchDeg
-        yawSamples.add(currentYaw)
+            val currentYaw = ctx.imu.compensatedYaw(signals.headPose.yawDeg)
+            val currentPitch = signals.headPose.pitchDeg
+            yawSamples.add(currentYaw)
 
-        val errYaw = abs(currentYaw - targetYawDeg)
-        val errPitch = abs(currentPitch - targetPitchDeg)
-        val totalErr = hypot(errYaw, errPitch)
+            val errYaw = abs(currentYaw - targetYawDeg)
+            val errPitch = abs(currentPitch - targetPitchDeg)
+            val totalErr = hypot(errYaw, errPitch)
 
-        // Radar / Puntero espacial.
-        //
-        // La escala es la del teléfono real, no un factor inventado:
-        // `pxPerDeg` sale de la anchura en píxeles, la anchura en mm y la
-        // distancia estimada a la cara. Un `widthMm * 3.5f` dejaba el centro
-        // del radar en x≈114 de una pantalla de 1080 —pegado al borde— y movía
-        // la retícula ocho veces menos de lo que el niño giraba la cabeza.
-        //
-        // La diana vive a ±22°, y la pantalla a un palmo y medio abarca ~11°:
-        // el objetivo está FUERA de la pantalla casi todo el ensayo. Por eso la
-        // retícula se ancla al borde en vez de salirse. Eso es lo que la
-        // convierte en un radar —«tuerce hacia allá»— y no en un punto que
-        // desaparece.
-        val dwellProgress = (fovealDwellMs.toFloat() / FOVEAL_HOLD_MS.toFloat()).coerceIn(0f, 1f)
-        val pxPerDeg = ctx.geometry.pxPerDeg(ctx.distance.currentMm)
-        val widthPx = ctx.geometry.widthPx.toFloat()
-        val heightPx = ctx.geometry.heightPx.toFloat()
-        val rawX = (widthPx / 2f) + (currentYaw - targetYawDeg) * pxPerDeg
-        val rawY = (heightPx / 2f) + (currentPitch - targetPitchDeg) * pxPerDeg
-        ctx.scene.setPointer(
-            rawX.coerceIn(RADAR_EDGE_MARGIN_PX, widthPx - RADAR_EDGE_MARGIN_PX),
-            rawY.coerceIn(RADAR_EDGE_MARGIN_PX, heightPx - RADAR_EDGE_MARGIN_PX),
-            dwellProgress,
-        )
+            // Radar / Puntero espacial.
+            //
+            // La escala es la del teléfono real, no un factor inventado:
+            // `pxPerDeg` sale de la anchura en píxeles, la anchura en mm y la
+            // distancia estimada a la cara. Un `widthMm * 3.5f` dejaba el centro
+            // del radar en x≈114 de una pantalla de 1080 —pegado al borde— y movía
+            // la retícula ocho veces menos de lo que el niño giraba la cabeza.
+            //
+            // La diana vive a ±22°, y la pantalla a un palmo y medio abarca ~11°:
+            // el objetivo está FUERA de la pantalla casi todo el ensayo. Por eso la
+            // retícula se ancla al borde en vez de salirse. Eso es lo que la
+            // convierte en un radar —«tuerce hacia allá»— y no en un punto que
+            // desaparece.
+            val dwellProgress = (fovealDwellMs.toFloat() / FOVEAL_HOLD_MS.toFloat()).coerceIn(0f, 1f)
+            val pxPerDeg = ctx.geometry.pxPerDeg(ctx.distance.currentMm)
+            val widthPx = ctx.geometry.widthPx.toFloat()
+            val heightPx = ctx.geometry.heightPx.toFloat()
+            val rawX = (widthPx / 2f) + (currentYaw - targetYawDeg) * pxPerDeg
+            val rawY = (heightPx / 2f) + (currentPitch - targetPitchDeg) * pxPerDeg
+            ctx.scene.setPointer(
+                rawX.coerceIn(RADAR_EDGE_MARGIN_PX, widthPx - RADAR_EDGE_MARGIN_PX),
+                rawY.coerceIn(RADAR_EDGE_MARGIN_PX, heightPx - RADAR_EDGE_MARGIN_PX),
+                dwellProgress,
+            )
 
-        if (totalErr <= FOVEAL_CONE_DEG) {
-            fovealDwellMs += dt
-            if (fovealDwellMs >= FOVEAL_HOLD_MS) {
-                completeTrial(success = true)
+            if (totalErr <= FOVEAL_CONE_DEG) {
+                fovealDwellMs += dt
+                if (fovealDwellMs >= FOVEAL_HOLD_MS) {
+                    completeTrial(success = true)
+                }
+            } else {
+                fovealDwellMs = (fovealDwellMs - dt).coerceAtLeast(0L)
             }
-        } else {
-            fovealDwellMs = (fovealDwellMs - dt).coerceAtLeast(0L)
         }
     }
 
     override fun onTick(nowMs: Long) {
-        if (finished) return
-        val elapsed = nowMs - trialStartedMs
-        if (elapsed > MAX_SEARCH_TIME_MS && trialStartedMs > 0L) {
-            completeTrial(success = false)
+        synchronized(lock) {
+            if (_trials.size >= ctx.trialsPlanned || !trialActive) return
+            val elapsed = nowMs - trialStartedMs
+            if (elapsed > MAX_SEARCH_TIME_MS && trialStartedMs > 0L) {
+                completeTrial(success = false)
+            }
         }
     }
 
     private fun completeTrial(success: Boolean) {
+        if (!trialActive) return // Idempotency guard prevents double completion
+        trialActive = false
+
         val nowMs = SystemClock.elapsedRealtime()
         val acquisition = nowMs - trialStartedMs
 
@@ -165,7 +177,7 @@ class Ar4SpatialSearch(private val ctx: ExerciseContext) : ArExercise {
             ctx.scene.setReward(channel.reward.value)
         }
 
-        if (!finished) {
+        if (_trials.size < ctx.trialsPlanned) {
             nextTrial()
         }
     }

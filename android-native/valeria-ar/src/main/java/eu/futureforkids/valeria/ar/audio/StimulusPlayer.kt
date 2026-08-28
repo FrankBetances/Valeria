@@ -8,6 +8,7 @@ import android.media.AudioManager
 import android.media.AudioTimestamp
 import android.media.AudioTrack
 import eu.futureforkids.valeria.ar.Transducer
+import java.util.concurrent.Executors
 import kotlin.math.PI
 import kotlin.math.sin
 
@@ -37,7 +38,39 @@ import kotlin.math.sin
 class StimulusPlayer(context: Context) {
 
     private val audioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+    private val audioExecutor = Executors.newSingleThreadExecutor { runnable ->
+        Thread(runnable, "StimulusPlayer-Worker").apply { priority = Thread.MAX_PRIORITY }
+    }
     private var track: AudioTrack? = null
+    private val sampleRate = 48_000
+    private val defaultDurationMs = 500
+    private val defaultFrequencyHz = 1000.0
+
+    // Pre-synthesized buffers for instant zero-allocation dispatch
+    private val leftSamples: ShortArray
+    private val rightSamples: ShortArray
+
+    init {
+        leftSamples = synthesize(Side.LEFT, defaultDurationMs, defaultFrequencyHz)
+        rightSamples = synthesize(Side.RIGHT, defaultDurationMs, defaultFrequencyHz)
+    }
+
+    private fun synthesize(side: Side, durationMs: Int, frequencyHz: Double): ShortArray {
+        val frames = sampleRate * durationMs / 1000
+        val samples = ShortArray(frames * 2)
+        val ramp = sampleRate * 10 / 1000
+        for (i in 0 until frames) {
+            val env = when {
+                i < ramp -> i.toFloat() / ramp
+                i > frames - ramp -> (frames - i).toFloat() / ramp
+                else -> 1f
+            }
+            val v = (sin(2.0 * PI * frequencyHz * i / sampleRate) * env * 0.7 * Short.MAX_VALUE).toInt().toShort()
+            samples[i * 2] = if (side == Side.LEFT) v else 0
+            samples[i * 2 + 1] = if (side == Side.RIGHT) v else 0
+        }
+        return samples
+    }
 
     /**
      * Ruta de salida VIVA, consultada en caliente. Si alguien desconecta el DAC
@@ -77,6 +110,22 @@ class StimulusPlayer(context: Context) {
         }
 
     /**
+     * Reproducción no bloqueante: procesa audio en un worker thread dedicado
+     * e invoca [onTimestamp] con la marca microsegundo corregida de frame 0.
+     */
+    fun playLateralizedAsync(
+        side: Side,
+        durationMs: Int = defaultDurationMs,
+        frequencyHz: Double = defaultFrequencyHz,
+        onTimestamp: (Long?) -> Unit,
+    ) {
+        audioExecutor.execute {
+            val tsUs = playLateralizedSync(side, durationMs, frequencyHz)
+            onTimestamp(tsUs)
+        }
+    }
+
+    /**
      * Reproduce el estímulo por UN canal físico. Se registra el canal excitado y
      * no una etiqueta «derecha»: en usuarios de implante unilateral la vía
      * ipsi/contralateral es información clínica.
@@ -85,63 +134,70 @@ class StimulusPlayer(context: Context) {
      *         null si el dispositivo no entrega un timestamp fiable. Un dato
      *         ausente y etiquetado es honesto; uno presente e inventado, no.
      */
-    fun playLateralized(side: Side, durationMs: Int = 500, frequencyHz: Double = 1000.0): Long? {
-        val sampleRate = 48_000
-        val frames = sampleRate * durationMs / 1000
-        val samples = ShortArray(frames * 2)
+    fun playLateralized(
+        side: Side,
+        durationMs: Int = defaultDurationMs,
+        frequencyHz: Double = defaultFrequencyHz,
+    ): Long? = playLateralizedSync(side, durationMs, frequencyHz)
 
-        // Rampa de 10 ms en ataque y caída: un tono con flanco vertical produce
-        // un chasquido de banda ancha que se localiza por la transitoria, no por
-        // el tono. Es decir, mediría otra cosa.
-        val ramp = sampleRate * 10 / 1000
-        for (i in 0 until frames) {
-            val env = when {
-                i < ramp -> i.toFloat() / ramp
-                i > frames - ramp -> (frames - i).toFloat() / ramp
-                else -> 1f
-            }
-            val v = (sin(2.0 * PI * frequencyHz * i / sampleRate) * env * 0.7 * Short.MAX_VALUE).toInt().toShort()
-            samples[i * 2] = if (side == Side.LEFT) v else 0
-            samples[i * 2 + 1] = if (side == Side.RIGHT) v else 0
+    private fun playLateralizedSync(
+        side: Side,
+        durationMs: Int,
+        frequencyHz: Double,
+    ): Long? {
+        val samples = if (durationMs == defaultDurationMs && frequencyHz == defaultFrequencyHz) {
+            if (side == Side.LEFT) leftSamples else rightSamples
+        } else {
+            synthesize(side, durationMs, frequencyHz)
         }
 
-        val t = AudioTrack.Builder()
-            .setAudioAttributes(
-                AudioAttributes.Builder()
-                    .setUsage(AudioAttributes.USAGE_MEDIA)
-                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-                    .build()
-            )
-            .setAudioFormat(
-                AudioFormat.Builder()
-                    .setSampleRate(sampleRate)
-                    .setEncoding(AudioFormat.ENCODING_PCM_16BIT)
-                    .setChannelMask(AudioFormat.CHANNEL_OUT_STEREO)
-                    .build()
-            )
-            .setBufferSizeInBytes(samples.size * 2)
-            .setTransferMode(AudioTrack.MODE_STATIC)
-            .build()
+        val t = try {
+            AudioTrack.Builder()
+                .setAudioAttributes(
+                    AudioAttributes.Builder()
+                        .setUsage(AudioAttributes.USAGE_MEDIA)
+                        .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                        .build()
+                )
+                .setAudioFormat(
+                    AudioFormat.Builder()
+                        .setSampleRate(sampleRate)
+                        .setEncoding(AudioFormat.ENCODING_PCM_16BIT)
+                        .setChannelMask(AudioFormat.CHANNEL_OUT_STEREO)
+                        .build()
+                )
+                .setBufferSizeInBytes(samples.size * 2)
+                .setTransferMode(AudioTrack.MODE_STATIC)
+                .build()
+        } catch (e: Throwable) {
+            return null
+        }
 
-        track?.release()
+        runCatching { track?.release() }
         track = t
-        t.write(samples, 0, samples.size)
-        t.play()
+        try {
+            t.write(samples, 0, samples.size)
+            t.play()
+        } catch (e: Throwable) {
+            return null
+        }
 
-        // El timestamp tarda unos frames en estar disponible: se sondea, no se
-        // asume. Si no llega, se devuelve null y el ensayo se marca como juego.
+        // El timestamp tarda unos frames en estar disponible: se sondea con
+        // corrección exacta de desfase de frames para medir el instante t0 de inicio.
         val ts = AudioTimestamp()
-        repeat(10) {
+        repeat(15) {
             if (t.getTimestamp(ts) && ts.framePosition >= 0) {
-                return ts.nanoTime / 1_000L
+                val frameOffsetUs = (ts.framePosition * 1_000_000L) / sampleRate
+                return (ts.nanoTime / 1_000L) - frameOffsetUs
             }
-            try { Thread.sleep(5) } catch (e: InterruptedException) { return null }
+            try { Thread.sleep(3) } catch (e: InterruptedException) { return null }
         }
         return null
     }
 
     fun release() {
-        try { track?.release() } catch (e: Throwable) { /* ya liberado */ }
+        runCatching { audioExecutor.shutdownNow() }
+        runCatching { track?.release() }
         track = null
     }
 

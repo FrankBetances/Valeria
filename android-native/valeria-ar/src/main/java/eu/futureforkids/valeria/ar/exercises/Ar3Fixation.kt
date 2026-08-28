@@ -51,11 +51,12 @@ class Ar3Fixation(
         "Teléfono apoyado y en horizontal, a un palmo y medio. Di la palabra una sola vez y espera: " +
             "el dibujo se elige mirándolo, no tocándolo."
 
+    private val lock = Any()
     private val gate = FrameGate(ctx.imu)
     private val channel = EventRewardChannel()
     private val _trials = ArrayList<TrialRecord>()
-    override val trials: List<TrialRecord> get() = _trials
-    override val finished: Boolean get() = _trials.size >= ctx.trialsPlanned
+    override val trials: List<TrialRecord> get() = synchronized(lock) { ArrayList(_trials) }
+    override val finished: Boolean get() = synchronized(lock) { _trials.size >= ctx.trialsPlanned }
 
     private var targets: List<SceneTarget> = emptyList()
     private var targetId = ""
@@ -70,76 +71,84 @@ class Ar3Fixation(
     private var armed = false
     private val visited = HashSet<String>()
 
-    init { nextTrial() }
+    init {
+        synchronized(lock) {
+            nextTrial()
+        }
+    }
 
     override fun onSignals(signals: FaceSignals) {
-        if (finished) return
-        val nowMs = SystemClock.elapsedRealtime()
-        val dt = if (lastFrameMs == 0L) 0L else (nowMs - lastFrameMs).coerceIn(0L, 200L)
-        lastFrameMs = nowMs
+        synchronized(lock) {
+            if (_trials.size >= ctx.trialsPlanned) return
+            val nowMs = SystemClock.elapsedRealtime()
+            val dt = if (lastFrameMs == 0L) 0L else (nowMs - lastFrameMs).coerceIn(0L, 200L)
+            lastFrameMs = nowMs
 
-        // ── El apoyo improvisado, garantizado por software ──────────────────
-        // No hay presupuesto de soportes, así que la respuesta correcta no es
-        // renunciar a AR-3: es que la app imponga la geometría que el soporte
-        // habría dado. El ensayo no arranca sin 800 ms de IMU estable, y se
-        // anula si el teléfono se mueve durante la ventana.
-        if (!armed) {
-            if (ctx.imu.isSteady()) { armed = true; ctx.imu.anchor(); trialStartedMs = nowMs }
-            return
-        }
-        if (ctx.imu.movedTooMuch()) { voidTrial("deviceMoved"); return }
-        if (!gate.accept(signals, coneDeg = 20f)) { outOfBoundsMs += dt; return }
-
-        val raw = pointer.rawPoint(signals) ?: run { outOfBoundsMs += dt; return }
-        val screen = calibration.project(raw)
-        if (screen.x.isNaN()) { outOfBoundsMs += dt; return }
-
-        val hit = hitTest(screen)
-
-        if (hit == null) {
-            // Zona neutra: el *dwell* solo acumula DENTRO de un objeto, nunca en
-            // el fondo. Es la mitigación del problema de Midas —con dwell puro,
-            // todo lo que se mira se selecciona—.
-            insideId = null
-            // Decaimiento, no reinicio: salir 100 ms no puede borrar 1,1 s de
-            // fijación. Reiniciar a cero en un niño de 4 años garantiza que no
-            // lo consiga nunca.
-            dwellMs = (dwellMs - 2 * dt).coerceAtLeast(0L)
-            ctx.scene.setPointer(screen.x, screen.y, dwellProgress = 0f)
-            return
-        }
-
-        if (hit != insideId) {
-            if (insideId != null && visited.contains(hit)) revisits += 1
-            insideId = hit
-            visited.add(hit)
-            dwellMs = 0L
-            if (firstFixationId == null) {
-                // Adónde mira PRIMERO y qué acaba eligiendo son dos variables
-                // clínicas distintas: sesgo de comprensión inmediata frente a
-                // decisión con posible corrección. Solo la segunda dispara el
-                // giro de 360° del modelo.
-                firstFixationId = hit
-                tFirstFixationMs = nowMs - trialStartedMs
+            // ── El apoyo improvisado, garantizado por software ──────────────────
+            // No hay presupuesto de soportes, así que la respuesta correcta no es
+            // renunciar a AR-3: es que la app imponga la geometría que el soporte
+            // habría dado. El ensayo no arranca sin 800 ms de IMU estable, y se
+            // anula si el teléfono se mueve durante la ventana.
+            if (!armed) {
+                if (ctx.imu.isSteady()) { armed = true; ctx.imu.anchor(); trialStartedMs = nowMs }
+                return
             }
-        } else {
-            dwellMs += dt
-        }
+            if (ctx.imu.movedTooMuch()) { voidTrial("deviceMoved"); return }
+            if (!gate.accept(signals, coneDeg = 20f)) { outOfBoundsMs += dt; return }
 
-        val progress = (dwellMs.toFloat() / ctx.thresholds.dwellMs).coerceIn(0f, 1f)
-        ctx.scene.setPointer(screen.x, screen.y, progress)
-        channel.onSignal(progress, signals.tCaptureUs / 1_000L)
+            val raw = pointer.rawPoint(signals) ?: run { outOfBoundsMs += dt; return }
+            val screen = calibration.project(raw)
+            if (screen.x.isNaN()) { outOfBoundsMs += dt; return }
 
-        if (dwellMs >= ctx.thresholds.dwellMs) {
-            channel.fire(nowMs - trialStartedMs)
-            ctx.scene.setReward(channel.reward.value)
-            recordTrial(selected = hit, voidReason = null)
+            val hit = hitTest(screen)
+
+            if (hit == null) {
+                // Zona neutra: el *dwell* solo acumula DENTRO de un objeto, nunca en
+                // el fondo. Es la mitigación del problema de Midas —con dwell puro,
+                // todo lo que se mira se selecciona—.
+                insideId = null
+                // Decaimiento, no reinicio: salir 100 ms no puede borrar 1,1 s de
+                // fijación. Reiniciar a cero en un niño de 4 años garantiza que no
+                // lo consiga nunca.
+                dwellMs = (dwellMs - 2 * dt).coerceAtLeast(0L)
+                ctx.scene.setPointer(screen.x, screen.y, dwellProgress = 0f)
+                return
+            }
+
+            if (hit != insideId) {
+                if (insideId != null && visited.contains(hit)) revisits += 1
+                insideId = hit
+                visited.add(hit)
+                dwellMs = 0L
+                if (firstFixationId == null) {
+                    // Adónde mira PRIMERO y qué acaba eligiendo son dos variables
+                    // clínicas distintas: sesgo de comprensión inmediata frente a
+                    // decisión con posible corrección. Solo la segunda dispara el
+                    // giro de 360° del modelo.
+                    firstFixationId = hit
+                    tFirstFixationMs = nowMs - trialStartedMs
+                }
+            } else {
+                dwellMs += dt
+            }
+
+            val progress = (dwellMs.toFloat() / ctx.thresholds.dwellMs).coerceIn(0f, 1f)
+            ctx.scene.setPointer(screen.x, screen.y, progress)
+            channel.onSignal(progress, signals.tCaptureUs / 1_000L)
+
+            if (dwellMs >= ctx.thresholds.dwellMs) {
+                channel.fire(nowMs - trialStartedMs)
+                ctx.scene.setReward(channel.reward.value)
+                recordTrial(selected = hit, voidReason = null)
+            }
         }
     }
 
     override fun onTick(nowMs: Long) {
-        if (finished || !armed) return
-        if (nowMs - trialStartedMs > TRIAL_TIMEOUT_MS) recordTrial(selected = null, voidReason = null)
+        synchronized(lock) {
+            if (_trials.size >= ctx.trialsPlanned || !armed) return
+            if (nowMs - trialStartedMs > TRIAL_TIMEOUT_MS) recordTrial(selected = null, voidReason = null)
+        }
     }
 
     /**
@@ -203,6 +212,10 @@ class Ar3Fixation(
     private fun voidTrial(reason: String) = recordTrial(selected = null, voidReason = reason)
 
     private fun recordTrial(selected: String?, voidReason: String?) {
+        if (_trials.size >= ctx.trialsPlanned) return
+        if (!armed && _trials.isNotEmpty()) return
+        armed = false
+
         _trials.add(
             TrialRecord.Ar3(
                 index = _trials.size + 1,
@@ -227,7 +240,7 @@ class Ar3Fixation(
             )
         )
         ctx.scene.hidePointer()
-        if (!finished) nextTrial()
+        if (_trials.size < ctx.trialsPlanned) nextTrial()
     }
 
     companion object {

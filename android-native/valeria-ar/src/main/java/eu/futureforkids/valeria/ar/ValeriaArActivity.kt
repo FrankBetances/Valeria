@@ -207,6 +207,10 @@ class ValeriaArActivity : ComponentActivity() {
 
     private val pointerJitter = PointerJitterMeter()
 
+    @Volatile private var isActivityPaused = false
+    private var pauseTimestampMs = 0L
+    private var accumulatedPausedDurationMs = 0L
+
     private val cameraPermission = registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
         if (granted) startPipeline() else finishWith(outcome = "denied")
     }
@@ -261,6 +265,29 @@ class ValeriaArActivity : ComponentActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        if (isActivityPaused) {
+            val pausedDuration = SystemClock.elapsedRealtime() - pauseTimestampMs
+            accumulatedPausedDurationMs += pausedDuration
+            lastFaceMs = SystemClock.elapsedRealtime()
+            isActivityPaused = false
+        }
+        imu.start()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        isActivityPaused = true
+        pauseTimestampMs = SystemClock.elapsedRealtime()
+        imu.stop()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        imu.stop()
+    }
+
     // ---- Cámara y señal -----------------------------------------------------
 
     private fun startPipeline() {
@@ -275,7 +302,21 @@ class ValeriaArActivity : ComponentActivity() {
 
         val providerFuture = ProcessCameraProvider.getInstance(this)
         providerFuture.addListener({
-            val provider = providerFuture.get()
+            if (isFinishing || isDestroyed) {
+                return@addListener
+            }
+
+            val provider = runCatching { providerFuture.get() }.getOrNull() ?: run {
+                if (!isFinishing && !isDestroyed) {
+                    finishWith(outcome = "aborted")
+                }
+                return@addListener
+            }
+
+            if (isFinishing || isDestroyed) {
+                return@addListener
+            }
+
             cameraProvider = provider
 
             // 640×480 y BACKPRESSURE_KEEP_LATEST: a mayor resolución la gama
@@ -329,6 +370,7 @@ class ValeriaArActivity : ComponentActivity() {
             analysisUseCase = analysis
 
             try {
+                if (isFinishing || isDestroyed) return@addListener
                 provider.unbindAll()
                 // Un solo caso de uso. El `Preview` de CameraX ya no se enlaza:
                 // el espejo se dibuja desde estos mismos frames (ver `mirrorFrame`).
@@ -337,7 +379,9 @@ class ValeriaArActivity : ComponentActivity() {
                 watchCameraHealth()
                 startModeFlow()
             } catch (e: Throwable) {
-                finishWith(outcome = "aborted")
+                if (!isFinishing && !isDestroyed) {
+                    finishWith(outcome = "aborted")
+                }
             }
         }, ContextCompat.getMainExecutor(this))
     }
@@ -571,6 +615,10 @@ class ValeriaArActivity : ComponentActivity() {
             val startedMs = SystemClock.elapsedRealtime()
             var hinting = false
             while (exercise?.finished == false) {
+                if (isActivityPaused) {
+                    delay(100)
+                    continue
+                }
                 val now = SystemClock.elapsedRealtime()
                 exercise?.onTick(now)
 
@@ -582,7 +630,8 @@ class ValeriaArActivity : ComponentActivity() {
                     }
                     hinting -> { statusText = setupHint; hinting = false }
                 }
-                if (now - startedMs >= SESSION_MAX_MS) { finishWith(outcome = "timeout"); return@launch }
+                val effectiveSessionDuration = now - startedMs - accumulatedPausedDurationMs
+                if (effectiveSessionDuration >= SESSION_MAX_MS) { finishWith(outcome = "timeout"); return@launch }
 
                 delay(33)
             }
@@ -736,6 +785,7 @@ class ValeriaArActivity : ComponentActivity() {
     // ---- Cierre -------------------------------------------------------------
 
     private fun finishWith(outcome: String) {
+        if (isFinishing || isDestroyed) return
         val cfg = config
         val profile = ArProfileStore.load(this)
         val payload = if (cfg != null && profile != null) {
@@ -755,6 +805,7 @@ class ValeriaArActivity : ComponentActivity() {
     }
 
     private fun finishWithPayload(payload: JSONObject) {
+        if (isFinishing || isDestroyed) return
         setResult(Activity.RESULT_OK, Intent().putExtra(EXTRA_RESULT, payload.toString()))
         finish()
     }
