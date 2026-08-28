@@ -54,6 +54,9 @@ import eu.futureforkids.valeria.ar.audio.StimulusPlayer
 import eu.futureforkids.valeria.ar.exercises.Ar1Orofacial
 import eu.futureforkids.valeria.ar.exercises.Ar2Vra
 import eu.futureforkids.valeria.ar.exercises.Ar3Fixation
+import eu.futureforkids.valeria.ar.exercises.Ar4SpatialSearch
+import eu.futureforkids.valeria.ar.exercises.Ar5FeedCatch
+import eu.futureforkids.valeria.ar.exercises.Ar6BuddyMimicry
 import eu.futureforkids.valeria.ar.exercises.ArExercise
 import eu.futureforkids.valeria.ar.exercises.ExerciseContext
 import eu.futureforkids.valeria.ar.scene.ArModel
@@ -531,6 +534,9 @@ class ValeriaArActivity : ComponentActivity() {
                     vocabulary = DEFAULT_VOCABULARY,
                 )
             }
+            ArExerciseId.AR4 -> Ar4SpatialSearch(ctx)
+            ArExerciseId.AR5 -> Ar5FeedCatch(ctx)
+            ArExerciseId.AR6 -> Ar6BuddyMimicry(ctx)
         }
 
         scene.setModel(exercise!!.model)

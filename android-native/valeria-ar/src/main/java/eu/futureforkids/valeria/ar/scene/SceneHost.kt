@@ -54,6 +54,12 @@ enum class ArModel(val asset: String, val animation: String?) {
     /** AR-3 · distractores. Mismo giro: nada en el movimiento delata la diana. */
     BALL("models/pelota.glb", "spin360"),
     SHOE("models/zapato.glb", "spin360"),
+    /** AR-4 / AR-6 · Lúa en 3D para búsqueda espacial y espejo mímico. */
+    LUA("models/lua.glb", "celebrate"),
+    /** AR-5 · Pez dorado coleccionable para alimentar a Lúa. */
+    FISH("models/pez.glb", "spin360"),
+    /** Recompensa / Estrella 3D de nivel. */
+    STAR("models/estrella.glb", "spin360"),
     NONE("", null),
 }
 
@@ -141,21 +147,60 @@ fun RewardOverlay(state: SceneState, modifier: Modifier = Modifier) {
             }
 
             state.pointer?.let { (x, y, dwell) ->
-                drawCircle(color = Color.White.copy(alpha = 0.9f), radius = 10f, center = Offset(x, y))
+                // Retícula exterior estilo captura Pokémon GO
+                drawCircle(
+                    color = Color.White.copy(alpha = 0.4f),
+                    radius = 28f,
+                    center = Offset(x, y),
+                    style = androidx.compose.ui.graphics.drawscope.Stroke(width = 2f),
+                )
+                drawCircle(color = Color.White.copy(alpha = 0.95f), radius = 9f, center = Offset(x, y))
+
                 if (dwell > 0f) {
+                    val angle = 360f * dwell.coerceIn(0f, 1f)
                     drawArc(
                         color = Color(0xFF00C4BE),
                         startAngle = -90f,
-                        sweepAngle = 360f * dwell.coerceIn(0f, 1f),
+                        sweepAngle = angle,
                         useCenter = false,
                         topLeft = Offset(x - 34f, y - 34f),
                         size = androidx.compose.ui.geometry.Size(68f, 68f),
                         style = androidx.compose.ui.graphics.drawscope.Stroke(width = 7f),
                     )
+                    // Anillo de pulso dorado concéntrico
+                    drawArc(
+                        color = Color(0xFFFACC15).copy(alpha = 0.8f),
+                        startAngle = -90f,
+                        sweepAngle = angle * 0.75f,
+                        useCenter = false,
+                        topLeft = Offset(x - 42f, y - 42f),
+                        size = androidx.compose.ui.geometry.Size(84f, 84f),
+                        style = androidx.compose.ui.graphics.drawscope.Stroke(width = 3f),
+                    )
                 }
             }
 
-            // Barra de carga del refuerzo continuo (AR-1). Verde de marca al
+            // Destellos y confeti de celebración estilo Pokémon GO al capturar/acertar
+            if (fired) {
+                val cx = size.width / 2f
+                val cy = size.height / 2f
+                val sparkles = listOf(
+                    Offset(cx - 80f, cy - 90f),
+                    Offset(cx + 85f, cy - 85f),
+                    Offset(cx - 100f, cy + 40f),
+                    Offset(cx + 95f, cy + 50f),
+                    Offset(cx, cy - 120f),
+                )
+                sparkles.forEachIndexed { idx, pos ->
+                    drawCircle(
+                        color = if (idx % 2 == 0) Color(0xFFFACC15) else Color(0xFF00C4BE),
+                        radius = 8f,
+                        center = pos,
+                    )
+                }
+            }
+
+            // Barra de carga del refuerzo continuo (AR-1 / AR-6). Verde de marca al
             // cargar, dorada al disparar: el cambio de color ES la celebración
             // mientras no haya modelo 3D cargado.
             if (progress > 0f) {

@@ -62,6 +62,7 @@ object Blend {
     const val JAW_OPEN = "jawOpen"
     const val MOUTH_SMILE_LEFT = "mouthSmileLeft"
     const val MOUTH_SMILE_RIGHT = "mouthSmileRight"
+    const val CHEEK_PUFF = "cheekPuff"
     const val EYE_BLINK_LEFT = "eyeBlinkLeft"
     const val EYE_BLINK_RIGHT = "eyeBlinkRight"
 }

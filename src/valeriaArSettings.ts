@@ -13,7 +13,7 @@
 // ============================================================================
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { STORAGE_KEYS } from './valeriaTheme';
-import type { ArThresholds, ArDeviceProfile, ArPointerSource } from './valeriaArBridge';
+import type { ArThresholds, ArDeviceProfile, ArPointerSource, ArExerciseId } from './valeriaArBridge';
 
 // Valores de partida. Son los del protocolo (§7 del plan), no una media de nada.
 export const AR_DEFAULT_THRESHOLDS: ArThresholds = {
@@ -127,7 +127,7 @@ export async function saveArDeviceProfile(profile: ArDeviceProfile): Promise<voi
 
 export interface ArLevelPolicy {
   /** Ejercicios ofrecidos. Vacío = el bloque no se renderiza. */
-  exercises: Array<'ar1' | 'ar2' | 'ar3'>;
+  exercises: ArExerciseId[];
   /** AR-2 en modo instrumento (registra latencia) o solo juego. */
   ar2Instrumented: boolean;
   /** Dianas de AR-3: el nivel A exige puntero < 2,5°, así que van 3. */
@@ -142,13 +142,13 @@ export interface ArLevelPolicy {
 // dijeran cosas distintas del mismo teléfono.
 export const AR_LEVEL_POLICY: Record<'A' | 'B' | 'C' | 'D', ArLevelPolicy> = {
   A: {
-    exercises: ['ar1', 'ar2', 'ar3'], ar2Instrumented: true, ar3Targets: 3, publishable: true,
+    exercises: ['ar1', 'ar2', 'ar3', 'ar4', 'ar5', 'ar6'], ar2Instrumented: true, ar3Targets: 3, publishable: true,
   },
   B: {
-    exercises: ['ar1', 'ar2', 'ar3'], ar2Instrumented: false, ar3Targets: 3, publishable: false,
+    exercises: ['ar1', 'ar2', 'ar3', 'ar4', 'ar5', 'ar6'], ar2Instrumented: false, ar3Targets: 3, publishable: false,
   },
   C: {
-    exercises: ['ar1', 'ar3'], ar2Instrumented: false, ar3Targets: 2, publishable: false,
+    exercises: ['ar1', 'ar3', 'ar4', 'ar5', 'ar6'], ar2Instrumented: false, ar3Targets: 2, publishable: false,
   },
   D: {
     exercises: [], ar2Instrumented: false, ar3Targets: 2, publishable: false,

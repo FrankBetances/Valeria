@@ -55,7 +55,7 @@ const patientKeyFor = async (ficha: any): Promise<string> => {
   return digest.slice(0, 16);
 };
 
-const TRIALS_PER_SESSION: Record<ArExerciseId, number> = { ar1: 8, ar2: 20, ar3: 12 };
+const TRIALS_PER_SESSION: Record<ArExerciseId, number> = { ar1: 8, ar2: 20, ar3: 12, ar4: 10, ar5: 10, ar6: 8 };
 
 export const ValeriaArLauncherScreen: React.FC<{ navigation?: any }> = ({ navigation }) => {
   const t = useT();
@@ -371,6 +371,39 @@ export const ValeriaArLauncherScreen: React.FC<{ navigation?: any }> = ({ naviga
       const dwells = sel.map((t) => t.dwellMs as number).filter((n) => n > 0);
       rows.push([t.ar.rowTargets, String(sel[0]?.targetCount ?? '—')]);
       if (dwells.length) rows.push([t.ar.rowDwellMean, `${Math.round(dwells.reduce((a, b) => a + b, 0) / dwells.length)} ms`]);
+    }
+    if (result.exerciseId === 'ar4') {
+      const valid = trials.filter((t) => t.exerciseId === 'ar4' && !t.voided) as any[];
+      const times = valid.map((t) => t.acquisitionTimeMs as number).filter((n) => n > 0);
+      const jitters = valid.map((t) => t.yawRmsDeg as number);
+      if (times.length) {
+        rows.push([t.ar.rowAcquisitionMean, `${Math.round(times.reduce((a, b) => a + b, 0) / times.length)} ms`]);
+      }
+      if (jitters.length) {
+        rows.push([t.ar.rowJitterRms, `${(jitters.reduce((a, b) => a + b, 0) / jitters.length).toFixed(1)}°`]);
+      }
+    }
+    if (result.exerciseId === 'ar5') {
+      const valid = trials.filter((t) => t.exerciseId === 'ar5' && !t.voided) as any[];
+      const vels = valid.map((t) => t.throwVelocityPxPerS as number).filter((n) => n > 0);
+      const catches = valid.map((t) => t.catchReactionMs as number).filter((n) => n > 0);
+      if (vels.length) {
+        rows.push([t.ar.rowThrowVelocityMean, `${Math.round(vels.reduce((a, b) => a + b, 0) / vels.length)} px/s`]);
+      }
+      if (catches.length) {
+        rows.push([t.ar.rowCatchReaction, `${Math.round(catches.reduce((a, b) => a + b, 0) / catches.length)} ms`]);
+      }
+    }
+    if (result.exerciseId === 'ar6') {
+      const valid = trials.filter((t) => t.exerciseId === 'ar6' && !t.voided) as any[];
+      const holds = valid.map((t) => t.holdMs as number).filter((n) => n > 0);
+      const syms = valid.map((t) => t.symmetryRatio as number);
+      if (holds.length) {
+        rows.push([t.ar.rowMimicHoldMean, `${Math.round(holds.reduce((a, b) => a + b, 0) / holds.length)} ms`]);
+      }
+      if (syms.length) {
+        rows.push([t.ar.rowSymmetryMean, `${Math.round((syms.reduce((a, b) => a + b, 0) / syms.length) * 100)}%`]);
+      }
     }
 
     return (
