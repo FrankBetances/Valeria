@@ -78,7 +78,10 @@ class Ar4SpatialSearch(private val ctx: ExerciseContext) : ArExercise {
         synchronized(lock) {
             if (_trials.size >= ctx.trialsPlanned || !trialActive) return
             val nowMs = SystemClock.elapsedRealtime()
-            val dt = (nowMs - lastFrameMs).coerceIn(0L, 200L)
+            // Igual que en AR-3: sin frame anterior no hay intervalo que sumar.
+            // Con `lastFrameMs` a 0 el resto sería `nowMs`, que se recortaría a
+            // 200 ms de permanencia foveal que nadie ha mirado.
+            val dt = if (lastFrameMs == 0L) 0L else (nowMs - lastFrameMs).coerceIn(0L, 200L)
             lastFrameMs = nowMs
 
             if (!gate.accept(signals, coneDeg = 60f)) return
@@ -179,6 +182,14 @@ class Ar4SpatialSearch(private val ctx: ExerciseContext) : ArExercise {
 
         if (_trials.size < ctx.trialsPlanned) {
             nextTrial()
+        }
+    }
+
+    override fun onSessionResumed(pausedMs: Long) {
+        synchronized(lock) {
+            trialStartedMs += pausedMs
+            // El hueco no es permanencia foveal: se corta la cadena de dt.
+            lastFrameMs = 0L
         }
     }
 

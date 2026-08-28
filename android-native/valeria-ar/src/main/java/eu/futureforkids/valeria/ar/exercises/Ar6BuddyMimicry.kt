@@ -169,6 +169,10 @@ class Ar6BuddyMimicry(private val ctx: ExerciseContext) : ArExercise {
         return abs(abs(nose.x - l.x) - abs(r.x - nose.x)) / width
     }
 
+    override fun onSessionResumed(pausedMs: Long) {
+        synchronized(lock) { trialStartedMs += pausedMs }
+    }
+
     companion object {
         private const val MAX_TRIAL_DURATION_MS = 14_000L
     }

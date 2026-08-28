@@ -52,7 +52,10 @@ class Ar2Vra(
         "Coloca al peque mirando al frente, con los altavoces a los lados. Cuando suene, no le señales " +
             "ni le mires: el ejercicio mide si gira solo."
 
-    private enum class Phase { ARMING, WAITING, WINDOW, DONE_TRIAL }
+    // FIRING es el hueco entre pedir el tono y saber que ha salido: el camino
+    // de audio tarda decenas de ms en arrancar. Es una fase propia porque
+    // durante ella no hay ni ventana abierta ni estímulo presentado.
+    private enum class Phase { ARMING, WAITING, FIRING, WINDOW, DONE_TRIAL }
 
     private val lock = Any()
     private val gate = FrameGate(ctx.imu)
@@ -69,6 +72,7 @@ class Ar2Vra(
     private var isCatch = false
     private var tStimulusUs: Long? = null
     private var windowOpenedMs = 0L
+    private var firingSinceMs = 0L
     private var peakYaw = 0f
     private var turnUs: Long? = null
     private var turnSide: StimulusPlayer.Side? = null
@@ -120,6 +124,14 @@ class Ar2Vra(
             if (_trials.size >= ctx.trialsPlanned) return
             when (phase) {
                 Phase.WAITING -> if (nowMs >= nextStimulusAtMs) fireStimulus()
+                // Red de seguridad: si el worker de audio no contesta, el
+                // ensayo no se queda colgado esperando para siempre. Se abre
+                // la ventana sin marca y el registro lo dirá.
+                Phase.FIRING -> if (nowMs - firingSinceMs >= AUDIO_DISPATCH_TIMEOUT_MS) {
+                    tStimulusUs = null
+                    windowOpenedMs = nowMs
+                    phase = Phase.WINDOW
+                }
                 Phase.WINDOW -> if (nowMs - windowOpenedMs >= ctx.thresholds.responseWindowMs) {
                     closeTrial(timedOut = true)
                 }
@@ -159,20 +171,34 @@ class Ar2Vra(
 
     private fun fireStimulus() {
         transducer = player.currentTransducer()
-        windowOpenedMs = SystemClock.elapsedRealtime()
-        phase = Phase.WINDOW
 
         if (isCatch) {
             // En trampa no suena nada, pero el reloj del ensayo arranca igual:
             // así un giro espontáneo se registra con su tiempo y cuenta como
             // falso positivo, que es exactamente el dato que se busca.
             tStimulusUs = SystemClock.elapsedRealtimeNanos() / 1_000L
-        } else {
-            tStimulusUs = null
-            player.playLateralizedAsync(side) { presentationTimeUs ->
-                synchronized(lock) {
-                    tStimulusUs = presentationTimeUs?.let { it + clockOffsetUs }
-                }
+            windowOpenedMs = SystemClock.elapsedRealtime()
+            phase = Phase.WINDOW
+            return
+        }
+
+        // La ventana NO abre aquí. Abrirla antes de que el tono salga se la
+        // come por delante —el camino de audio tarda decenas de ms en
+        // arrancar— y le recorta al niño ese tiempo del plazo que tiene para
+        // girar, que es justo la variable del ejercicio. Abre en el callback,
+        // cuando el propio AudioTrack confirma que el estímulo está fuera.
+        tStimulusUs = null
+        firingSinceMs = SystemClock.elapsedRealtime()
+        phase = Phase.FIRING
+        player.playLateralizedAsync(side) { presentationTimeUs ->
+            synchronized(lock) {
+                if (phase != Phase.FIRING) return@synchronized
+                tStimulusUs = presentationTimeUs?.let { it + clockOffsetUs }
+                // Sin marca de presentación el ensayo ya baja a juego por
+                // `audioTimestampUnavailable`; la ventana se abre igual para
+                // que el niño tenga su turno entero.
+                windowOpenedMs = SystemClock.elapsedRealtime()
+                phase = Phase.WINDOW
             }
         }
     }
@@ -236,6 +262,16 @@ class Ar2Vra(
         nextStimulusAtMs = SystemClock.elapsedRealtime() + FEEDBACK_MS
     }
 
+    override fun onSessionResumed(pausedMs: Long) {
+        synchronized(lock) {
+            // 0 aquí significa «aún sin armar», no un instante: no se desplaza.
+            if (armedSinceMs != 0L) armedSinceMs += pausedMs
+            nextStimulusAtMs += pausedMs
+            windowOpenedMs += pausedMs
+            firingSinceMs += pausedMs
+        }
+    }
+
     override fun close() {
         synchronized(lock) {
             player.release()
@@ -247,5 +283,7 @@ class Ar2Vra(
         private const val ARM_HOLD_MS = 500L
         private const val CATCH_RATE = 0.2f     // ~20 % de ensayos sin sonido
         private const val FEEDBACK_MS = 1500L   // el perro celebra antes del siguiente
+        // 15 sondeos × 3 ms más el write/play: 500 ms es techo, no espera.
+        private const val AUDIO_DISPATCH_TIMEOUT_MS = 500L
     }
 }

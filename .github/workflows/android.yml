@@ -292,6 +292,15 @@ jobs:
       - name: Comprobar las defensas adversarias de los ejercicios de RA
         run: node scripts/stress-test-ar-adversarial.js
 
+      # Este NO reimplementa nada: lee los .kt y afirma sobre ellos. Cubre lo
+      # que Gradle no distingue —compilar no es estar libre de carreras— y lo
+      # hace en segundos en vez de en veinte minutos. Las invariantes son las
+      # tres que ya costaron caro: el AudioTrack con un solo hilo dueño, los
+      # plazos del ensayo compensados al volver de segundo plano, y la ventana
+      # de respuesta de AR-2 anclada al tono y no a la petición del tono.
+      - name: Comprobar la concurrencia y el ciclo de vida de RA
+        run: node scripts/check-ar-concurrency.js
+
       # Los .glb los genera `scripts/build-ar-models.js` y los declara el enum
       # ArModel. Un modelo declarado sin fichero deja la escena vacía en el
       # teléfono y no rompe ninguna compilación.

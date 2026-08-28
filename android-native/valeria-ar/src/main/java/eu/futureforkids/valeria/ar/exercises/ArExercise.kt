@@ -36,6 +36,15 @@ interface ArExercise {
      * este cuerpo vacío.
      */
     fun onFling(velocityPxPerS: Float, angleDeg: Float) {}
+    /**
+     * La sesión estuvo [pausedMs] en segundo plano y acaba de volver.
+     *
+     * Los relojes del ensayo son `elapsedRealtime`, que corre igual con la app
+     * detrás: sin esto, una notificación a mitad de ensayo se registra como que
+     * el niño tardó veinte segundos en girar, o como veinte segundos de
+     * fijación sostenida. Cada ejercicio desplaza sus marcas por el hueco.
+     */
+    fun onSessionResumed(pausedMs: Long) {}
     val trials: List<TrialRecord>
     val finished: Boolean
     fun close() {}

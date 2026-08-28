@@ -177,6 +177,14 @@ class Ar5FeedCatch(private val ctx: ExerciseContext) : ArExercise {
         }
     }
 
+    override fun onSessionResumed(pausedMs: Long) {
+        synchronized(lock) {
+            trialStartedMs += pausedMs
+            // 0 aquí significa «aún sin lanzar», no un instante.
+            if (throwInitiatedMs != 0L) throwInitiatedMs += pausedMs
+        }
+    }
+
     companion object {
         private const val FLIGHT_DURATION_MS = 650f
         private const val MAX_WAIT_MS = 12_000L

@@ -243,6 +243,15 @@ class Ar3Fixation(
         if (_trials.size < ctx.trialsPlanned) nextTrial()
     }
 
+    override fun onSessionResumed(pausedMs: Long) {
+        synchronized(lock) {
+            trialStartedMs += pausedMs
+            // El hueco no es fijación: se corta la cadena de dt para que el
+            // primer frame de vuelta no sume el tiempo que la app pasó detrás.
+            lastFrameMs = 0L
+        }
+    }
+
     companion object {
         private const val TRIAL_TIMEOUT_MS = 15_000L
     }

@@ -9,6 +9,8 @@ import android.media.AudioTimestamp
 import android.media.AudioTrack
 import eu.futureforkids.valeria.ar.Transducer
 import java.util.concurrent.Executors
+import java.util.concurrent.RejectedExecutionException
+import java.util.concurrent.TimeUnit
 import kotlin.math.PI
 import kotlin.math.sin
 
@@ -41,7 +43,12 @@ class StimulusPlayer(context: Context) {
     private val audioExecutor = Executors.newSingleThreadExecutor { runnable ->
         Thread(runnable, "StimulusPlayer-Worker").apply { priority = Thread.MAX_PRIORITY }
     }
+    // Lo crea, lo reemplaza y lo libera SIEMPRE el hilo del worker. Liberarlo
+    // desde el hilo principal mientras el worker escribe en él es un uso
+    // después de liberar dentro de código nativo: no lanza excepción, mata el
+    // proceso. Por eso `release()` le encarga el cierre al propio worker.
     private var track: AudioTrack? = null
+    @Volatile private var released = false
     private val sampleRate = 48_000
     private val defaultDurationMs = 500
     private val defaultFrequencyHz = 1000.0
@@ -119,9 +126,16 @@ class StimulusPlayer(context: Context) {
         frequencyHz: Double = defaultFrequencyHz,
         onTimestamp: (Long?) -> Unit,
     ) {
-        audioExecutor.execute {
-            val tsUs = playLateralizedSync(side, durationMs, frequencyHz)
-            onTimestamp(tsUs)
+        if (released) { onTimestamp(null); return }
+        // Tras `release()` el executor rechaza tareas. El ensayo tiene que
+        // cerrarse igual, así que el callback se invoca con null y AR-2 lo
+        // etiqueta como `audioTimestampUnavailable`, que es la verdad.
+        try {
+            audioExecutor.execute {
+                onTimestamp(if (released) null else playLateralizedSync(side, durationMs, frequencyHz))
+            }
+        } catch (e: RejectedExecutionException) {
+            onTimestamp(null)
         }
     }
 
@@ -130,16 +144,12 @@ class StimulusPlayer(context: Context) {
      * no una etiqueta «derecha»: en usuarios de implante unilateral la vía
      * ipsi/contralateral es información clínica.
      *
+     * Solo corre en el hilo del worker: es el único dueño de [track].
+     *
      * @return instante de presentación en microsegundos en base *boottime*, o
      *         null si el dispositivo no entrega un timestamp fiable. Un dato
      *         ausente y etiquetado es honesto; uno presente e inventado, no.
      */
-    fun playLateralized(
-        side: Side,
-        durationMs: Int = defaultDurationMs,
-        frequencyHz: Double = defaultFrequencyHz,
-    ): Long? = playLateralizedSync(side, durationMs, frequencyHz)
-
     private fun playLateralizedSync(
         side: Side,
         durationMs: Int,
@@ -195,10 +205,34 @@ class StimulusPlayer(context: Context) {
         return null
     }
 
+    /**
+     * Cierre de fuera hacia dentro, igual que el de la cámara en `onDestroy`:
+     * primero se corta el grifo (nada nuevo entra), después se le encarga al
+     * worker que suelte el `AudioTrack` que él mismo abrió, y solo entonces se
+     * espera a que termine. Soltarlo desde aquí mientras el worker escribe en
+     * él revienta en nativo, y `shutdownNow()` no espera a nadie: interrumpe y
+     * vuelve, así que por sí solo no impide esa carrera.
+     */
     fun release() {
-        runCatching { audioExecutor.shutdownNow() }
-        runCatching { track?.release() }
-        track = null
+        if (released) return
+        released = true
+
+        val closed = try {
+            audioExecutor.execute {
+                runCatching { track?.release() }
+                track = null
+            }
+            audioExecutor.shutdown()
+            // Tope, no coste esperado: soltar un AudioTrack son microsegundos.
+            // El margen cubre un sondeo de timestamp en curso (15 × 3 ms).
+            runCatching { audioExecutor.awaitTermination(600, TimeUnit.MILLISECONDS) }.getOrDefault(false)
+        } catch (e: RejectedExecutionException) {
+            false
+        }
+
+        // Si el worker no ha soltado a tiempo se corta igualmente: perder un
+        // tono es aceptable, bloquear `onDestroy` no lo es.
+        if (!closed) runCatching { audioExecutor.shutdownNow() }
     }
 
     enum class Side { LEFT, RIGHT }

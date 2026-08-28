@@ -208,6 +208,7 @@ class ValeriaArActivity : ComponentActivity() {
     private val pointerJitter = PointerJitterMeter()
 
     @Volatile private var isActivityPaused = false
+    private var pipelineStarted = false
     private var pauseTimestampMs = 0L
     private var accumulatedPausedDurationMs = 0L
 
@@ -272,8 +273,15 @@ class ValeriaArActivity : ComponentActivity() {
             accumulatedPausedDurationMs += pausedDuration
             lastFaceMs = SystemClock.elapsedRealtime()
             isActivityPaused = false
+            // El ejercicio tiene sus propios plazos —ventana de respuesta,
+            // intervalo entre ensayos, permanencia— y también corren en
+            // `elapsedRealtime`. Descontar el hueco solo del reloj de sesión
+            // dejaría el ensayo en vuelo caducado al volver.
+            exercise?.onSessionResumed(pausedDuration)
         }
-        imu.start()
+        // Sin cámara concedida no hay sesión que reanudar: no se enciende un
+        // sensor para una Activity que se está cerrando.
+        if (pipelineStarted) imu.start()
     }
 
     override fun onPause() {
@@ -291,6 +299,7 @@ class ValeriaArActivity : ComponentActivity() {
     // ---- Cámara y señal -----------------------------------------------------
 
     private fun startPipeline() {
+        pipelineStarted = true
         imu.start()
         engine = FaceSignalEngine(
             context = this,
@@ -521,6 +530,12 @@ class ValeriaArActivity : ComponentActivity() {
     private fun onSignals(signals: FaceSignals) {
         lastFaceMs = SystemClock.elapsedRealtime()
         facesSeen += 1
+        // Entre `onPause` y `onStop` CameraX sigue entregando frames. Contarlos
+        // para la salud de la cámara es correcto —la cámara funciona—, pero
+        // dejarlos mover la máquina de estados del ejercicio no: el niño no
+        // está delante, y ese giro entraría como respuesta a un estímulo que
+        // nadie ha oído.
+        if (isActivityPaused) return
         distance.update(signals)
         when (mode) {
             MODE_CALIBRATION -> collectCalibrationSample(signals)
