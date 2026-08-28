@@ -75,6 +75,9 @@ const AR_SERIES: Record<string, {
   ar1: { unit: 'ms', icon: 'gesture', value: (trial) => (trial.holdMaxMs > 0 ? trial.holdMaxMs : null) },
   ar2: { unit: 'ms', icon: 'hearing', value: (trial) => trial.latencyMs },
   ar3: { unit: 'ms', icon: 'eye', value: (trial) => (trial.dwellMs > 0 ? trial.dwellMs : null) },
+  ar4: { unit: 'ms', icon: 'compass', value: (trial) => (trial.acquisitionTimeMs > 0 ? trial.acquisitionTimeMs : null) },
+  ar5: { unit: 'ms', icon: 'move', value: (trial) => (trial.catchReactionMs > 0 ? trial.catchReactionMs : null) },
+  ar6: { unit: 'ms', icon: 'gesture', value: (trial) => (trial.holdMs > 0 ? trial.holdMs : null) },
 };
 
 
@@ -247,7 +250,12 @@ export const ValeriaPatientResultsDashboardScreen: React.FC<{ navigation?: any }
 
     // Escala derivada de los datos, no fija: un sostén de 900 ms y una latencia
     // de 400 ms no comparten eje, y forzarlo aplanaría una de las dos series.
-    const objetivo = arEjercicio === 'ar1' ? arThresholds?.holdMs ?? null : null;
+    const objetivo =
+      arEjercicio === 'ar1' || arEjercicio === 'ar6'
+        ? arThresholds?.holdMs ?? null
+        : arEjercicio === 'ar3'
+          ? arThresholds?.dwellMs ?? null
+          : null;
     const maxDato = Math.max(...valores, objetivo ?? 0, 1);
     const top = maxDato * 1.15;
     const yArb = (v: number) => CHART.padT + (1 - v / top) * plotH;

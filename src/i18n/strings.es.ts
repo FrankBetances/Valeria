@@ -1102,16 +1102,39 @@ export const ES = {
     arMax: (unit: string): string => `máximo (${unit})`,
     arShareLine: (name: string, n: number, medida: string): string => `• ${name}: ${n} ensayos · ${medida}`,
     arTrial1: 'ensayo 1',
-    arLabel: (id: string): string =>
-      id === 'ar1' ? 'Sostén del gesto' : id === 'ar2' ? 'Latencia del giro' : 'Fijación hasta elegir',
-    arHint: (id: string): string =>
-      id === 'ar1' ? 'Milisegundos que mantuvo el redondeo labial en cada ensayo. La línea de puntos es el objetivo que fijasteis vosotros.'
-        : id === 'ar2' ? 'Milisegundos entre el sonido y el giro de cabeza. Solo aparecen los ensayos que se pudieron cronometrar.'
-          : 'Milisegundos de mirada sostenida hasta confirmar el dibujo.',
-    arTitle: (id: string): string =>
-      id === 'ar1' ? 'AR-1 · Cinemática orofacial'
-        : id === 'ar2' ? 'AR-2 · Localización del sonido'
-          : 'AR-3 · Selección por fijación',
+    arLabel: (id: string): string => {
+      switch (id) {
+        case 'ar1': return 'Sostén del gesto';
+        case 'ar2': return 'Latencia del giro';
+        case 'ar3': return 'Fijación hasta elegir';
+        case 'ar4': return 'Búsqueda espacial de Lúa';
+        case 'ar5': return 'Reacción de captura';
+        case 'ar6': return 'Sostén de praxia mímica';
+        default: return 'Medida AR';
+      }
+    },
+    arHint: (id: string): string => {
+      switch (id) {
+        case 'ar1': return 'Milisegundos que mantuvo el redondeo labial en cada ensayo. La línea de puntos es el objetivo que fijasteis vosotros.';
+        case 'ar2': return 'Milisegundos entre el sonido y el giro de cabeza. Solo aparecen los ensayos que se pudieron cronometrar.';
+        case 'ar3': return 'Milisegundos de mirada sostenida hasta confirmar el dibujo.';
+        case 'ar4': return 'Milisegundos hasta localizar a Lúa con la retícula foveal y alinear la postura cefálica.';
+        case 'ar5': return 'Milisegundos de reacción entre el lanzamiento parabólico del pez dorado y la captura de Lúa.';
+        case 'ar6': return 'Milisegundos que sostuvo la expresión o praxia facial guiada con simetría bilateral.';
+        default: return 'Milisegundos medidos durante el ejercicio de realidad aumentada.';
+      }
+    },
+    arTitle: (id: string): string => {
+      switch (id) {
+        case 'ar1': return 'AR-1 · Cinemática orofacial';
+        case 'ar2': return 'AR-2 · Localización del sonido';
+        case 'ar3': return 'AR-3 · Selección por fijación';
+        case 'ar4': return 'AR-4 · Búsqueda espacial de Lúa';
+        case 'ar5': return 'AR-5 · Alimentar a Lúa';
+        case 'ar6': return 'AR-6 · Espejo mímico con Buddy Lúa';
+        default: return `AR · ${id.toUpperCase()}`;
+      }
+    },
     arTrialN: (n: number): string => `ensayo ${n}`,
 
     historyLabel: 'HISTORIAL DE SESIONES',
