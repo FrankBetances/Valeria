@@ -132,6 +132,8 @@ class Ar5FeedCatch(private val ctx: ExerciseContext) : ArExercise {
             abs(throwAngle) <= HIT_TOLERANCE_DEG &&
             throwVelocity >= MIN_THROW_VELOCITY_PX_S
 
+        val timeToThrow = if (threw) throwInitiatedMs - trialStartedMs else 0L
+
         _trials.add(
             TrialRecord.Ar5(
                 index = _trials.size + 1,
@@ -144,14 +146,15 @@ class Ar5FeedCatch(private val ctx: ExerciseContext) : ArExercise {
                 throwVelocityPxPerS = throwVelocity,
                 throwAngleDeg = throwAngle,
                 targetDistanceMm = targetDistanceMm,
-                timeToThrowMs = if (threw) throwInitiatedMs - trialStartedMs else 0L,
+                timeToThrowMs = timeToThrow,
                 hit = hit,
             )
         )
 
         ctx.scene.hidePointer()
         if (hit) {
-            channel.fire()
+            // La latencia que viaja en `Fired` es la del gesto del niño.
+            channel.fire(timeToThrow)
             ctx.scene.setReward(channel.reward.value)
         }
 

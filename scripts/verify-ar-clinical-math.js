@@ -679,6 +679,24 @@ test('Contract: las constantes de esta suite son las del Kotlin', () => {
   });
 });
 
+test('Contract: todo channel.fire() pasa la latencia del logro', () => {
+  // Esto lo caza un compilador, y por eso está aquí: esta suite corre ANTES que
+  // Gradle en android.yml, y el build 33171223982 murió a los seis minutos —tras
+  // los 24 gates y el typecheck en verde— por dos `channel.fire()` sin argumento
+  // en AR-4 y AR-5. `EventRewardChannel.fire(latencyMs: Long)` no tiene valor por
+  // defecto. Un `fire()` pelado vuelve a costar un build entero.
+  const fs2 = require('fs');
+  const dir = path.join(AR_KT, 'exercises');
+  const sinArgumento = [];
+  fs2.readdirSync(dir).filter((f) => f.endsWith('.kt')).forEach((f) => {
+    read(path.join(dir, f)).split('\n').forEach((line, i) => {
+      if (/\.fire\(\s*\)/.test(line)) sinArgumento.push(`${f}:${i + 1}`);
+    });
+  });
+  assert.deepStrictEqual(sinArgumento, [],
+    `channel.fire() sin latencia en: ${sinArgumento.join(', ')}`);
+});
+
 test('Contract: AR-5 lee el dedo del niño, no un temporizador', () => {
   const ar5 = read(KT.ar5);
   assert(/override fun onFling\(/.test(ar5), 'AR-5 debe implementar onFling');

@@ -159,7 +159,9 @@ class Ar4SpatialSearch(private val ctx: ExerciseContext) : ArExercise {
         )
 
         if (success) {
-            channel.fire()
+            // `fire` PIDE la latencia del logro, como en AR-2 y AR-3: el estado
+            // `Fired` la lleva dentro. Aquí es el tiempo de adquisición.
+            channel.fire(acquisition)
             ctx.scene.setReward(channel.reward.value)
         }
 
