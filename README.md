@@ -845,7 +845,7 @@ interfaz clásica se entra desde el hub de bloques, en la v11 desde **Ajustes**)
 
 | Documento | Descripción |
 | --- | --- |
-| **Manual de usuario con casos de uso** (v13) · [HTML](docs/manual-casos-de-uso.html) · [PDF](docs/Valeria-Manual-Casos-de-Uso.pdf) · [Word](docs/Valeria-Manual-Casos-de-Uso.docx) | **22 casos de uso** paso a paso ilustrados con capturas reales (`docs/screenshots/`): **Academy · hub de formación multidominio (CU‑03)**, los **siete bloques** (Pares Mínimos, Expansión Semántica, Audición, Lenguaje, TEA, Dislexia y **Realidad Aumentada**), el hub, la gráfica de sustitución por fonema, la telemetría del piloto (CU‑14), la variedad lingüística —Castellano, Galego, Dominicano y Euskera— (CU‑15), el Panel del Adulto / carga comunicativa (CU‑16), el **módulo de Lengua de Signos Española (CU‑17)** y el **bloque de Realidad Aumentada completo (CU‑18 a CU‑22)**: permiso de cámara y prueba de aptitud, los tres ejercicios y los umbrales clínicos. Cubre las novedades v6 → v12: la mascota **Lúa** —acariciable desde el hub—, la colección de **premios** con doce niveles y dieciocho insignias y **el armario** de cinco coleccionables (CU‑11), Academy con **siete dominios** (CU‑03), la iconografía propia de la v12 y el **Anexo C** sobre el periférico físico. Todas las capturas están tomadas sobre la v12. |
+| **Manual de usuario con casos de uso** (v14.2) · [HTML](docs/manual-casos-de-uso.html) · [PDF](docs/Valeria-Manual-Casos-de-Uso.pdf) · [Word](docs/Valeria-Manual-Casos-de-Uso.docx) | **27 casos de uso** paso a paso ilustrados con capturas reales (`docs/screenshots/`): **Academy · hub de formación multidominio (CU‑03)**, los **nueve bloques** (Pares Mínimos, Expansión Semántica, Audición, Lenguaje, TEA, Dislexia, **Realidad Aumentada**, Integración Sensorial Auditiva y Grafomotricidad), el hub, la gráfica de sustitución por fonema, la telemetría del piloto (CU‑14), la variedad lingüística (CU‑15), el Panel del Adulto / carga comunicativa (CU‑16), el **módulo de Lengua de Signos Española (CU‑17)** y el **bloque de Realidad Aumentada completo (CU‑18 a CU‑22 y CU‑25 a CU‑27)**: permiso de cámara, prueba de aptitud, **los seis ejercicios** y los umbrales clínicos. El capítulo de RA no lleva capturas a propósito —esos ejercicios necesitan la cámara abierta y cualquier captura fiel mostraría la cara de un menor—. Incluye el **Anexo C** sobre el periférico físico. |
 | [`docs/pizarra-magica-e-insignias.md`](docs/pizarra-magica-e-insignias.md) | El rediseño de las insignias de Lúa (y por qué tres glifos hubo que volver a dibujarlos para que se leyeran a 30 px), la limpieza de la vibrante múltiple en las cuatro variedades y las dos trampas de `sanitizePhonetics`, las láminas de frase y la Pizarra Mágica. Incluye lo que queda pendiente en el firmware. |
 | [`docs/sprint-integracion-2026-08-21.md`](docs/sprint-integracion-2026-08-21.md) | Cierre del sprint de Integración Sensorial y la Brújula ASHA: qué se decidió, qué faltaba para que el módulo existiera de verdad y qué suena dentro de cada uno de los tres ambientes. |
 | [`docs/plan-evolucion-ux-v11.md`](docs/plan-evolucion-ux-v11.md) | Plan de evolución UX/UI v10.2 → v11 en respuesta al feedback del piloto («engorroso», «mucho texto»): diagnóstico medido sobre el código, cuadrícula de 2 columnas, pestañas inferiores y el **muro de contención** que garantiza cero regresiones clínicas y cero pérdida de la serie de telemetría. Implementado y activo; el interruptor `ENABLE_V11_UI` se retiró al cerrar el Sprint 4.6. |
@@ -883,9 +883,9 @@ python3 docs/build-docx.py        # → Word (requiere python-docx y lxml)
 > La mascota de la portada (`docs/lua-mascota.png`) sale del mismo sprite que
 > la app, con `node scripts/build-brand-assets.js`.
 >
-> El capítulo de **Realidad Aumentada** (CU‑18 a CU‑22) no lleva capturas a
-> propósito: esos ejercicios solo funcionan con la cámara abierta en un teléfono
-> físico, y cualquier captura fiel mostraría la cara de un niño.
+> El capítulo de **Realidad Aumentada** (CU‑18 a CU‑22 y CU‑25 a CU‑27) no lleva
+> capturas a propósito: esos ejercicios solo funcionan con la cámara abierta en
+> un teléfono físico, y cualquier captura fiel mostraría la cara de un niño.
 
 ---
 
@@ -909,7 +909,7 @@ npm run typecheck # tsc --noEmit — comprobación de tipos
 | `npm run ios` | `expo run:ios` — compila e instala en el simulador **iOS** (solo macOS). |
 | `npm run web` | Abre la versión **web** en el navegador. |
 | `npm run typecheck` | Verifica los tipos de TypeScript. |
-| `npm run build:ar-models` | Regenera los cinco modelos 3D del bloque de Realidad Aumentada (`assets/models/*.glb`). Deterministas: si nada cambia, no producen diff. |
+| `npm run build:ar-models` | Regenera los siete modelos 3D del bloque de Realidad Aumentada (`assets/models/*.glb`). Deterministas: si nada cambia, no producen diff. |
 | `npm run fetch:ar-model` | Descarga el modelo de señal facial de MediaPipe desde su revisión fijada y verifica su SHA‑256. Idempotente. |
 | `npm run check:ar-models` | Comprueba que los `.glb` y el `.task` están, caben en su presupuesto y **que sus nombres de animación siguen coincidiendo con el enum `ArModel` de Kotlin**. |
 

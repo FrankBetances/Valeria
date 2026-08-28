@@ -154,7 +154,7 @@
   <div class="brand">valeria+</div>
   <img class="mascot" src="lua-mascota.png" alt="Lúa, la gata de Valeria+, en píxel art">
   <div style="margin-top:auto">
-    <div class="pill">Manual de usuario · v14.1 · con capturas de pantalla</div>
+    <div class="pill">Manual de usuario · v14.2 · con capturas de pantalla</div>
     <h1>Manual de<br>Casos de Uso</h1>
     <div class="sub">Aplicación de terapia auditivo‑verbal y del lenguaje para niñas y niños con hipoacusia, implante coclear, dislalias, dislexia, TEA o dificultades del lenguaje.</div>
     <div class="meta">
@@ -202,6 +202,9 @@
     <li><span class="num">CU‑20</span><span class="txt">AR‑2 · Localización del sonido: de «¿giró?» a milisegundos</span></li>
     <li><span class="num">CU‑21</span><span class="txt">AR‑3 · Selección semántica por fijación: elegir mirando</span></li>
     <li><span class="num">CU‑22</span><span class="txt">Ajustar los umbrales de Realidad Aumentada y ver las señales en vivo</span></li>
+    <li><span class="num">CU‑25</span><span class="txt">AR‑4 · Búsqueda espacial: encontrar a Lúa girando la cabeza</span></li>
+    <li><span class="num">CU‑26</span><span class="txt">AR‑5 · Lanzarle el pez a Lúa: puntería y latencia del gesto</span></li>
+    <li><span class="num">CU‑27</span><span class="txt">AR‑6 · Espejo mímico: imitar la praxia que hace Lúa</span></li>
     <li class="section-label">Anexos</li>
     <li><span class="num">A</span><span class="txt">Preguntas frecuentes y resolución de problemas</span></li>
     <li><span class="num">B</span><span class="txt">Historial de versiones</span></li>
@@ -256,7 +259,7 @@
     <tr><td><span class="bdot" style="background:#c2701f"></span><strong>Grafomotricidad y Escritura</strong> — 6 trazos</td>
       <td>La <strong>Pizarra Mágica de Lúa</strong>: la continuación motora de Dislexia. Donde aquel bloque hace <em>discriminar</em> la b de la d en pantalla, aquí se <strong>trazan</strong>, sobre un lienzo con pauta Montessori y <strong>puntos de control numerados</strong> que dicen por dónde empieza cada letra. Cuatro letras críticas (b, d, p, m), dos lazos de calentamiento y una pizarra libre, con el dedo o con lápiz óptico. No pide PIN ni prescripción, y no puntúa: es práctica, no medida (CU‑24).</td></tr>
     <tr><td><span class="bdot" style="background:#00a39e"></span><strong>Realidad Aumentada</strong> — 3 ejercicios<br><span class="small muted">Solo Android, en teléfono</span></td>
-      <td>La cámara frontal como <strong>sensor de movimiento</strong>: postura labial (AR‑1), giro de la cabeza hacia un sonido (AR‑2) y elección de dibujo con la mirada (AR‑3). El premio en 3D se gana <strong>con el gesto, no con la voz</strong>; en dos de los tres el micrófono está apagado. Requiere permiso de cámara y una prueba de aptitud del aparato (CU‑18 a CU‑22).</td></tr>
+      <td>La cámara frontal como <strong>sensor de movimiento</strong>: postura labial (AR‑1), giro de la cabeza hacia un sonido (AR‑2), elección de dibujo con la mirada (AR‑3), búsqueda espacial de Lúa (AR‑4), lanzamiento con el dedo (AR‑5) e imitación de praxias faciales (AR‑6). El premio en 3D se gana <strong>con el gesto, no con la voz</strong>; en cinco de los seis el micrófono está apagado. Requiere permiso de cámara y una prueba de aptitud del aparato (CU‑18 a CU‑22 y CU‑25 a CU‑27).</td></tr>
   </table>
   <p class="small muted">Además, el <strong>Test de Ling</strong> es una comprobación auditiva rápida (6 sonidos) previa a los
   ejercicios de audición; <strong>Academy</strong> forma al cuidador (ver CU‑03), y la <strong>gamificación</strong>
@@ -1748,7 +1751,7 @@ TEA y Lengua de Signos). Cada dominio ofrece
       </div>
       <p>El bloque de Realidad Aumentada usa la <strong>cámara frontal como sensor de movimiento</strong>: mide si el niño redondea los
       labios, gira la cabeza hacia un sonido o mantiene la mirada en un dibujo, y esos gestos son los que hacen reaccionar
-      a unas figuras en 3D. <strong>En dos de los tres ejercicios el micrófono está apagado</strong>, a propósito: se premia
+      a unas figuras en 3D. <strong>En cinco de los seis ejercicios el micrófono está apagado</strong>, a propósito: se premia
       el esfuerzo motor <em>antes</em> de pedirle que hable, para que no escuche su propio error y se frustre antes de haber
       consolidado el gesto.</p>
       <p>Antes de la primera sesión hay dos pasos que se hacen una sola vez, y merece la pena no saltárselos.</p>
@@ -1756,15 +1759,15 @@ TEA y Lengua de Signos). Cada dominio ofrece
       <ol class="flow">
         <li>Abrir la tarjeta <strong>Realidad Aumentada</strong> del hub. Si el teléfono o la versión de la app no lo admiten, la app lo dice y no ofrece nada más.</li>
         <li>Leer <strong>“Qué hace la cámara en estos juegos”</strong> y aceptar. Se pide <strong>una vez por paciente</strong>.</li>
-        <li>Hacer el <strong>calentamiento de minuto y medio</strong> con la osita. Es la <strong>prueba de aptitud</strong>: mide lo que este aparato concreto puede sostener.</li>
+        <li>Hacer el <strong>calentamiento de minuto y medio</strong> con Lúa. Es la <strong>prueba de aptitud</strong>: mide lo que este aparato concreto puede sostener.</li>
         <li><strong>Colocar el teléfono apoyado</strong> —en un libro, una caja o contra la pared—, <strong>horizontal</strong> y a <strong>30‑35 cm</strong> de la cara. La app avisa en verde cuando la posición vale.</li>
-        <li>Elegir uno de los tres ejercicios habilitados para el nivel obtenido.</li>
+        <li>Elegir uno de los ejercicios habilitados para el nivel obtenido.</li>
       </ol>
       <h4>Qué habilita cada nivel de aptitud</h4>
       <table>
         <tr><th style="width:22%">Nivel</th><th>Qué se puede hacer</th></tr>
-        <tr><td><strong>A · Instrumento</strong></td><td>Los tres ejercicios, y los tiempos de AR‑2 sirven como medida.</td></tr>
-        <tr><td><strong>B · Clínico</strong></td><td>Los tres ejercicios; AR‑2 <strong>solo como juego</strong> (sus tiempos no son defendibles).</td></tr>
+        <tr><td><strong>A · Instrumento</strong></td><td>Los seis ejercicios, y los tiempos de AR‑2 sirven como medida.</td></tr>
+        <tr><td><strong>B · Clínico</strong></td><td>Los seis ejercicios; AR‑2 <strong>solo como juego</strong> (sus tiempos no son defendibles).</td></tr>
         <tr><td><strong>C · Reducido</strong></td><td>AR‑1 y AR‑3, este último con <strong>2 dibujos</strong> en vez de 3.</td></tr>
         <tr><td><strong>D · No apto</strong></td><td>El bloque no aparece. Los otros seis funcionan exactamente igual.</td></tr>
       </table>
@@ -1876,7 +1879,7 @@ TEA y Lengua de Signos). Cada dominio ofrece
       cerebral, dispraxia o cualquier dificultad de motricidad fina. El niño <strong>elige mirando</strong>, no señalando.</p>
       <h4>Flujo principal</h4>
       <ol class="flow">
-        <li><strong>Calibración obligatoria</strong>: 5 puntos con la osita, unos 15 segundos. Sin ella el puntero no apunta a nada. Se guarda por paciente y por teléfono.</li>
+        <li><strong>Calibración obligatoria</strong>: 5 puntos con Lúa, unos 15 segundos. Sin ella el puntero no apunta a nada. Se guarda por paciente y por teléfono.</li>
         <li>Aparecen <strong>3 dibujos</strong> (2 si el teléfono es de nivel C), colocados por ángulos, no por píxeles.</li>
         <li>La app <strong>dice la palabra una sola vez</strong> y espera.</li>
         <li>El niño mira el dibujo. Un <strong>anillo de progreso</strong> se va cerrando mientras sostiene la mirada; a <strong>1,2 segundos</strong> queda elegido (ajustable en el Panel).</li>
@@ -1922,10 +1925,115 @@ TEA y Lengua de Signos). Cada dominio ofrece
   </div>
 </section>
 
+<!-- CU-25 · AR-4 -->
+<section>
+  <div class="uc">
+    <div class="uc-head">
+      <div class="id">CU‑25 · <span class="tag" style="background:rgba(255,255,255,.24);color:#fff">Familia</span></div>
+      <div class="title">AR‑4 · Búsqueda espacial: encontrar a Lúa girando la cabeza</div>
+    </div>
+    <div class="uc-body">
+      <div class="uc-grid">
+        <div><div class="k">Actor</div><div class="v">Tutor + niño/a (4‑5 años)</div></div>
+        <div><div class="k">Pantalla</div><div class="v">Realidad Aumentada · AR‑4</div></div>
+        <div><div class="k">Precondición</div><div class="v">Consentimiento y aptitud A, B o C (CU‑18)</div></div>
+        <div><div class="k">Resultado</div><div class="v">Tiempo de búsqueda y estabilidad del giro, por ensayo</div></div>
+      </div>
+      <p>Trabaja <strong>amplitud de giro del cuello y rastreo visual</strong>. Lúa se esconde en una de las cuatro
+      esquinas del espacio y el niño la busca <strong>girando la cabeza</strong>, no moviendo el teléfono.</p>
+      <h4>Flujo principal</h4>
+      <ol class="flow">
+        <li>Lúa se oculta en un cuadrante <strong>a 22 grados</strong> de donde mira el niño. Se sortea en cada ensayo.</li>
+        <li>Una <strong>retícula</strong> indica hacia dónde girar. El niño gira la cabeza hasta centrarla.</li>
+        <li>Al meterla en el <strong>cono central</strong> y sostenerla <strong>0,65 segundos</strong>, Lúa aparece y celebra.</li>
+        <li>Si a los <strong>12 segundos</strong> no la ha encontrado, el ensayo se cierra como no conseguido y empieza el siguiente.</li>
+      </ol>
+      <h4>Flujos alternativos</h4>
+      <ul class="alt">
+        <li><strong>Gira y se pasa de largo:</strong> la retícula se aleja del centro y el sostén acumulado se descuenta. No se pierde el ensayo, se sigue buscando.</li>
+        <li><strong>Mueve el teléfono en vez de la cabeza:</strong> los fotogramas con el aparato en movimiento se descartan. Apoye el teléfono.</li>
+      </ul>
+      <div class="callout"><div class="lbl">La retícula pegada al borde <em>es</em> el ejercicio</div><p style="margin:4px 0 0">La pantalla, a un palmo y medio, abarca unos <strong>11 grados</strong>, y Lúa se esconde a <strong>22</strong>. Es decir: durante casi todo el ensayo <strong>está fuera de la pantalla</strong>, y la retícula se queda anclada al borde señalando hacia dónde girar. No es un fallo de dibujo ni una imagen cortada: es la pista, y sin ella el niño no tendría por dónde empezar.</p></div>
+      <div class="callout violet"><div class="lbl">Qué registra, y qué no es</div><p style="margin:4px 0 0">Guarda el <strong>tiempo hasta encontrarla</strong> y la <strong>dispersión del giro</strong> en grados —cuánto tiembla la cabeza mientras sostiene—. La dispersión <strong>no es un error</strong>: es cuánto oscila alrededor de su propia media, y conviene no leerla como puntería.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CU-26 · AR-5 -->
+<section>
+  <div class="uc">
+    <div class="uc-head">
+      <div class="id">CU‑26 · <span class="tag" style="background:rgba(255,255,255,.24);color:#fff">Familia</span></div>
+      <div class="title">AR‑5 · Lanzarle el pez a Lúa: puntería y latencia del gesto</div>
+    </div>
+    <div class="uc-body">
+      <div class="uc-grid">
+        <div><div class="k">Actor</div><div class="v">Tutor + niño/a (3‑4 años)</div></div>
+        <div><div class="k">Pantalla</div><div class="v">Realidad Aumentada · AR‑5</div></div>
+        <div><div class="k">Precondición</div><div class="v">Consentimiento y aptitud A, B o C (CU‑18)</div></div>
+        <div><div class="k">Resultado</div><div class="v">Velocidad, desviación de puntería y latencia de lanzamiento</div></div>
+      </div>
+      <p>Trabaja <strong>coordinación óculo‑manual y latencia de iniciación</strong> ante una petición. Lúa espera
+      hambrienta en el centro y el niño le lanza un pez dorado <strong>deslizando el dedo</strong> hacia ella.</p>
+      <h4>Flujo principal</h4>
+      <ol class="flow">
+        <li>Lúa aparece en el centro. El pez está listo.</li>
+        <li>El niño <strong>desliza el dedo</strong> hacia Lúa. La app mide la <strong>velocidad real</strong> del gesto y <strong>cuánto se desvía</strong> de la línea que va del dedo a Lúa.</li>
+        <li>El pez vuela. Si el lanzamiento iba <strong>apuntado y con brío</strong>, Lúa lo atrapa y ronronea.</li>
+        <li>Si a los <strong>12 segundos</strong> no ha lanzado, el ensayo se <strong>anula</strong> y se anota el motivo.</li>
+      </ol>
+      <h4>Flujos alternativos</h4>
+      <ul class="alt">
+        <li><strong>Toca la pantalla sin arrastrar:</strong> no cuenta. Un toque no tiene dirección, y sin dirección no hay puntería que medir.</li>
+        <li><strong>Arrastra muy despacio:</strong> el pez no llega. Es un fallo real, y se registra como tal.</li>
+        <li><strong>Agita el dedo por la pantalla:</strong> no acumula aciertos. Hace falta apuntar, no solo ir rápido.</li>
+      </ul>
+      <div class="callout violet"><div class="lbl">Aquí no se mide ningún tiempo de reacción de captura</div><p style="margin:4px 0 0">Quien atrapa el pez es <strong>Lúa, que es software</strong>: cronometrarla mediría el reloj de la aplicación, no al niño. Lo que se registra es del niño y solo del niño: la velocidad de su gesto, su desviación de puntería y <strong>cuánto tarda en lanzar</strong> desde que Lúa se lo pide.</p></div>
+      <div class="callout warn"><div class="lbl">Los dos umbrales de acierto están sin calibrar</div><p style="margin:4px 0 0">Un lanzamiento cuenta como acierto si se desvía <strong>menos de 18 grados</strong> y supera una velocidad mínima. Esas dos cifras son <strong>valores de partida elegidos por diseño</strong>, no derivados de un banco de referencia ni de la literatura, igual que el resto de umbrales del bloque: entran en la calibración pendiente de la Fase 0. Léalo como un juego con registro, no como una prueba de puntería normalizada.</p></div>
+      <div class="callout"><div class="lbl">Un ensayo sin lanzamiento no se rellena</div><p style="margin:4px 0 0">Si el niño no tira, el ensayo queda <strong>anulado con su motivo</strong>, no completado con ceros. Una tasa alta de ensayos sin lanzamiento es un dato sobre la tarea o sobre el día, y por eso se conserva en vez de disimularse.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CU-27 · AR-6 -->
+<section>
+  <div class="uc">
+    <div class="uc-head">
+      <div class="id">CU‑27 · <span class="tag pro">Profesional</span></div>
+      <div class="title">AR‑6 · Espejo mímico: imitar la praxia que hace Lúa</div>
+    </div>
+    <div class="uc-body">
+      <div class="uc-grid">
+        <div><div class="k">Actor</div><div class="v">Logopeda o tutor + niño/a (4‑5 años)</div></div>
+        <div><div class="k">Pantalla</div><div class="v">Realidad Aumentada · AR‑6</div></div>
+        <div><div class="k">Precondición</div><div class="v">Consentimiento y aptitud A, B o C (CU‑18)</div></div>
+        <div><div class="k">Resultado</div><div class="v">Sostén de la praxia y simetría bilateral, por ensayo</div></div>
+      </div>
+      <p>Trabaja <strong>praxias fonoarticulatorias y conciencia orofacial</strong> por imitación. Lúa hace un gesto y el
+      niño lo imita frente al espejo de la cámara. Se sortea entre cuatro: <strong>sonrisa, apertura de la mandíbula,
+      inflar las mejillas y morrito</strong>.</p>
+      <h4>Flujo principal</h4>
+      <ol class="flow">
+        <li>Lúa modela la praxia. El niño se ve a sí mismo al lado.</li>
+        <li>La app toma <strong>línea base de reposo</strong> durante los primeros fotogramas del ensayo, <strong>de ese niño y de ese momento</strong>. La activación se mide restándola.</li>
+        <li>El niño imita y <strong>sostiene</strong>. Al llegar al umbral y mantenerlo, Lúa celebra.</li>
+        <li>A los <strong>14 segundos</strong> el ensayo se cierra y pasa al siguiente.</li>
+      </ol>
+      <h4>Flujos alternativos</h4>
+      <ul class="alt">
+        <li><strong>Hace el gesto con medio lado de la cara:</strong> la señal se atenúa. Una mueca compensatoria no debe premiarse como praxia conseguida.</li>
+        <li><strong>Infla solo un carrillo:</strong> ahí <strong>no</strong> se penaliza la asimetría. Inflar mejillas de forma desigual es fisiológicamente normal y castigarlo sería un falso negativo.</li>
+      </ul>
+      <div class="callout"><div class="lbl">La línea base se toma en cada ensayo, no una vez</div><p style="margin:4px 0 0">Una cara en reposo no marca cero: cada niño parte de su propia postura, y esa postura cambia con el cansancio a lo largo de la sesión. Tomarla al principio de <strong>cada</strong> ensayo evita que el sexto ensayo se mida con la cara del primero.</p></div>
+      <div class="callout violet"><div class="lbl">La simetría es un dato, no un veredicto</div><p style="margin:4px 0 0">El registro guarda el <strong>índice de simetría</strong> junto al sostén. Sirve para ver si el niño consigue el gesto compensando con un lado, algo que a ojo se escapa. Como todo en este bloque, describe: no dice si eso es normal para su edad ni sugiere diagnóstico.</p></div>
+    </div>
+  </div>
+</section>
+
 <section>
   <div class="callout" style="margin-top:4px">
     <div class="lbl">Por qué este capítulo no lleva capturas</div>
-    <p style="margin:4px 0 0">Los tres ejercicios de Realidad Aumentada solo funcionan con la cámara abierta en un teléfono
+    <p style="margin:4px 0 0">Los seis ejercicios de Realidad Aumentada solo funcionan con la cámara abierta en un teléfono
     físico, y cualquier captura fiel mostraría <strong>la cara de un niño</strong>. Preferimos describirlos con palabras antes
     que incluir una imagen de un menor en un documento que circula, o una recreación que no se parezca a lo que verá.</p>
   </div>
@@ -2010,6 +2118,7 @@ TEA y Lengua de Signos). Cada dominio ofrece
     dialectal está firmada desde el 16 de agosto de 2026 por una logopeda con licencia de Howard University—, y lo
     desmentía el propio código de la app. Ahora dice lo que hay, incluido el respeto dialectal del inglés
     afroamericano (CU‑15).</td></tr>
+    <tr><td><strong>v14.2</strong></td><td><strong>Realidad Aumentada pasa de tres ejercicios a seis</strong>, todos con la gata Lúa: <strong>AR‑4</strong> búsqueda espacial girando la cabeza, <strong>AR‑5</strong> lanzarle el pez con el dedo y <strong>AR‑6</strong> espejo mímico de praxias faciales (CU‑25 a CU‑27). En AR‑5 <strong>el gatillo es el dedo del niño</strong>: se mide la velocidad real del gesto, cuánto se desvía de Lúa y cuánto tarda en lanzar, y un ensayo sin lanzamiento <strong>se anula en vez de rellenarse</strong>. Se retira el «tiempo de reacción de captura» que figuraba en el panel: cronometraba a Lúa atrapando, que es software, y no al niño. La diana de calibración deja de ser un emoji del sistema y pasa a ser Lúa dibujada con el trazo de la marca.</td></tr>
   </table>
 
   <p style="margin-top:14px"><strong>Sobre la cobertura de este manual.</strong> Los capítulos paso a paso cubren ya
