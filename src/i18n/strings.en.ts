@@ -1467,6 +1467,12 @@ export const EN: UiStrings = {
     rowLatencyMedian: 'Median head-turn latency',
     rowTargets: 'Targets on screen',
     rowDwellMean: 'Mean dwell before choosing',
+    rowAcquisitionMean: 'Mean spatial search time',
+    rowJitterRms: 'Angular stability (Jitter RMS)',
+    rowThrowVelocityMean: 'Mean throw velocity',
+    rowCatchReaction: 'Catch and ingestion reaction',
+    rowMimicHoldMean: 'Mean praxia hold',
+    rowSymmetryMean: 'Mean bilateral symmetry',
   },
   academy: {
     back: '‹ Back',

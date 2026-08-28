@@ -551,12 +551,209 @@ function buildZapato() {
 }
 
 // ---------------------------------------------------------------------------
+function buildLua() {
+  const g = new GltfBuilder();
+  const pelaje = g.addMaterial('pelaje', [0.96, 0.95, 0.92], 0.7);
+  const interiorOreja = g.addMaterial('oreja_rosa', [0.94, 0.65, 0.72], 0.6);
+  const ojoTurquesa = g.addMaterial('ojo_turquesa', PALETTE.turquesa, 0.2);
+  const narizRosa = g.addMaterial('nariz_rosa', [0.92, 0.42, 0.52], 0.4);
+  const collarMat = g.addMaterial('collar', PALETTE.turquesa, 0.5);
+  const cascabelMat = g.addMaterial('cascabel', PALETTE.amarillo, 0.3);
+
+  // Cuerpo
+  const cuerpo = g.addNode({
+    name: 'cuerpo',
+    mesh: g.addMesh('cuerpo', sphere(0.42, [0, 0.52, 0], 16, 10, [0.9, 1.1, 0.9]), pelaje),
+  });
+
+  // Patas
+  const patas = [];
+  [[0.22, 0.16], [0.22, -0.16], [-0.22, 0.16], [-0.22, -0.16]].forEach(([x, z], i) => {
+    patas.push(g.addNode({
+      name: `pata_${i}`,
+      mesh: g.addMesh(`pata_${i}`, cylinder(0.09, 0.28, [x, 0.14, z], 10, 'y'), pelaje),
+    }));
+  });
+
+  // Cabeza y elementos faciales
+  const craneo = g.addNode({
+    name: 'craneo',
+    mesh: g.addMesh('craneo', sphere(0.36, [0, 0.18, 0], 16, 10, [1.08, 0.95, 0.98]), pelaje),
+  });
+
+  // Orejas triangulares
+  const orejas = [];
+  [-0.18, 0.18].forEach((x, i) => {
+    orejas.push(g.addNode({
+      name: `oreja_${i}`,
+      mesh: g.addMesh(`oreja_${i}`, box(0.12, 0.22, 0.08, [x, 0.54, 0]), pelaje),
+    }));
+    orejas.push(g.addNode({
+      name: `oreja_int_${i}`,
+      mesh: g.addMesh(`oreja_int_${i}`, box(0.08, 0.16, 0.04, [x, 0.52, 0.03]), interiorOreja),
+    }));
+  });
+
+  // Ojos turquesa de Lúa
+  const ojos = [];
+  [-0.13, 0.13].forEach((x, i) => {
+    ojos.push(g.addNode({
+      name: `ojo_${i}`,
+      mesh: g.addMesh(`ojo_${i}`, sphere(0.055, [x, 0.22, 0.32], 10, 6, [1, 1.2, 0.6]), ojoTurquesa),
+    }));
+  });
+
+  // Hocico y nariz
+  const hocico = g.addNode({
+    name: 'hocico',
+    mesh: g.addMesh('hocico', sphere(0.09, [0, 0.12, 0.32], 10, 6, [1.3, 0.8, 0.8]), pelaje),
+  });
+  const nariz = g.addNode({
+    name: 'nariz',
+    mesh: g.addMesh('nariz', sphere(0.035, [0, 0.15, 0.39], 8, 5, [1.2, 0.9, 0.6]), narizRosa),
+  });
+
+  // Collar y cascabel
+  const collar = g.addNode({
+    name: 'collar',
+    mesh: g.addMesh('collar', cylinder(0.24, 0.06, [0, -0.06, 0], 14, 'y'), collarMat),
+  });
+  const cascabel = g.addNode({
+    name: 'cascabel',
+    mesh: g.addMesh('cascabel', sphere(0.06, [0, -0.08, 0.24], 10, 6), cascabelMat),
+  });
+
+  const cabeza = g.addNode({
+    name: 'cabeza',
+    translation: [0, 0.82, 0.1],
+    children: [craneo, ...orejas, ...ojos, hocico, nariz, collar, cascabel],
+  });
+
+  // Cola
+  const colaMesh = g.addNode({
+    name: 'cola_mesh',
+    mesh: g.addMesh('cola_mesh', cylinder(0.045, 0.36, [0, 0.18, -0.16], 10, 'y'), pelaje),
+  });
+  const cola = g.addNode({ name: 'cola', translation: [0, 0.38, -0.32], children: [colaMesh] });
+
+  const root = g.addNode({ name: 'lua', children: [cuerpo, ...patas, cabeza, cola] });
+  g.addRootNode(root);
+
+  // Animación celebrate: salto + alegría + batir de cola + giro suave
+  g.addAnimation('celebrate', [
+    {
+      node: root,
+      path: 'translation',
+      times: [0, 0.18, 0.36, 0.54, 0.72, 0.9, 1.1],
+      values: [[0, 0, 0], [0, 0.45, 0], [0, 0, 0], [0, 0.32, 0], [0, 0, 0], [0, 0.12, 0], [0, 0, 0]],
+    },
+    {
+      node: cola,
+      path: 'rotation',
+      times: [0, 0.15, 0.3, 0.45, 0.6, 0.75, 0.9, 1.1],
+      values: [
+        quat('y', 0), quat('y', 42), quat('y', -42), quat('y', 42),
+        quat('y', -42), quat('y', 30), quat('y', -20), quat('y', 0),
+      ],
+    },
+    {
+      node: cabeza,
+      path: 'rotation',
+      times: [0, 0.25, 0.5, 0.75, 1.1],
+      values: [quat('x', 0), quat('x', -12), quat('x', 8), quat('x', -6), quat('x', 0)],
+    },
+  ]);
+
+  return g;
+}
+
+/**
+ * AR-5 · El pez dorado que se lanza a Lúa como premio.
+ */
+function buildPez() {
+  const g = new GltfBuilder();
+  const escamas = g.addMaterial('escamas', PALETTE.amarillo, 0.35);
+  const aletas = g.addMaterial('aletas', [0.98, 0.55, 0.12], 0.5);
+  const ojo = g.addMaterial('ojo', PALETTE.gris, 0.2);
+
+  // Cuerpo ovalado de pez
+  const cuerpo = g.addNode({
+    name: 'cuerpo_pez',
+    mesh: g.addMesh('cuerpo_pez', sphere(0.38, [0, 0.38, 0], 16, 10, [1.4, 0.8, 0.5]), escamas),
+  });
+
+  // Cola
+  const cola = g.addNode({
+    name: 'cola_pez',
+    mesh: g.addMesh('cola_pez', box(0.24, 0.32, 0.04, [-0.48, 0.38, 0]), aletas),
+  });
+
+  // Aleta dorsal
+  const aletaDorsal = g.addNode({
+    name: 'aleta_dorsal',
+    mesh: g.addMesh('aleta_dorsal', box(0.3, 0.14, 0.04, [0.02, 0.68, 0]), aletas),
+  });
+
+  // Ojos
+  const ojos = [];
+  [0.18, -0.18].forEach((z, i) => {
+    ojos.push(g.addNode({
+      name: `ojo_pez_${i}`,
+      mesh: g.addMesh(`ojo_pez_${i}`, sphere(0.04, [0.32, 0.42, z], 8, 5), ojo),
+    }));
+  });
+
+  const root = g.addNode({ name: 'pez', children: [cuerpo, cola, aletaDorsal, ...ojos] });
+  g.addRootNode(root);
+
+  const turn = fullTurn('y', 0.8);
+  g.addAnimation('spin360', [{ node: root, path: 'rotation', times: turn.times, values: turn.values }]);
+  return g;
+}
+
+/**
+ * Recompensa / Estrella 3D de nivel y confeti para AR-4 y AR-6.
+ */
+function buildEstrella() {
+  const g = new GltfBuilder();
+  const oro = g.addMaterial('oro', PALETTE.amarillo, 0.2);
+  const centroMat = g.addMaterial('centro', [1.0, 0.92, 0.45], 0.25);
+
+  const centro = g.addNode({
+    name: 'centro_estrella',
+    mesh: g.addMesh('centro_estrella', sphere(0.28, [0, 0.44, 0], 14, 8), centroMat),
+  });
+
+  // 5 puntas de estrella
+  const puntas = [];
+  for (let i = 0; i < 5; i++) {
+    const angle = (i * Math.PI * 2) / 5;
+    const px = Math.sin(angle) * 0.42;
+    const py = Math.cos(angle) * 0.42 + 0.44;
+    puntas.push(g.addNode({
+      name: `punta_${i}`,
+      mesh: g.addMesh(`punta_${i}`, box(0.18, 0.18, 0.14, [px, py, 0]), oro),
+    }));
+  }
+
+  const root = g.addNode({ name: 'estrella', children: [centro, ...puntas] });
+  g.addRootNode(root);
+
+  const turn = fullTurn('y', 1.0);
+  g.addAnimation('spin360', [{ node: root, path: 'rotation', times: turn.times, values: turn.values }]);
+  return g;
+}
+
+// ---------------------------------------------------------------------------
 const MODELS = [
   { file: 'coche.glb', build: buildCoche, animation: 'celebrate', exercise: 'AR-1' },
   { file: 'perro.glb', build: buildPerro, animation: 'celebrate', exercise: 'AR-2' },
   { file: 'manzana.glb', build: buildManzana, animation: 'spin360', exercise: 'AR-3' },
   { file: 'pelota.glb', build: buildPelota, animation: 'spin360', exercise: 'AR-3 (distractor)' },
   { file: 'zapato.glb', build: buildZapato, animation: 'spin360', exercise: 'AR-3 (distractor)' },
+  { file: 'lua.glb', build: buildLua, animation: 'celebrate', exercise: 'AR-4 / AR-6 (Lúa Mascota)' },
+  { file: 'pez.glb', build: buildPez, animation: 'spin360', exercise: 'AR-5 (Premio Pez Dorado)' },
+  { file: 'estrella.glb', build: buildEstrella, animation: 'spin360', exercise: 'Recompensa Estrella' },
 ];
 
 // Presupuesto por modelo del contrato de assets. No es decorativo: el bloque

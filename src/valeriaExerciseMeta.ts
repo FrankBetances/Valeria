@@ -102,6 +102,9 @@ export const AR_META_ES: ExerciseMeta[] = [
   { id: 'ar1', code: 'AR-1', name: 'Cinemática Orofacial', category: 'Postura labial como gatillo · micrófono apagado', age: '3-4 años' },
   { id: 'ar2', code: 'AR-2', name: 'Localización del Sonido Instrumentada', category: 'VRA digitalizado · latencia del giro cefálico', age: '3-4 años', instrumentaA: 'ra5' },
   { id: 'ar3', code: 'AR-3', name: 'Selección Semántica por Fijación', category: 'Comprensión sin motricidad fina · dwell time', age: '4-5 años' },
+  { id: 'ar4', code: 'AR-4', name: 'Búsqueda Espacial de Lúa', category: 'Rastreo 3D en el entorno · radar y amplitud cervical', age: '4-5 años' },
+  { id: 'ar5', code: 'AR-5', name: 'Lanzamiento y Captura de Premios', category: 'Alimentar a Lúa · coordinación cinemática y captura', age: '3-4 años' },
+  { id: 'ar6', code: 'AR-6', name: 'Espejo Mímico con Buddy Lúa', category: 'Praxias faciales guiadas · simetría y conciencia motora', age: '4-5 años' },
 ];
 
 // ============================================================================
@@ -160,6 +163,9 @@ export const AR_META_EN: ExerciseMeta[] = [
   { id: 'ar1', code: 'AR-1', name: 'Orofacial kinematics', category: 'Lip posture trigger · microphone muted', age: '3–4 years' },
   { id: 'ar2', code: 'AR-2', name: 'Instrumented sound localization', category: 'Digitalized VRA · head-turn latency', age: '3–4 years', instrumentaA: 'ra5' },
   { id: 'ar3', code: 'AR-3', name: 'Semantic gaze selection', category: 'Comprehension without fine motor · dwell time', age: '4–5 years' },
+  { id: 'ar4', code: 'AR-4', name: 'Spatial search for Lúa', category: '3D spatial tracking · sensory compass and neck range', age: '4–5 years' },
+  { id: 'ar5', code: 'AR-5', name: 'Reward throw and catch', category: 'Feed Lúa · kinematic gesture and reaction', age: '3–4 years' },
+  { id: 'ar6', code: 'AR-6', name: 'Mirror mimicry with Buddy Lúa', category: 'Guided facial praxias · symmetry and motor awareness', age: '4–5 years' },
 ];
 
 // Defaults (Spanish)

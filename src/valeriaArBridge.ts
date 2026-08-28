@@ -35,7 +35,7 @@
 // Vocabulario compartido con el host nativo
 // ---------------------------------------------------------------------------
 
-export type ArExerciseId = 'ar1' | 'ar2' | 'ar3';
+export type ArExerciseId = 'ar1' | 'ar2' | 'ar3' | 'ar4' | 'ar5' | 'ar6';
 
 /** Fuente del puntero de AR-3. La elige el adulto; el ejercicio no sabe cuál corre. */
 export type ArPointerSource = 'iris' | 'noseRay';
@@ -177,7 +177,37 @@ export interface Ar3Trial extends ArTrialBase {
   outOfBoundsMs: number;
 }
 
-export type ArTrial = Ar1Trial | Ar2Trial | Ar3Trial;
+export interface Ar4Trial extends ArTrialBase {
+  exerciseId: 'ar4';
+  targetQuadrant: string;
+  targetYawDeg: number;
+  targetPitchDeg: number;
+  acquisitionTimeMs: number;
+  fovealDwellMs: number;
+  yawRmsDeg: number;
+  success: boolean;
+}
+
+export interface Ar5Trial extends ArTrialBase {
+  exerciseId: 'ar5';
+  throwVelocityPxPerS: number;
+  throwAngleDeg: number;
+  targetDistanceMm: number;
+  timeToThrowMs: number;
+  hit: boolean;
+  catchReactionMs: number;
+}
+
+export interface Ar6Trial extends ArTrialBase {
+  exerciseId: 'ar6';
+  targetExpression: string;
+  blendshapePeak: number;
+  holdMs: number;
+  symmetryRatio: number;
+  mimicSuccess: boolean;
+}
+
+export type ArTrial = Ar1Trial | Ar2Trial | Ar3Trial | Ar4Trial | Ar5Trial | Ar6Trial;
 
 export interface ArSessionResult {
   exerciseId: ArExerciseId;

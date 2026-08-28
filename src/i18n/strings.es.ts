@@ -1516,6 +1516,12 @@ export const ES = {
     rowLatencyMedian: 'Latencia mediana del giro',
     rowTargets: 'Dianas en pantalla',
     rowDwellMean: 'Fijación media hasta elegir',
+    rowAcquisitionMean: 'Tiempo medio de búsqueda espacial',
+    rowJitterRms: 'Estabilidad angular (Jitter RMS)',
+    rowThrowVelocityMean: 'Velocidad media de lanzamiento',
+    rowCatchReaction: 'Reacción de captura y deglución',
+    rowMimicHoldMean: 'Sostén medio de praxia',
+    rowSymmetryMean: 'Simetría bilateral media',
   },
   academy: {
     back: '‹ Volver',

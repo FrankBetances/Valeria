@@ -16,7 +16,7 @@ import org.json.JSONObject
  */
 
 enum class ArExerciseId(val id: String) {
-    AR1("ar1"), AR2("ar2"), AR3("ar3");
+    AR1("ar1"), AR2("ar2"), AR3("ar3"), AR4("ar4"), AR5("ar5"), AR6("ar6");
 
     companion object {
         fun from(raw: String): ArExerciseId =
@@ -269,6 +269,78 @@ sealed class TrialRecord {
             .put("pointerSource", pointerSource.id)
             .put("calibrationRmsPx", calibrationRmsPx.toDouble())
             .put("outOfBoundsMs", outOfBoundsMs)
+    }
+
+    data class Ar4(
+        override val index: Int,
+        override val at: Long,
+        override val thermalStatus: Int,
+        override val angularSeparationDeg: Float?,
+        override val mode: TrialMode,
+        override val voided: Boolean,
+        override val voidReason: String?,
+        val targetQuadrant: String,
+        val targetYawDeg: Float,
+        val targetPitchDeg: Float,
+        val acquisitionTimeMs: Long,
+        val fovealDwellMs: Long,
+        val yawRmsDeg: Float,
+        val success: Boolean,
+    ) : TrialRecord() {
+        override fun toJson(): JSONObject = base("ar4")
+            .put("targetQuadrant", targetQuadrant)
+            .put("targetYawDeg", targetYawDeg.toDouble())
+            .put("targetPitchDeg", targetPitchDeg.toDouble())
+            .put("acquisitionTimeMs", acquisitionTimeMs)
+            .put("fovealDwellMs", fovealDwellMs)
+            .put("yawRmsDeg", yawRmsDeg.toDouble())
+            .put("success", success)
+    }
+
+    data class Ar5(
+        override val index: Int,
+        override val at: Long,
+        override val thermalStatus: Int,
+        override val angularSeparationDeg: Float?,
+        override val mode: TrialMode,
+        override val voided: Boolean,
+        override val voidReason: String?,
+        val throwVelocityPxPerS: Float,
+        val throwAngleDeg: Float,
+        val targetDistanceMm: Float,
+        val timeToThrowMs: Long,
+        val hit: Boolean,
+        val catchReactionMs: Long,
+    ) : TrialRecord() {
+        override fun toJson(): JSONObject = base("ar5")
+            .put("throwVelocityPxPerS", throwVelocityPxPerS.toDouble())
+            .put("throwAngleDeg", throwAngleDeg.toDouble())
+            .put("targetDistanceMm", targetDistanceMm.toDouble())
+            .put("timeToThrowMs", timeToThrowMs)
+            .put("hit", hit)
+            .put("catchReactionMs", catchReactionMs)
+    }
+
+    data class Ar6(
+        override val index: Int,
+        override val at: Long,
+        override val thermalStatus: Int,
+        override val angularSeparationDeg: Float?,
+        override val mode: TrialMode,
+        override val voided: Boolean,
+        override val voidReason: String?,
+        val targetExpression: String,
+        val blendshapePeak: Float,
+        val holdMs: Long,
+        val symmetryRatio: Float,
+        val mimicSuccess: Boolean,
+    ) : TrialRecord() {
+        override fun toJson(): JSONObject = base("ar6")
+            .put("targetExpression", targetExpression)
+            .put("blendshapePeak", blendshapePeak.toDouble())
+            .put("holdMs", holdMs)
+            .put("symmetryRatio", symmetryRatio.toDouble())
+            .put("mimicSuccess", mimicSuccess)
     }
 }
 
