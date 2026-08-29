@@ -1417,6 +1417,7 @@ export const ES = {
     uiLangAutoHint: 'Sigue al idioma de los ejercicios.',
     uiLangEs: 'Español',
     uiLangEn: 'English',
+    uiLangCa: 'Català',
   },
 
 

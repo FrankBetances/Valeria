@@ -31,10 +31,10 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Locale, getLocale, setLocale } from './valeriaLocale';
 
-export type UiLang = 'es' | 'en';
-export const ALL_UI_LANGS: UiLang[] = ['es', 'en'];
+export type UiLang = 'es' | 'en' | 'ca';
+export const ALL_UI_LANGS: UiLang[] = ['es', 'en', 'ca'];
 export const DEFAULT_UI_LANG: UiLang = 'es';
-export const isUiLang = (v: unknown): v is UiLang => v === 'es' || v === 'en';
+export const isUiLang = (v: unknown): v is UiLang => v === 'es' || v === 'en' || v === 'ca';
 
 export function resolveInitialUiLang(value: unknown): UiLang {
   if (isUiLang(value)) {

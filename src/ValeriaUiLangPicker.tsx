@@ -52,6 +52,7 @@ export const ValeriaUiLangPicker: React.FC<{ compact?: boolean; onLight?: boolea
     { key: 'auto', label: t.settings.uiLangAuto, hint: t.settings.uiLangAutoHint },
     { key: 'es', label: t.settings.uiLangEs },
     { key: 'en', label: t.settings.uiLangEn },
+    { key: 'ca', label: t.settings.uiLangCa },
   ];
 
   return (

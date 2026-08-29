@@ -1368,6 +1368,7 @@ export const EN: UiStrings = {
     uiLangAutoHint: 'Follows the language of the exercises.',
     uiLangEs: 'Español',
     uiLangEn: 'English',
+    uiLangCa: 'Catalan',
   },
 
 
