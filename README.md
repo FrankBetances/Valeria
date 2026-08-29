@@ -157,7 +157,7 @@ tarjeta que puede no aparecer, porque depende del aparato.
 | 💬 **Lenguaje** (7 terapias) | Protocolo familiar: atención conjunta, imitación, comprensión, expresión, comunicación funcional, regulación e interacción social. |
 | 🧠 **TEA** (6 terapias) | PRT + TCC: atención conjunta triangulada (Time Delay + Sello Doble), quiebre pragmático con consentimiento, espejo asimétrico, transición interrumpida, categorización bajo ruido y múltiples señales simultáneas. Todos los estresores son **manuales** (Panel del Adulto). |
 | 📖 **Dislexia** (6 terapias) | Fonología y acceso léxico: intruso fonológico auditivo puro, rastreo léxico con interferencia, síntesis fonémica rítmica (latencia 500 ms + Juez), criba de pseudopalabras (máx. 5 ensayos), rastreo visual de rotaciones b/d · p/q con mapa de misclicks y denominación rápida (RAN). |
-| ✏️ **Grafomotricidad y Escritura** (6 trazos) · [captura](docs/screenshots/40-pizarra-magica.png) | La **Pizarra Mágica de Lúa**: continuación motora de Dislexia. Trazado guiado sobre lienzo SVG con dedo o lápiz óptico, pauta Montessori regulable y **puntos de control numerados** que fijan el ORDEN del trazo, que es lo que evita la inversión b/d y p/q: en la `b` el palo baja primero y la barriga abre a la derecha; en la `d` el óvalo va antes. Cuatro letras críticas (b, d, p, m), dos lazos de calentamiento y pizarra libre. El contenido de pantalla está **solo en castellano** de momento; los tres elogios que locuta sí están en las cuatro variedades. |
+| ✏️ **Grafomotricidad y Escritura** (6 trazos) · [captura](docs/screenshots/40-pizarra-magica.png) | La **Pizarra Mágica de Lúa**: continuación motora de Dislexia. Trazado guiado sobre lienzo SVG con dedo o lápiz óptico, pauta Montessori regulable y **puntos de control numerados** que fijan el ORDEN del trazo, que es lo que evita la inversión b/d y p/q: en la `b` el palo baja primero y la barriga abre a la derecha; en la `d` el óvalo va antes. Cuatro letras críticas (b, d, p, m), dos lazos de calentamiento y pizarra libre. El contenido de pantalla está **solo en castellano** de momento; los tres elogios que locuta sí están en las cinco variedades con banco propio. |
 | 🎯 **Realidad Aumentada** (3 terapias · solo Android) | **Gamificación Condicionada**: la cámara frontal deja de grabar y pasa a ser un sensor de conducta motora, y el refuerzo 3D se dispara **solo** por el gesto objetivo, nunca por acierto acústico ni por paso del tiempo. Cinemática orofacial con el **micrófono apagado** (AR‑1), localización del sonido instrumentada —la versión con cronómetro de RA‑5— (AR‑2) y selección semántica por fijación de la mirada, sin motricidad fina (AR‑3). Ningún fotograma se graba ni sale del teléfono. La tarjeta solo aparece si el teléfono supera la **Prueba de Aptitud del Dispositivo**. |
 
 El **Test de Ling** (6 sonidos) precede a los ejercicios de audición cuando el
@@ -655,7 +655,7 @@ Hoy solo hay un hueco declarado: las cápsulas formativas de Academy en catalán
 | 🇩🇴 **Dominicano** (`es-DO`) — *Quisqueya Habla* | Voz **latina del dispositivo** (`es-US`/`es-MX`); sin audio propio pregenerado. | Sistema `es-DO`, priorizando el catálogo latino. |
 | **Euskara** (`eu`) — *ILENIA/NEL-GAITU · HiTZ* | Voz neuronal **HiTZ-TTS** pregenerada (UPV/EHU · Aholab), empaquetada. Cubre pares mínimos, expansión semántica, Audición, Lenguaje, TEA, Dislexia y Test de Ling en euskera batua. | Sistema `eu-ES` con recaída a `es-ES` + pliegue vasco (`foldBasque`, ⟨h⟩ muda). |
 | 🇺🇸 **US English** (`en-US`) | Voz neuronal **LJSpeech · piper** pregenerada (mismo motor que Sharvard; voz de dominio público con modelo MIT, tras descartar dos candidatas por licencia en EN‑0.1). **614 locuciones** empaquetadas. | Sistema `en-US`, pidiendo reconocimiento local como en castellano. |
-| **Català** (`ca`) — *projecte AINA · BSC* | Banco clínico propio completo (pares mínimos, expansión semántica, Audición, Lenguaje, TEA, Dislexia y Test de Ling): voz neuronal **Matxa-TTS** del projecte AINA (`projecte-aina/matxa-tts-cat-multiaccent`, export end-to-end `matxa_multiaccent_wavenext_e2e.onnx`) pregenerada y empaquetada: **858 locuciones · 52,6 min · 17,6 MB** (run 51, 29/8/2026). No es Piper: es Matcha-TTS (flow matching) con vocóder propio y frontend fonémico (espeak-ng `ca`), con motor propio en la tubería. Cubre pares mínimos, expansión semántica, Audición, Lenguaje, TEA, Dislexia y Test de Ling. | Sistema `ca-ES` con recaída a `expo-speech`. |
+| **Català** (`ca`) — *projecte AINA · BSC* | Voz neuronal **Matxa-TTS** del projecte AINA (`projecte-aina/matxa-tts-cat-multiaccent`) pregenerada y empaquetada: **858 locuciones · 52,6 min**. No es Piper: es Matcha-TTS (*flow matching*) con vocóder propio y frontend fonémico (espeak-ng `ca`), así que tiene motor propio en la tubería. Cubre pares mínimos, expansión semántica, Audición, Lenguaje, TEA, Dislexia y Test de Ling. | Sistema `ca-ES` con recaída a `expo-speech`. |
 
 ### El catalán tampoco es una traducción: trae contrastes que el castellano no tiene
 
@@ -725,15 +725,18 @@ piezas que no existían:
 > ⚠️ **Pendiente de verificar en dispositivo**: que el audio no salga con red
 > activa solo lo demuestra una inspección de tráfico, no el modo avión.
 
-- **Voz neuronal offline.** El audio de castellano, gallego y euskera se
-  sintetiza en CI (nunca en el dispositivo) y viaja empaquetado en el APK. El
-  corpus enumerado son **2438 locuciones** (878 `es` · 816 `gl` · 744 `eu`), y
-  cada id se resuelve contra `src/valeriaVoiceAssets.ts` (mapa generado). Una
-  variedad **solo reproduce assets de su propia voz**: si falta uno, cae con
-  elegancia a `expo-speech`, nunca a la voz de otra lengua (mezclar Celtia y
-  Sharvard en el mismo ejercicio se oía como un salto de locutor). El gate
+- **Voz neuronal offline.** El audio de las **cinco variedades con banco
+  pregenerado** se sintetiza en CI (nunca en el dispositivo) y viaja empaquetado
+  en el APK. El corpus enumerado son **4110 locuciones** —881 `es` · 819 `gl` ·
+  805 `en` · 858 `ca` · 747 `eu`—, **todas con asset**, y cada id se resuelve
+  contra `src/valeriaVoiceAssets.ts` (mapa generado). Una variedad **solo
+  reproduce assets de su propia voz**: si falta uno, cae con elegancia a
+  `expo-speech`, nunca a la voz de otra lengua (mezclar Celtia y Sharvard en el
+  mismo ejercicio se oía como un salto de locutor). `es-DO` queda fuera a
+  propósito: suena con la voz latina del dispositivo. El gate
   `check-voice-corpus-coverage.js` impide empaquetar un APK con locuciones sin
-  asset en `es`/`gl`/`eu`.
+  asset, y una variedad nueva entra por `LANGS_PENDING_FIRST_BATCH`: no bloquea
+  mientras no tiene ni un asset, y **se arma sola** en cuanto llega el primero.
 - **Quisqueya Habla (es‑DO)** es un proyecto **editorial**, no de traducción:
   usa léxico y registro dominicanos y, sobre todo, **no penaliza como trastorno
   los rasgos dialectales normales** del español caribeño (seseo, aspiración de
@@ -1162,13 +1165,13 @@ compila la app en cada push/fusión a `main` (y en ramas `claude/**`). Con los
 secrets de firma configurados genera el APK y el **AAB firmados**; sin secrets
 solo compila el APK. El `versionCode` se deriva del número de run.
 
-Antes de compilar corren **23 chequeos** que fallan rápido. No son tests
+Antes de compilar corren **25 chequeos** que fallan rápido. No son tests
 unitarios: cada uno protege un acuerdo clínico concreto —o, en el caso del ASR,
 un dato de salud de un menor— que el typecheck y el diff no ven.
 
 | Chequeo | Qué impide |
 | --- | --- |
-| `check-voice-corpus-coverage.js` | Que se empaquete un APK con texto locutado **sin asset de voz neuronal**. La app no se rompe cuando eso pasa: cae a la voz del sistema en silencio, y en galego y euskera se pierden Celtia e ILENIA. |
+| `check-voice-corpus-coverage.js` | Que se empaquete un APK con texto locutado **sin asset de voz neuronal**. La app no se rompe cuando eso pasa: cae a la voz del sistema en silencio, y así se pierden Celtia (galego), ILENIA (euskera) o Matxa (català). |
 | `check-content-rules.js` | Que reaparezcan el `tts_string` redundante (ES‑06), una fase de progresión por onomatopeya (ES‑10) o una cápsula con tres referentes distintos (ES‑13). |
 | `check-pictogram-coverage.js` | Que una cápsula de contraste quede **irresoluble**: si las dos vueltas comparten clave de pictograma, el niño ve dos tarjetas idénticas (ES‑12). |
 | `check-lexical-difficulty.js` | Que un ítem avanzado se cuele entre los iniciales: **el orden de escritura ES el orden de práctica** (ES‑08). |
@@ -1178,8 +1181,10 @@ un dato de salud de un menor— que el typecheck y el diff no ven.
 | `check-asr-capture-guard.js` | Que la **captura de corpus de la Fase B del ASR** llegue a producción, o que una grabación acabe versionada. Comprueba que la persistencia de audio viva en un solo archivo, que siga exigiendo `__DEV__` **y** `EXPO_PUBLIC_ASR_CAPTURE`, que ningún archivo versionado encienda la variable, que `corpus-asr/` esté ignorado y que git no rastree ninguna grabación. Es voz de un menor: art. 9 del RGPD (R7 del plan). |
 | `check-word-coverage.js` | Que la lámina encendida y la palabra puntuada vuelvan a contarse con reglas distintas. La regla llegó a estar escrita dos veces y no eran iguales: una frase podía encender las cinco láminas y recibir un «casi». Comprueba además que el recuento **sobrevive al viaje por disco** hasta la exportación |
 | `check-ui-strings.js` | Que una pantalla pinte texto literal en vez de leerlo del catálogo (EN‑2.8). Ya pasó dos veces con ficheros enteros dentro de pantallas migradas: compilan, el typecheck pasa y la app sale mitad en inglés y mitad en castellano |
+| `check-ui-lang-fallback.js` | Que un idioma de interfaz caiga a otra lengua **en silencio**. Hermano del anterior para lo que no es literal de pantalla: los catálogos de ejercicios y de Academy se elegían con `lang === 'en' ? EN : ES`, así que al entrar el catalán el adulto leía castellano bajo una cabecera catalana — sin romper el typecheck, porque el ternario acepta cualquier `UiLang`. O hay rama, o el hueco está declarado en `src/i18n/uiLangFallback.ts` y **la pantalla lo dice** |
+| `test-challenger-final-ca-integration.js` | Que el catálogo catalán pierda la paridad 1:1 con el castellano, que el selector deje de mover la variedad de terapia o que alguna de las 212 funciones de interpolación reviente al ejecutarse. Existía desde la primera tanda pero **no lo corría nadie** |
 | `check-adult-fields.js` | Que los dos ejes de idioma se contradigan **dentro de un ejercicio**: lo que se le dice al niño va en la variedad de terapia, lo que solo lee el adulto va en el idioma de la interfaz |
-| `check-variety-branches.js` | Que una variedad se quede sin su rama en un selector escrito cuando solo existían tres. Es el patrón exacto que produjo «la voz inglesa lee castellano» |
+| `check-variety-branches.js` | Que una variedad se quede sin su rama en un selector escrito cuando existían menos. Es el patrón exacto que produjo «la voz inglesa lee castellano», y con seis variedades hay seis formas de repetirlo |
 | `check-brand-consistency.js` | Que reaparezca la mascota retirada. La migración a Lúa se dio por terminada **tres veces** estando a medias, y la última capa que quedó fue el texto **locutado** |
 | `check-lua-mascot-mirror.js` | Que la gata de la tableta y la del aparato se separen en humor o en guardarropa. Vigila `MOOD` y `ACCESSORY`, **no** los glifos de las insignias |
 | `check-lua-mute.js` | Que el firmware de Lúa gane entrada de audio, micrófono o servos. Un juguete que escucha junto a un menor no entra en una consulta |
