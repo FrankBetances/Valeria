@@ -1229,7 +1229,7 @@ export const CA: UiStrings = {
     chipCeltia: '✓ Veu Celtia',
     chipHitz: '✓ HiTZ ahotsa',
     chipPiperEn: '✓ Piper en_US',
-    chipPiperCa: '✓ Veu Ona (AINA)',
+    chipMatxaCa: '✓ Veu Matxa (AINA)',
 
     detailSearching: 'Cercant la millor veu en espanyol instal·lada en aquest dispositiu…',
     detailNoVoice:

@@ -1303,7 +1303,7 @@ export const ES = {
     chipCeltia: '✓ Voz Celtia',
     chipHitz: '✓ HiTZ ahotsa',
     chipPiperEn: '✓ Piper en_US',
-    chipPiperCa: '✓ Veu Ona (AINA)',
+    chipMatxaCa: '✓ Veu Matxa (AINA)',
 
     detailSearching: 'Buscando la mejor voz en español instalada en este dispositivo…',
     detailNoVoice:

@@ -1268,7 +1268,7 @@ export const EN: UiStrings = {
     chipCeltia: '✓ Celtia voice',
     chipHitz: '✓ HiTZ ahotsa',
     chipPiperEn: '✓ Piper en_US',
-    chipPiperCa: '✓ Veu Ona (AINA)',
+    chipMatxaCa: '✓ Veu Matxa (AINA)',
 
     detailSearching: 'Looking for the best Spanish voice installed on this device…',
     detailNoVoice:

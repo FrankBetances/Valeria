@@ -15,8 +15,10 @@
 //             diseñado desde la fonología del inglés americano y sujeto a la
 //             guía dialectal docs/guia-dialectal-en-US.md. Ver
 //             docs/plan-integracion-ingles-en-US.md.
-//   'ca'    → català central · voz neuronal Piper ca_ES (upc_ona, AINA/UPC,
-//             CC BY 4.0). Banco clínico propio: el castellano NO transfiere
+//   'ca'    → català central · voz neuronal **Matxa-TTS** del projecte AINA
+//             (Barcelona Supercomputing Center · Generalitat de Catalunya).
+//             No es Piper: es Matcha-TTS (flow matching) con vocóder propio,
+//             y su frontend es fonémico. Banco clínico propio: el castellano NO transfiere
 //             —«perro» es «gos» y pierde el contraste r̄/l— y el catalán trae
 //             contrastes que el castellano no tiene (vocal neutra [ə], /ʃ/,
 //             /ʒ/, /z/, la ela geminada). Ver docs/plan-integracion-catalan-ca-ES.md.

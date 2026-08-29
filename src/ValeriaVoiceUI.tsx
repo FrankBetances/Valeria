@@ -653,7 +653,7 @@ export const VoiceQualityCard: React.FC = () => {
   // segundo: primero se mergea el contenido y el corpus (esto), y después el
   // workflow voice-assets.yml sintetiza las locuciones y las commitea. Entre
   // una cosa y otra, la variedad funciona pero suena con la voz del sistema, y
-  // prometer aquí «✓ Veu Ona» sería la misma clase de afirmación sin
+  // prometer aquí «✓ Veu Matxa» sería la misma clase de afirmación sin
   // comprobar que ya costó una distribución. Así que se MIRA el mapa: el chip
   // y el texto de voz empaquetada solo aparecen si hay assets de verdad.
   const caPackaged = isCa && hasAssetsFor('ca');
@@ -664,7 +664,7 @@ export const VoiceQualityCard: React.FC = () => {
     : isEu
       ? 'Euskaraz aplikazioak HiTZ-en ahots neuronalarekin (ILENIA/NEL-GAITU) hitz egiten du, aplikazioan bertan sartuta: berdin entzuten da edozein gailutan, konexiorik gabe.'
       : caPackaged
-        ? 'En català l\'app parla amb la veu neuronal Ona (projecte AINA · UPC), inclosa a l\'aplicació: sona igual en qualsevol dispositiu, sense connexió.'
+        ? 'En català l\'app parla amb la veu neuronal Matxa-TTS del projecte AINA, inclosa a l\'aplicació: sona igual en qualsevol dispositiu, sense connexió.'
         : isCa
           ? 'En català la teràpia ja és completa, però les locucions neuronals encara no estan empaquetades: de moment l\'app parla amb la veu catalana del dispositiu.'
           : isEn ? t.voice.detailEn
@@ -675,7 +675,7 @@ export const VoiceQualityCard: React.FC = () => {
                 : Platform.OS === 'android' ? t.voice.detailAndroidPoor : t.voice.detailIosPoor;
   // La guía de voces de Google aplica a las variedades con voz del sistema
   // (castellano y dominicano); galego (Celtia), euskara (HiTZ), inglés (Piper
-  // en_US) y català (Piper ca_ES · Ona) van empaquetadas.
+  // en_US) y català (Matxa-TTS · projecte AINA) van empaquetadas.
   const showInstall = !packaged && (!good || noSpanish) && Platform.OS === 'android';
 
   return (
@@ -686,7 +686,7 @@ export const VoiceQualityCard: React.FC = () => {
         <View style={[s.vqChip, { backgroundColor: packaged ? V.color.successBg : chip.bg }]}>
           <Text style={[s.vqChipTxt, { color: packaged ? '#0f8a63' : chip.fg }]}>
             {isGl ? t.voice.chipCeltia : isEu ? t.voice.chipHitz : isEn ? t.voice.chipPiperEn
-              : caPackaged ? t.voice.chipPiperCa : chip.txt}
+              : caPackaged ? t.voice.chipMatxaCa : chip.txt}
           </Text>
         </View>
       </View>

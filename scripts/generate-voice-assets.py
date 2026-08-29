@@ -18,8 +18,9 @@
 #     acoplarse a nombres internos del repo.
 #   · es → «Sharvard» femenina (rhasspy/piper-voices): VITS femenina abierta,
 #     homóloga de Celtia en castellano.
-#   · ca → «Ona» del projecte AINA (UPC · rhasspy/piper-voices): femenina,
-#     de lectura pausada, la homóloga catalana de Sharvard. Ver VOICES['ca'].
+#   · ca → «Matxa-TTS» del projecte AINA (BSC · Generalitat de Catalunya).
+#     NO es Piper: es Matcha-TTS (flow matching) con vocóder propio, exportado
+#     por AINA a un ONNX end-to-end. Motor `matxa`. Ver VOICES['ca'].
 #   · en → «LJSpeech» femenina (rhasspy/piper-voices, calidad high): homóloga
 #     de Sharvard en inglés americano. Ver la nota de licencias en VOICES['en']:
 #     las dos candidatas que proponía el plan (hfc_female, lessac) NO son aptas
@@ -100,22 +101,30 @@ VOICES = {
         "urls": piper_urls("en_US-ljspeech-high"),
     },
     "ca": {
-        "engine": "piper",
-        # Voz catalana del projecte AINA (Barcelona Supercomputing Center) a
-        # partir del corpus FestCat de la UPC, publicada en rhasspy/piper-voices
-        # bajo la misma ruta regular que el resto de voces Piper. Femenina y
-        # pausada: la homóloga natural de Sharvard.
+        "engine": "matxa",
+        "name": "matxa",
+        "label": "Matxa-TTS · projecte AINA (BSC · Generalitat de Catalunya)",
+        # Matxa-TTS es el sistema catalán de AINA: Matcha-TTS (modelo acústico
+        # de flow matching) + vocóder, que AINA exporta JUNTOS en un ONNX
+        # end-to-end. Por eso no puede ir por el motor `piper` aunque el
+        # fichero acabe en .onnx: la firma de entrada es otra (scales de dos
+        # valores, hablante opcional) y el frontend es FONÉMICO, no de
+        # grafemas — necesita espeak-ng/phonemizer con `ca`.
         #
-        # NO VERIFICADA DESDE EL ENTORNO DE DESARROLLO: la política de red que
-        # usó la integración bloquea huggingface.co, así que la existencia del
-        # checkpoint no se pudo comprobar antes de escribir esto. Si el nombre
-        # fuera otro, la descarga falla AQUÍ, en el job de síntesis, con un 404
-        # ruidoso — nunca en silencio ni en el dispositivo. Alternativas del
-        # mismo repo si hiciera falta: `--voice ca_ES-upc_pau-medium` (masculina)
-        # o `--voice ca_ES-upc_ona-x_low` (más ligera).
-        "name": "ca_ES-upc_ona-medium",
-        "label": "Ona · projecte AINA / FestCat UPC · rhasspy/piper-voices",
-        "urls": piper_urls("ca_ES-upc_ona-medium"),
+        # Candidatos por orden de preferencia; el primero accesible en la API
+        # de HF gana, igual que en Celtia. La variante MULTIACCENT es la que
+        # trae el central, balear, nord-occidental y valencià.
+        "hf_repos": [
+            "projecte-aina/matxa-tts-cat-multiaccent",
+            "projecte-aina/matxa_tts_cat_multiaccent",
+            "projecte-aina/matxa-tts-cat-multispeaker",
+        ],
+        # Acento del banco clínico: el catálogo de pares mínimos está escrito
+        # para el CENTRAL (ver la nota de betacismo en valeriaMinimalPairsCa).
+        # Si el modelo expone varios hablantes/acentos, se elige por índice y el
+        # log imprime la lista para poder cambiarlo con --voice.
+        "speaker": 0,
+        "accent": "central",
     },
     "gl": {
         "engine": "coqui",
@@ -568,8 +577,169 @@ def make_onnx_synth(voice: dict):
     return synth
 
 
+def make_matxa_synth(voice: dict):
+    """Matxa-TTS del projecte AINA (BSC), ONNX end-to-end (acústico + vocóder).
+
+    Tres diferencias con los motores que ya había, y las tres importan:
+
+      1. Es Matcha-TTS, no VITS: `scales` son DOS valores —temperatura y
+         length_scale—, no los tres de VITS. Pasarle tres desplaza el vector y
+         el audio sale mal sin dar error.
+      2. El frontend es FONÉMICO (espeak-ng vía phonemizer, idioma `ca`), no de
+         grafemas: meterle letras produce ruido, no acento.
+      3. El vocóder va DENTRO del export, así que la salida ya es forma de onda.
+
+    Igual que `make_onnx_synth`, esto se escribió con huggingface.co BLOQUEADO
+    en el entorno de desarrollo: no se pudo abrir el repo ni leer la firma real
+    del modelo. Por eso el motor no da nada por supuesto —descubre el repo,
+    imprime el esquema completo en el log de CI— y antes de sintetizar el
+    corpus pasa un CANARIO: una frase catalana conocida que tiene que salir con
+    duración y energía plausibles. Si el canario falla, el job muere ahí, con
+    858 ficheros sin escribir, en vez de hornear ruido y darlo por bueno."""
+    import numpy as np
+    import onnxruntime as ort
+
+    repo, siblings = _hf_discover(voice["hf_repos"])
+    # El export end-to-end lleva el vocóder dentro; se prefiere ese. Si el repo
+    # solo publica el acústico, se aborta: encadenar un vocóder aparte a ciegas
+    # es justo lo que este motor evita.
+    onnx_files = [f for f in siblings if f.endswith(".onnx")]
+    e2e = next((f for f in onnx_files if "e2e" in f.lower()), None)
+    onnx_file = e2e or (onnx_files[0] if len(onnx_files) == 1 else None)
+    print(f"[diag] {repo}: {len(siblings)} ficheros · onnx: {onnx_files}")
+    if not onnx_file:
+        die(f"{repo}: no encuentro un ONNX end-to-end entre {onnx_files}. "
+            "Matxa sin vocóder integrado necesita encadenar AlVoCat/WaveNeXt a "
+            "mano, y eso no se hace a ciegas: pega aquí el listado del repo.")
+
+    vdir = VOICES_DIR / voice["name"]
+    vdir.mkdir(parents=True, exist_ok=True)
+    onnx_path = vdir / Path(onnx_file).name
+    curl(f"https://huggingface.co/{repo}/resolve/main/{onnx_file}", onnx_path)
+
+    sess = ort.InferenceSession(str(onnx_path), providers=["CPUExecutionProvider"])
+    inputs = {i.name: i for i in sess.get_inputs()}
+    print(f"Voz: {voice['label']} · {repo} ({Path(onnx_file).name})")
+    print(f"[diag] onnx inputs: {[(i.name, i.shape, i.type) for i in sess.get_inputs()]}")
+    print(f"[diag] onnx outputs: {[(o.name, o.shape) for o in sess.get_outputs()]}")
+
+    # Metadatos del export: Matcha-TTS suele guardar ahí el mapa de símbolos y
+    # la lista de hablantes. Si están, MANDAN sobre cualquier suposición.
+    meta = sess.get_modelmeta().custom_metadata_map or {}
+    print(f"[diag] onnx metadata keys: {list(meta.keys())}")
+    symbol_map = None
+    for k in ("symbols", "symbol_to_id", "phoneme_id_map", "text_symbols"):
+        if k in meta:
+            try:
+                parsed = json.loads(meta[k])
+                symbol_map = ({s: i for i, s in enumerate(parsed)}
+                              if isinstance(parsed, list) else parsed)
+                print(f"[diag] mapa de símbolos tomado de metadata['{k}']: "
+                      f"{len(symbol_map)} símbolos")
+                break
+            except Exception as e:
+                print(f"aviso: metadata['{k}'] no parseable ({e})")
+    for k in ("speakers", "speaker_ids", "accents"):
+        if k in meta:
+            print(f"[diag] {k}: {meta[k][:400]}")
+
+    if symbol_map is None:
+        # Conjunto de símbolos de Matcha-TTS (text/symbols.py): _pad, puntuación,
+        # letras y el bloque IPA. Se construye igual que allí; si el modelo
+        # tuviera otro, el CANARIO de abajo lo caza antes de escribir nada.
+        _pad = "_"
+        _punctuation = ';:,.!?¡¿—…"«»“” '
+        _letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+        _letters_ipa = ("ɑɐɒæɓʙβɔɕçɗɖðʤəɘɚɛɜɝɞɟʄɡɠɢʛɦɧħɥʜɨɪʝɭɬɫɮʟɱɯɰŋɳɲɴøɵɸθœɶʘɹɺɾɻʀʁ"
+                        "ɽʂʃʈʧʉʊʋⱱʌɣɤʍχʎʏʑʐʒʔʡʕʢǀǁǂǃˈˌːˑʼʴʰʱʲʷˠˤ˞↓↑→↗↘'̩'ᵻ")
+        symbols = [_pad] + list(_punctuation) + list(_letters) + list(_letters_ipa)
+        symbol_map = {s: i for i, s in enumerate(symbols)}
+        print(f"[diag] mapa de símbolos por defecto de Matcha-TTS: {len(symbol_map)}")
+
+    from phonemizer.backend import EspeakBackend
+    backend = EspeakBackend("ca", preserve_punctuation=True, with_stress=True)
+    print("[diag] phonemizer espeak-ng listo (ca)")
+
+    spk = int(voice.get("speaker", 0))
+    if os.environ.get("MATXA_SPEAKER"):
+        spk = int(os.environ["MATXA_SPEAKER"])
+    print(f"[diag] hablante/acento seleccionado: índice {spk} ({voice.get('accent')})")
+
+    sr = 22050
+
+    def to_ids(text: str) -> list[int]:
+        phon = backend.phonemize([text], strip=True)[0]
+        ids = [symbol_map[c] for c in phon if c in symbol_map]
+        # Matcha intercala el pad entre símbolos (add_blank del preprocesado).
+        out = [0]
+        for i in ids:
+            out += [i, 0]
+        return out
+
+    def run(text: str, style: str):
+        ids = to_ids(text)
+        if len(ids) < 5:
+            raise RuntimeError(f"fonemización vacía para: {text!r}")
+        x = np.array([ids], dtype=np.int64)
+        xl = np.array([x.shape[1]], dtype=np.int64)
+        # Matcha: [temperatura, length_scale]. La temperatura se deja baja para
+        # que la misma consigna suene igual entre regeneraciones (el corpus es
+        # incremental: un mismo texto no debe cambiar de voz entre lotes).
+        scales = np.array([0.667, LENGTH_SCALE.get(style, 1.0)], dtype=np.float32)
+        feeds = {}
+        for nm in inputs:
+            if nm in ("x", "input", "text"): feeds[nm] = x
+            elif nm in ("x_lengths", "input_lengths", "text_lengths"): feeds[nm] = xl
+            elif nm == "scales": feeds[nm] = scales
+            elif nm in ("temperature",): feeds[nm] = np.array([0.667], dtype=np.float32)
+            elif nm in ("length_scale",):
+                feeds[nm] = np.array([LENGTH_SCALE.get(style, 1.0)], dtype=np.float32)
+            elif nm in ("spks", "sid", "speaker_id", "spk"):
+                feeds[nm] = np.array([spk], dtype=np.int64)
+            else:
+                print(f"aviso: entrada ONNX no reconocida, se omite: {nm}")
+        return np.squeeze(sess.run(None, feeds)[0]).astype(np.float32)
+
+    def write_wav(wav, raw_wav: Path) -> None:
+        pcm = np.clip(wav, -1.0, 1.0)
+        pcm = (pcm * 32767.0).astype("<i2")
+        with wave.open(str(raw_wav), "wb") as w:
+            w.setnchannels(1); w.setsampwidth(2); w.setframerate(sr)
+            w.writeframes(pcm.tobytes())
+
+    def check(wav, text: str) -> float:
+        words = max(1, len(text.split()))
+        dur = len(wav) / sr
+        if not np.isfinite(wav).all() or float(np.max(np.abs(wav))) < 1e-3:
+            raise RuntimeError(f"salida no válida (silencio/NaN) para: {text!r}")
+        if not (0.12 * words <= dur <= 3.0 * words + 1.0):
+            raise RuntimeError(f"duración implausible {dur:.2f}s ({words} palabras): {text!r}")
+        return dur
+
+    # ---- CANARIO: una frase real del banco catalán antes de tocar el corpus --
+    canario = "Hola! Així sonarà la meva veu als exercicis."
+    try:
+        wav = run(canario, "child")
+        dur = check(wav, canario)
+    except Exception as e:
+        die("El canario de Matxa falló, así que NO se sintetiza nada: "
+            f"{e}\n    Arriba está el esquema real del modelo; con él se ajusta "
+            "la fonemización o la firma de entrada. Es deliberado morir aquí en "
+            "vez de escribir 858 ficheros de ruido.")
+    print(f"[canario] OK · {dur:.2f}s para {len(canario.split())} palabras")
+
+    def synth(text: str, style: str, raw_wav: Path) -> float | None:
+        wav = run(text, style)
+        check(wav, text)
+        write_wav(wav, raw_wav)
+        return None  # length_scale nativo: sin atempo posterior
+
+    return synth
+
+
 ENGINES = {
     "piper": make_piper_synth,
+    "matxa": make_matxa_synth,
     "coqui": make_coqui_synth,
     "onnx": make_onnx_synth,
     "ahotts": make_ahotts_synth,
@@ -584,16 +754,28 @@ def main() -> None:
     # única forma honesta de elegir una voz. Solo aplica a motores piper (las
     # demás voces no viven en rhasspy/piper-voices).
     ap.add_argument("--voice", default=None, metavar="es_ES-sharvard-medium",
-                    help="Voz alternativa de rhasspy/piper-voices (solo motor piper)")
+                    help="Voz alternativa: en piper, un nombre de rhasspy/piper-voices; "
+                         "en matxa (ca), el ÍNDICE del hablante/acento (p. ej. --voice 2)")
     args = ap.parse_args()
     voice = dict(VOICES[args.lang])
     if args.voice:
-        if voice["engine"] != "piper":
-            die(f"--voice solo aplica al motor piper; '{args.lang}' usa {voice['engine']}.")
-        voice.update(name=args.voice, label=f"{args.voice} · rhasspy/piper-voices",
-                     urls=piper_urls(args.voice))
-        print(f"⚠ Voz sobrescrita a mano: {args.voice}. Verifica su MODEL_CARD "
-              "antes de publicar: las licencias de piper-voices NO son uniformes.")
+        if voice["engine"] == "piper":
+            voice.update(name=args.voice, label=f"{args.voice} · rhasspy/piper-voices",
+                         urls=piper_urls(args.voice))
+            print(f"⚠ Voz sobrescrita a mano: {args.voice}. Verifica su MODEL_CARD "
+                  "antes de publicar: las licencias de piper-voices NO son uniformes.")
+        elif voice["engine"] == "matxa":
+            # Matxa es multiacento: el «cambio de voz» aquí es elegir otro
+            # hablante del MISMO modelo, no otro modelo. El log del motor
+            # imprime la lista que expone el ONNX para poder elegir con criterio.
+            if not args.voice.isdigit():
+                die("En catalán --voice es el índice del hablante/acento de Matxa "
+                    "(un número). El motor imprime la lista disponible en el log.")
+            voice["speaker"] = int(args.voice)
+            print(f"⚠ Hablante de Matxa sobrescrito a mano: índice {args.voice}. "
+                  "El banco clínico catalán está escrito para el CENTRAL.")
+        else:
+            die(f"--voice no aplica al motor {voice['engine']} ('{args.lang}').")
 
     if not CORPUS.exists():
         die("Falta voice-corpus.json — ejecuta antes: node scripts/export-voice-corpus.js")
