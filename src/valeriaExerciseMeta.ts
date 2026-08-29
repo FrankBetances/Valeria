@@ -27,10 +27,18 @@ export interface ExerciseMeta {
 // la lista añade su banda al final (ver ValeriaBlockListScreen).
 export const AGE_BANDS_ES = ['3-4 años', '4-5 años', '5-6 años'];
 export const AGE_BANDS_EN = ['3–4 years', '4–5 years', '5–6 years'];
+export const AGE_BANDS_CA = ['3-4 anys', '4-5 anys', '5-6 anys'];
 export const AGE_BANDS = AGE_BANDS_ES;
 
+// Selector por TABLA, no por ternario. Mientras solo hubo `en`, un
+// `lang === 'en' ? EN : ES` bastaba; con el catalán, esos siete ternarios eran
+// siete sitios donde olvidarse de una lengua y devolver castellano SIN que el
+// typecheck dijera nada (el ternario acepta cualquier UiLang). El gate
+// check-ui-lang-fallback.js prohíbe volver a esa forma.
+const byLang = <T,>(t: Record<UiLang, T>, lang: UiLang): T => t[lang];
+
 export const getAgeBands = (lang: UiLang = 'es'): string[] =>
-  lang === 'en' ? AGE_BANDS_EN : AGE_BANDS_ES;
+  byLang({ es: AGE_BANDS_ES, en: AGE_BANDS_EN, ca: AGE_BANDS_CA }, lang);
 
 // ============================================================================
 // METADATOS EN ESPAÑOL
@@ -168,6 +176,67 @@ export const AR_META_EN: ExerciseMeta[] = [
   { id: 'ar6', code: 'AR-6', name: 'Mirror mimicry with Buddy Lúa', category: 'Guided facial praxias · symmetry and motor awareness', age: '4–5 years' },
 ];
 
+// ============================================================================
+// METADADES EN CATALÀ (ca-ES)
+// ============================================================================
+export const AUDICION_META_CA: ExerciseMeta[] = [
+  { id: 'ff1', code: 'FF-1', name: 'Associació vocàlica inicial', category: 'Sons i vocals (fonètica-fonologia)', age: '4-5 anys' },
+  { id: 'ff2', code: 'FF-2', name: 'Articulació de vocals', category: 'Sons i vocals (fonètica-fonologia)', age: '3-4 anys' },
+  { id: 'ff3', code: 'FF-3', name: 'Completar la vocal que falta', category: 'Sons i vocals (fonètica-fonologia)', age: '5-6 anys' },
+  { id: 'se1', code: 'SE-1', name: 'Detecció de l\'intrús', category: 'Vocabulari (semàntica)', age: '4-5 anys' },
+  { id: 'se2', code: 'SE-2', name: 'Endevinalla per lletra', category: 'Vocabulari (semàntica)', age: '5-6 anys' },
+  { id: 'se3', code: 'SE-3', name: 'Peces de roba i ordres', category: 'Vocabulari (semàntica)', age: '3-4 anys' },
+  { id: 'ms1', code: 'MS-1', name: 'Singular / plural', category: 'Frases (morfosintaxi)', age: '4-5 anys' },
+  { id: 'ms2', code: 'MS-2', name: 'Flexió de gènere', category: 'Frases (morfosintaxi)', age: '4-5 anys' },
+  { id: 'ms3', code: 'MS-3', name: 'Estructura S-V-O', category: 'Frases (morfosintaxi)', age: '5-6 anys' },
+  { id: 'pr1', code: 'PR-1', name: 'Preguntes del tipus «què?»', category: 'Ús social (pragmàtica)', age: '3-4 anys' },
+  { id: 'pr2', code: 'PR-2', name: 'Adaptació del discurs', category: 'Ús social (pragmàtica)', age: '5-6 anys' },
+  { id: 'pr3', code: 'PR-3', name: 'Reconeixement d\'emocions', category: 'Ús social (pragmàtica)', age: '4-5 anys' },
+  { id: 'pr4', code: 'PR-4', name: 'Petició de repetició', category: 'Ús social (pragmàtica)', age: '5-6 anys' },
+  { id: 'ra1', code: 'RA-1', name: 'Figura-fons amb soroll', category: 'Escolta amb soroll (rehabilitació auditiva)', age: '4-5 anys' },
+  { id: 'ra2', code: 'RA-2', name: 'Lectura labiofacial', category: 'Escolta amb soroll (rehabilitació auditiva)', age: '5-6 anys' },
+  { id: 'ra3', code: 'RA-3', name: 'Format tancat degradat', category: 'Escolta amb soroll (rehabilitació auditiva)', age: '4-5 anys' },
+  { id: 'ra4', code: 'RA-4', name: 'Seqüència amb espera', category: 'Escolta amb soroll (rehabilitació auditiva)', age: '5-6 anys' },
+  { id: 'ra5', code: 'RA-5', name: 'Localització del so', category: 'Escolta amb soroll (rehabilitació auditiva)', age: '3-4 anys' },
+];
+
+export const LENGUAJE_META_CA: ExerciseMeta[] = [
+  { id: 'atencion_conjunta', code: 'M-1', name: 'Atenció conjunta', category: 'Mirada, bombolles i resposta al nom' },
+  { id: 'imitacion', code: 'M-2', name: 'Imitació motora i verbal', category: 'Picar de mans, tambor i síl·labes' },
+  { id: 'comprension', code: 'M-3', name: 'Comprensió verbal', category: 'Ordres, parts del cos i categories' },
+  { id: 'expresion', code: 'M-4', name: 'Expressió verbal', category: 'Sons d\'animals, anomenar i frases' },
+  { id: 'comunicacion_funcional', code: 'M-5', name: 'Comunicació funcional', category: 'Demanar «més», «ajuda», «vull»' },
+  { id: 'regulacion_conductual', code: 'M-6', name: 'Regulació conductual', category: 'Transicions, rutines i premis' },
+  { id: 'interaccion_social', code: 'M-7', name: 'Interacció social', category: 'Torns, joc simbòlic, emocions' },
+];
+
+export const TEA_META_CA: ExerciseMeta[] = [
+  { id: 'tea1', code: 'TEA-1', name: 'Atenció conjunta triangulada', category: 'PRT · contacte visual i validació doble' },
+  { id: 'tea2', code: 'TEA-2', name: 'Trencament pragmàtic induït', category: 'Reparació comunicativa (mediada per l\'adult)' },
+  { id: 'tea3', code: 'TEA-3', name: 'Imitació en mirall asimètric', category: 'Inhibició de l\'ecopràxia' },
+  { id: 'tea4', code: 'TEA-4', name: 'Transició de rutina interrompuda', category: 'Flexibilitat cognitiva (mediada per l\'adult)' },
+  { id: 'tea5', code: 'TEA-5', name: 'Categorització amb càrrega sensorial', category: 'Classificar amb soroll de fons' },
+  { id: 'tea6', code: 'TEA-6', name: 'Pistes múltiples simultànies', category: 'PRT · sobreselectivitat de l\'estímul' },
+];
+
+export const DISLEXIA_META_CA: ExerciseMeta[] = [
+  { id: 'dx1', code: 'DX-1', name: 'Intrús fonològic', category: 'Consciència fonològica (auditiva pura)' },
+  { id: 'dx2', code: 'DX-2', name: 'Seguiment lèxic amb interferència', category: 'Fluïdesa lectora amb càrrega cognitiva' },
+  { id: 'dx3', code: 'DX-3', name: 'Síntesi fonèmica rítmica', category: 'Fusió de fonemes amb latència' },
+  { id: 'dx4', code: 'DX-4', name: 'Cribratge de pseudoparaules', category: 'Descodificació fonològica · màxim 5 assajos' },
+  { id: 'dx5', code: 'DX-5', name: 'Rastreig visual de rotacions', category: 'Discriminació de lletres b/d · p/q' },
+  { id: 'dx6', code: 'DX-6', name: 'Denominació automàtica ràpida (RAN)', category: 'Accés lèxic · anomenar contra rellotge' },
+];
+
+export const AR_META_CA: ExerciseMeta[] = [
+  { id: 'ar1', code: 'AR-1', name: 'Cinemàtica orofacial', category: 'Disparador de postura labial · micròfon silenciat', age: '3-4 anys' },
+  { id: 'ar2', code: 'AR-2', name: 'Localització del so instrumentada', category: 'VRA digitalitzada · latència del gir de cap', age: '3-4 anys', instrumentaA: 'ra5' },
+  { id: 'ar3', code: 'AR-3', name: 'Selecció semàntica per mirada', category: 'Comprensió sense motricitat fina · temps de fixació', age: '4-5 anys' },
+  { id: 'ar4', code: 'AR-4', name: 'Cerca espacial de la Lúa', category: 'Rastreig espacial 3D · brúixola sensorial i rang cervical', age: '4-5 anys' },
+  { id: 'ar5', code: 'AR-5', name: 'Llançar i atrapar el premi', category: 'Alimentar la Lúa · gest cinemàtic i reacció', age: '3-4 anys' },
+  { id: 'ar6', code: 'AR-6', name: 'Mímica en mirall amb la Lúa Buddy', category: 'Praxis facials guiades · simetria i consciència motora', age: '4-5 anys' },
+];
+
 // Defaults (Spanish)
 export const AUDICION_META = AUDICION_META_ES;
 export const LENGUAJE_META = LENGUAJE_META_ES;
@@ -177,19 +246,19 @@ export const AR_META = AR_META_ES;
 
 // Helper getters
 export const getAudicionMeta = (lang: UiLang = 'es'): ExerciseMeta[] =>
-  lang === 'en' ? AUDICION_META_EN : AUDICION_META_ES;
+  byLang({ es: AUDICION_META_ES, en: AUDICION_META_EN, ca: AUDICION_META_CA }, lang);
 
 export const getLenguajeMeta = (lang: UiLang = 'es'): ExerciseMeta[] =>
-  lang === 'en' ? LENGUAJE_META_EN : LENGUAJE_META_ES;
+  byLang({ es: LENGUAJE_META_ES, en: LENGUAJE_META_EN, ca: LENGUAJE_META_CA }, lang);
 
 export const getTeaMeta = (lang: UiLang = 'es'): ExerciseMeta[] =>
-  lang === 'en' ? TEA_META_EN : TEA_META_ES;
+  byLang({ es: TEA_META_ES, en: TEA_META_EN, ca: TEA_META_CA }, lang);
 
 export const getDislexiaMeta = (lang: UiLang = 'es'): ExerciseMeta[] =>
-  lang === 'en' ? DISLEXIA_META_EN : DISLEXIA_META_ES;
+  byLang({ es: DISLEXIA_META_ES, en: DISLEXIA_META_EN, ca: DISLEXIA_META_CA }, lang);
 
 export const getArMeta = (lang: UiLang = 'es'): ExerciseMeta[] =>
-  lang === 'en' ? AR_META_EN : AR_META_ES;
+  byLang({ es: AR_META_ES, en: AR_META_EN, ca: AR_META_CA }, lang);
 
 export const getExercisesForBlock = (blockKey: 'audicion' | 'lenguaje' | 'tea' | 'dislexia', lang: UiLang = 'es'): ExerciseMeta[] => {
   switch (blockKey) {
@@ -209,11 +278,15 @@ export const META_BY_ID_EN: Record<string, ExerciseMeta> = Object.fromEntries(
   [...AUDICION_META_EN, ...LENGUAJE_META_EN, ...TEA_META_EN, ...DISLEXIA_META_EN, ...AR_META_EN].map((m) => [m.id, m]),
 );
 
+export const META_BY_ID_CA: Record<string, ExerciseMeta> = Object.fromEntries(
+  [...AUDICION_META_CA, ...LENGUAJE_META_CA, ...TEA_META_CA, ...DISLEXIA_META_CA, ...AR_META_CA].map((m) => [m.id, m]),
+);
+
 // Nombre, categoría y edad en el idioma de la INTERFAZ. Los lee tanto la lista
 // de bloques como el player: si cada uno tirase de su lado, se entraría desde
 // «Vowel articulation» a «Articulación de vocales», que es lo que pasaba.
 export const metaIndexFor = (lang: UiLang): Record<string, ExerciseMeta> =>
-  (lang === 'en' ? META_BY_ID_EN : META_BY_ID);
+  byLang({ es: META_BY_ID, en: META_BY_ID_EN, ca: META_BY_ID_CA }, lang);
 
 export const getMetaById = (lang: UiLang = 'es'): Record<string, ExerciseMeta> =>
   Object.fromEntries(

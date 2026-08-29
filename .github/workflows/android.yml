@@ -237,6 +237,21 @@ jobs:
       - name: Comprobar que la interfaz se lee del catálogo (EN-2.8)
         run: node scripts/check-ui-strings.js
 
+      # Hermano del anterior para el contenido que NO es literal de pantalla:
+      # los catálogos de ejercicios y de Academy se elegían con
+      # `lang === 'en' ? EN : ES`, así que al entrar el catalán el adulto leía
+      # castellano bajo una cabecera catalana — sin romper el typecheck y sin
+      # que ningún gate lo viera. O hay rama catalana, o el hueco está
+      # declarado en src/i18n/uiLangFallback.ts y la pantalla lo dice.
+      - name: Comprobar que ningún idioma de interfaz cae en silencio (CA-2.9)
+        run: node scripts/check-ui-lang-fallback.js
+
+      # Suite adversarial de la integración catalana: paridad 1:1 del catálogo,
+      # transiciones del selector y ejecución de las 200+ interpolaciones.
+      # Existía desde la primera tanda pero no la corría nadie.
+      - name: Suite de integración del catalán (ca)
+        run: node scripts/test-challenger-final-ca-integration.js
+
       # La regla de "¿dijo esta palabra?" llegó a estar escrita dos veces, y no
       # eran iguales: las láminas de la frase podían encenderse enteras y el
       # veredicto decir «casi» en el mismo ensayo.

@@ -44,6 +44,12 @@ export const WRITING_PRAISE_EU: WritingPraise = [
   'Ia-ia! Jarraitu geziak eta zenbakiak poliki-poliki.',
 ];
 
+export const WRITING_PRAISE_CA: WritingPraise = [
+  'Quin dibuix més bonic que has fet a la pissarra!',
+  'Excel·lent! Has seguit la direcció a la perfecció.',
+  'Gairebé! Segueix les fletxes i els números a poc a poc.',
+];
+
 export const WRITING_PRAISE_EN: WritingPraise = [
   'What a lovely drawing you made on the chalkboard!',
   'Excellent! You followed the direction perfectly.',
@@ -55,7 +61,8 @@ export const writingPraiseFor = (loc: string, kind: 0 | 1 | 2): string =>
   loc === 'eu' ? WRITING_PRAISE_EU[kind]
     : loc === 'gl' ? WRITING_PRAISE_GL[kind]
       : loc === 'en-US' ? WRITING_PRAISE_EN[kind]
-        : WRITING_PRAISE[kind];
+        : loc === 'ca' ? WRITING_PRAISE_CA[kind]
+          : WRITING_PRAISE[kind];
 
 // Modelos calibrados para canvas estándar de ~320x300 px
 export const WRITING_EXERCISES: WritingItem[] = [

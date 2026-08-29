@@ -1,21 +1,26 @@
 // ============================================================================
-// Valeria+ · Selector de idioma de la INTERFAZ (EN-2.2)
+// Valeria+ · Selector de idioma de la INTERFAZ (EN-2.2 · CA-2.2)
 //
-// Tres opciones, no dos, y la tercera es la que evita el soporte:
+// Cuatro opciones, y la primera es la que evita el soporte:
 //
 //   Automático · la UI sigue a la variedad de terapia (comportamiento de
-//                siempre: sin `en-US`, todo el mundo ve castellano).
+//                siempre: sin `en-US` ni `ca`, todo el mundo ve castellano).
 //   Español    · pone la app entera en castellano.
 //   English    · pone la app entera en inglés: textos Y locuciones.
+//   Català     · pone la app entera en catalán: textos Y locuciones.
 //
 // Sin «Automático» no habría forma de VOLVER al acoplamiento por defecto una
 // vez tocado el selector, y el adulto se quedaría con una elección pegada sin
 // saber por qué su app no cambia al cambiar de variedad.
 //
 // Elegir un idioma mueve TAMBIÉN la variedad de terapia (setAppLanguage): en
-// inglés, la app suena en inglés. Quien quiera el desacople bilingüe —interfaz
-// en un idioma, terapia en otro— lo consigue tocando después «Voz de la app»,
-// que es el eje de la terapia y no se ha ido a ninguna parte.
+// inglés la app suena en inglés, y en catalán suena en catalán. Quien quiera el
+// desacople bilingüe —interfaz en un idioma, terapia en otro— lo consigue
+// tocando después «Voz de la app», que es el eje de la terapia y no se ha ido a
+// ninguna parte.
+//
+// La ÚNICA excepción, y está declarada y avisada en pantalla: las cápsulas
+// formativas de Academy todavía no existen en catalán (src/i18n/uiLangFallback).
 // ============================================================================
 import React from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
@@ -52,6 +57,7 @@ export const ValeriaUiLangPicker: React.FC<{ compact?: boolean; onLight?: boolea
     { key: 'auto', label: t.settings.uiLangAuto, hint: t.settings.uiLangAutoHint },
     { key: 'es', label: t.settings.uiLangEs },
     { key: 'en', label: t.settings.uiLangEn },
+    { key: 'ca', label: t.settings.uiLangCa },
   ];
 
   return (

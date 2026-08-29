@@ -42,7 +42,7 @@
 // añade una variedad, `prosodyFor(getLocale())` deja de compilar en
 // valeriaVoice.ts, que es exactamente el aviso que queremos —una variedad nueva
 // necesita decidir su perfil de pausas, no heredar el de defecto en silencio.
-export type ProsodyLocale = 'es' | 'gl' | 'es-DO' | 'eu' | 'en-US';
+export type ProsodyLocale = 'es' | 'gl' | 'es-DO' | 'eu' | 'en-US' | 'ca';
 
 export interface ProsodyProfile {
   // Silencio EXPLÍCITO que añadimos entre frases encadenadas (ms). Se suma a la
@@ -76,6 +76,10 @@ export const PROSODY_DEFAULT: ProsodyProfile = { gapMs: 110, chainMinWords: 0, m
 // Revisar en EN-4.3, cuando el banco neuronal inglés exista: entonces `en-US`
 // pasa a comportarse como es/gl/eu. Es también una de las preguntas para la
 // revisora clínica (¿el ritmo inglés resultante sirve para terapia?).
+// `ca` va con el perfil de BANCO PREGENERADO desde el primer día: a diferencia
+// de en-US, que nació sin assets Piper y se quedó con el perfil de voz del
+// sistema, el catalán entra con sus locuciones ya sintetizadas (voz Piper
+// ca_ES), así que expo-speech es su camino de rescate y no el habitual.
 export const prosodyFor = (loc: ProsodyLocale): ProsodyProfile =>
   loc === 'es-DO' || loc === 'en-US' ? PROSODY_LATIN : PROSODY_DEFAULT;
 

@@ -8,6 +8,8 @@
 //                 galego locutaba castellano en toda esta pantalla.
 //   'es-DO'     → banco dominicano (Quisqueya Habla · QH-2.2): léxico local
 //                 (colmado, guagua, funda…) y consignas en registro caribeño.
+//   'ca'        → banc català (pla ca-ES), locutat amb la veu neuronal
+//                 catalana. Mateix forat que tenia el gallec abans de GL-2.x.
 // Vive aparte del banco base para no crear ciclos y espejar el patrón de
 // valeriaPairBanks (pares mínimos por variedad).
 // ============================================================================
@@ -27,6 +29,10 @@ import {
   DAILY_SCENARIOS_GL, LEXICAL_CATEGORIES_GL, PROGRESSION_SEQUENCES_GL,
   CONTRAST_CAPSULES_GL, SEM_RETRY_GL, SEM_SESSION_DONE_GL,
 } from './valeriaSemanticExpansionGl';
+import {
+  DAILY_SCENARIOS_CA, LEXICAL_CATEGORIES_CA, PROGRESSION_SEQUENCES_CA,
+  CONTRAST_CAPSULES_CA, SEM_RETRY_CA, SEM_SESSION_DONE_CA,
+} from './valeriaSemanticExpansionCa';
 import { Locale } from './valeriaLocale';
 
 // Textos fijos de la pantalla (reintento y cierre). Se localizan junto al banco
@@ -88,6 +94,16 @@ export function semanticForLocale(loc: Locale): SemanticBank {
       capsules: CONTRAST_CAPSULES_EN,
       retry: SEM_RETRY_EN,
       sessionDone: SEM_SESSION_DONE_EN,
+    };
+  }
+  if (loc === 'ca') {
+    return {
+      scenarios: DAILY_SCENARIOS_CA,
+      categories: LEXICAL_CATEGORIES_CA,
+      sequences: PROGRESSION_SEQUENCES_CA,
+      capsules: CONTRAST_CAPSULES_CA,
+      retry: SEM_RETRY_CA,
+      sessionDone: SEM_SESSION_DONE_CA,
     };
   }
   // Castellano: banco base (Sharvard).

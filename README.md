@@ -19,6 +19,7 @@ dificultades del lenguaje.**
 ![Dominicano](https://img.shields.io/badge/Dominicano-es--DO-002D62?style=for-the-badge)
 ![Euskara](https://img.shields.io/badge/Euskara-eu-009B48?style=for-the-badge)
 ![US English](https://img.shields.io/badge/US%20English-en--US-3C3B6E?style=for-the-badge)
+![Català](https://img.shields.io/badge/Catal%C3%A0-ca-C60B1E?style=for-the-badge)
 
 <!-- Stack -->
 ![Expo SDK 54](https://img.shields.io/badge/Expo-SDK%2054-000020?style=flat-square&logo=expo&logoColor=white)
@@ -627,7 +628,7 @@ para no ensuciar la telemetría de misclicks.
 
 ## 🌐 Idiomas y variedades
 
-Valeria+ locuta y evalúa el **contenido terapéutico** en **cinco variedades**,
+Valeria+ locuta y evalúa el **contenido terapéutico** en **seis variedades**,
 seleccionables desde la tarjeta **«Voz de la app»** (`ValeriaVoiceUI`). La
 variedad activa vive en un único módulo (`src/valeriaLocale.ts`), que desacopla
 tres decisiones: qué banco de audio usar, qué locale BCP‑47 pasar al
@@ -636,9 +637,16 @@ reconocedor/voz del sistema y si conviene preferir voces latinas.
 **El idioma de la interfaz es una decisión aparte de la variedad de terapia**, y
 esa separación es deliberada: en un *caseload* bilingüe, la logopeda puede
 querer la app en inglés y trabajar en castellano con un niño, o al revés. Vive
-en su propio módulo (`src/valeriaUiLang.ts`, `UiLang = 'es' | 'en'`), con
+en su propio módulo (`src/valeriaUiLang.ts`, `UiLang = 'es' | 'en' | 'ca'`), con
 suscripción propia porque cambiar el idioma **repinta** la pantalla, mientras
 que la variedad basta con leerla en el momento de hablar.
+
+Lo que un idioma de interfaz **no** puede hacer es caer al castellano en
+silencio. Cuando un bloque de contenido de adulto todavía no existe en un
+idioma, el hueco se declara en [`src/i18n/uiLangFallback.ts`](src/i18n/uiLangFallback.ts),
+la pantalla lo **avisa** y el gate `check-ui-lang-fallback.js` impide volver al
+`lang === 'en' ? EN : ES` que dejaba media pantalla en otra lengua sin decirlo.
+Hoy solo hay un hueco declarado: las cápsulas formativas de Academy en catalán.
 
 | Variedad | Voz | Reconocimiento (ASR) |
 | --- | --- | --- |
@@ -647,6 +655,24 @@ que la variedad basta con leerla en el momento de hablar.
 | 🇩🇴 **Dominicano** (`es-DO`) — *Quisqueya Habla* | Voz **latina del dispositivo** (`es-US`/`es-MX`); sin audio propio pregenerado. | Sistema `es-DO`, priorizando el catálogo latino. |
 | **Euskara** (`eu`) — *ILENIA/NEL-GAITU · HiTZ* | Voz neuronal **HiTZ-TTS** pregenerada (UPV/EHU · Aholab), empaquetada. Cubre pares mínimos, expansión semántica, Audición, Lenguaje, TEA, Dislexia y Test de Ling en euskera batua. | Sistema `eu-ES` con recaída a `es-ES` + pliegue vasco (`foldBasque`, ⟨h⟩ muda). |
 | 🇺🇸 **US English** (`en-US`) | Voz neuronal **LJSpeech · piper** pregenerada (mismo motor que Sharvard; voz de dominio público con modelo MIT, tras descartar dos candidatas por licencia en EN‑0.1). **614 locuciones** empaquetadas. | Sistema `en-US`, pidiendo reconocimiento local como en castellano. |
+| **Català** (`ca`) — *projecte AINA · BSC* | Banco clínico propio completo (pares mínimos, expansión semántica, Audición, Lenguaje, TEA, Dislexia y Test de Ling): **858 locuciones enumeradas en el corpus**. La voz es **Matxa-TTS** del projecte AINA, que **no es Piper**: es Matcha-TTS (flow matching) con vocóder propio y frontend fonémico (espeak-ng `ca`), así que tiene motor propio en la tubería. Está configurada pero **todavía no sintetizada**: hasta que corra `voice-assets.yml`, la variedad suena con la voz catalana del dispositivo, y la tarjeta de voz lo dice en pantalla. | Sistema `ca-ES` con recaída a `expo-speech`. |
+
+### El catalán tampoco es una traducción: trae contrastes que el castellano no tiene
+
+El banco de pares mínimos catalán no se pudo derivar del castellano, y no por
+matices: «perro» es «gos» y el contraste r̄/l desaparece. Pero el motivo de
+fondo es mayor — cuatro de sus ocho grupos nombran contrastes **inexistentes en
+castellano peninsular**, y son justamente los que fallan en los niños
+catalanohablantes: la sonoridad sibilante /s/–/z/ (*caça* / *casa*), las
+postalveolares /ʃ/ y /ʒ/ (*peix* / *pes*, *joc* / *xoc*), la abertura vocálica
+/ɔ/–/o/ (*os* / *ós*) y la lateral palatal viva /ʎ/–/l/ (*palla* / *pala*).
+Por eso el catalán tiene su propia lista de grupos (`PAIR_GROUPS_CA`), como el
+inglés: recorrer la castellana habría dejado la pantalla vacía.
+
+Y hay un contraste **descartado a propósito**: /b/–/v/. El catalán central es
+betacista, así que puntuarlo mediría distancia respecto del valenciano y el
+balear, no lenguaje. Es el mismo criterio que la guía dialectal del `en-US`
+aplica al TH-fronting.
 
 ### El inglés no es una traducción: es la quinta variedad, y la primera con interfaz propia
 

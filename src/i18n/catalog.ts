@@ -15,11 +15,12 @@
 // Regla, entonces: los módulos que no son componentes importan de AQUÍ; las
 // pantallas importan `useT` de `./i18n`.
 // ============================================================================
-import { getUiLang } from '../valeriaUiLang';
+import { getUiLang, UiLang } from '../valeriaUiLang';
 import { ES, UiStrings } from './strings.es';
 import { EN } from './strings.en';
+import { CA } from './strings.ca';
 
-export const CATALOGUES: Record<'es' | 'en', UiStrings> = { es: ES, en: EN };
+export const CATALOGUES: Record<UiLang, UiStrings> = { es: ES, en: EN, ca: CA };
 
 // Catálogo activo ahora mismo. Sin suscripción: quien lo llama lee el idioma
 // del momento (notificaciones al programarse, informes al generarse).

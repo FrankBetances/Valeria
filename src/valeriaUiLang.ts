@@ -31,10 +31,10 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Locale, getLocale, setLocale } from './valeriaLocale';
 
-export type UiLang = 'es' | 'en';
-export const ALL_UI_LANGS: UiLang[] = ['es', 'en'];
+export type UiLang = 'es' | 'en' | 'ca';
+export const ALL_UI_LANGS: UiLang[] = ['es', 'en', 'ca'];
 export const DEFAULT_UI_LANG: UiLang = 'es';
-export const isUiLang = (v: unknown): v is UiLang => v === 'es' || v === 'en';
+export const isUiLang = (v: unknown): v is UiLang => v === 'es' || v === 'en' || v === 'ca';
 
 export function resolveInitialUiLang(value: unknown): UiLang {
   if (isUiLang(value)) {
@@ -67,7 +67,8 @@ export const isUiLangExplicit = (): boolean => explicit;
 
 // Idioma de interfaz que CORRESPONDE a una variedad de terapia, cuando el
 // adulto no ha elegido uno a mano. Única regla del acoplamiento por defecto.
-export const defaultUiLangFor = (loc: Locale): UiLang => (loc === 'en-US' ? 'en' : 'es');
+export const defaultUiLangFor = (loc: Locale): UiLang =>
+  (loc === 'en-US' ? 'en' : loc === 'ca' ? 'ca' : 'es');
 
 // ------------------------------------------------------------------ escritura
 // Elección DELIBERADA del adulto: manda sobre la variedad para siempre.
@@ -104,22 +105,38 @@ export async function syncUiLangToLocale(loc: Locale): Promise<void> {
 // castellano y la voz seguía leyendo castellano bajo una interfaz inglesa, y en
 // las pantallas donde faltaba la rama inglesa se leía castellano CON VOZ
 // INGLESA. La queja que llegó.
+//
+// El catalán entra por la MISMA puerta (ago 2026), y por eso esto pasó de dos
+// casos escritos a mano a una tabla: mientras solo hubo `en`, un `if` bastaba;
+// con la tercera lengua, un `if` más habría vuelto a dejar una lengua con la
+// interfaz cambiada y la voz en castellano — exactamente el fallo que este
+// bloque existe para no repetir. Un idioma de interfaz que NO tiene variedad
+// propia (no lo hay hoy) no aparece en la tabla y no mueve la variedad.
 const KEY_PREV_LOCALE = '@valeria_locale_before_en';
+
+const LOCALE_OF_UI_LANG: Partial<Record<UiLang, Locale>> = { en: 'en-US', ca: 'ca' };
+
+// Variedades "propiedad" de un idioma de interfaz: al salir de ellas hay que
+// devolver la variedad anterior, no dejar al usuario en la que curioseó.
+const OWNED_LOCALES = new Set<Locale>(Object.values(LOCALE_OF_UI_LANG) as Locale[]);
 
 export async function setAppLanguage(lang: UiLang): Promise<void> {
   const before = getLocale();
-  if (lang === 'en') {
+  const target = LOCALE_OF_UI_LANG[lang];
+  if (target) {
     // Se recuerda la variedad de la que se viene para poder devolverla: un
     // usuario gallego que curiosea el inglés no puede acabar en castellano.
-    if (before !== 'en-US') {
-      try { await AsyncStorage.setItem(KEY_PREV_LOCALE, before); } catch (e) { /* noop */ }
-      await setLocale('en-US');
+    if (before !== target) {
+      if (!OWNED_LOCALES.has(before)) {
+        try { await AsyncStorage.setItem(KEY_PREV_LOCALE, before); } catch (e) { /* noop */ }
+      }
+      await setLocale(target);
     }
-  } else if (before === 'en-US') {
+  } else if (OWNED_LOCALES.has(before)) {
     let prev: Locale = 'es';
     try {
       const stored = await AsyncStorage.getItem(KEY_PREV_LOCALE);
-      if (stored && stored !== 'en-US') prev = stored as Locale;
+      if (stored && !OWNED_LOCALES.has(stored as Locale)) prev = stored as Locale;
     } catch (e) { /* noop */ }
     await setLocale(prev);
   }

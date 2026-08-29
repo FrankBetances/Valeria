@@ -26,13 +26,16 @@
 // build-time (Node) para pre-generar el audio neuronal de cada portadora.
 // ============================================================================
 
-export type CarrierLang = 'es' | 'gl' | 'eu';
+export type CarrierLang = 'es' | 'gl' | 'eu' | 'ca';
 
 // ---- Metadatos léxicos de las palabras objetivo por idioma ----
 // La concordancia (artículo/género) es imprescindible para que la frase
 // portadora sea gramatical; 'numero' activa plantillas propias (contar, velas).
 // En euskera (SOV) no se antepone artículo: `abs` da la forma absolutiva ya
 // flexionada del objeto (sua, hotza, hitza…) que se incrusta antes del verbo.
+// En catalán el artículo indefinido se apostrofa ante vocal («un os» no, pero
+// «una illa» sí): los objetivos del banco catalán empiezan todos por consonante
+// salvo `os`, que es masculino y no apostrofa, así que basta con un/una.
 interface WordMeta { kind: 'sustantivo' | 'numero'; article?: string; abs?: string; }
 interface SubjectMeta { full: string; short: string; }
 interface VerbMeta { past: string; ask: string; }
@@ -128,6 +131,39 @@ const BANKS: Record<CarrierLang, CarrierBank> = {
     tails: ['no xardín', 'esta mañá', 'detrás da porta', 'no paseo', ''],
     numberTemplates: [], // sin objetivos numéricos en el banco gl
     elicit: 'Respóndelle ti, forte e claro.',
+  },
+  ca: {
+    // Objectius del banc català de parells (valeriaMinimalPairsCa).
+    wordMeta: {
+      rosa: { kind: 'sustantivo', article: 'una' },
+      serra: { kind: 'sustantivo', article: 'una' },
+      casa: { kind: 'sustantivo', article: 'una' },
+      peix: { kind: 'sustantivo', article: 'un' },
+      joc: { kind: 'sustantivo', article: 'un' },
+      os: { kind: 'sustantivo', article: 'un' },
+      palla: { kind: 'sustantivo', article: 'la' }, // incomptable: article definit
+      fill: { kind: 'sustantivo', article: 'un' },
+      coll: { kind: 'sustantivo', article: 'un' },
+      font: { kind: 'sustantivo', article: 'una' },
+      llum: { kind: 'sustantivo', article: 'un' },
+    },
+    subjects: [
+      { full: 'L\'ós bru', short: 'l\'ós' },
+      { full: 'L\'àvia Rosa', short: 'l\'àvia' },
+      { full: 'El pirata Simó', short: 'el pirata' },
+      { full: 'La meva amiga Lola', short: 'la meva amiga' },
+      { full: 'El nen petit', short: 'el nen' },
+    ],
+    verbs: [
+      { past: 'va trobar', ask: 'Què va trobar' },
+      { past: 'va dibuixar', ask: 'Què va dibuixar' },
+      { past: 'va veure', ask: 'Què va veure' },
+      { past: 'buscava', ask: 'Què buscava' },
+      { past: 'va guardar', ask: 'Què va guardar' },
+    ],
+    tails: ['al jardí', 'aquest matí', 'darrere la porta', 'al passeig', ''],
+    numberTemplates: [], // sense objectius numèrics al banc ca
+    elicit: 'Respon-li tu, fort i clar.',
   },
   eu: {
     order: 'SOV',

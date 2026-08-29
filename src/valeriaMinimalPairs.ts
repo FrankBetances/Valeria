@@ -12,7 +12,13 @@ export type PairGroup =
   // Grupos del banco inglés (en-US). No se traducen los castellanos: cada banco
   // usa los suyos y la pantalla pinta los del locale activo (pairGroupsForLocale).
   | 'Gliding' | 'Fronting' | 'Cluster reduction' | 'Final consonant'
-  | 'Voicing' | 'Sibilants' | 'Vowels';
+  | 'Voicing' | 'Sibilants' | 'Vowels'
+  // Grupos del banco catalán (ca). Tampoco se traducen: cuatro de ellos
+  // (sonoridad sibilante, postalveolares, abertura vocálica y la lateral
+  // palatal viva) nombran contrastes que el castellano NO tiene, así que no
+  // hay grupo castellano al que asimilarlos sin perder el criterio clínico.
+  | 'Rotacisme' | 'Sonoritat sibilant' | 'Xeix i ge' | 'Obertura vocàlica'
+  | 'Laterals' | 'Velars' | 'Oclusivització' | 'Nasals';
 
 // ----------------------------------------------------------------------------
 // Veredicto dialectal (EN-0.5) — regla BLOQUEANTE del banco inglés.

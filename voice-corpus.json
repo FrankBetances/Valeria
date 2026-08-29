@@ -1,33 +1,34 @@
 {
- "generatedAt": "2026-08-25T16:06:28.894Z",
- "entries": 3252,
+ "generatedAt": "2026-08-29T12:02:25.027Z",
+ "entries": 4110,
  "byStyle": {
-  "child": 1726,
-  "slow": 756,
-  "clinical": 36,
-  "tutor": 734
+  "child": 2194,
+  "slow": 950,
+  "clinical": 45,
+  "tutor": 921
  },
  "bySource": {
-  "pares/intro": 36,
-  "pares/prompt": 36,
-  "pares/celebracion": 36,
-  "pares/correccion": 36,
-  "pares/retry": 36,
-  "pares/modelado": 36,
-  "pares/roleswap": 85,
-  "pares/fin": 4,
-  "tpr": 87,
-  "tpr/fin": 4,
-  "rutas": 32,
-  "rutas/fin": 4,
-  "banco/elogio": 24,
-  "banco/casi": 16,
-  "banco/no-oido": 12,
-  "banco/juntos": 12,
-  "util/muestra": 4,
-  "expansion": 1705,
-  "ejercicios": 1035,
-  "escritura/elogio": 12
+  "pares/intro": 48,
+  "pares/prompt": 48,
+  "pares/celebracion": 48,
+  "pares/correccion": 48,
+  "pares/retry": 47,
+  "pares/modelado": 47,
+  "pares/roleswap": 112,
+  "pares/fin": 5,
+  "tpr": 111,
+  "tpr/fin": 5,
+  "rutas": 40,
+  "rutas/fin": 5,
+  "banco/elogio": 29,
+  "banco/casi": 20,
+  "banco/no-oido": 15,
+  "banco/juntos": 15,
+  "util/muestra": 5,
+  "expansion": 2152,
+  "ejercicios": 1292,
+  "ejercicios/veredicto": 3,
+  "escritura/elogio": 15
  },
  "corpus": [
   {
@@ -22711,6 +22712,5991 @@
    "source": "util/muestra"
   },
   {
+   "id": "ca_child_5aa4bc5d_46",
+   "lang": "ca",
+   "style": "child",
+   "text": "Aquí tenim: rosa. I aquí: llosa. Digues: rosa.",
+   "source": "pares/intro"
+  },
+  {
+   "id": "ca_child_ad96c10f_13",
+   "lang": "ca",
+   "style": "child",
+   "text": "Digues: rosa.",
+   "source": "pares/prompt"
+  },
+  {
+   "id": "ca_child_0e3eaf26_45",
+   "lang": "ca",
+   "style": "child",
+   "text": "Rosa! La teva llengua ha vibrat com una moto!",
+   "source": "pares/celebracion"
+  },
+  {
+   "id": "ca_child_b3223eeb_59",
+   "lang": "ca",
+   "style": "child",
+   "text": "He sentit llosa, la pedra plana. Jo demanava rosa. Escolta…",
+   "source": "pares/correccion"
+  },
+  {
+   "id": "ca_child_0a5dc97a_31",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: rosa.",
+   "source": "pares/retry"
+  },
+  {
+   "id": "ca_slow_14421e52_4",
+   "lang": "ca",
+   "style": "slow",
+   "text": "rosa",
+   "source": "pares/modelado"
+  },
+  {
+   "id": "ca_child_408aa118_66",
+   "lang": "ca",
+   "style": "child",
+   "text": "Ui! L'adult ha dit rosa. Escolta una altra vegada al torn següent!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "ca_child_12fade80_67",
+   "lang": "ca",
+   "style": "child",
+   "text": "Ui! L'adult ha dit llosa. Escolta una altra vegada al torn següent!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "ca_child_8402632b_48",
+   "lang": "ca",
+   "style": "child",
+   "text": "Aquí tenim: serra. I aquí: sella. Digues: serra.",
+   "source": "pares/intro"
+  },
+  {
+   "id": "ca_child_c4f27517_14",
+   "lang": "ca",
+   "style": "child",
+   "text": "Digues: serra.",
+   "source": "pares/prompt"
+  },
+  {
+   "id": "ca_child_c4f1087f_28",
+   "lang": "ca",
+   "style": "child",
+   "text": "Serra! Quina erra més forta!",
+   "source": "pares/celebracion"
+  },
+  {
+   "id": "ca_child_3e032c00_76",
+   "lang": "ca",
+   "style": "child",
+   "text": "He sentit sella, la del cavall. La serra s'ha quedat sense dents. Va: serra.",
+   "source": "pares/correccion"
+  },
+  {
+   "id": "ca_child_e66ed4d8_32",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: serra.",
+   "source": "pares/retry"
+  },
+  {
+   "id": "ca_slow_e2b77e6c_5",
+   "lang": "ca",
+   "style": "slow",
+   "text": "serra",
+   "source": "pares/modelado"
+  },
+  {
+   "id": "ca_child_4009e81a_67",
+   "lang": "ca",
+   "style": "child",
+   "text": "Ui! L'adult ha dit serra. Escolta una altra vegada al torn següent!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "ca_child_bc33ea1a_67",
+   "lang": "ca",
+   "style": "child",
+   "text": "Ui! L'adult ha dit sella. Escolta una altra vegada al torn següent!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "ca_child_e5d52572_45",
+   "lang": "ca",
+   "style": "child",
+   "text": "Aquí tenim: casa. I aquí: caça. Digues: casa.",
+   "source": "pares/intro"
+  },
+  {
+   "id": "ca_child_ecadee2a_13",
+   "lang": "ca",
+   "style": "child",
+   "text": "Digues: casa.",
+   "source": "pares/prompt"
+  },
+  {
+   "id": "ca_child_dc0c0174_42",
+   "lang": "ca",
+   "style": "child",
+   "text": "Casa! Aquesta essa brunzia com una abella!",
+   "source": "pares/celebracion"
+  },
+  {
+   "id": "ca_child_879154fc_72",
+   "lang": "ca",
+   "style": "child",
+   "text": "He sentit caça, la de la fletxa. A casa l'essa brunz, no xiula. Escolta…",
+   "source": "pares/correccion"
+  },
+  {
+   "id": "ca_child_792077c3_31",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: casa.",
+   "source": "pares/retry"
+  },
+  {
+   "id": "ca_slow_9f253efd_4",
+   "lang": "ca",
+   "style": "slow",
+   "text": "casa",
+   "source": "pares/modelado"
+  },
+  {
+   "id": "ca_child_c83b6b2d_66",
+   "lang": "ca",
+   "style": "child",
+   "text": "Ui! L'adult ha dit casa. Escolta una altra vegada al torn següent!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "ca_child_de1649d9_66",
+   "lang": "ca",
+   "style": "child",
+   "text": "Ui! L'adult ha dit caça. Escolta una altra vegada al torn següent!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "ca_child_deffa850_55",
+   "lang": "ca",
+   "style": "child",
+   "text": "Aquí tenim: rosa. I aquí: rossa. Digues: rosa, la flor.",
+   "source": "pares/intro"
+  },
+  {
+   "id": "ca_child_85e2c883_22",
+   "lang": "ca",
+   "style": "child",
+   "text": "Digues: rosa, la flor.",
+   "source": "pares/prompt"
+  },
+  {
+   "id": "ca_child_ee304eaf_43",
+   "lang": "ca",
+   "style": "child",
+   "text": "Rosa! L'abella del mig ha brunzit ben fort!",
+   "source": "pares/celebracion"
+  },
+  {
+   "id": "ca_child_aa3dca74_71",
+   "lang": "ca",
+   "style": "child",
+   "text": "He sentit rossa, la del cabell clar. La flor porta abella al mig: rosa.",
+   "source": "pares/correccion"
+  },
+  {
+   "id": "ca_child_4413c0c7_67",
+   "lang": "ca",
+   "style": "child",
+   "text": "Ui! L'adult ha dit rossa. Escolta una altra vegada al torn següent!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "ca_child_e41eda8c_44",
+   "lang": "ca",
+   "style": "child",
+   "text": "Aquí tenim: peix. I aquí: pes. Digues: peix.",
+   "source": "pares/intro"
+  },
+  {
+   "id": "ca_child_68f0ac90_13",
+   "lang": "ca",
+   "style": "child",
+   "text": "Digues: peix.",
+   "source": "pares/prompt"
+  },
+  {
+   "id": "ca_child_f8f3b7bb_30",
+   "lang": "ca",
+   "style": "child",
+   "text": "Peix! Quina xeix més ben feta!",
+   "source": "pares/celebracion"
+  },
+  {
+   "id": "ca_child_8489457d_81",
+   "lang": "ca",
+   "style": "child",
+   "text": "He sentit pes, el de la balança. El peix acaba amb el so de callar: xxx. Escolta…",
+   "source": "pares/correccion"
+  },
+  {
+   "id": "ca_child_a0edd55d_31",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: peix.",
+   "source": "pares/retry"
+  },
+  {
+   "id": "ca_slow_c60a97f7_4",
+   "lang": "ca",
+   "style": "slow",
+   "text": "peix",
+   "source": "pares/modelado"
+  },
+  {
+   "id": "ca_child_6c1fdcf3_66",
+   "lang": "ca",
+   "style": "child",
+   "text": "Ui! L'adult ha dit peix. Escolta una altra vegada al torn següent!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "ca_child_11709d53_65",
+   "lang": "ca",
+   "style": "child",
+   "text": "Ui! L'adult ha dit pes. Escolta una altra vegada al torn següent!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "ca_child_9d6cbe8e_42",
+   "lang": "ca",
+   "style": "child",
+   "text": "Aquí tenim: joc. I aquí: xoc. Digues: joc.",
+   "source": "pares/intro"
+  },
+  {
+   "id": "ca_child_1d58db0a_12",
+   "lang": "ca",
+   "style": "child",
+   "text": "Digues: joc.",
+   "source": "pares/prompt"
+  },
+  {
+   "id": "ca_child_055a5cce_34",
+   "lang": "ca",
+   "style": "child",
+   "text": "Joc! La ge t'ha sortit ben sonora!",
+   "source": "pares/celebracion"
+  },
+  {
+   "id": "ca_child_a4e13674_77",
+   "lang": "ca",
+   "style": "child",
+   "text": "He sentit xoc, el del cop. El joc comença amb el motor engegat: jjj. Va: joc.",
+   "source": "pares/correccion"
+  },
+  {
+   "id": "ca_child_6ccc4d65_30",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: joc.",
+   "source": "pares/retry"
+  },
+  {
+   "id": "ca_slow_ded4316f_3",
+   "lang": "ca",
+   "style": "slow",
+   "text": "joc",
+   "source": "pares/modelado"
+  },
+  {
+   "id": "ca_child_26468a5b_65",
+   "lang": "ca",
+   "style": "child",
+   "text": "Ui! L'adult ha dit joc. Escolta una altra vegada al torn següent!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "ca_child_b52fe0a5_65",
+   "lang": "ca",
+   "style": "child",
+   "text": "Ui! L'adult ha dit xoc. Escolta una altra vegada al torn següent!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "ca_child_f06a2b01_57",
+   "lang": "ca",
+   "style": "child",
+   "text": "Aquí tenim: os. I aquí: ós. Digues: os, el de l'esquelet.",
+   "source": "pares/intro"
+  },
+  {
+   "id": "ca_child_bd280605_29",
+   "lang": "ca",
+   "style": "child",
+   "text": "Digues: os, el de l'esquelet.",
+   "source": "pares/prompt"
+  },
+  {
+   "id": "ca_child_4256cae9_41",
+   "lang": "ca",
+   "style": "child",
+   "text": "Os! Que bé, has obert ben oberta la boca!",
+   "source": "pares/celebracion"
+  },
+  {
+   "id": "ca_child_ea6bc857_79",
+   "lang": "ca",
+   "style": "child",
+   "text": "He sentit ós, l'animal de la mel. L'os de l'esquelet obre més la boca. Escolta…",
+   "source": "pares/correccion"
+  },
+  {
+   "id": "ca_child_c4dd3965_29",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: os.",
+   "source": "pares/retry"
+  },
+  {
+   "id": "ca_slow_5e342b17_2",
+   "lang": "ca",
+   "style": "slow",
+   "text": "os",
+   "source": "pares/modelado"
+  },
+  {
+   "id": "ca_child_79b0641b_64",
+   "lang": "ca",
+   "style": "child",
+   "text": "Ui! L'adult ha dit os. Escolta una altra vegada al torn següent!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "ca_child_350db087_64",
+   "lang": "ca",
+   "style": "child",
+   "text": "Ui! L'adult ha dit ós. Escolta una altra vegada al torn següent!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "ca_child_50d48b1e_47",
+   "lang": "ca",
+   "style": "child",
+   "text": "Aquí tenim: palla. I aquí: pala. Digues: palla.",
+   "source": "pares/intro"
+  },
+  {
+   "id": "ca_child_a0d44938_14",
+   "lang": "ca",
+   "style": "child",
+   "text": "Digues: palla.",
+   "source": "pares/prompt"
+  },
+  {
+   "id": "ca_child_51b4f90c_37",
+   "lang": "ca",
+   "style": "child",
+   "text": "Palla! La llengua ha tocat ben amunt!",
+   "source": "pares/celebracion"
+  },
+  {
+   "id": "ca_child_db758634_97",
+   "lang": "ca",
+   "style": "child",
+   "text": "He sentit pala, la de la sorra. La palla té la llengua enganxada al sostre de la boca. Va: palla.",
+   "source": "pares/correccion"
+  },
+  {
+   "id": "ca_child_23530aab_32",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: palla.",
+   "source": "pares/retry"
+  },
+  {
+   "id": "ca_slow_cbcc50e1_5",
+   "lang": "ca",
+   "style": "slow",
+   "text": "palla",
+   "source": "pares/modelado"
+  },
+  {
+   "id": "ca_child_b923e815_67",
+   "lang": "ca",
+   "style": "child",
+   "text": "Ui! L'adult ha dit palla. Escolta una altra vegada al torn següent!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "ca_child_d0640079_66",
+   "lang": "ca",
+   "style": "child",
+   "text": "Ui! L'adult ha dit pala. Escolta una altra vegada al torn següent!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "ca_child_f32d8d47_44",
+   "lang": "ca",
+   "style": "child",
+   "text": "Aquí tenim: fill. I aquí: fil. Digues: fill.",
+   "source": "pares/intro"
+  },
+  {
+   "id": "ca_child_129a661d_13",
+   "lang": "ca",
+   "style": "child",
+   "text": "Digues: fill.",
+   "source": "pares/prompt"
+  },
+  {
+   "id": "ca_child_885a7220_35",
+   "lang": "ca",
+   "style": "child",
+   "text": "Fill! Quina ela palatal més bonica!",
+   "source": "pares/celebracion"
+  },
+  {
+   "id": "ca_child_56ff7010_76",
+   "lang": "ca",
+   "style": "child",
+   "text": "He sentit fil, el de cosir. El fill acaba amb la llengua ben amunt. Escolta…",
+   "source": "pares/correccion"
+  },
+  {
+   "id": "ca_child_691bdc28_31",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: fill.",
+   "source": "pares/retry"
+  },
+  {
+   "id": "ca_slow_b1ea6248_4",
+   "lang": "ca",
+   "style": "slow",
+   "text": "fill",
+   "source": "pares/modelado"
+  },
+  {
+   "id": "ca_child_b4d95f4a_66",
+   "lang": "ca",
+   "style": "child",
+   "text": "Ui! L'adult ha dit fill. Escolta una altra vegada al torn següent!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "ca_child_ede4f3e2_65",
+   "lang": "ca",
+   "style": "child",
+   "text": "Ui! L'adult ha dit fil. Escolta una altra vegada al torn següent!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "ca_child_76f32d55_45",
+   "lang": "ca",
+   "style": "child",
+   "text": "Aquí tenim: coll. I aquí: toll. Digues: coll.",
+   "source": "pares/intro"
+  },
+  {
+   "id": "ca_child_71973574_13",
+   "lang": "ca",
+   "style": "child",
+   "text": "Digues: coll.",
+   "source": "pares/prompt"
+  },
+  {
+   "id": "ca_child_5a281368_42",
+   "lang": "ca",
+   "style": "child",
+   "text": "Coll! Aquesta ca t'ha sortit ben del fons!",
+   "source": "pares/celebracion"
+  },
+  {
+   "id": "ca_child_162fc167_87",
+   "lang": "ca",
+   "style": "child",
+   "text": "He sentit toll, el bassal de l'aigua. La ca de coll surt del fons de la gola. Va: coll.",
+   "source": "pares/correccion"
+  },
+  {
+   "id": "ca_child_875e780d_31",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: coll.",
+   "source": "pares/retry"
+  },
+  {
+   "id": "ca_slow_f244e9a7_4",
+   "lang": "ca",
+   "style": "slow",
+   "text": "coll",
+   "source": "pares/modelado"
+  },
+  {
+   "id": "ca_child_5e167793_66",
+   "lang": "ca",
+   "style": "child",
+   "text": "Ui! L'adult ha dit coll. Escolta una altra vegada al torn següent!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "ca_child_05db1aee_66",
+   "lang": "ca",
+   "style": "child",
+   "text": "Ui! L'adult ha dit toll. Escolta una altra vegada al torn següent!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "ca_child_52f209cf_45",
+   "lang": "ca",
+   "style": "child",
+   "text": "Aquí tenim: font. I aquí: pont. Digues: font.",
+   "source": "pares/intro"
+  },
+  {
+   "id": "ca_child_8a8f2759_13",
+   "lang": "ca",
+   "style": "child",
+   "text": "Digues: font.",
+   "source": "pares/prompt"
+  },
+  {
+   "id": "ca_child_2c0623cd_27",
+   "lang": "ca",
+   "style": "child",
+   "text": "Font! Quin bufec més llarg!",
+   "source": "pares/celebracion"
+  },
+  {
+   "id": "ca_child_c3368181_81",
+   "lang": "ca",
+   "style": "child",
+   "text": "He sentit pont, el de passar el riu. La font bufa llarg, no fa explosió. Escolta…",
+   "source": "pares/correccion"
+  },
+  {
+   "id": "ca_child_95797f48_31",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: font.",
+   "source": "pares/retry"
+  },
+  {
+   "id": "ca_slow_274e1290_4",
+   "lang": "ca",
+   "style": "slow",
+   "text": "font",
+   "source": "pares/modelado"
+  },
+  {
+   "id": "ca_child_e4cb585a_66",
+   "lang": "ca",
+   "style": "child",
+   "text": "Ui! L'adult ha dit font. Escolta una altra vegada al torn següent!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "ca_child_4bd275ac_66",
+   "lang": "ca",
+   "style": "child",
+   "text": "Ui! L'adult ha dit pont. Escolta una altra vegada al torn següent!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "ca_child_7bd50b26_46",
+   "lang": "ca",
+   "style": "child",
+   "text": "Aquí tenim: llum. I aquí: lluny. Digues: llum.",
+   "source": "pares/intro"
+  },
+  {
+   "id": "ca_child_80ec7be0_13",
+   "lang": "ca",
+   "style": "child",
+   "text": "Digues: llum.",
+   "source": "pares/prompt"
+  },
+  {
+   "id": "ca_child_1b0dcb25_41",
+   "lang": "ca",
+   "style": "child",
+   "text": "Llum! Has tancat els llavis just a temps!",
+   "source": "pares/celebracion"
+  },
+  {
+   "id": "ca_child_4bc06eac_79",
+   "lang": "ca",
+   "style": "child",
+   "text": "He sentit lluny, el de molt lluny. El llum tanca els llavis al final. Va: llum.",
+   "source": "pares/correccion"
+  },
+  {
+   "id": "ca_child_656cfc95_31",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: llum.",
+   "source": "pares/retry"
+  },
+  {
+   "id": "ca_slow_31118b27_4",
+   "lang": "ca",
+   "style": "slow",
+   "text": "llum",
+   "source": "pares/modelado"
+  },
+  {
+   "id": "ca_child_8eae21ab_66",
+   "lang": "ca",
+   "style": "child",
+   "text": "Ui! L'adult ha dit llum. Escolta una altra vegada al torn següent!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "ca_child_f93abd19_67",
+   "lang": "ca",
+   "style": "child",
+   "text": "Ui! L'adult ha dit lluny. Escolta una altra vegada al torn següent!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "ca_child_e70a7d3e_14",
+   "lang": "ca",
+   "style": "child",
+   "text": "Toca't el cap.",
+   "source": "tpr"
+  },
+  {
+   "id": "ca_child_7ca3fd4c_14",
+   "lang": "ca",
+   "style": "child",
+   "text": "Toca't el nas.",
+   "source": "tpr"
+  },
+  {
+   "id": "ca_child_3a943ba4_28",
+   "lang": "ca",
+   "style": "child",
+   "text": "Aixeca els braços ben amunt.",
+   "source": "tpr"
+  },
+  {
+   "id": "ca_child_18a9fcd3_22",
+   "lang": "ca",
+   "style": "child",
+   "text": "Salta com una granota.",
+   "source": "tpr"
+  },
+  {
+   "id": "ca_child_d5dab7d9_35",
+   "lang": "ca",
+   "style": "child",
+   "text": "Camina com un ós, de quatre grapes.",
+   "source": "tpr"
+  },
+  {
+   "id": "ca_child_53a02fa3_36",
+   "lang": "ca",
+   "style": "child",
+   "text": "Vola com un ocell movent els braços.",
+   "source": "tpr"
+  },
+  {
+   "id": "ca_child_891a8975_19",
+   "lang": "ca",
+   "style": "child",
+   "text": "Salta tres vegades.",
+   "source": "tpr"
+  },
+  {
+   "id": "ca_child_41c3a0c8_22",
+   "lang": "ca",
+   "style": "child",
+   "text": "Fes una volta sencera.",
+   "source": "tpr"
+  },
+  {
+   "id": "ca_child_7f71427d_12",
+   "lang": "ca",
+   "style": "child",
+   "text": "Seu a terra.",
+   "source": "tpr"
+  },
+  {
+   "id": "ca_child_88dbdd06_48",
+   "lang": "ca",
+   "style": "child",
+   "text": "Camina molt i molt a poc a poc, com una tortuga.",
+   "source": "tpr"
+  },
+  {
+   "id": "ca_child_47b1f44f_51",
+   "lang": "ca",
+   "style": "child",
+   "text": "Corre sense moure't del lloc, de pressa, de pressa!",
+   "source": "tpr"
+  },
+  {
+   "id": "ca_child_552c2500_37",
+   "lang": "ca",
+   "style": "child",
+   "text": "Estàtua! Queda't quiet sense moure't.",
+   "source": "tpr"
+  },
+  {
+   "id": "ca_child_fe253ba2_22",
+   "lang": "ca",
+   "style": "child",
+   "text": "Pica de mans ben fort.",
+   "source": "tpr"
+  },
+  {
+   "id": "ca_child_c42f1a65_22",
+   "lang": "ca",
+   "style": "child",
+   "text": "Digues adéu amb la mà.",
+   "source": "tpr"
+  },
+  {
+   "id": "ca_child_608fc69e_22",
+   "lang": "ca",
+   "style": "child",
+   "text": "Envia un petó volador.",
+   "source": "tpr"
+  },
+  {
+   "id": "ca_child_8d662d87_39",
+   "lang": "ca",
+   "style": "child",
+   "text": "Fes-te molt gran, estira't fins al cel.",
+   "source": "tpr"
+  },
+  {
+   "id": "ca_child_a6c5e6b1_28",
+   "lang": "ca",
+   "style": "child",
+   "text": "Fes-te petit com una pilota.",
+   "source": "tpr"
+  },
+  {
+   "id": "ca_child_f9372b43_36",
+   "lang": "ca",
+   "style": "child",
+   "text": "Obre els braços com un arbre gegant.",
+   "source": "tpr"
+  },
+  {
+   "id": "ca_child_9aaea8e6_27",
+   "lang": "ca",
+   "style": "child",
+   "text": "Posa cara de molta alegria.",
+   "source": "tpr"
+  },
+  {
+   "id": "ca_child_0d2b380c_41",
+   "lang": "ca",
+   "style": "child",
+   "text": "Ensenya'm l'enuig amb els braços creuats.",
+   "source": "tpr"
+  },
+  {
+   "id": "ca_child_fc7fc64f_30",
+   "lang": "ca",
+   "style": "child",
+   "text": "Fes-te una abraçada ben forta.",
+   "source": "tpr"
+  },
+  {
+   "id": "ca_child_15f0191c_35",
+   "lang": "ca",
+   "style": "child",
+   "text": "Camina com un robot dient bip, bop.",
+   "source": "tpr"
+  },
+  {
+   "id": "ca_child_e42a00c4_15",
+   "lang": "ca",
+   "style": "child",
+   "text": "Robot… atura't!",
+   "source": "tpr"
+  },
+  {
+   "id": "ca_child_b19dd81b_38",
+   "lang": "ca",
+   "style": "child",
+   "text": "El robot s'apaga: ajeu-te a poc a poc.",
+   "source": "tpr"
+  },
+  {
+   "id": "ca_clinical_808acf62_32",
+   "lang": "ca",
+   "style": "clinical",
+   "text": "Posa el got vermell a la cadira.",
+   "source": "rutas"
+  },
+  {
+   "id": "ca_clinical_445472f2_43",
+   "lang": "ca",
+   "style": "clinical",
+   "text": "Dona la cullera petita al pare o a la mare.",
+   "source": "rutas"
+  },
+  {
+   "id": "ca_clinical_3610162b_29",
+   "lang": "ca",
+   "style": "clinical",
+   "text": "Fica el tovalló sota el plat.",
+   "source": "rutas"
+  },
+  {
+   "id": "ca_clinical_527b22bc_53",
+   "lang": "ca",
+   "style": "clinical",
+   "text": "Agafa la fruita més grossa i posa-la damunt la taula.",
+   "source": "rutas"
+  },
+  {
+   "id": "ca_clinical_f6a2b40b_34",
+   "lang": "ca",
+   "style": "clinical",
+   "text": "Posa el raspall blau dins del got.",
+   "source": "rutas"
+  },
+  {
+   "id": "ca_clinical_64112cbd_49",
+   "lang": "ca",
+   "style": "clinical",
+   "text": "Porta la tovallola petita i deixa-la a la cadira.",
+   "source": "rutas"
+  },
+  {
+   "id": "ca_clinical_e4de6254_31",
+   "lang": "ca",
+   "style": "clinical",
+   "text": "Fica l'ànec a la banyera buida.",
+   "source": "rutas"
+  },
+  {
+   "id": "ca_clinical_cf42b420_48",
+   "lang": "ca",
+   "style": "clinical",
+   "text": "Dona el sabó al pare o a la mare amb l'altra mà.",
+   "source": "rutas"
+  },
+  {
+   "id": "ca_child_c16ebc73_30",
+   "lang": "ca",
+   "style": "child",
+   "text": "Això és el llit. Digues: llit.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_61649334_31",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: llit.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_c16ebc73_30",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Això és el llit. Digues: llit.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_808f5149_80",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Pica suaument el llit amb la mà i seu-hi amb l'infant abans d'aixecar-vos junts.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_2f7d7257_36",
+   "lang": "ca",
+   "style": "child",
+   "text": "Això és el raspall. Digues: raspall.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_51cf3aca_34",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: raspall.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_2f7d7257_36",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Això és el raspall. Digues: raspall.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_5b6dcf4b_93",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Posa el raspall a la mà de l'infant i feu junts el gest de rentar-vos les dents tres vegades.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_a3c6f865_43",
+   "lang": "ca",
+   "style": "child",
+   "text": "Al matí ens rentem la cara. Digues: rentar.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_0118221b_33",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: rentar.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_a3c6f865_43",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Al matí ens rentem la cara. Digues: rentar.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_c72631b5_83",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Fregueu-vos les mans l'un a l'altre com si tinguéssiu sabó, mentre dieu la paraula.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_cbd73185_35",
+   "lang": "ca",
+   "style": "child",
+   "text": "Després ens vestim. Digues: vestir.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_8eedd21c_33",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: vestir.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_cbd73185_35",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Després ens vestim. Digues: vestir.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_51181850_92",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Passeu junts el braç de l'infant per la màniga de la samarreta dient la paraula a cada braç.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_cd4846e0_37",
+   "lang": "ca",
+   "style": "child",
+   "text": "Ara tens el nas ben net. Digues: net.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_9c9a9144_30",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: net.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_cd4846e0_37",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Ara tens el nas ben net. Digues: net.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_269524f5_85",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Ensenyeu-vos les mans l'un a l'altre i piqueu de mans quan totes dues estiguin netes.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_eb4d8eeb_50",
+   "lang": "ca",
+   "style": "child",
+   "text": "El despertador sona: ring ring. Digues: ring ring.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_687765a1_36",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: ring ring.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_eb4d8eeb_50",
+   "lang": "ca",
+   "style": "slow",
+   "text": "El despertador sona: ring ring. Digues: ring ring.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_0be8c51c_81",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Feu vibrar les mans a l'aire com un despertador mentre tots dos dieu «ring ring».",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_8f27478f_36",
+   "lang": "ca",
+   "style": "child",
+   "text": "Això és la cullera. Digues: cullera.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_de813d07_34",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: cullera.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_8f27478f_36",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Això és la cullera. Digues: cullera.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_91e0d3ec_87",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Posa la cullera a la mà de l'infant i porteu-la junts a la boca fent el gest de menjar.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_398fcf99_28",
+   "lang": "ca",
+   "style": "child",
+   "text": "Això és el got. Digues: got.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_a1d1f867_30",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: got.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_398fcf99_28",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Això és el got. Digues: got.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_22e2b9be_60",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Feu un brindis amb els gots i beveu tots dos un glop alhora.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_65044f88_42",
+   "lang": "ca",
+   "style": "child",
+   "text": "A taula mengem tots junts. Digues: menjar.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_d74bdc04_33",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: menjar.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_65044f88_42",
+   "lang": "ca",
+   "style": "slow",
+   "text": "A taula mengem tots junts. Digues: menjar.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_2fa5e4bc_72",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Feu el gest de portar-vos menjar a la boca l'un a l'altre, tres vegades.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_33aa861f_43",
+   "lang": "ca",
+   "style": "child",
+   "text": "Quan tenim set, bevem aigua. Digues: beure.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_64e73a16_32",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: beure.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_33aa861f_43",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Quan tenim set, bevem aigua. Digues: beure.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_46df0a8b_60",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Beveu tots dos del got fent el soroll del glop ben exagerat.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_78432f75_38",
+   "lang": "ca",
+   "style": "child",
+   "text": "Aquest dinar està molt bo. Digues: bo.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_c88bea12_29",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: bo.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_78432f75_38",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Aquest dinar està molt bo. Digues: bo.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_28161ee9_76",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Feu tots dos el gest del polze amunt i la cara de «mmm» després de cada mos.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_8c6dd1a2_46",
+   "lang": "ca",
+   "style": "child",
+   "text": "Quan menges fas: nyam nyam. Digues: nyam nyam.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_bae75473_36",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: nyam nyam.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_8c6dd1a2_46",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Quan menges fas: nyam nyam. Digues: nyam nyam.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_def69dd6_55",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Mastegueu tots dos a l'aire dient «nyam nyam» ben fort.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_bc79fe8d_34",
+   "lang": "ca",
+   "style": "child",
+   "text": "Això és la pilota. Digues: pilota.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_596a1ff0_33",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: pilota.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_bc79fe8d_34",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Això és la pilota. Digues: pilota.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_0203efaa_82",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Feu rodar la pilota l'un cap a l'altre per terra, dient la paraula a cada passada.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_f2f6b949_36",
+   "lang": "ca",
+   "style": "child",
+   "text": "Això és el tobogan. Digues: tobogan.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_7cda29bd_34",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: tobogan.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_f2f6b949_36",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Això és el tobogan. Digues: tobogan.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_ab4e0fa8_77",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Feu baixar la mà de l'infant per un pendent imaginari mentre dieu la paraula.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_1a8d47b2_42",
+   "lang": "ca",
+   "style": "child",
+   "text": "Al parc podem córrer molt. Digues: córrer.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_f1043178_33",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: córrer.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_1a8d47b2_42",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Al parc podem córrer molt. Digues: córrer.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_2302a15f_69",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Correu tots dos sense moure-us del lloc, marcant el pas amb les mans.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_909c6884_45",
+   "lang": "ca",
+   "style": "child",
+   "text": "També podem saltar ben amunt. Digues: saltar.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_444bf0fa_33",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: saltar.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_909c6884_45",
+   "lang": "ca",
+   "style": "slow",
+   "text": "També podem saltar ben amunt. Digues: saltar.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_e0b6a4fe_58",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Salteu tots dos alhora tres vegades, comptant en veu alta.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_1ff18337_36",
+   "lang": "ca",
+   "style": "child",
+   "text": "El tobogan és molt alt. Digues: alt.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_3778c574_30",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: alt.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_1ff18337_36",
+   "lang": "ca",
+   "style": "slow",
+   "text": "El tobogan és molt alt. Digues: alt.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_ddd1f2a0_75",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Estireu-vos tots dos de puntetes amb els braços amunt, tan alts com pugueu.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_e3b962a8_42",
+   "lang": "ca",
+   "style": "child",
+   "text": "La pilota bota i fa: boing. Digues: boing.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_64a52b2a_32",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: boing.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_e3b962a8_42",
+   "lang": "ca",
+   "style": "slow",
+   "text": "La pilota bota i fa: boing. Digues: boing.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_d2935757_56",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Feu botar la mà com una pilota dient «boing» a cada bot.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_cea94ebb_36",
+   "lang": "ca",
+   "style": "child",
+   "text": "Això és la banyera. Digues: banyera.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_c92917eb_34",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: banyera.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_cea94ebb_36",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Això és la banyera. Digues: banyera.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_54f03527_74",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Toqueu junts la vora de la banyera i feu el gest de posar-hi la mà a dins.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_15b7934f_30",
+   "lang": "ca",
+   "style": "child",
+   "text": "Això és el sabó. Digues: sabó.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_b96da506_31",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: sabó.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_15b7934f_30",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Això és el sabó. Digues: sabó.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_486ccb6d_58",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Passeu-vos el sabó de mà en mà fent bombolles imaginàries.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_910dce83_37",
+   "lang": "ca",
+   "style": "child",
+   "text": "Al vespre ens banyem. Digues: banyar.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_377e476a_33",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: banyar.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_910dce83_37",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Al vespre ens banyem. Digues: banyar.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_0aab1bc9_73",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Feu el gest de tirar-vos aigua per sobre l'un a l'altre dient la paraula.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_d47c1e24_48",
+   "lang": "ca",
+   "style": "child",
+   "text": "Amb l'esponja freguem l'esquena. Digues: fregar.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_9572048a_33",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: fregar.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_d47c1e24_48",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Amb l'esponja freguem l'esquena. Digues: fregar.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_d1f85ede_78",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Fregueu-vos l'esquena l'un a l'altre amb la mà oberta, com si fos una esponja.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_74305148_46",
+   "lang": "ca",
+   "style": "child",
+   "text": "L'aigua del bany està calenta. Digues: calent.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_dc97f6d0_33",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: calent.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_74305148_46",
+   "lang": "ca",
+   "style": "slow",
+   "text": "L'aigua del bany està calenta. Digues: calent.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_65d97ef4_73",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Toqueu tots dos l'aigua i venteu-vos la mà com si cremés, exagerant molt.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_24f9442f_35",
+   "lang": "ca",
+   "style": "child",
+   "text": "L'aigua cau i fa: xof. Digues: xof.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_dce6a942_30",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: xof.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_24f9442f_35",
+   "lang": "ca",
+   "style": "slow",
+   "text": "L'aigua cau i fa: xof. Digues: xof.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_6be89bfe_66",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Piqueu tots dos l'aigua (o la taula) amb la mà oberta dient «xof».",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_c97e3903_32",
+   "lang": "ca",
+   "style": "child",
+   "text": "Això és la lluna. Digues: lluna.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_1da80187_32",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: lluna.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_c97e3903_32",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Això és la lluna. Digues: lluna.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_0d4c3447_86",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Mireu junts per la finestra i assenyaleu la lluna (o dibuixeu-la a l'aire amb el dit).",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_39b4ebe7_32",
+   "lang": "ca",
+   "style": "child",
+   "text": "Això és el conte. Digues: conte.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_7dba5d1c_32",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: conte.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_39b4ebe7_32",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Això és el conte. Digues: conte.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_980ddef6_73",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Obriu un llibre junts i passeu tres pàgines dient la paraula a cadascuna.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_7360d871_39",
+   "lang": "ca",
+   "style": "child",
+   "text": "A la nit anem a dormir. Digues: dormir.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_dec9baca_33",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: dormir.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_7360d871_39",
+   "lang": "ca",
+   "style": "slow",
+   "text": "A la nit anem a dormir. Digues: dormir.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_585ac2bc_71",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Ajunteu les mans sota la galta tots dos i tanqueu els ulls tres segons.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_62c3d70c_45",
+   "lang": "ca",
+   "style": "child",
+   "text": "Abans de dormir ens abracem. Digues: abraçar.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_9943bc59_34",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: abraçar.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_62c3d70c_45",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Abans de dormir ens abracem. Digues: abraçar.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_812b0e2f_75",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Feu-vos una abraçada ben forta i compteu fins a tres sense deixar-vos anar.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_9eaa5281_50",
+   "lang": "ca",
+   "style": "child",
+   "text": "Quan apaguem el llum, tot està fosc. Digues: fosc.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_cae24a2c_31",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: fosc.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_9eaa5281_50",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Quan apaguem el llum, tot està fosc. Digues: fosc.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_4fdfd6be_75",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Tapeu-vos els ulls amb les mans tots dos i digueu la paraula a les fosques.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_98311c28_44",
+   "lang": "ca",
+   "style": "child",
+   "text": "A la nit el mussol fa: uh uh. Digues: uh uh.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_0c999f77_32",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: uh uh.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_98311c28_44",
+   "lang": "ca",
+   "style": "slow",
+   "text": "A la nit el mussol fa: uh uh. Digues: uh uh.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_a725d0e5_72",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Feu tots dos els ulls rodons amb els dits i digueu «uh uh» amb veu greu.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_ee13788a_31",
+   "lang": "ca",
+   "style": "child",
+   "text": "Això és una poma. Digues: poma.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_a8deac3a_31",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: poma.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_ee13788a_31",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Això és una poma. Digues: poma.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_ff410fd4_86",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Feu junts el gest de mossegar una poma imaginària i digueu la paraula després del mos.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_b4c34911_34",
+   "lang": "ca",
+   "style": "child",
+   "text": "Això és un plàtan. Digues: plàtan.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_4ea1c70e_33",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: plàtan.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_b4c34911_34",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Això és un plàtan. Digues: plàtan.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_2d983e2e_96",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Feu el gest de pelar un plàtan de dalt a baix amb tres estrebades, dient la paraula a cadascuna.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_093d3a52_37",
+   "lang": "ca",
+   "style": "child",
+   "text": "Això és una taronja. Digues: taronja.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_cd411c7c_34",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: taronja.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_093d3a52_37",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Això és una taronja. Digues: taronja.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_17126982_65",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Feu rodar una taronja imaginària per la taula l'un cap a l'altre.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_da692192_31",
+   "lang": "ca",
+   "style": "child",
+   "text": "Això és una pera. Digues: pera.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_2704c819_31",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: pera.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_da692192_31",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Això és una pera. Digues: pera.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_01fe676a_71",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Dibuixeu junts la forma de la pera a l'aire amb el dit, de dalt a baix.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_f17630aa_33",
+   "lang": "ca",
+   "style": "child",
+   "text": "Això és una pinya. Digues: pinya.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_2f797dde_32",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: pinya.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_f17630aa_33",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Això és una pinya. Digues: pinya.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_1adf0f5a_80",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Poseu-vos les mans obertes al cap com la corona de la pinya i digueu la paraula.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_9c5796ae_35",
+   "lang": "ca",
+   "style": "child",
+   "text": "Això és una cirera. Digues: cirera.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_7fb5f4f3_33",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: cirera.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_9c5796ae_35",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Això és una cirera. Digues: cirera.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_6f355f30_77",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Pengeu-vos dues cireres imaginàries de les orelles i digueu la paraula rient.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_425b4619_28",
+   "lang": "ca",
+   "style": "child",
+   "text": "Això és un gos. Digues: gos.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_9fdec134_30",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: gos.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_425b4619_28",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Això és un gos. Digues: gos.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_a87775cc_59",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Poseu-vos tots dos de quatre grapes i lladreu tres vegades.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_1e02c1d3_28",
+   "lang": "ca",
+   "style": "child",
+   "text": "Això és un gat. Digues: gat.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_fb14dd49_30",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: gat.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_1e02c1d3_28",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Això és un gat. Digues: gat.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_3c93952d_62",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Dibuixeu-vos bigotis a l'aire amb el dit i feu «meu» tots dos.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_bbd23665_30",
+   "lang": "ca",
+   "style": "child",
+   "text": "Això és un ànec. Digues: ànec.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_8c721e51_31",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: ànec.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_bbd23665_30",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Això és un ànec. Digues: ànec.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_ebe0e510_63",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Camineu tots dos com un ànec, balancejant-vos, i feu «qua qua».",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_5524f27e_31",
+   "lang": "ca",
+   "style": "child",
+   "text": "Això és una vaca. Digues: vaca.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_f28a93c4_31",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: vaca.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_5524f27e_31",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Això és una vaca. Digues: vaca.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_3a85401d_64",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Poseu-vos les mans al cap com dues banyes i feu «muu» ben llarg.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_889be401_36",
+   "lang": "ca",
+   "style": "child",
+   "text": "Això és un elefant. Digues: elefant.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_43fb88a0_34",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: elefant.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_889be401_36",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Això és un elefant. Digues: elefant.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_33592bc1_66",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Feu la trompa amb el braç davant del nas i balancegeu-la tots dos.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_a8b77086_35",
+   "lang": "ca",
+   "style": "child",
+   "text": "Això és una girafa. Digues: girafa.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_e1a5eec7_33",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: girafa.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_a8b77086_35",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Això és una girafa. Digues: girafa.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_2bf0429d_74",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Estireu el coll amunt tots dos, tan amunt com pugueu, i digueu la paraula.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_2e4acd31_32",
+   "lang": "ca",
+   "style": "child",
+   "text": "Això és un cotxe. Digues: cotxe.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_237971ca_32",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: cotxe.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_2e4acd31_32",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Això és un cotxe. Digues: cotxe.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_253cf8cf_63",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Agafeu un volant imaginari tots dos i gireu-lo a banda i banda.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_acc74ab6_31",
+   "lang": "ca",
+   "style": "child",
+   "text": "Això és una moto. Digues: moto.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_d06aef78_31",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: moto.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_acc74ab6_31",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Això és una moto. Digues: moto.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_39b2a77d_63",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Agafeu el manillar imaginari i accelereu tots dos fent «rrrum».",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_02e76d1d_30",
+   "lang": "ca",
+   "style": "child",
+   "text": "Això és un tren. Digues: tren.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_eb843450_31",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: tren.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_02e76d1d_30",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Això és un tren. Digues: tren.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_fcc68802_67",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Poseu-vos en fila i camineu com un tren dient «xuc-xuc» a cada pas.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_b0cf7059_36",
+   "lang": "ca",
+   "style": "child",
+   "text": "Això és un vaixell. Digues: vaixell.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_4d353ca8_34",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: vaixell.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_b0cf7059_36",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Això és un vaixell. Digues: vaixell.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_38a4279e_72",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Balancegeu-vos tots dos com si estiguéssiu dalt d'un vaixell amb onades.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_ed470051_30",
+   "lang": "ca",
+   "style": "child",
+   "text": "Això és un avió. Digues: avió.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_62335096_31",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: avió.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_ed470051_30",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Això és un avió. Digues: avió.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_5da6017c_79",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Obriu els braços com ales i voleu tots dos fins a l'altra punta de l'habitació.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_d45e1cf1_32",
+   "lang": "ca",
+   "style": "child",
+   "text": "Això és un camió. Digues: camió.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_b9cfd41c_32",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: camió.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_d45e1cf1_32",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Això és un camió. Digues: camió.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_5c14fdc9_71",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Feu el clàxon del camió amb la mà tots dos i digueu la paraula després.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_a325fd0c_41",
+   "lang": "ca",
+   "style": "child",
+   "text": "Aquest color és vermell. Digues: vermell.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_9449c8c0_34",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: vermell.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_a325fd0c_41",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Aquest color és vermell. Digues: vermell.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_62336289_81",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Busqueu junts tres coses vermelles per l'habitació i toqueu-les dient la paraula.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_7a66cf10_35",
+   "lang": "ca",
+   "style": "child",
+   "text": "Aquest color és blau. Digues: blau.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_48af4cb3_31",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: blau.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_7a66cf10_35",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Aquest color és blau. Digues: blau.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_996bb413_72",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Assenyaleu junts el cel (o una cosa blava) i digueu la paraula tots dos.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_6b4279bc_35",
+   "lang": "ca",
+   "style": "child",
+   "text": "Aquest color és groc. Digues: groc.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_8b1868aa_31",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: groc.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_6b4279bc_35",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Aquest color és groc. Digues: groc.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_cfbfa2ea_66",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Feu el sol amb els braços oberts sobre el cap i digueu la paraula.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_dc128af4_35",
+   "lang": "ca",
+   "style": "child",
+   "text": "Aquest color és verd. Digues: verd.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_b3ee458e_31",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: verd.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_dc128af4_35",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Aquest color és verd. Digues: verd.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_245f1a2b_73",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Busqueu una fulla o una cosa verda i poseu-vos-la a la mà l'un a l'altre.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_eca33430_35",
+   "lang": "ca",
+   "style": "child",
+   "text": "Aquest color és lila. Digues: lila.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_d7241b93_31",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: lila.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_eca33430_35",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Aquest color és lila. Digues: lila.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_e37c0a34_84",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Barregeu a l'aire el vermell i el blau amb el dit i digueu la paraula del color nou.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_54d8b718_37",
+   "lang": "ca",
+   "style": "child",
+   "text": "Aquest color és marró. Digues: marró.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_49c77a24_32",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: marró.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_54d8b718_37",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Aquest color és marró. Digues: marró.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_fffa8775_69",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Toqueu junts una cosa de fusta i digueu la paraula amb la mà a sobre.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_38279c69_26",
+   "lang": "ca",
+   "style": "child",
+   "text": "Això és la mà. Digues: mà.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_bd19d294_29",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: mà.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_38279c69_26",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Això és la mà. Digues: mà.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_2fd0bafd_69",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Piqueu-vos les mans l'un a l'altre cinc vegades comptant en veu alta.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_330ebb2d_28",
+   "lang": "ca",
+   "style": "child",
+   "text": "Això és el peu. Digues: peu.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_344ed71b_30",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: peu.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_330ebb2d_28",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Això és el peu. Digues: peu.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_9f8603c2_76",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Toqueu-vos els peus l'un a l'altre amb la punta del dit i digueu la paraula.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_a34c04c5_30",
+   "lang": "ca",
+   "style": "child",
+   "text": "Això és la boca. Digues: boca.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_7834f97a_31",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: boca.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_a34c04c5_30",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Això és la boca. Digues: boca.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_c6d4aa51_68",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Obriu i tanqueu la boca tots dos davant del mirall dient la paraula.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_edcdfd3f_27",
+   "lang": "ca",
+   "style": "child",
+   "text": "Això és l'ull. Digues: ull.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_5cd82970_30",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: ull.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_edcdfd3f_27",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Això és l'ull. Digues: ull.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_1f3f8e7b_67",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Tapeu-vos un ull tots dos i mireu-vos amb l'altre dient la paraula.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_59cb743f_34",
+   "lang": "ca",
+   "style": "child",
+   "text": "Això és el genoll. Digues: genoll.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_bd095a9e_33",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: genoll.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_59cb743f_34",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Això és el genoll. Digues: genoll.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_01fc13ef_62",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Doblegueu el genoll tots dos tres vegades tocant-lo amb la mà.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_a038484f_32",
+   "lang": "ca",
+   "style": "child",
+   "text": "Això és el colze. Digues: colze.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_e2c0b778_32",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: colze.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_a038484f_32",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Això és el colze. Digues: colze.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_a271b696_77",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Toqueu-vos els colzes l'un amb l'altre com una encaixada i digueu la paraula.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_a6a8d3af_32",
+   "lang": "ca",
+   "style": "child",
+   "text": "Això és el cotxe. Digues: cotxe.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_a6a8d3af_32",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Això és el cotxe. Digues: cotxe.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_d0219aaf_87",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Posa el cotxe a la mà de l'infant, assenyala'l i repetiu junts «cotxe» mentre el moveu.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_737e011c_32",
+   "lang": "ca",
+   "style": "child",
+   "text": "El cotxe té rodes. Digues: roda.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_a677aa73_31",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: roda.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_737e011c_32",
+   "lang": "ca",
+   "style": "slow",
+   "text": "El cotxe té rodes. Digues: roda.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_19152801_90",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Agafeu el cotxe i feu girar una roda amb el dit de l'infant, repetint «roda» a cada volta.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_7a4d37c2_35",
+   "lang": "ca",
+   "style": "child",
+   "text": "El cotxe corre molt. Digues: corre.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_4945da96_32",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: corre.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_7a4d37c2_35",
+   "lang": "ca",
+   "style": "slow",
+   "text": "El cotxe corre molt. Digues: corre.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_6f4f7d87_81",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Feu córrer el cotxe per terra d'una punta a l'altra mentre tots dos dieu «corre».",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_ed870158_42",
+   "lang": "ca",
+   "style": "child",
+   "text": "Aquest cotxe és molt ràpid. Digues: ràpid.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_c91561e4_32",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: ràpid.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_ed870158_42",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Aquest cotxe és molt ràpid. Digues: ràpid.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_9e8e236b_90",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Feu córrer el cotxe a poc a poc i després molt de pressa; digueu «ràpid» només quan corre.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_22d233d7_28",
+   "lang": "ca",
+   "style": "child",
+   "text": "Això és el gos. Digues: gos.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_22d233d7_28",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Això és el gos. Digues: gos.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_9f4d5dd1_75",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Feu junts de gos: de quatre grapes i tres lladrucs abans de dir la paraula.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_488b25c8_37",
+   "lang": "ca",
+   "style": "child",
+   "text": "El gos té quatre potes. Digues: pota.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_a5327b81_31",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: pota.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_488b25c8_37",
+   "lang": "ca",
+   "style": "slow",
+   "text": "El gos té quatre potes. Digues: pota.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_991bc149_78",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Poseu la mà de l'infant a terra com una pota i camineu tots dos quatre passes.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_bb2c5ac5_41",
+   "lang": "ca",
+   "style": "child",
+   "text": "El gos salta molt content. Digues: salta.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_dc54e464_32",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: salta.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_bb2c5ac5_41",
+   "lang": "ca",
+   "style": "slow",
+   "text": "El gos salta molt content. Digues: salta.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_1e96bc0e_69",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Salteu tots dos com el gos tres vegades dient la paraula a cada salt.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_d65a3658_40",
+   "lang": "ca",
+   "style": "child",
+   "text": "Aquest gos és molt pelut. Digues: pelut.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_d42c4999_32",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: pelut.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_d65a3658_40",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Aquest gos és molt pelut. Digues: pelut.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_baa83fb4_70",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Acaroneu junts un peluix i digueu «pelut» mentre passeu la mà pel pèl.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_41c4df61_30",
+   "lang": "ca",
+   "style": "child",
+   "text": "Això és la vaca. Digues: vaca.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_41c4df61_30",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Això és la vaca. Digues: vaca.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_6b8440d1_75",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Feu les banyes amb els dits al cap tots dos i digueu la paraula mirant-vos.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_1566e1f2_36",
+   "lang": "ca",
+   "style": "child",
+   "text": "La vaca ens dona llet. Digues: llet.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_16289bd0_31",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: llet.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_1566e1f2_36",
+   "lang": "ca",
+   "style": "slow",
+   "text": "La vaca ens dona llet. Digues: llet.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_c18b734f_83",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Feu el gest de beure un got de llet tots dos i digueu la paraula al final del glop.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_bf5a6f5e_35",
+   "lang": "ca",
+   "style": "child",
+   "text": "La vaca menja herba. Digues: menja.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_1bcece9e_32",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: menja.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_bf5a6f5e_35",
+   "lang": "ca",
+   "style": "slow",
+   "text": "La vaca menja herba. Digues: menja.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_47eb3c8a_67",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Acoteu el cap tots dos com la vaca i feu que mengeu herba de terra.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_1d4d82b4_35",
+   "lang": "ca",
+   "style": "child",
+   "text": "La vaca és molt gran. Digues: gran.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_a1a45ff5_31",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: gran.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_1d4d82b4_35",
+   "lang": "ca",
+   "style": "slow",
+   "text": "La vaca és molt gran. Digues: gran.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_cab72a7a_75",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Obriu els braços tan amunt com pugueu tots dos per ensenyar com és de gran.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_974a2af1_28",
+   "lang": "ca",
+   "style": "child",
+   "text": "Això és el gat. Digues: gat.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_974a2af1_28",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Això és el gat. Digues: gat.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_2370c59a_68",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Feu «meu» tots dos i camineu de puntetes com un gat fins a la porta.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_7d0cbcd9_34",
+   "lang": "ca",
+   "style": "child",
+   "text": "El gat té bigotis. Digues: bigoti.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_829107bb_33",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: bigoti.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_7d0cbcd9_34",
+   "lang": "ca",
+   "style": "slow",
+   "text": "El gat té bigotis. Digues: bigoti.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_b3a6c3e1_80",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Dibuixeu-vos els bigotis a la cara amb el dit l'un a l'altre, tres a cada banda.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_8bec3892_34",
+   "lang": "ca",
+   "style": "child",
+   "text": "El gat dorm al sofà. Digues: dorm.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_da715733_31",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: dorm.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_8bec3892_34",
+   "lang": "ca",
+   "style": "slow",
+   "text": "El gat dorm al sofà. Digues: dorm.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_04b79eff_64",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Cargoleu-vos tots dos com el gat i tanqueu els ulls tres segons.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_0c4afdae_42",
+   "lang": "ca",
+   "style": "child",
+   "text": "El pèl del gat és molt suau. Digues: suau.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_3c40dd55_31",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: suau.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_0c4afdae_42",
+   "lang": "ca",
+   "style": "slow",
+   "text": "El pèl del gat és molt suau. Digues: suau.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_188fec77_70",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Acaroneu junts una manta o un peluix i digueu «suau» amb veu fluixeta.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_a0c56803_31",
+   "lang": "ca",
+   "style": "child",
+   "text": "Això és l'aigua. Digues: aigua.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_cb72410e_32",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: aigua.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_a0c56803_31",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Això és l'aigua. Digues: aigua.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_8f536732_68",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Obriu l'aixeta un moment i poseu-hi la mà tots dos dient la paraula.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_22714e9c_39",
+   "lang": "ca",
+   "style": "child",
+   "text": "L'aigua baixa del núvol. Digues: núvol.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_16829ed6_32",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: núvol.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_22714e9c_39",
+   "lang": "ca",
+   "style": "slow",
+   "text": "L'aigua baixa del núvol. Digues: núvol.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_10883bed_76",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Mireu junts pel finestra i busqueu un núvol; assenyaleu-lo dient la paraula.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_6b53e3fe_34",
+   "lang": "ca",
+   "style": "child",
+   "text": "La pluja cau del cel. Digues: cau.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_3547a790_30",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: cau.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_6b53e3fe_34",
+   "lang": "ca",
+   "style": "slow",
+   "text": "La pluja cau del cel. Digues: cau.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_394bf334_70",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Feu caure els dits com gotes des de dalt fins als genolls de l'infant.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_29e10eaa_46",
+   "lang": "ca",
+   "style": "child",
+   "text": "Amb la pluja tot queda mullat. Digues: mullat.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_5159a8be_33",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: mullat.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_29e10eaa_46",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Amb la pluja tot queda mullat. Digues: mullat.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_c3457621_71",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Mulleu-vos un dit i toqueu-vos el braç l'un a l'altre dient la paraula.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_42b6267b_30",
+   "lang": "ca",
+   "style": "child",
+   "text": "Això és el tren. Digues: tren.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_42b6267b_30",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Això és el tren. Digues: tren.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_af28e2ab_79",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Poseu-vos en fila i camineu com un tren fent «xuc-xuc» abans de dir la paraula.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_c5218b04_41",
+   "lang": "ca",
+   "style": "child",
+   "text": "El tren porta molts vagons. Digues: vagó.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_bf1200b2_31",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: vagó.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_c5218b04_41",
+   "lang": "ca",
+   "style": "slow",
+   "text": "El tren porta molts vagons. Digues: vagó.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_a16e0ac9_78",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Poseu tres cadires en fila com vagons i toqueu-les una a una dient la paraula.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_daa72d3a_39",
+   "lang": "ca",
+   "style": "child",
+   "text": "El tren para a l'estació. Digues: para.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_86d7a755_31",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: para.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_daa72d3a_39",
+   "lang": "ca",
+   "style": "slow",
+   "text": "El tren para a l'estació. Digues: para.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_c9bea8f0_67",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Camineu com un tren i atureu-vos en sec quan l'adult aixequi la mà.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_7d900b1a_41",
+   "lang": "ca",
+   "style": "child",
+   "text": "Aquest tren és molt llarg. Digues: llarg.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_93d0caa9_32",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: llarg.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_7d900b1a_41",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Aquest tren és molt llarg. Digues: llarg.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_72053569_78",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Estireu els braços tots dos tan lluny com pugueu per ensenyar com és de llarg.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_9156c707_31",
+   "lang": "ca",
+   "style": "child",
+   "text": "Això és l'ocell. Digues: ocell.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_60c682a6_32",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: ocell.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_9156c707_31",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Això és l'ocell. Digues: ocell.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_457f299b_78",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Mireu junts per la finestra buscant un ocell i assenyaleu-lo dient la paraula.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_e10df4d4_33",
+   "lang": "ca",
+   "style": "child",
+   "text": "L'ocell té plomes. Digues: ploma.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_a70e2440_32",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: ploma.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_e10df4d4_33",
+   "lang": "ca",
+   "style": "slow",
+   "text": "L'ocell té plomes. Digues: ploma.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_569146ff_58",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Bufeu junts una ploma imaginària des del palmell de la mà.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_6a440261_35",
+   "lang": "ca",
+   "style": "child",
+   "text": "L'ocell vola pel cel. Digues: vola.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_6ad929b7_31",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: vola.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_6a440261_35",
+   "lang": "ca",
+   "style": "slow",
+   "text": "L'ocell vola pel cel. Digues: vola.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_dae753e6_42",
+   "lang": "ca",
+   "style": "child",
+   "text": "Aquest ocell és molt petit. Digues: petit.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_0a654035_32",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: petit.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_dae753e6_42",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Aquest ocell és molt petit. Digues: petit.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_afae8640_85",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Ajunteu el polze i l'índex fins a deixar un forat mínim i mireu-hi a través tots dos.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_7c8b997f_26",
+   "lang": "ca",
+   "style": "child",
+   "text": "Això és el pa. Digues: pa.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_715e375e_29",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: pa.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_7c8b997f_26",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Això és el pa. Digues: pa.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_c6ffffb3_84",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Poseu una llesca de pa a la mà de l'infant i digueu la paraula abans del primer mos.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_5fe35761_44",
+   "lang": "ca",
+   "style": "child",
+   "text": "A l'esmorzar fem servir el bol. Digues: bol.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_cf9da926_30",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: bol.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_5fe35761_44",
+   "lang": "ca",
+   "style": "slow",
+   "text": "A l'esmorzar fem servir el bol. Digues: bol.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_c042bfe3_66",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Feu la forma del bol amb les dues mans juntes i digueu la paraula.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_ca4bf1a5_51",
+   "lang": "ca",
+   "style": "child",
+   "text": "Per demanar-ne més, diem: vull pa. Digues: vull pa.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_db9f963d_34",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: vull pa.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_ca4bf1a5_51",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Per demanar-ne més, diem: vull pa. Digues: vull pa.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_9e93aa9e_85",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Espera que l'infant ho digui abans de donar-li el tros; celebra-ho amb una encaixada.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_718a14e8_38",
+   "lang": "ca",
+   "style": "child",
+   "text": "Aquest pa està torrat. Digues: torrat.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_21d9ab9f_33",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: torrat.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_718a14e8_38",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Aquest pa està torrat. Digues: torrat.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_6b2dca22_73",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Compareu una llesca tova i una de torrada tocant-les tots dos amb el dit.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_b41be0ab_34",
+   "lang": "ca",
+   "style": "child",
+   "text": "Això és el globus. Digues: globus.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_73f299b9_33",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: globus.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_b41be0ab_34",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Això és el globus. Digues: globus.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_ca426830_80",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Poseu el globus a les mans de l'infant i feu-lo pujar i baixar dient la paraula.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_a6e5dd94_38",
+   "lang": "ca",
+   "style": "child",
+   "text": "El globus té una corda. Digues: corda.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_f213aab4_32",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: corda.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_a6e5dd94_38",
+   "lang": "ca",
+   "style": "slow",
+   "text": "El globus té una corda. Digues: corda.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_bf2d6f3c_65",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Agafeu la corda del globus tots dos alhora i estireu-la suaument.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_46014500_44",
+   "lang": "ca",
+   "style": "child",
+   "text": "Per inflar el globus, es bufa. Digues: bufa.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_df5e6767_31",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: bufa.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_46014500_44",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Per inflar el globus, es bufa. Digues: bufa.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_734bf951_61",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Bufeu tots dos ben fort tres vegades abans de dir la paraula.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_b31cefb8_43",
+   "lang": "ca",
+   "style": "child",
+   "text": "El globus inflat és ben rodó. Digues: rodó.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_a517e3b1_31",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: rodó.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_b31cefb8_43",
+   "lang": "ca",
+   "style": "slow",
+   "text": "El globus inflat és ben rodó. Digues: rodó.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_243eeaba_72",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Dibuixeu un cercle a l'aire amb el dit tots dos alhora dient la paraula.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_0c07af32_144",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Prepara dos ossets de peluix iguals però de mida diferent: un de clarament GRAN i un altre de clarament PETIT. Posa'ls junts davant de l'infant.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_9d4d9320_58",
+   "lang": "ca",
+   "style": "child",
+   "text": "Quin és l'osset GRAN? Dona-me'l i digues-ho! Digues: gran.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_9d4d9320_58",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Quin és l'osset GRAN? Dona-me'l i digues-ho! Digues: gran.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_d8860889_70",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "L'infant t'entrega l'osset gran; abraceu-lo exagerant com és d'enorme.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_6b881886_74",
+   "lang": "ca",
+   "style": "child",
+   "text": "Ara al revés: quin és l'osset PETIT? Dona-me'l i digues-ho! Digues: petit.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_6b881886_74",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Ara al revés: quin és l'osset PETIT? Dona-me'l i digues-ho! Digues: petit.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_5d7a7b47_87",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "L'infant et dona l'osset petit; amagueu-lo dins d'una mà i digueu «petit» amb veu mini.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_0bac56c3_154",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Agafa dues culleres iguals: renta'n una fins a deixar-la brillant i embruta l'altra amb una mica de menjar o de fang. Posa-les l'una al costat de l'altra.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_6ca1a90c_71",
+   "lang": "ca",
+   "style": "child",
+   "text": "Assenyala la cullera BRUTA. Com està, aquesta? Digues-ho. Digues: brut.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_71bb3950_31",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: brut.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_6ca1a90c_71",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Assenyala la cullera BRUTA. Com està, aquesta? Digues-ho. Digues: brut.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_f734a71b_79",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "L'infant assenyala la cullera bruta i tots dos feu cara de «puaj!» apartant-la.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_b8ba6819_64",
+   "lang": "ca",
+   "style": "child",
+   "text": "I aquesta altra cullera, com està? Mira com brilla! Digues: net.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_b8ba6819_64",
+   "lang": "ca",
+   "style": "slow",
+   "text": "I aquesta altra cullera, com està? Mira com brilla! Digues: net.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_983d139c_78",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Assenyaleu la cullera neta, bufeu-hi a sobre com si brillés i xoqueu les mans.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_05a2ab53_114",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Posa davant de l'infant una capsa amb tapa i fica-hi a dins, a la vista, la seva joguina preferida. Tanca la tapa.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_47109f9f_69",
+   "lang": "ca",
+   "style": "child",
+   "text": "La joguina és dins de la capsa. Què fem per treure-la? Digues: obrir.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_c957232b_32",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: obrir.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_47109f9f_69",
+   "lang": "ca",
+   "style": "slow",
+   "text": "La joguina és dins de la capsa. Què fem per treure-la? Digues: obrir.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_16f4fb20_79",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Obriu la capsa junts, ben a poc a poc, i celebreu la troballa amb un «tatxan!».",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_03a3d42c_67",
+   "lang": "ca",
+   "style": "child",
+   "text": "Guardem la joguina a la capsa. Què fem amb la tapa? Digues: tancar.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_e55750de_33",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: tancar.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_03a3d42c_67",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Guardem la joguina a la capsa. Què fem amb la tapa? Digues: tancar.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_bfc1af55_71",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "L'infant empeny la tapa fins a tancar-la del tot mentre diu la paraula.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_6bde63de_98",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Fes una rampa recolzant un llibre gran inclinat i col·loca un cotxe de joguina al peu de la rampa.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_78917d27_63",
+   "lang": "ca",
+   "style": "child",
+   "text": "El cotxe va a la muntanya. Què fa? Va cap amunt! Digues: pujar.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_e30790a1_32",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: pujar.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_78917d27_63",
+   "lang": "ca",
+   "style": "slow",
+   "text": "El cotxe va a la muntanya. Què fa? Va cap amunt! Digues: pujar.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_51432f48_67",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Pugeu el cotxe per la rampa ben a poc a poc mentre sona la paraula.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_eac2d421_50",
+   "lang": "ca",
+   "style": "child",
+   "text": "Ara el cotxe va cap avall! Què fa? Digues: baixar.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_d9bb379e_33",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: baixar.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_eac2d421_50",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Ara el cotxe va cap avall! Què fa? Digues: baixar.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_a7fb33ce_81",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Deixeu anar el cotxe perquè baixi sol per la rampa; digueu «baixaaa!» mentre cau.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_9cc204c8_117",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Prepara dos gots: un amb aigua ben freda (amb gel si en tens) i un altre amb aigua tèbia. Posa'ls davant de l'infant.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_8aac7975_50",
+   "lang": "ca",
+   "style": "child",
+   "text": "Toca els gots. Quin està FRED? Brrr! Digues: fred.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_62be4b5c_31",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: fred.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_8aac7975_50",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Toca els gots. Quin està FRED? Brrr! Digues: fred.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_ef9eeb7d_81",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "L'infant toca el got fred; tremoleu junts fent «brrr!» i arronsant les espatlles.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_f264d98f_45",
+   "lang": "ca",
+   "style": "child",
+   "text": "I aquest altre got, com està? Digues: calent.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_f264d98f_45",
+   "lang": "ca",
+   "style": "slow",
+   "text": "I aquest altre got, com està? Digues: calent.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_4be21077_68",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Toqueu el got tebi i venteu-vos la mà com si cremés, exagerant molt.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_33d3c0f2_124",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Col·loca't amb l'infant al costat de l'interruptor del llum (o agafa una llanterna). L'habitació comença amb el llum apagat.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_caa07391_66",
+   "lang": "ca",
+   "style": "child",
+   "text": "Està fosc… Què fem amb el llum de l'interruptor? Digues: encendre.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_75ef05f7_35",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: encendre.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_caa07391_66",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Està fosc… Què fem amb el llum de l'interruptor? Digues: encendre.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_068c389e_80",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "L'infant prem l'interruptor just quan ho diu i celebreu el llum amb un «ooooh!».",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_f45c7c0c_67",
+   "lang": "ca",
+   "style": "child",
+   "text": "Ara al revés. Què fem amb el llum de l'interruptor? Digues: apagar.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_88eba129_33",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: apagar.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_f45c7c0c_67",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Ara al revés. Què fem amb el llum de l'interruptor? Digues: apagar.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_c9b64256_65",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "L'infant apaga el llum i us dieu «bona nit» amb veu de xiuxiueig.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_057203de_148",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Prepara dues cistelles o capses iguals: omple'n una fins dalt de joguines o mitjons i deixa l'altra completament buida. Posa-les davant de l'infant.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_f22c6f94_75",
+   "lang": "ca",
+   "style": "child",
+   "text": "Quina és la cistella PLENA de coses? Assenyala-la i digues-ho! Digues: ple.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_9822ae64_30",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: ple.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_f22c6f94_75",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Quina és la cistella PLENA de coses? Assenyala-la i digues-ho! Digues: ple.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_a4c87ccc_91",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "L'infant assenyala la cistella plena; aixequeu-la junts exagerant com pesa: «uf, plenaaa!».",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_1c08823b_62",
+   "lang": "ca",
+   "style": "child",
+   "text": "I aquesta altra cistella, com està? Mira a dins! Digues: buit.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_a0af29bf_31",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: buit.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_1c08823b_62",
+   "lang": "ca",
+   "style": "slow",
+   "text": "I aquesta altra cistella, com està? Mira a dins! Digues: buit.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_91981f81_101",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Poseu la cistella buida cap per avall sobre el cap de l'infant com un barret: no cau res, està buida!",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_2181d82d_107",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Agafa una capsa oberta i tres joguines petites. Col·loca les joguines FORA de la capsa, davant de l'infant.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_0c3d4deb_71",
+   "lang": "ca",
+   "style": "child",
+   "text": "Les joguines van a casa seva, dins de la capsa. Què fem? Digues: ficar.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_6ea80da2_32",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: ficar.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_0c3d4deb_71",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Les joguines van a casa seva, dins de la capsa. Què fem? Digues: ficar.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_b8095196_94",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "L'infant fica una joguina a la capsa a cada paraula; celebreu l'última amb un «totes a dins!».",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_e3d43a34_67",
+   "lang": "ca",
+   "style": "child",
+   "text": "Ara al revés. Què fem amb les joguines de la capsa? Digues: treure.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_5d97a934_33",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: treure.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_slow_e3d43a34_67",
+   "lang": "ca",
+   "style": "slow",
+   "text": "Ara al revés. Què fem amb les joguines de la capsa? Digues: treure.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_tutor_d58841a1_96",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "L'infant treu les joguines una a una; compteu-les en fila en sortir: «una, dues i tres a fora!».",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_45f22563_35",
+   "lang": "ca",
+   "style": "child",
+   "text": "Sessió completada! Xoca aquesta mà!",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_bbe1edf7_30",
+   "lang": "ca",
+   "style": "child",
+   "text": "L'escoltarem una altra vegada.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_b32f3d05_30",
+   "lang": "ca",
+   "style": "child",
+   "text": "Gairebé! Ho tornem a intentar.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_5f74c200_26",
+   "lang": "ca",
+   "style": "child",
+   "text": "Molt bé! L'has dit genial!",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_ec5a183e_23",
+   "lang": "ca",
+   "style": "child",
+   "text": "Primer toca una imatge.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_27cfe8ac_7",
+   "lang": "ca",
+   "style": "child",
+   "text": "Alegria",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_6d69814c_8",
+   "lang": "ca",
+   "style": "child",
+   "text": "Tristesa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_0997b151_5",
+   "lang": "ca",
+   "style": "child",
+   "text": "Enuig",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_55249075_5",
+   "lang": "ca",
+   "style": "child",
+   "text": "Dolor",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_667c272c_18",
+   "lang": "ca",
+   "style": "child",
+   "text": "Sessió completada!",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_fcfcb24e_46",
+   "lang": "ca",
+   "style": "child",
+   "text": "Aquí només n'hi ha un. Busca on n'hi ha molts.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_tutor_b8546cac_45",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Com se sent? Alegria, Tristesa, Enuig, Dolor?",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_tutor_63549bf6_118",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "L'infant toca una imatge per sentir-ne el nom i després toca la vocal amb què comença. L'app li diu si ho ha encertat.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_6e937488_74",
+   "lang": "ca",
+   "style": "child",
+   "text": "Dibuixeu la vocal a l'aire amb el braç ben gran cada vegada que l'encerti.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_slow_76d62917_6",
+   "lang": "ca",
+   "style": "slow",
+   "text": "aranya",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_slow_2d14251d_8",
+   "lang": "ca",
+   "style": "slow",
+   "text": "estrella",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_slow_5e0fc9a7_4",
+   "lang": "ca",
+   "style": "slow",
+   "text": "illa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_slow_8ae77719_22",
+   "lang": "ca",
+   "style": "slow",
+   "text": "aranya, estrella, illa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_slow_4514e5e3_2",
+   "lang": "ca",
+   "style": "slow",
+   "text": "ós",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_slow_669859ca_6",
+   "lang": "ca",
+   "style": "slow",
+   "text": "unglot",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_slow_6a94b182_4",
+   "lang": "ca",
+   "style": "slow",
+   "text": "avió",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_slow_c981c9d7_16",
+   "lang": "ca",
+   "style": "slow",
+   "text": "ós, unglot, avió",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_slow_f7cb77e9_6",
+   "lang": "ca",
+   "style": "slow",
+   "text": "àguila",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_slow_23b8def7_5",
+   "lang": "ca",
+   "style": "slow",
+   "text": "eriçó",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_slow_b10cd292_6",
+   "lang": "ca",
+   "style": "slow",
+   "text": "ovella",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_slow_ecb7eaf0_21",
+   "lang": "ca",
+   "style": "slow",
+   "text": "àguila, eriçó, ovella",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_tutor_9bac342c_128",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Digues tu primer la paraula, a prop de l'infant i a poc a poc, i anima'l a repetir-la. La veu de l'app només és un suport extra.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_0b853edb_70",
+   "lang": "ca",
+   "style": "child",
+   "text": "Camineu per la sala trepitjant fort una síl·laba a cada pas: SA-BA-TA.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_slow_db56edc7_6",
+   "lang": "ca",
+   "style": "slow",
+   "text": "sabata",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_slow_ba19a780_6",
+   "lang": "ca",
+   "style": "slow",
+   "text": "pilota",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_slow_82fb3cab_9",
+   "lang": "ca",
+   "style": "slow",
+   "text": "papallona",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_slow_e0d28b9e_8",
+   "lang": "ca",
+   "style": "slow",
+   "text": "tomàquet",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_tutor_5a49527b_116",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Primer prem 🔊 perquè l'infant senti la paraula sencera. Després, que toqui la vocal que falta a la paraula escrita.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_67cbc4cf_56",
+   "lang": "ca",
+   "style": "child",
+   "text": "Quan trobi la vocal, braços amunt formant un sol gegant.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_slow_e2363da1_3",
+   "lang": "ca",
+   "style": "slow",
+   "text": "sol",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_slow_504e588a_2",
+   "lang": "ca",
+   "style": "slow",
+   "text": "pa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_slow_dda2ec8b_3",
+   "lang": "ca",
+   "style": "slow",
+   "text": "mar",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_tutor_f5a2f97a_118",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Prem 🔊 per sentir el nom de les quatre paraules. Tres van juntes i una no. L'infant toca la que NO va amb les altres.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_c1131369_68",
+   "lang": "ca",
+   "style": "child",
+   "text": "Si es menja, toqueu-vos la panxa; si és la intrusa, salt d'estrella!",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_slow_12cf6951_25",
+   "lang": "ca",
+   "style": "slow",
+   "text": "poma, plàtan, raïm, cotxe",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_90d8fac2_4",
+   "lang": "ca",
+   "style": "child",
+   "text": "poma",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_2b2caace_6",
+   "lang": "ca",
+   "style": "child",
+   "text": "plàtan",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_8561ff6c_4",
+   "lang": "ca",
+   "style": "child",
+   "text": "raïm",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_8d82bef2_5",
+   "lang": "ca",
+   "style": "child",
+   "text": "cotxe",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_tutor_2ce41def_119",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Prem 🔊 per sentir el nom de les quatre paraules. Tres són animals i una no. L'infant toca la que NO va amb les altres.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_slow_a69126db_22",
+   "lang": "ca",
+   "style": "slow",
+   "text": "gos, gat, vaca, sabata",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_511bad28_3",
+   "lang": "ca",
+   "style": "child",
+   "text": "gos",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_44171b83_3",
+   "lang": "ca",
+   "style": "child",
+   "text": "gat",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_1cd686a0_4",
+   "lang": "ca",
+   "style": "child",
+   "text": "vaca",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_db56edc7_6",
+   "lang": "ca",
+   "style": "child",
+   "text": "sabata",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_tutor_578b2f15_125",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Prem 🔊 per sentir el nom de les quatre paraules. Tres són per vestir-se i una no. L'infant toca la que NO va amb les altres.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_slow_b14c8525_32",
+   "lang": "ca",
+   "style": "slow",
+   "text": "gorra, samarreta, sabata, plàtan",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_b137e1be_5",
+   "lang": "ca",
+   "style": "child",
+   "text": "gorra",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_f504d8d5_9",
+   "lang": "ca",
+   "style": "child",
+   "text": "samarreta",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_tutor_133e9e5b_99",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Prem 🔊 per sentir l'endevinalla (o llegeix-la tu). L'infant respon tocant una de les tres imatges.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_3c20a9c6_74",
+   "lang": "ca",
+   "style": "child",
+   "text": "Busqueu per l'habitació un objecte real que comenci per la mateixa lletra.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_tutor_0677087e_55",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Comença per pe, i és una fruita groga i llarga. Què és?",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_acf02d1f_4",
+   "lang": "ca",
+   "style": "child",
+   "text": "pera",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_ba19a780_6",
+   "lang": "ca",
+   "style": "child",
+   "text": "pilota",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_tutor_446cbab8_58",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Comença per pe, i és una fruita vermella i rodona. Què és?",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_82fb3cab_9",
+   "lang": "ca",
+   "style": "child",
+   "text": "papallona",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_12467974_4",
+   "lang": "ca",
+   "style": "child",
+   "text": "moto",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_tutor_f1f30390_57",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Comença per essa, brilla al cel i ens dona calor. Què és?",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_e2363da1_3",
+   "lang": "ca",
+   "style": "child",
+   "text": "sol",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_667e37df_4",
+   "lang": "ca",
+   "style": "child",
+   "text": "serp",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_e331a50c_4",
+   "lang": "ca",
+   "style": "child",
+   "text": "sopa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_tutor_81d08a3a_59",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Comença per erra, és petit, morat i ve en penjolls. Què és?",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_0fd6e219_7",
+   "lang": "ca",
+   "style": "child",
+   "text": "síndria",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_tutor_a60d5a48_121",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Agafa el ninot i la roba. Dona a l'infant una ordre cada vegada: «Posa-li la gorra al ninot». Canvia de peça a cada torn.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_67f1c4a7_73",
+   "lang": "ca",
+   "style": "child",
+   "text": "Jugueu a vestir-vos de debò: que porti la gorra corrent i que se la posi.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_tutor_3aacb9ec_116",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "L'infant toca la targeta on n'hi ha MOLTS. Després pregunta-li «què són?» perquè ho digui amb la essa final: «gats».",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_0dca5d73_67",
+   "lang": "ca",
+   "style": "child",
+   "text": "Un salt gran si n'hi ha UN, molts saltets seguits si n'hi ha MOLTS.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_slow_2060fad0_4",
+   "lang": "ca",
+   "style": "slow",
+   "text": "gats",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_ef8353de_6",
+   "lang": "ca",
+   "style": "child",
+   "text": "un gat",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_3fa43267_10",
+   "lang": "ca",
+   "style": "child",
+   "text": "molts gats",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_tutor_de858e70_118",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "L'infant toca la targeta on n'hi ha MOLTES. Després pregunta-li «què són?» perquè ho digui amb la essa final: «flors».",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_slow_a7ef401f_5",
+   "lang": "ca",
+   "style": "slow",
+   "text": "flors",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_1a04ed30_8",
+   "lang": "ca",
+   "style": "child",
+   "text": "una flor",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_15d567b9_12",
+   "lang": "ca",
+   "style": "child",
+   "text": "moltes flors",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_tutor_8f9e0ba8_116",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "L'infant toca la targeta on n'hi ha MOLTS. Després pregunta-li «què són?» perquè ho digui acabat en «-os»: «peixos».",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_slow_f8c688e1_6",
+   "lang": "ca",
+   "style": "slow",
+   "text": "peixos",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_8043b29c_7",
+   "lang": "ca",
+   "style": "child",
+   "text": "un peix",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_9bb3e77e_12",
+   "lang": "ca",
+   "style": "child",
+   "text": "molts peixos",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_tutor_35759c88_136",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Prem 🔊 per sentir la paraula. L'infant toca la imatge correcta. Després jugueu al revés: tu assenyales una imatge i ell diu la paraula.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_d08f4cdc_73",
+   "lang": "ca",
+   "style": "child",
+   "text": "Un costat de la sala és \"nen\" i l'altre \"nena\": corre al costat correcte!",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_slow_65d92e55_4",
+   "lang": "ca",
+   "style": "slow",
+   "text": "nena",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_2f99a116_3",
+   "lang": "ca",
+   "style": "child",
+   "text": "nen",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_65d92e55_4",
+   "lang": "ca",
+   "style": "child",
+   "text": "nena",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_slow_2eed8a45_4",
+   "lang": "ca",
+   "style": "slow",
+   "text": "àvia",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_1c660145_3",
+   "lang": "ca",
+   "style": "child",
+   "text": "avi",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_2eed8a45_4",
+   "lang": "ca",
+   "style": "child",
+   "text": "àvia",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_slow_45f488bb_3",
+   "lang": "ca",
+   "style": "slow",
+   "text": "rei",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_45f488bb_3",
+   "lang": "ca",
+   "style": "child",
+   "text": "rei",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_c92b6d6a_5",
+   "lang": "ca",
+   "style": "child",
+   "text": "reina",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_slow_ae1de82d_7",
+   "lang": "ca",
+   "style": "slow",
+   "text": "gallina",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_1f4bde85_4",
+   "lang": "ca",
+   "style": "child",
+   "text": "gall",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_ae1de82d_7",
+   "lang": "ca",
+   "style": "child",
+   "text": "gallina",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_tutor_c73351c1_124",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Prem 🔊 perquè l'infant senti la frase. Després, que toqui les paraules en ordre per construir-la: qui, què fa i quina cosa.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_432e0b01_73",
+   "lang": "ca",
+   "style": "child",
+   "text": "Teatralitzeu la frase: l'infant fa d'actor i \"menja\" una poma imaginària.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_07ee1978_21",
+   "lang": "ca",
+   "style": "child",
+   "text": "El nen menja la poma.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_slow_2f99a116_3",
+   "lang": "ca",
+   "style": "slow",
+   "text": "nen",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_slow_8e00f9f6_5",
+   "lang": "ca",
+   "style": "slow",
+   "text": "menja",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_slow_90d8fac2_4",
+   "lang": "ca",
+   "style": "slow",
+   "text": "poma",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_738b19bd_25",
+   "lang": "ca",
+   "style": "child",
+   "text": "La nena llança la pilota.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_slow_42eafb56_6",
+   "lang": "ca",
+   "style": "slow",
+   "text": "llança",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_4032ee59_18",
+   "lang": "ca",
+   "style": "child",
+   "text": "El gos menja l'os.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_slow_511bad28_3",
+   "lang": "ca",
+   "style": "slow",
+   "text": "gos",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_tutor_97f65d45_110",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Assenyala coses de l'habitació i pregunta-li: «Què és això?». Grava o escriu a sota el que respongui l'infant.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_5abb84ba_87",
+   "lang": "ca",
+   "style": "child",
+   "text": "Passegeu per casa com a exploradors assenyalant objectes: \"què és això?\" a cada parada.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_tutor_ba6db8c7_134",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "El peluix està adormit: parleu ben fluixet per no despertar-lo. Quan es «desperti», torneu a la veu normal. Registra a sota com ho fa.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_4be48723_70",
+   "lang": "ca",
+   "style": "child",
+   "text": "Camineu de puntetes parlant fluixet; al senyal, veu normal i pas fort!",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_151a9494_57",
+   "lang": "ca",
+   "style": "child",
+   "text": "Xxxt… el peluix està adormit. Parlem molt i molt fluixet.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_dae217b2_56",
+   "lang": "ca",
+   "style": "child",
+   "text": "Ja s'ha despertat, el peluix! Ara parlem amb veu normal.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_tutor_c9f43ba0_96",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Mira la cara gran amb l'infant. Prem 🔊 si vol sentir les opcions. Ell toca com se sent la cara.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_b341db23_65",
+   "lang": "ca",
+   "style": "child",
+   "text": "Imiteu l'emoció amb tot el cos: cara, braços i postura d'estàtua.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_tutor_7a9b8950_168",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Tapa't la boca i digues una paraula gairebé sense veu. Si l'infant no l'entén, t'ha de demanar: «què?» o «com?». Això és el que practiquem: demanar que t'ho repeteixin.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_401de8d8_84",
+   "lang": "ca",
+   "style": "child",
+   "text": "Xiuxiueja una ordre des de lluny; si no s'entén, que vingui corrent i demani \"què?\".",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_slow_f18dd2de_3",
+   "lang": "ca",
+   "style": "slow",
+   "text": "com",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_tutor_e6535397_299",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Primer en silenci: digues-li amb la teva veu normal «busca la vaca» i que la toqui. Quan ho encerti tranquil, apuja A POC A POC el soroll de fons des del Panell de l'Adult (a sota) i repeteix amb un altre animal. La teva veu és el senyal: no cridis ni exageris; si el veus fatigat, abaixa el soroll.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_e7d60cd1_89",
+   "lang": "ca",
+   "style": "child",
+   "text": "Granja a casa: amagueu els animals de peluix i busqueu-los amb la música posada fluixeta.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_tutor_d4e96ff9_14",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Busca la vaca.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_b10cd292_6",
+   "lang": "ca",
+   "style": "child",
+   "text": "ovella",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_135b0d5c_6",
+   "lang": "ca",
+   "style": "child",
+   "text": "cavall",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_tutor_cd30e965_15",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Busca l'ovella.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_tutor_34f6a630_17",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Busca la gallina.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_tutor_c1ab60e8_280",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "PRIMER sense veu: digues la paraula només movent els llavis, a poc a poc i amb la cara ben il·luminada, i que l'infant toqui la imatge llegint-te els llavis. DESPRÉS prem 🔊 per tornar-li el so i confirmar. No el corregeixis amb un «no»: repeteix el model amb veu i llavis alhora.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_51ce9a33_92",
+   "lang": "ca",
+   "style": "child",
+   "text": "Jugueu al mirall mut: un diu una paraula sense veu i l'altre l'endevina. Canvieu els papers!",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_slow_ae1d11e3_4",
+   "lang": "ca",
+   "style": "slow",
+   "text": "ànec",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_ae1d11e3_4",
+   "lang": "ca",
+   "style": "child",
+   "text": "ànec",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_aca0bcc1_5",
+   "lang": "ca",
+   "style": "child",
+   "text": "lluna",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_slow_c3b10f72_4",
+   "lang": "ca",
+   "style": "slow",
+   "text": "boca",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_c3b10f72_4",
+   "lang": "ca",
+   "style": "child",
+   "text": "boca",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_b8c80eb6_4",
+   "lang": "ca",
+   "style": "child",
+   "text": "flor",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_728b3cb4_4",
+   "lang": "ca",
+   "style": "child",
+   "text": "tren",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_4514e5e3_2",
+   "lang": "ca",
+   "style": "child",
+   "text": "ós",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_6a4b8c11_3",
+   "lang": "ca",
+   "style": "child",
+   "text": "peu",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_tutor_b85ee92e_285",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Quatre paraules que sonen gairebé igual. Digues tu la paraula objectiu amb veu normal i que la toqui. A cada ronda fes-ho una mica més difícil AMB EL TEU COS: abaixa el volum de la teva veu o allunya't un pas més. L'app no toca el volum: l'estressor ets tu, i tu decideixes quan parar.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_0df412c0_84",
+   "lang": "ca",
+   "style": "child",
+   "text": "Telèfon viatger: xiuxiueja-li la paraula a l'orella des de cada racó de l'habitació.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_slow_cdcbe9b4_4",
+   "lang": "ca",
+   "style": "slow",
+   "text": "plat",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_cdcbe9b4_4",
+   "lang": "ca",
+   "style": "child",
+   "text": "plat",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_695617da_3",
+   "lang": "ca",
+   "style": "child",
+   "text": "pat",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_slow_44171b83_3",
+   "lang": "ca",
+   "style": "slow",
+   "text": "gat",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_tutor_f9b4b535_245",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Prem 🔊 perquè senti l'ordre SENCERA de tres passos. Després, cadenat humà: subjecta-li les mans amb suavitat i compta fins a 5 en silenci abans de deixar-lo tocar. Aquesta espera l'obliga a guardar l'ordre a la memòria, no a buidar-la corrents.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_eda2b98d_109",
+   "lang": "ca",
+   "style": "child",
+   "text": "Circuit d'ordres: «toca la porta, després el sofà i al final la finestra», amb la mateixa espera de 5 segons.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_c0fadc62_47",
+   "lang": "ca",
+   "style": "child",
+   "text": "Toca el sol, després el gos i al final la casa.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_5cb93016_49",
+   "lang": "ca",
+   "style": "child",
+   "text": "Toca la lluna, després el gat i al final la flor.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_slow_aca0bcc1_5",
+   "lang": "ca",
+   "style": "slow",
+   "text": "lluna",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_slow_b8c80eb6_4",
+   "lang": "ca",
+   "style": "slow",
+   "text": "flor",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_1816f872_47",
+   "lang": "ca",
+   "style": "child",
+   "text": "Toca el pa, després el peix i al final l'arbre.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_slow_53b155b1_5",
+   "lang": "ca",
+   "style": "slow",
+   "text": "arbre",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_tutor_eb342af1_217",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Posa't DARRERE de l'infant, on no et vegi. Fes sonar l'objecte a un costat (esquerra o dreta) i que assenyali amb el braç d'on ha vingut el so ABANS de girar-se a mirar. Alterna els costats sense seguir cap patró fix.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_9bfc2d8a_79",
+   "lang": "ca",
+   "style": "child",
+   "text": "Marco Polo sonor: amb els ulls tancats, que camini cap a la campaneta que sona.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_tutor_3a000e21_132",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Acosta les bombolles ben a prop de la teva cara i crida'l pel seu nom. Busca un contacte visual breu, encara que sigui d'un instant.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_tutor_eac7ea36_101",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Fes bombolles a un braç de distància. Crida'l pel seu nom i assenyala amb el dit cap a les bombolles.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_tutor_aac9a023_112",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Des de l'altra punta de l'habitació, crida'l pel seu nom una sola vegada sense cap estímul motivador a la vista.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_b76d8646_63",
+   "lang": "ca",
+   "style": "child",
+   "text": "Perseguiu i rebenteu bombolles junts: una bombolla, una mirada.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_tutor_2c854303_99",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Pica de mans a poc a poc davant seu i guia-li les mans la primera vegada. Repeteix el gest tot sol.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_tutor_76b94146_98",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Toca el tambor dues vegades i digues \"pa-pa\". Espera que imiti el gest o el so sense ajuda física.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_tutor_67911073_127",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Combina un gest i una síl·laba nova (\"ta-ta\" + saltar) i observa si ho imita en mirall, immediatament i sense repetir el model.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_2f013bb9_65",
+   "lang": "ca",
+   "style": "child",
+   "text": "Mirall humà: imiteu gestos grans (braços, salts, girs) per torns.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_tutor_d2479813_68",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Digues-li \"Dona'm la pilota\" mentre assenyales la pilota amb el dit.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_tutor_5d94df6b_67",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Demana-li \"Toca't el nas\" i \"Toca't el cap\" sense gestos de suport.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_tutor_e77e0ff2_95",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Digues-li sense cap gest: \"Dona'm la pilota i seu\". Observa si executa els dos passos en ordre.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_6b110dfe_59",
+   "lang": "ca",
+   "style": "child",
+   "text": "Jugueu a \"en Simó diu\" amb ordres d'un pas i parts del cos.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_tutor_512c094b_84",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Ensenya-li el ninot del gos i modela: \"Bup bup\". Espera que repeteixi l'onomatopeia.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_tutor_161a26f6_70",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Ensenya-li un got d'aigua sense dir res i pregunta-li: \"Què és això?\".",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_tutor_0aaeae88_99",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Ofereix-li el got buit i espera que demani espontàniament \"vull aigua\" combinant les dues paraules.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_9e2a25fc_69",
+   "lang": "ca",
+   "style": "child",
+   "text": "Cursa fins a l'aixeta: només s'obre si diu la paraula màgica \"aigua\".",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_slow_e63c0d0d_10",
+   "lang": "ca",
+   "style": "slow",
+   "text": "vull aigua",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_tutor_312b78cb_101",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Atura un joc divertit (pessigolles, gronxador) i modela el gest + paraula \"més\". Ajuda'l a imitar-ho.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_tutor_7983d7fd_117",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Dona-li un pot tancat amb alguna cosa que li agradi a dins i espera. Si es frustra, suggereix-li a mitja veu \"ajuda\".",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_tutor_b601099f_117",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Crea una altra situació de necessitat (joguina fora de l'abast) sense donar cap pista i espera la petició espontània.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_d3919d06_70",
+   "lang": "ca",
+   "style": "child",
+   "text": "Gronxador, avió o pessigolles: atura el joc i espera que demani \"més\".",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_tutor_be6a7ed8_100",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Ensenya-li la imatge de l'activitat següent i fes un compte enrere visual de 5 a 1 abans de canviar.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_tutor_12e174d2_88",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Avisa del canvi una sola vegada i ofereix-li una fitxa quan acabi l'activitat amb calma.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_tutor_18daf417_96",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Deixa que consulti tot sol la seva agenda visual i faci la transició sense que l'hagis d'avisar.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_e313696f_73",
+   "lang": "ca",
+   "style": "child",
+   "text": "Aneu junts cap a l'activitat següent cantant la cançó de les transicions.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_tutor_13a5b115_76",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Apila un bloc i digues-li \"ara tu\". Ajuda'l físicament si no respon al torn.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_tutor_09170d86_103",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Ofereix-li un ninot i una cullera; modela \"li donarem de menjar\" i espera que continuï el joc simbòlic.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_tutor_6595df24_88",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Deixa que proposi ell un joc de torns o simbòlic i mantén l'intercanvi sense dirigir-lo.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_c7eb2eef_69",
+   "lang": "ca",
+   "style": "child",
+   "text": "Passeu-vos una pilota rodant: només parla qui la té. Torn i moviment!",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_tutor_37c0b944_287",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Col·loca un objecte molt motivador entre la teva cara i l'infant. Espera 3 segons ABANS de donar cap pista (instigació retardada): el botó del segell es desbloqueja només després d'aquesta espera. Prem el Segell Doble ÚNICAMENT quan hi hagi contacte visual real amb tu, no amb l'objecte.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_45a9bb6f_102",
+   "lang": "ca",
+   "style": "child",
+   "text": "Amaga l'objecte darrere l'esquena i camina a poc a poc: que et busqui la mirada abans d'ensenyar-l'hi.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_tutor_b0dfae3c_342",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Aquest exercici fa servir el Trencament Pragmàtic del Panell de l'Adult: congeles l'app expressament (ordre absurda o silenci) i observes com repara l'infant la comunicació. És un estressor MANUAL i reversible a l'instant: tu decideixes quan comença i quan s'acaba. Obre'l a sota al Panell de l'Adult i registra l'estratègia que facis servir.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_f8e25518_83",
+   "lang": "ca",
+   "style": "child",
+   "text": "Després de cada reparació aconseguida, celebreu-ho amb una encaixada ben exagerada.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_tutor_289b2e76_230",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Prem 🔊 perquè la veu de l'app dicti l'ordre motora i, MENTRE sona, fes tu una acció contradictòria (la veu diu «toca't el nas» i tu et toques el cap). L'objectiu és que l'infant segueixi l'ÀUDIO i inhibeixi la còpia del teu gest.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_4758162f_91",
+   "lang": "ca",
+   "style": "child",
+   "text": "Jugueu a «la veu mana»: l'ordre sonora val, el gest de l'adult enganya. Canvieu els papers!",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_tutor_189c1ef8_243",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "A la meitat del joc que més li estigui agradant, prem «Interrompre ara»: apareixerà una càpsula de moviment abrupta. Observa la transició: la tolera, protesta i continua, o abandona? Tu decideixes el moment exacte; l'app mai no interromp sola.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_ee20f8f6_94",
+   "lang": "ca",
+   "style": "child",
+   "text": "Convertiu la interrupció en joc: «estàtua!», tres respiracions bufades i tornem a l'activitat.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_tutor_9b320822_261",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Prem 🔊 per sentir les quatre paraules. Tres van juntes i una no: l'infant toca la que NO va amb les altres. Després apuja A POC A POC el soroll de fons des del Panell de l'Adult i repeteix amb una altra ronda: anota com canvia l'encert a cada nivell de soroll.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_d92c650b_99",
+   "lang": "ca",
+   "style": "child",
+   "text": "Classifiqueu joguines reals en dues capses (animals / coses de menjar) amb música de fons fluixeta.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_slow_55ac731d_25",
+   "lang": "ca",
+   "style": "slow",
+   "text": "gos, gat, cavall, cullera",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_23034815_7",
+   "lang": "ca",
+   "style": "child",
+   "text": "cullera",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_tutor_f8fda682_192",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Prem 🔊 per sentir les quatre paraules. Tres es mengen i una no: l'infant toca la que NO va amb les altres. Apuja el soroll des del Panell de l'Adult ronda a ronda i anota com canvia l'encert.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_slow_6612c453_26",
+   "lang": "ca",
+   "style": "slow",
+   "text": "poma, pa, formatge, pilota",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_504e588a_2",
+   "lang": "ca",
+   "style": "child",
+   "text": "pa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_b68045be_8",
+   "lang": "ca",
+   "style": "child",
+   "text": "formatge",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_tutor_2d0c7daa_201",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Prem 🔊 per sentir les quatre paraules. Tres són per vestir-se i una no: l'infant toca la que NO va amb les altres. Mantén el nivell de soroll que estiguis provant i compara'l amb les rondes anteriors.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_slow_5d3f3605_33",
+   "lang": "ca",
+   "style": "slow",
+   "text": "gorra, samarreta, sabata, maduixa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_3f2b1150_7",
+   "lang": "ca",
+   "style": "child",
+   "text": "maduixa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_tutor_d2d01c85_327",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Prem 🔊 per sentir l'ordre amb DUES pistes alhora (forma I color). Si atén una sola pista i falla (toca el cercle vermell), NO el penalitzis: verbalitza tu la contingència amb naturalitat —«aquest és vermell, però és un cercle; jo vull el quadrat»— i deixa que ho torni a intentar. Premia l'intent comunicatiu, no la perfecció.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_121a9f15_88",
+   "lang": "ca",
+   "style": "child",
+   "text": "Busca amb dues pistes per casa: «porta'm una cosa TOVA i BLAVA». Celebreu cada troballa.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_tutor_72035c41_19",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "El quadrat vermell.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_d246720a_15",
+   "lang": "ca",
+   "style": "child",
+   "text": "quadrat vermell",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_f0769bd6_14",
+   "lang": "ca",
+   "style": "child",
+   "text": "cercle vermell",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_a41aa553_12",
+   "lang": "ca",
+   "style": "child",
+   "text": "quadrat blau",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_tutor_f41ea676_15",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "El cercle blau.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_1a8b1187_11",
+   "lang": "ca",
+   "style": "child",
+   "text": "cercle blau",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_tutor_282e684c_17",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "L'estrella groga.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_54192f78_11",
+   "lang": "ca",
+   "style": "child",
+   "text": "cercle groc",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_83dfd92f_14",
+   "lang": "ca",
+   "style": "child",
+   "text": "estrella groga",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_6cb24906_8",
+   "lang": "ca",
+   "style": "child",
+   "text": "cor groc",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_tutor_1e0e1bf7_169",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Prem 🔊 perquè la veu dicti la sèrie sencera. Tres paraules rimen i una no: l'infant toca l'altaveu de la que NO sona com les altres. Sense suport de text: només l'oïda.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_42ae6d6a_80",
+   "lang": "ca",
+   "style": "child",
+   "text": "Picada al genoll amb cada paraula que rima; braços en creu quan soni la intrusa.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_slow_661e51a6_21",
+   "lang": "ca",
+   "style": "slow",
+   "text": "gat, pat, plat, taula",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_e396b19a_5",
+   "lang": "ca",
+   "style": "child",
+   "text": "taula",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_slow_6e17316f_15",
+   "lang": "ca",
+   "style": "slow",
+   "text": "pa, ma, la, sol",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_642e245b_2",
+   "lang": "ca",
+   "style": "child",
+   "text": "ma",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_4831c9de_2",
+   "lang": "ca",
+   "style": "child",
+   "text": "la",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_slow_a394555f_24",
+   "lang": "ca",
+   "style": "slow",
+   "text": "casa, nasa, brasa, porta",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_9f253efd_4",
+   "lang": "ca",
+   "style": "child",
+   "text": "casa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_b4f95588_4",
+   "lang": "ca",
+   "style": "child",
+   "text": "nasa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_ac19c7f4_5",
+   "lang": "ca",
+   "style": "child",
+   "text": "brasa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_cf098f45_5",
+   "lang": "ca",
+   "style": "child",
+   "text": "porta",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_slow_43d9ef36_20",
+   "lang": "ca",
+   "style": "slow",
+   "text": "sol, col, gol, taula",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_f28dd471_3",
+   "lang": "ca",
+   "style": "child",
+   "text": "col",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_401b9265_3",
+   "lang": "ca",
+   "style": "child",
+   "text": "gol",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_tutor_57cdaa21_262",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "L'infant llegeix la frase de la pantalla en veu alta, d'una tirada i sense sil·labejar. Quan ho aconsegueixi amb calma, activa la Gata Distractora i una mica de soroll des del Panell de l'Adult i repeteix amb una altra ronda: la fluïdesa la valores tu, no l'app.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_04250eb6_79",
+   "lang": "ca",
+   "style": "child",
+   "text": "Llegiu la frase caminant: un pas per paraula, sense aturar-vos entre síl·labes.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_slow_ab10df32_13",
+   "lang": "ca",
+   "style": "slow",
+   "text": "l'ós menja pa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_slow_8195fa57_15",
+   "lang": "ca",
+   "style": "slow",
+   "text": "la nena beu suc",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_slow_0f483ef5_20",
+   "lang": "ca",
+   "style": "slow",
+   "text": "el meu gat salta alt",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_tutor_e5fe05c1_233",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Prem «Escoltar els sons»: l'app emet cada so per separat, amb una pausa entre ells. L'infant els ha d'unir i dir la paraula sencera. Recull la fusió amb el micro; si el reconeixement falla o va lent, valora-ho tu a sota amb l'escala.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_70eba279_66",
+   "lang": "ca",
+   "style": "child",
+   "text": "Un salt per cada so i, en dir la paraula sencera, salt d'estrella!",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_slow_e32eec48_2",
+   "lang": "ca",
+   "style": "slow",
+   "text": "mà",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_slow_ca99d446_3",
+   "lang": "ca",
+   "style": "slow",
+   "text": "mmm",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_slow_e40c292c_1",
+   "lang": "ca",
+   "style": "slow",
+   "text": "a",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_slow_c33f0730_3",
+   "lang": "ca",
+   "style": "slow",
+   "text": "sss",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_slow_a42935e4_3",
+   "lang": "ca",
+   "style": "slow",
+   "text": "ooo",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_slow_365991eb_3",
+   "lang": "ca",
+   "style": "slow",
+   "text": "lll",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_slow_f00c3c10_1",
+   "lang": "ca",
+   "style": "slow",
+   "text": "u",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_tutor_c1041b2d_229",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "La paraula de la pantalla és inventada: no es pot endevinar, només descodificar. L'infant la llegeix en veu alta tal com sona. Màxim 5 assajos: en arribar al límit, l'app proposa una pausa de moviment obligatòria per descarregar.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_a612cc0a_73",
+   "lang": "ca",
+   "style": "child",
+   "text": "Digueu la pseudoparaula picant de mans una vegada per síl·laba: ME-PO-TI.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_slow_98bd3905_6",
+   "lang": "ca",
+   "style": "slow",
+   "text": "mepoti",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_slow_2169127a_7",
+   "lang": "ca",
+   "style": "slow",
+   "text": "faslumo",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_slow_05246fc2_6",
+   "lang": "ca",
+   "style": "slow",
+   "text": "tinelo",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_slow_b7a317f8_7",
+   "lang": "ca",
+   "style": "slow",
+   "text": "burdina",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_tutor_146ff3c1_246",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Digues a l'infant quina lletra ha de buscar (la gran del requadre) i que toqui TOTES les que trobi al plafó. Les lletres bessones girades (b/d, p/q) l'intenten enganyar. Si vols càrrega extra, activa la Gata Distractora des del Panell de l'Adult.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_a5411122_95",
+   "lang": "ca",
+   "style": "child",
+   "text": "Dibuixeu la lletra objectiu gegant a l'aire: la panxa de la «b» mira endavant, com quan llegim.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_tutor_a8deb9a0_291",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "L'infant anomena cada dibuix EN VEU ALTA i en ordre de lectura (d'esquerra a dreta), tocant-lo en anomenar-lo. L'estressor ets tu: persegueix-li el dit per la pantalla amb el teu, com un joc d'acuit. Sense cronòmetres: si el veus accelerat o frustrat, frena el teu dit o atura la persecució.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_961d1ceb_97",
+   "lang": "ca",
+   "style": "child",
+   "text": "RAN de casa: recorreu una prestatgeria anomenant cada objecte seguit, com si llegíssiu una línia.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_slow_9c14e8f7_58",
+   "lang": "ca",
+   "style": "slow",
+   "text": "sol, gat, pa, flor, pa, flor, sol, gat, gat, sol, flor, pa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_slow_838dc410_70",
+   "lang": "ca",
+   "style": "slow",
+   "text": "lluna, gos, casa, peix, casa, peix, lluna, gos, gos, lluna, peix, casa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_slow_27560580_7",
+   "lang": "ca",
+   "style": "slow",
+   "text": "vermell",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_slow_72ca3fd1_4",
+   "lang": "ca",
+   "style": "slow",
+   "text": "blau",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_slow_d8352212_4",
+   "lang": "ca",
+   "style": "slow",
+   "text": "verd",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_slow_a882925e_4",
+   "lang": "ca",
+   "style": "slow",
+   "text": "groc",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_slow_3b6aef3e_79",
+   "lang": "ca",
+   "style": "slow",
+   "text": "vermell, blau, verd, groc, verd, groc, vermell, blau, blau, verd, groc, vermell",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_fd1d2994_27",
+   "lang": "ca",
+   "style": "child",
+   "text": "Bravo! Que bé que ha sonat!",
+   "source": "banco/elogio"
+  },
+  {
+   "id": "ca_child_755fe09b_29",
+   "lang": "ca",
+   "style": "child",
+   "text": "Molt bé! Paraula aconseguida!",
+   "source": "banco/elogio"
+  },
+  {
+   "id": "ca_child_4fbb3b10_35",
+   "lang": "ca",
+   "style": "child",
+   "text": "Genial! Cada vegada et surt millor!",
+   "source": "banco/elogio"
+  },
+  {
+   "id": "ca_child_1a5b4f96_27",
+   "lang": "ca",
+   "style": "child",
+   "text": "Súper! L'has dit claríssim!",
+   "source": "banco/elogio"
+  },
+  {
+   "id": "ca_child_e9e7e0bd_24",
+   "lang": "ca",
+   "style": "child",
+   "text": "Quina veu! Molt ben dit!",
+   "source": "banco/elogio"
+  },
+  {
+   "id": "ca_child_1d96267f_48",
+   "lang": "ca",
+   "style": "child",
+   "text": "Gairebé, gairebé! Escolta bé i una altra vegada…",
+   "source": "banco/casi"
+  },
+  {
+   "id": "ca_child_e96a5795_36",
+   "lang": "ca",
+   "style": "child",
+   "text": "Ui, per ben poc! Ho tornem a provar.",
+   "source": "banco/casi"
+  },
+  {
+   "id": "ca_child_d8aedb2b_39",
+   "lang": "ca",
+   "style": "child",
+   "text": "Ja gairebé el tens! Escolta i repeteix.",
+   "source": "banco/casi"
+  },
+  {
+   "id": "ca_child_efcb7465_49",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una miqueta més i et surt rodó. Una altra vegada!",
+   "source": "banco/casi"
+  },
+  {
+   "id": "ca_child_e752fa31_46",
+   "lang": "ca",
+   "style": "child",
+   "text": "No t'he sentit bé. Ho provem una altra vegada!",
+   "source": "banco/no-oido"
+  },
+  {
+   "id": "ca_child_79d890f8_55",
+   "lang": "ca",
+   "style": "child",
+   "text": "Ui, no m'ha arribat la teva veu! Acosta't i ho repetim.",
+   "source": "banco/no-oido"
+  },
+  {
+   "id": "ca_child_f84aaa0b_63",
+   "lang": "ca",
+   "style": "child",
+   "text": "Se m'ha escapat la teva paraula. Digues-me-la una altra vegada!",
+   "source": "banco/no-oido"
+  },
+  {
+   "id": "ca_child_93da24da_32",
+   "lang": "ca",
+   "style": "child",
+   "text": "La direm junts, ben a poc a poc.",
+   "source": "banco/juntos"
+  },
+  {
+   "id": "ca_child_547b0419_43",
+   "lang": "ca",
+   "style": "child",
+   "text": "La diem alhora, a poc a poc i sense pressa.",
+   "source": "banco/juntos"
+  },
+  {
+   "id": "ca_child_86aff3fa_37",
+   "lang": "ca",
+   "style": "child",
+   "text": "Ara en equip: la diem tots dos junts.",
+   "source": "banco/juntos"
+  },
+  {
+   "id": "ca_child_31e2500b_39",
+   "lang": "ca",
+   "style": "child",
+   "text": "Gairebé no t'he sentit. Parla més fort!",
+   "source": "ejercicios/veredicto"
+  },
+  {
+   "id": "ca_child_59a733f3_35",
+   "lang": "ca",
+   "style": "child",
+   "text": "T'he sentit! Ara una mica més fort.",
+   "source": "ejercicios/veredicto"
+  },
+  {
+   "id": "ca_child_bcc48355_29",
+   "lang": "ca",
+   "style": "child",
+   "text": "Que bé! T'he sentit ben clar!",
+   "source": "ejercicios/veredicto"
+  },
+  {
+   "id": "ca_child_7e54b415_33",
+   "lang": "ca",
+   "style": "child",
+   "text": "Molt bé! Continuem amb la sessió!",
+   "source": "tpr/fin"
+  },
+  {
+   "id": "ca_clinical_b66aa090_41",
+   "lang": "ca",
+   "style": "clinical",
+   "text": "Ruta completada. Continuem amb la sessió.",
+   "source": "rutas/fin"
+  },
+  {
+   "id": "ca_child_02534c96_58",
+   "lang": "ca",
+   "style": "child",
+   "text": "Sessió de parells completada! Xoca aquesta mà amb el pare!",
+   "source": "pares/fin"
+  },
+  {
+   "id": "ca_child_2c55478b_51",
+   "lang": "ca",
+   "style": "child",
+   "text": "Canvi de papers! Ara mana l'infant i parla l'adult.",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "ca_child_4d54bac1_42",
+   "lang": "ca",
+   "style": "child",
+   "text": "No he sentit bé l'adult. Una altra vegada!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "ca_child_42dc8669_30",
+   "lang": "ca",
+   "style": "child",
+   "text": "Exacte! Quina orella més fina!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "ca_child_04f2492b_58",
+   "lang": "ca",
+   "style": "child",
+   "text": "Ui! Era l'altra. Escolta una altra vegada al torn següent!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "ca_child_50583925_60",
+   "lang": "ca",
+   "style": "child",
+   "text": "Hola! Així sonarà la meva veu als exercicis. Oi que sona bé?",
+   "source": "util/muestra"
+  },
+  {
    "id": "child_67473535_47",
    "lang": "es",
    "style": "child",
@@ -22792,6 +28778,27 @@
    "lang": "en",
    "style": "child",
    "text": "Almost there! Follow the arrows and the numbers slowly.",
+   "source": "escritura/elogio"
+  },
+  {
+   "id": "ca_child_2cc88447_48",
+   "lang": "ca",
+   "style": "child",
+   "text": "Quin dibuix més bonic que has fet a la pissarra!",
+   "source": "escritura/elogio"
+  },
+  {
+   "id": "ca_child_0a74d989_50",
+   "lang": "ca",
+   "style": "child",
+   "text": "Excel·lent! Has seguit la direcció a la perfecció.",
+   "source": "escritura/elogio"
+  },
+  {
+   "id": "ca_child_4d852793_55",
+   "lang": "ca",
+   "style": "child",
+   "text": "Gairebé! Segueix les fletxes i els números a poc a poc.",
    "source": "escritura/elogio"
   }
  ]

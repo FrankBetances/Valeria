@@ -19,6 +19,7 @@ import { ROUTE_DONE_PHRASE } from './valeriaPhraseBank';
 import { TPR_CAPSULES_GL, ROUTINE_ROUTES_GL, ROUTE_DONE_PHRASE_GL } from './valeriaContentGl';
 import { TPR_CAPSULES_EU, ROUTINE_ROUTES_EU, ROUTE_DONE_PHRASE_EU } from './valeriaContentEu';
 import { TPR_CAPSULES_EN, ROUTINE_ROUTES_EN, ROUTE_DONE_PHRASE_EN } from './valeriaContentEn';
+import { TPR_CAPSULES_CA, ROUTINE_ROUTES_CA, ROUTE_DONE_PHRASE_CA } from './valeriaContentCa';
 import { getLocale } from './valeriaLocale';
 import {
   trackCapsuleStart, trackCapsuleDone, trackCapsuleSkip,
@@ -39,9 +40,11 @@ const pick = <T,>(arr: T[]): T => arr[Math.floor(Math.random() * arr.length)];
 // suenan con Celtia); en el resto, las castellanas.
 export const pickSessionBreak = (): SessionBreak => {
   const loc = getLocale();
-  const capsules = loc === 'gl' ? TPR_CAPSULES_GL : loc === 'eu' ? TPR_CAPSULES_EU
+  const capsules = loc === 'ca' ? TPR_CAPSULES_CA
+    : loc === 'gl' ? TPR_CAPSULES_GL : loc === 'eu' ? TPR_CAPSULES_EU
     : loc === 'en-US' ? TPR_CAPSULES_EN : TPR_CAPSULES;
-  const routes = loc === 'gl' ? ROUTINE_ROUTES_GL : loc === 'eu' ? ROUTINE_ROUTES_EU
+  const routes = loc === 'ca' ? ROUTINE_ROUTES_CA
+    : loc === 'gl' ? ROUTINE_ROUTES_GL : loc === 'eu' ? ROUTINE_ROUTES_EU
     : loc === 'en-US' ? ROUTINE_ROUTES_EN : ROUTINE_ROUTES;
   return Math.random() < 0.5
     ? { kind: 'capsule', capsule: pick(capsules) }
@@ -72,7 +75,7 @@ const RoutineRouteOverlay: React.FC<{
   useEffect(() => () => stopSpeaking(), []);
 
   const advance = () => {
-    if (last) { const l = getLocale(); speakClinical(l === 'gl' ? ROUTE_DONE_PHRASE_GL : l === 'eu' ? ROUTE_DONE_PHRASE_EU : l === 'en-US' ? ROUTE_DONE_PHRASE_EN : ROUTE_DONE_PHRASE); onDone(); }
+    if (last) { const l = getLocale(); speakClinical(l === 'gl' ? ROUTE_DONE_PHRASE_GL : l === 'eu' ? ROUTE_DONE_PHRASE_EU : l === 'en-US' ? ROUTE_DONE_PHRASE_EN : l === 'ca' ? ROUTE_DONE_PHRASE_CA : ROUTE_DONE_PHRASE); onDone(); }
     else setStep(step + 1);
   };
 

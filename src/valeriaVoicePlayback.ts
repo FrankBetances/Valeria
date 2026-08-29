@@ -12,6 +12,8 @@
 // motor del sistema.
 // ============================================================================
 
+import { VOICE_ASSETS } from './valeriaVoiceAssets';
+
 let ExpoAudio: any = null;
 try {
   ExpoAudio = require('expo-audio');
@@ -71,3 +73,23 @@ export function playVoiceAsset(source: number, cb: VoicePlaybackCallbacks = {}):
     return false;
   }
 }
+
+// ---------------------------------------------------------------------------
+// ¿Hay locuciones neuronales EMPAQUETADAS para esta lengua del corpus?
+// ---------------------------------------------------------------------------
+// El mapa VOICE_ASSETS es un fichero GENERADO por la tubería de voz, así que
+// una lengua puede estar entera en el código y en el corpus y todavía no tener
+// ni un .m4a — es el estado normal entre el merge del contenido y la ejecución
+// de voice-assets.yml. La tarjeta de «Voz de la app» pregunta AQUÍ antes de
+// prometer voz neuronal, en vez de deducirlo de la variedad elegida: decir «✓
+// voz X» sin haber mirado es la clase de afirmación que la regla 0 prohíbe.
+//
+// Los ids castellanos no llevan prefijo (retro-compatibilidad del corpus), así
+// que 'es' se resuelve por descarte: si hay algún id sin prefijo de lengua.
+const LANG_PREFIXES = ['gl_', 'eu_', 'en_', 'ca_'];
+
+export const hasAssetsFor = (lang: string): boolean => {
+  const ids = Object.keys(VOICE_ASSETS);
+  if (lang === 'es') return ids.some((id) => !LANG_PREFIXES.some((p) => id.startsWith(p)));
+  return ids.some((id) => id.startsWith(`${lang}_`));
+};

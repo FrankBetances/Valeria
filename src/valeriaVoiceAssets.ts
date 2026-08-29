@@ -1,12 +1,12 @@
 // ============================================================================
 // Valeria+ · Mapa id → asset de voz neuronal — ARCHIVO GENERADO, NO EDITAR
 // Regenerado por scripts/build-voice-asset-map.js (tubería de Fase 2,
-// .github/workflows/voice-assets.yml). Cobertura: 3252/3252 locuciones
+// .github/workflows/voice-assets.yml). Cobertura: 3252/4110 locuciones
 // del corpus; lo no cubierto cae a expo-speech en runtime.
 // ============================================================================
 
 // Versión del lote de audio empaquetado ('none' = sin audio pre-generado).
-export const VOICE_ASSETS_VERSION = "en-ljspeech+es-sharvard+eu-ahotts+gl-celtia-2026-08-25";
+export const VOICE_ASSETS_VERSION = "en-ljspeech+es-sharvard+eu-ahotts+gl-celtia-2026-08-29";
 
 // id de corpus (valeriaVoiceCorpus.voiceCorpusId) → módulo de asset de Metro.
 export const VOICE_ASSETS: Record<string, number> = {

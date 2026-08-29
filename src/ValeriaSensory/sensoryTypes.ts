@@ -26,6 +26,7 @@ export interface LocalizedString {
   eu: string;
   'es-DO': string;
   'en-US': string;
+  ca: string;
 }
 
 export interface SensoryStimulus {

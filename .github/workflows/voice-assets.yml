@@ -11,7 +11,7 @@ on:
   workflow_dispatch:
     inputs:
       lang:
-        description: 'Idioma del corpus a sintetizar (es · gl · eu · en)'
+        description: 'Idioma del corpus a sintetizar (es · gl · eu · en · ca)'
         required: false
         default: 'es'
   # Disparo automático cuando cambia la propia tubería o el corpus en ramas de
@@ -147,6 +147,40 @@ jobs:
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: python3 scripts/generate-voice-assets.py --lang eu
+
+      # català (Matxa-TTS · projecte AINA): ONNX end-to-end (acústico +
+      # vocóder) con frontend FONÉMICO — necesita espeak-ng y phonemizer, que
+      # ninguna otra variedad usa. Se instalan solo si faltan assets ca.
+      - name: Check missing ca assets
+        id: cacheck
+        run: |
+          MISSING=$(python3 - <<'PY'
+          import json, pathlib
+          corpus = json.load(open('voice-corpus.json'))['corpus']
+          out = pathlib.Path('assets/voice')
+          print(sum(1 for e in corpus if e.get('lang') == 'ca' and not (out / f"{e['id']}.m4a").exists()))
+          PY
+          )
+          echo "missing=$MISSING" >> "$GITHUB_OUTPUT"
+          echo "Locuciones ca sin asset: $MISSING"
+
+      - name: Set up Matxa-TTS (AINA català)
+        if: steps.cacheck.outputs.missing != '0'
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq espeak-ng
+          pip install onnxruntime phonemizer
+
+      # NO bloqueante, igual que el euskera: si el modelo de AINA no responde o
+      # el canario del motor falla, el resto del lote se commitea y el catalán
+      # degrada a la voz del sistema ca-ES. El log lleva el esquema real del
+      # ONNX y la lista de hablantes, que es lo que hace falta para ajustarlo.
+      - name: Synthesize ca (Matxa-TTS · projecte AINA)
+        if: steps.cacheck.outputs.missing != '0'
+        continue-on-error: true
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: python3 scripts/generate-voice-assets.py --lang ca
 
       - name: Rebuild asset map
         run: node scripts/build-voice-asset-map.js

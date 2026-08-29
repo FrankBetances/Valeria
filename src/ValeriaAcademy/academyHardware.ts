@@ -12,6 +12,7 @@
 // ============================================================================
 import { AcademyGuideUnit, HearingDevice } from './academyTypes';
 import type { UiLang } from '../valeriaUiLang';
+import { servedLangFor } from '../i18n/uiLangFallback';
 
 // --- Eje 1 · Conceptos Clínicos ---------------------------------------------
 export const HIPOACUSIA_CONCEPTS_ES: AcademyGuideUnit[] = [
@@ -121,7 +122,7 @@ export const HIPOACUSIA_CONCEPTS_EN: AcademyGuideUnit[] = [
 ];
 
 export const hipoacusiaConceptsFor = (lang: UiLang = 'es'): AcademyGuideUnit[] =>
-  lang === 'en' ? HIPOACUSIA_CONCEPTS_EN : HIPOACUSIA_CONCEPTS_ES;
+  servedLangFor('academyHardware', lang) === 'en' ? HIPOACUSIA_CONCEPTS_EN : HIPOACUSIA_CONCEPTS_ES;
 
 export const HIPOACUSIA_CONCEPTS: AcademyGuideUnit[] = HIPOACUSIA_CONCEPTS_ES;
 
@@ -325,7 +326,7 @@ export const HEARING_DEVICES_EN: HearingDevice[] = [
 ];
 
 export const hearingDevicesFor = (lang: UiLang = 'es'): HearingDevice[] =>
-  lang === 'en' ? HEARING_DEVICES_EN : HEARING_DEVICES_ES;
+  servedLangFor('academyHardware', lang) === 'en' ? HEARING_DEVICES_EN : HEARING_DEVICES_ES;
 
 export const HEARING_DEVICES: HearingDevice[] = HEARING_DEVICES_ES;
 
