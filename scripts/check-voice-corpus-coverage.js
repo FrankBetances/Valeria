@@ -5,7 +5,7 @@
  *   node scripts/check-voice-corpus-coverage.js
  *
  * Recompila src/valeriaVoiceCorpus.ts (igual que export-voice-corpus.js) y
- * comprueba que TODA locución en es/gl/eu tiene su asset en assets/voice/.
+ * comprueba que TODA locución en es/gl/eu/en/ca tiene su asset en assets/voice/.
  * Antes de este gate, un PR podía cambiar un texto locutado, no regenerar el
  * corpus ni sintetizar los assets, y nada lo detectaba: la app seguía
  * funcionando (cae a expo-speech), los tests pasaban y el diff se veía verde.
@@ -22,7 +22,7 @@ const path = require('path');
 const ROOT = path.join(__dirname, '..');
 const ENTRY = path.join(ROOT, 'src', 'valeriaVoiceCorpus.ts');
 const ASSETS_DIR = path.join(ROOT, 'assets', 'voice');
-const LANGS_WITH_ASSETS = ['es', 'gl', 'eu', 'en'];
+const LANGS_WITH_ASSETS = ['es', 'gl', 'eu', 'en', 'ca'];
 
 // Idiomas que aún NO se exigen si su banco no se ha sintetizado NUNCA (cero
 // assets). Es la ventana de alta de una variedad nueva: el corpus `en` entra en
@@ -32,7 +32,14 @@ const LANGS_WITH_ASSETS = ['es', 'gl', 'eu', 'en'];
 // del bot no dispara workflows—. En cuanto existe UN asset del idioma, el banco
 // está generado y a partir de ahí cualquier locución sin asset es un defecto
 // real y bloquea igual que es/gl/eu.
-const LANGS_PENDING_FIRST_BATCH = ['en'];
+//
+// `ca` entra por esta misma puerta (ago 2026): su banco clínico y sus 858
+// locuciones están en el corpus, pero Matxa-TTS (projecte AINA) aún no ha
+// sintetizado ni una. Sin esta lista, el build de la rama saldría rojo sin
+// salida; con ella, el catalán no se exige HOY y empieza a exigirse solo cuando
+// el workflow deje el primer asset. Lo que no hace falta acordarse de tocar
+// después: en cuanto haya un `ca_*.m4a`, este gate ya bloquea por los que falten.
+const LANGS_PENDING_FIRST_BATCH = ['en', 'ca'];
 
 const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'valeria-voice-corpus-check-'));
 try {
