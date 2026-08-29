@@ -1124,8 +1124,8 @@ compila la app en cada push/fusión a `main` (y en ramas `claude/**`). Con los
 secrets de firma configurados genera el APK y el **AAB firmados**; sin secrets
 solo compila el APK. El `versionCode` se deriva del número de run.
 
-Antes de compilar corren **ocho chequeos** que fallan rápido. No son tests
-unitarios: cada uno protege un acuerdo clínico concreto —o, en el último caso,
+Antes de compilar corren **23 chequeos** que fallan rápido. No son tests
+unitarios: cada uno protege un acuerdo clínico concreto —o, en el caso del ASR,
 un dato de salud de un menor— que el typecheck y el diff no ven.
 
 | Chequeo | Qué impide |
@@ -1138,7 +1138,6 @@ un dato de salud de un menor— que el typecheck y el diff no ven.
 | `check-sign-figures.js` | Que una cápsula de LSE pida una figura **sin dibujo registrado** o que el abecedario dactilológico quede incompleto: `SignFigure` devuelve `null` a propósito, así que el fallo es invisible salvo para este gate (LSE‑01). |
 | `check-speech-prosody.js` | Que el troceo por frases vuelva a meterse en la voz del sistema de es‑DO: cada locución encadenada arrastra la latencia de arranque del motor, y el resultado son pausas anchas que rompen el ritmo de la sesión. |
 | `check-asr-capture-guard.js` | Que la **captura de corpus de la Fase B del ASR** llegue a producción, o que una grabación acabe versionada. Comprueba que la persistencia de audio viva en un solo archivo, que siga exigiendo `__DEV__` **y** `EXPO_PUBLIC_ASR_CAPTURE`, que ningún archivo versionado encienda la variable, que `corpus-asr/` esté ignorado y que git no rastree ninguna grabación. Es voz de un menor: art. 9 del RGPD (R7 del plan). |
-
 | `check-word-coverage.js` | Que la lámina encendida y la palabra puntuada vuelvan a contarse con reglas distintas. La regla llegó a estar escrita dos veces y no eran iguales: una frase podía encender las cinco láminas y recibir un «casi». Comprueba además que el recuento **sobrevive al viaje por disco** hasta la exportación |
 | `check-ui-strings.js` | Que una pantalla pinte texto literal en vez de leerlo del catálogo (EN‑2.8). Ya pasó dos veces con ficheros enteros dentro de pantallas migradas: compilan, el typecheck pasa y la app sale mitad en inglés y mitad en castellano |
 | `check-adult-fields.js` | Que los dos ejes de idioma se contradigan **dentro de un ejercicio**: lo que se le dice al niño va en la variedad de terapia, lo que solo lee el adulto va en el idioma de la interfaz |
@@ -1149,16 +1148,17 @@ un dato de salud de un menor— que el typecheck y el diff no ven.
 | `check-sensory-assets.js` | Que el módulo sensorial vuelva a ser mudo: formato, sonoridad, costura del bucle e identidad de cada estímulo |
 | `check-legal-urls.js` | Que las URLs legales declaradas en Play Console dejen de servirse. Existe por el rechazo del 19/8/2026, con el fichero intacto y el despliegue en verde |
 | `check-asr-listen-options.js` | Que se abra el micrófono con las opciones equivocadas. El módulo del ASR se carga con `require` perezoso y queda tipado como `any`, así que lo que se le pasa a `start()` no lo ve el typecheck ni el diff: pedir el modelo de lenguaje de **dictado** para escuchar una palabra suelta compila, arranca y deja Pares Mínimos respondiendo «no te escuché bien» en todos los ensayos. Ya pasó. Comprueba el modelo de término suelto (Android) y la pista de tarea corta (iOS), que siga la ventana de escucha de ES‑04, que se pidan parciales, que **nunca** se sesgue el motor con la palabra objetivo (§3.4 del plan) y que se pregunte por los modelos instalados **al mismo reconocedor que escucha** — preguntarle a otro es lo que hacía que un modelo ya descargado se declarase ausente (§3.3‑ter). |
-
+| `build-lua-protocol.js --check` | Que la app y el firmware dejen de compartir la tabla de opcodes. No es un chequeo de estilo: el protocolo no lleva versión negociada, así que un opcode desplazado le enseña al niño la cara de otro estado en un aparato que ya está en su casa |
+| `verify-ar-clinical-math.js` | Que la aritmética de los ejercicios de RA se separe de las constantes que la app usa de verdad. Nació pasando 20/20 sin estar cableado a nada mientras AR‑5 registraba 320 ms constantes de tiempo de reacción: por eso ancla sus fórmulas leyendo los fuentes |
+| `stress-test-ar-adversarial.js` | Que las defensas de los ejercicios de RA cedan ante la entrada que no se esperaba: cara perdida, teléfono movido, señal fuera de rango |
 | `check-ar-concurrency.js` | Que el bloque de RA vuelva a tener carreras entre sus tres hilos —el analizador de CameraX, el bucle de UI y el worker de audio—. Es el único chequeo que **lee el Kotlin**: los demás miran contenido, y compilar con Gradle no distingue «compila» de «no tiene carreras». Vigila que ningún punto de entrada de un ejercicio quede fuera de su lock, que el `AudioTrack` lo abra y lo cierre siempre el mismo hilo (liberarlo desde dos mata el proceso, sin excepción que capturar), que los plazos del ensayo se compensen al volver de segundo plano —si no, una notificación a media sesión se registra como veinte segundos de fijación sostenida— y que la ventana de respuesta de AR‑2 abra cuando el tono **sale**, no cuando se pide |
+| `check-ar-models.js` | Que el nombre de la animación de un modelo 3D deje de ser el que invoca el código. Si no coincide, la escena compila, carga el modelo y deja al niño **sin refuerzo**, sin error por ninguna parte |
 
 Todos se pueden ejecutar en local: `node scripts/<nombre>.js`.
 
-> `check-ar-models.js` **no** está en esa lista y no corre en CI: vive como
-> `npm run check:ar-models` y hay que lanzarlo a mano tras reexportar un modelo
-> 3D. Comprueba que el nombre de la animación siga siendo el que invoca el
-> código; si no coincide, la escena compila, carga el modelo y deja al niño
-> **sin refuerzo**, sin error por ninguna parte.
+> `check-ar-models.js` conviene además lanzarlo en local —`npm run
+> check:ar-models`— justo después de reexportar un modelo 3D: es lo que evita
+> descubrir en un build de veinte minutos lo que aquí se ve en dos segundos.
 
 #### Banco de medida del ASR (Fase B)
 
