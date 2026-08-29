@@ -89,13 +89,21 @@ export async function setLocale(loc: Locale): Promise<void> {
 // que su contenido.
 export const EN_THERAPY_CONTENT_READY = true;
 
-// El mismo interruptor para el catalán (plan ca-ES, fase 3). En true desde que
-// existen banco de pares, expansión semántica, Audición, Lenguaje, TEA,
-// Dislexia y Test de Ling propios en catalán, y el corpus de voz enumera el
-// 100 % de lo que la app dice en `ca`. Si algún día se toca el banco y se queda
-// a medias, se baja ESTO y no se toca nada más: la variedad vuelve a locutar
-// castellano con voz castellana, que es feo pero honesto, en vez de pedirle a
-// la voz catalana que lea «perro».
+// El mismo interruptor para el catalán (plan ca-ES). En true, y con las mismas
+// tres condiciones que se le exigieron al inglés, las tres cumplidas:
+//
+//   1. Banco propio completo — pares mínimos, expansión semántica, Audición,
+//      Lenguaje, TEA, Dislexia y Test de Ling.
+//   2. El corpus enumera el 100 % de lo que la app dice en `ca`, y sus 858
+//      locuciones están sintetizadas con Matxa-TTS (projecte AINA).
+//   3. VALIDADO el 29/8/2026 por Maria, logopeda y hablante nativa de
+//      Barcelona: catalán central normativo y criterio logopédico a la vez.
+//      Es la firma equivalente a la de la logopeda de Howard para el inglés y
+//      a la de ACOPROS para el gallego.
+//
+// Si algún día se toca el banco y se queda a medias, se baja ESTO y no se toca
+// nada más: la variedad vuelve a locutar castellano con voz castellana, que es
+// feo pero honesto, en vez de pedirle a la voz catalana que lea «perro».
 export const CA_THERAPY_CONTENT_READY = true;
 
 // Variedad de la que sale el contenido que se está usando REALMENTE. Coincide

@@ -19,6 +19,18 @@
 //     catalana (dx3 usa MÀ, que en català es tanca sense nasal final).
 //
 // Mòdul PUR: només importa el tipus Exercise del banc base.
+//
+// ESTAT: ✅ APROVAT PER A PRODUCCIÓ (29/8/2026). Validat per **Maria**,
+// logopeda i parlant nativa de Barcelona, que cobreix els DOS eixos alhora
+// —cosa que als altres bancs va caldre demanar per separat—: català central
+// normatiu (lèxic, registre, ortografia) i criteri logopèdic (els contrastos,
+// les progressions i l'escala EPT-3).
+//
+// La seva validació sosté, a més, la decisió que més es podia discutir del
+// banc de parells: deixar /b/–/v/ FORA perquè el català central és betacista.
+// Això no era comprovable des de la fonologia de manual; calia una parlant de
+// Barcelona que a més sàpiga què s'hi puntua. També confirma que els dotze
+// parells són paraules que una criatura de 3 a 6 anys d'allà reconeix.
 // ============================================================================
 import type { Exercise } from './valeriaExerciseBank';
 
