@@ -28,6 +28,7 @@ import { HipoacusiaBottomSheet } from './HipoacusiaBottomSheet';
 import { SignAlphabetChart, SignFigure } from './AcademySignosSvg';
 import { BlockIcon } from '../ValeriaBlockIcons';
 import { getUiLang } from '../valeriaUiLang';
+import { isFallingBack } from '../i18n/uiLangFallback';
 
 type View4 = 'hub' | 'list' | 'read' | 'quiz';
 
@@ -93,6 +94,13 @@ export const ValeriaAcademyScreen: React.FC<{ navigation: any }> = ({ navigation
           <Text style={s.logoFallback}>valeria+ · academy</Text>
           <View style={s.titleRow}><BlockIcon name="tabAcademy" color="#ffffff" size={26} /><Text style={s.headerTitle}>{t.academy.headerTitle}</Text></View>
           <Text style={s.headerSub}>{t.academy.headerSub}</Text>
+          {/* El contenido formativo no existe todavía en todos los idiomas de
+              interfaz (ver src/i18n/uiLangFallback.ts). Cuando se sirve en otro,
+              se DICE aquí: media Academy en catalán y media en castellano sin
+              avisar es exactamente lo que este aviso existe para evitar. */}
+          {isFallingBack('academy', getUiLang())
+            ? <Text style={s.langNotice}>{t.academy.langFallbackNotice}</Text>
+            : null}
 
           <View style={s.hProgress}>
             <View style={s.hProgressTrack}>
@@ -450,6 +458,11 @@ const s = StyleSheet.create({
   signRow: { flexDirection: 'row', alignItems: 'center', gap: 8 },
   headerTitle: { color: '#fff', fontSize: 23, fontWeight: '800', letterSpacing: -0.4 },
   headerSub: { color: 'rgba(255,255,255,.9)', fontSize: 13, fontWeight: '600', marginTop: 4, lineHeight: 18 },
+  langNotice: {
+    marginTop: 10, paddingVertical: 7, paddingHorizontal: 11, borderRadius: 11,
+    backgroundColor: 'rgba(255,255,255,0.18)', borderWidth: 1, borderColor: 'rgba(255,255,255,0.32)',
+    color: '#fff', fontSize: 11.5, fontWeight: '700', lineHeight: 16,
+  },
 
   hProgress: { flexDirection: 'row', alignItems: 'center', gap: 10, marginTop: 14 },
   hProgressTrack: { flex: 1, height: 8, borderRadius: 5, backgroundColor: 'rgba(255,255,255,.28)', overflow: 'hidden' },

@@ -1218,6 +1218,7 @@ export const CA: UiStrings = {
     localeEsDO: 'Dominicano',
     localeEu: 'Euskara',
     localeEnUS: 'English (US)',
+    localeCa: 'Català',
     varietyA11y: (label: string, beta: boolean): string =>
       `Veu en ${label}${beta ? ', en proves' : ''}`,
 
@@ -1228,6 +1229,7 @@ export const CA: UiStrings = {
     chipCeltia: '✓ Veu Celtia',
     chipHitz: '✓ HiTZ ahotsa',
     chipPiperEn: '✓ Piper en_US',
+    chipPiperCa: '✓ Veu Ona (AINA)',
 
     detailSearching: 'Cercant la millor veu en espanyol instal·lada en aquest dispositiu…',
     detailNoVoice:
@@ -1464,6 +1466,7 @@ export const CA: UiStrings = {
     backA11y: 'Tornar al hub d\'Academy',
     headerTitle: 'Academy',
     headerSub: 'El teu hub de formació per dominis per acompanyar la teràpia com un professional.',
+    langFallbackNotice: 'Les càpsules de formació encara no estan en català: les llegeixes en castellà. La resta de l\'app i tota la teràpia sí que són en català.',
     progressTxt: (completed: number, total: number, pct: number): string => `${completed}/${total} · ${pct}%`,
     xpTxt: (xp: number): string => `${xp} XP`,
     hubCardTag: 'PER A TU',

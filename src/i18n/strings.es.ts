@@ -1292,6 +1292,7 @@ export const ES = {
     localeEsDO: 'Dominicano',
     localeEu: 'Euskara',
     localeEnUS: 'English (US)',
+    localeCa: 'Català',
     varietyA11y: (label: string, beta: boolean): string =>
       `Voz en ${label}${beta ? ', en pruebas' : ''}`,
 
@@ -1302,6 +1303,7 @@ export const ES = {
     chipCeltia: '✓ Voz Celtia',
     chipHitz: '✓ HiTZ ahotsa',
     chipPiperEn: '✓ Piper en_US',
+    chipPiperCa: '✓ Veu Ona (AINA)',
 
     detailSearching: 'Buscando la mejor voz en español instalada en este dispositivo…',
     detailNoVoice:
@@ -1553,6 +1555,7 @@ export const ES = {
     backA11y: 'Volver al hub de Academy',
     headerTitle: 'Academy',
     headerSub: 'Tu hub de formación por dominios para acompañar la terapia como un profesional.',
+    langFallbackNotice: 'Las cápsulas de formación todavía no están en catalán: las lees en castellano. El resto de la app y toda la terapia sí están en catalán.',
     progressTxt: (completed: number, total: number, pct: number): string => `${completed}/${total} · ${pct}%`,
     xpTxt: (xp: number): string => `${xp} XP`,
     hubCardTag: 'PARA TI',

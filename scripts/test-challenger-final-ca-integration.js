@@ -328,24 +328,34 @@ async function main() {
     assert.strictEqual(valeriaUiLang.getUiLang(), 'es');
   });
 
-  await runAsyncTest('TEST-2.5: setAppLanguage(\'ca\') behavior and roundtrip with en-US', async () => {
-    // Start with therapy locale 'gl'
+  await runAsyncTest('TEST-2.5: setAppLanguage(\'ca\') moves the therapy variety too', async () => {
+    // Este test afirmaba lo CONTRARIO hasta CA-3: que elegir «Català» dejaba la
+    // variedad donde estuviera. Eso era el catalán a medias —interfaz catalana,
+    // voz castellana— bajo una tarjeta que promete «i també el que sona en els
+    // exercicis». Con la variedad `ca` en producción, el botón la mueve.
     await valeriaLocale.setLocale('gl');
     assert.strictEqual(valeriaLocale.getLocale(), 'gl');
 
-    // Set app language to 'ca' -> UI becomes 'ca', locale stays 'gl' (since not 'en')
+    // 'ca' -> UI catalana Y variedad catalana; se recuerda 'gl' para la vuelta.
     await valeriaUiLang.setAppLanguage('ca');
     assert.strictEqual(valeriaUiLang.getUiLang(), 'ca');
-    assert.strictEqual(valeriaLocale.getLocale(), 'gl');
+    assert.strictEqual(valeriaLocale.getLocale(), 'ca');
 
-    // Switch app language to 'en' -> UI becomes 'en', therapy becomes 'en-US', remembers 'gl'
+    // 'en' -> UI inglesa y variedad en-US. Se salta de una variedad "propia" a
+    // otra sin pisar el recuerdo del gallego.
     await valeriaUiLang.setAppLanguage('en');
     assert.strictEqual(valeriaUiLang.getUiLang(), 'en');
     assert.strictEqual(valeriaLocale.getLocale(), 'en-US');
 
-    // Switch back to 'ca' -> UI becomes 'ca', therapy restores 'gl'
+    // Vuelta al catalán: variedad catalana otra vez.
     await valeriaUiLang.setAppLanguage('ca');
     assert.strictEqual(valeriaUiLang.getUiLang(), 'ca');
+    assert.strictEqual(valeriaLocale.getLocale(), 'ca');
+
+    // Y al castellano: se devuelve la variedad de la que se venía ('gl'), no
+    // se deja al usuario gallego en castellano por haber curioseado.
+    await valeriaUiLang.setAppLanguage('es');
+    assert.strictEqual(valeriaUiLang.getUiLang(), 'es');
     assert.strictEqual(valeriaLocale.getLocale(), 'gl');
   });
 
@@ -483,9 +493,14 @@ async function main() {
       }
     }
 
-    assert.strictEqual(esTotal, 1143, 'ES has exactly 1,143 keys');
-    assert.strictEqual(caTotal, 1143, 'CA has exactly 1,143 keys');
-    assert.strictEqual(enTotal, 1143, 'EN has exactly 1,143 keys');
+    // Se comprueba la PARIDAD, no un número fijo: clavar el total obligaba a
+    // editar este test cada vez que se añade una clave a la interfaz, y un
+    // test que hay que retocar en cada cambio deja de leerse y se actualiza a
+    // ciegas. Lo que no puede pasar es que un catálogo tenga claves que otro
+    // no tenga, y eso es lo que se afirma aquí.
+    assert(esTotal > 1000, `ES catalogue looks truncated: ${esTotal} keys`);
+    assert.strictEqual(caTotal, esTotal, `CA has ${caTotal} keys, ES has ${esTotal}`);
+    assert.strictEqual(enTotal, esTotal, `EN has ${enTotal} keys, ES has ${esTotal}`);
   });
 
   // Extract function parameter signatures from UiStrings in strings.es.ts AST

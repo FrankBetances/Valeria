@@ -67,8 +67,22 @@ import {
 } from './valeriaSemanticExpansionEn';
 import { EXERCISE_FIXED_LINES_EN } from './valeriaExerciseEn';
 import {
-  WRITING_PRAISE, WRITING_PRAISE_GL, WRITING_PRAISE_EU, WRITING_PRAISE_EN,
+  WRITING_PRAISE, WRITING_PRAISE_GL, WRITING_PRAISE_EU, WRITING_PRAISE_EN, WRITING_PRAISE_CA,
 } from './valeriaWritingBank';
+import { MINIMAL_PAIRS_CA } from './valeriaMinimalPairsCa';
+import {
+  TPR_CAPSULES_CA, ROUTINE_ROUTES_CA,
+  PRAISE_BANK_CA, ALMOST_BANK_CA, NO_HEAR_BANK_CA, TOGETHER_BANK_CA,
+  SESSION_CONTINUE_PHRASE_CA, ROUTE_DONE_PHRASE_CA, VOICE_SAMPLE_PHRASE_CA,
+  PAIRS_DONE_PHRASE_CA, MIC_VERDICT_SAY_CA,
+  ROLESWAP_INTRO_CA, ROLESWAP_NOT_HEARD_CA, ROLESWAP_HIT_CA, ROLESWAP_MISS_OTHER_CA,
+  roleswapParentSaidCa, pairIntroCa, pairRetryCa,
+} from './valeriaContentCa';
+import {
+  DAILY_SCENARIOS_CA, LEXICAL_CATEGORIES_CA, PROGRESSION_SEQUENCES_CA,
+  CONTRAST_CAPSULES_CA, SEM_RETRY_CA, SEM_SESSION_DONE_CA,
+} from './valeriaSemanticExpansionCa';
+import { EXERCISE_FIXED_LINES_CA } from './valeriaExerciseCa';
 
 // Estilos de locución de valeriaVoice. El audio pre-generado "hornea" el
 // estilo (prosodia, velocidad) en el propio WAV, así que un mismo texto en dos
@@ -78,7 +92,7 @@ export type VoiceStyle = 'tutor' | 'child' | 'clinical' | 'slow';
 // Idiomas del corpus (planes Nós y ILENIA/NEL-GAITU): un MISMO texto puede
 // existir en varias lenguas ("boca", "casa") con audios distintos → el idioma
 // forma parte del id. es conserva su forma histórica; el resto lleva prefijo.
-export type VoiceLang = 'es' | 'gl' | 'eu' | 'en';
+export type VoiceLang = 'es' | 'gl' | 'eu' | 'en' | 'ca';
 
 export interface VoiceCorpusEntry {
   id: string;         // clave del mapa y nombre de asset (incluye idioma si ≠ es)
@@ -355,14 +369,69 @@ export function buildVoiceCorpus(): VoiceCorpusEntry[] {
   // con la sesión todavía en contenido castellano (build de evaluación EN-0.9).
   addEn('child', VOICE_SAMPLE_PHRASE_EN, 'util/muestra');
 
+  // ============================== CATALÀ (ca) ==============================
+  // Pla ca-ES, fase 4: se sintetiza con la voz neuronal Piper `ca_ES`
+  // (scripts/generate-voice-assets.py, VOICES['ca']).
+  //
+  // Espejo exacto del bloque inglés: el corpus enumera el 100 % de lo que la
+  // app dice en `ca`, que es la condición para que la variedad hable con voz
+  // neuronal de principio a fin y no salte a la voz del sistema a media sesión.
+  const addCa = mkAdd('ca');
+
+  for (const p of MINIMAL_PAIRS_CA) {
+    addCa('child', pairIntroCa(p.target, p.foil, p.prompt), 'pares/intro');
+    addCa('child', p.prompt, 'pares/prompt');
+    addCa('child', p.onTarget.say, 'pares/celebracion');
+    addCa('child', p.onFoil.say, 'pares/correccion');
+    addCa('child', pairRetryCa(p.target), 'pares/retry');
+    addCa('slow', p.target.toLowerCase(), 'pares/modelado');
+    addCa('child', roleswapParentSaidCa(p.target), 'pares/roleswap');
+    addCa('child', roleswapParentSaidCa(p.foil), 'pares/roleswap');
+  }
+
+  for (const c of TPR_CAPSULES_CA) for (const cmd of c.commands) addCa('child', cmd.text, 'tpr');
+  for (const r of ROUTINE_ROUTES_CA) for (const cmd of r.commands) addCa('clinical', cmd.text, 'rutas');
+
+  for (const l of enumerateSemanticSpeechFor({
+    scenarios: DAILY_SCENARIOS_CA,
+    categories: LEXICAL_CATEGORIES_CA,
+    sequences: PROGRESSION_SEQUENCES_CA,
+    capsules: CONTRAST_CAPSULES_CA,
+    retry: SEM_RETRY_CA,
+    sessionDone: SEM_SESSION_DONE_CA,
+  })) addCa(l.style, l.text, 'expansion');
+
+  for (const l of enumerateExerciseSpeechFor({
+    db: dbForLocale('ca'),
+    variants: variantsForLocale('ca'),
+    fixed: EXERCISE_FIXED_LINES_CA,
+    pluralOne: (p) => pluralOneLabelFor('ca', p),
+    pluralMany: (p) => pluralManyLabelFor('ca', p),
+  })) addCa(l.style, l.text, 'ejercicios');
+
+  for (const t of PRAISE_BANK_CA) addCa('child', t, 'banco/elogio');
+  for (const t of ALMOST_BANK_CA) addCa('child', t, 'banco/casi');
+  for (const t of NO_HEAR_BANK_CA) addCa('child', t, 'banco/no-oido');
+  for (const t of TOGETHER_BANK_CA) addCa('child', t, 'banco/juntos');
+  for (const t of MIC_VERDICT_SAY_CA) addCa('child', t, 'ejercicios/veredicto');
+  addCa('child', SESSION_CONTINUE_PHRASE_CA, 'tpr/fin');
+  addCa('clinical', ROUTE_DONE_PHRASE_CA, 'rutas/fin');
+  addCa('child', PAIRS_DONE_PHRASE_CA, 'pares/fin');
+  addCa('child', ROLESWAP_INTRO_CA, 'pares/roleswap');
+  addCa('child', ROLESWAP_NOT_HEARD_CA, 'pares/roleswap');
+  addCa('child', ROLESWAP_HIT_CA, 'pares/roleswap');
+  addCa('child', ROLESWAP_MISS_OTHER_CA, 'pares/roleswap');
+  addCa('child', VOICE_SAMPLE_PHRASE_CA, 'util/muestra');
+
   // ===================== PIZARRA MÁGICA (escritura) =====================
-  // Los tres elogios que locuta la pizarra, en las cuatro variedades. El resto
+  // Los tres elogios que locuta la pizarra, en las cinco variedades. El resto
   // del módulo (títulos y consignas de cada trazo) se LEE en pantalla, no se
   // pronuncia; si algún día se locuta, entra aquí y se resintetiza.
   for (const t of WRITING_PRAISE) add('child', t, 'escritura/elogio');
   for (const t of WRITING_PRAISE_GL) addGl('child', t, 'escritura/elogio');
   for (const t of WRITING_PRAISE_EU) addEu('child', t, 'escritura/elogio');
   for (const t of WRITING_PRAISE_EN) addEn('child', t, 'escritura/elogio');
+  for (const t of WRITING_PRAISE_CA) addCa('child', t, 'escritura/elogio');
 
   return Array.from(entries.values());
 }

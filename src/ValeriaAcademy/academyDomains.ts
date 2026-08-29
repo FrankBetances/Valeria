@@ -180,11 +180,89 @@ export const DOMAIN_META_EN: Record<AcademyDomain, AcademyDomainMeta> = {
   },
 };
 
+export const DOMAIN_META_CA: Record<AcademyDomain, AcademyDomainMeta> = {
+  lenguaje: {
+    id: 'lenguaje',
+    label: 'Llenguatge',
+    short: 'Llenguatge',
+    icon: 'language',
+    accentBg: '#e0edff',
+    accentFg: '#3b6fd4',
+    blurb: 'Com aprenen a parlar, el perquè del TPR i quins vicis cal evitar.',
+    levelNames: ['Novell', 'Company', 'Guia', 'Mentor', 'Expert en llenguatge'],
+  },
+  mitos: {
+    id: 'mitos',
+    label: 'Mites i veritats',
+    short: 'Mites',
+    icon: 'zoom',
+    accentBg: '#ffe9e4',
+    accentFg: '#cf4b39',
+    blurb: 'Mite o realitat? El que es diu de la parla, l\'autisme i la dislèxia.',
+    levelNames: ['Curiós', 'Preguntaire', 'Detectiu', 'Caçamites', 'Expert en mites'],
+  },
+  hipoacusia: {
+    id: 'hipoacusia',
+    label: 'Hipoacúsia / Sordesa',
+    short: 'Audició',
+    icon: 'hearing',
+    accentBg: '#e5f0fb',
+    accentFg: '#1f6fb2',
+    blurb: 'Què és la sordesa, com s\'aborda i com es gestionen els aparells.',
+    levelNames: ['Novell', 'Iniciat', 'Practicant', 'Avançat', 'Expert en hipoacúsia'],
+  },
+  dislalias: {
+    id: 'dislalias',
+    label: 'Dislàlies (sons de la parla)',
+    short: 'Parla',
+    icon: 'mic',
+    accentBg: '#fdeef2',
+    accentFg: '#c2477e',
+    blurb: 'On es col·loca cada so i com practicar els que costen més.',
+    levelNames: ['Novell', 'Company', 'Guia', 'Mentor', 'Expert en dislàlies'],
+  },
+  dislexia: {
+    id: 'dislexia',
+    label: 'Dislèxia',
+    short: 'Dislèxia',
+    icon: 'dyslexia',
+    accentBg: '#fff1dc',
+    accentFg: '#d98a1f',
+    blurb: 'Consciència fonològica i acompanyament de la lectura que comença.',
+    levelNames: ['Novell', 'Company', 'Guia', 'Mentor', 'Expert en dislèxia'],
+  },
+  tea: {
+    id: 'tea',
+    label: 'Autisme (TEA)',
+    short: 'TEA',
+    icon: 'autism',
+    accentBg: '#e9f7ee',
+    accentFg: '#2e9e5b',
+    blurb: 'Comunicació, anticipació i regulació emocional a l\'espectre autista.',
+    levelNames: ['Novell', 'Company', 'Guia', 'Mentor', 'Expert en autisme'],
+  },
+  signos: {
+    id: 'signos',
+    label: 'Llengua de signes (LSC/LSE)',
+    short: 'Signes',
+    icon: 'gesture',
+    accentBg: '#efe9fd',
+    accentFg: '#6d4ac2',
+    blurb: 'Què és la llengua de signes, per què ajuda a parlar i primers signes útils.',
+    levelNames: ['Novell', 'Iniciat', 'Practicant', 'Avançat', 'Expert en signes'],
+  },
+};
+
+// Selector por TABLA (ver la nota de valeriaExerciseMeta): con tres idiomas de
+// interfaz, un ternario `lang === 'en' ? EN : ES` devuelve castellano para el
+// catalán sin que el typecheck se entere.
+const byLang = <T,>(t: Record<UiLang, T>, lang: UiLang): T => t[lang];
+
 export const domainMetaFor = (domain: AcademyDomain, lang: UiLang = 'es'): AcademyDomainMeta =>
-  (lang === 'en' ? DOMAIN_META_EN : DOMAIN_META_ES)[domain];
+  byLang({ es: DOMAIN_META_ES, en: DOMAIN_META_EN, ca: DOMAIN_META_CA }, lang)[domain];
 
 export const allDomainMetaFor = (lang: UiLang = 'es'): Record<AcademyDomain, AcademyDomainMeta> =>
-  lang === 'en' ? DOMAIN_META_EN : DOMAIN_META_ES;
+  byLang({ es: DOMAIN_META_ES, en: DOMAIN_META_EN, ca: DOMAIN_META_CA }, lang);
 
 // Compatibilidad retroactiva: DOMAIN_META estático
 export const DOMAIN_META: Record<AcademyDomain, AcademyDomainMeta> = DOMAIN_META_ES;
@@ -223,8 +301,15 @@ export const DOMAIN_BADGE_DEFS_EN: AcademyBadgeDef[] = [
   { key: 'perfecto',       icon: 'level', name: 'Flawless',     desc: 'Pass a capsule quiz with zero errors.' },
 ];
 
+export const DOMAIN_BADGE_DEFS_CA: AcademyBadgeDef[] = [
+  { key: 'primeraCapsula', icon: 'check', name: 'Primer pas',   desc: 'Completa la teva primera càpsula del domini.' },
+  { key: 'mitad',          icon: 'chart', name: 'A mig camí',    desc: 'Completa la meitat del domini.' },
+  { key: 'graduado',       icon: 'tabAcademy', name: 'Domini expert', desc: 'Completa tot el domini.' },
+  { key: 'perfecto',       icon: 'level', name: 'Sense errades', desc: 'Aprova una càpsula sense cap error.' },
+];
+
 export const badgeDefsFor = (lang: UiLang = 'es'): AcademyBadgeDef[] =>
-  lang === 'en' ? DOMAIN_BADGE_DEFS_EN : DOMAIN_BADGE_DEFS_ES;
+  byLang({ es: DOMAIN_BADGE_DEFS_ES, en: DOMAIN_BADGE_DEFS_EN, ca: DOMAIN_BADGE_DEFS_CA }, lang);
 
 // Se namespacea con el id del dominio → "hipoacusia:graduado". Cada silo
 // mantiene su propio array; nunca se comparten entre dominios.

@@ -7,6 +7,7 @@
 // ============================================================================
 import { AcademyCapsule, AcademyTrack } from './academyTypes';
 import type { UiLang } from '../valeriaUiLang';
+import { servedLangFor } from '../i18n/uiLangFallback';
 import { ACADEMY_CAPSULES_EN, TRACK_ACCENT_EN } from './academyContent.en';
 import { academyAshaMilestonesEs } from './capsulas/valeriaAcademyAsha';
 
@@ -21,8 +22,13 @@ export const TRACK_ACCENT_ES: Record<AcademyTrack, { bg: string; fg: string; lab
   mitos:      { bg: '#ffe9e4', fg: '#cf4b39', label: '¿MITO O REALIDAD?' },
 };
 
+// El contenido formativo NO existe todavía en catalán (son ~18.700 palabras de
+// material clínico que la versión inglesa no tradujo, sino que reautorizó). El
+// idioma en el que se sirve lo decide el registro de i18n/uiLangFallback, y la
+// pantalla avisa al adulto de que lo está leyendo en otro idioma: media Academy
+// en catalán y media en castellano SIN decirlo es justo lo que no se hace aquí.
 export const trackAccentFor = (track: AcademyTrack, lang: UiLang = 'es'): { bg: string; fg: string; label: string } =>
-  (lang === 'en' ? TRACK_ACCENT_EN : TRACK_ACCENT_ES)[track];
+  (servedLangFor('academy', lang) === 'en' ? TRACK_ACCENT_EN : TRACK_ACCENT_ES)[track];
 
 export const TRACK_ACCENT: Record<AcademyTrack, { bg: string; fg: string; label: string }> = TRACK_ACCENT_ES;
 
@@ -1485,7 +1491,7 @@ export const ACADEMY_CAPSULES_ES: AcademyCapsule[] = [
 ];
 
 export const capsulesForUiLang = (lang: UiLang = 'es'): AcademyCapsule[] =>
-  lang === 'en' ? ACADEMY_CAPSULES_EN : ACADEMY_CAPSULES_ES;
+  servedLangFor('academy', lang) === 'en' ? ACADEMY_CAPSULES_EN : ACADEMY_CAPSULES_ES;
 
 export const ACADEMY_CAPSULES: AcademyCapsule[] = ACADEMY_CAPSULES_ES;
 

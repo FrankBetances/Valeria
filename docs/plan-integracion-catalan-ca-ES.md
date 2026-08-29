@@ -58,16 +58,38 @@ Integrar el català (`ca` / `ca-ES`) com a tercer idioma oficial de la interfíc
 
 ---
 
-## 4. Skills i Plugins d'Antigravity
+## 4. Estat real de la integració (actualitzat el 29 d'agost de 2026)
 
-S'han creat les definicions del nou skill especialitzat:
-- **Skill Principal**: `.agents/worker_m1/skills/valeria-i18n-ca-expert/`
-  - `SKILL.md`
-  - `references/clinical_glossary_and_iec_termcat.md`
-  - `references/typescript_contract_and_formatting.md`
-- **Plugin Bundled**: `.agents/worker_m1/plugins/valeria-i18n-ca-expert-plugin/`
-  - `plugin.json`
-  - `skills/valeria-i18n-ca-expert/SKILL.md`
-  - `skills/valeria-i18n-ca-expert/references/clinical_glossary_and_iec_termcat.md`
-  - `skills/valeria-i18n-ca-expert/references/typescript_contract_and_formatting.md`
-- **Actualització del Project Skill**: `.agents/worker_m1/skills/valeria-project-expert/SKILL.md`
+Aquesta secció substitueix la llista de *skills* i *plugins* d'Antigravity que
+hi havia aquí: **cap d'aquells fitxers existia a la branca**. El pla els
+declarava com a fets i no ho eren. El que hi ha ara, comprovat, és això:
+
+### 4.1. Fet i verificat
+
+| Capa | Estat | On es comprova |
+| :--- | :--- | :--- |
+| Catàleg d'interfície (`strings.ca.ts`) | ✅ Paritat 1:1 amb l'ES, 1 146 claus + 212 funcions | `test-challenger-final-ca-integration.js` (19/19) |
+| Selector d'idioma d'interfície | ✅ Quatre opcions; «Català» mou TAMBÉ la varietat | TEST-2.5 |
+| Varietat de teràpia `ca` (sisena) | ✅ `Locale`, `assetLang`, `speechLocale` (`ca-ES`), prosòdia | `npm run typecheck` + gates |
+| Parells Mínims catalans | ✅ 12 parells, 8 grups propis (`PAIR_GROUPS_CA`) | Captura de pantalla |
+| Expansió Semàntica catalana | ✅ 5 escenaris, 5 categories, 9 progressions, 8 càpsules | `check-content-rules`, `check-lexical-difficulty` |
+| Audició · Llenguatge · TEA · Dislèxia | ✅ 37 exercicis + 21 variants reautoritzats | `check-adult-fields`, captura |
+| Test de Ling | ✅ Sis sons i consignes en català | `check-adult-fields` |
+| Càpsules TPR, Rutes, bancs de reforç | ✅ | `check-voice-corpus-coverage` |
+| Metadades d'exercicis (noms, categories, edats) | ✅ Traduïdes | Captura |
+| Dominis i insígnies d'Academy | ✅ Traduïts | Captura |
+| Catàleg sensorial | ✅ 25 cadenes | `check-sensory-assets` |
+| Corpus de veu | ✅ 858 locucions catalanes enumerades | `export-voice-corpus.js` |
+
+### 4.2. Pendent, i declarat com a tal
+
+| Què falta | Per què | Com es comporta mentrestant |
+| :--- | :--- | :--- |
+| **Locucions neuronals sintetitzades** | La veu Ona (Piper `ca_ES`, projecte AINA/UPC) està configurada a `generate-voice-assets.py`, però el workflow `voice-assets.yml` encara no s'ha executat. **El nom del checkpoint no s'ha pogut verificar**: la política de xarxa de l'entorn d'integració bloqueja `huggingface.co`. Si el nom fos un altre, la descàrrega falla al job, amb un 404 sorollós. | La varietat funciona i parla amb la veu catalana del dispositiu. La targeta de «Veu de l'aplicació» ho DIU en pantalla, i el xip «✓ Veu Ona» només apareix quan hi ha assets de debò (`hasAssetsFor('ca')`). |
+| **Càpsules formatives d'Academy** (~18 700 paraules) | La versió anglesa no va ser una traducció sinó una reautorització clínica; la catalana demana el mateix i no s'ha fet. | Es llegeixen en castellà **amb un avís a la capçalera d'Academy**. El buit està declarat a `src/i18n/uiLangFallback.ts` i el gate `check-ui-lang-fallback.js` no deixa que torni a ser silenciós. |
+| **Revisió logopèdica del banc català** | Cap dels altres bancs es va publicar sense ella (el gallec la va tenir el 27/7, l'anglès una logopeda titulada de Howard el 16/8). | El contingut és a producció darrere del commutador `CA_THERAPY_CONTENT_READY` de `valeriaLocale.ts`: si la revisió troba problemes, es baixa aquest booleà i la varietat torna a castellà sense tocar res més. |
+
+### 4.3. Etiquetes de rodatge
+
+`Català` surt marcat **BETA** al selector de veu, igual que `English (US)`: és
+etiqueta de rodatge (poques hores d'ús real), no un avís de contingut absent.

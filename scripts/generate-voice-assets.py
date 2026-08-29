@@ -18,6 +18,8 @@
 #     acoplarse a nombres internos del repo.
 #   · es → «Sharvard» femenina (rhasspy/piper-voices): VITS femenina abierta,
 #     homóloga de Celtia en castellano.
+#   · ca → «Ona» del projecte AINA (UPC · rhasspy/piper-voices): femenina,
+#     de lectura pausada, la homóloga catalana de Sharvard. Ver VOICES['ca'].
 #   · en → «LJSpeech» femenina (rhasspy/piper-voices, calidad high): homóloga
 #     de Sharvard en inglés americano. Ver la nota de licencias en VOICES['en']:
 #     las dos candidatas que proponía el plan (hfc_female, lessac) NO son aptas
@@ -96,6 +98,24 @@ VOICES = {
         "name": "en_US-ljspeech-high",
         "label": "LJSpeech (femenina, dominio público) · rhasspy/piper-voices",
         "urls": piper_urls("en_US-ljspeech-high"),
+    },
+    "ca": {
+        "engine": "piper",
+        # Voz catalana del projecte AINA (Barcelona Supercomputing Center) a
+        # partir del corpus FestCat de la UPC, publicada en rhasspy/piper-voices
+        # bajo la misma ruta regular que el resto de voces Piper. Femenina y
+        # pausada: la homóloga natural de Sharvard.
+        #
+        # NO VERIFICADA DESDE EL ENTORNO DE DESARROLLO: la política de red que
+        # usó la integración bloquea huggingface.co, así que la existencia del
+        # checkpoint no se pudo comprobar antes de escribir esto. Si el nombre
+        # fuera otro, la descarga falla AQUÍ, en el job de síntesis, con un 404
+        # ruidoso — nunca en silencio ni en el dispositivo. Alternativas del
+        # mismo repo si hiciera falta: `--voice ca_ES-upc_pau-medium` (masculina)
+        # o `--voice ca_ES-upc_ona-x_low` (más ligera).
+        "name": "ca_ES-upc_ona-medium",
+        "label": "Ona · projecte AINA / FestCat UPC · rhasspy/piper-voices",
+        "urls": piper_urls("ca_ES-upc_ona-medium"),
     },
     "gl": {
         "engine": "coqui",

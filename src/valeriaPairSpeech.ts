@@ -27,34 +27,43 @@ import {
   PAIRS_DONE_PHRASE_EN, pairIntroEn, pairRetryEn,
   ROLESWAP_INTRO_EN, ROLESWAP_NOT_HEARD_EN, ROLESWAP_HIT_EN, ROLESWAP_MISS_OTHER_EN, roleswapParentSaidEn,
 } from './valeriaContentEn';
+import {
+  PAIRS_DONE_PHRASE_CA, pairIntroCa, pairRetryCa,
+  ROLESWAP_INTRO_CA, ROLESWAP_NOT_HEARD_CA, ROLESWAP_HIT_CA, ROLESWAP_MISS_OTHER_CA, roleswapParentSaidCa,
+} from './valeriaContentCa';
 
 const isGl = (loc: Locale) => loc === 'gl';
 const isEu = (loc: Locale) => loc === 'eu';
 const isEn = (loc: Locale) => loc === 'en-US';
+const isCa = (loc: Locale) => loc === 'ca';
 
 // Idioma de las frases portadoras procedurales para la variedad.
-export const carrierLang = (loc: Locale): CarrierLang => (isGl(loc) ? 'gl' : isEu(loc) ? 'eu' : 'es');
+export const carrierLang = (loc: Locale): CarrierLang =>
+  (isGl(loc) ? 'gl' : isEu(loc) ? 'eu' : isCa(loc) ? 'ca' : 'es');
 
 // Consigna del ensayo 0 (bombardeo de contraste): "esta es X, esta es Y + prompt".
 export const pairIntro = (loc: Locale, target: string, foil: string, prompt: string): string =>
   isGl(loc) ? pairIntroGl(target, foil, prompt)
     : isEu(loc) ? pairIntroEu(target, foil, prompt)
       : isEn(loc) ? pairIntroEn(target, foil, prompt)
-        : `Esta es ${target}. Y esta es ${foil}. ${prompt}`;
+        : isCa(loc) ? pairIntroCa(target, foil, prompt)
+          : `Esta es ${target}. Y esta es ${foil}. ${prompt}`;
 
 // Reintento: "¡Otra vez! Di: X."
 export const pairRetry = (loc: Locale, target: string): string =>
   isGl(loc) ? pairRetryGl(target)
     : isEu(loc) ? pairRetryEu(target)
       : isEn(loc) ? pairRetryEn(target)
-        : `¡Otra vez! Di: ${target}.`;
+        : isCa(loc) ? pairRetryCa(target)
+          : `¡Otra vez! Di: ${target}.`;
 
 // Cierre de la sesión de pares.
 export const pairsDone = (loc: Locale): string =>
   isGl(loc) ? PAIRS_DONE_PHRASE_GL
     : isEu(loc) ? PAIRS_DONE_PHRASE_EU
       : isEn(loc) ? PAIRS_DONE_PHRASE_EN
-        : '¡Sesión de pares completada! ¡Choca esos cinco con papá!';
+        : isCa(loc) ? PAIRS_DONE_PHRASE_CA
+          : '¡Sesión de pares completada! ¡Choca esos cinco con papá!';
 
 // Frases del overlay de rotación de roles por variedad.
 export interface RoleSwapPhrases {
@@ -71,4 +80,6 @@ export const roleSwapPhrases = (loc: Locale): RoleSwapPhrases =>
       ? { intro: ROLESWAP_INTRO_EU, notHeard: ROLESWAP_NOT_HEARD_EU, hit: ROLESWAP_HIT_EU, missOther: ROLESWAP_MISS_OTHER_EU, parentSaid: roleswapParentSaidEu }
       : isEn(loc)
         ? { intro: ROLESWAP_INTRO_EN, notHeard: ROLESWAP_NOT_HEARD_EN, hit: ROLESWAP_HIT_EN, missOther: ROLESWAP_MISS_OTHER_EN, parentSaid: roleswapParentSaidEn }
-        : { intro: ROLESWAP_INTRO, notHeard: ROLESWAP_NOT_HEARD, hit: ROLESWAP_HIT, missOther: ROLESWAP_MISS_OTHER, parentSaid: roleswapParentSaid };
+        : isCa(loc)
+          ? { intro: ROLESWAP_INTRO_CA, notHeard: ROLESWAP_NOT_HEARD_CA, hit: ROLESWAP_HIT_CA, missOther: ROLESWAP_MISS_OTHER_CA, parentSaid: roleswapParentSaidCa }
+          : { intro: ROLESWAP_INTRO, notHeard: ROLESWAP_NOT_HEARD, hit: ROLESWAP_HIT, missOther: ROLESWAP_MISS_OTHER, parentSaid: roleswapParentSaid };

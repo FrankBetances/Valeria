@@ -11,7 +11,7 @@ on:
   workflow_dispatch:
     inputs:
       lang:
-        description: 'Idioma del corpus a sintetizar (es · gl · eu · en)'
+        description: 'Idioma del corpus a sintetizar (es · gl · eu · en · ca)'
         required: false
         default: 'es'
   # Disparo automático cuando cambia la propia tubería o el corpus en ramas de

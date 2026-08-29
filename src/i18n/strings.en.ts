@@ -1257,6 +1257,7 @@ export const EN: UiStrings = {
     localeEsDO: 'Dominican Spanish',
     localeEu: 'Basque',
     localeEnUS: 'English (US)',
+    localeCa: 'Català',
     varietyA11y: (label: string, beta: boolean): string =>
       `${label} voice${beta ? ', in testing' : ''}`,
 
@@ -1267,6 +1268,7 @@ export const EN: UiStrings = {
     chipCeltia: '✓ Celtia voice',
     chipHitz: '✓ HiTZ ahotsa',
     chipPiperEn: '✓ Piper en_US',
+    chipPiperCa: '✓ Veu Ona (AINA)',
 
     detailSearching: 'Looking for the best Spanish voice installed on this device…',
     detailNoVoice:
@@ -1504,6 +1506,7 @@ export const EN: UiStrings = {
     backA11y: 'Go back to the Academy hub',
     headerTitle: 'Academy',
     headerSub: 'Your caregiver training hub to support therapy like a professional.',
+    langFallbackNotice: 'The training capsules are not available in Catalan yet: you are reading them in Spanish. The rest of the app and all therapy content are in Catalan.',
     progressTxt: (completed: number, total: number, pct: number): string => `${completed}/${total} · ${pct}%`,
     xpTxt: (xp: number): string => `${xp} XP`,
     hubCardTag: 'FOR YOU',

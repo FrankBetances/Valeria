@@ -36,6 +36,10 @@ import {
   VOICE_SAMPLE_PHRASE_EN,
   PRAISE_BANK_EN, ALMOST_BANK_EN, NO_HEAR_BANK_EN, TOGETHER_BANK_EN,
 } from './valeriaContentEn';
+import {
+  VOICE_SAMPLE_PHRASE_CA,
+  PRAISE_BANK_CA, ALMOST_BANK_CA, NO_HEAR_BANK_CA, TOGETHER_BANK_CA,
+} from './valeriaContentCa';
 import { voiceCorpusId, VoiceStyle } from './valeriaVoiceCorpus';
 import { VOICE_ASSETS } from './valeriaVoiceAssets';
 import { playVoiceAsset, stopVoiceAsset } from './valeriaVoicePlayback';
@@ -90,7 +94,11 @@ const scoreVoice = (v: Speech.Voice): number => {
   // española leyendo inglés no es un respaldo, es la queja que llegó. Si la
   // variedad es en-US solo puntúan voces inglesas; sin ninguna instalada, no
   // se fija `voice` y el motor resuelve con `language: 'en-US'`.
-  const primary = loc === 'gl' ? 'gl' : loc === 'eu' ? 'eu' : loc === 'en-US' ? 'en' : 'es';
+  // El catalán entra en la misma familia que gl/eu: si el dispositivo no trae
+  // voz catalana, una voz castellana leyendo catalán es audible y comparte
+  // fonética suficiente (a diferencia del inglés, donde no lo es).
+  const primary = loc === 'gl' ? 'gl' : loc === 'eu' ? 'eu' : loc === 'en-US' ? 'en'
+    : loc === 'ca' ? 'ca' : 'es';
   if (primary === 'en') return lang.startsWith('en') ? scoreEnglishVoice(v, lang, id0(v)) : -1;
   const isNative = primary !== 'es' && lang.startsWith(primary);
   if (!isNative && !lang.startsWith('es')) return -1;
@@ -214,7 +222,7 @@ const clamp = (n: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, n
 // voz vasca si existe y, si no, con la española (acento castellano) audible.
 const ttsLang = (): string => {
   const loc = getLocale();
-  if ((loc === 'eu' || loc === 'gl') && bestVoice?.language) return bestVoice.language;
+  if ((loc === 'eu' || loc === 'gl' || loc === 'ca') && bestVoice?.language) return bestVoice.language;
   return speechLocale();
 };
 
@@ -427,7 +435,8 @@ export const speakVoiceSample = () => {
   speakToChild(l === 'gl' ? VOICE_SAMPLE_PHRASE_GL
     : l === 'eu' ? VOICE_SAMPLE_PHRASE_EU
       : l === 'en-US' ? VOICE_SAMPLE_PHRASE_EN
-        : VOICE_SAMPLE_PHRASE);
+        : l === 'ca' ? VOICE_SAMPLE_PHRASE_CA
+          : VOICE_SAMPLE_PHRASE);
 };
 
 // Palabra objetivo bien articulada, muy despacio (modelado fonético).
@@ -481,14 +490,14 @@ const pickPhrase = (key: string, bank: string[]): string => {
 // «¡Muy bien!» en castellano leído por la voz inglesa, que es exactamente la
 // queja que llegó. El banco inglés existía desde EN-3.x y estaba en el corpus
 // de voz: lo único que faltaba era consumirlo.
-const bankFor = <T,>(gl: T, eu: T, en: T, base: T): T => {
+const bankFor = <T,>(gl: T, eu: T, en: T, ca: T, base: T): T => {
   const l = getLocale();
-  return l === 'gl' ? gl : l === 'eu' ? eu : l === 'en-US' ? en : base;
+  return l === 'gl' ? gl : l === 'eu' ? eu : l === 'en-US' ? en : l === 'ca' ? ca : base;
 };
-export const praisePhrase = () => pickPhrase('praise', bankFor(PRAISE_BANK_GL, PRAISE_BANK_EU, PRAISE_BANK_EN, PRAISE_BANK));
-export const almostPhrase = () => pickPhrase('almost', bankFor(ALMOST_BANK_GL, ALMOST_BANK_EU, ALMOST_BANK_EN, ALMOST_BANK));
-export const noHearPhrase = () => pickPhrase('noHear', bankFor(NO_HEAR_BANK_GL, NO_HEAR_BANK_EU, NO_HEAR_BANK_EN, NO_HEAR_BANK));
-export const togetherPhrase = () => pickPhrase('together', bankFor(TOGETHER_BANK_GL, TOGETHER_BANK_EU, TOGETHER_BANK_EN, TOGETHER_BANK));
+export const praisePhrase = () => pickPhrase('praise', bankFor(PRAISE_BANK_GL, PRAISE_BANK_EU, PRAISE_BANK_EN, PRAISE_BANK_CA, PRAISE_BANK));
+export const almostPhrase = () => pickPhrase('almost', bankFor(ALMOST_BANK_GL, ALMOST_BANK_EU, ALMOST_BANK_EN, ALMOST_BANK_CA, ALMOST_BANK));
+export const noHearPhrase = () => pickPhrase('noHear', bankFor(NO_HEAR_BANK_GL, NO_HEAR_BANK_EU, NO_HEAR_BANK_EN, NO_HEAR_BANK_CA, NO_HEAR_BANK));
+export const togetherPhrase = () => pickPhrase('together', bankFor(TOGETHER_BANK_GL, TOGETHER_BANK_EU, TOGETHER_BANK_EN, TOGETHER_BANK_CA, TOGETHER_BANK));
 
 // ----------------------------------------------------------------------------
 // Reconocimiento de voz (ASR) — opcional según plataforma/build

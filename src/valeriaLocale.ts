@@ -15,6 +15,11 @@
 //             diseñado desde la fonología del inglés americano y sujeto a la
 //             guía dialectal docs/guia-dialectal-en-US.md. Ver
 //             docs/plan-integracion-ingles-en-US.md.
+//   'ca'    → català central · voz neuronal Piper ca_ES (upc_ona, AINA/UPC,
+//             CC BY 4.0). Banco clínico propio: el castellano NO transfiere
+//             —«perro» es «gos» y pierde el contraste r̄/l— y el catalán trae
+//             contrastes que el castellano no tiene (vocal neutra [ə], /ʃ/,
+//             /ʒ/, /z/, la ela geminada). Ver docs/plan-integracion-catalan-ca-ES.md.
 //
 // OJO — esta variedad NO decide el idioma de la INTERFAZ. Ese es un segundo eje
 // independiente que vive en `valeriaUiLang.ts`, para no dejar fuera el caso
@@ -32,10 +37,10 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { VoiceLang } from './valeriaVoiceCorpus';
 
-export type Locale = 'es' | 'gl' | 'es-DO' | 'eu' | 'en-US';
-export const ALL_LOCALES: Locale[] = ['es', 'gl', 'es-DO', 'eu', 'en-US'];
+export type Locale = 'es' | 'gl' | 'es-DO' | 'eu' | 'en-US' | 'ca';
+export const ALL_LOCALES: Locale[] = ['es', 'gl', 'es-DO', 'eu', 'en-US', 'ca'];
 export const isLocale = (v: unknown): v is Locale =>
-  v === 'es' || v === 'gl' || v === 'es-DO' || v === 'eu' || v === 'en-US';
+  v === 'es' || v === 'gl' || v === 'es-DO' || v === 'eu' || v === 'en-US' || v === 'ca';
 
 const KEY = '@valeria_locale';
 const LEGACY_KEY = '@valeria_voice_lang'; // clave anterior (solo es|gl)
@@ -81,12 +86,23 @@ export async function setLocale(loc: Locale): Promise<void> {
 // que su contenido.
 export const EN_THERAPY_CONTENT_READY = true;
 
+// El mismo interruptor para el catalán (plan ca-ES, fase 3). En true desde que
+// existen banco de pares, expansión semántica, Audición, Lenguaje, TEA,
+// Dislexia y Test de Ling propios en catalán, y el corpus de voz enumera el
+// 100 % de lo que la app dice en `ca`. Si algún día se toca el banco y se queda
+// a medias, se baja ESTO y no se toca nada más: la variedad vuelve a locutar
+// castellano con voz castellana, que es feo pero honesto, en vez de pedirle a
+// la voz catalana que lea «perro».
+export const CA_THERAPY_CONTENT_READY = true;
+
 // Variedad de la que sale el contenido que se está usando REALMENTE. Coincide
 // con la elegida salvo en el caso de arriba. Punto único: lo consumen el banco
 // de audio, el locale de voz/ASR y el perfil de prosodia, para que los tres no
 // puedan discrepar entre sí.
 export function contentLocale(loc: Locale = active): Locale {
-  return loc === 'en-US' && !EN_THERAPY_CONTENT_READY ? 'es' : loc;
+  if (loc === 'en-US' && !EN_THERAPY_CONTENT_READY) return 'es';
+  if (loc === 'ca' && !CA_THERAPY_CONTENT_READY) return 'es';
+  return loc;
 }
 
 // Banco de voz PRE-GENERADA de la variedad, o null si usa la voz del sistema.
@@ -96,8 +112,9 @@ export function assetLang(loc: Locale = active): VoiceLang | null {
   return c === 'gl' ? 'gl'
     : c === 'eu' ? 'eu'
       : c === 'en-US' ? 'en'
-        : c === 'es' ? 'es'
-          : null;
+        : c === 'ca' ? 'ca'
+          : c === 'es' ? 'es'
+            : null;
 }
 
 // Locale BCP-47 para el ASR (expo-speech-recognition) y la voz del sistema (TTS).
@@ -107,7 +124,8 @@ export function speechLocale(loc: Locale = active): string {
     : c === 'eu' ? 'eu-ES'
       : c === 'en-US' ? 'en-US'
         : c === 'es-DO' ? 'es-DO'
-          : 'es-ES';
+          : c === 'ca' ? 'ca-ES'
+            : 'es-ES';
 }
 
 // ¿Preferir voces latinoamericanas (es-US/es-MX/es-DO) al puntuar el catálogo?

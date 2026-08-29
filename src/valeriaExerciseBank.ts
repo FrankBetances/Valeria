@@ -13,6 +13,7 @@
 // No debe importar react-native ni expo: un script Node lo compila y ejecuta.
 // ============================================================================
 import { META_BY_ID, metaIndexFor } from './valeriaExerciseMeta';
+import type { UiLang } from './valeriaUiLang';
 
 // ----------------------------------------------------------------------------
 // Tipos
@@ -681,6 +682,10 @@ import {
   EXERCISE_GL, VARIANTS_GL, EMO_GL, MIC_VERDICT_SAY_GL,
   SESSION_DONE_LEAD_GL, PLURAL_HINT_GL, EMOTION_PROMPT_GL, TOUCH_IMAGE_HINT_GL,
 } from './valeriaExerciseGl';
+import {
+  EXERCISE_CA, VARIANTS_CA, EMO_CA, MIC_VERDICT_SAY_CA,
+  SESSION_DONE_LEAD_CA, PLURAL_HINT_CA, EMOTION_PROMPT_CA, TOUCH_IMAGE_HINT_CA,
+} from './valeriaExerciseCa';
 
 // `loc` se tipa como string a propósito: así este banco NO importa valeriaLocale
 // (que arrastra AsyncStorage) y sigue siendo PURO para el corpus de voz, que lo
@@ -689,7 +694,7 @@ import {
 // reautorizado: antes el galego caía al castellano en TODA esta pantalla).
 export function dbForLocale(loc: string): Record<string, Exercise> {
   const ov = loc === 'es-DO' ? EXERCISE_ESDO : loc === 'eu' ? EXERCISE_EU : loc === 'gl' ? EXERCISE_GL
-    : loc === 'en-US' ? EXERCISE_EN : null;
+    : loc === 'en-US' ? EXERCISE_EN : loc === 'ca' ? EXERCISE_CA : null;
   if (!ov) return DB;
   const out: Record<string, Exercise> = {};
   for (const [id, ex] of Object.entries(DB)) out[id] = { ...ex, ...(ov[id] ?? {}) };
@@ -732,7 +737,10 @@ const mergeLevels = (base: Exercise['levels'], ui: Exercise['levels']): Exercise
 // lengua, que es lo que ya hacía.
 export function dbFor(loc: string, uiLang: string): Record<string, Exercise> {
   const db = dbForLocale(loc);
-  const ui = uiLang === 'en' ? 'en' : 'es';
+  // Los tres idiomas de interfaz por su nombre, no `=== 'en' ? 'en' : 'es'`:
+  // ese ternario mandaba el catalán al índice CASTELLANO y la ficha del
+  // ejercicio salía «Articulación de vocales» bajo una cabecera catalana.
+  const ui: UiLang = uiLang === 'en' ? 'en' : uiLang === 'ca' ? 'ca' : 'es';
   // Nombre, categoría y edad SIEMPRE desde valeriaExerciseMeta en el idioma de
   // la interfaz, coincidan o no los dos ejes: el banco base los hornea con
   // `meta()` desde el índice castellano y el overlay inglés no los repite, así
@@ -741,9 +749,14 @@ export function dbFor(loc: string, uiLang: string): Record<string, Exercise> {
   const idx = metaIndexFor(ui);
   // El resto de campos de adulto solo hay que moverlos cuando los dos ejes
   // discrepan; si coinciden, el banco de la variedad ya está en su idioma.
+  // Campos de adulto: solo hay que moverlos cuando los dos ejes discrepan.
+  // `ca` con variedad `ca` no discrepa —el banco catalán ya está en catalán—,
+  // y con cualquier otra variedad el adulto catalán lee los campos del banco
+  // catalán, igual que el inglés lee los del inglés.
   const adult = ui === 'en' && loc !== 'en-US' ? EXERCISE_EN
-    : ui === 'es' && loc === 'en-US' ? DB
-      : null;
+    : ui === 'ca' && loc !== 'ca' ? EXERCISE_CA
+      : ui === 'es' && (loc === 'en-US' || loc === 'ca') ? DB
+        : null;
 
   const out: Record<string, Exercise> = {};
   for (const [id, ex] of Object.entries(db)) {
@@ -768,8 +781,9 @@ export function dbFor(loc: string, uiLang: string): Record<string, Exercise> {
 export function variantsFor(loc: string, uiLang: string): Record<string, Partial<Exercise>[]> {
   const vars = variantsForLocale(loc);
   const adult = uiLang === 'en' && loc !== 'en-US' ? VARIANTS_EN
-    : uiLang === 'es' && loc === 'en-US' ? VARIANTS
-      : null;
+    : uiLang === 'ca' && loc !== 'ca' ? VARIANTS_CA
+      : uiLang === 'es' && (loc === 'en-US' || loc === 'ca') ? VARIANTS
+        : null;
   if (!adult) return vars;
   const out: Record<string, Partial<Exercise>[]> = {};
   for (const [id, rounds] of Object.entries(vars)) {
@@ -792,6 +806,7 @@ export function variantsForLocale(loc: string): Record<string, Partial<Exercise>
   if (loc === 'eu') return { ...VARIANTS, ...VARIANTS_EU };
   if (loc === 'gl') return { ...VARIANTS, ...VARIANTS_GL };
   if (loc === 'en-US') return { ...VARIANTS, ...VARIANTS_EN };
+  if (loc === 'ca') return { ...VARIANTS, ...VARIANTS_CA };
   return VARIANTS;
 }
 
@@ -799,34 +814,40 @@ export function variantsForLocale(loc: string): Record<string, Partial<Exercise>
 // El player las consume por variedad activa (patrón dbForLocale). En eu cambian
 // las emociones, el cierre de sesión, la pista de plural y el prompt de emoción.
 export const emoForLocale = (loc: string): { face: string; label: string }[] =>
-  loc === 'eu' ? EMO_EU : loc === 'gl' ? EMO_GL : loc === 'en-US' ? EMO_EN : EMO;
+  loc === 'eu' ? EMO_EU : loc === 'gl' ? EMO_GL : loc === 'en-US' ? EMO_EN
+    : loc === 'ca' ? EMO_CA : EMO;
 export const sessionDoneLeadFor = (loc: string): string =>
   loc === 'eu' ? SESSION_DONE_LEAD_EU : loc === 'gl' ? SESSION_DONE_LEAD_GL
-    : loc === 'en-US' ? SESSION_DONE_LEAD_EN : SESSION_DONE_LEAD;
+    : loc === 'en-US' ? SESSION_DONE_LEAD_EN : loc === 'ca' ? SESSION_DONE_LEAD_CA
+      : SESSION_DONE_LEAD;
 export const pluralHintFor = (loc: string): string =>
   loc === 'eu' ? PLURAL_HINT_EU : loc === 'gl' ? PLURAL_HINT_GL
-    : loc === 'en-US' ? PLURAL_HINT_EN : PLURAL_HINT;
+    : loc === 'en-US' ? PLURAL_HINT_EN : loc === 'ca' ? PLURAL_HINT_CA : PLURAL_HINT;
 // Aviso de "toca una imagen" (FF-1 sin ficha elegida): en euskera resuelve el
 // asset neuronal HiTZ y en galego el de Celtia; en el resto, el castellano
 // (Sharvard / voz del sistema).
 export const touchImageHintFor = (loc: string): string =>
   loc === 'eu' ? TOUCH_IMAGE_HINT_EU : loc === 'gl' ? TOUCH_IMAGE_HINT_GL
-    : loc === 'en-US' ? TOUCH_IMAGE_HINT_EN : TOUCH_IMAGE_HINT;
+    : loc === 'en-US' ? TOUCH_IMAGE_HINT_EN : loc === 'ca' ? TOUCH_IMAGE_HINT_CA
+      : TOUCH_IMAGE_HINT;
 // Veredicto hablado del micro por variedad: en euskera locuta el veredicto
 // vasco (asset HiTZ) y en galego el galego (asset Celtia); el resto usa el
 // castellano, que en las sesiones es resuelve el asset de Sharvard.
 export const micVerdictSayFor = (loc: string, lvl: 0 | 1 | 2): string =>
   loc === 'eu' ? MIC_VERDICT_SAY_EU[lvl] : loc === 'gl' ? MIC_VERDICT_SAY_GL[lvl]
-    : loc === 'en-US' ? MIC_VERDICT_SAY_EN[lvl] : MIC_VERDICT_SAY[lvl];
+    : loc === 'en-US' ? MIC_VERDICT_SAY_EN[lvl] : loc === 'ca' ? MIC_VERDICT_SAY_CA[lvl]
+      : MIC_VERDICT_SAY[lvl];
 // Pregunta corta de la emoción (título/zoom) y prompt hablado (con opciones).
 export const emotionQuestionFor = (loc: string): string =>
   loc === 'eu' ? EMOTION_PROMPT_EU : loc === 'gl' ? EMOTION_PROMPT_GL
-    : loc === 'en-US' ? EMOTION_PROMPT_EN : '¿Cómo se siente?';
+    : loc === 'en-US' ? EMOTION_PROMPT_EN : loc === 'ca' ? EMOTION_PROMPT_CA
+      : '¿Cómo se siente?';
 export const emotionPromptFor = (loc: string, emo: { label: string }[]): string => {
   const opciones = emo.map((e) => e.label).join(', ');
   if (loc === 'eu') return `${EMOTION_PROMPT_EU} ${opciones}?`;
   if (loc === 'gl') return `${EMOTION_PROMPT_GL} ${opciones}?`;
   if (loc === 'en-US') return `${EMOTION_PROMPT_EN} ${opciones}?`;
+  if (loc === 'ca') return `${EMOTION_PROMPT_CA} ${opciones}?`;
   return `¿Cómo se siente? ¿${opciones}?`;
 };
 
@@ -840,12 +861,14 @@ export const pluralOneLabelFor = (loc: string, p: NonNullable<Exercise['plural']
   if (loc === 'en-US') return `one ${p.cap}`;
   if (loc === 'eu') return `${p.cap} bat`;
   if (loc === 'gl') return `${p.gender === 'f' ? 'unha' : 'un'} ${p.cap}`;
+  if (loc === 'ca') return `${p.gender === 'f' ? 'una' : 'un'} ${p.cap}`;
   return pluralOneLabel(p);
 };
 export const pluralManyLabelFor = (loc: string, p: NonNullable<Exercise['plural']>): string => {
   if (loc === 'en-US') return `many ${p.capPlural}`;
   if (loc === 'eu') return `${p.cap} asko`;
   if (loc === 'gl') return `${p.gender === 'f' ? 'moitas' : 'moitos'} ${p.capPlural}`;
+  if (loc === 'ca') return `${p.gender === 'f' ? 'moltes' : 'molts'} ${p.capPlural}`;
   return pluralManyLabel(p);
 };
 
