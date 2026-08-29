@@ -18,7 +18,14 @@
 //   · Dislèxia: rimes, síntesi fonèmica i pseudoparaules amb la fonotàctica
 //     catalana (dx3 usa MÀ, que en català es tanca sense nasal final).
 //
-// Mòdul PUR: només importa el tipus Exercise del banc base.
+// Mòdul PUR: només importa el tipus Exercise del banc base.//
+// ESTAT: ✅ CATALÀ VALIDAT (29/8/2026) per Maria, parlant nativa de Barcelona:
+// lèxic, registre i normativa del CENTRAL. La validació confirma també la
+// decisió que més es podia discutir del banc —deixar /b/–/v/ fora, perquè el
+// central és betacista— i que els parells triats són paraules que una criatura
+// de Barcelona de 3 a 6 anys reconeix. El que això NO cobreix, i convé no
+// confondre: el criteri LOGOPÈDIC (el que el gallec va tenir de la mà d'ACOPROS
+// i l'anglès amb la firma d'una logopeda titulada) segueix pendent.
 // ============================================================================
 import type { Exercise } from './valeriaExerciseBank';
 

@@ -30,7 +30,14 @@
 // de Barcelona i comarques. Puntuar-ho com a error mesuraria distància
 // respecte del valencià i del balear —que sí distingeixen—, no llenguatge.
 // És el mateix criteri que la guia dialectal de l'en-US aplica al TH-fronting.
-// Si algun dia hi ha una variant `ca-valencia`, el parell entra ALLÀ.
+// Si algun dia hi ha una variant `ca-valencia`, el parell entra ALLÀ.//
+// ESTAT: ✅ CATALÀ VALIDAT (29/8/2026) per Maria, parlant nativa de Barcelona:
+// lèxic, registre i normativa del CENTRAL. La validació confirma també la
+// decisió que més es podia discutir del banc —deixar /b/–/v/ fora, perquè el
+// central és betacista— i que els parells triats són paraules que una criatura
+// de Barcelona de 3 a 6 anys reconeix. El que això NO cobreix, i convé no
+// confondre: el criteri LOGOPÈDIC (el que el gallec va tenir de la mà d'ACOPROS
+// i l'anglès amb la firma d'una logopeda titulada) segueix pendent.
 // ============================================================================
 import { MinimalPair, PairGroup } from './valeriaMinimalPairs';
 

@@ -19,7 +19,14 @@
 // castellà amb la veu catalana. És el mateix forat que va tenir el gallec
 // abans de GL-2.x i l'anglès abans d'EN-3.x.
 //
-// Mòdul PUR (enumerable en build-time): només importa tipus del banc base.
+// Mòdul PUR (enumerable en build-time): només importa tipus del banc base.//
+// ESTAT: ✅ CATALÀ VALIDAT (29/8/2026) per Maria, parlant nativa de Barcelona:
+// lèxic, registre i normativa del CENTRAL. La validació confirma també la
+// decisió que més es podia discutir del banc —deixar /b/–/v/ fora, perquè el
+// central és betacista— i que els parells triats són paraules que una criatura
+// de Barcelona de 3 a 6 anys reconeix. El que això NO cobreix, i convé no
+// confondre: el criteri LOGOPÈDIC (el que el gallec va tenir de la mà d'ACOPROS
+// i l'anglès amb la firma d'una logopeda titulada) segueix pendent.
 // ============================================================================
 import {
   DailyScenario, LexicalCategory, ProgressionSequence, ContrastCapsule,

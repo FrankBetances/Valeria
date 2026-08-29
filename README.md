@@ -674,6 +674,15 @@ betacista, así que puntuarlo mediría distancia respecto del valenciano y el
 balear, no lenguaje. Es el mismo criterio que la guía dialectal del `en-US`
 aplica al TH-fronting.
 
+**Validación (29/8/2026):** los cuatro bancos catalanes los ha validado
+**Maria**, hablante nativa de Barcelona — léxico, registro y normativa del
+central, incluida esa decisión sobre el betacismo. Cubre el eje de la **lengua**;
+el **criterio logopédico** es el otro eje y sigue pendiente, como el repo los ha
+distinguido siempre (el gallego lleva «revisión de galego normativo *e* criterio
+logopédico»; el euskera, «revisión logopédica de Ulertuz *y* de euskera
+normativo»). Mientras tanto, `CA_THERAPY_CONTENT_READY` en `valeriaLocale.ts`
+apaga la variedad sin tocar nada más si la revisión clínica lo pide.
+
 ### El inglés no es una traducción: es la quinta variedad, y la primera con interfaz propia
 
 Es el trabajo que rompió el molde de los tres idiomas anteriores, porque exigió
