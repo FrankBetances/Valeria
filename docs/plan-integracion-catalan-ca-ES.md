@@ -85,7 +85,8 @@ declarava com a fets i no ho eren. El que hi ha ara, comprovat, és això:
 
 | Què falta | Per què | Com es comporta mentrestant |
 | :--- | :--- | :--- |
-| **Locucions neuronals sintetitzades** | La veu és **Matxa-TTS** del projecte AINA (BSC), amb motor propi `matxa` a `generate-voice-assets.py`; el workflow `voice-assets.yml` encara no s'ha executat. **Res d'això s'ha pogut verificar contra Hugging Face**: la política de xarxa de l'entorn d'integració bloqueja `huggingface.co`, de manera que ni el nom del repositori ni la signatura real del model s'han comprovat. Per això el motor descobreix el repositori, imprimeix l'esquema complet al log i passa un CANARI abans de tocar el corpus (vegeu §5). | La varietat funciona i parla amb la veu catalana del dispositiu. La targeta de «Veu de l'aplicació» ho DIU en pantalla, i el xip «✓ Veu Matxa» només apareix quan hi ha assets de debò (`hasAssetsFor('ca')`). |
+| ~~Locucions neuronals sintetitzades~~ | **FET** al run 51 (29/8/2026): 858 locucions, 52,6 min, 17,6 MB, sintetitzades amb Matxa-TTS del projecte AINA. El xip «✓ Veu Matxa (AINA)» ja apareix sol a la targeta de veu, perquè `hasAssetsFor('ca')` troba els assets al mapa. | — |
+| **Escoltar el resultat** | Ningú del costat de la integració ha pogut ESCOLTAR-HO: les comprovacions fetes són objectives, no auditives (vegeu §5.5). | Cal escoltar les mostres del run i decidir si l'índex triat (`spks=0`) és el central. |
 | **Càpsules formatives d'Academy** (~18 700 paraules) | La versió anglesa no va ser una traducció sinó una reautorització clínica; la catalana demana el mateix i no s'ha fet. | Es llegeixen en castellà **amb un avís a la capçalera d'Academy**. El buit està declarat a `src/i18n/uiLangFallback.ts` i el gate `check-ui-lang-fallback.js` no deixa que torni a ser silenciós. |
 | **Revisió logopèdica del banc català** | Cap dels altres bancs es va publicar sense ella (el gallec la va tenir el 27/7, l'anglès una logopeda titulada de Howard el 16/8). | El contingut és a producció darrere del commutador `CA_THERAPY_CONTENT_READY` de `valeriaLocale.ts`: si la revisió troba problemes, es baixa aquest booleà i la varietat torna a castellà sense tocar res més. |
 
@@ -186,3 +187,27 @@ Per això el canari sintetitza la frase de «Provar la veu» amb els quatre prim
 python3 scripts/generate-voice-assets.py --lang ca --voice N
 ```
 
+### 5.5. Què es va comprovar del lot, i què NO
+
+El run 51 va sintetitzar les **858** locucions (52,6 min · 17,6 MB) i el gate de
+cobertura va passar de l'avís a exigir-les: **4110/4110**. Però «hi ha 858
+fitxers» no vol dir «sonen bé», i soroll ben empaquetat també ompliria 858
+fitxers. Es va comprovar això, que és objectiu:
+
+| Comprovació | Resultat | Què descarta |
+| :--- | :--- | :--- |
+| Correlació durada ↔ longitud del text | **r = 0,959** | Soroll uniforme: l'àudio segueix el text |
+| Escala per estil (s/caràcter) | `slow` 0,152 · `child` 0,084 | El `length_scale` s'aplica de debò |
+| Fitxers amb mida distinta | 844 / 858 | Un mateix àudio repetit |
+| Fora de la guarda de plausibilitat | **0** | Silencis, NaN, durades absurdes |
+| Extrems | 0,17 s = «la» · 22,6 s = una consigna d'adult sencera | Truncaments i cues mortes |
+
+I això **no** es va comprovar, perquè no es pot des d'aquí:
+
+- **Com sona.** Ningú de la integració ha escoltat ni un fitxer. La qualitat, la
+  naturalitat i la prosòdia les jutja una persona.
+- **Si l'accent és el central.** `spks=0` és una tria per defecte, no una
+  decisió informada: la metadata del model ve buida. Les mostres dels quatre
+  índexs són a l'artefacte `matxa-muestras-acentos` del run.
+- **La revisió logopèdica** del banc, que segueix pendent com la de qualsevol
+  altra varietat abans de publicar-se.
