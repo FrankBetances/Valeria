@@ -120,11 +120,39 @@ Passar-li tres `scales` a un model que n'espera dos desplaça el vector i el so
 surt malament **sense donar error**. Donar-li lletres a un frontend fonèmic
 produeix soroll, no accent. Cap de les dues coses les detecta un `try/except`.
 
-### 5.2. Què fa el motor perquè això no acabi en 858 fitxers de soroll
+### 5.2. El canari va saltar al run 50, i això és la prova que serveix
 
-`huggingface.co` estava **bloquejat** a l'entorn on es va escriure aquest motor:
-no s'ha pogut obrir el repositori, ni llegir la signatura del model, ni escoltar
-ni una sola mostra. La resposta no és confiar-hi, sinó no donar res per fet:
+La primera versió d'aquest motor es va escriure amb `huggingface.co`
+**bloquejat**: sense poder obrir el repositori ni llegir la signatura del model.
+Al primer run real (**#50**, 29/8/2026) el canari va avortar amb
+`len() of unsized object` i **zero fitxers escrits** — i el log va deixar
+l'esquema real, que és tot el que calia:
+
+```
+[diag] projecte-aina/matxa-tts-cat-multiaccent: 11 fitxers
+       onnx: matcha_multispeaker_cat_all_opset_15_10_steps.onnx
+             matxa_multiaccent_wavenext_e2e.onnx      ← el triat
+[diag] onnx inputs : x(int64) x_lengths(int64) scales[2](float) spks(int64)
+[diag] onnx outputs: mel_lengths , hfwaveform
+[diag] onnx metadata keys: []
+```
+
+Tres coses van quedar **verificades** contra el model real: el repositori
+existeix amb aquest nom, l'export *end-to-end* hi és, i les entrades són
+exactament les que el motor assumia. I una va quedar **desmentida**: l'àudio és
+la SEGONA sortida (`hfwaveform`); la primera és `mel_lengths`. Agafar
+`run(...)[0]` retornava un escalar, i `len()` d'un escalar és justament aquell
+error. Ara les sortides es resolen **pel nom**, mai per posició, amb recanvi per
+mida si algun dia l'export les reanomena. Comprovat reproduint l'error amb un
+ONNX de joguina de la mateixa signatura.
+
+**El run va sortir VERD tot i això**, perquè el pas de síntesi és
+`continue-on-error` (si una veu falla, la resta del lot s'ha de publicar igual).
+Aquell verd va fer creure que la veu ja estava feta. Per això el workflow escriu
+ara un **resum a la portada del run**: quantes locucions tenen àudio i quantes
+no, per idioma. «Verd» ja no es pot llegir com «fet».
+
+### 5.3. Què fa el motor perquè això no acabi en 858 fitxers de soroll
 
 1. **Descobriment**, no noms fixos: `_hf_discover` prova els repositoris
    candidats i el motor tria l'ONNX *end-to-end*. Si el repositori només publica
@@ -143,13 +171,18 @@ ni una sola mostra. La resposta no és confiar-hi, sinó no donar res per fet:
 6. **No bloquejant**: com l'euskera, si tot això falla el lot de la resta
    d'idiomes es publica igual i el català degrada a la veu del sistema `ca-ES`.
 
-### 5.3. Accent i parlant
+### 5.4. Accent i parlant: es tria d'oïda, no de log
 
-El banc clínic està escrit per al **català central** (vegeu la nota sobre el
-betacisme a `valeriaMinimalPairsCa.ts`: el contrast /b/–/v/ queda fora
-justament perquè el central no el fa). El model multiaccent exposa diversos
-parlants; se'n tria un per índex i el log imprimeix la llista. Per canviar-lo:
+El model és multiaccent i la seva metadata ve **buida**: res no diu quin índex
+de `spks` és el central, que és l'accent per al qual està escrit el banc (vegeu
+la nota sobre el betacisme a `valeriaMinimalPairsCa.ts`). Això no es dedueix
+d'un log: s'escolta.
+
+Per això el canari sintetitza la frase de «Provar la veu» amb els quatre primers
+índexs i el workflow les puja com a **artefacte del run**
+(`matxa-muestras-acentos`). S'escolten, es tria, i es fixa:
 
 ```bash
-python3 scripts/generate-voice-assets.py --lang ca --voice 2
+python3 scripts/generate-voice-assets.py --lang ca --voice N
 ```
+

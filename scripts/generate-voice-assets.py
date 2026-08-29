@@ -589,13 +589,21 @@ def make_matxa_synth(voice: dict):
          grafemas: meterle letras produce ruido, no acento.
       3. El vocóder va DENTRO del export, así que la salida ya es forma de onda.
 
-    Igual que `make_onnx_synth`, esto se escribió con huggingface.co BLOQUEADO
-    en el entorno de desarrollo: no se pudo abrir el repo ni leer la firma real
-    del modelo. Por eso el motor no da nada por supuesto —descubre el repo,
-    imprime el esquema completo en el log de CI— y antes de sintetizar el
-    corpus pasa un CANARIO: una frase catalana conocida que tiene que salir con
-    duración y energía plausibles. Si el canario falla, el job muere ahí, con
-    858 ficheros sin escribir, en vez de hornear ruido y darlo por bueno."""
+    Se escribió con huggingface.co BLOQUEADO en el entorno de desarrollo, así
+    que la primera versión no pudo ver el modelo. El CANARIO —una frase catalana
+    real que tiene que salir con duración y energía plausibles antes de tocar el
+    corpus— hizo su trabajo en el run 50: murió con 858 ficheros sin escribir y
+    dejó el esquema en el log. Con ese log, esto ya está VERIFICADO contra el
+    modelo real (`projecte-aina/matxa-tts-cat-multiaccent`, 29/8/2026):
+
+        entradas : x(int64 [B,T]) · x_lengths(int64 [B]) · scales(float [2])
+                   · spks(int64 [B])
+        salidas  : mel_lengths[0] · hfwaveform[1]   ← el audio es la SEGUNDA
+        metadata : vacía (sin mapa de símbolos embebido)
+
+    Y ahí estaba el fallo que cazó el canario: coger `run(...)[0]` devuelve
+    `mel_lengths`, no la onda. De ahí el «len() of unsized object». Las salidas
+    se resuelven por NOMBRE, nunca por índice."""
     import numpy as np
     import onnxruntime as ort
 
@@ -606,7 +614,8 @@ def make_matxa_synth(voice: dict):
     onnx_files = [f for f in siblings if f.endswith(".onnx")]
     e2e = next((f for f in onnx_files if "e2e" in f.lower()), None)
     onnx_file = e2e or (onnx_files[0] if len(onnx_files) == 1 else None)
-    print(f"[diag] {repo}: {len(siblings)} ficheros · onnx: {onnx_files}")
+    print(f"[diag] {repo}: {len(siblings)} ficheros: {siblings}")
+    print(f"[diag] onnx: {onnx_files} → elegido: {onnx_file}")
     if not onnx_file:
         die(f"{repo}: no encuentro un ONNX end-to-end entre {onnx_files}. "
             "Matxa sin vocóder integrado necesita encadenar AlVoCat/WaveNeXt a "
@@ -644,6 +653,27 @@ def make_matxa_synth(voice: dict):
             print(f"[diag] {k}: {meta[k][:400]}")
 
     if symbol_map is None:
+        # La metadata del export de AINA viene vacía (verificado en el run 50),
+        # así que se busca un mapa de símbolos entre los ficheros del repo antes
+        # de recurrir al conjunto por defecto de Matcha-TTS.
+        for cand in siblings:
+            low = cand.lower()
+            if not (low.endswith(".json") or low.endswith(".yaml") or low.endswith(".yml")):
+                continue
+            if not any(k in low for k in ("symbol", "vocab", "token", "char")):
+                continue
+            try:
+                tmp = vdir / Path(cand).name
+                curl(f"https://huggingface.co/{repo}/resolve/main/{cand}", tmp)
+                parsed = json.loads(tmp.read_text())
+                symbol_map = ({s: i for i, s in enumerate(parsed)}
+                              if isinstance(parsed, list) else parsed)
+                print(f"[diag] mapa de símbolos tomado de {cand}: {len(symbol_map)}")
+                break
+            except Exception as e:
+                print(f"aviso: {cand} no utilizable como mapa de símbolos ({e})")
+
+    if symbol_map is None:
         # Conjunto de símbolos de Matcha-TTS (text/symbols.py): _pad, puntuación,
         # letras y el bloque IPA. Se construye igual que allí; si el modelo
         # tuviera otro, el CANARIO de abajo lo caza antes de escribir nada.
@@ -676,7 +706,7 @@ def make_matxa_synth(voice: dict):
             out += [i, 0]
         return out
 
-    def run(text: str, style: str):
+    def run(text: str, style: str, spk_override: int | None = None):
         ids = to_ids(text)
         if len(ids) < 5:
             raise RuntimeError(f"fonemización vacía para: {text!r}")
@@ -695,10 +725,24 @@ def make_matxa_synth(voice: dict):
             elif nm in ("length_scale",):
                 feeds[nm] = np.array([LENGTH_SCALE.get(style, 1.0)], dtype=np.float32)
             elif nm in ("spks", "sid", "speaker_id", "spk"):
-                feeds[nm] = np.array([spk], dtype=np.int64)
+                feeds[nm] = np.array([spk if spk_override is None else spk_override],
+                                     dtype=np.int64)
             else:
                 print(f"aviso: entrada ONNX no reconocida, se omite: {nm}")
-        return np.squeeze(sess.run(None, feeds)[0]).astype(np.float32)
+        outs = sess.run(None, feeds)
+        # La onda es `hfwaveform`, la SEGUNDA salida: la primera es
+        # `mel_lengths`. Coger [0] fue el fallo que cazó el canario en el run 50
+        # («len() of unsized object» al hacer len() de un escalar). Se resuelve
+        # por nombre y, si el export cambiara los nombres, por la salida con más
+        # muestras — nunca por posición.
+        names = [o.name for o in sess.get_outputs()]
+        idx = next((i for i, n in enumerate(names)
+                    if any(k in n.lower() for k in ("waveform", "wav", "audio"))), None)
+        if idx is None:
+            idx = max(range(len(outs)), key=lambda i: np.asarray(outs[i]).size)
+            print(f"aviso: ninguna salida se llama waveform/audio; se usa "
+                  f"'{names[idx]}' por tamaño.")
+        return np.squeeze(np.asarray(outs[idx])).astype(np.float32)
 
     def write_wav(wav, raw_wav: Path) -> None:
         pcm = np.clip(wav, -1.0, 1.0)
@@ -717,6 +761,8 @@ def make_matxa_synth(voice: dict):
         return dur
 
     # ---- CANARIO: una frase real del banco catalán antes de tocar el corpus --
+    # Es la frase que la app locuta al pulsar «Provar la veu», así que es
+    # exactamente lo que oirá una familia.
     canario = "Hola! Així sonarà la meva veu als exercicis."
     try:
         wav = run(canario, "child")
@@ -727,6 +773,26 @@ def make_matxa_synth(voice: dict):
             "la fonemización o la firma de entrada. Es deliberado morir aquí en "
             "vez de escribir 858 ficheros de ruido.")
     print(f"[canario] OK · {dur:.2f}s para {len(canario.split())} palabras")
+
+    # ---- MUESTRAS PARA ESCUCHAR ---------------------------------------------
+    # El modelo es MULTIACCENT y su metadata viene vacía: nada dice qué índice
+    # de `spks` es el central, que es el acento para el que está escrito el
+    # banco clínico. Eso no se deduce de un log, se decide oyéndolo. Así que el
+    # canario deja una muestra por índice en SAMPLES_DIR y el workflow las sube
+    # como artefacto del run: se escuchan, se elige, y se fija con `--voice N`.
+    samples = vdir / "muestras"
+    samples.mkdir(parents=True, exist_ok=True)
+    for cand_spk in range(4):
+        try:
+            w = run(canario, "child", spk_override=cand_spk)
+            check(w, canario)
+            write_wav(w, samples / f"canario_spk{cand_spk}.wav")
+            print(f"[muestra] spk={cand_spk} · {len(w) / sr:.2f}s → "
+                  f"{samples / f'canario_spk{cand_spk}.wav'}")
+        except Exception as e:
+            print(f"[muestra] spk={cand_spk} no disponible ({e})")
+    print(f"[muestras] escúchalas en el artefacto del run y fija el acento "
+          f"central con: --lang ca --voice N   (ahora mismo: {spk})")
 
     def synth(text: str, style: str, raw_wav: Path) -> float | None:
         wav = run(text, style)
