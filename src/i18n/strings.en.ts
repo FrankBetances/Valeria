@@ -32,10 +32,10 @@ export const EN: UiStrings = {
   // route names stay untranslated and unchanged, because the pilot telemetry
   // indexes screen time by route name (valeriaTelemetry.noteScreen).
   tabs: {
-    therapies: 'Therapies',
+    therapies: 'Exercises',
     academy: 'Academy',
     settings: 'Settings',
-    therapiesA11y: 'Therapies. Exercise blocks to practise or prescribe.',
+    therapiesA11y: 'Exercises. Exercise blocks to practise or prescribe.',
     academyA11y: 'Academy. Training for the caregiving adult.',
     settingsA11y: 'Settings. Reminders, voice, language and professional access.',
   },

@@ -32,10 +32,10 @@ export const ES = {
   // ni se renombran, porque la telemetría del piloto indexa por nombre de ruta
   // (valeriaTelemetry.noteScreen) y renombrarlos partiría la serie histórica.
   tabs: {
-    therapies: 'Terapias',
+    therapies: 'Ejercicios',
     academy: 'Academy',
     settings: 'Ajustes',
-    therapiesA11y: 'Terapias. Bloques de ejercicios para practicar o prescribir.',
+    therapiesA11y: 'Ejercicios. Bloques de ejercicios para practicar o prescribir.',
     academyA11y: 'Academy. Formación para el adulto cuidador.',
     settingsA11y: 'Ajustes. Recordatorios, voz, idioma y acceso profesional.',
   },

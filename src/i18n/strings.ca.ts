@@ -34,10 +34,10 @@ export const CA: UiStrings = {
   // [v11] Etiquetes de la barra de pestanyes inferior. Són etiquetes VISIBLES,
   // no pas noms de ruta interns (que indexen la telemetria històrica).
   tabs: {
-    therapies: 'Teràpies',
+    therapies: 'Exercicis',
     academy: 'Academy',
     settings: 'Ajustos',
-    therapiesA11y: 'Teràpies. Blocs d\'exercicis per practicar o prescriure.',
+    therapiesA11y: 'Exercicis. Blocs d\'exercicis per practicar o prescriure.',
     academyA11y: 'Academy. Formació per a l\'adult acompanyant.',
     settingsA11y: 'Ajustos. Recordatoris, veu, idioma i accés professional.',
   },
