@@ -457,12 +457,12 @@ async function main() {
     const enNamespaces = Object.keys(stringsEn.EN).sort();
     const caNamespaces = Object.keys(stringsCa.CA).sort();
 
-    assert.strictEqual(esNamespaces.length, 27, 'ES has 27 namespaces');
+    assert.strictEqual(esNamespaces.length, 28, 'ES has 28 namespaces');
     assert.deepStrictEqual(caNamespaces, esNamespaces, 'CA namespaces match ES namespaces exactly');
     assert.deepStrictEqual(enNamespaces, esNamespaces, 'EN namespaces match ES namespaces exactly');
   });
 
-  runTest('TEST-4.2: Total keys count and deep structural parity across all 27 namespaces', () => {
+  runTest('TEST-4.2: Total keys count and deep structural parity across all 28 namespaces', () => {
     let esTotal = 0;
     let caTotal = 0;
     let enTotal = 0;
