@@ -17,7 +17,20 @@
     <uses-feature android:name="android.hardware.camera.front" android:required="false" />
     <uses-feature android:name="android.hardware.camera.any" android:required="false" />
 
+    <!--
+      ARCore como capacidad OPCIONAL, nunca requerida. Los otros seis bloques no
+      la necesitan y Valeria+ tiene que poder instalarse en un teléfono sin
+      ARCore: `required="true"` la sacaría de la ficha de Play para todos ellos.
+
+      Con "optional", ARCore no se instala solo: lo pide `ArCoreSession` en
+      tiempo de ejecución con `ArCoreApk.requestInstall()`, y si el usuario dice
+      que no, el bloque se retira y los otros seis siguen intactos.
+    -->
+    <uses-feature android:name="android.hardware.camera.ar" android:required="false" />
+
     <application>
+        <meta-data android:name="com.google.ar.core" android:value="optional" />
+
         <!--
           Pantalla completa, orientación fija en horizontal y sin barra de
           navegación: AR-3 es inviable en vertical (la pantalla abarca ~10° y

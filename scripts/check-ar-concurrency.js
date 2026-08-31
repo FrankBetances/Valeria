@@ -143,9 +143,33 @@ if (act) {
     exigir(act.includes(guard),
       `ValeriaArActivity: falta la guarda \`${guard}\` antes de enlazar la cámara y al cerrar`);
   }
-  for (const cierre of ['analysisUseCase?.clearAnalyzer()', 'analysisExecutor.shutdown()', 'engine?.close()', 'exercise?.close()']) {
+  // ── Cierre, en el orden que impone ARCore ─────────────────────────────────
+  // Hasta el 31/8/2026 estas dos primeras líneas eran `clearAnalyzer()` y
+  // `analysisExecutor.shutdown()`: las invariantes de la tubería de CameraX que
+  // el módulo montaba a mano. Esa tubería se retiró porque se colgaba en un
+  // Pixel real, y ARCore se llevó con ella el executor y el caso de uso. Las
+  // reglas no desaparecen, cambian de nombre: sigue habiendo un grifo que
+  // cerrar antes que el motor que bebe de él, solo que ahora el grifo es el
+  // bucle de GL y la sesión de ARCore.
+  for (const cierre of ['glView?.onPause()', 'arSession.close()', 'engine?.close()', 'exercise?.close()']) {
     exigir(act.includes(cierre), `ValeriaArActivity: \`onDestroy\` no hace \`${cierre}\``);
   }
+
+  // El pool de imágenes de ARCore es finito y no da error al agotarse: deja de
+  // entregar frames y la sesión se queda muda a los pocos segundos. La imagen
+  // de `acquireCameraImage()` tiene que cerrarse SIEMPRE, y `use {}` es la
+  // única forma que no depende de que alguien se acuerde en cada rama.
+  exigir(/acquireImage\(frame\)\?\.use \{/.test(act),
+    'ValeriaArActivity: la imagen de ARCore no se cierra con `use {}`. Sin cerrarla se ' +
+    'agota el pool y la sesión deja de entregar frames, en silencio');
+
+  // Reanudar el bucle de GL sobre una sesión pausada hace que ARCore lance en
+  // cada vuelta. El orden es: sesión primero, GLSurfaceView después; y al
+  // pausar, exactamente al revés.
+  const onPause = cuerpo(act, '    override fun onPause()');
+  exigir(onPause && onPause.indexOf('glView?.onPause()') < onPause.indexOf('arSession.pause()'),
+    'ValeriaArActivity: `onPause` pausa la sesión antes que el bucle de GL. Al revés: ' +
+    'primero se para quien llama a `update()`, después la sesión a la que llama');
 }
 
 // ── 4. El AudioTrack tiene un solo dueño ────────────────────────────────────

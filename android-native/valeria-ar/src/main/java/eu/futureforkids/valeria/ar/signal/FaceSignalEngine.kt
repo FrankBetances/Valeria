@@ -4,7 +4,12 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Matrix
 import android.os.SystemClock
-import androidx.camera.core.ImageProxy
+import android.graphics.BitmapFactory
+import android.graphics.ImageFormat
+import android.graphics.Rect
+import android.graphics.YuvImage
+import android.media.Image
+import java.io.ByteArrayOutputStream
 import com.google.mediapipe.framework.image.BitmapImageBuilder
 import com.google.mediapipe.tasks.core.BaseOptions
 import com.google.mediapipe.tasks.core.Delegate
@@ -22,7 +27,7 @@ import com.google.mediapipe.tasks.vision.facelandmarker.FaceLandmarkerResult
  * ── Privacidad como restricción de arquitectura (§9.1 del plan) ────────────
  * Esta clase es donde esas tres afirmaciones se cumplen o dejan de ser ciertas:
  *   1. El frame nunca sale del dispositivo — no hay red aquí, ni la habrá.
- *   2. El frame nunca se almacena — el `ImageProxy` se cierra en el mismo
+ *   2. El frame nunca se almacena — la imagen de ARCore se cierra en el mismo
  *      callback y el bitmap intermedio es local y efímero. No hay caché, ni
  *      buffer en disco, ni captura.
  *   3. No hay identificación biométrica — los landmarks se usan para medir
@@ -42,18 +47,6 @@ class FaceSignalEngine(
      * Se llama en el hilo del listener de MediaPipe, no en el de UI.
      */
     private val onFaceLost: () -> Unit = {},
-    /**
-     * Cada frame ya orientado como lo ve el niño, para pintarlo como espejo.
-     *
-     * Se entrega SIEMPRE, también cuando el frame se descarta por contrapresión:
-     * dibujar es barato y la inferencia no, así que el espejo va fluido aunque el
-     * teléfono infiera a la mitad de velocidad. El bitmap es el MISMO que recibe
-     * MediaPipe —ambos lo leen y ninguno lo modifica—, así que el espejo no
-     * cuesta ni una copia extra.
-     *
-     * Se llama en el hilo del executor de análisis.
-     */
-    private val onFrame: (Bitmap) -> Unit = {},
     /** Se llama en el hilo del listener de MediaPipe, no en el de UI. */
     private val onSignals: (FaceSignals) -> Unit,
 ) {
@@ -63,7 +56,7 @@ class FaceSignalEngine(
 
     /**
      * Cierre y entrega de frames se sincronizan sobre este candado. `analyze()`
-     * corre en el executor de CameraX y `close()` en el hilo principal: sin él,
+     * corre en el hilo de GL de ARCore y `close()` en el principal: sin él,
      * un frame en vuelo puede llamar a `detectAsync` sobre un landmarker que
      * acaba de cerrarse, y eso no lanza una excepción de Java sino que cierra la
      * app desde el código nativo.
@@ -77,11 +70,11 @@ class FaceSignalEngine(
     /**
      * Primer fallo al convertir un frame a bitmap, si lo hubo.
      *
-     * `ImageProxy.toBitmap()` acepta YUV_420_888, JPEG y RGBA_8888 y lanza
-     * `IllegalArgumentException` con cualquier otro formato. Si un teléfono
-     * entregara algo inesperado, sin esto el síntoma sería un espejo en negro
-     * sin explicación —y ya hemos gastado demasiadas rondas interpretando
-     * síntomas—. Con esto, el mensaje exacto sale en la ficha de cámara.
+     * ARCore entrega YUV_420_888 y el conversor de abajo rechaza cualquier otro
+     * formato. Si un teléfono entregara algo inesperado, sin esto el síntoma
+     * sería una sesión sin señal y sin explicación —y ya hemos gastado
+     * demasiadas rondas interpretando síntomas—. Con esto, el mensaje exacto
+     * sale en la ficha de diagnóstico.
      */
     @Volatile var frameError: String? = null
         private set
@@ -145,56 +138,48 @@ class FaceSignalEngine(
     val isReady: Boolean get() = landmarker != null
 
     /**
-     * Entrega un frame de CameraX. El `ImageProxy` se cierra SIEMPRE, pase lo
-     * que pase: dejarlo abierto congela la cámara al segundo frame, y en
-     * `BACKPRESSURE_KEEP_LATEST` el síntoma es una imagen congelada sin error.
+     * Entrega un frame de ARCore. [tCaptureUs] es el `frame.timestamp` de
+     * ARCore en microsegundos: marca de CAPTURA del sensor, no del callback.
+     * Confundirlas no daría un dato ruidoso sino SESGADO en AR-2, que es peor.
      *
-     * ── Por qué hay contrapresión aquí y no basta la de CameraX (§) ─────────
-     * `STRATEGY_KEEP_ONLY_LATEST` descarta frames mientras el analizador está
-     * ocupado, pero `detectAsync` vuelve de inmediato: para CameraX el
-     * analizador nunca está ocupado, así que le entrega frames al ritmo del
-     * sensor —30 por segundo— sin importar a qué ritmo infiere MediaPipe. En un
-     * teléfono de gama media que infiere a 12 fps, esos 18 frames por segundo de
-     * diferencia se acumulan DENTRO del grafo de MediaPipe con su bitmap de
-     * 1,2 MB cada uno: unos 20 MB por segundo que nadie libera. A los pocos
-     * minutos el proceso muere por memoria, que es el cierre inesperado que se
-     * describe. La compuerta de aquí abajo convierte esa acumulación en frames
-     * descartados, que es lo que se quería desde el principio.
+     * La imagen la cierra quien la pidió, no este método (ver el final).
+     *
+     * ── Por qué sigue habiendo contrapresión aquí ───────────────────────────
+     * `Config.UpdateMode.LATEST_CAMERA_IMAGE` evita que ARCore encole frames,
+     * pero no sabe nada del ritmo de MediaPipe: `detectAsync` vuelve de
+     * inmediato, así que sin esta compuerta el bucle de GL le entregaría frames
+     * a 60 por segundo aunque el teléfono infiera a 12. Esos frames de más se
+     * acumulan DENTRO del grafo de MediaPipe con su bitmap, y a los pocos
+     * minutos el proceso muere por memoria: es el cierre inesperado que ya se
+     * diagnosticó una vez. La compuerta lo convierte en frames descartados.
      */
-    fun analyze(image: ImageProxy, isFrontCamera: Boolean) {
-        if (closed) { image.close(); return }
+    fun analyze(image: Image, rotationDegrees: Int, mirror: Boolean, tCaptureUs: Long) {
+        if (closed) return
 
         try {
-            // Marca de tiempo de CAPTURA del sensor, no del callback.
-            val tCaptureUs = image.imageInfo.timestamp / 1_000L
             val tMs = tCaptureUs / 1_000L
 
-            // Sin `image.close()` en los returns: lo hace el `finally`. Cerrarlo
-            // dos veces descuenta dos veces en la cola de CameraX.
+            // ── La compuerta va ANTES de convertir, y ese orden importa ──────
+            // En la versión de CameraX el bitmap se construía en todos los
+            // frames porque el espejo lo necesitaba: 30 conversiones por segundo
+            // aunque el teléfono solo infiriera 12 veces. Con ARCore el espejo
+            // lo pinta GL desde su propia textura, así que aquí solo se convierte
+            // lo que de verdad se va a inferir. Dos de cada tres conversiones
+            // desaparecen, y con ellas su basura.
+            val now = SystemClock.elapsedRealtime()
+            val busySince = inferenceStartedMs
+            if (busySince != 0L && now - busySince < STALE_INFERENCE_MS) return
+
             val bitmap = try {
-                image.toRotatedBitmap(isFrontCamera)
+                image.toUprightBitmap(rotationDegrees, mirror)
             } catch (e: Throwable) {
                 if (frameError == null) frameError = "${e.javaClass.simpleName}: ${e.message}"
                 null
             }
             if (bitmap == null) {
-                if (frameError == null) frameError = "la conversión a bitmap no devolvió imagen"
+                if (frameError == null) frameError = "la conversión YUV a bitmap no devolvió imagen"
                 return
             }
-
-            // El espejo primero y siempre: es lo que el adulto necesita para
-            // colocar al niño, y no puede depender de que la inferencia vaya
-            // sobrada. Un espejo a 30 fps sobre una señal a 12 es exactamente lo
-            // que se quiere, no una concesión.
-            onFrame(bitmap)
-
-            // Compuerta de un frame en vuelo, con válvula de seguridad temporal:
-            // si una inferencia se perdiera sin devolver resultado, el hueco se
-            // libera solo y la sesión sigue, en vez de quedarse sin señal para
-            // siempre.
-            val now = SystemClock.elapsedRealtime()
-            val busySince = inferenceStartedMs
-            if (busySince != 0L && now - busySince < STALE_INFERENCE_MS) return
 
             synchronized(pendingCaptureUs) { pendingCaptureUs[tMs] = tCaptureUs }
             val mpImage = BitmapImageBuilder(bitmap).build()
@@ -207,9 +192,11 @@ class FaceSignalEngine(
         } catch (e: Throwable) {
             // Frame mal formado o landmarker cerrándose: se descarta y se sigue.
             inferenceStartedMs = 0L
-        } finally {
-            image.close()
         }
+        // Sin `finally { image.close() }`: la imagen es de ARCore y la cierra
+        // QUIEN LA PIDIÓ, con `use {}`. Cerrarla aquí además la cerraría dos
+        // veces, y un doble cierre sobre el pool de ARCore no da excepción: deja
+        // la sesión sin entregar frames.
     }
 
     private fun dispatch(result: FaceLandmarkerResult) {
@@ -309,16 +296,69 @@ class FaceSignalEngine(
  * proceso a sostener decenas de megas de basura viva y es la mitad del problema
  * de memoria; `recycle()` devuelve el buffer al instante.
  */
-private fun ImageProxy.toRotatedBitmap(isFrontCamera: Boolean): Bitmap? {
-    // `toBitmap()` se deja fallar hacia arriba a propósito: quien llama guarda
-    // el mensaje para la ficha de cámara. Tragárselo aquí es lo que convertía un
-    // formato no soportado en un espejo negro sin causa visible.
-    val source = toBitmap()
-    val rotation = imageInfo.rotationDegrees
-    if (rotation == 0 && !isFrontCamera) return source
+private fun Image.toUprightBitmap(rotationDegrees: Int, mirror: Boolean): Bitmap? {
+    if (format != ImageFormat.YUV_420_888) return null
+
+    // ── YUV_420_888 → NV21, respetando los strides ──────────────────────────
+    // Los `rowStride` y `pixelStride` no son decorativos: es exactamente lo que
+    // la ficha de cámara del módulo anterior existía para diagnosticar. Leer el
+    // plano con el ancho en vez de con su stride real produce esos bloques de
+    // color abstractos que ya se persiguieron una vez creyéndolos memoria
+    // corrupta. Aquí se leen fila a fila, que es la única forma correcta.
+    val yPlane = planes[0]
+    val uPlane = planes[1]
+    val vPlane = planes[2]
+
+    val nv21 = ByteArray(width * height * 3 / 2)
+    var pos = 0
+
+    val yBuf = yPlane.buffer
+    val yRowStride = yPlane.rowStride
+    if (yRowStride == width) {
+        yBuf.get(nv21, 0, width * height)
+        pos = width * height
+    } else {
+        val row = ByteArray(yRowStride)
+        for (r in 0 until height) {
+            yBuf.position(r * yRowStride)
+            val len = minOf(yRowStride, yBuf.remaining())
+            yBuf.get(row, 0, len)
+            System.arraycopy(row, 0, nv21, pos, width)
+            pos += width
+        }
+    }
+
+    // NV21 quiere VU entrelazado. El pixelStride es 2 en el caso semiplanar
+    // (que es el habitual) y 1 en el planar; ambos se cubren leyendo por índice.
+    val uvRowStride = uPlane.rowStride
+    val uvPixelStride = uPlane.pixelStride
+    val uBuf = uPlane.buffer
+    val vBuf = vPlane.buffer
+    val uvHeight = height / 2
+    val uvWidth = width / 2
+    for (r in 0 until uvHeight) {
+        for (c in 0 until uvWidth) {
+            val idx = r * uvRowStride + c * uvPixelStride
+            if (idx >= vBuf.limit() || idx >= uBuf.limit()) continue
+            nv21[pos++] = vBuf.get(idx)
+            nv21[pos++] = uBuf.get(idx)
+        }
+    }
+
+    val out = ByteArrayOutputStream(width * height / 2)
+    if (!YuvImage(nv21, ImageFormat.NV21, width, height, null)
+            .compressToJpeg(Rect(0, 0, width, height), JPEG_QUALITY, out)) return null
+    val bytes = out.toByteArray()
+    val source = BitmapFactory.decodeByteArray(bytes, 0, bytes.size) ?: return null
+
+    // La cámara frontal entrega la imagen espejada: sin corregirlo, «gira a la
+    // derecha» se registraría como giro a la izquierda y AR-2 mediría al revés
+    // en TODOS los ensayos, de forma sistemática y por tanto invisible en la
+    // media. Eso no es ruido: es sesgo.
+    if (rotationDegrees == 0 && !mirror) return source
     val matrix = Matrix().apply {
-        postRotate(rotation.toFloat())
-        if (isFrontCamera) postScale(-1f, 1f, source.width / 2f, source.height / 2f)
+        postRotate(rotationDegrees.toFloat())
+        if (mirror) postScale(-1f, 1f, source.width / 2f, source.height / 2f)
     }
     val rotated = try {
         Bitmap.createBitmap(source, 0, 0, source.width, source.height, matrix, true)
@@ -326,8 +366,14 @@ private fun ImageProxy.toRotatedBitmap(isFrontCamera: Boolean): Bitmap? {
         source.recycle()
         return null
     }
-    // `createBitmap` devuelve el mismo objeto si la matriz resulta ser la
+    // `createBitmap` devuelve el MISMO objeto si la matriz resulta ser la
     // identidad. Reciclarlo entonces le entregaría a MediaPipe un bitmap muerto.
     if (rotated !== source) source.recycle()
     return rotated
 }
+
+/**
+ * 85 y no 100: a calidad 100 el JPEG intermedio casi dobla de tamaño y el
+ * Face Landmarker no distingue la diferencia — mide geometría, no textura.
+ */
+private const val JPEG_QUALITY = 85
