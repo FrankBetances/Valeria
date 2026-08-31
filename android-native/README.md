@@ -164,22 +164,29 @@ ejercicios siguen siendo jugables y medibles. Si faltara el `.task`, el
 
 ## Estado
 
-**Reescrito sobre ARCore el 31/8/2026, y sin verificar todavía.** Decisión de
-Frank tras ejecutar la versión anterior en un Pixel: se colgaba. Lo que se sabe
-y lo que no, separado a propósito:
+**Reescrito sobre ARCore el 31/8/2026.** Decisión de Frank tras ejecutar la
+versión anterior en un Pixel: se colgaba. **Compila y produce APK; no se ha
+probado en el teléfono.** Lo que se sabe y lo que no, separado a propósito:
 
-| | |
+| | Evidencia |
 | --- | --- |
-| Comprobado | Los 25 gates de `android.yml` en verde y `npm run typecheck` limpio, en local |
-| Comprobado | `check-ar-concurrency.js` migrado a las invariantes de ARCore y pasando |
-| Comprobado | ARCore 1.54.0 existe (tag `v1.54.0` del SDK responde 200) |
-| **NO comprobado** | **Que el Kotlin compile.** Aquí no hay SDK de Android: eso solo lo dice CI |
-| **NO comprobado** | Absolutamente todo lo que pasa en el teléfono: que ARCore abra la cámara, que el espejo se vea, que MediaPipe reciba los frames, los fps sostenidos, y si los cuelgues se acabaron |
+| **El Kotlin compila** | Builds **627** y **628**, paso `Build signed release APK` (`assembleRelease`) en verde tras 12 min |
+| **Pasa R8 y se firma** | `:app:minifyReleaseWithR8` en verde en el 627. El 626 murió justo ahí y por eso existen las reglas nuevas de `consumer-rules.pro` |
+| Los 25 gates y el typecheck | Verdes en CI (pasos 6‑31) y en local |
+| ARCore 1.54.0 existe | Tag `v1.54.0` del SDK responde 200 |
+| Hay APK instalable | Artefacto `android-apk` del run **628** (`workflow_dispatch` sobre la rama) |
+| **NO comprobado** | Absolutamente todo lo que pasa en el teléfono: que ARCore abra la cámara, que el espejo se vea, que MediaPipe reciba los frames, los fps sostenidos, y **si los cuelgues se acabaron** |
 
 Los gates y el typecheck **no ven** un shader que no compila, una textura negra
-ni una sesión que se cierra sola. Hasta que un run completo de `android.yml` esté
-en verde no se dice que compila, y hasta que el APK corra en el Pixel no se dice
-que funciona.
+ni una sesión que se cierra sola. Que compile no dice que funcione: eso es
+exactamente lo que ya pasó con la versión de CameraX, que compilaba y se caía.
+
+### Para bajarse el APK de una rama
+
+`android.yml` compila en cada push a cualquier rama, pero **solo sube el
+artefacto en `main` o con `workflow_dispatch`**. Para probar en el Pixel sin
+mergear: pestaña *Actions* → *Android Build* → botón **Run workflow**, eligiendo
+la rama. Ese run sí deja `android-apk` descargable.
 
 ### Lo que la reescritura se lleva por delante
 
