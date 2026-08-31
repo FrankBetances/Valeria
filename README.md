@@ -613,7 +613,7 @@ silencio clínico no se ha tocado ni suavizado**: sigue siendo el cierre total, 
 `MUTE` pega hasta un `UNLOCK` explícito —un `GRANT` posterior no devuelve el
 sonido—.
 
-> El **oso sí sigue existiendo como contenido terapéutico** y eso no es un
+> El **oso sí sigue existiendo como contenido clínico** y eso no es un
 > descuido: «oso» es palabra de los bancos léxicos (par mínimo *ocho/oso*, frase
 > de lectura «EL OSO COME PAN», orden TPR «camina como un oso»). Es vocabulario,
 > no marca.
@@ -643,7 +643,7 @@ para no ensuciar la telemetría de misclicks.
 
 ## 🌐 Idiomas y variedades
 
-Valeria+ locuta y evalúa el **contenido terapéutico** en **seis variedades**,
+Valeria+ locuta y evalúa el **contenido de los ejercicios** en **seis variedades**,
 seleccionables desde la tarjeta **«Voz de la app»** (`ValeriaVoiceUI`). La
 variedad activa vive en un único módulo (`src/valeriaLocale.ts`), que desacopla
 tres decisiones: qué banco de audio usar, qué locale BCP‑47 pasar al
@@ -712,7 +712,7 @@ piezas que no existían:
 | **Registro estadounidense, no traducción literal** | *caregiver* y no *tutor* (en EE. UU. un *tutor* da clases particulares), *child* y no *kid* en lo que lee un clínico, *sentence case* en los botones, y HIPAA antes que RGPD en la línea de confianza: audiencia US primero |
 | **Banco clínico propio** (`valeriaExerciseEn.ts`, `valeriaMinimalPairsEn.ts`, `valeriaSemanticExpansionEn.ts`, `valeriaContentEn.ts`) | Todos los bloques con contenido inglés propio, no calcado del castellano: grupos consonánticos, vocales tensa/laxa y ortografía opaca piden otros ejercicios |
 | **Interruptor de seguridad** (`EN_THERAPY_CONTENT_READY`) | Mientras el banco no existía, `en-US` habría mostrado contenido **castellano**, y pedirle al TTS inglés que lea «perro» no produce castellano con acento: produce ruido. Con el banco terminado está en `true` y la variedad se comporta como cualquier otra. Es el conmutador a bajar si algún día se añade una variedad antes que su contenido |
-| **Guía dialectal bloqueante** ([`docs/guia-dialectal-en-US.md`](docs/guia-dialectal-en-US.md)) | Qué es rasgo del inglés afroamericano o sureño y qué es error terapéutico. Espejo exacto de la guía dominicana: un rasgo dialectal **nunca** cuenta como fallo |
+| **Guía dialectal bloqueante** ([`docs/guia-dialectal-en-US.md`](docs/guia-dialectal-en-US.md)) | Qué es rasgo del inglés afroamericano o sureño y qué es error clínico. Espejo exacto de la guía dominicana: un rasgo dialectal **nunca** cuenta como fallo |
 | **Revisión clínica** ([`docs/protocolo-evaluacion-clinica-en-US.md`](docs/protocolo-evaluacion-clinica-en-US.md)) | Protocolo EN‑0.9 para la revisora: profesora SLP con licencia (*Howard University*) |
 | **Firma** ✅ | La guía dialectal está **firmada desde el 16/8/2026**, y con esa firma queda validado también el dataset `en`. Su práctica con hablantes de AAE es lo que da autoridad sobre los apartados de más riesgo (§4.1, §4.3, §4.4, §4.9). Conviene tenerlo presente: el texto de la tarjeta de voz siguió meses diciendo que los ejercicios estaban «en revisión clínica» cuando ya no era cierto, y lo desmentía el propio código |
 
@@ -927,7 +927,7 @@ interfaz clásica se entra desde el hub de bloques, en la v11 desde **Ajustes**)
 | [`docs/protocolo-pares-minimos-es-DO.md`](docs/protocolo-pares-minimos-es-DO.md) | Protocolo de pares mínimos en español dominicano (Quisqueya Habla). Implementado en `src/valeriaMinimalPairsEsDO.ts`. |
 | [`docs/protocolo-expansion-semantica.md`](docs/protocolo-expansion-semantica.md) | Protocolo de expansión semántica / progresión léxica offline. Implementado en `src/ValeriaSemanticExpansionScreen.tsx` + `src/valeriaSemanticExpansion.ts`. |
 | [`docs/protocolo-realidad-aumentada.md`](docs/protocolo-realidad-aumentada.md) | Protocolo clínico del bloque de Realidad Aumentada: consentimiento de cámara, Prueba de Aptitud del Dispositivo, colocación del teléfono y los seis ejercicios (AR‑1 cinemática orofacial, AR‑2 localización instrumentada, AR‑3 selección por fijación, AR‑4 búsqueda espacial, AR‑5 lanzamiento y AR‑6 espejo mímico), con el muro MDR explicado ejercicio a ejercicio. Implementado en `android-native/valeria-ar/` + `src/ValeriaArLauncherScreen.tsx`. |
-| [`docs/guia-dialectal-es-DO.md`](docs/guia-dialectal-es-DO.md) | Guía clínica dominicana (QH‑0.2): qué es rasgo dialectal normal y qué es error terapéutico. Regla **bloqueante** para todo dataset es‑DO. |
+| [`docs/guia-dialectal-es-DO.md`](docs/guia-dialectal-es-DO.md) | Guía clínica dominicana (QH‑0.2): qué es rasgo dialectal normal y qué es error clínico. Regla **bloqueante** para todo dataset es‑DO. |
 | [`docs/plan-integracion-proxecto-nos.md`](docs/plan-integracion-proxecto-nos.md) | Plan por fases de la versión en gallego apoyada en los recursos abiertos del Proxecto Nós (contenido, voz Celtia, ASR). |
 | [`docs/plan-integracion-quisqueya-habla.md`](docs/plan-integracion-quisqueya-habla.md) | Plan de la variante dominicana (es‑DO), que reutiliza la infraestructura de variedad del plan gallego. |
 | [`docs/plan-integracion-ingles-en-US.md`](docs/plan-integracion-ingles-en-US.md) | Plan por fases para el inglés de Estados Unidos (`en‑US`). **Interfaz, banco clínico y voz ya implementados** — ver [Idiomas y variedades](#-idiomas-y-variedades). Rompió el molde de los tres planes de idioma anteriores: fue el primero que exigió **traducir la interfaz** (hasta entonces las cadenas estaban literales en las 27 pantallas), el primero que abre **mercado nuevo** (COPPA, *Designed for Families*, ficha de tienda y página de eliminación de datos en inglés) y el que más rediseño clínico pide (grupos consonánticos, vocales tensa/laxa, ortografía opaca). Decisiones ya cerradas: **revisión clínica confirmada** (profesora SLP con licencia, *Howard University*), **separación del idioma de interfaz respecto de la variedad de los ejercicios** —para el *caseload* bilingüe español‑inglés— y la regla bloqueante de **diferencia dialectal vs. trastorno** para el inglés afroamericano y el sureño, espejo de la guía dominicana. |
@@ -1764,7 +1764,7 @@ trazabilidad completa está en
   una **cancela sus avisos ya en cola**. Antes la tarjeta prometía «hasta 4 al
   día» describiendo un límite del sistema como si fuera una opción.
 - **Consignas más cortas** (el objetivo se nombra una sola vez), **objetivo
-  terapéutico visible** por bloque y **progresiones por campo semántico**
+  clínico visible** por bloque y **progresiones por campo semántico**
   (concepto → parte → acción → cualidad) en vez de la escalera de onomatopeyas.
 - **Academy · Lengua de Signos Española**: sexto dominio, validado por persona
   sorda signante, configuraciones de mano incluidas.
@@ -1851,7 +1851,7 @@ trazabilidad completa está en
   la variedad activa (`es` · `gl` · `es-DO`) que decide, por separado, el banco
   de audio, el locale BCP‑47 del sistema y la preferencia de voz latina. Migra la
   antigua clave «idioma de voz» (`es`|`gl`) sin perder la selección previa.
-- **Galego · Proxecto Nós**: contenido terapéutico en gallego cableado a las
+- **Galego · Proxecto Nós**: contenido clínico en gallego cableado a las
   pantallas y **voz neuronal Celtia** pregenerada (banco de pares gallego en
   `src/valeriaMinimalPairsGl.ts`). Promovido de beta a **producción**.
 - **Dominicano · Quisqueya Habla (es‑DO)**: variante editorial con léxico
