@@ -162,7 +162,7 @@ export const EN: UiStrings = {
     streak: (n: number): string => `${n}-day streak`,
     level: (n: number, name: string): string => `Level ${n} · ${name}`,
     sectionTraining: 'YOUR TRAINING',
-    sectionBlocks: 'THERAPY BLOCKS',
+    sectionBlocks: 'EXERCISE BLOCKS',
 
     pairsTitle: 'Minimal Pairs',
     pairsSub: 'Speech sound errors: /r/, /s/ and more, with a voice game.',
@@ -291,7 +291,7 @@ export const EN: UiStrings = {
     teaConsentBody2:
       ': an exercise where YOU freeze the app on purpose (an absurd instruction or silence) '
       + 'to watch how your child repairs the communication. It can cause brief, controlled '
-      + 'frustration — that is the therapeutic goal, and it should be set by your SLP.',
+      + 'frustration — that is the clinical goal, and it should be set by your SLP.',
     teaConsentItem1: '✋ You always trigger the stressor yourself, from the Caregiver Panel.',
     teaConsentItem2: '↩️ It reverses instantly: one tap and the app goes back to normal.',
     teaConsentItem3: '🚫 The app never interrupts, raises difficulty or diagnoses on its own.',

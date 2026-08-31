@@ -149,7 +149,7 @@ export const ES = {
     streak: (n: number): string => `${n} ${n === 1 ? 'día de racha' : 'días de racha'}`,
     level: (n: number, name: string): string => `Nivel ${n} · ${name}`,
     sectionTraining: 'TU FORMACIÓN',
-    sectionBlocks: 'BLOQUES DE TERAPIA',
+    sectionBlocks: 'BLOQUES DE EJERCICIOS',
 
     pairsTitle: 'Pares Mínimos',
     pairsSub: 'Dislalias: rotacismo, sigmatismo y más con juego de voz.',
@@ -278,7 +278,7 @@ export const ES = {
     teaConsentBody2:
       ': un ejercicio en el que TÚ congelas la app a propósito (una orden absurda o un '
       + 'silencio) para observar cómo tu peque repara la comunicación. Puede generarle una '
-      + 'frustración breve y controlada — es el objetivo terapéutico, pautado por vuestro logopeda.',
+      + 'frustración breve y controlada — es el objetivo clínico, pautado por vuestro logopeda.',
     teaConsentItem1: '✋ El estresor lo lanzas siempre tú, desde el Panel del Adulto.',
     teaConsentItem2: '↩️ Es reversible al instante: un toque y la app vuelve a la normalidad.',
     teaConsentItem3: '🚫 La app nunca interrumpe, sube la dificultad ni diagnostica sola.',

@@ -37,8 +37,8 @@ export const HIPOACUSIA_CONCEPTS_ES: AcademyGuideUnit[] = [
     domain: 'hipoacusia',
     xp: 20,
     icon: 'clinical',
-    heading: 'El abordaje terapéutico',
-    body: 'Detectar pronto, equipar (audífono o implante) y estimular el lenguaje: ese es el trío. El dispositivo devuelve el acceso al sonido, pero no "enseña" a entender por sí solo. El cerebro aprende a interpretar lo que ahora oye gracias a la terapia auditivo-verbal y a un adulto que le da baño de lenguaje cada día.',
+    heading: 'Cómo se aborda',
+    body: 'Detectar pronto, equipar (audífono o implante) y estimular el lenguaje: ese es el trío. El dispositivo devuelve el acceso al sonido, pero no "enseña" a entender por sí solo. El cerebro aprende a interpretar lo que ahora oye gracias a los ejercicios auditivo-verbales y a un adulto que le da baño de lenguaje cada día.',
   },
   {
     id: 'hip-concepto-rol',
@@ -46,7 +46,7 @@ export const HIPOACUSIA_CONCEPTS_ES: AcademyGuideUnit[] = [
     xp: 20,
     icon: 'family',
     heading: 'Tu papel con el dispositivo',
-    body: 'Tú garantizas que el dispositivo esté puesto, encendido y en buen estado durante todas las horas de vigilia ("ojos abiertos, oídos puestos"). Detectas si algo no suena bien y avisas al audiólogo. Nunca ajustas la programación por tu cuenta: eso lo hace el profesional. Tu constancia diaria es la mitad de la terapia.',
+    body: 'Tú garantizas que el dispositivo esté puesto, encendido y en buen estado durante todas las horas de vigilia ("ojos abiertos, oídos puestos"). Detectas si algo no suena bien y avisas al audiólogo. Nunca ajustas la programación por tu cuenta: eso lo hace el profesional. Tu constancia diaria es la mitad del avance.',
   },
   // Bloque de Realidad Aumentada · AR-2. Va aquí, en Conceptos Clínicos, y no
   // como cápsula suelta: quien pregunta "¿oye de dónde viene?" está ya dentro
@@ -92,8 +92,8 @@ export const HIPOACUSIA_CONCEPTS_EN: AcademyGuideUnit[] = [
     domain: 'hipoacusia',
     xp: 20,
     icon: 'clinical',
-    heading: 'The therapeutic approach',
-    body: 'Early detection, device fitting (hearing aid or cochlear implant), and rich language stimulation: that is the essential triad. The device provides access to sound, but does not "teach" comprehension on its own. The brain learns to interpret incoming sound through Auditory-Verbal Therapy and a caregiver who provides a rich language bath every day.',
+    heading: 'How it is addressed',
+    body: 'Early detection, device fitting (hearing aid or cochlear implant), and rich language stimulation: that is the essential triad. The device provides access to sound, but does not "teach" comprehension on its own. The brain learns to interpret incoming sound through auditory-verbal exercises and a caregiver who provides a rich language bath every day.',
   },
   {
     id: 'hip-concepto-rol',
@@ -101,7 +101,7 @@ export const HIPOACUSIA_CONCEPTS_EN: AcademyGuideUnit[] = [
     xp: 20,
     icon: 'family',
     heading: 'Your role with the device',
-    body: 'You ensure the device is on, powered, and functioning properly during all waking hours ("eyes open, ears on"). You notice if sound seems off and notify the audiologist. Never adjust programming parameters on your own: that is the audiologist’s responsibility. Your daily consistency is half the therapy.',
+    body: 'You ensure the device is on, powered, and functioning properly during all waking hours ("eyes open, ears on"). You notice if sound seems off and notify the audiologist. Never adjust programming parameters on your own: that is the audiologist’s responsibility. Your daily consistency is half the progress.',
   },
   {
     id: 'hip-vra-que-es',
