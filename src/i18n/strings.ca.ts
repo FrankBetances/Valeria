@@ -155,7 +155,7 @@ export const CA: UiStrings = {
     streak: (n: number): string => `${n} ${n === 1 ? 'dia de ratxa' : 'dies de ratxa'}`,
     level: (n: number, name: string): string => `Nivell ${n} · ${name}`,
     sectionTraining: 'LA TEVA FORMACIÓ',
-    sectionBlocks: 'BLOCS DE TERÀPIA',
+    sectionBlocks: 'BLOCS D\'EXERCICIS',
 
     pairsTitle: 'Parells Mínims',
     pairsSub: 'Dislàlies: rotacisme, sigmatisme i més amb joc de veu.',
@@ -282,7 +282,7 @@ export const CA: UiStrings = {
     teaConsentBody2:
       ': un exercici en què TU congeles l\'aplicació a propòsit (una ordre absurda o un '
       + 'silenci) per observar com l\'infant repara la comunicació. Li pot generar una '
-      + 'frustració breu i controlada — és l\'objectiu terapèutic, pautat pel vostre logopeda.',
+      + 'frustració breu i controlada — és l\'objectiu clínic, pautat pel vostre logopeda.',
     teaConsentItem1: '✋ L\'estressor el llances sempre tu, des del Panell de l\'Adult.',
     teaConsentItem2: '↩️ És reversible a l\'instant: un toc i l\'aplicació torna a la normalitat.',
     teaConsentItem3: '🚫 L\'aplicació mai no interromp, no apuja la dificultat ni diagnostica per si sola.',

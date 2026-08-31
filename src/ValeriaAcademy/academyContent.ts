@@ -18,7 +18,7 @@ export const TRACK_ACCENT_ES: Record<AcademyTrack, { bg: string; fg: string; lab
   desarrollo: { bg: '#e0edff', fg: '#3b6fd4', label: 'CÓMO APRENDEN A HABLAR' },
   tpr:        { bg: '#d6f5f2', fg: '#00a39e', label: 'POR QUÉ EL TPR' },
   vicios:     { bg: '#fdeef2', fg: '#c2477e', label: 'VICIOS A EVITAR' },
-  mediada:    { bg: '#fff1dc', fg: '#d98a1f', label: 'TERAPIA MEDIADA' },
+  mediada:    { bg: '#fff1dc', fg: '#d98a1f', label: 'CÓMO ACOMPAÑAR' },
   mitos:      { bg: '#ffe9e4', fg: '#cf4b39', label: '¿MITO O REALIDAD?' },
 };
 
@@ -63,7 +63,7 @@ export const ACADEMY_CAPSULES_ES: AcademyCapsule[] = [
       {
         icon: '🎧',
         heading: 'Audición primero (método auditivo-verbal)',
-        body: 'En terapia auditivo-verbal damos prioridad al oído: nombramos antes de mostrar, para que el niño use la escucha y no solo la lectura labial o el gesto. Por eso muchos ejercicios dicen la palabra ANTES de enseñar la imagen.',
+        body: 'En los ejercicios auditivo-verbales damos prioridad al oído: nombramos antes de mostrar, para que el niño use la escucha y no solo la lectura labial o el gesto. Por eso muchos ejercicios dicen la palabra ANTES de enseñar la imagen.',
       },
     ],
     quiz: [
@@ -172,7 +172,7 @@ export const ACADEMY_CAPSULES_ES: AcademyCapsule[] = [
       {
         icon: '♻️',
         heading: 'Remodelado (recast)',
-        body: 'En su lugar, devuelve la palabra bien dicha de forma natural, dentro de la frase: si dice "peo", tú respondes "¡Sí! Un PERRO grande". Le das el modelo correcto sin señalar el error. Esto es el recast, la técnica reina de la terapia mediada.',
+        body: 'En su lugar, devuelve la palabra bien dicha de forma natural, dentro de la frase: si dice "peo", tú respondes "¡Sí! Un PERRO grande". Le das el modelo correcto sin señalar el error. Esto es el recast, la técnica reina del acompañamiento adulto.',
       },
     ],
     quiz: [
@@ -227,7 +227,7 @@ export const ACADEMY_CAPSULES_ES: AcademyCapsule[] = [
     slides: [
       {
         icon: '🧑‍🏫',
-        heading: 'Terapia MEDIADA por un adulto',
+        heading: 'MEDIADO siempre por un adulto',
         body: 'Valeria+ no "trata" al niño sola. Es una herramienta que TÚ manejas: eliges el ejercicio, das el modelo, esperas, refuerzas y decides cuándo parar. El progreso depende de esa mediación humana.',
       },
       {
@@ -237,7 +237,7 @@ export const ACADEMY_CAPSULES_ES: AcademyCapsule[] = [
       },
       {
         icon: '🛑',
-        heading: 'Parar también es terapia',
+        heading: 'Parar también es acompañar',
         body: 'No hay un mínimo que cumplir. Si tu peque se cansa o se desborda, parar a tiempo protege la motivación para mañana. Una sesión corta y feliz vale más que una larga y forzada.',
       },
     ],
@@ -246,7 +246,7 @@ export const ACADEMY_CAPSULES_ES: AcademyCapsule[] = [
         prompt: 'En Valeria+, ¿cuál es el papel del adulto?',
         options: ['Mero espectador', 'El motor clínico que media toda la sesión', 'Solo encender la tableta'],
         answer: 1,
-        rationale: 'La terapia es mediada: el adulto elige, modela, refuerza y decide. La app es la herramienta.',
+        rationale: 'Todo va mediado: el adulto elige, modela, refuerza y decide. La app es la herramienta.',
       },
       {
         prompt: 'Si el niño se desborda a mitad de la sesión, lo correcto es…',
@@ -445,9 +445,9 @@ export const ACADEMY_CAPSULES_ES: AcademyCapsule[] = [
     quiz: [
       {
         prompt: 'Las praxias orofaciales sirven para…',
-        options: ['Cansar al niño', 'Dar agilidad a labios y lengua', 'Sustituir a la terapia'],
+        options: ['Cansar al niño', 'Dar agilidad a labios y lengua', 'Sustituir al logopeda'],
         answer: 1,
-        rationale: 'Una musculatura oral ágil facilita la articulación; son un apoyo lúdico, no un sustituto de la terapia.',
+        rationale: 'Una musculatura oral ágil facilita la articulación; son un apoyo lúdico, no un sustituto del logopeda.',
       },
     ],
   },
@@ -485,7 +485,7 @@ export const ACADEMY_CAPSULES_ES: AcademyCapsule[] = [
       {
         icon: '🤫',
         heading: 'Y el micrófono, apagado',
-        body: 'En dos de los tres juegos el micrófono está apagado a propósito. Primero se consolida el gesto motor; pedirle el sonido viene después. No es que la app "se olvide" de escuchar: es el objetivo terapéutico.',
+        body: 'En dos de los tres juegos el micrófono está apagado a propósito. Primero se consolida el gesto motor; pedirle el sonido viene después. No es que la app "se olvide" de escuchar: es el objetivo del ejercicio.',
       },
     ],
     quiz: [
@@ -844,7 +844,7 @@ export const ACADEMY_CAPSULES_ES: AcademyCapsule[] = [
       {
         icon: '🤝',
         heading: 'No es «o una o la otra»',
-        body: 'Signar y trabajar la audición no son excluyentes. Muchas familias hacen las dos cosas: terapia auditivo-verbal para el habla y signos para comunicarse mientras esta llega. Lo que sí conviene evitar es la ambigüedad: cada persona adulta debe tener claro qué lengua usa con el niño y cuándo.',
+        body: 'Signar y trabajar la audición no son excluyentes. Muchas familias hacen las dos cosas: ejercicios auditivo-verbales para el habla y signos para comunicarse mientras esta llega. Lo que sí conviene evitar es la ambigüedad: cada persona adulta debe tener claro qué lengua usa con el niño y cuándo.',
       },
       {
         icon: '👨‍⚕️',
@@ -861,7 +861,7 @@ export const ACADEMY_CAPSULES_ES: AcademyCapsule[] = [
       },
       {
         prompt: 'Sobre combinar signos y trabajo auditivo:',
-        options: ['Son incompatibles', 'Se pueden combinar, y la decisión es del equipo clínico con la familia', 'Los signos deben retirarse al empezar la terapia auditiva'],
+        options: ['Son incompatibles', 'Se pueden combinar, y la decisión es del equipo clínico con la familia', 'Los signos deben retirarse al empezar los ejercicios de audición'],
         answer: 1,
         rationale: 'No son excluyentes; la combinación adecuada depende del caso y la decide el equipo con la familia.',
       },
@@ -1155,7 +1155,7 @@ export const ACADEMY_CAPSULES_ES: AcademyCapsule[] = [
         prompt: 'Tu peque señala el perro y dice "peo". La respuesta más estimuladora es…',
         options: ['🔁 "Repite: pe-rro. Otra vez"', '🌟 "¡Sí! Un PERRO grande y peludo"', '🤫 Esperar a que lo diga bien para contestar'],
         answer: 1,
-        rationale: 'Devolverle la palabra bien dicha y ampliada le da modelo y significado sin cortar la comunicación. Es el recast de la terapia mediada.',
+        rationale: 'Devolverle la palabra bien dicha y ampliada le da modelo y significado sin cortar la comunicación. Es el recast del acompañamiento adulto.',
       },
     ],
   },
@@ -1338,7 +1338,7 @@ export const ACADEMY_CAPSULES_ES: AcademyCapsule[] = [
       {
         icon: '🎯',
         heading: 'Qué hacer',
-        body: 'Antes de plantear cualquier corte, pide una valoración logopédica del habla: qué sonidos tiene, cuáles no y cómo los sustituye. Esa evaluación es la que dice si sobra lengua o falta sistema. Y si finalmente hay indicación quirúrgica, seguirá haciendo falta terapia: la cirugía no enseña a articular.',
+        body: 'Antes de plantear cualquier corte, pide una valoración logopédica del habla: qué sonidos tiene, cuáles no y cómo los sustituye. Esa evaluación es la que dice si sobra lengua o falta sistema. Y si finalmente hay indicación quirúrgica, seguirá haciendo falta trabajo logopédico: la cirugía no enseña a articular.',
       },
     ],
     quiz: [
@@ -1412,10 +1412,10 @@ export const ACADEMY_CAPSULES_ES: AcademyCapsule[] = [
         rationale: 'El espectro es muy amplio: hay niños autistas afectuosos, que miran y que hablan. El diagnóstico lo hace un equipo especializado.',
       },
       {
-        prompt: 'Ante una "terapia" que promete curar el autismo con dietas o suplementos…',
+        prompt: 'Ante un "tratamiento milagroso" que promete curar el autismo con dietas o suplementos…',
         options: ['🛒 Probarla, por si acaso', '🧐 Preguntar por su evidencia y consultarlo con el equipo', '📢 Recomendarla a otras familias'],
         answer: 1,
-        rationale: 'No hay cura para el autismo, y varias de esas pseudoterapias son caras y peligrosas. Lo que ayuda es el apoyo a la comunicación y al entorno.',
+        rationale: 'No hay cura para el autismo, y varias de esas propuestas son caras y peligrosas. Lo que ayuda es el apoyo a la comunicación y al entorno.',
       },
       {
         prompt: 'Que tu hijo sea autista se debe a…',

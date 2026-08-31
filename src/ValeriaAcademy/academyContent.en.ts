@@ -11,7 +11,7 @@ export const TRACK_ACCENT_EN: Record<AcademyTrack, { bg: string; fg: string; lab
   desarrollo: { bg: "#e0edff", fg: "#3b6fd4", label: "HOW CHILDREN LEARN TO TALK" },
   tpr:        { bg: "#d6f5f2", fg: "#00a39e", label: "WHY TOTAL PHYSICAL RESPONSE" },
   vicios:     { bg: "#fdeef2", fg: "#c2477e", label: "HABITS TO AVOID" },
-  mediada:    { bg: "#fff1dc", fg: "#d98a1f", label: "CAREGIVER-MEDIATED THERAPY" },
+  mediada:    { bg: "#fff1dc", fg: "#d98a1f", label: "HOW TO SUPPORT THEM" },
   mitos:      { bg: "#ffe9e4", fg: "#cf4b39", label: "MYTH OR FACT?" },
 };
 
@@ -43,7 +43,7 @@ export const ACADEMY_CAPSULES_EN: AcademyCapsule[] = [
       {
         icon: "🎧",
         heading: "Audition first (Auditory-Verbal method)",
-        body: "In Auditory-Verbal Therapy, we prioritize hearing: we name before showing, so your child relies on active listening rather than lipreading or gestures alone. This is why many activities present the spoken model BEFORE revealing the picture.",
+        body: "In auditory-verbal exercises, we prioritize hearing: we name before showing, so your child relies on active listening rather than lipreading or gestures alone. This is why many activities present the spoken model BEFORE revealing the picture.",
       },
     ],
     quiz: [
@@ -141,7 +141,7 @@ export const ACADEMY_CAPSULES_EN: AcademyCapsule[] = [
       {
         icon: "🎉",
         heading: "Playful and natural engagement",
-        body: "Physical movement keeps therapy playful, energetic, and completely natural in the home environment.",
+        body: "Physical movement keeps practice playful, energetic, and completely natural in the home environment.",
       },
     ],
     quiz: [
@@ -241,7 +241,7 @@ export const ACADEMY_CAPSULES_EN: AcademyCapsule[] = [
     track: "mediada",
     icon: "🧑‍🏫",
     title: "Did you know you're already a therapist?",
-    summary: "Speech-Language Pathologists guide the strategy, but you deliver the daily therapy.",
+    summary: "Speech-Language Pathologists guide the strategy, but you deliver the daily practice.",
     minutes: 2,
     xp: 20,
     slides: [
@@ -258,7 +258,7 @@ export const ACADEMY_CAPSULES_EN: AcademyCapsule[] = [
       {
         icon: "🚀",
         heading: "Empowered daily routines",
-        body: "Valeria+ equips you with clinical strategies so you can turn daily routines (bath, meals, bedtime) into rich therapy opportunities.",
+        body: "Valeria+ equips you with clinical strategies so you can turn daily routines (bath, meals, bedtime) into rich language opportunities.",
       },
     ],
     quiz: [
@@ -769,7 +769,7 @@ export const ACADEMY_CAPSULES_EN: AcademyCapsule[] = [
       {
         icon: "📋",
         heading: "Daily routine visual boards",
-        body: "Display simple image sequences for morning routines, hygiene, or therapy sessions.",
+        body: "Display simple image sequences for morning routines, hygiene, or exercise sessions.",
       },
       {
         icon: "🌟",
@@ -860,7 +860,7 @@ export const ACADEMY_CAPSULES_EN: AcademyCapsule[] = [
         prompt: "What is the most effective clinical way to utilize an autistic child’s special interests?",
         options: [
           "Join their interest and use it as a rich bridge for communication and shared connection",
-          "Ban the interest completely during therapy",
+          "Ban the interest completely during exercises",
           "Allow only 30 seconds of play per day",
         ],
         answer: 0,

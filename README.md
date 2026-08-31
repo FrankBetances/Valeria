@@ -293,7 +293,7 @@ opcodes nuevos: el protocolo sigue en la versión 1.
 
 ## 🎓 Academy · formación del cuidador
 
-En la terapia auditivo‑verbal el **adulto es el motor clínico** de cada sesión
+En los ejercicios auditivo‑verbales el **adulto es el motor clínico** de cada sesión
 (requisito **MDR**: la app nunca decide sola). **Academy** (`src/ValeriaAcademy/`)
 capacita a padres y cuidadores para que acompañen como profesionales, mediante
 **Cápsulas de Conocimiento** de consumo rápido (≈2 min) con **micro‑quiz** de
@@ -557,7 +557,7 @@ cuenta allí y no llega aquí.
 
 Cada 20 minutos de pantalla cerca, 20 segundos mirando algo lejano. Es una
 recomendación **oftalmológica**, no logopédica, y aquí hay dos maneras de meterla
-en una app de terapia: bloquear la sesión, o decírselo al adulto. Esta app hace lo
+en una app como esta: bloquear la sesión, o decírselo al adulto. Esta app hace lo
 segundo, y no por comodidad — **es Clase I porque no interviene**: en el momento en
 que la app pausa una sesión clínica por su cuenta, deja de sugerir y empieza a
 decidir.
@@ -566,7 +566,7 @@ Cómo está montado:
 
 | Pieza | Qué hace |
 | :--- | :--- |
-| [`src/valeriaActiveTimeMonitor.ts`](src/valeriaActiveTimeMonitor.ts) | cuenta el tiempo de terapia activa y, pasados 20 minutos **continuos**, levanta `isVisualBreakRecommended`. Pausa en segundo plano y vuelve a cero si el corte pasa de cinco minutos |
+| [`src/valeriaActiveTimeMonitor.ts`](src/valeriaActiveTimeMonitor.ts) | cuenta el tiempo de ejercicio activo y, pasados 20 minutos **continuos**, levanta `isVisualBreakRecommended`. Pausa en segundo plano y vuelve a cero si el corte pasa de cinco minutos |
 | [`src/ValeriaSessionBreakOverlay.tsx`](src/ValeriaSessionBreakOverlay.tsx) | la tarjeta del adulto, dentro de la pausa activa que ya existía. Sugerencia, cuenta atrás y «Ahora no» |
 | [`src/valeriaLuaSession.ts`](src/valeriaLuaSession.ts) | `triggerVisualAnchorBreak(segundos)`: manda `GRANT` y luego `RELAX` —en ese orden, porque conceder despierta la cara— y devuelve a `IDLE` al terminar |
 
@@ -649,7 +649,7 @@ variedad activa vive en un único módulo (`src/valeriaLocale.ts`), que desacopl
 tres decisiones: qué banco de audio usar, qué locale BCP‑47 pasar al
 reconocedor/voz del sistema y si conviene preferir voces latinas.
 
-**El idioma de la interfaz es una decisión aparte de la variedad de terapia**, y
+**El idioma de la interfaz es una decisión aparte de la variedad de los ejercicios**, y
 esa separación es deliberada: en un *caseload* bilingüe, la logopeda puede
 querer la app en inglés y trabajar en castellano con un niño, o al revés. Vive
 en su propio módulo (`src/valeriaUiLang.ts`, `UiLang = 'es' | 'en' | 'ca'`), con
@@ -699,7 +699,7 @@ sola persona: catalán central normativo **y** criterio clínico.
 Eso es lo que sostiene la decisión más discutible del banco de pares —dejar
 /b/–/v/ **fuera** por el betacismo del central—, que no era comprobable desde la
 fonología de manual: hacía falta alguien de Barcelona que además sepa qué se
-puntúa en terapia.
+puntúa en los ejercicios.
 
 ### El inglés no es una traducción: es la quinta variedad, y la primera con interfaz propia
 
@@ -833,7 +833,7 @@ flowchart LR
 telemetría indexa el tiempo por nombre de ruta y rebautizarla partiría la serie
 del piloto. La etiqueta pasó de «Terapias» a «Ejercicios» para que concuerde con
 el título de la pantalla («Selección de Ejercicios») y con el enfoque del
-producto: la terapia la dirige el logopeda; lo que la familia hace en casa son
+producto: el tratamiento lo dirige el logopeda; lo que la familia hace en casa son
 ejercicios.
 
 **La pestaña inicial es Academy** (`initialRouteName`), porque la app forma
@@ -930,7 +930,7 @@ interfaz clásica se entra desde el hub de bloques, en la v11 desde **Ajustes**)
 | [`docs/guia-dialectal-es-DO.md`](docs/guia-dialectal-es-DO.md) | Guía clínica dominicana (QH‑0.2): qué es rasgo dialectal normal y qué es error terapéutico. Regla **bloqueante** para todo dataset es‑DO. |
 | [`docs/plan-integracion-proxecto-nos.md`](docs/plan-integracion-proxecto-nos.md) | Plan por fases de la versión en gallego apoyada en los recursos abiertos del Proxecto Nós (contenido, voz Celtia, ASR). |
 | [`docs/plan-integracion-quisqueya-habla.md`](docs/plan-integracion-quisqueya-habla.md) | Plan de la variante dominicana (es‑DO), que reutiliza la infraestructura de variedad del plan gallego. |
-| [`docs/plan-integracion-ingles-en-US.md`](docs/plan-integracion-ingles-en-US.md) | Plan por fases para el inglés de Estados Unidos (`en‑US`). **Interfaz, banco clínico y voz ya implementados** — ver [Idiomas y variedades](#-idiomas-y-variedades). Rompió el molde de los tres planes de idioma anteriores: fue el primero que exigió **traducir la interfaz** (hasta entonces las cadenas estaban literales en las 27 pantallas), el primero que abre **mercado nuevo** (COPPA, *Designed for Families*, ficha de tienda y página de eliminación de datos en inglés) y el que más rediseño clínico pide (grupos consonánticos, vocales tensa/laxa, ortografía opaca). Decisiones ya cerradas: **revisión clínica confirmada** (profesora SLP con licencia, *Howard University*), **separación del idioma de interfaz respecto de la variedad de terapia** —para el *caseload* bilingüe español‑inglés— y la regla bloqueante de **diferencia dialectal vs. trastorno** para el inglés afroamericano y el sureño, espejo de la guía dominicana. |
+| [`docs/plan-integracion-ingles-en-US.md`](docs/plan-integracion-ingles-en-US.md) | Plan por fases para el inglés de Estados Unidos (`en‑US`). **Interfaz, banco clínico y voz ya implementados** — ver [Idiomas y variedades](#-idiomas-y-variedades). Rompió el molde de los tres planes de idioma anteriores: fue el primero que exigió **traducir la interfaz** (hasta entonces las cadenas estaban literales en las 27 pantallas), el primero que abre **mercado nuevo** (COPPA, *Designed for Families*, ficha de tienda y página de eliminación de datos en inglés) y el que más rediseño clínico pide (grupos consonánticos, vocales tensa/laxa, ortografía opaca). Decisiones ya cerradas: **revisión clínica confirmada** (profesora SLP con licencia, *Howard University*), **separación del idioma de interfaz respecto de la variedad de los ejercicios** —para el *caseload* bilingüe español‑inglés— y la regla bloqueante de **diferencia dialectal vs. trastorno** para el inglés afroamericano y el sureño, espejo de la guía dominicana. |
 | [`docs/protocolo-evaluacion-clinica-en-US.md`](docs/protocolo-evaluacion-clinica-en-US.md) | Protocolo de la **evaluación clínica estadounidense** (EN‑0.9): cómo se instala la build de prueba en Android, qué debe juzgar la revisora —validez de la mecánica, **diferencia dialectal vs. trastorno**, registro del inglés y usabilidad—, qué queda **fuera de alcance** para que no gaste el informe en ello, y el formato tabulado (*tipo · gravedad · propuesta*) que permite convertir cada observación en una tarea del plan. |
 | [`docs/plan-asr-privacidad-y-motor-local.md`](docs/plan-asr-privacidad-y-motor-local.md) | Plan en dos fases para que el audio del turno de habla **no salga del dispositivo**: (A) reconocimiento local con el motor del sistema —**software terminado**, pendiente de verificar en dispositivo— y (B) prueba de concepto medida de un motor local (`sherpa-onnx`), con puerta GO/NO‑GO numérica y banco de medida ya implementado. Contiene dos hallazgos que cambiaron el plan: que `@react-native-voice/voice` descartaba en silencio las claves que no conocía (§2.2), y que **25 de los 35 pares mínimos puntúan como acierto que el niño diga el distractor** (§4.0). Revisa el NO‑GO de [`docs/asr-euskera-ilenia.md`](docs/asr-euskera-ilenia.md). |
 | [`docs/plan-mejoras-acopros-logopedas.json`](docs/plan-mejoras-acopros-logopedas.json) | **Fuente de verdad** del plan de mejoras nacido del feedback clínico de ACOPROS: cada observación verificada contra el código, con decisiones clínicas (DC‑1…DC‑5), criterios de aceptación y estado. Incluye el **bloqueo de publicación** del corpus de voz. |
@@ -1067,7 +1067,7 @@ npx expo prebuild -p ios     # genera ios/ con Podfile y ejecuta pod install
 npm run ios                  # compila y abre el simulador
 ```
 
-Para un **iPad físico** —el escenario real de la terapia— conéctalo por USB y:
+Para un **iPad físico** —el escenario real de uso— conéctalo por USB y:
 
 ```bash
 npm run ios:device           # elige el dispositivo de la lista y compila en Debug
@@ -1215,8 +1215,8 @@ un dato de salud de un menor— que el typecheck y el diff no ven.
 | `check-word-coverage.js` | Que la lámina encendida y la palabra puntuada vuelvan a contarse con reglas distintas. La regla llegó a estar escrita dos veces y no eran iguales: una frase podía encender las cinco láminas y recibir un «casi». Comprueba además que el recuento **sobrevive al viaje por disco** hasta la exportación |
 | `check-ui-strings.js` | Que una pantalla pinte texto literal en vez de leerlo del catálogo (EN‑2.8). Ya pasó dos veces con ficheros enteros dentro de pantallas migradas: compilan, el typecheck pasa y la app sale mitad en inglés y mitad en castellano |
 | `check-ui-lang-fallback.js` | Que un idioma de interfaz caiga a otra lengua **en silencio**. Hermano del anterior para lo que no es literal de pantalla: los catálogos de ejercicios y de Academy se elegían con `lang === 'en' ? EN : ES`, así que al entrar el catalán el adulto leía castellano bajo una cabecera catalana — sin romper el typecheck, porque el ternario acepta cualquier `UiLang`. O hay rama, o el hueco está declarado en `src/i18n/uiLangFallback.ts` y **la pantalla lo dice** |
-| `test-challenger-final-ca-integration.js` | Que el catálogo catalán pierda la paridad 1:1 con el castellano, que el selector deje de mover la variedad de terapia o que alguna de las 212 funciones de interpolación reviente al ejecutarse. Existía desde la primera tanda pero **no lo corría nadie** |
-| `check-adult-fields.js` | Que los dos ejes de idioma se contradigan **dentro de un ejercicio**: lo que se le dice al niño va en la variedad de terapia, lo que solo lee el adulto va en el idioma de la interfaz |
+| `test-challenger-final-ca-integration.js` | Que el catálogo catalán pierda la paridad 1:1 con el castellano, que el selector deje de mover la variedad de los ejercicios o que alguna de las 212 funciones de interpolación reviente al ejecutarse. Existía desde la primera tanda pero **no lo corría nadie** |
+| `check-adult-fields.js` | Que los dos ejes de idioma se contradigan **dentro de un ejercicio**: lo que se le dice al niño va en la variedad de los ejercicios, lo que solo lee el adulto va en el idioma de la interfaz |
 | `check-variety-branches.js` | Que una variedad se quede sin su rama en un selector escrito cuando existían menos. Es el patrón exacto que produjo «la voz inglesa lee castellano», y con seis variedades hay seis formas de repetirlo |
 | `check-brand-consistency.js` | Que reaparezca la mascota retirada. La migración a Lúa se dio por terminada **tres veces** estando a medias, y la última capa que quedó fue el texto **locutado** |
 | `check-lua-mascot-mirror.js` | Que la gata de la tableta y la del aparato se separen en humor o en guardarropa. Vigila `MOOD` y `ACCESSORY`, **no** los glifos de las insignias |
@@ -1810,10 +1810,10 @@ trazabilidad completa está en
   gamificado para padres y cuidadores —el motor clínico de la app bajo el marco
   MDR—, con **Cápsulas de Conocimiento** de consumo rápido y **micro‑quiz** de
   validación ágil sobre cómo aprenden a hablar los niños, el porqué de las
-  dinámicas TPR y qué vicios evitar en la terapia mediada (no corregir sino
+  dinámicas TPR y qué vicios evitar al acompañar (no corregir sino
   remodelar, comentar más que preguntar).
 - **Tarjeta en el hub** (`AcademyHubCard`): prominente en `ExerciseSelection`,
-  con la misma jerarquía visual que los bloques de terapia y una **barra de
+  con la misma jerarquía visual que los bloques de ejercicios y una **barra de
   progreso en tiempo real** (nivel, XP e insignias).
 - **Persistencia cifrada offline**: el progreso se guarda con `valeriaCrypto`
   sobre `AsyncStorage` (`STORAGE_KEYS.academy`), coherente con la telemetría.
@@ -1965,6 +1965,6 @@ trazabilidad completa está en
 
 Hecho con 🐈‍⬛ por **Dr. Frank Alberto Betances Reinoso**
 
-<sub>Valeria+ · terapia auditivo‑verbal y del lenguaje · offline · multivariedad</sub>
+<sub>Valeria+ · formación y ejercicios de lenguaje · offline · multivariedad</sub>
 
 </div>
