@@ -173,7 +173,7 @@ export const ValeriaCreditsScreen: React.FC<{ navigation?: any }> = ({ navigatio
       <Animated.View style={[s.actions, fadeUp(SECTIONS - 1)]}>
         <Pressable
           style={({ pressed }) => [s.cta, pressed && { opacity: 0.9 }]}
-          onPress={() => navigation?.navigate('FichaRegistro')}
+          onPress={() => navigation?.navigate('LuaInfo')}
           accessibilityRole="button"
           accessibilityLabel={t.common.continue}
         >

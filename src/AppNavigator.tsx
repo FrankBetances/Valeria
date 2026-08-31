@@ -57,10 +57,12 @@ import ValeriaArLauncherScreen from './ValeriaArLauncherScreen';
 import ValeriaPatientResultsDashboardScreen from './ValeriaPatientResultsDashboardScreen';
 import { SensoryBlockListScreen, SensoryExerciseScreen } from './ValeriaSensory';
 import { ValeriaWritingExerciseScreen } from './ValeriaWritingExerciseScreen';
+import ValeriaLuaScreen from './ValeriaLuaScreen';
 
 export type ValeriaStackParamList = {
   Welcome: undefined;
   Credits: undefined;
+  LuaInfo: undefined;
   PatientSelect: undefined;
   FichaRegistro: undefined;
   // Monta el MainTabNavigator. Acepta params anidados (`{ screen: 'Academy' }`)
@@ -95,6 +97,7 @@ export const ValeriaNavigator: React.FC = () => (
   >
     <Stack.Screen name="Welcome" component={ValeriaWelcomeScreen} />
     <Stack.Screen name="Credits" component={ValeriaCreditsScreen} />
+    <Stack.Screen name="LuaInfo" component={ValeriaLuaScreen} />
     <Stack.Screen name="PatientSelect" component={ValeriaPatientSelectScreen} />
     <Stack.Screen name="FichaRegistro" component={ValeriaFichaRegistroScreen} />
     {/* La interfaz v11 va cableada DIRECTA. Hubo un interruptor
