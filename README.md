@@ -168,7 +168,7 @@ tarjeta que puede no aparecer, porque depende del aparato.
 | 🧠 **TEA** (6 ejercicios) | PRT + TCC: atención conjunta triangulada (Time Delay + Sello Doble), quiebre pragmático con consentimiento, espejo asimétrico, transición interrumpida, categorización bajo ruido y múltiples señales simultáneas. Todos los estresores son **manuales** (Panel del Adulto). |
 | 📖 **Dislexia** (6 ejercicios) | Fonología y acceso léxico: intruso fonológico auditivo puro, rastreo léxico con interferencia, síntesis fonémica rítmica (latencia 500 ms + Juez), criba de pseudopalabras (máx. 5 ensayos), rastreo visual de rotaciones b/d · p/q con mapa de misclicks y denominación rápida (RAN). |
 | ✏️ **Grafomotricidad y Escritura** (6 trazos) · [captura](docs/screenshots/40-pizarra-magica.png) | La **Pizarra Mágica de Lúa**: continuación motora de Dislexia. Trazado guiado sobre lienzo SVG con dedo o lápiz óptico, pauta Montessori regulable y **puntos de control numerados** que fijan el ORDEN del trazo, que es lo que evita la inversión b/d y p/q: en la `b` el palo baja primero y la barriga abre a la derecha; en la `d` el óvalo va antes. Cuatro letras críticas (b, d, p, m), dos lazos de calentamiento y pizarra libre. El contenido de pantalla está **solo en castellano** de momento; los tres elogios que locuta sí están en las cinco variedades con banco propio. |
-| 🎯 **Realidad Aumentada** (3 ejercicios · solo Android) | **Gamificación Condicionada**: la cámara frontal deja de grabar y pasa a ser un sensor de conducta motora, y el refuerzo 3D se dispara **solo** por el gesto objetivo, nunca por acierto acústico ni por paso del tiempo. Cinemática orofacial con el **micrófono apagado** (AR‑1), localización del sonido instrumentada —la versión con cronómetro de RA‑5— (AR‑2) y selección semántica por fijación de la mirada, sin motricidad fina (AR‑3). Ningún fotograma se graba ni sale del teléfono. La tarjeta solo aparece si el teléfono supera la **Prueba de Aptitud del Dispositivo**. |
+| 🎯 **Realidad Aumentada** (6 ejercicios · solo Android) | **Gamificación Condicionada**: la cámara frontal deja de grabar y pasa a ser un sensor de conducta motora, y el refuerzo 3D se dispara **solo** por el gesto objetivo, nunca por acierto acústico ni por paso del tiempo. Cinemática orofacial con el **micrófono apagado** (AR‑1), localización del sonido instrumentada —la versión con cronómetro de RA‑5— (AR‑2), selección semántica por fijación de la mirada sin motricidad fina (AR‑3), búsqueda espacial de Lúa (AR‑4), lanzamiento y captura (AR‑5) y espejo mímico (AR‑6). Sobre **ARCore**, con MediaPipe aportando los blendshapes que ARCore no da. Ningún fotograma se graba ni sale del teléfono. La tarjeta solo aparece si el teléfono supera la **Prueba de Aptitud del Dispositivo**. |
 
 El **Test de Ling** (6 sonidos) precede a los ejercicios de audición cuando el
 paciente usa audífono o implante, y la **gamificación** (XP, racha 🔥, niveles e
@@ -1227,7 +1227,7 @@ un dato de salud de un menor— que el typecheck y el diff no ven.
 | `build-lua-protocol.js --check` | Que la app y el firmware dejen de compartir la tabla de opcodes. No es un chequeo de estilo: el protocolo no lleva versión negociada, así que un opcode desplazado le enseña al niño la cara de otro estado en un aparato que ya está en su casa |
 | `verify-ar-clinical-math.js` | Que la aritmética de los ejercicios de RA se separe de las constantes que la app usa de verdad. Nació pasando 20/20 sin estar cableado a nada mientras AR‑5 registraba 320 ms constantes de tiempo de reacción: por eso ancla sus fórmulas leyendo los fuentes |
 | `stress-test-ar-adversarial.js` | Que las defensas de los ejercicios de RA cedan ante la entrada que no se esperaba: cara perdida, teléfono movido, señal fuera de rango |
-| `check-ar-concurrency.js` | Que el bloque de RA vuelva a tener carreras entre sus tres hilos —el analizador de CameraX, el bucle de UI y el worker de audio—. Es el único chequeo que **lee el Kotlin**: los demás miran contenido, y compilar con Gradle no distingue «compila» de «no tiene carreras». Vigila que ningún punto de entrada de un ejercicio quede fuera de su lock, que el `AudioTrack` lo abra y lo cierre siempre el mismo hilo (liberarlo desde dos mata el proceso, sin excepción que capturar), que los plazos del ensayo se compensen al volver de segundo plano —si no, una notificación a media sesión se registra como veinte segundos de fijación sostenida— y que la ventana de respuesta de AR‑2 abra cuando el tono **sale**, no cuando se pide |
+| `check-ar-concurrency.js` | Que el bloque de RA vuelva a tener carreras entre sus hilos —el bucle de GL de ARCore, el de UI y el worker de audio—. Desde el 31/8/2026 vigila además que la imagen de `acquireCameraImage()` se cierre con `use {}` (el pool de ARCore es finito y agotarlo no da error: deja de entregar frames) y que `onPause` pare el bucle de GL **antes** que la sesión. Es el único chequeo que **lee el Kotlin**: los demás miran contenido, y compilar con Gradle no distingue «compila» de «no tiene carreras». Vigila que ningún punto de entrada de un ejercicio quede fuera de su lock, que el `AudioTrack` lo abra y lo cierre siempre el mismo hilo (liberarlo desde dos mata el proceso, sin excepción que capturar), que los plazos del ensayo se compensen al volver de segundo plano —si no, una notificación a media sesión se registra como veinte segundos de fijación sostenida— y que la ventana de respuesta de AR‑2 abra cuando el tono **sale**, no cuando se pide |
 | `check-ar-models.js` | Que el nombre de la animación de un modelo 3D deje de ser el que invoca el código. Si no coincide, la escena compila, carga el modelo y deja al niño **sin refuerzo**, sin error por ninguna parte |
 
 Todos se pueden ejecutar en local: `node scripts/<nombre>.js`.
@@ -1678,6 +1678,23 @@ ejercicios **el micrófono está apagado a propósito**.
   Kotlin ≥ 2.3 y Expo SDK 54 fija 2.1.20; además arrastraba un `compose-bom` que
   habría subido Compose en toda la app. Filament es la capa que hay debajo y no
   tiene ninguno de los dos problemas.
+- **Cámara: ARCore, desde el 31/8/2026.** El módulo montaba su propia tubería
+  con CameraX —proveedor, `ImageAnalysis`, executor, contrapresión, espejo por
+  bitmap— y esa tubería **se colgaba en un Pixel real**. ARCore se lleva las
+  tres capas donde vivían los cuelgues (sesión de cámara, contexto GL y ciclo de
+  vida) y con ellas la mitad de la lista de defectos que el módulo arrastraba.
+  El espejo pasa a dibujarse desde una textura `GL_TEXTURE_EXTERNAL_OES`: se
+  ahorran los dos bitmaps de 1,2 MB por frame (~72 MB/s) que cruzaban el hilo de
+  UI. **MediaPipe se queda** porque ARCore no expone blendshapes —comprobado en
+  su sample `augmented_faces_java`: solo `getCenterPose`, `getRegionPose` y la
+  malla `MESH3D`— y AR‑1 y AR‑6 viven de los 52 coeficientes ARKit. ARCore se
+  declara como capacidad **opcional**: la app se sigue instalando en teléfonos
+  sin ARCore y los otros seis bloques no se enteran.
+- **Y no, ARCore no permite las dos cámaras a la vez.** Obliga a elegir
+  dirección en la sesión (`CameraConfigFilter.setFacingDirection`), igual que
+  CameraX: la restricción nunca fue de CameraX, es del teléfono. Un ejercicio de
+  AR de mundo real con la cámara trasera sería un ejercicio **distinto** —y
+  mediría la pose del móvil, brazo y tronco, no la del cuello.
 - **Radio de explosión cero**: `newArchEnabled` sigue en `false`, los seis
   bloques no se tocan y, si el host nativo no está, la tarjeta **no se
   renderiza**.
@@ -1685,11 +1702,28 @@ ejercicios **el micrófono está apagado a propósito**.
 Documentación: [`docs/protocolo-realidad-aumentada.md`](docs/protocolo-realidad-aumentada.md)
 · plan técnico en [`docs/plan-integracion-rehabilitacion-ar.md`](docs/plan-integracion-rehabilitacion-ar.md).
 
-> **Estado honesto.** El módulo **compila y empaqueta el APK de release en CI**,
-> pero **todavía no se ha ejecutado en un teléfono**: que compile no dice nada
-> sobre si la cámara enfoca o si los fps aguantan. Y la **Fase 0** del plan
-> —banco de referencia y censo de móviles prestados para calibrar los umbrales
-> de las sondas— sigue pendiente.
+> **Estado honesto (31/8/2026).** Ya **se ejecutó en un teléfono**, y ese es el
+> hecho que cambió el rumbo del módulo: **se colgaba**. La versión de CameraX
+> compilaba, empaquetaba y no servía. De ahí la reescritura sobre ARCore.
+>
+> Lo que hay verificado hoy, y con qué:
+>
+> | Afirmación | Evidencia |
+> | --- | --- |
+> | El módulo sobre ARCore compila, pasa R8 y firma el APK | Builds **627** y **628** de `android.yml`, paso `assembleRelease` en verde |
+> | Los 25 gates y el typecheck | Verdes en CI, pasos 6‑31 del mismo run |
+>
+> Lo que **no** está verificado es todo lo que ocurre en el teléfono con la
+> versión nueva: que ARCore abra la cámara, que el espejo se vea, que MediaPipe
+> reciba los frames, los fps sostenidos, y **si los cuelgues se acabaron**. Que
+> compile no dice nada de eso — es justo la lección que costó esta reescritura.
+>
+> Sospechosa conocida si algo falla: **Filament sigue en su propio `TextureView`
+> sin integrarse con el contexto GL de ARCore**. En teoría compone bien sobre el
+> `GLSurfaceView`; en la práctica no se ha mirado.
+>
+> Y la **Fase 0** del plan —banco de referencia y censo de móviles prestados
+> para calibrar los umbrales de las sondas— sigue pendiente.
 
 </details>
 

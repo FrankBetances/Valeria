@@ -26,6 +26,27 @@
 -dontwarn com.google.mediapipe.framework.GraphProfiler
 -dontwarn com.google.mediapipe.framework.Graph
 
+# `@Memoized` de AutoValue, que MediaPipe deja anotando
+# `MPImageProperties.hashCode()`. Hasta el 31/8/2026 esta regla no hacía falta
+# porque `androidx.camera:camera-core` arrastraba `auto-value-annotations` de
+# forma TRANSITIVA; al sustituir CameraX por ARCore se fue con él y el build 626
+# murió aquí, en `:app:minifyReleaseWithR8`, con el Kotlin ya compilado.
+#
+# Se declara en vez de volver a añadir la dependencia porque es una anotación
+# con retención de CLASE: la JVM ignora sin más una anotación cuya clase no
+# está presente, así que no hay nada que pueda fallar en el teléfono. Añadir un
+# artefacto entero para que R8 lea una anotación que nadie consulta en tiempo
+# de ejecución sería pagar peso por silencio.
+-dontwarn com.google.auto.value.**
+
+# --- ARCore -----------------------------------------------------------------
+# El SDK resuelve por JNI sus tipos nativos (Session, Frame, AugmentedFace,
+# Pose, CameraConfig). Si R8 los renombra, la sesión falla al CREARSE y el
+# síntoma es un bloque que no abre sin traza útil — el mismo patrón que ya
+# obligó a proteger MediaPipe aquí arriba.
+-keep class com.google.ar.core.** { *; }
+-dontwarn com.google.ar.core.**
+
 # --- Lo que NO se puede minificar -------------------------------------------
 # MediaPipe Tasks resuelve clases y modelos por reflexión desde JNI: si R8 las
 # renombra, el Face Landmarker falla al CONSTRUIRSE, no al usarse, y el síntoma

@@ -16,13 +16,21 @@
 // del proyecto, luego legible). Cuesta unas líneas más de código y elimina las
 // dos incompatibilidades de raíz.
 //
-// **Sin ARCore** (§3.3 del plan): aquí no hay world tracking, la escena se
-// compone sobre el preview de la cámara frontal. Eso ahorra la lista de
-// dispositivos certificados, el permiso de ubicación y decenas de MB.
+// **Con ARCore** (decisión de Frank, 31/8/2026, revirtiendo §3.3 del plan). El
+// motivo del cambio no es el world tracking: es que la fontanería artesanal
+// —sesión de CameraX, contexto EGL y ciclo de vida a mano— se cuelga en un
+// teléfono real, y ARCore se la lleva entera. Lo que ARCore NO da son los 52
+// blendshapes (verificado en su sample `augmented_faces_java`: solo
+// getCenterPose, getRegionPose y la malla MESH3D), y AR-1 y AR-6 viven de
+// ellos. Por eso MediaPipe sigue aquí, pero degradado a consumidor de píxeles:
+// ARCore manda la sesión y le pasa los frames por acquireCameraImage().
+//
+// El precio que §3.3 quería evitar ya no aplica: hay un Pixel para el piloto
+// (certificado ARCore de fábrica) y el presupuesto de descarga subió a 50 MB.
 //
 // **Versiones**: todas contrastadas, ninguna a ojo.
-//   · CameraX 1.4.2 y MediaPipe 0.10.29 → las del ejemplo oficial de
-//     face_landmarker de Google, que es exactamente esta combinación.
+//   · ARCore 1.54.0 → tag verificado en el repositorio del SDK.
+//   · MediaPipe 0.10.29 → la del ejemplo oficial de face_landmarker de Google.
 //   · Compose 1.9.0 y el plugin de Compose por `kotlinVersion` → el patrón que
 //     ya compila en este mismo proyecto (expo-dev-menu, expo-dev-launcher).
 //   · appcompat 1.7.0 → la del catálogo de versiones de React Native 0.81.
@@ -119,15 +127,17 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.7.0'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.9.0'
 
-    // --- Cámara ---
-    // Sin `camera-view`: el módulo ya no usa `PreviewView`. El espejo se dibuja
-    // desde los frames de `ImageAnalysis` en la capa de Compose, porque la
-    // negociación de superficies del caso de uso `Preview` resultó no ser fiable
-    // en el parque real (ver el encabezado de `mirrorFrame` en ValeriaArActivity).
-    def cameraxVersion = '1.4.2'
-    implementation "androidx.camera:camera-core:$cameraxVersion"
-    implementation "androidx.camera:camera-camera2:$cameraxVersion"
-    implementation "androidx.camera:camera-lifecycle:$cameraxVersion"
+    // --- Cámara y sesión: ARCore ---
+    // Sustituye a CameraX por completo. ARCore posee la sesión de cámara, el
+    // contexto GL y el ciclo de vida; el módulo ya no negocia superficies, ni
+    // ata executors, ni copia un bitmap por frame al hilo de UI. Esas tres
+    // cosas eran el 90 % del código que se caía.
+    //
+    // 1.54.0 y no una más nueva a ojo: es la última cuyo tag existe de verdad
+    // en google-ar/arcore-android-sdk (comprobado, HTTP 200 en v1.54.0).
+    // Ir por detrás de la última es inofensivo; inventarse una que no existe
+    // rompe la resolución de Gradle y se descubre a los diez minutos de CI.
+    implementation 'com.google.ar:core:1.54.0'
 
     // --- Señal facial: 478 landmarks + 52 blendshapes ARKit + matriz 4×4 ---
     implementation 'com.google.mediapipe:tasks-vision:0.10.29'

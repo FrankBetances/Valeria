@@ -9,7 +9,7 @@ Es el espejo de `ios-native/`, que hace lo mismo para Xcode.
 
 | Módulo | Qué es | Cómo entra en el build |
 | --- | --- | --- |
-| `valeria-ar/` | Host nativo del bloque de **Realidad Aumentada**: CameraX → MediaPipe Face Landmarker → capa de recompensa → escena 3D (Filament) | [`plugins/withValeriaAR.js`](../plugins/withValeriaAR.js) |
+| `valeria-ar/` | Host nativo del bloque de **Realidad Aumentada**: ARCore → MediaPipe Face Landmarker → capa de recompensa → escena 3D (Filament) | [`plugins/withValeriaAR.js`](../plugins/withValeriaAR.js) |
 
 ## Cómo lo monta el plugin
 
@@ -38,48 +38,63 @@ Al editar Kotlin hay que **volver a lanzar el prebuild** (o editar
 `android/valeria-ar` y copiar los cambios de vuelta a mano antes de commitear:
 lo que se versiona es `android-native/`, no `android/`).
 
-## Todo se dibuja en la ventana. No metas SurfaceViews aquí
+## La cámara la manda ARCore (31/8/2026)
 
-La pantalla de RA son cuatro capas y **las cuatro se pintan dentro de la
-ventana**, en el orden en que se leen en el Composable:
+**Este apartado sustituye al anterior, que decía justo lo contrario.** Hasta
+esta fecha el módulo montaba su propia tubería de cámara con CameraX y pintaba
+el espejo dentro de la ventana con Compose; se prohibían los `SurfaceView` por
+esa razón. Esa arquitectura **se cayó en un Pixel real**, y con ella se fue el
+motivo de la prohibición.
+
+Lo que hay ahora son tres capas, y la de abajo ya no es nuestra:
 
 ```
-espejo de cámara → escena 3D (Filament) → sobreimpresión 2D → texto
+GLSurfaceView (ARCore pinta la cámara) → ComposeView transparente (2D) → texto
 ```
 
 | Capa | Cómo se implementa |
 | --- | --- |
-| Espejo de la cámara | Los frames de `ImageAnalysis`, ya orientados, pintados con `Image` de Compose |
-| Escena 3D de Filament | `TextureView` con `UiHelper.isOpaque = false` |
-| Interfaz 2D | Compose: texto, dianas, anillo de progreso, panel de señales |
+| Espejo de la cámara | `GLSurfaceView` + `CameraBackgroundRenderer`: ARCore escribe en una textura `GL_TEXTURE_EXTERNAL_OES` y se dibuja sobre un cuadrilátero |
+| Interfaz 2D | `ComposeView` **sin fondo**, añadido encima del `GLSurfaceView` |
 
-Dos de estas tres piezas se decidieron sobre un diagnóstico equivocado, y hay
-que saberlo antes de tocarlas:
+### Qué se ganó exactamente
 
-1. **El caso de uso `Preview` de CameraX se retiró — sobre una premisa falsa.**
-   Se creyó que su superficie no recibía frames porque el fondo salía como
-   polígonos planos de colores. La causa real era que las pruebas se hacían en el
-   **emulador de Android Studio**, cuya cámara sirve una escena sintética con ese
-   aspecto exacto. El `Preview` funcionaba; mostraba lo que el emulador le daba.
-   En un móvil real, un `PreviewView` es mejor —resolución completa del sensor y
-   composición por hardware, sin bitmap ni textura por frame—. Volver a él es una
-   **decisión abierta**, a tomar con un teléfono delante.
-2. **La escena 3D va en `TextureView` por consecuencia, no por elección.** Un
-   `SurfaceView` dibuja fuera de la ventana y siempre en un sublayer por debajo
-   de ella, así que con el espejo dentro de la ventana quedaría tapado. Si el
-   espejo vuelve al `Preview`, esto debería volver a `SurfaceView` con
-   `isMediaOverlay = true` y ahorrarse la copia por GPU de cada frame.
-3. **El `UiHelper` de Filament tiene que ser translúcido. Esto sí era un fallo
-   real.** Hay que configurarlo *antes* de `attachTo()` —que es lo que hace el
-   constructor de `ModelViewer`—: es lo que pone `isOpaque = false` en la vista y
-   crea el swapchain con `CONFIG_TRANSPARENT`. El código original ponía
-   `setZOrderOnTop(true)` y `PixelFormat.TRANSLUCENT` sobre el holder por su
-   cuenta, y no servía de nada, porque `attachTo()` sobrescribe ambas. Con el
-   helper por defecto la escena se dibuja sobre fondo opaco y tapa la cámara
-   entera: eso habría roto la composición en cualquier teléfono.
+- **Cero copias por CPU.** El espejo anterior convertía cada frame a un bitmap
+  ARGB_8888 de 1,2 MB, lo rotaba a otro de 1,2 MB y lo publicaba en el hilo de
+  UI: unos 72 MB/s de asignación para enseñar lo que la GPU ya tenía. Ahora no
+  hay ni un bitmap en el camino del espejo.
+- **Un solo hilo y un solo reloj.** Antes: executor de análisis, `Choreographer`
+  de Filament, `UiHelper` con su swapchain y el ciclo de vida de la Activity.
+  Ahora: `onDrawFrame`. La mitad de la lista de defectos de más abajo era
+  coordinación entre esos cuatro.
+- **El encuadre lo calcula ARCore.** `transformCoordinates2d` sustituye a la
+  aritmética de `targetRotation` y `rowStride` que costó dos rondas de
+  depuración persiguiendo imágenes torcidas.
+- **MediaPipe solo se despierta si ARCore ve una cara**, y la conversión YUV a
+  bitmap va DESPUÉS de la compuerta de contrapresión, no antes. Dos de cada tres
+  conversiones desaparecen.
 
-Precio actual: el espejo son 640×480 escalados —más blandos que un preview por
-hardware— y la escena paga la copia por GPU de un `TextureView`.
+### Lo que ARCore NO da, y por eso MediaPipe sigue aquí
+
+Verificado en el sample `augmented_faces_java` del propio SDK, no de memoria: la
+API `AugmentedFace` expone `getCenterPose()`, `getRegionPose()` y la malla
+`MESH3D`. **No hay blendshapes.** AR-1 (redondeo labial de /o/ y /u/) y AR-6
+(mimetismo) viven de los 52 coeficientes ARKit, así que MediaPipe se queda —
+pero degradado a consumidor de píxeles: ARCore le pasa el frame por
+`acquireCameraImage()` y no se abre ninguna segunda sesión de cámara.
+
+**La imagen la cierra quien la pide.** El pool de ARCore es finito y agotarlo no
+da error: deja de entregar frames y la sesión se queda muda a los pocos
+segundos. Lo sujeta `check-ar-concurrency.js`, que exige el `use {}`.
+
+### Y una constatación que zanja el debate de las dos cámaras
+
+ARCore obliga a elegir la dirección de cámara **en la sesión**
+(`CameraConfigFilter.setFacingDirection`), exactamente igual que CameraX. La
+restricción de «una sola cámara a la vez» nunca fue de CameraX: es del teléfono.
+Un ejercicio de AR de mundo real con la cámara trasera seguiría siendo un
+ejercicio **distinto**, no una variante de estos seis — y mediría la pose del
+móvil (brazo y tronco), no la del cuello.
 
 ## El bloque de RA NO se puede evaluar en un emulador
 
@@ -149,34 +164,69 @@ ejercicios siguen siendo jugables y medibles. Si faltara el `.task`, el
 
 ## Estado
 
-**El módulo compila** contra el SDK de Android real (`compileReleaseKotlin` y
-`assembleRelease` en verde en CI, 2026-08-02) y produce su AAR. Las APIs de
-`tasks-vision` 0.10.29 y Filament 1.72.1 están verificadas por el compilador,
-no solo por inspección.
+**Reescrito sobre ARCore el 31/8/2026.** Decisión de Frank tras ejecutar la
+versión anterior en un Pixel: se colgaba. **Compila y produce APK; no se ha
+probado en el teléfono.** Lo que se sabe y lo que no, separado a propósito:
 
-**Ha corrido en emulador, no todavía en un teléfono.** Esa distinción es la
-lección cara de este módulo: dos de los «fallos» que se persiguieron —el fondo
-corrupto y la ausencia de rastreo facial— eran el emulador comportándose con
-normalidad (ver la sección de arriba). El resto sí eran defectos reales, y la
-ejecución los sacó a la luz aunque fuera por el motivo equivocado:
-
-| Defecto real | Dónde se corrigió |
+| | Evidencia |
 | --- | --- |
-| La escena 3D se creaba con un swapchain opaco que habría tapado la cámara entera | `ValeriaArSceneView` |
-| La sesión no terminaba nunca sin cara: el bucle de ejercicio giraba indefinidamente con la cámara abierta | `ValeriaArActivity` (vigilancia y cierre con `timeout`) |
-| Frames encolándose dentro de MediaPipe con su bitmap, sin contrapresión | `FaceSignalEngine` |
-| Mapa de marcas de tiempo y `FpsMeter` tocados por dos hilos; `FpsMeter` además crecía sin techo | `FaceSignalEngine`, `AptitudeTest` |
-| El motor de Filament no se destruía: `destroyModel()` deja vivos motor, renderer, swapchain y contexto EGL | `ValeriaArSceneView` |
-| Cierre del motor de señal antes de parar el executor que le entrega frames | `ValeriaArActivity` |
-| «Mira a Lúa» sin ninguna Lúa en pantalla | `ValeriaArActivity` |
-| `targetRotation` sin actualizar: girar el móvil 180° dejaba la imagen boca abajo | `ValeriaArActivity` |
+| **El Kotlin compila** | Builds **627** y **628**, paso `Build signed release APK` (`assembleRelease`) en verde tras 12 min |
+| **Pasa R8 y se firma** | `:app:minifyReleaseWithR8` en verde en el 627. El 626 murió justo ahí y por eso existen las reglas nuevas de `consumer-rules.pro` |
+| Los 25 gates y el typecheck | Verdes en CI (pasos 6‑31) y en local |
+| ARCore 1.54.0 existe | Tag `v1.54.0` del SDK responde 200 |
+| Hay APK instalable | Artefacto `android-apk` del run **628** (`workflow_dispatch` sobre la rama) |
+| **NO comprobado** | Absolutamente todo lo que pasa en el teléfono: que ARCore abra la cámara, que el espejo se vea, que MediaPipe reciba los frames, los fps sostenidos, y **si los cuelgues se acabaron** |
 
-Sigue **sin verificarse en un teléfono real** absolutamente todo lo que depende
-de la cámara y de la señal: que el espejo muestre la cara, que el Face
-Landmarker cargue y detecte, los fps sostenidos, y si los cierres inesperados
-persisten. Eso es la Fase 1 del
-[plan](../docs/plan-integracion-rehabilitacion-ar.md#fase-1--andamiaje-sin-ejercicios).
+Los gates y el typecheck **no ven** un shader que no compila, una textura negra
+ni una sesión que se cierra sola. Que compile no dice que funcione: eso es
+exactamente lo que ya pasó con la versión de CameraX, que compilaba y se caía.
 
-Los índices de landmark canónicos (33/263 cantos externos, 61/291 comisuras,
-13/14 borde labial) siguen marcados en el código como *a verificar contra el
-modelo real*, no como constantes de fe: el compilador no puede opinar sobre eso.
+### Para bajarse el APK de una rama
+
+`android.yml` compila en cada push a cualquier rama, pero **solo sube el
+artefacto en `main` o con `workflow_dispatch`**. Para probar en el Pixel sin
+mergear: pestaña *Actions* → *Android Build* → botón **Run workflow**, eligiendo
+la rama. Ese run sí deja `android-apk` descargable.
+
+### Lo que la reescritura se lleva por delante
+
+Estos defectos, listados antes como corregidos uno a uno, ahora son
+estructuralmente imposibles porque el código que los contenía ya no existe:
+
+| Defecto de la versión CameraX | Por qué ya no puede pasar |
+| --- | --- |
+| Motor de Filament sin destruir: swapchain y contexto EGL vivos | El contexto GL lo gestiona `GLSurfaceView` |
+| Cierre del motor de señal antes de parar el executor que le da frames | No hay executor: el único hilo que llama a `analyze()` es el de GL, y `glView.onPause()` lo para |
+| Frames encolándose dentro de MediaPipe con su bitmap | La conversión va después de la compuerta, y solo si ARCore ve una cara |
+| `targetRotation` sin actualizar: girar el móvil dejaba la imagen boca abajo | Lo calcula `transformCoordinates2d` |
+| Mapa de marcas de tiempo y `FpsMeter` tocados por dos hilos | Un solo hilo |
+
+Lo que **sigue igual y sin verificar**: los índices de landmark canónicos
+(33/263 cantos externos, 61/291 comisuras, 13/14 borde labial) siguen marcados
+en el código como *a verificar contra el modelo real*. El compilador no puede
+opinar sobre eso y ARCore tampoco.
+
+### La escena 3D de Filament: sigue viva, pero sin integrar con ARCore
+
+`ValeriaArSceneView` **no se ha tocado** y sigue montándose dentro del
+ComposeView, así que Filament sigue corriendo en su propio `TextureView`. La
+composición que eso produce es, en teoría, la correcta:
+
+```
+GLSurfaceView (cámara, fuera de la ventana, debajo)
+  → TextureView de Filament (3D, dentro de la ventana, encima)
+    → Compose 2D
+```
+
+Y es mejor que la anterior: el `TextureView` estaba ahí precisamente porque un
+`SurfaceView` habría quedado por debajo del espejo cuando el espejo se pintaba
+dentro de la ventana. Ahora el espejo es el que está fuera de la ventana, que es
+su sitio.
+
+**Lo que no se ha hecho es compartir el contexto GL de ARCore con Filament**, y
+lo que no se sabe es si las dos superficies componen bien en un teléfono real.
+Es la primera sospechosa si en el Pixel la cámara aparece tapada. Se dejó así a
+propósito: Filament era el componente más propenso a cuelgues de la lista de
+arriba, y rehacerlo en el mismo cambio habría hecho imposible saber qué arregló
+qué en la primera prueba. Si estorba, la degradación a sobreimpresión 2D ya está
+contemplada y los seis ejercicios siguen siendo jugables y medibles sin 3D.

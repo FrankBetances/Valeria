@@ -5,7 +5,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
 import android.graphics.PointF
 import android.os.Bundle
 import android.os.SystemClock
@@ -15,14 +14,10 @@ import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.camera.core.CameraSelector
-import androidx.camera.core.ImageAnalysis
-import androidx.camera.core.ImageProxy
-import androidx.camera.core.resolutionselector.ResolutionSelector
-import androidx.camera.core.resolutionselector.ResolutionStrategy
-import androidx.camera.lifecycle.ProcessCameraProvider
+import android.opengl.GLSurfaceView
+import android.widget.FrameLayout
+import android.view.ViewGroup
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -42,10 +37,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.input.pointer.util.VelocityTracker
 import androidx.compose.ui.platform.ComposeView
@@ -69,6 +61,8 @@ import eu.futureforkids.valeria.ar.exercises.ExerciseContext
 import eu.futureforkids.valeria.ar.scene.ArModel
 import eu.futureforkids.valeria.ar.scene.SceneState
 import eu.futureforkids.valeria.ar.scene.ValeriaArSceneView
+import eu.futureforkids.valeria.ar.session.ArCoreSession
+import eu.futureforkids.valeria.ar.session.ArRenderer
 import eu.futureforkids.valeria.ar.signal.Calibration
 import eu.futureforkids.valeria.ar.signal.DeviceAttitudeCompensator
 import eu.futureforkids.valeria.ar.signal.DistanceEstimator
@@ -86,8 +80,6 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.json.JSONObject
-import java.util.concurrent.Executors
-import java.util.concurrent.TimeUnit
 
 /**
  * Valeria+ · Host nativo del bloque de Realidad Aumentada.
@@ -109,7 +101,6 @@ class ValeriaArActivity : ComponentActivity() {
     private val distance = DistanceEstimator()
     private var engine: FaceSignalEngine? = null
     private var exercise: ArExercise? = null
-    private val analysisExecutor = Executors.newSingleThreadExecutor()
     /**
      * Red de seguridad del scope. Una excepción no capturada en una corrutina de
      * UI mata el PROCESO: la familia ve la app desaparecer entera, sin sesión y
@@ -148,35 +139,27 @@ class ValeriaArActivity : ComponentActivity() {
      */
     @Volatile private var lastFaceMs = 0L
 
-    // Para desenlazar la cámara de forma explícita al cerrar, sin depender solo
-    // del ciclo de vida: mientras siga enlazada sigue habiendo frames en vuelo.
-    private var cameraProvider: ProcessCameraProvider? = null
-    private var analysisUseCase: ImageAnalysis? = null
+    // ARCore es el dueño de la cámara, del contexto GL y del ciclo de vida.
+    // Las tres cosas que este fichero gestionaba a mano, y las tres donde
+    // estaban los cuelgues.
+    private val arSession = ArCoreSession(this)
+    private var arRenderer: ArRenderer? = null
+    private var glView: GLSurfaceView? = null
 
     /**
-     * El espejo: el último frame de la cámara, ya orientado, listo para pintar.
+     * ── El espejo ya no pasa por la CPU ─────────────────────────────────────
      *
-     * ── Por qué el espejo NO usa el caso de uso `Preview` de CameraX ────────
-     * **AVISO SOBRE ESTA DECISIÓN: se tomó sobre un diagnóstico equivocado.**
-     * Se retiró el `Preview` creyendo que su superficie no recibía frames,
-     * porque el fondo se veía como polígonos planos de colores. La causa real
-     * era que las pruebas se hicieron en el EMULADOR de Android Studio, cuya
-     * cámara sirve una escena sintética con ese aspecto. El `Preview` funcionaba
-     * correctamente; lo que mostraba era lo que el emulador le daba.
+     * Aquí había un `mirrorFrame: ImageBitmap` que se rellenaba treinta veces
+     * por segundo: cada frame de `ImageAnalysis` se convertía a un bitmap
+     * ARGB_8888 de 1,2 MB, se rotaba a otro de 1,2 MB y se publicaba en el hilo
+     * de UI para que Compose lo dibujara. Unos 72 MB/s de asignación para
+     * enseñar lo que la GPU ya tenía en memoria.
      *
-     * Lo que hay ahora, por tanto, no está justificado por el fallo que decía
-     * resolver, y en un móvil real un `PreviewView` es mejor por dos razones
-     * concretas: entrega la resolución completa del sensor —esto son 640×480
-     * escalados, más blandos— y se compone por hardware, sin convertir un bitmap
-     * ni subir una textura por frame.
-     *
-     * Se mantiene de momento porque tiene una propiedad que sí vale por sí sola:
-     * el adulto ve EXACTAMENTE los frames que ve el rastreador facial, así que
-     * «no le coge la cara» deja de ser una conjetura. Volver al `Preview` por
-     * hardware es una decisión abierta, y hay que tomarla con un móvil real
-     * delante, no con este comentario.
+     * Ahora ARCore escribe el frame en una textura y `CameraBackgroundRenderer`
+     * la dibuja en el `GLSurfaceView` que va DEBAJO del ComposeView. Cero copias
+     * por CPU. Lo que Compose pinta encima —dianas, anillo, texto— es una capa
+     * transparente sobre esa textura.
      */
-    private var mirrorFrame by mutableStateOf<ImageBitmap?>(null)
 
     // ---- Ficha de la cámara ---------------------------------------------------
     // Deja de ser un adjetivo («se ve raro») y pasa a ser una cifra. Con el
@@ -189,7 +172,21 @@ class ValeriaArActivity : ComponentActivity() {
     @Volatile private var framesInferred = 0L
     @Volatile private var facesSeen = 0L
     @Volatile private var frameGeometry = ""
-    @Volatile private var mirrorGeometry = ""
+    /**
+     * Estado de ARCore para la ficha de diagnóstico. Sustituye a la geometría
+     * del espejo, que ya no existe porque el espejo no pasa por la CPU. Aquí lo
+     * que hace falta saber es si ARCore ve una cara, porque desde el 31/8/2026
+     * MediaPipe solo se despierta cuando él dice que sí: si ARCore no rastrea,
+     * no hay inferencias, y sin esta línea eso parecería un fallo de MediaPipe.
+     */
+    private val arCoreReport: String
+        get() {
+            val s = arSession.session ?: return "sesión no creada"
+            val cfg = runCatching { s.cameraConfig }.getOrNull()
+            val res = cfg?.imageSize?.let { "${it.width}×${it.height}" } ?: "?"
+            val face = if (arSession.trackedFace() != null) "cara SÍ" else "cara no"
+            return "$res · $face"
+        }
     private var cameraReport by mutableStateOf("")
 
     // Calibración: pares (punto de cara observado → punto de pantalla mostrado).
@@ -239,7 +236,6 @@ class ValeriaArActivity : ComponentActivity() {
             ComposeView(this).apply {
                 setContent {
                     ArHostScreen(
-                        mirror = mirrorFrame,
                         scene = scene,
                         status = statusText,
                         cameraReport = cameraReport,
@@ -281,7 +277,23 @@ class ValeriaArActivity : ComponentActivity() {
         }
         // Sin cámara concedida no hay sesión que reanudar: no se enciende un
         // sensor para una Activity que se está cerrando.
-        if (pipelineStarted) imu.start()
+        if (pipelineStarted) {
+            imu.start()
+            // ARCore primero y el GLSurfaceView después. Al revés, el bucle de
+            // GL empieza a llamar a `update()` sobre una sesión pausada y ARCore
+            // lanza en cada vuelta.
+            if (arSession.resume()) {
+                glView?.onResume()
+            } else {
+                statusText = "Otra aplicación está usando la cámara."
+                finishWith(outcome = "aborted")
+            }
+        } else if (arSession.unavailable == null && arSession.session == null) {
+            // Volvemos de instalar Servicios de Google para RA: se reintenta.
+            // Este es el camino que hace que aceptar la instalación NO acabe en
+            // una pantalla muerta.
+            startPipeline()
+        }
     }
 
     override fun onPause() {
@@ -289,6 +301,13 @@ class ValeriaArActivity : ComponentActivity() {
         isActivityPaused = true
         pauseTimestampMs = SystemClock.elapsedRealtime()
         imu.stop()
+        // Orden inverso al de onResume, y por el mismo motivo: primero se para
+        // el bucle que llama a `update()`, después se pausa la sesión a la que
+        // llama. ARCore libera la cámara en su `pause()`, y eso es lo que hace
+        // que una llamada entrante no deje el sensor colgado.
+        glView?.onPause()
+        arSession.pause()
+        arRenderer?.onContextLost()
     }
 
     override fun onStop() {
@@ -304,95 +323,119 @@ class ValeriaArActivity : ComponentActivity() {
         engine = FaceSignalEngine(
             context = this,
             onFaceLost = { onFrameProcessed() },
-            onFrame = { bitmap -> publishMirror(bitmap) },
             onSignals = { signals -> onFrameProcessed(); onSignals(signals) },
         )
         if (engine?.isReady != true) { finishWith(outcome = "aborted"); return }
 
-        val providerFuture = ProcessCameraProvider.getInstance(this)
-        providerFuture.addListener({
-            if (isFinishing || isDestroyed) {
-                return@addListener
+        // ARCore puede no estar disponible por cinco motivos distintos y cada
+        // uno se le dice al adulto con sus palabras. Ninguno es un cierre
+        // inesperado: un bloque de siete que no abre es una pantalla que se
+        // cierra sola con su explicación.
+        if (!arSession.ensureCreated()) {
+            val reason = arSession.unavailable
+            if (reason == null) {
+                // Se ha lanzado la instalación de Play Services for AR. La
+                // Activity se pausa y al volver reintenta: no se cierra.
+                statusText = "Instalando Realidad Aumentada…"
+                return
             }
+            statusText = when (reason) {
+                ArCoreSession.Unavailable.DEVICE_NOT_SUPPORTED ->
+                    "Este teléfono no admite Realidad Aumentada."
+                ArCoreSession.Unavailable.INSTALL_DECLINED ->
+                    "La Realidad Aumentada necesita Servicios de Google para RA."
+                ArCoreSession.Unavailable.APK_TOO_OLD ->
+                    "Actualiza Servicios de Google para RA para usar este bloque."
+                ArCoreSession.Unavailable.NO_FRONT_CAMERA ->
+                    "Este teléfono no ofrece cámara frontal para Realidad Aumentada."
+                ArCoreSession.Unavailable.CAMERA_BUSY ->
+                    "Otra aplicación está usando la cámara."
+            }
+            finishWith(outcome = "unsupported")
+            return
+        }
 
-            val provider = runCatching { providerFuture.get() }.getOrNull() ?: run {
-                if (!isFinishing && !isDestroyed) {
+        val renderer = ArRenderer(
+            session = arSession,
+            onFrame = { frame -> onGlFrame(frame) },
+            onGlError = { msg ->
+                // Un shader que no compila deja la pantalla en negro, y un
+                // negro silencioso ya costó cuatro rondas de depuración.
+                Log.e(LOG_TAG, "GL: $msg")
+                runOnUiThread {
+                    statusText = "No se pudo iniciar la Realidad Aumentada."
                     finishWith(outcome = "aborted")
                 }
-                return@addListener
-            }
+            },
+        )
+        arRenderer = renderer
 
-            if (isFinishing || isDestroyed) {
-                return@addListener
-            }
+        // ── El orden de esta vista importa ──────────────────────────────────
+        // GLSurfaceView DEBAJO y ComposeView ENCIMA, y el GL con
+        // `setZOrderMediaOverlay(false)`: el espejo es el telón del fondo y todo
+        // lo demás se pinta sobre él. Es exactamente la composición que el
+        // módulo anterior no podía tener —por eso Filament acabó en un
+        // TextureView pagando una copia por GPU— y que aquí sale gratis porque
+        // la cámara ya vive en una superficie propia.
+        val gl = GLSurfaceView(this).apply {
+            preserveEGLContextOnPause = true
+            setEGLContextClientVersion(2)
+            setEGLConfigChooser(8, 8, 8, 8, 16, 0)
+            setRenderer(renderer)
+            renderMode = GLSurfaceView.RENDERMODE_CONTINUOUSLY
+        }
+        glView = gl
 
-            cameraProvider = provider
+        val root = findViewById<ViewGroup>(android.R.id.content)
+        root.addView(
+            gl,
+            0,
+            FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.MATCH_PARENT,
+                FrameLayout.LayoutParams.MATCH_PARENT,
+            ),
+        )
 
-            // 640×480 y BACKPRESSURE_KEEP_LATEST: a mayor resolución la gama
-            // media no sostiene la inferencia, y encolar frames viejos empeora
-            // la latencia sin mejorar la medida.
-            val analysis = ImageAnalysis.Builder()
-                .setResolutionSelector(
-                    ResolutionSelector.Builder()
-                        .setResolutionStrategy(
-                            ResolutionStrategy(
-                                android.util.Size(640, 480),
-                                ResolutionStrategy.FALLBACK_RULE_CLOSEST_HIGHER_THEN_LOWER,
-                            )
-                        )
-                        .build()
-                )
-                .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
-                // ── Sin OUTPUT_IMAGE_FORMAT_RGBA_8888 ───────────────────────
-                // **AVISO: también esto se quitó persiguiendo el fallo del
-                // emulador.** Se sospechaba de la etapa de conversión YUV→RGBA
-                // que CameraX monta dentro del pipeline; no había tal fallo, la
-                // imagen «corrupta» era la escena sintética del emulador.
-                //
-                // Sin esta línea, `ImageAnalysis` entrega el YUV_420_888 nativo
-                // y la conversión la hace `ImageProxy.toBitmap()` con libyuv, en
-                // la CPU: unos milisegundos más por frame. El ejemplo oficial de
-                // MediaPipe usa RGBA precisamente para ahorrárselos, así que
-                // restaurarlo es candidato en cuanto haya medidas de fps en un
-                // móvil real. Se deja como está para no encadenar otro cambio
-                // sin verificar sobre uno ya hecho sin verificar.
-                //
-                // Explícita, no heredada: la Activity es `sensorLandscape` y
-                // absorbe los cambios de configuración sin recrearse, así que
-                // nadie la actualizaría sola. Sin esto, girar el teléfono 180°
-                // —cosa que el soporte de mesa invita a hacer— deja el espejo
-                // boca abajo y el rastreador midiendo una cara invertida.
-                .setTargetRotation(displayRotation())
-                .build()
+        renderer.setDisplayRotation(displayRotation())
 
-            // El contador de fps NO va aquí. Aquí se cuentan los frames que la
-            // cámara entrega, y el analizador descarta los que llegan mientras
-            // MediaPipe todavía infiere: contarlos daría 30 fps en un teléfono
-            // que en realidad procesa 12, y la Prueba de Aptitud clasificaría de
-            // nivel A un aparato que no sostiene el ejercicio. Se cuentan en
-            // `onFrameProcessed`, es decir, inferencias acabadas.
-            analysis.setAnalyzer(analysisExecutor) { image ->
-                framesFromCamera += 1
-                if (frameGeometry.isEmpty()) describeFrame(image)
-                engine?.analyze(image, isFrontCamera = true)
-            }
-            analysisUseCase = analysis
+        if (!arSession.resume()) {
+            statusText = "Otra aplicación está usando la cámara."
+            finishWith(outcome = "aborted")
+            return
+        }
+        gl.onResume()
 
-            try {
-                if (isFinishing || isDestroyed) return@addListener
-                provider.unbindAll()
-                // Un solo caso de uso. El `Preview` de CameraX ya no se enlaza:
-                // el espejo se dibuja desde estos mismos frames (ver `mirrorFrame`).
-                provider.bindToLifecycle(this, CameraSelector.DEFAULT_FRONT_CAMERA, analysis)
-                lastFaceMs = SystemClock.elapsedRealtime()
-                watchCameraHealth()
-                startModeFlow()
-            } catch (e: Throwable) {
-                if (!isFinishing && !isDestroyed) {
-                    finishWith(outcome = "aborted")
-                }
-            }
-        }, ContextCompat.getMainExecutor(this))
+        lastFaceMs = SystemClock.elapsedRealtime()
+        watchCameraHealth()
+        startModeFlow()
+    }
+
+    /**
+     * Un frame de ARCore, en el hilo de GL.
+     *
+     * El espejo ya está dibujado cuando esto se llama (lo hace el renderer). Lo
+     * único que queda es entregarle la imagen a MediaPipe, y **cerrarla**: el
+     * pool de imágenes de ARCore es finito y no cerrarlas lo agota en segundos,
+     * dejando la sesión sin frames sin dar ningún error. De ahí el `use {}`.
+     */
+    private fun onGlFrame(frame: com.google.ar.core.Frame) {
+        framesFromCamera += 1
+
+        // ARCore ya sabe si hay una cara. Preguntárselo a él antes de despertar
+        // a MediaPipe ahorra una conversión YUV→bitmap entera en todos los
+        // frames en que el niño no está delante — que en una sesión real son
+        // muchos, entre ensayo y ensayo.
+        if (arSession.trackedFace() == null) return
+
+        arSession.acquireImage(frame)?.use { image ->
+            if (frameGeometry.isEmpty()) describeFrame(image)
+            engine?.analyze(
+                image = image,
+                rotationDegrees = 0,
+                mirror = false,
+                tCaptureUs = frame.timestamp / 1_000L,
+            )
+        }
     }
 
     @Suppress("DEPRECATION")
@@ -407,36 +450,21 @@ class ValeriaArActivity : ComponentActivity() {
         super.onConfigurationChanged(newConfig)
         // La Activity declara `configChanges="orientation|screenSize|…"`, así que
         // aquí es donde hay que enterarse de que el teléfono se dio la vuelta.
-        analysisUseCase?.targetRotation = displayRotation()
-    }
-
-    /**
-     * Publica el frame como espejo.
-     *
-     * Se salta al hilo principal a propósito. Escribir estado de Compose desde
-     * un hilo cualquiera funciona, pero la visibilidad depende de cuándo avance
-     * la instantánea global; con 30 escrituras por segundo de una imagen que el
-     * adulto usa para encuadrar a un niño, la certeza vale más que el salto.
-     */
-    private fun publishMirror(bitmap: Bitmap) {
-        if (mirrorGeometry.isEmpty()) {
-            mirrorGeometry = "${bitmap.width}×${bitmap.height} ${bitmap.config}"
-        }
-        val image = bitmap.asImageBitmap()
-        runOnUiThread { mirrorFrame = image }
+        // ARCore recalcula el encuadre solo a partir de esto; ya no hay ningún
+        // `targetRotation` que se pueda olvidar de actualizar.
+        arRenderer?.setDisplayRotation(displayRotation())
     }
 
     /**
      * Ficha del primer frame: lo que hay que mirar cuando la imagen sale mal.
      *
      * `rowStride` y `pixelStride` son el par que delata una conversión mal
-     * hecha —una fila que se lee con el ancho equivocado produce exactamente
-     * bloques de color abstractos—, y `width × height` delata el otro caso
-     * clásico: una resolución minúscula negociada con el sensor y estirada a
-     * pantalla completa. Se toma del PRIMER frame y no de cada uno porque no
-     * cambia durante la sesión.
+     * hecha —una fila leída con el ancho equivocado produce exactamente bloques
+     * de color abstractos—, y `width × height` delata el otro caso clásico: una
+     * resolución minúscula estirada a pantalla completa. Se toma del PRIMER
+     * frame porque no cambia durante la sesión.
      */
-    private fun describeFrame(image: ImageProxy) {
+    private fun describeFrame(image: android.media.Image) {
         val plane = image.planes.firstOrNull()
         frameGeometry = buildString {
             append("${image.width}×${image.height}")
@@ -446,7 +474,6 @@ class ValeriaArActivity : ComponentActivity() {
                 append(" rowStride=${plane.rowStride}")
                 append(" pxStride=${plane.pixelStride}")
             }
-            append(" rot=${image.imageInfo.rotationDegrees}°")
         }
         Log.i(LOG_TAG, "frame: $frameGeometry")
     }
@@ -510,7 +537,7 @@ class ValeriaArActivity : ComponentActivity() {
                         appendLine("La cámara no está entregando ninguna imagen.")
                     } else {
                         appendLine("sensor  $frameGeometry")
-                        appendLine("espejo  $mirrorGeometry")
+                        appendLine("arcore  $arCoreReport")
                     }
                     engine?.frameError?.let { appendLine("error   $it") }
                     append("frames $framesFromCamera · inferencias $framesInferred · caras $facesSeen")
@@ -827,25 +854,28 @@ class ValeriaArActivity : ComponentActivity() {
 
     /**
      * El orden de aquí importa y antes estaba invertido: se cerraba el motor de
-     * señal ANTES de parar el executor que le entrega frames, así que un frame en
-     * vuelo podía entrar en un landmarker recién cerrado. El cierre correcto va
-     * de fuera hacia dentro —primero se corta el grifo, después se cierra lo que
-     * bebía de él— y se espera un momento a que el hilo de análisis termine.
+     * señal ANTES de parar lo que le entrega frames, así que un frame en vuelo
+     * podía entrar en un landmarker recién cerrado — y eso no lanza una
+     * excepción de Java, cierra la app desde el código nativo.
+     *
+     * El cierre va de fuera hacia dentro: primero se corta el grifo (el bucle de
+     * GL), después la sesión que lo alimenta, y solo entonces lo que bebía de
+     * ella. Con ARCore esto es más corto que antes porque ya no hay executor
+     * propio que parar ni frames de CameraX que desenlazar: `glView.onPause()`
+     * detiene el único hilo que llamaba a `analyze()`.
      */
     override fun onDestroy() {
         super.onDestroy()
         scope.cancel()
 
-        runCatching { analysisUseCase?.clearAnalyzer() }
-        runCatching { cameraProvider?.unbindAll() }
-        analysisUseCase = null
-        cameraProvider = null
+        // 1. Se para el bucle de GL: nadie más va a llamar a `analyze()`.
+        runCatching { glView?.onPause() }
+        // 2. Se cierra la sesión de ARCore, que libera cámara y contexto.
+        runCatching { arSession.close() }
+        arRenderer = null
+        glView = null
 
-        analysisExecutor.shutdown()
-        // Tope, no coste esperado: un frame tarda milisegundos en soltarse. Está
-        // para que el cierre no dependa de la suerte, no para esperar de verdad.
-        runCatching { analysisExecutor.awaitTermination(300, TimeUnit.MILLISECONDS) }
-
+        // 3. Y solo ahora el motor de señal, que ya no puede recibir nada.
         engine?.close()
         engine = null
         exercise?.close()
@@ -925,7 +955,6 @@ class ValeriaArActivity : ComponentActivity() {
 
 @Composable
 private fun ArHostScreen(
-    mirror: ImageBitmap?,
     scene: SceneState,
     status: String,
     cameraReport: String,
@@ -935,8 +964,11 @@ private fun ArHostScreen(
 ) {
     Box(
         Modifier
+            // SIN `background(Color.Black)`: debajo de este ComposeView está el
+            // GLSurfaceView con el espejo de ARCore. Pintar un fondo opaco aquí
+            // lo taparía entero — que es exactamente la clase de fallo que
+            // costó cuatro rondas cuando el swapchain de Filament salía opaco.
             .fillMaxSize()
-            .background(Color.Black)
             // Lectura del lanzamiento de AR-5. Se mide lo que hace el dedo: la
             // velocidad la da el `VelocityTracker` de Compose con las posiciones
             // reales del puntero, y el ángulo es la desviación entre la
@@ -985,25 +1017,9 @@ private fun ArHostScreen(
                 )
             }
     ) {
-        // El espejo, como fondo: el niño se ve a sí mismo y la escena 3D se
-        // compone encima.
-        //
-        // `Fit` y no `Crop`, aunque deje franjas negras a los lados. El frame es
-        // 4:3 y la pantalla ronda 19,5:9, así que recortar para llenarla se come
-        // casi el 40 % del alto —frente y barbilla— y devuelve el problema que
-        // este bloque tiene delante: un adulto que no consigue encuadrar al niño
-        // y un rastreador que pierde la cara sin que nadie entienda por qué. Con
-        // `Fit`, lo que se ve en pantalla es EXACTAMENTE lo que ve el modelo, y
-        // «se le sale la cara» pasa de ser una conjetura a ser algo visible.
-        mirror?.let { frame ->
-            Image(
-                bitmap = frame,
-                contentDescription = null,
-                modifier = Modifier.fillMaxSize(),
-                contentScale = ContentScale.Fit,
-            )
-        }
-
+        // El espejo ya NO se pinta aquí: lo dibuja el GLSurfaceView que hay
+        // debajo, desde la textura de ARCore, sin pasar por la CPU. Esta capa
+        // es solo la sobreimpresión 2D.
         ValeriaArSceneView(scene, Modifier.fillMaxSize())
 
         diagnostics?.let { DiagnosticsPanel(it, Modifier.align(Alignment.TopStart)) }
