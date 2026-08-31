@@ -44,7 +44,6 @@ export const ES = {
     tagline: 'Entiende su lenguaje, practica en casa. Lúa os acompaña.',
     sub: 'Primero te formas, después practicáis juntos en casa. Valeria registra el progreso.',
     start: 'Comenzar',
-    hasPatient: 'Ya tengo un paciente registrado',
     trust: 'Datos cifrados en el dispositivo · RGPD / HIPAA',
   },
   // Pantalla de presentación de Lúa física, entre Créditos y la ficha.

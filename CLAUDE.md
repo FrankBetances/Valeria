@@ -60,22 +60,37 @@ detectar Frank. **Mira la captura antes de decir "hecho".**
 
 ### 1b. «Hecho» exige los gates, no solo el typecheck
 
-Corre los gates de `android.yml` **antes de empujar**, no después:
+Corre los gates de `android.yml` **antes de empujar**, no después. **Sácalos del
+propio workflow**, no de una lista escrita aquí:
 
 ```bash
-for s in check-voice-corpus-coverage check-content-rules check-reminder-slots \
-         check-pictogram-coverage check-lexical-difficulty check-sign-figures \
-         check-speech-prosody check-asr-capture-guard check-asr-listen-options \
-         check-lua-mute check-brand-consistency check-ui-strings check-adult-fields \
-         check-variety-branches check-lua-mascot-mirror; do node scripts/$s.js || echo "FALLA $s"; done
-node scripts/build-lua-protocol.js --check
+grep -oP '(?<=run: )node scripts/\S+(?: --\S+)?' .github/workflows/android.yml |
+  while read -r cmd; do $cmd >/dev/null 2>&1 || echo "FALLA: $cmd"; done
+npm run typecheck
 ```
+
+Son 25 hoy, y por eso el comando los cuenta en vez de nombrarlos: esta sección
+llegó a listar 15 mientras el workflow corría 25, y los diez que faltaban no
+eran menores —el fallback de idioma, la suite de catalán, la cobertura de
+palabras, los assets sensoriales, las URLs legales y los cuatro de RA—.
+
+Coste real (31/8/2026): se corrieron los 15 de la lista, todos en verde, y se
+mergeó a `main`. El build 621 murió en el paso 20, la **suite de catalán**, que
+no estaba en la lista. Un espacio de nombres nuevo en el catálogo la rompe
+porque lleva el número congelado; añadir uno obliga a subirlo en
+`scripts/test-challenger-final-ca-integration.js`. Arreglarlo costó un segundo
+push a `main`, en contra de la regla 4.
 
 Coste real (10/8/2026): se cambió el texto de seis consignas y se dijo «listo»
 con typecheck y captura. El build 499 murió a los 37 segundos en el **primer**
 gate. Ese texto lo locuta la app, así que **todo cambio de texto locutado lleva
 `node scripts/export-voice-corpus.js` en el MISMO commit**; sin él, gallego y
 euskera caen a la voz del sistema en silencio y se pierden Celtia e ILENIA.
+
+Y verde en local no es verde en CI: el build de verdad sigue con NDK, prebuild
+y Gradle. Hasta que `main` no tiene un run completo en verde no se dice
+«entregado», y se da **el número de build** (el `versionCode` sale del número
+de run).
 
 ### 2. Informa de lo que Frank VA A VER, no de lo que has hecho
 

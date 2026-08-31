@@ -44,7 +44,6 @@ export const EN: UiStrings = {
     tagline: 'Understand their language, practise at home. Lúa joins you.',
     sub: 'First you learn, then you practise together at home. Valeria keeps track of the progress.',
     start: 'Get started',
-    hasPatient: 'I already have a patient',
     trust: 'Data encrypted on this device · HIPAA / GDPR',
   },
   luaIntro: {

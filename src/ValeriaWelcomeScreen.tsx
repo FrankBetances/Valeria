@@ -8,8 +8,8 @@
 // Botón único a propósito. El atajo «Ya tengo un paciente registrado» estuvo
 // aquí y se retiró: el camino es Bienvenida → Créditos → Lúa, y desde Lúa se
 // elige entre ficha nueva y paciente existente. Decidido por Frank el
-// 31/8/2026; si vuelve, vuelve también t.welcome.hasPatient, que sigue en el
-// catálogo sin usar.
+// 31/8/2026. Su cadena salió del catálogo en los tres idiomas; si el atajo
+// vuelve, hay que volver a darla de alta en es, en y ca a la vez.
 // ============================================================================
 import React, { useEffect, useRef } from 'react';
 import { View, Text, Pressable, StyleSheet, Animated, Easing, StatusBar } from 'react-native';

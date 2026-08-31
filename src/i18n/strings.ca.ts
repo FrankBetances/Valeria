@@ -46,7 +46,6 @@ export const CA: UiStrings = {
     tagline: 'Entén el seu llenguatge, practica a casa. La Lúa us acompanya.',
     sub: 'Primer et formes, després practiqueu junts a casa. Valeria registra el progrés.',
     start: 'Començar',
-    hasPatient: 'Ja tinc un pacient registrat',
     trust: 'Dades xifrades al dispositiu · RGPD / HIPAA',
   },
   luaIntro: {
