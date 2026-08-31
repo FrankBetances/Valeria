@@ -47,6 +47,17 @@ export const EN: UiStrings = {
     hasPatient: 'I already have a patient',
     trust: 'Data encrypted on this device · HIPAA / GDPR',
   },
+  luaIntro: {
+    title: 'Meet Lúa',
+    sub: 'The physical companion that cheers your child on through every practice session.',
+    deviceAlt: 'Lúa, the Valeria cat, on her device screen',
+    request: 'I want a Lúa',
+    who: 'Who is practising today?',
+    newPatient: 'New patient',
+    newPatientSub: 'Start a record from scratch',
+    existing: 'I already have a patient',
+    existingSub: 'Open a record from the list',
+  },
 
   credits: {
     kicker: 'A project by',

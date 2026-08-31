@@ -47,6 +47,19 @@ export const ES = {
     hasPatient: 'Ya tengo un paciente registrado',
     trust: 'Datos cifrados en el dispositivo · RGPD / HIPAA',
   },
+  // Pantalla de presentación de Lúa física, entre Créditos y la ficha.
+  // Sin la palabra «terapia»: no se lee en ninguna cadena de la app.
+  luaIntro: {
+    title: 'Conoce a Lúa',
+    sub: 'La mascota física que os acompaña y anima en cada sesión de práctica.',
+    deviceAlt: 'Lúa, la gata de Valeria, en la pantalla de su aparato',
+    request: 'Quiero una Lúa',
+    who: '¿Quién va a practicar hoy?',
+    newPatient: 'Paciente nuevo',
+    newPatientSub: 'Crear una ficha desde cero',
+    existing: 'Ya tengo un paciente',
+    existingSub: 'Abrir una ficha de la lista',
+  },
 
   credits: {
     kicker: 'Proyecto desarrollado por',
