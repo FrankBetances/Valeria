@@ -49,6 +49,17 @@ export const CA: UiStrings = {
     hasPatient: 'Ja tinc un pacient registrat',
     trust: 'Dades xifrades al dispositiu · RGPD / HIPAA',
   },
+  luaIntro: {
+    title: 'Coneix la Lúa',
+    sub: 'La mascota física que us acompanya i anima en cada sessió de pràctica.',
+    deviceAlt: 'La Lúa, la gata de Valeria, a la pantalla del seu aparell',
+    request: 'Vull una Lúa',
+    who: 'Qui practicarà avui?',
+    newPatient: 'Pacient nou',
+    newPatientSub: 'Crear una fitxa des de zero',
+    existing: 'Ja tinc un pacient',
+    existingSub: 'Obrir una fitxa de la llista',
+  },
 
   credits: {
     kicker: 'Projecte desenvolupat per',
