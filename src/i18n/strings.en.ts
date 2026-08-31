@@ -41,8 +41,8 @@ export const EN: UiStrings = {
   },
 
   welcome: {
-    tagline: 'Listening and language therapy at home, guided by you.',
-    sub: 'You lead every exercise and score how your child responds. Valeria keeps track of the progress.',
+    tagline: 'Understand their language, practise at home. Lúa joins you.',
+    sub: 'First you learn, then you practise together at home. Valeria keeps track of the progress.',
     start: 'Get started',
     hasPatient: 'I already have a patient',
     trust: 'Data encrypted on this device · HIPAA / GDPR',
@@ -76,7 +76,7 @@ export const EN: UiStrings = {
         : n === 1 ? '1 patient saved on this device'
           : `${n} patients saved on this device`,
     emptyTitle: 'No patients yet',
-    emptyBody: 'Add your first patient to start assigning therapy.',
+    emptyBody: 'Add your first patient to start assigning exercises.',
     newPatient: 'Add a new patient',
     patientFallback: 'Patient',
     noDiagnosis: 'No diagnosis on file',
@@ -125,7 +125,7 @@ export const EN: UiStrings = {
     recordNumberRequired: 'The record number is required.',
     saved: 'Record saved and encrypted on this device.',
     save: 'Save record',
-    continueToExerciseSelection: 'Continue to exercise selection →',
+    continueToAcademy: 'Start with the training →',
     footer: 'Encrypted local storage (AES-256) · HIPAA / GDPR compliant.',
 
     // The argument is the stored Spanish id; the return value is what the user
@@ -175,11 +175,11 @@ export const EN: UiStrings = {
     hearingTitle: 'Listening',
     hearingSub: 'Based on the ACOPROS protocol: sounds, vocabulary, phrases and social use, organized by age.',
     hearingBrief: 'Detect, discriminate, recognise.',
-    hearingA11y: 'Open listening therapy',
+    hearingA11y: 'Open listening exercises',
     languageTitle: 'Language',
     languageSub: 'Family protocol: joint attention, imitation, comprehension and more.',
     languageBrief: 'Joint attention and comprehension.',
-    languageA11y: 'Open language therapy',
+    languageA11y: 'Open language exercises',
     autismTitle: 'Autism',
     autismSub: 'PRT + CBT: triangulated joint attention, communication repair and flexibility. Stressors are always caregiver-triggered.',
     autismBrief: 'Pragmatics and social flexibility.',
@@ -195,7 +195,7 @@ export const EN: UiStrings = {
     sensoryTitle: 'Sensory Integration',
     sensorySub: 'Gradual desensitization, modulation and visual anticipation for everyday environmental sounds.',
     sensoryBrief: 'Sound anticipation and tolerance.',
-    sensoryA11y: (n: number): string => `Open auditory sensory integration therapy, ${n} activities`,
+    sensoryA11y: (n: number): string => `Open auditory sensory integration exercises, ${n} activities`,
     sensoryBadge: (n: number): string => `${n} activities`,
 
     writingTitle: 'Handwriting',
@@ -355,9 +355,9 @@ export const EN: UiStrings = {
 
     itemUnlockCondition: (id: string): string => ({
       snack_fish: 'Available from the start',
-      neck_red_bow: 'Complete 3 therapy sessions',
+      neck_red_bow: 'Complete 3 exercise sessions',
       head_flower: 'Reach a 3-day streak',
-      neck_bell: 'Complete 10 therapy sessions',
+      neck_bell: 'Complete 10 exercise sessions',
       head_wizard: 'Reach Lúa Level 5',
     }[id] ?? ''),
 
@@ -875,9 +875,9 @@ export const EN: UiStrings = {
     doneStatKicker: 'SESSION AVERAGE · EPT-3 SCALE (1★ TO 3★)',
     seeResults: 'See results →',
     repeatSession: 'Repeat session',
-    sessionName: 'Therapy session',
+    sessionName: 'Exercise session',
     headerDone: 'Session Complete',
-    headerPlaying: 'Therapy Session',
+    headerPlaying: 'Exercise Session',
     noteGreat: 'Very smooth session, great responses to the prompts.',
     noteGood: 'Good session, some prompts were hard but attention held.',
     noteHard: 'Hard session today, worth reinforcing with more support from the grown-up.',
@@ -1001,7 +1001,7 @@ export const EN: UiStrings = {
     modalTitle: 'Professional Mode',
     pinError: 'Wrong PIN. Try again.',
     demoPin: 'Demo PIN: 1985',
-    pinSubtitleDefault: 'Enter the clinician’s 4-digit PIN to edit the therapy plan.',
+    pinSubtitleDefault: 'Enter the clinician’s 4-digit PIN to edit the assigned plan.',
     shareCancelled: 'Export cancelled · the log is kept so you can retry.',
     shareFailed: 'Couldn’t open the share menu · the log is kept.',
     exportKicker: '🔓 PROFESSIONAL MODE · EXPORT',
@@ -1141,7 +1141,7 @@ export const EN: UiStrings = {
       { date: 'Jun 12', name: 'Odd-one-out detection', note: 'Good session, found the odd one out after the guiding question.' },
       { date: 'Jun 15', name: 'Emotion recognition', note: 'Very focused today, named almost all the emotions.' },
       { date: 'Jun 17', name: 'S-V-O structure', note: 'Built complete sentences with the dice, big step forward.' },
-      { date: 'Jun 19', name: 'Therapy session', note: 'Excellent. Answered the prompts with almost no help.' },
+      { date: 'Jun 19', name: 'Exercise session', note: 'Excellent. Answered the prompts with almost no help.' },
     ],
     shareHeader: 'VALERIA+ · Results and Progress',
     shareAdherence: (pct: number, done: number, goal: number): string => `Weekly adherence: ${pct}% (${done}/${goal})`,
@@ -1174,7 +1174,7 @@ export const EN: UiStrings = {
       { title: '👂 Time to listen', body: 'How about the sounds game? It only takes a few minutes.' },
       { title: '⭐ Time to earn stars', body: 'Every exercise adds XP. Go for all 3 stars!' },
       { title: '🐸 Jump and learn!', body: 'The movement games are the favorites. Shall we play?' },
-      { title: '🎯 Small challenge, big step', body: 'One exercise now = a big step in their therapy.' },
+      { title: '🎯 Small challenge, big step', body: 'One exercise now = a big step in their language.' },
       { title: '🎉 Valeria has a new game!', body: 'Come in and find today’s movement break.' },
       { title: '💪 Consistency = progress', body: 'Families who practice daily see twice the progress.' },
       { title: '🌈 A little time together', body: 'Play, move and learn: all in one Valeria session.' },
@@ -1196,7 +1196,7 @@ export const EN: UiStrings = {
         body: 'Grown-ups talk fast and fill every silence. When you offer something (milk, for example) and ask “what do you want?”, pause and count to five in your head. Give their brain time to process and organize the muscles. That strategic silence is what pushes them to use a sound, a gesture or a word.',
       },
       {
-        title: '🛁 Tip 4 · Routine is your best therapy',
+        title: '🛁 Tip 4 · Routine is your best ally',
         body: 'You don’t need an hour of exercises or expensive materials. The best moment for language is what you already do every day: while you bathe them, name the soap, the water and the body parts; while you put clothes away, name the colors. Repeating simple words in real situations at home is what fixes vocabulary for good.',
       },
       {
@@ -1365,7 +1365,7 @@ export const EN: UiStrings = {
     uiLangHint:
       'Changes the whole app: the menus you read and what your child hears in '
       + 'the exercises too. If you want the interface in one language and the '
-      + 'therapy in another, change it afterwards under "App voice".',
+      + 'the exercises in another, change it afterwards under "App voice".',
     uiLangAuto: 'Automatic',
     uiLangAutoHint: 'Follows the language of the exercises.',
     uiLangEs: 'Español',
@@ -1399,7 +1399,7 @@ export const EN: UiStrings = {
     noticeTimeout: 'The exercise closed because the camera lost sight of your child\u2019s face. Prop the phone up in landscape, about a foot from their face and at eye level, and try again.',
 
     unsupportedTitle: 'These games cannot run here yet',
-    unsupportedBody: 'These exercises need the front camera and a version of the app installed on the phone (they do not work in the Expo Go preview). The other six therapy blocks work exactly as well.',
+    unsupportedBody: 'These exercises need the front camera and a version of the app installed on the phone (they do not work in the Expo Go preview). The other six exercise blocks work exactly as well.',
 
     consentTitle: 'What the camera does in these games',
     consentLead1: 'In this block the front camera does not record: it ',
@@ -1505,12 +1505,12 @@ export const EN: UiStrings = {
     back: '‹ Back',
     backA11y: 'Go back to the Academy hub',
     headerTitle: 'Academy',
-    headerSub: 'Your caregiver training hub to support therapy like a professional.',
-    langFallbackNotice: 'The training capsules are not available in Catalan yet: you are reading them in Spanish. The rest of the app and all therapy content are in Catalan.',
+    headerSub: 'Understand what your child is going through and how to help, in two-minute capsules.',
+    langFallbackNotice: 'The training capsules are not available in Catalan yet: you are reading them in Spanish. The rest of the app and all the exercises are in Catalan.',
     progressTxt: (completed: number, total: number, pct: number): string => `${completed}/${total} · ${pct}%`,
     xpTxt: (xp: number): string => `${xp} XP`,
     hubCardTag: 'FOR YOU',
-    hubCardSub: 'Multi-domain hub: Language, Hearing loss, Articulation, Dyslexia, and Autism. Quick capsules for caregivers.',
+    hubCardSub: 'Understand the condition before you practise it: Language, Hearing loss, Articulation, Dyslexia and Autism.',
     hubCardComplete: 'Training complete',
     hubCardProgress: (completed: number, total: number, pct: number): string => `${completed}/${total} units · ${pct}%`,
     hubCardA11y: (completed: number, total: number): string => `Valeria Academy: caregiver training. ${completed} of ${total} capsules completed.`,

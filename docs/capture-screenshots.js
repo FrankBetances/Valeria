@@ -121,7 +121,12 @@ const pause = (page, ms) => page.waitForTimeout(ms);
   console.log('04 guardada ✓');
 
   // 05 · HUB de 4 bloques (Selección de Ejercicios rediseñada)
-  await page.getByText('Continuar con la selección de ejercicios →').click();
+  // La ficha lleva a Academy —la app abre por la formación—, así que al hub de
+  // bloques se entra por la pestaña «Ejercicios» de la barra inferior.
+  await page.getByText('Empezar por la formación →').click();
+  await page.getByText('valeria+ · academy', { exact: true }).waitFor({ timeout: 120000 });
+  await pause(page, 700);
+  await page.getByText('Ejercicios', { exact: true }).click();
   await page.getByText('Selección de Ejercicios', { exact: true }).waitFor({ timeout: 120000 });
   await pause(page, 700);
   await shot(page, '05-hub-bloques');
@@ -182,6 +187,10 @@ const pause = (page, ms) => page.waitForTimeout(ms);
     await page.getByText('Selecciona un paciente').waitFor();
     await pause(page, 400);
     await page.getByText('Lucía Martínez').click();
+    // La app abre por la formación: elegir paciente deja en Academy, y al hub
+    // de bloques se entra por la pestaña «Ejercicios».
+    await page.getByText('valeria+ · academy', { exact: true }).waitFor({ timeout: 120000 });
+    await page.getByText('Ejercicios', { exact: true }).click();
     await page.getByText('Selección de Ejercicios', { exact: true }).waitFor({ timeout: 120000 });
     await pause(page, 400);
   };
@@ -230,6 +239,8 @@ const pause = (page, ms) => page.waitForTimeout(ms);
   await shot(page, '16-pacientes');             // 16 · selección de paciente
   console.log('16 pacientes ✓');
   await page.getByText('Lucía Martínez').click();
+  await page.getByText('valeria+ · academy', { exact: true }).waitFor({ timeout: 120000 });
+  await page.getByText('Ejercicios', { exact: true }).click();
   await page.getByText('Selección de Ejercicios', { exact: true }).waitFor({ timeout: 120000 });
   await pause(page, 400);
   await page.getByText('Audición', { exact: true }).click();
@@ -238,7 +249,7 @@ const pause = (page, ms) => page.waitForTimeout(ms);
   await shot(page, '13-audicion-lista');        // 13 · lista de audición prescribible
   console.log('13 audicion ✓');
 
-  // ▶ en la primera terapia → Test de Ling (patología con implante)
+  // ▶ en el primer ejercicio → Test de Ling (patología con implante)
   await page.getByLabel(/Practicar Asociación vocal inicial/).click();
   await page.getByText('Antes de empezar').waitFor();
   await pause(page, 500);
@@ -258,7 +269,7 @@ const pause = (page, ms) => page.waitForTimeout(ms);
   }
   await page.getByText('Comenzar ejercicios →').waitFor();
   await page.getByText('Comenzar ejercicios →').click();
-  await page.getByText('Sesión de Terapia').waitFor();
+  await page.getByText('Sesión de Ejercicios').waitFor();
   await pause(page, 900);
   await shot(page, '17-ejercicio');             // 17 · reproductor de ejercicios (ficha ilustrada)
   console.log('17 ejercicio ✓');
@@ -365,7 +376,10 @@ const pause = (page, ms) => page.waitForTimeout(ms);
   await pause(page, 400);
 
   // ===================== ACADEMY (hub de dominios, cápsula y quiz) =====================
-  await page.getByText('Academy', { exact: true }).click();
+  // Por la etiqueta de accesibilidad de la pestaña: el texto «Academy» suelto
+  // aparece también en la tarjeta del hub, y con dos coincidencias Playwright
+  // se planta en vez de elegir.
+  await page.getByLabel(/^Academy\./).click();
   await page.getByText('DOMINIOS FORMATIVOS', { exact: true }).waitFor({ timeout: 60000 });
   await pause(page, 900);
   await shot(page, '27-academy-hub');            // 27 · dominios + feed de prioridad
@@ -380,10 +394,13 @@ const pause = (page, ms) => page.waitForTimeout(ms);
   console.log('28 academy cápsulas ✓');
 
   // La tarjeta de cápsula ya no lleva el prefijo "Cápsula " en su etiqueta
-  // accesible: es el título más el estado. Se busca por título, y se elige "El
-  // baño de lenguaje" a propósito —la Brújula abre la lista y tiene sus propias
-  // capturas (38/39), así que aquí se documenta otra—.
-  const capsulaLector = page.getByText('El baño de lenguaje', { exact: true }).last();
+  // accesible: es el título más el estado. Se busca por título, y se elige la
+  // del baño de lenguaje a propósito —la Brújula abre la lista y tiene sus
+  // propias capturas (38/39), así que aquí se documenta otra—.
+  // OJO: los títulos son PREGUNTAS y se retocan; si este selector deja de
+  // encontrar, el script no falla, solo se salta las capturas 29 y 30 en
+  // silencio. Cuando cambie el título de `dev-input`, cámbialo aquí.
+  const capsulaLector = page.getByText('¿Cuánto lenguaje necesita oír para hablar?', { exact: true }).last();
   if (await capsulaLector.isVisible().catch(() => false)) {
     await capsulaLector.click();
     await pause(page, 900);
@@ -480,7 +497,9 @@ const pause = (page, ms) => page.waitForTimeout(ms);
   await page.getByText('Cómo aprenden a hablar, el porqué del TPR y qué vicios evitar.', { exact: true })
     .first().click();
   await pause(page, 900);
-  const brujula = page.getByText('La Brújula de las Palabras: Qué esperar a cada edad', { exact: true }).last();
+  // Título de `asha-milestones`. Mismo aviso que arriba: si no coincide, las
+  // capturas 38 y 39 se omiten sin error.
+  const brujula = page.getByText('¿Qué hitos de lenguaje esperar a cada edad?', { exact: true }).last();
   if (await brujula.count()) {
     await brujula.click();
     await pause(page, 900);

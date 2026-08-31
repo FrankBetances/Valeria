@@ -25,7 +25,7 @@ export const ACADEMY_CAPSULES_EN: AcademyCapsule[] = [
     domain: "lenguaje",
     track: "desarrollo",
     icon: "👂",
-    title: "How do children learn to talk?",
+    title: "How much language do they need to hear?",
     summary: "Children learn to talk by listening long before they produce words.",
     minutes: 2,
     xp: 20,

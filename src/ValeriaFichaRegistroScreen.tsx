@@ -194,9 +194,13 @@ export const ValeriaFichaRegistroScreen: React.FC<{ navigation?: any }> = ({ nav
 
         <Pressable onPress={guardar} style={s.primaryBtn}><Text style={s.primaryBtnTxt}>{t.ficha.save}</Text></Pressable>
 
+        {/* Entender el trastorno va antes que ejercitarlo: por eso la ficha
+            abre en Academy y no en el grid. El destino se nombra entero
+            (`screen`) para que el botón no dependa de cuál sea la pestaña
+            inicial del MainTabNavigator. */}
         {success && (
-          <Pressable onPress={() => navigation?.navigate('ExerciseSelection')} style={s.secondaryBtn}>
-            <Text style={s.secondaryBtnTxt}>{t.ficha.continueToExerciseSelection}</Text>
+          <Pressable onPress={() => navigation?.navigate('ExerciseSelection', { screen: 'Academy' })} style={s.secondaryBtn}>
+            <Text style={s.secondaryBtnTxt}>{t.ficha.continueToAcademy}</Text>
           </Pressable>
         )}
 

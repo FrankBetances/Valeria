@@ -9,7 +9,9 @@
 //   3. Historial de sesiones: lista con fecha, ejercicio, promedio y nota del tutor.
 //
 // Acciones:
-//   Volver a ejercicios → navigation.navigate('ExerciseSelection')
+//   Volver a ejercicios → navigation.navigate('ExerciseSelection', { screen: 'ExerciseSelection' })
+//     El destino se nombra entero a propósito: la pestaña inicial es Academy,
+//     así que sin `screen` este botón aterrizaría en formación, no en ejercicios.
 //   Iniciar nueva sesión → navigation.navigate('ExercisePlayer')
 //   Compartir PDF        → Share.share(...) (resumen clínico del paciente)
 //
@@ -372,7 +374,7 @@ export const ValeriaPatientResultsDashboardScreen: React.FC<{ navigation?: any }
 
       {/* Cabecera teal unificada */}
       <View style={st.header}>
-        <Pressable style={st.back} onPress={() => navigation?.navigate('ExerciseSelection')}>
+        <Pressable style={st.back} onPress={() => navigation?.navigate('ExerciseSelection', { screen: 'ExerciseSelection' })}>
           <Text style={st.backText}>{t.results.back}</Text>
         </Pressable>
         {/* <Image source={logoWhite} style={st.logo} /> */}
@@ -775,7 +777,7 @@ export const ValeriaPatientResultsDashboardScreen: React.FC<{ navigation?: any }
         </Pressable>
 
         <View style={st.actionRow}>
-          <Pressable style={st.ghostBtn} onPress={() => navigation?.navigate('ExerciseSelection')}>
+          <Pressable style={st.ghostBtn} onPress={() => navigation?.navigate('ExerciseSelection', { screen: 'ExerciseSelection' })}>
             <Text style={st.ghostText}>{t.results.backGhost}</Text>
           </Pressable>
           <Pressable style={st.ghostBtn} onPress={compartir}>

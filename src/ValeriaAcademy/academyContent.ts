@@ -45,7 +45,7 @@ export const ACADEMY_CAPSULES_ES: AcademyCapsule[] = [
     domain: 'lenguaje',
     track: 'desarrollo',
     icon: '👂',
-    title: '¿Cómo aprenden a hablar?',
+    title: '¿Cuánto lenguaje necesita oír para hablar?',
     summary: 'Los niños aprenden a hablar escuchando mucho antes de producir.',
     minutes: 2,
     xp: 20,
