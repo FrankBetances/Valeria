@@ -34,17 +34,17 @@ export const CA: UiStrings = {
   // [v11] Etiquetes de la barra de pestanyes inferior. Són etiquetes VISIBLES,
   // no pas noms de ruta interns (que indexen la telemetria històrica).
   tabs: {
-    therapies: 'Teràpies',
+    therapies: 'Exercicis',
     academy: 'Academy',
     settings: 'Ajustos',
-    therapiesA11y: 'Teràpies. Blocs d\'exercicis per practicar o prescriure.',
+    therapiesA11y: 'Exercicis. Blocs d\'exercicis per practicar o prescriure.',
     academyA11y: 'Academy. Formació per a l\'adult acompanyant.',
     settingsA11y: 'Ajustos. Recordatoris, veu, idioma i accés professional.',
   },
 
   welcome: {
-    tagline: 'Teràpia auditiva i del llenguatge a casa, guiada per tu.',
-    sub: 'Tu dirigeixes cada exercici i valores la resposta de l\'infant. Valeria registra el progrés.',
+    tagline: 'Entén el seu llenguatge, practica a casa. La Lúa us acompanya.',
+    sub: 'Primer et formes, després practiqueu junts a casa. Valeria registra el progrés.',
     start: 'Començar',
     hasPatient: 'Ja tinc un pacient registrat',
     trust: 'Dades xifrades al dispositiu · RGPD / HIPAA',
@@ -78,7 +78,7 @@ export const CA: UiStrings = {
         : n === 1 ? '1 pacient registrat en aquest dispositiu'
           : `${n} pacients registrats en aquest dispositiu`,
     emptyTitle: 'Encara no hi ha pacients',
-    emptyBody: 'Registra el teu primer pacient per començar a prescriure teràpies.',
+    emptyBody: 'Registra el teu primer pacient per començar a prescriure exercicis.',
     newPatient: 'Registrar un nou pacient',
     patientFallback: 'Pacient',
     noDiagnosis: 'Sense diagnòstic assignat',
@@ -123,7 +123,7 @@ export const CA: UiStrings = {
     recordNumberRequired: 'El NHC és obligatori.',
     saved: 'Fitxa desada i xifrada al dispositiu.',
     save: 'Desar la fitxa',
-    continueToExerciseSelection: 'Continuar amb la selecció d\'exercicis →',
+    continueToAcademy: 'Comença per la formació →',
     footer: 'Emmagatzematge local xifrat (AES-256) · compleix RGPD / HIPAA.',
 
     genderLabel: (id: string): string =>
@@ -168,19 +168,19 @@ export const CA: UiStrings = {
     hearingTitle: 'Audició',
     hearingSub: 'Inspirat en el protocol ACOPROS: sons, vocabulari, frases i ús social, organitzat per edats.',
     hearingBrief: 'Detectar, discriminar i reconèixer.',
-    hearingA11y: 'Obrir teràpies d\'audició',
+    hearingA11y: 'Obrir exercicis d\'audició',
     languageTitle: 'Llenguatge',
     languageSub: 'Protocol familiar: atenció conjunta, imitació, comprensió i més.',
     languageBrief: 'Atenció conjunta i comprensió.',
-    languageA11y: 'Obrir teràpies de llenguatge',
+    languageA11y: 'Obrir exercicis de llenguatge',
     autismTitle: 'TEA',
     autismSub: 'PRT + TCC: atenció conjunta triangulada, reparació comunicativa i flexibilitat. Estressors sempre manuals.',
     autismBrief: 'Pragmàtica i flexibilitat social.',
-    autismA11y: 'Obrir teràpies del mòdul TEA',
+    autismA11y: 'Obrir exercicis del mòdul TEA',
     dyslexiaTitle: 'Dislèxia',
     dyslexiaSub: 'Consciència fonològica, síntesi fonèmica, pseudoparaules i rastreig de lletres girades (b/d, p/q).',
     dyslexiaBrief: 'Consciència fonològica i lectura.',
-    dyslexiaA11y: 'Obrir teràpies del mòdul Dislèxia',
+    dyslexiaA11y: 'Obrir exercicis del mòdul Dislèxia',
     arTitle: 'Realitat Augmentada',
     arSub: 'La càmera mira el gest i el cotxe, el gos o la poma reaccionen al moviment. Sense enregistrar res i amb el micròfon apagat.',
     arBrief: 'Gest i mirada amb la càmera.',
@@ -188,7 +188,7 @@ export const CA: UiStrings = {
     sensoryTitle: 'Integració Sensorial',
     sensorySub: 'Desensibilització gradual, modulació i anticipació visual davant de sons quotidians.',
     sensoryBrief: 'Anticipació i tolerància a sons.',
-    sensoryA11y: (n: number): string => `Obrir teràpies d'integració sensorial auditiva, ${n} activitats`,
+    sensoryA11y: (n: number): string => `Obrir exercicis d'integració sensorial auditiva, ${n} activitats`,
     sensoryBadge: (n: number): string => `${n} activitats`,
 
     writingTitle: 'Grafomotricitat',
@@ -200,7 +200,7 @@ export const CA: UiStrings = {
     statStreakUnit: (n: number): string => (n === 1 ? 'dia de ratxa' : 'dies de ratxa'),
     pairsBadge: (n: number): string => `${n} parells`,
     semanticBadge: (n: number): string => `${n} escenaris`,
-    therapiesBadge: (n: number): string => `${n} teràpies`,
+    therapiesBadge: (n: number): string => `${n} exercicis`,
     activeBadge: (n: number): string => `${n} actives`,
 
     remindersTitle: 'Recordatoris de sessió',
@@ -244,7 +244,7 @@ export const CA: UiStrings = {
 
     editingOn: 'Edició professional habilitada',
     editingOff: 'Mode Família · només lectura',
-    blockChip: (total: number, prescribed: number): string => `${total} teràpies · ${prescribed} prescrites`,
+    blockChip: (total: number, prescribed: number): string => `${total} exercicis · ${prescribed} prescrits`,
     fullSession: 'Sessió completa',
     fullSessionSub: (n: number): string => `Els ${n} exercicis prescrits seguits, amb pauses de moviment`,
     fullSessionA11y: (n: number): string => `Practicar els ${n} exercicis prescrits seguits`,
@@ -272,7 +272,7 @@ export const CA: UiStrings = {
     notPrescribed: 'No prescrit',
     prescribedOf: (active: number, total: number): string => `${active} de ${total} prescrites`,
     savePrescription: 'Desar la Prescripció',
-    savedPrescription: (n: number): string => `Prescripció desada · ${n} teràpies actives.`,
+    savedPrescription: (n: number): string => `Prescripció desada · ${n} exercicis actius.`,
     saveHelper: 'La selecció es desa al dispositiu i l\'edició es bloqueja de nou.',
     lockedHint: 'Mode Família · només el logopeda pot modificar la prescripció.',
 
@@ -345,9 +345,9 @@ export const CA: UiStrings = {
 
     itemUnlockCondition: (id: string): string => ({
       snack_fish: 'Disponible des del principi',
-      neck_red_bow: 'Completa 3 sessions de teràpia',
+      neck_red_bow: 'Completa 3 sessions d\'exercicis',
       head_flower: 'Arriba a una ratxa de 3 dies',
-      neck_bell: 'Completa 10 sessions de teràpia',
+      neck_bell: 'Completa 10 sessions d\'exercicis',
       head_wizard: 'Arriba al Nivell 5 de la Lúa',
     }[id] ?? ''),
 
@@ -844,9 +844,9 @@ export const CA: UiStrings = {
     doneStatKicker: 'MITJANA DE LA SESSIÓ · ESCALA EPT-3 (D\'1★ A 3★)',
     seeResults: 'Veure els Resultats →',
     repeatSession: 'Repetir la sessió',
-    sessionName: 'Sessió de teràpia',
+    sessionName: 'Sessió d\'exercicis',
     headerDone: 'Sessió Completada',
-    headerPlaying: 'Sessió de Teràpia',
+    headerPlaying: 'Sessió d\'Exercicis',
     noteGreat: 'Sessió molt fluida, gran resposta en les consignes.',
     noteGood: 'Bona sessió, alguna consigna ha costat però s\'ha mantingut atent.',
     noteHard: 'Sessió difícil avui, convé reforçar amb més suport de la persona cuidadora.',
@@ -859,7 +859,7 @@ export const CA: UiStrings = {
           : role === 'Objeto' ? 'Quina cosa?'
             : role,
     redirecting: (s: number): string => `Redirigint a resultats en ${s} s…`,
-    prescribedPlan: (n: number): string => `Pla prescrit · ${n} teràpies`,
+    prescribedPlan: (n: number): string => `Pla prescrit · ${n} exercicis`,
   },
 
   adult: {
@@ -1102,7 +1102,7 @@ export const CA: UiStrings = {
       { date: '12 juny', name: 'Detecció de l\'intrús', note: 'Bona sessió, ha trobat l\'intrús després de la pregunta guia.' },
       { date: '15 juny', name: 'Reconeixement d\'emocions', note: 'Molt concentrat avui, ha anomenat gairebé totes les emocions.' },
       { date: '17 juny', name: 'Estructura S-V-O', note: 'Ha construït frases completes amb els daus, gran avanç.' },
-      { date: '19 juny', name: 'Sessió de teràpia', note: 'Excel·lent. Ha respost a les consignes gairebé sense ajuda.' },
+      { date: '19 juny', name: 'Sessió d\'exercicis', note: 'Excel·lent. Ha respost a les consignes gairebé sense ajuda.' },
     ],
     shareHeader: 'VALERIA+ · Resultats i Evolució',
     shareAdherence: (pct: number, done: number, goal: number): string => `Adherència setmanal: ${pct}% (${done}/${goal})`,
@@ -1135,7 +1135,7 @@ export const CA: UiStrings = {
       { title: '👂 Moment d\'escoltar', body: 'Provem el joc dels sons? Només calen uns minuts.' },
       { title: '⭐ Hora de guanyar estrelles', body: 'Cada exercici suma XP. A per les 3 estrelles!' },
       { title: '🐸 A saltar i aprendre!', body: 'Els jocs amb moviment són els favorits. Juguem?' },
-      { title: '🎯 Petit repte, gran avanç', body: 'Un exercici ara = un gran pas en la seva teràpia.' },
+      { title: '🎯 Petit repte, gran avanç', body: 'Un exercici ara = un gran pas en el seu llenguatge.' },
       { title: '🎉 Valeria té un joc nou!', body: 'Entra i descobreix la pausa activa d\'avui.' },
       { title: '💪 Constància = progrés', body: 'Les famílies que practiquen diàriament veuen el doble d\'avanç.' },
       { title: '🌈 Una estoneta plegats', body: 'Jugar, moure el cos i aprendre: tot en una sessió Valeria.' },
@@ -1157,7 +1157,7 @@ export const CA: UiStrings = {
         body: 'Els adults parlem ràpid i omplim tots els silencis. Quan li ofereixis alguna cosa (per exemple, llet) i li preguntis "què vols?", fes una pausa i compta mentalment fins a cinc. Dona temps al seu cervell per processar i organitzar els músculs. Aquest silenci estratègic és el que l\'empeny a fer servir un so, un gest o una paraula.',
       },
       {
-        title: '🛁 Consell 4 · La rutina és la teva millor teràpia',
+        title: '🛁 Consell 4 · La rutina és la teva millor aliada',
         body: 'No necessites una hora d\'exercicis ni materials costosos. El millor moment per al llenguatge és el que ja fas cada dia: mentre el banyes, anomena el sabó, l\'aigua i les parts del cos; mentre recolliu la roba, anomena els colors. Repetir paraules senzilles en situacions reals de la casa grava el vocabulari de manera definitiva.',
       },
       {
@@ -1327,7 +1327,7 @@ export const CA: UiStrings = {
     uiLangTitle: 'Idioma de l\'aplicació',
     uiLangHint:
       'Canvia l\'aplicació sencera: els menús que llegeixes tu i també el que sona en '
-      + 'els exercicis. Si vols la interfície en un idioma i la teràpia en un '
+      + 'els exercicis. Si vols la interfície en un idioma i els exercicis en un '
       + 'altre, canvia-la després a «Veu de l\'aplicació».',
     uiLangAuto: 'Automàtic',
     uiLangAutoHint: 'Segueix l\'idioma dels exercicis.',
@@ -1358,7 +1358,7 @@ export const CA: UiStrings = {
     noticeTimeout: 'L\'exercici s\'ha tancat perquè la càmera ha deixat de veure la cara de l\'infant. Recolza el telèfon en horitzontal, a un pam i mig de la seva cara i a l\'alçada dels seus ulls, i prova-ho una altra vegada.',
 
     unsupportedTitle: 'Aquí no es pot jugar encara',
-    unsupportedBody: 'Aquests exercicis necessiten la càmera frontal i una versió de l\'aplicació instal·lada al telèfon (no funcionen a la vista prèvia d\'Expo Go). Els altres sis blocs de teràpia funcionen exactament igual de bé.',
+    unsupportedBody: 'Aquests exercicis necessiten la càmera frontal i una versió de l\'aplicació instal·lada al telèfon (no funcionen a la vista prèvia d\'Expo Go). Els altres sis blocs d\'exercicis funcionen exactament igual de bé.',
 
     consentTitle: 'Què fa la càmera en aquests jocs',
     consentLead1: 'En aquest bloc la càmera frontal no enregistra: ',
@@ -1465,12 +1465,12 @@ export const CA: UiStrings = {
     back: '‹ Tornar',
     backA11y: 'Tornar al hub d\'Academy',
     headerTitle: 'Academy',
-    headerSub: 'El teu hub de formació per dominis per acompanyar la teràpia com un professional.',
-    langFallbackNotice: 'Les càpsules de formació encara no estan en català: les llegeixes en castellà. La resta de l\'app i tota la teràpia sí que són en català.',
+    headerSub: 'Entén què li passa a la teva criatura i com acompanyar-la, en càpsules de dos minuts.',
+    langFallbackNotice: 'Les càpsules de formació encara no estan en català: les llegeixes en castellà. La resta de l\'app i tots els exercicis sí que són en català.',
     progressTxt: (completed: number, total: number, pct: number): string => `${completed}/${total} · ${pct}%`,
     xpTxt: (xp: number): string => `${xp} XP`,
     hubCardTag: 'PER A TU',
-    hubCardSub: 'Hub multidomini: Llenguatge, Hipoacúsia, Dislàlies, Dislèxia i TEA. Càpsules ràpides per a la persona cuidadora.',
+    hubCardSub: 'Entén el trastorn abans d\'exercitar-lo: Llenguatge, Hipoacúsia, Dislàlies, Dislèxia i TEA.',
     hubCardComplete: 'Formació completada',
     hubCardProgress: (completed: number, total: number, pct: number): string => `${completed}/${total} unitats · ${pct}%`,
     hubCardA11y: (completed: number, total: number): string => `Valeria Academy: formació per a persones cuidadores. ${completed} de ${total} càpsules completades.`,

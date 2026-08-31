@@ -27,6 +27,7 @@ import { AcademyPriorityFeed } from './AcademyPriorityFeed';
 import { HipoacusiaBottomSheet } from './HipoacusiaBottomSheet';
 import { SignAlphabetChart, SignFigure } from './AcademySignosSvg';
 import { BlockIcon } from '../ValeriaBlockIcons';
+import { CatPixel } from '../ValeriaCatPixel';
 import { getUiLang } from '../valeriaUiLang';
 import { isFallingBack } from '../i18n/uiLangFallback';
 
@@ -91,8 +92,15 @@ export const ValeriaAcademyScreen: React.FC<{ navigation: any }> = ({ navigation
               <Text style={s.backPillTxt}>{t.academy.back}</Text>
             </Pressable>
           )}
-          <Text style={s.logoFallback}>valeria+ · academy</Text>
-          <View style={s.titleRow}><BlockIcon name="tabAcademy" color="#ffffff" size={26} /><Text style={s.headerTitle}>{t.academy.headerTitle}</Text></View>
+          <View style={s.headerTopRow}>
+            <View style={s.headerTitleCol}>
+              <Text style={s.logoFallback}>valeria+ · academy</Text>
+              <View style={s.titleRow}><BlockIcon name="tabAcademy" color="#ffffff" size={26} /><Text style={s.headerTitle}>{t.academy.headerTitle}</Text></View>
+            </View>
+            <View style={s.luaBadge}>
+              <CatPixel size={54} pose="head" />
+            </View>
+          </View>
           <Text style={s.headerSub}>{t.academy.headerSub}</Text>
           {/* El contenido formativo no existe todavía en todos los idiomas de
               interfaz (ver src/i18n/uiLangFallback.ts). Cuando se sirve en otro,
@@ -454,6 +462,17 @@ const s = StyleSheet.create({
   logoFallback: { color: 'rgba(255,255,255,.9)', fontWeight: '800', fontSize: 11.5, letterSpacing: 1, marginBottom: 6 },
   backPill: { alignSelf: 'flex-start', backgroundColor: 'rgba(255,255,255,.18)', borderWidth: 1, borderColor: 'rgba(255,255,255,.32)', borderRadius: 11, paddingHorizontal: 11, paddingVertical: 5, marginBottom: 10 },
   backPillTxt: { color: '#fff', fontSize: 12, fontWeight: '800' },
+  headerTopRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 2 },
+  headerTitleCol: { flex: 1, marginRight: 10 },
+  luaBadge: {
+    backgroundColor: 'rgba(255,255,255,0.18)',
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.32)',
+    borderRadius: 16,
+    padding: 4,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   titleRow: { flexDirection: 'row', alignItems: 'center', gap: 10 },
   signRow: { flexDirection: 'row', alignItems: 'center', gap: 8 },
   headerTitle: { color: '#fff', fontSize: 23, fontWeight: '800', letterSpacing: -0.4 },

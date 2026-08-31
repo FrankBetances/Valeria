@@ -25,7 +25,7 @@
 // ============================================================================
 import React, { useEffect, useRef } from 'react';
 import { View } from 'react-native';
-import { NavigationContainer, createNavigationContainerRef } from '@react-navigation/native';
+import { NavigationContainer, createNavigationContainerRef, NavigatorScreenParams } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { initNotifications, refreshDailyReminders } from './valeriaNotifications';
@@ -40,7 +40,7 @@ import ValeriaWelcomeScreen from './ValeriaWelcomeScreen';
 import ValeriaCreditsScreen from './ValeriaCreditsScreen';
 import ValeriaPatientSelectScreen from './ValeriaPatientSelectScreen';
 import ValeriaFichaRegistroScreen from './ValeriaFichaRegistroScreen';
-import MainTabNavigator from './MainTabNavigator';
+import MainTabNavigator, { ValeriaTabParamList } from './MainTabNavigator';
 import ValeriaBlockListScreen from './ValeriaBlockListScreen';
 import { BlockKey } from './valeriaBlocks';
 import ValeriaLingTestScreen from './ValeriaLingTestScreen';
@@ -63,7 +63,11 @@ export type ValeriaStackParamList = {
   Credits: undefined;
   PatientSelect: undefined;
   FichaRegistro: undefined;
-  ExerciseSelection: undefined;
+  // Monta el MainTabNavigator. Acepta params anidados (`{ screen: 'Academy' }`)
+  // porque hay botones que prometen un destino concreto —«Volver a
+  // ejercicios», «Empezar por la formación»— y no pueden quedar a merced de
+  // cuál sea la pestaña inicial.
+  ExerciseSelection: NavigatorScreenParams<ValeriaTabParamList> | undefined;
   // [v11] Lista prescribible de UN bloque. En la v10.2 era un `useState`
   // dentro de ExerciseSelection, no una ruta: por eso el atrás de Android
   // salía de la pantalla entera y la telemetría no sabía distinguir navegar

@@ -6,10 +6,12 @@
   <img src="assets/valeria-logo.png" alt="Valeria+" width="320">
 </picture>
 
-### 🐈‍⬛ Terapia auditivo‑verbal y del lenguaje, offline y en tu bolsillo
+### 🐈‍⬛ Entiende su lenguaje, practica en casa. Lúa os acompaña
 
-**App móvil para niñas y niños con hipoacusia, implante coclear, dislalias o
-dificultades del lenguaje.**
+**Formación para madres, padres y cuidadores sobre los trastornos del lenguaje
+y el neurodesarrollo en la infancia —y los ejercicios para practicarlos en casa
+con sus hijas e hijos.** Hipoacusia, implante coclear, dislalias, dislexia y TEA.
+Offline y en el bolsillo.
 
 <br>
 
@@ -33,8 +35,8 @@ dificultades del lenguaje.**
 
 <div align="center">
   <a href="#-qué-es-valeria"><b>¿Qué es?</b></a> ·
-  <a href="#-bloques-de-terapia"><b>Terapia</b></a> ·
   <a href="#-academy--formación-del-cuidador"><b>Academy</b></a> ·
+  <a href="#-bloques-de-ejercicios"><b>Ejercicios</b></a> ·
   <a href="#-idiomas-y-variedades"><b>Idiomas</b></a> ·
   <a href="#-puesta-en-marcha"><b>Puesta en marcha</b></a> ·
   <a href="#-documentación"><b>Documentación</b></a>
@@ -51,7 +53,7 @@ dificultades del lenguaje.**
 **Producto**
 - [¿Qué es Valeria+?](#-qué-es-valeria)
 - [Capturas](#-capturas)
-- [Bloques de terapia](#-bloques-de-terapia)
+- [Bloques de ejercicios](#-bloques-de-ejercicios)
 - [Integración Sensorial Auditiva](#-integración-sensorial-auditiva)
 - [Academy · formación del cuidador](#-academy--formación-del-cuidador)
 - [Lúa · la mascota y la marca](#-lúa--la-mascota-y-la-marca)
@@ -82,15 +84,23 @@ dificultades del lenguaje.**
 
 ## 🐈‍⬛ ¿Qué es Valeria+?
 
-Valeria+ reúne en un solo lugar el **registro del paciente**, una comprobación
-auditiva previa (**Test de Ling**), **nueve bloques de terapia**, un módulo de
-**formación del cuidador** (**Academy**) y un **panel de resultados** para seguir
-la evolución.
+Valeria+ hace dos cosas, y en este orden. **Primero forma**: Academy explica a
+madres, padres y cuidadores qué es cada trastorno del lenguaje y del
+neurodesarrollo, cómo se manifiesta y cómo acompañarlo, en cápsulas de dos
+minutos. **Después facilita la práctica en casa**: nueve bloques de ejercicios
+para hacer junto al niño, con Lúa de por medio.
+
+Alrededor de esas dos van el **registro del paciente**, una comprobación
+auditiva previa (**Test de Ling**) y un **panel de resultados** para seguir la
+evolución.
+
+Por eso la app **abre en Academy**, no en la rejilla de ejercicios: entender el
+trastorno va antes que ejercitarlo.
 
 Parte de un principio clave: **los padres y cuidadores son el motor de voz y
 evaluación**. El reconocimiento de voz ayuda, pero **el adulto siempre es el juez
 final** (puede corregir el veredicto con un toque) y, donde no hay micrófono
-(Expo Go, web), valora la respuesta con botones. Así la terapia funciona en
+(Expo Go, web), valora la respuesta con botones. Así los ejercicios funcionan en
 cualquier dispositivo y **sin conexión**.
 
 > [!NOTE]
@@ -140,7 +150,7 @@ todas.
 
 ---
 
-## 🧩 Bloques de terapia
+## 🧩 Bloques de ejercicios
 
 La tabla va **en el mismo orden que el hub**: Integración Sensorial abre la
 rejilla y Realidad Aumentada la cierra. No es cosmético: la sensorial es lo que
@@ -153,12 +163,12 @@ tarjeta que puede no aparecer, porque depende del aparato.
 | 🎧 **Integración Sensorial Auditiva** (6 actividades) | Desensibilización sistemática para sobre-responsividad acústica (SOR). El adulto elige el estímulo, la intensidad relativa (1-5) y la duración (3, 7 o 15 s) **antes** de ceder el aparato; el niño lo dispara con su propio botón y puede pararlo en cualquier momento sin perder progreso. Once estímulos **sintetizados en el repositorio** —ocho aparatos y alertas, y tres ambientes: aula, centro comercial y calle con obras— por `scripts/generate-sensory-assets.js`: ni una grabación de terceros, ni una licencia que revisar. Las seis actividades están abiertas y **cuáles practica la familia lo decide el logopeda con el PIN profesional**, igual que en los demás bloques prescribibles; comparten el muro adulto: cada una llega configurada con su estímulo, su intensidad y su duración de partida (ISA-02 arranca el sonido con la cuenta atrás; ISA-05 y ISA-06 abren en ambiente de aula). Lúa acompaña muda y quieta, en la tableta y en el cristal del aparato. |
 | 🗣️ **Pares Mínimos** | Dislalias fonológicas (rotacismo, sigmatismo, frontalización velar, f→p). 15 pares casi iguales (rana/lana) en 6 grupos —añade nasales y laterales— con juego de voz, misión física y sello doble padre‑hijo. |
 | 🧩 **Expansión Semántica** | Progresión léxica para intervención temprana, en cuatro bloques: 5 **escenarios** diarios, 5 **categorías léxicas** con progresión de dificultad, 9 **progresiones** de campo semántico (concepto → parte → acción → cualidad) y 8 **cápsulas de contraste** con doble vuelta (comprensión por selección de imagen + producción). Cada actividad empieza por una **antesala** con el material necesario. |
-| 👂 **Audición** (18 terapias) | Protocolo ACOPROS: fonética‑fonología, semántica, morfosintaxis, pragmática y **escucha en ruido** (RA‑1…RA‑5) para audífono, implante coclear o hipoacusia. |
-| 💬 **Lenguaje** (7 terapias) | Protocolo familiar: atención conjunta, imitación, comprensión, expresión, comunicación funcional, regulación e interacción social. |
-| 🧠 **TEA** (6 terapias) | PRT + TCC: atención conjunta triangulada (Time Delay + Sello Doble), quiebre pragmático con consentimiento, espejo asimétrico, transición interrumpida, categorización bajo ruido y múltiples señales simultáneas. Todos los estresores son **manuales** (Panel del Adulto). |
-| 📖 **Dislexia** (6 terapias) | Fonología y acceso léxico: intruso fonológico auditivo puro, rastreo léxico con interferencia, síntesis fonémica rítmica (latencia 500 ms + Juez), criba de pseudopalabras (máx. 5 ensayos), rastreo visual de rotaciones b/d · p/q con mapa de misclicks y denominación rápida (RAN). |
+| 👂 **Audición** (18 ejercicios) | Protocolo ACOPROS: fonética‑fonología, semántica, morfosintaxis, pragmática y **escucha en ruido** (RA‑1…RA‑5) para audífono, implante coclear o hipoacusia. |
+| 💬 **Lenguaje** (7 ejercicios) | Protocolo familiar: atención conjunta, imitación, comprensión, expresión, comunicación funcional, regulación e interacción social. |
+| 🧠 **TEA** (6 ejercicios) | PRT + TCC: atención conjunta triangulada (Time Delay + Sello Doble), quiebre pragmático con consentimiento, espejo asimétrico, transición interrumpida, categorización bajo ruido y múltiples señales simultáneas. Todos los estresores son **manuales** (Panel del Adulto). |
+| 📖 **Dislexia** (6 ejercicios) | Fonología y acceso léxico: intruso fonológico auditivo puro, rastreo léxico con interferencia, síntesis fonémica rítmica (latencia 500 ms + Juez), criba de pseudopalabras (máx. 5 ensayos), rastreo visual de rotaciones b/d · p/q con mapa de misclicks y denominación rápida (RAN). |
 | ✏️ **Grafomotricidad y Escritura** (6 trazos) · [captura](docs/screenshots/40-pizarra-magica.png) | La **Pizarra Mágica de Lúa**: continuación motora de Dislexia. Trazado guiado sobre lienzo SVG con dedo o lápiz óptico, pauta Montessori regulable y **puntos de control numerados** que fijan el ORDEN del trazo, que es lo que evita la inversión b/d y p/q: en la `b` el palo baja primero y la barriga abre a la derecha; en la `d` el óvalo va antes. Cuatro letras críticas (b, d, p, m), dos lazos de calentamiento y pizarra libre. El contenido de pantalla está **solo en castellano** de momento; los tres elogios que locuta sí están en las cinco variedades con banco propio. |
-| 🎯 **Realidad Aumentada** (3 terapias · solo Android) | **Gamificación Condicionada**: la cámara frontal deja de grabar y pasa a ser un sensor de conducta motora, y el refuerzo 3D se dispara **solo** por el gesto objetivo, nunca por acierto acústico ni por paso del tiempo. Cinemática orofacial con el **micrófono apagado** (AR‑1), localización del sonido instrumentada —la versión con cronómetro de RA‑5— (AR‑2) y selección semántica por fijación de la mirada, sin motricidad fina (AR‑3). Ningún fotograma se graba ni sale del teléfono. La tarjeta solo aparece si el teléfono supera la **Prueba de Aptitud del Dispositivo**. |
+| 🎯 **Realidad Aumentada** (3 ejercicios · solo Android) | **Gamificación Condicionada**: la cámara frontal deja de grabar y pasa a ser un sensor de conducta motora, y el refuerzo 3D se dispara **solo** por el gesto objetivo, nunca por acierto acústico ni por paso del tiempo. Cinemática orofacial con el **micrófono apagado** (AR‑1), localización del sonido instrumentada —la versión con cronómetro de RA‑5— (AR‑2) y selección semántica por fijación de la mirada, sin motricidad fina (AR‑3). Ningún fotograma se graba ni sale del teléfono. La tarjeta solo aparece si el teléfono supera la **Prueba de Aptitud del Dispositivo**. |
 
 El **Test de Ling** (6 sonidos) precede a los ejercicios de audición cuando el
 paciente usa audífono o implante, y la **gamificación** (XP, racha 🔥, niveles e
@@ -287,9 +297,14 @@ En la terapia auditivo‑verbal el **adulto es el motor clínico** de cada sesi�
 (requisito **MDR**: la app nunca decide sola). **Academy** (`src/ValeriaAcademy/`)
 capacita a padres y cuidadores para que acompañen como profesionales, mediante
 **Cápsulas de Conocimiento** de consumo rápido (≈2 min) con **micro‑quiz** de
-validación ágil. Se muestra como una **tarjeta prominente** en el hub de
-`ExerciseSelection`, con la misma jerarquía visual que los bloques de terapia y
-una **barra de progreso que se actualiza en tiempo real**.
+validación ágil. Es **la pestaña con la que abre la app** y además se muestra
+como una **tarjeta prominente** en el hub de `ExerciseSelection`, con la misma
+jerarquía visual que los bloques de ejercicios y una **barra de progreso que se
+actualiza en tiempo real**.
+
+Los títulos de las cápsulas son **preguntas** («¿A qué edad se aprende cada
+sonido?»), que es como llega la duda de una familia: se buscan por lo que a uno
+le preocupa, no por el nombre técnico del concepto.
 
 El hub es **multidominio**: cada dominio mantiene su propio silo de XP, nivel e
 insignias, y el progreso nunca se mezcla entre ellos.
@@ -374,7 +389,7 @@ de nivel, icono de la app y pantalla de arranque.
 
 Las **tarjetas de bloque** del hub llevan el tinte de su acento como **fondo**
 —seis tarjetas blancas con un icono de color leían como una lista— y una línea
-de qué trabaja el bloque bajo el título. La cifra de terapias prescritas va en
+de qué trabaja el bloque bajo el título. La cifra de ejercicios prescritos va en
 **tinta sobre blanco**, no teñida: en el color del bloque no llegaba al mínimo
 de contraste AA en ninguno de los seis (2,76 el naranja de Lenguaje). Medido,
 no estimado.
@@ -793,8 +808,8 @@ interfaz que arranca: `MainTabNavigator` va cableado directo en
 ```mermaid
 flowchart LR
     H[ExerciseSelection] --> T{{MainTabNavigator}}
-    T --> HB[Terapias · grid 2 col]
-    T --> AC[Academy]
+    T --> AC[Academy · pestaña inicial]
+    T --> HB[Ejercicios · grid 2 col]
     T --> ST[Ajustes]
     HB --> BL[BlockList · un bloque]
     BL --> L[LingTest]
@@ -814,9 +829,27 @@ flowchart LR
 | El player **no** vive bajo las pestañas | Durante el ejercicio la pantalla es del niño; no puede haber salidas laterales a un toque. |
 
 **Los nombres de ruta no se traducen ni se renombran.** La pestaña se llama
-`ExerciseSelection` y solo muestra «Terapias» como etiqueta visible: la
+`ExerciseSelection` y solo muestra «Ejercicios» como etiqueta visible: la
 telemetría indexa el tiempo por nombre de ruta y rebautizarla partiría la serie
-del piloto. Plan completo y muro de contención en
+del piloto. La etiqueta pasó de «Terapias» a «Ejercicios» para que concuerde con
+el título de la pantalla («Selección de Ejercicios») y con el enfoque del
+producto: la terapia la dirige el logopeda; lo que la familia hace en casa son
+ejercicios.
+
+**La pestaña inicial es Academy** (`initialRouteName`), porque la app forma
+antes de ejercitar. Los botones que prometen un destino concreto —«Volver a
+ejercicios» del panel de resultados, «Empezar por la formación» de la ficha— lo
+nombran entero (`navigate('ExerciseSelection', { screen: … })`) en vez de
+confiar en cuál sea esa pestaña inicial: así el texto del botón y el sitio al
+que lleva no pueden separarse.
+
+> [!NOTE]
+> **Efecto en la telemetría del piloto.** Cambiar la pestaña inicial no renombra
+> ninguna ruta, pero sí mueve dónde se imputa el tiempo: lo que antes caía en
+> `ExerciseSelection` nada más entrar ahora cae en `Academy`. Las sesiones
+> siguen marcadas como `ui: 'v11'`, así que el tramo se puede separar por dato,
+> pero conviene tenerlo en cuenta al comparar series a ambos lados de este
+> cambio. Plan completo y muro de contención en
 [`docs/plan-evolucion-ux-v11.md`](docs/plan-evolucion-ux-v11.md).
 
 ---
@@ -1743,16 +1776,16 @@ trazabilidad completa está en
 <details>
 <summary><strong>V9</strong> — dos bloques nuevos, protocolos ampliados, euskera y Academy multidominio</summary>
 
-- **Bloque TEA** (`TEA_META`, 6 terapias · PRT + TCC): atención conjunta
+- **Bloque TEA** (`TEA_META`, 6 ejercicios · PRT + TCC): atención conjunta
   triangulada, quiebre pragmático (con consentimiento informado), espejo
   asimétrico, transición interrumpida, categorización bajo carga sensorial y
   múltiples señales simultáneas. Todos los estresores son **manuales**.
-- **Bloque Dislexia** (`DISLEXIA_META`, 6 terapias): conciencia fonológica y
+- **Bloque Dislexia** (`DISLEXIA_META`, 6 ejercicios): conciencia fonológica y
   acceso léxico —intruso fonológico, rastreo léxico con interferencia, síntesis
   fonémica rítmica, criba de pseudopalabras, rotaciones b/d · p/q y denominación
   rápida (RAN)—; el ritmo lo marca la persecución dactilar del adulto, sin
   cronómetro automático.
-- **Audición ampliada** a **18 terapias**: nueva categoría **«Escucha en ruido»**
+- **Audición ampliada** a **18 ejercicios**: nueva categoría **«Escucha en ruido»**
   (RA‑1…RA‑5) sobre el deslizador manual de ruido babble del Panel del Adulto.
 - **Pares Mínimos a 15 pares** (`valeriaMinimalPairs.ts`) con dos grupos nuevos
   (nasales y laterales); Expansión Semántica sube a 9 progresiones y 8

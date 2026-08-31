@@ -32,17 +32,17 @@ export const ES = {
   // ni se renombran, porque la telemetría del piloto indexa por nombre de ruta
   // (valeriaTelemetry.noteScreen) y renombrarlos partiría la serie histórica.
   tabs: {
-    therapies: 'Terapias',
+    therapies: 'Ejercicios',
     academy: 'Academy',
     settings: 'Ajustes',
-    therapiesA11y: 'Terapias. Bloques de ejercicios para practicar o prescribir.',
+    therapiesA11y: 'Ejercicios. Bloques de ejercicios para practicar o prescribir.',
     academyA11y: 'Academy. Formación para el adulto cuidador.',
     settingsA11y: 'Ajustes. Recordatorios, voz, idioma y acceso profesional.',
   },
 
   welcome: {
-    tagline: 'Terapia auditiva y de lenguaje, en casa y guiada por ti.',
-    sub: 'Tú diriges cada ejercicio y valoras la respuesta del niño. Valeria registra el progreso.',
+    tagline: 'Entiende su lenguaje, practica en casa. Lúa os acompaña.',
+    sub: 'Primero te formas, después practicáis juntos en casa. Valeria registra el progreso.',
     start: 'Comenzar',
     hasPatient: 'Ya tengo un paciente registrado',
     trust: 'Datos cifrados en el dispositivo · RGPD / HIPAA',
@@ -78,7 +78,7 @@ export const ES = {
         : n === 1 ? '1 paciente registrado en este dispositivo'
           : `${n} pacientes registrados en este dispositivo`,
     emptyTitle: 'Aún no hay pacientes',
-    emptyBody: 'Registra tu primer paciente para empezar a prescribir terapias.',
+    emptyBody: 'Registra tu primer paciente para empezar a prescribir ejercicios.',
     newPatient: 'Registrar nuevo paciente',
     patientFallback: 'Paciente',
     noDiagnosis: 'Sin diagnóstico asignado',
@@ -130,7 +130,7 @@ export const ES = {
     recordNumberRequired: 'El NHC es obligatorio.',
     saved: 'Ficha guardada y cifrada en el dispositivo.',
     save: 'Guardar ficha',
-    continueToExerciseSelection: 'Continuar con la selección de ejercicios →',
+    continueToAcademy: 'Empezar por la formación →',
     footer: 'Almacenamiento local cifrado (AES-256) · cumple RGPD / HIPAA.',
 
     // id almacenado (castellano, inmutable) → etiqueta visible
@@ -162,19 +162,19 @@ export const ES = {
     hearingTitle: 'Audición',
     hearingSub: 'Inspirado en el protocolo ACOPROS: sonidos, vocabulario, frases y uso social, organizado por edades.',
     hearingBrief: 'Detectar, discriminar y reconocer.',
-    hearingA11y: 'Abrir terapias de audición',
+    hearingA11y: 'Abrir ejercicios de audición',
     languageTitle: 'Lenguaje',
     languageSub: 'Protocolo familiar: atención conjunta, imitación, comprensión y más.',
     languageBrief: 'Atención conjunta y comprensión.',
-    languageA11y: 'Abrir terapias de lenguaje',
+    languageA11y: 'Abrir ejercicios de lenguaje',
     autismTitle: 'TEA',
     autismSub: 'PRT + TCC: atención conjunta triangulada, reparación comunicativa y flexibilidad. Estresores siempre manuales.',
     autismBrief: 'Pragmática y flexibilidad social.',
-    autismA11y: 'Abrir terapias del módulo TEA',
+    autismA11y: 'Abrir ejercicios del módulo TEA',
     dyslexiaTitle: 'Dislexia',
     dyslexiaSub: 'Conciencia fonológica, síntesis fonémica, pseudopalabras y rastreo de letras giradas (b/d, p/q).',
     dyslexiaBrief: 'Conciencia fonológica y lectura.',
-    dyslexiaA11y: 'Abrir terapias del módulo Dislexia',
+    dyslexiaA11y: 'Abrir ejercicios del módulo Dislexia',
     arTitle: 'Realidad Aumentada',
     arSub: 'La cámara mira el gesto y el coche, el perro o la manzana reaccionan a él. Sin grabar nada y con el micrófono apagado.',
     arBrief: 'Gesto y mirada con la cámara.',
@@ -182,7 +182,7 @@ export const ES = {
     sensoryTitle: 'Integración Sensorial',
     sensorySub: 'Desensibilización gradual, modulación y anticipación visual ante sonidos cotidianos.',
     sensoryBrief: 'Anticipación y tolerancia a sonidos.',
-    sensoryA11y: (n: number): string => `Abrir terapias de integración sensorial auditiva, ${n} actividades`,
+    sensoryA11y: (n: number): string => `Abrir ejercicios de integración sensorial auditiva, ${n} actividades`,
     sensoryBadge: (n: number): string => `${n} actividades`,
 
     // Pizarra Mágica · Grafomotricidad y Escritura.
@@ -195,7 +195,7 @@ export const ES = {
     statStreakUnit: (n: number): string => (n === 1 ? 'día de racha' : 'días de racha'),
     pairsBadge: (n: number): string => `${n} pares`,
     semanticBadge: (n: number): string => `${n} escenarios`,
-    therapiesBadge: (n: number): string => `${n} terapias`,
+    therapiesBadge: (n: number): string => `${n} ejercicios`,
     activeBadge: (n: number): string => `${n} activas`,
 
     remindersTitle: 'Recordatorios de sesión',
@@ -240,7 +240,7 @@ export const ES = {
 
     editingOn: 'Edición profesional habilitada',
     editingOff: 'Modo Familia · solo lectura',
-    blockChip: (total: number, prescribed: number): string => `${total} terapias · ${prescribed} prescritas`,
+    blockChip: (total: number, prescribed: number): string => `${total} ejercicios · ${prescribed} prescritos`,
     fullSession: 'Sesión completa',
     fullSessionSub: (n: number): string => `Los ${n} ejercicios prescritos seguidos, con pausas de movimiento`,
     fullSessionA11y: (n: number): string => `Practicar los ${n} ejercicios prescritos seguidos`,
@@ -268,7 +268,7 @@ export const ES = {
     notPrescribed: 'No prescrito',
     prescribedOf: (active: number, total: number): string => `${active} de ${total} prescritas`,
     savePrescription: 'Guardar Prescripción',
-    savedPrescription: (n: number): string => `Prescripción guardada · ${n} terapias activas.`,
+    savedPrescription: (n: number): string => `Prescripción guardada · ${n} ejercicios activos.`,
     saveHelper: 'La selección se guarda en el dispositivo y la edición se bloquea de nuevo.',
     lockedHint: 'Modo Familia · solo el logopeda puede modificar la prescripción.',
 
@@ -348,9 +348,9 @@ export const ES = {
 
     itemUnlockCondition: (id: string): string => ({
       snack_fish: 'Disponible desde el principio',
-      neck_red_bow: 'Completa 3 sesiones de terapia',
+      neck_red_bow: 'Completa 3 sesiones de ejercicios',
       head_flower: 'Alcanza una racha de 3 días',
-      neck_bell: 'Completa 10 sesiones de terapia',
+      neck_bell: 'Completa 10 sesiones de ejercicios',
       head_wizard: 'Alcanza el Nivel 5 de Lúa',
     }[id] ?? ''),
 
@@ -876,9 +876,9 @@ export const ES = {
     doneStatKicker: 'PROMEDIO DE LA SESIÓN · ESCALA EPT-3 (DE 1★ A 3★)',
     seeResults: 'Ver Resultados →',
     repeatSession: 'Repetir sesión',
-    sessionName: 'Sesión de terapia',
+    sessionName: 'Sesión de ejercicios',
     headerDone: 'Sesión Completada',
-    headerPlaying: 'Sesión de Terapia',
+    headerPlaying: 'Sesión de Ejercicios',
     noteGreat: 'Sesión muy fluida, gran respuesta en las consignas.',
     noteGood: 'Buena sesión, alguna consigna costó pero se mantuvo atento.',
     noteHard: 'Sesión difícil hoy, conviene reforzar con más apoyo del tutor.',
@@ -894,7 +894,7 @@ export const ES = {
           : role === 'Objeto' ? '¿Qué cosa?'
             : role,
     redirecting: (s: number): string => `Redirigiendo a resultados en ${s}s…`,
-    prescribedPlan: (n: number): string => `Plan prescrito · ${n} terapias`,
+    prescribedPlan: (n: number): string => `Plan prescrito · ${n} ejercicios`,
   },
 
   // Panel del adulto, modales y resultados. Regla de siempre: lo que la app
@@ -1155,7 +1155,7 @@ export const ES = {
       { date: '12 jun', name: 'Detección del intruso', note: 'Buena sesión, encontró el intruso tras la pregunta guía.' },
       { date: '15 jun', name: 'Reconocimiento de emociones', note: 'Muy concentrado hoy, nombró casi todas las emociones.' },
       { date: '17 jun', name: 'Estructura S-V-O', note: 'Construyó frases completas con los dados, gran avance.' },
-      { date: '19 jun', name: 'Sesión de terapia', note: 'Excelente. Respondió las consignas casi sin ayuda.' },
+      { date: '19 jun', name: 'Sesión de ejercicios', note: 'Excelente. Respondió las consignas casi sin ayuda.' },
     ],
     // Informe que el clínico comparte. Lo lee una persona, así que sigue al
     // idioma de la interfaz.
@@ -1195,7 +1195,7 @@ export const ES = {
       { title: '👂 Momento de escuchar', body: '¿Probamos el juego de los sonidos? Solo toma unos minutos.' },
       { title: '⭐ Hora de ganar estrellas', body: 'Cada ejercicio suma XP. ¡A por las 3 estrellas!' },
       { title: '🐸 ¡A saltar y aprender!', body: 'Los juegos con movimiento son los favoritos. ¿Jugamos?' },
-      { title: '🎯 Pequeño reto, gran avance', body: 'Un ejercicio ahora = un gran paso en su terapia.' },
+      { title: '🎯 Pequeño reto, gran avance', body: 'Un ejercicio ahora = un gran paso en su lenguaje.' },
       { title: '🎉 ¡Valeria tiene un juego nuevo!', body: 'Entra y descubre la pausa activa de hoy.' },
       { title: '💪 Constancia = progreso', body: 'Las familias que practican a diario ven el doble de avance.' },
       { title: '🌈 Un ratito juntos', body: 'Jugar, mover el cuerpo y aprender: todo en una sesión Valeria.' },
@@ -1217,7 +1217,7 @@ export const ES = {
         body: 'Los adultos hablamos rápido y llenamos todos los silencios. Cuando le ofrezcas algo (por ejemplo, leche) y le preguntes "¿qué quieres?", haz una pausa y cuenta mentalmente hasta cinco. Dale tiempo a su cerebro para procesar y organizar los músculos. Ese silencio estratégico es el que lo empuja a usar un sonido, un gesto o una palabra.',
       },
       {
-        title: '🛁 Consejo 4 · La rutina es tu mejor terapia',
+        title: '🛁 Consejo 4 · La rutina es tu mejor aliada',
         body: 'No necesitas una hora de ejercicios ni materiales costosos. El mejor momento para el lenguaje es lo que ya haces cada día: mientras lo bañas, nombra el jabón, el agua y las partes del cuerpo; mientras recogen la ropa, nombra los colores. Repetir palabras sencillas en situaciones reales de la casa graba el vocabulario de forma definitiva.',
       },
       {
@@ -1413,7 +1413,7 @@ export const ES = {
     // media app en cada idioma: elegir idioma cambia la app entera.
     uiLangHint:
       'Cambia la app entera: los menús que lees tú y también lo que suena en '
-      + 'los ejercicios. Si quieres la interfaz en un idioma y la terapia en '
+      + 'los ejercicios. Si quieres la interfaz en un idioma y los ejercicios en '
       + 'otro, cámbiala después en «Voz de la app».',
     uiLangAuto: 'Automático',
     uiLangAutoHint: 'Sigue al idioma de los ejercicios.',
@@ -1448,7 +1448,7 @@ export const ES = {
     noticeTimeout: 'El ejercicio se cerró porque la cámara dejó de ver la cara del peque. Apoya el teléfono en horizontal, a un palmo y medio de su cara y a la altura de sus ojos, y prueba otra vez.',
 
     unsupportedTitle: 'Aquí no se puede jugar todavía',
-    unsupportedBody: 'Estos ejercicios necesitan la cámara frontal y una versión de la app instalada en el teléfono (no funcionan en la vista previa de Expo Go). Los otros seis bloques de terapia funcionan exactamente igual de bien.',
+    unsupportedBody: 'Estos ejercicios necesitan la cámara frontal y una versión de la app instalada en el teléfono (no funcionan en la vista previa de Expo Go). Los otros seis bloques de ejercicios funcionan exactamente igual de bien.',
 
     consentTitle: 'Qué hace la cámara en estos juegos',
     consentLead1: 'En este bloque la cámara frontal no graba: ',
@@ -1554,12 +1554,12 @@ export const ES = {
     back: '‹ Volver',
     backA11y: 'Volver al hub de Academy',
     headerTitle: 'Academy',
-    headerSub: 'Tu hub de formación por dominios para acompañar la terapia como un profesional.',
-    langFallbackNotice: 'Las cápsulas de formación todavía no están en catalán: las lees en castellano. El resto de la app y toda la terapia sí están en catalán.',
+    headerSub: 'Entiende qué le pasa a tu peque y cómo acompañarle, en cápsulas de dos minutos.',
+    langFallbackNotice: 'Las cápsulas de formación todavía no están en catalán: las lees en castellano. El resto de la app y todos los ejercicios sí están en catalán.',
     progressTxt: (completed: number, total: number, pct: number): string => `${completed}/${total} · ${pct}%`,
     xpTxt: (xp: number): string => `${xp} XP`,
     hubCardTag: 'PARA TI',
-    hubCardSub: 'Hub multidominio: Lenguaje, Hipoacusia, Dislalias, Dislexia y TEA. Cápsulas rápidas para el cuidador.',
+    hubCardSub: 'Entiende el trastorno antes de ejercitarlo: Lenguaje, Hipoacusia, Dislalias, Dislexia y TEA.',
     hubCardComplete: 'Formación completada',
     hubCardProgress: (completed: number, total: number, pct: number): string => `${completed}/${total} unidades · ${pct}%`,
     hubCardA11y: (completed: number, total: number): string => `Valeria Academy: formación para cuidadores. ${completed} de ${total} cápsulas completadas.`,

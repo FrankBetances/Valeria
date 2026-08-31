@@ -14,7 +14,7 @@ import { View, Text, Pressable, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { STORAGE_KEYS, V } from '../valeriaTheme';
 import { useT } from '../i18n';
-import { domainMetaFor, domainFromPatologia } from './academyDomains';
+import { domainMetaFor, domainFromPatologia, DOMAIN_META } from './academyDomains';
 import { ACADEMY_CAPSULES, capsulesForUiLang } from './academyContent';
 import { getResults } from './academyStore';
 import { AcademyCapsule, AcademyDomain } from './academyTypes';
@@ -102,7 +102,9 @@ export const AcademyPriorityFeed: React.FC<{
               <BlockIcon name={meta.icon} color={meta.accentFg} size={20} />
             </View>
             <View style={{ flex: 1 }}>
-              <Text style={s.itemTitle} numberOfLines={1}>{c.title}</Text>
+              {/* Dos líneas, no una: los títulos son preguntas («¿Cómo
+                  aprenden a hablar?») y a una línea se cortaban TODOS. */}
+              <Text style={s.itemTitle} numberOfLines={2}>{c.title}</Text>
               <Text style={s.itemSub} numberOfLines={1}>{c.summary}</Text>
             </View>
             <View style={[s.itemChip, { borderColor: cm.accentFg }]}>
@@ -116,7 +118,11 @@ export const AcademyPriorityFeed: React.FC<{
 };
 
 const s = StyleSheet.create({
-  wrap: { backgroundColor: 'rgba(255,255,255,.14)', borderWidth: 1, borderColor: 'rgba(255,255,255,.28)', borderRadius: 16, padding: 12, marginTop: 14 },
+  // Azul sólido, no un velo blanco sobre el turquesa: translúcida quedaba del
+  // mismo color que la cabecera y la pantalla entera se leía como un bloque.
+  // El azul es el del dominio Lenguaje, tomado de su token para que no se
+  // desincronicen si algún día se retoca la paleta.
+  wrap: { backgroundColor: DOMAIN_META.lenguaje.accentFg, borderWidth: 1, borderColor: 'rgba(255,255,255,.34)', borderRadius: 16, padding: 12, marginTop: 14 },
   headRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 },
   kickerRow: { flexDirection: 'row', alignItems: 'center', gap: 7 },
   kicker: { color: '#fff', fontSize: 11, fontWeight: '800', letterSpacing: 0.8 },

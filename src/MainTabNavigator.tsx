@@ -67,7 +67,7 @@ export const MainTabNavigator: React.FC = () => {
 
   return (
     <Tab.Navigator
-      initialRouteName="ExerciseSelection"
+      initialRouteName="Academy"
       screenOptions={{
         headerShown: false, // cada pantalla trae su cabecera turquesa
         tabBarActiveTintColor: BOTTOM_TAB_THEME.activeTintColor,
@@ -78,21 +78,21 @@ export const MainTabNavigator: React.FC = () => {
       }}
     >
       <Tab.Screen
-        name="ExerciseSelection"
-        component={ValeriaHubV11Screen}
-        options={{
-          tabBarLabel: t.tabs.therapies,
-          tabBarIcon: tabIcon('tabTherapies'),
-          tabBarAccessibilityLabel: t.tabs.therapiesA11y,
-        }}
-      />
-      <Tab.Screen
         name="Academy"
         component={ValeriaAcademyScreen}
         options={{
           tabBarLabel: t.tabs.academy,
           tabBarIcon: tabIcon('tabAcademy'),
           tabBarAccessibilityLabel: t.tabs.academyA11y,
+        }}
+      />
+      <Tab.Screen
+        name="ExerciseSelection"
+        component={ValeriaHubV11Screen}
+        options={{
+          tabBarLabel: t.tabs.therapies,
+          tabBarIcon: tabIcon('tabTherapies'),
+          tabBarAccessibilityLabel: t.tabs.therapiesA11y,
         }}
       />
       <Tab.Screen

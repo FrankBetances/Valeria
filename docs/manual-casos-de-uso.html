@@ -154,7 +154,7 @@
   <div class="brand">valeria+</div>
   <img class="mascot" src="lua-mascota.png" alt="Lúa, la gata de Valeria+, en píxel art">
   <div style="margin-top:auto">
-    <div class="pill">Manual de usuario · v14.2 · con capturas de pantalla</div>
+    <div class="pill">Manual de usuario · v14.3 · con capturas de pantalla</div>
     <h1>Manual de<br>Casos de Uso</h1>
     <div class="sub">Aplicación de terapia auditivo‑verbal y del lenguaje para niñas y niños con hipoacusia, implante coclear, dislalias, dislexia, TEA o dificultades del lenguaje.</div>
     <div class="meta">
@@ -218,17 +218,21 @@
   <h2 class="chapter">Introducción a Valeria+</h2>
 
   <p style="margin-top:12px">
-    <strong>Valeria+</strong> es una aplicación móvil (Expo SDK 54 / React Native) diseñada para acompañar las
-    <strong>sesiones de terapia auditivo‑verbal y del lenguaje</strong> de niñas y niños. Reúne en un solo lugar el
-    registro del paciente, una comprobación auditiva previa (Test de Ling), <strong>nueve bloques de terapia</strong>,
-    un espacio de formación para el cuidador (Academy) y un panel de resultados para seguir la evolución.
+    <strong>Valeria+</strong> es una aplicación móvil (Expo SDK 54 / React Native) que hace dos cosas, y en este
+    orden. <strong>Primero forma</strong>: <strong>Academy</strong> explica a madres, padres y cuidadores qué es cada
+    trastorno del lenguaje y del neurodesarrollo, cómo se manifiesta y cómo acompañarlo, en cápsulas de dos minutos.
+    <strong>Después facilita la práctica en casa</strong>: <strong>nueve bloques de ejercicios</strong> para hacer
+    junto al niño, con la gata <strong>Lúa</strong> de por medio. Alrededor de esas dos van el registro del paciente,
+    una comprobación auditiva previa (Test de Ling) y un panel de resultados para seguir la evolución.
+    Por eso la app <strong>abre en Academy</strong> y no en la rejilla de ejercicios: entender el trastorno va antes
+    que ejercitarlo.
   </p>
 
   <p>
     La app parte de un principio clave: <strong>los padres y cuidadores son el motor de voz y evaluación</strong>.
     En los bloques con micrófono, el reconocimiento de voz ayuda, pero <strong>el adulto siempre es el juez final</strong>:
     puede corregir el veredicto con un toque. Y donde no hay micrófono (Expo Go, navegador web), el adulto valora la
-    respuesta con botones. Así la terapia funciona en cualquier dispositivo y refuerza el vínculo familiar.
+    respuesta con botones. Así los ejercicios funcionan en cualquier dispositivo y refuerzan el vínculo familiar.
   </p>
 
   <div class="callout">
@@ -237,7 +241,7 @@
     familias o cuidadores (que realizan las sesiones en casa). Este manual cubre a ambos perfiles.</p>
   </div>
 
-  <h3>Los nueve bloques de terapia</h3>
+  <h3>Los nueve bloques de ejercicios</h3>
   <p>Desde la pantalla <strong>Selección de Ejercicios</strong> se elige uno de estos bloques. Van <strong>en el mismo orden que en la app</strong>: Integración Sensorial abre la rejilla y Realidad Aumentada la cierra. Cada uno responde a un
   perfil clínico distinto, pero todos comparten la misma lógica: el adulto guía la sesión y tiene la última palabra.</p>
   <table>
@@ -497,15 +501,18 @@ TEA y Lengua de Signos). Cada dominio ofrece
 
   <div class="flowmap">
     <span class="node">Hub de bloques</span><span class="arrow">→</span>
-    <span class="node violet">Terapias</span>
     <span class="node violet">Academy</span>
+    <span class="node violet">Ejercicios</span>
     <span class="node violet">Ajustes</span>
   </div>
 
   <ul>
-    <li><strong>Terapias</strong> muestra los bloques en una cuadrícula de dos columnas. Las tarjetas ya no llevan
-    párrafo descriptivo: enseñan el icono, el nombre y cuántas terapias hay prescritas («12/18»).</li>
-    <li><strong>Academy</strong> deja de estar a media pantalla de desplazamiento y pasa a estar siempre a un toque.</li>
+    <li><strong>Academy</strong> es la <strong>primera pestaña y con la que abre la app</strong>: la formación va
+    antes que el ejercicio. Deja de estar a media pantalla de desplazamiento y pasa a estar siempre a un toque.</li>
+    <li><strong>Ejercicios</strong> muestra los bloques en una cuadrícula de dos columnas. Las tarjetas ya no llevan
+    párrafo descriptivo: enseñan el icono, el nombre y cuántos ejercicios hay prescritos («12/18»). Se llamó
+    «Terapias» hasta agosto de 2026: la terapia la dirige el logopeda, y lo que la familia hace en casa son
+    ejercicios.</li>
     <li><strong>Ajustes</strong> reúne los recordatorios de sesión, la calidad de la voz, el idioma de la aplicación y
     el acceso profesional. Antes vivían al final del hub, donde casi nadie llegaba.</li>
   </ul>
@@ -579,7 +586,7 @@ TEA y Lengua de Signos). Cada dominio ofrece
       <figcaption><span class="fig"></span> · Créditos del proyecto y colaboradores.</figcaption>
     </figure>
     <figure class="shot">
-      <img src="screenshots/05-hub-bloques.png" alt="Hub de Prescripción con la tarjeta de Lúa y los bloques de terapia">
+      <img src="screenshots/05-hub-bloques.png" alt="Hub de Prescripción con la tarjeta de Lúa y los bloques de ejercicios">
       <figcaption><span class="fig"></span> · Hub de Prescripción: la tarjeta de Lúa —gata acariciable, nivel, racha y premios—, los bloques en cuadrícula con el color de su acento, su descripción y sus terapias prescritas, y las pestañas inferiores.</figcaption>
     </figure>
   </div>
@@ -588,7 +595,7 @@ TEA y Lengua de Signos). Cada dominio ofrece
   <table>
     <tr><th style="width:26%">Término</th><th>Significado</th></tr>
     <tr><td><strong>Hub de bloques</strong></td><td>Pantalla “Selección de Ejercicios”: la tarjeta de Lúa con el progreso y <strong>nueve tarjetas</strong> —Integración Sensorial, Pares Mínimos, Expansión Semántica, Audición, Lenguaje, TEA, Dislexia, Grafomotricidad y Realidad Aumentada—, desde donde se practica o prescribe. Academy y Ajustes viven en la barra de pestañas.</td></tr>
-    <tr><td><strong>Pestañas (v11)</strong></td><td>Barra inferior con tres apartados —<strong>Terapias</strong>, <strong>Academy</strong> y <strong>Ajustes</strong>— disponible en las versiones con la interfaz v11. Sustituye al desplazamiento largo del hub: lo que antes estaba al final de la lista ahora está siempre a un toque.</td></tr>
+    <tr><td><strong>Pestañas (v11)</strong></td><td>Barra inferior con tres apartados —<strong>Academy</strong>, <strong>Ejercicios</strong> y <strong>Ajustes</strong>—, en ese orden y abriendo en Academy. Sustituye al desplazamiento largo del hub: lo que antes estaba al final de la lista ahora está siempre a un toque.</td></tr>
     <tr><td><strong>Ajustes</strong></td><td>Apartado donde viven los recordatorios de sesión y sus franjas horarias, la calidad de la voz, el idioma de la aplicación y el acceso profesional (PIN). En la interfaz clásica estos ajustes están al final del hub de bloques.</td></tr>
     <tr><td><strong>Par mínimo</strong></td><td>Dos palabras que solo se distinguen por un fonema (rana / lana). Sirven para entrenar el contraste que el niño sustituye.</td></tr>
     <tr><td><strong>Sustitución</strong></td><td>Error fonológico habitual: el niño dice la palabra contraria (r̄ → l). La app la detecta y la corrige.</td></tr>
@@ -675,7 +682,8 @@ TEA y Lengua de Signos). Cada dominio ofrece
         <li>Completar el bloque <strong>Tutor / Cuidador</strong>: nombre <em>(obligatorio)</em>, vínculo familiar, <strong>correo</strong> <em>(obligatorio y con formato válido)</em> y teléfono/WhatsApp para los reportes.</li>
         <li>Completar <strong>Diagnóstico y equipo médico</strong>: patología, médico prescriptor y logopeda asignado.</li>
         <li>Pulsar <strong>“Guardar ficha”</strong>. Aparece la confirmación “Ficha guardada y cifrada”.</li>
-        <li>Pulsar <strong>“Continuar con la selección de ejercicios →”</strong> para pasar al hub de bloques.</li>
+        <li>Pulsar <strong>“Empezar por la formación →”</strong>, que lleva a <strong>Academy</strong>. Los bloques de
+        ejercicios están a un toque, en la pestaña <strong>Ejercicios</strong> de la barra inferior.</li>
       </ol>
       <h4>Flujos alternativos</h4>
       <ul class="alt">
@@ -690,7 +698,7 @@ TEA y Lengua de Signos). Cada dominio ofrece
         </figure>
         <figure class="shot">
           <img src="screenshots/04-ficha-guardada.png" alt="Confirmación de ficha guardada">
-          <figcaption><span class="fig"></span> · Ficha guardada y cifrada; aparece “Continuar con la selección de ejercicios →”.</figcaption>
+          <figcaption><span class="fig"></span> · Ficha guardada y cifrada; aparece “Empezar por la formación →”.</figcaption>
         </figure>
       </div>
     </div>
@@ -2089,7 +2097,7 @@ TEA y Lengua de Signos). Cada dominio ofrece
 <section class="page-break">
   <div class="chapter-kicker">Anexo B</div>
   <h2 class="chapter">Historial de versiones</h2>
-  <p style="margin-top:12px">Este manual describe Valeria+ en su <strong>estado actual (v14.1)</strong>. La siguiente tabla
+  <p style="margin-top:12px">Este manual describe Valeria+ en su <strong>estado actual (v14.3)</strong>. La siguiente tabla
   resume, a título informativo, cómo ha ido creciendo la app, por si resulta útil a quienes usaron versiones
   anteriores.</p>
   <table>
@@ -2106,7 +2114,7 @@ TEA y Lengua de Signos). Cada dominio ofrece
     <tr><td><strong>v10.1</strong></td><td><strong>El audio del turno de habla deja de salir del teléfono siempre que el dispositivo lo permita</strong>: la app pide ahora reconocimiento <strong>sin conexión</strong>, decidido variedad por variedad, y lo <strong>muestra en la tarjeta “Voz de la app”</strong>, donde también ofrece descargar el paquete de idioma que falte. No cambia nada de lo clínico —la ventana de escucha larga, la tolerancia a los fallos del micrófono y el pliegue dialectal siguen igual—, y <strong>el adulto sigue siendo el juez final</strong>.</td></tr>
     <tr><td><strong>v10.2</strong></td><td><strong>Los pares mínimos vuelven a detectar la sustitución.</strong> Al comparar lo oído con la palabra pedida, la app toleraba una letra de diferencia; como la mayoría de los pares se distinguen por una sola letra, decir la palabra equivocada podía puntuar como acierto. Ahora se compara con <strong>las dos palabras del par</strong> y gana la más parecida; si empatan, sale «casi» y decide el adulto. Cuesta algún «casi» de más en pronunciaciones aproximadas, y a cambio el ejercicio mide lo que dice medir.</td></tr>
     <tr><td><strong>v10.3</strong></td><td><strong>El micrófono vuelve a escuchar, y el bloque de Lenguaje dice qué material hace falta.</strong> El reconocimiento de voz había dejado de contar bien el caso más común —el niño que tarda en arrancar—, y con ello repetía siempre que no se le escuchaba; además, cuando el reconocedor del propio teléfono no arrancaba, la variedad se quedaba atascada sin salida. Las dos cosas están corregidas. Del lado clínico, y a petición de ACOPROS: los <strong>siete ejercicios de Lenguaje declaran su material</strong> antes de empezar, <em>Atención Conjunta</em> trae varias formas de hacerla para que no se mecanice, <em>Imitación</em> progresa de la sílaba a la palabra corta, <em>Regulación Conductual</em> habla de <strong>recompensa</strong> acordada con el niño y explica cómo montar la agenda visual, la <strong>adivinanza se puede leer</strong>, la <strong>lectura labiofacial</strong> tiene chuleta para el adulto, la <strong>escucha en ruido</strong> locuta solo la palabra objetivo y la app <strong>anuncia el siguiente ejercicio</strong> antes de puntuar.</td></tr>
-    <tr><td><strong>v11</strong></td><td><strong>El hub deja de ser una pantalla larga.</strong> Las familias del piloto dijeron que el uso «se hace muy engorroso» y que había «mucho texto»: el hub reunía cinco tareas y había que bajar dos pantallas y media para llegar a los ajustes. Ahora hay <strong>tres pestañas</strong> —Terapias, Academy y Ajustes—, los bloques van en cuadrícula y la descripción de cada uno se lee al abrirlo, no en una lista de siete seguidas. Además, el botón físico de <em>atrás</em> de Android vuelve al hub en vez de salirse de la pantalla entera.</td></tr>
+    <tr><td><strong>v11</strong></td><td><strong>El hub deja de ser una pantalla larga.</strong> Las familias del piloto dijeron que el uso «se hace muy engorroso» y que había «mucho texto»: el hub reunía cinco tareas y había que bajar dos pantallas y media para llegar a los ajustes. Ahora hay <strong>tres pestañas</strong> —Terapias, Academy y Ajustes (renombradas y reordenadas en la v14.3)—, los bloques van en cuadrícula y la descripción de cada uno se lee al abrirlo, no en una lista de siete seguidas. Además, el botón físico de <em>atrás</em> de Android vuelve al hub en vez de salirse de la pantalla entera.</td></tr>
     <tr><td><strong>v12</strong></td><td><strong>Lúa, los premios visibles y un set de iconos propio.</strong> La mascota pasa a ser una <strong>gata en píxel art</strong> —icono, arranque, hub, fin de sesión y distractora de doble tarea— y da nombre a <strong>doce niveles</strong> y a una colección de <strong>dieciocho insignias</strong> que ya <strong>se puede abrir y mirar</strong> desde el hub, sin PIN, con la condición escrita de las que faltan. El hub, las pantallas de ejercicios, las del adulto y Academy se rehacen con <strong>iconografía propia</strong> en lugar de emoji del sistema, se corrige el contraste de los textos secundarios al mínimo WCAG AA y el avatar de la lista de pacientes deja de deducirse del género para ser la <strong>inicial del nombre</strong>. Ningún ejercicio, consigna ni regla clínica cambia.</td></tr>
     <tr><td><strong>v12.1</strong></td><td><strong>Descanso visual (regla 20‑20‑20).</strong> La app lleva la cuenta del tiempo de sesión y, pasados 20 minutos seguidos, <strong>sugiere</strong> en la pausa activa un descanso de 20 segundos mirando lejos, con la mascota Lúa durmiéndose en el aparato si lo hay. <strong>No bloquea nada</strong>: la sesión no se detiene ni se pausa sola, y el adulto decide. El contador no se guarda ni se exporta. Ningún ejercicio, consigna ni regla clínica cambia (CU‑09).</td></tr>
     <tr><td><strong>v13</strong></td><td><strong>Octavo bloque: Integración Sensorial Auditiva</strong>, y abre el hub. Desensibilización sistemática para niños que se tapan los oídos, con muro de control adulto, anticipación visual, botón de agencia del niño y pausa que suma progreso en lugar de restarlo. <strong>Once estímulos sintetizados</strong> dentro del proyecto —ocho aparatos y alertas más tres ambientes vivos: aula, centro comercial y calle con obras—. En Academy, la cápsula <strong>La Brújula de las Palabras</strong> con los hitos ASHA de 0 a 5 años. Realidad Aumentada pasa a cerrar la rejilla del hub.</td></tr>
@@ -2119,6 +2127,7 @@ TEA y Lengua de Signos). Cada dominio ofrece
     desmentía el propio código de la app. Ahora dice lo que hay, incluido el respeto dialectal del inglés
     afroamericano (CU‑15).</td></tr>
     <tr><td><strong>v14.2</strong></td><td><strong>Realidad Aumentada pasa de tres ejercicios a seis</strong>, todos con la gata Lúa: <strong>AR‑4</strong> búsqueda espacial girando la cabeza, <strong>AR‑5</strong> lanzarle el pez con el dedo y <strong>AR‑6</strong> espejo mímico de praxias faciales (CU‑25 a CU‑27). En AR‑5 <strong>el gatillo es el dedo del niño</strong>: se mide la velocidad real del gesto, cuánto se desvía de Lúa y cuánto tarda en lanzar, y un ensayo sin lanzamiento <strong>se anula en vez de rellenarse</strong>. Se retira el «tiempo de reacción de captura» que figuraba en el panel: cronometraba a Lúa atrapando, que es software, y no al niño. La diana de calibración deja de ser un emoji del sistema y pasa a ser Lúa dibujada con el trazo de la marca.</td></tr>
+    <tr><td><strong>v14.3</strong></td><td><strong>La app abre por la formación.</strong> <strong>Academy</strong> pasa a ser la primera pestaña y la pantalla con la que arranca la app: entender el trastorno va antes que ejercitarlo. La pestaña <strong>«Terapias» se llama ahora «Ejercicios»</strong> —la terapia la dirige el logopeda; lo que la familia hace en casa son ejercicios—, y ese cambio de palabra recorre toda la interfaz en castellano, inglés y catalán. Los <strong>títulos de las cápsulas son preguntas</strong> («¿A qué edad se aprende cada sonido?»), que es como llega la duda de una familia. La gata <strong>Lúa</strong> aparece también en la cabecera de Academy. Los botones que prometen un destino —«Volver a ejercicios» del panel, «Empezar por la formación» de la ficha— lo nombran entero, para que el texto y el sitio al que llevan no puedan separarse.</td></tr>
   </table>
 
   <p style="margin-top:14px"><strong>Sobre la cobertura de este manual.</strong> Los capítulos paso a paso cubren ya
@@ -2134,8 +2143,9 @@ TEA y Lengua de Signos). Cada dominio ofrece
   explicada al final de CU‑22: cualquier imagen fiel de esos ejercicios mostraría la cara de un niño.</p>
 
   <div class="footer-note">
-    <strong>Valeria+</strong> · Manual de Casos de Uso · v14.1 (con capturas de pantalla) · Agosto de 2026 ·
-    Terapia auditivo‑verbal y del lenguaje para la infancia. Documento de apoyo para logopedas y familias.
+    <strong>Valeria+</strong> · Manual de Casos de Uso · v14.3 (con capturas de pantalla) · Agosto de 2026 ·
+    Formación sobre los trastornos del lenguaje y del neurodesarrollo en la infancia, y ejercicios para practicarlos
+    en casa. Documento de apoyo para logopedas y familias.
     <br>Disponible en Castellano, Galego (Proxecto Nós), Dominicano (Quisqueya Habla), Euskara (batua · ILENIA/NEL‑GAITU) e English (US, en pruebas). Los datos personales se tratan localmente conforme a RGPD/HIPAA; la sincronización en la nube y la telemetría anónima del piloto son opcionales.
   </div>
 </section>
