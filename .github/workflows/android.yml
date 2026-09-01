@@ -294,6 +294,14 @@ jobs:
       - name: Comprobar las páginas legales declaradas en Play Console
         run: node scripts/check-legal-urls.js --offline
 
+      # Play bloqueó la app el 1/9/2026 por FOREGROUND_SERVICE_MEDIA_PLAYBACK,
+      # que nadie declaró: lo trae el manifiesto de expo-audio y el fusionador
+      # lo mete en el APK. Lo retira `plugins/withValeriaNoBackgroundAudio.js`,
+      # y esto vigila que siga retirado —también cuando expo-audio suba de
+      # versión y traiga un servicio más.
+      - name: Comprobar que el APK no pide servicios en primer plano
+        run: node scripts/check-no-background-audio.js
+
       # Los ejercicios de RA miden magnitudes que acaban en el panel de la
       # logopeda y, en nivel A, en el conjunto publicable. Estas dos suites son
       # reimplementaciones en JS de las fórmulas del Kotlin —no compilan el

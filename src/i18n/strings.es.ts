@@ -1360,8 +1360,6 @@ export const ES = {
       + 'No es una build de producción: no debe usarse en una sesión normal ni quedarse en el aparato '
       + 'de una familia.',
     privKicker: 'MICRÓFONO DEL EJERCICIO',
-    privChipLocal: 'En el teléfono',
-    privChipNet: 'Servicio del sistema',
     privChecking: 'Comprobando dónde se procesa la voz del niño en esta variedad…',
     privLocal: (label: string): string =>
       `En ${label} el reconocimiento se hace dentro del teléfono: el audio del turno de habla no sale `

@@ -1276,8 +1276,6 @@ export const CA: UiStrings = {
       + 'No és una versió de producció: no s\'ha d\'utilitzar en una sessió normal ni quedar-se a l\'aparell '
       + 'd\'una família.',
     privKicker: 'MICRÒFON DE L\'EXERCICI',
-    privChipLocal: 'Al telèfon',
-    privChipNet: 'Servei del sistema',
     privChecking: 'Comprovant on es processa la veu de l\'infant en aquesta varietat…',
     privLocal: (label: string): string =>
       `En ${label} el reconeixement es fa dins del telèfon: l'àudio del torn de parla no surt `

@@ -1317,8 +1317,6 @@ export const EN: UiStrings = {
       '⏺ CORPUS CAPTURE IS ON. This build stores the audio of the speaking turn on the device. It is '
       + 'not a production build: it must not be used in a normal session or left on a family’s device.',
     privKicker: 'EXERCISE MICROPHONE',
-    privChipLocal: 'On the phone',
-    privChipNet: 'System service',
     privChecking: 'Checking where your child’s voice is processed for this variety…',
     privLocal: (label: string): string =>
       `In ${label}, recognition happens inside the phone: the audio of the speaking turn never leaves `

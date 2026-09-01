@@ -24,7 +24,10 @@ const PATOLOGIAS = [
   'Trastorno del Espectro Autista (TEA)', 'Dislalia', 'Otros',
 ];
 const VINCULOS = ['Madre', 'Padre', 'Tutor legal', 'Logopeda'];
-const GENEROS = ['Niña', 'Niño', 'Otro'];
+// Dos opciones, decisión de Frank (1/9/2026). El catálogo sigue traduciendo
+// 'Otro' porque hay fichas guardadas con ese valor en los aparatos de las
+// familias: quitarlo del mapa las dejaría sin etiqueta al releerlas.
+const GENEROS = ['Niña', 'Niño'];
 const isEmail = (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
 
 export const ValeriaFichaRegistroScreen: React.FC<{ navigation?: any }> = ({ navigation }) => {

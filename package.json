@@ -37,6 +37,7 @@
     "check:variety-branches": "node scripts/check-variety-branches.js",
     "build:lua-faces": "node scripts/build-lua-faces.js",
     "check:legal-urls": "node scripts/check-legal-urls.js",
+    "check:no-background-audio": "node scripts/check-no-background-audio.js",
     "build:sensory-assets": "node scripts/generate-sensory-assets.js",
     "check:sensory-assets": "node scripts/check-sensory-assets.js"
   },

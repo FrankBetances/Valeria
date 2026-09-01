@@ -513,16 +513,15 @@ export const SpeechPrivacyBlock: React.FC<{ locale: Locale }> = ({ locale }) => 
           fuga de datos de salud de un menor (R7 del plan). */}
       {asrCaptureEnabled() && <Text style={s.privCapture}>{t.voice.privCapture}</Text>}
 
+      {/* Sin chip a la derecha (1/9/2026). La etiqueta «Servicio del sistema»
+          vivía en una fila cuyo texto llevaba `flex: 1` dentro de un contenedor
+          que NO era flexible: la fila crecía con el rótulo y el chip se salía
+          por el borde derecho de la pantalla. Y no hacía falta para nada: el
+          párrafo de debajo ya dice, con todas sus letras, dónde se procesa la
+          voz del niño y si puede salir del teléfono. */}
       <View style={s.privHead}>
-        <View style={s.privKickerRow}>
-              <BlockIcon name={local ? 'lock' : 'cloud'} color={V.color.textSecondary} size={13} />
-              <Text style={s.privKicker}>{t.voice.privKicker}</Text>
-            </View>
-        <View style={[s.privChip, local ? s.privChipLocal : s.privChipNet]}>
-          <Text style={[s.privChipTxt, { color: local ? '#0f8a63' : '#92711a' }]}>
-            {checking && st == null ? t.voice.chipChecking : local ? t.voice.privChipLocal : t.voice.privChipNet}
-          </Text>
-        </View>
+        <BlockIcon name={local ? 'lock' : 'cloud'} color={V.color.textSecondary} size={13} />
+        <Text style={s.privKicker}>{t.voice.privKicker}</Text>
       </View>
 
       <Text style={s.privDetail}>{detail}</Text>
@@ -811,13 +810,8 @@ const s = StyleSheet.create({
   vqHint: { fontSize: 11, fontWeight: '600', color: V.color.textSecondary, marginTop: 10, lineHeight: 15, backgroundColor: V.color.pageBg, borderRadius: 10, padding: 10 },
 
   privBlock: { backgroundColor: V.color.pageBg, borderWidth: 1, borderColor: V.color.border, borderRadius: 12, padding: 11, marginTop: 12 },
-  privHead: { flexDirection: 'row', alignItems: 'center', gap: 8 },
-  privKickerRow: { flexDirection: 'row', alignItems: 'center', gap: 6 },
+  privHead: { flexDirection: 'row', alignItems: 'center', gap: 6 },
   privKicker: { flex: 1, fontSize: 10.5, fontWeight: '800', letterSpacing: 0.5, color: V.color.textMuted },
-  privChip: { paddingHorizontal: 8, paddingVertical: 3, borderRadius: 8 },
-  privChipLocal: { backgroundColor: V.color.successBg },
-  privChipNet: { backgroundColor: '#fffbeb' },
-  privChipTxt: { fontSize: 10.5, fontWeight: '800' },
   privDetail: { fontSize: 11.5, fontWeight: '600', color: V.color.textSecondary, marginTop: 7, lineHeight: 15.5 },
   privOffer: { fontSize: 11.5, fontWeight: '700', color: V.color.textPrimary, marginTop: 8, lineHeight: 15.5 },
   privBtnRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginTop: 9 },
