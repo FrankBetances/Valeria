@@ -6,6 +6,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.PointF
+import android.hardware.camera2.CameraCharacteristics
+import android.hardware.camera2.CameraManager
 import android.os.Bundle
 import android.os.SystemClock
 import android.util.Log
@@ -168,10 +170,40 @@ class ValeriaArActivity : ComponentActivity() {
     // con qué stride — que es exactamente lo que hay que saber para distinguir
     // una conversión mal hecha de una resolución absurda o de una cámara que
     // devuelve basura de verdad.
-    @Volatile private var framesFromCamera = 0L
-    @Volatile private var framesInferred = 0L
-    @Volatile private var facesSeen = 0L
+    // `AtomicLong` y no `@Volatile Long`: los tres los incrementa el hilo de GL
+    // o el del listener de MediaPipe y los lee la corrutina de la ficha, y
+    // `volatile` garantiza que se VEA el valor, no que `+= 1` sea atómico. Con
+    // dos escritores el contador se queda corto justo cuando se está usando
+    // para decidir si la cámara entrega o no.
+    private val framesFromCamera = java.util.concurrent.atomic.AtomicLong(0L)
+    private val framesInferred = java.util.concurrent.atomic.AtomicLong(0L)
+    private val facesSeen = java.util.concurrent.atomic.AtomicLong(0L)
     @Volatile private var frameGeometry = ""
+
+    /**
+     * Grados que hay que girar la imagen del sensor para que la cara le llegue
+     * DERECHA a MediaPipe.
+     *
+     * `acquireCameraImage()` entrega la imagen en coordenadas del sensor, y la
+     * orientación del sensor frontal es típicamente 270°: la imagen NO viene
+     * derecha por el hecho de que ARCore encuadre bien el espejo —eso lo hace
+     * en la GPU, con `transformCoordinates2d`, y no toca estos píxeles—. El
+     * Face Landmarker no es invariante a rotación, así que una imagen tumbada
+     * se traduce en cero caras con el niño delante.
+     *
+     * Estaba puesto a `0` fijo, que es la respuesta correcta solo por
+     * casualidad: la fórmula da 0 justamente cuando `sensor + display` vale 360.
+     * Con `sensorLandscape` —puesto ahí para que el adulto apoye el móvil en
+     * cualquiera de los dos sentidos— la otra orientación daba 180.
+     *
+     * La fórmula es la de CameraX para una cámara que mira hacia el MISMO lado
+     * que la pantalla: `(sensorOrientation + rotaciónDelDisplay) % 360`. Es la
+     * misma cifra que la tubería anterior recibía gratis en
+     * `imageInfo.rotationDegrees` y que la reescritura dejó de calcular.
+     * **No verificado en un teléfono**: es aritmética, no medida.
+     */
+    @Volatile private var analysisRotation = 0
+
     /**
      * Estado de ARCore para la ficha de diagnóstico. Sustituye a la geometría
      * del espejo, que ya no existe porque el espejo no pasa por la CPU. Aquí lo
@@ -185,7 +217,7 @@ class ValeriaArActivity : ComponentActivity() {
             val cfg = runCatching { s.cameraConfig }.getOrNull()
             val res = cfg?.imageSize?.let { "${it.width}×${it.height}" } ?: "?"
             val face = if (arSession.trackedFace() != null) "cara SÍ" else "cara no"
-            return "$res · $face"
+            return "$res · $face · rot=${analysisRotation}°"
         }
     private var cameraReport by mutableStateOf("")
 
@@ -283,6 +315,11 @@ class ValeriaArActivity : ComponentActivity() {
             // GL empieza a llamar a `update()` sobre una sesión pausada y ARCore
             // lanza en cada vuelta.
             if (arSession.resume()) {
+                // Girar el teléfono con la app en segundo plano no dispara
+                // `onConfigurationChanged`: al volver, la rotación puede ser
+                // otra y nadie se habría enterado.
+                arRenderer?.setDisplayRotation(displayRotation())
+                refreshAnalysisRotation()
                 glView?.onResume()
             } else {
                 statusText = "Otra aplicación está usando la cámara."
@@ -397,6 +434,7 @@ class ValeriaArActivity : ComponentActivity() {
         )
 
         renderer.setDisplayRotation(displayRotation())
+        refreshAnalysisRotation()
 
         if (!arSession.resume()) {
             statusText = "Otra aplicación está usando la cámara."
@@ -419,23 +457,83 @@ class ValeriaArActivity : ComponentActivity() {
      * dejando la sesión sin frames sin dar ningún error. De ahí el `use {}`.
      */
     private fun onGlFrame(frame: com.google.ar.core.Frame) {
-        framesFromCamera += 1
+        framesFromCamera.incrementAndGet()
 
         // ARCore ya sabe si hay una cara. Preguntárselo a él antes de despertar
         // a MediaPipe ahorra una conversión YUV→bitmap entera en todos los
         // frames en que el niño no está delante — que en una sesión real son
         // muchos, entre ensayo y ensayo.
-        if (arSession.trackedFace() == null) return
+        val hasFace = arSession.trackedFace() != null
 
+        // Pero la ficha de la cámara existe para el caso contrario: «caras 0».
+        // Con la geometría del sensor tomada DENTRO de la compuerta de la cara,
+        // la línea `sensor …` —resolución, formato, rowStride, pixelStride: las
+        // cifras que descartan una hipótesis cada una— salía vacía exactamente
+        // en el único escenario para el que se escribió. Se toma una vez por
+        // sesión, haya cara o no, y después esta rama no vuelve a entrar.
+        val needGeometry = frameGeometry.isEmpty()
+
+        if (!hasFace && !needGeometry) return
+
+        // Una sola adquisición por vuelta y un solo `use {}`: el pool de
+        // imágenes de ARCore es finito y no cerrarlas lo agota en segundos,
+        // dejando la sesión sin frames y sin dar ningún error.
         arSession.acquireImage(frame)?.use { image ->
-            if (frameGeometry.isEmpty()) describeFrame(image)
-            engine?.analyze(
-                image = image,
-                rotationDegrees = 0,
-                mirror = false,
-                tCaptureUs = frame.timestamp / 1_000L,
-            )
+            if (needGeometry) describeFrame(image)
+            if (hasFace) {
+                engine?.analyze(
+                    image = image,
+                    rotationDegrees = analysisRotation,
+                    // SIEMPRE espejada, y esto no es una preferencia estética.
+                    // Ni CameraX ni ARCore espejan los píxeles: el espejo es una
+                    // convención de PANTALLA. El bitmap que llega aquí trae la
+                    // izquierda del niño donde el adulto ve su derecha, y todo lo
+                    // que hay aguas abajo —el puntero, la decisión de lado de
+                    // AR-2— se calibró contra la imagen ya espejada, porque la
+                    // versión de CameraX pasaba `isFrontCamera = true` sin
+                    // excepción. Sin esto, «gira a la derecha» se registra como
+                    // giro a la izquierda en TODOS los ensayos: no es ruido que
+                    // se diluya en la media, es sesgo con signo.
+                    mirror = true,
+                    tCaptureUs = frame.timestamp / 1_000L,
+                )
+            }
         }
+    }
+
+    /**
+     * Recalcula [analysisRotation]. Se llama cuando la sesión ya existe y cada
+     * vez que la pantalla gira.
+     *
+     * Si algo falla —sin sesión, sin características de cámara— se queda en 0,
+     * que es el comportamiento anterior: una rotación que no se puede calcular
+     * no debe cerrar el bloque.
+     */
+    private fun refreshAnalysisRotation() {
+        val cameraId = runCatching { arSession.session?.cameraConfig?.cameraId }.getOrNull()
+        val sensor = cameraId?.let {
+            runCatching {
+                getSystemService(CameraManager::class.java)
+                    .getCameraCharacteristics(it)
+                    .get(CameraCharacteristics.SENSOR_ORIENTATION)
+            }.getOrNull()
+        }
+        if (sensor == null) {
+            Log.w(LOG_TAG, "sin SENSOR_ORIENTATION: la imagen va a MediaPipe sin girar")
+            analysisRotation = 0
+            return
+        }
+        // Cámara frontal: mira hacia el MISMO lado que la pantalla, así que los
+        // dos ángulos SUMAN. Para la trasera se restarían.
+        analysisRotation = (sensor + displayRotationDegrees()) % 360
+    }
+
+    /** La rotación del display en grados, que es como la quiere la fórmula. */
+    private fun displayRotationDegrees(): Int = when (displayRotation()) {
+        Surface.ROTATION_90 -> 90
+        Surface.ROTATION_180 -> 180
+        Surface.ROTATION_270 -> 270
+        else -> 0
     }
 
     @Suppress("DEPRECATION")
@@ -450,9 +548,13 @@ class ValeriaArActivity : ComponentActivity() {
         super.onConfigurationChanged(newConfig)
         // La Activity declara `configChanges="orientation|screenSize|…"`, así que
         // aquí es donde hay que enterarse de que el teléfono se dio la vuelta.
-        // ARCore recalcula el encuadre solo a partir de esto; ya no hay ningún
-        // `targetRotation` que se pueda olvidar de actualizar.
+        // ARCore recalcula el encuadre del ESPEJO solo a partir de esto; ya no
+        // hay ningún `targetRotation` que se pueda olvidar de actualizar.
         arRenderer?.setDisplayRotation(displayRotation())
+        // Y el encuadre de la IMAGEN que se le da a MediaPipe, que es otro: el
+        // espejo lo endereza la GPU con `transformCoordinates2d` y no toca estos
+        // píxeles.
+        refreshAnalysisRotation()
     }
 
     /**
@@ -522,7 +624,7 @@ class ValeriaArActivity : ComponentActivity() {
             // ahí nunca va a aparecer una cara. En un teléfono se le da margen
             // para que la ficha no parpadee mientras arranca la cámara.
             if (!emulator) delay(CAMERA_HEALTH_MS)
-            while (facesSeen == 0L) {
+            while (facesSeen.get() == 0L) {
                 cameraReport = buildString {
                     appendLine("${android.os.Build.MANUFACTURER} ${android.os.Build.MODEL} · Android ${android.os.Build.VERSION.RELEASE} (API ${android.os.Build.VERSION.SDK_INT})")
                     if (emulator) {
@@ -533,14 +635,14 @@ class ValeriaArActivity : ComponentActivity() {
                         appendLine("Este bloque solo se puede evaluar en un móvil real.")
                         appendLine("")
                     }
-                    if (framesFromCamera == 0L) {
+                    if (framesFromCamera.get() == 0L) {
                         appendLine("La cámara no está entregando ninguna imagen.")
                     } else {
                         appendLine("sensor  $frameGeometry")
                         appendLine("arcore  $arCoreReport")
                     }
                     engine?.frameError?.let { appendLine("error   $it") }
-                    append("frames $framesFromCamera · inferencias $framesInferred · caras $facesSeen")
+                    append("frames ${framesFromCamera.get()} · inferencias ${framesInferred.get()} · caras ${facesSeen.get()}")
                 }
                 delay(CAMERA_REPORT_TICK_MS)
             }
@@ -550,13 +652,13 @@ class ValeriaArActivity : ComponentActivity() {
 
     /** Un frame que ha COMPLETADO inferencia, con cara o sin ella. */
     private fun onFrameProcessed() {
-        framesInferred += 1
+        framesInferred.incrementAndGet()
         fpsMeter.onFrame()
     }
 
     private fun onSignals(signals: FaceSignals) {
         lastFaceMs = SystemClock.elapsedRealtime()
-        facesSeen += 1
+        facesSeen.incrementAndGet()
         // Entre `onPause` y `onStop` CameraX sigue entregando frames. Contarlos
         // para la salud de la cámara es correcto —la cámara funciona—, pero
         // dejarlos mover la máquina de estados del ejercicio no: el niño no

@@ -3,6 +3,7 @@ package eu.futureforkids.valeria.ar.session
 import android.opengl.GLES20
 import android.opengl.GLSurfaceView
 import com.google.ar.core.Frame
+import com.google.ar.core.Session
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 
@@ -43,9 +44,35 @@ class ArRenderer(
      */
     private var textureBound = false
 
-    /** Ancho y alto de la superficie, para `setDisplayGeometry`. */
+    /**
+     * Ancho y alto de la superficie. Los escribe `onSurfaceChanged` y los lee
+     * `applyPendingGeometry`, los dos en el hilo de GL: no son estado
+     * compartido y por eso no llevan `@Volatile`.
+     */
     private var surfaceWidth = 0
     private var surfaceHeight = 0
+
+    /**
+     * La rotación de la pantalla es lo ÚNICO que entra desde fuera del hilo de
+     * GL: la trae `onConfigurationChanged`, que corre en el de UI. Por eso no se
+     * aplica ahí.
+     *
+     * Escribirla directamente sobre la sesión desde el hilo de UI era volver a
+     * tener dos hilos hablándole a ARCore —`setDisplayGeometry` mientras el de
+     * GL está dentro de `update()`— y tres enteros normales leídos desde el
+     * otro lado sin garantía de visibilidad. Girar el teléfono 180° a mitad de
+     * sesión podía dejar la imagen boca abajo sin que nada avisara, que es
+     * exactamente el defecto de `targetRotation` que la reescritura vino a
+     * quitar, con otra ropa.
+     *
+     * Así que el hilo de UI solo deja un aviso —dos campos `@Volatile`— y el de
+     * GL lo recoge al principio de la vuelta, ANTES de `update()`. Es lo mismo
+     * que hace el `DisplayRotationHelper` de los samples de ARCore.
+     */
+    @Volatile private var pendingRotation = 0
+    @Volatile private var viewportChanged = false
+
+    /** La última rotación ya aplicada. Solo hilo de GL. */
     private var displayRotation = 0
 
     override fun onSurfaceCreated(gl: GL10?, config: EGLConfig?) {
@@ -62,7 +89,7 @@ class ArRenderer(
         GLES20.glViewport(0, 0, width, height)
         surfaceWidth = width
         surfaceHeight = height
-        applyDisplayGeometry()
+        viewportChanged = true
     }
 
     /**
@@ -70,21 +97,40 @@ class ArRenderer(
      * `targetRotation` de CameraX que había que acordarse de actualizar a mano
      * en `onConfigurationChanged` — y que, olvidado, dejaba la imagen boca abajo
      * al girar el teléfono 180°.
+     *
+     * **Se llama desde el hilo de UI y no toca la sesión**: deja el aviso y se
+     * va. Lo aplica el hilo de GL en la siguiente vuelta, que con
+     * `RENDERMODE_CONTINUOUSLY` es como mucho un frame después.
      */
     fun setDisplayRotation(rotation: Int) {
-        displayRotation = rotation
-        applyDisplayGeometry()
+        pendingRotation = rotation
+        viewportChanged = true
     }
 
-    private fun applyDisplayGeometry() {
+    /**
+     * Recoge el aviso. Hilo de GL, y antes de `update()`: ARCore quiere la
+     * geometría del display fijada antes de entregar el frame al que se le va a
+     * pedir el encuadre.
+     *
+     * El flag se baja ANTES de leer la rotación a propósito. Al revés, una
+     * rotación que llegara entre la lectura y la bajada se perdería para
+     * siempre; así lo peor que pasa es aplicar dos veces la misma.
+     */
+    private fun applyPendingGeometry(arCore: Session) {
+        if (!viewportChanged) return
+        // Sin superficie todavía no hay geometría que dar, y el aviso se queda
+        // puesto para la vuelta en que la haya.
         if (surfaceWidth == 0 || surfaceHeight == 0) return
-        session.session?.setDisplayGeometry(displayRotation, surfaceWidth, surfaceHeight)
+        viewportChanged = false
+        displayRotation = pendingRotation
+        arCore.setDisplayGeometry(displayRotation, surfaceWidth, surfaceHeight)
     }
 
     override fun onDrawFrame(gl: GL10?) {
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT or GLES20.GL_DEPTH_BUFFER_BIT)
 
         val s = session.session ?: return
+        applyPendingGeometry(s)
         if (!textureBound) {
             if (background.textureId == -1) return
             s.setCameraTextureName(background.textureId)
@@ -99,5 +145,9 @@ class ArRenderer(
     /** El contexto GL se ha ido (pausa). La próxima creación rehará la textura. */
     fun onContextLost() {
         textureBound = false
+        // Y se vuelve a dar la geometría: volver de una pausa con el teléfono
+        // girado es justo el caso en que la pantalla cambió sin que corriera
+        // ninguna vuelta de GL que se enterara.
+        viewportChanged = true
     }
 }

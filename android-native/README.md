@@ -121,8 +121,8 @@ derecha lo único que sirve para diagnosticar sin tener el teléfono delante:
 
 ```
 Xiaomi 22120RN86G · Android 14 (API 34)
-sensor  640×480 fmt=35 planos=3 rowStride=640 pxStride=1 rot=270°
-espejo  480×640 ARGB_8888
+sensor  640×480 fmt=35 planos=3 rowStride=640 pxStride=1
+arcore  1280×960 · cara no · rot=180°
 frames 312 · inferencias 104 · caras 0
 ```
 
@@ -136,9 +136,18 @@ Cada cifra descarta una hipótesis concreta:
   estirada a pantalla completa, que se ve igual que una conversión rota.
 - **`rowStride` distinto de lo esperado para el formato** → los bytes se leen
   con el ancho equivocado, que es lo que produce bloques de color abstractos.
-- **`error …`** → `toBitmap()` rechazó el formato, con su mensaje exacto.
+- **`cara no` en la línea `arcore`** → el que no ve la cara es ARCore, y
+  MediaPipe ni se despierta: no se busque el fallo en el modelo.
+- **`rot=`** → los grados con que se gira la imagen antes de dársela a
+  MediaPipe. Un `rot=0°` con `caras 0` en un teléfono real es sospechoso: la
+  orientación del sensor frontal casi nunca es 0.
+- **`error …`** → la conversión YUV rechazó el formato, con su mensaje exacto.
 - **`caras 0` con todo lo demás sano** → el problema está en el modelo o en el
   encuadre, no en la cámara.
+
+La línea `sensor` se toma del PRIMER frame que ARCore entregue, **haya cara o
+no**. Hasta el 1/9/2026 se tomaba dentro de la compuerta de la cara, así que
+salía vacía justo en el escenario para el que se escribió la ficha.
 
 Desaparece sola en cuanto llega la primera cara: es un diagnóstico, no adorno,
 y al niño no le sobra ni un elemento en pantalla.
@@ -175,7 +184,7 @@ probado en el teléfono.** Lo que se sabe y lo que no, separado a propósito:
 | Los 25 gates y el typecheck | Verdes en CI (pasos 6‑31) y en local |
 | ARCore 1.54.0 existe | Tag `v1.54.0` del SDK responde 200 |
 | Hay APK instalable | Artefacto `android-apk` del run **628** (`workflow_dispatch` sobre la rama) |
-| **NO comprobado** | Absolutamente todo lo que pasa en el teléfono: que ARCore abra la cámara, que el espejo se vea, que MediaPipe reciba los frames, los fps sostenidos, y **si los cuelgues se acabaron** |
+| **NO comprobado** | Absolutamente todo lo que pasa en el teléfono: que ARCore abra la cámara, que el espejo se vea, que MediaPipe reciba los frames, los fps sostenidos, y **si los cuelgues se acabaron**. Y desde el 1/9/2026, tampoco está comprobado en hardware lo de la tabla siguiente: la rotación de análisis y el espejo son aritmética, no medida |
 
 Los gates y el typecheck **no ven** un shader que no compila, una textura negra
 ni una sesión que se cierra sola. Que compile no dice que funcione: eso es
@@ -205,6 +214,27 @@ Lo que **sigue igual y sin verificar**: los índices de landmark canónicos
 (33/263 cantos externos, 61/291 comisuras, 13/14 borde labial) siguen marcados
 en el código como *a verificar contra el modelo real*. El compilador no puede
 opinar sobre eso y ARCore tampoco.
+
+### Y lo que la reescritura se dejó por el camino (1/9/2026)
+
+Cuatro cosas que la tubería de CameraX hacía y que el puerto a ARCore no
+reimplementó. Ninguna rompe la compilación, ninguna la veían los 25 gates, y las
+dos últimas no dan error en el teléfono: dan un dato equivocado. Están
+arregladas, y ahora las sujeta `check-ar-concurrency.js`, que hasta hoy no
+miraba ni el paquete `session/` ni esta llamada.
+
+| Qué se perdió | Qué provoca | Dónde vuelve |
+| --- | --- | --- |
+| La rotación de pantalla entraba por el hilo de UI: `setDisplayGeometry` mientras el de GL estaba en `update()`, y tres enteros normales leídos desde el otro hilo | Girar el móvil 180° a mitad de sesión podía dejar la imagen boca abajo. Es el defecto de `targetRotation` con otra ropa, en el rediseño que se justificó en «un solo hilo» | `ArRenderer`: el hilo de UI deja un aviso `@Volatile` y el de GL lo recoge antes de `update()`, como el `DisplayRotationHelper` de los samples |
+| La geometría del sensor se tomaba DENTRO de la compuerta de la cara | La línea `sensor …` de la ficha salía vacía en el escenario «caras 0», que es el único en que se mira | `onGlFrame`: una sola adquisición por vuelta, la geometría antes de la compuerta |
+| `rotationDegrees = 0` fijo donde CameraX daba `imageInfo.rotationDegrees` | La imagen del sensor llega tumbada al Face Landmarker, que no es invariante a rotación: **cero caras con el niño delante**, sin un solo error en el log | `refreshAnalysisRotation()`: `(SENSOR_ORIENTATION + rotación del display) % 360` |
+| `mirror = false` donde CameraX pasaba `isFrontCamera = true` **siempre** | Lo peor de los cuatro: «gira a la derecha» se registra como giro a la izquierda en TODOS los ensayos de AR-2. No es ruido que se diluya en la media, es sesgo con signo — y el aviso estaba escrito en `toUprightBitmap`, dentro del propio fichero | `mirror = true` |
+
+Los dos primeros son razonamiento sobre el código y se sostienen solos. Los dos
+últimos son **aritmética y arqueología del commit anterior, no medida en un
+teléfono**: la fórmula reproduce la cifra que CameraX regalaba, y el espejo
+restaura lo que la tubería anterior hacía sin excepción. Si en el Pixel siguen
+saliendo `caras 0`, esta es la primera piedra que levantar.
 
 ### La escena 3D de Filament: sigue viva, pero sin integrar con ARCore
 

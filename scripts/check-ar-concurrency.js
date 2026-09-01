@@ -244,6 +244,81 @@ if (vra) {
     'nunca inventarse una latencia');
 }
 
+// ── 6. El host de cámara: un solo hilo le habla a ARCore ────────────────────
+// La reescritura del 31/8/2026 se justificó en «un solo hilo y un solo reloj»,
+// y aun así la rotación de pantalla entraba por el hilo de UI: llegaba de
+// `onConfigurationChanged`, escribía tres enteros normales que lee el hilo de
+// GL y llamaba a `setDisplayGeometry` mientras el otro estaba dentro de
+// `update()`. El síntoma es el mismo que costó dos rondas de depuración con
+// CameraX —girar el móvil 180° y quedarse con la imagen boca abajo—, y no lo ve
+// ningún otro gate: este paquete es de 2026-08-31 y no existía cuando se
+// escribió el resto de este fichero.
+const renderer = leer('session', 'ArRenderer.kt');
+if (renderer) {
+  for (const campo of ['pendingRotation', 'viewportChanged']) {
+    exigir(new RegExp(`@Volatile private var ${campo}`).test(renderer),
+      `ArRenderer: \`${campo}\` lo escribe el hilo de UI y lo lee el de GL; tiene que ser @Volatile`);
+  }
+
+  const set = cuerpo(renderer, '    fun setDisplayRotation(rotation: Int)');
+  exigir(set && !/setDisplayGeometry/.test(set),
+    'ArRenderer: `setDisplayRotation` le habla a la sesión desde el hilo de UI. Solo debe ' +
+    'dejar el aviso; lo aplica el hilo de GL en la siguiente vuelta');
+
+  const draw = cuerpo(renderer, '    override fun onDrawFrame(gl: GL10?)');
+  if (draw) {
+    const iGeom = draw.indexOf('applyPendingGeometry');
+    const iUpdate = draw.indexOf('session.update()');
+    exigir(iGeom !== -1,
+      'ArRenderer: `onDrawFrame` no recoge la rotación pendiente; una pantalla girada no ' +
+      'llegaría nunca a ARCore');
+    exigir(iGeom !== -1 && iUpdate !== -1 && iGeom < iUpdate,
+      'ArRenderer: la geometría se aplica después de `update()`. ARCore la quiere fijada ' +
+      'antes de entregar el frame al que se le pide el encuadre');
+  }
+}
+
+// ── 7. La imagen que ve MediaPipe llega derecha, y la ficha se puede leer ───
+if (act) {
+  const gl = cuerpo(act, '    private fun onGlFrame(frame: com.google.ar.core.Frame)');
+  if (gl) {
+    // `acquireCameraImage()` entrega la imagen en coordenadas del SENSOR, cuya
+    // orientación en una cámara frontal suele ser 270°. El espejo lo endereza
+    // la GPU con `transformCoordinates2d` y no toca estos píxeles. El Face
+    // Landmarker no es invariante a rotación: una imagen tumbada son cero caras
+    // con el niño delante, y ningún error en el log.
+    exigir(!/rotationDegrees\s*=\s*\d/.test(gl),
+      'ValeriaArActivity: `onGlFrame` le pasa a MediaPipe una rotación literal. La imagen ' +
+      'viene en coordenadas del sensor: tiene que salir de `refreshAnalysisRotation`');
+    exigir(/rotationDegrees\s*=\s*analysisRotation/.test(gl),
+      'ValeriaArActivity: `onGlFrame` no usa `analysisRotation`');
+
+    // El espejo es una convención de PANTALLA: ni CameraX ni ARCore espejan los
+    // píxeles. Todo lo de aguas abajo se calibró contra la imagen ya espejada
+    // —la tubería de CameraX pasaba `isFrontCamera = true` sin excepción—, así
+    // que quitarlo no mete ruido: invierte el lado en TODOS los ensayos de AR-2,
+    // de forma sistemática y por tanto invisible en la media.
+    exigir(/mirror\s*=\s*true/.test(gl),
+      'ValeriaArActivity: `onGlFrame` no espeja la imagen del sensor. «Gira a la derecha» ' +
+      'se registraría como giro a la izquierda en todos los ensayos: no es ruido, es sesgo');
+
+    // La ficha de la cámara existe para el escenario «caras 0». Tomar la
+    // geometría del sensor dentro de la compuerta de la cara dejaba la línea
+    // `sensor …` vacía justo en ese escenario, que es el único en que se mira.
+    exigir(/needGeometry/.test(gl) && /if \(!hasFace && !needGeometry\) return/.test(gl),
+      'ValeriaArActivity: `onGlFrame` corta por la cara antes de tomar la geometría del ' +
+      'sensor. La ficha de diagnóstico se pinta cuando `caras 0`, y ahí saldría vacía');
+  }
+
+  const rot = cuerpo(act, '    private fun refreshAnalysisRotation()');
+  exigir(rot && /SENSOR_ORIENTATION/.test(rot),
+    'ValeriaArActivity: `refreshAnalysisRotation` no lee SENSOR_ORIENTATION de la cámara ' +
+    'que ARCore ha elegido; sin eso la rotación es una suposición');
+  exigir(/refreshAnalysisRotation\(\)/.test(cuerpo(act, '    override fun onConfigurationChanged') || ''),
+    'ValeriaArActivity: `onConfigurationChanged` no recalcula la rotación de análisis. ' +
+    'Girar el móvil cambia el encuadre del espejo Y el de la imagen que analiza MediaPipe');
+}
+
 // ── Resultado ───────────────────────────────────────────────────────────────
 if (fallos.length) {
   console.error('\nRealidad Aumentada · invariantes de concurrencia y ciclo de vida rotas:\n');
@@ -259,5 +334,5 @@ if (fallos.length) {
 
 console.log(
   `✓ RA: ${EJERCICIOS.length} ejercicios bajo lock, pausa compensada, ` +
-  'AudioTrack con un solo dueño y la ventana de AR-2 anclada al tono.',
+  'AudioTrack con un solo dueño, la ventana de AR-2 anclada al tono y ARCore con un solo hilo.',
 );
