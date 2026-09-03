@@ -58,6 +58,14 @@ import ValeriaPatientResultsDashboardScreen from './ValeriaPatientResultsDashboa
 import { SensoryBlockListScreen, SensoryExerciseScreen } from './ValeriaSensory';
 import { ValeriaWritingExerciseScreen } from './ValeriaWritingExerciseScreen';
 import ValeriaLuaScreen from './ValeriaLuaScreen';
+import {
+  ValeriaAventurasLuaHubScreen,
+  LuaAssessmentPlayerScreen,
+  LuaStoryViewerScreen,
+  LuaSongPlayerScreen,
+  LuaPrintablesScreen,
+  AgeBand,
+} from './AventurasLua';
 
 export type ValeriaStackParamList = {
   Welcome: undefined;
@@ -85,6 +93,11 @@ export type ValeriaStackParamList = {
   SensoryExercise: { exerciseId?: string } | undefined;
   Writing: undefined;
   Results: undefined;
+  AventurasLuaHub: undefined;
+  LuaAssessmentPlayer: { ageBand: AgeBand; initialQuestionIndex?: number };
+  LuaStoryViewer: { storyId: string };
+  LuaSongPlayer: { songId: string };
+  LuaPrintables: { printId?: string } | undefined;
 };
 
 const Stack = createNativeStackNavigator<ValeriaStackParamList>();
@@ -127,6 +140,11 @@ export const ValeriaNavigator: React.FC = () => (
       {({ navigation: nav }) => <ValeriaWritingExerciseScreen onBack={() => nav.goBack()} />}
     </Stack.Screen>
     <Stack.Screen name="Results" component={ValeriaPatientResultsDashboardScreen} />
+    <Stack.Screen name="AventurasLuaHub" component={ValeriaAventurasLuaHubScreen} />
+    <Stack.Screen name="LuaAssessmentPlayer" component={LuaAssessmentPlayerScreen} />
+    <Stack.Screen name="LuaStoryViewer" component={LuaStoryViewerScreen} />
+    <Stack.Screen name="LuaSongPlayer" component={LuaSongPlayerScreen} />
+    <Stack.Screen name="LuaPrintables" component={LuaPrintablesScreen} />
   </Stack.Navigator>
 );
 
