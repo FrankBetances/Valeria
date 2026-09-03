@@ -71,6 +71,7 @@ const failureNotice = (t: ArStrings, reason: ArFailureReason | null): string => 
     case 'CAMERA_BUSY': return t.ar.noticeCameraBusy;
     case 'APK_TOO_OLD': return t.ar.noticeArServicesOutdated;
     case 'INSTALL_DECLINED': return t.ar.noticeArServicesMissing;
+    case 'INSTALL_PENDING': return t.ar.noticeArServicesInstalling;
     case 'DENIED': return t.ar.noticeCameraDenied;
     default: return t.ar.noticeAptitudeFailed;
   }

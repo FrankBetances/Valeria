@@ -1455,6 +1455,7 @@ export const ES = {
     noticeCameraBusy: 'Otra aplicación está usando la cámara. Ciérrala y vuelve a intentarlo.',
     noticeArServicesOutdated: 'Actualiza «Servicios de Google para RA» desde Play Store y vuelve a intentarlo.',
     noticeArServicesMissing: 'Este bloque necesita «Servicios de Google para RA». Acepta la instalación cuando te la ofrezca.',
+    noticeArServicesInstalling: '«Servicios de Google para RA» todavía se está instalando. Espera unos segundos y vuelve a intentarlo.',
     noticeCameraDenied: 'Sin permiso de cámara no se puede hacer el calentamiento. Puedes concederlo y volver a intentarlo.',
     noticeCalibrationFailed: 'La calibración no se completó. Coloca el teléfono apoyado, en horizontal, a un palmo y medio de la cara y prueba otra vez.',
     noticeLaunchFailed: 'El ejercicio no llegó a abrirse. Comprueba que la app tiene permiso de cámara.',

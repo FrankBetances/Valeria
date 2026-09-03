@@ -117,7 +117,8 @@ if (sesion && bridge) {
 {
   const CLAVES = [
     'noticeCameraBusy', 'noticeArServicesOutdated', 'noticeArServicesMissing',
-    'noticeCameraDenied', 'notAptNoFrontCamera', 'notAptDeviceUnsupported',
+    'noticeArServicesInstalling', 'noticeCameraDenied',
+    'notAptNoFrontCamera', 'notAptDeviceUnsupported',
   ];
   ['es', 'en', 'ca'].forEach((lang) => {
     const src = leer(path.join(ROOT, 'src', 'i18n', `strings.${lang}.ts`));

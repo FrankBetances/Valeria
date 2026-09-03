@@ -249,6 +249,7 @@ export type ArFailureReason =
   | 'APK_TOO_OLD'
   | 'NO_FRONT_CAMERA'
   | 'CAMERA_BUSY'
+  | 'INSTALL_PENDING'
   | 'UNKNOWN'
   | 'DENIED';
 

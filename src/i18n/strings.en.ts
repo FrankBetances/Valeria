@@ -1404,6 +1404,7 @@ export const EN: UiStrings = {
     noticeCameraBusy: 'Another app is using the camera. Close it and try again.',
     noticeArServicesOutdated: 'Update “Google Play Services for AR” from the Play Store and try again.',
     noticeArServicesMissing: 'This block needs “Google Play Services for AR”. Accept the installation when it is offered.',
+    noticeArServicesInstalling: '“Google Play Services for AR” is still installing. Wait a few seconds and try again.',
     noticeCameraDenied: 'The warm-up cannot run without camera permission. You can grant it and try again.',
     noticeCalibrationFailed: 'Calibration did not finish. Prop the phone up in landscape, about a foot from your child\u2019s face, and try again.',
     noticeLaunchFailed: 'The exercise did not open. Check that the app has camera permission.',

@@ -1363,6 +1363,7 @@ export const CA: UiStrings = {
     noticeCameraBusy: 'Una altra aplicació està fent servir la càmera. Tanca-la i torna-ho a provar.',
     noticeArServicesOutdated: 'Actualitza «Serveis de Google per a RA» des de Play Store i torna-ho a provar.',
     noticeArServicesMissing: 'Aquest bloc necessita «Serveis de Google per a RA». Accepta la instal·lació quan te l\'ofereixi.',
+    noticeArServicesInstalling: '«Serveis de Google per a RA» encara s\'està instal·lant. Espera uns segons i torna-ho a provar.',
     noticeCameraDenied: 'Sense permís de càmera no es pot fer l\'escalfament. El pots concedir i tornar-ho a provar.',
     noticeCalibrationFailed: 'La calibració no s\'ha completat. Col·loca el telèfon recolzat, en horitzontal, a un pam i mig de la cara i prova-ho una altra vegada.',
     noticeLaunchFailed: 'L\'exercici no s\'ha arribat a obrir. Comprova que l\'aplicació té permís de càmera.',

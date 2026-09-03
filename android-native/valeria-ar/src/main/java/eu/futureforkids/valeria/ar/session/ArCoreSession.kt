@@ -63,6 +63,16 @@ class ArCoreSession(private val activity: Activity) {
         /** La cámara la tiene otra app. */
         CAMERA_BUSY,
         /**
+         * ARCore se está instalando o actualizando y no terminó a tiempo.
+         *
+         * No es un aparato incapaz: es una ventana de unos segundos. En el
+         * Pixel 6a del 2/9/2026 duró desde las 15:06:2x hasta las 15:06:38,
+         * cuando el `pkginst` del bugreport registra la actualización — dos
+         * segundos DESPUÉS del cierre. Antes, esa ventana dejaba la pantalla
+         * parada en «Instalando Realidad Aumentada…» sin nada que la moviera.
+         */
+        INSTALL_PENDING,
+        /**
          * Nada de lo anterior: ARCore lanzó algo que no sabemos clasificar.
          *
          * Existe porque hasta el 3/9/2026 este caso se etiquetaba

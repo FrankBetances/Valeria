@@ -2,28 +2,50 @@
 
 > **Bugreport:** 2/9/2026, 15:39 CEST · Google Pixel 6a (`bluejay`, `CP2A.260705.006`)
 > **Paquete:** `eu.futureforkids.valeria` · **Fuente:** bugreport de 101 MB fuera del repo
-> **Estado:** el cierre inesperado está **arreglado y cubierto por gates**. La causa
-> nativa que lo disparó sigue **abierta**.
+> **Estado:** el cierre inesperado está **arreglado y cubierto por gates** (build 639,
+> `main`, en verde). El disparador fue la ventana de actualización de ARCore —§0—,
+> y la app ya no depende de que esa ventana esté cerrada para no romperse.
 
 ---
 
-## 0. Corrección de la primera versión de este informe
+## 0. Dos correcciones, y por qué se dejan escritas
 
-La primera versión (3/9/2026) afirmaba como causa raíz una incompatibilidad de
-versión: ARCore 1.48 de fábrica en el teléfono frente al SDK 1.54.0 con el que
-se compila. **Es falso.** Frank confirmó que el aparato tiene la última versión
-de *Servicios de Google para RA* instalada.
+Este informe se ha equivocado dos veces en la causa raíz. Ambas quedan aquí
+porque el patrón importa más que cualquiera de las dos.
 
-Se deja escrito porque la cadena que llevó a esa conclusión equivocada es, ella
-misma, el defecto más caro de este episodio: **la app calculaba la causa exacta
-del fallo y no se la contaba a nadie**, así que hubo que reconstruirla a mano
-desde un volcado de 101 MB. Con la causa viajando —lo que ahora hace— este
-informe habría sido una línea.
+**Primera versión (3/9/2026): «ARCore 1.48 frente al SDK 1.54.0».** Frank
+respondió que el teléfono tiene la última versión de *Servicios de Google para
+RA*. Se dio la hipótesis por muerta.
 
-Y la corrección trae consigo el criterio que ordena el resto del trabajo, fijado
-por Frank: **la app debe funcionar aunque el servicio esté desactualizado.** Una
-causa que depende de que un servicio de Google esté al día no es una causa
-aceptable en un despliegue BYOD.
+**Segunda corrección: matarla entera fue pasarse.** El bugreport registra la
+instalación:
+
+```text
+546286:  09-02 15:06:38.985  pkginst=262080393:"com.google.ar.core"
+551975:  Update com.google.ar.core vers=262080393
+262341:  PACKAGE_ADDED  dat=package:com.google.ar.core
+262657:  PACKAGE_REMOVED dat=package:com.google.ar.core
+```
+
+`PACKAGE_REMOVED` seguido de `PACKAGE_ADDED` es la firma de una
+**actualización**, y ocurrió a las **15:06:38.985 — 2,4 segundos después del
+primer cierre** (15:06:36.536). Las dos afirmaciones eran ciertas en momentos
+distintos: en el instante del fallo el ARCore del aparato no estaba al día;
+hoy sí lo está, **porque se actualizó en esa misma sesión, justo después de
+reventar**. El informe describía el antes y la comprobación miraba el después.
+
+Lo que sostiene el episodio entero no es ninguna de las dos hipótesis, sino
+esto: **la app calculaba la causa exacta del fallo y no se la contaba a nadie.**
+Por eso hubo que reconstruirla desde un volcado de 101 MB, y por eso salió mal
+dos veces. Con la causa viajando —lo que ahora hace— esto habría sido una línea
+en la pantalla.
+
+Y de ahí el criterio que ordena el resto del trabajo, fijado por Frank: **la app
+debe funcionar aunque el servicio esté desactualizado.** No es un caso raro de
+teléfono viejo: es cualquier aparato en la ventana entre que Google publica una
+versión y el usuario la instala. Con `com.google.ar.core = optional` en el
+manifiesto —decisión correcta, porque `required` impediría instalar Valeria+ en
+móviles sin RA— esa ventana **no se cierra sola**.
 
 ---
 
@@ -91,30 +113,26 @@ A eso se sumaba que el `catch (e: Exception)` de `ArCoreSession.ensureCreated()`
 etiquetaba **cualquier** excepción como `DEVICE_NOT_SUPPORTED`: convertía «no sé
 qué ha pasado» en «este teléfono no sirve».
 
-## 3. La causa nativa: abierta, con el comando que la zanja
+## 3. La cronología, reconstruida con la evidencia de la instalación
 
-Con *Servicios de Google para RA* al día, `checkAvailability` devuelve
-`SUPPORTED_INSTALLED` y la rama de instalación no se toma. Quedan dos
-candidatas, **ambas hipótesis**:
+| Hora | Evento |
+| --- | --- |
+| 15:06:2x | `ensureCreated()` → `requestInstall` → Play Store |
+| **15:06:36.536** | Vuelve a la app, ARCore aún no listo → `finishWith("unsupported")` → **cierre 1** |
+| **15:06:38.985** | ARCore termina de actualizarse (`pkginst`, `vers=262080393`) |
+| 15:07:09.072–09.332 | `ProfileDownloadJobService`: ARCore descarga el perfil del aparato |
+| **15:07:11.446** | **cierre 2**, mismo stack |
 
-* **`NO_FRONT_CAMERA`** — `getSupportedCameraConfigs(filter FRONT)` devuelve
-  lista vacía. La certificación de ARCore para cámara **frontal** (Augmented
-  Faces) es una lista más corta que la de RA de mundo, y **no la arregla ninguna
-  actualización**. Encaja con todo: servicio al día, fallo inmediato, repetible,
-  un aparato concreto.
-* **El `catch` genérico**, con la excepción real solo en el log.
+El segundo cierre admite dos caminos —la caché envenenada del primero, o un
+segundo intento sobre un ARCore recién instalado— y **no se decide con la
+evidencia disponible**. Los dos producen el mismo stack y los dos están
+cerrados por el arreglo, así que la distinción es académica.
 
-Se distinguen con un grep, porque `NO_FRONT_CAMERA` no escribe log y el
-`catch` sí:
-
-```bash
-grep -n "ValeriaArCore" bugreport-bluejay-*.txt
-```
-
-* **Aparece** `No se pudo crear la sesión de ARCore` → la excepción adjunta
-  nombra la causa; ahora además viaja hasta la pantalla como `UNKNOWN · <clase>`.
-* **No aparece** → `NO_FRONT_CAMERA` o `UNSUPPORTED_DEVICE_NOT_CAPABLE`: causa
-  permanente en ese aparato, y ninguna actualización la toca.
+En el volcado **no consta ninguna línea `ValeriaArCore`**, así que el `catch`
+genérico no llegó a disparar. Con una salvedad: el buffer de logcat en el
+momento de la captura (15:39) ya había rotado más allá de las 15:06, de modo
+que la ausencia no es prueba concluyente. A partir del build 639 la pregunta
+deja de necesitar un bugreport: el motivo aparece en la propia pantalla.
 
 ## 4. Lo que se ha arreglado
 
@@ -125,6 +143,7 @@ grep -n "ValeriaArCore" bugreport-bluejay-*.txt
 | `ValeriaArActivity.kt` | `pipelineStarted` se ponía antes de existir la tubería | Se pone tras `gl.onResume()`; la rama de reintento vuelve a ser alcanzable |
 | `ValeriaArActivity.kt` | `startPipeline` corría sobre una Activity cerrándose | Sale si `isFinishing \|\| isDestroyed` |
 | `ArCoreSession.kt` | Toda excepción era `DEVICE_NOT_SUPPORTED` | `UNKNOWN` + `detail` con la clase de la excepción |
+| `ValeriaArActivity.kt` | «Instalando Realidad Aumentada…» se quedaba parado si ARCore acababa sin que la Activity se pausara | Reintento acotado (4 × 2,5 s) y motivo propio `INSTALL_PENDING` al agotarse |
 | `valeriaArBridge.ts` | `Promise<ArDeviceProfile>`: una promesa incumplible | `ArAptitudeOutcome`, unión discriminada por `ok` |
 | `ValeriaArLauncherScreen.tsx` | Guardaba antes de validar; «inténtalo de nuevo» siempre | Valida antes de guardar; causa permanente cierra el bloque explicando cuál |
 | `valeriaArSettings.ts` | `arPolicyFor` podía devolver `undefined` | Defecto a la política D |

@@ -249,6 +249,8 @@ class ValeriaArActivity : ComponentActivity() {
      */
     private var failureReason: String? = null
     private var failureDetail: String? = null
+    /** Intentos gastados esperando a que ARCore termine de instalarse. */
+    private var installRetries = 0
     private var pauseTimestampMs = 0L
     private var accumulatedPausedDurationMs = 0L
 
@@ -402,7 +404,16 @@ class ValeriaArActivity : ComponentActivity() {
             if (reason == null) {
                 // Se ha lanzado la instalación de Play Services for AR. La
                 // Activity se pausa y al volver reintenta: no se cierra.
+                //
+                // Pero volver a `onResume` no es la única salida, y darlo por
+                // supuesto dejaba la pantalla parada aquí: ARCore puede acabar
+                // de instalarse SIN que la Activity se pause —termina en
+                // segundo plano, o el usuario nunca llegó a salir— y entonces
+                // nadie reintenta. En el Pixel 6a la actualización entró a las
+                // 15:06:38, dos segundos después del cierre, y todavía quedaba
+                // la descarga del perfil del aparato por detrás.
                 statusText = "Instalando Realidad Aumentada…"
+                scheduleInstallRetry()
                 return
             }
             statusText = when (reason) {
@@ -418,6 +429,8 @@ class ValeriaArActivity : ComponentActivity() {
                     "Otra aplicación está usando la cámara."
                 ArCoreSession.Unavailable.UNKNOWN ->
                     "No se pudo iniciar la Realidad Aumentada en este teléfono."
+                ArCoreSession.Unavailable.INSTALL_PENDING ->
+                    "Servicios de Google para RA todavía se está instalando."
             }
             // `statusText` se pinta en una pantalla que `finishWith` cierra en
             // la línea siguiente: el adulto no llega a leer ninguno de los seis
@@ -1004,6 +1017,30 @@ class ValeriaArActivity : ComponentActivity() {
     }
 
     /**
+     * Reintento acotado mientras ARCore termina de instalarse.
+     *
+     * Cuatro intentos cada 2,5 s: diez segundos, que es del orden de lo que
+     * tardó la actualización en el Pixel 6a. Acotado a propósito —un reintento
+     * indefinido es una pantalla que nunca dice nada— y con un motivo propio
+     * al agotarse, para que el adulto lea «se está instalando, espera» y no
+     * «este teléfono no sirve».
+     */
+    private fun scheduleInstallRetry() {
+        if (installRetries >= INSTALL_RETRY_MAX) {
+            failureReason = ArCoreSession.Unavailable.INSTALL_PENDING.name
+            finishWith(outcome = "unsupported")
+            return
+        }
+        installRetries++
+        scope.launch {
+            delay(INSTALL_RETRY_MS)
+            // La sesión puede haberla creado ya la rama de `onResume`: sin esta
+            // comprobación se abrirían dos tuberías sobre la misma cámara.
+            if (!isFinishing && !isDestroyed && arSession.session == null) startPipeline()
+        }
+    }
+
+    /**
      * ¿Puede este aparato pasar la prueba alguna vez, o no?
      *
      * Es la distinción que decide si la pantalla ofrece «inténtalo de nuevo» o
@@ -1104,6 +1141,10 @@ class ValeriaArActivity : ComponentActivity() {
 
         /** Margen antes de empezar a mostrar la ficha de la cámara. */
         private const val CAMERA_HEALTH_MS = 3_000L
+
+        // Diez segundos en total esperando a que ARCore acabe de instalarse.
+        private const val INSTALL_RETRY_MAX = 4
+        private const val INSTALL_RETRY_MS = 2_500L
         private const val CAMERA_REPORT_TICK_MS = 500L
 
         private const val LOG_TAG = "ValeriaAR"
