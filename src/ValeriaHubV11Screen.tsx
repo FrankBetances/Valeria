@@ -191,6 +191,19 @@ export const ValeriaHubV11Screen: React.FC<{ navigation: any }> = ({ navigation 
       bg: '#fdf0e2', fg: '#c2701f', meta: t.hub.writingBadge(WRITING_EXERCISES.length),
       onPress: () => navigation.navigate('Writing'),
     },
+    // Aventuras con Lúa: banco interactivo de preguntas, cuentos, canciones e imprimibles por edad.
+    {
+      key: 'aventuras_lua',
+      desc: t.hub.luaBrief,
+      icon: 'lua',
+      title: t.hub.luaTitle,
+      hint: t.hub.luaSub,
+      a11y: t.hub.luaA11y(60),
+      bg: '#e6f4f6',
+      fg: '#0d7685',
+      meta: t.hub.luaBadge(60),
+      onPress: () => navigation.navigate('AventurasLuaHub'),
+    },
     // La RA CIERRA la rejilla. Si no hay host nativo de cámara + escena 3D, la
     // tarjeta NO se renderiza: el bloque no existe para el usuario, en lugar
     // de existir y fallar al tocarlo. Por eso va la última: es la única que

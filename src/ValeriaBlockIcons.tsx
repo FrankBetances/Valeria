@@ -48,7 +48,9 @@ export type BlockIconName =
   | 'sensory' | 'sensory_ear' | 'noise_filter' | 'sensory_anticipation' | 'calm_breath'
   | 'classroom' | 'mall' | 'street'
   // Grafomotricidad y Escritura: lápiz y borrador
-  | 'pencil' | 'eraser';
+  | 'pencil' | 'eraser'
+  // Aventuras con Lúa: mascota Lúa, cuentos, canciones e imprimibles
+  | 'lua' | 'story' | 'song' | 'printable';
 
 interface Props { name: BlockIconName; color: string; size?: number; }
 
@@ -561,6 +563,45 @@ export const BlockIcon: React.FC<Props> = ({ name, color, size = 26 }) => {
         <>
           <Path d="M20 20H7L3 16a2 2 0 0 1 0-2.83l9.17-9.17a2 2 0 0 1 2.83 0L21 10a2 2 0 0 1 0 2.83L14 20" {...common} />
           <Path d="M6 17l6-6" {...common} />
+        </>
+      )}
+
+      {/* Lúa · Mascota clínica y compañera interactiva */}
+      {name === 'lua' && (
+        <>
+          <Path d="M4 11V6l4 3h8l4-3v5c0 5-4 9-8 9s-8-4-8-9z" {...common} />
+          <Circle cx="8.5" cy="11.5" r="1.2" fill={color} />
+          <Circle cx="15.5" cy="11.5" r="1.2" fill={color} />
+          <Path d="M11 14.5c.5.5 1.5.5 2 0" {...common} />
+        </>
+      )}
+
+      {/* Cuento / Historia de Lúa */}
+      {name === 'story' && (
+        <>
+          <Path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" {...common} />
+          <Path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" {...common} />
+          <Path d="M8 7h8" {...common} />
+          <Path d="M8 11h6" {...common} />
+        </>
+      )}
+
+      {/* Canción motriz / Praxias rítmicas */}
+      {name === 'song' && (
+        <>
+          <Path d="M9 18V5l12-2v13" {...common} />
+          <Circle cx="6" cy="18" r="3" {...common} />
+          <Circle cx="18" cy="16" r="3" {...common} />
+        </>
+      )}
+
+      {/* Imprimible / Ficha y diploma */}
+      {name === 'printable' && (
+        <>
+          <Path d="M6 9V2h12v7" {...common} />
+          <Path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" {...common} />
+          <Rect x="6" y="14" width="12" height="8" rx="1" {...common} />
+          <Path d="M9 18h6" {...common} />
         </>
       )}
     </Svg>
