@@ -17,6 +17,7 @@ import { CatPixel } from "../../ValeriaCatPixel";
 import { speakToChild } from "../../valeriaVoice";
 import { LUA_COLORS, LUA_RADII } from "../Theme/luaTheme";
 import { LuaStory, LUA_STORIES_CATALOG } from "../index";
+import { luaCompleteActivity } from "../luaActivityReward";
 
 interface Props {
   navigation: any;
@@ -36,7 +37,13 @@ export const LuaStoryViewerScreen: React.FC<Props> = ({ navigation, route }) => 
     LUA_STORIES_CATALOG.find((s) => s.id === storyId) || LUA_STORIES_CATALOG[0];
 
   const [paragraphIndex, setParagraphIndex] = useState(0);
+  const [finished, setFinished] = useState(false);
   const [selectedAnswers, setSelectedAnswers] = useState<Record<string, string>>({});
+
+  const handleFinish = useCallback(async () => {
+    setFinished(true);
+    await luaCompleteActivity(story.paragraphs.length);
+  }, []);
 
   const handleSpeakParagraph = useCallback(() => {
     if (story && story.paragraphs[paragraphIndex]) {
@@ -59,7 +66,7 @@ export const LuaStoryViewerScreen: React.FC<Props> = ({ navigation, route }) => 
             accessibilityRole="button"
             accessibilityLabel={t.common.back}
           >
-            <Text style={s.backTxt}>←</Text>
+            <Text style={s.backTxt}>{`‹ ${t.common.back}`}</Text>
           </Pressable>
         </View>
       </View>
@@ -79,7 +86,7 @@ export const LuaStoryViewerScreen: React.FC<Props> = ({ navigation, route }) => 
           accessibilityLabel={t.common.back}
           hitSlop={12}
         >
-          <Text style={s.backTxt}>←</Text>
+          <Text style={s.backTxt}>{`‹ ${t.common.back}`}</Text>
         </Pressable>
         <View style={s.titleWrap}>
           <Text style={s.storyTitle} numberOfLines={1}>
@@ -216,12 +223,55 @@ export const LuaStoryViewerScreen: React.FC<Props> = ({ navigation, route }) => 
             </Pressable>
           </View>
         ) : null}
+
+        {/* Cierre de la actividad: XP, racha, insignia y la misma cara en el
+            cristal del aparato. Sin este botón la actividad no existía para la
+            app por mucho que el niño la terminase. */}
+        <View style={s.finishCard}>
+          {finished ? (
+            <>
+              <CatPixel size={64} />
+              <Text style={s.finishDoneTxt}>{t.luaHub.activityDone}</Text>
+            </>
+          ) : (
+            <Pressable
+              style={s.finishBtn}
+              onPress={handleFinish}
+              accessibilityRole="button"
+              accessibilityLabel={t.luaHub.activityFinish}
+            >
+              <Text style={s.finishBtnTxt}>{t.luaHub.activityFinish}</Text>
+            </Pressable>
+          )}
+        </View>
       </ScrollView>
     </View>
   );
 };
 
 const s = StyleSheet.create({
+  finishCard: {
+    marginTop: 16,
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 18,
+  },
+  finishBtn: {
+    minHeight: 56,
+    paddingHorizontal: 28,
+    borderRadius: LUA_RADII.lg,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: LUA_COLORS.primary,
+  },
+  finishBtnTxt: { color: LUA_COLORS.textOnPrimary, fontSize: 17, fontWeight: "800" },
+  finishDoneTxt: {
+    marginTop: 8,
+    fontSize: 17,
+    fontWeight: "800",
+    color: LUA_COLORS.mintDark,
+    textAlign: "center",
+  },
   container: {
     flex: 1,
     backgroundColor: LUA_COLORS.background,

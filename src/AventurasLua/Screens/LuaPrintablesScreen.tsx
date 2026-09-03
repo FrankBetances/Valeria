@@ -17,6 +17,7 @@ import { BlockIcon } from "../../ValeriaBlockIcons";
 import { CatPixel } from "../../ValeriaCatPixel";
 import { LUA_COLORS, LUA_RADII } from "../Theme/luaTheme";
 import { LuaPrintableItem, LUA_PRINTABLES_CATALOG } from "../index";
+import { LuaPrintableSheet } from "./LuaPrintableSheet";
 
 interface Props {
   navigation: any;
@@ -61,7 +62,7 @@ export const LuaPrintablesScreen: React.FC<Props> = ({ navigation, route }) => {
           accessibilityLabel={t.common.back}
           hitSlop={12}
         >
-          <Text style={s.backTxt}>←</Text>
+          <Text style={s.backTxt}>{`‹ ${t.common.back}`}</Text>
         </Pressable>
         <View style={s.titleWrap}>
           <Text style={s.headerTitle}>{t.luaHub.secPrintablesTitle}</Text>
@@ -103,6 +104,13 @@ export const LuaPrintablesScreen: React.FC<Props> = ({ navigation, route }) => {
                 </View>
               </View>
             )}
+
+            {/* La ficha, dibujada. Antes solo estaba descrita. */}
+            <LuaPrintableSheet
+              sheet={selectedItem.sheet}
+              nameLabel={t.luaHub.printableName}
+              dateLabel={t.luaHub.printableDate}
+            />
 
             <Pressable
               onPress={() => handleSharePrintable(selectedItem)}

@@ -15,6 +15,7 @@
 // poder compilarlo y ejecutarlo sin react-native ni expo.
 // ============================================================================
 import { MINIMAL_PAIRS } from './valeriaMinimalPairs';
+import { enumerateLuaAdventureSpeech } from './AventurasLua/Catalog/luaVoiceLines';
 import { MINIMAL_PAIRS_GL } from './valeriaMinimalPairsGl';
 import { MINIMAL_PAIRS_EU } from './valeriaMinimalPairsEu';
 import { TPR_CAPSULES } from './valeriaTprBank';
@@ -193,6 +194,12 @@ export function buildVoiceCorpus(): VoiceCorpusEntry[] {
   //    veredictos de los mini-juegos (banco valeriaExerciseBank), igual que
   //    los locuta ValeriaExercisePlayerScreen y los apoyos de ValeriaVoiceUI.
   for (const l of enumerateExerciseSpeech()) add(l.style, l.text, 'ejercicios');
+
+  // 7) Aventuras con Lúa (es): las 60 consignas del banco por edad, su refuerzo
+  //    y su devolución al niño, los párrafos y preguntas de los 10 cuentos y
+  //    los versos de las 10 canciones. Entró como módulo con todo esto fuera del
+  //    corpus: sonaba, pero con la voz del sistema.
+  for (const l of enumerateLuaAdventureSpeech()) add(l.style, l.text, l.source);
 
   // ============================ GALEGO (gl) ============================
   // Contido do plan Proxecto Nós (GL-2.x), aprobado para produción;

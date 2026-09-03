@@ -2,6 +2,7 @@
 // Aventuras con Lúa · Lúa y las Palabras — Catálogo de Canciones Motoras y de Lenguaje
 // 10 canciones que combinan ritmo, fonología, praxias orales y esquemas motores.
 // ============================================================================
+import type { AgeBand } from './LuaAssessmentCatalog';
 
 export type SongTheme =
   | 'rutina_manana'
@@ -18,6 +19,18 @@ export type SongTheme =
 export interface LuaSong {
   id: string;
   number: number; // 1 a 10
+  /**
+   * Franjas en las que la pieza tiene sentido. NO viene de las 50 hojas: la
+   * fuente solo fecha por edad los cuentos, así que esto es un SUPUESTO
+   * CLÍNICO explícito y reversible, tomado del contenido de cada pieza
+   * (contar del 1 al 10, praxias vocálicas, secuencia de 4 pasos…). Está aquí
+   * y no en la pantalla para que corregirlo sea una línea, no un rediseño.
+   *
+   * Sin esto el filtro por edad del hub mentía: siete chips que solo movían
+   * preguntas y cuentos mientras canciones e imprimibles enseñaban los diez
+   * siempre, dijera lo que dijera el chip.
+   */
+  ageBands: AgeBand[];
   title: string;
   subtitle: string;
   theme: SongTheme;
@@ -35,6 +48,7 @@ export const LUA_SONGS_CATALOG: LuaSong[] = [
   {
     id: 'lua_song_01',
     number: 1,
+    ageBands: ['0-2', '2-3', '3-4'],
     title: 'Buenos días, sol',
     subtitle: 'Rutina de la mañana y bienvenida al día',
     theme: 'rutina_manana',
@@ -58,6 +72,7 @@ export const LUA_SONGS_CATALOG: LuaSong[] = [
   {
     id: 'lua_song_02',
     number: 2,
+    ageBands: ['2-3', '3-4', '4-5'],
     title: 'Contando manzanas',
     subtitle: 'Canción rítmica para contar del 1 al 10',
     theme: 'conteo',
@@ -82,6 +97,7 @@ export const LUA_SONGS_CATALOG: LuaSong[] = [
   {
     id: 'lua_song_03',
     number: 3,
+    ageBands: ['2-3', '3-4', '4-5'],
     title: 'Los colores del arcoíris',
     subtitle: 'Discriminación cromática y rima',
     theme: 'colores',
@@ -106,6 +122,7 @@ export const LUA_SONGS_CATALOG: LuaSong[] = [
   {
     id: 'lua_song_04',
     number: 4,
+    ageBands: ['3-4', '4-5', '5-7'],
     title: 'El baile de las vocales',
     subtitle: 'Praxias articulatorias y motricidad corporal',
     theme: 'vocales_motor',
@@ -128,6 +145,7 @@ export const LUA_SONGS_CATALOG: LuaSong[] = [
   {
     id: 'lua_song_05',
     number: 5,
+    ageBands: ['0-2', '2-3', '3-4'],
     title: 'Animales del patio',
     subtitle: 'Repertorio onomatopéyico y discriminación',
     theme: 'onomatopeyas',
@@ -152,6 +170,7 @@ export const LUA_SONGS_CATALOG: LuaSong[] = [
   {
     id: 'lua_song_06',
     number: 6,
+    ageBands: ['2-3', '3-4', '4-5'],
     title: 'Lávate las manitos',
     subtitle: 'Hábito de higiene y secuenciación en 4 pasos (20 segundos)',
     theme: 'higiene_secuencia',
@@ -176,6 +195,7 @@ export const LUA_SONGS_CATALOG: LuaSong[] = [
   {
     id: 'lua_song_07',
     number: 7,
+    ageBands: ['2-3', '3-4', '4-5'],
     title: 'Mi cuerpo se mueve',
     subtitle: 'Esquema corporal y propiocepción',
     theme: 'esquema_corporal',
@@ -196,6 +216,7 @@ export const LUA_SONGS_CATALOG: LuaSong[] = [
   {
     id: 'lua_song_08',
     number: 8,
+    ageBands: ['2-3', '3-4', '4-5'],
     title: 'La ronda de las frutas',
     subtitle: 'Vocabulario nutricional, rima y turnos',
     theme: 'frutas_alimentacion',
@@ -220,6 +241,7 @@ export const LUA_SONGS_CATALOG: LuaSong[] = [
   {
     id: 'lua_song_09',
     number: 9,
+    ageBands: ['3-4', '4-5', '5-7'],
     title: 'Gracias y por favor',
     subtitle: 'Pragmática social y fórmulas de cortesía',
     theme: 'cortesia_social',
@@ -244,6 +266,7 @@ export const LUA_SONGS_CATALOG: LuaSong[] = [
   {
     id: 'lua_song_10',
     number: 10,
+    ageBands: ['2-3', '3-4', '4-5'],
     title: 'A guardar los juguetes',
     subtitle: 'Funciones ejecutivas y transición ordenada de cierre',
     theme: 'orden_transicion',

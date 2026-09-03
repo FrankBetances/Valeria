@@ -29,8 +29,7 @@ import { BlockIcon } from "../../ValeriaBlockIcons";
 import { CatPixel } from "../../ValeriaCatPixel";
 import { speakToChild } from "../../valeriaVoice";
 import { FichaVisual } from "../../ValeriaPictograms";
-import { registerSession } from "../../valeriaGamification";
-import { luaSessionReward } from "../../valeriaLuaSession";
+import { luaCompleteActivity } from "../luaActivityReward";
 import { LUA_COLORS, LUA_RADII } from "../Theme/luaTheme";
 import {
   AgeBand,
@@ -89,10 +88,7 @@ export const LuaAssessmentPlayerScreen: React.FC<Props> = ({ navigation, route }
   // el niño veía su premio en la tableta.
   const finishBand = useCallback(async () => {
     setIsCompleted(true);
-    try {
-      const premio = await registerSession(2, bandQuestions.length);
-      luaSessionReward(premio); // el mismo premio, en el cristal
-    } catch (e) { /* gamificación no disponible */ }
+    await luaCompleteActivity(bandQuestions.length);
   }, [bandQuestions.length]);
 
   const handleNext = () => {

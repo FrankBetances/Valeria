@@ -1,8 +1,8 @@
 {
- "generatedAt": "2026-08-29T13:06:25.157Z",
- "entries": 4110,
+ "generatedAt": "2026-09-03T18:49:26.471Z",
+ "entries": 4558,
  "byStyle": {
-  "child": 2194,
+  "child": 2642,
   "slow": 950,
   "clinical": 45,
   "tutor": 921
@@ -27,6 +27,18 @@
   "util/muestra": 5,
   "expansion": 2152,
   "ejercicios": 1292,
+  "lua/eval/consigna": 60,
+  "lua/eval/refuerzo": 60,
+  "lua/eval/devolucion": 60,
+  "lua/cuento/titulo": 10,
+  "lua/cuento/parrafo": 53,
+  "lua/cuento/pregunta": 30,
+  "lua/cuento/pista": 30,
+  "lua/cuento/dibujo": 10,
+  "lua/cancion/titulo": 10,
+  "lua/cancion/consigna": 10,
+  "lua/cancion/verso": 74,
+  "lua/cancion/elemento": 41,
   "ejercicios/veredicto": 3,
   "escritura/elogio": 15
  },
@@ -6176,6 +6188,3142 @@
    "style": "slow",
    "text": "rojo, azul, verde, amarillo, verde, amarillo, rojo, azul, azul, verde, amarillo, rojo",
    "source": "ejercicios"
+  },
+  {
+   "id": "child_35097498_23",
+   "lang": "es",
+   "style": "child",
+   "text": "¿Dónde está el perrito?",
+   "source": "lua/eval/consigna"
+  },
+  {
+   "id": "child_ddce2c19_32",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Muy bien! ¡Ahí está el perrito!",
+   "source": "lua/eval/refuerzo"
+  },
+  {
+   "id": "child_5be06d5a_24",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Mira! Este es el perro.",
+   "source": "lua/eval/devolucion"
+  },
+  {
+   "id": "child_e4023377_18",
+   "lang": "es",
+   "style": "child",
+   "text": "¿Qué dice la vaca?",
+   "source": "lua/eval/consigna"
+  },
+  {
+   "id": "child_67741d7d_28",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Eso es! La vaca dice ¡muuu!",
+   "source": "lua/eval/refuerzo"
+  },
+  {
+   "id": "child_16083b58_19",
+   "lang": "es",
+   "style": "child",
+   "text": "¡La vaca dice muuu!",
+   "source": "lua/eval/devolucion"
+  },
+  {
+   "id": "child_15d6297a_57",
+   "lang": "es",
+   "style": "child",
+   "text": "Dame la pelota (instrucción simple con objeto a la vista)",
+   "source": "lua/eval/consigna"
+  },
+  {
+   "id": "child_191d00ce_29",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Gracias! Me diste la pelota.",
+   "source": "lua/eval/refuerzo"
+  },
+  {
+   "id": "child_44b6fd08_27",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Esta es la pelota! Dámela.",
+   "source": "lua/eval/devolucion"
+  },
+  {
+   "id": "child_19718f13_47",
+   "lang": "es",
+   "style": "child",
+   "text": "Di \"adiós\" (con gesto de despedida con la mano)",
+   "source": "lua/eval/consigna"
+  },
+  {
+   "id": "child_c126c91d_28",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Adiós, amigo! ¡Hasta luego!",
+   "source": "lua/eval/refuerzo"
+  },
+  {
+   "id": "child_a0b777c5_31",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Adiós! Dile adiós con la mano.",
+   "source": "lua/eval/devolucion"
+  },
+  {
+   "id": "child_a6745ee8_48",
+   "lang": "es",
+   "style": "child",
+   "text": "¿Dónde está mamá? (en foto familiar o presencia)",
+   "source": "lua/eval/consigna"
+  },
+  {
+   "id": "child_3256bbe8_20",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Sí! ¡Ahí está mamá!",
+   "source": "lua/eval/refuerzo"
+  },
+  {
+   "id": "child_b4b92c8c_16",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Aquí está mamá!",
+   "source": "lua/eval/devolucion"
+  },
+  {
+   "id": "child_16187f0f_42",
+   "lang": "es",
+   "style": "child",
+   "text": "Sopla la burbuja (modelo del adulto o Lúa)",
+   "source": "lua/eval/consigna"
+  },
+  {
+   "id": "child_9de57066_38",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Mira cómo vuelan las burbujas! ¡Fuuu!",
+   "source": "lua/eval/refuerzo"
+  },
+  {
+   "id": "child_1e5af0c0_22",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Sopla conmigo! Fffff.",
+   "source": "lua/eval/devolucion"
+  },
+  {
+   "id": "child_b901ff01_18",
+   "lang": "es",
+   "style": "child",
+   "text": "¿Qué dice el gato?",
+   "source": "lua/eval/consigna"
+  },
+  {
+   "id": "child_527aae37_25",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Miau! ¡Qué lindo gatico!",
+   "source": "lua/eval/refuerzo"
+  },
+  {
+   "id": "child_7505cb0a_19",
+   "lang": "es",
+   "style": "child",
+   "text": "¡El gato dice miau!",
+   "source": "lua/eval/devolucion"
+  },
+  {
+   "id": "child_6f8c117f_34",
+   "lang": "es",
+   "style": "child",
+   "text": "Aplaude conmigo (imitación motora)",
+   "source": "lua/eval/consigna"
+  },
+  {
+   "id": "child_c33f0148_30",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Bravo! ¡Chocamos esas palmas!",
+   "source": "lua/eval/refuerzo"
+  },
+  {
+   "id": "child_fc4c29f9_33",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Palmas, palmas! Aplaude conmigo.",
+   "source": "lua/eval/devolucion"
+  },
+  {
+   "id": "child_d735361f_51",
+   "lang": "es",
+   "style": "child",
+   "text": "Dame el osito (elección entre 2 objetos a la vista)",
+   "source": "lua/eval/consigna"
+  },
+  {
+   "id": "child_fcd741ee_40",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Qué suave es el osito! ¡Muchas gracias!",
+   "source": "lua/eval/refuerzo"
+  },
+  {
+   "id": "child_2eb97691_18",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Este es el osito!",
+   "source": "lua/eval/devolucion"
+  },
+  {
+   "id": "child_39c4eb6c_39",
+   "lang": "es",
+   "style": "child",
+   "text": "¿Quién hace \"guau guau\"? (perro / pato)",
+   "source": "lua/eval/consigna"
+  },
+  {
+   "id": "child_5611402b_35",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Exacto! El perro hace ¡guau, guau!",
+   "source": "lua/eval/refuerzo"
+  },
+  {
+   "id": "child_696367eb_25",
+   "lang": "es",
+   "style": "child",
+   "text": "¡El perro hace guau guau!",
+   "source": "lua/eval/devolucion"
+  },
+  {
+   "id": "child_bf8a1968_42",
+   "lang": "es",
+   "style": "child",
+   "text": "¿Cuál es la pelota? (pelota / pato / taza)",
+   "source": "lua/eval/consigna"
+  },
+  {
+   "id": "child_a9f7bd4e_37",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Muy bien! ¡Esa es la pelota redonda!",
+   "source": "lua/eval/refuerzo"
+  },
+  {
+   "id": "child_9ff87d82_41",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Esta es la pelota! ¿Puedes decir pelota?",
+   "source": "lua/eval/devolucion"
+  },
+  {
+   "id": "child_caaa1dd4_64",
+   "lang": "es",
+   "style": "child",
+   "text": "Toca la imagen que empieza con el sonido /p/ (pato / sol / mesa)",
+   "source": "lua/eval/consigna"
+  },
+  {
+   "id": "child_54b2efe6_32",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Sí! /p/… ¡Pato empieza con /p/!",
+   "source": "lua/eval/refuerzo"
+  },
+  {
+   "id": "child_697923a2_23",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Pato! Empieza con /p/.",
+   "source": "lua/eval/devolucion"
+  },
+  {
+   "id": "child_4f25feb7_54",
+   "lang": "es",
+   "style": "child",
+   "text": "Dame el juguete rojo (selección por color, 3 opciones)",
+   "source": "lua/eval/consigna"
+  },
+  {
+   "id": "child_7dd75236_33",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Genial! Este es el juguete rojo.",
+   "source": "lua/eval/refuerzo"
+  },
+  {
+   "id": "child_3992703d_17",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Este es el rojo!",
+   "source": "lua/eval/devolucion"
+  },
+  {
+   "id": "child_a026dde9_40",
+   "lang": "es",
+   "style": "child",
+   "text": "¿Qué está haciendo el niño en la imagen?",
+   "source": "lua/eval/consigna"
+  },
+  {
+   "id": "child_ac13af9f_27",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Eso es! El niño come rico.",
+   "source": "lua/eval/refuerzo"
+  },
+  {
+   "id": "child_18143be4_23",
+   "lang": "es",
+   "style": "child",
+   "text": "¡El niño está comiendo!",
+   "source": "lua/eval/devolucion"
+  },
+  {
+   "id": "child_5efecfd3_52",
+   "lang": "es",
+   "style": "child",
+   "text": "Pon el vaso arriba de la mesa (instrucción espacial)",
+   "source": "lua/eval/consigna"
+  },
+  {
+   "id": "child_884e4b73_31",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Perfecto! El vaso está arriba.",
+   "source": "lua/eval/refuerzo"
+  },
+  {
+   "id": "child_cbc4b9dc_38",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Arriba! El vaso va arriba de la mesa.",
+   "source": "lua/eval/devolucion"
+  },
+  {
+   "id": "child_a6fb579b_41",
+   "lang": "es",
+   "style": "child",
+   "text": "¿Cuál es más grande? (elefante / hormiga)",
+   "source": "lua/eval/consigna"
+  },
+  {
+   "id": "child_b50da108_37",
+   "lang": "es",
+   "style": "child",
+   "text": "¡El elefante es gigante y muy grande!",
+   "source": "lua/eval/refuerzo"
+  },
+  {
+   "id": "child_26781374_27",
+   "lang": "es",
+   "style": "child",
+   "text": "¡El elefante es más grande!",
+   "source": "lua/eval/devolucion"
+  },
+  {
+   "id": "child_9744301d_64",
+   "lang": "es",
+   "style": "child",
+   "text": "Toca la imagen que empieza con el sonido /m/ (mesa / sol / pato)",
+   "source": "lua/eval/consigna"
+  },
+  {
+   "id": "child_6d96169c_29",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Mmm… mesa! ¡Empieza con /m/!",
+   "source": "lua/eval/refuerzo"
+  },
+  {
+   "id": "child_0613015d_23",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Mesa! Empieza con /m/.",
+   "source": "lua/eval/devolucion"
+  },
+  {
+   "id": "child_db2f4f5a_51",
+   "lang": "es",
+   "style": "child",
+   "text": "Juego de turnos: \"Mi turno… tu turno\" con la pelota",
+   "source": "lua/eval/consigna"
+  },
+  {
+   "id": "child_1d27c88e_50",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Qué bien esperaste tu turno! ¡Ahora te toca a ti!",
+   "source": "lua/eval/refuerzo"
+  },
+  {
+   "id": "child_88bb136b_19",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Ahora es tu turno!",
+   "source": "lua/eval/devolucion"
+  },
+  {
+   "id": "child_e27ab32f_63",
+   "lang": "es",
+   "style": "child",
+   "text": "¿Qué comemos cuando tenemos hambre? (comida / juguete / zapato)",
+   "source": "lua/eval/consigna"
+  },
+  {
+   "id": "child_39d36803_32",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Claro! Comemos una rica comida.",
+   "source": "lua/eval/refuerzo"
+  },
+  {
+   "id": "child_45d0f072_32",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Cuando tenemos hambre, comemos!",
+   "source": "lua/eval/devolucion"
+  },
+  {
+   "id": "child_c5d27266_29",
+   "lang": "es",
+   "style": "child",
+   "text": "Imita la frase: \"Quiero agua\"",
+   "source": "lua/eval/consigna"
+  },
+  {
+   "id": "child_d1fea074_38",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Muy bien dicho! \"Quiero agua fresca\".",
+   "source": "lua/eval/refuerzo"
+  },
+  {
+   "id": "child_42a0216b_31",
+   "lang": "es",
+   "style": "child",
+   "text": "Quiero agua. ¿Lo dices conmigo?",
+   "source": "lua/eval/devolucion"
+  },
+  {
+   "id": "child_e71b0445_41",
+   "lang": "es",
+   "style": "child",
+   "text": "El niño tiene hambre, ¿qué debería hacer?",
+   "source": "lua/eval/consigna"
+  },
+  {
+   "id": "child_7d8b1689_43",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Sí! Cuando tenemos hambre, pedimos comida.",
+   "source": "lua/eval/refuerzo"
+  },
+  {
+   "id": "child_5c13d39e_30",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Si tiene hambre, pide comida!",
+   "source": "lua/eval/devolucion"
+  },
+  {
+   "id": "child_6897638e_70",
+   "lang": "es",
+   "style": "child",
+   "text": "Primero lávate las manos, luego toca la manzana (secuencia de 2 pasos)",
+   "source": "lua/eval/consigna"
+  },
+  {
+   "id": "child_2a61202f_42",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Excelente! Primero lavarse y luego comer.",
+   "source": "lua/eval/refuerzo"
+  },
+  {
+   "id": "child_2543dfa4_40",
+   "lang": "es",
+   "style": "child",
+   "text": "Primero las manos, y después la manzana.",
+   "source": "lua/eval/devolucion"
+  },
+  {
+   "id": "child_eef71c68_45",
+   "lang": "es",
+   "style": "child",
+   "text": "¿Cuál empieza como \"sol\"? (sapo / luna / pan)",
+   "source": "lua/eval/consigna"
+  },
+  {
+   "id": "child_b2140f85_45",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Sss-ol y Sss-apo! ¡Las dos empiezan con /s/!",
+   "source": "lua/eval/refuerzo"
+  },
+  {
+   "id": "child_6e9bc561_35",
+   "lang": "es",
+   "style": "child",
+   "text": "Sol… sapo. ¡Las dos empiezan igual!",
+   "source": "lua/eval/devolucion"
+  },
+  {
+   "id": "child_7c8eb621_26",
+   "lang": "es",
+   "style": "child",
+   "text": "¿Qué usamos cuando llueve?",
+   "source": "lua/eval/consigna"
+  },
+  {
+   "id": "child_67572a6c_44",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Un paraguas para no mojarnos con la lluvia!",
+   "source": "lua/eval/refuerzo"
+  },
+  {
+   "id": "child_6f4bb73d_34",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Cuando llueve usamos el paraguas!",
+   "source": "lua/eval/devolucion"
+  },
+  {
+   "id": "child_1746703c_56",
+   "lang": "es",
+   "style": "child",
+   "text": "Juego de roles \"el doctor\": \"¿Qué le duele al paciente?\"",
+   "source": "lua/eval/consigna"
+  },
+  {
+   "id": "child_ac86b003_47",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Pobre osito, le dolía el brazo! Ya lo curamos.",
+   "source": "lua/eval/refuerzo"
+  },
+  {
+   "id": "child_5d1761ab_23",
+   "lang": "es",
+   "style": "child",
+   "text": "¿Dónde le duele? ¿Aquí?",
+   "source": "lua/eval/devolucion"
+  },
+  {
+   "id": "child_10b5fe4f_43",
+   "lang": "es",
+   "style": "child",
+   "text": "Cuando alguien te saluda y dice \"hola\", tú…",
+   "source": "lua/eval/consigna"
+  },
+  {
+   "id": "child_70e09e07_46",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Qué amable! Decimos \"¡Hola!\" con una sonrisa.",
+   "source": "lua/eval/refuerzo"
+  },
+  {
+   "id": "child_76d234dd_37",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Hola! Cuando te saludan, tú saludas.",
+   "source": "lua/eval/devolucion"
+  },
+  {
+   "id": "child_b46964bf_54",
+   "lang": "es",
+   "style": "child",
+   "text": "Practica decir \"quiero jugar\" con voz suave y relajada",
+   "source": "lua/eval/consigna"
+  },
+  {
+   "id": "child_21ab8a3e_51",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Qué suave salió tu voz! Como una pluma en el aire.",
+   "source": "lua/eval/refuerzo"
+  },
+  {
+   "id": "child_6e89b8de_24",
+   "lang": "es",
+   "style": "child",
+   "text": "Suavecito: quiero jugar.",
+   "source": "lua/eval/devolucion"
+  },
+  {
+   "id": "child_d08d1f26_65",
+   "lang": "es",
+   "style": "child",
+   "text": "¿Cuál no pertenece a este grupo? (manzana, plátano/banana, silla)",
+   "source": "lua/eval/consigna"
+  },
+  {
+   "id": "child_21193aa2_67",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Exacto! La manzana y el plátano son frutas; la silla es un mueble.",
+   "source": "lua/eval/refuerzo"
+  },
+  {
+   "id": "child_24563644_47",
+   "lang": "es",
+   "style": "child",
+   "text": "La manzana y el plátano se comen. ¡La silla no!",
+   "source": "lua/eval/devolucion"
+  },
+  {
+   "id": "child_86708a99_58",
+   "lang": "es",
+   "style": "child",
+   "text": "Ordena la historia: niño tropieza → llora → mamá lo abraza",
+   "source": "lua/eval/consigna"
+  },
+  {
+   "id": "child_8bf0b4b3_72",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Muy bien! Primero tropezó, se puso triste y mamá le dio un gran abrazo.",
+   "source": "lua/eval/refuerzo"
+  },
+  {
+   "id": "child_540c70e7_50",
+   "lang": "es",
+   "style": "child",
+   "text": "Primero tropieza, después llora, y mamá lo abraza.",
+   "source": "lua/eval/devolucion"
+  },
+  {
+   "id": "child_c541701b_42",
+   "lang": "es",
+   "style": "child",
+   "text": "¿Qué dirías si quieres jugar con un amigo?",
+   "source": "lua/eval/consigna"
+  },
+  {
+   "id": "child_faf2010e_63",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Palabras mágicas! Preguntar con cariño abre todas las puertas.",
+   "source": "lua/eval/refuerzo"
+  },
+  {
+   "id": "child_acd7879a_21",
+   "lang": "es",
+   "style": "child",
+   "text": "¿Puedo jugar contigo?",
+   "source": "lua/eval/devolucion"
+  },
+  {
+   "id": "child_97185a43_72",
+   "lang": "es",
+   "style": "child",
+   "text": "Imagen de un niño junto a su helado caído en el suelo: \"¿Qué pasó aquí?\"",
+   "source": "lua/eval/consigna"
+  },
+  {
+   "id": "child_1ff08501_67",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Comprendiste muy bien la situación! Pobre niño, se cayó su helado.",
+   "source": "lua/eval/refuerzo"
+  },
+  {
+   "id": "child_f0d02410_35",
+   "lang": "es",
+   "style": "child",
+   "text": "Se le cayó el helado. ¡Está triste!",
+   "source": "lua/eval/devolucion"
+  },
+  {
+   "id": "child_7b7bbc18_92",
+   "lang": "es",
+   "style": "child",
+   "text": "El niño dice \"perro corre\". Lúa responde: \"¡Sí! El perro corre rápido. ¿Puedes decirlo así?\"",
+   "source": "lua/eval/consigna"
+  },
+  {
+   "id": "child_9dad710d_44",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Qué bien suena tu oración larga y completa!",
+   "source": "lua/eval/refuerzo"
+  },
+  {
+   "id": "child_11b775aa_23",
+   "lang": "es",
+   "style": "child",
+   "text": "¡El perro corre rápido!",
+   "source": "lua/eval/devolucion"
+  },
+  {
+   "id": "child_376ab1dc_32",
+   "lang": "es",
+   "style": "child",
+   "text": "¿Cuál es lo opuesto de \"grande\"?",
+   "source": "lua/eval/consigna"
+  },
+  {
+   "id": "child_c56541d8_46",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Excelente! Lo contrario de grande es pequeño.",
+   "source": "lua/eval/refuerzo"
+  },
+  {
+   "id": "child_fad3a6cb_34",
+   "lang": "es",
+   "style": "child",
+   "text": "Lo contrario de grande es pequeño.",
+   "source": "lua/eval/devolucion"
+  },
+  {
+   "id": "child_e3be87f9_41",
+   "lang": "es",
+   "style": "child",
+   "text": "¿Con qué sonido empieza la palabra \"sol\"?",
+   "source": "lua/eval/consigna"
+  },
+  {
+   "id": "child_937c68ad_36",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Sss-ol! ¡Empieza con el sonido /s/!",
+   "source": "lua/eval/refuerzo"
+  },
+  {
+   "id": "child_d98d2c45_28",
+   "lang": "es",
+   "style": "child",
+   "text": "Ssss… sol. ¡Empieza con /s/!",
+   "source": "lua/eval/devolucion"
+  },
+  {
+   "id": "child_6d231ec5_31",
+   "lang": "es",
+   "style": "child",
+   "text": "¿Cuántas sílabas tiene \"me-sa\"?",
+   "source": "lua/eval/consigna"
+  },
+  {
+   "id": "child_0eea57c1_37",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Dos palmadas! Me-sa tiene 2 sílabas.",
+   "source": "lua/eval/refuerzo"
+  },
+  {
+   "id": "child_707a8367_21",
+   "lang": "es",
+   "style": "child",
+   "text": "Me-sa. ¡Dos palmadas!",
+   "source": "lua/eval/devolucion"
+  },
+  {
+   "id": "child_8f960775_67",
+   "lang": "es",
+   "style": "child",
+   "text": "Juego de mesa: espera tu turno y sigue la instrucción del compañero",
+   "source": "lua/eval/consigna"
+  },
+  {
+   "id": "child_65ca9754_52",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Gran jugador! Sabes esperar y divertirte en equipo.",
+   "source": "lua/eval/refuerzo"
+  },
+  {
+   "id": "child_43b0a810_34",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Espera un poquito! Ahora te toca.",
+   "source": "lua/eval/devolucion"
+  },
+  {
+   "id": "child_b0d3a860_45",
+   "lang": "es",
+   "style": "child",
+   "text": "¿Qué pasaría si se te cae un juguete al agua?",
+   "source": "lua/eval/consigna"
+  },
+  {
+   "id": "child_305ae4c0_49",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Buena deducción! El juguete se moja con el agua.",
+   "source": "lua/eval/refuerzo"
+  },
+  {
+   "id": "child_bd48337a_24",
+   "lang": "es",
+   "style": "child",
+   "text": "Si cae al agua, se moja.",
+   "source": "lua/eval/devolucion"
+  },
+  {
+   "id": "child_91280fd0_30",
+   "lang": "es",
+   "style": "child",
+   "text": "Nombra 3 animales que conozcas",
+   "source": "lua/eval/consigna"
+  },
+  {
+   "id": "child_3808b301_53",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Qué gran zoológico conoces! ¡Tres animales geniales!",
+   "source": "lua/eval/refuerzo"
+  },
+  {
+   "id": "child_812e02f4_34",
+   "lang": "es",
+   "style": "child",
+   "text": "Perro, gato, pato. ¡Tres animales!",
+   "source": "lua/eval/devolucion"
+  },
+  {
+   "id": "child_29c120f1_61",
+   "lang": "es",
+   "style": "child",
+   "text": "Cuenta con voz suave y relajada un cuento cortito de 2 líneas",
+   "source": "lua/eval/consigna"
+  },
+  {
+   "id": "child_4114b851_57",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Me encantó tu historia! La contaste con calma y alegría.",
+   "source": "lua/eval/refuerzo"
+  },
+  {
+   "id": "child_b01b0763_28",
+   "lang": "es",
+   "style": "child",
+   "text": "Despacito y suave, como Lúa.",
+   "source": "lua/eval/devolucion"
+  },
+  {
+   "id": "child_a84cbcc9_60",
+   "lang": "es",
+   "style": "child",
+   "text": "Repite la secuencia de sonidos con Lúa: \"pa-pa-pa, ma-ma-ma\"",
+   "source": "lua/eval/consigna"
+  },
+  {
+   "id": "child_6b43db8d_43",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Boca lista y afinada! ¡Pa-pa-pa, ma-ma-ma!",
+   "source": "lua/eval/refuerzo"
+  },
+  {
+   "id": "child_f1454db8_29",
+   "lang": "es",
+   "style": "child",
+   "text": "Pa-pa-pa, ma-ma-ma. ¡Conmigo!",
+   "source": "lua/eval/devolucion"
+  },
+  {
+   "id": "child_de4b7be1_37",
+   "lang": "es",
+   "style": "child",
+   "text": "¿Cuántas sílabas tiene \"ma-ri-po-sa\"?",
+   "source": "lua/eval/consigna"
+  },
+  {
+   "id": "child_3c0407a4_42",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Exacto! Ma-ri-po-sa tiene cuatro sílabas.",
+   "source": "lua/eval/refuerzo"
+  },
+  {
+   "id": "child_8292819d_30",
+   "lang": "es",
+   "style": "child",
+   "text": "Ma-ri-po-sa. ¡Cuatro palmadas!",
+   "source": "lua/eval/devolucion"
+  },
+  {
+   "id": "child_74f8d1a1_61",
+   "lang": "es",
+   "style": "child",
+   "text": "Tu amigo está triste porque perdió su juguete. ¿Qué le dices?",
+   "source": "lua/eval/consigna"
+  },
+  {
+   "id": "child_d41e45a2_61",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Qué buen amigo eres! Ayudar y escuchar consuela a los demás.",
+   "source": "lua/eval/refuerzo"
+  },
+  {
+   "id": "child_6a54e823_33",
+   "lang": "es",
+   "style": "child",
+   "text": "¿Quieres que te ayude a buscarlo?",
+   "source": "lua/eval/devolucion"
+  },
+  {
+   "id": "child_14de5e2b_64",
+   "lang": "es",
+   "style": "child",
+   "text": "Sigue esta instrucción sin mirar: \"Toca tu cabeza y luego salta\"",
+   "source": "lua/eval/consigna"
+  },
+  {
+   "id": "child_74637cd6_44",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Atención de campeón! Oídos bien despiertos.",
+   "source": "lua/eval/refuerzo"
+  },
+  {
+   "id": "child_2a91ec78_36",
+   "lang": "es",
+   "style": "child",
+   "text": "Primero la cabeza, y después saltas.",
+   "source": "lua/eval/devolucion"
+  },
+  {
+   "id": "child_5133ff03_47",
+   "lang": "es",
+   "style": "child",
+   "text": "¿Qué palabra significa lo mismo que \"contento\"?",
+   "source": "lua/eval/consigna"
+  },
+  {
+   "id": "child_cbfa6f79_54",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Correcto! Estar contento es lo mismo que estar feliz.",
+   "source": "lua/eval/refuerzo"
+  },
+  {
+   "id": "child_1af4c842_40",
+   "lang": "es",
+   "style": "child",
+   "text": "Contento y feliz quieren decir lo mismo.",
+   "source": "lua/eval/devolucion"
+  },
+  {
+   "id": "child_d64e1a81_30",
+   "lang": "es",
+   "style": "child",
+   "text": "¿Cuál es lo opuesto de \"alto\"?",
+   "source": "lua/eval/consigna"
+  },
+  {
+   "id": "child_e3bd330d_58",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Eso es! Lo contrario de un árbol alto es un arbusto bajo.",
+   "source": "lua/eval/refuerzo"
+  },
+  {
+   "id": "child_b1dfa51c_29",
+   "lang": "es",
+   "style": "child",
+   "text": "Lo contrario de alto es bajo.",
+   "source": "lua/eval/devolucion"
+  },
+  {
+   "id": "child_59cc8cd5_65",
+   "lang": "es",
+   "style": "child",
+   "text": "Escucha la historia y responde: \"¿Por qué el niño se puso feliz?\"",
+   "source": "lua/eval/consigna"
+  },
+  {
+   "id": "child_4fc7f242_53",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Comprendiste la emoción del personaje perfectamente!",
+   "source": "lua/eval/refuerzo"
+  },
+  {
+   "id": "child_7359e435_46",
+   "lang": "es",
+   "style": "child",
+   "text": "Se puso feliz por lo que le pasó en el cuento.",
+   "source": "lua/eval/devolucion"
+  },
+  {
+   "id": "child_3dd3ff66_75",
+   "lang": "es",
+   "style": "child",
+   "text": "Practica un inicio suave de la palabra \"mamá\" antes de tu turno en el juego",
+   "source": "lua/eval/consigna"
+  },
+  {
+   "id": "child_d213b508_51",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Qué suave salió esa \"m\"! Como una caricia de aire.",
+   "source": "lua/eval/refuerzo"
+  },
+  {
+   "id": "child_eb7f53cb_33",
+   "lang": "es",
+   "style": "child",
+   "text": "Mmmamá. Empieza suave, sin prisa.",
+   "source": "lua/eval/devolucion"
+  },
+  {
+   "id": "child_220e5ee3_29",
+   "lang": "es",
+   "style": "child",
+   "text": "¿Qué palabra rima con \"gato\"?",
+   "source": "lua/eval/consigna"
+  },
+  {
+   "id": "child_099c9091_30",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Ga-to y Pa-to riman al final!",
+   "source": "lua/eval/refuerzo"
+  },
+  {
+   "id": "child_45fa4805_41",
+   "lang": "es",
+   "style": "child",
+   "text": "Gato y pato riman: suenan igual al final.",
+   "source": "lua/eval/devolucion"
+  },
+  {
+   "id": "child_6ed423eb_85",
+   "lang": "es",
+   "style": "child",
+   "text": "Cuéntale a Lúa algo divertido que hiciste el fin de semana (¿qué?, ¿quién?, ¿cuándo?)",
+   "source": "lua/eval/consigna"
+  },
+  {
+   "id": "child_716dc517_53",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Qué gran aventura me contaste! Me lo imaginé todito.",
+   "source": "lua/eval/refuerzo"
+  },
+  {
+   "id": "child_9a76b81a_35",
+   "lang": "es",
+   "style": "child",
+   "text": "Cuéntame: ¿qué hiciste y con quién?",
+   "source": "lua/eval/devolucion"
+  },
+  {
+   "id": "child_feef6a4d_62",
+   "lang": "es",
+   "style": "child",
+   "text": "Lee en voz alta y pronuncia con calma el sonido /r/ en \"perro\"",
+   "source": "lua/eval/consigna"
+  },
+  {
+   "id": "child_26902c58_40",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Bravo por ese sonido de motor! ¡Pe-rro!",
+   "source": "lua/eval/refuerzo"
+  },
+  {
+   "id": "child_634a4d44_32",
+   "lang": "es",
+   "style": "child",
+   "text": "Perrrro. Con calma, sin apretar.",
+   "source": "lua/eval/devolucion"
+  },
+  {
+   "id": "child_f1c278e4_49",
+   "lang": "es",
+   "style": "child",
+   "text": "¿Qué significa la expresión \"estar en las nubes\"?",
+   "source": "lua/eval/consigna"
+  },
+  {
+   "id": "child_d147e123_68",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Exacto! Es una frase hecha que usamos cuando pensamos en otra cosa.",
+   "source": "lua/eval/refuerzo"
+  },
+  {
+   "id": "child_8817825e_38",
+   "lang": "es",
+   "style": "child",
+   "text": "Estar en las nubes es estar distraído.",
+   "source": "lua/eval/devolucion"
+  },
+  {
+   "id": "child_0412b33c_83",
+   "lang": "es",
+   "style": "child",
+   "text": "Escucha tu propia voz grabada: \"¿Sentiste tu habla suave y relajada en esta frase?\"",
+   "source": "lua/eval/consigna"
+  },
+  {
+   "id": "child_005d7482_83",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Gran autoevaluación! Escucharse a uno mismo es el superpoder de los comunicadores.",
+   "source": "lua/eval/refuerzo"
+  },
+  {
+   "id": "child_4eaf51e1_32",
+   "lang": "es",
+   "style": "child",
+   "text": "Escúchate otra vez. ¿Sonó suave?",
+   "source": "lua/eval/devolucion"
+  },
+  {
+   "id": "child_c3486d6a_87",
+   "lang": "es",
+   "style": "child",
+   "text": "En la historia, el personaje se fue sin decir una palabra. ¿Por qué crees que hizo eso?",
+   "source": "lua/eval/consigna"
+  },
+  {
+   "id": "child_09f58544_70",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Gran intuición! Los personajes a veces dicen mucho con lo que callan.",
+   "source": "lua/eval/refuerzo"
+  },
+  {
+   "id": "child_e482b44e_38",
+   "lang": "es",
+   "style": "child",
+   "text": "Quizá se fue porque estaba disgustado.",
+   "source": "lua/eval/devolucion"
+  },
+  {
+   "id": "child_b41263b3_83",
+   "lang": "es",
+   "style": "child",
+   "text": "Un compañero copia tus respuestas en clase sin que el profesor lo vea. ¿Qué harías?",
+   "source": "lua/eval/consigna"
+  },
+  {
+   "id": "child_023b620c_80",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Muy bien reflexionado! Hablar con respeto y honestidad soluciona los problemas.",
+   "source": "lua/eval/refuerzo"
+  },
+  {
+   "id": "child_d20cd68b_35",
+   "lang": "es",
+   "style": "child",
+   "text": "Piénsalo con calma. ¿Qué harías tú?",
+   "source": "lua/eval/devolucion"
+  },
+  {
+   "id": "child_26311549_59",
+   "lang": "es",
+   "style": "child",
+   "text": "¿Qué es un \"ecosistema\"? Explícalo con tus propias palabras",
+   "source": "lua/eval/consigna"
+  },
+  {
+   "id": "child_9a69cf3d_56",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Qué explicación tan clara! La naturaleza en equilibrio.",
+   "source": "lua/eval/refuerzo"
+  },
+  {
+   "id": "child_cac64ed6_47",
+   "lang": "es",
+   "style": "child",
+   "text": "Un ecosistema son los seres vivos y su entorno.",
+   "source": "lua/eval/devolucion"
+  },
+  {
+   "id": "child_90a7fde6_49",
+   "lang": "es",
+   "style": "child",
+   "text": "Organiza tu historia: inicio, problema y solución",
+   "source": "lua/eval/consigna"
+  },
+  {
+   "id": "child_c426af93_84",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Estructura de escritor experto! Tu historia tiene principio, emoción y final feliz.",
+   "source": "lua/eval/refuerzo"
+  },
+  {
+   "id": "child_1bab885c_46",
+   "lang": "es",
+   "style": "child",
+   "text": "Inicio, problema y solución. ¡Las tres partes!",
+   "source": "lua/eval/devolucion"
+  },
+  {
+   "id": "child_dba299c2_121",
+   "lang": "es",
+   "style": "child",
+   "text": "¿Cuál es el chiste o doble sentido en: \"¿Por qué el libro de matemáticas estaba triste? ¡Porque tenía muchos problemas!\"?",
+   "source": "lua/eval/consigna"
+  },
+  {
+   "id": "child_54c7bb44_78",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Exacto! \"Problemas\" de sumar y \"problemas\" de preocupaciones. ¡Qué ingenioso!",
+   "source": "lua/eval/refuerzo"
+  },
+  {
+   "id": "child_4a71217f_69",
+   "lang": "es",
+   "style": "child",
+   "text": "Problemas de matemáticas y problemas de verdad. ¡Por eso hace gracia!",
+   "source": "lua/eval/devolucion"
+  },
+  {
+   "id": "child_f6180b0f_87",
+   "lang": "es",
+   "style": "child",
+   "text": "Practica el sonido /s/ mientras conversas espontáneamente con Lúa sobre tu día favorito",
+   "source": "lua/eval/consigna"
+  },
+  {
+   "id": "child_a9e0c2c4_58",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Se te entiende estupendo! Tus frases fluyen con claridad.",
+   "source": "lua/eval/refuerzo"
+  },
+  {
+   "id": "child_519f8ddb_30",
+   "lang": "es",
+   "style": "child",
+   "text": "Ssss… sigue contándome tu día.",
+   "source": "lua/eval/devolucion"
+  },
+  {
+   "id": "child_ddcc4bde_110",
+   "lang": "es",
+   "style": "child",
+   "text": "En la historia, primero llovió mucho y luego se llenó de agua la calle. ¿Cuál fue la causa de que se inundara?",
+   "source": "lua/eval/consigna"
+  },
+  {
+   "id": "child_9dc533e6_74",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Muy bien pensado! La lluvia fue la causa que provocó que subiera el agua.",
+   "source": "lua/eval/refuerzo"
+  },
+  {
+   "id": "child_52ebc63b_30",
+   "lang": "es",
+   "style": "child",
+   "text": "Se inundó porque llovió mucho.",
+   "source": "lua/eval/devolucion"
+  },
+  {
+   "id": "child_2c6afb37_97",
+   "lang": "es",
+   "style": "child",
+   "text": "Debate guiado: \"¿Es mejor tener un perro o un gato de mascota?\" Da tu opinión y escucha la de Lúa",
+   "source": "lua/eval/consigna"
+  },
+  {
+   "id": "child_0bb41958_67",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Qué gran argumento me diste! Da gusto conversar y debatir contigo.",
+   "source": "lua/eval/refuerzo"
+  },
+  {
+   "id": "child_06b9e89a_42",
+   "lang": "es",
+   "style": "child",
+   "text": "Di lo que piensas y escucha también a Lúa.",
+   "source": "lua/eval/devolucion"
+  },
+  {
+   "id": "child_4f813464_17",
+   "lang": "es",
+   "style": "child",
+   "text": "Coco busca a mamá",
+   "source": "lua/cuento/titulo"
+  },
+  {
+   "id": "child_fff6a0ce_40",
+   "lang": "es",
+   "style": "child",
+   "text": "Coco es un pollito amarillo y muy suave.",
+   "source": "lua/cuento/parrafo"
+  },
+  {
+   "id": "child_ab3582fc_39",
+   "lang": "es",
+   "style": "child",
+   "text": "Coco camina contento y dice: ¡pío, pío!",
+   "source": "lua/cuento/parrafo"
+  },
+  {
+   "id": "child_2f99f0ac_34",
+   "lang": "es",
+   "style": "child",
+   "text": "Coco busca por el campo a su mamá.",
+   "source": "lua/cuento/parrafo"
+  },
+  {
+   "id": "child_c1d708d1_47",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Mira, allí está mamá gallina cuidando el nido!",
+   "source": "lua/cuento/parrafo"
+  },
+  {
+   "id": "child_10abd07a_51",
+   "lang": "es",
+   "style": "child",
+   "text": "Mamá lo abraza con sus alas y dice: ¡coc, coc, coc!",
+   "source": "lua/cuento/parrafo"
+  },
+  {
+   "id": "child_03adc6c7_39",
+   "lang": "es",
+   "style": "child",
+   "text": "Coco y mamá están juntos y muy felices.",
+   "source": "lua/cuento/parrafo"
+  },
+  {
+   "id": "child_890f628e_23",
+   "lang": "es",
+   "style": "child",
+   "text": "¿Qué animalito es Coco?",
+   "source": "lua/cuento/pregunta"
+  },
+  {
+   "id": "child_36879267_43",
+   "lang": "es",
+   "style": "child",
+   "text": "Coco tiene plumitas y es de color amarillo.",
+   "source": "lua/cuento/pista"
+  },
+  {
+   "id": "child_0d5d3560_36",
+   "lang": "es",
+   "style": "child",
+   "text": "¿Qué sonido hace Coco cuando camina?",
+   "source": "lua/cuento/pregunta"
+  },
+  {
+   "id": "child_4b7c3e2d_38",
+   "lang": "es",
+   "style": "child",
+   "text": "Los pollitos pequeños dicen ¡pío, pío!",
+   "source": "lua/cuento/pista"
+  },
+  {
+   "id": "child_b08bbf6d_32",
+   "lang": "es",
+   "style": "child",
+   "text": "¿A quién encontró Coco al final?",
+   "source": "lua/cuento/pregunta"
+  },
+  {
+   "id": "child_1a1cfd29_46",
+   "lang": "es",
+   "style": "child",
+   "text": "Encontró a su mamá que lo abrazó con sus alas.",
+   "source": "lua/cuento/pista"
+  },
+  {
+   "id": "child_0e0e209f_50",
+   "lang": "es",
+   "style": "child",
+   "text": "Dibuja a Coco junto a su mamá gallina bajo el sol.",
+   "source": "lua/cuento/dibujo"
+  },
+  {
+   "id": "child_9055ceee_21",
+   "lang": "es",
+   "style": "child",
+   "text": "El gatico y la pelota",
+   "source": "lua/cuento/titulo"
+  },
+  {
+   "id": "child_d4422afc_41",
+   "lang": "es",
+   "style": "child",
+   "text": "Mimi es un gatico pequeño y muy juguetón.",
+   "source": "lua/cuento/parrafo"
+  },
+  {
+   "id": "child_ca3414b1_55",
+   "lang": "es",
+   "style": "child",
+   "text": "A Mimi le gusta rodar su pelota azul por todo el patio.",
+   "source": "lua/cuento/parrafo"
+  },
+  {
+   "id": "child_3670cff4_72",
+   "lang": "es",
+   "style": "child",
+   "text": "Un día, la pelota rodó rápido hasta Toby, un perrito nuevo en el barrio.",
+   "source": "lua/cuento/parrafo"
+  },
+  {
+   "id": "child_4db46029_89",
+   "lang": "es",
+   "style": "child",
+   "text": "Toby recogió la pelota suavemente con la boca y se la devolvió a Mimi moviendo la colita.",
+   "source": "lua/cuento/parrafo"
+  },
+  {
+   "id": "child_201067b7_72",
+   "lang": "es",
+   "style": "child",
+   "text": "Desde ese día, Mimi y Toby juegan juntos con la pelota todas las tardes.",
+   "source": "lua/cuento/parrafo"
+  },
+  {
+   "id": "child_5fcea8dd_35",
+   "lang": "es",
+   "style": "child",
+   "text": "¿De qué color es la pelota de Mimi?",
+   "source": "lua/cuento/pregunta"
+  },
+  {
+   "id": "child_d7ac5cff_58",
+   "lang": "es",
+   "style": "child",
+   "text": "La pelota rueda por el patio y es como el color del cielo.",
+   "source": "lua/cuento/pista"
+  },
+  {
+   "id": "child_4b6b9485_26",
+   "lang": "es",
+   "style": "child",
+   "text": "¿Quién encontró la pelota?",
+   "source": "lua/cuento/pregunta"
+  },
+  {
+   "id": "child_2f5083a3_40",
+   "lang": "es",
+   "style": "child",
+   "text": "Un perrito amigable que movía la colita.",
+   "source": "lua/cuento/pista"
+  },
+  {
+   "id": "child_0c56d05c_40",
+   "lang": "es",
+   "style": "child",
+   "text": "¿Qué hacen Mimi y Toby todas las tardes?",
+   "source": "lua/cuento/pregunta"
+  },
+  {
+   "id": "child_2f9c72c0_48",
+   "lang": "es",
+   "style": "child",
+   "text": "Se hicieron grandes amigos y juegan en el patio.",
+   "source": "lua/cuento/pista"
+  },
+  {
+   "id": "child_50fee243_71",
+   "lang": "es",
+   "style": "child",
+   "text": "Dibuja a Mimi el gatico y a Toby el perrito jugando con la pelota azul.",
+   "source": "lua/cuento/dibujo"
+  },
+  {
+   "id": "child_33a93a34_17",
+   "lang": "es",
+   "style": "child",
+   "text": "Vamos a la granja",
+   "source": "lua/cuento/titulo"
+  },
+  {
+   "id": "child_81db51e2_53",
+   "lang": "es",
+   "style": "child",
+   "text": "Hoy Ana fue de visita a la granja verde de su abuelo.",
+   "source": "lua/cuento/parrafo"
+  },
+  {
+   "id": "child_237b588f_56",
+   "lang": "es",
+   "style": "child",
+   "text": "En el prado, la vaca grande la miró y dijo: ¡muuu, muuu!",
+   "source": "lua/cuento/parrafo"
+  },
+  {
+   "id": "child_6da96e8f_78",
+   "lang": "es",
+   "style": "child",
+   "text": "Cerca del granero, la gallina paseaba con sus pollitos y dijo: ¡coc, coc, coc!",
+   "source": "lua/cuento/parrafo"
+  },
+  {
+   "id": "child_4a174cce_76",
+   "lang": "es",
+   "style": "child",
+   "text": "Al llegar al camino, el perro guardián movió las orejas y dijo: ¡guau, guau!",
+   "source": "lua/cuento/parrafo"
+  },
+  {
+   "id": "child_4bc726cb_62",
+   "lang": "es",
+   "style": "child",
+   "text": "Ana sonrió feliz y saludó a cada animalito agitando su manita.",
+   "source": "lua/cuento/parrafo"
+  },
+  {
+   "id": "child_6a37a5d0_72",
+   "lang": "es",
+   "style": "child",
+   "text": "Al atardecer, Ana le dio un abrazo a su abuelo por un día tan divertido.",
+   "source": "lua/cuento/parrafo"
+  },
+  {
+   "id": "child_77f6acc3_27",
+   "lang": "es",
+   "style": "child",
+   "text": "¿A dónde fue de visita Ana?",
+   "source": "lua/cuento/pregunta"
+  },
+  {
+   "id": "child_4f92e3d5_48",
+   "lang": "es",
+   "style": "child",
+   "text": "Fue al campo donde hay vacas, gallinas y perros.",
+   "source": "lua/cuento/pista"
+  },
+  {
+   "id": "child_112588d4_32",
+   "lang": "es",
+   "style": "child",
+   "text": "¿Qué sonido hace la vaca grande?",
+   "source": "lua/cuento/pregunta"
+  },
+  {
+   "id": "child_0be7af2b_36",
+   "lang": "es",
+   "style": "child",
+   "text": "Juntamos los labios y decimos ¡muuu!",
+   "source": "lua/cuento/pista"
+  },
+  {
+   "id": "child_8fed0d4e_47",
+   "lang": "es",
+   "style": "child",
+   "text": "¿Cómo saludó Ana a los animalitos de la granja?",
+   "source": "lua/cuento/pregunta"
+  },
+  {
+   "id": "child_85c0648c_48",
+   "lang": "es",
+   "style": "child",
+   "text": "Levantó su manita para decirles hola con cariño.",
+   "source": "lua/cuento/pista"
+  },
+  {
+   "id": "child_d2d73199_68",
+   "lang": "es",
+   "style": "child",
+   "text": "Dibuja la granja con la vaca, la gallina y el perro saludando a Ana.",
+   "source": "lua/cuento/dibujo"
+  },
+  {
+   "id": "child_edda4a4d_29",
+   "lang": "es",
+   "style": "child",
+   "text": "El arbolito que quería flores",
+   "source": "lua/cuento/titulo"
+  },
+  {
+   "id": "child_3feb3438_67",
+   "lang": "es",
+   "style": "child",
+   "text": "En el patio de la escuela crecía un arbolito delgado y muy pequeño.",
+   "source": "lua/cuento/parrafo"
+  },
+  {
+   "id": "child_a659666d_93",
+   "lang": "es",
+   "style": "child",
+   "text": "El arbolito miraba con admiración a los árboles grandes y soñaba con tener flores perfumadas.",
+   "source": "lua/cuento/parrafo"
+  },
+  {
+   "id": "child_f11bf90b_90",
+   "lang": "es",
+   "style": "child",
+   "text": "El sol de la mañana lo calentaba con ternura y las gotas de lluvia refrescaban sus raíces.",
+   "source": "lua/cuento/parrafo"
+  },
+  {
+   "id": "child_d9405971_81",
+   "lang": "es",
+   "style": "child",
+   "text": "Día tras día, el arbolito fue estirando sus ramas verdes hacia lo alto del cielo.",
+   "source": "lua/cuento/parrafo"
+  },
+  {
+   "id": "child_d5acb960_87",
+   "lang": "es",
+   "style": "child",
+   "text": "Una mañana brillante de primavera, ¡sucedió la magia: brotaron hermosas flores rosadas!",
+   "source": "lua/cuento/parrafo"
+  },
+  {
+   "id": "child_8a9d4af5_103",
+   "lang": "es",
+   "style": "child",
+   "text": "Las mariposas y las abejas llegaron a bailar entre sus ramas, y el arbolito se sintió lleno de orgullo.",
+   "source": "lua/cuento/parrafo"
+  },
+  {
+   "id": "child_e9bdc71b_34",
+   "lang": "es",
+   "style": "child",
+   "text": "¿Dónde crecía el arbolito pequeño?",
+   "source": "lua/cuento/pregunta"
+  },
+  {
+   "id": "child_c4b9ed56_58",
+   "lang": "es",
+   "style": "child",
+   "text": "Crecía al aire libre donde los niños jugaban en el recreo.",
+   "source": "lua/cuento/pista"
+  },
+  {
+   "id": "child_fc2cf5ff_39",
+   "lang": "es",
+   "style": "child",
+   "text": "¿Qué ayudó al arbolito a crecer fuerte?",
+   "source": "lua/cuento/pregunta"
+  },
+  {
+   "id": "child_6f2b45ab_48",
+   "lang": "es",
+   "style": "child",
+   "text": "Las plantas necesitan agua fresca y luz del sol.",
+   "source": "lua/cuento/pista"
+  },
+  {
+   "id": "child_c4ee9462_47",
+   "lang": "es",
+   "style": "child",
+   "text": "¿Quiénes visitaron al arbolito cuando floreció?",
+   "source": "lua/cuento/pregunta"
+  },
+  {
+   "id": "child_752cd576_53",
+   "lang": "es",
+   "style": "child",
+   "text": "Amiguitos con alas que buscan el polen de las flores.",
+   "source": "lua/cuento/pista"
+  },
+  {
+   "id": "child_6c3abffc_64",
+   "lang": "es",
+   "style": "child",
+   "text": "Dibuja al arbolito lleno de flores rosadas rodeado de mariposas.",
+   "source": "lua/cuento/dibujo"
+  },
+  {
+   "id": "child_6f13c0c4_16",
+   "lang": "es",
+   "style": "child",
+   "text": "Un día de frutas",
+   "source": "lua/cuento/titulo"
+  },
+  {
+   "id": "child_853a0907_95",
+   "lang": "es",
+   "style": "child",
+   "text": "Mía fue al mercado de su barrio con su abuela para comprar frutas y preparar una rica ensalada.",
+   "source": "lua/cuento/parrafo"
+  },
+  {
+   "id": "child_8b38fcb1_61",
+   "lang": "es",
+   "style": "child",
+   "text": "Primero escogieron una manzana roja, redonda y muy brillante.",
+   "source": "lua/cuento/parrafo"
+  },
+  {
+   "id": "child_e517b97c_85",
+   "lang": "es",
+   "style": "child",
+   "text": "Después encontraron un racimo de uvas moradas y una cesta de fresas dulces y frescas.",
+   "source": "lua/cuento/parrafo"
+  },
+  {
+   "id": "child_131afb1b_104",
+   "lang": "es",
+   "style": "child",
+   "text": "Al llegar a casa, entre las dos lavaron las frutas con agua limpia y las cortaron en pedacitos pequeños.",
+   "source": "lua/cuento/parrafo"
+  },
+  {
+   "id": "child_91ba59b0_94",
+   "lang": "es",
+   "style": "child",
+   "text": "Toda la familia se sentó en la mesa a compartir la merienda y a contarse historias divertidas.",
+   "source": "lua/cuento/parrafo"
+  },
+  {
+   "id": "child_d8098b2e_41",
+   "lang": "es",
+   "style": "child",
+   "text": "¿A dónde fue Mía acompañada de su abuela?",
+   "source": "lua/cuento/pregunta"
+  },
+  {
+   "id": "child_60954055_53",
+   "lang": "es",
+   "style": "child",
+   "text": "Fueron al lugar donde venden manzanas, uvas y fresas.",
+   "source": "lua/cuento/pista"
+  },
+  {
+   "id": "child_1bb7ed71_48",
+   "lang": "es",
+   "style": "child",
+   "text": "Nombra dos frutas que escogió Mía en el mercado:",
+   "source": "lua/cuento/pregunta"
+  },
+  {
+   "id": "child_6dc95844_46",
+   "lang": "es",
+   "style": "child",
+   "text": "Una roja y redonda, y otras moradas en racimo.",
+   "source": "lua/cuento/pista"
+  },
+  {
+   "id": "child_078f8deb_47",
+   "lang": "es",
+   "style": "child",
+   "text": "¿Qué hizo toda la familia al final de la tarde?",
+   "source": "lua/cuento/pregunta"
+  },
+  {
+   "id": "child_9430b45f_55",
+   "lang": "es",
+   "style": "child",
+   "text": "Compartieron un momento feliz y conversaron en la mesa.",
+   "source": "lua/cuento/pista"
+  },
+  {
+   "id": "child_744a9a11_70",
+   "lang": "es",
+   "style": "child",
+   "text": "Dibuja un tazón con trozos de manzana, fresas y uvas para la ensalada.",
+   "source": "lua/cuento/dibujo"
+  },
+  {
+   "id": "child_52da31ef_18",
+   "lang": "es",
+   "style": "child",
+   "text": "La casita de arena",
+   "source": "lua/cuento/titulo"
+  },
+  {
+   "id": "child_656d0c6f_88",
+   "lang": "es",
+   "style": "child",
+   "text": "La familia de Sofía pasó una hermosa tarde en la playa construyendo una casita de arena.",
+   "source": "lua/cuento/parrafo"
+  },
+  {
+   "id": "child_5c92f08a_90",
+   "lang": "es",
+   "style": "child",
+   "text": "Sofía recolectó conchitas marinas de muchos colores en la orilla para decorar las paredes.",
+   "source": "lua/cuento/parrafo"
+  },
+  {
+   "id": "child_5f988e3c_90",
+   "lang": "es",
+   "style": "child",
+   "text": "Las olitas suaves del mar llegaban despacio y mojaban con frescura la orilla de la casita.",
+   "source": "lua/cuento/parrafo"
+  },
+  {
+   "id": "child_ed71c145_94",
+   "lang": "es",
+   "style": "child",
+   "text": "Cuando el sol comenzó a ponerse en el horizonte, el cielo se pintó de tonos dorados y naranja.",
+   "source": "lua/cuento/parrafo"
+  },
+  {
+   "id": "child_270f797f_88",
+   "lang": "es",
+   "style": "child",
+   "text": "Sofía tomó una fotografía con su familia para recordar ese día tan bonito frente al mar.",
+   "source": "lua/cuento/parrafo"
+  },
+  {
+   "id": "child_8376007a_48",
+   "lang": "es",
+   "style": "child",
+   "text": "¿Qué construyó la familia de Sofía en la orilla?",
+   "source": "lua/cuento/pregunta"
+  },
+  {
+   "id": "child_6161a2df_48",
+   "lang": "es",
+   "style": "child",
+   "text": "Usaron arena húmeda y baldecitos para moldearla.",
+   "source": "lua/cuento/pista"
+  },
+  {
+   "id": "child_d4d9d761_47",
+   "lang": "es",
+   "style": "child",
+   "text": "¿Con qué decoró Sofía las paredes de la casita?",
+   "source": "lua/cuento/pregunta"
+  },
+  {
+   "id": "child_bea0f244_47",
+   "lang": "es",
+   "style": "child",
+   "text": "Tesoros que encontró paseando junto a las olas.",
+   "source": "lua/cuento/pista"
+  },
+  {
+   "id": "child_15d05e12_49",
+   "lang": "es",
+   "style": "child",
+   "text": "¿De qué color se pintó el cielo al caer la tarde?",
+   "source": "lua/cuento/pregunta"
+  },
+  {
+   "id": "child_140d1996_58",
+   "lang": "es",
+   "style": "child",
+   "text": "Los colores cálidos del atardecer cuando el sol se oculta.",
+   "source": "lua/cuento/pista"
+  },
+  {
+   "id": "child_b256d4e7_80",
+   "lang": "es",
+   "style": "child",
+   "text": "Dibuja la casita de arena decorada con conchas frente a las olas y el atardecer.",
+   "source": "lua/cuento/dibujo"
+  },
+  {
+   "id": "child_c7ddf730_31",
+   "lang": "es",
+   "style": "child",
+   "text": "El pececito y sus amigos nuevos",
+   "source": "lua/cuento/titulo"
+  },
+  {
+   "id": "child_5196a3e7_100",
+   "lang": "es",
+   "style": "child",
+   "text": "Nemi era un pececito azul de aletas brillantes que vivía en un arrecife lleno de corales de colores.",
+   "source": "lua/cuento/parrafo"
+  },
+  {
+   "id": "child_0fd98d22_100",
+   "lang": "es",
+   "style": "child",
+   "text": "Un día conoció a una estrella de mar dorada y a un simpático cangrejito que jugaban entre las rocas.",
+   "source": "lua/cuento/parrafo"
+  },
+  {
+   "id": "child_49b48fca_102",
+   "lang": "es",
+   "style": "child",
+   "text": "Los tres inventaron un juego divertido: esconderse entre las conchas marinas y encontrarse por turnos.",
+   "source": "lua/cuento/parrafo"
+  },
+  {
+   "id": "child_55cb9c97_108",
+   "lang": "es",
+   "style": "child",
+   "text": "Nemi aprendió que nadar por el arrecife era mucho más emocionante cuando compartía sus aventuras con amigos.",
+   "source": "lua/cuento/parrafo"
+  },
+  {
+   "id": "child_3ea0ff16_88",
+   "lang": "es",
+   "style": "child",
+   "text": "Desde ese día, los tres se reúnen todas las mañanas para nadar y explorar juntos el mar.",
+   "source": "lua/cuento/parrafo"
+  },
+  {
+   "id": "child_045c313c_48",
+   "lang": "es",
+   "style": "child",
+   "text": "¿De qué color eran las aletas del pececito Nemi?",
+   "source": "lua/cuento/pregunta"
+  },
+  {
+   "id": "child_d4624b70_47",
+   "lang": "es",
+   "style": "child",
+   "text": "Un color brillante como el agua limpia del mar.",
+   "source": "lua/cuento/pista"
+  },
+  {
+   "id": "child_04f9be91_40",
+   "lang": "es",
+   "style": "child",
+   "text": "¿A quiénes conoció Nemi entre las rocas?",
+   "source": "lua/cuento/pregunta"
+  },
+  {
+   "id": "child_1761bd5e_58",
+   "lang": "es",
+   "style": "child",
+   "text": "Dos animalitos marinos que viven en el fondo del arrecife.",
+   "source": "lua/cuento/pista"
+  },
+  {
+   "id": "child_7506dbc7_31",
+   "lang": "es",
+   "style": "child",
+   "text": "¿A qué jugaban los tres amigos?",
+   "source": "lua/cuento/pregunta"
+  },
+  {
+   "id": "child_14dc59c3_41",
+   "lang": "es",
+   "style": "child",
+   "text": "El juego del escondite jugando en equipo.",
+   "source": "lua/cuento/pista"
+  },
+  {
+   "id": "child_418ca1b8_82",
+   "lang": "es",
+   "style": "child",
+   "text": "Dibuja a Nemi el pececito azul jugando al escondite con la estrella y el cangrejo.",
+   "source": "lua/cuento/dibujo"
+  },
+  {
+   "id": "child_b7a8454d_23",
+   "lang": "es",
+   "style": "child",
+   "text": "Las estrellas del cielo",
+   "source": "lua/cuento/titulo"
+  },
+  {
+   "id": "child_e31fbb6c_105",
+   "lang": "es",
+   "style": "child",
+   "text": "Una noche despejada de verano, el abuelo de Iván sacó dos sillas al jardín para contemplar el firmamento.",
+   "source": "lua/cuento/parrafo"
+  },
+  {
+   "id": "child_acf86d04_110",
+   "lang": "es",
+   "style": "child",
+   "text": "—Mira allá arriba, esa estrella titilante es la más fácil de encontrar —le dijo el abuelo señalando con calma.",
+   "source": "lua/cuento/parrafo"
+  },
+  {
+   "id": "child_dbbb2a22_124",
+   "lang": "es",
+   "style": "child",
+   "text": "Iván comenzó a contar las estrellas brillantes que alcanzaba a ver, mientras su abuelo le explicaba historias sobre la luna.",
+   "source": "lua/cuento/parrafo"
+  },
+  {
+   "id": "child_9fba5857_117",
+   "lang": "es",
+   "style": "child",
+   "text": "Conversaron sobre lo inmenso que es el universo y lo afortunados que se sentían de disfrutar ese momento en compañía.",
+   "source": "lua/cuento/parrafo"
+  },
+  {
+   "id": "child_6e302b52_108",
+   "lang": "es",
+   "style": "child",
+   "text": "Antes de entrar a descansar, Iván cerró los ojos y pidió un deseo mirando a la estrella más resplandeciente.",
+   "source": "lua/cuento/parrafo"
+  },
+  {
+   "id": "child_a8254ec6_45",
+   "lang": "es",
+   "style": "child",
+   "text": "¿Quién acompañó a Iván a mirar las estrellas?",
+   "source": "lua/cuento/pregunta"
+  },
+  {
+   "id": "child_d8ca4c56_64",
+   "lang": "es",
+   "style": "child",
+   "text": "Una persona mayor de su familia que le contó hermosas historias.",
+   "source": "lua/cuento/pista"
+  },
+  {
+   "id": "child_05b94276_46",
+   "lang": "es",
+   "style": "child",
+   "text": "¿De qué conversaron mientras miraban la noche?",
+   "source": "lua/cuento/pregunta"
+  },
+  {
+   "id": "child_609b17e9_66",
+   "lang": "es",
+   "style": "child",
+   "text": "Hablaron del cielo, las estrellas y lo afortunados que se sentían.",
+   "source": "lua/cuento/pista"
+  },
+  {
+   "id": "child_0cd3dec6_40",
+   "lang": "es",
+   "style": "child",
+   "text": "¿Qué hizo Iván antes de entrar a dormir?",
+   "source": "lua/cuento/pregunta"
+  },
+  {
+   "id": "child_79da1c73_59",
+   "lang": "es",
+   "style": "child",
+   "text": "Cerró sus ojitos y pensó en algo muy bonito para el futuro.",
+   "source": "lua/cuento/pista"
+  },
+  {
+   "id": "child_0c139b30_84",
+   "lang": "es",
+   "style": "child",
+   "text": "Dibuja a Iván y a su abuelo mirando el cielo nocturno lleno de estrellas brillantes.",
+   "source": "lua/cuento/dibujo"
+  },
+  {
+   "id": "child_2149cb28_22",
+   "lang": "es",
+   "style": "child",
+   "text": "El jardín de mariposas",
+   "source": "lua/cuento/titulo"
+  },
+  {
+   "id": "child_88e7bfcd_124",
+   "lang": "es",
+   "style": "child",
+   "text": "En la escuela de Valentina, la maestra propuso un proyecto especial: crear un jardín de flores para invitar a las mariposas.",
+   "source": "lua/cuento/parrafo"
+  },
+  {
+   "id": "child_ee832857_108",
+   "lang": "es",
+   "style": "child",
+   "text": "Cada estudiante sembró una semilla diferente en la tierra fértil y prometió regarla con constancia y esmero.",
+   "source": "lua/cuento/parrafo"
+  },
+  {
+   "id": "child_f8e88de2_114",
+   "lang": "es",
+   "style": "child",
+   "text": "Durante varias semanas, los niños cuidaron los brotes con paciencia, observando cómo crecían las pequeñas hojitas.",
+   "source": "lua/cuento/parrafo"
+  },
+  {
+   "id": "child_b9720ed6_124",
+   "lang": "es",
+   "style": "child",
+   "text": "Una hermosa mañana, el patio se llenó de un festival de pétalos amarillos, rojos y violetas rodeados de mariposas danzantes.",
+   "source": "lua/cuento/parrafo"
+  },
+  {
+   "id": "child_18860d1e_110",
+   "lang": "es",
+   "style": "child",
+   "text": "Toda la comunidad celebró el \"Día de las Mariposas\", orgullosos de lo que habían logrado trabajando en equipo.",
+   "source": "lua/cuento/parrafo"
+  },
+  {
+   "id": "child_43fb4449_48",
+   "lang": "es",
+   "style": "child",
+   "text": "¿Qué propuso la maestra de Valentina a la clase?",
+   "source": "lua/cuento/pregunta"
+  },
+  {
+   "id": "child_30b645e2_71",
+   "lang": "es",
+   "style": "child",
+   "text": "Una actividad de naturaleza para cuidar plantas y atraer polinizadores.",
+   "source": "lua/cuento/pista"
+  },
+  {
+   "id": "child_f73a4d41_53",
+   "lang": "es",
+   "style": "child",
+   "text": "¿Qué hicieron los estudiantes durante varias semanas?",
+   "source": "lua/cuento/pregunta"
+  },
+  {
+   "id": "child_06e1f896_51",
+   "lang": "es",
+   "style": "child",
+   "text": "Cuidaron las semillas con agua y dedicación diaria.",
+   "source": "lua/cuento/pista"
+  },
+  {
+   "id": "child_eb078da2_52",
+   "lang": "es",
+   "style": "child",
+   "text": "¿Por qué se sintieron todos tan orgullosos al final?",
+   "source": "lua/cuento/pregunta"
+  },
+  {
+   "id": "child_4aa8f29d_68",
+   "lang": "es",
+   "style": "child",
+   "text": "Descubrieron que ayudándose unos a otros se logran cosas asombrosas.",
+   "source": "lua/cuento/pista"
+  },
+  {
+   "id": "child_4fed52c5_84",
+   "lang": "es",
+   "style": "child",
+   "text": "Dibuja el jardín florecido con mariposas de muchos colores y a los niños celebrando.",
+   "source": "lua/cuento/dibujo"
+  },
+  {
+   "id": "child_944b6118_28",
+   "lang": "es",
+   "style": "child",
+   "text": "El equipo que cuidó la playa",
+   "source": "lua/cuento/titulo"
+  },
+  {
+   "id": "child_4de4c605_112",
+   "lang": "es",
+   "style": "child",
+   "text": "Un grupo de amigos del barrio decidió organizar una jornada ecológica voluntaria para limpiar su playa favorita.",
+   "source": "lua/cuento/parrafo"
+  },
+  {
+   "id": "child_e1618292_127",
+   "lang": "es",
+   "style": "child",
+   "text": "Cada participante llevó bolsas de tela y guantes protectores, organizándose en cuadrillas para recorrer toda la franja costera.",
+   "source": "lua/cuento/parrafo"
+  },
+  {
+   "id": "child_c6a3f67e_127",
+   "lang": "es",
+   "style": "child",
+   "text": "A medida que retiraban plásticos y residuos, también encontraron caracolas hermosas y conchas pulidas que decidieron conservar.",
+   "source": "lua/cuento/parrafo"
+  },
+  {
+   "id": "child_3319f8aa_127",
+   "lang": "es",
+   "style": "child",
+   "text": "Al finalizar la tarde, la playa lucía impecable y brillante bajo el sol, y todos compartieron una profunda satisfacción cívica.",
+   "source": "lua/cuento/parrafo"
+  },
+  {
+   "id": "child_6ff77267_143",
+   "lang": "es",
+   "style": "child",
+   "text": "Para celebrar, organizaron una merienda comunitaria sobre la arena limpia y acordaron reunirse una vez al mes para mantener viva la iniciativa.",
+   "source": "lua/cuento/parrafo"
+  },
+  {
+   "id": "child_72fddf86_57",
+   "lang": "es",
+   "style": "child",
+   "text": "¿Qué iniciativa decidieron liderar los amigos del barrio?",
+   "source": "lua/cuento/pregunta"
+  },
+  {
+   "id": "child_526513f0_56",
+   "lang": "es",
+   "style": "child",
+   "text": "Una acción ciudadana para proteger la naturaleza marina.",
+   "source": "lua/cuento/pista"
+  },
+  {
+   "id": "child_198de62b_66",
+   "lang": "es",
+   "style": "child",
+   "text": "Además de retirar basura, ¿qué tesoros encontraron entre la arena?",
+   "source": "lua/cuento/pregunta"
+  },
+  {
+   "id": "child_e97de801_68",
+   "lang": "es",
+   "style": "child",
+   "text": "Elementos naturales del mar que guardaron con alegría como recuerdo.",
+   "source": "lua/cuento/pista"
+  },
+  {
+   "id": "child_6bb607db_50",
+   "lang": "es",
+   "style": "child",
+   "text": "¿Qué compromiso adoptó el grupo de cara al futuro?",
+   "source": "lua/cuento/pregunta"
+  },
+  {
+   "id": "child_227c56b3_64",
+   "lang": "es",
+   "style": "child",
+   "text": "Decidieron que el cuidado del medio ambiente debe ser constante.",
+   "source": "lua/cuento/pista"
+  },
+  {
+   "id": "child_ea2f49a5_81",
+   "lang": "es",
+   "style": "child",
+   "text": "Dibuja la playa limpia y brillante con el grupo de amigos celebrando su merienda.",
+   "source": "lua/cuento/dibujo"
+  },
+  {
+   "id": "child_5fd1e132_16",
+   "lang": "es",
+   "style": "child",
+   "text": "Buenos días, sol",
+   "source": "lua/cancion/titulo"
+  },
+  {
+   "id": "child_e4ee7f0b_70",
+   "lang": "es",
+   "style": "child",
+   "text": "Canta esta canción cada mañana. Cuando digas \"sol\", señala la ventana.",
+   "source": "lua/cancion/consigna"
+  },
+  {
+   "id": "child_da72f073_24",
+   "lang": "es",
+   "style": "child",
+   "text": "Buenos días, sol bonito,",
+   "source": "lua/cancion/verso"
+  },
+  {
+   "id": "child_b468943b_24",
+   "lang": "es",
+   "style": "child",
+   "text": "buenos días, buen amigo,",
+   "source": "lua/cancion/verso"
+  },
+  {
+   "id": "child_ef13198e_19",
+   "lang": "es",
+   "style": "child",
+   "text": "abro mis ojitos ya,",
+   "source": "lua/cancion/verso"
+  },
+  {
+   "id": "child_a0e38771_21",
+   "lang": "es",
+   "style": "child",
+   "text": "y te vengo a saludar.",
+   "source": "lua/cancion/verso"
+  },
+  {
+   "id": "child_12644182_22",
+   "lang": "es",
+   "style": "child",
+   "text": "Me levanto de la cama,",
+   "source": "lua/cancion/verso"
+  },
+  {
+   "id": "child_235fb2f2_22",
+   "lang": "es",
+   "style": "child",
+   "text": "me estiro con energía,",
+   "source": "lua/cancion/verso"
+  },
+  {
+   "id": "child_a0217cf7_22",
+   "lang": "es",
+   "style": "child",
+   "text": "buenos días a mi casa,",
+   "source": "lua/cancion/verso"
+  },
+  {
+   "id": "child_88a9798f_22",
+   "lang": "es",
+   "style": "child",
+   "text": "¡empieza un lindo día!",
+   "source": "lua/cancion/verso"
+  },
+  {
+   "id": "child_58c73c28_17",
+   "lang": "es",
+   "style": "child",
+   "text": "Contando manzanas",
+   "source": "lua/cancion/titulo"
+  },
+  {
+   "id": "child_b7d0a693_76",
+   "lang": "es",
+   "style": "child",
+   "text": "Canta con Lúa. Cada vez que digas un número, toca la manzana en la pantalla.",
+   "source": "lua/cancion/consigna"
+  },
+  {
+   "id": "child_b71463aa_24",
+   "lang": "es",
+   "style": "child",
+   "text": "Uno, dos, tres manzanas,",
+   "source": "lua/cancion/verso"
+  },
+  {
+   "id": "child_7083e7d7_20",
+   "lang": "es",
+   "style": "child",
+   "text": "cuatro, cinco, seis,",
+   "source": "lua/cancion/verso"
+  },
+  {
+   "id": "child_32a390e6_24",
+   "lang": "es",
+   "style": "child",
+   "text": "las manzanas del canasto",
+   "source": "lua/cancion/verso"
+  },
+  {
+   "id": "child_4381410c_20",
+   "lang": "es",
+   "style": "child",
+   "text": "las cuento otra vez.",
+   "source": "lua/cancion/verso"
+  },
+  {
+   "id": "child_162f1dd7_19",
+   "lang": "es",
+   "style": "child",
+   "text": "Siete, ocho, nueve,",
+   "source": "lua/cancion/verso"
+  },
+  {
+   "id": "child_c93d7958_17",
+   "lang": "es",
+   "style": "child",
+   "text": "diez y ya se fue,",
+   "source": "lua/cancion/verso"
+  },
+  {
+   "id": "child_3dcbc6d8_19",
+   "lang": "es",
+   "style": "child",
+   "text": "¡a comer la manzana",
+   "source": "lua/cancion/verso"
+  },
+  {
+   "id": "child_38ec17b9_17",
+   "lang": "es",
+   "style": "child",
+   "text": "que me la merecí!",
+   "source": "lua/cancion/verso"
+  },
+  {
+   "id": "child_340ca71c_1",
+   "lang": "es",
+   "style": "child",
+   "text": "1",
+   "source": "lua/cancion/elemento"
+  },
+  {
+   "id": "child_370cabd5_1",
+   "lang": "es",
+   "style": "child",
+   "text": "2",
+   "source": "lua/cancion/elemento"
+  },
+  {
+   "id": "child_360caa42_1",
+   "lang": "es",
+   "style": "child",
+   "text": "3",
+   "source": "lua/cancion/elemento"
+  },
+  {
+   "id": "child_310ca263_1",
+   "lang": "es",
+   "style": "child",
+   "text": "4",
+   "source": "lua/cancion/elemento"
+  },
+  {
+   "id": "child_300ca0d0_1",
+   "lang": "es",
+   "style": "child",
+   "text": "5",
+   "source": "lua/cancion/elemento"
+  },
+  {
+   "id": "child_330ca589_1",
+   "lang": "es",
+   "style": "child",
+   "text": "6",
+   "source": "lua/cancion/elemento"
+  },
+  {
+   "id": "child_320ca3f6_1",
+   "lang": "es",
+   "style": "child",
+   "text": "7",
+   "source": "lua/cancion/elemento"
+  },
+  {
+   "id": "child_3d0cb547_1",
+   "lang": "es",
+   "style": "child",
+   "text": "8",
+   "source": "lua/cancion/elemento"
+  },
+  {
+   "id": "child_3c0cb3b4_1",
+   "lang": "es",
+   "style": "child",
+   "text": "9",
+   "source": "lua/cancion/elemento"
+  },
+  {
+   "id": "child_1beb2a44_2",
+   "lang": "es",
+   "style": "child",
+   "text": "10",
+   "source": "lua/cancion/elemento"
+  },
+  {
+   "id": "child_541a80bb_24",
+   "lang": "es",
+   "style": "child",
+   "text": "Los colores del arcoíris",
+   "source": "lua/cancion/titulo"
+  },
+  {
+   "id": "child_2f6de5da_78",
+   "lang": "es",
+   "style": "child",
+   "text": "Canta y señala cada franja del arcoíris en pantalla mientras nombras su color.",
+   "source": "lua/cancion/consigna"
+  },
+  {
+   "id": "child_6b6f0144_20",
+   "lang": "es",
+   "style": "child",
+   "text": "Rojo como una fresa,",
+   "source": "lua/cancion/verso"
+  },
+  {
+   "id": "child_731c9ceb_20",
+   "lang": "es",
+   "style": "child",
+   "text": "naranja como el sol,",
+   "source": "lua/cancion/verso"
+  },
+  {
+   "id": "child_c1e0eca2_23",
+   "lang": "es",
+   "style": "child",
+   "text": "amarillo muy brillante,",
+   "source": "lua/cancion/verso"
+  },
+  {
+   "id": "child_0cf5bb93_20",
+   "lang": "es",
+   "style": "child",
+   "text": "verde como una hoja,",
+   "source": "lua/cancion/verso"
+  },
+  {
+   "id": "child_25844786_19",
+   "lang": "es",
+   "style": "child",
+   "text": "azul como el cielo,",
+   "source": "lua/cancion/verso"
+  },
+  {
+   "id": "child_8bc0d306_21",
+   "lang": "es",
+   "style": "child",
+   "text": "morado como una flor,",
+   "source": "lua/cancion/verso"
+  },
+  {
+   "id": "child_bf54de1f_25",
+   "lang": "es",
+   "style": "child",
+   "text": "todos juntos en el cielo,",
+   "source": "lua/cancion/verso"
+  },
+  {
+   "id": "child_221ef2d1_29",
+   "lang": "es",
+   "style": "child",
+   "text": "¡forman un arcoíris de color!",
+   "source": "lua/cancion/verso"
+  },
+  {
+   "id": "child_963197d9_4",
+   "lang": "es",
+   "style": "child",
+   "text": "Rojo",
+   "source": "lua/cancion/elemento"
+  },
+  {
+   "id": "child_0da5a780_7",
+   "lang": "es",
+   "style": "child",
+   "text": "Naranja",
+   "source": "lua/cancion/elemento"
+  },
+  {
+   "id": "child_647afeb0_8",
+   "lang": "es",
+   "style": "child",
+   "text": "Amarillo",
+   "source": "lua/cancion/elemento"
+  },
+  {
+   "id": "child_7860b2f5_5",
+   "lang": "es",
+   "style": "child",
+   "text": "Verde",
+   "source": "lua/cancion/elemento"
+  },
+  {
+   "id": "child_cba84f3b_4",
+   "lang": "es",
+   "style": "child",
+   "text": "Azul",
+   "source": "lua/cancion/elemento"
+  },
+  {
+   "id": "child_a057feb5_6",
+   "lang": "es",
+   "style": "child",
+   "text": "Morado",
+   "source": "lua/cancion/elemento"
+  },
+  {
+   "id": "child_1cbfb84b_23",
+   "lang": "es",
+   "style": "child",
+   "text": "El baile de las vocales",
+   "source": "lua/cancion/titulo"
+  },
+  {
+   "id": "child_e101f068_74",
+   "lang": "es",
+   "style": "child",
+   "text": "Canta cada vocal con Lúa y realiza el movimiento corporal correspondiente.",
+   "source": "lua/cancion/consigna"
+  },
+  {
+   "id": "child_96874d4c_28",
+   "lang": "es",
+   "style": "child",
+   "text": "Con la A yo abro los brazos,",
+   "source": "lua/cancion/verso"
+  },
+  {
+   "id": "child_7f37f99c_25",
+   "lang": "es",
+   "style": "child",
+   "text": "con la E estiro los pies,",
+   "source": "lua/cancion/verso"
+  },
+  {
+   "id": "child_3be7adc4_26",
+   "lang": "es",
+   "style": "child",
+   "text": "con la I me hago chiquito,",
+   "source": "lua/cancion/verso"
+  },
+  {
+   "id": "child_153c91dd_29",
+   "lang": "es",
+   "style": "child",
+   "text": "con la O doy vueltas también,",
+   "source": "lua/cancion/verso"
+  },
+  {
+   "id": "child_7b7b0a8c_27",
+   "lang": "es",
+   "style": "child",
+   "text": "con la U me agacho un poco,",
+   "source": "lua/cancion/verso"
+  },
+  {
+   "id": "child_0bc1da53_21",
+   "lang": "es",
+   "style": "child",
+   "text": "¡y bailamos otra vez!",
+   "source": "lua/cancion/verso"
+  },
+  {
+   "id": "child_c40bf6cc_1",
+   "lang": "es",
+   "style": "child",
+   "text": "A",
+   "source": "lua/cancion/elemento"
+  },
+  {
+   "id": "child_c00bf080_1",
+   "lang": "es",
+   "style": "child",
+   "text": "E",
+   "source": "lua/cancion/elemento"
+  },
+  {
+   "id": "child_cc0c0364_1",
+   "lang": "es",
+   "style": "child",
+   "text": "I",
+   "source": "lua/cancion/elemento"
+  },
+  {
+   "id": "child_ca0c003e_1",
+   "lang": "es",
+   "style": "child",
+   "text": "O",
+   "source": "lua/cancion/elemento"
+  },
+  {
+   "id": "child_d00c09b0_1",
+   "lang": "es",
+   "style": "child",
+   "text": "U",
+   "source": "lua/cancion/elemento"
+  },
+  {
+   "id": "child_9fbc7165_18",
+   "lang": "es",
+   "style": "child",
+   "text": "Animales del patio",
+   "source": "lua/cancion/titulo"
+  },
+  {
+   "id": "child_1477a8e9_67",
+   "lang": "es",
+   "style": "child",
+   "text": "Canta e imita el sonido de cada animal cuando aparezca junto a Lúa.",
+   "source": "lua/cancion/consigna"
+  },
+  {
+   "id": "child_21cad4df_27",
+   "lang": "es",
+   "style": "child",
+   "text": "En mi patio hay un perrito,",
+   "source": "lua/cancion/verso"
+  },
+  {
+   "id": "child_cba9d059_28",
+   "lang": "es",
+   "style": "child",
+   "text": "que hace ¡guau, guau, guau!,",
+   "source": "lua/cancion/verso"
+  },
+  {
+   "id": "child_f2c3a317_25",
+   "lang": "es",
+   "style": "child",
+   "text": "también vive una gallina,",
+   "source": "lua/cancion/verso"
+  },
+  {
+   "id": "child_b7fa1fb6_20",
+   "lang": "es",
+   "style": "child",
+   "text": "que hace ¡cocorocó!,",
+   "source": "lua/cancion/verso"
+  },
+  {
+   "id": "child_4baa79c5_22",
+   "lang": "es",
+   "style": "child",
+   "text": "y no falta la vaquita,",
+   "source": "lua/cancion/verso"
+  },
+  {
+   "id": "child_3c139147_28",
+   "lang": "es",
+   "style": "child",
+   "text": "que hace ¡muuu, muuu, muuu!,",
+   "source": "lua/cancion/verso"
+  },
+  {
+   "id": "child_d95c1204_26",
+   "lang": "es",
+   "style": "child",
+   "text": "¡todos cantan en mi patio,",
+   "source": "lua/cancion/verso"
+  },
+  {
+   "id": "child_73e056ce_22",
+   "lang": "es",
+   "style": "child",
+   "text": "y yo canto junto a ti!",
+   "source": "lua/cancion/verso"
+  },
+  {
+   "id": "child_603cb897_5",
+   "lang": "es",
+   "style": "child",
+   "text": "Perro",
+   "source": "lua/cancion/elemento"
+  },
+  {
+   "id": "child_0b05d4cd_7",
+   "lang": "es",
+   "style": "child",
+   "text": "Gallina",
+   "source": "lua/cancion/elemento"
+  },
+  {
+   "id": "child_9f7d3bc0_4",
+   "lang": "es",
+   "style": "child",
+   "text": "Vaca",
+   "source": "lua/cancion/elemento"
+  },
+  {
+   "id": "child_9c8d40a4_4",
+   "lang": "es",
+   "style": "child",
+   "text": "Gato",
+   "source": "lua/cancion/elemento"
+  },
+  {
+   "id": "child_9b4e406f_18",
+   "lang": "es",
+   "style": "child",
+   "text": "Lávate las manitos",
+   "source": "lua/cancion/titulo"
+  },
+  {
+   "id": "child_89a665fb_85",
+   "lang": "es",
+   "style": "child",
+   "text": "Canta esta canción mientras te lavas las manos de verdad. ¡Veinte segundos completos!",
+   "source": "lua/cancion/consigna"
+  },
+  {
+   "id": "child_bf2f2979_19",
+   "lang": "es",
+   "style": "child",
+   "text": "Lávate las manitos,",
+   "source": "lua/cancion/verso"
+  },
+  {
+   "id": "child_d4fcfb0c_21",
+   "lang": "es",
+   "style": "child",
+   "text": "con agua y con jabón,",
+   "source": "lua/cancion/verso"
+  },
+  {
+   "id": "child_d2e62667_24",
+   "lang": "es",
+   "style": "child",
+   "text": "por delante, por detrás,",
+   "source": "lua/cancion/verso"
+  },
+  {
+   "id": "child_b8686b8d_30",
+   "lang": "es",
+   "style": "child",
+   "text": "quítales el germen y algo más,",
+   "source": "lua/cancion/verso"
+  },
+  {
+   "id": "child_a3df6204_22",
+   "lang": "es",
+   "style": "child",
+   "text": "un, dos, tres, cuatro,",
+   "source": "lua/cancion/verso"
+  },
+  {
+   "id": "child_3d07850e_22",
+   "lang": "es",
+   "style": "child",
+   "text": "cinco, seis, listo ya,",
+   "source": "lua/cancion/verso"
+  },
+  {
+   "id": "child_bc8b9ae6_25",
+   "lang": "es",
+   "style": "child",
+   "text": "manitos bien limpiecitas,",
+   "source": "lua/cancion/verso"
+  },
+  {
+   "id": "child_e859814a_18",
+   "lang": "es",
+   "style": "child",
+   "text": "¡para poder jugar!",
+   "source": "lua/cancion/verso"
+  },
+  {
+   "id": "child_b497c80a_14",
+   "lang": "es",
+   "style": "child",
+   "text": "Moja tus manos",
+   "source": "lua/cancion/elemento"
+  },
+  {
+   "id": "child_cdacf4c9_15",
+   "lang": "es",
+   "style": "child",
+   "text": "Frota con jabón",
+   "source": "lua/cancion/elemento"
+  },
+  {
+   "id": "child_751e6b42_7",
+   "lang": "es",
+   "style": "child",
+   "text": "Enjuaga",
+   "source": "lua/cancion/elemento"
+  },
+  {
+   "id": "child_a6933947_7",
+   "lang": "es",
+   "style": "child",
+   "text": "Sécalas",
+   "source": "lua/cancion/elemento"
+  },
+  {
+   "id": "child_7e17cced_18",
+   "lang": "es",
+   "style": "child",
+   "text": "Mi cuerpo se mueve",
+   "source": "lua/cancion/titulo"
+  },
+  {
+   "id": "child_d2c6d5c2_58",
+   "lang": "es",
+   "style": "child",
+   "text": "Canta y toca cada parte de tu cuerpo que Lúa va nombrando.",
+   "source": "lua/cancion/consigna"
+  },
+  {
+   "id": "child_de226a62_33",
+   "lang": "es",
+   "style": "child",
+   "text": "Toco mi cabeza, toco mis hombros,",
+   "source": "lua/cancion/verso"
+  },
+  {
+   "id": "child_a76a5407_33",
+   "lang": "es",
+   "style": "child",
+   "text": "toco mi barriga y toco mis codos,",
+   "source": "lua/cancion/verso"
+  },
+  {
+   "id": "child_4f9cff2a_38",
+   "lang": "es",
+   "style": "child",
+   "text": "muevo mis manitos, muevo mis piecitos,",
+   "source": "lua/cancion/verso"
+  },
+  {
+   "id": "child_9092dcdb_32",
+   "lang": "es",
+   "style": "child",
+   "text": "así se mueve todo mi cuerpecito.",
+   "source": "lua/cancion/verso"
+  },
+  {
+   "id": "child_7a546549_6",
+   "lang": "es",
+   "style": "child",
+   "text": "Cabeza",
+   "source": "lua/cancion/elemento"
+  },
+  {
+   "id": "child_ffcb51a9_7",
+   "lang": "es",
+   "style": "child",
+   "text": "Hombros",
+   "source": "lua/cancion/elemento"
+  },
+  {
+   "id": "child_cb05a217_7",
+   "lang": "es",
+   "style": "child",
+   "text": "Barriga",
+   "source": "lua/cancion/elemento"
+  },
+  {
+   "id": "child_6d7bc603_5",
+   "lang": "es",
+   "style": "child",
+   "text": "Codos",
+   "source": "lua/cancion/elemento"
+  },
+  {
+   "id": "child_a5bd3a16_22",
+   "lang": "es",
+   "style": "child",
+   "text": "La ronda de las frutas",
+   "source": "lua/cancion/titulo"
+  },
+  {
+   "id": "child_5e8189c7_68",
+   "lang": "es",
+   "style": "child",
+   "text": "Canta en ronda tomados de la mano y señala la fruta que se mencione.",
+   "source": "lua/cancion/consigna"
+  },
+  {
+   "id": "child_f5ca3947_31",
+   "lang": "es",
+   "style": "child",
+   "text": "Vamos a la ronda de las frutas,",
+   "source": "lua/cancion/verso"
+  },
+  {
+   "id": "child_945cabdc_30",
+   "lang": "es",
+   "style": "child",
+   "text": "manzana, uvas y fresa también,",
+   "source": "lua/cancion/verso"
+  },
+  {
+   "id": "child_78a827f4_24",
+   "lang": "es",
+   "style": "child",
+   "text": "damos vueltas y vueltas,",
+   "source": "lua/cancion/verso"
+  },
+  {
+   "id": "child_4e5b7f13_29",
+   "lang": "es",
+   "style": "child",
+   "text": "cantando mi canción otra vez,",
+   "source": "lua/cancion/verso"
+  },
+  {
+   "id": "child_6123b26c_23",
+   "lang": "es",
+   "style": "child",
+   "text": "plátano dulce y maduro,",
+   "source": "lua/cancion/verso"
+  },
+  {
+   "id": "child_1dcf0c22_24",
+   "lang": "es",
+   "style": "child",
+   "text": "todos lo queremos comer,",
+   "source": "lua/cancion/verso"
+  },
+  {
+   "id": "child_fbd7064d_22",
+   "lang": "es",
+   "style": "child",
+   "text": "¡ay qué rica la fruta,",
+   "source": "lua/cancion/verso"
+  },
+  {
+   "id": "child_0f7545f8_30",
+   "lang": "es",
+   "style": "child",
+   "text": "la comemos en familia también!",
+   "source": "lua/cancion/verso"
+  },
+  {
+   "id": "child_4ff29137_7",
+   "lang": "es",
+   "style": "child",
+   "text": "Manzana",
+   "source": "lua/cancion/elemento"
+  },
+  {
+   "id": "child_dcfdc562_16",
+   "lang": "es",
+   "style": "child",
+   "text": "Plátano / Banana",
+   "source": "lua/cancion/elemento"
+  },
+  {
+   "id": "child_319263ae_4",
+   "lang": "es",
+   "style": "child",
+   "text": "Uvas",
+   "source": "lua/cancion/elemento"
+  },
+  {
+   "id": "child_3c45b5e5_6",
+   "lang": "es",
+   "style": "child",
+   "text": "Fresas",
+   "source": "lua/cancion/elemento"
+  },
+  {
+   "id": "child_fe29f325_19",
+   "lang": "es",
+   "style": "child",
+   "text": "Gracias y por favor",
+   "source": "lua/cancion/titulo"
+  },
+  {
+   "id": "child_65686a8f_66",
+   "lang": "es",
+   "style": "child",
+   "text": "Canta y practica decir \"gracias\" y \"por favor\" con Lúa o un amigo.",
+   "source": "lua/cancion/consigna"
+  },
+  {
+   "id": "child_4cf7ec72_19",
+   "lang": "es",
+   "style": "child",
+   "text": "Si tú quieres algo,",
+   "source": "lua/cancion/verso"
+  },
+  {
+   "id": "child_648d6af5_13",
+   "lang": "es",
+   "style": "child",
+   "text": "di por favor,",
+   "source": "lua/cancion/verso"
+  },
+  {
+   "id": "child_c714bddb_19",
+   "lang": "es",
+   "style": "child",
+   "text": "y cuando te lo dan,",
+   "source": "lua/cancion/verso"
+  },
+  {
+   "id": "child_29c7aec3_20",
+   "lang": "es",
+   "style": "child",
+   "text": "di gracias con amor,",
+   "source": "lua/cancion/verso"
+  },
+  {
+   "id": "child_5facfdf2_20",
+   "lang": "es",
+   "style": "child",
+   "text": "las palabras mágicas",
+   "source": "lua/cancion/verso"
+  },
+  {
+   "id": "child_f3f90e8a_17",
+   "lang": "es",
+   "style": "child",
+   "text": "abren el corazón,",
+   "source": "lua/cancion/verso"
+  },
+  {
+   "id": "child_5a83df8f_20",
+   "lang": "es",
+   "style": "child",
+   "text": "por favor y gracias,",
+   "source": "lua/cancion/verso"
+  },
+  {
+   "id": "child_f2eed8f8_19",
+   "lang": "es",
+   "style": "child",
+   "text": "¡así se dice mejor!",
+   "source": "lua/cancion/verso"
+  },
+  {
+   "id": "child_78938b1a_12",
+   "lang": "es",
+   "style": "child",
+   "text": "\"Por favor…\"",
+   "source": "lua/cancion/elemento"
+  },
+  {
+   "id": "child_c6c1e202_18",
+   "lang": "es",
+   "style": "child",
+   "text": "\"¡Muchas gracias!\"",
+   "source": "lua/cancion/elemento"
+  },
+  {
+   "id": "child_bbc8317c_22",
+   "lang": "es",
+   "style": "child",
+   "text": "A guardar los juguetes",
+   "source": "lua/cancion/titulo"
+  },
+  {
+   "id": "child_e246445b_80",
+   "lang": "es",
+   "style": "child",
+   "text": "Canta esta canción mientras ayudas a ordenar los juguetes al terminar la sesión.",
+   "source": "lua/cancion/consigna"
+  },
+  {
+   "id": "child_996681a5_21",
+   "lang": "es",
+   "style": "child",
+   "text": "A guardar, a guardar,",
+   "source": "lua/cancion/verso"
+  },
+  {
+   "id": "child_f36c4312_22",
+   "lang": "es",
+   "style": "child",
+   "text": "cada cosa en su lugar,",
+   "source": "lua/cancion/verso"
+  },
+  {
+   "id": "child_b39ea50f_23",
+   "lang": "es",
+   "style": "child",
+   "text": "los juguetes a su caja,",
+   "source": "lua/cancion/verso"
+  },
+  {
+   "id": "child_a4bd6a19_24",
+   "lang": "es",
+   "style": "child",
+   "text": "los libros a su estante,",
+   "source": "lua/cancion/verso"
+  },
+  {
+   "id": "child_b7054cc6_26",
+   "lang": "es",
+   "style": "child",
+   "text": "cuando todo está ordenado,",
+   "source": "lua/cancion/verso"
+  },
+  {
+   "id": "child_a00bbfdb_25",
+   "lang": "es",
+   "style": "child",
+   "text": "nos sentimos importantes,",
+   "source": "lua/cancion/verso"
+  },
+  {
+   "id": "child_8175cf85_21",
+   "lang": "es",
+   "style": "child",
+   "text": "a guardar, a guardar,",
+   "source": "lua/cancion/verso"
+  },
+  {
+   "id": "child_d746b40a_23",
+   "lang": "es",
+   "style": "child",
+   "text": "¡y después a descansar!",
+   "source": "lua/cancion/verso"
+  },
+  {
+   "id": "child_1074fdee_25",
+   "lang": "es",
+   "style": "child",
+   "text": "Pelota → Caja de juguetes",
+   "source": "lua/cancion/elemento"
+  },
+  {
+   "id": "child_8bf53e9d_26",
+   "lang": "es",
+   "style": "child",
+   "text": "Cuento → Estante de libros",
+   "source": "lua/cancion/elemento"
   },
   {
    "id": "gl_child_35085508_38",

@@ -50,7 +50,7 @@ export type BlockIconName =
   // Grafomotricidad y Escritura: lápiz y borrador
   | 'pencil' | 'eraser'
   // Aventuras con Lúa: mascota Lúa, cuentos, canciones e imprimibles
-  | 'lua' | 'story' | 'song' | 'printable';
+  | 'lua' | 'story' | 'song' | 'printable' | 'award';
 
 interface Props { name: BlockIconName; color: string; size?: number; }
 
@@ -592,6 +592,15 @@ export const BlockIcon: React.FC<Props> = ({ name, color, size = 26 }) => {
           <Path d="M9 18V5l12-2v13" {...common} />
           <Circle cx="6" cy="18" r="3" {...common} />
           <Circle cx="18" cy="16" r="3" {...common} />
+        </>
+      )}
+
+      {/* Diploma / Medalla de logro */}
+      {name === 'award' && (
+        <>
+          <Circle cx="12" cy="9" r="6" {...common} />
+          <Path d="M12 6.2l1.3 2.6 2.9.4-2.1 2 .5 2.9-2.6-1.4-2.6 1.4.5-2.9-2.1-2 2.9-.4z" {...common} />
+          <Path d="M8.2 14.4L6 22l6-2.6L18 22l-2.2-7.6" {...common} />
         </>
       )}
 

@@ -264,6 +264,15 @@ jobs:
       - name: Comprobar que la mascota es la misma en la tableta y en el aparato
         run: node scripts/check-lua-mascot-mirror.js
 
+      # Aventuras con Lúa entró con cuatro defectos que ningún otro gate mira:
+      # ni un dibujo en las pantallas (un niño de 0-2 tenía que LEER para
+      # responder), la pauta del terapeuta locutada al niño al fallar, 378
+      # locuciones fuera del corpus —que no rompen: caen a la voz del sistema— e
+      # «Imprime y Juega» sin nada que imprimir. El módulo traía su propio
+      # verificador y no estaba enchufado a ningún workflow, así que no corría.
+      - name: Verificar Aventuras con Lúa (fichas, locución e imprimibles)
+        run: node scripts/verify-aventuras-lua.js
+
       # Un ejercicio mezcla dos audiencias: el niño lee/oye la variedad de
       # terapia, el adulto lee la interfaz. Se contradecían dentro de la misma
       # pantalla —lista en inglés, escala EPT-3 en castellano— y lo encontró

@@ -40,6 +40,7 @@ import { loadGame, GameState } from './valeriaGamification';
 import { isArAvailable } from './valeriaArBridge';
 import { AUDITORY_INTEGRATION_ACTIVITIES } from './ValeriaSensory';
 import { useT, UiStrings } from './i18n';
+import { LUA_ACTIVITY_COUNT } from './AventurasLua';
 
 // La tarjeta del hub cuenta actividades JUGABLES. Anunciar «6 actividades» con
 // cuatro en «Próximamente» es prometer de más en la única pantalla desde la que
@@ -198,10 +199,10 @@ export const ValeriaHubV11Screen: React.FC<{ navigation: any }> = ({ navigation 
       icon: 'lua',
       title: t.hub.luaTitle,
       hint: t.hub.luaSub,
-      a11y: t.hub.luaA11y(60),
+      a11y: t.hub.luaA11y(LUA_ACTIVITY_COUNT),
       bg: '#e6f4f6',
       fg: '#0d7685',
-      meta: t.hub.luaBadge(60),
+      meta: t.hub.luaBadge(LUA_ACTIVITY_COUNT),
       onPress: () => navigation.navigate('AventurasLuaHub'),
     },
     // La RA CIERRA la rejilla. Si no hay host nativo de cámara + escena 3D, la

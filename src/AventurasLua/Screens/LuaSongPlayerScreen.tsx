@@ -14,8 +14,9 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useT } from "../../i18n";
 import { BlockIcon } from "../../ValeriaBlockIcons";
 import { CatPixel } from "../../ValeriaCatPixel";
-import { speakToChild } from "../../valeriaVoice";
+import { speakToChild, speakToChildSeq } from "../../valeriaVoice";
 import { LUA_COLORS, LUA_RADII } from "../Theme/luaTheme";
+import { luaCompleteActivity } from "../luaActivityReward";
 import { LuaSong, LUA_SONGS_CATALOG } from "../index";
 
 interface Props {
@@ -36,13 +37,21 @@ export const LuaSongPlayerScreen: React.FC<Props> = ({ navigation, route }) => {
     LUA_SONGS_CATALOG.find((s) => s.id === songId) || LUA_SONGS_CATALOG[0];
 
   const [isPlaying, setIsPlaying] = useState(false);
+  const [finished, setFinished] = useState(false);
   const [tappedElements, setTappedElements] = useState<Record<string, boolean>>({});
+
+  // Verso a verso, no la letra concatenada. Encadenada en una sola cadena, la
+  // combinación no existe en el corpus y toda la canción caía a la voz del
+  // sistema; troceada, cada verso resuelve su propio asset neuronal.
+  const handleFinish = useCallback(async () => {
+    setFinished(true);
+    await luaCompleteActivity(song.lyrics.length);
+  }, []);
 
   const handlePlaySong = useCallback(() => {
     if (!song) return;
     setIsPlaying(true);
-    const fullLyrics = song.lyrics.join(". ");
-    speakToChild(fullLyrics);
+    speakToChildSeq(song.lyrics, { onDone: () => setIsPlaying(false) });
   }, [song]);
 
   const handleTapElement = (element: string) => {
@@ -60,7 +69,7 @@ export const LuaSongPlayerScreen: React.FC<Props> = ({ navigation, route }) => {
             accessibilityRole="button"
             accessibilityLabel={t.common.back}
           >
-            <Text style={s.backTxt}>←</Text>
+            <Text style={s.backTxt}>{`‹ ${t.common.back}`}</Text>
           </Pressable>
         </View>
       </View>
@@ -78,7 +87,7 @@ export const LuaSongPlayerScreen: React.FC<Props> = ({ navigation, route }) => {
           accessibilityLabel={t.common.back}
           hitSlop={12}
         >
-          <Text style={s.backTxt}>←</Text>
+          <Text style={s.backTxt}>{`‹ ${t.common.back}`}</Text>
         </Pressable>
         <View style={s.titleWrap}>
           <Text style={s.songTitle} numberOfLines={1}>
@@ -161,12 +170,55 @@ export const LuaSongPlayerScreen: React.FC<Props> = ({ navigation, route }) => {
             </View>
           )}
         </View>
+
+        {/* Cierre de la actividad: XP, racha, insignia y la misma cara en el
+            cristal del aparato. Sin este botón la actividad no existía para la
+            app por mucho que el niño la terminase. */}
+        <View style={s.finishCard}>
+          {finished ? (
+            <>
+              <CatPixel size={64} />
+              <Text style={s.finishDoneTxt}>{t.luaHub.activityDone}</Text>
+            </>
+          ) : (
+            <Pressable
+              style={s.finishBtn}
+              onPress={handleFinish}
+              accessibilityRole="button"
+              accessibilityLabel={t.luaHub.activityFinish}
+            >
+              <Text style={s.finishBtnTxt}>{t.luaHub.activityFinish}</Text>
+            </Pressable>
+          )}
+        </View>
       </ScrollView>
     </View>
   );
 };
 
 const s = StyleSheet.create({
+  finishCard: {
+    marginTop: 16,
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 18,
+  },
+  finishBtn: {
+    minHeight: 56,
+    paddingHorizontal: 28,
+    borderRadius: LUA_RADII.lg,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: LUA_COLORS.primary,
+  },
+  finishBtnTxt: { color: LUA_COLORS.textOnPrimary, fontSize: 17, fontWeight: "800" },
+  finishDoneTxt: {
+    marginTop: 8,
+    fontSize: 17,
+    fontWeight: "800",
+    color: LUA_COLORS.mintDark,
+    textAlign: "center",
+  },
   container: {
     flex: 1,
     backgroundColor: LUA_COLORS.background,

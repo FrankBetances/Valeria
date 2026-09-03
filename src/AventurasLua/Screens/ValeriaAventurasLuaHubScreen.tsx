@@ -1,6 +1,6 @@
 // ============================================================================
 // Valeria+ · Aventuras con Lúa · Hub Principal del Módulo
-// Interfaz pediátrica accesible (WCAG AAA, objetivos >= 56 dp)
+// Interfaz pediátrica: objetivos táctiles >= 56 dp.
 // ============================================================================
 import React, { useState } from "react";
 import { View, Text, StyleSheet, ScrollView, Pressable } from "react-native";
@@ -44,9 +44,16 @@ export const ValeriaAventurasLuaHubScreen: React.FC<Props> = ({ navigation }) =>
     ? LUA_STORIES_CATALOG
     : LUA_STORIES_CATALOG.filter((s) => s.ageBand === selectedBand);
 
-  const filteredSongs = LUA_SONGS_CATALOG;
+  // Las cuatro secciones obedecen al chip. Antes solo lo hacían preguntas y
+  // cuentos: canciones e imprimibles enseñaban los diez siempre, así que el
+  // filtro por edad prometía más de lo que hacía.
+  const filteredSongs = selectedBand === "all"
+    ? LUA_SONGS_CATALOG
+    : LUA_SONGS_CATALOG.filter((c) => c.ageBands.includes(selectedBand));
 
-  const filteredPrintables = LUA_PRINTABLES_CATALOG;
+  const filteredPrintables = selectedBand === "all"
+    ? LUA_PRINTABLES_CATALOG
+    : LUA_PRINTABLES_CATALOG.filter((p) => p.ageBands.includes(selectedBand));
 
   const handleOpenAssessment = () => {
     const targetBand: AgeBand = selectedBand === "all" ? "0-2" : selectedBand;
@@ -76,7 +83,7 @@ export const ValeriaAventurasLuaHubScreen: React.FC<Props> = ({ navigation }) =>
           accessibilityLabel={t.common.back}
           hitSlop={12}
         >
-          <Text style={s.backTxt}>←</Text>
+          <Text style={s.backTxt}>{`‹ ${t.common.back}`}</Text>
         </Pressable>
         <View style={s.topBrand}>
           <Text style={s.topTitle}>{t.luaHub.title}</Text>
@@ -168,6 +175,9 @@ export const ValeriaAventurasLuaHubScreen: React.FC<Props> = ({ navigation }) =>
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={s.cardsTrack}
         >
+          {filteredStories.length === 0 && (
+            <Text style={s.sectionEmpty}>{t.luaHub.sectionEmptyForBand}</Text>
+          )}
           {filteredStories.map((story) => (
             <Pressable
               key={story.id}
@@ -201,6 +211,9 @@ export const ValeriaAventurasLuaHubScreen: React.FC<Props> = ({ navigation }) =>
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={s.cardsTrack}
         >
+          {filteredSongs.length === 0 && (
+            <Text style={s.sectionEmpty}>{t.luaHub.sectionEmptyForBand}</Text>
+          )}
           {filteredSongs.map((song) => (
             <Pressable
               key={song.id}
@@ -234,6 +247,9 @@ export const ValeriaAventurasLuaHubScreen: React.FC<Props> = ({ navigation }) =>
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={s.cardsTrack}
         >
+          {filteredPrintables.length === 0 && (
+            <Text style={s.sectionEmpty}>{t.luaHub.sectionEmptyForBand}</Text>
+          )}
           {filteredPrintables.map((item) => (
             <Pressable
               key={item.id}
@@ -260,6 +276,16 @@ export const ValeriaAventurasLuaHubScreen: React.FC<Props> = ({ navigation }) =>
 };
 
 const s = StyleSheet.create({
+  // Una franja puede no tener canciones —las 50 hojas no traen ninguna para
+  // 7-10— y eso hay que decirlo, no dejar el hueco.
+  sectionEmpty: {
+    fontSize: 14,
+    lineHeight: 20,
+    color: LUA_COLORS.textMuted,
+    fontStyle: "italic",
+    paddingVertical: 14,
+    paddingHorizontal: 4,
+  },
   container: {
     flex: 1,
     backgroundColor: LUA_COLORS.background,
