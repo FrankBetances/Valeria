@@ -55,6 +55,7 @@ export const LuaGamePlayerScreen: React.FC<Props> = ({ navigation, route }) => {
   const [marked, setMarked] = useState<Record<number, boolean>>({});
   const [ordered, setOrdered] = useState<number[]>([]);
   const [finished, setFinished] = useState(false);
+  const [cluesShown, setCluesShown] = useState(0);
 
   const deck = useMemo(() => (game?.kind === "memory" ? pairDeck(game.items) : []), [game]);
 
@@ -163,6 +164,26 @@ export const LuaGamePlayerScreen: React.FC<Props> = ({ navigation, route }) => {
           </Pressable>
         </View>
 
+        {/* Pistas progresivas: se descubren de una en una para que el niño
+            tenga margen de acertar antes de que se lo den hecho. */}
+        {game.kind === "clue_reveal" && (
+          <View style={s.clueBlock}>
+            {(game.clues ?? []).map((clue, i) => (
+              <Pressable
+                key={i}
+                onPress={() => { setCluesShown((n) => Math.max(n, i + 1)); say(clue); }}
+                style={[s.clue, i < cluesShown && s.clueOpen]}
+                accessibilityRole="button"
+                accessibilityLabel={t.luaHub.gameClue(i + 1)}
+              >
+                <Text style={s.clueTxt}>
+                  {i < cluesShown ? clue : t.luaHub.gameClue(i + 1)}
+                </Text>
+              </Pressable>
+            ))}
+          </View>
+        )}
+
         {rowGroups ? (
           rowGroups.map((grp) => (
             <View key={grp} style={s.groupBlock}>
@@ -226,6 +247,18 @@ const s = StyleSheet.create({
     backgroundColor: LUA_COLORS.surface,
   },
   groupBlock: { marginBottom: 18 },
+  clueBlock: { marginBottom: 16, gap: 8 },
+  clue: {
+    minHeight: 52, justifyContent: "center",
+    paddingHorizontal: 14, borderRadius: LUA_RADII.lg,
+    borderWidth: 1, borderStyle: "dashed", borderColor: LUA_COLORS.borderStrong,
+    backgroundColor: LUA_COLORS.surfaceSubtle,
+  },
+  clueOpen: {
+    borderStyle: "solid", borderColor: LUA_COLORS.amberDark,
+    backgroundColor: LUA_COLORS.amberLight,
+  },
+  clueTxt: { fontSize: 15, lineHeight: 21, color: LUA_COLORS.textPrimary },
   groupHeading: {
     fontSize: 14, fontWeight: "800", marginBottom: 8,
     color: LUA_COLORS.textSecondary,

@@ -42,7 +42,7 @@ export type LuaPrintableSheet =
   /** Parejas que riman, en fichas de dominó. */
   | { kind: 'rhyme_pairs'; pairs: Array<[LuaSheetCell, LuaSheetCell]> }
   /** Rueda giratoria de emociones. */
-  | { kind: 'wheel'; segments: Array<{ label: string; color: string }> }
+  | { kind: 'wheel'; segments: Array<{ label: string; color: string; pic?: PictoKey }> }
   /** Tabla de lunes a viernes. */
   | { kind: 'weekly'; days: string[]; rows: string[] }
   /** Diploma con nombre y fecha. */
@@ -169,9 +169,12 @@ export const LUA_PRINTABLES_CATALOG: LuaPrintableItem[] = [
     sheet: {
       kind: 'wheel',
       segments: [
-        { label: 'Feliz', color: '#FDE68A' }, { label: 'Triste', color: '#BFDBFE' },
-        { label: 'Enojado', color: '#FECACA' }, { label: 'Sorprendido', color: '#DDD6FE' },
-        { label: 'Asustado', color: '#E2E8F0' }, { label: 'Tranquilo', color: '#BBF7D0' },
+        { label: 'Feliz', color: '#FDE68A', pic: 'cara-feliz' },
+        { label: 'Triste', color: '#BFDBFE', pic: 'cara-triste' },
+        { label: 'Enojado', color: '#FECACA', pic: 'cara-enojada' },
+        { label: 'Sorprendido', color: '#DDD6FE', pic: 'cara-sorprendida' },
+        { label: 'Asustado', color: '#E2E8F0', pic: 'cara-asustada' },
+        { label: 'Tranquilo', color: '#BBF7D0', pic: 'cara-tranquila' },
       ],
     },
   },

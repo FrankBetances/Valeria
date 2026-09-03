@@ -1,8 +1,8 @@
 {
- "generatedAt": "2026-09-03T20:34:00.282Z",
- "entries": 4598,
+ "generatedAt": "2026-09-03T21:01:02.744Z",
+ "entries": 4641,
  "byStyle": {
-  "child": 2682,
+  "child": 2725,
   "slow": 950,
   "clinical": 45,
   "tutor": 921
@@ -39,9 +39,10 @@
   "lua/cancion/consigna": 10,
   "lua/cancion/verso": 74,
   "lua/cancion/elemento": 41,
-  "lua/juego/titulo": 10,
-  "lua/juego/consigna": 10,
-  "lua/juego/estimulo": 20,
+  "lua/juego/titulo": 19,
+  "lua/juego/consigna": 19,
+  "lua/juego/estimulo": 42,
+  "lua/juego/pista": 3,
   "ejercicios/veredicto": 3,
   "escritura/elogio": 15
  },
@@ -8454,24 +8455,24 @@
    "source": "lua/cancion/verso"
   },
   {
-   "id": "child_58c73c28_17",
+   "id": "child_d49d1d6a_14",
    "lang": "es",
    "style": "child",
-   "text": "Contando manzanas",
+   "text": "Contando cocos",
    "source": "lua/cancion/titulo"
   },
   {
-   "id": "child_b7d0a693_76",
+   "id": "child_408860c9_73",
    "lang": "es",
    "style": "child",
-   "text": "Canta con Lúa. Cada vez que digas un número, toca la manzana en la pantalla.",
+   "text": "Canta con Lúa. Cada vez que digas un número, toca el coco en la pantalla.",
    "source": "lua/cancion/consigna"
   },
   {
-   "id": "child_b71463aa_24",
+   "id": "child_3bba8b38_21",
    "lang": "es",
    "style": "child",
-   "text": "Uno, dos, tres manzanas,",
+   "text": "Uno, dos, tres cocos,",
    "source": "lua/cancion/verso"
   },
   {
@@ -8482,10 +8483,10 @@
    "source": "lua/cancion/verso"
   },
   {
-   "id": "child_32a390e6_24",
+   "id": "child_ea95c7e5_21",
    "lang": "es",
    "style": "child",
-   "text": "las manzanas del canasto",
+   "text": "los cocos de la palma",
    "source": "lua/cancion/verso"
   },
   {
@@ -8510,10 +8511,10 @@
    "source": "lua/cancion/verso"
   },
   {
-   "id": "child_3dcbc6d8_19",
+   "id": "child_1fc97adc_21",
    "lang": "es",
    "style": "child",
-   "text": "¡a comer la manzana",
+   "text": "¡a beber agua de coco",
    "source": "lua/cancion/verso"
   },
   {
@@ -9084,10 +9085,10 @@
    "source": "lua/cancion/verso"
   },
   {
-   "id": "child_945cabdc_30",
+   "id": "child_2cb7e4c5_33",
    "lang": "es",
    "style": "child",
-   "text": "manzana, uvas y fresa también,",
+   "text": "mango, lechosa y chinola también,",
    "source": "lua/cancion/verso"
   },
   {
@@ -9105,10 +9106,10 @@
    "source": "lua/cancion/verso"
   },
   {
-   "id": "child_6123b26c_23",
+   "id": "child_7efb35b2_22",
    "lang": "es",
    "style": "child",
-   "text": "plátano dulce y maduro,",
+   "text": "guineo dulce y maduro,",
    "source": "lua/cancion/verso"
   },
   {
@@ -9133,31 +9134,31 @@
    "source": "lua/cancion/verso"
   },
   {
-   "id": "child_4ff29137_7",
+   "id": "child_e2e9eb75_5",
    "lang": "es",
    "style": "child",
-   "text": "Manzana",
+   "text": "Mango",
    "source": "lua/cancion/elemento"
   },
   {
-   "id": "child_dcfdc562_16",
+   "id": "child_7616fda6_7",
    "lang": "es",
    "style": "child",
-   "text": "Plátano / Banana",
+   "text": "Lechosa",
    "source": "lua/cancion/elemento"
   },
   {
-   "id": "child_319263ae_4",
+   "id": "child_90674ab9_7",
    "lang": "es",
    "style": "child",
-   "text": "Uvas",
+   "text": "Chinola",
    "source": "lua/cancion/elemento"
   },
   {
-   "id": "child_3c45b5e5_6",
+   "id": "child_7a3f5076_6",
    "lang": "es",
    "style": "child",
-   "text": "Fresas",
+   "text": "Guineo",
    "source": "lua/cancion/elemento"
   },
   {
@@ -9392,10 +9393,10 @@
    "source": "lua/juego/estimulo"
   },
   {
-   "id": "child_134ec841_22",
+   "id": "child_5eb0a006_17",
    "lang": "es",
    "style": "child",
-   "text": "Imagen-palabra: frutas",
+   "text": "Frutas de mi isla",
    "source": "lua/juego/titulo"
   },
   {
@@ -9404,13 +9405,6 @@
    "style": "child",
    "text": "Nombra cada fruta en voz alta y únela con su nombre escrito.",
    "source": "lua/juego/consigna"
-  },
-  {
-   "id": "child_c6e3dc70_6",
-   "lang": "es",
-   "style": "child",
-   "text": "Banana",
-   "source": "lua/juego/estimulo"
   },
   {
    "id": "child_56ffd7ab_27",
@@ -9546,24 +9540,31 @@
    "source": "lua/juego/estimulo"
   },
   {
-   "id": "child_e6a5fb27_32",
+   "id": "child_f4e69ea6_29",
    "lang": "es",
    "style": "child",
-   "text": "Clasificación: frutas y animales",
+   "text": "Las casitas de las categorías",
    "source": "lua/juego/titulo"
   },
   {
-   "id": "child_1ecb733e_50",
+   "id": "child_e28fb2da_51",
    "lang": "es",
    "style": "child",
-   "text": "Coloca cada dibujo en su grupo: frutas o animales.",
+   "text": "Coloca cada dibujo en su casita: frutas o animales.",
    "source": "lua/juego/consigna"
   },
   {
-   "id": "child_cc70ea8e_32",
+   "id": "child_1cd74508_5",
    "lang": "es",
    "style": "child",
-   "text": "Atención: encuentra el diferente",
+   "text": "Coquí",
+   "source": "lua/juego/estimulo"
+  },
+  {
+   "id": "child_18028b29_46",
+   "lang": "es",
+   "style": "child",
+   "text": "Encuentra la diferencia en el patio dominicano",
    "source": "lua/juego/titulo"
   },
   {
@@ -9574,17 +9575,24 @@
    "source": "lua/juego/consigna"
   },
   {
-   "id": "child_d4b66d3d_8",
+   "id": "child_81ca7904_5",
    "lang": "es",
    "style": "child",
-   "text": "Estrella",
+   "text": "Palma",
    "source": "lua/juego/estimulo"
   },
   {
-   "id": "child_b68f92d4_6",
+   "id": "child_53614ed9_4",
    "lang": "es",
    "style": "child",
-   "text": "Pelota",
+   "text": "Coco",
+   "source": "lua/juego/estimulo"
+  },
+  {
+   "id": "child_ebb99f4a_6",
+   "lang": "es",
+   "style": "child",
+   "text": "Cometa",
    "source": "lua/juego/estimulo"
   },
   {
@@ -9606,6 +9614,300 @@
    "lang": "es",
    "style": "child",
    "text": "Playa",
+   "source": "lua/juego/estimulo"
+  },
+  {
+   "id": "child_da85f582_22",
+   "lang": "es",
+   "style": "child",
+   "text": "Caja de sonidos mágica",
+   "source": "lua/juego/titulo"
+  },
+  {
+   "id": "child_03970e2c_57",
+   "lang": "es",
+   "style": "child",
+   "text": "Toca el dibujo y escucha su sonido. ¿Cuál suena distinto?",
+   "source": "lua/juego/consigna"
+  },
+  {
+   "id": "child_3c41e24a_11",
+   "lang": "es",
+   "style": "child",
+   "text": "¿Quién soy?",
+   "source": "lua/juego/titulo"
+  },
+  {
+   "id": "child_efdc7859_38",
+   "lang": "es",
+   "style": "child",
+   "text": "Toca el dibujo y di su nombre conmigo.",
+   "source": "lua/juego/consigna"
+  },
+  {
+   "id": "child_6af791cd_19",
+   "lang": "es",
+   "style": "child",
+   "text": "Encuentra mi nombre",
+   "source": "lua/juego/titulo"
+  },
+  {
+   "id": "child_c04ffe04_41",
+   "lang": "es",
+   "style": "child",
+   "text": "Te digo una palabra y tú tocas su dibujo.",
+   "source": "lua/juego/consigna"
+  },
+  {
+   "id": "child_b68f92d4_6",
+   "lang": "es",
+   "style": "child",
+   "text": "Pelota",
+   "source": "lua/juego/estimulo"
+  },
+  {
+   "id": "child_d318e908_13",
+   "lang": "es",
+   "style": "child",
+   "text": "Arma la palma",
+   "source": "lua/juego/titulo"
+  },
+  {
+   "id": "child_b363bf7e_68",
+   "lang": "es",
+   "style": "child",
+   "text": "Ordena las piezas de la palma del 1 al 4 y di su nombre al terminar.",
+   "source": "lua/juego/consigna"
+  },
+  {
+   "id": "child_5c69ceb4_4",
+   "lang": "es",
+   "style": "child",
+   "text": "Mata",
+   "source": "lua/juego/estimulo"
+  },
+  {
+   "id": "child_5fabcabd_17",
+   "lang": "es",
+   "style": "child",
+   "text": "El coquí saltarín",
+   "source": "lua/juego/titulo"
+  },
+  {
+   "id": "child_7892aa2d_54",
+   "lang": "es",
+   "style": "child",
+   "text": "Ordena las tarjetas para contar adónde saltó el coquí.",
+   "source": "lua/juego/consigna"
+  },
+  {
+   "id": "child_3cf2fdc7_8",
+   "lang": "es",
+   "style": "child",
+   "text": "El coquí",
+   "source": "lua/juego/estimulo"
+  },
+  {
+   "id": "child_84772e9b_12",
+   "lang": "es",
+   "style": "child",
+   "text": "Salta al río",
+   "source": "lua/juego/estimulo"
+  },
+  {
+   "id": "child_97f17bed_15",
+   "lang": "es",
+   "style": "child",
+   "text": "Sube a la palma",
+   "source": "lua/juego/estimulo"
+  },
+  {
+   "id": "child_88c9b3d6_14",
+   "lang": "es",
+   "style": "child",
+   "text": "Canta de noche",
+   "source": "lua/juego/estimulo"
+  },
+  {
+   "id": "child_a9c5ca15_26",
+   "lang": "es",
+   "style": "child",
+   "text": "Simón dice a la dominicana",
+   "source": "lua/juego/titulo"
+  },
+  {
+   "id": "child_6f7efaba_55",
+   "lang": "es",
+   "style": "child",
+   "text": "Solo si digo «Simón dice», haz lo que ves en el dibujo.",
+   "source": "lua/juego/consigna"
+  },
+  {
+   "id": "child_04fc9040_5",
+   "lang": "es",
+   "style": "child",
+   "text": "Salta",
+   "source": "lua/juego/estimulo"
+  },
+  {
+   "id": "child_0c7d61c6_5",
+   "lang": "es",
+   "style": "child",
+   "text": "Corre",
+   "source": "lua/juego/estimulo"
+  },
+  {
+   "id": "child_b5efa1de_5",
+   "lang": "es",
+   "style": "child",
+   "text": "Sopla",
+   "source": "lua/juego/estimulo"
+  },
+  {
+   "id": "child_9de96c26_6",
+   "lang": "es",
+   "style": "child",
+   "text": "Abraza",
+   "source": "lua/juego/estimulo"
+  },
+  {
+   "id": "child_a4087ad8_6",
+   "lang": "es",
+   "style": "child",
+   "text": "Párate",
+   "source": "lua/juego/estimulo"
+  },
+  {
+   "id": "child_5d6913ca_15",
+   "lang": "es",
+   "style": "child",
+   "text": "Haz que duermes",
+   "source": "lua/juego/estimulo"
+  },
+  {
+   "id": "child_e90f641d_21",
+   "lang": "es",
+   "style": "child",
+   "text": "El tren de las letras",
+   "source": "lua/juego/titulo"
+  },
+  {
+   "id": "child_ef145643_62",
+   "lang": "es",
+   "style": "child",
+   "text": "Sube al tren solo las palabras que empiezan con el sonido /m/.",
+   "source": "lua/juego/consigna"
+  },
+  {
+   "id": "child_10e06407_4",
+   "lang": "es",
+   "style": "child",
+   "text": "Mesa",
+   "source": "lua/juego/estimulo"
+  },
+  {
+   "id": "child_32789720_4",
+   "lang": "es",
+   "style": "child",
+   "text": "Mano",
+   "source": "lua/juego/estimulo"
+  },
+  {
+   "id": "child_864f7bbd_16",
+   "lang": "es",
+   "style": "child",
+   "text": "¿Cómo me siento?",
+   "source": "lua/juego/titulo"
+  },
+  {
+   "id": "child_f5b4da81_63",
+   "lang": "es",
+   "style": "child",
+   "text": "Coloca cada cara donde va: me gusta o no me gusta sentirme así.",
+   "source": "lua/juego/consigna"
+  },
+  {
+   "id": "child_7bff050b_5",
+   "lang": "es",
+   "style": "child",
+   "text": "Feliz",
+   "source": "lua/juego/estimulo"
+  },
+  {
+   "id": "child_84d0fa30_9",
+   "lang": "es",
+   "style": "child",
+   "text": "Tranquilo",
+   "source": "lua/juego/estimulo"
+  },
+  {
+   "id": "child_f486bb00_11",
+   "lang": "es",
+   "style": "child",
+   "text": "Sorprendido",
+   "source": "lua/juego/estimulo"
+  },
+  {
+   "id": "child_a3075454_6",
+   "lang": "es",
+   "style": "child",
+   "text": "Triste",
+   "source": "lua/juego/estimulo"
+  },
+  {
+   "id": "child_0b446e5f_7",
+   "lang": "es",
+   "style": "child",
+   "text": "Enojado",
+   "source": "lua/juego/estimulo"
+  },
+  {
+   "id": "child_3cc4b8ff_8",
+   "lang": "es",
+   "style": "child",
+   "text": "Asustado",
+   "source": "lua/juego/estimulo"
+  },
+  {
+   "id": "child_eb5b2c1e_26",
+   "lang": "es",
+   "style": "child",
+   "text": "Adivina la palabra secreta",
+   "source": "lua/juego/titulo"
+  },
+  {
+   "id": "child_6500a79f_64",
+   "lang": "es",
+   "style": "child",
+   "text": "Escucha las pistas, de la más difícil a la más fácil, y adivina.",
+   "source": "lua/juego/consigna"
+  },
+  {
+   "id": "child_2b485e6f_39",
+   "lang": "es",
+   "style": "child",
+   "text": "Crece muy alto y se mece con el viento.",
+   "source": "lua/juego/pista"
+  },
+  {
+   "id": "child_16c1c453_36",
+   "lang": "es",
+   "style": "child",
+   "text": "Da sombra en el patio y en la playa.",
+   "source": "lua/juego/pista"
+  },
+  {
+   "id": "child_1d5a0d52_20",
+   "lang": "es",
+   "style": "child",
+   "text": "De ella cae el coco.",
+   "source": "lua/juego/pista"
+  },
+  {
+   "id": "child_7efb941c_5",
+   "lang": "es",
+   "style": "child",
+   "text": "Barco",
    "source": "lua/juego/estimulo"
   },
   {

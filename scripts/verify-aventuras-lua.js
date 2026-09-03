@@ -72,8 +72,14 @@ for (const b of BANDS) {
 if (S.length !== 10) fail(`deben ser 10 cuentos, hay ${S.length}`);
 if (C.length !== 10) fail(`deben ser 10 canciones, hay ${C.length}`);
 if (P.length !== 10) fail(`deben ser 10 imprimibles, hay ${P.length}`);
-if (G.length !== 10) fail(`deben ser 10 juegos, hay ${G.length}`);
-if (!fails.length) ok('60 preguntas (6 franjas x 10), 10 juegos, 10 cuentos, 10 canciones, 10 imprimibles');
+// Los 10 de las 50 hojas + los 9 de la Matriz de Contenidos por Edad.
+if (G.length !== 19) fail(`deben ser 19 juegos, hay ${G.length}`);
+// La matriz pone juegos en TODAS las franjas, 0-2 incluida, que es la que menos
+// puede leer y la que entró sin ninguno.
+for (const b of BANDS) {
+  if (!G.some((j) => j.ageBands.includes(b))) fail(`la franja ${b} se queda sin juegos`);
+}
+if (!fails.length) ok('60 preguntas (6 franjas x 10), 19 juegos en las seis franjas, 10 cuentos, 10 canciones, 10 imprimibles');
 
 // --- 2. Un ítem que el niño responde se responde MIRANDO --------------------
 // Es la comprobación por la que existe este gate. Sin ficha, un ítem
@@ -108,9 +114,12 @@ for (const j of G) {
     if (it.pic && !PICS.has(it.pic)) fail(`${j.id}: la ficha «${it.pic}» no existe en PICTO_KEYS`);
     if (!it.pic && it.label && j.kind !== 'word_web') fail(`${j.id}: «${it.label}» sin ficha`);
   }
+  if (j.kind === 'clue_reveal' && !(j.clues ?? []).length) {
+    fail(`${j.id}: 'clue_reveal' sin pistas`);
+  }
   if (!Array.isArray(j.ageBands) || !j.ageBands.length) fail(`${j.id}: juego sin ageBands`);
 }
-if (!fails.some((m) => /lua_game/.test(m))) ok('los 10 juegos llevan ficha en cada estímulo');
+if (!fails.some((m) => /lua_game/.test(m))) ok('los 19 juegos llevan ficha en cada estímulo');
 
 // --- 3. Al niño no se le locuta la pauta del adulto -------------------------
 for (const q of A) {
@@ -143,7 +152,7 @@ const spoken = new Set(VOICE().map((l) => l.text.trim()));
 const mustSpeak = [];
 for (const q of A) mustSpeak.push([q.id, q.prompt], [q.id, q.clinicalSupport.targetFeedback], [q.id, q.childRecast]);
 for (const s of S) { for (const p of s.paragraphs) mustSpeak.push([s.id, p]); for (const q of s.comprehensionQuestions) mustSpeak.push([s.id, q.hint]); }
-for (const j of G) { mustSpeak.push([j.id, j.instructions]); for (const it of j.items) if (it.label) mustSpeak.push([j.id, it.label]); }
+for (const j of G) { mustSpeak.push([j.id, j.instructions]); for (const c of j.clues ?? []) mustSpeak.push([j.id, c]); for (const it of j.items) if (it.label) mustSpeak.push([j.id, it.label]); }
 for (const c of C) { for (const v of c.lyrics) mustSpeak.push([c.id, v]); for (const e of c.interactiveTask.elements ?? []) mustSpeak.push([c.id, e]); }
 let uncovered = 0;
 for (const [id, text] of mustSpeak) {

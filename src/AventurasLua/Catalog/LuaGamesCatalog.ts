@@ -30,7 +30,9 @@ export type LuaGameKind =
   /** Encontrar el diferente en cada fila. */
   | 'odd_one_out'
   /** Familia de palabras: red semántica alrededor de un núcleo. */
-  | 'word_web';
+  | 'word_web'
+  /** Pistas progresivas hasta adivinar la palabra. */
+  | 'clue_reveal';
 
 export interface LuaGameItem {
   pic?: PictoKey;
@@ -53,6 +55,8 @@ export interface LuaGame {
   instructions: string;
   /** Los grupos de 'sorting', o las filas de 'odd_one_out'. */
   groups?: string[];
+  /** Las pistas de 'clue_reveal', en orden de menor a mayor concreción. */
+  clues?: string[];
   items: LuaGameItem[];
 }
 
@@ -86,14 +90,14 @@ export const LUA_GAMES_CATALOG: LuaGame[] = [
   {
     id: 'lua_game_03',
     number: 3,
-    title: 'Imagen-palabra: frutas',
+    title: 'Frutas de mi isla',
     subtitle: 'Une cada fruta con su nombre',
     kind: 'image_word',
     ageBands: ['2-3', '3-4', '4-5'],
     instructions: 'Nombra cada fruta en voz alta y únela con su nombre escrito.',
     items: [
-      { pic: 'manzana', label: 'Manzana' }, { pic: 'platano', label: 'Banana' },
-      { pic: 'uvas', label: 'Uvas' }, { pic: 'fresa', label: 'Fresas' },
+      { pic: 'mango', label: 'Mango' }, { pic: 'lechosa', label: 'Lechosa' },
+      { pic: 'chinola', label: 'Chinola' }, { pic: 'platano', label: 'Guineo' },
     ],
   },
   {
@@ -153,39 +157,39 @@ export const LUA_GAMES_CATALOG: LuaGame[] = [
   {
     id: 'lua_game_08',
     number: 8,
-    title: 'Clasificación: frutas y animales',
+    title: 'Las casitas de las categorías',
     subtitle: 'Cada dibujo a su grupo',
     kind: 'sorting',
-    ageBands: ['3-4', '4-5', '5-7'],
-    instructions: 'Coloca cada dibujo en su grupo: frutas o animales.',
+    ageBands: ['2-3', '3-4', '4-5', '5-7'],
+    instructions: 'Coloca cada dibujo en su casita: frutas o animales.',
     groups: ['Frutas', 'Animales'],
     items: [
-      { pic: 'manzana', label: 'Manzana', group: 'Frutas' },
+      { pic: 'mango', label: 'Mango', group: 'Frutas' },
       { pic: 'gato', label: 'Gato', group: 'Animales' },
-      { pic: 'uvas', label: 'Uvas', group: 'Frutas' },
+      { pic: 'chinola', label: 'Chinola', group: 'Frutas' },
       { pic: 'perro', label: 'Perro', group: 'Animales' },
-      { pic: 'platano', label: 'Banana', group: 'Frutas' },
-      { pic: 'vaca', label: 'Vaca', group: 'Animales' },
+      { pic: 'lechosa', label: 'Lechosa', group: 'Frutas' },
+      { pic: 'coqui', label: 'Coquí', group: 'Animales' },
     ],
   },
   {
     id: 'lua_game_09',
     number: 9,
-    title: 'Atención: encuentra el diferente',
+    title: 'Encuentra la diferencia en el patio dominicano',
     subtitle: '3 filas, uno distinto en cada una',
     kind: 'odd_one_out',
     ageBands: ['4-5', '5-7', '7-10'],
     instructions: 'En cada fila, busca el dibujo que es diferente a los demás.',
     groups: ['Fila 1', 'Fila 2', 'Fila 3'],
     items: [
-      { pic: 'estrella', label: 'Estrella', group: 'Fila 1' },
-      { pic: 'estrella', label: 'Estrella', group: 'Fila 1' },
-      { pic: 'sol', label: 'Sol', group: 'Fila 1', isTarget: true },
-      { pic: 'estrella', label: 'Estrella', group: 'Fila 1' },
-      { pic: 'pelota', label: 'Pelota', group: 'Fila 2' },
-      { pic: 'casa', label: 'Casa', group: 'Fila 2', isTarget: true },
-      { pic: 'pelota', label: 'Pelota', group: 'Fila 2' },
-      { pic: 'pelota', label: 'Pelota', group: 'Fila 2' },
+      { pic: 'palma', label: 'Palma', group: 'Fila 1' },
+      { pic: 'palma', label: 'Palma', group: 'Fila 1' },
+      { pic: 'casa', label: 'Casa', group: 'Fila 1', isTarget: true },
+      { pic: 'palma', label: 'Palma', group: 'Fila 1' },
+      { pic: 'coco', label: 'Coco', group: 'Fila 2' },
+      { pic: 'cometa', label: 'Cometa', group: 'Fila 2', isTarget: true },
+      { pic: 'coco', label: 'Coco', group: 'Fila 2' },
+      { pic: 'coco', label: 'Coco', group: 'Fila 2' },
       { pic: 'gato', label: 'Gato', group: 'Fila 3' },
       { pic: 'gato', label: 'Gato', group: 'Fila 3' },
       { pic: 'perro', label: 'Perro', group: 'Fila 3', isTarget: true },
@@ -204,6 +208,141 @@ export const LUA_GAMES_CATALOG: LuaGame[] = [
       { pic: 'ola', label: 'Playa' },
       { label: '' }, { label: '' }, { label: '' },
       { label: '' }, { label: '' },
+    ],
+  },
+
+  // --------------------------------------------------------------------------
+  // Los ocho de la Matriz de Contenidos por Edad que no venían en las 50 hojas.
+  // Se recuperan con su léxico dominicano —la palma, el coco, el coquí, la
+  // chinola, la bandera— porque es el que da la matriz. Los tres primeros son
+  // de 0-2: esa franja no tenía NINGÚN juego, y es la que menos puede leer.
+  // --------------------------------------------------------------------------
+  {
+    id: 'lua_game_11',
+    number: 11,
+    title: 'Caja de sonidos mágica',
+    subtitle: 'Dos sonidos muy distintos',
+    kind: 'image_word',
+    ageBands: ['0-2'],
+    instructions: 'Toca el dibujo y escucha su sonido. ¿Cuál suena distinto?',
+    items: [
+      { pic: 'perro', label: 'Perro' }, { pic: 'gallina', label: 'Gallina' },
+    ],
+  },
+  {
+    id: 'lua_game_12',
+    number: 12,
+    title: '¿Quién soy?',
+    subtitle: 'Imagen y palabra, vocabulario básico',
+    kind: 'image_word',
+    ageBands: ['0-2', '2-3'],
+    instructions: 'Toca el dibujo y di su nombre conmigo.',
+    items: [
+      { pic: 'gato', label: 'Gato' }, { pic: 'pato', label: 'Pato' },
+      { pic: 'vaca', label: 'Vaca' }, { pic: 'coqui', label: 'Coquí' },
+    ],
+  },
+  {
+    id: 'lua_game_13',
+    number: 13,
+    title: 'Encuentra mi nombre',
+    subtitle: 'Dos opciones grandes y claras',
+    kind: 'image_word',
+    ageBands: ['0-2'],
+    instructions: 'Te digo una palabra y tú tocas su dibujo.',
+    items: [
+      { pic: 'pelota', label: 'Pelota' }, { pic: 'coco', label: 'Coco' },
+    ],
+  },
+  {
+    id: 'lua_game_14',
+    number: 14,
+    title: 'Arma la palma',
+    subtitle: 'Rompecabezas: ordena y nombra al completar',
+    kind: 'sequence',
+    ageBands: ['3-4', '4-5'],
+    instructions: 'Ordena las piezas de la palma del 1 al 4 y di su nombre al terminar.',
+    items: [
+      { pic: 'semilla', label: 'Semilla' }, { pic: 'brote', label: 'Brote' },
+      { pic: 'planta', label: 'Mata' }, { pic: 'palma', label: 'Palma' },
+    ],
+  },
+  {
+    id: 'lua_game_15',
+    number: 15,
+    title: 'El coquí saltarín',
+    subtitle: 'Ordena la historia del 1 al 4',
+    kind: 'sequence',
+    ageBands: ['4-5', '5-7'],
+    instructions: 'Ordena las tarjetas para contar adónde saltó el coquí.',
+    items: [
+      { pic: 'coqui', label: 'El coquí' }, { pic: 'ola', label: 'Salta al río' },
+      { pic: 'palma', label: 'Sube a la palma' }, { pic: 'luna', label: 'Canta de noche' },
+    ],
+  },
+  {
+    id: 'lua_game_16',
+    number: 16,
+    title: 'Simón dice a la dominicana',
+    subtitle: 'Atención e instrucciones',
+    kind: 'image_word',
+    ageBands: ['4-5', '5-7'],
+    instructions: 'Solo si digo «Simón dice», haz lo que ves en el dibujo.',
+    items: [
+      { pic: 'saltar', label: 'Salta' }, { pic: 'correr', label: 'Corre' },
+      { pic: 'soplar', label: 'Sopla' }, { pic: 'abrazo', label: 'Abraza' },
+      { pic: 'parar', label: 'Párate' }, { pic: 'dormir', label: 'Haz que duermes' },
+    ],
+  },
+  {
+    id: 'lua_game_17',
+    number: 17,
+    title: 'El tren de las letras',
+    subtitle: 'Sonidos iniciales, nivel avanzado',
+    kind: 'sound_hunt',
+    ageBands: ['5-7', '7-10'],
+    instructions: 'Sube al tren solo las palabras que empiezan con el sonido /m/.',
+    items: [
+      { pic: 'mango', label: 'Mango', isTarget: true }, { pic: 'mesa', label: 'Mesa', isTarget: true },
+      { pic: 'mano', label: 'Mano', isTarget: true }, { pic: 'coco', label: 'Coco' },
+      { pic: 'palma', label: 'Palma' }, { pic: 'sol', label: 'Sol' },
+    ],
+  },
+  {
+    id: 'lua_game_18',
+    number: 18,
+    title: '¿Cómo me siento?',
+    subtitle: 'Clasificación emocional',
+    kind: 'sorting',
+    ageBands: ['5-7', '7-10'],
+    instructions: 'Coloca cada cara donde va: me gusta o no me gusta sentirme así.',
+    groups: ['Me gusta sentirme así', 'Me cuesta sentirme así'],
+    items: [
+      { pic: 'cara-feliz', label: 'Feliz', group: 'Me gusta sentirme así' },
+      { pic: 'cara-tranquila', label: 'Tranquilo', group: 'Me gusta sentirme así' },
+      { pic: 'cara-sorprendida', label: 'Sorprendido', group: 'Me gusta sentirme así' },
+      { pic: 'cara-triste', label: 'Triste', group: 'Me cuesta sentirme así' },
+      { pic: 'cara-enojada', label: 'Enojado', group: 'Me cuesta sentirme así' },
+      { pic: 'cara-asustada', label: 'Asustado', group: 'Me cuesta sentirme así' },
+    ],
+  },
+  {
+    id: 'lua_game_19',
+    number: 19,
+    title: 'Adivina la palabra secreta',
+    subtitle: 'Pistas progresivas',
+    kind: 'clue_reveal',
+    ageBands: ['7-10'],
+    instructions: 'Escucha las pistas, de la más difícil a la más fácil, y adivina.',
+    clues: [
+      'Crece muy alto y se mece con el viento.',
+      'Da sombra en el patio y en la playa.',
+      'De ella cae el coco.',
+    ],
+    items: [
+      { pic: 'palma', label: 'Palma', isTarget: true },
+      { pic: 'casa', label: 'Casa' },
+      { pic: 'barco', label: 'Barco' },
     ],
   },
 ];

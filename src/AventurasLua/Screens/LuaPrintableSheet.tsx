@@ -135,6 +135,7 @@ export const LuaPrintableSheet: React.FC<{
         <View style={s.wheel}>
           {sheet.segments.map((seg) => (
             <View key={seg.label} style={[s.wheelSeg, { backgroundColor: seg.color }]}>
+              {seg.pic ? <FichaVisual word={seg.label} emoji="" pic={seg.pic} size={44} /> : null}
               <Text style={s.wheelTxt}>{seg.label}</Text>
             </View>
           ))}
@@ -249,7 +250,7 @@ const s = StyleSheet.create({
   dominoDivider: { width: 1, alignSelf: "stretch", backgroundColor: LUA_COLORS.borderStrong },
   wheel: { flexDirection: "row", flexWrap: "wrap", justifyContent: "center" },
   wheelSeg: {
-    width: "33.33%", paddingVertical: 18, alignItems: "center",
+    width: "33.33%", paddingVertical: 12, alignItems: "center",
     borderWidth: 1, borderColor: "#FFFFFF",
   },
   wheelTxt: { fontSize: 13, fontWeight: "800", color: LUA_COLORS.textPrimary },

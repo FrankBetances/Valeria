@@ -1842,6 +1842,7 @@ export const ES = {
     printableDate: 'Fecha',
     sectionEmptyForBand: 'Todavía no hay nada de esta sección para esta edad.',
     gameBlankSlot: 'Espacio libre',
+    gameClue: (n: number): string => `Pista ${n}`,
     secGamesTitle: 'Juegos con Lúa',
     secGamesSub: '10 juegos para tocar: memorama, imagen-palabra, sonidos, secuencias y atención.',
     secGamesBadge: (n: number): string => `${n} juegos`,

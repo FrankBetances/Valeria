@@ -1739,6 +1739,7 @@ export const CA: UiStrings = {
     printableDate: 'Data',
     sectionEmptyForBand: 'Encara no hi ha res d\'aquesta secció per a aquesta edat.',
     gameBlankSlot: 'Espai lliure',
+    gameClue: (n: number): string => `Pista ${n}`,
     secGamesTitle: 'Jocs amb la Lúa',
     secGamesSub: '10 jocs per tocar: memòria, imatge-paraula, sons, seqüències i atenció.',
     secGamesBadge: (n: number): string => `${n} jocs`,

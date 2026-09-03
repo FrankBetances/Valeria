@@ -67,6 +67,7 @@ export function enumerateLuaAdventureSpeech(): LuaSpokenLine[] {
   for (const j of LUA_GAMES_CATALOG) {
     add(j.title, 'lua/juego/titulo');
     add(j.instructions, 'lua/juego/consigna');
+    for (const c of j.clues ?? []) add(c, 'lua/juego/pista');
     for (const it of j.items) add(it.label, 'lua/juego/estimulo');
   }
 

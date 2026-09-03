@@ -1781,6 +1781,7 @@ export const EN: UiStrings = {
     printableDate: 'Date',
     sectionEmptyForBand: 'Nothing in this section for this age yet.',
     gameBlankSlot: 'Blank slot',
+    gameClue: (n: number): string => `Clue ${n}`,
     secGamesTitle: 'Games with Lúa',
     secGamesSub: '10 hands-on games: memory, image-word, sounds, sequences and attention.',
     secGamesBadge: (n: number): string => `${n} games`,
