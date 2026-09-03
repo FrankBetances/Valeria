@@ -4,7 +4,23 @@
 // Basado en el protocolo clínico de lenguaje, fonología, fluidez y pragmática.
 // ============================================================================
 
+import type { PictoKey } from '../../ValeriaPixelArt';
+
 export type AgeBand = '0-2' | '2-3' | '3-4' | '4-5' | '5-7' | '7-10';
+
+/**
+ * Quién actúa en el ítem. El catálogo mezclaba las dos y la pantalla las
+ * pintaba igual: «Señala el perro» y «No responde» salían como dos botones
+ * gemelos, cuando el segundo no es algo que el niño elija sino algo que el
+ * adulto observa.
+ *
+ *   child_choice · el niño toca una ficha. TODA opción lleva pictograma: por
+ *                  debajo de 4 años no se lee, y sin dibujo el ítem no se
+ *                  puede responder. Lo exige verify-aventuras-lua.js.
+ *   adult_record · el adulto mira al niño y registra lo que hizo. Las opciones
+ *                  son la hoja de registro, no estímulos, y no se locutan.
+ */
+export type LuaResponseMode = 'child_choice' | 'adult_record';
 
 export type AssessmentArea =
   | 'atencion_imitacion'
@@ -18,7 +34,8 @@ export interface LuaAssessmentOption {
   id: string;
   label: string;
   isTarget: boolean;
-  iconName?: string;
+  /** Ficha del banco propio (ValeriaPixelArt). Obligatoria en 'child_choice'. */
+  pic?: PictoKey;
 }
 
 export interface LuaClinicalSupport {
@@ -35,8 +52,18 @@ export interface LuaAssessmentQuestion {
   ageBand: AgeBand;
   area: AssessmentArea;
   order: number; // 1 a 10 dentro de su rango de edad
+  mode: LuaResponseMode;
   prompt: string;
   subPrompt?: string;
+  /** Dibujo de la consigna. También en los ítems de observación: el niño
+   *  necesita ver de qué se le habla aunque no toque nada. */
+  questionPic?: PictoKey;
+  /**
+   * Lo que oye el NIÑO cuando no acierta. NO es `modelingFeedback`: aquella
+   * está escrita para el adulto («Se repite la consigna señalando…») y se le
+   * locutaba al niño tal cual, en el momento más frágil de la actividad.
+   */
+  childRecast: string;
   options: LuaAssessmentOption[];
   clinicalSupport: LuaClinicalSupport;
 }
@@ -50,10 +77,12 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     ageBand: '0-2',
     area: 'atencion_imitacion',
     order: 1,
+    mode: 'child_choice',
     prompt: '¿Dónde está el perrito?',
+    childRecast: '¡Mira! Este es el perro.',
     options: [
-      { id: 'opt_perro', label: 'Señala o mira al perro', isTarget: true, iconName: 'dog' },
-      { id: 'opt_pelota', label: 'Señala la pelota', isTarget: false, iconName: 'circle' },
+      { id: 'opt_perro', label: 'Perro', isTarget: true, pic: 'perro' },
+      { id: 'opt_pelota', label: 'Pelota', isTarget: false, pic: 'pelota' },
     ],
     clinicalSupport: {
       targetFeedback: '¡Muy bien! ¡Ahí está el perrito!',
@@ -66,10 +95,13 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     ageBand: '0-2',
     area: 'atencion_imitacion',
     order: 2,
+    mode: 'adult_record',
+    questionPic: 'vaca',
     prompt: '¿Qué dice la vaca?',
+    childRecast: '¡La vaca dice muuu!',
     options: [
-      { id: 'opt_muu', label: 'Imita "muuu" o vocaliza', isTarget: true, iconName: 'volume-2' },
-      { id: 'opt_no_resp', label: 'No responde', isTarget: false, iconName: 'volume-x' },
+      { id: 'opt_muu', label: 'Imita "muuu" o vocaliza', isTarget: true },
+      { id: 'opt_no_resp', label: 'No responde', isTarget: false },
     ],
     clinicalSupport: {
       targetFeedback: '¡Eso es! La vaca dice ¡muuu!',
@@ -82,10 +114,13 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     ageBand: '0-2',
     area: 'atencion_imitacion',
     order: 3,
+    mode: 'adult_record',
+    questionPic: 'pelota',
     prompt: 'Dame la pelota (instrucción simple con objeto a la vista)',
+    childRecast: '¡Esta es la pelota! Dámela.',
     options: [
-      { id: 'opt_da_pelota', label: 'Entrega la pelota', isTarget: true, iconName: 'check-circle' },
-      { id: 'opt_da_otro', label: 'Entrega otro objeto', isTarget: false, iconName: 'help-circle' },
+      { id: 'opt_da_pelota', label: 'Entrega la pelota', isTarget: true },
+      { id: 'opt_da_otro', label: 'Entrega otro objeto', isTarget: false },
     ],
     clinicalSupport: {
       targetFeedback: '¡Gracias! Me diste la pelota.',
@@ -98,10 +133,12 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     ageBand: '0-2',
     area: 'atencion_imitacion',
     order: 4,
+    mode: 'adult_record',
     prompt: 'Di "adiós" (con gesto de despedida con la mano)',
+    childRecast: '¡Adiós! Dile adiós con la mano.',
     options: [
-      { id: 'opt_imita_gesto', label: 'Imita el gesto y/o la palabra', isTarget: true, iconName: 'hand' },
-      { id: 'opt_solo_mira', label: 'Solo observa', isTarget: false, iconName: 'eye' },
+      { id: 'opt_imita_gesto', label: 'Imita el gesto y/o la palabra', isTarget: true },
+      { id: 'opt_solo_mira', label: 'Solo observa', isTarget: false },
     ],
     clinicalSupport: {
       targetFeedback: '¡Adiós, amigo! ¡Hasta luego!',
@@ -114,10 +151,12 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     ageBand: '0-2',
     area: 'atencion_imitacion',
     order: 5,
+    mode: 'adult_record',
     prompt: '¿Dónde está mamá? (en foto familiar o presencia)',
+    childRecast: '¡Aquí está mamá!',
     options: [
-      { id: 'opt_mira_mama', label: 'Mira o señala la foto', isTarget: true, iconName: 'heart' },
-      { id: 'opt_no_localiza', label: 'No localiza', isTarget: false, iconName: 'search' },
+      { id: 'opt_mira_mama', label: 'Mira o señala la foto', isTarget: true },
+      { id: 'opt_no_localiza', label: 'No localiza', isTarget: false },
     ],
     clinicalSupport: {
       targetFeedback: '¡Sí! ¡Ahí está mamá!',
@@ -130,10 +169,13 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     ageBand: '0-2',
     area: 'atencion_imitacion',
     order: 6,
+    mode: 'adult_record',
+    questionPic: 'soplar',
     prompt: 'Sopla la burbuja (modelo del adulto o Lúa)',
+    childRecast: '¡Sopla conmigo! Fffff.',
     options: [
-      { id: 'opt_sopla', label: 'Imita la acción de soplar', isTarget: true, iconName: 'wind' },
-      { id: 'opt_no_sopla', label: 'No imita el soplido', isTarget: false, iconName: 'minus-circle' },
+      { id: 'opt_sopla', label: 'Imita la acción de soplar', isTarget: true },
+      { id: 'opt_no_sopla', label: 'No imita el soplido', isTarget: false },
     ],
     clinicalSupport: {
       targetFeedback: '¡Mira cómo vuelan las burbujas! ¡Fuuu!',
@@ -146,10 +188,13 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     ageBand: '0-2',
     area: 'atencion_imitacion',
     order: 7,
+    mode: 'adult_record',
+    questionPic: 'gato',
     prompt: '¿Qué dice el gato?',
+    childRecast: '¡El gato dice miau!',
     options: [
-      { id: 'opt_miau', label: 'Imita "miau" o vocaliza', isTarget: true, iconName: 'volume-2' },
-      { id: 'opt_gato_callado', label: 'No responde', isTarget: false, iconName: 'volume-x' },
+      { id: 'opt_miau', label: 'Imita "miau" o vocaliza', isTarget: true },
+      { id: 'opt_gato_callado', label: 'No responde', isTarget: false },
     ],
     clinicalSupport: {
       targetFeedback: '¡Miau! ¡Qué lindo gatico!',
@@ -162,10 +207,13 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     ageBand: '0-2',
     area: 'atencion_imitacion',
     order: 8,
+    mode: 'adult_record',
+    questionPic: 'mano',
     prompt: 'Aplaude conmigo (imitación motora)',
+    childRecast: '¡Palmas, palmas! Aplaude conmigo.',
     options: [
-      { id: 'opt_aplaude', label: 'Imita el aplauso', isTarget: true, iconName: 'sparkles' },
-      { id: 'opt_no_aplaude', label: 'No imita', isTarget: false, iconName: 'minus' },
+      { id: 'opt_aplaude', label: 'Imita el aplauso', isTarget: true },
+      { id: 'opt_no_aplaude', label: 'No imita', isTarget: false },
     ],
     clinicalSupport: {
       targetFeedback: '¡Bravo! ¡Chocamos esas palmas!',
@@ -178,10 +226,12 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     ageBand: '0-2',
     area: 'atencion_imitacion',
     order: 9,
+    mode: 'child_choice',
     prompt: 'Dame el osito (elección entre 2 objetos a la vista)',
+    childRecast: '¡Este es el osito!',
     options: [
-      { id: 'opt_elige_osito', label: 'Selecciona el osito', isTarget: true, iconName: 'smile' },
-      { id: 'opt_elige_otro', label: 'Selecciona el otro objeto', isTarget: false, iconName: 'square' },
+      { id: 'opt_elige_osito', label: 'Osito', isTarget: true, pic: 'osito-grande' },
+      { id: 'opt_elige_otro', label: 'Pelota', isTarget: false, pic: 'pelota' },
     ],
     clinicalSupport: {
       targetFeedback: '¡Qué suave es el osito! ¡Muchas gracias!',
@@ -194,10 +244,12 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     ageBand: '0-2',
     area: 'atencion_imitacion',
     order: 10,
+    mode: 'child_choice',
     prompt: '¿Quién hace "guau guau"? (perro / pato)',
+    childRecast: '¡El perro hace guau guau!',
     options: [
-      { id: 'opt_elige_perro', label: 'Selecciona el perro', isTarget: true, iconName: 'dog' },
-      { id: 'opt_elige_pato', label: 'Selecciona el pato', isTarget: false, iconName: 'feather' },
+      { id: 'opt_elige_perro', label: 'Perro', isTarget: true, pic: 'perro' },
+      { id: 'opt_elige_pato', label: 'Pato', isTarget: false, pic: 'pato' },
     ],
     clinicalSupport: {
       targetFeedback: '¡Exacto! El perro hace ¡guau, guau!',
@@ -214,11 +266,13 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     ageBand: '2-3',
     area: 'vocabulario_fonologia',
     order: 1,
+    mode: 'child_choice',
     prompt: '¿Cuál es la pelota? (pelota / pato / taza)',
+    childRecast: '¡Esta es la pelota! ¿Puedes decir pelota?',
     options: [
-      { id: 'opt_pelota_sel', label: 'Pelota', isTarget: true },
-      { id: 'opt_pato_sel', label: 'Pato', isTarget: false },
-      { id: 'opt_taza_sel', label: 'Taza', isTarget: false },
+      { id: 'opt_pelota_sel', label: 'Pelota', isTarget: true, pic: 'pelota' },
+      { id: 'opt_pato_sel', label: 'Pato', isTarget: false, pic: 'pato' },
+      { id: 'opt_taza_sel', label: 'Taza', isTarget: false, pic: 'taza' },
     ],
     clinicalSupport: {
       targetFeedback: '¡Muy bien! ¡Esa es la pelota redonda!',
@@ -231,11 +285,13 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     ageBand: '2-3',
     area: 'vocabulario_fonologia',
     order: 2,
+    mode: 'child_choice',
     prompt: 'Toca la imagen que empieza con el sonido /p/ (pato / sol / mesa)',
+    childRecast: '¡Pato! Empieza con /p/.',
     options: [
-      { id: 'opt_pato_p', label: 'Pato', isTarget: true },
-      { id: 'opt_sol_p', label: 'Sol', isTarget: false },
-      { id: 'opt_mesa_p', label: 'Mesa', isTarget: false },
+      { id: 'opt_pato_p', label: 'Pato', isTarget: true, pic: 'pato' },
+      { id: 'opt_sol_p', label: 'Sol', isTarget: false, pic: 'sol' },
+      { id: 'opt_mesa_p', label: 'Mesa', isTarget: false, pic: 'mesa' },
     ],
     clinicalSupport: {
       targetFeedback: '¡Sí! /p/… ¡Pato empieza con /p/!',
@@ -248,11 +304,13 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     ageBand: '2-3',
     area: 'vocabulario_fonologia',
     order: 3,
+    mode: 'child_choice',
     prompt: 'Dame el juguete rojo (selección por color, 3 opciones)',
+    childRecast: '¡Este es el rojo!',
     options: [
-      { id: 'opt_rojo', label: 'Objeto rojo', isTarget: true },
-      { id: 'opt_azul', label: 'Objeto azul', isTarget: false },
-      { id: 'opt_verde', label: 'Objeto verde', isTarget: false },
+      { id: 'opt_rojo', label: 'Rojo', isTarget: true, pic: 'color-rojo' },
+      { id: 'opt_azul', label: 'Azul', isTarget: false, pic: 'color-azul' },
+      { id: 'opt_verde', label: 'Verde', isTarget: false, pic: 'color-verde' },
     ],
     clinicalSupport: {
       targetFeedback: '¡Genial! Este es el juguete rojo.',
@@ -265,12 +323,14 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     ageBand: '2-3',
     area: 'vocabulario_fonologia',
     order: 4,
+    mode: 'child_choice',
     prompt: '¿Qué está haciendo el niño en la imagen?',
     subPrompt: 'Imagen: niño comiendo una fruta',
+    childRecast: '¡El niño está comiendo!',
     options: [
-      { id: 'opt_comiendo', label: 'Comiendo', isTarget: true },
-      { id: 'opt_durmiendo', label: 'Durmiendo', isTarget: false },
-      { id: 'opt_corriendo', label: 'Corriendo', isTarget: false },
+      { id: 'opt_comiendo', label: 'Comiendo', isTarget: true, pic: 'comer' },
+      { id: 'opt_durmiendo', label: 'Durmiendo', isTarget: false, pic: 'dormir' },
+      { id: 'opt_corriendo', label: 'Corriendo', isTarget: false, pic: 'correr' },
     ],
     clinicalSupport: {
       targetFeedback: '¡Eso es! El niño come rico.',
@@ -283,7 +343,10 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     ageBand: '2-3',
     area: 'vocabulario_fonologia',
     order: 5,
+    mode: 'adult_record',
+    questionPic: 'mesa',
     prompt: 'Pon el vaso arriba de la mesa (instrucción espacial)',
+    childRecast: '¡Arriba! El vaso va arriba de la mesa.',
     options: [
       { id: 'opt_arriba', label: 'Coloca arriba', isTarget: true },
       { id: 'opt_abajo', label: 'Coloca abajo', isTarget: false },
@@ -299,10 +362,12 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     ageBand: '2-3',
     area: 'vocabulario_fonologia',
     order: 6,
+    mode: 'child_choice',
     prompt: '¿Cuál es más grande? (elefante / hormiga)',
+    childRecast: '¡El elefante es más grande!',
     options: [
-      { id: 'opt_elefante', label: 'Elefante', isTarget: true },
-      { id: 'opt_hormiga', label: 'Hormiga', isTarget: false },
+      { id: 'opt_elefante', label: 'Elefante', isTarget: true, pic: 'elefante' },
+      { id: 'opt_hormiga', label: 'Hormiga', isTarget: false, pic: 'hormiga' },
     ],
     clinicalSupport: {
       targetFeedback: '¡El elefante es gigante y muy grande!',
@@ -315,11 +380,13 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     ageBand: '2-3',
     area: 'vocabulario_fonologia',
     order: 7,
+    mode: 'child_choice',
     prompt: 'Toca la imagen que empieza con el sonido /m/ (mesa / sol / pato)',
+    childRecast: '¡Mesa! Empieza con /m/.',
     options: [
-      { id: 'opt_mesa_m', label: 'Mesa', isTarget: true },
-      { id: 'opt_sol_m', label: 'Sol', isTarget: false },
-      { id: 'opt_pato_m', label: 'Pato', isTarget: false },
+      { id: 'opt_mesa_m', label: 'Mesa', isTarget: true, pic: 'mesa' },
+      { id: 'opt_sol_m', label: 'Sol', isTarget: false, pic: 'sol' },
+      { id: 'opt_pato_m', label: 'Pato', isTarget: false, pic: 'pato' },
     ],
     clinicalSupport: {
       targetFeedback: '¡Mmm… mesa! ¡Empieza con /m/!',
@@ -332,7 +399,10 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     ageBand: '2-3',
     area: 'vocabulario_fonologia',
     order: 8,
+    mode: 'adult_record',
+    questionPic: 'pelota',
     prompt: 'Juego de turnos: "Mi turno… tu turno" con la pelota',
+    childRecast: '¡Ahora es tu turno!',
     options: [
       { id: 'opt_espera_turno', label: 'Espera su turno y responde', isTarget: true },
       { id: 'opt_interrumpe', label: 'Interrumpe o no espera', isTarget: false },
@@ -348,11 +418,13 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     ageBand: '2-3',
     area: 'vocabulario_fonologia',
     order: 9,
+    mode: 'child_choice',
     prompt: '¿Qué comemos cuando tenemos hambre? (comida / juguete / zapato)',
+    childRecast: '¡Cuando tenemos hambre, comemos!',
     options: [
-      { id: 'opt_comida', label: 'Comida', isTarget: true },
-      { id: 'opt_juguete', label: 'Juguete', isTarget: false },
-      { id: 'opt_zapato', label: 'Zapato', isTarget: false },
+      { id: 'opt_comida', label: 'Pan', isTarget: true, pic: 'pan' },
+      { id: 'opt_juguete', label: 'Juguete', isTarget: false, pic: 'pelota' },
+      { id: 'opt_zapato', label: 'Zapato', isTarget: false, pic: 'zapato' },
     ],
     clinicalSupport: {
       targetFeedback: '¡Claro! Comemos una rica comida.',
@@ -365,7 +437,10 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     ageBand: '2-3',
     area: 'vocabulario_fonologia',
     order: 10,
+    mode: 'adult_record',
+    questionPic: 'vaso',
     prompt: 'Imita la frase: "Quiero agua"',
+    childRecast: 'Quiero agua. ¿Lo dices conmigo?',
     options: [
       { id: 'opt_imita_frase', label: 'Imita la frase completa o parcial', isTarget: true },
       { id: 'opt_no_imita_frase', label: 'No imita', isTarget: false },
@@ -385,11 +460,13 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     ageBand: '3-4',
     area: 'instrucciones_fluidez',
     order: 1,
+    mode: 'child_choice',
     prompt: 'El niño tiene hambre, ¿qué debería hacer?',
+    childRecast: '¡Si tiene hambre, pide comida!',
     options: [
-      { id: 'opt_pedir_comida', label: 'Pedir comida', isTarget: true },
-      { id: 'opt_dormir', label: 'Dormir', isTarget: false },
-      { id: 'opt_jugar', label: 'Jugar', isTarget: false },
+      { id: 'opt_pedir_comida', label: 'Pedir comida', isTarget: true, pic: 'comer' },
+      { id: 'opt_dormir', label: 'Dormir', isTarget: false, pic: 'dormir' },
+      { id: 'opt_jugar', label: 'Jugar', isTarget: false, pic: 'pelota' },
     ],
     clinicalSupport: {
       targetFeedback: '¡Sí! Cuando tenemos hambre, pedimos comida.',
@@ -402,7 +479,10 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     ageBand: '3-4',
     area: 'instrucciones_fluidez',
     order: 2,
+    mode: 'adult_record',
+    questionPic: 'mano-limpia',
     prompt: 'Primero lávate las manos, luego toca la manzana (secuencia de 2 pasos)',
+    childRecast: 'Primero las manos, y después la manzana.',
     options: [
       { id: 'opt_dos_pasos_ok', label: 'Sigue ambos pasos en orden', isTarget: true },
       { id: 'opt_solo_un_paso', label: 'Completa solo un paso', isTarget: false },
@@ -418,11 +498,13 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     ageBand: '3-4',
     area: 'instrucciones_fluidez',
     order: 3,
+    mode: 'child_choice',
     prompt: '¿Cuál empieza como "sol"? (sapo / luna / pan)',
+    childRecast: 'Sol… sapo. ¡Las dos empiezan igual!',
     options: [
-      { id: 'opt_sapo', label: 'Sapo', isTarget: true },
-      { id: 'opt_luna', label: 'Luna', isTarget: false },
-      { id: 'opt_pan', label: 'Pan', isTarget: false },
+      { id: 'opt_sapo', label: 'Sapo', isTarget: true, pic: 'sapo' },
+      { id: 'opt_luna', label: 'Luna', isTarget: false, pic: 'luna' },
+      { id: 'opt_pan', label: 'Pan', isTarget: false, pic: 'pan' },
     ],
     clinicalSupport: {
       targetFeedback: '¡Sss-ol y Sss-apo! ¡Las dos empiezan con /s/!',
@@ -435,11 +517,13 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     ageBand: '3-4',
     area: 'instrucciones_fluidez',
     order: 4,
+    mode: 'child_choice',
     prompt: '¿Qué usamos cuando llueve?',
+    childRecast: '¡Cuando llueve usamos el paraguas!',
     options: [
-      { id: 'opt_paraguas', label: 'Paraguas', isTarget: true },
-      { id: 'opt_gorra', label: 'Gorra de sol', isTarget: false },
-      { id: 'opt_bufanda', label: 'Bufanda', isTarget: false },
+      { id: 'opt_paraguas', label: 'Paraguas', isTarget: true, pic: 'paraguas' },
+      { id: 'opt_gorra', label: 'Gorra', isTarget: false, pic: 'gorra' },
+      { id: 'opt_bufanda', label: 'Bufanda', isTarget: false, pic: 'bufanda' },
     ],
     clinicalSupport: {
       targetFeedback: '¡Un paraguas para no mojarnos con la lluvia!',
@@ -452,7 +536,9 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     ageBand: '3-4',
     area: 'instrucciones_fluidez',
     order: 5,
+    mode: 'adult_record',
     prompt: 'Juego de roles "el doctor": "¿Qué le duele al paciente?"',
+    childRecast: '¿Dónde le duele? ¿Aquí?',
     options: [
       { id: 'opt_responde_cuerpo', label: 'Responde señalando o nombrando la parte del cuerpo', isTarget: true },
       { id: 'opt_no_responde_rol', label: 'No responde en el juego', isTarget: false },
@@ -468,7 +554,9 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     ageBand: '3-4',
     area: 'instrucciones_fluidez',
     order: 6,
+    mode: 'adult_record',
     prompt: 'Cuando alguien te saluda y dice "hola", tú…',
+    childRecast: '¡Hola! Cuando te saludan, tú saludas.',
     options: [
       { id: 'opt_saluda_vuelta', label: 'Saludas de vuelta', isTarget: true },
       { id: 'opt_se_va_silencio', label: 'Te vas sin responder', isTarget: false },
@@ -484,8 +572,10 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     ageBand: '3-4',
     area: 'instrucciones_fluidez',
     order: 7,
+    mode: 'adult_record',
     prompt: 'Practica decir "quiero jugar" con voz suave y relajada',
     subPrompt: 'Estrategia clínica de inicio vocal suave para fluidez',
+    childRecast: 'Suavecito: quiero jugar.',
     options: [
       { id: 'opt_habla_relajada', label: 'Produce la frase de forma relajada', isTarget: true },
       { id: 'opt_tension_bloqueo', label: 'Muestra tensión o bloqueo', isTarget: false },
@@ -501,11 +591,13 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     ageBand: '3-4',
     area: 'instrucciones_fluidez',
     order: 8,
+    mode: 'child_choice',
     prompt: '¿Cuál no pertenece a este grupo? (manzana, plátano/banana, silla)',
+    childRecast: 'La manzana y el plátano se comen. ¡La silla no!',
     options: [
-      { id: 'opt_silla_intrusa', label: 'Silla', isTarget: true },
-      { id: 'opt_manzana_intrusa', label: 'Manzana', isTarget: false },
-      { id: 'opt_platano_intruso', label: 'Plátano / Banana', isTarget: false },
+      { id: 'opt_silla_intrusa', label: 'Silla', isTarget: true, pic: 'silla' },
+      { id: 'opt_manzana_intrusa', label: 'Manzana', isTarget: false, pic: 'manzana' },
+      { id: 'opt_platano_intruso', label: 'Plátano', isTarget: false, pic: 'platano' },
     ],
     clinicalSupport: {
       targetFeedback: '¡Exacto! La manzana y el plátano son frutas; la silla es un mueble.',
@@ -518,7 +610,10 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     ageBand: '3-4',
     area: 'instrucciones_fluidez',
     order: 9,
+    mode: 'adult_record',
+    questionPic: 'abrazo',
     prompt: 'Ordena la historia: niño tropieza → llora → mamá lo abraza',
+    childRecast: 'Primero tropieza, después llora, y mamá lo abraza.',
     options: [
       { id: 'opt_historia_ok', label: 'Ordena las 3 imágenes correctamente', isTarget: true },
       { id: 'opt_historia_err', label: 'Ordena de forma incorrecta', isTarget: false },
@@ -534,7 +629,9 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     ageBand: '3-4',
     area: 'instrucciones_fluidez',
     order: 10,
+    mode: 'adult_record',
     prompt: '¿Qué dirías si quieres jugar con un amigo?',
+    childRecast: '¿Puedo jugar contigo?',
     options: [
       { id: 'opt_puedo_jugar', label: '"¿Puedo jugar contigo?"', isTarget: true },
       { id: 'opt_no_dice_nada', label: 'No dice nada o quita el juguete', isTarget: false },
@@ -554,7 +651,9 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     ageBand: '4-5',
     area: 'sintaxis_narrativa',
     order: 1,
+    mode: 'adult_record',
     prompt: 'Imagen de un niño junto a su helado caído en el suelo: "¿Qué pasó aquí?"',
+    childRecast: 'Se le cayó el helado. ¡Está triste!',
     options: [
       { id: 'opt_helado_triste', label: '"Se le cayó el helado y está triste"', isTarget: true },
       { id: 'opt_esta_comiendo', label: '"Está comiendo"', isTarget: false },
@@ -571,7 +670,10 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     ageBand: '4-5',
     area: 'sintaxis_narrativa',
     order: 2,
+    mode: 'adult_record',
+    questionPic: 'perro',
     prompt: 'El niño dice "perro corre". Lúa responde: "¡Sí! El perro corre rápido. ¿Puedes decirlo así?"',
+    childRecast: '¡El perro corre rápido!',
     options: [
       { id: 'opt_repite_expandida', label: 'Repite la oración expandida', isTarget: true },
       { id: 'opt_repite_corta', label: 'Repite solo "perro corre"', isTarget: false },
@@ -587,11 +689,13 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     ageBand: '4-5',
     area: 'sintaxis_narrativa',
     order: 3,
+    mode: 'child_choice',
     prompt: '¿Cuál es lo opuesto de "grande"?',
+    childRecast: 'Lo contrario de grande es pequeño.',
     options: [
-      { id: 'opt_pequeno', label: 'Pequeño', isTarget: true },
-      { id: 'opt_alto', label: 'Alto', isTarget: false },
-      { id: 'opt_rapido', label: 'Rápido', isTarget: false },
+      { id: 'opt_pequeno', label: 'Pequeño', isTarget: true, pic: 'osito-pequeno' },
+      { id: 'opt_alto', label: 'Alto', isTarget: false, pic: 'arbol' },
+      { id: 'opt_rapido', label: 'Rápido', isTarget: false, pic: 'correr' },
     ],
     clinicalSupport: {
       targetFeedback: '¡Excelente! Lo contrario de grande es pequeño.',
@@ -604,7 +708,10 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     ageBand: '4-5',
     area: 'sintaxis_narrativa',
     order: 4,
+    mode: 'adult_record',
+    questionPic: 'sol',
     prompt: '¿Con qué sonido empieza la palabra "sol"?',
+    childRecast: 'Ssss… sol. ¡Empieza con /s/!',
     options: [
       { id: 'opt_fonema_s', label: '/s/', isTarget: true },
       { id: 'opt_fonema_m', label: '/m/', isTarget: false },
@@ -621,7 +728,10 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     ageBand: '4-5',
     area: 'sintaxis_narrativa',
     order: 5,
+    mode: 'adult_record',
+    questionPic: 'mesa',
     prompt: '¿Cuántas sílabas tiene "me-sa"?',
+    childRecast: 'Me-sa. ¡Dos palmadas!',
     options: [
       { id: 'opt_silabas_dos', label: '2 sílabas', isTarget: true },
       { id: 'opt_silabas_una', label: '1 sílaba', isTarget: false },
@@ -638,7 +748,9 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     ageBand: '4-5',
     area: 'sintaxis_narrativa',
     order: 6,
+    mode: 'adult_record',
     prompt: 'Juego de mesa: espera tu turno y sigue la instrucción del compañero',
+    childRecast: '¡Espera un poquito! Ahora te toca.',
     options: [
       { id: 'opt_espera_regla', label: 'Espera y sigue la regla', isTarget: true },
       { id: 'opt_no_espera_juego', label: 'No espera su turno', isTarget: false },
@@ -654,7 +766,9 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     ageBand: '4-5',
     area: 'sintaxis_narrativa',
     order: 7,
+    mode: 'adult_record',
     prompt: '¿Qué pasaría si se te cae un juguete al agua?',
+    childRecast: 'Si cae al agua, se moja.',
     options: [
       { id: 'opt_moja_flota', label: '"Se moja / flota / se hunde"', isTarget: true },
       { id: 'opt_no_pasa_nada', label: '"No pasa nada"', isTarget: false },
@@ -670,7 +784,10 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     ageBand: '4-5',
     area: 'sintaxis_narrativa',
     order: 8,
+    mode: 'adult_record',
+    questionPic: 'perro',
     prompt: 'Nombra 3 animales que conozcas',
+    childRecast: 'Perro, gato, pato. ¡Tres animales!',
     options: [
       { id: 'opt_tres_animales', label: 'Nombra 3 o más animales', isTarget: true },
       { id: 'opt_menos_animales', label: 'Nombra 1 o ninguno', isTarget: false },
@@ -686,7 +803,9 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     ageBand: '4-5',
     area: 'sintaxis_narrativa',
     order: 9,
+    mode: 'adult_record',
     prompt: 'Cuenta con voz suave y relajada un cuento cortito de 2 líneas',
+    childRecast: 'Despacito y suave, como Lúa.',
     options: [
       { id: 'opt_fluidez_cuento', label: 'Mantiene fluidez relajada', isTarget: true },
       { id: 'opt_bloqueos_cuento', label: 'Muestra tensión o repeticiones marcadas', isTarget: false },
@@ -702,7 +821,10 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     ageBand: '4-5',
     area: 'sintaxis_narrativa',
     order: 10,
+    mode: 'adult_record',
+    questionPic: 'boca',
     prompt: 'Repite la secuencia de sonidos con Lúa: "pa-pa-pa, ma-ma-ma"',
+    childRecast: 'Pa-pa-pa, ma-ma-ma. ¡Conmigo!',
     options: [
       { id: 'opt_repite_secuencia', label: 'Repite la secuencia motora', isTarget: true },
       { id: 'opt_falla_secuencia', label: 'No logra la secuencia rítmica', isTarget: false },
@@ -722,7 +844,9 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     ageBand: '5-7',
     area: 'conciencia_fonologica',
     order: 1,
+    mode: 'adult_record',
     prompt: '¿Cuántas sílabas tiene "ma-ri-po-sa"?',
+    childRecast: 'Ma-ri-po-sa. ¡Cuatro palmadas!',
     options: [
       { id: 'opt_mariposa_cuatro', label: '4 sílabas', isTarget: true },
       { id: 'opt_mariposa_tres', label: '3 sílabas', isTarget: false },
@@ -739,7 +863,9 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     ageBand: '5-7',
     area: 'conciencia_fonologica',
     order: 2,
+    mode: 'adult_record',
     prompt: 'Tu amigo está triste porque perdió su juguete. ¿Qué le dices?',
+    childRecast: '¿Quieres que te ayude a buscarlo?',
     options: [
       { id: 'opt_ayudo_buscar', label: '"¿Quieres que te ayude a buscarlo?"', isTarget: true },
       { id: 'opt_juega_solo', label: '"No importa, juega solo"', isTarget: false },
@@ -756,7 +882,10 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     ageBand: '5-7',
     area: 'conciencia_fonologica',
     order: 3,
+    mode: 'adult_record',
+    questionPic: 'saltar',
     prompt: 'Sigue esta instrucción sin mirar: "Toca tu cabeza y luego salta"',
+    childRecast: 'Primero la cabeza, y después saltas.',
     options: [
       { id: 'opt_dos_pasos_auditivo', label: 'Completa ambos pasos en orden', isTarget: true },
       { id: 'opt_un_paso_auditivo', label: 'Completa solo uno de los pasos', isTarget: false },
@@ -772,7 +901,9 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     ageBand: '5-7',
     area: 'conciencia_fonologica',
     order: 4,
+    mode: 'adult_record',
     prompt: '¿Qué palabra significa lo mismo que "contento"?',
+    childRecast: 'Contento y feliz quieren decir lo mismo.',
     options: [
       { id: 'opt_sinonimo_feliz', label: 'Feliz', isTarget: true },
       { id: 'opt_sinonimo_triste', label: 'Triste', isTarget: false },
@@ -789,7 +920,9 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     ageBand: '5-7',
     area: 'conciencia_fonologica',
     order: 5,
+    mode: 'adult_record',
     prompt: '¿Cuál es lo opuesto de "alto"?',
+    childRecast: 'Lo contrario de alto es bajo.',
     options: [
       { id: 'opt_antonimo_bajo', label: 'Bajo', isTarget: true },
       { id: 'opt_antonimo_rapido', label: 'Rápido', isTarget: false },
@@ -806,7 +939,9 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     ageBand: '5-7',
     area: 'conciencia_fonologica',
     order: 6,
+    mode: 'adult_record',
     prompt: 'Escucha la historia y responde: "¿Por qué el niño se puso feliz?"',
+    childRecast: 'Se puso feliz por lo que le pasó en el cuento.',
     options: [
       { id: 'opt_causa_acertada', label: 'Responde con la causa correcta del relato', isTarget: true },
       { id: 'opt_no_relaciona_causa', label: 'No relaciona la causa con la emoción', isTarget: false },
@@ -822,7 +957,9 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     ageBand: '5-7',
     area: 'conciencia_fonologica',
     order: 7,
+    mode: 'adult_record',
     prompt: 'Practica un inicio suave de la palabra "mamá" antes de tu turno en el juego',
+    childRecast: 'Mmmamá. Empieza suave, sin prisa.',
     options: [
       { id: 'opt_inicio_suave_ok', label: 'Produce un inicio suave y relajado', isTarget: true },
       { id: 'opt_inicio_con_tension', label: 'Muestra bloqueo o golpe de glotis', isTarget: false },
@@ -838,11 +975,13 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     ageBand: '5-7',
     area: 'conciencia_fonologica',
     order: 8,
+    mode: 'child_choice',
     prompt: '¿Qué palabra rima con "gato"?',
+    childRecast: 'Gato y pato riman: suenan igual al final.',
     options: [
-      { id: 'opt_rima_pato', label: 'Pato', isTarget: true },
-      { id: 'opt_rima_perro', label: 'Perro', isTarget: false },
-      { id: 'opt_rima_casa', label: 'Casa', isTarget: false },
+      { id: 'opt_rima_pato', label: 'Pato', isTarget: true, pic: 'pato' },
+      { id: 'opt_rima_perro', label: 'Perro', isTarget: false, pic: 'perro' },
+      { id: 'opt_rima_casa', label: 'Casa', isTarget: false, pic: 'casa' },
     ],
     clinicalSupport: {
       targetFeedback: '¡Ga-to y Pa-to riman al final!',
@@ -855,7 +994,9 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     ageBand: '5-7',
     area: 'conciencia_fonologica',
     order: 9,
+    mode: 'adult_record',
     prompt: 'Cuéntale a Lúa algo divertido que hiciste el fin de semana (¿qué?, ¿quién?, ¿cuándo?)',
+    childRecast: 'Cuéntame: ¿qué hiciste y con quién?',
     options: [
       { id: 'opt_narra_elementos', label: 'Narra con al menos 2 elementos estructurados', isTarget: true },
       { id: 'opt_narra_aislada', label: 'Responde con una sola palabra', isTarget: false },
@@ -871,7 +1012,10 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     ageBand: '5-7',
     area: 'conciencia_fonologica',
     order: 10,
+    mode: 'adult_record',
+    questionPic: 'perro',
     prompt: 'Lee en voz alta y pronuncia con calma el sonido /r/ en "perro"',
+    childRecast: 'Perrrro. Con calma, sin apretar.',
     options: [
       { id: 'opt_produce_r', label: 'Produce el sonido con o sin apoyo', isTarget: true },
       { id: 'opt_sustituye_r', label: 'Sustituye u omite el sonido /r/', isTarget: false },
@@ -891,7 +1035,9 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     ageBand: '7-10',
     area: 'lenguaje_abstracto',
     order: 1,
+    mode: 'adult_record',
     prompt: '¿Qué significa la expresión "estar en las nubes"?',
+    childRecast: 'Estar en las nubes es estar distraído.',
     options: [
       { id: 'opt_distraido', label: 'Estar distraído o soñando despierto', isTarget: true },
       { id: 'opt_en_avion', label: 'Estar volando en un avión', isTarget: false },
@@ -908,7 +1054,9 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     ageBand: '7-10',
     area: 'lenguaje_abstracto',
     order: 2,
+    mode: 'adult_record',
     prompt: 'Escucha tu propia voz grabada: "¿Sentiste tu habla suave y relajada en esta frase?"',
+    childRecast: 'Escúchate otra vez. ¿Sonó suave?',
     options: [
       { id: 'opt_autoeval_facil', label: '"Sí, se sintió fácil y suave"', isTarget: true },
       { id: 'opt_autoeval_tensa', label: '"Un poco tensa o rápida"', isTarget: true },
@@ -925,7 +1073,9 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     ageBand: '7-10',
     area: 'lenguaje_abstracto',
     order: 3,
+    mode: 'adult_record',
     prompt: 'En la historia, el personaje se fue sin decir una palabra. ¿Por qué crees que hizo eso?',
+    childRecast: 'Quizá se fue porque estaba disgustado.',
     options: [
       { id: 'opt_inferencia_valida', label: 'Aporta una inferencia razonada (ej. estaba disgustado o apenado)', isTarget: true },
       { id: 'opt_no_sabe_inferir', label: 'Dice "no sé" sin intentar inferir', isTarget: false },
@@ -941,7 +1091,9 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     ageBand: '7-10',
     area: 'lenguaje_abstracto',
     order: 4,
+    mode: 'adult_record',
     prompt: 'Un compañero copia tus respuestas en clase sin que el profesor lo vea. ¿Qué harías?',
+    childRecast: 'Piénsalo con calma. ¿Qué harías tú?',
     options: [
       { id: 'opt_respuesta_reflexiva', label: 'Aporta una respuesta reflexiva y equilibrada', isTarget: true },
       { id: 'opt_evita_responder', label: 'Evita responder o da una respuesta impulsiva', isTarget: false },
@@ -957,7 +1109,9 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     ageBand: '7-10',
     area: 'lenguaje_abstracto',
     order: 5,
+    mode: 'adult_record',
     prompt: '¿Qué es un "ecosistema"? Explícalo con tus propias palabras',
+    childRecast: 'Un ecosistema son los seres vivos y su entorno.',
     options: [
       { id: 'opt_def_funcional', label: 'Da una definición funcional aproximada (seres vivos y su entorno)', isTarget: true },
       { id: 'opt_no_define', label: 'No logra definir el concepto', isTarget: false },
@@ -973,7 +1127,9 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     ageBand: '7-10',
     area: 'lenguaje_abstracto',
     order: 6,
+    mode: 'adult_record',
     prompt: 'Organiza tu historia: inicio, problema y solución',
+    childRecast: 'Inicio, problema y solución. ¡Las tres partes!',
     options: [
       { id: 'opt_tres_partes_historia', label: 'Incluye las 3 partes de forma coherente', isTarget: true },
       { id: 'opt_omite_partes', label: 'Omite el nudo o el desenlace', isTarget: false },
@@ -989,7 +1145,9 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     ageBand: '7-10',
     area: 'lenguaje_abstracto',
     order: 7,
+    mode: 'adult_record',
     prompt: '¿Cuál es el chiste o doble sentido en: "¿Por qué el libro de matemáticas estaba triste? ¡Porque tenía muchos problemas!"?',
+    childRecast: 'Problemas de matemáticas y problemas de verdad. ¡Por eso hace gracia!',
     options: [
       { id: 'opt_explica_doble_sentido', label: 'Explica el juego de palabras (problemas matemáticos vs dificultades personales)', isTarget: true },
       { id: 'opt_no_capta_chiste', label: 'No identifica el doble sentido', isTarget: false },
@@ -1005,7 +1163,9 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     ageBand: '7-10',
     area: 'lenguaje_abstracto',
     order: 8,
+    mode: 'adult_record',
     prompt: 'Practica el sonido /s/ mientras conversas espontáneamente con Lúa sobre tu día favorito',
+    childRecast: 'Ssss… sigue contándome tu día.',
     options: [
       { id: 'opt_generaliza_s', label: 'Articula el sonido correctamente en habla espontánea', isTarget: true },
       { id: 'opt_solo_aislada_s', label: 'Solo lo logra en palabras leídas o aisladas', isTarget: false },
@@ -1021,7 +1181,9 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     ageBand: '7-10',
     area: 'lenguaje_abstracto',
     order: 9,
+    mode: 'adult_record',
     prompt: 'En la historia, primero llovió mucho y luego se llenó de agua la calle. ¿Cuál fue la causa de que se inundara?',
+    childRecast: 'Se inundó porque llovió mucho.',
     options: [
       { id: 'opt_causa_lluvia', label: 'La lluvia abundante', isTarget: true },
       { id: 'opt_causa_inundacion', label: 'La inundación misma', isTarget: false },
@@ -1037,7 +1199,10 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     ageBand: '7-10',
     area: 'lenguaje_abstracto',
     order: 10,
+    mode: 'adult_record',
+    questionPic: 'gato',
     prompt: 'Debate guiado: "¿Es mejor tener un perro o un gato de mascota?" Da tu opinión y escucha la de Lúa',
+    childRecast: 'Di lo que piensas y escucha también a Lúa.',
     options: [
       { id: 'opt_debate_argumenta', label: 'Argumenta su punto de vista y respeta el turno', isTarget: true },
       { id: 'opt_debate_interrumpe', label: 'Interrumpe o no justifica su preferencia', isTarget: false },

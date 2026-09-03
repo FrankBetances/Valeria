@@ -1,6 +1,18 @@
 // ============================================================================
 // Valeria+ · Aventuras con Lúa · Reproductor de Evaluación Interactiva
 // Banco de preguntas clínicas con pautas de modelado sin castigo (recasting).
+//
+// Dos cosas que no se pueden perder al tocar esta pantalla:
+//
+//  · AL NIÑO NO SE LE LOCUTA LA PAUTA DEL ADULTO. `modelingFeedback` está
+//    escrito en impersonal para el terapeuta («Se repite la consigna señalando
+//    con la mano abierta el objeto correcto») y se le decía al niño en voz
+//    alta justo al fallar. Lo que suena es `childRecast`; la pauta se LEE, en
+//    el panel del adulto.
+//  · UN ÍTEM `child_choice` SE RESPONDE MIRANDO, NO LEYENDO. Por debajo de 4
+//    años no hay lectura: cada opción va con su ficha del banco propio. Los
+//    ítems `adult_record` no son estímulos —son la hoja de registro— y por eso
+//    se pintan distintos y no se locutan al tocarlos.
 // ============================================================================
 import React, { useState, useEffect, useCallback } from "react";
 import {
@@ -16,6 +28,9 @@ import { useT } from "../../i18n";
 import { BlockIcon } from "../../ValeriaBlockIcons";
 import { CatPixel } from "../../ValeriaCatPixel";
 import { speakToChild } from "../../valeriaVoice";
+import { FichaVisual } from "../../ValeriaPictograms";
+import { registerSession } from "../../valeriaGamification";
+import { luaSessionReward } from "../../valeriaLuaSession";
 import { LUA_COLORS, LUA_RADII } from "../Theme/luaTheme";
 import {
   AgeBand,
@@ -64,19 +79,27 @@ export const LuaAssessmentPlayerScreen: React.FC<Props> = ({ navigation, route }
   const handleSelectOption = (optionId: string, isTarget: boolean) => {
     setSelectedOptionId(optionId);
     if (!currentQ) return;
-
-    if (isTarget) {
-      speakToChild(currentQ.clinicalSupport.targetFeedback);
-    } else {
-      speakToChild(currentQ.clinicalSupport.modelingFeedback);
-    }
+    // Lo que oye el niño. Nunca `modelingFeedback`: eso es la pauta del adulto
+    // y se lee en el panel, no se locuta.
+    speakToChild(isTarget ? currentQ.clinicalSupport.targetFeedback : currentQ.childRecast);
   };
+
+  // Cierre de serie. Sin esto la serie no existía para la app: ni XP, ni racha,
+  // ni insignia, y la gata del aparato se quedaba con la cara de antes mientras
+  // el niño veía su premio en la tableta.
+  const finishBand = useCallback(async () => {
+    setIsCompleted(true);
+    try {
+      const premio = await registerSession(2, bandQuestions.length);
+      luaSessionReward(premio); // el mismo premio, en el cristal
+    } catch (e) { /* gamificación no disponible */ }
+  }, [bandQuestions.length]);
 
   const handleNext = () => {
     if (currentIndex < bandQuestions.length - 1) {
       setCurrentIndex((prev) => prev + 1);
     } else {
-      setIsCompleted(true);
+      void finishBand();
     }
   };
 
@@ -96,7 +119,7 @@ export const LuaAssessmentPlayerScreen: React.FC<Props> = ({ navigation, route }
             accessibilityRole="button"
             accessibilityLabel={t.common.back}
           >
-            <Text style={s.backTxt}>←</Text>
+            <Text style={s.backTxt}>{`‹ ${t.common.back}`}</Text>
           </Pressable>
           <Text style={s.topTitle}>{t.luaHub.secAssessmentTitle}</Text>
         </View>
@@ -115,7 +138,7 @@ export const LuaAssessmentPlayerScreen: React.FC<Props> = ({ navigation, route }
           accessibilityLabel={t.common.back}
           hitSlop={12}
         >
-          <Text style={s.backTxt}>←</Text>
+          <Text style={s.backTxt}>{`‹ ${t.common.back}`}</Text>
         </Pressable>
         <View style={s.progressWrap}>
           <Text style={s.progressTxt}>
@@ -189,44 +212,90 @@ export const LuaAssessmentPlayerScreen: React.FC<Props> = ({ navigation, route }
               <Text style={s.questionText}>
                 {currentQ.prompt}
               </Text>
+              {currentQ.questionPic && (
+                <View style={s.questionPicWrap}>
+                  <FichaVisual word="" emoji="" pic={currentQ.questionPic} size={84} />
+                </View>
+              )}
             </View>
 
-            {/* Opciones de respuesta táctiles grandes (>= 56dp) */}
-            <View style={s.optionsContainer}>
-              {currentQ.options.map((opt) => {
-                const isSelected = selectedOptionId === opt.id;
-                return (
-                  <Pressable
-                    key={opt.id}
-                    onPress={() => handleSelectOption(opt.id, opt.isTarget)}
-                    style={[
-                      s.optionButton,
-                      isSelected && (opt.isTarget ? s.optionTargetSelected : s.optionRecastSelected),
-                    ]}
-                    accessibilityRole="button"
-                    accessibilityLabel={opt.label} // i18n-exempt: catálogo clínico dinámico
-                  >
-                    <View style={s.optionCheckMark}>
-                      {isSelected && (
-                        <BlockIcon
-                          name={opt.isTarget ? "check" : "tip"}
-                          color={opt.isTarget ? LUA_COLORS.mintDark : LUA_COLORS.amberDark}
-                          size={20}
-                        />
-                      )}
-                    </View>
-                    <Text
+            {/* Las opciones se pintan según QUIÉN responde. Un niño de 0-2 no
+                lee: en 'child_choice' toca una ficha grande. En 'adult_record'
+                lo que hay es la hoja de registro del adulto, y por eso va
+                marcada como tal y en filas compactas. */}
+            {currentQ.mode === "child_choice" ? (
+              <View style={s.picOptionsGrid}>
+                {currentQ.options.map((opt) => {
+                  const isSelected = selectedOptionId === opt.id;
+                  return (
+                    <Pressable
+                      key={opt.id}
+                      onPress={() => handleSelectOption(opt.id, opt.isTarget)}
                       style={[
-                        s.optionLabel,
-                        isSelected && (opt.isTarget ? s.optionTargetTxt : s.optionRecastTxt),
+                        s.picOption,
+                        isSelected && (opt.isTarget ? s.picOptionTarget : s.picOptionRecast),
                       ]}
+                      accessibilityRole="button"
+                      accessibilityLabel={opt.label} // i18n-exempt: catálogo clínico dinámico
                     >
-                      {opt.label}
-                    </Text>
-                  </Pressable>
-                );
-              })}
-            </View>
+                      <FichaVisual word={opt.label} emoji="" pic={opt.pic} size={72} />
+                      <Text style={s.picOptionLabel} numberOfLines={2}>
+                        {opt.label}
+                      </Text>
+                      {isSelected && (
+                        <View style={s.picOptionMark}>
+                          <BlockIcon
+                            name={opt.isTarget ? "check" : "tip"}
+                            color={opt.isTarget ? LUA_COLORS.mintDark : LUA_COLORS.amberDark}
+                            size={22}
+                          />
+                        </View>
+                      )}
+                    </Pressable>
+                  );
+                })}
+              </View>
+            ) : (
+              <View style={s.recordBlock}>
+                <Text style={s.recordHeading}>{t.luaHub.evalAdultRecord}</Text>
+                <Text style={s.recordHint}>{t.luaHub.evalAdultRecordHint}</Text>
+                <View style={s.optionsContainer}>
+                  {currentQ.options.map((opt) => {
+                    const isSelected = selectedOptionId === opt.id;
+                    return (
+                      <Pressable
+                        key={opt.id}
+                        onPress={() => handleSelectOption(opt.id, opt.isTarget)}
+                        style={[
+                          s.optionButton,
+                          isSelected && (opt.isTarget ? s.optionTargetSelected : s.optionRecastSelected),
+                        ]}
+                        accessibilityRole="button"
+                        accessibilityLabel={opt.label} // i18n-exempt: catálogo clínico dinámico
+                      >
+                        <View style={s.optionCheckMark}>
+                          {isSelected && (
+                            <BlockIcon
+                              name={opt.isTarget ? "check" : "tip"}
+                              color={opt.isTarget ? LUA_COLORS.mintDark : LUA_COLORS.amberDark}
+                              size={20}
+                            />
+                          )}
+                        </View>
+                        <Text
+                          style={[
+                            s.optionLabel,
+                            isSelected && (opt.isTarget ? s.optionTargetTxt : s.optionRecastTxt),
+                          ]}
+                        >
+                          {opt.label}
+                        </Text>
+                      </Pressable>
+                    );
+                  })}
+                </View>
+              </View>
+            )}
 
             {/* Banner de refuerzo o modelado clínico */}
             {selectedOptionId && (
@@ -246,8 +315,13 @@ export const LuaAssessmentPlayerScreen: React.FC<Props> = ({ navigation, route }
                 <Text style={s.feedbackDesc}>
                   {currentQ.options.find((o) => o.id === selectedOptionId)?.isTarget
                     ? currentQ.clinicalSupport.targetFeedback
-                    : currentQ.clinicalSupport.modelingFeedback}
+                    : currentQ.childRecast}
                 </Text>
+                {!currentQ.options.find((o) => o.id === selectedOptionId)?.isTarget && (
+                  <Text style={s.feedbackAdultNote}>
+                    {currentQ.clinicalSupport.modelingFeedback}
+                  </Text>
+                )}
               </View>
             )}
 
@@ -399,6 +473,79 @@ const s = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     marginBottom: 12,
+  },
+  // Ficha grande: es lo que el niño toca. 72 dp de dibujo + etiqueta, muy por
+  // encima del objetivo táctil mínimo, porque quien responde tiene 2 años.
+  picOptionsGrid: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "center",
+    gap: 12,
+    marginTop: 8,
+  },
+  picOption: {
+    width: 132,
+    minHeight: 148,
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 12,
+    paddingHorizontal: 8,
+    borderRadius: LUA_RADII.lg,
+    borderWidth: 2,
+    borderColor: LUA_COLORS.border,
+    backgroundColor: LUA_COLORS.surface,
+  },
+  picOptionTarget: {
+    borderColor: LUA_COLORS.mintDark,
+    backgroundColor: LUA_COLORS.mintLight,
+  },
+  picOptionRecast: {
+    borderColor: LUA_COLORS.amberDark,
+    backgroundColor: LUA_COLORS.amberLight,
+  },
+  picOptionLabel: {
+    marginTop: 8,
+    fontSize: 16,
+    fontWeight: "700",
+    textAlign: "center",
+    color: LUA_COLORS.textPrimary,
+  },
+  picOptionMark: { position: "absolute", top: 8, right: 8 },
+  questionPicWrap: { alignItems: "center", marginTop: 10 },
+  // Hoja de registro del adulto: se distingue a propósito de las fichas del
+  // niño, para que nadie confunda «lo que el peque elige» con «lo que yo anoto».
+  recordBlock: {
+    marginTop: 8,
+    padding: 12,
+    borderRadius: LUA_RADII.lg,
+    borderWidth: 1,
+    borderStyle: "dashed",
+    borderColor: LUA_COLORS.borderStrong,
+    backgroundColor: LUA_COLORS.surfaceSubtle,
+  },
+  recordHeading: {
+    fontSize: 13,
+    fontWeight: "800",
+    letterSpacing: 0.4,
+    textTransform: "uppercase",
+    color: LUA_COLORS.textSecondary,
+  },
+  recordHint: {
+    fontSize: 13,
+    lineHeight: 18,
+    color: LUA_COLORS.textMuted,
+    marginTop: 2,
+    marginBottom: 10,
+  },
+  feedbackAdultNote: {
+    marginTop: 8,
+    paddingTop: 8,
+    borderTopWidth: 1,
+    borderTopColor: LUA_COLORS.border,
+    fontSize: 13,
+    lineHeight: 19,
+    fontStyle: "italic",
+    color: LUA_COLORS.textMuted,
   },
   speakPromptBtn: {
     width: 44,

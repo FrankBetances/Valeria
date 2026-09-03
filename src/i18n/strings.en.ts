@@ -1773,6 +1773,8 @@ export const EN: UiStrings = {
 
     evalProgress: (curr: number, total: number): string => `Question ${curr} of ${total}`,
     evalClinicalSupport: 'Caregiver clinical guidance',
+    evalAdultRecord: 'Adult observation',
+    evalAdultRecordHint: 'Watch the child and mark what they did. This is not their choice.',
     evalTargetReinforcement: 'Great answer!',
     evalRecastModel: 'Suggested modeling (recast)',
     evalAdultGuidance: 'Practical clinical tip',

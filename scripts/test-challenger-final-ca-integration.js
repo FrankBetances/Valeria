@@ -457,12 +457,12 @@ async function main() {
     const enNamespaces = Object.keys(stringsEn.EN).sort();
     const caNamespaces = Object.keys(stringsCa.CA).sort();
 
-    assert.strictEqual(esNamespaces.length, 28, 'ES has 28 namespaces');
+    assert.strictEqual(esNamespaces.length, 29, 'ES has 29 namespaces');
     assert.deepStrictEqual(caNamespaces, esNamespaces, 'CA namespaces match ES namespaces exactly');
     assert.deepStrictEqual(enNamespaces, esNamespaces, 'EN namespaces match ES namespaces exactly');
   });
 
-  runTest('TEST-4.2: Total keys count and deep structural parity across all 28 namespaces', () => {
+  runTest('TEST-4.2: Total keys count and deep structural parity across all 29 namespaces', () => {
     let esTotal = 0;
     let caTotal = 0;
     let enTotal = 0;
@@ -535,7 +535,7 @@ async function main() {
   }
   extractSignatures(sourceFile);
 
-  runTest('TEST-4.3: Dynamic AST-Driven Execution of all 212 Interpolation Functions in CA', () => {
+  runTest('TEST-4.3: Dynamic AST-Driven Execution of all 221 Interpolation Functions in CA', () => {
     let funcCount = 0;
     const knownKeys = {
       'ficha.genderLabel': 'Niña',
@@ -603,7 +603,7 @@ async function main() {
       }
     }
 
-    assert.strictEqual(funcCount, 212, 'Successfully tested all 212 interpolation functions across catalogs');
+    assert.strictEqual(funcCount, 221, 'Successfully tested all 221 interpolation functions across catalogs');
   });
 
   // ──────────────────────────────────────────────────────────────────────────

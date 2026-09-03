@@ -1834,6 +1834,8 @@ export const ES = {
 
     evalProgress: (curr: number, total: number): string => `Pregunta ${curr} de ${total}`,
     evalClinicalSupport: 'Pauta de apoyo para el adulto',
+    evalAdultRecord: 'Registro del adulto',
+    evalAdultRecordHint: 'Observa al peque y marca lo que ha hecho. Esto no lo elige él.',
     evalTargetReinforcement: '¡Excelente respuesta!',
     evalRecastModel: 'Modelado sugerido (sin castigo)',
     evalAdultGuidance: 'Guía clínica práctica',

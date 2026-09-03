@@ -1731,6 +1731,8 @@ export const CA: UiStrings = {
 
     evalProgress: (curr: number, total: number): string => `Pregunta ${curr} de ${total}`,
     evalClinicalSupport: 'Pauta de suport per a l\'adult',
+    evalAdultRecord: 'Registre de l\'adult',
+    evalAdultRecordHint: 'Observa el nen i marca què ha fet. Això no ho tria ell.',
     evalTargetReinforcement: 'Excel·lent resposta!',
     evalRecastModel: 'Modelatge suggerit (sense càstig)',
     evalAdultGuidance: 'Guia clínica pràctica',
