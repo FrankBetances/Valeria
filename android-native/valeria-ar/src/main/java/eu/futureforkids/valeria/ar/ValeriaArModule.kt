@@ -101,7 +101,13 @@ class ValeriaArModule(private val reactContext: ReactApplicationContext) :
             ValeriaArActivity.intent(reactContext, ValeriaArActivity.MODE_APTITUDE),
             REQUEST_APTITUDE,
             promise,
-        ) { map -> map.getMap("deviceProfile") ?: map }
+        ) { map ->
+            if (map.hasKey("deviceProfile") && !map.isNull("deviceProfile")) {
+                map.getMap("deviceProfile")
+            } else {
+                null
+            }
+        }
     }
 
     @ReactMethod

@@ -87,7 +87,7 @@ export const ValeriaArLauncherScreen: React.FC<{ navigation?: any }> = ({ naviga
 
       if (!(await hasArConsent(key))) { setPhase('consent'); return; }
       const cached = await loadArDeviceProfile();
-      if (!cached) { setPhase('aptitude'); return; }
+      if (!cached || !cached.level) { setPhase('aptitude'); return; }
       setProfile(cached);
       setPhase(cached.level === 'D' ? 'notApt' : 'menu');
     })();
@@ -96,7 +96,7 @@ export const ValeriaArLauncherScreen: React.FC<{ navigation?: any }> = ({ naviga
   const acceptConsent = async () => {
     await grantArConsent(patientKey);
     const cached = await loadArDeviceProfile();
-    if (cached) { setProfile(cached); setPhase(cached.level === 'D' ? 'notApt' : 'menu'); }
+    if (cached && cached.level) { setProfile(cached); setPhase(cached.level === 'D' ? 'notApt' : 'menu'); }
     else setPhase('aptitude');
   };
 
@@ -106,7 +106,7 @@ export const ValeriaArLauncherScreen: React.FC<{ navigation?: any }> = ({ naviga
     setBusyMsg(t.ar.busyMeasuring);
     setPhase('busy');
     const p = await runAptitudeTest();
-    if (!p) {
+    if (!p || typeof p !== 'object' || !('level' in p) || !p.level) {
       setNotice(t.ar.noticeAptitudeFailed);
       setPhase('aptitude');
       return;

@@ -155,4 +155,5 @@ export const AR_LEVEL_POLICY: Record<'A' | 'B' | 'C' | 'D', ArLevelPolicy> = {
   },
 };
 
-export const arPolicyFor = (level: 'A' | 'B' | 'C' | 'D'): ArLevelPolicy => AR_LEVEL_POLICY[level];
+export const arPolicyFor = (level?: 'A' | 'B' | 'C' | 'D'): ArLevelPolicy =>
+  (level && AR_LEVEL_POLICY[level]) ? AR_LEVEL_POLICY[level] : AR_LEVEL_POLICY.D;

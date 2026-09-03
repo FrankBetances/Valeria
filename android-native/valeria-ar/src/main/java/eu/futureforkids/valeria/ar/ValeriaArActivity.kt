@@ -309,7 +309,7 @@ class ValeriaArActivity : ComponentActivity() {
         }
         // Sin cámara concedida no hay sesión que reanudar: no se enciende un
         // sensor para una Activity que se está cerrando.
-        if (pipelineStarted) {
+        if (pipelineStarted && arSession.session != null) {
             imu.start()
             // ARCore primero y el GLSurfaceView después. Al revés, el bucle de
             // GL empieza a llamar a `update()` sobre una sesión pausada y ARCore
@@ -325,7 +325,7 @@ class ValeriaArActivity : ComponentActivity() {
                 statusText = "Otra aplicación está usando la cámara."
                 finishWith(outcome = "aborted")
             }
-        } else if (arSession.unavailable == null && arSession.session == null) {
+        } else if (arSession.session == null) {
             // Volvemos de instalar Servicios de Google para RA: se reintenta.
             // Este es el camino que hace que aceptar la instalación NO acabe en
             // una pantalla muerta.
@@ -355,13 +355,14 @@ class ValeriaArActivity : ComponentActivity() {
     // ---- Cámara y señal -----------------------------------------------------
 
     private fun startPipeline() {
-        pipelineStarted = true
         imu.start()
-        engine = FaceSignalEngine(
-            context = this,
-            onFaceLost = { onFrameProcessed() },
-            onSignals = { signals -> onFrameProcessed(); onSignals(signals) },
-        )
+        if (engine == null) {
+            engine = FaceSignalEngine(
+                context = this,
+                onFaceLost = { onFrameProcessed() },
+                onSignals = { signals -> onFrameProcessed(); onSignals(signals) },
+            )
+        }
         if (engine?.isReady != true) { finishWith(outcome = "aborted"); return }
 
         // ARCore puede no estar disponible por cinco motivos distintos y cada
@@ -442,6 +443,7 @@ class ValeriaArActivity : ComponentActivity() {
             return
         }
         gl.onResume()
+        pipelineStarted = true
 
         lastFaceMs = SystemClock.elapsedRealtime()
         watchCameraHealth()
