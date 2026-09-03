@@ -9,13 +9,13 @@
 // corpus; las consignas de los diez juegos entran por `luaVoiceLines`.
 // ============================================================================
 import React, { useCallback, useMemo, useState } from "react";
-import { View, Text, StyleSheet, ScrollView, Pressable } from "react-native";
+import { View, Text, StyleSheet, ScrollView, Pressable, useWindowDimensions } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useT } from "../../i18n";
 import { BlockIcon } from "../../ValeriaBlockIcons";
 import { CatPixel } from "../../ValeriaCatPixel";
 import { FichaVisual } from "../../ValeriaPictograms";
-import { speakToChild } from "../../valeriaVoice";
+import { speakLuaToChild, speakLuaToChildSeq } from "../luaSpeech";
 import { LUA_COLORS, LUA_RADII } from "../Theme/luaTheme";
 import { LuaGame, LuaGameItem, LUA_GAMES_CATALOG } from "../index";
 import { luaCompleteActivity } from "../luaActivityReward";
@@ -25,21 +25,29 @@ interface Props {
   route: { params: { gameId: string } };
 }
 
-/** Baraja estable por índice: sin Math.random en render, para que el tablero no
- *  se recoloque solo en cada repintado con un niño a medio partida. */
+/**
+ * Baraja DETERMINISTA: Fisher-Yates con semilla fija en vez de Math.random, para
+ * que el tablero no se recoloque solo en cada repintado con un niño a media
+ * partida. Y de verdad baraja: con el reparto anterior las dos mitades salían en
+ * el mismo orden y cada pareja caía en la misma columna, así que el memorama se
+ * resolvía sin memoria ninguna.
+ */
 const pairDeck = (items: LuaGameItem[]): LuaGameItem[] => {
-  const doubled = [...items, ...items];
-  const out: LuaGameItem[] = [];
-  for (let i = 0; i < doubled.length; i++) {
-    out.push(doubled[(i * 5 + 3) % doubled.length]);
+  const deck = [...items, ...items];
+  let seed = 20260903;
+  for (let i = deck.length - 1; i > 0; i--) {
+    seed = (seed * 1103515245 + 12345) & 0x7fffffff;
+    const j = seed % (i + 1);
+    [deck[i], deck[j]] = [deck[j], deck[i]];
   }
-  return out;
+  return deck;
 };
 
 export const LuaGamePlayerScreen: React.FC<Props> = ({ navigation, route }) => {
   const t = useT();
   const insets = useSafeAreaInsets();
   const { gameId } = route.params || {};
+  const { width } = useWindowDimensions();
   const game: LuaGame | undefined =
     LUA_GAMES_CATALOG.find((g) => g.id === gameId) || LUA_GAMES_CATALOG[0];
 
@@ -50,12 +58,23 @@ export const LuaGamePlayerScreen: React.FC<Props> = ({ navigation, route }) => {
 
   const deck = useMemo(() => (game?.kind === "memory" ? pairDeck(game.items) : []), [game]);
 
+  // El tablero se reparte por el ancho real. Con un tamaño fijo, el memorama de
+  // 8 tarjetas salía a dos columnas y cuatro filas de scroll en un móvil.
+  const GAP = 8;
+  const PAD = 16;
+  const cols = game?.kind === "memory" ? 4 : 3;
+  const cardW = Math.floor((width - PAD * 2 - GAP * (cols - 1)) / cols);
+  const picSize = Math.max(34, Math.min(58, cardW - 26));
+  // «Pandereta» no cabe a 14 pt en una tarjeta de 4 columnas y partía en
+  // «Panderet / a». El cuerpo baja con la rejilla, no al revés.
+  const labelSize = cols >= 4 ? 12 : 14;
+
   const handleFinish = useCallback(async () => {
     setFinished(true);
     await luaCompleteActivity(game?.items.length ?? 1);
   }, [game]);
 
-  const say = (text: string) => { if (text) speakToChild(text); };
+  const say = (text: string) => { if (text) speakLuaToChild(text); };
 
   if (!game) return <View style={s.container} />;
 
@@ -82,20 +101,20 @@ export const LuaGamePlayerScreen: React.FC<Props> = ({ navigation, route }) => {
       <Pressable
         key={`${item.label}-${idx}`}
         onPress={() => tap(idx, item)}
-        style={[s.card, isMarked && s.cardMarked, seqPos >= 0 && s.cardOrdered]}
+        style={[s.card, { width: cardW, minHeight: cardW }, isMarked && s.cardMarked, seqPos >= 0 && s.cardOrdered]}
         accessibilityRole="button"
         accessibilityLabel={item.label || t.luaHub.gameBlankSlot} // i18n-exempt: catálogo clínico dinámico
       >
         {hidden ? (
-          <View style={s.cardBack}><CatPixel size={40} /></View>
+          <View style={[s.cardBack, { width: picSize, height: picSize }]}><CatPixel size={picSize} /></View>
         ) : (
           <>
             {item.pic ? (
-              <FichaVisual word={item.label} emoji="" pic={item.pic} size={58} />
+              <FichaVisual word={item.label} emoji="" pic={item.pic} size={picSize} />
             ) : (
-              <View style={s.blankSlot} />
+              <View style={[s.blankSlot, { width: picSize, height: picSize }]} />
             )}
-            <Text style={s.cardLabel} numberOfLines={1}>
+            <Text style={[s.cardLabel, { fontSize: labelSize }]} numberOfLines={2}>
               {item.template ?? item.label}
             </Text>
           </>
@@ -211,11 +230,10 @@ const s = StyleSheet.create({
     fontSize: 14, fontWeight: "800", marginBottom: 8,
     color: LUA_COLORS.textSecondary,
   },
-  grid: { flexDirection: "row", flexWrap: "wrap", gap: 10 },
+  grid: { flexDirection: "row", flexWrap: "wrap", gap: 8 },
   // 116 dp de lado: muy por encima del objetivo táctil mínimo, porque quien
   // juega puede tener dos años.
   card: {
-    width: 116, minHeight: 116,
     alignItems: "center", justifyContent: "center",
     paddingVertical: 10, paddingHorizontal: 6,
     borderRadius: LUA_RADII.lg, borderWidth: 2,
@@ -223,15 +241,13 @@ const s = StyleSheet.create({
   },
   cardMarked: { borderColor: LUA_COLORS.mintDark, backgroundColor: LUA_COLORS.mintLight },
   cardOrdered: { borderColor: LUA_COLORS.primary, backgroundColor: LUA_COLORS.primaryLight },
-  cardBack: {
-    width: 58, height: 58, alignItems: "center", justifyContent: "center",
-  },
+  cardBack: { alignItems: "center", justifyContent: "center" },
   cardLabel: {
-    marginTop: 6, fontSize: 15, fontWeight: "700",
+    marginTop: 6, fontSize: 14, fontWeight: "700",
     color: LUA_COLORS.textPrimary, textAlign: "center", letterSpacing: 0.5,
   },
   blankSlot: {
-    width: 58, height: 58, borderRadius: 10,
+    borderRadius: 10,
     borderWidth: 1, borderStyle: "dashed", borderColor: LUA_COLORS.borderStrong,
   },
   seqBadge: {

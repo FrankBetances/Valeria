@@ -14,7 +14,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useT } from "../../i18n";
 import { BlockIcon } from "../../ValeriaBlockIcons";
 import { CatPixel } from "../../ValeriaCatPixel";
-import { speakToChild } from "../../valeriaVoice";
+import { speakLuaToChild, speakLuaToChildSeq } from "../luaSpeech";
 import { LUA_COLORS, LUA_RADII } from "../Theme/luaTheme";
 import { LuaStory, LUA_STORIES_CATALOG } from "../index";
 import { luaCompleteActivity } from "../luaActivityReward";
@@ -47,13 +47,13 @@ export const LuaStoryViewerScreen: React.FC<Props> = ({ navigation, route }) => 
 
   const handleSpeakParagraph = useCallback(() => {
     if (story && story.paragraphs[paragraphIndex]) {
-      speakToChild(story.paragraphs[paragraphIndex]);
+      speakLuaToChild(story.paragraphs[paragraphIndex]);
     }
   }, [story, paragraphIndex]);
 
   const handleAnswerQuestion = (qId: string, optId: string, isCorrect: boolean, feedback: string) => {
     setSelectedAnswers((prev) => ({ ...prev, [qId]: optId }));
-    speakToChild(feedback);
+    speakLuaToChild(feedback);
   };
 
   if (!story) {
@@ -286,8 +286,8 @@ const s = StyleSheet.create({
     backgroundColor: LUA_COLORS.surface,
   },
   backBtn: {
-    width: 44,
-    height: 44,
+    minHeight: 44,
+    paddingHorizontal: 12,
     borderRadius: 22,
     alignItems: "center",
     justifyContent: "center",
@@ -295,7 +295,7 @@ const s = StyleSheet.create({
     marginRight: 12,
   },
   backTxt: {
-    fontSize: 22,
+    fontSize: 15,
     color: LUA_COLORS.textPrimary,
     fontWeight: "700",
   },

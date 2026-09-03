@@ -126,9 +126,15 @@ for (const f of players) {
   if (/speak\w*\([^)]*adultGuidance/.test(body)) {
     fail(`${f}: locuta adultGuidance, que es la guía del ADULTO.`);
   }
+  // El contenido del módulo es castellano. Locutarlo con `speakToChild` a secas
+  // lo lee con la voz del locale de terapia: en euskera, voz vasca sobre texto
+  // castellano. Todo pasa por `luaSpeech`, que fija la voz.
+  if (/\bspeakToChild(Seq)?\(/.test(body)) {
+    fail(`${f}: usa speakToChild directamente. Usa speakLuaToChild (src/AventurasLua/luaSpeech.ts).`);
+  }
 }
-if (!fails.some((m) => /childRecast|modelingFeedback|adultGuidance/.test(m))) {
-  ok('las 60 llevan devolución para el niño, y ninguna pantalla locuta la pauta del adulto');
+if (!fails.some((m) => /childRecast|modelingFeedback|adultGuidance|speakToChild/.test(m))) {
+  ok('las 60 llevan devolución para el niño; no se locuta la pauta del adulto ni con la voz equivocada');
 }
 
 // --- 4. Todo lo que suena está en el corpus ---------------------------------

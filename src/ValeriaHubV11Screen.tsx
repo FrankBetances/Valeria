@@ -158,6 +158,22 @@ export const ValeriaHubV11Screen: React.FC<{ navigation: any }> = ({ navigation 
       meta: t.hub.sensoryBadge(SENSORY_AVAILABLE_COUNT),
       onPress: () => navigation.navigate('SensoryBlockList'),
     },
+    // Y Aventuras con Lúa va INMEDIATAMENTE DETRÁS. Decisión de Frank del
+    // 3/9/2026: es la puerta de entrada por edad (0-2 … 7-10), así que la
+    // familia que abre la app se encuentra primero con qué regular y después
+    // con qué hacer hoy, antes que con los bloques por patología.
+    {
+      key: 'aventuras_lua',
+      desc: t.hub.luaBrief,
+      icon: 'lua',
+      title: t.hub.luaTitle,
+      hint: t.hub.luaSub,
+      a11y: t.hub.luaA11y(LUA_ACTIVITY_COUNT),
+      bg: '#e6f4f6',
+      fg: '#0d7685',
+      meta: t.hub.luaBadge(LUA_ACTIVITY_COUNT),
+      onPress: () => navigation.navigate('AventurasLuaHub'),
+    },
     {
       key: 'pairs', desc: t.hub.pairsBrief, icon: 'pairs', title: t.hub.pairsTitle, hint: t.hub.pairsSub, a11y: t.hub.pairsA11y,
       bg: '#ede4fc', fg: '#7c4fd0', meta: t.hub.pairsBadge(MINIMAL_PAIRS.length),
@@ -191,19 +207,6 @@ export const ValeriaHubV11Screen: React.FC<{ navigation: any }> = ({ navigation 
       hint: t.hub.writingSub, a11y: t.hub.writingA11y(WRITING_EXERCISES.length),
       bg: '#fdf0e2', fg: '#c2701f', meta: t.hub.writingBadge(WRITING_EXERCISES.length),
       onPress: () => navigation.navigate('Writing'),
-    },
-    // Aventuras con Lúa: banco interactivo de preguntas, cuentos, canciones e imprimibles por edad.
-    {
-      key: 'aventuras_lua',
-      desc: t.hub.luaBrief,
-      icon: 'lua',
-      title: t.hub.luaTitle,
-      hint: t.hub.luaSub,
-      a11y: t.hub.luaA11y(LUA_ACTIVITY_COUNT),
-      bg: '#e6f4f6',
-      fg: '#0d7685',
-      meta: t.hub.luaBadge(LUA_ACTIVITY_COUNT),
-      onPress: () => navigation.navigate('AventurasLuaHub'),
     },
     // La RA CIERRA la rejilla. Si no hay host nativo de cámara + escena 3D, la
     // tarjeta NO se renderiza: el bloque no existe para el usuario, en lugar

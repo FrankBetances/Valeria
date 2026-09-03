@@ -1869,10 +1869,10 @@ export const ES = {
     songPraxiasTitle: 'Praxias y articulación',
 
     printableAges: (age: string): string => `Edad recomendada: ${age}`,
-    printableGoal: 'Objetivo terapéutico',
+    printableMaterials: 'Materiales',
     printableInstructions: 'Instrucciones de uso',
-    printableShare: 'Compartir o Imprimir PDF',
-    printableShareSuccess: 'Ficha lista para compartir o imprimir',
+    printableShare: 'Compartir la ficha',
+    printableShareSuccess: 'Ficha compartida',
   },
 };
 

@@ -94,10 +94,9 @@ export const ValeriaAventurasLuaHubScreen: React.FC<Props> = ({ navigation }) =>
         >
           <Text style={s.backTxt}>{`‹ ${t.common.back}`}</Text>
         </Pressable>
-        <View style={s.topBrand}>
-          <Text style={s.topTitle}>{t.luaHub.title}</Text>
-          <Text style={s.topSub}>{t.luaHub.subtitle}</Text>
-        </View>
+        {/* El título y el subtítulo los lleva la tarjeta de cabecera con Lúa,
+            justo debajo. Repetirlos aquí gastaba un tercio de la pantalla en
+            decir dos veces lo mismo antes del primer contenido. */}
       </View>
 
       <ScrollView
@@ -346,8 +345,8 @@ const s = StyleSheet.create({
     backgroundColor: LUA_COLORS.surface,
   },
   backBtn: {
-    width: 44,
-    height: 44,
+    minHeight: 44,
+    paddingHorizontal: 12,
     borderRadius: 22,
     alignItems: "center",
     justifyContent: "center",
@@ -355,21 +354,9 @@ const s = StyleSheet.create({
     marginRight: 12,
   },
   backTxt: {
-    fontSize: 22,
+    fontSize: 15,
     color: LUA_COLORS.textPrimary,
     fontWeight: "700",
-  },
-  topBrand: {
-    flex: 1,
-  },
-  topTitle: {
-    fontSize: 18,
-    fontWeight: "800",
-    color: LUA_COLORS.primary,
-  },
-  topSub: {
-    fontSize: 12,
-    color: LUA_COLORS.textSecondary,
   },
   scrollContent: {
     paddingHorizontal: 16,

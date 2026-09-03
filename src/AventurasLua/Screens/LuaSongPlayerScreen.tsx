@@ -14,7 +14,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useT } from "../../i18n";
 import { BlockIcon } from "../../ValeriaBlockIcons";
 import { CatPixel } from "../../ValeriaCatPixel";
-import { speakToChild, speakToChildSeq } from "../../valeriaVoice";
+import { speakLuaToChild, speakLuaToChildSeq } from "../luaSpeech";
 import { LUA_COLORS, LUA_RADII } from "../Theme/luaTheme";
 import { luaCompleteActivity } from "../luaActivityReward";
 import { LuaSong, LUA_SONGS_CATALOG } from "../index";
@@ -51,12 +51,12 @@ export const LuaSongPlayerScreen: React.FC<Props> = ({ navigation, route }) => {
   const handlePlaySong = useCallback(() => {
     if (!song) return;
     setIsPlaying(true);
-    speakToChildSeq(song.lyrics, { onDone: () => setIsPlaying(false) });
+    speakLuaToChildSeq(song.lyrics, { onDone: () => setIsPlaying(false) });
   }, [song]);
 
   const handleTapElement = (element: string) => {
     setTappedElements((prev) => ({ ...prev, [element]: true }));
-    speakToChild(element);
+    speakLuaToChild(element);
   };
 
   if (!song) {
@@ -233,8 +233,8 @@ const s = StyleSheet.create({
     backgroundColor: LUA_COLORS.surface,
   },
   backBtn: {
-    width: 44,
-    height: 44,
+    minHeight: 44,
+    paddingHorizontal: 12,
     borderRadius: 22,
     alignItems: "center",
     justifyContent: "center",
@@ -242,7 +242,7 @@ const s = StyleSheet.create({
     marginRight: 12,
   },
   backTxt: {
-    fontSize: 22,
+    fontSize: 15,
     color: LUA_COLORS.textPrimary,
     fontWeight: "700",
   },

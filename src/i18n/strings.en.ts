@@ -1808,9 +1808,9 @@ export const EN: UiStrings = {
     songPraxiasTitle: 'Oral motor praxias',
 
     printableAges: (age: string): string => `Recommended age: ${age}`,
-    printableGoal: 'Therapeutic goal',
+    printableMaterials: 'Materials',
     printableInstructions: 'Instructions for use',
-    printableShare: 'Share or Print PDF',
-    printableShareSuccess: 'Ready to share or print',
+    printableShare: 'Share this sheet',
+    printableShareSuccess: 'Sheet shared',
   },
 };

@@ -27,7 +27,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useT } from "../../i18n";
 import { BlockIcon } from "../../ValeriaBlockIcons";
 import { CatPixel } from "../../ValeriaCatPixel";
-import { speakToChild } from "../../valeriaVoice";
+import { speakLuaToChild, speakLuaToChildSeq } from "../luaSpeech";
 import { FichaVisual } from "../../ValeriaPictograms";
 import { luaCompleteActivity } from "../luaActivityReward";
 import { LUA_COLORS, LUA_RADII } from "../Theme/luaTheme";
@@ -71,7 +71,7 @@ export const LuaAssessmentPlayerScreen: React.FC<Props> = ({ navigation, route }
 
   const handleSpeakPrompt = useCallback(() => {
     if (currentQ?.prompt) {
-      speakToChild(currentQ.prompt);
+      speakLuaToChild(currentQ.prompt);
     }
   }, [currentQ]);
 
@@ -80,7 +80,7 @@ export const LuaAssessmentPlayerScreen: React.FC<Props> = ({ navigation, route }
     if (!currentQ) return;
     // Lo que oye el niño. Nunca `modelingFeedback`: eso es la pauta del adulto
     // y se lee en el panel, no se locuta.
-    speakToChild(isTarget ? currentQ.clinicalSupport.targetFeedback : currentQ.childRecast);
+    speakLuaToChild(isTarget ? currentQ.clinicalSupport.targetFeedback : currentQ.childRecast);
   };
 
   // Cierre de serie. Sin esto la serie no existía para la app: ni XP, ni racha,
@@ -405,8 +405,8 @@ const s = StyleSheet.create({
     backgroundColor: LUA_COLORS.surface,
   },
   backBtn: {
-    width: 44,
-    height: 44,
+    minHeight: 44,
+    paddingHorizontal: 12,
     borderRadius: 22,
     alignItems: "center",
     justifyContent: "center",
@@ -414,7 +414,7 @@ const s = StyleSheet.create({
     marginRight: 12,
   },
   backTxt: {
-    fontSize: 22,
+    fontSize: 15,
     color: LUA_COLORS.textPrimary,
     fontWeight: "700",
   },

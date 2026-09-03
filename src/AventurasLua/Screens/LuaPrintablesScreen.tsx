@@ -88,13 +88,13 @@ export const LuaPrintablesScreen: React.FC<Props> = ({ navigation, route }) => {
             </View>
 
             <View style={s.metaSection}>
-              <Text style={s.metaLabel}>{t.luaHub.printableGoal}</Text>
+              <Text style={s.metaLabel}>{t.luaHub.printableInstructions}</Text>
               <Text style={s.metaVal}>{selectedItem.instructions}</Text>
             </View>
 
             {selectedItem.materialsNeeded.length > 0 && (
               <View style={s.metaSection}>
-                <Text style={s.metaLabel}>{t.luaHub.printableInstructions}</Text>
+                <Text style={s.metaLabel}>{t.luaHub.printableMaterials}</Text>
                 <View style={s.materialsList}>
                   {selectedItem.materialsNeeded.map((mat, idx) => (
                     <Text key={idx} style={s.materialItem}>
@@ -179,8 +179,8 @@ const s = StyleSheet.create({
     backgroundColor: LUA_COLORS.surface,
   },
   backBtn: {
-    width: 44,
-    height: 44,
+    minHeight: 44,
+    paddingHorizontal: 12,
     borderRadius: 22,
     alignItems: "center",
     justifyContent: "center",
@@ -188,7 +188,7 @@ const s = StyleSheet.create({
     marginRight: 12,
   },
   backTxt: {
-    fontSize: 22,
+    fontSize: 15,
     color: LUA_COLORS.textPrimary,
     fontWeight: "700",
   },

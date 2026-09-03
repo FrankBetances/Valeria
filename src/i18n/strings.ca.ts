@@ -1766,9 +1766,9 @@ export const CA: UiStrings = {
     songPraxiasTitle: 'Pràxies i articulació',
 
     printableAges: (age: string): string => `Edat recomanada: ${age}`,
-    printableGoal: 'Objectiu terapèutic',
+    printableMaterials: 'Materials',
     printableInstructions: 'Instruccions d\'ús',
-    printableShare: 'Compartir o Imprimir PDF',
-    printableShareSuccess: 'Fitxa a punt per compartir o imprimir',
+    printableShare: 'Comparteix la fitxa',
+    printableShareSuccess: 'Fitxa compartida',
   },
 };
