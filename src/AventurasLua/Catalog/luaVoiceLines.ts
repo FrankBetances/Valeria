@@ -16,6 +16,7 @@
 import { LUA_ASSESSMENT_CATALOG } from './LuaAssessmentCatalog';
 import { LUA_STORIES_CATALOG } from './LuaStoriesCatalog';
 import { LUA_SONGS_CATALOG } from './LuaSongsCatalog';
+import { LUA_GAMES_CATALOG } from './LuaGamesCatalog';
 
 export interface LuaSpokenLine {
   /** El estilo del motor. Todo este módulo le habla al niño. */
@@ -61,6 +62,12 @@ export function enumerateLuaAdventureSpeech(): LuaSpokenLine[] {
     // con speakToChildSeq para que cada verso resuelva su propio asset.
     for (const v of c.lyrics) add(v, 'lua/cancion/verso');
     for (const e of c.interactiveTask.elements ?? []) add(e, 'lua/cancion/elemento');
+  }
+
+  for (const j of LUA_GAMES_CATALOG) {
+    add(j.title, 'lua/juego/titulo');
+    add(j.instructions, 'lua/juego/consigna');
+    for (const it of j.items) add(it.label, 'lua/juego/estimulo');
   }
 
   return out;

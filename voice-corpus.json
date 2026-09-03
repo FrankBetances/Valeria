@@ -1,8 +1,8 @@
 {
- "generatedAt": "2026-09-03T18:49:26.471Z",
- "entries": 4558,
+ "generatedAt": "2026-09-03T19:03:58.296Z",
+ "entries": 4598,
  "byStyle": {
-  "child": 2642,
+  "child": 2682,
   "slow": 950,
   "clinical": 45,
   "tutor": 921
@@ -39,6 +39,9 @@
   "lua/cancion/consigna": 10,
   "lua/cancion/verso": 74,
   "lua/cancion/elemento": 41,
+  "lua/juego/titulo": 10,
+  "lua/juego/consigna": 10,
+  "lua/juego/estimulo": 20,
   "ejercicios/veredicto": 3,
   "escritura/elogio": 15
  },
@@ -9324,6 +9327,286 @@
    "style": "child",
    "text": "Cuento → Estante de libros",
    "source": "lua/cancion/elemento"
+  },
+  {
+   "id": "child_36cd4e7e_27",
+   "lang": "es",
+   "style": "child",
+   "text": "Memorama: sonidos del campo",
+   "source": "lua/juego/titulo"
+  },
+  {
+   "id": "child_530d8b03_53",
+   "lang": "es",
+   "style": "child",
+   "text": "Busca las parejas iguales y di el nombre en voz alta.",
+   "source": "lua/juego/consigna"
+  },
+  {
+   "id": "child_ee66e90f_4",
+   "lang": "es",
+   "style": "child",
+   "text": "Pato",
+   "source": "lua/juego/estimulo"
+  },
+  {
+   "id": "child_1f518b1d_4",
+   "lang": "es",
+   "style": "child",
+   "text": "Casa",
+   "source": "lua/juego/estimulo"
+  },
+  {
+   "id": "child_61f7d1e7_32",
+   "lang": "es",
+   "style": "child",
+   "text": "Memorama: instrumentos musicales",
+   "source": "lua/juego/titulo"
+  },
+  {
+   "id": "child_af38d6d8_60",
+   "lang": "es",
+   "style": "child",
+   "text": "Encuentra las parejas e imita el sonido de cada instrumento.",
+   "source": "lua/juego/consigna"
+  },
+  {
+   "id": "child_ae2d89b3_7",
+   "lang": "es",
+   "style": "child",
+   "text": "Tambora",
+   "source": "lua/juego/estimulo"
+  },
+  {
+   "id": "child_be76d36d_9",
+   "lang": "es",
+   "style": "child",
+   "text": "Pandereta",
+   "source": "lua/juego/estimulo"
+  },
+  {
+   "id": "child_7d26f2d3_7",
+   "lang": "es",
+   "style": "child",
+   "text": "Maracas",
+   "source": "lua/juego/estimulo"
+  },
+  {
+   "id": "child_134ec841_22",
+   "lang": "es",
+   "style": "child",
+   "text": "Imagen-palabra: frutas",
+   "source": "lua/juego/titulo"
+  },
+  {
+   "id": "child_f21164d0_60",
+   "lang": "es",
+   "style": "child",
+   "text": "Nombra cada fruta en voz alta y únela con su nombre escrito.",
+   "source": "lua/juego/consigna"
+  },
+  {
+   "id": "child_c6e3dc70_6",
+   "lang": "es",
+   "style": "child",
+   "text": "Banana",
+   "source": "lua/juego/estimulo"
+  },
+  {
+   "id": "child_56ffd7ab_27",
+   "lang": "es",
+   "style": "child",
+   "text": "Imagen-palabra: en la playa",
+   "source": "lua/juego/titulo"
+  },
+  {
+   "id": "child_9aa24e60_79",
+   "lang": "es",
+   "style": "child",
+   "text": "Toca cada imagen y di su nombre. ¿Cuál de estas cosas encontrarías en la playa?",
+   "source": "lua/juego/consigna"
+  },
+  {
+   "id": "child_24b7ce55_3",
+   "lang": "es",
+   "style": "child",
+   "text": "Ola",
+   "source": "lua/juego/estimulo"
+  },
+  {
+   "id": "child_35479b23_6",
+   "lang": "es",
+   "style": "child",
+   "text": "Concha",
+   "source": "lua/juego/estimulo"
+  },
+  {
+   "id": "child_44c0d541_3",
+   "lang": "es",
+   "style": "child",
+   "text": "Sol",
+   "source": "lua/juego/estimulo"
+  },
+  {
+   "id": "child_5ce9d77a_8",
+   "lang": "es",
+   "style": "child",
+   "text": "Barquito",
+   "source": "lua/juego/estimulo"
+  },
+  {
+   "id": "child_65a5babc_29",
+   "lang": "es",
+   "style": "child",
+   "text": "Completa la palabra: animales",
+   "source": "lua/juego/titulo"
+  },
+  {
+   "id": "child_6a958d57_75",
+   "lang": "es",
+   "style": "child",
+   "text": "Escribe en la línea la letra que falta para completar el nombre del animal.",
+   "source": "lua/juego/consigna"
+  },
+  {
+   "id": "child_d2cecf79_35",
+   "lang": "es",
+   "style": "child",
+   "text": "Cazadores de sonidos: el sonido /s/",
+   "source": "lua/juego/titulo"
+  },
+  {
+   "id": "child_56f926e3_60",
+   "lang": "es",
+   "style": "child",
+   "text": "Encierra las imágenes cuyo nombre empieza con el sonido /s/.",
+   "source": "lua/juego/consigna"
+  },
+  {
+   "id": "child_271e170c_4",
+   "lang": "es",
+   "style": "child",
+   "text": "Sapo",
+   "source": "lua/juego/estimulo"
+  },
+  {
+   "id": "child_707f2df0_5",
+   "lang": "es",
+   "style": "child",
+   "text": "Silla",
+   "source": "lua/juego/estimulo"
+  },
+  {
+   "id": "child_7a56e211_6",
+   "lang": "es",
+   "style": "child",
+   "text": "Sandía",
+   "source": "lua/juego/estimulo"
+  },
+  {
+   "id": "child_9e916cc4_43",
+   "lang": "es",
+   "style": "child",
+   "text": "Rompecabezas de secuencia: la semilla crece",
+   "source": "lua/juego/titulo"
+  },
+  {
+   "id": "child_4dea88c4_67",
+   "lang": "es",
+   "style": "child",
+   "text": "Ordena las 4 tarjetas del 1 al 4 para mostrar cómo crece la planta.",
+   "source": "lua/juego/consigna"
+  },
+  {
+   "id": "child_cc18e606_7",
+   "lang": "es",
+   "style": "child",
+   "text": "Semilla",
+   "source": "lua/juego/estimulo"
+  },
+  {
+   "id": "child_ebbad431_5",
+   "lang": "es",
+   "style": "child",
+   "text": "Brote",
+   "source": "lua/juego/estimulo"
+  },
+  {
+   "id": "child_80c33aa9_6",
+   "lang": "es",
+   "style": "child",
+   "text": "Planta",
+   "source": "lua/juego/estimulo"
+  },
+  {
+   "id": "child_814e544b_5",
+   "lang": "es",
+   "style": "child",
+   "text": "Árbol",
+   "source": "lua/juego/estimulo"
+  },
+  {
+   "id": "child_e6a5fb27_32",
+   "lang": "es",
+   "style": "child",
+   "text": "Clasificación: frutas y animales",
+   "source": "lua/juego/titulo"
+  },
+  {
+   "id": "child_1ecb733e_50",
+   "lang": "es",
+   "style": "child",
+   "text": "Coloca cada dibujo en su grupo: frutas o animales.",
+   "source": "lua/juego/consigna"
+  },
+  {
+   "id": "child_cc70ea8e_32",
+   "lang": "es",
+   "style": "child",
+   "text": "Atención: encuentra el diferente",
+   "source": "lua/juego/titulo"
+  },
+  {
+   "id": "child_453c296d_59",
+   "lang": "es",
+   "style": "child",
+   "text": "En cada fila, busca el dibujo que es diferente a los demás.",
+   "source": "lua/juego/consigna"
+  },
+  {
+   "id": "child_d4b66d3d_8",
+   "lang": "es",
+   "style": "child",
+   "text": "Estrella",
+   "source": "lua/juego/estimulo"
+  },
+  {
+   "id": "child_b68f92d4_6",
+   "lang": "es",
+   "style": "child",
+   "text": "Pelota",
+   "source": "lua/juego/estimulo"
+  },
+  {
+   "id": "child_4c441a8c_43",
+   "lang": "es",
+   "style": "child",
+   "text": "Vocabulario: familia de palabras — la playa",
+   "source": "lua/juego/titulo"
+  },
+  {
+   "id": "child_1c2c8aea_62",
+   "lang": "es",
+   "style": "child",
+   "text": "Di una palabra relacionada con la playa en cada espacio vacío.",
+   "source": "lua/juego/consigna"
+  },
+  {
+   "id": "child_7ae120c6_5",
+   "lang": "es",
+   "style": "child",
+   "text": "Playa",
+   "source": "lua/juego/estimulo"
   },
   {
    "id": "gl_child_35085508_38",

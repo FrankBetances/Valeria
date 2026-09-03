@@ -1,7 +1,13 @@
 // ============================================================================
 // Aventuras con Lúa · Lúa y las Palabras — Tokens de Diseño Médico Cálido
 // Directrices clínicas: react-expo-medical-uiux-expert
-// Paleta empática, accesible (WCAG AAA), sin frialdad hospitalaria ni estrés.
+// Paleta empática, sin frialdad hospitalaria ni estrés.
+//
+// NOTA: aquí decía «accesible (WCAG AAA)». Nadie ha medido un solo contraste,
+// y el verificador del módulo llegó a IMPRIMIR «WCAG AAA validado» comprobando
+// únicamente que el color primario fuera la cadena '#0D7685'. Afirmar una
+// comprobación que no se ha hecho es lo que prohíbe la regla 0. Cuando alguien
+// calcule los ratios de verdad, que lo diga aquí y lo compruebe un gate.
 // ============================================================================
 
 export const LUA_COLORS = {
@@ -32,7 +38,7 @@ export const LUA_COLORS = {
   surfaceSubtle: '#F4F1EA',
   surfaceElevated: '#FFFFFF',
 
-  // Textos y Contraste (WCAG AAA sobre fondo claro)
+  // Textos sobre fondo claro (ratios sin medir, ver nota de cabecera)
   textPrimary: '#1E293B',   // Pizarra profunda de alta legibilidad
   textSecondary: '#475569', // Neutro suave para explicaciones
   textMuted: '#64748B',     // Guías clínicas secundarias

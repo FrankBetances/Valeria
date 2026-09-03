@@ -15,6 +15,7 @@ import {
   LUA_STORIES_CATALOG,
   LUA_SONGS_CATALOG,
   LUA_PRINTABLES_CATALOG,
+  LUA_GAMES_CATALOG,
 } from "../index";
 
 interface Props {
@@ -51,6 +52,10 @@ export const ValeriaAventurasLuaHubScreen: React.FC<Props> = ({ navigation }) =>
     ? LUA_SONGS_CATALOG
     : LUA_SONGS_CATALOG.filter((c) => c.ageBands.includes(selectedBand));
 
+  const filteredGames = selectedBand === "all"
+    ? LUA_GAMES_CATALOG
+    : LUA_GAMES_CATALOG.filter((j) => j.ageBands.includes(selectedBand));
+
   const filteredPrintables = selectedBand === "all"
     ? LUA_PRINTABLES_CATALOG
     : LUA_PRINTABLES_CATALOG.filter((p) => p.ageBands.includes(selectedBand));
@@ -58,6 +63,10 @@ export const ValeriaAventurasLuaHubScreen: React.FC<Props> = ({ navigation }) =>
   const handleOpenAssessment = () => {
     const targetBand: AgeBand = selectedBand === "all" ? "0-2" : selectedBand;
     navigation.navigate("LuaAssessmentPlayer", { ageBand: targetBand, initialQuestionIndex: 0 });
+  };
+
+  const handleOpenGame = (gameId: string) => {
+    navigation.navigate("LuaGamePlayer", { gameId });
   };
 
   const handleOpenStory = (storyId: string) => {
@@ -163,7 +172,44 @@ export const ValeriaAventurasLuaHubScreen: React.FC<Props> = ({ navigation }) =>
           </View>
         </Pressable>
 
-        {/* 2. Módulo: Cuentos con Lúa */}
+        {/* 2. Módulo: Juegos con Lúa — la cuarta sección de las 50 hojas, que
+            el módulo no traía. Va aquí porque en el material va primero. */}
+        <View style={s.sectionHeader}>
+          <Text style={s.sectionTitle}>{t.luaHub.secGamesTitle}</Text>
+          <Text style={s.sectionBadge}>{t.luaHub.secGamesBadge(filteredGames.length)}</Text>
+        </View>
+        <Text style={s.sectionDesc}>{t.luaHub.secGamesSub}</Text>
+
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={s.cardsTrack}
+        >
+          {filteredGames.length === 0 && (
+            <Text style={s.sectionEmpty}>{t.luaHub.sectionEmptyForBand}</Text>
+          )}
+          {filteredGames.map((game) => (
+            <Pressable
+              key={game.id}
+              style={s.itemMiniCard}
+              onPress={() => handleOpenGame(game.id)}
+              accessibilityRole="button"
+              accessibilityLabel={game.title} // i18n-exempt: catálogo clínico dinámico
+            >
+              <View style={[s.miniCardIcon, { backgroundColor: LUA_COLORS.primaryLight }]}>
+                <BlockIcon name="pairs" color={LUA_COLORS.primary} size={24} />
+              </View>
+              <Text style={s.miniCardTitle} numberOfLines={2}>
+                {game.title}
+              </Text>
+              <Text style={s.miniCardSub} numberOfLines={1}>
+                {game.subtitle}
+              </Text>
+            </Pressable>
+          ))}
+        </ScrollView>
+
+        {/* 3. Módulo: Cuentos con Lúa */}
         <View style={s.sectionHeader}>
           <Text style={s.sectionTitle}>{t.luaHub.secStoriesTitle}</Text>
           <Text style={s.sectionBadge}>{t.luaHub.secStoriesBadge(filteredStories.length)}</Text>
@@ -199,7 +245,7 @@ export const ValeriaAventurasLuaHubScreen: React.FC<Props> = ({ navigation }) =>
           ))}
         </ScrollView>
 
-        {/* 3. Módulo: Canciones y Praxias */}
+        {/* 4. Módulo: Canciones y Praxias */}
         <View style={s.sectionHeader}>
           <Text style={s.sectionTitle}>{t.luaHub.secSongsTitle}</Text>
           <Text style={s.sectionBadge}>{t.luaHub.secSongsBadge(filteredSongs.length)}</Text>
@@ -235,7 +281,7 @@ export const ValeriaAventurasLuaHubScreen: React.FC<Props> = ({ navigation }) =>
           ))}
         </ScrollView>
 
-        {/* 4. Módulo: Imprime y Juega */}
+        {/* 5. Módulo: Imprime y Juega */}
         <View style={s.sectionHeader}>
           <Text style={s.sectionTitle}>{t.luaHub.secPrintablesTitle}</Text>
           <Text style={s.sectionBadge}>{t.luaHub.secPrintablesBadge(filteredPrintables.length)}</Text>
