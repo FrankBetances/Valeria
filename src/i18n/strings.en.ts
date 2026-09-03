@@ -1401,6 +1401,10 @@ export const EN: UiStrings = {
     busyOpeningCamera: 'Opening the camera…',
 
     noticeAptitudeFailed: 'The test could not be completed on this phone. You can try again.',
+    noticeCameraBusy: 'Another app is using the camera. Close it and try again.',
+    noticeArServicesOutdated: 'Update “Google Play Services for AR” from the Play Store and try again.',
+    noticeArServicesMissing: 'This block needs “Google Play Services for AR”. Accept the installation when it is offered.',
+    noticeCameraDenied: 'The warm-up cannot run without camera permission. You can grant it and try again.',
     noticeCalibrationFailed: 'Calibration did not finish. Prop the phone up in landscape, about a foot from your child\u2019s face, and try again.',
     noticeLaunchFailed: 'The exercise did not open. Check that the app has camera permission.',
     noticeDenied: 'Without camera permission there are no Augmented Reality exercises. The rest of the app works exactly the same.',
@@ -1441,6 +1445,8 @@ export const EN: UiStrings = {
 
     notAptTitle: 'Better not to push it',
     notAptBody: 'This is not your fault or your child\u2019s: running the camera and 3D graphics at once asks more than this device can sustain, and a stuttering exercise measures nothing.',
+    notAptNoFrontCamera: 'This phone does not offer its front camera to Augmented Reality. Updating will not help: the exercises in this block need to see your child\u2019s face, and here they cannot.',
+    notAptDeviceUnsupported: 'This phone is not among those that support Augmented Reality. Updating will not help: every other Valeria+ block works normally.',
     notAptBack: 'Back to the blocks',
 
     levelLabel: (level: string): string => ({

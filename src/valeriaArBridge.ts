@@ -238,9 +238,48 @@ export interface ArSessionResult {
 // Carga perezosa del host nativo
 // ---------------------------------------------------------------------------
 
+/**
+ * Por qué no se pudo abrir el bloque. Mismo vocabulario que el enum
+ * `ArCoreSession.Unavailable` del nativo, más `DENIED` para el permiso de
+ * cámara. Es lo que permite decir algo útil en vez de «inténtalo de nuevo».
+ */
+export type ArFailureReason =
+  | 'DEVICE_NOT_SUPPORTED'
+  | 'INSTALL_DECLINED'
+  | 'APK_TOO_OLD'
+  | 'NO_FRONT_CAMERA'
+  | 'CAMERA_BUSY'
+  | 'UNKNOWN'
+  | 'DENIED';
+
+/**
+ * Resultado de la Prueba de Aptitud, como UNIÓN DISCRIMINADA.
+ *
+ * No es una preferencia de estilo: es la forma que hace imposible el cierre
+ * inesperado del 2/9/2026. Antes esto era `ArDeviceProfile | null`, el nativo
+ * devolvía `{ outcome: 'unsupported' }` en el hueco del perfil, y `if (!p)` lo
+ * dejaba pasar por bueno porque un objeto de error también es verdadero. Con
+ * `ok` por delante, TypeScript no deja leer `profile` sin haber mirado antes.
+ */
+export type ArAptitudeOutcome =
+  | { ok: true; profile: ArDeviceProfile }
+  | {
+      ok: false;
+      reason: ArFailureReason | null;
+      /** `true` si ninguna acción del adulto puede hacer que este aparato pase. */
+      permanent: boolean;
+      /** Dato técnico para diagnóstico (clase de excepción). Nunca se le enseña al niño. */
+      detail: string | null;
+    };
+
 interface ArNativeModule {
   isSupported: () => boolean;
-  runAptitudeTest: () => Promise<ArDeviceProfile>;
+  /**
+   * Devuelve el mapa CRUDO de la Activity: `{ deviceProfile }` si la prueba se
+   * completó, o `{ outcome, reason, permanent, detail }` si no. Deliberadamente
+   * sin desenvolver en Kotlin — la proyección que lo hacía es la que rompió.
+   */
+  runAptitudeTest: () => Promise<unknown>;
   launch: (cfg: ArExerciseConfig) => Promise<ArSessionResult>;
   calibrate: (patientKey: string, pointerSource: ArPointerSource) => Promise<{ rmsPx: number; rmsDeg: number }>;
   hasCalibration: (patientKey: string) => Promise<boolean>;
@@ -281,13 +320,34 @@ export function isArAvailable(): boolean {
  * teléfono en un despliegue BYOD: si no se puede saber qué hardware habrá, se
  * mide el que haya.
  */
-export async function runAptitudeTest(): Promise<ArDeviceProfile | null> {
-  if (!Native) return null;
+export async function runAptitudeTest(): Promise<ArAptitudeOutcome> {
+  const failed = (
+    reason: ArFailureReason | null,
+    permanent = false,
+    detail: string | null = null,
+  ): ArAptitudeOutcome => ({ ok: false, reason, permanent, detail });
+
+  if (!Native) return failed(null);
+  let raw: unknown;
   try {
-    return await Native.runAptitudeTest();
+    raw = await Native.runAptitudeTest();
   } catch (e) {
-    return null;
+    return failed(null);
   }
+
+  // Validación de FORMA, no de veracidad del puente. Un perfil sin `level` no
+  // es un perfil: aguas abajo decide qué ejercicios se ofrecen, y si llega
+  // `undefined` la política sale indefinida y la pantalla muere leyéndola.
+  if (raw && typeof raw === 'object') {
+    const map = raw as Record<string, unknown>;
+    const profile = map.deviceProfile;
+    if (profile && typeof profile === 'object' && typeof (profile as ArDeviceProfile).level === 'string') {
+      return { ok: true, profile: profile as ArDeviceProfile };
+    }
+    const reason = typeof map.reason === 'string' ? (map.reason as ArFailureReason) : null;
+    return failed(reason, map.permanent === true, typeof map.detail === 'string' ? map.detail : null);
+  }
+  return failed(null);
 }
 
 /**

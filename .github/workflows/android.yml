@@ -324,6 +324,16 @@ jobs:
       - name: Comprobar la concurrencia y el ciclo de vida de RA
         run: node scripts/check-ar-concurrency.js
 
+      # El gate de arriba solo lee Kotlin, y la mitad del fallo del Pixel 6a
+      # (2/9/2026) vivía en TypeScript: el nativo devolvía un objeto de error
+      # donde se esperaba un perfil y la pantalla lo dio por bueno. El typecheck
+      # no lo vio porque el tipo declarado era una promesa que el puente no
+      # podía cumplir. Esto vigila lo que un typecheck no puede: que la forma
+      # declarada sea la que el nativo manda, y que los motivos de fallo no se
+      # separen entre los dos idiomas.
+      - name: Comprobar el contrato del puente de RA
+        run: node scripts/check-ar-bridge-contract.js
+
       # Los .glb los genera `scripts/build-ar-models.js` y los declara el enum
       # ArModel. Un modelo declarado sin fichero deja la escena vacía en el
       # teléfono y no rompe ninguna compilación.

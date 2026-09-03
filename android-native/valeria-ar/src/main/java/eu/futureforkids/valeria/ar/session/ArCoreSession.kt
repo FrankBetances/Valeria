@@ -62,6 +62,16 @@ class ArCoreSession(private val activity: Activity) {
         NO_FRONT_CAMERA,
         /** La cámara la tiene otra app. */
         CAMERA_BUSY,
+        /**
+         * Nada de lo anterior: ARCore lanzó algo que no sabemos clasificar.
+         *
+         * Existe porque hasta el 3/9/2026 este caso se etiquetaba
+         * DEVICE_NOT_SUPPORTED, y eso convirtió «no sé qué ha pasado» en «este
+         * teléfono no sirve». Es la etiqueta que hizo que el fallo del Pixel 6a
+         * se diagnosticara mal: se culpó a la versión de ARCore instalada, que
+         * estaba al día. La clase de la excepción va en [detail].
+         */
+        UNKNOWN,
     }
 
     var session: Session? = null
@@ -69,6 +79,16 @@ class ArCoreSession(private val activity: Activity) {
 
     /** Motivo del último fallo. Lo lee la Activity para decidir qué decir. */
     var unavailable: Unavailable? = null
+        private set
+
+    /**
+     * Dato técnico del último fallo —la clase de la excepción—, o `null`.
+     *
+     * No se le enseña al adulto: viaja hasta JS para que la causa se pueda leer
+     * sin un bugreport de 101 MB. Esa es exactamente la información que faltaba
+     * el 2/9/2026 y por la que hubo que adivinar.
+     */
+    var detail: String? = null
         private set
 
     /** Cierto una sola vez: `requestInstall` puede devolver control tras una pausa. */
@@ -121,6 +141,7 @@ class ArCoreSession(private val activity: Activity) {
                     } else {
                         session = created
                         unavailable = null
+                        detail = null
                         true
                     }
                 }
@@ -143,8 +164,14 @@ class ArCoreSession(private val activity: Activity) {
         } catch (e: Exception) {
             // Cualquier otra cosa: el bloque no se abre, pero la app sigue en
             // pie y el motivo queda en el log. Nunca un cierre inesperado.
+            //
+            // UNKNOWN y no DEVICE_NOT_SUPPORTED: no sabemos que el teléfono no
+            // sirva, sabemos que ARCore lanzó algo. Decir lo primero cuando solo
+            // consta lo segundo es lo que mandó el diagnóstico del Pixel 6a por
+            // el camino equivocado.
             Log.e(TAG, "No se pudo crear la sesión de ARCore", e)
-            unavailable = Unavailable.DEVICE_NOT_SUPPORTED
+            unavailable = Unavailable.UNKNOWN
+            detail = e::class.java.simpleName
             false
         }
     }
@@ -164,7 +191,12 @@ class ArCoreSession(private val activity: Activity) {
             .setFacingDirection(CameraConfig.FacingDirection.FRONT)
         val configs = session.getSupportedCameraConfigs(filter)
         if (configs.isEmpty()) {
+            // La certificación de ARCore para cámara FRONTAL (Augmented Faces)
+            // es una lista bastante más corta que la de RA de mundo, y no la
+            // arregla ninguna actualización de Servicios de Google para RA.
+            // Por eso este caso es permanente y así viaja hasta JS.
             unavailable = Unavailable.NO_FRONT_CAMERA
+            detail = "frontCameraConfigs=0"
             return false
         }
         session.cameraConfig = configs[0]

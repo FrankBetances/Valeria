@@ -1452,6 +1452,10 @@ export const ES = {
     busyOpeningCamera: 'Abriendo la cámara…',
 
     noticeAptitudeFailed: 'No se pudo completar la prueba en este teléfono. Puedes intentarlo de nuevo.',
+    noticeCameraBusy: 'Otra aplicación está usando la cámara. Ciérrala y vuelve a intentarlo.',
+    noticeArServicesOutdated: 'Actualiza «Servicios de Google para RA» desde Play Store y vuelve a intentarlo.',
+    noticeArServicesMissing: 'Este bloque necesita «Servicios de Google para RA». Acepta la instalación cuando te la ofrezca.',
+    noticeCameraDenied: 'Sin permiso de cámara no se puede hacer el calentamiento. Puedes concederlo y volver a intentarlo.',
     noticeCalibrationFailed: 'La calibración no se completó. Coloca el teléfono apoyado, en horizontal, a un palmo y medio de la cara y prueba otra vez.',
     noticeLaunchFailed: 'El ejercicio no llegó a abrirse. Comprueba que la app tiene permiso de cámara.',
     noticeDenied: 'Sin permiso de cámara no hay ejercicios de Realidad Aumentada. El resto de la app funciona igual.',
@@ -1492,6 +1496,8 @@ export const ES = {
 
     notAptTitle: 'Mejor no forzarlo',
     notAptBody: 'No es un fallo tuyo ni del peque: la cámara y los dibujos en 3D a la vez piden más de lo que este aparato puede sostener, y un ejercicio a tirones no mide nada.',
+    notAptNoFrontCamera: 'Este teléfono no ofrece su cámara frontal a la Realidad Aumentada. No es cuestión de actualizar nada: los ejercicios de este bloque necesitan ver la cara del peque y aquí no pueden.',
+    notAptDeviceUnsupported: 'Este teléfono no está entre los que admiten Realidad Aumentada. No es cuestión de actualizar nada: el resto de bloques de Valeria+ funcionan con normalidad.',
     notAptBack: 'Volver a los bloques',
 
     levelLabel: (level: string): string => ({

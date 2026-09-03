@@ -319,6 +319,89 @@ if (act) {
     'Girar el móvil cambia el encuadre del espejo Y el de la imagen que analiza MediaPipe');
 }
 
+// ── 8. El contrato de fallo del puente ──────────────────────────────────────
+//
+// Los dos cierres inesperados del Pixel 6a (2/9/2026) no salieron de una carrera
+// entre hilos: salieron de que el host nativo sabía POR QUÉ no podía abrir el
+// bloque y no se lo contaba a nadie. Calculaba la causa, la escribía en una
+// pantalla que cerraba en la línea siguiente y mandaba a JS un `{outcome:...}`
+// pelado que el puente disfrazaba de perfil de dispositivo. Estas cuatro
+// comprobaciones son las que impiden que cada pieza de esa cadena vuelva.
+{
+  const act = leer('ValeriaArActivity.kt');
+  const mod = leer('ValeriaArModule.kt');
+  const ses = leer('session', 'ArCoreSession.kt');
+
+  // Sin comentarios: estas reglas prohíben CÓDIGO, y el comentario que explica
+  // por qué está prohibido tiene que poder citarlo sin disparar la regla.
+  const soloCodigo = (s) => s.replace(/\/\/.*$/gm, '').replace(/\/\*[\s\S]*?\*\//g, '');
+
+  if (mod) {
+    // 8.1 · La proyección que rompió devolvía el mapa de ERROR cuando no había
+    // perfil, y JS lo tomaba por uno bueno. El puente entrega el mapa crudo y
+    // quien lo interpreta es TypeScript.
+    exigir(!/getMap\("deviceProfile"\)\s*\?:/.test(soloCodigo(mod)),
+      'ValeriaArModule: `getMap("deviceProfile") ?: map` ha vuelto. Ese `?:` resuelve la ' +
+      'promesa con el mapa de error disfrazado de perfil, y es la causa exacta de los dos ' +
+      'cierres del 2/9/2026');
+    exigir(!/pendingTransform/.test(soloCodigo(mod)),
+      'ValeriaArModule: vuelve a haber una proyección del resultado en Kotlin. La forma del ' +
+      'resultado la conoce TypeScript; proyectarla aquí es lo que permitió el disfraz');
+  }
+
+  if (act) {
+    // 8.2 · La razón tiene que VIAJAR. Sin esto la pantalla de reintento solo
+    // puede decir «inténtalo de nuevo», que en una causa permanente es mandar a
+    // un padre a repetir para siempre un calentamiento que no puede terminar.
+    const fw = cuerpo(act, '    private fun finishWith(outcome: String)');
+    exigir(fw && /\.put\("reason"/.test(fw) && /\.put\("permanent"/.test(fw),
+      'ValeriaArActivity: `finishWith` ya no mete `reason`/`permanent` en el payload. Sin ' +
+      'eso la causa se calcula, se pinta en una pantalla que se cierra y se tira — que es ' +
+      'por lo que el fallo del Pixel 6a hubo que adivinarlo desde un bugreport de 101 MB');
+    exigir(/private fun isPermanentFailure/.test(act),
+      'ValeriaArActivity: falta `isPermanentFailure`. Distinguir la causa que el adulto ' +
+      'puede resolver de la que no es lo que decide entre reintentar y cerrar el bloque');
+
+    // 8.3 · `pipelineStarted` DESPUÉS de que la tubería exista de verdad.
+    // Puesto en la primera línea, un retorno temprano dejaba la bandera sin
+    // tubería: al volver, `onResume` reanudaba una sesión nula, el adulto leía
+    // «otra aplicación está usando la cámara» —falso— y la rama de reintento
+    // quedaba inalcanzable. Es la pantalla muerta al volver de Play Store.
+    const sp = cuerpo(act, '    private fun startPipeline()');
+    if (sp) {
+      const iFlag = sp.indexOf('pipelineStarted = true');
+      const iGl = sp.indexOf('gl.onResume()');
+      exigir(iFlag !== -1 && iGl !== -1 && iGl < iFlag,
+        'ValeriaArActivity: `pipelineStarted = true` no está DESPUÉS de `gl.onResume()`. ' +
+        'Antes, un retorno temprano deja la bandera puesta sin tubería y `onResume` reanuda ' +
+        'una sesión que no existe');
+      exigir(/if \(isFinishing \|\| isDestroyed\) return/.test(sp),
+        'ValeriaArActivity: `startPipeline` no sale si la Activity se está cerrando. El ' +
+        'permiso denegado resuelve antes de `onResume`, así que sin esto se abre cámara y ' +
+        'motor de señal para una pantalla que ya se va');
+    }
+
+    // 8.4 · La rama de reintento se queda ESTRECHA. Con `unavailable` puesto la
+    // Activity ya está cerrándose y reintentar solo añade vueltas.
+    const or = cuerpo(act, '    override fun onResume()');
+    exigir(or && /arSession\.unavailable == null && arSession\.session == null/.test(or),
+      'ValeriaArActivity: la rama de reintento de `onResume` ya no exige `unavailable == null`. ' +
+      'Ensancharla hace que se reintente sobre una Activity que `finishWith` ya está cerrando');
+  }
+
+  if (ses) {
+    // 8.5 · No llamar «teléfono no compatible» a «no sé qué ha pasado». Esa
+    // etiqueta es la que mandó el diagnóstico del Pixel 6a por el camino falso.
+    exigir(/UNKNOWN/.test(ses),
+      'ArCoreSession: falta el motivo `UNKNOWN`. Sin él, el `catch` genérico vuelve a ' +
+      'etiquetar cualquier excepción como DEVICE_NOT_SUPPORTED y afirma sobre el aparato ' +
+      'algo que no consta');
+    exigir(/var detail: String\? = null/.test(ses),
+      'ArCoreSession: falta `detail`. Es la clase de la excepción, y es lo único que ' +
+      'distingue un fallo real de una suposición cuando no hay bugreport delante');
+  }
+}
+
 // ── Resultado ───────────────────────────────────────────────────────────────
 if (fallos.length) {
   console.error('\nRealidad Aumentada · invariantes de concurrencia y ciclo de vida rotas:\n');

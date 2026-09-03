@@ -34,7 +34,9 @@ import { useT } from './i18n';
 import {
   isArAvailable, runAptitudeTest, launchAr, calibrateAr, hasArCalibration, openArDiagnostics,
 } from './valeriaArBridge';
-import type { ArDeviceProfile, ArExerciseId, ArThresholds, ArSessionResult } from './valeriaArBridge';
+import type {
+  ArDeviceProfile, ArExerciseId, ArThresholds, ArSessionResult, ArFailureReason,
+} from './valeriaArBridge';
 import {
   loadArThresholds, saveArThresholds, hasArConsent, grantArConsent,
   loadArDeviceProfile, saveArDeviceProfile, arPolicyFor,
@@ -57,6 +59,27 @@ const patientKeyFor = async (ficha: any): Promise<string> => {
 
 const TRIALS_PER_SESSION: Record<ArExerciseId, number> = { ar1: 8, ar2: 20, ar3: 12, ar4: 10, ar5: 10, ar6: 8 };
 
+type ArStrings = ReturnType<typeof useT>;
+
+/**
+ * Qué se le dice al adulto cuando el bloque no abre por una causa que ÉL puede
+ * resolver. Cada rama nombra la acción concreta; el genérico solo queda para la
+ * causa desconocida, que es donde de verdad no sabemos qué pedirle.
+ */
+const failureNotice = (t: ArStrings, reason: ArFailureReason | null): string => {
+  switch (reason) {
+    case 'CAMERA_BUSY': return t.ar.noticeCameraBusy;
+    case 'APK_TOO_OLD': return t.ar.noticeArServicesOutdated;
+    case 'INSTALL_DECLINED': return t.ar.noticeArServicesMissing;
+    case 'DENIED': return t.ar.noticeCameraDenied;
+    default: return t.ar.noticeAptitudeFailed;
+  }
+};
+
+/** Y qué se le dice cuando la causa NO la resuelve nadie: el bloque se cierra. */
+const permanentBody = (t: ArStrings, reason: ArFailureReason | null): string =>
+  reason === 'NO_FRONT_CAMERA' ? t.ar.notAptNoFrontCamera : t.ar.notAptDeviceUnsupported;
+
 export const ValeriaArLauncherScreen: React.FC<{ navigation?: any }> = ({ navigation }) => {
   const t = useT();
   const [phase, setPhase] = useState<Phase>('loading');
@@ -72,6 +95,10 @@ export const ValeriaArLauncherScreen: React.FC<{ navigation?: any }> = ({ naviga
   useEffect(() => () => cancelSessionReward(), []);
 
   const [notice, setNotice] = useState('');
+  // Por qué no abrió el bloque. Se guarda para poder DECIRLO: hasta el
+  // 3/9/2026 el nativo calculaba la causa exacta y la tiraba, y la pantalla
+  // solo sabía ofrecer «inténtalo de nuevo».
+  const [failure, setFailure] = useState<{ reason: ArFailureReason | null; detail: string | null } | null>(null);
 
   useEffect(() => {
     (async () => {
@@ -105,16 +132,27 @@ export const ValeriaArLauncherScreen: React.FC<{ navigation?: any }> = ({ naviga
   const runAptitude = useCallback(async () => {
     setBusyMsg(t.ar.busyMeasuring);
     setPhase('busy');
-    const p = await runAptitudeTest();
-    if (!p || typeof p !== 'object' || !('level' in p) || !p.level) {
-      setNotice(t.ar.noticeAptitudeFailed);
-      setPhase('aptitude');
+    const outcome = await runAptitudeTest();
+
+    if (!outcome.ok) {
+      // Una causa permanente no se reintenta: el aparato no está certificado
+      // para RA frontal y ninguna acción del adulto lo cambia. Ofrecer «vuelve
+      // a intentarlo» ahí es mandar a un padre a repetir un calentamiento de
+      // 90 segundos que no puede terminar nunca.
+      setFailure({ reason: outcome.reason, detail: outcome.detail });
+      setPhase(outcome.permanent ? 'notApt' : 'aptitude');
+      if (!outcome.permanent) setNotice(failureNotice(t, outcome.reason));
       return;
     }
-    await saveArDeviceProfile(p);
-    setProfile(p);
-    setPhase(p.level === 'D' ? 'notApt' : 'menu');
-  }, []);
+
+    // El guardado va DESPUÉS de comprobar la forma, y no al revés. Al revés se
+    // persistía el objeto de error como si fuera un perfil, y a partir de ahí
+    // el bloque se cerraba solo en cada apertura sin llegar a lanzar el nativo.
+    await saveArDeviceProfile(outcome.profile);
+    setFailure(null);
+    setProfile(outcome.profile);
+    setPhase(outcome.profile.level === 'D' ? 'notApt' : 'menu');
+  }, [t]);
 
   const updateThresholds = (t: ArThresholds) => { setThresholds(t); void saveArThresholds(t); };
 
@@ -328,11 +366,23 @@ export const ValeriaArLauncherScreen: React.FC<{ navigation?: any }> = ({ naviga
         <ScrollView contentContainerStyle={s.scroll}>
           <View style={s.card}>
             <Text style={s.cardTitle}>{t.ar.notAptTitle}</Text>
-            <Text style={s.cardTxt}>{t.ar.levelNote(profile?.level ?? 'D')}</Text>
+            {/* Con causa permanente manda la causa: decirle a alguien que su
+                teléfono «no llega al nivel mínimo» cuando lo que pasa es que
+                ARCore no le da cámara frontal es una explicación falsa. */}
+            {failure
+              ? <Text style={s.cardTxt}>{permanentBody(t, failure.reason)}</Text>
+              : <Text style={s.cardTxt}>{t.ar.levelNote(profile?.level ?? 'D')}</Text>}
             <Text style={s.cardTxt}>{t.ar.notAptBody}</Text>
             <Pressable onPress={() => navigation?.goBack()} style={s.primaryBtn} accessibilityRole="button">
               <Text style={s.primaryBtnTxt}>{t.ar.notAptBack}</Text>
             </Pressable>
+            {/* Código técnico, no mensaje: es lo que una logopeda puede leerle
+                por teléfono a soporte sin capturar un bugreport de 101 MB. */}
+            {failure?.reason && (
+              <Text style={s.failureCode}>
+                {failure.reason}{failure.detail ? ` · ${failure.detail}` : ''}
+              </Text>
+            )}
           </View>
         </ScrollView>
       </View>
@@ -576,6 +626,11 @@ const s = StyleSheet.create({
   dataKey: { flex: 1, fontSize: 12.5, fontWeight: '700', color: V.color.textSecondary },
   dataVal: { fontSize: 13.5, fontWeight: '800', color: V.color.textPrimary },
   mdrNote: { fontSize: 11, fontWeight: '600', color: V.color.textSecondary, lineHeight: 15, marginTop: 12 },
+  // Deliberadamente discreto: es dato de soporte, no un mensaje para la familia.
+  failureCode: {
+    fontSize: 10, fontWeight: '700', color: V.color.textSecondary,
+    letterSpacing: 0.4, marginTop: 14, textAlign: 'center', opacity: 0.65,
+  },
 
   primaryBtn: { backgroundColor: V.color.primary, borderRadius: 14, paddingVertical: 15, alignItems: 'center', marginTop: 16, ...V.shadow.button },
   primaryBtnTxt: { color: '#fff', fontSize: 15.5, fontWeight: '800' },

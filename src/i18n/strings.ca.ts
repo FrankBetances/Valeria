@@ -1360,6 +1360,10 @@ export const CA: UiStrings = {
     busyOpeningCamera: 'Obrint la càmera…',
 
     noticeAptitudeFailed: 'No s\'ha pogut completar la prova en aquest telèfon. Pots intentar-ho de nou.',
+    noticeCameraBusy: 'Una altra aplicació està fent servir la càmera. Tanca-la i torna-ho a provar.',
+    noticeArServicesOutdated: 'Actualitza «Serveis de Google per a RA» des de Play Store i torna-ho a provar.',
+    noticeArServicesMissing: 'Aquest bloc necessita «Serveis de Google per a RA». Accepta la instal·lació quan te l\'ofereixi.',
+    noticeCameraDenied: 'Sense permís de càmera no es pot fer l\'escalfament. El pots concedir i tornar-ho a provar.',
     noticeCalibrationFailed: 'La calibració no s\'ha completat. Col·loca el telèfon recolzat, en horitzontal, a un pam i mig de la cara i prova-ho una altra vegada.',
     noticeLaunchFailed: 'L\'exercici no s\'ha arribat a obrir. Comprova que l\'aplicació té permís de càmera.',
     noticeDenied: 'Sense permís de càmera no hi ha exercicis de Realitat Augmentada. La resta de l\'aplicació funciona igual.',
@@ -1400,6 +1404,8 @@ export const CA: UiStrings = {
 
     notAptTitle: 'Val més no forçar-ho',
     notAptBody: 'No és una errada teva ni de l\'infant: la càmera i els dibuixos en 3D alhora demanen més del que aquest aparell pot sostenir, i un exercici a batzegades no mesura res.',
+    notAptNoFrontCamera: 'Aquest telèfon no ofereix la càmera frontal a la Realitat Augmentada. No és qüestió d\'actualitzar res: els exercicis d\'aquest bloc necessiten veure la cara de l\'infant i aquí no poden.',
+    notAptDeviceUnsupported: 'Aquest telèfon no és dels que admeten Realitat Augmentada. No és qüestió d\'actualitzar res: la resta de blocs de Valeria+ funcionen amb normalitat.',
     notAptBack: 'Tornar als blocs',
 
     levelLabel: (level: string): string => ({

@@ -238,11 +238,27 @@ class ValeriaArActivity : ComponentActivity() {
 
     @Volatile private var isActivityPaused = false
     private var pipelineStarted = false
+    /**
+     * Por qué no se pudo abrir el bloque, en el vocabulario de
+     * [ArCoreSession.Unavailable] más `DENIED` para el permiso de cámara.
+     *
+     * Viaja en el payload hasta JS. Antes del 3/9/2026 no salía de aquí: la
+     * app calculaba la causa exacta, la escribía en una pantalla que se cerraba
+     * en el acto y mandaba solo `"unsupported"`. Por eso el fallo del Pixel 6a
+     * hubo que reconstruirlo desde un bugreport de 101 MB, y salió mal.
+     */
+    private var failureReason: String? = null
+    private var failureDetail: String? = null
     private var pauseTimestampMs = 0L
     private var accumulatedPausedDurationMs = 0L
 
     private val cameraPermission = registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
-        if (granted) startPipeline() else finishWith(outcome = "denied")
+        if (granted) {
+            startPipeline()
+        } else {
+            failureReason = "DENIED"
+            finishWith(outcome = "denied")
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -323,12 +339,19 @@ class ValeriaArActivity : ComponentActivity() {
                 glView?.onResume()
             } else {
                 statusText = "Otra aplicación está usando la cámara."
+                failureReason = ArCoreSession.Unavailable.CAMERA_BUSY.name
                 finishWith(outcome = "aborted")
             }
-        } else if (arSession.session == null) {
+        } else if (arSession.unavailable == null && arSession.session == null) {
             // Volvemos de instalar Servicios de Google para RA: se reintenta.
             // Este es el camino que hace que aceptar la instalación NO acabe en
             // una pantalla muerta.
+            //
+            // La condición se queda ESTRECHA a propósito. Con `unavailable`
+            // puesto, `startPipeline()` ya llamó a `finishWith` y la Activity se
+            // está cerrando: reintentar ahí solo añade vueltas a una pantalla
+            // que se va. Lo que arregla la pantalla muerta no es ensanchar esto,
+            // es que `pipelineStarted` ya no se ponga antes de tiempo.
             startPipeline()
         }
     }
@@ -355,6 +378,11 @@ class ValeriaArActivity : ComponentActivity() {
     // ---- Cámara y señal -----------------------------------------------------
 
     private fun startPipeline() {
+        // El permiso denegado resuelve en `onStart`, antes de `onResume`, así
+        // que `finishWith("denied")` ya ha corrido cuando la rama de reintento
+        // de `onResume` mira el estado. Sin esto se abre una tubería entera
+        // —motor de señal, sesión, GL— para una Activity que se está cerrando.
+        if (isFinishing || isDestroyed) return
         imu.start()
         if (engine == null) {
             engine = FaceSignalEngine(
@@ -388,7 +416,15 @@ class ValeriaArActivity : ComponentActivity() {
                     "Este teléfono no ofrece cámara frontal para Realidad Aumentada."
                 ArCoreSession.Unavailable.CAMERA_BUSY ->
                     "Otra aplicación está usando la cámara."
+                ArCoreSession.Unavailable.UNKNOWN ->
+                    "No se pudo iniciar la Realidad Aumentada en este teléfono."
             }
+            // `statusText` se pinta en una pantalla que `finishWith` cierra en
+            // la línea siguiente: el adulto no llega a leer ninguno de los seis
+            // mensajes. Quien tiene que enterarse es JS, y por eso la razón va
+            // en el payload y no solo en la pantalla.
+            failureReason = reason.name
+            failureDetail = arSession.detail
             finishWith(outcome = "unsupported")
             return
         }
@@ -439,10 +475,18 @@ class ValeriaArActivity : ComponentActivity() {
 
         if (!arSession.resume()) {
             statusText = "Otra aplicación está usando la cámara."
+            failureReason = ArCoreSession.Unavailable.CAMERA_BUSY.name
             finishWith(outcome = "aborted")
             return
         }
         gl.onResume()
+        // Y SOLO AQUÍ. Ponerlo en la primera línea de `startPipeline()` —como
+        // estaba— hacía que un retorno temprano (instalación de RA lanzada,
+        // motor de señal no listo) dejara la bandera puesta sin tubería: al
+        // volver, `onResume` entraba por la rama de reanudar, `arSession.resume()`
+        // fallaba con la sesión a null y el adulto recibía «otra aplicación está
+        // usando la cámara», que era falso. La rama de reintento de abajo era
+        // inalcanzable.
         pipelineStarted = true
 
         lastFaceMs = SystemClock.elapsedRealtime()
@@ -945,9 +989,34 @@ class ValeriaArActivity : ComponentActivity() {
                 trials = exercise?.trials ?: emptyList(),
             ).toJson()
         } else {
-            JSONObject().put("outcome", outcome)
+            // Sin perfil no hay `deviceProfile`, y este es el payload que se le
+            // manda a JS cuando el bloque no ha podido abrirse. Lleva la causa
+            // porque sin ella la pantalla de reintento solo puede decir
+            // «inténtalo de nuevo» — invitando a repetir para siempre una
+            // prueba que en algunos aparatos no puede pasar nunca.
+            JSONObject()
+                .put("outcome", outcome)
+                .put("reason", failureReason ?: JSONObject.NULL)
+                .put("permanent", isPermanentFailure(failureReason))
+                .put("detail", failureDetail ?: JSONObject.NULL)
         }
         finishWithPayload(payload)
+    }
+
+    /**
+     * ¿Puede este aparato pasar la prueba alguna vez, o no?
+     *
+     * Es la distinción que decide si la pantalla ofrece «inténtalo de nuevo» o
+     * cierra el bloque con una explicación. Permanente significa que no lo
+     * arregla ninguna acción del adulto: el teléfono no está certificado, o
+     * ARCore no le da configuración de cámara frontal. Todo lo demás —permiso
+     * denegado, cámara ocupada, Servicios de RA por instalar o actualizar— sí
+     * lo arregla alguien, así que se reintenta.
+     */
+    private fun isPermanentFailure(reason: String?): Boolean = when (reason) {
+        ArCoreSession.Unavailable.DEVICE_NOT_SUPPORTED.name,
+        ArCoreSession.Unavailable.NO_FRONT_CAMERA.name -> true
+        else -> false
     }
 
     private fun finishWithPayload(payload: JSONObject) {

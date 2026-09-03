@@ -42,16 +42,12 @@ class ValeriaArModule(private val reactContext: ReactApplicationContext) :
 
     private var pending: Promise? = null
     private var pendingRequest = 0
-    /** Proyección a aplicar al resultado antes de resolver (p. ej. desenvolver el perfil). */
-    private var pendingTransform: ((WritableMap) -> Any?)? = null
 
     private val activityListener: ActivityEventListener = object : BaseActivityEventListener() {
         override fun onActivityResult(activity: Activity, requestCode: Int, resultCode: Int, data: Intent?) {
             if (requestCode != pendingRequest) return
             val promise = pending ?: return
-            val transform = pendingTransform
             pending = null
-            pendingTransform = null
 
             val raw = data?.getStringExtra(ValeriaArActivity.EXTRA_RESULT)
             if (resultCode != Activity.RESULT_OK || raw == null) {
@@ -60,7 +56,15 @@ class ValeriaArModule(private val reactContext: ReactApplicationContext) :
                 return
             }
             val map = try { JSONObject(raw).toWritableMap() } catch (e: Throwable) { Arguments.createMap() }
-            promise.resolve(if (transform != null) transform(map) else map)
+            // El mapa entero, tal cual, siempre. Aquí hubo una proyección que
+            // para la Prueba de Aptitud hacía `map.getMap("deviceProfile") ?: map`:
+            // cuando el bloque no abría, ese `?: map` devolvía el mapa de error
+            // y JS lo tomaba por un perfil válido. `p.level` era `undefined`,
+            // `undefined === 'D'` era falso, la pantalla se creía apta y moría
+            // leyendo `policy.exercises`. Dos cierres inesperados en el Pixel 6a
+            // el 2/9/2026. Quien conoce la forma del resultado es TypeScript, y
+            // allí se distingue por la presencia de `deviceProfile`.
+            promise.resolve(map)
         }
     }
 
@@ -101,13 +105,7 @@ class ValeriaArModule(private val reactContext: ReactApplicationContext) :
             ValeriaArActivity.intent(reactContext, ValeriaArActivity.MODE_APTITUDE),
             REQUEST_APTITUDE,
             promise,
-        ) { map ->
-            if (map.hasKey("deviceProfile") && !map.isNull("deviceProfile")) {
-                map.getMap("deviceProfile")
-            } else {
-                null
-            }
-        }
+        )
     }
 
     @ReactMethod
@@ -154,7 +152,6 @@ class ValeriaArModule(private val reactContext: ReactApplicationContext) :
         intent: Intent,
         requestCode: Int,
         promise: Promise,
-        transform: ((WritableMap) -> Any?)? = null,
     ) {
         // reactApplicationContext.currentActivity y no el heredado del módulo:
         // en RN 0.81 ese quedó deprecado y, al ser una función Kotlin, ni
@@ -169,13 +166,11 @@ class ValeriaArModule(private val reactContext: ReactApplicationContext) :
             return
         }
         pending = promise
-        pendingTransform = transform
         pendingRequest = requestCode
         try {
             activity.startActivityForResult(intent, requestCode)
         } catch (e: Throwable) {
             pending = null
-            pendingTransform = null
             promise.reject("E_AR_LAUNCH", "No se pudo abrir el host de realidad aumentada", e)
         }
     }
