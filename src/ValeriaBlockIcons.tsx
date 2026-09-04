@@ -50,7 +50,7 @@ export type BlockIconName =
   // Grafomotricidad y Escritura: lápiz y borrador
   | 'pencil' | 'eraser'
   // Aventuras con Lúa: mascota Lúa, cuentos, canciones e imprimibles
-  | 'lua' | 'story' | 'song' | 'printable' | 'award';
+  | 'lua' | 'story' | 'song' | 'printable' | 'award' | 'game';
 
 interface Props { name: BlockIconName; color: string; size?: number; }
 
@@ -566,13 +566,43 @@ export const BlockIcon: React.FC<Props> = ({ name, color, size = 26 }) => {
         </>
       )}
 
-      {/* Lúa · Mascota clínica y compañera interactiva */}
+      {/* Lúa · la gata, jugando con su ovillo.
+          La versión anterior era una cabeza SOLA de 16 de ancho con dos puntos
+          de r 1.2: sin cuerpo ni cola, a 24 px se leía como una máscara. Aquí
+          la gata está entera —cabeza, cuerpo, cola en alto— y el ovillo toca
+          el costado, que es lo que dice "jugando" sin un solo trazo extra.
+          Las proporciones son las de ValeriaCatPixel: oreja ≈ 28 % de la altura
+          de la cabeza y naciendo de su contorno, ojos separados y por debajo
+          del centro. La boca se probó y se descartó: a 24 px con trazo 1.9 se
+          empasta en un borrón bajo los ojos. */}
       {name === 'lua' && (
         <>
-          <Path d="M4 11V6l4 3h8l4-3v5c0 5-4 9-8 9s-8-4-8-9z" {...common} />
-          <Circle cx="8.5" cy="11.5" r="1.2" fill={color} />
-          <Circle cx="15.5" cy="11.5" r="1.2" fill={color} />
-          <Path d="M11 14.5c.5.5 1.5.5 2 0" {...common} />
+          <Path
+            d="M7.8 4.6 L6.9 1.0 L10.5 2.25 A5.8 5.6 0 0 1 15.1 2.25 L18.7 1.0 L17.8 4.6
+               A5.8 5.6 0 0 1 15.3 12.4 C16 13.6 17 15.4 17 17 C17 19.8 15.6 20.9 12.8 20.9
+               C10 20.9 8.6 19.8 8.6 17 C8.6 15.4 9.6 13.6 10.3 12.4
+               A5.8 5.6 0 0 1 7.8 4.6 Z"
+            {...common}
+          />
+          <Circle cx="10.3" cy="8.5" r="1.5" fill={color} />
+          <Circle cx="15.3" cy="8.5" r="1.5" fill={color} />
+          {/* Cola en alto: arranca sobre el costado y se enrosca. */}
+          <Path d="M16.5 18.6 C19.7 19.3 21.4 17 20.8 14.7 C20.4 13.2 19.1 12.6 18.2 13.4" {...common} />
+          {/* El ovillo, apoyado en la pata. */}
+          <Circle cx="4.9" cy="19" r="2.6" {...common} />
+        </>
+      )}
+
+      {/* Juegos con Lúa · pieza de puzle. Las tarjetas de esta sección llevaban
+          el icono de PARES MÍNIMOS —dos círculos solapados—, que es el
+          contraste fonémico de otro bloque, no un juego. */}
+      {name === 'game' && (
+        <>
+          <Path
+            d="M9.6 3.6 H4.4 v5.2 a2.2 2.2 0 1 0 0 4.4 V20 h5.2 a2.2 2.2 0 1 1 4.4 0 H20
+               v-6.8 a2.2 2.2 0 1 1 0-4.4 V3.6 h-6 a2.2 2.2 0 1 1-4.4 0 z"
+            {...common}
+          />
         </>
       )}
 

@@ -187,7 +187,7 @@ export const ValeriaAventurasLuaHubScreen: React.FC<Props> = ({ navigation }) =>
               accessibilityLabel={game.title} // i18n-exempt: catálogo clínico dinámico
             >
               <View style={[s.miniCardIcon, { backgroundColor: LUA_COLORS.primaryLight }]}>
-                <BlockIcon name="pairs" color={LUA_COLORS.primary} size={24} />
+                <BlockIcon name="game" color={LUA_COLORS.primary} size={24} />
               </View>
               <Text style={s.miniCardTitle} numberOfLines={2}>
                 {game.title}
