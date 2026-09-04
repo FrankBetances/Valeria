@@ -16,7 +16,7 @@ import { BlockIcon } from "../../ValeriaBlockIcons";
 import { CatPixel } from "../../ValeriaCatPixel";
 import { speakLuaToChild, speakLuaToChildSeq } from "../luaSpeech";
 import { LUA_COLORS, LUA_RADII } from "../Theme/luaTheme";
-import { luaCompleteActivity } from "../luaActivityReward";
+import { luaCompleteActivity, useLuaActivityCleanup } from "../luaActivityReward";
 import { LuaSong, LUA_SONGS_CATALOG } from "../index";
 
 interface Props {
@@ -29,6 +29,8 @@ interface Props {
 }
 
 export const LuaSongPlayerScreen: React.FC<Props> = ({ navigation, route }) => {
+  // Corta el desfile del premio si el niño sale a mitad (ver luaActivityReward).
+  useLuaActivityCleanup();
   const t = useT();
   const insets = useSafeAreaInsets();
   const { songId } = route.params || {};

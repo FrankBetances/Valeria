@@ -29,7 +29,7 @@ import { BlockIcon } from "../../ValeriaBlockIcons";
 import { CatPixel } from "../../ValeriaCatPixel";
 import { speakLuaToChild, speakLuaToChildSeq } from "../luaSpeech";
 import { FichaVisual } from "../../ValeriaPictograms";
-import { luaCompleteActivity } from "../luaActivityReward";
+import { luaCompleteActivity, useLuaActivityCleanup } from "../luaActivityReward";
 import { LUA_COLORS, LUA_RADII } from "../Theme/luaTheme";
 import {
   AgeBand,
@@ -48,6 +48,8 @@ interface Props {
 }
 
 export const LuaAssessmentPlayerScreen: React.FC<Props> = ({ navigation, route }) => {
+  // Corta el desfile del premio si el niño sale a mitad (ver luaActivityReward).
+  useLuaActivityCleanup();
   const t = useT();
   const insets = useSafeAreaInsets();
   const { ageBand = "0-2", initialQuestionIndex = 0 } = route.params || {};

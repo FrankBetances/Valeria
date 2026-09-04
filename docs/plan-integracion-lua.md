@@ -840,10 +840,18 @@ Con el arte de 24×24 (D-7) eso desaparece. Las cifras, contadas y no estimadas:
 
 | | En crudo | De los 4 MB de la placa |
 | :--- | ---: | ---: |
-| 66 pictogramas × 24×24 | **37,1 KB** | 0,9 % |
+| 66 pictogramas × 24×24 (hasta el 4/9/2026) | 37,1 KB | 0,9 % |
+| **120 pictogramas × 24×24** (desde el 4/9/2026) | **67,5 KB** | **1,6 %** |
 | 9 insignias × 24×24 | **5,1 KB** | 0,1 % |
-| **Total hoy** | **42,2 KB** | **1,0 %** |
+| **Total hoy** | **72,6 KB** | **1,8 %** |
 | Con los ~148 de D-H | 88,3 KB | 2,2 % |
+
+> La reforma voxel del 4/9/2026 subió el catálogo de 66 a 120 fichas. Las
+> cifras de arriba son **1 byte por celda en crudo**, que es como se
+> presupuestó siempre; en el firmware las matrices son cadenas de C y ocupan
+> algo más —~37 KB de subida contando el vector de punteros—. Ninguna de las
+> dos está **medida en un binario**: son cuentas sobre el tamaño del activo. El
+> margen es tan grande —1,8 % de la flash— que la diferencia no decide nada.
 
 Sesenta veces menos de lo que se presupuestaba. **No hace falta comprimir, ni
 paleta indexada, ni RLE, ni recortar el catálogo**, y la flash externa —que no

@@ -149,7 +149,11 @@ un rastro suyo en la app. Lo que hay que saber antes de tocar nada:
   gata del cristal seguía con la cara de antes. Ahora `registerSession` va
   seguido de `luaSessionReward(premio)`
   ([`src/valeriaLuaSession.ts`](src/valeriaLuaSession.ts)) en las cuatro
-  pantallas que cierran sesión. Tres cosas que no se pueden perder al tocarlo:
+  pantallas que cierran sesión — **y desde Aventuras con Lúa son ocho**: las
+  cuatro de ese módulo (cuento, canción, juego y cribado) pasan por
+  [`src/AventurasLua/luaActivityReward.ts`](src/AventurasLua/luaActivityReward.ts),
+  que hace lo mismo en un solo sitio. Cuatro cosas que no se pueden perder al
+  tocarlo:
   · **una insignia son DOS NÚMEROS** —familia y rango, posiciones en
     `AWARD_GLYPH_KEYS` y `AWARD_TIER_KEYS`—, nunca el id ni el nombre: en el
     aparato no hay campo de texto;
@@ -159,7 +163,16 @@ un rastro suyo en la app. Lo que hay que saber antes de tocar nada:
   · **esas dos listas son append-only.** Los DIBUJOS pueden cambiar —el 25/8
     cambiaron los nueve— pero el orden no: reordenar le pone al niño la insignia
     del vecino en un aparato que ya está en su casa. Lo sujeta la comprobación 6
-    de `check-lua-mascot-mirror.js`.
+    de `check-lua-mascot-mirror.js`;
+  · **mandar el premio es la mitad; cortarlo es la otra.** Toda pantalla que
+    manda desfile lleva `cancelSessionReward()` al desmontarse — las cuatro
+    clásicas con `useEffect(() => () => cancelSessionReward(), [])`, las cuatro
+    de Aventuras con `useLuaActivityCleanup()`. **Estas cuatro no lo llevaron
+    hasta el 4/9/2026**, y el efecto no era teórico: el desfile va a plazos de
+    3 000 ms, así que salir a mitad dejaba los temporizadores vivos y la gata
+    del cristal celebrando una actividad que el niño ya había dejado, sin el
+    `IDLE` que devuelve la cara. Se notaba justo en el hub, que es donde la
+    caricia tiene que funcionar. **Pantalla nueva que premie, línea nueva.**
 - **«Oso» sigue siendo vocabulario terapéutico** —par mínimo *ocho/oso*, «EL OSO
   COME PAN», la orden TPR—. Eso es contenido de los bancos y no se toca.
 - Un cambio de marca no está hecho hasta que lo dicen el README y el manual.

@@ -489,20 +489,35 @@ extremo a extremo por Bluetooth**, que es el criterio del §4 del plan—, porqu
 aquella sesión gobernó el aparato en local. Y la capa de compañía de aquí abajo
 —`MOOD`, `ACCESSORY`— es **posterior**: en el cristal no ha estado nunca.
 
-**Y desde el 14/8/2026 no es solo la cara.** Los **66 pictogramas de ficha y las
-9 insignias** son también el mismo dibujo en los dos sitios: matrices de píxel
-art de 24×24 que viven en [`src/ValeriaPixelArt.ts`](src/ValeriaPixelArt.ts) —la
-fuente única— y que el firmware **copia**, igual que copia el sprite de la gata y
-la tabla de opcodes. Se dibujaron en el repositorio del firmware y **subieron**
-aquí; es la única vez que un activo ha ido en esa dirección.
+**Y desde el 14/8/2026 no es solo la cara.** Los **120 pictogramas de ficha y
+las 9 insignias** son también el mismo dibujo en los dos sitios: matrices de
+píxel art de 24×24 que viven en [`src/ValeriaPixelArt.ts`](src/ValeriaPixelArt.ts)
+—la fuente única— y que el firmware **copia**, igual que copia el sprite de la
+gata y la tabla de opcodes. Se dibujaron en el repositorio del firmware y
+**subieron** aquí; es la única vez que un activo ha ido en esa dirección.
 
-> [!WARNING]
-> **Las nueve insignias están desincronizadas ahora mismo.** El rediseño del
-> 25/8/2026 volvió a dibujar los nueve glifos aquí, y `paw`, `flame` y `star`
-> además se rehicieron para que se leyeran a 30 px. En el cristal de 240×240
-> siguen los antiguos hasta que las matrices nuevas se suban al repositorio del
-> firmware. `check-lua-mascot-mirror.js` **no** lo detecta: solo vigila `MOOD` y
-> `ACCESSORY`, no los glifos de premio. Ver
+Eran 66 hasta la reforma voxel: los 66 se redibujaron con sombra y luz —la
+paleta pasó de 21 colores a 33— y detrás entraron **54 fichas nuevas**, con el
+léxico dominicano de la *Matriz de Contenidos por Edad* (*tambora*, *maracas*,
+*mango*, *lechosa*, *chinola*, *coco*, *palma*, *bandera*, *coquí*) y seis caras
+de emoción. **Los índices de los 66 primeros no se han movido**, que es la
+condición que no se puede romper: por el cable viaja la posición, y hay aparatos
+ya flasheados.
+
+> [!NOTE]
+> **Sincronizadas el 4/9/2026.** Este aviso decía que las nueve insignias
+> estaban desincronizadas —el rediseño del 25/8/2026 y luego la reforma voxel se
+> quedaron aquí y en el cristal seguían los dibujos viejos—. Ya han bajado, junto
+> con los 120 pictogramas y los doce colores nuevos de la paleta, y lo enseña el
+> gate del otro repositorio: `make check VALERIA=../Valeria` da
+> «✓ el arte del ejercicio es el de Valeria+ · 120 pictogramas, 9×5 insignias» y
+> «✓ la paleta de las matrices coincide · 33 colores».
+>
+> Lo que **sigue siendo verdad** y por eso se queda escrito:
+> `check-lua-mascot-mirror.js` **no** vigila los glifos de premio —solo `MOOD` y
+> `ACCESSORY`—, así que quien detecta esta divergencia es un gate del repositorio
+> del firmware y no uno de aquí. Un rediseño que no se baje volverá a pasar
+> desapercibido **desde este lado**. Ver
 > [`docs/pizarra-magica-e-insignias.md`](docs/pizarra-magica-e-insignias.md).
 
 Importa porque es la razón de ser del aparato: **el niño mira a la mascota, no a
@@ -1207,7 +1222,7 @@ un dato de salud de un menor— que el typecheck y el diff no ven.
 | --- | --- |
 | `check-voice-corpus-coverage.js` | Que se empaquete un APK con texto locutado **sin asset de voz neuronal**. La app no se rompe cuando eso pasa: cae a la voz del sistema en silencio, y así se pierden Celtia (galego), ILENIA (euskera) o Matxa (català). |
 | `check-content-rules.js` | Que reaparezcan el `tts_string` redundante (ES‑06), una fase de progresión por onomatopeya (ES‑10) o una cápsula con tres referentes distintos (ES‑13). |
-| `check-pictogram-coverage.js` | Que una cápsula de contraste quede **irresoluble**: si las dos vueltas comparten clave de pictograma, el niño ve dos tarjetas idénticas (ES‑12). |
+| `check-pictogram-coverage.js` | Que una cápsula de contraste quede **irresoluble**: si las dos vueltas comparten clave de pictograma, el niño ve dos tarjetas idénticas (ES‑12). Y desde el 4/9/2026 tampoco si son claves distintas con el **mismo dibujo** —`sapo` y `coqui` son dos ranas verdes—, que es el mismo fallo sin que las cadenas coincidan. |
 | `check-lexical-difficulty.js` | Que un ítem avanzado se cuele entre los iniciales: **el orden de escritura ES el orden de práctica** (ES‑08). |
 | `check-reminder-slots.js` | Que apagar una franja de recordatorio deje de reprogramarla pero **no cancele sus avisos ya en cola** (GEN‑01). |
 | `check-sign-figures.js` | Que una cápsula de LSE pida una figura **sin dibujo registrado** o que el abecedario dactilológico quede incompleto: `SignFigure` devuelve `null` a propósito, así que el fallo es invisible salvo para este gate (LSE‑01). |

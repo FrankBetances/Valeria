@@ -16,6 +16,14 @@
  *   P3 · Las dos vueltas de una cápsula usan claves DISTINTAS. Es el fallo que
  *        no se ve leyendo el dato: copiar la clave de la primera vuelta a la
  *        segunda pasa P1 y P2, y deja las dos tarjetas iguales otra vez.
+ *   P5 · Y tampoco usan dos claves DISTINTAS que se DIBUJAN casi igual. P3 solo
+ *        compara cadenas, así que dos dibujos que el niño no puede separar la
+ *        pasan tan tranquilos. Salió mirando la hoja de contactos del firmware
+ *        el 4/9/2026: las 54 fichas nuevas trajeron `coqui` y el banco ya tenía
+ *        `sapo`, y son dos ranas verdes parecidas ya en pantalla de ordenador
+ *        —en el cristal de Lúa el dibujo mide 9,6 mm—. Ahí el niño no falla por
+ *        lenguaje: falla porque las dos tarjetas son la misma, y el registro lo
+ *        anota como error clínico.
  *
  * Fuera de las cápsulas, el pictograma es opcional: la caída a emoji es el
  * comportamiento previsto mientras el banco propio se completa por tandas.
@@ -27,6 +35,28 @@ const path = require('path');
 
 const ROOT = path.join(__dirname, '..');
 const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'valeria-pictogramas-cov-'));
+
+// ── P5 · pares que NO pueden coincidir en una cápsula ────────────────────────
+//
+// Dos claves distintas cuyo DIBUJO no se distingue. El criterio para entrar
+// aquí es estrecho a propósito, porque es fácil confundirlo con lo contrario:
+//
+//   · SÍ entra: dos palabras DISTINTAS que se dibujan casi igual. `sapo` y
+//     `coqui` son dos ranas verdes; poner una en cada vuelta es pedirle al niño
+//     que distinga por la imagen algo que la imagen no distingue.
+//   · NO entra: el mismo objeto con el atributo contrastado cambiado. Que
+//     `osito-grande` y `osito-pequeno` se parezcan es el EJERCICIO —la regla de
+//     congruencia de ES-13 pide justo eso—, y meterlos aquí rompería el banco.
+//
+// Se añade mirando la hoja de contactos, no de memoria: `make shots-fichas` en
+// el repositorio del firmware saca las 120 fichas a 240×240 y su catálogo. Si
+// algún día uno de los dos dibujos se rehace y ya se distinguen, se quita la
+// fila — con la fecha y la captura al lado.
+const PARES_CONFUNDIBLES = [
+  ['sapo', 'coqui'], // dos ranas verdes · visto el 4/9/2026 en docs/fichas/catalogo.png (070 y 108)
+];
+const confundible = (a, b) =>
+  PARES_CONFUNDIBLES.find(([x, y]) => (a === x && b === y) || (a === y && b === x));
 
 let fallos = 0;
 const fallo = (msg) => { fallos += 1; console.error('  ✖ ' + msg); };
@@ -84,6 +114,8 @@ try {
       }
       if (claves.length === 2 && claves[0] === claves[1]) {
         fallo(`P3 ${b.lang}/${c.id}: las dos vueltas usan la MISMA clave («${claves[0]}»): el niño vería dos tarjetas idénticas`);
+      } else if (claves.length === 2 && confundible(claves[0], claves[1])) {
+        fallo(`P5 ${b.lang}/${c.id}: «${claves[0]}» y «${claves[1]}» son claves distintas pero DIBUJOS casi iguales: la vuelta de comprensión no se puede resolver mirando`);
       }
     }
     console.log(`  ${(b.capsules ?? []).length} cápsulas revisadas`);

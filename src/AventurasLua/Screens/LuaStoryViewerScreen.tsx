@@ -18,7 +18,7 @@ import { FichaVisual } from "../../ValeriaPictograms";
 import { speakLuaToChild, speakLuaToChildSeq } from "../luaSpeech";
 import { LUA_COLORS, LUA_RADII } from "../Theme/luaTheme";
 import { LuaStory, LUA_STORIES_CATALOG } from "../index";
-import { luaCompleteActivity } from "../luaActivityReward";
+import { luaCompleteActivity, useLuaActivityCleanup } from "../luaActivityReward";
 
 interface Props {
   navigation: any;
@@ -30,6 +30,8 @@ interface Props {
 }
 
 export const LuaStoryViewerScreen: React.FC<Props> = ({ navigation, route }) => {
+  // Corta el desfile del premio si el niño sale a mitad (ver luaActivityReward).
+  useLuaActivityCleanup();
   const t = useT();
   const insets = useSafeAreaInsets();
   const { storyId } = route.params || {};

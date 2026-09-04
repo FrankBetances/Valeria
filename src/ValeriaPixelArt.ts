@@ -3304,16 +3304,26 @@ export const PICTOS: Record<PictoKey, readonly string[]> = {
 // que los pictogramas: se añade al final, no se reordena.
 
 /** Los 9 glifos, EN ORDEN DE ÍNDICE. */
+// ⚠ LA CLAVE NO DICE LO QUE EL GLIFO DIBUJA. Es herencia: el rediseño del
+// 25/8/2026 cambió los nueve dibujos y dejó los nueve nombres, y eso ya costó un
+// error real — VIA+ tenía su mapa de insignias clínicas escrito contra los
+// nombres viejos, así que la audiometría condicionada («Oído Atento») mandaba el
+// índice del cascabel de la voz. El parámetro era válido y ningún gate compara
+// un nombre con un dibujo, así que no lo vio nadie.
+//
+// **Elige por el comentario, nunca por la clave.** Y lo que viaja al aparato es
+// el ÍNDICE, así que esta lista es append-only: reordenarla le pone al niño la
+// insignia del vecino en un aparato que ya está en su casa.
 export const AWARD_GLYPH_KEYS = [
-  'flame',      // 0
-  'paw',        // 1
-  'star',       // 2
-  'sunrise',    // 3
-  'moon',       // 4
-  'home',       // 5
-  'yarn',       // 6
-  'heart',      // 7
-  'crown',      // 8
+  'flame',      // 0 · cascabel fonador
+  'paw',        // 1 · huella de exploradora
+  'star',       // 2 · orejitas atentas
+  'sunrise',    // 3 · lupa curiosa (farol)
+  'moon',       // 4 · Lúa soñadora
+  'home',       // 5 · mochila de palabras
+  'yarn',       // 6 · ovillo de cuentos
+  'heart',      // 7 · ronroneo afectivo
+  'crown',      // 8 · corona de sabiduría lunar
 ] as const;
 
 export type PixelAwardGlyph = (typeof AWARD_GLYPH_KEYS)[number];
