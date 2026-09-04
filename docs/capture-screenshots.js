@@ -94,6 +94,15 @@ const pause = (page, ms) => page.waitForTimeout(ms);
 
   // 03 · Ficha de registro (rellena)
   await page.getByText('Continuar', { exact: true }).click();
+  // Con pacientes ya sembrados, la app NO va directa a la ficha: intercala la
+  // pantalla «¿quién va a practicar hoy?». El script se escribió antes de que
+  // esa pantalla existiera y por eso moría aquí esperando un campo de texto que
+  // no llega. Se pide ficha nueva, que es lo que ilustra esta captura.
+  const nuevoPaciente = page.getByText('Paciente nuevo', { exact: true });
+  if (await nuevoPaciente.count()) {
+    await nuevoPaciente.click();
+    await pause(page, 800);
+  }
   await page.getByPlaceholder('Nombre del paciente').waitFor();
   await pause(page, 400);
   await page.getByPlaceholder('Nombre del paciente').fill('Lucía Martínez');
@@ -182,8 +191,11 @@ const pause = (page, ms) => page.waitForTimeout(ms);
   // ---- Helper: volver a inicio y abrir el hub con el paciente ya registrado ----
   const openHubFresh = async () => {
     await page.goto(BASE, { waitUntil: 'domcontentloaded' });
-    await page.getByText('Ya tengo un paciente registrado').waitFor({ timeout: 120000 });
-    await page.getByText('Ya tengo un paciente registrado').click();
+    await page.getByText('Comenzar', { exact: true }).waitFor({ timeout: 120000 });
+    await page.getByText('Comenzar', { exact: true }).click();
+    await page.getByText('Continuar', { exact: true }).first().waitFor();
+    await page.getByText('Continuar', { exact: true }).first().click();
+    await page.getByText('Ya tengo un paciente', { exact: true }).click();
     await page.getByText('Selecciona un paciente').waitFor();
     await pause(page, 400);
     await page.getByText('Lucía Martínez').click();
@@ -230,10 +242,35 @@ const pause = (page, ms) => page.waitForTimeout(ms);
   await shot(page, '12-expansion-juego');       // 12 · juego + acción física del adulto
   console.log('12 expansion juego ✓');
 
+  // ===================== AVENTURAS CON LÚA =====================
+  await openHubFresh();
+  await page.getByText('Aventuras con Lúa', { exact: true }).first().click();
+  await page.getByText('Ejercicios con Lúa', { exact: true }).waitFor({ timeout: 120000 });
+  await pause(page, 900);
+  await shot(page, '42-aventuras-lua-hub');   // 42 · el módulo, filtrado por edad
+  console.log('42 aventuras hub ✓');
+
+  await page.getByText('Ejercicios con Lúa', { exact: true }).first().click();
+  await page.getByText(/Ejercicio 1 de/).waitFor({ timeout: 60000 });
+  await pause(page, 900);
+  await shot(page, '43-aventuras-lua-ficha'); // 43 · el niño toca la ficha
+  console.log('43 aventuras ficha ✓');
+
+  // Al tercero, que es el que lleva pauta del adulto y hoja de registro.
+  for (let i = 0; i < 2; i++) {
+    await page.getByText('Siguiente ejercicio →', { exact: true }).first().click();
+    await pause(page, 1200);
+  }
+  await shot(page, '44-aventuras-lua-registro-adulto'); // 44 · pauta + registro
+  console.log('44 aventuras registro ✓');
+
   // ===================== SELECCIÓN DE PACIENTE + TEST DE LING =====================
   await page.goto(BASE, { waitUntil: 'domcontentloaded' });
-  await page.getByText('Ya tengo un paciente registrado').waitFor({ timeout: 120000 });
-  await page.getByText('Ya tengo un paciente registrado').click();
+  await page.getByText('Comenzar', { exact: true }).waitFor({ timeout: 120000 });
+  await page.getByText('Comenzar', { exact: true }).click();
+  await page.getByText('Continuar', { exact: true }).first().waitFor();
+  await page.getByText('Continuar', { exact: true }).first().click();
+  await page.getByText('Ya tengo un paciente', { exact: true }).click();
   await page.getByText('Selecciona un paciente').waitFor();
   await pause(page, 500);
   await shot(page, '16-pacientes');             // 16 · selección de paciente
