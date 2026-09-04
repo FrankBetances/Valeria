@@ -63,7 +63,6 @@ import {
   LuaAssessmentPlayerScreen,
   LuaStoryViewerScreen,
   LuaSongPlayerScreen,
-  LuaPrintablesScreen,
   LuaGamePlayerScreen,
   AgeBand,
 } from './AventurasLua';
@@ -98,7 +97,6 @@ export type ValeriaStackParamList = {
   LuaAssessmentPlayer: { ageBand: AgeBand; initialQuestionIndex?: number };
   LuaStoryViewer: { storyId: string };
   LuaSongPlayer: { songId: string };
-  LuaPrintables: { printId?: string } | undefined;
   LuaGamePlayer: { gameId: string };
 };
 
@@ -146,7 +144,6 @@ export const ValeriaNavigator: React.FC = () => (
     <Stack.Screen name="LuaAssessmentPlayer" component={LuaAssessmentPlayerScreen} />
     <Stack.Screen name="LuaStoryViewer" component={LuaStoryViewerScreen} />
     <Stack.Screen name="LuaSongPlayer" component={LuaSongPlayerScreen} />
-    <Stack.Screen name="LuaPrintables" component={LuaPrintablesScreen} />
     <Stack.Screen name="LuaGamePlayer" component={LuaGamePlayerScreen} />
   </Stack.Navigator>
 );

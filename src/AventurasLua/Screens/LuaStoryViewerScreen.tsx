@@ -14,6 +14,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useT } from "../../i18n";
 import { BlockIcon } from "../../ValeriaBlockIcons";
 import { CatPixel } from "../../ValeriaCatPixel";
+import { FichaVisual } from "../../ValeriaPictograms";
 import { speakLuaToChild, speakLuaToChildSeq } from "../luaSpeech";
 import { LUA_COLORS, LUA_RADII } from "../Theme/luaTheme";
 import { LuaStory, LUA_STORIES_CATALOG } from "../index";
@@ -155,6 +156,11 @@ export const LuaStoryViewerScreen: React.FC<Props> = ({ navigation, route }) => 
             <View style={s.vocabList}>
               {story.newWords.map((card) => (
                 <View key={card.word} style={s.vocabCard}>
+                  {card.pic ? (
+                    <View style={s.vocabPic}>
+                      <FichaVisual word={card.word} emoji="" pic={card.pic} size={56} />
+                    </View>
+                  ) : null}
                   <Text style={s.vocabWord}>{card.word}</Text>
                   <Text style={s.vocabDef}>{card.definition}</Text>
                 </View>
@@ -186,6 +192,9 @@ export const LuaStoryViewerScreen: React.FC<Props> = ({ navigation, route }) => 
                         accessibilityRole="button"
                         accessibilityLabel={opt.text} // i18n-exempt: catálogo clínico dinámico
                       >
+                        {opt.pic ? (
+                          <FichaVisual word={opt.text} emoji="" pic={opt.pic} size={44} />
+                        ) : null}
                         <Text
                           style={[
                             s.optionItemTxt,
@@ -250,6 +259,7 @@ export const LuaStoryViewerScreen: React.FC<Props> = ({ navigation, route }) => 
 };
 
 const s = StyleSheet.create({
+  vocabPic: { alignItems: "center", marginBottom: 6 },
   finishCard: {
     marginTop: 16,
     alignItems: "center",
@@ -429,12 +439,16 @@ const s = StyleSheet.create({
     gap: 8,
   },
   optionItem: {
-    minHeight: 48,
+    minHeight: 56,
     borderRadius: LUA_RADII.sm,
     backgroundColor: LUA_COLORS.surfaceSubtle,
     paddingHorizontal: 14,
     paddingVertical: 10,
-    justifyContent: "center",
+    // Fila: la ficha a la izquierda y el texto al lado. En 0-2 y 2-3 el niño
+    // responde por el dibujo; el texto lo lee el adulto en voz alta.
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
     borderWidth: 1.5,
     borderColor: "transparent",
   },

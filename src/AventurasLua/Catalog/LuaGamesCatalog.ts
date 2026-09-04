@@ -345,4 +345,109 @@ export const LUA_GAMES_CATALOG: LuaGame[] = [
       { pic: 'barco', label: 'Barco' },
     ],
   },
+
+  // --------------------------------------------------------------------------
+  // Lo que era «Imprime y Juega». Decisión de Frank del 4/9/2026: nada
+  // imprimible, porque al final lo que hace una ficha dentro de la app es un
+  // juego de selección. Seis de las diez fichas se convierten aquí; las otras
+  // cuatro no se pierden, se van donde ya estaban cubiertas:
+  //   · la hoja de trazo, a Grafomotricidad (la Pizarra Mágica de Lúa);
+  //   · el dominó de rimas, al ítem de rimas del banco por edad (5-7);
+  //   · la ficha semanal de práctica, a la racha de la gamificación;
+  //   · el diploma, a las insignias, que ya premian lo mismo y llegan al cristal.
+  // --------------------------------------------------------------------------
+  {
+    id: 'lua_game_20',
+    number: 20,
+    title: 'Las palabras de mi casa',
+    subtitle: 'Ocho objetos de todos los días',
+    kind: 'image_word',
+    ageBands: ['2-3', '3-4', '4-5'],
+    instructions: 'Toca cada dibujo y di su nombre en voz alta.',
+    items: [
+      { pic: 'perro', label: 'Perro' }, { pic: 'gato', label: 'Gato' },
+      { pic: 'pelota', label: 'Pelota' }, { pic: 'casa', label: 'Casa' },
+      { pic: 'sol', label: 'Sol' }, { pic: 'pan', label: 'Pan' },
+      { pic: 'vaso', label: 'Vaso' }, { pic: 'zapato', label: 'Zapato' },
+    ],
+  },
+  {
+    id: 'lua_game_21',
+    number: 21,
+    title: 'La rutina de la mañana',
+    subtitle: 'Ordena los cuatro pasos',
+    kind: 'sequence',
+    ageBands: ['2-3', '3-4', '4-5'],
+    instructions: 'Ordena los pasos de la mañana: despertar, lavarse, vestirse y desayunar.',
+    items: [
+      { pic: 'dormir', label: 'Despertar' }, { pic: 'mano-limpia', label: 'Lavarse' },
+      { pic: 'vestir', label: 'Vestirse' }, { pic: 'comer', label: 'Desayunar' },
+    ],
+  },
+  {
+    id: 'lua_game_22',
+    number: 22,
+    title: 'Bingo de sonidos: el sonido /p/',
+    subtitle: 'Marca las que empiezan por /p/',
+    kind: 'sound_hunt',
+    ageBands: ['3-4', '4-5', '5-7'],
+    instructions: 'Marca las imágenes cuyo nombre empieza con el sonido /p/.',
+    items: [
+      { pic: 'pato', label: 'Pato', isTarget: true }, { pic: 'pelota', label: 'Pelota', isTarget: true },
+      { pic: 'pan', label: 'Pan', isTarget: true }, { pic: 'palma', label: 'Palma', isTarget: true },
+      { pic: 'sol', label: 'Sol' }, { pic: 'mesa', label: 'Mesa' },
+      { pic: 'gato', label: 'Gato' }, { pic: 'casa', label: 'Casa' },
+      { pic: 'luna', label: 'Luna' },
+    ],
+  },
+  {
+    id: 'lua_game_23',
+    number: 23,
+    title: '¿Cómo me siento hoy?',
+    subtitle: 'Elige tu cara del día',
+    kind: 'image_word',
+    ageBands: ['3-4', '4-5', '5-7', '7-10'],
+    instructions: 'Mira las caras y toca la que dice cómo te sientes hoy.',
+    items: [
+      { pic: 'cara-feliz', label: 'Feliz' }, { pic: 'cara-triste', label: 'Triste' },
+      { pic: 'cara-enojada', label: 'Enojado' }, { pic: 'cara-sorprendida', label: 'Sorprendido' },
+      { pic: 'cara-asustada', label: 'Asustado' }, { pic: 'cara-tranquila', label: 'Tranquilo' },
+    ],
+  },
+  {
+    id: 'lua_game_24',
+    number: 24,
+    title: 'Completa la palabra: en casa',
+    subtitle: 'Falta una letra en cada una',
+    kind: 'word_completion',
+    ageBands: ['5-7', '7-10'],
+    instructions: 'Di qué letra falta para completar cada palabra.',
+    items: [
+      { pic: 'sol', label: 'Sol', template: '_ O L' },
+      { pic: 'casa', label: 'Casa', template: 'C A _ A' },
+      { pic: 'pelota', label: 'Pelota', template: 'P E L O _ A' },
+      { pic: 'mesa', label: 'Mesa', template: 'M E _ A' },
+    ],
+  },
+  {
+    id: 'lua_game_25',
+    number: 25,
+    title: 'Animales, frutas y ropa',
+    subtitle: 'Tres grupos, nueve dibujos',
+    kind: 'sorting',
+    ageBands: ['3-4', '4-5', '5-7'],
+    instructions: 'Coloca cada dibujo en su grupo: animales, frutas o ropa.',
+    groups: ['Animales', 'Frutas', 'Ropa'],
+    items: [
+      { pic: 'perro', label: 'Perro', group: 'Animales' },
+      { pic: 'gato', label: 'Gato', group: 'Animales' },
+      { pic: 'vaca', label: 'Vaca', group: 'Animales' },
+      { pic: 'mango', label: 'Mango', group: 'Frutas' },
+      { pic: 'chinola', label: 'Chinola', group: 'Frutas' },
+      { pic: 'lechosa', label: 'Lechosa', group: 'Frutas' },
+      { pic: 'zapato', label: 'Zapato', group: 'Ropa' },
+      { pic: 'gorra', label: 'Gorra', group: 'Ropa' },
+      { pic: 'bufanda', label: 'Bufanda', group: 'Ropa' },
+    ],
+  },
 ];

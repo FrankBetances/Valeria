@@ -1828,9 +1828,6 @@ export const ES = {
     secSongsTitle: 'Canciones y Praxias',
     secSongsSub: '10 canciones con pausas activas, ritmo y patrones motores orofaciales.',
     secSongsBadge: (n: number): string => `${n} canciones`,
-    secPrintablesTitle: 'Imprime y Juega',
-    secPrintablesSub: '10 recursos para imprimir: ruleta de emociones, secuencias y diplomas.',
-    secPrintablesBadge: (n: number): string => `${n} fichas`,
 
     evalProgress: (curr: number, total: number): string => `Pregunta ${curr} de ${total}`,
     evalClinicalSupport: 'Pauta de apoyo para el adulto',
@@ -1838,13 +1835,11 @@ export const ES = {
     evalAdultRecordHint: 'Observa al peque y marca lo que ha hecho. Esto no lo elige él.',
     activityFinish: 'Terminar y ganar premio',
     activityDone: '¡Actividad completada! Lúa lo ha visto.',
-    printableName: 'Nombre',
-    printableDate: 'Fecha',
     sectionEmptyForBand: 'Todavía no hay nada de esta sección para esta edad.',
     gameBlankSlot: 'Espacio libre',
     gameClue: (n: number): string => `Pista ${n}`,
     secGamesTitle: 'Juegos con Lúa',
-    secGamesSub: '10 juegos para tocar: memorama, imagen-palabra, sonidos, secuencias y atención.',
+    secGamesSub: 'Juegos de selección: memorama, imagen-palabra, sonidos iniciales, secuencias, clasificación, atención y pistas.',
     secGamesBadge: (n: number): string => `${n} juegos`,
     evalTargetReinforcement: '¡Excelente respuesta!',
     evalRecastModel: 'Modelado sugerido (sin castigo)',
@@ -1870,10 +1865,6 @@ export const ES = {
     songPraxiasTitle: 'Praxias y articulación',
 
     printableAges: (age: string): string => `Edad recomendada: ${age}`,
-    printableMaterials: 'Materiales',
-    printableInstructions: 'Instrucciones de uso',
-    printableShare: 'Compartir la ficha',
-    printableShareSuccess: 'Ficha compartida',
   },
 };
 

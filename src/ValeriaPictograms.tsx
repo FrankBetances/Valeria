@@ -158,6 +158,11 @@ const PICTOGRAMS_BY_KEY: Record<string, Pic> = {
   ojo: pixelPic('ojo'),
   rodilla: pixelPic('rodilla'),
   codo: pixelPic('codo'),
+  // Aventuras con Lúa · vocabulario clave de los cuentos.
+  pollito: pixelPic('pollito'),
+  flor: pixelPic('flor'),
+  pez: pixelPic('pez'),
+  'estrella-mar': pixelPic('estrella-mar'),
   // Aventuras con Lúa · léxico dominicano y caras de emoción.
   mango: pixelPic('mango'),
   lechosa: pixelPic('lechosa'),

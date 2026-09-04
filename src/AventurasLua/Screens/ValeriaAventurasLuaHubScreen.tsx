@@ -14,7 +14,6 @@ import {
   LUA_ASSESSMENT_CATALOG,
   LUA_STORIES_CATALOG,
   LUA_SONGS_CATALOG,
-  LUA_PRINTABLES_CATALOG,
   LUA_GAMES_CATALOG,
 } from "../index";
 
@@ -56,10 +55,6 @@ export const ValeriaAventurasLuaHubScreen: React.FC<Props> = ({ navigation }) =>
     ? LUA_GAMES_CATALOG
     : LUA_GAMES_CATALOG.filter((j) => j.ageBands.includes(selectedBand));
 
-  const filteredPrintables = selectedBand === "all"
-    ? LUA_PRINTABLES_CATALOG
-    : LUA_PRINTABLES_CATALOG.filter((p) => p.ageBands.includes(selectedBand));
-
   const handleOpenAssessment = () => {
     const targetBand: AgeBand = selectedBand === "all" ? "0-2" : selectedBand;
     navigation.navigate("LuaAssessmentPlayer", { ageBand: targetBand, initialQuestionIndex: 0 });
@@ -75,10 +70,6 @@ export const ValeriaAventurasLuaHubScreen: React.FC<Props> = ({ navigation }) =>
 
   const handleOpenSong = (songId: string) => {
     navigation.navigate("LuaSongPlayer", { songId });
-  };
-
-  const handleOpenPrintables = (printId?: string) => {
-    navigation.navigate("LuaPrintables", { printId });
   };
 
   return (
@@ -280,41 +271,6 @@ export const ValeriaAventurasLuaHubScreen: React.FC<Props> = ({ navigation }) =>
           ))}
         </ScrollView>
 
-        {/* 5. Módulo: Imprime y Juega */}
-        <View style={s.sectionHeader}>
-          <Text style={s.sectionTitle}>{t.luaHub.secPrintablesTitle}</Text>
-          <Text style={s.sectionBadge}>{t.luaHub.secPrintablesBadge(filteredPrintables.length)}</Text>
-        </View>
-        <Text style={s.sectionDesc}>{t.luaHub.secPrintablesSub}</Text>
-
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={s.cardsTrack}
-        >
-          {filteredPrintables.length === 0 && (
-            <Text style={s.sectionEmpty}>{t.luaHub.sectionEmptyForBand}</Text>
-          )}
-          {filteredPrintables.map((item) => (
-            <Pressable
-              key={item.id}
-              style={s.itemMiniCard}
-              onPress={() => handleOpenPrintables(item.id)}
-              accessibilityRole="button"
-              accessibilityLabel={item.title} // i18n-exempt: catálogo clínico dinámico
-            >
-              <View style={[s.miniCardIcon, { backgroundColor: LUA_COLORS.mintLight }]}>
-                <BlockIcon name="printable" color={LUA_COLORS.mintDark} size={24} />
-              </View>
-              <Text style={s.miniCardTitle} numberOfLines={2}>
-                {item.title}
-              </Text>
-              <Text style={s.miniCardSub}>
-                {item.subtitle}
-              </Text>
-            </Pressable>
-          ))}
-        </ScrollView>
       </ScrollView>
     </View>
   );

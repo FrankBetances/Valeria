@@ -6,6 +6,7 @@
 // ============================================================================
 
 import type { AgeBand } from './LuaAssessmentCatalog';
+import type { PictoKey } from '../../ValeriaPixelArt';
 
 export interface LuaStoryQuestion {
   id: string;
@@ -14,6 +15,13 @@ export interface LuaStoryQuestion {
     id: string;
     text: string;
     isCorrect: boolean;
+    /**
+     * Ficha de la opción. Obligatoria en 0-2 y 2-3: a esa edad no se lee, y
+     * tres respuestas en texto («Un pollito amarillo» / «Un perrito» /
+     * «Un gatico») no se pueden contestar. De 3-4 en adelante las opciones son
+     * narrativas y el texto es lo correcto.
+     */
+    pic?: PictoKey;
   }>;
   hint: string;
 }
@@ -21,7 +29,15 @@ export interface LuaStoryQuestion {
 export interface LuaVocabularyCard {
   word: string;
   definition: string;
-  iconName: string;
+  /**
+   * Ficha del banco propio. Las 30 tarjetas llevaban un campo de icono con nombres de
+   * una librería externa (dog, apple, tree-pine…) que no existían en el set y
+   * que además NADIE renderizaba: el visor de cuentos no pintaba una sola
+   * imagen. Los conceptos abstractos de 5-7 y 7-10 —paciencia, compromiso,
+   * ecológico, primavera— se quedan sin ficha a propósito: a esa edad ya se
+   * lee, y dibujarlos sería adivinar.
+   */
+  pic?: PictoKey;
 }
 
 export interface LuaStory {
@@ -56,9 +72,9 @@ export const LUA_STORIES_CATALOG: LuaStory[] = [
         id: 'story_01_q1',
         question: '¿Qué animalito es Coco?',
         options: [
-          { id: 'opt_pollito', text: 'Un pollito amarillo', isCorrect: true },
-          { id: 'opt_perrito', text: 'Un perrito', isCorrect: false },
-          { id: 'opt_gatico', text: 'Un gatico', isCorrect: false },
+          { id: 'opt_pollito', text: 'Un pollito amarillo', pic: 'pollito', isCorrect: true },
+          { id: 'opt_perrito', text: 'Un perrito', pic: 'perro', isCorrect: false },
+          { id: 'opt_gatico', text: 'Un gatico', pic: 'gato', isCorrect: false },
         ],
         hint: 'Coco tiene plumitas y es de color amarillo.',
       },
@@ -66,9 +82,9 @@ export const LUA_STORIES_CATALOG: LuaStory[] = [
         id: 'story_01_q2',
         question: '¿Qué sonido hace Coco cuando camina?',
         options: [
-          { id: 'opt_pio', text: '¡Pío, pío!', isCorrect: true },
-          { id: 'opt_muu', text: '¡Muu, muu!', isCorrect: false },
-          { id: 'opt_guau', text: '¡Guau, guau!', isCorrect: false },
+          { id: 'opt_pio', text: '¡Pío, pío!', pic: 'pollito', isCorrect: true },
+          { id: 'opt_muu', text: '¡Muu, muu!', pic: 'vaca', isCorrect: false },
+          { id: 'opt_guau', text: '¡Guau, guau!', pic: 'perro', isCorrect: false },
         ],
         hint: 'Los pollitos pequeños dicen ¡pío, pío!',
       },
@@ -76,17 +92,20 @@ export const LUA_STORIES_CATALOG: LuaStory[] = [
         id: 'story_01_q3',
         question: '¿A quién encontró Coco al final?',
         options: [
-          { id: 'opt_mama', text: 'A su mamá gallina', isCorrect: true },
-          { id: 'opt_vaca', text: 'A una vaca', isCorrect: false },
-          { id: 'opt_pato', text: 'A un patito', isCorrect: false },
+          { id: 'opt_mama', text: 'A su mamá gallina', pic: 'gallina', isCorrect: true },
+          { id: 'opt_vaca', text: 'A una vaca', pic: 'vaca', isCorrect: false },
+          { id: 'opt_pato', text: 'A un patito', pic: 'pato', isCorrect: false },
         ],
         hint: 'Encontró a su mamá que lo abrazó con sus alas.',
       },
     ],
     newWords: [
-      { word: 'Gallina', definition: 'Ave con plumas que pone huevos y cuida a sus pollitos.', iconName: 'feather' },
-      { word: 'Sol', definition: 'La estrella brillante que nos da calor y luz en el día.', iconName: 'sun' },
-      { word: 'Casa', definition: 'Lugar seguro y acogedor donde descansamos en familia.', iconName: 'home' },
+      { word: 'Gallina',
+      pic: 'gallina', definition: 'Ave con plumas que pone huevos y cuida a sus pollitos.' },
+      { word: 'Sol',
+      pic: 'sol', definition: 'La estrella brillante que nos da calor y luz en el día.' },
+      { word: 'Casa',
+      pic: 'casa', definition: 'Lugar seguro y acogedor donde descansamos en familia.' },
     ],
     drawingPrompt: 'Dibuja a Coco junto a su mamá gallina bajo el sol.',
   },
@@ -108,9 +127,9 @@ export const LUA_STORIES_CATALOG: LuaStory[] = [
         id: 'story_02_q1',
         question: '¿De qué color es la pelota de Mimi?',
         options: [
-          { id: 'opt_azul', text: 'Azul', isCorrect: true },
-          { id: 'opt_roja', text: 'Roja', isCorrect: false },
-          { id: 'opt_amarilla', text: 'Amarilla', isCorrect: false },
+          { id: 'opt_azul', text: 'Azul', pic: 'color-azul', isCorrect: true },
+          { id: 'opt_roja', text: 'Roja', pic: 'color-rojo', isCorrect: false },
+          { id: 'opt_amarilla', text: 'Amarilla', pic: 'color-amarillo', isCorrect: false },
         ],
         hint: 'La pelota rueda por el patio y es como el color del cielo.',
       },
@@ -118,9 +137,9 @@ export const LUA_STORIES_CATALOG: LuaStory[] = [
         id: 'story_02_q2',
         question: '¿Quién encontró la pelota?',
         options: [
-          { id: 'opt_toby', text: 'Toby, el perrito nuevo', isCorrect: true },
-          { id: 'opt_pato', text: 'Un pato blanco', isCorrect: false },
-          { id: 'opt_rana', text: 'Una ranita verde', isCorrect: false },
+          { id: 'opt_toby', text: 'Toby, el perrito nuevo', pic: 'perro', isCorrect: true },
+          { id: 'opt_pato', text: 'Un pato blanco', pic: 'pato', isCorrect: false },
+          { id: 'opt_rana', text: 'Una ranita verde', pic: 'sapo', isCorrect: false },
         ],
         hint: 'Un perrito amigable que movía la colita.',
       },
@@ -128,17 +147,20 @@ export const LUA_STORIES_CATALOG: LuaStory[] = [
         id: 'story_02_q3',
         question: '¿Qué hacen Mimi y Toby todas las tardes?',
         options: [
-          { id: 'opt_juegan', text: 'Juegan juntos a la pelota', isCorrect: true },
-          { id: 'opt_duermen', text: 'Duermen en el tejado', isCorrect: false },
-          { id: 'opt_comen', text: 'Comen galletas de manzana', isCorrect: false },
+          { id: 'opt_juegan', text: 'Juegan juntos a la pelota', pic: 'pelota', isCorrect: true },
+          { id: 'opt_duermen', text: 'Duermen en el tejado', pic: 'dormir', isCorrect: false },
+          { id: 'opt_comen', text: 'Comen galletas de manzana', pic: 'comer', isCorrect: false },
         ],
         hint: 'Se hicieron grandes amigos y juegan en el patio.',
       },
     ],
     newWords: [
-      { word: 'Gato', definition: 'Animalito ágil con bigotes que hace miau.', iconName: 'cat' },
-      { word: 'Perro', definition: 'Amigo fiel y juguetón que mueve la cola y hace guau.', iconName: 'dog' },
-      { word: 'Pelota', definition: 'Juguete redondo que bota y rueda para jugar en equipo.', iconName: 'circle' },
+      { word: 'Gato',
+      pic: 'gato', definition: 'Animalito ágil con bigotes que hace miau.' },
+      { word: 'Perro',
+      pic: 'perro', definition: 'Amigo fiel y juguetón que mueve la cola y hace guau.' },
+      { word: 'Pelota',
+      pic: 'pelota', definition: 'Juguete redondo que bota y rueda para jugar en equipo.' },
     ],
     drawingPrompt: 'Dibuja a Mimi el gatico y a Toby el perrito jugando con la pelota azul.',
   },
@@ -161,9 +183,9 @@ export const LUA_STORIES_CATALOG: LuaStory[] = [
         id: 'story_03_q1',
         question: '¿A dónde fue de visita Ana?',
         options: [
-          { id: 'opt_granja', text: 'A la granja de su abuelo', isCorrect: true },
-          { id: 'opt_playa', text: 'A la playa a nadar', isCorrect: false },
-          { id: 'opt_escuela', text: 'A la escuela a pintar', isCorrect: false },
+          { id: 'opt_granja', text: 'A la granja de su abuelo', pic: 'vaca', isCorrect: true },
+          { id: 'opt_playa', text: 'A la playa a nadar', pic: 'ola', isCorrect: false },
+          { id: 'opt_escuela', text: 'A la escuela a pintar', pic: 'casa', isCorrect: false },
         ],
         hint: 'Fue al campo donde hay vacas, gallinas y perros.',
       },
@@ -171,9 +193,9 @@ export const LUA_STORIES_CATALOG: LuaStory[] = [
         id: 'story_03_q2',
         question: '¿Qué sonido hace la vaca grande?',
         options: [
-          { id: 'opt_muuu', text: '¡Muuu, muuu!', isCorrect: true },
-          { id: 'opt_miau', text: '¡Miau, miau!', isCorrect: false },
-          { id: 'opt_kikiriki', text: '¡Kikirikí!', isCorrect: false },
+          { id: 'opt_muuu', text: '¡Muuu, muuu!', pic: 'vaca', isCorrect: true },
+          { id: 'opt_miau', text: '¡Miau, miau!', pic: 'gato', isCorrect: false },
+          { id: 'opt_kikiriki', text: '¡Kikirikí!', pic: 'gallina', isCorrect: false },
         ],
         hint: 'Juntamos los labios y decimos ¡muuu!',
       },
@@ -181,17 +203,20 @@ export const LUA_STORIES_CATALOG: LuaStory[] = [
         id: 'story_03_q3',
         question: '¿Cómo saludó Ana a los animalitos de la granja?',
         options: [
-          { id: 'opt_mano', text: 'Agitando su manita con una sonrisa', isCorrect: true },
-          { id: 'opt_corriendo', text: 'Corriendo rápido', isCorrect: false },
-          { id: 'opt_escondida', text: 'Escondiéndose detrás de una puerta', isCorrect: false },
+          { id: 'opt_mano', text: 'Agitando su manita con una sonrisa', pic: 'mano', isCorrect: true },
+          { id: 'opt_corriendo', text: 'Corriendo rápido', pic: 'correr', isCorrect: false },
+          { id: 'opt_escondida', text: 'Escondiéndose detrás de una puerta', pic: 'casa', isCorrect: false },
         ],
         hint: 'Levantó su manita para decirles hola con cariño.',
       },
     ],
     newWords: [
-      { word: 'Vaca', definition: 'Animal que vive en el campo, come hierba fresca y da rica leche.', iconName: 'smile' },
-      { word: 'Gallina', definition: 'Ave que vive en la granja y pasea con sus pollitos.', iconName: 'feather' },
-      { word: 'Perro', definition: 'Compañero leal que saluda alegremente cuando llegamos.', iconName: 'dog' },
+      { word: 'Vaca',
+      pic: 'vaca', definition: 'Animal que vive en el campo, come hierba fresca y da rica leche.' },
+      { word: 'Gallina',
+      pic: 'gallina', definition: 'Ave que vive en la granja y pasea con sus pollitos.' },
+      { word: 'Perro',
+      pic: 'perro', definition: 'Compañero leal que saluda alegremente cuando llegamos.' },
     ],
     drawingPrompt: 'Dibuja la granja con la vaca, la gallina y el perro saludando a Ana.',
   },
@@ -242,9 +267,11 @@ export const LUA_STORIES_CATALOG: LuaStory[] = [
       },
     ],
     newWords: [
-      { word: 'Árbol', definition: 'Planta alta con tronco fuerte de madera y ramas llenas de hojas.', iconName: 'tree-pine' },
-      { word: 'Flor', definition: 'Parte colorida y perfumada que brota en las plantas.', iconName: 'flower' },
-      { word: 'Primavera', definition: 'Estación del año llena de luz donde la naturaleza florece.', iconName: 'sun' },
+      { word: 'Árbol',
+      pic: 'arbol', definition: 'Planta alta con tronco fuerte de madera y ramas llenas de hojas.' },
+      { word: 'Flor',
+      pic: 'flor', definition: 'Parte colorida y perfumada que brota en las plantas.' },
+      { word: 'Primavera', pic: 'brote', definition: 'Estación del año llena de luz donde la naturaleza florece.' },
     ],
     drawingPrompt: 'Dibuja al arbolito lleno de flores rosadas rodeado de mariposas.',
   },
@@ -294,9 +321,12 @@ export const LUA_STORIES_CATALOG: LuaStory[] = [
       },
     ],
     newWords: [
-      { word: 'Manzana', definition: 'Fruta crujiente y deliciosa, de cáscara roja o verde.', iconName: 'apple' },
-      { word: 'Uvas', definition: 'Pequeñas frutas jugosas que crecen juntas en racimos.', iconName: 'grape' },
-      { word: 'Fresas', definition: 'Frutillas dulces de color rojo vivo con hojitas verdes.', iconName: 'cherry' },
+      { word: 'Manzana',
+      pic: 'manzana', definition: 'Fruta crujiente y deliciosa, de cáscara roja o verde.' },
+      { word: 'Uvas',
+      pic: 'uvas', definition: 'Pequeñas frutas jugosas que crecen juntas en racimos.' },
+      { word: 'Fresas',
+      pic: 'fresa', definition: 'Frutillas dulces de color rojo vivo con hojitas verdes.' },
     ],
     drawingPrompt: 'Dibuja un tazón con trozos de manzana, fresas y uvas para la ensalada.',
   },
@@ -346,9 +376,12 @@ export const LUA_STORIES_CATALOG: LuaStory[] = [
       },
     ],
     newWords: [
-      { word: 'Ola', definition: 'Movimiento ondulante del agua del mar que llega a la orilla.', iconName: 'waves' },
-      { word: 'Concha', definition: 'Caparazón duro y brillante que protege a los moluscos del mar.', iconName: 'shell' },
-      { word: 'Playa', definition: 'Orilla de mar o río cubierta de arena limpia.', iconName: 'sun' },
+      { word: 'Ola',
+      pic: 'ola', definition: 'Movimiento ondulante del agua del mar que llega a la orilla.' },
+      { word: 'Concha',
+      pic: 'concha', definition: 'Caparazón duro y brillante que protege a los moluscos del mar.' },
+      { word: 'Playa',
+      pic: 'ola', definition: 'Orilla de mar o río cubierta de arena limpia.' },
     ],
     drawingPrompt: 'Dibuja la casita de arena decorada con conchas frente a las olas y el atardecer.',
   },
@@ -398,9 +431,12 @@ export const LUA_STORIES_CATALOG: LuaStory[] = [
       },
     ],
     newWords: [
-      { word: 'Pez / Pescado', definition: 'Animal acuático con aletas y escamas que nada en el agua.', iconName: 'fish' },
-      { word: 'Arrecife', definition: 'Comunidad submarina de corales y piedras donde viven muchos peces.', iconName: 'anchor' },
-      { word: 'Estrella de mar', definition: 'Animal marino con forma de estrella de cinco puntas.', iconName: 'star' },
+      { word: 'Pez / Pescado',
+      pic: 'pez', definition: 'Animal acuático con aletas y escamas que nada en el agua.' },
+      { word: 'Arrecife',
+      pic: 'estrella-mar', definition: 'Comunidad submarina de corales y piedras donde viven muchos peces.' },
+      { word: 'Estrella de mar',
+      pic: 'estrella-mar', definition: 'Animal marino con forma de estrella de cinco puntas.' },
     ],
     drawingPrompt: 'Dibuja a Nemi el pececito azul jugando al escondite con la estrella y el cangrejo.',
   },
@@ -450,9 +486,12 @@ export const LUA_STORIES_CATALOG: LuaStory[] = [
       },
     ],
     newWords: [
-      { word: 'Estrella', definition: 'Astro con luz propia que brilla en el cielo nocturno.', iconName: 'star' },
-      { word: 'Luna', definition: 'Satélite natural de la Tierra que ilumina nuestras noches.', iconName: 'moon' },
-      { word: 'Amigos', definition: 'Personas queridas con quienes compartimos confianza y momentos felices.', iconName: 'users' },
+      { word: 'Estrella',
+      pic: 'estrella', definition: 'Astro con luz propia que brilla en el cielo nocturno.' },
+      { word: 'Luna',
+      pic: 'luna', definition: 'Satélite natural de la Tierra que ilumina nuestras noches.' },
+      { word: 'Amigos',
+      pic: 'abrazo', definition: 'Personas queridas con quienes compartimos confianza y momentos felices.' },
     ],
     drawingPrompt: 'Dibuja a Iván y a su abuelo mirando el cielo nocturno lleno de estrellas brillantes.',
   },
@@ -502,9 +541,11 @@ export const LUA_STORIES_CATALOG: LuaStory[] = [
       },
     ],
     newWords: [
-      { word: 'Semilla', definition: 'Grano del que nace y se desarrolla una nueva planta.', iconName: 'sprout' },
-      { word: 'Paciencia', definition: 'Capacidad de esperar con calma mientras las cosas crecen.', iconName: 'clock' },
-      { word: 'Equipo', definition: 'Grupo de personas que colaboran unidas con un objetivo común.', iconName: 'users' },
+      { word: 'Semilla',
+      pic: 'semilla', definition: 'Grano del que nace y se desarrolla una nueva planta.' },
+      { word: 'Paciencia', definition: 'Capacidad de esperar con calma mientras las cosas crecen.' },
+      { word: 'Equipo',
+      pic: 'abrazo', definition: 'Grupo de personas que colaboran unidas con un objetivo común.' },
     ],
     drawingPrompt: 'Dibuja el jardín florecido con mariposas de muchos colores y a los niños celebrando.',
   },
@@ -554,9 +595,10 @@ export const LUA_STORIES_CATALOG: LuaStory[] = [
       },
     ],
     newWords: [
-      { word: 'Comunidad', definition: 'Conjunto de personas que conviven y colaboran por el bienestar común.', iconName: 'home' },
-      { word: 'Ecológico', definition: 'Que protege y respeta el equilibrio de la naturaleza y los ecosistemas.', iconName: 'leaf' },
-      { word: 'Compromiso', definition: 'Promesa o responsabilidad que asumimos con nosotros mismos y con los demás.', iconName: 'check-square' },
+      { word: 'Comunidad',
+      pic: 'casa', definition: 'Conjunto de personas que conviven y colaboran por el bienestar común.' },
+      { word: 'Ecológico', definition: 'Que protege y respeta el equilibrio de la naturaleza y los ecosistemas.' },
+      { word: 'Compromiso', definition: 'Promesa o responsabilidad que asumimos con nosotros mismos y con los demás.' },
     ],
     drawingPrompt: 'Dibuja la playa limpia y brillante con el grupo de amigos celebrando su merienda.',
   },

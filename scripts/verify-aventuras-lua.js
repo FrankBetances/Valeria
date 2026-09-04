@@ -34,12 +34,11 @@ const ok = (msg) => console.log(`  ✓ ${msg}`);
 // Se compila de verdad, en vez de leer el fichero con expresiones regulares:
 // una regex da por bueno un dato que TypeScript rechazaría, y al revés.
 const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'valeria-lua-'));
-let A, S, C, P, G, VOICE;
+let A, S, C, G, VOICE;
 try {
   execSync([
     'npx tsc',
     JSON.stringify(path.join(SRC, 'Catalog', 'luaVoiceLines.ts')),
-    JSON.stringify(path.join(SRC, 'Catalog', 'LuaPrintablesCatalog.ts')),
     JSON.stringify(path.join(ROOT, 'src', 'ValeriaPixelArt.ts')),
     '--module commonjs', '--target es2020', '--moduleResolution node',
     '--esModuleInterop', '--skipLibCheck', '--jsx', 'react',
@@ -50,7 +49,6 @@ try {
   A = require(path.join(base, 'LuaAssessmentCatalog.js')).LUA_ASSESSMENT_CATALOG;
   S = require(path.join(base, 'LuaStoriesCatalog.js')).LUA_STORIES_CATALOG;
   C = require(path.join(base, 'LuaSongsCatalog.js')).LUA_SONGS_CATALOG;
-  P = require(path.join(base, 'LuaPrintablesCatalog.js')).LUA_PRINTABLES_CATALOG;
   G = require(path.join(base, 'LuaGamesCatalog.js')).LUA_GAMES_CATALOG;
   VOICE = require(path.join(base, 'luaVoiceLines.js')).enumerateLuaAdventureSpeech;
 } catch (e) {
@@ -71,15 +69,14 @@ for (const b of BANDS) {
 }
 if (S.length !== 10) fail(`deben ser 10 cuentos, hay ${S.length}`);
 if (C.length !== 10) fail(`deben ser 10 canciones, hay ${C.length}`);
-if (P.length !== 10) fail(`deben ser 10 imprimibles, hay ${P.length}`);
 // Los 10 de las 50 hojas + los 9 de la Matriz de Contenidos por Edad.
-if (G.length !== 19) fail(`deben ser 19 juegos, hay ${G.length}`);
+if (G.length !== 25) fail(`deben ser 25 juegos, hay ${G.length}`);
 // La matriz pone juegos en TODAS las franjas, 0-2 incluida, que es la que menos
 // puede leer y la que entró sin ninguno.
 for (const b of BANDS) {
   if (!G.some((j) => j.ageBands.includes(b))) fail(`la franja ${b} se queda sin juegos`);
 }
-if (!fails.length) ok('60 preguntas (6 franjas x 10), 19 juegos en las seis franjas, 10 cuentos, 10 canciones, 10 imprimibles');
+if (!fails.length) ok('60 preguntas (6 franjas x 10), 25 juegos en las seis franjas, 10 cuentos, 10 canciones');
 
 // --- 2. Un ítem que el niño responde se responde MIRANDO --------------------
 // Es la comprobación por la que existe este gate. Sin ficha, un ítem
@@ -119,7 +116,7 @@ for (const j of G) {
   }
   if (!Array.isArray(j.ageBands) || !j.ageBands.length) fail(`${j.id}: juego sin ageBands`);
 }
-if (!fails.some((m) => /lua_game/.test(m))) ok('los 19 juegos llevan ficha en cada estímulo');
+if (!fails.some((m) => /lua_game/.test(m))) ok('los 25 juegos llevan ficha en cada estímulo');
 
 // --- 3. Al niño no se le locuta la pauta del adulto -------------------------
 for (const q of A) {
@@ -170,7 +167,6 @@ const checkBands = (list, what) => {
   }
 };
 checkBands(C, 'canción');
-checkBands(P, 'imprimible');
 for (const s of S) if (!BANDS.includes(s.ageBand)) fail(`${s.id}: franja desconocida «${s.ageBand}»`);
 // Una franja puede quedarse sin canciones —las 50 hojas no traen ninguna para
 // 7-10 y no se va a inventar una— pero NO puede quedarse sin nada, y sobre todo
@@ -179,7 +175,6 @@ for (const b of BANDS) {
   const total = A.filter((q) => q.ageBand === b).length
     + S.filter((x) => x.ageBand === b).length
     + C.filter((x) => x.ageBands.includes(b)).length
-    + P.filter((x) => x.ageBands.includes(b)).length
     + G.filter((x) => x.ageBands.includes(b)).length;
   if (!total) fail(`la franja ${b} se queda sin ninguna actividad`);
 }
@@ -191,29 +186,44 @@ if (!fails.some((m) => /ageBands|se queda sin|hueco mudo/.test(m))) {
   ok('las cuatro secciones responden al filtro por edad, y las vacías se explican');
 }
 
-// --- 6. «Imprime y Juega» tiene algo que imprimir ---------------------------
-const KINDS = ['pic_cards','sequence','tracing','columns','word_gaps','rhyme_pairs','wheel','weekly','diploma'];
-for (const p of P) {
-  if (!p.sheet) { fail(`${p.id}: imprimible sin hoja`); continue; }
-  if (!KINDS.includes(p.sheet.kind)) fail(`${p.id}: tipo de hoja desconocido «${p.sheet.kind}»`);
-  const cells = [
-    ...(p.sheet.cells ?? []), ...(p.sheet.steps ?? []), ...(p.sheet.chips ?? []),
-    ...(p.sheet.pairs ?? []).flat(),
-  ];
-  for (const c of cells) {
-    if (c.pic && !PICS.has(c.pic)) fail(`${p.id}: la ficha «${c.pic}» no existe en PICTO_KEYS`);
+// --- 6. El vocabulario de los cuentos también se ve -----------------------
+// Las 30 tarjetas llevaban nombres de una librería externa que nadie pintaba.
+// Por debajo de 5 años la palabra sola no basta.
+for (const st of S) {
+  const joven = st.ageBand === '0-2' || st.ageBand === '2-3' || st.ageBand === '3-4' || st.ageBand === '4-5';
+  for (const c of st.newWords) {
+    if (c.pic && !PICS.has(c.pic)) fail(`${st.id}: la ficha «${c.pic}» no existe en PICTO_KEYS`);
+    if (joven && !c.pic) fail(`${st.id}: «${c.word}» sin ficha en un cuento de ${st.ageBand}`);
+  }
+  // Y las respuestas: en 0-2 y 2-3 el niño elige mirando, no leyendo.
+  if (st.ageBand === '0-2' || st.ageBand === '2-3') {
+    for (const q of st.comprehensionQuestions) {
+      for (const o of q.options) {
+        if (!o.pic) fail(`${st.id}: la respuesta «${o.text}» no tiene ficha y el cuento es de ${st.ageBand}`);
+        else if (!PICS.has(o.pic)) fail(`${st.id}: la ficha «${o.pic}» no existe en PICTO_KEYS`);
+      }
+    }
   }
 }
-if (!fails.some((m) => /hoja|imprimible sin/.test(m))) ok('los 10 imprimibles traen hoja dibujable con fichas del banco propio');
+if (!fails.some((m) => /sin ficha en un cuento|no tiene ficha y el cuento|lua_story/.test(m))) {
+  ok('el vocabulario y las respuestas de los cuentos que aún no se leen llevan ficha');
+}
 
 // --- 7. Nada de iconografía de librería ------------------------------------
-// Regla 5: los iconos del sistema o de una librería externa no forman un set.
-const icons = fs.readFileSync(path.join(ROOT, 'src', 'ValeriaBlockIcons.tsx'), 'utf8');
-const NAMES = new Set([...icons.slice(icons.indexOf('export type BlockIconName'), icons.indexOf('interface Props')).matchAll(/'([a-z_0-9]+)'/g)].map((m) => m[1]));
-for (const p of P) {
-  if (!NAMES.has(p.previewIcon)) fail(`${p.id}: «${p.previewIcon}» no está en el set propio ValeriaBlockIcons`);
+// Regla 5: los iconos de una librería externa no forman un set, y además aquí
+// no los pintaba nadie: eran 72 nombres muertos entre catálogos.
+for (const f of ['LuaStoriesCatalog.ts', 'LuaGamesCatalog.ts', 'LuaSongsCatalog.ts']) {
+  const body = fs.readFileSync(path.join(SRC, 'Catalog', f), 'utf8');
+  // Solo el dato, no los comentarios: la nota que explica por qué se retiraron
+  // menciona los nombres a propósito.
+  const data = body.split('\n').filter((l) => !/^\s*(\/\/|\*|\/\*)/.test(l)).join('\n');
+  if (/iconName:|previewIcon:/.test(data)) {
+    fail(`${f}: quedan campos de icono de librería (iconName/previewIcon). Usa la clave pic del banco propio.`);
+  }
 }
-if (!fails.some((m) => /set propio/.test(m))) ok('los iconos del catálogo salen del set propio, no de una librería');
+if (!fails.some((m) => /icono de librería/.test(m))) {
+  ok('no quedan nombres de icono de librería en los catálogos');
+}
 
 // --- Veredicto --------------------------------------------------------------
 if (fails.length) {
@@ -221,4 +231,4 @@ if (fails.length) {
   for (const m of fails) console.error('   · ' + m);
   process.exit(1);
 }
-console.log('\n✓ Aventuras con Lúa: catálogos, fichas, locución e imprimibles en orden.');
+console.log('\n✓ Aventuras con Lúa: catálogos, fichas y locución en orden.');

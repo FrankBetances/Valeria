@@ -1,8 +1,8 @@
 {
- "generatedAt": "2026-09-03T21:03:40.863Z",
- "entries": 4641,
+ "generatedAt": "2026-09-04T01:49:36.356Z",
+ "entries": 4663,
  "byStyle": {
-  "child": 2725,
+  "child": 2747,
   "slow": 950,
   "clinical": 45,
   "tutor": 921
@@ -39,9 +39,9 @@
   "lua/cancion/consigna": 10,
   "lua/cancion/verso": 74,
   "lua/cancion/elemento": 41,
-  "lua/juego/titulo": 19,
-  "lua/juego/consigna": 19,
-  "lua/juego/estimulo": 42,
+  "lua/juego/titulo": 25,
+  "lua/juego/consigna": 25,
+  "lua/juego/estimulo": 52,
   "lua/juego/pista": 3,
   "ejercicios/veredicto": 3,
   "escritura/elogio": 15
@@ -9908,6 +9908,160 @@
    "lang": "es",
    "style": "child",
    "text": "Barco",
+   "source": "lua/juego/estimulo"
+  },
+  {
+   "id": "child_ae66c346_23",
+   "lang": "es",
+   "style": "child",
+   "text": "Las palabras de mi casa",
+   "source": "lua/juego/titulo"
+  },
+  {
+   "id": "child_96e8029d_44",
+   "lang": "es",
+   "style": "child",
+   "text": "Toca cada dibujo y di su nombre en voz alta.",
+   "source": "lua/juego/consigna"
+  },
+  {
+   "id": "child_b45aef8c_3",
+   "lang": "es",
+   "style": "child",
+   "text": "Pan",
+   "source": "lua/juego/estimulo"
+  },
+  {
+   "id": "child_cd54e1ba_4",
+   "lang": "es",
+   "style": "child",
+   "text": "Vaso",
+   "source": "lua/juego/estimulo"
+  },
+  {
+   "id": "child_b47d0812_6",
+   "lang": "es",
+   "style": "child",
+   "text": "Zapato",
+   "source": "lua/juego/estimulo"
+  },
+  {
+   "id": "child_71fd01e0_22",
+   "lang": "es",
+   "style": "child",
+   "text": "La rutina de la mañana",
+   "source": "lua/juego/titulo"
+  },
+  {
+   "id": "child_5213ee8d_72",
+   "lang": "es",
+   "style": "child",
+   "text": "Ordena los pasos de la mañana: despertar, lavarse, vestirse y desayunar.",
+   "source": "lua/juego/consigna"
+  },
+  {
+   "id": "child_02045e51_9",
+   "lang": "es",
+   "style": "child",
+   "text": "Despertar",
+   "source": "lua/juego/estimulo"
+  },
+  {
+   "id": "child_70eed617_7",
+   "lang": "es",
+   "style": "child",
+   "text": "Lavarse",
+   "source": "lua/juego/estimulo"
+  },
+  {
+   "id": "child_b13d89a0_8",
+   "lang": "es",
+   "style": "child",
+   "text": "Vestirse",
+   "source": "lua/juego/estimulo"
+  },
+  {
+   "id": "child_6e4ceb41_9",
+   "lang": "es",
+   "style": "child",
+   "text": "Desayunar",
+   "source": "lua/juego/estimulo"
+  },
+  {
+   "id": "child_0ca64587_31",
+   "lang": "es",
+   "style": "child",
+   "text": "Bingo de sonidos: el sonido /p/",
+   "source": "lua/juego/titulo"
+  },
+  {
+   "id": "child_c41dfcdd_57",
+   "lang": "es",
+   "style": "child",
+   "text": "Marca las imágenes cuyo nombre empieza con el sonido /p/.",
+   "source": "lua/juego/consigna"
+  },
+  {
+   "id": "child_852f89a7_4",
+   "lang": "es",
+   "style": "child",
+   "text": "Luna",
+   "source": "lua/juego/estimulo"
+  },
+  {
+   "id": "child_b0914091_20",
+   "lang": "es",
+   "style": "child",
+   "text": "¿Cómo me siento hoy?",
+   "source": "lua/juego/titulo"
+  },
+  {
+   "id": "child_58aa8f85_54",
+   "lang": "es",
+   "style": "child",
+   "text": "Mira las caras y toca la que dice cómo te sientes hoy.",
+   "source": "lua/juego/consigna"
+  },
+  {
+   "id": "child_8465dba9_28",
+   "lang": "es",
+   "style": "child",
+   "text": "Completa la palabra: en casa",
+   "source": "lua/juego/titulo"
+  },
+  {
+   "id": "child_993d28fa_47",
+   "lang": "es",
+   "style": "child",
+   "text": "Di qué letra falta para completar cada palabra.",
+   "source": "lua/juego/consigna"
+  },
+  {
+   "id": "child_0c666f2d_23",
+   "lang": "es",
+   "style": "child",
+   "text": "Animales, frutas y ropa",
+   "source": "lua/juego/titulo"
+  },
+  {
+   "id": "child_88d7fbea_56",
+   "lang": "es",
+   "style": "child",
+   "text": "Coloca cada dibujo en su grupo: animales, frutas o ropa.",
+   "source": "lua/juego/consigna"
+  },
+  {
+   "id": "child_56f4e65e_5",
+   "lang": "es",
+   "style": "child",
+   "text": "Gorra",
+   "source": "lua/juego/estimulo"
+  },
+  {
+   "id": "child_3272cd26_7",
+   "lang": "es",
+   "style": "child",
+   "text": "Bufanda",
    "source": "lua/juego/estimulo"
   },
   {
