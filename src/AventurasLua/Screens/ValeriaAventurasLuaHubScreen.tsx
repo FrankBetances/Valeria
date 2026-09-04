@@ -143,7 +143,7 @@ export const ValeriaAventurasLuaHubScreen: React.FC<Props> = ({ navigation }) =>
           })}
         </ScrollView>
 
-        {/* 1. Módulo: Banco de Preguntas Interactivas */}
+        {/* 1. Módulo: Ejercicios con Lúa */}
         <Pressable
           style={s.featureCard}
           onPress={handleOpenAssessment}

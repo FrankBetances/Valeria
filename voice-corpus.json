@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-09-04T02:11:48.634Z",
+ "generatedAt": "2026-09-04T10:24:26.038Z",
  "entries": 4663,
  "byStyle": {
   "child": 2747,
@@ -6236,10 +6236,10 @@
    "source": "lua/eval/devolucion"
   },
   {
-   "id": "child_15d6297a_57",
+   "id": "child_a3fe4980_14",
    "lang": "es",
    "style": "child",
-   "text": "Dame la pelota (instrucción simple con objeto a la vista)",
+   "text": "Dame la pelota",
    "source": "lua/eval/consigna"
   },
   {
@@ -6257,10 +6257,10 @@
    "source": "lua/eval/devolucion"
   },
   {
-   "id": "child_19718f13_47",
+   "id": "child_e54f6ea8_10",
    "lang": "es",
    "style": "child",
-   "text": "Di \"adiós\" (con gesto de despedida con la mano)",
+   "text": "Di \"adiós\"",
    "source": "lua/eval/consigna"
   },
   {
@@ -6278,10 +6278,10 @@
    "source": "lua/eval/devolucion"
   },
   {
-   "id": "child_a6745ee8_48",
+   "id": "child_93f1546e_17",
    "lang": "es",
    "style": "child",
-   "text": "¿Dónde está mamá? (en foto familiar o presencia)",
+   "text": "¿Dónde está mamá?",
    "source": "lua/eval/consigna"
   },
   {
@@ -6299,10 +6299,10 @@
    "source": "lua/eval/devolucion"
   },
   {
-   "id": "child_16187f0f_42",
+   "id": "child_a1d85c20_16",
    "lang": "es",
    "style": "child",
-   "text": "Sopla la burbuja (modelo del adulto o Lúa)",
+   "text": "Sopla la burbuja",
    "source": "lua/eval/consigna"
   },
   {
@@ -6341,10 +6341,10 @@
    "source": "lua/eval/devolucion"
   },
   {
-   "id": "child_6f8c117f_34",
+   "id": "child_f8d74879_15",
    "lang": "es",
    "style": "child",
-   "text": "Aplaude conmigo (imitación motora)",
+   "text": "Aplaude conmigo",
    "source": "lua/eval/consigna"
   },
   {
@@ -6362,10 +6362,10 @@
    "source": "lua/eval/devolucion"
   },
   {
-   "id": "child_d735361f_51",
+   "id": "child_761b16f1_13",
    "lang": "es",
    "style": "child",
-   "text": "Dame el osito (elección entre 2 objetos a la vista)",
+   "text": "Dame el osito",
    "source": "lua/eval/consigna"
   },
   {
@@ -6383,10 +6383,10 @@
    "source": "lua/eval/devolucion"
   },
   {
-   "id": "child_39c4eb6c_39",
+   "id": "child_5363bd50_24",
    "lang": "es",
    "style": "child",
-   "text": "¿Quién hace \"guau guau\"? (perro / pato)",
+   "text": "¿Quién hace \"guau guau\"?",
    "source": "lua/eval/consigna"
   },
   {
@@ -6404,10 +6404,10 @@
    "source": "lua/eval/devolucion"
   },
   {
-   "id": "child_bf8a1968_42",
+   "id": "child_483e17a2_19",
    "lang": "es",
    "style": "child",
-   "text": "¿Cuál es la pelota? (pelota / pato / taza)",
+   "text": "¿Cuál es la pelota?",
    "source": "lua/eval/consigna"
   },
   {
@@ -6425,10 +6425,10 @@
    "source": "lua/eval/devolucion"
   },
   {
-   "id": "child_caaa1dd4_64",
+   "id": "child_bb0974ad_44",
    "lang": "es",
    "style": "child",
-   "text": "Toca la imagen que empieza con el sonido /p/ (pato / sol / mesa)",
+   "text": "Toca la imagen que empieza con el sonido /p/",
    "source": "lua/eval/consigna"
   },
   {
@@ -6446,10 +6446,10 @@
    "source": "lua/eval/devolucion"
   },
   {
-   "id": "child_4f25feb7_54",
+   "id": "child_fb215572_20",
    "lang": "es",
    "style": "child",
-   "text": "Dame el juguete rojo (selección por color, 3 opciones)",
+   "text": "Dame el juguete rojo",
    "source": "lua/eval/consigna"
   },
   {
@@ -6467,10 +6467,10 @@
    "source": "lua/eval/devolucion"
   },
   {
-   "id": "child_a026dde9_40",
+   "id": "child_6a187286_27",
    "lang": "es",
    "style": "child",
-   "text": "¿Qué está haciendo el niño en la imagen?",
+   "text": "¿Qué está haciendo el niño?",
    "source": "lua/eval/consigna"
   },
   {
@@ -6488,10 +6488,10 @@
    "source": "lua/eval/devolucion"
   },
   {
-   "id": "child_5efecfd3_52",
+   "id": "child_a90262ff_29",
    "lang": "es",
    "style": "child",
-   "text": "Pon el vaso arriba de la mesa (instrucción espacial)",
+   "text": "Pon el vaso arriba de la mesa",
    "source": "lua/eval/consigna"
   },
   {
@@ -6509,10 +6509,10 @@
    "source": "lua/eval/devolucion"
   },
   {
-   "id": "child_a6fb579b_41",
+   "id": "child_5bb8175c_20",
    "lang": "es",
    "style": "child",
-   "text": "¿Cuál es más grande? (elefante / hormiga)",
+   "text": "¿Cuál es más grande?",
    "source": "lua/eval/consigna"
   },
   {
@@ -6530,10 +6530,10 @@
    "source": "lua/eval/devolucion"
   },
   {
-   "id": "child_9744301d_64",
+   "id": "child_3b01ef68_44",
    "lang": "es",
    "style": "child",
-   "text": "Toca la imagen que empieza con el sonido /m/ (mesa / sol / pato)",
+   "text": "Toca la imagen que empieza con el sonido /m/",
    "source": "lua/eval/consigna"
   },
   {
@@ -6572,10 +6572,10 @@
    "source": "lua/eval/devolucion"
   },
   {
-   "id": "child_e27ab32f_63",
+   "id": "child_7e16f019_35",
    "lang": "es",
    "style": "child",
-   "text": "¿Qué comemos cuando tenemos hambre? (comida / juguete / zapato)",
+   "text": "¿Qué comemos cuando tenemos hambre?",
    "source": "lua/eval/consigna"
   },
   {
@@ -6635,10 +6635,10 @@
    "source": "lua/eval/devolucion"
   },
   {
-   "id": "child_6897638e_70",
+   "id": "child_a408bcde_47",
    "lang": "es",
    "style": "child",
-   "text": "Primero lávate las manos, luego toca la manzana (secuencia de 2 pasos)",
+   "text": "Primero lávate las manos, luego toca la manzana",
    "source": "lua/eval/consigna"
   },
   {
@@ -6656,10 +6656,10 @@
    "source": "lua/eval/devolucion"
   },
   {
-   "id": "child_eef71c68_45",
+   "id": "child_52739d87_25",
    "lang": "es",
    "style": "child",
-   "text": "¿Cuál empieza como \"sol\"? (sapo / luna / pan)",
+   "text": "¿Cuál empieza como \"sol\"?",
    "source": "lua/eval/consigna"
   },
   {
@@ -6761,10 +6761,10 @@
    "source": "lua/eval/devolucion"
   },
   {
-   "id": "child_d08d1f26_65",
+   "id": "child_1e15226f_32",
    "lang": "es",
    "style": "child",
-   "text": "¿Cuál no pertenece a este grupo? (manzana, plátano/banana, silla)",
+   "text": "¿Cuál no pertenece a este grupo?",
    "source": "lua/eval/consigna"
   },
   {
@@ -7202,10 +7202,10 @@
    "source": "lua/eval/devolucion"
   },
   {
-   "id": "child_6ed423eb_85",
+   "id": "child_a6938cb7_58",
    "lang": "es",
    "style": "child",
-   "text": "Cuéntale a Lúa algo divertido que hiciste el fin de semana (¿qué?, ¿quién?, ¿cuándo?)",
+   "text": "Cuéntale a Lúa algo divertido que hiciste el fin de semana",
    "source": "lua/eval/consigna"
   },
   {

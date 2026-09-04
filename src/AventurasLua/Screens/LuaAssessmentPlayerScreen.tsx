@@ -215,6 +215,18 @@ export const LuaAssessmentPlayerScreen: React.FC<Props> = ({ navigation, route }
                   <FichaVisual word="" emoji="" pic={currentQ.questionPic} size={84} />
                 </View>
               )}
+              {/* La pauta de montaje del adulto («con la pelota a la vista»,
+                  «el adulto sopla primero»). Vivía DENTRO de `prompt`, entre
+                  paréntesis, así que se pintaba a 20 px en negrita y, peor, la
+                  locutaba `speakLuaToChild`: el niño oía «Dame la pelota,
+                  instrucción simple con objeto a la vista». Aquí va marcada
+                  como del adulto y fuera del texto que se locuta. */}
+              {currentQ.subPrompt && (
+                <View style={s.adultCue}>
+                  <Text style={s.adultCueLabel}>{t.luaHub.evalAdultCue}</Text>
+                  <Text style={s.adultCueText}>{currentQ.subPrompt}</Text>
+                </View>
+              )}
             </View>
 
             {/* Las opciones se pintan según QUIÉN responde. Un niño de 0-2 no
@@ -534,6 +546,25 @@ const s = StyleSheet.create({
     color: LUA_COLORS.textMuted,
     marginTop: 2,
     marginBottom: 10,
+  },
+  adultCue: {
+    marginTop: 10,
+    paddingTop: 10,
+    borderTopWidth: 1,
+    borderTopColor: LUA_COLORS.border,
+  },
+  adultCueLabel: {
+    fontSize: 12,
+    fontWeight: "800",
+    letterSpacing: 0.4,
+    textTransform: "uppercase",
+    color: LUA_COLORS.textSecondary,
+    marginBottom: 2,
+  },
+  adultCueText: {
+    fontSize: 14,
+    lineHeight: 20,
+    color: LUA_COLORS.textMuted,
   },
   feedbackAdultNote: {
     marginTop: 8,

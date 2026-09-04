@@ -1,5 +1,5 @@
 // ============================================================================
-// Aventuras con Lúa · Lúa y las Palabras — Banco de Preguntas Interactivas
+// Aventuras con Lúa · Lúa y las Palabras — Ejercicios con Lúa
 // Catálogo clínico estructurado por grupos de edad (0 a 10 años).
 // Basado en el protocolo clínico de lenguaje, fonología, fluidez y pragmática.
 // ============================================================================
@@ -116,7 +116,8 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     order: 3,
     mode: 'adult_record',
     questionPic: 'pelota',
-    prompt: 'Dame la pelota (instrucción simple con objeto a la vista)',
+    prompt: 'Dame la pelota',
+    subPrompt: 'Con la pelota a la vista del peque.',
     childRecast: '¡Esta es la pelota! Dámela.',
     options: [
       { id: 'opt_da_pelota', label: 'Entrega la pelota', isTarget: true },
@@ -134,7 +135,8 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     area: 'atencion_imitacion',
     order: 4,
     mode: 'adult_record',
-    prompt: 'Di "adiós" (con gesto de despedida con la mano)',
+    prompt: 'Di "adiós"',
+    subPrompt: 'El adulto dice adiós con la mano a la vez.',
     childRecast: '¡Adiós! Dile adiós con la mano.',
     options: [
       { id: 'opt_imita_gesto', label: 'Imita el gesto y/o la palabra', isTarget: true },
@@ -152,7 +154,8 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     area: 'atencion_imitacion',
     order: 5,
     mode: 'adult_record',
-    prompt: '¿Dónde está mamá? (en foto familiar o presencia)',
+    prompt: '¿Dónde está mamá?',
+    subPrompt: 'Con una foto de familia delante, o con mamá presente.',
     childRecast: '¡Aquí está mamá!',
     options: [
       { id: 'opt_mira_mama', label: 'Mira o señala la foto', isTarget: true },
@@ -171,7 +174,8 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     order: 6,
     mode: 'adult_record',
     questionPic: 'soplar',
-    prompt: 'Sopla la burbuja (modelo del adulto o Lúa)',
+    prompt: 'Sopla la burbuja',
+    subPrompt: 'El adulto sopla primero, para que lo imite.',
     childRecast: '¡Sopla conmigo! Fffff.',
     options: [
       { id: 'opt_sopla', label: 'Imita la acción de soplar', isTarget: true },
@@ -209,7 +213,7 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     order: 8,
     mode: 'adult_record',
     questionPic: 'mano',
-    prompt: 'Aplaude conmigo (imitación motora)',
+    prompt: 'Aplaude conmigo',
     childRecast: '¡Palmas, palmas! Aplaude conmigo.',
     options: [
       { id: 'opt_aplaude', label: 'Imita el aplauso', isTarget: true },
@@ -227,7 +231,7 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     area: 'atencion_imitacion',
     order: 9,
     mode: 'child_choice',
-    prompt: 'Dame el osito (elección entre 2 objetos a la vista)',
+    prompt: 'Dame el osito',
     childRecast: '¡Este es el osito!',
     options: [
       { id: 'opt_elige_osito', label: 'Osito', isTarget: true, pic: 'osito-grande' },
@@ -245,7 +249,7 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     area: 'atencion_imitacion',
     order: 10,
     mode: 'child_choice',
-    prompt: '¿Quién hace "guau guau"? (perro / pato)',
+    prompt: '¿Quién hace "guau guau"?',
     childRecast: '¡El perro hace guau guau!',
     options: [
       { id: 'opt_elige_perro', label: 'Perro', isTarget: true, pic: 'perro' },
@@ -267,7 +271,7 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     area: 'vocabulario_fonologia',
     order: 1,
     mode: 'child_choice',
-    prompt: '¿Cuál es la pelota? (pelota / pato / taza)',
+    prompt: '¿Cuál es la pelota?',
     childRecast: '¡Esta es la pelota! ¿Puedes decir pelota?',
     options: [
       { id: 'opt_pelota_sel', label: 'Pelota', isTarget: true, pic: 'pelota' },
@@ -286,7 +290,7 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     area: 'vocabulario_fonologia',
     order: 2,
     mode: 'child_choice',
-    prompt: 'Toca la imagen que empieza con el sonido /p/ (pato / sol / mesa)',
+    prompt: 'Toca la imagen que empieza con el sonido /p/',
     childRecast: '¡Pato! Empieza con /p/.',
     options: [
       { id: 'opt_pato_p', label: 'Pato', isTarget: true, pic: 'pato' },
@@ -305,7 +309,7 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     area: 'vocabulario_fonologia',
     order: 3,
     mode: 'child_choice',
-    prompt: 'Dame el juguete rojo (selección por color, 3 opciones)',
+    prompt: 'Dame el juguete rojo',
     childRecast: '¡Este es el rojo!',
     options: [
       { id: 'opt_rojo', label: 'Rojo', isTarget: true, pic: 'color-rojo' },
@@ -324,8 +328,7 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     area: 'vocabulario_fonologia',
     order: 4,
     mode: 'child_choice',
-    prompt: '¿Qué está haciendo el niño en la imagen?',
-    subPrompt: 'Imagen: niño comiendo una fruta',
+    prompt: '¿Qué está haciendo el niño?',
     childRecast: '¡El niño está comiendo!',
     options: [
       { id: 'opt_comiendo', label: 'Comiendo', isTarget: true, pic: 'comer' },
@@ -345,7 +348,7 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     order: 5,
     mode: 'adult_record',
     questionPic: 'mesa',
-    prompt: 'Pon el vaso arriba de la mesa (instrucción espacial)',
+    prompt: 'Pon el vaso arriba de la mesa',
     childRecast: '¡Arriba! El vaso va arriba de la mesa.',
     options: [
       { id: 'opt_arriba', label: 'Coloca arriba', isTarget: true },
@@ -363,7 +366,7 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     area: 'vocabulario_fonologia',
     order: 6,
     mode: 'child_choice',
-    prompt: '¿Cuál es más grande? (elefante / hormiga)',
+    prompt: '¿Cuál es más grande?',
     childRecast: '¡El elefante es más grande!',
     options: [
       { id: 'opt_elefante', label: 'Elefante', isTarget: true, pic: 'elefante' },
@@ -381,7 +384,7 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     area: 'vocabulario_fonologia',
     order: 7,
     mode: 'child_choice',
-    prompt: 'Toca la imagen que empieza con el sonido /m/ (mesa / sol / pato)',
+    prompt: 'Toca la imagen que empieza con el sonido /m/',
     childRecast: '¡Mesa! Empieza con /m/.',
     options: [
       { id: 'opt_mesa_m', label: 'Mesa', isTarget: true, pic: 'mesa' },
@@ -419,7 +422,7 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     area: 'vocabulario_fonologia',
     order: 9,
     mode: 'child_choice',
-    prompt: '¿Qué comemos cuando tenemos hambre? (comida / juguete / zapato)',
+    prompt: '¿Qué comemos cuando tenemos hambre?',
     childRecast: '¡Cuando tenemos hambre, comemos!',
     options: [
       { id: 'opt_comida', label: 'Pan', isTarget: true, pic: 'pan' },
@@ -481,7 +484,7 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     order: 2,
     mode: 'adult_record',
     questionPic: 'mano-limpia',
-    prompt: 'Primero lávate las manos, luego toca la manzana (secuencia de 2 pasos)',
+    prompt: 'Primero lávate las manos, luego toca la manzana',
     childRecast: 'Primero las manos, y después la manzana.',
     options: [
       { id: 'opt_dos_pasos_ok', label: 'Sigue ambos pasos en orden', isTarget: true },
@@ -499,7 +502,7 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     area: 'instrucciones_fluidez',
     order: 3,
     mode: 'child_choice',
-    prompt: '¿Cuál empieza como "sol"? (sapo / luna / pan)',
+    prompt: '¿Cuál empieza como "sol"?',
     childRecast: 'Sol… sapo. ¡Las dos empiezan igual!',
     options: [
       { id: 'opt_sapo', label: 'Sapo', isTarget: true, pic: 'sapo' },
@@ -574,7 +577,7 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     order: 7,
     mode: 'adult_record',
     prompt: 'Practica decir "quiero jugar" con voz suave y relajada',
-    subPrompt: 'Estrategia clínica de inicio vocal suave para fluidez',
+    subPrompt: 'El adulto la dice primero, despacio y suave, sin prisa.',
     childRecast: 'Suavecito: quiero jugar.',
     options: [
       { id: 'opt_habla_relajada', label: 'Produce la frase de forma relajada', isTarget: true },
@@ -592,7 +595,7 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     area: 'instrucciones_fluidez',
     order: 8,
     mode: 'child_choice',
-    prompt: '¿Cuál no pertenece a este grupo? (manzana, plátano/banana, silla)',
+    prompt: '¿Cuál no pertenece a este grupo?',
     childRecast: 'La manzana y el plátano se comen. ¡La silla no!',
     options: [
       { id: 'opt_silla_intrusa', label: 'Silla', isTarget: true, pic: 'silla' },
@@ -995,7 +998,8 @@ export const LUA_ASSESSMENT_CATALOG: LuaAssessmentQuestion[] = [
     area: 'conciencia_fonologica',
     order: 9,
     mode: 'adult_record',
-    prompt: 'Cuéntale a Lúa algo divertido que hiciste el fin de semana (¿qué?, ¿quién?, ¿cuándo?)',
+    prompt: 'Cuéntale a Lúa algo divertido que hiciste el fin de semana',
+    subPrompt: 'Si se atasca: ¿qué hiciste?, ¿con quién?, ¿cuándo?',
     childRecast: 'Cuéntame: ¿qué hiciste y con quién?',
     options: [
       { id: 'opt_narra_elementos', label: 'Narra con al menos 2 elementos estructurados', isTarget: true },
