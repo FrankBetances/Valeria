@@ -3,8 +3,8 @@
  "voice": "Sharvard (femenina) \u00b7 rhasspy/piper-voices",
  "peakDbfs": -3.0,
  "entries": 1434,
- "totalBytes": 22293637,
- "totalSeconds": 4019.9,
+ "totalBytes": 22139146,
+ "totalSeconds": 3989.4,
  "files": [
   {
    "id": "child_6299d0bf_39",
@@ -5311,10 +5311,10 @@
    "bytes": 6965
   },
   {
-   "id": "child_15d6297a_57",
-   "file": "child_15d6297a_57.m4a",
-   "seconds": 3.44,
-   "bytes": 18729
+   "id": "child_a3fe4980_14",
+   "file": "child_a3fe4980_14.m4a",
+   "seconds": 0.94,
+   "bytes": 6164
   },
   {
    "id": "child_191d00ce_29",
@@ -5329,10 +5329,10 @@
    "bytes": 10411
   },
   {
-   "id": "child_19718f13_47",
-   "file": "child_19718f13_47.m4a",
-   "seconds": 2.44,
-   "bytes": 13709
+   "id": "child_e54f6ea8_10",
+   "file": "child_e54f6ea8_10.m4a",
+   "seconds": 0.73,
+   "bytes": 4877
   },
   {
    "id": "child_c126c91d_28",
@@ -5347,10 +5347,10 @@
    "bytes": 11059
   },
   {
-   "id": "child_a6745ee8_48",
-   "file": "child_a6745ee8_48.m4a",
-   "seconds": 3.01,
-   "bytes": 16602
+   "id": "child_93f1546e_17",
+   "file": "child_93f1546e_17.m4a",
+   "seconds": 1.13,
+   "bytes": 6896
   },
   {
    "id": "child_3256bbe8_20",
@@ -5365,10 +5365,10 @@
    "bytes": 6109
   },
   {
-   "id": "child_16187f0f_42",
-   "file": "child_16187f0f_42.m4a",
-   "seconds": 2.46,
-   "bytes": 13635
+   "id": "child_a1d85c20_16",
+   "file": "child_a1d85c20_16.m4a",
+   "seconds": 1.22,
+   "bytes": 7509
   },
   {
    "id": "child_9de57066_38",
@@ -5401,10 +5401,10 @@
    "bytes": 7240
   },
   {
-   "id": "child_6f8c117f_34",
-   "file": "child_6f8c117f_34.m4a",
-   "seconds": 2.09,
-   "bytes": 11760
+   "id": "child_f8d74879_15",
+   "file": "child_f8d74879_15.m4a",
+   "seconds": 1.04,
+   "bytes": 6594
   },
   {
    "id": "child_c33f0148_30",
@@ -5419,10 +5419,10 @@
    "bytes": 11672
   },
   {
-   "id": "child_d735361f_51",
-   "file": "child_d735361f_51.m4a",
-   "seconds": 3.07,
-   "bytes": 16781
+   "id": "child_761b16f1_13",
+   "file": "child_761b16f1_13.m4a",
+   "seconds": 0.88,
+   "bytes": 5670
   },
   {
    "id": "child_fcd741ee_40",
@@ -5437,10 +5437,10 @@
    "bytes": 7346
   },
   {
-   "id": "child_39c4eb6c_39",
-   "file": "child_39c4eb6c_39.m4a",
-   "seconds": 2.1,
-   "bytes": 12027
+   "id": "child_5363bd50_24",
+   "file": "child_5363bd50_24.m4a",
+   "seconds": 1.18,
+   "bytes": 7373
   },
   {
    "id": "child_5611402b_35",
@@ -5455,10 +5455,10 @@
    "bytes": 9147
   },
   {
-   "id": "child_bf8a1968_42",
-   "file": "child_bf8a1968_42.m4a",
-   "seconds": 2.71,
-   "bytes": 15116
+   "id": "child_483e17a2_19",
+   "file": "child_483e17a2_19.m4a",
+   "seconds": 1.14,
+   "bytes": 7110
   },
   {
    "id": "child_a9f7bd4e_37",
@@ -5473,10 +5473,10 @@
    "bytes": 13696
   },
   {
-   "id": "child_caaa1dd4_64",
-   "file": "child_caaa1dd4_64.m4a",
-   "seconds": 4.49,
-   "bytes": 24146
+   "id": "child_bb0974ad_44",
+   "file": "child_bb0974ad_44.m4a",
+   "seconds": 2.95,
+   "bytes": 16332
   },
   {
    "id": "child_54b2efe6_32",
@@ -5491,10 +5491,10 @@
    "bytes": 11085
   },
   {
-   "id": "child_4f25feb7_54",
-   "file": "child_4f25feb7_54.m4a",
-   "seconds": 3.42,
-   "bytes": 18626
+   "id": "child_fb215572_20",
+   "file": "child_fb215572_20.m4a",
+   "seconds": 1.3,
+   "bytes": 7740
   },
   {
    "id": "child_7dd75236_33",
@@ -5509,10 +5509,10 @@
    "bytes": 7608
   },
   {
-   "id": "child_a026dde9_40",
-   "file": "child_a026dde9_40.m4a",
-   "seconds": 2.11,
-   "bytes": 12010
+   "id": "child_6a187286_27",
+   "file": "child_6a187286_27.m4a",
+   "seconds": 1.39,
+   "bytes": 8189
   },
   {
    "id": "child_ac13af9f_27",
@@ -5527,10 +5527,10 @@
    "bytes": 8989
   },
   {
-   "id": "child_5efecfd3_52",
-   "file": "child_5efecfd3_52.m4a",
-   "seconds": 3.17,
-   "bytes": 17515
+   "id": "child_a90262ff_29",
+   "file": "child_a90262ff_29.m4a",
+   "seconds": 1.51,
+   "bytes": 8931
   },
   {
    "id": "child_884e4b73_31",
@@ -5545,10 +5545,10 @@
    "bytes": 12482
   },
   {
-   "id": "child_a6fb579b_41",
-   "file": "child_a6fb579b_41.m4a",
-   "seconds": 2.55,
-   "bytes": 14155
+   "id": "child_5bb8175c_20",
+   "file": "child_5bb8175c_20.m4a",
+   "seconds": 1.27,
+   "bytes": 7817
   },
   {
    "id": "child_b50da108_37",
@@ -5563,10 +5563,10 @@
    "bytes": 10401
   },
   {
-   "id": "child_9744301d_64",
-   "file": "child_9744301d_64.m4a",
-   "seconds": 4.74,
-   "bytes": 25437
+   "id": "child_3b01ef68_44",
+   "file": "child_3b01ef68_44.m4a",
+   "seconds": 3.12,
+   "bytes": 17110
   },
   {
    "id": "child_6d96169c_29",
@@ -5599,10 +5599,10 @@
    "bytes": 8013
   },
   {
-   "id": "child_e27ab32f_63",
-   "file": "child_e27ab32f_63.m4a",
-   "seconds": 3.69,
-   "bytes": 20123
+   "id": "child_7e16f019_35",
+   "file": "child_7e16f019_35.m4a",
+   "seconds": 1.85,
+   "bytes": 10747
   },
   {
    "id": "child_39d36803_32",
@@ -5653,10 +5653,10 @@
    "bytes": 11035
   },
   {
-   "id": "child_6897638e_70",
-   "file": "child_6897638e_70.m4a",
-   "seconds": 4.33,
-   "bytes": 23251
+   "id": "child_a408bcde_47",
+   "file": "child_a408bcde_47.m4a",
+   "seconds": 2.84,
+   "bytes": 15796
   },
   {
    "id": "child_2a61202f_42",
@@ -5671,10 +5671,10 @@
    "bytes": 12959
   },
   {
-   "id": "child_eef71c68_45",
-   "file": "child_eef71c68_45.m4a",
-   "seconds": 3.07,
-   "bytes": 16766
+   "id": "child_52739d87_25",
+   "file": "child_52739d87_25.m4a",
+   "seconds": 1.36,
+   "bytes": 8337
   },
   {
    "id": "child_b2140f85_45",
@@ -5761,10 +5761,10 @@
    "bytes": 9527
   },
   {
-   "id": "child_d08d1f26_65",
-   "file": "child_d08d1f26_65.m4a",
-   "seconds": 4.34,
-   "bytes": 23413
+   "id": "child_1e15226f_32",
+   "file": "child_1e15226f_32.m4a",
+   "seconds": 1.82,
+   "bytes": 10631
   },
   {
    "id": "child_21193aa2_67",
@@ -6139,10 +6139,10 @@
    "bytes": 15133
   },
   {
-   "id": "child_6ed423eb_85",
-   "file": "child_6ed423eb_85.m4a",
-   "seconds": 4.18,
-   "bytes": 22476
+   "id": "child_a6938cb7_58",
+   "file": "child_a6938cb7_58.m4a",
+   "seconds": 3.3,
+   "bytes": 17963
   },
   {
    "id": "child_716dc517_53",
