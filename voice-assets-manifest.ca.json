@@ -2,9 +2,9 @@
  "lang": "ca",
  "voice": "Matxa-TTS \u00b7 projecte AINA (BSC \u00b7 Generalitat de Catalunya)",
  "peakDbfs": -3.0,
- "entries": 858,
- "totalBytes": 18480994,
- "totalSeconds": 3154.1,
+ "entries": 868,
+ "totalBytes": 18535749,
+ "totalSeconds": 3160.0,
  "files": [
   {
    "id": "ca_child_5aa4bc5d_46",
@@ -5153,6 +5153,66 @@
    "file": "ca_child_4d852793_55.m4a",
    "seconds": 3.92,
    "bytes": 24671
+  },
+  {
+   "id": "ca_slow_e70c2de5_1",
+   "file": "ca_slow_e70c2de5_1.m4a",
+   "seconds": 0.42,
+   "bytes": 4035
+  },
+  {
+   "id": "ca_slow_e10c2473_1",
+   "file": "ca_slow_e10c2473_1.m4a",
+   "seconds": 0.59,
+   "bytes": 4643
+  },
+  {
+   "id": "ca_slow_f50c43ef_1",
+   "file": "ca_slow_f50c43ef_1.m4a",
+   "seconds": 0.48,
+   "bytes": 4567
+  },
+  {
+   "id": "ca_slow_f40c425c_1",
+   "file": "ca_slow_f40c425c_1.m4a",
+   "seconds": 0.48,
+   "bytes": 5072
+  },
+  {
+   "id": "ca_slow_e80c2f78_1",
+   "file": "ca_slow_e80c2f78_1.m4a",
+   "seconds": 0.81,
+   "bytes": 7444
+  },
+  {
+   "id": "ca_slow_eb0c3431_1",
+   "file": "ca_slow_eb0c3431_1.m4a",
+   "seconds": 0.68,
+   "bytes": 6095
+  },
+  {
+   "id": "ca_slow_e00c22e0_1",
+   "file": "ca_slow_e00c22e0_1.m4a",
+   "seconds": 0.31,
+   "bytes": 3627
+  },
+  {
+   "id": "ca_slow_f60c4582_1",
+   "file": "ca_slow_f60c4582_1.m4a",
+   "seconds": 0.84,
+   "bytes": 7200
+  },
+  {
+   "id": "ca_slow_ff0c53ad_1",
+   "file": "ca_slow_ff0c53ad_1.m4a",
+   "seconds": 0.84,
+   "bytes": 8134
+  },
+  {
+   "id": "ca_slow_e20c2606_1",
+   "file": "ca_slow_e20c2606_1.m4a",
+   "seconds": 0.42,
+   "bytes": 3938
   }
  ]
 }

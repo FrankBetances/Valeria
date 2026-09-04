@@ -2,9 +2,9 @@
  "lang": "gl",
  "voice": "Celtia \u00b7 Proxecto N\u00f3s (proxectonos)",
  "peakDbfs": -3.0,
- "entries": 819,
- "totalBytes": 17407643,
- "totalSeconds": 2764.3,
+ "entries": 829,
+ "totalBytes": 17465251,
+ "totalSeconds": 2773.5,
  "files": [
   {
    "id": "gl_child_35085508_38",
@@ -4919,6 +4919,66 @@
    "file": "gl_child_0c4b67ba_49.m4a",
    "seconds": 3.1,
    "bytes": 19920
+  },
+  {
+   "id": "gl_slow_e70c2de5_1",
+   "file": "gl_slow_e70c2de5_1.m4a",
+   "seconds": 0.75,
+   "bytes": 4918
+  },
+  {
+   "id": "gl_slow_e10c2473_1",
+   "file": "gl_slow_e10c2473_1.m4a",
+   "seconds": 1.08,
+   "bytes": 6647
+  },
+  {
+   "id": "gl_slow_f50c43ef_1",
+   "file": "gl_slow_f50c43ef_1.m4a",
+   "seconds": 1.39,
+   "bytes": 8263
+  },
+  {
+   "id": "gl_slow_f40c425c_1",
+   "file": "gl_slow_f40c425c_1.m4a",
+   "seconds": 0.76,
+   "bytes": 5060
+  },
+  {
+   "id": "gl_slow_e80c2f78_1",
+   "file": "gl_slow_e80c2f78_1.m4a",
+   "seconds": 0.96,
+   "bytes": 5949
+  },
+  {
+   "id": "gl_slow_eb0c3431_1",
+   "file": "gl_slow_eb0c3431_1.m4a",
+   "seconds": 1.0,
+   "bytes": 6048
+  },
+  {
+   "id": "gl_slow_e00c22e0_1",
+   "file": "gl_slow_e00c22e0_1.m4a",
+   "seconds": 0.81,
+   "bytes": 5143
+  },
+  {
+   "id": "gl_slow_f60c4582_1",
+   "file": "gl_slow_f60c4582_1.m4a",
+   "seconds": 0.72,
+   "bytes": 4679
+  },
+  {
+   "id": "gl_slow_ff0c53ad_1",
+   "file": "gl_slow_ff0c53ad_1.m4a",
+   "seconds": 0.68,
+   "bytes": 4625
+  },
+  {
+   "id": "gl_slow_e20c2606_1",
+   "file": "gl_slow_e20c2606_1.m4a",
+   "seconds": 0.99,
+   "bytes": 6276
   }
  ]
 }

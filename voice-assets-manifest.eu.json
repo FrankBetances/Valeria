@@ -2,9 +2,9 @@
  "lang": "eu",
  "voice": "AhoTTS euskera \u00abMaider\u00bb \u00b7 HiTZ/Aholab (ILENIA/NEL-GAITU, CC BY 4.0)",
  "peakDbfs": -3.0,
- "entries": 747,
- "totalBytes": 16933003,
- "totalSeconds": 3272.4,
+ "entries": 756,
+ "totalBytes": 16981386,
+ "totalSeconds": 3288.2,
  "files": [
   {
    "id": "eu_child_536bf7c0_40",
@@ -4487,6 +4487,60 @@
    "file": "eu_child_bdb2d3c5_51.m4a",
    "seconds": 3.91,
    "bytes": 21113
+  },
+  {
+   "id": "eu_slow_e70c2de5_1",
+   "file": "eu_slow_e70c2de5_1.m4a",
+   "seconds": 1.59,
+   "bytes": 4655
+  },
+  {
+   "id": "eu_slow_e10c2473_1",
+   "file": "eu_slow_e10c2473_1.m4a",
+   "seconds": 1.67,
+   "bytes": 4835
+  },
+  {
+   "id": "eu_slow_f50c43ef_1",
+   "file": "eu_slow_f50c43ef_1.m4a",
+   "seconds": 1.59,
+   "bytes": 4591
+  },
+  {
+   "id": "eu_slow_f40c425c_1",
+   "file": "eu_slow_f40c425c_1.m4a",
+   "seconds": 1.26,
+   "bytes": 2891
+  },
+  {
+   "id": "eu_slow_e80c2f78_1",
+   "file": "eu_slow_e80c2f78_1.m4a",
+   "seconds": 1.83,
+   "bytes": 5672
+  },
+  {
+   "id": "eu_slow_eb0c3431_1",
+   "file": "eu_slow_eb0c3431_1.m4a",
+   "seconds": 2.02,
+   "bytes": 6709
+  },
+  {
+   "id": "eu_slow_f60c4582_1",
+   "file": "eu_slow_f60c4582_1.m4a",
+   "seconds": 1.93,
+   "bytes": 6217
+  },
+  {
+   "id": "eu_slow_ff0c53ad_1",
+   "file": "eu_slow_ff0c53ad_1.m4a",
+   "seconds": 2.02,
+   "bytes": 6806
+  },
+  {
+   "id": "eu_slow_e20c2606_1",
+   "file": "eu_slow_e20c2606_1.m4a",
+   "seconds": 1.89,
+   "bytes": 6007
   }
  ]
 }
