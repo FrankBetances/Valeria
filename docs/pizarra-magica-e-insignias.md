@@ -87,11 +87,25 @@ app no existían.
 
 Los tres elogios que locuta salen de `WRITING_PRAISE*` (en el banco, no en el
 catálogo de interfaz) y están en el corpus bajo la fuente `escritura/elogio`, en
-las cuatro variedades. Lo que se ve en pantalla —títulos y consignas de cada
+las cinco variedades. Lo que se ve en pantalla —títulos y consignas de cada
 trazo— es **solo castellano** de momento; no se pronuncia.
 
 El botón dice «Oír la letra» y no «Oír fonema» porque lo que suena es el nombre
 de la letra. Un modelo de fonema aislado necesita su propia grabación.
+
+Y ese nombre de letra **también está en el corpus** desde el 4/9/2026, bajo la
+fuente `escritura/letra`, en las cinco variedades: son las 12 letras críticas
+por 5, menos las que ya venían de Pares Mínimos. No lo estaba antes, así que el
+botón que sostiene todo el ejercicio anti-inversión sonaba con la voz del
+sistema — con cuatro letras pasaba desapercibido; con doce era más de la mitad
+de la pizarra, y en galego y euskera se perdían Celtia e ILENIA sin que nada
+avisara. Se enumera **recorriendo el banco**, no listando letras, para que una
+letra nueva entre sola; y `check-writing-bank.js` compara el banco contra
+`voice-corpus.json`, de modo que añadir una letra sin correr
+`node scripts/export-voice-corpus.js` en el mismo commit sale en rojo.
+
+Los lazos no entran: un lazo no tiene letra que oír, y su botón ya no se ofrece
+(escribía «Oír la letra» y pronunciaba «olas»).
 
 ## 5 · Antes de dar esto por hecho
 

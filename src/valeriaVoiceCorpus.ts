@@ -69,6 +69,7 @@ import {
 import { EXERCISE_FIXED_LINES_EN } from './valeriaExerciseEn';
 import {
   WRITING_PRAISE, WRITING_PRAISE_GL, WRITING_PRAISE_EU, WRITING_PRAISE_EN, WRITING_PRAISE_CA,
+  WRITING_EXERCISES,
 } from './valeriaWritingBank';
 import { MINIMAL_PAIRS_CA } from './valeriaMinimalPairsCa';
 import {
@@ -431,14 +432,39 @@ export function buildVoiceCorpus(): VoiceCorpusEntry[] {
   addCa('child', VOICE_SAMPLE_PHRASE_CA, 'util/muestra');
 
   // ===================== PIZARRA MÁGICA (escritura) =====================
-  // Los tres elogios que locuta la pizarra, en las cinco variedades. El resto
-  // del módulo (títulos y consignas de cada trazo) se LEE en pantalla, no se
-  // pronuncia; si algún día se locuta, entra aquí y se resintetiza.
+  // Los tres elogios que locuta la pizarra, en las cinco variedades. Los
+  // títulos y las consignas de cada trazo se LEEN en pantalla, no se pronuncian;
+  // si algún día se locutan, entran aquí y se resintetizan.
   for (const t of WRITING_PRAISE) add('child', t, 'escritura/elogio');
   for (const t of WRITING_PRAISE_GL) addGl('child', t, 'escritura/elogio');
   for (const t of WRITING_PRAISE_EU) addEu('child', t, 'escritura/elogio');
   for (const t of WRITING_PRAISE_EN) addEn('child', t, 'escritura/elogio');
   for (const t of WRITING_PRAISE_CA) addCa('child', t, 'escritura/elogio');
+
+  // El modelo sonoro de la letra: lo que suena al pulsar «Oír la letra», que es
+  // `speakWordSlow(phoneme)` → estilo 'slow', el mismo con que se modela la
+  // palabra objetivo en Pares Mínimos.
+  //
+  // No estaba enumerado. Con cuatro letras la grieta pasaba desapercibida —b, d,
+  // p y m se oían con la voz del sistema—; con doce, el botón que sostiene el
+  // ejercicio anti-inversión sonaba a robot en más de la mitad de la pizarra, y
+  // en galego y euskera perdía Celtia e ILENIA en silencio.
+  //
+  // El texto es la letra TAL CUAL la manda la pantalla, no su nombre escrito
+  // («b», no «be»): así el id resuelve, y cada variedad sintetiza el nombre de
+  // esa letra con su propia voz y su propia fonética, que es justo lo que un
+  // niño de esa variedad tiene que oír. Se recorre el banco en vez de listar las
+  // letras, para que una letra nueva entre en el corpus sin acordarse de nada.
+  // Los lazos no entran: un lazo no tiene letra y su botón ya no se ofrece.
+  for (const it of WRITING_EXERCISES) {
+    if (it.category !== 'critical') continue;
+    const cue = it.phoneme.toLowerCase();
+    add('slow', cue, 'escritura/letra');
+    addGl('slow', cue, 'escritura/letra');
+    addEu('slow', cue, 'escritura/letra');
+    addEn('slow', cue, 'escritura/letra');
+    addCa('slow', cue, 'escritura/letra');
+  }
 
   return Array.from(entries.values());
 }

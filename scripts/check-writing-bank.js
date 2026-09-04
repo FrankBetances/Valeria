@@ -242,6 +242,35 @@ if (!fails.length) {
     + 'numerados en el sentido en que se escribe');
 }
 
+// --- La letra que suena está en el corpus -----------------------------------
+// «Oír la letra» locuta `phoneme` con speakWordSlow (estilo 'slow'). Si esa
+// cadena no está en voice-corpus.json, la locución no falla: cae a la voz del
+// sistema, en silencio, y en galego y euskera se pierden Celtia e ILENIA. Es la
+// grieta exacta que costó el build 499, y aquí se comprueba contra el JSON
+// exportado, no contra el código: así una letra nueva sin
+// `node scripts/export-voice-corpus.js` en el mismo commit sale en rojo.
+const CORPUS = path.join(ROOT, 'voice-corpus.json');
+if (!fs.existsSync(CORPUS)) {
+  fail('no existe voice-corpus.json: corre node scripts/export-voice-corpus.js');
+} else {
+  const corpus = JSON.parse(fs.readFileSync(CORPUS, 'utf8')).corpus ?? [];
+  const spoken = new Set(corpus.filter((e) => e.style === 'slow').map((e) => `${e.lang}|${e.text}`));
+  const LANGS = ['es', 'gl', 'eu', 'en', 'ca'];
+  const holes = [];
+  for (const it of BANK) {
+    if (it.category !== 'critical') continue;
+    const cue = it.phoneme.toLowerCase();
+    for (const lang of LANGS) if (!spoken.has(`${lang}|${cue}`)) holes.push(`${it.id} (${lang})`);
+  }
+  if (holes.length) {
+    fail(`${holes.length} modelos de letra fuera del corpus de voz: ${holes.slice(0, 6).join(', ')}`
+      + `${holes.length > 6 ? '…' : ''}. Corre node scripts/export-voice-corpus.js EN ESTE MISMO commit.`);
+  } else {
+    const n = BANK.filter((i) => i.category === 'critical').length;
+    ok(`las ${n} letras se pronuncian desde el corpus en es · gl · eu · en · ca`);
+  }
+}
+
 // --- Reparto por pestaña ----------------------------------------------------
 // La pantalla tiene dos series (críticas y lazos) y las recorre en orden: una
 // serie vacía deja la pestaña con el lienzo en blanco y sin consigna.

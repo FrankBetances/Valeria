@@ -1,9 +1,9 @@
 {
- "generatedAt": "2026-09-04T10:29:43.104Z",
- "entries": 4663,
+ "generatedAt": "2026-09-04T20:33:38.693Z",
+ "entries": 4711,
  "byStyle": {
   "child": 2747,
-  "slow": 950,
+  "slow": 998,
   "clinical": 45,
   "tutor": 921
  },
@@ -44,7 +44,8 @@
   "lua/juego/estimulo": 52,
   "lua/juego/pista": 3,
   "ejercicios/veredicto": 3,
-  "escritura/elogio": 15
+  "escritura/elogio": 15,
+  "escritura/letra": 48
  },
  "corpus": [
   {
@@ -32687,6 +32688,342 @@
    "style": "child",
    "text": "Gairebé! Segueix les fletxes i els números a poc a poc.",
    "source": "escritura/elogio"
+  },
+  {
+   "id": "slow_e70c2de5_1",
+   "lang": "es",
+   "style": "slow",
+   "text": "b",
+   "source": "escritura/letra"
+  },
+  {
+   "id": "gl_slow_e70c2de5_1",
+   "lang": "gl",
+   "style": "slow",
+   "text": "b",
+   "source": "escritura/letra"
+  },
+  {
+   "id": "eu_slow_e70c2de5_1",
+   "lang": "eu",
+   "style": "slow",
+   "text": "b",
+   "source": "escritura/letra"
+  },
+  {
+   "id": "en_slow_e70c2de5_1",
+   "lang": "en",
+   "style": "slow",
+   "text": "b",
+   "source": "escritura/letra"
+  },
+  {
+   "id": "ca_slow_e70c2de5_1",
+   "lang": "ca",
+   "style": "slow",
+   "text": "b",
+   "source": "escritura/letra"
+  },
+  {
+   "id": "slow_e10c2473_1",
+   "lang": "es",
+   "style": "slow",
+   "text": "d",
+   "source": "escritura/letra"
+  },
+  {
+   "id": "gl_slow_e10c2473_1",
+   "lang": "gl",
+   "style": "slow",
+   "text": "d",
+   "source": "escritura/letra"
+  },
+  {
+   "id": "eu_slow_e10c2473_1",
+   "lang": "eu",
+   "style": "slow",
+   "text": "d",
+   "source": "escritura/letra"
+  },
+  {
+   "id": "en_slow_e10c2473_1",
+   "lang": "en",
+   "style": "slow",
+   "text": "d",
+   "source": "escritura/letra"
+  },
+  {
+   "id": "ca_slow_e10c2473_1",
+   "lang": "ca",
+   "style": "slow",
+   "text": "d",
+   "source": "escritura/letra"
+  },
+  {
+   "id": "slow_f50c43ef_1",
+   "lang": "es",
+   "style": "slow",
+   "text": "p",
+   "source": "escritura/letra"
+  },
+  {
+   "id": "gl_slow_f50c43ef_1",
+   "lang": "gl",
+   "style": "slow",
+   "text": "p",
+   "source": "escritura/letra"
+  },
+  {
+   "id": "eu_slow_f50c43ef_1",
+   "lang": "eu",
+   "style": "slow",
+   "text": "p",
+   "source": "escritura/letra"
+  },
+  {
+   "id": "ca_slow_f50c43ef_1",
+   "lang": "ca",
+   "style": "slow",
+   "text": "p",
+   "source": "escritura/letra"
+  },
+  {
+   "id": "slow_f40c425c_1",
+   "lang": "es",
+   "style": "slow",
+   "text": "q",
+   "source": "escritura/letra"
+  },
+  {
+   "id": "gl_slow_f40c425c_1",
+   "lang": "gl",
+   "style": "slow",
+   "text": "q",
+   "source": "escritura/letra"
+  },
+  {
+   "id": "eu_slow_f40c425c_1",
+   "lang": "eu",
+   "style": "slow",
+   "text": "q",
+   "source": "escritura/letra"
+  },
+  {
+   "id": "en_slow_f40c425c_1",
+   "lang": "en",
+   "style": "slow",
+   "text": "q",
+   "source": "escritura/letra"
+  },
+  {
+   "id": "ca_slow_f40c425c_1",
+   "lang": "ca",
+   "style": "slow",
+   "text": "q",
+   "source": "escritura/letra"
+  },
+  {
+   "id": "slow_e80c2f78_1",
+   "lang": "es",
+   "style": "slow",
+   "text": "m",
+   "source": "escritura/letra"
+  },
+  {
+   "id": "gl_slow_e80c2f78_1",
+   "lang": "gl",
+   "style": "slow",
+   "text": "m",
+   "source": "escritura/letra"
+  },
+  {
+   "id": "eu_slow_e80c2f78_1",
+   "lang": "eu",
+   "style": "slow",
+   "text": "m",
+   "source": "escritura/letra"
+  },
+  {
+   "id": "en_slow_e80c2f78_1",
+   "lang": "en",
+   "style": "slow",
+   "text": "m",
+   "source": "escritura/letra"
+  },
+  {
+   "id": "ca_slow_e80c2f78_1",
+   "lang": "ca",
+   "style": "slow",
+   "text": "m",
+   "source": "escritura/letra"
+  },
+  {
+   "id": "slow_eb0c3431_1",
+   "lang": "es",
+   "style": "slow",
+   "text": "n",
+   "source": "escritura/letra"
+  },
+  {
+   "id": "gl_slow_eb0c3431_1",
+   "lang": "gl",
+   "style": "slow",
+   "text": "n",
+   "source": "escritura/letra"
+  },
+  {
+   "id": "eu_slow_eb0c3431_1",
+   "lang": "eu",
+   "style": "slow",
+   "text": "n",
+   "source": "escritura/letra"
+  },
+  {
+   "id": "en_slow_eb0c3431_1",
+   "lang": "en",
+   "style": "slow",
+   "text": "n",
+   "source": "escritura/letra"
+  },
+  {
+   "id": "ca_slow_eb0c3431_1",
+   "lang": "ca",
+   "style": "slow",
+   "text": "n",
+   "source": "escritura/letra"
+  },
+  {
+   "id": "slow_e00c22e0_1",
+   "lang": "es",
+   "style": "slow",
+   "text": "e",
+   "source": "escritura/letra"
+  },
+  {
+   "id": "gl_slow_e00c22e0_1",
+   "lang": "gl",
+   "style": "slow",
+   "text": "e",
+   "source": "escritura/letra"
+  },
+  {
+   "id": "en_slow_e00c22e0_1",
+   "lang": "en",
+   "style": "slow",
+   "text": "e",
+   "source": "escritura/letra"
+  },
+  {
+   "id": "ca_slow_e00c22e0_1",
+   "lang": "ca",
+   "style": "slow",
+   "text": "e",
+   "source": "escritura/letra"
+  },
+  {
+   "id": "slow_f60c4582_1",
+   "lang": "es",
+   "style": "slow",
+   "text": "s",
+   "source": "escritura/letra"
+  },
+  {
+   "id": "gl_slow_f60c4582_1",
+   "lang": "gl",
+   "style": "slow",
+   "text": "s",
+   "source": "escritura/letra"
+  },
+  {
+   "id": "eu_slow_f60c4582_1",
+   "lang": "eu",
+   "style": "slow",
+   "text": "s",
+   "source": "escritura/letra"
+  },
+  {
+   "id": "en_slow_f60c4582_1",
+   "lang": "en",
+   "style": "slow",
+   "text": "s",
+   "source": "escritura/letra"
+  },
+  {
+   "id": "ca_slow_f60c4582_1",
+   "lang": "ca",
+   "style": "slow",
+   "text": "s",
+   "source": "escritura/letra"
+  },
+  {
+   "id": "slow_ff0c53ad_1",
+   "lang": "es",
+   "style": "slow",
+   "text": "z",
+   "source": "escritura/letra"
+  },
+  {
+   "id": "gl_slow_ff0c53ad_1",
+   "lang": "gl",
+   "style": "slow",
+   "text": "z",
+   "source": "escritura/letra"
+  },
+  {
+   "id": "eu_slow_ff0c53ad_1",
+   "lang": "eu",
+   "style": "slow",
+   "text": "z",
+   "source": "escritura/letra"
+  },
+  {
+   "id": "en_slow_ff0c53ad_1",
+   "lang": "en",
+   "style": "slow",
+   "text": "z",
+   "source": "escritura/letra"
+  },
+  {
+   "id": "ca_slow_ff0c53ad_1",
+   "lang": "ca",
+   "style": "slow",
+   "text": "z",
+   "source": "escritura/letra"
+  },
+  {
+   "id": "slow_e20c2606_1",
+   "lang": "es",
+   "style": "slow",
+   "text": "g",
+   "source": "escritura/letra"
+  },
+  {
+   "id": "gl_slow_e20c2606_1",
+   "lang": "gl",
+   "style": "slow",
+   "text": "g",
+   "source": "escritura/letra"
+  },
+  {
+   "id": "eu_slow_e20c2606_1",
+   "lang": "eu",
+   "style": "slow",
+   "text": "g",
+   "source": "escritura/letra"
+  },
+  {
+   "id": "en_slow_e20c2606_1",
+   "lang": "en",
+   "style": "slow",
+   "text": "g",
+   "source": "escritura/letra"
+  },
+  {
+   "id": "ca_slow_e20c2606_1",
+   "lang": "ca",
+   "style": "slow",
+   "text": "g",
+   "source": "escritura/letra"
   }
  ]
 }
