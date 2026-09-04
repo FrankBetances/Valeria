@@ -273,6 +273,20 @@ jobs:
       - name: Verificar Aventuras con Lúa (fichas, locución e imprimibles)
         run: node scripts/verify-aventuras-lua.js
 
+      # El módulo se locuta en castellano en las cinco variedades porque solo
+      # tiene banco castellano —eso está decidido—, pero se leía con la VOZ de la
+      # sesión: Celtia pronunciando palabras castellanas. No rompía nada, no
+      # salía en rojo y ningún gate de texto lo veía, porque el texto era el
+      # correcto. Este ejecuta la ruta de locución con espías y mira qué sonó.
+      - name: Comprobar en qué lengua suena Aventuras con Lúa
+        run: node scripts/check-lua-voice-language.js
+
+      # El banco de trazos es geometría, y la geometría es lo único que el
+      # typecheck no puede ver: un waypoint mal puesto compila igual y deja el
+      # ejercicio imposible de aprobar, sin un solo aviso.
+      - name: Comprobar la geometría del banco de trazos
+        run: node scripts/check-writing-bank.js
+
       # Un ejercicio mezcla dos audiencias: el niño lee/oye la variedad de
       # terapia, el adulto lee la interfaz. Se contradecían dentro de la misma
       # pantalla —lista en inglés, escala EPT-3 en castellano— y lo encontró

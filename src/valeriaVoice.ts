@@ -40,7 +40,7 @@ import {
   VOICE_SAMPLE_PHRASE_CA,
   PRAISE_BANK_CA, ALMOST_BANK_CA, NO_HEAR_BANK_CA, TOGETHER_BANK_CA,
 } from './valeriaContentCa';
-import { voiceCorpusId, VoiceStyle } from './valeriaVoiceCorpus';
+import { voiceCorpusId, VoiceStyle, VoiceLang } from './valeriaVoiceCorpus';
 import { VOICE_ASSETS } from './valeriaVoiceAssets';
 import { playVoiceAsset, stopVoiceAsset } from './valeriaVoicePlayback';
 import { getLocale, assetLang, speechLocale, prefersLatinVoice, contentLocale } from './valeriaLocale';
@@ -58,6 +58,9 @@ let bestVoiceId: string | undefined;
 let bestVoice: Speech.Voice | null = null;
 let esVoicesFound = 0;
 let voiceSearch: Promise<void> | null = null;
+// El catálogo completo, no solo la ganadora: hace falta para poder elegir voz
+// de una lengua distinta a la de la sesión (ver bestVoiceForLang).
+let allVoices: Speech.Voice[] = [];
 
 // Familias neuronales modernas: marcadores por nombre (Google, Samsung,
 // iOS 17+) y el patrón de las voces neuronales de Google TTS en Android
@@ -124,6 +127,51 @@ const scoreVoice = (v: Speech.Voice): number => {
   return s;
 };
 
+// ----------------------------------------------------------------------------
+// Mejor voz del sistema para una lengua CONCRETA, al margen de la variedad
+// activa. Mismos criterios de calidad que scoreVoice, sin su preferencia de
+// variedad. La usa la locución en lengua ajena (ver speakToChildIn).
+// ----------------------------------------------------------------------------
+const voiceByLang = new Map<string, string | null>();
+
+const bestVoiceForLang = (bcp47: string): string | undefined => {
+  const want = bcp47.toLowerCase().replace('_', '-');
+  const cached = voiceByLang.get(want);
+  if (cached !== undefined) return cached ?? undefined;
+  // Sin catálogo todavía no se cachea: la próxima locución vuelve a intentarlo.
+  if (!allVoices.length) return undefined;
+  const prefix = want.split('-')[0];
+  let best: Speech.Voice | undefined;
+  let bestScore = -Infinity;
+  for (const v of allVoices) {
+    const lang = (v.language ?? '').toLowerCase().replace('_', '-');
+    if (!lang.startsWith(prefix)) continue;
+    const id = id0(v);
+    let s = lang === want ? 3 : 0; // es-ES exacto por delante de es-MX
+    if (v.quality === Speech.VoiceQuality.Enhanced) s += 6;
+    if (NEURAL_RE.test(id)) s += 4;
+    if (id.includes('local')) s += 2;
+    if (id.includes('network')) s += 1;
+    if (LEGACY_RE.test(id)) s -= 6;
+    if (s > bestScore) { best = v; bestScore = s; }
+  }
+  voiceByLang.set(want, best?.identifier ?? null);
+  return best?.identifier;
+};
+
+// Qué voz del sistema se le pide al motor para UNA locución.
+//
+// Normalmente la puntuada para la variedad activa (`bestVoiceId`). Pero si el
+// llamante fija `language` está diciendo que este enunciado no es de la lengua
+// de la sesión, y entonces `bestVoiceId` es justo la voz equivocada: en Android
+// `voice` MANDA SOBRE `language`, así que fijar las dos hacía que la voz
+// gallega, vasca o catalana leyese el texto castellano. Eso es lo que se oía en
+// Aventuras con Lúa: el acento de la sesión sobre las palabras de otra lengua.
+// Si el dispositivo no tiene ninguna voz de la lengua pedida, no se fija
+// ninguna y el motor resuelve por `language`, que es lo que se le pedía.
+const pinVoice = (opts: Speech.SpeechOptions): string | undefined =>
+  opts.voice ?? (opts.language ? bestVoiceForLang(opts.language) : bestVoiceId);
+
 const findBestVoice = async (attempt = 0): Promise<void> => {
   try {
     const voices = await Speech.getAvailableVoicesAsync();
@@ -151,6 +199,8 @@ const findBestVoice = async (attempt = 0): Promise<void> => {
     esVoicesFound = found;
     bestVoice = best ?? null;
     bestVoiceId = best?.identifier;
+    allVoices = voices;
+    voiceByLang.clear(); // catálogo nuevo (p. ej. tras instalar voces): se recalcula
   } catch (e) {
     voiceSearch = null; // sin catálogo de voces: seguir con la voz por defecto
   }
@@ -270,6 +320,8 @@ const speakChain = (text: string, opts: Speech.SpeechOptions, token: number, rat
   const baseRate = rest.rate ?? 0.92;
   const basePitch = rest.pitch ?? 1.0;
 
+  const pinnedVoice = pinVoice(rest);
+
   const sayFrom = (i: number) => {
     if (token !== speakToken) return; // otra locución tomó el relevo
     if (i >= sentences.length) { onDone?.(); return; }
@@ -282,7 +334,7 @@ const speakChain = (text: string, opts: Speech.SpeechOptions, token: number, rat
       ...rest,
       rate: clamp(baseRate + (excited ? 0.03 : 0) + jitter * 0.5, 0.4, rateCeil),
       pitch: clamp(basePitch + (excited ? 0.06 : asking ? 0.05 : 0) + jitter, 0.7, 1.45),
-      ...(bestVoiceId && !rest.voice ? { voice: bestVoiceId } : {}),
+      ...(pinnedVoice ? { voice: pinnedVoice } : {}),
       onDone: () => {
         if (token !== speakToken) return;
         if (i + 1 >= sentences.length) { onDone?.(); return; }
@@ -306,11 +358,19 @@ const speakChain = (text: string, opts: Speech.SpeechOptions, token: number, rat
 // texto, error del módulo nativo), se cae al motor del sistema: la calidad
 // degrada, la sesión jamás se rompe.
 // ----------------------------------------------------------------------------
-const trySpokenAsset = (style: VoiceStyle, text: string, opts: Speech.SpeechOptions): boolean => {
+const trySpokenAsset = (
+  style: VoiceStyle, text: string, opts: Speech.SpeechOptions, forceLang?: VoiceLang,
+): boolean => {
   // Solo las variedades con banco pregenerado (es→Sharvard, gl→Celtia) buscan
   // asset; el dominicano (es-DO) usa la voz del sistema, así que assetLang() es
   // null y siempre cae a expo-speech con el locale latino.
-  const al = assetLang();
+  //
+  // `forceLang` es la excepción: la pide quien locuta un texto que NO es de la
+  // lengua de la sesión (Aventuras con Lúa, castellano en las cinco variedades)
+  // y sabe en qué idioma del corpus está horneado. Sin esto el asset se buscaba
+  // con el idioma de la sesión, no resolvía nunca y las 553 locuciones del
+  // módulo caían a la voz del sistema aun teniendo su audio de Sharvard.
+  const al = forceLang ?? assetLang();
   if (al == null) return false;
   // Solo el asset de la PROPIA variedad. Antes, si en galego no había asset se
   // reproducía el castellano con el mismo texto: como Expansión Semántica y
@@ -385,6 +445,49 @@ export const speakToChildSeq = (parts: string[], opts: Speech.SpeechOptions = {}
   sayFrom(0);
 };
 
+// ----------------------------------------------------------------------------
+// Locución de un texto que NO es de la lengua de la sesión.
+//
+// Existe por Aventuras con Lúa: sus catálogos —60 consignas, 10 cuentos, 10
+// canciones, 25 juegos— solo están en castellano, así que en una sesión en
+// galego, euskera, català o inglés hay que leer texto castellano. Eso ya se
+// intentaba pidiendo `{ language: 'es-ES' }`, y no servía por dos motivos
+// independientes, los dos arreglados aquí:
+//
+//   · el asset neuronal se buscaba con `assetLang()` (el idioma de la sesión) y
+//     las locuciones del módulo solo están en el corpus `es`: no resolvía
+//     ninguna, y las 553 caían a expo-speech teniendo su audio horneado;
+//   · y ahí `speakChain` seguía fijando la voz de la variedad activa, que en
+//     Android gana a `language`. Resultado: la voz de la sesión leyendo las
+//     palabras de otra lengua. El acento se mantenía; el idioma, no.
+//
+// `lang` es el idioma del CORPUS donde está horneado el texto; `ttsLocale`, el
+// BCP-47 con el que hay que leerlo si no hay asset.
+// ----------------------------------------------------------------------------
+export const speakToChildIn = (
+  lang: VoiceLang, ttsLocale: string, text: string, opts: Speech.SpeechOptions = {},
+) => {
+  if (trySpokenAsset('child', text, opts, lang)) return;
+  const isLong = text.trim().split(/\s+/).length > LONG_UTTERANCE_WORDS;
+  speakEngine(text, { pitch: 1.15, rate: 0.85, language: ttsLocale, ...opts }, isLong ? 0.9 : 1.3);
+};
+
+/** speakToChildSeq en lengua ajena: cada trozo resuelve su propio asset. */
+export const speakToChildSeqIn = (
+  lang: VoiceLang, ttsLocale: string, parts: string[], opts: Speech.SpeechOptions = {},
+) => {
+  const items = parts.map((p) => p.trim()).filter(Boolean);
+  if (!items.length) { opts.onDone?.(); return; }
+  const sayFrom = (i: number) => {
+    if (i >= items.length) { opts.onDone?.(); return; }
+    speakToChildIn(lang, ttsLocale, items[i], {
+      onDone: () => sayFrom(i + 1),
+      onError: (e) => { if (i + 1 >= items.length) opts.onError?.(e); else sayFrom(i + 1); },
+    });
+  };
+  sayFrom(0);
+};
+
 // Voz CLÍNICA para frases portadoras y órdenes morfosintácticas: UNA sola
 // locución continua (sin trocear por frases, sin jitter ni subidas de tono en
 // exclamaciones). Acelerar o entonar la frase desplaza la frecuencia del
@@ -409,7 +512,7 @@ export const speakClinical = (text: string, opts: Speech.SpeechOptions = {}) => 
       ...rest,
       rate: clamp(rest.rate ?? 0.8, 0.6, 0.9),   // techo bajo: nunca acelera el fonema
       pitch: clamp(rest.pitch ?? 1.0, 0.9, 1.1), // tono plano y estable
-      ...(bestVoiceId && !rest.voice ? { voice: bestVoiceId } : {}),
+      ...(pinVoice(rest) ? { voice: pinVoice(rest) } : {}),
       onDone: () => { if (token === speakToken) onDone?.(); },
       onError: (e) => { if (token === speakToken) onError?.(e); },
     });

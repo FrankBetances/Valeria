@@ -1727,6 +1727,8 @@ export const EN: UiStrings = {
     targetWord: (w: string): string => `Write the word: ${w}`,
     targetLoop: 'Follow Lúa’s path without lifting the pen',
     nextExercise: 'Next stroke →',
+    prevExercise: 'Previous stroke',
+    progress: (curr: number, total: number): string => `Stroke ${curr} of ${total}`,
     congratsTitle: 'Chalkboard complete!',
     congratsSub: 'You completed all strokes in the series with great skill.',
 

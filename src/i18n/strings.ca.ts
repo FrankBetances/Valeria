@@ -1686,6 +1686,8 @@ export const CA: UiStrings = {
     targetWord: (w: string): string => `Escriu la paraula: ${w}`,
     targetLoop: 'Segueix el camí de la Lúa sense aixecar el llapis',
     nextExercise: 'Següent traç →',
+    prevExercise: 'Traç anterior',
+    progress: (curr: number, total: number): string => `Traç ${curr} de ${total}`,
     congratsTitle: 'Pissarra completada!',
     congratsSub: 'Has completat tots els traços de la sèrie amb gran destresa.',
 

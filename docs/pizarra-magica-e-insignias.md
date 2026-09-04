@@ -75,8 +75,8 @@ mezclase una palabra suelta con una frase.
 Trazado guiado con pauta Montessori y puntos de control numerados, para el orden
 direccional que evita la inversión b/d. Tres piezas:
 [`ValeriaWritingCanvas`](../src/ValeriaWritingCanvas.tsx) (SVG + `PanResponder`),
-[`valeriaWritingBank`](../src/valeriaWritingBank.ts) (6 trazos: b, d, p, m, olas
-y bucles) y [`ValeriaWritingExerciseScreen`](../src/ValeriaWritingExerciseScreen.tsx).
+[`valeriaWritingBank`](../src/valeriaWritingBank.ts) (18 trazos: doce letras
+críticas en seis contrastes cerrados y seis lazos) y [`ValeriaWritingExerciseScreen`](../src/ValeriaWritingExerciseScreen.tsx).
 La geometría vive en [`valeriaWritingTypes`](../src/valeriaWritingTypes.ts), un
 módulo puro, para que el banco pueda entrar en el corpus de voz sin arrastrar
 react-native.

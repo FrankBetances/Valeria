@@ -99,11 +99,17 @@ export const ValeriaWritingExerciseScreen: React.FC<ValeriaWritingExerciseScreen
     }
   };
 
-  const handleNextExercise = () => {
+  // Deja el lienzo y la evaluación como al entrar. Lo comparten el paso al
+  // siguiente trazo y la vuelta al anterior.
+  const resetCanvas = () => {
     setShowCelebration(false);
     setEvaluationResult(null);
     setHasDrawn(false);
     canvasRef.current?.clear();
+  };
+
+  const handleNextExercise = () => {
+    resetCanvas();
 
     if (exerciseIndex + 1 < currentCategoryList.length) {
       setExerciseIndex(exerciseIndex + 1);
@@ -111,6 +117,15 @@ export const ValeriaWritingExerciseScreen: React.FC<ValeriaWritingExerciseScreen
       onComplete?.(30); // XP ganada
       setExerciseIndex(0);
     }
+  };
+
+  // Volver atrás sin rehacer la serie entera. Con cuatro letras se podía vivir
+  // sin esto; con doce, repetir la que acaba de salir mal obligaba a dar toda
+  // la vuelta.
+  const handlePrevExercise = () => {
+    if (exerciseIndex === 0) return;
+    resetCanvas();
+    setExerciseIndex(exerciseIndex - 1);
   };
 
   return (
@@ -166,18 +181,52 @@ export const ValeriaWritingExerciseScreen: React.FC<ValeriaWritingExerciseScreen
         {/* Tarjeta de Consigna / Objetivo */}
         {currentExercise && category !== 'free' && (
           <View style={s.instructionCard}>
+            {/* Dónde estás de la serie y cómo volver. Las series pasaron de 4 y
+                2 trazos a 12 y 6: sin contador, ni el niño ni el adulto saben
+                cuánto queda, y «Siguiente trazo» era la única forma de moverse. */}
+            <View style={s.progressRow}>
+              <Pressable
+                onPress={handlePrevExercise}
+                disabled={exerciseIndex === 0}
+                style={[s.prevBtn, exerciseIndex === 0 && s.prevBtnDisabled]}
+                hitSlop={10}
+                accessibilityRole="button"
+              >
+                {/* Misma píldora «‹ …» que la salida de la cabecera: en esta
+                    pantalla ya es el gesto de «atrás». */}
+                <Text style={[s.prevBtnTxt, exerciseIndex === 0 && s.prevBtnTxtDisabled]}>
+                  {`‹ ${t.writing.prevExercise}`}
+                </Text>
+              </Pressable>
+              <Text style={s.progressTxt}>
+                {t.writing.progress(exerciseIndex + 1, currentCategoryList.length)}
+              </Text>
+            </View>
+
             <View style={s.instructionHeader}>
+              {/* La insignia es de LETRA: un círculo de 44 px con un glifo de
+                  22. Con un lazo dentro («Caracol», «Puentes») el texto se
+                  desbordaba por los dos lados y se comía el título. Un lazo no
+                  tiene letra, así que lleva el icono de su pestaña. */}
               <View style={s.badgeLetter}>
-                <Text style={s.badgeLetterTxt}>{currentExercise.guide.label}</Text>
+                {currentExercise.category === 'critical' ? (
+                  <Text style={s.badgeLetterTxt}>{currentExercise.guide.label}</Text>
+                ) : (
+                  <BlockIcon name="move" color={V.color.primaryDark} size={22} />
+                )}
               </View>
               <View style={{ flex: 1 }}>
                 <Text style={s.instructionTitle}>{currentExercise.title}</Text>
                 <Text style={s.instructionPrompt}>{currentExercise.prompt}</Text>
               </View>
-              <Pressable onPress={handleHearModel} style={s.hearBtn} accessibilityRole="button">
-                <BlockIcon name="speaker" color={V.color.primaryDark} size={18} />
-                <Text style={s.hearBtnTxt}>{t.writing.hearModel}</Text>
-              </Pressable>
+              {/* Solo en las letras. En un lazo no hay letra que oír: el botón
+                  decía «Oír la letra» y pronunciaba «olas». */}
+              {currentExercise.category === 'critical' && (
+                <Pressable onPress={handleHearModel} style={s.hearBtn} accessibilityRole="button">
+                  <BlockIcon name="speaker" color={V.color.primaryDark} size={18} />
+                  <Text style={s.hearBtnTxt}>{t.writing.hearModel}</Text>
+                </Pressable>
+              )}
             </View>
           </View>
         )}
@@ -377,6 +426,31 @@ const s = StyleSheet.create({
     borderWidth: 1.5,
     borderColor: '#E2E8F0',
     ...V.shadow.card,
+  },
+  progressRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 10,
+  },
+  prevBtn: {
+    backgroundColor: '#E6F9F8',
+    borderWidth: 1,
+    borderColor: V.color.borderActive,
+    borderRadius: 11,
+    paddingHorizontal: 11,
+    paddingVertical: 5,
+  },
+  prevBtnDisabled: {
+    backgroundColor: '#F1F5F9',
+    borderColor: '#E2E8F0',
+  },
+  prevBtnTxt: { color: V.color.primaryDark, fontSize: 12, fontWeight: V.font.extrabold },
+  prevBtnTxtDisabled: { color: '#CBD5E1' },
+  progressTxt: {
+    fontSize: 12,
+    fontWeight: V.font.bold,
+    color: V.color.textSecondary,
   },
   instructionHeader: {
     flexDirection: 'row',

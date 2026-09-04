@@ -1787,6 +1787,8 @@ export const ES = {
     targetWord: (w: string): string => `Escribe la palabra: ${w}`,
     targetLoop: 'Sigue el camino de Lúa sin levantar el lápiz',
     nextExercise: 'Siguiente trazo →',
+    prevExercise: 'Trazo anterior',
+    progress: (curr: number, total: number): string => `Trazo ${curr} de ${total}`,
     congratsTitle: '¡Pizarra completada!',
     congratsSub: 'Has completado todos los trazos de la serie con gran destreza.',
 
