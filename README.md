@@ -116,8 +116,17 @@ cualquier dispositivo y **sin conexión**.
 Todas salen de la app corriendo, no de un diseño: las genera
 [`docs/capture-screenshots.js`](docs/capture-screenshots.js) recorriendo Expo web
 con Playwright, y por eso envejecen con el código en lugar de quedarse atrás.
-Están las 45 en [`docs/screenshots/`](docs/screenshots/) y el manual las usa
+Están las 54 en [`docs/screenshots/`](docs/screenshots/) y el manual las usa
 todas.
+
+La Pizarra Mágica tiene el suyo aparte,
+[`docs/capture-pizarra.js`](docs/capture-pizarra.js), porque el recorrido general
+no pasa por ella —y por eso se le habían colado cosas que ningún gate ve: una
+insignia de letra que se desbordaba y se comía el título, y unos puntos de
+control 30 px por encima de su curva—. Captura los 18 trazos uno a uno
+**trazándolos por sus propios waypoints**, así que sale con error si alguno deja
+de poder aprobarse siguiendo su propia guía: es captura y prueba funcional a la
+vez.
 
 <table>
 <tr>
@@ -146,6 +155,8 @@ todas.
 >   react-native-web@~0.21.0 react-dom@19.1.0 @expo/metro-runtime@~6.1.1 playwright
 > BROWSER=none npx expo start --web --port 8081 --clear
 > node docs/capture-screenshots.js
+> CHROMIUM_PATH=/opt/pw-browsers/chromium-1194/chrome-linux/chrome \
+>   OUT_DIR=docs/screenshots node docs/capture-pizarra.js   # los 18 trazos
 > ```
 
 ---
@@ -168,7 +179,7 @@ tarjeta que puede no aparecer, porque depende del aparato.
 | 💬 **Lenguaje** (7 ejercicios) | Protocolo familiar: atención conjunta, imitación, comprensión, expresión, comunicación funcional, regulación e interacción social. |
 | 🧠 **TEA** (6 ejercicios) | PRT + TCC: atención conjunta triangulada (Time Delay + Sello Doble), quiebre pragmático con consentimiento, espejo asimétrico, transición interrumpida, categorización bajo ruido y múltiples señales simultáneas. Todos los estresores son **manuales** (Panel del Adulto). |
 | 📖 **Dislexia** (6 ejercicios) | Fonología y acceso léxico: intruso fonológico auditivo puro, rastreo léxico con interferencia, síntesis fonémica rítmica (latencia 500 ms + Juez), criba de pseudopalabras (máx. 5 ensayos), rastreo visual de rotaciones b/d · p/q con mapa de misclicks y denominación rápida (RAN). |
-| ✏️ **Grafomotricidad y Escritura** (18 trazos) · [captura](docs/screenshots/40-pizarra-magica.png) | La **Pizarra Mágica de Lúa**: continuación motora de Dislexia. Trazado guiado sobre lienzo SVG con dedo o lápiz óptico, pauta Montessori regulable y **puntos de control numerados** que fijan el ORDEN del trazo, que es lo que evita la inversión b/d y p/q: en la `b` el palo baja primero y la barriga abre a la derecha; en la `d` el óvalo va antes. Doce letras críticas en seis contrastes cerrados —b↔d, p↔q, m↔n, n↔u, a↔e, s↔z, más la g contra la q: cada letra confundible tiene a su par en el mismo banco—, seis lazos de calentamiento (olas, bucles, picos, puentes, caracol y ocho tumbado, uno por destreza motora) y pizarra libre. La geometría la verifica `scripts/check-writing-bank.js`: que cada punto numerado caiga sobre el trazo y en el sentido en que se escribe es justamente lo que el typecheck no puede ver. El contenido de pantalla está **solo en castellano** de momento; lo que la pizarra PRONUNCIA sí está en las cinco variedades: los tres elogios (`escritura/elogio`) y el nombre de cada una de las 12 letras (`escritura/letra`), que hasta ahora caía a la voz del sistema. |
+| ✏️ **Grafomotricidad y Escritura** (18 trazos) · [letra](docs/screenshots/40-pizarra-magica.png) · [lazo](docs/screenshots/40b-pizarra-lazo.png) | La **Pizarra Mágica de Lúa**: continuación motora de Dislexia. Trazado guiado sobre lienzo SVG con dedo o lápiz óptico, pauta Montessori regulable y **puntos de control numerados** que fijan el ORDEN del trazo, que es lo que evita la inversión b/d y p/q: en la `b` el palo baja primero y la barriga abre a la derecha; en la `d` el óvalo va antes. Doce letras críticas en seis contrastes cerrados —b↔d, p↔q, m↔n, n↔u, a↔e, s↔z, más la g contra la q: cada letra confundible tiene a su par en el mismo banco—, seis lazos de calentamiento (olas, bucles, picos, puentes, caracol y ocho tumbado, uno por destreza motora) y pizarra libre. La geometría la verifica `scripts/check-writing-bank.js`: que cada punto numerado caiga sobre el trazo y en el sentido en que se escribe es justamente lo que el typecheck no puede ver. El contenido de pantalla está **solo en castellano** de momento; lo que la pizarra PRONUNCIA sí está en las cinco variedades: los tres elogios (`escritura/elogio`) y el nombre de cada una de las 12 letras (`escritura/letra`), que hasta ahora caía a la voz del sistema. |
 | 🎯 **Realidad Aumentada** (6 ejercicios · solo Android) | **Gamificación Condicionada**: la cámara frontal deja de grabar y pasa a ser un sensor de conducta motora, y el refuerzo 3D se dispara **solo** por el gesto objetivo, nunca por acierto acústico ni por paso del tiempo. Cinemática orofacial con el **micrófono apagado** (AR‑1), localización del sonido instrumentada —la versión con cronómetro de RA‑5— (AR‑2), selección semántica por fijación de la mirada sin motricidad fina (AR‑3), búsqueda espacial de Lúa (AR‑4), lanzamiento y captura (AR‑5) y espejo mímico (AR‑6). Sobre **ARCore**, con MediaPipe aportando los blendshapes que ARCore no da. Ningún fotograma se graba ni sale del teléfono. La tarjeta solo aparece si el teléfono supera la **Prueba de Aptitud del Dispositivo**. |
 
 El **Test de Ling** (6 sonidos) precede a los ejercicios de audición cuando el
@@ -758,9 +769,11 @@ piezas que no existían:
 
 - **Voz neuronal offline.** El audio de las **cinco variedades con banco
   pregenerado** se sintetiza en CI (nunca en el dispositivo) y viaja empaquetado
-  en el APK. El corpus enumerado son **4110 locuciones** —881 `es` · 819 `gl` ·
-  805 `en` · 858 `ca` · 747 `eu`—, **todas con asset**, y cada id se resuelve
-  contra `src/valeriaVoiceAssets.ts` (mapa generado). Una variedad **solo
+  en el APK. El corpus enumerado son **4711 locuciones** —1444 `es` · 829 `gl` ·
+  814 `en` · 868 `ca` · 756 `eu`—, y cada id se resuelve
+  contra `src/valeriaVoiceAssets.ts` (mapa generado). Que estén **todas
+  sintetizadas** no se afirma aquí: lo comprueba el gate en cada build, y esa es
+  la única fuente fiable — una cifra escrita en un README envejece sola. Una variedad **solo
   reproduce assets de su propia voz**: si falta uno, cae con elegancia a
   `expo-speech`, nunca a la voz de otra lengua (mezclar Celtia y Sharvard en el
   mismo ejercicio se oía como un salto de locutor). `es-DO` queda fuera a
@@ -1214,9 +1227,17 @@ compila la app en cada push/fusión a `main` (y en ramas `claude/**`). Con los
 secrets de firma configurados genera el APK y el **AAB firmados**; sin secrets
 solo compila el APK. El `versionCode` se deriva del número de run.
 
-Antes de compilar corren **25 chequeos** que fallan rápido. No son tests
+Antes de compilar corren **30 chequeos** que fallan rápido. No son tests
 unitarios: cada uno protege un acuerdo clínico concreto —o, en el caso del ASR,
 un dato de salud de un menor— que el typecheck y el diff no ven.
+
+> La cuenta que manda es la del workflow, no la de esta tabla. Cuando llegaron a
+> ser 25, aquí seguían escritos 15, y el build 621 murió en uno de los diez que
+> faltaban. Para no fiarse de la lista:
+> ```bash
+> grep -oP '(?<=run: )node scripts/\S+(?: --\S+)?' .github/workflows/android.yml |
+>   while read -r cmd; do $cmd >/dev/null 2>&1 || echo "FALLA: $cmd"; done
+> ```
 
 | Chequeo | Qué impide |
 | --- | --- |
@@ -1231,11 +1252,16 @@ un dato de salud de un menor— que el typecheck y el diff no ven.
 | `check-word-coverage.js` | Que la lámina encendida y la palabra puntuada vuelvan a contarse con reglas distintas. La regla llegó a estar escrita dos veces y no eran iguales: una frase podía encender las cinco láminas y recibir un «casi». Comprueba además que el recuento **sobrevive al viaje por disco** hasta la exportación |
 | `check-ui-strings.js` | Que una pantalla pinte texto literal en vez de leerlo del catálogo (EN‑2.8). Ya pasó dos veces con ficheros enteros dentro de pantallas migradas: compilan, el typecheck pasa y la app sale mitad en inglés y mitad en castellano |
 | `check-ui-lang-fallback.js` | Que un idioma de interfaz caiga a otra lengua **en silencio**. Hermano del anterior para lo que no es literal de pantalla: los catálogos de ejercicios y de Academy se elegían con `lang === 'en' ? EN : ES`, así que al entrar el catalán el adulto leía castellano bajo una cabecera catalana — sin romper el typecheck, porque el ternario acepta cualquier `UiLang`. O hay rama, o el hueco está declarado en `src/i18n/uiLangFallback.ts` y **la pantalla lo dice** |
-| `test-challenger-final-ca-integration.js` | Que el catálogo catalán pierda la paridad 1:1 con el castellano, que el selector deje de mover la variedad de los ejercicios o que alguna de las 212 funciones de interpolación reviente al ejecutarse. Existía desde la primera tanda pero **no lo corría nadie** |
+| `test-challenger-final-ca-integration.js` | Que el catálogo catalán pierda la paridad 1:1 con el castellano, que el selector deje de mover la variedad de los ejercicios o que alguna de las 223 funciones de interpolación reviente al ejecutarse. Existía desde la primera tanda pero **no lo corría nadie** |
 | `check-adult-fields.js` | Que los dos ejes de idioma se contradigan **dentro de un ejercicio**: lo que se le dice al niño va en la variedad de los ejercicios, lo que solo lee el adulto va en el idioma de la interfaz |
 | `check-variety-branches.js` | Que una variedad se quede sin su rama en un selector escrito cuando existían menos. Es el patrón exacto que produjo «la voz inglesa lee castellano», y con seis variedades hay seis formas de repetirlo |
 | `check-brand-consistency.js` | Que reaparezca la mascota retirada. La migración a Lúa se dio por terminada **tres veces** estando a medias, y la última capa que quedó fue el texto **locutado** |
 | `check-lua-mascot-mirror.js` | Que la gata de la tableta y la del aparato se separen en humor o en guardarropa. Vigila `MOOD` y `ACCESSORY`, **no** los glifos de las insignias |
+| `verify-aventuras-lua.js` | Que el módulo de Lúa vuelva a los cuatro defectos con que entró: una pregunta que el niño responde tocando y **sin ficha** (por debajo de 4 años no se lee), la pauta clínica del ADULTO locutada al niño al fallar, locuciones fuera del corpus e imprimibles vacíos. El módulo traía su propio verificador y **no estaba enchufado a ningún workflow**, así que no corría |
+| `check-lua-voice-language.js` | Que Aventuras con Lúa vuelva a leer su castellano **con la voz de la sesión** —Celtia o HiTZ pronunciando palabras castellanas—. No lo ve ningún gate de texto, porque el texto era el correcto: lo equivocado era la voz. Por eso **ejecuta** la ruta de locución con expo-speech y el reproductor de assets sustituidos por espías, y mira qué sonó |
+| `check-writing-bank.js` | Que un trazo de la Pizarra Mágica quede imposible de aprobar. El banco es **geometría**, que es lo único que el typecheck no puede ver: muestrea el path y comprueba que cada punto numerado cae sobre el trazo **y en el sentido en que se escribe** (numerar la `b` de abajo arriba enseña a trazarla al revés, que es justo lo que la pantalla combate), que no se pisan entre sí, que el modelo cabe en el móvil más estrecho, que cada contraste apunta a una letra que existe en el banco y que el nombre de cada letra está en el corpus de voz |
+| `check-no-background-audio.js` | Que la app siga sonando con la pantalla apagada o en segundo plano |
+| `check-ar-bridge-contract.js` | Que el puente nativo de Realidad Aumentada y su lado JS dejen de hablar el mismo contrato |
 | `check-lua-mute.js` | Que el firmware de Lúa gane entrada de audio, micrófono o servos. Un juguete que escucha junto a un menor no entra en una consulta |
 | `check-sensory-assets.js` | Que el módulo sensorial vuelva a ser mudo: formato, sonoridad, costura del bucle e identidad de cada estímulo |
 | `check-legal-urls.js` | Que las URLs legales declaradas en Play Console dejen de servirse. Existe por el rechazo del 19/8/2026, con el fichero intacto y el despliegue en verde |
@@ -1399,6 +1425,31 @@ toque `site/` republica el sitio; también puede lanzarse desde *Actions*.
 ---
 
 ## 🕑 Historial de versiones
+
+<details open>
+<summary><strong>V14</strong> — la pizarra triplica y Lúa deja de hablar con el acento equivocado</summary>
+
+**Lo que se ve al abrir la app:** la Pizarra Mágica pasa de **6 trazos a 18** —el
+hub lo dice en su tarjeta—, con contador «Trazo 9 de 12» y vuelta al trazo
+anterior. **Lo que se OYE** es el otro cambio, y no se ve en ninguna captura: en
+una sesión en galego, euskera, català o inglés, Aventuras con Lúa ya no suena
+con la voz de esa lengua leyendo palabras castellanas.
+
+| Qué | Cambio |
+| --- | --- |
+| **12 letras críticas** | Seis contrastes **cerrados** —b↔d, p↔q, m↔n, n↔u, a↔e, s↔z, y la g contra la q—: cada `contrastWith` apunta a una letra que también está en el banco, así que el par confundible se puede entrenar entero. Antes la `p` decía «me confundo con la q» y la q no existía. |
+| **6 lazos** | Uno por destreza motora distinta: ondulación (olas), giro continuo (bucles), inversión angular (picos), arcada con retorno (puentes), rotación de radio decreciente (caracol) y **cruce de la línea media** del cuerpo (ocho tumbado). |
+| **Navegación de la serie** | Con series de 12 y 6 en vez de 4 y 2, «Siguiente trazo» ya no basta: contador y vuelta atrás. Repetir la letra que acaba de salir mal obligaba a dar la vuelta entera. |
+| **La voz de Aventuras con Lúa** | Dos causas independientes. El asset neuronal se buscaba con el idioma de la **sesión**, y las 553 locuciones del módulo solo están en el corpus `es`: no resolvía ninguna y todas caían al motor del sistema **teniendo su audio de Sharvard ya empaquetado**. Y ahí `speakChain` seguía fijando la voz de la variedad activa, que en Android **manda sobre `language`**. Resultado: acento de una lengua sobre el léxico de otra, sobre estímulo clínico. Ahora `speakToChildIn` resuelve el asset del idioma donde el texto está horneado y `pinVoice` no impone la voz de la sesión cuando el llamante fija `language`. gl, eu, ca y en-US pasan de voz del sistema a **Sharvard neuronal, sin sintetizar un audio nuevo**. |
+| **«Oír la letra» en el corpus** | El botón que sostiene el ejercicio anti-inversión nunca estuvo enumerado: lo locutaba el motor del sistema. Entran **48 locuciones** (`escritura/letra`, 12 letras × 5 variedades menos las que ya venían de Pares Mínimos). Corpus 4663 → **4711**. |
+| **Dos gates nuevos** | `check-writing-bank.js` muestrea el path y comprueba que cada punto numerado cae sobre el trazo **y en el sentido en que se escribe** — encontró 17 problemas a la primera, **tres ya en producción**: las olas se salían del lienzo en 320 dp y sus waypoints de cresta estaban 30 px por encima de su curva, con 32 de tolerancia. `check-lua-voice-language.js` **ejecuta** la ruta de locución con espías, porque el fallo de voz no lo ve ningún gate de texto: el texto era correcto. |
+| **Lo que enseñó la captura** | Y ningún gate podía ver: las letras redondas cabían en 70×70 px con círculos de 32 y eran ilegibles (a, e, g, q y s rehechas); en un lazo, la insignia de **letra** escribía «Caracol» y se comía el título (ya pasaba con «Olas»); y «Oír la letra» se ofrecía en los lazos y pronunciaba «olas». |
+| **Captura propia de la pizarra** | `docs/capture-pizarra.js`: el recorrido general no pasaba por esta pantalla, que es exactamente por qué se le habían colado esas tres cosas. Traza los 18 por sus waypoints, así que es captura **y** prueba funcional. |
+
+> ⚠️ **No verificado en Android real**: todo lo visual está mirado en Expo web a
+> 390 px, no en dispositivo.
+
+</details>
 
 <details open>
 <summary><strong>V13</strong> — el octavo bloque suena: Integración Sensorial Auditiva</summary>
