@@ -885,9 +885,38 @@ class ValeriaArActivity : ComponentActivity() {
             delay(APTITUDE_MS)
             scene.setModel(ArModel.NONE)
 
+            // No haber medido NADA no es «este teléfono es flojo». `classify`
+            // manda a nivel D todo lo que baje de 15 fps, y un contador vacío
+            // vale 0 fps: un modelo que no carga, una cámara que no entrega un
+            // solo frame o una inferencia que nunca arranca salían del
+            // calentamiento como un veredicto sobre el aparato. Y peor, un
+            // veredicto que se cachea —la pantalla de nivel D no ofrece repetir
+            // la prueba—, así que el bloque quedaba cerrado para siempre en un
+            // teléfono perfectamente capaz. Sin muestras no se clasifica: se
+            // dice que no se pudo medir, con las cuentas al lado.
+            // Se lee UNA vez: `fpsP5()` ordena la lista del anillo y la
+            // alimenta el hilo del listener, así que dos lecturas pueden dar
+            // dos números y dejar el guardián y la sonda contando cosas
+            // distintas.
+            val fpsP5 = fpsMeter.fpsP5()
+            if (framesInferred.get() == 0L || fpsP5 <= 0f) {
+                finishWithPayload(
+                    JSONObject()
+                        .put("outcome", "unsupported")
+                        .put("reason", "NO_MEASUREMENT")
+                        .put("permanent", false)
+                        .put(
+                            "detail",
+                            "frames=${framesFromCamera.get()} inferencias=${framesInferred.get()} " +
+                                "caras=${facesSeen.get()}",
+                        ),
+                )
+                return@launch
+            }
+
             val distanceMm = distance.currentMm
             val probes = DeviceProbes(
-                fpsP5 = fpsMeter.fpsP5(),
+                fpsP5 = fpsP5,
                 thermalSlope = fpsMeter.thermalSlope(),
                 thermalStatus = AptitudeTest.thermalStatus(this@ValeriaArActivity),
                 timestampSource = AptitudeTest.cameraTimestampSource(this@ValeriaArActivity),
@@ -1455,6 +1484,9 @@ object ArProfileStore {
                 model = o.optString("model"),
                 osVersion = o.optString("osVersion"),
                 measuredAt = o.optLong("measuredAt"),
+                // Si se pierde al releer, una sesión de Modo Revisión vuelve a
+                // parecer una sesión medida en cuanto la app se reinicia.
+                review = o.optBoolean("review", false),
             )
         } catch (e: Throwable) {
             null

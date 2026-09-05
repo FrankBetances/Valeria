@@ -131,6 +131,14 @@ data class DeviceProfile(
     val model: String,
     val osVersion: String,
     val measuredAt: Long,
+    /**
+     * `true` cuando el perfil NO sale de una medida: lo instaló el Modo
+     * Revisión para poder abrir los ejercicios sin pasar por el calentamiento.
+     * Viaja sellado con la sesión, igual que el resto del perfil, porque una
+     * sesión medida con un aparato sin caracterizar no es dato del piloto y
+     * tiene que poder descartarse después sin adivinar cuál era.
+     */
+    val review: Boolean = false,
 ) {
     fun toJson(): JSONObject = JSONObject()
         .put("level", level.name)
@@ -144,6 +152,7 @@ data class DeviceProfile(
         .put("signalEngine", "mediapipe")
         .put("platform", "android")
         .put("measuredAt", measuredAt)
+        .put("review", review)
 }
 
 /**

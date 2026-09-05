@@ -117,7 +117,7 @@ if (sesion && bridge) {
 {
   const CLAVES = [
     'noticeCameraBusy', 'noticeArServicesOutdated', 'noticeArServicesMissing',
-    'noticeArServicesInstalling', 'noticeCameraDenied',
+    'noticeArServicesInstalling', 'noticeCameraDenied', 'noticeNoMeasurement',
     'notAptNoFrontCamera', 'notAptDeviceUnsupported',
   ];
   ['es', 'en', 'ca'].forEach((lang) => {
@@ -129,6 +129,46 @@ if (sesion && bridge) {
         'y el genérico no le dice al adulto qué hacer');
     });
   });
+}
+
+// ── 6. La pantalla de «no apto» no puede ser un callejón sin salida ─────────
+//
+// El nivel se CACHEA, así que una sola medida mala cierra el bloque para
+// siempre en ese teléfono. Y una medida puede salir mal sin que el aparato
+// tenga la culpa: la cámara ocupada, el rastreo que no arranca, el móvil
+// caliente. Con solo el botón de volver, un Pixel 6 quedaba fuera del bloque
+// sin manera de repetir la prueba ni de mirar por qué —el diagnóstico de
+// señales en vivo estaba únicamente en el menú, es decir, disponible solo
+// cuando ya no hace falta—.
+if (launcher) {
+  const i0 = launcher.indexOf("phase === 'notApt'");
+  const i1 = launcher.indexOf("phase === 'result'");
+  const bloque = i0 !== -1 && i1 > i0 ? launcher.slice(i0, i1) : '';
+  exigir(bloque.includes('runAptitude'),
+    'ValeriaArLauncherScreen: la pantalla de «no apto» ya no ofrece repetir la prueba. ' +
+    'El nivel se cachea: sin ese botón, una medida mala deja el bloque cerrado para ' +
+    'siempre en un teléfono que sí puede');
+  exigir(bloque.includes('openArDiagnostics'),
+    'ValeriaArLauncherScreen: la pantalla de «no apto» ya no ofrece las señales en vivo. ' +
+    'Es lo único que distingue «este teléfono no da» de «aquí no se ha medido nada»');
+}
+
+// ── 7. Una sesión de Modo Revisión no puede entrar en los datos ─────────────
+//
+// El atajo instala un perfil SINTÉTICO para poder abrir los ejercicios sin el
+// calentamiento. Si esas sesiones cruzasen a la telemetría o a la gamificación,
+// el dataset del piloto tendría filas de un aparato sin caracterizar y el niño,
+// XP de una sesión que no jugó.
+if (launcher && bridge) {
+  exigir(/review\?:\s*boolean/.test(bridge),
+    'valeriaArBridge: `ArDeviceProfile` ya no marca `review`. Sin esa marca sellada en la ' +
+    'sesión, una sesión de revisión es indistinguible de una medida de verdad');
+  exigir(/if \(!review\)\s*\{?\s*\n?\s*trackArSession/.test(launcher),
+    'ValeriaArLauncherScreen: la telemetría vuelve a registrar en Modo Revisión. Un perfil ' +
+    'sintético no es un aparato caracterizado y esas filas no son dato del piloto');
+  exigir(/!review && res\.outcome === 'completed'/.test(launcher),
+    'ValeriaArLauncherScreen: la gamificación vuelve a premiar en Modo Revisión. El XP iría ' +
+    'al expediente de un niño que no ha jugado');
 }
 
 // ── Resultado ───────────────────────────────────────────────────────────────
@@ -146,5 +186,6 @@ if (fallos.length) {
 
 console.log(
   '✓ RA (puente): resultado discriminado por `ok`, política con defecto, caché validada, ' +
-  'motivos alineados entre Kotlin y TypeScript y mensaje propio por causa en es/en/ca.',
+  'motivos alineados entre Kotlin y TypeScript, mensaje propio por causa en es/en/ca, ' +
+  '«no apto» con salida y Modo Revisión fuera de la telemetría.',
 );

@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.hardware.camera2.CameraCharacteristics
 import android.hardware.camera2.CameraManager
+import android.os.Build
 import android.content.Context
 import com.facebook.react.bridge.ActivityEventListener
 import com.facebook.react.bridge.Arguments
@@ -146,6 +147,54 @@ class ValeriaArModule(private val reactContext: ReactApplicationContext) :
     @ReactMethod
     fun hasCalibration(patientKey: String, promise: Promise) {
         promise.resolve(Calibration.load(reactContext, patientKey) != null)
+    }
+
+    /**
+     * Modo Revisión: instala un perfil SINTÉTICO en la caché nativa.
+     *
+     * Existe porque el atajo no se puede hacer solo en JS. `runExerciseFlow`
+     * lee `ArProfileStore` antes de montar nada y aborta la sesión si no hay
+     * perfil, así que una bandera de JavaScript que se saltara el calentamiento
+     * dejaría los seis ejercicios cerrándose al instante, sin un ensayo.
+     *
+     * Tres cosas lo mantienen honesto:
+     *   · nivel **C** siempre —el más bajo que todavía ofrece ejercicios—, así
+     *     que ni AR-2 instrumentado ni tres dianas: un perfil de revisión no
+     *     puede parecerse a uno publicable;
+     *   · sondas en cero, que es lo que se ha medido: nada;
+     *   · `review = true`, que viaja sellado con cada sesión y permite tirar
+     *     esas filas del dataset del piloto sin adivinar cuáles eran.
+     *
+     * No arregla una cámara ni un rastreo rotos: si el aparato no entrega
+     * señal, el ejercicio se abrirá y no medirá. Sirve para revisar el camino
+     * de las pantallas, no para dar por bueno un teléfono.
+     */
+    @ReactMethod
+    fun installReviewProfile(promise: Promise) {
+        val profile = DeviceProfile(
+            level = AptitudeLevel.C,
+            probes = DeviceProbes(
+                fpsP5 = 0f,
+                thermalSlope = 1f,
+                thermalStatus = 0,
+                timestampSource = TimestampSource.UNKNOWN,
+                clockOffsetUs = null,
+                audioJitterMs = null,
+                channelBalanceDb = null,
+                pointerRmsDeg = 0f,
+                imuAvailable = false,
+                screenWidthMm = 0f,
+                screenHeightMm = 0f,
+                achievableSeparationDeg = 0f,
+            ),
+            manufacturer = Build.MANUFACTURER ?: "?",
+            model = Build.MODEL ?: "?",
+            osVersion = "Android ${Build.VERSION.RELEASE} (API ${Build.VERSION.SDK_INT})",
+            measuredAt = System.currentTimeMillis(),
+            review = true,
+        )
+        ArProfileStore.save(reactContext, profile)
+        promise.resolve(profile.toJson().toWritableMap())
     }
 
     private fun launchActivity(

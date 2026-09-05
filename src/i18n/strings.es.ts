@@ -1468,6 +1468,18 @@ export const ES = {
     noticeDenied: 'Sin permiso de cámara no hay ejercicios de Realidad Aumentada. El resto de la app funciona igual.',
     noticeTimeout: 'El ejercicio se cerró porque la cámara dejó de ver la cara del peque. Apoya el teléfono en horizontal, a un palmo y medio de su cara y a la altura de sus ojos, y prueba otra vez.',
 
+    // No se pudo medir NADA. Es distinto de «este teléfono no da»: casi siempre
+    // es la cámara ocupada o el rastreo que no arrancó, y la acción del adulto
+    // es otra.
+    noticeNoMeasurement: 'El calentamiento terminó sin poder medir nada. Cierra las demás aplicaciones que usen la cámara, comprueba que hay luz suficiente y vuelve a intentarlo. En «Ver las señales en vivo» puedes comprobar si la cámara está entregando imagen.',
+    noticeReviewUnavailable: 'El Modo Revisión no está disponible en esta versión de la app.',
+
+    busyReview: 'Preparando el Modo Revisión…',
+    reviewBanner: 'MODO REVISIÓN · Este teléfono NO está caracterizado. Lo que hagas aquí no se registra, no cuenta para el niño y no entra en el estudio.',
+    reviewEnter: 'Modo Revisión (PIN profesional)',
+    reviewEnterA11y: 'Entrar en Modo Revisión con el PIN profesional',
+    reviewPinSubtitle: 'El Modo Revisión abre los ejercicios sin el calentamiento. No mide nada: es para revisar las pantallas, no para usar con un peque.',
+
     unsupportedTitle: 'Aquí no se puede jugar todavía',
     unsupportedBody: 'Estos ejercicios necesitan la cámara frontal y una versión de la app instalada en el teléfono (no funcionan en la vista previa de Expo Go). Los otros seis bloques de ejercicios funcionan exactamente igual de bien.',
 

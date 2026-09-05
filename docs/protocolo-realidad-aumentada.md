@@ -52,18 +52,40 @@ conviene que el adulto las oiga también de viva voz:
 
 ### 2.2 Prueba de Aptitud del Dispositivo (una vez por teléfono)
 
-90 segundos que al niño se le presentan como un juego de calentamiento con la
-osita. Devuelve un **nivel de aptitud** que decide qué se ofrece:
+90 segundos que al niño se le presentan como un juego de calentamiento con Lúa.
+Devuelve un **nivel de aptitud** que decide qué se ofrece:
 
 | Nivel | Qué se habilita | Lectura clínica |
 | --- | --- | --- |
 | **A · Instrumento** | Los seis ejercicios · AR-2 cronometrado | Este teléfono puede producir dato publicable |
-| **B · Clínico** | Los tres · AR-2 **solo como juego** | Sirve para terapia; los tiempos de AR-2 no son defendibles |
-| **C · Reducido** | AR-1 y AR-3 con **2 dianas** | El puntero tiembla demasiado para tres dianas |
+| **B · Clínico** | Los seis · AR-2 **solo como juego** | Sirve para terapia; los tiempos de AR-2 no son defendibles |
+| **C · Reducido** | Cinco (sin AR-2) · AR-3 con **2 dianas** | El puntero tiembla demasiado para tres dianas |
 | **D · No apto** | El bloque no aparece | Los otros seis bloques funcionan igual |
 
 > **Un nivel bajo no es un defecto del niño ni del centro: es una propiedad del
 > aparato.** Conviene decirlo así a la familia, porque el teléfono lo pone ella.
+
+**El nivel se guarda y no se vuelve a medir solo**, así que una medida mala
+—teléfono caliente, otra app con la cámara, rastreo que no arranca— condena al
+aparato. Por eso la pantalla de nivel D ofrece **repetir el calentamiento** y
+**ver las señales en vivo**: si ahí los contadores de *frames* o de *caras* están
+a cero, no es que el teléfono no dé, es que no se ha medido nada, y la app lo
+dice con esas palabras en vez de emitir un veredicto.
+
+### 2.2b Modo Revisión (profesional, nunca con un niño delante)
+
+Detrás del **PIN profesional**, en las pantallas de calentamiento y de nivel D.
+Instala un perfil **sintético** —nivel C, sondas en cero— para poder recorrer los
+seis ejercicios sin pasar por el calentamiento. Existe para revisar pantallas y
+copy en un aparato concreto, no para saltarse una medida que salió mal.
+
+- Una banda ámbar lo anuncia en **todas** las pantallas del modo.
+- **No registra telemetría y no da XP**: esas sesiones no son dato del piloto y
+  no entran en el expediente del niño.
+- El perfil viaja marcado con `review: true`, así que una fila que se colara se
+  puede identificar y descartar sin adivinar.
+- **No arregla nada roto**: si la cámara o el rastreo fallan, el ejercicio se
+  abre y no mide.
 
 ### 2.3 Colocación (condiciona la validez, no la comodidad)
 
@@ -286,6 +308,8 @@ nivel de aptitud y fps sostenidos.
 | Síntoma | Causa habitual | Qué hacer |
 | --- | --- | --- |
 | El bloque no aparece en el hub | Teléfono de nivel D, o permiso de cámara denegado | Nada que arreglar: los otros seis bloques funcionan igual |
+| «El calentamiento terminó sin poder medir nada» | La cámara no entregó imagen, o el rastreo facial no arrancó | Cerrar lo que use la cámara, comprobar la luz y repetir. En «Ver las señales en vivo», *frames* e *inferencias* a cero confirman la causa |
+| Sale nivel D en un teléfono claramente capaz | Medida hecha con el aparato caliente o con la cámara ocupada | Repetir el calentamiento desde esa misma pantalla. El nivel se cachea: mientras no se repita, no cambia |
 | Muchos ensayos anulados | Teléfono en la mano o mesa que se mueve | Apoyarlo contra algo firme. Si persiste, anotadlo: la tasa es un dato |
 | El puntero de AR-3 tiembla | Luz pobre, o iris en un aparato modesto | Cambiar el puntero a «Nariz» en el Panel del Adulto |
 | En AR-4 la retícula vive en el borde | Es el comportamiento correcto: la diana está fuera de pantalla | Nada. El borde señala hacia dónde girar |
