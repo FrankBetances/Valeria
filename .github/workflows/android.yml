@@ -508,6 +508,22 @@ jobs:
 
       # El AAB es el formato que exige Google Play. Solo se genera en main (cada
       # fusión) o al lanzar el workflow a mano, para no alargar los builds de PR.
+      #
+      # `--no-daemon` está aquí por el build 669 (5/9/2026), que murió en este
+      # paso con `Key org.jetbrains.kotlin.analysis.decompiler.psi.BuiltinsVirtualFileProvider
+      # duplicated` en `:expo-constants:lintVitalAnalyzeRelease`. El mismo paso
+      # había pasado en verde 87 minutos antes (#667) y volvió a pasar al
+      # relanzarlo, sobre el mismo commit: es intermitente, y el disparador es
+      # que ESTA es la SEGUNDA invocación de Gradle del job. La primera
+      # (`assembleRelease`) ya registró en el daemon los servicios del análisis
+      # de Kotlin que usa lint; cuando la caché no salva del todo a la segunda
+      # —en el intento fallido se ejecutaron 34 tareas de 663— vuelve a
+      # registrarlos y revienta. Con un JVM propio no hay nada que duplicar.
+      #
+      # Y no, las dos invocaciones NO se pueden unificar: el APK lleva
+      # `-PreactNativeArchitectures` y el AAB tiene que salir con todas las
+      # arquitecturas, y esa propiedad es global a la invocación. Juntarlas
+      # dejaría a Play sin x86/x86_64 en silencio.
       - name: Build signed release AAB
         if: env.HAS_SIGNING_SECRETS == 'true' && (env.TARGET_BRANCH == 'main' || github.event_name == 'workflow_dispatch')
         working-directory: ./android
@@ -515,7 +531,7 @@ jobs:
           RELEASE_STORE_PASSWORD: ${{ secrets.ANDROID_RELEASE_STORE_PASSWORD }}
           RELEASE_KEY_ALIAS: ${{ secrets.ANDROID_RELEASE_KEY_ALIAS }}
           RELEASE_KEY_PASSWORD: ${{ secrets.ANDROID_RELEASE_KEY_PASSWORD }}
-        run: ./gradlew bundleRelease --stacktrace
+        run: ./gradlew bundleRelease --no-daemon --stacktrace
 
       # `retention-days` recorta la retención del repositorio (7 días) SOLO hacia
       # abajo. El AAB se sube a Play Console el mismo día que se compila; a los 3
