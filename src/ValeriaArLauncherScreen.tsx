@@ -27,12 +27,13 @@ import { V, STORAGE_KEYS } from './valeriaTheme';
 import { BlockIcon } from './ValeriaBlockIcons';
 import { CatPixel } from './ValeriaCatPixel';
 import { PixelAward, streakTier } from './ValeriaPixelAwards';
-import { sha256 } from './ValeriaProPin';
+import { sha256, ProPinModal } from './ValeriaProPin';
 import { getArMeta } from './valeriaExerciseMeta';
 import { getUiLang } from './valeriaUiLang';
 import { useT } from './i18n';
 import {
   isArAvailable, runAptitudeTest, launchAr, calibrateAr, hasArCalibration, openArDiagnostics,
+  installArReviewProfile,
 } from './valeriaArBridge';
 import type {
   ArDeviceProfile, ArExerciseId, ArThresholds, ArSessionResult, ArFailureReason,
@@ -73,6 +74,7 @@ const failureNotice = (t: ArStrings, reason: ArFailureReason | null): string => 
     case 'INSTALL_DECLINED': return t.ar.noticeArServicesMissing;
     case 'INSTALL_PENDING': return t.ar.noticeArServicesInstalling;
     case 'DENIED': return t.ar.noticeCameraDenied;
+    case 'NO_MEASUREMENT': return t.ar.noticeNoMeasurement;
     default: return t.ar.noticeAptitudeFailed;
   }
 };
@@ -96,6 +98,10 @@ export const ValeriaArLauncherScreen: React.FC<{ navigation?: any }> = ({ naviga
   useEffect(() => () => cancelSessionReward(), []);
 
   const [notice, setNotice] = useState('');
+  // Modo Revisión: el perfil lo dice, no una variable aparte. Así sobrevive a
+  // un remonte de la pantalla y viaja sellado con lo que se registre.
+  const [pinOpen, setPinOpen] = useState(false);
+  const review = profile?.review === true;
   // Por qué no abrió el bloque. Se guarda para poder DECIRLO: hasta el
   // 3/9/2026 el nativo calculaba la causa exacta y la tiraba, y la pantalla
   // solo sabía ofrecer «inténtalo de nuevo».
@@ -154,6 +160,33 @@ export const ValeriaArLauncherScreen: React.FC<{ navigation?: any }> = ({ naviga
     setProfile(outcome.profile);
     setPhase(outcome.profile.level === 'D' ? 'notApt' : 'menu');
   }, [t]);
+
+  /**
+   * Modo Revisión (PIN del adulto). Instala un perfil sintético en el nativo y
+   * abre la lista de ejercicios sin el calentamiento de 25 s.
+   *
+   * Por qué con PIN y no con una bandera de build: una bandera parte el
+   * producto en dos —lo que se revisa deja de ser lo que se distribuye— y el
+   * atajo hace falta justamente en el aparato de la logopeda, con la app que
+   * tiene instalada. Y por qué no se cachea con `saveArDeviceProfile`: el modo
+   * dura lo que dure la pantalla; al volver a entrar, el bloque vuelve a pedir
+   * la medida de verdad.
+   */
+  const enterReviewMode = async () => {
+    setPinOpen(false);
+    setBusyMsg(t.ar.busyReview);
+    setPhase('busy');
+    const synthetic = await installArReviewProfile();
+    if (!synthetic) {
+      setNotice(t.ar.noticeReviewUnavailable);
+      setPhase(profile && profile.level !== 'D' ? 'menu' : 'aptitude');
+      return;
+    }
+    setProfile(synthetic);
+    setFailure(null);
+    setNotice('');
+    setPhase('menu');
+  };
 
   const updateThresholds = (t: ArThresholds) => { setThresholds(t); void saveArThresholds(t); };
 
@@ -232,7 +265,7 @@ export const ValeriaArLauncherScreen: React.FC<{ navigation?: any }> = ({ naviga
     // de la app ni del niño: casi siempre es el encuadre. Se dice en palabras
     // del adulto y con la instrucción concreta, no con un error técnico.
     if (res.outcome === 'timeout') {
-      trackArSession({ trials: res.trials, deviceProfile: res.deviceProfile, thresholds: res.thresholds });
+      if (!review) trackArSession({ trials: res.trials, deviceProfile: res.deviceProfile, thresholds: res.thresholds });
       setNotice(t.ar.noticeTimeout);
       setPhase('menu');
       return;
@@ -240,10 +273,15 @@ export const ValeriaArLauncherScreen: React.FC<{ navigation?: any }> = ({ naviga
 
     // Enrutado del dato: el nativo no persiste nada, lo hace la telemetría de
     // siempre. El perfil del dispositivo se sella con la sesión (covariable).
-    trackArSession({ trials: res.trials, deviceProfile: res.deviceProfile, thresholds: res.thresholds });
+    // Modo Revisión: ni telemetría ni gamificación. El aparato no está
+    // caracterizado, así que esos ensayos no son dato del piloto; y el XP de un
+    // recorrido de revisión iría al expediente de un niño que no ha jugado.
+    if (!review) {
+      trackArSession({ trials: res.trials, deviceProfile: res.deviceProfile, thresholds: res.thresholds });
+    }
     setResult(res);
 
-    if (res.outcome === 'completed' && res.trials.length) {
+    if (!review && res.outcome === 'completed' && res.trials.length) {
       markBlockCompleted('ar');
       // Gamificación: premia la PARTICIPACIÓN (ensayos completados sin anular),
       // no el acierto. Puntuar el rendimiento aquí sería convertir una medida
@@ -272,6 +310,29 @@ export const ValeriaArLauncherScreen: React.FC<{ navigation?: any }> = ({ naviga
 
   const noticeBar = !!notice && (
     <View style={s.notice}><Text style={s.noticeTxt}>{notice}</Text></View>
+  );
+
+  // Banda del Modo Revisión. Permanente y en todas las pantallas del modo: si
+  // se pudiera confundir un recorrido de revisión con una sesión de verdad, el
+  // atajo dejaría de ser una herramienta y sería una fuente de datos falsos.
+  const reviewBar = review && (
+    <View style={s.reviewBar}>
+      <Text style={s.reviewBarTxt}>{t.ar.reviewBanner}</Text>
+    </View>
+  );
+
+  // Puerta del Modo Revisión: el mismo PIN del adulto que abre la Edición
+  // Profesional en el resto de bloques. Nada de una bandera de build, que
+  // partiría el producto en dos y solo estaría en el teléfono equivocado.
+  const reviewGate = (
+    <>
+      <Pressable onPress={() => setPinOpen(true)} accessibilityRole="button"
+        accessibilityLabel={t.ar.reviewEnterA11y}>
+        <Text style={s.reviewLink}>{t.ar.reviewEnter}</Text>
+      </Pressable>
+      <ProPinModal open={pinOpen} onClose={() => setPinOpen(false)}
+        onUnlock={() => { void enterReviewMode(); }} subtitle={t.ar.reviewPinSubtitle} />
+    </>
   );
 
   // ---- Fases sin menú ------------------------------------------------------
@@ -353,6 +414,7 @@ export const ValeriaArLauncherScreen: React.FC<{ navigation?: any }> = ({ naviga
               accessibilityLabel={t.ar.warmupStartA11y}>
               <Text style={s.primaryBtnTxt}>{t.ar.warmupStart}</Text>
             </Pressable>
+            {reviewGate}
           </View>
         </ScrollView>
       </View>
@@ -374,8 +436,49 @@ export const ValeriaArLauncherScreen: React.FC<{ navigation?: any }> = ({ naviga
               ? <Text style={s.cardTxt}>{permanentBody(t, failure.reason)}</Text>
               : <Text style={s.cardTxt}>{t.ar.levelNote(profile?.level ?? 'D')}</Text>}
             <Text style={s.cardTxt}>{t.ar.notAptBody}</Text>
-            <Pressable onPress={() => navigation?.goBack()} style={s.primaryBtn} accessibilityRole="button">
-              <Text style={s.primaryBtnTxt}>{t.ar.notAptBack}</Text>
+
+            {/* Hasta el 5/9/2026 esta pantalla solo tenía «volver», y el nivel
+                se cachea: una medida mala —el teléfono caliente, otra app con
+                la cámara, el rastreo que no arrancó— cerraba el bloque para
+                siempre en un aparato capaz, sin manera de repetirla ni de mirar
+                por qué. Se repite SOLO cuando la causa no es permanente: con la
+                cámara frontal fuera de la RA, repetir es mandar al adulto a un
+                calentamiento que no puede terminar nunca. */}
+            {!failure && (
+              <Pressable onPress={runAptitude} style={s.primaryBtn} accessibilityRole="button"
+                accessibilityLabel={t.ar.warmupRedoA11y}>
+                <Text style={s.primaryBtnTxt}>{t.ar.warmupRedo}</Text>
+              </Pressable>
+            )}
+
+            {/* Las señales en vivo son lo único que distingue «este teléfono no
+                da» de «aquí no se ha medido nada»: frames, inferencias y caras
+                a la vista. Estaban solo en el menú, es decir, disponibles justo
+                cuando no hacen falta. */}
+            <Pressable onPress={() => { void openArDiagnostics(); }} style={s.proTool}
+              accessibilityRole="button" accessibilityLabel={t.ar.liveSignalsA11y}>
+              <BlockIcon name="chart" color={V.color.primaryDark} size={17} />
+              <View style={{ flex: 1 }}>
+                <Text style={s.proToolTitle}>{t.ar.liveSignals}</Text>
+                <Text style={s.proToolSub}>{t.ar.liveSignalsSub}</Text>
+              </View>
+              <Text style={s.exGo}>›</Text>
+            </Pressable>
+
+            {/* Un teléfono que no llega es exactamente lo que el censo de la
+                Fase 0 necesita saber, así que compartir el perfil vale aquí
+                más que en el menú. */}
+            {!!profile && (
+              <Pressable onPress={shareDeviceProfile} accessibilityRole="button"
+                accessibilityLabel={t.ar.shareProfileA11y}>
+                <Text style={s.notAptLink}>{t.ar.shareProfile}</Text>
+              </Pressable>
+            )}
+
+            {reviewGate}
+
+            <Pressable onPress={() => navigation?.goBack()} accessibilityRole="button">
+              <Text style={s.cancel}>{t.ar.notAptBack}</Text>
             </Pressable>
             {/* Código técnico, no mensaje: es lo que una logopeda puede leerle
                 por teléfono a soporte sin capturar un bugreport de 101 MB. */}
@@ -465,6 +568,7 @@ export const ValeriaArLauncherScreen: React.FC<{ navigation?: any }> = ({ naviga
       <View style={s.flex}>
         {header(t.ar.sessionDone, meta?.name ?? t.ar.title)}
         <ScrollView contentContainerStyle={s.scroll}>
+          {reviewBar}
           {reward && (
             <View style={s.rewardCard}>
               <Text style={s.rewardXp}>+{reward.xpGained} XP</Text>
@@ -499,6 +603,7 @@ export const ValeriaArLauncherScreen: React.FC<{ navigation?: any }> = ({ naviga
     <View style={s.flex}>
       {header(t.ar.title, t.ar.subLevel(t.ar.levelLabel(profile.level)))}
       <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
+        {reviewBar}
         {noticeBar}
 
         <View style={s.levelCard}>
@@ -600,6 +705,19 @@ const s = StyleSheet.create({
   levelTxt: { fontSize: 11.5, fontWeight: '600', color: '#2c5382', lineHeight: 16, marginTop: 5 },
   levelActions: { flexDirection: 'row', flexWrap: 'wrap', gap: 16, marginTop: 9 },
   levelRedo: { fontSize: 12, fontWeight: '800', color: V.color.primaryDark },
+
+  // Modo Revisión. Ámbar y a todo lo ancho a propósito: tiene que ser
+  // imposible mirar una de estas pantallas y creer que es una sesión medida.
+  reviewBar: { backgroundColor: '#3a2a06', borderRadius: 13, paddingVertical: 11, paddingHorizontal: 13, marginBottom: 14 },
+  reviewBarTxt: { fontSize: 12, fontWeight: '800', color: '#ffd479', lineHeight: 17, letterSpacing: 0.2 },
+  notAptLink: { fontSize: 13, fontWeight: '800', color: V.color.primaryDark, textAlign: 'center', marginTop: 16 },
+  // La puerta de revisión es una herramienta profesional, no una salida más:
+  // separada por una línea y en el tono más bajo de la pantalla, para que una
+  // familia no la lea como una alternativa a repetir la medida.
+  reviewLink: {
+    fontSize: 11.5, fontWeight: '700', color: V.color.textSecondary, textAlign: 'center',
+    marginTop: 18, paddingTop: 14, borderTopWidth: 1, borderTopColor: V.color.border, opacity: 0.8,
+  },
 
   proTool: { flexDirection: 'row', alignItems: 'center', gap: 11, backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.border, borderRadius: 14, padding: 13, marginTop: 4, ...V.shadow.card },
   proToolTitle: { fontSize: 13.5, fontWeight: '800', color: V.color.textPrimary },

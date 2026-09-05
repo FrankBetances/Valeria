@@ -1417,6 +1417,15 @@ export const EN: UiStrings = {
     noticeDenied: 'Without camera permission there are no Augmented Reality exercises. The rest of the app works exactly the same.',
     noticeTimeout: 'The exercise closed because the camera lost sight of your child\u2019s face. Prop the phone up in landscape, about a foot from their face and at eye level, and try again.',
 
+    noticeNoMeasurement: 'The warm-up finished without measuring anything. Close any other app using the camera, check there is enough light and try again. \u201CSee the live signals\u201D shows whether the camera is delivering any image at all.',
+    noticeReviewUnavailable: 'Review Mode is not available in this build of the app.',
+
+    busyReview: 'Preparing Review Mode\u2026',
+    reviewBanner: 'REVIEW MODE \u00b7 This phone has NOT been characterised. Nothing you do here is recorded, it does not count for the child and it does not enter the study.',
+    reviewEnter: 'Review Mode (professional PIN)',
+    reviewEnterA11y: 'Enter Review Mode with the professional PIN',
+    reviewPinSubtitle: 'Review Mode opens the exercises without the warm-up. It measures nothing: it is for reviewing the screens, not for use with a child.',
+
     unsupportedTitle: 'These games cannot run here yet',
     unsupportedBody: 'These exercises need the front camera and a version of the app installed on the phone (they do not work in the Expo Go preview). The other six exercise blocks work exactly as well.',
 

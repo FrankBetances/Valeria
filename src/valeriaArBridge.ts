@@ -115,6 +115,12 @@ export interface ArDeviceProfile {
   signalEngine: 'mediapipe' | 'arkit';
   platform: string;
   measuredAt: number;
+  /**
+   * `true` si el perfil NO sale de una medida: lo instaló el Modo Revisión para
+   * abrir los ejercicios sin el calentamiento. Viaja sellado con la sesión, que
+   * es lo que permite tirar esas filas del dataset del piloto después.
+   */
+  review?: boolean;
 }
 
 /** Campos comunes a todo ensayo de AR, sea del ejercicio que sea. */
@@ -245,6 +251,13 @@ export interface ArSessionResult {
  */
 export type ArFailureReason =
   | 'DEVICE_NOT_SUPPORTED'
+  /**
+   * La prueba corrió entera y no reunió NI UNA muestra de fps. No es un
+   * teléfono lento: es un rastreo que no arrancó. Se separa de los demás
+   * motivos porque el aparato puede estar perfectamente sano y la acción del
+   * adulto es otra —cerrar lo que tenga la cámara, mirar las señales en vivo—.
+   */
+  | 'NO_MEASUREMENT'
   | 'INSTALL_DECLINED'
   | 'APK_TOO_OLD'
   | 'NO_FRONT_CAMERA'
@@ -285,6 +298,8 @@ interface ArNativeModule {
   calibrate: (patientKey: string, pointerSource: ArPointerSource) => Promise<{ rmsPx: number; rmsDeg: number }>;
   hasCalibration: (patientKey: string) => Promise<boolean>;
   openDiagnostics: () => Promise<unknown>;
+  /** Modo Revisión. Devuelve el perfil sintético que acaba de instalar. */
+  installReviewProfile?: () => Promise<unknown>;
 }
 
 let Native: ArNativeModule | null = null;
@@ -390,6 +405,34 @@ export async function openArDiagnostics(): Promise<boolean> {
     return true;
   } catch (e) {
     return false;
+  }
+}
+
+/**
+ * Modo Revisión: instala un perfil SINTÉTICO —nivel C, sondas en cero,
+ * `review: true`— para poder recorrer los ejercicios sin pasar por los 25 s de
+ * calentamiento, y sin fingir que el aparato está caracterizado.
+ *
+ * Tiene que pasar por el nativo, no vale con un objeto en JS: el host lee su
+ * propia caché de perfil antes de montar la escena y aborta la sesión si no la
+ * encuentra, así que un atajo solo de JavaScript abriría seis ejercicios que se
+ * cierran al instante y sin un ensayo.
+ *
+ * No arregla nada roto: si la cámara o el rastreo fallan, el ejercicio se abre
+ * y no mide.
+ */
+export async function installArReviewProfile(): Promise<ArDeviceProfile | null> {
+  if (!Native || typeof Native.installReviewProfile !== 'function') return null;
+  try {
+    const raw = await Native.installReviewProfile();
+    // Misma disciplina que la Prueba de Aptitud: un perfil sin `level` no es un
+    // perfil, y aguas abajo decide qué ejercicios se ofrecen.
+    if (raw && typeof raw === 'object' && typeof (raw as ArDeviceProfile).level === 'string') {
+      return raw as ArDeviceProfile;
+    }
+    return null;
+  } catch (e) {
+    return null;
   }
 }
 

@@ -1376,6 +1376,15 @@ export const CA: UiStrings = {
     noticeDenied: 'Sense permís de càmera no hi ha exercicis de Realitat Augmentada. La resta de l\'aplicació funciona igual.',
     noticeTimeout: 'L\'exercici s\'ha tancat perquè la càmera ha deixat de veure la cara de l\'infant. Recolza el telèfon en horitzontal, a un pam i mig de la seva cara i a l\'alçada dels seus ulls, i prova-ho una altra vegada.',
 
+    noticeNoMeasurement: 'L\'escalfament ha acabat sense poder mesurar res. Tanca les altres aplicacions que facin servir la càmera, comprova que hi ha prou llum i torna-ho a provar. A «Veure els senyals en directe» pots comprovar si la càmera lliura imatge.',
+    noticeReviewUnavailable: 'El Mode Revisió no està disponible en aquesta versió de l\'aplicació.',
+
+    busyReview: 'Preparant el Mode Revisió…',
+    reviewBanner: 'MODE REVISIÓ · Aquest telèfon NO està caracteritzat. El que facis aquí no es registra, no compta per a l\'infant i no entra a l\'estudi.',
+    reviewEnter: 'Mode Revisió (PIN professional)',
+    reviewEnterA11y: 'Entrar al Mode Revisió amb el PIN professional',
+    reviewPinSubtitle: 'El Mode Revisió obre els exercicis sense l\'escalfament. No mesura res: serveix per revisar les pantalles, no per fer-lo servir amb un infant.',
+
     unsupportedTitle: 'Aquí no es pot jugar encara',
     unsupportedBody: 'Aquests exercicis necessiten la càmera frontal i una versió de l\'aplicació instal·lada al telèfon (no funcionen a la vista prèvia d\'Expo Go). Els altres sis blocs d\'exercicis funcionen exactament igual de bé.',
 
