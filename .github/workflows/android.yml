@@ -76,14 +76,29 @@ on:
     types: [completed]
   workflow_dispatch:
 
-# Un build por rama, y siempre el ÚLTIMO. Sin esto, cada push encola un build
-# completo (npm ci + 9 gates + typecheck + NDK + prebuild + Gradle) y varios
-# empujones seguidos saturan la cola: los runs lanzados a mano desde el botón
-# "Run workflow" quedan esperando detrás y parece que no se genera nada.
-# `cancel-in-progress` descarta el build en curso cuando llega un commit más
-# nuevo a la misma rama, que es el que interesa de todos modos.
+# Un build por rama Y POR EVENTO, y siempre el ÚLTIMO. Sin esto, cada push
+# encola un build completo (npm ci + 30 gates + typecheck + NDK + prebuild +
+# Gradle) y varios empujones seguidos saturan la cola: los runs lanzados a mano
+# desde el botón "Run workflow" quedan esperando detrás y parece que no se
+# genera nada. `cancel-in-progress` descarta el build en curso cuando llega un
+# commit más nuevo a la misma rama, que es el que interesa de todos modos.
+#
+# `github.event_name` entra en el grupo por lo que pasó con `de1634b` (4/9/2026):
+# el grupo era solo la rama, así que un "Run workflow" lanzado a mano DOS MINUTOS
+# después del push mató el build del push cuando ya llevaba los 30 gates y el
+# typecheck en verde y estaba dentro del `assembleRelease`. Ese run queda como
+# `cancelled`, y GitHub resume el commit con la peor conclusión de sus checks:
+# `main` sale con una X roja en la app móvil teniendo el APK y el AAB compilados
+# por el run manual. No es un fallo, pero se lee igual que uno, y una X que no
+# significa nada es la que hace que la siguiente sí pase desapercibida.
+#
+# Separar los carriles no dispara builds de más por sí solo: en `main` el push ya
+# compila APK y AAB firmados, así que el disparo manual sobre el mismo commit era
+# duplicado antes y lo sigue siendo — lo único que cambia es que ahora los dos
+# terminan en vez de que el manual se coma al del push. Entre pushes de la misma
+# rama se sigue cancelando el viejo, que es lo que protege la cola.
 concurrency:
-  group: android-${{ github.ref }}
+  group: android-${{ github.ref }}-${{ github.event_name }}
   cancel-in-progress: true
 
 # `actions: write` es lo único que se añade sobre el permiso de lectura, y es
