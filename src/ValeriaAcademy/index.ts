@@ -4,7 +4,7 @@
 export { ValeriaAcademyScreen, default } from './ValeriaAcademyScreen';
 export { AcademyHubCard } from './AcademyHubCard';
 export { AcademyDomainCard } from './AcademyDomainCard';
-export { AcademyPriorityFeed } from './AcademyPriorityFeed';
+export { AcademyNextStep } from './AcademyNextStep';
 export { HipoacusiaBottomSheet } from './HipoacusiaBottomSheet';
 export {
   EarAnatomySvg,

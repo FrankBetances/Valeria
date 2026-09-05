@@ -535,7 +535,7 @@ async function main() {
   }
   extractSignatures(sourceFile);
 
-  runTest('TEST-4.3: Dynamic AST-Driven Execution of all 223 Interpolation Functions in CA', () => {
+  runTest('TEST-4.3: Dynamic AST-Driven Execution of all 224 Interpolation Functions in CA', () => {
     let funcCount = 0;
     const knownKeys = {
       'ficha.genderLabel': 'Niña',
@@ -603,7 +603,7 @@ async function main() {
       }
     }
 
-    assert.strictEqual(funcCount, 223, 'Successfully tested all 223 interpolation functions across catalogs');
+    assert.strictEqual(funcCount, 224, 'Successfully tested all 224 interpolation functions across catalogs');
   });
 
   // ──────────────────────────────────────────────────────────────────────────

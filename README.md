@@ -1897,8 +1897,9 @@ trazabilidad completa está en
   `eu‑ES` con recaída `es‑ES` + pliegue de la ⟨h⟩ muda (`foldBasque`).
 - **Academy multidominio** (`src/ValeriaAcademy/`): cinco dominios (Lenguaje,
   Hipoacusia, Dislalias, Dislexia y TEA), cada uno con su escala de niveles e
-  insignias, más un **feed de prioridad** según la patología de la ficha y
-  micro‑guías de hardware (audífono/implante/osteointegrado) en Hipoacusia.
+  insignias, más una tarjeta de **siguiente paso** —una sola cápsula, la que toca
+  ahora— según la patología de la ficha, y micro‑guías de hardware
+  (audífono/implante/osteointegrado) en Hipoacusia.
 - **Manual de casos de uso v9**: HTML, DOCX y PDF actualizados a los seis
   bloques, las cuatro variedades y Academy multidominio.
 

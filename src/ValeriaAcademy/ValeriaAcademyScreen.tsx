@@ -1,7 +1,7 @@
 // ============================================================================
 // Valeria+ · Academy — Pantalla principal (V2.0 · HUB MULTIDOMINIO)
 // Vistas internas (sin anidar navegación profunda):
-//   'hub'   → Feed de Prioridad + grid/stack de 5 Tarjetas de Dominio.
+//   'hub'   → Siguiente paso (1 cápsula) + stack de Tarjetas de Dominio.
 //   'list'  → catálogo de cápsulas de UN dominio.
 //   'read'  → lectura por diapositivas de la cápsula.
 //   'quiz'  → validación ágil (micro-quiz con feedback inmediato).
@@ -23,7 +23,7 @@ import {
 } from './academyStore';
 import { AcademyBadge, AcademyCapsule, AcademyDomain } from './academyTypes';
 import { AcademyDomainCard } from './AcademyDomainCard';
-import { AcademyPriorityFeed } from './AcademyPriorityFeed';
+import { AcademyNextStep } from './AcademyNextStep';
 import { HipoacusiaBottomSheet } from './HipoacusiaBottomSheet';
 import { SignAlphabetChart, SignFigure } from './AcademySignosSvg';
 import { BlockIcon } from '../ValeriaBlockIcons';
@@ -101,7 +101,10 @@ export const ValeriaAcademyScreen: React.FC<{ navigation: any }> = ({ navigation
               <CatPixel size={54} pose="head" />
             </View>
           </View>
-          <Text style={s.headerSub}>{t.academy.headerSub}</Text>
+          {/* El reclamo es para quien llega por primera vez. A quien ya ha
+              leído una cápsula le ocupaba dos líneas de cabecera para contarle
+              lo que ya sabe, y empujaba el catálogo fuera de la pantalla. */}
+          {summary.completedCount === 0 && <Text style={s.headerSub}>{t.academy.headerSub}</Text>}
           {/* El contenido formativo no existe todavía en todos los idiomas de
               interfaz (ver src/i18n/uiLangFallback.ts). Cuando se sirve en otro,
               se DICE aquí: media Academy en catalán y media en castellano sin
@@ -116,12 +119,14 @@ export const ValeriaAcademyScreen: React.FC<{ navigation: any }> = ({ navigation
             </View>
             <Text style={s.hProgressTxt}>{t.academy.progressTxt(summary.completedCount, summary.totalCount, pct)}</Text>
           </View>
+          {/* XP e insignias en una línea de texto, no en dos píldoras con borde:
+              es un marcador, no un botón, y con la píldora parecía pulsable. */}
           <View style={s.gameRow}>
-            <View style={s.gameChip}><Text style={s.gameChipTxt}>{t.academy.xpTxt(summary.xp)}</Text></View>
-            <View style={s.gameChip}><BlockIcon name="level" color="#ffffff" size={13} /><Text style={s.gameChipTxt}>{t.academy.badgesTxt(summary.badgeCount)}</Text></View>
+            <BlockIcon name="level" color="rgba(255,255,255,.9)" size={13} />
+            <Text style={s.gameTxt}>{t.academy.xpTxt(summary.xp)} · {t.academy.badgesTxt(summary.badgeCount)}</Text>
           </View>
 
-          <AcademyPriorityFeed onOpenCapsule={openCapsule} refreshKey={refreshKey} />
+          <AcademyNextStep onOpenCapsule={openCapsule} refreshKey={refreshKey} />
         </View>
 
         <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
@@ -487,9 +492,8 @@ const s = StyleSheet.create({
   hProgressTrack: { flex: 1, height: 8, borderRadius: 5, backgroundColor: 'rgba(255,255,255,.28)', overflow: 'hidden' },
   hProgressFill: { height: 8, borderRadius: 5, backgroundColor: '#fff' },
   hProgressTxt: { color: '#fff', fontSize: 12, fontWeight: '800' },
-  gameRow: { flexDirection: 'row', gap: 8, marginTop: 12, flexWrap: 'wrap' },
-  gameChip: { flexDirection: 'row', alignItems: 'center', gap: 6, backgroundColor: 'rgba(255,255,255,.18)', borderWidth: 1, borderColor: 'rgba(255,255,255,.32)', borderRadius: 11, paddingHorizontal: 11, paddingVertical: 6 },
-  gameChipTxt: { color: '#fff', fontSize: 12, fontWeight: '800' },
+  gameRow: { flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 8 },
+  gameTxt: { color: 'rgba(255,255,255,.92)', fontSize: 12, fontWeight: '800' },
 
   scroll: { padding: 18, paddingBottom: 28 },
   listLabel: { fontSize: 12, fontWeight: '800', color: V.color.textSecondary, letterSpacing: 0.5, marginBottom: 12, marginHorizontal: 2 },
