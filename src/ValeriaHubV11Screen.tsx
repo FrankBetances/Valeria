@@ -28,8 +28,9 @@ import { V, STORAGE_KEYS } from './valeriaTheme';
 import { BLOCKS, BLOCK_ORDER, BlockKey } from './valeriaBlocks';
 import { WRITING_EXERCISES } from './valeriaWritingBank';
 import { AR_META } from './valeriaExerciseMeta';
-import { MINIMAL_PAIRS } from './valeriaMinimalPairs';
-import { DAILY_SCENARIOS } from './valeriaSemanticExpansion';
+import { pairsForLocale } from './valeriaPairBanks';
+import { semanticForLocale } from './valeriaSemanticBanks';
+import { getLocale } from './valeriaLocale';
 import { ValeriaBlockTile } from './ValeriaBlockTile';
 import { BlockIcon, BlockIconName } from './ValeriaBlockIcons';
 import { ValeriaAwardsSheet } from './ValeriaAwardsSheet';
@@ -174,14 +175,20 @@ export const ValeriaHubV11Screen: React.FC<{ navigation: any }> = ({ navigation 
       meta: t.hub.luaBadge(LUA_ACTIVITY_COUNT),
       onPress: () => navigation.navigate('AventurasLuaHub'),
     },
+    // Los dos contadores van por VARIEDAD, no por el banco castellano. Decían
+    // «15 pares» en cualquier lengua: en euskera había 5 detrás de esa tarjeta y
+    // en galego 13. El número que promete la tarjeta y el que hay dentro tienen
+    // que ser el mismo, y esto no lo caza `check-variety-branches` —no hay un
+    // `*_GL` a la vista, solo el banco base importado— ni el typecheck. Se vio
+    // mirando una captura de la app en galego (6/9/2026).
     {
       key: 'pairs', desc: t.hub.pairsBrief, icon: 'pairs', title: t.hub.pairsTitle, hint: t.hub.pairsSub, a11y: t.hub.pairsA11y,
-      bg: '#ede4fc', fg: '#7c4fd0', meta: t.hub.pairsBadge(MINIMAL_PAIRS.length),
+      bg: '#ede4fc', fg: '#7c4fd0', meta: t.hub.pairsBadge(pairsForLocale(getLocale()).length),
       onPress: () => navigation.navigate('MinimalPairs'),
     },
     {
       key: 'semantic', desc: t.hub.semanticBrief, icon: 'semantic', title: t.hub.semanticTitle, hint: t.hub.semanticSub, a11y: t.hub.semanticA11y,
-      bg: '#d6f5f2', fg: V.color.primaryDark, meta: t.hub.semanticBadge(DAILY_SCENARIOS.length),
+      bg: '#d6f5f2', fg: V.color.primaryDark, meta: t.hub.semanticBadge(semanticForLocale(getLocale()).scenarios.length),
       onPress: () => navigation.navigate('SemanticExpansion'),
     },
     {

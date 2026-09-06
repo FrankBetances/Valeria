@@ -60,10 +60,10 @@ que ya existe para el castellano.
 
 | Banco | Pares | Grupos fonológicos |
 | --- | --- | --- |
-| castellano | 16 | 6 (Rotacismo, Sigmatismo, Velares, Labiodental, Nasales, Laterales) |
+| castellano | 15 | 6 (Rotacismo, Sigmatismo, Velares, Labiodental, Nasales, Laterales) |
 | català | 12 | 8 (propios: sonoritat sibilant, xeix i ge, obertura vocàlica, lateral palatal) |
 | en-US | 9 | 7 (propios) |
-| **galego** | **7** | **4** (Rotacismo, Sigmatismo, Velares, Labiodental) |
+| **galego** | **7** → **13** (sept/2026) | **4** → **8** |
 | euskera | 5 | 2 |
 
 Faltan **Nasales** y **Laterales**, que ya están en la lista castellana que el

@@ -298,9 +298,17 @@ const s = StyleSheet.create({
   hint: { fontSize: 11, color: V.color.textSecondary, marginTop: 5, fontWeight: '600' },
 
   segment: { flex: 1, alignItems: 'center', paddingVertical: 11, borderRadius: 12, backgroundColor: V.color.pageBg, borderWidth: 1, borderColor: '#eef2f1' },
-  // Seis variedades no caben en una fila: los chips de lengua se ajustan al
-  // texto y envuelven, en vez de repartirse el ancho como los dos de género.
-  segmentChip: { flex: 0, paddingHorizontal: 14, paddingVertical: 9 },
+  // Seis variedades no caben en una fila. `flex: 0` NO vale para soltarlas del
+  // reparto: en React Native Web equivale a flexBasis 0%, así que los seis chips
+  // colapsaban a la anchura del padding y los rótulos se pisaban unos a otros
+  // —«CastellanGalegominicEuskarEnglishCatalà»—. Se ven en la captura del
+  // 6/9/2026 y no lo caza ningún gate: hay que mirarlo. Las tres propiedades por
+  // separado sí dimensionan cada chip a su texto, y con flexWrap caen en dos
+  // filas.
+  segmentChip: {
+    flexGrow: 0, flexShrink: 0, flexBasis: 'auto',
+    paddingHorizontal: 14, paddingVertical: 9,
+  },
   segmentOn: { backgroundColor: V.color.primary, borderColor: V.color.primary, ...V.shadow.button },
   segmentTxt: { fontSize: 14, fontWeight: '800' },
 

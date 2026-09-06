@@ -833,7 +833,7 @@ piezas que no existían:
   qué es error— está fijada en [`docs/guia-dialectal-es-DO.md`](docs/guia-dialectal-es-DO.md),
   regla bloqueante del piloto.
 - **Bancos de pares mínimos por variedad**: castellano
-  (`src/valeriaMinimalPairs.ts`, 16 pares), gallego
+  (`src/valeriaMinimalPairs.ts`, 15 pares), gallego
   (`src/valeriaMinimalPairsGl.ts`, **13 pares en 8 grupos**) y dominicano
   (`src/valeriaMinimalPairsEsDO.ts`, 8 pares construidos solo donde el contraste
   es estable en RD).
