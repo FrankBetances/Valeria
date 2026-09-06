@@ -3,10 +3,10 @@
 // Punto único donde la variedad activa decide qué banco de pares usa la
 // pantalla, sin duplicar lógica de pantalla:
 //   'es'    → banco castellano peninsular (con distinción s/θ donde aplica).
-//   'gl'    → banco galego (Proxecto Nós): 13 pares en 8 grupos. Los siete
-//             primeros, aprobados para producción (jul 2026); los seis de
-//             contrastes propios (/ʃ/, abertura vocálica, /ʎ/, nasales),
-//             pendientes de validación logopédica.
+//   'gl'    → banco galego (Proxecto Nós): 13 pares en 8 grupos, todos
+//             aprobados para producción. Los siete primeros desde jul 2026; los
+//             seis de contrastes propios (/ʃ/, abertura vocálica, /ʎ/, nasales),
+//             validados por ACOPROS en sept/2026.
 //   'es-DO' → banco dominicano (Quisqueya Habla, borrador: sin seseo ni codas
 //             líquidas — ver valeriaMinimalPairsEsDO).
 //   'ca'    → banc català (pla ca-ES): contrastos propis del català central,
@@ -20,15 +20,28 @@ import { MINIMAL_PAIRS_ESDO } from './valeriaMinimalPairsEsDO';
 import { MINIMAL_PAIRS_EU } from './valeriaMinimalPairsEu';
 import { MINIMAL_PAIRS_EN, PAIR_GROUPS_EN } from './valeriaMinimalPairsEn';
 import { MINIMAL_PAIRS_CA, PAIR_GROUPS_CA } from './valeriaMinimalPairsCa';
-import { Locale } from './valeriaLocale';
+import { GalicianDialect, Locale, getGalicianDialect } from './valeriaLocale';
 
-export function pairsForLocale(loc: Locale): MinimalPair[] {
-  return loc === 'gl' ? MINIMAL_PAIRS_GL
+export function pairsForLocale(
+  loc: Locale,
+  glDialect: GalicianDialect = getGalicianDialect(),
+): MinimalPair[] {
+  const banco = loc === 'gl' ? MINIMAL_PAIRS_GL
     : loc === 'es-DO' ? MINIMAL_PAIRS_ESDO
       : loc === 'eu' ? MINIMAL_PAIRS_EU
         : loc === 'en-US' ? MINIMAL_PAIRS_EN
           : loc === 'ca' ? MINIMAL_PAIRS_CA
             : MINIMAL_PAIRS;
+  // Con un niño SESEANTE, el par que mide /s/–/θ/ sale del banco: allí ese
+  // contraste no existe y puntuarlo mide de dónde es, no cómo habla. Es lo
+  // mismo que el banco dominicano hace de raíz (excluye casa/caza) y lo que el
+  // catalán hace con /b/–/v/ por betacismo; aquí no se puede hacer de raíz
+  // porque el oriente gallego SÍ distingue, así que se decide por paciente.
+  // `region` deja de ser solo un rótulo y pasa a tener efecto.
+  if (loc === 'gl' && glDialect === 'seseo') {
+    return banco.filter((p) => p.region !== 'distincion');
+  }
+  return banco;
 }
 
 // Secciones del listado de pares. Hasta el inglés bastaba con PAIR_GROUPS: los

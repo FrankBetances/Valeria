@@ -172,7 +172,7 @@ tarjeta que puede no aparecer, porque depende del aparato.
 | Bloque | Para qué sirve |
 | --- | --- |
 | 🎧 **Integración Sensorial Auditiva** (6 actividades) | Desensibilización sistemática para sobre-responsividad acústica (SOR). El adulto elige el estímulo, la intensidad relativa (1-5) y la duración (3, 7 o 15 s) **antes** de ceder el aparato; el niño lo dispara con su propio botón y puede pararlo en cualquier momento sin perder progreso. Once estímulos **sintetizados en el repositorio** —ocho aparatos y alertas, y tres ambientes: aula, centro comercial y calle con obras— por `scripts/generate-sensory-assets.js`: ni una grabación de terceros, ni una licencia que revisar. Las seis actividades están abiertas y **cuáles practica la familia lo decide el logopeda con el PIN profesional**, igual que en los demás bloques prescribibles; comparten el muro adulto: cada una llega configurada con su estímulo, su intensidad y su duración de partida (ISA-02 arranca el sonido con la cuenta atrás; ISA-05 y ISA-06 abren en ambiente de aula). Lúa acompaña muda y quieta, en la tableta y en el cristal del aparato. |
-| 🐱 **Aventuras con Lúa** (105 actividades) · [captura](docs/screenshots/43-aventuras-lua-ficha.png) | El material de *Lúa y las Palabras* llevado a la app, en tres secciones y seis franjas de edad (0‑2 · 2‑3 · 3‑4 · 4‑5 · 5‑7 · 7‑10): **25 juegos de selección** (memorama, imagen‑palabra, cazador de sonidos, secuencias, clasificación, atención, completar palabra, pistas progresivas), **60 preguntas** del banco por edad, **10 cuentos** universales con comprensión y vocabulario ilustrado ([captura](docs/screenshots/50-aventuras-lua-cuento-ilustrado.png)), y **10 canciones** de ritmo y praxias. El léxico sale de la *Matriz de Contenidos por Edad*: mango, lechosa, chinola, guineo, coco, la palma, el coquí, la tambora. Cada ítem distingue lo que **toca el niño** (opciones con pictograma del banco propio, porque por debajo de 4 años no se lee) de lo que **observa el adulto** (hoja de registro, que no se locuta). Al fallar suena una devolución dirigida al niño, nunca la pauta clínica del terapeuta. Contenido de pantalla y locución **solo en castellano** de momento, y eso incluye la VOZ: en una sesión en galego, euskera, català o inglés el módulo suena con Sharvard (el banco castellano pregenerado), no con la voz de la variedad. Hasta el 4/9/2026 sonaba al revés —Celtia o HiTZ pronunciando palabras castellanas—, que sobre un estímulo clínico de discriminación es fonética equivocada. Lo sujeta `scripts/check-lua-voice-language.js`. |
+| 🐱 **Aventuras con Lúa** (105 actividades) · [captura](docs/screenshots/43-aventuras-lua-ficha.png) | El material de *Lúa y las Palabras* llevado a la app, en tres secciones y seis franjas de edad (0‑2 · 2‑3 · 3‑4 · 4‑5 · 5‑7 · 7‑10): **25 juegos de selección** (memorama, imagen‑palabra, cazador de sonidos, secuencias, clasificación, atención, completar palabra, pistas progresivas), **60 preguntas** del banco por edad, **10 cuentos** universales con comprensión y vocabulario ilustrado ([captura](docs/screenshots/50-aventuras-lua-cuento-ilustrado.png)), y **10 canciones** de ritmo y praxias. El léxico sale de la *Matriz de Contenidos por Edad*: mango, lechosa, chinola, guineo, coco, la palma, el coquí, la tambora. Cada ítem distingue lo que **toca el niño** (opciones con pictograma del banco propio, porque por debajo de 4 años no se lee) de lo que **observa el adulto** (hoja de registro, que no se locuta). Al fallar suena una devolución dirigida al niño, nunca la pauta clínica del terapeuta. Contenido de pantalla y locución en **castellano y galego**; en euskera, català e inglés el módulo suena con Sharvard (el banco castellano pregenerado), no con la voz de la variedad. Hasta el 4/9/2026 sonaba al revés —Celtia o HiTZ pronunciando palabras castellanas—, que sobre un estímulo clínico de discriminación es fonética equivocada. Lo sujeta `scripts/check-lua-voice-language.js`. |
 | 🗣️ **Pares Mínimos** | Dislalias fonológicas (rotacismo, sigmatismo, frontalización velar, f→p). 15 pares casi iguales (rana/lana) en 6 grupos —añade nasales y laterales— con juego de voz, misión física y sello doble padre‑hijo. |
 | 🧩 **Expansión Semántica** | Progresión léxica para intervención temprana, en cuatro bloques: 5 **escenarios** diarios, 5 **categorías léxicas** con progresión de dificultad, 9 **progresiones** de campo semántico (concepto → parte → acción → cualidad) y 8 **cápsulas de contraste** con doble vuelta (comprensión por selección de imagen + producción). Cada actividad empieza por una **antesala** con el material necesario. |
 | 👂 **Audición** (18 ejercicios) | Protocolo ACOPROS: fonética‑fonología, semántica, morfosintaxis, pragmática y **escucha en ruido** (RA‑1…RA‑5) para audífono, implante coclear o hipoacusia. |
@@ -710,7 +710,7 @@ una reautorización clínica, así que se sirve en castellano y la pantalla lo d
 | Variedad | Voz | Reconocimiento (ASR) |
 | --- | --- | --- |
 | 🇪🇸 **Castellano** (`es`) | Voz neuronal **Sharvard** pregenerada y empaquetada (offline). | Sistema `es-ES`, **pidiendo reconocimiento local** si el paquete de idioma está instalado. |
-| **Galego** (`gl`) — *Proxecto Nós* | Voz neuronal **Celtia** pregenerada (Proxecto Nós), empaquetada: **876 locuciones**. Cubre pares mínimos, cápsulas TPR, rutas, Expansión Semántica, Audición, Lenguaje, TEA, Dislexia y Test de Ling. **Aventuras con Lúa NO**: ese módulo sigue siendo castellano en todas las variedades (ver su fila arriba). | Sistema `gl-ES` con recaída a `expo-speech`. **Sin pliegue dialectal**: la gheada y el seseo no se pliegan en el emparejador (el euskera y el dominicano sí tienen el suyo), así que es la deuda abierta del galego. |
+| **Galego** (`gl`) — *Proxecto Nós* | Voz neuronal **Celtia** pregenerada (Proxecto Nós), empaquetada: **1 430 locuciones**. Cubre pares mínimos, cápsulas TPR, rutas, Expansión Semántica, Audición, Lenguaje, TEA, Dislexia y Test de Ling. **Aventuras con Lúa TAMBIÉN**, desde sept/2026: las 105 actividades del módulo (60 ejercicios, 10 cuentos, 10 canciones, 25 juegos) tienen banco galego propio y sus 554 locuciones se sintetizan con Celtia. | Sistema `gl-ES` con recaída a `expo-speech` + **pliegue galego** (`foldGalician`): la gheada siempre, el seseo solo si la ficha del niño lo declara. |
 | 🇩🇴 **Dominicano** (`es-DO`) — *Quisqueya Habla* | Voz **latina del dispositivo** (`es-US`/`es-MX`); sin audio propio pregenerado. | Sistema `es-DO`, priorizando el catálogo latino. |
 | **Euskara** (`eu`) — *ILENIA/NEL-GAITU · HiTZ* | Voz neuronal **HiTZ-TTS** pregenerada (UPV/EHU · Aholab), empaquetada. Cubre pares mínimos, expansión semántica, Audición, Lenguaje, TEA, Dislexia y Test de Ling en euskera batua. | Sistema `eu-ES` con recaída a `es-ES` + pliegue vasco (`foldBasque`, ⟨h⟩ muda). |
 | 🇺🇸 **US English** (`en-US`) | Voz neuronal **LJSpeech · piper** pregenerada (mismo motor que Sharvard; voz de dominio público con modelo MIT, tras descartar dos candidatas por licencia en EN‑0.1). **614 locuciones** empaquetadas. | Sistema `en-US`, pidiendo reconocimiento local como en castellano. |
@@ -733,16 +733,25 @@ fonologías. Desde sept/2026 tiene 13 pares y `PAIR_GROUPS_GL` propio:
 - Y los dos grupos que estaban en la lista castellana y el banco gallego dejaba
   vacíos: nasales (*mel* / *pel*) y laterales.
 
-**Validación: los siete primeros pares están aprobados para producción** por la
-revisora logopeda gallegohablante (jul 2026). **Los seis nuevos no lo están
-todavía**: piden la misma doble revisión —galego normativo *y* criterio
-logopédico— que se le exigió al inglés y al catalán, y hasta que exista no se
-escribe «aprobado» en ningún sitio.
+**Validación: los trece pares están aprobados para producción.** Los siete
+primeros por la revisora logopeda gallegohablante (jul 2026); los seis de
+contrastes propios, **evaluados y validados por ACOPROS** (sept/2026). Es la
+misma doble exigencia —galego normativo *y* criterio logopédico— que firmaron la
+logopeda de Howard para el inglés y Maria para el catalán.
 
 Hay además un contraste **marcado, no descartado**: *casa* / *caza* (PM-GL-3)
 lleva `region: 'distincion'`, porque el galego occidental sesea y puntuarlo allí
 mide la variedad del niño, no su fonología. Es el mismo criterio con el que el
 catalán deja /b/–/v/ fuera por betacismo y el `en-US` no puntúa el TH-fronting.
+
+Y desde sept/2026 ese marcador **tiene efecto**, no es solo un rótulo. La ficha
+pregunta la variedad geográfica del niño (*distingue s/z* · *sesea*) y de ahí
+salen dos cosas: con seseo, PM-GL-3 sale del banco, y el emparejador de voz
+pliega /θ/→/s/ para no contar como error lo que es habla normal. La **gheada**
+(/g/→[ħ]: «gato» que el reconocedor devuelve como «jato») se pliega siempre,
+porque no choca con ningún contraste del banco; el seseo no puede plegarse
+siempre, porque destruiría el que PM-GL-3 mide en el oriente. Lo que el pliegue
+NO toca es la ⟨x⟩: es /ʃ/, y es justo lo que miden PM-GL-8 y PM-GL-9.
 
 ### El catalán tampoco es una traducción: trae contrastes que el castellano no tiene
 

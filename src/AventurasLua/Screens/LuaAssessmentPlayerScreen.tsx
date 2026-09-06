@@ -14,7 +14,7 @@
 //    ítems `adult_record` no son estímulos —son la hoja de registro— y por eso
 //    se pintan distintos y no se locutan al tocarlos.
 // ============================================================================
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useRef, useState, useEffect, useCallback } from "react";
 import {
   View,
   Text,
@@ -34,8 +34,9 @@ import { LUA_COLORS, LUA_RADII } from "../Theme/luaTheme";
 import {
   AgeBand,
   LuaAssessmentQuestion,
-  LUA_ASSESSMENT_CATALOG,
+  luaAssessmentFor,
 } from "../index";
+import { getLocale } from "../../valeriaLocale";
 
 interface Props {
   navigation: any;
@@ -54,7 +55,8 @@ export const LuaAssessmentPlayerScreen: React.FC<Props> = ({ navigation, route }
   const insets = useSafeAreaInsets();
   const { ageBand = "0-2", initialQuestionIndex = 0 } = route.params || {};
 
-  const bandQuestions: LuaAssessmentQuestion[] = LUA_ASSESSMENT_CATALOG.filter(
+  const catalogo = useRef(luaAssessmentFor(getLocale())).current;
+  const bandQuestions: LuaAssessmentQuestion[] = catalogo.filter(
     (q) => q.ageBand === ageBand
   );
 

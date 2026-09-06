@@ -2,7 +2,7 @@
 // Valeria+ · Aventuras con Lúa · Visualizador de Cuentos Terapéuticos
 // Lectura guiada con comprensión, vocabulario y consigna de dibujo libre.
 // ============================================================================
-import React, { useState, useCallback } from "react";
+import React, { useRef, useState, useCallback } from "react";
 import {
   View,
   Text,
@@ -17,7 +17,8 @@ import { CatPixel } from "../../ValeriaCatPixel";
 import { FichaVisual } from "../../ValeriaPictograms";
 import { speakLuaToChild, speakLuaToChildSeq } from "../luaSpeech";
 import { LUA_COLORS, LUA_RADII } from "../Theme/luaTheme";
-import { LuaStory, LUA_STORIES_CATALOG } from "../index";
+import { LuaStory, luaStoriesFor } from "../index";
+import { getLocale } from "../../valeriaLocale";
 import { luaCompleteActivity, useLuaActivityCleanup } from "../luaActivityReward";
 
 interface Props {
@@ -35,9 +36,10 @@ export const LuaStoryViewerScreen: React.FC<Props> = ({ navigation, route }) => 
   const t = useT();
   const insets = useSafeAreaInsets();
   const { storyId } = route.params || {};
+  const catalogo = useRef(luaStoriesFor(getLocale())).current;
 
   const story: LuaStory | undefined =
-    LUA_STORIES_CATALOG.find((s) => s.id === storyId) || LUA_STORIES_CATALOG[0];
+    catalogo.find((s) => s.id === storyId) || catalogo[0];
 
   const [paragraphIndex, setParagraphIndex] = useState(0);
   const [finished, setFinished] = useState(false);

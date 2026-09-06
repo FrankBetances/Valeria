@@ -232,6 +232,12 @@ export function buildVoiceCorpus(): VoiceCorpusEntry[] {
   for (const r of ROUTINE_ROUTES_GL) for (const cmd of r.commands) addGl('clinical', cmd.text, 'rutas');
   addGl('clinical', ROUTE_DONE_PHRASE_GL, 'rutas/fin');
 
+  // Aventuras con Lúa en galego (set/2026). O módulo entrou só en castelán e
+  // `luaSpeech` forzaba a voz castelá para non pedirlle a Celtia que lera
+  // castelán. Con banco propio, as 553 locucións entran aquí e sintetízanse
+  // con Celtia coma o resto do galego.
+  for (const l of enumerateLuaAdventureSpeech('gl')) addGl(l.style, l.text, l.source);
+
   for (const t of PRAISE_BANK_GL) addGl('child', t, 'banco/elogio');
   for (const t of ALMOST_BANK_GL) addGl('child', t, 'banco/casi');
   for (const t of NO_HEAR_BANK_GL) addGl('child', t, 'banco/no-oido');

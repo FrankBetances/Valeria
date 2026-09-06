@@ -16,7 +16,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, Pressable, ScrollView, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { V, STORAGE_KEYS } from './valeriaTheme';
-import { isLocale, setLocale } from './valeriaLocale';
+import { isLocale, setGalicianDialect, setLocale } from './valeriaLocale';
 import { BlockIcon } from './ValeriaBlockIcons';
 import { useT } from './i18n';
 // import logoWhite from '../../assets/valeria-logo-white.png';
@@ -27,6 +27,7 @@ interface Paciente {
   nhc?: string;
   genero?: string;
   lingua?: string;   // variedad de terapia del niño (ficha); ausente = no se toca
+  seseo?: boolean;   // solo con lingua 'gl': variedad occidental del niño
   [k: string]: any;
 }
 
@@ -81,6 +82,9 @@ export const ValeriaPatientSelectScreen: React.FC<{ navigation?: any }> = ({ nav
     // registra, pero el dato correcto es no equivocarse). Fichas antiguas y
     // fichas sin lengua no tocan nada: se queda la que hubiera.
     if (isLocale(p.lingua)) await setLocale(p.lingua);
+    // Y con él su variedad geográfica, que decide si el par casa/caza entra
+    // en el banco y si el micrófono cuenta el seseo como error.
+    if (p.lingua === 'gl') await setGalicianDialect(p.seseo ? 'seseo' : 'distincion');
     navigation?.navigate('ExerciseSelection');
   };
 

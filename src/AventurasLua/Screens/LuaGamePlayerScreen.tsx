@@ -8,7 +8,7 @@
 // Al niño se le habla siempre con `speakToChild` sobre texto que está en el
 // corpus; las consignas de los diez juegos entran por `luaVoiceLines`.
 // ============================================================================
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useMemo, useRef, useState } from "react";
 import { View, Text, StyleSheet, ScrollView, Pressable, useWindowDimensions } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useT } from "../../i18n";
@@ -17,7 +17,8 @@ import { CatPixel } from "../../ValeriaCatPixel";
 import { FichaVisual } from "../../ValeriaPictograms";
 import { speakLuaToChild, speakLuaToChildSeq } from "../luaSpeech";
 import { LUA_COLORS, LUA_RADII } from "../Theme/luaTheme";
-import { LuaGame, LuaGameItem, LUA_GAMES_CATALOG } from "../index";
+import { LuaGame, LuaGameItem, luaGamesFor } from "../index";
+import { getLocale } from "../../valeriaLocale";
 import { luaCompleteActivity, useLuaActivityCleanup } from "../luaActivityReward";
 
 interface Props {
@@ -49,9 +50,10 @@ export const LuaGamePlayerScreen: React.FC<Props> = ({ navigation, route }) => {
   const t = useT();
   const insets = useSafeAreaInsets();
   const { gameId } = route.params || {};
+  const catalogo = useRef(luaGamesFor(getLocale())).current;
   const { width } = useWindowDimensions();
   const game: LuaGame | undefined =
-    LUA_GAMES_CATALOG.find((g) => g.id === gameId) || LUA_GAMES_CATALOG[0];
+    catalogo.find((g) => g.id === gameId) || catalogo[0];
 
   const [revealed, setRevealed] = useState<Record<number, boolean>>({});
   const [marked, setMarked] = useState<Record<number, boolean>>({});

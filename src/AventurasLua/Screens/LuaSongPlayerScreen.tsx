@@ -2,7 +2,7 @@
 // Valeria+ · Aventuras con Lúa · Reproductor de Canciones y Praxias
 // Música, ritmo, pausas motoras y esquemas articulatorios orales.
 // ============================================================================
-import React, { useState, useCallback } from "react";
+import React, { useRef, useState, useCallback } from "react";
 import {
   View,
   Text,
@@ -17,7 +17,8 @@ import { CatPixel } from "../../ValeriaCatPixel";
 import { speakLuaToChild, speakLuaToChildSeq } from "../luaSpeech";
 import { LUA_COLORS, LUA_RADII } from "../Theme/luaTheme";
 import { luaCompleteActivity, useLuaActivityCleanup } from "../luaActivityReward";
-import { LuaSong, LUA_SONGS_CATALOG } from "../index";
+import { LuaSong, luaSongsFor } from "../index";
+import { getLocale } from "../../valeriaLocale";
 
 interface Props {
   navigation: any;
@@ -34,9 +35,10 @@ export const LuaSongPlayerScreen: React.FC<Props> = ({ navigation, route }) => {
   const t = useT();
   const insets = useSafeAreaInsets();
   const { songId } = route.params || {};
+  const catalogo = useRef(luaSongsFor(getLocale())).current;
 
   const song: LuaSong | undefined =
-    LUA_SONGS_CATALOG.find((s) => s.id === songId) || LUA_SONGS_CATALOG[0];
+    catalogo.find((s) => s.id === songId) || catalogo[0];
 
   const [isPlaying, setIsPlaying] = useState(false);
   const [finished, setFinished] = useState(false);

@@ -45,6 +45,38 @@ export const ALL_LOCALES: Locale[] = ['es', 'gl', 'es-DO', 'eu', 'en-US', 'ca'];
 export const isLocale = (v: unknown): v is Locale =>
   v === 'es' || v === 'gl' || v === 'es-DO' || v === 'eu' || v === 'en-US' || v === 'ca';
 
+// ---------------------------------------------------------------------------
+// Segundo eje DENTRO del galego: la variedad geográfica del propio niño
+// ---------------------------------------------------------------------------
+// El galego occidental —A Coruña y Pontevedra costeras, parte de Ourense—
+// SESEA: no distingue /s/ de /θ/. Eso no es un error de habla, es la variedad,
+// y tiene dos consecuencias que la app no puede ignorar:
+//
+//   1. El par «casa / caza» (PM-GL-3) deja de medir fonología y pasa a medir
+//      procedencia. En seseo se retira del banco, igual que el banco dominicano
+//      lo excluye de raíz y el catalán descarta /b/–/v/ por betacismo.
+//   2. El emparejador de voz tiene que plegar /θ/ → /s/ en los DOS lados, o
+//      cuenta como fallo lo que es habla normal.
+//
+// Por qué es OPT-IN y la gheada no: plegar la interdental destruye un contraste
+// que el banco SÍ mide en el oriente. La gheada (/g/ → [ħ]) no choca con ningún
+// par —no hay ninguno que contraste /g/—, así que se pliega siempre.
+//
+// Vive por PACIENTE (ficha, campo `seseo`) y no por aparato: en la misma
+// consulta de Lugo hay niños de la costa y del interior.
+export type GalicianDialect = 'distincion' | 'seseo';
+
+let glDialect: GalicianDialect = 'distincion';
+const KEY_GL_DIALECT = '@valeria_gl_dialecto';
+
+export const getGalicianDialect = (): GalicianDialect => glDialect;
+export const isSeseo = (): boolean => glDialect === 'seseo';
+
+export async function setGalicianDialect(d: GalicianDialect): Promise<void> {
+  glDialect = d;
+  try { await AsyncStorage.setItem(KEY_GL_DIALECT, d); } catch (e) { /* noop */ }
+}
+
 const KEY = '@valeria_locale';
 const LEGACY_KEY = '@valeria_voice_lang'; // clave anterior (solo es|gl)
 
@@ -56,6 +88,8 @@ void (async () => {
   try {
     const v = (await AsyncStorage.getItem(KEY)) ?? (await AsyncStorage.getItem(LEGACY_KEY));
     if (isLocale(v)) active = v;
+    const d = await AsyncStorage.getItem(KEY_GL_DIALECT);
+    if (d === 'seseo' || d === 'distincion') glDialect = d;
   } catch (e) { /* almacenamiento no disponible: queda 'es' */ }
 })();
 

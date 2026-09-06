@@ -43,7 +43,7 @@ import {
 import { voiceCorpusId, VoiceStyle, VoiceLang } from './valeriaVoiceCorpus';
 import { VOICE_ASSETS } from './valeriaVoiceAssets';
 import { playVoiceAsset, stopVoiceAsset } from './valeriaVoicePlayback';
-import { getLocale, assetLang, speechLocale, prefersLatinVoice, contentLocale } from './valeriaLocale';
+import { getLocale, isSeseo, assetLang, speechLocale, prefersLatinVoice, contentLocale } from './valeriaLocale';
 import { prosodyFor, splitForSpeech, tightenPauses } from './valeriaSpeechProsody';
 import { trackAsrMode } from './valeriaTelemetry';
 
@@ -1339,6 +1339,37 @@ export const foldDominican = (s: string): string =>
 export const foldBasque = (s: string): string =>
   s.replace(/h/g, '').replace(/\s+/g, ' ').trim();
 
+// Pliegue GALEGO (plan Proxecto Nós, GL-4.2). Dos rasgos, y solo uno es
+// incondicional:
+//
+// · GHEADA (siempre). En el occidente gallego /g/ se realiza [ħ], un soplo de
+//   garganta. El reconocedor —`gl-ES` o la recaída `es-ES`— lo devuelve como
+//   ⟨j⟩, ⟨h⟩ o nada reconocible, así que «gato» llega como «jato». Se pliegan
+//   ⟨g⟩ y ⟨j⟩ al mismo símbolo en los dos lados, después de deshacer el dígrafo
+//   ⟨gu⟩ ante e/i («guerra» → «gerra»), que si no quedaría «huerra».
+//   NO se toca la ⟨x⟩: es /ʃ/, el fonema propio del gallego, y es justo el
+//   contraste que miden PM-GL-8 (xeo/cheo) y PM-GL-9 (xoia/soia). Plegarla
+//   borraría el objetivo clínico, que es el error del pliegue dominicano al
+//   revés.
+//   Es seguro aplicarlo a todo el mundo: un niño que NO tiene gheada dice
+//   «gato», se pliega a «hato» en los dos lados y empareja igual.
+//
+// · SESEO (solo si la ficha lo declara). En esa misma zona no existe /s/–/θ/.
+//   Se pliegan ⟨z⟩ y ⟨c⟩ ante e/i a ⟨s⟩. Esto SÍ destruye un contraste que el
+//   banco mide en el oriente, y por eso no es global: va por paciente, y con él
+//   se retira además el par que lo mide (ver pairsForLocale).
+export const foldGalician = (s: string, seseo: boolean): string => {
+  let out = s
+    .replace(/gu([ei])/g, 'g$1')   // dígrafo: guerra → gerra, guitarra → gitarra
+    .replace(/[gj]/g, 'h');        // gheada: gato/jato → hato
+  if (seseo) {
+    out = out
+      .replace(/c([ei])/g, 's$1')  // cesta → sesta
+      .replace(/z/g, 's');         // caza → casa
+  }
+  return out.replace(/\s+/g, ' ').trim();
+};
+
 export const normalizeSpeech = (s: string): string => {
   const base = s
     .toLowerCase()
@@ -1347,9 +1378,13 @@ export const normalizeSpeech = (s: string): string => {
     .replace(/[^a-zñ0-9 ]/g, ' ')
     .replace(/\s+/g, ' ')
     .trim();
-  // Pliegues dialectales: dominicano (elisión de /s/ y /d/) y euskera (h muda).
+  // Pliegues dialectales: dominicano (elisión de /s/ y /d/), euskera (h muda) y
+  // galego (gheada siempre, seseo si la ficha del niño lo declara).
   const loc = getLocale();
-  return loc === 'es-DO' ? foldDominican(base) : loc === 'eu' ? foldBasque(base) : base;
+  return loc === 'es-DO' ? foldDominican(base)
+    : loc === 'eu' ? foldBasque(base)
+      : loc === 'gl' ? foldGalician(base, isSeseo())
+        : base;
 };
 
 const editDistance = (a: string, b: string): number => {
@@ -1419,13 +1454,27 @@ export type PairResult = 'target' | 'foil' | 'close' | 'none';
 // exactitud. Es seguro precisamente por la desambiguación: el distractor se mide
 // con la misma vara, y si queda igual de cerca el resultado es 'close', no un
 // veredicto inventado.
-const pairDistance = (alternatives: string[], word: string): number => {
-  const t = normalizeSpeech(word);
+// Normalización que CONSERVA la tilde. Solo la usa `matchPair`, y solo cuando
+// el par la necesita (ver abajo): en el resto de la app quitar tildes es lo
+// correcto, porque un reconocedor que devuelve «sesion» por «sesión» no está
+// cometiendo un error de habla.
+const normalizeKeepingDiacritics = (s: string): string => s
+  .toLowerCase()
+  .replace(/[^a-zñáéíóúü0-9 ]/g, ' ')
+  .replace(/\s+/g, ' ')
+  .trim();
+
+const pairDistance = (
+  alternatives: string[],
+  word: string,
+  normalize: (s: string) => string = normalizeSpeech,
+): number => {
+  const t = normalize(word);
   if (!t) return Infinity;
   const tWords = t.split(' ');
   let best = Infinity;
   for (const alt of alternatives) {
-    const h = normalizeSpeech(alt);
+    const h = normalize(alt);
     if (!h) continue;
     if (h === t || h.includes(t)) return 0;
     const hWords = h.split(' ');
@@ -1442,8 +1491,21 @@ const pairDistance = (alternatives: string[], word: string): number => {
 };
 
 export function matchPair(alternatives: string[], target: string, foil: string): PairResult {
-  const dt = pairDistance(alternatives, target);
-  const df = pairDistance(alternatives, foil);
+  // Pares que solo se distinguen por la TILDE. En galego la abertura vocálica
+  // es fonémica —«óso» (do esqueleto) y «oso» (o animal) son palabras distintas,
+  // igual que «bóla» e «bola»— y la escritura la marca únicamente con el
+  // acento. La normalización general quita tildes, así que los dos lados del
+  // par colapsaban a la MISMA cadena: `dt` y `df` valían 0 y el par devolvía
+  // siempre 'target'. Es decir, un niño que cerraba la vocal recibía un acierto.
+  // Ese fallo no lo ve ningún gate: es una comparación de cadenas que sale bien.
+  //
+  // La condición se detecta sola —no hace falta marcar el par— y así cubre
+  // cualquier par futuro que dependa de un diacrítico.
+  const norm = normalizeSpeech(target) === normalizeSpeech(foil)
+    ? normalizeKeepingDiacritics
+    : normalizeSpeech;
+  const dt = pairDistance(alternatives, target, norm);
+  const df = pairDistance(alternatives, foil, norm);
 
   if (dt === 0) return 'target';
   if (df === 0) return 'foil';

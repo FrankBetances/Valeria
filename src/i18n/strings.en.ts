@@ -126,6 +126,11 @@ export const EN: UiStrings = {
     therapyLanguage: 'Therapy language',
     therapyLanguageHint: 'Applied when you select this patient. Leave it blank to keep the app\'s current one.',
 
+    glDialect: 'Galician variety',
+    glDialectHint: 'Western Galicia (coastal A Coruña and Pontevedra) merges /s/ and /θ/. Choosing it drops the casa / caza pair from the bank and stops the microphone scoring that merger as an error.',
+    glDialectDistincion: 'Distinguishes s / z',
+    glDialectSeseo: 'Merges s / z',
+
     pathology: 'Diagnosis',
     pathologyPlaceholder: 'Select a diagnosis…',
     prescriber: 'Referring physician (ENT / pediatrician)',

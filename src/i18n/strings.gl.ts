@@ -24,11 +24,10 @@
 //     «guardar»), «pechar», «amosar», «obxectivo», «exercicio», «suxestión».
 //   · Maiúscula só ao principio en botóns, títulos e mensaxes.
 //
-// ⚠️ PENDENTE de revisión por unha persoa galegofalante nativa con criterio
-// logopédico, que é a mesma dobre validación que se lle esixiu ao inglés
-// (logopeda de Howard), ao catalán (Maria, Barcelona) e ao propio banco
-// clínico galego (ACOPROS, xullo 2026). Ata que iso pase, isto é interface
-// traducida e revisable, non interface validada.
+// ✅ AVALIADO E VALIDADO POR ACOPROS (comunicado por Frank o 6/9/2026), que é
+// a mesma dobre validación que se lle esixiu ao inglés (logopeda de Howard) e
+// ao catalán (Maria, Barcelona), e a mesma casa que validou o banco clínico
+// galego en xullo de 2026.
 //
 // As cadeas LOCUTADAS non viven aquí (ver a cabeceira de strings.es.ts): van
 // nos bancos por variedade, porque o corpus de voz enuméraas para pre-xerar o
@@ -143,6 +142,11 @@ export const GL: UiStrings = {
 
     therapyLanguage: 'Lingua da terapia',
     therapyLanguageHint: 'Aplicarase ao seleccionar este paciente. Sen elixir, mantense a da app.',
+
+    glDialect: 'Variedade do galego',
+    glDialectHint: 'No occidente (costa da Coruña e Pontevedra) sesease. Se o elixes, o par casa / caza sae do banco e o micrófono deixa de contar o seseo como erro.',
+    glDialectDistincion: 'Distingue s / z',
+    glDialectSeseo: 'Sesea',
 
     pathology: 'Patoloxía / diagnóstico',
     pathologyPlaceholder: 'Selecciona unha patoloxía…',

@@ -13,10 +13,9 @@
 //
 // MÓDULO PURO: solo datos. Lo compila y ejecuta Node sin react-native.
 // ============================================================================
-import { LUA_ASSESSMENT_CATALOG } from './LuaAssessmentCatalog';
-import { LUA_STORIES_CATALOG } from './LuaStoriesCatalog';
-import { LUA_SONGS_CATALOG } from './LuaSongsCatalog';
-import { LUA_GAMES_CATALOG } from './LuaGamesCatalog';
+import {
+  luaAssessmentFor, luaStoriesFor, luaSongsFor, luaGamesFor,
+} from './luaCatalogsFor';
 
 export interface LuaSpokenLine {
   /** El estilo del motor. Todo este módulo le habla al niño. */
@@ -29,15 +28,20 @@ export interface LuaSpokenLine {
  * Las locuciones del módulo, en el MISMO troceado con el que salen por el
  * altavoz. Importa que coincida: el id del corpus es hash(estilo + texto), así
  * que una frase compuesta de otra manera resuelve otro id y no encuentra asset.
+ *
+ * `loc` elige el banco (set/2026): con 'gl' enumera el galego, y así las 553
+ * locuciones del módulo entran al corpus también en gallego y las sintetiza
+ * Celtia. Sin este parámetro, el corpus solo conocía el castellano y una
+ * sesión galega caía a la voz del sistema en silencio.
  */
-export function enumerateLuaAdventureSpeech(): LuaSpokenLine[] {
+export function enumerateLuaAdventureSpeech(loc: string = 'es'): LuaSpokenLine[] {
   const out: LuaSpokenLine[] = [];
   const add = (text: string, source: string): void => {
     const t = (text ?? '').trim();
     if (t) out.push({ style: 'child', text: t, source });
   };
 
-  for (const q of LUA_ASSESSMENT_CATALOG) {
+  for (const q of luaAssessmentFor(loc)) {
     add(q.prompt, 'lua/eval/consigna');
     add(q.clinicalSupport.targetFeedback, 'lua/eval/refuerzo');
     // Lo que oye el niño al no acertar. `modelingFeedback` NO entra: es la
@@ -45,7 +49,7 @@ export function enumerateLuaAdventureSpeech(): LuaSpokenLine[] {
     add(q.childRecast, 'lua/eval/devolucion');
   }
 
-  for (const s of LUA_STORIES_CATALOG) {
+  for (const s of luaStoriesFor(loc)) {
     add(s.title, 'lua/cuento/titulo');
     for (const p of s.paragraphs) add(p, 'lua/cuento/parrafo');
     for (const q of s.comprehensionQuestions) {
@@ -55,7 +59,7 @@ export function enumerateLuaAdventureSpeech(): LuaSpokenLine[] {
     add(s.drawingPrompt, 'lua/cuento/dibujo');
   }
 
-  for (const c of LUA_SONGS_CATALOG) {
+  for (const c of luaSongsFor(loc)) {
     add(c.title, 'lua/cancion/titulo');
     add(c.consigna, 'lua/cancion/consigna');
     // Verso a verso, no la letra entera concatenada: la pantalla la reproduce
@@ -64,7 +68,7 @@ export function enumerateLuaAdventureSpeech(): LuaSpokenLine[] {
     for (const e of c.interactiveTask.elements ?? []) add(e, 'lua/cancion/elemento');
   }
 
-  for (const j of LUA_GAMES_CATALOG) {
+  for (const j of luaGamesFor(loc)) {
     add(j.title, 'lua/juego/titulo');
     add(j.instructions, 'lua/juego/consigna');
     for (const c of j.clues ?? []) add(c, 'lua/juego/pista');

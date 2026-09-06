@@ -376,15 +376,24 @@ Checklist maestro (marcar al completar; una PR por tarea o grupo pequeño):
   (`lingua`) y seleccionar al niño la aplica.
 - [x] **Fase 2**: banco galego completo en los ocho bloques y aprobado por la
   revisora logopeda (27 jul 2026). Ampliado en sept/2026 con los seis pares de
-  contrastes propios (/ʃ/, abertura vocálica /ɔ/–/o/, /ʎ/, nasales), que están
-  **pendientes de esa misma doble validación**.
-- [x] **Fase 3**: 876 locuciones sintetizadas con Celtia y empaquetadas.
-- [ ] **Fase 4**: GL-4.1 hecho (`speechLocale()` devuelve `gl-ES`). GL-4.2,
-  GL-4.3 y GL-4.4 pendientes. **Y falta algo que este plan no listó**: el
-  pliegue dialectal. `normalizeSpeech` pliega es-DO y euskera y no pliega
-  galego, así que la gheada y el seseo no tienen tratamiento en el emparejador.
-  El primer paso ya está dado —`PM-GL-3` (casa/caza) lleva `region:'distincion'`
-  desde sept/2026— pero es solo el par mínimo, no el reconocedor.
+  contrastes propios (/ʃ/, abertura vocálica /ɔ/–/o/, /ʎ/, nasales),
+  **evaluados y validados por ACOPROS**.
+- [x] **Fase 3**: 1 430 locuciones sintetizadas con Celtia. Las 876 primeras ya
+  empaquetadas; las 554 de Aventuras con Lúa entran con la tanda de sept/2026.
+- [x] **Aventuras con Lúa en galego** (sept/2026), fuera del alcance original:
+  las 105 actividades del módulo, con capa de traducción por ids que no puede
+  tocar `isTarget`, `pic` ni los ids. Cuatro ítems se REAUTORIZAN porque el
+  objetivo es fonológico y el castellano no transfiere: «ma-ri-po-sa» pasa a
+  «bol-bo-re-ta» (cuatro sílabas igual), la vibrante de «perro» a «carro», y
+  los cazadores de /s/ cambian «silla» por «semente» porque «cadeira» no
+  empieza por /s/. Lo sujeta `check-lua-gl-coverage.js`: entero o rojo.
+- [ ] **Fase 4**: GL-4.1 hecho (`speechLocale()` devuelve `gl-ES`). **GL-4.2
+  hecho** en sept/2026, y con más alcance del que este plan le puso: el
+  **pliegue dialectal galego** (`foldGalician`), que el plan original no listaba
+  y que era el hueco frente al euskera y al dominicano. La gheada se pliega
+  siempre; el seseo solo cuando la ficha del niño lo declara, y entonces además
+  retira PM-GL-3 del banco. Lo sujeta `check-pair-discriminability.js`.
+  GL-4.3 (spike Wav2Vec2 on-device) y GL-4.4 siguen pendientes.
 - [ ] **Fase 5**: GL-5.1 y GL-5.3 pendientes. **GL-5.2 hecho** en sept/2026: la
   sesión de telemetría guarda `locale` y marca `localeSwitched` si cambió a
   mitad, y la exportación reparte las sesiones por lengua (`sessionsByLocale`).

@@ -204,6 +204,24 @@ jobs:
       - name: Comprobar dificultad léxica (ES-08)
         run: node scripts/check-lexical-difficulty.js
 
+      # Un par mínimo cuyas dos palabras colapsan al normalizar NO mide nada, y
+      # encima miente: `matchPair` ve distancia 0 a los dos lados y devuelve
+      # 'target', así que el niño produce el error y la app le da por bueno. Le
+      # pasaba a los dos pares galegos de abertura vocálica (óso/oso, bóla/bola)
+      # y también, desde agosto, al catalán os/ós: la tilde es lo único que los
+      # separa y la normalización la quitaba. No lo ve el typecheck —es una
+      # comparación de cadenas que sale bien— ni ningún gate de texto.
+      - name: Comprobar que cada par mínimo distingue su contraste
+        run: node scripts/check-pair-discriminability.js
+
+      # Aventuras con Lúa tiene banco galego desde sept/2026. Una capa de
+      # traducción por ids falla siempre igual: falta una pieza y sale el
+      # castellano sin que nadie se entere. Aquí no cabe declarar el hueco como
+      # en uiLangFallback —esto es contenido para el NIÑO, y el eje de variedad
+      # no admite fallback silencioso—, así que: entero o rojo.
+      - name: Comprobar Aventuras con Lúa en galego
+        run: node scripts/check-lua-gl-coverage.js
+
       # Figuras de LSE en Academy (LSE-01). SignFigure devuelve null cuando la
       # clave no tiene dibujo —a propósito, para no romper la diapositiva—, así
       # que una clave equivocada no se ve ni en el diff ni en el typecheck:

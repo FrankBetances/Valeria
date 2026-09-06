@@ -2,7 +2,7 @@
 // Valeria+ · Aventuras con Lúa · Hub Principal del Módulo
 // Interfaz pediátrica: objetivos táctiles >= 56 dp.
 // ============================================================================
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { View, Text, StyleSheet, ScrollView, Pressable } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useT } from "../../i18n";
@@ -11,11 +11,12 @@ import { CatPixel } from "../../ValeriaCatPixel";
 import { LUA_COLORS, LUA_RADII } from "../Theme/luaTheme";
 import {
   AgeBand,
-  LUA_ASSESSMENT_CATALOG,
-  LUA_STORIES_CATALOG,
-  LUA_SONGS_CATALOG,
-  LUA_GAMES_CATALOG,
+  luaAssessmentFor,
+  luaStoriesFor,
+  luaSongsFor,
+  luaGamesFor,
 } from "../index";
+import { getLocale } from "../../valeriaLocale";
 
 interface Props {
   navigation: any;
@@ -36,24 +37,31 @@ export const ValeriaAventurasLuaHubScreen: React.FC<Props> = ({ navigation }) =>
     { id: "7-10", label: t.luaHub.band710 },
   ];
 
+  // Os catro catálogos, na variedade activa. Unha soa vez por montaxe: cambiar
+  // de lingua a media navegación deixaría os chips nunha e as tarxetas noutra.
+  const assessment = useRef(luaAssessmentFor(getLocale())).current;
+  const stories = useRef(luaStoriesFor(getLocale())).current;
+  const songs = useRef(luaSongsFor(getLocale())).current;
+  const games = useRef(luaGamesFor(getLocale())).current;
+
   const filteredQuestions = selectedBand === "all"
-    ? LUA_ASSESSMENT_CATALOG
-    : LUA_ASSESSMENT_CATALOG.filter((q) => q.ageBand === selectedBand);
+    ? assessment
+    : assessment.filter((q) => q.ageBand === selectedBand);
 
   const filteredStories = selectedBand === "all"
-    ? LUA_STORIES_CATALOG
-    : LUA_STORIES_CATALOG.filter((s) => s.ageBand === selectedBand);
+    ? stories
+    : stories.filter((s) => s.ageBand === selectedBand);
 
   // Las cuatro secciones obedecen al chip. Antes solo lo hacían preguntas y
   // cuentos: canciones e imprimibles enseñaban los diez siempre, así que el
   // filtro por edad prometía más de lo que hacía.
   const filteredSongs = selectedBand === "all"
-    ? LUA_SONGS_CATALOG
-    : LUA_SONGS_CATALOG.filter((c) => c.ageBands.includes(selectedBand));
+    ? songs
+    : songs.filter((c) => c.ageBands.includes(selectedBand));
 
   const filteredGames = selectedBand === "all"
-    ? LUA_GAMES_CATALOG
-    : LUA_GAMES_CATALOG.filter((j) => j.ageBands.includes(selectedBand));
+    ? games
+    : games.filter((j) => j.ageBands.includes(selectedBand));
 
   const handleOpenAssessment = () => {
     const targetBand: AgeBand = selectedBand === "all" ? "0-2" : selectedBand;

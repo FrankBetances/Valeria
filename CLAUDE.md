@@ -69,7 +69,7 @@ grep -oP '(?<=run: )node scripts/\S+(?: --\S+)?' .github/workflows/android.yml |
 npm run typecheck
 ```
 
-Son 30 hoy, y por eso el comando los cuenta en vez de nombrarlos: esta sección
+Son 32 hoy, y por eso el comando los cuenta en vez de nombrarlos: esta sección
 llegó a listar 15 mientras el workflow corría 25, y a decir 25 mientras corría 30, y los diez que faltaban no
 eran menores —el fallback de idioma, la suite de catalán, la cobertura de
 palabras, los assets sensoriales, las URLs legales y los cuatro de RA—.

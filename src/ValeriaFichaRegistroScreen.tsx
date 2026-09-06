@@ -10,7 +10,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { V, STORAGE_KEYS } from './valeriaTheme';
 import { BlockIcon, BlockIconName } from './ValeriaBlockIcons';
 import { useT, UiStrings } from './i18n';
-import { ALL_LOCALES, Locale, isLocale, setLocale } from './valeriaLocale';
+import {
+  ALL_LOCALES, GalicianDialect, Locale, isLocale, setGalicianDialect, setLocale,
+} from './valeriaLocale';
 // import logoWhite from '../../assets/valeria-logo-white.png';
 
 // ⚠️ Estos tres arrays son IDENTIFICADORES ALMACENADOS, no texto de pantalla.
@@ -61,6 +63,9 @@ export const ValeriaFichaRegistroScreen: React.FC<{ navigation?: any }> = ({ nav
   // Guardada en la ficha, seleccionar al niño la pone sola
   // (ValeriaPatientSelectScreen). Vacía = no se toca nada al seleccionarlo.
   const [lingua, setLingua] = useState<Locale | ''>('');
+  // Variedade xeográfica dentro do galego. Solo se pregunta con `lingua`
+  // en galego: en las demás variedades no significa nada.
+  const [glDialect, setGlDialect] = useState<GalicianDialect>('distincion');
 
   const [vinculoOpen, setVinculoOpen] = useState(false);
   const [patOpen, setPatOpen] = useState(false);
@@ -90,11 +95,13 @@ export const ValeriaFichaRegistroScreen: React.FC<{ navigation?: any }> = ({ nav
       await AsyncStorage.setItem(STORAGE_KEYS.registro, JSON.stringify({
         nombre, fecha, nhc, genero, tutor, vinculo, email, tel, patologia, medico, logopeda,
         lingua: lingua || undefined,
+        seseo: lingua === 'gl' && glDialect === 'seseo' ? true : undefined,
       }));
       // Al guardar la ficha del niño con el que se está trabajando, la app pasa
       // ya a su lengua: si no, el adulto la guarda y sigue la sesión en la
       // anterior sin enterarse.
       if (isLocale(lingua)) await setLocale(lingua);
+      if (lingua === 'gl') await setGalicianDialect(glDialect);
     } catch (e) { /* noop */ }
     setSuccess(true); setVinculoOpen(false); setPatOpen(false);
   };
@@ -164,6 +171,31 @@ export const ValeriaFichaRegistroScreen: React.FC<{ navigation?: any }> = ({ nav
               );
             })}
           </View>
+
+          {lingua === 'gl' && (
+            <>
+              <Text style={[s.label, { marginTop: 15 }]}>{t.ficha.glDialect}</Text>
+              <Text style={[s.hint, { marginTop: 0, marginBottom: 8 }]}>{t.ficha.glDialectHint}</Text>
+              <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
+                {(['distincion', 'seseo'] as GalicianDialect[]).map((d) => {
+                  const on = glDialect === d;
+                  return (
+                    <Pressable
+                      key={d}
+                      onPress={() => { setGlDialect(d); setSuccess(false); }}
+                      style={[s.segment, s.segmentChip, on && s.segmentOn]}
+                      accessibilityRole="radio"
+                      accessibilityState={{ checked: on }}
+                    >
+                      <Text style={[s.segmentTxt, { color: on ? '#fff' : V.color.textSecondary }]}>
+                        {d === 'seseo' ? t.ficha.glDialectSeseo : t.ficha.glDialectDistincion}
+                      </Text>
+                    </Pressable>
+                  );
+                })}
+              </View>
+            </>
+          )}
         </View>
 
         {/* ===== Tutor ===== */}

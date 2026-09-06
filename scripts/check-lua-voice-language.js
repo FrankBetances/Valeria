@@ -16,7 +16,7 @@
  * expresiones regulares: EJECUTA la ruta de locución con expo-speech y el
  * reproductor de assets sustituidos por espías, y mira qué se reprodujo.
  *
- * Comprueba, en las variedades sin banco propio (gl · eu · ca · en-US):
+ * Comprueba, en las variedades sin banco propio (eu · ca · en-US):
  *   1. que la locución sale por el asset neuronal CASTELLANO (Sharvard), que es
  *      el que está horneado, y no por el motor del sistema;
  *   2. que si ese asset faltara, el motor recibe `es-ES` y una voz castellana,
@@ -128,8 +128,8 @@ try {
   playback = require(path.join(tmp, 'valeriaVoicePlayback.js'));
   VOICE_ASSETS = require(path.join(tmp, 'valeriaVoiceAssets.js')).VOICE_ASSETS;
   corpus = require(path.join(tmp, 'valeriaVoiceCorpus.js'));
-  const lines = require(path.join(tmp, 'AventurasLua', 'Catalog', 'luaVoiceLines.js'));
-  var LUA_LINES = lines.enumerateLuaAdventureSpeech();
+  var luaLines = require(path.join(tmp, 'AventurasLua', 'Catalog', 'luaVoiceLines.js'));
+  var LUA_LINES = luaLines.enumerateLuaAdventureSpeech();
 } catch (e) {
   console.error('✖ no se puede cargar la ruta de locución con los módulos nativos sustituidos:');
   console.error('   ' + e.message);
@@ -166,8 +166,10 @@ const SAMPLE = LUA_LINES.find((l) => l.source.startsWith('lua/eval/'))?.text;
 if (!SAMPLE) { console.error('✖ el enumerador de locuciones del módulo no devuelve nada'); process.exit(1); }
 const SAMPLE_ES_ID = corpus.voiceCorpusId('child', SAMPLE, 'es');
 
+// Variedades SIN banco propio en este módulo. El galego salió de aquí en
+// sept/2026, cuando dejó de ser una de ellas: tiene sus 105 actividades y sus
+// 554 locuciones, sintetizadas con Celtia. Lo comprueba el bloque 3.
 const FOREIGN = [
-  ['gl', 'gl-es-x-gla-local'],
   ['eu', 'eu-es-x-eua-local'],
   ['ca', 'ca-es-x-caa-local'],
   ['en-US', 'en-us-x-tpf-local'],
@@ -190,7 +192,7 @@ const FOREIGN = [
       fail(`${loc}: sonó el asset «${spy.assets[0]}» y el del corpus castellano es «${SAMPLE_ES_ID}»`);
     }
   }
-  if (!fails.length) ok(`gl · eu · ca · en-US locutan el módulo con el asset castellano (${SAMPLE_ES_ID})`);
+  if (!fails.length) ok(`eu · ca · en-US locutan el módulo con el asset castellano (${SAMPLE_ES_ID})`);
 
   // --- 2. Y si el asset faltara, la voz de respaldo es CASTELLANA ------------
   // Se vacía el mapa a propósito: es el camino que se recorre cuando un texto
@@ -217,12 +219,52 @@ const FOREIGN = [
     }
   }
   if (!fails.some((m) => /respaldo/.test(m))) {
-    ok('sin asset, el respaldo del sistema es voz castellana y `es-ES` en las cuatro variedades');
+    ok('sin asset, el respaldo del sistema es voz castellana y `es-ES` en las tres variedades');
   }
 
   Object.assign(VOICE_ASSETS, saved);
 
-  // --- 3. Castellano y dominicano, intactos ---------------------------------
+  // --- 3. El GALEGO suena en galego, con su propio asset de Celtia ----------
+  // Es la comprobación contraria a la de arriba, y la razón de que el galego
+  // saliera de FOREIGN: desde que tiene banco propio, pedirle a Celtia que lea
+  // castellano dejó de ser lo correcto y pasó a ser el defecto. Se comprueba
+  // con el MISMO enumerador, pidiéndole la línea galega equivalente.
+  const SAMPLE_GL = luaLines.enumerateLuaAdventureSpeech('gl')
+    .find((l) => l.source.startsWith('lua/eval/'))?.text;
+  if (!SAMPLE_GL) fail('el enumerador no devuelve locuciones galegas del módulo');
+  else {
+    const SAMPLE_GL_ID = corpus.voiceCorpusId('child', SAMPLE_GL, 'gl');
+    await enterSession('gl');
+    reset();
+    luaSpeech.speakLuaToChild(SAMPLE_GL);
+    if (VOICE_ASSETS[SAMPLE_GL_ID] !== undefined) {
+      // Ya sintetizado: tiene que sonar con Celtia y no con otra cosa.
+      if (spy.assets.length !== 1) {
+        fail(`gl: la locución galega no salió por su asset de Celtia `
+          + `(assets: ${spy.assets.length}, expo-speech: ${spy.spoken.length})`);
+      } else if (spy.assets[0] !== SAMPLE_GL_ID) {
+        fail(`gl: sonó el asset «${spy.assets[0]}» y el del corpus galego es «${SAMPLE_GL_ID}»`);
+      } else {
+        ok('gl locuta el módulo en galego, con su propio asset de Celtia');
+      }
+    } else {
+      // Aún sin sintetizar (la tanda nueva la genera «Generate Voice Assets»).
+      // Lo que YA se puede comprobar, y es el defecto real que se persigue, es
+      // que el respaldo dejó de forzar castellano: si volviera a hacerlo, la
+      // consigna galega saldría con `es-ES` y voz castellana.
+      const said = spy.spoken[0];
+      if (!said) fail('gl: sin asset todavía, no locutó nada');
+      else if (said.language !== 'gl-ES') {
+        fail(`gl: el respaldo pidió «${said.language}» sobre texto GALEGO; debe pedir gl-ES`);
+      } else {
+        ok('gl: el módulo pide gl-ES sobre texto galego (asset de Celtia aún sin sintetizar)');
+      }
+    }
+    // Y el texto que se le pasa es el galego, no el castellano traducido a medias.
+    if (SAMPLE_GL === SAMPLE) fail('gl: la consigna galega es idéntica a la castellana');
+  }
+
+  // --- 4. Castellano y dominicano, intactos ---------------------------------
   await enterSession('es');
   reset();
   luaSpeech.speakLuaToChild(SAMPLE);

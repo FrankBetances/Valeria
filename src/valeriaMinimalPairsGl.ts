@@ -1,11 +1,11 @@
 // ============================================================================
 // Valeria+ · Pares Mínimos en GALEGO (plan Proxecto Nós, GL-2.x)
 //
-// ESTADO: los SIETE primeros pares (PM-GL-1…7) están ✅ APROBADOS PARA
-// PRODUCCIÓN (validación logopédica y de gallego normativo cumplida, jul 2026).
-// Los SEIS de contrastes propios (PM-GL-8…13, set/2026) están ⚠️ PENDIENTES de
-// esa misma doble validación: ver su bloque más abajo. Cableado por variedad
-// (pairsForLocale) y locutado con la voz neuronal Celtia. El banco castellano NO transfiere (p. ej. "perro" es
+// ESTADO: ✅ APROBADO PARA PRODUCCIÓN, los TRECE pares. Los siete primeros por
+// la revisora logopeda gallegohablante (jul 2026); los seis de contrastes
+// propios (PM-GL-8…13) por ACOPROS, evaluación y validación comunicada por
+// Frank el 6/9/2026. Cableado por variedad (pairsForLocale) y locutado con la
+// voz neuronal Celtia. El banco castellano NO transfiere (p. ej. "perro" es
 // "can": pierde el contraste r̄/l), así que cada par se diseñó ad hoc con el
 // mismo principio clínico: el error de sustitución habitual produce
 // exactamente la otra palabra del par.
@@ -150,10 +150,10 @@ export const MINIMAL_PAIRS_GL: MinimalPair[] = [
   // Complétase ademais o que si tiña equivalente castelán e faltaba: nasais e
   // laterais, os dous grupos de PAIR_GROUPS que o banco galego deixaba baleiros.
   //
-  // ⚠️ ESTADO: PENDENTE DE VALIDACIÓN LOGOPÉDICA. Os sete primeiros pares están
-  // aprobados para produción (27/7/2026); estes seis NON o están aínda. Fan
-  // falta as dúas revisións que este repositorio esixe sempre por separado —
-  // galego normativo E criterio logopédico— antes de escribir aquí «aprobado».
+  // ✅ ESTADO: APROBADOS PARA PRODUCIÓN. Avaliados e validados por ACOPROS
+  // (comunicado por Frank o 6/9/2026), coa mesma dobre esixencia que o resto do
+  // repositorio pide sempre por separado: galego normativo E criterio
+  // logopédico. Os sete primeiros seguen aprobados desde o 27/7/2026.
   {
     id: 'gl-xeo-cheo', code: 'PM-GL-8', group: 'Postalveolar',
     target: 'xeo', targetEmoji: '🧊', foil: 'cheo', foilEmoji: '🥛',

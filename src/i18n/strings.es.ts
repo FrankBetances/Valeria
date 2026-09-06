@@ -136,6 +136,13 @@ export const ES = {
     therapyLanguage: 'Lengua de la terapia',
     therapyLanguageHint: 'Se aplicará al seleccionar a este paciente. Sin elegir, se mantiene la de la app.',
 
+    // Solo aparece con la terapia en galego. El occidente sesea y el oriente
+    // distingue; de esto dependen el par casa/caza y el pliegue del micrófono.
+    glDialect: 'Variedad del gallego',
+    glDialectHint: 'En el occidente (costa de A Coruña y Pontevedra) se sesea. Si lo eliges, el par casa / caza sale del banco y el micrófono deja de contar el seseo como error.',
+    glDialectDistincion: 'Distingue s / z',
+    glDialectSeseo: 'Sesea',
+
     pathology: 'Patología / diagnóstico',
     pathologyPlaceholder: 'Selecciona una patología…',
     prescriber: 'Médico prescriptor (ORL / Pediatra)',

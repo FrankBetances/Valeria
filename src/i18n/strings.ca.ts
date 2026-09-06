@@ -124,6 +124,11 @@ export const CA: UiStrings = {
     therapyLanguage: 'Llengua de la teràpia',
     therapyLanguageHint: 'S\'aplicarà en seleccionar aquest pacient. Sense triar-ne cap, es manté la de l\'app.',
 
+    glDialect: 'Varietat del gallec',
+    glDialectHint: 'El gallec occidental (costa de la Corunya i Pontevedra) fa seseo. Si el tries, el parell casa / caza surt del banc i el micròfon deixa de comptar-ho com un error.',
+    glDialectDistincion: 'Distingeix s / z',
+    glDialectSeseo: 'Fa seseo',
+
     pathology: 'Patologia / diagnòstic',
     pathologyPlaceholder: 'Selecciona una patologia…',
     prescriber: 'Metge prescriptor (ORL / Pediatre)',

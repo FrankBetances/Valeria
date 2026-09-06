@@ -7,6 +7,7 @@ export * from './Catalog/LuaAssessmentCatalog';
 export * from './Catalog/LuaStoriesCatalog';
 export * from './Catalog/LuaSongsCatalog';
 export * from './Catalog/LuaGamesCatalog';
+export * from './Catalog/luaCatalogsFor';
 export * from './Screens/ValeriaAventurasLuaHubScreen';
 export * from './Screens/LuaAssessmentPlayerScreen';
 export * from './Screens/LuaStoryViewerScreen';

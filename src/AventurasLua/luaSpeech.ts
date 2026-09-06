@@ -1,9 +1,9 @@
 // ============================================================================
 // Aventuras con Lúa · Hablarle al niño en la lengua del contenido
 //
-// Los catálogos del módulo están SOLO en castellano: las 60 consignas, los 10
-// cuentos, las 10 canciones y los 25 juegos vienen de las 50 hojas y no hay
-// banco en gallego, euskera, inglés ni catalán.
+// Los catálogos del módulo tienen banco propio en castellano y, desde
+// sept/2026, en GALEGO (src/AventurasLua/Catalog/gl). Siguen sin tenerlo el
+// euskera, el inglés y el catalán.
 //
 // El problema no es que se lea en castellano —eso está dicho en el README—,
 // sino CON QUÉ VOZ. Este módulo ya pedía `{ language: 'es-ES' }`, y no bastaba,
@@ -18,20 +18,22 @@
 //     que Celtia, HiTZ o Matxa leían las palabras castellanas: el acento se
 //     mantenía y el idioma no. Eso es lo que se oía.
 //
-// Mientras el módulo no tenga banco propio por variedad, se locuta en
-// castellano DE VERDAD: asset `es` (Sharvard) cuando existe —hoy, los 553— y
-// voz castellana del sistema si algún día no. El día que exista el banco por
-// variedad, esto se borra y ya está.
+// Mientras una variedad no tenga banco propio, se locuta en castellano DE
+// VERDAD: asset `es` (Sharvard) cuando existe y voz castellana del sistema si
+// no. El día que las cuatro que faltan tengan banco, este fichero se borra.
 // ============================================================================
 import type { SpeechOptions } from 'expo-speech';
 import { contentLocale } from '../valeriaLocale';
+import { LUA_BANK_LANGS } from './Catalog/luaCatalogsFor';
 import {
   speakToChild, speakToChildSeq, speakToChildIn, speakToChildSeqIn,
 } from '../valeriaVoice';
 
-/** Las variedades que SÍ tienen este contenido en su lengua. Hoy, solo el
- *  castellano y el dominicano, que comparte texto. */
-const HAS_OWN_BANK = new Set(['es', 'es-DO']);
+/** Las variedades que SÍ tienen este contenido en su lengua: el castellano, el
+ *  dominicano —que comparte texto— y el galego desde sept/2026. La lista es la
+ *  del catálogo, no una copia: separarlas sería volver a la sesión galega que
+ *  suena en castellano. */
+const HAS_OWN_BANK = new Set<string>(LUA_BANK_LANGS);
 
 // contentLocale y no getLocale: una variedad cuyo banco clínico todavía no está
 // listo ya locuta castellano en toda la app, y ahí la ruta normal es la buena.
