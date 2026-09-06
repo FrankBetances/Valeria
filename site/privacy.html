@@ -26,7 +26,7 @@
   <p class="lang"><a href="privacidad.html">Versión en español</a> · <strong>English</strong> · <a href="eliminacion-de-datos.html">Data deletion</a></p>
 
   <div class="meta">
-    <span><strong>Last updated:</strong> 4 August 2026</span>
+    <span><strong>Last updated:</strong> 6 September 2026</span>
     <span><strong>Effective:</strong> 28 July 2026</span>
     <span><strong>App version:</strong> 3.0.0</span>
   </div>
@@ -69,6 +69,7 @@
     <table>
       <thead><tr><th>Data</th><th>What it is used for</th></tr></thead>
       <tbody>
+        <tr><td><strong>Patient record:</strong> full name, date of birth, medical record number, sex, guardian's name and relationship, contact email and phone, condition or reason for consultation, language the therapy is delivered in and its regional variety, referring physician and speech therapist</td><td>Entered by the adult to identify the patient and contextualise the intervention. This includes <strong>health data</strong>, a special category under Article 9 GDPR. In version 3.0.0 the record <strong>exists only on the device</strong>: it is kept in the App's private storage and is not sent to any server (see the notice in section 3.2). It leaves the phone only if the adult exports a report and shares it themselves.</td></tr>
         <tr><td>App preferences (language and dialect variety, noise level, auto-record, reminders)</td><td>Remembering the adult's chosen configuration between sessions.</td></tr>
         <tr><td>Exercise progress, hits and errors within the current session</td><td>Showing exercise results and adapting the ongoing session.</td></tr>
         <tr><td>Professional PIN (stored as a cryptographic digest, never in clear text)</td><td>Preventing the child from reaching the administration panel unaided.</td></tr>
@@ -81,7 +82,10 @@
   <p>This data lives in the App's private storage area and is erased when the App is uninstalled or its data is cleared from Android settings.</p>
 
   <h3>3.2 Data a professional may sync to the cloud</h3>
-  <p>Cloud sync is <strong>optional</strong> and only activates if a professional creates an account and signs in. Without an account, the App runs entirely offline.</p>
+  <div class="warn">
+    <p><strong>Status in version 3.0.0: cloud sync is not active.</strong> The App distributed on Google Play <strong>offers no screen to create an account or sign in</strong>, and it neither reads nor writes any Cloud Firestore document. In practice this means that, today, <strong>no personal or health data leaves the device</strong>: the patient record and the session history live solely in the App's private storage (section 3.1). This section 3.2 describes how sync is designed for when it is enabled; on that day an updated version of this policy will be published <em>before</em> the feature reaches the store, and the Google Play <em>Data safety</em> form will be updated in the same change.</p>
+  </div>
+  <p>As designed, cloud sync is <strong>optional</strong> and would only activate if a professional created an account and signed in. Without an account the App runs entirely offline &mdash; which is what happens in every case today.</p>
   <div class="table-scroll">
     <table>
       <thead><tr><th>Data</th><th>Source and purpose</th></tr></thead>
@@ -121,7 +125,7 @@
         </tr>
         <tr>
           <td><strong>Internet</strong><br><code>INTERNET</code></td>
-          <td>Solely for the professional-account authentication and sync described in section 3.2. Exercises, pictograms and voices are bundled with the App and work offline.</td>
+          <td>Reserved for the professional-account authentication and sync described in section 3.2, <strong>which are not active in version 3.0.0</strong>. Exercises, pictograms and voices are bundled with the App and work offline. The App makes no network call of its own; the only possible data egress today is the speech-turn audio when recognition cannot be performed on the device (section 3.3, &ldquo;Speech recognition&rdquo;).</td>
           <td>—</td>
         </tr>
       </tbody>
@@ -163,7 +167,7 @@
   <h2>5. Who data is shared with</h2>
   <p>Valeria+ <strong>does not sell or transfer personal data to third parties for commercial or advertising purposes</strong>. The only disclosures are:</p>
   <ul>
-    <li><strong>Google Firebase</strong> (Google Ireland Limited / Google LLC), as the provider of <em>Firebase Authentication</em> and <em>Cloud Firestore</em>, hosts the professional accounts and patient records described in section 3.2, acting as a data processor. See the <a href="https://firebase.google.com/support/privacy" rel="noopener">Firebase privacy and security terms</a>.</li>
+    <li><strong>Google Firebase</strong> (Google Ireland Limited / Google LLC), as the provider of <em>Firebase Authentication</em> and <em>Cloud Firestore</em>, would host the professional accounts and patient records described in section 3.2, acting as a data processor. <strong>In version 3.0.0 that transfer never takes place</strong>, because sync is not active. See the <a href="https://firebase.google.com/support/privacy" rel="noopener">Firebase privacy and security terms</a>.</li>
     <li><strong>The device's speech recognition service</strong> (usually Google), <strong>only where recognition cannot be performed on the device itself</strong>, as described in section 3.3.</li>
     <li><strong>Recipients chosen by the adult</strong> when they export a report or log and share it through Android's share sheet (for example, by email). That disclosure is initiated and fully controlled by the person performing it.</li>
     <li><strong>Public authorities</strong>, where there is a legal obligation to disclose.</li>

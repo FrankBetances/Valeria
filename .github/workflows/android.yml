@@ -350,6 +350,13 @@ jobs:
       - name: Comprobar las páginas legales declaradas en Play Console
         run: node scripts/check-legal-urls.js --offline
 
+      # La otra mitad de la declaración: el formulario de «Seguridad de los
+      # datos» de Play Console, que Google contrasta contra site/privacidad.html.
+      # CLAUDE.md obliga desde siempre a tocar las dos cosas en el mismo cambio;
+      # esto es lo primero que lo comprueba. Ver docs/play-console-seguridad-datos.md.
+      - name: Comprobar que la declaración de datos describe lo que hace la app
+        run: node scripts/check-data-safety-declaration.js
+
       # Play bloqueó la app el 1/9/2026 por FOREGROUND_SERVICE_MEDIA_PLAYBACK,
       # que nadie declaró: lo trae el manifiesto de expo-audio y el fusionador
       # lo mete en el APK. Lo retira `plugins/withValeriaNoBackgroundAudio.js`,
