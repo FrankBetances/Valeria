@@ -1890,6 +1890,17 @@ export const ES = {
     storyDrawingPrompt: 'Dibuja con Lúa',
     storyOpenDrawing: 'Abrir lienzo de dibujo',
 
+        // Recitado rítmico con metrónomo visual. La app no canta —ninguna voz
+    // neuronal sabe—, así que recita a pulso, que es técnica clínica de verdad:
+    // sincronía auditivo-motora, habla pautada y prosodia.
+    rhythmTitle: 'Recitado rítmico',
+    rhythmHint: 'La app no canta: recita la letra a un pulso constante. Seguid el punto que se enciende y decid un verso por compás. Sirve para marcar sílabas, bajar la velocidad del habla y practicar el acento.',
+    rhythmStart: '▶ Recitar a pulso',
+    rhythmStop: '■ Parar el pulso',
+    rhythmTempo: (bpm: number): string => `${bpm} pulsos por minuto`,
+    rhythmA11y: (bpm: number, beats: number): string =>
+      `Metrónomo visual: ${bpm} pulsos por minuto, ${beats} pulsos por verso.`,
+
     songPlayTrack: 'Reproducir canción',
     songMotorInstructions: 'Instrucciones de movimiento',
     songPraxiasTitle: 'Praxias y articulación',

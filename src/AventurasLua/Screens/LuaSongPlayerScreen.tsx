@@ -2,7 +2,7 @@
 // Valeria+ · Aventuras con Lúa · Reproductor de Canciones y Praxias
 // Música, ritmo, pausas motoras y esquemas articulatorios orales.
 // ============================================================================
-import React, { useRef, useState, useCallback } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
   View,
   Text,
@@ -18,6 +18,7 @@ import { speakLuaToChild, speakLuaToChildSeq } from "../luaSpeech";
 import { LUA_COLORS, LUA_RADII } from "../Theme/luaTheme";
 import { luaCompleteActivity, useLuaActivityCleanup } from "../luaActivityReward";
 import { LuaSong, luaSongsFor } from "../index";
+import { LuaRhythmBar } from "../LuaRhythmBar";
 import { getLocale } from "../../valeriaLocale";
 
 interface Props {
@@ -44,6 +45,29 @@ export const LuaSongPlayerScreen: React.FC<Props> = ({ navigation, route }) => {
   const [finished, setFinished] = useState(false);
   const [tappedElements, setTappedElements] = useState<Record<string, boolean>>({});
 
+  // --- Recitado rítmico con metrónomo visual --------------------------------
+  // El pulso lo lleva un intervalo, no una animación: lo que tiene que ser
+  // exacto es CUÁNDO entra cada verso, no cómo se dibuja el punto. `beat` es el
+  // pulso absoluto desde el arranque; de ahí salen el compás (verso en curso) y
+  // la posición dentro del compás (el punto encendido).
+  const [beat, setBeat] = useState<number | null>(null);
+  const tick = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  const rhythm = song?.rhythm;
+  const lineOfBeat = rhythm && beat !== null ? Math.floor(beat / rhythm.beatsPerLine) : null;
+  const beatInBar = rhythm && beat !== null ? beat % rhythm.beatsPerLine : null;
+  const reciting = beat !== null;
+
+  const stopRhythm = useCallback(() => {
+    if (tick.current) { clearInterval(tick.current); tick.current = null; }
+    setBeat(null);
+  }, []);
+
+  // Al desmontar: el intervalo se corta SIEMPRE. Un metrónomo vivo tras salir
+  // de la pantalla es el mismo defecto que el desfile del premio sin cancelar
+  // (CLAUDE.md §5b), y aquí además seguiría hablando.
+  useEffect(() => () => { if (tick.current) clearInterval(tick.current); }, []);
+
   // Verso a verso, no la letra concatenada. Encadenada en una sola cadena, la
   // combinación no existe en el corpus y toda la canción caía a la voz del
   // sistema; troceada, cada verso resuelve su propio asset neuronal.
@@ -57,6 +81,26 @@ export const LuaSongPlayerScreen: React.FC<Props> = ({ navigation, route }) => {
     setIsPlaying(true);
     speakLuaToChildSeq(song.lyrics, { onDone: () => setIsPlaying(false) });
   }, [song]);
+
+  const handleStartRhythm = useCallback(() => {
+    if (!song || !rhythm) return;
+    stopRhythm();
+    const total = song.lyrics.length * rhythm.beatsPerLine;
+    let n = 0;
+    // Primer verso YA, en el pulso 0: si se esperase al primer tick, el niño
+    // vería un compás mudo antes de oír nada.
+    speakLuaToChild(song.lyrics[0]);
+    setBeat(0);
+    tick.current = setInterval(() => {
+      n += 1;
+      if (n >= total) { stopRhythm(); return; }
+      setBeat(n);
+      // Entrada de verso: solo en el primer pulso de cada compás.
+      if (n % rhythm.beatsPerLine === 0) {
+        speakLuaToChild(song.lyrics[n / rhythm.beatsPerLine]);
+      }
+    }, 60000 / rhythm.bpm);
+  }, [song, rhythm, stopRhythm]);
 
   const handleTapElement = (element: string) => {
     setTappedElements((prev) => ({ ...prev, [element]: true }));
@@ -124,6 +168,32 @@ export const LuaSongPlayerScreen: React.FC<Props> = ({ navigation, route }) => {
           </Pressable>
         </View>
 
+        {/* Recitado rítmico con metrónomo visual */}
+        <View style={s.rhythmCard}>
+          <View style={s.lyricsHeader}>
+            <BlockIcon name="timer" color={LUA_COLORS.coralDark} size={20} />
+            <Text style={s.rhythmHeading}>{t.luaHub.rhythmTitle}</Text>
+          </View>
+          <Text style={s.rhythmHint}>{t.luaHub.rhythmHint}</Text>
+          <LuaRhythmBar
+            beats={song.rhythm.beatsPerLine}
+            accentEvery={song.rhythm.accentEvery}
+            current={beatInBar}
+            tempoLabel={t.luaHub.rhythmTempo(song.rhythm.bpm)}
+            a11yLabel={t.luaHub.rhythmA11y(song.rhythm.bpm, song.rhythm.beatsPerLine)}
+          />
+          <Pressable
+            onPress={reciting ? stopRhythm : handleStartRhythm}
+            style={[s.rhythmBtn, reciting && s.rhythmBtnOn]}
+            accessibilityRole="button"
+            accessibilityLabel={reciting ? t.luaHub.rhythmStop : t.luaHub.rhythmStart}
+          >
+            <Text style={s.rhythmBtnTxt}>
+              {reciting ? t.luaHub.rhythmStop : t.luaHub.rhythmStart}
+            </Text>
+          </Pressable>
+        </View>
+
         {/* Tarjeta de letra con ritmo */}
         <View style={s.lyricsCard}>
           <View style={s.lyricsHeader}>
@@ -131,7 +201,10 @@ export const LuaSongPlayerScreen: React.FC<Props> = ({ navigation, route }) => {
             <Text style={s.lyricsHeading}>{song.title}</Text>
           </View>
           {song.lyrics.map((line, idx) => (
-            <Text key={idx} style={s.lyricLine}>
+            <Text
+              key={idx}
+              style={[s.lyricLine, lineOfBeat === idx && s.lyricLineOn]}
+            >
               {line}
             </Text>
           ))}
@@ -326,6 +399,47 @@ const s = StyleSheet.create({
     lineHeight: 26,
     marginBottom: 4,
   },
+  // Verso en curso del recitado. Fondo y peso, no color de texto solo: sobre
+  // fondo claro un cambio de tinta se pierde, y el niño tiene que localizar la
+  // línea de un vistazo mientras sigue el pulso.
+  lyricLineOn: {
+    backgroundColor: LUA_COLORS.coralLight,
+    color: LUA_COLORS.coralDark,
+    fontWeight: "800",
+    borderRadius: 8,
+    paddingHorizontal: 8,
+    marginHorizontal: -8,
+  },
+  rhythmCard: {
+    backgroundColor: LUA_COLORS.surface,
+    borderRadius: LUA_RADII.lg,
+    padding: 18,
+    marginBottom: 14,
+    borderWidth: 1,
+    borderColor: LUA_COLORS.coralLight,
+    gap: 12,
+  },
+  rhythmHeading: {
+    fontSize: 15,
+    fontWeight: "800",
+    color: LUA_COLORS.coralDark,
+  },
+  rhythmHint: {
+    fontSize: 12.5,
+    fontWeight: "600",
+    color: LUA_COLORS.textSecondary,
+    lineHeight: 18,
+    marginTop: -6,
+  },
+  rhythmBtn: {
+    alignSelf: "center",
+    paddingVertical: 11,
+    paddingHorizontal: 22,
+    borderRadius: 14,
+    backgroundColor: LUA_COLORS.coralDark,
+  },
+  rhythmBtnOn: { backgroundColor: LUA_COLORS.primaryDark },
+  rhythmBtnTxt: { fontSize: 14.5, fontWeight: "800", color: "#FFFFFF" },
   taskCard: {
     backgroundColor: LUA_COLORS.surface,
     borderRadius: LUA_RADII.lg,

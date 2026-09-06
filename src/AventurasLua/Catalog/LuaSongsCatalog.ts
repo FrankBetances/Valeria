@@ -16,6 +16,38 @@ export type SongTheme =
   | 'cortesia_social'
   | 'orden_transicion';
 
+/**
+ * Recitado rítmico con metrónomo visual (spoken-word).
+ *
+ * La app NO canta: ninguna de las cinco voces neuronales sabe hacerlo, y
+ * pedirle a un TTS que cante produce el mismo ruido que pedirle a la voz
+ * inglesa que lea castellano. Lo que sí se puede hacer —y es técnica clínica de
+ * verdad, no un sucedáneo— es RECITAR A PULSO: la letra dicha sobre un tempo
+ * estable con el pulso a la vista.
+ *
+ * Qué entrena, y por eso está aquí y no en una pantalla de adorno:
+ *   · Entrenamiento auditivo-motor: sincronizar la sílaba con un pulso externo
+ *     es el fundamento de la conciencia silábica que miden DX-3 y los ítems de
+ *     sílabas del banco por edad.
+ *   · Habla pautada: recitar sobre un pulso lento reduce la tasa de habla, y es
+ *     la técnica de los ítems de fluidez (3_4_07, 4_5_09, 5_7_07).
+ *   · Prosodia: el acento cada N pulsos da la estructura fuerte-débil que la
+ *     voz sintética no marca por sí sola.
+ *
+ * El ritmo vive en el catálogo BASE y NO en los bancos por variedad: es
+ * estructura, no texto. Un verso galego con dos sílabas más cabe en el mismo
+ * compás —eso es precisamente lo que hace el spoken-word—, así que el mismo
+ * tempo sirve para las cinco lenguas y no hay que reautorizar nada.
+ */
+export interface LuaSongRhythm {
+  /** Pulsos por minuto del metrónomo. Lento en praxias, vivo al contar. */
+  bpm: number;
+  /** Pulsos que dura CADA verso. El compás en el que la línea tiene que caber. */
+  beatsPerLine: number;
+  /** Cada cuántos pulsos cae el acento fuerte: 2 binario, 3 ternario. */
+  accentEvery: number;
+}
+
 export interface LuaSong {
   id: string;
   number: number; // 1 a 10
@@ -36,6 +68,9 @@ export interface LuaSong {
   theme: SongTheme;
   consigna: string;
   lyrics: string[];
+  /** Pauta del recitado rítmico. Obligatoria: sin ella la canción no se puede
+   *  recitar a pulso y el metrónomo no sabría a qué velocidad ir. */
+  rhythm: LuaSongRhythm;
   interactiveTask: {
     title: string;
     description: string;
@@ -53,6 +88,8 @@ export const LUA_SONGS_CATALOG: LuaSong[] = [
     subtitle: 'Rutina de la mañana y bienvenida al día',
     theme: 'rutina_manana',
     consigna: 'Canta esta canción cada mañana. Cuando digas "sol", señala la ventana.',
+    // Despertar: pulso lento de 0-2, cuatro tiempos por verso.
+    rhythm: { bpm: 72, beatsPerLine: 4, accentEvery: 2 },
     lyrics: [
       'Buenos días, sol bonito,',
       'buenos días, buen amigo,',
@@ -77,6 +114,8 @@ export const LUA_SONGS_CATALOG: LuaSong[] = [
     subtitle: 'Canción rítmica para contar del 1 al 10',
     theme: 'conteo',
     consigna: 'Canta con Lúa. Cada vez que digas un número, toca el coco en la pantalla.',
+    // Contar pide marcha: un número por tiempo fuerte.
+    rhythm: { bpm: 84, beatsPerLine: 4, accentEvery: 2 },
     lyrics: [
       'Uno, dos, tres cocos,',
       'cuatro, cinco, seis,',
@@ -102,6 +141,8 @@ export const LUA_SONGS_CATALOG: LuaSong[] = [
     subtitle: 'Discriminación cromática y rima',
     theme: 'colores',
     consigna: 'Canta y señala cada franja del arcoíris en pantalla mientras nombras su color.',
+    // Una cor por verso, con tiempo para señalarla.
+    rhythm: { bpm: 76, beatsPerLine: 4, accentEvery: 2 },
     lyrics: [
       'Rojo como una fresa,',
       'naranja como el sol,',
@@ -127,6 +168,8 @@ export const LUA_SONGS_CATALOG: LuaSong[] = [
     subtitle: 'Praxias articulatorias y motricidad corporal',
     theme: 'vocales_motor',
     consigna: 'Canta cada vocal con Lúa y realiza el movimiento corporal correspondiente.',
+    // El más lento del set: cada vogal es una praxia y necesita los cuatro segundos del compás.
+    rhythm: { bpm: 60, beatsPerLine: 4, accentEvery: 2 },
     lyrics: [
       'Con la A yo abro los brazos,',
       'con la E estiro los pies,',
@@ -150,6 +193,8 @@ export const LUA_SONGS_CATALOG: LuaSong[] = [
     subtitle: 'Repertorio onomatopéyico y discriminación',
     theme: 'onomatopeyas',
     consigna: 'Canta e imita el sonido de cada animal cuando aparezca junto a Lúa.',
+    // La onomatopeya cae en el tiempo fuerte del compás siguiente.
+    rhythm: { bpm: 80, beatsPerLine: 4, accentEvery: 2 },
     lyrics: [
       'En mi patio hay un perrito,',
       'que hace ¡guau, guau, guau!,',
@@ -175,6 +220,8 @@ export const LUA_SONGS_CATALOG: LuaSong[] = [
     subtitle: 'Hábito de higiene y secuenciación en 4 pasos (20 segundos)',
     theme: 'higiene_secuencia',
     consigna: 'Canta esta canción mientras te lavas las manos de verdad. ¡Veinte segundos completos!',
+    // Ocho versos x cuatro pulsos a 96 bpm = 20 segundos EXACTOS, que es la duración del lavado de manos. El tempo no es estético: es el cronómetro.
+    rhythm: { bpm: 96, beatsPerLine: 4, accentEvery: 2 },
     lyrics: [
       'Lávate las manitos,',
       'con agua y con jabón,',
@@ -200,6 +247,8 @@ export const LUA_SONGS_CATALOG: LuaSong[] = [
     subtitle: 'Esquema corporal y propiocepción',
     theme: 'esquema_corporal',
     consigna: 'Canta y toca cada parte de tu cuerpo que Lúa va nombrando.',
+    // Versos largos de dos partes del cuerpo: compás de seis con acento ternario.
+    rhythm: { bpm: 72, beatsPerLine: 6, accentEvery: 3 },
     lyrics: [
       'Toco mi cabeza, toco mis hombros,',
       'toco mi barriga y toco mis codos,',
@@ -221,6 +270,9 @@ export const LUA_SONGS_CATALOG: LuaSong[] = [
     subtitle: 'Vocabulario nutricional, rima y turnos',
     theme: 'frutas_alimentacion',
     consigna: 'Canta en ronda tomados de la mano y señala la fruta que se mencione.',
+    // Ritmo de roda, que se baila en corro. A 88 bpm el compás quedaba a 377 ms
+    // del verso más largo ya sintetizado, y el galego alarga: se baja a 80.
+    rhythm: { bpm: 80, beatsPerLine: 4, accentEvery: 2 },
     lyrics: [
       'Vamos a la ronda de las frutas,',
       'mango, lechosa y chinola también,',
@@ -246,6 +298,8 @@ export const LUA_SONGS_CATALOG: LuaSong[] = [
     subtitle: 'Pragmática social y fórmulas de cortesía',
     theme: 'cortesia_social',
     consigna: 'Canta y practica decir "gracias" y "por favor" con Lúa o un amigo.',
+    // Fórmulas de cortesía: pausado, para que se oiga cada palabra.
+    rhythm: { bpm: 76, beatsPerLine: 4, accentEvery: 2 },
     lyrics: [
       'Si tú quieres algo,',
       'di por favor,',
@@ -271,6 +325,8 @@ export const LUA_SONGS_CATALOG: LuaSong[] = [
     subtitle: 'Funciones ejecutivas y transición ordenada de cierre',
     theme: 'orden_transicion',
     consigna: 'Canta esta canción mientras ayudas a ordenar los juguetes al terminar la sesión.',
+    // Canción de cierre y transición: vivo, para mover el cuerpo mientras se ordena.
+    rhythm: { bpm: 92, beatsPerLine: 4, accentEvery: 2 },
     lyrics: [
       'A guardar, a guardar,',
       'cada cosa en su lugar,',

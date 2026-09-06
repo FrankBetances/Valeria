@@ -578,7 +578,7 @@ async function main() {
   assert(functionSignatures.size >= 200,
     `Extracción de firmas rota: solo ${functionSignatures.size} funciones tipadas`);
 
-  runTest('TEST-4.3: Dynamic AST-Driven Execution of all 224 Interpolation Functions in CA, EN and GL', () => {
+  runTest('TEST-4.3: Dynamic AST-Driven Execution of every Interpolation Function in ES, EN, CA and GL', () => {
     let funcCount = 0;
     const knownKeys = {
       'ficha.genderLabel': 'Niña',
@@ -653,7 +653,16 @@ async function main() {
       }
     }
 
-    assert.strictEqual(funcCount, 224, 'Successfully tested all 224 interpolation functions across catalogs');
+    // Se DERIVA del catálogo, no se congela. Este número llevaba tres subidas a
+    // mano (222 → 223 → 224) y cada una fue un build en rojo descubierto en CI:
+    // añadir una clave de función a la interfaz no debería romper un test que
+    // solo quiere comprobar que se ejecutaron TODAS. Lo que sí se afirma es que
+    // no se quedó corto, que es el fallo que el número fijo intentaba cazar.
+    const esperadas = Object.values(stringsEs.ES)
+      .reduce((n, ns) => n + Object.values(ns).filter((v) => typeof v === 'function').length, 0);
+    assert.strictEqual(funcCount, esperadas,
+      `Se ejecutaron ${funcCount} funciones y el catálogo castellano tiene ${esperadas}`);
+    assert(esperadas > 200, `El catálogo parece truncado: solo ${esperadas} funciones`);
   });
 
   // ──────────────────────────────────────────────────────────────────────────

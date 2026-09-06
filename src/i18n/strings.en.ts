@@ -1821,6 +1821,14 @@ export const EN: UiStrings = {
     storyDrawingPrompt: 'Draw with Lúa',
     storyOpenDrawing: 'Open drawing canvas',
 
+        rhythmTitle: 'Rhythmic chant',
+    rhythmHint: 'The app does not sing: it chants the lyrics on a steady pulse. Follow the dot that lights up and say one line per bar. It works syllable marking, slower speech rate and stress.',
+    rhythmStart: '▶ Chant on the beat',
+    rhythmStop: '■ Stop the beat',
+    rhythmTempo: (bpm: number): string => `${bpm} beats per minute`,
+    rhythmA11y: (bpm: number, beats: number): string =>
+      `Visual metronome: ${bpm} beats per minute, ${beats} beats per line.`,
+
     songPlayTrack: 'Play song',
     songMotorInstructions: 'Movement instructions',
     songPraxiasTitle: 'Oral motor praxias',

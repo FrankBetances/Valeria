@@ -225,6 +225,79 @@ if (!fails.some((m) => /icono de librería/.test(m))) {
   ok('no quedan nombres de icono de librería en los catálogos');
 }
 
+// --- Recitado rítmico: el compás tiene que dar tiempo al verso ---------------
+// El metrónomo hace entrar un verso por compás. Si el compás dura menos que el
+// audio del verso, la app se corta a sí misma: el niño oye media línea y el
+// pulso ya va por la siguiente. No es una molestia estética, es el ejercicio
+// roto — el punto de recitar a pulso es que la sílaba caiga donde toca.
+//
+// No se estima la duración: se LEE la de los assets ya sintetizados
+// (voice-assets-manifest.*.json trae los segundos de cada locución). Un idioma
+// sin sintetizar todavía se salta, no se inventa.
+console.log('\n── Recitado rítmico: tempo, acento y holgura del compás ──');
+const SONGS = C;
+// Del corpus ya exportado, no recompilando el módulo: el id sale de ahí y así
+// esto comprueba lo mismo que se empaqueta.
+const corpusJson = JSON.parse(fs.readFileSync(path.join(ROOT, 'voice-corpus.json'), 'utf8')).corpus;
+const idDe = new Map(corpusJson.map((e) => [`${e.lang}\u0000${e.style}\u0000${e.text}`, e.id]));
+
+// texto → segundos, por idioma, desde los manifiestos de audio.
+const segundos = new Map();
+for (const lang of ['es', 'gl', 'eu', 'en', 'ca']) {
+  const mf = path.join(ROOT, `voice-assets-manifest.${lang}.json`);
+  if (!fs.existsSync(mf)) continue;
+  for (const f of JSON.parse(fs.readFileSync(mf, 'utf8')).files ?? []) {
+    segundos.set(f.id, f.seconds);
+  }
+}
+
+let sinAssets = 0;
+for (const c of SONGS) {
+  const r = c.rhythm;
+  if (!r || !r.bpm || !r.beatsPerLine || !r.accentEvery) {
+    fail(`${c.id}: sin pauta de recitado (rhythm). El metrónomo no sabría a qué ir.`);
+    continue;
+  }
+  if (r.bpm < 40 || r.bpm > 140) fail(`${c.id}: ${r.bpm} bpm está fuera del rango recitable (40-140)`);
+  if (r.beatsPerLine % r.accentEvery !== 0) {
+    fail(`${c.id}: ${r.beatsPerLine} pulsos por verso no son múltiplo del acento cada ${r.accentEvery}: `
+      + 'el compás empezaría en tiempo débil unas veces sí y otras no');
+  }
+  const compasMs = (r.beatsPerLine * 60000) / r.bpm;
+
+  // Holgura contra el audio REAL de cada verso, en cada idioma sintetizado.
+  for (const lang of ['es', 'gl']) {
+    const duraciones = c.lyrics
+      .map((v) => segundos.get(idDe.get(`${lang}\u0000child\u0000${v.trim()}`)))
+      .filter((x) => typeof x === 'number');
+    if (!duraciones.length) { sinAssets += 1; continue; }
+    const peor = Math.max(...duraciones) * 1000;
+    // Margen, no empate: se exige que sobren 250 ms. Un compás que cabe justo
+    // en castellano se pasa en cuanto el mismo verso se sintetiza en otra
+    // lengua —el galego alarga— y entonces el fallo llega al niño, no al gate.
+    if (peor + 250 > compasMs) {
+      fail(`${c.id} (${lang}): el compás dura ${Math.round(compasMs)} ms y el verso más largo `
+        + `${Math.round(peor)} ms. Hacen falta 250 ms de margen: por debajo, la app `
+        + 'se corta a sí misma a mitad de verso en cuanto otra lengua alarga.');
+    }
+  }
+}
+
+// El lavado de manos NO es un tempo estético: son los 20 segundos de la OMS.
+const lavado = SONGS.find((c) => c.id === 'lua_song_06');
+if (lavado) {
+  const dur = (lavado.lyrics.length * lavado.rhythm.beatsPerLine * 60000) / lavado.rhythm.bpm;
+  if (Math.round(dur) !== 20000) {
+    fail(`lua_song_06: el recitado dura ${Math.round(dur)} ms y tiene que durar 20 000 — `
+      + 'el tempo de esta canción ES el cronómetro del lavado de manos.');
+  }
+}
+
+if (!fails.some((m) => /rhythm|compás|bpm|recitado/.test(m))) {
+  ok(`las ${SONGS.length} canciones tienen pauta de recitado y el compás da tiempo al verso`
+    + (sinAssets ? ` (${sinAssets} bancos aún sin sintetizar, no comprobados)` : ''));
+}
+
 // --- Veredicto --------------------------------------------------------------
 if (fails.length) {
   console.error('\n✖ Aventuras con Lúa: ' + fails.length + (fails.length === 1 ? ' problema' : ' problemas'));

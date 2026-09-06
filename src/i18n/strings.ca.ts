@@ -1779,6 +1779,14 @@ export const CA: UiStrings = {
     storyDrawingPrompt: 'Dibuixa amb la Lúa',
     storyOpenDrawing: 'Obrir llenç de dibuix',
 
+        rhythmTitle: 'Recitat rítmic',
+    rhythmHint: 'L\'app no canta: recita la lletra amb un pols constant. Seguiu el punt que s\'encén i digueu un vers per compàs. Serveix per marcar síl·labes, abaixar la velocitat de la parla i practicar l\'accent.',
+    rhythmStart: '▶ Recitar amb pols',
+    rhythmStop: '■ Aturar el pols',
+    rhythmTempo: (bpm: number): string => `${bpm} polsos per minut`,
+    rhythmA11y: (bpm: number, beats: number): string =>
+      `Metrònom visual: ${bpm} polsos per minut, ${beats} polsos per vers.`,
+
     songPlayTrack: 'Reproduir cançó',
     songMotorInstructions: 'Instruccions de moviment',
     songPraxiasTitle: 'Pràxies i articulació',

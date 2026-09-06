@@ -1865,6 +1865,14 @@ export const GL: UiStrings = {
     storyDrawingPrompt: 'Debuxa con Lúa',
     storyOpenDrawing: 'Abrir o lenzo de debuxo',
 
+        rhythmTitle: 'Recitado rítmico',
+    rhythmHint: 'A app non canta: recita a letra a un pulso constante. Seguide o punto que se acende e dicide un verso por compás. Serve para marcar sílabas, baixar a velocidade da fala e practicar o acento.',
+    rhythmStart: '▶ Recitar a pulso',
+    rhythmStop: '■ Parar o pulso',
+    rhythmTempo: (bpm: number): string => `${bpm} pulsos por minuto`,
+    rhythmA11y: (bpm: number, beats: number): string =>
+      `Metrónomo visual: ${bpm} pulsos por minuto, ${beats} pulsos por verso.`,
+
     songPlayTrack: 'Reproducir a canción',
     songMotorInstructions: 'Instrucións de movemento',
     songPraxiasTitle: 'Praxias e articulación',
