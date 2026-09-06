@@ -27,6 +27,7 @@
 import { InteractionManager } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { encryptJSON, decryptJSON } from './valeriaCrypto';
+import { getLocale } from './valeriaLocale';
 // Solo tipos: el puente de RA no se carga aquí ni en dispositivos sin el host
 // nativo. La telemetría no debe poder romperse por un módulo opcional.
 import type { ArTrial, ArDeviceProfile, ArThresholds, ArAptitudeLevel } from './valeriaArBridge';
@@ -99,6 +100,24 @@ export interface SessionRecord {
   // porque el log ya acumula sesiones 'v10' del piloto y hay que poder
   // distinguirlas al analizar.
   ui?: 'v10' | 'v11';
+  // Variedad de terapia con la que se registró ESTA sesión ('es' · 'gl' ·
+  // 'es-DO' · 'eu' · 'en-US' · 'ca'). Sin ella una serie de resultados no es
+  // interpretable: la app cambia de lengua con un ajuste GLOBAL, así que dos
+  // sesiones consecutivas del mismo terapeuta pueden haber ocurrido en lenguas
+  // distintas y nada lo distinguía después. Es la tarea GL-5.2 del plan de Nós
+  // («etiquetar sesiones con el idioma para poder comparar resultados es/gl»),
+  // y vale igual para eu, ca y en-US.
+  //
+  // Se LEE de valeriaLocale (no se recibe por parámetro): ese módulo solo
+  // importa AsyncStorage en runtime, que este ya arrastraba, así que la
+  // dirección telemetría → locale no crea ciclo. La contraria sí lo crearía:
+  // valeriaLocale → telemetría → cripto → ProPin → i18n → uiLang → locale.
+  locale?: string;
+  // La variedad es un ajuste GLOBAL, no por paciente: se puede cambiar a mitad
+  // de sesión. Cuando eso pasa, `locale` guarda la última y esta marca avisa de
+  // que el registro mezcla dos lenguas y no es una muestra homogénea. Mismo
+  // criterio que `ui: 'v10' | 'v11'` con las dos interfaces.
+  localeSwitched?: true;
   misclicks: MisclickSplit;
   capsules: { started: number; done: number; skipped: number };
   routes: RouteStats;
@@ -192,6 +211,17 @@ function freshSession(): SessionRecord {
 
 export const getSessionId = (): string => cur.id;
 
+// Sella en la sesión la variedad de terapia en curso (GL-5.2). Se llama desde
+// scheduleFlush, por donde pasa TODO evento registrado: así no hay que acordarse
+// de llamarla en ninguna pantalla —que es el patrón de «catorce sitios» que ya
+// dejó pasar una cabecera catalana sobre ejercicios castellanos— y una sesión
+// vacía no inventa una lengua que nadie llegó a usar.
+function stampLocale(): void {
+  const loc = getLocale();
+  if (cur.locale === undefined) { cur.locale = loc; return; }
+  if (cur.locale !== loc) { cur.locale = loc; cur.localeSwitched = true; }
+}
+
 // Migración tolerante: sesiones V1 persistidas (misclicks numérico, sin nodos
 // de caos) se normalizan al leer para que export y agregados nunca rompan.
 function normalizeSession(s: any): SessionRecord {
@@ -238,6 +268,7 @@ async function loadStore(): Promise<TlmStore> {
 // ---- Volcado no bloqueante (debounce + fuera de interacciones) ----
 function scheduleFlush(): void {
   cur.updatedAt = Date.now();
+  stampLocale();
   if (flushTimer) return;
   flushTimer = setTimeout(() => {
     flushTimer = null;
@@ -620,6 +651,14 @@ export interface ExportBundle {
      *  entre 0 y `sessions`, la muestra mezcla interfaces y `misclicks` no es
      *  una serie homogénea. */
     sessionsV11: number;
+    /** Sesiones del lote por variedad de terapia ({ es: 12, gl: 30 }). Sin
+     *  esto no se pueden comparar resultados entre lenguas —la pregunta GL-5.2
+     *  del plan de Nós— ni saber si una muestra es de una sola. Las sesiones
+     *  registradas antes de que existiera el campo cuentan como 'desconocida'. */
+    sessionsByLocale: Record<string, number>;
+    /** Sesiones en las que la variedad cambió a mitad. La variedad es un ajuste
+     *  global, así que esto pasa; una sesión así no es de una lengua. */
+    sessionsLocaleMixed: number;
     misclicks: number; misclicksDualTask: number;
     likertMean: number | null; likertN: number; fullBlockRuns: number;
     noiseSessions: number; repairEvents: number; routeValidationRate: number | null;
@@ -670,8 +709,13 @@ export async function buildExport(): Promise<ExportBundle> {
   // muerta), así que quien lea el resumen necesita saber si está mirando una
   // muestra mezclada antes de sacar conclusiones de `mc`.
   let sessionsV11 = 0;
+  const sessionsByLocale: Record<string, number> = {};
+  let sessionsLocaleMixed = 0;
   for (const s of sessions) {
     if (s.ui === 'v11') sessionsV11 += 1;
+    const loc = s.locale ?? 'desconocida';
+    sessionsByLocale[loc] = (sessionsByLocale[loc] ?? 0) + 1;
+    if (s.localeSwitched) sessionsLocaleMixed += 1;
     started += s.capsules.started;
     skipped += s.capsules.skipped;
     mcUi += s.misclicks.ui;
@@ -700,6 +744,7 @@ export async function buildExport(): Promise<ExportBundle> {
   const phraseCoverage = wordsTarget ? +(wordsHit / wordsTarget).toFixed(3) : null;
   const summary = {
     v: 'vlr2', sessions: sessions.length, sessionsV11, abandonRate,
+    sessionsByLocale, sessionsLocaleMixed,
     misclicks: mcUi + mcDual, misclicksDualTask: mcDual,
     likertMean, likertN, fullBlockRuns: fullRuns,
     noiseSessions, repairEvents: repairs, routeValidationRate,
@@ -716,6 +761,9 @@ export async function buildExport(): Promise<ExportBundle> {
   // el fullLog, que es donde tienen sentido y donde no hay límite de bits.
   const qrPayload = JSON.stringify({
     v: 'vlr2', n: sessions.length, n11: sessionsV11, ab: abandonRate,
+    // Reparto por lengua y sesiones mezcladas: dos claves cortas, y sin ellas
+    // el QR de una consulta bilingüe no se puede interpretar.
+    loc: sessionsByLocale, locm: sessionsLocaleMixed,
     mc: mcUi + mcDual, mcd: mcDual,
     lk: likertMean, lkn: likertN, b4: fullRuns,
     nz: noiseSessions, rp: repairs,

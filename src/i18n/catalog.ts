@@ -19,8 +19,9 @@ import { getUiLang, UiLang } from '../valeriaUiLang';
 import { ES, UiStrings } from './strings.es';
 import { EN } from './strings.en';
 import { CA } from './strings.ca';
+import { GL } from './strings.gl';
 
-export const CATALOGUES: Record<UiLang, UiStrings> = { es: ES, en: EN, ca: CA };
+export const CATALOGUES: Record<UiLang, UiStrings> = { es: ES, en: EN, ca: CA, gl: GL };
 
 // Catálogo activo ahora mismo. Sin suscripción: quien lo llama lee el idioma
 // del momento (notificaciones al programarse, informes al generarse).

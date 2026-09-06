@@ -679,25 +679,70 @@ reconocedor/voz del sistema y si conviene preferir voces latinas.
 **El idioma de la interfaz es una decisión aparte de la variedad de los ejercicios**, y
 esa separación es deliberada: en un *caseload* bilingüe, la logopeda puede
 querer la app en inglés y trabajar en castellano con un niño, o al revés. Vive
-en su propio módulo (`src/valeriaUiLang.ts`, `UiLang = 'es' | 'en' | 'ca'`), con
+en su propio módulo (`src/valeriaUiLang.ts`, `UiLang = 'es' | 'en' | 'ca' | 'gl'`), con
 suscripción propia porque cambiar el idioma **repinta** la pantalla, mientras
 que la variedad basta con leerla en el momento de hablar.
+
+El cuarto idioma de interfaz es el **galego**, desde sept/2026. Llegó tarde y
+por una asimetría difícil de defender: era la variedad de terapia mejor cubierta
+—banco clínico completo en los ocho bloques y voz neuronal propia desde julio—
+y la única lengua cooficial **sin** interfaz, mientras que el catalán, sin
+hospital detrás, tenía la app entera en su lengua. En Lugo eso significaba que
+Celtia le hablaba en galego al niño y la logopeda leía los botones en castellano.
+
+Y la variedad de terapia dejó de ser un ajuste global: vive en la **ficha del
+paciente** (campo «Lengua de la terapia») y seleccionar al niño la aplica. Antes,
+en una consulta bilingüe había que acordarse de moverla entre paciente y
+paciente, y nada registraba si te acordabas. Ahora, además, cada sesión de
+telemetría guarda en qué variedad ocurrió (`locale`) y marca `localeSwitched` si
+cambió a mitad, de modo que una serie de resultados es interpretable y se pueden
+comparar es/gl — que es la tarea GL‑5.2 del plan de Nós.
 
 Lo que un idioma de interfaz **no** puede hacer es caer al castellano en
 silencio. Cuando un bloque de contenido de adulto todavía no existe en un
 idioma, el hueco se declara en [`src/i18n/uiLangFallback.ts`](src/i18n/uiLangFallback.ts),
 la pantalla lo **avisa** y el gate `check-ui-lang-fallback.js` impide volver al
 `lang === 'en' ? EN : ES` que dejaba media pantalla en otra lengua sin decirlo.
-Hoy solo hay un hueco declarado: las cápsulas formativas de Academy en catalán.
+Hoy hay un hueco declarado, el mismo en dos idiomas: las cápsulas formativas de
+Academy en catalán y en galego. El temario de Academy no es una traducción sino
+una reautorización clínica, así que se sirve en castellano y la pantalla lo dice.
 
 | Variedad | Voz | Reconocimiento (ASR) |
 | --- | --- | --- |
 | 🇪🇸 **Castellano** (`es`) | Voz neuronal **Sharvard** pregenerada y empaquetada (offline). | Sistema `es-ES`, **pidiendo reconocimiento local** si el paquete de idioma está instalado. |
-| **Galego** (`gl`) — *Proxecto Nós* | Voz neuronal **Celtia** pregenerada (Proxecto Nós), empaquetada. Cubre pares mínimos, cápsulas TPR, rutas, Expansión Semántica, Audición, Lenguaje, TEA y Dislexia: todos los bloques tienen banco gallego propio. | Sistema `gl-ES` con recaída a `expo-speech`. |
+| **Galego** (`gl`) — *Proxecto Nós* | Voz neuronal **Celtia** pregenerada (Proxecto Nós), empaquetada: **876 locuciones**. Cubre pares mínimos, cápsulas TPR, rutas, Expansión Semántica, Audición, Lenguaje, TEA, Dislexia y Test de Ling. **Aventuras con Lúa NO**: ese módulo sigue siendo castellano en todas las variedades (ver su fila arriba). | Sistema `gl-ES` con recaída a `expo-speech`. **Sin pliegue dialectal**: la gheada y el seseo no se pliegan en el emparejador (el euskera y el dominicano sí tienen el suyo), así que es la deuda abierta del galego. |
 | 🇩🇴 **Dominicano** (`es-DO`) — *Quisqueya Habla* | Voz **latina del dispositivo** (`es-US`/`es-MX`); sin audio propio pregenerado. | Sistema `es-DO`, priorizando el catálogo latino. |
 | **Euskara** (`eu`) — *ILENIA/NEL-GAITU · HiTZ* | Voz neuronal **HiTZ-TTS** pregenerada (UPV/EHU · Aholab), empaquetada. Cubre pares mínimos, expansión semántica, Audición, Lenguaje, TEA, Dislexia y Test de Ling en euskera batua. | Sistema `eu-ES` con recaída a `es-ES` + pliegue vasco (`foldBasque`, ⟨h⟩ muda). |
 | 🇺🇸 **US English** (`en-US`) | Voz neuronal **LJSpeech · piper** pregenerada (mismo motor que Sharvard; voz de dominio público con modelo MIT, tras descartar dos candidatas por licencia en EN‑0.1). **614 locuciones** empaquetadas. | Sistema `en-US`, pidiendo reconocimiento local como en castellano. |
 | **Català** (`ca`) — *projecte AINA · BSC* | Voz neuronal **Matxa-TTS** del projecte AINA (`projecte-aina/matxa-tts-cat-multiaccent`) pregenerada y empaquetada: **858 locuciones · 52,6 min**. No es Piper: es Matcha-TTS (*flow matching*) con vocóder propio y frontend fonémico (espeak-ng `ca`), así que tiene motor propio en la tubería. Cubre pares mínimos, expansión semántica, Audición, Lenguaje, TEA, Dislexia y Test de Ling. | Sistema `ca-ES` con recaída a `expo-speech`. |
+
+### El galego tampoco: tres de esos cuatro contrastes son suyos también
+
+El argumento que justifica el banco catalán vale casi entero para el galego, y
+durante un año no se aplicó: el banco gallego tenía 7 pares repartidos en los
+cuatro grupos que comparte con el castellano —rotacismo, sigmatismo, velares,
+labiodental— y ninguno de los contrastes que separan de verdad las dos
+fonologías. Desde sept/2026 tiene 13 pares y `PAIR_GROUPS_GL` propio:
+
+- **/ʃ/** (⟨x⟩), que el castellano perdió en el siglo XVII: *xeo* / *cheo*
+  (africación) y *xoia* / *soia* (adelantamiento).
+- **La abertura vocálica /ɔ/–/o/**, que hace que el galego tenga SIETE vocales y
+  el castellano cinco, y que es fonémica: *óso* / *oso*, *bóla* / *bola*.
+- **La lateral palatal /ʎ/**, viva en galego frente al castellano yeísta:
+  *palla* / *pala*.
+- Y los dos grupos que estaban en la lista castellana y el banco gallego dejaba
+  vacíos: nasales (*mel* / *pel*) y laterales.
+
+**Validación: los siete primeros pares están aprobados para producción** por la
+revisora logopeda gallegohablante (jul 2026). **Los seis nuevos no lo están
+todavía**: piden la misma doble revisión —galego normativo *y* criterio
+logopédico— que se le exigió al inglés y al catalán, y hasta que exista no se
+escribe «aprobado» en ningún sitio.
+
+Hay además un contraste **marcado, no descartado**: *casa* / *caza* (PM-GL-3)
+lleva `region: 'distincion'`, porque el galego occidental sesea y puntuarlo allí
+mide la variedad del niño, no su fonología. Es el mismo criterio con el que el
+catalán deja /b/–/v/ fuera por betacismo y el `en-US` no puntúa el TH-fronting.
 
 ### El catalán tampoco es una traducción: trae contrastes que el castellano no tiene
 
@@ -788,9 +833,10 @@ piezas que no existían:
   qué es error— está fijada en [`docs/guia-dialectal-es-DO.md`](docs/guia-dialectal-es-DO.md),
   regla bloqueante del piloto.
 - **Bancos de pares mínimos por variedad**: castellano
-  (`src/valeriaMinimalPairs.ts`), gallego (`src/valeriaMinimalPairsGl.ts`, 7
-  pares) y dominicano (`src/valeriaMinimalPairsEsDO.ts`, 8 pares construidos solo
-  donde el contraste es estable en RD).
+  (`src/valeriaMinimalPairs.ts`, 16 pares), gallego
+  (`src/valeriaMinimalPairsGl.ts`, **13 pares en 8 grupos**) y dominicano
+  (`src/valeriaMinimalPairsEsDO.ts`, 8 pares construidos solo donde el contraste
+  es estable en RD).
 
 ---
 

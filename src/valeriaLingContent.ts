@@ -16,8 +16,9 @@
 // gate check-adult-fields.js en Node. Si allí se añade un idioma, aquí falta
 // una clave de los Record de abajo y el typecheck lo dice — que es el aviso
 // que queremos.
-type UiLang = 'es' | 'en' | 'ca';
-const isUiLang = (v: unknown): v is UiLang => v === 'es' || v === 'en' || v === 'ca';
+type UiLang = 'es' | 'en' | 'ca' | 'gl';
+const isUiLang = (v: unknown): v is UiLang =>
+  v === 'es' || v === 'en' || v === 'ca' || v === 'gl';
 
 export interface LingSound { sym: string; say: string; freq: string; fc: string; hint: string; }
 export interface LingCopy { instrBody: string; tip: string; }
@@ -50,6 +51,30 @@ export const LING_SOUNDS_ESDO: LingSound[] = [
 export const LING_COPY_ESDO: LingCopy = {
   instrBody: 'Que el muchachito no te lea los labios. Repite el sonido 2 o 3 veces y fíjate cómo reacciona.',
   tip: 'El Test de Ling no usa el micrófono: tú haces cada sonido y marcas cómo responde el niño.',
+};
+
+// ------------------------------- gl (galego) --------------------------------
+// Los seis sonidos son universales (miden audibilidad por frecuencia); lo que
+// se reescribe son las consignas y las pistas AL TUTOR. Existía la asimetría
+// contraria y no se sostenía: el euskera, el catalán y el inglés tenían las
+// suyas y el gallego —la variedad del hospital donde se pilota— leía castellano
+// porque «el adulto gallego ya lee castellano». Eso vale para cualquier lengua
+// cooficial y no se aplicó a ninguna otra.
+//
+// Nota clínica gl: el ⟨x⟩ galego É o sonido /ʃ/ del cuarto estímulo (sh), así
+// que aquí se escribe con la grafía que el tutor gallego reconoce.
+export const LING_SOUNDS_GL: LingSound[] = [
+  { sym: 'm',  say: '«mmm»',  freq: 'Grave · ~250 Hz',       fc: '#3b82f6', hint: 'Son nasal: notarás a vibración nos beizos.' },
+  { sym: 'u',  say: '«uuu»',  freq: 'Grave · ~300 Hz',       fc: '#3b82f6', hint: 'Vogal posterior, cos beizos redondeados.' },
+  { sym: 'a',  say: '«aaa»',  freq: 'Media · ~1 kHz',        fc: '#10b981', hint: 'Vogal aberta e central.' },
+  { sym: 'i',  say: '«iii»',  freq: 'Media-aguda · ~2 kHz',  fc: '#f59e0b', hint: 'Vogal pechada anterior, co sorriso estirado.' },
+  { sym: 'sh', say: '«xxx»',  freq: 'Aguda · ~3 kHz',        fc: '#f97316', hint: 'Fricativa de fluxo continuo: o x galego de xeo.' },
+  { sym: 's',  say: '«sss»',  freq: 'Moi aguda · ~5 kHz',    fc: '#ef4444', hint: 'Fricativa aguda — o son máis difícil de oír.' },
+];
+
+export const LING_COPY_GL: LingCopy = {
+  instrBody: 'Que o neno non che lea os beizos. Repite o son 2-3 veces e observa a súa reacción.',
+  tip: 'O Test de Ling non usa o micrófono. Ti produces cada son e marcas como responde o neno.',
 };
 
 // ------------------------------- eu (euskera) -------------------------------
@@ -110,6 +135,7 @@ export interface LingContent { sounds: LingSound[]; copy: LingCopy; }
 
 export function lingContentForLocale(loc: string): LingContent {
   if (loc === 'es-DO') return { sounds: LING_SOUNDS_ESDO, copy: LING_COPY_ESDO };
+  if (loc === 'gl') return { sounds: LING_SOUNDS_GL, copy: LING_COPY_GL };
   if (loc === 'eu') return { sounds: LING_SOUNDS_EU, copy: LING_COPY_EU };
   if (loc === 'en-US') return { sounds: LING_SOUNDS_EN, copy: LING_COPY_EN };
   if (loc === 'ca') return { sounds: LING_SOUNDS_CA, copy: LING_COPY_CA };
@@ -133,10 +159,10 @@ export function lingContentForLocale(loc: string): LingContent {
 // adulto lee la interfaz en castellano y el contenido en su lengua, que es lo
 // que ya hacía.
 const LING_SOUNDS_BY_UI: Record<UiLang, LingSound[]> = {
-  es: LING_SOUNDS, en: LING_SOUNDS_EN, ca: LING_SOUNDS_CA,
+  es: LING_SOUNDS, en: LING_SOUNDS_EN, ca: LING_SOUNDS_CA, gl: LING_SOUNDS_GL,
 };
 const LING_COPY_BY_UI: Record<UiLang, LingCopy> = {
-  es: LING_COPY, en: LING_COPY_EN, ca: LING_COPY_CA,
+  es: LING_COPY, en: LING_COPY_EN, ca: LING_COPY_CA, gl: LING_COPY_GL,
 };
 
 // Lo único del Test de Ling que NO depende de en qué lengua lee el adulto sino
@@ -150,6 +176,8 @@ const LING_S_HINT_ESDO: Record<UiLang, string> = {
     + 'not the way it comes out in everyday Dominican Spanish, where the final /s/ drops.',
   ca: 'La essa és el so més difícil de sentir. Produeix-la BEN CLARA i sostinguda (sss), '
     + 'no com surt en la parla dominicana de cada dia, on la essa final cau.',
+  gl: 'O s é o son máis difícil de oír. Prodúceo BEN CLARO e sostido (sss), '
+    + 'non como sae na fala dominicana de cada día, onde o s final cae.',
 };
 
 // Contenido del Test de Ling para la variedad `loc` leído por un adulto cuya
@@ -158,7 +186,7 @@ const LING_S_HINT_ESDO: Record<UiLang, string> = {
 // idioma y el niño trabaja en otra variedad, los textos —que aquí los lee TODOS
 // el adulto— tienen que seguir al adulto. Escrito como tabla y no como pareja
 // de condiciones, porque con tres idiomas las condiciones sueltas se olvidan.
-const OWN_LOCALE_OF_UI: Record<UiLang, string> = { es: 'es', en: 'en-US', ca: 'ca' };
+const OWN_LOCALE_OF_UI: Record<UiLang, string> = { es: 'es', en: 'en-US', ca: 'ca', gl: 'gl' };
 
 export function lingContentFor(loc: string, uiLang: string): LingContent {
   const ui: UiLang = isUiLang(uiLang) ? uiLang : 'es';
@@ -166,7 +194,7 @@ export function lingContentFor(loc: string, uiLang: string): LingContent {
   // iberorrománicas (es, gl, eu, es-DO), que ya traen su copia en una lengua
   // que el adulto castellanohablante lee. Solo discrepa con en-US y con ca.
   const mismatch = ui === 'es'
-    ? (loc === 'en-US' || loc === 'ca')
+    ? (loc === 'en-US' || loc === 'ca' || loc === 'gl')
     : loc !== OWN_LOCALE_OF_UI[ui];
   if (!mismatch) return lingContentForLocale(loc);
 

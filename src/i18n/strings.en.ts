@@ -123,6 +123,9 @@ export const EN: UiStrings = {
     phoneHint: 'Used to send clinical reports.',
     phonePlaceholder: 'e.g. (555) 123-4567',
 
+    therapyLanguage: 'Therapy language',
+    therapyLanguageHint: 'Applied when you select this patient. Leave it blank to keep the app\'s current one.',
+
     pathology: 'Diagnosis',
     pathologyPlaceholder: 'Select a diagnosis…',
     prescriber: 'Referring physician (ENT / pediatrician)',
@@ -1385,6 +1388,7 @@ export const EN: UiStrings = {
     uiLangEs: 'Español',
     uiLangEn: 'English',
     uiLangCa: 'Catalan',
+    uiLangGl: 'Galego',
   },
 
 

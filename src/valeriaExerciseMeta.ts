@@ -28,6 +28,7 @@ export interface ExerciseMeta {
 export const AGE_BANDS_ES = ['3-4 años', '4-5 años', '5-6 años'];
 export const AGE_BANDS_EN = ['3–4 years', '4–5 years', '5–6 years'];
 export const AGE_BANDS_CA = ['3-4 anys', '4-5 anys', '5-6 anys'];
+export const AGE_BANDS_GL = ['3-4 anos', '4-5 anos', '5-6 anos'];
 export const AGE_BANDS = AGE_BANDS_ES;
 
 // Selector por TABLA, no por ternario. Mientras solo hubo `en`, un
@@ -38,7 +39,7 @@ export const AGE_BANDS = AGE_BANDS_ES;
 const byLang = <T,>(t: Record<UiLang, T>, lang: UiLang): T => t[lang];
 
 export const getAgeBands = (lang: UiLang = 'es'): string[] =>
-  byLang({ es: AGE_BANDS_ES, en: AGE_BANDS_EN, ca: AGE_BANDS_CA }, lang);
+  byLang({ es: AGE_BANDS_ES, en: AGE_BANDS_EN, ca: AGE_BANDS_CA, gl: AGE_BANDS_GL }, lang);
 
 // ============================================================================
 // METADATOS EN ESPAÑOL
@@ -237,6 +238,72 @@ export const AR_META_CA: ExerciseMeta[] = [
   { id: 'ar6', code: 'AR-6', name: 'Mímica en mirall amb la Lúa Buddy', category: 'Praxis facials guiades · simetria i consciència motora', age: '4-5 anys' },
 ];
 
+// ============================================================================
+// METADATOS EN GALEGO (set/2026)
+// Lado ADULTO de los 37 ejercicios: nombre, categoría y edad orientativa. No es
+// lo que se locuta —eso vive en valeriaExerciseGl.ts, en el eje de variedad—,
+// sino lo que lee la logopeda al prescribir y el player al titular la pantalla.
+// Sin esto, elegir «Galego» entraba desde una lista galega a un ejercicio
+// titulado en castellano: el mismo defecto que encontró Frank con el inglés.
+// ============================================================================
+export const AUDICION_META_GL: ExerciseMeta[] = [
+  { id: 'ff1', code: 'FF-1', name: 'Asociación vocálica inicial', category: 'Sons e vogais (fonética-fonoloxía)', age: '4-5 anos' },
+  { id: 'ff2', code: 'FF-2', name: 'Articulación de vogais', category: 'Sons e vogais (fonética-fonoloxía)', age: '3-4 anos' },
+  { id: 'ff3', code: 'FF-3', name: 'Completar a vogal que falta', category: 'Sons e vogais (fonética-fonoloxía)', age: '5-6 anos' },
+  { id: 'se1', code: 'SE-1', name: 'Detección do intruso', category: 'Vocabulario (semántica)', age: '4-5 anos' },
+  { id: 'se2', code: 'SE-2', name: 'Adiviña pola letra', category: 'Vocabulario (semántica)', age: '5-6 anos' },
+  { id: 'se3', code: 'SE-3', name: 'Prendas e ordes', category: 'Vocabulario (semántica)', age: '3-4 anos' },
+  { id: 'ms1', code: 'MS-1', name: 'Singular / plural', category: 'Frases (morfosintaxe)', age: '4-5 anos' },
+  { id: 'ms2', code: 'MS-2', name: 'Flexión de xénero', category: 'Frases (morfosintaxe)', age: '4-5 anos' },
+  { id: 'ms3', code: 'MS-3', name: 'Estrutura S-V-O', category: 'Frases (morfosintaxe)', age: '5-6 anos' },
+  { id: 'pr1', code: 'PR-1', name: 'Preguntas tipo «que?»', category: 'Uso social (pragmática)', age: '3-4 anos' },
+  { id: 'pr2', code: 'PR-2', name: 'Adaptación do discurso', category: 'Uso social (pragmática)', age: '5-6 anos' },
+  { id: 'pr3', code: 'PR-3', name: 'Recoñecemento de emocións', category: 'Uso social (pragmática)', age: '4-5 anos' },
+  { id: 'pr4', code: 'PR-4', name: 'Petición de repetición', category: 'Uso social (pragmática)', age: '5-6 anos' },
+  { id: 'ra1', code: 'RA-1', name: 'Figura-fondo con ruído', category: 'Escoita en ruído (rehabilitación auditiva)', age: '4-5 anos' },
+  { id: 'ra2', code: 'RA-2', name: 'Lectura labiofacial', category: 'Escoita en ruído (rehabilitación auditiva)', age: '5-6 anos' },
+  { id: 'ra3', code: 'RA-3', name: 'Formato pechado degradado', category: 'Escoita en ruído (rehabilitación auditiva)', age: '4-5 anos' },
+  { id: 'ra4', code: 'RA-4', name: 'Secuencia con espera', category: 'Escoita en ruído (rehabilitación auditiva)', age: '5-6 anos' },
+  { id: 'ra5', code: 'RA-5', name: 'Localización do son', category: 'Escoita en ruído (rehabilitación auditiva)', age: '3-4 anos' },
+];
+
+export const LENGUAJE_META_GL: ExerciseMeta[] = [
+  { id: 'atencion_conjunta', code: 'M-1', name: 'Atención Conxunta', category: 'Mirar, burbullas e nome' },
+  { id: 'imitacion', code: 'M-2', name: 'Imitación Motora/Verbal', category: 'Aplausos, tambor e sílabas' },
+  { id: 'comprension', code: 'M-3', name: 'Comprensión Verbal', category: 'Ordes, corpo e categorías' },
+  { id: 'expresion', code: 'M-4', name: 'Expresión Verbal', category: 'Onomatopeas, nomear e frases' },
+  { id: 'comunicacion_funcional', code: 'M-5', name: 'Comunicación Funcional', category: 'Pedir «máis», «axuda», «quero»' },
+  { id: 'regulacion_conductual', code: 'M-6', name: 'Regulación Condutual', category: 'Transicións, rutinas e recompensas' },
+  { id: 'interaccion_social', code: 'M-7', name: 'Interacción Social', category: 'Quendas, xogo simbólico, emocións' },
+];
+
+export const TEA_META_GL: ExerciseMeta[] = [
+  { id: 'tea1', code: 'TEA-1', name: 'Atención Conxunta Triangulada', category: 'PRT · contacto visual e selo dobre' },
+  { id: 'tea2', code: 'TEA-2', name: 'Quebra Pragmática Inducida', category: 'Reparación comunicativa (manual)' },
+  { id: 'tea3', code: 'TEA-3', name: 'Espello Asimétrico', category: 'Inhibición de ecopraxia' },
+  { id: 'tea4', code: 'TEA-4', name: 'Transición Interrompida', category: 'Flexibilidade cognitiva (manual)' },
+  { id: 'tea5', code: 'TEA-5', name: 'Categorización baixo Carga Sensorial', category: 'Clasificación con ruído babble (manual)' },
+  { id: 'tea6', code: 'TEA-6', name: 'Múltiples Sinais Simultáneos', category: 'PRT · sobreselectividade de estímulos' },
+];
+
+export const DISLEXIA_META_GL: ExerciseMeta[] = [
+  { id: 'dx1', code: 'DX-1', name: 'O Intruso Fonolóxico', category: 'Conciencia fonolóxica (auditivo puro)' },
+  { id: 'dx2', code: 'DX-2', name: 'Rastrexo Léxico con Interferencia', category: 'Fluidez lectora baixo carga (manual)' },
+  { id: 'dx3', code: 'DX-3', name: 'Síntese Fonémica Rítmica', category: 'Fusión de fonemas con latencia' },
+  { id: 'dx4', code: 'DX-4', name: 'Criba de Pseudopalabras', category: 'Descodificación · máx. 5 ensaios' },
+  { id: 'dx5', code: 'DX-5', name: 'Rastrexo Visual de Rotacións', category: 'Grafías b/d · p/q (mapa de misclicks)' },
+  { id: 'dx6', code: 'DX-6', name: 'Denominación Rápida (RAN)', category: 'Acceso léxico · persecución manual' },
+];
+
+export const AR_META_GL: ExerciseMeta[] = [
+  { id: 'ar1', code: 'AR-1', name: 'Cinemática Orofacial', category: 'Postura labial como gatillo · micrófono apagado', age: '3-4 anos' },
+  { id: 'ar2', code: 'AR-2', name: 'Localización do Son Instrumentada', category: 'VRA dixitalizado · latencia do xiro cefálico', age: '3-4 anos', instrumentaA: 'ra5' },
+  { id: 'ar3', code: 'AR-3', name: 'Selección Semántica por Fixación', category: 'Comprensión sen motricidade fina · dwell time', age: '4-5 anos' },
+  { id: 'ar4', code: 'AR-4', name: 'Busca Espacial de Lúa', category: 'Rastrexo 3D na contorna · radar e amplitude cervical', age: '4-5 anos' },
+  { id: 'ar5', code: 'AR-5', name: 'Lanzamento e Captura de Premios', category: 'Alimentar a Lúa · coordinación cinemática e captura', age: '3-4 anos' },
+  { id: 'ar6', code: 'AR-6', name: 'Espello Mímico con Buddy Lúa', category: 'Praxias faciais guiadas · simetría e consciencia motora', age: '4-5 anos' },
+];
+
 // Defaults (Spanish)
 export const AUDICION_META = AUDICION_META_ES;
 export const LENGUAJE_META = LENGUAJE_META_ES;
@@ -246,19 +313,19 @@ export const AR_META = AR_META_ES;
 
 // Helper getters
 export const getAudicionMeta = (lang: UiLang = 'es'): ExerciseMeta[] =>
-  byLang({ es: AUDICION_META_ES, en: AUDICION_META_EN, ca: AUDICION_META_CA }, lang);
+  byLang({ es: AUDICION_META_ES, en: AUDICION_META_EN, ca: AUDICION_META_CA, gl: AUDICION_META_GL }, lang);
 
 export const getLenguajeMeta = (lang: UiLang = 'es'): ExerciseMeta[] =>
-  byLang({ es: LENGUAJE_META_ES, en: LENGUAJE_META_EN, ca: LENGUAJE_META_CA }, lang);
+  byLang({ es: LENGUAJE_META_ES, en: LENGUAJE_META_EN, ca: LENGUAJE_META_CA, gl: LENGUAJE_META_GL }, lang);
 
 export const getTeaMeta = (lang: UiLang = 'es'): ExerciseMeta[] =>
-  byLang({ es: TEA_META_ES, en: TEA_META_EN, ca: TEA_META_CA }, lang);
+  byLang({ es: TEA_META_ES, en: TEA_META_EN, ca: TEA_META_CA, gl: TEA_META_GL }, lang);
 
 export const getDislexiaMeta = (lang: UiLang = 'es'): ExerciseMeta[] =>
-  byLang({ es: DISLEXIA_META_ES, en: DISLEXIA_META_EN, ca: DISLEXIA_META_CA }, lang);
+  byLang({ es: DISLEXIA_META_ES, en: DISLEXIA_META_EN, ca: DISLEXIA_META_CA, gl: DISLEXIA_META_GL }, lang);
 
 export const getArMeta = (lang: UiLang = 'es'): ExerciseMeta[] =>
-  byLang({ es: AR_META_ES, en: AR_META_EN, ca: AR_META_CA }, lang);
+  byLang({ es: AR_META_ES, en: AR_META_EN, ca: AR_META_CA, gl: AR_META_GL }, lang);
 
 export const getExercisesForBlock = (blockKey: 'audicion' | 'lenguaje' | 'tea' | 'dislexia', lang: UiLang = 'es'): ExerciseMeta[] => {
   switch (blockKey) {
@@ -282,11 +349,15 @@ export const META_BY_ID_CA: Record<string, ExerciseMeta> = Object.fromEntries(
   [...AUDICION_META_CA, ...LENGUAJE_META_CA, ...TEA_META_CA, ...DISLEXIA_META_CA, ...AR_META_CA].map((m) => [m.id, m]),
 );
 
+export const META_BY_ID_GL: Record<string, ExerciseMeta> = Object.fromEntries(
+  [...AUDICION_META_GL, ...LENGUAJE_META_GL, ...TEA_META_GL, ...DISLEXIA_META_GL, ...AR_META_GL].map((m) => [m.id, m]),
+);
+
 // Nombre, categoría y edad en el idioma de la INTERFAZ. Los lee tanto la lista
 // de bloques como el player: si cada uno tirase de su lado, se entraría desde
 // «Vowel articulation» a «Articulación de vocales», que es lo que pasaba.
 export const metaIndexFor = (lang: UiLang): Record<string, ExerciseMeta> =>
-  byLang({ es: META_BY_ID, en: META_BY_ID_EN, ca: META_BY_ID_CA }, lang);
+  byLang({ es: META_BY_ID, en: META_BY_ID_EN, ca: META_BY_ID_CA, gl: META_BY_ID_GL }, lang);
 
 export const getMetaById = (lang: UiLang = 'es'): Record<string, ExerciseMeta> =>
   Object.fromEntries(

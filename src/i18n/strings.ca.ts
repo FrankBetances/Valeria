@@ -121,6 +121,9 @@ export const CA: UiStrings = {
     phoneHint: 'S\'utilitzarà per enviar els informes clínics.',
     phonePlaceholder: 'Ex. 600 123 456',
 
+    therapyLanguage: 'Llengua de la teràpia',
+    therapyLanguageHint: 'S\'aplicarà en seleccionar aquest pacient. Sense triar-ne cap, es manté la de l\'app.',
+
     pathology: 'Patologia / diagnòstic',
     pathologyPlaceholder: 'Selecciona una patologia…',
     prescriber: 'Metge prescriptor (ORL / Pediatre)',
@@ -1348,6 +1351,7 @@ export const CA: UiStrings = {
     uiLangEs: 'Español',
     uiLangEn: 'English',
     uiLangCa: 'Català',
+    uiLangGl: 'Galego',
   },
 
   ar: {

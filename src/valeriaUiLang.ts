@@ -18,6 +18,11 @@
 //   Locale (valeriaLocale)  → qué se dice, se muestra y se evalúa al NIÑO.
 //   UiLang (este módulo)    → en qué idioma leen los ADULTOS la app.
 //
+// El GALEGO entra como cuarto idioma de interfaz en sept/2026 (ver la
+// cabecera de i18n/strings.gl.ts). Era la única lengua cooficial con banco
+// clínico completo y voz propia y SIN interfaz: en el hospital donde se
+// pilota, Celtia le hablaba al niño en galego y la logopeda leía castellano.
+//
 // Relación por defecto, no imposición: elegir la variedad `en-US` pone la UI en
 // inglés (defaultUiLangFor), pero en cuanto el adulto toca el selector de
 // idioma de interfaz, su elección MANDA y persiste. La bandera `explicit`
@@ -31,10 +36,11 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Locale, getLocale, setLocale } from './valeriaLocale';
 
-export type UiLang = 'es' | 'en' | 'ca';
-export const ALL_UI_LANGS: UiLang[] = ['es', 'en', 'ca'];
+export type UiLang = 'es' | 'en' | 'ca' | 'gl';
+export const ALL_UI_LANGS: UiLang[] = ['es', 'en', 'ca', 'gl'];
 export const DEFAULT_UI_LANG: UiLang = 'es';
-export const isUiLang = (v: unknown): v is UiLang => v === 'es' || v === 'en' || v === 'ca';
+export const isUiLang = (v: unknown): v is UiLang =>
+  v === 'es' || v === 'en' || v === 'ca' || v === 'gl';
 
 export function resolveInitialUiLang(value: unknown): UiLang {
   if (isUiLang(value)) {
@@ -68,7 +74,7 @@ export const isUiLangExplicit = (): boolean => explicit;
 // Idioma de interfaz que CORRESPONDE a una variedad de terapia, cuando el
 // adulto no ha elegido uno a mano. Única regla del acoplamiento por defecto.
 export const defaultUiLangFor = (loc: Locale): UiLang =>
-  (loc === 'en-US' ? 'en' : loc === 'ca' ? 'ca' : 'es');
+  (loc === 'en-US' ? 'en' : loc === 'ca' ? 'ca' : loc === 'gl' ? 'gl' : 'es');
 
 // ------------------------------------------------------------------ escritura
 // Elección DELIBERADA del adulto: manda sobre la variedad para siempre.

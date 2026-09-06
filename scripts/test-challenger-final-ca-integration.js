@@ -143,6 +143,7 @@ const pickerModulePath = path.join(ROOT, 'src/ValeriaUiLangPicker.tsx');
 const stringsEsPath = path.join(ROOT, 'src/i18n/strings.es.ts');
 const stringsEnPath = path.join(ROOT, 'src/i18n/strings.en.ts');
 const stringsCaPath = path.join(ROOT, 'src/i18n/strings.ca.ts');
+const stringsGlPath = path.join(ROOT, 'src/i18n/strings.gl.ts');
 
 const valeriaUiLang = loadTsModule(uiLangModulePath);
 const catalogModule = loadTsModule(catalogModulePath);
@@ -150,6 +151,7 @@ const valeriaLocale = loadTsModule(localeModulePath);
 const stringsEs = loadTsModule(stringsEsPath);
 const stringsEn = loadTsModule(stringsEnPath);
 const stringsCa = loadTsModule(stringsCaPath);
+const stringsGl = loadTsModule(stringsGlPath);
 
 async function main() {
   // Let initial async hydration settle
@@ -161,10 +163,11 @@ async function main() {
   // ──────────────────────────────────────────────────────────────────────────
   console.log('── Section 1: Dynamic UI Language Switching & Predicates ──');
 
-  runTest('TEST-1.1: ALL_UI_LANGS contains exactly es, en, ca', () => {
-    assert.deepStrictEqual(valeriaUiLang.ALL_UI_LANGS, ['es', 'en', 'ca']);
-    assert.strictEqual(valeriaUiLang.ALL_UI_LANGS.length, 3);
+  runTest('TEST-1.1: ALL_UI_LANGS contains exactly es, en, ca, gl', () => {
+    assert.deepStrictEqual(valeriaUiLang.ALL_UI_LANGS, ['es', 'en', 'ca', 'gl']);
+    assert.strictEqual(valeriaUiLang.ALL_UI_LANGS.length, 4);
     assert(valeriaUiLang.ALL_UI_LANGS.includes('ca'));
+    assert(valeriaUiLang.ALL_UI_LANGS.includes('gl'));
   });
 
   runTest('TEST-1.2: DEFAULT_UI_LANG is es', () => {
@@ -176,11 +179,14 @@ async function main() {
     assert.strictEqual(valeriaUiLang.isUiLang('es'), true);
     assert.strictEqual(valeriaUiLang.isUiLang('en'), true);
     assert.strictEqual(valeriaUiLang.isUiLang('ca'), true);
+    assert.strictEqual(valeriaUiLang.isUiLang('gl'), true);
 
-    // Invalid string probes
+    // Invalid string probes. 'gl' salió de aquí en sept/2026: es idioma de
+    // interfaz, no solo variedad de terapia. 'gl-ES' sigue siendo inválido —el
+    // eje de UI usa códigos cortos— igual que 'ca-ES'.
     const invalidStrings = [
-      'ca-ES', 'es-ES', 'en-US', 'gl', 'eu', 'es-DO', 'fr', 'de', 'it', 'pt',
-      'CA', 'ES', 'EN', 'ca ', ' ca', '', ' ', 'null', 'undefined', '1',
+      'ca-ES', 'es-ES', 'en-US', 'gl-ES', 'eu', 'es-DO', 'fr', 'de', 'it', 'pt',
+      'CA', 'ES', 'EN', 'GL', 'ca ', ' ca', 'gl ', '', ' ', 'null', 'undefined', '1',
     ];
     for (const s of invalidStrings) {
       assert.strictEqual(valeriaUiLang.isUiLang(s), false, `isUiLang('${s}') should be false`);
@@ -324,8 +330,14 @@ async function main() {
     await valeriaUiLang.syncUiLangToLocale('en-US');
     assert.strictEqual(valeriaUiLang.getUiLang(), 'en');
 
+    // Desde sept/2026 la variedad galega arrastra la interfaz galega, igual
+    // que en-US arrastra la inglesa y ca la catalana. Antes caía a 'es' porque
+    // no había catálogo galego.
     await valeriaUiLang.syncUiLangToLocale('gl');
-    assert.strictEqual(valeriaUiLang.getUiLang(), 'es');
+    assert.strictEqual(valeriaUiLang.getUiLang(), 'gl');
+
+    await valeriaUiLang.syncUiLangToLocale('eu');
+    assert.strictEqual(valeriaUiLang.getUiLang(), 'es', 'El euskera todavía no tiene catálogo de interfaz');
   });
 
   await runAsyncTest('TEST-2.5: setAppLanguage(\'ca\') moves the therapy variety too', async () => {
@@ -411,13 +423,20 @@ async function main() {
   // ──────────────────────────────────────────────────────────────────────────
   console.log('── Section 3: ValeriaUiLangPicker Component & Option Validation ──');
 
-  runTest('TEST-3.1: ValeriaUiLangPicker source code includes 4 options and keys', () => {
+  runTest('TEST-3.1: ValeriaUiLangPicker offers one option per UI language, plus auto', () => {
     const pickerSource = fs.readFileSync(pickerModulePath, 'utf8');
     assert(pickerSource.includes("key: 'auto'"), "Picker must have 'auto' key");
-    assert(pickerSource.includes("key: 'es'"), "Picker must have 'es' key");
-    assert(pickerSource.includes("key: 'en'"), "Picker must have 'en' key");
-    assert(pickerSource.includes("key: 'ca'"), "Picker must have 'ca' key");
-    assert(pickerSource.includes("t.settings.uiLangCa"), "Picker must reference t.settings.uiLangCa");
+    // Se derivan de ALL_UI_LANGS en vez de listarse: así, añadir un idioma de
+    // interfaz y olvidarse del selector rompe AQUÍ. Es exactamente lo que pasó
+    // con el galego, que tenía catálogo antes de tener chip.
+    for (const lang of valeriaUiLang.ALL_UI_LANGS) {
+      assert(pickerSource.includes(`key: '${lang}'`), `Picker must have '${lang}' key`);
+      const cap = lang.charAt(0).toUpperCase() + lang.slice(1);
+      assert(
+        pickerSource.includes(`t.settings.uiLang${cap}`),
+        `Picker must reference t.settings.uiLang${cap}`,
+      );
+    }
   });
 
   await runAsyncTest('TEST-3.2: Dynamic Option Labels across all UI Languages', async () => {
@@ -445,6 +464,22 @@ async function main() {
     assert.strictEqual(tEn.settings.uiLangEs, 'Español');
     assert.strictEqual(tEn.settings.uiLangEn, 'English');
     assert.strictEqual(tEn.settings.uiLangAuto, 'Automatic');
+
+    // In Galician UI
+    await valeriaUiLang.setUiLang('gl');
+    const tGl = catalogModule.tNow();
+    assert.strictEqual(tGl.settings.uiLangGl, 'Galego');
+    assert.strictEqual(tGl.settings.uiLangEs, 'Español');
+    assert.strictEqual(tGl.settings.uiLangEn, 'English');
+    assert.strictEqual(tGl.settings.uiLangAuto, 'Automático');
+    assert(tGl.settings.uiLangAutoHint.includes('exercicios'));
+    // El endónimo de cada lengua es el mismo en los cuatro catálogos: es un
+    // nombre propio, no una traducción. Solo el inglés castellaniza «Catalan».
+    for (const lang of valeriaUiLang.ALL_UI_LANGS) {
+      await valeriaUiLang.setUiLang(lang);
+      assert.strictEqual(catalogModule.tNow().settings.uiLangGl, 'Galego',
+        `El catálogo ${lang} no llama «Galego» al galego`);
+    }
   });
 
   // ──────────────────────────────────────────────────────────────────────────
@@ -452,43 +487,39 @@ async function main() {
   // ──────────────────────────────────────────────────────────────────────────
   console.log('── Section 4: 1:1 Catalog Parity & Dynamic Function Robustness ──');
 
-  runTest('TEST-4.1: Namespace count and names parity across ES, EN, CA', () => {
+  runTest('TEST-4.1: Namespace count and names parity across ES, EN, CA, GL', () => {
     const esNamespaces = Object.keys(stringsEs.ES).sort();
-    const enNamespaces = Object.keys(stringsEn.EN).sort();
-    const caNamespaces = Object.keys(stringsCa.CA).sort();
 
     assert.strictEqual(esNamespaces.length, 29, 'ES has 29 namespaces');
-    assert.deepStrictEqual(caNamespaces, esNamespaces, 'CA namespaces match ES namespaces exactly');
-    assert.deepStrictEqual(enNamespaces, esNamespaces, 'EN namespaces match ES namespaces exactly');
+    for (const [name, cat] of [['EN', stringsEn.EN], ['CA', stringsCa.CA], ['GL', stringsGl.GL]]) {
+      assert.deepStrictEqual(Object.keys(cat).sort(), esNamespaces,
+        `${name} namespaces match ES namespaces exactly`);
+    }
   });
 
   runTest('TEST-4.2: Total keys count and deep structural parity across all 29 namespaces', () => {
+    const otros = [['EN', stringsEn.EN], ['CA', stringsCa.CA], ['GL', stringsGl.GL]];
     let esTotal = 0;
-    let caTotal = 0;
-    let enTotal = 0;
+    const totales = { EN: 0, CA: 0, GL: 0 };
 
     for (const ns of Object.keys(stringsEs.ES)) {
       const esKeys = Object.keys(stringsEs.ES[ns]).sort();
-      const caKeys = Object.keys(stringsCa.CA[ns]).sort();
-      const enKeys = Object.keys(stringsEn.EN[ns]).sort();
-
       esTotal += esKeys.length;
-      caTotal += caKeys.length;
-      enTotal += enKeys.length;
 
-      assert.deepStrictEqual(caKeys, esKeys, `Namespace '${ns}' keys in CA must match ES exactly`);
-      assert.deepStrictEqual(enKeys, esKeys, `Namespace '${ns}' keys in EN must match ES exactly`);
+      for (const [name, cat] of otros) {
+        const keys = Object.keys(cat[ns]).sort();
+        totales[name] += keys.length;
+        assert.deepStrictEqual(keys, esKeys, `Namespace '${ns}' keys in ${name} must match ES exactly`);
+      }
 
       for (const key of esKeys) {
         const esType = typeof stringsEs.ES[ns][key];
-        const caType = typeof stringsCa.CA[ns][key];
-        const enType = typeof stringsEn.EN[ns][key];
-
-        assert.strictEqual(caType, esType, `Type mismatch at ${ns}.${key}: CA is ${caType}, ES is ${esType}`);
-        assert.strictEqual(enType, esType, `Type mismatch at ${ns}.${key}: EN is ${enType}, ES is ${esType}`);
-
-        if (esType === 'string') {
-          assert(stringsCa.CA[ns][key].trim().length > 0, `Empty string at ${ns}.${key} in CA`);
+        for (const [name, cat] of otros) {
+          const t = typeof cat[ns][key];
+          assert.strictEqual(t, esType, `Type mismatch at ${ns}.${key}: ${name} is ${t}, ES is ${esType}`);
+          if (esType === 'string') {
+            assert(cat[ns][key].trim().length > 0, `Empty string at ${ns}.${key} in ${name}`);
+          }
         }
       }
     }
@@ -499,8 +530,9 @@ async function main() {
     // ciegas. Lo que no puede pasar es que un catálogo tenga claves que otro
     // no tenga, y eso es lo que se afirma aquí.
     assert(esTotal > 1000, `ES catalogue looks truncated: ${esTotal} keys`);
-    assert.strictEqual(caTotal, esTotal, `CA has ${caTotal} keys, ES has ${esTotal}`);
-    assert.strictEqual(enTotal, esTotal, `EN has ${enTotal} keys, ES has ${esTotal}`);
+    for (const name of ['EN', 'CA', 'GL']) {
+      assert.strictEqual(totales[name], esTotal, `${name} has ${totales[name]} keys, ES has ${esTotal}`);
+    }
   });
 
   // Extract function parameter signatures from UiStrings in strings.es.ts AST
@@ -509,33 +541,44 @@ async function main() {
 
   const functionSignatures = new Map(); // "ns.key" -> ['string' | 'number' | 'boolean']
 
+  // Las firmas se sacan del OBJETO `ES`, no de una interfaz `UiStrings`: esa
+  // interfaz no existe —el tipo es `typeof ES`—, así que esta extracción no
+  // encontraba nada y TODOS los parámetros se probaban como cadena. Se veía en
+  // cuanto se afirmaba sobre el catálogo inglés: `slotLabel('SampleVal_0',
+  // 'SampleVal_1')` hacía `'SampleVal_1' % 12` y devolvía «Evening · NaN:00 PM».
+  // El castellano y el catalán no lo delataban porque solo interpolan la hora
+  // sin operar con ella.
   function extractSignatures(node) {
-    if (ts.isInterfaceDeclaration(node) && node.name.text === 'UiStrings') {
-      for (const member of node.members) {
-        if (ts.isPropertySignature(member) && member.type && ts.isTypeLiteralNode(member.type)) {
-          const nsName = member.name.text;
-          for (const subMember of member.type.members) {
-            if (ts.isPropertySignature(subMember) && subMember.type && ts.isFunctionTypeNode(subMember.type)) {
-              const keyName = subMember.name.text;
-              const paramTypes = subMember.type.parameters.map((p) => {
-                if (p.type) {
-                  if (p.type.kind === ts.SyntaxKind.NumberKeyword) return 'number';
-                  if (p.type.kind === ts.SyntaxKind.BooleanKeyword) return 'boolean';
-                  if (p.type.kind === ts.SyntaxKind.StringKeyword) return 'string';
-                }
-                return 'string';
-              });
-              functionSignatures.set(`${nsName}.${keyName}`, paramTypes);
+    if (ts.isVariableDeclaration(node) && node.name.getText(sourceFile) === 'ES'
+        && node.initializer && ts.isObjectLiteralExpression(node.initializer)) {
+      for (const nsProp of node.initializer.properties) {
+        if (!ts.isPropertyAssignment(nsProp) || !ts.isObjectLiteralExpression(nsProp.initializer)) continue;
+        const nsName = nsProp.name.getText(sourceFile);
+        for (const keyProp of nsProp.initializer.properties) {
+          if (!ts.isPropertyAssignment(keyProp)) continue;
+          const fn = keyProp.initializer;
+          if (!ts.isArrowFunction(fn) && !ts.isFunctionExpression(fn)) continue;
+          const keyName = keyProp.name.getText(sourceFile).replace(/^['"]|['"]$/g, '');
+          const paramTypes = fn.parameters.map((prm) => {
+            if (prm.type) {
+              if (prm.type.kind === ts.SyntaxKind.NumberKeyword) return 'number';
+              if (prm.type.kind === ts.SyntaxKind.BooleanKeyword) return 'boolean';
             }
-          }
+            return 'string';
+          });
+          functionSignatures.set(`${nsName}.${keyName}`, paramTypes);
         }
       }
     }
     ts.forEachChild(node, extractSignatures);
   }
   extractSignatures(sourceFile);
+  // Si la extracción vuelve a quedarse a cero, el test seguiría "pasando" sin
+  // probar un solo parámetro numérico. Eso es lo que pasó hasta sept/2026.
+  assert(functionSignatures.size >= 200,
+    `Extracción de firmas rota: solo ${functionSignatures.size} funciones tipadas`);
 
-  runTest('TEST-4.3: Dynamic AST-Driven Execution of all 224 Interpolation Functions in CA', () => {
+  runTest('TEST-4.3: Dynamic AST-Driven Execution of all 224 Interpolation Functions in CA, EN and GL', () => {
     let funcCount = 0;
     const knownKeys = {
       'ficha.genderLabel': 'Niña',
@@ -574,30 +617,37 @@ async function main() {
             return `SampleVal_${idx}`;
           });
 
-          let resCa, resEs, resEn;
+          // Se ejecutan las CUATRO. Antes solo se afirmaba sobre la catalana y
+          // las otras se llamaban para ver que no reventaban; con el galego
+          // recién escrito a mano, una plantilla mal cerrada o un `${` suelto
+          // tiene que caer aquí y no en la tablet de una familia.
+          const resultados = {};
+          const valGl = stringsGl.GL[ns][key];
           try {
-            resCa = valCa.apply(null, testArgs);
-            resEs = valEs.apply(null, testArgs);
-            resEn = valEn.apply(null, testArgs);
+            resultados.ES = valEs.apply(null, testArgs);
+            resultados.EN = valEn.apply(null, testArgs);
+            resultados.CA = valCa.apply(null, testArgs);
+            resultados.GL = valGl.apply(null, testArgs);
           } catch (e) {
             assert.fail(`Function ${fullKey} threw error on args [${testArgs.join(', ')}]: ${e.message}`);
           }
 
-          if (Array.isArray(resCa)) {
-            assert(Array.isArray(resEs), `${fullKey} in ES must be array`);
-            assert(Array.isArray(resEn), `${fullKey} in EN must be array`);
-            assert(resCa.length > 0, `${fullKey} in CA returned empty array`);
+          if (Array.isArray(resultados.ES)) {
+            for (const name of ['EN', 'CA', 'GL']) {
+              assert(Array.isArray(resultados[name]), `${fullKey} in ${name} must be array`);
+              assert(resultados[name].length > 0, `${fullKey} in ${name} returned empty array`);
+            }
           } else {
-            assert.strictEqual(typeof resCa, 'string', `${fullKey} in CA must return string`);
-            assert.strictEqual(typeof resEs, 'string', `${fullKey} in ES must return string`);
-            assert.strictEqual(typeof resEn, 'string', `${fullKey} in EN must return string`);
-
-            assert(resCa.length > 0, `${fullKey} in CA returned empty string on args [${testArgs.join(', ')}]`);
-            assert(!resCa.includes('undefined'), `${fullKey} in CA contains 'undefined': "${resCa}"`);
-            assert(!resCa.includes('null'), `${fullKey} in CA contains 'null': "${resCa}"`);
-            assert(!resCa.includes('NaN'), `${fullKey} in CA contains 'NaN': "${resCa}"`);
-            assert(!resCa.includes('[object Object]'), `${fullKey} in CA contains '[object Object]': "${resCa}"`);
-            assert(!resCa.includes('${'), `${fullKey} in CA contains raw template literal: "${resCa}"`);
+            for (const name of ['ES', 'EN', 'CA', 'GL']) {
+              const res = resultados[name];
+              assert.strictEqual(typeof res, 'string', `${fullKey} in ${name} must return string`);
+              assert(res.length > 0, `${fullKey} in ${name} returned empty string on args [${testArgs.join(', ')}]`);
+              assert(!res.includes('undefined'), `${fullKey} in ${name} contains 'undefined': "${res}"`);
+              assert(!res.includes('null'), `${fullKey} in ${name} contains 'null': "${res}"`);
+              assert(!res.includes('NaN'), `${fullKey} in ${name} contains 'NaN': "${res}"`);
+              assert(!res.includes('[object Object]'), `${fullKey} in ${name} contains '[object Object]': "${res}"`);
+              assert(!res.includes('${'), `${fullKey} in ${name} contains raw template literal: "${res}"`);
+            }
           }
         }
       }

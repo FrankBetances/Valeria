@@ -1,20 +1,20 @@
 {
- "generatedAt": "2026-09-04T20:36:27.652Z",
- "entries": 4711,
+ "generatedAt": "2026-09-06T16:02:14.508Z",
+ "entries": 4758,
  "byStyle": {
-  "child": 2747,
-  "slow": 998,
+  "child": 2789,
+  "slow": 1003,
   "clinical": 45,
   "tutor": 921
  },
  "bySource": {
-  "pares/intro": 48,
-  "pares/prompt": 48,
-  "pares/celebracion": 48,
-  "pares/correccion": 48,
-  "pares/retry": 47,
-  "pares/modelado": 47,
-  "pares/roleswap": 112,
+  "pares/intro": 54,
+  "pares/prompt": 54,
+  "pares/celebracion": 54,
+  "pares/correccion": 54,
+  "pares/retry": 53,
+  "pares/modelado": 53,
+  "pares/roleswap": 124,
   "pares/fin": 5,
   "tpr": 111,
   "tpr/fin": 5,
@@ -26,7 +26,7 @@
   "banco/juntos": 15,
   "util/muestra": 5,
   "expansion": 2152,
-  "ejercicios": 1292,
+  "ejercicios": 1291,
   "lua/eval/consigna": 60,
   "lua/eval/refuerzo": 60,
   "lua/eval/devolucion": 60,
@@ -10458,6 +10458,342 @@
    "source": "pares/roleswap"
   },
   {
+   "id": "gl_child_4a8186ee_39",
+   "lang": "gl",
+   "style": "child",
+   "text": "Aquí temos: xeo. E aquí: cheo. Di: xeo.",
+   "source": "pares/intro"
+  },
+  {
+   "id": "gl_child_46176dae_8",
+   "lang": "gl",
+   "style": "child",
+   "text": "Di: xeo.",
+   "source": "pares/prompt"
+  },
+  {
+   "id": "gl_child_310f1c52_37",
+   "lang": "gl",
+   "style": "child",
+   "text": "Xeo! Ese aire saíu longo e fresquiño!",
+   "source": "pares/celebracion"
+  },
+  {
+   "id": "gl_child_eafdc8d2_76",
+   "lang": "gl",
+   "style": "child",
+   "text": "Escoitei cheo, o do vaso ata arriba. O xeo non dá golpe: escorrega. Escoita…",
+   "source": "pares/correccion"
+  },
+  {
+   "id": "gl_child_8dd31af1_19",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: xeo.",
+   "source": "pares/retry"
+  },
+  {
+   "id": "gl_slow_b95cb30b_3",
+   "lang": "gl",
+   "style": "slow",
+   "text": "xeo",
+   "source": "pares/modelado"
+  },
+  {
+   "id": "gl_child_1e39ba90_59",
+   "lang": "gl",
+   "style": "child",
+   "text": "Ui! O adulto dixo xeo. Escoita outra vez na próxima quenda!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "gl_child_814bb42b_60",
+   "lang": "gl",
+   "style": "child",
+   "text": "Ui! O adulto dixo cheo. Escoita outra vez na próxima quenda!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "gl_child_cb8fa359_41",
+   "lang": "gl",
+   "style": "child",
+   "text": "Aquí temos: xoia. E aquí: soia. Di: xoia.",
+   "source": "pares/intro"
+  },
+  {
+   "id": "gl_child_b77d245f_9",
+   "lang": "gl",
+   "style": "child",
+   "text": "Di: xoia.",
+   "source": "pares/prompt"
+  },
+  {
+   "id": "gl_child_106f2266_39",
+   "lang": "gl",
+   "style": "child",
+   "text": "Xoia! Que ben, a lingua foi para atrás!",
+   "source": "pares/celebracion"
+  },
+  {
+   "id": "gl_child_b132b9b5_97",
+   "lang": "gl",
+   "style": "child",
+   "text": "Escoitei soia, a do prato. A xoia faise coa lingua máis atrás e os beizos adiantados. Veña: xoia.",
+   "source": "pares/correccion"
+  },
+  {
+   "id": "gl_child_64da6d1e_20",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: xoia.",
+   "source": "pares/retry"
+  },
+  {
+   "id": "gl_slow_b4dc75c6_4",
+   "lang": "gl",
+   "style": "slow",
+   "text": "xoia",
+   "source": "pares/modelado"
+  },
+  {
+   "id": "gl_child_648e2377_60",
+   "lang": "gl",
+   "style": "child",
+   "text": "Ui! O adulto dixo xoia. Escoita outra vez na próxima quenda!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "gl_child_1df54058_60",
+   "lang": "gl",
+   "style": "child",
+   "text": "Ui! O adulto dixo soia. Escoita outra vez na próxima quenda!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "gl_child_bb853f9d_54",
+   "lang": "gl",
+   "style": "child",
+   "text": "Aquí temos: óso. E aquí: oso. Di: óso, o do esqueleto.",
+   "source": "pares/intro"
+  },
+  {
+   "id": "gl_child_31ee3de0_24",
+   "lang": "gl",
+   "style": "child",
+   "text": "Di: óso, o do esqueleto.",
+   "source": "pares/prompt"
+  },
+  {
+   "id": "gl_child_7e85d81b_29",
+   "lang": "gl",
+   "style": "child",
+   "text": "Óso! Abriches moi ben a boca!",
+   "source": "pares/celebracion"
+  },
+  {
+   "id": "gl_child_66ebbf47_76",
+   "lang": "gl",
+   "style": "child",
+   "text": "Escoitei oso, o animal do mel. O óso do esqueleto abre máis a boca. Escoita…",
+   "source": "pares/correccion"
+  },
+  {
+   "id": "gl_child_c9affa98_19",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: óso.",
+   "source": "pares/retry"
+  },
+  {
+   "id": "gl_slow_4be55b64_3",
+   "lang": "gl",
+   "style": "slow",
+   "text": "óso",
+   "source": "pares/modelado"
+  },
+  {
+   "id": "gl_child_79dc1507_59",
+   "lang": "gl",
+   "style": "child",
+   "text": "Ui! O adulto dixo óso. Escoita outra vez na próxima quenda!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "gl_child_505e802b_59",
+   "lang": "gl",
+   "style": "child",
+   "text": "Ui! O adulto dixo oso. Escoita outra vez na próxima quenda!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "gl_child_0604f83c_53",
+   "lang": "gl",
+   "style": "child",
+   "text": "Aquí temos: bóla. E aquí: bola. Di: bóla, a de xogar.",
+   "source": "pares/intro"
+  },
+  {
+   "id": "gl_child_0ab1d2cb_21",
+   "lang": "gl",
+   "style": "child",
+   "text": "Di: bóla, a de xogar.",
+   "source": "pares/prompt"
+  },
+  {
+   "id": "gl_child_c529ce7f_28",
+   "lang": "gl",
+   "style": "child",
+   "text": "Bóla! Esa o saíu ben aberta!",
+   "source": "pares/celebracion"
+  },
+  {
+   "id": "gl_child_a47ad5db_70",
+   "lang": "gl",
+   "style": "child",
+   "text": "Escoitei bola, a do pan. A bóla de xogar abre máis a boca. Veña: bóla.",
+   "source": "pares/correccion"
+  },
+  {
+   "id": "gl_child_0bb9043f_20",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: bóla.",
+   "source": "pares/retry"
+  },
+  {
+   "id": "gl_slow_734870b1_4",
+   "lang": "gl",
+   "style": "slow",
+   "text": "bóla",
+   "source": "pares/modelado"
+  },
+  {
+   "id": "gl_child_3817e9d0_60",
+   "lang": "gl",
+   "style": "child",
+   "text": "Ui! O adulto dixo bóla. Escoita outra vez na próxima quenda!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "gl_child_6826cd34_60",
+   "lang": "gl",
+   "style": "child",
+   "text": "Ui! O adulto dixo bola. Escoita outra vez na próxima quenda!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "gl_child_141acb69_43",
+   "lang": "gl",
+   "style": "child",
+   "text": "Aquí temos: palla. E aquí: pala. Di: palla.",
+   "source": "pares/intro"
+  },
+  {
+   "id": "gl_child_b7a03c24_10",
+   "lang": "gl",
+   "style": "child",
+   "text": "Di: palla.",
+   "source": "pares/prompt"
+  },
+  {
+   "id": "gl_child_3d020116_33",
+   "lang": "gl",
+   "style": "child",
+   "text": "Palla! A lingua tocou ben arriba!",
+   "source": "pares/celebracion"
+  },
+  {
+   "id": "gl_child_a48fc4fd_85",
+   "lang": "gl",
+   "style": "child",
+   "text": "Escoitei pala, a da area. A palla leva a lingua pegada ao teito da boca. Veña: palla.",
+   "source": "pares/correccion"
+  },
+  {
+   "id": "gl_child_7fc3d643_21",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: palla.",
+   "source": "pares/retry"
+  },
+  {
+   "id": "gl_slow_cbcc50e1_5",
+   "lang": "gl",
+   "style": "slow",
+   "text": "palla",
+   "source": "pares/modelado"
+  },
+  {
+   "id": "gl_child_73f276b2_61",
+   "lang": "gl",
+   "style": "child",
+   "text": "Ui! O adulto dixo palla. Escoita outra vez na próxima quenda!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "gl_child_ac1a33fc_60",
+   "lang": "gl",
+   "style": "child",
+   "text": "Ui! O adulto dixo pala. Escoita outra vez na próxima quenda!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "gl_child_db4b4bfc_38",
+   "lang": "gl",
+   "style": "child",
+   "text": "Aquí temos: mel. E aquí: pel. Di: mel.",
+   "source": "pares/intro"
+  },
+  {
+   "id": "gl_child_e14bdbc4_8",
+   "lang": "gl",
+   "style": "child",
+   "text": "Di: mel.",
+   "source": "pares/prompt"
+  },
+  {
+   "id": "gl_child_dca48579_38",
+   "lang": "gl",
+   "style": "child",
+   "text": "Mel! Esa eme saíu zumbando polo nariz!",
+   "source": "pares/celebracion"
+  },
+  {
+   "id": "gl_child_17d37df6_71",
+   "lang": "gl",
+   "style": "child",
+   "text": "Escoitei pel, a da man. O mel zumba polo nariz coma unha abella: mmmel.",
+   "source": "pares/correccion"
+  },
+  {
+   "id": "gl_child_a1f2d54b_19",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: mel.",
+   "source": "pares/retry"
+  },
+  {
+   "id": "gl_slow_cbad5d91_3",
+   "lang": "gl",
+   "style": "slow",
+   "text": "mel",
+   "source": "pares/modelado"
+  },
+  {
+   "id": "gl_child_7449cf42_59",
+   "lang": "gl",
+   "style": "child",
+   "text": "Ui! O adulto dixo mel. Escoita outra vez na próxima quenda!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "gl_child_614f6841_59",
+   "lang": "gl",
+   "style": "child",
+   "text": "Ui! O adulto dixo pel. Escoita outra vez na próxima quenda!",
+   "source": "pares/roleswap"
+  },
+  {
    "id": "gl_child_2144b6f6_54",
    "lang": "gl",
    "style": "child",
@@ -14711,13 +15047,6 @@
    "lang": "gl",
    "style": "slow",
    "text": "can",
-   "source": "ejercicios"
-  },
-  {
-   "id": "gl_slow_4be55b64_3",
-   "lang": "gl",
-   "style": "slow",
-   "text": "óso",
    "source": "ejercicios"
   },
   {

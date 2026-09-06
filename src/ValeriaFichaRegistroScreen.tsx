@@ -9,7 +9,8 @@ import { View, Text, Pressable, ScrollView, TextInput, StyleSheet, KeyboardAvoid
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { V, STORAGE_KEYS } from './valeriaTheme';
 import { BlockIcon, BlockIconName } from './ValeriaBlockIcons';
-import { useT } from './i18n';
+import { useT, UiStrings } from './i18n';
+import { ALL_LOCALES, Locale, isLocale, setLocale } from './valeriaLocale';
 // import logoWhite from '../../assets/valeria-logo-white.png';
 
 // ⚠️ Estos tres arrays son IDENTIFICADORES ALMACENADOS, no texto de pantalla.
@@ -30,6 +31,17 @@ const VINCULOS = ['Madre', 'Padre', 'Tutor legal', 'Logopeda'];
 const GENEROS = ['Niña', 'Niño'];
 const isEmail = (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
 
+// Nombre de cada variedad de terapia. Sale del catálogo de la tarjeta «Voz de
+// la app» en vez de reescribirse aquí: son los mismos endónimos y no pueden
+// discrepar entre las dos pantallas que eligen lo mismo.
+const localeLabel = (t: UiStrings, loc: Locale): string => (
+  loc === 'gl' ? t.voice.localeGl
+    : loc === 'es-DO' ? t.voice.localeEsDO
+      : loc === 'eu' ? t.voice.localeEu
+        : loc === 'en-US' ? t.voice.localeEnUS
+          : loc === 'ca' ? t.voice.localeCa
+            : t.voice.localeEs);
+
 export const ValeriaFichaRegistroScreen: React.FC<{ navigation?: any }> = ({ navigation }) => {
   const t = useT();
   const [nombre, setNombre] = useState('');
@@ -43,6 +55,12 @@ export const ValeriaFichaRegistroScreen: React.FC<{ navigation?: any }> = ({ nav
   const [patologia, setPatologia] = useState('');
   const [medico, setMedico] = useState('');
   const [logopeda, setLogopeda] = useState('');
+  // Variedad de terapia DE ESTE NIÑO. Hasta ahora la lengua era un ajuste
+  // global de la app, así que en una consulta bilingüe había que acordarse de
+  // moverla entre paciente y paciente — y nada registraba si te acordabas.
+  // Guardada en la ficha, seleccionar al niño la pone sola
+  // (ValeriaPatientSelectScreen). Vacía = no se toca nada al seleccionarlo.
+  const [lingua, setLingua] = useState<Locale | ''>('');
 
   const [vinculoOpen, setVinculoOpen] = useState(false);
   const [patOpen, setPatOpen] = useState(false);
@@ -71,7 +89,12 @@ export const ValeriaFichaRegistroScreen: React.FC<{ navigation?: any }> = ({ nav
     try {
       await AsyncStorage.setItem(STORAGE_KEYS.registro, JSON.stringify({
         nombre, fecha, nhc, genero, tutor, vinculo, email, tel, patologia, medico, logopeda,
+        lingua: lingua || undefined,
       }));
+      // Al guardar la ficha del niño con el que se está trabajando, la app pasa
+      // ya a su lengua: si no, el adulto la guarda y sigue la sesión en la
+      // anterior sin enterarse.
+      if (isLocale(lingua)) await setLocale(lingua);
     } catch (e) { /* noop */ }
     setSuccess(true); setVinculoOpen(false); setPatOpen(false);
   };
@@ -118,6 +141,25 @@ export const ValeriaFichaRegistroScreen: React.FC<{ navigation?: any }> = ({ nav
               return (
                 <Pressable key={g} onPress={() => { setGenero(g); setSuccess(false); }} style={[s.segment, on && s.segmentOn]} accessibilityRole="radio" accessibilityState={{ checked: on }}>
                   <Text style={[s.segmentTxt, { color: on ? '#fff' : V.color.textSecondary }]}>{t.ficha.genderLabel(g)}</Text>
+                </Pressable>
+              );
+            })}
+          </View>
+
+          <Text style={[s.label, { marginTop: 15 }]}>{t.ficha.therapyLanguage}</Text>
+          <Text style={[s.hint, { marginTop: 0, marginBottom: 8 }]}>{t.ficha.therapyLanguageHint}</Text>
+          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
+            {ALL_LOCALES.map((l) => {
+              const on = lingua === l;
+              return (
+                <Pressable
+                  key={l}
+                  onPress={() => { setLingua(on ? '' : l); setSuccess(false); }}
+                  style={[s.segment, s.segmentChip, on && s.segmentOn]}
+                  accessibilityRole="radio"
+                  accessibilityState={{ checked: on }}
+                >
+                  <Text style={[s.segmentTxt, { color: on ? '#fff' : V.color.textSecondary }]}>{localeLabel(t, l)}</Text>
                 </Pressable>
               );
             })}
@@ -256,6 +298,9 @@ const s = StyleSheet.create({
   hint: { fontSize: 11, color: V.color.textSecondary, marginTop: 5, fontWeight: '600' },
 
   segment: { flex: 1, alignItems: 'center', paddingVertical: 11, borderRadius: 12, backgroundColor: V.color.pageBg, borderWidth: 1, borderColor: '#eef2f1' },
+  // Seis variedades no caben en una fila: los chips de lengua se ajustan al
+  // texto y envuelven, en vez de repartirse el ancho como los dos de género.
+  segmentChip: { flex: 0, paddingHorizontal: 14, paddingVertical: 9 },
   segmentOn: { backgroundColor: V.color.primary, borderColor: V.color.primary, ...V.shadow.button },
   segmentTxt: { fontSize: 14, fontWeight: '800' },
 

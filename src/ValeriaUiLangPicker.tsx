@@ -1,7 +1,7 @@
 // ============================================================================
 // Valeria+ · Selector de idioma de la INTERFAZ (EN-2.2 · CA-2.2)
 //
-// Cuatro opciones, y la primera es la que evita el soporte:
+// Cinco opciones, y la primera es la que evita el soporte:
 //
 //   Automático · la UI sigue a la variedad de terapia (comportamiento de
 //                siempre: sin `en-US` ni `ca`, todo el mundo ve castellano).
@@ -20,7 +20,8 @@
 // ninguna parte.
 //
 // La ÚNICA excepción, y está declarada y avisada en pantalla: las cápsulas
-// formativas de Academy todavía no existen en catalán (src/i18n/uiLangFallback).
+// formativas de Academy todavía no existen en catalán ni en galego
+// (src/i18n/uiLangFallback).
 // ============================================================================
 import React from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
@@ -58,6 +59,7 @@ export const ValeriaUiLangPicker: React.FC<{ compact?: boolean; onLight?: boolea
     { key: 'es', label: t.settings.uiLangEs },
     { key: 'en', label: t.settings.uiLangEn },
     { key: 'ca', label: t.settings.uiLangCa },
+    { key: 'gl', label: t.settings.uiLangGl },
   ];
 
   return (

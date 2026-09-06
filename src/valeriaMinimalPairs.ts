@@ -18,7 +18,14 @@ export type PairGroup =
   // palatal viva) nombran contrastes que el castellano NO tiene, así que no
   // hay grupo castellano al que asimilarlos sin perder el criterio clínico.
   | 'Rotacisme' | 'Sonoritat sibilant' | 'Xeix i ge' | 'Obertura vocàlica'
-  | 'Laterals' | 'Velars' | 'Oclusivització' | 'Nasals';
+  | 'Laterals' | 'Velars' | 'Oclusivització' | 'Nasals'
+  // Grupos propios del banco galego (gl). Los cuatro primeros del galego
+  // —Rotacismo, Sigmatismo, Velares, Labiodental— se escriben igual en las dos
+  // lenguas y se reutilizan; estos cuatro no tienen dónde caer en la lista
+  // castellana: /ʃ/ y la abertura vocálica /ɔ/–/o/ son contrastes que el
+  // castellano NO tiene, y 'Nasais'/'Laterais' son la forma galega de los dos
+  // grupos castellanos que el banco gallego tenía vacíos.
+  | 'Postalveolar' | 'Abertura vocálica' | 'Laterais' | 'Nasais';
 
 // ----------------------------------------------------------------------------
 // Veredicto dialectal (EN-0.5) — regla BLOQUEANTE del banco inglés.

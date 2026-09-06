@@ -3,7 +3,10 @@
 // Punto único donde la variedad activa decide qué banco de pares usa la
 // pantalla, sin duplicar lógica de pantalla:
 //   'es'    → banco castellano peninsular (con distinción s/θ donde aplica).
-//   'gl'    → banco galego (Proxecto Nós, borrador).
+//   'gl'    → banco galego (Proxecto Nós): 13 pares en 8 grupos. Los siete
+//             primeros, aprobados para producción (jul 2026); los seis de
+//             contrastes propios (/ʃ/, abertura vocálica, /ʎ/, nasales),
+//             pendientes de validación logopédica.
 //   'es-DO' → banco dominicano (Quisqueya Habla, borrador: sin seseo ni codas
 //             líquidas — ver valeriaMinimalPairsEsDO).
 //   'ca'    → banc català (pla ca-ES): contrastos propis del català central,
@@ -12,7 +15,7 @@
 // importan el tipo MinimalPair de ahí).
 // ============================================================================
 import { MINIMAL_PAIRS, MinimalPair, PairGroup, PAIR_GROUPS } from './valeriaMinimalPairs';
-import { MINIMAL_PAIRS_GL } from './valeriaMinimalPairsGl';
+import { MINIMAL_PAIRS_GL, PAIR_GROUPS_GL } from './valeriaMinimalPairsGl';
 import { MINIMAL_PAIRS_ESDO } from './valeriaMinimalPairsEsDO';
 import { MINIMAL_PAIRS_EU } from './valeriaMinimalPairsEu';
 import { MINIMAL_PAIRS_EN, PAIR_GROUPS_EN } from './valeriaMinimalPairsEn';
@@ -29,7 +32,7 @@ export function pairsForLocale(loc: Locale): MinimalPair[] {
 }
 
 // Secciones del listado de pares. Hasta el inglés bastaba con PAIR_GROUPS: los
-// cuatro bancos iberorrománicos comparten nomenclatura (Rotacismo, Sigmatismo…)
+// bancos iberorrománicos compartían nomenclatura (Rotacismo, Sigmatismo…)
 // y la pantalla filtraba los grupos vacíos. El banco inglés tiene los suyos
 // (Gliding, Cluster reduction…), así que si la pantalla siguiera recorriendo la
 // lista castellana, los pares ingleses no caerían en NINGUNA sección y el
@@ -37,5 +40,6 @@ export function pairsForLocale(loc: Locale): MinimalPair[] {
 export function pairGroupsForLocale(loc: Locale): PairGroup[] {
   return loc === 'en-US' ? PAIR_GROUPS_EN
     : loc === 'ca' ? PAIR_GROUPS_CA
-      : PAIR_GROUPS;
+      : loc === 'gl' ? PAIR_GROUPS_GL
+        : PAIR_GROUPS;
 }

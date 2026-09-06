@@ -130,6 +130,12 @@ export const ES = {
     phoneHint: 'Se usará para enviar los reportes clínicos.',
     phonePlaceholder: 'Ej. 600 123 456',
 
+    // La lengua en la que este niño hace la terapia. Vive en la ficha y no en
+    // los ajustes del aparato porque es del NIÑO: en una consulta bilingüe,
+    // seleccionarlo la pone sola.
+    therapyLanguage: 'Lengua de la terapia',
+    therapyLanguageHint: 'Se aplicará al seleccionar a este paciente. Sin elegir, se mantiene la de la app.',
+
     pathology: 'Patología / diagnóstico',
     pathologyPlaceholder: 'Selecciona una patología…',
     prescriber: 'Médico prescriptor (ORL / Pediatra)',
@@ -1436,6 +1442,7 @@ export const ES = {
     uiLangEs: 'Español',
     uiLangEn: 'English',
     uiLangCa: 'Català',
+    uiLangGl: 'Galego',
   },
 
 

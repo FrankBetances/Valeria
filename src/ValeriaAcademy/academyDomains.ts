@@ -253,16 +253,94 @@ export const DOMAIN_META_CA: Record<AcademyDomain, AcademyDomainMeta> = {
   },
 };
 
-// Selector por TABLA (ver la nota de valeriaExerciseMeta): con tres idiomas de
-// interfaz, un ternario `lang === 'en' ? EN : ES` devuelve castellano para el
-// catalán sin que el typecheck se entere.
+// Galego (set/2026). Estas son las ETIQUETAS de los seis dominios, no las
+// cápsulas: el temario sigue sirviéndose en castellano y la pantalla lo avisa
+// (src/i18n/uiLangFallback). Traducir la etiqueta y no el temario es lo que ese
+// registro existe para declarar; dejar la etiqueta en castellano sería el
+// defecto contrario, la cabecera en una lengua y la lista en otra.
+export const DOMAIN_META_GL: Record<AcademyDomain, AcademyDomainMeta> = {
+  lenguaje: {
+    id: 'lenguaje',
+    label: 'Linguaxe',
+    short: 'Linguaxe',
+    icon: 'language',
+    accentBg: '#e0edff',
+    accentFg: '#3b6fd4',
+    blurb: 'Como aprenden a falar, o porqué do TPR e que vicios evitar.',
+    levelNames: ['Novato', 'Acompañante', 'Guía', 'Mentor', 'Experto en Linguaxe'],
+  },
+  mitos: {
+    id: 'mitos',
+    label: 'Mitos e verdades',
+    short: 'Mitos',
+    icon: 'zoom',
+    accentBg: '#ffe9e4',
+    accentFg: '#cf4b39',
+    blurb: 'Mito ou realidade? O que se di da fala, o autismo e a dislexia.',
+    levelNames: ['Curioso', 'Preguntón', 'Detective', 'Cazamitos', 'Experto en Mitos'],
+  },
+  hipoacusia: {
+    id: 'hipoacusia',
+    label: 'Hipoacusia / Xordeira',
+    short: 'Hipoacusia',
+    icon: 'hearing',
+    accentBg: '#e5f0fb',
+    accentFg: '#1f6fb2',
+    blurb: 'Que é a xordeira, o seu abordaxe e o manexo dos dispositivos.',
+    levelNames: ['Novato', 'Iniciado', 'Práctico', 'Avanzado', 'Experto en Hipoacusia'],
+  },
+  dislalias: {
+    id: 'dislalias',
+    label: 'Dislalias',
+    short: 'Dislalias',
+    icon: 'mic',
+    accentBg: '#fdeef2',
+    accentFg: '#c2477e',
+    blurb: 'Puntos de articulación e práctica dos sons difíciles.',
+    levelNames: ['Novato', 'Acompañante', 'Guía', 'Mentor', 'Experto en Dislalias'],
+  },
+  dislexia: {
+    id: 'dislexia',
+    label: 'Dislexia',
+    short: 'Dislexia',
+    icon: 'dyslexia',
+    accentBg: '#fff1dc',
+    accentFg: '#d98a1f',
+    blurb: 'Conciencia fonolóxica e apoio á lectura emerxente.',
+    levelNames: ['Novato', 'Acompañante', 'Guía', 'Mentor', 'Experto en Dislexia'],
+  },
+  tea: {
+    id: 'tea',
+    label: 'TEA',
+    short: 'TEA',
+    icon: 'autism',
+    accentBg: '#e9f7ee',
+    accentFg: '#2e9e5b',
+    blurb: 'Comunicación, anticipación e regulación no espectro autista.',
+    levelNames: ['Novato', 'Acompañante', 'Guía', 'Mentor', 'Experto en TEA'],
+  },
+  signos: {
+    id: 'signos',
+    label: 'Lingua de Signos (LSE)',
+    short: 'LSE',
+    icon: 'gesture',
+    accentBg: '#efe9fd',
+    accentFg: '#6d4ac2',
+    blurb: 'Que é a LSE, por que non frea a fala e os primeiros signos útiles.',
+    levelNames: ['Novato', 'Iniciado', 'Practicante', 'Avanzado', 'Experto en LSE'],
+  },
+};
+
+// Selector por TABLA (ver la nota de valeriaExerciseMeta): con cuatro idiomas
+// de interfaz, un ternario `lang === 'en' ? EN : ES` devuelve castellano para
+// el catalán o el galego sin que el typecheck se entere.
 const byLang = <T,>(t: Record<UiLang, T>, lang: UiLang): T => t[lang];
 
 export const domainMetaFor = (domain: AcademyDomain, lang: UiLang = 'es'): AcademyDomainMeta =>
-  byLang({ es: DOMAIN_META_ES, en: DOMAIN_META_EN, ca: DOMAIN_META_CA }, lang)[domain];
+  byLang({ es: DOMAIN_META_ES, en: DOMAIN_META_EN, ca: DOMAIN_META_CA, gl: DOMAIN_META_GL }, lang)[domain];
 
 export const allDomainMetaFor = (lang: UiLang = 'es'): Record<AcademyDomain, AcademyDomainMeta> =>
-  byLang({ es: DOMAIN_META_ES, en: DOMAIN_META_EN, ca: DOMAIN_META_CA }, lang);
+  byLang({ es: DOMAIN_META_ES, en: DOMAIN_META_EN, ca: DOMAIN_META_CA, gl: DOMAIN_META_GL }, lang);
 
 // Compatibilidad retroactiva: DOMAIN_META estático
 export const DOMAIN_META: Record<AcademyDomain, AcademyDomainMeta> = DOMAIN_META_ES;
@@ -308,8 +386,15 @@ export const DOMAIN_BADGE_DEFS_CA: AcademyBadgeDef[] = [
   { key: 'perfecto',       icon: 'level', name: 'Sense errades', desc: 'Aprova una càpsula sense cap error.' },
 ];
 
+export const DOMAIN_BADGE_DEFS_GL: AcademyBadgeDef[] = [
+  { key: 'primeraCapsula', icon: 'check', name: 'Primeiro paso',  desc: 'Completa a túa primeira cápsula do dominio.' },
+  { key: 'mitad',          icon: 'chart', name: 'A medio camiño', desc: 'Completa a metade do dominio.' },
+  { key: 'graduado',       icon: 'tabAcademy', name: 'Dominio experto', desc: 'Completa todo o dominio.' },
+  { key: 'perfecto',       icon: 'level', name: 'Sen fallos',     desc: 'Aproba unha cápsula sen ningún erro.' },
+];
+
 export const badgeDefsFor = (lang: UiLang = 'es'): AcademyBadgeDef[] =>
-  byLang({ es: DOMAIN_BADGE_DEFS_ES, en: DOMAIN_BADGE_DEFS_EN, ca: DOMAIN_BADGE_DEFS_CA }, lang);
+  byLang({ es: DOMAIN_BADGE_DEFS_ES, en: DOMAIN_BADGE_DEFS_EN, ca: DOMAIN_BADGE_DEFS_CA, gl: DOMAIN_BADGE_DEFS_GL }, lang);
 
 // Se namespacea con el id del dominio → "hipoacusia:graduado". Cada silo
 // mantiene su propio array; nunca se comparten entre dominios.

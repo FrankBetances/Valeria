@@ -180,11 +180,34 @@ try {
     const got = lingContentFor(loc, lang).sounds.map((x) => x.sym).join(' ');
     if (got !== 'm u a i sh s') fallo(`lingContentFor('${loc}', '${lang}') altera los seis sonidos de Ling: ${got}`);
   }
-  // gl y eu no se tocan: su adulto lee la interfaz en castellano.
-  for (const loc of ['gl', 'eu', 'es-DO']) {
+  // eu y es-DO no se tocan con la UI en castellano: no son idiomas de interfaz,
+  // así que su adulto la lee en castellano y su copia castellana YA es la suya.
+  //
+  // El galego salió de esta lista en sept/2026, y el motivo es justo lo que
+  // este gate vigila: desde que `gl` es idioma de INTERFAZ, el Test de Ling
+  // tiene que seguir al adulto como el catalán y el inglés. Con la UI en
+  // castellano y el niño en galego, el tutor lee castellano; con la UI en
+  // galego, lee galego. Antes daba igual porque no había copia galega.
+  for (const loc of ['eu', 'es-DO']) {
     if (JSON.stringify(lingContentFor(loc, 'es')) !== JSON.stringify(lingContentForLocale(loc))) {
       fallo(`lingContentFor('${loc}', 'es') ha cambiado el contenido y no debía tocarlo`);
     }
+  }
+  const { LING_COPY_GL } = ling;
+  if (lingContentFor('gl', 'gl').copy.tip !== LING_COPY_GL.tip) {
+    fallo('con la UI en galego el Test de Ling no sirve su copia galega');
+  }
+  if (lingContentFor('gl', 'es').copy.tip !== LING_COPY.tip) {
+    fallo('con el niño en galego y la UI en castellano el tutor no lee castellano');
+  }
+  // El aviso de la /s/ dominicana tampoco se pierde leyendo en galego.
+  const sEsDoGl = lingContentFor('es-DO', 'gl').sounds.find((x) => x.sym === 's');
+  if (!/dominicana|cae/i.test(sEsDoGl.hint)) {
+    fallo('con es-DO y la UI en galego se pierde el aviso de la /s/ dominicana (guía QH-0.2 §3)');
+  }
+  for (const [loc, lang] of [['gl', 'gl'], ['gl', 'es'], ['es', 'gl']]) {
+    const got = lingContentFor(loc, lang).sounds.map((x) => x.sym).join(' ');
+    if (got !== 'm u a i sh s') fallo(`lingContentFor('${loc}', '${lang}') altera los seis sonidos de Ling: ${got}`);
   }
   if (fallos === antes4) console.log('  ✓ el Test de Ling sigue a la interfaz, y el aviso dialectal a la variedad');
 

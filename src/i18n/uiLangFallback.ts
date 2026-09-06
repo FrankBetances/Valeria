@@ -36,13 +36,13 @@ export type FallbackArea = 'academy' | 'academyHardware';
 // comprueba que el registro y el código no se contradigan.
 export const UI_LANG_FALLBACKS: Record<FallbackArea, Partial<Record<UiLang, UiLang>>> = {
   // Las ~50 cápsulas formativas y sus cuestionarios. La versión inglesa no fue
-  // una traducción sino una reautorización clínica (EN-3.x); la catalana pide
-  // lo mismo y todavía no se ha hecho, así que en catalán se sirven en
-  // castellano y la pantalla lo avisa.
-  academy: { ca: 'es' },
+  // una traducción sino una reautorización clínica (EN-3.x); la catalana y la
+  // galega piden lo mismo y todavía no se han hecho, así que en esos dos
+  // idiomas se sirven en castellano y la pantalla lo avisa.
+  academy: { ca: 'es', gl: 'es' },
   // Catálogo de conceptos de hipoacusia y de dispositivos auditivos
   // (audiòfons, implants). Mismo caso y mismo motivo.
-  academyHardware: { ca: 'es' },
+  academyHardware: { ca: 'es', gl: 'es' },
 };
 
 /** Idioma en el que se sirve realmente `area` cuando la interfaz está en `lang`. */

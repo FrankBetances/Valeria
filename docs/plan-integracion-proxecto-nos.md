@@ -5,7 +5,17 @@
 > una versión en gallego de los ejercicios de Valeria+, avanzando por **fases
 > modulares e independientes**: cada fase deja la app funcional y publicable.
 >
-> Estado: 📋 planificación · Rama de trabajo: `claude/proxecto-nos-gallego-h78v0y`
+> Estado: 🟢 **en producción, con la Fase 5 abierta.** Fases 1 (infraestructura de
+> variedad), 2 (contenido) y 3 (voz Celtia) están cerradas y empaquetadas desde
+> jul-ago de 2026; el seguimiento del §8 llevaba desde entonces sin actualizar y
+> decía lo contrario. La Fase 4 (ASR) sigue en la capa 1 y la 5 abierta.
+>
+> Y una cosa que este plan dejó FUERA de alcance y ya no lo está: la interfaz.
+> El §1 decía «la UI sigue en castellano; se puede abordar después como fase
+> propia de i18n de UI». Esa fase se hizo en sept/2026 —`src/i18n/strings.gl.ts`,
+> 29 espacios de nombres y 1 251 claves— porque la asimetría se había vuelto
+> insostenible: el catalán tenía app entera en su lengua y el galego, que es la
+> del hospital donde se pilota, no.
 
 ---
 
@@ -49,9 +59,11 @@ ni el principio offline-first de la app.
 
 **Fuera del alcance (por ahora)**
 
-- Interfaz de la app (menús, botones) en gallego: la UI sigue en castellano;
-  solo el **contenido terapéutico** (lo que se locuta, muestra y evalúa) pasa a
-  gallego. Se puede abordar después como fase propia de i18n de UI.
+- ~~Interfaz de la app (menús, botones) en gallego~~ — **hecho en sept/2026**,
+  fuera del alcance original de este plan. `gl` es el cuarto idioma de interfaz
+  (`UiLang`), con catálogo propio y chip en el selector. Lo único que sigue
+  sirviéndose en castellano son las ~50 cápsulas de Academy, declarado en
+  `src/i18n/uiLangFallback.ts` y avisado en pantalla.
 - Otras lenguas o variedades: la arquitectura de la Fase 1 las deja
   preparadas, pero no se implementan aquí. La variante dominicana tiene su
   propio plan que reutiliza esta infraestructura:
@@ -357,13 +369,26 @@ graph LR
 
 Checklist maestro (marcar al completar; una PR por tarea o grupo pequeño):
 
-- [ ] **Fase 0**: GL-0.1 · GL-0.2 · GL-0.3 · GL-0.4
-- [ ] **Fase 1**: GL-1.1 · GL-1.2 · GL-1.3 · GL-1.4 · GL-1.5
-- [ ] **Fase 2**: GL-2.1 · ~~GL-2.2~~ ✅ · ~~GL-2.3~~ ✅ · ~~GL-2.4~~ ✅ · GL-2.5 · GL-2.6
-  (GL-2.2 aprobada jul 2026; GL-2.3 y GL-2.4 aprobadas por la revisora logopeda el 27 jul 2026 y en producción)
-- [ ] **Fase 3**: GL-3.1 · GL-3.2 · GL-3.3 · GL-3.4 · GL-3.5
-- [ ] **Fase 4**: GL-4.1 · GL-4.2 · GL-4.3 · GL-4.4 (condicional)
-- [ ] **Fase 5**: GL-5.1 · GL-5.2 · GL-5.3 · GL-5.4
+- [x] **Fase 0**: licencias y decisiones cerradas.
+- [x] **Fase 1**: infraestructura de variedad en producción (`valeriaLocale.ts`).
+  Con un matiz que este plan pedía y no se hizo entonces: la variedad **por
+  paciente**. Era un ajuste global hasta sept/2026; ahora vive en la ficha
+  (`lingua`) y seleccionar al niño la aplica.
+- [x] **Fase 2**: banco galego completo en los ocho bloques y aprobado por la
+  revisora logopeda (27 jul 2026). Ampliado en sept/2026 con los seis pares de
+  contrastes propios (/ʃ/, abertura vocálica /ɔ/–/o/, /ʎ/, nasales), que están
+  **pendientes de esa misma doble validación**.
+- [x] **Fase 3**: 876 locuciones sintetizadas con Celtia y empaquetadas.
+- [ ] **Fase 4**: GL-4.1 hecho (`speechLocale()` devuelve `gl-ES`). GL-4.2,
+  GL-4.3 y GL-4.4 pendientes. **Y falta algo que este plan no listó**: el
+  pliegue dialectal. `normalizeSpeech` pliega es-DO y euskera y no pliega
+  galego, así que la gheada y el seseo no tienen tratamiento en el emparejador.
+  El primer paso ya está dado —`PM-GL-3` (casa/caza) lleva `region:'distincion'`
+  desde sept/2026— pero es solo el par mínimo, no el reconocedor.
+- [ ] **Fase 5**: GL-5.1 y GL-5.3 pendientes. **GL-5.2 hecho** en sept/2026: la
+  sesión de telemetría guarda `locale` y marca `localeSwitched` si cambió a
+  mitad, y la exportación reparte las sesiones por lengua (`sessionsByLocale`).
+  GL-5.4 hecho en este mismo cambio.
 
 Reglas de trabajo:
 
