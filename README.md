@@ -27,7 +27,7 @@ Offline y en el bolsillo.
 ![Expo SDK 54](https://img.shields.io/badge/Expo-SDK%2054-000020?style=flat-square&logo=expo&logoColor=white)
 ![React Native](https://img.shields.io/badge/React%20Native-0.81-61DAFB?style=flat-square&logo=react&logoColor=black)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?style=flat-square&logo=typescript&logoColor=white)
-![Firebase](https://img.shields.io/badge/Firebase-opcional-FFCA28?style=flat-square&logo=firebase&logoColor=black)
+![Sin backend](https://img.shields.io/badge/backend-ninguno-2ea44f?style=flat-square)
 ![Voz neuronal](https://img.shields.io/badge/Voz%20neuronal-offline-8A2BE2?style=flat-square)
 ![Build](https://github.com/FrankBetances/Valeria/actions/workflows/android.yml/badge.svg)
 
@@ -72,7 +72,7 @@ Offline y en el bolsillo.
 - [Build iOS en local (Mac + Xcode)](#-build-ios-en-local-mac--xcode)
 - [Port nativo iOS (Xcode)](#-port-nativo-ios-xcode)
 - [Build automático (GitHub Actions)](#-build-automático-github-actions)
-- [Backend opcional (Firebase)](#-backend-opcional-firebase)
+- [Sin backend: de la app no salen datos](#-sin-backend-de-la-app-no-salen-datos)
 - [Privacidad y ficha de Play Store](#️-privacidad-y-ficha-de-play-store)
 - [Historial de versiones](#-historial-de-versiones)
 
@@ -1017,14 +1017,13 @@ interfaz clásica se entra desde el hub de bloques, en la v11 desde **Ajustes**)
 | [`docs/plan-integracion-ingles-en-US.md`](docs/plan-integracion-ingles-en-US.md) | Plan por fases para el inglés de Estados Unidos (`en‑US`). **Interfaz, banco clínico y voz ya implementados** — ver [Idiomas y variedades](#-idiomas-y-variedades). Rompió el molde de los tres planes de idioma anteriores: fue el primero que exigió **traducir la interfaz** (hasta entonces las cadenas estaban literales en las 27 pantallas), el primero que abre **mercado nuevo** (COPPA, *Designed for Families*, ficha de tienda y página de eliminación de datos en inglés) y el que más rediseño clínico pide (grupos consonánticos, vocales tensa/laxa, ortografía opaca). Decisiones ya cerradas: **revisión clínica confirmada** (profesora SLP con licencia, *Howard University*), **separación del idioma de interfaz respecto de la variedad de los ejercicios** —para el *caseload* bilingüe español‑inglés— y la regla bloqueante de **diferencia dialectal vs. trastorno** para el inglés afroamericano y el sureño, espejo de la guía dominicana. |
 | [`docs/protocolo-evaluacion-clinica-en-US.md`](docs/protocolo-evaluacion-clinica-en-US.md) | Protocolo de la **evaluación clínica estadounidense** (EN‑0.9): cómo se instala la build de prueba en Android, qué debe juzgar la revisora —validez de la mecánica, **diferencia dialectal vs. trastorno**, registro del inglés y usabilidad—, qué queda **fuera de alcance** para que no gaste el informe en ello, y el formato tabulado (*tipo · gravedad · propuesta*) que permite convertir cada observación en una tarea del plan. |
 | [`docs/plan-asr-privacidad-y-motor-local.md`](docs/plan-asr-privacidad-y-motor-local.md) | Plan en dos fases para que el audio del turno de habla **no salga del dispositivo**: (A) reconocimiento local con el motor del sistema —**software terminado**, pendiente de verificar en dispositivo— y (B) prueba de concepto medida de un motor local (`sherpa-onnx`), con puerta GO/NO‑GO numérica y banco de medida ya implementado. Contiene dos hallazgos que cambiaron el plan: que `@react-native-voice/voice` descartaba en silencio las claves que no conocía (§2.2), y que **25 de los 35 pares mínimos puntúan como acierto que el niño diga el distractor** (§4.0). Revisa el NO‑GO de [`docs/asr-euskera-ilenia.md`](docs/asr-euskera-ilenia.md). |
-| [`docs/play-console-seguridad-datos.md`](docs/play-console-seguridad-datos.md) | Las respuestas del formulario de *Seguridad de los datos* de Play Console, con el comando que comprueba cada una. Su hallazgo: la sincronización en la nube que describe `site/` **no es alcanzable en la 3.0.0** —`ValeriaAuthScreen` no la importa nadie y `firestoreService` no tiene ni una llamada—, así que hoy no sale del dispositivo ningún dato personal ni de salud y el formulario declara un único tipo, el audio del turno de habla. Lo sostiene `check-data-safety-declaration.js`. |
+| [`docs/play-console-seguridad-datos.md`](docs/play-console-seguridad-datos.md) | Las respuestas del formulario de *Seguridad de los datos* de Play Console, con el comando que comprueba cada una. Su hallazgo: la sincronización en la nube que describía `site/` no era alcanzable —`ValeriaAuthScreen` no la importaba nadie y `firestoreService` no tenía ni una llamada—, y el 7/9/2026 Frank retiró Firebase entero. De la app no sale ningún dato personal ni de salud, y el formulario declara un único tipo: el audio del turno de habla. Lo sostiene `check-data-safety-declaration.js`. |
 | [`docs/plan-mejoras-acopros-logopedas.json`](docs/plan-mejoras-acopros-logopedas.json) | **Fuente de verdad** del plan de mejoras nacido del feedback clínico de ACOPROS: cada observación verificada contra el código, con decisiones clínicas (DC‑1…DC‑5), criterios de aceptación y estado. Incluye el **bloqueo de publicación** del corpus de voz. |
 | [`docs/criterio-dificultad-lexica.md`](docs/criterio-dificultad-lexica.md) | Criterio del campo `difficulty` de las categorías léxicas (ES‑08): la progresión la marca la **familiaridad**, no la dificultad de pronunciación. Incluye por qué la frecuencia **no se hereda entre variedades** (en RD el plátano es el de freír; el que se come crudo es el guineo). |
 | [`docs/auditoria-pictogramas.md`](docs/auditoria-pictogramas.md) | Inventario de toda la carga visual en uso, clasificada por riesgo (*tofu*, atributo, revisar) con columna de veredicto para ACOPROS. Se **regenera** con `node scripts/audit-pictograms.js --markdown`. |
 | [`docs/arquitectura-exportacion-ios.json`](docs/arquitectura-exportacion-ios.json) | **Blueprint replicable** de la exportación a iOS: cómo conviven la app Expo (que no versiona `ios/`) y el port nativo de `ios-native/`, dónde vive la firma para que el Team ID no acabe en el `pbxproj`, los tres modos de `archive.sh`, qué se puede con cuenta gratuita y el catálogo de errores frecuentes. Pensado para **portarlo a otros repositorios**. |
 | [`docs/arquitectura-corpus-voz-nos-ilenia.json`](docs/arquitectura-corpus-voz-nos-ilenia.json) | **Blueprint replicable** de la arquitectura de voz neuronal (Proxecto Nós / ILENIA): enumeración del corpus, síntesis en build‑time e integración offline‑first con degradación elegante. |
 | [`docs/plan-calidad.md`](docs/plan-calidad.md) | Task list priorizada para reducir regresiones (checklist de humo, pruebas por bloque). |
-| [`docs/firebase-setup.md`](docs/firebase-setup.md) | Guía del backend opcional: Firebase Authentication + Cloud Firestore. |
 
 **Regenerar el manual** tras editar [`docs/manual-casos-de-uso.html`](docs/manual-casos-de-uso.html):
 
@@ -1260,14 +1259,14 @@ open Valeria.xcodeproj     # esquema Valeria · ⌘R
 
 **El proyecto de Xcode de este port es `ios-native/Valeria.xcodeproj`**, y es el
 único `.xcodeproj` versionado del repositorio. Dependencias por Swift Package
-Manager (Firebase), **sin CocoaPods**: no hay `Podfile` ni `pod install` que
+Manager —**sin ningún paquete**, desde que se retiró Firebase— y **sin CocoaPods**: no hay `Podfile` ni `pod install` que
 ejecutar, y se abre el `.xcodeproj`, no un *workspace*.
 
 El **simulador** no necesita ninguna cuenta de Apple. Con una cuenta **gratuita**
 se compila y se ejecuta en tu propio iPhone o iPad (el proyecto no usa ninguna
 capacidad de las que exigen cuenta de pago), con dos límites que conviene saber:
 la firma **caduca a los 7 días** y no hay forma de distribuir por TestFlight ni
-Firebase App Distribution — eso sí requiere el Apple Developer Program.
+por canal interno firmado — eso sí requiere el Apple Developer Program.
 
 Todo el detalle —firma, `archive`, exportación del `.ipa`, y en qué se
 diferencia de esta app RN— está en [`ios-native/README.md`](ios-native/README.md).
@@ -1408,20 +1407,35 @@ checkpoint *gated* de Celtia, que requiere el secret `HF_TOKEN`.
 
 </details>
 
-## 🔥 Backend opcional (Firebase)
+## 🚫 Sin backend: de la app no salen datos
 
-Para probar la app con profesionales, Valeria+ incluye un backend **aditivo y
-opcional**: **Firebase Authentication** (email/contraseña) + **Cloud Firestore**.
-La app sigue funcionando en local sin conexión si no se activa.
+**Valeria+ no tiene servidor.** No hay cuentas, ni sincronización, ni SDK de
+terceros con recorrido de datos: ni analítica, ni *crash reporting*, ni
+publicidad, ni identificador publicitario. La app **no realiza ni una sola
+llamada de red por su cuenta** —`grep -rn "fetch(\|XMLHttpRequest\|WebView" src`
+no devuelve nada—, y todo lo que introduce el adulto y todo lo que registra la
+sesión vive en el almacenamiento privado del teléfono y desaparece al
+desinstalar.
 
-- **SDK JS `firebase`** (no `@react-native-firebase`): mismo código en Android,
-  iOS y web, sin módulos nativos ni rebuilds.
-- La config del SDK se lee de **variables de entorno `EXPO_PUBLIC_*`**; no hay
-  claves escritas en el repositorio (copia `.env.example` a `.env`).
-- Cada profesional autenticado solo accede a **sus propios datos**, protegidos
-  por las Security Rules de [`firestore.rules`](firestore.rules).
+Hasta el **7/9/2026** el repositorio traía Firebase cableado: `firebase` 12.x,
+`AuthProvider` montado, `src/firebase/firestoreService.ts`, `firestore.rules`, y
+en el port iOS **`FirebaseAnalytics` y `FirebaseCrashlytics`** enlazados de
+verdad. La auditoría del 6/9 encontró que en Android nada de eso era alcanzable
+—`ValeriaAuthScreen` no lo importaba nadie— y Frank decidió retirarlo entero.
 
-Guía completa de configuración y despliegue: [`docs/firebase-setup.md`](docs/firebase-setup.md).
+Solo hay **dos caminos** por los que un dato puede salir del dispositivo, y los
+dos los describe la política:
+
+1. La persona adulta **exporta** un informe y elige a quién enviarlo por el menú
+   de compartir de Android.
+2. El **audio del turno de habla** cuando el reconocimiento de voz no puede
+   hacerse dentro del propio dispositivo y lo procesa el servicio del sistema.
+
+Ese segundo camino es el único tipo de dato que declara el formulario de
+*Seguridad de los datos* de Play Console. Las respuestas están en
+[`docs/play-console-seguridad-datos.md`](docs/play-console-seguridad-datos.md) y
+el gate `check-data-safety-declaration.js` rompe el build si vuelve a aparecer un
+SDK de nube, una llamada de red o un `src/firebase/`.
 
 ---
 
@@ -2079,7 +2093,7 @@ trazabilidad completa está en
   Eran SVG hasta la v12; desde el 14/8/2026 son píxel art de 24×24 y **el mismo
   dibujo que enseña el aparato**.
 - **Marca animada**: bienvenida y créditos animados; iconos y splash regenerados.
-- **Backend opcional Firebase**: Auth email/contraseña + Firestore (ver arriba).
+- **Sin backend**: Firebase retirado entero el 7/9/2026, Android e iOS (ver arriba).
 - **Build firmado en CI**: APK y AAB firmados en cada push/fusión a `main`.
 
 </details>

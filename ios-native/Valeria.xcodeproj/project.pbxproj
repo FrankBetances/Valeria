@@ -29,9 +29,6 @@
 		B20000000000000000000012 /* AcademyHardwareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000012 /* AcademyHardwareView.swift */; };
 		BB0000000000000000000003 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000003 /* Assets.xcassets */; };
 		BB0000000000000000000007 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000006 /* Preview Assets.xcassets */; };
-		BB0000000000000000000004 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = CC0000000000000000000001 /* FirebaseCore */; };
-		BB0000000000000000000005 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = CC0000000000000000000002 /* FirebaseAnalytics */; };
-		BB0000000000000000000006 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = CC0000000000000000000003 /* FirebaseCrashlytics */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -70,9 +67,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BB0000000000000000000004 /* FirebaseCore in Frameworks */,
-				BB0000000000000000000005 /* FirebaseAnalytics in Frameworks */,
-				BB0000000000000000000006 /* FirebaseCrashlytics in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -162,9 +156,6 @@
 			);
 			name = Valeria;
 			packageProductDependencies = (
-				CC0000000000000000000001 /* FirebaseCore */,
-				CC0000000000000000000002 /* FirebaseAnalytics */,
-				CC0000000000000000000003 /* FirebaseCrashlytics */,
 			);
 			productName = Valeria;
 			productReference = AA0000000000000000000005 /* Valeria.app */;
@@ -196,7 +187,6 @@
 			);
 			mainGroup = EE0000000000000000000001;
 			packageReferences = (
-				DD0000000000000000000001 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			productRefGroup = EE0000000000000000000003 /* Products */;
 			projectDirPath = "";
@@ -438,34 +428,6 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCRemoteSwiftPackageReference section */
-		DD0000000000000000000001 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 11.0.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		CC0000000000000000000001 /* FirebaseCore */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = DD0000000000000000000001 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseCore;
-		};
-		CC0000000000000000000002 /* FirebaseAnalytics */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = DD0000000000000000000001 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAnalytics;
-		};
-		CC0000000000000000000003 /* FirebaseCrashlytics */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = DD0000000000000000000001 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseCrashlytics;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = AB0000000000000000000001 /* Project object */;
 }

@@ -45,7 +45,7 @@ else
   MAYOR=${VERSION%%.*}
   MENOR=$(echo "$VERSION" | cut -d. -f2); MENOR=${MENOR:-0}
   if [ "$MAYOR" -lt 15 ] || { [ "$MAYOR" -eq 15 ] && [ "$MENOR" -lt 2 ]; }; then
-    error "Xcode $VERSION. El proyecto necesita 15.2 o posterior (Firebase 11 no compila con menos)."
+    error "Xcode $VERSION. El proyecto necesita 15.2 o posterior."
   else
     ok "Xcode $VERSION"
   fi
@@ -111,7 +111,7 @@ if command -v security >/dev/null 2>&1; then
     if ! security find-identity -v -p codesigning 2>/dev/null | grep -qi "Apple Distribution\|iPhone Distribution"; then
       aviso "Sin certificado de distribución: es lo normal con cuenta gratuita.
       Puedes compilar y ejecutar en tu dispositivo, pero NO exportar para
-      Firebase App Distribution ni TestFlight (eso pide el programa de pago).
+      distribución interna ni TestFlight (eso pide el programa de pago).
       Para un .ipa de desarrollo:  ./scripts/archive.sh dev
       Recuerda que la firma gratuita CADUCA A LOS 7 DÍAS: pasado ese plazo la
       app deja de abrirse en el dispositivo y hay que reinstalarla desde Xcode."
@@ -124,16 +124,6 @@ if command -v security >/dev/null 2>&1; then
 fi
 
 echo
-echo "── Firebase (opcional) ──────────────────────────────────"
-
-if [ -f Valeria/GoogleService-Info.plist ]; then
-  ok "GoogleService-Info.plist presente"
-else
-  aviso "Sin GoogleService-Info.plist. La app arranca igual (el arranque de Firebase
-      es defensivo), pero no reporta a Analytics ni a Crashlytics. Descárgalo de la
-      consola de Firebase y arrástralo al grupo Valeria en Xcode."
-fi
-
 if [ "${1:-}" = "--build" ]; then
   echo
   echo "── Compilación de prueba (simulador) ────────────────────"

@@ -306,8 +306,7 @@
           "Que TODOS los .swift del disco están registrados en la fase Sources del pbxproj (la comprobación de P6).",
           "Que el AppIcon 1024×1024 existe.",
           "Estado de la firma: archivo local con Team ID real (no el de la plantilla), o variable de entorno, o ninguno.",
-          "Si hay certificado «Apple Development» en el llavero y si además hay uno de distribución (su ausencia es lo normal con cuenta gratuita).",
-          "Si están las credenciales opcionales de Firebase."
+          "Si hay certificado «Apple Development» en el llavero y si además hay uno de distribución (su ausencia es lo normal con cuenta gratuita)."
         ],
         "conBuild": "--build compila además para simulador con CODE_SIGNING_ALLOWED=NO y deja el registro completo en un log. Es la respuesta definitiva.",
         "salida": "Código 1 si hay problemas que impiden compilar; 0 con avisos si solo faltan cosas opcionales. Cada aviso incluye el comando exacto que lo resuelve."
@@ -345,7 +344,7 @@
         "archivo": "ExportOptions-AdHoc.plist",
         "method": "ad-hoc",
         "cuenta": "de pago",
-        "nota": "Para distribución interna tipo Firebase App Distribution."
+        "nota": "Para distribución interna firmada (Ad Hoc)."
       },
       {
         "archivo": "ExportOptions-AppStore.plist",
@@ -375,7 +374,7 @@
         "dePago": true
       },
       {
-        "capacidad": "Firebase App Distribution / TestFlight",
+        "capacidad": "Distribución interna firmada / TestFlight",
         "gratuita": false,
         "dePago": true
       },

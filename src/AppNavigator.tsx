@@ -31,7 +31,6 @@ import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-cont
 import { initNotifications, refreshDailyReminders } from './valeriaNotifications';
 import { subscribeUiLang } from './valeriaUiLang';
 import { V } from './valeriaTheme';
-import { AuthProvider } from './firebase/AuthContext';
 import { noteScreen } from './valeriaTelemetry';
 import { ValeriaMisclickBoundary } from './ValeriaMisclickBoundary';
 import { ValeriaSUSModal } from './ValeriaSUSModal';
@@ -195,13 +194,11 @@ export const ValeriaApp: React.FC = () => {
     if (name && name !== lastRoute.current) { lastRoute.current = name; noteScreen(name); }
   };
   return (
-    <AuthProvider>
-      <SafeAreaProvider>
-        <NavigationContainer ref={navigationRef} onReady={handleRoute} onStateChange={handleRoute}>
-          <SafeFrame />
-        </NavigationContainer>
-      </SafeAreaProvider>
-    </AuthProvider>
+    <SafeAreaProvider>
+      <NavigationContainer ref={navigationRef} onReady={handleRoute} onStateChange={handleRoute}>
+        <SafeFrame />
+      </NavigationContainer>
+    </SafeAreaProvider>
   );
 };
 

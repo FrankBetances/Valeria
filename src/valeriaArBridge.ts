@@ -26,7 +26,7 @@
 // del producto (I → IIa) y debe rechazarse en revisión.
 //
 // ── Frontera de datos ──────────────────────────────────────────────────────
-// El nativo NO escribe en AsyncStorage ni en Firestore: devuelve un
+// El nativo NO escribe en AsyncStorage ni manda nada fuera: devuelve un
 // ArSessionResult y es el JS quien lo enruta por valeriaTelemetry, igual que
 // hace hoy el player. Una sola fuente de verdad para los datos del piloto.
 // ============================================================================

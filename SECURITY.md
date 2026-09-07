@@ -31,29 +31,31 @@ pedimos que no publiques los detalles hasta que exista un parche.
 
 Entran dentro del alcance, entre otros:
 
-- Saltarse las reglas de acceso de Cloud Firestore (`firestore.rules`) para leer
-  o escribir datos de otro profesional o paciente.
-- Fugas de credenciales o de datos clínicos.
-- Fallos de autenticación (Firebase Auth email/contraseña).
-- Cualquier vía que permita acceso no autorizado a datos de pacientes.
+- Cualquier vía que permita a otra app del teléfono leer los datos de pacientes
+  del almacenamiento privado de Valeria+.
+- Cualquier salida de datos que la app no declare: la app **no abre conexiones
+  propias**, así que una petición de red saliente es de por sí un hallazgo.
+- Fugas de datos clínicos por exportación, registro (`logcat`) o copia de
+  seguridad del sistema.
+- Que el PIN profesional pueda saltarse para llegar al panel del adulto.
 
 ## Modelo de seguridad de los datos
 
-- **Control de acceso**: toda la información vive bajo
-  `professionals/{uid}/…` y las reglas de Firestore aplican un modelo
-  *deny-by-default*: cada profesional autenticado accede **únicamente** a sus
-  propios documentos, y el campo `uid` (dueño) es inmutable. Cualquier ruta no
-  declarada está denegada.
-- **Autenticación**: Firebase Auth con email/contraseña.
-- **Secretos**: no se versiona ninguna credencial. La configuración de Firebase
-  se inyecta desde variables de entorno `EXPO_PUBLIC_*` (ver `.env.example`) y
-  las claves de firma / tokens viven en *GitHub Actions Secrets*. La web/app
-  config de Firebase es pública por diseño; la seguridad real la imponen las
-  Security Rules.
-
-> **Recordatorio**: tras cualquier cambio en `firestore.rules`, despliégalas
-> con `firebase deploy --only firestore:rules`. Las reglas del repositorio solo
-> protegen si están efectivamente publicadas en el proyecto.
+- **No hay backend.** Desde el 7/9/2026 la app no tiene servidor, ni cuentas, ni
+  SDK de nube —Firebase se retiró entero, también del port iOS, donde enlazaba
+  Analytics y Crashlytics—. Eso elimina de raíz toda la clase de fallos de
+  control de acceso remoto, y a cambio traslada el modelo de amenaza al
+  **dispositivo**: quien tiene el teléfono tiene los datos.
+- **Superficie de red**: ninguna propia. La app no hace una sola llamada; lo
+  comprueba `check-data-safety-declaration.js` en cada build. Lo único que puede
+  salir es el audio del turno de habla, y solo cuando el reconocimiento lo hace
+  el servicio del sistema operativo en red.
+- **En reposo**: la telemetría del piloto y el registro sensorial se cifran con
+  `valeriaCrypto`; el PIN profesional se guarda como resumen SHA-256. **La ficha
+  del paciente todavía no se cifra** (`ValeriaFichaRegistroScreen.tsx`), y es
+  deuda conocida: ver §6 de `docs/play-console-seguridad-datos.md`.
+- **Secretos**: los únicos son los de firma del APK, en *GitHub Actions
+  Secrets*. No hay claves de servicio que filtrar porque no hay servicio.
 
 ## Vulnerabilidades conocidas en dependencias
 

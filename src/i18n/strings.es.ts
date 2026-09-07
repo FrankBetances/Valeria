@@ -44,7 +44,7 @@ export const ES = {
     tagline: 'Entiende su lenguaje, practica en casa. Lúa os acompaña.',
     sub: 'Primero te formas, después practicáis juntos en casa. Valeria registra el progreso.',
     start: 'Comenzar',
-    trust: 'Datos cifrados en el dispositivo · RGPD / HIPAA',
+    trust: 'Los datos no salen del dispositivo · RGPD / HIPAA',
   },
   // Pantalla de presentación de Lúa física, entre Créditos y la ficha.
   // Sin la palabra «terapia»: no se lee en ninguna cadena de la app.
@@ -153,10 +153,10 @@ export const ES = {
     required: 'Este campo es obligatorio.',
     invalidEmail: 'Introduce un correo válido.',
     recordNumberRequired: 'El NHC es obligatorio.',
-    saved: 'Ficha guardada y cifrada en el dispositivo.',
+    saved: 'Ficha guardada en este dispositivo. No sale de aquí.',
     save: 'Guardar ficha',
     continueToAcademy: 'Empezar por la formación →',
-    footer: 'Almacenamiento local cifrado (AES-256) · cumple RGPD / HIPAA.',
+    footer: 'Todo se queda en el dispositivo: sin servidor y sin cuentas · cumple RGPD / HIPAA.',
 
     // id almacenado (castellano, inmutable) → etiqueta visible
     genderLabel: (id: string): string => id,
@@ -432,39 +432,6 @@ export const ES = {
     }[id] ?? ''),
   },
 
-  auth: {
-    title: 'Acceso profesional',
-    subtitleSignup: 'Crea tu cuenta para guardar tus pacientes y sesiones en la nube.',
-    subtitleSignin: 'Inicia sesión para acceder a tus pacientes y sesiones.',
-    name: 'Nombre',
-    namePlaceholder: 'Tu nombre',
-    emailPlaceholder: 'tu@correo.com',
-    firebaseUnconfigured: '⚠︎ Firebase aún no está configurado (faltan las claves del proyecto). Ver docs/firebase-setup.md.',
-    email: 'Correo electrónico',
-    password: 'Contraseña',
-    passwordPlaceholder: 'Mínimo 6 caracteres',
-    signup: 'Crear cuenta',
-    signin: 'Iniciar sesión',
-    forgot: '¿Olvidaste tu contraseña?',
-    haveAccount: '¿Ya tienes cuenta?',
-    noAccount: '¿Aún no tienes cuenta?',
-    goSignin: 'Inicia sesión',
-    goSignup: 'Créala aquí',
-    missingFields: 'Escribe tu correo y contraseña.',
-    missingEmailForReset: 'Escribe tu correo para enviarte el enlace de recuperación.',
-    resetSent: 'Te hemos enviado un correo para restablecer la contraseña.',
-    // código normalizado (firebase/authErrors) → mensaje
-    error: (code: string): string =>
-      code === 'invalidEmail' ? 'El correo no tiene un formato válido.'
-        : code === 'missingPassword' ? 'Escribe tu contraseña.'
-          : code === 'weakPassword' ? 'La contraseña debe tener al menos 6 caracteres.'
-            : code === 'emailInUse' ? 'Ya existe una cuenta con ese correo.'
-              : code === 'badCredentials' ? 'Correo o contraseña incorrectos.'
-                : code === 'tooManyRequests' ? 'Demasiados intentos. Inténtalo de nuevo en unos minutos.'
-                  : code === 'network' ? 'Sin conexión. Comprueba tu red e inténtalo otra vez.'
-                    : code === 'notAllowed' ? 'El acceso por correo y contraseña no está habilitado en el proyecto.'
-                      : 'No se ha podido completar la operación. Inténtalo de nuevo.',
-  },
 
   // Test de Ling. Los SEIS SONIDOS y sus consignas no están aquí: salen de
   // `lingContentForLocale`, que se localiza por VARIEDAD de terapia. Aquí vive

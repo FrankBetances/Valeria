@@ -44,7 +44,7 @@ export const EN: UiStrings = {
     tagline: 'Understand their language, practise at home. Lúa joins you.',
     sub: 'First you learn, then you practise together at home. Valeria keeps track of the progress.',
     start: 'Get started',
-    trust: 'Data encrypted on this device · HIPAA / GDPR',
+    trust: 'Data never leaves this device · HIPAA / GDPR',
   },
   luaIntro: {
     title: 'Meet Lúa',
@@ -141,10 +141,10 @@ export const EN: UiStrings = {
     required: 'This field is required.',
     invalidEmail: 'Enter a valid email address.',
     recordNumberRequired: 'The record number is required.',
-    saved: 'Record saved and encrypted on this device.',
+    saved: 'Record saved on this device. It does not leave it.',
     save: 'Save record',
     continueToAcademy: 'Start with the training →',
-    footer: 'Encrypted local storage (AES-256) · HIPAA / GDPR compliant.',
+    footer: 'Everything stays on the device: no server, no accounts · HIPAA / GDPR compliant.',
 
     // The argument is the stored Spanish id; the return value is what the user
     // reads. Unknown ids fall through unchanged so an old record never renders
@@ -430,38 +430,6 @@ export const EN: UiStrings = {
     }[id] ?? ''),
   },
 
-  auth: {
-    title: 'Professional access',
-    subtitleSignup: 'Create an account to store your patients and sessions in the cloud.',
-    subtitleSignin: 'Sign in to reach your patients and sessions.',
-    name: 'Name',
-    namePlaceholder: 'Your name',
-    emailPlaceholder: 'you@email.com',
-    firebaseUnconfigured: '⚠︎ Firebase is not configured yet (the project keys are missing). See docs/firebase-setup.md.',
-    email: 'Email',
-    password: 'Password',
-    passwordPlaceholder: 'At least 6 characters',
-    signup: 'Create account',
-    signin: 'Sign in',
-    forgot: 'Forgot your password?',
-    haveAccount: 'Already have an account?',
-    noAccount: 'Don’t have an account yet?',
-    goSignin: 'Sign in',
-    goSignup: 'Create one',
-    missingFields: 'Enter your email and password.',
-    missingEmailForReset: 'Enter your email so we can send you a reset link.',
-    resetSent: 'We’ve sent you an email to reset your password.',
-    error: (code: string): string =>
-      code === 'invalidEmail' ? 'That email address isn’t valid.'
-        : code === 'missingPassword' ? 'Enter your password.'
-          : code === 'weakPassword' ? 'Your password must be at least 6 characters.'
-            : code === 'emailInUse' ? 'An account with that email already exists.'
-              : code === 'badCredentials' ? 'Incorrect email or password.'
-                : code === 'tooManyRequests' ? 'Too many attempts. Try again in a few minutes.'
-                  : code === 'network' ? 'No connection. Check your network and try again.'
-                    : code === 'notAllowed' ? 'Email and password sign-in is not enabled for this project.'
-                      : 'We couldn’t complete that. Please try again.',
-  },
 
   // The six Ling sounds and their prompts are NOT here: they come from
   // `lingContentForLocale`, localised by therapy variety. What lives here is

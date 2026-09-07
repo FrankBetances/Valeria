@@ -38,7 +38,7 @@ case "$MODO" in
   *)
     echo "Uso: $0 [dev|adhoc|appstore] [número-de-build]" >&2
     echo "  dev      → cuenta gratuita o de pago; .ipa de desarrollo (caduca a los 7 días)" >&2
-    echo "  adhoc    → solo cuenta de pago; para Firebase App Distribution" >&2
+    echo "  adhoc    → solo cuenta de pago; para distribución interna" >&2
     echo "  appstore → solo cuenta de pago; para TestFlight y la tienda" >&2
     exit 2
     ;;

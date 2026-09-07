@@ -49,8 +49,8 @@ const CAMPOS_FICHA = [
 // Permisos. Los de app.json más los que montan los plugins.
 const PERMISOS = ['android.permission.CAMERA'];
 
-// Dependencias de ejecución. Solo `firebase` tiene recorrido de datos; el
-// resto son UI, navegación o medios empaquetados.
+// Dependencias de ejecución. NINGUNA tiene recorrido de datos: son UI,
+// navegación o medios empaquetados. `firebase` estaba aquí hasta el 7/9/2026.
 const DEPENDENCIAS = [
   '@react-native-async-storage/async-storage',
   '@react-navigation/bottom-tabs', '@react-navigation/native',
@@ -58,13 +58,15 @@ const DEPENDENCIAS = [
   'expo', 'expo-asset', 'expo-audio', 'expo-build-properties',
   'expo-dev-client', 'expo-notifications', 'expo-speech',
   'expo-speech-recognition', 'expo-splash-screen', 'expo-status-bar',
-  'firebase', 'react', 'react-native', 'react-native-safe-area-context',
+  'react', 'react-native', 'react-native-safe-area-context',
   'react-native-screens', 'react-native-svg',
 ];
 
-// §2 del documento: la sincronización en la nube NO es alcanzable. Si esto
-// cambia, el formulario pasa a declarar datos personales y de salud.
-const NUBE_ALCANZABLE = false;
+// §2 del documento: la app NO tiene backend. Firebase se retiró el 7/9/2026 —de
+// Android y del port iOS, donde además enlazaba Analytics y Crashlytics—. Si
+// vuelve un SDK de nube, el formulario pasa a declarar datos personales y de
+// salud, y hay que reescribir las dos políticas antes de publicar.
+const HAY_BACKEND = false;
 
 // --- D1 · Campos de la ficha ----------------------------------------------
 {
@@ -135,7 +137,7 @@ const NUBE_ALCANZABLE = false;
   const walk = (dir) => {
     for (const e of fs.readdirSync(path.join(ROOT, dir), { withFileTypes: true })) {
       const rel = path.join(dir, e.name);
-      if (e.isDirectory()) { if (rel !== path.join('src', 'firebase')) walk(rel); continue; }
+      if (e.isDirectory()) { walk(rel); continue; }
       if (!/\.tsx?$/.test(e.name)) continue;
       const txt = fs.readFileSync(path.join(ROOT, rel), 'utf8');
       txt.split('\n').forEach((linea, n) => {
@@ -160,49 +162,56 @@ const NUBE_ALCANZABLE = false;
       + `      ${DOC} §1 declara cero llamadas de red. Si esta es legítima, hay que\n`
       + '      decir a dónde va y qué manda, en el documento y en las dos políticas.');
   } else {
-    ok('D4 · sin llamadas de red propias fuera de src/firebase');
+    ok('D4 · la app no abre ni una conexión propia');
   }
 }
 
-// --- D5 · ¿Sigue la nube fuera de alcance? --------------------------------
+// --- D5 · ¿Ha vuelto un backend? ------------------------------------------
+// Un SDK de nube reintroducido cambia la respuesta del formulario entera, y es
+// exactamente lo que pasa desapercibido: se añade para «guardar una cosita» y
+// la declaración se queda diciendo que no sale nada del dispositivo.
 {
-  const importadores = [];
-  const llamadas = [];
-  const FIRESTORE_FNS = [
-    'upsertProfessionalProfile', 'savePaciente', 'getPaciente',
-    'listPacientes', 'deletePaciente', 'addSesion', 'listSesiones',
-  ];
+  const rastros = [];
+  const SDK_NUBE = /^(firebase|@react-native-firebase\/|@supabase\/|@aws-amplify\/|@sentry\/|@amplitude\/|posthog-|mixpanel-|@datadog\/|@react-native-google-signin\/)/;
+
+  if (fs.existsSync(path.join(ROOT, 'src', 'firebase'))) rastros.push('existe src/firebase/');
+  for (const f of ['firestore.rules', 'firebase.json', '.firebaserc', 'google-services.json',
+    path.join('src', 'ValeriaAuthScreen.tsx')]) {
+    if (fs.existsSync(path.join(ROOT, f))) rastros.push(`existe ${f}`);
+  }
+  for (const d of Object.keys(JSON.parse(read('package.json')).dependencies || {})) {
+    if (SDK_NUBE.test(d)) rastros.push(`dependencia de nube: ${d}`);
+  }
   const walk = (dir) => {
     for (const e of fs.readdirSync(path.join(ROOT, dir), { withFileTypes: true })) {
       const rel = path.join(dir, e.name);
       if (e.isDirectory()) { walk(rel); continue; }
       if (!/\.tsx?$/.test(e.name)) continue;
-      if (rel === path.join('src', 'ValeriaAuthScreen.tsx')) continue;
-      if (rel.startsWith(path.join('src', 'firebase'))) continue;
       const txt = fs.readFileSync(path.join(ROOT, rel), 'utf8');
-      if (/from\s+['"][^'"]*ValeriaAuthScreen['"]/.test(txt)) importadores.push(rel);
-      for (const fn of FIRESTORE_FNS) {
-        if (new RegExp(`\\b${fn}\\s*\\(`).test(txt)) llamadas.push(`${rel} → ${fn}()`);
-      }
+      if (/from\s+['"](firebase|@react-native-firebase)/.test(txt)) rastros.push(`${rel} importa firebase`);
     }
   };
   walk('src');
-  const alcanzable = importadores.length > 0 || llamadas.length > 0;
-  if (alcanzable !== NUBE_ALCANZABLE) {
-    if (alcanzable) {
-      fallo('D5 · la sincronización en la nube YA es alcanzable:\n'
-        + [...importadores.map((x) => `        importa ValeriaAuthScreen: ${x}`), ...llamadas.map((x) => `        llama a Firestore: ${x}`)].join('\n')
-        + `\n      Eso invierte la declaración: ${DOC} §2 dice que no lo es, y las dos\n`
-        + '      políticas marcan §3.2 como «no activa en la versión 3.0.0». El\n'
-        + '      formulario pasa a declarar Nombre, Correo, Teléfono, Información de\n'
-        + '      salud y Actividad en la app como recopilados. Actualiza los tres y\n'
-        + '      pon NUBE_ALCANZABLE = true.');
+  // El port iOS enlazaba FirebaseAnalytics y FirebaseCrashlytics de verdad.
+  const pbx = path.join('ios-native', 'Valeria.xcodeproj', 'project.pbxproj');
+  if (fs.existsSync(path.join(ROOT, pbx)) && /Firebase/i.test(read(pbx))) {
+    rastros.push(`${pbx} vuelve a enlazar Firebase`);
+  }
+
+  const hay = rastros.length > 0;
+  if (hay !== HAY_BACKEND) {
+    if (hay) {
+      fallo('D5 · ha vuelto un SDK de nube o backend:\n'
+        + rastros.map((x) => `        ${x}`).join('\n')
+        + `\n      ${DOC} §2 declara que la app no tiene backend, y las dos políticas\n`
+        + '      abren diciendo que de la app no salen datos. Si esto es deliberado,\n'
+        + '      hay que reescribir las tres cosas ANTES de publicar y poner\n'
+        + '      HAY_BACKEND = true; si no lo es, quítalo.');
     } else {
-      fallo('D5 · la declaración dice que la nube es alcanzable, pero no hay ni un\n'
-        + '      importador de ValeriaAuthScreen ni una llamada a Firestore.');
+      fallo('D5 · la declaración dice que hay backend, pero no encuentro ni un rastro.');
     }
   } else {
-    ok(`D5 · la nube ${NUBE_ALCANZABLE ? 'sigue cableada' : 'sigue sin cablear'}, como declara el documento`);
+    ok('D5 · sin SDK de nube ni backend, como declara el documento');
   }
 }
 

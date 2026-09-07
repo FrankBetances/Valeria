@@ -1,7 +1,7 @@
 # Valeria+ · Port nativo iOS (SwiftUI)
 
 Esqueleto nativo para **evaluar usabilidad en dispositivos físicos** vía
-**Firebase App Distribution**. Prioridad: velocidad de iteración visual.
+**distribución interna (Ad Hoc)**. Prioridad: velocidad de iteración visual.
 
 Convive con el proyecto React Native/Expo de la raíz sin interferir con él.
 
@@ -19,7 +19,7 @@ ios-native/
 │   ├── team-id.sh              # averigua el Team ID y escribe la firma local
 │   └── archive.sh              # archive + export del .ipa
 └── Valeria/
-    ├── ValeriaApp.swift        # @main + init defensiva de Firebase
+    ├── ValeriaApp.swift        # @main, sin servicios nativos
     ├── RootView.swift          # NavigationStack + Router (flujo completo)
     ├── Theme.swift             # tokens de diseño (port de valeriaTheme.ts)
     ├── LuaMark.swift           # Lúa, la gata (PNG de npm run build:brand)
@@ -70,11 +70,15 @@ la app. Al tocar `SemanticExpansionView` o `MinimalPairsView`, contrastar con
 
 ## Dependencias: Swift Package Manager, **sin CocoaPods**
 
-Inyectadas en `project.pbxproj` → `firebase-ios-sdk` (upToNextMajor `11.0.0`):
+**No hay ninguna.** El proyecto enlazaba `firebase-ios-sdk` —`FirebaseCore`,
+`FirebaseAnalytics` y `FirebaseCrashlytics`— y se retiró el 7/9/2026 por
+decisión de Frank: Valeria+ no usa Firebase. Con ello desaparece del port iOS el
+único componente que enviaba datos fuera del dispositivo. **Ni una medición de
+uso ni un informe de caídas sale de la app.**
 
-- `FirebaseCore` · `FirebaseAnalytics` · `FirebaseCrashlytics`
-
-Xcode las resuelve automáticamente al abrir el proyecto.
+Si algún día vuelve a hacer falta una dependencia, entra por Swift Package
+Manager y antes hay que repasar `docs/play-console-seguridad-datos.md`: un SDK
+de terceros cambia la declaración de datos.
 
 **No hay ni una sola dependencia de CocoaPods en el repositorio**: no existe
 `Podfile`, ni `Podfile.lock`, ni `.podspec`, ni `Pods/`, ni ningún
@@ -133,7 +137,7 @@ Xcode (*Integrate → Clone*), al terminar navega hasta `ios-native/` y abre el
 `preflight.sh` responde a la única pregunta que importa al clonar: ¿le falta
 algo a esta copia? Comprueba la versión de Xcode, que todos los `.swift` estén
 registrados en el `pbxproj`, el icono, el Team ID y las credenciales de
-Firebase, y cada aviso dice qué hacer. Con `--build` compila además para
+firma, y cada aviso dice qué hacer. Con `--build` compila además para
 simulador, que es la respuesta definitiva:
 
 ```bash
@@ -142,18 +146,8 @@ simulador, que es la respuesta definitiva:
 
 ### Qué pasa la primera vez que abres el proyecto
 
-Xcode resuelve los paquetes Swift (Firebase y sus dependencias) al abrir. Tarda
-varios minutos y **necesita conexión**; hasta que termina, el editor marca
-errores falsos de «no such module FirebaseCore». No es un fallo: hay que
-esperar a que la barra de progreso de *Package Dependencies* acabe. Si se
-atasca, *File → Packages → Reset Package Caches*.
-
-Al terminar, Xcode escribe un `Package.resolved` con las versiones exactas.
-**Vale la pena versionarlo** (`git add` en
-`Valeria.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved`):
-a partir de ahí todo el mundo compila contra las mismas versiones de Firebase
-en vez de contra «la última 11.x que hubiera ese día». No está en el
-repositorio todavía porque solo lo puede generar Xcode.
+El proyecto no tiene paquetes Swift que resolver: abre y compila sin esperas de
+red y sin la caché de SPM.
 
 ### Sin cuenta de Apple Developer
 
@@ -246,18 +240,8 @@ cambia el que se publica**.
 
 > Si en algún momento hay que poner la app en manos de varias logopedas para el
 > piloto, ahí sí toca el Apple Developer Program: es el único camino a
-> TestFlight y a Firebase App Distribution. Todo lo demás del proyecto ya está
+> TestFlight y a la distribución interna firmada. Todo lo demás del proyecto ya está
 > preparado para ese día (`ExportOptions`, `archive.sh`, numeración de builds).
-
-## Paso manual pendiente: credenciales Firebase
-
-1. Descarga `GoogleService-Info.plist` desde la consola de Firebase.
-2. Arrástralo al grupo **Valeria** en Xcode (marca *Copy items if needed* y
-   añádelo al target **Valeria**). Xcode lo registrará en `project.pbxproj`.
-3. Está en `.gitignore` a propósito — no se versiona.
-
-`FirebaseApp.configure()` se ejecuta de forma **defensiva**: si el plist no
-está presente, la app arranca igual (modo iteración visual) sin crashear.
 
 ## Exportar (archive → `.ipa`)
 
@@ -286,7 +270,7 @@ mejor un error claro que un archivo firmado con la cuenta equivocada.
 ```bash
 cd ios-native
 ./scripts/archive.sh dev            # .ipa de desarrollo (único modo con cuenta gratuita)
-./scripts/archive.sh adhoc          # .ipa para Firebase App Distribution
+./scripts/archive.sh adhoc          # .ipa para distribución interna
 ./scripts/archive.sh appstore 7     # .ipa para App Store Connect, build 7
 ```
 
@@ -322,33 +306,10 @@ uno nuevo — el segundo argumento de `archive.sh` lo inyecta sin tocar archivos
   Connect: **no pueden convivir ahí un envío del port nativo y uno de la app
   React Native**. Para distribuir el demostrador en paralelo, dale su propio
   identificador (p. ej. `health.earlify.valeria.native`) antes de subir nada.
-- `GoogleService-Info.plist` no se versiona; sin él la app arranca igual, pero
-  el archivo no reportará a Crashlytics ni a Analytics.
 - El icono de la app está generado desde `assets/icon.png` (el mismo del
   proyecto Expo) a 1024×1024 y **sin canal alfa**. La transparencia en el icono
   es motivo de rechazo automático (ITMS-90717), así que si algún día se
   reemplaza el dibujo, hay que reexportarlo opaco.
-
-### Crashlytics: los informes llegan sin símbolos
-
-El proyecto enlaza `FirebaseCrashlytics` pero **no tiene la fase de subida de
-dSYM**. En los envíos a App Store Connect no importa —`uploadSymbols` va a
-`true` en el `ExportOptions`—, pero en los `.ipa` ad-hoc que van a App
-Distribution los informes de caída llegan como direcciones de memoria.
-
-Si esos informes empiezan a hacer falta, la fase se añade a mano en Xcode
-(*Build Phases → New Run Script Phase*, la última de la lista):
-
-```bash
-"${BUILD_DIR%/Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run"
-```
-
-con `$(TARGET_BUILD_DIR)/$(INFOPLIST_PATH)` y `${DWARF_DSYM_FOLDER_PATH}` como
-archivos de entrada, y poniendo `ENABLE_USER_SCRIPT_SANDBOXING = NO` (hoy está
-en `YES`, y con el sandbox activo el script no puede leer los dSYM). No se ha
-añadido de serie porque depende de una ruta interna de la resolución de SPM que
-cambia entre versiones de Xcode, y un build que falla por eso confunde mucho
-más que unos informes sin simbolizar en un demostrador.
 
 ## ⚠️ Regla innegociable de gobernanza del `project.pbxproj`
 
@@ -373,7 +334,7 @@ Config/
 ├── Signing.xcconfig                  # configuración base (versionada, sin secretos)
 ├── Signing.local.xcconfig.example    # plantilla del Team ID y del bundle ID locales
 ├── ExportOptions-Development.plist   # desarrollo · la única válida con cuenta gratuita
-├── ExportOptions-AdHoc.plist         # exportación para Firebase App Distribution
+├── ExportOptions-AdHoc.plist         # exportación para distribución interna
 └── ExportOptions-AppStore.plist      # exportación para App Store Connect
 ```
 

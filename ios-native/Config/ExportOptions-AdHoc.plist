@@ -3,7 +3,7 @@
 <!--
   Valeria+ · Exportación ad-hoc del port nativo iOS.
 
-  Es la salida que consume Firebase App Distribution: un .ipa firmado para los
+  Es la salida de la distribución interna: un .ipa firmado para los
   dispositivos registrados en el equipo, sin pasar por App Store Connect. Es el
   camino previsto para las pruebas de usabilidad en dispositivo que motivan este
   port (ver README).

@@ -487,17 +487,23 @@ async function main() {
   // ──────────────────────────────────────────────────────────────────────────
   console.log('── Section 4: 1:1 Catalog Parity & Dynamic Function Robustness ──');
 
-  runTest('TEST-4.1: Namespace count and names parity across ES, EN, CA, GL', () => {
+  runTest('TEST-4.1: Namespace parity across ES, EN, CA, GL', () => {
     const esNamespaces = Object.keys(stringsEs.ES).sort();
 
-    assert.strictEqual(esNamespaces.length, 29, 'ES has 29 namespaces');
+    // El número NO se congela. Congelarlo ya costó el build 621: un espacio
+    // nuevo (o uno retirado, como `auth` al quitar Firebase el 7/9/2026) rompe
+    // la suite por el número, no por la paridad, que es lo que este test mide.
+    // El suelo sí se comprueba: si el catálogo se queda en cuatro espacios, el
+    // extractor está roto y la paridad pasaría de vacío.
+    assert.ok(esNamespaces.length >= 20,
+      `ES solo tiene ${esNamespaces.length} espacios de nombres; el catálogo o el lector están rotos`);
     for (const [name, cat] of [['EN', stringsEn.EN], ['CA', stringsCa.CA], ['GL', stringsGl.GL]]) {
       assert.deepStrictEqual(Object.keys(cat).sort(), esNamespaces,
         `${name} namespaces match ES namespaces exactly`);
     }
   });
 
-  runTest('TEST-4.2: Total keys count and deep structural parity across all 29 namespaces', () => {
+  runTest('TEST-4.2: Total keys count and deep structural parity across every namespace', () => {
     const otros = [['EN', stringsEn.EN], ['CA', stringsCa.CA], ['GL', stringsGl.GL]];
     let esTotal = 0;
     const totales = { EN: 0, CA: 0, GL: 0 };

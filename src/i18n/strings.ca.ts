@@ -46,7 +46,7 @@ export const CA: UiStrings = {
     tagline: 'Entén el seu llenguatge, practica a casa. La Lúa us acompanya.',
     sub: 'Primer et formes, després practiqueu junts a casa. Valeria registra el progrés.',
     start: 'Començar',
-    trust: 'Dades xifrades al dispositiu · RGPD / HIPAA',
+    trust: 'Les dades no surten del dispositiu · RGPD / HIPAA',
   },
   luaIntro: {
     title: 'Coneix la Lúa',
@@ -139,10 +139,10 @@ export const CA: UiStrings = {
     required: 'Aquest camp és obligatori.',
     invalidEmail: 'Introdueix un correu vàlid.',
     recordNumberRequired: 'El NHC és obligatori.',
-    saved: 'Fitxa desada i xifrada al dispositiu.',
+    saved: 'Fitxa desada en aquest dispositiu. No en surt.',
     save: 'Desar la fitxa',
     continueToAcademy: 'Comença per la formació →',
-    footer: 'Emmagatzematge local xifrat (AES-256) · compleix RGPD / HIPAA.',
+    footer: 'Tot es queda al dispositiu: sense servidor ni comptes · compleix RGPD / HIPAA.',
 
     genderLabel: (id: string): string =>
       id === 'Niña' ? 'Nena'
@@ -418,38 +418,6 @@ export const CA: UiStrings = {
     }[id] ?? ''),
   },
 
-  auth: {
-    title: 'Accés professional',
-    subtitleSignup: 'Crea el teu compte per desar els teus pacients i sessions al núvol.',
-    subtitleSignin: 'Inicia la sessió per accedir als teus pacients i sessions.',
-    name: 'Nom',
-    namePlaceholder: 'El teu nom',
-    emailPlaceholder: 'el-teu@correu.com',
-    firebaseUnconfigured: '⚠︎ Firebase encara no està configurat (falten les claus del projecte). Vegeu docs/firebase-setup.md.',
-    email: 'Correu electrònic',
-    password: 'Contrasenya',
-    passwordPlaceholder: 'Mínim 6 caràcters',
-    signup: 'Crear compte',
-    signin: 'Iniciar sessió',
-    forgot: 'Has oblidat la contrasenya?',
-    haveAccount: 'Ja tens compte?',
-    noAccount: 'Encara no tens compte?',
-    goSignin: 'Inicia la sessió',
-    goSignup: 'Crea\'l aquí',
-    missingFields: 'Escriu el teu correu i la contrasenya.',
-    missingEmailForReset: 'Escriu el teu correu per enviar-te l\'enllaç de recuperació.',
-    resetSent: 'T\'hem enviat un correu per restablir la contrasenya.',
-    error: (code: string): string =>
-      code === 'invalidEmail' ? 'El correu no té un format vàlid.'
-        : code === 'missingPassword' ? 'Escriu la teva contrasenya.'
-          : code === 'weakPassword' ? 'La contrasenya ha de tenir com a mínim 6 caràcters.'
-            : code === 'emailInUse' ? 'Ja existeix un compte amb aquest correu.'
-              : code === 'badCredentials' ? 'Correu o contrasenya incorrectes.'
-                : code === 'tooManyRequests' ? 'Massa intents. Torna-ho a provar d\'aquí a uns minuts.'
-                  : code === 'network' ? 'Sense connexió. Comprova la teva xarxa i torna-ho a provar.'
-                    : code === 'notAllowed' ? 'L\'accés per correu i contrasenya no està habilitat al projecte.'
-                      : 'No s\'ha pogut completar l\'operació. Torna-ho a provar.',
-  },
 
   ling: {
     title: 'Test de Ling',

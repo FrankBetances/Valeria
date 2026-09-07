@@ -62,7 +62,7 @@ export const GL: UiStrings = {
     tagline: 'Entende a súa linguaxe, practica na casa. Lúa acompáñavos.',
     sub: 'Primeiro fórmaste, despois practicades xuntos na casa. Valeria rexistra o progreso.',
     start: 'Comezar',
-    trust: 'Datos cifrados no dispositivo · RXPD / HIPAA',
+    trust: 'Os datos non saen do dispositivo · RXPD / HIPAA',
   },
   luaIntro: {
     title: 'Coñece a Lúa',
@@ -158,10 +158,10 @@ export const GL: UiStrings = {
     required: 'Este campo é obrigatorio.',
     invalidEmail: 'Introduce un correo válido.',
     recordNumberRequired: 'O NHC é obrigatorio.',
-    saved: 'Ficha gardada e cifrada no dispositivo.',
+    saved: 'Ficha gardada neste dispositivo. Non sae de aquí.',
     save: 'Gardar ficha',
     continueToAcademy: 'Empezar pola formación →',
-    footer: 'Almacenamento local cifrado (AES-256) · cumpre o RXPD / HIPAA.',
+    footer: 'Todo queda no dispositivo: sen servidor nin contas · cumpre o RXPD / HIPAA.',
 
     // id almacenado (castelán, inmutable) → etiqueta visible
     genderLabel: (id: string): string =>
@@ -453,39 +453,6 @@ export const GL: UiStrings = {
     }[id] ?? ''),
   },
 
-  auth: {
-    title: 'Acceso profesional',
-    subtitleSignup: 'Crea a túa conta para gardar os teus pacientes e sesións na nube.',
-    subtitleSignin: 'Inicia sesión para acceder aos teus pacientes e sesións.',
-    name: 'Nome',
-    namePlaceholder: 'O teu nome',
-    emailPlaceholder: 'ti@correo.com',
-    firebaseUnconfigured: '⚠︎ Firebase aínda non está configurado (faltan as claves do proxecto). Ver docs/firebase-setup.md.',
-    email: 'Correo electrónico',
-    password: 'Contrasinal',
-    passwordPlaceholder: 'Mínimo 6 caracteres',
-    signup: 'Crear conta',
-    signin: 'Iniciar sesión',
-    forgot: 'Esqueciches o contrasinal?',
-    haveAccount: 'Xa tes conta?',
-    noAccount: 'Aínda non tes conta?',
-    goSignin: 'Inicia sesión',
-    goSignup: 'Créaa aquí',
-    missingFields: 'Escribe o teu correo e contrasinal.',
-    missingEmailForReset: 'Escribe o teu correo para enviarche a ligazón de recuperación.',
-    resetSent: 'Enviámosche un correo para restablecer o contrasinal.',
-    // código normalizado (firebase/authErrors) → mensaxe
-    error: (code: string): string =>
-      code === 'invalidEmail' ? 'O correo non ten un formato válido.'
-        : code === 'missingPassword' ? 'Escribe o teu contrasinal.'
-          : code === 'weakPassword' ? 'O contrasinal debe ter polo menos 6 caracteres.'
-            : code === 'emailInUse' ? 'Xa existe unha conta con ese correo.'
-              : code === 'badCredentials' ? 'Correo ou contrasinal incorrectos.'
-                : code === 'tooManyRequests' ? 'Demasiados intentos. Téntao de novo nuns minutos.'
-                  : code === 'network' ? 'Sen conexión. Comproba a túa rede e téntao outra vez.'
-                    : code === 'notAllowed' ? 'O acceso por correo e contrasinal non está habilitado no proxecto.'
-                      : 'Non se puido completar a operación. Téntao de novo.',
-  },
 
   // Test de Ling. Os SEIS SONS e as súas consignas non están aquí: saen de
   // `lingContentForLocale`, que se localiza por VARIEDADE de terapia. Aquí vive

@@ -26,7 +26,7 @@
   <p class="lang"><a href="privacidad.html">Versión en español</a> · <strong>English</strong> · <a href="eliminacion-de-datos.html">Data deletion</a></p>
 
   <div class="meta">
-    <span><strong>Last updated:</strong> 6 September 2026</span>
+    <span><strong>Last updated:</strong> 7 September 2026</span>
     <span><strong>Effective:</strong> 28 July 2026</span>
     <span><strong>App version:</strong> 3.0.0</span>
   </div>
@@ -34,7 +34,7 @@
   <p>This policy explains what personal data the <strong>Valeria+</strong> mobile application (“the App”) processes, for what purposes, on what legal basis, who it is shared with, and how you can exercise your rights. It follows Regulation (EU) 2016/679 (GDPR), Spanish Organic Law 3/2018 (LOPDGDD), and the Google Play Developer Program Policies, including the <em>User Data</em>, <em>Sensitive Permissions</em> and <em>Families</em> policies.</p>
 
   <div class="note">
-    <p><strong>One-line summary:</strong> Valeria+ does not sell data, shows no advertising, embeds no analytics or ad-tracking SDKs, and builds no profiles of children. Most data never leaves the device; what does leave only does so because an authenticated professional chose to store it in their own account.</p>
+    <p><strong>One-line summary:</strong> Valeria+ does not sell data, shows no advertising, embeds no analytics or ad-tracking SDKs, and builds no profiles of children. Data does not leave the device: the App has no server and no accounts, and data only leaves if the adult exports a report and chooses to share it.</p>
   </div>
 
   <h2>1. Data controller</h2>
@@ -50,7 +50,7 @@
   </div>
 
   <div class="warn">
-    <p><strong>Allocation of responsibility in clinical use.</strong> When a speech therapist, clinic or association uses Valeria+ to treat patients, that professional or entity is the <strong>data controller</strong> for the clinical records they enter, and the Valeria+ project acts as a <strong>data processor</strong> for the technical hosting. The professional decides what data is entered, how long it is retained and to whom it is disclosed, and is responsible for obtaining informed consent from families.</p>
+    <p><strong>Allocation of responsibility in clinical use.</strong> When a speech therapist, clinic or association uses Valeria+ to treat patients, that professional or entity is the <strong>data controller</strong> for the clinical records they enter. The Valeria+ project <strong>is not a data processor for that data</strong>, because it neither hosts it nor has any access to it: the App sends nothing to any server and the records stay on the phone of whoever writes them. The professional decides what data is entered, how long it is retained and to whom it is disclosed, and is responsible for obtaining informed consent from families. That includes <strong>safeguarding the device itself</strong>: with no cloud copy, the phone or tablet is the only place the record exists, and its screen lock and encryption are part of the security measure.</p>
   </div>
 
   <h2>2. Who the App is for</h2>
@@ -62,14 +62,15 @@
   </ul>
 
   <h2>3. Data the App processes</h2>
-  <p>Valeria+ separates three categories of data with very different journeys: data that <strong>stays on the device</strong>, data that <strong>a professional chooses to sync to the cloud</strong>, and data <strong>handled by the operating system</strong>.</p>
+  <div class="warn"><p><strong>No data leaves this App.</strong> Valeria+ has no server, no accounts and no sync: as of version 3.0.0 the code contains no cloud SDK at all &mdash; Firebase was removed entirely on 7 September 2026 &mdash; and the App makes no network call of its own. Everything the adult enters and everything the session records lives in the phone&rsquo;s private storage and disappears when the App is uninstalled. There are only two ways a piece of data can leave, and both are described here: the adult <strong>exports</strong> a report and chooses who to send it to, and the <strong>speech-turn audio</strong> when recognition cannot be performed on the device itself.</p></div>
+  <p>Valeria+ therefore separates two categories of data: data that <strong>stays on the device</strong> and data <strong>handled by the operating system</strong>.</p>
 
   <h3>3.1 Data that stays on the device</h3>
   <div class="table-scroll">
     <table>
       <thead><tr><th>Data</th><th>What it is used for</th></tr></thead>
       <tbody>
-        <tr><td><strong>Patient record:</strong> full name, date of birth, medical record number, sex, guardian's name and relationship, contact email and phone, condition or reason for consultation, language the therapy is delivered in and its regional variety, referring physician and speech therapist</td><td>Entered by the adult to identify the patient and contextualise the intervention. This includes <strong>health data</strong>, a special category under Article 9 GDPR. In version 3.0.0 the record <strong>exists only on the device</strong>: it is kept in the App's private storage and is not sent to any server (see the notice in section 3.2). It leaves the phone only if the adult exports a report and shares it themselves.</td></tr>
+        <tr><td><strong>Patient record:</strong> full name, date of birth, medical record number, sex, guardian's name and relationship, contact email and phone, condition or reason for consultation, language the therapy is delivered in and its regional variety, referring physician and speech therapist</td><td>Entered by the adult to identify the patient and contextualise the intervention. This includes <strong>health data</strong>, a special category under Article 9 GDPR. The record <strong>exists only on the device</strong>: it is kept in the App's private storage and <strong>is not sent to any server</strong>, because there is none. It leaves the phone only if the adult exports a report and shares it themselves.</td></tr>
         <tr><td>App preferences (language and dialect variety, noise level, auto-record, reminders)</td><td>Remembering the adult's chosen configuration between sessions.</td></tr>
         <tr><td>Exercise progress, hits and errors within the current session</td><td>Showing exercise results and adapting the ongoing session.</td></tr>
         <tr><td>Professional PIN (stored as a cryptographic digest, never in clear text)</td><td>Preventing the child from reaching the administration panel unaided.</td></tr>
@@ -81,24 +82,7 @@
   </div>
   <p>This data lives in the App's private storage area and is erased when the App is uninstalled or its data is cleared from Android settings.</p>
 
-  <h3>3.2 Data a professional may sync to the cloud</h3>
-  <div class="warn">
-    <p><strong>Status in version 3.0.0: cloud sync is not active.</strong> The App distributed on Google Play <strong>offers no screen to create an account or sign in</strong>, and it neither reads nor writes any Cloud Firestore document. In practice this means that, today, <strong>no personal or health data leaves the device</strong>: the patient record and the session history live solely in the App's private storage (section 3.1). This section 3.2 describes how sync is designed for when it is enabled; on that day an updated version of this policy will be published <em>before</em> the feature reaches the store, and the Google Play <em>Data safety</em> form will be updated in the same change.</p>
-  </div>
-  <p>As designed, cloud sync is <strong>optional</strong> and would only activate if a professional created an account and signed in. Without an account the App runs entirely offline &mdash; which is what happens in every case today.</p>
-  <div class="table-scroll">
-    <table>
-      <thead><tr><th>Data</th><th>Source and purpose</th></tr></thead>
-      <tbody>
-        <tr><td><strong>Professional account:</strong> email address, password and, optionally, a display name</td><td>Entered by the professional to authenticate. The password is handled by Firebase Authentication using hash functions; neither the App nor the project team can access it.</td></tr>
-        <tr><td><strong>Patient record:</strong> full name, date of birth, medical record number, sex, guardian's name and relationship, contact email and phone, condition or reason for consultation, language the therapy is delivered in and its regional variety, referring physician and speech therapist</td><td>Entered by the professional to identify the patient and contextualise the intervention. This includes <strong>health data</strong>, a special category under Article 9 GDPR.</td></tr>
-        <tr><td><strong>Session history:</strong> exercises performed, date, scores and results per phoneme or block</td><td>Enabling longitudinal follow-up of the patient's progress.</td></tr>
-      </tbody>
-    </table>
-  </div>
-  <p>Server security rules are configured so that <strong>each professional can only read and write their own documents</strong>; any other access is denied by default. Those rules are published in the <code>firestore.rules</code> file of the project's public repository.</p>
-
-  <h3>3.3 Permissions and device data</h3>
+  <h3>3.2 Permissions and device data</h3>
   <div class="table-scroll">
     <table>
       <thead><tr><th>Permission</th><th>Why it is requested</th><th>If you deny it</th></tr></thead>
@@ -125,7 +109,7 @@
         </tr>
         <tr>
           <td><strong>Internet</strong><br><code>INTERNET</code></td>
-          <td>Reserved for the professional-account authentication and sync described in section 3.2, <strong>which are not active in version 3.0.0</strong>. Exercises, pictograms and voices are bundled with the App and work offline. The App makes no network call of its own; the only possible data egress today is the speech-turn audio when recognition cannot be performed on the device (section 3.3, &ldquo;Speech recognition&rdquo;).</td>
+          <td><strong>The App does not use it for anything of its own.</strong> There is no server to call: exercises, pictograms and voices are bundled and work offline. It only comes into play if the system speech-recognition service decides to process the audio over the network (row above).</td>
           <td>—</td>
         </tr>
       </tbody>
@@ -157,7 +141,6 @@
         <tr><td>Providing the App's therapeutic and language-practice features</td><td>Performance of the relationship with the user (Art. 6(1)(b)) and legitimate interest in operating the service (Art. 6(1)(f)).</td></tr>
         <tr><td>Processing patients' health data in the context of speech therapy</td><td>Explicit consent of the data subject or their legal representative (Art. 9(2)(a)) or, where applicable, healthcare provided by a professional bound by professional secrecy (Art. 9(2)(h)). Obtained by the responsible professional.</td></tr>
         <tr><td>Measuring facial gestures with the front camera in the Augmented Reality exercises (lip posture, head turn, gaze fixation)</td><td>Explicit consent of the child's legal representative, obtained in the App before the camera is enabled for the first time (Art. 6(1)(a)). Processing is limited to motor-behaviour measurements and <strong>does not aim to uniquely identify a natural person</strong>, so it does not constitute processing of biometric data under Art. 9(1) GDPR; where the measurements form part of a speech-therapy intervention, Art. 9(2)(h) also applies.</td></tr>
-        <tr><td>Authenticating the professional account and protecting access</td><td>Performance of a contract (Art. 6(1)(b)).</td></tr>
         <tr><td>Collecting usability telemetry within the clinical pilot</td><td>Consent (Art. 6(1)(a)) and legitimate interest in usability research and improvement (Art. 6(1)(f)). The data concerns interface use, not clinical content, and never leaves the device unless manually exported.</td></tr>
         <tr><td>Sending local practice reminders</td><td>Consent, expressed by granting the notification permission and setting a schedule (Art. 6(1)(a)).</td></tr>
       </tbody>
@@ -165,28 +148,26 @@
   </div>
 
   <h2>5. Who data is shared with</h2>
-  <p>Valeria+ <strong>does not sell or transfer personal data to third parties for commercial or advertising purposes</strong>. The only disclosures are:</p>
+  <p>Valeria+ <strong>does not sell or transfer personal data to third parties for commercial or advertising purposes</strong>, and it <strong>sends no data to any project server</strong>: there is none. The only possible disclosures are:</p>
   <ul>
-    <li><strong>Google Firebase</strong> (Google Ireland Limited / Google LLC), as the provider of <em>Firebase Authentication</em> and <em>Cloud Firestore</em>, would host the professional accounts and patient records described in section 3.2, acting as a data processor. <strong>In version 3.0.0 that transfer never takes place</strong>, because sync is not active. See the <a href="https://firebase.google.com/support/privacy" rel="noopener">Firebase privacy and security terms</a>.</li>
     <li><strong>The device's speech recognition service</strong> (usually Google), <strong>only where recognition cannot be performed on the device itself</strong>, as described in section 3.3.</li>
     <li><strong>Recipients chosen by the adult</strong> when they export a report or log and share it through Android's share sheet (for example, by email). That disclosure is initiated and fully controlled by the person performing it.</li>
     <li><strong>Public authorities</strong>, where there is a legal obligation to disclose.</li>
   </ul>
 
   <h2>6. International transfers</h2>
-  <p>Firebase infrastructure may process data on servers located outside the European Economic Area. Google covers those transfers with the European Commission's <strong>Standard Contractual Clauses</strong> and the <strong>EU-U.S. Data Privacy Framework</strong>. No other international transfers take place.</p>
+  <p><strong>The project makes no international data transfer at all</strong>, because it sends data to no server, its own or a third party&rsquo;s. The only possible egress is the speech-turn audio when the operating system&rsquo;s recognition service processes it; that processing is carried out by its provider &mdash; usually Google &mdash; under its own privacy policy and its own transfer safeguards, external to Valeria+.</p>
 
   <h2>7. Retention periods</h2>
   <ul>
     <li><strong>Local data</strong> (preferences, progress, PIN): for as long as the App is installed. Erased on uninstall or on clearing app data.</li>
     <li><strong>Usability telemetry</strong>: purged automatically after a successful export and, in any case, bounded by weekly windows and a maximum number of events per session.</li>
-    <li><strong>Professional account and synced records</strong>: until the professional deletes them or requests account deletion. Clinical retention periods are determined by the professional or the clinic under applicable healthcare law.</li>
+    <li><strong>Patient record and session history</strong>: for as long as the App is installed, on the phone itself. There is no copy on any server, so there is no cloud retention period. Clinical retention periods are determined by the professional or the clinic under applicable healthcare law, over the copies they export.</li>
   </ul>
 
   <h2>8. Security</h2>
   <ul>
-    <li>All communication with Firebase is encrypted in transit with TLS.</li>
-    <li>Cloud Firestore rules deny by default and isolate each professional's data.</li>
+    <li>The App opens no connections of its own: there is no network surface to attack and no server to compromise.</li>
     <li>Telemetry is encrypted at rest in the App's private storage.</li>
     <li>The professional PIN is stored as a cryptographic digest, never in clear text.</li>
     <li>Production builds apply code obfuscation and shrinking.</li>
@@ -195,7 +176,7 @@
   <p>No system is infallible: if you find a vulnerability, please report it following the procedure in <a href="https://github.com/FrankBetances/Valeria/blob/main/SECURITY.md" rel="noopener">SECURITY.md</a>.</p>
 
   <h2>9. Your rights</h2>
-  <p>You may exercise your rights of <strong>access, rectification, erasure, restriction, objection and portability</strong>, and withdraw consent at any time, by writing to <a href="mailto:frank.alberto.betances.reinoso@gmail.com">frank.alberto.betances.reinoso@gmail.com</a>. We respond within one month at the latest.</p>
+  <p>Since the project <strong>holds no data of yours</strong> &mdash; there is no server &mdash; the fastest route for <strong>access</strong>, <strong>rectification</strong>, <strong>erasure</strong> and <strong>portability</strong> is the App itself: the data is on your device, where you can view and edit it, export it, and erase it completely by uninstalling the App or clearing its data from Android settings. For anything else, and for the rights of <strong>restriction</strong> and <strong>objection</strong> or to withdraw consent, write to <a href="mailto:frank.alberto.betances.reinoso@gmail.com">frank.alberto.betances.reinoso@gmail.com</a>. We respond within one month at the latest.</p>
   <p>If the data concerns a patient record created by a speech therapist or a clinic, please contact that professional or entity first, as they decide over that data.</p>
   <p>You have the right to lodge a complaint with the <a href="https://www.aepd.es/" rel="noopener">Spanish Data Protection Agency</a> or your country's supervisory authority.</p>
   <p>Instructions to <strong>delete your account and data</strong> are on the <a href="eliminacion-de-datos.html">data deletion page</a>.</p>

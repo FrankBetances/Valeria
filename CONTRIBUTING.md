@@ -133,9 +133,11 @@ git push -u origin fix/lo-que-sea
 
 ## 5. Seguridad
 
-- Nunca se versionan secretos. La config de Firebase se inyecta por variables
-  `EXPO_PUBLIC_*` (ver `.env.example`); las claves reales viven en *GitHub
-  Actions Secrets* / EAS.
-- Tras cambiar `firestore.rules`, despliégalas:
-  `firebase deploy --only firestore:rules`.
+- Nunca se versionan secretos. Los únicos que existen son los de **firma** del
+  APK, y viven en *GitHub Actions Secrets*.
+- **La app no tiene backend.** No hay servidor, ni cuentas, ni SDK de nube.
+  Añadir uno no es una decisión técnica: cambia el formulario de *Seguridad de
+  los datos* de Play Console y las dos políticas de `site/`. Léete antes
+  `docs/play-console-seguridad-datos.md`; el gate
+  `check-data-safety-declaration.js` rompe el build si aparece.
 - Reporte de vulnerabilidades: ver `SECURITY.md`.
