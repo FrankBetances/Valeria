@@ -690,13 +690,15 @@ y la única lengua cooficial **sin** interfaz, mientras que el catalán, sin
 hospital detrás, tenía la app entera en su lengua. En Lugo eso significaba que
 Celtia le hablaba en galego al niño y la logopeda leía los botones en castellano.
 
-Y la variedad de terapia dejó de ser un ajuste global: vive en la **ficha del
-paciente** (campo «Lengua de la terapia») y seleccionar al niño la aplica. Antes,
-en una consulta bilingüe había que acordarse de moverla entre paciente y
-paciente, y nada registraba si te acordabas. Ahora, además, cada sesión de
-telemetría guarda en qué variedad ocurrió (`locale`) y marca `localeSwitched` si
-cambió a mitad, de modo que una serie de resultados es interpretable y se pueden
-comparar es/gl — que es la tarea GL‑5.2 del plan de Nós.
+La variedad de terapia **es un ajuste global de la app** y se elige en la tarjeta
+«Voz de la app». En sept/2026 se probó a llevarla a la ficha del paciente (campo
+«Lengua de la terapia») para que seleccionar al niño la aplicara sola; ese campo
+**se retiró el 7/9/2026** —entró sin autorización y en Android rompía la Ficha de
+Registro—, así que en una consulta bilingüe hay que moverla a mano entre paciente
+y paciente. La tarea **GL‑5.2 del plan de Nós queda a medias**: lo que sí quedó
+hecho es que cada sesión de telemetría guarda en qué variedad ocurrió (`locale`) y
+marca `localeSwitched` si cambió a mitad, de modo que una serie de resultados es
+interpretable y se pueden comparar es/gl.
 
 Lo que un idioma de interfaz **no** puede hacer es caer al castellano en
 silencio. Cuando un bloque de contenido de adulto todavía no existe en un
@@ -710,7 +712,7 @@ una reautorización clínica, así que se sirve en castellano y la pantalla lo d
 | Variedad | Voz | Reconocimiento (ASR) |
 | --- | --- | --- |
 | 🇪🇸 **Castellano** (`es`) | Voz neuronal **Sharvard** pregenerada y empaquetada (offline). | Sistema `es-ES`, **pidiendo reconocimiento local** si el paquete de idioma está instalado. |
-| **Galego** (`gl`) — *Proxecto Nós* | Voz neuronal **Celtia** pregenerada (Proxecto Nós), empaquetada: **1 430 locuciones**. Cubre pares mínimos, cápsulas TPR, rutas, Expansión Semántica, Audición, Lenguaje, TEA, Dislexia y Test de Ling. **Aventuras con Lúa TAMBIÉN**, desde sept/2026: las 105 actividades del módulo (60 ejercicios, 10 cuentos, 10 canciones, 25 juegos) tienen banco galego propio y sus 554 locuciones se sintetizan con Celtia. | Sistema `gl-ES` con recaída a `expo-speech` + **pliegue galego** (`foldGalician`): la gheada siempre, el seseo solo si la ficha del niño lo declara. |
+| **Galego** (`gl`) — *Proxecto Nós* | Voz neuronal **Celtia** pregenerada (Proxecto Nós), empaquetada: **1 430 locuciones**. Cubre pares mínimos, cápsulas TPR, rutas, Expansión Semántica, Audición, Lenguaje, TEA, Dislexia y Test de Ling. **Aventuras con Lúa TAMBIÉN**, desde sept/2026: las 105 actividades del módulo (60 ejercicios, 10 cuentos, 10 canciones, 25 juegos) tienen banco galego propio y sus 554 locuciones se sintetizan con Celtia. | Sistema `gl-ES` con recaída a `expo-speech` + **pliegue galego** (`foldGalician`): la gheada siempre; el seseo solo si el paciente lo tiene declarado, y hoy **no hay pantalla donde declararlo** (ver más abajo). |
 | 🇩🇴 **Dominicano** (`es-DO`) — *Quisqueya Habla* | Voz **latina del dispositivo** (`es-US`/`es-MX`); sin audio propio pregenerado. | Sistema `es-DO`, priorizando el catálogo latino. |
 | **Euskara** (`eu`) — *ILENIA/NEL-GAITU · HiTZ* | Voz neuronal **HiTZ-TTS** pregenerada (UPV/EHU · Aholab), empaquetada. Cubre pares mínimos, expansión semántica, Audición, Lenguaje, TEA, Dislexia y Test de Ling en euskera batua. | Sistema `eu-ES` con recaída a `es-ES` + pliegue vasco (`foldBasque`, ⟨h⟩ muda). |
 | 🇺🇸 **US English** (`en-US`) | Voz neuronal **LJSpeech · piper** pregenerada (mismo motor que Sharvard; voz de dominio público con modelo MIT, tras descartar dos candidatas por licencia en EN‑0.1). **614 locuciones** empaquetadas. | Sistema `en-US`, pidiendo reconocimiento local como en castellano. |
@@ -744,10 +746,15 @@ lleva `region: 'distincion'`, porque el galego occidental sesea y puntuarlo all�
 mide la variedad del niño, no su fonología. Es el mismo criterio con el que el
 catalán deja /b/–/v/ fuera por betacismo y el `en-US` no puntúa el TH-fronting.
 
-Y desde sept/2026 ese marcador **tiene efecto**, no es solo un rótulo. La ficha
-pregunta la variedad geográfica del niño (*distingue s/z* · *sesea*) y de ahí
-salen dos cosas: con seseo, PM-GL-3 sale del banco, y el emparejador de voz
-pliega /θ/→/s/ para no contar como error lo que es habla normal. La **gheada**
+Desde sept/2026 ese marcador **tiene efecto** en el código, no es solo un rótulo:
+con `seseo` declarado, PM-GL-3 sale del banco y el emparejador de voz pliega
+/θ/→/s/ para no contar como error lo que es habla normal (`setGalicianDialect`,
+`foldGalician`). **Pero hoy no hay dónde declararlo.** La pregunta vivía en la
+Ficha de Registro (*distingue s/z* · *sesea*) y se retiró el 7/9/2026 con el resto
+del campo de lengua, así que todo paciente queda en *distingue s/z* y en el
+occidente PM-GL-3 vuelve a medir la variedad del niño. **Es deuda abierta**: el
+mecanismo existe y le falta la puerta de entrada, que no puede volver a la ficha
+sin que Frank lo decida. La **gheada**
 (/g/→[ħ]: «gato» que el reconocedor devuelve como «jato») se pliega siempre,
 porque no choca con ningún contraste del banco; el seseo no puede plegarse
 siempre, porque destruiría el que PM-GL-3 mide en el oriente. Lo que el pliegue
