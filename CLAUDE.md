@@ -41,6 +41,34 @@ comprobación que no se ha hecho.
 Es siempre más barato que la alternativa. La alternativa ya costó una
 distribución mundial.
 
+### 0b. No añadas a una pantalla nada que Frank no haya pedido
+
+No es una cuestión de calidad del código: es de autoridad. La app la firma un
+médico y la usan logopedas con un niño delante. **Qué se le pregunta a una
+familia en la pantalla de admisión lo decide Frank, no tú.**
+
+Prohibido, sin que él lo haya pedido con esas palabras:
+
+- añadir un campo, un selector, un chip o una pregunta a una pantalla existente
+  —y con más motivo a la **Ficha de Registro**, que es la primera que se toca
+  con el paciente delante—;
+- quitar una pantalla o un paso del flujo;
+- que un cambio pensado para otra cosa (una lengua nueva, una migración) se
+  cuele en una pantalla que nadie te mandó tocar.
+
+Si crees que el campo hace falta: **propónselo y espera.** Una frase basta.
+
+Coste real (7/9/2026): el trabajo del galego metió en la Ficha de Registro seis
+chips de «Lengua de la terapia» y una pregunta de seseo que Frank no pidió. En
+Android colapsaban a **seis barras verticales ilegibles que bloqueaban el
+formulario**: no se podía llegar al botón de guardar. Como él no sabía que esa
+pantalla se había tocado, **mandó el build a producción, abierto al mundo**, y
+la gente lo descargó con la pantalla de admisión inservible. No fue un lanzamiento
+retrasado: fue un lanzamiento estropeado.
+
+Un cambio no autorizado no cuesta lo que cuesta arreglarlo. Cuesta que Frank
+publique sin saber lo que publica.
+
 ### 1. No digas que una pantalla está hecha sin haberla mirado
 
 Prohibido dar por terminado cualquier cambio visual sin **una captura propia**.
@@ -57,6 +85,36 @@ CHROMIUM_PATH=/opt/pw-browsers/chromium-1194/chrome-linux/chrome \
 `npm run typecheck` no ve un hueco muerto en una tarjeta, ni texto blanco sobre
 fondo blanco, ni cinco chips solapados. Todo eso se entregó y lo tuvo que
 detectar Frank. **Mira la captura antes de decir "hecho".**
+
+### 1c. Una captura de web NO prueba una pantalla de Android
+
+La captura de arriba se hace en `react-native-web`, y hay una familia entera de
+defectos de disposición que el navegador **esconde** porque reparte el ancho con
+la cascada CSS mientras el teléfono lo reparte con Yoga. En esos casos la
+captura sale perfecta y el aparato sale roto.
+
+El caso concreto, por si vuelve: **`flex` y `flexGrow`/`flexShrink`/`flexBasis`
+en el mismo elemento se contradicen.** Si un `style={[…]}` mezcla un estilo con
+`flex: 1` y otro que intenta anularlo con las tres largas, el navegador
+descompone el atajo y ganan las largas; Yoga recibe las dos cosas y `flex: 1`
+impone `flexBasis: 0`. El elemento colapsa a la anchura de su padding y el texto
+se parte letra a letra: **columnas verticales ilegibles**. Regla práctica: no
+anules un `flex` heredado, **quítalo** — un chip que se dimensiona a su texto no
+comparte estilo con un botón que reparte el ancho.
+
+Coste real (7/9/2026): esto ya se «arregló» una vez, el 6/9, en el commit
+`af5899c`. Se arregló para web, se comprobó con una captura de web, se dio por
+bueno y se mergeó. En Android siguió roto exactamente igual, y así salió a
+producción.
+
+Así que, en todo cambio de disposición —anchos, `flex`, filas que envuelven,
+chips, rejillas—:
+
+- **la captura de web no basta, y decir «comprobado con captura» sin decir
+  «de web» es la mentira del §0**;
+- si no puedes mirarlo en un Android, escríbelo con estas palabras: **«esto no
+  lo he visto en un aparato»**, y no lo mergees a `main` sin que Frank lo mire;
+- lo más seguro cuando no hay aparato es **no cambiar la disposición**.
 
 ### 1b. «Hecho» exige los gates, no solo el typecheck
 
