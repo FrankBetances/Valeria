@@ -293,7 +293,7 @@ solo archivo y las pantallas nunca vean la librería.
 | `src/ValeriaVoiceUI.tsx` | ✅ Nuevo `<SpeechPrivacyBlock>` dentro de «Voz de la app»: modo de la variedad activa, motivo cuando es de red, oferta de descarga una sola vez y modo de la última escucha real (diagnóstico de nivel 2) |
 | `src/valeriaTheme.ts` | ✅ `STORAGE_KEYS.asrOfertaLocal`, con sufijo por variedad: recuerda a qué variedades el adulto ya declinó la descarga |
 | `site/privacidad.html` · `site/privacy.html` | ✅ §3.3, el recuadro de grabaciones de voz y el §5 de destinatarios, redactados **por variedad** y sin promesa global (§7). Fecha de última actualización al 2026-08-04 |
-| `README.md` | ✅ Tabla de respuestas de *Seguridad de los datos* de Play, con el aviso de no marcar «los datos no salen del dispositivo» |
+| `README.md` | ✅ Tabla de respuestas de *Seguridad de los datos* de Play. **Superado el 7/9/2026**: aquella tabla declaraba el audio como «se comparte» y advertía de no marcar «los datos no salen del dispositivo». El director del proyecto fijó lo contrario —la app no recopila ni comparte datos; entregar audio al reconocedor del sistema operativo no es recopilación de la app—, y la tabla se sustituyó por [`docs/play-console-seguridad-datos.md`](play-console-seguridad-datos.md), que es la fuente de verdad. **No sigas la indicación de esta fila.** |
 
 **No se tocan** `ValeriaMinimalPairsScreen.tsx` ni `ValeriaSemanticExpansionScreen.tsx`:
 consumen `startListening`/`matchPair`/`matchExpected`, cuyo contrato no cambia.
@@ -894,7 +894,7 @@ actualizan en el mismo cambio.** Google contrasta ambas declaraciones.
 
 | Momento | Qué hay que actualizar |
 | --- | --- |
-| **Fase A entra** | ✅ **Hecho el 2026-08-04** en `privacidad.html` y `privacy.html`: §3.3 (fila del reconocedor), el recuadro de grabaciones de voz —reescrito en cuatro párrafos: qué no se guarda, dónde se reconoce, qué pasa cuando no se puede, y que la app lo muestra— y el §5, donde el reconocedor pasa a ser destinatario **solo cuando el reconocimiento no puede hacerse en el dispositivo**. Las respuestas de *Seguridad de los datos* están escritas en el README; **falta trasladarlas a la consola** |
+| **Fase A entra** | ✅ **Hecho el 2026-08-04** en `privacidad.html` y `privacy.html`: §3.3 (fila del reconocedor), el recuadro de grabaciones de voz —reescrito en cuatro párrafos: qué no se guarda, dónde se reconoce, qué pasa cuando no se puede, y que la app lo muestra— y el §5, donde el reconocedor pasa a ser destinatario **solo cuando el reconocimiento no puede hacerse en el dispositivo**. Las respuestas de *Seguridad de los datos* ya no viven aquí ni en el README: están en [`docs/play-console-seguridad-datos.md`](play-console-seguridad-datos.md) desde el 7/9/2026, y son un «No» —la app no recopila ni comparte— |
 | **Fase B, corpus** | **No toca la política pública**: es una build de desarrollo, no de producción. Sí exige el consentimiento en papel y las reglas de §4.2 |
 | **Fase B, si GO** | Declarar la descarga del modelo; revisar el tamaño de la app en la ficha; confirmar que se elimina la salida de audio |
 | **En ambos casos** | El correo de contacto es y sigue siendo `frank.alberto.betances.reinoso@gmail.com` |

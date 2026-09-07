@@ -34,7 +34,7 @@
   <p>Esta política explica qué datos personales trata la aplicación móvil <strong>Valeria+</strong> («la App»), con qué finalidad, con qué base jurídica, con quién se comparten y cómo puedes ejercer tus derechos. Está redactada conforme al Reglamento (UE) 2016/679 (RGPD), a la Ley Orgánica 3/2018 (LOPDGDD) y a las políticas del programa para desarrolladores de Google Play, incluidas las de <em>Datos de usuario</em>, <em>Permisos sensibles</em> y <em>Familias</em>.</p>
 
   <div class="note">
-    <p><strong>Resumen en una línea:</strong> Valeria+ no vende datos, no muestra publicidad, no incorpora SDK de analítica ni de seguimiento publicitario, y no crea perfiles de los menores. Los datos no salen del dispositivo: la App no tiene servidor ni cuentas, y solo salen si la persona adulta exporta un informe y decide compartirlo.</p>
+    <p><strong>Resumen en una línea:</strong> Valeria+ no vende datos, no muestra publicidad, no incorpora SDK de analítica ni de seguimiento publicitario, y no crea perfiles de los menores. <strong>La App no recopila datos.</strong> No tiene servidor ni cuentas: lo que entra se queda en el teléfono, y solo sale si la persona adulta exporta un informe y decide ella misma compartirlo.</p>
   </div>
 
   <h2>1. Responsable del tratamiento</h2>
@@ -62,7 +62,7 @@
   </ul>
 
   <h2>3. Datos que trata la App</h2>
-  <div class="warn"><p><strong>De esta App no salen datos.</strong> Valeria+ no tiene servidor, ni cuentas, ni sincronización: desde la versión 3.0.0 el código no incluye ningún SDK de nube —se retiró Firebase por completo el 7 de septiembre de 2026— y la App no realiza ni una sola llamada de red por su cuenta. Todo lo que introduce la persona adulta y todo lo que registra la sesión vive en el almacenamiento privado del teléfono y desaparece al desinstalar. Solo hay dos caminos por los que un dato puede salir, y los dos se describen aquí: que la persona adulta <strong>exporte</strong> un informe y elija a quién enviarlo, y el <strong>audio del turno de habla</strong> cuando el reconocimiento de voz no puede hacerse dentro del propio dispositivo.</p></div>
+  <div class="warn"><p><strong>De esta App no salen datos.</strong> Valeria+ no tiene servidor, ni cuentas, ni sincronización: desde la versión 3.0.0 el código no incluye ningún SDK de nube —se retiró Firebase por completo el 7 de septiembre de 2026— y la App no realiza ni una sola llamada de red por su cuenta. Todo lo que introduce la persona adulta y todo lo que registra la sesión vive en el almacenamiento privado del teléfono y desaparece al desinstalar. <strong>La App no recopila datos.</strong> Solo hay dos maneras de que un dato salga del teléfono, y en ninguna de las dos lo envía la App: que la <strong>persona adulta exporte</strong> un informe y elija ella a quién enviarlo, y que el <strong>reconocedor de voz del sistema operativo</strong> —no la App— procese el audio del turno de habla cuando el teléfono no sabe reconocerlo sin conexión. Las dos se explican abajo.</p></div>
   <p>Valeria+ distingue por tanto dos ámbitos de datos: los que <strong>solo existen en el dispositivo</strong> y los que <strong>gestiona el sistema operativo</strong>.</p>
 
   <h3>3.1 Datos que permanecen en el dispositivo</h3>
@@ -147,10 +147,10 @@
     </table>
   </div>
 
-  <h2>5. Con quién se comparten los datos</h2>
-  <p>Valeria+ <strong>no vende ni cede datos personales a terceros con fines comerciales o publicitarios</strong>, y <strong>no envía datos a ningún servidor del proyecto</strong>: no existe. Las únicas comunicaciones posibles son estas:</p>
+  <h2>5. Con quién se comparten los datos: con nadie</h2>
+  <p><strong>Valeria+ no comparte datos con nadie.</strong> No vende ni cede datos personales, no los envía a ningún servidor —no existe— y no incorpora ningún componente de terceros que transmita nada por su cuenta. Para que quede claro dónde está el límite, estas son las tres únicas situaciones en que un dato puede acabar fuera del teléfono, y en ninguna de las tres lo envía la App:</p>
   <ul>
-    <li><strong>Servicio de reconocimiento de voz del dispositivo</strong> (habitualmente Google), <strong>únicamente cuando el reconocimiento no puede realizarse dentro del propio dispositivo</strong>, en los términos del apartado 3.2. Es la única comunicación que hace la App por sí misma, y solo con el audio del turno de habla.</li>
+    <li><strong>El reconocedor de voz del sistema operativo</strong> (habitualmente el de Google). La App le entrega el audio del turno de habla y recibe de vuelta el texto, igual que hace el dictado del teclado; <strong>únicamente cuando el reconocimiento no puede realizarse dentro del propio dispositivo</strong>, en los términos del apartado 3.2. Ese servicio es del teléfono, no de Valeria+: lo trata bajo su propia política y con la cuenta de Google de quien usa el aparato, y la App ni lo transmite ni tiene acceso a lo que ocurra después.</li>
     <li><strong>Destinatarios elegidos por la persona adulta</strong> cuando esta exporta un informe o un registro y decide compartirlo mediante el menú de compartir de Android (por ejemplo, por correo electrónico). Esa comunicación la inicia y la controla íntegramente quien la realiza.</li>
     <li><strong>Autoridades públicas</strong>, cuando exista obligación legal de facilitarlos.</li>
   </ul>

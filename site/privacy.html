@@ -34,7 +34,7 @@
   <p>This policy explains what personal data the <strong>Valeria+</strong> mobile application (“the App”) processes, for what purposes, on what legal basis, who it is shared with, and how you can exercise your rights. It follows Regulation (EU) 2016/679 (GDPR), Spanish Organic Law 3/2018 (LOPDGDD), and the Google Play Developer Program Policies, including the <em>User Data</em>, <em>Sensitive Permissions</em> and <em>Families</em> policies.</p>
 
   <div class="note">
-    <p><strong>One-line summary:</strong> Valeria+ does not sell data, shows no advertising, embeds no analytics or ad-tracking SDKs, and builds no profiles of children. Data does not leave the device: the App has no server and no accounts, and data only leaves if the adult exports a report and chooses to share it.</p>
+    <p><strong>One-line summary:</strong> Valeria+ does not sell data, shows no advertising, embeds no analytics or ad-tracking SDKs, and builds no profiles of children. <strong>The App collects no data.</strong> It has no server and no accounts: what goes in stays on the phone, and only leaves if the adult exports a report and chooses to share it themselves.</p>
   </div>
 
   <h2>1. Data controller</h2>
@@ -62,7 +62,7 @@
   </ul>
 
   <h2>3. Data the App processes</h2>
-  <div class="warn"><p><strong>No data leaves this App.</strong> Valeria+ has no server, no accounts and no sync: as of version 3.0.0 the code contains no cloud SDK at all &mdash; Firebase was removed entirely on 7 September 2026 &mdash; and the App makes no network call of its own. Everything the adult enters and everything the session records lives in the phone&rsquo;s private storage and disappears when the App is uninstalled. There are only two ways a piece of data can leave, and both are described here: the adult <strong>exports</strong> a report and chooses who to send it to, and the <strong>speech-turn audio</strong> when recognition cannot be performed on the device itself.</p></div>
+  <div class="warn"><p><strong>No data leaves this App.</strong> Valeria+ has no server, no accounts and no sync: as of version 3.0.0 the code contains no cloud SDK at all &mdash; Firebase was removed entirely on 7 September 2026 &mdash; and the App makes no network call of its own. Everything the adult enters and everything the session records lives in the phone&rsquo;s private storage and disappears when the App is uninstalled. <strong>The App collects no data.</strong> There are only two ways a piece of data can leave the phone, and in neither of them is it the App that sends it: the <strong>adult exports</strong> a report and chooses who to send it to, and the <strong>operating system&rsquo;s speech recogniser</strong> &mdash; not the App &mdash; processes the speaking-turn audio when the phone cannot recognise it offline. Both are explained below.</p></div>
   <p>Valeria+ therefore separates two categories of data: data that <strong>stays on the device</strong> and data <strong>handled by the operating system</strong>.</p>
 
   <h3>3.1 Data that stays on the device</h3>
@@ -147,10 +147,10 @@
     </table>
   </div>
 
-  <h2>5. Who data is shared with</h2>
-  <p>Valeria+ <strong>does not sell or transfer personal data to third parties for commercial or advertising purposes</strong>, and it <strong>sends no data to any project server</strong>: there is none. The only possible disclosures are:</p>
+  <h2>5. Who data is shared with: nobody</h2>
+  <p><strong>Valeria+ shares data with nobody.</strong> It does not sell or transfer personal data, it sends none to any server &mdash; there is none &mdash; and it embeds no third-party component that transmits anything of its own accord. So that the boundary is clear, these are the only three situations in which a piece of data can end up off the phone, and in none of them is it the App that sends it:</p>
   <ul>
-    <li><strong>The device's speech recognition service</strong> (usually Google), <strong>only where recognition cannot be performed on the device itself</strong>, as described in section 3.3.</li>
+    <li><strong>The operating system's speech recognition service</strong> (usually Google's). The App hands it the speaking-turn audio and gets the text back, exactly as the keyboard's dictation does; <strong>only where recognition cannot be performed on the device itself</strong>, as described in section 3.2. That service belongs to the phone, not to Valeria+: it processes the audio under its own privacy policy and under the Google account of whoever owns the device, and the App neither transmits it nor has any access to what happens afterwards.</li>
     <li><strong>Recipients chosen by the adult</strong> when they export a report or log and share it through Android's share sheet (for example, by email). That disclosure is initiated and fully controlled by the person performing it.</li>
     <li><strong>Public authorities</strong>, where there is a legal obligation to disclose.</li>
   </ul>

@@ -9,9 +9,11 @@
  * lo comprobaba nadie: la ficha ganó los campos `lingua` y `seseo` y la
  * política se actualizó a mano, de milagro.
  *
- * Este gate no sabe si la declaración es correcta —eso lo decide una persona—.
- * Sabe cuándo ha dejado de ser válida, que es lo que se olvida. Seis
- * comprobaciones, todas sobre lo que cambia la superficie de datos:
+ * Hoy la declaración es «la app NO recopila ni comparte datos»: no hay servidor,
+ * ni cuentas, ni SDK de terceros, ni una sola llamada de red. Este gate no sabe
+ * si esa respuesta es correcta —eso lo decide el director del proyecto—. Sabe
+ * cuándo ha dejado de ser cierta, que es lo que se olvida. Seis comprobaciones,
+ * todas sobre lo que cambia la superficie de datos:
  *
  *   D1 · La ficha del paciente no tiene campos que la declaración no nombre.
  *   D2 · app.json no pide permisos que la declaración no nombre.

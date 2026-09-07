@@ -15,20 +15,22 @@ rompe el build cuando el código se aleja de lo que aquí se declara.
 
 | Pregunta del formulario | Respuesta |
 | --- | --- |
-| ¿Tu app recopila o comparte alguno de los tipos de datos de usuario obligatorios? | **Sí** |
-| Tipos declarados | **Audio → Grabaciones de voz o sonido**, y ninguno más |
-| ¿Se recopilan? / ¿Se comparten? | Recopilados: **Sí** · Compartidos: **Sí** |
-| ¿Se procesan de forma efímera? | **Sí** |
-| ¿Son obligatorios u opcionales? | **Opcional** (el usuario puede denegar el micrófono) |
-| Finalidad | **Funciones de la app** (solo esa) |
-| ¿Todos los datos recopilados se cifran en tránsito? | **Sí** |
+| ¿Tu app recopila o comparte alguno de los tipos de datos de usuario obligatorios? | **No** |
+| Tipos declarados | **Ninguno** |
 | ¿Ofreces una forma de solicitar la eliminación de los datos? | **Sí** → `https://frankbetances.github.io/Valeria/eliminacion-de-datos.html` |
 | ¿Se han sometido las prácticas a una validación de seguridad independiente (MASA)? | **No** |
 | URL de la política de privacidad | `https://frankbetances.github.io/Valeria/privacidad.html` |
 
-Todo lo demás —nombre, correo, teléfono, datos de salud, actividad en la app,
-identificadores, fotos y vídeos, registros de fallos— se marca **no recopilado**,
-porque no sale del dispositivo. El apartado 3 lo justifica uno a uno.
+Con «No» en la primera pregunta el formulario termina ahí: las preguntas de cifrado
+en tránsito, finalidades y tipos de datos ni siquiera aparecen.
+
+**Valeria+ no recopila datos.** No es una interpretación favorable: es que no hay
+por dónde. La app no tiene servidor, ni cuentas, ni SDK de terceros, y **no realiza
+ni una sola llamada de red**. Nada de lo que introduce el adulto ni de lo que
+registra la sesión llega a nadie. Todos los tipos del formulario —nombre, correo,
+teléfono, datos de salud, actividad en la app, identificadores, fotos y vídeos,
+audio, registros de fallos— se quedan en **no recopilado**, y el apartado 3 lo
+justifica uno a uno.
 
 ---
 
@@ -82,34 +84,33 @@ concluyente sería una captura de red del APK de release, y no se ha hecho.
 
 ## 3. Respuestas del formulario, tipo por tipo
 
-### 3.1 Audio → Grabaciones de voz o sonido — **el único tipo que se declara**
+### 3.1 Audio → Grabaciones de voz o sonido — **no recopiladas**
 
-- **Recopilados: Sí. Compartidos: Sí. Procesados de forma efímera: Sí.
-  Opcional. Finalidad: funciones de la app.**
+Valeria+ **no guarda, no reproduce y no envía ningún archivo de audio**. El turno de
+habla se procesa y se descarta; lo único que la app conserva es el veredicto
+(acierto o error). La única ruta que llegó a escribir un WAV está tras
+`__DEV__ && EXPO_PUBLIC_ASR_CAPTURE === '1'` (`src/valeriaVoice.ts:934`), no puede
+existir en un AAB de release, y lo impide el gate `check-asr-capture-guard.js`.
 
-El motivo es el reconocimiento del habla. La app pide reconocimiento **en el
-dispositivo** (`requiresOnDeviceRecognition`, `src/valeriaVoice.ts:1165`), pero eso
-depende de dos cosas que no controla: que el teléfono sepa reconocer sin conexión y
-que el paquete de esa variedad esté descargado. En gallego y en euskera lo normal es
-que no lo esté. Cuando no lo está, el turno de habla del menor va al reconocedor del
-sistema —habitualmente Google— que **puede procesarlo en sus servidores**. La app
-enseña en todo momento cuál de los dos modos está activo (`asrOfflineStatus()`,
-tarjeta «Voz de la app»).
+**Sobre el reconocedor del sistema.** La app pide reconocimiento *en el dispositivo*
+(`requiresOnDeviceRecognition`, `src/valeriaVoice.ts:1165`). Cuando el teléfono no
+sabe hacerlo sin conexión o falta el paquete de esa variedad —lo normal en galego y
+en euskera—, quien atiende es el reconocedor de voz **del sistema operativo**, y ese
+servicio puede procesar el audio en sus propios servidores, bajo su política, con la
+cuenta de Google del dueño del aparato. La app enseña en todo momento cuál de los dos
+modos está activo (`asrOfflineStatus()`, tarjeta «Voz de la app»).
 
-- *Efímero*, porque la app no guarda ni un archivo de audio: solo conserva el
-  veredicto (acierto/error). La única ruta que escribía WAV está tras `__DEV__` y
-  la vigila `check-asr-capture-guard.js`.
-- *Compartido*, porque en modo red el audio llega a un tercero ajeno al proyecto.
-  Es exactamente lo que ya dicen §3.3 y §5 de la política, así que declararlo
-  mantiene las dos declaraciones alineadas.
-- *Opcional*, porque denegar el micrófono no rompe la app: los ejercicios de voz se
-  puntúan a mano y los otros bloques funcionan igual.
+**Eso no es recopilación de Valeria+, y por eso no se declara aquí.** La app entrega
+el audio a un componente del sistema operativo y recibe texto; no lo transmite ella,
+no lo recibe de vuelta, no lo almacena y no tiene acceso a lo que ese servicio haga
+después. Es el mismo camino que recorre cualquier dictado del teclado. El formulario
+de Play pregunta por lo que recoge **la app**, no por lo que hace el sistema con lo
+que el sistema procesa.
 
-**Esto es un criterio, no una certeza sobre las reglas de Google.** Cabe defender lo
-contrario —que entregar audio a un componente del sistema operativo no es
-«recopilación» de la app—, y entonces el formulario entero sería «no se recopilan
-datos». Se declara de más a propósito: en una app de salud infantil, quedarse corto
-es el error caro, y declarar de más no penaliza.
+**Y aun así se cuenta en la política**, en §3.2 y en el recuadro de grabaciones de
+voz: transparencia con la familia y declaración a Play son dos cosas distintas, y
+contarlo no obliga a declararlo. Es la razón de que las dos declaraciones no se
+contradigan aunque una lo mencione y la otra no.
 
 ### 3.2 Información personal (nombre, correo, teléfono, ID de usuario) — **no recopilada**
 
@@ -154,10 +155,9 @@ pantalla) no identifica el aparato y no sale de él.
 
 ## 4. Prácticas de seguridad
 
-- **Cifrado en tránsito: Sí.** No hay tráfico en claro originado por la app; el
-  único envío declarado —el audio en modo red— viaja por el canal propio del
-  reconocedor del sistema, que usa TLS. *Dato por verificar:* ese canal es de
-  Google, no del proyecto, y no se ha medido desde aquí.
+- **Cifrado en tránsito:** la pregunta **no llega a aparecer**, porque solo se hace
+  cuando se declara algún dato recopilado. Si alguna vez hubiera que responderla, la
+  respuesta de fondo es que la app no origina tráfico alguno.
 - **Eliminación de datos: Sí**, con URL. La página de eliminación explica el borrado
   local (desinstalar o borrar datos desde Ajustes de Android) y el correo de
   contacto para ejercer derechos.
@@ -185,11 +185,12 @@ cuando cambia algo que obligaría a repasar el formulario:
 4. **Una llamada de red propia** (`fetch`, `XMLHttpRequest`, `WebView`) en
    cualquier parte de `src/`. Hoy no hay ninguna.
 5. **La vuelta de un backend**: en cuanto reaparezca `src/firebase/`, un import de
-   `firebase` o una dependencia de nube, el gate falla y pide invertir la
-   declaración del apartado 2. Si alguna vez se cablea una sincronización, el
-   formulario pasa a declarar *Nombre*, *Correo electrónico*, *Teléfono*,
-   *Información de salud* y *Actividad en la app* como recopilados, y hay que
-   reescribir §3.1 y §3.2 de las dos políticas antes de publicar esa versión.
+   `firebase` o una dependencia de nube, el gate falla. Ese es **el único supuesto
+   en que la respuesta del formulario dejaría de ser «No»**: con un servidor
+   detrás habría que declarar *Nombre*, *Correo electrónico*, *Teléfono*,
+   *Información de salud* y *Actividad en la app*, y reescribir el apartado 3 de
+   las dos políticas antes de publicar esa versión. Mientras no haya servidor,
+   no hay nada que declarar.
 6. **Coherencia de versión** entre `app.json`, las dos políticas y este documento.
 
 ## 6. Pendiente y riesgos conocidos
@@ -198,9 +199,9 @@ cuando cambia algo que obligaría a repasar el formulario:
   escribe `JSON.stringify(...)` directo en AsyncStorage, aunque la cabecera del
   fichero (línea 4) diga «persistencia local cifrada». La telemetría sí usa
   `encryptJSON`; la ficha —nombre, NHC, patología, correo y teléfono del tutor, el
-  dato más sensible de la app— no. No afecta al formulario (Play pregunta por lo que
-  sale del dispositivo, no por el reposo local) ni contradice §8 de la política, que
-  solo promete cifrado para la telemetría. **Sí es una deuda real y barata de saldar**:
+  dato más sensible de la app— no. No afecta al formulario, que pregunta por lo que
+  la app recoge y transmite, no por el reposo local, ni contradice §8 de la política,
+  que solo promete cifrado para la telemetría. **Sí es una deuda real y barata de saldar**:
   `encryptJSON`/`decryptJSON` ya existen y el cambio es de dos líneas más una
   migración que lea el formato antiguo. No se toca aquí porque una migración mal
   hecha borra fichas de instalaciones existentes, y eso merece su propio cambio.

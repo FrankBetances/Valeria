@@ -1017,7 +1017,7 @@ interfaz clásica se entra desde el hub de bloques, en la v11 desde **Ajustes**)
 | [`docs/plan-integracion-ingles-en-US.md`](docs/plan-integracion-ingles-en-US.md) | Plan por fases para el inglés de Estados Unidos (`en‑US`). **Interfaz, banco clínico y voz ya implementados** — ver [Idiomas y variedades](#-idiomas-y-variedades). Rompió el molde de los tres planes de idioma anteriores: fue el primero que exigió **traducir la interfaz** (hasta entonces las cadenas estaban literales en las 27 pantallas), el primero que abre **mercado nuevo** (COPPA, *Designed for Families*, ficha de tienda y página de eliminación de datos en inglés) y el que más rediseño clínico pide (grupos consonánticos, vocales tensa/laxa, ortografía opaca). Decisiones ya cerradas: **revisión clínica confirmada** (profesora SLP con licencia, *Howard University*), **separación del idioma de interfaz respecto de la variedad de los ejercicios** —para el *caseload* bilingüe español‑inglés— y la regla bloqueante de **diferencia dialectal vs. trastorno** para el inglés afroamericano y el sureño, espejo de la guía dominicana. |
 | [`docs/protocolo-evaluacion-clinica-en-US.md`](docs/protocolo-evaluacion-clinica-en-US.md) | Protocolo de la **evaluación clínica estadounidense** (EN‑0.9): cómo se instala la build de prueba en Android, qué debe juzgar la revisora —validez de la mecánica, **diferencia dialectal vs. trastorno**, registro del inglés y usabilidad—, qué queda **fuera de alcance** para que no gaste el informe en ello, y el formato tabulado (*tipo · gravedad · propuesta*) que permite convertir cada observación en una tarea del plan. |
 | [`docs/plan-asr-privacidad-y-motor-local.md`](docs/plan-asr-privacidad-y-motor-local.md) | Plan en dos fases para que el audio del turno de habla **no salga del dispositivo**: (A) reconocimiento local con el motor del sistema —**software terminado**, pendiente de verificar en dispositivo— y (B) prueba de concepto medida de un motor local (`sherpa-onnx`), con puerta GO/NO‑GO numérica y banco de medida ya implementado. Contiene dos hallazgos que cambiaron el plan: que `@react-native-voice/voice` descartaba en silencio las claves que no conocía (§2.2), y que **25 de los 35 pares mínimos puntúan como acierto que el niño diga el distractor** (§4.0). Revisa el NO‑GO de [`docs/asr-euskera-ilenia.md`](docs/asr-euskera-ilenia.md). |
-| [`docs/play-console-seguridad-datos.md`](docs/play-console-seguridad-datos.md) | Las respuestas del formulario de *Seguridad de los datos* de Play Console, con el comando que comprueba cada una. Su hallazgo: la sincronización en la nube que describía `site/` no era alcanzable —`ValeriaAuthScreen` no la importaba nadie y `firestoreService` no tenía ni una llamada—, y el 7/9/2026 Frank retiró Firebase entero. De la app no sale ningún dato personal ni de salud, y el formulario declara un único tipo: el audio del turno de habla. Lo sostiene `check-data-safety-declaration.js`. |
+| [`docs/play-console-seguridad-datos.md`](docs/play-console-seguridad-datos.md) | Las respuestas del formulario de *Seguridad de los datos* de Play Console, con el comando que comprueba cada una. Su hallazgo: la sincronización en la nube que describía `site/` no era alcanzable —`ValeriaAuthScreen` no la importaba nadie y `firestoreService` no tenía ni una llamada—, y el 7/9/2026 Frank retiró Firebase entero. La app no recopila ni comparte ningún dato, así que el formulario se responde con un «No» y termina en la primera pregunta. Lo sostiene `check-data-safety-declaration.js`. |
 | [`docs/plan-mejoras-acopros-logopedas.json`](docs/plan-mejoras-acopros-logopedas.json) | **Fuente de verdad** del plan de mejoras nacido del feedback clínico de ACOPROS: cada observación verificada contra el código, con decisiones clínicas (DC‑1…DC‑5), criterios de aceptación y estado. Incluye el **bloqueo de publicación** del corpus de voz. |
 | [`docs/criterio-dificultad-lexica.md`](docs/criterio-dificultad-lexica.md) | Criterio del campo `difficulty` de las categorías léxicas (ES‑08): la progresión la marca la **familiaridad**, no la dificultad de pronunciación. Incluye por qué la frecuencia **no se hereda entre variedades** (en RD el plátano es el de freír; el que se come crudo es el guineo). |
 | [`docs/auditoria-pictogramas.md`](docs/auditoria-pictogramas.md) | Inventario de toda la carga visual en uso, clasificada por riesgo (*tofu*, atributo, revisar) con columna de veredicto para ACOPROS. Se **regenera** con `node scripts/audit-pictograms.js --markdown`. |
@@ -1423,16 +1423,23 @@ en el port iOS **`FirebaseAnalytics` y `FirebaseCrashlytics`** enlazados de
 verdad. La auditoría del 6/9 encontró que en Android nada de eso era alcanzable
 —`ValeriaAuthScreen` no lo importaba nadie— y Frank decidió retirarlo entero.
 
-Solo hay **dos caminos** por los que un dato puede salir del dispositivo, y los
-dos los describe la política:
+**El formulario de *Seguridad de los datos* de Play Console se responde con un
+«No»**: la app no recopila ni comparte ningún tipo de dato. Con ese «No» el
+formulario termina en la primera pregunta.
 
-1. La persona adulta **exporta** un informe y elige a quién enviarlo por el menú
-   de compartir de Android.
-2. El **audio del turno de habla** cuando el reconocimiento de voz no puede
-   hacerse dentro del propio dispositivo y lo procesa el servicio del sistema.
+Solo hay dos maneras de que un dato salga del teléfono, y **en ninguna de las dos
+lo envía la app**, por eso ninguna se declara:
 
-Ese segundo camino es el único tipo de dato que declara el formulario de
-*Seguridad de los datos* de Play Console. Las respuestas están en
+1. La persona adulta **exporta** un informe y elige ella a quién enviarlo por el
+   menú de compartir de Android.
+2. El **reconocedor de voz del sistema operativo** —no la app— procesa el audio
+   del turno de habla cuando el teléfono no sabe reconocerlo sin conexión. La app
+   se lo entrega y recibe texto, igual que el dictado del teclado; ni lo
+   transmite ni tiene acceso a lo que ese servicio haga después. La política lo
+   cuenta igualmente, porque transparencia con la familia y declaración a Play
+   son cosas distintas.
+
+Las respuestas completas están en
 [`docs/play-console-seguridad-datos.md`](docs/play-console-seguridad-datos.md) y
 el gate `check-data-safety-declaration.js` rompe el build si vuelve a aparecer un
 SDK de nube, una llamada de red o un `src/firebase/`.
@@ -1454,29 +1461,27 @@ internas y el corpus de voz no se publican.
 | --- | --- |
 | **Política de Privacidad** (Ficha de Play Store y Contenido de la app) | `https://frankbetances.github.io/Valeria/privacidad.html` |
 | Privacy Policy (inglés, para la ficha localizada en `en-US`) | `https://frankbetances.github.io/Valeria/privacy.html` |
-| **Eliminación de datos** (obligatoria al declarar cuentas de usuario) | `https://frankbetances.github.io/Valeria/eliminacion-de-datos.html` |
+| **Eliminación de datos** (se declara aunque no haya cuentas: explica cómo borrar los datos locales) | `https://frankbetances.github.io/Valeria/eliminacion-de-datos.html` |
 
-#### Reconocimiento de voz en *Seguridad de los datos* (tras la Fase A)
+#### *Seguridad de los datos*: la respuesta es «No»
 
-La política de `site/` ya está redactada con la Fase A dentro (4 de agosto de
-2026): la app **pide** reconocimiento local y lo declara **por variedad**, no
-como promesa global. El formulario de Play tiene que decir lo mismo, porque
-Google contrasta ambas declaraciones:
+El formulario se responde con un **No** en la primera pregunta —la app no
+recopila ni comparte ningún tipo de dato— y ahí termina. Decisión del director
+del proyecto, el 7/9/2026, y descansa en un hecho: **la app no tiene servidor, ni
+cuentas, ni SDK de terceros, y no realiza ni una sola llamada de red**.
 
-| Pregunta del formulario | Respuesta y por qué |
-| --- | --- |
-| ¿Se recopila o comparte **Audio → Grabaciones de voz o sonido**? | **Sí, se comparte** (no se recopila: Valeria+ no guarda ni sube ningún archivo). El destinatario es el servicio de reconocimiento del sistema |
-| Finalidad | *Funcionalidad de la app*. Nunca analítica, publicidad ni personalización |
-| ¿Es opcional para el usuario? | **Sí**: sin permiso de micrófono el resto de la app funciona y el adulto puntúa a mano |
-| ¿Los datos se cifran en tránsito? | Sí, lo gestiona el servicio del sistema |
-| ¿Se pueden solicitar la eliminación? | El audio es efímero: no hay nada almacenado que borrar |
+El reconocimiento de voz no cambia esa respuesta. Cuando el teléfono no sabe
+reconocer sin conexión, quien atiende es el **reconocedor del sistema operativo**:
+la app le entrega el audio del turno de habla y recibe texto, igual que hace el
+dictado del teclado. Ese servicio es del aparato, no de Valeria+; lo trata bajo su
+propia política y con la cuenta de Google de quien usa el teléfono, y la app ni lo
+transmite ni tiene acceso a lo que ocurra después. **La política de `site/` lo
+cuenta igualmente**, en §3.2 y en el recuadro de grabaciones de voz: transparencia
+con la familia y declaración a Play son dos cosas distintas, y contarlo no obliga a
+declararlo.
 
-> ⚠️ **No marques «los datos no salen del dispositivo».** Sería falso mientras
-> exista un solo dispositivo o una sola variedad que caiga al reconocedor de red
-> —y galego y euskera van a caer casi siempre—. La declaración correcta sigue
-> siendo «se comparte», con la matización de la política. Solo podría revisarse
-> si algún día **todas** las variedades del piloto resolvieran en local y la
-> verificación de tráfico (§3.5 del plan) lo confirmara en dispositivo.
+Las respuestas completas, con el comando que comprueba cada una, están en
+[`docs/play-console-seguridad-datos.md`](docs/play-console-seguridad-datos.md).
 
 **Activación (una sola vez, manual e inevitable — ya hecha):** *Settings →
 Pages → Build and deployment → Source: **GitHub Actions***. El `GITHUB_TOKEN`
