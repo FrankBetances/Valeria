@@ -126,7 +126,10 @@ try {
   locale = require(path.join(tmp, 'valeriaLocale.js'));
   voice = require(path.join(tmp, 'valeriaVoice.js'));
   playback = require(path.join(tmp, 'valeriaVoicePlayback.js'));
-  VOICE_ASSETS = require(path.join(tmp, 'valeriaVoiceAssets.js')).VOICE_ASSETS;
+  // El mapa ya no es una constante de módulo: se construye perezosamente y se
+  // pide con voiceAssetLoaders(). Se guarda la referencia VIVA, que es lo que
+  // esta suite necesita para poder vaciarla y restaurarla más abajo.
+  VOICE_ASSETS = require(path.join(tmp, 'valeriaVoiceAssets.js')).voiceAssetLoaders();
   corpus = require(path.join(tmp, 'valeriaVoiceCorpus.js'));
   var luaLines = require(path.join(tmp, 'AventurasLua', 'Catalog', 'luaVoiceLines.js'));
   var LUA_LINES = luaLines.enumerateLuaAdventureSpeech();

@@ -131,6 +131,11 @@ jobs:
       # poder volver atrás si el último sale malo. Bájalo a 1 si la cuenta está
       # en el plan Free.
       KEEP_ARTIFACTS_PER_NAME: 2
+      # El mapa de R8 se guarda MÁS HONDO que el APK y el AAB porque su valor es
+      # histórico: sirve para leer una traza de un build que ya no es el último,
+      # que es justo el caso que se da. Es texto (unos pocos MB comprimido), no
+      # 170 MB como el APK. Bájalo si la cuenta va justa de almacenamiento.
+      KEEP_MAPPINGS: 10
 
     steps:
       # En `workflow_run` hay que pedir la RAMA, no el head_sha del run que nos
@@ -560,6 +565,22 @@ jobs:
           if-no-files-found: error
           retention-days: 3
 
+      # El mapa de R8. Sin él, un fallo en Android Vitals se lee «S4.b.e» y no hay
+      # forma de saber qué línea es: así llegó el rechazo del 9/9/2026, sin una
+      # sola traza legible con la que trabajar. Lo escribe Gradle en cada build
+      # minificado y hasta hoy se tiraba con el runner.
+      #
+      # Esto es la copia PARA NOSOTROS. Si Play Console no muestra fichero de
+      # desofuscación para una versión, se sube este mismo fichero allí.
+      - name: Upload R8 mapping
+        if: env.HAS_SIGNING_SECRETS == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-mapping
+          path: android/app/build/outputs/mapping/release/mapping.txt
+          if-no-files-found: error
+          retention-days: 30
+
       - name: Build debug APK (no signing secrets configured)
         if: env.HAS_SIGNING_SECRETS != 'true'
         working-directory: ./android
@@ -609,8 +630,9 @@ jobs:
           # Orden: por nombre, y dentro de cada nombre del más nuevo al más
           # viejo. Los KEEP primeros de cada nombre se quedan; el resto, fuera.
           sort -k1,1 -k2,2r all.tsv \
-            | awk -v keep="$KEEP_ARTIFACTS_PER_NAME" \
-                '{ n[$1]++; print (n[$1] <= keep ? "VIVO" : "SOBRA"), $0 }' > clasificados.tsv
+            | awk -v keep="$KEEP_ARTIFACTS_PER_NAME" -v keepmap="$KEEP_MAPPINGS" \
+                '{ k = ($1 == "android-mapping" ? keepmap : keep);
+                   n[$1]++; print (n[$1] <= k ? "VIVO" : "SOBRA"), $0 }' > clasificados.tsv
           sed -n 's/^VIVO //p'  clasificados.tsv > vivos.tsv
           sed -n 's/^SOBRA //p' clasificados.tsv > sobran.tsv
 
@@ -629,7 +651,7 @@ jobs:
 
           {
             echo "### Almacenamiento de artefactos"
-            echo "Se conservan **$KEEP_ARTIFACTS_PER_NAME** copias de cada artefacto."
+            echo "Se conservan **$KEEP_ARTIFACTS_PER_NAME** copias de cada artefacto (**$KEEP_MAPPINGS** del mapa de R8)."
             echo ""
             echo "Borrados: **$borrados** · Liberado: **$((freed / 1000000)) MB**"
             echo ""

@@ -41,7 +41,7 @@ const STUBS = {
   'expo-speech': { speak() {}, stop() {}, getAvailableVoicesAsync: async () => [] },
   'react-native-svg': new Proxy({}, { get: () => () => null }),
   './valeriaVoicePlayback': { playVoiceAsset() {}, stopVoiceAsset() {} },
-  './valeriaVoiceAssets': { VOICE_ASSETS: {} },
+  './valeriaVoiceAssets': { voiceAsset: () => undefined, voiceAssetIds: () => [], voiceAssetLoaders: () => ({}) },
   './ValeriaProPin': { sha256: (x) => x },
   './i18n': { useT: () => ({}), tNow: () => ({}) },
   '@react-native-async-storage/async-storage': {

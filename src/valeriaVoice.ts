@@ -41,7 +41,7 @@ import {
   PRAISE_BANK_CA, ALMOST_BANK_CA, NO_HEAR_BANK_CA, TOGETHER_BANK_CA,
 } from './valeriaContentCa';
 import { voiceCorpusId, VoiceStyle, VoiceLang } from './valeriaVoiceCorpus';
-import { VOICE_ASSETS } from './valeriaVoiceAssets';
+import { voiceAsset } from './valeriaVoiceAssets';
 import { playVoiceAsset, stopVoiceAsset } from './valeriaVoicePlayback';
 import { getLocale, isSeseo, assetLang, speechLocale, prefersLatinVoice, contentLocale } from './valeriaLocale';
 import { prosodyFor, splitForSpeech, tightenPauses } from './valeriaSpeechProsody';
@@ -380,7 +380,7 @@ const trySpokenAsset = (
   // un salto de voz en mitad del ejercicio. Ahora el galego tiene banco propio
   // en TODAS las pantallas y su corpus completo (gate de cobertura en CI), así
   // que ese respaldo ya no protege de nada y sí rompía la continuidad de voz.
-  const source = VOICE_ASSETS[voiceCorpusId(style, text, al)];
+  const source = voiceAsset(voiceCorpusId(style, text, al));
   if (source == null) return false;
   const token = ++speakToken; // preempta cadenas de expo-speech pendientes
   Speech.stop();

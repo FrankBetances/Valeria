@@ -124,7 +124,12 @@ const pause = (page, ms) => page.waitForTimeout(ms);
 
   // 04 · Ficha guardada
   await page.getByText('Guardar ficha', { exact: true }).click();
-  await page.getByText('Ficha guardada y cifrada en el dispositivo.').waitFor();
+  // Fragmento, no la frase entera: este `waitFor` llevaba el texto literal
+  // «Ficha guardada y cifrada en el dispositivo.», que 6fad83b retiró el 7/9/2026
+  // al dejar de prometer un cifrado que la ficha no tiene. Desde entonces el
+  // capturador moría aquí, en el paso 04, y con él el control de calidad visual
+  // que la regla 1 exige. Un retoque de copy no puede volver a apagarlo.
+  await page.getByText(/Ficha guardada/).waitFor();
   await pause(page, 400);
   await shot(page, '04-ficha-guardada');
   console.log('04 guardada ✓');

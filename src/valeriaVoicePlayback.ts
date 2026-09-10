@@ -12,7 +12,7 @@
 // motor del sistema.
 // ============================================================================
 
-import { VOICE_ASSETS } from './valeriaVoiceAssets';
+import { voiceAssetIds } from './valeriaVoiceAssets';
 
 let ExpoAudio: any = null;
 try {
@@ -89,7 +89,7 @@ export function playVoiceAsset(source: number, cb: VoicePlaybackCallbacks = {}):
 const LANG_PREFIXES = ['gl_', 'eu_', 'en_', 'ca_'];
 
 export const hasAssetsFor = (lang: string): boolean => {
-  const ids = Object.keys(VOICE_ASSETS);
+  const ids = voiceAssetIds();
   if (lang === 'es') return ids.some((id) => !LANG_PREFIXES.some((p) => id.startsWith(p)));
   return ids.some((id) => id.startsWith(`${lang}_`));
 };

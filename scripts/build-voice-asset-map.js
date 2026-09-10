@@ -42,7 +42,7 @@ const version = `${tags.join('+') || 'audio'}-${date}`;
 
 const lines = covered
   .sort((a, b) => a.id.localeCompare(b.id))
-  .map((e) => `  ${JSON.stringify(e.id)}: require('../assets/voice/${e.id}.m4a'),`);
+  .map((e) => `      ${JSON.stringify(e.id)}: () => require('../assets/voice/${e.id}.m4a'),`);
 
 fs.writeFileSync(OUT, `// ============================================================================
 // Valeria+ · Mapa id → asset de voz neuronal — ARCHIVO GENERADO, NO EDITAR
@@ -54,10 +54,53 @@ fs.writeFileSync(OUT, `// ======================================================
 // Versión del lote de audio empaquetado ('none' = sin audio pre-generado).
 export const VOICE_ASSETS_VERSION = ${JSON.stringify(version)};
 
-// id de corpus (valeriaVoiceCorpus.voiceCorpusId) → módulo de asset de Metro.
-export const VOICE_ASSETS: Record<string, number> = {
+// ---------------------------------------------------------------------------
+// Por qué esto es un CARGADOR y no un mapa
+// ---------------------------------------------------------------------------
+// Un objeto literal con ${covered.length} require() no es un objeto: son
+// ${covered.length} MÓDULOS de Metro ejecutados, cada uno registrando su
+// descriptor de asset —nombre, hash y la lista de hashes por escala— en el
+// registro de assets de React Native. Y ocurría en el ARRANQUE, porque
+// valeriaVoice entra por el grafo de App.tsx: ${covered.length} ejecuciones de
+// módulo y ${covered.length} objetos antes del primer frame, en una pantalla
+// donde la app todavía no ha locutado nada.
+//
+// Aquí el literal vive DENTRO de una función. Hermes compila los cuerpos de
+// función de forma perezosa, así que arrancar no cuesta nada: el mapa se
+// construye la primera vez que la app va a hablar, y cada require() se ejecuta
+// solo cuando esa locución concreta suena. Metro exige que la ruta del require
+// sea literal —por eso siguen enumeradas una a una—, no exige ejecutarlas.
+let LOADERS: Record<string, () => number> | null = null;
+
+function loaders(): Record<string, () => number> {
+  if (LOADERS === null) {
+    LOADERS = {
 ${lines.join('\n')}
-};
+    };
+  }
+  return LOADERS;
+}
+
+/**
+ * Módulo de Metro de la locución, o undefined si no está horneada (entonces cae
+ * a expo-speech). No memoiza: require ya lo cachea Metro, y una caché propia
+ * aquí impediría vaciar el mapa para probar el camino sin asset
+ * (scripts/check-lua-voice-language.js).
+ */
+export function voiceAsset(id: string): number | undefined {
+  const load = loaders()[id];
+  return load ? load() : undefined;
+}
+
+/** Ids con audio empaquetado. Lo pregunta la tarjeta «Voz de la app». */
+export function voiceAssetIds(): string[] {
+  return Object.keys(loaders());
+}
+
+/** Mapa VIVO id → cargador. Para inspección y pruebas, no para la app. */
+export function voiceAssetLoaders(): Record<string, () => number> {
+  return loaders();
+}
 `);
 
 console.log(`OK → ${OUT} · ${covered.length}/${corpus.length} locuciones mapeadas · versión ${version}`);

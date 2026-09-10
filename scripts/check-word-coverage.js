@@ -39,7 +39,7 @@ const STUBS = {
   'expo-speech': { speak() {}, stop() {}, getAvailableVoicesAsync: async () => [] },
   'react-native-svg': new Proxy({}, { get: () => () => null }),
   './valeriaVoicePlayback': { playVoiceAsset() {}, stopVoiceAsset() {} },
-  './valeriaVoiceAssets': { VOICE_ASSETS: {} },
+  './valeriaVoiceAssets': { voiceAsset: () => undefined, voiceAssetIds: () => [], voiceAssetLoaders: () => ({}) },
   // Un disco de mentira, pero con la MISMA semántica: lo que se guarda se lee.
   // Es lo que permite comprobar el viaje de ida y vuelta del registro.
   '@react-native-async-storage/async-storage': {
