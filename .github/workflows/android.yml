@@ -383,6 +383,16 @@ jobs:
       - name: Comprobar el contrato de assets 3D de RA
         run: node scripts/check-ar-models.js
 
+      # Play rechazó la actualización el 9/9/2026 —«la aplicación no se abre o no
+      # se carga», build 692— con el hub abriendo por `const AR_ON =
+      # isArAvailable()`: una sonda nativa SÍNCRONA, ejecutada mientras Metro
+      # evalúa el paquete, es decir antes del primer frame. Detrás consultaba el
+      # servicio de cámara. En los teléfonos del equipo respondía y la app abría;
+      # por eso llegó a producción. Esto recorre el grafo de arranque y falla si
+      # vuelve a colarse una llamada nativa en ámbito de módulo.
+      - name: Comprobar que nada nativo corre al evaluar el paquete de JS
+        run: node scripts/check-startup-native-calls.js
+
       - name: Comprobar tipos
         run: npm run typecheck
 

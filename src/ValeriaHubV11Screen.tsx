@@ -48,12 +48,6 @@ import { LUA_ACTIVITY_COUNT } from './AventurasLua';
 // el adulto decide qué prescribir.
 const SENSORY_AVAILABLE_COUNT = AUDITORY_INTEGRATION_ACTIVITIES.filter((a) => a.isAvailable).length;
 
-// Sonda de una sola vez por arranque: el host nativo de RA está o no está, y
-// eso no cambia a mitad de sesión. FUERA del componente a propósito — en la
-// v11 este hub se monta y desmonta más veces (es una pestaña), y preguntarlo
-// en cada montaje sería trabajo repetido en el arranque.
-const AR_ON = isArAvailable();
-
 interface Tile {
   key: string;
   icon: BlockIconName;
@@ -219,7 +213,13 @@ export const ValeriaHubV11Screen: React.FC<{ navigation: any }> = ({ navigation 
     // tarjeta NO se renderiza: el bloque no existe para el usuario, en lugar
     // de existir y fallar al tocarlo. Por eso va la última: es la única que
     // puede desaparecer, y quitando la última no se descoloca ninguna otra.
-    ...(AR_ON ? [{
+    // Sonda de una sola vez por arranque: el host nativo de RA está o no está,
+    // y eso no cambia a mitad de sesión. La caché vive en valeriaArBridge, no
+    // aquí: hasta el 10/9/2026 esto era un `const AR_ON = isArAvailable()` en la
+    // cabecera del fichero, y como el hub entra en el arranque (AppNavigator →
+    // MainTabNavigator) la sonda —un método nativo SÍNCRONO que consultaba el
+    // servicio de cámara— corría en el hilo de JS antes del primer frame.
+    ...(isArAvailable() ? [{
       key: 'ar', desc: t.hub.arBrief, icon: 'ar', title: t.hub.arTitle, hint: t.hub.arSub, a11y: t.hub.arA11y(AR_META.length),
       bg: '#e6f9f8', fg: V.color.primaryDark, meta: t.hub.therapiesBadge(AR_META.length),
       onPress: () => navigation.navigate('ArLauncher'),

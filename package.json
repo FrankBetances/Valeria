@@ -39,7 +39,8 @@
     "check:legal-urls": "node scripts/check-legal-urls.js",
     "check:no-background-audio": "node scripts/check-no-background-audio.js",
     "build:sensory-assets": "node scripts/generate-sensory-assets.js",
-    "check:sensory-assets": "node scripts/check-sensory-assets.js"
+    "check:sensory-assets": "node scripts/check-sensory-assets.js",
+    "check:startup-native-calls": "node scripts/check-startup-native-calls.js"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "2.2.0",

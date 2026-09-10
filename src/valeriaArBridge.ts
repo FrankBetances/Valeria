@@ -320,14 +320,31 @@ try {
  * ¿Hay host de RA utilizable en este dispositivo? Sondea el módulo nativo, que
  * a su vez comprueba cámara frontal, delegado de inferencia y modelo cargable.
  * Nunca lanza: en el peor caso devuelve false y el bloque simplemente no existe.
+ *
+ * `isSupported` es un método SÍNCRONO BLOQUEANTE: en la arquitectura antigua su
+ * cuerpo Kotlin se ejecuta EN EL HILO DE JS, así que mientras corre no se evalúa
+ * un módulo más ni se renderiza un frame. Dos consecuencias, y ninguna es
+ * teórica:
+ *
+ *   · el resultado se cachea aquí —el host está o no está, y eso no cambia a
+ *     mitad de sesión—, para que montar el hub o el lanzador no vuelva a pagarlo;
+ *   · NO puede llamarse al importar un módulo. Estuvo así hasta el 10/9/2026
+ *     (`const AR_ON = isArAvailable()` en la cabecera de ValeriaHubV11Screen),
+ *     y ese fichero entra en el arranque por AppNavigator → MainTabNavigator:
+ *     la sonda corría ANTES del primer frame. Lo sujeta el gate
+ *     `scripts/check-startup-native-calls.js`.
  */
+let supported: boolean | null = null;
+
 export function isArAvailable(): boolean {
-  if (!Native) return false;
+  if (supported !== null) return supported;
+  if (!Native) { supported = false; return supported; }
   try {
-    return Native.isSupported() === true;
+    supported = Native.isSupported() === true;
   } catch (e) {
-    return false;
+    supported = false;
   }
+  return supported;
 }
 
 /**

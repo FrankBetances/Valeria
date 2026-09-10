@@ -3,10 +3,7 @@ package eu.futureforkids.valeria.ar
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.hardware.camera2.CameraCharacteristics
-import android.hardware.camera2.CameraManager
 import android.os.Build
-import android.content.Context
 import com.facebook.react.bridge.ActivityEventListener
 import com.facebook.react.bridge.Arguments
 import com.facebook.react.bridge.BaseActivityEventListener
@@ -82,14 +79,22 @@ class ValeriaArModule(private val reactContext: ReactApplicationContext) :
     @ReactMethod(isBlockingSynchronousMethod = true)
     fun isSupported(): Boolean = hasFrontCamera() && hasSignalModel()
 
+    /**
+     * Cámara frontal presente. Se pregunta al CATÁLOGO DE CARACTERÍSTICAS del
+     * paquete —la misma cadena `android.hardware.camera.front` que el módulo
+     * declara en su manifiesto—, nunca al servicio de cámara.
+     *
+     * Hasta el 10/9/2026 esto abría `CameraManager` y recorría `cameraIdList`
+     * pidiendo `getCameraCharacteristics` de cada id. Son llamadas al servicio
+     * de cámara: enlazan con él en la primera invocación y, en un teléfono con
+     * ocho ids lógicos, cada una es un viaje de binder. Y esta sonda es
+     * `isBlockingSynchronousMethod`, así que todo eso ocurría EN EL HILO DE JS
+     * —y, hasta ese mismo día, antes del primer frame (ver valeriaArBridge)—.
+     * `hasSystemFeature` responde de la lista de características que el
+     * PackageManager ya tiene cacheada: no despierta la cámara ni su HAL.
+     */
     private fun hasFrontCamera(): Boolean = try {
-        val pm = reactContext.packageManager
-        val manager = reactContext.getSystemService(Context.CAMERA_SERVICE) as CameraManager
-        pm.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY) &&
-            manager.cameraIdList.any { id ->
-                manager.getCameraCharacteristics(id)
-                    .get(CameraCharacteristics.LENS_FACING) == CameraCharacteristics.LENS_FACING_FRONT
-            }
+        reactContext.packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_FRONT)
     } catch (e: Throwable) {
         false
     }
