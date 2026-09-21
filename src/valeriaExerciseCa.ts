@@ -135,6 +135,29 @@ export const EXERCISE_CA: Record<string, Partial<Exercise>> = {
     move: 'Teatralitzeu la frase: l\'infant fa d\'actor i "menja" una poma imaginària.',
     ept: ['Només diu paraules soltes («nen», «poma»).', 'Construeix la frase si tu l\'ajudes a començar-la.', 'Ordena les paraules i diu la frase sencera tot sol.'],
   },
+  ms4: {
+    read: 'Tres columnes de color: qui, què fa i quina cosa. L\'infant tria UNA fitxa de cada columna i construeix la frase que vulgui, no una frase donada. Després la sent sencera i la representeu amb el cos.',
+    stageLabel: 'Tria una fitxa de cada color i digues la teva frase',
+    composeSlots: [
+      { role: 'Subjecte', fitz: 'subject', options: [
+        { cap: 'gat', emoji: '🐱', pic: 'gato', det: 'El' },
+        { cap: 'gos', emoji: '🐶', pic: 'perro', det: 'El' },
+        { cap: 'gallina', emoji: '🐔', pic: 'gallina', det: 'La' },
+      ] },
+      { role: 'Verb', fitz: 'action', options: [
+        { cap: 'menja', emoji: '😋', pic: 'comer' },
+        { cap: 'renta', emoji: '🧼', pic: 'jabon' },
+        { cap: 'agafa', emoji: '🖐️', pic: 'mano' },
+      ] },
+      { role: 'Objecte', fitz: 'object', options: [
+        { cap: 'plàtan', emoji: '🍌', pic: 'platano', det: 'el' },
+        { cap: 'pilota', emoji: '⚽', pic: 'pelota', det: 'la' },
+        { cap: 'sabata', emoji: '👟', pic: 'zapato', det: 'la' },
+      ] },
+    ],
+    move: 'Representeu la frase que hagi sortit, encara que sigui disbaratada: si la gallina renta la sabata, renteu una sabata imaginària escatainant. El que és estrany fa riure, i el riure fixa l\'estructura.',
+    ept: ['Tria fitxes soltes sense arribar a una frase.', 'Completa les tres si li assenyales la columna que falta.', 'Tria les tres tot sol i diu la frase sencera en veu alta.'],
+  },
   pr1: {
     read: 'Assenyala coses de l\'habitació i pregunta-li: «Què és això?». Grava o escriu a sota el que respongui l\'infant.',
     instrHint: 'Primer respon ell a les teves preguntes; després anima\'l a preguntar-te a tu «què és això?».',

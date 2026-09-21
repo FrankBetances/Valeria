@@ -24,9 +24,43 @@ import type { UiLang } from './valeriaUiLang';
 // 'ran' (Dislexia DX-6): matriz de denominación rápida (RAN) — el niño nombra
 // cada dibujo en orden de lectura y lo toca al nombrarlo; el estresor temporal
 // es la "persecución dactilar" ANALÓGICA del adulto, jamás un cronómetro.
-export type Stage = 'phrase' | 'vowels' | 'fill' | 'intruder' | 'emotions' | 'order' | 'instruction' | 'choice' | 'plural' | 'syn' | 'rotation' | 'ran';
+export type Stage = 'phrase' | 'vowels' | 'fill' | 'intruder' | 'emotions' | 'order' | 'instruction' | 'choice' | 'plural' | 'syn' | 'rotation' | 'ran' | 'compose';
 
 export interface Tile { cap: string; emoji: string; }
+
+// ----------------------------------------------------------------------------
+// 'compose' · cuadrícula sintáctica de composición libre (claves de Fitzgerald)
+// ----------------------------------------------------------------------------
+// Qué añade sobre 'order', que ya existe: `order` da UNA frase y el niño la
+// reordena —reconoce—; aquí elige cada pieza y la frase la produce él. Es el
+// salto de identificar una estructura a generarla, y es donde se ve si tiene la
+// estructura o si recita la única frase que le enseñamos.
+//
+// El COLOR es la clave de Fitzgerald, convención de los tableros CAA desde los
+// años 50: cada función gramatical tiene el suyo y es constante, de modo que el
+// niño aprende la sintaxis por la posición y el color antes de leer la palabra.
+// Va en el dato y no en el código porque la función la decide el banco.
+//
+// Y el ORDEN de las ranuras es el orden de la frase EN ESA VARIEDAD. No es
+// decorativo: el euskera coloca el verbo al final, así que su banco declara
+// Sujeto-Objeto-Verbo. Cablear S-V-O aquí enseñaría a un niño vascófono a
+// construir mal su lengua.
+export type FitzgeraldRole = 'subject' | 'action' | 'object';
+
+export interface ComposeOption extends Tile {
+  // Clave de pictograma propio (ES-09). Sin ella, FichaVisual cae al emoji.
+  pic?: string;
+  // Determinante para la EXPANSIÓN escrita («la» + «manzana» → «la manzana»).
+  // Vacío donde la lengua no lo necesita: el euskera lo lleva en el sufijo y el
+  // inglés lo trae ya en el `cap` («the dog»), que es como lo escribe su banco.
+  det?: string;
+}
+
+export interface ComposeSlot {
+  role: string;          // etiqueta visible de la ranura («Sujeto», «Aditza»…)
+  fitz: FitzgeraldRole;  // color de Fitzgerald; constante en toda la app
+  options: ComposeOption[];
+}
 
 export interface Exercise {
   code: string;
@@ -48,6 +82,8 @@ export interface Exercise {
   intruder?: Tile[]; intruderAnswer?: number;
   emotionFace?: string; emotionAnswer?: string;
   parts?: { role: string; cap: string; emoji: string }[]; sentence?: string;
+  // 'compose': una ranura por función gramatical, EN EL ORDEN DE LA LENGUA.
+  composeSlots?: ComposeSlot[];
   instrIcon?: string; instrHint?: string;
   // 'choice': escucha un audio y toca la imagen correcta (adivinanzas, género)
   choicePrompt?: string; choiceLabel?: string; choiceVoice?: 'slow' | 'tutor'; options?: Tile[]; optionAnswer?: number;
@@ -177,6 +213,28 @@ export const DB: Record<string, Exercise> = {
     parts: [{ role: 'Sujeto', cap: 'niño', emoji: '👦' }, { role: 'Verbo', cap: 'come', emoji: '😋' }, { role: 'Objeto', cap: 'manzana', emoji: '🍎' }], sentence: 'El niño come la manzana.',
     move: 'Teatralizad la frase: el niño hace de actor y "come" una manzana imaginaria.',
     ept: ['Solo dice palabras sueltas («niño», «manzana»).', 'Construye la frase si tú le ayudas a empezarla.', 'Ordena las palabras y dice la frase completa él solo.'] },
+  ms4: { ...meta('ms4'),
+    read: 'Tres columnas de color: quién, qué hace y qué cosa. El niño elige UNA ficha de cada columna y arma la frase que él quiera, no una frase dada. Después la oye entera y la representáis con el cuerpo.',
+    stage: 'compose', stageLabel: 'Elige una ficha de cada color y di tu frase',
+    composeSlots: [
+      { role: 'Sujeto', fitz: 'subject', options: [
+        { cap: 'gato', emoji: '🐱', pic: 'gato', det: 'El' },
+        { cap: 'perro', emoji: '🐶', pic: 'perro', det: 'El' },
+        { cap: 'gallina', emoji: '🐔', pic: 'gallina', det: 'La' },
+      ] },
+      { role: 'Verbo', fitz: 'action', options: [
+        { cap: 'come', emoji: '😋', pic: 'comer' },
+        { cap: 'lava', emoji: '🧼', pic: 'jabon' },
+        { cap: 'coge', emoji: '🖐️', pic: 'mano' },
+      ] },
+      { role: 'Objeto', fitz: 'object', options: [
+        { cap: 'plátano', emoji: '🍌', pic: 'platano', det: 'el' },
+        { cap: 'pelota', emoji: '⚽', pic: 'pelota', det: 'la' },
+        { cap: 'zapato', emoji: '👟', pic: 'zapato', det: 'el' },
+      ] },
+    ],
+    move: 'Representad la frase que haya salido, aunque sea disparatada: si la gallina lava el zapato, lavad un zapato imaginario cacareando. Lo raro da risa, y la risa fija la estructura.',
+    ept: ['Elige fichas sueltas sin llegar a una frase.', 'Completa las tres si le señalas la columna que falta.', 'Elige las tres él solo y dice la frase entera en voz alta.'] },
   pr1: { ...meta('pr1'),
     read: 'Señala cosas de la habitación y pregúntale: «¿Qué es esto?». Graba o escribe abajo lo que responda el niño.',
     stage: 'instruction', instrIcon: '💬', instrHint: 'Primero responde él a tus preguntas; luego anímale a preguntarte a ti «¿qué es esto?».',
@@ -941,6 +999,14 @@ const linesForExercise = (ex: Exercise, pluralOne: PluralLabeler, pluralMany: Pl
   // Orden S-V-O: la frase (SpeakButton voice="child") y el modelo de cada ficha.
   if (ex.sentence) out.push({ style: 'child', text: ex.sentence });
   if (ex.parts?.length) for (const p of ex.parts) out.push({ style: 'slow', text: p.cap.toLowerCase() });
+  // Composición libre: cada ficha es una pieza atómica que se locuta al
+  // colocarla y al repasar la frase. Se enumera SOLO la pieza, nunca la frase
+  // completa: las combinaciones son el producto de las tres columnas (27 con
+  // 3×3×3) y hornearlas todas metería en el APK audio que casi nadie oirá,
+  // teniendo el encadenado de piezas el mismo resultado.
+  if (ex.composeSlots?.length) {
+    for (const sl of ex.composeSlots) for (const o of sl.options) out.push({ style: 'slow', text: o.cap.toLowerCase() });
+  }
   // Plural: el modelo de MicPracticeCard es la forma en plural, y los ecos
   // atómicos 'child' de cada tarjeta («un X» / «muchos Y») + refuerzo/pista.
   if (ex.plural) {

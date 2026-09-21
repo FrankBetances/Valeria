@@ -125,6 +125,29 @@ export const EXERCISE_GL: Record<string, Partial<Exercise>> = {
     move: 'Teatralizade a frase: a nena fai de actriz e "come" unha mazá imaxinaria.',
     ept: ['Só di palabras soltas («neno», «mazá»).', 'Constrúe a frase se ti a axudas a empezala.', 'Ordena as palabras e di a frase completa ela soa.'],
   },
+  ms4: {
+    read: 'Tres columnas de cor: quen, que fai e que cousa. A nena escolle UNHA ficha de cada columna e arma a frase que ela queira, non unha frase dada. Despois óea enteira e representádela co corpo.',
+    stageLabel: 'Escolle unha ficha de cada cor e di a túa frase',
+    composeSlots: [
+      { role: 'Suxeito', fitz: 'subject', options: [
+        { cap: 'gato', emoji: '🐱', pic: 'gato', det: 'O' },
+        { cap: 'can', emoji: '🐶', pic: 'perro', det: 'O' },
+        { cap: 'galiña', emoji: '🐔', pic: 'gallina', det: 'A' },
+      ] },
+      { role: 'Verbo', fitz: 'action', options: [
+        { cap: 'come', emoji: '😋', pic: 'comer' },
+        { cap: 'lava', emoji: '🧼', pic: 'jabon' },
+        { cap: 'colle', emoji: '🖐️', pic: 'mano' },
+      ] },
+      { role: 'Obxecto', fitz: 'object', options: [
+        { cap: 'plátano', emoji: '🍌', pic: 'platano', det: 'o' },
+        { cap: 'pelota', emoji: '⚽', pic: 'pelota', det: 'a' },
+        { cap: 'zapato', emoji: '👟', pic: 'zapato', det: 'o' },
+      ] },
+    ],
+    move: 'Representade a frase que saíse, aínda que sexa disparatada: se a galiña lava o zapato, lavade un zapato imaxinario cacarexando. O raro dá risa, e a risa fixa a estrutura.',
+    ept: ['Escolle fichas soltas sen chegar a unha frase.', 'Completa as tres se lle sinalas a columna que falta.', 'Escolle as tres ela soa e di a frase enteira en voz alta.'],
+  },
   pr1: {
     read: 'Sinala cousas do cuarto e pregúntalle: «Que é isto?». Grava ou escribe abaixo o que responda a nena.',
     instrHint: 'Primeiro responde ela ás túas preguntas; logo anímaa a preguntarche a ti «que é isto?».',

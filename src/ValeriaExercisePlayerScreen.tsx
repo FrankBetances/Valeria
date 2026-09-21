@@ -54,7 +54,8 @@ import { luaSessionReward, cancelSessionReward } from './valeriaLuaSession';
 import { PixelAward, tierBg, streakTier } from './ValeriaPixelAwards';
 import { CatPixel } from './ValeriaCatPixel';
 import { BlockIcon } from './ValeriaBlockIcons';
-import { speakToChild, speakToChildSeq, speakWordSlow, stopSpeaking, praisePhrase, almostPhrase, normalizeSpeech } from './valeriaVoice';
+import { speakToChild, speakToChildSeq, speakWordSlow, speakWordSlowSeq, stopSpeaking, praisePhrase, almostPhrase, normalizeSpeech } from './valeriaVoice';
+import { FichaVisual } from './ValeriaPictograms';
 import { SpeakButton, MicPracticeCard, ResponseCaptureCard } from './ValeriaVoiceUI';
 import { ValeriaSessionBreakOverlay, pickSessionBreak, SessionBreak } from './ValeriaSessionBreakOverlay';
 import { useActiveTimeMonitor } from './valeriaActiveTimeMonitor';
@@ -91,6 +92,17 @@ const VOWELS = ['A', 'E', 'I', 'O', 'U'];
 // En esos juegos, el zoom pasa a mantener pulsada la ficha exterior.
 // ----------------------------------------------------------------------------
 const TILE_BGS = ['#fef3e2', '#e8f4fd', '#f3e8fd', '#e8fdf0', '#fdeef2', '#fdf8e2'];
+
+// Claves de Fitzgerald (MS-4). Es la convención de los tableros CAA desde los
+// años 50 y el color es parte del contenido clínico, no decoración: el niño
+// aprende la función gramatical por el color antes de leer la palabra, así que
+// tiene que ser el MISMO en toda la app y en todas las lenguas. Amarillo para
+// quién, verde para qué hace, naranja para qué cosa.
+const FITZ: Record<'subject' | 'action' | 'object', { solid: string; soft: string; ink: string }> = {
+  subject: { solid: '#D9A400', soft: '#FEF7DC', ink: '#7A5A00' },
+  action: { solid: '#16A34A', soft: '#E4FBEC', ink: '#12532C' },
+  object: { solid: '#E0670C', soft: '#FFF0E1', ink: '#7C3A08' },
+};
 
 const EmojiTile: React.FC<{
   emoji: string; cap?: string; size?: number; bgIndex?: number;
@@ -342,6 +354,10 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
   const [pluralPick, setPluralPick] = useState<'' | 'one' | 'many'>('');
   // MS-3: fichas tocadas en orden para construir la frase
   const [orderPicks, setOrderPicks] = useState<number[]>([]);
+  // MS-4: ficha elegida en cada ranura de la cuadrícula sintáctica (null = vacía).
+  // Una por ranura y en el orden que declara el banco, que NO es el mismo en
+  // todas las lenguas (el euskera pone el verbo al final).
+  const [composePicks, setComposePicks] = useState<(number | null)[]>([]);
   // DX-5: letras objetivo encontradas en la rejilla de rotaciones (+ fallo que parpadea)
   const [rotFound, setRotFound] = useState<boolean[]>([]);
   const [rotWrongIdx, setRotWrongIdx] = useState(-1);
@@ -408,7 +424,7 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
     clearGameTimers();
     setFillPick(''); setIntruderPick(-1); setEmotionPick('');
     setMatchSel(-1); setMatchOk([]); setWrongVowel('');
-    setChoicePick(-1); setPluralPick(''); setOrderPicks([]);
+    setChoicePick(-1); setPluralPick(''); setOrderPicks([]); setComposePicks([]);
     setRotFound([]); setRotWrongIdx(-1); setJudgePick('');
     setTrials(0); setCapsuleLaunched(false);
   };
@@ -588,6 +604,20 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
     } else {
       speakWordSlow(ex.parts![i].cap);
     }
+  };
+
+  // MS-4 · colocar o retirar una ficha en su ranura. No hay respuesta correcta
+  // que comprobar: el niño compone la frase que quiere, y por eso no se felicita
+  // ni se corrige aquí. Cada toque locuta la pieza, que es el modelo que va a
+  // repetir; volver a tocar la ficha ya puesta vacía la ranura.
+  const tapComposeOption = (slotIdx: number, optIdx: number, cap: string) => {
+    const total = ex.composeSlots!.length;
+    setComposePicks((prev) => {
+      const next = Array.from({ length: total }, (_, k) => prev[k] ?? null);
+      next[slotIdx] = next[slotIdx] === optIdx ? null : optIdx;
+      return next;
+    });
+    speakWordSlow(cap);
   };
 
   const pick = (val: number) => {
@@ -1345,6 +1375,101 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                 );
               })()}
 
+              {ex.stage === 'compose' && (() => {
+                const slots = ex.composeSlots!;
+                // Siempre una entrada por ranura, aunque el estado venga corto.
+                const picks = slots.map((_, i) => composePicks[i] ?? null);
+                const chosen = slots.map((sl, i) => (picks[i] == null ? null : sl.options[picks[i]!]));
+                const complete = chosen.every((o) => o != null);
+                // Expansión escrita para el ADULTO: determinante + palabra, en
+                // el orden que declara el banco. El niño produce telegráfico
+                // («gato come manzana») y eso es lo normal en CAA a esta edad;
+                // esta línea es el modelo que el adulto le devuelve ampliado.
+                const sentence = complete
+                  ? chosen.map((o) => [o!.det, o!.cap].filter(Boolean).join(' ')).join(' ')
+                  : '';
+                return (
+                  <>
+                    <View style={s.composeRow}>
+                      {slots.map((sl, i) => {
+                        const fz = FITZ[sl.fitz];
+                        const picked = chosen[i];
+                        return (
+                          <View key={sl.role} style={s.composeCol}>
+                            <View style={[s.composeRoleBadge, { backgroundColor: fz.solid }]}>
+                              <Text style={s.composeRoleTxt}>{t.player.roleQuestion(sl.role)}</Text>
+                            </View>
+                            <Pressable
+                              onPress={() => { if (picked) tapComposeOption(i, picks[i]!, picked.cap); }}
+                              disabled={!picked}
+                              accessibilityRole="button"
+                              accessibilityLabel={t.player.composeSlotA11y(sl.role, picked ? picked.cap : null)}
+                              style={[s.composeSlot, { borderColor: fz.solid, backgroundColor: picked ? fz.soft : '#fff' }]}
+                            >
+                              {picked ? (
+                                <>
+                                  <FichaVisual pic={picked.pic} word={picked.cap} emoji={picked.emoji} size={44} />
+                                  <Text style={[s.composeSlotCap, { color: fz.ink }]}>{picked.cap}</Text>
+                                </>
+                              ) : (
+                                <Text style={s.composeSlotEmpty}>{t.player.composeEmpty}</Text>
+                              )}
+                            </Pressable>
+                          </View>
+                        );
+                      })}
+                    </View>
+
+                    {complete && (
+                      <View style={s.composeSentenceBox}>
+                        <Text style={s.composeSentenceTxt}>{`“${sentence}”`}</Text>
+                        <Pressable
+                          onPress={() => speakWordSlowSeq(chosen.map((o) => o!.cap))}
+                          accessibilityRole="button"
+                          style={s.composeHearBtn}
+                        >
+                          <Text style={s.composeHearTxt}>{t.player.composeHear}</Text>
+                        </Pressable>
+                        <Text style={s.composeActNow}>{t.player.composeActNow}</Text>
+                      </View>
+                    )}
+
+                    {slots.map((sl, i) => {
+                      const fz = FITZ[sl.fitz];
+                      return (
+                        <View key={`bank-${sl.role}`} style={s.composeBank}>
+                          <View style={[s.composeBankBar, { backgroundColor: fz.solid }]} />
+                          <View style={s.composeBankRow}>
+                            {sl.options.map((o, k) => {
+                              const on = picks[i] === k;
+                              return (
+                                <Pressable
+                                  key={o.cap}
+                                  onPress={() => tapComposeOption(i, k, o.cap)}
+                                  accessibilityRole="button"
+                                  accessibilityState={{ selected: on }}
+                                  accessibilityLabel={t.player.composeOptionA11y(o.cap, sl.role)}
+                                  style={[s.composeOption, { borderColor: fz.solid, backgroundColor: on ? fz.soft : '#fff' }]}
+                                >
+                                  <FichaVisual pic={o.pic} word={o.cap} emoji={o.emoji} size={38} />
+                                  <Text style={[s.composeOptionCap, { color: fz.ink }]} numberOfLines={1}>{o.cap}</Text>
+                                </Pressable>
+                              );
+                            })}
+                          </View>
+                        </View>
+                      );
+                    })}
+
+                    {picks.some((p) => p != null) && (
+                      <Pressable onPress={() => setComposePicks([])} accessibilityRole="button">
+                        <Text style={s.orderReset}>{t.player.composeClear}</Text>
+                      </Pressable>
+                    )}
+                  </>
+                );
+              })()}
+
               {!curLevel && ex.stage === 'instruction' && (
                 <View style={{ alignItems: 'center', paddingVertical: 6 }}>
                   <Pressable onPress={() => openZoom(ex.instrIcon!, ex.name)} accessibilityRole="imagebutton" accessibilityLabel={t.player.zoomIconA11y}>
@@ -1710,6 +1835,28 @@ const s = StyleSheet.create({
   orderSlot: { flex: 1, alignItems: 'center', borderWidth: 2, borderStyle: 'dashed', borderColor: '#b8eee9', borderRadius: 14, paddingVertical: 9 },
   orderSlotFilled: { borderStyle: 'solid', borderColor: V.color.success, backgroundColor: V.color.successBg },
   orderReset: { textAlign: 'center', fontSize: 12.5, fontWeight: '800', color: V.color.primaryDark, marginTop: 12 },
+
+  // MS-4 · cuadrícula sintáctica. Anchos: las ranuras SÍ reparten el ancho
+  // (flex: 1) y las fichas del banco NO (ancho fijo + envoltura). No comparten
+  // estilo a propósito: mezclar `flex` con anchos propios en el mismo elemento
+  // es lo que colapsa la caja en Yoga y parte el texto letra a letra (§1c).
+  composeRow: { flexDirection: 'row', gap: 8, marginBottom: 12 },
+  composeCol: { flex: 1 },
+  composeRoleBadge: { borderRadius: 8, paddingVertical: 3, paddingHorizontal: 6, alignSelf: 'flex-start', marginBottom: 5 },
+  composeRoleTxt: { fontSize: 10, fontWeight: '800', color: '#fff', letterSpacing: 0.4 },
+  composeSlot: { minHeight: 96, borderWidth: 2, borderRadius: 14, alignItems: 'center', justifyContent: 'center', paddingVertical: 8, paddingHorizontal: 4 },
+  composeSlotCap: { fontSize: 12.5, fontWeight: '800', marginTop: 4, textAlign: 'center' },
+  composeSlotEmpty: { fontSize: 11, fontWeight: '700', color: V.color.textMuted, textAlign: 'center' },
+  composeSentenceBox: { backgroundColor: V.color.primaryTint, borderWidth: 1, borderColor: V.color.borderActive, borderRadius: 12, padding: 12, alignItems: 'center', marginBottom: 12 },
+  composeSentenceTxt: { fontSize: 16, fontWeight: '800', color: V.color.textPrimary, textAlign: 'center' },
+  composeHearBtn: { marginTop: 9, backgroundColor: V.color.primary, borderRadius: 10, paddingVertical: 8, paddingHorizontal: 16 },
+  composeHearTxt: { color: '#fff', fontSize: 13, fontWeight: '800' },
+  composeActNow: { fontSize: 11.5, fontWeight: '700', color: V.color.textSecondary, marginTop: 9, textAlign: 'center' },
+  composeBank: { flexDirection: 'row', gap: 8, alignItems: 'stretch', marginBottom: 9 },
+  composeBankBar: { width: 5, borderRadius: 3 },
+  composeBankRow: { flex: 1, flexDirection: 'row', flexWrap: 'wrap', gap: 7 },
+  composeOption: { width: 92, borderWidth: 1.5, borderRadius: 12, alignItems: 'center', paddingVertical: 7, paddingHorizontal: 3 },
+  composeOptionCap: { fontSize: 11.5, fontWeight: '800', marginTop: 3, textAlign: 'center' },
 
   // DX-1 · intruso auditivo puro (fichas de altavoz por posición)
   audTile: { alignItems: 'center', paddingVertical: 16 },

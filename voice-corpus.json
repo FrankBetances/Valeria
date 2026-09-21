@@ -1,11 +1,11 @@
 {
- "generatedAt": "2026-09-10T10:06:36.587Z",
- "entries": 5314,
+ "generatedAt": "2026-09-21T15:32:48.252Z",
+ "entries": 5344,
  "byStyle": {
-  "child": 3345,
-  "slow": 1003,
+  "child": 3350,
+  "slow": 1023,
   "clinical": 45,
-  "tutor": 921
+  "tutor": 926
  },
  "bySource": {
   "pares/intro": 54,
@@ -26,7 +26,7 @@
   "banco/juntos": 15,
   "util/muestra": 5,
   "expansion": 2152,
-  "ejercicios": 1291,
+  "ejercicios": 1321,
   "lua/eval/consigna": 120,
   "lua/eval/refuerzo": 120,
   "lua/eval/devolucion": 120,
@@ -5124,6 +5124,48 @@
    "source": "ejercicios"
   },
   {
+   "id": "tutor_a8325c5c_196",
+   "lang": "es",
+   "style": "tutor",
+   "text": "Tres columnas de color: quién, qué hace y qué cosa. El niño elige UNA ficha de cada columna y arma la frase que él quiera, no una frase dada. Después la oye entera y la representáis con el cuerpo.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "child_f78c9a8d_177",
+   "lang": "es",
+   "style": "child",
+   "text": "Representad la frase que haya salido, aunque sea disparatada: si la gallina lava el zapato, lavad un zapato imaginario cacareando. Lo raro da risa, y la risa fija la estructura.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "slow_1c60f484_4",
+   "lang": "es",
+   "style": "slow",
+   "text": "gato",
+   "source": "ejercicios"
+  },
+  {
+   "id": "slow_7ad5305b_4",
+   "lang": "es",
+   "style": "slow",
+   "text": "lava",
+   "source": "ejercicios"
+  },
+  {
+   "id": "slow_c92a659f_4",
+   "lang": "es",
+   "style": "slow",
+   "text": "coge",
+   "source": "ejercicios"
+  },
+  {
+   "id": "slow_b2ccca14_7",
+   "lang": "es",
+   "style": "slow",
+   "text": "plátano",
+   "source": "ejercicios"
+  },
+  {
    "id": "tutor_904fea22_107",
    "lang": "es",
    "style": "tutor",
@@ -5338,13 +5380,6 @@
    "lang": "es",
    "style": "child",
    "text": "plato",
-   "source": "ejercicios"
-  },
-  {
-   "id": "slow_1c60f484_4",
-   "lang": "es",
-   "style": "slow",
-   "text": "gato",
    "source": "ejercicios"
   },
   {
@@ -18942,6 +18977,48 @@
    "source": "ejercicios"
   },
   {
+   "id": "gl_tutor_475ed3ce_189",
+   "lang": "gl",
+   "style": "tutor",
+   "text": "Tres columnas de cor: quen, que fai e que cousa. A nena escolle UNHA ficha de cada columna e arma a frase que ela queira, non unha frase dada. Despois óea enteira e representádela co corpo.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_child_87ab4ef9_170",
+   "lang": "gl",
+   "style": "child",
+   "text": "Representade a frase que saíse, aínda que sexa disparatada: se a galiña lava o zapato, lavade un zapato imaxinario cacarexando. O raro dá risa, e a risa fixa a estrutura.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_slow_1c60f484_4",
+   "lang": "gl",
+   "style": "slow",
+   "text": "gato",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_slow_7ad5305b_4",
+   "lang": "gl",
+   "style": "slow",
+   "text": "lava",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_slow_247bfc66_5",
+   "lang": "gl",
+   "style": "slow",
+   "text": "colle",
+   "source": "ejercicios"
+  },
+  {
+   "id": "gl_slow_b2ccca14_7",
+   "lang": "gl",
+   "style": "slow",
+   "text": "plátano",
+   "source": "ejercicios"
+  },
+  {
    "id": "gl_tutor_d17c4f88_100",
    "lang": "gl",
    "style": "tutor",
@@ -19163,13 +19240,6 @@
    "lang": "gl",
    "style": "child",
    "text": "prato",
-   "source": "ejercicios"
-  },
-  {
-   "id": "gl_slow_1c60f484_4",
-   "lang": "gl",
-   "style": "slow",
-   "text": "gato",
    "source": "ejercicios"
   },
   {
@@ -24070,6 +24140,48 @@
    "lang": "eu",
    "style": "slow",
    "text": "hezurra",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_tutor_ac394fb4_280",
+   "lang": "eu",
+   "style": "tutor",
+   "text": "Hiru kolore-zutabe: nork, zer eta zer egiten duen. Umeak fitxa BAT hautatzen du zutabe bakoitzetik eta nahi duen esaldia eraikitzen du, ez emandako bat. Gero osorik entzuten du eta gorputzarekin antzezten duzue. Euskaraz aditza azkena doa, eta horregatik dago hirugarren zutabean.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_child_b2e9cc7d_192",
+   "lang": "eu",
+   "style": "child",
+   "text": "Antzeztu atera den esaldia, nahiz eta zentzugabea izan: oiloak zapata garbitzen badu, garbitu ezazue zapata imajinario bat kakaraka. Bitxiak barrea ematen du, eta barreak egitura finkatzen du.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_5d9027e4_6",
+   "lang": "eu",
+   "style": "slow",
+   "text": "oiloak",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_c266b9af_8",
+   "lang": "eu",
+   "style": "slow",
+   "text": "platanoa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_1141e514_12",
+   "lang": "eu",
+   "style": "slow",
+   "text": "garbitzen du",
+   "source": "ejercicios"
+  },
+  {
+   "id": "eu_slow_2bc2c5f0_10",
+   "lang": "eu",
+   "style": "slow",
+   "text": "hartzen du",
    "source": "ejercicios"
   },
   {
@@ -29544,6 +29656,69 @@
    "lang": "en",
    "style": "slow",
    "text": "hueso",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_tutor_031f3c04_192",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Three colour columns: who, does and what. Your child picks ONE card from each column and builds their own sentence, not a given one. Then they hear the whole thing and you act it out together.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_child_6256c5ec_176",
+   "lang": "en",
+   "style": "child",
+   "text": "Act out whatever sentence comes up, even a silly one: if the hen washes the shoe, wash an imaginary shoe and cluck. Silly is funny, and funny is what makes the structure stick.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_c1a45d58_7",
+   "lang": "en",
+   "style": "slow",
+   "text": "the cat",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_cebee8f7_7",
+   "lang": "en",
+   "style": "slow",
+   "text": "the hen",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_9c33c586_6",
+   "lang": "en",
+   "style": "slow",
+   "text": "washes",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_b9d1de96_8",
+   "lang": "en",
+   "style": "slow",
+   "text": "picks up",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_369832d5_10",
+   "lang": "en",
+   "style": "slow",
+   "text": "the banana",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_0e4b0f59_8",
+   "lang": "en",
+   "style": "slow",
+   "text": "the ball",
+   "source": "ejercicios"
+  },
+  {
+   "id": "en_slow_5e963677_8",
+   "lang": "en",
+   "style": "slow",
+   "text": "the shoe",
    "source": "ejercicios"
   },
   {
@@ -35567,6 +35742,48 @@
    "source": "ejercicios"
   },
   {
+   "id": "ca_tutor_32decc9f_197",
+   "lang": "ca",
+   "style": "tutor",
+   "text": "Tres columnes de color: qui, què fa i quina cosa. L'infant tria UNA fitxa de cada columna i construeix la frase que vulgui, no una frase donada. Després la sent sencera i la representeu amb el cos.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_child_6f5ac881_198",
+   "lang": "ca",
+   "style": "child",
+   "text": "Representeu la frase que hagi sortit, encara que sigui disbaratada: si la gallina renta la sabata, renteu una sabata imaginària escatainant. El que és estrany fa riure, i el riure fixa l'estructura.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_slow_44171b83_3",
+   "lang": "ca",
+   "style": "slow",
+   "text": "gat",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_slow_e23d1191_5",
+   "lang": "ca",
+   "style": "slow",
+   "text": "renta",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_slow_8838e5d9_5",
+   "lang": "ca",
+   "style": "slow",
+   "text": "agafa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "ca_slow_2b2caace_6",
+   "lang": "ca",
+   "style": "slow",
+   "text": "plàtan",
+   "source": "ejercicios"
+  },
+  {
    "id": "ca_tutor_97f65d45_110",
    "lang": "ca",
    "style": "tutor",
@@ -35802,13 +36019,6 @@
    "lang": "ca",
    "style": "child",
    "text": "pat",
-   "source": "ejercicios"
-  },
-  {
-   "id": "ca_slow_44171b83_3",
-   "lang": "ca",
-   "style": "slow",
-   "text": "gat",
    "source": "ejercicios"
   },
   {

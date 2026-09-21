@@ -2,9 +2,9 @@
  "lang": "eu",
  "voice": "AhoTTS euskera \u00abMaider\u00bb \u00b7 HiTZ/Aholab (ILENIA/NEL-GAITU, CC BY 4.0)",
  "peakDbfs": -3.0,
- "entries": 756,
- "totalBytes": 16981386,
- "totalSeconds": 3288.2,
+ "entries": 762,
+ "totalBytes": 17177190,
+ "totalSeconds": 3328.6,
  "files": [
   {
    "id": "eu_child_536bf7c0_40",
@@ -3497,6 +3497,42 @@
    "file": "eu_slow_c939cf06_7.m4a",
    "seconds": 1.98,
    "bytes": 6531
+  },
+  {
+   "id": "eu_tutor_ac394fb4_280",
+   "file": "eu_tutor_ac394fb4_280.m4a",
+   "seconds": 17.79,
+   "bytes": 93038
+  },
+  {
+   "id": "eu_child_b2e9cc7d_192",
+   "file": "eu_child_b2e9cc7d_192.m4a",
+   "seconds": 13.5,
+   "bytes": 70711
+  },
+  {
+   "id": "eu_slow_5d9027e4_6",
+   "file": "eu_slow_5d9027e4_6.m4a",
+   "seconds": 1.83,
+   "bytes": 5845
+  },
+  {
+   "id": "eu_slow_c266b9af_8",
+   "file": "eu_slow_c266b9af_8.m4a",
+   "seconds": 2.26,
+   "bytes": 7888
+  },
+  {
+   "id": "eu_slow_1141e514_12",
+   "file": "eu_slow_1141e514_12.m4a",
+   "seconds": 2.63,
+   "bytes": 9903
+  },
+  {
+   "id": "eu_slow_2bc2c5f0_10",
+   "file": "eu_slow_2bc2c5f0_10.m4a",
+   "seconds": 2.35,
+   "bytes": 8419
   },
   {
    "id": "eu_tutor_3b539e5e_101",

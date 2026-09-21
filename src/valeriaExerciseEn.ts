@@ -186,6 +186,35 @@ export const EXERCISE_EN: Record<string, Partial<Exercise>> = {
       'Orders the cards and says the whole sentence on their own.',
     ],
   },
+  ms4: {
+    name: 'Free sentence building',
+    category: 'Sentences (morphosyntax)',
+    read: 'Three colour columns: who, does and what. Your child picks ONE card from each column and builds their own sentence, not a given one. Then they hear the whole thing and you act it out together.',
+    stageLabel: 'Pick one card of each colour and say your sentence',
+    composeSlots: [
+      { role: 'who', fitz: 'subject', options: [
+        { cap: 'the cat', emoji: '🐱', pic: 'gato' },
+        { cap: 'the dog', emoji: '🐶', pic: 'perro' },
+        { cap: 'the hen', emoji: '🐔', pic: 'gallina' },
+      ] },
+      { role: 'does', fitz: 'action', options: [
+        { cap: 'eats', emoji: '😋', pic: 'comer' },
+        { cap: 'washes', emoji: '🧼', pic: 'jabon' },
+        { cap: 'picks up', emoji: '🖐️', pic: 'mano' },
+      ] },
+      { role: 'what', fitz: 'object', options: [
+        { cap: 'the banana', emoji: '🍌', pic: 'platano' },
+        { cap: 'the ball', emoji: '⚽', pic: 'pelota' },
+        { cap: 'the shoe', emoji: '👟', pic: 'zapato' },
+      ] },
+    ],
+    move: 'Act out whatever sentence comes up, even a silly one: if the hen washes the shoe, wash an imaginary shoe and cluck. Silly is funny, and funny is what makes the structure stick.',
+    ept: [
+      'Picks single cards without getting to a sentence.',
+      'Completes all three when you point at the missing column.',
+      'Picks all three alone and says the whole sentence out loud.',
+    ],
+  },
 
   // ========================== USO SOCIAL (pragmática) ======================
   pr1: {

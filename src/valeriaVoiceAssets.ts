@@ -1,22 +1,22 @@
 // ============================================================================
 // Valeria+ · Mapa id → asset de voz neuronal — ARCHIVO GENERADO, NO EDITAR
 // Regenerado por scripts/build-voice-asset-map.js (tubería de Fase 2,
-// .github/workflows/voice-assets.yml). Cobertura: 5314/5314 locuciones
+// .github/workflows/voice-assets.yml). Cobertura: 5344/5344 locuciones
 // del corpus; lo no cubierto cae a expo-speech en runtime.
 // ============================================================================
 
 // Versión del lote de audio empaquetado ('none' = sin audio pre-generado).
-export const VOICE_ASSETS_VERSION = "ca-matxa-tts+en-ljspeech+es-sharvard+eu-ahotts+gl-celtia-2026-09-10";
+export const VOICE_ASSETS_VERSION = "ca-matxa-tts+en-ljspeech+es-sharvard+eu-ahotts+gl-celtia-2026-09-21";
 
 // ---------------------------------------------------------------------------
 // Por qué esto es un CARGADOR y no un mapa
 // ---------------------------------------------------------------------------
-// Un objeto literal con 5314 require() no es un objeto: son
-// 5314 MÓDULOS de Metro ejecutados, cada uno registrando su
+// Un objeto literal con 5344 require() no es un objeto: son
+// 5344 MÓDULOS de Metro ejecutados, cada uno registrando su
 // descriptor de asset —nombre, hash y la lista de hashes por escala— en el
 // registro de assets de React Native. Y ocurría en el ARRANQUE, porque
-// valeriaVoice entra por el grafo de App.tsx: 5314 ejecuciones de
-// módulo y 5314 objetos antes del primer frame, en una pantalla
+// valeriaVoice entra por el grafo de App.tsx: 5344 ejecuciones de
+// módulo y 5344 objetos antes del primer frame, en una pantalla
 // donde la app todavía no ha locutado nada.
 //
 // Aquí el literal vive DENTRO de una función. Hermes compila los cuerpos de
@@ -223,6 +223,7 @@ function loaders(): Record<string, () => number> {
       "ca_child_6d69814c_8": () => require('../assets/voice/ca_child_6d69814c_8.m4a'),
       "ca_child_6e937488_74": () => require('../assets/voice/ca_child_6e937488_74.m4a'),
       "ca_child_6ea80da2_32": () => require('../assets/voice/ca_child_6ea80da2_32.m4a'),
+      "ca_child_6f5ac881_198": () => require('../assets/voice/ca_child_6f5ac881_198.m4a'),
       "ca_child_70eba279_66": () => require('../assets/voice/ca_child_70eba279_66.m4a'),
       "ca_child_715e375e_29": () => require('../assets/voice/ca_child_715e375e_29.m4a'),
       "ca_child_718a14e8_38": () => require('../assets/voice/ca_child_718a14e8_38.m4a'),
@@ -531,6 +532,7 @@ function loaders(): Record<string, () => number> {
       "ca_slow_274e1290_4": () => require('../assets/voice/ca_slow_274e1290_4.m4a'),
       "ca_slow_27560580_7": () => require('../assets/voice/ca_slow_27560580_7.m4a'),
       "ca_slow_29e10eaa_46": () => require('../assets/voice/ca_slow_29e10eaa_46.m4a'),
+      "ca_slow_2b2caace_6": () => require('../assets/voice/ca_slow_2b2caace_6.m4a'),
       "ca_slow_2d14251d_8": () => require('../assets/voice/ca_slow_2d14251d_8.m4a'),
       "ca_slow_2e4acd31_32": () => require('../assets/voice/ca_slow_2e4acd31_32.m4a'),
       "ca_slow_2eed8a45_4": () => require('../assets/voice/ca_slow_2eed8a45_4.m4a'),
@@ -595,6 +597,7 @@ function loaders(): Record<string, () => number> {
       "ca_slow_8195fa57_15": () => require('../assets/voice/ca_slow_8195fa57_15.m4a'),
       "ca_slow_82fb3cab_9": () => require('../assets/voice/ca_slow_82fb3cab_9.m4a'),
       "ca_slow_838dc410_70": () => require('../assets/voice/ca_slow_838dc410_70.m4a'),
+      "ca_slow_8838e5d9_5": () => require('../assets/voice/ca_slow_8838e5d9_5.m4a'),
       "ca_slow_889be401_36": () => require('../assets/voice/ca_slow_889be401_36.m4a'),
       "ca_slow_8aac7975_50": () => require('../assets/voice/ca_slow_8aac7975_50.m4a'),
       "ca_slow_8ae77719_22": () => require('../assets/voice/ca_slow_8ae77719_22.m4a'),
@@ -679,6 +682,7 @@ function loaders(): Record<string, () => number> {
       "ca_slow_e10df4d4_33": () => require('../assets/voice/ca_slow_e10df4d4_33.m4a'),
       "ca_slow_e20c2606_1": () => require('../assets/voice/ca_slow_e20c2606_1.m4a'),
       "ca_slow_e2363da1_3": () => require('../assets/voice/ca_slow_e2363da1_3.m4a'),
+      "ca_slow_e23d1191_5": () => require('../assets/voice/ca_slow_e23d1191_5.m4a'),
       "ca_slow_e2b77e6c_5": () => require('../assets/voice/ca_slow_e2b77e6c_5.m4a'),
       "ca_slow_e32eec48_2": () => require('../assets/voice/ca_slow_e32eec48_2.m4a'),
       "ca_slow_e3b962a8_42": () => require('../assets/voice/ca_slow_e3b962a8_42.m4a'),
@@ -760,6 +764,7 @@ function loaders(): Record<string, () => number> {
       "ca_tutor_2fa5e4bc_72": () => require('../assets/voice/ca_tutor_2fa5e4bc_72.m4a'),
       "ca_tutor_2fd0bafd_69": () => require('../assets/voice/ca_tutor_2fd0bafd_69.m4a'),
       "ca_tutor_312b78cb_101": () => require('../assets/voice/ca_tutor_312b78cb_101.m4a'),
+      "ca_tutor_32decc9f_197": () => require('../assets/voice/ca_tutor_32decc9f_197.m4a'),
       "ca_tutor_33592bc1_66": () => require('../assets/voice/ca_tutor_33592bc1_66.m4a'),
       "ca_tutor_33d3c0f2_124": () => require('../assets/voice/ca_tutor_33d3c0f2_124.m4a'),
       "ca_tutor_34f6a630_17": () => require('../assets/voice/ca_tutor_34f6a630_17.m4a'),
@@ -1907,6 +1912,7 @@ function loaders(): Record<string, () => number> {
       "child_f6180b0f_87": () => require('../assets/voice/child_f6180b0f_87.m4a'),
       "child_f6ec5ad4_22": () => require('../assets/voice/child_f6ec5ad4_22.m4a'),
       "child_f73a4d41_53": () => require('../assets/voice/child_f73a4d41_53.m4a'),
+      "child_f78c9a8d_177": () => require('../assets/voice/child_f78c9a8d_177.m4a'),
       "child_f8ced904_26": () => require('../assets/voice/child_f8ced904_26.m4a'),
       "child_f8d74879_15": () => require('../assets/voice/child_f8d74879_15.m4a'),
       "child_f8e88de2_114": () => require('../assets/voice/child_f8e88de2_114.m4a'),
@@ -2114,6 +2120,7 @@ function loaders(): Record<string, () => number> {
       "en_child_60b46b57_49": () => require('../assets/voice/en_child_60b46b57_49.m4a'),
       "en_child_60cb2b75_11": () => require('../assets/voice/en_child_60cb2b75_11.m4a'),
       "en_child_610572c8_24": () => require('../assets/voice/en_child_610572c8_24.m4a'),
+      "en_child_6256c5ec_176": () => require('../assets/voice/en_child_6256c5ec_176.m4a'),
       "en_child_62bdfdb8_4": () => require('../assets/voice/en_child_62bdfdb8_4.m4a'),
       "en_child_62f56b7c_26": () => require('../assets/voice/en_child_62f56b7c_26.m4a'),
       "en_child_641bcceb_61": () => require('../assets/voice/en_child_641bcceb_61.m4a'),
@@ -2388,6 +2395,7 @@ function loaders(): Record<string, () => number> {
       "en_slow_089afead_5": () => require('../assets/voice/en_slow_089afead_5.m4a'),
       "en_slow_0b9432e3_5": () => require('../assets/voice/en_slow_0b9432e3_5.m4a'),
       "en_slow_0c044e2d_47": () => require('../assets/voice/en_slow_0c044e2d_47.m4a'),
+      "en_slow_0e4b0f59_8": () => require('../assets/voice/en_slow_0e4b0f59_8.m4a'),
       "en_slow_0ffe0454_54": () => require('../assets/voice/en_slow_0ffe0454_54.m4a'),
       "en_slow_10bc2abf_5": () => require('../assets/voice/en_slow_10bc2abf_5.m4a'),
       "en_slow_11b54859_3": () => require('../assets/voice/en_slow_11b54859_3.m4a'),
@@ -2423,6 +2431,7 @@ function loaders(): Record<string, () => number> {
       "en_slow_355ee6cc_48": () => require('../assets/voice/en_slow_355ee6cc_48.m4a'),
       "en_slow_364f2928_49": () => require('../assets/voice/en_slow_364f2928_49.m4a'),
       "en_slow_365991eb_3": () => require('../assets/voice/en_slow_365991eb_3.m4a'),
+      "en_slow_369832d5_10": () => require('../assets/voice/en_slow_369832d5_10.m4a'),
       "en_slow_3a1b4ab4_4": () => require('../assets/voice/en_slow_3a1b4ab4_4.m4a'),
       "en_slow_3c5d3e29_4": () => require('../assets/voice/en_slow_3c5d3e29_4.m4a'),
       "en_slow_3f520f5e_2": () => require('../assets/voice/en_slow_3f520f5e_2.m4a'),
@@ -2440,6 +2449,7 @@ function loaders(): Record<string, () => number> {
       "en_slow_58c205f0_23": () => require('../assets/voice/en_slow_58c205f0_23.m4a'),
       "en_slow_5d40fd2d_66": () => require('../assets/voice/en_slow_5d40fd2d_66.m4a'),
       "en_slow_5d57ec9d_63": () => require('../assets/voice/en_slow_5d57ec9d_63.m4a'),
+      "en_slow_5e963677_8": () => require('../assets/voice/en_slow_5e963677_8.m4a'),
       "en_slow_60b46b57_49": () => require('../assets/voice/en_slow_60b46b57_49.m4a'),
       "en_slow_61c155f8_6": () => require('../assets/voice/en_slow_61c155f8_6.m4a'),
       "en_slow_634b810c_3": () => require('../assets/voice/en_slow_634b810c_3.m4a'),
@@ -2475,6 +2485,7 @@ function loaders(): Record<string, () => number> {
       "en_slow_9ac6374b_43": () => require('../assets/voice/en_slow_9ac6374b_43.m4a'),
       "en_slow_9b043848_45": () => require('../assets/voice/en_slow_9b043848_45.m4a'),
       "en_slow_9b47cc32_4": () => require('../assets/voice/en_slow_9b47cc32_4.m4a'),
+      "en_slow_9c33c586_6": () => require('../assets/voice/en_slow_9c33c586_6.m4a'),
       "en_slow_9db686a4_41": () => require('../assets/voice/en_slow_9db686a4_41.m4a'),
       "en_slow_9dc39e8c_53": () => require('../assets/voice/en_slow_9dc39e8c_53.m4a'),
       "en_slow_9e87505a_38": () => require('../assets/voice/en_slow_9e87505a_38.m4a'),
@@ -2506,12 +2517,14 @@ function loaders(): Record<string, () => number> {
       "en_slow_b4c3a35b_43": () => require('../assets/voice/en_slow_b4c3a35b_43.m4a'),
       "en_slow_b4dab898_17": () => require('../assets/voice/en_slow_b4dab898_17.m4a'),
       "en_slow_b8c80eb6_4": () => require('../assets/voice/en_slow_b8c80eb6_4.m4a'),
+      "en_slow_b9d1de96_8": () => require('../assets/voice/en_slow_b9d1de96_8.m4a'),
       "en_slow_ba7d9c5e_7": () => require('../assets/voice/en_slow_ba7d9c5e_7.m4a'),
       "en_slow_ba8596c8_49": () => require('../assets/voice/en_slow_ba8596c8_49.m4a'),
       "en_slow_bae1d05b_64": () => require('../assets/voice/en_slow_bae1d05b_64.m4a'),
       "en_slow_be565411_31": () => require('../assets/voice/en_slow_be565411_31.m4a'),
       "en_slow_bf3f7a24_56": () => require('../assets/voice/en_slow_bf3f7a24_56.m4a'),
       "en_slow_c13d9b7e_41": () => require('../assets/voice/en_slow_c13d9b7e_41.m4a'),
+      "en_slow_c1a45d58_7": () => require('../assets/voice/en_slow_c1a45d58_7.m4a'),
       "en_slow_c33f0730_3": () => require('../assets/voice/en_slow_c33f0730_3.m4a'),
       "en_slow_c3b10f72_4": () => require('../assets/voice/en_slow_c3b10f72_4.m4a'),
       "en_slow_c4206de8_3": () => require('../assets/voice/en_slow_c4206de8_3.m4a'),
@@ -2525,6 +2538,7 @@ function loaders(): Record<string, () => number> {
       "en_slow_cb619ce5_6": () => require('../assets/voice/en_slow_cb619ce5_6.m4a'),
       "en_slow_cbba635c_51": () => require('../assets/voice/en_slow_cbba635c_51.m4a'),
       "en_slow_ce6a93b9_41": () => require('../assets/voice/en_slow_ce6a93b9_41.m4a'),
+      "en_slow_cebee8f7_7": () => require('../assets/voice/en_slow_cebee8f7_7.m4a'),
       "en_slow_cfad6476_62": () => require('../assets/voice/en_slow_cfad6476_62.m4a'),
       "en_slow_d2a54155_5": () => require('../assets/voice/en_slow_d2a54155_5.m4a'),
       "en_slow_d5dda684_54": () => require('../assets/voice/en_slow_d5dda684_54.m4a'),
@@ -2575,6 +2589,7 @@ function loaders(): Record<string, () => number> {
       "en_slow_ffcac825_44": () => require('../assets/voice/en_slow_ffcac825_44.m4a'),
       "en_tutor_021adc0e_52": () => require('../assets/voice/en_tutor_021adc0e_52.m4a'),
       "en_tutor_03033117_103": () => require('../assets/voice/en_tutor_03033117_103.m4a'),
+      "en_tutor_031f3c04_192": () => require('../assets/voice/en_tutor_031f3c04_192.m4a'),
       "en_tutor_048b640e_144": () => require('../assets/voice/en_tutor_048b640e_144.m4a'),
       "en_tutor_072f68bd_180": () => require('../assets/voice/en_tutor_072f68bd_180.m4a'),
       "en_tutor_0993b80f_57": () => require('../assets/voice/en_tutor_0993b80f_57.m4a'),
@@ -3016,6 +3031,7 @@ function loaders(): Record<string, () => number> {
       "eu_child_b05d3817_21": () => require('../assets/voice/eu_child_b05d3817_21.m4a'),
       "eu_child_b15c6f90_25": () => require('../assets/voice/eu_child_b15c6f90_25.m4a'),
       "eu_child_b245906e_5": () => require('../assets/voice/eu_child_b245906e_5.m4a'),
+      "eu_child_b2e9cc7d_192": () => require('../assets/voice/eu_child_b2e9cc7d_192.m4a'),
       "eu_child_b37100df_22": () => require('../assets/voice/eu_child_b37100df_22.m4a'),
       "eu_child_b4542c5b_32": () => require('../assets/voice/eu_child_b4542c5b_32.m4a'),
       "eu_child_b5430ecf_21": () => require('../assets/voice/eu_child_b5430ecf_21.m4a'),
@@ -3159,6 +3175,7 @@ function loaders(): Record<string, () => number> {
       "eu_slow_0555c909_30": () => require('../assets/voice/eu_slow_0555c909_30.m4a'),
       "eu_slow_0672ee09_35": () => require('../assets/voice/eu_slow_0672ee09_35.m4a'),
       "eu_slow_0e8e6630_25": () => require('../assets/voice/eu_slow_0e8e6630_25.m4a'),
+      "eu_slow_1141e514_12": () => require('../assets/voice/eu_slow_1141e514_12.m4a'),
       "eu_slow_1207c9d0_37": () => require('../assets/voice/eu_slow_1207c9d0_37.m4a'),
       "eu_slow_12123eeb_35": () => require('../assets/voice/eu_slow_12123eeb_35.m4a'),
       "eu_slow_14bcbc9c_36": () => require('../assets/voice/eu_slow_14bcbc9c_36.m4a'),
@@ -3178,6 +3195,7 @@ function loaders(): Record<string, () => number> {
       "eu_slow_27acd662_20": () => require('../assets/voice/eu_slow_27acd662_20.m4a'),
       "eu_slow_291f2d51_5": () => require('../assets/voice/eu_slow_291f2d51_5.m4a'),
       "eu_slow_2b35f9a9_60": () => require('../assets/voice/eu_slow_2b35f9a9_60.m4a'),
+      "eu_slow_2bc2c5f0_10": () => require('../assets/voice/eu_slow_2bc2c5f0_10.m4a'),
       "eu_slow_2c27b1b6_3": () => require('../assets/voice/eu_slow_2c27b1b6_3.m4a'),
       "eu_slow_2f39abc1_21": () => require('../assets/voice/eu_slow_2f39abc1_21.m4a'),
       "eu_slow_34501696_8": () => require('../assets/voice/eu_slow_34501696_8.m4a'),
@@ -3219,6 +3237,7 @@ function loaders(): Record<string, () => number> {
       "eu_slow_5b217654_80": () => require('../assets/voice/eu_slow_5b217654_80.m4a'),
       "eu_slow_5b671260_36": () => require('../assets/voice/eu_slow_5b671260_36.m4a'),
       "eu_slow_5cd80e94_44": () => require('../assets/voice/eu_slow_5cd80e94_44.m4a'),
+      "eu_slow_5d9027e4_6": () => require('../assets/voice/eu_slow_5d9027e4_6.m4a'),
       "eu_slow_6334829f_5": () => require('../assets/voice/eu_slow_6334829f_5.m4a'),
       "eu_slow_63b38094_31": () => require('../assets/voice/eu_slow_63b38094_31.m4a'),
       "eu_slow_642e3061_30": () => require('../assets/voice/eu_slow_642e3061_30.m4a'),
@@ -3283,6 +3302,7 @@ function loaders(): Record<string, () => number> {
       "eu_slow_bfd184e7_38": () => require('../assets/voice/eu_slow_bfd184e7_38.m4a'),
       "eu_slow_bfdeaa06_85": () => require('../assets/voice/eu_slow_bfdeaa06_85.m4a'),
       "eu_slow_c126ff24_3": () => require('../assets/voice/eu_slow_c126ff24_3.m4a'),
+      "eu_slow_c266b9af_8": () => require('../assets/voice/eu_slow_c266b9af_8.m4a'),
       "eu_slow_c2a843a1_39": () => require('../assets/voice/eu_slow_c2a843a1_39.m4a'),
       "eu_slow_c2c793c9_28": () => require('../assets/voice/eu_slow_c2c793c9_28.m4a'),
       "eu_slow_c33f0730_3": () => require('../assets/voice/eu_slow_c33f0730_3.m4a'),
@@ -3450,6 +3470,7 @@ function loaders(): Record<string, () => number> {
       "eu_tutor_a4868e81_76": () => require('../assets/voice/eu_tutor_a4868e81_76.m4a'),
       "eu_tutor_a7ca98e5_81": () => require('../assets/voice/eu_tutor_a7ca98e5_81.m4a'),
       "eu_tutor_aa638a0d_305": () => require('../assets/voice/eu_tutor_aa638a0d_305.m4a'),
+      "eu_tutor_ac394fb4_280": () => require('../assets/voice/eu_tutor_ac394fb4_280.m4a'),
       "eu_tutor_ae7c58eb_64": () => require('../assets/voice/eu_tutor_ae7c58eb_64.m4a'),
       "eu_tutor_af9238ad_81": () => require('../assets/voice/eu_tutor_af9238ad_81.m4a'),
       "eu_tutor_af94d2d8_120": () => require('../assets/voice/eu_tutor_af94d2d8_120.m4a'),
@@ -4055,6 +4076,7 @@ function loaders(): Record<string, () => number> {
       "gl_child_86e340d6_15": () => require('../assets/voice/gl_child_86e340d6_15.m4a'),
       "gl_child_876495f5_28": () => require('../assets/voice/gl_child_876495f5_28.m4a'),
       "gl_child_878751ef_4": () => require('../assets/voice/gl_child_878751ef_4.m4a'),
+      "gl_child_87ab4ef9_170": () => require('../assets/voice/gl_child_87ab4ef9_170.m4a'),
       "gl_child_87e518ff_39": () => require('../assets/voice/gl_child_87e518ff_39.m4a'),
       "gl_child_88400e85_34": () => require('../assets/voice/gl_child_88400e85_34.m4a'),
       "gl_child_88ba8017_21": () => require('../assets/voice/gl_child_88ba8017_21.m4a'),
@@ -4581,6 +4603,7 @@ function loaders(): Record<string, () => number> {
       "gl_slow_2169127a_7": () => require('../assets/voice/gl_slow_2169127a_7.m4a'),
       "gl_slow_2266517d_22": () => require('../assets/voice/gl_slow_2266517d_22.m4a'),
       "gl_slow_22edc6fc_6": () => require('../assets/voice/gl_slow_22edc6fc_6.m4a'),
+      "gl_slow_247bfc66_5": () => require('../assets/voice/gl_slow_247bfc66_5.m4a'),
       "gl_slow_27b70465_38": () => require('../assets/voice/gl_slow_27b70465_38.m4a'),
       "gl_slow_29bfab71_27": () => require('../assets/voice/gl_slow_29bfab71_27.m4a'),
       "gl_slow_2a9e4910_32": () => require('../assets/voice/gl_slow_2a9e4910_32.m4a'),
@@ -4635,6 +4658,7 @@ function loaders(): Record<string, () => number> {
       "gl_slow_734870b1_4": () => require('../assets/voice/gl_slow_734870b1_4.m4a'),
       "gl_slow_7591e0de_4": () => require('../assets/voice/gl_slow_7591e0de_4.m4a'),
       "gl_slow_79406f38_34": () => require('../assets/voice/gl_slow_79406f38_34.m4a'),
+      "gl_slow_7ad5305b_4": () => require('../assets/voice/gl_slow_7ad5305b_4.m4a'),
       "gl_slow_813c0004_28": () => require('../assets/voice/gl_slow_813c0004_28.m4a'),
       "gl_slow_8261b073_29": () => require('../assets/voice/gl_slow_8261b073_29.m4a'),
       "gl_slow_839c2c91_24": () => require('../assets/voice/gl_slow_839c2c91_24.m4a'),
@@ -4668,6 +4692,7 @@ function loaders(): Record<string, () => number> {
       "gl_slow_b10cd292_6": () => require('../assets/voice/gl_slow_b10cd292_6.m4a'),
       "gl_slow_b166178e_4": () => require('../assets/voice/gl_slow_b166178e_4.m4a'),
       "gl_slow_b29aad7c_32": () => require('../assets/voice/gl_slow_b29aad7c_32.m4a'),
+      "gl_slow_b2ccca14_7": () => require('../assets/voice/gl_slow_b2ccca14_7.m4a'),
       "gl_slow_b2f28bf3_19": () => require('../assets/voice/gl_slow_b2f28bf3_19.m4a'),
       "gl_slow_b3352fd9_36": () => require('../assets/voice/gl_slow_b3352fd9_36.m4a'),
       "gl_slow_b3877abe_31": () => require('../assets/voice/gl_slow_b3877abe_31.m4a'),
@@ -4806,6 +4831,7 @@ function loaders(): Record<string, () => number> {
       "gl_tutor_441ad59c_66": () => require('../assets/voice/gl_tutor_441ad59c_66.m4a'),
       "gl_tutor_44c0673d_122": () => require('../assets/voice/gl_tutor_44c0673d_122.m4a'),
       "gl_tutor_453080d1_83": () => require('../assets/voice/gl_tutor_453080d1_83.m4a'),
+      "gl_tutor_475ed3ce_189": () => require('../assets/voice/gl_tutor_475ed3ce_189.m4a'),
       "gl_tutor_486b28e7_89": () => require('../assets/voice/gl_tutor_486b28e7_89.m4a'),
       "gl_tutor_488e2930_145": () => require('../assets/voice/gl_tutor_488e2930_145.m4a'),
       "gl_tutor_49fc4e43_74": () => require('../assets/voice/gl_tutor_49fc4e43_74.m4a'),
@@ -5030,6 +5056,7 @@ function loaders(): Record<string, () => number> {
       "slow_77c3a720_26": () => require('../assets/voice/slow_77c3a720_26.m4a'),
       "slow_7815f6f9_62": () => require('../assets/voice/slow_7815f6f9_62.m4a'),
       "slow_79626367_34": () => require('../assets/voice/slow_79626367_34.m4a'),
+      "slow_7ad5305b_4": () => require('../assets/voice/slow_7ad5305b_4.m4a'),
       "slow_7b992bcf_4": () => require('../assets/voice/slow_7b992bcf_4.m4a'),
       "slow_7cc64e43_32": () => require('../assets/voice/slow_7cc64e43_32.m4a'),
       "slow_7ec9f944_30": () => require('../assets/voice/slow_7ec9f944_30.m4a'),
@@ -5076,6 +5103,7 @@ function loaders(): Record<string, () => number> {
       "slow_af38ca64_32": () => require('../assets/voice/slow_af38ca64_32.m4a'),
       "slow_b02431c5_27": () => require('../assets/voice/slow_b02431c5_27.m4a'),
       "slow_b166178e_4": () => require('../assets/voice/slow_b166178e_4.m4a'),
+      "slow_b2ccca14_7": () => require('../assets/voice/slow_b2ccca14_7.m4a'),
       "slow_b2cf3af2_28": () => require('../assets/voice/slow_b2cf3af2_28.m4a'),
       "slow_b2f28bf3_19": () => require('../assets/voice/slow_b2f28bf3_19.m4a'),
       "slow_b3d88d76_70": () => require('../assets/voice/slow_b3d88d76_70.m4a'),
@@ -5105,6 +5133,7 @@ function loaders(): Record<string, () => number> {
       "slow_c6b9ecb4_6": () => require('../assets/voice/slow_c6b9ecb4_6.m4a'),
       "slow_c6ff969e_28": () => require('../assets/voice/slow_c6ff969e_28.m4a'),
       "slow_c7a7a62e_26": () => require('../assets/voice/slow_c7a7a62e_26.m4a'),
+      "slow_c92a659f_4": () => require('../assets/voice/slow_c92a659f_4.m4a'),
       "slow_c9c2c057_33": () => require('../assets/voice/slow_c9c2c057_33.m4a'),
       "slow_c9d81174_26": () => require('../assets/voice/slow_c9d81174_26.m4a'),
       "slow_ca99d446_3": () => require('../assets/voice/slow_ca99d446_3.m4a'),
@@ -5278,6 +5307,7 @@ function loaders(): Record<string, () => number> {
       "tutor_a5dbb539_85": () => require('../assets/voice/tutor_a5dbb539_85.m4a'),
       "tutor_a6426350_103": () => require('../assets/voice/tutor_a6426350_103.m4a'),
       "tutor_a7cb846d_241": () => require('../assets/voice/tutor_a7cb846d_241.m4a'),
+      "tutor_a8325c5c_196": () => require('../assets/voice/tutor_a8325c5c_196.m4a'),
       "tutor_a837d179_81": () => require('../assets/voice/tutor_a837d179_81.m4a'),
       "tutor_a88b4c92_94": () => require('../assets/voice/tutor_a88b4c92_94.m4a'),
       "tutor_aa143d7b_16": () => require('../assets/voice/tutor_aa143d7b_16.m4a'),

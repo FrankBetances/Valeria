@@ -850,6 +850,14 @@ export const CA: UiStrings = {
         : role === 'Verbo' ? 'Què fa?'
           : role === 'Objeto' ? 'Quina cosa?'
             : role,
+    // MS-4 · graella sintàctica de composició lliure (claus de Fitzgerald).
+    composeHear: 'Escoltar la frase',
+    composeClear: '↺ Buidar',
+    composeEmpty: 'Toca una fitxa',
+    composeActNow: 'Ara representeu-la amb el cos',
+    composeSlotA11y: (role: string, cap: string | null): string =>
+      (cap ? `${role}: ${cap}. Toca per buidar` : `${role}: buit`),
+    composeOptionA11y: (cap: string, role: string): string => `${cap}, per a ${role}`,
     redirecting: (s: number): string => `Redirigint a resultats en ${s} s…`,
     prescribedPlan: (n: number): string => `Pla prescrit · ${n} exercicis`,
   },
