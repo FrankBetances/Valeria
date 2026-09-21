@@ -1,7 +1,7 @@
 # Formulario de *Seguridad de los datos* · Google Play Console
 
 **Ruta en Play Console:** *Política de la app → Contenido de la app → Seguridad de los datos*.
-Fecha de esta revisión: **7 de septiembre de 2026** · app `eu.futureforkids.valeria` **3.0.0**.
+Fecha de esta revisión: **21 de septiembre de 2026** · app `eu.futureforkids.valeria` **3.0.0**.
 
 Este documento es la **fuente de verdad** de lo que se marca en ese formulario, con la
 prueba de código al lado de cada respuesta. Google contrasta el formulario contra
@@ -39,7 +39,7 @@ justifica uno a uno.
 | Hecho | Comprobado con |
 | --- | --- |
 | La app **no hace ni una llamada de red propia**: cero `fetch`, cero `XMLHttpRequest`, cero WebView | `grep -rn "fetch(\|XMLHttpRequest\|WebView" src App.tsx --include=*.ts --include=*.tsx` → solo tres `Linking.openURL` (mailto de contacto y ficha de Play de la voz de Google) |
-| **No hay ni un SDK de terceros con recorrido de datos.** Firebase se retiró entero el 7/9/2026; no hay analítica, ni *crash reporting*, ni publicidad, ni AAID | `node -e "console.log(Object.keys(require('./package.json').dependencies))"` → 19 dependencias, ninguna de red ni de medición |
+| **No hay ni un SDK de terceros con recorrido de datos.** Firebase se retiró entero el 7/9/2026; no hay analítica, ni *crash reporting*, ni publicidad, ni AAID. La vigésima, `perfect-freehand` (21/9/2026), es geometría de trazo: entra una lista de puntos, sale un contorno. Sin red, sin almacenamiento y sin dependencias propias — la respuesta del formulario no cambia | `node -e "console.log(Object.keys(require('./package.json').dependencies))"` → 20 dependencias, ninguna de red ni de medición |
 | Permisos declarados: `CAMERA` (RA), micrófono + reconocimiento de voz (plugin `expo-speech-recognition`), notificaciones (`expo-notifications`) | `app.json` → `expo.android.permissions` y `expo.plugins` |
 | Las notificaciones son **locales**: `scheduleNotificationAsync` con disparador diario. No se pide token de push, no hay FCM saliente | `grep -rn "getExpoPushToken\|getDevicePushToken" src` → vacío |
 | La cámara de RA **no guarda ni envía fotogramas**: el módulo nativo mide y renderiza; a JS solo llegan números | `src/ValeriaArLauncherScreen.tsx` (cabecera) + gates `check-ar-bridge-contract.js`, `verify-ar-clinical-math.js` |
