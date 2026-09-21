@@ -114,6 +114,29 @@ export const EXERCISE_EU: Record<string, Partial<Exercise>> = {
     move: 'Antzeztu esaldia: umeak aktore lana egiten du eta sagar imajinario bat "jaten du".',
     ept: ['Hitz solteak baino ez ditu esaten ("mutila", "sagarra").', 'Esaldia eraikitzen du zuk hasten laguntzen badiozu.', 'Fitxak ordenatu eta esaldi osoa berak bakarrik esaten du.'],
   },
+  ms4: {
+    read: 'Hiru kolore-zutabe: nork, zer eta zer egiten duen. Umeak fitxa BAT hautatzen du zutabe bakoitzetik eta nahi duen esaldia eraikitzen du, ez emandako bat. Gero osorik entzuten du eta gorputzarekin antzezten duzue. Euskaraz aditza azkena doa, eta horregatik dago hirugarren zutabean.',
+    stageLabel: 'Hautatu fitxa bat kolore bakoitzetik eta esan zure esaldia',
+    composeSlots: [
+      { role: 'Subjektua', fitz: 'subject', options: [
+        { cap: 'katuak', emoji: '🐱', pic: 'gato' },
+        { cap: 'txakurrak', emoji: '🐶', pic: 'perro' },
+        { cap: 'oiloak', emoji: '🐔', pic: 'gallina' },
+      ] },
+      { role: 'Objektua', fitz: 'object', options: [
+        { cap: 'platanoa', emoji: '🍌', pic: 'platano' },
+        { cap: 'pilota', emoji: '⚽', pic: 'pelota' },
+        { cap: 'zapata', emoji: '👟', pic: 'zapato' },
+      ] },
+      { role: 'Aditza', fitz: 'action', options: [
+        { cap: 'jaten du', emoji: '😋', pic: 'comer' },
+        { cap: 'garbitzen du', emoji: '🧼', pic: 'jabon' },
+        { cap: 'hartzen du', emoji: '🖐️', pic: 'mano' },
+      ] },
+    ],
+    move: 'Antzeztu atera den esaldia, nahiz eta zentzugabea izan: oiloak zapata garbitzen badu, garbitu ezazue zapata imajinario bat kakaraka. Bitxiak barrea ematen du, eta barreak egitura finkatzen du.',
+    ept: ['Fitxa solteak hautatzen ditu, esaldira iritsi gabe.', 'Hirurak osatzen ditu falta den zutabea seinalatzen badiozu.', 'Hirurak berak bakarrik hautatu eta esaldi osoa ozen esaten du.'],
+  },
   pr1: {
     read: 'Seinalatu gelako gauzak eta galdetu: "Zer da hau?". Grabatu edo idatzi behean umeak erantzuten duena.',
     instrHint: 'Lehenengo berak erantzuten die zure galderei; gero animatu zuri "zer da hau?" galdetzera.',

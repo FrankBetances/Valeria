@@ -548,10 +548,31 @@ export const speakVoiceSample = () => {
 // sobre el original, así que sanear antes de mirar el mapa lo dejaría sin
 // asset. La grafía la normaliza speakChain, que es el único camino que acaba
 // en el motor del sistema.
-export const speakWordSlow = (text: string) => {
+export const speakWordSlow = (text: string, opts: Speech.SpeechOptions = {}) => {
   const t = text.toLowerCase();
-  if (trySpokenAsset('slow', t, {})) return;
-  speakEngine(t, { pitch: 1.1, rate: 0.6 });
+  if (trySpokenAsset('slow', t, opts)) return;
+  speakEngine(t, { pitch: 1.1, rate: 0.6, ...opts });
+};
+
+// Varias palabras MODELO encadenadas, cada una resuelta por separado (mismo
+// motivo que speakToChildSeq, pero en estilo 'slow').
+//
+// Lo pide la cuadrícula sintáctica MS-4: la frase que compone el niño es una
+// combinación de las tres columnas —27 con 3×3×3—, así que no existe ni puede
+// existir como locución única en el corpus. Encadenando las piezas, cada una
+// resuelve SU asset y la frase entera suena con la voz neuronal en vez de caer
+// al motor del sistema por no encontrar la combinación.
+export const speakWordSlowSeq = (parts: string[], opts: Speech.SpeechOptions = {}) => {
+  const items = parts.map((p) => p.trim()).filter(Boolean);
+  if (!items.length) { opts.onDone?.(); return; }
+  const sayFrom = (i: number) => {
+    if (i >= items.length) { opts.onDone?.(); return; }
+    speakWordSlow(items[i], {
+      onDone: () => sayFrom(i + 1),
+      onError: (e) => { if (i + 1 >= items.length) opts.onError?.(e); else sayFrom(i + 1); },
+    });
+  };
+  sayFrom(0);
 };
 
 // Modelo LENTO DE FRASE completa (ES-05): mismo estilo 'slow' que speakWordSlow

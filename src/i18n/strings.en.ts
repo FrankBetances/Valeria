@@ -883,6 +883,14 @@ export const EN: UiStrings = {
         : role === 'Verbo' ? 'Doing what?'
           : role === 'Objeto' ? 'What thing?'
             : role,
+    // MS-4 · free sentence grid (Fitzgerald key colours).
+    composeHear: 'Hear the sentence',
+    composeClear: '↺ Clear',
+    composeEmpty: 'Tap a card',
+    composeActNow: 'Now act it out together',
+    composeSlotA11y: (role: string, cap: string | null): string =>
+      (cap ? `${role}: ${cap}. Tap to clear` : `${role}: empty`),
+    composeOptionA11y: (cap: string, role: string): string => `${cap}, for ${role}`,
     redirecting: (s: number): string => `Going to results in ${s}s…`,
     prescribedPlan: (n: number): string => `Prescribed plan · ${n} exercises`,
   },

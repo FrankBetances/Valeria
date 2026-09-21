@@ -891,6 +891,14 @@ export const ES = {
         : role === 'Verbo' ? '¿Qué hace?'
           : role === 'Objeto' ? '¿Qué cosa?'
             : role,
+    // MS-4 · cuadrícula sintáctica de composición libre (claves de Fitzgerald).
+    composeHear: 'Oír la frase',
+    composeClear: '↺ Vaciar',
+    composeEmpty: 'Toca una ficha',
+    composeActNow: 'Ahora representadla con el cuerpo',
+    composeSlotA11y: (role: string, cap: string | null): string =>
+      (cap ? `${role}: ${cap}. Tocar para vaciar` : `${role}: vacío`),
+    composeOptionA11y: (cap: string, role: string): string => `${cap}, para ${role}`,
     redirecting: (s: number): string => `Redirigiendo a resultados en ${s}s…`,
     prescribedPlan: (n: number): string => `Plan prescrito · ${n} ejercicios`,
   },

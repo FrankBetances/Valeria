@@ -902,6 +902,14 @@ export const GL: UiStrings = {
         : role === 'Verbo' ? 'Que fai?'
           : role === 'Objeto' ? 'Que cousa?'
             : role,
+    // MS-4 · cuadrícula sintáctica de composición libre (claves de Fitzgerald).
+    composeHear: 'Oír a frase',
+    composeClear: '↺ Baleirar',
+    composeEmpty: 'Toca unha ficha',
+    composeActNow: 'Agora representádea co corpo',
+    composeSlotA11y: (role: string, cap: string | null): string =>
+      (cap ? `${role}: ${cap}. Tocar para baleirar` : `${role}: baleiro`),
+    composeOptionA11y: (cap: string, role: string): string => `${cap}, para ${role}`,
     redirecting: (s: number): string => `Redirixindo a resultados en ${s}s…`,
     prescribedPlan: (n: number): string => `Plan prescrito · ${n} exercicios`,
   },
