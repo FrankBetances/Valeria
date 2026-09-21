@@ -18,6 +18,7 @@ import {
 import Svg, { Path, Circle, Line, Text as SvgText, G } from 'react-native-svg';
 import { V } from './valeriaTheme';
 import { Point, Stroke, Waypoint, ModelPathGuide } from './valeriaWritingTypes';
+import { freehandPath } from './valeriaWritingFreehand';
 
 // La geometría vive en un módulo puro (ver valeriaWritingTypes) para que el
 // banco de trazos pueda entrar en el corpus de voz sin arrastrar react-native.
@@ -59,6 +60,36 @@ export const pointsToSmoothSvgPath = (points: Point[]): string => {
 const distance = (p1: Point, p2: Point): number =>
   Math.hypot(p1.x - p2.x, p1.y - p2.y);
 
+// El ÚNICO sitio que decide cómo se pinta un trazo, para que el trazo en curso
+// y los ya cerrados no puedan divergir: mientras se dibuja tiene que verse igual
+// que cuando se suelta, o el niño ve cómo su letra «cambia» al levantar el dedo.
+//
+// Con contorno: polígono relleno de ancho variable (presión simulada).
+// Sin contorno: la línea de ancho constante de siempre. Ese respaldo NO es
+// decorativo — un trazo de dos puntos no forma polígono, y ahí `freehandPath`
+// devuelve cadena vacía a propósito en vez de inventarse una forma.
+const InkPath: React.FC<{
+  outline?: string; points: Point[]; color: string; width: number;
+}> = ({ outline, points, color, width }) => {
+  if (outline) {
+    // `fillRule` explícito: el contorno se cruza consigo mismo en los bucles
+    // (la 'l', la 'e'), y con la regla par-impar esos cruces saldrían HUECOS.
+    // El valor por defecto ya es el correcto; se escribe para que no dependa de
+    // que Android y web coincidan en cuál es el defecto.
+    return <Path d={outline} fill={color} fillRule="nonzero" stroke="none" />;
+  }
+  return (
+    <Path
+      d={pointsToSmoothSvgPath(points)}
+      stroke={color}
+      strokeWidth={width}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      fill="none"
+    />
+  );
+};
+
 export interface ValeriaWritingCanvasRef {
   clear: () => void;
   undo: () => void;
@@ -84,6 +115,16 @@ export const ValeriaWritingCanvas = React.forwardRef<ValeriaWritingCanvasRef, Va
 
     const strokesRef = useRef<Stroke[]>(strokes);
     strokesRef.current = strokes;
+
+    // Espejo del trazo en curso. Existe para que soltar el dedo pueda LEER los
+    // puntos sin meterse dentro de un updater de estado: hasta ahora el cierre
+    // del trazo ocurría dentro de `setCurrentStroke(prev => …)`, y ahí dentro se
+    // llamaba a setStrokes y a los callbacks del padre. React ejecuta los
+    // updaters en fase de render, así que eso es «actualizar un componente
+    // mientras se renderiza otro» —el aviso que suelta la consola— y además
+    // repite el trabajo cuando React invoca el updater dos veces. El fichero ya
+    // usaba este mismo patrón para `strokes` y para los waypoints.
+    const currentStrokeRef = useRef<Point[]>([]);
 
     const hitWaypointsRef = useRef<Set<number>>(hitWaypoints);
     hitWaypointsRef.current = hitWaypoints;
@@ -116,38 +157,47 @@ export const ValeriaWritingCanvas = React.forwardRef<ValeriaWritingCanvasRef, Va
           onPanResponderGrant: (evt: GestureResponderEvent) => {
             const { locationX, locationY } = evt.nativeEvent;
             const pt: Point = { x: locationX, y: locationY };
-            setCurrentStroke([pt]);
+            currentStrokeRef.current = [pt];
+            setCurrentStroke(currentStrokeRef.current);
             checkWaypoints(pt);
           },
           onPanResponderMove: (evt: GestureResponderEvent) => {
             const { locationX, locationY } = evt.nativeEvent;
             const pt: Point = { x: locationX, y: locationY };
-            setCurrentStroke((prev) => [...prev, pt]);
+            currentStrokeRef.current = [...currentStrokeRef.current, pt];
+            setCurrentStroke(currentStrokeRef.current);
             checkWaypoints(pt);
           },
+          // Cierre del trazo. Todo ocurre en el manejador del gesto, no dentro
+          // de un updater: aquí sí se puede llamar a setStrokes y a los
+          // callbacks del padre sin actualizar nada en fase de render.
           onPanResponderRelease: () => {
-            setCurrentStroke((prev) => {
-              if (prev.length > 0) {
-                const newStroke: Stroke = {
-                  points: prev,
-                  color: strokeColor,
-                  width: strokeWidth,
-                };
-                const updated = [...strokesRef.current, newStroke];
-                setStrokes(updated);
-                onStrokeChange?.(updated.length);
+            const points = currentStrokeRef.current;
+            currentStrokeRef.current = [];
+            setCurrentStroke([]);
+            if (points.length === 0) return;
 
-                // Si hay guía, evaluar precisión
-                if (guide && guide.waypoints.length > 0) {
-                  const total = guide.waypoints.length;
-                  const hits = hitWaypointsRef.current.size;
-                  const score = Math.round((hits / total) * 100);
-                  const success = hits >= Math.ceil(total * 0.75); // 75% de cobertura requerida
-                  onValidateStroke?.(success, score);
-                }
-              }
-              return [];
-            });
+            const newStroke: Stroke = {
+              points,
+              color: strokeColor,
+              width: strokeWidth,
+              // El contorno se resuelve AQUÍ, una sola vez en la vida del
+              // trazo: a partir de ahora repintarlo solo cuesta pasar una
+              // cadena que ya existe.
+              outline: freehandPath(points, true, strokeWidth),
+            };
+            const updated = [...strokesRef.current, newStroke];
+            setStrokes(updated);
+            onStrokeChange?.(updated.length);
+
+            // Si hay guía, evaluar precisión
+            if (guide && guide.waypoints.length > 0) {
+              const total = guide.waypoints.length;
+              const hits = hitWaypointsRef.current.size;
+              const score = Math.round((hits / total) * 100);
+              const success = hits >= Math.ceil(total * 0.75); // 75% de cobertura requerida
+              onValidateStroke?.(success, score);
+            }
           },
         }),
       [strokeColor, strokeWidth, checkWaypoints, guide, onStrokeChange, onValidateStroke],
@@ -156,6 +206,7 @@ export const ValeriaWritingCanvas = React.forwardRef<ValeriaWritingCanvasRef, Va
     // Limpiar todo el lienzo
     const clear = useCallback(() => {
       setStrokes([]);
+      currentStrokeRef.current = [];
       setCurrentStroke([]);
       setHitWaypoints(new Set());
       onStrokeChange?.(0);
@@ -174,6 +225,14 @@ export const ValeriaWritingCanvas = React.forwardRef<ValeriaWritingCanvasRef, Va
       clear,
       undo,
     }), [clear, undo]);
+
+    // Contorno del trazo en curso. Se recalcula al crecer el trazo, que es
+    // inevitable; el `useMemo` evita repetirlo en los renders que NO lo tocan
+    // (tocar un waypoint, cerrar un trazo, repintar por el padre).
+    const liveOutline = useMemo(
+      () => freehandPath(currentStroke, false, strokeWidth),
+      [currentStroke, strokeWidth],
+    );
 
     // Coordenadas para pautas Montessori
     const topGuideY = height * 0.22;
@@ -235,29 +294,16 @@ export const ValeriaWritingCanvas = React.forwardRef<ValeriaWritingCanvasRef, Va
           );
         })}
 
-        {/* Trazos consolidados ya dibujados */}
+        {/* Trazos consolidados ya dibujados: su contorno viene resuelto desde
+            que se soltaron, así que repintarlos no recalcula nada. */}
         {strokes.map((s, idx) => (
-          <Path
-            key={idx}
-            d={pointsToSmoothSvgPath(s.points)}
-            stroke={s.color}
-            strokeWidth={s.width}
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            fill="none"
-          />
+          <InkPath key={idx} outline={s.outline} points={s.points} color={s.color} width={s.width} />
         ))}
 
-        {/* Trazo en curso actual */}
+        {/* Trazo en curso: este SÍ se recalcula, porque está creciendo. Es el
+            único del lienzo que lo hace, y solo sobre sus propios puntos. */}
         {currentStroke.length > 0 && (
-          <Path
-            d={pointsToSmoothSvgPath(currentStroke)}
-            stroke={strokeColor}
-            strokeWidth={strokeWidth}
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            fill="none"
-          />
+          <InkPath outline={liveOutline} points={currentStroke} color={strokeColor} width={strokeWidth} />
         )}
       </Svg>
     </View>

@@ -17,6 +17,13 @@ export interface Stroke {
   points: Point[];
   color: string;
   width: number;
+  // Contorno con presión simulada, calculado UNA vez al levantar el dedo y
+  // guardado aquí. No es un dato del trazo sino su dibujo ya resuelto: sin esto
+  // habría que recalcularlo en cada render, y el lienzo repinta en cada evento
+  // de movimiento, así que un dibujo de veinte trazos recalcularía los veinte a
+  // sesenta veces por segundo mientras el niño escribe el veintiuno.
+  // Vacío o ausente → el lienzo dibuja ese trazo con ancho constante.
+  outline?: string;
 }
 
 /** Punto de control numerado del modelo: fija el ORDEN del trazo (anti-inversión). */
