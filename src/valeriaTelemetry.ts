@@ -183,6 +183,9 @@ export interface SessionRecord {
   // Los umbrales que el ADULTO fijó y que estuvieron vigentes toda la sesión.
   // Sin ellos, "sostuvo 1.240 ms" no es interpretable a posteriori.
   arThresholds?: ArThresholds;
+  syntaxGrid?: { attempts: number; completed: number; tprValidated: number };
+  dragFishing?: { rounds: number; accuracy: number; ddaLevel: number };
+  freehandInversions?: number;
 }
 interface TlmStore { sessions: SessionRecord[]; lastSusAt: number; }
 
@@ -256,6 +259,9 @@ function normalizeSession(s: any): SessionRecord {
     ...(s?.arDevice ? { arDevice: s.arDevice } : {}),
     ...(s?.arThresholds ? { arThresholds: s.arThresholds } : {}),
     ...(s?.likert ? { likert: s.likert } : {}),
+    ...(s?.syntaxGrid ? { syntaxGrid: s.syntaxGrid } : {}),
+    ...(s?.dragFishing ? { dragFishing: s.dragFishing } : {}),
+    ...(s?.freehandInversions !== undefined ? { freehandInversions: s.freehandInversions } : {}),
   };
 }
 

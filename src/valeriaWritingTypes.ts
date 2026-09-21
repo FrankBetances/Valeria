@@ -17,6 +17,7 @@ export interface Stroke {
   points: Point[];
   color: string;
   width: number;
+  inversion?: boolean;
 }
 
 /** Punto de control numerado del modelo: fija el ORDEN del trazo (anti-inversión). */
@@ -35,4 +36,5 @@ export interface ModelPathGuide {
   svgPath: string;
   waypoints: Waypoint[];
   soundCue?: string;
+  expectedCurvature?: -1 | 1;
 }

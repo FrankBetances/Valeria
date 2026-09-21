@@ -16,6 +16,7 @@ import {
   LUA_OP,
   LUA_CAP,
   LUA_LIMITS,
+  LuaOp,
   luaFrame,
   luaGrantParam,
 } from './valeriaLuaProtocol';
@@ -32,6 +33,11 @@ let sender: LuaSender | null = null;
 export const setLuaSender = (fn: LuaSender | null): void => { sender = fn; };
 
 const send = (...frames: Uint8Array[]): void => { if (sender) sender(frames); };
+
+/** Emite una trama única con opcode y parámetro de 16 bits al periférico Lúa */
+export const sendLuaOpcode = (opcode: LuaOp, param = 0): void => {
+  send(luaFrame(opcode, param));
+};
 
 // ---------------------------------------------------------------------------
 // Ancla Visual Lejana · la ejecución de la regla 20-20-20 en el aparato

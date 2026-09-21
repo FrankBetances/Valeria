@@ -398,6 +398,9 @@ jobs:
       - name: Comprobar que nada nativo corre al evaluar el paquete de JS
         run: node scripts/check-startup-native-calls.js
 
+      - name: Comprobar balance fonémico (minpair)
+        run: node scripts/check-phoneme-balance.js
+
       - name: Comprobar tipos
         run: npm run typecheck
 

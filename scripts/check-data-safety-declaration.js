@@ -60,6 +60,7 @@ const DEPENDENCIAS = [
   'expo', 'expo-asset', 'expo-audio', 'expo-build-properties',
   'expo-dev-client', 'expo-notifications', 'expo-speech',
   'expo-speech-recognition', 'expo-splash-screen', 'expo-status-bar',
+  'perfect-freehand',
   'react', 'react-native', 'react-native-safe-area-context',
   'react-native-screens', 'react-native-svg',
 ];

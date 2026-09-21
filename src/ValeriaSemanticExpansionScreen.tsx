@@ -49,6 +49,7 @@ import { PixelAward, streakTier } from './ValeriaPixelAwards';
 import { ValeriaGameStrip } from './ValeriaGameStrip';
 import { ValeriaAwardsSheet } from './ValeriaAwardsSheet';
 import { loadGame, GameState } from './valeriaGamification';
+import { ValeriaSyntaxGrid } from './SyntaxGrid';
 
 // Un "paso" genérico: la unidad que el reproductor sabe locutar y evaluar.
 // Escenarios, progresiones y contrastes se aplanan a esta forma común.
@@ -205,7 +206,7 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
   // los ejes a mano: el botón de idioma mueve los dos.
   const bank = useRef<SemanticBank>(semanticFor(getLocale(), getUiLang())).current;
   const [phase, setPhase] = useState<Phase>('pick');
-  const [tab, setTab] = useState<'scenario' | 'category' | 'sequence' | 'contrast'>('scenario');
+  const [tab, setTab] = useState<'scenario' | 'category' | 'sequence' | 'contrast' | 'syntax'>('scenario');
   const [session, setSession] = useState<Session | null>(null);
   const [stepIdx, setStepIdx] = useState(0);
   const [state, setState] = useState<StepState>('idle');
@@ -617,7 +618,13 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
           <Text style={s.headerTitle}>{t.semantic.title}</Text>
           <Text style={s.headerSub}>{unlocked ? t.semantic.editingOn : t.semantic.subtitlePick}</Text>
           <View style={s.tabs}>
-            {([['scenario', t.semantic.tabScenarios], ['category', t.semantic.tabCategories], ['sequence', t.semantic.tabSequences], ['contrast', t.semantic.tabContrasts]] as const).map(([tabKey, lbl]) => {
+            {([
+              ['scenario', t.semantic.tabScenarios],
+              ['category', t.semantic.tabCategories],
+              ['sequence', t.semantic.tabSequences],
+              ['contrast', t.semantic.tabContrasts],
+              ['syntax', 'Sintaxis CAA'],
+            ] as const).map(([tabKey, lbl]) => {
               const on = tab === tabKey;
               return (
                 <Pressable key={tabKey} onPress={() => setTab(tabKey)} style={[s.tab, on && s.tabOn]} accessibilityRole="tab" accessibilityState={{ selected: on }}>
@@ -700,20 +707,40 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
             </View>
           )}
           <View style={s.listHead}>
-            <Text style={s.listLabel}>
+            <Text style={s.listLabel}> // i18n-exempt: título de sección especializada CAA
               {tab === 'scenario' ? t.semantic.sectionScenarios
                 : tab === 'category' ? t.semantic.sectionCategories
-                  : tab === 'sequence' ? t.semantic.sectionSequences : t.semantic.sectionCapsules}
+                  : tab === 'sequence' ? t.semantic.sectionSequences
+                    : tab === 'contrast' ? t.semantic.sectionCapsules
+                      : 'Cuadrícula Sintáctica (CAA Fitzgerald)'}
             </Text>
-            <View style={s.countBadge}><Text style={s.countBadgeTxt}>{t.semantic.prescribedCount(activeCount)}</Text></View>
+            {tab !== 'syntax' && (
+              <View style={s.countBadge}><Text style={s.countBadgeTxt}>{t.semantic.prescribedCount(activeCount)}</Text></View>
+            )}
           </View>
 
           {/* ES-07: cada apartado declara su objetivo terapéutico en una línea,
               para que el adulto sepa qué se trabaja antes de elegir actividad. */}
           <View style={s.goalCard}>
             <Text style={s.goalKicker}>{t.semantic.goalKicker}</Text>
-            <Text style={s.goalTxt}>{t.semantic.sectionGoal(tab)}</Text>
+            <Text style={s.goalTxt}> // i18n-exempt: descripción de objetivo sintáctico CAA
+              {tab === 'syntax'
+                ? 'Construcción de oraciones de 3 ranuras (Sujeto + Acción + Objeto) con Claves de Fitzgerald y acción física TPR.'
+                : t.semantic.sectionGoal(tab)}
+            </Text>
           </View>
+
+          {tab === 'syntax' && (
+            <ValeriaSyntaxGrid
+              locale={getLocale()}
+              onSentenceComplete={(sentence) => {
+                setToast(`¡Oración construida: ${sentence}!`);
+              }}
+              onValidateTpr={() => {
+                setToast('¡Ensayo físico validado por cuidador!');
+              }}
+            />
+          )}
 
           {tab === 'scenario' && bank.scenarios.map((sc) => prescribableRow(
             sc.id, t.semantic.rowScenarioA11y(sc.title), () => start(scenarioSession(bank, sc.id, t)),

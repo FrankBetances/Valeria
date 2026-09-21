@@ -18,6 +18,7 @@ import {
 import Svg, { Path, Circle, Line, Text as SvgText, G } from 'react-native-svg';
 import { V } from './valeriaTheme';
 import { Point, Stroke, Waypoint, ModelPathGuide } from './valeriaWritingTypes';
+import { toFreehandPath, detectInversion } from './WritingFreehand';
 
 // La geometría vive en un módulo puro (ver valeriaWritingTypes) para que el
 // banco de trazos pueda entrar en el corpus de voz sin arrastrar react-native.
@@ -81,6 +82,7 @@ export const ValeriaWritingCanvas = React.forwardRef<ValeriaWritingCanvasRef, Va
     const [strokes, setStrokes] = useState<Stroke[]>([]);
     const [currentStroke, setCurrentStroke] = useState<Point[]>([]);
     const [hitWaypoints, setHitWaypoints] = useState<Set<number>>(new Set());
+    const [isStrokeInverted, setIsStrokeInverted] = useState<boolean>(false);
 
     const strokesRef = useRef<Stroke[]>(strokes);
     strokesRef.current = strokes;
@@ -116,13 +118,21 @@ export const ValeriaWritingCanvas = React.forwardRef<ValeriaWritingCanvasRef, Va
           onPanResponderGrant: (evt: GestureResponderEvent) => {
             const { locationX, locationY } = evt.nativeEvent;
             const pt: Point = { x: locationX, y: locationY };
+            setIsStrokeInverted(false);
             setCurrentStroke([pt]);
             checkWaypoints(pt);
           },
           onPanResponderMove: (evt: GestureResponderEvent) => {
             const { locationX, locationY } = evt.nativeEvent;
             const pt: Point = { x: locationX, y: locationY };
-            setCurrentStroke((prev) => [...prev, pt]);
+            setCurrentStroke((prev) => {
+              const updated = [...prev, pt];
+              if (guide?.expectedCurvature) {
+                const inv = detectInversion(updated, guide.expectedCurvature);
+                setIsStrokeInverted(inv);
+              }
+              return updated;
+            });
             checkWaypoints(pt);
           },
           onPanResponderRelease: () => {
@@ -132,6 +142,7 @@ export const ValeriaWritingCanvas = React.forwardRef<ValeriaWritingCanvasRef, Va
                   points: prev,
                   color: strokeColor,
                   width: strokeWidth,
+                  inversion: isStrokeInverted,
                 };
                 const updated = [...strokesRef.current, newStroke];
                 setStrokes(updated);
@@ -146,11 +157,12 @@ export const ValeriaWritingCanvas = React.forwardRef<ValeriaWritingCanvasRef, Va
                   onValidateStroke?.(success, score);
                 }
               }
+              setIsStrokeInverted(false);
               return [];
             });
           },
         }),
-      [strokeColor, strokeWidth, checkWaypoints, guide, onStrokeChange, onValidateStroke],
+      [strokeColor, strokeWidth, checkWaypoints, guide, onStrokeChange, onValidateStroke, isStrokeInverted],
     );
 
     // Limpiar todo el lienzo
@@ -236,29 +248,37 @@ export const ValeriaWritingCanvas = React.forwardRef<ValeriaWritingCanvasRef, Va
         })}
 
         {/* Trazos consolidados ya dibujados */}
-        {strokes.map((s, idx) => (
-          <Path
-            key={idx}
-            d={pointsToSmoothSvgPath(s.points)}
-            stroke={s.color}
-            strokeWidth={s.width}
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            fill="none"
-          />
-        ))}
+        {strokes.map((s, idx) => {
+          const freehandPath = toFreehandPath(s.points, true, s.width);
+          return (
+            <Path
+              key={idx}
+              d={freehandPath || pointsToSmoothSvgPath(s.points)}
+              fill={freehandPath ? s.color : 'none'}
+              fillOpacity={s.inversion ? 0.35 : 1}
+              stroke={s.color}
+              strokeWidth={freehandPath ? 0 : s.width}
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          );
+        })}
 
         {/* Trazo en curso actual */}
-        {currentStroke.length > 0 && (
-          <Path
-            d={pointsToSmoothSvgPath(currentStroke)}
-            stroke={strokeColor}
-            strokeWidth={strokeWidth}
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            fill="none"
-          />
-        )}
+        {currentStroke.length > 0 && (() => {
+          const freehandCurrent = toFreehandPath(currentStroke, false, strokeWidth);
+          return (
+            <Path
+              d={freehandCurrent || pointsToSmoothSvgPath(currentStroke)}
+              fill={freehandCurrent ? strokeColor : 'none'}
+              fillOpacity={isStrokeInverted ? 0.35 : 1}
+              stroke={strokeColor}
+              strokeWidth={freehandCurrent ? 0 : strokeWidth}
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          );
+        })()}
       </Svg>
     </View>
   );

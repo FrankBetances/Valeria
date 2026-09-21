@@ -32,7 +32,9 @@ export type LuaGameKind =
   /** Familia de palabras: red semántica alrededor de un núcleo. */
   | 'word_web'
   /** Pistas progresivas hasta adivinar la palabra. */
-  | 'clue_reveal';
+  | 'clue_reveal'
+  /** Microjuego de arrastre y pesca no punitivo con Lúa. */
+  | 'drag_fishing';
 
 export interface LuaGameItem {
   pic?: PictoKey;

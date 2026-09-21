@@ -20,6 +20,7 @@ import { LUA_COLORS, LUA_RADII } from "../Theme/luaTheme";
 import { LuaGame, LuaGameItem, luaGamesFor } from "../index";
 import { getLocale } from "../../valeriaLocale";
 import { luaCompleteActivity, useLuaActivityCleanup } from "../luaActivityReward";
+import { DragFishingEngine } from "../Games/DragFishing";
 
 interface Props {
   navigation: any;
@@ -82,6 +83,18 @@ export const LuaGamePlayerScreen: React.FC<Props> = ({ navigation, route }) => {
   const say = (text: string) => { if (text) speakLuaToChild(text); };
 
   if (!game) return <View style={s.container} />;
+
+  if (game.kind === "drag_fishing") {
+    return (
+      <View style={[s.container, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
+        <DragFishingEngine
+          locale={getLocale()}
+          onFinish={handleFinish}
+          onExit={() => navigation.goBack()}
+        />
+      </View>
+    );
+  }
 
   const tap = (idx: number, item: LuaGameItem) => {
     say(item.label);
