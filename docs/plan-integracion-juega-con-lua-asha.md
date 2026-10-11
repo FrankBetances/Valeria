@@ -116,6 +116,63 @@ Se deja documentada para que no se diseñe mal después:
   `useLuaActivityCleanup()` en la misma pantalla. Eso exige antes revisar esta
   decisión.
 
+## Paso 3b · Observaciones de ACOPROS (correo recibido el 11/10/2026)
+
+El correo revisa Integración Sensorial, Pares Mínimos y Expansión Semántica.
+Ninguno de esos bloques es «Juega en casa con Lúa». Por eso se reparte en dos:
+lo que este módulo debe cumplir desde el primer día (A) y lo que pertenece a
+otros módulos y se registra aquí para no perderlo (B).
+
+### A · Requisitos para las misiones y la pausa de los cuentos
+
+| # | Observación de origen | Requisito en este plan |
+| --- | --- | --- |
+| A1 | ES: el audio y la grabación no deben empezar solos | Nada se locuta ni avanza sin que lo pulse el usuario: botón de reproducir en cada paso de la misión y en la pausa del cuento. |
+| A2 | PM: frases largas cuando se pide una palabra | La respuesta que se modela al niño tiene la longitud que pide la consigna. Si la pauta dice «una palabra», el modelo es una palabra. Lo comprueba la revisión clínica del texto; no hay gate que lo mida. |
+| A3 | PM y ES: pictogramas en vez de emoji | Ya estaba (paso 1a): solo `PictoKey` de `ValeriaPixelArt.ts`. |
+| A4 | ES: no se entiende el objetivo del apartado | Cada misión declara su objetivo en una frase, visible para el adulto **antes** de empezar. Campo obligatorio en el catálogo. |
+| A5 | Sensorial: poder escucharlo todo sin volver a entrar ni reconfigurar | Dentro de la misión se pasa de un paso al siguiente, y de una misión a otra, sin volver al hub ni repetir la elección de edad. |
+| A6 | ES: trabajar las rutinas como secuencias ordenables (mañana, comida, higiene) | **Decide Frank.** Encaja con «La merienda parlanchina»: ordenar la rutina de la merienda con pictogramas, reutilizando el tipo `sequence` que ya tiene `LuaGamesCatalog.ts`. Amplía la primera entrega, por eso no entra sin su sí. |
+
+### B · Fuera del alcance de este plan (otros módulos)
+
+**Hallazgo previo:** las seis observaciones de PM y ES ya están
+registradas en `docs/plan-mejoras-acopros-logopedas.json`, y cinco figuran como
+hechas desde agosto. Antes de rehacer nada hay que saber **con qué build han
+probado**. Si es anterior a esos cambios, el defecto ya está resuelto. Si es
+posterior, el arreglo se ha perdido o no funciona en el aparato. Es el mismo
+riesgo que señaló la segunda ronda («reimplementar lo ya implementado»).
+
+| Bloque | Observación | Ítem existente | Estado registrado | Qué hace falta |
+| --- | --- | --- | --- | --- |
+| Pares Mínimos | Frases largas cuando se pide una palabra | PM-02 | Hecho (fase 3) | Saber en qué ejercicios lo ven: build y ejemplo concreto |
+| Pares Mínimos | No se entiende el icono del sello | PM-06 | Hecho (2.ª ronda) | La explicación añadida no les basta: rediseñar el mensaje, no parchearlo |
+| Pares Mínimos | Emoji → pictogramas | PM-07 | **Abierto** («45 de 70 palabras caen a emoji») | Dibujar los ~30 pictogramas que faltan, por tandas y con revisión humana |
+| Expansión Semántica | Audio y grabación automáticos no se oyen; botón de reproducir | ES-03 | Hecho (fase 1) | Hay un síntoma nuevo («activado y no se oye») que **no** está en ES-03: reproducir en un aparato antes de darlo por duplicado |
+| Expansión Semántica | Objetivo poco claro; rutinas como secuencias | ES-07 | Hecho (fase 3) | El objetivo que se fijó no se percibe en la pantalla. La propuesta de secuencias es contenido nuevo |
+| Expansión Semántica | Pictogramas | ES-09 | Hecho (fase 3) | Saber en qué pantalla siguen viendo emoji o imágenes ambiguas |
+| Integración Sensorial | Escuchar todos los sonidos del apartado sin volver a entrar y reconfigurar | — | Nuevo | Reproducción en serie dentro del bloque (`ValeriaSensory/`) |
+| Integración Sensorial | Los sonidos se parecen entre sí y no suenan a lo que dicen (la aspiradora suena a moto) | — | Nuevo | Ver la nota de abajo |
+| Integración Sensorial | Todos los apartados se desarrollan igual | — | Nuevo | Aclarar con ACOPROS si es un fallo o si falta explicar la progresión |
+
+**Nota sobre los sonidos (hecho e inferencia):**
+
+- **Hecho:** los once sonidos son **sintéticos**, no grabaciones
+  (`scripts/generate-sensory-assets.js`). Se decidió así por la procedencia ante
+  MDR, por la licencia y por la reproducibilidad. Además, todos se normalizan a
+  la misma sonoridad (−20 dBFS RMS).
+  `check-sensory-assets.js` comprueba el reparto espectral, pero el propio
+  script dice que no puede comprobar si a un oído le suena a aspiradora.
+- **Inferencia:** lo que describe ACOPROS es el límite conocido de esa
+  síntesis, no un fichero mal subido.
+- **Decisión pendiente:** sustituir los sonidos por grabaciones reales con
+  licencia y procedencia documentadas (resuelve el reconocimiento y reabre la
+  licencia y el expediente), o rehacer la síntesis (mantiene la procedencia,
+  pero no hay garantía de que llegue a sonar realista).
+
+Este plan **no** implementa nada de la tabla B. Su sitio es una tercera ronda en
+`docs/plan-mejoras-acopros-logopedas.json`, pendiente de que Frank la autorice.
+
 ## Paso 4 · Verificación
 
 **Comprobaciones automáticas:** todas las de `android.yml` (34 a fecha de hoy),
