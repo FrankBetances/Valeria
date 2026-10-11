@@ -29,9 +29,9 @@ Nada de los pasos siguientes se programa hasta cerrar esto.
 | 0.1 | **Fuente ASHA correcta.** La guía cita *What is speech? What is language?*, que es una página de definiciones. Hay que localizar la página de ASHA de la que salen las actividades y citarla con fecha de consulta. | Por verificar |
 | 0.2 | **«Espera de 5 segundos».** Confirmar si la cifra está en ASHA. Si no está, citar su fuente real o escribir «espere unos segundos». | Por verificar |
 | 0.3 | **Derechos de uso.** Revisar las condiciones de uso de ASHA para adaptar su contenido en una app distribuida. Si no se permite, la guía se reescribe con texto propio y ASHA queda como referencia, no como texto adaptado. | Por verificar |
-| 0.4 | **Lenguaje regulatorio.** Quitar «Cumplimiento MDR Clase I» como afirmación: solo puede figurar si existe la documentación que lo respalde. Redactar como orientación a familias, no como «técnicas clínicas» que aplica la familia, para no ampliar la finalidad prevista. | Decide Frank |
-| 0.5 | **Variedad del castellano.** En este módulo `es-DO` comparte texto con `es` (`luaCatalogsFor.ts`). La guía mezcla términos caribeños («guineo», «jugo», «carro», «llave del agua») y «patólogo del habla (SLP)». Para el texto locutado y las pistas, usar palabras válidas en ambas variedades o separar ramas. «Logopeda» como término profesional. | Decide Frank |
-| 0.6 | **¿Una misión cuenta como sesión?** Lo que pasa fuera de la pantalla no se puede verificar. Llamar a `luaCompleteActivity` registra una sesión (`registerSession`) y mete en las métricas actividad que nadie ha medido. Propuesta: **no registrar sesión ni premio** en las misiones. Si Frank decide que sí, ver el paso 3. | Decide Frank |
+| 0.4 | **Lenguaje regulatorio.** Se elimina «Cumplimiento MDR Clase I» del plan y de la guía. Redactar como orientación a familias, no como «técnicas clínicas» que aplica la familia, para no ampliar la finalidad prevista. | **Decidido** (Frank, 11/10/2026) |
+| 0.5 | **Variedad del castellano.** Texto **diferenciado** para España (`es`) y República Dominicana (`es-DO`): «plátano / guineo», «zumo / jugo», «coche / carro», «grifo / llave», etc. Ver el paso 2. Término profesional: «logopeda» en `es`; en `es-DO`, el que fije Frank. Hoy, en este módulo, `es-DO` comparte texto con `es` (`luaCatalogsFor.ts`), así que esto es trabajo nuevo. | **Decidido** (Frank, 11/10/2026) |
+| 0.6 | **Una misión NO registra sesión ni premio.** Lo que pasa fuera de la pantalla no se puede verificar, y `luaCompleteActivity` (`registerSession`) metería en las métricas actividad que nadie ha medido. La pantalla de misiones no llama a `luaCompleteActivity`. Ver el paso 3. | **Decidido** (Frank, 11/10/2026) |
 
 ## Paso 1 · Primera entrega (alcance mínimo)
 
@@ -92,19 +92,29 @@ Se deja documentada para que no se diseñe mal después:
   (`LUA_BANK_LANGS`). Cada catálogo nuevo lleva su capa gallega en
   `Catalog/gl/`, fusionada por campo en `luaCatalogsFor.ts`, y
   `check-lua-gl-coverage.js` debe cubrirla.
+- **Rama dominicana (decisión 0.5):** el catálogo nuevo y la pausa de los
+  cuentos llevan capa `es-DO` propia, fusionada por campo igual que la gallega
+  (solo texto; `ageBands`, `pic` e ids vienen del catálogo base). Hoy no existe
+  esa capa en el módulo ni un gate que la cubra: hay que crear las dos cosas,
+  para que una pieza sin traducir no salga en castellano peninsular en una
+  sesión dominicana sin que nadie lo note.
+- `es-DO` se locuta con la voz latina del sistema y no tiene assets
+  pregenerados, así que su texto no necesita regenerar el corpus. Antes de
+  darlo por hecho hay que comprobar que la voz que suena es la latina.
 - Todo texto locutado nuevo lleva **`node scripts/export-voice-corpus.js` en el
   mismo commit**. Sin él, el gallego cae a la voz del sistema en silencio
   (build 499).
 - Cualquier selector de variedad nuevo pasa `check-variety-branches.js`.
 
-## Paso 3 · Premio y aparato Lúa (solo si 0.6 dice que sí)
+## Paso 3 · Sin premio ni aparato Lúa en las misiones (decisión 0.6)
 
-- Llamar a `luaCompleteActivity(items)` (`luaActivityReward.ts`), que registra la
-  sesión y manda el premio al cristal.
-- **Y en la misma pantalla `useLuaActivityCleanup()`**: sin él, el desfile del
-  premio sigue en el aparato al salir de la pantalla.
-- Ningún estado nuevo del cristal (`MOOD`/`ACCESSORY`) sin pasar por
-  `valeriaLuaMascot.ts` y `check-lua-mascot-mirror.js`.
+- `LuaHomePlayPlayerScreen.tsx` **no** llama a `luaCompleteActivity` ni manda
+  nada al cristal. Sin desfile no hace falta `useLuaActivityCleanup()`.
+- La pausa dialógica (1b) va dentro de `LuaStoryViewerScreen.tsx`, que ya
+  cierra sesión y ya lleva su limpieza: no se toca esa lógica.
+- Si en el futuro una misión premiara, haría falta `luaCompleteActivity` con
+  `useLuaActivityCleanup()` en la misma pantalla. Eso exige antes revisar esta
+  decisión.
 
 ## Paso 4 · Verificación
 
@@ -120,8 +130,7 @@ npm run typecheck
 Las que más afectan a este cambio: `check-voice-corpus-coverage`,
 `check-lua-gl-coverage`, `check-lua-voice-language`, `verify-aventuras-lua`,
 `check-ui-strings`, `check-ui-lang-fallback`,
-`test-challenger-final-ca-integration` y
-`check-lua-mascot-mirror` si se aplica el paso 3.
+`test-challenger-final-ca-integration` y `check-variety-branches`.
 
 **Comprobación visual:**
 
