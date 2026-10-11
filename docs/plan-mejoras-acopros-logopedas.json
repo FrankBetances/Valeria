@@ -4,7 +4,7 @@
   "version": "2.0.0",
   "titulo": "Plan de revisión · Feedback clínico de las logopedas de ACOPROS (julio y agosto 2026)",
   "fecha": "2026-07-24",
-  "estado": "primera ronda (julio) completada y validada · SEGUNDA RONDA (2026-08-04) implementada, pendiente de validación en dispositivo",
+  "estado": "primera ronda (julio) completada y validada · SEGUNDA RONDA (2026-08-04) implementada, pendiente de validación en dispositivo · TERCERA RONDA (correo recibido el 2026-10-11) registrada, sin implementar: pendiente de saber con qué build probaron",
   "descripcion": "Convierte el feedback cualitativo de las logopedas de ACOPROS sobre Pares Mínimos, Expansión Semántica y recordatorios en un backlog trazable: cada observación se verifica contra el código real del repositorio, se propone un cambio concreto con sus ficheros, se marca si requiere una decisión clínica previa y se cierra con criterios de aceptación comprobables en dispositivo.",
   "origen": {
     "fuente": "Correo de las logopedas de ACOPROS tras la prueba de la app",
@@ -1964,6 +1964,84 @@
       "ABIERTO · Confirmar con ACOPROS si «el adulto» les vale o prefieren algo más cercano.",
       "ABIERTO · Probar RA-1 sin frase portadora y decidir si hace falta un portador corto y fijo.",
       "ABIERTO · PM-07: dibujar los ~30 pictogramas que faltan, por tandas y con revisión humana."
+    ]
+  },
+  "terceraRonda": {
+    "fecha": "2026-10-11",
+    "origen": "Tercer correo de las logopedas de ACOPROS, recibido por Frank el 2026-10-11. Revisa Integración Sensorial (por primera vez), Pares Mínimos y Expansión Semántica.",
+    "hallazgoPrevio": {
+      "titulo": "LAS SEIS OBSERVACIONES DE PARES MÍNIMOS Y EXPANSIÓN SEMÁNTICA YA ESTÁN EN ESTE BACKLOG",
+      "evidencia": "PM-02, PM-06, ES-03, ES-07 y ES-09 figuran como hechos; PM-07 sigue abierto. El correo no dice con qué build probaron.",
+      "consecuencia": "Antes de tocar código hay que preguntar a ACOPROS el número de build. Si es anterior a los arreglos, los ítems siguen cerrados. Si es posterior, el arreglo no llega al aparato y se reabre como defecto, no como contenido nuevo.",
+      "estado": "ABIERTO · pregunta pendiente a ACOPROS"
+    },
+    "reaperturasPosibles": [
+      {
+        "id": "PM-02",
+        "observacion": "En algunos ejercicios se usan frases demasiado largas cuando solo se pide una palabra.",
+        "estadoPrevio": "hecho (fase 3)",
+        "queFalta": "Build y ejercicio concreto donde lo ven."
+      },
+      {
+        "id": "PM-06",
+        "observacion": "No queda clara la finalidad del icono del sello.",
+        "estadoPrevio": "hecho (2.ª ronda)",
+        "queFalta": "La explicación añadida en agosto no basta. Si se confirma con el build actual, rediseñar cómo se presenta, no añadir texto."
+      },
+      {
+        "id": "PM-07",
+        "observacion": "Sustituir emojis por pictogramas.",
+        "estadoPrevio": "ABIERTO · medido, no ejecutado",
+        "queFalta": "Lo mismo que ya estaba: dibujar los ~30 pictogramas que faltan, por tandas y con revisión humana."
+      },
+      {
+        "id": "ES-03",
+        "observacion": "Con «audios y grabación automáticos» activado no se oye nada; piden que el usuario inicie audio y grabación con un botón de Play.",
+        "estadoPrevio": "hecho (fase 1)",
+        "queFalta": "El síntoma «activado y no se oye» es NUEVO: ES-03 trataba el arranque automático, no el silencio. Reproducir en aparato antes de tratarlo como duplicado.",
+        "sintomaNuevo": true
+      },
+      {
+        "id": "ES-07",
+        "observacion": "No queda claro el objetivo del apartado; las rutinas se trabajarían mejor ordenando secuencias (mañana, comida, higiene).",
+        "estadoPrevio": "hecho (fase 3)",
+        "queFalta": "El objetivo fijado no se percibe en pantalla. Las secuencias de rutina son contenido nuevo y requieren decisión clínica."
+      },
+      {
+        "id": "ES-09",
+        "observacion": "Usar pictogramas para una representación más clara, accesible e inclusiva.",
+        "estadoPrevio": "hecho (fase 3)",
+        "queFalta": "Saber en qué pantalla siguen viendo emoji o imágenes ambiguas."
+      }
+    ],
+    "itemsNuevos": [
+      {
+        "id": "SEN-01",
+        "bloque": "Integración Sensorial",
+        "observacion": "Poder escuchar todos los sonidos de un mismo apartado sin volver a entrar en cada uno ni repetir la configuración del ejercicio.",
+        "estado": "ABIERTO · sin implementar",
+        "nota": "Reproducción en serie dentro del bloque (src/ValeriaSensory/). Cambio de flujo, no de contenido."
+      },
+      {
+        "id": "SEN-02",
+        "bloque": "Integración Sensorial",
+        "observacion": "Los sonidos suenan muy parecidos y no se corresponden con lo indicado (la aspiradora parece una moto o un coche). Piden sonidos más familiares y más distintos entre sí.",
+        "estado": "ABIERTO · requiere decisión",
+        "nota": "HECHO: los once estímulos son sintéticos (scripts/generate-sensory-assets.js), elegidos por procedencia MDR, licencia y reproducibilidad, y normalizados a la misma sonoridad (-20 dBFS RMS). check-sensory-assets.js comprueba el reparto espectral, pero no si a un oído le suena a aspiradora. INFERENCIA: es el límite de la síntesis, no un fichero mal subido. DECISIÓN DE FRANK: grabaciones reales con licencia y procedencia documentadas, o rehacer la síntesis. Cualquier cambio de WAV obliga a revisar los umbrales de check-sensory-assets.js."
+      },
+      {
+        "id": "SEN-03",
+        "bloque": "Integración Sensorial",
+        "observacion": "El desarrollo de todos los apartados es igual; dudan de si no están actualizados, hay un fallo o no lo están entendiendo.",
+        "estado": "ABIERTO · por aclarar",
+        "nota": "Preguntar a ACOPROS junto con el número de build. Si es comprensión, falta explicar la progresión del bloque antes de empezar (mismo patrón que ES-11)."
+      }
+    ],
+    "relacionConOtrosPlanes": "Las observaciones que afectan al diseño de contenido nuevo (arranque por el usuario, longitud de la respuesta modelada, pictogramas, objetivo visible, navegación sin reconfigurar, rutinas como secuencias) se aplican desde el principio a «Juega en casa con Lúa»: docs/plan-integracion-juega-con-lua-asha.md, paso 3b.",
+    "pendienteHumano": [
+      "ABIERTO · Preguntar a ACOPROS con qué número de build probaron.",
+      "ABIERTO · Decidir el origen de los sonidos sensoriales (SEN-02).",
+      "ABIERTO · Reproducir en aparato el silencio con «audios y grabación automáticos» activado (ES-03)."
     ]
   }
 }

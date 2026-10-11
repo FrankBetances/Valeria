@@ -30,7 +30,7 @@ Nada de los pasos siguientes se programa hasta cerrar esto.
 | 0.2 | **«Espera de 5 segundos».** Confirmar si la cifra está en ASHA. Si no está, citar su fuente real o escribir «espere unos segundos». | Por verificar |
 | 0.3 | **Derechos de uso.** Revisar las condiciones de uso de ASHA para adaptar su contenido en una app distribuida. Si no se permite, la guía se reescribe con texto propio y ASHA queda como referencia, no como texto adaptado. | Por verificar |
 | 0.4 | **Lenguaje regulatorio.** Se elimina «Cumplimiento MDR Clase I» del plan y de la guía. Redactar como orientación a familias, no como «técnicas clínicas» que aplica la familia, para no ampliar la finalidad prevista. | **Decidido** (Frank, 11/10/2026) |
-| 0.5 | **Variedad del castellano.** Texto **diferenciado** para España (`es`) y República Dominicana (`es-DO`): «plátano / guineo», «zumo / jugo», «coche / carro», «grifo / llave», etc. Ver el paso 2. Término profesional: «logopeda» en `es`; en `es-DO`, el que fije Frank. Hoy, en este módulo, `es-DO` comparte texto con `es` (`luaCatalogsFor.ts`), así que esto es trabajo nuevo. | **Decidido** (Frank, 11/10/2026) |
+| 0.5 | **Variedad del castellano.** Texto **diferenciado** para España (`es`) y República Dominicana (`es-DO`): «plátano / guineo», «zumo / jugo», «coche / carro», «grifo / llave», etc. Ver el paso 2. Término profesional: «logopeda» en `es`, «rehabilitador» en `es-DO`. Hoy, en este módulo, `es-DO` comparte texto con `es` (`luaCatalogsFor.ts`), así que esto es trabajo nuevo. | **Decidido** (Frank, 11/10/2026) |
 | 0.6 | **Una misión NO registra sesión ni premio.** Lo que pasa fuera de la pantalla no se puede verificar, y `luaCompleteActivity` (`registerSession`) metería en las métricas actividad que nadie ha medido. La pantalla de misiones no llama a `luaCompleteActivity`. Ver el paso 3. | **Decidido** (Frank, 11/10/2026) |
 
 ## Paso 1 · Primera entrega (alcance mínimo)
@@ -39,7 +39,9 @@ Seis misiones y dos módulos tocados a la vez es demasiado para un producto con
 testers. La primera entrega es:
 
 1. **Una misión**: «La merienda parlanchina» (rutina diaria, materiales que hay
-   en cualquier casa, tentación comunicativa fácil de explicar).
+   en cualquier casa, tentación comunicativa fácil de explicar), **con la
+   secuencia de la rutina ordenable con pictogramas** (A6, decidido por Frank
+   el 11/10/2026).
 2. **La pausa dialógica en Cuentos con Lúa.**
 
 La pausa de expectativa en canciones y las otras cinco misiones van en entregas
@@ -57,6 +59,12 @@ posteriores, una por vez.
 - Pictogramas: los de `ValeriaPixelArt.ts` (`PictoKey`), como el resto del
   módulo. Si falta alguno, se dibuja ahí. **Sin emoji** (regla 5): el plan
   anterior usaba 🏎️ 🧩 🍎 🛁 🎶 📖 como iconos de las misiones.
+- **Secuencia de la rutina (A6):** el niño ordena con el adulto los pasos de
+  la merienda (lavarse las manos, sacar el plato, comer, recoger…), reutilizando
+  el tipo `sequence` de `LuaGamesCatalog.ts` y su lógica de pantalla, sin
+  inventar un tipo nuevo. Los pasos concretos y su número los fija la revisión
+  clínica. Como la misión no registra sesión (0.6), ordenar bien no puntúa ni
+  premia: solo se celebra en pantalla.
 - `LUA_ACTIVITY_COUNT` (`src/AventurasLua/index.ts`) suma el catálogo nuevo.
 - Pantalla `LuaHomePlayPlayerScreen.tsx` y tarjeta en
   `ValeriaAventurasLuaHubScreen.tsx`. Objetivos táctiles ≥ 56 dp.
@@ -132,7 +140,7 @@ otros módulos y se registra aquí para no perderlo (B).
 | A3 | PM y ES: pictogramas en vez de emoji | Ya estaba (paso 1a): solo `PictoKey` de `ValeriaPixelArt.ts`. |
 | A4 | ES: no se entiende el objetivo del apartado | Cada misión declara su objetivo en una frase, visible para el adulto **antes** de empezar. Campo obligatorio en el catálogo. |
 | A5 | Sensorial: poder escucharlo todo sin volver a entrar ni reconfigurar | Dentro de la misión se pasa de un paso al siguiente, y de una misión a otra, sin volver al hub ni repetir la elección de edad. |
-| A6 | ES: trabajar las rutinas como secuencias ordenables (mañana, comida, higiene) | **Decide Frank.** Encaja con «La merienda parlanchina»: ordenar la rutina de la merienda con pictogramas, reutilizando el tipo `sequence` que ya tiene `LuaGamesCatalog.ts`. Amplía la primera entrega, por eso no entra sin su sí. |
+| A6 | ES: trabajar las rutinas como secuencias ordenables (mañana, comida, higiene) | **Decidido** (Frank, 11/10/2026): entra en la primera entrega como secuencia de la merienda. Ver el paso 1a. |
 
 ### B · Fuera del alcance de este plan (otros módulos)
 
@@ -170,8 +178,9 @@ riesgo que señaló la segunda ronda («reimplementar lo ya implementado»).
   licencia y el expediente), o rehacer la síntesis (mantiene la procedencia,
   pero no hay garantía de que llegue a sonar realista).
 
-Este plan **no** implementa nada de la tabla B. Su sitio es una tercera ronda en
-`docs/plan-mejoras-acopros-logopedas.json`, pendiente de que Frank la autorice.
+Este plan **no** implementa nada de la tabla B. Está registrada como
+`terceraRonda` en `docs/plan-mejoras-acopros-logopedas.json` (SEN-01 a SEN-03 y
+las seis posibles reaperturas).
 
 ## Paso 4 · Verificación
 
