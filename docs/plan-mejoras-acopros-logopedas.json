@@ -1973,7 +1973,7 @@
       "titulo": "LAS SEIS OBSERVACIONES DE PARES MÍNIMOS Y EXPANSIÓN SEMÁNTICA YA ESTÁN EN ESTE BACKLOG",
       "evidencia": "PM-02, PM-06, ES-03, ES-07 y ES-09 figuran como hechos; PM-07 sigue abierto. El correo no dice con qué build probaron.",
       "consecuencia": "Antes de tocar código hay que preguntar a ACOPROS el número de build. Si es anterior a los arreglos, los ítems siguen cerrados. Si es posterior, el arreglo no llega al aparato y se reabre como defecto, no como contenido nuevo.",
-      "estado": "ABIERTO · pregunta pendiente a ACOPROS"
+      "estado": "CERRADO SIN RESPUESTA · ACOPROS no sabe con qué build probó (Frank, 2026-10-11). Se revisa el código de main (42b80e2) observación por observación: ver revisionEnCodigo."
     },
     "reaperturasPosibles": [
       {
@@ -2026,8 +2026,9 @@
         "id": "SEN-02",
         "bloque": "Integración Sensorial",
         "observacion": "Los sonidos suenan muy parecidos y no se corresponden con lo indicado (la aspiradora parece una moto o un coche). Piden sonidos más familiares y más distintos entre sí.",
-        "estado": "ABIERTO · requiere decisión",
-        "nota": "HECHO: los once estímulos son sintéticos (scripts/generate-sensory-assets.js), elegidos por procedencia MDR, licencia y reproducibilidad, y normalizados a la misma sonoridad (-20 dBFS RMS). check-sensory-assets.js comprueba el reparto espectral, pero no si a un oído le suena a aspiradora. INFERENCIA: es el límite de la síntesis, no un fichero mal subido. DECISIÓN DE FRANK: grabaciones reales con licencia y procedencia documentadas, o rehacer la síntesis. Cualquier cambio de WAV obliga a revisar los umbrales de check-sensory-assets.js."
+        "estado": "ABIERTO · decidido: rehacer la síntesis (Frank, 2026-10-11)",
+        "nota": "HECHO: los once estímulos son sintéticos (scripts/generate-sensory-assets.js), elegidos por procedencia MDR, licencia y reproducibilidad, y normalizados a la misma sonoridad (-20 dBFS RMS). check-sensory-assets.js comprueba el reparto espectral, pero no si a un oído le suena a aspiradora. INFERENCIA: es el límite de la síntesis, no un fichero mal subido. DECISIÓN DE FRANK: grabaciones reales con licencia y procedencia documentadas, o rehacer la síntesis. Cualquier cambio de WAV obliga a revisar los umbrales de check-sensory-assets.js.",
+        "decision": "Rehacer la síntesis, manteniendo la procedencia propia (sin grabaciones de terceros). Requisitos: cada sonido reconocible y distinto de los demás; validación de oído por Frank y por ACOPROS antes de publicar, porque check-sensory-assets.js no puede comprobar el reconocimiento; ajustar los umbrales espectrales del gate a los sonidos nuevos en el mismo cambio."
       },
       {
         "id": "SEN-03",
@@ -2039,9 +2040,64 @@
     ],
     "relacionConOtrosPlanes": "Las observaciones que afectan al diseño de contenido nuevo (arranque por el usuario, longitud de la respuesta modelada, pictogramas, objetivo visible, navegación sin reconfigurar, rutinas como secuencias) se aplican desde el principio a «Juega en casa con Lúa»: docs/plan-integracion-juega-con-lua-asha.md, paso 3b.",
     "pendienteHumano": [
-      "ABIERTO · Preguntar a ACOPROS con qué número de build probaron.",
-      "ABIERTO · Decidir el origen de los sonidos sensoriales (SEN-02).",
-      "ABIERTO · Reproducir en aparato el silencio con «audios y grabación automáticos» activado (ES-03)."
-    ]
+      "CERRADO · ACOPROS no sabe con qué build probó; se sustituye por la revisión en código (revisionEnCodigo).",
+      "ABIERTO · SEN-02: rehacer la síntesis; validación de oído por Frank y ACOPROS.",
+      "ABIERTO · ES-03: decidir la corrección de la etiqueta del interruptor.",
+      "ABIERTO · PM-06, ES-07, SEN-01 y SEN-03: decisiones clínicas o de producto descritas en revisionEnCodigo."
+    ],
+    "revisionEnCodigo": {
+      "fecha": "2026-10-11",
+      "base": "main en 42b80e2. Revisión leyendo el código, NO en aparato: lo que aquí dice «confirmado» está confirmado en el fuente, no visto en pantalla.",
+      "resultados": [
+        {
+          "id": "PM-02",
+          "veredicto": "resuelto en el flujo principal",
+          "evidencia": "Todos los ensayos usan «Esta es X. Y esta es Y. Di: X.» (trialPrompt en src/ValeriaMinimalPairsScreen.tsx, pairIntro en src/valeriaPairSpeech.ts). Las consignas `prompt` de los seis bancos son «Di: palabra.»; la frase portadora está retirada del flujo.",
+          "queFalta": "Si lo siguen viendo, son otros momentos del ejercicio (cambio de rol «¡Ahora mandas tú!», cápsula TPR) o un build antiguo. Hace falta un ejemplo concreto."
+        },
+        {
+          "id": "PM-06",
+          "veredicto": "la explicación existe; hay una causa probable de confusión",
+          "evidencia": "sealWhy se muestra bajo el sello (strings.es pairs.sealWhy). Pero hay DOS mecánicas distintas con el mismo nombre y el mismo icono 🤝: en Pares Mínimos el «sello doble» son dos manos para cerrar el intento, y en el reproductor de ejercicios (ValeriaExercisePlayerScreen.tsx) el «SELLO DOBLE · INSTIGACIÓN RETARDADA» es un botón que el adulto pulsa tras una espera cuando hay contacto visual.",
+          "queFalta": "Inferencia: el mismo nombre para dos funciones distintas explica que no se entienda. Propuesta: nombres distintos y un icono propio en vez del emoji 🤝. Decide Frank."
+        },
+        {
+          "id": "PM-07",
+          "veredicto": "sigue abierto, por diseño",
+          "evidencia": "Fuera de las cápsulas de contraste la caída a emoji es el comportamiento previsto mientras el banco propio se completa (cabecera de scripts/check-pictogram-coverage.js). La medición de agosto (45 de 70 palabras caen a emoji) no se ha repetido.",
+          "queFalta": "Dibujar los pictogramas que faltan, por tandas y con revisión humana."
+        },
+        {
+          "id": "ES-03",
+          "veredicto": "DEFECTO CONFIRMADO EN EL CÓDIGO: la etiqueta promete algo que el interruptor no hace",
+          "evidencia": "En Expansión Semántica el interruptor se llama «Audio y grabación automáticos» (strings.es semantic.autoRecord), pero solo controla la grabación: la consigna suena únicamente desde el botón ▶ (sayStep solo se llama desde ese botón, src/ValeriaSemanticExpansionScreen.tsx:979). Con el interruptor activado, el audio sigue sin sonar solo. Es exactamente lo que describe ACOPROS.",
+          "queFalta": "Lo que ACOPROS pide (que el usuario inicie con Play) ya es el comportamiento por defecto. La corrección mínima es que la etiqueta diga lo que hace («Grabación automática tras la consigna», como en Pares Mínimos), en los cuatro idiomas de interfaz. No implementado: decide Frank."
+        },
+        {
+          "id": "ES-07",
+          "veredicto": "el objetivo se muestra, pero choca con el contenido",
+          "evidencia": "La tarjeta «QUÉ SE TRABAJA AQUÍ» existe (semantic.sectionGoal). Para Escenarios dice «Repetición verbal: el niño imita la palabra objetivo en situaciones del día a día»: el objetivo es repetir, pero el contenido son rutinas, y eso es lo que ACOPROS percibe.",
+          "queFalta": "Decisión clínica: o Escenarios pasa a ser secuencias de rutina ordenables (lo que propone ACOPROS, y la propuesta original de ES-07 ya preveía extraer la ordenación de MS-3), o se deja como repetición y se quita el marco de rutina."
+        },
+        {
+          "id": "ES-09",
+          "veredicto": "cobertura parcial, por diseño",
+          "evidencia": "LexicalItem tiene `pictogram` opcional con caída a `emoji` (src/valeriaSemanticExpansion.ts:77-78). Solo las cápsulas de contraste están obligadas a tener pictograma.",
+          "queFalta": "Igual que PM-07: completar el banco de pictogramas por tandas."
+        },
+        {
+          "id": "SEN-01",
+          "veredicto": "confirmado en el código",
+          "evidencia": "El sonido se elige en la preparación (SensoryExerciseScreen.tsx:341) y la sesión expone a uno solo. Para oír otro hay que salir y volver a configurar.",
+          "queFalta": "Matiz clínico: exponer a un niño con hiperreactividad a una tanda seguida de sonidos va contra la desensibilización gradual. La petición encaja como un modo de ESCUCHA PREVIA para el adulto (oír los once sin iniciar sesión), no como reproducción en serie dentro de la exposición."
+        },
+        {
+          "id": "SEN-03",
+          "veredicto": "confirmado en el código, por diseño",
+          "evidencia": "Las seis actividades ISA comparten el mismo reproductor y solo cambian la configuración de partida: categoría, sonido, intensidad, duración y modo (sensoryTypes.ts, comentario de defaultConfig).",
+          "queFalta": "Explicar al adulto, antes de empezar, en qué se diferencia cada actividad, o diferenciar el desarrollo de verdad. Decisión clínica."
+        }
+      ]
+    }
   }
 }
