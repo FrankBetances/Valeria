@@ -1,104 +1,140 @@
-# Plan: Integración de Ideas de Juego y Estimulación ASHA dentro de «Juega con Lúa» (Aventuras con Lúa)
+# Plan · «Juega en casa con Lúa» (estimulación del lenguaje guiada por la familia)
 
-## Descripción del Objetivo
-Integrar las actividades prácticas de estimulación del habla y el lenguaje (ASHA) **directamente en el flujo de juego pediátrico de Valeria+**, a través de **Lúa la gata** en el módulo **«Aventuras con Lúa»**, en lugar de relegarlas a un módulo teórico aislado en Academy.
+Revisión del 11/10/2026 sobre el plan del 3/10. Sigue siendo un **plan**: no hay
+código, y este documento no cambia nada de la app.
 
-Lúa se convierte en la mediadora lúdica entre la tableta y el mundo real: propone juegos con objetos cotidianos (pelotas, bloques, rompecabezas, comida, baño y libros), guía la interacción en voz alta al niño con su personalidad cercana y proporciona a la familia las técnicas clínicas exactas (espera de 5 segundos, tentaciones comunicativas, modelado sin examen y expansión) en el momento preciso en que están jugando.
+## Qué se quiere
 
----
+Que Lúa proponga juegos con objetos de casa y que la tableta le dé al adulto,
+en el momento de jugar, la pauta concreta para estimular el lenguaje: esperar,
+comentar en vez de preguntar, expandir y provocar la petición. La interacción
+ocurre cara a cara; la tableta solo propone y recuerda la pauta.
 
-## Decisiones de Diseño Clínico y Técnico
+Se mantiene la decisión del 3/10: va dentro de Aventuras con Lúa, no como
+cápsula de Academy. Academy ya tiene `ASHA_MILESTONES_01` (hitos por edad); este
+módulo responde a otra pregunta («qué hago en casa») y debe reutilizar su aviso
+`ASHA_DISCLAIMER_ES/EN`, no escribir uno nuevo.
 
-> [!NOTE]
-> **Filosofía «Cero Pantallas Aisladas» (Zero-Screen Isolation):**
-> - La app no absorbe al niño en una pantalla solitaria: **Lúa invita a jugar con el adulto en el salón o la cocina**. La tableta actúa como tablero de inspiración y temporizador lúdico, mientras la interacción humana real ocurre cara a cara.
-> - Se integran las técnicas clínicas de ASHA (ingeniería ambiental, sabotaje positivo, espera de 5s, ratio comentarios/preguntas) como **«Pistas de Lúa para Jugar Juntos»**, visibles de forma accesible para el adulto sin romper la magia infantil.
-> - Cumplimiento MDR Clase I y Zero-Backend: 100% offline, control humano final y refuerzo positivo inmediato.
+**Base clínica (evidencia, no promesa de resultados):** intervención del
+lenguaje implementada por los padres (Roberts y Kaiser, 2011, metaanálisis) y
+lectura dialógica (Whitehurst et al., 1988). Las citas completas se fijan en el
+paso 0.
 
----
+## Paso 0 · Bloqueantes previos al código
 
-## Arquitectura de la Integración en «Aventuras con Lúa»
+Nada de los pasos siguientes se programa hasta cerrar esto.
 
-```mermaid
-flowchart TD
-    Hub[ValeriaAventurasLuaHubScreen: Hub de Lúa] --> Section[Nueva Sección: Misiones de Juego en Casa con Lúa]
-    
-    Section --> PlayScreen[LuaHomePlayPlayerScreen.tsx]
-    PlayScreen --> Item1[1. Carreras de Bloques y Carritos]
-    PlayScreen --> Item2[2. El Rompecabezas Secreto]
-    PlayScreen --> Item3[3. La Merienda Parlanchina]
-    PlayScreen --> Item4[4. El Baño y la Ropa de Lúa]
-    PlayScreen --> Item5[5. Canciones con Sorpresa]
-    PlayScreen --> Item6[6. El Detective de Cuentos]
-    
-    PlayScreen --> ChildView[Modo Niño: Lúa animada + Voz + Pictogramas Voxel]
-    PlayScreen --> ParentPill[Pista de Lúa para Adultos: Técnicas ASHA en tiempo real]
-    
-    Hub --> Stories[Cuentos con Lúa: LuaStoryViewerScreen]
-    Stories --> DialPause[Pausa Dialógica: ¿Qué crees que pasará ahora?]
-    
-    Hub --> Songs[Canciones con Lúa: LuaSongPlayerScreen]
-    Songs --> ExpectPause[Pausa de Expectativa: Lúa espera la palabra clave]
+| # | Qué | Estado |
+| --- | --- | --- |
+| 0.1 | **Fuente ASHA correcta.** La guía cita *What is speech? What is language?*, que es una página de definiciones. Hay que localizar la página de ASHA de la que salen las actividades y citarla con fecha de consulta. | Por verificar |
+| 0.2 | **«Espera de 5 segundos».** Confirmar si la cifra está en ASHA. Si no está, citar su fuente real o escribir «espere unos segundos». | Por verificar |
+| 0.3 | **Derechos de uso.** Revisar las condiciones de uso de ASHA para adaptar su contenido en una app distribuida. Si no se permite, la guía se reescribe con texto propio y ASHA queda como referencia, no como texto adaptado. | Por verificar |
+| 0.4 | **Lenguaje regulatorio.** Quitar «Cumplimiento MDR Clase I» como afirmación: solo puede figurar si existe la documentación que lo respalde. Redactar como orientación a familias, no como «técnicas clínicas» que aplica la familia, para no ampliar la finalidad prevista. | Decide Frank |
+| 0.5 | **Variedad del castellano.** En este módulo `es-DO` comparte texto con `es` (`luaCatalogsFor.ts`). La guía mezcla términos caribeños («guineo», «jugo», «carro», «llave del agua») y «patólogo del habla (SLP)». Para el texto locutado y las pistas, usar palabras válidas en ambas variedades o separar ramas. «Logopeda» como término profesional. | Decide Frank |
+| 0.6 | **¿Una misión cuenta como sesión?** Lo que pasa fuera de la pantalla no se puede verificar. Llamar a `luaCompleteActivity` registra una sesión (`registerSession`) y mete en las métricas actividad que nadie ha medido. Propuesta: **no registrar sesión ni premio** en las misiones. Si Frank decide que sí, ver el paso 3. | Decide Frank |
+
+## Paso 1 · Primera entrega (alcance mínimo)
+
+Seis misiones y dos módulos tocados a la vez es demasiado para un producto con
+testers. La primera entrega es:
+
+1. **Una misión**: «La merienda parlanchina» (rutina diaria, materiales que hay
+   en cualquier casa, tentación comunicativa fácil de explicar).
+2. **La pausa dialógica en Cuentos con Lúa.**
+
+La pausa de expectativa en canciones y las otras cinco misiones van en entregas
+posteriores, una por vez.
+
+### 1a · Misión en casa
+
+- Catálogo `src/AventurasLua/Catalog/LuaHomePlayCatalog.ts`, con `ageBands:
+  AgeBand[]` como el resto, para que el filtro por edad del hub no mienta.
+- Dos tipos de texto, separados en el tipo de datos:
+  - **lo que Lúa le dice al niño** → se locuta → entra en
+    `enumerateLuaAdventureSpeech` (`luaVoiceLines.ts`);
+  - **la pauta para el adulto** → no se locuta, igual que `modelingFeedback`
+    en la evaluación. No entra en el corpus.
+- Pictogramas: los de `ValeriaPixelArt.ts` (`PictoKey`), como el resto del
+  módulo. Si falta alguno, se dibuja ahí. **Sin emoji** (regla 5): el plan
+  anterior usaba 🏎️ 🧩 🍎 🛁 🎶 📖 como iconos de las misiones.
+- `LUA_ACTIVITY_COUNT` (`src/AventurasLua/index.ts`) suma el catálogo nuevo.
+- Pantalla `LuaHomePlayPlayerScreen.tsx` y tarjeta en
+  `ValeriaAventurasLuaHubScreen.tsx`. Objetivos táctiles ≥ 56 dp.
+
+### 1b · Pausa dialógica en cuentos
+
+- Una pausa por cuento, antes del desenlace, con la pregunta abierta
+  «¿Qué crees que pasará ahora?».
+- **Sin opciones con respuesta correcta.** Unas opciones puntuables convierten
+  el juego en un examen, que es justo lo que la guía pide evitar. Solo hay un
+  botón «Seguir», que pulsa el adulto cuando han terminado de hablarlo.
+- La pregunta se locuta → entra en `luaVoiceLines.ts`.
+- Un campo nuevo en `LuaStory` para marcar en qué párrafo va la pausa, en el
+  catálogo, no en la pantalla, para que ajustarlo sea una línea.
+
+### 1c · Pausa de expectativa en canciones (entrega posterior)
+
+Se deja documentada para que no se diseñe mal después:
+
+- **La app no puede saber si el niño ha dicho la palabra.** No hay
+  reconocimiento de voz en este módulo, así que la música continúa cuando lo
+  decide el adulto, no por detección.
+- Los versos se locutan uno a uno (`lyrics: string[]`, según `luaVoiceLines.ts`) y el
+  id del corpus es el hash del texto. Cortar antes de la última palabra crea
+  fragmentos de texto nuevos, con assets de voz nuevos en cada idioma. Además
+  hay que comprobar que no rompe el pulso de `LuaRhythmBar`.
+
+## Paso 2 · Idiomas
+
+- **Interfaz** (títulos, botones, pautas para el adulto): `strings.es`, `en`,
+  `gl` y `ca`. `check-ui-strings.js` y `check-ui-lang-fallback.js` lo exigen.
+- **Banco de Lúa:** en este módulo tienen banco propio `es`, `es-DO` y `gl`
+  (`LUA_BANK_LANGS`). Cada catálogo nuevo lleva su capa gallega en
+  `Catalog/gl/`, fusionada por campo en `luaCatalogsFor.ts`, y
+  `check-lua-gl-coverage.js` debe cubrirla.
+- Todo texto locutado nuevo lleva **`node scripts/export-voice-corpus.js` en el
+  mismo commit**. Sin él, el gallego cae a la voz del sistema en silencio
+  (build 499).
+- Cualquier selector de variedad nuevo pasa `check-variety-branches.js`.
+
+## Paso 3 · Premio y aparato Lúa (solo si 0.6 dice que sí)
+
+- Llamar a `luaCompleteActivity(items)` (`luaActivityReward.ts`), que registra la
+  sesión y manda el premio al cristal.
+- **Y en la misma pantalla `useLuaActivityCleanup()`**: sin él, el desfile del
+  premio sigue en el aparato al salir de la pantalla.
+- Ningún estado nuevo del cristal (`MOOD`/`ACCESSORY`) sin pasar por
+  `valeriaLuaMascot.ts` y `check-lua-mascot-mirror.js`.
+
+## Paso 4 · Verificación
+
+**Comprobaciones automáticas:** todas las de `android.yml` (34 a fecha de hoy),
+sacadas del propio workflow y no de una lista:
+
+```bash
+grep -oP '(?<=run: )node scripts/\S+(?: --\S+)?' .github/workflows/android.yml |
+  while read -r cmd; do $cmd >/dev/null 2>&1 || echo "FALLA: $cmd"; done
+npm run typecheck
 ```
 
----
+Las que más afectan a este cambio: `check-voice-corpus-coverage`,
+`check-lua-gl-coverage`, `check-lua-voice-language`, `verify-aventuras-lua`,
+`check-ui-strings`, `check-ui-lang-fallback`,
+`test-challenger-final-ca-integration` y
+`check-lua-mascot-mirror` si se aplica el paso 3.
 
-## Propuesta de Contenido
+**Comprobación visual:**
 
-### Sección: «Misiones de Juego en Casa con Lúa» (Juegos en Familia)
+- Captura de web de la tarjeta del hub, la misión y la pausa del cuento, con
+  `docs/capture-screenshots.js`.
+- **Revisión en un Android antes de mergear a `main`**: pantalla nueva y tarjeta
+  nueva son cambios de disposición, y una captura de web no los prueba
+  (regla 1c).
+- Prueba de voz en `es` y `gl`: la consigna de la misión y la pregunta del
+  cuento suenan con la voz del banco, no con la del sistema.
 
-1. 🏎️ **Carreras de Bloques y Carritos** (Turnos rodando, rampa de cartón, torre que cae, pausa de expectativa para pedir «más»).
-2. 🧩 **El Rompecabezas Secreto** (Piezas en bolsa/calcetín, esconder piezas a la vista, sostener cerca de la cara, ofrecer opciones «¿perro o gato?»).
-3. 🍎 **La Merienda Parlanchina** (Nombrar alimentos/cubiertos, texturas/sabores, tentación comunicativa: «olvidar» la cuchara).
-4. 🛁 **El Baño y la Ropa de Lúa** (Partes del cuerpo, prendas de color, «olvidar» abrir la llave del agua, repetición contextualizada).
-5. 🎶 **Canciones con Sorpresa** (Pausa antes de la palabra/gesto clave, elegir canción con objeto, canciones motoras).
-6. 📖 **El Detective de Cuentos** (Nombrar y señalar dibujos, comentar más allá del texto, adivinar qué pasará).
+## Paso 5 · Documentación
 
-**Cada misión contiene:**
-- **Para el niño**: Lúa en píxel art animada, locución corta y alegre en voz de Lúa (*«¡Vamos a construir una torre gigante! ¿Listo? ¡Pon un bloque!»*), y pictogramas visuales interactivos.
-- **Para el adulto («Pistas de Lúa»)**: Desplegable rápido con las técnicas de modelado ASHA (comenta en vez de evaluar, espera 5 segundos, expande añadiendo una palabra).
-
----
-
-## Mejoras en Módulos Existentes de Lúa
-
-### 1. En «Cuentos con Lúa» (`LuaStoryViewerScreen.tsx`)
-- Incorporar la técnica de **Lectura Dialógica Interactiva**: a mitad del cuento o antes del desenlace, Lúa hace una pausa animada con el mensaje:
-  *«¿Qué crees que pasará ahora?»* con opciones visuales o botón de continuar para incentivar que el niño anticipe y converse con el adulto antes de seguir.
-
-### 2. En «Canciones con Lúa» (`LuaSongPlayerScreen.tsx`)
-- Añadir el botón/modo **«Pausa de Expectativa»**: Lúa se detiene con mirada expectante justo antes de la última palabra o rima del verso, dando tiempo a que el niño la complete con voz o gesto antes de que continúe la música.
-
----
-
-## Cambios Propuestos por Componente
-
-### Componente 1: Catálogos de Juego de Lúa (`src/AventurasLua/Catalog/`)
-- `src/AventurasLua/Catalog/LuaHomePlayCatalog.ts`: Catálogo tipado con las 6 misiones cotidianas, materiales del hogar, pistas clínicas ASHA y pictogramas asociados.
-- `src/AventurasLua/index.ts`: Exportación del catálogo y actualización del contador global `LUA_ACTIVITY_COUNT`.
-
-### Componente 2: Pantallas de Aventuras con Lúa (`src/AventurasLua/Screens/`)
-- `src/AventurasLua/Screens/LuaHomePlayPlayerScreen.tsx`: Pantalla interactiva pediátrica (>= 56 dp) con Lúa animada, locución, tarjetas de retos y tarjeta para padres.
-- `src/AventurasLua/Screens/ValeriaAventurasLuaHubScreen.tsx`: Tarjeta y sección destacada de «Juega en Casa con Lúa» conectada al selector de edad.
-- `src/AventurasLua/Screens/LuaStoryViewerScreen.tsx`: Pausa dialógica interactiva en cuentos.
-- `src/AventurasLua/Screens/LuaSongPlayerScreen.tsx`: Pausa de expectativa en canciones.
-
-### Componente 3: Internacionalización (`src/i18n/`)
-- Cadenas en `strings.es.ts` y `strings.en.ts` para títulos, consignas y pistas de Lúa.
-
-### Componente 4: Documentación Clínica (`docs/`)
-- `docs/guia-asha-juegos-con-lua-en-casa.md`: Guía canónica de referencia para el equipo médico y auditorías.
-
----
-
-## Plan de Verificación
-
-### Pruebas Automatizadas
-1. `npm run typecheck`: 0 errores de TypeScript.
-2. `node scripts/check-ui-strings.js` y `node scripts/check-ui-lang-fallback.js`: 0 errores.
-3. `node scripts/verify-aventuras-lua.js`: Integridad del catálogo de Lúa.
-
-### Verificación Manual
-1. Hub de Lúa: Comprobar la nueva sección «Juega en Casa con Lúa» y el filtrado por edad.
-2. Misión de Juego: Comprobar locución de Lúa, animación y pistas clínicas para adultos.
-3. Cuentos y Canciones: Comprobar la pausa dialógica y la pausa de expectativa.
+- La guía `docs/guia-asha-juegos-con-lua-en-casa.md` se corrige con lo que
+  salga de 0.1, 0.2, 0.3 y 0.5. Esta revisión del plan **no la toca**.
+- README y manual: describir la sección nueva cuando llegue a `main`.
