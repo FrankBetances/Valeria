@@ -263,80 +263,156 @@ const scrapeInto = (buf, rand, at, { dur, freq, gain }) => {
   }
 };
 
+/**
+ * Fase de un tono con el tono VARIABLE (carga del motor, aire que cambia) y
+ * que aun así cierra el bucle: la frecuencia base se reajusta para que el
+ * número de ciclos en `loopS` sea entero. Sin esto, el fundido de la costura
+ * suma dos fases distintas y el tono se hunde medio segundo en cada vuelta.
+ * `mod(t)` es periódica en el bucle y vale alrededor de 1.
+ */
+const phaseTrack = (n, loopS, f0, mod) => {
+  const L = Math.floor(loopS * SR);
+  let acc = 0;
+  for (let i = 0; i < L; i++) acc += mod(i / SR);
+  const meanMod = acc / L;
+  const f = Math.max(1, Math.round(f0 * loopS * meanMod)) / (loopS * meanMod);
+  const ph = new Float64Array(n);
+  let p = 0;
+  for (let i = 0; i < n; i++) { ph[i] = p; p += (2 * Math.PI * f * mod((i % L) / SR)) / SR; }
+  return ph;
+};
+
+/** Paso banda de dos polos con ganancia unitaria aproximada en el centro. */
+const bandpass = (freq, q) => resonator(freq, Math.exp((-Math.PI * freq) / (q * SR)));
+
 // ------------------------------------------------------------- los estímulos
 // `key` es el audioAssetKey del catálogo (src/ValeriaSensory/sensoryCatalog.ts).
 // `base` es su baseFrequencyHz: no es decorativo, el gate comprueba que la
 // energía del fichero cae donde dice la ficha.
 const STIMULI = [
   {
-    key: 'sensory_vacuum_loop', seed: 20260821, loop: 6, base: 120,
+    key: 'sensory_vacuum_loop', seed: 20260821, loop: 6, base: 760,
     render(buf, rand) {
-      // Motor de colector: armónicos de 120 Hz con bamboleo lento + chorro de
-      // aire ancho. Es la mezcla que hace reconocible a una aspiradora.
-      const air1 = resonator(1750, 0.9);
-      const air2 = resonator(3100, 0.86);
-      const hiss = highpass(2600);
-      const lp = lowpass(6500);
+      // Aspiradora. La versión anterior era un zumbido grave de 120 Hz con
+      // armónicos —la firma de un motor de explosión al ralentí— y ACOPROS la
+      // oyó como una moto (SEN-02). Una aspiradora es lo contrario: motor
+      // universal muy rápido (silbido agudo, ~760 Hz) más el rugido ancho del
+      // aire aspirado, casi sin graves. Lo que la delata es el VAIVÉN: al
+      // empujar y tirar del cepillo sobre la alfombra, el aire se ahoga y se
+      // abre y el silbido sube y baja un poco, dos veces por segundo y medio.
+      const stroke = (t) => 0.5 + 0.5 * Math.sin(2 * Math.PI * (2 / 3) * t); // 4 ciclos en 6 s
+      // El silbido del motor no cambia de tono: es lo que da una frecuencia
+      // dominante estable (la de la ficha). El vaivén va en el aire.
+      const ph = phaseTrack(buf.length, 6, 760, () => 1);
+      const fan = phaseTrack(buf.length, 6, 2950, (t) => 1 + 0.035 * stroke(t));
+      const a1 = bandpass(1400, 1.6), a2 = bandpass(2700, 2.2), a3 = bandpass(4300, 2.5);
+      const hp = highpass(260);
+      const lp = lowpass(7200);
       for (let i = 0; i < buf.length; i++) {
         const t = i / SR;
-        const wobble = 1 + 0.012 * Math.sin(2 * Math.PI * 0.7 * t);
+        const k = stroke(t);
+        const n = rand() * 2 - 1;
+        const air = a1(n) * (0.7 + 0.5 * k) + a2(n) * (0.8 + 0.6 * k) + a3(n) * 0.7;
+        const whine = Math.sin(ph[i]) + 0.45 * Math.sin(2 * ph[i]) + 0.2 * Math.sin(3 * ph[i]);
+        buf[i] = hp(lp(air * 1.6 + whine * 0.12 + Math.sin(fan[i]) * 0.05));
+      }
+    },
+  },
+  {
+    key: 'sensory_blender_loop', seed: 20260822, loop: 6, base: 420,
+    render(buf, rand) {
+      // Licuadora. Lo que la identifica no es el motor sino lo que tiene
+      // DENTRO: trozos que golpean el vaso y frenan las cuchillas. El motor
+      // (zumbido áspero, ~420 Hz) cae de tono cada vez que muerde y se
+      // recupera; encima, el traqueteo de hielo contra el vidrio y el remolino
+      // del líquido. Sin el traqueteo era otro motor más.
+      const bite = (t) => {
+        const c = (t % 1.5) / 1.5; // cuatro mordidas por vuelta de 6 s
+        return c < 0.12 ? 1 - 0.14 * Math.sin((Math.PI * c) / 0.12) : 1;
+      };
+      const ph = phaseTrack(buf.length, 6, 420, bite);
+      const glass = bandpass(2300, 9);
+      const swirl = bandpass(650, 1.2);
+      const swirlLfo = lowpass(6);
+      const lp = lowpass(6800);
+      for (let i = 0; i < buf.length; i++) {
+        const t = i / SR;
+        // Diente de sierra suavizado: más áspero que un seno, como un motor
+        // pequeño que va forzado.
         let motor = 0;
-        for (let h = 1; h <= 8; h++) motor += Math.sin(2 * Math.PI * 120 * h * wobble * t) / h;
+        for (let h = 1; h <= 9; h++) motor += Math.sin(h * ph[i]) / h;
         const n = rand() * 2 - 1;
-        buf[i] = motor * 0.24 + lp(air1(n) * 0.8 + air2(n) * 0.6) * 1.2 + hiss(n) * 0.5;
+        const sw = swirl(n) * (0.7 + 0.6 * Math.abs(swirlLfo(rand() * 2 - 1)) * 6);
+        buf[i] = lp(motor * 0.32 + sw * 0.9);
+      }
+      // Traqueteo: golpes cortos y brillantes contra el vaso, en ráfagas justo
+      // después de cada mordida.
+      for (let burst = 0; burst < 5; burst++) {
+        const t0 = burst * 1.5;
+        for (let k = 0; k < 9; k++) {
+          const at = t0 + 0.02 + k * (0.045 + rand() * 0.05);
+          const start = Math.floor(at * SR);
+          const len = Math.floor(0.03 * SR);
+          const g = 0.9 + rand() * 0.8;
+          for (let j = 0; j < len && start + j < buf.length; j++) {
+            buf[start + j] += glass(rand() * 2 - 1) * Math.exp(-j / (0.006 * SR)) * g * 6;
+          }
+        }
       }
     },
   },
   {
-    key: 'sensory_blender_loop', seed: 20260822, loop: 6, base: 90,
+    key: 'sensory_hairdryer_loop', seed: 20260823, loop: 6, base: 1900,
     render(buf, rand) {
-      // Motor de 90 Hz muy armónico + troceo de cuchillas: la modulación de
-      // amplitud a 24 Hz es lo que distingue "licuadora" de "aspiradora".
-      const lp = lowpass(6000);
-      const res = resonator(1200, 0.88);
+      // Secador de pelo. Soplido suave y redondo, centrado en los medios, con un
+      // silbido fino de turbina (~1,9 kHz). Lo que lo separa del secador de
+      // manos es el MOVIMIENTO: quien se seca el pelo mueve el secador, así que
+      // el soplido se acerca y se aleja (sube, se aclara, baja) una vez cada
+      // dos segundos. Antes los dos secadores medían casi igual.
+      const wave = (t) => 0.5 + 0.5 * Math.sin(2 * Math.PI * 0.5 * t); // 3 ciclos en 6 s
+      const ph = phaseTrack(buf.length, 6, 1900, () => 1);
+      const b1 = bandpass(900, 1.1), b2 = bandpass(1800, 1.4);
+      const lp = lowpass(5200);
+      const hp = highpass(180);
       for (let i = 0; i < buf.length; i++) {
         const t = i / SR;
-        let motor = 0;
-        for (let h = 1; h <= 12; h++) motor += Math.sin(2 * Math.PI * 90 * h * t) / h;
-        const chop = 0.55 + 0.45 * Math.abs(Math.sin(2 * Math.PI * 24 * t));
+        const k = wave(t);
         const n = rand() * 2 - 1;
-        buf[i] = (motor * 0.3 + lp(res(n)) * 1.1 + n * 0.12) * chop;
+        const air = b1(n) * 1.0 + b2(n) * (0.5 + 0.7 * k);
+        buf[i] = hp(lp(air * (0.6 + 0.55 * k) + Math.sin(ph[i]) * 0.035 * (0.5 + k)));
       }
     },
   },
   {
-    key: 'sensory_hairdryer_loop', seed: 20260823, loop: 6, base: 200,
+    key: 'sensory_hand_dryer_loop', seed: 20260824, loop: 6, base: 3400,
     render(buf, rand) {
-      // Turbina pequeña: ruido con dos resonancias medias-agudas y un tono de
-      // motor a 200 Hz apenas audible por debajo.
-      const r1 = resonator(950, 0.85);
-      const r2 = resonator(2700, 0.82);
-      const hiss = highpass(2200);
-      const lp = lowpass(7000);
+      // Secador de manos de baño público (el de chorro, el que más molesta).
+      // Chorro muy ancho y agudo con un pitido fuerte de turbina (~3,4 kHz)
+      // y su subarmónico. Cuando las manos entran, el chorro choca con ellas:
+      // el sonido se ahoga, se vuelve grave y el pitido baja; al sacarlas, se
+      // dispara otra vez. Ese abrir-cerrar es lo que no tiene ningún otro.
+      const hands = (t) => {
+        const c = (t % 3) / 3; // dos pasadas de manos por vuelta
+        const x = c < 0.1 ? c / 0.1 : c < 0.35 ? 1 : c < 0.45 ? (0.45 - c) / 0.1 : 0;
+        return x;
+      };
+      const ph = phaseTrack(buf.length, 6, 3400, (t) => 1 - 0.06 * hands(t));
+      const roar = bandpass(2600, 0.9);
+      const hiss = highpass(3000);
+      const thud = bandpass(320, 1.3);
+      const hpJet = highpass(900);
+      let lpState = 0;
       for (let i = 0; i < buf.length; i++) {
         const t = i / SR;
+        const h = hands(t);
         const n = rand() * 2 - 1;
-        const motor = Math.sin(2 * Math.PI * 200 * t) * 0.07 + Math.sin(2 * Math.PI * 400 * t) * 0.04;
-        buf[i] = lp(r1(n) * 0.5 + r2(n) * 0.9 + n * 0.4) * 0.9 + hiss(n) * 1.3 + motor;
-      }
-    },
-  },
-  {
-    key: 'sensory_hand_dryer_loop', seed: 20260824, loop: 6, base: 250,
-    render(buf, rand) {
-      // Secador de manos: chorro mucho más ancho y agudo que el de pelo, con
-      // turbulencia lenta. Es el sonido de baño público que más consultas
-      // genera, y por eso va aparte.
-      const r1 = resonator(700, 0.8);
-      const hiss = highpass(1800);
-      const turb = lowpass(3);
-      const lp = lowpass(7400);
-      for (let i = 0; i < buf.length; i++) {
-        const t = i / SR;
-        const n = rand() * 2 - 1;
-        const swell = 1 + 0.18 * turb(rand() * 2 - 1);
-        const motor = Math.sin(2 * Math.PI * 250 * t) * 0.06;
-        buf[i] = (lp(r1(n) * 0.5 + n * 0.6) * 0.9 + hiss(n) * 1.6) * swell + motor;
+        const open = hpJet(roar(n) * 1.1 + hiss(n) * 1.3) + (Math.sin(ph[i]) + 0.5 * Math.sin(0.5 * ph[i])) * 0.12;
+        // Ahogo por las manos: paso bajo que se cierra (7 kHz → 1,6 kHz) y un
+        // golpe de aire grave que solo existe con las manos dentro.
+        const fc = 7400 - 5000 * h;
+        const a = Math.exp((-2 * Math.PI * fc) / SR);
+        lpState = (1 - a) * open + a * lpState;
+        buf[i] = lpState * (1 - 0.25 * h) + thud(n) * 0.5 * h;
       }
     },
   },
@@ -385,42 +461,75 @@ const STIMULI = [
   {
     key: 'sensory_fireworks_loop', seed: 20260827, loop: 8, base: 60,
     render(buf, rand) {
-      // Pirotecnia: estampidos irregulares sobre un fondo lejano. Los
-      // estampidos se colocan lejos de la zona de fundido para que el bucle no
-      // parta uno por la mitad.
+      // Pirotecnia. Un estampido solo es un portazo o un trueno: lo que dice
+      // «fuegos artificiales» es la SECUENCIA — el silbido que sube, el
+      // estampido y el chisporroteo que cae después. Dos cohetes completos y
+      // petardos sueltos, sobre un fondo lejano que nunca llega a silencio.
       const lpBed = lowpass(500);
       const brBed = brown(rand);
       for (let i = 0; i < buf.length; i++) buf[i] = lpBed(brBed()) * 0.7;
-      let at = 0.35;
-      while (at < 6.9) {
-        const near = rand() > 0.45;
-        impactInto(buf, rand, at, {
-          decay: near ? 0.11 : 0.2,
-          tone: near ? 62 : 44,
-          noiseGain: near ? 1.5 : 0.7,
-          toneGain: near ? 1.2 : 0.8,
-          lpf: near ? 1600 : 700,
-        });
-        at += 0.25 + rand() * 1.1;
+
+      const rocket = (at) => {
+        // Silbido ascendente de 0,9 s (900 → 2600 Hz), bajo y con aire.
+        const s0 = Math.floor(at * SR);
+        const len = Math.floor(0.9 * SR);
+        let p = 0;
+        const air = bandpass(1800, 2);
+        for (let k = 0; k < len && s0 + k < buf.length; k++) {
+          const x = k / len;
+          p += (2 * Math.PI * (900 + 1700 * x * x)) / SR;
+          const env = Math.min(1, x / 0.1) * (1 - 0.3 * x);
+          buf[s0 + k] += (Math.sin(p) * 0.6 + air(rand() * 2 - 1) * 0.5) * env;
+        }
+        const boom = at + 0.95;
+        impactInto(buf, rand, boom, { decay: 0.18, tone: 55, noiseGain: 1.8, toneGain: 1.4, lpf: 1500 });
+        // Chisporroteo: chasquidos diminutos que se espacian y se apagan.
+        const crack = highpass(1800);
+        for (let c = 0; c < 120; c++) {
+          const tc = boom + 0.15 + rand() * 1.4;
+          const st = Math.floor(tc * SR);
+          const g = 0.5 * Math.exp(-(tc - boom) / 0.8);
+          for (let k = 0; k < 40 && st + k < buf.length; k++) {
+            buf[st + k] += crack(rand() * 2 - 1) * Math.exp(-k / 8) * g;
+          }
+        }
+      };
+      rocket(0.4);
+      rocket(4.3);
+      // Petardos sueltos entre cohete y cohete.
+      for (const at of [2.9, 3.3, 6.9, 7.15]) {
+        impactInto(buf, rand, at, { decay: 0.08, tone: 70, noiseGain: 1.6, toneGain: 1.0, lpf: 2200 });
       }
     },
   },
   {
     key: 'sensory_school_bell_loop', seed: 20260828, loop: 6, base: 880,
-    render(buf) {
-      // Campana: parciales INARMÓNICOS (1 · 2 · 2,4 · 3 · 4,5 · 5,33). Con
-      // armónicos enteros suena a órgano, no a timbre.
-      const partials = [1, 2, 2.4, 3, 4.5, 5.33];
-      const taus = [1.1, 0.85, 0.7, 0.6, 0.5, 0.45];
-      for (let strike = 0; strike < 6; strike++) {
-        const start = Math.floor(strike * 1.0 * SR);
-        for (let k = 0; k + start < buf.length && k < 1.2 * SR; k++) {
-          const t = k / SR;
-          let s = 0;
-          for (let p = 0; p < partials.length; p++) {
-            s += Math.sin(2 * Math.PI * 880 * partials[p] * t) * Math.exp(-t / taus[p]) / (p * 0.6 + 1.5);
+    render(buf, rand) {
+      // Timbre de colegio: ELÉCTRICO. Un martillo que golpea la campana unas
+      // veinte veces por segundo y la deja vibrando, en toques de 2,4 s. La
+      // versión anterior daba seis campanadas sueltas, que es una campana de
+      // iglesia o de mano, no el timbre del recreo. Entre toque y toque queda
+      // el aire de un pasillo, nunca silencio absoluto.
+      const partials = [1, 2.4, 2.9, 4.5, 5.33];
+      const amps = [1, 0.55, 0.35, 0.22, 0.15];
+      const taus = [0.45, 0.3, 0.25, 0.18, 0.14];
+      const hall = lowpass(900);
+      for (let i = 0; i < buf.length; i++) buf[i] = hall(rand() * 2 - 1) * 0.02;
+      for (const ring of [0.2, 3.2]) {
+        const strikes = Math.floor(2.4 * 21);
+        for (let s = 0; s < strikes; s++) {
+          const start = Math.floor((ring + s / 21) * SR);
+          const vel = 0.75 + 0.25 * rand();
+          for (let k = 0; k < Math.floor(0.6 * SR) && start + k < buf.length; k++) {
+            const t = k / SR;
+            let v = 0;
+            for (let p = 0; p < partials.length; p++) {
+              v += Math.sin(2 * Math.PI * 880 * partials[p] * t) * amps[p] * Math.exp(-t / taus[p]);
+            }
+            // Chasquido del martillo contra el metal.
+            const tick = (rand() * 2 - 1) * Math.exp(-t / 0.0015) * 0.6;
+            buf[start + k] += (v * 0.12 + tick) * vel;
           }
-          buf[start + k] += s;
         }
       }
     },

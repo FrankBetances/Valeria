@@ -128,7 +128,7 @@ export const TOGETHER_BANK_GL = [
 export const SESSION_CONTINUE_PHRASE_GL = 'Moi ben! Seguimos coa sesión!';
 export const ROUTE_DONE_PHRASE_GL = 'Ruta completada. Seguimos coa sesión.';
 export const VOICE_SAMPLE_PHRASE_GL = 'Ola! Así soará a miña voz nos exercicios. A que soa ben?';
-export const PAIRS_DONE_PHRASE_GL = 'Sesión de pares completada! Choca eses cinco con papá!';
+export const PAIRS_DONE_PHRASE_GL = 'Sesión de pares completada! Choca eses cinco con quen te acompaña!';
 
 // Frases fixas do overlay de rotación de roles (Pares Mínimos) en galego.
 export const ROLESWAP_INTRO_GL = 'Cambio de papeis! Agora manda o neno e fala o adulto.';

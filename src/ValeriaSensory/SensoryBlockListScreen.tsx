@@ -17,6 +17,7 @@ import { ProUnlockPill, ProPinModal } from '../ValeriaProPin';
 import { AUDITORY_INTEGRATION_ACTIVITIES } from './sensoryCatalog';
 import { useSensoryState } from './sensoryStore';
 import { AuditorySensoryExercise } from './sensoryTypes';
+import { SensoryPreviewCard } from './SensoryPreviewCard';
 
 export const SensoryBlockListScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
   const t = useT();
@@ -210,6 +211,11 @@ export const SensoryBlockListScreen: React.FC<{ navigation: any }> = ({ navigati
         {activeCount === 0 && !unlocked && (
           <Text style={s.emptyTxt}>{t.sensory.prescriptionEmpty}</Text>
         )}
+
+        {/* SEN-01 · oír los once sonidos sin entrar en cada actividad. Va
+            DEBAJO de las actividades: es una consulta del adulto, no la tarea
+            principal de la pantalla. */}
+        <SensoryPreviewCard navigation={navigation} />
 
         {/* La puerta del PIN, al final del listado: en Modo Familia no hay nada
             que editar arriba. */}

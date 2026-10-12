@@ -4,7 +4,7 @@
   "version": "2.0.0",
   "titulo": "Plan de revisión · Feedback clínico de las logopedas de ACOPROS (julio y agosto 2026)",
   "fecha": "2026-07-24",
-  "estado": "primera ronda (julio) completada y validada · SEGUNDA RONDA (2026-08-04) implementada, pendiente de validación en dispositivo · TERCERA RONDA (correo recibido el 2026-10-11) registrada, sin implementar: pendiente de saber con qué build probaron",
+  "estado": "primera ronda (julio) completada y validada · SEGUNDA RONDA (2026-08-04) implementada, pendiente de validación en dispositivo · TERCERA RONDA (correo del 2026-10-11) implementada el 2026-10-12 salvo ES-07 (entrega aparte); pendiente de escucha y de prueba en aparato",
   "descripcion": "Convierte el feedback cualitativo de las logopedas de ACOPROS sobre Pares Mínimos, Expansión Semántica y recordatorios en un backlog trazable: cada observación se verifica contra el código real del repositorio, se propone un cambio concreto con sus ficheros, se marca si requiere una decisión clínica previa y se cierra con criterios de aceptación comprobables en dispositivo.",
   "origen": {
     "fuente": "Correo de las logopedas de ACOPROS tras la prueba de la app",
@@ -2019,31 +2019,34 @@
         "id": "SEN-01",
         "bloque": "Integración Sensorial",
         "observacion": "Poder escuchar todos los sonidos de un mismo apartado sin volver a entrar en cada uno ni repetir la configuración del ejercicio.",
-        "estado": "ABIERTO · sin implementar",
-        "nota": "Reproducción en serie dentro del bloque (src/ValeriaSensory/). Cambio de flujo, no de contenido."
+        "estado": "hecho · pendiente de prueba en aparato",
+        "nota": "Reproducción en serie dentro del bloque (src/ValeriaSensory/). Cambio de flujo, no de contenido.",
+        "implementacion": "Escucha previa para el adulto en la lista del bloque (src/ValeriaSensory/SensoryPreviewCard.tsx): los once sonidos a nivel 2, 4 s cada uno, sin sesión ni registro. Fuera de la exposición a propósito."
       },
       {
         "id": "SEN-02",
         "bloque": "Integración Sensorial",
         "observacion": "Los sonidos suenan muy parecidos y no se corresponden con lo indicado (la aspiradora parece una moto o un coche). Piden sonidos más familiares y más distintos entre sí.",
-        "estado": "ABIERTO · decidido: rehacer la síntesis (Frank, 2026-10-11)",
+        "estado": "hecho · PENDIENTE DE ESCUCHA por Frank y ACOPROS",
         "nota": "HECHO: los once estímulos son sintéticos (scripts/generate-sensory-assets.js), elegidos por procedencia MDR, licencia y reproducibilidad, y normalizados a la misma sonoridad (-20 dBFS RMS). check-sensory-assets.js comprueba el reparto espectral, pero no si a un oído le suena a aspiradora. INFERENCIA: es el límite de la síntesis, no un fichero mal subido. DECISIÓN DE FRANK: grabaciones reales con licencia y procedencia documentadas, o rehacer la síntesis. Cualquier cambio de WAV obliga a revisar los umbrales de check-sensory-assets.js.",
-        "decision": "Rehacer la síntesis, manteniendo la procedencia propia (sin grabaciones de terceros). Requisitos: cada sonido reconocible y distinto de los demás; validación de oído por Frank y por ACOPROS antes de publicar, porque check-sensory-assets.js no puede comprobar el reconocimiento; ajustar los umbrales espectrales del gate a los sonidos nuevos en el mismo cambio."
+        "decision": "Rehacer la síntesis, manteniendo la procedencia propia (sin grabaciones de terceros). Requisitos: cada sonido reconocible y distinto de los demás; validación de oído por Frank y por ACOPROS antes de publicar, porque check-sensory-assets.js no puede comprobar el reconocimiento; ajustar los umbrales espectrales del gate a los sonidos nuevos en el mismo cambio.",
+        "implementacion": "Síntesis rehecha de aspiradora, licuadora, secador de pelo, secador de manos, pirotecnia y timbre (scripts/generate-sensory-assets.js). Frecuencias base del catálogo actualizadas y rangos del gate ajustados; los dos secadores ya no solapan en centroide. Distancia espectral y de modulación entre los ocho aislados: el par más parecido pasa de 0,97 (secador de pelo ↔ secador de manos) a 2,61. Es una medida, no una escucha."
       },
       {
         "id": "SEN-03",
         "bloque": "Integración Sensorial",
         "observacion": "El desarrollo de todos los apartados es igual; dudan de si no están actualizados, hay un fallo o no lo están entendiendo.",
-        "estado": "ABIERTO · por aclarar",
-        "nota": "Preguntar a ACOPROS junto con el número de build. Si es comprensión, falta explicar la progresión del bloque antes de empezar (mismo patrón que ES-11)."
+        "estado": "hecho · pendiente de prueba en aparato",
+        "nota": "Preguntar a ACOPROS junto con el número de build. Si es comprensión, falta explicar la progresión del bloque antes de empezar (mismo patrón que ES-11).",
+        "implementacion": "Tarjeta «Punto de partida» en la preparación de cada actividad (objetivo, sonido, intensidad, turno, quién arranca) y aviso de que las seis comparten pantalla. ISA-06 tenía la misma configuración de partida que ISA-05: ahora arranca con el centro comercial."
       }
     ],
     "relacionConOtrosPlanes": "Las observaciones que afectan al diseño de contenido nuevo (arranque por el usuario, longitud de la respuesta modelada, pictogramas, objetivo visible, navegación sin reconfigurar, rutinas como secuencias) se aplican desde el principio a «Juega en casa con Lúa»: docs/plan-integracion-juega-con-lua-asha.md, paso 3b.",
     "pendienteHumano": [
-      "CERRADO · ACOPROS no sabe con qué build probó; se sustituye por la revisión en código (revisionEnCodigo).",
-      "ABIERTO · SEN-02: rehacer la síntesis; validación de oído por Frank y ACOPROS.",
-      "ABIERTO · ES-03: decidir la corrección de la etiqueta del interruptor.",
-      "ABIERTO · PM-06, ES-07, SEN-01 y SEN-03: decisiones clínicas o de producto descritas en revisionEnCodigo."
+      "ABIERTO · Escuchar los seis sonidos sensoriales nuevos (SEN-02). Ningún script puede decir si suenan a lo que son.",
+      "ABIERTO · Ver en un Android: escucha previa, tarjeta de punto de partida, manos juntas, punto de mirada y filas de Expansión Semántica con pictogramas. Solo hay capturas de web.",
+      "ABIERTO · ES-07: diseñar con ACOPROS las secuencias de rutina (entrega aparte).",
+      "ABIERTO · PM-07 · ES-09: 87 conceptos sin dibujo propio, por tandas."
     ],
     "revisionEnCodigo": {
       "fecha": "2026-10-11",
@@ -2098,6 +2101,14 @@
           "queFalta": "Explicar al adulto, antes de empezar, en qué se diferencia cada actividad, o diferenciar el desarrollo de verdad. Decisión clínica."
         }
       ]
+    },
+    "implementacion": {
+      "fecha": "2026-10-12",
+      "PM-06": "Hecho. «Manos juntas» (Pares Mínimos) y «Punto de mirada» (TEA-1), con iconos propios handsTogether y eyeContact en ValeriaBlockIcons.tsx, en es/gl/ca/en y en las consignas de TEA-1 de los cuatro bancos.",
+      "ES-03": "Hecho. La etiqueta del interruptor dice ahora lo que hace (grabación automática tras la consigna) en los cuatro idiomas de interfaz.",
+      "PM-07 · ES-09": "Parcial. 28 pictogramas nuevos (PICTO_KEYS 120-147, añadidos al final) y enlace por emoji a los dibujos que ya existían. Fichas sin dibujo propio en Pares Mínimos y Expansión Semántica, todos los bancos: de 455 a 123 (PM 97→52, ES 358→71). Quedan 87 conceptos, casi todos de una sola ficha. Las filas de la lista de Expansión Semántica pasan por la misma ficha.",
+      "PM-05 (ronda 2)": "La frase de fin de Pares Mínimos decía «¡Choca esos cinco con papá!». Ahora «con quien te acompaña» (es/gl/ca) y «aitarekin edo amarekin» (eu). Texto locutado: corpus exportado.",
+      "ES-07": "No implementado: secuencias de rutina en Escenarios, entrega aparte por decisión de Frank (2026-10-12)."
     }
   }
 }

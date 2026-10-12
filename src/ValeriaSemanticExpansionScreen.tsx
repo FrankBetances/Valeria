@@ -718,7 +718,7 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
           {tab === 'scenario' && bank.scenarios.map((sc) => prescribableRow(
             sc.id, t.semantic.rowScenarioA11y(sc.title), () => start(scenarioSession(bank, sc.id, t)),
             <>
-              <Text style={{ fontSize: 30 }}>{sc.icon}</Text>
+              <FichaVisual word="" emoji={sc.icon} size={30} />
               <View style={{ flex: 1 }}>
                 <Text style={s.pickName}>{sc.title}</Text>
                 <Text style={s.pickCat}>{`${sc.subtitle} · ${t.semantic.wordCount(sc.items.length)}`}</Text>
@@ -731,7 +731,7 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
             return prescribableRow(
               ct.id, t.semantic.rowCategoryA11y(ct.title), () => start(categorySession(bank, ct.id, maxLevel, t)),
               <>
-                <Text style={{ fontSize: 30 }}>{ct.icon}</Text>
+                <FichaVisual word="" emoji={ct.icon} size={30} />
                 <View style={{ flex: 1 }}>
                   <Text style={s.pickName}>{ct.title}</Text>
                   <Text style={s.pickCat}>
@@ -746,7 +746,7 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
           {tab === 'sequence' && bank.sequences.map((sq) => prescribableRow(
             sq.id, t.semantic.rowSequenceA11y(sq.theme), () => start(sequenceSession(bank, sq.id, t)),
             <>
-              <Text style={{ fontSize: 30 }}>{sq.icon}</Text>
+              <FichaVisual word="" emoji={sq.icon} size={30} />
               <View style={{ flex: 1 }}>
                 <Text style={s.pickName}>{sq.theme}</Text>
                 <Text style={s.pickCat}>{sq.phases.map((p) => p.label).join(' → ')}</Text>

@@ -63,7 +63,7 @@ export const pairsDone = (loc: Locale): string =>
     : isEu(loc) ? PAIRS_DONE_PHRASE_EU
       : isEn(loc) ? PAIRS_DONE_PHRASE_EN
         : isCa(loc) ? PAIRS_DONE_PHRASE_CA
-          : '¡Sesión de pares completada! ¡Choca esos cinco con papá!';
+          : '¡Sesión de pares completada! ¡Choca esos cinco con quien te acompaña!';
 
 // Frases del overlay de rotación de roles por variedad.
 export interface RoleSwapPhrases {

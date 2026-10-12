@@ -139,7 +139,7 @@ export interface Exercise {
   // Dislexia DX-4: límite RÍGIDO de ensayos por bloque (fatiga cognitiva);
   // al alcanzarlo el player intercala una cápsula TPR de descarga obligatoria.
   maxTrials?: number;
-  // TEA-1: Instigación Retardada (Time Delay) — el Sello Doble queda bloqueado
+  // TEA-1: Instigación Retardada (Time Delay) — el punto de mirada queda bloqueado
   // ese nº de segundos y el adulto lo retiene hasta contacto visual real.
   timeDelaySec?: number;
   // TEA-4: el adulto puede inyectar una cápsula TPR abrupta A MITAD de flujo
@@ -410,8 +410,8 @@ export const DB: Record<string, Exercise> = {
   // registra lo que el adulto decidió. Ningún ejercicio ajusta dificultad.
   // ==========================================================================
   tea1: { ...meta('tea1'),
-    read: 'Coloca un objeto muy motivador entre tu cara y el niño. Espera 3 segundos ANTES de dar ninguna pista (instigación retardada): el botón del sello se desbloquea solo tras esa espera. Pulsa el Sello Doble ÚNICAMENTE cuando haya contacto visual real contigo, no con el objeto.',
-    stage: 'instruction', instrIcon: '👁️', instrHint: 'Triangula la atención: objeto → tu mirada → el niño. El sello se retiene hasta el contacto visual real; la espera de 3 s es la instigación retardada (Time Delay).',
+    read: 'Coloca un objeto muy motivador entre tu cara y el niño. Espera 3 segundos ANTES de dar ninguna pista (instigación retardada): el botón «Dar punto de mirada» se desbloquea solo tras esa espera. Púlsalo ÚNICAMENTE cuando haya contacto visual real contigo, no con el objeto.',
+    stage: 'instruction', instrIcon: '👁️', instrHint: 'Triangula la atención: objeto → tu mirada → el niño. El punto de mirada se retiene hasta el contacto visual real; la espera de 3 s es la instigación retardada (Time Delay).',
     timeDelaySec: 3,
     move: 'Esconde el objeto tras tu espalda y camina despacio: que te busque la mirada antes de enseñárselo.',
     ept: ['Todavía no alterna la mirada entre el objeto y tu cara, ni con espera.', 'Te mira si retienes el objeto junto a tu cara y le das una pista.', 'Alterna la mirada objeto→tú él solo, dentro de la espera de 3 segundos.'] },

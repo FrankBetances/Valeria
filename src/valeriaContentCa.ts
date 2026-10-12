@@ -147,7 +147,7 @@ export const TOGETHER_BANK_CA = [
 export const SESSION_CONTINUE_PHRASE_CA = 'Molt bé! Continuem amb la sessió!';
 export const ROUTE_DONE_PHRASE_CA = 'Ruta completada. Continuem amb la sessió.';
 export const VOICE_SAMPLE_PHRASE_CA = 'Hola! Així sonarà la meva veu als exercicis. Oi que sona bé?';
-export const PAIRS_DONE_PHRASE_CA = 'Sessió de parells completada! Xoca aquesta mà amb el pare!';
+export const PAIRS_DONE_PHRASE_CA = 'Sessió de parells completada! Xoca aquesta mà amb qui t\'acompanya!';
 
 // Veredictos del medidor de micrófono, en el mismo orden que el banco base
 // (flojo · medio · bien): los locuta el juez del turno de habla.

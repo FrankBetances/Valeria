@@ -491,7 +491,7 @@ export const ES = {
   // el adulto.
   pairs: {
     sealA11y: (who: string): string =>
-      `Huella de ${who}. Pulsad las dos huellas a la vez para continuar, o mantén pulsada esta dos segundos.`,
+      `Mano de ${who}. Pulsad las dos manos a la vez para continuar, o mantén pulsada esta dos segundos.`,
     pinSubtitle: 'Introduce el PIN de 4 dígitos del logopeda para elegir qué pares practica la familia.',
     sessionName: (a: string, b: string): string => `Pares mínimos · ${a} / ${b}`,
     noteClean: (phoneme: string): string =>
@@ -516,7 +516,7 @@ export const ES = {
     howBody:
       'Aparecen dos palabras casi iguales (rana / lana). La app pide una en voz alta, el niño '
       + 'la dice al micrófono y la app detecta si salió el fonema o la sustitución habitual. '
-      + 'Cada ensayo termina con una misión física en pareja y el sello doble: ¡sin las manos '
+      + 'Cada ensayo termina con una misión física en pareja y las manos juntas: ¡sin las manos '
       + 'de los dos en la pantalla no se avanza!',
     autoRecord: 'Grabación automática tras la consigna',
     autoRecordSub: 'Por defecto, apagada: el micro espera a que pulséis “Ya estoy listo”.',
@@ -548,7 +548,7 @@ export const ES = {
     adultVerdict: 'Veredicto del adulto.',
     missionCelebration: 'MISIÓN FÍSICA DE CELEBRACIÓN',
     missionCorrective: 'MISIÓN FÍSICA CORRECTIVA',
-    sealSuccess: 'Misión hecha: ¡sellad juntos para el siguiente ensayo!',
+    sealSuccess: 'Misión hecha: ¡manos juntas para el siguiente ensayo!',
 
     heardFoil: (w: string): string => `Escuché “${w}”… ¡era la otra palabra!`,
     almostTitle: '¡Casi casi!',
@@ -563,7 +563,7 @@ export const ES = {
     assistSub: (w: string): string =>
       `El adulto dice “${w}” muy despacio tocando la mejilla del niño, y el niño la repite `
       + 'a la vez. Sin prisa: hoy la practicamos, mañana sale sola.',
-    sealAssist: '¿La dijisteis juntos? ¡Sellad y seguimos!',
+    sealAssist: '¿La dijisteis juntos? ¡Manos juntas y seguimos!',
 
     overrideLabel: '¿La app oyó mal? Corrige tú:',
     overridePill: (w: string): string => `dijo “${w}”`,
@@ -593,14 +593,14 @@ export const ES = {
     regionNote: ' · solo variedades con distinción s/z',
     streakChip: (n: number): string => (n === 1 ? 'día de racha' : 'días de racha'),
 
-    sealKicker: '🤝 SELLO DOBLE PARA CONTINUAR',
+    sealKicker: 'MANOS JUNTAS PARA CONTINUAR',
     sealWhy:
       'Sirve para que el ejercicio no siga solo: hasta que no ponéis las dos manos, la app espera. '
       + 'Así cerráis juntos cada intento y el adulto no se queda mirando desde fuera.',
     sealAdult: 'ADULTO',
     sealChild: 'YO',
     sealPlus: 'a la vez',
-    sealHint: 'Quien acompañe al niño. ¿Una sola mano libre? Mantén pulsada una huella 2 segundos.',
+    sealHint: 'Quien acompañe al niño. ¿Una sola mano libre? Mantén pulsada una mano 2 segundos.',
   },
 
   // Expansión Semántica. Del banco de la VARIEDAD salen los escenarios, las
@@ -630,8 +630,8 @@ export const ES = {
       + 'pedirla («Esto es la cama. Di: cama.»). El niño la repite con su voz y el micrófono '
       + 'valora el intento, aceptando las aproximaciones propias de la edad. Cada palabra se '
       + 'cierra con una acción física del adulto que la ancla al cuerpo y al entorno real.',
-    autoRecord: 'Audio y grabación automáticos',
-    autoRecordSub: 'Por defecto, apagado: pulsad para oír el modelo y para grabar.',
+    autoRecord: 'Grabación automática tras la consigna',
+    autoRecordSub: 'Por defecto, apagada: la consigna suena al pulsar ▶ y el micro espera a que pulséis para grabar.',
 
     levelKicker: '📶 NIVEL MÁXIMO DE DIFICULTAD',
     levelHint: 'Con el tope en 1, la sesión solo presenta las palabras más familiares de cada categoría.',
@@ -841,11 +841,11 @@ export const ES = {
     promptTextKicker: 'TEXTO · PUEDES LEERLO TÚ EN VOZ ALTA',
     hearExample: '🔊 Oír ejemplo',
 
-    selloKicker: '🤝 SELLO DOBLE · INSTIGACIÓN RETARDADA',
+    selloKicker: 'PUNTO DE MIRADA · INSTIGACIÓN RETARDADA',
     selloWait: (s: number): string => `⏳ Espera ${s} s…`,
-    selloGive: '🤝 Dar el Sello Doble',
-    selloGiveA11y: 'Dar el sello doble por contacto visual real',
-    selloCount: (stars: string, n: number): string => `Sellos por contacto visual: ${stars} (${n})`,
+    selloGive: 'Dar punto de mirada',
+    selloGiveA11y: 'Dar un punto de mirada por contacto visual real',
+    selloCount: (stars: string, n: number): string => `Puntos de mirada: ${stars} (${n})`,
     breakNow: '⏸️ Interrumpir ahora (cápsula sorpresa)',
     breakNowA11y: 'Interrumpir ahora con una cápsula de movimiento sorpresa',
 
@@ -1665,6 +1665,20 @@ export const ES = {
     clinicalNoticeBody:
       'Tú configuras la intensidad y la duración. El niño o la niña puede pedir una pausa o detener el ejercicio en cualquier momento. Parar nunca es un fallo ni resta progreso.',
     activitiesHeader: 'ACTIVIDADES SENSORIALES',
+    // SEN-01 · Escucha previa del adulto (ACOPROS, 3.ª ronda).
+    previewKicker: 'ESCUCHA PREVIA · SOLO PARA EL ADULTO',
+    previewBody: 'Escucha los once sonidos antes de elegir actividad, sin configurar nada. Hazlo sin el niño delante: no es una sesión de exposición y no se registra.',
+    previewPlayAll: 'Escuchar todos',
+    previewStop: 'Parar',
+    previewItemA11y: (label: string, playing: boolean): string => (playing ? `Parar ${label}` : `Escuchar ${label}`),
+    // SEN-03 · Qué distingue a cada actividad.
+    startingPointKicker: 'PUNTO DE PARTIDA DE ESTA ACTIVIDAD',
+    sharedScreenNote: 'Las seis actividades usan esta misma pantalla. Lo que cambia es el objetivo y el punto de partida: el sonido, la intensidad, la duración y quién arranca el sonido. Todo se puede cambiar abajo.',
+    startSound: (s: string): string => `Sonido: ${s}`,
+    startIntensity: (n: number): string => `Intensidad: ${n} de 5`,
+    startDuration: (d: string): string => `Turno: ${d}`,
+    agencyChild: 'Lo arranca el niño con su botón',
+    agencyAuto: 'Entra solo al acabar la cuenta atrás',
     pilotBadge: 'PILOTO FUNCIONAL',
     inDevBadge: 'PRÓXIMAMENTE',
     availableTag: 'Disponible',

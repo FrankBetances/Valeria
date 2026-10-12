@@ -510,7 +510,7 @@ export const GL: UiStrings = {
   // activa (valeriaMinimalPairs*). Aquí vive o andamio que le o adulto.
   pairs: {
     sealA11y: (who: string): string =>
-      `Pegada de ${who}. Premede as dúas pegadas á vez para continuar, ou mantén premida esta dous segundos.`,
+      `Man de ${who}. Premede as dúas mans á vez para continuar, ou mantén premida esta dous segundos.`,
     pinSubtitle: 'Introduce o PIN de 4 díxitos do logopeda para elixir que pares practica a familia.',
     sessionName: (a: string, b: string): string => `Pares mínimos · ${a} / ${b}`,
     noteClean: (phoneme: string): string =>
@@ -532,7 +532,7 @@ export const GL: UiStrings = {
     howBody:
       'Aparecen dúas palabras case iguais (rúa / lúa). A app pide unha en voz alta, o neno '
       + 'dilla ao micrófono e a app detecta se saíu o fonema ou a substitución habitual. '
-      + 'Cada ensaio remata cunha misión física en parella e o selo dobre: sen as mans '
+      + 'Cada ensaio remata cunha misión física en parella e as mans xuntas: sen as mans '
       + 'dos dous na pantalla non se avanza!',
     autoRecord: 'Gravación automática tras a consigna',
     autoRecordSub: 'Por defecto, apagada: o micro agarda a que premades «Xa estou listo».',
@@ -564,7 +564,7 @@ export const GL: UiStrings = {
     adultVerdict: 'Veredicto do adulto.',
     missionCelebration: 'MISIÓN FÍSICA DE CELEBRACIÓN',
     missionCorrective: 'MISIÓN FÍSICA CORRECTIVA',
-    sealSuccess: 'Misión feita: selade xuntos para o seguinte ensaio!',
+    sealSuccess: 'Misión feita: mans xuntas para o seguinte ensaio!',
 
     heardFoil: (w: string): string => `Escoitei «${w}»… era a outra palabra!`,
     almostTitle: 'Case case!',
@@ -579,7 +579,7 @@ export const GL: UiStrings = {
     assistSub: (w: string): string =>
       `O adulto di «${w}» moi devagar tocando a meixela do neno, e o neno repítea `
       + 'á vez. Sen présa: hoxe practicámola, mañá sae soa.',
-    sealAssist: 'Dixéstela xuntos? Selade e seguimos!',
+    sealAssist: 'Dixéstela xuntos? Mans xuntas e seguimos!',
 
     overrideLabel: 'A app oíu mal? Corrixe ti:',
     overridePill: (w: string): string => `dixo «${w}»`,
@@ -609,14 +609,14 @@ export const GL: UiStrings = {
     regionNote: ' · só variedades con distinción s/z',
     streakChip: (n: number): string => (n === 1 ? 'día de racha' : 'días de racha'),
 
-    sealKicker: '🤝 SELO DOBRE PARA CONTINUAR',
+    sealKicker: 'MANS XUNTAS PARA CONTINUAR',
     sealWhy:
       'Serve para que o exercicio non siga só: ata que non poñedes as dúas mans, a app agarda. '
       + 'Así pechades xuntos cada intento e o adulto non queda mirando desde fóra.',
     sealAdult: 'ADULTO',
     sealChild: 'EU',
     sealPlus: 'á vez',
-    sealHint: 'Quen acompañe o neno. Unha soa man libre? Mantén premida unha pegada 2 segundos.',
+    sealHint: 'Quen acompañe o neno. Unha soa man libre? Mantén premida unha man 2 segundos.',
   },
 
   // Expansión Semántica. Do banco da VARIEDADE saen os escenarios, as
@@ -643,8 +643,8 @@ export const GL: UiStrings = {
       + 'pedila («Isto é a cama. Di: cama.»). O neno repítea coa súa voz e o micrófono '
       + 'valora o intento, aceptando as aproximacións propias da idade. Cada palabra '
       + 'péchase cunha acción física do adulto que a ancora ao corpo e á contorna real.',
-    autoRecord: 'Audio e gravación automáticos',
-    autoRecordSub: 'Por defecto, apagado: premede para oír o modelo e para gravar.',
+    autoRecord: 'Gravación automática tras a consigna',
+    autoRecordSub: 'Por defecto, apagada: a consigna soa ao premer ▶ e o micro agarda a que premades para gravar.',
 
     levelKicker: '📶 NIVEL MÁXIMO DE DIFICULTADE',
     levelHint: 'Co tope en 1, a sesión só presenta as palabras máis familiares de cada categoría.',
@@ -853,11 +853,11 @@ export const GL: UiStrings = {
     promptTextKicker: 'TEXTO · PODES LELO TI EN VOZ ALTA',
     hearExample: '🔊 Oír exemplo',
 
-    selloKicker: '🤝 SELO DOBRE · INSTIGACIÓN RETARDADA',
+    selloKicker: 'PUNTO DE MIRADA · INSTIGACIÓN RETARDADA',
     selloWait: (s: number): string => `⏳ Agarda ${s} s…`,
-    selloGive: '🤝 Dar o Selo Dobre',
-    selloGiveA11y: 'Dar o selo dobre por contacto visual real',
-    selloCount: (stars: string, n: number): string => `Selos por contacto visual: ${stars} (${n})`,
+    selloGive: 'Dar punto de mirada',
+    selloGiveA11y: 'Dar un punto de mirada por contacto visual real',
+    selloCount: (stars: string, n: number): string => `Puntos de mirada: ${stars} (${n})`,
     breakNow: '⏸️ Interromper agora (cápsula sorpresa)',
     breakNowA11y: 'Interromper agora cunha cápsula de movemento sorpresa',
 
@@ -1645,6 +1645,20 @@ export const GL: UiStrings = {
     clinicalNoticeBody:
       'Ti configuras a intensidade e a duración. O neno ou a nena pode pedir unha pausa ou deter o exercicio en calquera momento. Parar nunca é un fallo nin resta progreso.',
     activitiesHeader: 'ACTIVIDADES SENSORIAIS',
+    // SEN-01 · Escoita previa do adulto (ACOPROS, 3.ª rolda).
+    previewKicker: 'ESCOITA PREVIA · SÓ PARA O ADULTO',
+    previewBody: 'Escoita os once sons antes de escoller actividade, sen configurar nada. Faino sen o neno diante: non é unha sesión de exposición e non se rexistra.',
+    previewPlayAll: 'Escoitar todos',
+    previewStop: 'Parar',
+    previewItemA11y: (label: string, playing: boolean): string => (playing ? `Parar ${label}` : `Escoitar ${label}`),
+    // SEN-03 · Que distingue cada actividade.
+    startingPointKicker: 'PUNTO DE PARTIDA DESTA ACTIVIDADE',
+    sharedScreenNote: 'As seis actividades usan esta mesma pantalla. O que cambia é o obxectivo e o punto de partida: o son, a intensidade, a duración e quen arrinca o son. Todo se pode cambiar abaixo.',
+    startSound: (s: string): string => `Son: ${s}`,
+    startIntensity: (n: number): string => `Intensidade: ${n} de 5`,
+    startDuration: (d: string): string => `Quenda: ${d}`,
+    agencyChild: 'Arríncao o neno co seu botón',
+    agencyAuto: 'Entra só ao rematar a conta atrás',
     pilotBadge: 'PILOTO FUNCIONAL',
     inDevBadge: 'PROXIMAMENTE',
     availableTag: 'Dispoñible',

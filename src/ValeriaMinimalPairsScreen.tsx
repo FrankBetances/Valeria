@@ -145,6 +145,7 @@ const DoubleSeal: React.FC<{ label: string; onUnlock: () => void }> = ({ label, 
       onTouchEnd={countTouches}
       onTouchCancel={() => setTouchCount(0)}
     >
+      <View style={s.sealIcon}><BlockIcon name="handsTogether" color="#6d3fc4" size={26} /></View>
       <Text style={s.sealKicker}>{t.pairs.sealKicker}</Text>
       {/* ACOPROS: el sello se veía pero no se entendía para qué servía. La
           mecánica ya se explicaba («pulsad a la vez»); lo que faltaba era el
@@ -1172,6 +1173,7 @@ const s = StyleSheet.create({
 
   // sello doble
   sealCard: { backgroundColor: '#f5f0ff', borderWidth: 1.5, borderColor: '#ddccfa', borderRadius: 18, padding: 14, marginTop: 12, alignItems: 'center' },
+  sealIcon: { alignItems: 'center', marginBottom: 4 },
   sealKicker: { fontSize: 11, fontWeight: '800', letterSpacing: 0.6, color: '#6d3fc4' },
   sealWhy: { fontSize: 11, fontWeight: '600', color: V.color.textMuted, textAlign: 'center', marginTop: 6, lineHeight: 15.5 },
   sealLabel: { fontSize: 12.5, fontWeight: '700', color: V.color.textSecondary, textAlign: 'center', marginTop: 6, lineHeight: 17 },

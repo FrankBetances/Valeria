@@ -82,7 +82,7 @@ export const LENGUAJE_META_ES: ExerciseMeta[] = [
 // Módulo TEA (PRT + TCC): el software orquesta las contingencias; la carga
 // comunicativa, los estresores y el veredicto son SIEMPRE del adulto (muro MDR).
 export const TEA_META_ES: ExerciseMeta[] = [
-  { id: 'tea1', code: 'TEA-1', name: 'Atención Conjunta Triangulada', category: 'PRT · contacto visual y sello doble' },
+  { id: 'tea1', code: 'TEA-1', name: 'Atención Conjunta Triangulada', category: 'PRT · contacto visual y punto de mirada' },
   { id: 'tea2', code: 'TEA-2', name: 'Quiebre Pragmático Inducido', category: 'Reparación comunicativa (manual)' },
   { id: 'tea3', code: 'TEA-3', name: 'Espejo Asimétrico', category: 'Inhibición de ecopraxia' },
   { id: 'tea4', code: 'TEA-4', name: 'Transición Interrumpida', category: 'Flexibilidad cognitiva (manual)' },
@@ -282,7 +282,7 @@ export const LENGUAJE_META_GL: ExerciseMeta[] = [
 ];
 
 export const TEA_META_GL: ExerciseMeta[] = [
-  { id: 'tea1', code: 'TEA-1', name: 'Atención Conxunta Triangulada', category: 'PRT · contacto visual e selo dobre' },
+  { id: 'tea1', code: 'TEA-1', name: 'Atención Conxunta Triangulada', category: 'PRT · contacto visual e punto de mirada' },
   { id: 'tea2', code: 'TEA-2', name: 'Quebra Pragmática Inducida', category: 'Reparación comunicativa (manual)' },
   { id: 'tea3', code: 'TEA-3', name: 'Espello Asimétrico', category: 'Inhibición de ecopraxia' },
   { id: 'tea4', code: 'TEA-4', name: 'Transición Interrompida', category: 'Flexibilidade cognitiva (manual)' },

@@ -190,10 +190,13 @@ function loadCatalog() {
 // Identidad esperada de cada estímulo. Los márgenes son anchos a propósito: el
 // gate persigue "esto ya no es el sonido que era", no décimas.
 const EXPECTED = {
-  sensory_vacuum_loop:      { centroid: [500, 1600],  low: [0.30, 0.70], high: [0.03, 0.25] },
-  sensory_blender_loop:     { centroid: [300, 900],   low: [0.45, 0.80], high: [0.00, 0.15] },
-  sensory_hairdryer_loop:   { centroid: [1000, 2400], low: [0.15, 0.50], high: [0.15, 0.45] },
-  sensory_hand_dryer_loop:  { centroid: [1000, 2400], low: [0.18, 0.52], high: [0.14, 0.45] },
+  // Síntesis rehecha el 12/10/2026 (ACOPROS, SEN-02: la aspiradora sonaba a
+  // moto y los dos secadores eran casi el mismo fichero). Los rangos de los
+  // dos secadores ya NO se solapan en centroide: si vuelven a parecerse, falla.
+  sensory_vacuum_loop:      { centroid: [950, 1700],  low: [0.10, 0.32], high: [0.08, 0.30] },
+  sensory_blender_loop:     { centroid: [380, 800],   low: [0.32, 0.58], high: [0.00, 0.12] },
+  sensory_hairdryer_loop:   { centroid: [600, 1050],  low: [0.18, 0.40], high: [0.02, 0.15] },
+  sensory_hand_dryer_loop:  { centroid: [1150, 2200], low: [0.18, 0.40], high: [0.18, 0.40] },
   sensory_thunder_loop:     { centroid: [120, 450],   low: [0.70, 1.00], high: [0.00, 0.08] },
   sensory_siren_loop:       { centroid: [600, 1400],  low: [0.03, 0.30], high: [0.01, 0.25] },
   sensory_fireworks_loop:   { centroid: [120, 400],   low: [0.70, 1.00], high: [0.00, 0.08] },

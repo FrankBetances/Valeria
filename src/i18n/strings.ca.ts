@@ -469,7 +469,7 @@ export const CA: UiStrings = {
 
   pairs: {
     sealA11y: (who: string): string =>
-      `Petjada de ${who}. Premeu totes dues petjades alhora per continuar, o mantén premuda aquesta dos segons.`,
+      `Mà de ${who}. Premeu totes dues mans alhora per continuar, o mantén premuda aquesta dos segons.`,
     pinSubtitle: 'Introdueix el PIN de 4 xifres del logopeda per triar quins parells practica la família.',
     sessionName: (a: string, b: string): string => `Parells mínims · ${a} / ${b}`,
     noteClean: (phoneme: string): string =>
@@ -491,7 +491,7 @@ export const CA: UiStrings = {
     howBody:
       'Apareixen dues paraules gairebé iguals (rana / lana). L\'aplicació en demana una en veu alta, l\'infant '
       + 'la diu al micròfon i l\'aplicació detecta si ha sortit el fonema o la substitució habitual. '
-      + 'Cada assaig acaba amb una missió física en parella i el segell doble: sense les mans '
+      + 'Cada assaig acaba amb una missió física en parella i les mans juntes: sense les mans '
       + 'de tots dos a la pantalla no s\'avança!',
     autoRecord: 'Enregistrament automàtic després de la consigna',
     autoRecordSub: 'Per defecte, apagat: el micròfon espera que premeu “Ja estic a punt”.',
@@ -523,7 +523,7 @@ export const CA: UiStrings = {
     adultVerdict: 'Veredicte de l\'adult.',
     missionCelebration: 'MISSIÓ FÍSICA DE CELEBRACIÓ',
     missionCorrective: 'MISSIÓ FÍSICA CORRECTIVA',
-    sealSuccess: 'Missió feta: segelleu plegats per al següent assaig!',
+    sealSuccess: 'Missió feta: mans juntes per al següent assaig!',
 
     heardFoil: (w: string): string => `He sentit “${w}”… era l'altra paraula!`,
     almostTitle: 'Gairebé!',
@@ -538,7 +538,7 @@ export const CA: UiStrings = {
     assistSub: (w: string): string =>
       `L'adult diu “${w}” molt a espai tocant la galta de l'infant, i l'infant la repeteix `
       + 'alhora. Sense pressa: avui la practiquem, demà sortirà sola.',
-    sealAssist: 'L\'heu dita plegats? Segelleu i continuem!',
+    sealAssist: 'L\'heu dita plegats? Mans juntes i continuem!',
 
     overrideLabel: 'L\'aplicació ha sentit malament? Corregeix tu:',
     overridePill: (w: string): string => `ha dit “${w}”`,
@@ -565,14 +565,14 @@ export const CA: UiStrings = {
     regionNote: ' · només varietats amb distinció s/z',
     streakChip: (n: number): string => (n === 1 ? 'dia de ratxa' : 'dies de ratxa'),
 
-    sealKicker: '🤝 SEGELL DOBLE PER CONTINUAR',
+    sealKicker: 'MANS JUNTES PER CONTINUAR',
     sealWhy:
       'Serveix perquè l\'exercici no continuï sol: fins que no poseu totes dues mans, l\'aplicació espera. '
       + 'Així tanqueu plegats cada intent i l\'adult no es queda mirant des de fora.',
     sealAdult: 'ADULT',
     sealChild: 'JO',
     sealPlus: 'alhora',
-    sealHint: 'Qui acompanyi l\'infant. Només teniu una mà lliure? Mantén premuda una petjada 2 segons.',
+    sealHint: 'Qui acompanyi l\'infant. Només teniu una mà lliure? Mantén premuda una mà 2 segons.',
   },
 
   semantic: {
@@ -596,8 +596,8 @@ export const CA: UiStrings = {
       + 'demanar-la («Això és el llit. Diu: llit.»). L\'infant la repeteix amb la veu i el micròfon '
       + 'valora l\'intent, acceptant les aproximacions pròpies de l\'edat. Cada paraula es '
       + 'tanca amb una acció física de l\'adult que l\'ancora al cos i a l\'entorn real.',
-    autoRecord: 'Àudio i enregistrament automàtics',
-    autoRecordSub: 'Per defecte, apagat: premeu per sentir el model i per enregistrar.',
+    autoRecord: 'Enregistrament automàtic després de la consigna',
+    autoRecordSub: 'Per defecte, apagat: la consigna sona en prémer ▶ i el micròfon espera que premeu per enregistrar.',
 
     levelKicker: '📶 NIVELL MÀXIM DE DIFICULTAT',
     levelHint: 'Amb el límit a 1, la sessió només presenta les paraules més familiars de cada categoria.',
@@ -803,11 +803,11 @@ export const CA: UiStrings = {
     promptTextKicker: 'TEXT · POTS LLEGIR-LO TU EN VEU ALTA',
     hearExample: '🔊 Sentir exemple',
 
-    selloKicker: '🤝 SEGELL DOBLE · INSTIGACIÓ RETARDADA',
+    selloKicker: 'PUNT DE MIRADA · INSTIGACIÓ RETARDADA',
     selloWait: (s: number): string => `⏳ Espera ${s} s…`,
-    selloGive: '🤝 Donar el Segell Doble',
-    selloGiveA11y: 'Donar el segell doble per contacte visual real',
-    selloCount: (stars: string, n: number): string => `Segells per contacte visual: ${stars} (${n})`,
+    selloGive: 'Donar punt de mirada',
+    selloGiveA11y: 'Donar un punt de mirada per contacte visual real',
+    selloCount: (stars: string, n: number): string => `Punts de mirada: ${stars} (${n})`,
     breakNow: '⏸️ Interrompre ara (càpsula sorpresa)',
     breakNowA11y: 'Interrompre ara amb una càpsula de moviment sorpresa',
 
@@ -1565,6 +1565,20 @@ export const CA: UiStrings = {
     clinicalNoticeBody:
       'Tu configures la intensitat i la durada. L\'infant pot demanar una pausa o aturar l\'exercici en qualsevol moment. Aturar-se mai no és una errada ni resta progrés.',
     activitiesHeader: 'ACTIVITATS SENSORIALS',
+    // SEN-01 · Escolta prèvia de l'adult (ACOPROS, 3a ronda).
+    previewKicker: 'ESCOLTA PRÈVIA · NOMÉS PER A L\'ADULT',
+    previewBody: 'Escolta els onze sons abans de triar activitat, sense configurar res. Fes-ho sense l\'infant al davant: no és una sessió d\'exposició i no es registra.',
+    previewPlayAll: 'Escoltar-los tots',
+    previewStop: 'Atura',
+    previewItemA11y: (label: string, playing: boolean): string => (playing ? `Atura ${label}` : `Escolta ${label}`),
+    // SEN-03 · Què distingeix cada activitat.
+    startingPointKicker: 'PUNT DE PARTIDA D\'AQUESTA ACTIVITAT',
+    sharedScreenNote: 'Les sis activitats fan servir aquesta mateixa pantalla. El que canvia és l\'objectiu i el punt de partida: el so, la intensitat, la durada i qui engega el so. Tot es pot canviar a sota.',
+    startSound: (s: string): string => `So: ${s}`,
+    startIntensity: (n: number): string => `Intensitat: ${n} de 5`,
+    startDuration: (d: string): string => `Torn: ${d}`,
+    agencyChild: 'L\'engega l\'infant amb el seu botó',
+    agencyAuto: 'Entra sol en acabar el compte enrere',
     pilotBadge: 'PILOT FUNCIONAL',
     inDevBadge: 'PROPERAMENT',
     availableTag: 'Disponible',
