@@ -653,14 +653,22 @@ export const GL: UiStrings = {
         : n === 2 ? 'Nivel 2 · familiar'
           : 'Nivel 3 · menos frecuente',
 
-    sectionScenarios: 'ESCENARIOS DIARIOS',
+    sectionScenarios: 'RUTINAS DO DÍA',
     sectionCategories: 'CATEGORÍAS LÉXICAS',
     sectionSequences: 'PROGRESIÓN LÉXICA',
     sectionCapsules: 'CÁPSULAS DE CONTRASTE',
     prescribedCount: (n: number): string => `${n} prescritas`,
     goalKicker: 'QUE SE TRABALLA AQUÍ',
+    // ES-07 · paso de ordenar a rutina.
+    orderKicker: 'ORDENA A RUTINA',
+    orderPhase: 'Ordena',
+    orderSuccessTitle: 'Rutina ordenada!',
+    orderInstruction: 'Tocade os debuxos en orde: que vai primeiro?',
+    orderTileA11y: (label: string): string => `Paso: ${label}`,
+    orderPlacedA11y: (label: string, n: number): string => `${label}, colocado no posto ${n}`,
+    routineStep: (n: number, total: number): string => `PASO ${n} DE ${total}`,
     sectionGoal: (section: string): string =>
-      section === 'scenario' ? 'Repetición verbal: o neno imita a palabra obxectivo en situacións do día a día.'
+      section === 'scenario' ? 'Rutinas do día: o neno ordena os catro pasos da rutina e despois di cada paso na súa orde.'
         : section === 'category' ? 'Vocabulario novo por campo: empézase polas palabras máis familiares e avánzase ás menos frecuentes.'
           : section === 'sequence' ? 'Vocabulario arredor dun concepto: que é, que ten, que fai e como é.'
             : 'Opostos: primeiro elixir a imaxe correcta e despois dicir a palabra.',
@@ -675,6 +683,7 @@ export const GL: UiStrings = {
           : kind === 'adjetivo' ? 'Adxectivo'
             : 'Onomatopea',
     wordCount: (n: number): string => `${n} palabras`,
+    routineStepCount: (n: number): string => `${n} pasos`,
 
     savePrescription: 'Gardar Prescrición',
     saveHelper: 'A selección gárdase no dispositivo e a edición bloquéase de novo.',
@@ -725,11 +734,11 @@ export const GL: UiStrings = {
     otherBlock: 'Elixir outro bloque',
     subtitlePick: 'Progresión léxica · do símbolo ao mundo real do neno',
     editingOn: 'Edición profesional habilitada',
-    tabScenarios: 'Escenarios',
+    tabScenarios: 'Rutinas',
     tabCategories: 'Categorías',
     tabSequences: 'Progresión',
     tabContrasts: 'Contrastes',
-    kindScenario: 'Escenario',
+    kindScenario: 'Rutina',
     kindSequence: 'Progresión',
     kindContrast: 'Contraste',
     stepPoints: ' · o neno sinala',
@@ -750,7 +759,7 @@ export const GL: UiStrings = {
     capsuleKindAdj: 'Par de adxectivos',
     capsuleKindVerb: 'Verbos antónimos',
     capsuleMeta: 'cápsula TPR · 2 voltas',
-    rowScenarioA11y: (title: string): string => `escenario ${title}`,
+    rowScenarioA11y: (title: string): string => `rutina ${title}`,
     rowCategoryA11y: (title: string): string => `categoría ${title}`,
     rowSequenceA11y: (theme: string): string => `progresión ${theme}`,
     rowCapsuleA11y: (a: string, b: string): string => `cápsula de contraste ${a} e ${b}`,

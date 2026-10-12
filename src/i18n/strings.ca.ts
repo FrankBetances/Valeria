@@ -606,14 +606,22 @@ export const CA: UiStrings = {
         : n === 2 ? 'Nivell 2 · familiar'
           : 'Nivell 3 · menys freqüent',
 
-    sectionScenarios: 'ESCENARIS DIARIS',
+    sectionScenarios: 'RUTINES DEL DIA',
     sectionCategories: 'CATEGORIES LÈXIQUES',
     sectionSequences: 'PROGRESSIÓ LÈXICA',
     sectionCapsules: 'CÀPSULES DE CONTRAST',
     prescribedCount: (n: number): string => `${n} prescrites`,
     goalKicker: 'QUÈ ES TREBALLA AQUÍ',
+    // ES-07 · pas d'ordenar la rutina.
+    orderKicker: 'ORDENA LA RUTINA',
+    orderPhase: 'Ordena',
+    orderSuccessTitle: 'Rutina ordenada!',
+    orderInstruction: 'Toqueu els dibuixos en ordre: què va primer?',
+    orderTileA11y: (label: string): string => `Pas: ${label}`,
+    orderPlacedA11y: (label: string, n: number): string => `${label}, col·locat en el lloc ${n}`,
+    routineStep: (n: number, total: number): string => `PAS ${n} DE ${total}`,
     sectionGoal: (section: string): string =>
-      section === 'scenario' ? 'Repetició verbal: l\'infant imita la paraula objectiu en situacions del dia a dia.'
+      section === 'scenario' ? 'Rutines del dia: l\'infant ordena els quatre passos de la rutina i després diu cada pas en el seu ordre.'
         : section === 'category' ? 'Vocabulari nou per camp: es comença per les paraules més familiars i s\'avança cap a les menys freqüents.'
           : section === 'sequence' ? 'Vocabulari al voltant d\'un concepte: què és, què té, què fa i com és.'
             : 'Oposats: primer triar la imatge correcta i després dir la paraula.',
@@ -628,6 +636,7 @@ export const CA: UiStrings = {
           : kind === 'adjetivo' ? 'Adjectiu'
             : 'Onomatopeia',
     wordCount: (n: number): string => `${n} paraules`,
+    routineStepCount: (n: number): string => `${n} passos`,
 
     savePrescription: 'Desar la Prescripció',
     saveHelper: 'La selecció es desa al dispositiu i l\'edició es bloqueja de nou.',
@@ -678,11 +687,11 @@ export const CA: UiStrings = {
     otherBlock: 'Triar un altre bloc',
     subtitlePick: 'Progressió lèxica · del símbol al món real de l\'infant',
     editingOn: 'Edició professional habilitada',
-    tabScenarios: 'Escenaris',
+    tabScenarios: 'Rutines',
     tabCategories: 'Categories',
     tabSequences: 'Progressió',
     tabContrasts: 'Contrastos',
-    kindScenario: 'Escenari',
+    kindScenario: 'Rutina',
     kindSequence: 'Progressió',
     kindContrast: 'Contrast',
     stepPoints: ' · l\'infant assenyala',
@@ -703,7 +712,7 @@ export const CA: UiStrings = {
     capsuleKindAdj: 'Parell d\'adjectius',
     capsuleKindVerb: 'Verbs antònims',
     capsuleMeta: 'càpsula TPR · 2 voltes',
-    rowScenarioA11y: (title: string): string => `escenari ${title}`,
+    rowScenarioA11y: (title: string): string => `rutina ${title}`,
     rowCategoryA11y: (title: string): string => `categoria ${title}`,
     rowSequenceA11y: (theme: string): string => `progressió ${theme}`,
     rowCapsuleA11y: (a: string, b: string): string => `càpsula de contrast ${a} i ${b}`,

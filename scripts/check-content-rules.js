@@ -40,6 +40,8 @@ try {
     path.join(ROOT, 'src', 'valeriaSemanticExpansionEu.ts'),
     path.join(ROOT, 'src', 'valeriaSemanticExpansionGl.ts'),
     path.join(ROOT, 'src', 'valeriaSemanticExpansionEn.ts'),
+    path.join(ROOT, 'src', 'valeriaSemanticExpansionCa.ts'),
+    path.join(ROOT, 'src', 'ValeriaPixelArt.ts'),
   ];
   execSync(
     ['npx tsc', ...entradas.map((e) => JSON.stringify(e)),
@@ -53,6 +55,32 @@ try {
   const eu = require(path.join(tmp, 'valeriaSemanticExpansionEu.js'));
   const gl = require(path.join(tmp, 'valeriaSemanticExpansionGl.js'));
   const en = require(path.join(tmp, 'valeriaSemanticExpansionEn.js'));
+  const ca = require(path.join(tmp, 'valeriaSemanticExpansionCa.js'));
+  const { PICTO_KEYS } = require(path.join(tmp, 'ValeriaPixelArt.js'));
+  const DIBUJOS = new Set(PICTO_KEYS);
+
+  // ---- R4 · ES-07: cada rutina se puede ORDENAR mirando los dibujos --------
+  // Cuatro pasos, cada uno con dibujo propio y ninguno repetido. Con un emoji
+  // del sistema o con dos fichas iguales el niño no ordena una rutina: adivina.
+  // Va antes del bucle de bancos porque cubre también el catalán.
+  {
+    let r4 = 0;
+    const RUTINAS = [
+      ['es', base.DAILY_SCENARIOS], ['es-DO', esdo.DAILY_SCENARIOS_ESDO], ['eu', eu.DAILY_SCENARIOS_EU],
+      ['gl', gl.DAILY_SCENARIOS_GL], ['en', en.DAILY_SCENARIOS_EN], ['ca', ca.DAILY_SCENARIOS_CA],
+    ];
+    for (const [lang, rutinas] of RUTINAS) {
+      for (const r of rutinas) {
+        const claves = r.items.map((it) => it.pictogram);
+        if (r.items.length !== 4) { fallo(`R4 ${lang}/${r.id}: la rutina tiene ${r.items.length} pasos, no 4`); r4 += 1; }
+        claves.forEach((k, i) => {
+          if (!k || !DIBUJOS.has(k)) { fallo(`R4 ${lang}/${r.id}: el paso ${i + 1} («${r.items[i].label}») no tiene dibujo propio («${k ?? 'sin clave'}»)`); r4 += 1; }
+        });
+        if (new Set(claves).size !== claves.length) { fallo(`R4 ${lang}/${r.id}: dos pasos comparten dibujo → ${claves.join(', ')}`); r4 += 1; }
+      }
+    }
+    console.log(`  R4 · rutinas ordenables: ${RUTINAS.reduce((a, [, x]) => a + x.length, 0)} rutinas, ${r4} incumplimientos`);
+  }
 
   const BANCOS = [
     { lang: 'es', scenarios: base.DAILY_SCENARIOS, categories: base.LEXICAL_CATEGORIES, sequences: base.PROGRESSION_SEQUENCES, capsules: base.CONTRAST_CAPSULES, pedir: /\bdi:\s*/i },
@@ -135,7 +163,7 @@ try {
 
 if (fallos) {
   console.error(`\n✖ ${fallos} incumplimientos de las reglas de contenido acordadas con ACOPROS.`);
-  console.error('  Ver docs/plan-mejoras-acopros-logopedas.json → ES-06, ES-10, ES-13.');
+  console.error('  Ver docs/plan-mejoras-acopros-logopedas.json → ES-06, ES-07, ES-10, ES-13.');
   process.exit(1);
 }
 console.log('\n✓ Los cinco bancos cumplen las reglas de contenido (ES-06, ES-10, ES-13).');

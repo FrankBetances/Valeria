@@ -66,7 +66,10 @@ interface PracticeStep {
   // naturaleza — la primera evalúa COMPRENSIÓN (el niño toca la imagen correcta
   // entre las dos, que ya estaban en el dato) y la segunda PRODUCCIÓN (la dice).
   // El resto de bloques solo produce, así que 'produccion' es el valor por defecto.
-  mode?: 'comprension' | 'produccion';
+  mode?: 'comprension' | 'produccion' | 'ordenar';
+  // ES-07 · solo en el paso de ordenar: los pasos de la rutina EN SU ORDEN
+  // correcto. La pantalla los baraja; el orden de este array es la respuesta.
+  routine?: { label: string; emoji: string; pictogram?: string }[];
   choices?: { label: string; emoji: string; pictogram?: string }[]; // solo en comprensión: las dos opciones
   answerLabel?: string;                          // cuál de las dos es la correcta
 }
@@ -87,12 +90,24 @@ interface Session {
 // ---- Constructores: datos → sesión de pasos --------------------------------
 // Reciben el banco de la variedad activa (es/gl base, es-DO dominicano) para no
 // acoplarse a un contenido concreto: la pantalla es la misma, cambian los datos.
+// ES-07 (ACOPROS, 3.ª ronda) · Una rutina se trabaja en dos tiempos con un
+// único objetivo: primero ORDENAR sus cuatro pasos (comprensión de la
+// secuencia) y después DECIR cada paso en ese orden (producción).
 const scenarioSession = (bank: SemanticBank, id: string, t: UiStrings): Session => {
   const sc = bank.scenarios.find((s) => s.id === id)!;
+  const ordenar: PracticeStep = {
+    kicker: t.semantic.orderKicker,
+    emoji: sc.icon, label: sc.title,
+    visualPrompt: sc.subtitle,
+    tts: bank.order.prompt, expected: [],
+    actionKicker: t.semantic.actionKickerAdult, action: bank.order.action,
+    mode: 'ordenar',
+    routine: sc.items.map((it) => ({ label: it.label, emoji: it.emoji, pictogram: it.pictogram })),
+  };
   return {
     kind: 'scenario', title: sc.title, code: sc.title,
-    steps: sc.items.map((it) => ({
-      kicker: t.semantic.wordTypeLabel(it.type).toUpperCase(),
+    steps: [ordenar, ...sc.items.map((it, i) => ({
+      kicker: t.semantic.routineStep(i + 1, sc.items.length),
       // La clave del pictograma viaja SIEMPRE con el paso. Olvidarla aquí no
       // dejaba la ficha vacía —caía al emoji— pero convertía el fallback en la
       // norma: fuera del castellano no hay red de rescate por palabra
@@ -104,8 +119,22 @@ const scenarioSession = (bank: SemanticBank, id: string, t: UiStrings): Session 
       visualPrompt: it.visual_prompt,
       tts: it.tts_string, expected: it.stt_expected_array,
       actionKicker: t.semantic.actionKickerAdult, action: it.parent_tpr_action,
-    })),
+    }))],
   };
+};
+
+// Baraja que nunca devuelve el orden correcto: una rutina que ya aparece
+// ordenada no se ordena, se toca de izquierda a derecha.
+const shuffledOrder = (n: number): number[] => {
+  const idx = Array.from({ length: n }, (_, i) => i);
+  for (let tries = 0; tries < 20; tries++) {
+    for (let i = n - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [idx[i], idx[j]] = [idx[j], idx[i]];
+    }
+    if (idx.some((v, i) => v !== i)) return idx;
+  }
+  return idx.reverse();
 };
 
 // DC-1 opción C · ES-08: los ítems se practican de menos a más difícil, y el
@@ -178,7 +207,7 @@ type Phase = 'pick' | 'setup' | 'play' | 'done';
 // 'idle': tarjeta del paso mostrada sin sonido, esperando el botón ▶ (ES-03).
 // 'ready': la consigna ya sonó y el micro espera al botón del adulto (PM-04),
 // salvo que la preferencia de grabación automática esté activada.
-type StepState = 'idle' | 'say' | 'ready' | 'seleccion' | 'listen' | 'judge' | 'success' | 'retry' | 'assist';
+type StepState = 'idle' | 'say' | 'ready' | 'seleccion' | 'ordenar' | 'listen' | 'judge' | 'success' | 'retry' | 'assist';
 
 interface StepRecord { stars: 1 | 2 | 3; heard: string; mode: 'comprension' | 'produccion'; }
 
@@ -211,6 +240,12 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
   const [state, setState] = useState<StepState>('idle');
   const [heard, setHeard] = useState('');
   const [pendingStars, setPendingStars] = useState<1 | 2 | 3>(3);
+  // ES-07 · estado del paso de ordenar: en qué orden se muestran las fichas,
+  // cuáles se han colocado ya y cuál se tocó fuera de turno (para marcarla).
+  const [orderDeck, setOrderDeck] = useState<number[]>([]);
+  const [orderPlaced, setOrderPlaced] = useState<number[]>([]);
+  const [orderWrong, setOrderWrong] = useState<number | null>(null);
+  const orderErrorsRef = useRef(0);
   const [log, setLog] = useState<StepRecord[]>([]);
   const [reward, setReward] = useState<SessionReward | null>(null);
   // Salir de la pantalla corta el desfile del premio en el aparato y deja a la
@@ -351,6 +386,13 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
     setLivePrompt({ text: st.tts, mode: 'child' });
     speakToChild(st.tts, afterSpeak(() => {
       if (!mounted.current) return;
+      // ES-07: ordenar la rutina se hace tocando, sin micrófono.
+      if (st.mode === 'ordenar') {
+        setOrderDeck(shuffledOrder(st.routine?.length ?? 0));
+        setOrderPlaced([]); setOrderWrong(null); orderErrorsRef.current = 0;
+        setState('ordenar');
+        return;
+      }
       // Comprensión: no hay micrófono, el niño responde tocando una imagen.
       if (st.mode === 'comprension') { setPickLeftFirst(Math.random() < 0.5); setState('seleccion'); return; }
       if (!asrSupported()) { setState('judge'); return; }
@@ -391,6 +433,35 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
       setPickLeftFirst(Math.random() < 0.5);
       setState('seleccion');
     }));
+  };
+
+  // ES-07 · Toque en una ficha de la rutina. Solo vale la que toca ahora; un
+  // toque fuera de turno se marca y se anima a seguir, sin deshacer lo hecho.
+  // Estrellas: sin errores 3 · uno o dos 2 · más, 1 (nunca 0: lo ha ordenado).
+  const tapOrder = (idx: number) => {
+    if (!session) return;
+    const st = session.steps[stepIdx];
+    const n = st.routine?.length ?? 0;
+    if (orderPlaced.includes(idx)) return;
+    if (idx !== orderPlaced.length) {
+      orderErrorsRef.current += 1;
+      setOrderWrong(idx);
+      const otra = almostPhrase();
+      setLivePrompt({ text: otra, mode: 'child' });
+      speakToChild(otra);
+      setTimeout(() => { if (mounted.current) setOrderWrong(null); }, 900);
+      return;
+    }
+    const placed = [...orderPlaced, idx];
+    setOrderPlaced(placed);
+    setOrderWrong(null);
+    if (placed.length < n) return;
+    const e = orderErrorsRef.current;
+    setPendingStars(e === 0 ? 3 : e <= 2 ? 2 : 1);
+    setState('success');
+    const praise = praisePhrase();
+    setLivePrompt({ text: praise, mode: 'child' });
+    speakToChild(praise);
   };
 
   // --------------------------------------------------------------- escucha --
@@ -721,7 +792,7 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
               <FichaVisual word="" emoji={sc.icon} size={30} />
               <View style={{ flex: 1 }}>
                 <Text style={s.pickName}>{sc.title}</Text>
-                <Text style={s.pickCat}>{`${sc.subtitle} · ${t.semantic.wordCount(sc.items.length)}`}</Text>
+                <Text style={s.pickCat}>{`${sc.subtitle} · ${t.semantic.routineStepCount(sc.items.length)}`}</Text>
               </View>
             </>,
           ))}
@@ -904,7 +975,7 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
   const total = sess.steps.length;
   // Fase activa del turno para el mapa superior (quita la sensación de "¿y
   // ahora qué toca?" que reportaban los testers).
-  const phaseIdx = state === 'idle' || state === 'say' || state === 'ready' ? 0 : state === 'listen' || state === 'seleccion' ? 1 : state === 'judge' || state === 'retry' ? 2 : 3;
+  const phaseIdx = state === 'idle' || state === 'say' || state === 'ready' ? 0 : state === 'listen' || state === 'seleccion' || state === 'ordenar' ? 1 : state === 'judge' || state === 'retry' ? 2 : 3;
 
   return (
     <View style={s.flex}>
@@ -929,7 +1000,15 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
 
       <ScrollView ref={scrollRef} contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
         {/* Mapa del turno: en qué fase del paso estamos */}
-        <TurnPhaseStrip active={phaseIdx} />
+        <TurnPhaseStrip
+          active={phaseIdx}
+          phases={st.mode === 'ordenar' ? [
+            { icon: 'speaker', label: t.voice.phaseListen },
+            { icon: 'gesture', label: t.semantic.orderPhase },
+            { icon: 'level', label: t.voice.phaseVerdict },
+            { icon: 'move', label: t.voice.phaseMission },
+          ] : undefined}
+        />
 
         {/* Ficha visual: pictograma SVG si existe; emoji como fallback */}
         <View style={s.bigTile}>
@@ -1040,6 +1119,42 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
           </View>
         )}
 
+        {/* ES-07 · Ordenar la rutina: cuatro fichas barajadas en rejilla de
+            2×2. Anchos fijos en porcentaje y SIN flex en la ficha (CLAUDE.md
+            §1c): una ficha que hereda flex:1 colapsa en Android. */}
+        {state === 'ordenar' && !!st.routine && (
+          <View style={s.stateCard}>
+            <BlockIcon name="gesture" color={V.color.primaryDark} size={26} />
+            <Text style={s.stateTxt}>{t.semantic.orderInstruction}</Text>
+            <View style={s.orderGrid}>
+              {orderDeck.map((idx) => {
+                const r = st.routine![idx];
+                const pos = orderPlaced.indexOf(idx);
+                const done = pos >= 0;
+                return (
+                  <Pressable
+                    key={idx}
+                    onPress={() => tapOrder(idx)}
+                    disabled={done}
+                    style={[s.orderCard, done && s.orderCardDone, orderWrong === idx && s.orderCardWrong]}
+                    accessibilityRole="button"
+                    accessibilityLabel={done ? t.semantic.orderPlacedA11y(r.label, pos + 1) : t.semantic.orderTileA11y(r.label)}
+                  >
+                    <View style={[s.orderBadge, done && s.orderBadgeDone]}>
+                      <Text style={[s.orderBadgeTxt, done && s.orderBadgeTxtDone]}>{done ? pos + 1 : '?'}</Text>
+                    </View>
+                    <FichaVisual word={r.label} emoji={r.emoji} pic={r.pictogram} size={52} />
+                    <Text style={s.pickCardCap} numberOfLines={1}>{r.label}</Text>
+                  </Pressable>
+                );
+              })}
+            </View>
+            <Pressable onPress={() => { setLivePrompt({ text: st.tts, mode: 'child' }); speakToChild(st.tts); }}>
+              <Text style={s.linkBtn}>{t.semantic.repeatQuestion}</Text>
+            </Pressable>
+          </View>
+        )}
+
         {state === 'listen' && (
           <View style={s.stateCard}>
             <Animated.View style={{ transform: [{ scale: micScale }] }}>
@@ -1098,13 +1213,13 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
             <View style={[s.verdictCard, s.verdictOk]}>
               <CatPixel size={44} />
               <View style={{ flex: 1 }}>
-                <Text style={s.verdictTitle}>{t.semantic.successTitle}</Text>
+                <Text style={s.verdictTitle}>{st.mode === 'ordenar' ? t.semantic.orderSuccessTitle : t.semantic.successTitle}</Text>
                 <Text style={s.verdictSub}>{heard ? t.semantic.heardBy(heard) : t.semantic.adultVerdict} · {pendingStars}★</Text>
               </View>
               <Text style={s.verdictStars}>{'★'.repeat(pendingStars)}</Text>
             </View>
             {actionCard(st.actionKicker, st.action)}
-            <Pressable onPress={() => next({ stars: pendingStars, heard, mode: st.mode ?? 'produccion' })} style={s.primaryBtn}>
+            <Pressable onPress={() => next({ stars: pendingStars, heard, mode: st.mode === 'ordenar' ? 'comprension' : st.mode ?? 'produccion' })} style={s.primaryBtn}>
               <Text style={s.primaryBtnTxt}>{stepIdx + 1 >= total ? t.semantic.finish : t.semantic.nextStep}</Text>
             </Pressable>
           </>
@@ -1143,7 +1258,7 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
             {actionCard(st.actionKicker, st.action)}
             <View style={s.retryRow}>
               {st.mode !== 'comprension' && <SpeakButton text={st.tts} label={t.semantic.hearSlowModel} voice="slowPhrase" />}
-              <Pressable onPress={() => next({ stars: 1, heard, mode: st.mode ?? 'produccion' })} style={s.retryBtn}>
+              <Pressable onPress={() => next({ stars: 1, heard, mode: st.mode === 'ordenar' ? 'comprension' : st.mode ?? 'produccion' })} style={s.retryBtn}>
                 <Text style={s.retryBtnTxt}>{stepIdx + 1 >= total ? t.semantic.finishShort : t.semantic.saidTogether}</Text>
               </Pressable>
             </View>
@@ -1258,6 +1373,14 @@ const s = StyleSheet.create({
 
   pickRowCards: { flexDirection: 'row', gap: 12, alignSelf: 'stretch', alignItems: 'center', justifyContent: 'center' },
   pickCard: { flex: 1, minHeight: 130, alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff', borderWidth: 2, borderColor: V.color.border, borderRadius: 18, paddingVertical: 16, ...V.shadow.card },
+  orderGrid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', alignSelf: 'stretch', rowGap: 12, marginTop: 12 },
+  orderCard: { width: '48%', minHeight: 132, alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff', borderWidth: 2, borderColor: V.color.border, borderRadius: 18, paddingVertical: 12, paddingHorizontal: 6, ...V.shadow.card },
+  orderCardDone: { borderColor: V.color.success, backgroundColor: V.color.successBg },
+  orderCardWrong: { borderColor: '#f4b740', backgroundColor: '#fffbeb' },
+  orderBadge: { position: 'absolute', top: 8, left: 8, width: 26, height: 26, borderRadius: 13, alignItems: 'center', justifyContent: 'center', backgroundColor: V.color.pageBg, borderWidth: 1.5, borderColor: V.color.border },
+  orderBadgeDone: { backgroundColor: V.color.success, borderColor: V.color.success },
+  orderBadgeTxt: { fontSize: 13, fontWeight: '800', color: V.color.textMuted },
+  orderBadgeTxtDone: { color: '#ffffff' },
   pickCardCap: { fontSize: 15, fontWeight: '800', color: V.color.textPrimary, marginTop: 8, textTransform: 'capitalize' },
   judgeRow: { flexDirection: 'row', gap: 10, alignSelf: 'stretch' },
   judgeBtn: { flex: 1, alignItems: 'center', gap: 4, borderWidth: 1.5, borderRadius: 14, paddingVertical: 12 },

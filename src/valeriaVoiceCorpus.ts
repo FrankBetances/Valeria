@@ -23,7 +23,7 @@ import { ROUTINE_ROUTES } from './valeriaRoutineRoutes';
 import { enumerateSemanticSpeech, enumerateSemanticSpeechFor } from './valeriaSemanticExpansion';
 import {
   DAILY_SCENARIOS_EU, LEXICAL_CATEGORIES_EU, PROGRESSION_SEQUENCES_EU,
-  CONTRAST_CAPSULES_EU, SEM_RETRY_EU, SEM_SESSION_DONE_EU,
+  CONTRAST_CAPSULES_EU, SEM_RETRY_EU, SEM_SESSION_DONE_EU, SEM_ORDER_EU,
 } from './valeriaSemanticExpansionEu';
 import {
   enumerateExerciseSpeech, enumerateExerciseSpeechFor,
@@ -33,7 +33,7 @@ import { EXERCISE_FIXED_LINES_EU } from './valeriaExerciseEu';
 import { EXERCISE_FIXED_LINES_GL } from './valeriaExerciseGl';
 import {
   DAILY_SCENARIOS_GL, LEXICAL_CATEGORIES_GL, PROGRESSION_SEQUENCES_GL,
-  CONTRAST_CAPSULES_GL, SEM_RETRY_GL, SEM_SESSION_DONE_GL,
+  CONTRAST_CAPSULES_GL, SEM_RETRY_GL, SEM_SESSION_DONE_GL, SEM_ORDER_GL,
 } from './valeriaSemanticExpansionGl';
 import {
   PRAISE_BANK, ALMOST_BANK, NO_HEAR_BANK, TOGETHER_BANK,
@@ -64,7 +64,7 @@ import {
 import { MINIMAL_PAIRS_EN } from './valeriaMinimalPairsEn';
 import {
   DAILY_SCENARIOS_EN, LEXICAL_CATEGORIES_EN, PROGRESSION_SEQUENCES_EN,
-  CONTRAST_CAPSULES_EN, SEM_RETRY_EN, SEM_SESSION_DONE_EN,
+  CONTRAST_CAPSULES_EN, SEM_RETRY_EN, SEM_SESSION_DONE_EN, SEM_ORDER_EN,
 } from './valeriaSemanticExpansionEn';
 import { EXERCISE_FIXED_LINES_EN } from './valeriaExerciseEn';
 import {
@@ -82,7 +82,7 @@ import {
 } from './valeriaContentCa';
 import {
   DAILY_SCENARIOS_CA, LEXICAL_CATEGORIES_CA, PROGRESSION_SEQUENCES_CA,
-  CONTRAST_CAPSULES_CA, SEM_RETRY_CA, SEM_SESSION_DONE_CA,
+  CONTRAST_CAPSULES_CA, SEM_RETRY_CA, SEM_SESSION_DONE_CA, SEM_ORDER_CA,
 } from './valeriaSemanticExpansionCa';
 import { EXERCISE_FIXED_LINES_CA } from './valeriaExerciseCa';
 
@@ -255,6 +255,7 @@ export function buildVoiceCorpus(): VoiceCorpusEntry[] {
     capsules: CONTRAST_CAPSULES_GL,
     retry: SEM_RETRY_GL,
     sessionDone: SEM_SESSION_DONE_GL,
+    order: SEM_ORDER_GL,
   })) addGl(l.style, l.text, 'expansion');
 
   // Audición y Lenguaje (+ TEA/Dislexia) en galego: mismo espejo que en
@@ -313,6 +314,7 @@ export function buildVoiceCorpus(): VoiceCorpusEntry[] {
     capsules: CONTRAST_CAPSULES_EU,
     retry: SEM_RETRY_EU,
     sessionDone: SEM_SESSION_DONE_EU,
+    order: SEM_ORDER_EU,
   })) addEu(l.style, l.text, 'expansion');
 
   // Audición y Lenguaje (+ TEA/Dislexia) en euskera: se locuta con HiTZ igual
@@ -356,6 +358,7 @@ export function buildVoiceCorpus(): VoiceCorpusEntry[] {
     capsules: CONTRAST_CAPSULES_EN,
     retry: SEM_RETRY_EN,
     sessionDone: SEM_SESSION_DONE_EN,
+    order: SEM_ORDER_EN,
   })) addEn(l.style, l.text, 'expansion');
 
   for (const l of enumerateExerciseSpeechFor({
@@ -413,6 +416,7 @@ export function buildVoiceCorpus(): VoiceCorpusEntry[] {
     capsules: CONTRAST_CAPSULES_CA,
     retry: SEM_RETRY_CA,
     sessionDone: SEM_SESSION_DONE_CA,
+    order: SEM_ORDER_CA,
   })) addCa(l.style, l.text, 'expansion');
 
   for (const l of enumerateExerciseSpeechFor({

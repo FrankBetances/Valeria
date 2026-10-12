@@ -640,14 +640,22 @@ export const ES = {
         : n === 2 ? 'Nivel 2 · familiar'
           : 'Nivel 3 · menos frecuente',
 
-    sectionScenarios: 'ESCENARIOS DIARIOS',
+    sectionScenarios: 'RUTINAS DEL DÍA',
     sectionCategories: 'CATEGORÍAS LÉXICAS',
     sectionSequences: 'PROGRESIÓN LÉXICA',
     sectionCapsules: 'CÁPSULAS DE CONTRASTE',
     prescribedCount: (n: number): string => `${n} prescritas`,
     goalKicker: 'QUÉ SE TRABAJA AQUÍ',
+    // ES-07 · paso de ordenar la rutina.
+    orderKicker: 'ORDENA LA RUTINA',
+    orderPhase: 'Ordena',
+    orderSuccessTitle: '¡Rutina ordenada!',
+    orderInstruction: 'Tocad los dibujos en orden: ¿qué va primero?',
+    orderTileA11y: (label: string): string => `Paso: ${label}`,
+    orderPlacedA11y: (label: string, n: number): string => `${label}, colocado en el puesto ${n}`,
+    routineStep: (n: number, total: number): string => `PASO ${n} DE ${total}`,
     sectionGoal: (section: string): string =>
-      section === 'scenario' ? 'Repetición verbal: el niño imita la palabra objetivo en situaciones del día a día.'
+      section === 'scenario' ? 'Rutinas del día: el niño ordena los cuatro pasos de la rutina y después dice cada paso en su orden.'
         : section === 'category' ? 'Vocabulario nuevo por campo: se empieza por las palabras más familiares y se avanza a las menos frecuentes.'
           : section === 'sequence' ? 'Vocabulario alrededor de un concepto: qué es, qué tiene, qué hace y cómo es.'
             : 'Opuestos: primero elegir la imagen correcta y después decir la palabra.',
@@ -662,6 +670,7 @@ export const ES = {
           : kind === 'adjetivo' ? 'Adjetivo'
             : 'Onomatopeya',
     wordCount: (n: number): string => `${n} palabras`,
+    routineStepCount: (n: number): string => `${n} pasos`,
 
     savePrescription: 'Guardar Prescripción',
     saveHelper: 'La selección se guarda en el dispositivo y la edición se bloquea de nuevo.',
@@ -712,11 +721,11 @@ export const ES = {
     otherBlock: 'Elegir otro bloque',
     subtitlePick: 'Progresión léxica · del símbolo al mundo real del niño',
     editingOn: 'Edición profesional habilitada',
-    tabScenarios: 'Escenarios',
+    tabScenarios: 'Rutinas',
     tabCategories: 'Categorías',
     tabSequences: 'Progresión',
     tabContrasts: 'Contrastes',
-    kindScenario: 'Escenario',
+    kindScenario: 'Rutina',
     kindSequence: 'Progresión',
     kindContrast: 'Contraste',
     stepPoints: ' · el niño señala',
@@ -737,7 +746,7 @@ export const ES = {
     capsuleKindAdj: 'Par de adjetivos',
     capsuleKindVerb: 'Verbos antónimos',
     capsuleMeta: 'cápsula TPR · 2 vueltas',
-    rowScenarioA11y: (title: string): string => `escenario ${title}`,
+    rowScenarioA11y: (title: string): string => `rutina ${title}`,
     rowCategoryA11y: (title: string): string => `categoría ${title}`,
     rowSequenceA11y: (theme: string): string => `progresión ${theme}`,
     rowCapsuleA11y: (a: string, b: string): string => `cápsula de contraste ${a} y ${b}`,

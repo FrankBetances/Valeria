@@ -4,7 +4,7 @@
   "version": "2.0.0",
   "titulo": "Plan de revisión · Feedback clínico de las logopedas de ACOPROS (julio y agosto 2026)",
   "fecha": "2026-07-24",
-  "estado": "primera ronda (julio) completada y validada · SEGUNDA RONDA (2026-08-04) implementada, pendiente de validación en dispositivo · TERCERA RONDA (correo del 2026-10-11) implementada el 2026-10-12 salvo ES-07 (entrega aparte); pendiente de escucha y de prueba en aparato",
+  "estado": "primera y segunda ronda completadas · TERCERA RONDA (2026-10-11) implementada: build 714 (12/10) y ES-07 + segunda tanda de pictogramas (12/10); pendiente de escucha y de revisión clínica de ACOPROS",
   "descripcion": "Convierte el feedback cualitativo de las logopedas de ACOPROS sobre Pares Mínimos, Expansión Semántica y recordatorios en un backlog trazable: cada observación se verifica contra el código real del repositorio, se propone un cambio concreto con sus ficheros, se marca si requiere una decisión clínica previa y se cierra con criterios de aceptación comprobables en dispositivo.",
   "origen": {
     "fuente": "Correo de las logopedas de ACOPROS tras la prueba de la app",
@@ -2043,10 +2043,11 @@
     ],
     "relacionConOtrosPlanes": "Las observaciones que afectan al diseño de contenido nuevo (arranque por el usuario, longitud de la respuesta modelada, pictogramas, objetivo visible, navegación sin reconfigurar, rutinas como secuencias) se aplican desde el principio a «Juega en casa con Lúa»: docs/plan-integracion-juega-con-lua-asha.md, paso 3b.",
     "pendienteHumano": [
-      "ABIERTO · Escuchar los seis sonidos sensoriales nuevos (SEN-02). Ningún script puede decir si suenan a lo que son.",
-      "ABIERTO · Ver en un Android: escucha previa, tarjeta de punto de partida, manos juntas, punto de mirada y filas de Expansión Semántica con pictogramas. Solo hay capturas de web.",
-      "ABIERTO · ES-07: diseñar con ACOPROS las secuencias de rutina (entrega aparte).",
-      "ABIERTO · PM-07 · ES-09: 87 conceptos sin dibujo propio, por tandas."
+      "HECHO · Frank probó el build 714 en Android (2026-10-12).",
+      "ABIERTO · Escuchar los seis sonidos sensoriales nuevos (SEN-02).",
+      "ABIERTO · ACOPROS revisa el contenido de las rutinas (ES-07): pasos, orden y palabra pedida en cada uno; euskera y es-DO por hablante nativo.",
+      "ABIERTO · Ver en Android el paso de ordenar (rejilla 2×2 nueva).",
+      "ABIERTO · PM-07 · ES-09: 76 fichas sin dibujo propio, casi todas de un solo uso."
     ],
     "revisionEnCodigo": {
       "fecha": "2026-10-11",
@@ -2106,9 +2107,9 @@
       "fecha": "2026-10-12",
       "PM-06": "Hecho. «Manos juntas» (Pares Mínimos) y «Punto de mirada» (TEA-1), con iconos propios handsTogether y eyeContact en ValeriaBlockIcons.tsx, en es/gl/ca/en y en las consignas de TEA-1 de los cuatro bancos.",
       "ES-03": "Hecho. La etiqueta del interruptor dice ahora lo que hace (grabación automática tras la consigna) en los cuatro idiomas de interfaz.",
-      "PM-07 · ES-09": "Parcial. 28 pictogramas nuevos (PICTO_KEYS 120-147, añadidos al final) y enlace por emoji a los dibujos que ya existían. Fichas sin dibujo propio en Pares Mínimos y Expansión Semántica, todos los bancos: de 455 a 123 (PM 97→52, ES 358→71). Quedan 87 conceptos, casi todos de una sola ficha. Las filas de la lista de Expansión Semántica pasan por la misma ficha.",
+      "PM-07 · ES-09": "Segunda tanda: 16 pictogramas más (PICTO_KEYS 148-163: plato, toalla, pijama, dinero, tienda, funda, gallo, queso, miel, oveja, caracol, llave, playa, fuego, montaña, foca). Fichas sin dibujo propio, todos los bancos: 455 → 123 (1.ª tanda) → 76. Emoji con más de un significado en los bancos (🧺, 👕) no se enlazan por emoji: los pasos de rutina declaran su clave.",
       "PM-05 (ronda 2)": "La frase de fin de Pares Mínimos decía «¡Choca esos cinco con papá!». Ahora «con quien te acompaña» (es/gl/ca) y «aitarekin edo amarekin» (eu). Texto locutado: corpus exportado.",
-      "ES-07": "No implementado: secuencias de rutina en Escenarios, entrega aparte por decisión de Frank (2026-10-12)."
+      "ES-07": "Hecho el 2026-10-12 (opción A de DC-1, decidida por Frank). Escenarios pasa a llamarse Rutinas: cada rutina son 4 pasos en orden; la sesión pide primero ORDENARLOS tocando los dibujos (comprensión de la secuencia) y después DECIR cada paso en ese orden (producción). Seis bancos reescritos (es, es-DO, gl, eu, en, ca). Gate nuevo R4 en check-content-rules.js: 4 pasos, cada uno con dibujo propio, sin repetir. El contenido es una PRIMERA PASADA para revisión clínica de ACOPROS; el euskera y el registro dominicano necesitan revisión de hablante nativo."
     }
   }
 }

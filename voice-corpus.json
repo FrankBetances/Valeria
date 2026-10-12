@@ -1,11 +1,11 @@
 {
- "generatedAt": "2026-10-12T06:21:57.492Z",
- "entries": 5344,
+ "generatedAt": "2026-10-12T09:09:03.014Z",
+ "entries": 5149,
  "byStyle": {
-  "child": 3350,
-  "slow": 1023,
+  "child": 3255,
+  "slow": 973,
   "clinical": 45,
-  "tutor": 926
+  "tutor": 876
  },
  "bySource": {
   "pares/intro": 54,
@@ -25,7 +25,7 @@
   "banco/no-oido": 15,
   "banco/juntos": 15,
   "util/muestra": 5,
-  "expansion": 2152,
+  "expansion": 1957,
   "ejercicios": 1321,
   "lua/eval/consigna": 120,
   "lua/eval/refuerzo": 120,
@@ -1267,66 +1267,38 @@
    "source": "util/muestra"
   },
   {
-   "id": "child_77c3a720_26",
+   "id": "child_67d2765d_39",
    "lang": "es",
    "style": "child",
-   "text": "Esto es la cama. Di: cama.",
+   "text": "Primero nos despertamos. Di: despertar.",
    "source": "expansion"
   },
   {
-   "id": "child_4af8b711_20",
+   "id": "child_0b52e51f_25",
    "lang": "es",
    "style": "child",
-   "text": "¡Otra vez! Di: cama.",
+   "text": "¡Otra vez! Di: despertar.",
    "source": "expansion"
   },
   {
-   "id": "slow_77c3a720_26",
+   "id": "slow_67d2765d_39",
    "lang": "es",
    "style": "slow",
-   "text": "Esto es la cama. Di: cama.",
+   "text": "Primero nos despertamos. Di: despertar.",
    "source": "expansion"
   },
   {
-   "id": "tutor_b27bfc94_88",
+   "id": "tutor_86278ba5_71",
    "lang": "es",
    "style": "tutor",
-   "text": "Da unas palmaditas en la cama y siéntate en ella con el niño antes de levantaros juntos.",
+   "text": "Tápate como si durmieras y estírate con el niño al sonar el «rin, rin».",
    "source": "expansion"
   },
   {
-   "id": "child_af38ca64_32",
+   "id": "child_4e2ddfea_31",
    "lang": "es",
    "style": "child",
-   "text": "Esto es el cepillo. Di: cepillo.",
-   "source": "expansion"
-  },
-  {
-   "id": "child_c9044e21_23",
-   "lang": "es",
-   "style": "child",
-   "text": "¡Otra vez! Di: cepillo.",
-   "source": "expansion"
-  },
-  {
-   "id": "slow_af38ca64_32",
-   "lang": "es",
-   "style": "slow",
-   "text": "Esto es el cepillo. Di: cepillo.",
-   "source": "expansion"
-  },
-  {
-   "id": "tutor_17b20e77_95",
-   "lang": "es",
-   "style": "tutor",
-   "text": "Pon el cepillo (sin pasta) en la mano del niño y guiad juntos el gesto de cepillar sus dientes.",
-   "source": "expansion"
-  },
-  {
-   "id": "child_18c9bbf3_33",
-   "lang": "es",
-   "style": "child",
-   "text": "Nos lavamos las manos. Di: lavar.",
+   "text": "Después nos lavamos. Di: lavar.",
    "source": "expansion"
   },
   {
@@ -1337,24 +1309,24 @@
    "source": "expansion"
   },
   {
-   "id": "slow_18c9bbf3_33",
+   "id": "slow_4e2ddfea_31",
    "lang": "es",
    "style": "slow",
-   "text": "Nos lavamos las manos. Di: lavar.",
+   "text": "Después nos lavamos. Di: lavar.",
    "source": "expansion"
   },
   {
-   "id": "tutor_f763252c_97",
+   "id": "tutor_6397a957_48",
    "lang": "es",
    "style": "tutor",
-   "text": "Frota tus manos como si te enjabonaras y anima al niño a frotar las suyas al ritmo de la palabra.",
+   "text": "Frotad las manos juntos como si os enjabonarais.",
    "source": "expansion"
   },
   {
-   "id": "child_2feb29da_36",
+   "id": "child_0e4ce101_31",
    "lang": "es",
    "style": "child",
-   "text": "Nos ponemos la camiseta. Di: vestir.",
+   "text": "Luego nos vestimos. Di: vestir.",
    "source": "expansion"
   },
   {
@@ -1365,136 +1337,94 @@
    "source": "expansion"
   },
   {
-   "id": "slow_2feb29da_36",
+   "id": "slow_0e4ce101_31",
    "lang": "es",
    "style": "slow",
-   "text": "Nos ponemos la camiseta. Di: vestir.",
+   "text": "Luego nos vestimos. Di: vestir.",
    "source": "expansion"
   },
   {
-   "id": "tutor_c46ebeb6_82",
+   "id": "tutor_c4b4c0a6_62",
    "lang": "es",
    "style": "tutor",
-   "text": "Pasa una camiseta por la cabeza del niño y, al asomar, celebradlo con un “¡cucú!”.",
+   "text": "Pasa una camiseta por la cabeza del niño y celebrad al asomar.",
    "source": "expansion"
   },
   {
-   "id": "child_6964a338_36",
+   "id": "child_7db50b32_36",
    "lang": "es",
    "style": "child",
-   "text": "Las manos están limpias. Di: limpio.",
+   "text": "Al final desayunamos. Di: desayunar.",
    "source": "expansion"
   },
   {
-   "id": "child_5b4c398d_22",
+   "id": "child_b89a02af_25",
    "lang": "es",
    "style": "child",
-   "text": "¡Otra vez! Di: limpio.",
+   "text": "¡Otra vez! Di: desayunar.",
    "source": "expansion"
   },
   {
-   "id": "slow_6964a338_36",
+   "id": "slow_7db50b32_36",
    "lang": "es",
    "style": "slow",
-   "text": "Las manos están limpias. Di: limpio.",
+   "text": "Al final desayunamos. Di: desayunar.",
    "source": "expansion"
   },
   {
-   "id": "tutor_6ffabac0_82",
+   "id": "tutor_435b3c4c_61",
    "lang": "es",
    "style": "tutor",
-   "text": "Muestra tus manos limpias, sopla sobre ellas como si brillaran y chocad los cinco.",
+   "text": "Simulad juntos que bebéis un vaso de leche con las dos manos.",
    "source": "expansion"
   },
   {
-   "id": "child_175dae9b_43",
+   "id": "child_4490145f_41",
    "lang": "es",
    "style": "child",
-   "text": "El despertador hace rin, rin. Di: rin, rin.",
+   "text": "Primero nos lavamos las manos. Di: lavar.",
    "source": "expansion"
   },
   {
-   "id": "child_12708669_23",
-   "lang": "es",
-   "style": "child",
-   "text": "¡Otra vez! Di: rin rin.",
-   "source": "expansion"
-  },
-  {
-   "id": "slow_175dae9b_43",
+   "id": "slow_4490145f_41",
    "lang": "es",
    "style": "slow",
-   "text": "El despertador hace rin, rin. Di: rin, rin.",
+   "text": "Primero nos lavamos las manos. Di: lavar.",
    "source": "expansion"
   },
   {
-   "id": "tutor_fc7f90a0_105",
-   "lang": "es",
-   "style": "tutor",
-   "text": "Tápate como si durmieras y, al decir “¡rin, rin!”, despiértate de golpe estirando los brazos con el niño.",
-   "source": "expansion"
-  },
-  {
-   "id": "child_9f5a49a8_32",
+   "id": "child_b43a2daa_45",
    "lang": "es",
    "style": "child",
-   "text": "Esto es la cuchara. Di: cuchara.",
+   "text": "Después nos sentamos a la mesa. Di: sentarse.",
    "source": "expansion"
   },
   {
-   "id": "child_a9635720_23",
+   "id": "child_46f72588_24",
    "lang": "es",
    "style": "child",
-   "text": "¡Otra vez! Di: cuchara.",
+   "text": "¡Otra vez! Di: sentarse.",
    "source": "expansion"
   },
   {
-   "id": "slow_9f5a49a8_32",
+   "id": "slow_b43a2daa_45",
    "lang": "es",
    "style": "slow",
-   "text": "Esto es la cuchara. Di: cuchara.",
+   "text": "Después nos sentamos a la mesa. Di: sentarse.",
    "source": "expansion"
   },
   {
-   "id": "tutor_076683ae_90",
+   "id": "tutor_351f2931_49",
    "lang": "es",
    "style": "tutor",
-   "text": "Pon la cuchara en la mano del niño y llevadla juntos a la boca haciendo el gesto de comer.",
+   "text": "Sentaos juntos en dos sillas, uno frente al otro.",
    "source": "expansion"
   },
   {
-   "id": "child_67d3b60a_26",
+   "id": "child_be9b1cf9_25",
    "lang": "es",
    "style": "child",
-   "text": "Esto es el vaso. Di: vaso.",
-   "source": "expansion"
-  },
-  {
-   "id": "child_1670b2f2_20",
-   "lang": "es",
-   "style": "child",
-   "text": "¡Otra vez! Di: vaso.",
-   "source": "expansion"
-  },
-  {
-   "id": "slow_67d3b60a_26",
-   "lang": "es",
-   "style": "slow",
-   "text": "Esto es el vaso. Di: vaso.",
-   "source": "expansion"
-  },
-  {
-   "id": "tutor_938c271d_74",
-   "lang": "es",
-   "style": "tutor",
-   "text": "Acerca el vaso a los labios del niño y bebed a la vez haciendo “glu, glu”.",
-   "source": "expansion"
-  },
-  {
-   "id": "child_9996b0cf_25",
-   "lang": "es",
-   "style": "child",
-   "text": "Vamos a comer. Di: comer.",
+   "text": "Luego comemos. Di: comer.",
    "source": "expansion"
   },
   {
@@ -1505,136 +1435,108 @@
    "source": "expansion"
   },
   {
-   "id": "slow_9996b0cf_25",
+   "id": "slow_be9b1cf9_25",
    "lang": "es",
    "style": "slow",
-   "text": "Vamos a comer. Di: comer.",
+   "text": "Luego comemos. Di: comer.",
    "source": "expansion"
   },
   {
-   "id": "tutor_97623233_81",
+   "id": "tutor_542a4968_47",
    "lang": "es",
    "style": "tutor",
-   "text": "Frota tu barriga, abre mucho la boca y haz como que masticas exagerando el gesto.",
+   "text": "Llevad juntos una cuchara imaginaria a la boca.",
    "source": "expansion"
   },
   {
-   "id": "child_d3bac579_30",
+   "id": "child_b961f313_41",
    "lang": "es",
    "style": "child",
-   "text": "Vamos a beber agua. Di: beber.",
+   "text": "Al final recogemos el plato. Di: recoger.",
    "source": "expansion"
   },
   {
-   "id": "child_4bb6e02f_21",
+   "id": "child_5c767ca8_23",
    "lang": "es",
    "style": "child",
-   "text": "¡Otra vez! Di: beber.",
+   "text": "¡Otra vez! Di: recoger.",
    "source": "expansion"
   },
   {
-   "id": "slow_d3bac579_30",
+   "id": "slow_b961f313_41",
    "lang": "es",
    "style": "slow",
-   "text": "Vamos a beber agua. Di: beber.",
+   "text": "Al final recogemos el plato. Di: recoger.",
    "source": "expansion"
   },
   {
-   "id": "tutor_5cc339bb_82",
+   "id": "tutor_baf23e85_64",
    "lang": "es",
    "style": "tutor",
-   "text": "Inclina un vaso vacío sobre tu boca y haz “glu, glu” invitando al niño a imitarte.",
+   "text": "Llevad juntos un plato (de verdad o imaginario) hasta la cocina.",
    "source": "expansion"
   },
   {
-   "id": "child_6c2cc3f9_30",
+   "id": "child_a2e1c005_45",
    "lang": "es",
    "style": "child",
-   "text": "La comida está rica. Di: rico.",
+   "text": "Primero nos ponemos los zapatos. Di: zapatos.",
    "source": "expansion"
   },
   {
-   "id": "child_4562a216_20",
+   "id": "child_d807ae49_23",
    "lang": "es",
    "style": "child",
-   "text": "¡Otra vez! Di: rico.",
+   "text": "¡Otra vez! Di: zapatos.",
    "source": "expansion"
   },
   {
-   "id": "slow_6c2cc3f9_30",
+   "id": "slow_a2e1c005_45",
    "lang": "es",
    "style": "slow",
-   "text": "La comida está rica. Di: rico.",
+   "text": "Primero nos ponemos los zapatos. Di: zapatos.",
    "source": "expansion"
   },
   {
-   "id": "tutor_536a6e8c_84",
+   "id": "tutor_89b9c77b_47",
    "lang": "es",
    "style": "tutor",
-   "text": "Relámete, frótate la barriga y pon cara de gusto diciendo “¡mmm, rico!” con el niño.",
+   "text": "Señalad los zapatos del niño y tocadlos juntos.",
    "source": "expansion"
   },
   {
-   "id": "child_9704750f_36",
+   "id": "child_07f8bc8c_36",
    "lang": "es",
    "style": "child",
-   "text": "La boca hace ñam, ñam. Di: ñam, ñam.",
+   "text": "Después vamos al parque. Di: parque.",
    "source": "expansion"
   },
   {
-   "id": "child_045e14c9_23",
+   "id": "child_739fa967_22",
    "lang": "es",
    "style": "child",
-   "text": "¡Otra vez! Di: ñam ñam.",
+   "text": "¡Otra vez! Di: parque.",
    "source": "expansion"
   },
   {
-   "id": "slow_9704750f_36",
+   "id": "slow_07f8bc8c_36",
    "lang": "es",
    "style": "slow",
-   "text": "La boca hace ñam, ñam. Di: ñam, ñam.",
+   "text": "Después vamos al parque. Di: parque.",
    "source": "expansion"
   },
   {
-   "id": "tutor_6b835bfd_108",
+   "id": "tutor_bf97e541_62",
    "lang": "es",
    "style": "tutor",
-   "text": "Mastica de forma exagerada moviendo mucho la mandíbula y que el niño mastique contigo al decir “¡ñam, ñam!”.",
+   "text": "Caminad juntos unos pasos por la habitación hacia «el parque».",
    "source": "expansion"
   },
   {
-   "id": "child_02bef05c_30",
+   "id": "child_8dd45035_42",
    "lang": "es",
    "style": "child",
-   "text": "Esto es la pelota. Di: pelota.",
-   "source": "expansion"
-  },
-  {
-   "id": "child_17c6a6e4_22",
-   "lang": "es",
-   "style": "child",
-   "text": "¡Otra vez! Di: pelota.",
-   "source": "expansion"
-  },
-  {
-   "id": "slow_02bef05c_30",
-   "lang": "es",
-   "style": "slow",
-   "text": "Esto es la pelota. Di: pelota.",
-   "source": "expansion"
-  },
-  {
-   "id": "tutor_2d75d650_92",
-   "lang": "es",
-   "style": "tutor",
-   "text": "Rueda una pelota real hacia el niño y esperad a que la devuelva antes de repetir la palabra.",
-   "source": "expansion"
-  },
-  {
-   "id": "child_40bb8e88_32",
-   "lang": "es",
-   "style": "child",
-   "text": "Esto es el tobogán. Di: tobogán.",
+   "text": "Luego bajamos por el tobogán. Di: tobogán.",
    "source": "expansion"
   },
   {
@@ -1645,136 +1547,45 @@
    "source": "expansion"
   },
   {
-   "id": "slow_40bb8e88_32",
+   "id": "slow_8dd45035_42",
    "lang": "es",
    "style": "slow",
-   "text": "Esto es el tobogán. Di: tobogán.",
+   "text": "Luego bajamos por el tobogán. Di: tobogán.",
    "source": "expansion"
   },
   {
-   "id": "tutor_b4ce9b7a_83",
+   "id": "tutor_647c1467_59",
    "lang": "es",
    "style": "tutor",
-   "text": "Desliza la mano del niño por tu brazo inclinado como si fuera la rampa del tobogán.",
+   "text": "Haced juntos el gesto de deslizaros con los brazos en alto.",
    "source": "expansion"
   },
   {
-   "id": "child_f2f5c193_40",
+   "id": "child_7d1cf8a5_35",
    "lang": "es",
    "style": "child",
-   "text": "En el parque vamos a correr. Di: correr.",
+   "text": "Al final volvemos a casa. Di: casa.",
    "source": "expansion"
   },
   {
-   "id": "child_20cbcd9c_22",
-   "lang": "es",
-   "style": "child",
-   "text": "¡Otra vez! Di: correr.",
-   "source": "expansion"
-  },
-  {
-   "id": "slow_f2f5c193_40",
+   "id": "slow_7d1cf8a5_35",
    "lang": "es",
    "style": "slow",
-   "text": "En el parque vamos a correr. Di: correr.",
+   "text": "Al final volvemos a casa. Di: casa.",
    "source": "expansion"
   },
   {
-   "id": "tutor_c7a49cef_88",
+   "id": "tutor_4b900b1d_52",
    "lang": "es",
    "style": "tutor",
-   "text": "Corre en el sitio moviendo mucho los brazos y anima al niño a correr contigo unos pasos.",
+   "text": "Juntad las manos sobre la cabeza formando un tejado.",
    "source": "expansion"
   },
   {
-   "id": "child_5aca5fe9_35",
+   "id": "child_05282400_45",
    "lang": "es",
    "style": "child",
-   "text": "Saltamos como una rana. Di: saltar.",
-   "source": "expansion"
-  },
-  {
-   "id": "child_75a333ea_22",
-   "lang": "es",
-   "style": "child",
-   "text": "¡Otra vez! Di: saltar.",
-   "source": "expansion"
-  },
-  {
-   "id": "slow_5aca5fe9_35",
-   "lang": "es",
-   "style": "slow",
-   "text": "Saltamos como una rana. Di: saltar.",
-   "source": "expansion"
-  },
-  {
-   "id": "tutor_fd8161a7_90",
-   "lang": "es",
-   "style": "tutor",
-   "text": "Salta con los dos pies juntos diciendo “¡salta!” en cada bote y que el niño salte contigo.",
-   "source": "expansion"
-  },
-  {
-   "id": "child_c4547e67_36",
-   "lang": "es",
-   "style": "child",
-   "text": "El columpio sube muy alto. Di: alto.",
-   "source": "expansion"
-  },
-  {
-   "id": "child_ca532a3b_20",
-   "lang": "es",
-   "style": "child",
-   "text": "¡Otra vez! Di: alto.",
-   "source": "expansion"
-  },
-  {
-   "id": "slow_c4547e67_36",
-   "lang": "es",
-   "style": "slow",
-   "text": "El columpio sube muy alto. Di: alto.",
-   "source": "expansion"
-  },
-  {
-   "id": "tutor_2a8a4bff_98",
-   "lang": "es",
-   "style": "tutor",
-   "text": "Estírate de puntillas con los brazos hacia el cielo y levanta al niño en brazos diciendo “¡alto!”.",
-   "source": "expansion"
-  },
-  {
-   "id": "child_09cb1a69_32",
-   "lang": "es",
-   "style": "child",
-   "text": "La pelota hace boing. Di: boing.",
-   "source": "expansion"
-  },
-  {
-   "id": "child_d0e0e8da_21",
-   "lang": "es",
-   "style": "child",
-   "text": "¡Otra vez! Di: boing.",
-   "source": "expansion"
-  },
-  {
-   "id": "slow_09cb1a69_32",
-   "lang": "es",
-   "style": "slow",
-   "text": "La pelota hace boing. Di: boing.",
-   "source": "expansion"
-  },
-  {
-   "id": "tutor_099f0575_94",
-   "lang": "es",
-   "style": "tutor",
-   "text": "Bota una pelota (o tú mismo con las rodillas) diciendo “¡boing!” en cada rebote junto al niño.",
-   "source": "expansion"
-  },
-  {
-   "id": "child_7ec9f944_30",
-   "lang": "es",
-   "style": "child",
-   "text": "Esto es la bañera. Di: bañera.",
+   "text": "Primero nos metemos en la bañera. Di: bañera.",
    "source": "expansion"
   },
   {
@@ -1785,24 +1596,24 @@
    "source": "expansion"
   },
   {
-   "id": "slow_7ec9f944_30",
+   "id": "slow_05282400_45",
    "lang": "es",
    "style": "slow",
-   "text": "Esto es la bañera. Di: bañera.",
+   "text": "Primero nos metemos en la bañera. Di: bañera.",
    "source": "expansion"
   },
   {
-   "id": "tutor_a6426350_103",
+   "id": "tutor_32e34bf9_58",
    "lang": "es",
    "style": "tutor",
-   "text": "Señala la bañera (o un barreño) y haced juntos el gesto de meteros dentro levantando mucho las piernas.",
+   "text": "Levantad juntos una pierna como si entrarais en la bañera.",
    "source": "expansion"
   },
   {
-   "id": "child_b53292b0_28",
+   "id": "child_4c2bfcf8_35",
    "lang": "es",
    "style": "child",
-   "text": "Esto es el jabón. Di: jabón.",
+   "text": "Después nos enjabonamos. Di: jabón.",
    "source": "expansion"
   },
   {
@@ -1813,164 +1624,136 @@
    "source": "expansion"
   },
   {
-   "id": "slow_b53292b0_28",
+   "id": "slow_4c2bfcf8_35",
    "lang": "es",
    "style": "slow",
-   "text": "Esto es el jabón. Di: jabón.",
+   "text": "Después nos enjabonamos. Di: jabón.",
    "source": "expansion"
   },
   {
-   "id": "tutor_b2a1ba33_91",
+   "id": "tutor_06712ac4_54",
    "lang": "es",
    "style": "tutor",
-   "text": "Pon la pastilla de jabón en las manos del niño y giradla juntos haciendo espuma imaginaria.",
+   "text": "Frotad los brazos del niño con una esponja imaginaria.",
    "source": "expansion"
   },
   {
-   "id": "child_6cd10d60_35",
+   "id": "child_061f452f_39",
    "lang": "es",
    "style": "child",
-   "text": "Vamos a bañar al muñeco. Di: bañar.",
+   "text": "Luego nos aclaramos con agua. Di: agua.",
    "source": "expansion"
   },
   {
-   "id": "child_697c0c00_21",
+   "id": "child_8cb4d541_20",
    "lang": "es",
    "style": "child",
-   "text": "¡Otra vez! Di: bañar.",
+   "text": "¡Otra vez! Di: agua.",
    "source": "expansion"
   },
   {
-   "id": "slow_6cd10d60_35",
+   "id": "slow_061f452f_39",
    "lang": "es",
    "style": "slow",
-   "text": "Vamos a bañar al muñeco. Di: bañar.",
+   "text": "Luego nos aclaramos con agua. Di: agua.",
    "source": "expansion"
   },
   {
-   "id": "tutor_a5dbb539_85",
+   "id": "tutor_3d145903_57",
    "lang": "es",
    "style": "tutor",
-   "text": "Frota suavemente los brazos del niño como si lo enjabonaras mientras repetís “bañar”.",
+   "text": "Dejad caer los dedos sobre la cabeza del niño como gotas.",
    "source": "expansion"
   },
   {
-   "id": "child_e50b395f_44",
+   "id": "child_b1f03ea7_47",
    "lang": "es",
    "style": "child",
-   "text": "Pasamos la esponja por el brazo. Di: frotar.",
+   "text": "Al final nos secamos con la toalla. Di: toalla.",
    "source": "expansion"
   },
   {
-   "id": "child_97ba85af_22",
+   "id": "child_e64b522a_22",
    "lang": "es",
    "style": "child",
-   "text": "¡Otra vez! Di: frotar.",
+   "text": "¡Otra vez! Di: toalla.",
    "source": "expansion"
   },
   {
-   "id": "slow_e50b395f_44",
+   "id": "slow_b1f03ea7_47",
    "lang": "es",
    "style": "slow",
-   "text": "Pasamos la esponja por el brazo. Di: frotar.",
+   "text": "Al final nos secamos con la toalla. Di: toalla.",
    "source": "expansion"
   },
   {
-   "id": "tutor_cb76a9b8_94",
+   "id": "tutor_c9b35420_59",
    "lang": "es",
    "style": "tutor",
-   "text": "Frota círculos suaves en la espalda del niño con la mano o una esponja al ritmo de la palabra.",
+   "text": "Envolved al niño en una toalla (o en tus brazos) y secadlo.",
    "source": "expansion"
   },
   {
-   "id": "child_b9b96dc0_37",
+   "id": "child_ca726d30_42",
    "lang": "es",
    "style": "child",
-   "text": "El agua está calentita. Di: caliente.",
+   "text": "Primero nos ponemos el pijama. Di: pijama.",
    "source": "expansion"
   },
   {
-   "id": "child_5eef396a_24",
+   "id": "child_0d5c8cab_22",
    "lang": "es",
    "style": "child",
-   "text": "¡Otra vez! Di: caliente.",
+   "text": "¡Otra vez! Di: pijama.",
    "source": "expansion"
   },
   {
-   "id": "slow_b9b96dc0_37",
+   "id": "slow_ca726d30_42",
    "lang": "es",
    "style": "slow",
-   "text": "El agua está calentita. Di: caliente.",
+   "text": "Primero nos ponemos el pijama. Di: pijama.",
    "source": "expansion"
   },
   {
-   "id": "tutor_bf3ca311_83",
+   "id": "tutor_5fa1d148_54",
    "lang": "es",
    "style": "tutor",
-   "text": "Tocad el agua templada con un dedo y abanicad la mano exagerando: “¡uf, caliente!”.",
+   "text": "Señalad el pijama del niño y tocad los botones juntos.",
    "source": "expansion"
   },
   {
-   "id": "child_c6ff969e_28",
+   "id": "child_6fe20644_45",
    "lang": "es",
    "style": "child",
-   "text": "El agua hace chof. Di: chof.",
+   "text": "Después nos lavamos los dientes. Di: dientes.",
    "source": "expansion"
   },
   {
-   "id": "child_e4dfd571_20",
+   "id": "child_3fc9dd8d_23",
    "lang": "es",
    "style": "child",
-   "text": "¡Otra vez! Di: chof.",
+   "text": "¡Otra vez! Di: dientes.",
    "source": "expansion"
   },
   {
-   "id": "slow_c6ff969e_28",
+   "id": "slow_6fe20644_45",
    "lang": "es",
    "style": "slow",
-   "text": "El agua hace chof. Di: chof.",
+   "text": "Después nos lavamos los dientes. Di: dientes.",
    "source": "expansion"
   },
   {
-   "id": "tutor_01917eb0_82",
+   "id": "tutor_b864d495_48",
    "lang": "es",
    "style": "tutor",
-   "text": "Dad palmaditas sobre el agua (o sobre el muslo) diciendo “¡chof!” en cada palmada.",
+   "text": "Haced juntos el gesto de cepillaros los dientes.",
    "source": "expansion"
   },
   {
-   "id": "child_bb2ad6a8_26",
+   "id": "child_28dee98a_35",
    "lang": "es",
    "style": "child",
-   "text": "Esto es la luna. Di: luna.",
-   "source": "expansion"
-  },
-  {
-   "id": "child_aabdec49_20",
-   "lang": "es",
-   "style": "child",
-   "text": "¡Otra vez! Di: luna.",
-   "source": "expansion"
-  },
-  {
-   "id": "slow_bb2ad6a8_26",
-   "lang": "es",
-   "style": "slow",
-   "text": "Esto es la luna. Di: luna.",
-   "source": "expansion"
-  },
-  {
-   "id": "tutor_2bfdb934_80",
-   "lang": "es",
-   "style": "tutor",
-   "text": "Dibujad juntos un círculo grande en el aire con el dedo mientras decís “luuuna”.",
-   "source": "expansion"
-  },
-  {
-   "id": "child_22dd416d_45",
-   "lang": "es",
-   "style": "child",
-   "text": "Antes de dormir leemos un cuento. Di: cuento.",
+   "text": "Luego leemos un cuento. Di: cuento.",
    "source": "expansion"
   },
   {
@@ -1981,24 +1764,24 @@
    "source": "expansion"
   },
   {
-   "id": "slow_22dd416d_45",
+   "id": "slow_28dee98a_35",
    "lang": "es",
    "style": "slow",
-   "text": "Antes de dormir leemos un cuento. Di: cuento.",
+   "text": "Luego leemos un cuento. Di: cuento.",
    "source": "expansion"
   },
   {
-   "id": "tutor_8ce2cc89_74",
+   "id": "tutor_7d0f69a1_56",
    "lang": "es",
    "style": "tutor",
-   "text": "Coge su cuento favorito, ponlo en sus manos y abridlo juntos muy despacio.",
+   "text": "Abrid las manos como un libro y pasad una página juntos.",
    "source": "expansion"
   },
   {
-   "id": "child_3b1709bc_33",
+   "id": "child_3abcc732_40",
    "lang": "es",
    "style": "child",
-   "text": "Es la hora de dormir. Di: dormir.",
+   "text": "Al final nos vamos a dormir. Di: dormir.",
    "source": "expansion"
   },
   {
@@ -2009,101 +1792,31 @@
    "source": "expansion"
   },
   {
-   "id": "slow_3b1709bc_33",
+   "id": "slow_3abcc732_40",
    "lang": "es",
    "style": "slow",
-   "text": "Es la hora de dormir. Di: dormir.",
+   "text": "Al final nos vamos a dormir. Di: dormir.",
    "source": "expansion"
   },
   {
-   "id": "tutor_cfbf99f1_74",
+   "id": "tutor_39867175_55",
    "lang": "es",
    "style": "tutor",
-   "text": "Junta las manos bajo la mejilla, cerrad los ojos y roncad flojito los dos.",
+   "text": "Apoyad la cabeza en las manos juntas y cerrad los ojos.",
    "source": "expansion"
   },
   {
-   "id": "child_2e981bfb_33",
+   "id": "child_25f3758c_48",
    "lang": "es",
    "style": "child",
-   "text": "Nos damos un abrazo. Di: abrazar.",
+   "text": "Vamos a ordenar la rutina. ¿Qué hacemos primero?",
    "source": "expansion"
   },
   {
-   "id": "child_6e5d089c_23",
-   "lang": "es",
-   "style": "child",
-   "text": "¡Otra vez! Di: abrazar.",
-   "source": "expansion"
-  },
-  {
-   "id": "slow_2e981bfb_33",
-   "lang": "es",
-   "style": "slow",
-   "text": "Nos damos un abrazo. Di: abrazar.",
-   "source": "expansion"
-  },
-  {
-   "id": "tutor_e5672ab1_78",
+   "id": "tutor_7bddde97_95",
    "lang": "es",
    "style": "tutor",
-   "text": "Daos un abrazo largo de verdad y apretad un poquito justo al decir la palabra.",
-   "source": "expansion"
-  },
-  {
-   "id": "child_0023a78b_29",
-   "lang": "es",
-   "style": "child",
-   "text": "Todo está oscuro. Di: oscuro.",
-   "source": "expansion"
-  },
-  {
-   "id": "child_f6ec5ad4_22",
-   "lang": "es",
-   "style": "child",
-   "text": "¡Otra vez! Di: oscuro.",
-   "source": "expansion"
-  },
-  {
-   "id": "slow_0023a78b_29",
-   "lang": "es",
-   "style": "slow",
-   "text": "Todo está oscuro. Di: oscuro.",
-   "source": "expansion"
-  },
-  {
-   "id": "tutor_49e1ce66_94",
-   "lang": "es",
-   "style": "tutor",
-   "text": "Tapad los ojos del niño suavemente con sus propias manos y destapad de golpe: “¡oscuro… luz!”.",
-   "source": "expansion"
-  },
-  {
-   "id": "child_7cc64e43_32",
-   "lang": "es",
-   "style": "child",
-   "text": "El búho hace uh, uh. Di: uh, uh.",
-   "source": "expansion"
-  },
-  {
-   "id": "child_a9ee0f67_21",
-   "lang": "es",
-   "style": "child",
-   "text": "¡Otra vez! Di: uh uh.",
-   "source": "expansion"
-  },
-  {
-   "id": "slow_7cc64e43_32",
-   "lang": "es",
-   "style": "slow",
-   "text": "El búho hace uh, uh. Di: uh, uh.",
-   "source": "expansion"
-  },
-  {
-   "id": "tutor_22348474_100",
-   "lang": "es",
-   "style": "tutor",
-   "text": "Poned las manos como gafas alrededor de los ojos y girad la cabeza como un búho diciendo “¡uh, uh!”.",
+   "text": "Repasad juntos la rutina en voz alta señalando cada dibujo: primero, después, luego y al final.",
    "source": "expansion"
   },
   {
@@ -3353,13 +3066,6 @@
    "source": "expansion"
   },
   {
-   "id": "child_8cb4d541_20",
-   "lang": "es",
-   "style": "child",
-   "text": "¡Otra vez! Di: agua.",
-   "source": "expansion"
-  },
-  {
    "id": "slow_e1bc3da2_26",
    "lang": "es",
    "style": "slow",
@@ -3990,6 +3696,13 @@
    "source": "expansion"
   },
   {
+   "id": "child_5b4c398d_22",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Otra vez! Di: limpio.",
+   "source": "expansion"
+  },
+  {
    "id": "slow_c53b0905_63",
    "lang": "es",
    "style": "slow",
@@ -4169,6 +3882,13 @@
    "lang": "es",
    "style": "child",
    "text": "Y este otro vaso, ¿cómo está? Di: caliente.",
+   "source": "expansion"
+  },
+  {
+   "id": "child_5eef396a_24",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Otra vez! Di: caliente.",
    "source": "expansion"
   },
   {
@@ -15113,66 +14833,38 @@
    "source": "util/muestra"
   },
   {
-   "id": "gl_child_a797b603_24",
+   "id": "gl_child_6f0cc232_34",
    "lang": "gl",
    "style": "child",
-   "text": "Isto é a cama. Di: cama.",
+   "text": "Primeiro espertamos. Di: espertar.",
    "source": "expansion"
   },
   {
-   "id": "gl_child_61e5f519_20",
+   "id": "gl_child_9945fc69_24",
    "lang": "gl",
    "style": "child",
-   "text": "Outra vez! Di: cama.",
+   "text": "Outra vez! Di: espertar.",
    "source": "expansion"
   },
   {
-   "id": "gl_slow_a797b603_24",
+   "id": "gl_slow_6f0cc232_34",
    "lang": "gl",
    "style": "slow",
-   "text": "Isto é a cama. Di: cama.",
+   "text": "Primeiro espertamos. Di: espertar.",
    "source": "expansion"
   },
   {
-   "id": "gl_tutor_10b654ed_80",
+   "id": "gl_tutor_d9636aba_64",
    "lang": "gl",
    "style": "tutor",
-   "text": "Dálle unhas palmadiñas á cama e séntate nela coa nena antes de erguervos xuntos.",
+   "text": "Tápate coma se durmises e estírate co neno ao soar o «rin, rin».",
    "source": "expansion"
   },
   {
-   "id": "gl_child_c48c3abb_30",
+   "id": "gl_child_44366b6d_29",
    "lang": "gl",
    "style": "child",
-   "text": "Isto é o cepillo. Di: cepillo.",
-   "source": "expansion"
-  },
-  {
-   "id": "gl_child_d4158aa9_23",
-   "lang": "gl",
-   "style": "child",
-   "text": "Outra vez! Di: cepillo.",
-   "source": "expansion"
-  },
-  {
-   "id": "gl_slow_c48c3abb_30",
-   "lang": "gl",
-   "style": "slow",
-   "text": "Isto é o cepillo. Di: cepillo.",
-   "source": "expansion"
-  },
-  {
-   "id": "gl_tutor_57b87916_87",
-   "lang": "gl",
-   "style": "tutor",
-   "text": "Pon o cepillo (sen pasta) na man da nena e guiade xuntos o xesto de cepillar os dentes.",
-   "source": "expansion"
-  },
-  {
-   "id": "gl_child_3138f034_27",
-   "lang": "gl",
-   "style": "child",
-   "text": "Lavamos as mans. Di: lavar.",
+   "text": "Despois lavámonos. Di: lavar.",
    "source": "expansion"
   },
   {
@@ -15183,24 +14875,24 @@
    "source": "expansion"
   },
   {
-   "id": "gl_slow_3138f034_27",
+   "id": "gl_slow_44366b6d_29",
    "lang": "gl",
    "style": "slow",
-   "text": "Lavamos as mans. Di: lavar.",
+   "text": "Despois lavámonos. Di: lavar.",
    "source": "expansion"
   },
   {
-   "id": "gl_tutor_9502673f_93",
+   "id": "gl_tutor_7f7f5269_48",
    "lang": "gl",
    "style": "tutor",
-   "text": "Frega as túas mans coma se te enxaboases e anima á nena a fregar as súas ao ritmo da palabra.",
+   "text": "Fregade as mans xuntos coma se vos enxaboasedes.",
    "source": "expansion"
   },
   {
-   "id": "gl_child_1a62390f_31",
+   "id": "gl_child_cd8643b3_28",
    "lang": "gl",
    "style": "child",
-   "text": "Poñemos a camiseta. Di: vestir.",
+   "text": "Logo vestímonos. Di: vestir.",
    "source": "expansion"
   },
   {
@@ -15211,136 +14903,94 @@
    "source": "expansion"
   },
   {
-   "id": "gl_slow_1a62390f_31",
+   "id": "gl_slow_cd8643b3_28",
    "lang": "gl",
    "style": "slow",
-   "text": "Poñemos a camiseta. Di: vestir.",
+   "text": "Logo vestímonos. Di: vestir.",
    "source": "expansion"
   },
   {
-   "id": "gl_tutor_b5e13fd1_76",
+   "id": "gl_tutor_d2a75d16_62",
    "lang": "gl",
    "style": "tutor",
-   "text": "Pasa unha camiseta pola cabeza da nena e, ao asomar, celebrádeo cun “cucú!”.",
+   "text": "Pasa unha camiseta pola cabeza do neno e celebrádeo ao asomar.",
    "source": "expansion"
   },
   {
-   "id": "gl_child_d36087c9_32",
+   "id": "gl_child_7bc4e63f_34",
    "lang": "gl",
    "style": "child",
-   "text": "As mans están limpas. Di: limpo.",
+   "text": "Ao final almorzamos. Di: almorzar.",
    "source": "expansion"
   },
   {
-   "id": "gl_child_5d5c5798_21",
+   "id": "gl_child_44f41fa5_24",
    "lang": "gl",
    "style": "child",
-   "text": "Outra vez! Di: limpo.",
+   "text": "Outra vez! Di: almorzar.",
    "source": "expansion"
   },
   {
-   "id": "gl_slow_d36087c9_32",
+   "id": "gl_slow_7bc4e63f_34",
    "lang": "gl",
    "style": "slow",
-   "text": "As mans están limpas. Di: limpo.",
+   "text": "Ao final almorzamos. Di: almorzar.",
    "source": "expansion"
   },
   {
-   "id": "gl_tutor_622238b8_81",
+   "id": "gl_tutor_ba4ccf44_60",
    "lang": "gl",
    "style": "tutor",
-   "text": "Amosa as túas mans limpas, sopra sobre elas coma se brillasen e chocade os cinco.",
+   "text": "Simulade xuntos que bebedes un vaso de leite coas dúas mans.",
    "source": "expansion"
   },
   {
-   "id": "gl_child_8a312684_40",
+   "id": "gl_child_629f16bf_36",
    "lang": "gl",
    "style": "child",
-   "text": "O espertador fai rin, rin. Di: rin, rin.",
+   "text": "Primeiro lavamos as mans. Di: lavar.",
    "source": "expansion"
   },
   {
-   "id": "gl_child_6f3c4571_23",
-   "lang": "gl",
-   "style": "child",
-   "text": "Outra vez! Di: rin rin.",
-   "source": "expansion"
-  },
-  {
-   "id": "gl_slow_8a312684_40",
+   "id": "gl_slow_629f16bf_36",
    "lang": "gl",
    "style": "slow",
-   "text": "O espertador fai rin, rin. Di: rin, rin.",
+   "text": "Primeiro lavamos as mans. Di: lavar.",
    "source": "expansion"
   },
   {
-   "id": "gl_tutor_c129bc97_95",
-   "lang": "gl",
-   "style": "tutor",
-   "text": "Tápate coma se durmises e, ao dicir “rin, rin!”, esperta de golpe estirando os brazos coa nena.",
-   "source": "expansion"
-  },
-  {
-   "id": "gl_child_3c3d6537_28",
+   "id": "gl_child_0b51ccf1_36",
    "lang": "gl",
    "style": "child",
-   "text": "Isto é a culler. Di: culler.",
+   "text": "Despois sentamos á mesa. Di: sentar.",
    "source": "expansion"
   },
   {
-   "id": "gl_child_1ddade92_22",
+   "id": "gl_child_14c85578_22",
    "lang": "gl",
    "style": "child",
-   "text": "Outra vez! Di: culler.",
+   "text": "Outra vez! Di: sentar.",
    "source": "expansion"
   },
   {
-   "id": "gl_slow_3c3d6537_28",
+   "id": "gl_slow_0b51ccf1_36",
    "lang": "gl",
    "style": "slow",
-   "text": "Isto é a culler. Di: culler.",
+   "text": "Despois sentamos á mesa. Di: sentar.",
    "source": "expansion"
   },
   {
-   "id": "gl_tutor_542dcf79_77",
+   "id": "gl_tutor_1fcbf29d_55",
    "lang": "gl",
    "style": "tutor",
-   "text": "Pon a culler na man da nena e levádea xuntos á boca facendo o xesto de comer.",
+   "text": "Sentádevos xuntos en dúas cadeiras, un fronte ao outro.",
    "source": "expansion"
   },
   {
-   "id": "gl_child_bdef2a75_24",
+   "id": "gl_child_2c068ac4_24",
    "lang": "gl",
    "style": "child",
-   "text": "Isto é o vaso. Di: vaso.",
-   "source": "expansion"
-  },
-  {
-   "id": "gl_child_39de1c5a_20",
-   "lang": "gl",
-   "style": "child",
-   "text": "Outra vez! Di: vaso.",
-   "source": "expansion"
-  },
-  {
-   "id": "gl_slow_bdef2a75_24",
-   "lang": "gl",
-   "style": "slow",
-   "text": "Isto é o vaso. Di: vaso.",
-   "source": "expansion"
-  },
-  {
-   "id": "gl_tutor_3a63a757_67",
-   "lang": "gl",
-   "style": "tutor",
-   "text": "Achega o vaso aos beizos da nena e bebede á vez facendo “glu, glu”.",
-   "source": "expansion"
-  },
-  {
-   "id": "gl_child_fb2919fc_22",
-   "lang": "gl",
-   "style": "child",
-   "text": "Imos comer. Di: comer.",
+   "text": "Logo comemos. Di: comer.",
    "source": "expansion"
   },
   {
@@ -15351,136 +15001,108 @@
    "source": "expansion"
   },
   {
-   "id": "gl_slow_fb2919fc_22",
+   "id": "gl_slow_2c068ac4_24",
    "lang": "gl",
    "style": "slow",
-   "text": "Imos comer. Di: comer.",
+   "text": "Logo comemos. Di: comer.",
    "source": "expansion"
   },
   {
-   "id": "gl_tutor_6ffe4537_79",
+   "id": "gl_tutor_231b4b2d_44",
    "lang": "gl",
    "style": "tutor",
-   "text": "Frega a barriga, abre moito a boca e fai coma se mastigases esaxerando o xesto.",
+   "text": "Levade xuntos unha culler imaxinaria á boca.",
    "source": "expansion"
   },
   {
-   "id": "gl_child_19d091e8_27",
+   "id": "gl_child_c90a202c_42",
    "lang": "gl",
    "style": "child",
-   "text": "Imos beber auga. Di: beber.",
+   "text": "Ao final recollemos o prato. Di: recoller.",
    "source": "expansion"
   },
   {
-   "id": "gl_child_702a64b7_21",
+   "id": "gl_child_a70c7afb_24",
    "lang": "gl",
    "style": "child",
-   "text": "Outra vez! Di: beber.",
+   "text": "Outra vez! Di: recoller.",
    "source": "expansion"
   },
   {
-   "id": "gl_slow_19d091e8_27",
+   "id": "gl_slow_c90a202c_42",
    "lang": "gl",
    "style": "slow",
-   "text": "Imos beber auga. Di: beber.",
+   "text": "Ao final recollemos o prato. Di: recoller.",
    "source": "expansion"
   },
   {
-   "id": "gl_tutor_4b0f7477_87",
+   "id": "gl_tutor_f09cbff7_63",
    "lang": "gl",
    "style": "tutor",
-   "text": "Inclina un vaso baleiro sobre a túa boca e fai “glu, glu” convidando á nena a imitarte.",
+   "text": "Levade xuntos un prato (de verdade ou imaxinario) ata a cociña.",
    "source": "expansion"
   },
   {
-   "id": "gl_child_8261b073_29",
+   "id": "gl_child_86ca9edb_41",
    "lang": "gl",
    "style": "child",
-   "text": "A comida está rica. Di: rico.",
+   "text": "Primeiro poñemos os zapatos. Di: zapatos.",
    "source": "expansion"
   },
   {
-   "id": "gl_child_2456cbce_20",
+   "id": "gl_child_1f44f391_23",
    "lang": "gl",
    "style": "child",
-   "text": "Outra vez! Di: rico.",
+   "text": "Outra vez! Di: zapatos.",
    "source": "expansion"
   },
   {
-   "id": "gl_slow_8261b073_29",
+   "id": "gl_slow_86ca9edb_41",
    "lang": "gl",
    "style": "slow",
-   "text": "A comida está rica. Di: rico.",
+   "text": "Primeiro poñemos os zapatos. Di: zapatos.",
    "source": "expansion"
   },
   {
-   "id": "gl_tutor_453080d1_83",
+   "id": "gl_tutor_c51fcc57_46",
    "lang": "gl",
    "style": "tutor",
-   "text": "Lambe os beizos, frega a barriga e pon cara de gusto dicindo “mmm, rico!” coa nena.",
+   "text": "Sinalade os zapatos do neno e tocádeos xuntos.",
    "source": "expansion"
   },
   {
-   "id": "gl_child_ed5e42f4_34",
+   "id": "gl_child_cb805241_35",
    "lang": "gl",
    "style": "child",
-   "text": "A boca fai ñam, ñam. Di: ñam, ñam.",
+   "text": "Despois imos ao parque. Di: parque.",
    "source": "expansion"
   },
   {
-   "id": "gl_child_b16d65d1_23",
+   "id": "gl_child_b8461c1f_22",
    "lang": "gl",
    "style": "child",
-   "text": "Outra vez! Di: ñam ñam.",
+   "text": "Outra vez! Di: parque.",
    "source": "expansion"
   },
   {
-   "id": "gl_slow_ed5e42f4_34",
+   "id": "gl_slow_cb805241_35",
    "lang": "gl",
    "style": "slow",
-   "text": "A boca fai ñam, ñam. Di: ñam, ñam.",
+   "text": "Despois imos ao parque. Di: parque.",
    "source": "expansion"
   },
   {
-   "id": "gl_tutor_220ffd89_104",
+   "id": "gl_tutor_1d133bb4_59",
    "lang": "gl",
    "style": "tutor",
-   "text": "Mastiga de forma esaxerada movendo moito a mandíbula e que a nena mastigue contigo ao dicir “ñam, ñam!”.",
+   "text": "Camiñade xuntos uns pasos pola habitación cara «ao parque».",
    "source": "expansion"
   },
   {
-   "id": "gl_child_bd0d7bd7_28",
+   "id": "gl_child_56737ccf_40",
    "lang": "gl",
    "style": "child",
-   "text": "Isto é a pelota. Di: pelota.",
-   "source": "expansion"
-  },
-  {
-   "id": "gl_child_3a17bfbc_22",
-   "lang": "gl",
-   "style": "child",
-   "text": "Outra vez! Di: pelota.",
-   "source": "expansion"
-  },
-  {
-   "id": "gl_slow_bd0d7bd7_28",
-   "lang": "gl",
-   "style": "slow",
-   "text": "Isto é a pelota. Di: pelota.",
-   "source": "expansion"
-  },
-  {
-   "id": "gl_tutor_d00bbef9_93",
-   "lang": "gl",
-   "style": "tutor",
-   "text": "Fai rodar unha pelota real cara á nena e agardade a que a devolva antes de repetir a palabra.",
-   "source": "expansion"
-  },
-  {
-   "id": "gl_child_da0e0e7b_30",
-   "lang": "gl",
-   "style": "child",
-   "text": "Isto é o tobogán. Di: tobogán.",
+   "text": "Logo baixamos polo tobogán. Di: tobogán.",
    "source": "expansion"
   },
   {
@@ -15491,136 +15113,45 @@
    "source": "expansion"
   },
   {
-   "id": "gl_slow_da0e0e7b_30",
+   "id": "gl_slow_56737ccf_40",
    "lang": "gl",
    "style": "slow",
-   "text": "Isto é o tobogán. Di: tobogán.",
+   "text": "Logo baixamos polo tobogán. Di: tobogán.",
    "source": "expansion"
   },
   {
-   "id": "gl_tutor_8967c616_80",
+   "id": "gl_tutor_6ae48576_52",
    "lang": "gl",
    "style": "tutor",
-   "text": "Desliza a man da nena polo teu brazo inclinado coma se fose a rampla do tobogán.",
+   "text": "Facede xuntos o xesto de esvarar cos brazos no alto.",
    "source": "expansion"
   },
   {
-   "id": "gl_child_04e68925_34",
+   "id": "gl_child_59d461ce_35",
    "lang": "gl",
    "style": "child",
-   "text": "No parque imos correr. Di: correr.",
+   "text": "Ao final volvemos á casa. Di: casa.",
    "source": "expansion"
   },
   {
-   "id": "gl_child_d02f1bc4_22",
-   "lang": "gl",
-   "style": "child",
-   "text": "Outra vez! Di: correr.",
-   "source": "expansion"
-  },
-  {
-   "id": "gl_slow_04e68925_34",
+   "id": "gl_slow_59d461ce_35",
    "lang": "gl",
    "style": "slow",
-   "text": "No parque imos correr. Di: correr.",
+   "text": "Ao final volvemos á casa. Di: casa.",
    "source": "expansion"
   },
   {
-   "id": "gl_tutor_126ee0eb_81",
+   "id": "gl_tutor_a85ae1a9_51",
    "lang": "gl",
    "style": "tutor",
-   "text": "Corre no sitio movendo moito os brazos e anima á nena a correr contigo uns pasos.",
+   "text": "Xuntade as mans sobre a cabeza formando un tellado.",
    "source": "expansion"
   },
   {
-   "id": "gl_child_aaad9f80_34",
+   "id": "gl_child_66b62c13_43",
    "lang": "gl",
    "style": "child",
-   "text": "Saltamos coma unha ra. Di: saltar.",
-   "source": "expansion"
-  },
-  {
-   "id": "gl_child_d383dc92_22",
-   "lang": "gl",
-   "style": "child",
-   "text": "Outra vez! Di: saltar.",
-   "source": "expansion"
-  },
-  {
-   "id": "gl_slow_aaad9f80_34",
-   "lang": "gl",
-   "style": "slow",
-   "text": "Saltamos coma unha ra. Di: saltar.",
-   "source": "expansion"
-  },
-  {
-   "id": "gl_tutor_c83ca8b9_83",
-   "lang": "gl",
-   "style": "tutor",
-   "text": "Salta cos dous pés xuntos dicindo “salta!” en cada bote e que a nena salte contigo.",
-   "source": "expansion"
-  },
-  {
-   "id": "gl_child_611097be_33",
-   "lang": "gl",
-   "style": "child",
-   "text": "O bambán sobe moi alto. Di: alto.",
-   "source": "expansion"
-  },
-  {
-   "id": "gl_child_fca62e53_20",
-   "lang": "gl",
-   "style": "child",
-   "text": "Outra vez! Di: alto.",
-   "source": "expansion"
-  },
-  {
-   "id": "gl_slow_611097be_33",
-   "lang": "gl",
-   "style": "slow",
-   "text": "O bambán sobe moi alto. Di: alto.",
-   "source": "expansion"
-  },
-  {
-   "id": "gl_tutor_0a1f4b0a_83",
-   "lang": "gl",
-   "style": "tutor",
-   "text": "Estírate de puntas cos brazos cara ao ceo e ergue á nena en brazos dicindo “alto!”.",
-   "source": "expansion"
-  },
-  {
-   "id": "gl_child_0113520a_30",
-   "lang": "gl",
-   "style": "child",
-   "text": "A pelota fai boing. Di: boing.",
-   "source": "expansion"
-  },
-  {
-   "id": "gl_child_1770c8b2_21",
-   "lang": "gl",
-   "style": "child",
-   "text": "Outra vez! Di: boing.",
-   "source": "expansion"
-  },
-  {
-   "id": "gl_slow_0113520a_30",
-   "lang": "gl",
-   "style": "slow",
-   "text": "A pelota fai boing. Di: boing.",
-   "source": "expansion"
-  },
-  {
-   "id": "gl_tutor_ae1dffc3_89",
-   "lang": "gl",
-   "style": "tutor",
-   "text": "Bota unha pelota (ou ti mesmo cos xeonllos) dicindo “boing!” en cada rebote xunto á nena.",
-   "source": "expansion"
-  },
-  {
-   "id": "gl_child_932680df_30",
-   "lang": "gl",
-   "style": "child",
-   "text": "Isto é a bañeira. Di: bañeira.",
+   "text": "Primeiro metémonos na bañeira. Di: bañeira.",
    "source": "expansion"
   },
   {
@@ -15631,24 +15162,24 @@
    "source": "expansion"
   },
   {
-   "id": "gl_slow_932680df_30",
+   "id": "gl_slow_66b62c13_43",
    "lang": "gl",
    "style": "slow",
-   "text": "Isto é a bañeira. Di: bañeira.",
+   "text": "Primeiro metémonos na bañeira. Di: bañeira.",
    "source": "expansion"
   },
   {
-   "id": "gl_tutor_e3ead27d_100",
+   "id": "gl_tutor_09abc7ec_58",
    "lang": "gl",
    "style": "tutor",
-   "text": "Sinala a bañeira (ou un barreño) e facede xuntos o xesto de meterse dentro erguendo moito as pernas.",
+   "text": "Levantade xuntos unha perna coma se entrasedes na bañeira.",
    "source": "expansion"
   },
   {
-   "id": "gl_child_3ec80237_26",
+   "id": "gl_child_b1e01657_32",
    "lang": "gl",
    "style": "child",
-   "text": "Isto é o xabón. Di: xabón.",
+   "text": "Despois enxaboámonos. Di: xabón.",
    "source": "expansion"
   },
   {
@@ -15659,164 +15190,136 @@
    "source": "expansion"
   },
   {
-   "id": "gl_slow_3ec80237_26",
+   "id": "gl_slow_b1e01657_32",
    "lang": "gl",
    "style": "slow",
-   "text": "Isto é o xabón. Di: xabón.",
+   "text": "Despois enxaboámonos. Di: xabón.",
    "source": "expansion"
   },
   {
-   "id": "gl_tutor_4f5c0189_84",
+   "id": "gl_tutor_7347b73b_51",
    "lang": "gl",
    "style": "tutor",
-   "text": "Pon a pastilla de xabón nas mans da nena e xirádea xuntos facendo escuma imaxinaria.",
+   "text": "Fregade os brazos do neno cunha esponxa imaxinaria.",
    "source": "expansion"
   },
   {
-   "id": "gl_child_89778b69_31",
+   "id": "gl_child_6d169bd7_36",
    "lang": "gl",
    "style": "child",
-   "text": "Imos bañar o boneco. Di: bañar.",
+   "text": "Logo aclarámonos con auga. Di: auga.",
    "source": "expansion"
   },
   {
-   "id": "gl_child_cda73da8_21",
+   "id": "gl_child_a71a0ea1_20",
    "lang": "gl",
    "style": "child",
-   "text": "Outra vez! Di: bañar.",
+   "text": "Outra vez! Di: auga.",
    "source": "expansion"
   },
   {
-   "id": "gl_slow_89778b69_31",
+   "id": "gl_slow_6d169bd7_36",
    "lang": "gl",
    "style": "slow",
-   "text": "Imos bañar o boneco. Di: bañar.",
+   "text": "Logo aclarámonos con auga. Di: auga.",
    "source": "expansion"
   },
   {
-   "id": "gl_tutor_0bc19ee2_82",
+   "id": "gl_tutor_93307442_57",
    "lang": "gl",
    "style": "tutor",
-   "text": "Frega suavemente os brazos da nena coma se a enxaboases mentres repetides “bañar”.",
+   "text": "Deixade caer os dedos sobre a cabeza do neno coma pingas.",
    "source": "expansion"
   },
   {
-   "id": "gl_child_df4264f4_41",
+   "id": "gl_child_862c432f_42",
    "lang": "gl",
    "style": "child",
-   "text": "Pasamos a esponxa polo brazo. Di: fregar.",
+   "text": "Ao final secámonos coa toalla. Di: toalla.",
    "source": "expansion"
   },
   {
-   "id": "gl_child_13a13452_22",
+   "id": "gl_child_1b386572_22",
    "lang": "gl",
    "style": "child",
-   "text": "Outra vez! Di: fregar.",
+   "text": "Outra vez! Di: toalla.",
    "source": "expansion"
   },
   {
-   "id": "gl_slow_df4264f4_41",
+   "id": "gl_slow_862c432f_42",
    "lang": "gl",
    "style": "slow",
-   "text": "Pasamos a esponxa polo brazo. Di: fregar.",
+   "text": "Ao final secámonos coa toalla. Di: toalla.",
    "source": "expansion"
   },
   {
-   "id": "gl_tutor_132c1a0b_84",
+   "id": "gl_tutor_bb097e41_61",
    "lang": "gl",
    "style": "tutor",
-   "text": "Fai círculos suaves nas costas da nena coa man ou cunha esponxa ao ritmo da palabra.",
+   "text": "Envolvede o neno nunha toalla (ou nos teus brazos) e secádeo.",
    "source": "expansion"
   },
   {
-   "id": "gl_child_4a8736a8_33",
+   "id": "gl_child_576c207a_38",
    "lang": "gl",
    "style": "child",
-   "text": "A auga está quentiña. Di: quente.",
+   "text": "Primeiro poñemos o pixama. Di: pixama.",
    "source": "expansion"
   },
   {
-   "id": "gl_child_0ac8c439_22",
+   "id": "gl_child_32989291_22",
    "lang": "gl",
    "style": "child",
-   "text": "Outra vez! Di: quente.",
+   "text": "Outra vez! Di: pixama.",
    "source": "expansion"
   },
   {
-   "id": "gl_slow_4a8736a8_33",
+   "id": "gl_slow_576c207a_38",
    "lang": "gl",
    "style": "slow",
-   "text": "A auga está quentiña. Di: quente.",
+   "text": "Primeiro poñemos o pixama. Di: pixama.",
    "source": "expansion"
   },
   {
-   "id": "gl_tutor_ba037b9c_71",
+   "id": "gl_tutor_178ec657_52",
    "lang": "gl",
    "style": "tutor",
-   "text": "Tocade a auga morna cun dedo e abanade a man esaxerando: “uf, quente!”.",
+   "text": "Sinalade o pixama do neno e tocade os botóns xuntos.",
    "source": "expansion"
   },
   {
-   "id": "gl_child_cb8e1371_26",
+   "id": "gl_child_66c842a2_38",
    "lang": "gl",
    "style": "child",
-   "text": "A auga fai chof. Di: chof.",
+   "text": "Despois lavamos os dentes. Di: dentes.",
    "source": "expansion"
   },
   {
-   "id": "gl_child_ceed5f89_20",
+   "id": "gl_child_00aa93c8_22",
    "lang": "gl",
    "style": "child",
-   "text": "Outra vez! Di: chof.",
+   "text": "Outra vez! Di: dentes.",
    "source": "expansion"
   },
   {
-   "id": "gl_slow_cb8e1371_26",
+   "id": "gl_slow_66c842a2_38",
    "lang": "gl",
    "style": "slow",
-   "text": "A auga fai chof. Di: chof.",
+   "text": "Despois lavamos os dentes. Di: dentes.",
    "source": "expansion"
   },
   {
-   "id": "gl_tutor_3de4bc08_79",
+   "id": "gl_tutor_eac95b1e_44",
    "lang": "gl",
    "style": "tutor",
-   "text": "Dade palmadiñas sobre a auga (ou sobre a coxa) dicindo “chof!” en cada palmada.",
+   "text": "Facede xuntos o xesto de cepillar os dentes.",
    "source": "expansion"
   },
   {
-   "id": "gl_child_bcabdcbb_22",
+   "id": "gl_child_f59eea2e_31",
    "lang": "gl",
    "style": "child",
-   "text": "Isto é a lúa. Di: lúa.",
-   "source": "expansion"
-  },
-  {
-   "id": "gl_child_67f2436a_19",
-   "lang": "gl",
-   "style": "child",
-   "text": "Outra vez! Di: lúa.",
-   "source": "expansion"
-  },
-  {
-   "id": "gl_slow_bcabdcbb_22",
-   "lang": "gl",
-   "style": "slow",
-   "text": "Isto é a lúa. Di: lúa.",
-   "source": "expansion"
-  },
-  {
-   "id": "gl_tutor_d40b8aac_74",
-   "lang": "gl",
-   "style": "tutor",
-   "text": "Debuxade xuntos un círculo grande no aire co dedo mentres dicides “lúúúa”.",
-   "source": "expansion"
-  },
-  {
-   "id": "gl_child_0a9c1afe_42",
-   "lang": "gl",
-   "style": "child",
-   "text": "Antes de durmir lemos un conto. Di: conto.",
+   "text": "Logo lemos un conto. Di: conto.",
    "source": "expansion"
   },
   {
@@ -15827,24 +15330,24 @@
    "source": "expansion"
   },
   {
-   "id": "gl_slow_0a9c1afe_42",
+   "id": "gl_slow_f59eea2e_31",
    "lang": "gl",
    "style": "slow",
-   "text": "Antes de durmir lemos un conto. Di: conto.",
+   "text": "Logo lemos un conto. Di: conto.",
    "source": "expansion"
   },
   {
-   "id": "gl_tutor_ee2f7941_73",
+   "id": "gl_tutor_c18823d9_57",
    "lang": "gl",
    "style": "tutor",
-   "text": "Colle o seu conto favorito, ponllo nas mans e abrídeo xuntos moi amodiño.",
+   "text": "Abride as mans coma un libro e pasade unha páxina xuntos.",
    "source": "expansion"
   },
   {
-   "id": "gl_child_910bd5a3_31",
+   "id": "gl_child_6b33bf78_33",
    "lang": "gl",
    "style": "child",
-   "text": "É a hora de durmir. Di: durmir.",
+   "text": "Ao final imos durmir. Di: durmir.",
    "source": "expansion"
   },
   {
@@ -15855,101 +15358,31 @@
    "source": "expansion"
   },
   {
-   "id": "gl_slow_910bd5a3_31",
+   "id": "gl_slow_6b33bf78_33",
    "lang": "gl",
    "style": "slow",
-   "text": "É a hora de durmir. Di: durmir.",
+   "text": "Ao final imos durmir. Di: durmir.",
    "source": "expansion"
   },
   {
-   "id": "gl_tutor_5c4dc144_74",
+   "id": "gl_tutor_07a0437b_52",
    "lang": "gl",
    "style": "tutor",
-   "text": "Xunta as mans baixo a meixela, pechade os ollos e roncade fluxiño os dous.",
+   "text": "Apoiade a cabeza nas mans xuntas e pechade os ollos.",
    "source": "expansion"
   },
   {
-   "id": "gl_child_7322834b_33",
+   "id": "gl_child_d383022f_44",
    "lang": "gl",
    "style": "child",
-   "text": "Dámonos unha aperta. Di: abrazar.",
+   "text": "Imos ordenar a rutina. Que facemos primeiro?",
    "source": "expansion"
   },
   {
-   "id": "gl_child_1e0c37d4_23",
-   "lang": "gl",
-   "style": "child",
-   "text": "Outra vez! Di: abrazar.",
-   "source": "expansion"
-  },
-  {
-   "id": "gl_slow_7322834b_33",
-   "lang": "gl",
-   "style": "slow",
-   "text": "Dámonos unha aperta. Di: abrazar.",
-   "source": "expansion"
-  },
-  {
-   "id": "gl_tutor_4cea5da4_85",
+   "id": "gl_tutor_211c1fd4_95",
    "lang": "gl",
    "style": "tutor",
-   "text": "Dádevos unha aperta longa de verdade e apertade un pouquiño xusto ao dicir a palabra.",
-   "source": "expansion"
-  },
-  {
-   "id": "gl_child_3a950f1a_33",
-   "lang": "gl",
-   "style": "child",
-   "text": "Está todo moi escuro. Di: escuro.",
-   "source": "expansion"
-  },
-  {
-   "id": "gl_child_f159abae_22",
-   "lang": "gl",
-   "style": "child",
-   "text": "Outra vez! Di: escuro.",
-   "source": "expansion"
-  },
-  {
-   "id": "gl_slow_3a950f1a_33",
-   "lang": "gl",
-   "style": "slow",
-   "text": "Está todo moi escuro. Di: escuro.",
-   "source": "expansion"
-  },
-  {
-   "id": "gl_tutor_32607dcd_95",
-   "lang": "gl",
-   "style": "tutor",
-   "text": "Tapade os ollos da nena suavemente coas súas propias mans e destapade de golpe: “escuro… luz!”.",
-   "source": "expansion"
-  },
-  {
-   "id": "gl_child_a7a5a491_32",
-   "lang": "gl",
-   "style": "child",
-   "text": "A curuxa fai uh, uh. Di: uh, uh.",
-   "source": "expansion"
-  },
-  {
-   "id": "gl_child_cd15a7af_21",
-   "lang": "gl",
-   "style": "child",
-   "text": "Outra vez! Di: uh uh.",
-   "source": "expansion"
-  },
-  {
-   "id": "gl_slow_a7a5a491_32",
-   "lang": "gl",
-   "style": "slow",
-   "text": "A curuxa fai uh, uh. Di: uh, uh.",
-   "source": "expansion"
-  },
-  {
-   "id": "gl_tutor_7b01cf95_99",
-   "lang": "gl",
-   "style": "tutor",
-   "text": "Poñede as mans coma lentes ao redor dos ollos e xirade a cabeza coma unha curuxa dicindo “uh, uh!”.",
+   "text": "Repasade xuntos a rutina en voz alta sinalando cada debuxo: primeiro, despois, logo e ao final.",
    "source": "expansion"
   },
   {
@@ -17213,13 +16646,6 @@
    "source": "expansion"
   },
   {
-   "id": "gl_child_a71a0ea1_20",
-   "lang": "gl",
-   "style": "child",
-   "text": "Outra vez! Di: auga.",
-   "source": "expansion"
-  },
-  {
    "id": "gl_slow_1ee6e6e3_24",
    "lang": "gl",
    "style": "slow",
@@ -17850,6 +17276,13 @@
    "source": "expansion"
   },
   {
+   "id": "gl_child_5d5c5798_21",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: limpo.",
+   "source": "expansion"
+  },
+  {
    "id": "gl_slow_bcdc86d5_60",
    "lang": "gl",
    "style": "slow",
@@ -18029,6 +17462,13 @@
    "lang": "gl",
    "style": "child",
    "text": "E este outro vaso, como está? Di: quente.",
+   "source": "expansion"
+  },
+  {
+   "id": "gl_child_0ac8c439_22",
+   "lang": "gl",
+   "style": "child",
+   "text": "Outra vez! Di: quente.",
    "source": "expansion"
   },
   {
@@ -20741,66 +20181,38 @@
    "source": "util/muestra"
   },
   {
-   "id": "eu_child_185cd85f_24",
+   "id": "eu_child_1efcb0b3_41",
    "lang": "eu",
    "style": "child",
-   "text": "Hau ohea da. Esan: ohea.",
+   "text": "Lehenik esnatu egiten gara. Esan: esnatu.",
    "source": "expansion"
   },
   {
-   "id": "eu_child_ec44394d_20",
+   "id": "eu_child_c669a3c0_22",
    "lang": "eu",
    "style": "child",
-   "text": "Berriro! Esan: ohea.",
+   "text": "Berriro! Esan: esnatu.",
    "source": "expansion"
   },
   {
-   "id": "eu_slow_185cd85f_24",
+   "id": "eu_slow_1efcb0b3_41",
    "lang": "eu",
    "style": "slow",
-   "text": "Hau ohea da. Esan: ohea.",
+   "text": "Lehenik esnatu egiten gara. Esan: esnatu.",
    "source": "expansion"
   },
   {
-   "id": "eu_tutor_b3e274dd_78",
+   "id": "eu_tutor_b71cafe0_80",
    "lang": "eu",
    "style": "tutor",
-   "text": "Jo ohean palmaditak eta eseri bertan haurrarekin, gero biok batera altxatzeko.",
+   "text": "Estali zaitez lotan bazeunde bezala eta luzatu haurrarekin «rin, rin» entzutean.",
    "source": "expansion"
   },
   {
-   "id": "eu_child_ce791df5_30",
+   "id": "eu_child_b8b24c94_40",
    "lang": "eu",
    "style": "child",
-   "text": "Hau eskuila da. Esan: eskuila.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_child_be761392_23",
-   "lang": "eu",
-   "style": "child",
-   "text": "Berriro! Esan: eskuila.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_slow_ce791df5_30",
-   "lang": "eu",
-   "style": "slow",
-   "text": "Hau eskuila da. Esan: eskuila.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_tutor_5664a843_95",
-   "lang": "eu",
-   "style": "tutor",
-   "text": "Jarri eskuila (pastarik gabe) haurraren eskuan eta gidatu elkarrekin hortzak garbitzeko keinua.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_child_e9003e10_39",
-   "lang": "eu",
-   "style": "child",
-   "text": "Eskuak garbitzen ditugu. Esan: garbitu.",
+   "text": "Gero garbitu egiten gara. Esan: garbitu.",
    "source": "expansion"
   },
   {
@@ -20811,24 +20223,24 @@
    "source": "expansion"
   },
   {
-   "id": "eu_slow_e9003e10_39",
+   "id": "eu_slow_b8b24c94_40",
    "lang": "eu",
    "style": "slow",
-   "text": "Eskuak garbitzen ditugu. Esan: garbitu.",
+   "text": "Gero garbitu egiten gara. Esan: garbitu.",
    "source": "expansion"
   },
   {
-   "id": "eu_tutor_fd25c0fc_84",
+   "id": "eu_tutor_ab3e7de9_56",
    "lang": "eu",
    "style": "tutor",
-   "text": "Igurtzi eskuak xaboiz bezala eta animatu haurra bereak igurztera hitzaren erritmoan.",
+   "text": "Igurtzi eskuak elkarrekin xaboia emango bazenute bezala.",
    "source": "expansion"
   },
   {
-   "id": "eu_child_5b671260_36",
+   "id": "eu_child_397562ec_35",
    "lang": "eu",
    "style": "child",
-   "text": "Kamiseta janzten dugu. Esan: jantzi.",
+   "text": "Ondoren janzten gara. Esan: jantzi.",
    "source": "expansion"
   },
   {
@@ -20839,136 +20251,94 @@
    "source": "expansion"
   },
   {
-   "id": "eu_slow_5b671260_36",
+   "id": "eu_slow_397562ec_35",
    "lang": "eu",
    "style": "slow",
-   "text": "Kamiseta janzten dugu. Esan: jantzi.",
+   "text": "Ondoren janzten gara. Esan: jantzi.",
    "source": "expansion"
   },
   {
-   "id": "eu_tutor_9dd5bfc8_75",
+   "id": "eu_tutor_74500e7b_58",
    "lang": "eu",
    "style": "tutor",
-   "text": "Pasa kamiseta bat haurraren burutik eta, agertzean, ospatu \"kuku!\" batekin.",
+   "text": "Sartu kamiseta bat haurraren burutik eta ospatu agertzean.",
    "source": "expansion"
   },
   {
-   "id": "eu_child_1544b487_32",
+   "id": "eu_child_8edc77f8_38",
    "lang": "eu",
    "style": "child",
-   "text": "Eskuak garbi daude. Esan: garbi.",
+   "text": "Azkenik gosaltzen dugu. Esan: gosaldu.",
    "source": "expansion"
   },
   {
-   "id": "eu_child_7f83b10b_21",
+   "id": "eu_child_571a118d_23",
    "lang": "eu",
    "style": "child",
-   "text": "Berriro! Esan: garbi.",
+   "text": "Berriro! Esan: gosaldu.",
    "source": "expansion"
   },
   {
-   "id": "eu_slow_1544b487_32",
+   "id": "eu_slow_8edc77f8_38",
    "lang": "eu",
    "style": "slow",
-   "text": "Eskuak garbi daude. Esan: garbi.",
+   "text": "Azkenik gosaltzen dugu. Esan: gosaldu.",
    "source": "expansion"
   },
   {
-   "id": "eu_tutor_d8feeffa_94",
+   "id": "eu_tutor_c7cb9d44_52",
    "lang": "eu",
    "style": "tutor",
-   "text": "Erakutsi zure esku garbiak, putz egin haien gainean distiratuko balira bezala eta jo bostekoa.",
+   "text": "Egin kontu esne-baso bat edaten duzuela bi eskuekin.",
    "source": "expansion"
   },
   {
-   "id": "eu_child_940f0350_50",
+   "id": "eu_child_354f6cea_47",
    "lang": "eu",
    "style": "child",
-   "text": "Iratzargailuak rin, rin egiten du. Esan: rin, rin.",
+   "text": "Lehenik eskuak garbitzen ditugu. Esan: garbitu.",
    "source": "expansion"
   },
   {
-   "id": "eu_child_dd0db80e_23",
-   "lang": "eu",
-   "style": "child",
-   "text": "Berriro! Esan: rin rin.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_slow_940f0350_50",
+   "id": "eu_slow_354f6cea_47",
    "lang": "eu",
    "style": "slow",
-   "text": "Iratzargailuak rin, rin egiten du. Esan: rin, rin.",
+   "text": "Lehenik eskuak garbitzen ditugu. Esan: garbitu.",
    "source": "expansion"
   },
   {
-   "id": "eu_tutor_a40cb24f_92",
-   "lang": "eu",
-   "style": "tutor",
-   "text": "Estali zaitez lo bazeunde bezala eta, \"rin, rin!\" esatean, esnatu bat-batean besoak luzatuz.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_child_f46ebc49_30",
+   "id": "eu_child_d10956a5_40",
    "lang": "eu",
    "style": "child",
-   "text": "Hau koilara da. Esan: koilara.",
+   "text": "Gero mahaian esertzen gara. Esan: eseri.",
    "source": "expansion"
   },
   {
-   "id": "eu_child_9f651d6b_23",
+   "id": "eu_child_152aee0c_21",
    "lang": "eu",
    "style": "child",
-   "text": "Berriro! Esan: koilara.",
+   "text": "Berriro! Esan: eseri.",
    "source": "expansion"
   },
   {
-   "id": "eu_slow_f46ebc49_30",
+   "id": "eu_slow_d10956a5_40",
    "lang": "eu",
    "style": "slow",
-   "text": "Hau koilara da. Esan: koilara.",
+   "text": "Gero mahaian esertzen gara. Esan: eseri.",
    "source": "expansion"
   },
   {
-   "id": "eu_tutor_5378d0bd_81",
+   "id": "eu_tutor_37ac52dc_53",
    "lang": "eu",
    "style": "tutor",
-   "text": "Jarri koilara haurraren eskuan eta eraman elkarrekin ahora, jateko keinua eginez.",
+   "text": "Eseri elkarrekin bi aulkitan, bata bestearen aurrean.",
    "source": "expansion"
   },
   {
-   "id": "eu_child_3fb19a3d_26",
+   "id": "eu_child_e9b4782a_39",
    "lang": "eu",
    "style": "child",
-   "text": "Hau basoa da. Esan: basoa.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_child_d966e698_21",
-   "lang": "eu",
-   "style": "child",
-   "text": "Berriro! Esan: basoa.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_slow_3fb19a3d_26",
-   "lang": "eu",
-   "style": "slow",
-   "text": "Hau basoa da. Esan: basoa.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_tutor_3d748d17_76",
-   "lang": "eu",
-   "style": "tutor",
-   "text": "Hurbildu basoa haurraren ezpainetara eta edan aldi berean \"klu, klu\" eginez.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_child_0e8e6630_25",
-   "lang": "eu",
-   "style": "child",
-   "text": "Goazen jatera. Esan: jan.",
+   "text": "Ondoren otordua hasten dugu. Esan: jan.",
    "source": "expansion"
   },
   {
@@ -20979,276 +20349,164 @@
    "source": "expansion"
   },
   {
-   "id": "eu_slow_0e8e6630_25",
+   "id": "eu_slow_e9b4782a_39",
    "lang": "eu",
    "style": "slow",
-   "text": "Goazen jatera. Esan: jan.",
+   "text": "Ondoren otordua hasten dugu. Esan: jan.",
    "source": "expansion"
   },
   {
-   "id": "eu_tutor_e24b389e_87",
+   "id": "eu_tutor_90a797a8_46",
    "lang": "eu",
    "style": "tutor",
-   "text": "Igurtzi tripa, ireki ahoa handi eta egin murtxikatzen ari bazina bezala, keinua puztuz.",
+   "text": "Eraman elkarrekin koilara irudikatu bat ahora.",
    "source": "expansion"
   },
   {
-   "id": "eu_child_63b38094_31",
+   "id": "eu_child_bc97d49e_42",
    "lang": "eu",
    "style": "child",
-   "text": "Goazen ura edatera. Esan: edan.",
+   "text": "Azkenik platera jasotzen dugu. Esan: jaso.",
    "source": "expansion"
   },
   {
-   "id": "eu_child_1c659cd8_20",
+   "id": "eu_child_5a137bcf_20",
    "lang": "eu",
    "style": "child",
-   "text": "Berriro! Esan: edan.",
+   "text": "Berriro! Esan: jaso.",
    "source": "expansion"
   },
   {
-   "id": "eu_slow_63b38094_31",
+   "id": "eu_slow_bc97d49e_42",
    "lang": "eu",
    "style": "slow",
-   "text": "Goazen ura edatera. Esan: edan.",
+   "text": "Azkenik platera jasotzen dugu. Esan: jaso.",
    "source": "expansion"
   },
   {
-   "id": "eu_tutor_c19b5448_84",
+   "id": "eu_tutor_b43a14f6_66",
    "lang": "eu",
    "style": "tutor",
-   "text": "Okertu baso huts bat zure ahoaren gainean eta egin \"klu, klu\" haurrak imita zaitzan.",
+   "text": "Eraman elkarrekin plater bat (benetakoa edo irudikatua) sukaldera.",
    "source": "expansion"
   },
   {
-   "id": "eu_child_ff4cb45b_30",
+   "id": "eu_child_f70c98aa_46",
    "lang": "eu",
    "style": "child",
-   "text": "Janaria goxo dago. Esan: goxo.",
+   "text": "Lehenik zapatak janzten ditugu. Esan: zapatak.",
    "source": "expansion"
   },
   {
-   "id": "eu_child_cbb6ff37_20",
+   "id": "eu_child_39e3adec_23",
    "lang": "eu",
    "style": "child",
-   "text": "Berriro! Esan: goxo.",
+   "text": "Berriro! Esan: zapatak.",
    "source": "expansion"
   },
   {
-   "id": "eu_slow_ff4cb45b_30",
+   "id": "eu_slow_f70c98aa_46",
    "lang": "eu",
    "style": "slow",
-   "text": "Janaria goxo dago. Esan: goxo.",
+   "text": "Lehenik zapatak janzten ditugu. Esan: zapatak.",
    "source": "expansion"
   },
   {
-   "id": "eu_tutor_9d08ec2f_80",
+   "id": "eu_tutor_64227865_49",
    "lang": "eu",
    "style": "tutor",
-   "text": "Miazkatu ezpainak, igurtzi tripa eta jarri gustuko aurpegia \"mmm, goxo!\" esanez.",
+   "text": "Seinalatu haurraren zapatak eta ukitu elkarrekin.",
    "source": "expansion"
   },
   {
-   "id": "eu_child_f9c66225_41",
+   "id": "eu_child_f9b0d18e_32",
    "lang": "eu",
    "style": "child",
-   "text": "Ahoak ñam, ñam egiten du. Esan: ñam, ñam.",
+   "text": "Gero parkera goaz. Esan: parkea.",
    "source": "expansion"
   },
   {
-   "id": "eu_child_d53cf4fe_23",
+   "id": "eu_child_1645d0c0_22",
    "lang": "eu",
    "style": "child",
-   "text": "Berriro! Esan: ñam ñam.",
+   "text": "Berriro! Esan: parkea.",
    "source": "expansion"
   },
   {
-   "id": "eu_slow_f9c66225_41",
+   "id": "eu_slow_f9b0d18e_32",
    "lang": "eu",
    "style": "slow",
-   "text": "Ahoak ñam, ñam egiten du. Esan: ñam, ñam.",
+   "text": "Gero parkera goaz. Esan: parkea.",
    "source": "expansion"
   },
   {
-   "id": "eu_tutor_2b0f3a59_105",
+   "id": "eu_tutor_e015437a_55",
    "lang": "eu",
    "style": "tutor",
-   "text": "Murtxikatu era puztuan masailezurra asko mugituz eta haurrak zurekin murtxika dezala \"ñam, ñam!\" esatean.",
+   "text": "Ibili elkarrekin pauso batzuk gelan zehar «parkerantz».",
    "source": "expansion"
   },
   {
-   "id": "eu_child_5860d603_28",
+   "id": "eu_child_a3ebd6ba_51",
    "lang": "eu",
    "style": "child",
-   "text": "Hau pilota da. Esan: pilota.",
+   "text": "Ondoren txirristatik jaisten gara. Esan: txirrista.",
    "source": "expansion"
   },
   {
-   "id": "eu_child_ea7a9665_22",
+   "id": "eu_child_4ab4cb82_25",
    "lang": "eu",
    "style": "child",
-   "text": "Berriro! Esan: pilota.",
+   "text": "Berriro! Esan: txirrista.",
    "source": "expansion"
   },
   {
-   "id": "eu_slow_5860d603_28",
+   "id": "eu_slow_a3ebd6ba_51",
    "lang": "eu",
    "style": "slow",
-   "text": "Hau pilota da. Esan: pilota.",
+   "text": "Ondoren txirristatik jaisten gara. Esan: txirrista.",
    "source": "expansion"
   },
   {
-   "id": "eu_tutor_785dc6ed_87",
+   "id": "eu_tutor_dce23960_48",
    "lang": "eu",
    "style": "tutor",
-   "text": "Bota pilota erreal bat haurrarengana eta itxaron itzul dezan hitza errepikatu aurretik.",
+   "text": "Egin elkarrekin irristatzeko keinua besoak gora.",
    "source": "expansion"
   },
   {
-   "id": "eu_child_d9c70005_36",
+   "id": "eu_child_5f3aac15_43",
    "lang": "eu",
    "style": "child",
-   "text": "Hau txirristra da. Esan: txirristra.",
+   "text": "Azkenik etxera itzultzen gara. Esan: etxea.",
    "source": "expansion"
   },
   {
-   "id": "eu_child_5c5ca48a_26",
+   "id": "eu_child_814a82e1_21",
    "lang": "eu",
    "style": "child",
-   "text": "Berriro! Esan: txirristra.",
+   "text": "Berriro! Esan: etxea.",
    "source": "expansion"
   },
   {
-   "id": "eu_slow_d9c70005_36",
+   "id": "eu_slow_5f3aac15_43",
    "lang": "eu",
    "style": "slow",
-   "text": "Hau txirristra da. Esan: txirristra.",
+   "text": "Azkenik etxera itzultzen gara. Esan: etxea.",
    "source": "expansion"
   },
   {
-   "id": "eu_tutor_31d308b9_91",
+   "id": "eu_tutor_0482ba07_47",
    "lang": "eu",
    "style": "tutor",
-   "text": "Irristatu haurraren eskua zure beso okertutik behera, txirristraren arrapala balitz bezala.",
+   "text": "Elkartu eskuak buru gainean teilatu bat eginez.",
    "source": "expansion"
   },
   {
-   "id": "eu_child_68336bad_43",
+   "id": "eu_child_57aab6de_53",
    "lang": "eu",
    "style": "child",
-   "text": "Parkean korrika egiten dugu. Esan: korrika.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_child_63dae441_23",
-   "lang": "eu",
-   "style": "child",
-   "text": "Berriro! Esan: korrika.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_slow_68336bad_43",
-   "lang": "eu",
-   "style": "slow",
-   "text": "Parkean korrika egiten dugu. Esan: korrika.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_tutor_96bd33f0_94",
-   "lang": "eu",
-   "style": "tutor",
-   "text": "Egin korrika zure lekuan besoak asko mugituz eta animatu haurra zurekin urrats batzuk egitera.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_child_5cd80e94_44",
-   "lang": "eu",
-   "style": "child",
-   "text": "Igela bezala salto egiten dugu. Esan: salto.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_child_30c08545_21",
-   "lang": "eu",
-   "style": "child",
-   "text": "Berriro! Esan: salto.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_slow_5cd80e94_44",
-   "lang": "eu",
-   "style": "slow",
-   "text": "Igela bezala salto egiten dugu. Esan: salto.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_tutor_beb818f9_98",
-   "lang": "eu",
-   "style": "tutor",
-   "text": "Egin salto bi oinak batera \"salto!\" esanez jauzi bakoitzean eta haurrak zurekin salto egin dezala.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_child_bfd184e7_38",
-   "lang": "eu",
-   "style": "child",
-   "text": "Zabua oso altu igotzen da. Esan: altu.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_child_81c71e58_20",
-   "lang": "eu",
-   "style": "child",
-   "text": "Berriro! Esan: altu.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_slow_bfd184e7_38",
-   "lang": "eu",
-   "style": "slow",
-   "text": "Zabua oso altu igotzen da. Esan: altu.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_tutor_90d191f3_89",
-   "lang": "eu",
-   "style": "tutor",
-   "text": "Luzatu zaitez punta-puntetan besoak zerurantz eta altxatu haurra besoetan \"altu!\" esanez.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_child_2180268f_37",
-   "lang": "eu",
-   "style": "child",
-   "text": "Pilotak boing egiten du. Esan: boing.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_child_677096dd_21",
-   "lang": "eu",
-   "style": "child",
-   "text": "Berriro! Esan: boing.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_slow_2180268f_37",
-   "lang": "eu",
-   "style": "slow",
-   "text": "Pilotak boing egiten du. Esan: boing.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_tutor_b7c2dee9_86",
-   "lang": "eu",
-   "style": "tutor",
-   "text": "Bota pilota bat (edo zeu belaunekin) \"boing!\" esanez bote bakoitzean haurraren ondoan.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_child_8841e045_38",
-   "lang": "eu",
-   "style": "child",
-   "text": "Hau bainuontzia da. Esan: bainuontzia.",
+   "text": "Lehenik bainuontzian sartzen gara. Esan: bainuontzia.",
    "source": "expansion"
   },
   {
@@ -21259,24 +20517,24 @@
    "source": "expansion"
   },
   {
-   "id": "eu_slow_8841e045_38",
+   "id": "eu_slow_57aab6de_53",
    "lang": "eu",
    "style": "slow",
-   "text": "Hau bainuontzia da. Esan: bainuontzia.",
+   "text": "Lehenik bainuontzian sartzen gara. Esan: bainuontzia.",
    "source": "expansion"
   },
   {
-   "id": "eu_tutor_4f6e5643_96",
+   "id": "eu_tutor_8f84cacc_66",
    "lang": "eu",
    "style": "tutor",
-   "text": "Seinalatu bainuontzia (edo aska bat) eta egin biok barrura sartzeko keinua hankak asko altxatuz.",
+   "text": "Altxatu elkarrekin hanka bat bainuontzian sartuko bazinete bezala.",
    "source": "expansion"
   },
   {
-   "id": "eu_child_35591cc5_28",
+   "id": "eu_child_ddafe898_38",
    "lang": "eu",
    "style": "child",
-   "text": "Hau xaboia da. Esan: xaboia.",
+   "text": "Gero xaboia ematen dugu. Esan: xaboia.",
    "source": "expansion"
   },
   {
@@ -21287,164 +20545,136 @@
    "source": "expansion"
   },
   {
-   "id": "eu_slow_35591cc5_28",
+   "id": "eu_slow_ddafe898_38",
    "lang": "eu",
    "style": "slow",
-   "text": "Hau xaboia da. Esan: xaboia.",
+   "text": "Gero xaboia ematen dugu. Esan: xaboia.",
    "source": "expansion"
   },
   {
-   "id": "eu_tutor_5ec93340_86",
+   "id": "eu_tutor_5375ce7a_50",
    "lang": "eu",
    "style": "tutor",
-   "text": "Jarri xaboi-pastilla haurraren eskuetan eta biratu elkarrekin apar imajinarioa eginez.",
+   "text": "Igurtzi haurraren besoak belaki irudikatu batekin.",
    "source": "expansion"
   },
   {
-   "id": "eu_child_78527792_38",
+   "id": "eu_child_208a0373_43",
    "lang": "eu",
    "style": "child",
-   "text": "Panpina bainatuko dugu. Esan: bainatu.",
+   "text": "Ondoren urarekin garbitzen gara. Esan: ura.",
    "source": "expansion"
   },
   {
-   "id": "eu_child_42eeb6e0_23",
+   "id": "eu_child_6a1b3a88_19",
    "lang": "eu",
    "style": "child",
-   "text": "Berriro! Esan: bainatu.",
+   "text": "Berriro! Esan: ura.",
    "source": "expansion"
   },
   {
-   "id": "eu_slow_78527792_38",
+   "id": "eu_slow_208a0373_43",
    "lang": "eu",
    "style": "slow",
-   "text": "Panpina bainatuko dugu. Esan: bainatu.",
+   "text": "Ondoren urarekin garbitzen gara. Esan: ura.",
    "source": "expansion"
   },
   {
-   "id": "eu_tutor_a7ca98e5_81",
+   "id": "eu_tutor_337c35ac_58",
    "lang": "eu",
    "style": "tutor",
-   "text": "Igurtzi leunki haurraren besoak xaboiztatuko bazenu bezala \"bainatu\" errepikatuz.",
+   "text": "Utzi hatzak haurraren buru gainera erortzen tantak bezala.",
    "source": "expansion"
   },
   {
-   "id": "eu_child_6845185b_45",
+   "id": "eu_child_2f981d9c_57",
    "lang": "eu",
    "style": "child",
-   "text": "Belakia besotik pasatzen dugu. Esan: igurtzi.",
+   "text": "Azkenik eskuoihalarekin lehortzen gara. Esan: eskuoihala.",
    "source": "expansion"
   },
   {
-   "id": "eu_child_a5b2818a_23",
+   "id": "eu_child_f48d5696_26",
    "lang": "eu",
    "style": "child",
-   "text": "Berriro! Esan: igurtzi.",
+   "text": "Berriro! Esan: eskuoihala.",
    "source": "expansion"
   },
   {
-   "id": "eu_slow_6845185b_45",
+   "id": "eu_slow_2f981d9c_57",
    "lang": "eu",
    "style": "slow",
-   "text": "Belakia besotik pasatzen dugu. Esan: igurtzi.",
+   "text": "Azkenik eskuoihalarekin lehortzen gara. Esan: eskuoihala.",
    "source": "expansion"
   },
   {
-   "id": "eu_tutor_0629ca4e_93",
+   "id": "eu_tutor_44a22b3b_62",
    "lang": "eu",
    "style": "tutor",
-   "text": "Igurtzi zirkulu leunak haurraren bizkarrean eskuarekin edo belaki batekin hitzaren erritmoan.",
+   "text": "Bildu haurra eskuoihal batean (edo zure besoetan) eta lehortu.",
    "source": "expansion"
   },
   {
-   "id": "eu_child_52de5478_27",
+   "id": "eu_child_c0996b0d_42",
    "lang": "eu",
    "style": "child",
-   "text": "Ura epela dago. Esan: bero.",
+   "text": "Lehenik pijama janzten dugu. Esan: pijama.",
    "source": "expansion"
   },
   {
-   "id": "eu_child_669a06c0_20",
+   "id": "eu_child_f9f3b7c6_22",
    "lang": "eu",
    "style": "child",
-   "text": "Berriro! Esan: bero.",
+   "text": "Berriro! Esan: pijama.",
    "source": "expansion"
   },
   {
-   "id": "eu_slow_52de5478_27",
+   "id": "eu_slow_c0996b0d_42",
    "lang": "eu",
    "style": "slow",
-   "text": "Ura epela dago. Esan: bero.",
+   "text": "Lehenik pijama janzten dugu. Esan: pijama.",
    "source": "expansion"
   },
   {
-   "id": "eu_tutor_c2a66210_64",
+   "id": "eu_tutor_53b2bc3c_56",
    "lang": "eu",
    "style": "tutor",
-   "text": "Ukitu ura hatz batekin eta haizeztatu eskua puztuz: \"uf, bero!\".",
+   "text": "Seinalatu haurraren pijama eta ukitu botoiak elkarrekin.",
    "source": "expansion"
   },
   {
-   "id": "eu_child_4d7e0b4e_32",
+   "id": "eu_child_5cb174b5_45",
    "lang": "eu",
    "style": "child",
-   "text": "Urak txof egiten du. Esan: txof.",
+   "text": "Gero hortzak garbitzen ditugu. Esan: hortzak.",
    "source": "expansion"
   },
   {
-   "id": "eu_child_c375d635_20",
+   "id": "eu_child_a4dae34f_23",
    "lang": "eu",
    "style": "child",
-   "text": "Berriro! Esan: txof.",
+   "text": "Berriro! Esan: hortzak.",
    "source": "expansion"
   },
   {
-   "id": "eu_slow_4d7e0b4e_32",
+   "id": "eu_slow_5cb174b5_45",
    "lang": "eu",
    "style": "slow",
-   "text": "Urak txof egiten du. Esan: txof.",
+   "text": "Gero hortzak garbitzen ditugu. Esan: hortzak.",
    "source": "expansion"
   },
   {
-   "id": "eu_tutor_45c869b5_86",
+   "id": "eu_tutor_27220447_44",
    "lang": "eu",
    "style": "tutor",
-   "text": "Jo palmaditak uraren gainean (edo izterraren gainean) \"txof!\" esanez kolpe bakoitzean.",
+   "text": "Egin elkarrekin hortzak eskuilatzeko keinua.",
    "source": "expansion"
   },
   {
-   "id": "eu_child_bea882a1_30",
+   "id": "eu_child_f8856afb_48",
    "lang": "eu",
    "style": "child",
-   "text": "Hau ilargia da. Esan: ilargia.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_child_2dc95769_23",
-   "lang": "eu",
-   "style": "child",
-   "text": "Berriro! Esan: ilargia.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_slow_bea882a1_30",
-   "lang": "eu",
-   "style": "slow",
-   "text": "Hau ilargia da. Esan: ilargia.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_tutor_66e91aa0_75",
-   "lang": "eu",
-   "style": "tutor",
-   "text": "Marraztu elkarrekin zirkulu handi bat airean hatzarekin \"ilaaargia\" esanez.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_child_02b46a37_57",
-   "lang": "eu",
-   "style": "child",
-   "text": "Lo egin aurretik ipuin bat irakurtzen dugu. Esan: ipuina.",
+   "text": "Ondoren ipuin bat irakurtzen dugu. Esan: ipuina.",
    "source": "expansion"
   },
   {
@@ -21455,129 +20685,59 @@
    "source": "expansion"
   },
   {
-   "id": "eu_slow_02b46a37_57",
+   "id": "eu_slow_f8856afb_48",
    "lang": "eu",
    "style": "slow",
-   "text": "Lo egin aurretik ipuin bat irakurtzen dugu. Esan: ipuina.",
+   "text": "Ondoren ipuin bat irakurtzen dugu. Esan: ipuina.",
    "source": "expansion"
   },
   {
-   "id": "eu_tutor_eb3526b3_86",
+   "id": "eu_tutor_7ba0a6a6_60",
    "lang": "eu",
    "style": "tutor",
-   "text": "Hartu haurraren ipuin gogokoena, jarri haren eskuetan eta ireki elkarrekin oso poliki.",
+   "text": "Ireki eskuak liburu bat bezala eta pasa orri bat elkarrekin.",
    "source": "expansion"
   },
   {
-   "id": "eu_child_aa0cd0ed_34",
+   "id": "eu_child_0a36cbfe_33",
    "lang": "eu",
    "style": "child",
-   "text": "Lotara joateko ordua da. Esan: lo.",
+   "text": "Azkenik ohera goaz. Esan: lotara.",
    "source": "expansion"
   },
   {
-   "id": "eu_child_4209a7f1_18",
+   "id": "eu_child_4508ccab_22",
    "lang": "eu",
    "style": "child",
-   "text": "Berriro! Esan: lo.",
+   "text": "Berriro! Esan: lotara.",
    "source": "expansion"
   },
   {
-   "id": "eu_slow_aa0cd0ed_34",
+   "id": "eu_slow_0a36cbfe_33",
    "lang": "eu",
    "style": "slow",
-   "text": "Lotara joateko ordua da. Esan: lo.",
+   "text": "Azkenik ohera goaz. Esan: lotara.",
    "source": "expansion"
   },
   {
-   "id": "eu_tutor_d5104922_74",
+   "id": "eu_tutor_d075dd55_43",
    "lang": "eu",
    "style": "tutor",
-   "text": "Elkartu eskuak masailaren azpian, itxi begiak eta egin zurrunga leun biok.",
+   "text": "Jarri burua eskuen gainean eta itxi begiak.",
    "source": "expansion"
   },
   {
-   "id": "eu_child_d911500e_43",
+   "id": "eu_child_25b99b3f_49",
    "lang": "eu",
    "style": "child",
-   "text": "Besarkada bat ematen dugu. Esan: besarkatu.",
+   "text": "Ordena dezagun errutina. Zer egiten dugu lehenik?",
    "source": "expansion"
   },
   {
-   "id": "eu_child_66ab3dfc_25",
-   "lang": "eu",
-   "style": "child",
-   "text": "Berriro! Esan: besarkatu.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_slow_d911500e_43",
-   "lang": "eu",
-   "style": "slow",
-   "text": "Besarkada bat ematen dugu. Esan: besarkatu.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_tutor_b604c969_68",
+   "id": "eu_tutor_fbda8200_102",
    "lang": "eu",
    "style": "tutor",
-   "text": "Eman besarkada luze bat egiazkoa eta estutu pixka bat hitza esatean.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_child_160d51a1_27",
-   "lang": "eu",
-   "style": "child",
-   "text": "Dena ilun dago. Esan: ilun.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_child_8a314e78_20",
-   "lang": "eu",
-   "style": "child",
-   "text": "Berriro! Esan: ilun.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_slow_160d51a1_27",
-   "lang": "eu",
-   "style": "slow",
-   "text": "Dena ilun dago. Esan: ilun.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_tutor_c8cc7d0a_91",
-   "lang": "eu",
-   "style": "tutor",
-   "text": "Estali haurraren begiak leunki bere esku propioekin eta destali bat-batean: \"ilun… argia!\".",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_child_15a71430_39",
-   "lang": "eu",
-   "style": "child",
-   "text": "Hontzak uh, uh egiten du. Esan: uh, uh.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_child_ee2de5c0_21",
-   "lang": "eu",
-   "style": "child",
-   "text": "Berriro! Esan: uh uh.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_slow_15a71430_39",
-   "lang": "eu",
-   "style": "slow",
-   "text": "Hontzak uh, uh egiten du. Esan: uh, uh.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_tutor_1ed665a7_97",
-   "lang": "eu",
-   "style": "tutor",
-   "text": "Jarri eskuak betaurreko gisa begien inguruan eta biratu burua hontza bat bezala \"uh, uh!\" esanez.",
+   "text": "Errepasatu errutina elkarrekin ozen, marrazki bakoitza seinalatuz: lehenik, gero, ondoren eta azkenik.",
    "source": "expansion"
   },
   {
@@ -22554,6 +21714,13 @@
    "source": "expansion"
   },
   {
+   "id": "eu_child_30c08545_21",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: salto.",
+   "source": "expansion"
+  },
+  {
    "id": "eu_slow_38d483bf_55",
    "lang": "eu",
    "style": "slow",
@@ -22782,13 +21949,6 @@
    "lang": "eu",
    "style": "child",
    "text": "Hau ura da. Esan: ura.",
-   "source": "expansion"
-  },
-  {
-   "id": "eu_child_6a1b3a88_19",
-   "lang": "eu",
-   "style": "child",
-   "text": "Berriro! Esan: ura.",
    "source": "expansion"
   },
   {
@@ -23184,6 +22344,13 @@
    "source": "expansion"
   },
   {
+   "id": "eu_child_7f83b10b_21",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: garbi.",
+   "source": "expansion"
+  },
+  {
    "id": "eu_slow_af014b99_76",
    "lang": "eu",
    "style": "slow",
@@ -23356,6 +22523,13 @@
    "lang": "eu",
    "style": "child",
    "text": "Eta beste baso hau, nola dago? Esan: bero.",
+   "source": "expansion"
+  },
+  {
+   "id": "eu_child_669a06c0_20",
+   "lang": "eu",
+   "style": "child",
+   "text": "Berriro! Esan: bero.",
    "source": "expansion"
   },
   {
@@ -25977,94 +25151,38 @@
    "source": "rutas"
   },
   {
-   "id": "en_child_caf3c5d3_41",
+   "id": "en_child_844cfd20_31",
    "lang": "en",
    "style": "child",
-   "text": "Every morning we hop out of it. Say: bed.",
+   "text": "First we wake up. Say: wake up.",
    "source": "expansion"
   },
   {
-   "id": "en_child_3a08b36a_24",
+   "id": "en_child_79f3b000_28",
    "lang": "en",
    "style": "child",
-   "text": "One more time! Say: bed.",
+   "text": "One more time! Say: wake up.",
    "source": "expansion"
   },
   {
-   "id": "en_slow_caf3c5d3_41",
+   "id": "en_slow_844cfd20_31",
    "lang": "en",
    "style": "slow",
-   "text": "Every morning we hop out of it. Say: bed.",
+   "text": "First we wake up. Say: wake up.",
    "source": "expansion"
   },
   {
-   "id": "en_tutor_0bed31fe_59",
+   "id": "en_tutor_3bbce6f8_96",
    "lang": "en",
    "style": "tutor",
-   "text": "Pat the mattress twice together, then both hop off the bed.",
+   "text": "Pretend to sleep under a blanket, then stretch with your child when the alarm goes \"ring, ring\".",
    "source": "expansion"
   },
   {
-   "id": "en_child_b4c3a35b_43",
+   "id": "en_child_8de1d5c3_24",
    "lang": "en",
    "style": "child",
-   "text": "We pull this one over our head. Say: shirt.",
-   "source": "expansion"
-  },
-  {
-   "id": "en_child_0509a0e3_26",
-   "lang": "en",
-   "style": "child",
-   "text": "One more time! Say: shirt.",
-   "source": "expansion"
-  },
-  {
-   "id": "en_slow_b4c3a35b_43",
-   "lang": "en",
-   "style": "slow",
-   "text": "We pull this one over our head. Say: shirt.",
-   "source": "expansion"
-  },
-  {
-   "id": "en_tutor_acce93b6_75",
-   "lang": "en",
-   "style": "tutor",
-   "text": "Hold the shirt up and pop your child’s head through the neck hole together.",
-   "source": "expansion"
-  },
-  {
-   "id": "en_child_2eab0aba_39",
-   "lang": "en",
-   "style": "child",
-   "text": "Up and down on every tooth. Say: brush.",
-   "source": "expansion"
-  },
-  {
-   "id": "en_child_486fc633_26",
-   "lang": "en",
-   "style": "child",
-   "text": "One more time! Say: brush.",
-   "source": "expansion"
-  },
-  {
-   "id": "en_slow_2eab0aba_39",
-   "lang": "en",
-   "style": "slow",
-   "text": "Up and down on every tooth. Say: brush.",
-   "source": "expansion"
-  },
-  {
-   "id": "en_tutor_10051aa7_68",
-   "lang": "en",
-   "style": "tutor",
-   "text": "Both of you brush in the air, up and down, counting to ten out loud.",
-   "source": "expansion"
-  },
-  {
-   "id": "en_child_355ee6cc_48",
-   "lang": "en",
-   "style": "child",
-   "text": "Hands under the water, rub, rub, rub. Say: wash.",
+   "text": "Then we wash. Say: wash.",
    "source": "expansion"
   },
   {
@@ -26075,136 +25193,122 @@
    "source": "expansion"
   },
   {
-   "id": "en_slow_355ee6cc_48",
+   "id": "en_slow_8de1d5c3_24",
    "lang": "en",
    "style": "slow",
-   "text": "Hands under the water, rub, rub, rub. Say: wash.",
+   "text": "Then we wash. Say: wash.",
    "source": "expansion"
   },
   {
-   "id": "en_tutor_3c9dee03_81",
+   "id": "en_tutor_a15fd85d_52",
    "lang": "en",
    "style": "tutor",
-   "text": "Rub your hands together like you are washing, then blow the pretend bubbles away.",
+   "text": "Rub your hands together as if you were soaping them.",
    "source": "expansion"
   },
   {
-   "id": "en_child_143727ec_60",
+   "id": "en_child_8754d4fe_32",
    "lang": "en",
    "style": "child",
-   "text": "Your eyes are still heavy and you want to yawn. Say: sleepy.",
+   "text": "Next we get dressed. Say: dress.",
    "source": "expansion"
   },
   {
-   "id": "en_child_317788bb_27",
+   "id": "en_child_9d1ebd8e_26",
    "lang": "en",
    "style": "child",
-   "text": "One more time! Say: sleepy.",
+   "text": "One more time! Say: dress.",
    "source": "expansion"
   },
   {
-   "id": "en_slow_143727ec_60",
+   "id": "en_slow_8754d4fe_32",
    "lang": "en",
    "style": "slow",
-   "text": "Your eyes are still heavy and you want to yawn. Say: sleepy.",
+   "text": "Next we get dressed. Say: dress.",
    "source": "expansion"
   },
   {
-   "id": "en_tutor_350ec502_74",
+   "id": "en_tutor_50a9f682_66",
    "lang": "en",
    "style": "tutor",
-   "text": "Have a big pretend yawn together and stretch your arms as wide as they go.",
+   "text": "Pull a T-shirt over your child's head and cheer when they pop out.",
    "source": "expansion"
   },
   {
-   "id": "en_child_fc6e421f_51",
+   "id": "en_child_9fa6cc02_38",
    "lang": "en",
    "style": "child",
-   "text": "The alarm clock wakes everybody up. Say: beep beep.",
+   "text": "Last we eat breakfast. Say: breakfast.",
    "source": "expansion"
   },
   {
-   "id": "en_child_4e6c2eab_30",
+   "id": "en_child_06a8f514_30",
    "lang": "en",
    "style": "child",
-   "text": "One more time! Say: beep beep.",
+   "text": "One more time! Say: breakfast.",
    "source": "expansion"
   },
   {
-   "id": "en_slow_fc6e421f_51",
+   "id": "en_slow_9fa6cc02_38",
    "lang": "en",
    "style": "slow",
-   "text": "The alarm clock wakes everybody up. Say: beep beep.",
+   "text": "Last we eat breakfast. Say: breakfast.",
    "source": "expansion"
   },
   {
-   "id": "en_tutor_6c4d2f8e_77",
+   "id": "en_tutor_a1a79c72_58",
    "lang": "en",
    "style": "tutor",
-   "text": "Press your child’s nose like a button and shout it together, then swap roles.",
+   "text": "Pretend to drink a glass of milk together with both hands.",
    "source": "expansion"
   },
   {
-   "id": "en_child_9e87505a_38",
+   "id": "en_child_e5abc534_35",
    "lang": "en",
    "style": "child",
-   "text": "We scoop the soup with it. Say: spoon.",
+   "text": "First we wash our hands. Say: wash.",
    "source": "expansion"
   },
   {
-   "id": "en_child_69861b34_26",
-   "lang": "en",
-   "style": "child",
-   "text": "One more time! Say: spoon.",
-   "source": "expansion"
-  },
-  {
-   "id": "en_slow_9e87505a_38",
+   "id": "en_slow_e5abc534_35",
    "lang": "en",
    "style": "slow",
-   "text": "We scoop the soup with it. Say: spoon.",
+   "text": "First we wash our hands. Say: wash.",
    "source": "expansion"
   },
   {
-   "id": "en_tutor_7bda8497_56",
-   "lang": "en",
-   "style": "tutor",
-   "text": "Take turns scooping pretend soup and feeding each other.",
-   "source": "expansion"
-  },
-  {
-   "id": "en_child_2a42d94f_38",
+   "id": "en_child_974b9251_35",
    "lang": "en",
    "style": "child",
-   "text": "We drink our milk out of it. Say: cup.",
+   "text": "Then we sit at the table. Say: sit.",
    "source": "expansion"
   },
   {
-   "id": "en_child_e173d0ff_24",
+   "id": "en_child_e05130bf_24",
    "lang": "en",
    "style": "child",
-   "text": "One more time! Say: cup.",
+   "text": "One more time! Say: sit.",
    "source": "expansion"
   },
   {
-   "id": "en_slow_2a42d94f_38",
+   "id": "en_slow_974b9251_35",
    "lang": "en",
    "style": "slow",
-   "text": "We drink our milk out of it. Say: cup.",
+   "text": "Then we sit at the table. Say: sit.",
    "source": "expansion"
   },
   {
-   "id": "en_tutor_c6f79162_57",
+   "id": "en_tutor_5db7f35f_51",
    "lang": "en",
    "style": "tutor",
-   "text": "Clink your cups together and take a sip at the same time.",
+   "text": "Sit down together on two chairs, facing each other.",
    "source": "expansion"
   },
   {
-   "id": "en_child_f208b3ee_39",
+   "id": "en_child_6feeb64b_32",
    "lang": "en",
    "style": "child",
-   "text": "Open wide and chew it all up. Say: eat.",
+   "text": "Next we have our food. Say: eat.",
    "source": "expansion"
   },
   {
@@ -26215,108 +25319,80 @@
    "source": "expansion"
   },
   {
-   "id": "en_slow_f208b3ee_39",
+   "id": "en_slow_6feeb64b_32",
    "lang": "en",
    "style": "slow",
-   "text": "Open wide and chew it all up. Say: eat.",
+   "text": "Next we have our food. Say: eat.",
    "source": "expansion"
   },
   {
-   "id": "en_tutor_9f9a44c4_54",
+   "id": "en_tutor_f2ecc932_49",
    "lang": "en",
    "style": "tutor",
-   "text": "Chew a big pretend bite together and rub your tummies.",
+   "text": "Bring an imaginary spoon to your mouths together.",
    "source": "expansion"
   },
   {
-   "id": "en_child_413a9cc0_48",
+   "id": "en_child_4191cf35_36",
    "lang": "en",
    "style": "child",
-   "text": "Tip the jug slowly so nothing spills. Say: pour.",
+   "text": "Last we clear the plate. Say: clear.",
    "source": "expansion"
   },
   {
-   "id": "en_child_3d0f4567_25",
+   "id": "en_child_42b01498_26",
    "lang": "en",
    "style": "child",
-   "text": "One more time! Say: pour.",
+   "text": "One more time! Say: clear.",
    "source": "expansion"
   },
   {
-   "id": "en_slow_413a9cc0_48",
+   "id": "en_slow_4191cf35_36",
    "lang": "en",
    "style": "slow",
-   "text": "Tip the jug slowly so nothing spills. Say: pour.",
+   "text": "Last we clear the plate. Say: clear.",
    "source": "expansion"
   },
   {
-   "id": "en_tutor_a929afcb_69",
+   "id": "en_tutor_c72b9303_56",
    "lang": "en",
    "style": "tutor",
-   "text": "Guide your child’s hands on the jug and pour a little water together.",
+   "text": "Carry a plate (real or pretend) to the kitchen together.",
    "source": "expansion"
   },
   {
-   "id": "en_child_2c75cd70_51",
+   "id": "en_child_6d486aee_36",
    "lang": "en",
    "style": "child",
-   "text": "The steam is coming up, so we blow first. Say: hot.",
+   "text": "First we get in the bath. Say: bath.",
    "source": "expansion"
   },
   {
-   "id": "en_child_30327562_24",
+   "id": "en_child_7d62491e_25",
    "lang": "en",
    "style": "child",
-   "text": "One more time! Say: hot.",
+   "text": "One more time! Say: bath.",
    "source": "expansion"
   },
   {
-   "id": "en_slow_2c75cd70_51",
+   "id": "en_slow_6d486aee_36",
    "lang": "en",
    "style": "slow",
-   "text": "The steam is coming up, so we blow first. Say: hot.",
+   "text": "First we get in the bath. Say: bath.",
    "source": "expansion"
   },
   {
-   "id": "en_tutor_49a49948_64",
+   "id": "en_tutor_21707303_51",
    "lang": "en",
    "style": "tutor",
-   "text": "Blow on a spoonful together and wave a hand like it is too warm.",
+   "text": "Lift one leg together as if stepping into the bath.",
    "source": "expansion"
   },
   {
-   "id": "en_child_5d57ec9d_63",
+   "id": "en_child_18001ff7_32",
    "lang": "en",
    "style": "child",
-   "text": "That is what we say when the food is really good. Say: yum yum.",
-   "source": "expansion"
-  },
-  {
-   "id": "en_child_4d59194f_28",
-   "lang": "en",
-   "style": "child",
-   "text": "One more time! Say: yum yum.",
-   "source": "expansion"
-  },
-  {
-   "id": "en_slow_5d57ec9d_63",
-   "lang": "en",
-   "style": "slow",
-   "text": "That is what we say when the food is really good. Say: yum yum.",
-   "source": "expansion"
-  },
-  {
-   "id": "en_tutor_780a1a53_55",
-   "lang": "en",
-   "style": "tutor",
-   "text": "Rub your tummies and say it together, louder each time.",
-   "source": "expansion"
-  },
-  {
-   "id": "en_child_0c044e2d_47",
-   "lang": "en",
-   "style": "child",
-   "text": "It makes all the bubbles in the tub. Say: soap.",
+   "text": "Then we use the soap. Say: soap.",
    "source": "expansion"
   },
   {
@@ -26327,24 +25403,52 @@
    "source": "expansion"
   },
   {
-   "id": "en_slow_0c044e2d_47",
+   "id": "en_slow_18001ff7_32",
    "lang": "en",
    "style": "slow",
-   "text": "It makes all the bubbles in the tub. Say: soap.",
+   "text": "Then we use the soap. Say: soap.",
    "source": "expansion"
   },
   {
-   "id": "en_tutor_f5ec1fcf_78",
+   "id": "en_tutor_fe96dcab_44",
    "lang": "en",
    "style": "tutor",
-   "text": "Rub the bar between your hands until it foams and show your child the bubbles.",
+   "text": "Rub your child's arms with a pretend sponge.",
    "source": "expansion"
   },
   {
-   "id": "en_child_9b043848_45",
+   "id": "en_child_23f2548c_30",
    "lang": "en",
    "style": "child",
-   "text": "We wrap up in it when we get out. Say: towel.",
+   "text": "Next we rinse off. Say: water.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_3a751696_26",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: water.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_slow_23f2548c_30",
+   "lang": "en",
+   "style": "slow",
+   "text": "Next we rinse off. Say: water.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_tutor_ee30a765_58",
+   "lang": "en",
+   "style": "tutor",
+   "text": "Let your fingers fall on your child's head like raindrops.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_a448a3fd_28",
+   "lang": "en",
+   "style": "child",
+   "text": "Last we dry off. Say: towel.",
    "source": "expansion"
   },
   {
@@ -26355,220 +25459,80 @@
    "source": "expansion"
   },
   {
-   "id": "en_slow_9b043848_45",
+   "id": "en_slow_a448a3fd_28",
    "lang": "en",
    "style": "slow",
-   "text": "We wrap up in it when we get out. Say: towel.",
+   "text": "Last we dry off. Say: towel.",
    "source": "expansion"
   },
   {
-   "id": "en_tutor_d1f8ac9f_58",
+   "id": "en_tutor_3369baa0_58",
    "lang": "en",
    "style": "tutor",
-   "text": "Wrap your child up like a burrito and give them a squeeze.",
+   "text": "Wrap your child in a towel (or in your arms) and dry them.",
    "source": "expansion"
   },
   {
-   "id": "en_child_364f2928_49",
+   "id": "en_child_b5754c12_38",
    "lang": "en",
    "style": "child",
-   "text": "The water takes all the bubbles away. Say: rinse.",
+   "text": "First we put on our shoes. Say: shoes.",
    "source": "expansion"
   },
   {
-   "id": "en_child_a499892c_26",
+   "id": "en_child_f5516beb_26",
    "lang": "en",
    "style": "child",
-   "text": "One more time! Say: rinse.",
+   "text": "One more time! Say: shoes.",
    "source": "expansion"
   },
   {
-   "id": "en_slow_364f2928_49",
+   "id": "en_slow_b5754c12_38",
    "lang": "en",
    "style": "slow",
-   "text": "The water takes all the bubbles away. Say: rinse.",
+   "text": "First we put on our shoes. Say: shoes.",
    "source": "expansion"
   },
   {
-   "id": "en_tutor_b3894190_74",
+   "id": "en_tutor_64351803_52",
    "lang": "en",
    "style": "tutor",
-   "text": "Pour a cup of water down your child’s arm and watch the bubbles disappear.",
+   "text": "Point to your child's shoes and touch them together.",
    "source": "expansion"
   },
   {
-   "id": "en_child_b08750cc_56",
+   "id": "en_child_d43f8a16_34",
    "lang": "en",
    "style": "child",
-   "text": "Rub the towel all over until no water is left. Say: dry.",
+   "text": "Then we go out to play. Say: park.",
    "source": "expansion"
   },
   {
-   "id": "en_child_2a32c1dc_24",
+   "id": "en_child_d1020d91_25",
    "lang": "en",
    "style": "child",
-   "text": "One more time! Say: dry.",
+   "text": "One more time! Say: park.",
    "source": "expansion"
   },
   {
-   "id": "en_slow_b08750cc_56",
+   "id": "en_slow_d43f8a16_34",
    "lang": "en",
    "style": "slow",
-   "text": "Rub the towel all over until no water is left. Say: dry.",
+   "text": "Then we go out to play. Say: park.",
    "source": "expansion"
   },
   {
-   "id": "en_tutor_e2dd2dad_79",
+   "id": "en_tutor_63f5260f_56",
    "lang": "en",
    "style": "tutor",
-   "text": "Rub your child’s hair with the towel while they say it, then let them do yours.",
+   "text": "Walk a few steps together across the room \"to the park\".",
    "source": "expansion"
   },
   {
-   "id": "en_child_76ab5f9a_51",
+   "id": "en_child_b6b62a9f_40",
    "lang": "en",
    "style": "child",
-   "text": "Water is dripping right off your fingers. Say: wet.",
-   "source": "expansion"
-  },
-  {
-   "id": "en_child_42ac6dc7_24",
-   "lang": "en",
-   "style": "child",
-   "text": "One more time! Say: wet.",
-   "source": "expansion"
-  },
-  {
-   "id": "en_slow_76ab5f9a_51",
-   "lang": "en",
-   "style": "slow",
-   "text": "Water is dripping right off your fingers. Say: wet.",
-   "source": "expansion"
-  },
-  {
-   "id": "en_tutor_d625cb5f_68",
-   "lang": "en",
-   "style": "tutor",
-   "text": "Touch your child’s wet hand to your cheek and pull a surprised face.",
-   "source": "expansion"
-  },
-  {
-   "id": "en_child_04e7cb0a_60",
-   "lang": "en",
-   "style": "child",
-   "text": "That is the sound your hands make in the water. Say: splash.",
-   "source": "expansion"
-  },
-  {
-   "id": "en_child_9c8aadec_27",
-   "lang": "en",
-   "style": "child",
-   "text": "One more time! Say: splash.",
-   "source": "expansion"
-  },
-  {
-   "id": "en_slow_04e7cb0a_60",
-   "lang": "en",
-   "style": "slow",
-   "text": "That is the sound your hands make in the water. Say: splash.",
-   "source": "expansion"
-  },
-  {
-   "id": "en_tutor_2645c569_63",
-   "lang": "en",
-   "style": "tutor",
-   "text": "Slap the water together three times and let it splash you both.",
-   "source": "expansion"
-  },
-  {
-   "id": "en_child_4e081324_43",
-   "lang": "en",
-   "style": "child",
-   "text": "We sit and fly high in the air. Say: swing.",
-   "source": "expansion"
-  },
-  {
-   "id": "en_child_463bd221_26",
-   "lang": "en",
-   "style": "child",
-   "text": "One more time! Say: swing.",
-   "source": "expansion"
-  },
-  {
-   "id": "en_slow_4e081324_43",
-   "lang": "en",
-   "style": "slow",
-   "text": "We sit and fly high in the air. Say: swing.",
-   "source": "expansion"
-  },
-  {
-   "id": "en_tutor_68e8a740_50",
-   "lang": "en",
-   "style": "tutor",
-   "text": "Sit together and rock back and forth like a swing.",
-   "source": "expansion"
-  },
-  {
-   "id": "en_child_f83d6cd0_48",
-   "lang": "en",
-   "style": "child",
-   "text": "It is round and bounces on the grass. Say: ball.",
-   "source": "expansion"
-  },
-  {
-   "id": "en_child_84665fda_25",
-   "lang": "en",
-   "style": "child",
-   "text": "One more time! Say: ball.",
-   "source": "expansion"
-  },
-  {
-   "id": "en_slow_f83d6cd0_48",
-   "lang": "en",
-   "style": "slow",
-   "text": "It is round and bounces on the grass. Say: ball.",
-   "source": "expansion"
-  },
-  {
-   "id": "en_tutor_0ee35f55_49",
-   "lang": "en",
-   "style": "tutor",
-   "text": "Roll a small ball across the floor to each other.",
-   "source": "expansion"
-  },
-  {
-   "id": "en_child_cbba635c_51",
-   "lang": "en",
-   "style": "child",
-   "text": "We move our feet so fast across the park. Say: run.",
-   "source": "expansion"
-  },
-  {
-   "id": "en_child_dd889ef0_24",
-   "lang": "en",
-   "style": "child",
-   "text": "One more time! Say: run.",
-   "source": "expansion"
-  },
-  {
-   "id": "en_slow_cbba635c_51",
-   "lang": "en",
-   "style": "slow",
-   "text": "We move our feet so fast across the park. Say: run.",
-   "source": "expansion"
-  },
-  {
-   "id": "en_tutor_15f856bb_47",
-   "lang": "en",
-   "style": "tutor",
-   "text": "Jog in place together counting one, two, three!",
-   "source": "expansion"
-  },
-  {
-   "id": "en_child_d79aa814_49",
-   "lang": "en",
-   "style": "child",
-   "text": "We climb up to the top and zoom down. Say: slide.",
+   "text": "Next we go down the big one. Say: slide.",
    "source": "expansion"
   },
   {
@@ -26579,80 +25543,52 @@
    "source": "expansion"
   },
   {
-   "id": "en_slow_d79aa814_49",
+   "id": "en_slow_b6b62a9f_40",
    "lang": "en",
    "style": "slow",
-   "text": "We climb up to the top and zoom down. Say: slide.",
+   "text": "Next we go down the big one. Say: slide.",
    "source": "expansion"
   },
   {
-   "id": "en_tutor_2a3f1bfe_56",
+   "id": "en_tutor_301c9b65_49",
    "lang": "en",
    "style": "tutor",
-   "text": "Make your hand slide down your arm with a zooming sound.",
+   "text": "Make a sliding motion together with your arms up.",
    "source": "expansion"
   },
   {
-   "id": "en_child_7614f74b_55",
+   "id": "en_child_71792928_27",
    "lang": "en",
    "style": "child",
-   "text": "Look at the giant tree reaching for the sky. Say: tall.",
+   "text": "Last we go back. Say: home.",
    "source": "expansion"
   },
   {
-   "id": "en_child_ed4df88c_25",
+   "id": "en_child_a035f294_25",
    "lang": "en",
    "style": "child",
-   "text": "One more time! Say: tall.",
+   "text": "One more time! Say: home.",
    "source": "expansion"
   },
   {
-   "id": "en_slow_7614f74b_55",
+   "id": "en_slow_71792928_27",
    "lang": "en",
    "style": "slow",
-   "text": "Look at the giant tree reaching for the sky. Say: tall.",
+   "text": "Last we go back. Say: home.",
    "source": "expansion"
   },
   {
-   "id": "en_tutor_a2e44744_40",
+   "id": "en_tutor_43837157_52",
    "lang": "en",
    "style": "tutor",
-   "text": "Stretch both arms as high up as you can.",
+   "text": "Put your hands together over your heads like a roof.",
    "source": "expansion"
   },
   {
-   "id": "en_child_e63578d0_47",
+   "id": "en_child_83ef0594_38",
    "lang": "en",
    "style": "child",
-   "text": "Going down the slide is so much fun. Say: whee!",
-   "source": "expansion"
-  },
-  {
-   "id": "en_child_f23dff76_25",
-   "lang": "en",
-   "style": "child",
-   "text": "One more time! Say: whee.",
-   "source": "expansion"
-  },
-  {
-   "id": "en_slow_e63578d0_47",
-   "lang": "en",
-   "style": "slow",
-   "text": "Going down the slide is so much fun. Say: whee!",
-   "source": "expansion"
-  },
-  {
-   "id": "en_tutor_27ad155c_45",
-   "lang": "en",
-   "style": "tutor",
-   "text": "Throw your hands up in the air and yell whee!",
-   "source": "expansion"
-  },
-  {
-   "id": "en_child_c5502ee9_47",
-   "lang": "en",
-   "style": "child",
-   "text": "We put on our cozy sleep clothes. Say: pajamas.",
+   "text": "First we put on pajamas. Say: pajamas.",
    "source": "expansion"
   },
   {
@@ -26663,80 +25599,80 @@
    "source": "expansion"
   },
   {
-   "id": "en_slow_c5502ee9_47",
+   "id": "en_slow_83ef0594_38",
    "lang": "en",
    "style": "slow",
-   "text": "We put on our cozy sleep clothes. Say: pajamas.",
+   "text": "First we put on pajamas. Say: pajamas.",
    "source": "expansion"
   },
   {
-   "id": "en_tutor_41395f49_50",
+   "id": "en_tutor_c61d4dd0_61",
    "lang": "en",
    "style": "tutor",
-   "text": "Pat your tummy and pull on imaginary cozy pajamas.",
+   "text": "Point to your child's pajamas and touch the buttons together.",
    "source": "expansion"
   },
   {
-   "id": "en_child_9dc39e8c_53",
+   "id": "en_child_872dc7b9_36",
    "lang": "en",
    "style": "child",
-   "text": "We turn the pages to read a bedtime story. Say: book.",
+   "text": "Then we brush our teeth. Say: teeth.",
    "source": "expansion"
   },
   {
-   "id": "en_child_2417003e_25",
+   "id": "en_child_ec725b21_26",
    "lang": "en",
    "style": "child",
-   "text": "One more time! Say: book.",
+   "text": "One more time! Say: teeth.",
    "source": "expansion"
   },
   {
-   "id": "en_slow_9dc39e8c_53",
+   "id": "en_slow_872dc7b9_36",
    "lang": "en",
    "style": "slow",
-   "text": "We turn the pages to read a bedtime story. Say: book.",
+   "text": "Then we brush our teeth. Say: teeth.",
    "source": "expansion"
   },
   {
-   "id": "en_tutor_f2436fbe_59",
+   "id": "en_tutor_6f2dbab4_37",
    "lang": "en",
    "style": "tutor",
-   "text": "Hold your hands together like an open book and turn a page.",
+   "text": "Make a toothbrushing motion together.",
    "source": "expansion"
   },
   {
-   "id": "en_child_d7b04561_50",
+   "id": "en_child_5749b9a2_32",
    "lang": "en",
    "style": "child",
-   "text": "We look at pictures and tell the story. Say: read.",
+   "text": "Next we read a book. Say: story.",
    "source": "expansion"
   },
   {
-   "id": "en_child_e62247ed_25",
+   "id": "en_child_124bdd28_26",
    "lang": "en",
    "style": "child",
-   "text": "One more time! Say: read.",
+   "text": "One more time! Say: story.",
    "source": "expansion"
   },
   {
-   "id": "en_slow_d7b04561_50",
+   "id": "en_slow_5749b9a2_32",
    "lang": "en",
    "style": "slow",
-   "text": "We look at pictures and tell the story. Say: read.",
+   "text": "Next we read a book. Say: story.",
    "source": "expansion"
   },
   {
-   "id": "en_tutor_12d6bc06_59",
+   "id": "en_tutor_641140e5_53",
    "lang": "en",
    "style": "tutor",
-   "text": "Point with your index finger left-to-right on an open hand.",
+   "text": "Open your hands like a book and turn a page together.",
    "source": "expansion"
   },
   {
-   "id": "en_child_19399990_50",
+   "id": "en_child_c72ac0db_35",
    "lang": "en",
    "style": "child",
-   "text": "We close our eyes and dream all night. Say: sleep.",
+   "text": "Last we close our eyes. Say: sleep.",
    "source": "expansion"
   },
   {
@@ -26747,73 +25683,31 @@
    "source": "expansion"
   },
   {
-   "id": "en_slow_19399990_50",
+   "id": "en_slow_c72ac0db_35",
    "lang": "en",
    "style": "slow",
-   "text": "We close our eyes and dream all night. Say: sleep.",
+   "text": "Last we close our eyes. Say: sleep.",
    "source": "expansion"
   },
   {
-   "id": "en_tutor_a45561d4_59",
+   "id": "en_tutor_2c96daad_50",
    "lang": "en",
    "style": "tutor",
-   "text": "Put both hands under your tilted cheek and close your eyes.",
+   "text": "Rest your heads on your hands and close your eyes.",
    "source": "expansion"
   },
   {
-   "id": "en_child_fbe525c8_47",
+   "id": "en_child_7d7ab90e_52",
    "lang": "en",
    "style": "child",
-   "text": "The house is calm and peaceful now. Say: quiet.",
+   "text": "Let's put the routine in order. What do we do first?",
    "source": "expansion"
   },
   {
-   "id": "en_child_90c45b07_26",
-   "lang": "en",
-   "style": "child",
-   "text": "One more time! Say: quiet.",
-   "source": "expansion"
-  },
-  {
-   "id": "en_slow_fbe525c8_47",
-   "lang": "en",
-   "style": "slow",
-   "text": "The house is calm and peaceful now. Say: quiet.",
-   "source": "expansion"
-  },
-  {
-   "id": "en_tutor_021adc0e_52",
+   "id": "en_tutor_92010385_92",
    "lang": "en",
    "style": "tutor",
-   "text": "Put your index finger to your lips with a soft shhh.",
-   "source": "expansion"
-  },
-  {
-   "id": "en_child_7d89db89_40",
-   "lang": "en",
-   "style": "child",
-   "text": "Time for all the toys to rest. Say: shh.",
-   "source": "expansion"
-  },
-  {
-   "id": "en_child_718846f8_24",
-   "lang": "en",
-   "style": "child",
-   "text": "One more time! Say: shh.",
-   "source": "expansion"
-  },
-  {
-   "id": "en_slow_7d89db89_40",
-   "lang": "en",
-   "style": "slow",
-   "text": "Time for all the toys to rest. Say: shh.",
-   "source": "expansion"
-  },
-  {
-   "id": "en_tutor_7656bb7d_46",
-   "lang": "en",
-   "style": "tutor",
-   "text": "Gently rock an imaginary baby and whisper shh.",
+   "text": "Go over the routine out loud together, pointing at each picture: first, then, next and last.",
    "source": "expansion"
   },
   {
@@ -27685,6 +26579,13 @@
    "source": "expansion"
   },
   {
+   "id": "en_child_dd889ef0_24",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: run.",
+   "source": "expansion"
+  },
+  {
    "id": "en_slow_a0b44794_46",
    "lang": "en",
    "style": "slow",
@@ -28011,6 +26912,13 @@
    "lang": "en",
    "style": "child",
    "text": "Everything outside is cool and wet. Say: wet.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_42ac6dc7_24",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: wet.",
    "source": "expansion"
   },
   {
@@ -28753,6 +27661,13 @@
    "lang": "en",
    "style": "child",
    "text": "Now touch the other cup, carefully. How does this one feel? Say: hot.",
+   "source": "expansion"
+  },
+  {
+   "id": "en_child_30327562_24",
+   "lang": "en",
+   "style": "child",
+   "text": "One more time! Say: hot.",
    "source": "expansion"
   },
   {
@@ -31871,66 +30786,38 @@
    "source": "rutas"
   },
   {
-   "id": "ca_child_c16ebc73_30",
+   "id": "ca_child_50cdfa3e_40",
    "lang": "ca",
    "style": "child",
-   "text": "Això és el llit. Digues: llit.",
+   "text": "Primer ens despertem. Digues: despertar.",
    "source": "expansion"
   },
   {
-   "id": "ca_child_61649334_31",
+   "id": "ca_child_5c5ac28f_36",
    "lang": "ca",
    "style": "child",
-   "text": "Una altra vegada! Digues: llit.",
+   "text": "Una altra vegada! Digues: despertar.",
    "source": "expansion"
   },
   {
-   "id": "ca_slow_c16ebc73_30",
+   "id": "ca_slow_50cdfa3e_40",
    "lang": "ca",
    "style": "slow",
-   "text": "Això és el llit. Digues: llit.",
+   "text": "Primer ens despertem. Digues: despertar.",
    "source": "expansion"
   },
   {
-   "id": "ca_tutor_808f5149_80",
+   "id": "ca_tutor_3141369e_74",
    "lang": "ca",
    "style": "tutor",
-   "text": "Pica suaument el llit amb la mà i seu-hi amb l'infant abans d'aixecar-vos junts.",
+   "text": "Tapa't com si dormissis i estira't amb l'infant quan soni el «ring, ring».",
    "source": "expansion"
   },
   {
-   "id": "ca_child_2f7d7257_36",
+   "id": "ca_child_1589aa89_35",
    "lang": "ca",
    "style": "child",
-   "text": "Això és el raspall. Digues: raspall.",
-   "source": "expansion"
-  },
-  {
-   "id": "ca_child_51cf3aca_34",
-   "lang": "ca",
-   "style": "child",
-   "text": "Una altra vegada! Digues: raspall.",
-   "source": "expansion"
-  },
-  {
-   "id": "ca_slow_2f7d7257_36",
-   "lang": "ca",
-   "style": "slow",
-   "text": "Això és el raspall. Digues: raspall.",
-   "source": "expansion"
-  },
-  {
-   "id": "ca_tutor_5b6dcf4b_93",
-   "lang": "ca",
-   "style": "tutor",
-   "text": "Posa el raspall a la mà de l'infant i feu junts el gest de rentar-vos les dents tres vegades.",
-   "source": "expansion"
-  },
-  {
-   "id": "ca_child_a3c6f865_43",
-   "lang": "ca",
-   "style": "child",
-   "text": "Al matí ens rentem la cara. Digues: rentar.",
+   "text": "Després ens rentem. Digues: rentar.",
    "source": "expansion"
   },
   {
@@ -31941,24 +30828,24 @@
    "source": "expansion"
   },
   {
-   "id": "ca_slow_a3c6f865_43",
+   "id": "ca_slow_1589aa89_35",
    "lang": "ca",
    "style": "slow",
-   "text": "Al matí ens rentem la cara. Digues: rentar.",
+   "text": "Després ens rentem. Digues: rentar.",
    "source": "expansion"
   },
   {
-   "id": "ca_tutor_c72631b5_83",
+   "id": "ca_tutor_0aab2fbc_50",
    "lang": "ca",
    "style": "tutor",
-   "text": "Fregueu-vos les mans l'un a l'altre com si tinguéssiu sabó, mentre dieu la paraula.",
+   "text": "Fregueu-vos les mans junts com si us ensabonéssiu.",
    "source": "expansion"
   },
   {
-   "id": "ca_child_cbd73185_35",
+   "id": "ca_child_49dc52f8_35",
    "lang": "ca",
    "style": "child",
-   "text": "Després ens vestim. Digues: vestir.",
+   "text": "Llavors ens vestim. Digues: vestir.",
    "source": "expansion"
   },
   {
@@ -31969,136 +30856,94 @@
    "source": "expansion"
   },
   {
-   "id": "ca_slow_cbd73185_35",
+   "id": "ca_slow_49dc52f8_35",
    "lang": "ca",
    "style": "slow",
-   "text": "Després ens vestim. Digues: vestir.",
+   "text": "Llavors ens vestim. Digues: vestir.",
    "source": "expansion"
   },
   {
-   "id": "ca_tutor_51181850_92",
+   "id": "ca_tutor_9be71012_65",
    "lang": "ca",
    "style": "tutor",
-   "text": "Passeu junts el braç de l'infant per la màniga de la samarreta dient la paraula a cada braç.",
+   "text": "Passa una samarreta pel cap de l'infant i celebreu-ho quan surti.",
    "source": "expansion"
   },
   {
-   "id": "ca_child_cd4846e0_37",
+   "id": "ca_child_fd2012e0_36",
    "lang": "ca",
    "style": "child",
-   "text": "Ara tens el nas ben net. Digues: net.",
+   "text": "Al final esmorzem. Digues: esmorzar.",
    "source": "expansion"
   },
   {
-   "id": "ca_child_9c9a9144_30",
+   "id": "ca_child_92c7c87e_35",
    "lang": "ca",
    "style": "child",
-   "text": "Una altra vegada! Digues: net.",
+   "text": "Una altra vegada! Digues: esmorzar.",
    "source": "expansion"
   },
   {
-   "id": "ca_slow_cd4846e0_37",
+   "id": "ca_slow_fd2012e0_36",
    "lang": "ca",
    "style": "slow",
-   "text": "Ara tens el nas ben net. Digues: net.",
+   "text": "Al final esmorzem. Digues: esmorzar.",
    "source": "expansion"
   },
   {
-   "id": "ca_tutor_269524f5_85",
+   "id": "ca_tutor_515dcc55_59",
    "lang": "ca",
    "style": "tutor",
-   "text": "Ensenyeu-vos les mans l'un a l'altre i piqueu de mans quan totes dues estiguin netes.",
+   "text": "Feu veure junts que beveu un got de llet amb les dues mans.",
    "source": "expansion"
   },
   {
-   "id": "ca_child_eb4d8eeb_50",
+   "id": "ca_child_d117a1d3_43",
    "lang": "ca",
    "style": "child",
-   "text": "El despertador sona: ring ring. Digues: ring ring.",
+   "text": "Primer ens rentem les mans. Digues: rentar.",
    "source": "expansion"
   },
   {
-   "id": "ca_child_687765a1_36",
-   "lang": "ca",
-   "style": "child",
-   "text": "Una altra vegada! Digues: ring ring.",
-   "source": "expansion"
-  },
-  {
-   "id": "ca_slow_eb4d8eeb_50",
+   "id": "ca_slow_d117a1d3_43",
    "lang": "ca",
    "style": "slow",
-   "text": "El despertador sona: ring ring. Digues: ring ring.",
+   "text": "Primer ens rentem les mans. Digues: rentar.",
    "source": "expansion"
   },
   {
-   "id": "ca_tutor_0be8c51c_81",
-   "lang": "ca",
-   "style": "tutor",
-   "text": "Feu vibrar les mans a l'aire com un despertador mentre tots dos dieu «ring ring».",
-   "source": "expansion"
-  },
-  {
-   "id": "ca_child_8f27478f_36",
+   "id": "ca_child_efdf8345_37",
    "lang": "ca",
    "style": "child",
-   "text": "Això és la cullera. Digues: cullera.",
+   "text": "Després seiem a taula. Digues: seure.",
    "source": "expansion"
   },
   {
-   "id": "ca_child_de813d07_34",
+   "id": "ca_child_43cad873_32",
    "lang": "ca",
    "style": "child",
-   "text": "Una altra vegada! Digues: cullera.",
+   "text": "Una altra vegada! Digues: seure.",
    "source": "expansion"
   },
   {
-   "id": "ca_slow_8f27478f_36",
+   "id": "ca_slow_efdf8345_37",
    "lang": "ca",
    "style": "slow",
-   "text": "Això és la cullera. Digues: cullera.",
+   "text": "Després seiem a taula. Digues: seure.",
    "source": "expansion"
   },
   {
-   "id": "ca_tutor_91e0d3ec_87",
+   "id": "ca_tutor_a0bd75af_52",
    "lang": "ca",
    "style": "tutor",
-   "text": "Posa la cullera a la mà de l'infant i porteu-la junts a la boca fent el gest de menjar.",
+   "text": "Seieu junts en dues cadires, l'un davant de l'altre.",
    "source": "expansion"
   },
   {
-   "id": "ca_child_398fcf99_28",
+   "id": "ca_child_e698b8dd_31",
    "lang": "ca",
    "style": "child",
-   "text": "Això és el got. Digues: got.",
-   "source": "expansion"
-  },
-  {
-   "id": "ca_child_a1d1f867_30",
-   "lang": "ca",
-   "style": "child",
-   "text": "Una altra vegada! Digues: got.",
-   "source": "expansion"
-  },
-  {
-   "id": "ca_slow_398fcf99_28",
-   "lang": "ca",
-   "style": "slow",
-   "text": "Això és el got. Digues: got.",
-   "source": "expansion"
-  },
-  {
-   "id": "ca_tutor_22e2b9be_60",
-   "lang": "ca",
-   "style": "tutor",
-   "text": "Feu un brindis amb els gots i beveu tots dos un glop alhora.",
-   "source": "expansion"
-  },
-  {
-   "id": "ca_child_65044f88_42",
-   "lang": "ca",
-   "style": "child",
-   "text": "A taula mengem tots junts. Digues: menjar.",
+   "text": "Llavors mengem. Digues: menjar.",
    "source": "expansion"
   },
   {
@@ -32109,136 +30954,108 @@
    "source": "expansion"
   },
   {
-   "id": "ca_slow_65044f88_42",
+   "id": "ca_slow_e698b8dd_31",
    "lang": "ca",
    "style": "slow",
-   "text": "A taula mengem tots junts. Digues: menjar.",
+   "text": "Llavors mengem. Digues: menjar.",
    "source": "expansion"
   },
   {
-   "id": "ca_tutor_2fa5e4bc_72",
+   "id": "ca_tutor_1c6f8216_46",
    "lang": "ca",
    "style": "tutor",
-   "text": "Feu el gest de portar-vos menjar a la boca l'un a l'altre, tres vegades.",
+   "text": "Porteu junts una cullera imaginària a la boca.",
    "source": "expansion"
   },
   {
-   "id": "ca_child_33aa861f_43",
+   "id": "ca_child_07c86dba_44",
    "lang": "ca",
    "style": "child",
-   "text": "Quan tenim set, bevem aigua. Digues: beure.",
+   "text": "Al final recollim el plat. Digues: recollir.",
    "source": "expansion"
   },
   {
-   "id": "ca_child_64e73a16_32",
+   "id": "ca_child_fadc34c7_35",
    "lang": "ca",
    "style": "child",
-   "text": "Una altra vegada! Digues: beure.",
+   "text": "Una altra vegada! Digues: recollir.",
    "source": "expansion"
   },
   {
-   "id": "ca_slow_33aa861f_43",
+   "id": "ca_slow_07c86dba_44",
    "lang": "ca",
    "style": "slow",
-   "text": "Quan tenim set, bevem aigua. Digues: beure.",
+   "text": "Al final recollim el plat. Digues: recollir.",
    "source": "expansion"
   },
   {
-   "id": "ca_tutor_46df0a8b_60",
+   "id": "ca_tutor_61306077_62",
    "lang": "ca",
    "style": "tutor",
-   "text": "Beveu tots dos del got fent el soroll del glop ben exagerat.",
+   "text": "Porteu junts un plat (de veritat o imaginari) fins a la cuina.",
    "source": "expansion"
   },
   {
-   "id": "ca_child_78432f75_38",
+   "id": "ca_child_180bc045_46",
    "lang": "ca",
    "style": "child",
-   "text": "Aquest dinar està molt bo. Digues: bo.",
+   "text": "Primer ens posem les sabates. Digues: sabates.",
    "source": "expansion"
   },
   {
-   "id": "ca_child_c88bea12_29",
+   "id": "ca_child_af489044_34",
    "lang": "ca",
    "style": "child",
-   "text": "Una altra vegada! Digues: bo.",
+   "text": "Una altra vegada! Digues: sabates.",
    "source": "expansion"
   },
   {
-   "id": "ca_slow_78432f75_38",
+   "id": "ca_slow_180bc045_46",
    "lang": "ca",
    "style": "slow",
-   "text": "Aquest dinar està molt bo. Digues: bo.",
+   "text": "Primer ens posem les sabates. Digues: sabates.",
    "source": "expansion"
   },
   {
-   "id": "ca_tutor_28161ee9_76",
+   "id": "ca_tutor_7ff32f69_54",
    "lang": "ca",
    "style": "tutor",
-   "text": "Feu tots dos el gest del polze amunt i la cara de «mmm» després de cada mos.",
+   "text": "Assenyaleu les sabates de l'infant i toqueu-les junts.",
    "source": "expansion"
   },
   {
-   "id": "ca_child_8c6dd1a2_46",
+   "id": "ca_child_bb3945b0_35",
    "lang": "ca",
    "style": "child",
-   "text": "Quan menges fas: nyam nyam. Digues: nyam nyam.",
+   "text": "Després anem al parc. Digues: parc.",
    "source": "expansion"
   },
   {
-   "id": "ca_child_bae75473_36",
+   "id": "ca_child_06d260a7_31",
    "lang": "ca",
    "style": "child",
-   "text": "Una altra vegada! Digues: nyam nyam.",
+   "text": "Una altra vegada! Digues: parc.",
    "source": "expansion"
   },
   {
-   "id": "ca_slow_8c6dd1a2_46",
+   "id": "ca_slow_bb3945b0_35",
    "lang": "ca",
    "style": "slow",
-   "text": "Quan menges fas: nyam nyam. Digues: nyam nyam.",
+   "text": "Després anem al parc. Digues: parc.",
    "source": "expansion"
   },
   {
-   "id": "ca_tutor_def69dd6_55",
+   "id": "ca_tutor_37c7a337_55",
    "lang": "ca",
    "style": "tutor",
-   "text": "Mastegueu tots dos a l'aire dient «nyam nyam» ben fort.",
+   "text": "Camineu junts uns passos per l'habitació cap «al parc».",
    "source": "expansion"
   },
   {
-   "id": "ca_child_bc79fe8d_34",
+   "id": "ca_child_cde5cf66_44",
    "lang": "ca",
    "style": "child",
-   "text": "Això és la pilota. Digues: pilota.",
-   "source": "expansion"
-  },
-  {
-   "id": "ca_child_596a1ff0_33",
-   "lang": "ca",
-   "style": "child",
-   "text": "Una altra vegada! Digues: pilota.",
-   "source": "expansion"
-  },
-  {
-   "id": "ca_slow_bc79fe8d_34",
-   "lang": "ca",
-   "style": "slow",
-   "text": "Això és la pilota. Digues: pilota.",
-   "source": "expansion"
-  },
-  {
-   "id": "ca_tutor_0203efaa_82",
-   "lang": "ca",
-   "style": "tutor",
-   "text": "Feu rodar la pilota l'un cap a l'altre per terra, dient la paraula a cada passada.",
-   "source": "expansion"
-  },
-  {
-   "id": "ca_child_f2f6b949_36",
-   "lang": "ca",
-   "style": "child",
-   "text": "Això és el tobogan. Digues: tobogan.",
+   "text": "Llavors baixem pel tobogan. Digues: tobogan.",
    "source": "expansion"
   },
   {
@@ -32249,136 +31066,45 @@
    "source": "expansion"
   },
   {
-   "id": "ca_slow_f2f6b949_36",
+   "id": "ca_slow_cde5cf66_44",
    "lang": "ca",
    "style": "slow",
-   "text": "Això és el tobogan. Digues: tobogan.",
+   "text": "Llavors baixem pel tobogan. Digues: tobogan.",
    "source": "expansion"
   },
   {
-   "id": "ca_tutor_ab4e0fa8_77",
+   "id": "ca_tutor_6eec8458_52",
    "lang": "ca",
    "style": "tutor",
-   "text": "Feu baixar la mà de l'infant per un pendent imaginari mentre dieu la paraula.",
+   "text": "Feu junts el gest de lliscar amb els braços enlaire.",
    "source": "expansion"
   },
   {
-   "id": "ca_child_1a8d47b2_42",
+   "id": "ca_child_78db0707_37",
    "lang": "ca",
    "style": "child",
-   "text": "Al parc podem córrer molt. Digues: córrer.",
+   "text": "Al final tornem a casa. Digues: casa.",
    "source": "expansion"
   },
   {
-   "id": "ca_child_f1043178_33",
-   "lang": "ca",
-   "style": "child",
-   "text": "Una altra vegada! Digues: córrer.",
-   "source": "expansion"
-  },
-  {
-   "id": "ca_slow_1a8d47b2_42",
+   "id": "ca_slow_78db0707_37",
    "lang": "ca",
    "style": "slow",
-   "text": "Al parc podem córrer molt. Digues: córrer.",
+   "text": "Al final tornem a casa. Digues: casa.",
    "source": "expansion"
   },
   {
-   "id": "ca_tutor_2302a15f_69",
+   "id": "ca_tutor_b4a8d6bb_47",
    "lang": "ca",
    "style": "tutor",
-   "text": "Correu tots dos sense moure-us del lloc, marcant el pas amb les mans.",
+   "text": "Ajunteu les mans sobre el cap fent una teulada.",
    "source": "expansion"
   },
   {
-   "id": "ca_child_909c6884_45",
+   "id": "ca_child_1787b30c_44",
    "lang": "ca",
    "style": "child",
-   "text": "També podem saltar ben amunt. Digues: saltar.",
-   "source": "expansion"
-  },
-  {
-   "id": "ca_child_444bf0fa_33",
-   "lang": "ca",
-   "style": "child",
-   "text": "Una altra vegada! Digues: saltar.",
-   "source": "expansion"
-  },
-  {
-   "id": "ca_slow_909c6884_45",
-   "lang": "ca",
-   "style": "slow",
-   "text": "També podem saltar ben amunt. Digues: saltar.",
-   "source": "expansion"
-  },
-  {
-   "id": "ca_tutor_e0b6a4fe_58",
-   "lang": "ca",
-   "style": "tutor",
-   "text": "Salteu tots dos alhora tres vegades, comptant en veu alta.",
-   "source": "expansion"
-  },
-  {
-   "id": "ca_child_1ff18337_36",
-   "lang": "ca",
-   "style": "child",
-   "text": "El tobogan és molt alt. Digues: alt.",
-   "source": "expansion"
-  },
-  {
-   "id": "ca_child_3778c574_30",
-   "lang": "ca",
-   "style": "child",
-   "text": "Una altra vegada! Digues: alt.",
-   "source": "expansion"
-  },
-  {
-   "id": "ca_slow_1ff18337_36",
-   "lang": "ca",
-   "style": "slow",
-   "text": "El tobogan és molt alt. Digues: alt.",
-   "source": "expansion"
-  },
-  {
-   "id": "ca_tutor_ddd1f2a0_75",
-   "lang": "ca",
-   "style": "tutor",
-   "text": "Estireu-vos tots dos de puntetes amb els braços amunt, tan alts com pugueu.",
-   "source": "expansion"
-  },
-  {
-   "id": "ca_child_e3b962a8_42",
-   "lang": "ca",
-   "style": "child",
-   "text": "La pilota bota i fa: boing. Digues: boing.",
-   "source": "expansion"
-  },
-  {
-   "id": "ca_child_64a52b2a_32",
-   "lang": "ca",
-   "style": "child",
-   "text": "Una altra vegada! Digues: boing.",
-   "source": "expansion"
-  },
-  {
-   "id": "ca_slow_e3b962a8_42",
-   "lang": "ca",
-   "style": "slow",
-   "text": "La pilota bota i fa: boing. Digues: boing.",
-   "source": "expansion"
-  },
-  {
-   "id": "ca_tutor_d2935757_56",
-   "lang": "ca",
-   "style": "tutor",
-   "text": "Feu botar la mà com una pilota dient «boing» a cada bot.",
-   "source": "expansion"
-  },
-  {
-   "id": "ca_child_cea94ebb_36",
-   "lang": "ca",
-   "style": "child",
-   "text": "Això és la banyera. Digues: banyera.",
+   "text": "Primer entrem a la banyera. Digues: banyera.",
    "source": "expansion"
   },
   {
@@ -32389,24 +31115,24 @@
    "source": "expansion"
   },
   {
-   "id": "ca_slow_cea94ebb_36",
+   "id": "ca_slow_1787b30c_44",
    "lang": "ca",
    "style": "slow",
-   "text": "Això és la banyera. Digues: banyera.",
+   "text": "Primer entrem a la banyera. Digues: banyera.",
    "source": "expansion"
   },
   {
-   "id": "ca_tutor_54f03527_74",
+   "id": "ca_tutor_e22380a5_54",
    "lang": "ca",
    "style": "tutor",
-   "text": "Toqueu junts la vora de la banyera i feu el gest de posar-hi la mà a dins.",
+   "text": "Aixequeu junts una cama com si entréssiu a la banyera.",
    "source": "expansion"
   },
   {
-   "id": "ca_child_15b7934f_30",
+   "id": "ca_child_fdce5b25_36",
    "lang": "ca",
    "style": "child",
-   "text": "Això és el sabó. Digues: sabó.",
+   "text": "Després ens ensabonem. Digues: sabó.",
    "source": "expansion"
   },
   {
@@ -32417,164 +31143,136 @@
    "source": "expansion"
   },
   {
-   "id": "ca_slow_15b7934f_30",
+   "id": "ca_slow_fdce5b25_36",
    "lang": "ca",
    "style": "slow",
-   "text": "Això és el sabó. Digues: sabó.",
+   "text": "Després ens ensabonem. Digues: sabó.",
    "source": "expansion"
   },
   {
-   "id": "ca_tutor_486ccb6d_58",
+   "id": "ca_tutor_7d79baf1_58",
    "lang": "ca",
    "style": "tutor",
-   "text": "Passeu-vos el sabó de mà en mà fent bombolles imaginàries.",
+   "text": "Fregueu els braços de l'infant amb una esponja imaginària.",
    "source": "expansion"
   },
   {
-   "id": "ca_child_910dce83_37",
+   "id": "ca_child_b5c6f606_46",
    "lang": "ca",
    "style": "child",
-   "text": "Al vespre ens banyem. Digues: banyar.",
+   "text": "Llavors ens esbandim amb aigua. Digues: aigua.",
    "source": "expansion"
   },
   {
-   "id": "ca_child_377e476a_33",
+   "id": "ca_child_cb72410e_32",
    "lang": "ca",
    "style": "child",
-   "text": "Una altra vegada! Digues: banyar.",
+   "text": "Una altra vegada! Digues: aigua.",
    "source": "expansion"
   },
   {
-   "id": "ca_slow_910dce83_37",
+   "id": "ca_slow_b5c6f606_46",
    "lang": "ca",
    "style": "slow",
-   "text": "Al vespre ens banyem. Digues: banyar.",
+   "text": "Llavors ens esbandim amb aigua. Digues: aigua.",
    "source": "expansion"
   },
   {
-   "id": "ca_tutor_0aab1bc9_73",
+   "id": "ca_tutor_cc993726_67",
    "lang": "ca",
    "style": "tutor",
-   "text": "Feu el gest de tirar-vos aigua per sobre l'un a l'altre dient la paraula.",
+   "text": "Deixeu caure els dits sobre el cap de l'infant com si fossin gotes.",
    "source": "expansion"
   },
   {
-   "id": "ca_child_d47c1e24_48",
+   "id": "ca_child_d078d1db_58",
    "lang": "ca",
    "style": "child",
-   "text": "Amb l'esponja freguem l'esquena. Digues: fregar.",
+   "text": "Al final ens eixuguem amb la tovallola. Digues: tovallola.",
    "source": "expansion"
   },
   {
-   "id": "ca_child_9572048a_33",
+   "id": "ca_child_7d3bd3e3_36",
    "lang": "ca",
    "style": "child",
-   "text": "Una altra vegada! Digues: fregar.",
+   "text": "Una altra vegada! Digues: tovallola.",
    "source": "expansion"
   },
   {
-   "id": "ca_slow_d47c1e24_48",
+   "id": "ca_slow_d078d1db_58",
    "lang": "ca",
    "style": "slow",
-   "text": "Amb l'esponja freguem l'esquena. Digues: fregar.",
+   "text": "Al final ens eixuguem amb la tovallola. Digues: tovallola.",
    "source": "expansion"
   },
   {
-   "id": "ca_tutor_d1f85ede_78",
+   "id": "ca_tutor_9a94b9af_76",
    "lang": "ca",
    "style": "tutor",
-   "text": "Fregueu-vos l'esquena l'un a l'altre amb la mà oberta, com si fos una esponja.",
+   "text": "Emboliqueu l'infant amb una tovallola (o amb els teus braços) i eixugueu-lo.",
    "source": "expansion"
   },
   {
-   "id": "ca_child_74305148_46",
+   "id": "ca_child_fb5f6db0_43",
    "lang": "ca",
    "style": "child",
-   "text": "L'aigua del bany està calenta. Digues: calent.",
+   "text": "Primer ens posem el pijama. Digues: pijama.",
    "source": "expansion"
   },
   {
-   "id": "ca_child_dc97f6d0_33",
+   "id": "ca_child_e97c53bb_33",
    "lang": "ca",
    "style": "child",
-   "text": "Una altra vegada! Digues: calent.",
+   "text": "Una altra vegada! Digues: pijama.",
    "source": "expansion"
   },
   {
-   "id": "ca_slow_74305148_46",
+   "id": "ca_slow_fb5f6db0_43",
    "lang": "ca",
    "style": "slow",
-   "text": "L'aigua del bany està calenta. Digues: calent.",
+   "text": "Primer ens posem el pijama. Digues: pijama.",
    "source": "expansion"
   },
   {
-   "id": "ca_tutor_65d97ef4_73",
+   "id": "ca_tutor_593b7cf7_59",
    "lang": "ca",
    "style": "tutor",
-   "text": "Toqueu tots dos l'aigua i venteu-vos la mà com si cremés, exagerant molt.",
+   "text": "Assenyaleu el pijama de l'infant i toqueu els botons junts.",
    "source": "expansion"
   },
   {
-   "id": "ca_child_24f9442f_35",
+   "id": "ca_child_8eea09e7_44",
    "lang": "ca",
    "style": "child",
-   "text": "L'aigua cau i fa: xof. Digues: xof.",
+   "text": "Després ens rentem les dents. Digues: dents.",
    "source": "expansion"
   },
   {
-   "id": "ca_child_dce6a942_30",
+   "id": "ca_child_eddec573_32",
    "lang": "ca",
    "style": "child",
-   "text": "Una altra vegada! Digues: xof.",
+   "text": "Una altra vegada! Digues: dents.",
    "source": "expansion"
   },
   {
-   "id": "ca_slow_24f9442f_35",
+   "id": "ca_slow_8eea09e7_44",
    "lang": "ca",
    "style": "slow",
-   "text": "L'aigua cau i fa: xof. Digues: xof.",
+   "text": "Després ens rentem les dents. Digues: dents.",
    "source": "expansion"
   },
   {
-   "id": "ca_tutor_6be89bfe_66",
+   "id": "ca_tutor_72cc451d_42",
    "lang": "ca",
    "style": "tutor",
-   "text": "Piqueu tots dos l'aigua (o la taula) amb la mà oberta dient «xof».",
+   "text": "Feu junts el gest de rentar-vos les dents.",
    "source": "expansion"
   },
   {
-   "id": "ca_child_c97e3903_32",
+   "id": "ca_child_dce14976_39",
    "lang": "ca",
    "style": "child",
-   "text": "Això és la lluna. Digues: lluna.",
-   "source": "expansion"
-  },
-  {
-   "id": "ca_child_1da80187_32",
-   "lang": "ca",
-   "style": "child",
-   "text": "Una altra vegada! Digues: lluna.",
-   "source": "expansion"
-  },
-  {
-   "id": "ca_slow_c97e3903_32",
-   "lang": "ca",
-   "style": "slow",
-   "text": "Això és la lluna. Digues: lluna.",
-   "source": "expansion"
-  },
-  {
-   "id": "ca_tutor_0d4c3447_86",
-   "lang": "ca",
-   "style": "tutor",
-   "text": "Mireu junts per la finestra i assenyaleu la lluna (o dibuixeu-la a l'aire amb el dit).",
-   "source": "expansion"
-  },
-  {
-   "id": "ca_child_39b4ebe7_32",
-   "lang": "ca",
-   "style": "child",
-   "text": "Això és el conte. Digues: conte.",
+   "text": "Llavors llegim un conte. Digues: conte.",
    "source": "expansion"
   },
   {
@@ -32585,24 +31283,24 @@
    "source": "expansion"
   },
   {
-   "id": "ca_slow_39b4ebe7_32",
+   "id": "ca_slow_dce14976_39",
    "lang": "ca",
    "style": "slow",
-   "text": "Això és el conte. Digues: conte.",
+   "text": "Llavors llegim un conte. Digues: conte.",
    "source": "expansion"
   },
   {
-   "id": "ca_tutor_980ddef6_73",
+   "id": "ca_tutor_c9d5dcd0_55",
    "lang": "ca",
    "style": "tutor",
-   "text": "Obriu un llibre junts i passeu tres pàgines dient la paraula a cadascuna.",
+   "text": "Obriu les mans com un llibre i passeu una pàgina junts.",
    "source": "expansion"
   },
   {
-   "id": "ca_child_7360d871_39",
+   "id": "ca_child_907631c1_39",
    "lang": "ca",
    "style": "child",
-   "text": "A la nit anem a dormir. Digues: dormir.",
+   "text": "Al final anem a dormir. Digues: dormir.",
    "source": "expansion"
   },
   {
@@ -32613,101 +31311,31 @@
    "source": "expansion"
   },
   {
-   "id": "ca_slow_7360d871_39",
+   "id": "ca_slow_907631c1_39",
    "lang": "ca",
    "style": "slow",
-   "text": "A la nit anem a dormir. Digues: dormir.",
+   "text": "Al final anem a dormir. Digues: dormir.",
    "source": "expansion"
   },
   {
-   "id": "ca_tutor_585ac2bc_71",
+   "id": "ca_tutor_6764492c_53",
    "lang": "ca",
    "style": "tutor",
-   "text": "Ajunteu les mans sota la galta tots dos i tanqueu els ulls tres segons.",
+   "text": "Recolzeu el cap a les mans juntes i tanqueu els ulls.",
    "source": "expansion"
   },
   {
-   "id": "ca_child_62c3d70c_45",
+   "id": "ca_child_3db5311d_34",
    "lang": "ca",
    "style": "child",
-   "text": "Abans de dormir ens abracem. Digues: abraçar.",
+   "text": "Ordenem la rutina. Què fem primer?",
    "source": "expansion"
   },
   {
-   "id": "ca_child_9943bc59_34",
-   "lang": "ca",
-   "style": "child",
-   "text": "Una altra vegada! Digues: abraçar.",
-   "source": "expansion"
-  },
-  {
-   "id": "ca_slow_62c3d70c_45",
-   "lang": "ca",
-   "style": "slow",
-   "text": "Abans de dormir ens abracem. Digues: abraçar.",
-   "source": "expansion"
-  },
-  {
-   "id": "ca_tutor_812b0e2f_75",
+   "id": "ca_tutor_0f4131b7_98",
    "lang": "ca",
    "style": "tutor",
-   "text": "Feu-vos una abraçada ben forta i compteu fins a tres sense deixar-vos anar.",
-   "source": "expansion"
-  },
-  {
-   "id": "ca_child_9eaa5281_50",
-   "lang": "ca",
-   "style": "child",
-   "text": "Quan apaguem el llum, tot està fosc. Digues: fosc.",
-   "source": "expansion"
-  },
-  {
-   "id": "ca_child_cae24a2c_31",
-   "lang": "ca",
-   "style": "child",
-   "text": "Una altra vegada! Digues: fosc.",
-   "source": "expansion"
-  },
-  {
-   "id": "ca_slow_9eaa5281_50",
-   "lang": "ca",
-   "style": "slow",
-   "text": "Quan apaguem el llum, tot està fosc. Digues: fosc.",
-   "source": "expansion"
-  },
-  {
-   "id": "ca_tutor_4fdfd6be_75",
-   "lang": "ca",
-   "style": "tutor",
-   "text": "Tapeu-vos els ulls amb les mans tots dos i digueu la paraula a les fosques.",
-   "source": "expansion"
-  },
-  {
-   "id": "ca_child_98311c28_44",
-   "lang": "ca",
-   "style": "child",
-   "text": "A la nit el mussol fa: uh uh. Digues: uh uh.",
-   "source": "expansion"
-  },
-  {
-   "id": "ca_child_0c999f77_32",
-   "lang": "ca",
-   "style": "child",
-   "text": "Una altra vegada! Digues: uh uh.",
-   "source": "expansion"
-  },
-  {
-   "id": "ca_slow_98311c28_44",
-   "lang": "ca",
-   "style": "slow",
-   "text": "A la nit el mussol fa: uh uh. Digues: uh uh.",
-   "source": "expansion"
-  },
-  {
-   "id": "ca_tutor_a725d0e5_72",
-   "lang": "ca",
-   "style": "tutor",
-   "text": "Feu tots dos els ulls rodons amb els dits i digueu «uh uh» amb veu greu.",
+   "text": "Repasseu junts la rutina en veu alta assenyalant cada dibuix: primer, després, llavors i al final.",
    "source": "expansion"
   },
   {
@@ -33978,13 +32606,6 @@
    "source": "expansion"
   },
   {
-   "id": "ca_child_cb72410e_32",
-   "lang": "ca",
-   "style": "child",
-   "text": "Una altra vegada! Digues: aigua.",
-   "source": "expansion"
-  },
-  {
    "id": "ca_slow_a0c56803_31",
    "lang": "ca",
    "style": "slow",
@@ -34608,6 +33229,13 @@
    "source": "expansion"
   },
   {
+   "id": "ca_child_9c9a9144_30",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: net.",
+   "source": "expansion"
+  },
+  {
    "id": "ca_slow_b8ba6819_64",
    "lang": "ca",
    "style": "slow",
@@ -34787,6 +33415,13 @@
    "lang": "ca",
    "style": "child",
    "text": "I aquest altre got, com està? Digues: calent.",
+   "source": "expansion"
+  },
+  {
+   "id": "ca_child_dc97f6d0_33",
+   "lang": "ca",
+   "style": "child",
+   "text": "Una altra vegada! Digues: calent.",
    "source": "expansion"
   },
   {

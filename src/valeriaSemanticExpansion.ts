@@ -115,7 +115,12 @@ export interface DailyScenario {
   title: string;
   icon: string;
   subtitle: string;
-  items: LexicalItem[]; // 2 sustantivos, 2 verbos, 1 adjetivo, 1 onomatopeya
+  // ES-07 (ACOPROS, 3.ª ronda): los CUATRO pasos de la rutina, EN SU ORDEN. La
+  // sesión pide primero ordenarlos y después decir cada uno. El orden del array
+  // ES la respuesta correcta: no se reordena sin cambiar la rutina. Antes eran
+  // seis palabras mixtas (2 sustantivos, 2 verbos, adjetivo y onomatopeya), y
+  // esa mezcla era lo que impedía leer el objetivo del apartado.
+  items: LexicalItem[];
 }
 
 export const DAILY_SCENARIOS: DailyScenario[] = [
@@ -123,53 +128,35 @@ export const DAILY_SCENARIOS: DailyScenario[] = [
     id: 'manana',
     title: 'Rutina de mañana',
     icon: '☀️',
-    subtitle: 'Despertar, lavarse y vestirse',
+    subtitle: 'Despertarse, lavarse, vestirse y desayunar',
     items: [
       {
-        id: 'manana-cama', type: 'sustantivo', label: 'cama', emoji: '🛏️',
-        visual_prompt: 'Cama infantil vista de frente, sábanas lisas, sin fondo (transparente), contorno grueso, colores planos de alto contraste, sin sombras ni texturas.',
-        tts_string: 'Esto es la cama. Di: cama.',
-        stt_expected_array: ['cama', 'tama', 'ama', 'kama'],
-        parent_tpr_action: 'Da unas palmaditas en la cama y siéntate en ella con el niño antes de levantaros juntos.',
+        id: 'manana-despertar', type: 'verbo', label: 'despertar', emoji: '⏰', pictogram: 'despertador',
+        visual_prompt: 'Despertador clásico con dos campanas, sin fondo, alto contraste, contorno grueso.',
+        tts_string: 'Primero nos despertamos. Di: despertar.',
+        stt_expected_array: ['despertar', 'despierta', 'espertar', 'pertar', 'desperta'],
+        parent_tpr_action: 'Tápate como si durmieras y estírate con el niño al sonar el «rin, rin».',
       },
       {
-        id: 'manana-cepillo', type: 'sustantivo', label: 'cepillo', emoji: '🪥',
-        pictogram: 'cepillo',
-        visual_prompt: 'Cepillo de dientes en horizontal con una raya de pasta, sin fondo, alto contraste, contorno grueso, sin degradados.',
-        tts_string: 'Esto es el cepillo. Di: cepillo.',
-        stt_expected_array: ['cepillo', 'pillo', 'tepillo', 'epillo'],
-        parent_tpr_action: 'Pon el cepillo (sin pasta) en la mano del niño y guiad juntos el gesto de cepillar sus dientes.',
+        id: 'manana-lavar', type: 'verbo', label: 'lavar', emoji: '🧼', pictogram: 'jabon',
+        visual_prompt: 'Pastilla de jabón con burbujas, sin fondo, alto contraste, contorno grueso.',
+        tts_string: 'Después nos lavamos. Di: lavar.',
+        stt_expected_array: ['lavar', 'lava', 'avar', 'laba', 'aba'],
+        parent_tpr_action: 'Frotad las manos juntos como si os enjabonarais.',
       },
       {
-        id: 'manana-lavar', type: 'verbo', label: 'lavar', emoji: '🧼',
-        pictogram: 'jabon',
-        visual_prompt: 'Dos manos frotándose con burbujas de jabón, sin fondo, alto contraste, contorno grueso, colores planos.',
-        tts_string: 'Nos lavamos las manos. Di: lavar.',
-        stt_expected_array: ['lavar', 'lava', 'aba', 'avar', 'laba'],
-        parent_tpr_action: 'Frota tus manos como si te enjabonaras y anima al niño a frotar las suyas al ritmo de la palabra.',
+        id: 'manana-vestir', type: 'verbo', label: 'vestir', emoji: '👕', pictogram: 'vestir',
+        visual_prompt: 'Camiseta infantil de frente, sin fondo, alto contraste, contorno grueso.',
+        tts_string: 'Luego nos vestimos. Di: vestir.',
+        stt_expected_array: ['vestir', 'viste', 'vesti', 'betir', 'etir'],
+        parent_tpr_action: 'Pasa una camiseta por la cabeza del niño y celebrad al asomar.',
       },
       {
-        id: 'manana-vestir', type: 'verbo', label: 'vestir', emoji: '👕',
-        pictogram: 'vestir',
-        visual_prompt: 'Camiseta infantil de frente entrando por la cabeza de una silueta simple, sin fondo, alto contraste, contorno grueso.',
-        tts_string: 'Nos ponemos la camiseta. Di: vestir.',
-        stt_expected_array: ['vestir', 'viste', 'etir', 'betir', 'vesti'],
-        parent_tpr_action: 'Pasa una camiseta por la cabeza del niño y, al asomar, celebradlo con un “¡cucú!”.',
-      },
-      {
-        id: 'manana-limpio', type: 'adjetivo', label: 'limpio', emoji: '🥄',
-        pictogram: 'mano-limpia',
-        visual_prompt: 'Mano abierta y reluciente con destellos brillantes alrededor, sin fondo, alto contraste, contorno grueso.',
-        tts_string: 'Las manos están limpias. Di: limpio.',
-        stt_expected_array: ['limpio', 'impio', 'limpi', 'inpio', 'pio'],
-        parent_tpr_action: 'Muestra tus manos limpias, sopla sobre ellas como si brillaran y chocad los cinco.',
-      },
-      {
-        id: 'manana-rin', type: 'onomatopeya', label: 'rin rin', emoji: '⏰',
-        visual_prompt: 'Despertador clásico con dos campanas y líneas de vibración a los lados, sin fondo, alto contraste, contorno grueso.',
-        tts_string: 'El despertador hace rin, rin. Di: rin, rin.',
-        stt_expected_array: ['rin rin', 'rin', 'ri ri', 'ning ning', 'in in'],
-        parent_tpr_action: 'Tápate como si durmieras y, al decir “¡rin, rin!”, despiértate de golpe estirando los brazos con el niño.',
+        id: 'manana-desayunar', type: 'verbo', label: 'desayunar', emoji: '🥛', pictogram: 'vaso-leche',
+        visual_prompt: 'Vaso de leche lleno, sin fondo, alto contraste, contorno grueso.',
+        tts_string: 'Al final desayunamos. Di: desayunar.',
+        stt_expected_array: ['desayunar', 'desayuna', 'ayunar', 'desayuno', 'sayunar'],
+        parent_tpr_action: 'Simulad juntos que bebéis un vaso de leche con las dos manos.',
       },
     ],
   },
@@ -177,54 +164,35 @@ export const DAILY_SCENARIOS: DailyScenario[] = [
     id: 'comida',
     title: 'Hora de comer',
     icon: '🍽️',
-    subtitle: 'Sentarse a la mesa y comer',
+    subtitle: 'Lavarse, sentarse, comer y recoger',
     items: [
       {
-        id: 'comida-cuchara', type: 'sustantivo', label: 'cuchara', emoji: '🥄',
-        pictogram: 'cuchara',
-        visual_prompt: 'Cuchara sola vista desde arriba, mango hacia abajo, sin fondo, alto contraste, contorno grueso, sin brillos metálicos.',
-        tts_string: 'Esto es la cuchara. Di: cuchara.',
-        stt_expected_array: ['cuchara', 'tuchara', 'chara', 'uchara', 'chacha'],
-        parent_tpr_action: 'Pon la cuchara en la mano del niño y llevadla juntos a la boca haciendo el gesto de comer.',
+        id: 'comida-lavar', type: 'verbo', label: 'lavar', emoji: '🧼', pictogram: 'jabon',
+        visual_prompt: 'Pastilla de jabón con burbujas, sin fondo, alto contraste, contorno grueso.',
+        tts_string: 'Primero nos lavamos las manos. Di: lavar.',
+        stt_expected_array: ['lavar', 'lava', 'avar', 'laba', 'aba'],
+        parent_tpr_action: 'Frotad las manos juntos como si os enjabonarais.',
       },
       {
-        id: 'comida-vaso', type: 'sustantivo', label: 'vaso', emoji: '🥛',
-        pictogram: 'vaso',
-        visual_prompt: 'Vaso lleno de agua hasta la mitad, de frente, sin fondo, alto contraste, contorno grueso, azul plano para el agua.',
-        tts_string: 'Esto es el vaso. Di: vaso.',
-        stt_expected_array: ['vaso', 'baso', 'aso', 'bato', 'vato'],
-        parent_tpr_action: 'Acerca el vaso a los labios del niño y bebed a la vez haciendo “glu, glu”.',
+        id: 'comida-sentarse', type: 'verbo', label: 'sentarse', emoji: '🪑', pictogram: 'silla',
+        visual_prompt: 'Silla de madera de frente, sin fondo, alto contraste, contorno grueso.',
+        tts_string: 'Después nos sentamos a la mesa. Di: sentarse.',
+        stt_expected_array: ['sentarse', 'sentar', 'sienta', 'sentase', 'entarse'],
+        parent_tpr_action: 'Sentaos juntos en dos sillas, uno frente al otro.',
       },
       {
-        id: 'comida-comer', type: 'verbo', label: 'comer', emoji: '😋',
-        pictogram: 'comer',
-        visual_prompt: 'Boca abierta recibiendo una cuchara con comida, de perfil simple, sin fondo, alto contraste, contorno grueso.',
-        tts_string: 'Vamos a comer. Di: comer.',
-        stt_expected_array: ['comer', 'come', 'omer', 'tome', 'omé'],
-        parent_tpr_action: 'Frota tu barriga, abre mucho la boca y haz como que masticas exagerando el gesto.',
+        id: 'comida-comer', type: 'verbo', label: 'comer', emoji: '🥄', pictogram: 'comer',
+        visual_prompt: 'Niño comiendo con cuchara, sin fondo, alto contraste, contorno grueso.',
+        tts_string: 'Luego comemos. Di: comer.',
+        stt_expected_array: ['comer', 'come', 'omer', 'comé', 'tomer'],
+        parent_tpr_action: 'Llevad juntos una cuchara imaginaria a la boca.',
       },
       {
-        id: 'comida-beber', type: 'verbo', label: 'beber', emoji: '🥤',
-        pictogram: 'vaso',
-        visual_prompt: 'Silueta infantil bebiendo de un vaso inclinado, sin fondo, alto contraste, contorno grueso.',
-        tts_string: 'Vamos a beber agua. Di: beber.',
-        stt_expected_array: ['beber', 'bebe', 'ebe', 'bebé', 'meme'],
-        parent_tpr_action: 'Inclina un vaso vacío sobre tu boca y haz “glu, glu” invitando al niño a imitarte.',
-      },
-      {
-        id: 'comida-rico', type: 'adjetivo', label: 'rico', emoji: '👌',
-        visual_prompt: 'Cara sonriente relamiéndose con la lengua fuera y un corazón pequeño, sin fondo, alto contraste, contorno grueso.',
-        tts_string: 'La comida está rica. Di: rico.',
-        stt_expected_array: ['rico', 'iko', 'rito', 'ico', 'itto'],
-        parent_tpr_action: 'Relámete, frótate la barriga y pon cara de gusto diciendo “¡mmm, rico!” con el niño.',
-      },
-      {
-        id: 'comida-nam', type: 'onomatopeya', label: 'ñam ñam', emoji: '😋',
-        pictogram: 'comer',
-        visual_prompt: 'Boca masticando con migas alrededor y líneas de movimiento, sin fondo, alto contraste, contorno grueso.',
-        tts_string: 'La boca hace ñam, ñam. Di: ñam, ñam.',
-        stt_expected_array: ['ñam ñam', 'ñam', 'nam nam', 'nam', 'am am'],
-        parent_tpr_action: 'Mastica de forma exagerada moviendo mucho la mandíbula y que el niño mastique contigo al decir “¡ñam, ñam!”.',
+        id: 'comida-recoger', type: 'verbo', label: 'recoger', emoji: '🍽️', pictogram: 'plato',
+        visual_prompt: 'Plato vacío con tenedor y cuchara, sin fondo, alto contraste, contorno grueso.',
+        tts_string: 'Al final recogemos el plato. Di: recoger.',
+        stt_expected_array: ['recoger', 'recoge', 'coger', 'ecoger', 'recojer'],
+        parent_tpr_action: 'Llevad juntos un plato (de verdad o imaginario) hasta la cocina.',
       },
     ],
   },
@@ -232,52 +200,35 @@ export const DAILY_SCENARIOS: DailyScenario[] = [
     id: 'parque',
     title: 'En el parque',
     icon: '🌳',
-    subtitle: 'Jugar y moverse al aire libre',
+    subtitle: 'Zapatos, parque, tobogán y a casa',
     items: [
       {
-        id: 'parque-pelota', type: 'sustantivo', label: 'pelota', emoji: '⚽',
-        visual_prompt: 'Pelota redonda de colores planos vista de frente, sin fondo, alto contraste, contorno grueso, sin sombra de suelo.',
-        tts_string: 'Esto es la pelota. Di: pelota.',
-        stt_expected_array: ['pelota', 'peota', 'pota', 'lota', 'peotta'],
-        parent_tpr_action: 'Rueda una pelota real hacia el niño y esperad a que la devuelva antes de repetir la palabra.',
+        id: 'parque-zapatos', type: 'sustantivo', label: 'zapatos', emoji: '👟', pictogram: 'zapato',
+        visual_prompt: 'Zapato infantil de perfil, sin fondo, alto contraste, contorno grueso.',
+        tts_string: 'Primero nos ponemos los zapatos. Di: zapatos.',
+        stt_expected_array: ['zapatos', 'zapato', 'apatos', 'sapatos', 'patos'],
+        parent_tpr_action: 'Señalad los zapatos del niño y tocadlos juntos.',
       },
       {
-        id: 'parque-tobogan', type: 'sustantivo', label: 'tobogán', emoji: '🛝',
-        pictogram: 'tobogan',
-        visual_prompt: 'Tobogán infantil visto de lado con escalera y rampa curva, sin fondo, alto contraste, contorno grueso.',
-        tts_string: 'Esto es el tobogán. Di: tobogán.',
-        stt_expected_array: ['tobogán', 'tobogan', 'togán', 'bogán', 'toto'],
-        parent_tpr_action: 'Desliza la mano del niño por tu brazo inclinado como si fuera la rampa del tobogán.',
+        id: 'parque-parque', type: 'sustantivo', label: 'parque', emoji: '🌳', pictogram: 'arbol',
+        visual_prompt: 'Árbol frondoso, sin fondo, alto contraste, contorno grueso.',
+        tts_string: 'Después vamos al parque. Di: parque.',
+        stt_expected_array: ['parque', 'arque', 'paque', 'parke', 'pake'],
+        parent_tpr_action: 'Caminad juntos unos pasos por la habitación hacia «el parque».',
       },
       {
-        id: 'parque-correr', type: 'verbo', label: 'correr', emoji: '🏃',
-        pictogram: 'correr',
-        visual_prompt: 'Silueta infantil corriendo con líneas de velocidad detrás, sin fondo, alto contraste, contorno grueso.',
-        tts_string: 'En el parque vamos a correr. Di: correr.',
-        stt_expected_array: ['correr', 'corre', 'ore', 'coé', 'totté'],
-        parent_tpr_action: 'Corre en el sitio moviendo mucho los brazos y anima al niño a correr contigo unos pasos.',
+        id: 'parque-tobogan', type: 'sustantivo', label: 'tobogán', emoji: '🛝', pictogram: 'tobogan',
+        visual_prompt: 'Tobogán infantil de perfil, sin fondo, alto contraste, contorno grueso.',
+        tts_string: 'Luego bajamos por el tobogán. Di: tobogán.',
+        stt_expected_array: ['tobogán', 'tobogan', 'bogán', 'obogán', 'togán'],
+        parent_tpr_action: 'Haced juntos el gesto de deslizaros con los brazos en alto.',
       },
       {
-        id: 'parque-saltar', type: 'verbo', label: 'saltar', emoji: '🤸',
-        pictogram: 'saltar',
-        visual_prompt: 'Silueta infantil saltando con los pies despegados del suelo y una curva de salto, sin fondo, alto contraste, contorno grueso.',
-        tts_string: 'Saltamos como una rana. Di: saltar.',
-        stt_expected_array: ['saltar', 'salta', 'ata', 'talta', 'atá'],
-        parent_tpr_action: 'Salta con los dos pies juntos diciendo “¡salta!” en cada bote y que el niño salte contigo.',
-      },
-      {
-        id: 'parque-alto', type: 'adjetivo', label: 'alto', emoji: '🦒',
-        visual_prompt: 'Flecha grande apuntando hacia arriba junto a una silueta estirada de puntillas, sin fondo, alto contraste, contorno grueso.',
-        tts_string: 'El columpio sube muy alto. Di: alto.',
-        stt_expected_array: ['alto', 'ato', 'atto', 'álto', 'auto'],
-        parent_tpr_action: 'Estírate de puntillas con los brazos hacia el cielo y levanta al niño en brazos diciendo “¡alto!”.',
-      },
-      {
-        id: 'parque-boing', type: 'onomatopeya', label: 'boing', emoji: '⚽',
-        visual_prompt: 'Pelota rebotando con dos siluetas fantasma y flechas curvas de rebote, sin fondo, alto contraste, contorno grueso.',
-        tts_string: 'La pelota hace boing. Di: boing.',
-        stt_expected_array: ['boing', 'boin', 'boi', 'bo bo', 'boing boing'],
-        parent_tpr_action: 'Bota una pelota (o tú mismo con las rodillas) diciendo “¡boing!” en cada rebote junto al niño.',
+        id: 'parque-casa', type: 'sustantivo', label: 'casa', emoji: '🏠', pictogram: 'casa',
+        visual_prompt: 'Casa sencilla con tejado y puerta, sin fondo, alto contraste, contorno grueso.',
+        tts_string: 'Al final volvemos a casa. Di: casa.',
+        stt_expected_array: ['casa', 'asa', 'tasa', 'cada', 'caza'],
+        parent_tpr_action: 'Juntad las manos sobre la cabeza formando un tejado.',
       },
     ],
   },
@@ -285,52 +236,35 @@ export const DAILY_SCENARIOS: DailyScenario[] = [
     id: 'bano',
     title: 'Hora del baño',
     icon: '🛁',
-    subtitle: 'Agua, jabón y burbujas',
+    subtitle: 'Bañera, jabón, agua y toalla',
     items: [
       {
-        id: 'bano-banera', type: 'sustantivo', label: 'bañera', emoji: '🛁',
-        visual_prompt: 'Bañera con patas vista de lado con algo de espuma asomando, sin fondo, alto contraste, contorno grueso, colores planos.',
-        tts_string: 'Esto es la bañera. Di: bañera.',
-        stt_expected_array: ['bañera', 'añera', 'banera', 'ñera', 'babera'],
-        parent_tpr_action: 'Señala la bañera (o un barreño) y haced juntos el gesto de meteros dentro levantando mucho las piernas.',
+        id: 'bano-banera', type: 'sustantivo', label: 'bañera', emoji: '🛁', pictogram: 'banera',
+        visual_prompt: 'Bañera con patas y agua, sin fondo, alto contraste, contorno grueso.',
+        tts_string: 'Primero nos metemos en la bañera. Di: bañera.',
+        stt_expected_array: ['bañera', 'banera', 'añera', 'bañea', 'bañela'],
+        parent_tpr_action: 'Levantad juntos una pierna como si entrarais en la bañera.',
       },
       {
-        id: 'bano-jabon', type: 'sustantivo', label: 'jabón', emoji: '🧼',
-        pictogram: 'jabon',
-        visual_prompt: 'Pastilla de jabón con tres burbujas alrededor, sin fondo, alto contraste, contorno grueso, colores planos.',
-        tts_string: 'Esto es el jabón. Di: jabón.',
-        stt_expected_array: ['jabón', 'jabon', 'abón', 'avon', 'bon'],
-        parent_tpr_action: 'Pon la pastilla de jabón en las manos del niño y giradla juntos haciendo espuma imaginaria.',
+        id: 'bano-jabon', type: 'sustantivo', label: 'jabón', emoji: '🧽', pictogram: 'esponja',
+        visual_prompt: 'Esponja amarilla con espuma, sin fondo, alto contraste, contorno grueso.',
+        tts_string: 'Después nos enjabonamos. Di: jabón.',
+        stt_expected_array: ['jabón', 'jabon', 'abón', 'habón', 'jabó'],
+        parent_tpr_action: 'Frotad los brazos del niño con una esponja imaginaria.',
       },
       {
-        id: 'bano-banar', type: 'verbo', label: 'bañar', emoji: '🛀',
-        pictogram: 'banar',
-        visual_prompt: 'Silueta infantil dentro de una bañera con burbujas, sin fondo, alto contraste, contorno grueso.',
-        tts_string: 'Vamos a bañar al muñeco. Di: bañar.',
-        stt_expected_array: ['bañar', 'baña', 'añar', 'bana', 'añá'],
-        parent_tpr_action: 'Frota suavemente los brazos del niño como si lo enjabonaras mientras repetís “bañar”.',
+        id: 'bano-agua', type: 'sustantivo', label: 'agua', emoji: '💧', pictogram: 'gota',
+        visual_prompt: 'Gota de agua azul, sin fondo, alto contraste, contorno grueso.',
+        tts_string: 'Luego nos aclaramos con agua. Di: agua.',
+        stt_expected_array: ['agua', 'aua', 'awa', 'gua', 'agüa'],
+        parent_tpr_action: 'Dejad caer los dedos sobre la cabeza del niño como gotas.',
       },
       {
-        id: 'bano-frotar', type: 'verbo', label: 'frotar', emoji: '🧽',
-        pictogram: 'esponja',
-        visual_prompt: 'Esponja frotando con líneas circulares de movimiento y burbujas, sin fondo, alto contraste, contorno grueso.',
-        tts_string: 'Pasamos la esponja por el brazo. Di: frotar.',
-        stt_expected_array: ['frotar', 'frota', 'otar', 'fota', 'otá'],
-        parent_tpr_action: 'Frota círculos suaves en la espalda del niño con la mano o una esponja al ritmo de la palabra.',
-      },
-      {
-        id: 'bano-caliente', type: 'adjetivo', label: 'caliente', emoji: '♨️',
-        visual_prompt: 'Vaso o bañera con tres líneas onduladas de vapor subiendo, sin fondo, alto contraste, contorno grueso.',
-        tts_string: 'El agua está calentita. Di: caliente.',
-        stt_expected_array: ['caliente', 'aliente', 'caiente', 'tatiente', 'cayente'],
-        parent_tpr_action: 'Tocad el agua templada con un dedo y abanicad la mano exagerando: “¡uf, caliente!”.',
-      },
-      {
-        id: 'bano-chof', type: 'onomatopeya', label: 'chof', emoji: '💦',
-        visual_prompt: 'Salpicadura de agua en estrella con gotas saliendo hacia fuera, sin fondo, alto contraste, contorno grueso.',
-        tts_string: 'El agua hace chof. Di: chof.',
-        stt_expected_array: ['chof', 'chof chof', 'of', 'tof', 'pof'],
-        parent_tpr_action: 'Dad palmaditas sobre el agua (o sobre el muslo) diciendo “¡chof!” en cada palmada.',
+        id: 'bano-toalla', type: 'sustantivo', label: 'toalla', emoji: '🧺', pictogram: 'toalla',
+        visual_prompt: 'Toalla doblada, sin fondo, alto contraste, contorno grueso.',
+        tts_string: 'Al final nos secamos con la toalla. Di: toalla.',
+        stt_expected_array: ['toalla', 'toaya', 'oalla', 'talla', 'tualla'],
+        parent_tpr_action: 'Envolved al niño en una toalla (o en tus brazos) y secadlo.',
       },
     ],
   },
@@ -338,51 +272,35 @@ export const DAILY_SCENARIOS: DailyScenario[] = [
     id: 'noche',
     title: 'A dormir',
     icon: '🌙',
-    subtitle: 'Cuento, abrazo y a la cama',
+    subtitle: 'Pijama, dientes, cuento y a dormir',
     items: [
       {
-        id: 'noche-luna', type: 'sustantivo', label: 'luna', emoji: '🌙',
-        visual_prompt: 'Luna creciente grande y sonriente con dos estrellas pequeñas, sin fondo, alto contraste, contorno grueso.',
-        tts_string: 'Esto es la luna. Di: luna.',
-        stt_expected_array: ['luna', 'una', 'nuna', 'lula', 'uná'],
-        parent_tpr_action: 'Dibujad juntos un círculo grande en el aire con el dedo mientras decís “luuuna”.',
+        id: 'noche-pijama', type: 'sustantivo', label: 'pijama', emoji: '👕', pictogram: 'pijama',
+        visual_prompt: 'Pijama infantil de dos piezas, sin fondo, alto contraste, contorno grueso.',
+        tts_string: 'Primero nos ponemos el pijama. Di: pijama.',
+        stt_expected_array: ['pijama', 'piyama', 'ijama', 'pihama', 'pajama'],
+        parent_tpr_action: 'Señalad el pijama del niño y tocad los botones juntos.',
       },
       {
-        id: 'noche-cuento', type: 'sustantivo', label: 'cuento', emoji: '📖',
-        visual_prompt: 'Libro abierto con una estrella saliendo de las páginas, sin fondo, alto contraste, contorno grueso.',
-        tts_string: 'Antes de dormir leemos un cuento. Di: cuento.',
-        stt_expected_array: ['cuento', 'uento', 'tuento', 'cueto', 'ento'],
-        parent_tpr_action: 'Coge su cuento favorito, ponlo en sus manos y abridlo juntos muy despacio.',
+        id: 'noche-dientes', type: 'sustantivo', label: 'dientes', emoji: '🪥', pictogram: 'cepillo',
+        visual_prompt: 'Cepillo de dientes con pasta, sin fondo, alto contraste, contorno grueso.',
+        tts_string: 'Después nos lavamos los dientes. Di: dientes.',
+        stt_expected_array: ['dientes', 'diente', 'ientes', 'dentes', 'tientes'],
+        parent_tpr_action: 'Haced juntos el gesto de cepillaros los dientes.',
       },
       {
-        id: 'noche-dormir', type: 'verbo', label: 'dormir', emoji: '😴',
-        pictogram: 'dormir',
-        visual_prompt: 'Carita con ojos cerrados sobre una almohada y tres “Z”, sin fondo, alto contraste, contorno grueso.',
-        tts_string: 'Es la hora de dormir. Di: dormir.',
-        stt_expected_array: ['dormir', 'dormi', 'mimir', 'mimí', 'omir'],
-        parent_tpr_action: 'Junta las manos bajo la mejilla, cerrad los ojos y roncad flojito los dos.',
+        id: 'noche-cuento', type: 'sustantivo', label: 'cuento', emoji: '📖', pictogram: 'libro',
+        visual_prompt: 'Libro de cuentos abierto, sin fondo, alto contraste, contorno grueso.',
+        tts_string: 'Luego leemos un cuento. Di: cuento.',
+        stt_expected_array: ['cuento', 'uento', 'tuento', 'cuenta', 'cueto'],
+        parent_tpr_action: 'Abrid las manos como un libro y pasad una página juntos.',
       },
       {
-        id: 'noche-abrazar', type: 'verbo', label: 'abrazar', emoji: '🤗',
-        pictogram: 'abrazo',
-        visual_prompt: 'Dos siluetas abrazándose con un corazón pequeño encima, sin fondo, alto contraste, contorno grueso.',
-        tts_string: 'Nos damos un abrazo. Di: abrazar.',
-        stt_expected_array: ['abrazar', 'abraza', 'brazar', 'asasar', 'abazar'],
-        parent_tpr_action: 'Daos un abrazo largo de verdad y apretad un poquito justo al decir la palabra.',
-      },
-      {
-        id: 'noche-oscuro', type: 'adjetivo', label: 'oscuro', emoji: '🌑',
-        visual_prompt: 'Ventana de noche con cielo oscuro y una estrella, sin fondo, alto contraste, contorno grueso.',
-        tts_string: 'Todo está oscuro. Di: oscuro.',
-        stt_expected_array: ['oscuro', 'ocuro', 'curo', 'ocú', 'oturo'],
-        parent_tpr_action: 'Tapad los ojos del niño suavemente con sus propias manos y destapad de golpe: “¡oscuro… luz!”.',
-      },
-      {
-        id: 'noche-buho', type: 'onomatopeya', label: 'uh uh', emoji: '🦉',
-        visual_prompt: 'Búho de frente con ojos enormes sobre una rama, sin fondo, alto contraste, contorno grueso.',
-        tts_string: 'El búho hace uh, uh. Di: uh, uh.',
-        stt_expected_array: ['uh uh', 'u u', 'uh', 'bu bu', 'uu'],
-        parent_tpr_action: 'Poned las manos como gafas alrededor de los ojos y girad la cabeza como un búho diciendo “¡uh, uh!”.',
+        id: 'noche-dormir', type: 'verbo', label: 'dormir', emoji: '😴', pictogram: 'dormir',
+        visual_prompt: 'Niño dormido en la almohada, sin fondo, alto contraste, contorno grueso.',
+        tts_string: 'Al final nos vamos a dormir. Di: dormir.',
+        stt_expected_array: ['dormir', 'dormí', 'ormir', 'domir', 'duerme'],
+        parent_tpr_action: 'Apoyad la cabeza en las manos juntas y cerrad los ojos.',
       },
     ],
   },
@@ -1258,7 +1176,20 @@ export interface SemanticSpeechBanks {
   capsules: ContrastCapsule[];
   retry: (label: string) => string; // "¡Otra vez! Di: X." / "Berriro! Esan: X."
   sessionDone: string;               // cierre fijo de la sesión
+  order: RoutineOrderLines;          // ES-07 · consigna y repaso del paso de ordenar
 }
+
+// ES-07 · Las rutinas se ordenan antes de nombrarse. La consigna es la misma en
+// las cinco rutinas de un banco; se locuta y por eso entra en el corpus.
+export interface RoutineOrderLines {
+  prompt: string; // a la niña o al niño: «Vamos a ordenar la rutina…»
+  action: string; // al adulto, tarjeta de acción tras ordenar
+}
+
+export const SEM_ORDER_ES: RoutineOrderLines = {
+  prompt: 'Vamos a ordenar la rutina. ¿Qué hacemos primero?',
+  action: 'Repasad juntos la rutina en voz alta señalando cada dibujo: primero, después, luego y al final.',
+};
 
 // Un "paso" locutable (consigna + palabra objetivo + acción física del adulto),
 // forma común de escenarios, progresiones y contrastes en la pantalla.
@@ -1279,6 +1210,9 @@ export function enumerateSemanticSpeechFor(b: SemanticSpeechBanks): VoiceLine[] 
   for (const sc of b.scenarios) {
     for (const it of sc.items) out.push(...stepLines(it.tts_string, it.label, it.parent_tpr_action, b.retry));
   }
+  // ES-07 · paso de ordenar: consigna al niño y repaso del adulto (tutor).
+  out.push({ style: 'child', text: b.order.prompt });
+  out.push({ style: 'tutor', text: b.order.action });
   // Categorías léxicas (DC-1 opción C): misma forma de paso que los escenarios.
   // Si esto se olvida, las categorías caen a la voz del sistema sin avisar y el
   // gate de cobertura del corpus lo detecta como locuciones sin asset.
@@ -1305,5 +1239,6 @@ export function enumerateSemanticSpeech(): VoiceLine[] {
     capsules: CONTRAST_CAPSULES,
     retry: (label) => `¡Otra vez! Di: ${label}.`,
     sessionDone: '¡Sesión completada! ¡Choca esos cinco!',
+    order: SEM_ORDER_ES,
   });
 }

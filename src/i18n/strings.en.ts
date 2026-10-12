@@ -638,8 +638,16 @@ export const EN: UiStrings = {
     sectionCapsules: 'CONTRAST CAPSULES',
     prescribedCount: (n: number): string => `${n} assigned`,
     goalKicker: 'WHAT THIS WORKS ON',
+    // ES-07 · put-the-routine-in-order step.
+    orderKicker: 'PUT THE ROUTINE IN ORDER',
+    orderPhase: 'Order',
+    orderSuccessTitle: 'Routine in order!',
+    orderInstruction: 'Tap the pictures in order: what comes first?',
+    orderTileA11y: (label: string): string => `Step: ${label}`,
+    orderPlacedA11y: (label: string, n: number): string => `${label}, placed in position ${n}`,
+    routineStep: (n: number, total: number): string => `STEP ${n} OF ${total}`,
     sectionGoal: (section: string): string =>
-      section === 'scenario' ? 'Verbal repetition: the child imitates the target word in everyday situations.'
+      section === 'scenario' ? 'Daily routines: the child puts the four steps of a routine in order, then says each step in turn.'
         : section === 'category' ? 'New vocabulary by field: start with the most familiar words and move to less frequent ones.'
           : section === 'sequence' ? 'Vocabulary around one concept: what it is, what it has, what it does and what it’s like.'
             : 'Opposites: first pick the right picture, then say the word.',
@@ -654,6 +662,7 @@ export const EN: UiStrings = {
           : kind === 'adjetivo' ? 'Adjective'
             : 'Sound word',
     wordCount: (n: number): string => `${n} words`,
+    routineStepCount: (n: number): string => `${n} steps`,
 
     savePrescription: 'Save plan',
     saveHelper: 'Your selection is saved on this device and editing locks again.',

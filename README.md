@@ -1513,6 +1513,23 @@ toque `site/` republica el sitio; también puede lanzarse desde *Actions*.
 ## 🕑 Historial de versiones
 
 <details open>
+<summary><strong>V16</strong> — Expansión Semántica: los escenarios pasan a ser rutinas que se ordenan</summary>
+
+**Lo que se ve:** en Expansión Semántica la primera pestaña se llama **Rutinas**.
+Cada rutina (mañana, comida, parque, baño, noche; en es‑DO, el colmado) son cuatro
+pasos: primero el niño los **ordena** tocando los dibujos y después **dice** cada
+paso en ese orden. Además, 16 pictogramas nuevos.
+
+| Qué | Cambio |
+| --- | --- |
+| **ES‑07 · objetivo del apartado** | ACOPROS no veía el objetivo de los escenarios —seis palabras mixtas «del día a día»— y propuso trabajar las rutinas ordenando secuencias. Ahora es un solo objetivo: ordenar la rutina y nombrar sus pasos. Seis bancos reescritos (es, es‑DO, gl, eu, en, ca). **Es una primera pasada para revisión clínica**: euskera y registro dominicano, por hablante nativo |
+| **Paso de ordenar** | Cuatro fichas barajadas en rejilla 2×2; solo cuenta la que toca, un toque fuera de turno se marca sin deshacer lo hecho. 3★ sin errores, 2★ con uno o dos, 1★ con más. Se registra como comprensión; los pasos dichos, como producción |
+| **Gate R4** | `check-content-rules.js` exige que cada rutina tenga 4 pasos, cada uno con dibujo propio y sin repetir: con emoji o con dos fichas iguales, ordenar es adivinar |
+| **Pictogramas** | 16 nuevos (plato, toalla, pijama, dinero, tienda, funda, gallo, queso, miel, oveja, caracol, llave, playa, fuego, montaña, foca). Fichas sin dibujo propio en Pares Mínimos y Expansión Semántica: 123 → 76 |
+
+</details>
+
+<details>
 <summary><strong>V15</strong> — tercera ronda de ACOPROS: sonidos que se reconocen, pictogramas y dos «sellos» con nombre propio</summary>
 
 **Lo que se ve y se oye:** en Integración Sensorial, seis sonidos nuevos y una
