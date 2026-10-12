@@ -16,22 +16,23 @@
 import {
   DAILY_SCENARIOS, LEXICAL_CATEGORIES, PROGRESSION_SEQUENCES, CONTRAST_CAPSULES,
   DailyScenario, LexicalCategory, ProgressionSequence, ContrastCapsule,
+  RoutineOrderLines, SEM_ORDER_ES,
 } from './valeriaSemanticExpansion';
 import {
   DAILY_SCENARIOS_ESDO, LEXICAL_CATEGORIES_ESDO, PROGRESSION_SEQUENCES_ESDO,
-  CONTRAST_CAPSULES_ESDO,
+  CONTRAST_CAPSULES_ESDO, SEM_ORDER_ESDO,
 } from './valeriaSemanticExpansionEsDO';
 import {
   DAILY_SCENARIOS_EU, LEXICAL_CATEGORIES_EU, PROGRESSION_SEQUENCES_EU,
-  CONTRAST_CAPSULES_EU, SEM_RETRY_EU, SEM_SESSION_DONE_EU,
+  CONTRAST_CAPSULES_EU, SEM_RETRY_EU, SEM_SESSION_DONE_EU, SEM_ORDER_EU,
 } from './valeriaSemanticExpansionEu';
 import {
   DAILY_SCENARIOS_GL, LEXICAL_CATEGORIES_GL, PROGRESSION_SEQUENCES_GL,
-  CONTRAST_CAPSULES_GL, SEM_RETRY_GL, SEM_SESSION_DONE_GL,
+  CONTRAST_CAPSULES_GL, SEM_RETRY_GL, SEM_SESSION_DONE_GL, SEM_ORDER_GL,
 } from './valeriaSemanticExpansionGl';
 import {
   DAILY_SCENARIOS_CA, LEXICAL_CATEGORIES_CA, PROGRESSION_SEQUENCES_CA,
-  CONTRAST_CAPSULES_CA, SEM_RETRY_CA, SEM_SESSION_DONE_CA,
+  CONTRAST_CAPSULES_CA, SEM_RETRY_CA, SEM_SESSION_DONE_CA, SEM_ORDER_CA,
 } from './valeriaSemanticExpansionCa';
 import { Locale } from './valeriaLocale';
 
@@ -43,7 +44,7 @@ const SEM_SESSION_DONE_ES = '¡Sesión completada! ¡Choca esos cinco!';
 
 import {
   DAILY_SCENARIOS_EN, LEXICAL_CATEGORIES_EN, PROGRESSION_SEQUENCES_EN,
-  CONTRAST_CAPSULES_EN, SEM_RETRY_EN, SEM_SESSION_DONE_EN, SEM_ADULT_LABELS_EN,
+  CONTRAST_CAPSULES_EN, SEM_RETRY_EN, SEM_SESSION_DONE_EN, SEM_ORDER_EN, SEM_ADULT_LABELS_EN,
 } from './valeriaSemanticExpansionEn';
 
 export interface SemanticBank {
@@ -53,6 +54,7 @@ export interface SemanticBank {
   capsules: ContrastCapsule[];
   retry: (label: string) => string; // consigna de reintento hablada
   sessionDone: string;              // cierre hablado de la sesión
+  order: RoutineOrderLines;         // ES-07 · consigna y repaso del paso de ordenar
 }
 
 export function semanticForLocale(loc: Locale): SemanticBank {
@@ -64,6 +66,7 @@ export function semanticForLocale(loc: Locale): SemanticBank {
       capsules: CONTRAST_CAPSULES_ESDO,
       retry: SEM_RETRY_ES,
       sessionDone: SEM_SESSION_DONE_ES,
+      order: SEM_ORDER_ESDO,
     };
   }
   if (loc === 'eu') {
@@ -74,6 +77,7 @@ export function semanticForLocale(loc: Locale): SemanticBank {
       capsules: CONTRAST_CAPSULES_EU,
       retry: SEM_RETRY_EU,
       sessionDone: SEM_SESSION_DONE_EU,
+      order: SEM_ORDER_EU,
     };
   }
   if (loc === 'gl') {
@@ -84,6 +88,7 @@ export function semanticForLocale(loc: Locale): SemanticBank {
       capsules: CONTRAST_CAPSULES_GL,
       retry: SEM_RETRY_GL,
       sessionDone: SEM_SESSION_DONE_GL,
+      order: SEM_ORDER_GL,
     };
   }
   if (loc === 'en-US') {
@@ -94,6 +99,7 @@ export function semanticForLocale(loc: Locale): SemanticBank {
       capsules: CONTRAST_CAPSULES_EN,
       retry: SEM_RETRY_EN,
       sessionDone: SEM_SESSION_DONE_EN,
+      order: SEM_ORDER_EN,
     };
   }
   if (loc === 'ca') {
@@ -104,6 +110,7 @@ export function semanticForLocale(loc: Locale): SemanticBank {
       capsules: CONTRAST_CAPSULES_CA,
       retry: SEM_RETRY_CA,
       sessionDone: SEM_SESSION_DONE_CA,
+      order: SEM_ORDER_CA,
     };
   }
   // Castellano: banco base (Sharvard).
@@ -114,6 +121,7 @@ export function semanticForLocale(loc: Locale): SemanticBank {
     capsules: CONTRAST_CAPSULES,
     retry: SEM_RETRY_ES,
     sessionDone: SEM_SESSION_DONE_ES,
+    order: SEM_ORDER_ES,
   };
 }
 

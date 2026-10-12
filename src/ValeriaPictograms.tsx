@@ -245,6 +245,23 @@ const PICTOGRAMS_BY_KEY: Record<string, Pic> = {
   rata: pixelPic('rata'),
   guagua: pixelPic('guagua'),
   hueso: pixelPic('hueso'),
+  // Segunda tanda: rutinas ordenables (ES-07) y fichas que seguían en emoji.
+  plato: pixelPic('plato'),
+  toalla: pixelPic('toalla'),
+  pijama: pixelPic('pijama'),
+  dinero: pixelPic('dinero'),
+  tienda: pixelPic('tienda'),
+  funda: pixelPic('funda'),
+  gallo: pixelPic('gallo'),
+  queso: pixelPic('queso'),
+  miel: pixelPic('miel'),
+  oveja: pixelPic('oveja'),
+  caracol: pixelPic('caracol'),
+  llave: pixelPic('llave'),
+  playa: pixelPic('playa'),
+  fuego: pixelPic('fuego'),
+  montana: pixelPic('montana'),
+  foca: pixelPic('foca'),
 };
 
 // Las ocho heredadas de la V1, que se resolvían por palabra y por emoji.
@@ -348,6 +365,23 @@ const PICTOGRAMS_BY_EMOJI: Record<string, Pic> = {
   '🐀': PICTOGRAMS_BY_KEY['rata'],
   '🚌': PICTOGRAMS_BY_KEY['guagua'],
   '🦴': PICTOGRAMS_BY_KEY['hueso'],
+  // Segunda tanda. Solo emoji SIN otro significado en los bancos: 🧺 o 👕
+  // se usan para objetos distintos según el banco, así que esos pasos de rutina
+  // declaran su clave en el dato en vez de resolverse por emoji.
+  '🐓': PICTOGRAMS_BY_KEY['gallo'],
+  '🧀': PICTOGRAMS_BY_KEY['queso'],
+  '🍯': PICTOGRAMS_BY_KEY['miel'],
+  '🐑': PICTOGRAMS_BY_KEY['oveja'],
+  '🐌': PICTOGRAMS_BY_KEY['caracol'],
+  '🔑': PICTOGRAMS_BY_KEY['llave'],
+  '🏖': PICTOGRAMS_BY_KEY['playa'],
+  '⛰': PICTOGRAMS_BY_KEY['montana'],
+  '🦭': PICTOGRAMS_BY_KEY['foca'],
+  '💵': PICTOGRAMS_BY_KEY['dinero'],
+  '🏪': PICTOGRAMS_BY_KEY['tienda'],
+  '🛍': PICTOGRAMS_BY_KEY['funda'],
+  '🔥': PICTOGRAMS_BY_KEY['fuego'],
+  '🪶': PICTOGRAMS_BY_KEY['pluma'],
 };
 
 const normalizeWord = (w: string): string =>
