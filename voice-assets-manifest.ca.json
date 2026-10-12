@@ -3,8 +3,8 @@
  "voice": "Matxa-TTS \u00b7 projecte AINA (BSC \u00b7 Generalitat de Catalunya)",
  "peakDbfs": -3.0,
  "entries": 873,
- "totalBytes": 18710011,
- "totalSeconds": 3190.0,
+ "totalBytes": 18710806,
+ "totalSeconds": 3190.2,
  "files": [
   {
    "id": "ca_child_5aa4bc5d_46",
@@ -4549,10 +4549,10 @@
    "bytes": 28893
   },
   {
-   "id": "ca_tutor_37c0b944_287",
-   "file": "ca_tutor_37c0b944_287.m4a",
-   "seconds": 18.23,
-   "bytes": 100143
+   "id": "ca_tutor_470bf774_286",
+   "file": "ca_tutor_470bf774_286.m4a",
+   "seconds": 18.03,
+   "bytes": 100155
   },
   {
    "id": "ca_child_45a9bb6f_102",
@@ -5131,10 +5131,10 @@
    "bytes": 19727
   },
   {
-   "id": "ca_child_02534c96_58",
-   "file": "ca_child_02534c96_58.m4a",
-   "seconds": 4.25,
-   "bytes": 26759
+   "id": "ca_child_3d730dfc_66",
+   "file": "ca_child_3d730dfc_66.m4a",
+   "seconds": 4.69,
+   "bytes": 27542
   },
   {
    "id": "ca_child_2c55478b_51",
