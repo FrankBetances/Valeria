@@ -128,7 +128,7 @@ export const TOGETHER_BANK_EU = [
 export const SESSION_CONTINUE_PHRASE_EU = 'Oso ondo! Saioarekin jarraituko dugu!';
 export const ROUTE_DONE_PHRASE_EU = 'Ibilbidea amaituta. Saioarekin jarraituko dugu.';
 export const VOICE_SAMPLE_PHRASE_EU = 'Kaixo! Honela entzungo da nire ahotsa ariketetan. Ondo entzuten da, ezta?';
-export const PAIRS_DONE_PHRASE_EU = 'Pareen saioa amaituta! Jo bostekoa aitarekin!';
+export const PAIRS_DONE_PHRASE_EU = 'Pareen saioa amaituta! Jo bostekoa aitarekin edo amarekin!';
 
 // Frases fijas del overlay de rotación de roles (Pares Mínimos) en euskera.
 export const ROLESWAP_INTRO_EU = 'Rolak aldatzen! Orain umeak agintzen du eta helduak hitz egiten.';

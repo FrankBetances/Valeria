@@ -307,8 +307,8 @@ export const EXERCISE_GL: Record<string, Partial<Exercise>> = {
 
   // ============================ TEA (PRT + TCC) ============================
   tea1: {
-    read: 'Coloca un obxecto moi motivador entre a túa cara e a nena. Agarda 3 segundos ANTES de dar ningunha pista (instigación retardada): o botón do selo desbloquéase só tras esa espera. Preme o Selo Dobre UNICAMENTE cando haxa contacto visual real contigo, non co obxecto.',
-    instrHint: 'Triangula a atención: obxecto → a túa mirada → a nena. O selo retense ata o contacto visual real; a espera de 3 s é a instigación retardada (Time Delay).',
+    read: 'Coloca un obxecto moi motivador entre a túa cara e a nena. Agarda 3 segundos ANTES de dar ningunha pista (instigación retardada): o botón «Dar punto de mirada» desbloquéase só tras esa espera. Prémeo UNICAMENTE cando haxa contacto visual real contigo, non co obxecto.',
+    instrHint: 'Triangula a atención: obxecto → a túa mirada → a nena. O punto de mirada retense ata o contacto visual real; a espera de 3 s é a instigación retardada (Time Delay).',
     move: 'Esconde o obxecto tras as costas e camiña amodo: que che busque a mirada antes de amosarllo.',
     ept: ['Aínda non alterna a mirada entre o obxecto e a túa cara, nin con espera.', 'Mírate se retés o obxecto xunto á túa cara e lle dás unha pista.', 'Alterna a mirada obxecto→ti ela soa, dentro da espera de 3 segundos.'],
   },

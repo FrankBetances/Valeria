@@ -50,7 +50,10 @@ export type BlockIconName =
   // Grafomotricidad y Escritura: lápiz y borrador
   | 'pencil' | 'eraser'
   // Aventuras con Lúa: mascota Lúa, cuentos, canciones e imprimibles
-  | 'lua' | 'story' | 'song' | 'printable' | 'award' | 'game';
+  | 'lua' | 'story' | 'song' | 'printable' | 'award' | 'game'
+  // Los dos «sellos», que eran un mismo 🤝 para dos cosas distintas (ACOPROS,
+  // PM-06): manos juntas para cerrar el ensayo y punto por contacto visual.
+  | 'handsTogether' | 'eyeContact';
 
 interface Props { name: BlockIconName; color: string; size?: number; }
 
@@ -641,6 +644,31 @@ export const BlockIcon: React.FC<Props> = ({ name, color, size = 26 }) => {
           <Path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" {...common} />
           <Rect x="6" y="14" width="12" height="8" rx="1" {...common} />
           <Path d="M9 18h6" {...common} />
+        </>
+      )}
+
+      {/* Manos juntas · dos palmas abiertas que se tocan: adulto y niño
+          cierran juntos el ensayo de Pares Mínimos. */}
+      {name === 'handsTogether' && (
+        <>
+          <Path d="M3.6 13.4V7.6a1.5 1.5 0 0 1 3 0v4" {...common} />
+          <Path d="M6.6 11.2V5.4a1.5 1.5 0 0 1 3 0v6.4" {...common} />
+          <Path d="M9.6 11.6V8.6a1.4 1.4 0 0 1 2.4-1v7.6a5 5 0 0 1-5 5H6.8a3.2 3.2 0 0 1-3.2-3.2v-3.6" {...common} />
+          <Path d="M20.4 13.4V7.6a1.5 1.5 0 0 0-3 0v4" {...common} />
+          <Path d="M17.4 11.2V5.4a1.5 1.5 0 0 0-3 0v6.4" {...common} />
+          <Path d="M14.4 11.6V8.6a1.4 1.4 0 0 0-2.4-1v7.6a5 5 0 0 0 5 5h.2a3.2 3.2 0 0 0 3.2-3.2v-3.6" {...common} />
+        </>
+      )}
+
+      {/* Punto de mirada · ojo que recibe la atención (tres rayos encima):
+          el adulto lo da solo cuando el niño le mira a él, no al objeto. */}
+      {name === 'eyeContact' && (
+        <>
+          <Path d="M2.8 14s3.4-6 9.2-6 9.2 6 9.2 6-3.4 6-9.2 6-9.2-6-9.2-6z" {...common} />
+          <Circle cx="12" cy="14" r="2.6" {...common} />
+          <Path d="M12 2.6v2.4" {...common} />
+          <Path d="M6.2 4.4l1.3 2" {...common} />
+          <Path d="M17.8 4.4l-1.3 2" {...common} />
         </>
       )}
     </Svg>

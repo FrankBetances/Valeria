@@ -3,8 +3,8 @@
  "voice": "AhoTTS euskera \u00abMaider\u00bb \u00b7 HiTZ/Aholab (ILENIA/NEL-GAITU, CC BY 4.0)",
  "peakDbfs": -3.0,
  "entries": 762,
- "totalBytes": 17177190,
- "totalSeconds": 3328.6,
+ "totalBytes": 17181658,
+ "totalSeconds": 3329.5,
  "files": [
   {
    "id": "eu_child_536bf7c0_40",
@@ -247,10 +247,10 @@
    "bytes": 22541
   },
   {
-   "id": "eu_child_e32d116a_45",
-   "file": "eu_child_e32d116a_45.m4a",
-   "seconds": 3.64,
-   "bytes": 19933
+   "id": "eu_child_1dcbfe48_58",
+   "file": "eu_child_1dcbfe48_58.m4a",
+   "seconds": 4.53,
+   "bytes": 24401
   },
   {
    "id": "eu_child_aefcfbce_64",

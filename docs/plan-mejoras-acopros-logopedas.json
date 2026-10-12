@@ -4,7 +4,7 @@
   "version": "2.0.0",
   "titulo": "Plan de revisión · Feedback clínico de las logopedas de ACOPROS (julio y agosto 2026)",
   "fecha": "2026-07-24",
-  "estado": "primera ronda (julio) completada y validada · SEGUNDA RONDA (2026-08-04) implementada, pendiente de validación en dispositivo",
+  "estado": "primera ronda (julio) completada y validada · SEGUNDA RONDA (2026-08-04) implementada, pendiente de validación en dispositivo · TERCERA RONDA (correo del 2026-10-11) implementada el 2026-10-12 salvo ES-07 (entrega aparte); pendiente de escucha y de prueba en aparato",
   "descripcion": "Convierte el feedback cualitativo de las logopedas de ACOPROS sobre Pares Mínimos, Expansión Semántica y recordatorios en un backlog trazable: cada observación se verifica contra el código real del repositorio, se propone un cambio concreto con sus ficheros, se marca si requiere una decisión clínica previa y se cierra con criterios de aceptación comprobables en dispositivo.",
   "origen": {
     "fuente": "Correo de las logopedas de ACOPROS tras la prueba de la app",
@@ -1965,5 +1965,150 @@
       "ABIERTO · Probar RA-1 sin frase portadora y decidir si hace falta un portador corto y fijo.",
       "ABIERTO · PM-07: dibujar los ~30 pictogramas que faltan, por tandas y con revisión humana."
     ]
+  },
+  "terceraRonda": {
+    "fecha": "2026-10-11",
+    "origen": "Tercer correo de las logopedas de ACOPROS, recibido por Frank el 2026-10-11. Revisa Integración Sensorial (por primera vez), Pares Mínimos y Expansión Semántica.",
+    "hallazgoPrevio": {
+      "titulo": "LAS SEIS OBSERVACIONES DE PARES MÍNIMOS Y EXPANSIÓN SEMÁNTICA YA ESTÁN EN ESTE BACKLOG",
+      "evidencia": "PM-02, PM-06, ES-03, ES-07 y ES-09 figuran como hechos; PM-07 sigue abierto. El correo no dice con qué build probaron.",
+      "consecuencia": "Antes de tocar código hay que preguntar a ACOPROS el número de build. Si es anterior a los arreglos, los ítems siguen cerrados. Si es posterior, el arreglo no llega al aparato y se reabre como defecto, no como contenido nuevo.",
+      "estado": "CERRADO SIN RESPUESTA · ACOPROS no sabe con qué build probó (Frank, 2026-10-11). Se revisa el código de main (42b80e2) observación por observación: ver revisionEnCodigo."
+    },
+    "reaperturasPosibles": [
+      {
+        "id": "PM-02",
+        "observacion": "En algunos ejercicios se usan frases demasiado largas cuando solo se pide una palabra.",
+        "estadoPrevio": "hecho (fase 3)",
+        "queFalta": "Build y ejercicio concreto donde lo ven."
+      },
+      {
+        "id": "PM-06",
+        "observacion": "No queda clara la finalidad del icono del sello.",
+        "estadoPrevio": "hecho (2.ª ronda)",
+        "queFalta": "La explicación añadida en agosto no basta. Si se confirma con el build actual, rediseñar cómo se presenta, no añadir texto."
+      },
+      {
+        "id": "PM-07",
+        "observacion": "Sustituir emojis por pictogramas.",
+        "estadoPrevio": "ABIERTO · medido, no ejecutado",
+        "queFalta": "Lo mismo que ya estaba: dibujar los ~30 pictogramas que faltan, por tandas y con revisión humana."
+      },
+      {
+        "id": "ES-03",
+        "observacion": "Con «audios y grabación automáticos» activado no se oye nada; piden que el usuario inicie audio y grabación con un botón de Play.",
+        "estadoPrevio": "hecho (fase 1)",
+        "queFalta": "El síntoma «activado y no se oye» es NUEVO: ES-03 trataba el arranque automático, no el silencio. Reproducir en aparato antes de tratarlo como duplicado.",
+        "sintomaNuevo": true
+      },
+      {
+        "id": "ES-07",
+        "observacion": "No queda claro el objetivo del apartado; las rutinas se trabajarían mejor ordenando secuencias (mañana, comida, higiene).",
+        "estadoPrevio": "hecho (fase 3)",
+        "queFalta": "El objetivo fijado no se percibe en pantalla. Las secuencias de rutina son contenido nuevo y requieren decisión clínica."
+      },
+      {
+        "id": "ES-09",
+        "observacion": "Usar pictogramas para una representación más clara, accesible e inclusiva.",
+        "estadoPrevio": "hecho (fase 3)",
+        "queFalta": "Saber en qué pantalla siguen viendo emoji o imágenes ambiguas."
+      }
+    ],
+    "itemsNuevos": [
+      {
+        "id": "SEN-01",
+        "bloque": "Integración Sensorial",
+        "observacion": "Poder escuchar todos los sonidos de un mismo apartado sin volver a entrar en cada uno ni repetir la configuración del ejercicio.",
+        "estado": "hecho · pendiente de prueba en aparato",
+        "nota": "Reproducción en serie dentro del bloque (src/ValeriaSensory/). Cambio de flujo, no de contenido.",
+        "implementacion": "Escucha previa para el adulto en la lista del bloque (src/ValeriaSensory/SensoryPreviewCard.tsx): los once sonidos a nivel 2, 4 s cada uno, sin sesión ni registro. Fuera de la exposición a propósito."
+      },
+      {
+        "id": "SEN-02",
+        "bloque": "Integración Sensorial",
+        "observacion": "Los sonidos suenan muy parecidos y no se corresponden con lo indicado (la aspiradora parece una moto o un coche). Piden sonidos más familiares y más distintos entre sí.",
+        "estado": "hecho · PENDIENTE DE ESCUCHA por Frank y ACOPROS",
+        "nota": "HECHO: los once estímulos son sintéticos (scripts/generate-sensory-assets.js), elegidos por procedencia MDR, licencia y reproducibilidad, y normalizados a la misma sonoridad (-20 dBFS RMS). check-sensory-assets.js comprueba el reparto espectral, pero no si a un oído le suena a aspiradora. INFERENCIA: es el límite de la síntesis, no un fichero mal subido. DECISIÓN DE FRANK: grabaciones reales con licencia y procedencia documentadas, o rehacer la síntesis. Cualquier cambio de WAV obliga a revisar los umbrales de check-sensory-assets.js.",
+        "decision": "Rehacer la síntesis, manteniendo la procedencia propia (sin grabaciones de terceros). Requisitos: cada sonido reconocible y distinto de los demás; validación de oído por Frank y por ACOPROS antes de publicar, porque check-sensory-assets.js no puede comprobar el reconocimiento; ajustar los umbrales espectrales del gate a los sonidos nuevos en el mismo cambio.",
+        "implementacion": "Síntesis rehecha de aspiradora, licuadora, secador de pelo, secador de manos, pirotecnia y timbre (scripts/generate-sensory-assets.js). Frecuencias base del catálogo actualizadas y rangos del gate ajustados; los dos secadores ya no solapan en centroide. Distancia espectral y de modulación entre los ocho aislados: el par más parecido pasa de 0,97 (secador de pelo ↔ secador de manos) a 2,61. Es una medida, no una escucha."
+      },
+      {
+        "id": "SEN-03",
+        "bloque": "Integración Sensorial",
+        "observacion": "El desarrollo de todos los apartados es igual; dudan de si no están actualizados, hay un fallo o no lo están entendiendo.",
+        "estado": "hecho · pendiente de prueba en aparato",
+        "nota": "Preguntar a ACOPROS junto con el número de build. Si es comprensión, falta explicar la progresión del bloque antes de empezar (mismo patrón que ES-11).",
+        "implementacion": "Tarjeta «Punto de partida» en la preparación de cada actividad (objetivo, sonido, intensidad, turno, quién arranca) y aviso de que las seis comparten pantalla. ISA-06 tenía la misma configuración de partida que ISA-05: ahora arranca con el centro comercial."
+      }
+    ],
+    "relacionConOtrosPlanes": "Las observaciones que afectan al diseño de contenido nuevo (arranque por el usuario, longitud de la respuesta modelada, pictogramas, objetivo visible, navegación sin reconfigurar, rutinas como secuencias) se aplican desde el principio a «Juega en casa con Lúa»: docs/plan-integracion-juega-con-lua-asha.md, paso 3b.",
+    "pendienteHumano": [
+      "ABIERTO · Escuchar los seis sonidos sensoriales nuevos (SEN-02). Ningún script puede decir si suenan a lo que son.",
+      "ABIERTO · Ver en un Android: escucha previa, tarjeta de punto de partida, manos juntas, punto de mirada y filas de Expansión Semántica con pictogramas. Solo hay capturas de web.",
+      "ABIERTO · ES-07: diseñar con ACOPROS las secuencias de rutina (entrega aparte).",
+      "ABIERTO · PM-07 · ES-09: 87 conceptos sin dibujo propio, por tandas."
+    ],
+    "revisionEnCodigo": {
+      "fecha": "2026-10-11",
+      "base": "main en 42b80e2. Revisión leyendo el código, NO en aparato: lo que aquí dice «confirmado» está confirmado en el fuente, no visto en pantalla.",
+      "resultados": [
+        {
+          "id": "PM-02",
+          "veredicto": "resuelto en el flujo principal",
+          "evidencia": "Todos los ensayos usan «Esta es X. Y esta es Y. Di: X.» (trialPrompt en src/ValeriaMinimalPairsScreen.tsx, pairIntro en src/valeriaPairSpeech.ts). Las consignas `prompt` de los seis bancos son «Di: palabra.»; la frase portadora está retirada del flujo.",
+          "queFalta": "Si lo siguen viendo, son otros momentos del ejercicio (cambio de rol «¡Ahora mandas tú!», cápsula TPR) o un build antiguo. Hace falta un ejemplo concreto."
+        },
+        {
+          "id": "PM-06",
+          "veredicto": "la explicación existe; hay una causa probable de confusión",
+          "evidencia": "sealWhy se muestra bajo el sello (strings.es pairs.sealWhy). Pero hay DOS mecánicas distintas con el mismo nombre y el mismo icono 🤝: en Pares Mínimos el «sello doble» son dos manos para cerrar el intento, y en el reproductor de ejercicios (ValeriaExercisePlayerScreen.tsx) el «SELLO DOBLE · INSTIGACIÓN RETARDADA» es un botón que el adulto pulsa tras una espera cuando hay contacto visual.",
+          "queFalta": "Inferencia: el mismo nombre para dos funciones distintas explica que no se entienda. Propuesta: nombres distintos y un icono propio en vez del emoji 🤝. Decide Frank."
+        },
+        {
+          "id": "PM-07",
+          "veredicto": "sigue abierto, por diseño",
+          "evidencia": "Fuera de las cápsulas de contraste la caída a emoji es el comportamiento previsto mientras el banco propio se completa (cabecera de scripts/check-pictogram-coverage.js). La medición de agosto (45 de 70 palabras caen a emoji) no se ha repetido.",
+          "queFalta": "Dibujar los pictogramas que faltan, por tandas y con revisión humana."
+        },
+        {
+          "id": "ES-03",
+          "veredicto": "DEFECTO CONFIRMADO EN EL CÓDIGO: la etiqueta promete algo que el interruptor no hace",
+          "evidencia": "En Expansión Semántica el interruptor se llama «Audio y grabación automáticos» (strings.es semantic.autoRecord), pero solo controla la grabación: la consigna suena únicamente desde el botón ▶ (sayStep solo se llama desde ese botón, src/ValeriaSemanticExpansionScreen.tsx:979). Con el interruptor activado, el audio sigue sin sonar solo. Es exactamente lo que describe ACOPROS.",
+          "queFalta": "Lo que ACOPROS pide (que el usuario inicie con Play) ya es el comportamiento por defecto. La corrección mínima es que la etiqueta diga lo que hace («Grabación automática tras la consigna», como en Pares Mínimos), en los cuatro idiomas de interfaz. No implementado: decide Frank."
+        },
+        {
+          "id": "ES-07",
+          "veredicto": "el objetivo se muestra, pero choca con el contenido",
+          "evidencia": "La tarjeta «QUÉ SE TRABAJA AQUÍ» existe (semantic.sectionGoal). Para Escenarios dice «Repetición verbal: el niño imita la palabra objetivo en situaciones del día a día»: el objetivo es repetir, pero el contenido son rutinas, y eso es lo que ACOPROS percibe.",
+          "queFalta": "Decisión clínica: o Escenarios pasa a ser secuencias de rutina ordenables (lo que propone ACOPROS, y la propuesta original de ES-07 ya preveía extraer la ordenación de MS-3), o se deja como repetición y se quita el marco de rutina."
+        },
+        {
+          "id": "ES-09",
+          "veredicto": "cobertura parcial, por diseño",
+          "evidencia": "LexicalItem tiene `pictogram` opcional con caída a `emoji` (src/valeriaSemanticExpansion.ts:77-78). Solo las cápsulas de contraste están obligadas a tener pictograma.",
+          "queFalta": "Igual que PM-07: completar el banco de pictogramas por tandas."
+        },
+        {
+          "id": "SEN-01",
+          "veredicto": "confirmado en el código",
+          "evidencia": "El sonido se elige en la preparación (SensoryExerciseScreen.tsx:341) y la sesión expone a uno solo. Para oír otro hay que salir y volver a configurar.",
+          "queFalta": "Matiz clínico: exponer a un niño con hiperreactividad a una tanda seguida de sonidos va contra la desensibilización gradual. La petición encaja como un modo de ESCUCHA PREVIA para el adulto (oír los once sin iniciar sesión), no como reproducción en serie dentro de la exposición."
+        },
+        {
+          "id": "SEN-03",
+          "veredicto": "confirmado en el código, por diseño",
+          "evidencia": "Las seis actividades ISA comparten el mismo reproductor y solo cambian la configuración de partida: categoría, sonido, intensidad, duración y modo (sensoryTypes.ts, comentario de defaultConfig).",
+          "queFalta": "Explicar al adulto, antes de empezar, en qué se diferencia cada actividad, o diferenciar el desarrollo de verdad. Decisión clínica."
+        }
+      ]
+    },
+    "implementacion": {
+      "fecha": "2026-10-12",
+      "PM-06": "Hecho. «Manos juntas» (Pares Mínimos) y «Punto de mirada» (TEA-1), con iconos propios handsTogether y eyeContact en ValeriaBlockIcons.tsx, en es/gl/ca/en y en las consignas de TEA-1 de los cuatro bancos.",
+      "ES-03": "Hecho. La etiqueta del interruptor dice ahora lo que hace (grabación automática tras la consigna) en los cuatro idiomas de interfaz.",
+      "PM-07 · ES-09": "Parcial. 28 pictogramas nuevos (PICTO_KEYS 120-147, añadidos al final) y enlace por emoji a los dibujos que ya existían. Fichas sin dibujo propio en Pares Mínimos y Expansión Semántica, todos los bancos: de 455 a 123 (PM 97→52, ES 358→71). Quedan 87 conceptos, casi todos de una sola ficha. Las filas de la lista de Expansión Semántica pasan por la misma ficha.",
+      "PM-05 (ronda 2)": "La frase de fin de Pares Mínimos decía «¡Choca esos cinco con papá!». Ahora «con quien te acompaña» (es/gl/ca) y «aitarekin edo amarekin» (eu). Texto locutado: corpus exportado.",
+      "ES-07": "No implementado: secuencias de rutina en Escenarios, entrega aparte por decisión de Frank (2026-10-12)."
+    }
   }
 }

@@ -283,6 +283,23 @@ export const SensoryExerciseScreen: React.FC<{ navigation: any; route: any }> = 
         </View>
 
         <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
+          {/* SEN-03 · ACOPROS veía las seis actividades iguales porque comparten
+              esta pantalla. Se dice, y se enseña con qué arranca ESTA. */}
+          <View style={s.startCard}>
+            <Text style={s.startKicker}>{t.sensory.startingPointKicker}</Text>
+            <Text style={s.startGoal}>{String((t.sensory as any)[activity.descKey] ?? '')}</Text>
+            <Text style={s.startLine}>{t.sensory.startSound(getTriggerLabel(activity.defaultConfig.triggerId, locale))}</Text>
+            <Text style={s.startLine}>{t.sensory.startIntensity(activity.defaultConfig.relativeIntensity)}</Text>
+            <Text style={s.startLine}>{t.sensory.startDuration(
+              activity.defaultConfig.durationTier === 'micro' ? t.sensory.tierMicro
+                : activity.defaultConfig.durationTier === 'short' ? t.sensory.tierShort : t.sensory.tierMedium,
+            )}</Text>
+            <Text style={s.startLine}>
+              {activity.defaultConfig.agencyMode === 'child_tap' ? t.sensory.agencyChild : t.sensory.agencyAuto}
+            </Text>
+            <Text style={s.startNote}>{t.sensory.sharedScreenNote}</Text>
+          </View>
+
           {/* Filtro por Categoría */}
           <Text style={s.sectionLabel}>{t.sensory.selectCategoryLabel}</Text>
           <ScrollView
@@ -730,6 +747,11 @@ export const SensoryExerciseScreen: React.FC<{ navigation: any; route: any }> = 
 };
 
 const s = StyleSheet.create({
+  startCard: { backgroundColor: '#f0fdf9', borderWidth: 1.5, borderColor: '#b8eee9', borderRadius: 16, padding: 14, marginBottom: 14 },
+  startKicker: { fontSize: 11, fontWeight: '800', letterSpacing: 0.6, color: V.color.primaryDark },
+  startGoal: { fontSize: 14, fontWeight: '800', color: V.color.textPrimary, marginTop: 6, marginBottom: 6, lineHeight: 19 },
+  startLine: { fontSize: 13, fontWeight: '600', color: V.color.textSecondary, lineHeight: 19 },
+  startNote: { fontSize: 11.5, fontWeight: '600', color: V.color.textMuted, lineHeight: 16, marginTop: 8 },
   flex: { flex: 1, backgroundColor: V.color.pageBg },
   centerContainer: { justifyContent: 'center', alignItems: 'center', padding: 20 },
   header: {

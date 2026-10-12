@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-09-21T15:32:48.252Z",
+ "generatedAt": "2026-10-12T06:21:57.492Z",
  "entries": 5344,
  "byStyle": {
   "child": 3350,
@@ -5656,10 +5656,10 @@
    "source": "ejercicios"
   },
   {
-   "id": "tutor_ba322236_272",
+   "id": "tutor_3a893f56_271",
    "lang": "es",
    "style": "tutor",
-   "text": "Coloca un objeto muy motivador entre tu cara y el niño. Espera 3 segundos ANTES de dar ninguna pista (instigación retardada): el botón del sello se desbloquea solo tras esa espera. Pulsa el Sello Doble ÚNICAMENTE cuando haya contacto visual real contigo, no con el objeto.",
+   "text": "Coloca un objeto muy motivador entre tu cara y el niño. Espera 3 segundos ANTES de dar ninguna pista (instigación retardada): el botón «Dar punto de mirada» se desbloquea solo tras esa espera. Púlsalo ÚNICAMENTE cuando haya contacto visual real contigo, no con el objeto.",
    "source": "ejercicios"
   },
   {
@@ -10829,10 +10829,10 @@
    "source": "pares/roleswap"
   },
   {
-   "id": "gl_child_2144b6f6_54",
+   "id": "gl_child_573039ad_66",
    "lang": "gl",
    "style": "child",
-   "text": "Sesión de pares completada! Choca eses cinco con papá!",
+   "text": "Sesión de pares completada! Choca eses cinco con quen te acompaña!",
    "source": "pares/fin"
   },
   {
@@ -19523,10 +19523,10 @@
    "source": "ejercicios"
   },
   {
-   "id": "gl_tutor_b04e7943_265",
+   "id": "gl_tutor_58e88e2e_267",
    "lang": "gl",
    "style": "tutor",
-   "text": "Coloca un obxecto moi motivador entre a túa cara e a nena. Agarda 3 segundos ANTES de dar ningunha pista (instigación retardada): o botón do selo desbloquéase só tras esa espera. Preme o Selo Dobre UNICAMENTE cando haxa contacto visual real contigo, non co obxecto.",
+   "text": "Coloca un obxecto moi motivador entre a túa cara e a nena. Agarda 3 segundos ANTES de dar ningunha pista (instigación retardada): o botón «Dar punto de mirada» desbloquéase só tras esa espera. Prémeo UNICAMENTE cando haxa contacto visual real contigo, non co obxecto.",
    "source": "ejercicios"
   },
   {
@@ -20349,10 +20349,10 @@
    "source": "pares/roleswap"
   },
   {
-   "id": "eu_child_e32d116a_45",
+   "id": "eu_child_1dcbfe48_58",
    "lang": "eu",
    "style": "child",
-   "text": "Pareen saioa amaituta! Jo bostekoa aitarekin!",
+   "text": "Pareen saioa amaituta! Jo bostekoa aitarekin edo amarekin!",
    "source": "pares/fin"
   },
   {
@@ -30261,10 +30261,10 @@
    "source": "ejercicios"
   },
   {
-   "id": "en_tutor_ad2a4023_124",
+   "id": "en_tutor_2747ae87_129",
    "lang": "en",
    "style": "tutor",
-   "text": "Hold the toy up next to your own eyes and wait. You are looking for the double seal: your child looks at the toy AND at you.",
+   "text": "Hold the toy up next to your own eyes and wait. You are looking for an eye-contact point: your child looks at the toy AND at you.",
    "source": "ejercicios"
   },
   {
@@ -36295,10 +36295,10 @@
    "source": "ejercicios"
   },
   {
-   "id": "ca_tutor_37c0b944_287",
+   "id": "ca_tutor_470bf774_286",
    "lang": "ca",
    "style": "tutor",
-   "text": "Col·loca un objecte molt motivador entre la teva cara i l'infant. Espera 3 segons ABANS de donar cap pista (instigació retardada): el botó del segell es desbloqueja només després d'aquesta espera. Prem el Segell Doble ÚNICAMENT quan hi hagi contacte visual real amb tu, no amb l'objecte.",
+   "text": "Col·loca un objecte molt motivador entre la teva cara i l'infant. Espera 3 segons ABANS de donar cap pista (instigació retardada): el botó «Donar punt de mirada» es desbloqueja només després d'aquesta espera. Prem-lo ÚNICAMENT quan hi hagi contacte visual real amb tu, no amb l'objecte.",
    "source": "ejercicios"
   },
   {
@@ -36974,10 +36974,10 @@
    "source": "rutas/fin"
   },
   {
-   "id": "ca_child_02534c96_58",
+   "id": "ca_child_3d730dfc_66",
    "lang": "ca",
    "style": "child",
-   "text": "Sessió de parells completada! Xoca aquesta mà amb el pare!",
+   "text": "Sessió de parells completada! Xoca aquesta mà amb qui t'acompanya!",
    "source": "pares/fin"
   },
   {

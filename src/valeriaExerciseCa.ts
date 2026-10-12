@@ -317,8 +317,8 @@ export const EXERCISE_CA: Record<string, Partial<Exercise>> = {
 
   // ============================ TEA (PRT + TCC) ============================
   tea1: {
-    read: 'Col·loca un objecte molt motivador entre la teva cara i l\'infant. Espera 3 segons ABANS de donar cap pista (instigació retardada): el botó del segell es desbloqueja només després d\'aquesta espera. Prem el Segell Doble ÚNICAMENT quan hi hagi contacte visual real amb tu, no amb l\'objecte.',
-    instrHint: 'Triangula l\'atenció: objecte → la teva mirada → l\'infant. El segell es reté fins al contacte visual real; l\'espera de 3 s és la instigació retardada (Time Delay).',
+    read: 'Col·loca un objecte molt motivador entre la teva cara i l\'infant. Espera 3 segons ABANS de donar cap pista (instigació retardada): el botó «Donar punt de mirada» es desbloqueja només després d\'aquesta espera. Prem-lo ÚNICAMENT quan hi hagi contacte visual real amb tu, no amb l\'objecte.',
+    instrHint: 'Triangula l\'atenció: objecte → la teva mirada → l\'infant. El punt de mirada es reté fins al contacte visual real; l\'espera de 3 s és la instigació retardada (Time Delay).',
     move: 'Amaga l\'objecte darrere l\'esquena i camina a poc a poc: que et busqui la mirada abans d\'ensenyar-l\'hi.',
     ept: ['Encara no alterna la mirada entre l\'objecte i la teva cara, ni amb espera.', 'Et mira si retens l\'objecte al costat de la teva cara i li dones una pista.', 'Alterna la mirada objecte→tu tot sol, dins de l\'espera de 3 segons.'],
   },

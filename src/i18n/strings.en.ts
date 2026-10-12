@@ -488,7 +488,7 @@ export const EN: UiStrings = {
   // (valeriaMinimalPairs*). What lives here is the scaffolding the grown-up reads.
   pairs: {
     sealA11y: (who: string): string =>
-      `${who}'s handprint. Press both handprints at once to continue, or hold this one for two seconds.`,
+      `${who}'s hand. Press both hands at once to continue, or hold this one for two seconds.`,
     pinSubtitle: "Enter the speech-language pathologist's 4-digit PIN to choose which pairs the family practices.",
     sessionName: (a: string, b: string): string => `Minimal pairs · ${a} / ${b}`,
     noteClean: (phoneme: string): string =>
@@ -511,7 +511,7 @@ export const EN: UiStrings = {
       'Two nearly identical words appear (rake / wake). The app says one out loud, the child '
       + 'says it into the mic, and the app detects whether the target sound came out or the '
       + 'usual substitution did. Every trial ends with a physical mission for the two of you '
-      + 'and the double seal: without both pairs of hands on the screen, nothing moves on!',
+      + 'and hands together: without both pairs of hands on the screen, nothing moves on!',
     autoRecord: 'Start recording automatically after the prompt',
     autoRecordSub: 'Off by default: the mic waits until you tap “I’m ready”.',
     bankLabel: 'CONTRAST BANK',
@@ -542,7 +542,7 @@ export const EN: UiStrings = {
     adultVerdict: 'Scored by the grown-up.',
     missionCelebration: 'CELEBRATION MISSION',
     missionCorrective: 'CORRECTIVE MISSION',
-    sealSuccess: 'Mission done: seal it together for the next trial!',
+    sealSuccess: 'Mission done: hands together for the next trial!',
 
     heardFoil: (w: string): string => `I heard “${w}”… that was the other word!`,
     almostTitle: 'So close!',
@@ -557,7 +557,7 @@ export const EN: UiStrings = {
     assistSub: (w: string): string =>
       `The grown-up says “${w}” very slowly while touching the child’s cheek, and the child `
       + 'says it at the same time. No rush: we practice today, tomorrow it comes on its own.',
-    sealAssist: 'Did you say it together? Seal it and off we go!',
+    sealAssist: 'Did you say it together? Hands together and off we go!',
 
     overrideLabel: 'Did the app mishear? Fix it here:',
     overridePill: (w: string): string => `said “${w}”`,
@@ -584,7 +584,7 @@ export const EN: UiStrings = {
     regionNote: ' · only varieties that distinguish s/z',
     streakChip: (n: number): string => (n === 1 ? 'day streak' : 'day streak'),
 
-    sealKicker: '🤝 DOUBLE SEAL TO CONTINUE',
+    sealKicker: 'HANDS TOGETHER TO CONTINUE',
     sealWhy:
       'It keeps the exercise from running on its own: until both of you put a hand down, the '
       + 'app waits. That way you close each try together and the grown-up isn’t left watching '
@@ -592,7 +592,7 @@ export const EN: UiStrings = {
     sealAdult: 'GROWN-UP',
     sealChild: 'ME',
     sealPlus: 'together',
-    sealHint: 'Whoever is with the child. Only one hand free? Press and hold one print for 2 seconds.',
+    sealHint: 'Whoever is with the child. Only one hand free? Press and hold one hand for 2 seconds.',
   },
 
   // Scenarios, categories, words, spoken prompts and physical actions come from
@@ -622,8 +622,8 @@ export const EN: UiStrings = {
       + 'microphone scores the attempt, accepting the approximations that are normal for their '
       + 'age. Every word ends with a physical action led by the grown-up that anchors it to the '
       + 'body and to the real world.',
-    autoRecord: 'Play audio and record automatically',
-    autoRecordSub: 'Off by default: tap to hear the model and to record.',
+    autoRecord: 'Start recording automatically after the prompt',
+    autoRecordSub: 'Off by default: the prompt plays when you tap ▶ and the mic waits until you tap to record.',
 
     levelKicker: '📶 MAXIMUM DIFFICULTY LEVEL',
     levelHint: 'With the cap at 1, the session only presents the most familiar words in each category.',
@@ -834,11 +834,11 @@ export const EN: UiStrings = {
     promptTextKicker: 'TEXT · YOU CAN READ IT OUT LOUD',
     hearExample: '🔊 Hear an example',
 
-    selloKicker: '🤝 DOUBLE SEAL · TIME DELAY',
+    selloKicker: 'EYE-CONTACT POINT · TIME DELAY',
     selloWait: (s: number): string => `⏳ Wait ${s} s…`,
-    selloGive: '🤝 Give the Double Seal',
-    selloGiveA11y: 'Give the double seal for real eye contact',
-    selloCount: (stars: string, n: number): string => `Seals for eye contact: ${stars} (${n})`,
+    selloGive: 'Give an eye-contact point',
+    selloGiveA11y: 'Give an eye-contact point for real eye contact',
+    selloCount: (stars: string, n: number): string => `Eye-contact points: ${stars} (${n})`,
     breakNow: '⏸️ Interrupt now (surprise capsule)',
     breakNowA11y: 'Interrupt now with a surprise movement capsule',
 
@@ -1604,6 +1604,20 @@ export const EN: UiStrings = {
     clinicalNoticeBody:
       'You configure sound intensity and duration. The child may pause or stop the activity at any time. Stopping is never a failure nor does it deduct progress.',
     activitiesHeader: 'SENSORY ACTIVITIES',
+    // SEN-01 · Adult preview listening (ACOPROS, round 3).
+    previewKicker: 'PREVIEW · FOR THE ADULT ONLY',
+    previewBody: 'Listen to all eleven sounds before choosing an activity, without setting anything up. Do it without the child present: this is not an exposure session and it is not recorded.',
+    previewPlayAll: 'Play them all',
+    previewStop: 'Stop',
+    previewItemA11y: (label: string, playing: boolean): string => (playing ? `Stop ${label}` : `Play ${label}`),
+    // SEN-03 · What sets each activity apart.
+    startingPointKicker: 'STARTING POINT FOR THIS ACTIVITY',
+    sharedScreenNote: 'All six activities use this same screen. What changes is the goal and the starting point: the sound, the intensity, the duration and who starts the sound. Everything can be changed below.',
+    startSound: (s: string): string => `Sound: ${s}`,
+    startIntensity: (n: number): string => `Intensity: ${n} of 5`,
+    startDuration: (d: string): string => `Turn: ${d}`,
+    agencyChild: 'The child starts it with their button',
+    agencyAuto: 'It starts on its own when the countdown ends',
     pilotBadge: 'PILOT READY',
     inDevBadge: 'COMING SOON',
     availableTag: 'Available',

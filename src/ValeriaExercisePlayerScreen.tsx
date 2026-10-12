@@ -1495,11 +1495,12 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                       ))}
                     </View>
                   )}
-                  {/* TEA-1 · Sello Doble con instigación retardada: el botón
+                  {/* TEA-1 · Punto de mirada con instigación retardada: el botón
                       queda bloqueado el Time Delay y el ADULTO lo retiene
                       hasta contacto visual real. La app solo cuenta sellos. */}
                   {!!ex.timeDelaySec && (
                     <View style={s.selloCard}>
+                      <View style={s.selloIcon}><BlockIcon name="eyeContact" color={V.color.primaryDark} size={26} /></View>
                       <Text style={s.selloKicker}>{t.player.selloKicker}</Text>
                       <Text style={s.selloHint}>{t.player.selloHint(ex.timeDelaySec)}</Text>
                       <Pressable
@@ -1905,6 +1906,7 @@ const s = StyleSheet.create({
 
   // TEA-1 · Sello Doble (instigación retardada)
   selloCard: { alignSelf: 'stretch', marginTop: 14, backgroundColor: '#f0fdf9', borderWidth: 1.5, borderColor: '#b8eee9', borderRadius: 16, padding: 14 },
+  selloIcon: { alignItems: 'center', marginBottom: 4 },
   selloKicker: { fontSize: 11, fontWeight: '800', letterSpacing: 0.6, color: V.color.primaryDark, textAlign: 'center' },
   selloHint: { fontSize: 12, fontWeight: '600', color: V.color.textSecondary, textAlign: 'center', lineHeight: 17, marginTop: 6, marginBottom: 11 },
   selloBtn: { alignSelf: 'center', backgroundColor: V.color.primary, borderRadius: 14, paddingHorizontal: 22, paddingVertical: 13, ...V.shadow.button },

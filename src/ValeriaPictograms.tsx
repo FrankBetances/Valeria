@@ -216,6 +216,35 @@ const PICTOGRAMS_BY_KEY: Record<string, Pic> = {
   paraguas: pixelPic('paraguas'),
   gorra: pixelPic('gorra'),
   bufanda: pixelPic('bufanda'),
+  // ACOPROS, 3.ª ronda (PM-07 · ES-09): veintiocho conceptos nuevos.
+  coche: pixelPic('coche'),
+  tren: pixelPic('tren'),
+  gota: pixelPic('gota'),
+  jirafa: pixelPic('jirafa'),
+  despertador: pixelPic('despertador'),
+  globo: pixelPic('globo'),
+  cama: pixelPic('cama'),
+  salpicadura: pixelPic('salpicadura'),
+  libro: pixelPic('libro'),
+  naranja: pixelPic('naranja'),
+  avion: pixelPic('avion'),
+  nube: pixelPic('nube'),
+  cae: pixelPic('cae'),
+  buho: pixelPic('buho'),
+  pina: pixelPic('pina'),
+  moto: pixelPic('moto'),
+  camion: pixelPic('camion'),
+  huella: pixelPic('huella'),
+  oso: pixelPic('oso'),
+  bota: pixelPic('bota'),
+  fuente: pixelPic('fuente'),
+  banera: pixelPic('banera'),
+  caliente: pixelPic('caliente'),
+  pera: pixelPic('pera'),
+  cereza: pixelPic('cereza'),
+  rata: pixelPic('rata'),
+  guagua: pixelPic('guagua'),
+  hueso: pixelPic('hueso'),
 };
 
 // Las ocho heredadas de la V1, que se resolvían por palabra y por emoji.
@@ -229,6 +258,10 @@ const PICTOGRAMS: Record<string, Pic> = {
   puente: PICTOGRAMS_BY_KEY['puente'],
   ocho: PICTOGRAMS_BY_KEY['numero-ocho'],
   cero: PICTOGRAMS_BY_KEY['numero-cero'],
+  // Variedad dominicana: las frutas tienen dibujo propio y el emoji del banco
+  // es el de otra fruta (🥭 para lechosa, 🍈 para chinola). La palabra manda.
+  lechosa: PICTOGRAMS_BY_KEY['lechosa'],
+  chinola: PICTOGRAMS_BY_KEY['chinola'],
 };
 
 const PICTOGRAMS_BY_EMOJI: Record<string, Pic> = {
@@ -240,6 +273,81 @@ const PICTOGRAMS_BY_EMOJI: Record<string, Pic> = {
   '\ud83c\udf09': PICTOGRAMS_BY_KEY['puente'],
   '8\ufe0f\u20e3': PICTOGRAMS_BY_KEY['numero-ocho'],
   '0\ufe0f\u20e3': PICTOGRAMS_BY_KEY['numero-cero'],
+  // ACOPROS, 3.ª ronda (PM-07 · ES-09): cada emoji del banco que tiene dibujo
+  // propio —ya existente o nuevo— resuelve a ese dibujo. El emoji y el dibujo
+  // muestran el MISMO objeto: no se reinterpreta ninguna ficha.
+  '🐄': PICTOGRAMS_BY_KEY['vaca'],
+  '🐱': PICTOGRAMS_BY_KEY['gato'],
+  '🐈': PICTOGRAMS_BY_KEY['gato'],
+  '🐕': PICTOGRAMS_BY_KEY['perro'],
+  '🐶': PICTOGRAMS_BY_KEY['perro'],
+  '⚽': PICTOGRAMS_BY_KEY['pelota'],
+  '🍞': PICTOGRAMS_BY_KEY['pan'],
+  '🍌': PICTOGRAMS_BY_KEY['platano'],
+  '🌙': PICTOGRAMS_BY_KEY['luna'],
+  '🍎': PICTOGRAMS_BY_KEY['manzana'],
+  '🦆': PICTOGRAMS_BY_KEY['pato'],
+  '🐘': PICTOGRAMS_BY_KEY['elefante'],
+  '🏠': PICTOGRAMS_BY_KEY['casa'],
+  '🐦': PICTOGRAMS_BY_KEY['pajaro'],
+  '🍵': PICTOGRAMS_BY_KEY['taza'],
+  '🧣': PICTOGRAMS_BY_KEY['bufanda'],
+  '🧢': PICTOGRAMS_BY_KEY['gorra'],
+  '👟': PICTOGRAMS_BY_KEY['zapato'],
+  '😴': PICTOGRAMS_BY_KEY['dormir'],
+  '🏃': PICTOGRAMS_BY_KEY['correr'],
+  '🧼': PICTOGRAMS_BY_KEY['jabon'],
+  '🥛': PICTOGRAMS_BY_KEY['vaso-leche'],
+  '🔴': PICTOGRAMS_BY_KEY['color-rojo'],
+  '🔵': PICTOGRAMS_BY_KEY['color-azul'],
+  '🟢': PICTOGRAMS_BY_KEY['color-verde'],
+  '🟡': PICTOGRAMS_BY_KEY['color-amarillo'],
+  '🟣': PICTOGRAMS_BY_KEY['color-morado'],
+  '🦶': PICTOGRAMS_BY_KEY['pie'],
+  '👄': PICTOGRAMS_BY_KEY['boca'],
+  '🍇': PICTOGRAMS_BY_KEY['uvas'],
+  '🥭': PICTOGRAMS_BY_KEY['mango'],
+  '🐟': PICTOGRAMS_BY_KEY['pez'],
+  '🐤': PICTOGRAMS_BY_KEY['pollito'],
+  '🚢': PICTOGRAMS_BY_KEY['barco'],
+  '🌊': PICTOGRAMS_BY_KEY['ola'],
+  '🛑': PICTOGRAMS_BY_KEY['parar'],
+  '🤲': PICTOGRAMS_BY_KEY['manos-mojadas'],
+  '🌹': PICTOGRAMS_BY_KEY['flor'],
+  '🌷': PICTOGRAMS_BY_KEY['flor'],
+  '🐸': PICTOGRAMS_BY_KEY['sapo'],
+  '🌲': PICTOGRAMS_BY_KEY['arbol'],
+  '🎂': PICTOGRAMS_BY_KEY['torta'],
+  '🚗': PICTOGRAMS_BY_KEY['coche'],
+  '🚆': PICTOGRAMS_BY_KEY['tren'],
+  '🚂': PICTOGRAMS_BY_KEY['tren'],
+  '🚃': PICTOGRAMS_BY_KEY['tren'],
+  '💧': PICTOGRAMS_BY_KEY['gota'],
+  '🦒': PICTOGRAMS_BY_KEY['jirafa'],
+  '⏰': PICTOGRAMS_BY_KEY['despertador'],
+  '🎈': PICTOGRAMS_BY_KEY['globo'],
+  '🛏': PICTOGRAMS_BY_KEY['cama'],
+  '💦': PICTOGRAMS_BY_KEY['salpicadura'],
+  '📖': PICTOGRAMS_BY_KEY['libro'],
+  '🍊': PICTOGRAMS_BY_KEY['naranja'],
+  '✈': PICTOGRAMS_BY_KEY['avion'],
+  '☁': PICTOGRAMS_BY_KEY['nube'],
+  '⬇': PICTOGRAMS_BY_KEY['cae'],
+  '🦉': PICTOGRAMS_BY_KEY['buho'],
+  '🍍': PICTOGRAMS_BY_KEY['pina'],
+  '🏍': PICTOGRAMS_BY_KEY['moto'],
+  '🚚': PICTOGRAMS_BY_KEY['camion'],
+  '🐾': PICTOGRAMS_BY_KEY['huella'],
+  '🐻': PICTOGRAMS_BY_KEY['oso'],
+  '👢': PICTOGRAMS_BY_KEY['bota'],
+  '⛲': PICTOGRAMS_BY_KEY['fuente'],
+  '🛁': PICTOGRAMS_BY_KEY['banera'],
+  '♨': PICTOGRAMS_BY_KEY['caliente'],
+  '🍐': PICTOGRAMS_BY_KEY['pera'],
+  '🍒': PICTOGRAMS_BY_KEY['cereza'],
+  '🐀': PICTOGRAMS_BY_KEY['rata'],
+  '🚌': PICTOGRAMS_BY_KEY['guagua'],
+  '🦴': PICTOGRAMS_BY_KEY['hueso'],
 };
 
 const normalizeWord = (w: string): string =>
@@ -278,7 +386,8 @@ export const FichaVisual: React.FC<{
 }> = ({ word, emoji, size = 58, pic }) => {
   const Pic = (pic ? PICTOGRAMS_BY_KEY[pic.trim()] : undefined)
     ?? PICTOGRAMS[normalizeWord(word)]
-    ?? PICTOGRAMS_BY_EMOJI[emoji?.trim()];
+    ?? PICTOGRAMS_BY_EMOJI[emoji?.trim()]
+    ?? PICTOGRAMS_BY_EMOJI[(emoji ?? '').replace(/\ufe0f/g, '').trim()];
   const box = Math.round(size * 1.15);
   return (
     <View style={{ width: box, height: box, alignItems: 'center', justifyContent: 'center' }}>

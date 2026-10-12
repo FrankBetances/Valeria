@@ -18,7 +18,7 @@ export const SENSORY_TRIGGERS: Record<SensoryTriggerId, SensoryStimulus> = {
       ca: 'Aspiradora',
     },
     audioAssetKey: 'sensory_vacuum_loop',
-    baseFrequencyHz: 120,
+    baseFrequencyHz: 760,
     calmStrategyTpr: {
       es: 'Amasar plastilina con fuerza como la gata',
       gl: 'Amasar plastilina con forza como a gata',
@@ -40,7 +40,7 @@ export const SENSORY_TRIGGERS: Record<SensoryTriggerId, SensoryStimulus> = {
       ca: 'Batedora',
     },
     audioAssetKey: 'sensory_blender_loop',
-    baseFrequencyHz: 90,
+    baseFrequencyHz: 420,
     calmStrategyTpr: {
       es: 'Manos en las rodillas y respirar profundo',
       gl: 'Mans nos xeonllos e respirar fondo',
@@ -62,7 +62,7 @@ export const SENSORY_TRIGGERS: Record<SensoryTriggerId, SensoryStimulus> = {
       ca: 'Assecador de cabell',
     },
     audioAssetKey: 'sensory_hairdryer_loop',
-    baseFrequencyHz: 200,
+    baseFrequencyHz: 1900,
     calmStrategyTpr: {
       es: 'Abrazo de oso / presión en hombros',
       gl: 'Aperta forte / presión nos ombreiros',
@@ -84,7 +84,7 @@ export const SENSORY_TRIGGERS: Record<SensoryTriggerId, SensoryStimulus> = {
       ca: 'Assecador de mans',
     },
     audioAssetKey: 'sensory_hand_dryer_loop',
-    baseFrequencyHz: 250,
+    baseFrequencyHz: 3400,
     calmStrategyTpr: {
       es: 'Frotar las palmas suavemente',
       gl: 'Fregar as palmas amodo',
@@ -372,9 +372,12 @@ export const AUDITORY_INTEGRATION_ACTIVITIES: AuditorySensoryExercise[] = [
     iconName: 'calm_breath',
     defaultDurationSec: 150,
     isAvailable: true,
+    // Arrancaba con la MISMA configuración que ISA-05 (aula, 2, corta): abrir
+    // una u otra era idéntico, y ACOPROS lo notó (SEN-03). El aula es de
+    // ISA-05; los ambientes vivos empiezan por el centro comercial.
     defaultConfig: {
       categoryFilter: 'ecological',
-      triggerId: 'classroom_ambience',
+      triggerId: 'mall_ambience',
       relativeIntensity: 2,
       durationTier: 'short',
       agencyMode: 'child_tap',

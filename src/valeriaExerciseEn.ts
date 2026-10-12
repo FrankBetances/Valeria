@@ -499,7 +499,7 @@ export const EXERCISE_EN: Record<string, Partial<Exercise>> = {
   tea1: {
     name: 'Triangulated joint attention',
     category: 'PRT · eye contact and dual validation',
-    read: 'Hold the toy up next to your own eyes and wait. You are looking for the double seal: your child looks at the toy AND at you.',
+    read: 'Hold the toy up next to your own eyes and wait. You are looking for an eye-contact point: your child looks at the toy AND at you.',
     stageLabel: 'Wait for the double look',
     instrHint: 'Do not hand it over on the first look at the toy. Wait for the look at you.',
     move: 'Hand the toy over the instant both looks happen.',
