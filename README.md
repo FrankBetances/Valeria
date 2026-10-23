@@ -8,8 +8,8 @@
 
 ### 🐈‍⬛ Entiende su lenguaje, practica en casa. Lúa os acompaña
 
-**Formación para madres, padres y cuidadores sobre los trastornos del lenguaje
-y el neurodesarrollo en la infancia —y los ejercicios para practicarlos en casa
+**Aplicación educativa de formación para madres, padres y cuidadores sobre el desarrollo
+del lenguaje y la comunicación en la infancia —y juegos y ejercicios para practicarlos en casa
 con sus hijas e hijos.** Hipoacusia, implante coclear, dislalias, dislexia y TEA.
 Offline y en el bolsillo.
 
@@ -64,8 +64,8 @@ Offline y en el bolsillo.
 </td>
 <td valign="top" width="50%">
 
-**Ingeniería y clínica**
-- [Telemetría del piloto clínico](#-telemetría-del-piloto-clínico)
+**Ingeniería y calidad**
+- [Telemetría de usabilidad](#-telemetría-de-usabilidad)
 - [Documentación](#-documentación)
 - [Puesta en marcha](#-puesta-en-marcha)
 - [Builds (EAS)](#-builds-eas)
@@ -84,29 +84,32 @@ Offline y en el bolsillo.
 
 ## 🐈‍⬛ ¿Qué es Valeria+?
 
-Valeria+ hace dos cosas, y en este orden. **Primero forma**: Academy explica a
-madres, padres y cuidadores qué es cada trastorno del lenguaje y del
-neurodesarrollo, cómo se manifiesta y cómo acompañarlo, en cápsulas de dos
-minutos. **Después facilita la práctica en casa**: diez bloques de ejercicios
-para hacer junto al niño, con Lúa de por medio.
+**Valeria+ es una aplicación educativa** —no un dispositivo médico— que acompaña a las
+familias en la estimulación del lenguaje y la comunicación en casa. Hace dos cosas,
+y en este orden. **Primero forma**: Academy explica a madres, padres y cuidadores cómo se
+desarrolla el lenguaje, qué dificultades pueden aparecer y cómo acompañarlas en el día a
+día, en cápsulas breves de dos minutos. **Después facilita la práctica lúdica en casa**:
+diez bloques de ejercicios y juegos para hacer junto al niño o la niña, con Lúa de por medio.
 
-Alrededor de esas dos van el **registro del paciente**, una comprobación
-auditiva previa (**Test de Ling**) y un **panel de resultados** para seguir la
-evolución.
+Alrededor de esas dos van el **perfil del niño o la niña** (ficha de registro), una comprobación
+auditiva orientativa (**Test de Ling**) y un **panel de progreso** para seguir la
+práctica familiar.
 
-Por eso la app **abre en Academy**, no en la rejilla de ejercicios: entender el
-trastorno va antes que ejercitarlo.
+Por eso la app **abre en Academy**, no en la rejilla de ejercicios: comprender cómo
+acompañar va antes que practicar.
 
-Parte de un principio clave: **los padres y cuidadores son el motor de voz y
-evaluación**. El reconocimiento de voz ayuda, pero **el adulto siempre es el juez
-final** (puede corregir el veredicto con un toque) y, donde no hay micrófono
-(Expo Go, web), valora la respuesta con botones. Así los ejercicios funcionan en
+Parte de un principio pedagógico clave: **madres, padres y cuidadores guían la actividad y la
+valoración**. El reconocimiento de voz sirve de apoyo lúdico, pero **el adulto siempre tiene la
+última palabra** (puede corregir el resultado con un toque) y, donde no hay micrófono
+(Expo Go, web), valora la respuesta con botones. Así las actividades funcionan en
 cualquier dispositivo y **sin conexión**.
 
 > [!NOTE]
-> **Principio de diseño (marco MDR).** La app nunca decide sola: el adulto es el
-> juez clínico de cada respuesta y todo funciona **offline**, sin micrófono
-> obligatorio y en cualquier dispositivo (Expo Go, web, móvil).
+> **Naturaleza educativa (no es un dispositivo médico).** Valeria+ es una herramienta educativa
+> y de apoyo familiar para el hogar: no realiza diagnósticos, cribados ni tratamientos médicos,
+> no sustituye la labor de logopedas ni profesionales sanitarios, y nunca decide sola —el adulto
+> acompaña y valida cada actividad—. Todo funciona **offline**, sin micrófono obligatorio y en
+> cualquier dispositivo (Expo Go, web, móvil).
 
 
 ---
@@ -210,9 +213,9 @@ TPR 2.0** (morfosintaxis transaccional).
 ## 🎧 Integración Sensorial Auditiva
 
 Para el niño que se tapa los oídos con la aspiradora, el secador o el timbre del
-colegio: **sobre-responsividad auditiva (SOR)**. El módulo hace
-desensibilización sistemática con anticipación visual estricta y agencia del
-niño, y su regla clínica es que **parar nunca resta**: pausar o detener suma la
+colegio: **sobre-responsividad auditiva (SOR)**. El módulo facilita la
+familiarización gradual con sonidos cotidianos mediante anticipación visual clara y agencia del
+niño, y su regla pedagógica es que **parar nunca resta**: pausar o detener suma la
 misma XP que terminar.
 
 <table>
@@ -220,7 +223,7 @@ misma XP que terminar.
 <td width="25%" align="center"><a href="docs/screenshots/32-sensorial-preparacion.png"><img src="docs/screenshots/32-sensorial-preparacion.png" width="190" alt="Preparación de la sesión por el adulto"></a><br><sub><b>1 · El adulto configura</b><br>Estímulo, intensidad y duración<br><i>antes</i> de ceder el aparato</sub></td>
 <td width="25%" align="center"><a href="docs/screenshots/33-sensorial-anticipacion.png"><img src="docs/screenshots/33-sensorial-anticipacion.png" width="190" alt="Cuenta atrás de anticipación"></a><br><sub><b>2 · Anticipación</b><br>Cuenta atrás visual:<br>el sonido no sorprende</sub></td>
 <td width="25%" align="center"><a href="docs/screenshots/35-sensorial-pausa.png"><img src="docs/screenshots/35-sensorial-pausa.png" width="190" alt="Pausa segura"></a><br><sub><b>3 · Pausa segura</b><br>Parar es aprendizaje,<br>no un fallo</sub></td>
-<td width="25%" align="center"><a href="docs/screenshots/36-sensorial-valoracion.png"><img src="docs/screenshots/36-sensorial-valoracion.png" width="190" alt="Valoración clínica del adulto"></a><br><sub><b>4 · Registro clínico</b><br>El adulto anota la respuesta<br>(cifrado en el dispositivo)</sub></td>
+<td width="25%" align="center"><a href="docs/screenshots/36-sensorial-valoracion.png"><img src="docs/screenshots/36-sensorial-valoracion.png" width="190" alt="Valoración del adulto"></a><br><sub><b>4 · Registro del adulto</b><br>El adulto anota la respuesta<br>(cifrado en el dispositivo)</sub></td>
 </tr>
 </table>
 
@@ -240,17 +243,17 @@ en bucle sin costura, **2,50 MB** los once.
 
 Se sintetizan por tres razones que no son estéticas:
 
-1. **Procedencia.** El expediente técnico MDR tiene que poder decir de dónde
-   sale cada estímulo que se le presenta a un niño. De un banco de sonidos no se
-   puede; de un script del repositorio, sí.
+1. **Procedencia y trazabilidad.** Sabemos exactamente cómo se genera cada
+   estímulo sonoro que se presenta al niño. De un banco de sonidos externo no se
+   puede garantizar; de un script del repositorio, sí.
 2. **Licencia.** Cero terceros, cero atribución, cero revisión legal por sonido.
 3. **Reproducibilidad.** LCG con semilla por estímulo: el WAV de hoy es el de
    ayer, byte a byte, y CI puede comprobarlo.
 
 Todos salen a **−20 dBFS de RMS** con techo de pico en −6, no solo normalizados
-por pico. Es una decisión clínica: si un estímulo viniera 16 dB por encima de
+por pico. Es una decisión de diseño pedagógico: si un estímulo viniera 16 dB por encima de
 otro, el «nivel 3» que fija el adulto significaría cosas distintas según el
-sonido y la jerarquía de desensibilización dejaría de ser una jerarquía.
+sonido y la progresión gradual dejaría de ser coherente.
 
 ```bash
 npm run build:sensory-assets   # regenerar los once WAV
@@ -273,16 +276,15 @@ una etiqueta, es algo que rompe el build.
 Lo que el gate **no** puede comprobar, y por eso está escrito en su cabecera: si
 a un oído humano le suena a aspiradora. Eso se decide escuchando el WAV.
 
-### Muro de control adulto y muro regulatorio
+### Muro de control adulto
 
 El adulto fija el estímulo, la **intensidad relativa** (1 a 5) y la duración
 (3, 7 o 15 s) antes de darle el aparato al niño; el niño lo dispara con su
 propio botón y lo para cuando quiera. En
 [`sensoryAudio.ts`](src/ValeriaSensory/sensoryAudio.ts) **no hay medida, ni
-adaptación, ni sugerencia de nivel**: la ganancia sale del gesto del adulto y de
-nada más, igual que en [`valeriaNoise.ts`](src/valeriaNoise.ts). Automatizarla
-convertiría el ejercicio en un procedimiento adaptativo y a la app en otra clase
-de producto.
+adaptación, ni sugerencia automática de nivel**: la ganancia sale del gesto del adulto y de
+nada más, igual que en [`valeriaNoise.ts`](src/valeriaNoise.ts). El control recae
+siempre en la persona adulta que acompaña la actividad educativa.
 
 Los niveles **no son decibelios absolutos** y la interfaz no los llama así: el
 volumen real depende del aparato y de dónde esté el teléfono. Y si el
@@ -305,9 +307,9 @@ opcodes nuevos: el protocolo sigue en la versión 1.
 
 ## 🎓 Academy · formación del cuidador
 
-En los ejercicios auditivo‑verbales el **adulto es el motor clínico** de cada sesión
-(requisito **MDR**: la app nunca decide sola). **Academy** (`src/ValeriaAcademy/`)
-capacita a padres y cuidadores para que acompañen como profesionales, mediante
+En las actividades de lenguaje el **adulto es quien guía y acompaña** cada sesión
+(como aplicación educativa, la app nunca decide sola). **Academy** (`src/ValeriaAcademy/`)
+forma a madres, padres y cuidadores mediante
 **Cápsulas de Conocimiento** de consumo rápido (≈2 min) con **micro‑quiz** de
 validación ágil. Es **la pestaña con la que abre la app** y además se muestra
 como una **tarjeta prominente** en el hub de `ExerciseSelection`, con la misma
@@ -583,11 +585,11 @@ cuenta allí y no llega aquí.
 #### El Ancla Visual Lejana · la regla 20‑20‑20 (19/8/2026)
 
 Cada 20 minutos de pantalla cerca, 20 segundos mirando algo lejano. Es una
-recomendación **oftalmológica**, no logopédica, y aquí hay dos maneras de meterla
-en una app como esta: bloquear la sesión, o decírselo al adulto. Esta app hace lo
-segundo, y no por comodidad — **es Clase I porque no interviene**: en el momento en
-que la app pausa una sesión clínica por su cuenta, deja de sugerir y empieza a
-decidir.
+recomendación **oftalmológica** de descanso visual, y aquí hay dos maneras de meterla
+en una app como esta: bloquear la sesión, o sugerírselo al adulto. Esta app hace lo
+segundo: como herramienta educativa guiada por la familia, **sugiere en lugar de imponer**;
+en ningún momento interrumpe ni detiene la actividad por su cuenta, sino que avisa al adulto
+para que decida.
 
 Cómo está montado:
 
@@ -649,12 +651,12 @@ sonido—.
 
 ## 🎛️ Panel del Adulto · Carga Comunicativa
 
-Para el piloto clínico, Valeria+ añade un **Panel del Adulto** (`ValeriaAdultChaosPanel`)
+Valeria+ incluye un **Panel del Adulto** (`ValeriaAdultChaosPanel`)
 —tarjeta colapsable presente en el player— con tres módulos de **carga
-comunicativa manual**. La regla innegociable es un **muro regulatorio (MDR)**:
-la app **jamás activa, mide ni adapta** nada por su cuenta; todo lo acciona el
-adulto de forma explícita. Automatizar el ajuste convertiría la app en un
-audiómetro algorítmico (SaMD), y cualquier lógica de ese tipo debe rechazarse.
+comunicativa manual**. La regla innegociable de diseño es el **control exclusivo del adulto**:
+al ser una aplicación educativa y **no un dispositivo médico** ni un audiómetro,
+la app **jamás activa, mide ni adapta** nada de forma algorítmica; todo lo acciona el
+adulto de forma explícita para adecuar el entorno de práctica en casa.
 
 | Módulo | Qué hace |
 | --- | --- |
@@ -914,7 +916,7 @@ flowchart LR
 
 | Qué cambia | Por qué |
 | --- | --- |
-| Cuadrícula de 2 columnas **sin subtítulos** | Los ~718 caracteres de prosa del hub se reubican al `refCard` del bloque, donde se leen justo antes de usarlo. Ninguna clave i18n se borra: varias llevan carga MDR («Estresores siempre manuales», «Sin grabar nada y con el micrófono apagado»). |
+| Cuadrícula de 2 columnas **sin subtítulos** | Los ~718 caracteres de prosa del hub se reubican al `refCard` del bloque, donde se leen justo antes de usarlo. Ninguna clave i18n se borra: varias recogen avisos importantes de privacidad y control del adulto («Estresores siempre manuales», «Sin grabar nada y con el micrófono apagado»). |
 | Recordatorios, voz y acceso profesional → **Ajustes** | Al fondo del hub eran, en la práctica, invisibles. |
 | La lista de un bloque pasa a ser **ruta real** (`BlockList`) | En la v10.2 era un `useState`: el botón atrás de Android no volvía al hub, salía de `ExerciseSelection` entera. Como ruta, se arregla solo. |
 | El player **no** vive bajo las pestañas | Durante el ejercicio la pantalla es del niño; no puede haber salidas laterales a un toque. |
@@ -922,10 +924,10 @@ flowchart LR
 **Los nombres de ruta no se traducen ni se renombran.** La pestaña se llama
 `ExerciseSelection` y solo muestra «Ejercicios» como etiqueta visible: la
 telemetría indexa el tiempo por nombre de ruta y rebautizarla partiría la serie
-del piloto. La etiqueta pasó de «Terapias» a «Ejercicios» para que concuerde con
-el título de la pantalla («Selección de Ejercicios») y con el enfoque del
-producto: el tratamiento lo dirige el logopeda; lo que la familia hace en casa son
-ejercicios.
+histórica. La etiqueta pasó de «Terapias» a «Ejercicios» para que concuerde con
+el título de la pantalla («Selección de Ejercicios») y con el carácter **educativo**
+del producto: lo que la familia hace en casa son ejercicios y actividades de aprendizaje,
+no tratamientos médicos.
 
 **La pestaña inicial es Academy** (`initialRouteName`), porque la app forma
 antes de ejercitar. Los botones que prometen un destino concreto —«Volver a
@@ -945,10 +947,10 @@ que lleva no pueden separarse.
 
 ---
 
-## 📊 Telemetría del piloto clínico
+## 📊 Telemetría de usabilidad
 
-Para recabar **evidencia de usabilidad** durante el piloto (validación
-regulatoria y académica) sin fricción para las familias, Valeria+ incluye una
+Para recabar **evidencia de usabilidad** durante la validación académica y de
+experiencia de uso sin fricción para las familias, Valeria+ incluye una
 capa de telemetría **offline, anónima y no bloqueante**. La restricción
 innegociable es que **ni la captura de eventos ni la escritura en disco bloqueen
 el hilo principal**: la captura solo muta memoria (O(1)) y programa un volcado
@@ -962,7 +964,7 @@ con *debounce* vía `InteractionManager`, de modo que el cifrado y el guardado e
 | 🧩 **Abandono intra‑cápsula TPR** | Se cuentan cápsulas mostradas vs. saltadas vs. completadas en el player. |
 | 💬 **Evaluación subjetiva (SUS adaptado)** | Modal Likert 1‑5 (`ValeriaSUSModal`) orientado a la **carga de uso real** ("integrar el ejercicio en la rutina de mi hijo/a"). *Rate limiting* para evitar sesgo de fatiga: solo en el **hito de 4 bloques distintos** (umbral desacoplado del total de 6: los módulos TEA/Dislexia ni lo bloquean ni lo fuerzan) y **máx. 1 vez/semana** por dispositivo. |
 | 🔒 **Persistencia y correlación** | Telemetría + Likert se guardan en un **JSON cifrado en reposo** (`valeriaCrypto`, keystream SHA‑256 en JS puro) bajo el **mismo id de sesión**. Se **purga solo tras una exportación exitosa**, evitando el desborde de memoria semana a semana. |
-| 🗣️ **Uso del recuento del micrófono** | En los ejercicios de frase, `trackPhraseCoverage` suma cuántas palabras reconoció el motor, cuántas tenía la frase y cuántas frases se practicaron. **No es una medida clínica y no tiene finalidad sanitaria**: el recuento es un *apoyo del ejercicio* (el niño ve por dónde va, el adulto ve qué palabra se cayó) y esto mide **cuánto se usa ese apoyo**, igual que los misclicks miden la interfaz. Se llama **una vez por ensayo y con el resultado final**: las láminas se encienden con los parciales del reconocedor, y registrar cada parcial contaría el mismo ensayo diez veces. **Solo números**: ni la frase, ni las palabras, ni lo que el reconocedor entendió. Los objetivos de una sola palabra no entran. |
+| 🗣️ **Uso del recuento del micrófono** | En los ejercicios de frase, `trackPhraseCoverage` suma cuántas palabras reconoció el motor, cuántas tenía la frase y cuántas frases se practicaron. **Es un indicador pedagógico de uso, sin finalidad médica ni sanitaria**: el recuento es un *apoyo visual del ejercicio* (el niño ve por dónde va, el adulto ve qué palabra se cayó) y esto mide **cuánto se usa ese apoyo**, igual que los misclicks miden la interfaz. Se llama **una vez por ensayo y con el resultado final**: las láminas se encienden con los parciales del reconocedor, y registrar cada parcial contaría el mismo ensayo diez veces. **Solo números**: ni la frase, ni las palabras, ni lo que el reconocedor entendió. Los objetivos de una sola palabra no entran. |
 | 🎛️ **Interfaz de la sesión** (`ui: 'v10' \| 'v11'`) | Sella con qué interfaz se registró cada sesión. Activar las pestañas mueve la línea base de dos métricas: la barra inferior absorbe toques que antes caían en zona muerta (menos *misclicks*, sin que nadie se equivoque menos) y `BlockList` se lleva un tiempo que antes se imputaba a `ExerciseSelection`. Con el sello, los tramos pre/post se separan **por dato** y no por fecha de despliegue —que es aproximada y se pierde al reinstalar—. El resumen exportado incluye `sessionsV11`: si está entre 0 y `sessions`, la muestra mezcla interfaces y los *misclicks* agregados no son una serie homogénea. |
 
 > [!WARNING]
@@ -984,25 +986,25 @@ interfaz clásica se entra desde el hub de bloques, en la v11 desde **Ajustes**)
 - **ShareSheet** → `ACTION_SEND` nativo con el **log transaccional completo en
   crudo** (email/WhatsApp) para cuando haya conectividad.
 
-> **Notas para la fase regulatoria.** La telemetría es **anónima** (sin datos
+> **Naturaleza educativa y privacidad.** La telemetría es **anónima** (sin datos
 > personales, sin audio, sin el contenido de las respuestas). El recuento del
 > micrófono es lo más cerca del habla que llega el registro, y aun así **son
-> cifras**: cuántas de cuántas, nunca cuáles. Por decisión de producto es un
-> **apoyo del ejercicio sin valor ni finalidad sanitaria** —no mide el lenguaje,
-> no evalúa y no entra en ninguna decisión clínica—, y así está rotulado en la
-> app, en el panel y en el manual. Mantenerlo fuera de lo clínico es lo que evita
-> que un contador de una ayuda de pantalla se lea como una medida de Clase I.
+> cifras**: cuántas de cuántas, nunca cuáles. Al ser Valeria+ una **aplicación
+> educativa y no un dispositivo médico**, este recuento es un **apoyo pedagógico
+> del ejercicio sin valor diagnóstico ni finalidad sanitaria** —no mide clínicamente
+> el lenguaje, no evalúa y no sustituye el criterio de un especialista—, y así está
+> rotulado en la app, en el panel y en el manual.
 >
-> **Dónde está declarado.** Dentro de la fila que ya existía —*telemetría de
-> usabilidad del piloto*— como «el uso de las ayudas de pantalla», sin fila
-> propia y sin base legal nueva: es una métrica de uso, del mismo orden que los
+> **Dónde está declarado.** Dentro de la fila de *telemetría de usabilidad*
+> como «el uso de las ayudas de pantalla», sin fila
+> propia y sin base legal nueva: es una métrica de uso de interfaz, del mismo orden que los
 > misclicks. Lo que **sí** hay que hacer es que el formulario de *Seguridad de
 > los datos* de Play Console enumere lo mismo que `site/`, porque Google
 > contrasta las dos declaraciones entre sí. El cifrado en
 > reposo guarda la clave en `AsyncStorage`; el módulo `valeriaCrypto` está
 > aislado para migrarla a `expo-secure-store` (Keystore/Keychain) en producción.
-> Al tratarse de un piloto con menores, el **consentimiento informado** de las
-> familias debe gestionarse en el protocolo del estudio, fuera de la app.
+> En estudios académicos con menores, el **consentimiento informado** de las
+> familias se gestiona en el protocolo del estudio, fuera de la app.
 
 ---
 
@@ -1017,7 +1019,7 @@ interfaz clásica se entra desde el hub de bloques, en la v11 desde **Ajustes**)
 | [`docs/protocolo-pares-minimos.md`](docs/protocolo-pares-minimos.md) | Protocolo de pares mínimos para dislalias fonológicas: 10 pares accionables con flujo TTS→STT, feedback por rama y misiones físicas. Implementado en `src/ValeriaMinimalPairsScreen.tsx` + `src/valeriaMinimalPairs.ts`. |
 | [`docs/protocolo-pares-minimos-es-DO.md`](docs/protocolo-pares-minimos-es-DO.md) | Protocolo de pares mínimos en español dominicano (Quisqueya Habla). Implementado en `src/valeriaMinimalPairsEsDO.ts`. |
 | [`docs/protocolo-expansion-semantica.md`](docs/protocolo-expansion-semantica.md) | Protocolo de expansión semántica / progresión léxica offline. Implementado en `src/ValeriaSemanticExpansionScreen.tsx` + `src/valeriaSemanticExpansion.ts`. |
-| [`docs/protocolo-realidad-aumentada.md`](docs/protocolo-realidad-aumentada.md) | Protocolo clínico del bloque de Realidad Aumentada: consentimiento de cámara, Prueba de Aptitud del Dispositivo, colocación del teléfono y los seis ejercicios (AR‑1 cinemática orofacial, AR‑2 localización instrumentada, AR‑3 selección por fijación, AR‑4 búsqueda espacial, AR‑5 lanzamiento y AR‑6 espejo mímico), con el muro MDR explicado ejercicio a ejercicio. Implementado en `android-native/valeria-ar/` + `src/ValeriaArLauncherScreen.tsx`. |
+| [`docs/protocolo-realidad-aumentada.md`](docs/protocolo-realidad-aumentada.md) | Protocolo del bloque de Realidad Aumentada: consentimiento de cámara, Prueba de Aptitud del Dispositivo, colocación del teléfono y los seis ejercicios (AR‑1 cinemática orofacial, AR‑2 localización instrumentada, AR‑3 selección por fijación, AR‑4 búsqueda espacial, AR‑5 lanzamiento y AR‑6 espejo mímico), con el límite de control del adulto y finalidad educativa explicado ejercicio a ejercicio. Implementado en `android-native/valeria-ar/` + `src/ValeriaArLauncherScreen.tsx`. |
 | [`docs/guia-dialectal-es-DO.md`](docs/guia-dialectal-es-DO.md) | Guía clínica dominicana (QH‑0.2): qué es rasgo dialectal normal y qué es error clínico. Regla **bloqueante** para todo dataset es‑DO. |
 | [`docs/plan-integracion-proxecto-nos.md`](docs/plan-integracion-proxecto-nos.md) | Plan por fases de la versión en gallego apoyada en los recursos abiertos del Proxecto Nós (contenido, voz Celtia, ASR). |
 | [`docs/plan-integracion-quisqueya-habla.md`](docs/plan-integracion-quisqueya-habla.md) | Plan de la variante dominicana (es‑DO), que reutiliza la infraestructura de variedad del plan gallego. |
@@ -1539,7 +1541,7 @@ se llaman distinto y tienen icono propio.
 
 | Bloque | Cambio |
 | --- | --- |
-| **Sonidos (SEN‑02)** | Se rehace la síntesis de aspiradora, licuadora, secador de pelo, secador de manos, pirotecnia y timbre escolar. La aspiradora era un zumbido grave de 120 Hz —la firma de un motor de explosión— y ACOPROS la oía como una moto; los dos secadores medían casi igual. Siguen siendo sintéticos (procedencia MDR, sin licencias) y a la misma sonoridad. **No los ha validado nadie de oído**: lo que se ha comprobado es la medida espectral (`check-sensory-assets.js`, con los rangos de los secadores ya sin solaparse) |
+| **Sonidos (SEN‑02)** | Se rehace la síntesis de aspiradora, licuadora, secador de pelo, secador de manos, pirotecnia y timbre escolar. La aspiradora era un zumbido grave de 120 Hz —la firma de un motor de explosión— y ACOPROS la oía como una moto; los dos secadores medían casi igual. Siguen siendo sintéticos (procedencia trazable, sin licencias) y a la misma sonoridad. **No los ha validado nadie de oído**: lo que se ha comprobado es la medida espectral (`check-sensory-assets.js`, con los rangos de los secadores ya sin solaparse) |
 | **Escucha previa (SEN‑01)** | Bajo las actividades sensoriales: los once sonidos a nivel 2, cuatro segundos cada uno, sin abrir ninguna actividad ni registrar nada. Es para el adulto, sin el niño delante: encadenar estímulos dentro de una exposición iría contra la jerarquía gradual |
 | **Actividades sensoriales (SEN‑03)** | La preparación dice con qué arranca cada actividad (sonido, intensidad, turno y quién lo inicia) y que las seis comparten pantalla. ISA‑06 arrancaba exactamente igual que ISA‑05; ahora empieza por el centro comercial |
 | **Pictogramas (PM‑07 · ES‑09)** | 28 dibujos nuevos de píxel art (coche, tren, gota, jirafa, despertador, globo, cama…) y enlace por emoji a los dibujos que ya existían. Fichas sin dibujo propio: de 455 a 123. Los índices nuevos van al final de `PICTO_KEYS` |
@@ -1857,10 +1859,9 @@ ejercicios **el micrófono está apagado a propósito**.
   desconocido por diseño, así que la app **lo mide** (90 s presentados como
   juego de calentamiento) y decide qué ofrece. En nivel D el bloque no aparece;
   los otros seis funcionan igual.
-- **Muro MDR**: el módulo registra magnitudes físicas —milisegundos, grados,
-  ratios— y **ningún veredicto**. Sin puntuación automática, sin comparación
-  normativa y sin dificultad adaptativa: es el argumento que sostiene la
-  clasificación **SaMD Clase I**.
+- **Límite educativo (no dispositivo médico)**: el módulo registra magnitudes físicas —milisegundos, grados,
+  ratios— y **ningún diagnóstico ni veredicto clínico**. Sin puntuación automática, sin comparación
+  normativa y sin dificultad adaptativa: mantiene la app como herramienta educativa guiada por el adulto.
 - **Privacidad**: ningún fotograma se graba, se almacena ni sale del teléfono, y
   no hay identificación biométrica. Las tres afirmaciones son restricciones de
   arquitectura, no promesas, y están en `site/privacidad.html` y `privacy.html`
@@ -2036,8 +2037,8 @@ trazabilidad completa está en
 <summary><strong>V8.2</strong> — Academy: formación gamificada del cuidador</summary>
 
 - **Nuevo módulo Academy** (`src/ValeriaAcademy/`): sistema de capacitación
-  gamificado para padres y cuidadores —el motor clínico de la app bajo el marco
-  MDR—, con **Cápsulas de Conocimiento** de consumo rápido y **micro‑quiz** de
+  gamificado para padres y cuidadores —quienes guían cada sesión educativa en
+  casa—, con **Cápsulas de Conocimiento** de consumo rápido y **micro‑quiz** de
   validación ágil sobre cómo aprenden a hablar los niños, el porqué de las
   dinámicas TPR y qué vicios evitar al acompañar (no corregir sino
   remodelar, comentar más que preguntar).
@@ -2104,7 +2105,7 @@ trazabilidad completa está en
   (`ValeriaAdultChaosPanel`) con escucha en ruido babble (`valeriaNoise` +
   `ValeriaManualNoiseSlider`), distractor de doble tarea (`ValeriaDistractorCat`)
   y quiebre pragmático con estrategias de reparación (`ValeriaPragmaticBreak`),
-  todo bajo el muro MDR (manual, nunca automático). Frases portadoras
+  todo bajo control manual del adulto (nunca automático). Frases portadoras
   combinatorias (`valeriaCarrierPhrases`) y pausa de sesión unificada
   (`ValeriaSessionBreakOverlay`). Telemetría V2.
 - **Telemetría no bloqueante**: captura de tiempo activo por pantalla, misclicks
@@ -2194,6 +2195,6 @@ trazabilidad completa está en
 
 Hecho con 🐈‍⬛ por **Dr. Frank Alberto Betances Reinoso**
 
-<sub>Valeria+ · formación y ejercicios de lenguaje · offline · multivariedad</sub>
+<sub>Valeria+ · aplicación educativa de formación y ejercicios de lenguaje · offline · multivariedad</sub>
 
 </div>
