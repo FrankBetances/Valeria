@@ -2,7 +2,8 @@
 // Valeria+ · Puente del módulo de Realidad Aumentada (bloque 7)
 // Única superficie que el resto de la app ve del host nativo de cámara +
 // escena 3D. Dos llamadas de trabajo (lanzar un ejercicio, correr la Prueba de
-// Aptitud) y una sonda de disponibilidad; nada más.
+// Aptitud), una sonda de disponibilidad, y el ejercicio nativo de cada
+// actividad STEAM. Si no hay cámara, esa actividad no se mide aquí.
 //
 // ── Degradación elegante (idioma de la casa) ───────────────────────────────
 // El módulo nativo se carga con require() dentro de try, igual que valeriaNoise
@@ -30,6 +31,9 @@
 // ArSessionResult y es el JS quien lo enruta por valeriaTelemetry, igual que
 // hace hoy el player. Una sola fuente de verdad para los datos del piloto.
 // ============================================================================
+
+import type { SteamActivityId } from './steam/types';
+import { nativeExerciseForSteamActivity } from './steam/engine/Detectors';
 
 // ---------------------------------------------------------------------------
 // Vocabulario compartido con el host nativo
@@ -465,4 +469,13 @@ export async function launchAr(cfg: ArExerciseConfig): Promise<ArSessionResult |
   } catch (e) {
     return null;
   }
+}
+
+/**
+ * Ejercicio nativo (ar1–ar6) con el que una actividad STEAM abre la cámara.
+ * No lanza nada: si no hay cámara, ArLegacyWorldAdapter sigue por adult_tap
+ * y la RevealLayer de esa actividad, sin pedir un ensayo al host.
+ */
+export function resolveNativeExerciseForSteamActivity(activityId: SteamActivityId): ArExerciseId {
+  return nativeExerciseForSteamActivity(activityId);
 }
