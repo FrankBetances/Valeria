@@ -31,6 +31,9 @@ import { sha256, ProPinModal } from './ValeriaProPin';
 import { getArMeta } from './valeriaExerciseMeta';
 import { getUiLang } from './valeriaUiLang';
 import { useT } from './i18n';
+import { ValeriaSteamWorldScreen, steamActivityTitle } from './ValeriaSteamWorldScreen';
+import { STEAM_ACTIVITIES } from './steam/worlds';
+import type { SteamActivityId, SteamArMode } from './steam/types';
 import {
   isArAvailable, runAptitudeTest, launchAr, calibrateAr, hasArCalibration, openArDiagnostics,
   installArReviewProfile,
@@ -106,6 +109,8 @@ export const ValeriaArLauncherScreen: React.FC<{ navigation?: any }> = ({ naviga
   // 3/9/2026 el nativo calculaba la causa exacta y la tiraba, y la pantalla
   // solo sabía ofrecer «inténtalo de nuevo».
   const [failure, setFailure] = useState<{ reason: ArFailureReason | null; detail: string | null } | null>(null);
+  const [steamTab, setSteamTab] = useState<SteamArMode>('LUA_SOLO');
+  const [steamOpen, setSteamOpen] = useState<SteamActivityId | null>(null);
 
   useEffect(() => {
     (async () => {
@@ -598,6 +603,9 @@ export const ValeriaArLauncherScreen: React.FC<{ navigation?: any }> = ({ naviga
   }
 
   // ---- Menú del bloque -----------------------------------------------------
+  if (steamOpen) {
+    return <ValeriaSteamWorldScreen activityId={steamOpen} onBack={() => setSteamOpen(null)} />;
+  }
   const policy = arPolicyFor(profile.level);
   return (
     <View style={s.flex}>
@@ -641,6 +649,41 @@ export const ValeriaArLauncherScreen: React.FC<{ navigation?: any }> = ({ naviga
                 {!enabled && <Text style={s.exFlag}>{t.ar.flagUnavailable}</Text>}
               </View>
               <Text style={s.exGo}>{enabled ? '▶' : '—'}</Text>
+            </Pressable>
+          );
+        })}
+
+        <Text style={s.hubLabel}>{t.steam.kicker}</Text>
+        <View style={s.steamTabs}>
+          {([
+            ['LUA_SOLO', t.steam.tabLua, t.steam.tabLuaA11y],
+            ['SET_SOLO', t.steam.tabSets, t.steam.tabSetsA11y],
+            ['SET_WITH_LUA', t.steam.tabWithLua, t.steam.tabWithLuaA11y],
+          ] as const).map(([mode, label, a11y]) => {
+            const on = steamTab === mode;
+            return (
+              <Pressable key={mode} onPress={() => setSteamTab(mode)}
+                style={[s.steamTab, on && s.steamTabOn]}
+                accessibilityRole="tab" accessibilityState={{ selected: on }} accessibilityLabel={a11y}>
+                <Text style={[s.steamTabTxt, on && s.steamTabTxtOn]}>{label}</Text>
+              </Pressable>
+            );
+          })}
+        </View>
+        <Text style={s.steamNote}>
+          {steamTab === 'LUA_SOLO' ? t.steam.noteLua : steamTab === 'SET_SOLO' ? t.steam.noteSets : t.steam.noteWithLua}
+        </Text>
+        {STEAM_ACTIVITIES.filter((activity) => activity.mode === steamTab).map((activity) => {
+          const name = steamActivityTitle(activity, getUiLang());
+          return (
+            <Pressable key={activity.id} onPress={() => setSteamOpen(activity.id)} style={s.steamCard}
+              accessibilityRole="button" accessibilityLabel={t.steam.openA11y(name)}>
+              <View style={s.steamCode}><Text style={s.steamCodeTxt}>{activity.id}</Text></View>
+              <View style={s.steamBody}>
+                <Text style={s.exName}>{name}</Text>
+                {activity.mode === 'SET_SOLO' && <Text style={s.steamFlag}>{t.steam.flagReveal}</Text>}
+                {activity.mode === 'SET_WITH_LUA' && <Text style={s.steamFlag}>{t.steam.flagBle}</Text>}
+              </View>
             </Pressable>
           );
         })}
@@ -754,6 +797,29 @@ const s = StyleSheet.create({
   primaryBtn: { backgroundColor: V.color.primary, borderRadius: 14, paddingVertical: 15, alignItems: 'center', marginTop: 16, ...V.shadow.button },
   primaryBtnTxt: { color: '#fff', fontSize: 15.5, fontWeight: '800' },
   cancel: { textAlign: 'center', color: V.color.textSecondary, fontSize: 13, fontWeight: '800', marginTop: 12 },
+
+  // Pestañas y fichas del adulto. El chip se mide por su texto: sin flex,
+  // porque en Android un flex:1 heredado de un botón de ancho repartido lo aplasta.
+  steamTabs: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginBottom: 8 },
+  steamTab: {
+    alignSelf: 'flex-start', flexShrink: 0,
+    backgroundColor: '#fff', borderWidth: 1.5, borderColor: V.color.border,
+    borderRadius: 12, paddingHorizontal: 12, paddingVertical: 8,
+  },
+  steamTabOn: { backgroundColor: V.color.primaryLight, borderColor: V.color.primaryDark },
+  steamTabTxt: { fontSize: 13, fontWeight: '800', color: V.color.textSecondary },
+  steamTabTxtOn: { color: V.color.primaryDark },
+  steamNote: { fontSize: 12, fontWeight: '600', color: V.color.textSecondary, lineHeight: 17, marginBottom: 10 },
+  steamCard: {
+    flexDirection: 'row', alignItems: 'center', gap: 12, backgroundColor: '#fff',
+    borderWidth: 1, borderColor: V.color.borderActive, borderRadius: 15, padding: 13, marginBottom: 10,
+  },
+  steamCode: {
+    flexShrink: 0, paddingHorizontal: 8, paddingVertical: 6, borderRadius: 9, backgroundColor: V.color.primaryLight,
+  },
+  steamCodeTxt: { fontSize: 12, fontWeight: '800', color: V.color.primaryDark },
+  steamBody: { flexGrow: 1, flexShrink: 1, minWidth: 0 },
+  steamFlag: { fontSize: 11, fontWeight: '700', color: V.color.textSecondary, marginTop: 4 },
 });
 
 export default ValeriaArLauncherScreen;
