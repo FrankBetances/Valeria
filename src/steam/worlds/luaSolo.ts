@@ -11,6 +11,7 @@ import type {
   TripartiteCycle,
   WorldEventId,
   WorldEventSpec,
+  WorldManifest,
 } from '../types';
 import { CAUSAL_SEQUENCES, type ChallengeInput } from '../engine/ChallengeEvaluator';
 import { ADULT_TAP_FRAMES, VISUAL_STABLE_FRAMES } from '../engine/EventStabilizer';
@@ -21,7 +22,7 @@ import { applyTurnGate } from '../engine/TurnGate';
 import { promptWord } from '../engine/WordPrompter';
 import { WorldRegistry } from '../engine/WorldRegistry';
 import type { Observation } from '../types';
-import { assertSteamActivities } from '../validator';
+import { assertSteamActivities, assertWorldManifest } from '../validator';
 
 /** AR-L01 no enciende el micrófono: el gesto se mira, no se graba. */
 export const LUA_L01_MICROPHONE_ENABLED = false;
@@ -1281,14 +1282,226 @@ function assertCatalog(activities: readonly SteamActivity[]): void {
   if (LUA_L06_VISUAL_CUE_AFTER_MS !== 1500) throw new Error('AR-L06: la pista visual del adulto espera 1500 ms.');
 }
 
+const PIECE_SAFE = text(
+  'Pieza de mesa. La coloca y la guarda la persona adulta. No va a la boca de la criatura.',
+  'Table piece. The adult places it and puts it away. It does not go in the child\'s mouth.',
+  'Peça de taula. La posa i la desa la persona adulta. No va a la boca de la criatura.',
+  'Peza de mesa. Colócaa e gárdaa a persoa adulta. Non vai á boca da criatura.',
+);
+
+const ADULT_NOTE = text(
+  'La persona adulta anota lo que vio. No hay puntuación.',
+  'The adult notes what they saw. There is no score.',
+  'La persona adulta anota el que ha vist. No hi ha puntuació.',
+  'A persoa adulta anota o que viu. Non hai puntuación.',
+);
+
+export const activities: readonly SteamActivity[] = LUA_SOLO_ACTIVITIES;
+
+function luaChallenge(
+  index: 0 | 1 | 2 | 3 | 4,
+  id: 'LUA-C1' | 'LUA-C2' | 'LUA-C3' | 'LUA-C4' | 'LUA-C5',
+  number: 1 | 2 | 3 | 4 | 5,
+  ageBand: '0-2' | '2-3' | '3-4' | '4-5' | '5-6',
+  neuroStage: 'I1' | 'I2' | 'I3' | 'I4' | 'I5',
+  skillAxes: WorldManifest['skillAxes'],
+): WorldManifest['challenges'][number] {
+  const activity = LUA_SOLO_ACTIVITIES[index];
+  return {
+    id,
+    number,
+    title: LUA_SOLO_TITLES[activity.id as LuaSoloActivityId],
+    ageBand,
+    neuroStage,
+    estimatedMinutes: 6,
+    scale: 'G',
+    skillAxes,
+    targetEvents: activity.events.map((event) => event.id),
+    cycle: activity.cycle,
+    achievementCriterion: activity.cycle.construye.tangibleMakeChallenge,
+    qualitativeObservation: ADULT_NOTE,
+  };
+}
+
+export const manifest: WorldManifest = {
+  id: 'LUA',
+  orderIndex: 0,
+  title: text(
+    'Solo con Lúa',
+    'With Lúa alone',
+    'Només amb Lúa',
+    'Só con Lúa',
+  ),
+  subtitleEn: 'Six plays with Lúa V5 and no block set',
+  phenomenon: text(
+    'Seis juegos solo con Lúa, sin un set de mesa. La tableta se queda en el soporte. La criatura no toca el cristal: mira el espejo, gira a Lúa, acerca el pez, se queda quieta, acaricia el lomo o gira la cabeza hacia un canto. En el espejo de gestos el micrófono sigue apagado.',
+    'Six plays with Lúa alone, and no block set. The tablet stays on the stand. The child does not touch the glass: they use the mirror, turn Lúa, bring the fish, stay still, pet the back or turn their head toward a song. On the gesture mirror the microphone stays off.',
+    'Sis jocs només amb Lúa, sense un set de taula. La tauleta es queda al suport. La criatura no toca el vidre: mira el mirall, gira Lúa, acosta el peix, es queda quieta, acaricia el llom o gira el cap cap a un cant. Al mirall de gestos el micròfon segueix apagat.',
+    'Seis xogos só con Lúa, sen un set de mesa. A tableta queda no soporte. A criatura non toca o cristal: mira o espello, xira a Lúa, achega o peixe, queda quieta, agarima o lombo ou xira a cabeza cara a un canto. No espello de xestos o micrófono segue apagado.',
+  ),
+  ageRange: '0-6',
+  scaleSummary: 'G',
+  prioritySpatialCategories: ['orientation', 'deictics', 'position', 'properties', 'shapes'],
+  skillAxes: ['phonology_speech', 'lexicon_semantics', 'interaction_pragmatics', 'sensory_regulation', 'auditory_perception'],
+  supportedProfiles: ['hearing_ic', 'autism_tea', 'dyslexia', 'speech_motricity'],
+  targetAudienceContext: text(
+    'Familia y aula, de 0 a 6 años. La persona adulta maneja la tableta y confirma con un toque. La criatura juega con Lúa y con las piezas.',
+    'Family and classroom, from 0 to 6 years. The adult handles the tablet and confirms with a tap. The child plays with Lúa and with the pieces.',
+    'Família i aula, de 0 a 6 anys. La persona adulta fa anar la tauleta i confirma amb un toc. La criatura juga amb Lúa i amb les peces.',
+    'Familia e aula, de 0 a 6 anos. A persoa adulta manexa a tableta e confirma cun toque. A criatura xoga con Lúa e coas pezas.',
+  ),
+  udlPathways: {
+    representation: text(
+      'La cara de Lúa, la barra, el anillo y el haz del lomo se ven en la tableta y se pueden señalar en el aire, sin tocar el cristal.',
+      'Lúa\'s face, the bar, the ring and the beam on the back show on the tablet and can be pointed at in the air, without touching the glass.',
+      'La cara de Lúa, la barra, l\'anell i el feix del llom es veuen a la tauleta i es poden assenyalar a l\'aire, sense tocar el vidre.',
+      'A cara de Lúa, a barra, o anel e o feixe do lombo vense na tableta e pódense sinalar no aire, sen tocar o cristal.',
+    ),
+    engagement: text(
+      'Hay un papel claro: la persona adulta propone el juego y la criatura responde con el cuerpo o con una pieza.',
+      'There is a clear role: the adult offers the play and the child answers with the body or with a piece.',
+      'Hi ha un paper clar: la persona adulta proposa el joc i la criatura respon amb el cos o amb una peça.',
+      'Hai un papel claro: a persoa adulta propón o xogo e a criatura responde co corpo ou cunha peza.',
+    ),
+    expression: text(
+      'La criatura muestra el gesto, el rumbo, la entrega, la quietud, la caricia o el giro de cabeza. La persona adulta confirma con un toque.',
+      'The child shows the gesture, the heading, the handover, the stillness, the pet or the head turn. The adult confirms with a tap.',
+      'La criatura mostra el gest, el rumb, el lliurament, la quietud, la carícia o el gir de cap. La persona adulta confirma amb un toc.',
+      'A criatura amosa o xesto, o rumbo, a entrega, a quietude, a caricia ou o xiro de cabeza. A persoa adulta confirma cun toque.',
+    ),
+  },
+  tabletStandSpec: {
+    heightCm: 26,
+    tiltDeg: 55,
+    cameraMode: 'rear_tabletop',
+    luaOrientation: 'child_sees_front',
+  },
+  pieces: [
+    {
+      code: 'K-LOMO-G',
+      name: text('Lomo de Lúa', 'Lúa\'s back', 'Llom de Lúa', 'Lombo de Lúa'),
+      quantity: 1,
+      scale: 'G',
+      instanceMarkerIds: [LUA_LOMO_MARKER_ID],
+      detectionMethod: 'marker',
+      safetyNotes: PIECE_SAFE,
+    },
+    {
+      code: 'K-COLA-G',
+      name: text('Cola de Lúa', 'Lúa\'s tail', 'Cua de Lúa', 'Rabo de Lúa'),
+      quantity: 1,
+      scale: 'G',
+      instanceMarkerIds: [],
+      detectionMethod: 'adult_tap',
+      safetyNotes: PIECE_SAFE,
+    },
+    {
+      code: 'K-TRONCO-G',
+      name: text('Tronco de Lúa', 'Lúa\'s trunk', 'Tronc de Lúa', 'Tronco de Lúa'),
+      quantity: 1,
+      scale: 'G',
+      instanceMarkerIds: [],
+      detectionMethod: 'adult_tap',
+      safetyNotes: PIECE_SAFE,
+    },
+    {
+      code: 'PEZ-G',
+      name: text('Pez de merienda', 'Snack fish', 'Peix de berenar', 'Peixe de merenda'),
+      quantity: 1,
+      scale: 'G',
+      instanceMarkerIds: [LUA_FISH_MARKER_ID],
+      detectionMethod: 'occlusion',
+      safetyNotes: PIECE_SAFE,
+    },
+    {
+      code: 'K-RONRONEO-C',
+      name: text('Bloque Ronroneo', 'Purr block', 'Bloc Ronroneig', 'Bloque Rosmido'),
+      quantity: 1,
+      scale: 'G',
+      instanceMarkerIds: [],
+      detectionMethod: 'hand',
+      safetyNotes: PIECE_SAFE,
+    },
+  ],
+  events: LUA_SOLO_ACTIVITIES.flatMap((activity) => activity.events),
+  challenges: [
+    luaChallenge(0, 'LUA-C1', 1, '2-3', 'I3', ['phonology_speech']),
+    luaChallenge(1, 'LUA-C2', 2, '2-3', 'I2', ['lexicon_semantics', 'interaction_pragmatics']),
+    luaChallenge(2, 'LUA-C3', 3, '2-3', 'I2', ['interaction_pragmatics']),
+    luaChallenge(3, 'LUA-C4', 4, '2-3', 'I3', ['sensory_regulation']),
+    luaChallenge(4, 'LUA-C5', 5, '3-4', 'I4', ['sensory_regulation']),
+  ],
+  modelCards: [
+    {
+      id: 'LUA-CARD-SOLO',
+      title: text('Lúa en la mesa', 'Lúa on the table', 'Lúa a la taula', 'Lúa na mesa'),
+      targetPieces: ['K-LOMO-G', 'K-COLA-G', 'K-TRONCO-G', 'PEZ-G', 'K-RONRONEO-C'],
+    },
+  ],
+  revealLayer: {
+    id: 'lua_v5_body',
+    description: text(
+      'Cuerpo de Lúa en la capa de revelación, animación celebrate, por debajo de 100 KB.',
+      'Lúa\'s body on the reveal layer, animation celebrate, under 100 KB.',
+      'Cos de Lúa a la capa de revelació, animació celebrate, per sota de 100 KB.',
+      'Corpo de Lúa na capa de revelación, animación celebrate, por debaixo de 100 KB.',
+    ),
+    maxGlbKb: 100,
+  },
+  warmupLinks: { songIds: ['lua_song_01'], gameIds: ['lua_game_01'] },
+  story: {
+    storyId: 'lua_story_solo',
+    anticipationMicroStory: text(
+      'Hoy la mesa es de Lúa. No hace falta un set: están su cuerpo, un pez, el bloque que ronronea y el canto de un pajarito.',
+      'Today the table belongs to Lúa. No set is needed: her body, a fish, the block that purrs and a little bird\'s song are enough.',
+      'Avui la taula és de Lúa. No cal un set: hi ha el seu cos, un peix, el bloc que ronroneja i el cant d\'un ocellet.',
+      'Hoxe a mesa é de Lúa. Non fai falta un set: están o seu corpo, un peixe, o bloque que rosma e o canto dun paxariño.',
+    ),
+    closingMicroStory: text(
+      'El gesto, el rumbo, la merienda, el despertar, la caricia y el canto quedan hechos. Las piezas vuelven a su caja.',
+      'The gesture, the heading, the snack, the waking, the pet and the song are done. The pieces go back in the box.',
+      'El gest, el rumb, el berenar, el despertar, la carícia i el cant queden fets. Les peces tornen a la caixa.',
+      'O xesto, o rumbo, a merenda, o espertar, a caricia e o canto quedan feitos. As pezas volven á caixa.',
+    ),
+  },
+  tabletopPracticeLinks: [
+    {
+      route: 'BlockList',
+      blockParam: 'lenguaje',
+      connectionReason: text(
+        'En la mesa se vuelven a decir delante, detrás, cerca y despacio, con Lúa y las mismas piezas.',
+        'At the table, front, back, near and slowly are said again, with Lúa and the same pieces.',
+        'A la taula es tornen a dir davant, darrere, a prop i a poc a poc, amb Lúa i les mateixes peces.',
+        'Na mesa vólvense dicir diante, detrás, preto e amodiño, con Lúa e as mesmas pezas.',
+      ),
+    },
+    {
+      route: 'SensoryBlockList',
+      blockParam: 'audicion',
+      connectionReason: text(
+        'En la mesa se vuelve a escuchar de qué lado llega un canto, con la tableta quieta en el soporte.',
+        'At the table, the side a song comes from is listened for again, with the tablet still on the stand.',
+        'A la taula es torna a escoltar de quin costat arriba un cant, amb la tauleta quieta al suport.',
+        'Na mesa vólvese escoitar de que lado chega un canto, coa tableta quieta no soporte.',
+      ),
+    },
+  ],
+  academyCapsuleId: 'STEAM-LUA',
+};
+
 assertSteamActivities(LUA_SOLO_ACTIVITIES);
+assertWorldManifest(manifest);
 assertCatalog(LUA_SOLO_ACTIVITIES);
 assertFaces();
 assertMoodLink();
 assertGatesAndWords(LUA_SOLO_ACTIVITIES);
 assertTraces(LUA_SOLO_TRACES);
+if (activities !== LUA_SOLO_ACTIVITIES || manifest.id !== 'LUA') {
+  throw new Error('El barril lee manifest (LUA) y activities, el mismo array que LUA_SOLO_ACTIVITIES.');
+}
 
 const luaSoloRegistry = new WorldRegistry();
+luaSoloRegistry.registerManifest(manifest);
 registerLuaSolo(luaSoloRegistry);
 for (const activity of LUA_SOLO_ACTIVITIES) {
   if (!luaSoloRegistry.activityAt('LUA', 'LUA_SOLO', activity.id)) {
