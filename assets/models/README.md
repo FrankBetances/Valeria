@@ -1,13 +1,15 @@
 # Modelos 3D del bloque de Realidad Aumentada
 
-Los ocho modelos 3D que consume la capa de recompensa y ejercicios (`SceneHost`). **Están en el
-repositorio y son de obra propia**: los genera
+Los quince modelos 3D que consume la capa de recompensa, los ejercicios y las
+capas de revelación (`SceneHost`). **Están en el repositorio y son de obra
+propia**: los genera
 [`scripts/build-ar-models.js`](../../scripts/build-ar-models.js) a partir de
 geometría descrita en ese fichero, sin dependencias y sin descargas.
 
 ```bash
-npm run build:ar-models   # regenera los ocho .glb
-npm run check:ar-models   # verifica el contrato contra el enum ArModel de Kotlin
+npm run build:ar-models              # regenera los quince .glb
+npm run check:ar-models              # verifica el contrato contra el enum ArModel de Kotlin
+node scripts/check-ar-reveal-layers.js  # los quince pesan < 100 KB y exponen su animación
 ```
 
 ## Por qué generados y no de un banco de assets
@@ -16,8 +18,9 @@ Un modelo gratuito de internet trae siempre las mismas tres dudas: qué licencia
 tiene de verdad, si la conservará mañana, y si sus animaciones se llaman como el
 código espera. Generándolos las tres desaparecen a la vez —autoría del proyecto,
 licencia CC0, nombres de animación definidos en el mismo sitio que los invoca— y
-además pesan **151,3 KB los ocho juntos**, frente a los 2 MB de presupuesto por
-modelo.
+además pesan **237160 B los quince juntos**, frente a los 2 MB de presupuesto por
+modelo. Cada uno de los quince está además por debajo de **100 KB** (102400 B):
+eso lo afirma `scripts/check-ar-reveal-layers.js`.
 
 Son modelos **de trabajo, no de ilustración**: formas limpias, colores planos y
 silueta reconocible a 35 cm en una pantalla de seis pulgadas. Sirven para jugar y
@@ -36,6 +39,14 @@ caer un `.glb` con las **mismas animaciones** en esta carpeta y volver a correr
 | `zapato.glb` | AR-3 | `spin360` | Distractor visual para selección por fijación |
 | `lua.glb` | AR-4 / AR-6 | `celebrate` | Mascota Lúa 3D: celebra con salto, batir de cola y ladeo cefálico al ser localizada con la retícula foveal (AR-4) o ante imitación mímica simétrica (AR-6) |
 | `pez.glb` | AR-5 | `spin360` | Pez dorado de premio lanzado hacia Lúa; gira 360° durante la trayectoria parabólica y la captura |
+| `lua_v5_body.glb` | AR-L02, AR-L05, AR-S00, AR-SL00 | `celebrate` | Cuerpo de bloques de Lúa V5. Salto, coletazo y ladeo de cabeza |
+| `set_camino.glb` | AR-S01, AR-SL01 | `flow` | Caudal turquesa que recorre las baldosas y se detiene, con remolino, en el corte |
+| `set_sonido.glb` | AR-S02, AR-SL02 | `resonate` | Tres anillos concéntricos que se abren desfasados sobre el resonador |
+| `set_rampas.glb` | AR-S03, AR-SL03 | `roll` | Esfera que baja por la rampa girando |
+| `set_soplo.glb` | AR-S04, AR-SL04 | `spin_rotor` | Rotor de tres aspas y cinta de aire a lo largo del canal |
+| `set_puente.glb` | AR-S05, AR-SL05 | `balance` | Viga que se balancea y queda a nivel; la plomada no se mueve |
+| `set_jardin.glb` | AR-S06, AR-SL06 | `bloom` | La flor escala desde el capullo hasta abierta |
+| `set_oficios.glb` | AR-S08 a AR-S11 y AR-SL08 a AR-SL11 | `celebrate` | Diorama con nodos `policia`, `bomberos`, `hospital` y `trenes`. Salto de premio, barrera que sube, chorro, onda de calma y locomotora |
 
 > **Los distractores giran igual que la diana a propósito.** Si solo se animara
 > la respuesta correcta, el movimiento sería una pista y AR-3 dejaría de medir
@@ -124,17 +135,32 @@ si le han premiado deja de tener refuerzo, por cuidado que esté el modelo.
    - *Animación*: `spin360` (rotación 360° en eje Y en 0,8 s sobre `pez`)
    - *Asociación clínica*: AR-5 (Lanzamiento y Captura "Alimentar a Lúa" · Pez dorado).
 
-## Requisitos técnicos (los verifica `check:ar-models`)
+8. **Capas de revelación** (medidas con `node scripts/build-ar-models.js` en esta tanda). El recuento de triángulos es el del generador: cada malla cuenta una vez aunque la compartan varios nodos.
 
-- **Formato**: glTF 2.0 binario (`.glb`). Los ocho pasan el validador oficial
-  de Khronos con **cero errores y cero advertencias**.
-- **Peso**: < 2 MB por modelo (presupuesto contractual). Actuales: 9,7 – 50,4 KB (total: 138,7 KB para los 7 modelos).
-- **Polígonos**: 120 – 1.504 triángulos por modelo, normales planas. El objetivo es
+| Fichero | Bytes | Triángulos | Mallas | Animación | Nodos que se mueven |
+| --- | ---: | ---: | ---: | --- | --- |
+| `lua_v5_body.glb` | 14448 | 128 | 9 | `celebrate` | `lua_v5_body` (salto), `cola`, `cabeza` |
+| `set_camino.glb` | 7744 | 76 | 4 | `flow` | `corriente`, `remolino` |
+| `set_sonido.glb` | 21236 | 320 | 5 | `resonate` | `anillo_0`, `anillo_1`, `anillo_2` |
+| `set_rampas.glb` | 8896 | 156 | 4 | `roll` | `bola` |
+| `set_soplo.glb` | 7476 | 68 | 4 | `spin_rotor` | `rotor`, `cinta` |
+| `set_puente.glb` | 8216 | 72 | 5 | `balance` | `viga` |
+| `set_jardin.glb` | 10324 | 148 | 5 | `bloom` | `flor` |
+| `set_oficios.glb` | 16812 | 176 | 9 | `celebrate` | raíz, `barrera`, `chorro`, `onda`, `locomotora` |
+
+`set_oficios.glb` agrupa el diorama en `policia`, `bomberos`, `hospital` y `trenes`.
+
+## Requisitos técnicos (los verifica `check:ar-models` y `check-ar-reveal-layers`)
+
+- **Formato**: glTF 2.0 binario (`.glb`). Los siete modelos de ejercicio ya estaban declarados como válidos por el validador de Khronos; en esta tanda salieron con el mismo SHA-256. El validador de Khronos no lo he ejecutado sobre los ocho GLB nuevos.
+- **Peso**: < 2 MB por modelo (`check-ar-models`) y, para los quince, estrictamente < 102400 B (`check-ar-reveal-layers`). Medidos aquí: de 7476 B (`set_soplo.glb`) a 50432 B (`lua.glb`). Total: 237160 B.
+- **Polígonos**: 68 – 1.504 triángulos por modelo en el recuento del generador, normales planas. El objetivo es
   un teléfono de gama media de hace tres años sosteniendo cámara + inferencia +
   Filament a la vez a 60 FPS estables.
-- **Nombres de animación**: literalmente los de la tabla (`celebrate`, `spin360`). La escena los busca
+- **Nombres de animación**: literalmente los de la tabla (`celebrate`, `spin360`, `flow`, `resonate`, `roll`, `spin_rotor`, `balance`, `bloom`). La escena los busca
   por nombre; `Celebrate` o `Armature|celebrate` no se encuentran — y ese es
   justo el fallo silencioso que `check:ar-models` está escrito para atrapar.
+  Ese script lee el enum con el patrón `[A-Z_]+`, así que **no lista** `LUA_V5_BODY` (el nombre lleva un dígito). El peso y el clip de `lua_v5_body.glb` los afirma `check-ar-reveal-layers.js`.
 - **Escala**: 1 unidad = 1 metro, origen en la base del modelo, mirando a +Z.
 - **Sin texturas**: color plano por material (`baseColorFactor`). A la distancia
   de trabajo no se aprecian y se llevarían la mitad del presupuesto.
@@ -150,6 +176,14 @@ si le han premiado deja de tener refuerzo, por cuidado que esté el modelo.
 | `zapato.glb` | Proyecto Valeria+ · Dr. Frank Alberto Betances Reinoso | **CC0-1.0** | Obra propia · `scripts/build-ar-models.js` |
 | `lua.glb` | Proyecto Valeria+ · Dr. Frank Alberto Betances Reinoso | **CC0-1.0** | Obra propia · `scripts/build-ar-models.js` |
 | `pez.glb` | Proyecto Valeria+ · Dr. Frank Alberto Betances Reinoso | **CC0-1.0** | Obra propia · `scripts/build-ar-models.js` |
+| `lua_v5_body.glb` | Proyecto Valeria+ · Dr. Frank Alberto Betances Reinoso | **CC0-1.0** | Obra propia · `scripts/build-ar-models.js` |
+| `set_camino.glb` | Proyecto Valeria+ · Dr. Frank Alberto Betances Reinoso | **CC0-1.0** | Obra propia · `scripts/build-ar-models.js` |
+| `set_sonido.glb` | Proyecto Valeria+ · Dr. Frank Alberto Betances Reinoso | **CC0-1.0** | Obra propia · `scripts/build-ar-models.js` |
+| `set_rampas.glb` | Proyecto Valeria+ · Dr. Frank Alberto Betances Reinoso | **CC0-1.0** | Obra propia · `scripts/build-ar-models.js` |
+| `set_soplo.glb` | Proyecto Valeria+ · Dr. Frank Alberto Betances Reinoso | **CC0-1.0** | Obra propia · `scripts/build-ar-models.js` |
+| `set_puente.glb` | Proyecto Valeria+ · Dr. Frank Alberto Betances Reinoso | **CC0-1.0** | Obra propia · `scripts/build-ar-models.js` |
+| `set_jardin.glb` | Proyecto Valeria+ · Dr. Frank Alberto Betances Reinoso | **CC0-1.0** | Obra propia · `scripts/build-ar-models.js` |
+| `set_oficios.glb` | Proyecto Valeria+ · Dr. Frank Alberto Betances Reinoso | **CC0-1.0** | Obra propia · `scripts/build-ar-models.js` |
 
 La autoría y la licencia viajan también dentro de cada fichero, en el campo
 `asset.copyright` del glTF: separar un modelo de este README no lo deja huérfano.

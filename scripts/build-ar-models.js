@@ -110,15 +110,17 @@ class GltfBuilder {
     return this.json.accessors.length - 1;
   }
 
-  addMaterial(name, [r, g, b], roughness = 0.85) {
-    this.json.materials.push({
+  addMaterial(name, [r, g, b], roughness = 0.85, doubleSided = false) {
+    const material = {
       name,
       pbrMetallicRoughness: {
         baseColorFactor: [r, g, b, 1],
         metallicFactor: 0,
         roughnessFactor: roughness,
       },
-    });
+    };
+    if (doubleSided) material.doubleSided = true;
+    this.json.materials.push(material);
     return this.json.materials.length - 1;
   }
 
@@ -309,6 +311,46 @@ function fullTurn(axis, duration) {
   return { times, values };
 }
 
+/** Arandela con grosor. Las cuatro caras van explícitas: Filament no es de doble cara por defecto. */
+function ring(inner, outer, height, [ox, oy, oz] = [0, 0, 0], segments = 10) {
+  const positions = [];
+  const normals = [];
+  const indices = [];
+  const h = height / 2;
+  const addQuad = (verts, normal) => {
+    const base = positions.length / 3;
+    verts.forEach(([x, y, z]) => {
+      positions.push(x + ox, y + oy, z + oz);
+      normals.push(normal[0], normal[1], normal[2]);
+    });
+    indices.push(base, base + 1, base + 2, base, base + 2, base + 3);
+  };
+  for (let s = 0; s < segments; s++) {
+    const a0 = (s / segments) * Math.PI * 2;
+    const a1 = ((s + 1) / segments) * Math.PI * 2;
+    const p = (r, y, a) => [Math.cos(a) * r, y, Math.sin(a) * r];
+    const mx = (Math.cos(a0) + Math.cos(a1)) / 2;
+    const mz = (Math.sin(a0) + Math.sin(a1)) / 2;
+    const len = Math.hypot(mx, mz) || 1;
+    const on = [mx / len, 0, mz / len];
+    addQuad([p(inner, h, a0), p(outer, h, a0), p(outer, h, a1), p(inner, h, a1)], [0, 1, 0]);
+    addQuad([p(inner, -h, a1), p(outer, -h, a1), p(outer, -h, a0), p(inner, -h, a0)], [0, -1, 0]);
+    addQuad([p(outer, -h, a0), p(outer, h, a0), p(outer, h, a1), p(outer, -h, a1)], on);
+    addQuad([p(inner, -h, a1), p(inner, h, a1), p(inner, h, a0), p(inner, -h, a0)], [-on[0], 0, -on[2]]);
+  }
+  return { positions, normals, indices };
+}
+
+function piece(g, name, geometry, material, fields) {
+  const node = { name, mesh: g.addMesh(name, geometry, material) };
+  if (fields) {
+    if (fields.translation) node.translation = fields.translation;
+    if (fields.rotation) node.rotation = fields.rotation;
+    if (fields.children) node.children = fields.children;
+  }
+  return g.addNode(node);
+}
+
 // ---------------------------------------------------------------------------
 // Los cinco modelos
 // ---------------------------------------------------------------------------
@@ -324,6 +366,10 @@ const PALETTE = {
   gris: [0.22, 0.22, 0.25],
   blanco: [0.97, 0.97, 0.97],
   amarillo: [0.98, 0.80, 0.13],
+  cielo: [0.45, 0.72, 0.95],
+  naranja: [0.95, 0.48, 0.14],
+  rosaSuave: [0.95, 0.62, 0.72],
+  negro: [0.14, 0.14, 0.16],
 };
 
 /**
@@ -712,6 +758,341 @@ function buildPez() {
 }
 
 // ---------------------------------------------------------------------------
+// Capas de revelación. Cada fichero pesa estrictamente menos de 100 KB y
+// expone un solo clip, con el nombre que ArModel invoca.
+// ---------------------------------------------------------------------------
+
+/** Cuerpo de bloques de Lúa V5. `celebrate`: salto y coletazo, legible de lejos. */
+function buildLuaV5Body() {
+  const g = new GltfBuilder();
+  const ladrillo = g.addMaterial('ladrillo', PALETTE.negro);
+  const acento = g.addMaterial('acento', PALETTE.turquesa, 0.45);
+  const oreja = g.addMaterial('oreja', PALETTE.rosaSuave, 0.6);
+
+  const placa = piece(g, 'placa', box(0.72, 0.08, 0.48), ladrillo, { translation: [0, 0.04, 0] });
+  const torso = piece(g, 'torso', box(0.5, 0.36, 0.36), ladrillo, { translation: [0, 0.26, 0] });
+  const cuello = piece(g, 'cuello', cylinder(0.1, 0.1, [0, 0, 0], 8, 'y'), ladrillo, { translation: [0, 0.49, 0.02] });
+  const llave = piece(g, 'llave', box(0.16, 0.08, 0.1), acento, { translation: [0.16, 0.5, 0.08] });
+  const cara = piece(g, 'cara', box(0.36, 0.28, 0.28), ladrillo, { translation: [0, 0.16, 0] });
+  const hocico = piece(g, 'hocico', box(0.16, 0.1, 0.08), acento, { translation: [0, 0.08, 0.16] });
+  const orejas = [-0.12, 0.12].map((x, i) => piece(
+    g, `oreja_${i}`, box(0.08, 0.12, 0.06), oreja, { translation: [x, 0.34, 0] },
+  ));
+  const cabeza = g.addNode({ name: 'cabeza', translation: [0, 0.62, 0.06], children: [cara, hocico, ...orejas] });
+  const colaSeg = piece(g, 'cola_seg', box(0.28, 0.08, 0.08), ladrillo, { translation: [-0.14, 0, 0] });
+  const cola = g.addNode({ name: 'cola', translation: [-0.28, 0.4, -0.16], children: [colaSeg] });
+
+  const root = g.addNode({ name: 'lua_v5_body', children: [placa, torso, cuello, llave, cabeza, cola] });
+  g.addRootNode(root);
+
+  g.addAnimation('celebrate', [
+    {
+      node: root,
+      path: 'translation',
+      times: [0, 0.18, 0.36, 0.54, 0.78],
+      values: [[0, 0, 0], [0, 0.36, 0], [0, 0, 0], [0, 0.18, 0], [0, 0, 0]],
+    },
+    {
+      node: cola,
+      path: 'rotation',
+      times: [0, 0.16, 0.32, 0.48, 0.64, 0.78],
+      values: [quat('y', 0), quat('y', 36), quat('y', -36), quat('y', 36), quat('y', -18), quat('y', 0)],
+    },
+    {
+      node: cabeza,
+      path: 'rotation',
+      times: [0, 0.26, 0.52, 0.78],
+      values: [quat('x', 0), quat('x', -12), quat('x', 8), quat('x', 0)],
+    },
+  ]);
+  return g;
+}
+
+/** Set 1 · el caudal turquesa recorre las baldosas y se detiene, con remolino, en el corte. */
+function buildSetCamino() {
+  const g = new GltfBuilder();
+  const losa = g.addMaterial('losa', PALETTE.crema, 0.9);
+  const meta = g.addMaterial('meta', PALETTE.verde);
+  const agua = g.addMaterial('agua', PALETTE.turquesa, 0.35);
+
+  const baldosa = g.addMesh('baldosa', box(0.32, 0.06, 0.32), losa);
+  const losas = [-0.8, -0.4, 0].map((x, i) => g.addNode({
+    name: `baldosa_${i}`, mesh: baldosa, translation: [x, 0.03, 0],
+  }));
+  const corte = piece(g, 'corte', box(0.32, 0.06, 0.32), meta, { translation: [0.72, 0.03, 0] });
+  const corriente = piece(g, 'corriente', box(0.22, 0.08, 0.16), agua, { translation: [-0.8, 0.12, 0] });
+  const remolino = piece(g, 'remolino', cylinder(0.1, 0.06, [0, 0, 0], 10, 'y'), agua, { translation: [0.32, 0.14, 0] });
+
+  const root = g.addNode({ name: 'set_camino', children: [...losas, corte, corriente, remolino] });
+  g.addRootNode(root);
+
+  g.addAnimation('flow', [
+    {
+      node: corriente,
+      path: 'translation',
+      times: [0, 0.4, 0.8, 1.2, 1.6],
+      values: [[-0.8, 0.12, 0], [-0.4, 0.16, 0], [0, 0.12, 0], [0.18, 0.14, 0], [0.18, 0.12, 0]],
+    },
+    {
+      node: remolino,
+      path: 'rotation',
+      times: [0, 0.4, 0.8, 1.2, 1.6],
+      values: [quat('y', 0), quat('y', 40), quat('y', 120), quat('y', 240), quat('y', 360)],
+    },
+  ]);
+  return g;
+}
+
+/** Set 2 · anillos concéntricos que se abren al resonar. */
+function buildSetSonido() {
+  const g = new GltfBuilder();
+  const cavidad = g.addMaterial('cavidad', PALETTE.rojo);
+  const onda = g.addMaterial('onda', PALETTE.naranja, 0.4, true);
+  const base = piece(g, 'base', cylinder(0.28, 0.08, [0, 0, 0], 10, 'y'), cavidad, { translation: [0, 0.04, 0] });
+  const vaso = piece(g, 'vaso', cylinder(0.18, 0.32, [0, 0, 0], 10, 'y'), cavidad, { translation: [0, 0.24, 0] });
+
+  const radios = [[0.1, 0.16], [0.18, 0.24], [0.26, 0.32]];
+  const anillos = radios.map(([inner, outer], i) => piece(
+    g, `anillo_${i}`, ring(inner, outer, 0.025), onda, { translation: [0, 0.48 + i * 0.02, 0] },
+  ));
+
+  const root = g.addNode({ name: 'set_sonido', children: [base, vaso, ...anillos] });
+  g.addRootNode(root);
+
+  // Tres ondas desfasadas. Los tiempos son estrictamente crecientes: un
+  // sampler glTF no admite dos claves en el mismo instante.
+  const schedules = [
+    [0, 0.2, 0.55, 0.9, 1.4],
+    [0, 0.32, 0.67, 1.02, 1.4],
+    [0, 0.44, 0.79, 1.14, 1.4],
+  ];
+  g.addAnimation('resonate', anillos.map((node, i) => ({
+    node,
+    path: 'scale',
+    times: schedules[i],
+    values: [[1, 1, 1], [1, 1, 1], [1.65, 1.65, 1.65], [1, 1, 1], [1, 1, 1]],
+  })));
+  return g;
+}
+
+/** Set 3 · la esfera baja por la rampa girando sobre sí misma. */
+function buildSetRampas() {
+  const g = new GltfBuilder();
+  const madera = g.addMaterial('madera', PALETTE.marron);
+  const pilar = g.addMaterial('pilar', PALETTE.marronClaro);
+  const esfera = g.addMaterial('esfera', PALETTE.turquesa, 0.4);
+
+  const alto = piece(g, 'pilar_alto', box(0.16, 0.7, 0.16), pilar, { translation: [-0.62, 0.35, 0] });
+  const bajo = piece(g, 'pilar_bajo', box(0.16, 0.22, 0.16), pilar, { translation: [0.62, 0.11, 0] });
+  const rampa = piece(g, 'rampa', box(1.15, 0.06, 0.28), madera, {
+    translation: [0, 0.38, 0],
+    rotation: quat('z', 16),
+  });
+  const bola = piece(g, 'bola', sphere(0.12, [0, 0, 0], 10, 6), esfera, { translation: [-0.48, 0.72, 0] });
+
+  const root = g.addNode({ name: 'set_rampas', children: [alto, bajo, rampa, bola] });
+  g.addRootNode(root);
+
+  const roll = fullTurn('z', 1.2);
+  g.addAnimation('roll', [
+    {
+      node: bola,
+      path: 'translation',
+      times: [0, 0.3, 0.6, 0.9, 1.2],
+      values: [[-0.48, 0.72, 0], [-0.22, 0.58, 0], [0.05, 0.42, 0], [0.32, 0.28, 0], [0.52, 0.22, 0]],
+    },
+    { node: bola, path: 'rotation', times: roll.times, values: roll.values },
+  ]);
+  return g;
+}
+
+/** Set 4 · el rotor gira y una cinta de aire recorre el canal. */
+function buildSetSoplo() {
+  const g = new GltfBuilder();
+  const canal = g.addMaterial('canal', PALETTE.cielo, 0.55);
+  const aspaMat = g.addMaterial('aspa', PALETTE.amarillo, 0.5);
+  const aire = g.addMaterial('aire', PALETTE.blanco, 0.3);
+
+  const tubo = piece(g, 'canal', box(0.9, 0.16, 0.16), canal, { translation: [-0.28, 0.18, 0] });
+  const buje = piece(g, 'buje', cylinder(0.08, 0.08, [0, 0, 0], 8, 'z'), aspaMat);
+  const aspaMesh = g.addMesh('aspa', box(0.34, 0.05, 0.03, [0.2, 0, 0]), aspaMat);
+  const aspas = [0, 120, 240].map((deg, i) => g.addNode({
+    name: `aspa_${i}`, mesh: aspaMesh, rotation: quat('z', deg),
+  }));
+  const rotor = g.addNode({ name: 'rotor', translation: [0.38, 0.22, 0], children: [buje, ...aspas] });
+  const cinta = piece(g, 'cinta', box(0.28, 0.02, 0.08), aire, { translation: [-0.7, 0.22, 0] });
+
+  const root = g.addNode({ name: 'set_soplo', children: [tubo, rotor, cinta] });
+  g.addRootNode(root);
+
+  const spin = fullTurn('z', 1.2);
+  g.addAnimation('spin_rotor', [
+    { node: rotor, path: 'rotation', times: spin.times, values: spin.values },
+    {
+      node: cinta,
+      path: 'translation',
+      times: [0, 0.4, 0.8, 1.2],
+      values: [[-0.7, 0.22, 0], [-0.3, 0.24, 0], [0.05, 0.22, 0], [0.2, 0.22, 0]],
+    },
+  ]);
+  return g;
+}
+
+/** Set 5 · la viga se balancea y queda a nivel sobre el fulcro. */
+function buildSetPuente() {
+  const g = new GltfBuilder();
+  const vigaMat = g.addMaterial('viga', PALETTE.marron);
+  const fulcroMat = g.addMaterial('fulcro', PALETTE.gris, 0.7);
+  const masaMat = g.addMaterial('masa', PALETTE.amarillo, 0.5);
+  const plomadaMat = g.addMaterial('plomada', PALETTE.turquesa, 0.35);
+
+  const suelo = piece(g, 'suelo', box(1.3, 0.06, 0.36), fulcroMat, { translation: [0, 0.03, 0] });
+  const fulcro = piece(g, 'fulcro', box(0.12, 0.22, 0.16), fulcroMat, { translation: [0, 0.17, 0] });
+  const pesaMesh = g.addMesh('pesa', box(0.14, 0.12, 0.14), masaMat);
+  const pesaIzq = g.addNode({ name: 'pesa_izq', mesh: pesaMesh, translation: [-0.42, 0.1, 0] });
+  const pesaDcha = g.addNode({ name: 'pesa_dcha', mesh: pesaMesh, translation: [0.28, 0.1, 0] });
+  const tablon = piece(g, 'tablon', box(1.2, 0.06, 0.16), vigaMat);
+  const plomada = piece(g, 'plomada', cylinder(0.02, 0.2, [0, 0, 0], 6, 'y'), plomadaMat, { translation: [0, 0.28, 0.14] });
+  const viga = g.addNode({
+    name: 'viga', translation: [0, 0.32, 0], children: [tablon, pesaIzq, pesaDcha],
+  });
+
+  const root = g.addNode({ name: 'set_puente', children: [suelo, fulcro, viga, plomada] });
+  g.addRootNode(root);
+
+  g.addAnimation('balance', [
+    {
+      node: viga,
+      path: 'rotation',
+      times: [0, 0.35, 0.7, 1.05, 1.4, 1.7],
+      values: [quat('z', -16), quat('z', 14), quat('z', -8), quat('z', 4), quat('z', -1), quat('z', 0)],
+    },
+  ]);
+  return g;
+}
+
+/** Set 6 · el capítulo floral se abre desde el tallo. */
+function buildSetJardin() {
+  const g = new GltfBuilder();
+  const talloMat = g.addMaterial('tallo', PALETTE.verde);
+  const petaloMat = g.addMaterial('petalo', PALETTE.rosaSuave, 0.55);
+  const centroMat = g.addMaterial('centro', PALETTE.amarillo, 0.45);
+
+  const tierra = piece(g, 'tierra', box(0.46, 0.08, 0.46), PALETTE.marron, { translation: [0, 0.04, 0] });
+  const tallo = piece(g, 'tallo', cylinder(0.04, 0.42, [0, 0, 0], 8, 'y'), talloMat, { translation: [0, 0.29, 0] });
+  const hojaMesh = g.addMesh('hoja', box(0.16, 0.03, 0.08), talloMat);
+  const hojas = [-1, 1].map((side, i) => g.addNode({
+    name: `hoja_${i}`, mesh: hojaMesh, translation: [side * 0.12, 0.34, 0],
+  }));
+  const centro = piece(g, 'centro', sphere(0.08, [0, 0, 0], 8, 5), centroMat);
+  const petaloMesh = g.addMesh('petalo', box(0.16, 0.04, 0.1, [0.16, 0, 0]), petaloMat);
+  const petalos = [0, 60, 120, 180, 240, 300].map((deg, i) => g.addNode({
+    name: `petalo_${i}`, mesh: petaloMesh, rotation: quat('y', deg),
+  }));
+  const flor = g.addNode({
+    name: 'flor', translation: [0, 0.56, 0], scale: [0.25, 0.25, 0.25], children: [centro, ...petalos],
+  });
+
+  const root = g.addNode({ name: 'set_jardin', children: [tierra, tallo, ...hojas, flor] });
+  g.addRootNode(root);
+
+  g.addAnimation('bloom', [
+    {
+      node: flor,
+      path: 'scale',
+      times: [0, 0.45, 0.9, 1.3],
+      values: [[0.25, 0.25, 0.25], [1.08, 1.08, 1.08], [0.94, 0.94, 0.94], [1, 1, 1]],
+    },
+    {
+      node: flor,
+      path: 'translation',
+      times: [0, 0.45, 1.3],
+      values: [[0, 0.5, 0], [0, 0.62, 0], [0, 0.58, 0]],
+    },
+  ]);
+  return g;
+}
+
+/**
+ * Sets 8–11 en un solo GLB. Los nodos `policia`, `bomberos`, `hospital` y
+ * `trenes` son los que nombra el plan. `celebrate` es el premio común.
+ */
+function buildSetOficios() {
+  const g = new GltfBuilder();
+  const cebra = g.addMaterial('cebra', PALETTE.blanco, 0.7);
+  const via = g.addMaterial('via', PALETTE.gris, 0.8);
+  const agua = g.addMaterial('agua', PALETTE.cielo, 0.35);
+  const calma = g.addMaterial('calma', PALETTE.turquesa, 0.4);
+  const fuego = g.addMaterial('fuego', PALETTE.rojo);
+  const madera = g.addMaterial('madera', PALETTE.marronClaro);
+
+  const franjaMesh = g.addMesh('franja', box(0.1, 0.02, 0.28), cebra);
+  const franjas = [-0.12, 0, 0.12].map((x, i) => g.addNode({
+    name: `franja_${i}`, mesh: franjaMesh, translation: [x, 0.02, 0],
+  }));
+  const poste = piece(g, 'poste', box(0.04, 0.22, 0.04), via, { translation: [0.2, 0.12, 0] });
+  const brazo = piece(g, 'brazo', box(0.28, 0.03, 0.03, [-0.14, 0, 0]), PALETTE.amarillo);
+  const barrera = g.addNode({ name: 'barrera', translation: [0.2, 0.2, 0], children: [brazo] });
+  const policia = g.addNode({ name: 'policia', translation: [-0.78, 0, 0], children: [...franjas, poste, barrera] });
+
+  const torre = piece(g, 'torre', box(0.16, 0.42, 0.16), fuego, { translation: [0, 0.21, 0] });
+  const gotaMesh = g.addMesh('gota', sphere(0.045, [0, 0, 0], 8, 5), agua);
+  const gotas = [[0.08, 0.28, 0], [0.18, 0.38, 0], [0.3, 0.26, 0]].map((translation, i) => g.addNode({
+    name: `gota_${i}`, mesh: gotaMesh, translation,
+  }));
+  const chorro = g.addNode({ name: 'chorro', children: gotas });
+  const bomberos = g.addNode({ name: 'bomberos', translation: [-0.26, 0, 0], children: [torre, chorro] });
+
+  const cama = piece(g, 'cama', box(0.36, 0.08, 0.18), madera, { translation: [0, 0.08, 0] });
+  const onda = piece(g, 'onda', box(0.3, 0.06, 0.04), calma, { translation: [0, 0.2, 0] });
+  const hospital = g.addNode({ name: 'hospital', translation: [0.26, 0, 0], children: [cama, onda] });
+
+  const riel = g.addMesh('riel', box(0.46, 0.03, 0.04), via);
+  const rieles = [-0.06, 0.06].map((z, i) => g.addNode({
+    name: `riel_${i}`, mesh: riel, translation: [0, 0.03, z],
+  }));
+  const locomotora = piece(g, 'locomotora', box(0.16, 0.1, 0.1), PALETTE.rojo, { translation: [-0.12, 0.1, 0] });
+  const trenes = g.addNode({ name: 'trenes', translation: [0.78, 0, 0], children: [...rieles, locomotora] });
+
+  const root = g.addNode({ name: 'set_oficios', children: [policia, bomberos, hospital, trenes] });
+  g.addRootNode(root);
+
+  g.addAnimation('celebrate', [
+    {
+      node: root,
+      path: 'translation',
+      times: [0, 0.22, 0.44, 0.7],
+      values: [[0, 0, 0], [0, 0.22, 0], [0, 0, 0], [0, 0, 0]],
+    },
+    {
+      node: barrera,
+      path: 'rotation',
+      times: [0, 0.35, 0.7],
+      values: [quat('z', 0), quat('z', -70), quat('z', -70)],
+    },
+    {
+      node: chorro,
+      path: 'translation',
+      times: [0, 0.25, 0.5, 0.7],
+      values: [[0, 0, 0], [0.06, 0.1, 0], [0.12, 0.02, 0], [0.04, 0, 0]],
+    },
+    {
+      node: onda,
+      path: 'scale',
+      times: [0, 0.35, 0.7],
+      values: [[1, 0.45, 1], [1, 1.6, 1], [1, 0.45, 1]],
+    },
+    {
+      node: locomotora,
+      path: 'translation',
+      times: [0, 0.35, 0.7],
+      values: [[-0.12, 0.1, 0], [0.1, 0.1, 0], [0.1, 0.1, 0]],
+    },
+  ]);
+  return g;
+}
+
+// ---------------------------------------------------------------------------
 const MODELS = [
   { file: 'coche.glb', build: buildCoche, animation: 'celebrate', exercise: 'AR-1' },
   { file: 'perro.glb', build: buildPerro, animation: 'celebrate', exercise: 'AR-2' },
@@ -720,6 +1101,14 @@ const MODELS = [
   { file: 'zapato.glb', build: buildZapato, animation: 'spin360', exercise: 'AR-3 (distractor)' },
   { file: 'lua.glb', build: buildLua, animation: 'celebrate', exercise: 'AR-4 / AR-6 (Lúa Mascota)' },
   { file: 'pez.glb', build: buildPez, animation: 'spin360', exercise: 'AR-5 (Premio Pez Dorado)' },
+  { file: 'lua_v5_body.glb', build: buildLuaV5Body, animation: 'celebrate', exercise: 'Revelación · cuerpo de bloques Lúa V5', maxBytes: 102400 },
+  { file: 'set_camino.glb', build: buildSetCamino, animation: 'flow', exercise: 'Revelación · S1 caudal', maxBytes: 102400 },
+  { file: 'set_sonido.glb', build: buildSetSonido, animation: 'resonate', exercise: 'Revelación · S2 anillos', maxBytes: 102400 },
+  { file: 'set_rampas.glb', build: buildSetRampas, animation: 'roll', exercise: 'Revelación · S3 gravedad', maxBytes: 102400 },
+  { file: 'set_soplo.glb', build: buildSetSoplo, animation: 'spin_rotor', exercise: 'Revelación · S4 rotor', maxBytes: 102400 },
+  { file: 'set_puente.glb', build: buildSetPuente, animation: 'balance', exercise: 'Revelación · S5 nivel', maxBytes: 102400 },
+  { file: 'set_jardin.glb', build: buildSetJardin, animation: 'bloom', exercise: 'Revelación · S6 flor', maxBytes: 102400 },
+  { file: 'set_oficios.glb', build: buildSetOficios, animation: 'celebrate', exercise: 'Revelación · S8–S11 oficios', maxBytes: 102400 },
 ];
 
 // Presupuesto por modelo del contrato de assets. No es decorativo: el bloque
@@ -743,6 +1132,11 @@ function main() {
 
     if (bytes > MAX_BYTES) {
       throw new Error(`${model.file} pesa ${bytes} B y el contrato son ${MAX_BYTES} B por modelo.`);
+    }
+    if (model.maxBytes !== undefined && bytes >= model.maxBytes) {
+      throw new Error(
+        `${model.file} pesa ${bytes} B y debe pesar estrictamente menos de ${model.maxBytes} B.`,
+      );
     }
     const names = (builder.json.animations || []).map((a) => a.name);
     if (!names.includes(model.animation)) {

@@ -58,6 +58,22 @@ enum class ArModel(val asset: String, val animation: String?) {
     LUA("models/lua.glb", "celebrate"),
     /** AR-5 · Pez dorado coleccionable para alimentar a Lúa. */
     FISH("models/pez.glb", "spin360"),
+    /** Cuerpo de bloques de Lúa V5. `celebrate` es el premio visible. */
+    LUA_V5_BODY("models/lua_v5_body.glb", "celebrate"),
+    /** Set 1 · el caudal recorre las baldosas. */
+    SET_CAMINO("models/set_camino.glb", "flow"),
+    /** Set 2 · anillos que se abren con el resonador. */
+    SET_SONIDO("models/set_sonido.glb", "resonate"),
+    /** Set 3 · la esfera baja por la rampa. */
+    SET_RAMPAS("models/set_rampas.glb", "roll"),
+    /** Set 4 · las aspas giran con el soplo. */
+    SET_SOPLO("models/set_soplo.glb", "spin_rotor"),
+    /** Set 5 · la viga busca el nivel. */
+    SET_PUENTE("models/set_puente.glb", "balance"),
+    /** Set 6 · la flor se abre. */
+    SET_JARDIN("models/set_jardin.glb", "bloom"),
+    /** Sets 8 a 11 · oficios. `celebrate` es el premio visible. */
+    SET_OFICIOS("models/set_oficios.glb", "celebrate"),
     NONE("", null),
 }
 
