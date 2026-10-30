@@ -35,7 +35,7 @@ export const EN: UiStrings = {
     therapies: 'Exercises',
     academy: 'Academy',
     settings: 'Settings',
-    therapiesA11y: 'Exercises. Exercise blocks to practise or prescribe.',
+    therapiesA11y: 'Exercises. Exercise blocks to practise or recommend.',
     academyA11y: 'Academy. Training for the caregiving adult.',
     settingsA11y: 'Settings. Reminders, voice, language and professional access.',
   },
@@ -52,9 +52,9 @@ export const EN: UiStrings = {
     deviceAlt: 'Lúa, the Valeria cat, on her device screen',
     request: 'I want a Lúa',
     who: 'Who is practising today?',
-    newPatient: 'New patient',
+    newPatient: 'New profile',
     newPatientSub: 'Start a record from scratch',
-    existing: 'I already have a patient',
+    existing: 'I already have a profile',
     existingSub: 'Open a record from the list',
   },
 
@@ -63,7 +63,7 @@ export const EN: UiStrings = {
     authorRole: 'Pediatric ENT specialist',
     collaborators: 'In collaboration with',
     acoprosDesc: 'Association for the Support and Advancement of the Deaf',
-    quisqueyaDesc: 'Language rehabilitation',
+    quisqueyaDesc: 'Language practice',
     recognition: 'Recognition',
     qualitySeal: 'Quality Seal',
     qualitySealDesc: 'ITEMAS · Instituto de Salud Carlos III · 2024',
@@ -80,17 +80,17 @@ export const EN: UiStrings = {
   },
 
   patientSelect: {
-    title: 'Select a patient',
+    title: 'Select a profile',
     subtitle: (n: number): string =>
       n === 0 ? 'Pick up where you left off'
-        : n === 1 ? '1 patient saved on this device'
-          : `${n} patients saved on this device`,
-    emptyTitle: 'No patients yet',
-    emptyBody: 'Add your first patient to start assigning exercises.',
-    newPatient: 'Add a new patient',
-    patientFallback: 'Patient',
-    noDiagnosis: 'No diagnosis on file',
-    privacy: 'Patients are stored and encrypted on this device.',
+        : n === 1 ? '1 profile saved on this device'
+          : `${n} profiles saved on this device`,
+    emptyTitle: 'No profiles yet',
+    emptyBody: 'Add your first profile to start assigning exercises.',
+    newPatient: 'Add a new profile',
+    patientFallback: 'Profile',
+    noDiagnosis: 'No observation on file',
+    privacy: 'Profiles are stored and encrypted on this device.',
   },
 
   // See the note in strings.es.ts: the stored value of gender / relationship /
@@ -98,12 +98,12 @@ export const EN: UiStrings = {
   // already written into patient records on real devices). Only the visible
   // label is translated, by the three *Label functions at the end.
   ficha: {
-    title: 'Patient record',
+    title: 'Profile',
     subtitle: 'Background information',
 
     sectionChild: 'Child',
     sectionCaregiver: 'Parent / caregiver',
-    sectionDiagnosis: 'Diagnosis and care team',
+    sectionDiagnosis: 'Observation and care team',
 
     fullName: 'Full name',
     fullNamePlaceholder: 'Child’s name',
@@ -123,16 +123,16 @@ export const EN: UiStrings = {
     phoneHint: 'Used to send clinical reports.',
     phonePlaceholder: 'e.g. (555) 123-4567',
 
-    therapyLanguage: 'Therapy language',
-    therapyLanguageHint: 'Applied when you select this patient. Leave it blank to keep the app\'s current one.',
+    therapyLanguage: 'Practice language',
+    therapyLanguageHint: 'Applied when you select this profile. Leave it blank to keep the app\'s current one.',
 
     glDialect: 'Galician variety',
     glDialectHint: 'Western Galicia (coastal A Coruña and Pontevedra) merges /s/ and /θ/. Choosing it drops the casa / caza pair from the bank and stops the microphone scoring that merger as an error.',
     glDialectDistincion: 'Distinguishes s / z',
     glDialectSeseo: 'Merges s / z',
 
-    pathology: 'Diagnosis',
-    pathologyPlaceholder: 'Select a diagnosis…',
+    pathology: 'Observation',
+    pathologyPlaceholder: 'Select an observation…',
     prescriber: 'Referring physician (ENT / pediatrician)',
     prescriberPlaceholder: 'Dr. …',
     therapist: 'Assigned SLP',
@@ -199,7 +199,7 @@ export const EN: UiStrings = {
     languageBrief: 'Joint attention and comprehension.',
     languageA11y: 'Open language exercises',
     autismTitle: 'Autism',
-    autismSub: 'PRT + CBT: triangulated joint attention, communication repair and flexibility. Stressors are always caregiver-triggered.',
+    autismSub: 'Communicative support and structured waiting: triangulated joint attention, communication repair and flexibility. Play challenges are always caregiver-triggered.',
     autismBrief: 'Pragmatics and social flexibility.',
     autismA11y: 'Open the autism module',
     dyslexiaTitle: 'Dyslexia',
@@ -211,7 +211,7 @@ export const EN: UiStrings = {
     arBrief: 'Gesture and gaze with the camera.',
     arA11y: (n: number): string => `Open the augmented reality block, ${n} exercises`,
     sensoryTitle: 'Sensory Integration',
-    sensorySub: 'Gradual desensitization, modulation and visual anticipation for everyday environmental sounds.',
+    sensorySub: 'Gradual auditory familiarization, modulation and visual anticipation for everyday environmental sounds.',
     sensoryBrief: 'Sound anticipation and tolerance.',
     sensoryA11y: (n: number): string => `Open auditory sensory integration exercises, ${n} activities`,
     sensoryBadge: (n: number): string => `${n} activities`,
@@ -272,7 +272,7 @@ export const EN: UiStrings = {
     tabDyslexia: '📖 Dyslexia',
     protocolHearing: 'ACOPROS PROTOCOL · LISTENING',
     protocolLanguage: 'FAMILY PROTOCOL · LANGUAGE',
-    protocolAutism: 'AUTISM PROTOCOL · PRT + CBT',
+    protocolAutism: 'COMMUNICATIVE SUPPORT · STRUCTURED WAITING',
     protocolDyslexia: 'DYSLEXIA PROTOCOL · PHONOLOGY AND LEXICAL ACCESS',
 
     editingOn: 'Professional editing enabled',
@@ -286,12 +286,12 @@ export const EN: UiStrings = {
     otherAges: 'Other',
 
     refHearing:
-      'Activities based on the auditory rehabilitation materials of ACOPROS '
+      'Activities based on the auditory practice materials of ACOPROS '
       + '(Asociación Coruñesa de Promoción del Sordo), organized into 4 areas: sounds, '
       + 'vocabulary, phrases and social use. The ages are a guide: start with your child’s '
       + 'age band and let your SLP adjust the plan.',
     refAutism:
-      'PRT + CBT battery: the app orchestrates the contingencies, but the load (pragmatic '
+      'Communicative support and structured waiting: the app orchestrates the contingencies, but the load (pragmatic '
       + 'breakdown, noise, distractor cat) is ALWAYS triggered by the grown-up from the '
       + 'Caregiver Panel, and is reversible instantly. The app never interrupts or adjusts '
       + 'anything on its own, and the clinical judgment is always yours and your SLP’s.',
@@ -302,8 +302,8 @@ export const EN: UiStrings = {
 
     protocolCardOpen: 'View the protocol note',
     protocolCardClose: 'Hide the note',
-    notPrescribed: 'Not prescribed',
-    prescribedOf: (active: number, total: number): string => `${active} of ${total} prescribed`,
+    notPrescribed: 'Not recommended',
+    prescribedOf: (active: number, total: number): string => `${active} of ${total} recommended`,
     savePrescription: 'Save plan',
     savedPrescription: (n: number): string => `Plan saved · ${n} exercises active.`,
     saveHelper: 'Your selection is saved on this device and editing locks again.',
@@ -316,9 +316,9 @@ export const EN: UiStrings = {
       ': an exercise where YOU freeze the app on purpose (an absurd instruction or silence) '
       + 'to watch how your child repairs the communication. It can cause brief, controlled '
       + 'frustration — that is the clinical goal, and it should be set by your SLP.',
-    teaConsentItem1: '✋ You always trigger the stressor yourself, from the Caregiver Panel.',
+    teaConsentItem1: '✋ You always start the play challenge yourself, from the Caregiver Panel.',
     teaConsentItem2: '↩️ It reverses instantly: one tap and the app goes back to normal.',
-    teaConsentItem3: '🚫 The app never interrupts, raises difficulty or diagnoses on its own.',
+    teaConsentItem3: '🚫 The app never interrupts, raises difficulty or decides on its own.',
     teaConsentItem4: '🛑 If your child gets overwhelmed, stop: there is no quota to meet.',
     teaConsentAccept: 'I understand and accept',
     teaConsentAcceptA11y: 'Accept the framing and enter the autism module',
@@ -602,7 +602,7 @@ export const EN: UiStrings = {
   // interface text, not content, so they follow the UI language, not the variety.
   semantic: {
     togglePrescribedA11y: (name: string, on: boolean): string => `${on ? 'Turn off' : 'Turn on'} ${name}`,
-    pickRowA11y: (name: string, on: boolean): string => (on ? `Practice ${name}` : `${name} not prescribed`),
+    pickRowA11y: (name: string, on: boolean): string => (on ? `Practice ${name}` : `${name} not recommended`),
     wordsOf: (available: number, total: number): string => `${available} of ${total} words`,
     backPillContinue: 'Continue',
     backPillBack: 'Back',
@@ -901,7 +901,7 @@ export const EN: UiStrings = {
       (cap ? `${role}: ${cap}. Tap to clear` : `${role}: empty`),
     composeOptionA11y: (cap: string, role: string): string => `${cap}, for ${role}`,
     redirecting: (s: number): string => `Going to results in ${s}s…`,
-    prescribedPlan: (n: number): string => `Prescribed plan · ${n} exercises`,
+    prescribedPlan: (n: number): string => `Recommended plan · ${n} exercises`,
   },
 
   // Caregiver panel, modals and results. Same rule as always: what the app
@@ -915,7 +915,7 @@ export const EN: UiStrings = {
     distractorTitle: 'Distractor cat (dual task)',
     distractorSub: 'The cat peeks in and moves along the edge; the child has to keep attending to the voice. Tapping it does not count as an error.',
     launchPragmatic: 'Trigger a pragmatic breakdown',
-    hint: 'Manual controls for practicing listening in a real-world environment. Use them if your speech-language pathologist prescribed them: the app never turns them on or adjusts them by itself.',
+    hint: 'Manual controls for practicing listening in a real-world environment. Use them if your speech-language pathologist recommended them: the app never turns them on or adjusts them by itself.',
     stepDownA11y: (label: string): string => `Decrease ${label}`,
     stepUpA11y: (label: string): string => `Increase ${label}`,
     arHint: 'What the child will be asked for in each exercise. You set them before you start and they stay fixed for the whole session: the app measures and records, the clinical judgment is always yours.',
@@ -1045,7 +1045,7 @@ export const EN: UiStrings = {
   results: {
     back: '‹ Back to exercises',
     title: 'Results and Progress',
-    noPatient: 'No patient record',
+    noPatient: 'No profile',
     recordNumber: (nhc: string): string => `Record ${nhc}`,
 
     gameTitle: 'Motivation and achievements',
@@ -1081,7 +1081,7 @@ export const EN: UiStrings = {
     speechNote:
       'This is NOT a clinical measure and has no health purpose. It is an exercise aid: it lets the '
       + 'child see how far they got and lets you see which word dropped. It does not assess language, '
-      + 'it is not valid for a diagnosis or a report, and it must not drive any treatment decision. '
+      + 'it is not valid for a report, and it must not drive any decision about the practice. '
       + 'You are the one who rates how the child spoke, on the EPT-3 scale, as everywhere else in the app.',
 
     phonemeTitle: 'Substitution by phoneme',
@@ -1539,7 +1539,7 @@ export const EN: UiStrings = {
     hubCardProgress: (completed: number, total: number, pct: number): string => `${completed}/${total} units · ${pct}%`,
     hubCardA11y: (completed: number, total: number): string => `Valeria Academy: caregiver training. ${completed} of ${total} capsules completed.`,
     nextStepKicker: 'START HERE',
-    nextStepReason: (domain: string): string => `Suggested by the patient record: ${domain}.`,
+    nextStepReason: (domain: string): string => `Suggested by the profile: ${domain}.`,
     priorityA11y: (title: string, domain: string): string => `Suggested priority: ${title}. Domain ${domain}.`,
     whyKicker: 'WHY THIS CAPSULE?',
     readTime: (min: number): string => `${min} min read`,
@@ -1606,7 +1606,7 @@ export const EN: UiStrings = {
   sensory: {
     blockTag: 'SENSORY MODULE',
     blockTitle: 'Sensory Integration',
-    blockSubtitle: 'Systematic desensitization, modulation and visual anticipation for everyday sounds.',
+    blockSubtitle: 'Gradual auditory familiarization, modulation and visual anticipation for everyday sounds.',
     xpTotal: (xp: number): string => `${xp} XP`,
     sessionsCount: (n: number): string => `${n} ${n === 1 ? 'session' : 'sessions'}`,
     clinicalNoticeTitle: 'Caregiver Control Wall & Clinical Safety',
@@ -1625,7 +1625,7 @@ export const EN: UiStrings = {
     startSound: (s: string): string => `Sound: ${s}`,
     startIntensity: (n: number): string => `Intensity: ${n} of 5`,
     startDuration: (d: string): string => `Turn: ${d}`,
-    agencyChild: 'The child starts it with their button',
+    agencyChild: 'On the child\'s signal (the adult presses)',
     agencyAuto: 'It starts on its own when the countdown ends',
     pilotBadge: 'PILOT READY',
     inDevBadge: 'COMING SOON',
@@ -1633,15 +1633,15 @@ export const EN: UiStrings = {
     inDevTag: 'In development',
 
     // Clinician's plan over the six activities (professional PIN).
-    prescribedOf: (active: number, total: number): string => `${active} of ${total} prescribed`,
-    notPrescribed: 'Not prescribed',
+    prescribedOf: (active: number, total: number): string => `${active} of ${total} recommended`,
+    notPrescribed: 'Not recommended',
     pinSubtitle: 'Enter the clinician’s 4-digit PIN to choose which sensory activities the family practices.',
     proUnlocked: 'Professional mode unlocked.',
     savePrescription: 'Save plan',
     saveHelper: 'Your selection is saved on this device and editing locks again.',
     savedPrescription: (n: number): string => `Plan saved · ${n} sensory activities active.`,
     lockedHint: 'Family mode · only the clinician can change which sensory activities are practiced.',
-    prescriptionEmpty: 'No activities prescribed. The clinician decides which ones are practiced.',
+    prescriptionEmpty: 'No activities recommended. The clinician decides which ones are practiced.',
     completedTimes: (n: number): string => `Completed ${n} ${n === 1 ? 'time' : 'times'}`,
 
     isa01Title: 'My sound, my button',

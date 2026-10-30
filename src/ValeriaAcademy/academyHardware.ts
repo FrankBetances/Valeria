@@ -247,7 +247,7 @@ export const HEARING_DEVICES_EN: HearingDevice[] = [
         xp: 15,
         icon: 'gesture',
         heading: 'Basic handling',
-        body: 'Power the aid on and verify the earmold seats comfortably without acoustic feedback (whistling usually indicates an improper seal). Adjust volume only to the level prescribed by the audiologist. Remove the aid for sleep and water activities. Always store it in its protective case.',
+        body: 'Power the aid on and verify the earmold seats comfortably without acoustic feedback (whistling usually indicates an improper seal). Adjust volume only to the level recommended by the audiologist. Remove the aid for sleep and water activities. Always store it in its protective case.',
       },
       {
         id: 'hip-audifono-cuidados',

@@ -84,7 +84,7 @@ export const EXERCISE_ESDO: Record<string, Partial<Exercise>> = {
   },
   dx6: {
     // «pilla-pilla» es peninsular; en RD el juego es atraparse («¡a que te cojo!»).
-    read: 'El niño nombra cada dibujo EN VOZ ALTA y en orden de lectura (de izquierda a derecha), tocándolo al nombrarlo. El estresor eres tú: persigue su dedo por la pantalla con el tuyo, como jugando a atraparse («¡a que te cojo!»). Sin cronómetros: si lo ves acelerado o frustrado, frena tu dedo o detén la persecución.',
+    read: 'El niño nombra cada dibujo EN VOZ ALTA y en orden de lectura (de izquierda a derecha), tocándolo al nombrarlo. El reto lúdico eres tú: persigue su dedo por la pantalla con el tuyo, como jugando a atraparse («¡a que te cojo!»). Sin cronómetros: si lo ves acelerado o frustrado, frena tu dedo o detén la persecución.',
   },
 };
 

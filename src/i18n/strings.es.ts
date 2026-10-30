@@ -35,7 +35,7 @@ export const ES = {
     therapies: 'Ejercicios',
     academy: 'Academy',
     settings: 'Ajustes',
-    therapiesA11y: 'Ejercicios. Bloques de ejercicios para practicar o prescribir.',
+    therapiesA11y: 'Ejercicios. Bloques de ejercicios para practicar o recomendar.',
     academyA11y: 'Academy. Formación para el adulto cuidador.',
     settingsA11y: 'Ajustes. Recordatorios, voz, idioma y acceso profesional.',
   },
@@ -54,9 +54,9 @@ export const ES = {
     deviceAlt: 'Lúa, la gata de Valeria, en la pantalla de su aparato',
     request: 'Quiero una Lúa',
     who: '¿Quién va a practicar hoy?',
-    newPatient: 'Paciente nuevo',
+    newPatient: 'Perfil nuevo',
     newPatientSub: 'Crear una ficha desde cero',
-    existing: 'Ya tengo un paciente',
+    existing: 'Ya tengo un perfil',
     existingSub: 'Abrir una ficha de la lista',
   },
 
@@ -65,7 +65,7 @@ export const ES = {
     authorRole: 'Otorrinolaringólogo infantil',
     collaborators: 'En colaboración con',
     acoprosDesc: 'Asociación de Colaboración y Promoción del Sordo',
-    quisqueyaDesc: 'Rehabilitación del lenguaje',
+    quisqueyaDesc: 'Práctica del lenguaje',
     recognition: 'Reconocimiento',
     qualitySeal: 'Sello de Calidad',
     qualitySealDesc: 'ITEMAS · Instituto de Salud Carlos III · 2024',
@@ -82,19 +82,19 @@ export const ES = {
   },
 
   patientSelect: {
-    title: 'Selecciona un paciente',
+    title: 'Selecciona un perfil',
     // Cero, uno y varios se resuelven aquí: en inglés el plural no coincide
     // con el castellano y la pantalla no debe saber de morfología.
     subtitle: (n: number): string =>
       n === 0 ? 'Continúa donde lo dejaste'
-        : n === 1 ? '1 paciente registrado en este dispositivo'
-          : `${n} pacientes registrados en este dispositivo`,
-    emptyTitle: 'Aún no hay pacientes',
-    emptyBody: 'Registra tu primer paciente para empezar a prescribir ejercicios.',
-    newPatient: 'Registrar nuevo paciente',
-    patientFallback: 'Paciente',
-    noDiagnosis: 'Sin diagnóstico asignado',
-    privacy: 'Pacientes almacenados y cifrados en este dispositivo.',
+        : n === 1 ? '1 perfil registrado en este dispositivo'
+          : `${n} perfiles registrados en este dispositivo`,
+    emptyTitle: 'Aún no hay perfiles',
+    emptyBody: 'Registra tu primer perfil para empezar a recomendar ejercicios.',
+    newPatient: 'Registrar nuevo perfil',
+    patientFallback: 'Perfil',
+    noDiagnosis: 'Sin observación registrada',
+    privacy: 'Perfiles almacenados y cifrados en este dispositivo.',
   },
 
   // Ficha de registro. OJO con las tres listas de opciones (género, vínculo,
@@ -106,14 +106,14 @@ export const ES = {
   // la ETIQUETA que se pinta.
   ficha: {
     title: 'Ficha de Registro',
-    subtitle: 'Datos sociodemográficos del paciente',
+    subtitle: 'Datos de la criatura',
 
     sectionChild: 'Niño / Niña',
     sectionCaregiver: 'Tutor / Cuidador',
-    sectionDiagnosis: 'Diagnóstico y equipo médico',
+    sectionDiagnosis: 'Observación y equipo',
 
     fullName: 'Nombre y apellidos',
-    fullNamePlaceholder: 'Nombre del paciente',
+    fullNamePlaceholder: 'Nombre de la criatura',
     birthDate: 'Fecha de nacimiento',
     birthDatePlaceholder: 'DD / MM / AAAA',
     recordNumber: 'NHC',
@@ -133,8 +133,8 @@ export const ES = {
     // La lengua en la que este niño hace la terapia. Vive en la ficha y no en
     // los ajustes del aparato porque es del NIÑO: en una consulta bilingüe,
     // seleccionarlo la pone sola.
-    therapyLanguage: 'Lengua de la terapia',
-    therapyLanguageHint: 'Se aplicará al seleccionar a este paciente. Sin elegir, se mantiene la de la app.',
+    therapyLanguage: 'Lengua de la práctica',
+    therapyLanguageHint: 'Se aplicará al seleccionar a este perfil. Sin elegir, se mantiene la de la app.',
 
     // Solo aparece con la terapia en galego. El occidente sesea y el oriente
     // distingue; de esto dependen el par casa/caza y el pliegue del micrófono.
@@ -143,9 +143,9 @@ export const ES = {
     glDialectDistincion: 'Distingue s / z',
     glDialectSeseo: 'Sesea',
 
-    pathology: 'Patología / diagnóstico',
+    pathology: 'Motivo de consulta',
     pathologyPlaceholder: 'Selecciona una patología…',
-    prescriber: 'Médico prescriptor (ORL / Pediatra)',
+    prescriber: 'Médico que recomienda (ORL / Pediatra)',
     prescriberPlaceholder: 'Dr./Dra. …',
     therapist: 'Logopeda asignado',
     therapistPlaceholder: 'Nombre del logopeda',
@@ -170,7 +170,7 @@ export const ES = {
   // idioma de interfaz.
   hub: {
     title: 'Selección de Ejercicios',
-    subtitle: 'Elige un bloque para practicar o prescribir',
+    subtitle: 'Elige un bloque para practicar o recomendar',
     streak: (n: number): string => `${n} ${n === 1 ? 'día de racha' : 'días de racha'}`,
     level: (n: number, name: string): string => `Nivel ${n} · ${name}`,
     sectionTraining: 'TU FORMACIÓN',
@@ -193,7 +193,7 @@ export const ES = {
     languageBrief: 'Atención conjunta y comprensión.',
     languageA11y: 'Abrir ejercicios de lenguaje',
     autismTitle: 'TEA',
-    autismSub: 'PRT + TCC: atención conjunta triangulada, reparación comunicativa y flexibilidad. Estresores siempre manuales.',
+    autismSub: 'Acompañamiento comunicativo y espera estructurada: atención conjunta triangulada, reparación comunicativa y flexibilidad. Retos lúdicos siempre manuales.',
     autismBrief: 'Pragmática y flexibilidad social.',
     autismA11y: 'Abrir ejercicios del módulo TEA',
     dyslexiaTitle: 'Dislexia',
@@ -205,7 +205,7 @@ export const ES = {
     arBrief: 'Gesto y mirada con la cámara.',
     arA11y: (n: number): string => `Abrir el bloque de realidad aumentada, ${n} ejercicios`,
     sensoryTitle: 'Integración Sensorial',
-    sensorySub: 'Desensibilización gradual, modulación y anticipación visual ante sonidos cotidianos.',
+    sensorySub: 'Familiarización auditiva gradual, modulación y anticipación visual ante sonidos cotidianos.',
     sensoryBrief: 'Anticipación y tolerancia a sonidos.',
     sensoryA11y: (n: number): string => `Abrir ejercicios de integración sensorial auditiva, ${n} actividades`,
     sensoryBadge: (n: number): string => `${n} actividades`,
@@ -266,26 +266,26 @@ export const ES = {
     tabDyslexia: '📖 Dislexia',
     protocolHearing: 'PROTOCOLO ACOPROS · AUDICIÓN',
     protocolLanguage: 'PROTOCOLO FAMILIAR · LENGUAJE',
-    protocolAutism: 'PROTOCOLO TEA · PRT + TCC',
+    protocolAutism: 'ACOMPAÑAMIENTO COMUNICATIVO · ESPERA ESTRUCTURADA',
     protocolDyslexia: 'PROTOCOLO DISLEXIA · FONOLOGÍA Y ACCESO LÉXICO',
 
     editingOn: 'Edición profesional habilitada',
     editingOff: 'Modo Familia · solo lectura',
-    blockChip: (total: number, prescribed: number): string => `${total} ejercicios · ${prescribed} prescritos`,
+    blockChip: (total: number, prescribed: number): string => `${total} ejercicios · ${prescribed} recomendados`,
     fullSession: 'Sesión completa',
-    fullSessionSub: (n: number): string => `Los ${n} ejercicios prescritos seguidos, con pausas de movimiento`,
-    fullSessionA11y: (n: number): string => `Practicar los ${n} ejercicios prescritos seguidos`,
-    prescribedCount: (n: number): string => `${n} prescritos`,
+    fullSessionSub: (n: number): string => `Los ${n} ejercicios recomendados seguidos, con pausas de movimiento`,
+    fullSessionA11y: (n: number): string => `Practicar los ${n} ejercicios recomendados seguidos`,
+    prescribedCount: (n: number): string => `${n} recomendados`,
     practiceA11y: (name: string): string => `Practicar ${name}`,
     otherAges: 'Otras',
 
     refHearing:
-      'Actividades inspiradas en los materiales de rehabilitación auditiva de ACOPROS '
+      'Actividades inspiradas en los materiales de práctica auditiva de ACOPROS '
       + '(Asociación Coruñesa de Promoción del Sordo), organizadas en 4 áreas: sonidos, '
       + 'vocabulario, frases y uso social. Las edades son orientativas: empieza por las de '
-      + 'la edad de tu peque y deja que el logopeda ajuste la prescripción.',
+      + 'la edad de tu peque y deja que el logopeda ajuste la configuración profesional.',
     refAutism:
-      'Batería PRT + TCC: la app orquesta las contingencias, pero la carga (quiebre '
+      'Acompañamiento comunicativo y espera estructurada: la app orquesta las contingencias, pero la carga (quiebre '
       + 'pragmático, ruido, gata distractora) SIEMPRE la acciona el adulto desde el Panel del '
       + 'Adulto y es reversible al instante. La app nunca interrumpe ni ajusta nada sola, y '
       + 'el veredicto clínico es siempre tuyo y de tu logopeda.',
@@ -296,12 +296,12 @@ export const ES = {
 
     protocolCardOpen: 'Ver la ficha del protocolo',
     protocolCardClose: 'Ocultar la ficha',
-    notPrescribed: 'No prescrito',
-    prescribedOf: (active: number, total: number): string => `${active} de ${total} prescritas`,
-    savePrescription: 'Guardar Prescripción',
-    savedPrescription: (n: number): string => `Prescripción guardada · ${n} ejercicios activos.`,
+    notPrescribed: 'No recomendado',
+    prescribedOf: (active: number, total: number): string => `${active} de ${total} recomendadas`,
+    savePrescription: 'Guardar Configuración profesional',
+    savedPrescription: (n: number): string => `Configuración profesional guardada · ${n} ejercicios activos.`,
     saveHelper: 'La selección se guarda en el dispositivo y la edición se bloquea de nuevo.',
-    lockedHint: 'Modo Familia · solo el logopeda puede modificar la prescripción.',
+    lockedHint: 'Modo Familia · solo el logopeda puede modificar la configuración profesional.',
 
     teaConsentTitle: 'Antes de empezar con TEA',
     teaConsentBreak: 'Quiebre Pragmático',
@@ -309,10 +309,10 @@ export const ES = {
     teaConsentBody2:
       ': un ejercicio en el que TÚ congelas la app a propósito (una orden absurda o un '
       + 'silencio) para observar cómo tu peque repara la comunicación. Puede generarle una '
-      + 'frustración breve y controlada — es el objetivo clínico, pautado por vuestro logopeda.',
-    teaConsentItem1: '✋ El estresor lo lanzas siempre tú, desde el Panel del Adulto.',
+      + 'frustración breve y controlada — es el objetivo clínico, recomendado por vuestro logopeda.',
+    teaConsentItem1: '✋ El reto lúdico lo lanzas siempre tú, desde el Panel del Adulto.',
     teaConsentItem2: '↩️ Es reversible al instante: un toque y la app vuelve a la normalidad.',
-    teaConsentItem3: '🚫 La app nunca interrumpe, sube la dificultad ni diagnostica sola.',
+    teaConsentItem3: '🚫 La app nunca interrumpe, sube la dificultad ni decide sola.',
     teaConsentItem4: '🛑 Si tu peque se desborda, para: no hay ningún mínimo que cumplir.',
     teaConsentAccept: 'Lo entiendo y acepto el encuadre',
     teaConsentAcceptA11y: 'Aceptar el encuadre y entrar al módulo TEA',
@@ -445,7 +445,7 @@ export const ES = {
     subDone: (name: string): string => `${name} · Resultado de hoy`,
 
     askTitle: 'Antes de empezar',
-    askQuestion1: '¿El paciente usa ',
+    askQuestion1: '¿La criatura usa ',
     askQuestionHearingAids: 'audífonos',
     askQuestionOr: ' o ',
     askQuestionImplant: 'implante coclear',
@@ -521,11 +521,11 @@ export const ES = {
     autoRecord: 'Grabación automática tras la consigna',
     autoRecordSub: 'Por defecto, apagada: el micro espera a que pulséis “Ya estoy listo”.',
     bankLabel: 'BANCO DE CONTRASTES',
-    prescribedCount: (n: number): string => `${n} prescritos`,
+    prescribedCount: (n: number): string => `${n} recomendados`,
     toggleA11y: (on: boolean, a: string, b: string): string => `${on ? 'Desactivar' : 'Activar'} el par ${a} y ${b}`,
     practiceA11y: (a: string, b: string): string => `Practicar el par ${a} y ${b}`,
-    notPrescribedA11y: (a: string, b: string): string => `Par ${a} y ${b} no prescrito`,
-    savePrescription: 'Guardar Prescripción',
+    notPrescribedA11y: (a: string, b: string): string => `Par ${a} y ${b} no recomendado`,
+    savePrescription: 'Guardar Configuración profesional',
     saveHelper: 'La selección se guarda en el dispositivo y la edición se bloquea de nuevo.',
     lockedHint: 'Modo Familia · solo el logopeda puede cambiar qué pares se practican.',
 
@@ -611,7 +611,7 @@ export const ES = {
   // contenido, y por eso siguen al idioma de la UI y no a la variedad.
   semantic: {
     togglePrescribedA11y: (name: string, on: boolean): string => `${on ? 'Desactivar' : 'Activar'} ${name}`,
-    pickRowA11y: (name: string, on: boolean): string => (on ? `Practicar ${name}` : `${name} no prescrito`),
+    pickRowA11y: (name: string, on: boolean): string => (on ? `Practicar ${name}` : `${name} no recomendado`),
     wordsOf: (available: number, total: number): string => `${available} de ${total} palabras`,
     backPillContinue: 'Seguir',
     backPillBack: 'Volver',
@@ -644,7 +644,7 @@ export const ES = {
     sectionCategories: 'CATEGORÍAS LÉXICAS',
     sectionSequences: 'PROGRESIÓN LÉXICA',
     sectionCapsules: 'CÁPSULAS DE CONTRASTE',
-    prescribedCount: (n: number): string => `${n} prescritas`,
+    prescribedCount: (n: number): string => `${n} recomendadas`,
     goalKicker: 'QUÉ SE TRABAJA AQUÍ',
     // ES-07 · paso de ordenar la rutina.
     orderKicker: 'ORDENA LA RUTINA',
@@ -672,7 +672,7 @@ export const ES = {
     wordCount: (n: number): string => `${n} palabras`,
     routineStepCount: (n: number): string => `${n} pasos`,
 
-    savePrescription: 'Guardar Prescripción',
+    savePrescription: 'Guardar Configuración profesional',
     saveHelper: 'La selección se guarda en el dispositivo y la edición se bloquea de nuevo.',
     lockedHint: 'Modo Familia · solo el logopeda puede cambiar qué actividades se practican.',
     pinSubtitle: 'Introduce el PIN de 4 dígitos del logopeda para elegir qué actividades practica la familia.',
@@ -909,7 +909,7 @@ export const ES = {
       (cap ? `${role}: ${cap}. Tocar para vaciar` : `${role}: vacío`),
     composeOptionA11y: (cap: string, role: string): string => `${cap}, para ${role}`,
     redirecting: (s: number): string => `Redirigiendo a resultados en ${s}s…`,
-    prescribedPlan: (n: number): string => `Plan prescrito · ${n} ejercicios`,
+    prescribedPlan: (n: number): string => `Plan recomendado · ${n} ejercicios`,
   },
 
   // Panel del adulto, modales y resultados. Regla de siempre: lo que la app
@@ -923,7 +923,7 @@ export const ES = {
     distractorTitle: 'Gata distractora (doble tarea)',
     distractorSub: 'La gata se asoma y se mueve por el borde; el niño debe seguir atendiendo a la voz. Tocarla no cuenta como error.',
     launchPragmatic: 'Lanzar un quiebre pragmático',
-    hint: 'Controles manuales para entrenar la escucha en ambiente real. Úsalos si vuestro logopeda os lo ha pautado: la app nunca los activa ni los ajusta sola.',
+    hint: 'Controles manuales para entrenar la escucha en ambiente real. Úsalos si vuestro logopeda os lo ha recomendado: la app nunca los activa ni los ajusta sola.',
     stepDownA11y: (label: string): string => `Bajar ${label}`,
     stepUpA11y: (label: string): string => `Subir ${label}`,
     arHint: 'Lo que se le va a exigir al peque en cada ejercicio. Los fijas tú antes de empezar y no cambian durante la sesión: la app mide y registra, el criterio clínico es siempre vuestro.',
@@ -1020,7 +1020,7 @@ export const ES = {
     modalTitle: 'Modo Profesional',
     pinError: 'PIN incorrecto. Inténtalo de nuevo.',
     demoPin: 'PIN de demostración: 1985',
-    pinSubtitleDefault: 'Introduce el PIN de 4 dígitos del logopeda para editar la prescripción.',
+    pinSubtitleDefault: 'Introduce el PIN de 4 dígitos del logopeda para editar la configuración profesional.',
     shareCancelled: 'Exportación cancelada · el log se conserva para reintentar.',
     shareFailed: 'No se pudo abrir el menú de compartir · el log se conserva.',
     exportKicker: '🔓 MODO PROFESIONAL · EXPORTACIÓN',
@@ -1055,7 +1055,7 @@ export const ES = {
   results: {
     back: '‹ Volver a ejercicios',
     title: 'Resultados y Evolución',
-    noPatient: 'Paciente sin ficha registrada',
+    noPatient: 'Perfil sin ficha registrada',
     recordNumber: (nhc: string): string => `NHC ${nhc}`,
 
     gameTitle: 'Motivación y logros',
@@ -1100,8 +1100,8 @@ export const ES = {
     speechNote:
       'Esto NO es una medida clínica ni tiene finalidad sanitaria. Es un apoyo del ejercicio: sirve '
       + 'para que el niño vea por dónde va y para que tú veas qué palabra se cayó. No evalúa el '
-      + 'lenguaje, no vale para un diagnóstico ni para un informe, y no debe usarse para tomar '
-      + 'ninguna decisión sobre el tratamiento. Quien valora cómo habla el niño eres tú, con la '
+      + 'lenguaje, no vale para un informe, y no debe usarse para tomar '
+      + 'ninguna decisión sobre la práctica. Quien valora cómo habla el niño eres tú, con la '
       + 'escala EPT-3, igual que en el resto de la app.',
 
     phonemeTitle: 'Sustitución por fonema',
@@ -1667,7 +1667,7 @@ export const ES = {
   sensory: {
     blockTag: 'MÓDULO SENSORIAL',
     blockTitle: 'Integración Sensorial',
-    blockSubtitle: 'Desensibilización sistemática, modulación y anticipación visual ante sonidos cotidianos.',
+    blockSubtitle: 'Familiarización auditiva gradual, modulación y anticipación visual ante sonidos cotidianos.',
     xpTotal: (xp: number): string => `${xp} XP`,
     sessionsCount: (n: number): string => `${n} ${n === 1 ? 'sesión' : 'sesiones'}`,
     clinicalNoticeTitle: 'Muro de Control Adulto y Seguridad Clínica',
@@ -1686,7 +1686,7 @@ export const ES = {
     startSound: (s: string): string => `Sonido: ${s}`,
     startIntensity: (n: number): string => `Intensidad: ${n} de 5`,
     startDuration: (d: string): string => `Turno: ${d}`,
-    agencyChild: 'Lo arranca el niño con su botón',
+    agencyChild: 'A señal del menor (pulsa el adulto)',
     agencyAuto: 'Entra solo al acabar la cuenta atrás',
     pilotBadge: 'PILOTO FUNCIONAL',
     inDevBadge: 'PRÓXIMAMENTE',
@@ -1694,15 +1694,15 @@ export const ES = {
     inDevTag: 'En desarrollo',
 
     // Prescripción del logopeda sobre las seis actividades (PIN profesional).
-    prescribedOf: (active: number, total: number): string => `${active} de ${total} prescritas`,
-    notPrescribed: 'No prescrita',
+    prescribedOf: (active: number, total: number): string => `${active} de ${total} recomendadas`,
+    notPrescribed: 'No recomendada',
     pinSubtitle: 'Introduce el PIN de 4 dígitos del logopeda para elegir qué actividades sensoriales practica la familia.',
     proUnlocked: 'Modo profesional desbloqueado.',
-    savePrescription: 'Guardar Prescripción',
+    savePrescription: 'Guardar Configuración profesional',
     saveHelper: 'La selección se guarda en el dispositivo y la edición se bloquea de nuevo.',
-    savedPrescription: (n: number): string => `Prescripción guardada · ${n} actividades sensoriales activas.`,
+    savedPrescription: (n: number): string => `Configuración profesional guardada · ${n} actividades sensoriales activas.`,
     lockedHint: 'Modo Familia · solo el logopeda puede cambiar qué actividades sensoriales se practican.',
-    prescriptionEmpty: 'Sin actividades prescritas. El logopeda decide cuáles se practican.',
+    prescriptionEmpty: 'Sin actividades recomendadas. El logopeda decide cuáles se practican.',
     completedTimes: (n: number): string => `Completada ${n} ${n === 1 ? 'vez' : 'veces'}`,
 
     isa01Title: 'Mi sonido, mi botón',

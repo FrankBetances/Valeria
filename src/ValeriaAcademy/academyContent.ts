@@ -149,7 +149,7 @@ export const ACADEMY_CAPSULES_ES: AcademyCapsule[] = [
         prompt: 'En una cápsula TPR, ¿quién decide si el niño cumplió la orden?',
         options: ['La app, automáticamente', 'El adulto que acompaña', 'Nadie, da igual'],
         answer: 1,
-        rationale: 'El adulto es el motor clínico y el único que valida: la app orquesta, no diagnostica.',
+        rationale: 'El adulto es quien acompaña y el único que valida: la app orquesta, no decide.',
       },
     ],
   },
@@ -562,15 +562,15 @@ export const ACADEMY_CAPSULES_ES: AcademyCapsule[] = [
       {
         icon: '📖',
         heading: 'Pistas al empezar a leer',
-        body: 'Ya con la lectura: lee muy despacio y con mucho esfuerzo, cambia el orden de las letras, adivina palabras por el contexto, o evita leer en voz alta. Un solo indicio no diagnostica nada; el diagnóstico lo hace un profesional. Tú aportas observaciones útiles.',
+        body: 'Ya con la lectura: lee muy despacio y con mucho esfuerzo, cambia el orden de las letras, adivina palabras por el contexto, o evita leer en voz alta. Un solo indicio no cierra nada; la decisión la toma un profesional. Tú aportas observaciones útiles.',
       },
     ],
     quiz: [
       {
         prompt: 'Ante varias señales de alerta de dislexia, lo adecuado es…',
-        options: ['Diagnosticarla en casa', 'Observar, anotar y consultar con un profesional', 'Esperar sin decir nada'],
+        options: ['Ponerle una etiqueta en casa', 'Observar, anotar y consultar con un profesional', 'Esperar sin decir nada'],
         answer: 1,
-        rationale: 'La familia detecta y aporta ejemplos; el diagnóstico corresponde al profesional.',
+        rationale: 'La familia detecta y aporta ejemplos; la decisión corresponde al profesional.',
       },
     ],
   },
@@ -1199,9 +1199,9 @@ export const ACADEMY_CAPSULES_ES: AcademyCapsule[] = [
       },
       {
         prompt: 'Ante la duda, la actitud más útil de la familia es…',
-        options: ['😰 Buscar el diagnóstico en internet', '📝 Observar, anotar ejemplos y consultar', '🤐 Callar para no preocupar a nadie'],
+        options: ['😰 Buscar una etiqueta en internet', '📝 Observar, anotar ejemplos y consultar', '🤐 Callar para no preocupar a nadie'],
         answer: 1,
-        rationale: 'La familia aporta las observaciones del día a día; el diagnóstico y la decisión de intervenir son del profesional.',
+        rationale: 'La familia aporta las observaciones del día a día; la decisión de acompañar es del profesional.',
       },
       {
         prompt: '"Los niños varones siempre hablan más tarde que las niñas."',
@@ -1385,7 +1385,7 @@ export const ACADEMY_CAPSULES_ES: AcademyCapsule[] = [
       {
         icon: '🙈',
         heading: 'Mito 3: "si te mira y te abraza, no es autismo"',
-        body: 'El espectro es ancho de verdad. Hay niños autistas cariñosos, que miran, que abrazan y que hablan mucho; y los hay sin lenguaje oral. Que no mire no significa que no le importes: a menudo significa que mirar y escuchar a la vez le cuesta demasiado. Y al revés: la simpatía no descarta nada. Quien diagnostica es el equipo especializado, no una lista de señales sueltas.',
+        body: 'El espectro es ancho de verdad. Hay niños autistas cariñosos, que miran, que abrazan y que hablan mucho; y los hay sin lenguaje oral. Que no mire no significa que no le importes: a menudo significa que mirar y escuchar a la vez le cuesta demasiado. Y al revés: la simpatía no descarta nada. Quien decide es el equipo especializado, no una lista de señales sueltas.',
       },
       {
         icon: '⚠️',
@@ -1395,7 +1395,7 @@ export const ACADEMY_CAPSULES_ES: AcademyCapsule[] = [
       {
         icon: '🎯',
         heading: 'Qué hacer con todo esto',
-        body: 'Cuando te ofrezcan un tratamiento, haz tres preguntas: ¿qué estudios lo respaldan?, ¿qué riesgos tiene?, ¿qué me pasaría si no lo hago? Y consúltalo con el equipo que atiende a tu hijo antes de pagar nada. El dinero, el tiempo y la esperanza de una familia son recursos limitados: merecen ir a lo que sí funciona.',
+        body: 'Cuando te ofrezcan una solución que promete resultados, haz tres preguntas: ¿qué estudios la respaldan?, ¿qué riesgos tiene?, ¿qué me pasaría si no la hago? Y consúltalo con el equipo que atiende a tu hijo antes de pagar nada. El dinero, el tiempo y la esperanza de una familia son recursos limitados: merecen ir a lo que sí funciona.',
       },
     ],
     quiz: [
@@ -1409,10 +1409,10 @@ export const ACADEMY_CAPSULES_ES: AcademyCapsule[] = [
         prompt: '🤗 "Un niño que mira a los ojos y es cariñoso no puede ser autista."',
         options: ['🚫 Mito', '✅ Realidad'],
         answer: 0,
-        rationale: 'El espectro es muy amplio: hay niños autistas afectuosos, que miran y que hablan. El diagnóstico lo hace un equipo especializado.',
+        rationale: 'El espectro es muy amplio: hay niños autistas afectuosos, que miran y que hablan. La decisión la toma un equipo especializado.',
       },
       {
-        prompt: 'Ante un "tratamiento milagroso" que promete curar el autismo con dietas o suplementos…',
+        prompt: 'Ante una "solución milagrosa" que promete curar el autismo con dietas o suplementos…',
         options: ['🛒 Probarla, por si acaso', '🧐 Preguntar por su evidencia y consultarlo con el equipo', '📢 Recomendarla a otras familias'],
         answer: 1,
         rationale: 'No hay cura para el autismo, y varias de esas propuestas son caras y peligrosas. Lo que ayuda es el apoyo a la comunicación y al entorno.',
@@ -1448,7 +1448,7 @@ export const ACADEMY_CAPSULES_ES: AcademyCapsule[] = [
       {
         icon: '👓',
         heading: 'Mito 3: "es la vista"',
-        body: 'La dislexia no es un problema de agudeza visual, y por eso no se corrige con gafas. Los filtros y lentes de colores, que se anuncian mucho, no tienen respaldo científico como tratamiento de la dislexia. Revisar la vista y el oído del niño es siempre buena idea —descarta otras causas—, pero no es el tratamiento.',
+        body: 'La dislexia no es un problema de agudeza visual, y por eso no se corrige con gafas. Los filtros y lentes de colores, que se anuncian mucho, no tienen respaldo científico como práctica para la dislexia. Revisar la vista y el oído del niño es siempre buena idea —descarta otras causas—, pero no es la práctica.',
       },
       {
         icon: '🧠',
@@ -1476,7 +1476,7 @@ export const ACADEMY_CAPSULES_ES: AcademyCapsule[] = [
       },
       {
         prompt: 'Sobre las lentes y filtros de colores para la dislexia…',
-        options: ['👓 Son el tratamiento de elección', '🚫 No tienen respaldo científico', '🌈 Curan la mitad de los casos'],
+        options: ['👓 Son la práctica de elección', '🚫 No tienen respaldo científico', '🌈 Curan la mitad de los casos'],
         answer: 1,
         rationale: 'No hay evidencia que los respalde. Lo que funciona es la intervención estructurada sobre sonidos y letras, más los apoyos escolares.',
       },

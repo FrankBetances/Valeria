@@ -37,7 +37,7 @@ export const CA: UiStrings = {
     therapies: 'Exercicis',
     academy: 'Academy',
     settings: 'Ajustos',
-    therapiesA11y: 'Exercicis. Blocs d\'exercicis per practicar o prescriure.',
+    therapiesA11y: 'Exercicis. Blocs d\'exercicis per practicar o recomanar.',
     academyA11y: 'Academy. Formació per a l\'adult acompanyant.',
     settingsA11y: 'Ajustos. Recordatoris, veu, idioma i accés professional.',
   },
@@ -54,9 +54,9 @@ export const CA: UiStrings = {
     deviceAlt: 'La Lúa, la gata de Valeria, a la pantalla del seu aparell',
     request: 'Vull una Lúa',
     who: 'Qui practicarà avui?',
-    newPatient: 'Pacient nou',
+    newPatient: 'Perfil nou',
     newPatientSub: 'Crear una fitxa des de zero',
-    existing: 'Ja tinc un pacient',
+    existing: 'Ja tinc un perfil',
     existingSub: 'Obrir una fitxa de la llista',
   },
 
@@ -65,7 +65,7 @@ export const CA: UiStrings = {
     authorRole: 'Otorrinolaringòleg infantil',
     collaborators: 'En col·laboració amb',
     acoprosDesc: 'Associació de Col·laboració i Promoció del Sord',
-    quisqueyaDesc: 'Rehabilitació del llenguatge',
+    quisqueyaDesc: 'Pràctica del llenguatge',
     recognition: 'Reconeixement',
     qualitySeal: 'Segell de Qualitat',
     qualitySealDesc: 'ITEMAS · Instituto de Salud Carlos III · 2024',
@@ -82,29 +82,29 @@ export const CA: UiStrings = {
   },
 
   patientSelect: {
-    title: 'Selecciona un pacient',
+    title: 'Selecciona un perfil',
     subtitle: (n: number): string =>
       n === 0 ? 'Continua on ho vas deixar'
-        : n === 1 ? '1 pacient registrat en aquest dispositiu'
-          : `${n} pacients registrats en aquest dispositiu`,
-    emptyTitle: 'Encara no hi ha pacients',
-    emptyBody: 'Registra el teu primer pacient per començar a prescriure exercicis.',
-    newPatient: 'Registrar un nou pacient',
-    patientFallback: 'Pacient',
-    noDiagnosis: 'Sense diagnòstic assignat',
-    privacy: 'Pacients emmagatzemats i xifrats en aquest dispositiu.',
+        : n === 1 ? '1 perfil registrat en aquest dispositiu'
+          : `${n} perfils registrats en aquest dispositiu`,
+    emptyTitle: 'Encara no hi ha perfils',
+    emptyBody: 'Registra el teu primer perfil per començar a recomanar exercicis.',
+    newPatient: 'Registrar un nou perfil',
+    patientFallback: 'Perfil',
+    noDiagnosis: 'Sense observació registrada',
+    privacy: 'Perfils emmagatzemats i xifrats en aquest dispositiu.',
   },
 
   ficha: {
     title: 'Fitxa de registre',
-    subtitle: 'Dades sociodemogràfiques del pacient',
+    subtitle: 'Dades de la criatura',
 
     sectionChild: 'Infant',
     sectionCaregiver: 'Persona cuidadora',
-    sectionDiagnosis: 'Diagnòstic i equip mèdic',
+    sectionDiagnosis: 'Observació i equip',
 
     fullName: 'Nom i cognoms',
-    fullNamePlaceholder: 'Nom del pacient',
+    fullNamePlaceholder: 'Nom de la criatura',
     birthDate: 'Data de naixement',
     birthDatePlaceholder: 'DD / MM / AAAA',
     recordNumber: 'NHC',
@@ -121,17 +121,17 @@ export const CA: UiStrings = {
     phoneHint: 'S\'utilitzarà per enviar els informes clínics.',
     phonePlaceholder: 'Ex. 600 123 456',
 
-    therapyLanguage: 'Llengua de la teràpia',
-    therapyLanguageHint: 'S\'aplicarà en seleccionar aquest pacient. Sense triar-ne cap, es manté la de l\'app.',
+    therapyLanguage: 'Llengua de la pràctica',
+    therapyLanguageHint: 'S\'aplicarà en seleccionar aquest perfil. Sense triar-ne cap, es manté la de l\'app.',
 
     glDialect: 'Varietat del gallec',
     glDialectHint: 'El gallec occidental (costa de la Corunya i Pontevedra) fa seseo. Si el tries, el parell casa / caza surt del banc i el micròfon deixa de comptar-ho com un error.',
     glDialectDistincion: 'Distingeix s / z',
     glDialectSeseo: 'Fa seseo',
 
-    pathology: 'Patologia / diagnòstic',
+    pathology: 'Motiu de consulta',
     pathologyPlaceholder: 'Selecciona una patologia…',
-    prescriber: 'Metge prescriptor (ORL / Pediatre)',
+    prescriber: 'Metge que recomana (ORL / Pediatre)',
     prescriberPlaceholder: 'Dr./Dra. …',
     therapist: 'Logopeda assignat',
     therapistPlaceholder: 'Nom del logopeda',
@@ -169,7 +169,7 @@ export const CA: UiStrings = {
 
   hub: {
     title: 'Selecció d\'Exercicis',
-    subtitle: 'Tria un bloc per practicar o prescriure',
+    subtitle: 'Tria un bloc per practicar o recomanar',
     streak: (n: number): string => `${n} ${n === 1 ? 'dia de ratxa' : 'dies de ratxa'}`,
     level: (n: number, name: string): string => `Nivell ${n} · ${name}`,
     sectionTraining: 'LA TEVA FORMACIÓ',
@@ -192,7 +192,7 @@ export const CA: UiStrings = {
     languageBrief: 'Atenció conjunta i comprensió.',
     languageA11y: 'Obrir exercicis de llenguatge',
     autismTitle: 'TEA',
-    autismSub: 'PRT + TCC: atenció conjunta triangulada, reparació comunicativa i flexibilitat. Estressors sempre manuals.',
+    autismSub: 'Acompanyament comunicatiu i espera estructurada: atenció conjunta triangulada, reparació comunicativa i flexibilitat. Reptes lúdics sempre manuals.',
     autismBrief: 'Pragmàtica i flexibilitat social.',
     autismA11y: 'Obrir exercicis del mòdul TEA',
     dyslexiaTitle: 'Dislèxia',
@@ -204,7 +204,7 @@ export const CA: UiStrings = {
     arBrief: 'Gest i mirada amb la càmera.',
     arA11y: (n: number): string => `Obrir el bloc de realitat augmentada, ${n} exercicis`,
     sensoryTitle: 'Integració Sensorial',
-    sensorySub: 'Desensibilització gradual, modulació i anticipació visual davant de sons quotidians.',
+    sensorySub: 'Familiarització auditiva gradual, modulació i anticipació visual davant de sons quotidians.',
     sensoryBrief: 'Anticipació i tolerància a sons.',
     sensoryA11y: (n: number): string => `Obrir exercicis d'integració sensorial auditiva, ${n} activitats`,
     sensoryBadge: (n: number): string => `${n} activitats`,
@@ -263,26 +263,26 @@ export const CA: UiStrings = {
     tabDyslexia: '📖 Dislèxia',
     protocolHearing: 'PROTOCOL ACOPROS · AUDICIÓ',
     protocolLanguage: 'PROTOCOL FAMILIAR · LLENGUATGE',
-    protocolAutism: 'PROTOCOL TEA · PRT + TCC',
+    protocolAutism: 'ACOMPANYAMENT COMUNICATIU · ESPERA ESTRUCTURADA',
     protocolDyslexia: 'PROTOCOL DISLÈXIA · FONOLOGIA I ACCÉS LÈXIC',
 
     editingOn: 'Edició professional habilitada',
     editingOff: 'Mode Família · només lectura',
-    blockChip: (total: number, prescribed: number): string => `${total} exercicis · ${prescribed} prescrits`,
+    blockChip: (total: number, prescribed: number): string => `${total} exercicis · ${prescribed} recomanats`,
     fullSession: 'Sessió completa',
-    fullSessionSub: (n: number): string => `Els ${n} exercicis prescrits seguits, amb pauses de moviment`,
-    fullSessionA11y: (n: number): string => `Practicar els ${n} exercicis prescrits seguits`,
-    prescribedCount: (n: number): string => `${n} prescrits`,
+    fullSessionSub: (n: number): string => `Els ${n} exercicis recomanats seguits, amb pauses de moviment`,
+    fullSessionA11y: (n: number): string => `Practicar els ${n} exercicis recomanats seguits`,
+    prescribedCount: (n: number): string => `${n} recomanats`,
     practiceA11y: (name: string): string => `Practicar ${name}`,
     otherAges: 'Altres',
 
     refHearing:
-      'Activitats inspirades en els materials de rehabilitació auditiva d\'ACOPROS '
+      'Activitats inspirades en els materials de pràctica auditiva d\'ACOPROS '
       + '(Asociación Coruñesa de Promoción del Sordo), organitzades en 4 àrees: sons, '
       + 'vocabulari, frases i ús social. Les edats són orientatives: comença per les de '
-      + 'l\'edat de l\'infant i deixa que el logopeda ajusti la prescripció.',
+      + 'l\'edat de l\'infant i deixa que el logopeda ajusti la configuració professional.',
     refAutism:
-      'Bateria PRT + TCC: l\'aplicació orquestra les contingències, però la càrrega (fallida '
+      'Acompanyament comunicatiu i espera estructurada: l\'aplicació orquestra les contingències, però la càrrega (fallida '
       + 'pragmàtica, soroll, gata distractora) SEMPRE l\'acciona l\'adult des del Panell de l\'Adult i '
       + 'és reversible a l\'instant. L\'aplicació mai no interromp ni ajusta res per si sola, i '
       + 'el veredicte clínic és sempre teu i del vostre logopeda.',
@@ -293,12 +293,12 @@ export const CA: UiStrings = {
 
     protocolCardOpen: 'Veure la fitxa del protocol',
     protocolCardClose: 'Amagar la fitxa',
-    notPrescribed: 'No prescrit',
-    prescribedOf: (active: number, total: number): string => `${active} de ${total} prescrites`,
-    savePrescription: 'Desar la Prescripció',
-    savedPrescription: (n: number): string => `Prescripció desada · ${n} exercicis actius.`,
+    notPrescribed: 'No recomanat',
+    prescribedOf: (active: number, total: number): string => `${active} de ${total} recomanades`,
+    savePrescription: 'Desar la configuració professional',
+    savedPrescription: (n: number): string => `Configuració professional desada · ${n} exercicis actius.`,
     saveHelper: 'La selecció es desa al dispositiu i l\'edició es bloqueja de nou.',
-    lockedHint: 'Mode Família · només el logopeda pot modificar la prescripció.',
+    lockedHint: 'Mode Família · només el logopeda pot modificar la configuració professional.',
 
     teaConsentTitle: 'Abans de començar amb TEA',
     teaConsentBreak: 'Fallida Pragmàtica',
@@ -306,10 +306,10 @@ export const CA: UiStrings = {
     teaConsentBody2:
       ': un exercici en què TU congeles l\'aplicació a propòsit (una ordre absurda o un '
       + 'silenci) per observar com l\'infant repara la comunicació. Li pot generar una '
-      + 'frustració breu i controlada — és l\'objectiu clínic, pautat pel vostre logopeda.',
-    teaConsentItem1: '✋ L\'estressor el llances sempre tu, des del Panell de l\'Adult.',
+      + 'frustració breu i controlada — és l\'objectiu clínic, recomanat pel vostre logopeda.',
+    teaConsentItem1: '✋ El repte lúdic el llances sempre tu, des del Panell de l\'Adult.',
     teaConsentItem2: '↩️ És reversible a l\'instant: un toc i l\'aplicació torna a la normalitat.',
-    teaConsentItem3: '🚫 L\'aplicació mai no interromp, no apuja la dificultat ni diagnostica per si sola.',
+    teaConsentItem3: '🚫 L\'aplicació mai no interromp, no apuja la dificultat ni decideix per si sola.',
     teaConsentItem4: '🛑 Si l\'infant es desborda, atura\'t: no hi ha cap mínim que s\'hagi de complir.',
     teaConsentAccept: 'Ho entenc i accepto l\'enfocament',
     teaConsentAcceptA11y: 'Acceptar l\'enfocament i entrar al mòdul TEA',
@@ -427,7 +427,7 @@ export const CA: UiStrings = {
     subDone: (name: string): string => `${name} · Resultat d'avui`,
 
     askTitle: 'Abans de començar',
-    askQuestion1: 'El pacient utilitza ',
+    askQuestion1: 'La criatura utilitza ',
     askQuestionHearingAids: 'audiòfons',
     askQuestionOr: ' o ',
     askQuestionImplant: 'implant coclear',
@@ -496,11 +496,11 @@ export const CA: UiStrings = {
     autoRecord: 'Enregistrament automàtic després de la consigna',
     autoRecordSub: 'Per defecte, apagat: el micròfon espera que premeu “Ja estic a punt”.',
     bankLabel: 'BANC DE CONTRASTOS',
-    prescribedCount: (n: number): string => `${n} prescrits`,
+    prescribedCount: (n: number): string => `${n} recomanats`,
     toggleA11y: (on: boolean, a: string, b: string): string => `${on ? 'Desactivar' : 'Activar'} el parell ${a} i ${b}`,
     practiceA11y: (a: string, b: string): string => `Practicar el parell ${a} i ${b}`,
-    notPrescribedA11y: (a: string, b: string): string => `Parell ${a} i ${b} no prescrit`,
-    savePrescription: 'Desar la Prescripció',
+    notPrescribedA11y: (a: string, b: string): string => `Parell ${a} i ${b} no recomanat`,
+    savePrescription: 'Desar la configuració professional',
     saveHelper: 'La selecció es desa al dispositiu i l\'edició es bloqueja de nou.',
     lockedHint: 'Mode Família · només el logopeda pot canviar quins parells es practiquen.',
 
@@ -577,7 +577,7 @@ export const CA: UiStrings = {
 
   semantic: {
     togglePrescribedA11y: (name: string, on: boolean): string => `${on ? 'Desactivar' : 'Activar'} ${name}`,
-    pickRowA11y: (name: string, on: boolean): string => (on ? `Practicar ${name}` : `${name} no prescrit`),
+    pickRowA11y: (name: string, on: boolean): string => (on ? `Practicar ${name}` : `${name} no recomanat`),
     wordsOf: (available: number, total: number): string => `${available} de ${total} paraules`,
     backPillContinue: 'Continuar',
     backPillBack: 'Tornar',
@@ -610,7 +610,7 @@ export const CA: UiStrings = {
     sectionCategories: 'CATEGORIES LÈXIQUES',
     sectionSequences: 'PROGRESSIÓ LÈXICA',
     sectionCapsules: 'CÀPSULES DE CONTRAST',
-    prescribedCount: (n: number): string => `${n} prescrites`,
+    prescribedCount: (n: number): string => `${n} recomanades`,
     goalKicker: 'QUÈ ES TREBALLA AQUÍ',
     // ES-07 · pas d'ordenar la rutina.
     orderKicker: 'ORDENA LA RUTINA',
@@ -638,7 +638,7 @@ export const CA: UiStrings = {
     wordCount: (n: number): string => `${n} paraules`,
     routineStepCount: (n: number): string => `${n} passos`,
 
-    savePrescription: 'Desar la Prescripció',
+    savePrescription: 'Desar la configuració professional',
     saveHelper: 'La selecció es desa al dispositiu i l\'edició es bloqueja de nou.',
     lockedHint: 'Mode Família · només el logopeda pot canviar quines activitats es practiquen.',
     pinSubtitle: 'Introdueix el PIN de 4 xifres del logopeda per triar quines activitats practica la família.',
@@ -868,7 +868,7 @@ export const CA: UiStrings = {
       (cap ? `${role}: ${cap}. Toca per buidar` : `${role}: buit`),
     composeOptionA11y: (cap: string, role: string): string => `${cap}, per a ${role}`,
     redirecting: (s: number): string => `Redirigint a resultats en ${s} s…`,
-    prescribedPlan: (n: number): string => `Pla prescrit · ${n} exercicis`,
+    prescribedPlan: (n: number): string => `Pla recomanat · ${n} exercicis`,
   },
 
   adult: {
@@ -878,7 +878,7 @@ export const CA: UiStrings = {
     distractorTitle: 'Gata distractora (doble tasca)',
     distractorSub: 'La gata treu el cap i es mou per la vora; l\'infant ha de continuar atenent a la veu. Tocar-la no compta com a error.',
     launchPragmatic: 'Llançar una fallida pragmàtica',
-    hint: 'Controls manuals per entrenar l\'escolta en ambient real. Utilitza\'ls si el vostre logopeda us ho ha pautat: l\'aplicació mai no els activa ni els ajusta per si sola.',
+    hint: 'Controls manuals per entrenar l\'escolta en ambient real. Utilitza\'ls si el vostre logopeda us ho ha recomanat: l\'aplicació mai no els activa ni els ajusta per si sola.',
     stepDownA11y: (label: string): string => `Abaixar ${label}`,
     stepUpA11y: (label: string): string => `Apuja ${label}`,
     arHint: 'El que s\'exigirà a l\'infant en cada exercici. Els fixes tu abans de començar i no canvien durant la sessió: l\'aplicació mesura i registra, el criteri clínic és sempre vostre.',
@@ -971,7 +971,7 @@ export const CA: UiStrings = {
     modalTitle: 'Mode Professional',
     pinError: 'PIN incorrecte. Torna-ho a provar.',
     demoPin: 'PIN de demostració: 1985',
-    pinSubtitleDefault: 'Introdueix el PIN de 4 xifres del logopeda per editar la prescripció.',
+    pinSubtitleDefault: 'Introdueix el PIN de 4 xifres del logopeda per editar la configuració professional.',
     shareCancelled: 'Exportació cancel·lada · el registre es conserva per reintentar-ho.',
     shareFailed: 'No s\'ha pogut obrir el menú de compartir · el registre es conserva.',
     exportKicker: '🔓 MODE PROFESSIONAL · EXPORTACIÓ',
@@ -1006,7 +1006,7 @@ export const CA: UiStrings = {
   results: {
     back: '‹ Tornar a exercicis',
     title: 'Resultats i Evolució',
-    noPatient: 'Pacient sense fitxa registrada',
+    noPatient: 'Perfil sense fitxa registrada',
     recordNumber: (nhc: string): string => `NHC ${nhc}`,
 
     gameTitle: 'Motivació i assoliments',
@@ -1042,8 +1042,8 @@ export const CA: UiStrings = {
     speechNote:
       'Això NO és una mesura clínica ni té finalitat sanitària. És un suport de l\'exercici: serveix '
       + 'perquè l\'infant vegi per on va i perquè tu vegis quina paraula ha caigut. No avalua el '
-      + 'llenguatge, no val per a un diagnòstic ni per a un informe, i no s\'ha d\'utilitzar per prendre '
-      + 'cap decisió sobre el tractament. Qui valora com parla l\'infant ets tu, amb '
+      + 'llenguatge, no val per a un informe, i no s\'ha d\'utilitzar per prendre '
+      + 'cap decisió sobre la pràctica. Qui valora com parla l\'infant ets tu, amb '
       + 'l\'escala EPT-3, igual que a la resta de l\'aplicació.',
 
     phonemeTitle: 'Substitució per fonema',
@@ -1567,7 +1567,7 @@ export const CA: UiStrings = {
   sensory: {
     blockTag: 'MÒDUL SENSORIAL',
     blockTitle: 'Integració Sensorial',
-    blockSubtitle: 'Desensibilització sistemàtica, modulació i anticipació visual davant de sons quotidians.',
+    blockSubtitle: 'Familiarització auditiva gradual, modulació i anticipació visual davant de sons quotidians.',
     xpTotal: (xp: number): string => `${xp} XP`,
     sessionsCount: (n: number): string => `${n} ${n === 1 ? 'sessió' : 'sessions'}`,
     clinicalNoticeTitle: 'Mur de Control Adult i Seguretat Clínica',
@@ -1586,22 +1586,22 @@ export const CA: UiStrings = {
     startSound: (s: string): string => `So: ${s}`,
     startIntensity: (n: number): string => `Intensitat: ${n} de 5`,
     startDuration: (d: string): string => `Torn: ${d}`,
-    agencyChild: 'L\'engega l\'infant amb el seu botó',
+    agencyChild: 'A senyal del menor (prem la persona adulta)',
     agencyAuto: 'Entra sol en acabar el compte enrere',
     pilotBadge: 'PILOT FUNCIONAL',
     inDevBadge: 'PROPERAMENT',
     availableTag: 'Disponible',
     inDevTag: 'En desenvolupament',
 
-    prescribedOf: (active: number, total: number): string => `${active} de ${total} prescrites`,
-    notPrescribed: 'No prescrita',
+    prescribedOf: (active: number, total: number): string => `${active} de ${total} recomanades`,
+    notPrescribed: 'No recomanada',
     pinSubtitle: 'Introdueix el PIN de 4 xifres del logopeda per triar quines activitats sensorials practica la família.',
     proUnlocked: 'Mode professional desbloquejat.',
-    savePrescription: 'Desar la Prescripció',
+    savePrescription: 'Desar la configuració professional',
     saveHelper: 'La selecció es desa al dispositiu i l\'edició es bloqueja de nou.',
-    savedPrescription: (n: number): string => `Prescripció desada · ${n} activitats sensorials actives.`,
+    savedPrescription: (n: number): string => `Configuració professional desada · ${n} activitats sensorials actives.`,
     lockedHint: 'Mode Família · només el logopeda pot canviar quines activitats sensorials es practiquen.',
-    prescriptionEmpty: 'Sense activitats prescrites. El logopeda decideix quines es practiquen.',
+    prescriptionEmpty: 'Sense activitats recomanades. El logopeda decideix quines es practiquen.',
     completedTimes: (n: number): string => `Completada ${n} ${n === 1 ? 'vegada' : 'vegades'}`,
 
     isa01Title: 'El meu so, el meu botó',
