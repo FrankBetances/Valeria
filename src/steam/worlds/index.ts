@@ -2,8 +2,9 @@
 // Registra luaSolo y los sets S0–S6 y S8–S11 por las rutas del plan,
 // aunque esos módulos los escriba otro agente.
 //
-// Cada ficha exporta `manifest` y `activities`. También vale `luaSolo`
-// (array o { manifest, activities }) o la pareja `setSolo` + `setWithLua`.
+// S8–S11 exportan `manifest`, `activities`, `setSolo` y `setWithLua`.
+// S0–S6 exportan `MANIFEST`, `SET_SOLO` y `SET_WITH_LUA`.
+// luaSolo exporta `LUA_SOLO_ACTIVITIES`. El manifiesto vale en minúsculas o en `MANIFEST`.
 import type { SteamActivity, WorldManifest } from '../types';
 import { WorldRegistry } from '../engine/WorldRegistry';
 import * as luaSolo from './luaSolo';
@@ -61,18 +62,28 @@ function mergeDefault(record: Record<string, unknown>): Record<string, unknown> 
   return { ...record.default, ...record };
 }
 
+function nestedPack(record: Record<string, unknown>): Record<string, unknown> | undefined {
+  return isRecord(record.luaSolo) ? record.luaSolo : undefined;
+}
+
 function pickManifest(record: Record<string, unknown>): WorldManifest | undefined {
   if (isManifest(record.manifest)) return record.manifest;
-  if (isRecord(record.luaSolo) && isManifest(record.luaSolo.manifest)) return record.luaSolo.manifest;
+  if (isManifest(record.MANIFEST)) return record.MANIFEST;
+  const nested = nestedPack(record);
+  if (nested && isManifest(nested.manifest)) return nested.manifest;
+  if (nested && isManifest(nested.MANIFEST)) return nested.MANIFEST;
   return undefined;
 }
 
 function pickActivities(record: Record<string, unknown>): readonly SteamActivity[] | undefined {
   if (isActivityList(record.activities)) return record.activities;
+  if (isActivityList(record.LUA_SOLO_ACTIVITIES)) return record.LUA_SOLO_ACTIVITIES;
   if (isActivityList(record.luaSolo)) return record.luaSolo;
-  if (isRecord(record.luaSolo) && isActivityList(record.luaSolo.activities)) return record.luaSolo.activities;
-  const solo = record.setSolo ?? record.solo;
-  const withLua = record.setWithLua ?? record.withLua;
+  const nested = nestedPack(record);
+  if (nested && isActivityList(nested.activities)) return nested.activities;
+  if (nested && isActivityList(nested.LUA_SOLO_ACTIVITIES)) return nested.LUA_SOLO_ACTIVITIES;
+  const solo = record.SET_SOLO ?? record.setSolo ?? record.solo;
+  const withLua = record.SET_WITH_LUA ?? record.setWithLua ?? record.withLua;
   if (isActivity(solo) && isActivity(withLua)) return [solo, withLua];
   return undefined;
 }
@@ -81,9 +92,17 @@ export function readWorldModule(mod: object, file: string): SteamWorldPack {
   const record = mergeDefault(mod as Record<string, unknown>);
   const manifest = pickManifest(record);
   const activities = pickActivities(record);
+  if (!manifest && activities) {
+    throw new Error(`${file} exporta actividades y no trae manifest ni MANIFEST.`);
+  }
+  if (manifest && !activities) {
+    throw new Error(
+      `${file} exporta manifiesto y no trae activities, LUA_SOLO_ACTIVITIES ni SET_SOLO con SET_WITH_LUA.`,
+    );
+  }
   if (!manifest || !activities) {
     throw new Error(
-      `${file} tiene que exportar manifest y activities (o luaSolo, o setSolo y setWithLua).`,
+      `${file} tiene que exportar manifest o MANIFEST, y activities, LUA_SOLO_ACTIVITIES o SET_SOLO con SET_WITH_LUA.`,
     );
   }
   return { file, manifest, activities };
