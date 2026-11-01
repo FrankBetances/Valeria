@@ -53,7 +53,7 @@ export const GL: UiStrings = {
     therapies: 'Exercicios',
     academy: 'Academy',
     settings: 'Axustes',
-    therapiesA11y: 'Exercicios. Bloques de exercicios para practicar ou prescribir.',
+    therapiesA11y: 'Exercicios. Bloques de exercicios para practicar ou recomendar.',
     academyA11y: 'Academy. Formación para o adulto coidador.',
     settingsA11y: 'Axustes. Lembranzas, voz, idioma e acceso profesional.',
   },
@@ -70,9 +70,9 @@ export const GL: UiStrings = {
     deviceAlt: 'Lúa, a gata de Valeria, na pantalla do seu aparello',
     request: 'Quero unha Lúa',
     who: 'Quen vai practicar hoxe?',
-    newPatient: 'Paciente novo',
+    newPatient: 'Perfil novo',
     newPatientSub: 'Crear unha ficha desde cero',
-    existing: 'Xa teño un paciente',
+    existing: 'Xa teño un perfil',
     existingSub: 'Abrir unha ficha da lista',
   },
 
@@ -81,7 +81,7 @@ export const GL: UiStrings = {
     authorRole: 'Otorrinolaringólogo infantil',
     collaborators: 'En colaboración con',
     acoprosDesc: 'Asociación de Colaboración e Promoción do Xordo',
-    quisqueyaDesc: 'Rehabilitación da linguaxe',
+    quisqueyaDesc: 'Práctica da linguaxe',
     recognition: 'Recoñecemento',
     qualitySeal: 'Selo de Calidade',
     qualitySealDesc: 'ITEMAS · Instituto de Salud Carlos III · 2024',
@@ -98,17 +98,17 @@ export const GL: UiStrings = {
   },
 
   patientSelect: {
-    title: 'Selecciona un paciente',
+    title: 'Selecciona un perfil',
     subtitle: (n: number): string =>
       n === 0 ? 'Continúa onde o deixaches'
-        : n === 1 ? '1 paciente rexistrado neste dispositivo'
-          : `${n} pacientes rexistrados neste dispositivo`,
-    emptyTitle: 'Aínda non hai pacientes',
-    emptyBody: 'Rexistra o teu primeiro paciente para empezar a prescribir exercicios.',
-    newPatient: 'Rexistrar paciente novo',
-    patientFallback: 'Paciente',
-    noDiagnosis: 'Sen diagnóstico asignado',
-    privacy: 'Pacientes almacenados e cifrados neste dispositivo.',
+        : n === 1 ? '1 perfil rexistrado neste dispositivo'
+          : `${n} perfís rexistrados neste dispositivo`,
+    emptyTitle: 'Aínda non hai perfís',
+    emptyBody: 'Rexistra o teu primeiro perfil para empezar a recomendar exercicios.',
+    newPatient: 'Rexistrar perfil novo',
+    patientFallback: 'Perfil',
+    noDiagnosis: 'Sen observación rexistrada',
+    privacy: 'Perfís almacenados e cifrados neste dispositivo.',
   },
 
   // OLLO coas tres listas de opcións (xénero, vínculo, patoloxía): o que se
@@ -116,14 +116,14 @@ export const GL: UiStrings = {
   // Aquí só se traduce a ETIQUETA que se pinta.
   ficha: {
     title: 'Ficha de Rexistro',
-    subtitle: 'Datos sociodemográficos do paciente',
+    subtitle: 'Datos da criatura',
 
     sectionChild: 'Neno / Nena',
     sectionCaregiver: 'Titor / Coidador',
-    sectionDiagnosis: 'Diagnóstico e equipo médico',
+    sectionDiagnosis: 'Observación e equipo',
 
     fullName: 'Nome e apelidos',
-    fullNamePlaceholder: 'Nome do paciente',
+    fullNamePlaceholder: 'Nome da criatura',
     birthDate: 'Data de nacemento',
     birthDatePlaceholder: 'DD / MM / AAAA',
     recordNumber: 'NHC',
@@ -140,17 +140,17 @@ export const GL: UiStrings = {
     phoneHint: 'Usarase para enviar os informes clínicos.',
     phonePlaceholder: 'Ex. 600 123 456',
 
-    therapyLanguage: 'Lingua da terapia',
-    therapyLanguageHint: 'Aplicarase ao seleccionar este paciente. Sen elixir, mantense a da app.',
+    therapyLanguage: 'Lingua da práctica',
+    therapyLanguageHint: 'Aplicarase ao seleccionar este perfil. Sen elixir, mantense a da app.',
 
     glDialect: 'Variedade do galego',
     glDialectHint: 'No occidente (costa da Coruña e Pontevedra) sesease. Se o elixes, o par casa / caza sae do banco e o micrófono deixa de contar o seseo como erro.',
     glDialectDistincion: 'Distingue s / z',
     glDialectSeseo: 'Sesea',
 
-    pathology: 'Patoloxía / diagnóstico',
+    pathology: 'Motivo de consulta',
     pathologyPlaceholder: 'Selecciona unha patoloxía…',
-    prescriber: 'Médico prescritor (ORL / Pediatra)',
+    prescriber: 'Médico que recomenda (ORL / Pediatra)',
     prescriberPlaceholder: 'Dr./Dra. …',
     therapist: 'Logopeda asignado',
     therapistPlaceholder: 'Nome do logopeda',
@@ -192,7 +192,7 @@ export const GL: UiStrings = {
   // (valeriaExerciseBank), que se localiza por VARIEDADE, non por interface.
   hub: {
     title: 'Selección de Exercicios',
-    subtitle: 'Elixe un bloque para practicar ou prescribir',
+    subtitle: 'Elixe un bloque para practicar ou recomendar',
     streak: (n: number): string => `${n} ${n === 1 ? 'día de racha' : 'días de racha'}`,
     level: (n: number, name: string): string => `Nivel ${n} · ${name}`,
     sectionTraining: 'A TÚA FORMACIÓN',
@@ -215,7 +215,7 @@ export const GL: UiStrings = {
     languageBrief: 'Atención conxunta e comprensión.',
     languageA11y: 'Abrir exercicios de linguaxe',
     autismTitle: 'TEA',
-    autismSub: 'PRT + TCC: atención conxunta triangulada, reparación comunicativa e flexibilidade. Estresores sempre manuais.',
+    autismSub: 'Acompañamento comunicativo e espera estruturada: atención conxunta triangulada, reparación comunicativa e flexibilidade. Retos lúdicos sempre manuais.',
     autismBrief: 'Pragmática e flexibilidade social.',
     autismA11y: 'Abrir exercicios do módulo TEA',
     dyslexiaTitle: 'Dislexia',
@@ -227,7 +227,7 @@ export const GL: UiStrings = {
     arBrief: 'Xesto e mirada coa cámara.',
     arA11y: (n: number): string => `Abrir o bloque de realidade aumentada, ${n} exercicios`,
     sensoryTitle: 'Integración Sensorial',
-    sensorySub: 'Desensibilización gradual, modulación e anticipación visual ante sons cotiáns.',
+    sensorySub: 'Familiarización auditiva gradual, modulación e anticipación visual ante sons cotiáns.',
     sensoryBrief: 'Anticipación e tolerancia a sons.',
     sensoryA11y: (n: number): string => `Abrir exercicios de integración sensorial auditiva, ${n} actividades`,
     sensoryBadge: (n: number): string => `${n} actividades`,
@@ -288,26 +288,26 @@ export const GL: UiStrings = {
     tabDyslexia: '📖 Dislexia',
     protocolHearing: 'PROTOCOLO ACOPROS · AUDICIÓN',
     protocolLanguage: 'PROTOCOLO FAMILIAR · LINGUAXE',
-    protocolAutism: 'PROTOCOLO TEA · PRT + TCC',
+    protocolAutism: 'ACOMPAÑAMENTO COMUNICATIVO · ESPERA ESTRUTURADA',
     protocolDyslexia: 'PROTOCOLO DISLEXIA · FONOLOXÍA E ACCESO LÉXICO',
 
     editingOn: 'Edición profesional habilitada',
     editingOff: 'Modo Familia · só lectura',
-    blockChip: (total: number, prescribed: number): string => `${total} exercicios · ${prescribed} prescritos`,
+    blockChip: (total: number, prescribed: number): string => `${total} exercicios · ${prescribed} recomendados`,
     fullSession: 'Sesión completa',
-    fullSessionSub: (n: number): string => `Os ${n} exercicios prescritos seguidos, con pausas de movemento`,
-    fullSessionA11y: (n: number): string => `Practicar os ${n} exercicios prescritos seguidos`,
-    prescribedCount: (n: number): string => `${n} prescritos`,
+    fullSessionSub: (n: number): string => `Os ${n} exercicios recomendados seguidos, con pausas de movemento`,
+    fullSessionA11y: (n: number): string => `Practicar os ${n} exercicios recomendados seguidos`,
+    prescribedCount: (n: number): string => `${n} recomendados`,
     practiceA11y: (name: string): string => `Practicar ${name}`,
     otherAges: 'Outras',
 
     refHearing:
-      'Actividades inspiradas nos materiais de rehabilitación auditiva de ACOPROS '
+      'Actividades inspiradas nos materiais de práctica auditiva de ACOPROS '
       + '(Asociación Coruñesa de Promoción do Xordo), organizadas en 4 áreas: sons, '
       + 'vocabulario, frases e uso social. As idades son orientativas: empeza polas da '
-      + 'idade do teu pequeno e deixa que o logopeda axuste a prescrición.',
+      + 'idade do teu pequeno e deixa que o logopeda axuste a configuración profesional.',
     refAutism:
-      'Batería PRT + TCC: a app orquestra as continxencias, pero a carga (quebra '
+      'Acompañamento comunicativo e espera estruturada: a app orquestra as continxencias, pero a carga (quebra '
       + 'pragmática, ruído, gata distractora) SEMPRE a acciona o adulto desde o Panel do '
       + 'Adulto e é reversible ao instante. A app nunca interrompe nin axusta nada soa, e '
       + 'o veredicto clínico é sempre teu e do teu logopeda.',
@@ -318,12 +318,12 @@ export const GL: UiStrings = {
 
     protocolCardOpen: 'Ver a ficha do protocolo',
     protocolCardClose: 'Agochar a ficha',
-    notPrescribed: 'Non prescrito',
-    prescribedOf: (active: number, total: number): string => `${active} de ${total} prescritas`,
-    savePrescription: 'Gardar Prescrición',
-    savedPrescription: (n: number): string => `Prescrición gardada · ${n} exercicios activos.`,
+    notPrescribed: 'Non recomendado',
+    prescribedOf: (active: number, total: number): string => `${active} de ${total} recomendadas`,
+    savePrescription: 'Gardar Configuración profesional',
+    savedPrescription: (n: number): string => `Configuración profesional gardada · ${n} exercicios activos.`,
     saveHelper: 'A selección gárdase no dispositivo e a edición bloquéase de novo.',
-    lockedHint: 'Modo Familia · só o logopeda pode modificar a prescrición.',
+    lockedHint: 'Modo Familia · só o logopeda pode modificar a configuración profesional.',
 
     teaConsentTitle: 'Antes de empezar con TEA',
     teaConsentBreak: 'Quebra Pragmática',
@@ -331,10 +331,10 @@ export const GL: UiStrings = {
     teaConsentBody2:
       ': un exercicio no que TI conxelas a app a propósito (unha orde absurda ou un '
       + 'silencio) para observar como o teu pequeno repara a comunicación. Pode xerarlle unha '
-      + 'frustración breve e controlada — é o obxectivo clínico, pautado polo voso logopeda.',
-    teaConsentItem1: '✋ O estresor lánzalo sempre ti, desde o Panel do Adulto.',
+      + 'frustración breve e controlada — é o obxectivo clínico, recomendado polo voso logopeda.',
+    teaConsentItem1: '✋ O reto lúdico lánzalo sempre ti, desde o Panel do Adulto.',
     teaConsentItem2: '↩️ É reversible ao instante: un toque e a app volve á normalidade.',
-    teaConsentItem3: '🚫 A app nunca interrompe, sobe a dificultade nin diagnostica soa.',
+    teaConsentItem3: '🚫 A app nunca interrompe, sobe a dificultade nin decide soa.',
     teaConsentItem4: '🛑 Se o teu pequeno se desborda, para: non hai ningún mínimo que cumprir.',
     teaConsentAccept: 'Enténdoo e acepto o encadre',
     teaConsentAcceptA11y: 'Aceptar o encadre e entrar no módulo TEA',
@@ -465,7 +465,7 @@ export const GL: UiStrings = {
     subDone: (name: string): string => `${name} · Resultado de hoxe`,
 
     askTitle: 'Antes de empezar',
-    askQuestion1: 'O paciente usa ',
+    askQuestion1: 'A criatura usa ',
     askQuestionHearingAids: 'audiófonos',
     askQuestionOr: ' ou ',
     askQuestionImplant: 'implante coclear',
@@ -537,11 +537,11 @@ export const GL: UiStrings = {
     autoRecord: 'Gravación automática tras a consigna',
     autoRecordSub: 'Por defecto, apagada: o micro agarda a que premades «Xa estou listo».',
     bankLabel: 'BANCO DE CONTRASTES',
-    prescribedCount: (n: number): string => `${n} prescritos`,
+    prescribedCount: (n: number): string => `${n} recomendados`,
     toggleA11y: (on: boolean, a: string, b: string): string => `${on ? 'Desactivar' : 'Activar'} o par ${a} e ${b}`,
     practiceA11y: (a: string, b: string): string => `Practicar o par ${a} e ${b}`,
-    notPrescribedA11y: (a: string, b: string): string => `Par ${a} e ${b} non prescrito`,
-    savePrescription: 'Gardar Prescrición',
+    notPrescribedA11y: (a: string, b: string): string => `Par ${a} e ${b} non recomendado`,
+    savePrescription: 'Gardar Configuración profesional',
     saveHelper: 'A selección gárdase no dispositivo e a edición bloquéase de novo.',
     lockedHint: 'Modo Familia · só o logopeda pode cambiar que pares se practican.',
 
@@ -624,7 +624,7 @@ export const GL: UiStrings = {
   // vive o que le o adulto.
   semantic: {
     togglePrescribedA11y: (name: string, on: boolean): string => `${on ? 'Desactivar' : 'Activar'} ${name}`,
-    pickRowA11y: (name: string, on: boolean): string => (on ? `Practicar ${name}` : `${name} non prescrito`),
+    pickRowA11y: (name: string, on: boolean): string => (on ? `Practicar ${name}` : `${name} non recomendado`),
     wordsOf: (available: number, total: number): string => `${available} de ${total} palabras`,
     backPillContinue: 'Seguir',
     backPillBack: 'Volver',
@@ -657,7 +657,7 @@ export const GL: UiStrings = {
     sectionCategories: 'CATEGORÍAS LÉXICAS',
     sectionSequences: 'PROGRESIÓN LÉXICA',
     sectionCapsules: 'CÁPSULAS DE CONTRASTE',
-    prescribedCount: (n: number): string => `${n} prescritas`,
+    prescribedCount: (n: number): string => `${n} recomendadas`,
     goalKicker: 'QUE SE TRABALLA AQUÍ',
     // ES-07 · paso de ordenar a rutina.
     orderKicker: 'ORDENA A RUTINA',
@@ -685,7 +685,7 @@ export const GL: UiStrings = {
     wordCount: (n: number): string => `${n} palabras`,
     routineStepCount: (n: number): string => `${n} pasos`,
 
-    savePrescription: 'Gardar Prescrición',
+    savePrescription: 'Gardar Configuración profesional',
     saveHelper: 'A selección gárdase no dispositivo e a edición bloquéase de novo.',
     lockedHint: 'Modo Familia · só o logopeda pode cambiar que actividades se practican.',
     pinSubtitle: 'Introduce o PIN de 4 díxitos do logopeda para elixir que actividades practica a familia.',
@@ -920,7 +920,7 @@ export const GL: UiStrings = {
       (cap ? `${role}: ${cap}. Tocar para baleirar` : `${role}: baleiro`),
     composeOptionA11y: (cap: string, role: string): string => `${cap}, para ${role}`,
     redirecting: (s: number): string => `Redirixindo a resultados en ${s}s…`,
-    prescribedPlan: (n: number): string => `Plan prescrito · ${n} exercicios`,
+    prescribedPlan: (n: number): string => `Plan recomendado · ${n} exercicios`,
   },
 
   // Panel do adulto, modais e resultados. Regra de sempre: o que a app LOCUTA
@@ -1029,7 +1029,7 @@ export const GL: UiStrings = {
     modalTitle: 'Modo Profesional',
     pinError: 'PIN incorrecto. Téntao de novo.',
     demoPin: 'PIN de demostración: 1985',
-    pinSubtitleDefault: 'Introduce o PIN de 4 díxitos do logopeda para editar a prescrición.',
+    pinSubtitleDefault: 'Introduce o PIN de 4 díxitos do logopeda para editar a configuración profesional.',
     shareCancelled: 'Exportación cancelada · o rexistro consérvase para reintentar.',
     shareFailed: 'Non se puido abrir o menú de compartir · o rexistro consérvase.',
     exportKicker: '🔓 MODO PROFESIONAL · EXPORTACIÓN',
@@ -1064,7 +1064,7 @@ export const GL: UiStrings = {
   results: {
     back: '‹ Volver aos exercicios',
     title: 'Resultados e Evolución',
-    noPatient: 'Paciente sen ficha rexistrada',
+    noPatient: 'Perfil sen ficha rexistrada',
     recordNumber: (nhc: string): string => `NHC ${nhc}`,
 
     gameTitle: 'Motivación e logros',
@@ -1103,8 +1103,8 @@ export const GL: UiStrings = {
     speechNote:
       'Isto NON é unha medida clínica nin ten finalidade sanitaria. É un apoio do exercicio: serve '
       + 'para que o neno vexa por onde vai e para que ti vexas que palabra caeu. Non avalía a '
-      + 'linguaxe, non vale para un diagnóstico nin para un informe, e non debe usarse para tomar '
-      + 'ningunha decisión sobre o tratamento. Quen valora como fala o neno es ti, coa escala '
+      + 'linguaxe, non vale para un informe, e non debe usarse para tomar '
+      + 'ningunha decisión sobre a práctica. Quen valora como fala o neno es ti, coa escala '
       + 'EPT-3, igual que no resto da app.',
 
     phonemeTitle: 'Substitución por fonema',
@@ -1647,7 +1647,7 @@ export const GL: UiStrings = {
   sensory: {
     blockTag: 'MÓDULO SENSORIAL',
     blockTitle: 'Integración Sensorial',
-    blockSubtitle: 'Desensibilización sistemática, modulación e anticipación visual ante sons cotiáns.',
+    blockSubtitle: 'Familiarización auditiva gradual, modulación e anticipación visual ante sons cotiáns.',
     xpTotal: (xp: number): string => `${xp} XP`,
     sessionsCount: (n: number): string => `${n} ${n === 1 ? 'sesión' : 'sesións'}`,
     clinicalNoticeTitle: 'Muro de Control Adulto e Seguridade Clínica',
@@ -1666,7 +1666,7 @@ export const GL: UiStrings = {
     startSound: (s: string): string => `Son: ${s}`,
     startIntensity: (n: number): string => `Intensidade: ${n} de 5`,
     startDuration: (d: string): string => `Quenda: ${d}`,
-    agencyChild: 'Arríncao o neno co seu botón',
+    agencyChild: 'A sinal do menor (preme o adulto)',
     agencyAuto: 'Entra só ao rematar a conta atrás',
     pilotBadge: 'PILOTO FUNCIONAL',
     inDevBadge: 'PROXIMAMENTE',
@@ -1674,15 +1674,15 @@ export const GL: UiStrings = {
     inDevTag: 'En desenvolvemento',
 
     // Prescrición do logopeda sobre as seis actividades (PIN profesional).
-    prescribedOf: (active: number, total: number): string => `${active} de ${total} prescritas`,
-    notPrescribed: 'Non prescrita',
+    prescribedOf: (active: number, total: number): string => `${active} de ${total} recomendadas`,
+    notPrescribed: 'Non recomendada',
     pinSubtitle: 'Introduce o PIN de 4 díxitos do logopeda para elixir que actividades sensoriais practica a familia.',
     proUnlocked: 'Modo profesional desbloqueado.',
-    savePrescription: 'Gardar Prescrición',
+    savePrescription: 'Gardar Configuración profesional',
     saveHelper: 'A selección gárdase no dispositivo e a edición bloquéase de novo.',
-    savedPrescription: (n: number): string => `Prescrición gardada · ${n} actividades sensoriais activas.`,
+    savedPrescription: (n: number): string => `Configuración profesional gardada · ${n} actividades sensoriais activas.`,
     lockedHint: 'Modo Familia · só o logopeda pode cambiar que actividades sensoriais se practican.',
-    prescriptionEmpty: 'Sen actividades prescritas. O logopeda decide cales se practican.',
+    prescriptionEmpty: 'Sen actividades recomendadas. O logopeda decide cales se practican.',
     completedTimes: (n: number): string => `Completada ${n} ${n === 1 ? 'vez' : 'veces'}`,
 
     isa01Title: 'O meu son, o meu botón',
@@ -1876,5 +1876,108 @@ export const GL: UiStrings = {
     songPraxiasTitle: 'Praxias e articulación',
 
     printableAges: (age: string): string => `Idade recomendada: ${age}`,
+  },
+
+  steam: {
+    worldsKicker: 'MUNDOS STEAM · CONSTRÚE CON LÚA',
+    worldsNote: 'A porta de entrada. Cada mundo ten un fenómeno real e cinco retos, de 0 a 6 anos.',
+    practiceKicker: 'EIXOS E PRÁCTICAS DE MESA',
+    worldMeta: (n: number): string => `${n} retos · 0–6 anos`,
+    worldA11y: (title: string): string => `Abrir o mundo ${title}. Ábreo a persoa adulta.`,
+    worldHint: 'Amosa o fenómeno, os cinco retos por idade e as prácticas enlazadas.',
+    recommended: 'Recomendado',
+    profileKicker: 'PERFIL DE ADAPTACIÓN',
+    profileNone: 'Sen perfil',
+    profileTitle: (name: string): string => `Perfil: ${name}`,
+    profileHint: 'Escólleo a persoa adulta con PIN. Axusta os mundos; a app nunca o deduce.',
+    profileA11y: (name: string): string => `Perfil de adaptación: ${name}. Cambialo pide o PIN.`,
+    profilePinSubtitle: 'Introduce o PIN para cambiar o perfil de adaptación.',
+    profileSheetTitle: 'Perfil de adaptación',
+    profileSheetBody: 'Cambia como se presentan os mundos: que se recomenda primeiro, se Lúa reacciona sen luces e se se ofrece o Test de Ling. Non abre nin pecha actividades.',
+    profileOptionA11y: (name: string): string => `Escoller o perfil ${name}`,
+    profiles: {
+      hearing_ic: { name: 'Audiófono ou implante', note: 'Ofrece o Test de Ling antes de comezar. O pulso vese, non se oe: usa o metrónomo de luz.' },
+      autism_tea: { name: 'Anticipación e calma', note: 'Le o microconto antes de montar. Lúa reacciona sen luces nin vibración. Avisa antes de cada cambio.' },
+      dyslexia: { name: 'Ritmo e sílabas', note: 'Busca o pulso silábico no Set 2 e segue na mesa co bloque de dislexia.' },
+      speech_motricity: { name: 'Sopro e boca', note: 'O Set 4 traballa o sopro con boquilla individual. Sen esixir sons: xógase co aire.' },
+    },
+    back: 'Volver',
+    backA11y: 'Volver á pantalla anterior',
+    phenomenonKicker: 'O FENÓMENO',
+    storyBefore: 'Antes de montar',
+    storyAfter: 'Ao recoller',
+    challengesKicker: 'RETOS POR IDADE',
+    challengeMeta: (age: string, stage: string, minutes: number): string => `${age} anos · ${stage} · ${minutes} min`,
+    challengeA11y: (title: string, age: string): string => `Abrir o reto ${title}, de ${age} anos.`,
+    warmupKicker: 'QUECEMENTO EN AVENTURAS CON LÚA',
+    warmupStory: (title: string): string => `Conto: ${title}`,
+    warmupSong: (title: string): string => `Canción: ${title}`,
+    warmupGame: (title: string): string => `Xogo: ${title}`,
+    warmupA11y: (title: string): string => `Abrir ${title} en Aventuras con Lúa`,
+    tabletopKicker: 'PRÁCTICAS DE MESA ENLAZADAS',
+    tabletopA11y: (title: string): string => `Abrir a práctica de mesa ${title}`,
+    academyKicker: 'CÁPSULA PARA A PERSOA ADULTA',
+    academyOpen: 'Abrir en Academy',
+    academyA11y: 'Abrir a cápsula deste mundo en Academy',
+    profileNoteKicker: 'AXUSTE DO PERFIL',
+    lingFirst: 'Test de Ling antes de comezar',
+    lingFirstA11y: 'Abrir o Test de Ling antes do reto',
+    standKicker: 'Soporte da tableta',
+    stand: (cm: number, deg: number): string => `${cm} cm de alto · ${deg}° de inclinación. A criatura mira a mesa, non a pantalla.`,
+    cycleTitle: 'Ciclo en tres pasos',
+    stepObserve: '1. Observa',
+    stepTry: '2. Experimenta',
+    stepBuild: '3. Constrúe',
+    silenceStart: 'Comezar os 5 s de silencio',
+    silenceStartA11y: 'Comeza o silencio de cinco segundos. Non soa nada.',
+    silenceAgain: 'Repetir o silencio',
+    silenceLeft: (seconds: number): string => `Silencio: ${seconds}`,
+    silenceDone: 'Agora, a pregunta.',
+    hintN1: 'Pista 1 · Pregunta',
+    hintN2: 'Pista 2 · Modelo coas mans',
+    hintA11y: (label: string): string => `${label}. Ábrese ou péchase.`,
+    eventsKicker: 'CONFIRMA O QUE PASA NA MESA',
+    eventsNote: 'Preme cando a criatura o faga. Lúa reacciona despois do fenómeno, nunca enriba.',
+    eventA11y: (title: string): string => `Confirmar: ${title}`,
+    luaKicker: 'LÚA',
+    luaLinked: 'Lúa enlazada: a cara sae cara ao aparello.',
+    luaMirror: 'Lúa sen enlace: a cara vese aquí, na tableta.',
+    luaWaiting: 'Agardando a que remate o son…',
+    luaFace: (face: string): string => `Cara de Lúa: ${face}`,
+    luaIdle: 'Lúa agarda.',
+    wordKicker: 'PALABRA PARA A PERSOA ADULTA',
+    tprKicker: 'Orde en inglés (TPR)',
+    criterionKicker: 'CONSÉGUESE CANDO',
+    observationKicker: 'QUE ANOTAR (SEN PUNTUAR)',
+    achieved: 'Reto conseguido',
+    achievedA11y: 'A persoa adulta marca o reto como conseguido. Lúa celébrao.',
+    achievedDone: 'Feito. Lúa celébrao. Parar á metade tamén vale.',
+    spatial: {
+      dimensions: 'Grande e pequeno',
+      shapes: 'Formas',
+      position: 'Posición',
+      orientation: 'Orientación',
+      quantity: 'Cantidade',
+      deictics: 'Aquí e alí',
+      properties: 'Propiedades',
+      pattern: 'Serie',
+    },
+    axes: {
+      auditory_perception: 'Percepción auditiva',
+      phonology_speech: 'Fonoloxía e fala',
+      lexicon_semantics: 'Léxico e semántica',
+      morphosyntax_narrative: 'Frases e narración',
+      interaction_pragmatics: 'Interacción',
+      sensory_regulation: 'Regulación sensorial',
+      graphomotor: 'Grafomotricidade',
+    },
+    faces: {
+      neutra: 'neutra', atenta: 'atenta', animo: 'animando', fase_veredicto: 'pensando', lo_dijo: 'díxoo!',
+      nivel: 'sobe de nivel', impulso: 'impulso', calma: 'calma', no_coincide: 'outra vez', exito: 'éxito',
+      alegria: 'alegría', amor: 'tenrura', gratitud: 'gratitude', tranquilidad: 'tranquila', esperanza: 'esperanza',
+      orgullo: 'orgullo', inspiracion: 'curiosa', diversion: 'divertida', dormida: 'durmida', mision: 'misión',
+      antojo: 'antollo', ronroneo: 'ronroneo', comiendo: 'comendo', celebrando: 'celebrando', serena: 'serena',
+      ficha: 'ficha', insignia: 'insignia', accesorio: 'accesorio',
+    } as Record<string, string>,
   },
 };

@@ -42,6 +42,17 @@ import { isArAvailable } from './valeriaArBridge';
 import { AUDITORY_INTEGRATION_ACTIVITIES } from './ValeriaSensory';
 import { useT, UiStrings } from './i18n';
 import { LUA_ACTIVITY_COUNT } from './AventurasLua';
+import { ProPinModal } from './ValeriaProPin';
+import { getUiLang } from './valeriaUiLang';
+import { STEAM_WORLDS } from './steam/worlds';
+import { ADAPTATION_PROFILES, adjustmentsFor, loadAdaptationProfile, saveAdaptationProfile } from './steam/profiles';
+import type { AdaptationProfileId, SteamWorldId } from './steam/types';
+
+// Capa 1 del plan STEAM: un icono propio por set (ValeriaBlockIcons).
+const WORLD_ICON: Record<SteamWorldId, BlockIconName> = {
+  S0: 'world_kit', S1: 'world_path', S2: 'world_sound', S3: 'world_ramp',
+  S4: 'world_wind', S5: 'world_bridge', S6: 'world_garden',
+};
 
 // La tarjeta del hub cuenta actividades JUGABLES. Anunciar «6 actividades» con
 // cuatro en «Próximamente» es prometer de más en la única pantalla desde la que
@@ -78,6 +89,9 @@ export const ValeriaHubV11Screen: React.FC<{ navigation: any }> = ({ navigation 
   const [awardsOpen, setAwardsOpen] = useState(false);
   const [teaConsentOk, setTeaConsentOk] = useState(false);
   const [teaConsentOpen, setTeaConsentOpen] = useState(false);
+  const [profile, setProfile] = useState<AdaptationProfileId | null>(null);
+  const [profilePinOpen, setProfilePinOpen] = useState(false);
+  const [profileSheetOpen, setProfileSheetOpen] = useState(false);
 
   // Los badges muestran lo prescrito. Se releen AL RECIBIR EL FOCO, no solo al
   // montar: el adulto vuelve aquí después de cambiar la prescripción en
@@ -96,6 +110,7 @@ export const ValeriaHubV11Screen: React.FC<{ navigation: any }> = ({ navigation 
       setCounts(next);
       setTeaConsentOk((await AsyncStorage.getItem(STORAGE_KEYS.teaConsent)) === 'ok');
     } catch (e) { /* noop */ }
+    setProfile(await loadAdaptationProfile());
     try {
       const g = await loadGame();
       setGame(g);
@@ -230,6 +245,54 @@ export const ValeriaHubV11Screen: React.FC<{ navigation: any }> = ({ navigation 
   // ancho por el `flex: 1`. Una celda fantasma la deja en su columna.
   const grid: (Tile | null)[] = tiles.length % 2 ? [...tiles, null] : tiles;
 
+  // Capa 1 · Mundos STEAM (plan §1 y §4 R5), en el orden canónico de
+  // despliegue. Van por encima de las prácticas: son la puerta de entrada.
+  // Mismas tarjetas y misma fila de dos que la rejilla de abajo, que ya está
+  // probada en Android; no se inventa otra disposición.
+  const lang = getUiLang();
+  const recommended = adjustmentsFor(profile).recommendedWorlds;
+  const worldTiles: (Tile | null)[] = STEAM_WORLDS.map((w) => {
+    const title = w.title[lang];
+    const isRec = recommended.includes(w.id);
+    return {
+      key: `world-${w.id}`,
+      icon: WORLD_ICON[w.id],
+      title,
+      desc: isRec ? t.steam.recommended : t.steam.worldMeta(w.challenges.length),
+      hint: t.steam.worldHint,
+      a11y: t.steam.worldA11y(title),
+      bg: isRec ? '#fff1dc' : V.color.primaryLight,
+      fg: isRec ? '#b8741a' : V.color.primaryDark,
+      meta: w.id,
+      onPress: () => navigation.navigate('SteamWorld', { worldId: w.id }),
+    };
+  });
+  if (worldTiles.length % 2) worldTiles.push(null);
+  const worldRows: (Tile | null)[][] = [];
+  for (let i = 0; i < worldTiles.length; i += 2) worldRows.push(worldTiles.slice(i, i + 2));
+
+  const profileName = profile ? t.steam.profiles[profile].name : t.steam.profileNone;
+  const chooseProfile = (next: AdaptationProfileId | null) => {
+    setProfile(next);
+    setProfileSheetOpen(false);
+    void saveAdaptationProfile(next);
+  };
+
+  const renderTile = (item: Tile | null) => (item ? (
+    <ValeriaBlockTile
+      icon={item.icon}
+      title={item.title}
+      accentBg={item.bg}
+      accentFg={item.fg}
+      meta={item.meta}
+      description={item.desc}
+      progress={item.progress}
+      accessibilityLabel={item.a11y}
+      accessibilityHint={item.hint}
+      onPress={item.onPress}
+    />
+  ) : <View style={s.ghost} />);
+
   return (
     <View style={s.flex}>
       <View style={s.header}>
@@ -256,31 +319,42 @@ export const ValeriaHubV11Screen: React.FC<{ navigation: any }> = ({ navigation 
         columnWrapperStyle={s.col}
         contentContainerStyle={s.grid}
         ListHeaderComponent={(
-          <View style={s.stripWrap}>
-            <ValeriaCatInteractiveCard
-              inventory={inventory}
-              game={game}
-              onInventoryChange={setInventory}
-              onOpenAwards={() => setAwardsOpen(true)}
-              size={64}
-            />
+          <View>
+            <View style={s.stripWrap}>
+              <ValeriaCatInteractiveCard
+                inventory={inventory}
+                game={game}
+                onInventoryChange={setInventory}
+                onOpenAwards={() => setAwardsOpen(true)}
+                size={64}
+              />
+            </View>
+
+            <Text style={s.sectionKicker}>{t.steam.worldsKicker}</Text>
+            <Text style={s.sectionNote}>{t.steam.worldsNote}</Text>
+            {worldRows.map((row, i) => (
+              <View key={`worlds-${i}`} style={s.row}>
+                {row.map((item, j) => <React.Fragment key={item?.key ?? `wghost-${j}`}>{renderTile(item)}</React.Fragment>)}
+              </View>
+            ))}
+
+            {/* Capa 3 · Perfil de adaptación. Lo cambia el adulto con PIN. */}
+            <Pressable onPress={() => setProfilePinOpen(true)} style={[s.academy, s.profileCard]}
+              accessibilityRole="button" accessibilityLabel={t.steam.profileA11y(profileName)}>
+              <View style={s.academyIcon}><BlockIcon name="lock" color={V.color.primaryDark} size={22} /></View>
+              <View style={s.profileBody}>
+                <Text style={s.academyTitle}>{t.steam.profileTitle(profileName)}</Text>
+                <Text style={s.academyMeta}>{t.steam.profileHint}</Text>
+              </View>
+              <Text style={s.academyChev}>›</Text>
+            </Pressable>
+
+            {/* Capa 2 · Ejes y prácticas de mesa: los bloques de siempre. */}
+            <Text style={s.sectionKicker}>{t.steam.practiceKicker}</Text>
           </View>
         )}
         showsVerticalScrollIndicator={false}
-        renderItem={({ item }) => (item ? (
-          <ValeriaBlockTile
-            icon={item.icon}
-            title={item.title}
-            accentBg={item.bg}
-            accentFg={item.fg}
-            meta={item.meta}
-            description={item.desc}
-            progress={item.progress}
-            accessibilityLabel={item.a11y}
-            accessibilityHint={item.hint}
-            onPress={item.onPress}
-          />
-        ) : <View style={s.ghost} />)}
+        renderItem={({ item }) => renderTile(item)}
       />
 
       {/* La colección de premios. Sin PIN: XP, racha e insignias son
@@ -294,6 +368,32 @@ export const ValeriaHubV11Screen: React.FC<{ navigation: any }> = ({ navigation 
 
       {/* Consentimiento informado del módulo TEA (Quiebre Pragmático). Mismo
           texto, misma persistencia y misma obligatoriedad que en la v10.2. */}
+      <Modal visible={profileSheetOpen} transparent animationType="fade" onRequestClose={() => setProfileSheetOpen(false)}>
+        <View style={s.consentOverlay}>
+          <View style={s.consentCard}>
+            <Text style={s.consentTitle}>{t.steam.profileSheetTitle}</Text>
+            <Text style={s.consentTxt}>{t.steam.profileSheetBody}</Text>
+            {([null, ...ADAPTATION_PROFILES] as (AdaptationProfileId | null)[]).map((id) => {
+              const name = id ? t.steam.profiles[id].name : t.steam.profileNone;
+              const on = id === profile;
+              return (
+                <Pressable key={id ?? 'none'} onPress={() => chooseProfile(id)} style={[s.profileOption, on && s.profileOptionOn]}
+                  accessibilityRole="radio" accessibilityState={{ selected: on }} accessibilityLabel={t.steam.profileOptionA11y(name)}>
+                  <Text style={[s.profileOptionTxt, on && s.profileOptionTxtOn]}>{name}</Text>
+                </Pressable>
+              );
+            })}
+            <Pressable onPress={() => setProfileSheetOpen(false)} accessibilityRole="button" accessibilityLabel={t.common.close}>
+              <Text style={s.consentCancel}>{t.common.close}</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
+
+      <ProPinModal open={profilePinOpen} onClose={() => setProfilePinOpen(false)}
+        onUnlock={() => { setProfilePinOpen(false); setProfileSheetOpen(true); }}
+        subtitle={t.steam.profilePinSubtitle} />
+
       <TeaConsentModal
         open={teaConsentOpen}
         t={t}
@@ -378,6 +478,16 @@ const s = StyleSheet.create({
   barFill: { height: '100%', borderRadius: 3, backgroundColor: '#5b6ee0' },
   academyChev: { fontSize: 20, color: V.color.textMuted, fontWeight: V.font.extrabold },
   col: { gap: V.space.md, marginBottom: V.space.md },
+  // Fila de mundos: lo mismo que `columnWrapperStyle` hace en la rejilla.
+  row: { flexDirection: 'row', gap: V.space.md, marginBottom: V.space.md },
+  sectionKicker: { fontSize: 12, fontWeight: V.font.extrabold, color: V.color.textSecondary, letterSpacing: 0.6, marginTop: V.space.sm, marginBottom: 4 },
+  sectionNote: { ...V.type.caption, fontWeight: V.font.semibold, color: V.color.textMuted, marginBottom: V.space.md },
+  profileCard: { marginBottom: V.space.lg },
+  profileBody: { flexGrow: 1, flexShrink: 1, flexBasis: 0, minWidth: 0 },
+  profileOption: { borderWidth: 1.5, borderColor: V.color.border, borderRadius: 14, paddingVertical: 12, paddingHorizontal: 14, marginTop: V.space.sm },
+  profileOptionOn: { borderColor: V.color.primaryDark, backgroundColor: V.color.primaryLight },
+  profileOptionTxt: { ...V.type.body, fontWeight: V.font.bold, color: V.color.textPrimary },
+  profileOptionTxtOn: { color: V.color.primaryDark, fontWeight: V.font.extrabold },
   ghost: { flex: 1 },
 
   consentOverlay: { flex: 1, backgroundColor: 'rgba(11,18,32,.72)', alignItems: 'center', justifyContent: 'center', padding: V.space.xl },

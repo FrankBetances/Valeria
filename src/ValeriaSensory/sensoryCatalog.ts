@@ -64,12 +64,12 @@ export const SENSORY_TRIGGERS: Record<SensoryTriggerId, SensoryStimulus> = {
     audioAssetKey: 'sensory_hairdryer_loop',
     baseFrequencyHz: 1900,
     calmStrategyTpr: {
-      es: 'Abrazo de oso / presión en hombros',
-      gl: 'Aperta forte / presión nos ombreiros',
-      eu: 'Besarkada estua / sorbaldetan presioa',
-      'es-DO': 'Abrazo apretado / presión en hombros',
-      'en-US': 'Firm self-hug / gentle shoulder pressure',
-      ca: 'Abraçada d\'ós / pressió a les espatlles',
+      es: 'Abrazo firme / presión suave en hombros',
+      gl: 'Aperto firme / presión suave nos ombreiros',
+      eu: 'Besarkada sendoa / sorbaldetan presio leuna',
+      'es-DO': 'Abrazo firme / presión suave en hombros',
+      'en-US': 'Firm hug / gentle shoulder pressure',
+      ca: 'Abraçada ferma / pressió suau a les espatlles',
     },
   },
   hand_dryer: {
@@ -264,12 +264,12 @@ export const SENSORY_TRIGGERS: Record<SensoryTriggerId, SensoryStimulus> = {
     audioAssetKey: 'sensory_street_loop',
     baseFrequencyHz: 200,
     calmStrategyTpr: {
-      es: 'Abrazo de oso firme o apretar pelota antiestrés',
-      gl: 'Aperta forte ou apertar pelota antiestrés',
-      eu: 'Besarkada sendoa edo estresaren aurkako pilota estutu',
-      'es-DO': 'Abrazo apretado o apretar pelota antiestrés',
-      'en-US': 'Firm comforting hug or squeeze a stress ball',
-      ca: 'Abraçada d\'ós ferma o estrènyer una pilota antiestrès',
+      es: 'Abrazo firme / presión suave en hombros o apretar pelota antiestrés',
+      gl: 'Aperto firme / presión suave nos ombreiros ou apertar pelota antiestrés',
+      eu: 'Besarkada sendoa / sorbaldetan presio leuna edo estresaren aurkako pilota estutu',
+      'es-DO': 'Abrazo firme / presión suave en hombros o apretar pelota antiestrés',
+      'en-US': 'Firm hug / gentle shoulder pressure or squeeze a stress ball',
+      ca: 'Abraçada ferma / pressió suau a les espatlles o estrènyer una pilota antiestrès',
     },
   },
 };
@@ -290,7 +290,7 @@ export const AUDITORY_INTEGRATION_ACTIVITIES: AuditorySensoryExercise[] = [
     iconName: 'sensory_ear',
     defaultDurationSec: 60,
     isAvailable: true,
-    // Agencia pura: el sonido no arranca hasta que su dedo lo arranca.
+    // A señal del menor (pulsa el adulto): el sonido no arranca hasta que la persona adulta pulsa.
     defaultConfig: {
       categoryFilter: 'all',
       triggerId: 'vacuum',

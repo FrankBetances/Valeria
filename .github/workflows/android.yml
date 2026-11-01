@@ -398,6 +398,17 @@ jobs:
       - name: Comprobar que nada nativo corre al evaluar el paquete de JS
         run: node scripts/check-startup-native-calls.js
 
+      # Plan STEAM §7.2: Valeria+ es educativa. Falla si la interfaz, Academy,
+      # las consignas read: no locutadas o el sitio legal vuelven a usar
+      # vocabulario clínico (terapia, paciente, prescripción, diagnóstico…).
+      - name: Comprobar el vocabulario educativo
+        run: node scripts/check-regulatory-vocabulary.js
+
+      # Plan STEAM §4 R1–R2: los mundos S0–S6, sus cinco retos por edad, el
+      # replay sintético del motor y la paridad de caras con protocol.json v1.
+      - name: Comprobar los mundos STEAM
+        run: node scripts/check-steam-manifests.js
+
       - name: Comprobar tipos
         run: npm run typecheck
 

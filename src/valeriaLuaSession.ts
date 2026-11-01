@@ -33,6 +33,22 @@ export const setLuaSender = (fn: LuaSender | null): void => { sender = fn; };
 
 const send = (...frames: Uint8Array[]): void => { if (sender) sender(frames); };
 
+/** ¿Hay transporte registrado? Sin él, las pantallas espejan la cara en la tableta. */
+export const isLuaLinked = (): boolean => sender !== null;
+
+/**
+ * Mundos STEAM: el motor (src/steam/engine/LuaLink.ts) fabrica las tramas de
+ * una reacción y salen por aquí, por el mismo emisor que el resto de la app.
+ */
+export function luaSteamFrames(frames: readonly Uint8Array[]): void {
+  if (sender && frames.length > 0) sender([...frames]);
+}
+
+/** Al salir de un reto: Lúa vuelve a la cara de espera. */
+export function luaSteamIdle(): void {
+  send(luaFrame(LUA_OP.IDLE));
+}
+
 // ---------------------------------------------------------------------------
 // Ancla Visual Lejana · la ejecución de la regla 20-20-20 en el aparato
 // ---------------------------------------------------------------------------

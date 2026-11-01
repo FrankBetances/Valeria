@@ -53,7 +53,9 @@ export type BlockIconName =
   | 'lua' | 'story' | 'song' | 'printable' | 'award' | 'game'
   // Los dos «sellos», que eran un mismo 🤝 para dos cosas distintas (ACOPROS,
   // PM-06): manos juntas para cerrar el ensayo y punto por contacto visual.
-  | 'handsTogether' | 'eyeContact';
+  | 'handsTogether' | 'eyeContact'
+  // Mundos STEAM de Construye con Lúa (Sets 0 a 6): una pieza de cada set.
+  | 'world_kit' | 'world_path' | 'world_sound' | 'world_ramp' | 'world_wind' | 'world_bridge' | 'world_garden';
 
 interface Props { name: BlockIconName; color: string; size?: number; }
 
@@ -669,6 +671,72 @@ export const BlockIcon: React.FC<Props> = ({ name, color, size = 26 }) => {
           <Path d="M12 2.6v2.4" {...common} />
           <Path d="M6.2 4.4l1.3 2" {...common} />
           <Path d="M17.8 4.4l-1.3 2" {...common} />
+        </>
+      )}
+      {/* Set 0 · zócalo con la placa encajada. */}
+      {name === 'world_kit' && (
+        <>
+          <Rect x="3.5" y="13" width="17" height="7" rx="2" {...common} />
+          <Path d="M8 13V5.5a1.5 1.5 0 0 1 1.5-1.5h5A1.5 1.5 0 0 1 16 5.5V13" {...common} />
+          <Path d="M10.5 8.5h3" {...common} />
+        </>
+      )}
+
+      {/* Set 1 · camino de baldosas que gira hasta la meta. */}
+      {name === 'world_path' && (
+        <>
+          <Path d="M4 19.5h5a2 2 0 0 0 2-2v-4a2 2 0 0 1 2-2h4a2 2 0 0 0 2-2V7" {...common} />
+          <Circle cx="19" cy="4.6" r="1.6" {...common} />
+          <Circle cx="4" cy="19.5" r="0.4" {...common} />
+        </>
+      )}
+
+      {/* Set 2 · tres resonadores: grande, mediano y pequeño. */}
+      {name === 'world_sound' && (
+        <>
+          <Rect x="3" y="7" width="4.4" height="13" rx="1.4" {...common} />
+          <Rect x="9.8" y="10" width="4.4" height="10" rx="1.4" {...common} />
+          <Rect x="16.6" y="13.5" width="4.4" height="6.5" rx="1.4" {...common} />
+        </>
+      )}
+
+      {/* Set 3 · pilar, rampa y la esfera arriba. */}
+      {name === 'world_ramp' && (
+        <>
+          <Path d="M3 19.5h18" {...common} />
+          <Path d="M4.5 7.5v12" {...common} />
+          <Path d="M4.5 7.5 20 19.5" {...common} />
+          <Circle cx="9" cy="8.6" r="2.2" {...common} />
+        </>
+      )}
+
+      {/* Set 4 · corrientes de aire. */}
+      {name === 'world_wind' && (
+        <>
+          <Path d="M3 8.5h10a2.8 2.8 0 1 0-2.8-2.8" {...common} />
+          <Path d="M3 12.5h14.5a2.8 2.8 0 1 1-2.8 2.8" {...common} />
+          <Path d="M3 16.5h7" {...common} />
+        </>
+      )}
+
+      {/* Set 5 · viga sobre el fulcro con una masa a cada lado. */}
+      {name === 'world_bridge' && (
+        <>
+          <Path d="M3 10h18" {...common} />
+          <Path d="M12 10l-4 10h8z" {...common} />
+          <Rect x="4" y="5" width="4" height="5" rx="1" {...common} />
+          <Rect x="16.5" y="7" width="3.5" height="3" rx="1" {...common} />
+        </>
+      )}
+
+      {/* Set 6 · brote al sol. */}
+      {name === 'world_garden' && (
+        <>
+          <Path d="M12 20.5v-7.5" {...common} />
+          <Path d="M12 13c0-3 2-5 5-5 0 3-2 5-5 5z" {...common} />
+          <Path d="M12 15.5c0-2.6-1.8-4.4-4.4-4.4 0 2.6 1.8 4.4 4.4 4.4z" {...common} />
+          <Circle cx="6" cy="5.5" r="2" {...common} />
+          <Path d="M7 20.5h10" {...common} />
         </>
       )}
     </Svg>

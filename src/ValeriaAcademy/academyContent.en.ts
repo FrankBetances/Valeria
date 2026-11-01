@@ -1179,7 +1179,7 @@ export const ACADEMY_CAPSULES_EN: AcademyCapsule[] = [
         options: [
           "Early intervention leverages maximum neuroplasticity and equips caregivers with immediate strategies",
           "Because every child must undergo clinical tests at age 1",
-          "To prescribe medications",
+          "To start medication",
         ],
         answer: 0,
         rationale: "Early intervention during critical neuroplasticity windows provides optimal developmental trajectories.",

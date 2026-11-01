@@ -110,6 +110,7 @@ export const STORAGE_KEYS = {
   arConsentimiento: '@valeria_ar_consentimiento', // RA: consentimiento informado de cámara, con sufijo POR PACIENTE
   arPerfilDispositivo: '@valeria_ar_perfil_dispositivo', // RA: DeviceProfile de la Prueba de Aptitud + huella del aparato
   asrOfertaLocal: '@valeria_asr_oferta_local', // ASR §3.3: variedades a las que el adulto ya declinó la descarga del paquete local (sufijo por variedad)
+  steamPerfil: '@valeria_steam_perfil',          // Mundos STEAM: perfil de adaptación elegido a mano con PIN (ausente = ninguno)
 };
 
 // Marca / mascota: la gata Lúa en píxel art. El componente reutilizable

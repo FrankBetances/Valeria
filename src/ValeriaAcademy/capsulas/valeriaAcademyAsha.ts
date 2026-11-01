@@ -6,10 +6,10 @@
 import { AcademyCapsule } from '../academyTypes';
 
 export const ASHA_DISCLAIMER_ES =
-  'Guía normativa de referencia (ASHA). Valeria+ no diagnostica. Solo un profesional sanitario puede emitir un diagnóstico audiológico o del neurodesarrollo.';
+  'Guía normativa de referencia (ASHA). Valeria+ no emite una decisión. Solo un profesional sanitario puede valorar la audición o el neurodesarrollo.';
 
 export const ASHA_DISCLAIMER_EN =
-  'Reference developmental milestones (ASHA). Valeria+ does not diagnose. Only a healthcare professional can issue an audiological or neurodevelopmental diagnosis.';
+  'Reference developmental milestones (ASHA). Valeria+ does not issue a decision. Only a healthcare professional can describe hearing or neurodevelopment.';
 
 export const academyAshaMilestonesEs: AcademyCapsule = {
   id: 'ASHA_MILESTONES_01',
@@ -117,7 +117,7 @@ export const academyAshaMilestonesEs: AcademyCapsule = {
         'Si notas que tu hijo o hija no alcanza de forma consistente los marcadores esperados para su edad cronológica, ¿cuál es el paso más seguro?',
       options: [
         'Esperar a que madure a su ritmo natural, ya que cada niño es distinto.',
-        'Solicitar una evaluación clínica audiológica y del neurodesarrollo temprana.',
+        'Solicitar una observación audiológica y del neurodesarrollo temprana.',
       ],
       answer: 1,
       rationale:
