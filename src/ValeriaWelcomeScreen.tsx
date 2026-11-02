@@ -148,7 +148,8 @@ const s = StyleSheet.create({
     backgroundColor: '#fff', borderRadius: 16, paddingVertical: 17, alignItems: 'center',
     shadowColor: 'rgba(11,18,32,.18)', shadowOffset: { width: 0, height: 12 }, shadowOpacity: 1, shadowRadius: 26, elevation: 6,
   },
-  primaryBtnTxt: { color: V.color.primaryDark, fontSize: 17, fontWeight: '800' },
+  // primaryDark sobre blanco daba 3,1:1 (WCAG AA pide 4,5:1); dark da 18,7:1.
+  primaryBtnTxt: { color: V.color.dark, fontSize: 17, fontWeight: '800' },
   trust: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6, marginTop: 14 },
   trustTxt: { color: 'rgba(255,255,255,.72)', fontSize: 11, fontWeight: '600' },
 });

@@ -13,7 +13,8 @@
     --popover: 0 0% 100%;
     --popover-foreground: 215 27.9% 16.9%;
     --primary: 178 100% 38.4%;            /* turquesa #00c4be */
-    --primary-foreground: 0 0% 100%;
+    /* dark #0b1220: el blanco sobre el turquesa daba 2,2:1 y no llega al 4,5:1 de WCAG AA; así, 8,6:1. */
+    --primary-foreground: 220 48.8% 8.4%;
     --secondary: 177 61.3% 93.9%;         /* primaryLight #e6f9f8 */
     --secondary-foreground: 178 100% 32%; /* primaryDark #00a39e */
     --muted: 165 16.7% 95.3%;             /* #f1f5f4 */
