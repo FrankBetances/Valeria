@@ -1,5 +1,21 @@
 # Valeria+ · Notas para Claude Code
 
+## REGLA: NINGÚN BUILD PUEDE FALLAR (Frank, 2/11/2026)
+
+**Antes de mandar nada a CI se comprueba que no va a fallar. No se admiten fallos.**
+
+- Los gates y el typecheck NO bastan cuando se toca la base: Expo, React Native,
+  dependencias nativas, Babel, Metro, Gradle o plugins. En ese caso se compila
+  Android entero en local (`npx expo prebuild -p android` + `./gradlew assembleRelease`)
+  y solo con BUILD SUCCESSFUL se empuja.
+- Si el entorno no permite compilar Android en local, se dice ANTES de empujar y
+  no se empuja un cambio de base a ciegas.
+- Cada push a una rama lanza un build: no se empuja trabajo a medias que no compile.
+
+Coste real (2/11/2026): se subió Expo 54 → 58 con solo gates y typecheck. El build
+729 murió en Gradle a los 10 min 40 s. Con Cursor nunca había fallado uno.
+
+
 ## REGLA SUPERIOR, POR ENCIMA DE TODAS (Frank, 2/11/2026)
 
 **Nunca engañar. Nunca estafar. Nunca gastar un token engañando, mintiendo ni
