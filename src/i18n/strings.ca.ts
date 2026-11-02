@@ -469,6 +469,36 @@ export const CA: UiStrings = {
   },
 
   pairs: {
+    soundsLabel: 'Sons',
+    // Nombre en llano de cada grupo del banco (Modo Familia). Con la Edición
+    // Profesional se ve el nombre técnico del banco.
+    groupNames: {
+      'Rotacismo': 'So R',
+      'Sigmatismo': 'So S',
+      'Velares': 'Sons K i G',
+      'Labiodental': 'So F',
+      'Nasales': 'Sons M i N',
+      'Laterales': 'So L',
+      'Gliding': 'R i L que es tornen W',
+      'Fronting': 'Sons del fons que van davant',
+      'Cluster reduction': 'Grups de consonants',
+      'Final consonant': 'Consonant final',
+      'Voicing': 'Sons sords i sonors',
+      'Sibilants': 'Sons xiulants',
+      'Vowels': 'Vocals',
+      'Rotacisme': 'So R',
+      'Sonoritat sibilant': 'S sorda i S sonora',
+      'Xeix i ge': 'Sons X i G',
+      'Obertura vocàlica': 'E i O obertes o tancades',
+      'Laterals': 'So L',
+      'Velars': 'Sons K i G',
+      'Oclusivització': 'Sons que es tallen',
+      'Nasals': 'Sons M i N',
+      'Postalveolar': 'So X',
+      'Abertura vocálica': 'E i O obertes o tancades',
+      'Laterais': 'So L',
+      'Nasais': 'Sons M i N',
+    },
     savedConfig: (active: number, total: number): string => `Configuració desada · ${active} de ${total} parells actius.`,
     sealA11y: (who: string): string =>
       `Mà de ${who}. Premeu totes dues mans alhora per continuar, o mantén premuda aquesta dos segons.`,

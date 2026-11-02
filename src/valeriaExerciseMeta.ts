@@ -45,20 +45,20 @@ export const getAgeBands = (lang: UiLang = 'es'): string[] =>
 // METADATOS EN ESPAÑOL
 // ============================================================================
 export const AUDICION_META_ES: ExerciseMeta[] = [
-  { id: 'ff1', code: 'FF-1', name: 'Asociación vocal inicial', category: 'Sonidos y vocales (fonética-fonología)', age: '4-5 años' },
-  { id: 'ff2', code: 'FF-2', name: 'Articulación de vocales', category: 'Sonidos y vocales (fonética-fonología)', age: '3-4 años' },
-  { id: 'ff3', code: 'FF-3', name: 'Completar vocal faltante', category: 'Sonidos y vocales (fonética-fonología)', age: '5-6 años' },
-  { id: 'se1', code: 'SE-1', name: 'Detección del intruso', category: 'Vocabulario (semántica)', age: '4-5 años' },
-  { id: 'se2', code: 'SE-2', name: 'Adivinanza por letra', category: 'Vocabulario (semántica)', age: '5-6 años' },
-  { id: 'se3', code: 'SE-3', name: 'Prendas y órdenes', category: 'Vocabulario (semántica)', age: '3-4 años' },
-  { id: 'ms1', code: 'MS-1', name: 'Singular / plural', category: 'Frases (morfosintaxis)', age: '4-5 años' },
-  { id: 'ms2', code: 'MS-2', name: 'Flexión de género', category: 'Frases (morfosintaxis)', age: '4-5 años' },
-  { id: 'ms3', code: 'MS-3', name: 'Estructura S-V-O', category: 'Frases (morfosintaxis)', age: '5-6 años' },
-  { id: 'ms4', code: 'MS-4', name: 'Composición libre de frases', category: 'Frases (morfosintaxis)', age: '5-6 años' },
-  { id: 'pr1', code: 'PR-1', name: 'Preguntas tipo ¿qué?', category: 'Uso social (pragmática)', age: '3-4 años' },
-  { id: 'pr2', code: 'PR-2', name: 'Adaptación del discurso', category: 'Uso social (pragmática)', age: '5-6 años' },
-  { id: 'pr3', code: 'PR-3', name: 'Reconocimiento de emociones', category: 'Uso social (pragmática)', age: '4-5 años' },
-  { id: 'pr4', code: 'PR-4', name: 'Petición de repetición', category: 'Uso social (pragmática)', age: '5-6 años' },
+  { id: 'ff1', code: 'FF-1', name: 'Asociación vocal inicial', category: 'Sonidos y vocales', age: '4-5 años' },
+  { id: 'ff2', code: 'FF-2', name: 'Articulación de vocales', category: 'Sonidos y vocales', age: '3-4 años' },
+  { id: 'ff3', code: 'FF-3', name: 'Completar vocal faltante', category: 'Sonidos y vocales', age: '5-6 años' },
+  { id: 'se1', code: 'SE-1', name: 'Detección del intruso', category: 'Vocabulario', age: '4-5 años' },
+  { id: 'se2', code: 'SE-2', name: 'Adivinanza por letra', category: 'Vocabulario', age: '5-6 años' },
+  { id: 'se3', code: 'SE-3', name: 'Prendas y órdenes', category: 'Vocabulario', age: '3-4 años' },
+  { id: 'ms1', code: 'MS-1', name: 'Singular / plural', category: 'Frases', age: '4-5 años' },
+  { id: 'ms2', code: 'MS-2', name: 'Flexión de género', category: 'Frases', age: '4-5 años' },
+  { id: 'ms3', code: 'MS-3', name: 'Estructura S-V-O', category: 'Frases', age: '5-6 años' },
+  { id: 'ms4', code: 'MS-4', name: 'Composición libre de frases', category: 'Frases', age: '5-6 años' },
+  { id: 'pr1', code: 'PR-1', name: 'Preguntas tipo ¿qué?', category: 'Uso social', age: '3-4 años' },
+  { id: 'pr2', code: 'PR-2', name: 'Adaptación del discurso', category: 'Uso social', age: '5-6 años' },
+  { id: 'pr3', code: 'PR-3', name: 'Reconocimiento de emociones', category: 'Uso social', age: '4-5 años' },
+  { id: 'pr4', code: 'PR-4', name: 'Petición de repetición', category: 'Uso social', age: '5-6 años' },
   // Rehabilitación auditiva ACOPROS (Expansión de Protocolos): escucha en ruido,
   // lectura labiofacial y memoria auditiva. TODO estresor acústico es MANUAL
   // (deslizador de ruido del Panel del Adulto o la propia voz del cuidador).
@@ -82,23 +82,23 @@ export const LENGUAJE_META_ES: ExerciseMeta[] = [
 // Módulo TEA: el software orquesta las contingencias; la carga
 // comunicativa, los estresores y el veredicto son SIEMPRE del adulto (muro MDR).
 export const TEA_META_ES: ExerciseMeta[] = [
-  { id: 'tea1', code: 'TEA-1', name: 'Atención Conjunta Triangulada', category: 'Contacto visual y punto de mirada' },
-  { id: 'tea2', code: 'TEA-2', name: 'Quiebre Pragmático Inducido', category: 'Reparación comunicativa (manual)' },
-  { id: 'tea3', code: 'TEA-3', name: 'Espejo Asimétrico', category: 'Inhibición de ecopraxia' },
-  { id: 'tea4', code: 'TEA-4', name: 'Transición Interrumpida', category: 'Flexibilidad cognitiva (manual)' },
-  { id: 'tea5', code: 'TEA-5', name: 'Categorización bajo Carga Sensorial', category: 'Clasificación con ruido babble (manual)' },
-  { id: 'tea6', code: 'TEA-6', name: 'Múltiples Señales Simultáneas', category: 'Sobreselectividad de estímulos' },
+  { id: 'tea1', code: 'TEA-1', name: 'Mirar juntos', category: 'Mirada y señalar lo mismo' },
+  { id: 'tea2', code: 'TEA-2', name: 'Cuando algo falla', category: 'Pedir ayuda y arreglar el mensaje (lo lanza el adulto)' },
+  { id: 'tea3', code: 'TEA-3', name: 'El espejo travieso', category: 'Hacer lo que dice la voz, no lo que se ve' },
+  { id: 'tea4', code: 'TEA-4', name: 'Cambio de plan', category: 'Aceptar un cambio en la rutina (lo lanza el adulto)' },
+  { id: 'tea5', code: 'TEA-5', name: 'Ordenar con ruido', category: 'Clasificar con ruido de fondo (lo lanza el adulto)' },
+  { id: 'tea6', code: 'TEA-6', name: 'Varias pistas a la vez', category: 'Fijarse en más de una pista' },
 ];
 
 // Módulo Dislexia (fonología + acceso léxico): validación fonológica plegada
 // por variedad (es-DO: seseo, /s/ implosiva y líquidas en coda NO son error).
 export const DISLEXIA_META_ES: ExerciseMeta[] = [
-  { id: 'dx1', code: 'DX-1', name: 'El Intruso Fonológico', category: 'Conciencia fonológica (auditivo puro)' },
-  { id: 'dx2', code: 'DX-2', name: 'Rastreo Léxico con Interferencia', category: 'Fluidez lectora bajo carga (manual)' },
-  { id: 'dx3', code: 'DX-3', name: 'Síntesis Fonémica Rítmica', category: 'Fusión de fonemas con latencia' },
-  { id: 'dx4', code: 'DX-4', name: 'Criba de Pseudopalabras', category: 'Decodificación · máx. 5 ensayos' },
-  { id: 'dx5', code: 'DX-5', name: 'Rastreo Visual de Rotaciones', category: 'Grafías b/d · p/q (mapa de misclicks)' },
-  { id: 'dx6', code: 'DX-6', name: 'Denominación Rápida (RAN)', category: 'Acceso léxico · persecución manual' },
+  { id: 'dx1', code: 'DX-1', name: 'El sonido intruso', category: 'Escuchar qué palabra suena distinta' },
+  { id: 'dx2', code: 'DX-2', name: 'Leer con distracciones', category: 'Leer seguido aunque haya interrupciones (lo lanza el adulto)' },
+  { id: 'dx3', code: 'DX-3', name: 'Juntar sonidos', category: 'Unir sonidos al ritmo para formar una palabra' },
+  { id: 'dx4', code: 'DX-4', name: 'Palabras inventadas', category: 'Leer palabras que no existen · máx. 5 intentos' },
+  { id: 'dx5', code: 'DX-5', name: 'b o d, p o q', category: 'Distinguir letras que giran' },
+  { id: 'dx6', code: 'DX-6', name: 'Nombrar rápido', category: 'Decir en voz alta dibujos en orden' },
 ];
 
 // Módulo de Realidad Aumentada (Gamificación Condicionada): la cámara frontal
@@ -121,25 +121,25 @@ export const AR_META_ES: ExerciseMeta[] = [
 // METADATOS EN INGLÉS (US English · Pediatric HealthTech)
 // ============================================================================
 export const AUDICION_META_EN: ExerciseMeta[] = [
-  { id: 'ff1', code: 'FF-1', name: 'Initial vowel association', category: 'Sounds and vowels (phonetics-phonology)', age: '4–5 years' },
-  { id: 'ff2', code: 'FF-2', name: 'Vowel articulation', category: 'Sounds and vowels (phonetics-phonology)', age: '3–4 years' },
-  { id: 'ff3', code: 'FF-3', name: 'Fill in the missing vowel', category: 'Sounds and vowels (phonetics-phonology)', age: '5–6 years' },
-  { id: 'se1', code: 'SE-1', name: 'Find the odd one out', category: 'Vocabulary (semantics)', age: '4–5 years' },
-  { id: 'se2', code: 'SE-2', name: 'Letter riddle guessing', category: 'Vocabulary (semantics)', age: '5–6 years' },
-  { id: 'se3', code: 'SE-3', name: 'Clothing and multi-step commands', category: 'Vocabulary (semantics)', age: '3–4 years' },
-  { id: 'ms1', code: 'MS-1', name: 'Singular / plural', category: 'Sentences (morphosyntax)', age: '4–5 years' },
-  { id: 'ms2', code: 'MS-2', name: 'Irregular plurals', category: 'Sentences (morphosyntax)', age: '4–5 years' },
-  { id: 'ms3', code: 'MS-3', name: 'S-V-O sentence structure', category: 'Sentences (morphosyntax)', age: '5–6 years' },
-  { id: 'ms4', code: 'MS-4', name: 'Free sentence building', category: 'Sentences (morphosyntax)', age: '5–6 years' },
-  { id: 'pr1', code: 'PR-1', name: '"What" question answering', category: 'Social communication (pragmatics)', age: '3–4 years' },
-  { id: 'pr2', code: 'PR-2', name: 'Conversational adaptation', category: 'Social communication (pragmatics)', age: '5–6 years' },
-  { id: 'pr3', code: 'PR-3', name: 'Emotion recognition', category: 'Social communication (pragmatics)', age: '4–5 years' },
-  { id: 'pr4', code: 'PR-4', name: 'Asking for clarification', category: 'Social communication (pragmatics)', age: '5–6 years' },
-  { id: 'ra1', code: 'RA-1', name: 'Figure-ground speech in noise', category: 'Auditory training (speech in noise)', age: '4–5 years' },
-  { id: 'ra2', code: 'RA-2', name: 'Speechreading (lipreading)', category: 'Auditory training (speech in noise)', age: '5–6 years' },
-  { id: 'ra3', code: 'RA-3', name: 'Degraded closed-set identification', category: 'Auditory training (speech in noise)', age: '4–5 years' },
-  { id: 'ra4', code: 'RA-4', name: 'Sequential recall with delay', category: 'Auditory training (speech in noise)', age: '5–6 years' },
-  { id: 'ra5', code: 'RA-5', name: 'Sound localization', category: 'Auditory training (speech in noise)', age: '3–4 years' },
+  { id: 'ff1', code: 'FF-1', name: 'Initial vowel association', category: 'Sounds and vowels', age: '4–5 years' },
+  { id: 'ff2', code: 'FF-2', name: 'Vowel articulation', category: 'Sounds and vowels', age: '3–4 years' },
+  { id: 'ff3', code: 'FF-3', name: 'Fill in the missing vowel', category: 'Sounds and vowels', age: '5–6 years' },
+  { id: 'se1', code: 'SE-1', name: 'Find the odd one out', category: 'Vocabulary', age: '4–5 years' },
+  { id: 'se2', code: 'SE-2', name: 'Letter riddle guessing', category: 'Vocabulary', age: '5–6 years' },
+  { id: 'se3', code: 'SE-3', name: 'Clothing and multi-step commands', category: 'Vocabulary', age: '3–4 years' },
+  { id: 'ms1', code: 'MS-1', name: 'Singular / plural', category: 'Sentences', age: '4–5 years' },
+  { id: 'ms2', code: 'MS-2', name: 'Irregular plurals', category: 'Sentences', age: '4–5 years' },
+  { id: 'ms3', code: 'MS-3', name: 'S-V-O sentence structure', category: 'Sentences', age: '5–6 years' },
+  { id: 'ms4', code: 'MS-4', name: 'Free sentence building', category: 'Sentences', age: '5–6 years' },
+  { id: 'pr1', code: 'PR-1', name: '"What" question answering', category: 'Social communication', age: '3–4 years' },
+  { id: 'pr2', code: 'PR-2', name: 'Conversational adaptation', category: 'Social communication', age: '5–6 years' },
+  { id: 'pr3', code: 'PR-3', name: 'Emotion recognition', category: 'Social communication', age: '4–5 years' },
+  { id: 'pr4', code: 'PR-4', name: 'Asking for clarification', category: 'Social communication', age: '5–6 years' },
+  { id: 'ra1', code: 'RA-1', name: 'Figure-ground speech in noise', category: 'Listening in noise', age: '4–5 years' },
+  { id: 'ra2', code: 'RA-2', name: 'Speechreading (lipreading)', category: 'Listening in noise', age: '5–6 years' },
+  { id: 'ra3', code: 'RA-3', name: 'Degraded closed-set identification', category: 'Listening in noise', age: '4–5 years' },
+  { id: 'ra4', code: 'RA-4', name: 'Sequential recall with delay', category: 'Listening in noise', age: '5–6 years' },
+  { id: 'ra5', code: 'RA-5', name: 'Sound localization', category: 'Listening in noise', age: '3–4 years' },
 ];
 
 export const LENGUAJE_META_EN: ExerciseMeta[] = [
@@ -153,21 +153,21 @@ export const LENGUAJE_META_EN: ExerciseMeta[] = [
 ];
 
 export const TEA_META_EN: ExerciseMeta[] = [
-  { id: 'tea1', code: 'TEA-1', name: 'Triangulated joint attention', category: 'Eye contact and dual validation' },
-  { id: 'tea2', code: 'TEA-2', name: 'Induced pragmatic breakdown', category: 'Communicative repair (caregiver-mediated)' },
-  { id: 'tea3', code: 'TEA-3', name: 'Asymmetrical mirror imitation', category: 'Echopraxia inhibition' },
-  { id: 'tea4', code: 'TEA-4', name: 'Interrupted routine transition', category: 'Cognitive flexibility (caregiver-mediated)' },
-  { id: 'tea5', code: 'TEA-5', name: 'Categorization under sensory load', category: 'Sorting with background babble noise' },
-  { id: 'tea6', code: 'TEA-6', name: 'Multiple simultaneous cues', category: 'Stimulus overselectivity' },
+  { id: 'tea1', code: 'TEA-1', name: 'Looking together', category: 'Gaze and pointing at the same thing' },
+  { id: 'tea2', code: 'TEA-2', name: 'When something goes wrong', category: 'Asking for help and repairing the message (adult-led)' },
+  { id: 'tea3', code: 'TEA-3', name: 'The tricky mirror', category: 'Follow the voice, not what you see' },
+  { id: 'tea4', code: 'TEA-4', name: 'Change of plan', category: 'Accepting a change in the routine (adult-led)' },
+  { id: 'tea5', code: 'TEA-5', name: 'Sorting with noise', category: 'Sorting with background noise (adult-led)' },
+  { id: 'tea6', code: 'TEA-6', name: 'Several clues at once', category: 'Noticing more than one clue' },
 ];
 
 export const DISLEXIA_META_EN: ExerciseMeta[] = [
-  { id: 'dx1', code: 'DX-1', name: 'Phonological intruder', category: 'Phonological awareness (pure auditory)' },
-  { id: 'dx2', code: 'DX-2', name: 'Lexical tracking under interference', category: 'Reading fluency under cognitive load' },
-  { id: 'dx3', code: 'DX-3', name: 'Rhythmic phonemic blending', category: 'Phoneme blending with latency' },
-  { id: 'dx4', code: 'DX-4', name: 'Pseudoword decoding screening', category: 'Phonological decoding · max 5 trials' },
-  { id: 'dx5', code: 'DX-5', name: 'Visual tracking of letter rotations', category: 'Letter discrimination b/d · p/q' },
-  { id: 'dx6', code: 'DX-6', name: 'Rapid Automatized Naming (RAN)', category: 'Lexical access · timed naming' },
+  { id: 'dx1', code: 'DX-1', name: 'The odd sound out', category: 'Hearing which word sounds different' },
+  { id: 'dx2', code: 'DX-2', name: 'Reading with distractions', category: 'Keep reading through interruptions (adult-led)' },
+  { id: 'dx3', code: 'DX-3', name: 'Putting sounds together', category: 'Blending sounds in rhythm into a word' },
+  { id: 'dx4', code: 'DX-4', name: 'Made-up words', category: 'Reading words that do not exist · max 5 tries' },
+  { id: 'dx5', code: 'DX-5', name: 'b or d, p or q', category: 'Telling apart letters that turn' },
+  { id: 'dx6', code: 'DX-6', name: 'Quick naming', category: 'Naming pictures aloud in order' },
 ];
 
 export const AR_META_EN: ExerciseMeta[] = [
@@ -183,20 +183,20 @@ export const AR_META_EN: ExerciseMeta[] = [
 // METADADES EN CATALÀ (ca-ES)
 // ============================================================================
 export const AUDICION_META_CA: ExerciseMeta[] = [
-  { id: 'ff1', code: 'FF-1', name: 'Associació vocàlica inicial', category: 'Sons i vocals (fonètica-fonologia)', age: '4-5 anys' },
-  { id: 'ff2', code: 'FF-2', name: 'Articulació de vocals', category: 'Sons i vocals (fonètica-fonologia)', age: '3-4 anys' },
-  { id: 'ff3', code: 'FF-3', name: 'Completar la vocal que falta', category: 'Sons i vocals (fonètica-fonologia)', age: '5-6 anys' },
-  { id: 'se1', code: 'SE-1', name: 'Detecció de l\'intrús', category: 'Vocabulari (semàntica)', age: '4-5 anys' },
-  { id: 'se2', code: 'SE-2', name: 'Endevinalla per lletra', category: 'Vocabulari (semàntica)', age: '5-6 anys' },
-  { id: 'se3', code: 'SE-3', name: 'Peces de roba i ordres', category: 'Vocabulari (semàntica)', age: '3-4 anys' },
-  { id: 'ms1', code: 'MS-1', name: 'Singular / plural', category: 'Frases (morfosintaxi)', age: '4-5 anys' },
-  { id: 'ms2', code: 'MS-2', name: 'Flexió de gènere', category: 'Frases (morfosintaxi)', age: '4-5 anys' },
-  { id: 'ms3', code: 'MS-3', name: 'Estructura S-V-O', category: 'Frases (morfosintaxi)', age: '5-6 anys' },
-  { id: 'ms4', code: 'MS-4', name: 'Composició lliure de frases', category: 'Frases (morfosintaxi)', age: '5-6 anys' },
-  { id: 'pr1', code: 'PR-1', name: 'Preguntes del tipus «què?»', category: 'Ús social (pragmàtica)', age: '3-4 anys' },
-  { id: 'pr2', code: 'PR-2', name: 'Adaptació del discurs', category: 'Ús social (pragmàtica)', age: '5-6 anys' },
-  { id: 'pr3', code: 'PR-3', name: 'Reconeixement d\'emocions', category: 'Ús social (pragmàtica)', age: '4-5 anys' },
-  { id: 'pr4', code: 'PR-4', name: 'Petició de repetició', category: 'Ús social (pragmàtica)', age: '5-6 anys' },
+  { id: 'ff1', code: 'FF-1', name: 'Associació vocàlica inicial', category: 'Sons i vocals', age: '4-5 anys' },
+  { id: 'ff2', code: 'FF-2', name: 'Articulació de vocals', category: 'Sons i vocals', age: '3-4 anys' },
+  { id: 'ff3', code: 'FF-3', name: 'Completar la vocal que falta', category: 'Sons i vocals', age: '5-6 anys' },
+  { id: 'se1', code: 'SE-1', name: 'Detecció de l\'intrús', category: 'Vocabulari', age: '4-5 anys' },
+  { id: 'se2', code: 'SE-2', name: 'Endevinalla per lletra', category: 'Vocabulari', age: '5-6 anys' },
+  { id: 'se3', code: 'SE-3', name: 'Peces de roba i ordres', category: 'Vocabulari', age: '3-4 anys' },
+  { id: 'ms1', code: 'MS-1', name: 'Singular / plural', category: 'Frases', age: '4-5 anys' },
+  { id: 'ms2', code: 'MS-2', name: 'Flexió de gènere', category: 'Frases', age: '4-5 anys' },
+  { id: 'ms3', code: 'MS-3', name: 'Estructura S-V-O', category: 'Frases', age: '5-6 anys' },
+  { id: 'ms4', code: 'MS-4', name: 'Composició lliure de frases', category: 'Frases', age: '5-6 anys' },
+  { id: 'pr1', code: 'PR-1', name: 'Preguntes del tipus «què?»', category: 'Ús social', age: '3-4 anys' },
+  { id: 'pr2', code: 'PR-2', name: 'Adaptació del discurs', category: 'Ús social', age: '5-6 anys' },
+  { id: 'pr3', code: 'PR-3', name: 'Reconeixement d\'emocions', category: 'Ús social', age: '4-5 anys' },
+  { id: 'pr4', code: 'PR-4', name: 'Petició de repetició', category: 'Ús social', age: '5-6 anys' },
   { id: 'ra1', code: 'RA-1', name: 'Figura-fons amb soroll', category: 'Escolta amb soroll', age: '4-5 anys' },
   { id: 'ra2', code: 'RA-2', name: 'Lectura labiofacial', category: 'Escolta amb soroll', age: '5-6 anys' },
   { id: 'ra3', code: 'RA-3', name: 'Format tancat degradat', category: 'Escolta amb soroll', age: '4-5 anys' },
@@ -215,21 +215,21 @@ export const LENGUAJE_META_CA: ExerciseMeta[] = [
 ];
 
 export const TEA_META_CA: ExerciseMeta[] = [
-  { id: 'tea1', code: 'TEA-1', name: 'Atenció conjunta triangulada', category: 'Contacte visual i validació doble' },
-  { id: 'tea2', code: 'TEA-2', name: 'Trencament pragmàtic induït', category: 'Reparació comunicativa (mediada per l\'adult)' },
-  { id: 'tea3', code: 'TEA-3', name: 'Imitació en mirall asimètric', category: 'Inhibició de l\'ecopràxia' },
-  { id: 'tea4', code: 'TEA-4', name: 'Transició de rutina interrompuda', category: 'Flexibilitat cognitiva (mediada per l\'adult)' },
-  { id: 'tea5', code: 'TEA-5', name: 'Categorització amb càrrega sensorial', category: 'Classificar amb soroll de fons' },
-  { id: 'tea6', code: 'TEA-6', name: 'Pistes múltiples simultànies', category: 'Sobreselectivitat de l\'estímul' },
+  { id: 'tea1', code: 'TEA-1', name: 'Mirar junts', category: 'Mirada i assenyalar el mateix' },
+  { id: 'tea2', code: 'TEA-2', name: 'Quan alguna cosa falla', category: 'Demanar ajuda i arreglar el missatge (ho llança l’adult)' },
+  { id: 'tea3', code: 'TEA-3', name: 'El mirall entremaliat', category: 'Fer el que diu la veu, no el que es veu' },
+  { id: 'tea4', code: 'TEA-4', name: 'Canvi de pla', category: 'Acceptar un canvi a la rutina (ho llança l’adult)' },
+  { id: 'tea5', code: 'TEA-5', name: 'Ordenar amb soroll', category: 'Classificar amb soroll de fons (ho llança l’adult)' },
+  { id: 'tea6', code: 'TEA-6', name: 'Diverses pistes alhora', category: 'Fixar-se en més d’una pista' },
 ];
 
 export const DISLEXIA_META_CA: ExerciseMeta[] = [
-  { id: 'dx1', code: 'DX-1', name: 'Intrús fonològic', category: 'Consciència fonològica (auditiva pura)' },
-  { id: 'dx2', code: 'DX-2', name: 'Seguiment lèxic amb interferència', category: 'Fluïdesa lectora amb càrrega cognitiva' },
-  { id: 'dx3', code: 'DX-3', name: 'Síntesi fonèmica rítmica', category: 'Fusió de fonemes amb latència' },
-  { id: 'dx4', code: 'DX-4', name: 'Cribratge de pseudoparaules', category: 'Descodificació fonològica · màxim 5 assajos' },
-  { id: 'dx5', code: 'DX-5', name: 'Rastreig visual de rotacions', category: 'Discriminació de lletres b/d · p/q' },
-  { id: 'dx6', code: 'DX-6', name: 'Denominació automàtica ràpida (RAN)', category: 'Accés lèxic · anomenar contra rellotge' },
+  { id: 'dx1', code: 'DX-1', name: 'El so intrús', category: 'Escoltar quina paraula sona diferent' },
+  { id: 'dx2', code: 'DX-2', name: 'Llegir amb distraccions', category: 'Llegir seguit encara que hi hagi interrupcions (ho llança l’adult)' },
+  { id: 'dx3', code: 'DX-3', name: 'Ajuntar sons', category: 'Unir sons al ritme per formar una paraula' },
+  { id: 'dx4', code: 'DX-4', name: 'Paraules inventades', category: 'Llegir paraules que no existeixen · màx. 5 intents' },
+  { id: 'dx5', code: 'DX-5', name: 'b o d, p o q', category: 'Distingir lletres que giren' },
+  { id: 'dx6', code: 'DX-6', name: 'Anomenar ràpid', category: 'Dir en veu alta dibuixos en ordre' },
 ];
 
 export const AR_META_CA: ExerciseMeta[] = [
@@ -250,20 +250,20 @@ export const AR_META_CA: ExerciseMeta[] = [
 // titulado en castellano: el mismo defecto que encontró Frank con el inglés.
 // ============================================================================
 export const AUDICION_META_GL: ExerciseMeta[] = [
-  { id: 'ff1', code: 'FF-1', name: 'Asociación vocálica inicial', category: 'Sons e vogais (fonética-fonoloxía)', age: '4-5 anos' },
-  { id: 'ff2', code: 'FF-2', name: 'Articulación de vogais', category: 'Sons e vogais (fonética-fonoloxía)', age: '3-4 anos' },
-  { id: 'ff3', code: 'FF-3', name: 'Completar a vogal que falta', category: 'Sons e vogais (fonética-fonoloxía)', age: '5-6 anos' },
-  { id: 'se1', code: 'SE-1', name: 'Detección do intruso', category: 'Vocabulario (semántica)', age: '4-5 anos' },
-  { id: 'se2', code: 'SE-2', name: 'Adiviña pola letra', category: 'Vocabulario (semántica)', age: '5-6 anos' },
-  { id: 'se3', code: 'SE-3', name: 'Prendas e ordes', category: 'Vocabulario (semántica)', age: '3-4 anos' },
-  { id: 'ms1', code: 'MS-1', name: 'Singular / plural', category: 'Frases (morfosintaxe)', age: '4-5 anos' },
-  { id: 'ms2', code: 'MS-2', name: 'Flexión de xénero', category: 'Frases (morfosintaxe)', age: '4-5 anos' },
-  { id: 'ms3', code: 'MS-3', name: 'Estrutura S-V-O', category: 'Frases (morfosintaxe)', age: '5-6 anos' },
-  { id: 'ms4', code: 'MS-4', name: 'Composición libre de frases', category: 'Frases (morfosintaxe)', age: '5-6 anos' },
-  { id: 'pr1', code: 'PR-1', name: 'Preguntas tipo «que?»', category: 'Uso social (pragmática)', age: '3-4 anos' },
-  { id: 'pr2', code: 'PR-2', name: 'Adaptación do discurso', category: 'Uso social (pragmática)', age: '5-6 anos' },
-  { id: 'pr3', code: 'PR-3', name: 'Recoñecemento de emocións', category: 'Uso social (pragmática)', age: '4-5 anos' },
-  { id: 'pr4', code: 'PR-4', name: 'Petición de repetición', category: 'Uso social (pragmática)', age: '5-6 anos' },
+  { id: 'ff1', code: 'FF-1', name: 'Asociación vocálica inicial', category: 'Sons e vogais', age: '4-5 anos' },
+  { id: 'ff2', code: 'FF-2', name: 'Articulación de vogais', category: 'Sons e vogais', age: '3-4 anos' },
+  { id: 'ff3', code: 'FF-3', name: 'Completar a vogal que falta', category: 'Sons e vogais', age: '5-6 anos' },
+  { id: 'se1', code: 'SE-1', name: 'Detección do intruso', category: 'Vocabulario', age: '4-5 anos' },
+  { id: 'se2', code: 'SE-2', name: 'Adiviña pola letra', category: 'Vocabulario', age: '5-6 anos' },
+  { id: 'se3', code: 'SE-3', name: 'Prendas e ordes', category: 'Vocabulario', age: '3-4 anos' },
+  { id: 'ms1', code: 'MS-1', name: 'Singular / plural', category: 'Frases', age: '4-5 anos' },
+  { id: 'ms2', code: 'MS-2', name: 'Flexión de xénero', category: 'Frases', age: '4-5 anos' },
+  { id: 'ms3', code: 'MS-3', name: 'Estrutura S-V-O', category: 'Frases', age: '5-6 anos' },
+  { id: 'ms4', code: 'MS-4', name: 'Composición libre de frases', category: 'Frases', age: '5-6 anos' },
+  { id: 'pr1', code: 'PR-1', name: 'Preguntas tipo «que?»', category: 'Uso social', age: '3-4 anos' },
+  { id: 'pr2', code: 'PR-2', name: 'Adaptación do discurso', category: 'Uso social', age: '5-6 anos' },
+  { id: 'pr3', code: 'PR-3', name: 'Recoñecemento de emocións', category: 'Uso social', age: '4-5 anos' },
+  { id: 'pr4', code: 'PR-4', name: 'Petición de repetición', category: 'Uso social', age: '5-6 anos' },
   { id: 'ra1', code: 'RA-1', name: 'Figura-fondo con ruído', category: 'Escoita en ruído', age: '4-5 anos' },
   { id: 'ra2', code: 'RA-2', name: 'Lectura labiofacial', category: 'Escoita en ruído', age: '5-6 anos' },
   { id: 'ra3', code: 'RA-3', name: 'Formato pechado degradado', category: 'Escoita en ruído', age: '4-5 anos' },
@@ -282,21 +282,21 @@ export const LENGUAJE_META_GL: ExerciseMeta[] = [
 ];
 
 export const TEA_META_GL: ExerciseMeta[] = [
-  { id: 'tea1', code: 'TEA-1', name: 'Atención Conxunta Triangulada', category: 'Contacto visual e punto de mirada' },
-  { id: 'tea2', code: 'TEA-2', name: 'Quebra Pragmática Inducida', category: 'Reparación comunicativa (manual)' },
-  { id: 'tea3', code: 'TEA-3', name: 'Espello Asimétrico', category: 'Inhibición de ecopraxia' },
-  { id: 'tea4', code: 'TEA-4', name: 'Transición Interrompida', category: 'Flexibilidade cognitiva (manual)' },
-  { id: 'tea5', code: 'TEA-5', name: 'Categorización baixo Carga Sensorial', category: 'Clasificación con ruído babble (manual)' },
-  { id: 'tea6', code: 'TEA-6', name: 'Múltiples Sinais Simultáneos', category: 'Sobreselectividade de estímulos' },
+  { id: 'tea1', code: 'TEA-1', name: 'Mirar xuntos', category: 'Mirada e sinalar o mesmo' },
+  { id: 'tea2', code: 'TEA-2', name: 'Cando algo falla', category: 'Pedir axuda e arranxar a mensaxe (lánzao o adulto)' },
+  { id: 'tea3', code: 'TEA-3', name: 'O espello trasno', category: 'Facer o que di a voz, non o que se ve' },
+  { id: 'tea4', code: 'TEA-4', name: 'Cambio de plan', category: 'Aceptar un cambio na rutina (lánzao o adulto)' },
+  { id: 'tea5', code: 'TEA-5', name: 'Ordenar con ruído', category: 'Clasificar con ruído de fondo (lánzao o adulto)' },
+  { id: 'tea6', code: 'TEA-6', name: 'Varias pistas á vez', category: 'Fixarse en máis dunha pista' },
 ];
 
 export const DISLEXIA_META_GL: ExerciseMeta[] = [
-  { id: 'dx1', code: 'DX-1', name: 'O Intruso Fonolóxico', category: 'Conciencia fonolóxica (auditivo puro)' },
-  { id: 'dx2', code: 'DX-2', name: 'Rastrexo Léxico con Interferencia', category: 'Fluidez lectora baixo carga (manual)' },
-  { id: 'dx3', code: 'DX-3', name: 'Síntese Fonémica Rítmica', category: 'Fusión de fonemas con latencia' },
-  { id: 'dx4', code: 'DX-4', name: 'Criba de Pseudopalabras', category: 'Descodificación · máx. 5 ensaios' },
-  { id: 'dx5', code: 'DX-5', name: 'Rastrexo Visual de Rotacións', category: 'Grafías b/d · p/q (mapa de misclicks)' },
-  { id: 'dx6', code: 'DX-6', name: 'Denominación Rápida (RAN)', category: 'Acceso léxico · persecución manual' },
+  { id: 'dx1', code: 'DX-1', name: 'O son intruso', category: 'Escoitar que palabra soa distinta' },
+  { id: 'dx2', code: 'DX-2', name: 'Ler con distraccións', category: 'Ler seguido aínda que haxa interrupcións (lánzao o adulto)' },
+  { id: 'dx3', code: 'DX-3', name: 'Xuntar sons', category: 'Unir sons ao ritmo para formar unha palabra' },
+  { id: 'dx4', code: 'DX-4', name: 'Palabras inventadas', category: 'Ler palabras que non existen · máx. 5 intentos' },
+  { id: 'dx5', code: 'DX-5', name: 'b ou d, p ou q', category: 'Distinguir letras que xiran' },
+  { id: 'dx6', code: 'DX-6', name: 'Nomear rápido', category: 'Dicir en voz alta debuxos en orde' },
 ];
 
 export const AR_META_GL: ExerciseMeta[] = [

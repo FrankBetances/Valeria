@@ -8,6 +8,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useT } from "../../i18n";
 import { BlockIcon } from "../../ValeriaBlockIcons";
 import { ScreenHeader } from "../../ui/ScreenHeader";
+import { CatPixel } from "../../ValeriaCatPixel";
 import { LUA_COLORS, LUA_RADII } from "../Theme/luaTheme";
 import {
   AgeBand,
@@ -94,7 +95,8 @@ export const ValeriaAventurasLuaHubScreen: React.FC<Props> = ({ navigation }) =>
       {/* Cabecera común de los módulos (src/ui/ScreenHeader). Antes era una
           barra con «Atrás» y, debajo, una tarjeta que repetía el título. */}
       <ScreenHeader onBack={() => navigation.goBack()} backLabel={t.common.back}
-        kicker={t.hub.kickerPractice} icon="lua" title={t.luaHub.title} subtitle={bandSubtitle} />
+        kicker={t.hub.kickerPractice} title={t.luaHub.title} subtitle={bandSubtitle}
+        trailing={<View style={s.headerLua}><CatPixel size={56} pose="head" /></View>} />
 
       <ScrollView
         contentContainerStyle={[s.scrollContent, { paddingBottom: insets.bottom + 32 }]}
@@ -258,6 +260,8 @@ export const ValeriaAventurasLuaHubScreen: React.FC<Props> = ({ navigation }) =>
 };
 
 const s = StyleSheet.create({
+  // La gata vuelve a la cabecera: es la cara del módulo.
+  headerLua: { width: 64, height: 64, borderRadius: 18, backgroundColor: 'rgba(255,255,255,.18)', alignItems: 'center', justifyContent: 'center' },
   // Una franja puede no tener canciones —las 50 hojas no traen ninguna para
   // 7-10— y eso hay que decirlo, no dejar el hueco.
   sectionEmpty: {

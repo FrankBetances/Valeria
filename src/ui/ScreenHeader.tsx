@@ -21,22 +21,42 @@ interface Props {
   badge?: string;
   /** Fila opcional bajo el subtítulo: pestañas, cifras… */
   children?: React.ReactNode;
+  /** Fondo: por defecto el turquesa de la marca (Academy lo cambia por dominio). */
+  color?: string;
+  /** Pieza a la derecha del bloque de título: la gata, un botón. */
+  trailing?: React.ReactNode;
+  /** Puntos de progreso de una sesión: hechos, el actual y los que faltan. */
+  dots?: { total: number; index: number; finished?: boolean };
 }
 
-export const ScreenHeader: React.FC<Props> = ({ onBack, backLabel, kicker, icon, title, subtitle, badge, children }) => (
-  <View style={s.header}>
+export const ScreenHeader: React.FC<Props> = ({ onBack, backLabel, kicker, icon, title, subtitle, badge, children, color, trailing, dots }) => (
+  <View style={[s.header, color ? { backgroundColor: color } : null]}>
     {onBack && (
       <Pressable onPress={onBack} style={s.back} hitSlop={12} accessibilityRole="button" accessibilityLabel={backLabel}>
         <Text style={s.backTxt}>{`‹ ${backLabel}`}</Text>
       </Pressable>
     )}
-    {!!kicker && <Text style={s.kicker}>{kicker}</Text>}
-    <View style={s.titleRow}>
-      {icon && <View style={s.icon}><BlockIcon name={icon} color="#ffffff" size={24} /></View>}
-      <Text style={s.title} accessibilityRole="header">{title}</Text>
-      {!!badge && <View style={s.badge}><Text style={s.badgeTxt} numberOfLines={1}>{badge}</Text></View>}
+    <View style={s.top}>
+      <View style={s.topText}>
+        {!!kicker && <Text style={s.kicker}>{kicker}</Text>}
+        <View style={s.titleRow}>
+          {icon && <View style={s.icon}><BlockIcon name={icon} color="#ffffff" size={24} /></View>}
+          <Text style={s.title} accessibilityRole="header">{title}</Text>
+          {!!badge && <View style={s.badge}><Text style={s.badgeTxt} numberOfLines={1}>{badge}</Text></View>}
+        </View>
+        {!!subtitle && <Text style={s.subtitle}>{subtitle}</Text>}
+      </View>
+      {trailing && <View style={s.trailing}>{trailing}</View>}
     </View>
-    {!!subtitle && <Text style={s.subtitle}>{subtitle}</Text>}
+    {dots && (
+      <View style={s.dots}>
+        {Array.from({ length: dots.total }, (_, i) => {
+          const done = dots.finished || i < dots.index;
+          const current = !dots.finished && i === dots.index;
+          return <View key={i} style={[s.dot, done ? s.dotDone : current ? s.dotCurrent : null]} />;
+        })}
+      </View>
+    )}
     {children}
   </View>
 );
@@ -52,6 +72,9 @@ const s = StyleSheet.create({
   },
   backTxt: { color: '#fff', fontSize: 12, fontWeight: V.font.extrabold },
   kicker: { color: 'rgba(255,255,255,.85)', fontSize: 11.5, fontWeight: V.font.extrabold, letterSpacing: 0.8, textTransform: 'uppercase', marginBottom: 2 },
+  top: { flexDirection: 'row', alignItems: 'center' },
+  topText: { flexGrow: 1, flexShrink: 1, flexBasis: 0, minWidth: 0 },
+  trailing: { marginLeft: V.space.md },
   titleRow: { flexDirection: 'row', alignItems: 'center' },
   // Icono y badge de tamaño propio; el título es el único que se encoge.
   icon: { marginRight: 10 },
@@ -61,6 +84,11 @@ const s = StyleSheet.create({
     borderColor: 'rgba(255,255,255,.32)', borderRadius: 11, paddingHorizontal: 11, paddingVertical: 6,
   },
   badgeTxt: { color: '#fff', fontSize: 12, fontWeight: V.font.extrabold },
+  // Barra segmentada, como la que ya llevaban el reproductor y los pares.
+  dots: { flexDirection: 'row', gap: 6, marginTop: 14 },
+  dot: { flex: 1, height: 7, borderRadius: 4, backgroundColor: 'rgba(255,255,255,.32)' },
+  dotDone: { backgroundColor: '#fff' },
+  dotCurrent: { backgroundColor: 'rgba(255,255,255,.85)' },
   subtitle: { ...V.type.body, color: 'rgba(255,255,255,.92)', fontWeight: V.font.semibold, marginTop: V.space.xs },
 });
 

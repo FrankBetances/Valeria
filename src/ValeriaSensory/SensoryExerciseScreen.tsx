@@ -3,6 +3,7 @@
 // Módulo de desensibilización sistemática jerárquica con muro de control adulto,
 // anticipación visual estricta, pausa no punitiva y Lúa en silencio clínico.
 // ============================================================================
+import { ScreenHeader } from '../ui/ScreenHeader';
 import React, { useEffect, useRef, useState } from 'react';
 import {
   View,
@@ -266,21 +267,11 @@ export const SensoryExerciseScreen: React.FC<{ navigation: any; route: any }> = 
   if (step === 'ADULT_PREPARATION') {
     return (
       <View style={s.flex}>
-        <View style={s.header}>
-          <Pressable
-            onPress={() => navigation.goBack()}
-            style={s.backPill}
-            accessibilityRole="button"
-            accessibilityLabel={t.common.back}
-          >
-            <Text style={s.backPillTxt}>{`‹ ${t.common.back}`}</Text>
-          </Pressable>
-          {/* Las seis actividades comparten esta pantalla: si no dice cuál se
-              está configurando, el adulto no sabe en qué ejercicio entró. */}
-          <Text style={s.logoFallback}>{`${activity.id} · ${t.sensory.adultGateTag}`}</Text>
-          <Text style={s.headerTitle}>{activityTitle}</Text>
-          <Text style={s.headerSub}>{`${t.sensory.prepTitle} · ${t.sensory.prepSubtitle}`}</Text>
-        </View>
+        {/* Las seis actividades comparten esta pantalla: el kicker dice cuál se
+            está configurando, o el adulto no sabe en qué ejercicio entró. */}
+        <ScreenHeader onBack={() => navigation.goBack()} backLabel={t.common.back} icon="sensory"
+          kicker={`${activity.id} · ${t.sensory.adultGateTag}`} title={activityTitle}
+          subtitle={`${t.sensory.prepTitle} · ${t.sensory.prepSubtitle}`} />
 
         <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
           {/* SEN-03 · ACOPROS veía las seis actividades iguales porque comparten
@@ -525,19 +516,9 @@ export const SensoryExerciseScreen: React.FC<{ navigation: any; route: any }> = 
 
     return (
       <View style={s.flex}>
-        <View style={[s.header, { backgroundColor: isPlaying ? V.color.primary : V.color.primaryDark }]}>
-          <Text style={s.logoFallback}>
-            {isEco ? t.sensory.ecologicalBadge : t.sensory.exploringTag}
-          </Text>
-          <Text style={s.headerTitle}>{triggerLabel}</Text>
-          <Text style={s.headerSub}>
-            {!audioReady
-              ? t.sensory.noAudioNotice
-              : isPlaying
-              ? t.sensory.listeningNotice
-              : t.sensory.pressToStartNotice}
-          </Text>
-
+        <ScreenHeader backLabel={t.common.back} icon="sensory" color={isPlaying ? V.color.primary : V.color.primaryDark}
+          kicker={isEco ? t.sensory.ecologicalBadge : t.sensory.exploringTag} title={triggerLabel}
+          subtitle={!audioReady ? t.sensory.noAudioNotice : isPlaying ? t.sensory.listeningNotice : t.sensory.pressToStartNotice}>
           {/* Barra de progreso visual */}
           <View style={s.progressBarTrack}>
             <Animated.View
@@ -552,7 +533,7 @@ export const SensoryExerciseScreen: React.FC<{ navigation: any; route: any }> = 
               ]}
             />
           </View>
-        </View>
+        </ScreenHeader>
 
         <View style={[s.flex, s.centerBody]}>
           {/* Lúa inmóvil y sin sonido durante la exposición */}
@@ -619,11 +600,8 @@ export const SensoryExerciseScreen: React.FC<{ navigation: any; route: any }> = 
   if (step === 'PAUSED') {
     return (
       <View style={s.flex}>
-        <View style={[s.header, { backgroundColor: V.color.primaryDark }]}>
-          <Text style={s.logoFallback}>{t.sensory.pausedTag}</Text>
-          <Text style={s.headerTitle}>{t.sensory.pausedTitle}</Text>
-          <Text style={s.headerSub}>{t.sensory.pausedSubtitle}</Text>
-        </View>
+        <ScreenHeader backLabel={t.common.back} icon="sensory" color={V.color.primaryDark}
+          kicker={t.sensory.pausedTag} title={t.sensory.pausedTitle} subtitle={t.sensory.pausedSubtitle} />
 
         <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
           <View style={s.pauseCard}>
@@ -659,11 +637,8 @@ export const SensoryExerciseScreen: React.FC<{ navigation: any; route: any }> = 
   if (step === 'CLOSING') {
     return (
       <View style={s.flex}>
-        <View style={s.header}>
-          <Text style={s.logoFallback}>{t.sensory.sessionCloseTag}</Text>
-          <Text style={s.headerTitle}>{t.sensory.sessionSummaryTitle}</Text>
-          <Text style={s.headerSub}>{t.sensory.sessionSummarySub}</Text>
-        </View>
+        <ScreenHeader backLabel={t.common.back} icon="sensory"
+          kicker={t.sensory.sessionCloseTag} title={t.sensory.sessionSummaryTitle} subtitle={t.sensory.sessionSummarySub} />
 
         <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
           <Text style={s.sectionLabel}>{t.sensory.childResponseLabel}</Text>

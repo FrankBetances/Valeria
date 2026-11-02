@@ -9,6 +9,7 @@
 // Al aprobar el quiz / marcar una guía, la XP se inyecta en el silo del dominio
 // de origen (academyStore) y el hub refleja el avance en tiempo real.
 // ============================================================================
+import { ScreenHeader } from '../ui/ScreenHeader';
 import React, { useEffect, useState } from 'react';
 import { View, Text, Pressable, ScrollView, StyleSheet } from 'react-native';
 import { V } from '../valeriaTheme';
@@ -86,21 +87,9 @@ export const ValeriaAcademyScreen: React.FC<{ navigation: any }> = ({ navigation
     const pct = Math.round(summary.progress * 100);
     return (
       <View style={s.flex}>
-        <View style={s.header}>
-          {!inTabs && (
-            <Pressable onPress={() => navigation.goBack()} style={s.backPill} accessibilityRole="button" accessibilityLabel={t.academy.backA11y}>
-              <Text style={s.backPillTxt}>{t.academy.back}</Text>
-            </Pressable>
-          )}
-          <View style={s.headerTopRow}>
-            <View style={s.headerTitleCol}>
-              <Text style={s.logoFallback}>valeria+ · academy</Text>
-              <View style={s.titleRow}><BlockIcon name="tabAcademy" color="#ffffff" size={26} /><Text style={s.headerTitle}>{t.academy.headerTitle}</Text></View>
-            </View>
-            <View style={s.luaBadge}>
-              <CatPixel size={54} pose="head" />
-            </View>
-          </View>
+        <ScreenHeader onBack={inTabs ? undefined : () => navigation.goBack()} backLabel={t.academy.back.replace(/^‹\s*/, '')}
+          kicker="valeria+ · academy" icon="tabAcademy" title={t.academy.headerTitle}
+          trailing={<View style={s.luaBadge}><CatPixel size={54} pose="head" /></View>}>
           {/* El reclamo es para quien llega por primera vez. A quien ya ha
               leído una cápsula le ocupaba dos líneas de cabecera para contarle
               lo que ya sabe, y empujaba el catálogo fuera de la pantalla. */}
@@ -127,7 +116,7 @@ export const ValeriaAcademyScreen: React.FC<{ navigation: any }> = ({ navigation
           </View>
 
           <AcademyNextStep onOpenCapsule={openCapsule} refreshKey={refreshKey} />
-        </View>
+        </ScreenHeader>
 
         <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
           <Text style={s.listLabel}>{t.academy.domainsKicker}</Text>
@@ -149,14 +138,8 @@ export const ValeriaAcademyScreen: React.FC<{ navigation: any }> = ({ navigation
     const capsules = capsulesForUiLang(lang).filter((c) => c.domain === activeDomain);
     return (
       <View style={s.flex}>
-        <View style={[s.header, { backgroundColor: meta.accentFg }]}>
-          <Pressable onPress={backToHub} style={s.backPill} accessibilityRole="button" accessibilityLabel={t.academy.backA11y}>
-            <Text style={s.backPillTxt}>{t.academy.back}</Text>
-          </Pressable>
-          <Text style={s.logoFallback}>ACADEMY · {meta.label.toUpperCase()}</Text>
-          <Text style={s.headerTitle}>{meta.label}</Text>
-          <Text style={s.headerSub}>{meta.blurb}</Text>
-        </View>
+        <ScreenHeader onBack={backToHub} backLabel={t.academy.back.replace(/^‹\s*/, '')} color={meta.accentFg} icon={meta.icon}
+          kicker={`ACADEMY · ${meta.label}`} title={meta.label} subtitle={meta.blurb} />
 
         <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
           {activeDomain === 'signos' && (
@@ -185,8 +168,10 @@ export const ValeriaAcademyScreen: React.FC<{ navigation: any }> = ({ navigation
                 accessibilityRole="button"
                 accessibilityLabel={`${c.title}. ${done ? t.academy.completedTag : ''}.`}
               >
+                {/* Icono propio del dominio (regla 5): el campo `icon` de la
+                    cápsula era un emoji del sistema, y en las STEAM un número. */}
                 <View style={[s.capIcon, { backgroundColor: accent.bg }]}>
-                  <Text style={{ fontSize: 22 }}>{c.icon}</Text>
+                  <BlockIcon name={domainMetaFor(c.domain, lang).icon} color={accent.fg} size={24} />
                 </View>
                 <View style={{ flex: 1 }}>
                   <Text style={[s.capTrack, { color: accent.fg }]}>{accent.label}</Text>
@@ -226,35 +211,8 @@ const CapsuleReader: React.FC<{
 
   return (
     <View style={s.flex}>
-      <View style={[s.header, { backgroundColor: accent.fg }]}>
-        <Pressable onPress={onExit} style={s.backPill} accessibilityRole="button" accessibilityLabel={t.academy.backA11y}><Text style={s.backPillTxt}>{t.academy.back}</Text></Pressable>
-        <Text style={s.logoFallback}>{accent.label}</Text>
-        <Text style={s.headerTitle}>{capsule.icon} {capsule.title}</Text>
-        <View style={s.dots}>
-          {capsule.slides.map((_, k) => (
-            <View key={k} style={[s.dot, { backgroundColor: k <= i ? '#fff' : 'rgba(255,255,255,.4)' }]} />
-          ))}
-        </View>
-
-        {capsule.slides.some((sl) => !!sl.ageBracket) && (
-          <ScrollView horizontal showsHorizontalScrollIndicator={false} style={s.stageNavScroll} contentContainerStyle={{ gap: 6, paddingVertical: 4 }}>
-            {capsule.slides.map((sl, k) => {
-              const active = k === i;
-              const label = sl.ageBracket ?? (k === 0 ? 'Intro' : `${k + 1}`);
-              return (
-                <Pressable
-                  key={k}
-                  onPress={() => setI(k)}
-                  style={[s.stageNavPill, active && s.stageNavPillActive]}
-                  accessibilityRole="button"
-                >
-                  <Text style={[s.stageNavTxt, active && s.stageNavTxtActive]}>{label}</Text>
-                </Pressable>
-              );
-            })}
-          </ScrollView>
-        )}
-      </View>
+      <ScreenHeader onBack={onExit} backLabel={t.academy.back.replace(/^‹\s*/, '')} color={accent.fg}
+        kicker={accent.label} title={capsule.title} dots={{ total: capsule.slides.length, index: i, finished: false }} />
 
       <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
         <View style={s.slideCard}>
@@ -373,10 +331,8 @@ const CapsuleQuiz: React.FC<{
     const score = Math.round((correct / capsule.quiz.length) * 100);
     return (
       <View style={s.flex}>
-        <View style={[s.header, { backgroundColor: accent.fg }]}>
-          <Text style={s.logoFallback}>{accent.label}</Text>
-          <Text style={s.headerTitle}>{reward.passed ? t.academy.passedTitle : t.academy.failedTitle}</Text>
-        </View>
+        <ScreenHeader backLabel={t.academy.back.replace(/^‹\s*/, '')} color={accent.fg} kicker={accent.label}
+          title={reward.passed ? t.academy.passedTitle : t.academy.failedTitle} />
         <ScrollView contentContainerStyle={s.scroll}>
           <View style={s.resultCard}>
             <Text style={[s.resultScore, { color: accent.fg }]}>{score}%</Text>
@@ -412,11 +368,8 @@ const CapsuleQuiz: React.FC<{
   // -------- Pregunta --------
   return (
     <View style={s.flex}>
-      <View style={[s.header, { backgroundColor: accent.fg }]}>
-        <Pressable onPress={onExit} style={s.backPill} accessibilityRole="button" accessibilityLabel={t.academy.backA11y}><Text style={s.backPillTxt}>{t.academy.back}</Text></Pressable>
-        <Text style={s.logoFallback}>{t.academy.quizKicker} · {t.academy.questionOf(qi + 1, capsule.quiz.length)}</Text>
-        <Text style={s.headerTitle}>{capsule.icon} {capsule.title}</Text>
-      </View>
+      <ScreenHeader onBack={onExit} backLabel={t.academy.back.replace(/^‹\s*/, '')} color={accent.fg}
+        kicker={`${t.academy.quizKicker} · ${t.academy.questionOf(qi + 1, capsule.quiz.length)}`} title={capsule.title} />
       <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
         <Text style={s.qPrompt}>{q.prompt ?? (q as any).question}</Text>
         {q.options.map((opt, idx) => {

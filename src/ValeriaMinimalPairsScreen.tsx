@@ -719,7 +719,7 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
               banco castellano y una sección vacía confunde al prescriptor. */}
           {pairGroupsForLocale(loc).filter((g) => pairs.some((p) => p.group === g)).map((g) => (
             <View key={g}>
-              <Text style={s.groupLabel}>{g.toUpperCase()}</Text>
+              <Text style={s.groupLabel}>{(unlocked ? g : t.pairs.groupNames[g] ?? g).toUpperCase()}</Text>
               {pairs.filter((p) => p.group === g).map((p) => {
                 const on = isPrescribed(p.id);
                 return (
@@ -737,7 +737,7 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
                     <FichaVisual word={p.foil} emoji={p.foilEmoji} pic={p.foilPictogram} size={26} />
                     <View style={{ flex: 1 }}>
                       <Text style={s.pickName}>{p.target} / {p.foil}</Text>
-                      <Text style={s.pickCat}>{p.errorLabel} · {p.phoneme}{p.region ? t.pairs.regionNote : ''}</Text>
+                      <Text style={s.pickCat}>{unlocked ? `${p.errorLabel} · ${p.phoneme}` : `${t.pairs.soundsLabel} ${p.phoneme}`}{p.region ? t.pairs.regionNote : ''}</Text>
                     </View>
                     {unlocked ? (
                       <Switch value={on} onValueChange={() => togglePrescribed(p.id)}
@@ -791,14 +791,10 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
     const substitutions = log.filter((r) => r.foils > 0).length;
     return (
       <View style={s.flex}>
-        <View style={s.header}>
-          {/* ES-02: dentro de una sesión, Volver regresa al banco de contrastes,
-              no al hub — solo desde 'pick' Volver sale de la pantalla. */}
-          <Pressable onPress={() => { stopSpeaking(); setPhase('pick'); }} style={s.backPill}><Text style={s.backPillTxt}>{`‹ ${t.common.back}`}</Text></Pressable>
-          <Text style={s.logoFallback}>valeria+</Text>
-          <Text style={s.headerTitle}>{t.pairs.doneTitle}</Text>
-          <Text style={s.headerSub}>{p.code} · {p.target} / {p.foil}</Text>
-        </View>
+        {/* ES-02: dentro de una sesión, Volver regresa al banco de contrastes,
+            no al hub — solo desde 'pick' Volver sale de la pantalla. */}
+        <ScreenHeader onBack={() => { stopSpeaking(); setPhase('pick'); }} backLabel={t.common.back}
+          kicker={t.hub.pairsTitle} icon="pairs" title={t.pairs.doneTitle} subtitle={`${p.code} · ${p.target} / ${p.foil}`} />
         <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
           <View style={s.doneCard}>
             <CatPixel size={62} />
@@ -840,22 +836,10 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
 
   return (
     <View style={s.flex}>
-      <View style={s.header}>
-        <Pressable onPress={() => { stopSpeaking(); stopListening(); setPhase('pick'); }} style={s.backPill}><Text style={s.backPillTxt}>{`‹ ${t.common.back}`}</Text></Pressable>
-        <Text style={s.logoFallback}>valeria+</Text>
-        <View style={{ flexDirection: 'row', alignItems: 'flex-start', gap: 12 }}>
-          <View style={{ flex: 1 }}>
-            <Text style={s.headerTitle}>{t.hub.pairsTitle}</Text>
-            <Text style={s.headerSub} numberOfLines={1}>{p.code} · {p.errorLabel} ({p.phoneme})</Text>
-          </View>
-          <View style={s.counter}><Text style={s.counterTxt}>{trialIdx + 1} / {TOTAL_TRIALS}</Text></View>
-        </View>
-        <View style={s.dots}>
-          {Array.from({ length: TOTAL_TRIALS }).map((_, i) => (
-            <View key={i} style={[s.dot, { backgroundColor: i < trialIdx ? '#fff' : i === trialIdx ? 'rgba(255,255,255,.85)' : 'rgba(255,255,255,.32)' }]} />
-          ))}
-        </View>
-      </View>
+      <ScreenHeader onBack={() => { stopSpeaking(); stopListening(); setPhase('pick'); }} backLabel={t.common.back}
+        kicker={t.hub.kickerPractice} icon="pairs" title={t.hub.pairsTitle}
+        subtitle={`${p.code} · ${p.target} / ${p.foil}`}
+        badge={`${trialIdx + 1} / ${TOTAL_TRIALS}`} dots={{ total: TOTAL_TRIALS, index: trialIdx }} />
 
       <ScrollView ref={scrollRef} contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
         {/* Veredicto dialectal (EN-0.5). Va ARRIBA del ensayo y no escondido en

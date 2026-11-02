@@ -491,6 +491,36 @@ export const ES = {
   // la VARIEDAD activa (valeriaMinimalPairs*). Aquí vive el andamiaje que lee
   // el adulto.
   pairs: {
+    soundsLabel: 'Sonidos',
+    // Nombre en llano de cada grupo del banco (Modo Familia). Con la Edición
+    // Profesional se ve el nombre técnico del banco.
+    groupNames: {
+      'Rotacismo': 'Sonido R',
+      'Sigmatismo': 'Sonido S',
+      'Velares': 'Sonidos K y G',
+      'Labiodental': 'Sonido F',
+      'Nasales': 'Sonidos M y N',
+      'Laterales': 'Sonido L',
+      'Gliding': 'R y L que se vuelven W',
+      'Fronting': 'Sonidos de atrás que van delante',
+      'Cluster reduction': 'Grupos de consonantes',
+      'Final consonant': 'Consonante final',
+      'Voicing': 'Sonidos sordos y sonoros',
+      'Sibilants': 'Sonidos silbantes',
+      'Vowels': 'Vocales',
+      'Rotacisme': 'Sonido R',
+      'Sonoritat sibilant': 'S sorda y S sonora',
+      'Xeix i ge': 'Sonidos X y G',
+      'Obertura vocàlica': 'E y O abiertas o cerradas',
+      'Laterals': 'Sonido L',
+      'Velars': 'Sonidos K y G',
+      'Oclusivització': 'Sonidos que se cortan',
+      'Nasals': 'Sonidos M y N',
+      'Postalveolar': 'Sonido X',
+      'Abertura vocálica': 'E y O abiertas o cerradas',
+      'Laterais': 'Sonido L',
+      'Nasais': 'Sonidos M y N',
+    } as Record<string, string>,
     savedConfig: (active: number, total: number): string => `Configuración guardada · ${active} de ${total} pares activos.`,
     sealA11y: (who: string): string =>
       `Mano de ${who}. Pulsad las dos manos a la vez para continuar, o mantén pulsada esta dos segundos.`,

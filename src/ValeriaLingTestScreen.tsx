@@ -16,6 +16,7 @@
 // Persistencia: AsyncStorage (STORAGE_KEYS.ling). Recibe route.params (p.ej. { id })
 // y los reenvía al Player para no romper el flujo de sesión.
 // ============================================================================
+import { ScreenHeader } from './ui/ScreenHeader';
 import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, Pressable, ScrollView, StyleSheet, Animated, Easing, StatusBar } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -146,33 +147,11 @@ export const ValeriaLingTestScreen: React.FC<{ navigation: any; route?: any }> =
       <StatusBar barStyle="light-content" />
 
       {/* ===== Cabecera ===== */}
-      <View style={s.header}>
-        <Pressable onPress={onBack} style={s.backPill}><Text style={s.backPillTxt}>{`‹ ${t.common.back}`}</Text></Pressable>
-        <View style={s.headerRow}>
-          <View style={{ flex: 1 }}>
-            {/* <Image source={logoWhite} style={s.logo} /> */}
-            <Text style={s.logoFallback}>valeria+</Text>
-            <Text style={s.headerTitle}>{phase === 'done' ? t.ling.titleDone : t.ling.title}</Text>
-            <Text style={s.headerSub}>
-              {phase === 'ask' ? t.ling.subAsk(patientName)
-                : phase === 'test' ? t.ling.subTest(patientName)
-                : t.ling.subDone(patientName)}
-            </Text>
-          </View>
-          {phase === 'test' && (
-            <View style={s.counter}><Text style={s.counterTxt}>{idx + 1} / {total}</Text></View>
-          )}
-        </View>
-
-        {phase === 'test' && (
-          <View style={s.dots}>
-            {SOUNDS.map((_, i) => {
-              const done = i < idx; const current = i === idx;
-              return <View key={i} style={[s.dot, { backgroundColor: done ? '#fff' : current ? 'rgba(255,255,255,.85)' : 'rgba(255,255,255,.32)' }]} />;
-            })}
-          </View>
-        )}
-      </View>
+      <ScreenHeader onBack={onBack} backLabel={t.common.back} kicker={t.hub.kickerPractice} icon="hearing"
+        title={phase === 'done' ? t.ling.titleDone : t.ling.title}
+        subtitle={phase === 'ask' ? t.ling.subAsk(patientName) : phase === 'test' ? t.ling.subTest(patientName) : t.ling.subDone(patientName)}
+        badge={phase === 'test' ? `${idx + 1} / ${total}` : undefined}
+        dots={phase === 'test' ? { total: SOUNDS.length, index: idx } : undefined} />
 
       <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
 

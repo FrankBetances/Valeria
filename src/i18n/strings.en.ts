@@ -488,6 +488,36 @@ export const EN: UiStrings = {
   // and the error label — those come from the active VARIETY's bank
   // (valeriaMinimalPairs*). What lives here is the scaffolding the grown-up reads.
   pairs: {
+    soundsLabel: 'Sounds',
+    // Nombre en llano de cada grupo del banco (Modo Familia). Con la Edición
+    // Profesional se ve el nombre técnico del banco.
+    groupNames: {
+      'Rotacismo': 'R sound',
+      'Sigmatismo': 'S sound',
+      'Velares': 'K and G sounds',
+      'Labiodental': 'F sound',
+      'Nasales': 'M and N sounds',
+      'Laterales': 'L sound',
+      'Gliding': 'R and L that turn into W',
+      'Fronting': 'Back sounds said at the front',
+      'Cluster reduction': 'Consonant clusters',
+      'Final consonant': 'Final consonant',
+      'Voicing': 'Voiced and voiceless sounds',
+      'Sibilants': 'Hissing sounds',
+      'Vowels': 'Vowels',
+      'Rotacisme': 'R sound',
+      'Sonoritat sibilant': 'Soft S and buzzing S',
+      'Xeix i ge': 'SH and ZH sounds',
+      'Obertura vocàlica': 'Open and closed E and O',
+      'Laterals': 'L sound',
+      'Velars': 'K and G sounds',
+      'Oclusivització': 'Sounds that stop short',
+      'Nasals': 'M and N sounds',
+      'Postalveolar': 'SH sound',
+      'Abertura vocálica': 'Open and closed E and O',
+      'Laterais': 'L sound',
+      'Nasais': 'M and N sounds',
+    },
     savedConfig: (active: number, total: number): string => `Settings saved · ${active} of ${total} pairs on.`,
     sealA11y: (who: string): string =>
       `${who}'s hand. Press both hands at once to continue, or hold this one for two seconds.`,

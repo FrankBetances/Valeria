@@ -42,6 +42,7 @@
 //   · Con `id`  -> sesión de un solo ejercicio.
 //   · Sin nada  -> sesión por defecto (plan prescrito de ejemplo).
 // ============================================================================
+import { ScreenHeader } from './ui/ScreenHeader';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
   View, Text, Pressable, ScrollView, Modal, StyleSheet, Animated, Easing, Dimensions,
@@ -727,29 +728,11 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
   return (
     <View style={s.flex}>
       {/* ===== Cabecera turquesa unificada ===== */}
-      <View style={s.header}>
-        {/* <Image source={logoWhite} style={s.logo} /> */}
-        <Pressable onPress={() => { clearInterval(timerRef.current); navigation.goBack(); }} style={s.backPill}><Text style={s.backPillTxt}>{`‹ ${t.common.back}`}</Text></Pressable>
-        <Text style={s.logoFallback}>valeria+</Text>
-        <View style={s.headerRow}>
-          <View style={{ flex: 1 }}>
-            <Text style={s.headerTitle}>{finished ? t.player.headerDone : t.player.headerPlaying}</Text>
-            <Text style={s.headerSub} numberOfLines={1}>
-              {patientName ? `${patientName} · ` : ''}{total === 1 ? ex.name : t.player.prescribedPlan(total)}
-            </Text>
-          </View>
-          <View style={s.counter}>
-            <Text style={s.counterTxt}>{finished ? `${total} / ${total}` : `${idx + 1} / ${total}`}</Text>
-          </View>
-        </View>
-        <View style={s.dots}>
-          {sessionIds.map((_, i) => {
-            const done = i < idx || finished;
-            const cur = i === idx && !finished;
-            return <View key={i} style={[s.dot, { backgroundColor: done ? '#fff' : cur ? 'rgba(255,255,255,.85)' : 'rgba(255,255,255,.32)' }]} />;
-          })}
-        </View>
-      </View>
+      <ScreenHeader onBack={() => { clearInterval(timerRef.current); navigation.goBack(); }} backLabel={t.common.back}
+        kicker={t.hub.kickerPractice} title={finished ? t.player.headerDone : t.player.headerPlaying}
+        subtitle={`${patientName ? `${patientName} · ` : ''}${total === 1 ? ex.name : t.player.prescribedPlan(total)}`}
+        badge={finished ? `${total} / ${total}` : `${idx + 1} / ${total}`}
+        dots={{ total: sessionIds.length, index: idx, finished }} />
 
       <ScrollView
         ref={scrollRef}

@@ -510,6 +510,36 @@ export const GL: UiStrings = {
   // misións físicas nin a etiqueta de erro — todo iso sae do banco da VARIEDADE
   // activa (valeriaMinimalPairs*). Aquí vive o andamio que le o adulto.
   pairs: {
+    soundsLabel: 'Sons',
+    // Nombre en llano de cada grupo del banco (Modo Familia). Con la Edición
+    // Profesional se ve el nombre técnico del banco.
+    groupNames: {
+      'Rotacismo': 'Son R',
+      'Sigmatismo': 'Son S',
+      'Velares': 'Sons K e G',
+      'Labiodental': 'Son F',
+      'Nasales': 'Sons M e N',
+      'Laterales': 'Son L',
+      'Gliding': 'R e L que se volven W',
+      'Fronting': 'Sons do fondo que van diante',
+      'Cluster reduction': 'Grupos de consoantes',
+      'Final consonant': 'Consoante final',
+      'Voicing': 'Sons xordos e sonoros',
+      'Sibilants': 'Sons sibilantes',
+      'Vowels': 'Vogais',
+      'Rotacisme': 'Son R',
+      'Sonoritat sibilant': 'S xorda e S sonora',
+      'Xeix i ge': 'Sons X e G',
+      'Obertura vocàlica': 'E e O abertas ou pechadas',
+      'Laterals': 'Son L',
+      'Velars': 'Sons K e G',
+      'Oclusivització': 'Sons que se cortan',
+      'Nasals': 'Sons M e N',
+      'Postalveolar': 'Son X',
+      'Abertura vocálica': 'E e O abertas ou pechadas',
+      'Laterais': 'Son L',
+      'Nasais': 'Sons M e N',
+    },
     savedConfig: (active: number, total: number): string => `Configuración gardada · ${active} de ${total} pares activos.`,
     sealA11y: (who: string): string =>
       `Man de ${who}. Premede as dúas mans á vez para continuar, ou mantén premida esta dous segundos.`,

@@ -875,17 +875,9 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
     const conMaterial = !!sess.setup;
     return (
       <View style={s.flex}>
-        <View style={s.header}>
-          <Pressable
-            onPress={() => { if (setupRevisit) leaveSetup(); else setPhase('pick'); }}
-            style={s.backPill}
-          >
-            <Text style={s.backPillTxt}>‹ {setupRevisit ? t.semantic.backPillContinue : t.semantic.backPillBack}</Text>
-          </Pressable>
-          <Text style={s.logoFallback}>valeria+</Text>
-          <Text style={s.headerTitle}>{t.semantic.setupTitle}</Text>
-          <Text style={s.headerSub}>{sess.title}</Text>
-        </View>
+        <ScreenHeader onBack={() => { if (setupRevisit) leaveSetup(); else setPhase('pick'); }}
+          backLabel={setupRevisit ? t.semantic.backPillContinue : t.semantic.backPillBack}
+          kicker={t.semantic.title} icon="semantic" title={t.semantic.setupTitle} subtitle={sess.title} />
 
         <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
           {conMaterial && (
@@ -934,14 +926,10 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
     const avg = log.reduce((a, r) => a + r.stars, 0) / (log.length || 1);
     return (
       <View style={s.flex}>
-        <View style={s.header}>
-          {/* ES-02: dentro de una sesión, Volver regresa a la lista del tab
-              activo, no al hub — solo desde 'pick' Volver sale de la pantalla. */}
-          <Pressable onPress={() => { stopSpeaking(); setPhase('pick'); }} style={s.backPill}><Text style={s.backPillTxt}>{`‹ ${t.common.back}`}</Text></Pressable>
-          <Text style={s.logoFallback}>valeria+</Text>
-          <Text style={s.headerTitle}>{t.semantic.doneTitle}</Text>
-          <Text style={s.headerSub}>{sess.title}</Text>
-        </View>
+        {/* ES-02: dentro de una sesión, Volver regresa a la lista del tab
+            activo, no al hub — solo desde 'pick' Volver sale de la pantalla. */}
+        <ScreenHeader onBack={() => { stopSpeaking(); setPhase('pick'); }} backLabel={t.common.back}
+          kicker={t.semantic.title} icon="semantic" title={t.semantic.doneTitle} subtitle={sess.title} />
         <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
           <View style={s.doneCard}>
             <CatPixel size={62} />
@@ -980,24 +968,10 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
 
   return (
     <View style={s.flex}>
-      <View style={s.header}>
-        {/* ES-02: dentro de una sesión, Volver regresa a la lista del tab
-            activo, no al hub. */}
-        <Pressable onPress={() => { stopSpeaking(); stopListening(); setPhase('pick'); }} style={s.backPill}><Text style={s.backPillTxt}>{`‹ ${t.common.back}`}</Text></Pressable>
-        <Text style={s.logoFallback}>valeria+</Text>
-        <View style={{ flexDirection: 'row', alignItems: 'flex-start', gap: 12 }}>
-          <View style={{ flex: 1 }}>
-            <Text style={s.headerTitle}>{t.hub.semanticTitle}</Text>
-            <Text style={s.headerSub} numberOfLines={1}>{sess.title}</Text>
-          </View>
-          <View style={s.counter}><Text style={s.counterTxt}>{stepIdx + 1} / {total}</Text></View>
-        </View>
-        <View style={s.dots}>
-          {Array.from({ length: total }).map((_, i) => (
-            <View key={i} style={[s.dot, { backgroundColor: i < stepIdx ? '#fff' : i === stepIdx ? 'rgba(255,255,255,.85)' : 'rgba(255,255,255,.32)' }]} />
-          ))}
-        </View>
-      </View>
+      {/* ES-02: dentro de una sesión, Volver regresa a la lista del tab activo, no al hub. */}
+      <ScreenHeader onBack={() => { stopSpeaking(); stopListening(); setPhase('pick'); }} backLabel={t.common.back}
+        kicker={t.hub.kickerPractice} icon="semantic" title={t.hub.semanticTitle} subtitle={sess.title}
+        badge={`${stepIdx + 1} / ${total}`} dots={{ total, index: stepIdx }} />
 
       <ScrollView ref={scrollRef} contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
         {/* Mapa del turno: en qué fase del paso estamos */}
