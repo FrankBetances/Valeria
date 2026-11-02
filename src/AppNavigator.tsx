@@ -57,6 +57,7 @@ import ValeriaPatientResultsDashboardScreen from './ValeriaPatientResultsDashboa
 import { SensoryBlockListScreen, SensoryExerciseScreen } from './ValeriaSensory';
 import { ValeriaWritingExerciseScreen } from './ValeriaWritingExerciseScreen';
 import ValeriaLuaScreen from './ValeriaLuaScreen';
+import ValeriaSteamWorldsScreen from './ValeriaSteamWorldsScreen';
 import ValeriaSteamWorldScreen from './ValeriaSteamWorldScreen';
 import ValeriaSteamChallengeScreen from './ValeriaSteamChallengeScreen';
 import type { SteamWorldId } from './steam/types';
@@ -100,6 +101,7 @@ export type ValeriaStackParamList = {
   LuaStoryViewer: { storyId: string };
   LuaSongPlayer: { songId: string };
   LuaGamePlayer: { gameId: string };
+  SteamWorlds: undefined;
   SteamWorld: { worldId: SteamWorldId };
   SteamChallenge: { worldId: SteamWorldId; challengeId: string };
 };
@@ -149,7 +151,8 @@ export const ValeriaNavigator: React.FC = () => (
     <Stack.Screen name="LuaStoryViewer" component={LuaStoryViewerScreen} />
     <Stack.Screen name="LuaSongPlayer" component={LuaSongPlayerScreen} />
     <Stack.Screen name="LuaGamePlayer" component={LuaGamePlayerScreen} />
-    {/* Mundos STEAM (plan §4 R5): Hub → mundo → reto, dos toques. */}
+    {/* Mundos STEAM (plan §4 R5): una tarjeta de la rejilla abre los siete. */}
+    <Stack.Screen name="SteamWorlds" component={ValeriaSteamWorldsScreen as any} />
     <Stack.Screen name="SteamWorld" component={ValeriaSteamWorldScreen as any} />
     <Stack.Screen name="SteamChallenge" component={ValeriaSteamChallengeScreen as any} />
   </Stack.Navigator>

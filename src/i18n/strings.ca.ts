@@ -1794,9 +1794,13 @@ export const CA: UiStrings = {
   },
 
   steam: {
-    worldsKicker: 'MÓNS STEAM · CONSTRUEIX AMB LA LÚA',
-    worldsNote: 'La porta d’entrada. Cada món té un fenomen real i cinc reptes, de 0 a 6 anys.',
-    practiceKicker: 'EIXOS I PRÀCTIQUES DE TAULA',
+    hubTileTitle: 'Construeix amb la Lúa',
+    hubTileDesc: 'Set mons STEAM amb peces i la Lúa.',
+    hubTileMeta: (n: number): string => `${n} mons`,
+    hubTileA11y: (n: number): string => `Construeix amb la Lúa: ${n} mons STEAM amb peces i la Lúa`,
+    hubTileHint: 'Obre els mons, els seus reptes per edat i el perfil d’adaptació.',
+    worldsKicker: 'MÓNS STEAM',
+    worldsNote: 'Cada món té un fenomen real i cinc reptes, de 0 a 6 anys.',
     worldMeta: (n: number): string => `${n} reptes · 0–6 anys`,
     worldA11y: (title: string): string => `Obrir el món ${title}. L’obre la persona adulta.`,
     worldHint: 'Mostra el fenomen, els cinc reptes per edat i les pràctiques enllaçades.',

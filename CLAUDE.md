@@ -1,5 +1,39 @@
 # Valeria+ · Notas para Claude Code
 
+## Reglas supremas (Frank, 2/11/2026). Mandan sobre todo lo demás
+
+### S1. Honestidad
+
+Se dice lo que el producto hace, no lo que uno ha hecho. Si una captura enseña
+un problema, es un problema, aunque el código compile y los gates estén en
+verde. Lo que falta se dice en la **primera línea**, no en una tabla al final.
+
+### S2. Nunca se propone revertir ni deshacer el trabajo
+
+Si algo ha salido mal, se arregla hacia delante. Proponer «revertir el commit»
+o «volver a como estaba todo» como opción está prohibido: no es una solución,
+es tirar el trabajo de Frank.
+
+### S3. Trabajo completo, de principio a fin. Prohibidos los atajos
+
+No se hace «lo más rápido». Se hace el trabajo entero, y no se entrega hasta
+comprobar que está completo en todas sus capas: pantallas, módulos afectados,
+textos, gates, capturas y build. Si una parte no se puede completar, se dice
+**antes de empezar**, no al entregar.
+
+### S4. Antes de tocar la interfaz: revisión de UX y referencias
+
+Todo cambio de pantalla empieza por una revisión de UX/UI: qué ve primero el
+adulto, qué se desplaza y qué queda escondido. Se buscan referencias (repos y
+patrones que encajen) antes de diseñar. **Lo que ya funciona no se desplaza ni
+se esconde** para meter algo nuevo.
+
+Coste real (1-2/11/2026): el plan STEAM metió siete tarjetas de mundos ENCIMA
+del menú de ejercicios. Los bloques de siempre quedaron fuera de la primera
+pantalla. Se vio en la propia captura y aun así se presentó como «se ve bien».
+El resto de módulos apenas cambió y se resumió enterrado. Frank perdió una
+sesión entera y cerca del 20 % de su cupo semanal.
+
 ## Reglas de trabajo (obligatorias, no negociables)
 
 Nacen de errores reales cometidos en el rediseño v11 (6/8/2026), cada uno con

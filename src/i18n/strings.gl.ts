@@ -1879,9 +1879,13 @@ export const GL: UiStrings = {
   },
 
   steam: {
-    worldsKicker: 'MUNDOS STEAM · CONSTRÚE CON LÚA',
-    worldsNote: 'A porta de entrada. Cada mundo ten un fenómeno real e cinco retos, de 0 a 6 anos.',
-    practiceKicker: 'EIXOS E PRÁCTICAS DE MESA',
+    hubTileTitle: 'Constrúe con Lúa',
+    hubTileDesc: 'Sete mundos STEAM con pezas e Lúa.',
+    hubTileMeta: (n: number): string => `${n} mundos`,
+    hubTileA11y: (n: number): string => `Constrúe con Lúa: ${n} mundos STEAM con pezas e Lúa`,
+    hubTileHint: 'Abre os mundos, os seus retos por idade e o perfil de adaptación.',
+    worldsKicker: 'MUNDOS STEAM',
+    worldsNote: 'Cada mundo ten un fenómeno real e cinco retos, de 0 a 6 anos.',
     worldMeta: (n: number): string => `${n} retos · 0–6 anos`,
     worldA11y: (title: string): string => `Abrir o mundo ${title}. Ábreo a persoa adulta.`,
     worldHint: 'Amosa o fenómeno, os cinco retos por idade e as prácticas enlazadas.',

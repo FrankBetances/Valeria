@@ -1836,9 +1836,13 @@ export const EN: UiStrings = {
   },
 
   steam: {
-    worldsKicker: 'STEAM WORLDS · BUILD WITH LÚA',
-    worldsNote: 'The way in. Each world has a real phenomenon and five challenges, ages 0 to 6.',
-    practiceKicker: 'SKILL AXES AND TABLETOP PRACTICE',
+    hubTileTitle: 'Build with Lúa',
+    hubTileDesc: 'Seven STEAM worlds with pieces and Lúa.',
+    hubTileMeta: (n: number): string => `${n} worlds`,
+    hubTileA11y: (n: number): string => `Build with Lúa: ${n} STEAM worlds with pieces and Lúa`,
+    hubTileHint: 'Opens the worlds, their challenges by age and the adaptation profile.',
+    worldsKicker: 'STEAM WORLDS',
+    worldsNote: 'Each world has a real phenomenon and five challenges, ages 0 to 6.',
     worldMeta: (n: number): string => `${n} challenges · ages 0–6`,
     worldA11y: (title: string): string => `Open the world ${title}. The adult opens it.`,
     worldHint: 'Shows the phenomenon, the five challenges by age and the linked practice.',

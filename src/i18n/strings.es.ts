@@ -1907,9 +1907,13 @@ export const ES = {
   },
 
   steam: {
-    worldsKicker: 'MUNDOS STEAM · CONSTRUYE CON LÚA',
-    worldsNote: 'La puerta de entrada. Cada mundo tiene un fenómeno real y cinco retos, de 0 a 6 años.',
-    practiceKicker: 'EJES Y PRÁCTICAS DE MESA',
+    hubTileTitle: 'Construye con Lúa',
+    hubTileDesc: 'Siete mundos STEAM con piezas y Lúa.',
+    hubTileMeta: (n: number): string => `${n} mundos`,
+    hubTileA11y: (n: number): string => `Construye con Lúa: ${n} mundos STEAM con piezas y Lúa`,
+    hubTileHint: 'Abre los mundos, sus retos por edad y el perfil de adaptación.',
+    worldsKicker: 'MUNDOS STEAM',
+    worldsNote: 'Cada mundo tiene un fenómeno real y cinco retos, de 0 a 6 años.',
     worldMeta: (n: number): string => `${n} retos · 0–6 años`,
     worldA11y: (title: string): string => `Abrir el mundo ${title}. Lo abre la persona adulta.`,
     worldHint: 'Muestra el fenómeno, los cinco retos por edad y las prácticas enlazadas.',

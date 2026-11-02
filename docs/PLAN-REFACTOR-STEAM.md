@@ -69,6 +69,7 @@ Cada punto nace de algo que la v2.0 dejaba abierto y que el código obligó a ce
 | **V9** | La v2.0 contaba «32 gates». `android.yml` ya corría 34 pasos `node scripts/…`. | Con los dos gates del plan, **36 pasos** `node scripts/…` más el typecheck. El recuento sale siempre del propio workflow. | `.github/workflows/android.yml` |
 | **V10** | La regla «la criatura no toca la pantalla» choca con consignas ya grabadas de las prácticas de mesa (pares mínimos, RAN). | La regla se aplica a los **mundos STEAM**. Las prácticas de mesa conservan sus consignas hasta que se decida otra cosa. `[Decisión pendiente de Frank]` | — |
 | **V11** | `ChildSpeechMap` (lo que oye el niño) no tiene todavía voz pregenerada. | En v2.1 la tableta **no locuta** nada de los mundos: la palabra va al adulto. Locutarla obliga a `node scripts/export-voice-corpus.js` en el mismo commit. | `WordPrompter` |
+| **V13** | La primera versión de R5 (1/11/2026) metió los siete mundos **encima** de la rejilla de ejercicios y dejó los bloques de siempre fuera de la primera pantalla. | **Lo que ya funciona no se desplaza.** Los mundos entran como una tarjeta más de la rejilla y viven en su propia pantalla (`ValeriaSteamWorldsScreen`). Se renuncia al «≤ 2 toques» de la v2.0: son tres, y es el precio de no esconder nada. | `ValeriaHubV11Screen.tsx`, `ValeriaSteamWorldsScreen.tsx` |
 | **V12** | El módulo de RA estaba mezclado con el resto del plan. | **R3 y R4 quedan fuera** de esta ejecución y van en una sesión aparte. Los mundos funcionan enteros con `adult_tap`. | §4 |
 
 ## 1. Arquitectura Objetivo: Tres Capas
@@ -461,7 +462,7 @@ El despliegue de mundos sigue el orden de *Construye con Lúa*: **S0 + S1 $\righ
 | R2 | Hecha | Replay sintético de S0–S6 (positiva, negativa, oclusión) < 300 ms; 28 caras con opcode de `protocol.json` v1; el motor corre en la pantalla de reto con `adult_tap` |
 | R3 | Fuera de esta ejecución | Sesión de RA aparte |
 | R4 | Fuera de esta ejecución | Sesión de RA aparte |
-| R5 | Hecha | Hub en tres capas (mundos arriba, prácticas de mesa debajo, perfil con PIN); Hub → mundo → reto en dos toques |
+| R5 | Hecha (corregida el 2/11/2026) | La rejilla de ejercicios queda como estaba y suma **una** tarjeta, «Construye con Lúa», antes de la RA. Abre la pantalla de los siete mundos, con el perfil de adaptación (PIN) arriba. Ejercicios → Construye con Lúa → mundo → reto: tres toques hasta un reto |
 | R6 | Hecha | Microcuentos en cada mundo; cápsulas `STEAM-S0`…`STEAM-S6` en el catálogo de Academy |
 | R7 | En CI | 36 pasos `node scripts/…` + typecheck en verde en local; el build de `main` es el que lo confirma |
 
