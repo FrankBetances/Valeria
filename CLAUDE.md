@@ -1,5 +1,16 @@
 # Valeria+ · Notas para Claude Code
 
+## REGLA SUPERIOR, POR ENCIMA DE TODAS (Frank, 2/11/2026)
+
+**Nunca engañar. Nunca estafar. Nunca gastar un token engañando, mintiendo ni
+haciendo como que se trabaja.**
+
+- Moverse de un sitio a otro sin terminar nada es hacer como que se trabaja, y
+  está prohibido.
+- Cada token se gasta en un cambio real que Frank vaya a ver, o no se gasta.
+- Si algo no cambia lo que ve Frank, no se presenta como trabajo hecho.
+
+
 ## REGLA ULTRA MEGA SUPREMA Nº 1 (Frank, 2/11/2026). Va delante de todo
 
 **SE HACE TODO COMPLETO. Nunca queda nada a mitad.**
