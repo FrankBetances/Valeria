@@ -152,9 +152,47 @@ Método:
 
 ### 4.0b Lo que hace la app bonita: piezas y referencias (Reddit, X, Dribbble, GitHub)
 
-**Reddit:** mi buscador web **no tiene acceso a reddit.com** (devuelve «domain
-not accessible»). Por una copia espejo solo llegué a un hilo de r/reactnative:
-KiDraw, una app de dibujo para niños pequeños hecha con React Native Skia.
+**Reddit: no se ha podido leer.** Se probaron seis vías:
+- el buscador web con dominio reddit.com;
+- la API JSON de www.reddit.com;
+- old.reddit.com;
+- el archivo PullPush;
+- la copia espejo birdcat.cafe;
+- la herramienta de lectura web.
+
+**Todas están bloqueadas** por la política de red de este entorno (403 del
+proxy, o el dominio no resuelve). Las búsquedas generales con «reddit» en la
+consulta no devolvieron ningún hilo. Lo único que asomó en un resultado, por
+una copia espejo, es un hilo de r/reactnative sobre KiDraw, una app de dibujo
+para niños pequeños hecha con React Native Skia; ese hilo tampoco se pudo
+abrir. **Pendiente:** se repite la búsqueda cuando Frank abra reddit.com en
+*Network access* del entorno.
+
+**Encontrado en la misma búsqueda:**
+- **Google, «Designing engaging apps»** (programa Building for Kids). Es la
+  fuente más fiable de esta ronda:
+  - no usar botones de solo texto, porque muchos niños aún no leen;
+  - usar símbolos conocidos, como la casa y la flecha atrás;
+  - la mayoría de los menores de 5 años no sabe leer, y quizá no sepa activar
+    el sonido si está apagado.
+
+  **Consecuencia en el plan:** la app arranca con el sonido activado, y el
+  silencio solo se controla desde la Zona Familia.
+- **`react-native-3d-animated-buttons`** (npm). Botón 3D estilo Duolingo con
+  muelle, vibración (expo-haptics) y respeto a «reducir movimiento». Su última
+  actualización fue hace unos 14 meses. Queda como **alternativa** a
+  awesome-button.
+- **Callstack, «Lottie vs. Rive»:**
+  - Lottie, para animaciones lineales de diseñador;
+  - Rive, para personajes que reaccionan al toque y al estado de la app.
+
+  No hay conversor fiel entre los dos formatos. Esto refuerza la decisión 5
+  del §9.
+
+Fuentes:
+- [Google: Designing engaging apps](https://developers.google.com/building-for-kids/designing-engaging-apps)
+- [react-native-3d-animated-buttons](https://github.com/Sandipan006/react-native-3d-animated-buttons)
+- [Callstack: Lottie vs. Rive](https://www.callstack.com/blog/lottie-vs-rive-optimizing-mobile-app-animation)
 
 | Qué | Dato real | Para qué en Valeria+ |
 | --- | --- | --- |
