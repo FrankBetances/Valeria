@@ -15,6 +15,7 @@ import { useT } from './i18n';
 import { BlockIcon } from './ValeriaBlockIcons';
 import { CatPixel } from './ValeriaCatPixel';
 import { FONT } from './ui/fonts';
+import { KidButton } from './ui/KidButton';
 
 // El pedido va al correo de contacto del proyecto, que es una decisión fija.
 // No se enlaza ningún dominio de tienda mientras no exista: un enlace externo
@@ -37,7 +38,7 @@ export const ValeriaLuaScreen: React.FC<{ navigation: any }> = ({ navigation }) 
 
   return (
     <View style={s.flex}>
-      <StatusBar barStyle="light-content" />
+      <StatusBar barStyle="dark-content" />
       <View style={[s.blob, { top: -100, left: -80, width: 300, height: 300, opacity: 0.12 }]} />
       <View style={[s.blob, { bottom: -50, right: -100, width: 280, height: 280, opacity: 0.08 }]} />
 
@@ -98,28 +99,23 @@ export const ValeriaLuaScreen: React.FC<{ navigation: any }> = ({ navigation }) 
         <Pressable style={s.navBtn} onPress={() => navigation.goBack()} accessibilityRole="button">
           <Text style={s.navBtnTxt}>{t.common.back}</Text>
         </Pressable>
-        <Pressable
-          style={s.navBtnForward}
-          onPress={() => navigation.navigate('PatientSelect')}
-          accessibilityRole="button"
-        >
-          <Text style={s.navBtnForwardTxt}>{t.common.continue}</Text>
-          <BlockIcon name="next" size={22} color={V.color.primaryDark} />
-        </Pressable>
+        <View style={{ flexGrow: 1 }}>
+          <KidButton label={t.common.continue} onPress={() => navigation.navigate('PatientSelect')} />
+        </View>
       </View>
     </View>
   );
 };
 
 const s = StyleSheet.create({
-  flex: { flex: 1, backgroundColor: V.color.primary },
-  blob: { position: 'absolute', borderRadius: 999, backgroundColor: '#ffffff' },
+  flex: { flex: 1, backgroundColor: '#fff8ec' },
+  blob: { position: 'absolute', borderRadius: 999, backgroundColor: V.color.primary },
   content: { paddingHorizontal: 24 },
 
   header: { marginTop: 12, marginBottom: 20, alignItems: 'center' },
-  title: { fontFamily: FONT.display,fontSize: 28, color: '#fff', letterSpacing: -0.5 },
+  title: { fontFamily: FONT.display, fontSize: 34, lineHeight: 40, color: '#0b1220', textAlign: 'center' },
   subtitle: {
-    fontSize: 15, fontWeight: '600', color: 'rgba(255,255,255,0.85)',
+    fontSize: 16, fontFamily: FONT.bodyBold, color: '#4b5563',
     textAlign: 'center', marginTop: 8, lineHeight: 22,
   },
 
@@ -165,7 +161,7 @@ const s = StyleSheet.create({
 
   actionsContainer: { gap: 12 },
   actionsTitle: {
-    fontSize: 13, fontWeight: '800', color: 'rgba(255,255,255,0.7)',
+    fontSize: 13, fontFamily: FONT.bodyBlack, color: '#4b5563',
     textTransform: 'uppercase', letterSpacing: 1.2, marginBottom: 4, marginLeft: 8,
   },
 
@@ -201,11 +197,11 @@ const s = StyleSheet.create({
     position: 'absolute', bottom: 0, left: 0, right: 0,
     flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',
     paddingHorizontal: 24, paddingTop: 16,
-    backgroundColor: V.color.primary,
-    borderTopWidth: 1, borderTopColor: 'rgba(255,255,255,0.15)',
+    backgroundColor: '#fff8ec', gap: 14,
+    borderTopWidth: 0,
   },
   navBtn: { flexDirection: 'row', alignItems: 'center', gap: 6, paddingVertical: 12, paddingHorizontal: 8 },
-  navBtnTxt: { fontFamily: FONT.bodyBlack,color: 'rgba(255,255,255,0.9)', fontSize: 16 },
+  navBtnTxt: { fontFamily: FONT.bodyBlack, color: '#0b1220', fontSize: 16 },
 
   navBtnForward: {
     flexDirection: 'row', alignItems: 'center', gap: 6, backgroundColor: '#fff',
