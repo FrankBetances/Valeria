@@ -1,0 +1,886 @@
+{
+ "fuente": "src/steam/worlds (instanceMarkerIds)",
+ "soportes": {
+  "S0": {
+   "heightCm": 22,
+   "tiltDeg": 55,
+   "cameraMode": "rear_tabletop",
+   "luaOrientation": "child_sees_back"
+  },
+  "S1": {
+   "heightCm": 22,
+   "tiltDeg": 55,
+   "cameraMode": "rear_tabletop",
+   "luaOrientation": "child_sees_back"
+  },
+  "S2": {
+   "heightCm": 22,
+   "tiltDeg": 55,
+   "cameraMode": "rear_tabletop",
+   "luaOrientation": "child_sees_back"
+  },
+  "S3": {
+   "heightCm": 22,
+   "tiltDeg": 55,
+   "cameraMode": "rear_tabletop",
+   "luaOrientation": "child_sees_back"
+  },
+  "S4": {
+   "heightCm": 18,
+   "tiltDeg": 75,
+   "cameraMode": "front_praxias_only",
+   "luaOrientation": "child_sees_front"
+  },
+  "S5": {
+   "heightCm": 22,
+   "tiltDeg": 55,
+   "cameraMode": "rear_tabletop",
+   "luaOrientation": "child_sees_back"
+  },
+  "S6": {
+   "heightCm": 22,
+   "tiltDeg": 55,
+   "cameraMode": "rear_tabletop",
+   "luaOrientation": "child_sees_back"
+  }
+ },
+ "marcadores": [
+  {
+   "mundo": "S0",
+   "pieza": "K-ZOCALO-G",
+   "instancia": 1,
+   "id": 1,
+   "deteccion": "marker",
+   "escala": "G",
+   "idCompacto": 0
+  },
+  {
+   "mundo": "S0",
+   "pieza": "K-PLACA-INICIO",
+   "instancia": 1,
+   "id": 2,
+   "deteccion": "marker",
+   "escala": "G",
+   "idCompacto": 1
+  },
+  {
+   "mundo": "S0",
+   "pieza": "K-PLACA-META",
+   "instancia": 1,
+   "id": 3,
+   "deteccion": "marker",
+   "escala": "G",
+   "idCompacto": 2
+  },
+  {
+   "mundo": "S0",
+   "pieza": "K-PLACA-ESCUCHA",
+   "instancia": 1,
+   "id": 4,
+   "deteccion": "marker",
+   "escala": "G",
+   "idCompacto": 3
+  },
+  {
+   "mundo": "S0",
+   "pieza": "K-PLACA-RECEPTOR",
+   "instancia": 1,
+   "id": 5,
+   "deteccion": "marker",
+   "escala": "G",
+   "idCompacto": 4
+  },
+  {
+   "mundo": "S0",
+   "pieza": "K-PLACA-FRONTAL",
+   "instancia": 1,
+   "id": 6,
+   "deteccion": "marker",
+   "escala": "G",
+   "idCompacto": 5
+  },
+  {
+   "mundo": "S0",
+   "pieza": "K-PLACA-NIVEL",
+   "instancia": 1,
+   "id": 7,
+   "deteccion": "marker",
+   "escala": "G",
+   "idCompacto": 6
+  },
+  {
+   "mundo": "S0",
+   "pieza": "K-PLACA-JARDIN",
+   "instancia": 1,
+   "id": 8,
+   "deteccion": "marker",
+   "escala": "G",
+   "idCompacto": 7
+  },
+  {
+   "mundo": "S0",
+   "pieza": "K-LOMO-G",
+   "instancia": 1,
+   "id": 9,
+   "deteccion": "marker",
+   "escala": "G",
+   "idCompacto": 8
+  },
+  {
+   "mundo": "S0",
+   "pieza": "K-PATIN-G",
+   "instancia": 1,
+   "id": 10,
+   "deteccion": "marker",
+   "escala": "G",
+   "idCompacto": 9
+  },
+  {
+   "mundo": "S1",
+   "pieza": "S1-REC-LIS-G",
+   "instancia": 1,
+   "id": 11,
+   "deteccion": "marker",
+   "escala": "G",
+   "idCompacto": 10
+  },
+  {
+   "mundo": "S1",
+   "pieza": "S1-REC-RUG-G",
+   "instancia": 1,
+   "id": 12,
+   "deteccion": "marker",
+   "escala": "G",
+   "idCompacto": 11
+  },
+  {
+   "mundo": "S1",
+   "pieza": "S1-CUR-G",
+   "instancia": 1,
+   "id": 13,
+   "deteccion": "marker",
+   "escala": "G",
+   "idCompacto": 12
+  },
+  {
+   "mundo": "S1",
+   "pieza": "S1-TEE-G",
+   "instancia": 1,
+   "id": 14,
+   "deteccion": "marker",
+   "escala": "G",
+   "idCompacto": 13
+  },
+  {
+   "mundo": "S1",
+   "pieza": "S1-FIC-AVANZA",
+   "instancia": 1,
+   "id": 15,
+   "deteccion": "marker",
+   "escala": "G",
+   "idCompacto": 14
+  },
+  {
+   "mundo": "S1",
+   "pieza": "S1-FIC-GIRA-IZQ",
+   "instancia": 1,
+   "id": 16,
+   "deteccion": "marker",
+   "escala": "G",
+   "idCompacto": 15
+  },
+  {
+   "mundo": "S1",
+   "pieza": "S1-FIC-GIRA-DCHA",
+   "instancia": 1,
+   "id": 17,
+   "deteccion": "marker",
+   "escala": "G",
+   "idCompacto": 16
+  },
+  {
+   "mundo": "S1",
+   "pieza": "S1-FIC-SALTA",
+   "instancia": 1,
+   "id": 18,
+   "deteccion": "marker",
+   "escala": "G",
+   "idCompacto": 17
+  },
+  {
+   "mundo": "S1",
+   "pieza": "S1-FIC-PARA",
+   "instancia": 1,
+   "id": 19,
+   "deteccion": "marker",
+   "escala": "G",
+   "idCompacto": 18
+  },
+  {
+   "mundo": "S2",
+   "pieza": "S2-BAL-BRAZO-E",
+   "instancia": 1,
+   "id": 22,
+   "deteccion": "marker",
+   "escala": "E",
+   "idCompacto": 19
+  },
+  {
+   "mundo": "S3",
+   "pieza": "S3-ESF-LIS-G",
+   "instancia": 1,
+   "id": 33,
+   "deteccion": "tracked_object",
+   "escala": "G",
+   "idCompacto": 20
+  },
+  {
+   "mundo": "S4",
+   "pieza": "S4-ROT-E",
+   "instancia": 1,
+   "id": 44,
+   "deteccion": "marker",
+   "escala": "E",
+   "idCompacto": 21
+  },
+  {
+   "mundo": "S5",
+   "pieza": "S5-VIG-G",
+   "instancia": 1,
+   "id": 55,
+   "deteccion": "marker",
+   "escala": "G",
+   "idCompacto": 22
+  },
+  {
+   "mundo": "S6",
+   "pieza": "S6-TAL-G",
+   "instancia": 1,
+   "id": 66,
+   "deteccion": "hand",
+   "escala": "G",
+   "idCompacto": 23
+  },
+  {
+   "mundo": "S0",
+   "pieza": "K-ZOCALO-G",
+   "instancia": 2,
+   "id": 101,
+   "deteccion": "marker",
+   "escala": "G",
+   "idCompacto": 24
+  },
+  {
+   "mundo": "S1",
+   "pieza": "S1-REC-LIS-G",
+   "instancia": 2,
+   "id": 111,
+   "deteccion": "marker",
+   "escala": "G",
+   "idCompacto": 25
+  },
+  {
+   "mundo": "S1",
+   "pieza": "S1-REC-LIS-G",
+   "instancia": 3,
+   "id": 112,
+   "deteccion": "marker",
+   "escala": "G",
+   "idCompacto": 26
+  },
+  {
+   "mundo": "S1",
+   "pieza": "S1-REC-LIS-G",
+   "instancia": 4,
+   "id": 113,
+   "deteccion": "marker",
+   "escala": "G",
+   "idCompacto": 27
+  },
+  {
+   "mundo": "S1",
+   "pieza": "S1-REC-LIS-G",
+   "instancia": 5,
+   "id": 114,
+   "deteccion": "marker",
+   "escala": "G",
+   "idCompacto": 28
+  },
+  {
+   "mundo": "S1",
+   "pieza": "S1-REC-LIS-G",
+   "instancia": 6,
+   "id": 115,
+   "deteccion": "marker",
+   "escala": "G",
+   "idCompacto": 29
+  },
+  {
+   "mundo": "S1",
+   "pieza": "S1-REC-RUG-G",
+   "instancia": 2,
+   "id": 121,
+   "deteccion": "marker",
+   "escala": "G",
+   "idCompacto": 30
+  },
+  {
+   "mundo": "S1",
+   "pieza": "S1-REC-RUG-G",
+   "instancia": 3,
+   "id": 122,
+   "deteccion": "marker",
+   "escala": "G",
+   "idCompacto": 31
+  },
+  {
+   "mundo": "S1",
+   "pieza": "S1-REC-RUG-G",
+   "instancia": 4,
+   "id": 123,
+   "deteccion": "marker",
+   "escala": "G",
+   "idCompacto": 32
+  },
+  {
+   "mundo": "S1",
+   "pieza": "S1-CUR-G",
+   "instancia": 2,
+   "id": 131,
+   "deteccion": "marker",
+   "escala": "G",
+   "idCompacto": 33
+  },
+  {
+   "mundo": "S2",
+   "pieza": "S2-RES-ROJ",
+   "instancia": 1,
+   "id": 220,
+   "deteccion": "marker",
+   "escala": "E",
+   "idCompacto": 34
+  },
+  {
+   "mundo": "S2",
+   "pieza": "S2-RES-ROJ",
+   "instancia": 2,
+   "id": 221,
+   "deteccion": "marker",
+   "escala": "E",
+   "idCompacto": 35
+  },
+  {
+   "mundo": "S2",
+   "pieza": "S2-RES-ROJ",
+   "instancia": 3,
+   "id": 222,
+   "deteccion": "marker",
+   "escala": "E",
+   "idCompacto": 36
+  },
+  {
+   "mundo": "S2",
+   "pieza": "S2-RES-AMA",
+   "instancia": 1,
+   "id": 223,
+   "deteccion": "marker",
+   "escala": "E",
+   "idCompacto": 37
+  },
+  {
+   "mundo": "S2",
+   "pieza": "S2-RES-AMA",
+   "instancia": 2,
+   "id": 224,
+   "deteccion": "marker",
+   "escala": "E",
+   "idCompacto": 38
+  },
+  {
+   "mundo": "S2",
+   "pieza": "S2-RES-AMA",
+   "instancia": 3,
+   "id": 225,
+   "deteccion": "marker",
+   "escala": "E",
+   "idCompacto": 39
+  },
+  {
+   "mundo": "S2",
+   "pieza": "S2-RES-AZU",
+   "instancia": 1,
+   "id": 226,
+   "deteccion": "marker",
+   "escala": "E",
+   "idCompacto": 40
+  },
+  {
+   "mundo": "S2",
+   "pieza": "S2-RES-AZU",
+   "instancia": 2,
+   "id": 227,
+   "deteccion": "marker",
+   "escala": "E",
+   "idCompacto": 41
+  },
+  {
+   "mundo": "S2",
+   "pieza": "S2-RES-AZU",
+   "instancia": 3,
+   "id": 228,
+   "deteccion": "marker",
+   "escala": "E",
+   "idCompacto": 42
+  },
+  {
+   "mundo": "S2",
+   "pieza": "S2-RAS-E",
+   "instancia": 1,
+   "id": 229,
+   "deteccion": "hand",
+   "escala": "E",
+   "idCompacto": 43
+  },
+  {
+   "mundo": "S2",
+   "pieza": "S2-RAS-E",
+   "instancia": 2,
+   "id": 230,
+   "deteccion": "hand",
+   "escala": "E",
+   "idCompacto": 44
+  },
+  {
+   "mundo": "S3",
+   "pieza": "S3-PIL-1",
+   "instancia": 1,
+   "id": 330,
+   "deteccion": "marker",
+   "escala": "G",
+   "idCompacto": 45
+  },
+  {
+   "mundo": "S3",
+   "pieza": "S3-PIL-2",
+   "instancia": 1,
+   "id": 331,
+   "deteccion": "marker",
+   "escala": "G",
+   "idCompacto": 46
+  },
+  {
+   "mundo": "S3",
+   "pieza": "S3-PIL-3",
+   "instancia": 1,
+   "id": 332,
+   "deteccion": "marker",
+   "escala": "G",
+   "idCompacto": 47
+  },
+  {
+   "mundo": "S3",
+   "pieza": "S3-PIL-4",
+   "instancia": 1,
+   "id": 333,
+   "deteccion": "marker",
+   "escala": "G",
+   "idCompacto": 48
+  },
+  {
+   "mundo": "S3",
+   "pieza": "S3-PIL-5",
+   "instancia": 1,
+   "id": 334,
+   "deteccion": "marker",
+   "escala": "G",
+   "idCompacto": 49
+  },
+  {
+   "mundo": "S3",
+   "pieza": "S3-PIL-6",
+   "instancia": 1,
+   "id": 335,
+   "deteccion": "marker",
+   "escala": "G",
+   "idCompacto": 50
+  },
+  {
+   "mundo": "S3",
+   "pieza": "S3-BIS-G",
+   "instancia": 1,
+   "id": 336,
+   "deteccion": "marker",
+   "escala": "G",
+   "idCompacto": 51
+  },
+  {
+   "mundo": "S3",
+   "pieza": "S3-FRI-G",
+   "instancia": 1,
+   "id": 337,
+   "deteccion": "marker",
+   "escala": "G",
+   "idCompacto": 52
+  },
+  {
+   "mundo": "S3",
+   "pieza": "S3-CUR-PER-G",
+   "instancia": 1,
+   "id": 338,
+   "deteccion": "marker",
+   "escala": "G",
+   "idCompacto": 53
+  },
+  {
+   "mundo": "S3",
+   "pieza": "S3-REC-G",
+   "instancia": 1,
+   "id": 339,
+   "deteccion": "marker",
+   "escala": "G",
+   "idCompacto": 54
+  },
+  {
+   "mundo": "S3",
+   "pieza": "S3-ESF-LIS-G",
+   "instancia": 2,
+   "id": 340,
+   "deteccion": "tracked_object",
+   "escala": "G",
+   "idCompacto": 55
+  },
+  {
+   "mundo": "S3",
+   "pieza": "S3-ESF-RUG-G",
+   "instancia": 1,
+   "id": 341,
+   "deteccion": "tracked_object",
+   "escala": "G",
+   "idCompacto": 56
+  },
+  {
+   "mundo": "S3",
+   "pieza": "S3-ESF-RUG-G",
+   "instancia": 2,
+   "id": 342,
+   "deteccion": "tracked_object",
+   "escala": "G",
+   "idCompacto": 57
+  },
+  {
+   "mundo": "S4",
+   "pieza": "S4-CAN-E",
+   "instancia": 1,
+   "id": 440,
+   "deteccion": "marker",
+   "escala": "E",
+   "idCompacto": 58
+  },
+  {
+   "mundo": "S4",
+   "pieza": "S4-CAN-E",
+   "instancia": 2,
+   "id": 441,
+   "deteccion": "marker",
+   "escala": "E",
+   "idCompacto": 59
+  },
+  {
+   "mundo": "S4",
+   "pieza": "S4-COD-E",
+   "instancia": 1,
+   "id": 442,
+   "deteccion": "marker",
+   "escala": "E",
+   "idCompacto": 60
+  },
+  {
+   "mundo": "S4",
+   "pieza": "S4-ROT-E",
+   "instancia": 2,
+   "id": 443,
+   "deteccion": "marker",
+   "escala": "E",
+   "idCompacto": 61
+  },
+  {
+   "mundo": "S4",
+   "pieza": "S4-MOL-E",
+   "instancia": 1,
+   "id": 444,
+   "deteccion": "marker",
+   "escala": "E",
+   "idCompacto": 62
+  },
+  {
+   "mundo": "S4",
+   "pieza": "S4-MOL-E",
+   "instancia": 2,
+   "id": 445,
+   "deteccion": "marker",
+   "escala": "E",
+   "idCompacto": 63
+  },
+  {
+   "mundo": "S4",
+   "pieza": "S4-COM-LIG-E",
+   "instancia": 1,
+   "id": 446,
+   "deteccion": "marker",
+   "escala": "E",
+   "idCompacto": 64
+  },
+  {
+   "mundo": "S4",
+   "pieza": "S4-COM-PES-E",
+   "instancia": 1,
+   "id": 447,
+   "deteccion": "marker",
+   "escala": "E",
+   "idCompacto": 65
+  },
+  {
+   "mundo": "S4",
+   "pieza": "S4-JAU-E",
+   "instancia": 1,
+   "id": 448,
+   "deteccion": "marker",
+   "escala": "E",
+   "idCompacto": 66
+  },
+  {
+   "mundo": "S5",
+   "pieza": "S5-FUL-G",
+   "instancia": 1,
+   "id": 550,
+   "deteccion": "marker",
+   "escala": "G",
+   "idCompacto": 67
+  },
+  {
+   "mundo": "S5",
+   "pieza": "S5-MAS-20",
+   "instancia": 1,
+   "id": 551,
+   "deteccion": "marker",
+   "escala": "G",
+   "idCompacto": 68
+  },
+  {
+   "mundo": "S5",
+   "pieza": "S5-MAS-20",
+   "instancia": 2,
+   "id": 552,
+   "deteccion": "marker",
+   "escala": "G",
+   "idCompacto": 69
+  },
+  {
+   "mundo": "S5",
+   "pieza": "S5-MAS-20",
+   "instancia": 3,
+   "id": 553,
+   "deteccion": "marker",
+   "escala": "G",
+   "idCompacto": 70
+  },
+  {
+   "mundo": "S5",
+   "pieza": "S5-MAS-40",
+   "instancia": 1,
+   "id": 554,
+   "deteccion": "marker",
+   "escala": "G",
+   "idCompacto": 71
+  },
+  {
+   "mundo": "S5",
+   "pieza": "S5-MAS-40",
+   "instancia": 2,
+   "id": 555,
+   "deteccion": "marker",
+   "escala": "G",
+   "idCompacto": 72
+  },
+  {
+   "mundo": "S5",
+   "pieza": "S5-MAS-40",
+   "instancia": 3,
+   "id": 556,
+   "deteccion": "marker",
+   "escala": "G",
+   "idCompacto": 73
+  },
+  {
+   "mundo": "S5",
+   "pieza": "S5-MAS-60",
+   "instancia": 1,
+   "id": 557,
+   "deteccion": "marker",
+   "escala": "G",
+   "idCompacto": 74
+  },
+  {
+   "mundo": "S5",
+   "pieza": "S5-MAS-60",
+   "instancia": 2,
+   "id": 558,
+   "deteccion": "marker",
+   "escala": "G",
+   "idCompacto": 75
+  },
+  {
+   "mundo": "S5",
+   "pieza": "S5-PAS-G",
+   "instancia": 1,
+   "id": 559,
+   "deteccion": "marker",
+   "escala": "G",
+   "idCompacto": 76
+  },
+  {
+   "mundo": "S5",
+   "pieza": "S5-PAS-G",
+   "instancia": 2,
+   "id": 560,
+   "deteccion": "marker",
+   "escala": "G",
+   "idCompacto": 77
+  },
+  {
+   "mundo": "S5",
+   "pieza": "S5-PAS-G",
+   "instancia": 3,
+   "id": 561,
+   "deteccion": "marker",
+   "escala": "G",
+   "idCompacto": 78
+  },
+  {
+   "mundo": "S5",
+   "pieza": "S5-PAS-G",
+   "instancia": 4,
+   "id": 562,
+   "deteccion": "marker",
+   "escala": "G",
+   "idCompacto": 79
+  },
+  {
+   "mundo": "S6",
+   "pieza": "S6-BAS-G",
+   "instancia": 1,
+   "id": 660,
+   "deteccion": "occlusion",
+   "escala": "G",
+   "idCompacto": 80
+  },
+  {
+   "mundo": "S6",
+   "pieza": "S6-SOL-G",
+   "instancia": 1,
+   "id": 661,
+   "deteccion": "marker",
+   "escala": "G",
+   "idCompacto": 81
+  },
+  {
+   "mundo": "S6",
+   "pieza": "S6-COP-G",
+   "instancia": 1,
+   "id": 662,
+   "deteccion": "hand",
+   "escala": "G",
+   "idCompacto": 82
+  },
+  {
+   "mundo": "S6",
+   "pieza": "S6-FLO-G",
+   "instancia": 1,
+   "id": 663,
+   "deteccion": "hand",
+   "escala": "G",
+   "idCompacto": 83
+  },
+  {
+   "mundo": "S6",
+   "pieza": "S6-FLO-G",
+   "instancia": 2,
+   "id": 664,
+   "deteccion": "hand",
+   "escala": "G",
+   "idCompacto": 84
+  },
+  {
+   "mundo": "S6",
+   "pieza": "S6-FLO-G",
+   "instancia": 3,
+   "id": 665,
+   "deteccion": "hand",
+   "escala": "G",
+   "idCompacto": 85
+  },
+  {
+   "mundo": "S6",
+   "pieza": "S6-FRU-MANZ",
+   "instancia": 1,
+   "id": 666,
+   "deteccion": "marker",
+   "escala": "G",
+   "idCompacto": 86
+  },
+  {
+   "mundo": "S6",
+   "pieza": "S6-FRU-MANZ",
+   "instancia": 2,
+   "id": 667,
+   "deteccion": "marker",
+   "escala": "G",
+   "idCompacto": 87
+  },
+  {
+   "mundo": "S6",
+   "pieza": "S6-FRU-NAR",
+   "instancia": 1,
+   "id": 668,
+   "deteccion": "marker",
+   "escala": "G",
+   "idCompacto": 88
+  },
+  {
+   "mundo": "S6",
+   "pieza": "S6-FRU-NAR",
+   "instancia": 2,
+   "id": 669,
+   "deteccion": "marker",
+   "escala": "G",
+   "idCompacto": 89
+  },
+  {
+   "mundo": "S6",
+   "pieza": "S6-SEM-G",
+   "instancia": 1,
+   "id": 670,
+   "deteccion": "occlusion",
+   "escala": "G",
+   "idCompacto": 90
+  },
+  {
+   "mundo": "S6",
+   "pieza": "S6-SEM-G",
+   "instancia": 2,
+   "id": 671,
+   "deteccion": "occlusion",
+   "escala": "G",
+   "idCompacto": 91
+  },
+  {
+   "mundo": "S6",
+   "pieza": "S6-SEM-G",
+   "instancia": 3,
+   "id": 672,
+   "deteccion": "occlusion",
+   "escala": "G",
+   "idCompacto": 92
+  }
+ ]
+}
