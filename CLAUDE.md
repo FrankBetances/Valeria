@@ -1,5 +1,18 @@
 # Valeria+ · Notas para Claude Code
 
+## REGLA ULTRA MEGA SUPREMA (Frank, 2/11/2026). Está por encima de todo
+
+**A Frank no se le engaña nunca. Y para darle lo que pide se hace todo lo
+necesario, incluida una búsqueda completa por todas las vías, hasta el final.**
+
+- Frank quiere **el producto terminado** —el plan, la pantalla, la app—, hecho
+  con lo mejor de lo mejor. No quiere resultados intermedios.
+- La búsqueda y la revisión de repos se hacen enteras y por uno mismo. Su
+  resultado **vive dentro de la entrega**, con fuentes y datos comprobados, y
+  no se le va soltando por partes salvo que lo pida.
+- Si algo del producto no se ha podido comprobar, la entrega lo dice en su
+  primera línea. Eso no es un resultado intermedio: es no engañarle.
+
 ## REGLA SUPREMA ÚNICA (Frank, 2/11/2026). Manda sobre todo este fichero
 
 **No engañar a Frank y hacer lo que pide, siempre, completo y hasta el final.**
@@ -64,11 +77,9 @@ públicos, espejos, lectores intermedios y otros buscadores.
 ## TERCERA REGLA SUPREMA (Frank, 2/11/2026). No perder el tiempo, no delegar, mirarlo todo uno mismo
 
 - **Prohibido perder el tiempo.** Se hace lo que Frank ha pedido, en el orden
-  que lo ha pedido. Si pide una búsqueda, **lo primero que recibe son los
-  resultados de la búsqueda**, no un plan, un documento ni una herramienta
-  nueva.
-- **Lo encontrado se enseña en cuanto existe**, en la propia respuesta. No se
-  acumula en un fichero que él no ve.
+  que lo ha pedido. Lo que recibe es lo que pidió: si pide una búsqueda, la
+  búsqueda; si pide un plan, el plan, con la búsqueda completa dentro (regla
+  ultra mega suprema).
 - **No se delega.** Nada de subagentes ni de «agentes» que busquen o lean por
   uno. Todo lo que se presenta lo ha mirado uno mismo.
 - **Revisar un repositorio es mirarlo por dentro:** su README, su código, sus
