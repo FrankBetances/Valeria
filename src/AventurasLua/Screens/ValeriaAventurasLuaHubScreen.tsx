@@ -151,7 +151,6 @@ export const ValeriaAventurasLuaHubScreen: React.FC<Props> = ({ navigation }) =>
           <Text style={s.sectionTitle}>{t.luaHub.secGamesTitle}</Text>
           <Text style={s.sectionBadge}>{t.luaHub.secGamesBadge(filteredGames.length)}</Text>
         </View>
-        <Text style={s.sectionDesc}>{t.luaHub.secGamesSub}</Text>
 
         <ScrollView
           horizontal
@@ -187,7 +186,6 @@ export const ValeriaAventurasLuaHubScreen: React.FC<Props> = ({ navigation }) =>
           <Text style={s.sectionTitle}>{t.luaHub.secStoriesTitle}</Text>
           <Text style={s.sectionBadge}>{t.luaHub.secStoriesBadge(filteredStories.length)}</Text>
         </View>
-        <Text style={s.sectionDesc}>{t.luaHub.secStoriesSub}</Text>
 
         <ScrollView
           horizontal
@@ -223,7 +221,6 @@ export const ValeriaAventurasLuaHubScreen: React.FC<Props> = ({ navigation }) =>
           <Text style={s.sectionTitle}>{t.luaHub.secSongsTitle}</Text>
           <Text style={s.sectionBadge}>{t.luaHub.secSongsBadge(filteredSongs.length)}</Text>
         </View>
-        <Text style={s.sectionDesc}>{t.luaHub.secSongsSub}</Text>
 
         <ScrollView
           horizontal

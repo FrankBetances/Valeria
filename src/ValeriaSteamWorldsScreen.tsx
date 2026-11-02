@@ -59,7 +59,6 @@ export const ValeriaSteamWorldsScreen: React.FC<{ navigation: any }> = ({ naviga
             <View className="h-11 w-11 items-center justify-center rounded-xl bg-white"><BlockIcon name="lock" color={V.color.primaryDark} size={22} /></View>
             <View className="min-w-0 flex-1">
               <Text className="text-[15px] font-extrabold">{t.steam.profileTitle(profileName)}</Text>
-              <Text className="text-muted-foreground mt-0.5 text-[12.5px] font-semibold leading-4">{t.steam.profileHint}</Text>
             </View>
             <Text className="text-muted-foreground text-2xl font-extrabold">›</Text>
           </Card>
@@ -78,7 +77,7 @@ export const ValeriaSteamWorldsScreen: React.FC<{ navigation: any }> = ({ naviga
                 </View>
                 <View className="min-w-0 flex-1">
                   <Text className="text-[15px] font-extrabold">{title}</Text>
-                  <Text className="text-muted-foreground mt-0.5 text-[12.5px] font-bold">{`${w.id} · ${t.steam.worldMeta(w.challenges.length)}`}</Text>
+                  <Text className="text-muted-foreground mt-0.5 text-[12.5px] font-bold">{t.steam.worldMeta(w.challenges.length)}</Text>
                   {isRec && (
                     <Badge variant="secondary" className="mt-1.5 self-start border-transparent bg-[#fff1dc]">
                       <Text className="text-[11.5px] font-extrabold text-[#8a5512]">{t.steam.recommended}</Text>

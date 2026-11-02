@@ -27,6 +27,7 @@ import { getUiLang } from './valeriaUiLang';
 import { lingContentFor } from './valeriaLingContent';
 import { useT, UiStrings } from './i18n';
 import { FONT } from './ui/fonts';
+import { AdultFold } from './ui/AdultFold';
 // import logoWhite from '../../assets/valeria-logo-white.png';
 
 type Phase = 'ask' | 'test' | 'done';
@@ -194,7 +195,8 @@ export const ValeriaLingTestScreen: React.FC<{ navigation: any; route?: any }> =
         {/* ============ FASE: TEST ============ */}
         {phase === 'test' && (
           <View>
-            {/* Instrucción al tutor */}
+            {/* Instrucción al tutor: plegada; el niño ve primero el sonido. */}
+            <AdultFold label={t.ling.instrKicker}>
             <View style={s.instruction}>
               <View style={s.instrHead}>
                 <View style={s.instrIcon}><BlockIcon name="eyeOff" color="#ffffff" size={20} /></View>
@@ -205,6 +207,7 @@ export const ValeriaLingTestScreen: React.FC<{ navigation: any; route?: any }> =
               </View>
               <Text style={s.instrBody}>{copy.instrBody}</Text>
             </View>
+            </AdultFold>
 
             {/* Escenario del sonido */}
             <View style={s.stage}>

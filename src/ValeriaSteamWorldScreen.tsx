@@ -15,6 +15,7 @@ import { adjustmentsFor, loadAdaptationProfile } from './steam/profiles';
 import { steamWorld } from './steam/worlds';
 import type { AdaptationProfileId, SteamWorldId, WorldManifest } from './steam/types';
 import { FONT } from './ui/fonts';
+import { AdultFold } from './ui/AdultFold';
 
 type TabletopRoute = WorldManifest['tabletopPracticeLinks'][number];
 
@@ -66,9 +67,10 @@ export const ValeriaSteamWorldScreen: React.FC<{ navigation: any; route: { param
   return (
     <View style={s.root}>
       <ScreenHeader onBack={() => navigation.goBack()} backLabel={t.steam.back}
-        kicker={`${t.steam.hubTileTitle} · ${world.id}`} title={world.title[lang]} />
+        kicker={t.steam.hubTileTitle} title={world.title[lang]} />
 
       <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
+        <AdultFold label={t.steam.phenomenonKicker}>
         <View style={s.card}>
           <Text style={s.kickerFirst}>{t.steam.phenomenonKicker}</Text>
           <Text style={s.bodyStrong}>{world.phenomenon[lang]}</Text>
@@ -90,6 +92,8 @@ export const ValeriaSteamWorldScreen: React.FC<{ navigation: any; route: { param
           </View>
         )}
 
+        </AdultFold>
+
         {adjust.anticipationFirst && storyCard}
 
         <Text style={s.section}>{t.steam.challengesKicker}</Text>
@@ -100,7 +104,6 @@ export const ValeriaSteamWorldScreen: React.FC<{ navigation: any; route: { param
             <View style={s.badge}><Text style={s.badgeTxt}>{c.number}</Text></View>
             <View style={s.rowBody}>
               <Text style={s.rowTitle}>{c.title[lang]}</Text>
-              <Text style={s.rowMeta}>{t.steam.challengeMeta(c.ageBand, c.neuroStage, c.estimatedMinutes)}</Text>
             </View>
             <Text style={s.chev}>›</Text>
           </Pressable>
@@ -132,6 +135,7 @@ export const ValeriaSteamWorldScreen: React.FC<{ navigation: any; route: { param
           </View>
         )}
 
+        <AdultFold label={t.steam.tabletopKicker}>
         <View style={s.card}>
           <Text style={s.kickerFirst}>{t.steam.tabletopKicker}</Text>
           {world.tabletopPracticeLinks.map((link) => {
@@ -145,6 +149,7 @@ export const ValeriaSteamWorldScreen: React.FC<{ navigation: any; route: { param
             );
           })}
         </View>
+        </AdultFold>
 
         <View style={s.card}>
           <Text style={s.kickerFirst}>{t.steam.academyKicker}</Text>

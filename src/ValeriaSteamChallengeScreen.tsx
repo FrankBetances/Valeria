@@ -21,6 +21,7 @@ import { adjustmentsFor, loadAdaptationProfile } from './steam/profiles';
 import { steamChallenge, steamWorld } from './steam/worlds';
 import type { AdaptationProfileId, LuaSemanticExpression, SteamWorldId, WorldEventSpec } from './steam/types';
 import { FONT } from './ui/fonts';
+import { AdultFold } from './ui/AdultFold';
 
 // Con el perfil de calma, ninguna reacción es una fiesta: misma información, sin estridencia.
 const LOUD: readonly LuaSemanticExpression[] = ['celebra_corta', 'celebra_nivel', 'celebra_exito', 'diversion', 'sorpresa_inclinada'];
@@ -127,11 +128,12 @@ export const ValeriaSteamChallengeScreen: React.FC<{
   return (
     <View style={base.root}>
       <ScreenHeader onBack={() => navigation.goBack()} backLabel={t.steam.back}
-        kicker={`${world.title[lang]} · ${t.steam.challengeMeta(challenge.ageBand, challenge.neuroStage, challenge.estimatedMinutes)}`}
+        kicker={world.title[lang]}
         title={challenge.title[lang]} />
 
       <ScrollView contentContainerStyle={base.scroll} showsVerticalScrollIndicator={false}>
         {profile && (
+          <AdultFold label={t.steam.profileNoteKicker}>
           <View style={base.noteCard}>
             <Text style={base.kickerFirst}>{t.steam.profileNoteKicker}</Text>
             <Text style={base.body}>{t.steam.profiles[profile].note}</Text>
@@ -142,6 +144,7 @@ export const ValeriaSteamChallengeScreen: React.FC<{
               </Pressable>
             )}
           </View>
+          </AdultFold>
         )}
 
         {adjust.anticipationFirst && (
@@ -193,7 +196,7 @@ export const ValeriaSteamChallengeScreen: React.FC<{
 
         <View style={base.card}>
           <Text style={base.kickerFirst}>{t.steam.eventsKicker}</Text>
-          <Text style={base.body}>{t.steam.eventsNote}</Text>
+          <AdultFold label={t.steam.eventsKicker}><Text style={base.body}>{t.steam.eventsNote}</Text></AdultFold>
           {events.map((event) => (
             <Pressable key={event.id} onPress={() => react(event)}
               style={[s.eventBtn, reaction?.eventId === event.id && s.eventBtnOn]}
