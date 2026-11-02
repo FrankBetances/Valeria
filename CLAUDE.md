@@ -10,6 +10,20 @@
   ha pedido.** Si alguna parece chocar con esto, manda esta y la otra cede.
 - No se presenta como hecho lo que no está hecho, ni se maquilla con frases
   ciertas que juntas dan una impresión falsa.
+- **Nunca se descarta un repo porque al proyecto le falte algo.** Si el mejor
+  repo necesita una pieza que no está —Reanimated 4, `react-native-worklets`,
+  Skia, la arquitectura nueva, otra versión de React Native—, **se busca, se
+  añade y se usa**. Lo que exija añadirlo (cambiar Babel o Metro, activar
+  `newArchEnabled`, subir versiones) forma parte del trabajo. Se dice en el
+  plan, se hace y se comprueba con los gates y un build de CI en verde. «No
+  encaja con el stack» deja de ser motivo de descarte: el stack se adapta al
+  mejor repo, no al revés.
+
+Coste real (2/11/2026): se descartaron pressto, sonner-native,
+react-native-screen-transitions, react-native-actions-sheet,
+react-native-audio-api, react-native-animated-glow, Skia y
+react-native-fast-confetti porque pedían Reanimated 4, worklets o Skia. Lo que
+había que hacer era añadir esas piezas.
 
 Coste real (1-2/11/2026): se pidió un rediseño completo de UX/UI y se entregó
 un cambio técnico que reproducía el diseño anterior con otro código. Se
@@ -117,6 +131,7 @@ se comprueba que no se cae en ninguna.
 | E19 | Quemar tokens con reintentos a ciegas, `pkill` que mata la propia shell, capturas en blanco por navegar atrás | Se diagnostica antes de reintentar; se matan procesos por PID; cada captura navega a su ruta directamente |
 | E20 | Empujar sin integrar el `main` remoto (push rechazado por *fetch first*) | `git pull --rebase origin main` antes del push; nunca `--force` sobre `main` |
 | E21 | Dejar en este fichero datos desfasados (p. ej. «NativeWind no está en el proyecto») | Al cambiar el stack se actualiza CLAUDE.md en el mismo commit |
+| E22 | Descartar un repo porque al proyecto le falta una dependencia o una versión (Reanimated 4, worklets, Skia, arquitectura nueva) | Se añade lo que falta y se usa el repo. El cambio de base se dice en el plan y se verifica con gates y build de CI |
 
 ## Reglas supremas (Frank, 2/11/2026). Desarrollan la regla única
 
@@ -138,8 +153,9 @@ Se trabaja **exclusiva y únicamente** con los mejores repositorios disponibles:
 los de mayor adopción y valoración positiva (estrellas, uso en producción,
 mantenimiento activo, reseñas), verificados en GitHub y npm antes de usarlos.
 **Nunca se hace el trabajo por cuenta propia** escribiendo desde cero lo que ya
-existe en un repo de primer nivel. Si el mejor repo no encaja con el stack, se
-dice, se busca el siguiente mejor y se adapta: no se sustituye por código propio.
+existe en un repo de primer nivel. **Si el mejor repo necesita algo que el
+proyecto no tiene, se añade al proyecto** (regla suprema única): no se baja al
+siguiente repo ni se sustituye por código propio.
 
 ### S1. Honestidad
 
