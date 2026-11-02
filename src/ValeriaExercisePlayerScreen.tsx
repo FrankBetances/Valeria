@@ -421,6 +421,7 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
   // final de la página, y sin este reset el siguiente ejercicio aparecía ya
   // desplazado al fondo — parecía que la sesión no avanzaba.
   const scrollRef = useRef<React.ComponentRef<typeof ScrollView>>(null);
+  const [adultOpen, setAdultOpen] = useState(false);
   useEffect(() => { scrollRef.current?.scrollTo({ y: 0, animated: false }); }, [idx, subIdx, finished]);
 
   const resetEphemeral = () => {
@@ -746,7 +747,6 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
           <>
             {/* Meta del ejercicio */}
             <View style={s.metaRow}>
-              <View style={s.codeChip}><Text style={s.codeChipTxt}>{ex.code}</Text></View>
               <View style={{ flex: 1 }}>
                 <Text style={s.metaName}>{ex.name}</Text>
                 <Text style={s.metaCat}>{ex.category}</Text>
@@ -764,6 +764,19 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
               )}
             </View>
 
+            {/* Lo del adulto (material, variantes y consigna) va PLEGADO en una
+                sola pastilla: el niño ve primero la actividad. La consigna se
+                sigue pudiendo oír con el botón grande, sin abrir nada. */}
+            <View style={s.adultRow}>
+              <SpeakButton text={curLevel ? curLevel.read : ex.read} label={t.player.listenPrompt} />
+              <Pressable onPress={() => setAdultOpen((v) => !v)} style={s.adultToggle}
+                accessibilityRole="button" accessibilityState={{ expanded: adultOpen }} accessibilityLabel={t.player.step1Kicker}>
+                <BlockIcon name="info" color={V.color.textPrimary} size={18} />
+                <Text style={s.adultToggleTxt}>{adultOpen ? '⌃' : '⌄'}</Text>
+              </Pressable>
+            </View>
+            {adultOpen && (
+              <View style={{ gap: 12 }}>
             {/* Material real necesario: se anuncia ANTES de empezar la actividad */}
             {!!ex.materials && (
               <View style={s.materialsCard}>
@@ -791,7 +804,6 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
               </View>
             )}
 
-            {/* Consigna del tutor */}
             <View style={s.instructionCard}>
               <View style={s.instructionHead}>
                 <View style={s.instructionIcon}><BlockIcon name="speaker" color="#ffffff" size={20} /></View>
@@ -802,10 +814,10 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                 </View>
               </View>
               <Text style={s.instructionText}>{curLevel ? curLevel.read : ex.read}</Text>
-              <View style={{ marginTop: 12 }}>
-                <SpeakButton text={curLevel ? curLevel.read : ex.read} label={t.player.listenPrompt} />
-              </View>
             </View>
+
+              </View>
+            )}
 
             {/* ===== Stage / mini-juego ===== */}
             <View style={s.stageCard}>
@@ -1738,9 +1750,11 @@ const s = StyleSheet.create({
 
   scroll: { padding: 16, paddingBottom: 32 },
   metaRow: { flexDirection: 'row', alignItems: 'center', gap: 9, marginBottom: 12, marginHorizontal: 2 },
-  codeChip: { backgroundColor: V.color.primaryLight, borderRadius: 9, paddingHorizontal: 9, paddingVertical: 5 },
+  adultRow: { flexDirection: 'row', alignItems: 'center', gap: 10, justifyContent: 'space-between' },
+  adultToggle: { flexDirection: 'row', alignItems: 'center', gap: 4, height: 48, paddingHorizontal: 14, borderRadius: 24, backgroundColor: '#ffffff', borderWidth: 2, borderBottomWidth: 4, borderColor: '#e3dccf' },
+  adultToggleTxt: { fontFamily: FONT.display, fontSize: 18, color: V.color.textPrimary },
   codeChipTxt: { fontFamily: FONT.bodyBlack,color: V.color.primaryDark, fontSize: 12, letterSpacing: 0.3 },
-  metaName: { fontFamily: FONT.bodyBlack,fontSize: 15, color: V.color.textPrimary },
+  metaName: { fontFamily: FONT.display, fontSize: 24, lineHeight: 29, color: V.color.textPrimary },
   metaCat: { fontFamily: FONT.bodyBlack,fontSize: 11.5, color: V.color.textMuted },
   levelBadge: { flexDirection: 'row', alignItems: 'center', gap: 5, backgroundColor: V.color.primaryLight, borderRadius: 9, paddingHorizontal: 9, paddingVertical: 5 },
   levelBadgeTxt: { fontFamily: FONT.bodyBlack,color: V.color.primaryDark, fontSize: 11, letterSpacing: 0.2 },
@@ -1776,8 +1790,8 @@ const s = StyleSheet.create({
   instructionSmall: { fontFamily: FONT.bodyBlack,fontSize: 12.5, color: V.color.textPrimary, marginTop: 1 },
   instructionText: { fontFamily: FONT.bodyBlack,marginTop: 13, fontSize: 14.5, color: V.color.textPrimary, lineHeight: 20 },
 
-  stageCard: { backgroundColor: V.color.card, borderColor: V.color.border, borderWidth: 1, borderRadius: 18, padding: 16, marginTop: 12, ...V.shadow.card },
-  stageLabel: { fontFamily: FONT.bodyBlack,fontSize: 11, letterSpacing: 0.8, color: V.color.textMuted, textAlign: 'center', marginBottom: 14 },
+  stageCard: { backgroundColor: V.color.card, borderColor: '#e3dccf', borderWidth: 2, borderBottomWidth: 7, borderRadius: 28, padding: 18, marginTop: 14 },
+  stageLabel: { fontFamily: FONT.bodyBlack, fontSize: 12, letterSpacing: 0.8, color: V.color.textSecondary, textAlign: 'center', marginBottom: 14 },
   roundRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', backgroundColor: V.color.pageBg, borderWidth: 1, borderColor: '#eef2f1', borderRadius: 12, paddingVertical: 7, paddingHorizontal: 11, marginBottom: 14 },
   roundLbl: { fontFamily: FONT.bodyBlack,fontSize: 12, color: V.color.textSecondary },
   roundBtn: { flexDirection: 'row', alignItems: 'center', gap: 6, backgroundColor: V.color.primaryLight, borderWidth: 1, borderColor: V.color.borderActive, borderRadius: 10, paddingHorizontal: 10, paddingVertical: 6 },
