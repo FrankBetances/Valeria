@@ -1,11 +1,12 @@
-// Botón de «empezar» de las filas de ejercicio. Un solo estilo en todos los
-// módulos: placa suave con el icono en el color del bloque. Sustituye a las
-// placas macizas de Audición/Lenguaje/TEA/Dislexia y al «▶» de texto de Pares y
-// Semántica, que era un glifo del sistema y no un icono del set (regla 5).
+// Botón de «empezar» de las filas de ejercicio: el Button de React Native
+// Reusables (variante secondary, tamaño icon) con el icono del set propio.
+// Va dentro de una fila que ya es pulsable, así que no recibe toques: la fila
+// es el objetivo táctil y el botón es su señal visual.
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
-import { V } from '../valeriaTheme';
+import { View } from 'react-native';
+import { Button } from '../components/ui/button';
 import { BlockIcon } from '../ValeriaBlockIcons';
+import { V } from '../valeriaTheme';
 
 interface Props {
   /** Color pleno del bloque: el del icono. */
@@ -16,13 +17,12 @@ interface Props {
 }
 
 export const PlayButton: React.FC<Props> = ({ color = V.color.primaryDark, tint = V.color.primaryLight, locked = false }) => (
-  <View style={[s.plate, { backgroundColor: locked ? '#f1f5f4' : tint }]}>
-    <BlockIcon name={locked ? 'lock' : 'play'} color={locked ? V.color.textSecondary : color} size={18} />
+  <View pointerEvents="none" accessible={false} importantForAccessibility="no-hide-descendants">
+    <Button variant="secondary" size="icon" className="h-11 w-11 rounded-xl shadow-none"
+      style={{ backgroundColor: locked ? '#f1f5f4' : tint }}>
+      <BlockIcon name={locked ? 'lock' : 'play'} color={locked ? V.color.textSecondary : color} size={18} />
+    </Button>
   </View>
 );
-
-const s = StyleSheet.create({
-  plate: { width: 44, height: 44, borderRadius: 14, alignItems: 'center', justifyContent: 'center', flexShrink: 0 },
-});
 
 export default PlayButton;

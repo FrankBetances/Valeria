@@ -1,15 +1,15 @@
-// Cabecera única de las pantallas de módulo. Antes había cinco versiones
-// (Sensorial, Aventuras, Pares/Semántica, bloques, Grafomotricidad) y la app no
-// parecía una sola. Estructura de componente tomada de React Native Reusables
-// (founded-labs/react-native-reusables, MIT): piezas pequeñas con variantes,
-// escritas con StyleSheet y los tokens de valeriaTheme (sin NativeWind).
+// Cabecera única de las pantallas de módulo, montada con los componentes de
+// React Native Reusables (src/components/ui: Text, Button, Badge, MIT) y las
+// clases de NativeWind. Una sola cabecera para toda la app (CLAUDE.md, regla 5).
 import React from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
-import { V } from '../valeriaTheme';
+import { View } from 'react-native';
+import { Badge } from '../components/ui/badge';
+import { Button } from '../components/ui/button';
+import { Text } from '../components/ui/text';
 import { BlockIcon, BlockIconName } from '../ValeriaBlockIcons';
 
 interface Props {
-  /** Sin `onBack` no hay píldora de vuelta. */
+  /** Sin `onBack` no hay botón de vuelta. */
   onBack?: () => void;
   backLabel: string;
   /** Línea pequeña en mayúsculas sobre el título: a qué parte de la app pertenece. */
@@ -25,71 +25,45 @@ interface Props {
   color?: string;
   /** Pieza a la derecha del bloque de título: la gata, un botón. */
   trailing?: React.ReactNode;
-  /** Puntos de progreso de una sesión: hechos, el actual y los que faltan. */
+  /** Barra segmentada de progreso de una sesión. */
   dots?: { total: number; index: number; finished?: boolean };
 }
 
 export const ScreenHeader: React.FC<Props> = ({ onBack, backLabel, kicker, icon, title, subtitle, badge, children, color, trailing, dots }) => (
-  <View style={[s.header, color ? { backgroundColor: color } : null]}>
+  <View className="bg-primary rounded-b-[26px] px-6 pb-4 pt-3" style={color ? { backgroundColor: color } : undefined}>
     {onBack && (
-      <Pressable onPress={onBack} style={s.back} hitSlop={12} accessibilityRole="button" accessibilityLabel={backLabel}>
-        <Text style={s.backTxt}>{`‹ ${backLabel}`}</Text>
-      </Pressable>
+      <Button variant="ghost" size="sm" onPress={onBack} hitSlop={12} accessibilityLabel={backLabel}
+        className="mb-3 self-start rounded-xl border border-white/30 bg-white/20 px-3 active:bg-white/30">
+        <Text className="text-xs font-extrabold text-white">{`‹ ${backLabel}`}</Text>
+      </Button>
     )}
-    <View style={s.top}>
-      <View style={s.topText}>
-        {!!kicker && <Text style={s.kicker}>{kicker}</Text>}
-        <View style={s.titleRow}>
-          {icon && <View style={s.icon}><BlockIcon name={icon} color="#ffffff" size={24} /></View>}
-          <Text style={s.title} accessibilityRole="header">{title}</Text>
-          {!!badge && <View style={s.badge}><Text style={s.badgeTxt} numberOfLines={1}>{badge}</Text></View>}
+    <View className="flex-row items-center">
+      <View className="min-w-0 flex-1">
+        {!!kicker && <Text className="mb-0.5 text-[11.5px] font-extrabold uppercase tracking-widest text-white/85">{kicker}</Text>}
+        <View className="flex-row items-center">
+          {icon && <View className="mr-2.5"><BlockIcon name={icon} color="#ffffff" size={24} /></View>}
+          <Text variant="h3" className="min-w-0 flex-1 font-extrabold text-white" role="heading">{title}</Text>
+          {!!badge && (
+            <Badge variant="outline" className="ml-3 border-white/30 bg-white/20 px-3 py-1.5">
+              <Text className="text-xs font-extrabold text-white" numberOfLines={1}>{badge}</Text>
+            </Badge>
+          )}
         </View>
-        {!!subtitle && <Text style={s.subtitle}>{subtitle}</Text>}
+        {!!subtitle && <Text className="mt-1 text-sm font-semibold text-white/90">{subtitle}</Text>}
       </View>
-      {trailing && <View style={s.trailing}>{trailing}</View>}
+      {trailing && <View className="ml-3">{trailing}</View>}
     </View>
     {dots && (
-      <View style={s.dots}>
+      <View className="mt-3.5 flex-row gap-1.5">
         {Array.from({ length: dots.total }, (_, i) => {
           const done = dots.finished || i < dots.index;
           const current = !dots.finished && i === dots.index;
-          return <View key={i} style={[s.dot, done ? s.dotDone : current ? s.dotCurrent : null]} />;
+          return <View key={i} className={`h-[7px] flex-1 rounded ${done ? 'bg-white' : current ? 'bg-white/85' : 'bg-white/30'}`} />;
         })}
       </View>
     )}
     {children}
   </View>
 );
-
-const s = StyleSheet.create({
-  header: {
-    backgroundColor: V.color.primary, paddingTop: V.space.md, paddingHorizontal: V.space.xl,
-    paddingBottom: V.space.lg, borderBottomLeftRadius: 26, borderBottomRightRadius: 26,
-  },
-  back: {
-    alignSelf: 'flex-start', backgroundColor: 'rgba(255,255,255,.18)', borderWidth: 1,
-    borderColor: 'rgba(255,255,255,.32)', borderRadius: 11, paddingHorizontal: 11, paddingVertical: 5, marginBottom: V.space.md,
-  },
-  backTxt: { color: '#fff', fontSize: 12, fontWeight: V.font.extrabold },
-  kicker: { color: 'rgba(255,255,255,.85)', fontSize: 11.5, fontWeight: V.font.extrabold, letterSpacing: 0.8, textTransform: 'uppercase', marginBottom: 2 },
-  top: { flexDirection: 'row', alignItems: 'center' },
-  topText: { flexGrow: 1, flexShrink: 1, flexBasis: 0, minWidth: 0 },
-  trailing: { marginLeft: V.space.md },
-  titleRow: { flexDirection: 'row', alignItems: 'center' },
-  // Icono y badge de tamaño propio; el título es el único que se encoge.
-  icon: { marginRight: 10 },
-  title: { ...V.type.display, color: '#fff', fontWeight: V.font.extrabold, letterSpacing: -0.4, flexGrow: 1, flexShrink: 1, flexBasis: 0, minWidth: 0 },
-  badge: {
-    marginLeft: V.space.md, backgroundColor: 'rgba(255,255,255,.18)', borderWidth: 1,
-    borderColor: 'rgba(255,255,255,.32)', borderRadius: 11, paddingHorizontal: 11, paddingVertical: 6,
-  },
-  badgeTxt: { color: '#fff', fontSize: 12, fontWeight: V.font.extrabold },
-  // Barra segmentada, como la que ya llevaban el reproductor y los pares.
-  dots: { flexDirection: 'row', gap: 6, marginTop: 14 },
-  dot: { flex: 1, height: 7, borderRadius: 4, backgroundColor: 'rgba(255,255,255,.32)' },
-  dotDone: { backgroundColor: '#fff' },
-  dotCurrent: { backgroundColor: 'rgba(255,255,255,.85)' },
-  subtitle: { ...V.type.body, color: 'rgba(255,255,255,.92)', fontWeight: V.font.semibold, marginTop: V.space.xs },
-});
 
 export default ScreenHeader;

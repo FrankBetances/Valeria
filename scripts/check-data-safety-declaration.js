@@ -75,6 +75,9 @@ const DEPENDENCIAS = [
   '@rn-primitives/radio-group', '@rn-primitives/separator', '@rn-primitives/slot',
   '@rn-primitives/switch', '@rn-primitives/tabs',
   'class-variance-authority', 'clsx', 'tailwind-merge',
+  // Dependencias par de @rn-primitives (versión web de los componentes). En
+  // Android Metro resuelve react-native, no estas: no entran en el APK.
+  'react-dom', 'react-native-web',
 ];
 
 // §2 del documento: la app NO tiene backend. Firebase se retiró el 7/9/2026 —de
