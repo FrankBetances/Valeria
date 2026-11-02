@@ -557,7 +557,7 @@ export const GL: UiStrings = {
     dialectTransfer: 'ANTES DE PUNTUAR: NENO BILINGÜE',
     dialectRegularIn: (v: string): string => `Trazo regular en: ${v}.`,
     title: 'Pares Mínimos',
-    subtitlePick: 'Dislalias fonolóxicas · o neno pide a palabra coa súa voz',
+    subtitlePick: 'Sons que se parecen · o neno pide a palabra coa súa voz',
     editingOn: 'Edición profesional habilitada',
 
     howKicker: 'COMO FUNCIONA',
@@ -637,7 +637,7 @@ export const GL: UiStrings = {
     swapIntroAsr: ' A app tamén escoitará para comprobalo.',
     swapSpeakNow: '🎤 Agora, en voz alta!',
     swapAlreadySaid: '🗣️ Xa a dixo → seguir',
-    subtitlePlay: 'Dislalias fonolóxicas · o neno pide a palabra coa súa voz',
+    subtitlePlay: 'Sons que se parecen · o neno pide a palabra coa súa voz',
     regionNote: ' · só variedades con distinción s/z',
     streakChip: (n: number): string => (n === 1 ? 'día de racha' : 'días de racha'),
 

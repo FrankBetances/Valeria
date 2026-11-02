@@ -42,6 +42,7 @@
 //   · Con `id`  -> sesión de un solo ejercicio.
 //   · Sin nada  -> sesión por defecto (plan prescrito de ejemplo).
 // ============================================================================
+import { Celebration } from './ui/Celebration';
 import { ScreenHeader } from './ui/ScreenHeader';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
@@ -1618,6 +1619,7 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
           </>
         ) : (
           /* ===== Completado ===== */
+          <Celebration>
           <View style={s.doneCard}>
             {/* La gata, no un 🎉 del sistema: quien celebra es la mascota que
                 el niño reconoce, y es la misma que da los premios de abajo. */}
@@ -1689,6 +1691,7 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
             <Pressable onPress={restart}><Text style={s.linkBtn}>{t.player.repeatSession}</Text></Pressable>
             <Text style={s.redirect}>{t.player.redirecting(countdown)}</Text>
           </View>
+          </Celebration>
         )}
       </ScrollView>
 

@@ -20,6 +20,7 @@
 // historial + gamificación, igual que los demás ejercicios.
 // Protocolo completo: docs/protocolo-expansion-semantica.md
 // ============================================================================
+import { Celebration } from './ui/Celebration';
 import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, Pressable, ScrollView, StyleSheet, Animated, Easing, Switch, BackHandler } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -931,6 +932,7 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
         <ScreenHeader onBack={() => { stopSpeaking(); setPhase('pick'); }} backLabel={t.common.back}
           kicker={t.semantic.title} icon="semantic" title={t.semantic.doneTitle} subtitle={sess.title} />
         <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
+          <Celebration>
           <View style={s.doneCard}>
             <CatPixel size={62} />
             <Text style={s.doneTitle}>{t.semantic.doneSessionTitle}</Text>
@@ -954,6 +956,7 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
             <Pressable onPress={() => start(sess)}><Text style={s.linkBtn}>{t.semantic.repeatBlock}</Text></Pressable>
             <Pressable onPress={() => setPhase('pick')}><Text style={s.linkBtn}>{t.semantic.otherBlock}</Text></Pressable>
           </View>
+          </Celebration>
         </ScrollView>
       </View>
     );

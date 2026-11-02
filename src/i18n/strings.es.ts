@@ -541,7 +541,7 @@ export const ES = {
     dialectTransfer: 'ANTES DE PUNTUAR: NIÑO BILINGÜE',
     dialectRegularIn: (v: string): string => `Rasgo regular en: ${v}.`,
     title: 'Pares Mínimos',
-    subtitlePick: 'Dislalias fonológicas · el niño pide la palabra con su voz',
+    subtitlePick: 'Sonidos que se parecen · el niño pide la palabra con su voz',
     editingOn: 'Edición profesional habilitada',
 
     howKicker: 'CÓMO FUNCIONA',
@@ -621,7 +621,7 @@ export const ES = {
     swapIntroAsr: ' La app también escuchará para comprobar.',
     swapSpeakNow: '🎤 ¡Ahora, en voz alta!',
     swapAlreadySaid: '🗣️ Ya la dijo → seguir',
-    subtitlePlay: 'Dislalias fonológicas · el niño pide la palabra con su voz',
+    subtitlePlay: 'Sonidos que se parecen · el niño pide la palabra con su voz',
     regionNote: ' · solo variedades con distinción s/z',
     streakChip: (n: number): string => (n === 1 ? 'día de racha' : 'días de racha'),
 

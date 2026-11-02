@@ -3,7 +3,12 @@
 // siempre no se desplazan (CLAUDE.md, regla S4). Aquí viven también el perfil
 // de adaptación —lo cambia el adulto con PIN— y la recomendación que se deriva.
 import React, { useEffect, useState } from 'react';
-import { Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Pressable, ScrollView, View } from 'react-native';
+import { Badge } from './components/ui/badge';
+import { Card } from './components/ui/card';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from './components/ui/dialog';
+import { RadioGroup, RadioGroupItem } from './components/ui/radio-group';
+import { Text } from './components/ui/text';
 import { useT } from './i18n';
 import { ScreenHeader } from './ui/ScreenHeader';
 import { V } from './valeriaTheme';
@@ -47,61 +52,74 @@ export const ValeriaSteamWorldsScreen: React.FC<{ navigation: any }> = ({ naviga
         kicker={t.steam.worldsKicker} icon="world_path" title={t.steam.hubTileTitle} subtitle={t.steam.worldsNote} />
 
       <ScrollView contentContainerStyle={base.scroll} showsVerticalScrollIndicator={false}>
-        <Pressable onPress={() => setPinOpen(true)} style={s.profile}
-          accessibilityRole="button" accessibilityLabel={t.steam.profileA11y(profileName)}>
-          <View style={s.profilePlate}><BlockIcon name="lock" color={V.color.primaryDark} size={22} /></View>
-          <View style={s.grow}>
-            <Text style={s.profileTitle}>{t.steam.profileTitle(profileName)}</Text>
-            <Text style={s.profileHint}>{t.steam.profileHint}</Text>
-          </View>
-          <Text style={base.chev}>›</Text>
+        {/* Perfil de adaptación: Card de React Native Reusables, pulsable. */}
+        <Pressable onPress={() => setPinOpen(true)} accessibilityRole="button" accessibilityLabel={t.steam.profileA11y(profileName)}>
+          <Card className="bg-secondary border-input mb-4 flex-row items-center gap-3 px-4 py-3.5">
+            <View className="h-11 w-11 items-center justify-center rounded-xl bg-white"><BlockIcon name="lock" color={V.color.primaryDark} size={22} /></View>
+            <View className="min-w-0 flex-1">
+              <Text className="text-[15px] font-extrabold">{t.steam.profileTitle(profileName)}</Text>
+              <Text className="text-muted-foreground mt-0.5 text-[12.5px] font-semibold leading-4">{t.steam.profileHint}</Text>
+            </View>
+            <Text className="text-muted-foreground text-2xl font-extrabold">›</Text>
+          </Card>
         </Pressable>
 
+        {/* Los siete mundos: Card + Badge de React Native Reusables. */}
         {STEAM_WORLDS.map((w) => {
           const title = w.title[lang];
           const isRec = recommended.includes(w.id);
           return (
             <Pressable key={w.id} onPress={() => navigation.navigate('SteamWorld', { worldId: w.id })}
-              style={base.row} accessibilityRole="button" accessibilityLabel={t.steam.worldA11y(title)}
-              accessibilityHint={t.steam.worldHint}>
-              <View style={[s.plate, isRec && s.plateRec]}>
-                <BlockIcon name={WORLD_ICON[w.id]} color="#ffffff" size={24} />
-              </View>
-              <View style={base.rowBody}>
-                <Text style={base.rowTitle}>{title}</Text>
-                <Text style={base.rowMeta}>{`${w.id} · ${t.steam.worldMeta(w.challenges.length)}`}</Text>
-                {isRec && <View style={s.chip}><Text style={s.chipTxt}>{t.steam.recommended}</Text></View>}
-              </View>
-              <Text style={base.chev}>›</Text>
+              accessibilityRole="button" accessibilityLabel={t.steam.worldA11y(title)} accessibilityHint={t.steam.worldHint}>
+              <Card className="border-input mb-2.5 flex-row items-center gap-3 px-3.5 py-3">
+                <View className="h-11 w-11 items-center justify-center rounded-xl" style={{ backgroundColor: isRec ? '#b8741a' : V.color.primaryDark }}>
+                  <BlockIcon name={WORLD_ICON[w.id]} color="#ffffff" size={24} />
+                </View>
+                <View className="min-w-0 flex-1">
+                  <Text className="text-[15px] font-extrabold">{title}</Text>
+                  <Text className="text-muted-foreground mt-0.5 text-[12.5px] font-bold">{`${w.id} · ${t.steam.worldMeta(w.challenges.length)}`}</Text>
+                  {isRec && (
+                    <Badge variant="secondary" className="mt-1.5 self-start border-transparent bg-[#fff1dc]">
+                      <Text className="text-[11.5px] font-extrabold text-[#8a5512]">{t.steam.recommended}</Text>
+                    </Badge>
+                  )}
+                </View>
+                <Text className="text-muted-foreground text-2xl font-extrabold">›</Text>
+              </Card>
             </Pressable>
           );
         })}
       </ScrollView>
 
-      <Modal visible={sheetOpen} transparent animationType="fade" onRequestClose={() => setSheetOpen(false)}>
-        <View style={s.overlay}>
-          <View style={s.sheet}>
-            <Text style={s.sheetTitle}>{t.steam.profileSheetTitle}</Text>
-            <ScrollView showsVerticalScrollIndicator={false}>
-            <Text style={s.sheetBody}>{t.steam.profileSheetBody}</Text>
-            {([null, ...ADAPTATION_PROFILES] as (AdaptationProfileId | null)[]).map((id) => {
-              const name = id ? t.steam.profiles[id].name : t.steam.profileNone;
-              const on = id === profile;
-              return (
-                <Pressable key={id ?? 'none'} onPress={() => choose(id)} style={[s.option, on && s.optionOn]}
-                  accessibilityRole="radio" accessibilityState={{ selected: on }} accessibilityLabel={t.steam.profileOptionA11y(name)}>
-                  <Text style={[s.optionTxt, on && s.optionTxtOn]}>{name}</Text>
-                  {id && <Text style={s.optionNote}>{t.steam.profiles[id].note}</Text>}
-                </Pressable>
-              );
-            })}
-            </ScrollView>
-            <Pressable onPress={() => setSheetOpen(false)} accessibilityRole="button" accessibilityLabel={t.common.close}>
-              <Text style={s.cancel}>{t.common.close}</Text>
-            </Pressable>
-          </View>
-        </View>
-      </Modal>
+      {/* Selector de perfil: Dialog + RadioGroup de React Native Reusables. */}
+      <Dialog open={sheetOpen} onOpenChange={setSheetOpen}>
+        <DialogContent closeLabel={t.common.close} className="max-h-[90%]">
+          <DialogHeader>
+            <DialogTitle className="text-xl font-extrabold">{t.steam.profileSheetTitle}</DialogTitle>
+            <DialogDescription className="text-sm font-semibold leading-5">{t.steam.profileSheetBody}</DialogDescription>
+          </DialogHeader>
+          <ScrollView showsVerticalScrollIndicator={false}>
+            <RadioGroup value={profile ?? 'none'} onValueChange={(v) => choose(v === 'none' ? null : (v as AdaptationProfileId))}>
+              {([null, ...ADAPTATION_PROFILES] as (AdaptationProfileId | null)[]).map((id) => {
+                const value = id ?? 'none';
+                const name = id ? t.steam.profiles[id].name : t.steam.profileNone;
+                const on = id === profile;
+                return (
+                  <Pressable key={value} onPress={() => choose(id)} accessibilityRole="radio"
+                    accessibilityState={{ selected: on }} accessibilityLabel={t.steam.profileOptionA11y(name)}
+                    className={`flex-row items-start gap-3 rounded-xl border px-3.5 py-3 ${on ? 'border-ring bg-secondary' : 'border-border'}`}>
+                    <RadioGroupItem value={value} aria-labelledby={`perfil-${value}`} className="mt-0.5 size-5" />
+                    <View className="min-w-0 flex-1">
+                      <Text nativeID={`perfil-${value}`} className={`text-[15px] ${on ? 'text-secondary-foreground font-extrabold' : 'font-bold'}`}>{name}</Text>
+                      {id && <Text className="text-muted-foreground mt-0.5 text-xs font-semibold leading-4">{t.steam.profiles[id].note}</Text>}
+                    </View>
+                  </Pressable>
+                );
+              })}
+            </RadioGroup>
+          </ScrollView>
+        </DialogContent>
+      </Dialog>
 
       <ProPinModal open={pinOpen} onClose={() => setPinOpen(false)}
         onUnlock={() => { setPinOpen(false); setSheetOpen(true); }}
@@ -110,31 +128,6 @@ export const ValeriaSteamWorldsScreen: React.FC<{ navigation: any }> = ({ naviga
   );
 };
 
-const s = StyleSheet.create({
-  headerSub: { ...V.type.body, color: 'rgba(255,255,255,.92)', fontWeight: V.font.semibold, marginTop: V.space.xs },
-  profile: {
-    flexDirection: 'row', alignItems: 'center', backgroundColor: V.color.primaryTint, borderWidth: 1,
-    borderColor: V.color.borderActive, borderRadius: V.radius.card, padding: V.space.md, marginBottom: V.space.lg, minHeight: V.touchMin,
-  },
-  profilePlate: { width: 44, height: 44, borderRadius: 12, backgroundColor: '#fff', alignItems: 'center', justifyContent: 'center', marginRight: V.space.md },
-  grow: { flexGrow: 1, flexShrink: 1, flexBasis: 0, minWidth: 0 },
-  profileTitle: { fontSize: 15, fontWeight: V.font.extrabold, color: V.color.textPrimary },
-  profileHint: { fontSize: 12.5, lineHeight: 17, fontWeight: V.font.semibold, color: V.color.textSecondary, marginTop: 2 },
-  // Placa de tamaño fijo, como la del icono de la rejilla: no hereda flex.
-  plate: { width: 44, height: 44, borderRadius: 12, backgroundColor: V.color.primaryDark, alignItems: 'center', justifyContent: 'center', marginRight: V.space.md },
-  plateRec: { backgroundColor: '#b8741a' },
-  chip: { alignSelf: 'flex-start', backgroundColor: '#fff1dc', borderRadius: 999, paddingHorizontal: 9, paddingVertical: 3, marginTop: 5 },
-  chipTxt: { fontSize: 11.5, fontWeight: V.font.extrabold, color: '#8a5512' },
-  overlay: { flex: 1, backgroundColor: 'rgba(11,18,32,.72)', alignItems: 'center', justifyContent: 'center', padding: V.space.xl },
-  sheet: { width: '100%', maxWidth: 400, maxHeight: '90%', backgroundColor: '#fff', borderRadius: 24, padding: 22 },
-  sheetTitle: { fontSize: 19, fontWeight: V.font.extrabold, color: V.color.textPrimary, textAlign: 'center' },
-  sheetBody: { ...V.type.body, lineHeight: 19, fontWeight: V.font.semibold, color: V.color.textSecondary, marginTop: V.space.sm, marginBottom: V.space.sm, textAlign: 'center' },
-  option: { borderWidth: 1.5, borderColor: V.color.border, borderRadius: 14, paddingVertical: 11, paddingHorizontal: 14, marginTop: V.space.sm },
-  optionOn: { borderColor: V.color.primaryDark, backgroundColor: V.color.primaryLight },
-  optionTxt: { ...V.type.body, fontWeight: V.font.bold, color: V.color.textPrimary },
-  optionTxtOn: { color: V.color.primaryDark, fontWeight: V.font.extrabold },
-  optionNote: { fontSize: 12, lineHeight: 16, fontWeight: V.font.semibold, color: V.color.textSecondary, marginTop: 3 },
-  cancel: { textAlign: 'center', color: V.color.textMuted, ...V.type.body, fontWeight: V.font.extrabold, marginTop: V.space.md },
-});
+
 
 export default ValeriaSteamWorldsScreen;

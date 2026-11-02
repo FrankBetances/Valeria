@@ -535,7 +535,7 @@ export const EN: UiStrings = {
     dialectTransfer: 'BEFORE YOU SCORE: BILINGUAL CHILD',
     dialectRegularIn: (v: string): string => `Regular feature in: ${v}.`,
     title: 'Minimal Pairs',
-    subtitlePick: 'Speech sound errors · the child asks for the word with their own voice',
+    subtitlePick: 'Sounds that sound alike · the child asks for the word with their own voice',
     editingOn: 'Professional editing enabled',
 
     howKicker: 'HOW IT WORKS',
@@ -612,7 +612,7 @@ export const EN: UiStrings = {
     swapIntroAsr: ' The app will listen too, to check.',
     swapSpeakNow: '🎤 Now, say it out loud!',
     swapAlreadySaid: '🗣️ Already said it → keep going',
-    subtitlePlay: 'Speech sound errors · the child asks for the word with their own voice',
+    subtitlePlay: 'Sounds that sound alike · the child asks for the word with their own voice',
     regionNote: ' · only varieties that distinguish s/z',
     streakChip: (n: number): string => (n === 1 ? 'day streak' : 'day streak'),
 

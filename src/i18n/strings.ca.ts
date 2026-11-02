@@ -516,7 +516,7 @@ export const CA: UiStrings = {
     dialectTransfer: 'ABANS DE PUNTUAR: INFANT BILINGÜE',
     dialectRegularIn: (v: string): string => `Tret regular a: ${v}.`,
     title: 'Parells Mínims',
-    subtitlePick: 'Dislàlies fonològiques · l\'infant demana la paraula amb la veu',
+    subtitlePick: 'Sons que s\'assemblen · l\'infant demana la paraula amb la veu',
     editingOn: 'Edició professional habilitada',
 
     howKicker: 'COM FUNCIONA',
@@ -593,7 +593,7 @@ export const CA: UiStrings = {
     swapIntroAsr: ' L\'aplicació també escoltarà per comprovar-ho.',
     swapSpeakNow: '🎤 Ara, en veu alta!',
     swapAlreadySaid: '🗣️ Ja l\'ha dita → continuar',
-    subtitlePlay: 'Dislàlies fonològiques · l\'infant demana la paraula amb la veu',
+    subtitlePlay: 'Sons que s\'assemblen · l\'infant demana la paraula amb la veu',
     regionNote: ' · només varietats amb distinció s/z',
     streakChip: (n: number): string => (n === 1 ? 'dia de ratxa' : 'dies de ratxa'),
 

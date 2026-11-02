@@ -5,6 +5,7 @@
 // ReactionSequencer espera al fenómeno y LuaLink manda la cara a Lúa por el
 // emisor de valeriaLuaSession (o la espeja aquí si no hay enlace).
 // La app no puntúa ni decide la progresión: «Reto conseguido» lo marca el adulto.
+import { Celebration } from './ui/Celebration';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { CatPixel } from './ValeriaCatPixel';
@@ -250,7 +251,7 @@ export const ValeriaSteamChallengeScreen: React.FC<{
           accessibilityRole="button" accessibilityLabel={t.steam.achievedA11y}>
           <Text style={s.primaryBtnTxt}>{t.steam.achieved}</Text>
         </Pressable>
-        {achieved && <Text style={s.after}>{t.steam.achievedDone}</Text>}
+        {achieved && <Celebration><Text style={s.after}>{t.steam.achievedDone}</Text></Celebration>}
       </ScrollView>
     </View>
   );
