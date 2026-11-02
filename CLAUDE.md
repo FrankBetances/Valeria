@@ -28,6 +28,22 @@ adulto, qué se desplaza y qué queda escondido. Se buscan referencias (repos y
 patrones que encajen) antes de diseñar. **Lo que ya funciona no se desplaza ni
 se esconde** para meter algo nuevo.
 
+### S5. Si Frank pregunta, se responde YA
+
+Una pregunta de Frank se contesta inmediatamente, en la primera línea, antes de
+seguir trabajando. No se ignora ni se deja para el final del informe.
+
+### S6. Lo que haga falta encontrar se busca hasta encontrarlo
+
+Si una referencia no sirve (un repo que no encaja con el stack), **se buscan
+alternativas en internet hasta encontrar las que sí encajan**. Descartar y
+sustituirlo por una versión propia «inspirada» es un atajo, y presentarlo como
+«usar la referencia» es faltar a S1.
+
+Coste real (2/11/2026): se descartaron Reusables, NativeUI y KidCash UI y no se
+buscó ninguna alternativa; se escribieron dos componentes propios y se dijo que
+seguían a Reusables.
+
 **Referencias de UI que se revisan primero** (propuestas por Frank el 2/11/2026;
 datos comprobados ese día en GitHub):
 
