@@ -65,8 +65,8 @@ export const ScreenHeader: React.FC<Props> = ({ onBack, backLabel, kicker, icon,
       <View style={s.titleCol}>
         <Text style={[s.title, { color: ink }]} role="heading" numberOfLines={2}>{title}</Text>
         {!!subtitle && <Text style={[s.subtitle, { color: ink }]} numberOfLines={2}>{subtitle}</Text>}
+        {!!badge && <View style={s.badge}><Text style={s.badgeTxt} numberOfLines={1}>{badge}</Text></View>}
       </View>
-      {!!badge && <View style={s.badge}><Text style={s.badgeTxt} numberOfLines={1}>{badge}</Text></View>}
       {trailing && <View style={s.trailing}>{trailing}</View>}
     </View>
 
@@ -98,7 +98,7 @@ const s = StyleSheet.create({
   titleCol: { flexShrink: 1, flexGrow: 1 },
   title: { fontFamily: FONT.display, fontSize: 28, lineHeight: 33, color: INK },
   subtitle: { fontFamily: FONT.bodyBold, fontSize: 15, lineHeight: 20, color: INK, opacity: 0.8, marginTop: 2 },
-  badge: { marginLeft: 10, backgroundColor: '#ffffff', borderRadius: 999, paddingHorizontal: 12, paddingVertical: 6 },
+  badge: { alignSelf: 'flex-start', marginTop: 8, backgroundColor: '#ffffff', borderRadius: 999, paddingHorizontal: 12, paddingVertical: 6 },
   badgeTxt: { fontFamily: FONT.bodyBlack, fontSize: 13, color: INK },
   trailing: { marginLeft: 10 },
   dots: { flexDirection: 'row', gap: 6, marginTop: 14 },

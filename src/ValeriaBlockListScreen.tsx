@@ -149,7 +149,7 @@ export const ValeriaBlockListScreen: React.FC<{ navigation: any; route: any }> =
           (la píldora del PIN) y el recuento, en el propio encabezado. */}
       <ScreenHeader onBack={() => navigation.goBack()} backLabel={t.hub.backToBlocks}
         kicker={t.hub.kickerPractice} icon={block.icon} title={copy.title}
-        badge={t.hub.prescribedOf(activeCount, list.length)} />
+        badge={unlocked ? t.hub.prescribedOf(activeCount, list.length) : undefined} />
 
       <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
         {/* La misma tira que el hub: el niño ve su nivel y su racha también
@@ -195,9 +195,11 @@ export const ValeriaBlockListScreen: React.FC<{ navigation: any; route: any }> =
           </>
         )}
 
-        <View style={s.listHead}>
-          <Text style={s.listLabel}>{copy.label}</Text>
-        </View>
+        {unlocked && (
+          <View style={s.listHead}>
+            <Text style={s.listLabel}>{copy.label}</Text>
+          </View>
+        )}
 
         {sections.map(({ band, rows }) => {
           if (!rows.length) return null;
