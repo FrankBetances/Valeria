@@ -1,18 +1,34 @@
 # Valeria+ · Notas para Claude Code
 
-## Reglas supremas (Frank, 2/11/2026). Mandan sobre todo lo demás
+## REGLA SUPREMA ÚNICA (Frank, 2/11/2026). Manda sobre todo este fichero
+
+**No engañar a Frank y hacer lo que pide, siempre, completo y hasta el final.**
+
+- Lo que pide se hace entero. Si pide un rediseño completo, se rediseña todo lo
+  que se ve; no se entrega una parte ni otra cosa parecida.
+- **Ninguna otra regla de este fichero puede usarse para hacer menos de lo que
+  ha pedido.** Si alguna parece chocar con esto, manda esta y la otra cede.
+- No se presenta como hecho lo que no está hecho, ni se maquilla con frases
+  ciertas que juntas dan una impresión falsa.
+
+Coste real (1-2/11/2026): se pidió un rediseño completo de UX/UI y se entregó
+un cambio técnico que reproducía el diseño anterior con otro código. Se
+presentó como el trabajo pedido. Frank perdió dos sesiones enteras y tenía ya
+otra rama trabajando sobre esa entrega.
+
+## Reglas supremas (Frank, 2/11/2026). Desarrollan la regla única
 
 ### S0. Responder inmediatamente. Es la regla número uno
 
 Si Frank pregunta, la respuesta va **ya**, en la primera línea y antes de
 cualquier otra acción. Nada de seguir trabajando y contestar después.
 
-### S0b. Prohibido trabajar sin un plan aprobado
+### S0b. Plan claro, y se ejecuta sin parar
 
-Antes de tocar código se presenta un plan corto: qué se va a cambiar, con qué
-repos o herramientas, cómo se comprobará y qué queda fuera. Frank lo aprueba y
-**solo entonces** se empieza. Trabajar sin plan quema su cupo en cosas que no ha
-pedido.
+Antes de tocar código se dice el plan en pocas líneas: qué se va a cambiar, con
+qué repos o herramientas y cómo se comprobará. **Después se ejecuta hasta el
+final sin detenerse a esperar.** Solo se para para preguntar si falta un dato
+que únicamente Frank tiene.
 
 ### S0c. Solo con los mejores repositorios disponibles
 
@@ -47,7 +63,8 @@ textos, gates, capturas y build. Si una parte no se puede completar, se dice
 Todo cambio de pantalla empieza por una revisión de UX/UI: qué ve primero el
 adulto, qué se desplaza y qué queda escondido. Se buscan referencias (repos y
 patrones que encajen) antes de diseñar. **Lo que ya funciona no se desplaza ni
-se esconde** para meter algo nuevo.
+se esconde** para meter algo nuevo, salvo que Frank pida rediseñarlo: entonces
+se rediseña.
 
 ### S5. Si Frank pregunta, se responde YA
 
@@ -125,6 +142,10 @@ distribución mundial.
 
 **No hagas nada que Frank no haya pedido.** No es una regla sobre pantallas ni
 sobre calidad del código: es sobre quién decide. Decide él.
+
+**Esta regla nunca justifica hacer menos de lo pedido** (regla suprema única):
+todo lo que forma parte de lo que Frank pidió está pedido. Si pide rediseñar la
+app, cada pantalla de la app entra en el encargo.
 
 Se hace lo que se ha pedido y se para ahí. Si por el camino ves algo que
 convendría cambiar —algo que falta, algo que sobra, algo que mejorarías,
@@ -223,8 +244,10 @@ chips, rejillas—:
 - **la captura de web no basta, y decir «comprobado con captura» sin decir
   «de web» es la mentira del §0**;
 - si no puedes mirarlo en un Android, escríbelo con estas palabras: **«esto no
-  lo he visto en un aparato»**, y no lo mergees a `main` sin que Frank lo mire;
-- lo más seguro cuando no hay aparato es **no cambiar la disposición**.
+  lo he visto en un aparato»**;
+- **no tener aparato nunca es motivo para cambiar menos de lo pedido.** Se hace
+  el cambio de disposición que Frank pidió, aplicando la regla de `flex` de
+  arriba, y se avisa de que no está visto en Android.
 
 ### 2. Informa de lo que Frank VA A VER, no de lo que has hecho
 
@@ -318,6 +341,11 @@ un rastro suyo en la app. Lo que hay que saber antes de tocar nada:
 - Un cambio de marca no está hecho hasta que lo dicen el README y el manual.
 
 ### 6. Rediseñar, no parchear
+
+**Un rediseño cambia lo que se ve**: composición de cada pantalla, tipografía,
+escala, color, componentes, ilustración y animación. Reproducir el diseño
+anterior con otro código, otros componentes o otro sistema de estilos **no es un
+rediseño** y no se presenta como tal (2/11/2026).
 
 Si Frank dice que algo se ve pobre, la respuesta no es un ajuste de padding.
 Se rehace la pieza entera y **se enseña una captura**. Cuatro rondas de parches
