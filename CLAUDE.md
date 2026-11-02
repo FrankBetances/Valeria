@@ -14,6 +14,15 @@ repos o herramientas, cómo se comprobará y qué queda fuera. Frank lo aprueba 
 **solo entonces** se empieza. Trabajar sin plan quema su cupo en cosas que no ha
 pedido.
 
+### S0c. Solo con los mejores repositorios disponibles
+
+Se trabaja **exclusiva y únicamente** con los mejores repositorios disponibles:
+los de mayor adopción y valoración positiva (estrellas, uso en producción,
+mantenimiento activo, reseñas), verificados en GitHub y npm antes de usarlos.
+**Nunca se hace el trabajo por cuenta propia** escribiendo desde cero lo que ya
+existe en un repo de primer nivel. Si el mejor repo no encaja con el stack, se
+dice, se busca el siguiente mejor y se adapta: no se sustituye por código propio.
+
 ### S1. Honestidad
 
 Se dice lo que el producto hace, no lo que uno ha hecho. Si una captura enseña
