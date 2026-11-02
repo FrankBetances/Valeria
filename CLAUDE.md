@@ -28,6 +28,15 @@ adulto, qué se desplaza y qué queda escondido. Se buscan referencias (repos y
 patrones que encajen) antes de diseñar. **Lo que ya funciona no se desplaza ni
 se esconde** para meter algo nuevo.
 
+**Referencias de UI que se revisan primero** (propuestas por Frank el 2/11/2026;
+datos comprobados ese día en GitHub):
+
+| Repo | Qué es | Encaje con Valeria+ |
+| --- | --- | --- |
+| `founded-labs/react-native-reusables` (8,7k★, MIT) | shadcn/ui para React Native: botones, cards, progress, sheets, dialogs, formularios. El código se copia al proyecto | Base para las pantallas del adulto. **Exige NativeWind o Uniwind**, que hoy no está en el proyecto: añadirlo toca Babel y Metro y se prueba con un build completo de CI antes de extenderlo |
+| `nativeui-org/ui` (244★, MIT) | Componentes accesibles estilo shadcn para RN y Expo, copiar y pegar | Alternativa a Reusables. **También usa NativeWind** |
+| `simsketch/kidcash-ui` (0★, MIT) | Librería «playful» (liquid glass, spring physics, 9 temas) | **Es React para web** (usa framer-motion; no aparece `react-native` en su código). No se instala: sirve de **referencia visual** para el modo niño, reescrita con `Animated` de RN (Reanimated tampoco está en el proyecto) |
+
 Coste real (1-2/11/2026): el plan STEAM metió siete tarjetas de mundos ENCIMA
 del menú de ejercicios. Los bloques de siempre quedaron fuera de la primera
 pantalla. Se vio en la propia captura y aun así se presentó como «se ve bien».
