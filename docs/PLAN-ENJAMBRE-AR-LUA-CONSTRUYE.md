@@ -4,6 +4,11 @@ Estado: **Versión 2.0 optimizada para ejecución autónoma por tandas en la ram
 Ubicación canónica: `docs/PLAN-ENJAMBRE-AR-LUA-CONSTRUYE.md` (rama `game`).  
 Documento compañero: [`docs/PLAN-INTEGRACION-AR-LUA-CONSTRUYE.md`](PLAN-INTEGRACION-AR-LUA-CONSTRUYE.md) y [`docs/PLAN-REFACTOR-STEAM.md`](PLAN-REFACTOR-STEAM.md).
 
+> **No ejecutar (2/11/2026).** Este enjambre reparte el catálogo de 28 actividades de la v2.0 del plan
+> de integración. La v3.0 lo ha sustituido: Lúa V5 es ahora el cubo de las decisiones 27 y 28, S8–S11
+> no casan con V5, L06 queda retirada, D2 sigue abierta y los opcodes y las caras de la v2.0 estaban
+> mal. Las tandas hay que rehacerlas a partir de las fases del §8 de la v3.0.
+
 ---
 
 ## 0. Propósito y Mejoras Incorporadas en la Versión 2.0 del Plan de Enjambre
