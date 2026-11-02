@@ -19,6 +19,36 @@ se añade (regla suprema).
 >   descargas de npm está bloqueada en este entorno y el recuento por GitHub
 >   quedó sin hacer.
 
+
+## PRIORIDAD 1 · EL MOTOR, NO LA PINTURA (Frank, 2/11/2026)
+
+**Especificación de Frank:** que un niño de siete años la use sin problema.
+**Eliminar el desorden y el exceso de ruido: hoy no se entiende nada.**
+
+Cambiar fuentes, colores y botones es pintura. El motor es la estructura, y va
+PRIMERO:
+
+1. **Fuera las pestañas del modo niño** (Academy, Ejercicios, Ajustes). El niño
+   solo ve la Casa de Lúa.
+2. **Zona Familia detrás de un candado** (mantener pulsado 2 s y PIN): Ajustes,
+   Academy, Resultados, Ficha, prescripción e interruptores.
+3. **La Casa: una pregunta y seis puertas, nada más.**
+   - Fuera de la primera pantalla: XP, nivel, pescadito y «Premios».
+   - Fuera los contadores («18 / 18», «105 act.»).
+   - Fuera los textos de dos líneas.
+   - La gata queda como guía, no como panel de estadísticas.
+4. **Cada pantalla de actividad: una pregunta y un botón principal.**
+   - Fuera de la vista del niño: códigos («FF-1»), «Paso 1 / Paso 2», ficha de
+     protocolo, propuestas, materiales, interruptores y avisos al pie. Todo eso
+     pasa a la Zona Familia.
+5. **Dos toques como máximo** desde la Casa hasta cualquier actividad; volver
+   siempre es la casa.
+6. **Lista de cada bloque: dibujos grandes, sin texto de categoría ni bandas de
+   edad**. Eso lo filtra el adulto en la Zona Familia.
+
+Hecho en la rama hasta el 2/11/2026: **solo pintura**. Nada de esta lista está
+hecho.
+
 ---
 
 ## 1. Por qué hoy es un lío
