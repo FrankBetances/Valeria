@@ -32,6 +32,7 @@ import { pairsForLocale } from './valeriaPairBanks';
 import { semanticForLocale } from './valeriaSemanticBanks';
 import { getLocale } from './valeriaLocale';
 import { ValeriaBlockTile } from './ValeriaBlockTile';
+import { ScreenHeader } from './ui/ScreenHeader';
 import { BlockIcon, BlockIconName } from './ValeriaBlockIcons';
 import { ValeriaAwardsSheet } from './ValeriaAwardsSheet';
 import { ValeriaCatInteractiveCard } from './components/lua/ValeriaCatInteractiveCard';
@@ -243,22 +244,13 @@ export const ValeriaHubV11Screen: React.FC<{ navigation: any }> = ({ navigation 
 
   return (
     <View style={s.flex}>
-      <View style={s.header}>
-        {/* Cabecera compacta: marca y estado de juego en UNA fila. En la v10.2
-            eran cuatro elementos apilados (logo, título, subtítulo y fila de
-            chips) que se comían ~150 px antes del primer bloque. */}
-        <View style={s.topRow}>
-          <Pressable
-            onPress={() => navigation.getParent()?.goBack()}
-            style={s.backPill} hitSlop={8}
-            accessibilityRole="button" accessibilityLabel={t.common.back}
-          >
-            <Text style={s.backPillTxt}>{`‹ ${t.common.back}`}</Text>
-          </Pressable>
-        </View>
-        <Text style={s.headerTitle}>{t.hub.title}</Text>
-        <Text style={s.headerSub}>{t.hub.subtitle}</Text>
-      </View>
+      <ScreenHeader
+        onBack={() => navigation.getParent()?.goBack()}
+        backLabel={t.common.back}
+        kicker="valeria+"
+        title={t.hub.title}
+        subtitle={t.hub.subtitle}
+      />
 
       <FlatList
         data={grid}
@@ -347,7 +339,7 @@ const TeaConsentModal: React.FC<{
 );
 
 const s = StyleSheet.create({
-  flex: { flex: 1, backgroundColor: V.color.pageBg },
+  flex: { flex: 1, backgroundColor: '#fff8ec' }, // crema cálido del rediseño
   header: {
     backgroundColor: V.color.primary, paddingTop: V.space.md, paddingHorizontal: V.space.xl,
     paddingBottom: V.space.lg, borderBottomLeftRadius: 28, borderBottomRightRadius: 28,
@@ -369,7 +361,7 @@ const s = StyleSheet.create({
   headerSub: { ...V.type.body, color: 'rgba(255,255,255,.9)', fontWeight: V.font.semibold, marginTop: V.space.xs },
   // El colchón inferior deja respirar la última fila por encima de la barra
   // de pestañas, que mide 58 px.
-  grid: { paddingHorizontal: V.space.lg, paddingBottom: 88 },
+  grid: { paddingHorizontal: V.space.lg, paddingTop: V.space.lg, paddingBottom: 88 },
 
   stripWrap: { marginTop: V.space.lg, marginBottom: V.space.lg },
 

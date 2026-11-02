@@ -169,8 +169,8 @@ export const CA: UiStrings = {
 
   hub: {
     kickerPractice: 'PRÀCTICA DE TAULA',
-    title: 'Selecció d\'Exercicis',
-    subtitle: 'Tria un bloc per practicar o recomanar',
+    title: 'A què juguem?',
+    subtitle: 'Toca una porta i comencem',
     streak: (n: number): string => `${n} ${n === 1 ? 'dia de ratxa' : 'dies de ratxa'}`,
     level: (n: number, name: string): string => `Nivell ${n} · ${name}`,
     sectionTraining: 'LA TEVA FORMACIÓ',

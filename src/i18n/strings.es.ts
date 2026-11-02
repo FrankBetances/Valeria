@@ -170,8 +170,8 @@ export const ES = {
   // idioma de interfaz.
   hub: {
     kickerPractice: 'PRÁCTICA DE MESA',
-    title: 'Selección de Ejercicios',
-    subtitle: 'Elige un bloque para practicar o recomendar',
+    title: '¿A qué jugamos?',
+    subtitle: 'Toca una puerta y empezamos',
     streak: (n: number): string => `${n} ${n === 1 ? 'día de racha' : 'días de racha'}`,
     level: (n: number, name: string): string => `Nivel ${n} · ${name}`,
     sectionTraining: 'TU FORMACIÓN',

@@ -50,7 +50,8 @@
       "./plugins/withValeriaNoBackgroundAudio",
       "expo-asset",
       "expo-audio",
-      "expo-status-bar"
+      "expo-status-bar",
+      "expo-font"
     ],
     "ios": {
       "supportsTablet": true,

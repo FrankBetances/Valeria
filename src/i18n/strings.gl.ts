@@ -192,8 +192,8 @@ export const GL: UiStrings = {
   // (valeriaExerciseBank), que se localiza por VARIEDADE, non por interface.
   hub: {
     kickerPractice: 'PRÁCTICA DE MESA',
-    title: 'Selección de Exercicios',
-    subtitle: 'Elixe un bloque para practicar ou recomendar',
+    title: 'A que xogamos?',
+    subtitle: 'Toca unha porta e comezamos',
     streak: (n: number): string => `${n} ${n === 1 ? 'día de racha' : 'días de racha'}`,
     level: (n: number, name: string): string => `Nivel ${n} · ${name}`,
     sectionTraining: 'A TÚA FORMACIÓN',

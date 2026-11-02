@@ -73,6 +73,9 @@ const DEPENDENCIAS = [
   'nativewind', 'tailwindcss', 'tailwindcss-animate', 'react-native-reanimated',
   // Expo 58 (2/11/2026): dibujo, gestos e hilos de UI, sin red ni datos.
   '@shopify/react-native-skia', 'react-native-gesture-handler', 'react-native-worklets',
+  // Rediseño: fuentes locales, vibración, botón 3D, rebote y confeti. Sin red.
+  'expo-font', 'expo-haptics', '@expo-google-fonts/fredoka', '@expo-google-fonts/nunito',
+  'react-native-really-awesome-button', 'pressto', 'react-native-fast-confetti',
   '@rn-primitives/dialog', '@rn-primitives/portal', '@rn-primitives/progress',
   '@rn-primitives/radio-group', '@rn-primitives/separator', '@rn-primitives/slot',
   '@rn-primitives/switch', '@rn-primitives/tabs',

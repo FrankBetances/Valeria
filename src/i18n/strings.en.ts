@@ -176,8 +176,8 @@ export const EN: UiStrings = {
   // therapy content bank, which is localised by variety, not by UI language.
   hub: {
     kickerPractice: 'TABLETOP PRACTICE',
-    title: 'Exercise Selection',
-    subtitle: 'Pick a block to practice or to assign',
+    title: 'What shall we play?',
+    subtitle: 'Tap a door to start',
     streak: (n: number): string => `${n}-day streak`,
     level: (n: number, name: string): string => `Level ${n} · ${name}`,
     sectionTraining: 'YOUR TRAINING',

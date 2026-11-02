@@ -35,6 +35,7 @@ import { noteScreen } from './valeriaTelemetry';
 import { ValeriaMisclickBoundary } from './ValeriaMisclickBoundary';
 import { ValeriaSUSModal } from './ValeriaSUSModal';
 import { PortalHost } from '@rn-primitives/portal';
+import { useValeriaFonts } from './ui/fonts';
 
 import ValeriaWelcomeScreen from './ValeriaWelcomeScreen';
 import ValeriaCreditsScreen from './ValeriaCreditsScreen';
@@ -194,6 +195,9 @@ const SafeFrame: React.FC = () => {
 export const navigationRef = createNavigationContainerRef<ValeriaStackParamList>();
 
 export const ValeriaApp: React.FC = () => {
+  // Fredoka y Nunito (src/ui/fonts.ts). Hasta que cargan, la pantalla de
+  // arranque sigue a la vista: sin parpadeo de la fuente del sistema.
+  const [fontsReady] = useValeriaFonts();
   // Handler y canal Android de los recordatorios diarios (pantalla de bloqueo),
   // más la rotación diaria del consejo para padres si los avisos están activos.
   useEffect(() => { initNotifications(); refreshDailyReminders(); }, []);
@@ -211,6 +215,7 @@ export const ValeriaApp: React.FC = () => {
     const name = navigationRef.isReady() ? navigationRef.getCurrentRoute()?.name : undefined;
     if (name && name !== lastRoute.current) { lastRoute.current = name; noteScreen(name); }
   };
+  if (!fontsReady) return null;
   return (
     <SafeAreaProvider>
       <NavigationContainer ref={navigationRef} onReady={handleRoute} onStateChange={handleRoute}>
