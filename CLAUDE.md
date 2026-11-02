@@ -16,6 +16,36 @@ un cambio técnico que reproducía el diseño anterior con otro código. Se
 presentó como el trabajo pedido. Frank perdió dos sesiones enteras y tenía ya
 otra rama trabajando sobre esa entrega.
 
+## Catálogo de errores cometidos (1-2/11/2026). Ninguno se repite
+
+Cada línea es un error que ya se cometió con Frank en esta sesión. **Todas son
+prohibiciones absolutas.** Antes de entregar algo se repasa la lista entera y
+se comprueba que no se cae en ninguna.
+
+| # | Prohibido | Lo que se hace en su lugar |
+| --- | --- | --- |
+| E1 | Entregar una parte y presentarla como el todo | Se entrega todo lo pedido. Si algo no se ha hecho, la **primera línea** lo dice con nombre propio |
+| E2 | Frases ciertas que, juntas, dan una impresión falsa («integrado Reusables», «build verde») cuando el resultado visible no es lo pedido | Se informa de lo que Frank va a ver en la pantalla, comparado con lo que pidió |
+| E3 | Llamar «rediseño» a reproducir el diseño anterior con otro código o librería | Un rediseño cambia la composición, la escala, el color, los componentes y la animación de **cada** pantalla. Se enseña el antes y el después |
+| E4 | Dejar pantallas fuera del encargo (RA, Ficha, cabecera del Hub, Bienvenida, selección de paciente, cuerpos de módulo) sin decirlo | Se hace la lista de **todas** las pantallas antes de empezar; se marcan una a una al terminar. Si alguna está excluida por orden de Frank, se dice en la primera línea |
+| E5 | Meter algo nuevo encima de lo que funciona (siete mundos sobre el menú de ejercicios) | Lo existente no se desplaza. Lo nuevo entra como una pieza más (S4) |
+| E6 | Ver un problema en la propia captura y decir «se ve bien» | Si la captura enseña un fallo, se arregla antes de hablar. Nunca se describe una captura sin mirarla |
+| E7 | Proponer revertir o deshacer | Se arregla hacia delante (S2). Ni siquiera se menciona como opción |
+| E8 | Descartar los repos que da Frank sin buscar alternativas | Se buscan en internet hasta encontrar los que encajan (S6), con estrellas y licencia comprobadas |
+| E9 | Escribir componentes propios «inspirados» en un repo y decir que se usa el repo | Se copia el código del repo y se adapta. Si no se pudo, se dice que es código propio |
+| E10 | Instalar librerías que nadie pidió (react-native-paper) | Solo se instala lo pedido o lo que exige el repo pedido, y se dice en el plan |
+| E11 | Instalar en local con flags que CI no usa (`--legacy-peer-deps`) y fiarse del verde local | Se instala igual que CI (`npm ci`). El lock se regenera sin flags especiales |
+| E12 | Afirmar el estado de un build sin mirarlo («722 cancelado» cuando estaba verde) | Antes de nombrar un build se consulta su run y se da su número y su resultado reales |
+| E13 | No contestar a una pregunta de Frank, o contestarla al final | La respuesta va en la primera línea, antes de cualquier herramienta (S0) |
+| E14 | Pararse a pedir permiso cuando Frank ya ordenó ejecutar | Plan en pocas líneas y se ejecuta hasta el final (S0b) |
+| E15 | Trabajar sin plan, o con un plan que Frank ya rechazó | Plan breve antes del código. Si Frank lo rechaza, se cambia el plan; no se ejecuta el viejo |
+| E16 | Usar otra regla (1c sin aparato, 0a sin autorización, S0b) como excusa para hacer menos | La regla suprema manda: ninguna regla reduce lo pedido |
+| E17 | Enterrar lo que falta al final del informe o en una tabla | Lo que falta va en la primera línea |
+| E18 | Hacer o mirar algo que Frank no mandó cuando ha acotado la tarea («solo las reglas») | Se hace exactamente lo acotado, entero, y nada más |
+| E19 | Quemar tokens con reintentos a ciegas, `pkill` que mata la propia shell, capturas en blanco por navegar atrás | Se diagnostica antes de reintentar; se matan procesos por PID; cada captura navega a su ruta directamente |
+| E20 | Empujar sin integrar el `main` remoto (push rechazado por *fetch first*) | `git pull --rebase origin main` antes del push; nunca `--force` sobre `main` |
+| E21 | Dejar en este fichero datos desfasados (p. ej. «NativeWind no está en el proyecto») | Al cambiar el stack se actualiza CLAUDE.md en el mismo commit |
+
 ## Reglas supremas (Frank, 2/11/2026). Desarrollan la regla única
 
 ### S0. Responder inmediatamente. Es la regla número uno
@@ -87,9 +117,9 @@ datos comprobados ese día en GitHub):
 
 | Repo | Qué es | Encaje con Valeria+ |
 | --- | --- | --- |
-| `founded-labs/react-native-reusables` (8,7k★, MIT) | shadcn/ui para React Native: botones, cards, progress, sheets, dialogs, formularios. El código se copia al proyecto | Base para las pantallas del adulto. **Exige NativeWind o Uniwind**, que hoy no está en el proyecto: añadirlo toca Babel y Metro y se prueba con un build completo de CI antes de extenderlo |
-| `nativeui-org/ui` (244★, MIT) | Componentes accesibles estilo shadcn para RN y Expo, copiar y pegar | Alternativa a Reusables. **También usa NativeWind** |
-| `simsketch/kidcash-ui` (0★, MIT) | Librería «playful» (liquid glass, spring physics, 9 temas) | **Es React para web** (usa framer-motion; no aparece `react-native` en su código). No se instala: sirve de **referencia visual** para el modo niño, reescrita con `Animated` de RN (Reanimated tampoco está en el proyecto) |
+| `founded-labs/react-native-reusables` (8,7k★, MIT) | shadcn/ui para React Native: botones, cards, progress, sheets, dialogs, formularios. El código se copia al proyecto | Base para las pantallas del adulto. **Ya instalado** (build 727): NativeWind 4.2.7 + Tailwind 3.4.17, componentes copiados en `src/components/ui`. Se usa en TODAS las pantallas, no en dos piezas |
+| `nativeui-org/ui` (244★, MIT) | Componentes accesibles estilo shadcn para RN y Expo, copiar y pegar | Alternativa a Reusables. **También usa NativeWind**, ya presente |
+| `simsketch/kidcash-ui` (0★, MIT) | Librería «playful» (liquid glass, spring physics, 9 temas) | **Es React para web** (usa framer-motion). No se instala. Para el modo niño se busca **un repo de React Native** que dé lo mismo (S6) y se copia; Reanimated 3.19.5 ya está en el proyecto. No se reescribe a mano |
 
 Coste real (1-2/11/2026): el plan STEAM metió siete tarjetas de mundos ENCIMA
 del menú de ejercicios. Los bloques de siempre quedaron fuera de la primera
