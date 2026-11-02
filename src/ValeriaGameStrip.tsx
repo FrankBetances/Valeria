@@ -12,6 +12,8 @@
 // Ahora es una sola pieza pulsable: la gata, el nivel con su barra al
 // siguiente, la racha con el metal que le corresponde, y la puerta a los
 // premios. Se reutiliza tal cual en las demás pantallas de ejercicios.
+// Desde el 2/11/2026 es compacta (~66 px): en Pares, Semántica y los bloques
+// ocupaba media primera pantalla por delante del primer ejercicio.
 // ============================================================================
 import React, { useRef } from 'react';
 import { Animated, Pressable, StyleSheet, Text, View } from 'react-native';
@@ -46,7 +48,7 @@ export const ValeriaGameStrip: React.FC<Props> = ({ game, onPress }) => {
       accessibilityLabel={t.awards.a11yOpen}
     >
       <Animated.View style={[s.strip, { transform: [{ scale }] }]}>
-        <View style={s.catPlate}><CatPixel size={52} /></View>
+        <View style={s.catPlate}><CatPixel size={38} /></View>
 
         <View style={s.middle}>
           <Text style={s.level} numberOfLines={1}>
@@ -75,14 +77,13 @@ export const ValeriaGameStrip: React.FC<Props> = ({ game, onPress }) => {
 const s = StyleSheet.create({
   strip: {
     flexDirection: 'row', alignItems: 'center', gap: V.space.md,
-    backgroundColor: V.color.card, borderRadius: 24,
+    backgroundColor: V.color.card, borderRadius: 18,
     borderWidth: 1, borderColor: V.color.borderActive,
-    paddingVertical: 14, paddingHorizontal: 16,
-    shadowColor: 'rgba(15, 23, 42, 0.13)', shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 1, shadowRadius: 20, elevation: 4,
+    paddingVertical: 10, paddingHorizontal: 12, marginBottom: V.space.md,
+    ...V.shadow.card,
   },
   catPlate: {
-    width: 62, height: 62, borderRadius: 20, backgroundColor: V.color.primaryLight,
+    width: 46, height: 46, borderRadius: 14, backgroundColor: V.color.primaryLight,
     alignItems: 'center', justifyContent: 'center',
   },
 

@@ -191,6 +191,7 @@ export const GL: UiStrings = {
   // categoría e a idade de cada exercicio saen do banco de contido terapéutico
   // (valeriaExerciseBank), que se localiza por VARIEDADE, non por interface.
   hub: {
+    kickerPractice: 'PRÁCTICA DE MESA',
     title: 'Selección de Exercicios',
     subtitle: 'Elixe un bloque para practicar ou recomendar',
     streak: (n: number): string => `${n} ${n === 1 ? 'día de racha' : 'días de racha'}`,
@@ -509,6 +510,7 @@ export const GL: UiStrings = {
   // misións físicas nin a etiqueta de erro — todo iso sae do banco da VARIEDADE
   // activa (valeriaMinimalPairs*). Aquí vive o andamio que le o adulto.
   pairs: {
+    savedConfig: (active: number, total: number): string => `Configuración gardada · ${active} de ${total} pares activos.`,
     sealA11y: (who: string): string =>
       `Man de ${who}. Premede as dúas mans á vez para continuar, ou mantén premida esta dous segundos.`,
     pinSubtitle: 'Introduce o PIN de 4 díxitos do logopeda para elixir que pares practica a familia.',
@@ -623,6 +625,7 @@ export const GL: UiStrings = {
   // categorías, as palabras, as consignas locutadas e as accións físicas. Aquí
   // vive o que le o adulto.
   semantic: {
+    savedConfig: (active: number, total: number, level: number): string => `Configuración gardada · ${active} de ${total} actividades activas · nivel máximo ${level}.`,
     togglePrescribedA11y: (name: string, on: boolean): string => `${on ? 'Desactivar' : 'Activar'} ${name}`,
     pickRowA11y: (name: string, on: boolean): string => (on ? `Practicar ${name}` : `${name} non recomendado`),
     wordsOf: (available: number, total: number): string => `${available} de ${total} palabras`,
@@ -1650,7 +1653,7 @@ export const GL: UiStrings = {
     blockSubtitle: 'Familiarización auditiva gradual, modulación e anticipación visual ante sons cotiáns.',
     xpTotal: (xp: number): string => `${xp} XP`,
     sessionsCount: (n: number): string => `${n} ${n === 1 ? 'sesión' : 'sesións'}`,
-    clinicalNoticeTitle: 'Muro de Control Adulto e Seguridade Clínica',
+    clinicalNoticeTitle: 'Muro de Control Adulto e Seguridade',
     clinicalNoticeBody:
       'Ti configuras a intensidade e a duración. O neno ou a nena pode pedir unha pausa ou deter o exercicio en calquera momento. Parar nunca é un fallo nin resta progreso.',
     activitiesHeader: 'ACTIVIDADES SENSORIAIS',

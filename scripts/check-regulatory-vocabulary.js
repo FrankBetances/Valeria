@@ -3,8 +3,8 @@
  * Valeria+ · Muro de vocabulario educativo (No SaMD)
  *   node scripts/check-regulatory-vocabulary.js
  *
- * Valeria+ se describe como aplicación educativa. Este gate falla si la
- * interfaz, Academy, las consignas `read:` o el sitio legal vuelven a usar
+ * Valeria+ se describe como aplicación educativa. Este gate falla si
+ * cualquier texto de src/ (interfaz, bancos, Academy) o el sitio legal vuelve a usar
  * el vocabulario clínico de docs/PLAN-REFACTOR-STEAM.md §7.2, «Abrazo de
  * oso» o «Abraçada d'ós».
  *
@@ -139,6 +139,10 @@ function scanTs(file, { onlyRead }) {
   const text = fs.readFileSync(file, 'utf8');
   const sf = ts.createSourceFile(rel, text, ts.ScriptTarget.Latest, true, ts.ScriptKind.TS);
   function visit(node) {
+    if (ts.isCallExpression(node) && ts.isPropertyAccessExpression(node.expression)
+      && ts.isIdentifier(node.expression.expression) && node.expression.expression.text === 'console') {
+      return;
+    }
     if (onlyRead) {
       if (ts.isPropertyAssignment(node) && node.name && ts.isIdentifier(node.name) && node.name.text === 'read') {
         const init = node.initializer;
@@ -179,12 +183,13 @@ function scanHtml(file) {
   });
 }
 
-for (const dir of ['src/i18n', 'src/ValeriaSensory', 'src/ValeriaAcademy']) {
-  for (const file of walk(path.join(ROOT, dir), (p) => /\.tsx?$/.test(p))) scanTs(file, { onlyRead: false });
-}
-
-for (const file of walk(path.join(ROOT, 'src'), (p) => /\/valeriaExercise[^/]*\.ts$/.test(p))) {
-  scanTs(file, { onlyRead: true });
+// Todo lo visible de src/: catálogos, bancos de ejercicios (también `category`
+// y `name`, que se ven en las listas) y cualquier texto escrito en una pantalla.
+// Hasta el 2/11/2026 solo se miraban los `read:` de los bancos, y así pasaron
+// «Escucha en ruido (rehabilitación auditiva)» y «PRT · …» a la lista de Audición
+// y de TEA. Los mensajes de consola no los lee nadie y no cuentan.
+for (const file of walk(path.join(ROOT, 'src'), (p) => /\.tsx?$/.test(p))) {
+  scanTs(file, { onlyRead: false });
 }
 
 for (const file of walk(path.join(ROOT, 'site'), (p) => p.endsWith('.html'))) scanHtml(file);
@@ -205,4 +210,4 @@ if (failures.length) {
   process.exit(1);
 }
 
-console.log('✓ Vocabulario educativo: la interfaz, Academy, las consignas read: no locutadas y el sitio no usan los términos prohibidos.');
+console.log('✓ Vocabulario educativo: ningún texto visible de src/ (salvo locuciones ya grabadas) ni del sitio usa los términos prohibidos.');

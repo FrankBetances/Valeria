@@ -169,6 +169,7 @@ export const ES = {
   // terapéutico (valeriaExerciseBank), que se localiza por VARIEDAD, no por
   // idioma de interfaz.
   hub: {
+    kickerPractice: 'PRÁCTICA DE MESA',
     title: 'Selección de Ejercicios',
     subtitle: 'Elige un bloque para practicar o recomendar',
     streak: (n: number): string => `${n} ${n === 1 ? 'día de racha' : 'días de racha'}`,
@@ -490,6 +491,7 @@ export const ES = {
   // la VARIEDAD activa (valeriaMinimalPairs*). Aquí vive el andamiaje que lee
   // el adulto.
   pairs: {
+    savedConfig: (active: number, total: number): string => `Configuración guardada · ${active} de ${total} pares activos.`,
     sealA11y: (who: string): string =>
       `Mano de ${who}. Pulsad las dos manos a la vez para continuar, o mantén pulsada esta dos segundos.`,
     pinSubtitle: 'Introduce el PIN de 4 dígitos del logopeda para elegir qué pares practica la familia.',
@@ -610,6 +612,7 @@ export const ES = {
   // vivían en `valeriaSemanticExpansion.ts`: son texto de interfaz, no
   // contenido, y por eso siguen al idioma de la UI y no a la variedad.
   semantic: {
+    savedConfig: (active: number, total: number, level: number): string => `Configuración guardada · ${active} de ${total} actividades activas · nivel máximo ${level}.`,
     togglePrescribedA11y: (name: string, on: boolean): string => `${on ? 'Desactivar' : 'Activar'} ${name}`,
     pickRowA11y: (name: string, on: boolean): string => (on ? `Practicar ${name}` : `${name} no recomendado`),
     wordsOf: (available: number, total: number): string => `${available} de ${total} palabras`,
@@ -1670,7 +1673,7 @@ export const ES = {
     blockSubtitle: 'Familiarización auditiva gradual, modulación y anticipación visual ante sonidos cotidianos.',
     xpTotal: (xp: number): string => `${xp} XP`,
     sessionsCount: (n: number): string => `${n} ${n === 1 ? 'sesión' : 'sesiones'}`,
-    clinicalNoticeTitle: 'Muro de Control Adulto y Seguridad Clínica',
+    clinicalNoticeTitle: 'Muro de Control Adulto y Seguridad',
     clinicalNoticeBody:
       'Tú configuras la intensidad y la duración. El niño o la niña puede pedir una pausa o detener el ejercicio en cualquier momento. Parar nunca es un fallo ni resta progreso.',
     activitiesHeader: 'ACTIVIDADES SENSORIALES',

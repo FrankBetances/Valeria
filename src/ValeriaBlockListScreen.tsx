@@ -36,6 +36,8 @@ import { getUiLang } from './valeriaUiLang';
 import { ProUnlockPill, ProPinModal } from './ValeriaProPin';
 import { BlockIcon } from './ValeriaBlockIcons';
 import { ValeriaGameStrip } from './ValeriaGameStrip';
+import { ScreenHeader } from './ui/ScreenHeader';
+import { PlayButton } from './ui/PlayButton';
 import { ValeriaAwardsSheet } from './ValeriaAwardsSheet';
 import { loadGame, GameState } from './valeriaGamification';
 import { useT, UiStrings } from './i18n';
@@ -141,18 +143,9 @@ export const ValeriaBlockListScreen: React.FC<{ navigation: any; route: any }> =
       {/* Cabecera compacta. La v11 gastaba aquí 155 px fijos para un título, un
           subtítulo de estado y un chip; el estado vive ahora donde se actúa
           (la píldora del PIN) y el recuento, en el propio encabezado. */}
-      <View style={s.header}>
-        <Pressable onPress={() => navigation.goBack()} style={s.backPill} hitSlop={12}
-          accessibilityRole="button" accessibilityLabel={t.hub.backToBlocks}>
-          <Text style={s.backPillTxt}>{`‹ ${t.hub.backToBlocks}`}</Text>
-        </Pressable>
-        <View style={s.headRow}>
-          <Text style={s.headerTitle}>{copy.title}</Text>
-          <View style={s.blockChip}>
-            <Text style={s.blockChipTxt}>{t.hub.prescribedOf(activeCount, list.length)}</Text>
-          </View>
-        </View>
-      </View>
+      <ScreenHeader onBack={() => navigation.goBack()} backLabel={t.hub.backToBlocks}
+        kicker={t.hub.kickerPractice} icon={block.icon} title={copy.title}
+        badge={t.hub.prescribedOf(activeCount, list.length)} />
 
       <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
         {/* La misma tira que el hub: el niño ve su nivel y su racha también
@@ -251,9 +244,7 @@ export const ValeriaBlockListScreen: React.FC<{ navigation: any; route: any }> =
                       <Switch value={on} onValueChange={() => toggle(i)}
                         trackColor={{ false: '#d1d5db', true: V.color.primary }} thumbColor="#ffffff" />
                     ) : (
-                      <View style={[s.playBtn, { backgroundColor: block.accentFg }]}>
-                        <BlockIcon name="play" color="#ffffff" size={18} />
-                      </View>
+                      <PlayButton color={block.accentFg} tint={block.accentBg} />
                     )}
                   </Pressable>
                 );

@@ -53,6 +53,8 @@ import { ValeriaDistractorCat } from './ValeriaDistractorCat';
 import { BlockIcon } from './ValeriaBlockIcons';
 import { CatPixel } from './ValeriaCatPixel';
 import { ValeriaGameStrip } from './ValeriaGameStrip';
+import { ScreenHeader } from './ui/ScreenHeader';
+import { PlayButton } from './ui/PlayButton';
 import { ValeriaAwardsSheet } from './ValeriaAwardsSheet';
 import { loadGame, GameState } from './valeriaGamification';
 
@@ -409,7 +411,7 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
   const savePrescription = async () => {
     try { await AsyncStorage.setItem(STORAGE_KEYS.paresPrescripcion, JSON.stringify(prescribed)); } catch (e) { /* noop */ }
     setUnlocked(false);
-    setToast(`Prescripción guardada · ${activeCount} de ${pairs.length} pares activos.`);
+    setToast(t.pairs.savedConfig(activeCount, pairs.length));
   };
 
   // ---------------------------------------------------------------- sesión --
@@ -661,12 +663,9 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
   if (phase === 'pick') {
     return (
       <View style={s.flex}>
-        <View style={s.header}>
-          <Pressable onPress={() => navigation.goBack()} style={s.backPill}><Text style={s.backPillTxt}>{`‹ ${t.common.back}`}</Text></Pressable>
-          <Text style={s.logoFallback}>valeria+</Text>
-          <Text style={s.headerTitle}>{t.hub.pairsTitle}</Text>
-          <Text style={s.headerSub}>{unlocked ? t.pairs.editingOn : t.pairs.subtitlePick}</Text>
-        </View>
+        <ScreenHeader onBack={() => navigation.goBack()} backLabel={t.common.back}
+          kicker={t.hub.kickerPractice} icon="pairs" title={t.hub.pairsTitle}
+          subtitle={unlocked ? t.pairs.editingOn : t.pairs.subtitlePick} />
         <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
           {!!toast && (
             <View style={s.toast}>
@@ -710,9 +709,6 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
             />
           </View>
 
-          <View style={{ marginTop: 12 }}>
-            <ProUnlockPill unlocked={unlocked} onPress={() => setPinOpen(true)} />
-          </View>
           <View style={s.listHead}>
             <Text style={s.listLabel}>{t.pairs.bankLabel}</Text>
             <View style={s.countBadge}><Text style={s.countBadgeTxt}>{t.pairs.prescribedCount(activeCount)}</Text></View>
@@ -747,9 +743,9 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
                       <Switch value={on} onValueChange={() => togglePrescribed(p.id)}
                         trackColor={{ false: '#d1d5db', true: V.color.primary }} thumbColor="#ffffff" />
                     ) : on ? (
-                      <View style={s.playBtn}><Text style={{ color: V.color.primaryDark, fontSize: 13 }}>▶</Text></View>
+                      <PlayButton color="#7c4fd0" tint="#ede4fc" />
                     ) : (
-                      <View style={[s.playBtn, { backgroundColor: '#f1f5f4' }]}><BlockIcon name="lock" color={V.color.textSecondary} size={16} /></View>
+                      <PlayButton locked />
                     )}
                   </Pressable>
                 );
@@ -757,6 +753,11 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
             </View>
           ))}
 
+          {/* La puerta del PIN va al final, como en los bloques: en Modo Familia
+              no hay nada que editar por delante de la lista. */}
+          <View style={{ marginTop: 18 }}>
+            <ProUnlockPill unlocked={unlocked} onPress={() => setPinOpen(true)} />
+          </View>
           {unlocked ? (
             <>
               <Pressable onPress={savePrescription} style={s.primaryBtn}><Text style={s.primaryBtnTxt}>{t.pairs.savePrescription}</Text></Pressable>

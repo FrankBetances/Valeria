@@ -168,6 +168,7 @@ export const CA: UiStrings = {
   },
 
   hub: {
+    kickerPractice: 'PRÀCTICA DE TAULA',
     title: 'Selecció d\'Exercicis',
     subtitle: 'Tria un bloc per practicar o recomanar',
     streak: (n: number): string => `${n} ${n === 1 ? 'dia de ratxa' : 'dies de ratxa'}`,
@@ -468,6 +469,7 @@ export const CA: UiStrings = {
   },
 
   pairs: {
+    savedConfig: (active: number, total: number): string => `Configuració desada · ${active} de ${total} parells actius.`,
     sealA11y: (who: string): string =>
       `Mà de ${who}. Premeu totes dues mans alhora per continuar, o mantén premuda aquesta dos segons.`,
     pinSubtitle: 'Introdueix el PIN de 4 xifres del logopeda per triar quins parells practica la família.',
@@ -576,6 +578,7 @@ export const CA: UiStrings = {
   },
 
   semantic: {
+    savedConfig: (active: number, total: number, level: number): string => `Configuració desada · ${active} de ${total} activitats actives · nivell màxim ${level}.`,
     togglePrescribedA11y: (name: string, on: boolean): string => `${on ? 'Desactivar' : 'Activar'} ${name}`,
     pickRowA11y: (name: string, on: boolean): string => (on ? `Practicar ${name}` : `${name} no recomanat`),
     wordsOf: (available: number, total: number): string => `${available} de ${total} paraules`,
@@ -1570,7 +1573,7 @@ export const CA: UiStrings = {
     blockSubtitle: 'Familiarització auditiva gradual, modulació i anticipació visual davant de sons quotidians.',
     xpTotal: (xp: number): string => `${xp} XP`,
     sessionsCount: (n: number): string => `${n} ${n === 1 ? 'sessió' : 'sessions'}`,
-    clinicalNoticeTitle: 'Mur de Control Adult i Seguretat Clínica',
+    clinicalNoticeTitle: 'Mur de Control Adult i Seguretat',
     clinicalNoticeBody:
       'Tu configures la intensitat i la durada. L\'infant pot demanar una pausa o aturar l\'exercici en qualsevol moment. Aturar-se mai no és una errada ni resta progrés.',
     activitiesHeader: 'ACTIVITATS SENSORIALS',

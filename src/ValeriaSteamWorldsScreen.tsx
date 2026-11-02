@@ -5,6 +5,7 @@
 import React, { useEffect, useState } from 'react';
 import { Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useT } from './i18n';
+import { ScreenHeader } from './ui/ScreenHeader';
 import { V } from './valeriaTheme';
 import { getUiLang } from './valeriaUiLang';
 import { BlockIcon, BlockIconName } from './ValeriaBlockIcons';
@@ -42,15 +43,8 @@ export const ValeriaSteamWorldsScreen: React.FC<{ navigation: any }> = ({ naviga
 
   return (
     <View style={base.root}>
-      <View style={base.header}>
-        <Pressable onPress={() => navigation.goBack()} style={base.backPill} hitSlop={8}
-          accessibilityRole="button" accessibilityLabel={t.steam.backA11y}>
-          <Text style={base.backPillTxt}>{`‹ ${t.steam.back}`}</Text>
-        </Pressable>
-        <Text style={base.headerKicker}>{t.steam.worldsKicker}</Text>
-        <Text style={base.headerTitle}>{t.steam.hubTileTitle}</Text>
-        <Text style={s.headerSub}>{t.steam.worldsNote}</Text>
-      </View>
+      <ScreenHeader onBack={() => navigation.goBack()} backLabel={t.steam.back}
+        kicker={t.steam.worldsKicker} icon="world_path" title={t.steam.hubTileTitle} subtitle={t.steam.worldsNote} />
 
       <ScrollView contentContainerStyle={base.scroll} showsVerticalScrollIndicator={false}>
         <Pressable onPress={() => setPinOpen(true)} style={s.profile}

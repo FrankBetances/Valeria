@@ -7,7 +7,7 @@ import { View, Text, StyleSheet, ScrollView, Pressable } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useT } from "../../i18n";
 import { BlockIcon } from "../../ValeriaBlockIcons";
-import { CatPixel } from "../../ValeriaCatPixel";
+import { ScreenHeader } from "../../ui/ScreenHeader";
 import { LUA_COLORS, LUA_RADII } from "../Theme/luaTheme";
 import {
   AgeBand,
@@ -80,53 +80,26 @@ export const ValeriaAventurasLuaHubScreen: React.FC<Props> = ({ navigation }) =>
     navigation.navigate("LuaSongPlayer", { songId });
   };
 
+  const bandSubtitle =
+    selectedBand === "0-2" ? t.luaHub.bandSubtitle02
+      : selectedBand === "2-3" ? t.luaHub.bandSubtitle23
+      : selectedBand === "3-4" ? t.luaHub.bandSubtitle34
+      : selectedBand === "4-5" ? t.luaHub.bandSubtitle45
+      : selectedBand === "5-7" ? t.luaHub.bandSubtitle57
+      : selectedBand === "7-10" ? t.luaHub.bandSubtitle710
+      : t.luaHub.subtitle;
+
   return (
-    <View style={[s.container, { paddingTop: insets.top }]}>
-      {/* Barra superior con botón volver */}
-      <View style={s.topBar}>
-        <Pressable
-          onPress={() => navigation.goBack()}
-          style={s.backBtn}
-          accessibilityRole="button"
-          accessibilityLabel={t.common.back}
-          hitSlop={12}
-        >
-          <Text style={s.backTxt}>{`‹ ${t.common.back}`}</Text>
-        </Pressable>
-        {/* El título y el subtítulo los lleva la tarjeta de cabecera con Lúa,
-            justo debajo. Repetirlos aquí gastaba un tercio de la pantalla en
-            decir dos veces lo mismo antes del primer contenido. */}
-      </View>
+    <View style={s.container}>
+      {/* Cabecera común de los módulos (src/ui/ScreenHeader). Antes era una
+          barra con «Atrás» y, debajo, una tarjeta que repetía el título. */}
+      <ScreenHeader onBack={() => navigation.goBack()} backLabel={t.common.back}
+        kicker={t.hub.kickerPractice} icon="lua" title={t.luaHub.title} subtitle={bandSubtitle} />
 
       <ScrollView
         contentContainerStyle={[s.scrollContent, { paddingBottom: insets.bottom + 32 }]}
         showsVerticalScrollIndicator={false}
       >
-        {/* Banner de bienvenida con Lúa */}
-        <View style={s.heroBanner}>
-          <View style={s.heroMascot}>
-            <CatPixel size={72} />
-          </View>
-          <View style={s.heroTextWrap}>
-            <Text style={s.heroTitle}>{t.luaHub.title}</Text>
-            <Text style={s.heroSub}>
-              {selectedBand === "0-2"
-                ? t.luaHub.bandSubtitle02
-                : selectedBand === "2-3"
-                ? t.luaHub.bandSubtitle23
-                : selectedBand === "3-4"
-                ? t.luaHub.bandSubtitle34
-                : selectedBand === "4-5"
-                ? t.luaHub.bandSubtitle45
-                : selectedBand === "5-7"
-                ? t.luaHub.bandSubtitle57
-                : selectedBand === "7-10"
-                ? t.luaHub.bandSubtitle710
-                : t.luaHub.subtitle}
-            </Text>
-          </View>
-        </View>
-
         {/* Selector de franja de edad */}
         <ScrollView
           horizontal

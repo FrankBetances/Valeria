@@ -7,6 +7,7 @@
 // Lenguaje, TEA, Dislexia, Pares Mínimos y Expansión Semántica. En Modo Familia
 // los interruptores no existen: se practica lo prescrito y nada más.
 // ============================================================================
+import { ScreenHeader } from '../ui/ScreenHeader';
 import React, { useEffect, useState } from 'react';
 import { View, Text, Pressable, ScrollView, StyleSheet, Switch } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -69,21 +70,8 @@ export const SensoryBlockListScreen: React.FC<{ navigation: any }> = ({ navigati
   return (
     <View style={s.flex}>
       {/* Cabecera */}
-      <View style={s.header}>
-        <Pressable
-          onPress={() => navigation.goBack()}
-          style={s.backPill}
-          accessibilityRole="button"
-          accessibilityLabel={t.common.back}
-        >
-          <Text style={s.backPillTxt}>{`‹ ${t.common.back}`}</Text>
-        </Pressable>
-        <Text style={s.logoFallback}>{t.sensory.blockTag}</Text>
-        <View style={s.titleRow}>
-          <BlockIcon name="sensory" color="#ffffff" size={26} />
-          <Text style={s.headerTitle}>{t.sensory.blockTitle}</Text>
-        </View>
-        <Text style={s.headerSub}>{t.sensory.blockSubtitle}</Text>
+      <ScreenHeader onBack={() => navigation.goBack()} backLabel={t.common.back}
+        kicker={t.sensory.blockTag} icon="sensory" title={t.sensory.blockTitle} subtitle={t.sensory.blockSubtitle}>
 
         {/* Barra de progreso de silo */}
         <View style={s.statsRow}>
@@ -96,7 +84,7 @@ export const SensoryBlockListScreen: React.FC<{ navigation: any }> = ({ navigati
             <Text style={s.statTxt}>{t.sensory.sessionsCount(sensoryState.sessionsCount)}</Text>
           </View>
         </View>
-      </View>
+      </ScreenHeader>
 
       <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
         {!!toast && (

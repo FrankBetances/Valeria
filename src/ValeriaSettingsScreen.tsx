@@ -13,6 +13,7 @@
 // Se suma el selector de idioma de interfaz (ValeriaUiLangPicker), que hasta
 // ahora no tenía un sitio natural donde vivir.
 // ============================================================================
+import { ScreenHeader } from './ui/ScreenHeader';
 import React, { useEffect, useState } from 'react';
 import { View, Text, Pressable, ScrollView, Switch, StyleSheet } from 'react-native';
 import { V } from './valeriaTheme';
@@ -85,10 +86,7 @@ export const ValeriaSettingsScreen: React.FC = () => {
 
   return (
     <View style={s.flex}>
-      <View style={s.header}>
-        <Text style={s.logo}>valeria+</Text>
-        <Text style={s.headerTitle}>{t.tabs.settings}</Text>
-      </View>
+      <ScreenHeader backLabel={t.common.back} kicker="valeria+" icon="tabSettings" title={t.tabs.settings} />
 
       <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
         {!!toast && (

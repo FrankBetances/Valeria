@@ -62,11 +62,11 @@ export const AUDICION_META_ES: ExerciseMeta[] = [
   // Rehabilitación auditiva ACOPROS (Expansión de Protocolos): escucha en ruido,
   // lectura labiofacial y memoria auditiva. TODO estresor acústico es MANUAL
   // (deslizador de ruido del Panel del Adulto o la propia voz del cuidador).
-  { id: 'ra1', code: 'RA-1', name: 'Figura-fondo con ruido', category: 'Escucha en ruido (rehabilitación auditiva)', age: '4-5 años' },
-  { id: 'ra2', code: 'RA-2', name: 'Lectura labiofacial', category: 'Escucha en ruido (rehabilitación auditiva)', age: '5-6 años' },
-  { id: 'ra3', code: 'RA-3', name: 'Formato cerrado degradado', category: 'Escucha en ruido (rehabilitación auditiva)', age: '4-5 años' },
-  { id: 'ra4', code: 'RA-4', name: 'Secuencia con espera', category: 'Escucha en ruido (rehabilitación auditiva)', age: '5-6 años' },
-  { id: 'ra5', code: 'RA-5', name: 'Localización del sonido', category: 'Escucha en ruido (rehabilitación auditiva)', age: '3-4 años' },
+  { id: 'ra1', code: 'RA-1', name: 'Figura-fondo con ruido', category: 'Escucha en ruido', age: '4-5 años' },
+  { id: 'ra2', code: 'RA-2', name: 'Lectura labiofacial', category: 'Escucha en ruido', age: '5-6 años' },
+  { id: 'ra3', code: 'RA-3', name: 'Formato cerrado degradado', category: 'Escucha en ruido', age: '4-5 años' },
+  { id: 'ra4', code: 'RA-4', name: 'Secuencia con espera', category: 'Escucha en ruido', age: '5-6 años' },
+  { id: 'ra5', code: 'RA-5', name: 'Localización del sonido', category: 'Escucha en ruido', age: '3-4 años' },
 ];
 
 export const LENGUAJE_META_ES: ExerciseMeta[] = [
@@ -79,15 +79,15 @@ export const LENGUAJE_META_ES: ExerciseMeta[] = [
   { id: 'interaccion_social', code: 'M-7', name: 'Interacción Social', category: 'Turnos, juego simbólico, emociones' },
 ];
 
-// Módulo TEA (PRT + TCC): el software orquesta las contingencias; la carga
+// Módulo TEA: el software orquesta las contingencias; la carga
 // comunicativa, los estresores y el veredicto son SIEMPRE del adulto (muro MDR).
 export const TEA_META_ES: ExerciseMeta[] = [
-  { id: 'tea1', code: 'TEA-1', name: 'Atención Conjunta Triangulada', category: 'PRT · contacto visual y punto de mirada' },
+  { id: 'tea1', code: 'TEA-1', name: 'Atención Conjunta Triangulada', category: 'Contacto visual y punto de mirada' },
   { id: 'tea2', code: 'TEA-2', name: 'Quiebre Pragmático Inducido', category: 'Reparación comunicativa (manual)' },
   { id: 'tea3', code: 'TEA-3', name: 'Espejo Asimétrico', category: 'Inhibición de ecopraxia' },
   { id: 'tea4', code: 'TEA-4', name: 'Transición Interrumpida', category: 'Flexibilidad cognitiva (manual)' },
   { id: 'tea5', code: 'TEA-5', name: 'Categorización bajo Carga Sensorial', category: 'Clasificación con ruido babble (manual)' },
-  { id: 'tea6', code: 'TEA-6', name: 'Múltiples Señales Simultáneas', category: 'PRT · sobreselectividad de estímulos' },
+  { id: 'tea6', code: 'TEA-6', name: 'Múltiples Señales Simultáneas', category: 'Sobreselectividad de estímulos' },
 ];
 
 // Módulo Dislexia (fonología + acceso léxico): validación fonológica plegada
@@ -153,12 +153,12 @@ export const LENGUAJE_META_EN: ExerciseMeta[] = [
 ];
 
 export const TEA_META_EN: ExerciseMeta[] = [
-  { id: 'tea1', code: 'TEA-1', name: 'Triangulated joint attention', category: 'PRT · eye contact and dual validation' },
+  { id: 'tea1', code: 'TEA-1', name: 'Triangulated joint attention', category: 'Eye contact and dual validation' },
   { id: 'tea2', code: 'TEA-2', name: 'Induced pragmatic breakdown', category: 'Communicative repair (caregiver-mediated)' },
   { id: 'tea3', code: 'TEA-3', name: 'Asymmetrical mirror imitation', category: 'Echopraxia inhibition' },
   { id: 'tea4', code: 'TEA-4', name: 'Interrupted routine transition', category: 'Cognitive flexibility (caregiver-mediated)' },
   { id: 'tea5', code: 'TEA-5', name: 'Categorization under sensory load', category: 'Sorting with background babble noise' },
-  { id: 'tea6', code: 'TEA-6', name: 'Multiple simultaneous cues', category: 'PRT · stimulus overselectivity' },
+  { id: 'tea6', code: 'TEA-6', name: 'Multiple simultaneous cues', category: 'Stimulus overselectivity' },
 ];
 
 export const DISLEXIA_META_EN: ExerciseMeta[] = [
@@ -197,11 +197,11 @@ export const AUDICION_META_CA: ExerciseMeta[] = [
   { id: 'pr2', code: 'PR-2', name: 'Adaptació del discurs', category: 'Ús social (pragmàtica)', age: '5-6 anys' },
   { id: 'pr3', code: 'PR-3', name: 'Reconeixement d\'emocions', category: 'Ús social (pragmàtica)', age: '4-5 anys' },
   { id: 'pr4', code: 'PR-4', name: 'Petició de repetició', category: 'Ús social (pragmàtica)', age: '5-6 anys' },
-  { id: 'ra1', code: 'RA-1', name: 'Figura-fons amb soroll', category: 'Escolta amb soroll (rehabilitació auditiva)', age: '4-5 anys' },
-  { id: 'ra2', code: 'RA-2', name: 'Lectura labiofacial', category: 'Escolta amb soroll (rehabilitació auditiva)', age: '5-6 anys' },
-  { id: 'ra3', code: 'RA-3', name: 'Format tancat degradat', category: 'Escolta amb soroll (rehabilitació auditiva)', age: '4-5 anys' },
-  { id: 'ra4', code: 'RA-4', name: 'Seqüència amb espera', category: 'Escolta amb soroll (rehabilitació auditiva)', age: '5-6 anys' },
-  { id: 'ra5', code: 'RA-5', name: 'Localització del so', category: 'Escolta amb soroll (rehabilitació auditiva)', age: '3-4 anys' },
+  { id: 'ra1', code: 'RA-1', name: 'Figura-fons amb soroll', category: 'Escolta amb soroll', age: '4-5 anys' },
+  { id: 'ra2', code: 'RA-2', name: 'Lectura labiofacial', category: 'Escolta amb soroll', age: '5-6 anys' },
+  { id: 'ra3', code: 'RA-3', name: 'Format tancat degradat', category: 'Escolta amb soroll', age: '4-5 anys' },
+  { id: 'ra4', code: 'RA-4', name: 'Seqüència amb espera', category: 'Escolta amb soroll', age: '5-6 anys' },
+  { id: 'ra5', code: 'RA-5', name: 'Localització del so', category: 'Escolta amb soroll', age: '3-4 anys' },
 ];
 
 export const LENGUAJE_META_CA: ExerciseMeta[] = [
@@ -215,12 +215,12 @@ export const LENGUAJE_META_CA: ExerciseMeta[] = [
 ];
 
 export const TEA_META_CA: ExerciseMeta[] = [
-  { id: 'tea1', code: 'TEA-1', name: 'Atenció conjunta triangulada', category: 'PRT · contacte visual i validació doble' },
+  { id: 'tea1', code: 'TEA-1', name: 'Atenció conjunta triangulada', category: 'Contacte visual i validació doble' },
   { id: 'tea2', code: 'TEA-2', name: 'Trencament pragmàtic induït', category: 'Reparació comunicativa (mediada per l\'adult)' },
   { id: 'tea3', code: 'TEA-3', name: 'Imitació en mirall asimètric', category: 'Inhibició de l\'ecopràxia' },
   { id: 'tea4', code: 'TEA-4', name: 'Transició de rutina interrompuda', category: 'Flexibilitat cognitiva (mediada per l\'adult)' },
   { id: 'tea5', code: 'TEA-5', name: 'Categorització amb càrrega sensorial', category: 'Classificar amb soroll de fons' },
-  { id: 'tea6', code: 'TEA-6', name: 'Pistes múltiples simultànies', category: 'PRT · sobreselectivitat de l\'estímul' },
+  { id: 'tea6', code: 'TEA-6', name: 'Pistes múltiples simultànies', category: 'Sobreselectivitat de l\'estímul' },
 ];
 
 export const DISLEXIA_META_CA: ExerciseMeta[] = [
@@ -264,11 +264,11 @@ export const AUDICION_META_GL: ExerciseMeta[] = [
   { id: 'pr2', code: 'PR-2', name: 'Adaptación do discurso', category: 'Uso social (pragmática)', age: '5-6 anos' },
   { id: 'pr3', code: 'PR-3', name: 'Recoñecemento de emocións', category: 'Uso social (pragmática)', age: '4-5 anos' },
   { id: 'pr4', code: 'PR-4', name: 'Petición de repetición', category: 'Uso social (pragmática)', age: '5-6 anos' },
-  { id: 'ra1', code: 'RA-1', name: 'Figura-fondo con ruído', category: 'Escoita en ruído (rehabilitación auditiva)', age: '4-5 anos' },
-  { id: 'ra2', code: 'RA-2', name: 'Lectura labiofacial', category: 'Escoita en ruído (rehabilitación auditiva)', age: '5-6 anos' },
-  { id: 'ra3', code: 'RA-3', name: 'Formato pechado degradado', category: 'Escoita en ruído (rehabilitación auditiva)', age: '4-5 anos' },
-  { id: 'ra4', code: 'RA-4', name: 'Secuencia con espera', category: 'Escoita en ruído (rehabilitación auditiva)', age: '5-6 anos' },
-  { id: 'ra5', code: 'RA-5', name: 'Localización do son', category: 'Escoita en ruído (rehabilitación auditiva)', age: '3-4 anos' },
+  { id: 'ra1', code: 'RA-1', name: 'Figura-fondo con ruído', category: 'Escoita en ruído', age: '4-5 anos' },
+  { id: 'ra2', code: 'RA-2', name: 'Lectura labiofacial', category: 'Escoita en ruído', age: '5-6 anos' },
+  { id: 'ra3', code: 'RA-3', name: 'Formato pechado degradado', category: 'Escoita en ruído', age: '4-5 anos' },
+  { id: 'ra4', code: 'RA-4', name: 'Secuencia con espera', category: 'Escoita en ruído', age: '5-6 anos' },
+  { id: 'ra5', code: 'RA-5', name: 'Localización do son', category: 'Escoita en ruído', age: '3-4 anos' },
 ];
 
 export const LENGUAJE_META_GL: ExerciseMeta[] = [
@@ -282,12 +282,12 @@ export const LENGUAJE_META_GL: ExerciseMeta[] = [
 ];
 
 export const TEA_META_GL: ExerciseMeta[] = [
-  { id: 'tea1', code: 'TEA-1', name: 'Atención Conxunta Triangulada', category: 'PRT · contacto visual e punto de mirada' },
+  { id: 'tea1', code: 'TEA-1', name: 'Atención Conxunta Triangulada', category: 'Contacto visual e punto de mirada' },
   { id: 'tea2', code: 'TEA-2', name: 'Quebra Pragmática Inducida', category: 'Reparación comunicativa (manual)' },
   { id: 'tea3', code: 'TEA-3', name: 'Espello Asimétrico', category: 'Inhibición de ecopraxia' },
   { id: 'tea4', code: 'TEA-4', name: 'Transición Interrompida', category: 'Flexibilidade cognitiva (manual)' },
   { id: 'tea5', code: 'TEA-5', name: 'Categorización baixo Carga Sensorial', category: 'Clasificación con ruído babble (manual)' },
-  { id: 'tea6', code: 'TEA-6', name: 'Múltiples Sinais Simultáneos', category: 'PRT · sobreselectividade de estímulos' },
+  { id: 'tea6', code: 'TEA-6', name: 'Múltiples Sinais Simultáneos', category: 'Sobreselectividade de estímulos' },
 ];
 
 export const DISLEXIA_META_GL: ExerciseMeta[] = [

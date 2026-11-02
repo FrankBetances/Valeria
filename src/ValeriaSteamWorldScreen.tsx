@@ -5,6 +5,7 @@
 import React, { useEffect, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useT } from './i18n';
+import { ScreenHeader } from './ui/ScreenHeader';
 import { V } from './valeriaTheme';
 import { getUiLang } from './valeriaUiLang';
 import { getLocale } from './valeriaLocale';
@@ -63,14 +64,8 @@ export const ValeriaSteamWorldScreen: React.FC<{ navigation: any; route: { param
 
   return (
     <View style={s.root}>
-      <View style={s.header}>
-        <Pressable onPress={() => navigation.goBack()} style={s.backPill} hitSlop={8}
-          accessibilityRole="button" accessibilityLabel={t.steam.backA11y}>
-          <Text style={s.backPillTxt}>{`‹ ${t.steam.back}`}</Text>
-        </Pressable>
-        <Text style={s.headerKicker}>{world.id}</Text>
-        <Text style={s.headerTitle}>{world.title[lang]}</Text>
-      </View>
+      <ScreenHeader onBack={() => navigation.goBack()} backLabel={t.steam.back}
+        kicker={`${t.steam.hubTileTitle} · ${world.id}`} title={world.title[lang]} />
 
       <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
         <View style={s.card}>

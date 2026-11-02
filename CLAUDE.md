@@ -221,6 +221,12 @@ propio en [`src/ValeriaBlockIcons.tsx`](src/ValeriaBlockIcons.tsx) —rejilla de
 24, grosor 1.9, terminaciones redondeadas— y `react-native-svg` ya es
 dependencia. Ícono nuevo → se dibuja ahí, con ese mismo trazo.
 
+Lo mismo con las piezas de pantalla: la cabecera de cualquier módulo es
+[`src/ui/ScreenHeader.tsx`](src/ui/ScreenHeader.tsx) y el botón de empezar de
+una fila es [`src/ui/PlayButton.tsx`](src/ui/PlayButton.tsx). Hasta el
+2/11/2026 había cinco cabeceras distintas y tres botones de reproducir: no se
+vuelve a escribir una cabecera a mano.
+
 ### 5b. La mascota es Lúa, la gata. El oso ya no existe
 
 Decidido por Frank el 9/8/2026. La mascota anterior está retirada y no queda ni

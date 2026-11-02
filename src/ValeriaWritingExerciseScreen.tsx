@@ -3,6 +3,7 @@
 // Módulo interactivo de trazado asistido con lápiz óptico / stylus para
 // afianzar la memoria motora kinestésica del trazo y evitar inversiones (b vs d).
 // ============================================================================
+import { ScreenHeader } from './ui/ScreenHeader';
 import React, { useState, useRef, useCallback } from 'react';
 import {
   View, Text, Pressable, ScrollView, StyleSheet, Modal,
@@ -130,25 +131,10 @@ export const ValeriaWritingExerciseScreen: React.FC<ValeriaWritingExerciseScreen
 
   return (
     <View style={s.container}>
-      {/* Cabecera Principal */}
-      <View style={s.header}>
-        <View style={{ flex: 1 }}>
-          {/* Píldora «‹ Atrás», como en el resto de bloques. El icono de rejilla
-              que había aquí no se lee como una salida y dejaba la pizarra sin
-              vuelta visible. */}
-          {onBack && (
-            <Pressable onPress={onBack} style={s.backPill} hitSlop={12}
-              accessibilityRole="button" accessibilityLabel={t.common.back}>
-              <Text style={s.backPillTxt}>{`‹ ${t.common.back}`}</Text>
-            </Pressable>
-          )}
-          <Text style={s.kicker}>{t.writing.kicker}</Text>
-          <Text style={s.title}>{t.writing.title}</Text>
-        </View>
-        <View style={s.headerBadge}>
-          <BlockIcon name="pencil" color={V.color.primary} size={20} />
-        </View>
-      </View>
+      {/* Cabecera común de los módulos (src/ui/ScreenHeader). Era la única
+          blanca: la pizarra parecía de otra app. */}
+      <ScreenHeader onBack={onBack} backLabel={t.common.back}
+        kicker={t.writing.kicker} icon="pencil" title={t.writing.title} />
 
       <ScrollView contentContainerStyle={s.scrollContent} showsVerticalScrollIndicator={false}>
         {/* Selector de Categorías / Pestañas */}

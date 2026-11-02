@@ -56,7 +56,7 @@ export const ValeriaLingTestScreen: React.FC<{ navigation: any; route?: any }> =
   const lockRef = useRef(false);
 
   // Nombre del paciente ACTIVO (ficha de STORAGE_KEYS.registro) para la cabecera.
-  const [patientName, setPatientName] = useState('Paciente');
+  const [patientName, setPatientName] = useState(t.patientSelect.patientFallback);
   useEffect(() => {
     (async () => {
       try {

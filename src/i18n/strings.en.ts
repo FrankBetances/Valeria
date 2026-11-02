@@ -175,6 +175,7 @@ export const EN: UiStrings = {
   // Exercise names, categories and age bands are NOT here: they come from the
   // therapy content bank, which is localised by variety, not by UI language.
   hub: {
+    kickerPractice: 'TABLETOP PRACTICE',
     title: 'Exercise Selection',
     subtitle: 'Pick a block to practice or to assign',
     streak: (n: number): string => `${n}-day streak`,
@@ -487,6 +488,7 @@ export const EN: UiStrings = {
   // and the error label — those come from the active VARIETY's bank
   // (valeriaMinimalPairs*). What lives here is the scaffolding the grown-up reads.
   pairs: {
+    savedConfig: (active: number, total: number): string => `Settings saved · ${active} of ${total} pairs on.`,
     sealA11y: (who: string): string =>
       `${who}'s hand. Press both hands at once to continue, or hold this one for two seconds.`,
     pinSubtitle: "Enter the speech-language pathologist's 4-digit PIN to choose which pairs the family practices.",
@@ -601,6 +603,7 @@ export const EN: UiStrings = {
   // and word type) that used to live in `valeriaSemanticExpansion.ts`: they are
   // interface text, not content, so they follow the UI language, not the variety.
   semantic: {
+    savedConfig: (active: number, total: number, level: number): string => `Settings saved · ${active} of ${total} activities on · top level ${level}.`,
     togglePrescribedA11y: (name: string, on: boolean): string => `${on ? 'Turn off' : 'Turn on'} ${name}`,
     pickRowA11y: (name: string, on: boolean): string => (on ? `Practice ${name}` : `${name} not recommended`),
     wordsOf: (available: number, total: number): string => `${available} of ${total} words`,
@@ -1609,7 +1612,7 @@ export const EN: UiStrings = {
     blockSubtitle: 'Gradual auditory familiarization, modulation and visual anticipation for everyday sounds.',
     xpTotal: (xp: number): string => `${xp} XP`,
     sessionsCount: (n: number): string => `${n} ${n === 1 ? 'session' : 'sessions'}`,
-    clinicalNoticeTitle: 'Caregiver Control Wall & Clinical Safety',
+    clinicalNoticeTitle: 'Caregiver Control Wall & Safety',
     clinicalNoticeBody:
       'You configure sound intensity and duration. The child may pause or stop the activity at any time. Stopping is never a failure nor does it deduct progress.',
     activitiesHeader: 'SENSORY ACTIVITIES',

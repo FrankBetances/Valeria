@@ -47,6 +47,8 @@ import { BlockIcon } from './ValeriaBlockIcons';
 import { CatPixel } from './ValeriaCatPixel';
 import { PixelAward, streakTier } from './ValeriaPixelAwards';
 import { ValeriaGameStrip } from './ValeriaGameStrip';
+import { ScreenHeader } from './ui/ScreenHeader';
+import { PlayButton } from './ui/PlayButton';
 import { ValeriaAwardsSheet } from './ValeriaAwardsSheet';
 import { loadGame, GameState } from './valeriaGamification';
 
@@ -359,7 +361,7 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
       await AsyncStorage.setItem(STORAGE_KEYS.expansionNivelMax, String(maxLevel));
     } catch (e) { /* noop */ }
     setUnlocked(false);
-    setToast(`Prescripción guardada · ${activeCount} de ${TOTAL_ACTIVITIES} actividades activas · nivel máximo ${maxLevel}.`);
+    setToast(t.semantic.savedConfig(activeCount, TOTAL_ACTIVITIES, maxLevel));
   };
 
   // ---------------------------------------------------------------- sesión --
@@ -670,9 +672,9 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
           <Switch value={on} onValueChange={() => togglePrescribed(id)}
             trackColor={{ false: '#d1d5db', true: V.color.primary }} thumbColor="#ffffff" />
         ) : on ? (
-          <View style={s.playBtn}><Text style={{ color: V.color.primaryDark, fontSize: 13 }}>▶</Text></View>
+          <PlayButton color={V.color.primaryDark} tint={V.color.primaryLight} />
         ) : (
-          <View style={[s.playBtn, { backgroundColor: '#f1f5f4' }]}><BlockIcon name="lock" color={V.color.textSecondary} size={16} /></View>
+          <PlayButton locked />
         )}
       </Pressable>
     );
@@ -682,11 +684,9 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
   if (phase === 'pick') {
     return (
       <View style={s.flex}>
-        <View style={s.header}>
-          <Pressable onPress={() => navigation.goBack()} style={s.backPill}><Text style={s.backPillTxt}>{`‹ ${t.common.back}`}</Text></Pressable>
-          <Text style={s.logoFallback}>valeria+</Text>
-          <Text style={s.headerTitle}>{t.semantic.title}</Text>
-          <Text style={s.headerSub}>{unlocked ? t.semantic.editingOn : t.semantic.subtitlePick}</Text>
+        <ScreenHeader onBack={() => navigation.goBack()} backLabel={t.common.back}
+          kicker={t.hub.kickerPractice} icon="semantic" title={t.semantic.title}
+          subtitle={unlocked ? t.semantic.editingOn : t.semantic.subtitlePick}>
           <View style={s.tabs}>
             {([['scenario', t.semantic.tabScenarios], ['category', t.semantic.tabCategories], ['sequence', t.semantic.tabSequences], ['contrast', t.semantic.tabContrasts]] as const).map(([tabKey, lbl]) => {
               const on = tab === tabKey;
@@ -697,7 +697,7 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
               );
             })}
           </View>
-        </View>
+        </ScreenHeader>
 
         <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
           {!!toast && (
@@ -738,10 +738,6 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
               onValueChange={(v) => { setAutoRecord(v); setAutoRecordPref(v); }}
               trackColor={{ false: '#d1d5db', true: V.color.primary }} thumbColor="#ffffff"
             />
-          </View>
-
-          <View style={{ marginBottom: 12, marginTop: 12 }}>
-            <ProUnlockPill unlocked={unlocked} onPress={() => setPinOpen(true)} />
           </View>
 
           {/* ES-08 · Tope de dificultad. Solo aparece en Categorías, que es el
@@ -837,6 +833,11 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
             </>,
           ))}
 
+          {/* La puerta del PIN va al final, como en los bloques: en Modo Familia
+              no hay nada que editar por delante de la lista. */}
+          <View style={{ marginTop: 18 }}>
+            <ProUnlockPill unlocked={unlocked} onPress={() => setPinOpen(true)} />
+          </View>
           {unlocked ? (
             <>
               <Pressable onPress={savePrescription} style={s.primaryBtn}><Text style={s.primaryBtnTxt}>{t.semantic.savePrescription}</Text></Pressable>
@@ -1289,7 +1290,7 @@ const s = StyleSheet.create({
   scroll: { padding: 16, paddingBottom: 32 },
 
   // Tope de dificultad (ES-08)
-  levelCard: { backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.border, borderRadius: 14, padding: 13, marginBottom: 12 },
+  levelCard: { backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.border, borderRadius: 14, padding: 13, marginTop: 12, marginBottom: 12 },
   levelKicker: { fontSize: 11, fontWeight: '800', color: V.color.textSecondary, letterSpacing: 0.5 },
   levelHint: { fontSize: 12, fontWeight: '600', color: V.color.textSecondary, marginTop: 5, lineHeight: 17 },
   levelRow: { flexDirection: 'row', gap: 7, marginTop: 10 },
@@ -1329,7 +1330,7 @@ const s = StyleSheet.create({
   toast: { flexDirection: 'row', alignItems: 'center', gap: 10, backgroundColor: V.color.primaryTint, borderWidth: 1, borderColor: V.color.primary, borderRadius: 13, padding: 13, marginBottom: 14 },
   toastCheck: { width: 24, height: 24, borderRadius: 12, backgroundColor: V.color.primary, alignItems: 'center', justifyContent: 'center' },
   toastTxt: { color: V.color.textPrimary, fontSize: 13.5, fontWeight: '700', flex: 1 },
-  listHead: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12, marginHorizontal: 4 },
+  listHead: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 16, marginBottom: 12, marginHorizontal: 4 },
   listLabel: { fontSize: 12, fontWeight: '800', color: V.color.textSecondary, letterSpacing: 0.4 },
   goalCard: { backgroundColor: '#f5f0ff', borderWidth: 1.5, borderColor: '#ddccfa', borderRadius: 14, padding: 12, marginBottom: 12 },
   goalKicker: { fontSize: 10.5, fontWeight: '800', letterSpacing: 0.6, color: '#6d3fc4' },
