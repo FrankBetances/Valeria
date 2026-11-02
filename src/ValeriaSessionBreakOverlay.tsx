@@ -247,7 +247,7 @@ export const ValeriaSessionBreakOverlay: React.FC<{
 
 // ----------------------------------------------------------------------------
 const s = StyleSheet.create({
-  overlay: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(11,18,32,.6)', alignItems: 'center', justifyContent: 'center', padding: 26 },
+  overlay: { ...StyleSheet.absoluteFill, backgroundColor: 'rgba(11,18,32,.6)', alignItems: 'center', justifyContent: 'center', padding: 26 },
   card: { width: '100%', maxWidth: 340, backgroundColor: '#fff', borderRadius: 26, padding: 22, alignItems: 'center' },
   kicker: { fontSize: 12, fontWeight: '800', letterSpacing: 1.1, color: '#f59e0b' },
   title: { fontSize: 20, fontWeight: '800', color: V.color.textPrimary, marginTop: 10, textAlign: 'center' },

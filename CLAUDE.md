@@ -233,9 +233,9 @@ datos comprobados ese día en GitHub):
 
 | Repo | Qué es | Encaje con Valeria+ |
 | --- | --- | --- |
-| `founded-labs/react-native-reusables` (8,7k★, MIT) | shadcn/ui para React Native: botones, cards, progress, sheets, dialogs, formularios. El código se copia al proyecto | Base para las pantallas del adulto. **Ya instalado** (build 727): NativeWind 4.2.7 + Tailwind 3.4.17, componentes copiados en `src/components/ui`. Se usa en TODAS las pantallas, no en dos piezas |
+| `founded-labs/react-native-reusables` (8,7k★, MIT) | shadcn/ui para React Native: botones, cards, progress, sheets, dialogs, formularios. El código se copia al proyecto | Base para las pantallas del adulto. **Ya instalado**: NativeWind 4.2.7 + Tailwind 3.4.17 sobre Expo 58, componentes copiados en `src/components/ui`. Se usa en TODAS las pantallas, no en dos piezas |
 | `nativeui-org/ui` (244★, MIT) | Componentes accesibles estilo shadcn para RN y Expo, copiar y pegar | Alternativa a Reusables. **También usa NativeWind**, ya presente |
-| `simsketch/kidcash-ui` (0★, MIT) | Librería «playful» (liquid glass, spring physics, 9 temas) | **Es React para web** (usa framer-motion). No se instala. Para el modo niño se busca **un repo de React Native** que dé lo mismo (S6) y se copia; Reanimated 3.19.5 ya está en el proyecto. No se reescribe a mano |
+| `simsketch/kidcash-ui` (0★, MIT) | Librería «playful» (liquid glass, spring physics, 9 temas) | **Es React para web** (usa framer-motion). No se instala. Para el modo niño se busca **un repo de React Native** que dé lo mismo (S6) y se copia; Reanimated 4.7.1 (Expo 58) ya está en el proyecto. No se reescribe a mano |
 
 Coste real (1-2/11/2026): el plan STEAM metió siete tarjetas de mundos ENCIMA
 del menú de ejercicios. Los bloques de siempre quedaron fuera de la primera

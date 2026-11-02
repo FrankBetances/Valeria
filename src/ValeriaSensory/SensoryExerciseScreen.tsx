@@ -103,12 +103,12 @@ export const SensoryExerciseScreen: React.FC<{ navigation: any; route: any }> = 
   // esa opción puede estar fuera de la parte visible: sin este desplazamiento
   // la pantalla se abría con «Electrodomésticos» seleccionado a la derecha del
   // borde y aparentando que no había nada elegido.
-  const catRowRef = useRef<ScrollView | null>(null);
-  const triggerRowRef = useRef<ScrollView | null>(null);
+  const catRowRef = useRef<React.ComponentRef<typeof ScrollView>>(null);
+  const triggerRowRef = useRef<React.ComponentRef<typeof ScrollView>>(null);
   const catRowScrolled = useRef(false);
   const triggerRowScrolled = useRef(false);
   const revealChip = (
-    row: React.MutableRefObject<ScrollView | null>,
+    row: React.RefObject<React.ComponentRef<typeof ScrollView> | null>,
     done: React.MutableRefObject<boolean>,
     x: number,
   ) => {

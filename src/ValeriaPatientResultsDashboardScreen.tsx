@@ -370,7 +370,7 @@ export const ValeriaPatientResultsDashboardScreen: React.FC<{ navigation?: any }
 
   return (
     <View style={st.flex}>
-      <StatusBar barStyle="light-content" backgroundColor={V.color.primary} />
+      <StatusBar barStyle="light-content" />
 
       {/* Cabecera teal unificada */}
       <View style={st.header}>
@@ -841,7 +841,7 @@ const st = StyleSheet.create({
 
   adherenceRow: { flexDirection: 'row', alignItems: 'center', marginTop: 16 },
   ringWrap: { width: 104, height: 104, marginRight: 18 },
-  ringCenter: { ...StyleSheet.absoluteFillObject, alignItems: 'center', justifyContent: 'center' },
+  ringCenter: { ...StyleSheet.absoluteFill, alignItems: 'center', justifyContent: 'center' },
   ringPct: { fontSize: 25, fontWeight: V.font.extrabold, color: V.color.textPrimary },
   ringRatio: { fontSize: 11, fontWeight: V.font.bold, color: V.color.textMuted, marginTop: 2 },
   adherenceBody: { flex: 1 },

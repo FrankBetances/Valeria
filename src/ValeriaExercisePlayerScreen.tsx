@@ -419,7 +419,7 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
   // Vuelve arriba al cambiar de ejercicio o nivel: la evaluación se toca al
   // final de la página, y sin este reset el siguiente ejercicio aparecía ya
   // desplazado al fondo — parecía que la sesión no avanzaba.
-  const scrollRef = useRef<ScrollView | null>(null);
+  const scrollRef = useRef<React.ComponentRef<typeof ScrollView>>(null);
   useEffect(() => { scrollRef.current?.scrollTo({ y: 0, animated: false }); }, [idx, subIdx, finished]);
 
   const resetEphemeral = () => {

@@ -143,7 +143,7 @@ export const ValeriaPragmaticBreakOverlay: React.FC<{
 };
 
 const s = StyleSheet.create({
-  overlay: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(11,18,32,.6)', alignItems: 'center', justifyContent: 'center', padding: 24, zIndex: 25 },
+  overlay: { ...StyleSheet.absoluteFill, backgroundColor: 'rgba(11,18,32,.6)', alignItems: 'center', justifyContent: 'center', padding: 24, zIndex: 25 },
   card: { width: '100%', maxWidth: 350, backgroundColor: '#fff', borderRadius: 24, padding: 20, alignItems: 'center' },
   kicker: { fontSize: 11.5, fontWeight: '800', letterSpacing: 1, color: '#b45309' },
   warnIcon: { alignItems: 'center', marginTop: 12, marginBottom: 2 },

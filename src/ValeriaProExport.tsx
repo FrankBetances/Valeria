@@ -107,7 +107,7 @@ const Stat: React.FC<{ label: string; value: string }> = ({ label, value }) => (
 );
 
 const s = StyleSheet.create({
-  overlay: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(11,18,32,.6)', alignItems: 'center', justifyContent: 'center', padding: 20, zIndex: 30 },
+  overlay: { ...StyleSheet.absoluteFill, backgroundColor: 'rgba(11,18,32,.6)', alignItems: 'center', justifyContent: 'center', padding: 20, zIndex: 30 },
   modal: { width: '100%', maxWidth: 360, maxHeight: '90%', backgroundColor: '#fff', borderRadius: 24, padding: 20 },
   head: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 },
   kicker: { fontSize: 12, fontWeight: '800', letterSpacing: 0.8, color: V.color.primaryDark },

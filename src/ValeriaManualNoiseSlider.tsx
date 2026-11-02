@@ -29,7 +29,7 @@ export const ValeriaManualNoiseSlider: React.FC = () => {
   const [level, setLevel] = useState(getNoiseLevel());
   const trackW = useRef(1);
   const trackX = useRef(0);
-  const trackRef = useRef<View | null>(null);
+  const trackRef = useRef<React.ComponentRef<typeof View>>(null);
   const levelRef = useRef(level);
 
   const posToLevel = (pageX: number): number => {

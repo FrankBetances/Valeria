@@ -338,7 +338,7 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
   const foilsRef = useRef(0); // sustituciones detectadas en el ensayo actual
   // Vuelve arriba al cambiar de ensayo: sin esto la lista conserva el scroll
   // del ensayo anterior y el nuevo aparece "a mitad", como si no avanzara.
-  const scrollRef = useRef<ScrollView | null>(null);
+  const scrollRef = useRef<React.ComponentRef<typeof ScrollView>>(null);
   // Evita que un resultado tardío del ASR pise el veredicto manual del padre.
   const listeningRef = useRef(false);
   // Mejor parcial de la escucha en curso. Android cierra a veces el turno con
@@ -1173,7 +1173,7 @@ const s = StyleSheet.create({
   sealHint: { fontSize: 10.5, fontWeight: '600', color: V.color.textMuted, marginTop: 10, textAlign: 'center' },
 
   // rotación de roles
-  overlay: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(11,18,32,.6)', alignItems: 'center', justifyContent: 'center', padding: 26 },
+  overlay: { ...StyleSheet.absoluteFill, backgroundColor: 'rgba(11,18,32,.6)', alignItems: 'center', justifyContent: 'center', padding: 26 },
   overlayCard: { width: '100%', maxWidth: 340, backgroundColor: '#fff', borderRadius: 26, padding: 22, alignItems: 'center' },
   swapKicker: { fontSize: 12, fontWeight: '800', letterSpacing: 1.1, color: '#f59e0b' },
   swapTitle: { fontSize: 20, fontWeight: '800', color: V.color.textPrimary, marginTop: 8 },

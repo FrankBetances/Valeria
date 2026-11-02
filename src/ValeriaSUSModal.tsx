@@ -93,7 +93,7 @@ export const ValeriaSUSModal: React.FC = () => {
 };
 
 const s = StyleSheet.create({
-  overlay: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(11,18,32,.55)', alignItems: 'center', justifyContent: 'center', padding: 24, zIndex: 40 },
+  overlay: { ...StyleSheet.absoluteFill, backgroundColor: 'rgba(11,18,32,.55)', alignItems: 'center', justifyContent: 'center', padding: 24, zIndex: 40 },
   modal: { width: '100%', maxWidth: 360, backgroundColor: '#fff', borderRadius: 24, padding: 22 },
   close: { position: 'absolute', top: 12, right: 12, width: 30, height: 30, borderRadius: 15, backgroundColor: '#f1f5f4', alignItems: 'center', justifyContent: 'center', zIndex: 1 },
   closeTxt: { color: '#6b7280', fontWeight: '700' },
