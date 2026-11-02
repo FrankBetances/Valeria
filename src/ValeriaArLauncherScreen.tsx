@@ -673,7 +673,7 @@ export const ValeriaArLauncherScreen: React.FC<{ navigation?: any; route?: { par
               style={[s.exCard, !enabled && s.exCardOff]}
               accessibilityRole="button"
               accessibilityLabel={enabled ? t.ar.practiceA11y(m.name) : t.ar.unavailableA11y(m.name)}>
-              <View style={s.codeChip}><Text style={s.codeChipTxt}>{m.code}</Text></View>
+              {/* Motor: el código interno no se enseña al niño. */}
               <View style={{ flex: 1 }}>
                 <Text style={s.exName}>{m.name}</Text>
                 <Text style={s.exCat}>{m.category}</Text>

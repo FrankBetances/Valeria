@@ -826,7 +826,7 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
           {tab === 'contrast' && bank.capsules.map((cp) => prescribableRow(
             cp.id, t.semantic.rowCapsuleA11y(cp.pair[0], cp.pair[1]), () => start(contrastSession(bank, cp.id, t)),
             <>
-              <View style={s.codeChip}><Text style={s.codeChipTxt}>{cp.code}</Text></View>
+              {/* Motor: el código interno no se enseña al niño. */}
               <Text style={{ fontSize: 26 }}>{cp.icon}</Text>
               <View style={{ flex: 1 }}>
                 <Text style={s.pickName}>{cp.pair[0]} / {cp.pair[1]}</Text>

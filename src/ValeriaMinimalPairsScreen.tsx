@@ -734,7 +734,7 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
                       ? t.pairs.toggleA11y(on, p.target, p.foil)
                       : on ? t.pairs.practiceA11y(p.target, p.foil) : t.pairs.notPrescribedA11y(p.target, p.foil)}
                   >
-                    <View style={s.codeChip}><Text style={s.codeChipTxt}>{p.code}</Text></View>
+                    {/* Motor: el código interno no se enseña al niño. */}
                     <FichaVisual word={p.target} emoji={p.targetEmoji} pic={p.targetPictogram} size={26} />
                     <FichaVisual word={p.foil} emoji={p.foilEmoji} pic={p.foilPictogram} size={26} />
                     <View style={{ flex: 1 }}>

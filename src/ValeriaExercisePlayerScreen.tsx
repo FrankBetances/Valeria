@@ -1618,7 +1618,7 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                 <BlockIcon name="next" color={V.color.primaryDark} size={18} />
                 <View style={{ flex: 1 }}>
                   <Text style={s.nextUpKicker}>{t.player.nextUpKicker}</Text>
-                  <Text style={s.nextUpTxt}>{nextEx.code} · {nextEx.name}</Text>
+                  <Text style={s.nextUpTxt}>{nextEx.name}</Text>
                 </View>
               </View>
             )}
