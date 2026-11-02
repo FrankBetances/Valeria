@@ -1,4 +1,4 @@
-# Plan de rediseño completo de Valeria+ (v3, 2/11/2026)
+# Plan de rediseño completo de Valeria+ (v4, 2/11/2026)
 
 **Objetivo único:** que un niño de siete años sepa usar la app sin que nadie se
 la explique, y que sea bonita, viva y fácil de entender. Si una pantalla
@@ -212,6 +212,50 @@ Fuentes:
 - [Colección Dribbble de apps infantiles](https://dribbble.com/jkuts/collections/4988199-kidsapp)
 - [Lazyweb: «reading buddy»](https://lazyweb.com/canvas/flows/epic/customize-reading-buddy)
 - [Hilo KiDraw de r/reactnative (espejo)](https://reddit.birdcat.cafe/r/reactnative/comments/1e1i6ak/show_your_work_thread)
+
+### 4.0c Lo que hacen las mejores apps infantiles y lo que dice la investigación
+
+| Fuente | Lo que hacen o encontraron (cita o dato) | Qué cambia en Valeria+ |
+| --- | --- | --- |
+| **Toca Boca**, apps de Toca Builders (Joan Ganz Cooney Center, 2013) | Sin menús ni iconos abstractos: «six characters as the interface». Sin texto ni instrucciones al abrir; pistas visuales | **La Casa de Lúa es una escena ilustrada**, no una rejilla de tarjetas. Cada puerta es un objeto de la casa: radio = Escuchar, espejo = Hablar, cofre = Palabras, pizarra = Escribir, librería = Cuentos, mesa de bloques = Construir. Lúa camina hasta el que tocas |
+| **Pok Pok Playroom**, Apple Design Award 2021, Delight and Fun | Apple premia «subtle haptics, sound effects and interactions». Su equipo diseña un sitio donde el niño «will never get stuck, feel scared or get confused» | Cada toque suena y vibra (regla 6). **Ninguna pantalla sin salida**: siempre hay casa y siempre hay algo que tocar |
+| **Sago Mini** (web oficial y Apple Developer Q&A) | Tres preguntas para cada producto: ¿invita a explorar?, ¿es intuitivo, bonito y divertido?, ¿cumple calidad y seguridad? | Las tres preguntas entran en la checklist del §7 |
+| **Google, Designing for kids** | Nada de botones de solo texto; símbolos conocidos; los menores de 5 no saben activar el sonido | Sonido activado de serie; casa y flecha como iconos |
+| **LearnPlay** (Expo, de 4 a 7 años, GitHub; 0★ y sin licencia declarada: **solo referencia**) | «confetti burst + haptic buzz + spoken feedback on every answer, right or wrong» | La respuesta, acierte o no, se celebra o se reconduce con voz. **Nunca una X roja sin más** |
+| **Smart Speech** (*Applied Sciences* 2026, Double Diamond) | Seis áreas de problema en apps gamificadas de habla; entre ellas, guía débil, poca motivación, poca respuesta y huecos de accesibilidad | Son justo las reglas 1, 5, 6 y 11 del §1: se comprueban por pantalla |
+| **Zingo** (JMIR, diseño centrado en el usuario, de 6 a 12 años) | Sesiones con inicio y final claros, para que el niño pueda soltar el aparato | **Pantalla de fin de sesión**: Lúa se despide y dice «¡mañana más!». No hay bucle infinito |
+| **Pop2TalkNordic** (estudio de caso único, trastorno de los sonidos del habla) | Mejoraría con más participación de los padres y con más relieve en los contrastes fonológicos | **Pares (Hablar):** las dos palabras se distinguen con color y movimiento en el sonido que cambia. **Zona Familia** con una frase de qué practicar juntos |
+| **Rediseño heurístico de Duolingo** (Medium) | Los iconos de la barra inferior no se reconocían hasta que llevaron texto | En la Zona Familia, icono **y** palabra siempre |
+| **Bebi** y **Keiki** (Screens Design) | Rejillas de botones redondos ilustrados; un botón de jugar grande en el centro de una escena | Confirma botones redondos ilustrados y un único botón de jugar |
+
+Fuentes:
+- [Joan Ganz Cooney Center: Toca Builders](https://joanganzcooneycenter.org/2013/11/07/being-a-toca-builder-creating-construction-play-on-touchscreen-devices/)
+- [Apple: premios ADA 2021](https://www.apple.com/newsroom/2021/06/apple-announces-winners-of-the-2021-apple-design-awards/)
+- [Sketch: Pok Pok](https://www.sketch.com/blog/pok-pok/)
+- [Apple Developer: Sago Mini Jinja's Garden](https://developer.apple.com/news/?id=3t6o5jec)
+- [Sago Mini: about](https://sagomini.com/about)
+- [Google: Designing engaging apps](https://developers.google.com/building-for-kids/designing-engaging-apps)
+- [LearnPlay](https://github.com/Suhasi2005/learnplay)
+- [Smart Speech, Applied Sciences 2026](https://dx.doi.org/10.3390/app16020826)
+- [Zingo, PMC9399848](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9399848/)
+- [Pop2TalkNordic, PMC12670065](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12670065/)
+- [Rediseño de Duolingo](https://medium.com/@nehita.ilogienboh/redesigning-the-duolingo-app-case-study-c22718b54a1a)
+- [Bebi en Screens Design](https://screensdesign.com/apps/bebi-baby-games-for-preschool/)
+
+### 4.0d Registro de vías de búsqueda (segunda regla suprema)
+
+| Vía | Resultado |
+| --- | --- |
+| API de GitHub (`search/repositories`), unas 30 consultas | **Funciona.** Es la fuente de los datos de §4.0 a §4.1 |
+| Registro de npm, unos 40 paquetes | **Funciona.** Es la fuente de las compatibilidades |
+| Buscador web, unas 25 consultas: X, Dribbble, Behance, Medium, YouTube, blogs de Duolingo, Toca Boca, Pok Pok, Sago Mini, Google, artículos científicos | **Funciona.** Es la fuente de §4.0b y §4.0c |
+| Reddit: buscador con dominio, API JSON, old.reddit, herramienta de lectura web | **Bloqueado** por la red del entorno. El sistema prohíbe esquivarlo con espejos o proxies |
+| Hacker News (Algolia), dev.to, Stack Overflow y UX Stack Exchange, con la herramienta de lectura web | **Bloqueados** por la red del entorno |
+| YouTube | El buscador solo devuelve tutoriales genéricos de Reanimated, nada infantil |
+
+**Para abrir lo bloqueado:** en *Network access* del entorno se añaden
+`reddit.com`, `www.reddit.com`, `old.reddit.com`, `hn.algolia.com`, `dev.to` y
+`stackexchange.com`. Después se repite la búsqueda en esas fuentes.
 
 **Pautas de diseño para niños: lo encontrado y lo que no.**
 - **NN/g:** no he encontrado ningún artículo suyo sobre niños de 3 a 12 años.
