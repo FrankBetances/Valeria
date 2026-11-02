@@ -105,6 +105,36 @@ for (const world of STEAM_WORLDS) {
 }
 if (tally.retos !== 35) fail(`Hay ${tally.retos} retos; el plan cuenta 35 (S0–S6 × 5).`);
 
+// 4 · Solo Lúa (plan v3.0 §4). Cada actividad abre un ejercicio nativo que
+// existe, sin los dos vetados: AR-2 es VRA digitalizado (L06 retirada por
+// riesgo regulatorio) y en AR-5 la criatura desliza el dedo por la pantalla.
+const { LUA_SOLO_ACTIVITIES } = load('src/steam/luaSolo.ts');
+const { translateExpression } = load('src/steam/engine/LuaLink.ts');
+const { ADULT_UI_LANGS } = load('src/steam/types.ts');
+const VETADOS = { ar2: 'VRA digitalizado (L06 retirada)', ar5: 'la criatura toca la pantalla' };
+const NATIVE_CLASS = { ar1: 'Ar1Orofacial', ar2: 'Ar2Vra', ar3: 'Ar3Fixation', ar4: 'Ar4SpatialSearch', ar5: 'Ar5FeedCatch', ar6: 'Ar6BuddyMimicry' };
+const soloIds = new Set();
+const texts = (obj, where) => {
+  for (const [k, v] of Object.entries(obj)) {
+    if (v && typeof v === 'object' && ADULT_UI_LANGS.every((l) => l in v)) {
+      for (const l of ADULT_UI_LANGS) if (typeof v[l] !== 'string' || !v[l].trim()) fail(`${where}.${k}: falta el texto en ${l}.`);
+    } else if (v && typeof v === 'object') texts(v, `${where}.${k}`);
+  }
+};
+if (!LUA_SOLO_ACTIVITIES.length) fail('Solo Lúa no tiene actividades.');
+for (const act of LUA_SOLO_ACTIVITIES) {
+  if (soloIds.has(act.id)) fail(`${act.id}: id repetido.`);
+  soloIds.add(act.id);
+  if (VETADOS[act.exerciseId]) fail(`${act.id}: abre ${act.exerciseId}, vetado en Solo Lúa (${VETADOS[act.exerciseId]}).`);
+  const cls = NATIVE_CLASS[act.exerciseId];
+  if (!cls || !new RegExp(`class ${cls}\\b`).test(kotlin)) fail(`${act.id}: el ejercicio ${act.exerciseId} no existe en el Kotlin.`);
+  for (const k of ['luaStart', 'luaEnd']) {
+    try { translateExpression(act[k]); } catch (e) { fail(`${act.id}.${k}: '${act[k]}' no cae en las 28 caras.`); }
+  }
+  if (act.cycle.observa.mandatorySilenceSec !== 5) fail(`${act.id}: el silencio de Observa son 5 s.`);
+  texts({ title: act.title, summary: act.summary, cycle: act.cycle }, act.id);
+}
+
 if (fails.length) {
   console.error('✗ check-steam-ar-needs');
   for (const f of fails) console.error(`  · ${f}`);
@@ -114,5 +144,6 @@ const pend = [...tally.pendientes].map(([m, n]) => `${m} ${n}`).join(', ');
 console.log(
   `✓ Necesidades de cámara: ${tally.retos} retos. Nativo hoy: ${NATIVE_AR_DETECTORS.join(', ')}. ` +
     `Retos con algún evento captable por el módulo nativo: ${tally.conCamaraHoy}. ` +
-    `Pendientes por detector: ${pend}. Con detector descartado (se quedan en adult_tap): ${tally.descartados}.`,
+    `Pendientes por detector: ${pend}. Con detector descartado (se quedan en adult_tap): ${tally.descartados}. ` +
+    `Solo Lúa: ${LUA_SOLO_ACTIVITIES.map((x) => `${x.id}→${x.exerciseId}`).join(', ')}.`,
 );

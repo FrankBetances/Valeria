@@ -61,7 +61,9 @@ import ValeriaLuaScreen from './ValeriaLuaScreen';
 import ValeriaSteamWorldsScreen from './ValeriaSteamWorldsScreen';
 import ValeriaSteamWorldScreen from './ValeriaSteamWorldScreen';
 import ValeriaSteamChallengeScreen from './ValeriaSteamChallengeScreen';
+import ValeriaSteamLuaSoloScreen from './ValeriaSteamLuaSoloScreen';
 import type { SteamWorldId } from './steam/types';
+import type { LuaSoloId } from './steam/luaSolo';
 import {
   ValeriaAventurasLuaHubScreen,
   LuaAssessmentPlayerScreen,
@@ -91,7 +93,7 @@ export type ValeriaStackParamList = {
   ExercisePlayer: { id?: string } | undefined;
   MinimalPairs: undefined;
   SemanticExpansion: undefined;
-  ArLauncher: undefined;
+  ArLauncher: { luaSolo?: LuaSoloId } | undefined;
   Academy: undefined;
   SensoryBlockList: undefined;
   SensoryExercise: { exerciseId?: string } | undefined;
@@ -105,6 +107,7 @@ export type ValeriaStackParamList = {
   SteamWorlds: undefined;
   SteamWorld: { worldId: SteamWorldId };
   SteamChallenge: { worldId: SteamWorldId; challengeId: string };
+  SteamLuaSolo: undefined;
 };
 
 const Stack = createNativeStackNavigator<ValeriaStackParamList>();
@@ -156,6 +159,7 @@ export const ValeriaNavigator: React.FC = () => (
     <Stack.Screen name="SteamWorlds" component={ValeriaSteamWorldsScreen as any} />
     <Stack.Screen name="SteamWorld" component={ValeriaSteamWorldScreen as any} />
     <Stack.Screen name="SteamChallenge" component={ValeriaSteamChallengeScreen as any} />
+    <Stack.Screen name="SteamLuaSolo" component={ValeriaSteamLuaSoloScreen as any} />
   </Stack.Navigator>
 );
 

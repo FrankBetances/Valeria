@@ -17,6 +17,7 @@ import { BlockIcon, BlockIconName } from './ValeriaBlockIcons';
 import { ProPinModal } from './ValeriaProPin';
 import { steamScreenStyles as base } from './ValeriaSteamWorldScreen';
 import { STEAM_WORLDS } from './steam/worlds';
+import { LUA_SOLO_ACTIVITIES } from './steam/luaSolo';
 import { ADAPTATION_PROFILES, adjustmentsFor, loadAdaptationProfile, saveAdaptationProfile } from './steam/profiles';
 import type { AdaptationProfileId, SteamWorldId } from './steam/types';
 
@@ -89,6 +90,21 @@ export const ValeriaSteamWorldsScreen: React.FC<{ navigation: any }> = ({ naviga
             </Pressable>
           );
         })}
+
+        {/* Solo Lúa: al final, después de los siete mundos (S4: no se desplaza nada). */}
+        <Pressable onPress={() => navigation.navigate('SteamLuaSolo')}
+          accessibilityRole="button" accessibilityLabel={t.steam.luaSoloTileA11y}>
+          <Card className="border-input mb-2.5 flex-row items-center gap-3 px-3.5 py-3">
+            <View className="h-11 w-11 items-center justify-center rounded-xl" style={{ backgroundColor: V.color.primaryDark }}>
+              <BlockIcon name="lua" color="#ffffff" size={24} />
+            </View>
+            <View className="min-w-0 flex-1">
+              <Text className="text-[15px] font-extrabold">{t.steam.luaSoloTile}</Text>
+              <Text className="text-muted-foreground mt-0.5 text-[12.5px] font-bold">{t.steam.luaSoloTileMeta(LUA_SOLO_ACTIVITIES.length)}</Text>
+            </View>
+            <Text className="text-muted-foreground text-2xl font-extrabold">›</Text>
+          </Card>
+        </Pressable>
       </ScrollView>
 
       {/* Selector de perfil: Dialog + RadioGroup de React Native Reusables. */}

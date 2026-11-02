@@ -196,14 +196,17 @@ WordPrompter`. Todo menos el primer eslabón y la capa de revelación ya está e
 
 | ID | Actividad | Detector | Caras | Estado |
 | :--- | :--- | :--- | :--- | :--- |
-| **L01** | El espejo de gestos de Lúa | D (`Ar1Orofacial`: `pucker`, `funnel`, `jawOpen`) | `#1` → `#2` → `#4` | **Construible ya** |
-| **L04** | El despertar sereno de Lúa | D (`Ar3Fixation`, cono ±12° sostenido) | `#18` → `#13` → `#14` | **Construible ya** |
+| **L01** | El espejo de gestos de Lúa | D (`Ar1Orofacial`: `pucker`, `funnel`, `jawOpen`) | inicio `#1` → fin `#4` | **Hecha** (Fase 3) |
+| ~~L04~~ | ~~El despertar sereno de Lúa~~ | — | — | **Retirada el 2/11/2026: error de esta v3.** Se apoyaba en `Ar3Fixation`, que es selección semántica por fijación (2-3 dianas, calibración), no calma sostenida. No hay ejercicio nativo de calma |
+| **L07** | Imita a Lúa | D (`Ar6BuddyMimicry`: Lúa 3D modela sonrisa, asombro, mejillas, piquito; la criatura lo imita) | inicio `#16` (curiosa) → fin `#10` (alegre) | **Hecha** (Fase 3). Elegida por Frank el 2/11/2026 en lugar de L04 |
 | L02 | ¿Hacia dónde mira Lúa? | A (placa-marcador del cubo) | `#16` → `#10` | Bloqueada por D2 y por la placa-marcador |
 | L03 | La merienda del pez dorado | A en la ficha del pez, proximidad por pose del marcador | `#20` → `#22` → **`#12` gratitud** (`AFFECT 2`) | Bloqueada por D2; los 60 mm pasan a `[Por validar]` |
 | L05 | La caricia y el ronroneo | C (mano) + `HAPTIC RONRONEO` nivel 1 en el cubo | `#21` | Bloqueada por la mano y por el firmware del cubo; ≥ 3 años |
 | ~~L06~~ | ~~¿Dónde cantó el pajarito?~~ | — | — | **Retirada.** Reutilizaba `Ar2Vra.kt` (VRA digitalizado) con el perfil `hearing_ic`: se puede leer como cribado auditivo en una app no SaMD (R-A1) y se solapa con VIA+ (Clase IIa). Se reabre solo con una revisión regulatoria escrita |
 
-**L01 y L04, ciclo:** se mantiene el de la v2.0 (Observa con 5 s de silencio → Experimenta con
+**Límite comprobado (2/11/2026):** el módulo nativo no emite eventos durante la sesión; `launchAr` solo devuelve el resultado al cerrar. La Lúa física cambia de cara **al empezar y al terminar**, nunca a mitad del gesto (`#2` de L01 no sale). Decidido por Frank: así, sin canal de eventos Kotlin→JS. Tampoco entran en Solo Lúa AR-2 (VRA, L06 retirada) ni AR-5 (la criatura desliza el dedo por la pantalla); lo sujeta `check-steam-ar-needs.js`.
+
+**L01 y L07, ciclo:** se mantiene el de la v2.0 (Observa con 5 s de silencio → Experimenta con
 pistas N1/N2 → Construye). **Cambio en L01 «Construye»:** el accesorio se pone en el armario del cubo
 (lazo, cascabel, flor, sombrero), no en una cola que ya no existe.
 
@@ -271,7 +274,7 @@ subir el número congelado de `scripts/test-challenger-final-ca-integration.js`.
 | :- | :--- | :--- | :--- | :--- |
 | **1** | Este documento | `docs/` | Lectura de Frank | — |
 | **2** | `SteamArMode` en `types.ts`; `src/steam/arNeeds.ts` **calcula** las necesidades de cada reto a partir de los `methods` de sus eventos (no se rellenan a mano: serían una segunda copia, regla 9.8); gate `check-steam-ar-needs.js` | `src/steam/` | Gates + typecheck. **Nada visible** | **Hecha el 2/11/2026** en la rama `sets`. Resultado: de 35 retos, 3 (S4) tienen algún evento captable por el módulo nativo; `marker` lo piden 34, `occlusion` 9, `hand` 7; 5 (S3) usan el detector descartado y se quedan en `adult_tap` |
-| **3** | L01 y L04 como «Solo Lúa»: tarjeta en Mundos → reutiliza `ValeriaArLauncherScreen` con `ar1`/`ar3` y espeja las caras de §4 | `src/`, puente AR | Gates + captura web + **aparato** (§1c) | Fase 2 |
+| **3** | L01 y L07 como «Solo Lúa»: tarjeta al final de Mundos → pantalla `SteamLuaSolo` → `ValeriaArLauncherScreen` con `ar1`/`ar6` (mismo consentimiento, aptitud y política por nivel) y caras de inicio y fin | `src/`, puente AR | Gates + captura web. **No visto en un aparato** | **Hecha el 2/11/2026** en la rama `sets`, pendiente de que Frank la mire en un Android |
 | **4** | Banco D2: ArUco y AprilTag con piezas impresas y tableta en soporte | Banco de Frank + rama de prueba | Tasa de detección, fps, tamaño del APK | Piezas impresas |
 | **5** | Sincronizar `protocol.json` con `lua-firmware` (`LIGHT`, `HAPTIC`, `CAP_*`) + `TurnGate` B3-A | `firmware/lua/`, `LuaLink.ts` | `build-lua-protocol.js --check` + mirror | Firmware del cubo y topología BLE escritos |
 | **6** | Detector A nativo + capa de revelación con los GLB de `lua-construye` en S0–S6 | `android-native/valeria-ar/` | Gates nativos + aparato | Fase 4 |

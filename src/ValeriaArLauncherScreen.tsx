@@ -20,7 +20,7 @@
 // latencias es descripción; un badge rojo de «por debajo de lo esperado» es
 // interpretación, y eso ya no cabe en Clase I.
 // ============================================================================
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { View, Text, Pressable, ScrollView, ActivityIndicator, Share, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { V, STORAGE_KEYS } from './valeriaTheme';
@@ -45,7 +45,10 @@ import {
 import { ValeriaAdultChaosPanel } from './ValeriaAdultChaosPanel';
 import { trackArSession, markBlockCompleted } from './valeriaTelemetry';
 import { registerSession } from './valeriaGamification';
-import { luaSessionReward, cancelSessionReward } from './valeriaLuaSession';
+import { luaSessionReward, cancelSessionReward, isLuaLinked, luaSteamFrames, luaSteamIdle } from './valeriaLuaSession';
+import { linkLua } from './steam/engine/LuaLink';
+import { luaSoloActivity, type LuaSoloId } from './steam/luaSolo';
+import type { LuaSemanticExpression } from './steam/types';
 import type { SessionReward } from './valeriaGamification';
 
 type Phase = 'loading' | 'unsupported' | 'consent' | 'aptitude' | 'notApt' | 'menu' | 'busy' | 'result';
@@ -83,8 +86,25 @@ const failureNotice = (t: ArStrings, reason: ArFailureReason | null): string => 
 const permanentBody = (t: ArStrings, reason: ArFailureReason | null): string =>
   reason === 'NO_FRONT_CAMERA' ? t.ar.notAptNoFrontCamera : t.ar.notAptDeviceUnsupported;
 
-export const ValeriaArLauncherScreen: React.FC<{ navigation?: any }> = ({ navigation }) => {
+/** Duración de una cara en el firmware (CLAUDE.md §5b): el premio espera a que se vea la de fin. */
+const LUA_FACE_MS = 3000;
+
+export const ValeriaArLauncherScreen: React.FC<{ navigation?: any; route?: { params?: { luaSolo?: LuaSoloId } } }> = ({ navigation, route }) => {
   const t = useT();
+  // Solo Lúa (plan RA v3.0 §4): se entra con una actividad elegida. Pasa por el
+  // mismo consentimiento, aptitud y calibración; al llegar al menú, arranca sola.
+  const luaSolo = route?.params?.luaSolo ? luaSoloActivity(route.params.luaSolo) : undefined;
+  const luaSoloStarted = useRef(false);
+  const luaSoloSent = useRef(false);
+  const luaRewardTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const sendLuaFace = (expression: LuaSemanticExpression) => {
+    const link = linkLua({ bleConnected: isLuaLinked(), expression, light: 'APAGADO', haptic: 'APAGADO', sink: luaSteamFrames });
+    if (link.emitted) luaSoloSent.current = true;
+  };
+  useEffect(() => () => {
+    if (luaRewardTimer.current) clearTimeout(luaRewardTimer.current);
+    if (luaSoloSent.current) luaSteamIdle();
+  }, []);
   const [phase, setPhase] = useState<Phase>('loading');
   const [busyMsg, setBusyMsg] = useState('');
   const [patientKey, setPatientKey] = useState('');
@@ -241,6 +261,9 @@ export const ValeriaArLauncherScreen: React.FC<{ navigation?: any }> = ({ naviga
       }
     }
 
+    const soloHere = luaSolo && luaSolo.exerciseId === exerciseId ? luaSolo : undefined;
+    if (soloHere) sendLuaFace(soloHere.luaStart);
+
     setBusyMsg(t.ar.busyOpeningCamera);
     setPhase('busy');
     const res = await launchAr({
@@ -249,6 +272,8 @@ export const ValeriaArLauncherScreen: React.FC<{ navigation?: any }> = ({ naviga
       thresholds,
       trials: TRIALS_PER_SESSION[exerciseId],
     });
+    // Si la sesión no acaba bien, Lúa no se queda con la cara de inicio puesta.
+    if (soloHere && luaSoloSent.current && (!res || res.outcome !== 'completed')) luaSteamIdle();
 
     if (!res) {
       setNotice(t.ar.noticeLaunchFailed);
@@ -291,10 +316,27 @@ export const ValeriaArLauncherScreen: React.FC<{ navigation?: any }> = ({ naviga
       const participation = res.trials.length ? done / res.trials.length : 0;
       const premio = await registerSession(3 * participation, 1);
       setReward(premio);
-      luaSessionReward(premio); // el mismo premio, en el cristal
+      if (soloHere) {
+        // Primero la cara de fin de la actividad; el desfile del premio, cuando se haya visto.
+        sendLuaFace(soloHere.luaEnd);
+        luaRewardTimer.current = setTimeout(() => { luaRewardTimer.current = null; luaSessionReward(premio); }, LUA_FACE_MS);
+      } else {
+        luaSessionReward(premio); // el mismo premio, en el cristal
+      }
+    } else if (soloHere && luaSoloSent.current) {
+      luaSteamIdle();
     }
     setPhase('result');
   };
+
+  // Solo Lúa: en cuanto el flujo de siempre deja el bloque listo, se abre la
+  // actividad elegida. Una sola vez: al volver al menú, el adulto decide.
+  useEffect(() => {
+    if (phase !== 'menu' || !luaSolo || luaSoloStarted.current || !profile || !thresholds) return;
+    luaSoloStarted.current = true;
+    if (arPolicyFor(profile.level).exercises.includes(luaSolo.exerciseId)) void start(luaSolo.exerciseId);
+    else setNotice(t.steam.luaSoloUnavailable);
+  }, [phase, profile, thresholds]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // -------------------------------------------------------------------------
   const header = (title: string, sub: string) => (
