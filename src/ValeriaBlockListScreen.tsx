@@ -41,6 +41,10 @@ import { PlayButton } from './ui/PlayButton';
 import { ValeriaAwardsSheet } from './ValeriaAwardsSheet';
 import { loadGame, GameState } from './valeriaGamification';
 import { useT, UiStrings } from './i18n';
+import { PressableScale } from 'pressto';
+import * as Haptics from 'expo-haptics';
+import { KidButton } from './ui/KidButton';
+import { FONT } from './ui/fonts';
 
 // Título, etiqueta de protocolo, referencia larga y descripción. Todas son
 // claves i18n QUE YA EXISTÍAN: el rediseño no borra ninguna.
@@ -160,20 +164,12 @@ export const ValeriaBlockListScreen: React.FC<{ navigation: any; route: any }> =
         )}
 
         {/* Sesión completa: encadena los prescritos del bloque en un solo plan. */}
-        <Pressable
-          onPress={() => prescribedIds.length && practice({ ids: prescribedIds })}
-          disabled={!prescribedIds.length}
-          style={[s.sessionBtn, !prescribedIds.length && { opacity: 0.5 }]}
-          accessibilityRole="button"
-          accessibilityLabel={t.hub.fullSessionA11y(prescribedIds.length)}
-        >
-          <View style={s.sessionIcon}><BlockIcon name="session" color="#ffffff" size={26} /></View>
-          <View style={{ flex: 1 }}>
-            <Text style={s.sessionBtnTitle}>{t.hub.fullSession}</Text>
-            <Text style={s.sessionBtnSub}>{t.hub.fullSessionSub(prescribedIds.length)}</Text>
-          </View>
-          <BlockIcon name="play" color="#ffffff" size={20} />
-        </Pressable>
+        <View style={[s.sessionWrap, !prescribedIds.length && { opacity: 0.5 }]}>
+          <KidButton label={`▶  ${t.hub.fullSession}`}
+            accessibilityLabel={t.hub.fullSessionA11y(prescribedIds.length)}
+            onPress={() => { if (prescribedIds.length) practice({ ids: prescribedIds }); }}
+            color={block.accentFg} depth="rgba(0,0,0,0.28)" textColor="#ffffff" />
+        </View>
 
         {/* Ficha del protocolo: PLEGADA por defecto. Es texto para el adulto
             —y parte lleva carga MDR, así que no se puede borrar— pero eran
@@ -216,17 +212,15 @@ export const ValeriaBlockListScreen: React.FC<{ navigation: any; route: any }> =
                   // La FILA ENTERA practica. Antes el único blanco era un botón
                   // de 48 px con un ▶ dentro, compitiendo en peso visual con un
                   // interruptor que en Modo Familia ni siquiera se puede tocar.
-                  <Pressable
+                  <PressableScale
                     key={item.id}
-                    onPress={() => practice({ id: item.id })}
-                    style={[s.row, !on && s.rowOff]}
+                    onPress={() => { void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light); practice({ id: item.id }); }}
+                    style={[s.row, { borderColor: on ? block.accentFg : '#e3dccf' }, !on && s.rowOff]}
                     accessibilityRole="button"
                     accessibilityLabel={t.hub.practiceA11y(item.name)}
                   >
-                    <View style={[s.codeChip, { backgroundColor: on ? block.accentBg : '#f1f5f4' }]}>
-                      <Text style={[s.codeChipTxt, { color: on ? block.accentFg : V.color.textSecondary }]}>
-                        {item.code}
-                      </Text>
+                    <View style={[s.rowIcon, { backgroundColor: on ? block.accentBg : '#f1f5f4' }]}>
+                      <BlockIcon name={block.icon} color={on ? block.accentFg : V.color.textSecondary} size={28} />
                     </View>
 
                     <View style={{ flex: 1 }}>
@@ -246,7 +240,7 @@ export const ValeriaBlockListScreen: React.FC<{ navigation: any; route: any }> =
                     ) : (
                       <PlayButton color={block.accentFg} tint={block.accentBg} />
                     )}
-                  </Pressable>
+                  </PressableScale>
                 );
               })}
             </View>
@@ -286,7 +280,7 @@ export const ValeriaBlockListScreen: React.FC<{ navigation: any; route: any }> =
 };
 
 const s = StyleSheet.create({
-  flex: { flex: 1, backgroundColor: V.color.pageBg },
+  flex: { flex: 1, backgroundColor: '#fff8ec' },
   header: {
     backgroundColor: V.color.primary, paddingTop: V.space.md, paddingHorizontal: V.space.xl,
     paddingBottom: V.space.lg, borderBottomLeftRadius: 26, borderBottomRightRadius: 26,
@@ -350,16 +344,14 @@ const s = StyleSheet.create({
   ageHeadTxt: { fontSize: 12, fontWeight: V.font.extrabold, letterSpacing: 0.5, color: V.color.primaryDark },
   ageHeadLine: { flex: 1, height: 1, backgroundColor: V.color.borderActive },
 
-  row: {
-    flexDirection: 'row', alignItems: 'center', gap: V.space.md, backgroundColor: '#fff',
-    borderWidth: 1, borderColor: V.color.borderActive, borderRadius: 18,
-    padding: 13, marginBottom: 10, ...V.shadow.card,
-  },
-  rowOff: { borderColor: V.color.border, backgroundColor: '#fbfdfd' },
+  row: { flexDirection: 'row', alignItems: 'center', gap: 14, backgroundColor: '#ffffff', borderRadius: 24, borderWidth: 2, borderBottomWidth: 6, paddingVertical: 14, paddingHorizontal: 14, marginBottom: 12 },
+  rowIcon: { width: 56, height: 56, borderRadius: 28, alignItems: 'center', justifyContent: 'center' },
+  sessionWrap: { marginBottom: 18 },
+  rowOff: { backgroundColor: '#fbf7f0' },
   codeChip: { minWidth: 46, height: 34, paddingHorizontal: V.space.sm, borderRadius: 11, alignItems: 'center', justifyContent: 'center' },
   codeChipTxt: { fontSize: 12.5, fontWeight: V.font.extrabold, letterSpacing: 0.3 },
-  rowName: { fontSize: 15, lineHeight: 19, fontWeight: V.font.extrabold, color: V.color.textPrimary },
-  rowCat: { fontSize: 12, lineHeight: 16, fontWeight: V.font.semibold, color: V.color.textSecondary, marginTop: 3 },
+  rowName: { fontFamily: FONT.display, fontSize: 19, lineHeight: 23, color: V.color.textPrimary },
+  rowCat: { fontFamily: FONT.body, fontSize: 13.5, lineHeight: 18, color: V.color.textSecondary, marginTop: 3 },
   rowOffTag: { fontSize: 10.5, fontWeight: V.font.extrabold, color: V.color.textMuted, marginTop: 4, letterSpacing: 0.3 },
   playBtn: {
     width: V.touchMin, height: V.touchMin, borderRadius: 16,
