@@ -32,6 +32,9 @@ import { pairsForLocale } from './valeriaPairBanks';
 import { semanticForLocale } from './valeriaSemanticBanks';
 import { getLocale } from './valeriaLocale';
 import { ValeriaBlockTile } from './ValeriaBlockTile';
+import { PressableScale } from 'pressto';
+import { ProPinModal } from './ValeriaProPin';
+import { CatPixel } from './ValeriaCatPixel';
 import { ScreenHeader } from './ui/ScreenHeader';
 import { BlockIcon, BlockIconName } from './ValeriaBlockIcons';
 import { ValeriaAwardsSheet } from './ValeriaAwardsSheet';
@@ -79,6 +82,7 @@ export const ValeriaHubV11Screen: React.FC<{ navigation: any }> = ({ navigation 
   const [game, setGame] = useState<GameState | null>(null);
   const [inventory, setInventory] = useState<LuaInventoryState>(createDefaultLuaInventory);
   const [awardsOpen, setAwardsOpen] = useState(false);
+  const [pinOpen, setPinOpen] = useState(false);
   const [teaConsentOk, setTeaConsentOk] = useState(false);
   const [teaConsentOpen, setTeaConsentOpen] = useState(false);
 
@@ -251,7 +255,22 @@ export const ValeriaHubV11Screen: React.FC<{ navigation: any }> = ({ navigation 
         kicker="valeria+"
         title={t.hub.title}
         subtitle={t.hub.subtitle}
+        trailing={(
+          <View style={s.headActions}>
+            <PressableScale onPress={() => setAwardsOpen(true)} style={s.headBtn}
+              accessibilityRole="button" accessibilityLabel={t.awards.a11yOpen}>
+              <BlockIcon name="award" color="#e0a800" size={24} />
+            </PressableScale>
+            {/* Zona Familia: mantener pulsado 2 s + PIN. Un toque del niño no abre nada. */}
+            <Pressable onLongPress={() => setPinOpen(true)} delayLongPress={2000} style={s.headBtn}
+              accessibilityRole="button" accessibilityLabel={t.steam.profilePinSubtitle}>
+              <BlockIcon name="lock" color="#0b1220" size={22} />
+            </Pressable>
+          </View>
+        )}
       />
+      <ProPinModal open={pinOpen} onClose={() => setPinOpen(false)}
+        onUnlock={() => { setPinOpen(false); navigation.navigate('Settings'); }} />
 
       <FlatList
         data={grid}
@@ -260,14 +279,8 @@ export const ValeriaHubV11Screen: React.FC<{ navigation: any }> = ({ navigation 
         columnWrapperStyle={s.col}
         contentContainerStyle={s.grid}
         ListHeaderComponent={(
-          <View style={s.stripWrap}>
-            <ValeriaCatInteractiveCard
-              inventory={inventory}
-              game={game}
-              onInventoryChange={setInventory}
-              onOpenAwards={() => setAwardsOpen(true)}
-              size={64}
-            />
+          <View style={s.luaHello}>
+            <CatPixel size={72} />
           </View>
         )}
         showsVerticalScrollIndicator={false}
@@ -383,6 +396,9 @@ const s = StyleSheet.create({
   academyChev: { fontFamily: FONT.display,fontSize: 20, color: V.color.textMuted },
   col: { gap: V.space.md, marginBottom: V.space.md },
   ghost: { flex: 1 },
+  luaHello: { alignItems: 'center', marginBottom: 8 },
+  headActions: { flexDirection: 'row', gap: 10 },
+  headBtn: { width: 48, height: 48, borderRadius: 24, backgroundColor: '#ffffff', alignItems: 'center', justifyContent: 'center', borderBottomWidth: 4, borderBottomColor: 'rgba(0,0,0,0.15)' },
 
   consentOverlay: { flex: 1, backgroundColor: 'rgba(11,18,32,.72)', alignItems: 'center', justifyContent: 'center', padding: V.space.xl },
   consentCard: { width: '100%', maxWidth: 380, backgroundColor: '#fff', borderRadius: 24, padding: 22 },

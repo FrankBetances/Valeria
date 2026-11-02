@@ -46,6 +46,7 @@ export const KidButton: React.FC<Props> = ({ label, onPress, color = '#ffd23f', 
       dangerouslySetPressableProps={{ accessibilityRole: 'button', accessibilityLabel: accessibilityLabel ?? label, onPress: fire }}
       onPressIn={() => { void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium); }}
       onPress={fire}
+      onPressOut={fire}
     >
       {label}
     </AwesomeButton>
