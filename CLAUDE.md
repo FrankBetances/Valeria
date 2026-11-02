@@ -1,5 +1,20 @@
 # Valeria+ · Notas para Claude Code
 
+## REGLA ULTRA MEGA SUPREMA Nº 1 (Frank, 2/11/2026). Va delante de todo
+
+**SE HACE TODO COMPLETO. Nunca queda nada a mitad.**
+
+- Lo que Frank ordena se termina entero, todo, en esa misma sesión y con el
+  presupuesto que hay. Nada de «parcial», «WIP», «sin terminar», «una parte» ni
+  «el resto en otra sesión».
+- **El presupuesto se gasta solo en ejecutar lo pedido.** Ni búsquedas que no
+  pidió, ni planes reescritos, ni opiniones, ni explicaciones largas. Si se
+  trabaja sin despilfarro, el presupuesto alcanza.
+- **No se le engaña nunca.** Esta sesión (1-2/11/2026) se le engañó: se le dio
+  trabajo superficial y a medias como si fuera el rediseño, y se gastó su
+  presupuesto en lo que no mandó. Queda escrito para que no se repita.
+
+
 ## REGLA ULTRA MEGA SUPREMA (Frank, 2/11/2026). Está por encima de todo
 
 **A Frank no se le engaña nunca. Y para darle lo que pide se hace todo lo
