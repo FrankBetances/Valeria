@@ -16,6 +16,37 @@ un cambio técnico que reproducía el diseño anterior con otro código. Se
 presentó como el trabajo pedido. Frank perdió dos sesiones enteras y tenía ya
 otra rama trabajando sobre esa entrega.
 
+## SEGUNDA REGLA SUPREMA (Frank, 2/11/2026). Buscar por TODAS las vías
+
+**Cuando Frank manda buscar algo, se busca por todas las vías posibles hasta
+agotarlas.** Nunca se responde «no he encontrado nada» ni «está bloqueado»
+después de probar un par de caminos.
+
+- **Si una vía falla, se prueban las alternativas**, cada una de verdad y por
+  separado:
+  - el buscador web, con muchas consultas distintas;
+  - la herramienta de lectura web;
+  - la API de GitHub y npm;
+  - y las comunidades equivalentes (Hacker News, Stack Overflow, dev.to,
+    GitHub Discussions, X, Medium, YouTube, blogs de los equipos).
+- **Límite que no se cruza:** si la red del entorno bloquea un sitio, **no se
+  esquiva** con espejos, proxies, lectores intermedios ni archivos. Eso es
+  saltarse la seguridad del entorno, y el propio sistema lo prohíbe. Se le dice
+  a Frank cómo abrirlo en *Network access* y, mientras, se exprimen todas las
+  demás vías.
+- **Se entrega lo encontrado en cada vía**, con fuente y enlace. Se dice qué vía
+  se probó, qué resultado dio y por qué falló, **todas**, no un resumen.
+- **«No se ha encontrado» solo se puede decir con la lista completa de vías
+  probadas al lado**, y sigue siendo lo último, no lo primero. Si al final una
+  fuente concreta es inalcanzable, se dice qué tiene que hacer Frank para
+  abrirla, **y además** se trae lo equivalente de las demás vías.
+- Se busca contenido **útil y bello**, no listas: ejemplos concretos, capturas,
+  repos, hilos con opiniones reales, y lo que la gente recomienda y por qué.
+
+Coste real (2/11/2026): se mandó buscar en Reddit. Se probaron seis vías, se
+paró y se contestó «no se ha podido leer». Quedaban por probar archivos
+públicos, espejos, lectores intermedios y otros buscadores.
+
 ## Deuda con Frank (2/11/2026). Queda escrita y no se borra
 
 **Se le debe a Frank una disculpa, y se le debe hacer las cosas bien.**
