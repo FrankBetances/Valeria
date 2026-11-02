@@ -1,4 +1,4 @@
-# Plan de rediseño completo de Valeria+ (v2, 2/11/2026)
+# Plan de rediseño completo de Valeria+ (v3, 2/11/2026)
 
 **Objetivo único:** que un niño de siete años sepa usar la app sin que nadie se
 la explique, y que sea bonita, viva y fácil de entender. Si una pantalla
@@ -150,6 +150,31 @@ Método:
 | **Mini-juegos STEAM** | `bberak/react-native-game-engine` 3 102 · MIT · sin push desde 2024-12 | **No hace falta**: los retos son de toque y arrastre |
 | **Tipografía** | `expo/google-fonts` 948 · MIT; Fredoka y Nunito (OFL) | **Fredoka + Nunito** |
 
+### 4.0b Lo que hace la app bonita: piezas y referencias (Reddit, X, Dribbble, GitHub)
+
+**Reddit:** mi buscador web **no tiene acceso a reddit.com** (devuelve «domain
+not accessible»). Por una copia espejo solo llegué a un hilo de r/reactnative:
+KiDraw, una app de dibujo para niños pequeños hecha con React Native Skia.
+
+| Qué | Dato real | Para qué en Valeria+ |
+| --- | --- | --- |
+| **`rcaferati/react-native-awesome-button`** (npm `react-native-really-awesome-button` 2.0.4) | 1 279★ · MIT · último push 2026-08-31. Peers solo react y react-native: **encaja sin tocar el stack** | **El botón del niño**: botón 3D que se hunde al pulsarlo, con progreso. Es la sensación «Duolingo» al tocar. **Se adopta** |
+| **Moti `motifySvg`** | Catalin Miron (X, @mironcatalin) anima iconos SVG con Moti y Reanimated en unas pestañas | **Nuestros iconos propios** (`ValeriaBlockIcons`) cobran vida: rebotan y se dibujan solos, sin cambiar el set (regla 5) |
+| **`wcandillon/can-it-be-done-in-react-native`** | 4 199★ · MIT · 2025-05 | Código de referencia de animaciones de alto nivel. Se copia lo que sirva, con su licencia |
+| **`enzomanuelmangano/demos`** | 3 231★ · licencia **sin declarar** (sin fichero LICENSE) | **Solo para mirar**: no se copia código sin licencia |
+| **Duolingo** (blog oficial) | Personajes animados con Rive: posturas y bocas que se mueven al hablar (*visemes*) | Lúa reacciona a todo: escucha, piensa, acierta, anima. Se hace con fotogramas del sprite pixel y Moti; **Rive queda como decisión de Frank** (§9) |
+| **Dribbble, Lazyweb** (apps infantiles) | Patrón repetido: la mascota protagoniza la pantalla de inicio, saluda, y debajo vienen tarjetas grandes ilustradas | Confirma la Casa de Lúa: la gata saluda por su nombre al niño y debajo están las seis puertas |
+| **X, @makeitanimated** | Escaparate de animaciones de RN con Reanimated: carruseles, pestañas, tirar para recargar | Fuente de ideas para las transiciones de F5 |
+
+Fuentes:
+- [Duolingo: world character visemes](https://blog.duolingo.com/world-character-visemes)
+- [Rive: Duolingo y Lily](https://rive.app/blog/duolingo-s-ai-powered-video-call-brings-lily-to-life)
+- [Catalin Miron en X (Moti y motifySvg)](https://x.com/mironcatalin/status/1834501811882876952)
+- [make it animated en X](https://x.com/makeitanimated)
+- [Colección Dribbble de apps infantiles](https://dribbble.com/jkuts/collections/4988199-kidsapp)
+- [Lazyweb: «reading buddy»](https://lazyweb.com/canvas/flows/epic/customize-reading-buddy)
+- [Hilo KiDraw de r/reactnative (espejo)](https://reddit.birdcat.cafe/r/reactnative/comments/1e1i6ak/show_your_work_thread)
+
 **Pautas de diseño para niños: lo encontrado y lo que no.**
 - **NN/g:** no he encontrado ningún artículo suyo sobre niños de 3 a 12 años.
   Su pauta de 1 × 1 cm por botón solo aparece citada por terceros y no la he
@@ -270,7 +295,7 @@ En todas: fuentes nuevas, colores nuevos, botón de casa y voz al tocar.
 
 | Fase | Qué se hace | Cómo se comprueba |
 | --- | --- | --- |
-| **F0 · Base** | Capturar `main` actual (las 27 rutas) como «antes». Añadir gesture-handler ~2.28, Moti 0.30, Lottie ~7.3.1, bottom-sheet 5.2.14, Carousel 4.0.3, draggable-flatlist 4.0.3, chart-kit 7.0.4, expo-haptics, expo-image, las fuentes, Fluent Emoji y los sonidos de Kenney. Tokens nuevos de color y escala | `npm ci` limpio, sin flags (E11); build de CI en verde **antes** de tocar pantallas |
+| **F0 · Base** | Capturar `main` actual (las 27 rutas) como «antes». Añadir gesture-handler ~2.28, Moti 0.30, Lottie ~7.3.1, bottom-sheet 5.2.14, Carousel 4.0.3, draggable-flatlist 4.0.3, chart-kit 7.0.4, really-awesome-button 2.0.4, expo-haptics, expo-image, las fuentes, Fluent Emoji y los sonidos de Kenney. Tokens nuevos de color y escala | `npm ci` limpio, sin flags (E11); build de CI en verde **antes** de tocar pantallas |
 | **F1 · Gates nuevos** | Gate de contraste AA sobre los tokens. Gate de jerga en textos del modo niño: amplía `check-regulatory-vocabulary.js` a códigos como «FF-1», «XP» y «prescribir». Gate de tamaño mínimo de toque en componentes del niño | Los gates fallan con el diseño viejo y pasan con el nuevo |
 | **F2 · Modo niño** | Bienvenida, ¿Quién juega?, Casa de Lúa, BlockList y pantallas 6 a 12. Iconos rellenos. Ilustraciones que sustituyen a los emoji | Captura de cada una. Checklist §7 pantalla a pantalla |
 | **F3 · Zona Familia** | Candado, PIN, Ajustes, Cómo va, Academy, Ficha, Créditos y LuaInfo | **Prueba real de la Ficha:** alta, edición y guardado de un niño |
@@ -330,3 +355,7 @@ entienda es una **hipótesis**, no un hecho.
 4. **Imágenes de los ejercicios:** ¿Fluent Emoji de Microsoft (MIT, 10 189★)
    en lugar de los emoji del sistema? La regla 5 habla de iconos, y esto son
    imágenes de contenido; por eso lo decides tú.
+5. **Animación de Lúa:** ¿sigue con su sprite pixel animado con Moti, o se
+   dibuja en Rive como hace Duolingo? Rive da más expresión, pero exige rehacer
+   a Lúa en otro formato y tocar la cadena de `ValeriaCatPixel` y del
+   periférico (regla 5b).
