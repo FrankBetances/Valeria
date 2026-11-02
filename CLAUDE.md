@@ -1,5 +1,25 @@
 # Valeria+ · Notas para Claude Code
 
+## NECESIDADES PARA TRABAJAR (Frank, 2/11/2026). Se dicen ANTES de empezar. Aquí no se inventa
+
+**Antes de empezar cualquier trabajo se escribe qué hace falta para hacerlo y
+verificarlo, y qué falta en el entorno.** Si falta algo, se dice en ese momento
+con la forma de conseguirlo. Nunca se suple con suposiciones ni se inventa un
+resultado.
+
+Comprobado en este entorno de nube el 2/11/2026:
+
+| Necesidad | Para qué | Estado | Cómo se consigue |
+| --- | --- | --- | --- |
+| SDK de Android (`ANDROID_HOME`, `sdkmanager`) | Compilar Gradle en local antes de empujar | **NO está** | Script de setup del entorno, o compilar solo en CI y avisarlo antes |
+| `expo export:embed --platform android` | Probar el bundle JS de Android (el paso que mató el build 729) | **Sí funciona** | `npx expo export:embed --platform android --dev false --entry-file node_modules/expo/AppEntry.js --bundle-output /tmp/x.bundle --assets-dest /tmp/xres` |
+| API de Expo (`api.expo.dev`, `exp.host`) | `expo install`, `expo-doctor` | **Bloqueada** | Usar `EXPO_OFFLINE=1 npx expo install …`; revisar a mano `devDependencies` (`babel-preset-expo`) |
+| Chromium para capturas | Ver las pantallas en web | **Sí**, en `/opt/pw-browsers/chromium` (no en chromium-1194) | `CHROMIUM_PATH=/opt/pw-browsers/chromium` |
+| Descargas de npm (`api.npmjs.org`), Reddit, Hacker News, dev.to, Stack Overflow | Medir uso y leer comunidades | **Bloqueados** | Añadirlos en *Network access* del entorno |
+| Registro de npm, `raw.githubusercontent.com`, búsqueda de GitHub | Versiones, `peerDependencies`, README | **Sí** | — |
+| Un Android físico | Verificar disposición y toques reales | **NO** | Lo prueba Frank; hasta entonces se dice «no visto en aparato» |
+
+
 ## REGLA: NINGÚN BUILD PUEDE FALLAR (Frank, 2/11/2026)
 
 **Antes de mandar nada a CI se comprueba que no va a fallar. No se admiten fallos.**
