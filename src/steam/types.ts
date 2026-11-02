@@ -90,6 +90,13 @@ export type HapticPattern =
   | 'METRONOMO_LENTO'
   | 'RONRONEO';
 
+/**
+ * Modalidad de RA (PLAN-INTEGRACION-AR-LUA-CONSTRUYE v3.0 §2.1). En los retos
+ * S0–S6 no se elige: SET_WITH_LUA es SET_SOLO con Lúa enlazada. LUA_SOLO son
+ * las actividades sin set.
+ */
+export type SteamArMode = 'LUA_SOLO' | 'SET_SOLO' | 'SET_WITH_LUA';
+
 /** Los siete mundos del plan (Sets 0 a 6 de Construye con Lúa). */
 export type SteamWorldId = 'S0' | 'S1' | 'S2' | 'S3' | 'S4' | 'S5' | 'S6';
 

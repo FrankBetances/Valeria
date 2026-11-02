@@ -409,6 +409,11 @@ jobs:
       - name: Comprobar los mundos STEAM
         run: node scripts/check-steam-manifests.js
 
+      # Plan de integración RA v3.0 §2.2: lo que cada reto pide a la cámara,
+      # contrastado con los detectores que el Kotlin tiene de verdad.
+      - name: Comprobar las necesidades de cámara de los retos
+        run: node scripts/check-steam-ar-needs.js
+
       - name: Comprobar tipos
         run: npm run typecheck
 

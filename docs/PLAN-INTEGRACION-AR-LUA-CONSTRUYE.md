@@ -250,11 +250,12 @@ grep -oP '(?<=run: )node scripts/\S+(?: --\S+)?' .github/workflows/android.yml |
 npm run typecheck
 ```
 
-Gates nuevos que propone este plan (no existen todavía):
+Gates nuevos de este plan:
 
-| Gate | Qué impide |
-| :--- | :--- |
-| `check-steam-ar-needs.js` | Que un reto declare un detector que el módulo nativo no exporta, o un GLB que no está en `assets/models/` |
+| Gate | Qué impide | Estado |
+| :--- | :--- | :--- |
+| `check-steam-ar-needs.js` | Que `NATIVE_AR_DETECTORS` diga algo distinto de lo que importa el Kotlin (en los dos sentidos), que falte `adult_tap`, que un evento use un método desconocido o que un reto de set salga en `LUA_SOLO` | **Existe** (Fase 2), en `android.yml`. Probado en rojo de cuatro formas |
+| Ampliar `check-steam-ar-needs.js` | Que un reto declare un GLB de capa de revelación que no está en `assets/models/` | Fase 6 |
 | Ampliar `check-lua-mascot-mirror.js` | Que `LIGHT`/`HAPTIC` se emitan en `PHASE(0)/(1)` o sin `CAP_*` |
 | Ampliar `check-steam-manifests.js` | Que reaparezcan `AFFECT` con nombre equivocado o IDs de S8–S11 |
 
@@ -269,7 +270,7 @@ subir el número congelado de `scripts/test-challenger-final-ca-integration.js`.
 | Fase | Qué | Dónde | Cómo se comprueba | Bloqueo |
 | :- | :--- | :--- | :--- | :--- |
 | **1** | Este documento | `docs/` | Lectura de Frank | — |
-| **2** | `SteamArMode` + `ChallengeArNeeds` en `src/steam/types.ts`, rellenar los 35 retos, gate `check-steam-ar-needs.js` | `src/steam/` | Gates + typecheck. **Nada visible** | Aprobación de Frank (S0b) |
+| **2** | `SteamArMode` en `types.ts`; `src/steam/arNeeds.ts` **calcula** las necesidades de cada reto a partir de los `methods` de sus eventos (no se rellenan a mano: serían una segunda copia, regla 9.8); gate `check-steam-ar-needs.js` | `src/steam/` | Gates + typecheck. **Nada visible** | **Hecha el 2/11/2026** en la rama `sets`. Resultado: de 35 retos, 3 (S4) tienen algún evento captable por el módulo nativo; `marker` lo piden 34, `occlusion` 9, `hand` 7; 5 (S3) usan el detector descartado y se quedan en `adult_tap` |
 | **3** | L01 y L04 como «Solo Lúa»: tarjeta en Mundos → reutiliza `ValeriaArLauncherScreen` con `ar1`/`ar3` y espeja las caras de §4 | `src/`, puente AR | Gates + captura web + **aparato** (§1c) | Fase 2 |
 | **4** | Banco D2: ArUco y AprilTag con piezas impresas y tableta en soporte | Banco de Frank + rama de prueba | Tasa de detección, fps, tamaño del APK | Piezas impresas |
 | **5** | Sincronizar `protocol.json` con `lua-firmware` (`LIGHT`, `HAPTIC`, `CAP_*`) + `TurnGate` B3-A | `firmware/lua/`, `LuaLink.ts` | `build-lua-protocol.js --check` + mirror | Firmware del cubo y topología BLE escritos |
