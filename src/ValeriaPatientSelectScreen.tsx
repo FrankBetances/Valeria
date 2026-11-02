@@ -19,6 +19,12 @@ import { V, STORAGE_KEYS } from './valeriaTheme';
 import { isLocale, setGalicianDialect, setLocale } from './valeriaLocale';
 import { BlockIcon } from './ValeriaBlockIcons';
 import { useT } from './i18n';
+import { PressableScale } from 'pressto';
+import * as Haptics from 'expo-haptics';
+import { ScreenHeader } from './ui/ScreenHeader';
+import { KidButton } from './ui/KidButton';
+import { FONT } from './ui/fonts';
+import { CatPixel } from './ValeriaCatPixel';
 // import logoWhite from '../../assets/valeria-logo-white.png';
 
 interface Paciente {
@@ -92,58 +98,37 @@ export const ValeriaPatientSelectScreen: React.FC<{ navigation?: any }> = ({ nav
 
   return (
     <View style={s.flex}>
-      {/* Cabecera teal */}
-      <View style={s.header}>
-        <Pressable style={s.back} onPress={() => navigation?.navigate('Welcome')}>
-          <Text style={s.backText}>{`‹ ${t.common.back}`}</Text>
-        </Pressable>
-        {/* <Image source={logoWhite} style={s.logo} /> */}
-        <Text style={s.brand}>valeria</Text>
-        <Text style={s.title}>{t.patientSelect.title}</Text>
-        <Text style={s.subtitle}>{subtitle}</Text>
-      </View>
+      <ScreenHeader onBack={() => navigation?.navigate('Welcome')} backLabel={t.common.back}
+        kicker="valeria+" title={t.patientSelect.title} subtitle={subtitle} />
 
       <ScrollView style={s.flex} contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
-        {/* Lista de pacientes */}
-        {pacientes.map((p, i) => (
-          <Pressable
-            key={`${p.nhc || p.nombre || 'p'}-${i}`}
-            style={({ pressed }) => [s.card, pressed && { borderColor: V.color.borderActive }]}
-            onPress={() => seleccionar(p)}
-          >
-            <View style={s.avatar}>
-              <Text style={s.avatarIcon}>{initialFor(p)}</Text>
-            </View>
-            <View style={s.cardBody}>
+        <View style={s.grid}>
+          {pacientes.map((p, i) => (
+            <PressableScale key={`${p.nhc || p.nombre || 'p'}-${i}`} style={s.cell}
+              onPress={() => { void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light); seleccionar(p); }}
+              accessibilityRole="button"
+              accessibilityLabel={`${p.nombre || t.patientSelect.patientFallback}. ${p.patologia ? t.ficha.pathologyLabel(p.patologia) : t.patientSelect.noDiagnosis}`}>
+              <View style={[s.face, { backgroundColor: FACE_COLORS[i % FACE_COLORS.length], borderColor: FACE_DEPTH[i % FACE_DEPTH.length] }]}>
+                <Text style={s.faceInitial}>{initialFor(p)}</Text>
+              </View>
               <Text style={s.name} numberOfLines={1}>{p.nombre || t.patientSelect.patientFallback}</Text>
-              <Text style={s.diag} numberOfLines={1}>{p.patologia ? t.ficha.pathologyLabel(p.patologia) : t.patientSelect.noDiagnosis}</Text>
-            </View>
-            <View style={s.nhcPill}>
-              <Text style={s.nhcText}>{p.nhc || '—'}</Text>
-            </View>
-            <Text style={s.chevron}>›</Text>
-          </Pressable>
-        ))}
+              {!!p.nhc && <Text style={s.nhc} numberOfLines={1}>{p.nhc}</Text>}
+            </PressableScale>
+          ))}
+        </View>
 
-        {/* Estado vacío */}
         {pacientes.length === 0 && (
           <View style={s.empty}>
-            <View style={s.emptyIcon}>
-              <BlockIcon name="folder" color={V.color.primaryDark} size={34} />
-            </View>
+            <CatPixel size={96} />
             <Text style={s.emptyTitle}>{t.patientSelect.emptyTitle}</Text>
             <Text style={s.emptyDesc}>{t.patientSelect.emptyBody}</Text>
           </View>
         )}
 
-        {/* Registrar nuevo */}
-        <Pressable
-          style={({ pressed }) => [s.newBtn, pressed && { backgroundColor: V.color.primaryTint }]}
-          onPress={() => navigation?.navigate('FichaRegistro')}
-        >
-          <BlockIcon name="plus" color={V.color.primaryDark} size={20} />
-          <Text style={s.newText}>{t.patientSelect.newPatient}</Text>
-        </Pressable>
+        <View style={s.cta}>
+          <KidButton label={`+  ${t.patientSelect.newPatient}`} onPress={() => navigation?.navigate('FichaRegistro')}
+            color="#ffffff" depth="#d9cdb8" textColor={V.color.textPrimary} />
+        </View>
 
         <View style={s.privacy}>
           <BlockIcon name="lock" color={V.color.textSecondary} size={14} />
@@ -154,99 +139,24 @@ export const ValeriaPatientSelectScreen: React.FC<{ navigation?: any }> = ({ nav
   );
 };
 
+const FACE_COLORS = ['#ffd23f', '#7fe3dd', '#ffb3c8', '#c7b8ff', '#a8e6a1', '#ffc58a'];
+const FACE_DEPTH = ['#e0a800', '#00a39e', '#e26b8f', '#7c5cff', '#4caf50', '#e8892f'];
+
 const s = StyleSheet.create({
-  flex: { flex: 1, backgroundColor: V.color.pageBg },
-
-  header: {
-    backgroundColor: V.color.primary,
-    paddingHorizontal: 22,
-    paddingTop: 14,
-    paddingBottom: 18,
-    borderBottomLeftRadius: 26,
-    borderBottomRightRadius: 26,
-  },
-  back: {
-    alignSelf: 'flex-start',
-    backgroundColor: 'rgba(255,255,255,0.18)',
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.32)',
-    borderRadius: 11,
-    paddingVertical: 5,
-    paddingHorizontal: 11,
-    marginBottom: 10,
-  },
-  backText: { color: '#fff', fontSize: 12, fontWeight: V.font.extrabold },
-  logo: { height: 21, width: 92, resizeMode: 'contain', marginBottom: 8 },
-  brand: { fontSize: 20, fontWeight: V.font.extrabold, color: '#fff', marginBottom: 8, letterSpacing: -0.5 },
-  title: { fontSize: 24, fontWeight: V.font.extrabold, color: '#fff', letterSpacing: -0.4 },
-  subtitle: { fontSize: 13, color: 'rgba(255,255,255,0.9)', marginTop: 4, fontWeight: V.font.semibold },
-
-  scroll: { padding: 18, paddingBottom: 28 },
-
-  card: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: V.color.card,
-    borderWidth: 1,
-    borderColor: V.color.border,
-    borderRadius: 17,
-    paddingVertical: 14,
-    paddingHorizontal: 15,
-    marginBottom: 12,
-    ...V.shadow.card,
-  },
-  avatar: {
-    width: 48,
-    height: 48,
-    borderRadius: 15,
-    backgroundColor: V.color.primaryLight,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginRight: 13,
-  },
-  avatarIcon: { fontSize: 22, fontWeight: V.font.extrabold, color: V.color.primaryDark, letterSpacing: 0.5 },
-  cardBody: { flex: 1, minWidth: 0 },
-  name: { fontSize: 16, fontWeight: V.font.extrabold, color: V.color.textPrimary },
-  diag: { fontSize: 12, fontWeight: V.font.bold, color: V.color.textSecondary, marginTop: 3 },
-  nhcPill: {
-    backgroundColor: V.color.primaryLight,
-    borderRadius: 9,
-    paddingVertical: 5,
-    paddingHorizontal: 9,
-    marginHorizontal: 8,
-  },
-  nhcText: { fontSize: 11, fontWeight: V.font.extrabold, color: V.color.primaryDark },
-  chevron: { color: V.color.primary, fontSize: 18, fontWeight: V.font.extrabold },
-
-  empty: { alignItems: 'center', paddingVertical: 36, paddingHorizontal: 24 },
-  emptyIcon: {
-    width: 72, height: 72, borderRadius: 36, backgroundColor: V.color.primaryLight,
-    alignItems: 'center', justifyContent: 'center',
-  },
-  emptyTitle: { fontSize: 17, fontWeight: V.font.extrabold, color: V.color.textPrimary, marginTop: 18 },
-  emptyDesc: {
-    fontSize: 13.5, fontWeight: V.font.semibold, color: '#6b7280', marginTop: 6,
-    lineHeight: 19, textAlign: 'center', maxWidth: 240,
-  },
-
-  newBtn: {
-    marginTop: 6,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 8,
-    backgroundColor: V.color.card,
-    borderWidth: 1.5,
-    borderStyle: 'dashed',
-    borderColor: V.color.primary,
-    borderRadius: 14,
-    paddingVertical: 15,
-  },
-  newPlus: { fontSize: 18, color: V.color.primaryDark, fontWeight: V.font.extrabold },
-  newText: { fontSize: 15, color: V.color.primaryDark, fontWeight: V.font.extrabold },
-
-  privacy: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 7, marginTop: 18, paddingHorizontal: 10 },
-  privacyText: { fontSize: 11, fontWeight: V.font.semibold, color: V.color.textSecondary, textAlign: 'center' },
+  flex: { flex: 1, backgroundColor: '#fff8ec' },
+  scroll: { padding: 20, paddingBottom: 48 },
+  grid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', gap: 18 },
+  cell: { width: 140, alignItems: 'center' },
+  face: { width: 118, height: 118, borderRadius: 59, alignItems: 'center', justifyContent: 'center', borderWidth: 3, borderBottomWidth: 9 },
+  faceInitial: { fontFamily: FONT.display, fontSize: 52, color: '#0b1220' },
+  name: { fontFamily: FONT.display, fontSize: 20, color: V.color.textPrimary, marginTop: 10, textAlign: 'center' },
+  nhc: { fontFamily: FONT.bodyBold, fontSize: 12, color: V.color.textSecondary, marginTop: 2 },
+  empty: { alignItems: 'center', paddingVertical: 24 },
+  emptyTitle: { fontFamily: FONT.display, fontSize: 24, color: V.color.textPrimary, marginTop: 16, textAlign: 'center' },
+  emptyDesc: { fontFamily: FONT.body, fontSize: 15, lineHeight: 21, color: V.color.textSecondary, marginTop: 6, textAlign: 'center', maxWidth: 300 },
+  cta: { marginTop: 28 },
+  privacy: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6, marginTop: 18 },
+  privacyText: { fontFamily: FONT.body, fontSize: 12, color: V.color.textSecondary, flexShrink: 1, textAlign: 'center' },
 });
 
 export default ValeriaPatientSelectScreen;
