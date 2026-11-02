@@ -15,6 +15,7 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import Svg, { Circle } from 'react-native-svg';
 import { LUA_COLORS } from './Theme/luaTheme';
+import { FONT } from '../ui/fonts';
 
 interface Props {
   /** Pulsos del compás (uno por verso). */
@@ -64,5 +65,5 @@ export const LuaRhythmBar: React.FC<Props> = ({
 const s = StyleSheet.create({
   wrap: { alignItems: 'center', gap: 6 },
   row: { flexDirection: 'row', alignItems: 'center', gap: 10 },
-  tempo: { fontSize: 11.5, fontWeight: '800', color: LUA_COLORS.coralDark, letterSpacing: 0.3 },
+  tempo: { fontFamily: FONT.bodyBlack,fontSize: 11.5, color: LUA_COLORS.coralDark, letterSpacing: 0.3 },
 });

@@ -20,6 +20,7 @@ import { luaCompleteActivity, useLuaActivityCleanup } from "../luaActivityReward
 import { LuaSong, luaSongsFor } from "../index";
 import { LuaRhythmBar } from "../LuaRhythmBar";
 import { getLocale } from "../../valeriaLocale";
+import { FONT } from '../../ui/fonts';
 
 interface Props {
   navigation: any;
@@ -288,7 +289,7 @@ const s = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: LUA_COLORS.primary,
   },
-  finishBtnTxt: { color: LUA_COLORS.textOnPrimary, fontSize: 17, fontWeight: "800" },
+  finishBtnTxt: { fontFamily: FONT.bodyBold,color: LUA_COLORS.textOnPrimary, fontSize: 17 },
   finishDoneTxt: {
     marginTop: 8,
     fontSize: 17,
@@ -439,7 +440,7 @@ const s = StyleSheet.create({
     backgroundColor: LUA_COLORS.coralDark,
   },
   rhythmBtnOn: { backgroundColor: LUA_COLORS.primaryDark },
-  rhythmBtnTxt: { fontSize: 14.5, fontWeight: "800", color: "#FFFFFF" },
+  rhythmBtnTxt: { fontFamily: FONT.bodyBold,fontSize: 14.5, color: "#FFFFFF" },
   taskCard: {
     backgroundColor: LUA_COLORS.surface,
     borderRadius: LUA_RADII.lg,

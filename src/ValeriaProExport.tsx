@@ -15,6 +15,7 @@ import { BlockIcon } from './ValeriaBlockIcons';
 import { useT } from './i18n';
 import { ValeriaQRCode } from './ValeriaQRCode';
 import { buildExport, purgeAfterExport, ExportBundle } from './valeriaTelemetry';
+import { FONT } from './ui/fonts';
 
 export const ValeriaProExportModal: React.FC<{ open: boolean; onClose: () => void }> = ({ open, onClose }) => {
   const t = useT();
@@ -110,21 +111,21 @@ const s = StyleSheet.create({
   overlay: { ...StyleSheet.absoluteFill, backgroundColor: 'rgba(11,18,32,.6)', alignItems: 'center', justifyContent: 'center', padding: 20, zIndex: 30 },
   modal: { width: '100%', maxWidth: 360, maxHeight: '90%', backgroundColor: '#fff', borderRadius: 24, padding: 20 },
   head: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 },
-  kicker: { fontSize: 12, fontWeight: '800', letterSpacing: 0.8, color: V.color.primaryDark },
+  kicker: { fontFamily: FONT.bodyBlack,fontSize: 12, letterSpacing: 0.8, color: V.color.primaryDark },
   close: { width: 30, height: 30, borderRadius: 15, backgroundColor: '#f1f5f4', alignItems: 'center', justifyContent: 'center' },
-  closeTxt: { color: '#6b7280', fontWeight: '700' },
-  title: { fontSize: 20, fontWeight: '800', color: V.color.textPrimary, marginTop: 4, alignSelf: 'flex-start' },
-  sub: { fontSize: 12.5, fontWeight: '600', color: V.color.textMuted, marginTop: 4, marginBottom: 16, lineHeight: 17, alignSelf: 'flex-start' },
-  qrCaption: { fontSize: 11.5, fontWeight: '700', color: V.color.textMuted, marginTop: 10 },
+  closeTxt: { fontFamily: FONT.bodyBlack,color: '#6b7280' },
+  title: { fontFamily: FONT.display,fontSize: 20, color: V.color.textPrimary, marginTop: 4, alignSelf: 'flex-start' },
+  sub: { fontFamily: FONT.bodyBold,fontSize: 12.5, color: V.color.textMuted, marginTop: 4, marginBottom: 16, lineHeight: 17, alignSelf: 'flex-start' },
+  qrCaption: { fontFamily: FONT.bodyBlack,fontSize: 11.5, color: V.color.textMuted, marginTop: 10 },
   stats: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginTop: 16, alignSelf: 'stretch', justifyContent: 'space-between' },
   stat: { width: '31%', backgroundColor: V.color.pageBg, borderWidth: 1, borderColor: V.color.border, borderRadius: 12, paddingVertical: 10, alignItems: 'center' },
-  statValue: { fontSize: 17, fontWeight: '800', color: V.color.textPrimary },
-  statLabel: { fontSize: 10, fontWeight: '700', color: V.color.textMuted, marginTop: 2, textAlign: 'center' },
+  statValue: { fontFamily: FONT.display,fontSize: 17, color: V.color.textPrimary },
+  statLabel: { fontFamily: FONT.bodyBlack,fontSize: 10, color: V.color.textMuted, marginTop: 2, textAlign: 'center' },
   shareBtn: { alignSelf: 'stretch', backgroundColor: V.color.primary, borderRadius: 14, paddingVertical: 15, alignItems: 'center', marginTop: 18, ...V.shadow.button },
-  shareBtnTxt: { color: '#fff', fontSize: 14, fontWeight: '800' },
-  note: { fontSize: 12, fontWeight: '700', color: V.color.textMuted, marginTop: 12, textAlign: 'center' },
+  shareBtnTxt: { fontFamily: FONT.bodyBlack,color: '#fff', fontSize: 14 },
+  note: { fontFamily: FONT.bodyBlack,fontSize: 12, color: V.color.textMuted, marginTop: 12, textAlign: 'center' },
   notePurged: { color: V.color.primaryDark },
-  loading: { fontSize: 13, fontWeight: '700', color: V.color.textMuted, paddingVertical: 40 },
+  loading: { fontFamily: FONT.bodyBlack,fontSize: 13, color: V.color.textMuted, paddingVertical: 40 },
 });
 
 export default ValeriaProExportModal;

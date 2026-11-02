@@ -30,6 +30,7 @@ import { ValeriaManualNoiseSlider } from './ValeriaManualNoiseSlider';
 import { BlockIcon } from './ValeriaBlockIcons';
 import { AR_THRESHOLD_RANGES } from './valeriaArSettings';
 import type { ArThresholds } from './valeriaArBridge';
+import { FONT } from './ui/fonts';
 
 // Ajuste por pasos en lugar de deslizador: un umbral clínico se fija con una
 // cifra deliberada, no arrastrando el dedo. Además queda legible en el registro.
@@ -177,32 +178,32 @@ export const ValeriaAdultChaosPanel: React.FC<{
 const s = StyleSheet.create({
   panel: { backgroundColor: '#fffdf7', borderWidth: 1.5, borderColor: '#f0e6cc', borderRadius: 18, padding: 13, marginTop: 18 },
   head: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
-  kicker: { fontSize: 11, fontWeight: '800', letterSpacing: 0.6, color: '#9a5b13' },
-  chev: { fontSize: 14, fontWeight: '800', color: '#9a5b13' },
-  hint: { fontSize: 11.5, fontWeight: '600', color: V.color.textMuted, marginTop: 8, marginBottom: 10, lineHeight: 16 },
+  kicker: { fontFamily: FONT.bodyBlack,fontSize: 11, letterSpacing: 0.6, color: '#9a5b13' },
+  chev: { fontFamily: FONT.bodyBlack,fontSize: 14, color: '#9a5b13' },
+  hint: { fontFamily: FONT.bodyBold,fontSize: 11.5, color: V.color.textMuted, marginTop: 8, marginBottom: 10, lineHeight: 16 },
   dualRow: { flexDirection: 'row', alignItems: 'center', gap: 10, backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.border, borderRadius: 16, padding: 13, marginTop: 10 },
-  dualTitle: { fontSize: 13, fontWeight: '800', color: V.color.textPrimary },
-  dualSub: { fontSize: 11, fontWeight: '600', color: V.color.textMuted, marginTop: 3, lineHeight: 15 },
+  dualTitle: { fontFamily: FONT.bodyBlack,fontSize: 13, color: V.color.textPrimary },
+  dualSub: { fontFamily: FONT.bodyBold,fontSize: 11, color: V.color.textMuted, marginTop: 3, lineHeight: 15 },
   pragBtn: { backgroundColor: '#fff7ed', borderWidth: 1.5, borderColor: '#fcd9a8', borderRadius: 14, paddingVertical: 12, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 7, marginTop: 10 },
-  pragBtnTxt: { color: '#9a5b13', fontSize: 13, fontWeight: '800' },
+  pragBtnTxt: { fontFamily: FONT.bodyBlack,color: '#9a5b13', fontSize: 13 },
 
   // [RA] Umbrales del bloque de Realidad Aumentada
   arBox: { backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.border, borderRadius: 16, padding: 13, marginTop: 10 },
-  arKicker: { fontSize: 10.5, fontWeight: '800', letterSpacing: 0.6, color: V.color.primaryDark },
-  arHint: { fontSize: 11, fontWeight: '600', color: V.color.textMuted, marginTop: 6, marginBottom: 4, lineHeight: 15 },
+  arKicker: { fontFamily: FONT.bodyBlack,fontSize: 10.5, letterSpacing: 0.6, color: V.color.primaryDark },
+  arHint: { fontFamily: FONT.bodyBold,fontSize: 11, color: V.color.textMuted, marginTop: 6, marginBottom: 4, lineHeight: 15 },
   stepRow: { flexDirection: 'row', alignItems: 'center', gap: 8, borderTopWidth: 1, borderTopColor: V.color.border, paddingTop: 10, marginTop: 8 },
-  stepLabel: { fontSize: 12.5, fontWeight: '800', color: V.color.textPrimary },
-  stepHint: { fontSize: 10.5, fontWeight: '600', color: V.color.textMuted, marginTop: 2, lineHeight: 14 },
+  stepLabel: { fontFamily: FONT.bodyBlack,fontSize: 12.5, color: V.color.textPrimary },
+  stepHint: { fontFamily: FONT.bodyBold,fontSize: 10.5, color: V.color.textMuted, marginTop: 2, lineHeight: 14 },
   // 40×40 + hitSlop: mismo mínimo accesible que el resto de controles del adulto.
   stepBtn: { width: 40, height: 40, borderRadius: 13, backgroundColor: V.color.primaryLight, borderWidth: 1, borderColor: V.color.borderActive, alignItems: 'center', justifyContent: 'center' },
   stepBtnOff: { opacity: 0.35 },
-  stepBtnTxt: { fontSize: 18, fontWeight: '800', color: V.color.primaryDark, lineHeight: 20 },
-  stepValue: { minWidth: 58, textAlign: 'center', fontSize: 12.5, fontWeight: '800', color: V.color.textPrimary },
+  stepBtnTxt: { fontFamily: FONT.display,fontSize: 18, color: V.color.primaryDark, lineHeight: 20 },
+  stepValue: { fontFamily: FONT.bodyBlack,minWidth: 58, textAlign: 'center', fontSize: 12.5, color: V.color.textPrimary },
   pointerRow: { flexDirection: 'row', alignItems: 'center', gap: 10, borderTopWidth: 1, borderTopColor: V.color.border, paddingTop: 10, marginTop: 8 },
   segment: { flexDirection: 'row', backgroundColor: '#f1f5f4', borderRadius: 12, padding: 3, gap: 3 },
   segBtn: { paddingHorizontal: 12, paddingVertical: 9, borderRadius: 10 },
   segBtnOn: { backgroundColor: V.color.primary },
-  segTxt: { fontSize: 12, fontWeight: '800', color: V.color.textMuted },
+  segTxt: { fontFamily: FONT.bodyBlack,fontSize: 12, color: V.color.textMuted },
   segTxtOn: { color: '#fff' },
 });
 

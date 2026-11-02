@@ -25,6 +25,7 @@ import {
   getTriggerLabel,
 } from './sensoryCatalog';
 import { recordSensorySession } from './sensoryStore';
+import { FONT } from '../ui/fonts';
 import {
   prepareStimulus,
   startStimulus,
@@ -723,10 +724,10 @@ export const SensoryExerciseScreen: React.FC<{ navigation: any; route: any }> = 
 
 const s = StyleSheet.create({
   startCard: { backgroundColor: '#f0fdf9', borderWidth: 1.5, borderColor: '#b8eee9', borderRadius: 16, padding: 14, marginBottom: 14 },
-  startKicker: { fontSize: 11, fontWeight: '800', letterSpacing: 0.6, color: V.color.primaryDark },
-  startGoal: { fontSize: 14, fontWeight: '800', color: V.color.textPrimary, marginTop: 6, marginBottom: 6, lineHeight: 19 },
-  startLine: { fontSize: 13, fontWeight: '600', color: V.color.textSecondary, lineHeight: 19 },
-  startNote: { fontSize: 11.5, fontWeight: '600', color: V.color.textMuted, lineHeight: 16, marginTop: 8 },
+  startKicker: { fontFamily: FONT.bodyBlack,fontSize: 11, letterSpacing: 0.6, color: V.color.primaryDark },
+  startGoal: { fontFamily: FONT.bodyBlack,fontSize: 14, color: V.color.textPrimary, marginTop: 6, marginBottom: 6, lineHeight: 19 },
+  startLine: { fontFamily: FONT.bodyBold,fontSize: 13, color: V.color.textSecondary, lineHeight: 19 },
+  startNote: { fontFamily: FONT.bodyBold,fontSize: 11.5, color: V.color.textMuted, lineHeight: 16, marginTop: 8 },
   flex: { flex: 1, backgroundColor: V.color.pageBg },
   centerContainer: { justifyContent: 'center', alignItems: 'center', padding: 20 },
   header: {
@@ -747,7 +748,7 @@ const s = StyleSheet.create({
     paddingVertical: 5,
     marginBottom: 10,
   },
-  backPillTxt: { color: '#fff', fontSize: 12, fontWeight: '800' },
+  backPillTxt: { fontFamily: FONT.bodyBlack,color: '#fff', fontSize: 12 },
   logoFallback: {
     color: 'rgba(255,255,255,.9)',
     fontWeight: '800',
@@ -755,7 +756,7 @@ const s = StyleSheet.create({
     letterSpacing: 1,
     marginBottom: 4,
   },
-  headerTitle: { color: '#fff', fontSize: 23, fontWeight: '800', letterSpacing: -0.4 },
+  headerTitle: { fontFamily: FONT.display,color: '#fff', fontSize: 23, letterSpacing: -0.4 },
   headerSub: {
     color: 'rgba(255,255,255,.92)',
     fontSize: 13,
@@ -784,8 +785,8 @@ const s = StyleSheet.create({
     marginRight: 8,
   },
   catPillActive: { backgroundColor: V.color.primaryDark, borderColor: V.color.primaryDark },
-  catPillTxt: { fontSize: 12, fontWeight: '700', color: V.color.textPrimary },
-  catPillTxtActive: { color: '#ffffff', fontWeight: '800' },
+  catPillTxt: { fontFamily: FONT.bodyBlack,fontSize: 12, color: V.color.textPrimary },
+  catPillTxtActive: { fontFamily: FONT.bodyBlack,color: '#ffffff' },
 
   triggerScroll: { flexDirection: 'row', marginBottom: 12 },
   triggerChip: {
@@ -801,8 +802,8 @@ const s = StyleSheet.create({
     marginRight: 8,
   },
   triggerChipActive: { backgroundColor: V.color.primaryLight, borderColor: V.color.primaryDark },
-  triggerTxt: { fontSize: 13, fontWeight: '700', color: V.color.textPrimary },
-  triggerTxtActive: { color: V.color.primaryDark, fontWeight: '800' },
+  triggerTxt: { fontFamily: FONT.bodyBlack,fontSize: 13, color: V.color.textPrimary },
+  triggerTxtActive: { fontFamily: FONT.bodyBlack,color: V.color.primaryDark },
 
   descCard: {
     backgroundColor: V.color.primaryTint,
@@ -813,8 +814,8 @@ const s = StyleSheet.create({
     marginBottom: 12,
   },
   descHeader: { flexDirection: 'row', alignItems: 'center', gap: 7, marginBottom: 5 },
-  descTitle: { fontSize: 13.5, fontWeight: '800', color: V.color.primaryDark },
-  descBody: { fontSize: 12.5, fontWeight: '600', color: V.color.textPrimary, lineHeight: 18 },
+  descTitle: { fontFamily: FONT.bodyBlack,fontSize: 13.5, color: V.color.primaryDark },
+  descBody: { fontFamily: FONT.bodyBold,fontSize: 12.5, color: V.color.textPrimary, lineHeight: 18 },
 
   ambientSceneBadge: {
     backgroundColor: '#e6f7f6',
@@ -849,10 +850,10 @@ const s = StyleSheet.create({
   levelMeterBars: { flexDirection: 'row', alignItems: 'flex-end', gap: 2, height: 16, marginBottom: 4 },
   meterBar: { width: 3, backgroundColor: '#cbd5e1', borderRadius: 2 },
   meterBarActive: { backgroundColor: '#ffffff' },
-  levelTxt: { fontSize: 14, fontWeight: '800', color: V.color.textPrimary },
+  levelTxt: { fontFamily: FONT.bodyBlack,fontSize: 14, color: V.color.textPrimary },
   levelTxtActive: { color: '#ffffff' },
   hintContainer: { backgroundColor: '#f8fafc', padding: 10, borderRadius: 10, marginBottom: 12, borderWidth: 1, borderColor: '#e2e8f0' },
-  hintTxt: { fontSize: 12, fontWeight: '600', color: V.color.textSecondary },
+  hintTxt: { fontFamily: FONT.bodyBold,fontSize: 12, color: V.color.textSecondary },
 
   tierBtn: {
     flex: 1,
@@ -864,8 +865,8 @@ const s = StyleSheet.create({
     alignItems: 'center',
   },
   tierBtnActive: { backgroundColor: V.color.primaryDark, borderColor: V.color.primaryDark },
-  tierTxt: { fontSize: 13, fontWeight: '700', color: V.color.textPrimary },
-  tierTxtActive: { color: '#ffffff', fontWeight: '800' },
+  tierTxt: { fontFamily: FONT.bodyBlack,fontSize: 13, color: V.color.textPrimary },
+  tierTxtActive: { fontFamily: FONT.bodyBlack,color: '#ffffff' },
 
   tprPreviewCard: {
     backgroundColor: V.color.primaryTint,
@@ -876,8 +877,8 @@ const s = StyleSheet.create({
     marginTop: 14,
   },
   tprHeader: { flexDirection: 'row', alignItems: 'center', gap: 7, marginBottom: 6 },
-  tprTitle: { fontSize: 13, fontWeight: '800', color: V.color.primaryDark },
-  tprBody: { fontSize: 12.5, fontWeight: '600', color: V.color.textPrimary, lineHeight: 18 },
+  tprTitle: { fontFamily: FONT.bodyBlack,fontSize: 13, color: V.color.primaryDark },
+  tprBody: { fontFamily: FONT.bodyBold,fontSize: 12.5, color: V.color.textPrimary, lineHeight: 18 },
 
   footer: { padding: 16, paddingBottom: 22, backgroundColor: V.color.pageBg },
   footerTwo: { flexDirection: 'row', gap: 10, padding: 16, paddingBottom: 22, backgroundColor: V.color.pageBg },
@@ -888,7 +889,7 @@ const s = StyleSheet.create({
     alignItems: 'center',
     ...V.shadow.button,
   },
-  primaryBtnTxt: { color: '#ffffff', fontSize: 15, fontWeight: '800' },
+  primaryBtnTxt: { fontFamily: FONT.bodyBlack,color: '#ffffff', fontSize: 15 },
   primaryHalfBtn: {
     flex: 1,
     backgroundColor: V.color.primaryDark,
@@ -905,7 +906,7 @@ const s = StyleSheet.create({
     paddingVertical: 15,
     alignItems: 'center',
   },
-  secondaryBtnTxt: { color: V.color.textSecondary, fontSize: 14, fontWeight: '800' },
+  secondaryBtnTxt: { fontFamily: FONT.bodyBlack,color: V.color.textSecondary, fontSize: 14 },
 
   // Anticipación
   anticipationCard: {
@@ -916,9 +917,9 @@ const s = StyleSheet.create({
     width: '100%',
     ...V.shadow.card,
   },
-  anticipationTag: { fontSize: 11, fontWeight: '800', color: V.color.primaryDark, letterSpacing: 1 },
-  anticipationTitle: { fontSize: 24, fontWeight: '800', color: V.color.textPrimary, marginTop: 4 },
-  anticipationSub: { fontSize: 13.5, fontWeight: '600', color: V.color.textSecondary, marginTop: 6 },
+  anticipationTag: { fontFamily: FONT.bodyBlack,fontSize: 11, color: V.color.primaryDark, letterSpacing: 1 },
+  anticipationTitle: { fontFamily: FONT.display,fontSize: 24, color: V.color.textPrimary, marginTop: 4 },
+  anticipationSub: { fontFamily: FONT.bodyBold,fontSize: 13.5, color: V.color.textSecondary, marginTop: 6 },
   countdownCircle: {
     width: 80,
     height: 80,
@@ -928,7 +929,7 @@ const s = StyleSheet.create({
     alignItems: 'center',
     marginVertical: 20,
   },
-  countdownNumber: { fontSize: 40, fontWeight: '800', color: V.color.primaryDark },
+  countdownNumber: { fontFamily: FONT.display,fontSize: 40, color: V.color.primaryDark },
   luaCenter: { alignItems: 'center', marginVertical: 10 },
 
   // Exploración
@@ -942,7 +943,7 @@ const s = StyleSheet.create({
   progressBarFill: { height: 8, backgroundColor: '#ffffff', borderRadius: 4 },
   centerBody: { justifyContent: 'center', alignItems: 'center', padding: 20 },
   luaExposureBox: { alignItems: 'center', marginBottom: 30 },
-  luaExposureHint: { fontSize: 12, fontWeight: '600', color: V.color.textSecondary, marginTop: 8 },
+  luaExposureHint: { fontFamily: FONT.bodyBold,fontSize: 12, color: V.color.textSecondary, marginTop: 8 },
   bigActionButton: {
     backgroundColor: V.color.primaryDark,
     width: 200,
@@ -965,9 +966,9 @@ const s = StyleSheet.create({
     padding: 14,
     marginTop: 14,
   },
-  noAudioTxt: { flex: 1, fontSize: 13, fontWeight: '700', color: '#92400e' },
-  bigActionTxt: { color: '#ffffff', fontSize: 16, fontWeight: '800', textAlign: 'center', marginTop: 10 },
-  timeProgressTxt: { fontSize: 15, fontWeight: '700', color: V.color.textSecondary, marginTop: 20 },
+  noAudioTxt: { fontFamily: FONT.bodyBlack,flex: 1, fontSize: 13, color: '#92400e' },
+  bigActionTxt: { fontFamily: FONT.bodyBlack,color: '#ffffff', fontSize: 16, textAlign: 'center', marginTop: 10 },
+  timeProgressTxt: { fontFamily: FONT.bodyBlack,fontSize: 15, color: V.color.textSecondary, marginTop: 20 },
   pauseBtn: {
     flex: 1,
     flexDirection: 'row',
@@ -980,7 +981,7 @@ const s = StyleSheet.create({
     borderRadius: 14,
     paddingVertical: 14,
   },
-  pauseBtnTxt: { fontSize: 14, fontWeight: '800', color: V.color.primaryDark },
+  pauseBtnTxt: { fontFamily: FONT.bodyBlack,fontSize: 14, color: V.color.primaryDark },
   stopBtn: {
     flex: 1,
     backgroundColor: '#fee2e2',
@@ -989,7 +990,7 @@ const s = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 14,
   },
-  stopBtnTxt: { fontSize: 14, fontWeight: '800', color: '#dc2626' },
+  stopBtnTxt: { fontFamily: FONT.bodyBlack,fontSize: 14, color: '#dc2626' },
 
   // Pausa
   pauseCard: {
@@ -999,8 +1000,8 @@ const s = StyleSheet.create({
     alignItems: 'center',
     ...V.shadow.card,
   },
-  pauseCardTitle: { fontSize: 19, fontWeight: '800', color: V.color.textPrimary, marginTop: 8 },
-  pauseCardBody: { fontSize: 13.5, fontWeight: '600', color: V.color.textSecondary, textAlign: 'center', marginTop: 6, lineHeight: 20 },
+  pauseCardTitle: { fontFamily: FONT.display,fontSize: 19, color: V.color.textPrimary, marginTop: 8 },
+  pauseCardBody: { fontFamily: FONT.bodyBold,fontSize: 13.5, color: V.color.textSecondary, textAlign: 'center', marginTop: 6, lineHeight: 20 },
   tprStrategyBox: {
     backgroundColor: '#eff6ff',
     borderWidth: 1,
@@ -1010,8 +1011,8 @@ const s = StyleSheet.create({
     marginTop: 18,
     alignSelf: 'stretch',
   },
-  tprBoxTitle: { fontSize: 13, fontWeight: '800', color: '#1d4ed8', marginBottom: 4 },
-  tprBoxBody: { fontSize: 13, fontWeight: '600', color: '#1e3a8a', lineHeight: 18 },
+  tprBoxTitle: { fontFamily: FONT.bodyBlack,fontSize: 13, color: '#1d4ed8', marginBottom: 4 },
+  tprBoxBody: { fontFamily: FONT.bodyBold,fontSize: 13, color: '#1e3a8a', lineHeight: 18 },
 
   // Cierre y Rating
   ratingRow: {
@@ -1023,8 +1024,8 @@ const s = StyleSheet.create({
     marginBottom: 8,
   },
   ratingRowActive: { backgroundColor: V.color.primaryLight, borderColor: V.color.primaryDark },
-  ratingTxt: { fontSize: 14, fontWeight: '700', color: V.color.textPrimary },
-  ratingTxtActive: { color: V.color.primaryDark, fontWeight: '800' },
+  ratingTxt: { fontFamily: FONT.bodyBlack,fontSize: 14, color: V.color.textPrimary },
+  ratingTxtActive: { fontFamily: FONT.bodyBlack,color: V.color.primaryDark },
   tprToggle: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -1037,7 +1038,7 @@ const s = StyleSheet.create({
     marginTop: 12,
   },
   tprToggleActive: { backgroundColor: '#f0fdf4', borderColor: '#86efac' },
-  tprToggleTxt: { flex: 1, fontSize: 13.5, fontWeight: '700', color: V.color.textPrimary },
+  tprToggleTxt: { fontFamily: FONT.bodyBlack,flex: 1, fontSize: 13.5, color: V.color.textPrimary },
 
   // Completado
   completedCard: {
@@ -1048,8 +1049,8 @@ const s = StyleSheet.create({
     width: '100%',
     ...V.shadow.card,
   },
-  completedTitle: { fontSize: 22, fontWeight: '800', color: V.color.textPrimary, marginTop: 10 },
-  completedSub: { fontSize: 13.5, fontWeight: '600', color: V.color.textSecondary, textAlign: 'center', marginTop: 6 },
+  completedTitle: { fontFamily: FONT.display,fontSize: 22, color: V.color.textPrimary, marginTop: 10 },
+  completedSub: { fontFamily: FONT.bodyBold,fontSize: 13.5, color: V.color.textSecondary, textAlign: 'center', marginTop: 6 },
   xpRewardBox: {
     backgroundColor: '#fef9c3',
     borderWidth: 1,
@@ -1060,8 +1061,8 @@ const s = StyleSheet.create({
     alignItems: 'center',
     marginVertical: 20,
   },
-  xpRewardTxt: { fontSize: 26, fontWeight: '800', color: '#a16207' },
-  xpRewardSub: { fontSize: 11.5, fontWeight: '700', color: '#a16207', marginTop: 2 },
+  xpRewardTxt: { fontFamily: FONT.display,fontSize: 26, color: '#a16207' },
+  xpRewardSub: { fontFamily: FONT.bodyBlack,fontSize: 11.5, color: '#a16207', marginTop: 2 },
 });
 
 export default SensoryExerciseScreen;

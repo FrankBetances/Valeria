@@ -28,6 +28,7 @@ import { PixelAward, streakTier } from './ValeriaPixelAwards';
 import { BlockIcon, BlockIconName } from './ValeriaBlockIcons';
 import { readArHistory, readSpeechHistory } from './valeriaTelemetry';
 import type { ArTrial, ArDeviceProfile, ArThresholds } from './valeriaArBridge';
+import { FONT } from './ui/fonts';
 // import logoWhite from '../../assets/valeria-logo-white.png';
 
 interface Sesion {
@@ -805,11 +806,11 @@ const st = StyleSheet.create({
     borderWidth: 1, borderColor: 'rgba(255,255,255,0.32)', borderRadius: 11,
     paddingVertical: 5, paddingHorizontal: 11, marginBottom: 10,
   },
-  backText: { color: '#fff', fontSize: 12, fontWeight: V.font.extrabold },
+  backText: { fontFamily: FONT.bodyBlack,color: '#fff', fontSize: 12 },
   logo: { height: 21, width: 92, resizeMode: 'contain', marginBottom: 8 },
-  brand: { fontSize: 20, fontWeight: V.font.extrabold, color: '#fff', marginBottom: 8, letterSpacing: -0.5 },
-  title: { fontSize: 24, fontWeight: V.font.extrabold, color: '#fff', letterSpacing: -0.4 },
-  subtitle: { fontSize: 13, color: 'rgba(255,255,255,0.9)', marginTop: 4, fontWeight: V.font.semibold },
+  brand: { fontFamily: FONT.display,fontSize: 20, color: '#fff', marginBottom: 8, letterSpacing: -0.5 },
+  title: { fontFamily: FONT.display,fontSize: 24, color: '#fff', letterSpacing: -0.4 },
+  subtitle: { fontFamily: FONT.bodyBlack,fontSize: 13, color: 'rgba(255,255,255,0.9)', marginTop: 4 },
 
   card: {
     backgroundColor: V.color.card, borderWidth: 1, borderColor: V.color.border,
@@ -821,57 +822,57 @@ const st = StyleSheet.create({
     alignItems: 'center', justifyContent: 'center', marginRight: 9,
   },
   chipIcon: { fontSize: 16 },
-  cardTitle: { fontSize: 17, fontWeight: V.font.extrabold, color: V.color.textPrimary },
+  cardTitle: { fontFamily: FONT.display,fontSize: 17, color: V.color.textPrimary },
 
   gameStatsRow: { flexDirection: 'row', gap: 9, marginTop: 15 },
   gameStat: { flex: 1, backgroundColor: '#f7fafa', borderWidth: 1, borderColor: '#eef3f3', borderRadius: 13, paddingVertical: 12, alignItems: 'center' },
   streakRow: { flexDirection: 'row', alignItems: 'center', gap: 5 },
-  gameStatBig: { fontSize: 18, fontWeight: V.font.extrabold, color: V.color.textPrimary },
-  gameStatLbl: { fontSize: 10.5, fontWeight: V.font.bold, color: V.color.textMuted, marginTop: 3 },
+  gameStatBig: { fontFamily: FONT.display,fontSize: 18, color: V.color.textPrimary },
+  gameStatLbl: { fontFamily: FONT.bodyBlack,fontSize: 10.5, color: V.color.textMuted, marginTop: 3 },
   gameLevelRow: { marginTop: 14 },
-  gameLevelLbl: { fontSize: 13, fontWeight: V.font.extrabold, color: V.color.textPrimary },
+  gameLevelLbl: { fontFamily: FONT.bodyBlack,fontSize: 13, color: V.color.textPrimary },
   gameLevelTrack: { height: 10, backgroundColor: '#eef3f3', borderRadius: 6, overflow: 'hidden', marginTop: 7 },
   gameLevelFill: { height: '100%', backgroundColor: V.color.primary, borderRadius: 6 },
-  gameLevelToGo: { fontSize: 11, fontWeight: V.font.bold, color: V.color.textMuted, marginTop: 5 },
-  gameBadgesLbl: { fontSize: 11, fontWeight: V.font.extrabold, letterSpacing: 0.5, color: V.color.textMuted, marginTop: 16, marginBottom: 9 },
+  gameLevelToGo: { fontFamily: FONT.bodyBlack,fontSize: 11, color: V.color.textMuted, marginTop: 5 },
+  gameBadgesLbl: { fontFamily: FONT.bodyBlack,fontSize: 11, letterSpacing: 0.5, color: V.color.textMuted, marginTop: 16, marginBottom: 9 },
   gameBadgesGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
   gameBadge: { width: '31%', backgroundColor: '#fffbeb', borderWidth: 1, borderColor: '#f4e6b8', borderRadius: 12, paddingVertical: 10, paddingHorizontal: 6, alignItems: 'center' },
   gameBadgeOff: { backgroundColor: '#f7fafa', borderColor: '#eef3f3' },
-  gameBadgeName: { fontSize: 10, fontWeight: V.font.extrabold, color: '#92711a', marginTop: 5 },
+  gameBadgeName: { fontFamily: FONT.bodyBlack,fontSize: 10, color: '#92711a', marginTop: 5 },
 
   adherenceRow: { flexDirection: 'row', alignItems: 'center', marginTop: 16 },
   ringWrap: { width: 104, height: 104, marginRight: 18 },
   ringCenter: { ...StyleSheet.absoluteFill, alignItems: 'center', justifyContent: 'center' },
-  ringPct: { fontSize: 25, fontWeight: V.font.extrabold, color: V.color.textPrimary },
-  ringRatio: { fontSize: 11, fontWeight: V.font.bold, color: V.color.textMuted, marginTop: 2 },
+  ringPct: { fontFamily: FONT.display,fontSize: 25, color: V.color.textPrimary },
+  ringRatio: { fontFamily: FONT.bodyBlack,fontSize: 11, color: V.color.textMuted, marginTop: 2 },
   adherenceBody: { flex: 1 },
-  adherenceLabel: { fontSize: 13.5, fontWeight: V.font.bold, color: '#6b7280' },
-  adherenceValue: { fontSize: 15, fontWeight: V.font.extrabold, color: V.color.textPrimary, marginTop: 3, marginBottom: 12 },
+  adherenceLabel: { fontFamily: FONT.bodyBlack,fontSize: 13.5, color: '#6b7280' },
+  adherenceValue: { fontFamily: FONT.bodyBlack,fontSize: 15, color: V.color.textPrimary, marginTop: 3, marginBottom: 12 },
   barTrack: { height: 10, backgroundColor: '#eef3f3', borderRadius: 6, overflow: 'hidden' },
   barFill: { height: '100%', backgroundColor: V.color.primary, borderRadius: 6 },
   weekDots: { flexDirection: 'row', marginTop: 11, gap: 6 },
   weekDot: { flex: 1, height: 24, borderRadius: 7, alignItems: 'center', justifyContent: 'center' },
   weekDotOn: { backgroundColor: V.color.primary },
   weekDotOff: { backgroundColor: '#eef3f3' },
-  weekDotMark: { fontSize: 12, fontWeight: V.font.extrabold, color: '#fff' },
+  weekDotMark: { fontFamily: FONT.bodyBlack,fontSize: 12, color: '#fff' },
 
   evoHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 6 },
   trendPill: { backgroundColor: V.color.primaryLight, paddingHorizontal: 9, paddingVertical: 5, borderRadius: 9 },
-  trendText: { fontSize: 12, fontWeight: V.font.extrabold, color: V.color.primary },
-  evoSub: { fontSize: 12.5, fontWeight: V.font.semibold, color: V.color.textMuted, marginBottom: 6 },
+  trendText: { fontFamily: FONT.bodyBlack,fontSize: 12, color: V.color.primary },
+  evoSub: { fontFamily: FONT.bodyBlack,fontSize: 12.5, color: V.color.textMuted, marginBottom: 6 },
 
   // Realidad Aumentada
   arTabs: { flexDirection: 'row', gap: 6, marginBottom: 8 },
   arTab: { paddingHorizontal: 11, paddingVertical: 7, borderRadius: 10, backgroundColor: '#f1f5f4' },
   arTabOn: { backgroundColor: V.color.primary },
-  arTabTxt: { fontSize: 11.5, fontWeight: V.font.extrabold, color: V.color.textMuted, letterSpacing: 0.3 },
+  arTabTxt: { fontFamily: FONT.bodyBlack,fontSize: 11.5, color: V.color.textMuted, letterSpacing: 0.3 },
   arTabTxtOn: { color: '#fff' },
-  arEmpty: { fontSize: 12.5, fontWeight: V.font.semibold, color: V.color.textMuted, lineHeight: 18, paddingVertical: 14 },
+  arEmpty: { fontFamily: FONT.bodyBlack,fontSize: 12.5, color: V.color.textMuted, lineHeight: 18, paddingVertical: 14 },
   arFacts: { flexDirection: 'row', gap: 8, marginTop: 10 },
   arFact: { flex: 1, backgroundColor: V.color.pageBg, borderRadius: 12, paddingVertical: 10, alignItems: 'center' },
-  arFactVal: { fontSize: 16, fontWeight: V.font.extrabold, color: V.color.textPrimary },
-  arFactKey: { fontSize: 10, fontWeight: V.font.bold, color: V.color.textMuted, marginTop: 2, textAlign: 'center' },
-  arDevice: { fontSize: 10.5, fontWeight: V.font.semibold, color: V.color.textMuted, marginTop: 10, lineHeight: 15 },
+  arFactVal: { fontFamily: FONT.bodyBlack,fontSize: 16, color: V.color.textPrimary },
+  arFactKey: { fontFamily: FONT.bodyBlack,fontSize: 10, color: V.color.textMuted, marginTop: 2, textAlign: 'center' },
+  arDevice: { fontFamily: FONT.bodyBlack,fontSize: 10.5, color: V.color.textMuted, marginTop: 10, lineHeight: 15 },
   // La tarjeta del recuento NO se pinta como las clínicas: fondo apagado, sin
   // sombra y con el número en gris. Un apoyo del ejercicio no puede tener el
   // mismo peso visual que la evolución por estrellas, porque lo que la gente
@@ -896,12 +897,12 @@ const st = StyleSheet.create({
   pmChipsRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 7, marginBottom: 10, marginTop: 4 },
   pmChip: { backgroundColor: '#f7fafa', borderWidth: 1, borderColor: '#eef3f3', borderRadius: 10, paddingHorizontal: 11, paddingVertical: 6 },
   pmChipOn: { backgroundColor: V.color.primaryLight, borderColor: V.color.borderActive },
-  pmChipTxt: { fontSize: 12.5, fontWeight: V.font.extrabold, color: V.color.textMuted },
+  pmChipTxt: { fontFamily: FONT.bodyBlack,fontSize: 12.5, color: V.color.textMuted },
   pmChipTxtOn: { color: V.color.primaryDark },
 
   summaryRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginHorizontal: 4, marginBottom: 12 },
-  summaryLabel: { fontSize: 12.5, fontWeight: V.font.extrabold, color: V.color.textMuted, letterSpacing: 0.4 },
-  summaryCount: { fontSize: 12.5, fontWeight: V.font.extrabold, color: V.color.primary },
+  summaryLabel: { fontFamily: FONT.bodyBlack,fontSize: 12.5, color: V.color.textMuted, letterSpacing: 0.4 },
+  summaryCount: { fontFamily: FONT.bodyBlack,fontSize: 12.5, color: V.color.primary },
 
   histCard: {
     backgroundColor: V.color.card, borderWidth: 1, borderColor: V.color.border,
@@ -912,46 +913,46 @@ const st = StyleSheet.create({
     width: 38, height: 38, borderRadius: 12, backgroundColor: V.color.successBg,
     alignItems: 'center', justifyContent: 'center', marginRight: 12,
   },
-  histCheckText: { fontSize: 18, fontWeight: V.font.extrabold, color: V.color.success },
+  histCheckText: { fontFamily: FONT.display,fontSize: 18, color: V.color.success },
   histBody: { flex: 1 },
   histTitleRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
-  histName: { flex: 1, fontSize: 15, fontWeight: V.font.extrabold, color: V.color.textPrimary, marginRight: 8 },
-  histDate: { fontSize: 11.5, fontWeight: V.font.bold, color: V.color.textMuted },
+  histName: { fontFamily: FONT.bodyBlack,flex: 1, fontSize: 15, color: V.color.textPrimary, marginRight: 8 },
+  histDate: { fontFamily: FONT.bodyBlack,fontSize: 11.5, color: V.color.textMuted },
   histScoreRow: { flexDirection: 'row', alignItems: 'center', marginTop: 6 },
   histStars: { fontSize: 13, letterSpacing: 1, color: '#f5b301', marginRight: 8 },
-  histAvg: { fontSize: 12.5, fontWeight: V.font.extrabold, color: V.color.textSecondary },
+  histAvg: { fontFamily: FONT.bodyBlack,fontSize: 12.5, color: V.color.textSecondary },
 
   // Desglose comprensión / producción (ES-12)
   splitRow: { flexDirection: 'row', gap: 8, marginTop: 8 },
   splitChip: { flex: 1, borderWidth: 1, borderColor: V.color.border, borderRadius: 10, paddingVertical: 7, paddingHorizontal: 9, backgroundColor: '#fbfbfb' },
-  splitChipKicker: { fontSize: 9.5, fontWeight: V.font.extrabold, color: V.color.textMuted, letterSpacing: 0.4 },
-  splitChipVal: { fontSize: 14, fontWeight: V.font.extrabold, color: V.color.textPrimary, marginTop: 2 },
+  splitChipKicker: { fontFamily: FONT.bodyBlack,fontSize: 9.5, color: V.color.textMuted, letterSpacing: 0.4 },
+  splitChipVal: { fontFamily: FONT.bodyBlack,fontSize: 14, color: V.color.textPrimary, marginTop: 2 },
   histResp: {
     marginTop: 8, backgroundColor: '#fffdf5', borderWidth: 1, borderColor: '#f0e6c8',
     borderRadius: 10, paddingVertical: 8, paddingHorizontal: 10,
   },
-  histRespKicker: { fontSize: 10, fontWeight: V.font.extrabold, letterSpacing: 0.5, color: '#92711a', marginBottom: 4 },
-  histRespText: { fontSize: 12, fontWeight: V.font.semibold, color: V.color.textSecondary, lineHeight: 17 },
-  histRespCode: { fontWeight: V.font.extrabold, color: V.color.textPrimary },
+  histRespKicker: { fontFamily: FONT.bodyBlack,fontSize: 10, letterSpacing: 0.5, color: '#92711a', marginBottom: 4 },
+  histRespText: { fontFamily: FONT.bodyBlack,fontSize: 12, color: V.color.textSecondary, lineHeight: 17 },
+  histRespCode: { fontFamily: FONT.bodyBlack,color: V.color.textPrimary },
   histNote: {
     marginTop: 9, backgroundColor: '#f7fafa', borderLeftWidth: 3, borderLeftColor: V.color.primary,
     borderTopRightRadius: 9, borderBottomRightRadius: 9, paddingHorizontal: 11, paddingVertical: 8,
   },
-  histNoteText: { fontSize: 12.5, fontWeight: V.font.semibold, color: V.color.textSecondary, lineHeight: 17 },
+  histNoteText: { fontFamily: FONT.bodyBlack,fontSize: 12.5, color: V.color.textSecondary, lineHeight: 17 },
 
   primaryBtn: {
     marginTop: 14, backgroundColor: V.color.primary, borderRadius: 14, paddingVertical: 16,
     alignItems: 'center', ...V.shadow.button,
   },
-  primaryBtnText: { color: '#fff', fontSize: 16, fontWeight: V.font.extrabold },
+  primaryBtnText: { fontFamily: FONT.bodyBlack,color: '#fff', fontSize: 16 },
   actionRow: { flexDirection: 'row', gap: 10, marginTop: 10 },
   ghostBtn: {
     flex: 1, backgroundColor: V.color.card, borderWidth: 1, borderColor: V.color.borderActive,
     borderRadius: 14, paddingVertical: 14, alignItems: 'center', ...V.shadow.card,
   },
-  ghostText: { color: V.color.primaryDark, fontSize: 14.5, fontWeight: V.font.extrabold },
+  ghostText: { fontFamily: FONT.bodyBlack,color: V.color.primaryDark, fontSize: 14.5 },
 
-  footNote: { textAlign: 'center', color: V.color.textMuted, fontSize: 11.5, fontWeight: V.font.semibold, marginTop: 14, paddingHorizontal: 14 },
+  footNote: { fontFamily: FONT.bodyBlack,textAlign: 'center', color: V.color.textMuted, fontSize: 11.5, marginTop: 14, paddingHorizontal: 14 },
 });
 
 export default ValeriaPatientResultsDashboardScreen;

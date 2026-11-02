@@ -25,6 +25,7 @@ import { getResults } from './academyStore';
 import { AcademyCapsule, AcademyDomain } from './academyTypes';
 import { BlockIcon } from '../ValeriaBlockIcons';
 import { getUiLang } from '../valeriaUiLang';
+import { FONT } from '../ui/fonts';
 
 // Por dónde se entra a cada dominio. Antes eran dos ids por dominio y se
 // pintaban los dos; ahora es el ORDEN en que se recorren, y solo se enseña el
@@ -145,16 +146,16 @@ const s = StyleSheet.create({
   // cabecera ya se separa sola. El bloque azul que la envolvía era un
   // contenedor dentro de otro contenedor, y a 390 px eso es ruido.
   wrap: { marginTop: 16 },
-  kicker: { color: '#fff', fontSize: 11, fontWeight: '800', letterSpacing: 0.8, marginBottom: 9 },
+  kicker: { fontFamily: FONT.bodyBlack,color: '#fff', fontSize: 11, letterSpacing: 0.8, marginBottom: 9 },
   card: { flexDirection: 'row', alignItems: 'flex-start', gap: 13, backgroundColor: '#fff', borderRadius: 16, padding: 14, ...V.shadow.card },
   icon: { width: 48, height: 48, borderRadius: 15, alignItems: 'center', justifyContent: 'center', marginTop: 2 },
-  track: { fontSize: 9.5, fontWeight: '800', letterSpacing: 0.6, marginBottom: 2 },
-  title: { fontSize: 15.5, fontWeight: '800', color: V.color.textPrimary, lineHeight: 20 },
-  summary: { fontSize: 12, fontWeight: '600', color: V.color.textSecondary, marginTop: 2, lineHeight: 16 },
-  meta: { fontSize: 11, fontWeight: '700', color: V.color.textSecondary, marginTop: 6 },
+  track: { fontFamily: FONT.bodyBlack,fontSize: 9.5, letterSpacing: 0.6, marginBottom: 2 },
+  title: { fontFamily: FONT.bodyBlack,fontSize: 15.5, color: V.color.textPrimary, lineHeight: 20 },
+  summary: { fontFamily: FONT.bodyBold,fontSize: 12, color: V.color.textSecondary, marginTop: 2, lineHeight: 16 },
+  meta: { fontFamily: FONT.bodyBlack,fontSize: 11, color: V.color.textSecondary, marginTop: 6 },
   chev: { width: 30, height: 30, borderRadius: 15, alignItems: 'center', justifyContent: 'center', alignSelf: 'center' },
-  chevTxt: { color: '#fff', fontSize: 15, fontWeight: '800' },
-  reason: { color: 'rgba(255,255,255,.92)', fontSize: 11.5, fontWeight: '700', marginTop: 8, lineHeight: 16 },
+  chevTxt: { fontFamily: FONT.bodyBlack,color: '#fff', fontSize: 15 },
+  reason: { fontFamily: FONT.bodyBlack,color: 'rgba(255,255,255,.92)', fontSize: 11.5, marginTop: 8, lineHeight: 16 },
 });
 
 export default AcademyNextStep;

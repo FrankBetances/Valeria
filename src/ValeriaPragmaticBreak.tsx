@@ -19,6 +19,7 @@ import { V } from './valeriaTheme';
 import { trackRepairStrategy, RepairStrategy } from './valeriaTelemetry';
 import { useT, UiStrings } from './i18n';
 import { BlockIcon, BlockIconName } from './ValeriaBlockIcons';
+import { FONT } from './ui/fonts';
 
 // Guiones de quiebre entre los que elige el adulto (nunca la app por él).
 // Guiones y escala de reparación: son INSTRUCCIONES y OBSERVACIÓN CLÍNICA para
@@ -145,22 +146,22 @@ export const ValeriaPragmaticBreakOverlay: React.FC<{
 const s = StyleSheet.create({
   overlay: { ...StyleSheet.absoluteFill, backgroundColor: 'rgba(11,18,32,.6)', alignItems: 'center', justifyContent: 'center', padding: 24, zIndex: 25 },
   card: { width: '100%', maxWidth: 350, backgroundColor: '#fff', borderRadius: 24, padding: 20, alignItems: 'center' },
-  kicker: { fontSize: 11.5, fontWeight: '800', letterSpacing: 1, color: '#b45309' },
+  kicker: { fontFamily: FONT.bodyBlack,fontSize: 11.5, letterSpacing: 1, color: '#b45309' },
   warnIcon: { alignItems: 'center', marginTop: 12, marginBottom: 2 },
   scriptHead: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8 },
-  title: { fontSize: 19, fontWeight: '800', color: V.color.textPrimary, marginTop: 8, textAlign: 'center' },
-  body: { fontSize: 13, fontWeight: '600', color: V.color.textSecondary, marginTop: 8, lineHeight: 19, textAlign: 'center' },
+  title: { fontFamily: FONT.display,fontSize: 19, color: V.color.textPrimary, marginTop: 8, textAlign: 'center' },
+  body: { fontFamily: FONT.bodyBold,fontSize: 13, color: V.color.textSecondary, marginTop: 8, lineHeight: 19, textAlign: 'center' },
   row: { flexDirection: 'row', gap: 9, alignSelf: 'stretch', marginTop: 16 },
   mainBtn: { flex: 1, backgroundColor: '#f59e0b', borderRadius: 14, paddingVertical: 13, alignItems: 'center', marginTop: 14, alignSelf: 'stretch' },
-  mainBtnTxt: { color: '#fff', fontSize: 13.5, fontWeight: '800' },
+  mainBtnTxt: { fontFamily: FONT.bodyBlack,color: '#fff', fontSize: 13.5 },
   ghostBtn: { flex: 1, backgroundColor: '#f1f5f4', borderRadius: 14, paddingVertical: 13, alignItems: 'center', marginTop: 14 },
-  ghostBtnTxt: { color: V.color.textSecondary, fontSize: 13.5, fontWeight: '800' },
+  ghostBtnTxt: { fontFamily: FONT.bodyBlack,color: V.color.textSecondary, fontSize: 13.5 },
   scriptCard: { backgroundColor: '#fff7ed', borderWidth: 1.5, borderColor: '#fcd9a8', borderRadius: 14, padding: 14, marginTop: 12, alignSelf: 'stretch' },
-  scriptTxt: { fontSize: 13.5, fontWeight: '700', color: '#7c4a0e', lineHeight: 20 },
-  swapLink: { marginTop: 10, fontSize: 12.5, fontWeight: '800', color: V.color.primaryDark },
+  scriptTxt: { fontFamily: FONT.bodyBlack,fontSize: 13.5, color: '#7c4a0e', lineHeight: 20 },
+  swapLink: { fontFamily: FONT.bodyBlack,marginTop: 10, fontSize: 12.5, color: V.color.primaryDark },
   stratRow: { flexDirection: 'row', alignItems: 'center', gap: 11, backgroundColor: V.color.pageBg, borderWidth: 1, borderColor: V.color.border, borderRadius: 13, padding: 11, marginTop: 8 },
-  stratLabel: { fontSize: 13.5, fontWeight: '800', color: V.color.textPrimary },
-  stratDesc: { fontSize: 11, fontWeight: '600', color: V.color.textSecondary, marginTop: 1 },
+  stratLabel: { fontFamily: FONT.bodyBlack,fontSize: 13.5, color: V.color.textPrimary },
+  stratDesc: { fontFamily: FONT.bodyBold,fontSize: 11, color: V.color.textSecondary, marginTop: 1 },
 });
 
 export default ValeriaPragmaticBreakOverlay;

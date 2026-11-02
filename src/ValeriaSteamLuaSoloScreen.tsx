@@ -14,6 +14,7 @@ import { isLuaLinked } from './valeriaLuaSession';
 import { BlockIcon } from './ValeriaBlockIcons';
 import { steamScreenStyles as base } from './ValeriaSteamWorldScreen';
 import { LUA_SOLO_ACTIVITIES } from './steam/luaSolo';
+import { FONT } from './ui/fonts';
 
 export const ValeriaSteamLuaSoloScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
   const t = useT();
@@ -73,9 +74,9 @@ export const ValeriaSteamLuaSoloScreen: React.FC<{ navigation: any }> = ({ navig
 const s = StyleSheet.create({
   // Tamaño fijo, sin flex: el cuerpo de la fila es el que se encoge (§1c).
   icon: { width: 44, height: 44, borderRadius: 12, backgroundColor: V.color.primaryDark, alignItems: 'center', justifyContent: 'center', marginRight: V.space.md },
-  summary: { fontSize: 13, lineHeight: 18, fontWeight: V.font.semibold, color: V.color.textSecondary, marginTop: 2 },
-  step: { fontSize: 15.5, fontWeight: V.font.extrabold, color: V.color.textPrimary, marginTop: V.space.lg, marginBottom: 4 },
-  hintTitle: { fontSize: 13.5, fontWeight: V.font.extrabold, color: V.color.textPrimary, marginTop: V.space.sm },
+  summary: { fontFamily: FONT.bodyBlack,fontSize: 13, lineHeight: 18, color: V.color.textSecondary, marginTop: 2 },
+  step: { fontFamily: FONT.bodyBlack,fontSize: 15.5, color: V.color.textPrimary, marginTop: V.space.lg, marginBottom: 4 },
+  hintTitle: { fontFamily: FONT.bodyBlack,fontSize: 13.5, color: V.color.textPrimary, marginTop: V.space.sm },
   gap: { marginTop: V.space.sm },
 });
 

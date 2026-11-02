@@ -290,15 +290,15 @@ const s = StyleSheet.create({
     borderColor: 'rgba(255,255,255,.32)', borderRadius: 11,
     paddingHorizontal: 11, paddingVertical: 5, marginBottom: V.space.md,
   },
-  backPillTxt: { color: '#fff', ...V.type.caption, fontSize: 12, fontWeight: V.font.extrabold },
+  backPillTxt: { fontFamily: FONT.bodyBlack,color: '#fff', ...V.type.caption, fontSize: 12 },
   headRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: V.space.md },
-  headerTitle: { ...V.type.display, color: '#fff', fontWeight: V.font.extrabold, letterSpacing: -0.4, flexShrink: 1 },
+  headerTitle: { fontFamily: FONT.bodyBlack,...V.type.display, color: '#fff', letterSpacing: -0.4, flexShrink: 1 },
   blockChip: {
     backgroundColor: 'rgba(255,255,255,.18)', borderWidth: 1,
     borderColor: 'rgba(255,255,255,.32)', borderRadius: 11,
     paddingHorizontal: 11, paddingVertical: 6,
   },
-  blockChipTxt: { color: '#fff', fontSize: 12, fontWeight: V.font.extrabold },
+  blockChipTxt: { fontFamily: FONT.bodyBlack,color: '#fff', fontSize: 12 },
 
   scroll: { padding: V.space.lg, paddingBottom: V.space.xxl },
 
@@ -307,7 +307,7 @@ const s = StyleSheet.create({
     borderWidth: 1, borderColor: V.color.primary, borderRadius: 13, padding: 13, marginTop: V.space.md,
   },
   toastCheck: { width: 24, height: 24, borderRadius: 12, backgroundColor: V.color.primary, alignItems: 'center', justifyContent: 'center' },
-  toastTxt: { color: V.color.textPrimary, ...V.type.body, fontWeight: V.font.bold, flex: 1 },
+  toastTxt: { fontFamily: FONT.bodyBlack,color: V.color.textPrimary, ...V.type.body, flex: 1 },
 
   sessionBtn: {
     flexDirection: 'row', alignItems: 'center', gap: V.space.md, backgroundColor: V.color.primary,
@@ -317,22 +317,22 @@ const s = StyleSheet.create({
     width: 44, height: 44, borderRadius: 15, backgroundColor: 'rgba(255,255,255,.2)',
     alignItems: 'center', justifyContent: 'center',
   },
-  sessionBtnTitle: { color: '#fff', fontSize: 16, fontWeight: V.font.extrabold },
-  sessionBtnSub: { color: 'rgba(255,255,255,.92)', ...V.type.caption, fontSize: 11.5, lineHeight: 15, fontWeight: V.font.semibold, marginTop: 2 },
+  sessionBtnTitle: { fontFamily: FONT.bodyBlack,color: '#fff', fontSize: 16 },
+  sessionBtnSub: { fontFamily: FONT.bodyBlack,color: 'rgba(255,255,255,.92)', ...V.type.caption, fontSize: 11.5, lineHeight: 15, marginTop: 2 },
 
   refToggle: {
     flexDirection: 'row', alignItems: 'center', gap: V.space.sm, backgroundColor: '#eef6ff',
     borderWidth: 1, borderColor: '#d3e5fb', borderRadius: 14, paddingHorizontal: 13, paddingVertical: 11,
     marginTop: V.space.md,
   },
-  refToggleTxt: { flex: 1, ...V.type.body, fontWeight: V.font.extrabold, color: '#22456e' },
-  refChev: { fontSize: 15, fontWeight: V.font.extrabold, color: '#22456e' },
+  refToggleTxt: { fontFamily: FONT.bodyBlack,flex: 1, ...V.type.body, color: '#22456e' },
+  refChev: { fontFamily: FONT.bodyBlack,fontSize: 15, color: '#22456e' },
   refCard: {
     backgroundColor: '#f6faff', borderWidth: 1, borderColor: '#d3e5fb', borderTopWidth: 0,
     borderBottomLeftRadius: 14, borderBottomRightRadius: 14, padding: V.space.md, marginTop: -6,
   },
-  refCardSub: { ...V.type.body, fontWeight: V.font.bold, color: '#22456e' },
-  refCardTxt: { ...V.type.caption, fontSize: 11.5, lineHeight: 16, fontWeight: V.font.semibold, color: '#2c5382', marginTop: V.space.sm },
+  refCardSub: { fontFamily: FONT.bodyBlack,...V.type.body, color: '#22456e' },
+  refCardTxt: { fontFamily: FONT.bodyBlack,...V.type.caption, fontSize: 11.5, lineHeight: 16, color: '#2c5382', marginTop: V.space.sm },
 
   listHead: { marginTop: V.space.xl, marginBottom: V.space.sm, marginHorizontal: V.space.xs },
   listLabel: {
@@ -341,7 +341,7 @@ const s = StyleSheet.create({
   },
 
   ageHead: { flexDirection: 'row', alignItems: 'center', gap: 7, marginTop: V.space.md, marginBottom: 9, marginHorizontal: 2 },
-  ageHeadTxt: { fontSize: 12, fontWeight: V.font.extrabold, letterSpacing: 0.5, color: V.color.primaryDark },
+  ageHeadTxt: { fontFamily: FONT.bodyBlack,fontSize: 12, letterSpacing: 0.5, color: V.color.primaryDark },
   ageHeadLine: { flex: 1, height: 1, backgroundColor: V.color.borderActive },
 
   row: { flexDirection: 'row', alignItems: 'center', gap: 14, backgroundColor: '#ffffff', borderRadius: 24, borderWidth: 2, borderBottomWidth: 6, paddingVertical: 14, paddingHorizontal: 14, marginBottom: 12 },
@@ -349,10 +349,10 @@ const s = StyleSheet.create({
   sessionWrap: { marginBottom: 18 },
   rowOff: { backgroundColor: '#fbf7f0' },
   codeChip: { minWidth: 46, height: 34, paddingHorizontal: V.space.sm, borderRadius: 11, alignItems: 'center', justifyContent: 'center' },
-  codeChipTxt: { fontSize: 12.5, fontWeight: V.font.extrabold, letterSpacing: 0.3 },
+  codeChipTxt: { fontFamily: FONT.bodyBlack,fontSize: 12.5, letterSpacing: 0.3 },
   rowName: { fontFamily: FONT.display, fontSize: 19, lineHeight: 23, color: V.color.textPrimary },
   rowCat: { fontFamily: FONT.body, fontSize: 13.5, lineHeight: 18, color: V.color.textSecondary, marginTop: 3 },
-  rowOffTag: { fontSize: 10.5, fontWeight: V.font.extrabold, color: V.color.textMuted, marginTop: 4, letterSpacing: 0.3 },
+  rowOffTag: { fontFamily: FONT.bodyBlack,fontSize: 10.5, color: V.color.textMuted, marginTop: 4, letterSpacing: 0.3 },
   playBtn: {
     width: V.touchMin, height: V.touchMin, borderRadius: 16,
     alignItems: 'center', justifyContent: 'center',
@@ -360,10 +360,10 @@ const s = StyleSheet.create({
 
   proWrap: { marginTop: V.space.lg },
   primaryBtn: { backgroundColor: V.color.primary, borderRadius: 16, paddingVertical: V.space.lg, alignItems: 'center', ...V.shadow.button },
-  primaryBtnTxt: { color: '#fff', fontSize: 16, fontWeight: V.font.extrabold },
-  helper: { textAlign: 'center', color: V.color.textSecondary, fontSize: 11.5, marginTop: 11, fontWeight: V.font.semibold, paddingHorizontal: 14 },
+  primaryBtnTxt: { fontFamily: FONT.bodyBlack,color: '#fff', fontSize: 16 },
+  helper: { fontFamily: FONT.bodyBlack,textAlign: 'center', color: V.color.textSecondary, fontSize: 11.5, marginTop: 11, paddingHorizontal: 14 },
   lockedHint: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 7, marginTop: V.space.md, paddingHorizontal: V.space.lg },
-  lockedHintTxt: { color: V.color.textSecondary, fontSize: 12, fontWeight: V.font.bold, textAlign: 'center', flexShrink: 1 },
+  lockedHintTxt: { fontFamily: FONT.bodyBlack,color: V.color.textSecondary, fontSize: 12, textAlign: 'center', flexShrink: 1 },
 });
 
 export default ValeriaBlockListScreen;

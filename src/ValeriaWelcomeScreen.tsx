@@ -149,7 +149,7 @@ const s = StyleSheet.create({
     shadowColor: 'rgba(11,18,32,.18)', shadowOffset: { width: 0, height: 12 }, shadowOpacity: 1, shadowRadius: 26, elevation: 6,
   },
   // primaryDark sobre blanco daba 3,1:1 (WCAG AA pide 4,5:1); dark da 18,7:1.
-  primaryBtnTxt: { color: V.color.dark, fontSize: 17, fontWeight: '800' },
+  primaryBtnTxt: { fontFamily: FONT.display,color: V.color.dark, fontSize: 17 },
   trust: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6, marginTop: 14 },
   trustTxt: { color: '#0b1220', fontSize: 12, fontFamily: FONT.bodyBold },
 });

@@ -21,6 +21,7 @@ import { EarAnatomySvg, deviceSchemaFor } from './AcademyHardwareSvg';
 import { AcademyGuideUnit, HearingDeviceKey } from './academyTypes';
 import { BlockIcon } from '../ValeriaBlockIcons';
 import { getUiLang } from '../valeriaUiLang';
+import { FONT } from '../ui/fonts';
 
 const DEFAULT_ACCENT = DOMAIN_META_ES.hipoacusia.accentFg;
 const DEFAULT_ACCENT_BG = DOMAIN_META_ES.hipoacusia.accentBg;
@@ -173,35 +174,35 @@ const s = StyleSheet.create({
   grabber: { alignSelf: 'center', width: 42, height: 5, borderRadius: 3, backgroundColor: '#d3dbdb', marginBottom: 10 },
   headRow: { flexDirection: 'row', alignItems: 'center', gap: 10, marginBottom: 12 },
   titleRow: { flexDirection: 'row', alignItems: 'center', gap: 8 },
-  title: { fontSize: 19, fontWeight: '800', color: V.color.textPrimary },
-  sub: { fontSize: 12.5, fontWeight: '700', color: DEFAULT_ACCENT, marginTop: 2 },
+  title: { fontFamily: FONT.display,fontSize: 19, color: V.color.textPrimary },
+  sub: { fontFamily: FONT.bodyBlack,fontSize: 12.5, color: DEFAULT_ACCENT, marginTop: 2 },
   closeBtn: { width: 34, height: 34, borderRadius: 17, backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.border, alignItems: 'center', justifyContent: 'center' },
-  closeTxt: { fontSize: 15, fontWeight: '800', color: V.color.textSecondary },
+  closeTxt: { fontFamily: FONT.bodyBlack,fontSize: 15, color: V.color.textSecondary },
 
   axisRow: { flexDirection: 'row', gap: 6, borderBottomWidth: 1, borderBottomColor: V.color.border, marginBottom: 4 },
   axisTab: { flex: 1, alignItems: 'center', paddingVertical: 10 },
   axisTabOn: {},
-  axisTabTxt: { fontSize: 13, fontWeight: '800', textAlign: 'center' },
+  axisTabTxt: { fontFamily: FONT.bodyBlack,fontSize: 13, textAlign: 'center' },
   axisUnderline: { position: 'absolute', bottom: -1, height: 3, width: '70%', borderRadius: 2, backgroundColor: DEFAULT_ACCENT },
 
   scroll: { paddingTop: 14, paddingBottom: 20 },
   schemaCard: { backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.border, borderRadius: 18, paddingVertical: 16, paddingHorizontal: 12, alignItems: 'center', marginBottom: 14, ...V.shadow.card },
-  schemaCaption: { fontSize: 12.5, fontWeight: '600', color: V.color.textSecondary, textAlign: 'center', marginTop: 8, lineHeight: 17 },
-  deviceLabel: { fontSize: 16, fontWeight: '800', color: V.color.textPrimary, marginTop: 6 },
+  schemaCaption: { fontFamily: FONT.bodyBold,fontSize: 12.5, color: V.color.textSecondary, textAlign: 'center', marginTop: 8, lineHeight: 17 },
+  deviceLabel: { fontFamily: FONT.bodyBlack,fontSize: 16, color: V.color.textPrimary, marginTop: 6 },
 
   deviceTabs: { flexDirection: 'row', gap: 8, marginBottom: 14 },
   deviceTab: { flex: 1, alignItems: 'center', paddingVertical: 10, borderRadius: 12, backgroundColor: '#fff', borderWidth: 1.5, borderColor: DEFAULT_ACCENT_BG },
   deviceTabOn: { backgroundColor: DEFAULT_ACCENT, borderColor: DEFAULT_ACCENT },
-  deviceTabTxt: { fontSize: 13, fontWeight: '800' },
+  deviceTabTxt: { fontFamily: FONT.bodyBlack,fontSize: 13 },
 
   guide: { backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.border, borderRadius: 16, padding: 15, marginBottom: 11, ...V.shadow.card },
   guideHead: { flexDirection: 'row', alignItems: 'center', gap: 11, marginBottom: 9 },
   guideIcon: { width: 38, height: 38, borderRadius: 12, alignItems: 'center', justifyContent: 'center' },
-  guideHeading: { flex: 1, fontSize: 15.5, fontWeight: '800', color: V.color.textPrimary },
-  guideBody: { fontSize: 14, fontWeight: '600', color: V.color.textSecondary, lineHeight: 21 },
+  guideHeading: { fontFamily: FONT.bodyBlack,flex: 1, fontSize: 15.5, color: V.color.textPrimary },
+  guideBody: { fontFamily: FONT.bodyBold,fontSize: 14, color: V.color.textSecondary, lineHeight: 21 },
   seenBtn: { marginTop: 13, borderRadius: 12, paddingVertical: 12, alignItems: 'center' },
   seenBtnDone: { backgroundColor: DEFAULT_ACCENT_BG },
-  seenTxt: { fontSize: 13.5, fontWeight: '800' },
+  seenTxt: { fontFamily: FONT.bodyBlack,fontSize: 13.5 },
 });
 
 export default HipoacusiaBottomSheet;

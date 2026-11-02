@@ -16,6 +16,7 @@ import { getLocale } from '../valeriaLocale';
 import { BlockIcon } from '../ValeriaBlockIcons';
 import { SENSORY_TRIGGER_LIST } from './sensoryCatalog';
 import { SensoryTriggerId } from './sensoryTypes';
+import { FONT } from '../ui/fonts';
 import {
   sensoryAudioSupported, prepareStimulus, startStimulus, stopStimulus, releaseStimulus,
 } from './sensoryAudio';
@@ -129,20 +130,20 @@ const s = StyleSheet.create({
     borderRadius: 16, padding: 14, marginTop: 14,
   },
   head: { flexDirection: 'row', alignItems: 'center', gap: 8 },
-  kicker: { fontSize: 11, fontWeight: '800', letterSpacing: 0.6, color: V.color.primaryDark },
-  body: { fontSize: 12.5, fontWeight: '600', color: V.color.textSecondary, lineHeight: 18, marginTop: 6 },
-  noAudio: { fontSize: 12.5, fontWeight: '700', color: V.color.textMuted, marginTop: 10 },
+  kicker: { fontFamily: FONT.bodyBlack,fontSize: 11, letterSpacing: 0.6, color: V.color.primaryDark },
+  body: { fontFamily: FONT.bodyBold,fontSize: 12.5, color: V.color.textSecondary, lineHeight: 18, marginTop: 6 },
+  noAudio: { fontFamily: FONT.bodyBlack,fontSize: 12.5, color: V.color.textMuted, marginTop: 10 },
   allBtn: {
     alignSelf: 'flex-start', backgroundColor: V.color.primary, borderRadius: 12,
     paddingHorizontal: 16, paddingVertical: 10, marginTop: 12, marginBottom: 6,
   },
-  allBtnTxt: { color: '#ffffff', fontSize: 14, fontWeight: '800' },
+  allBtnTxt: { fontFamily: FONT.bodyBlack,color: '#ffffff', fontSize: 14 },
   row: {
     flexDirection: 'row', alignItems: 'center', gap: 10,
     paddingVertical: 10, paddingHorizontal: 10, borderRadius: 10, marginTop: 4,
     backgroundColor: V.color.pageBg,
   },
   rowOn: { backgroundColor: V.color.primaryDark },
-  rowTxt: { fontSize: 14, fontWeight: '700', color: V.color.textPrimary },
+  rowTxt: { fontFamily: FONT.bodyBlack,fontSize: 14, color: V.color.textPrimary },
   rowTxtOn: { color: '#ffffff' },
 });

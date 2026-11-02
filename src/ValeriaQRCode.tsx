@@ -9,6 +9,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import Svg, { Rect, Path } from 'react-native-svg';
 import { encodeQR } from './valeriaQR';
 import { V } from './valeriaTheme';
+import { FONT } from './ui/fonts';
 
 export const ValeriaQRCode: React.FC<{ value: string; size?: number }> = ({ value, size = 220 }) => {
   const qr = useMemo(() => {
@@ -51,7 +52,7 @@ export const ValeriaQRCode: React.FC<{ value: string; size?: number }> = ({ valu
 const s = StyleSheet.create({
   wrap: { backgroundColor: '#fff', borderRadius: 12, overflow: 'hidden', alignSelf: 'center' },
   fallback: { backgroundColor: '#fff', borderRadius: 12, borderWidth: 1, borderColor: V.color.border, alignItems: 'center', justifyContent: 'center', padding: 16 },
-  fallbackTxt: { color: V.color.textMuted, fontSize: 12, fontWeight: '700', textAlign: 'center' },
+  fallbackTxt: { fontFamily: FONT.bodyBlack,color: V.color.textMuted, fontSize: 12, textAlign: 'center' },
 });
 
 export default ValeriaQRCode;

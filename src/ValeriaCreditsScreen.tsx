@@ -246,7 +246,7 @@ const s = StyleSheet.create({
   },
   // primaryDark sobre blanco da 3,1:1 y no llega al 4,5:1 de WCAG AA: el
   // «Continuar» casi no se leía. dark da 18,7:1.
-  ctaText: { color: V.color.dark, fontSize: 17, fontWeight: V.font.extrabold },
+  ctaText: { fontFamily: FONT.display,color: V.color.dark, fontSize: 17 },
 });
 
 export default ValeriaCreditsScreen;

@@ -14,6 +14,7 @@ import { useAcademyDomainSummary } from './academyStore';
 import { AcademyDomain } from './academyTypes';
 import { BlockIcon } from '../ValeriaBlockIcons';
 import { getUiLang } from '../valeriaUiLang';
+import { FONT } from '../ui/fonts';
 
 export const AcademyDomainCard: React.FC<{
   domain: AcademyDomain;
@@ -70,17 +71,17 @@ const s = StyleSheet.create({
   card: { flexDirection: 'row', alignItems: 'center', gap: 13, backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.border, borderRadius: 16, padding: 14, marginBottom: 11, ...V.shadow.card },
   icon: { width: 48, height: 48, borderRadius: 15, alignItems: 'center', justifyContent: 'center' },
   titleRow: { flexDirection: 'row', alignItems: 'center', gap: 8 },
-  title: { fontSize: 15.5, fontWeight: '800', color: V.color.textPrimary },
+  title: { fontFamily: FONT.bodyBlack,fontSize: 15.5, color: V.color.textPrimary },
   done: { alignItems: 'center', justifyContent: 'center' },
-  sub: { fontSize: 12, fontWeight: '600', color: V.color.textSecondary, marginTop: 2, lineHeight: 16 },
+  sub: { fontFamily: FONT.bodyBold,fontSize: 12, color: V.color.textSecondary, marginTop: 2, lineHeight: 16 },
   progressTrack: { height: 7, borderRadius: 4, backgroundColor: '#eef0f2', marginTop: 9, overflow: 'hidden' },
   progressFill: { height: 7, borderRadius: 4 },
   metaRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 7 },
-  metaTxt: { fontSize: 11.5, fontWeight: '800' },
+  metaTxt: { fontFamily: FONT.bodyBlack,fontSize: 11.5 },
   chips: { flexDirection: 'row', alignItems: 'center', gap: 10 },
   chipRow: { flexDirection: 'row', alignItems: 'center', gap: 5 },
-  levelTxt: { fontSize: 11, fontWeight: '700', color: V.color.textSecondary },
-  xpTxt: { fontSize: 11, fontWeight: '800', color: V.color.star },
+  levelTxt: { fontFamily: FONT.bodyBlack,fontSize: 11, color: V.color.textSecondary },
+  xpTxt: { fontFamily: FONT.bodyBlack,fontSize: 11, color: V.color.star },
   chev: { width: 30, height: 30, borderRadius: 15, alignItems: 'center', justifyContent: 'center' },
 });
 

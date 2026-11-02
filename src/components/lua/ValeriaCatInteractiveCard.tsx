@@ -27,6 +27,7 @@ import { luaCraves } from '../../valeriaLuaMascot';
 import { recordPatInteraction, feedLuaSnack } from '../../services/valeriaLuaInventory';
 import { GameState, levelFor, levelProgress, xpToNext, liveStreak, LEVEL_COUNT } from '../../valeriaGamification';
 import { useT } from '../../i18n';
+import { FONT } from '../../ui/fonts';
 
 interface Props {
   inventory: LuaInventoryState;
@@ -351,8 +352,8 @@ const styles = StyleSheet.create({
     alignItems: 'center', justifyContent: 'center',
   },
   layer: { position: 'absolute' },
-  mood: { fontSize: 10.5, fontWeight: V.font.bold, color: V.color.textSecondary },
-  moodActive: { color: V.color.primaryDark, fontWeight: V.font.extrabold },
+  mood: { fontFamily: FONT.bodyBlack,fontSize: 10.5, color: V.color.textSecondary },
+  moodActive: { fontFamily: FONT.bodyBlack,color: V.color.primaryDark },
 
   thoughtBubble: {
     position: 'absolute', top: -8, right: -10, backgroundColor: '#fff',
@@ -367,17 +368,17 @@ const styles = StyleSheet.create({
 
   progress: { flex: 1, gap: 6 },
   levelRow: { flexDirection: 'row', alignItems: 'center', gap: 8 },
-  level: { flex: 1, fontSize: 15, lineHeight: 19, fontWeight: V.font.extrabold, color: V.color.textPrimary },
+  level: { fontFamily: FONT.bodyBlack,flex: 1, fontSize: 15, lineHeight: 19, color: V.color.textPrimary },
   flamePlate: {
     flexDirection: 'row', alignItems: 'center', gap: 4,
     backgroundColor: '#fff3ea', borderRadius: 12, paddingHorizontal: 8, paddingVertical: 4,
   },
-  streakNum: { fontSize: 16, fontWeight: V.font.extrabold, color: '#c2571e', letterSpacing: -0.3 },
+  streakNum: { fontFamily: FONT.bodyBlack,fontSize: 16, color: '#c2571e', letterSpacing: -0.3 },
   track: { height: 8, borderRadius: 4, backgroundColor: '#e3ecec', overflow: 'hidden' },
   fill: { height: '100%', borderRadius: 4, backgroundColor: V.color.primary },
   // Texto secundario, no «muted»: sobre blanco el gris claro no llega al
   // contraste mínimo y es justo la línea que dice cuánto falta.
-  toNext: { fontSize: 11.5, fontWeight: V.font.bold, color: V.color.textSecondary },
+  toNext: { fontFamily: FONT.bodyBlack,fontSize: 11.5, color: V.color.textSecondary },
 
   actions: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 10 },
   snackBtn: {
@@ -386,8 +387,8 @@ const styles = StyleSheet.create({
     borderWidth: 1, borderColor: V.color.primary,
     paddingHorizontal: 12, paddingVertical: 7,
   },
-  snackTxt: { fontSize: 12, fontWeight: V.font.extrabold, color: V.color.primaryDark },
-  awardsLink: { fontSize: 12.5, fontWeight: V.font.extrabold, color: V.color.primaryDark },
+  snackTxt: { fontFamily: FONT.bodyBlack,fontSize: 12, color: V.color.primaryDark },
+  awardsLink: { fontFamily: FONT.bodyBlack,fontSize: 12.5, color: V.color.primaryDark },
 });
 
 export default ValeriaCatInteractiveCard;

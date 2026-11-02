@@ -44,6 +44,7 @@ import { AUDITORY_INTEGRATION_ACTIVITIES } from './ValeriaSensory';
 import { useT, UiStrings } from './i18n';
 import { LUA_ACTIVITY_COUNT } from './AventurasLua';
 import { STEAM_WORLDS } from './steam/worlds';
+import { FONT } from './ui/fonts';
 
 // La tarjeta del hub cuenta actividades JUGABLES. Anunciar «6 actividades» con
 // cuatro en «Próximamente» es prometer de más en la única pantalla desde la que
@@ -349,16 +350,16 @@ const s = StyleSheet.create({
     backgroundColor: 'rgba(255,255,255,.18)', borderWidth: 1, borderColor: 'rgba(255,255,255,.32)',
     borderRadius: 11, paddingHorizontal: 11, paddingVertical: 5,
   },
-  backPillTxt: { color: '#fff', fontSize: 12, fontWeight: V.font.extrabold },
+  backPillTxt: { fontFamily: FONT.bodyBlack,color: '#fff', fontSize: 12 },
   chips: { flexDirection: 'row', gap: V.space.sm, marginTop: V.space.md, flexWrap: 'wrap' },
   gameChip: {
     backgroundColor: 'rgba(255,255,255,.18)', borderWidth: 1, borderColor: 'rgba(255,255,255,.32)',
     borderRadius: 11, paddingHorizontal: 10, paddingVertical: 5,
   },
-  gameChipTxt: { color: '#fff', fontSize: 12, fontWeight: V.font.extrabold },
-  headerTitle: { ...V.type.display, color: '#fff', fontWeight: V.font.extrabold, letterSpacing: -0.4 },
+  gameChipTxt: { fontFamily: FONT.bodyBlack,color: '#fff', fontSize: 12 },
+  headerTitle: { fontFamily: FONT.bodyBlack,...V.type.display, color: '#fff', letterSpacing: -0.4 },
 
-  headerSub: { ...V.type.body, color: 'rgba(255,255,255,.9)', fontWeight: V.font.semibold, marginTop: V.space.xs },
+  headerSub: { fontFamily: FONT.bodyBlack,...V.type.body, color: 'rgba(255,255,255,.9)', marginTop: V.space.xs },
   // El colchón inferior deja respirar la última fila por encima de la barra
   // de pestañas, que mide 58 px.
   grid: { paddingHorizontal: V.space.lg, paddingTop: V.space.lg, paddingBottom: 88 },
@@ -375,25 +376,25 @@ const s = StyleSheet.create({
     backgroundColor: '#eef0ff', alignItems: 'center', justifyContent: 'center',
   },
   academyGlyph: { fontSize: 22 },
-  academyTitle: { ...V.type.title, fontWeight: V.font.extrabold, color: V.color.textPrimary },
-  academyMeta: { ...V.type.caption, fontWeight: V.font.bold, color: V.color.textMuted, marginTop: 2 },
+  academyTitle: { fontFamily: FONT.bodyBlack,...V.type.title, color: V.color.textPrimary },
+  academyMeta: { fontFamily: FONT.bodyBlack,...V.type.caption, color: V.color.textMuted, marginTop: 2 },
   bar: { height: 6, borderRadius: 3, backgroundColor: '#eef0ff', marginTop: V.space.sm, overflow: 'hidden' },
   barFill: { height: '100%', borderRadius: 3, backgroundColor: '#5b6ee0' },
-  academyChev: { fontSize: 20, color: V.color.textMuted, fontWeight: V.font.extrabold },
+  academyChev: { fontFamily: FONT.display,fontSize: 20, color: V.color.textMuted },
   col: { gap: V.space.md, marginBottom: V.space.md },
   ghost: { flex: 1 },
 
   consentOverlay: { flex: 1, backgroundColor: 'rgba(11,18,32,.72)', alignItems: 'center', justifyContent: 'center', padding: V.space.xl },
   consentCard: { width: '100%', maxWidth: 380, backgroundColor: '#fff', borderRadius: 24, padding: 22 },
   consentIcon: { alignItems: 'center' },
-  consentTitle: { fontSize: 19, fontWeight: V.font.extrabold, color: V.color.textPrimary, textAlign: 'center', marginTop: V.space.sm },
-  consentTxt: { ...V.type.body, lineHeight: 19, fontWeight: V.font.semibold, color: V.color.textSecondary, marginTop: V.space.sm, textAlign: 'center' },
-  consentStrong: { fontWeight: V.font.extrabold },
+  consentTitle: { fontFamily: FONT.display,fontSize: 19, color: V.color.textPrimary, textAlign: 'center', marginTop: V.space.sm },
+  consentTxt: { fontFamily: FONT.bodyBlack,...V.type.body, lineHeight: 19, color: V.color.textSecondary, marginTop: V.space.sm, textAlign: 'center' },
+  consentStrong: { fontFamily: FONT.bodyBlack,  },
   consentList: { marginTop: V.space.md, backgroundColor: V.color.pageBg, borderRadius: 14, padding: 13, gap: V.space.sm },
-  consentItem: { fontSize: 12.5, fontWeight: V.font.bold, color: V.color.textPrimary, lineHeight: 17 },
+  consentItem: { fontFamily: FONT.bodyBlack,fontSize: 12.5, color: V.color.textPrimary, lineHeight: 17 },
   consentAccept: { marginTop: V.space.lg, backgroundColor: V.color.primary, borderRadius: 14, paddingVertical: 14, alignItems: 'center', ...V.shadow.button },
-  consentAcceptTxt: { color: '#fff', ...V.type.title, fontWeight: V.font.extrabold },
-  consentCancel: { textAlign: 'center', color: V.color.textMuted, ...V.type.body, fontWeight: V.font.extrabold, marginTop: V.space.md },
+  consentAcceptTxt: { fontFamily: FONT.bodyBlack,color: '#fff', ...V.type.title },
+  consentCancel: { fontFamily: FONT.bodyBlack,textAlign: 'center', color: V.color.textMuted, ...V.type.body, marginTop: V.space.md },
 });
 
 export default ValeriaHubV11Screen;

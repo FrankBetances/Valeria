@@ -27,6 +27,7 @@ import {
 } from './valeriaTelemetry';
 import { useActiveTimeMonitor } from './valeriaActiveTimeMonitor';
 import { triggerVisualAnchorBreak, cancelVisualAnchorBreak } from './valeriaLuaSession';
+import { FONT } from './ui/fonts';
 
 export type SessionBreak =
   | { kind: 'capsule'; capsule: TprCapsule }
@@ -249,24 +250,24 @@ export const ValeriaSessionBreakOverlay: React.FC<{
 const s = StyleSheet.create({
   overlay: { ...StyleSheet.absoluteFill, backgroundColor: 'rgba(11,18,32,.6)', alignItems: 'center', justifyContent: 'center', padding: 26 },
   card: { width: '100%', maxWidth: 340, backgroundColor: '#fff', borderRadius: 26, padding: 22, alignItems: 'center' },
-  kicker: { fontSize: 12, fontWeight: '800', letterSpacing: 1.1, color: '#f59e0b' },
-  title: { fontSize: 20, fontWeight: '800', color: V.color.textPrimary, marginTop: 10, textAlign: 'center' },
+  kicker: { fontFamily: FONT.bodyBlack,fontSize: 12, letterSpacing: 1.1, color: '#f59e0b' },
+  title: { fontFamily: FONT.display,fontSize: 20, color: V.color.textPrimary, marginTop: 10, textAlign: 'center' },
   adultBanner: { backgroundColor: '#f5f0ff', borderWidth: 1, borderColor: '#ddccfa', borderRadius: 12, padding: 9, marginTop: 10, alignSelf: 'stretch' },
-  adultBannerTxt: { fontSize: 11.5, fontWeight: '700', color: '#6d3fc4', lineHeight: 16, textAlign: 'center' },
-  scene: { fontSize: 13.5, fontWeight: '700', color: V.color.textSecondary, marginTop: 14, lineHeight: 19, textAlign: 'center' },
+  adultBannerTxt: { fontFamily: FONT.bodyBlack,fontSize: 11.5, color: '#6d3fc4', lineHeight: 16, textAlign: 'center' },
+  scene: { fontFamily: FONT.bodyBlack,fontSize: 13.5, color: V.color.textSecondary, marginTop: 14, lineHeight: 19, textAlign: 'center' },
   emoji: { fontSize: 64, marginTop: 12 },
-  cmd: { fontSize: 17, fontWeight: '800', color: V.color.textPrimary, marginTop: 8, lineHeight: 23, textAlign: 'center' },
-  focus: { fontSize: 11, fontWeight: '700', color: V.color.textMuted, marginTop: 5 },
+  cmd: { fontFamily: FONT.display,fontSize: 17, color: V.color.textPrimary, marginTop: 8, lineHeight: 23, textAlign: 'center' },
+  focus: { fontFamily: FONT.bodyBlack,fontSize: 11, color: V.color.textMuted, marginTop: 5 },
   dots: { flexDirection: 'row', gap: 7, marginTop: 12 },
   dot: { width: 10, height: 10, borderRadius: 5 },
   repeatBtn: { alignSelf: 'stretch', backgroundColor: V.color.primaryLight, borderWidth: 1, borderColor: V.color.borderActive, borderRadius: 14, paddingVertical: 12, alignItems: 'center', marginTop: 14 },
-  repeatBtnTxt: { color: V.color.primaryDark, fontSize: 13, fontWeight: '800' },
+  repeatBtnTxt: { fontFamily: FONT.bodyBlack,color: V.color.primaryDark, fontSize: 13 },
   row: { flexDirection: 'row', gap: 9, alignSelf: 'stretch', marginTop: 10 },
   okBtn: { flex: 1.2, backgroundColor: '#f59e0b', borderRadius: 14, paddingVertical: 13, alignItems: 'center', marginTop: 4 },
-  okBtnTxt: { color: '#fff', fontSize: 13, fontWeight: '800' },
+  okBtnTxt: { fontFamily: FONT.bodyBlack,color: '#fff', fontSize: 13 },
   noBtn: { flex: 1, backgroundColor: '#fff1f2', borderWidth: 1, borderColor: '#fecdd3', borderRadius: 14, paddingVertical: 13, alignItems: 'center', marginTop: 4 },
-  noBtnTxt: { color: V.color.error, fontSize: 13, fontWeight: '800' },
-  skip: { marginTop: 13, fontSize: 12.5, fontWeight: '700', color: V.color.textMuted },
+  noBtnTxt: { fontFamily: FONT.bodyBlack,color: V.color.error, fontSize: 13 },
+  skip: { fontFamily: FONT.bodyBlack,marginTop: 13, fontSize: 12.5, color: V.color.textMuted },
 
   // Ancla visual: anclada abajo y con su propio fondo oscuro, para que se lea
   // como una nota AL MARGEN del ejercicio y no como un paso más de la pausa.
@@ -275,14 +276,14 @@ const s = StyleSheet.create({
     backgroundColor: '#0f2137', borderRadius: 20, padding: 16,
     borderWidth: 1, borderColor: '#1d4ed8',
   },
-  anchorKicker: { fontSize: 10.5, fontWeight: '800', letterSpacing: 1.1, color: '#7dd3fc' },
-  anchorTitle: { fontSize: 15.5, fontWeight: '800', color: '#fff', marginTop: 6 },
-  anchorBody: { fontSize: 12.5, fontWeight: '600', color: '#c7d7ea', marginTop: 6, lineHeight: 17.5 },
+  anchorKicker: { fontFamily: FONT.bodyBlack,fontSize: 10.5, letterSpacing: 1.1, color: '#7dd3fc' },
+  anchorTitle: { fontFamily: FONT.bodyBlack,fontSize: 15.5, color: '#fff', marginTop: 6 },
+  anchorBody: { fontFamily: FONT.bodyBold,fontSize: 12.5, color: '#c7d7ea', marginTop: 6, lineHeight: 17.5 },
   anchorBtn: { flex: 1.4, backgroundColor: '#38bdf8', borderRadius: 13, paddingVertical: 12, alignItems: 'center', marginTop: 4 },
-  anchorBtnTxt: { color: '#06263c', fontSize: 12.5, fontWeight: '800' },
+  anchorBtnTxt: { fontFamily: FONT.bodyBlack,color: '#06263c', fontSize: 12.5 },
   anchorGhostBtn: { flex: 1, borderWidth: 1, borderColor: '#2c4a6b', borderRadius: 13, paddingVertical: 12, alignItems: 'center', marginTop: 4 },
-  anchorGhostTxt: { color: '#9fb6cd', fontSize: 12.5, fontWeight: '800' },
-  anchorFoot: { fontSize: 10.5, fontWeight: '700', color: '#7e97b1', marginTop: 9, textAlign: 'center' },
+  anchorGhostTxt: { fontFamily: FONT.bodyBlack,color: '#9fb6cd', fontSize: 12.5 },
+  anchorFoot: { fontFamily: FONT.bodyBlack,fontSize: 10.5, color: '#7e97b1', marginTop: 9, textAlign: 'center' },
 });
 
 export default ValeriaSessionBreakOverlay;

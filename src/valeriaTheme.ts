@@ -10,7 +10,7 @@ export const V = {
     primaryDark: '#00a39e',   // Hover / activos
     primaryLight: '#e6f9f8',  // Fondo destacado
     primaryTint: '#f0fdf9',   // Fondo muy suave (instrucciones)
-    pageBg: '#f6fafa',        // Fondo de página
+    pageBg: '#fff8ec',        // Fondo de página: crema cálido del rediseño
     card: '#ffffff',
     border: '#e9eeee',
     borderActive: '#cdeeec',

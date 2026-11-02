@@ -31,6 +31,7 @@ import { useT, UiStrings } from './i18n';
 import { micVerdictSayFor } from './valeriaExerciseBank';
 import { trackPhraseCoverage } from './valeriaTelemetry';
 import { SentenceWordCards } from './ValeriaSentenceWordCards';
+import { FONT } from './ui/fonts';
 
 export { SentenceWordCards };
 
@@ -743,51 +744,51 @@ export const VoiceQualityCard: React.FC = () => {
 const s = StyleSheet.create({
   speakPill: { flexDirection: 'row', alignItems: 'center', gap: 6, alignSelf: 'flex-start', backgroundColor: V.color.primaryLight, borderWidth: 1, borderColor: V.color.borderActive, borderRadius: 11, paddingHorizontal: 11, paddingVertical: 7 },
   speakPillCompact: { paddingHorizontal: 8, paddingVertical: 5 },
-  speakPillTxt: { color: V.color.primaryDark, fontSize: 12.5, fontWeight: '800' },
+  speakPillTxt: { fontFamily: FONT.bodyBlack,color: V.color.primaryDark, fontSize: 12.5 },
 
   micCard: { backgroundColor: '#f5f0ff', borderWidth: 1.5, borderColor: '#ddccfa', borderRadius: 16, padding: 14, marginTop: 12 },
-  micKicker: { fontSize: 11, fontWeight: '800', letterSpacing: 0.6, color: '#6d3fc4' },
-  micPrompt: { fontSize: 13.5, fontWeight: '700', color: V.color.textPrimary, marginTop: 8, lineHeight: 19 },
+  micKicker: { fontFamily: FONT.bodyBlack,fontSize: 11, letterSpacing: 0.6, color: '#6d3fc4' },
+  micPrompt: { fontFamily: FONT.bodyBlack,fontSize: 13.5, color: V.color.textPrimary, marginTop: 8, lineHeight: 19 },
   micRow: { flexDirection: 'row', alignItems: 'center', gap: 14, marginTop: 12 },
   micBtn: { width: 58, height: 58, borderRadius: 29, backgroundColor: '#7c4fd0', alignItems: 'center', justifyContent: 'center', ...V.shadow.button },
   micBtnOn: { backgroundColor: '#ef4444' },
-  micState: { flex: 1, fontSize: 12.5, fontWeight: '700', color: V.color.textSecondary },
+  micState: { fontFamily: FONT.bodyBlack,flex: 1, fontSize: 12.5, color: V.color.textSecondary },
 
   heardBox: { backgroundColor: '#fff', borderWidth: 1, borderColor: '#e9e2f7', borderRadius: 12, padding: 10, marginTop: 12 },
-  heardLbl: { fontSize: 10.5, fontWeight: '800', letterSpacing: 0.4, color: V.color.textMuted },
-  heardTxt: { fontSize: 16, fontWeight: '800', color: V.color.textPrimary, marginTop: 2 },
+  heardLbl: { fontFamily: FONT.bodyBlack,fontSize: 10.5, letterSpacing: 0.4, color: V.color.textMuted },
+  heardTxt: { fontFamily: FONT.bodyBlack,fontSize: 16, color: V.color.textPrimary, marginTop: 2 },
 
   verdict: { flexDirection: 'row', alignItems: 'center', gap: 10, borderRadius: 12, borderWidth: 1, padding: 11, marginTop: 10 },
   verdictOk: { backgroundColor: V.color.successBg, borderColor: '#bfe9d4' },
   verdictAlmost: { backgroundColor: '#fffbeb', borderColor: '#f4e6b8' },
   verdictRetry: { backgroundColor: '#fff', borderColor: V.color.border },
-  verdictCover: { fontSize: 11.5, fontWeight: '800', color: V.color.textMuted, marginTop: 2 },
-  verdictTitle: { fontSize: 14, fontWeight: '800', color: V.color.textPrimary },
-  verdictSub: { fontSize: 11.5, fontWeight: '600', color: V.color.textSecondary, marginTop: 1, lineHeight: 15 },
+  verdictCover: { fontFamily: FONT.bodyBlack,fontSize: 11.5, color: V.color.textMuted, marginTop: 2 },
+  verdictTitle: { fontFamily: FONT.bodyBlack,fontSize: 14, color: V.color.textPrimary },
+  verdictSub: { fontFamily: FONT.bodyBold,fontSize: 11.5, color: V.color.textSecondary, marginTop: 1, lineHeight: 15 },
   verdictStars: { fontSize: 15, color: V.color.star, letterSpacing: 1 },
 
   micUnavailable: { flexDirection: 'row', alignItems: 'center', gap: 9, backgroundColor: '#f8f9fb', borderWidth: 1, borderColor: V.color.border, borderRadius: 12, padding: 11, marginTop: 12 },
-  micUnavailableTxt: { flex: 1, fontSize: 11.5, fontWeight: '600', color: V.color.textMuted, lineHeight: 15 },
+  micUnavailableTxt: { fontFamily: FONT.bodyBold,flex: 1, fontSize: 11.5, color: V.color.textMuted, lineHeight: 15 },
 
   captureCard: { backgroundColor: '#fffdf5', borderWidth: 1.5, borderColor: '#f0e6c8', borderRadius: 16, padding: 14, marginTop: 12 },
-  captureKicker: { fontSize: 11, fontWeight: '800', letterSpacing: 0.6, color: '#92711a' },
-  capturePrompt: { fontSize: 13, fontWeight: '700', color: V.color.textPrimary, marginTop: 7, lineHeight: 18 },
+  captureKicker: { fontFamily: FONT.bodyBlack,fontSize: 11, letterSpacing: 0.6, color: '#92711a' },
+  capturePrompt: { fontFamily: FONT.bodyBlack,fontSize: 13, color: V.color.textPrimary, marginTop: 7, lineHeight: 18 },
   captureRow: { flexDirection: 'row', alignItems: 'flex-start', gap: 10, marginTop: 11 },
-  captureInput: { flex: 1, minHeight: 52, backgroundColor: '#fff', borderWidth: 1, borderColor: '#e9e2c9', borderRadius: 12, paddingHorizontal: 12, paddingVertical: 9, fontSize: 14, fontWeight: '600', color: V.color.textPrimary, textAlignVertical: 'top' },
+  captureInput: { fontFamily: FONT.bodyBold,flex: 1, minHeight: 52, backgroundColor: '#fff', borderWidth: 1, borderColor: '#e9e2c9', borderRadius: 12, paddingHorizontal: 12, paddingVertical: 9, fontSize: 14, color: V.color.textPrimary, textAlignVertical: 'top' },
   captureMicBtn: { width: 52, height: 52, borderRadius: 26, backgroundColor: '#f0b429', alignItems: 'center', justifyContent: 'center', ...V.shadow.button },
   captureMicBtnOn: { backgroundColor: '#ef4444' },
-  captureState: { fontSize: 12, fontWeight: '700', color: V.color.textSecondary, marginTop: 8 },
-  captureErr: { fontSize: 12, fontWeight: '700', color: V.color.error, marginTop: 8 },
-  captureOk: { fontSize: 12, fontWeight: '700', color: '#0f8a63', marginTop: 8 },
+  captureState: { fontFamily: FONT.bodyBlack,fontSize: 12, color: V.color.textSecondary, marginTop: 8 },
+  captureErr: { fontFamily: FONT.bodyBlack,fontSize: 12, color: V.color.error, marginTop: 8 },
+  captureOk: { fontFamily: FONT.bodyBlack,fontSize: 12, color: '#0f8a63', marginTop: 8 },
 
   vqCard: { backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.border, borderRadius: 14, padding: 13, marginTop: 10, ...V.shadow.card },
   vqHead: { flexDirection: 'row', alignItems: 'center', gap: 9 },
   vqIcon: { width: 36, height: 36, borderRadius: 12, backgroundColor: V.color.primaryLight, alignItems: 'center', justifyContent: 'center' },
-  vqTitle: { fontSize: 14, fontWeight: '800', color: V.color.textPrimary, flex: 1 },
+  vqTitle: { fontFamily: FONT.bodyBlack,fontSize: 14, color: V.color.textPrimary, flex: 1 },
   vqChip: { paddingHorizontal: 9, paddingVertical: 4, borderRadius: 9 },
-  vqChipTxt: { fontSize: 11, fontWeight: '800' },
+  vqChipTxt: { fontFamily: FONT.bodyBlack,fontSize: 11 },
 
-  vqLangLabel: { fontSize: 10.5, fontWeight: '800', letterSpacing: 0.5, color: V.color.textMuted, marginTop: 12, marginBottom: 6, textTransform: 'uppercase' },
+  vqLangLabel: { fontFamily: FONT.bodyBlack,fontSize: 10.5, letterSpacing: 0.5, color: V.color.textMuted, marginTop: 12, marginBottom: 6, textTransform: 'uppercase' },
   // El selector nació con 3 variedades y cabían en una fila. Hoy son 5
   // (Euskara e English se sumaron después) y sin `flexWrap` los chips se
   // comprimían hasta solaparse: «Castellano» salía cortado y la etiqueta
@@ -799,34 +800,34 @@ const s = StyleSheet.create({
   // Ancho fijo por columna = rejilla pareja de 2×3.
   vqLangBtn: { width: '31.5%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 5, backgroundColor: V.color.pageBg, borderWidth: 1.5, borderColor: V.color.border, borderRadius: 14, paddingVertical: 11, paddingHorizontal: 6 },
   vqLangBtnOn: { backgroundColor: V.color.primary, borderColor: V.color.primary },
-  vqLangTxt: { fontSize: 12.5, fontWeight: '800', color: V.color.textSecondary, textAlign: 'center' },
+  vqLangTxt: { fontFamily: FONT.bodyBlack,fontSize: 12.5, color: V.color.textSecondary, textAlign: 'center' },
   vqLangTxtOn: { color: '#fff' },
-  vqBeta: { fontSize: 9, fontWeight: '800', color: V.color.textMuted, borderWidth: 1, borderColor: V.color.border, borderRadius: 6, paddingHorizontal: 4, paddingVertical: 1, letterSpacing: 0.4, textTransform: 'uppercase' },
-  vqDetail: { fontSize: 11.5, fontWeight: '600', color: V.color.textMuted, marginTop: 8, lineHeight: 15.5 },
+  vqBeta: { fontFamily: FONT.bodyBlack,fontSize: 9, color: V.color.textMuted, borderWidth: 1, borderColor: V.color.border, borderRadius: 6, paddingHorizontal: 4, paddingVertical: 1, letterSpacing: 0.4, textTransform: 'uppercase' },
+  vqDetail: { fontFamily: FONT.bodyBold,fontSize: 11.5, color: V.color.textMuted, marginTop: 8, lineHeight: 15.5 },
   vqBtnRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginTop: 11 },
   vqBtn: { backgroundColor: V.color.primaryLight, borderWidth: 1, borderColor: V.color.borderActive, borderRadius: 11, paddingHorizontal: 11, paddingVertical: 8 },
   vqBtnPrimary: { backgroundColor: V.color.primary, borderColor: V.color.primary },
-  vqBtnTxt: { fontSize: 12, fontWeight: '800', color: V.color.primaryDark },
-  vqHint: { fontSize: 11, fontWeight: '600', color: V.color.textSecondary, marginTop: 10, lineHeight: 15, backgroundColor: V.color.pageBg, borderRadius: 10, padding: 10 },
+  vqBtnTxt: { fontFamily: FONT.bodyBlack,fontSize: 12, color: V.color.primaryDark },
+  vqHint: { fontFamily: FONT.bodyBold,fontSize: 11, color: V.color.textSecondary, marginTop: 10, lineHeight: 15, backgroundColor: V.color.pageBg, borderRadius: 10, padding: 10 },
 
   privBlock: { backgroundColor: V.color.pageBg, borderWidth: 1, borderColor: V.color.border, borderRadius: 12, padding: 11, marginTop: 12 },
   privHead: { flexDirection: 'row', alignItems: 'center', gap: 6 },
-  privKicker: { flex: 1, fontSize: 10.5, fontWeight: '800', letterSpacing: 0.5, color: V.color.textMuted },
-  privDetail: { fontSize: 11.5, fontWeight: '600', color: V.color.textSecondary, marginTop: 7, lineHeight: 15.5 },
-  privOffer: { fontSize: 11.5, fontWeight: '700', color: V.color.textPrimary, marginTop: 8, lineHeight: 15.5 },
+  privKicker: { fontFamily: FONT.bodyBlack,flex: 1, fontSize: 10.5, letterSpacing: 0.5, color: V.color.textMuted },
+  privDetail: { fontFamily: FONT.bodyBold,fontSize: 11.5, color: V.color.textSecondary, marginTop: 7, lineHeight: 15.5 },
+  privOffer: { fontFamily: FONT.bodyBlack,fontSize: 11.5, color: V.color.textPrimary, marginTop: 8, lineHeight: 15.5 },
   privBtnRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginTop: 9 },
   privBtn: { backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.border, borderRadius: 10, paddingHorizontal: 10, paddingVertical: 7 },
   privBtnPrimary: { backgroundColor: V.color.primary, borderColor: V.color.primary },
-  privBtnTxt: { fontSize: 11.5, fontWeight: '800', color: V.color.textSecondary },
-  privNote: { fontSize: 11, fontWeight: '700', color: V.color.textSecondary, marginTop: 9, lineHeight: 15 },
-  privFoot: { fontSize: 10.5, fontWeight: '600', color: V.color.textMuted, marginTop: 8 },
-  privCapture: { fontSize: 11.5, fontWeight: '800', color: '#fff', backgroundColor: V.color.error, borderRadius: 9, padding: 9, marginBottom: 10, lineHeight: 15.5 },
+  privBtnTxt: { fontFamily: FONT.bodyBlack,fontSize: 11.5, color: V.color.textSecondary },
+  privNote: { fontFamily: FONT.bodyBlack,fontSize: 11, color: V.color.textSecondary, marginTop: 9, lineHeight: 15 },
+  privFoot: { fontFamily: FONT.bodyBold,fontSize: 10.5, color: V.color.textMuted, marginTop: 8 },
+  privCapture: { fontFamily: FONT.bodyBlack,fontSize: 11.5, color: '#fff', backgroundColor: V.color.error, borderRadius: 9, padding: 9, marginBottom: 10, lineHeight: 15.5 },
 
   phaseStrip: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 4, backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.border, borderRadius: 13, paddingVertical: 7, paddingHorizontal: 8, marginTop: 12 },
-  phaseArrow: { fontSize: 12, fontWeight: '800', color: V.color.textMuted },
+  phaseArrow: { fontFamily: FONT.bodyBlack,fontSize: 12, color: V.color.textMuted },
   phaseChip: { flexDirection: 'row', alignItems: 'center', gap: 4, borderRadius: 9, paddingHorizontal: 7, paddingVertical: 4 },
   phaseChipOn: { backgroundColor: V.color.primaryLight },
   phaseChipDone: { opacity: 0.7 },
-  phaseChipTxt: { fontSize: 10.5, fontWeight: '800', color: V.color.textMuted, letterSpacing: 0.2 },
+  phaseChipTxt: { fontFamily: FONT.bodyBlack,fontSize: 10.5, color: V.color.textMuted, letterSpacing: 0.2 },
   phaseChipTxtOn: { color: V.color.primaryDark },
 });

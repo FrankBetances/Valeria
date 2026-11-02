@@ -26,6 +26,7 @@ import { getLocale } from './valeriaLocale';
 import { getUiLang } from './valeriaUiLang';
 import { lingContentFor } from './valeriaLingContent';
 import { useT, UiStrings } from './i18n';
+import { FONT } from './ui/fonts';
 // import logoWhite from '../../assets/valeria-logo-white.png';
 
 type Phase = 'ask' | 'test' | 'done';
@@ -296,18 +297,18 @@ const Legend: React.FC<{ color: string; label: string }> = ({ color, label }) =>
 
 const s = StyleSheet.create({
   flex: { flex: 1, backgroundColor: V.color.pageBg },
-  bold: { fontWeight: '800' },
+  bold: { fontFamily: FONT.bodyBlack,  },
 
   header: { backgroundColor: V.color.primary, paddingTop: 18, paddingHorizontal: 22, paddingBottom: 16, borderBottomLeftRadius: 26, borderBottomRightRadius: 26 },
   headerRow: { flexDirection: 'row', alignItems: 'flex-start', gap: 12 },
   backPill: { flexDirection: 'row', alignSelf: 'flex-start', backgroundColor: 'rgba(255,255,255,.18)', borderWidth: 1, borderColor: 'rgba(255,255,255,.32)', borderRadius: 11, paddingHorizontal: 11, paddingVertical: 5, marginBottom: 10 },
-  backPillTxt: { color: '#fff', fontSize: 12, fontWeight: '800' },
+  backPillTxt: { fontFamily: FONT.bodyBlack,color: '#fff', fontSize: 12 },
   logo: { height: 21, width: 84, resizeMode: 'contain', marginBottom: 8 },
-  logoFallback: { color: '#fff', fontWeight: '800', fontSize: 13, letterSpacing: 1, marginBottom: 6 },
-  headerTitle: { color: '#fff', fontSize: 24, fontWeight: '800', letterSpacing: -0.4 },
-  headerSub: { color: 'rgba(255,255,255,.9)', fontSize: 13, fontWeight: '600', marginTop: 4 },
+  logoFallback: { fontFamily: FONT.bodyBlack,color: '#fff', fontSize: 13, letterSpacing: 1, marginBottom: 6 },
+  headerTitle: { fontFamily: FONT.display,color: '#fff', fontSize: 24, letterSpacing: -0.4 },
+  headerSub: { fontFamily: FONT.bodyBold,color: 'rgba(255,255,255,.9)', fontSize: 13, marginTop: 4 },
   counter: { backgroundColor: 'rgba(255,255,255,.18)', borderWidth: 1, borderColor: 'rgba(255,255,255,.35)', borderRadius: 12, paddingHorizontal: 12, paddingVertical: 7 },
-  counterTxt: { color: '#fff', fontSize: 13, fontWeight: '800' },
+  counterTxt: { fontFamily: FONT.bodyBlack,color: '#fff', fontSize: 13 },
   dots: { flexDirection: 'row', gap: 6, marginTop: 14 },
   dot: { flex: 1, height: 7, borderRadius: 4 },
 
@@ -316,70 +317,70 @@ const s = StyleSheet.create({
   // pregunta previa
   askHero: { alignItems: 'center', paddingHorizontal: 8, paddingTop: 8 },
   askIcon: { width: 78, height: 78, borderRadius: 24, backgroundColor: V.color.primaryLight, alignItems: 'center', justifyContent: 'center' },
-  askTitle: { fontSize: 21, fontWeight: '800', color: V.color.textPrimary, marginTop: 18 },
-  askQuestion: { fontSize: 14.5, fontWeight: '700', color: V.color.textSecondary, marginTop: 8, lineHeight: 21, textAlign: 'center', maxWidth: 280 },
-  askSub: { fontSize: 12.5, fontWeight: '600', color: V.color.textSecondary, marginTop: 8, lineHeight: 18, textAlign: 'center', maxWidth: 285 },
+  askTitle: { fontFamily: FONT.display,fontSize: 21, color: V.color.textPrimary, marginTop: 18 },
+  askQuestion: { fontFamily: FONT.bodyBlack,fontSize: 14.5, color: V.color.textSecondary, marginTop: 8, lineHeight: 21, textAlign: 'center', maxWidth: 280 },
+  askSub: { fontFamily: FONT.bodyBold,fontSize: 12.5, color: V.color.textSecondary, marginTop: 8, lineHeight: 18, textAlign: 'center', maxWidth: 285 },
   choice: { flexDirection: 'row', alignItems: 'center', gap: 13, backgroundColor: '#fff', borderRadius: 17, padding: 16, marginTop: 11, ...V.shadow.card },
   choiceYes: { borderWidth: 1.5, borderColor: V.color.borderActive, marginTop: 24 },
   choiceNo: { borderWidth: 1, borderColor: V.color.border },
   choiceIcon: { width: 46, height: 46, borderRadius: 14, alignItems: 'center', justifyContent: 'center' },
-  choiceTitle: { fontSize: 16, fontWeight: '800', color: V.color.textPrimary },
-  choiceSub: { fontSize: 12.5, fontWeight: '700', color: V.color.textSecondary, marginTop: 2 },
-  choiceChev: { fontSize: 18, fontWeight: '800' },
+  choiceTitle: { fontFamily: FONT.bodyBlack,fontSize: 16, color: V.color.textPrimary },
+  choiceSub: { fontFamily: FONT.bodyBlack,fontSize: 12.5, color: V.color.textSecondary, marginTop: 2 },
+  choiceChev: { fontFamily: FONT.display,fontSize: 18 },
   tip: { flexDirection: 'row', gap: 9, backgroundColor: '#fffdf3', borderWidth: 1, borderColor: '#f4e6b8', borderRadius: 14, padding: 13, marginTop: 20 },
-  tipTxt: { flex: 1, fontSize: 12, fontWeight: '700', color: '#8a7320', lineHeight: 18 },
+  tipTxt: { fontFamily: FONT.bodyBlack,flex: 1, fontSize: 12, color: '#8a7320', lineHeight: 18 },
 
   // instrucción
   instruction: { backgroundColor: V.color.primaryTint, borderWidth: 1.5, borderColor: '#b8eee9', borderRadius: 18, padding: 15 },
   instrHead: { flexDirection: 'row', alignItems: 'center', gap: 10 },
   instrIcon: { width: 36, height: 36, borderRadius: 12, backgroundColor: V.color.primary, alignItems: 'center', justifyContent: 'center' },
-  instrKicker: { fontSize: 11, fontWeight: '800', letterSpacing: 0.6, color: V.color.primaryDark },
-  instrTitle: { fontSize: 12.5, fontWeight: '700', color: V.color.textPrimary, marginTop: 1 },
-  instrBody: { marginTop: 11, fontSize: 13.5, fontWeight: '700', color: V.color.textPrimary, lineHeight: 19 },
+  instrKicker: { fontFamily: FONT.bodyBlack,fontSize: 11, letterSpacing: 0.6, color: V.color.primaryDark },
+  instrTitle: { fontFamily: FONT.bodyBlack,fontSize: 12.5, color: V.color.textPrimary, marginTop: 1 },
+  instrBody: { fontFamily: FONT.bodyBlack,marginTop: 11, fontSize: 13.5, color: V.color.textPrimary, lineHeight: 19 },
 
   // escenario
   stage: { backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.border, borderRadius: 20, paddingVertical: 22, paddingHorizontal: 16, marginTop: 12, alignItems: 'center', ...V.shadow.card },
-  stageLabel: { fontSize: 11, fontWeight: '800', letterSpacing: 0.8, color: V.color.textSecondary, marginBottom: 14 },
+  stageLabel: { fontFamily: FONT.bodyBlack,fontSize: 11, letterSpacing: 0.8, color: V.color.textSecondary, marginBottom: 14 },
   soundWrap: { width: 130, height: 130, alignItems: 'center', justifyContent: 'center' },
   ripple: { position: 'absolute', width: 130, height: 130, borderRadius: 65, borderWidth: 2, borderColor: '#b8eee9' },
   soundCircle: { width: 130, height: 130, borderRadius: 65, backgroundColor: V.color.primaryDark, alignItems: 'center', justifyContent: 'center', ...V.shadow.button },
-  soundSym: { fontSize: 48, fontWeight: '900', color: '#fff' },
-  soundSay: { fontSize: 22, fontWeight: '800', color: V.color.textPrimary, marginTop: 18 },
+  soundSym: { fontFamily: FONT.display,fontSize: 48, color: '#fff' },
+  soundSay: { fontFamily: FONT.display,fontSize: 22, color: V.color.textPrimary, marginTop: 18 },
   freqPill: { flexDirection: 'row', alignItems: 'center', gap: 7, backgroundColor: V.color.pageBg, borderWidth: 1, borderColor: '#eef2f1', borderRadius: 11, paddingHorizontal: 12, paddingVertical: 7, marginTop: 9 },
   freqDot: { width: 8, height: 8, borderRadius: 4 },
-  freqTxt: { fontSize: 12, fontWeight: '800', color: V.color.textSecondary },
-  soundHint: { fontSize: 12.5, fontWeight: '600', color: V.color.textSecondary, marginTop: 11, lineHeight: 18, textAlign: 'center', paddingHorizontal: 12 },
+  freqTxt: { fontFamily: FONT.bodyBlack,fontSize: 12, color: V.color.textSecondary },
+  soundHint: { fontFamily: FONT.bodyBold,fontSize: 12.5, color: V.color.textSecondary, marginTop: 11, lineHeight: 18, textAlign: 'center', paddingHorizontal: 12 },
 
   // escala
   scaleCard: { backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.border, borderRadius: 18, padding: 16, marginTop: 12, ...V.shadow.card },
-  scaleTitle: { fontSize: 16, fontWeight: '800', color: V.color.textPrimary, textAlign: 'center' },
-  scaleSub: { fontSize: 12, fontWeight: '600', color: V.color.textSecondary, textAlign: 'center', marginTop: 2, marginBottom: 13 },
+  scaleTitle: { fontFamily: FONT.bodyBlack,fontSize: 16, color: V.color.textPrimary, textAlign: 'center' },
+  scaleSub: { fontFamily: FONT.bodyBold,fontSize: 12, color: V.color.textSecondary, textAlign: 'center', marginTop: 2, marginBottom: 13 },
   scaleRow: { flexDirection: 'row', alignItems: 'center', gap: 12, padding: 12, borderRadius: 14, marginBottom: 9 },
   scaleRowOff: { backgroundColor: '#f7fafa', borderWidth: 1, borderColor: '#eef3f3' },
   scaleDot: { width: 30, height: 30, borderRadius: 15, alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff' },
-  scaleDotTxt: { fontSize: 14, fontWeight: '900' },
-  scaleRowTitle: { fontSize: 14.5, fontWeight: '800', color: V.color.textPrimary },
-  scaleRowDesc: { fontSize: 12, fontWeight: '700', color: V.color.textSecondary, marginTop: 2, lineHeight: 16 },
+  scaleDotTxt: { fontFamily: FONT.bodyBlack,fontSize: 14 },
+  scaleRowTitle: { fontFamily: FONT.bodyBlack,fontSize: 14.5, color: V.color.textPrimary },
+  scaleRowDesc: { fontFamily: FONT.bodyBlack,fontSize: 12, color: V.color.textSecondary, marginTop: 2, lineHeight: 16 },
 
   // resultado
   resultCard: { backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.border, borderRadius: 22, paddingVertical: 26, paddingHorizontal: 20, alignItems: 'center', shadowColor: 'rgba(15,23,42,.07)', shadowOffset: { width: 0, height: 6 }, shadowOpacity: 1, shadowRadius: 22, elevation: 3 },
   resultBadge: { width: 72, height: 72, borderRadius: 24, alignItems: 'center', justifyContent: 'center' },
-  resultTitle: { fontSize: 21, fontWeight: '800', color: V.color.textPrimary, marginTop: 16, letterSpacing: -0.3 },
-  resultSub: { fontSize: 13, fontWeight: '600', color: '#6b7280', marginTop: 7, lineHeight: 19, textAlign: 'center', paddingHorizontal: 6 },
+  resultTitle: { fontFamily: FONT.display,fontSize: 21, color: V.color.textPrimary, marginTop: 16, letterSpacing: -0.3 },
+  resultSub: { fontFamily: FONT.bodyBold,fontSize: 13, color: '#6b7280', marginTop: 7, lineHeight: 19, textAlign: 'center', paddingHorizontal: 6 },
   recap: { flexDirection: 'row', gap: 7, marginTop: 20, alignSelf: 'stretch' },
   recapCell: { flex: 1, backgroundColor: '#f7fafa', borderWidth: 1, borderColor: '#eef3f3', borderRadius: 13, paddingTop: 11, paddingBottom: 9, alignItems: 'center' },
-  recapSym: { fontSize: 19, fontWeight: '900', color: V.color.textPrimary },
+  recapSym: { fontFamily: FONT.display,fontSize: 19, color: V.color.textPrimary },
   recapMark: { width: 18, height: 18, borderRadius: 9, alignItems: 'center', justifyContent: 'center', marginTop: 7 },
-  recapMarkTxt: { fontSize: 10, color: '#fff', fontWeight: '900' },
+  recapMarkTxt: { fontFamily: FONT.bodyBlack,fontSize: 10, color: '#fff' },
   legend: { flexDirection: 'row', justifyContent: 'center', gap: 14, marginTop: 16 },
   legendItem: { flexDirection: 'row', alignItems: 'center', gap: 5 },
   legendDot: { width: 10, height: 10, borderRadius: 5 },
-  legendTxt: { fontSize: 11, fontWeight: '700', color: '#6b7280' },
+  legendTxt: { fontFamily: FONT.bodyBlack,fontSize: 11, color: '#6b7280' },
   rec: { flexDirection: 'row', gap: 10, borderWidth: 1, borderRadius: 16, padding: 14, marginTop: 13 },
-  recTxt: { flex: 1, fontSize: 12.5, fontWeight: '700', lineHeight: 18 },
+  recTxt: { fontFamily: FONT.bodyBlack,flex: 1, fontSize: 12.5, lineHeight: 18 },
   primaryBtn: { backgroundColor: V.color.primary, borderRadius: 15, paddingVertical: 16, alignItems: 'center', marginTop: 16, ...V.shadow.button },
-  primaryBtnTxt: { color: '#fff', fontSize: 16, fontWeight: '800' },
-  restartTxt: { color: V.color.primaryDark, fontSize: 13.5, fontWeight: '800' },
+  primaryBtnTxt: { fontFamily: FONT.bodyBlack,color: '#fff', fontSize: 16 },
+  restartTxt: { fontFamily: FONT.bodyBlack,color: V.color.primaryDark, fontSize: 13.5 },
 });
 
 export default ValeriaLingTestScreen;

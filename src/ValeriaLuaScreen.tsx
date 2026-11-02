@@ -14,6 +14,7 @@ import { V } from './valeriaTheme';
 import { useT } from './i18n';
 import { BlockIcon } from './ValeriaBlockIcons';
 import { CatPixel } from './ValeriaCatPixel';
+import { FONT } from './ui/fonts';
 
 // El pedido va al correo de contacto del proyecto, que es una decisión fija.
 // No se enlaza ningún dominio de tienda mientras no exista: un enlace externo
@@ -116,7 +117,7 @@ const s = StyleSheet.create({
   content: { paddingHorizontal: 24 },
 
   header: { marginTop: 12, marginBottom: 20, alignItems: 'center' },
-  title: { fontSize: 28, fontWeight: '900', color: '#fff', letterSpacing: -0.5 },
+  title: { fontFamily: FONT.display,fontSize: 28, color: '#fff', letterSpacing: -0.5 },
   subtitle: {
     fontSize: 15, fontWeight: '600', color: 'rgba(255,255,255,0.85)',
     textAlign: 'center', marginTop: 8, lineHeight: 22,
@@ -160,7 +161,7 @@ const s = StyleSheet.create({
     paddingVertical: 14, paddingHorizontal: 20,
     borderRadius: 14, width: '100%',
   },
-  requestBtnTxt: { color: '#fff', fontSize: 16, fontWeight: '800' },
+  requestBtnTxt: { fontFamily: FONT.bodyBlack,color: '#fff', fontSize: 16 },
 
   actionsContainer: { gap: 12 },
   actionsTitle: {
@@ -190,11 +191,11 @@ const s = StyleSheet.create({
   },
 
   actionTexts: { flex: 1 },
-  actionBtnTitle: { fontSize: 17, fontWeight: '800', color: V.color.primaryDark, marginBottom: 2 },
-  actionBtnSub: { fontSize: 13, fontWeight: '600', color: V.color.textSecondary },
+  actionBtnTitle: { fontFamily: FONT.display,fontSize: 17, color: V.color.primaryDark, marginBottom: 2 },
+  actionBtnSub: { fontFamily: FONT.bodyBold,fontSize: 13, color: V.color.textSecondary },
 
-  actionBtnTitleSecondary: { fontSize: 17, fontWeight: '800', color: '#fff', marginBottom: 2 },
-  actionBtnSubSecondary: { fontSize: 13, fontWeight: '600', color: 'rgba(255,255,255,0.7)' },
+  actionBtnTitleSecondary: { fontFamily: FONT.display,fontSize: 17, color: '#fff', marginBottom: 2 },
+  actionBtnSubSecondary: { fontFamily: FONT.bodyBold,fontSize: 13, color: 'rgba(255,255,255,0.7)' },
 
   bottomNav: {
     position: 'absolute', bottom: 0, left: 0, right: 0,
@@ -204,13 +205,13 @@ const s = StyleSheet.create({
     borderTopWidth: 1, borderTopColor: 'rgba(255,255,255,0.15)',
   },
   navBtn: { flexDirection: 'row', alignItems: 'center', gap: 6, paddingVertical: 12, paddingHorizontal: 8 },
-  navBtnTxt: { color: 'rgba(255,255,255,0.9)', fontSize: 16, fontWeight: '700' },
+  navBtnTxt: { fontFamily: FONT.bodyBlack,color: 'rgba(255,255,255,0.9)', fontSize: 16 },
 
   navBtnForward: {
     flexDirection: 'row', alignItems: 'center', gap: 6, backgroundColor: '#fff',
     paddingVertical: 10, paddingHorizontal: 16, borderRadius: 12,
   },
-  navBtnForwardTxt: { color: V.color.primaryDark, fontSize: 15, fontWeight: '800' },
+  navBtnForwardTxt: { fontFamily: FONT.bodyBlack,color: V.color.primaryDark, fontSize: 15 },
 });
 
 export default ValeriaLuaScreen;
