@@ -1,3 +1,4 @@
+import './global.css';
 import ValeriaApp from './src/AppNavigator';
 
 // Punto de entrada de la app Valeria+.

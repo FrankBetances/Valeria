@@ -1,0 +1,29 @@
+/* Tokens de React Native Reusables con los colores de Valeria+ (src/valeriaTheme.ts).
+   La app es clara: no hay tema oscuro. */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 180 28.6% 97.3%;        /* pageBg #f6fafa */
+    --foreground: 215 27.9% 16.9%;        /* textPrimary #1f2937 */
+    --card: 0 0% 100%;
+    --card-foreground: 215 27.9% 16.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 215 27.9% 16.9%;
+    --primary: 178 100% 38.4%;            /* turquesa #00c4be */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 177 61.3% 93.9%;         /* primaryLight #e6f9f8 */
+    --secondary-foreground: 178 100% 32%; /* primaryDark #00a39e */
+    --muted: 165 16.7% 95.3%;             /* #f1f5f4 */
+    --muted-foreground: 215 13.8% 34.1%;  /* textSecondary #4b5563 */
+    --accent: 177 61.3% 93.9%;
+    --accent-foreground: 178 100% 32%;
+    --destructive: 0 84.2% 60.2%;         /* error #ef4444 */
+    --border: 180 12.8% 92.4%;            /* #e9eeee */
+    --input: 176 49.3% 86.9%;             /* borderActive #cdeeec */
+    --ring: 178 100% 32%;
+    --radius: 0.875rem;                   /* 14 px, el radio de botones de la app */
+  }
+}

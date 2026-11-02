@@ -34,6 +34,7 @@ import { V } from './valeriaTheme';
 import { noteScreen } from './valeriaTelemetry';
 import { ValeriaMisclickBoundary } from './ValeriaMisclickBoundary';
 import { ValeriaSUSModal } from './ValeriaSUSModal';
+import { PortalHost } from '@rn-primitives/portal';
 
 import ValeriaWelcomeScreen from './ValeriaWelcomeScreen';
 import ValeriaCreditsScreen from './ValeriaCreditsScreen';
@@ -175,6 +176,8 @@ const SafeFrame: React.FC = () => {
         {/* Modal SUS global: se autodispara con rate limiting (hito de 4 bloques,
             máx. 1 vez/semana) desde valeriaTelemetry, sea cual sea la pantalla. */}
         <ValeriaSUSModal />
+        {/* React Native Reusables: aquí se pintan diálogos y menús (Portal). */}
+        <PortalHost />
       </View>
     </View>
   );

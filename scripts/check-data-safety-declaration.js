@@ -65,6 +65,16 @@ const DEPENDENCIAS = [
   'perfect-freehand',
   'react', 'react-native', 'react-native-safe-area-context',
   'react-native-screens', 'react-native-svg',
+  // Interfaz con React Native Reusables (2/11/2026). Revisadas: ninguna abre
+  // red ni guarda datos. NativeWind + Tailwind convierten clases en estilos
+  // (Tailwind solo corre al compilar; `nativewind/expo-snack` no se importa).
+  // Reanimated anima en el hilo de UI. @rn-primitives son componentes
+  // accesibles sin estado propio. clsx, tailwind-merge y cva unen clases.
+  'nativewind', 'tailwindcss', 'tailwindcss-animate', 'react-native-reanimated',
+  '@rn-primitives/dialog', '@rn-primitives/portal', '@rn-primitives/progress',
+  '@rn-primitives/radio-group', '@rn-primitives/separator', '@rn-primitives/slot',
+  '@rn-primitives/switch', '@rn-primitives/tabs',
+  'class-variance-authority', 'clsx', 'tailwind-merge',
 ];
 
 // §2 del documento: la app NO tiene backend. Firebase se retiró el 7/9/2026 —de
