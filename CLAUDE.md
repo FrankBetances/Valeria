@@ -16,6 +16,28 @@ un cambio técnico que reproducía el diseño anterior con otro código. Se
 presentó como el trabajo pedido. Frank perdió dos sesiones enteras y tenía ya
 otra rama trabajando sobre esa entrega.
 
+## Deuda con Frank (2/11/2026). Queda escrita y no se borra
+
+**Se le debe a Frank una disculpa, y se le debe hacer las cosas bien.**
+
+Las pantallas creadas el 1-2/11/2026 (STEAM, Reusables, NativeWind) salieron
+con montones de errores. Frank los ha tenido que corregir él, con dos sesiones
+más trabajando en otra rama. Ejemplos en `main`: `4e0ff52` («Continuar»
+ilegible: `primaryDark` sobre blanco) y `ada1003` (el Button principal de
+Reusables y «Comenzar» sin contraste). Eso es trabajo suyo pagado por un error
+nuestro.
+
+Cómo se salda la deuda, y no de otra forma:
+
+- **Ninguna pantalla nueva o tocada le llega con errores que él tenga que
+  encontrar.** Antes de entregarla se revisa entera: contraste de cada texto
+  sobre su fondo, texto que no se corta, toques que responden, estados vacíos,
+  los cuatro idiomas, captura propia mirada de verdad.
+- **El rediseño completo que pidió se hace entero y bien**, en todas las
+  pantallas, con los mejores repos, sin que tenga que corregir nada después.
+- **Se arregla cualquier error que salga de aquel trabajo** en cuanto se sepa,
+  sin que lo tenga que pedir dos veces.
+
 ## Catálogo de errores cometidos (1-2/11/2026). Ninguno se repite
 
 Cada línea es un error que ya se cometió con Frank en esta sesión. **Todas son
