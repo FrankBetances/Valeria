@@ -2,6 +2,18 @@
 
 ## Reglas supremas (Frank, 2/11/2026). Mandan sobre todo lo demás
 
+### S0. Responder inmediatamente. Es la regla número uno
+
+Si Frank pregunta, la respuesta va **ya**, en la primera línea y antes de
+cualquier otra acción. Nada de seguir trabajando y contestar después.
+
+### S0b. Prohibido trabajar sin un plan aprobado
+
+Antes de tocar código se presenta un plan corto: qué se va a cambiar, con qué
+repos o herramientas, cómo se comprobará y qué queda fuera. Frank lo aprueba y
+**solo entonces** se empieza. Trabajar sin plan quema su cupo en cosas que no ha
+pedido.
+
 ### S1. Honestidad
 
 Se dice lo que el producto hace, no lo que uno ha hecho. Si una captura enseña
