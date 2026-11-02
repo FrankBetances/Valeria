@@ -1,4 +1,4 @@
-# Plan de rediseño completo de Valeria+ (v5, 2/11/2026)
+# Plan de rediseño completo de Valeria+ (v6, 2/11/2026)
 
 **Objetivo:** que un niño de siete años sepa usar la app sin que nadie se la
 explique, y que sea preciosa, viva y fácil.
@@ -175,6 +175,20 @@ Compatibilidad comprobada con las versiones de Expo 58: leí las
 | `gluestack-ui` | Sin licencia declarada en la API de GitHub |
 | `lucide` | La regla 5 obliga al set SVG propio |
 
+**Fuera del proyecto: plantillas, kits de diseño e ilustración**
+
+| Necesidad | Lo mejor encontrado | Dato | Uso en el plan |
+| --- | --- | --- | --- |
+| Montar Expo 58 + NativeWind sin errores | `roninoss/create-expo-stack` | 2 573★ · MIT · 2026-09. Lo hacen los autores de rn-primitives, la base de Reusables | **Referencia de configuración en F0**: Babel, Metro y Tailwind con Expo 58 |
+| Plantilla Expo de producción | `obytes/react-native-template-obytes` | 4 361★ · MIT · 2026-10. Expo, TypeScript, NativeWind y EAS | Referencia de estructura y de CI con Expo 58 |
+| Diseño infantil de partida | «Kids Education & Game App UI Kit» (UIWorkshop) | Figma, Sketch y XD · licencia general · actualizado el 20/12/2025 · 5 $ | **Base visual de la Casa, las puertas y los premios**, adaptada a Lúa. **Hay que comprarlo: decisión 7** |
+| Diseño de educación gratis | «Learner Education app UI Kit» (Figma Community) | Gratis; licencia por confirmar en su página | Referencia para la Zona Familia y Academy |
+| Ilustración libre | Open Peeps y Open Doodles (CC0) | Generales, no infantiles | Solo para estados vacíos de la Zona Familia |
+| Escena infantil de la Casa de Lúa | **No existe ningún pack CC0 o MIT de escenas infantiles.** Lo comprobé en tres búsquedas | — | **La escena se dibuja en pixel art, con la misma rejilla y paleta de Lúa** (regla 5b), sobre el kit de UIWorkshop. Es el único activo que no sale de un repo |
+
+**Descartados:** el kit «Kid's Learning» de Titan UI, porque solo admite uso
+personal; y GDevelop (28k★), porque es un motor de juegos, no una app de RN.
+
 **Dos apps infantiles reales con Expo confirman el kit** (leí su `package.json`):
 - **LearnPlay:** Fredoka, Nunito, Baloo 2, `expo-haptics`, `expo-speech`,
   `expo-audio`, confeti y SVG.
@@ -285,6 +299,8 @@ haga, que un niño de siete años la entienda **es una hipótesis**.
 6. **Subir de Expo 54 a 58:** cambia la base sobre la que trabajan tus otras
    ramas, la de RA incluida. ¿Se hace primero en `main` y las demás ramas se
    ponen al día, o esperas a que terminen?
+7. **Kit «Kids Education & Game App UI Kit»** (UIWorkshop, 5 $, licencia
+   general): ¿lo compras para usarlo de base visual?
 
 ## 12. Cómo se buscó, por todas las vías
 

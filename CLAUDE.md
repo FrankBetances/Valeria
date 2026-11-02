@@ -91,6 +91,23 @@ Coste real (2/11/2026): se pidió buscar repositorios. Se midieron 375 por
 estrellas sin enseñar nada, se delegó la lectura web en subagentes y se volvió
 a escribir el plan. Frank no vio ningún resultado y pagó los tokens.
 
+## REGLA DEL GASTO (Frank, 2/11/2026). Se acabó el despilfarro
+
+- **Cada sesión tiene un presupuesto.** Frank lo dice, y se respeta como límite
+  duro. Antes de empezar se reparte: cuánto para buscar, cuánto para hacer y
+  cuánto para comprobar.
+- **Solo lo esencial para terminar el trabajo a la primera y sin errores.**
+  Fuera los reintentos a ciegas, la lectura de lo que no hace falta, los
+  mensajes largos, los ficheros reescritos varias veces y las herramientas en
+  serie que podían ir en paralelo.
+- **Un commit por entrega**, no uno por cada retoque.
+- **Si el presupuesto no da para todo lo pedido, se dice ANTES de empezar** y
+  se propone el orden. Nunca se descubre al final.
+
+Coste real (2/11/2026): varias sesiones completas gastadas en búsquedas
+superficiales, planes reescritos cinco veces y reglas añadidas de una en una.
+A Frank le quedó un 30 % de una sesión para todo el trabajo.
+
 ## Deuda con Frank (2/11/2026). Queda escrita y no se borra
 
 **Se le debe a Frank una disculpa, y se le debe hacer las cosas bien.**
