@@ -47,6 +47,25 @@ Coste real (2/11/2026): se mandó buscar en Reddit. Se probaron seis vías, se
 paró y se contestó «no se ha podido leer». Quedaban por probar archivos
 públicos, espejos, lectores intermedios y otros buscadores.
 
+## TERCERA REGLA SUPREMA (Frank, 2/11/2026). No perder el tiempo, no delegar, mirarlo todo uno mismo
+
+- **Prohibido perder el tiempo.** Se hace lo que Frank ha pedido, en el orden
+  que lo ha pedido. Si pide una búsqueda, **lo primero que recibe son los
+  resultados de la búsqueda**, no un plan, un documento ni una herramienta
+  nueva.
+- **Lo encontrado se enseña en cuanto existe**, en la propia respuesta. No se
+  acumula en un fichero que él no ve.
+- **No se delega.** Nada de subagentes ni de «agentes» que busquen o lean por
+  uno. Todo lo que se presenta lo ha mirado uno mismo.
+- **Revisar un repositorio es mirarlo por dentro:** su README, su código, sus
+  dependencias, su licencia, su actividad y si encaja con nuestro stack.
+  Contar estrellas no es revisarlo. Se dice siempre qué se ha mirado de cada
+  repo y qué no.
+
+Coste real (2/11/2026): se pidió buscar repositorios. Se midieron 375 por
+estrellas sin enseñar nada, se delegó la lectura web en subagentes y se volvió
+a escribir el plan. Frank no vio ningún resultado y pagó los tokens.
+
 ## Deuda con Frank (2/11/2026). Queda escrita y no se borra
 
 **Se le debe a Frank una disculpa, y se le debe hacer las cosas bien.**
