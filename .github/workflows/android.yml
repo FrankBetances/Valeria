@@ -572,7 +572,15 @@ jobs:
           RELEASE_KEY_ALIAS: ${{ secrets.ANDROID_RELEASE_KEY_ALIAS }}
           RELEASE_KEY_PASSWORD: ${{ secrets.ANDROID_RELEASE_KEY_PASSWORD }}
           CMAKE_BUILD_PARALLEL_LEVEL: '2'
-        run: ./gradlew bundleRelease --no-daemon --stacktrace --max-workers=2
+        # El daemon de Gradle del assembleRelease (5 GB) y el de Kotlin siguen
+        # vivos: con el bundleRelease (otro JVM de 5 GB) más el C++ de worklets,
+        # Skia y Reanimated, el runner se quedaba sin memoria (runs 741 y 743).
+        # Se paran antes de compilar el AAB.
+        run: |
+          ./gradlew --stop || true
+          pkill -f KotlinCompileDaemon || true
+          free -m
+          ./gradlew bundleRelease --no-daemon --stacktrace --max-workers=2
 
       # `retention-days` recorta la retención del repositorio (7 días) SOLO hacia
       # abajo. El AAB se sube a Play Console el mismo día que se compila; a los 3
