@@ -13,6 +13,7 @@ import {
   StyleSheet,
   Animated,
 } from 'react-native';
+import { Card } from 'heroui-native';
 import { V } from '../valeriaTheme';
 import { useT } from '../i18n';
 import { getLocale } from '../valeriaLocale';
@@ -277,7 +278,7 @@ export const SensoryExerciseScreen: React.FC<{ navigation: any; route: any }> = 
         <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
           {/* SEN-03 · ACOPROS veía las seis actividades iguales porque comparten
               esta pantalla. Se dice, y se enseña con qué arranca ESTA. */}
-          <View style={s.startCard}>
+          <Card style={s.startCard}>
             <Text style={s.startKicker}>{t.sensory.startingPointKicker}</Text>
             <Text style={s.startGoal}>{String((t.sensory as any)[activity.descKey] ?? '')}</Text>
             <Text style={s.startLine}>{t.sensory.startSound(getTriggerLabel(activity.defaultConfig.triggerId, locale))}</Text>
@@ -290,7 +291,7 @@ export const SensoryExerciseScreen: React.FC<{ navigation: any; route: any }> = 
               {activity.defaultConfig.agencyMode === 'child_tap' ? t.sensory.agencyChild : t.sensory.agencyAuto}
             </Text>
             <Text style={s.startNote}>{t.sensory.sharedScreenNote}</Text>
-          </View>
+          </Card>
 
           {/* Filtro por Categoría */}
           <Text style={s.sectionLabel}>{t.sensory.selectCategoryLabel}</Text>
@@ -367,27 +368,11 @@ export const SensoryExerciseScreen: React.FC<{ navigation: any; route: any }> = 
 
           {/* Tarjeta descriptiva del entorno cuando es ecológico */}
           {!!selectedTrigger?.description && (
-            <View style={s.descCard}>
-              <View style={s.descHeader}>
-                <BlockIcon
-                  name={
-                    selectedTrigger.id === 'classroom_ambience'
-                      ? 'classroom'
-                      : selectedTrigger.id === 'mall_ambience'
-                      ? 'mall'
-                      : 'street'
-                  }
-                  color={V.color.primaryDark}
-                  size={20}
-                />
-                <Text style={s.descTitle}>
-                  {selectedTrigger.label[locale] ?? selectedTrigger.label.es}
-                </Text>
-              </View>
+            <Card style={s.descCard}>
               <Text style={s.descBody}>
                 {selectedTrigger.description[locale] ?? selectedTrigger.description.es}
               </Text>
-            </View>
+            </Card>
           )}
 
           {/* Intensidad Relativa (1 - 5) con barras de volumen */}
@@ -447,13 +432,9 @@ export const SensoryExerciseScreen: React.FC<{ navigation: any; route: any }> = 
           </View>
 
           {/* Estrategia de Calma Asociada */}
-          <View style={s.tprPreviewCard}>
-            <View style={s.tprHeader}>
-              <BlockIcon name="calm_breath" color={V.color.primaryDark} size={18} />
-              <Text style={s.tprTitle}>{t.sensory.tprStrategyTitle}</Text>
-            </View>
+          <Card style={s.tprPreviewCard}>
             <Text style={s.tprBody}>{calmStrategy}</Text>
-          </View>
+          </Card>
 
           {/* Sin salida de audio no hay ejercicio: se dice aquí, antes de que el
               adulto le ceda el aparato al niño, y no después. */}
@@ -491,19 +472,8 @@ export const SensoryExerciseScreen: React.FC<{ navigation: any; route: any }> = 
   if (step === 'ANTICIPATION') {
     return (
       <View style={[s.flex, s.centerContainer]}>
-        <View style={s.anticipationCard}>
-          <Text style={s.anticipationTag}>{t.sensory.anticipationKicker}</Text>
-          <Text style={s.anticipationTitle}>{triggerLabel}</Text>
-          <Text style={s.anticipationSub}>{t.sensory.anticipationSub}</Text>
-
-          <View style={s.countdownCircle}>
-            <Text style={s.countdownNumber}>{countdown}</Text>
-          </View>
-
-          <View style={s.luaCenter}>
-            <CatPixel size={72} pose="head" />
-          </View>
-        </View>
+        <Card style={s.anticipationCard}>
+        </Card>
       </View>
     );
   }
@@ -538,10 +508,10 @@ export const SensoryExerciseScreen: React.FC<{ navigation: any; route: any }> = 
 
         <View style={[s.flex, s.centerBody]}>
           {/* Lúa inmóvil y sin sonido durante la exposición */}
-          <View style={s.luaExposureBox}>
+          <Card style={s.luaExposureBox}>
             <CatPixel size={80} pose="sit" />
             <Text style={s.luaExposureHint}>{t.sensory.luaQuietHint}</Text>
-          </View>
+          </Card>
 
           {/* Rótulo descriptivo del ambiente simulado */}
           {!!selectedTrigger?.description && (
@@ -605,19 +575,8 @@ export const SensoryExerciseScreen: React.FC<{ navigation: any; route: any }> = 
           kicker={t.sensory.pausedTag} title={t.sensory.pausedTitle} subtitle={t.sensory.pausedSubtitle} />
 
         <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
-          <View style={s.pauseCard}>
-            <View style={s.luaCenter}>
-              <CatPixel size={64} pose="head" />
-            </View>
-            <Text style={s.pauseCardTitle}>{t.sensory.stoppingIsOkTitle}</Text>
-            <Text style={s.pauseCardBody}>{t.sensory.stoppingIsOkBody}</Text>
-
-            {/* Estrategia TPR sugerida */}
-            <View style={s.tprStrategyBox}>
-              <Text style={s.tprBoxTitle}>{t.sensory.tryThisStrategy}</Text>
-              <Text style={s.tprBoxBody}>{calmStrategy}</Text>
-            </View>
-          </View>
+          <Card style={s.pauseCard}>
+          </Card>
         </ScrollView>
 
         <View style={s.footerTwo}>
@@ -698,17 +657,7 @@ export const SensoryExerciseScreen: React.FC<{ navigation: any; route: any }> = 
   // ==========================================================================
   return (
     <View style={[s.flex, s.centerContainer]}>
-      <View style={s.completedCard}>
-        <View style={s.luaCenter}>
-          <CatPixel size={80} pose="sit" />
-        </View>
-        <Text style={s.completedTitle}>{t.sensory.wellDoneTitle}</Text>
-        <Text style={s.completedSub}>{t.sensory.wellDoneSub}</Text>
-
-        <View style={s.xpRewardBox}>
-          <Text style={s.xpRewardTxt}>+{earnedXp} XP</Text>
-          <Text style={s.xpRewardSub}>{t.sensory.xpAddedToSensorySilo}</Text>
-        </View>
+      <Card style={s.completedCard}>
 
         <Pressable
           onPress={() => navigation.goBack()}
@@ -717,7 +666,7 @@ export const SensoryExerciseScreen: React.FC<{ navigation: any; route: any }> = 
         >
           <Text style={s.primaryBtnTxt}>{t.sensory.backToSensoryListBtn}</Text>
         </Pressable>
-      </View>
+      </Card>
     </View>
   );
 };

@@ -1,7 +1,7 @@
 // ============================================================================
 // Valeria+ · Puerta de la Casa de Lúa (rediseño 2/11/2026)
 //
-// Cada bloque es una puerta grande: cara de color con lateral 3D, icono del
+// Cada bloque es una puerta grande (Card de HeroUI Native, Apache-2.0): cara de color con lateral 3D, icono del
 // set propio en un círculo blanco, título en Fredoka y una barra de progreso
 // gruesa. Rebota al tocarla (pressto, MIT) y vibra (expo-haptics).
 // Sin cifras para el niño («18 / 18» no le dice nada): el dato sigue en
@@ -11,6 +11,7 @@ import React from 'react';
 import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native';
 import { PressableScale } from 'pressto';
 import * as Haptics from 'expo-haptics';
+import { Card } from 'heroui-native';
 import { V } from './valeriaTheme';
 import { BlockIcon, BlockIconName } from './ValeriaBlockIcons';
 import { FONT } from './ui/fonts';
@@ -47,7 +48,7 @@ export const ValeriaBlockTile: React.FC<ValeriaBlockTileProps> = React.memo(({
       accessibilityHint={accessibilityHint}
       style={[s.press, style]}
     >
-      <View style={[s.card, { backgroundColor: accentBg, borderColor: accentFg }]}>
+      <Card style={[s.card, { backgroundColor: accentBg, borderColor: accentFg }]}>
         <View style={[s.iconRing, { borderColor: accentFg }]}>
           <BlockIcon name={icon} color={accentFg} size={34} />
         </View>
@@ -58,7 +59,7 @@ export const ValeriaBlockTile: React.FC<ValeriaBlockTileProps> = React.memo(({
             <View style={[s.fill, { width: `${Math.round(pct * 100)}%`, backgroundColor: accentFg }]} />
           </View>
         )}
-      </View>
+      </Card>
     </PressableScale>
   );
 });

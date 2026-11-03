@@ -195,7 +195,6 @@ export const ValeriaSteamChallengeScreen: React.FC<{
         </View>
 
         <View style={base.card}>
-          <Text style={base.kickerFirst}>{t.steam.eventsKicker}</Text>
           <AdultFold label={t.steam.eventsKicker}><Text style={base.body}>{t.steam.eventsNote}</Text></AdultFold>
           {events.map((event) => (
             <Pressable key={event.id} onPress={() => react(event)}
@@ -210,17 +209,6 @@ export const ValeriaSteamChallengeScreen: React.FC<{
         <View style={base.card}>
           <Text style={base.kickerFirst}>{t.steam.luaKicker}</Text>
           <View style={s.luaRow}>
-            <View style={s.luaFace}><CatPixel pose="head" size={56} /></View>
-            <View style={s.luaText} accessibilityLiveRegion="polite">
-              {!reaction && <Text style={base.body}>{t.steam.luaIdle}</Text>}
-              {reaction?.waiting && <Text style={base.body}>{t.steam.luaWaiting}</Text>}
-              {reaction && !reaction.waiting && reaction.faceId && (
-                <>
-                  <Text style={base.bodyStrong}>{t.steam.luaFace(t.steam.faces[reaction.faceId] ?? reaction.faceId)}</Text>
-                  <Text style={base.body}>{reaction.linked ? t.steam.luaLinked : t.steam.luaMirror}</Text>
-                </>
-              )}
-            </View>
           </View>
           {reaction && !reaction.waiting && reaction.hint && (
             <>

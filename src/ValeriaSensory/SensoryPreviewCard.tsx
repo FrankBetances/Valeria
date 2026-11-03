@@ -10,6 +10,7 @@
 // ============================================================================
 import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
+import { Card } from 'heroui-native';
 import { V } from '../valeriaTheme';
 import { useT } from '../i18n';
 import { getLocale } from '../valeriaLocale';
@@ -83,11 +84,7 @@ export const SensoryPreviewCard: React.FC<{ navigation: any }> = ({ navigation }
   const allIds = SENSORY_TRIGGER_LIST.map((x) => x.id);
 
   return (
-    <View style={s.card}>
-      <View style={s.head}>
-        <BlockIcon name="sensory_ear" color={V.color.primaryDark} size={18} />
-        <Text style={s.kicker}>{t.sensory.previewKicker}</Text>
-      </View>
+    <Card style={s.card}>
       <Text style={s.body}>{t.sensory.previewBody}</Text>
 
       {!audioReady ? (
@@ -120,7 +117,7 @@ export const SensoryPreviewCard: React.FC<{ navigation: any }> = ({ navigation }
           })}
         </>
       )}
-    </View>
+    </Card>
   );
 };
 

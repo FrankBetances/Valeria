@@ -4,6 +4,7 @@
 // La pantalla la maneja la persona adulta; la criatura juega en la mesa.
 import React, { useEffect, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Card } from 'heroui-native';
 import { useT } from './i18n';
 import { ScreenHeader } from './ui/ScreenHeader';
 import { V } from './valeriaTheme';
@@ -56,12 +57,12 @@ export const ValeriaSteamWorldScreen: React.FC<{ navigation: any; route: { param
   };
 
   const storyCard = (
-    <View style={s.card}>
+    <Card style={s.card}>
       <Text style={s.kickerFirst}>{t.steam.storyBefore}</Text>
       <Text style={s.body}>{world.story.anticipationMicroStory[lang]}</Text>
       <Text style={s.kicker}>{t.steam.storyAfter}</Text>
       <Text style={s.body}>{world.story.closingMicroStory[lang]}</Text>
-    </View>
+    </Card>
   );
 
   return (
@@ -71,12 +72,12 @@ export const ValeriaSteamWorldScreen: React.FC<{ navigation: any; route: { param
 
       <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
         <AdultFold label={t.steam.phenomenonKicker}>
-        <View style={s.card}>
+        <Card style={s.card}>
           <Text style={s.kickerFirst}>{t.steam.phenomenonKicker}</Text>
           <Text style={s.bodyStrong}>{world.phenomenon[lang]}</Text>
           <Text style={s.kicker}>{t.steam.standKicker}</Text>
           <Text style={s.body}>{t.steam.stand(world.tabletStandSpec.heightCm, world.tabletStandSpec.tiltDeg)}</Text>
-        </View>
+        </Card>
 
         {profile && (
           <View style={s.noteCard}>
@@ -112,7 +113,7 @@ export const ValeriaSteamWorldScreen: React.FC<{ navigation: any; route: { param
         {!adjust.anticipationFirst && storyCard}
 
         {(story || songs.length > 0 || games.length > 0) && (
-          <View style={s.card}>
+          <Card style={s.card}>
             <Text style={s.kickerFirst}>{t.steam.warmupKicker}</Text>
             {story && (
               <Pressable onPress={() => navigation.navigate('LuaStoryViewer', { storyId: story.id })} style={s.linkBtn}
@@ -132,11 +133,11 @@ export const ValeriaSteamWorldScreen: React.FC<{ navigation: any; route: { param
                 <Text style={s.linkTxt}>{t.steam.warmupGame(game.title)}</Text>
               </Pressable>
             ))}
-          </View>
+          </Card>
         )}
 
         <AdultFold label={t.steam.tabletopKicker}>
-        <View style={s.card}>
+        <Card style={s.card}>
           <Text style={s.kickerFirst}>{t.steam.tabletopKicker}</Text>
           {world.tabletopPracticeLinks.map((link) => {
             const title = tabletopTitle(link);
@@ -148,10 +149,10 @@ export const ValeriaSteamWorldScreen: React.FC<{ navigation: any; route: { param
               </Pressable>
             );
           })}
-        </View>
+        </Card>
         </AdultFold>
 
-        <View style={s.card}>
+        <Card style={s.card}>
           <Text style={s.kickerFirst}>{t.steam.academyKicker}</Text>
           <Text style={s.bodyStrong}>{capsule.title}</Text>
           <Text style={s.body}>{capsule.summary}</Text>
@@ -159,7 +160,7 @@ export const ValeriaSteamWorldScreen: React.FC<{ navigation: any; route: { param
             accessibilityRole="button" accessibilityLabel={t.steam.academyA11y}>
             <Text style={s.secondaryBtnTxt}>{t.steam.academyOpen}</Text>
           </Pressable>
-        </View>
+        </Card>
       </ScrollView>
     </View>
   );
