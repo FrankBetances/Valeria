@@ -34,7 +34,6 @@ import { getLocale } from './valeriaLocale';
 import { ValeriaBlockTile } from './ValeriaBlockTile';
 import { PressableScale } from 'pressto';
 import { ProPinModal } from './ValeriaProPin';
-import { CatPixel } from './ValeriaCatPixel';
 import { ScreenHeader } from './ui/ScreenHeader';
 import { BlockIcon, BlockIconName } from './ValeriaBlockIcons';
 import { ValeriaAwardsSheet } from './ValeriaAwardsSheet';
@@ -279,8 +278,16 @@ export const ValeriaHubV11Screen: React.FC<{ navigation: any }> = ({ navigation 
         columnWrapperStyle={s.col}
         contentContainerStyle={s.grid}
         ListHeaderComponent={(
-          <View style={s.luaHello}>
-            <CatPixel size={72} />
+          <View style={s.stripWrap}>
+            {/* Lúa, la gata interactiva: caricia, pescadito, ánimo y armario,
+                espejados en el periférico (CLAUDE.md, 5b). No se quita. */}
+            <ValeriaCatInteractiveCard
+              inventory={inventory}
+              game={game}
+              onInventoryChange={setInventory}
+              onOpenAwards={() => setAwardsOpen(true)}
+              size={64}
+            />
           </View>
         )}
         showsVerticalScrollIndicator={false}
