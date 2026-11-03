@@ -1,5 +1,12 @@
 # Valeria+ · Notas para Claude Code
 
+# REGLA MEGA ULTRA UNIVERSAL 0: LO MEJOR, HASTA EL FINAL, A COMO DÉ LUGAR
+
+**Aquí se hace lo mejor y se trabaja hasta el final, a como dé lugar.** Siempre
+se busca la manera de hacerlo bien. Si el presupuesto aprieta, se recorta el
+gasto superfluo, nunca el trabajo ni la calidad.
+
+
 # REGLA ULTRA UNIVERSAL: DE PRINCIPIO A FIN, SIN ATAJOS, SIN CAMBIOS SUPERFICIALES
 
 **Aquí se trabaja de principio a fin.** No hay atajos, no hay cambios
