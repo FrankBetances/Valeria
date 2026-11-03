@@ -48,6 +48,7 @@ propio comprobado.
 | F7 | Gates, capturas y relecturas repetidos por errores propios | Una pasada de gates y una tanda de capturas por entrega. Los ficheros ya leídos no se vuelven a leer. Las herramientas independientes van en paralelo |
 | F8 | Merge a `main` sin build propio | Si Frank ordena mergear antes del build, se mergea y **la misma frase** dice «sin build comprobado». Luego se vigila el build de `main` y se arregla si falla |
 | F9 | Respuestas largas y resúmenes no pedidos | Respuesta en 3 líneas como mucho, salvo que Frank pida detalle |
+| F10 | Las reglas estaban escritas y se incumplieron cada pocos minutos | **Control obligatorio en toda sesión**, ejecutado por hooks de Claude Code (`.claude/settings.json` → `.claude/hooks/reglas.sh`): al empezar la sesión se inyecta esta tabla; en **cada** mensaje de Frank, una lista de 5 comprobaciones (F9, F2, F3, F1 y desvío). Si alguna falla, se para y se dice en la primera línea. **Prohibido quitar o desactivar estos hooks** |
 
 # REGLA MEGA ULTRA UNIVERSAL 0: LO MEJOR, HASTA EL FINAL, A COMO DÉ LUGAR
 
