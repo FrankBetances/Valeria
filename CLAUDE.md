@@ -27,6 +27,28 @@ sesión, sin dejar ninguna pieza fuera. La forma de lograrlo es problema de quie
 trabaja, nunca de Frank.
 
 
+# REGLA ULTRA MEGA SUPREMA DEL FRACASO (Frank, 3/11/2026). Manda sobre TODO este fichero. Se lee antes que nada y no se borra
+
+**Constancia, por orden de Frank:** el rediseño de los días 1-3/11/2026 fue la peor
+entrega que ha visto. Probó el APK y estaba **flojo**. Se le dijo «hecho» sin
+estarlo. Se le quemó **toda la sesión en dos días**. Pidió no pasar del 2 % y se
+gastó cerca del 20 %. El último merge (`89584fc`) entró en `main` sin build
+propio comprobado.
+
+**Soluciones concretas. Cada una es obligatoria:**
+
+| # | Lo que pasó | Lo que se hace siempre a partir de ahora |
+| --- | --- | --- |
+| F1 | Cambio de base (Expo 54 → 58, Uniwind, HeroUI, Skia) sin medir el coste: rompió los builds 729, 741, 743 y 760 y subió cada build de 15 a 40 min | Ningún cambio de versión mayor, de sistema de estilos ni de librería nativa sin decirle a Frank **antes**, en una línea, cuánto sube el tiempo de build y el gasto, y sin su «sí» explícito |
+| F2 | Gasto por encima del límite: 2 % pedido, unos 20 % gastados | Al empezar se dice el presupuesto en tareas concretas: «con X % hago A y B; C no cabe». Al llegar al 80 % de lo pedido, se para, se hace commit de lo que funciona y se avisa en una línea. **Nunca se pasa del límite que dice Frank** |
+| F3 | «Hecho» dicho sin estarlo | Solo se dice «hecho» de lo que Frank va a ver en el **APK**. Si no se ha visto en un aparato, la primera línea dice «no visto en Android». Una captura de web no es el producto |
+| F4 | App floja: se cambiaron los componentes y no la experiencia | Antes de programar, una pantalla de muestra (Ejercicios) rediseñada de verdad, en captura, aprobada por Frank. Después, el resto con ese mismo patrón. Cambiar el contenedor (View → Card) **no** es rediseñar |
+| F5 | Se infantilizó la app y se quitó la mascota: trabajo hecho dos veces | Antes de diseñar se le enseñan a Frank tres frases de criterio (a quién va dirigida, qué tono tiene y qué no se toca) y se espera su «sí» |
+| F6 | Planes y reglas reescritos una y otra vez; prosa en lugar de trabajo | Un plan de 10 líneas como mucho, una vez. Las reglas se añaden en un solo commit al final, no de una en una |
+| F7 | Gates, capturas y relecturas repetidos por errores propios | Una pasada de gates y una tanda de capturas por entrega. Los ficheros ya leídos no se vuelven a leer. Las herramientas independientes van en paralelo |
+| F8 | Merge a `main` sin build propio | Si Frank ordena mergear antes del build, se mergea y **la misma frase** dice «sin build comprobado». Luego se vigila el build de `main` y se arregla si falla |
+| F9 | Respuestas largas y resúmenes no pedidos | Respuesta en 3 líneas como mucho, salvo que Frank pida detalle |
+
 # REGLA MEGA ULTRA UNIVERSAL 0: LO MEJOR, HASTA EL FINAL, A COMO DÉ LUGAR
 
 **Aquí se hace lo mejor y se trabaja hasta el final, a como dé lugar.** Siempre
@@ -125,28 +147,6 @@ Comprobado en este entorno de nube el 2/11/2026:
 | Registro de npm, `raw.githubusercontent.com`, búsqueda de GitHub | Versiones, `peerDependencies`, README | **Sí** | — |
 | Un Android físico | Verificar disposición y toques reales | **NO** | Lo prueba Frank; hasta entonces se dice «no visto en aparato» |
 
-
-## REGLA ULTRA MEGA SUPREMA DEL FRACASO (Frank, 3/11/2026). Manda sobre TODO este fichero. Se lee antes que nada y no se borra
-
-**Constancia, por orden de Frank:** el rediseño de los días 1-3/11/2026 fue la peor
-entrega que ha visto. Probó el APK y estaba **flojo**. Se le dijo «hecho» sin
-estarlo. Se le quemó **toda la sesión en dos días**. Pidió no pasar del 2 % y se
-gastó cerca del 20 %. El último merge (`89584fc`) entró en `main` sin build
-propio comprobado.
-
-**Soluciones concretas. Cada una es obligatoria:**
-
-| # | Lo que pasó | Lo que se hace siempre a partir de ahora |
-| --- | --- | --- |
-| F1 | Cambio de base (Expo 54 → 58, Uniwind, HeroUI, Skia) sin medir el coste: rompió los builds 729, 741, 743 y 760 y subió cada build de 15 a 40 min | Ningún cambio de versión mayor, de sistema de estilos ni de librería nativa sin decirle a Frank **antes**, en una línea, cuánto sube el tiempo de build y el gasto, y sin su «sí» explícito |
-| F2 | Gasto por encima del límite: 2 % pedido, unos 20 % gastados | Al empezar se dice el presupuesto en tareas concretas: «con X % hago A y B; C no cabe». Al llegar al 80 % de lo pedido, se para, se hace commit de lo que funciona y se avisa en una línea. **Nunca se pasa del límite que dice Frank** |
-| F3 | «Hecho» dicho sin estarlo | Solo se dice «hecho» de lo que Frank va a ver en el **APK**. Si no se ha visto en un aparato, la primera línea dice «no visto en Android». Una captura de web no es el producto |
-| F4 | App floja: se cambiaron los componentes y no la experiencia | Antes de programar, una pantalla de muestra (Ejercicios) rediseñada de verdad, en captura, aprobada por Frank. Después, el resto con ese mismo patrón. Cambiar el contenedor (View → Card) **no** es rediseñar |
-| F5 | Se infantilizó la app y se quitó la mascota: trabajo hecho dos veces | Antes de diseñar se le enseñan a Frank tres frases de criterio (a quién va dirigida, qué tono tiene y qué no se toca) y se espera su «sí» |
-| F6 | Planes y reglas reescritos una y otra vez; prosa en lugar de trabajo | Un plan de 10 líneas como mucho, una vez. Las reglas se añaden en un solo commit al final, no de una en una |
-| F7 | Gates, capturas y relecturas repetidos por errores propios | Una pasada de gates y una tanda de capturas por entrega. Los ficheros ya leídos no se vuelven a leer. Las herramientas independientes van en paralelo |
-| F8 | Merge a `main` sin build propio | Si Frank ordena mergear antes del build, se mergea y **la misma frase** dice «sin build comprobado». Luego se vigila el build de `main` y se arregla si falla |
-| F9 | Respuestas largas y resúmenes no pedidos | Respuesta en 3 líneas como mucho, salvo que Frank pida detalle |
 
 ## REGLA: NINGÚN BUILD PUEDE FALLAR (Frank, 2/11/2026)
 
