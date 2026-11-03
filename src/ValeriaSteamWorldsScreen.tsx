@@ -5,7 +5,7 @@
 import React, { useEffect, useState } from 'react';
 import { Pressable, ScrollView, View } from 'react-native';
 import { Badge } from './components/ui/badge';
-import { Card } from './components/ui/card';
+import { Card } from 'heroui-native';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from './components/ui/dialog';
 import { RadioGroup, RadioGroupItem } from './components/ui/radio-group';
 import { Text } from './components/ui/text';
