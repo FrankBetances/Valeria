@@ -36,6 +36,8 @@ import { ValeriaMisclickBoundary } from './ValeriaMisclickBoundary';
 import { ValeriaSUSModal } from './ValeriaSUSModal';
 import { PortalHost } from '@rn-primitives/portal';
 import { useValeriaFonts } from './ui/fonts';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { HeroUINativeProvider } from 'heroui-native';
 
 import ValeriaWelcomeScreen from './ValeriaWelcomeScreen';
 import ValeriaCreditsScreen from './ValeriaCreditsScreen';
@@ -217,11 +219,15 @@ export const ValeriaApp: React.FC = () => {
   };
   if (!fontsReady) return null;
   return (
+    <GestureHandlerRootView style={{ flex: 1 }}>
+    <HeroUINativeProvider>
     <SafeAreaProvider>
       <NavigationContainer ref={navigationRef} onReady={handleRoute} onStateChange={handleRoute}>
         <SafeFrame />
       </NavigationContainer>
     </SafeAreaProvider>
+    </HeroUINativeProvider>
+    </GestureHandlerRootView>
   );
 };
 

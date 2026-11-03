@@ -40,6 +40,7 @@ import { useT } from './i18n';
 import ValeriaAcademyScreen from './ValeriaAcademy';
 import ValeriaHubV11Screen from './ValeriaHubV11Screen';
 import ValeriaSettingsScreen from './ValeriaSettingsScreen';
+import { FONT } from './ui/fonts';
 
 export type ValeriaTabParamList = {
   ExerciseSelection: undefined;
@@ -112,8 +113,9 @@ const s = StyleSheet.create({
   // height + paddingBottom explícitos: anulan el safe area interno de v6, que
   // aquí sería doble. Ver nota 2 de la cabecera.
   bar: {
-    height: 62,
-    paddingBottom: 8,
+    // 72: con React Navigation 7 la etiqueta va con otro espaciado y en 62 se cortaba.
+    height: 80,
+    paddingBottom: 16,
     paddingTop: 6,
     backgroundColor: BOTTOM_TAB_THEME.backgroundColor,
     borderTopWidth: 1,
@@ -127,9 +129,10 @@ const s = StyleSheet.create({
   },
   label: {
     ...V.type.caption,
-    fontWeight: V.font.extrabold,
-    fontSize: 11.5,
-    marginTop: -2,
+    fontFamily: FONT.bodyBlack,
+    fontSize: 12,
+    lineHeight: 16,
+    marginTop: 0,
   },
 });
 

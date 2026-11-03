@@ -1,30 +1,33 @@
-/* Tokens de React Native Reusables con los colores de Valeria+ (src/valeriaTheme.ts).
-   La app es clara: no hay tema oscuro. */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* Uniwind (Tailwind 4) + HeroUI Native (Apache-2.0), con los colores de Valeria+.
+   Sustituye a NativeWind 4 (3/11/2026). Los nombres de token son los de
+   React Native Reusables, así que sus componentes siguen funcionando.
+   Colores en hex y radios fijos: Uniwind no admite calc con % mezclado. */
+@import 'tailwindcss';
+@import 'uniwind';
+@import 'heroui-native/styles';
 
-@layer base {
-  :root {
-    --background: 180 28.6% 97.3%;        /* pageBg #f6fafa */
-    --foreground: 215 27.9% 16.9%;        /* textPrimary #1f2937 */
-    --card: 0 0% 100%;
-    --card-foreground: 215 27.9% 16.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 215 27.9% 16.9%;
-    --primary: 178 100% 38.4%;            /* turquesa #00c4be */
-    /* dark #0b1220: el blanco sobre el turquesa daba 2,2:1 y no llega al 4,5:1 de WCAG AA; así, 8,6:1. */
-    --primary-foreground: 220 48.8% 8.4%;
-    --secondary: 177 61.3% 93.9%;         /* primaryLight #e6f9f8 */
-    --secondary-foreground: 178 100% 32%; /* primaryDark #00a39e */
-    --muted: 165 16.7% 95.3%;             /* #f1f5f4 */
-    --muted-foreground: 215 13.8% 34.1%;  /* textSecondary #4b5563 */
-    --accent: 177 61.3% 93.9%;
-    --accent-foreground: 178 100% 32%;
-    --destructive: 0 84.2% 60.2%;         /* error #ef4444 */
-    --border: 180 12.8% 92.4%;            /* #e9eeee */
-    --input: 176 49.3% 86.9%;             /* borderActive #cdeeec */
-    --ring: 178 100% 32%;
-    --radius: 0.875rem;                   /* 14 px, el radio de botones de la app */
-  }
+@source './node_modules/heroui-native/lib';
+
+@theme inline {
+  --color-background: #f6fafa;
+  --color-foreground: #1f2937;
+  --color-card: #ffffff;
+  --color-card-foreground: #1f2937;
+  --color-popover: #ffffff;
+  --color-popover-foreground: #1f2937;
+  --color-primary: #00c4bd;
+  --color-primary-foreground: #0b1220;
+  --color-secondary: #e6f9f8;
+  --color-secondary-foreground: #00a39e;
+  --color-muted: #f1f5f4;
+  --color-muted-foreground: #4b5563;
+  --color-accent: #e6f9f8;
+  --color-accent-foreground: #00a39e;
+  --color-destructive: #ef4444;
+  --color-border: #e9eeee;
+  --color-input: #cdeeec;
+  --color-ring: #00a39e;
+  --radius-lg: 14px;
+  --radius-md: 12px;
+  --radius-sm: 10px;
 }

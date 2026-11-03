@@ -45,6 +45,7 @@
   "dependencies": {
     "@expo-google-fonts/fredoka": "^0.4.1",
     "@expo-google-fonts/nunito": "^0.4.2",
+    "@gorhom/bottom-sheet": "^5.2.14",
     "@react-native-async-storage/async-storage": "2.2.0",
     "@react-navigation/bottom-tabs": "^7.21.0",
     "@react-navigation/native": "^7.5.1",
@@ -63,6 +64,7 @@
     "expo": "~58.0.22",
     "expo-asset": "~58.0.19",
     "expo-audio": "~58.0.11",
+    "expo-blur": "~58.0.5",
     "expo-build-properties": "~58.0.12",
     "expo-dev-client": "~58.0.18",
     "expo-font": "~58.0.11",
@@ -72,7 +74,7 @@
     "expo-speech-recognition": "58.0.1",
     "expo-splash-screen": "~58.0.12",
     "expo-status-bar": "~58.0.4",
-    "nativewind": "^4.2.7",
+    "heroui-native": "^1.0.11",
     "perfect-freehand": "^1.2.3",
     "pressto": "^0.8.1",
     "react": "19.3.0",
@@ -87,9 +89,10 @@
     "react-native-svg": "15.16.0",
     "react-native-web": "~0.21.4",
     "react-native-worklets": "0.13.0",
-    "tailwind-merge": "^2.6.0",
-    "tailwindcss": "^3.4.17",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwind-merge": "^3.7.0",
+    "tailwind-variants": "^3.3.1",
+    "tailwindcss": "^4.3.4",
+    "uniwind": "^1.13.1"
   },
   "devDependencies": {
     "@babel/core": "^7.24.0",

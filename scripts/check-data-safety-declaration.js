@@ -70,7 +70,9 @@ const DEPENDENCIAS = [
   // (Tailwind solo corre al compilar; `nativewind/expo-snack` no se importa).
   // Reanimated anima en el hilo de UI. @rn-primitives son componentes
   // accesibles sin estado propio. clsx, tailwind-merge y cva unen clases.
-  'nativewind', 'tailwindcss', 'tailwindcss-animate', 'react-native-reanimated',
+  'tailwindcss', 'react-native-reanimated',
+  // 3/11/2026: HeroUI Native sobre Uniwind (estilos en build), blur y hojas. Sin red.
+  'heroui-native', 'uniwind', 'tailwind-variants', 'expo-blur', '@gorhom/bottom-sheet',
   // Expo 58 (2/11/2026): dibujo, gestos e hilos de UI, sin red ni datos.
   '@shopify/react-native-skia', 'react-native-gesture-handler', 'react-native-worklets',
   // Rediseño: fuentes locales, vibración, botón 3D, rebote y confeti. Sin red.
