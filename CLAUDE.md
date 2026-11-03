@@ -1,5 +1,11 @@
 # Valeria+ · Notas para Claude Code
 
+# REGLA ULTRA UNIVERSAL: DE PRINCIPIO A FIN, SIN ATAJOS, SIN CAMBIOS SUPERFICIALES
+
+**Aquí se trabaja de principio a fin.** No hay atajos, no hay cambios
+superficiales y no se entrega nada a medias.
+
+
 # REGLA UNIVERSAL: SIEMPRE LO MEJOR DE LO MEJOR, NUNCA «PARA SALIR DEL PASO»
 
 - **Cada pieza se elige comparando las mejores opciones del momento**, también
