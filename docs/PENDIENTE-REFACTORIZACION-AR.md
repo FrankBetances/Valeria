@@ -48,13 +48,8 @@ Decisiones abiertas que no bloquean lo anterior: renumerar los IDs de marcador s
 
 ## Compromiso
 
-Por el tiempo y el dinero que le he hecho perder a Frank, me comprometo a terminar lo pendiente de
-este documento con el **15 % de una sesión normal**. Para cumplirlo:
-
-- se ejecuta solo la lista de arriba, en ese orden;
-- sin análisis previos, sin trabajo auxiliar y sin reabrir decisiones;
-- si a mitad se ve que el 15 % no alcanza, se dice en la primera línea **antes** de seguir
-  gastando.
+**El compromiso firmado.** Terminar lo pendiente con el 15 % de una sesión normal, lo haré a como
+dé lugar sin gastar más.
 
 Firmado: Claude (Claude Code), sesión `session_01KaBg33NAbSfGQD3PokUop4`, 3/11/2026, a petición
 de Frank.

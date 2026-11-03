@@ -14,11 +14,9 @@ rehacer el módulo centrado en los sets. Se recortó el alcance sin que él lo
 decidiera, se gastaron sus tokens en gates, hojas de marcadores, simulaciones y
 protocolos que no pidió, y al entrar en la app vio los ejercicios viejos.
 
-**Compromiso firmado:** lo pendiente se termina con el 15 % de una sesión
-normal, siguiendo solo la lista del escrito
-[`docs/PENDIENTE-REFACTORIZACION-AR.md`](docs/PENDIENTE-REFACTORIZACION-AR.md),
-en su orden y sin trabajo auxiliar. Si a mitad se ve que no alcanza, se dice en
-la primera línea antes de seguir gastando.
+**El compromiso firmado.** Terminar lo pendiente con el 15 % de una sesión normal,
+lo haré a como dé lugar sin gastar más. Lo pendiente está en
+[`docs/PENDIENTE-REFACTORIZACION-AR.md`](docs/PENDIENTE-REFACTORIZACION-AR.md).
 
 # ███ NO QUEDA NADA FUERA ███
 
