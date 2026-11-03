@@ -29,6 +29,7 @@ import { BlockIcon, BlockIconName } from './ValeriaBlockIcons';
 import { readArHistory, readSpeechHistory } from './valeriaTelemetry';
 import type { ArTrial, ArDeviceProfile, ArThresholds } from './valeriaArBridge';
 import { FONT } from './ui/fonts';
+import { LineChart } from 'react-native-gifted-charts';
 // import logoWhite from '../../assets/valeria-logo-white.png';
 
 interface Sesion {
@@ -490,26 +491,22 @@ export const ValeriaPatientResultsDashboardScreen: React.FC<{ navigation?: any }
           </View>
           <Text style={st.evoSub}>{t.results.evolutionSub(puntos.length)}</Text>
 
-          <Svg width="100%" height={178} viewBox={`0 0 ${CHART.W} ${CHART.H}`}>
-            {[3, 2, 1].map((v) => {
-              const y = yFor(v);
-              return (
-                <React.Fragment key={v}>
-                  <Line x1={CHART.padL} y1={y} x2={CHART.W - CHART.padR} y2={y} stroke={V.color.border} strokeWidth={1.5} />
-                  <SvgText x={22} y={y + 4} textAnchor="end" fontSize={11} fontWeight="700" fill="#c2cbca">{`${v}★`}</SvgText>
-                </React.Fragment>
-              );
-            })}
-            {areaPoints ? <Polygon points={areaPoints} fill={`${V.color.primary}22`} /> : null}
-            <Polyline points={linePoints} fill="none" stroke={V.color.primary} strokeWidth={3} strokeLinejoin="round" strokeLinecap="round" />
-            {puntos.map((p, i) => (
-              <React.Fragment key={i}>
-                <SvgText x={p.x} y={p.y - 12} textAnchor="middle" fontSize={11} fontWeight="800" fill={V.color.textPrimary}>{p.val}</SvgText>
-                <Circle cx={p.x} cy={p.y} r={5.5} fill="#fff" stroke={V.color.primary} strokeWidth={3} />
-                <SvgText x={p.x} y={172} textAnchor="middle" fontSize={10.5} fontWeight="700" fill={V.color.textMuted}>{p.date}</SvgText>
-              </React.Fragment>
-            ))}
-          </Svg>
+          {/* Evolución con react-native-gifted-charts (MIT): área curva, puntos con
+              su valor y animación al cargar. Misma escala de 1 a 3 estrellas. */}
+          <LineChart
+            data={puntos.map((p) => ({ value: Number(p.val), label: p.date, dataPointText: p.val }))}
+            areaChart curved isAnimated animationDuration={700}
+            maxValue={3} noOfSections={3} yAxisLabelSuffix="★"
+            color={V.color.primary} thickness={3}
+            startFillColor={V.color.primary} endFillColor={V.color.primary}
+            startOpacity={0.25} endOpacity={0.02}
+            dataPointsColor={V.color.primary} dataPointsRadius={5}
+            textColor1={V.color.textPrimary} textFontSize={12} textShiftY={-8} textShiftX={-6}
+            xAxisLabelTextStyle={{ color: V.color.textSecondary, fontSize: 11 }}
+            yAxisTextStyle={{ color: V.color.textSecondary, fontSize: 11 }}
+            rulesColor={V.color.border} xAxisColor={V.color.border} yAxisColor="transparent"
+            initialSpacing={18} spacing={56} height={150} adjustToWidth
+          />
         </View>
 
         {/* PARES MÍNIMOS · % DE SUSTITUCIÓN POR FONEMA */}
