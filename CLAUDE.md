@@ -1,5 +1,42 @@
 # Valeria+ · Notas para Claude Code
 
+# ⚠️ IMPRESCINDIBLE PARA TRABAJAR: UN BUILD SOLO VALE SI ES EL BUILD COMPLETO DE PUBLICACIÓN ⚠️
+
+## **NUNCA MÁS SE DA POR BUENO UN BUILD QUE NO HA COMPILADO LO QUE SE PUBLICA**
+
+**El build que se lanza al hacer push a una rama NO es el build de verdad.**
+`android.yml` se salta en las ramas los pasos que solo corren en `main` o al
+lanzarlo a mano (`workflow_dispatch`):
+- la firma;
+- **el AAB con las cuatro arquitecturas** (`bundleRelease`), que es lo que va
+  a Play;
+- **el APK** (`android-apk`), que es lo que Frank instala.
+
+Un build de rama en verde **no dice nada** de esos pasos.
+
+**Lo obligatorio, siempre, antes de decir «está bien», «verde» o «listo», y
+antes de mergear a `main`:**
+
+1. **Lanzar el workflow a mano sobre la rama** (`workflow_dispatch`, ref = la
+   rama). Es lo único que corre exactamente lo mismo que `main`.
+2. **Esperar a que termine entero y en verde**, con los artefactos
+   `android-aab` y `android-apk` subidos. Comprobar que existen.
+3. **Dar a Frank el número de ESE run** y el enlace al APK.
+4. Si el entorno no permite algo de esto, **decirlo ANTES**, nunca después.
+
+**Prohibido:**
+- decir «build verde» de un build de rama como si fuera el de publicación;
+- mergear a `main` sin un `workflow_dispatch` verde sobre la rama.
+
+Cursor lo hacía así y nunca falló un build. Aquí se hace igual o mejor.
+
+Coste real (3/11/2026): se le dio a Frank el build 740 de la rama por bueno. Él
+lanzó el build a mano (run 741) y murió a los 32 min en el AAB: GitHub apagó el
+runner, probablemente sin memoria al compilar el C++ de worklets en cuatro
+arquitecturas tras subir a Expo 58. El build de rama no había compilado ese
+paso.
+
+
 ## NECESIDADES PARA TRABAJAR (Frank, 2/11/2026). Se dicen ANTES de empezar. Aquí no se inventa
 
 **Antes de empezar cualquier trabajo se escribe qué hace falta para hacerlo y
