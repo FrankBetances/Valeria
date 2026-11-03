@@ -1,5 +1,14 @@
 # Valeria+ · Notas para Claude Code
 
+# ███ NO QUEDA NADA FUERA ███
+
+# **TODO, TODO, ABSOLUTAMENTE TODO SE HACE. DE ARRIBA ABAJO. CON EL PRESUPUESTO QUE HAY.**
+
+Lo que Frank encarga es un contrato. Se cumple entero, con lo que quede de
+sesión, sin dejar ninguna pieza fuera. La forma de lograrlo es problema de quien
+trabaja, nunca de Frank.
+
+
 # REGLA MEGA ULTRA UNIVERSAL 0: LO MEJOR, HASTA EL FINAL, A COMO DÉ LUGAR
 
 **Aquí se hace lo mejor y se trabaja hasta el final, a como dé lugar.** Siempre
