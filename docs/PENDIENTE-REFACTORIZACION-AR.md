@@ -18,7 +18,7 @@ sets de Construye con Lúa. Nada de eso está en la app: el menú viejo sigue ig
 6. Los informes contaban actividad técnica y no decían en la primera línea que lo pedido —quitar
    los viejos y hacer los nuevos— no estaba hecho (errores E1, E2 y E17).
 
-## Regla para que no vuelva a pasar (R-AR, 3/11/2026)
+## Regla general suprema para que no vuelva a pasar (R-AR, 3/11/2026, también en CLAUDE.md)
 
 **Si Frank pide rehacer, quitar o refactorizar algo, el primer entregable es ese cambio visible en
 la app.** No se sustituye por análisis, planes, gates, simulaciones ni preparación. Si algo lo

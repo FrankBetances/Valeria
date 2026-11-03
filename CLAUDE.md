@@ -1,5 +1,25 @@
 # Valeria+ · Notas para Claude Code
 
+# ███ REGLA GENERAL SUPREMA R-AR (Frank, 3/11/2026). VA ANTES QUE TODO ███
+
+**Si Frank pide rehacer, quitar o refactorizar algo, el primer entregable es ESE
+cambio visible en la app.** No se sustituye por análisis, planes, gates,
+simulaciones ni preparación. Si algo lo bloquea, se dice en la primera línea y
+se construye todo lo demás igual, con el botón del adulto. **No se hace ningún
+trabajo auxiliar que Frank no haya pedido**, y no se gasta un token suyo sin su
+permiso.
+
+Coste real (2-3/11/2026): Frank pidió quitar los ejercicios viejos de RA y
+rehacer el módulo centrado en los sets. Se recortó el alcance sin que él lo
+decidiera, se gastaron sus tokens en gates, hojas de marcadores, simulaciones y
+protocolos que no pidió, y al entrar en la app vio los ejercicios viejos.
+
+**Compromiso firmado:** lo pendiente se termina con el 15 % de una sesión
+normal, siguiendo solo la lista del escrito
+[`docs/PENDIENTE-REFACTORIZACION-AR.md`](docs/PENDIENTE-REFACTORIZACION-AR.md),
+en su orden y sin trabajo auxiliar. Si a mitad se ve que no alcanza, se dice en
+la primera línea antes de seguir gastando.
+
 # ███ NO QUEDA NADA FUERA ███
 
 # **TODO, TODO, ABSOLUTAMENTE TODO SE HACE. DE ARRIBA ABAJO. CON EL PRESUPUESTO QUE HAY.**
