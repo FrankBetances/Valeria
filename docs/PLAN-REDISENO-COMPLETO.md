@@ -20,6 +20,54 @@ se añade (regla suprema).
 >   quedó sin hacer.
 
 
+## CORRECCIÓN DE CRITERIO (3/11/2026). La app es para ADULTOS
+
+**Lo que pidió Frank:** que un adulto sin conocimientos previos, incluidas las
+personas con capacidades cognitivas limitadas, entienda cómo usar la app a la
+primera, y que la interfaz sea preciosa. «El cerebro de un niño de siete años»
+era una forma de hablar, no el usuario.
+
+**Error cometido:** se llevó la app hacia lo infantil. Hubo:
+- pestañas escondidas tras un PIN;
+- información útil oculta;
+- textos de juego («¿A qué jugamos?», «puertas»).
+
+Corregido el 3/11/2026.
+
+**Criterio, desde fuentes comprobadas:**
+- **W3C COGA, «Making Content Usable for People with Cognitive and Learning
+  Disabilities»** (Working Group Note): ocho objetivos.
+  1. Estructura clara y bloques cortos.
+  2. Escritura fácil.
+  3. Respuesta rápida.
+  4. Orientarse.
+  5. Evitar y deshacer errores.
+  6. Ayuda.
+  7. Foco y retomar el contexto.
+  8. Símbolos conocidos.
+
+  Pide además diseño visual coherente, pocas opciones a la vez y alternativas
+  a la información compleja.
+- **NN/G, mayores:** texto de las apps a menudo pequeño y claro para leer; los
+  controles finos cuestan en pantallas táctiles.
+- **UNE 153101:2018 EX (lectura fácil):** sin abreviaturas, sin numerales
+  romanos y validado con usuarios. No fija criterios para interfaces.
+
+**Aplicado:**
+- **Navegación:** vuelven las pestañas (Academy, Ejercicios, Ajustes) y se quita
+  el candado de la Casa.
+- **Información visible:** vuelven los recomendados, las edades, las categorías
+  y la tira de progreso.
+- **Guía del adulto** (consignas, fichas de STEAM, instrucción de Ling): queda
+  **visible por defecto**, y se puede plegar.
+- **Nombres claros, sin jerga ni tono infantil:**
+  - Ejercicios · «Elige qué quieres practicar hoy»;
+  - Pares de sonidos;
+  - Vocabulario;
+  - Adaptación a sonidos.
+- **Se mantiene:** tipografía legible, contraste AA, botones grandes con
+  respuesta táctil, fuera los códigos internos y Lúa interactiva.
+
 ## PRIORIDAD 1 · EL MOTOR, NO LA PINTURA (Frank, 2/11/2026)
 
 **Especificación de Frank:** que un niño de siete años la use sin problema.

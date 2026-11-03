@@ -43,7 +43,7 @@ export const ValeriaBlockTile: React.FC<ValeriaBlockTileProps> = React.memo(({
     <PressableScale
       onPress={() => { void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light); onPress(); }}
       accessibilityRole="button"
-      accessibilityLabel={[accessibilityLabel, description, meta].filter(Boolean).join('. ')}
+      accessibilityLabel={meta ? `${accessibilityLabel}. ${meta}` : accessibilityLabel}
       accessibilityHint={accessibilityHint}
       style={[s.press, style]}
     >
@@ -52,6 +52,7 @@ export const ValeriaBlockTile: React.FC<ValeriaBlockTileProps> = React.memo(({
           <BlockIcon name={icon} color={accentFg} size={34} />
         </View>
         <Text style={s.title} numberOfLines={2}>{title}</Text>
+        {!!description && <Text style={s.desc} numberOfLines={2}>{description}</Text>}
         {pct != null && (
           <View style={s.track}>
             <View style={[s.fill, { width: `${Math.round(pct * 100)}%`, backgroundColor: accentFg }]} />

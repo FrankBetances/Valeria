@@ -33,7 +33,6 @@ import { semanticForLocale } from './valeriaSemanticBanks';
 import { getLocale } from './valeriaLocale';
 import { ValeriaBlockTile } from './ValeriaBlockTile';
 import { PressableScale } from 'pressto';
-import { ProPinModal } from './ValeriaProPin';
 import { ScreenHeader } from './ui/ScreenHeader';
 import { BlockIcon, BlockIconName } from './ValeriaBlockIcons';
 import { ValeriaAwardsSheet } from './ValeriaAwardsSheet';
@@ -81,7 +80,6 @@ export const ValeriaHubV11Screen: React.FC<{ navigation: any }> = ({ navigation 
   const [game, setGame] = useState<GameState | null>(null);
   const [inventory, setInventory] = useState<LuaInventoryState>(createDefaultLuaInventory);
   const [awardsOpen, setAwardsOpen] = useState(false);
-  const [pinOpen, setPinOpen] = useState(false);
   const [teaConsentOk, setTeaConsentOk] = useState(false);
   const [teaConsentOpen, setTeaConsentOpen] = useState(false);
 
@@ -254,23 +252,7 @@ export const ValeriaHubV11Screen: React.FC<{ navigation: any }> = ({ navigation 
         kicker="valeria+"
         title={t.hub.title}
         subtitle={t.hub.subtitle}
-        trailing={(
-          <View style={s.headActions}>
-            <PressableScale onPress={() => setAwardsOpen(true)} style={s.headBtn}
-              accessibilityRole="button" accessibilityLabel={t.awards.a11yOpen}>
-              <BlockIcon name="award" color="#e0a800" size={24} />
-            </PressableScale>
-            {/* Zona Familia: mantener pulsado 2 s + PIN. Un toque del niño no abre nada. */}
-            <Pressable onLongPress={() => setPinOpen(true)} delayLongPress={2000} style={s.headBtn}
-              accessibilityRole="button" accessibilityLabel={t.steam.profilePinSubtitle}>
-              <BlockIcon name="lock" color="#0b1220" size={22} />
-            </Pressable>
-          </View>
-        )}
       />
-      <ProPinModal open={pinOpen} onClose={() => setPinOpen(false)}
-        onUnlock={() => { setPinOpen(false); navigation.navigate('Settings'); }} />
-
       <FlatList
         data={grid}
         keyExtractor={(item, i) => item?.key ?? `ghost-${i}`}

@@ -149,12 +149,12 @@ export const ValeriaBlockListScreen: React.FC<{ navigation: any; route: any }> =
           (la píldora del PIN) y el recuento, en el propio encabezado. */}
       <ScreenHeader onBack={() => navigation.goBack()} backLabel={t.hub.backToBlocks}
         kicker={t.hub.kickerPractice} icon={block.icon} title={copy.title}
-        badge={unlocked ? t.hub.prescribedOf(activeCount, list.length) : undefined} />
+        badge={t.hub.prescribedOf(activeCount, list.length)} />
 
       <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
         {/* La misma tira que el hub: el niño ve su nivel y su racha también
             desde la pantalla en la que se entra a practicar. */}
-        {unlocked && <ValeriaGameStrip game={game} onPress={() => setAwardsOpen(true)} />}
+        <ValeriaGameStrip game={game} onPress={() => setAwardsOpen(true)} />
 
         {!!toast && (
           <View style={s.toast}>
@@ -174,8 +174,6 @@ export const ValeriaBlockListScreen: React.FC<{ navigation: any; route: any }> =
         {/* Ficha del protocolo: PLEGADA por defecto. Es texto para el adulto
             —y parte lleva carga MDR, así que no se puede borrar— pero eran
             ~370 px de prosa por delante del primer ejercicio. */}
-        {unlocked && (
-          <>
         <Pressable
           onPress={() => setRefOpen((v) => !v)}
           style={s.refToggle}
@@ -192,20 +190,16 @@ export const ValeriaBlockListScreen: React.FC<{ navigation: any; route: any }> =
             {!!copy.ref && <Text style={s.refCardTxt}>{copy.ref}</Text>}
           </View>
         )}
-          </>
-        )}
 
-        {unlocked && (
-          <View style={s.listHead}>
-            <Text style={s.listLabel}>{copy.label}</Text>
-          </View>
-        )}
+        <View style={s.listHead}>
+          <Text style={s.listLabel}>{copy.label}</Text>
+        </View>
 
         {sections.map(({ band, rows }) => {
           if (!rows.length) return null;
           return (
             <View key={band ?? 'all'}>
-              {band != null && unlocked && (
+              {band != null && (
                 <View style={s.ageHead}>
                   <BlockIcon name="age" color={V.color.primaryDark} size={16} />
                   <Text style={s.ageHeadTxt}>{band.toUpperCase()}</Text>
@@ -233,6 +227,7 @@ export const ValeriaBlockListScreen: React.FC<{ navigation: any; route: any }> =
                       <Text style={s.rowName} numberOfLines={2}>{item.name}</Text>
                       {/* textSecondary, no textMuted: este es el texto que no
                           se veía. */}
+                      <Text style={s.rowCat} numberOfLines={2}>{item.category}</Text>
                       {!on && <Text style={s.rowOffTag}>{t.hub.notPrescribed}</Text>}
                     </View>
 

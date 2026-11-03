@@ -67,7 +67,7 @@ export const MainTabNavigator: React.FC = () => {
 
   return (
     <Tab.Navigator
-      initialRouteName="ExerciseSelection"
+      initialRouteName="Academy"
       screenOptions={{
         headerShown: false, // cada pantalla trae su cabecera turquesa
         tabBarActiveTintColor: BOTTOM_TAB_THEME.activeTintColor,
@@ -93,9 +93,6 @@ export const MainTabNavigator: React.FC = () => {
           tabBarLabel: t.tabs.therapies,
           tabBarIcon: tabIcon('tabTherapies'),
           tabBarAccessibilityLabel: t.tabs.therapiesA11y,
-          // Motor del rediseño: en la Casa de Lúa el niño no ve pestañas.
-          // Academy y Ajustes son la Zona Familia: se entra por el candado.
-          tabBarStyle: { display: 'none' },
         }}
       />
       <Tab.Screen

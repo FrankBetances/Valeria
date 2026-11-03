@@ -8,7 +8,7 @@ import { V } from '../valeriaTheme';
 import { FONT } from './fonts';
 
 export const AdultFold: React.FC<{ label: string; children: React.ReactNode }> = ({ label, children }) => {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true); // visible: es guía del adulto; se puede plegar
   return (
     <View style={s.wrap}>
       <Pressable onPress={() => setOpen((v) => !v)} style={s.pill} hitSlop={8}
