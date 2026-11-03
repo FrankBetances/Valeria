@@ -1,5 +1,22 @@
 # Valeria+ · Notas para Claude Code
 
+# REGLA ULTRA MEGA SUPREMA: PRIMERO EL PLAN, DESPUÉS EL TRABAJO
+
+**Prohibido tocar código sin haber enseñado antes a Frank el plan, con la lista
+de los mejores repos.** El orden es fijo:
+
+1. **Búsqueda a fondo** en GitHub, Reddit y X, y en las demás vías de la
+   segunda regla suprema.
+2. **Lista de lo mejor de lo mejor**, con datos comprobados.
+3. **Plan**, enseñado a Frank, en el que se diga cómo se quita el ruido y cómo
+   se mejora el diseño.
+4. **Ejecución completa.**
+5. **Build de publicación verde y APK.**
+
+Sin plan enseñado, no se trabaja. Y nada de excusas ni de vueltas sobre el
+presupuesto: el trabajo se hace con lo que queda.
+
+
 # ⚠️ IMPRESCINDIBLE PARA TRABAJAR: UN BUILD SOLO VALE SI ES EL BUILD COMPLETO DE PUBLICACIÓN ⚠️
 
 ## **NUNCA MÁS SE DA POR BUENO UN BUILD QUE NO HA COMPILADO LO QUE SE PUBLICA**
