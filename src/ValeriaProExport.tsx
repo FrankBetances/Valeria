@@ -16,6 +16,7 @@ import { useT } from './i18n';
 import { ValeriaQRCode } from './ValeriaQRCode';
 import { buildExport, purgeAfterExport, ExportBundle } from './valeriaTelemetry';
 import { FONT } from './ui/fonts';
+import { BottomSheet } from 'heroui-native';
 
 export const ValeriaProExportModal: React.FC<{ open: boolean; onClose: () => void }> = ({ open, onClose }) => {
   const t = useT();
@@ -57,11 +58,14 @@ export const ValeriaProExportModal: React.FC<{ open: boolean; onClose: () => voi
     }
   };
 
-  if (!open) return null;
-
+  // Panel inferior de HeroUI Native (sobre @gorhom/bottom-sheet): se arrastra
+  // para cerrarlo y se toca fuera para salir.
   return (
-    <View style={s.overlay}>
-      <View style={s.modal}>
+    <BottomSheet isOpen={open} onOpenChange={(v) => { if (!v) onClose(); }}>
+      <BottomSheet.Portal>
+        <BottomSheet.Overlay />
+        <BottomSheet.Content>
+          <View style={s.modal}>
         <View style={s.head}>
           <Text style={s.kicker}>{t.pro.exportKicker}</Text>
           <Pressable onPress={onClose} style={s.close}><BlockIcon name="cross" color={V.color.textSecondary} size={16} /></Pressable>
@@ -95,8 +99,10 @@ export const ValeriaProExportModal: React.FC<{ open: boolean; onClose: () => voi
             <Text style={s.loading}>{t.pro.packaging}</Text>
           )}
         </ScrollView>
-      </View>
-    </View>
+          </View>
+        </BottomSheet.Content>
+      </BottomSheet.Portal>
+    </BottomSheet>
   );
 };
 
@@ -109,7 +115,7 @@ const Stat: React.FC<{ label: string; value: string }> = ({ label, value }) => (
 
 const s = StyleSheet.create({
   overlay: { ...StyleSheet.absoluteFill, backgroundColor: 'rgba(11,18,32,.6)', alignItems: 'center', justifyContent: 'center', padding: 20, zIndex: 30 },
-  modal: { width: '100%', maxWidth: 360, maxHeight: '90%', backgroundColor: '#fff', borderRadius: 24, padding: 20 },
+  modal: { width: '100%', backgroundColor: '#fff', padding: 20 },
   head: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 },
   kicker: { fontFamily: FONT.bodyBlack,fontSize: 12, letterSpacing: 0.8, color: V.color.primaryDark },
   close: { width: 30, height: 30, borderRadius: 15, backgroundColor: '#f1f5f4', alignItems: 'center', justifyContent: 'center' },

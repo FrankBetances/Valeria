@@ -181,13 +181,11 @@ export const steamScreenStyles = StyleSheet.create({
   scroll: { padding: V.space.lg, paddingBottom: 48 },
   section: { fontFamily: FONT.bodyBlack,fontSize: 12, color: V.color.textSecondary, letterSpacing: 0.6, marginTop: V.space.sm, marginBottom: V.space.sm },
   card: {
-    backgroundColor: V.color.card, borderWidth: 1, borderColor: V.color.border, borderRadius: V.radius.card,
-    padding: V.space.lg, marginBottom: V.space.md, ...V.shadow.card,
-  },
+    backgroundColor: V.color.card, borderWidth: 1, borderColor: V.color.border, borderRadius: 24,
+    padding: V.space.lg, marginBottom: V.space.md, borderBottomWidth: 6 },
   noteCard: {
-    backgroundColor: V.color.primaryTint, borderWidth: 1, borderColor: V.color.borderActive, borderRadius: V.radius.card,
-    padding: V.space.lg, marginBottom: V.space.md,
-  },
+    backgroundColor: V.color.primaryTint, borderWidth: 1, borderColor: V.color.borderActive, borderRadius: 24,
+    padding: V.space.lg, marginBottom: V.space.md, borderBottomWidth: 6 },
   kickerFirst: { fontFamily: FONT.bodyBlack,fontSize: 11.5, color: V.color.primaryDark, letterSpacing: 0.6, textTransform: 'uppercase', marginBottom: 6 },
   kicker: { fontFamily: FONT.bodyBlack,fontSize: 11.5, color: V.color.primaryDark, letterSpacing: 0.6, textTransform: 'uppercase', marginTop: V.space.md, marginBottom: 6 },
   body: { fontFamily: FONT.bodyBlack,fontSize: 14, lineHeight: 20, color: V.color.textSecondary },

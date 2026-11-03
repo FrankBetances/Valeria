@@ -27,6 +27,7 @@ import { ProPinModal } from './ValeriaProPin';
 import { ValeriaProExportModal } from './ValeriaProExport';
 import { VoiceQualityCard } from './ValeriaVoiceUI';
 import { ValeriaUiLangPicker } from './ValeriaUiLangPicker';
+import { Card } from 'heroui-native';
 import { useT, UiStrings } from './i18n';
 import { FONT } from './ui/fonts';
 import { notify } from './ui/notify';
@@ -99,7 +100,7 @@ export const ValeriaSettingsScreen: React.FC = () => {
         )}
 
         {/* ---- Recordatorios de sesión (GEN-01) ---- */}
-        <View style={s.card}>
+        <Card style={s.card}>
           <View style={s.cardRow}>
             <View style={[s.cardIcon, { backgroundColor: '#fffbeb' }]}><BlockIcon name="bell" color="#c2870b" size={22} /></View>
             <View style={{ flex: 1 }}>
@@ -139,7 +140,7 @@ export const ValeriaSettingsScreen: React.FC = () => {
               })}
             </View>
           )}
-        </View>
+        </Card>
 
         {/* ---- Calidad de la voz ---- */}
         <VoiceQualityCard />
@@ -191,7 +192,8 @@ const s = StyleSheet.create({
   toastCheckTxt: { fontFamily: FONT.bodyBlack,color: '#fff', fontSize: 13 },
   toastTxt: { fontFamily: FONT.bodyBlack,color: V.color.textPrimary, ...V.type.body, flex: 1 },
 
-  card: { backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.border, borderRadius: 14, padding: 13, marginBottom: V.space.md, ...V.shadow.card },
+  // Tarjeta de HeroUI Native con el borde 3D del resto de la app.
+  card: { backgroundColor: '#fff', borderWidth: 2, borderBottomWidth: 6, borderColor: '#e3dccf', borderRadius: 24, padding: 16, marginBottom: V.space.md },
   cardRow: { flexDirection: 'row', alignItems: 'center', gap: 11 },
   cardIcon: { width: 36, height: 36, borderRadius: 12, alignItems: 'center', justifyContent: 'center' },
   iconGlyph: { fontSize: 17 },

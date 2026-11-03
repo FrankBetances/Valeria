@@ -801,7 +801,7 @@ const s = StyleSheet.create({
   vqLangBtn: { width: '31.5%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 5, backgroundColor: V.color.pageBg, borderWidth: 1.5, borderColor: V.color.border, borderRadius: 14, paddingVertical: 11, paddingHorizontal: 6 },
   vqLangBtnOn: { backgroundColor: V.color.primary, borderColor: V.color.primary },
   vqLangTxt: { fontFamily: FONT.bodyBlack,fontSize: 12.5, color: V.color.textSecondary, textAlign: 'center' },
-  vqLangTxtOn: { color: '#fff' },
+  vqLangTxtOn: { color: V.color.dark }, // tinta sobre turquesa: 8,6:1 (el blanco daba 2,2:1)
   vqBeta: { fontFamily: FONT.bodyBlack,fontSize: 9, color: V.color.textMuted, borderWidth: 1, borderColor: V.color.border, borderRadius: 6, paddingHorizontal: 4, paddingVertical: 1, letterSpacing: 0.4, textTransform: 'uppercase' },
   vqDetail: { fontFamily: FONT.bodyBold,fontSize: 11.5, color: V.color.textMuted, marginTop: 8, lineHeight: 15.5 },
   vqBtnRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginTop: 11 },

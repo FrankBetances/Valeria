@@ -272,9 +272,8 @@ const s = StyleSheet.create({
   hint: { borderWidth: 1, borderColor: V.color.border, borderRadius: 12, padding: 12, marginTop: V.space.sm, backgroundColor: V.color.pageBg },
   hintTitle: { fontFamily: FONT.bodyBlack,fontSize: 14, color: V.color.textPrimary },
   eventBtn: {
-    borderWidth: 1.5, borderColor: V.color.borderActive, borderRadius: 14, padding: 12,
-    marginTop: V.space.sm, minHeight: V.touchMin, backgroundColor: '#fff',
-  },
+    borderWidth: 1.5, borderColor: V.color.borderActive, borderRadius: 24, padding: 12,
+    marginTop: V.space.sm, minHeight: V.touchMin, backgroundColor: '#fff', borderBottomWidth: 6 },
   eventBtnOn: { borderColor: V.color.primaryDark, backgroundColor: V.color.primaryLight },
   eventTitle: { fontFamily: FONT.bodyBlack,fontSize: 15, color: V.color.primaryDark },
   eventSub: { fontFamily: FONT.bodyBlack,fontSize: 13, lineHeight: 18, color: V.color.textSecondary, marginTop: 2 },
@@ -286,8 +285,8 @@ const s = StyleSheet.create({
   chip: { alignSelf: 'flex-start', backgroundColor: V.color.primaryLight, borderRadius: 999, paddingHorizontal: 10, paddingVertical: 6, marginTop: V.space.sm },
   chipTxt: { fontFamily: FONT.bodyBlack,fontSize: 12, color: V.color.primaryDark },
   tpr: { fontFamily: FONT.bodyBlack,fontSize: 16, color: V.color.textPrimary },
-  primaryBtn: { backgroundColor: V.color.primary, borderRadius: 14, paddingVertical: 15, alignItems: 'center', marginTop: V.space.sm, ...V.shadow.button },
-  primaryBtnTxt: { fontFamily: FONT.bodyBlack,color: '#fff', fontSize: 15.5 },
+  primaryBtn: { backgroundColor: '#ffd23f', borderRadius: 24, paddingVertical: 15, alignItems: 'center', marginTop: V.space.sm, ...V.shadow.button, borderBottomWidth: 6, borderBottomColor: '#e0a800' },
+  primaryBtnTxt: { fontFamily: FONT.display,color: '#3b2a00', fontSize: 19 },
 });
 
 export default ValeriaSteamChallengeScreen;
