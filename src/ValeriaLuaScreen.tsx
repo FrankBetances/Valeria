@@ -108,7 +108,7 @@ export const ValeriaLuaScreen: React.FC<{ navigation: any }> = ({ navigation }) 
 };
 
 const s = StyleSheet.create({
-  flex: { flex: 1, backgroundColor: '#fff8ec' },
+  flex: { flex: 1, backgroundColor: '#fff8ec', overflow: 'hidden' },
   blob: { position: 'absolute', borderRadius: 999, backgroundColor: V.color.primary },
   content: { paddingHorizontal: 24 },
 
@@ -178,11 +178,11 @@ const s = StyleSheet.create({
 
   secondaryActionBtn: {
     flexDirection: 'row', alignItems: 'center',
-    backgroundColor: 'rgba(255,255,255,0.15)', padding: 16, borderRadius: 18,
-    borderWidth: 1.5, borderColor: 'rgba(255,255,255,0.3)',
+    backgroundColor: '#ffffff', padding: 16, borderRadius: 18,
+    borderWidth: 2, borderColor: '#e3dccf',
   },
   iconWrapSecondary: {
-    width: 44, height: 44, borderRadius: 12, backgroundColor: 'rgba(255,255,255,0.9)',
+    width: 44, height: 44, borderRadius: 12, backgroundColor: V.color.primaryLight,
     alignItems: 'center', justifyContent: 'center', marginRight: 14,
   },
 
@@ -190,8 +190,8 @@ const s = StyleSheet.create({
   actionBtnTitle: { fontFamily: FONT.display,fontSize: 17, color: V.color.primaryDark, marginBottom: 2 },
   actionBtnSub: { fontFamily: FONT.bodyBold,fontSize: 13, color: V.color.textSecondary },
 
-  actionBtnTitleSecondary: { fontFamily: FONT.display,fontSize: 17, color: '#fff', marginBottom: 2 },
-  actionBtnSubSecondary: { fontFamily: FONT.bodyBold,fontSize: 13, color: 'rgba(255,255,255,0.7)' },
+  actionBtnTitleSecondary: { fontFamily: FONT.display, fontSize: 17, color: V.color.textPrimary, marginBottom: 2 },
+  actionBtnSubSecondary: { fontFamily: FONT.bodyBold, fontSize: 13, color: V.color.textSecondary },
 
   bottomNav: {
     position: 'absolute', bottom: 0, left: 0, right: 0,

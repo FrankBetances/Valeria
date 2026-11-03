@@ -653,7 +653,7 @@ export const ES = {
       `${n} palabras trabajadas uniendo imagen, voz y acción física. La palabra se aprende cuando el niño la vive con el cuerpo, no solo cuando la oye.`,
     assistSub: (word: string): string =>
       `El adulto dice “${word}” muy despacio mirando al niño, y lo repiten a la vez. Sin prisa: hoy la practicamos, mañana sale sola.`,
-    title: 'Expansión Semántica',
+    title: 'Vocabulario',
     setupTitle: 'Preparación',
     doneTitle: '¡Completado!',
 
@@ -1699,7 +1699,7 @@ export const ES = {
   },
   sensory: {
     blockTag: 'MÓDULO SENSORIAL',
-    blockTitle: 'Integración Sensorial',
+    blockTitle: 'Adaptación a sonidos',
     blockSubtitle: 'Familiarización auditiva gradual, modulación y anticipación visual ante sonidos cotidianos.',
     xpTotal: (xp: number): string => `${xp} XP`,
     sessionsCount: (n: number): string => `${n} ${n === 1 ? 'sesión' : 'sesiones'}`,

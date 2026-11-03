@@ -180,7 +180,7 @@ export const ValeriaCreditsScreen: React.FC<{ navigation?: any }> = ({ navigatio
 };
 
 const s = StyleSheet.create({
-  flex: { flex: 1, backgroundColor: '#fff8ec' },
+  flex: { flex: 1, backgroundColor: '#fff8ec', overflow: 'hidden' },
   blob: { position: 'absolute', borderRadius: 999, backgroundColor: V.color.primary },
   content: { flexGrow: 1, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 30, paddingVertical: 36 },
 
@@ -194,13 +194,14 @@ const s = StyleSheet.create({
   },
 
   doctorCard: {
-    marginTop: 16, width: '100%', backgroundColor: 'rgba(255,255,255,0.16)',
-    borderWidth: 1, borderColor: 'rgba(255,255,255,0.28)', borderRadius: 22,
+    marginTop: 16, width: '100%', backgroundColor: '#ffffff',
+    borderWidth: 2, borderColor: '#e3dccf', borderRadius: 22,
     paddingVertical: 24, paddingHorizontal: 22, alignItems: 'center',
   },
   // El emblema es un PNG transparente: aquí no hay fondo ni recorte, el anillo
   // y el ave clara se apoyan directamente sobre el turquesa de la tarjeta.
-  doctorAvatar: { width: 112, height: 112, alignItems: 'center', justifyContent: 'center' },
+  // El escudo tiene un cuervo blanco: necesita el turquesa detrás para verse.
+  doctorAvatar: { width: 132, height: 132, borderRadius: 66, backgroundColor: V.color.primary, alignItems: 'center', justifyContent: 'center' },
   doctorName: { marginTop: 16, fontSize: 24, fontFamily: FONT.display, color: '#0b1220', lineHeight: 28, textAlign: 'center' },
   doctorRole: { marginTop: 6, fontSize: 15, fontFamily: FONT.bodyBold, color: V.color.textSecondary, textAlign: 'center' },
 

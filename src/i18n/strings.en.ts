@@ -644,7 +644,7 @@ export const EN: UiStrings = {
       `${n} words practiced by pairing picture, voice and physical action. A word is learned when the child lives it with their body, not just when they hear it.`,
     assistSub: (word: string): string =>
       `The grown-up says “${word}” very slowly while looking at the child, and they say it together. No rush: today we practice it, tomorrow it comes out on its own.`,
-    title: 'Semantic Expansion',
+    title: 'Vocabulary',
     setupTitle: 'Getting ready',
     doneTitle: 'All done!',
 
@@ -1638,7 +1638,7 @@ export const EN: UiStrings = {
   },
   sensory: {
     blockTag: 'SENSORY MODULE',
-    blockTitle: 'Sensory Integration',
+    blockTitle: 'Sound adaptation',
     blockSubtitle: 'Gradual auditory familiarization, modulation and visual anticipation for everyday sounds.',
     xpTotal: (xp: number): string => `${xp} XP`,
     sessionsCount: (n: number): string => `${n} ${n === 1 ? 'session' : 'sessions'}`,

@@ -619,7 +619,7 @@ export const CA: UiStrings = {
       `${n} paraules treballades unint imatge, veu i acció física. La paraula s'aprèn quan l'infant la viu amb el cos, no només quan la sent.`,
     assistSub: (word: string): string =>
       `L'adult diu “${word}” molt a espai mirant l'infant, i ho repeteixen alhora. Sense pressa: avui la practiquem, demà sortirà sola.`,
-    title: 'Expansió Semàntica',
+    title: 'Vocabulari',
     setupTitle: 'Preparació',
     doneTitle: 'Completat!',
 
@@ -1599,7 +1599,7 @@ export const CA: UiStrings = {
 
   sensory: {
     blockTag: 'MÒDUL SENSORIAL',
-    blockTitle: 'Integració Sensorial',
+    blockTitle: 'Adaptació a sons',
     blockSubtitle: 'Familiarització auditiva gradual, modulació i anticipació visual davant de sons quotidians.',
     xpTotal: (xp: number): string => `${xp} XP`,
     sessionsCount: (n: number): string => `${n} ${n === 1 ? 'sessió' : 'sessions'}`,

@@ -24,7 +24,7 @@ interface SchemaProps {
 }
 
 const INK = '#1f2937';       // trazo principal de alto contraste
-const MUTED = '#9aa6a5';     // trazo secundario / anotación
+const MUTED = '#5f6b6b';     // trazo secundario / anotación
 const FILL = '#eef4f8';      // relleno suave
 
 // --- Anatomía del oído ------------------------------------------------------

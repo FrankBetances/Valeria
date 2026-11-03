@@ -152,13 +152,13 @@ export const SensoryBlockListScreen: React.FC<{ navigation: any }> = ({ navigati
               </View>
 
               <View style={{ flex: 1 }}>
-                <View style={s.cardTopRow}>
-                  <Text style={[s.actIdTag, { color: playable ? V.color.primaryDark : V.color.textMuted }]}>
-                    {act.id}
-                  </Text>
-                  {isPilot && <Text style={s.pilotBadge}>{t.sensory.pilotBadge}</Text>}
-                  {!act.isAvailable && <Text style={s.inDevBadge}>{t.sensory.inDevBadge}</Text>}
-                </View>
+                {/* Sin código interno ni «piloto»: ruido para quien entra por primera
+                    vez. Solo se avisa si la actividad aún no está disponible. */}
+                {!act.isAvailable && (
+                  <View style={s.cardTopRow}>
+                    <Text style={s.inDevBadge}>{t.sensory.inDevBadge}</Text>
+                  </View>
+                )}
                 <Text style={s.actTitle}>
                   {String((t.sensory as any)[act.titleKey] ?? act.id)}
                 </Text>

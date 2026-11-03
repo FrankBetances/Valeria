@@ -666,7 +666,7 @@ export const GL: UiStrings = {
       `${n} palabras traballadas unindo imaxe, voz e acción física. A palabra apréndese cando o neno a vive co corpo, non só cando a oe.`,
     assistSub: (word: string): string =>
       `O adulto di «${word}» moi devagar mirando o neno, e repítena á vez. Sen présa: hoxe practicámola, mañá sae soa.`,
-    title: 'Expansión Semántica',
+    title: 'Vocabulario',
     setupTitle: 'Preparación',
     doneTitle: 'Completado!',
 
@@ -1679,7 +1679,7 @@ export const GL: UiStrings = {
   },
   sensory: {
     blockTag: 'MÓDULO SENSORIAL',
-    blockTitle: 'Integración Sensorial',
+    blockTitle: 'Adaptación a sons',
     blockSubtitle: 'Familiarización auditiva gradual, modulación e anticipación visual ante sons cotiáns.',
     xpTotal: (xp: number): string => `${xp} XP`,
     sessionsCount: (n: number): string => `${n} ${n === 1 ? 'sesión' : 'sesións'}`,
