@@ -45,6 +45,7 @@ import { PressableScale } from 'pressto';
 import * as Haptics from 'expo-haptics';
 import { KidButton } from './ui/KidButton';
 import { FONT } from './ui/fonts';
+import { notify } from './ui/notify';
 
 // Título, etiqueta de protocolo, referencia larga y descripción. Todas son
 // claves i18n QUE YA EXISTÍAN: el rediseño no borra ninguna.
@@ -113,7 +114,7 @@ export const ValeriaBlockListScreen: React.FC<{ navigation: any; route: any }> =
       await AsyncStorage.setItem(block.storageKey, JSON.stringify(active));
     } catch (e) { /* noop */ }
     setUnlocked(false);
-    setToast(t.hub.savedPrescription(active.filter(Boolean).length));
+    notify(t.hub.savedPrescription(active.filter(Boolean).length));
   };
 
   // Si la ficha activa indica audífono o implante, el Test de Ling va ANTES del
@@ -273,7 +274,7 @@ export const ValeriaBlockListScreen: React.FC<{ navigation: any; route: any }> =
       <ProPinModal
         open={modalOpen}
         onClose={() => setModalOpen(false)}
-        onUnlock={() => { setModalOpen(false); setUnlocked(true); setToast(t.hub.proUnlocked); }}
+        onUnlock={() => { setModalOpen(false); setUnlocked(true); notify(t.hub.proUnlocked); }}
       />
     </View>
   );

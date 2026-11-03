@@ -29,6 +29,7 @@ import { VoiceQualityCard } from './ValeriaVoiceUI';
 import { ValeriaUiLangPicker } from './ValeriaUiLangPicker';
 import { useT, UiStrings } from './i18n';
 import { FONT } from './ui/fonts';
+import { notify } from './ui/notify';
 
 export const ValeriaSettingsScreen: React.FC = () => {
   const t = useT();
@@ -65,11 +66,11 @@ export const ValeriaSettingsScreen: React.FC = () => {
       const ok = await enableDailyReminders(wanted);
       setReminders(ok);
       if (ok) setSlots(wanted);
-      setToast(ok ? t.hub.remindersOn(summary(wanted, t)) : t.hub.remindersNoPermission);
+      notify(ok ? t.hub.remindersOn(summary(wanted, t)) : t.hub.remindersNoPermission);
     } else {
       await disableReminders();
       setReminders(false);
-      setToast(t.hub.remindersDisabled);
+      notify(t.hub.remindersDisabled);
     }
   };
 
@@ -80,7 +81,7 @@ export const ValeriaSettingsScreen: React.FC = () => {
     setSlots(next);
     const ok = await persistReminderSlots(next);
     setReminders(ok);
-    setToast(next.length
+    notify(next.length
       ? (ok ? summary(next, t) : t.hub.remindersNoSchedule)
       : t.hub.remindersNoSlots);
   };

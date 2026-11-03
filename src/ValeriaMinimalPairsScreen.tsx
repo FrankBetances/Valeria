@@ -59,6 +59,7 @@ import { PlayButton } from './ui/PlayButton';
 import { ValeriaAwardsSheet } from './ValeriaAwardsSheet';
 import { loadGame, GameState } from './valeriaGamification';
 import { FONT } from './ui/fonts';
+import { notify } from './ui/notify';
 
 const TOTAL_TRIALS = 10;
 const SWAP_TRIALS = [3, 7];   // antes de estos ensayos (0-index): ¡Ahora mandas tú!
@@ -413,7 +414,7 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
   const savePrescription = async () => {
     try { await AsyncStorage.setItem(STORAGE_KEYS.paresPrescripcion, JSON.stringify(prescribed)); } catch (e) { /* noop */ }
     setUnlocked(false);
-    setToast(t.pairs.savedConfig(activeCount, pairs.length));
+    notify(t.pairs.savedConfig(activeCount, pairs.length));
   };
 
   // ---------------------------------------------------------------- sesión --
@@ -778,7 +779,7 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
         <ProPinModal
           open={pinOpen}
           onClose={() => setPinOpen(false)}
-          onUnlock={() => { setPinOpen(false); setUnlocked(true); setToast('Modo profesional desbloqueado.'); }}
+          onUnlock={() => { setPinOpen(false); setUnlocked(true); notify('Modo profesional desbloqueado.'); }}
           subtitle={t.pairs.pinSubtitle}
         />
       </View>

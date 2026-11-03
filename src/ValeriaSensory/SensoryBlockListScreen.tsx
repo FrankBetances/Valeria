@@ -20,6 +20,7 @@ import { useSensoryState } from './sensoryStore';
 import { AuditorySensoryExercise } from './sensoryTypes';
 import { SensoryPreviewCard } from './SensoryPreviewCard';
 import { FONT } from '../ui/fonts';
+import { notify } from '../ui/notify';
 
 export const SensoryBlockListScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
   const t = useT();
@@ -60,7 +61,7 @@ export const SensoryBlockListScreen: React.FC<{ navigation: any }> = ({ navigati
       await AsyncStorage.setItem(STORAGE_KEYS.sensoryPrescripcion, JSON.stringify(prescribed));
     } catch (e) { /* noop */ }
     setUnlocked(false);
-    setToast(t.sensory.savedPrescription(activeCount));
+    notify(t.sensory.savedPrescription(activeCount));
   };
 
   const openExercise = (exercise: AuditorySensoryExercise) => {
@@ -230,7 +231,7 @@ export const SensoryBlockListScreen: React.FC<{ navigation: any }> = ({ navigati
       <ProPinModal
         open={pinOpen}
         onClose={() => setPinOpen(false)}
-        onUnlock={() => { setPinOpen(false); setUnlocked(true); setToast(t.sensory.proUnlocked); }}
+        onUnlock={() => { setPinOpen(false); setUnlocked(true); notify(t.sensory.proUnlocked); }}
         subtitle={t.sensory.pinSubtitle}
       />
     </View>

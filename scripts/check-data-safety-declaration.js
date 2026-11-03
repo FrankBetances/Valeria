@@ -72,7 +72,7 @@ const DEPENDENCIAS = [
   // accesibles sin estado propio. clsx, tailwind-merge y cva unen clases.
   'tailwindcss', 'react-native-reanimated',
   // 3/11/2026: HeroUI Native sobre Uniwind (estilos en build), blur y hojas. Sin red.
-  'heroui-native', 'uniwind', 'tailwind-variants', 'expo-blur', '@gorhom/bottom-sheet',
+  'heroui-native', 'uniwind', 'tailwind-variants', 'expo-blur', '@gorhom/bottom-sheet', 'sonner-native',
   // Expo 58 (2/11/2026): dibujo, gestos e hilos de UI, sin red ni datos.
   '@shopify/react-native-skia', 'react-native-gesture-handler', 'react-native-worklets',
   // Rediseño: fuentes locales, vibración, botón 3D, rebote y confeti. Sin red.

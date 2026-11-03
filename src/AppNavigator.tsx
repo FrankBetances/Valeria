@@ -38,6 +38,7 @@ import { PortalHost } from '@rn-primitives/portal';
 import { useValeriaFonts } from './ui/fonts';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { HeroUINativeProvider } from 'heroui-native';
+import { Toaster } from 'sonner-native';
 
 import ValeriaWelcomeScreen from './ValeriaWelcomeScreen';
 import ValeriaCreditsScreen from './ValeriaCreditsScreen';
@@ -225,6 +226,7 @@ export const ValeriaApp: React.FC = () => {
       <NavigationContainer ref={navigationRef} onReady={handleRoute} onStateChange={handleRoute}>
         <SafeFrame />
       </NavigationContainer>
+      <Toaster position="top-center" richColors />
     </SafeAreaProvider>
     </HeroUINativeProvider>
     </GestureHandlerRootView>

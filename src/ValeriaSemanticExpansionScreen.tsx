@@ -53,6 +53,7 @@ import { PlayButton } from './ui/PlayButton';
 import { ValeriaAwardsSheet } from './ValeriaAwardsSheet';
 import { loadGame, GameState } from './valeriaGamification';
 import { FONT } from './ui/fonts';
+import { notify } from './ui/notify';
 
 // Un "paso" genérico: la unidad que el reproductor sabe locutar y evaluar.
 // Escenarios, progresiones y contrastes se aplanan a esta forma común.
@@ -363,7 +364,7 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
       await AsyncStorage.setItem(STORAGE_KEYS.expansionNivelMax, String(maxLevel));
     } catch (e) { /* noop */ }
     setUnlocked(false);
-    setToast(t.semantic.savedConfig(activeCount, TOTAL_ACTIVITIES, maxLevel));
+    notify(t.semantic.savedConfig(activeCount, TOTAL_ACTIVITIES, maxLevel));
   };
 
   // ---------------------------------------------------------------- sesión --
@@ -858,7 +859,7 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
         <ProPinModal
           open={pinOpen}
           onClose={() => setPinOpen(false)}
-          onUnlock={() => { setPinOpen(false); setUnlocked(true); setToast('Modo profesional desbloqueado.'); }}
+          onUnlock={() => { setPinOpen(false); setUnlocked(true); notify('Modo profesional desbloqueado.'); }}
           subtitle={t.semantic.pinSubtitle}
         />
       </View>
