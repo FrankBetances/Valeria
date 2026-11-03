@@ -129,7 +129,7 @@ const s = StyleSheet.create({
   chipLight: { borderColor: V.color.border, backgroundColor: V.color.pageBg },
   chipOnLight: { backgroundColor: V.color.primary, borderColor: V.color.primary },
   chipTxtLight: { color: V.color.textSecondary },
-  chipTxtOnLight: { color: '#fff' },
+  chipTxtOnLight: { color: V.color.dark }, // tinta sobre turquesa: 8,6:1 (el blanco daba 2,2:1)
   autoHintLight: { color: V.color.textMuted },
 });
 

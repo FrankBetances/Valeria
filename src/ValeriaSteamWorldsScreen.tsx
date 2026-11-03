@@ -20,6 +20,7 @@ import { STEAM_WORLDS } from './steam/worlds';
 import { LUA_SOLO_ACTIVITIES } from './steam/luaSolo';
 import { ADAPTATION_PROFILES, adjustmentsFor, loadAdaptationProfile, saveAdaptationProfile } from './steam/profiles';
 import type { AdaptationProfileId, SteamWorldId } from './steam/types';
+import { FONT } from './ui/fonts';
 
 const WORLD_ICON: Record<SteamWorldId, BlockIconName> = {
   S0: 'world_kit', S1: 'world_path', S2: 'world_sound', S3: 'world_ramp',
@@ -71,12 +72,12 @@ export const ValeriaSteamWorldsScreen: React.FC<{ navigation: any }> = ({ naviga
           return (
             <Pressable key={w.id} onPress={() => navigation.navigate('SteamWorld', { worldId: w.id })}
               accessibilityRole="button" accessibilityLabel={t.steam.worldA11y(title)} accessibilityHint={t.steam.worldHint}>
-              <Card className="border-input mb-2.5 flex-row items-center gap-3 px-3.5 py-3">
-                <View className="h-11 w-11 items-center justify-center rounded-xl" style={{ backgroundColor: isRec ? '#b8741a' : V.color.primaryDark }}>
+              <Card className="mb-3 flex-row items-center gap-3 rounded-3xl border-2 border-b-[6px] border-[#cdeeec] px-4 py-3.5">
+                <View className="h-14 w-14 items-center justify-center rounded-full" style={{ backgroundColor: isRec ? '#b8741a' : V.color.primaryDark }}>
                   <BlockIcon name={WORLD_ICON[w.id]} color="#ffffff" size={24} />
                 </View>
                 <View className="min-w-0 flex-1">
-                  <Text className="text-[15px] font-extrabold">{title}</Text>
+                  <Text style={{ fontFamily: FONT.display, fontSize: 19, lineHeight: 23 }}>{title}</Text>
                   <Text className="text-muted-foreground mt-0.5 text-[12.5px] font-bold">{t.steam.worldMeta(w.challenges.length)}</Text>
                   {isRec && (
                     <Badge variant="secondary" className="mt-1.5 self-start border-transparent bg-[#fff1dc]">

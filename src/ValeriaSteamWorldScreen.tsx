@@ -193,15 +193,15 @@ export const steamScreenStyles = StyleSheet.create({
   body: { fontFamily: FONT.bodyBlack,fontSize: 14, lineHeight: 20, color: V.color.textSecondary },
   bodyStrong: { fontFamily: FONT.bodyBlack,fontSize: 15, lineHeight: 21, color: V.color.textPrimary },
   row: {
-    flexDirection: 'row', alignItems: 'center', backgroundColor: V.color.card, borderWidth: 1, borderColor: V.color.borderActive,
-    borderRadius: V.radius.card, padding: V.space.md, marginBottom: V.space.sm, minHeight: V.touchMin, ...V.shadow.card,
+    flexDirection: 'row', alignItems: 'center', backgroundColor: '#ffffff', borderRadius: 24,
+    borderWidth: 2, borderBottomWidth: 6, borderColor: '#cdeeec', paddingVertical: 14, paddingHorizontal: 14, marginBottom: 12,
   },
   // El número tiene tamaño fijo y el cuerpo se encoge: así ninguno de los dos
   // hereda un flex que en Android lo aplaste.
-  badge: { width: 36, height: 36, borderRadius: 18, backgroundColor: V.color.primaryLight, alignItems: 'center', justifyContent: 'center', marginRight: V.space.md },
-  badgeTxt: { fontFamily: FONT.bodyBlack,fontSize: 15, color: V.color.primaryDark },
+  badge: { width: 52, height: 52, borderRadius: 26, backgroundColor: V.color.primaryLight, alignItems: 'center', justifyContent: 'center', marginRight: V.space.md },
+  badgeTxt: { fontFamily: FONT.display, fontSize: 22, color: V.color.primaryDark },
   rowBody: { flexGrow: 1, flexShrink: 1, flexBasis: 0, minWidth: 0 },
-  rowTitle: { fontFamily: FONT.bodyBlack,fontSize: 15, color: V.color.textPrimary },
+  rowTitle: { fontFamily: FONT.display, fontSize: 19, lineHeight: 23, color: V.color.textPrimary },
   rowMeta: { fontFamily: FONT.bodyBlack,fontSize: 12.5, color: V.color.textMuted, marginTop: 2 },
   chev: { fontFamily: FONT.display,fontSize: 22, color: V.color.textMuted, marginLeft: V.space.sm },
   linkBtn: { borderTopWidth: 1, borderTopColor: V.color.border, paddingVertical: 11, minHeight: V.touchMin, justifyContent: 'center' },
