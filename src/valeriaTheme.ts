@@ -10,13 +10,13 @@ export const V = {
     primaryDark: '#00a39e',   // Hover / activos
     primaryLight: '#e6f9f8',  // Fondo destacado
     primaryTint: '#f0fdf9',   // Fondo muy suave (instrucciones)
-    pageBg: '#f6fafa',        // Fondo de página
+    pageBg: '#fff8ec',        // Fondo de página: crema cálido del rediseño
     card: '#ffffff',
     border: '#e9eeee',
     borderActive: '#cdeeec',
     textPrimary: '#1f2937',
     textSecondary: '#4b5563',
-    textMuted: '#9aa6a5',
+    textMuted: '#5f6b6b',     // 5,2:1 sobre el crema (el #9aa6a5 anterior daba 2,4:1)
     error: '#ef4444',
     errorBg: '#fff1f2',
     success: '#10b981',

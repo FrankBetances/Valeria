@@ -28,6 +28,8 @@ import { ValeriaProExportModal } from './ValeriaProExport';
 import { VoiceQualityCard } from './ValeriaVoiceUI';
 import { ValeriaUiLangPicker } from './ValeriaUiLangPicker';
 import { useT, UiStrings } from './i18n';
+import { FONT } from './ui/fonts';
+import { notify } from './ui/notify';
 
 export const ValeriaSettingsScreen: React.FC = () => {
   const t = useT();
@@ -64,11 +66,11 @@ export const ValeriaSettingsScreen: React.FC = () => {
       const ok = await enableDailyReminders(wanted);
       setReminders(ok);
       if (ok) setSlots(wanted);
-      setToast(ok ? t.hub.remindersOn(summary(wanted, t)) : t.hub.remindersNoPermission);
+      notify(ok ? t.hub.remindersOn(summary(wanted, t)) : t.hub.remindersNoPermission);
     } else {
       await disableReminders();
       setReminders(false);
-      setToast(t.hub.remindersDisabled);
+      notify(t.hub.remindersDisabled);
     }
   };
 
@@ -79,7 +81,7 @@ export const ValeriaSettingsScreen: React.FC = () => {
     setSlots(next);
     const ok = await persistReminderSlots(next);
     setReminders(ok);
-    setToast(next.length
+    notify(next.length
       ? (ok ? summary(next, t) : t.hub.remindersNoSchedule)
       : t.hub.remindersNoSlots);
   };
@@ -176,8 +178,8 @@ const s = StyleSheet.create({
     backgroundColor: V.color.primary, paddingTop: V.space.lg, paddingHorizontal: V.space.xl,
     paddingBottom: V.space.lg, borderBottomLeftRadius: 26, borderBottomRightRadius: 26,
   },
-  logo: { color: '#fff', fontWeight: V.font.extrabold, fontSize: 13, letterSpacing: 1, marginBottom: V.space.xs },
-  headerTitle: { ...V.type.display, color: '#fff', fontWeight: V.font.extrabold, letterSpacing: -0.4 },
+  logo: { fontFamily: FONT.bodyBlack,color: '#fff', fontSize: 13, letterSpacing: 1, marginBottom: V.space.xs },
+  headerTitle: { fontFamily: FONT.bodyBlack,...V.type.display, color: '#fff', letterSpacing: -0.4 },
 
   scroll: { padding: V.space.lg, paddingBottom: 88 }, // 58 px de barra + aire
 
@@ -186,15 +188,15 @@ const s = StyleSheet.create({
     borderWidth: 1, borderColor: V.color.primary, borderRadius: 13, padding: 13, marginBottom: V.space.md,
   },
   toastCheck: { width: 24, height: 24, borderRadius: 12, backgroundColor: V.color.primary, alignItems: 'center', justifyContent: 'center' },
-  toastCheckTxt: { color: '#fff', fontWeight: V.font.extrabold, fontSize: 13 },
-  toastTxt: { color: V.color.textPrimary, ...V.type.body, fontWeight: V.font.bold, flex: 1 },
+  toastCheckTxt: { fontFamily: FONT.bodyBlack,color: '#fff', fontSize: 13 },
+  toastTxt: { fontFamily: FONT.bodyBlack,color: V.color.textPrimary, ...V.type.body, flex: 1 },
 
   card: { backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.border, borderRadius: 14, padding: 13, marginBottom: V.space.md, ...V.shadow.card },
   cardRow: { flexDirection: 'row', alignItems: 'center', gap: 11 },
   cardIcon: { width: 36, height: 36, borderRadius: 12, alignItems: 'center', justifyContent: 'center' },
   iconGlyph: { fontSize: 17 },
-  cardTitle: { ...V.type.body, fontSize: 14, fontWeight: V.font.extrabold, color: V.color.textPrimary },
-  cardSub: { ...V.type.caption, fontSize: 11.5, lineHeight: 15, fontWeight: V.font.semibold, color: V.color.textSecondary, marginTop: 2 },
+  cardTitle: { fontFamily: FONT.bodyBlack,...V.type.body, fontSize: 14, color: V.color.textPrimary },
+  cardSub: { fontFamily: FONT.bodyBlack,...V.type.caption, fontSize: 11.5, lineHeight: 15, color: V.color.textSecondary, marginTop: 2 },
 
   slotList: { marginTop: 11, gap: 7 },
   slotRow: {
@@ -207,9 +209,9 @@ const s = StyleSheet.create({
     textAlign: 'center', lineHeight: 18, fontSize: 12, fontWeight: V.font.extrabold, color: 'transparent', overflow: 'hidden',
   },
   slotCheckOn: { borderColor: V.color.primary, backgroundColor: V.color.primary, color: '#fff' },
-  slotLabel: { fontSize: 12.5, fontWeight: V.font.extrabold, color: V.color.textPrimary },
+  slotLabel: { fontFamily: FONT.bodyBlack,fontSize: 12.5, color: V.color.textPrimary },
   slotLabelOn: { color: V.color.primary },
-  slotHint: { ...V.type.caption, fontWeight: V.font.semibold, color: V.color.textSecondary, marginTop: 1 },
+  slotHint: { fontFamily: FONT.bodyBlack,...V.type.caption, color: V.color.textSecondary, marginTop: 1 },
 
   pickerWrap: { marginTop: V.space.md },
 
@@ -218,7 +220,7 @@ const s = StyleSheet.create({
     borderColor: V.color.border, borderRadius: 14, padding: 13, marginTop: V.space.md,
     minHeight: V.touchMin, ...V.shadow.card,
   },
-  chev: { fontSize: 18, color: V.color.textSecondary, fontWeight: V.font.extrabold },
+  chev: { fontFamily: FONT.display,fontSize: 18, color: V.color.textSecondary },
 });
 
 export default ValeriaSettingsScreen;

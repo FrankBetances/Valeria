@@ -17,6 +17,7 @@ import { speakWordSlow, speakToChild } from './valeriaVoice';
 import { ValeriaWritingCanvas, ValeriaWritingCanvasRef } from './ValeriaWritingCanvas';
 import { WRITING_EXERCISES, WritingItem, writingPraiseFor } from './valeriaWritingBank';
 import { contentLocale } from './valeriaLocale';
+import { FONT } from './ui/fonts';
 
 // Los nombres NO viven aquí: son texto de interfaz y los lee el lector de
 // pantalla, así que salen del catálogo i18n (`t.writing.color*` / `width*`).
@@ -347,7 +348,7 @@ const s = StyleSheet.create({
     paddingVertical: 5,
     marginBottom: 6,
   },
-  backPillTxt: { color: V.color.primaryDark, fontSize: 12, fontWeight: V.font.extrabold },
+  backPillTxt: { fontFamily: FONT.bodyBlack,color: V.color.primaryDark, fontSize: 12 },
   kicker: {
     fontSize: 10,
     fontWeight: V.font.bold,
@@ -431,7 +432,7 @@ const s = StyleSheet.create({
     backgroundColor: '#F1F5F9',
     borderColor: '#E2E8F0',
   },
-  prevBtnTxt: { color: V.color.primaryDark, fontSize: 12, fontWeight: V.font.extrabold },
+  prevBtnTxt: { fontFamily: FONT.bodyBlack,color: V.color.primaryDark, fontSize: 12 },
   prevBtnTxtDisabled: { color: '#CBD5E1' },
   progressTxt: {
     fontSize: 12,

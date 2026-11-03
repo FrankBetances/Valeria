@@ -5,7 +5,7 @@
 // parar, pausar o abandonar nunca resta ni penaliza.
 // ============================================================================
 import { useSyncExternalStore } from 'react';
-import { InteractionManager } from 'react-native';
+import { runAfterInteractions } from '../runAfterInteractions';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { STORAGE_KEYS } from '../valeriaTheme';
 import { encryptJSON, decryptJSON } from '../valeriaCrypto';
@@ -101,7 +101,7 @@ export async function recordSensorySession(
   emit();
 
   // Persistencia diferida fuera del hilo de UI
-  InteractionManager.runAfterInteractions(async () => {
+  runAfterInteractions(async () => {
     try {
       // 1. Guardar estado agregado del silo cifrado
       const encryptedState = await encryptJSON(inMemoryState);

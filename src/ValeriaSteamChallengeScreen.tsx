@@ -20,6 +20,8 @@ import { runReactionSequence, type SequenceClock } from './steam/engine/Reaction
 import { adjustmentsFor, loadAdaptationProfile } from './steam/profiles';
 import { steamChallenge, steamWorld } from './steam/worlds';
 import type { AdaptationProfileId, LuaSemanticExpression, SteamWorldId, WorldEventSpec } from './steam/types';
+import { FONT } from './ui/fonts';
+import { AdultFold } from './ui/AdultFold';
 
 // Con el perfil de calma, ninguna reacción es una fiesta: misma información, sin estridencia.
 const LOUD: readonly LuaSemanticExpression[] = ['celebra_corta', 'celebra_nivel', 'celebra_exito', 'diversion', 'sorpresa_inclinada'];
@@ -126,11 +128,12 @@ export const ValeriaSteamChallengeScreen: React.FC<{
   return (
     <View style={base.root}>
       <ScreenHeader onBack={() => navigation.goBack()} backLabel={t.steam.back}
-        kicker={`${world.title[lang]} · ${t.steam.challengeMeta(challenge.ageBand, challenge.neuroStage, challenge.estimatedMinutes)}`}
+        kicker={world.title[lang]}
         title={challenge.title[lang]} />
 
       <ScrollView contentContainerStyle={base.scroll} showsVerticalScrollIndicator={false}>
         {profile && (
+          <AdultFold label={t.steam.profileNoteKicker}>
           <View style={base.noteCard}>
             <Text style={base.kickerFirst}>{t.steam.profileNoteKicker}</Text>
             <Text style={base.body}>{t.steam.profiles[profile].note}</Text>
@@ -141,6 +144,7 @@ export const ValeriaSteamChallengeScreen: React.FC<{
               </Pressable>
             )}
           </View>
+          </AdultFold>
         )}
 
         {adjust.anticipationFirst && (
@@ -192,7 +196,7 @@ export const ValeriaSteamChallengeScreen: React.FC<{
 
         <View style={base.card}>
           <Text style={base.kickerFirst}>{t.steam.eventsKicker}</Text>
-          <Text style={base.body}>{t.steam.eventsNote}</Text>
+          <AdultFold label={t.steam.eventsKicker}><Text style={base.body}>{t.steam.eventsNote}</Text></AdultFold>
           {events.map((event) => (
             <Pressable key={event.id} onPress={() => react(event)}
               style={[s.eventBtn, reaction?.eventId === event.id && s.eventBtnOn]}
@@ -258,32 +262,32 @@ export const ValeriaSteamChallengeScreen: React.FC<{
 };
 
 const s = StyleSheet.create({
-  step: { fontSize: 15.5, fontWeight: V.font.extrabold, color: V.color.textPrimary, marginTop: V.space.lg, marginBottom: 4 },
+  step: { fontFamily: FONT.bodyBlack,fontSize: 15.5, color: V.color.textPrimary, marginTop: V.space.lg, marginBottom: 4 },
   question: { marginTop: V.space.sm },
   dots: { flexDirection: 'row', gap: 8, marginTop: V.space.md },
   dot: { width: 14, height: 14, borderRadius: 7, backgroundColor: V.color.border },
   dotOn: { backgroundColor: V.color.primaryDark },
-  silenceNum: { fontSize: 26, fontWeight: V.font.extrabold, color: V.color.primaryDark, marginTop: V.space.sm },
-  after: { fontSize: 13.5, fontWeight: V.font.bold, color: V.color.primaryDark, marginTop: V.space.sm },
+  silenceNum: { fontFamily: FONT.display,fontSize: 26, color: V.color.primaryDark, marginTop: V.space.sm },
+  after: { fontFamily: FONT.bodyBlack,fontSize: 13.5, color: V.color.primaryDark, marginTop: V.space.sm },
   hint: { borderWidth: 1, borderColor: V.color.border, borderRadius: 12, padding: 12, marginTop: V.space.sm, backgroundColor: V.color.pageBg },
-  hintTitle: { fontSize: 14, fontWeight: V.font.extrabold, color: V.color.textPrimary },
+  hintTitle: { fontFamily: FONT.bodyBlack,fontSize: 14, color: V.color.textPrimary },
   eventBtn: {
     borderWidth: 1.5, borderColor: V.color.borderActive, borderRadius: 14, padding: 12,
     marginTop: V.space.sm, minHeight: V.touchMin, backgroundColor: '#fff',
   },
   eventBtnOn: { borderColor: V.color.primaryDark, backgroundColor: V.color.primaryLight },
-  eventTitle: { fontSize: 15, fontWeight: V.font.extrabold, color: V.color.primaryDark },
-  eventSub: { fontSize: 13, lineHeight: 18, fontWeight: V.font.semibold, color: V.color.textSecondary, marginTop: 2 },
+  eventTitle: { fontFamily: FONT.bodyBlack,fontSize: 15, color: V.color.primaryDark },
+  eventSub: { fontFamily: FONT.bodyBlack,fontSize: 13, lineHeight: 18, color: V.color.textSecondary, marginTop: 2 },
   luaRow: { flexDirection: 'row', alignItems: 'center' },
   luaFace: { width: 64, height: 64, borderRadius: 32, backgroundColor: V.color.primaryLight, alignItems: 'center', justifyContent: 'center', marginRight: V.space.md },
   luaText: { flexGrow: 1, flexShrink: 1, flexBasis: 0, minWidth: 0 },
   chips: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginTop: V.space.md },
   // El chip se mide por su texto: sin flex heredado.
   chip: { alignSelf: 'flex-start', backgroundColor: V.color.primaryLight, borderRadius: 999, paddingHorizontal: 10, paddingVertical: 6, marginTop: V.space.sm },
-  chipTxt: { fontSize: 12, fontWeight: V.font.extrabold, color: V.color.primaryDark },
-  tpr: { fontSize: 16, fontWeight: V.font.extrabold, color: V.color.textPrimary },
+  chipTxt: { fontFamily: FONT.bodyBlack,fontSize: 12, color: V.color.primaryDark },
+  tpr: { fontFamily: FONT.bodyBlack,fontSize: 16, color: V.color.textPrimary },
   primaryBtn: { backgroundColor: V.color.primary, borderRadius: 14, paddingVertical: 15, alignItems: 'center', marginTop: V.space.sm, ...V.shadow.button },
-  primaryBtnTxt: { color: '#fff', fontSize: 15.5, fontWeight: V.font.extrabold },
+  primaryBtnTxt: { fontFamily: FONT.bodyBlack,color: '#fff', fontSize: 15.5 },
 });
 
 export default ValeriaSteamChallengeScreen;

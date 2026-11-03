@@ -17,6 +17,8 @@ import { V } from './valeriaTheme';
 import { CatPixel } from './ValeriaCatPixel';
 import { BlockIcon } from './ValeriaBlockIcons';
 import { useT } from './i18n';
+import { KidButton } from './ui/KidButton';
+import { FONT } from './ui/fonts';
 // import logoWhite from '../../assets/valeria-logo-white.png';
 
 export const ValeriaWelcomeScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
@@ -78,7 +80,7 @@ export const ValeriaWelcomeScreen: React.FC<{ navigation: any }> = ({ navigation
 
   return (
     <View style={s.flex}>
-      <StatusBar barStyle="light-content" />
+      <StatusBar barStyle="dark-content" />
       {/* círculos decorativos */}
       <View style={[s.blob, { top: -70, right: -50, width: 240, height: 240, opacity: 0.12 }]} />
       <View style={[s.blob, { bottom: 160, left: -70, width: 200, height: 200, opacity: 0.08 }]} />
@@ -114,11 +116,9 @@ export const ValeriaWelcomeScreen: React.FC<{ navigation: any }> = ({ navigation
       </View>
 
       <Animated.View style={[s.actions, contentStyle]}>
-        <Pressable onPress={() => navigation.navigate('Credits')} style={s.primaryBtn} accessibilityRole="button">
-          <Text style={s.primaryBtnTxt}>{t.welcome.start}</Text>
-        </Pressable>
+        <KidButton label={t.welcome.start} onPress={() => navigation.navigate('Credits')} />
         <View style={s.trust}>
-          <BlockIcon name="lock" color="rgba(255,255,255,.85)" size={13} />
+          <BlockIcon name="lock" color="#0b1220" size={13} />
           <Text style={s.trustTxt}>{t.welcome.trust}</Text>
         </View>
       </Animated.View>
@@ -140,18 +140,18 @@ const s = StyleSheet.create({
     backgroundColor: 'rgba(255,255,255,.9)', borderWidth: 1, borderColor: 'rgba(255,255,255,.55)',
   },
   logo: { height: 42, width: 168, resizeMode: 'contain', marginTop: 30 },
-  logoFallback: { color: '#fff', fontWeight: '800', fontSize: 30, letterSpacing: 1, marginTop: 28, textAlign: 'center' },
-  tagline: { fontSize: 17, fontWeight: '700', color: 'rgba(255,255,255,.95)', textAlign: 'center', marginTop: 14, lineHeight: 23, maxWidth: 280, alignSelf: 'center' },
-  sub: { fontSize: 13.5, fontWeight: '600', color: 'rgba(255,255,255,.78)', textAlign: 'center', marginTop: 10, lineHeight: 20, maxWidth: 270, alignSelf: 'center' },
+  logoFallback: { color: '#0b1220', fontFamily: FONT.display, fontSize: 44, letterSpacing: 0.5, marginTop: 28, textAlign: 'center' },
+  tagline: { fontSize: 20, fontFamily: FONT.displaySemi, color: '#0b1220', textAlign: 'center', marginTop: 14, lineHeight: 23, maxWidth: 280, alignSelf: 'center' },
+  sub: { fontSize: 15, fontFamily: FONT.bodyBold, color: '#0b1220', textAlign: 'center', marginTop: 10, lineHeight: 20, maxWidth: 270, alignSelf: 'center' },
   actions: { paddingHorizontal: 28, paddingBottom: 28 },
   primaryBtn: {
     backgroundColor: '#fff', borderRadius: 16, paddingVertical: 17, alignItems: 'center',
     shadowColor: 'rgba(11,18,32,.18)', shadowOffset: { width: 0, height: 12 }, shadowOpacity: 1, shadowRadius: 26, elevation: 6,
   },
   // primaryDark sobre blanco daba 3,1:1 (WCAG AA pide 4,5:1); dark da 18,7:1.
-  primaryBtnTxt: { color: V.color.dark, fontSize: 17, fontWeight: '800' },
+  primaryBtnTxt: { fontFamily: FONT.display,color: V.color.dark, fontSize: 17 },
   trust: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6, marginTop: 14 },
-  trustTxt: { color: 'rgba(255,255,255,.72)', fontSize: 11, fontWeight: '600' },
+  trustTxt: { color: '#0b1220', fontSize: 12, fontFamily: FONT.bodyBold },
 });
 
 export default ValeriaWelcomeScreen;

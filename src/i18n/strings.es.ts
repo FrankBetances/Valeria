@@ -170,18 +170,18 @@ export const ES = {
   // idioma de interfaz.
   hub: {
     kickerPractice: 'PRÁCTICA DE MESA',
-    title: 'Selección de Ejercicios',
-    subtitle: 'Elige un bloque para practicar o recomendar',
+    title: 'Ejercicios',
+    subtitle: 'Elige qué quieres practicar hoy',
     streak: (n: number): string => `${n} ${n === 1 ? 'día de racha' : 'días de racha'}`,
     level: (n: number, name: string): string => `Nivel ${n} · ${name}`,
     sectionTraining: 'TU FORMACIÓN',
     sectionBlocks: 'BLOQUES DE EJERCICIOS',
 
-    pairsTitle: 'Pares Mínimos',
+    pairsTitle: 'Pares de sonidos',
     pairsSub: 'Dislalias: rotacismo, sigmatismo y más con juego de voz.',
     pairsBrief: 'Contrastes de sonido para dislalias.',
     pairsA11y: 'Practicar pares mínimos para dislalias',
-    semanticTitle: 'Expansión Semántica',
+    semanticTitle: 'Vocabulario',
     semanticSub: 'Escenarios diarios, progresión léxica y contrastes con acción física.',
     semanticBrief: 'Vocabulario y frases del día a día.',
     semanticA11y: 'Practicar expansión semántica y progresión léxica',
@@ -205,7 +205,7 @@ export const ES = {
     arSub: 'La cámara mira el gesto y el coche, el perro o la manzana reaccionan a él. Sin grabar nada y con el micrófono apagado.',
     arBrief: 'Gesto y mirada con la cámara.',
     arA11y: (n: number): string => `Abrir el bloque de realidad aumentada, ${n} ejercicios`,
-    sensoryTitle: 'Integración Sensorial',
+    sensoryTitle: 'Adaptación a sonidos',
     sensorySub: 'Familiarización auditiva gradual, modulación y anticipación visual ante sonidos cotidianos.',
     sensoryBrief: 'Anticipación y tolerancia a sonidos.',
     sensoryA11y: (n: number): string => `Abrir ejercicios de integración sensorial auditiva, ${n} actividades`,
@@ -653,7 +653,7 @@ export const ES = {
       `${n} palabras trabajadas uniendo imagen, voz y acción física. La palabra se aprende cuando el niño la vive con el cuerpo, no solo cuando la oye.`,
     assistSub: (word: string): string =>
       `El adulto dice “${word}” muy despacio mirando al niño, y lo repiten a la vez. Sin prisa: hoy la practicamos, mañana sale sola.`,
-    title: 'Expansión Semántica',
+    title: 'Vocabulario',
     setupTitle: 'Preparación',
     doneTitle: '¡Completado!',
 
@@ -1699,7 +1699,7 @@ export const ES = {
   },
   sensory: {
     blockTag: 'MÓDULO SENSORIAL',
-    blockTitle: 'Integración Sensorial',
+    blockTitle: 'Adaptación a sonidos',
     blockSubtitle: 'Familiarización auditiva gradual, modulación y anticipación visual ante sonidos cotidianos.',
     xpTotal: (xp: number): string => `${xp} XP`,
     sessionsCount: (n: number): string => `${n} ${n === 1 ? 'sesión' : 'sesiones'}`,

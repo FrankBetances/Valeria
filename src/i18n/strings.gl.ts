@@ -192,18 +192,18 @@ export const GL: UiStrings = {
   // (valeriaExerciseBank), que se localiza por VARIEDADE, non por interface.
   hub: {
     kickerPractice: 'PRÁCTICA DE MESA',
-    title: 'Selección de Exercicios',
-    subtitle: 'Elixe un bloque para practicar ou recomendar',
+    title: 'Exercicios',
+    subtitle: 'Escolle que queres practicar hoxe',
     streak: (n: number): string => `${n} ${n === 1 ? 'día de racha' : 'días de racha'}`,
     level: (n: number, name: string): string => `Nivel ${n} · ${name}`,
     sectionTraining: 'A TÚA FORMACIÓN',
     sectionBlocks: 'BLOQUES DE EXERCICIOS',
 
-    pairsTitle: 'Pares Mínimos',
+    pairsTitle: 'Pares de sons',
     pairsSub: 'Dislalias: rotacismo, sigmatismo e máis, con xogo de voz.',
     pairsBrief: 'Contrastes de son para dislalias.',
     pairsA11y: 'Practicar pares mínimos para dislalias',
-    semanticTitle: 'Expansión Semántica',
+    semanticTitle: 'Vocabulario',
     semanticSub: 'Escenarios diarios, progresión léxica e contrastes con acción física.',
     semanticBrief: 'Vocabulario e frases do día a día.',
     semanticA11y: 'Practicar expansión semántica e progresión léxica',
@@ -227,7 +227,7 @@ export const GL: UiStrings = {
     arSub: 'A cámara mira o xesto e o coche, o can ou a mazá reaccionan a el. Sen gravar nada e co micrófono apagado.',
     arBrief: 'Xesto e mirada coa cámara.',
     arA11y: (n: number): string => `Abrir o bloque de realidade aumentada, ${n} exercicios`,
-    sensoryTitle: 'Integración Sensorial',
+    sensoryTitle: 'Adaptación a sons',
     sensorySub: 'Familiarización auditiva gradual, modulación e anticipación visual ante sons cotiáns.',
     sensoryBrief: 'Anticipación e tolerancia a sons.',
     sensoryA11y: (n: number): string => `Abrir exercicios de integración sensorial auditiva, ${n} actividades`,
@@ -666,7 +666,7 @@ export const GL: UiStrings = {
       `${n} palabras traballadas unindo imaxe, voz e acción física. A palabra apréndese cando o neno a vive co corpo, non só cando a oe.`,
     assistSub: (word: string): string =>
       `O adulto di «${word}» moi devagar mirando o neno, e repítena á vez. Sen présa: hoxe practicámola, mañá sae soa.`,
-    title: 'Expansión Semántica',
+    title: 'Vocabulario',
     setupTitle: 'Preparación',
     doneTitle: 'Completado!',
 
@@ -1679,7 +1679,7 @@ export const GL: UiStrings = {
   },
   sensory: {
     blockTag: 'MÓDULO SENSORIAL',
-    blockTitle: 'Integración Sensorial',
+    blockTitle: 'Adaptación a sons',
     blockSubtitle: 'Familiarización auditiva gradual, modulación e anticipación visual ante sons cotiáns.',
     xpTotal: (xp: number): string => `${xp} XP`,
     sessionsCount: (n: number): string => `${n} ${n === 1 ? 'sesión' : 'sesións'}`,

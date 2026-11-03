@@ -31,6 +31,7 @@ import {
   UiLang, getUiLang, isUiLangExplicit, setAppLanguage, clearUiLangOverride, subscribeUiLang,
 } from './valeriaUiLang';
 import { getLocale } from './valeriaLocale';
+import { FONT } from './ui/fonts';
 
 type Choice = 'auto' | UiLang;
 
@@ -97,7 +98,7 @@ const s = StyleSheet.create({
     paddingVertical: 16, paddingHorizontal: 16,
   },
   cardCompact: { paddingVertical: 12, paddingHorizontal: 12 },
-  title: { fontSize: 14, fontWeight: '900', color: '#fff' },
+  title: { fontFamily: FONT.bodyBlack,fontSize: 14, color: '#fff' },
   hint: {
     marginTop: 5, fontSize: 11.5, fontWeight: V.font.bold, lineHeight: 16,
     color: 'rgba(255,255,255,0.78)',
@@ -114,7 +115,7 @@ const s = StyleSheet.create({
     backgroundColor: 'rgba(255,255,255,0.10)',
   },
   chipOn: { backgroundColor: '#fff', borderColor: '#fff' },
-  chipTxt: { fontSize: 13, fontWeight: '800', color: '#fff', textAlign: 'center' },
+  chipTxt: { fontFamily: FONT.bodyBlack,fontSize: 13, color: '#fff', textAlign: 'center' },
   chipTxtOn: { color: V.color.primaryDark },
   autoHint: {
     marginTop: 9, fontSize: 11, fontWeight: V.font.bold,

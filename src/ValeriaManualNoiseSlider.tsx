@@ -21,6 +21,7 @@ import { useT } from './i18n';
 import { BlockIcon } from './ValeriaBlockIcons';
 import { setNoiseLevel, getNoiseLevel, noiseSupported } from './valeriaNoise';
 import { trackNoiseLevel } from './valeriaTelemetry';
+import { FONT } from './ui/fonts';
 
 const STEPS = 10;
 
@@ -29,7 +30,7 @@ export const ValeriaManualNoiseSlider: React.FC = () => {
   const [level, setLevel] = useState(getNoiseLevel());
   const trackW = useRef(1);
   const trackX = useRef(0);
-  const trackRef = useRef<View | null>(null);
+  const trackRef = useRef<React.ComponentRef<typeof View>>(null);
   const levelRef = useRef(level);
 
   const posToLevel = (pageX: number): number => {
@@ -106,12 +107,12 @@ const s = StyleSheet.create({
   head: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   kickerRow: { flexDirection: 'row', alignItems: 'center', gap: 6 },
   endRow: { flexDirection: 'row', alignItems: 'center', gap: 4 },
-  kicker: { fontSize: 11, fontWeight: '800', letterSpacing: 0.6, color: V.color.primaryDark },
+  kicker: { fontFamily: FONT.bodyBlack,fontSize: 11, letterSpacing: 0.6, color: V.color.primaryDark },
   badge: { backgroundColor: '#f1f5f4', borderRadius: 9, paddingHorizontal: 8, paddingVertical: 3 },
   badgeOn: { backgroundColor: '#fff7ed' },
-  badgeTxt: { fontSize: 10.5, fontWeight: '800', color: V.color.textMuted },
+  badgeTxt: { fontFamily: FONT.bodyBlack,fontSize: 10.5, color: V.color.textMuted },
   badgeTxtOn: { color: '#9a5b13' },
-  hint: { fontSize: 11.5, fontWeight: '600', color: V.color.textMuted, marginTop: 6, lineHeight: 16 },
+  hint: { fontFamily: FONT.bodyBold,fontSize: 11.5, color: V.color.textMuted, marginTop: 6, lineHeight: 16 },
   // Zona táctil generosa (44 px) alrededor de un raíl fino: dedo adulto, no lupa.
   trackZone: { paddingVertical: 16, marginTop: 4, justifyContent: 'center' },
   track: { height: 8, borderRadius: 4, backgroundColor: '#e5e7eb' },
@@ -121,7 +122,7 @@ const s = StyleSheet.create({
     backgroundColor: '#fff', borderWidth: 2, borderColor: '#f59e0b', ...V.shadow.button,
   },
   ends: { flexDirection: 'row', justifyContent: 'space-between', marginTop: 2 },
-  endTxt: { fontSize: 10.5, fontWeight: '700', color: V.color.textMuted },
+  endTxt: { fontFamily: FONT.bodyBlack,fontSize: 10.5, color: V.color.textMuted },
 });
 
 export default ValeriaManualNoiseSlider;

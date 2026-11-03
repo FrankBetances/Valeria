@@ -12,7 +12,7 @@
 //
 // Rendimiento (regla de oro 1): las animaciones van íntegras por el hilo
 // nativo (useNativeDriver, solo transform) y el bucle ARRANCA dentro de
-// InteractionManager.runAfterInteractions, de modo que el primer frame de la
+// runAfterInteractions, de modo que el primer frame de la
 // gata jamás compite con el TTS ni con la transición de pantalla en gama baja.
 //
 // Prevención de datos sucios: al montarse registra su rectángulo (con el
@@ -22,7 +22,8 @@
 // misclicks reales del resto de la pantalla.
 // ============================================================================
 import React, { useEffect, useRef } from 'react';
-import { View, Animated, Easing, InteractionManager, StyleSheet } from 'react-native';
+import { View, Animated, Easing, StyleSheet } from 'react-native';
+import { runAfterInteractions } from './runAfterInteractions';
 import { CatPixel } from './ValeriaCatPixel';
 import { registerDistractorZone, unregisterDistractorZone } from './ValeriaMisclickBoundary';
 import { setDualTaskActive } from './valeriaTelemetry';
@@ -37,7 +38,7 @@ export const ValeriaDistractorCat: React.FC = () => {
   const idRef = useRef(`cat_${++uid}`);
   const bob = useRef(new Animated.Value(0)).current;
   const sway = useRef(new Animated.Value(0)).current;
-  const holderRef = useRef<View | null>(null);
+  const holderRef = useRef<React.ComponentRef<typeof View>>(null);
 
   useEffect(() => {
     const id = idRef.current;
@@ -46,7 +47,7 @@ export const ValeriaDistractorCat: React.FC = () => {
     // Arranque asíncrono: el bucle no roba el primer frame a la consigna TTS.
     let bobLoop: Animated.CompositeAnimation | null = null;
     let swayLoop: Animated.CompositeAnimation | null = null;
-    const handle = InteractionManager.runAfterInteractions(() => {
+    const handle = runAfterInteractions(() => {
       bobLoop = Animated.loop(Animated.sequence([
         Animated.timing(bob, { toValue: 1, duration: 900, easing: Easing.inOut(Easing.quad), useNativeDriver: true }),
         Animated.timing(bob, { toValue: 0, duration: 900, easing: Easing.inOut(Easing.quad), useNativeDriver: true }),

@@ -70,6 +70,7 @@ import { markBlockCompleted } from './valeriaTelemetry';
 import { getUiLang } from './valeriaUiLang';
 import { Tile, Exercise, DEFAULT_SESSION, dbFor, variantsFor, emoForLocale, sessionDoneLeadFor, pluralHintFor, touchImageHintFor, emotionQuestionFor, emotionPromptFor, pluralOneLabelFor, pluralManyLabelFor } from './valeriaExerciseBank';
 import { getLocale } from './valeriaLocale';
+import { FONT } from './ui/fonts';
 
 // Conjuntos de ids por bloque para marcar el hito de "bloque completado" (SUS).
 const AUD_IDS = new Set(AUDICION_META.map((m) => m.id));
@@ -419,7 +420,8 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
   // Vuelve arriba al cambiar de ejercicio o nivel: la evaluación se toca al
   // final de la página, y sin este reset el siguiente ejercicio aparecía ya
   // desplazado al fondo — parecía que la sesión no avanzaba.
-  const scrollRef = useRef<ScrollView | null>(null);
+  const scrollRef = useRef<React.ComponentRef<typeof ScrollView>>(null);
+  const [adultOpen, setAdultOpen] = useState(true);
   useEffect(() => { scrollRef.current?.scrollTo({ y: 0, animated: false }); }, [idx, subIdx, finished]);
 
   const resetEphemeral = () => {
@@ -745,7 +747,6 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
           <>
             {/* Meta del ejercicio */}
             <View style={s.metaRow}>
-              <View style={s.codeChip}><Text style={s.codeChipTxt}>{ex.code}</Text></View>
               <View style={{ flex: 1 }}>
                 <Text style={s.metaName}>{ex.name}</Text>
                 <Text style={s.metaCat}>{ex.category}</Text>
@@ -763,6 +764,19 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
               )}
             </View>
 
+            {/* Lo del adulto (material, variantes y consigna) va PLEGADO en una
+                sola pastilla: el niño ve primero la actividad. La consigna se
+                sigue pudiendo oír con el botón grande, sin abrir nada. */}
+            <View style={s.adultRow}>
+              <SpeakButton text={curLevel ? curLevel.read : ex.read} label={t.player.listenPrompt} />
+              <Pressable onPress={() => setAdultOpen((v) => !v)} style={s.adultToggle}
+                accessibilityRole="button" accessibilityState={{ expanded: adultOpen }} accessibilityLabel={t.player.step1Kicker}>
+                <BlockIcon name="info" color={V.color.textPrimary} size={18} />
+                <Text style={s.adultToggleTxt}>{adultOpen ? '⌃' : '⌄'}</Text>
+              </Pressable>
+            </View>
+            {adultOpen && (
+              <View style={{ gap: 12 }}>
             {/* Material real necesario: se anuncia ANTES de empezar la actividad */}
             {!!ex.materials && (
               <View style={s.materialsCard}>
@@ -790,7 +804,6 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
               </View>
             )}
 
-            {/* Consigna del tutor */}
             <View style={s.instructionCard}>
               <View style={s.instructionHead}>
                 <View style={s.instructionIcon}><BlockIcon name="speaker" color="#ffffff" size={20} /></View>
@@ -801,10 +814,10 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                 </View>
               </View>
               <Text style={s.instructionText}>{curLevel ? curLevel.read : ex.read}</Text>
-              <View style={{ marginTop: 12 }}>
-                <SpeakButton text={curLevel ? curLevel.read : ex.read} label={t.player.listenPrompt} />
-              </View>
             </View>
+
+              </View>
+            )}
 
             {/* ===== Stage / mini-juego ===== */}
             <View style={s.stageCard}>
@@ -1605,7 +1618,7 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                 <BlockIcon name="next" color={V.color.primaryDark} size={18} />
                 <View style={{ flex: 1 }}>
                   <Text style={s.nextUpKicker}>{t.player.nextUpKicker}</Text>
-                  <Text style={s.nextUpTxt}>{nextEx.code} · {nextEx.name}</Text>
+                  <Text style={s.nextUpTxt}>{nextEx.name}</Text>
                 </View>
               </View>
             )}
@@ -1724,104 +1737,106 @@ const s = StyleSheet.create({
   flex: { flex: 1, backgroundColor: V.color.pageBg },
   header: { backgroundColor: V.color.primary, paddingTop: 18, paddingHorizontal: 22, paddingBottom: 16, borderBottomLeftRadius: 26, borderBottomRightRadius: 26 },
   logo: { height: 21, width: 84, resizeMode: 'contain', marginBottom: 8 },
-  logoFallback: { color: '#fff', fontWeight: '800', fontSize: 13, letterSpacing: 1, marginBottom: 6 },
+  logoFallback: { fontFamily: FONT.bodyBlack,color: '#fff', fontSize: 13, letterSpacing: 1, marginBottom: 6 },
   backPill: { flexDirection: 'row', alignItems: 'center', gap: 5, alignSelf: 'flex-start', backgroundColor: 'rgba(255,255,255,.18)', borderWidth: 1, borderColor: 'rgba(255,255,255,.32)', borderRadius: 11, paddingHorizontal: 11, paddingVertical: 5, marginBottom: 10 },
-  backPillTxt: { color: '#fff', fontSize: 12, fontWeight: '800' },
+  backPillTxt: { fontFamily: FONT.bodyBlack,color: '#fff', fontSize: 12 },
   headerRow: { flexDirection: 'row', alignItems: 'flex-start', gap: 12 },
-  headerTitle: { color: '#fff', fontSize: 24, fontWeight: '800', letterSpacing: -0.4 },
-  headerSub: { color: 'rgba(255,255,255,.9)', fontSize: 13, fontWeight: '600', marginTop: 4 },
+  headerTitle: { fontFamily: FONT.display,color: '#fff', fontSize: 24, letterSpacing: -0.4 },
+  headerSub: { fontFamily: FONT.bodyBold,color: 'rgba(255,255,255,.9)', fontSize: 13, marginTop: 4 },
   counter: { backgroundColor: 'rgba(255,255,255,.18)', borderColor: 'rgba(255,255,255,.35)', borderWidth: 1, borderRadius: 12, paddingHorizontal: 12, paddingVertical: 7 },
-  counterTxt: { color: '#fff', fontSize: 13, fontWeight: '800' },
+  counterTxt: { fontFamily: FONT.bodyBlack,color: '#fff', fontSize: 13 },
   dots: { flexDirection: 'row', gap: 6, marginTop: 14 },
   dot: { flex: 1, height: 7, borderRadius: 4 },
 
   scroll: { padding: 16, paddingBottom: 32 },
   metaRow: { flexDirection: 'row', alignItems: 'center', gap: 9, marginBottom: 12, marginHorizontal: 2 },
-  codeChip: { backgroundColor: V.color.primaryLight, borderRadius: 9, paddingHorizontal: 9, paddingVertical: 5 },
-  codeChipTxt: { color: V.color.primaryDark, fontSize: 12, fontWeight: '800', letterSpacing: 0.3 },
-  metaName: { fontSize: 15, fontWeight: '800', color: V.color.textPrimary },
-  metaCat: { fontSize: 11.5, fontWeight: '700', color: V.color.textMuted },
+  adultRow: { flexDirection: 'row', alignItems: 'center', gap: 10, justifyContent: 'space-between' },
+  adultToggle: { flexDirection: 'row', alignItems: 'center', gap: 4, height: 48, paddingHorizontal: 14, borderRadius: 24, backgroundColor: '#ffffff', borderWidth: 2, borderBottomWidth: 4, borderColor: '#e3dccf' },
+  adultToggleTxt: { fontFamily: FONT.display, fontSize: 18, color: V.color.textPrimary },
+  codeChipTxt: { fontFamily: FONT.bodyBlack,color: V.color.primaryDark, fontSize: 12, letterSpacing: 0.3 },
+  metaName: { fontFamily: FONT.display, fontSize: 24, lineHeight: 29, color: V.color.textPrimary },
+  metaCat: { fontFamily: FONT.bodyBlack,fontSize: 11.5, color: V.color.textMuted },
   levelBadge: { flexDirection: 'row', alignItems: 'center', gap: 5, backgroundColor: V.color.primaryLight, borderRadius: 9, paddingHorizontal: 9, paddingVertical: 5 },
-  levelBadgeTxt: { color: V.color.primaryDark, fontSize: 11, fontWeight: '800', letterSpacing: 0.2 },
+  levelBadgeTxt: { fontFamily: FONT.bodyBlack,color: V.color.primaryDark, fontSize: 11, letterSpacing: 0.2 },
 
   materialsCard: { flexDirection: 'row', alignItems: 'center', gap: 11, backgroundColor: '#fffbeb', borderColor: '#f4e6b8', borderWidth: 1.5, borderRadius: 16, padding: 13, marginBottom: 12 },
-  materialsKicker: { fontSize: 10.5, fontWeight: '800', letterSpacing: 0.6, color: '#92711a' },
-  materialsTxt: { fontSize: 13, fontWeight: '700', color: '#7c4a0e', marginTop: 3, lineHeight: 18 },
+  materialsKicker: { fontFamily: FONT.bodyBlack,fontSize: 10.5, letterSpacing: 0.6, color: '#92711a' },
+  materialsTxt: { fontFamily: FONT.bodyBlack,fontSize: 13, color: '#7c4a0e', marginTop: 3, lineHeight: 18 },
 
   nextUpCard: { flexDirection: 'row', alignItems: 'center', gap: 10, backgroundColor: V.color.pageBg, borderColor: V.color.border, borderWidth: 1, borderRadius: 14, padding: 12, marginTop: 12 },
-  nextUpKicker: { fontSize: 10, fontWeight: '800', letterSpacing: 0.5, color: V.color.textMuted },
-  nextUpTxt: { fontSize: 13, fontWeight: '800', color: V.color.textPrimary, marginTop: 3 },
+  nextUpKicker: { fontFamily: FONT.bodyBlack,fontSize: 10, letterSpacing: 0.5, color: V.color.textMuted },
+  nextUpTxt: { fontFamily: FONT.bodyBlack,fontSize: 13, color: V.color.textPrimary, marginTop: 3 },
 
   proposalsCard: { backgroundColor: '#f5f0ff', borderColor: '#ddccfa', borderWidth: 1.5, borderRadius: 16, padding: 13, marginBottom: 12 },
-  proposalsKicker: { fontSize: 10.5, fontWeight: '800', letterSpacing: 0.5, color: '#6d3fc4', marginBottom: 7 },
+  proposalsKicker: { fontFamily: FONT.bodyBlack,fontSize: 10.5, letterSpacing: 0.5, color: '#6d3fc4', marginBottom: 7 },
   proposalRow: { flexDirection: 'row', gap: 7, marginTop: 4 },
-  proposalDot: { fontSize: 13, fontWeight: '800', color: '#7c4fd0', lineHeight: 18 },
-  proposalTxt: { flex: 1, fontSize: 12.5, fontWeight: '600', color: V.color.textSecondary, lineHeight: 18 },
+  proposalDot: { fontFamily: FONT.bodyBlack,fontSize: 13, color: '#7c4fd0', lineHeight: 18 },
+  proposalTxt: { fontFamily: FONT.bodyBold,flex: 1, fontSize: 12.5, color: V.color.textSecondary, lineHeight: 18 },
 
   promptTextCard: { backgroundColor: V.color.pageBg, borderColor: V.color.border, borderWidth: 1, borderRadius: 13, padding: 11, marginBottom: 12 },
-  promptTextKicker: { fontSize: 10, fontWeight: '800', letterSpacing: 0.5, color: V.color.textMuted },
-  promptTextTxt: { fontSize: 14.5, fontWeight: '700', color: V.color.textPrimary, marginTop: 4, lineHeight: 21 },
+  promptTextKicker: { fontFamily: FONT.bodyBlack,fontSize: 10, letterSpacing: 0.5, color: V.color.textMuted },
+  promptTextTxt: { fontFamily: FONT.bodyBlack,fontSize: 14.5, color: V.color.textPrimary, marginTop: 4, lineHeight: 21 },
 
   adultOnlyCard: { backgroundColor: '#fff', borderColor: V.color.border, borderWidth: 1.5, borderStyle: 'dashed', borderRadius: 13, padding: 11, marginBottom: 12 },
   adultOnlyHead: { flexDirection: 'row', alignItems: 'center', gap: 9 },
-  adultOnlyKicker: { fontSize: 10, fontWeight: '800', letterSpacing: 0.5, color: V.color.textMuted },
-  adultOnlySub: { fontSize: 11.5, fontWeight: '600', color: V.color.textSecondary, marginTop: 2, lineHeight: 16 },
-  adultOnlyWord: { fontSize: 26, fontWeight: '800', color: V.color.textPrimary, textAlign: 'center', marginTop: 10, letterSpacing: 1 },
+  adultOnlyKicker: { fontFamily: FONT.bodyBlack,fontSize: 10, letterSpacing: 0.5, color: V.color.textMuted },
+  adultOnlySub: { fontFamily: FONT.bodyBold,fontSize: 11.5, color: V.color.textSecondary, marginTop: 2, lineHeight: 16 },
+  adultOnlyWord: { fontFamily: FONT.display,fontSize: 26, color: V.color.textPrimary, textAlign: 'center', marginTop: 10, letterSpacing: 1 },
 
   instructionCard: { backgroundColor: V.color.primaryTint, borderColor: '#b8eee9', borderWidth: 1.5, borderRadius: 18, padding: 16, ...V.shadow.card },
   instructionHead: { flexDirection: 'row', alignItems: 'center', gap: 10 },
   instructionIcon: { width: 36, height: 36, borderRadius: 12, backgroundColor: V.color.primary, alignItems: 'center', justifyContent: 'center' },
-  instructionKicker: { fontSize: 11, fontWeight: '800', letterSpacing: 0.6, color: V.color.primaryDark },
-  instructionSmall: { fontSize: 12.5, fontWeight: '700', color: V.color.textPrimary, marginTop: 1 },
-  instructionText: { marginTop: 13, fontSize: 14.5, fontWeight: '700', color: V.color.textPrimary, lineHeight: 20 },
+  instructionKicker: { fontFamily: FONT.bodyBlack,fontSize: 11, letterSpacing: 0.6, color: V.color.primaryDark },
+  instructionSmall: { fontFamily: FONT.bodyBlack,fontSize: 12.5, color: V.color.textPrimary, marginTop: 1 },
+  instructionText: { fontFamily: FONT.bodyBlack,marginTop: 13, fontSize: 14.5, color: V.color.textPrimary, lineHeight: 20 },
 
-  stageCard: { backgroundColor: V.color.card, borderColor: V.color.border, borderWidth: 1, borderRadius: 18, padding: 16, marginTop: 12, ...V.shadow.card },
-  stageLabel: { fontSize: 11, fontWeight: '800', letterSpacing: 0.8, color: V.color.textMuted, textAlign: 'center', marginBottom: 14 },
+  stageCard: { backgroundColor: V.color.card, borderColor: '#e3dccf', borderWidth: 2, borderBottomWidth: 7, borderRadius: 28, padding: 18, marginTop: 14 },
+  stageLabel: { fontFamily: FONT.bodyBlack, fontSize: 12, letterSpacing: 0.8, color: V.color.textSecondary, textAlign: 'center', marginBottom: 14 },
   roundRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', backgroundColor: V.color.pageBg, borderWidth: 1, borderColor: '#eef2f1', borderRadius: 12, paddingVertical: 7, paddingHorizontal: 11, marginBottom: 14 },
-  roundLbl: { fontSize: 12, fontWeight: '800', color: V.color.textSecondary },
+  roundLbl: { fontFamily: FONT.bodyBlack,fontSize: 12, color: V.color.textSecondary },
   roundBtn: { flexDirection: 'row', alignItems: 'center', gap: 6, backgroundColor: V.color.primaryLight, borderWidth: 1, borderColor: V.color.borderActive, borderRadius: 10, paddingHorizontal: 10, paddingVertical: 6 },
-  roundBtnTxt: { fontSize: 12, fontWeight: '800', color: V.color.primaryDark },
+  roundBtnTxt: { fontFamily: FONT.bodyBlack,fontSize: 12, color: V.color.primaryDark },
   phraseBox: { backgroundColor: V.color.pageBg, borderWidth: 1, borderColor: '#9bdfd9', borderStyle: 'dashed', borderRadius: 16, paddingVertical: 22, paddingHorizontal: 16, alignItems: 'center', gap: 14 },
-  phraseTxt: { fontSize: 32, fontWeight: '800', color: V.color.textPrimary, textAlign: 'center', letterSpacing: -0.5 },
+  phraseTxt: { fontFamily: FONT.display,fontSize: 32, color: V.color.textPrimary, textAlign: 'center', letterSpacing: -0.5 },
 
   // fichas emoji
   emojiTile: { borderRadius: 14, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: '#e1e8e7', overflow: 'hidden' },
   zoomHintDot: { position: 'absolute', bottom: 4, right: 4, width: 16, height: 16, borderRadius: 8, backgroundColor: 'rgba(255,255,255,.85)', alignItems: 'center', justifyContent: 'center' },
   zoomTipRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6, marginTop: 13 },
   // textSecondary y no textMuted: gris claro sobre blanco no llega a AA.
-  zoomTip: { textAlign: 'center', fontSize: 11, fontWeight: '700', color: V.color.textSecondary },
+  zoomTip: { fontFamily: FONT.bodyBlack,textAlign: 'center', fontSize: 11, color: V.color.textSecondary },
 
   tilesRow: { flexDirection: 'row', gap: 10, justifyContent: 'center', marginBottom: 16 },
-  tileCap: { fontSize: 11, color: V.color.textMuted, marginTop: 5, fontWeight: '700' },
+  tileCap: { fontFamily: FONT.bodyBlack,fontSize: 11, color: V.color.textMuted, marginTop: 5 },
   vowelRow: { flexDirection: 'row', gap: 8, justifyContent: 'center' },
   vowel: { minWidth: 46, height: 48, paddingHorizontal: 6, alignItems: 'center', justifyContent: 'center', borderRadius: 13, backgroundColor: V.color.pageBg, borderWidth: 1, borderColor: '#eef2f1' },
   vowelOn: { backgroundColor: V.color.primaryLight, borderColor: V.color.primaryLight },
   vowelRight: { backgroundColor: V.color.primary, borderColor: V.color.primary },
   vowelWrong: { backgroundColor: V.color.errorBg, borderColor: '#fecdd3' },
-  vowelTxt: { fontSize: 22, fontWeight: '800', color: V.color.textPrimary },
+  vowelTxt: { fontFamily: FONT.display,fontSize: 22, color: V.color.textPrimary },
   vowelTxtOn: { color: V.color.primaryDark },
 
   // FF-1 · unir imagen ↔ vocal
-  stageHint: { textAlign: 'center', fontSize: 12, fontWeight: '700', color: V.color.textSecondary, marginBottom: 12, lineHeight: 17 },
+  stageHint: { fontFamily: FONT.bodyBlack,textAlign: 'center', fontSize: 12, color: V.color.textSecondary, marginBottom: 12, lineHeight: 17 },
   matchTile: { alignItems: 'center', borderRadius: 16, borderWidth: 2, borderColor: 'transparent', padding: 4 },
   matchTileSel: { borderColor: V.color.primary, backgroundColor: V.color.primaryTint },
   matchTileOk: { borderColor: V.color.success, backgroundColor: V.color.successBg },
   matchTileMarkRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 4 },
-  matchTileMark: { fontSize: 11, fontWeight: '800', color: V.color.primaryDark, marginTop: 3, minHeight: 14 },
-  matchDone: { textAlign: 'center', fontSize: 13, fontWeight: '800', color: '#0f8a63', marginTop: 12 },
+  matchTileMark: { fontFamily: FONT.bodyBlack,fontSize: 11, color: V.color.primaryDark, marginTop: 3, minHeight: 14 },
+  matchDone: { fontFamily: FONT.bodyBlack,textAlign: 'center', fontSize: 13, color: '#0f8a63', marginTop: 12 },
 
   modelNoteRow: { flexDirection: 'row', alignItems: 'flex-start', gap: 7, marginTop: 10, paddingHorizontal: 4 },
-  modelNote: { fontSize: 12, fontWeight: '700', color: V.color.textSecondary, lineHeight: 17 },
+  modelNote: { fontFamily: FONT.bodyBlack,fontSize: 12, color: V.color.textSecondary, lineHeight: 17 },
 
   // MS-1 · uno / muchos
   pluralCard: { flex: 1, alignItems: 'center', backgroundColor: '#fff', borderWidth: 1.5, borderColor: '#eef3f3', borderRadius: 16, paddingVertical: 16, paddingHorizontal: 8 },
-  pluralCap: { fontSize: 13, fontWeight: '800', color: V.color.textPrimary, marginTop: 8 },
+  pluralCap: { fontFamily: FONT.bodyBlack,fontSize: 13, color: V.color.textPrimary, marginTop: 8 },
 
   // MS-3 · huecos de la frase ordenada
   orderSlots: { flexDirection: 'row', gap: 9, justifyContent: 'center', marginBottom: 14 },
   orderSlot: { flex: 1, alignItems: 'center', borderWidth: 2, borderStyle: 'dashed', borderColor: '#b8eee9', borderRadius: 14, paddingVertical: 9 },
   orderSlotFilled: { borderStyle: 'solid', borderColor: V.color.success, backgroundColor: V.color.successBg },
-  orderReset: { textAlign: 'center', fontSize: 12.5, fontWeight: '800', color: V.color.primaryDark, marginTop: 12 },
+  orderReset: { fontFamily: FONT.bodyBlack,textAlign: 'center', fontSize: 12.5, color: V.color.primaryDark, marginTop: 12 },
 
   // MS-4 · cuadrícula sintáctica. Anchos: las ranuras SÍ reparten el ancho
   // (flex: 1) y las fichas del banco NO (ancho fijo + envoltura). No comparten
@@ -1830,57 +1845,57 @@ const s = StyleSheet.create({
   composeRow: { flexDirection: 'row', gap: 8, marginBottom: 12 },
   composeCol: { flex: 1 },
   composeRoleBadge: { borderRadius: 8, paddingVertical: 3, paddingHorizontal: 6, alignSelf: 'flex-start', marginBottom: 5 },
-  composeRoleTxt: { fontSize: 10, fontWeight: '800', color: '#fff', letterSpacing: 0.4 },
+  composeRoleTxt: { fontFamily: FONT.bodyBlack,fontSize: 10, color: '#fff', letterSpacing: 0.4 },
   composeSlot: { minHeight: 96, borderWidth: 2, borderRadius: 14, alignItems: 'center', justifyContent: 'center', paddingVertical: 8, paddingHorizontal: 4 },
-  composeSlotCap: { fontSize: 12.5, fontWeight: '800', marginTop: 4, textAlign: 'center' },
-  composeSlotEmpty: { fontSize: 11, fontWeight: '700', color: V.color.textMuted, textAlign: 'center' },
+  composeSlotCap: { fontFamily: FONT.bodyBlack,fontSize: 12.5, marginTop: 4, textAlign: 'center' },
+  composeSlotEmpty: { fontFamily: FONT.bodyBlack,fontSize: 11, color: V.color.textMuted, textAlign: 'center' },
   composeSentenceBox: { backgroundColor: V.color.primaryTint, borderWidth: 1, borderColor: V.color.borderActive, borderRadius: 12, padding: 12, alignItems: 'center', marginBottom: 12 },
-  composeSentenceTxt: { fontSize: 16, fontWeight: '800', color: V.color.textPrimary, textAlign: 'center' },
+  composeSentenceTxt: { fontFamily: FONT.bodyBlack,fontSize: 16, color: V.color.textPrimary, textAlign: 'center' },
   composeHearBtn: { marginTop: 9, backgroundColor: V.color.primary, borderRadius: 10, paddingVertical: 8, paddingHorizontal: 16 },
-  composeHearTxt: { color: '#fff', fontSize: 13, fontWeight: '800' },
-  composeActNow: { fontSize: 11.5, fontWeight: '700', color: V.color.textSecondary, marginTop: 9, textAlign: 'center' },
+  composeHearTxt: { fontFamily: FONT.bodyBlack,color: '#fff', fontSize: 13 },
+  composeActNow: { fontFamily: FONT.bodyBlack,fontSize: 11.5, color: V.color.textSecondary, marginTop: 9, textAlign: 'center' },
   composeBank: { flexDirection: 'row', gap: 8, alignItems: 'stretch', marginBottom: 9 },
   composeBankBar: { width: 5, borderRadius: 3 },
   composeBankRow: { flex: 1, flexDirection: 'row', flexWrap: 'wrap', gap: 7 },
   composeOption: { width: 92, borderWidth: 1.5, borderRadius: 12, alignItems: 'center', paddingVertical: 7, paddingHorizontal: 3 },
-  composeOptionCap: { fontSize: 11.5, fontWeight: '800', marginTop: 3, textAlign: 'center' },
+  composeOptionCap: { fontFamily: FONT.bodyBlack,fontSize: 11.5, marginTop: 3, textAlign: 'center' },
 
   // DX-1 · intruso auditivo puro (fichas de altavoz por posición)
   audTile: { alignItems: 'center', paddingVertical: 16 },
   // Leyenda que explica por qué las fichas no llevan dibujo y avisa de cuándo
   // se revelan las palabras (se leía como un fallo de pintado).
-  audLegend: { textAlign: 'center', fontSize: 11.5, fontWeight: '700', color: V.color.textMuted, lineHeight: 16, marginBottom: 12, paddingHorizontal: 6 },
+  audLegend: { fontFamily: FONT.bodyBlack,textAlign: 'center', fontSize: 11.5, color: V.color.textMuted, lineHeight: 16, marginBottom: 12, paddingHorizontal: 6 },
   audNumBadge: { minWidth: 26, height: 26, borderRadius: 13, backgroundColor: V.color.primaryLight, borderWidth: 1, borderColor: V.color.borderActive, alignItems: 'center', justifyContent: 'center', marginBottom: 6 },
-  audNumTxt: { fontSize: 13, fontWeight: '800', color: V.color.primaryDark },
-  gridCapRevealed: { color: V.color.textPrimary, fontWeight: '800' },
+  audNumTxt: { fontFamily: FONT.bodyBlack,fontSize: 13, color: V.color.primaryDark },
+  gridCapRevealed: { fontFamily: FONT.bodyBlack,color: V.color.textPrimary },
 
   // DX-3 · síntesis fonémica
   synBtn: { backgroundColor: V.color.primaryLight, borderWidth: 1, borderColor: V.color.borderActive, borderRadius: 13, paddingHorizontal: 14, paddingVertical: 10 },
-  synBtnTxt: { fontSize: 13.5, fontWeight: '800', color: V.color.primaryDark },
+  synBtnTxt: { fontFamily: FONT.bodyBlack,fontSize: 13.5, color: V.color.primaryDark },
 
   // Botonera de Juez (DX-3 / DX-4)
-  judgeHint: { textAlign: 'center', fontSize: 12, fontWeight: '700', color: V.color.textSecondary, marginTop: 12, marginBottom: 8 },
+  judgeHint: { fontFamily: FONT.bodyBlack,textAlign: 'center', fontSize: 12, color: V.color.textSecondary, marginTop: 12, marginBottom: 8 },
   judgeRow: { flexDirection: 'row', gap: 10, justifyContent: 'center' },
   judgeBtn: { flex: 1, maxWidth: 160, alignItems: 'center', borderRadius: 13, paddingVertical: 12, borderWidth: 1.5 },
   judgeBtnOk: { backgroundColor: V.color.successBg, borderColor: V.color.success },
   judgeBtnAlmost: { backgroundColor: '#fffbeb', borderColor: '#f4e6b8' },
-  judgeBtnTxt: { fontSize: 14, fontWeight: '800', color: V.color.textPrimary },
+  judgeBtnTxt: { fontFamily: FONT.bodyBlack,fontSize: 14, color: V.color.textPrimary },
 
   // DX-4 · contador de ensayos con límite rígido
   trialCard: { marginTop: 12, backgroundColor: V.color.pageBg, borderWidth: 1, borderColor: '#eef2f1', borderRadius: 14, padding: 13 },
-  trialKicker: { fontSize: 11, fontWeight: '800', letterSpacing: 0.6, color: V.color.textMuted, textAlign: 'center' },
-  trialHint: { fontSize: 12, fontWeight: '600', color: V.color.textSecondary, textAlign: 'center', lineHeight: 17, marginTop: 6, marginBottom: 10 },
+  trialKicker: { fontFamily: FONT.bodyBlack,fontSize: 11, letterSpacing: 0.6, color: V.color.textMuted, textAlign: 'center' },
+  trialHint: { fontFamily: FONT.bodyBold,fontSize: 12, color: V.color.textSecondary, textAlign: 'center', lineHeight: 17, marginTop: 6, marginBottom: 10 },
   trialDots: { flexDirection: 'row', gap: 7, justifyContent: 'center', marginBottom: 10 },
   trialDot: { width: 14, height: 14, borderRadius: 7, backgroundColor: '#e1e8e7' },
   trialDotOn: { backgroundColor: V.color.primary },
-  trialLimit: { textAlign: 'center', fontSize: 12, fontWeight: '800', color: '#9a5b13', marginTop: 10, lineHeight: 17 },
+  trialLimit: { fontFamily: FONT.bodyBlack,textAlign: 'center', fontSize: 12, color: '#9a5b13', marginTop: 10, lineHeight: 17 },
 
   // DX-5 · rejilla de rotaciones (alto contraste)
   rotHead: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 10, marginBottom: 14 },
-  rotHeadLbl: { fontSize: 12, fontWeight: '800', letterSpacing: 0.6, color: V.color.textMuted },
+  rotHeadLbl: { fontFamily: FONT.bodyBlack,fontSize: 12, letterSpacing: 0.6, color: V.color.textMuted },
   rotTargetBox: { width: 52, height: 52, borderRadius: 14, backgroundColor: '#0b1220', alignItems: 'center', justifyContent: 'center' },
-  rotTargetTxt: { fontSize: 32, fontWeight: '800', color: '#fff' },
-  rotHeadCount: { fontSize: 14, fontWeight: '800', color: V.color.primaryDark },
+  rotTargetTxt: { fontFamily: FONT.display,fontSize: 32, color: '#fff' },
+  rotHeadCount: { fontFamily: FONT.bodyBlack,fontSize: 14, color: V.color.primaryDark },
   rotGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 9, justifyContent: 'center' },
   rotTile: { width: '22%', minWidth: 64, aspectRatio: 1, borderRadius: 14, backgroundColor: '#fff', borderWidth: 2, borderColor: '#0b1220', alignItems: 'center', justifyContent: 'center' },
   rotTileOk: { backgroundColor: V.color.success, borderColor: V.color.success },
@@ -1888,131 +1903,131 @@ const s = StyleSheet.create({
   // RAN (DX-6): resalte sutil del siguiente dibujo del renglón, para sostener
   // el orden de lectura sin convertir la ayuda en respuesta.
   ranTileNext: { borderColor: V.color.primary, borderWidth: 3 },
-  rotTileTxt: { fontSize: 34, fontWeight: '800', color: '#0b1220' },
+  rotTileTxt: { fontFamily: FONT.display,fontSize: 34, color: '#0b1220' },
 
   // TEA-1 · Sello Doble (instigación retardada)
   selloCard: { alignSelf: 'stretch', marginTop: 14, backgroundColor: '#f0fdf9', borderWidth: 1.5, borderColor: '#b8eee9', borderRadius: 16, padding: 14 },
   selloIcon: { alignItems: 'center', marginBottom: 4 },
-  selloKicker: { fontSize: 11, fontWeight: '800', letterSpacing: 0.6, color: V.color.primaryDark, textAlign: 'center' },
-  selloHint: { fontSize: 12, fontWeight: '600', color: V.color.textSecondary, textAlign: 'center', lineHeight: 17, marginTop: 6, marginBottom: 11 },
+  selloKicker: { fontFamily: FONT.bodyBlack,fontSize: 11, letterSpacing: 0.6, color: V.color.primaryDark, textAlign: 'center' },
+  selloHint: { fontFamily: FONT.bodyBold,fontSize: 12, color: V.color.textSecondary, textAlign: 'center', lineHeight: 17, marginTop: 6, marginBottom: 11 },
   selloBtn: { alignSelf: 'center', backgroundColor: V.color.primary, borderRadius: 14, paddingHorizontal: 22, paddingVertical: 13, ...V.shadow.button },
   selloBtnLocked: { backgroundColor: '#c2cbca' },
-  selloBtnTxt: { color: '#fff', fontSize: 15, fontWeight: '800' },
-  selloCountTxt: { textAlign: 'center', fontSize: 12.5, fontWeight: '800', color: '#0f8a63', marginTop: 10 },
+  selloBtnTxt: { fontFamily: FONT.bodyBlack,color: '#fff', fontSize: 15 },
+  selloCountTxt: { fontFamily: FONT.bodyBlack,textAlign: 'center', fontSize: 12.5, color: '#0f8a63', marginTop: 10 },
 
   // TEA-4 · interrupción manual (cápsula sorpresa)
   breakBtn: { alignSelf: 'stretch', marginTop: 14, backgroundColor: '#fff7ed', borderWidth: 1.5, borderColor: '#fcd9a8', borderRadius: 14, paddingVertical: 13, alignItems: 'center' },
-  breakBtnTxt: { fontSize: 14, fontWeight: '800', color: '#9a5b13' },
+  breakBtnTxt: { fontFamily: FONT.bodyBlack,fontSize: 14, color: '#9a5b13' },
 
   // Explicación EPT-3
   eptInfoBtn: { flexDirection: 'row', alignItems: 'center', gap: 6, alignSelf: 'center', marginBottom: 12, paddingHorizontal: 11, paddingVertical: 6, borderRadius: 9, backgroundColor: V.color.primaryLight },
-  eptInfoBtnTxt: { fontSize: 12, fontWeight: '800', color: V.color.primaryDark },
+  eptInfoBtnTxt: { fontFamily: FONT.bodyBlack,fontSize: 12, color: V.color.primaryDark },
   eptInfoBox: { backgroundColor: V.color.pageBg, borderWidth: 1, borderColor: '#eef2f1', borderRadius: 12, padding: 12, marginBottom: 12 },
-  eptInfoTxt: { fontSize: 12.5, fontWeight: '600', color: V.color.textSecondary, lineHeight: 18 },
+  eptInfoTxt: { fontFamily: FONT.bodyBold,fontSize: 12.5, color: V.color.textSecondary, lineHeight: 18 },
 
   fillRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: 16 },
-  fillBig: { fontSize: 42, fontWeight: '800', letterSpacing: 6, color: V.color.textPrimary },
+  fillBig: { fontFamily: FONT.display,fontSize: 42, letterSpacing: 6, color: V.color.textPrimary },
   fillSlot: { width: 46, height: 52, marginHorizontal: 4, borderRadius: 12, alignItems: 'center', justifyContent: 'center' },
   fillSlotEmpty: { backgroundColor: '#fff', borderWidth: 2, borderColor: '#b8eee9', borderStyle: 'dashed' },
   fillSlotOk: { backgroundColor: V.color.primary },
   fillSlotBad: { backgroundColor: V.color.errorBg, borderWidth: 2, borderColor: '#fecdd3' },
-  fillSlotTxt: { fontSize: 34, fontWeight: '800' },
+  fillSlotTxt: { fontFamily: FONT.display,fontSize: 34 },
 
   grid2: { flexDirection: 'row', flexWrap: 'wrap', gap: 11 },
   gridTile: { width: '47%', backgroundColor: '#fff', borderWidth: 1.5, borderColor: '#eef3f3', borderRadius: 14, padding: 9 },
   gridTileOk: { backgroundColor: V.color.successBg, borderColor: V.color.success },
   gridTileBad: { backgroundColor: V.color.errorBg, borderColor: '#fecdd3' },
   gridCapRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 5, marginTop: 7 },
-  gridCap: { fontSize: 12, color: V.color.textSecondary, fontWeight: '700' },
+  gridCap: { fontFamily: FONT.bodyBlack,fontSize: 12, color: V.color.textSecondary },
 
-  emoQ: { fontSize: 13, fontWeight: '700', color: V.color.textMuted, marginTop: 6 },
+  emoQ: { fontFamily: FONT.bodyBlack,fontSize: 13, color: V.color.textMuted, marginTop: 6 },
   emoOpt: { width: '47%', flexDirection: 'row', alignItems: 'center', gap: 9, paddingVertical: 12, paddingHorizontal: 13, borderRadius: 14, backgroundColor: V.color.pageBg, borderWidth: 1, borderColor: '#eef2f1' },
-  emoLabel: { fontSize: 14, fontWeight: '800', color: V.color.textPrimary },
+  emoLabel: { fontFamily: FONT.bodyBlack,fontSize: 14, color: V.color.textPrimary },
 
   diceRow: { flexDirection: 'row', gap: 9, justifyContent: 'center', marginBottom: 14 },
-  diceRole: { fontSize: 10, fontWeight: '800', letterSpacing: 0.5, color: V.color.primaryDark, marginBottom: 5 },
+  diceRole: { fontFamily: FONT.bodyBlack,fontSize: 10, letterSpacing: 0.5, color: V.color.primaryDark, marginBottom: 5 },
   sentenceBox: { backgroundColor: V.color.primaryTint, borderWidth: 1, borderColor: V.color.borderActive, borderRadius: 12, padding: 11, alignItems: 'center' },
-  sentenceTxt: { fontSize: 15, fontWeight: '800', color: V.color.textPrimary },
+  sentenceTxt: { fontFamily: FONT.bodyBlack,fontSize: 15, color: V.color.textPrimary },
 
   instrBig: { width: 64, height: 64, borderRadius: 20, backgroundColor: V.color.primaryLight, alignItems: 'center', justifyContent: 'center' },
   // Icono protagonista de las actividades guiadas: los testers veían el de
   // 64 px "poco llamativo" (p. ej. Atención Conjunta).
   instrHero: { width: 112, height: 112, borderRadius: 30, backgroundColor: V.color.primaryLight, borderWidth: 2, borderColor: V.color.borderActive, alignItems: 'center', justifyContent: 'center' },
-  instrHint: { fontSize: 14, fontWeight: '700', color: V.color.textSecondary, textAlign: 'center', lineHeight: 20, marginTop: 12 },
+  instrHint: { fontFamily: FONT.bodyBlack,fontSize: 14, color: V.color.textSecondary, textAlign: 'center', lineHeight: 20, marginTop: 12 },
   sceneRow: { flexDirection: 'row', gap: 11, marginTop: 14, alignSelf: 'stretch' },
   sceneCard: { flex: 1, alignItems: 'center', backgroundColor: V.color.pageBg, borderWidth: 1.5, borderColor: '#eef2f1', borderRadius: 16, paddingVertical: 14, paddingHorizontal: 8 },
-  sceneLabel: { fontSize: 12.5, fontWeight: '800', color: V.color.textPrimary, textAlign: 'center', marginTop: 7, lineHeight: 17 },
-  sceneHear: { fontSize: 11, fontWeight: '800', color: V.color.primaryDark, marginTop: 7 },
+  sceneLabel: { fontFamily: FONT.bodyBlack,fontSize: 12.5, color: V.color.textPrimary, textAlign: 'center', marginTop: 7, lineHeight: 17 },
+  sceneHear: { fontFamily: FONT.bodyBlack,fontSize: 11, color: V.color.primaryDark, marginTop: 7 },
 
   // versión en movimiento
   moveCard: { backgroundColor: '#fff7ed', borderColor: '#fcd9a8', borderWidth: 1.5, borderRadius: 16, padding: 14, marginTop: 12 },
   moveHead: { flexDirection: 'row', alignItems: 'center', gap: 9 },
   moveIcon: { width: 30, height: 30, borderRadius: 10, backgroundColor: '#f59e0b', alignItems: 'center', justifyContent: 'center' },
-  moveKicker: { flex: 1, fontSize: 11, fontWeight: '800', letterSpacing: 0.6, color: '#9a5b13' },
-  moveTxt: { marginTop: 9, fontSize: 13.5, fontWeight: '700', color: '#7c4a0e', lineHeight: 19 },
+  moveKicker: { fontFamily: FONT.bodyBlack,flex: 1, fontSize: 11, letterSpacing: 0.6, color: '#9a5b13' },
+  moveTxt: { fontFamily: FONT.bodyBlack,marginTop: 9, fontSize: 13.5, color: '#7c4a0e', lineHeight: 19 },
 
   waitRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 7, marginTop: 11 },
-  waitTxt: { color: V.color.primaryDark, fontSize: 12.5, fontWeight: '700' },
+  waitTxt: { fontFamily: FONT.bodyBlack,color: V.color.primaryDark, fontSize: 12.5 },
 
   scoreCard: { backgroundColor: V.color.card, borderColor: V.color.border, borderWidth: 1, borderRadius: 18, padding: 16, marginTop: 12, ...V.shadow.card },
-  scoreKicker: { fontSize: 11, fontWeight: '800', letterSpacing: 0.8, color: V.color.textMuted, textAlign: 'center', marginBottom: 4 },
-  scoreTitle: { fontSize: 17, fontWeight: '800', color: V.color.textPrimary, textAlign: 'center' },
-  scoreSub: { fontSize: 12, fontWeight: '600', color: V.color.textMuted, textAlign: 'center', marginTop: 2, marginBottom: 13 },
+  scoreKicker: { fontFamily: FONT.bodyBlack,fontSize: 11, letterSpacing: 0.8, color: V.color.textMuted, textAlign: 'center', marginBottom: 4 },
+  scoreTitle: { fontFamily: FONT.display,fontSize: 17, color: V.color.textPrimary, textAlign: 'center' },
+  scoreSub: { fontFamily: FONT.bodyBold,fontSize: 12, color: V.color.textMuted, textAlign: 'center', marginTop: 2, marginBottom: 13 },
   scoreRow: { flexDirection: 'row', alignItems: 'center', gap: 12, padding: 12, borderRadius: 14, marginBottom: 9, backgroundColor: V.color.pageBg, borderWidth: 1, borderColor: '#eef3f3' },
   scoreRowOn: { backgroundColor: '#fffbeb', borderWidth: 1.5, borderColor: V.color.star },
   scoreStarsCol: { width: 48, alignItems: 'center', gap: 3 },
   scoreStars: { fontSize: 15, letterSpacing: 1 },
-  scoreNum: { fontSize: 10, fontWeight: '800' },
-  scoreText: { flex: 1, fontSize: 12.5, fontWeight: '700', lineHeight: 17 },
+  scoreNum: { fontFamily: FONT.bodyBlack,fontSize: 10 },
+  scoreText: { fontFamily: FONT.bodyBlack,flex: 1, fontSize: 12.5, lineHeight: 17 },
 
   doneCard: { backgroundColor: V.color.card, borderColor: V.color.border, borderWidth: 1, borderRadius: 22, padding: 24, alignItems: 'center', ...V.shadow.card },
   doneIcon: { width: 72, height: 72, borderRadius: 24, backgroundColor: V.color.primaryLight, alignItems: 'center', justifyContent: 'center' },
-  doneTitle: { fontSize: 22, fontWeight: '800', color: V.color.textPrimary, marginTop: 16 },
-  doneSub: { fontSize: 13, fontWeight: '600', color: V.color.textSecondary, marginTop: 6, textAlign: 'center', lineHeight: 18 },
+  doneTitle: { fontFamily: FONT.display,fontSize: 22, color: V.color.textPrimary, marginTop: 16 },
+  doneSub: { fontFamily: FONT.bodyBold,fontSize: 13, color: V.color.textSecondary, marginTop: 6, textAlign: 'center', lineHeight: 18 },
 
   // recompensas
   rewardBox: { alignSelf: 'stretch', marginTop: 18, backgroundColor: '#f0fdf9', borderWidth: 1.5, borderColor: '#b8eee9', borderRadius: 18, padding: 16 },
   rewardRow: { flexDirection: 'row', gap: 10 },
   rewardChip: { flex: 1, backgroundColor: '#e6f9f8', borderRadius: 14, paddingVertical: 12, alignItems: 'center' },
-  rewardChipBig: { fontSize: 22, fontWeight: '800', color: V.color.textPrimary },
+  rewardChipBig: { fontFamily: FONT.display,fontSize: 22, color: V.color.textPrimary },
   // textSecondary, no textMuted: es la etiqueta del premio y en gris claro
   // sobre blanco no llegaba al contraste mínimo AA.
-  rewardChipLbl: { fontSize: 11, fontWeight: '700', color: V.color.textSecondary, marginTop: 2 },
-  rewardNote: { textAlign: 'center', fontSize: 11.5, fontWeight: '700', color: '#9a5b13', marginTop: 10 },
+  rewardChipLbl: { fontFamily: FONT.bodyBlack,fontSize: 11, color: V.color.textSecondary, marginTop: 2 },
+  rewardNote: { fontFamily: FONT.bodyBlack,textAlign: 'center', fontSize: 11.5, color: '#9a5b13', marginTop: 10 },
   levelRow: { marginTop: 14 },
-  levelLbl: { fontSize: 12.5, fontWeight: '800', color: V.color.textPrimary },
+  levelLbl: { fontFamily: FONT.bodyBlack,fontSize: 12.5, color: V.color.textPrimary },
   levelTrack: { height: 10, backgroundColor: '#dcefed', borderRadius: 6, overflow: 'hidden', marginTop: 7 },
   levelFill: { height: '100%', backgroundColor: V.color.primary, borderRadius: 6 },
-  levelToGo: { fontSize: 11, fontWeight: '700', color: V.color.textSecondary, marginTop: 5 },
+  levelToGo: { fontFamily: FONT.bodyBlack,fontSize: 11, color: V.color.textSecondary, marginTop: 5 },
   badgeWrap: { marginTop: 14, backgroundColor: '#fffbeb', borderWidth: 1, borderColor: '#f4e6b8', borderRadius: 14, padding: 12 },
-  badgeTitle: { fontSize: 11, fontWeight: '800', letterSpacing: 0.6, color: '#92711a', textAlign: 'center', marginBottom: 8 },
+  badgeTitle: { fontFamily: FONT.bodyBlack,fontSize: 11, letterSpacing: 0.6, color: '#92711a', textAlign: 'center', marginBottom: 8 },
   badgeRow: { flexDirection: 'row', alignItems: 'center', gap: 10, paddingVertical: 5 },
   badgePlate: { width: 40, height: 40, borderRadius: 13, alignItems: 'center', justifyContent: 'center' },
   streakRow: { flexDirection: 'row', alignItems: 'center', gap: 5 },
-  badgeName: { fontSize: 13.5, fontWeight: '800', color: V.color.textPrimary },
-  badgeDesc: { fontSize: 11.5, fontWeight: '600', color: V.color.textSecondary, marginTop: 1 },
+  badgeName: { fontFamily: FONT.bodyBlack,fontSize: 13.5, color: V.color.textPrimary },
+  badgeDesc: { fontFamily: FONT.bodyBold,fontSize: 11.5, color: V.color.textSecondary, marginTop: 1 },
 
   doneStatBox: { alignSelf: 'stretch', marginTop: 16, backgroundColor: V.color.pageBg, borderRadius: 18, padding: 18, alignItems: 'center' },
-  doneStatKicker: { fontSize: 12, fontWeight: '800', letterSpacing: 0.5, color: V.color.textMuted },
-  doneStatBig: { fontSize: 42, fontWeight: '800', color: V.color.textPrimary, marginTop: 8 },
-  doneStatSlash: { fontSize: 20, color: V.color.textMuted, fontWeight: '800' },
+  doneStatKicker: { fontFamily: FONT.bodyBlack,fontSize: 12, letterSpacing: 0.5, color: V.color.textMuted },
+  doneStatBig: { fontFamily: FONT.display,fontSize: 42, color: V.color.textPrimary, marginTop: 8 },
+  doneStatSlash: { fontFamily: FONT.display,fontSize: 20, color: V.color.textMuted },
   doneStatStars: { fontSize: 22, letterSpacing: 3, color: V.color.star, marginTop: 8 },
   // flexWrap: la sesión completa puede traer 13 ejercicios y una sola fila los aplastaría
   recapRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 6, marginTop: 16, alignSelf: 'stretch', justifyContent: 'center' },
   recapCell: { flexGrow: 1, flexBasis: '17%', backgroundColor: '#fff', borderWidth: 1, borderColor: '#eef3f3', borderRadius: 11, paddingVertical: 9, alignItems: 'center' },
-  recapCode: { fontSize: 10, fontWeight: '800', color: '#c2cbca' },
+  recapCode: { fontFamily: FONT.bodyBlack,fontSize: 10, color: '#c2cbca' },
   recapStars: { fontSize: 13, color: V.color.star, marginTop: 3 },
   primaryBtn: { alignSelf: 'stretch', marginTop: 20, backgroundColor: V.color.primary, borderRadius: 15, paddingVertical: 16, alignItems: 'center', ...V.shadow.button },
-  primaryBtnTxt: { color: '#fff', fontSize: 16, fontWeight: '800' },
-  linkBtn: { marginTop: 11, color: V.color.primaryDark, fontSize: 13.5, fontWeight: '800' },
-  redirect: { color: V.color.textMuted, fontSize: 11.5, marginTop: 14, fontWeight: '600' },
+  primaryBtnTxt: { fontFamily: FONT.bodyBlack,color: '#fff', fontSize: 16 },
+  linkBtn: { fontFamily: FONT.bodyBlack,marginTop: 11, color: V.color.primaryDark, fontSize: 13.5 },
+  redirect: { fontFamily: FONT.bodyBold,color: V.color.textMuted, fontSize: 11.5, marginTop: 14 },
 
   // zoom
   zoomOverlay: { flex: 1, backgroundColor: 'rgba(11,18,32,.78)', alignItems: 'center', justifyContent: 'center', padding: 28 },
   zoomCard: { width: '100%', maxWidth: 340, backgroundColor: '#fff', borderRadius: 28, paddingVertical: 38, paddingHorizontal: 24, alignItems: 'center' },
   zoomEmoji: { fontSize: 130, lineHeight: 150 },
-  zoomCap: { fontSize: 26, fontWeight: '800', color: V.color.textPrimary, marginTop: 14, textTransform: 'capitalize' },
-  zoomClose: { fontSize: 12, fontWeight: '700', color: V.color.textMuted, marginTop: 16 },
+  zoomCap: { fontFamily: FONT.display,fontSize: 26, color: V.color.textPrimary, marginTop: 14, textTransform: 'capitalize' },
+  zoomClose: { fontFamily: FONT.bodyBlack,fontSize: 12, color: V.color.textMuted, marginTop: 16 },
 });
 
 export default ValeriaExercisePlayerScreen;

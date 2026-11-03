@@ -6,7 +6,6 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
-    "newArchEnabled": false,
     "assetBundlePatterns": [
       "assets/*"
     ],
@@ -48,7 +47,11 @@
       ],
       "./plugins/withValeriaAR",
       "./plugins/withValeriaPermissionStrings",
-      "./plugins/withValeriaNoBackgroundAudio"
+      "./plugins/withValeriaNoBackgroundAudio",
+      "expo-asset",
+      "expo-audio",
+      "expo-status-bar",
+      "expo-font"
     ],
     "ios": {
       "supportsTablet": true,

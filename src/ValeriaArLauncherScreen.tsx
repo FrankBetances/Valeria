@@ -50,6 +50,7 @@ import { linkLua } from './steam/engine/LuaLink';
 import { luaSoloActivity, type LuaSoloId } from './steam/luaSolo';
 import type { LuaSemanticExpression } from './steam/types';
 import type { SessionReward } from './valeriaGamification';
+import { FONT } from './ui/fonts';
 
 type Phase = 'loading' | 'unsupported' | 'consent' | 'aptitude' | 'notApt' | 'menu' | 'busy' | 'result';
 
@@ -672,7 +673,7 @@ export const ValeriaArLauncherScreen: React.FC<{ navigation?: any; route?: { par
               style={[s.exCard, !enabled && s.exCardOff]}
               accessibilityRole="button"
               accessibilityLabel={enabled ? t.ar.practiceA11y(m.name) : t.ar.unavailableA11y(m.name)}>
-              <View style={s.codeChip}><Text style={s.codeChipTxt}>{m.code}</Text></View>
+              {/* Motor: el código interno no se enseña al niño. */}
               <View style={{ flex: 1 }}>
                 <Text style={s.exName}>{m.name}</Text>
                 <Text style={s.exCat}>{m.category}</Text>
@@ -720,39 +721,39 @@ export const ValeriaArLauncherScreen: React.FC<{ navigation?: any; route?: { par
 const s = StyleSheet.create({
   flex: { flex: 1, backgroundColor: V.color.pageBg },
   center: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: 28, gap: 16 },
-  busyTxt: { fontSize: 13.5, fontWeight: '700', color: V.color.textSecondary, textAlign: 'center', lineHeight: 19 },
+  busyTxt: { fontFamily: FONT.bodyBlack,fontSize: 13.5, color: V.color.textSecondary, textAlign: 'center', lineHeight: 19 },
 
   header: { backgroundColor: V.color.primary, paddingTop: 18, paddingHorizontal: 22, paddingBottom: 16, borderBottomLeftRadius: 26, borderBottomRightRadius: 26 },
-  logoFallback: { color: '#fff', fontWeight: '800', fontSize: 13, letterSpacing: 1, marginBottom: 6 },
+  logoFallback: { fontFamily: FONT.bodyBlack,color: '#fff', fontSize: 13, letterSpacing: 1, marginBottom: 6 },
   backPill: { alignSelf: 'flex-start', backgroundColor: 'rgba(255,255,255,.18)', borderWidth: 1, borderColor: 'rgba(255,255,255,.32)', borderRadius: 11, paddingHorizontal: 11, paddingVertical: 5, marginBottom: 10 },
-  backPillTxt: { color: '#fff', fontSize: 12, fontWeight: '800' },
-  headerTitle: { color: '#fff', fontSize: 24, fontWeight: '800', letterSpacing: -0.4 },
-  headerSub: { color: 'rgba(255,255,255,.9)', fontSize: 13, fontWeight: '600', marginTop: 4 },
+  backPillTxt: { fontFamily: FONT.bodyBlack,color: '#fff', fontSize: 12 },
+  headerTitle: { fontFamily: FONT.display,color: '#fff', fontSize: 24, letterSpacing: -0.4 },
+  headerSub: { fontFamily: FONT.bodyBold,color: 'rgba(255,255,255,.9)', fontSize: 13, marginTop: 4 },
 
   scroll: { padding: 18, paddingBottom: 32 },
-  hubLabel: { fontSize: 12, fontWeight: '800', color: V.color.textSecondary, letterSpacing: 0.5, marginBottom: 12, marginTop: 6, marginHorizontal: 2 },
+  hubLabel: { fontFamily: FONT.bodyBlack,fontSize: 12, color: V.color.textSecondary, letterSpacing: 0.5, marginBottom: 12, marginTop: 6, marginHorizontal: 2 },
 
   card: { backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.border, borderRadius: 18, padding: 18, ...V.shadow.card },
-  cardTitle: { fontSize: 17, fontWeight: '800', color: V.color.textPrimary, textAlign: 'center', marginTop: 8 },
-  cardTxt: { fontSize: 13, fontWeight: '600', color: V.color.textSecondary, lineHeight: 19, marginTop: 10 },
-  b: { fontWeight: '800', color: V.color.textPrimary },
+  cardTitle: { fontFamily: FONT.display,fontSize: 17, color: V.color.textPrimary, textAlign: 'center', marginTop: 8 },
+  cardTxt: { fontFamily: FONT.bodyBold,fontSize: 13, color: V.color.textSecondary, lineHeight: 19, marginTop: 10 },
+  b: { fontFamily: FONT.bodyBlack,color: V.color.textPrimary },
   list: { marginTop: 12, backgroundColor: V.color.pageBg, borderRadius: 14, padding: 13, gap: 9 },
-  item: { fontSize: 12.5, fontWeight: '600', color: V.color.textSecondary, lineHeight: 17 },
+  item: { fontFamily: FONT.bodyBold,fontSize: 12.5, color: V.color.textSecondary, lineHeight: 17 },
 
   notice: { backgroundColor: '#fff7ed', borderWidth: 1.5, borderColor: '#fcd9a8', borderRadius: 13, padding: 12, marginBottom: 14 },
-  noticeTxt: { fontSize: 12.5, fontWeight: '700', color: '#9a5b13', lineHeight: 17 },
+  noticeTxt: { fontFamily: FONT.bodyBlack,fontSize: 12.5, color: '#9a5b13', lineHeight: 17 },
 
   levelCard: { backgroundColor: '#eef6ff', borderWidth: 1, borderColor: '#d3e5fb', borderRadius: 14, padding: 13, marginBottom: 16 },
-  levelTitle: { fontSize: 12.5, fontWeight: '800', color: '#2c5382' },
-  levelTxt: { fontSize: 11.5, fontWeight: '600', color: '#2c5382', lineHeight: 16, marginTop: 5 },
+  levelTitle: { fontFamily: FONT.bodyBlack,fontSize: 12.5, color: '#2c5382' },
+  levelTxt: { fontFamily: FONT.bodyBold,fontSize: 11.5, color: '#2c5382', lineHeight: 16, marginTop: 5 },
   levelActions: { flexDirection: 'row', flexWrap: 'wrap', gap: 16, marginTop: 9 },
-  levelRedo: { fontSize: 12, fontWeight: '800', color: V.color.primaryDark },
+  levelRedo: { fontFamily: FONT.bodyBlack,fontSize: 12, color: V.color.primaryDark },
 
   // Modo Revisión. Ámbar y a todo lo ancho a propósito: tiene que ser
   // imposible mirar una de estas pantallas y creer que es una sesión medida.
   reviewBar: { backgroundColor: '#3a2a06', borderRadius: 13, paddingVertical: 11, paddingHorizontal: 13, marginBottom: 14 },
-  reviewBarTxt: { fontSize: 12, fontWeight: '800', color: '#ffd479', lineHeight: 17, letterSpacing: 0.2 },
-  notAptLink: { fontSize: 13, fontWeight: '800', color: V.color.primaryDark, textAlign: 'center', marginTop: 16 },
+  reviewBarTxt: { fontFamily: FONT.bodyBlack,fontSize: 12, color: '#ffd479', lineHeight: 17, letterSpacing: 0.2 },
+  notAptLink: { fontFamily: FONT.bodyBlack,fontSize: 13, color: V.color.primaryDark, textAlign: 'center', marginTop: 16 },
   // La puerta de revisión es una herramienta profesional, no una salida más:
   // separada por una línea y en el tono más bajo de la pantalla, para que una
   // familia no la lea como una alternativa a repetir la medida.
@@ -762,31 +763,31 @@ const s = StyleSheet.create({
   },
 
   proTool: { flexDirection: 'row', alignItems: 'center', gap: 11, backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.border, borderRadius: 14, padding: 13, marginTop: 4, ...V.shadow.card },
-  proToolTitle: { fontSize: 13.5, fontWeight: '800', color: V.color.textPrimary },
-  proToolSub: { fontSize: 11, fontWeight: '600', color: V.color.textSecondary, marginTop: 2, lineHeight: 15 },
+  proToolTitle: { fontFamily: FONT.bodyBlack,fontSize: 13.5, color: V.color.textPrimary },
+  proToolSub: { fontFamily: FONT.bodyBold,fontSize: 11, color: V.color.textSecondary, marginTop: 2, lineHeight: 15 },
 
   exCard: { flexDirection: 'row', alignItems: 'center', gap: 12, backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.borderActive, borderRadius: 15, padding: 13, marginBottom: 10, ...V.shadow.card },
   exCardOff: { opacity: 0.5, borderColor: V.color.border },
   codeChip: { minWidth: 46, height: 30, paddingHorizontal: 8, borderRadius: 9, backgroundColor: V.color.primaryLight, alignItems: 'center', justifyContent: 'center' },
-  codeChipTxt: { fontSize: 12, fontWeight: '800', color: V.color.primaryDark, letterSpacing: 0.3 },
-  exName: { fontSize: 14.5, fontWeight: '800', color: V.color.textPrimary },
-  exCat: { fontSize: 11.5, fontWeight: '700', color: V.color.textSecondary, marginTop: 2 },
-  exFlag: { fontSize: 11, fontWeight: '700', color: '#9a5b13', marginTop: 5, lineHeight: 15 },
-  exGo: { fontSize: 16, fontWeight: '800', color: V.color.primaryDark },
+  codeChipTxt: { fontFamily: FONT.bodyBlack,fontSize: 12, color: V.color.primaryDark, letterSpacing: 0.3 },
+  exName: { fontFamily: FONT.bodyBlack,fontSize: 14.5, color: V.color.textPrimary },
+  exCat: { fontFamily: FONT.bodyBlack,fontSize: 11.5, color: V.color.textSecondary, marginTop: 2 },
+  exFlag: { fontFamily: FONT.bodyBlack,fontSize: 11, color: '#9a5b13', marginTop: 5, lineHeight: 15 },
+  exGo: { fontFamily: FONT.bodyBlack,fontSize: 16, color: V.color.primaryDark },
 
   setupCard: { backgroundColor: '#fffdf7', borderWidth: 1.5, borderColor: '#f0e6cc', borderRadius: 16, padding: 13, marginTop: 8 },
-  setupTitle: { fontSize: 12.5, fontWeight: '800', color: '#9a5b13' },
-  setupTxt: { fontSize: 11.5, fontWeight: '600', color: '#9a5b13', lineHeight: 16, marginTop: 5 },
+  setupTitle: { fontFamily: FONT.bodyBlack,fontSize: 12.5, color: '#9a5b13' },
+  setupTxt: { fontFamily: FONT.bodyBold,fontSize: 11.5, color: '#9a5b13', lineHeight: 16, marginTop: 5 },
 
   rewardCard: { backgroundColor: V.color.primaryTint, borderWidth: 1, borderColor: V.color.borderActive, borderRadius: 16, padding: 16, alignItems: 'center', marginBottom: 14 },
   rewardRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 7, marginTop: 4 },
-  rewardXp: { fontSize: 26, fontWeight: '800', color: V.color.primaryDark },
-  rewardSub: { fontSize: 12, fontWeight: '700', color: V.color.textSecondary, marginTop: 6 },
+  rewardXp: { fontFamily: FONT.display,fontSize: 26, color: V.color.primaryDark },
+  rewardSub: { fontFamily: FONT.bodyBlack,fontSize: 12, color: V.color.textSecondary, marginTop: 6 },
 
   dataRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 12, borderTopWidth: 1, borderTopColor: V.color.border, paddingVertical: 10 },
-  dataKey: { flex: 1, fontSize: 12.5, fontWeight: '700', color: V.color.textSecondary },
-  dataVal: { fontSize: 13.5, fontWeight: '800', color: V.color.textPrimary },
-  mdrNote: { fontSize: 11, fontWeight: '600', color: V.color.textSecondary, lineHeight: 15, marginTop: 12 },
+  dataKey: { fontFamily: FONT.bodyBlack,flex: 1, fontSize: 12.5, color: V.color.textSecondary },
+  dataVal: { fontFamily: FONT.bodyBlack,fontSize: 13.5, color: V.color.textPrimary },
+  mdrNote: { fontFamily: FONT.bodyBold,fontSize: 11, color: V.color.textSecondary, lineHeight: 15, marginTop: 12 },
   // Deliberadamente discreto: es dato de soporte, no un mensaje para la familia.
   failureCode: {
     fontSize: 10, fontWeight: '700', color: V.color.textSecondary,
@@ -794,8 +795,8 @@ const s = StyleSheet.create({
   },
 
   primaryBtn: { backgroundColor: V.color.primary, borderRadius: 14, paddingVertical: 15, alignItems: 'center', marginTop: 16, ...V.shadow.button },
-  primaryBtnTxt: { color: '#fff', fontSize: 15.5, fontWeight: '800' },
-  cancel: { textAlign: 'center', color: V.color.textSecondary, fontSize: 13, fontWeight: '800', marginTop: 12 },
+  primaryBtnTxt: { fontFamily: FONT.bodyBlack,color: '#fff', fontSize: 15.5 },
+  cancel: { fontFamily: FONT.bodyBlack,textAlign: 'center', color: V.color.textSecondary, fontSize: 13, marginTop: 12 },
 });
 
 export default ValeriaArLauncherScreen;

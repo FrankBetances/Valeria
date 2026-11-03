@@ -19,12 +19,12 @@
 // como eco del gesto manual del cuidador.
 //
 // No bloqueo (restricción innegociable): la captura solo muta memoria (O(1)) y
-// programa un volcado con debounce vía InteractionManager.runAfterInteractions,
+// programa un volcado con debounce vía runAfterInteractions,
 // de modo que el cifrado + escritura en disco (AsyncStorage, hilo nativo) nunca
 // coinciden con animaciones/audio. El log se cifra en reposo (valeriaCrypto) y
 // se PURGA solo tras una exportación exitosa (evita el desborde semana a semana).
 // ============================================================================
-import { InteractionManager } from 'react-native';
+import { runAfterInteractions } from './runAfterInteractions';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { encryptJSON, decryptJSON } from './valeriaCrypto';
 import { getLocale } from './valeriaLocale';
@@ -272,7 +272,7 @@ function scheduleFlush(): void {
   if (flushTimer) return;
   flushTimer = setTimeout(() => {
     flushTimer = null;
-    InteractionManager.runAfterInteractions(() => { void flushNow(); });
+    runAfterInteractions(() => { void flushNow(); });
   }, 1500);
 }
 
@@ -564,7 +564,7 @@ function highLoadContextNow(): HighLoadContext {
 // animación de cierre no debe convivir con el cifrado + disco.
 export async function attachLikert(score: number, question: string): Promise<void> {
   cur.likert = { score, question, at: Date.now(), context: highLoadContextNow() };
-  InteractionManager.runAfterInteractions(() => {
+  runAfterInteractions(() => {
     void (async () => {
       try {
         const store = await loadStore();

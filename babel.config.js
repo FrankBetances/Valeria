@@ -1,8 +1,6 @@
-// NativeWind 4 (guía oficial de React Native Reusables): JSX con className.
-// babel-preset-expo añade solo el plugin de Reanimated cuando está instalado.
+// Uniwind no necesita preset propio: babel-preset-expo y el plugin de worklets
+// que añade solo cuando Reanimated 4 está instalado.
 module.exports = function (api) {
   api.cache(true);
-  return {
-    presets: [['babel-preset-expo', { jsxImportSource: 'nativewind' }], 'nativewind/babel'],
-  };
+  return { presets: ['babel-preset-expo'] };
 };

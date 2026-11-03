@@ -20,6 +20,7 @@ import { LUA_COLORS, LUA_RADII } from "../Theme/luaTheme";
 import { LuaGame, LuaGameItem, luaGamesFor } from "../index";
 import { getLocale } from "../../valeriaLocale";
 import { luaCompleteActivity, useLuaActivityCleanup } from "../luaActivityReward";
+import { FONT } from '../../ui/fonts';
 
 interface Props {
   navigation: any;
@@ -236,8 +237,8 @@ const s = StyleSheet.create({
     alignItems: "center", justifyContent: "center",
     backgroundColor: LUA_COLORS.surfaceSubtle, marginRight: 12,
   },
-  backTxt: { fontSize: 15, color: LUA_COLORS.textPrimary, fontWeight: "700" },
-  topTitle: { flex: 1, fontSize: 17, fontWeight: "800", color: LUA_COLORS.textPrimary },
+  backTxt: { fontFamily: FONT.bodyBold,fontSize: 15, color: LUA_COLORS.textPrimary },
+  topTitle: { fontFamily: FONT.bodyBold,flex: 1, fontSize: 17, color: LUA_COLORS.textPrimary },
   scroll: { padding: 16 },
   instructionCard: {
     flexDirection: "row", alignItems: "center", gap: 12,
@@ -293,7 +294,7 @@ const s = StyleSheet.create({
     alignItems: "center", justifyContent: "center",
     backgroundColor: LUA_COLORS.primary,
   },
-  seqBadgeTxt: { color: "#FFFFFF", fontSize: 12, fontWeight: "800" },
+  seqBadgeTxt: { fontFamily: FONT.bodyBold,color: "#FFFFFF", fontSize: 12 },
   markBadge: { position: "absolute", top: 6, right: 6 },
   finishCard: { marginTop: 16, alignItems: "center", paddingVertical: 18 },
   finishBtn: {
@@ -301,7 +302,7 @@ const s = StyleSheet.create({
     alignItems: "center", justifyContent: "center",
     backgroundColor: LUA_COLORS.primary,
   },
-  finishBtnTxt: { color: LUA_COLORS.textOnPrimary, fontSize: 17, fontWeight: "800" },
+  finishBtnTxt: { fontFamily: FONT.bodyBold,color: LUA_COLORS.textOnPrimary, fontSize: 17 },
   finishDoneTxt: {
     marginTop: 8, fontSize: 17, fontWeight: "800",
     color: LUA_COLORS.mintDark, textAlign: "center",

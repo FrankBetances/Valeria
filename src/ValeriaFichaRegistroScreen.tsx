@@ -10,6 +10,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { V, STORAGE_KEYS } from './valeriaTheme';
 import { BlockIcon, BlockIconName } from './ValeriaBlockIcons';
 import { useT } from './i18n';
+import { FONT } from './ui/fonts';
 // import logoWhite from '../../assets/valeria-logo-white.png';
 
 // ⚠️ Estos tres arrays son IDENTIFICADORES ALMACENADOS, no texto de pantalla.
@@ -239,25 +240,25 @@ const s = StyleSheet.create({
   flex: { flex: 1, backgroundColor: V.color.pageBg },
   header: { backgroundColor: V.color.primary, paddingTop: 18, paddingHorizontal: 22, paddingBottom: 16, borderBottomLeftRadius: 26, borderBottomRightRadius: 26 },
   logo: { height: 21, width: 84, resizeMode: 'contain', marginBottom: 8 },
-  logoFallback: { color: '#fff', fontWeight: '800', fontSize: 13, letterSpacing: 1, marginBottom: 6 },
-  headerTitle: { color: '#fff', fontSize: 24, fontWeight: '800', letterSpacing: -0.4 },
-  headerSub: { color: 'rgba(255,255,255,.9)', fontSize: 13, fontWeight: '600', marginTop: 4 },
+  logoFallback: { fontFamily: FONT.bodyBlack,color: '#fff', fontSize: 13, letterSpacing: 1, marginBottom: 6 },
+  headerTitle: { fontFamily: FONT.display,color: '#fff', fontSize: 24, letterSpacing: -0.4 },
+  headerSub: { fontFamily: FONT.bodyBold,color: 'rgba(255,255,255,.9)', fontSize: 13, marginTop: 4 },
 
   scroll: { padding: 18, paddingBottom: 36 },
   card: { backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.border, borderRadius: 16, padding: 17, marginBottom: 14, ...V.shadow.card },
   sectionHead: { flexDirection: 'row', alignItems: 'center', gap: 9, marginBottom: 15 },
   sectionIcon: { width: 34, height: 34, borderRadius: 11, backgroundColor: V.color.primaryLight, alignItems: 'center', justifyContent: 'center' },
-  sectionTitle: { fontSize: 16, fontWeight: '800', color: V.color.textPrimary },
+  sectionTitle: { fontFamily: FONT.bodyBlack,fontSize: 16, color: V.color.textPrimary },
 
-  label: { fontSize: 12.5, fontWeight: '800', color: V.color.textSecondary, marginBottom: 6 },
+  label: { fontFamily: FONT.bodyBlack,fontSize: 12.5, color: V.color.textSecondary, marginBottom: 6 },
   input: { backgroundColor: V.color.pageBg, borderWidth: 1, borderColor: '#e5e7eb', borderRadius: 12, paddingHorizontal: 14, paddingVertical: 13, fontSize: 15, color: V.color.textPrimary },
   inputErr: { backgroundColor: V.color.errorBg, borderColor: V.color.error },
-  errText: { fontSize: 11.5, color: V.color.error, marginTop: 4, fontWeight: '700' },
-  hint: { fontSize: 11, color: V.color.textSecondary, marginTop: 5, fontWeight: '600' },
+  errText: { fontFamily: FONT.bodyBlack,fontSize: 11.5, color: V.color.error, marginTop: 4 },
+  hint: { fontFamily: FONT.bodyBold,fontSize: 11, color: V.color.textSecondary, marginTop: 5 },
 
   segment: { flex: 1, alignItems: 'center', paddingVertical: 11, borderRadius: 12, backgroundColor: V.color.pageBg, borderWidth: 1, borderColor: '#eef2f1' },
   segmentOn: { backgroundColor: V.color.primary, borderColor: V.color.primary, ...V.shadow.button },
-  segmentTxt: { fontSize: 14, fontWeight: '800' },
+  segmentTxt: { fontFamily: FONT.bodyBlack,fontSize: 14 },
 
   select: { backgroundColor: V.color.pageBg, borderWidth: 1, borderColor: '#e5e7eb', borderRadius: 12, paddingHorizontal: 14, paddingVertical: 13, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   selectOpen: { borderColor: V.color.primary },
@@ -266,14 +267,14 @@ const s = StyleSheet.create({
 
   success: { flexDirection: 'row', alignItems: 'center', gap: 10, backgroundColor: V.color.primaryTint, borderWidth: 1, borderColor: V.color.primary, borderRadius: 13, padding: 14, marginBottom: 14 },
   successCheck: { width: 24, height: 24, borderRadius: 12, backgroundColor: V.color.primary, alignItems: 'center', justifyContent: 'center' },
-  successTxt: { color: V.color.textPrimary, fontSize: 13.5, fontWeight: '700', flex: 1 },
+  successTxt: { fontFamily: FONT.bodyBlack,color: V.color.textPrimary, fontSize: 13.5, flex: 1 },
 
   primaryBtn: { backgroundColor: V.color.primary, borderRadius: 14, paddingVertical: 16, alignItems: 'center', ...V.shadow.button },
-  primaryBtnTxt: { color: '#fff', fontSize: 16, fontWeight: '800' },
+  primaryBtnTxt: { fontFamily: FONT.bodyBlack,color: '#fff', fontSize: 16 },
   secondaryBtn: { marginTop: 11, backgroundColor: '#fff', borderWidth: 1.5, borderColor: V.color.primary, borderRadius: 14, paddingVertical: 15, alignItems: 'center' },
-  secondaryBtnTxt: { color: V.color.primaryDark, fontSize: 15, fontWeight: '800' },
+  secondaryBtnTxt: { fontFamily: FONT.bodyBlack,color: V.color.primaryDark, fontSize: 15 },
   footerNote: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6, marginTop: 14, paddingHorizontal: 10 },
-  footerTxt: { color: V.color.textSecondary, fontSize: 11, fontWeight: '600', textAlign: 'center' },
+  footerTxt: { fontFamily: FONT.bodyBold,color: V.color.textSecondary, fontSize: 11, textAlign: 'center' },
 });
 
 export default ValeriaFichaRegistroScreen;

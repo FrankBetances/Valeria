@@ -20,6 +20,7 @@ import { LUA_COLORS, LUA_RADII } from "../Theme/luaTheme";
 import { LuaStory, luaStoriesFor } from "../index";
 import { getLocale } from "../../valeriaLocale";
 import { luaCompleteActivity, useLuaActivityCleanup } from "../luaActivityReward";
+import { FONT } from '../../ui/fonts';
 
 interface Props {
   navigation: any;
@@ -278,7 +279,7 @@ const s = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: LUA_COLORS.primary,
   },
-  finishBtnTxt: { color: LUA_COLORS.textOnPrimary, fontSize: 17, fontWeight: "800" },
+  finishBtnTxt: { fontFamily: FONT.bodyBold,color: LUA_COLORS.textOnPrimary, fontSize: 17 },
   finishDoneTxt: {
     marginTop: 8,
     fontSize: 17,

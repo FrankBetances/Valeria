@@ -31,6 +31,7 @@ import { BlockIcon } from '../ValeriaBlockIcons';
 import { CatPixel } from '../ValeriaCatPixel';
 import { getUiLang } from '../valeriaUiLang';
 import { isFallingBack } from '../i18n/uiLangFallback';
+import { FONT } from '../ui/fonts';
 
 type View4 = 'hub' | 'list' | 'read' | 'quiz';
 
@@ -417,9 +418,9 @@ const CapsuleQuiz: React.FC<{
 const s = StyleSheet.create({
   flex: { flex: 1, backgroundColor: V.color.pageBg },
   header: { backgroundColor: V.color.primary, paddingTop: 18, paddingHorizontal: 22, paddingBottom: 18, borderBottomLeftRadius: 26, borderBottomRightRadius: 26 },
-  logoFallback: { color: 'rgba(255,255,255,.9)', fontWeight: '800', fontSize: 11.5, letterSpacing: 1, marginBottom: 6 },
+  logoFallback: { fontFamily: FONT.bodyBlack,color: 'rgba(255,255,255,.9)', fontSize: 11.5, letterSpacing: 1, marginBottom: 6 },
   backPill: { alignSelf: 'flex-start', backgroundColor: 'rgba(255,255,255,.18)', borderWidth: 1, borderColor: 'rgba(255,255,255,.32)', borderRadius: 11, paddingHorizontal: 11, paddingVertical: 5, marginBottom: 10 },
-  backPillTxt: { color: '#fff', fontSize: 12, fontWeight: '800' },
+  backPillTxt: { fontFamily: FONT.bodyBlack,color: '#fff', fontSize: 12 },
   headerTopRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 2 },
   headerTitleCol: { flex: 1, marginRight: 10 },
   luaBadge: {
@@ -433,8 +434,8 @@ const s = StyleSheet.create({
   },
   titleRow: { flexDirection: 'row', alignItems: 'center', gap: 10 },
   signRow: { flexDirection: 'row', alignItems: 'center', gap: 8 },
-  headerTitle: { color: '#fff', fontSize: 23, fontWeight: '800', letterSpacing: -0.4 },
-  headerSub: { color: 'rgba(255,255,255,.9)', fontSize: 13, fontWeight: '600', marginTop: 4, lineHeight: 18 },
+  headerTitle: { fontFamily: FONT.display,color: '#fff', fontSize: 23, letterSpacing: -0.4 },
+  headerSub: { fontFamily: FONT.bodyBold,color: 'rgba(255,255,255,.9)', fontSize: 13, marginTop: 4, lineHeight: 18 },
   langNotice: {
     marginTop: 10, paddingVertical: 7, paddingHorizontal: 11, borderRadius: 11,
     backgroundColor: 'rgba(255,255,255,0.18)', borderWidth: 1, borderColor: 'rgba(255,255,255,0.32)',
@@ -444,30 +445,30 @@ const s = StyleSheet.create({
   hProgress: { flexDirection: 'row', alignItems: 'center', gap: 10, marginTop: 14 },
   hProgressTrack: { flex: 1, height: 8, borderRadius: 5, backgroundColor: 'rgba(255,255,255,.28)', overflow: 'hidden' },
   hProgressFill: { height: 8, borderRadius: 5, backgroundColor: '#fff' },
-  hProgressTxt: { color: '#fff', fontSize: 12, fontWeight: '800' },
+  hProgressTxt: { fontFamily: FONT.bodyBlack,color: '#fff', fontSize: 12 },
   gameRow: { flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 8 },
-  gameTxt: { color: 'rgba(255,255,255,.92)', fontSize: 12, fontWeight: '800' },
+  gameTxt: { fontFamily: FONT.bodyBlack,color: 'rgba(255,255,255,.92)', fontSize: 12 },
 
   scroll: { padding: 18, paddingBottom: 28 },
-  listLabel: { fontSize: 12, fontWeight: '800', color: V.color.textSecondary, letterSpacing: 0.5, marginBottom: 12, marginHorizontal: 2 },
+  listLabel: { fontFamily: FONT.bodyBlack,fontSize: 12, color: V.color.textSecondary, letterSpacing: 0.5, marginBottom: 12, marginHorizontal: 2 },
 
   // Muestra de configuraciones de mano en el catálogo del dominio LSE.
   signPreview: { backgroundColor: '#f7f4fe', borderWidth: 1, borderColor: '#e5dcfa', borderRadius: 16, padding: 13, marginBottom: 16 },
-  signPreviewTitle: { fontSize: 13, fontWeight: '800', color: '#4b3a7a', marginBottom: 9 },
-  signPreviewSub: { fontSize: 11.5, fontWeight: '600', color: '#6b6383', lineHeight: 16, marginTop: 9 },
+  signPreviewTitle: { fontFamily: FONT.bodyBlack,fontSize: 13, color: '#4b3a7a', marginBottom: 9 },
+  signPreviewSub: { fontFamily: FONT.bodyBold,fontSize: 11.5, color: '#6b6383', lineHeight: 16, marginTop: 9 },
 
   emptyCard: { backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.border, borderRadius: 16, padding: 18, marginBottom: 11 },
-  emptyTxt: { fontSize: 13.5, fontWeight: '600', color: V.color.textSecondary, lineHeight: 20, textAlign: 'center' },
+  emptyTxt: { fontFamily: FONT.bodyBold,fontSize: 13.5, color: V.color.textSecondary, lineHeight: 20, textAlign: 'center' },
 
   capCard: { flexDirection: 'row', alignItems: 'center', gap: 13, backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.border, borderRadius: 16, padding: 14, marginBottom: 11, ...V.shadow.card },
   capIcon: { width: 46, height: 46, borderRadius: 14, alignItems: 'center', justifyContent: 'center' },
-  capTrack: { fontSize: 9.5, fontWeight: '800', letterSpacing: 0.6, marginBottom: 2 },
-  capTitle: { fontSize: 15.5, fontWeight: '800', color: V.color.textPrimary },
-  capSummary: { fontSize: 12, fontWeight: '600', color: V.color.textSecondary, marginTop: 2, lineHeight: 16 },
-  capMeta: { fontSize: 11, fontWeight: '700', color: V.color.textSecondary, marginTop: 6 },
+  capTrack: { fontFamily: FONT.bodyBlack,fontSize: 9.5, letterSpacing: 0.6, marginBottom: 2 },
+  capTitle: { fontFamily: FONT.bodyBlack,fontSize: 15.5, color: V.color.textPrimary },
+  capSummary: { fontFamily: FONT.bodyBold,fontSize: 12, color: V.color.textSecondary, marginTop: 2, lineHeight: 16 },
+  capMeta: { fontFamily: FONT.bodyBlack,fontSize: 11, color: V.color.textSecondary, marginTop: 6 },
   capState: { width: 30, height: 30, borderRadius: 15, alignItems: 'center', justifyContent: 'center' },
   capStateDone: { backgroundColor: V.color.success },
-  capStateTxt: { fontSize: 15, fontWeight: '800' },
+  capStateTxt: { fontFamily: FONT.bodyBlack,fontSize: 15 },
 
   dots: { flexDirection: 'row', gap: 6, marginTop: 12 },
   dot: { width: 22, height: 5, borderRadius: 3 },
@@ -484,53 +485,53 @@ const s = StyleSheet.create({
     backgroundColor: '#ffffff',
     borderColor: '#ffffff',
   },
-  stageNavTxt: { fontSize: 12, fontWeight: '700', color: 'rgba(255,255,255,0.95)' },
-  stageNavTxtActive: { color: V.color.primaryDark, fontWeight: '800' },
+  stageNavTxt: { fontFamily: FONT.bodyBlack,fontSize: 12, color: 'rgba(255,255,255,0.95)' },
+  stageNavTxtActive: { fontFamily: FONT.bodyBlack,color: V.color.primaryDark },
 
   slideFigure: { alignItems: 'center', marginTop: 14, marginBottom: 2 },
   slideCard: { backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.border, borderRadius: 18, padding: 20, ...V.shadow.card },
   slideEmoji: { fontSize: 46, textAlign: 'center', marginBottom: 6 },
-  slideHeading: { fontSize: 19, fontWeight: '800', color: V.color.textPrimary, textAlign: 'center', marginTop: 6 },
-  slideBody: { fontSize: 14.5, fontWeight: '600', color: V.color.textSecondary, lineHeight: 22, marginTop: 12, textAlign: 'center' },
+  slideHeading: { fontFamily: FONT.display,fontSize: 19, color: V.color.textPrimary, textAlign: 'center', marginTop: 6 },
+  slideBody: { fontFamily: FONT.bodyBold,fontSize: 14.5, color: V.color.textSecondary, lineHeight: 22, marginTop: 12, textAlign: 'center' },
 
   ageBracketBadge: { alignSelf: 'center', paddingHorizontal: 12, paddingVertical: 5, borderRadius: 12, marginBottom: 8 },
-  ageBracketTxt: { fontSize: 12.5, fontWeight: '800', letterSpacing: 0.4 },
+  ageBracketTxt: { fontFamily: FONT.bodyBlack,fontSize: 12.5, letterSpacing: 0.4 },
 
   disclaimerBox: { flexDirection: 'row', alignItems: 'flex-start', gap: 8, backgroundColor: '#f0fdf9', borderWidth: 1, borderColor: '#cdeeec', borderRadius: 12, padding: 12, marginTop: 12, marginBottom: 8 },
-  disclaimerTxt: { flex: 1, fontSize: 12, fontWeight: '600', color: '#0d9488', lineHeight: 17 },
+  disclaimerTxt: { fontFamily: FONT.bodyBold,flex: 1, fontSize: 12, color: '#0d9488', lineHeight: 17 },
 
   skillsSection: { borderRadius: 16, padding: 15, marginTop: 14, borderWidth: 1 },
   skillsReceptive: { backgroundColor: '#eff6ff', borderColor: '#bfdbfe' },
   skillsExpressive: { backgroundColor: '#ecfdf5', borderColor: '#a7f3d0' },
   skillsHeaderRow: { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 10 },
-  skillsHeaderTxt: { fontSize: 14, fontWeight: '800' },
+  skillsHeaderTxt: { fontFamily: FONT.bodyBlack,fontSize: 14 },
   bulletRow: { flexDirection: 'row', alignItems: 'flex-start', gap: 8, marginTop: 6 },
-  bulletDot: { fontSize: 16, fontWeight: '800', lineHeight: 18 },
-  bulletTxt: { flex: 1, fontSize: 13.5, fontWeight: '600', color: V.color.textPrimary, lineHeight: 19 },
+  bulletDot: { fontFamily: FONT.bodyBlack,fontSize: 16, lineHeight: 18 },
+  bulletTxt: { fontFamily: FONT.bodyBold,flex: 1, fontSize: 13.5, color: V.color.textPrimary, lineHeight: 19 },
 
   footer: { flexDirection: 'row', gap: 10, padding: 16, paddingBottom: 22, backgroundColor: V.color.pageBg },
   primaryBtn: { borderRadius: 14, paddingVertical: 15, alignItems: 'center', ...V.shadow.button },
-  primaryBtnTxt: { color: '#fff', fontSize: 15, fontWeight: '800' },
+  primaryBtnTxt: { fontFamily: FONT.bodyBlack,color: '#fff', fontSize: 15 },
   secondaryBtn: { borderRadius: 14, paddingVertical: 15, paddingHorizontal: 18, alignItems: 'center', backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.border },
-  secondaryBtnTxt: { color: V.color.textSecondary, fontSize: 15, fontWeight: '800' },
+  secondaryBtnTxt: { fontFamily: FONT.bodyBlack,color: V.color.textSecondary, fontSize: 15 },
 
-  qPrompt: { fontSize: 17, fontWeight: '800', color: V.color.textPrimary, lineHeight: 24, marginBottom: 16 },
+  qPrompt: { fontFamily: FONT.display,fontSize: 17, color: V.color.textPrimary, lineHeight: 24, marginBottom: 16 },
   opt: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', backgroundColor: '#fff', borderWidth: 1.5, borderColor: V.color.border, borderRadius: 14, padding: 15, marginBottom: 10 },
   optCorrect: { borderColor: V.color.success, backgroundColor: V.color.successBg },
   optWrong: { borderColor: V.color.error, backgroundColor: V.color.errorBg },
-  optTxt: { flex: 1, fontSize: 14.5, fontWeight: '700', color: V.color.textPrimary },
-  optMark: { fontSize: 16, fontWeight: '800', color: V.color.success, marginLeft: 8 },
+  optTxt: { fontFamily: FONT.bodyBlack,flex: 1, fontSize: 14.5, color: V.color.textPrimary },
+  optMark: { fontFamily: FONT.bodyBlack,fontSize: 16, color: V.color.success, marginLeft: 8 },
   rationale: { backgroundColor: V.color.primaryTint, borderWidth: 1, borderColor: V.color.borderActive, borderRadius: 13, padding: 13, marginTop: 4 },
   rationaleRow: { flexDirection: 'row', alignItems: 'flex-start', gap: 7 },
-  rationaleTxt: { fontSize: 13, fontWeight: '700', color: V.color.textSecondary, lineHeight: 18 },
+  rationaleTxt: { fontFamily: FONT.bodyBlack,fontSize: 13, color: V.color.textSecondary, lineHeight: 18 },
 
   resultCard: { backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.border, borderRadius: 20, padding: 24, alignItems: 'center', ...V.shadow.card },
-  resultScore: { fontSize: 48, fontWeight: '800' },
-  resultSub: { fontSize: 14, fontWeight: '600', color: V.color.textSecondary, textAlign: 'center', marginTop: 8, lineHeight: 20 },
-  resultXp: { fontSize: 16, fontWeight: '800', color: V.color.star, marginTop: 14 },
+  resultScore: { fontFamily: FONT.display,fontSize: 48 },
+  resultSub: { fontFamily: FONT.bodyBold,fontSize: 14, color: V.color.textSecondary, textAlign: 'center', marginTop: 8, lineHeight: 20 },
+  resultXp: { fontFamily: FONT.bodyBlack,fontSize: 16, color: V.color.star, marginTop: 14 },
   badgeRow: { flexDirection: 'row', alignItems: 'center', gap: 12, alignSelf: 'stretch', backgroundColor: V.color.pageBg, borderRadius: 14, padding: 13, marginTop: 12 },
-  badgeName: { fontSize: 14, fontWeight: '800', color: V.color.textPrimary },
-  badgeDesc: { fontSize: 12, fontWeight: '600', color: V.color.textSecondary, marginTop: 2 },
+  badgeName: { fontFamily: FONT.bodyBlack,fontSize: 14, color: V.color.textPrimary },
+  badgeDesc: { fontFamily: FONT.bodyBold,fontSize: 12, color: V.color.textSecondary, marginTop: 2 },
 });
 
 export default ValeriaAcademyScreen;

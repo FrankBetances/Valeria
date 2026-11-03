@@ -176,18 +176,18 @@ export const EN: UiStrings = {
   // therapy content bank, which is localised by variety, not by UI language.
   hub: {
     kickerPractice: 'TABLETOP PRACTICE',
-    title: 'Exercise Selection',
-    subtitle: 'Pick a block to practice or to assign',
+    title: 'Exercises',
+    subtitle: 'Choose what to practise today',
     streak: (n: number): string => `${n}-day streak`,
     level: (n: number, name: string): string => `Level ${n} · ${name}`,
     sectionTraining: 'YOUR TRAINING',
     sectionBlocks: 'EXERCISE BLOCKS',
 
-    pairsTitle: 'Minimal Pairs',
+    pairsTitle: 'Sound pairs',
     pairsSub: 'Speech sound errors: /r/, /s/ and more, with a voice game.',
     pairsBrief: 'Sound contrasts for speech errors.',
     pairsA11y: 'Practice minimal pairs for speech sound errors',
-    semanticTitle: 'Semantic Expansion',
+    semanticTitle: 'Vocabulary',
     semanticSub: 'Everyday routines, vocabulary growth and contrasts with hands-on action.',
     semanticBrief: 'Everyday vocabulary and phrases.',
     semanticA11y: 'Practice semantic expansion and vocabulary growth',
@@ -211,7 +211,7 @@ export const EN: UiStrings = {
     arSub: 'The camera watches the movement and the car, the dog or the apple reacts to it. Nothing is recorded and the mic stays off.',
     arBrief: 'Gesture and gaze with the camera.',
     arA11y: (n: number): string => `Open the augmented reality block, ${n} exercises`,
-    sensoryTitle: 'Sensory Integration',
+    sensoryTitle: 'Sound adaptation',
     sensorySub: 'Gradual auditory familiarization, modulation and visual anticipation for everyday environmental sounds.',
     sensoryBrief: 'Sound anticipation and tolerance.',
     sensoryA11y: (n: number): string => `Open auditory sensory integration exercises, ${n} activities`,
@@ -644,7 +644,7 @@ export const EN: UiStrings = {
       `${n} words practiced by pairing picture, voice and physical action. A word is learned when the child lives it with their body, not just when they hear it.`,
     assistSub: (word: string): string =>
       `The grown-up says “${word}” very slowly while looking at the child, and they say it together. No rush: today we practice it, tomorrow it comes out on its own.`,
-    title: 'Semantic Expansion',
+    title: 'Vocabulary',
     setupTitle: 'Getting ready',
     doneTitle: 'All done!',
 
@@ -1638,7 +1638,7 @@ export const EN: UiStrings = {
   },
   sensory: {
     blockTag: 'SENSORY MODULE',
-    blockTitle: 'Sensory Integration',
+    blockTitle: 'Sound adaptation',
     blockSubtitle: 'Gradual auditory familiarization, modulation and visual anticipation for everyday sounds.',
     xpTotal: (xp: number): string => `${xp} XP`,
     sessionsCount: (n: number): string => `${n} ${n === 1 ? 'session' : 'sessions'}`,

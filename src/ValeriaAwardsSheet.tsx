@@ -24,6 +24,7 @@ import {
 import { useT } from './i18n';
 import { LuaInventoryState, COLLECTIBLES_CATALOG, createDefaultLuaInventory } from './types/valeriaLua';
 import { PixelItemIcon } from './components/lua/PixelItemIcon';
+import { FONT } from './ui/fonts';
 import {
   checkAndUnlockItems,
   equipLuaAccessory,
@@ -229,11 +230,11 @@ const s = StyleSheet.create({
     width: 72, height: 72, borderRadius: 20, backgroundColor: V.color.primaryLight,
     alignItems: 'center', justifyContent: 'center',
   },
-  title: { ...V.type.heading, fontWeight: V.font.extrabold, color: V.color.textPrimary },
-  levelLine: { ...V.type.body, fontWeight: V.font.extrabold, color: V.color.primaryDark, marginTop: 2 },
+  title: { fontFamily: FONT.bodyBlack,...V.type.heading, color: V.color.textPrimary },
+  levelLine: { fontFamily: FONT.bodyBlack,...V.type.body, color: V.color.primaryDark, marginTop: 2 },
   track: { height: 10, borderRadius: 5, backgroundColor: '#e3ecec', marginTop: V.space.sm, overflow: 'hidden' },
   trackFill: { height: '100%', borderRadius: 5, backgroundColor: V.color.primary },
-  toNext: { ...V.type.caption, fontWeight: V.font.bold, color: V.color.textSecondary, marginTop: 5 },
+  toNext: { fontFamily: FONT.bodyBlack,...V.type.caption, color: V.color.textSecondary, marginTop: 5 },
 
   stats: {
     flexDirection: 'row', alignItems: 'center', backgroundColor: V.color.card,
@@ -242,10 +243,10 @@ const s = StyleSheet.create({
   },
   stat: { flex: 1, alignItems: 'center' },
   statSep: { width: 1, alignSelf: 'stretch', backgroundColor: V.color.border },
-  statValue: { fontSize: 26, lineHeight: 30, fontWeight: V.font.extrabold, color: V.color.textPrimary },
+  statValue: { fontFamily: FONT.display,fontSize: 26, lineHeight: 30, color: V.color.textPrimary },
   // textSecondary y no textMuted: en la versión anterior estas etiquetas iban en
   // gris claro sobre blanco y no llegaban al contraste mínimo AA.
-  statLabel: { ...V.type.caption, fontWeight: V.font.bold, color: V.color.textSecondary, marginTop: 2 },
+  statLabel: { fontFamily: FONT.bodyBlack,...V.type.caption, color: V.color.textSecondary, marginTop: 2 },
 
   scroll: { paddingTop: V.space.lg, paddingBottom: V.space.md },
   sectionLabel: {
@@ -261,9 +262,9 @@ const s = StyleSheet.create({
   },
   stepDone: { backgroundColor: V.color.primaryLight, borderColor: V.color.borderActive },
   stepHere: { borderColor: V.color.primary, borderWidth: 2 },
-  stepNum: { fontSize: 12, fontWeight: V.font.extrabold, color: V.color.textMuted },
+  stepNum: { fontFamily: FONT.bodyBlack,fontSize: 12, color: V.color.textMuted },
   stepNumDone: { color: V.color.primaryDark },
-  stepName: { fontSize: 12, fontWeight: V.font.bold, color: V.color.textSecondary },
+  stepName: { fontFamily: FONT.bodyBlack,fontSize: 12, color: V.color.textSecondary },
   stepNameDone: { color: V.color.primaryDark },
 
   grid: { flexDirection: 'row', flexWrap: 'wrap', gap: V.space.sm },
@@ -295,7 +296,7 @@ const s = StyleSheet.create({
     backgroundColor: V.color.primary, borderRadius: 16, paddingVertical: 14,
     alignItems: 'center', marginTop: V.space.md, ...V.shadow.button,
   },
-  closeTxt: { color: '#fff', ...V.type.title, fontWeight: V.font.extrabold },
+  closeTxt: { fontFamily: FONT.bodyBlack,color: '#fff', ...V.type.title },
 
   // El aviso de las insignias queda justo encima: sin aire, el rótulo del
   // armario se leía como una segunda línea suya.
@@ -312,14 +313,14 @@ const s = StyleSheet.create({
     alignItems: 'center', justifyContent: 'center', marginBottom: 6,
   },
   itemIconPlateEquipped: { backgroundColor: '#cdeeec' },
-  itemName: { fontSize: 12.5, fontWeight: V.font.extrabold, color: V.color.textPrimary, textAlign: 'center' },
+  itemName: { fontFamily: FONT.bodyBlack,fontSize: 12.5, color: V.color.textPrimary, textAlign: 'center' },
   itemNameLocked: { color: V.color.textMuted },
   itemSlotBadge: {
     fontSize: 10.5, fontWeight: V.font.bold, color: V.color.primaryDark,
     backgroundColor: 'rgba(0,196,190,0.12)', paddingHorizontal: 6, paddingVertical: 2,
     borderRadius: 6, marginTop: 2, marginBottom: 3,
   },
-  itemDesc: { fontSize: 11, lineHeight: 14, fontWeight: V.font.semibold, color: V.color.textSecondary, textAlign: 'center' },
+  itemDesc: { fontFamily: FONT.bodyBlack,fontSize: 11, lineHeight: 14, color: V.color.textSecondary, textAlign: 'center' },
 });
 
 export default ValeriaAwardsSheet;

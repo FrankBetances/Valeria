@@ -1,7 +1,7 @@
-// NativeWind 4: compila global.css. `inlineRem: 16` es lo que pide React Native Reusables.
+// Uniwind (Tailwind 4) compila global.css, que trae los estilos de HeroUI Native.
 const { getDefaultConfig } = require('expo/metro-config');
-const { withNativeWind } = require('nativewind/metro');
+const { withUniwindConfig } = require('uniwind/metro');
 
 const config = getDefaultConfig(__dirname);
 
-module.exports = withNativeWind(config, { input: './global.css', inlineRem: 16 });
+module.exports = withUniwindConfig(config, { cssEntryFile: './global.css' });

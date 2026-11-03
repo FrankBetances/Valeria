@@ -14,6 +14,8 @@ import { ValeriaBetancesCrest } from './ValeriaBetancesCrest';
 import { AcoprosMark, ItemasSeal, QuisqueyaMark } from './ValeriaPartnerLogos';
 import { useT } from './i18n';
 import { ValeriaUiLangPicker } from './ValeriaUiLangPicker';
+import { KidButton } from './ui/KidButton';
+import { FONT } from './ui/fonts';
 // import logoWhite from '../../assets/valeria-logo-white.png';
 
 // Secuencia de entrada: marca, kicker, autor, divisor, dos colaboradores,
@@ -81,7 +83,7 @@ export const ValeriaCreditsScreen: React.FC<{ navigation?: any }> = ({ navigatio
 
   return (
     <View style={s.flex}>
-      <StatusBar barStyle="light-content" />
+      <StatusBar barStyle="dark-content" />
 
       {/* círculos decorativos */}
       <View style={[s.blob, { top: -80, left: -60, width: 240, height: 240, opacity: 0.12 }]} />
@@ -171,49 +173,43 @@ export const ValeriaCreditsScreen: React.FC<{ navigation?: any }> = ({ navigatio
 
       {/* acción */}
       <Animated.View style={[s.actions, fadeUp(SECTIONS - 1)]}>
-        <Pressable
-          style={({ pressed }) => [s.cta, pressed && { opacity: 0.9 }]}
-          onPress={() => navigation?.navigate('LuaInfo')}
-          accessibilityRole="button"
-          accessibilityLabel={t.common.continue}
-        >
-          <Text style={s.ctaText}>{t.common.continue}</Text>
-        </Pressable>
+        <KidButton label={t.common.continue} onPress={() => navigation?.navigate('LuaInfo')} />
       </Animated.View>
     </View>
   );
 };
 
 const s = StyleSheet.create({
-  flex: { flex: 1, backgroundColor: V.color.primary },
-  blob: { position: 'absolute', borderRadius: 999, backgroundColor: '#ffffff' },
+  flex: { flex: 1, backgroundColor: '#fff8ec', overflow: 'hidden' },
+  blob: { position: 'absolute', borderRadius: 999, backgroundColor: V.color.primary },
   content: { flexGrow: 1, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 30, paddingVertical: 36 },
 
   logo: { height: 30, width: 132, resizeMode: 'contain' },
   brandRow: { alignItems: 'center', gap: 8 },
-  brand: { fontSize: 26, fontWeight: V.font.extrabold, color: '#fff', letterSpacing: -0.6 },
+  brand: { fontSize: 36, fontFamily: FONT.display, color: '#0b1220' },
 
   kicker: {
     marginTop: 30, fontSize: 12, fontWeight: V.font.extrabold, letterSpacing: 2.5,
-    color: 'rgba(255,255,255,0.7)', textTransform: 'uppercase',
+    color: '#0b1220', opacity: 0.7, fontFamily: FONT.bodyBlack, textTransform: 'uppercase',
   },
 
   doctorCard: {
-    marginTop: 16, width: '100%', backgroundColor: 'rgba(255,255,255,0.16)',
-    borderWidth: 1, borderColor: 'rgba(255,255,255,0.28)', borderRadius: 22,
+    marginTop: 16, width: '100%', backgroundColor: '#ffffff',
+    borderWidth: 2, borderColor: '#e3dccf', borderRadius: 22,
     paddingVertical: 24, paddingHorizontal: 22, alignItems: 'center',
   },
   // El emblema es un PNG transparente: aquí no hay fondo ni recorte, el anillo
   // y el ave clara se apoyan directamente sobre el turquesa de la tarjeta.
-  doctorAvatar: { width: 112, height: 112, alignItems: 'center', justifyContent: 'center' },
-  doctorName: { marginTop: 16, fontSize: 21, fontWeight: '900', color: '#fff', lineHeight: 24 },
-  doctorRole: { marginTop: 6, fontSize: 13.5, fontWeight: V.font.bold, color: 'rgba(255,255,255,0.88)' },
+  // El escudo tiene un cuervo blanco: necesita el turquesa detrás para verse.
+  doctorAvatar: { width: 132, height: 132, borderRadius: 66, backgroundColor: V.color.primary, alignItems: 'center', justifyContent: 'center' },
+  doctorName: { marginTop: 16, fontSize: 24, fontFamily: FONT.display, color: '#0b1220', lineHeight: 28, textAlign: 'center' },
+  doctorRole: { marginTop: 6, fontSize: 15, fontFamily: FONT.bodyBold, color: V.color.textSecondary, textAlign: 'center' },
 
   dividerRow: { marginTop: 26, flexDirection: 'row', alignItems: 'center', width: '100%' },
-  dividerLine: { flex: 1, height: 1, backgroundColor: 'rgba(255,255,255,0.3)' },
+  dividerLine: { flex: 1, height: 2, borderRadius: 1, backgroundColor: 'rgba(11,18,32,0.12)' },
   dividerLabel: {
     marginHorizontal: 12, fontSize: 11.5, fontWeight: V.font.extrabold, letterSpacing: 1.5,
-    color: 'rgba(255,255,255,0.75)', textTransform: 'uppercase',
+    color: V.color.textSecondary, fontFamily: FONT.bodyBlack, textTransform: 'uppercase',
   },
 
   collabList: { marginTop: 18, width: '100%', gap: 11 },
@@ -234,12 +230,12 @@ const s = StyleSheet.create({
     paddingVertical: 14, paddingHorizontal: 18, flexDirection: 'row', alignItems: 'center', gap: 14,
   },
 
-  collabName: { fontSize: 16, fontWeight: '900', color: V.color.dark, lineHeight: 18 },
-  collabDesc: { marginTop: 3, fontSize: 12, fontWeight: V.font.bold, color: '#5b6b6a' },
+  collabName: { fontSize: 17, fontFamily: FONT.display, color: V.color.dark, lineHeight: 21 },
+  collabDesc: { marginTop: 3, fontSize: 13, fontFamily: FONT.body, color: '#4b5563' },
 
   voiceCredit: {
     marginTop: 16, fontSize: 10.5, fontWeight: V.font.bold, lineHeight: 15,
-    color: 'rgba(255,255,255,0.72)', textAlign: 'center', paddingHorizontal: 6,
+    color: V.color.textSecondary, fontFamily: FONT.body, textAlign: 'center', paddingHorizontal: 6,
   },
 
   langBlock: { marginTop: 24, width: '100%' },
@@ -251,7 +247,7 @@ const s = StyleSheet.create({
   },
   // primaryDark sobre blanco da 3,1:1 y no llega al 4,5:1 de WCAG AA: el
   // «Continuar» casi no se leía. dark da 18,7:1.
-  ctaText: { color: V.color.dark, fontSize: 17, fontWeight: V.font.extrabold },
+  ctaText: { fontFamily: FONT.display,color: V.color.dark, fontSize: 17 },
 });
 
 export default ValeriaCreditsScreen;

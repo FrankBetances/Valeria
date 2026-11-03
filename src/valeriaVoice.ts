@@ -47,6 +47,9 @@ import { getLocale, isSeseo, assetLang, speechLocale, prefersLatinVoice, content
 import { prosodyFor, splitForSpeech, tightenPauses } from './valeriaSpeechProsody';
 import { trackAsrMode } from './valeriaTelemetry';
 
+// Metro inyecta __DEV__; React Native 0.88 ya no lo declara en sus tipos.
+declare const __DEV__: boolean;
+
 // ----------------------------------------------------------------------------
 // Selección de voz: el motor TTS del sistema suele traer varias voces es-*.
 // Las marcadas como "Enhanced" (iOS) o las variantes neuronales de alta calidad

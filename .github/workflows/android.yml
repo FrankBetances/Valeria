@@ -563,11 +563,24 @@ jobs:
       - name: Build signed release AAB
         if: env.HAS_SIGNING_SECRETS == 'true' && (env.TARGET_BRANCH == 'main' || github.event_name == 'workflow_dispatch')
         working-directory: ./android
+        # Desde Expo 58 (arquitectura nueva, worklets) el AAB compila C++ para
+        # cuatro arquitecturas. Con el paralelismo por defecto el runner se
+        # quedaba sin memoria y GitHub lo apagaba (run 741, 3/11/2026). Dos
+        # tareas de Gradle y dos procesos de CMake caben en los 16 GB.
         env:
           RELEASE_STORE_PASSWORD: ${{ secrets.ANDROID_RELEASE_STORE_PASSWORD }}
           RELEASE_KEY_ALIAS: ${{ secrets.ANDROID_RELEASE_KEY_ALIAS }}
           RELEASE_KEY_PASSWORD: ${{ secrets.ANDROID_RELEASE_KEY_PASSWORD }}
-        run: ./gradlew bundleRelease --no-daemon --stacktrace
+          CMAKE_BUILD_PARALLEL_LEVEL: '2'
+        # El daemon de Gradle del assembleRelease (5 GB) y el de Kotlin siguen
+        # vivos: con el bundleRelease (otro JVM de 5 GB) más el C++ de worklets,
+        # Skia y Reanimated, el runner se quedaba sin memoria (runs 741 y 743).
+        # Se paran antes de compilar el AAB.
+        run: |
+          ./gradlew --stop || true
+          pkill -f KotlinCompileDaemon || true
+          free -m
+          ./gradlew bundleRelease --no-daemon --stacktrace --max-workers=2
 
       # `retention-days` recorta la retención del repositorio (7 días) SOLO hacia
       # abajo. El AAB se sube a Play Console el mismo día que se compila; a los 3

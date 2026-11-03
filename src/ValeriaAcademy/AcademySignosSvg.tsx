@@ -30,6 +30,7 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Svg, { Circle, Ellipse, G, Line, Path, Rect } from 'react-native-svg';
+import { FONT } from '../ui/fonts';
 
 const INK = '#1f2937';
 const PIEL = '#fde3c0';
@@ -526,9 +527,9 @@ const a = StyleSheet.create({
   },
   cellCompact: { width: 52, paddingVertical: 5, borderRadius: 10 },
   labelRow: { flexDirection: 'row', alignItems: 'center', gap: 3, marginTop: 2 },
-  letter: { fontSize: 14, fontWeight: '800', color: '#4b3a7a' },
+  letter: { fontFamily: FONT.bodyBlack,fontSize: 14, color: '#4b3a7a' },
   letterCompact: { fontSize: 11 },
-  mov: { fontSize: 11, color: MOV, fontWeight: '800' },
+  mov: { fontFamily: FONT.bodyBlack,fontSize: 11, color: MOV },
 });
 
 export default SignFigure;

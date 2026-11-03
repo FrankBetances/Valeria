@@ -9,6 +9,7 @@ import { View, Text, Pressable, ScrollView, StyleSheet } from 'react-native';
 import { V } from './valeriaTheme';
 import { BlockIcon } from './ValeriaBlockIcons';
 import { useT } from './i18n';
+import { FONT } from './ui/fonts';
 
 // ----------------------------------------------------------------------------
 // Seguridad: SHA-256 en JS puro (compatible con Hermes, sin crypto.subtle).
@@ -159,7 +160,7 @@ const s = StyleSheet.create({
   pill: { flexDirection: 'row', alignItems: 'center', gap: 9, padding: 13, borderRadius: 14 },
   pillLocked: { backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.border, ...V.shadow.card },
   pillUnlocked: { backgroundColor: V.color.successBg, borderWidth: 1, borderColor: '#bfe9d4' },
-  pillTxt: { flex: 1, fontSize: 14, fontWeight: '800' },
+  pillTxt: { fontFamily: FONT.bodyBlack,flex: 1, fontSize: 14 },
   pillChev: { fontSize: 16, color: V.color.textMuted },
 
   overlay: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(11,18,32,.55)', alignItems: 'center', justifyContent: 'center', padding: 24, zIndex: 20 },
@@ -167,16 +168,16 @@ const s = StyleSheet.create({
   modalHead: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   modalIcon: { width: 42, height: 42, borderRadius: 13, backgroundColor: V.color.primaryLight, alignItems: 'center', justifyContent: 'center' },
   modalClose: { width: 30, height: 30, borderRadius: 15, backgroundColor: '#f1f5f4', alignItems: 'center', justifyContent: 'center' },
-  modalTitle: { fontSize: 20, fontWeight: '800', color: V.color.textPrimary, marginTop: 12 },
-  modalSub: { fontSize: 13.5, fontWeight: '600', color: V.color.textSecondary, marginTop: 4, lineHeight: 19 },
+  modalTitle: { fontFamily: FONT.display,fontSize: 20, color: V.color.textPrimary, marginTop: 12 },
+  modalSub: { fontFamily: FONT.bodyBold,fontSize: 13.5, color: V.color.textSecondary, marginTop: 4, lineHeight: 19 },
   pinRow: { flexDirection: 'row', gap: 13, justifyContent: 'center', marginTop: 22, marginBottom: 6 },
   pinCell: { width: 16, height: 16, borderRadius: 8 },
   pinCellOff: { backgroundColor: '#fff', borderWidth: 2, borderColor: '#d8dedd' },
   pinCellOn: { backgroundColor: V.color.primary },
   pinCellErr: { backgroundColor: '#fecdd3' },
-  pinError: { height: 18, textAlign: 'center', color: V.color.error, fontSize: 12.5, fontWeight: '800' },
+  pinError: { fontFamily: FONT.bodyBlack,height: 18, textAlign: 'center', color: V.color.error, fontSize: 12.5 },
   keypad: { flexDirection: 'row', flexWrap: 'wrap', gap: 11, marginTop: 14 },
   key: { width: '30%', height: 56, borderRadius: 16, alignItems: 'center', justifyContent: 'center', backgroundColor: V.color.pageBg, borderWidth: 1, borderColor: '#eef2f1' },
-  keyTxt: { fontSize: 24, fontWeight: '700', color: V.color.textPrimary },
-  demoPin: { textAlign: 'center', color: '#c2cbca', fontSize: 11, fontWeight: '700', marginTop: 16 },
+  keyTxt: { fontFamily: FONT.display,fontSize: 24, color: V.color.textPrimary },
+  demoPin: { fontFamily: FONT.bodyBlack,textAlign: 'center', color: '#c2cbca', fontSize: 11, marginTop: 16 },
 });

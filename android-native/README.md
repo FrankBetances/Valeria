@@ -24,8 +24,8 @@ Es el espejo de `ios-native/`, que hace lo mismo para Xcode.
    opcional de cámara frontal en el manifiesto, y sube `minSdkVersion` a 24 si
    estuviera por debajo.
 
-Nada de esto toca los seis bloques en producción ni la Arquitectura Antigua:
-`newArchEnabled` sigue en `false`.
+Nada de esto toca los seis bloques en producción. Desde Expo 58 (2/11/2026) la app corre en la **arquitectura nueva** (obligatoria desde React Native 0.82); el módulo sigue siendo un `ReactPackage` y entra por la capa de compatibilidad:
+si falla en un aparato, se convierte a Turbo Module.
 
 ## Cómo trabajar con él
 

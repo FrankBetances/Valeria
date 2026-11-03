@@ -169,18 +169,18 @@ export const CA: UiStrings = {
 
   hub: {
     kickerPractice: 'PRÀCTICA DE TAULA',
-    title: 'Selecció d\'Exercicis',
-    subtitle: 'Tria un bloc per practicar o recomanar',
+    title: 'Exercicis',
+    subtitle: 'Tria què vols practicar avui',
     streak: (n: number): string => `${n} ${n === 1 ? 'dia de ratxa' : 'dies de ratxa'}`,
     level: (n: number, name: string): string => `Nivell ${n} · ${name}`,
     sectionTraining: 'LA TEVA FORMACIÓ',
     sectionBlocks: 'BLOCS D\'EXERCICIS',
 
-    pairsTitle: 'Parells Mínims',
+    pairsTitle: 'Parells de sons',
     pairsSub: 'Dislàlies: rotacisme, sigmatisme i més amb joc de veu.',
     pairsBrief: 'Contrastos de so per a dislàlies.',
     pairsA11y: 'Practicar parells mínims per a dislàlies',
-    semanticTitle: 'Expansió Semàntica',
+    semanticTitle: 'Vocabulari',
     semanticSub: 'Escenaris diaris, progressió lèxica i contrastos amb acció física.',
     semanticBrief: 'Vocabulari i frases del dia a dia.',
     semanticA11y: 'Practicar expansió semàntica i progressió lèxica',
@@ -204,7 +204,7 @@ export const CA: UiStrings = {
     arSub: 'La càmera mira el gest i el cotxe, el gos o la poma reaccionen al moviment. Sense enregistrar res i amb el micròfon apagat.',
     arBrief: 'Gest i mirada amb la càmera.',
     arA11y: (n: number): string => `Obrir el bloc de realitat augmentada, ${n} exercicis`,
-    sensoryTitle: 'Integració Sensorial',
+    sensoryTitle: 'Adaptació a sons',
     sensorySub: 'Familiarització auditiva gradual, modulació i anticipació visual davant de sons quotidians.',
     sensoryBrief: 'Anticipació i tolerància a sons.',
     sensoryA11y: (n: number): string => `Obrir exercicis d'integració sensorial auditiva, ${n} activitats`,
@@ -619,7 +619,7 @@ export const CA: UiStrings = {
       `${n} paraules treballades unint imatge, veu i acció física. La paraula s'aprèn quan l'infant la viu amb el cos, no només quan la sent.`,
     assistSub: (word: string): string =>
       `L'adult diu “${word}” molt a espai mirant l'infant, i ho repeteixen alhora. Sense pressa: avui la practiquem, demà sortirà sola.`,
-    title: 'Expansió Semàntica',
+    title: 'Vocabulari',
     setupTitle: 'Preparació',
     doneTitle: 'Completat!',
 
@@ -1599,7 +1599,7 @@ export const CA: UiStrings = {
 
   sensory: {
     blockTag: 'MÒDUL SENSORIAL',
-    blockTitle: 'Integració Sensorial',
+    blockTitle: 'Adaptació a sons',
     blockSubtitle: 'Familiarització auditiva gradual, modulació i anticipació visual davant de sons quotidians.',
     xpTotal: (xp: number): string => `${xp} XP`,
     sessionsCount: (n: number): string => `${n} ${n === 1 ? 'sessió' : 'sessions'}`,

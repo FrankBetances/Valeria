@@ -22,6 +22,7 @@ import { CatPixel } from './ValeriaCatPixel';
 import { PixelAward, streakTier } from './ValeriaPixelAwards';
 import { GameState, levelFor, levelProgress, xpToNext, liveStreak, LEVEL_COUNT } from './valeriaGamification';
 import { useT } from './i18n';
+import { FONT } from './ui/fonts';
 
 interface Props {
   game: GameState | null;
@@ -88,20 +89,20 @@ const s = StyleSheet.create({
   },
 
   middle: { flex: 1 },
-  level: { fontSize: 15, lineHeight: 19, fontWeight: V.font.extrabold, color: V.color.textPrimary },
+  level: { fontFamily: FONT.bodyBlack,fontSize: 15, lineHeight: 19, color: V.color.textPrimary },
   track: { height: 8, borderRadius: 4, backgroundColor: '#e3ecec', marginTop: 7, overflow: 'hidden' },
   fill: { height: '100%', borderRadius: 4, backgroundColor: V.color.primary },
   // Texto secundario, no «muted»: sobre blanco, el gris claro de la v11 no
   // llegaba al contraste mínimo y era justo la línea que dice cuánto falta.
-  toNext: { fontSize: 11.5, fontWeight: V.font.bold, color: V.color.textSecondary, marginTop: 5 },
+  toNext: { fontFamily: FONT.bodyBlack,fontSize: 11.5, color: V.color.textSecondary, marginTop: 5 },
 
   right: { alignItems: 'flex-end', gap: 6 },
   flamePlate: {
     flexDirection: 'row', alignItems: 'center', gap: 4,
     backgroundColor: '#fff3ea', borderRadius: 12, paddingHorizontal: 8, paddingVertical: 5,
   },
-  streakNum: { fontSize: 17, fontWeight: V.font.extrabold, color: '#c2571e', letterSpacing: -0.3 },
-  awardsLink: { fontSize: 12, fontWeight: V.font.extrabold, color: V.color.primaryDark },
+  streakNum: { fontFamily: FONT.display,fontSize: 17, color: '#c2571e', letterSpacing: -0.3 },
+  awardsLink: { fontFamily: FONT.bodyBlack,fontSize: 12, color: V.color.primaryDark },
 });
 
 export default ValeriaGameStrip;

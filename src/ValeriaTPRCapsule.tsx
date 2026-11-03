@@ -17,6 +17,7 @@ import { SESSION_CONTINUE_PHRASE_EU } from './valeriaContentEu';
 import { SESSION_CONTINUE_PHRASE_EN } from './valeriaContentEn';
 import { SESSION_CONTINUE_PHRASE_CA } from './valeriaContentCa';
 import { getLocale } from './valeriaLocale';
+import { FONT } from './ui/fonts';
 
 // El banco de cápsulas vive en valeriaTprBank (módulo PURO, enumerable por el
 // corpus de voz en build-time). Se re-exporta para los imports históricos.
@@ -101,19 +102,19 @@ export const ValeriaTPRCapsuleOverlay: React.FC<{
 
 // ----------------------------------------------------------------------------
 const s = StyleSheet.create({
-  overlay: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(11,18,32,.6)', alignItems: 'center', justifyContent: 'center', padding: 26 },
+  overlay: { ...StyleSheet.absoluteFill, backgroundColor: 'rgba(11,18,32,.6)', alignItems: 'center', justifyContent: 'center', padding: 26 },
   card: { width: '100%', maxWidth: 340, backgroundColor: '#fff', borderRadius: 26, padding: 22, alignItems: 'center' },
-  kicker: { fontSize: 12, fontWeight: '800', letterSpacing: 1.1, color: '#f59e0b' },
-  title: { fontSize: 20, fontWeight: '800', color: V.color.textPrimary, marginTop: 10, textAlign: 'center' },
-  sub: { fontSize: 12, fontWeight: '600', color: V.color.textMuted, marginTop: 6, lineHeight: 16, textAlign: 'center' },
+  kicker: { fontFamily: FONT.bodyBlack,fontSize: 12, letterSpacing: 1.1, color: '#f59e0b' },
+  title: { fontFamily: FONT.display,fontSize: 20, color: V.color.textPrimary, marginTop: 10, textAlign: 'center' },
+  sub: { fontFamily: FONT.bodyBold,fontSize: 12, color: V.color.textMuted, marginTop: 6, lineHeight: 16, textAlign: 'center' },
   emoji: { fontSize: 70, marginTop: 14 },
-  cmd: { fontSize: 17, fontWeight: '800', color: V.color.textPrimary, marginTop: 10, lineHeight: 23, textAlign: 'center' },
+  cmd: { fontFamily: FONT.display,fontSize: 17, color: V.color.textPrimary, marginTop: 10, lineHeight: 23, textAlign: 'center' },
   dots: { flexDirection: 'row', gap: 7, marginTop: 14 },
   dot: { width: 10, height: 10, borderRadius: 5 },
   row: { flexDirection: 'row', gap: 9, alignSelf: 'stretch', marginTop: 18 },
   repeatBtn: { flex: 1, backgroundColor: V.color.primaryLight, borderWidth: 1, borderColor: V.color.borderActive, borderRadius: 14, paddingVertical: 13, alignItems: 'center' },
-  repeatBtnTxt: { color: V.color.primaryDark, fontSize: 13, fontWeight: '800' },
+  repeatBtnTxt: { fontFamily: FONT.bodyBlack,color: V.color.primaryDark, fontSize: 13 },
   okBtn: { flex: 1.2, backgroundColor: '#f59e0b', borderRadius: 14, paddingVertical: 13, alignItems: 'center' },
-  okBtnTxt: { color: '#fff', fontSize: 13, fontWeight: '800' },
-  skip: { marginTop: 13, fontSize: 12.5, fontWeight: '700', color: V.color.textMuted },
+  okBtnTxt: { fontFamily: FONT.bodyBlack,color: '#fff', fontSize: 13 },
+  skip: { fontFamily: FONT.bodyBlack,marginTop: 13, fontSize: 12.5, color: V.color.textMuted },
 });

@@ -19,6 +19,8 @@ import { AUDITORY_INTEGRATION_ACTIVITIES } from './sensoryCatalog';
 import { useSensoryState } from './sensoryStore';
 import { AuditorySensoryExercise } from './sensoryTypes';
 import { SensoryPreviewCard } from './SensoryPreviewCard';
+import { FONT } from '../ui/fonts';
+import { notify } from '../ui/notify';
 
 export const SensoryBlockListScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
   const t = useT();
@@ -59,7 +61,7 @@ export const SensoryBlockListScreen: React.FC<{ navigation: any }> = ({ navigati
       await AsyncStorage.setItem(STORAGE_KEYS.sensoryPrescripcion, JSON.stringify(prescribed));
     } catch (e) { /* noop */ }
     setUnlocked(false);
-    setToast(t.sensory.savedPrescription(activeCount));
+    notify(t.sensory.savedPrescription(activeCount));
   };
 
   const openExercise = (exercise: AuditorySensoryExercise) => {
@@ -150,13 +152,13 @@ export const SensoryBlockListScreen: React.FC<{ navigation: any }> = ({ navigati
               </View>
 
               <View style={{ flex: 1 }}>
-                <View style={s.cardTopRow}>
-                  <Text style={[s.actIdTag, { color: playable ? V.color.primaryDark : V.color.textMuted }]}>
-                    {act.id}
-                  </Text>
-                  {isPilot && <Text style={s.pilotBadge}>{t.sensory.pilotBadge}</Text>}
-                  {!act.isAvailable && <Text style={s.inDevBadge}>{t.sensory.inDevBadge}</Text>}
-                </View>
+                {/* Sin código interno ni «piloto»: ruido para quien entra por primera
+                    vez. Solo se avisa si la actividad aún no está disponible. */}
+                {!act.isAvailable && (
+                  <View style={s.cardTopRow}>
+                    <Text style={s.inDevBadge}>{t.sensory.inDevBadge}</Text>
+                  </View>
+                )}
                 <Text style={s.actTitle}>
                   {String((t.sensory as any)[act.titleKey] ?? act.id)}
                 </Text>
@@ -229,7 +231,7 @@ export const SensoryBlockListScreen: React.FC<{ navigation: any }> = ({ navigati
       <ProPinModal
         open={pinOpen}
         onClose={() => setPinOpen(false)}
-        onUnlock={() => { setPinOpen(false); setUnlocked(true); setToast(t.sensory.proUnlocked); }}
+        onUnlock={() => { setPinOpen(false); setUnlocked(true); notify(t.sensory.proUnlocked); }}
         subtitle={t.sensory.pinSubtitle}
       />
     </View>
@@ -256,7 +258,7 @@ const s = StyleSheet.create({
     paddingVertical: 5,
     marginBottom: 10,
   },
-  backPillTxt: { color: '#fff', fontSize: 12, fontWeight: '800' },
+  backPillTxt: { fontFamily: FONT.bodyBlack,color: '#fff', fontSize: 12 },
   logoFallback: {
     color: 'rgba(255,255,255,.9)',
     fontWeight: '800',
@@ -265,7 +267,7 @@ const s = StyleSheet.create({
     marginBottom: 4,
   },
   titleRow: { flexDirection: 'row', alignItems: 'center', gap: 10 },
-  headerTitle: { color: '#fff', fontSize: 23, fontWeight: '800', letterSpacing: -0.4 },
+  headerTitle: { fontFamily: FONT.display,color: '#fff', fontSize: 23, letterSpacing: -0.4 },
   headerSub: {
     color: 'rgba(255,255,255,.92)',
     fontSize: 13,
@@ -285,7 +287,7 @@ const s = StyleSheet.create({
     paddingHorizontal: 11,
     paddingVertical: 6,
   },
-  statTxt: { color: '#fff', fontSize: 12, fontWeight: '800' },
+  statTxt: { fontFamily: FONT.bodyBlack,color: '#fff', fontSize: 12 },
 
   scroll: { padding: 18, paddingBottom: 32 },
 
@@ -306,7 +308,7 @@ const s = StyleSheet.create({
     backgroundColor: V.color.primary,
     alignItems: 'center', justifyContent: 'center',
   },
-  toastTxt: { color: V.color.textPrimary, fontSize: 13, fontWeight: '700', flex: 1 },
+  toastTxt: { fontFamily: FONT.bodyBlack,color: V.color.textPrimary, fontSize: 13, flex: 1 },
 
   clinicalCard: {
     backgroundColor: '#e6f9f8',
@@ -317,8 +319,8 @@ const s = StyleSheet.create({
     marginBottom: 18,
   },
   clinicalHeader: { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 6 },
-  clinicalTitle: { fontSize: 13.5, fontWeight: '800', color: V.color.primaryDark },
-  clinicalBody: { fontSize: 12.5, fontWeight: '600', color: V.color.textSecondary, lineHeight: 18 },
+  clinicalTitle: { fontFamily: FONT.bodyBlack,fontSize: 13.5, color: V.color.primaryDark },
+  clinicalBody: { fontFamily: FONT.bodyBold,fontSize: 12.5, color: V.color.textSecondary, lineHeight: 18 },
 
   listHead: {
     flexDirection: 'row',
@@ -343,7 +345,7 @@ const s = StyleSheet.create({
     paddingHorizontal: 9,
     paddingVertical: 4,
   },
-  countChipTxt: { fontSize: 11, fontWeight: '800', color: V.color.primaryDark },
+  countChipTxt: { fontFamily: FONT.bodyBlack,fontSize: 11, color: V.color.primaryDark },
 
   actCard: {
     flexDirection: 'row',
@@ -364,7 +366,7 @@ const s = StyleSheet.create({
   actIconInactive: { backgroundColor: '#f1f5f9' },
 
   cardTopRow: { flexDirection: 'row', alignItems: 'center', gap: 6, marginBottom: 2 },
-  actIdTag: { fontSize: 11, fontWeight: '800', letterSpacing: 0.5 },
+  actIdTag: { fontFamily: FONT.bodyBlack,fontSize: 11, letterSpacing: 0.5 },
   pilotBadge: {
     backgroundColor: '#dcfce7',
     color: '#15803d',
@@ -383,15 +385,15 @@ const s = StyleSheet.create({
     paddingVertical: 2,
     borderRadius: 6,
   },
-  actTitle: { fontSize: 15.5, fontWeight: '800', color: V.color.textPrimary },
-  actDesc: { fontSize: 12.5, fontWeight: '600', color: V.color.textSecondary, marginTop: 2, lineHeight: 17 },
-  actOffTag: { fontSize: 11, fontWeight: '800', color: V.color.textMuted, marginTop: 6 },
-  actTimes: { fontSize: 11, fontWeight: '700', color: V.color.primaryDark, marginTop: 6 },
+  actTitle: { fontFamily: FONT.bodyBlack,fontSize: 15.5, color: V.color.textPrimary },
+  actDesc: { fontFamily: FONT.bodyBold,fontSize: 12.5, color: V.color.textSecondary, marginTop: 2, lineHeight: 17 },
+  actOffTag: { fontFamily: FONT.bodyBlack,fontSize: 11, color: V.color.textMuted, marginTop: 6 },
+  actTimes: { fontFamily: FONT.bodyBlack,fontSize: 11, color: V.color.primaryDark, marginTop: 6 },
 
   arrowPill: { width: 30, height: 30, borderRadius: 15, alignItems: 'center', justifyContent: 'center' },
   arrowActive: { backgroundColor: V.color.primaryDark },
   arrowInactive: { backgroundColor: '#e2e8f0' },
-  arrowTxt: { fontSize: 15, fontWeight: '800' },
+  arrowTxt: { fontFamily: FONT.bodyBlack,fontSize: 15 },
 
   emptyTxt: {
     fontSize: 12.5,
@@ -411,7 +413,7 @@ const s = StyleSheet.create({
     paddingVertical: 15,
     alignItems: 'center',
   },
-  primaryBtnTxt: { color: '#ffffff', fontSize: 15, fontWeight: '800' },
+  primaryBtnTxt: { fontFamily: FONT.bodyBlack,color: '#ffffff', fontSize: 15 },
   helper: {
     color: V.color.textSecondary,
     fontSize: 11.5,
