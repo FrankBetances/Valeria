@@ -1,5 +1,17 @@
 # Valeria+ · Notas para Claude Code
 
+# REGLA UNIVERSAL: SIEMPRE LO MEJOR DE LO MEJOR, NUNCA «PARA SALIR DEL PASO»
+
+- **Cada pieza se elige comparando las mejores opciones del momento**, también
+  los kits completos de interfaz (HeroUI Native, Tamagui, Wix UI Lib,
+  Reusables, Gluestack…), no solo librerías sueltas. Se hace con datos
+  comprobados: estrellas, licencia, actividad, compatibilidad y calidad visual.
+- Lo que ya está instalado **no gana por estar instalado**. Si hay algo mejor,
+  se dice con su coste de cambio y se propone.
+- Prohibido presentar una lista hecha para salir del paso como si fuera «lo
+  mejor».
+
+
 # REGLA ULTRA MEGA SUPREMA: PRIMERO EL PLAN, DESPUÉS EL TRABAJO
 
 **Prohibido tocar código sin haber enseñado antes a Frank el plan, con la lista
