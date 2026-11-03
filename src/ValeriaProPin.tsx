@@ -10,6 +10,7 @@ import { V } from './valeriaTheme';
 import { BlockIcon } from './ValeriaBlockIcons';
 import { useT } from './i18n';
 import { FONT } from './ui/fonts';
+import { BottomSheet } from 'heroui-native';
 
 // ----------------------------------------------------------------------------
 // Seguridad: SHA-256 en JS puro (compatible con Hermes, sin crypto.subtle).
@@ -96,7 +97,8 @@ export const ProPinModal: React.FC<{
   const [pin, setPin] = useState('');
   const [pinErr, setPinErr] = useState(false);
 
-  if (!open) return null;
+  // El estado se sigue limpiando al cerrar; el panel lo pinta HeroUI.
+
 
   const close = () => { setPin(''); setPinErr(false); onClose(); };
 
@@ -117,10 +119,13 @@ export const ProPinModal: React.FC<{
     }
   };
 
+  // Panel inferior de HeroUI Native: mismo teclado y misma comprobación del
+  // PIN; solo cambia el contenedor. Altura acotada + scroll interno, como antes.
   return (
-    <View style={s.overlay}>
-      {/* En pantallas bajas el teclado desbordaba el modal y el 0/⌫ quedaban
-          fuera de alcance: altura acotada + scroll interno. */}
+    <BottomSheet isOpen={open} onOpenChange={(v) => { if (!v) onClose(); }}>
+      <BottomSheet.Portal>
+        <BottomSheet.Overlay />
+        <BottomSheet.Content>
       <View style={s.modal}>
         <ScrollView showsVerticalScrollIndicator={false}>
         <View style={s.modalHead}>
@@ -152,7 +157,9 @@ export const ProPinModal: React.FC<{
         <Text style={s.demoPin}>{t.pro.demoPin}</Text>
         </ScrollView>
       </View>
-    </View>
+        </BottomSheet.Content>
+      </BottomSheet.Portal>
+    </BottomSheet>
   );
 };
 
@@ -164,7 +171,7 @@ const s = StyleSheet.create({
   pillChev: { fontSize: 16, color: V.color.textMuted },
 
   overlay: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(11,18,32,.55)', alignItems: 'center', justifyContent: 'center', padding: 24, zIndex: 20 },
-  modal: { width: '100%', maxWidth: 320, maxHeight: '92%', backgroundColor: '#fff', borderRadius: 24, padding: 22 },
+  modal: { width: '100%', backgroundColor: '#fff', padding: 22 },
   modalHead: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   modalIcon: { width: 42, height: 42, borderRadius: 13, backgroundColor: V.color.primaryLight, alignItems: 'center', justifyContent: 'center' },
   modalClose: { width: 30, height: 30, borderRadius: 15, backgroundColor: '#f1f5f4', alignItems: 'center', justifyContent: 'center' },

@@ -21,6 +21,9 @@ import { AuditorySensoryExercise } from './sensoryTypes';
 import { SensoryPreviewCard } from './SensoryPreviewCard';
 import { FONT } from '../ui/fonts';
 import { notify } from '../ui/notify';
+import { PressableScale } from 'pressto';
+import * as Haptics from 'expo-haptics';
+import { PlayButton } from '../ui/PlayButton';
 
 export const SensoryBlockListScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
   const t = useT();
@@ -125,9 +128,9 @@ export const SensoryBlockListScreen: React.FC<{ navigation: any }> = ({ navigati
           const playable = act.isAvailable && on;
 
           return (
-            <Pressable
+            <PressableScale
               key={act.id}
-              onPress={() => (unlocked ? togglePrescribed(act.id) : openExercise(act))}
+              onPress={() => { void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light); if (unlocked) togglePrescribed(act.id); else openExercise(act); }}
               disabled={!unlocked && !playable}
               style={[
                 s.actCard,
@@ -186,15 +189,9 @@ export const SensoryBlockListScreen: React.FC<{ navigation: any }> = ({ navigati
                   thumbColor="#ffffff"
                 />
               ) : (
-                <View style={[s.arrowPill, playable ? s.arrowActive : s.arrowInactive]}>
-                  {playable ? (
-                    <Text style={[s.arrowTxt, { color: '#ffffff' }]}>›</Text>
-                  ) : (
-                    <BlockIcon name="lock" color={V.color.textMuted} size={18} />
-                  )}
-                </View>
+                <PlayButton color={V.color.primaryDark} locked={!playable} />
               )}
-            </Pressable>
+            </PressableScale>
           );
         })}
 
@@ -348,20 +345,13 @@ const s = StyleSheet.create({
   countChipTxt: { fontFamily: FONT.bodyBlack,fontSize: 11, color: V.color.primaryDark },
 
   actCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 13,
-    backgroundColor: '#ffffff',
-    borderWidth: 1,
-    borderColor: V.color.border,
-    borderRadius: 16,
-    padding: 15,
-    marginBottom: 12,
-    ...V.shadow.card,
+    flexDirection: 'row', alignItems: 'center', gap: 14, backgroundColor: '#ffffff',
+    borderWidth: 2, borderBottomWidth: 6, borderColor: '#cdeeec', borderRadius: 24,
+    paddingVertical: 14, paddingHorizontal: 14, marginBottom: 12,
   },
   actCardDisabled: { opacity: 0.72, backgroundColor: '#fbfcfc' },
   actCardDone: { borderColor: V.color.borderActive },
-  actIcon: { width: 48, height: 48, borderRadius: 14, alignItems: 'center', justifyContent: 'center' },
+  actIcon: { width: 56, height: 56, borderRadius: 28, alignItems: 'center', justifyContent: 'center' },
   actIconActive: { backgroundColor: V.color.primaryLight },
   actIconInactive: { backgroundColor: '#f1f5f9' },
 
@@ -385,8 +375,8 @@ const s = StyleSheet.create({
     paddingVertical: 2,
     borderRadius: 6,
   },
-  actTitle: { fontFamily: FONT.bodyBlack,fontSize: 15.5, color: V.color.textPrimary },
-  actDesc: { fontFamily: FONT.bodyBold,fontSize: 12.5, color: V.color.textSecondary, marginTop: 2, lineHeight: 17 },
+  actTitle: { fontFamily: FONT.display, fontSize: 19, lineHeight: 23, color: V.color.textPrimary },
+  actDesc: { fontFamily: FONT.body, fontSize: 14, color: V.color.textSecondary, marginTop: 3, lineHeight: 19 },
   actOffTag: { fontFamily: FONT.bodyBlack,fontSize: 11, color: V.color.textMuted, marginTop: 6 },
   actTimes: { fontFamily: FONT.bodyBlack,fontSize: 11, color: V.color.primaryDark, marginTop: 6 },
 

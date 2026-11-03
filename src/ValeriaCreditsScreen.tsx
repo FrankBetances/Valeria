@@ -167,7 +167,7 @@ export const ValeriaCreditsScreen: React.FC<{ navigation?: any }> = ({ navigatio
             castellano puede cambiar el idioma antes de llegar a la ficha, sin
             tener que atravesar el alta a ciegas. */}
         <Animated.View style={[s.langBlock, step()]}>
-          <ValeriaUiLangPicker />
+          <ValeriaUiLangPicker onLight />
         </Animated.View>
       </ScrollView>
 

@@ -271,7 +271,7 @@ export const SensoryExerciseScreen: React.FC<{ navigation: any; route: any }> = 
         {/* Las seis actividades comparten esta pantalla: el kicker dice cuál se
             está configurando, o el adulto no sabe en qué ejercicio entró. */}
         <ScreenHeader onBack={() => navigation.goBack()} backLabel={t.common.back} icon="sensory"
-          kicker={`${activity.id} · ${t.sensory.adultGateTag}`} title={activityTitle}
+          kicker={t.sensory.adultGateTag} title={activityTitle}
           subtitle={`${t.sensory.prepTitle} · ${t.sensory.prepSubtitle}`} />
 
         <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
@@ -723,7 +723,7 @@ export const SensoryExerciseScreen: React.FC<{ navigation: any; route: any }> = 
 };
 
 const s = StyleSheet.create({
-  startCard: { backgroundColor: '#f0fdf9', borderWidth: 1.5, borderColor: '#b8eee9', borderRadius: 16, padding: 14, marginBottom: 14 },
+  startCard: { backgroundColor: '#f0fdf9', borderWidth: 1.5, borderColor: '#b8eee9', borderRadius: 24, padding: 14, marginBottom: 14, borderBottomWidth: 6 },
   startKicker: { fontFamily: FONT.bodyBlack,fontSize: 11, letterSpacing: 0.6, color: V.color.primaryDark },
   startGoal: { fontFamily: FONT.bodyBlack,fontSize: 14, color: V.color.textPrimary, marginTop: 6, marginBottom: 6, lineHeight: 19 },
   startLine: { fontFamily: FONT.bodyBold,fontSize: 13, color: V.color.textSecondary, lineHeight: 19 },
@@ -809,10 +809,9 @@ const s = StyleSheet.create({
     backgroundColor: V.color.primaryTint,
     borderWidth: 1,
     borderColor: '#cdeeec',
-    borderRadius: 14,
+    borderRadius: 24,
     padding: 13,
-    marginBottom: 12,
-  },
+    marginBottom: 12, borderBottomWidth: 6 },
   descHeader: { flexDirection: 'row', alignItems: 'center', gap: 7, marginBottom: 5 },
   descTitle: { fontFamily: FONT.bodyBlack,fontSize: 13.5, color: V.color.primaryDark },
   descBody: { fontFamily: FONT.bodyBold,fontSize: 12.5, color: V.color.textPrimary, lineHeight: 18 },
@@ -872,10 +871,9 @@ const s = StyleSheet.create({
     backgroundColor: V.color.primaryTint,
     borderWidth: 1,
     borderColor: '#cdeeec',
-    borderRadius: 14,
+    borderRadius: 24,
     padding: 14,
-    marginTop: 14,
-  },
+    marginTop: 14, borderBottomWidth: 6 },
   tprHeader: { flexDirection: 'row', alignItems: 'center', gap: 7, marginBottom: 6 },
   tprTitle: { fontFamily: FONT.bodyBlack,fontSize: 13, color: V.color.primaryDark },
   tprBody: { fontFamily: FONT.bodyBold,fontSize: 12.5, color: V.color.textPrimary, lineHeight: 18 },
@@ -883,20 +881,18 @@ const s = StyleSheet.create({
   footer: { padding: 16, paddingBottom: 22, backgroundColor: V.color.pageBg },
   footerTwo: { flexDirection: 'row', gap: 10, padding: 16, paddingBottom: 22, backgroundColor: V.color.pageBg },
   primaryBtn: {
-    backgroundColor: V.color.primaryDark,
-    borderRadius: 14,
+    backgroundColor: '#ffd23f',
+    borderRadius: 24,
     paddingVertical: 15,
     alignItems: 'center',
-    ...V.shadow.button,
-  },
-  primaryBtnTxt: { fontFamily: FONT.bodyBlack,color: '#ffffff', fontSize: 15 },
+    ...V.shadow.button, borderBottomWidth: 6, borderBottomColor: '#e0a800' },
+  primaryBtnTxt: { fontFamily: FONT.display,color: '#3b2a00', fontSize: 19 },
   primaryHalfBtn: {
     flex: 1,
-    backgroundColor: V.color.primaryDark,
-    borderRadius: 14,
+    backgroundColor: '#ffd23f',
+    borderRadius: 24,
     paddingVertical: 15,
-    alignItems: 'center',
-  },
+    alignItems: 'center', borderBottomWidth: 6, borderBottomColor: '#e0a800' },
   secondaryHalfBtn: {
     flex: 1,
     backgroundColor: '#ffffff',
@@ -911,12 +907,10 @@ const s = StyleSheet.create({
   // Anticipación
   anticipationCard: {
     backgroundColor: '#ffffff',
-    borderRadius: 22,
+    borderRadius: 24,
     padding: 26,
     alignItems: 'center',
-    width: '100%',
-    ...V.shadow.card,
-  },
+    width: '100%', borderBottomWidth: 6, borderWidth: 2, borderColor: '#e3dccf' },
   anticipationTag: { fontFamily: FONT.bodyBlack,fontSize: 11, color: V.color.primaryDark, letterSpacing: 1 },
   anticipationTitle: { fontFamily: FONT.display,fontSize: 24, color: V.color.textPrimary, marginTop: 4 },
   anticipationSub: { fontFamily: FONT.bodyBold,fontSize: 13.5, color: V.color.textSecondary, marginTop: 6 },
@@ -995,11 +989,9 @@ const s = StyleSheet.create({
   // Pausa
   pauseCard: {
     backgroundColor: '#ffffff',
-    borderRadius: 20,
+    borderRadius: 24,
     padding: 22,
-    alignItems: 'center',
-    ...V.shadow.card,
-  },
+    alignItems: 'center', borderBottomWidth: 6, borderWidth: 2, borderColor: '#e3dccf' },
   pauseCardTitle: { fontFamily: FONT.display,fontSize: 19, color: V.color.textPrimary, marginTop: 8 },
   pauseCardBody: { fontFamily: FONT.bodyBold,fontSize: 13.5, color: V.color.textSecondary, textAlign: 'center', marginTop: 6, lineHeight: 20 },
   tprStrategyBox: {
@@ -1043,12 +1035,10 @@ const s = StyleSheet.create({
   // Completado
   completedCard: {
     backgroundColor: '#ffffff',
-    borderRadius: 22,
+    borderRadius: 24,
     padding: 26,
     alignItems: 'center',
-    width: '100%',
-    ...V.shadow.card,
-  },
+    width: '100%', borderBottomWidth: 6, borderWidth: 2, borderColor: '#e3dccf' },
   completedTitle: { fontFamily: FONT.display,fontSize: 22, color: V.color.textPrimary, marginTop: 10 },
   completedSub: { fontFamily: FONT.bodyBold,fontSize: 13.5, color: V.color.textSecondary, textAlign: 'center', marginTop: 6 },
   xpRewardBox: {
