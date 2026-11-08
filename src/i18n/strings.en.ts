@@ -1702,6 +1702,7 @@ export const EN: UiStrings = {
 
     adultGateTag: 'CAREGIVER CONTROL · SETUP',
     prepTitle: 'Session Preparation',
+    customizeFold: 'Change sound, intensity or length',
     prepSubtitle: 'Adjust parameters before handing the device to the child.',
     selectStimulusLabel: 'Acoustic stimulus or environment',
     selectCategoryLabel: 'Filter by environment type',

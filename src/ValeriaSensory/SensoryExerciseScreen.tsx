@@ -14,6 +14,7 @@ import {
   Animated,
 } from 'react-native';
 import { Card } from 'heroui-native';
+import { AdultFold } from '../ui/AdultFold';
 import { V } from '../valeriaTheme';
 import { useT } from '../i18n';
 import { getLocale } from '../valeriaLocale';
@@ -293,6 +294,9 @@ export const SensoryExerciseScreen: React.FC<{ navigation: any; route: any }> = 
             <Text style={s.startNote}>{t.sensory.sharedScreenNote}</Text>
           </Card>
 
+          {/* Lo técnico, plegado y ya puesto por defecto (F12): el adulto ve
+              el objetivo y el botón de empezar sin tener que entender cada ajuste. */}
+          <AdultFold label={t.sensory.customizeFold} defaultOpen={false}>
           {/* Filtro por Categoría */}
           <Text style={s.sectionLabel}>{t.sensory.selectCategoryLabel}</Text>
           <ScrollView
@@ -432,6 +436,7 @@ export const SensoryExerciseScreen: React.FC<{ navigation: any; route: any }> = 
           </View>
 
           {/* Estrategia de Calma Asociada */}
+          </AdultFold>
           <Card style={s.tprPreviewCard}>
             <Text style={s.tprBody}>{calmStrategy}</Text>
           </Card>

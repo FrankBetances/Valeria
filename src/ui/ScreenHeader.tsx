@@ -10,6 +10,7 @@ import { V } from '../valeriaTheme';
 import { FONT } from './fonts';
 import { CatPixel } from '../ValeriaCatPixel';
 import { Breathe } from './motion';
+import Svg, { Path, Circle } from 'react-native-svg';
 
 interface Props {
   /** Sin `onBack` no hay botón de vuelta. */
@@ -51,8 +52,19 @@ export const ScreenHeader: React.FC<Props> = ({ onBack, backLabel, kicker, icon,
   const ink = inkFor(bg);
   return (
   <View style={[s.wrap, { backgroundColor: bg }]}>
-    <View style={[s.bubble, { width: 180, height: 180, top: -70, right: -40 }]} pointerEvents="none" />
-    <View style={[s.bubble, { width: 90, height: 90, bottom: -30, left: 30, opacity: 0.1 }]} pointerEvents="none" />
+    {/* Ilustración propia de cabecera (R10): olas en capas, constelación de
+        puntos y el icono del módulo en grande como marca de agua. */}
+    <View style={StyleSheet.absoluteFill} pointerEvents="none">
+      <Svg width="100%" height="100%" viewBox="0 0 400 220" preserveAspectRatio="xMidYMid slice">
+        <Path d="M0 170 C 80 140, 160 200, 240 170 S 360 140, 400 160 L400 220 L0 220 Z" fill="#ffffff" opacity={0.18} />
+        <Path d="M0 190 C 100 165, 180 215, 270 190 S 370 170, 400 185 L400 220 L0 220 Z" fill="#ffffff" opacity={0.24} />
+        <Circle cx="330" cy="40" r="70" fill="#ffffff" opacity={0.10} />
+        {[[250, 30, 3], [280, 70, 2], [372, 120, 3], [215, 95, 2], [350, 18, 2], [300, 110, 1.5]].map(([x, y, r], i) => (
+          <Circle key={i} cx={x} cy={y} r={r} fill="#ffffff" opacity={0.55} />
+        ))}
+      </Svg>
+      {icon && <View style={s.watermark}><BlockIcon name={icon} color="#ffffff" size={150} /></View>}
+    </View>
 
     <View style={s.topRow}>
       {onBack && (
@@ -93,7 +105,7 @@ const INK = '#0b1220'; // tinta sobre el turquesa: 8,6:1 (el blanco daba 2,2:1)
 
 const s = StyleSheet.create({
   wrap: { borderBottomLeftRadius: 34, borderBottomRightRadius: 34, paddingHorizontal: 22, paddingTop: 14, paddingBottom: 20, overflow: 'hidden' },
-  bubble: { position: 'absolute', borderRadius: 999, backgroundColor: '#ffffff', opacity: 0.16 },
+  watermark: { position: 'absolute', right: -24, bottom: -34, opacity: 0.13, transform: [{ rotate: '-12deg' }] },
   topRow: { flexDirection: 'row', alignItems: 'center', minHeight: 48, marginBottom: 8 },
   back: { width: 48, height: 48, borderRadius: 24, backgroundColor: '#ffffff', alignItems: 'center', justifyContent: 'center', borderBottomWidth: 4, borderBottomColor: 'rgba(0,0,0,0.15)', marginRight: 12 },
   backGlyph: { fontFamily: FONT.display, fontSize: 32, lineHeight: 36, color: INK, marginTop: -3 },

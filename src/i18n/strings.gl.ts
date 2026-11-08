@@ -1743,6 +1743,7 @@ export const GL: UiStrings = {
 
     adultGateTag: 'CONTROL ADULTO · CONFIGURACIÓN',
     prepTitle: 'Preparación da Sesión',
+    customizeFold: 'Cambiar son, intensidade ou duración',
     prepSubtitle: 'Axusta os parámetros antes de ceder o dispositivo.',
     selectStimulusLabel: 'Estímulo ou ambiente acústico',
     selectCategoryLabel: 'Filtrar por tipo de contorna',

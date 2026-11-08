@@ -7,6 +7,7 @@ const checks = [
   ['R1 Lúa en el inicio', () => /ValeriaCatInteractiveCard/.test(read('src/ValeriaHubV11Screen.tsx'))],
   ['R4 QR con react-native-qrcode-svg', () => /from 'react-native-qrcode-svg'/.test(read('src/ValeriaQRCode.tsx'))],
   ['R7 Lúa en la cabecera de cada módulo', () => /mascot = true/.test(read('src/ui/ScreenHeader.tsx'))],
+  ['R10 ilustración de cabecera', () => /<Path d="M0 170/.test(read('src/ui/ScreenHeader.tsx'))],
   ['R8 entrada animada en filas', () => /enterAt\(/.test(read('src/ui/ListRow.tsx')) && /enterAt\(/.test(read('src/ValeriaBlockTile.tsx'))],
 ];
 let bad = 0;

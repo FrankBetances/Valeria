@@ -1662,6 +1662,7 @@ export const CA: UiStrings = {
 
     adultGateTag: 'CONTROL ADULT · CONFIGURACIÓ',
     prepTitle: 'Preparació de la Sessió',
+    customizeFold: 'Canviar so, intensitat o durada',
     prepSubtitle: 'Ajusta els paràmetres abans de cedir el dispositiu.',
     selectStimulusLabel: 'Estímul o ambient acústic',
     selectCategoryLabel: 'Filtrar per tipus d\'entorn',

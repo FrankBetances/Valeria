@@ -7,8 +7,8 @@ import { BlockIcon } from '../ValeriaBlockIcons';
 import { V } from '../valeriaTheme';
 import { FONT } from './fonts';
 
-export const AdultFold: React.FC<{ label: string; children: React.ReactNode }> = ({ label, children }) => (
-  <Accordion selectionMode="single" defaultValue="fold" isCollapsible variant="surface"
+export const AdultFold: React.FC<{ label: string; children: React.ReactNode; defaultOpen?: boolean }> = ({ label, children, defaultOpen = true }) => (
+  <Accordion selectionMode="single" defaultValue={defaultOpen ? 'fold' : undefined} isCollapsible variant="surface"
     className="mb-3 rounded-3xl border-2 border-b-4 border-[#e3dccf] bg-white">
     <Accordion.Item value="fold">
       <Accordion.Trigger accessibilityLabel={label} className="min-h-[48px] px-4">

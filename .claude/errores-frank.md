@@ -18,5 +18,5 @@ no cambió. **No se borra ninguna fila.**
 | R7 | 8/11 | Lúa no aparecía dentro de los módulos | F12: Lúa en cada módulo | `check-frank-errors`: ScreenHeader con `mascot = true` por defecto |
 | R8 | 8/11 | Sin animaciones ni gráficos nuevos | Todo rediseño trae movimiento y gráfico propio | `check-frank-errors`: ListRow y ValeriaBlockTile usan `enterAt` |
 | R9 | 8/11 | No se respondió primero a sus correcciones | S0: la respuesta va en la primera línea, antes de herramientas | — (manual) |
-| R10 | 8/11 | Gráficos «basura»: el anillo de avance no basta | Pendiente: gráficos nuevos de verdad (ilustración propia por bloque) | — (pendiente) |
+| R10 | 8/11 | Gráficos «basura»: el anillo de avance no basta | Ilustración propia en la cabecera de cada módulo (olas, constelación, marca de agua del icono) | `check-frank-errors`: ScreenHeader dibuja la ilustración (Path de olas) |
 | R11 | 8/11 | No había sistema para que un error señalado no se repitiera | F13: mejora recursiva obligatoria por hooks | Hooks errores-prompt.js + guard-stop.js; check-frank-errors.js en cada push |

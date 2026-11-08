@@ -1763,6 +1763,7 @@ export const ES = {
 
     adultGateTag: 'CONTROL ADULTO · CONFIGURACIÓN',
     prepTitle: 'Preparación de la Sesión',
+    customizeFold: 'Cambiar sonido, intensidad o duración',
     prepSubtitle: 'Ajusta los parámetros antes de ceder el dispositivo.',
     selectStimulusLabel: 'Estímulo o ambiente acústico',
     selectCategoryLabel: 'Filtrar por tipo de entorno',
