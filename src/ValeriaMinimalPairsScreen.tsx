@@ -22,6 +22,7 @@
 // Protocolo completo: docs/protocolo-pares-minimos.md
 // ============================================================================
 import { Celebration } from './ui/Celebration';
+import { emitLuaCheer } from './luaCheerBus';
 import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, Pressable, ScrollView, StyleSheet, Animated, Easing, Switch, GestureResponderEvent, BackHandler } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -208,7 +209,9 @@ const RoleSwapOverlay: React.FC<{ pair: MinimalPair; onDone: () => void }> = ({ 
     if (parentSaid) {
       const hit = which === parentSaid;
       setConfirmOk(hit);
-      speakToChild(hit ? rs.hit : rs.parentSaid(parentSaid === 'target' ? pair.target : pair.foil));
+      const said = hit ? rs.hit : rs.parentSaid(parentSaid === 'target' ? pair.target : pair.foil);
+      speakToChild(said);
+      emitLuaCheer(hit, said);
       setStage('result');
     } else {
       setStage('result'); // sin STT: confirma el padre

@@ -9,6 +9,7 @@
 // corpus; las consignas de los diez juegos entran por `luaVoiceLines`.
 // ============================================================================
 import React, { useCallback, useMemo, useRef, useState } from "react";
+import { praisePhrase } from '../../valeriaVoice';
 import { View, Text, StyleSheet, ScrollView, Pressable, useWindowDimensions } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useT } from "../../i18n";
@@ -77,6 +78,7 @@ export const LuaGamePlayerScreen: React.FC<Props> = ({ navigation, route }) => {
 
   const handleFinish = useCallback(async () => {
     setFinished(true);
+    praisePhrase(); // Lúa celebra en pantalla al terminar (R17)
     await luaCompleteActivity(game?.items.length ?? 1);
   }, [game]);
 

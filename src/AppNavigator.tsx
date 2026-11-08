@@ -39,6 +39,7 @@ import { useValeriaFonts } from './ui/fonts';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { HeroUINativeProvider } from 'heroui-native';
 import { Toaster } from 'sonner-native';
+import { LuaCheerOverlay } from './ui/LuaCheer';
 
 import ValeriaWelcomeScreen from './ValeriaWelcomeScreen';
 import ValeriaCreditsScreen from './ValeriaCreditsScreen';
@@ -227,6 +228,7 @@ export const ValeriaApp: React.FC = () => {
         <SafeFrame />
       </NavigationContainer>
       <Toaster position="top-center" richColors />
+      <LuaCheerOverlay />
     </SafeAreaProvider>
     </HeroUINativeProvider>
     </GestureHandlerRootView>

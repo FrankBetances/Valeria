@@ -38,8 +38,12 @@ process.stdin.on('data', (d) => (input += d)).on('end', () => {
       }
     }
   } catch { process.exit(0); }
-  if (/\b(hecho|listo|terminad[oa]s?|arreglad[oa]s?|entregad[oa]s?)\b/i.test(last)
-      && !/no (lo |la |los |las )?(he )?(visto|comprobado|probado) en (Android|un aparato)/i.test(last)) {
+  // «no está (todo) hecho» es lo contrario de afirmar y no cuenta (R15, autorizado por Frank 8/11/2026).
+  const affirms = last.split(/[.\n!?;:]/).some((frase) =>
+    /\b(hecho|listo|terminad[oa]s?|arreglad[oa]s?|entregad[oa]s?)\b/i.test(frase)
+    && !/\bno\b(\s+\S+){0,4}\s+(hecho|listo|terminad|arreglad|entregad)/i.test(frase));
+  if (affirms
+      && !/no (lo |la |los |las )?(he )?(visto|comprobado|probado) en (Android|un aparato)|no visto en (Android|un aparato)|no est[aá] visto en (Android|un aparato)/i.test(last)) {
     block('F3/F11: dices «hecho/listo/arreglado» sin decir «no visto en Android». Corrige la respuesta: di qué se ha comprobado y con qué, y que no está visto en Android.');
   }
   process.exit(0);

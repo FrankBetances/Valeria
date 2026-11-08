@@ -20,6 +20,7 @@
 // el juego de micrófono; el TTS funciona siempre.
 // ============================================================================
 import { Platform } from 'react-native';
+import { emitLuaCheer } from './luaCheerBus';
 import * as Speech from 'expo-speech';
 import {
   PRAISE_BANK, ALMOST_BANK, NO_HEAR_BANK, TOGETHER_BANK, VOICE_SAMPLE_PHRASE,
@@ -621,8 +622,9 @@ const bankFor = <T,>(gl: T, eu: T, en: T, ca: T, base: T): T => {
   const l = getLocale();
   return l === 'gl' ? gl : l === 'eu' ? eu : l === 'en-US' ? en : l === 'ca' ? ca : base;
 };
-export const praisePhrase = () => pickPhrase('praise', bankFor(PRAISE_BANK_GL, PRAISE_BANK_EU, PRAISE_BANK_EN, PRAISE_BANK_CA, PRAISE_BANK));
-export const almostPhrase = () => pickPhrase('almost', bankFor(ALMOST_BANK_GL, ALMOST_BANK_EU, ALMOST_BANK_EN, ALMOST_BANK_CA, ALMOST_BANK));
+// Lúa reacciona en pantalla con la misma frase (R17): ver src/ui/LuaCheer.tsx.
+export const praisePhrase = () => { const f = pickPhrase('praise', bankFor(PRAISE_BANK_GL, PRAISE_BANK_EU, PRAISE_BANK_EN, PRAISE_BANK_CA, PRAISE_BANK)); emitLuaCheer(true, f); return f; };
+export const almostPhrase = () => { const f = pickPhrase('almost', bankFor(ALMOST_BANK_GL, ALMOST_BANK_EU, ALMOST_BANK_EN, ALMOST_BANK_CA, ALMOST_BANK)); emitLuaCheer(false, f); return f; };
 export const noHearPhrase = () => pickPhrase('noHear', bankFor(NO_HEAR_BANK_GL, NO_HEAR_BANK_EU, NO_HEAR_BANK_EN, NO_HEAR_BANK_CA, NO_HEAR_BANK));
 export const togetherPhrase = () => pickPhrase('together', bankFor(TOGETHER_BANK_GL, TOGETHER_BANK_EU, TOGETHER_BANK_EN, TOGETHER_BANK_CA, TOGETHER_BANK));
 
