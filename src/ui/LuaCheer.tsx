@@ -28,7 +28,7 @@ export const LuaCheerOverlay: React.FC = () => {
   useEffect(() => {
     if (!cheer) return;
     if (!reduced) {
-      if (cheer.ok) y.value = withSequence(withTiming(-18, { duration: 160 }), withSpring(0, { damping: 6 }));
+      if (cheer.ok) y.value = withSequence(withTiming(-8, { duration: 160 }), withSpring(0, { damping: 6 }));
       else r.value = withSequence(withTiming(-8, { duration: 90 }), withTiming(8, { duration: 120 }), withTiming(-5, { duration: 110 }), withTiming(0, { duration: 100 }));
     }
     const h = setTimeout(() => setCheer((cur) => (cur?.at === cheer.at ? null : cur)), 1800);
@@ -43,7 +43,7 @@ export const LuaCheerOverlay: React.FC = () => {
       <Animated.View key={cheer.at} entering={ZoomIn.springify().damping(14).reduceMotion(ReduceMotion.System)}
         exiting={FadeOut.duration(220)} style={[s.card, { borderColor: color }]}
         accessibilityLiveRegion="polite">
-        <Animated.View style={cat}><CatPixel size={64} pose="head" /></Animated.View>
+        <Animated.View style={cat}><CatPixel size={38} pose="head" /></Animated.View>
         <View style={[s.bubble, { backgroundColor: cheer.ok ? V.color.primaryLight : '#fff4d6' }]}>
           <Text style={[s.txt, { color: V.color.textPrimary }]} numberOfLines={2}>{cheer.text}</Text>
         </View>
@@ -53,14 +53,15 @@ export const LuaCheerOverlay: React.FC = () => {
 };
 
 const s = StyleSheet.create({
-  layer: { position: 'absolute', left: 0, right: 0, bottom: 110, alignItems: 'center' },
+  // Arriba, sobre la cabecera decorativa: nunca encima del ejercicio (R18).
+  layer: { position: 'absolute', top: 10, right: 12, left: 96, alignItems: 'flex-end' },
   card: {
-    flexDirection: 'row', alignItems: 'center', gap: 12, backgroundColor: '#ffffff',
-    borderRadius: 26, borderWidth: 2, borderBottomWidth: 6, paddingVertical: 10, paddingLeft: 12, paddingRight: 16,
-    maxWidth: 360, shadowColor: '#000', shadowOpacity: 0.12, shadowRadius: 12, shadowOffset: { width: 0, height: 6 }, elevation: 6,
+    flexDirection: 'row', alignItems: 'center', gap: 8, backgroundColor: '#ffffff',
+    borderRadius: 22, borderWidth: 2, borderBottomWidth: 4, paddingVertical: 6, paddingLeft: 8, paddingRight: 12,
+    maxWidth: 280, shadowColor: '#000', shadowOpacity: 0.12, shadowRadius: 12, shadowOffset: { width: 0, height: 6 }, elevation: 6,
   },
-  bubble: { borderRadius: 18, paddingHorizontal: 14, paddingVertical: 10, flexShrink: 1 },
-  txt: { fontFamily: FONT.display, fontSize: 20, lineHeight: 24 },
+  bubble: { borderRadius: 14, paddingHorizontal: 10, paddingVertical: 6, flexShrink: 1 },
+  txt: { fontFamily: FONT.display, fontSize: 16, lineHeight: 20 },
 });
 
 export default LuaCheerOverlay;
