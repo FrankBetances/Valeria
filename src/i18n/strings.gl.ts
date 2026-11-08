@@ -116,14 +116,14 @@ export const GL: UiStrings = {
   // Aquí só se traduce a ETIQUETA que se pinta.
   ficha: {
     title: 'Ficha de Rexistro',
-    subtitle: 'Datos da criatura',
+    subtitle: 'Datos do neno',
 
     sectionChild: 'Neno / Nena',
     sectionCaregiver: 'Titor / Coidador',
     sectionDiagnosis: 'Observación e equipo',
 
     fullName: 'Nome e apelidos',
-    fullNamePlaceholder: 'Nome da criatura',
+    fullNamePlaceholder: 'Nome do neno',
     birthDate: 'Data de nacemento',
     birthDatePlaceholder: 'DD / MM / AAAA',
     recordNumber: 'NHC',
@@ -470,7 +470,7 @@ export const GL: UiStrings = {
     subDone: (name: string): string => `${name} · Resultado de hoxe`,
 
     askTitle: 'Antes de empezar',
-    askQuestion1: 'A criatura usa ',
+    askQuestion1: 'O neno usa ',
     askQuestionHearingAids: 'audiófonos',
     askQuestionOr: ' ou ',
     askQuestionImplant: 'implante coclear',
@@ -1941,7 +1941,7 @@ export const GL: UiStrings = {
     luaSoloTileMeta: (n: number): string => `${n} actividades · sen pezas, coa cámara`,
     luaSoloTileA11y: 'Abrir Só Lúa: actividades coa cámara e sen pezas. Ábreo a persoa adulta.',
     luaSoloNotLinked: 'Lúa non está enlazada: a actividade xógase igual, só na tableta.',
-    luaSoloNote: 'Sen pezas na mesa. A cámara frontal mira a cara da criatura e as imaxes non se gardan.',
+    luaSoloNote: 'Sen pezas na mesa. A cámara frontal mira a cara do neno e as imaxes non se gardan.',
     luaSoloAges: (ages: string): string => `${ages} anos`,
     luaSoloStart: 'Abrir a cámara',
     luaSoloStartA11y: (title: string): string => `Abrir a cámara para ${title}`,
@@ -1985,7 +1985,7 @@ export const GL: UiStrings = {
     lingFirst: 'Test de Ling antes de comezar',
     lingFirstA11y: 'Abrir o Test de Ling antes do reto',
     standKicker: 'Soporte da tableta',
-    stand: (cm: number, deg: number): string => `${cm} cm de alto · ${deg}° de inclinación. A criatura mira a mesa, non a pantalla.`,
+    stand: (cm: number, deg: number): string => `${cm} cm de alto · ${deg}° de inclinación. O neno mira a mesa, non a pantalla.`,
     cycleTitle: 'Ciclo en tres pasos',
     stepObserve: '1. Observa',
     stepTry: '2. Experimenta',
@@ -1999,7 +1999,7 @@ export const GL: UiStrings = {
     hintN2: 'Pista 2 · Modelo coas mans',
     hintA11y: (label: string): string => `${label}. Ábrese ou péchase.`,
     eventsKicker: 'CONFIRMA O QUE PASA NA MESA',
-    eventsNote: 'Preme cando a criatura o faga. Lúa reacciona despois do fenómeno, nunca enriba.',
+    eventsNote: 'Preme cando o neno o faga. Lúa reacciona despois do fenómeno, nunca enriba.',
     eventA11y: (title: string): string => `Confirmar: ${title}`,
     luaKicker: 'LÚA',
     luaLinked: 'Lúa enlazada: a cara sae cara ao aparello.',

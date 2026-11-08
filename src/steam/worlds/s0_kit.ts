@@ -60,10 +60,10 @@ const EVENTS: WorldEventSpec[] = [
     id: 'S0.CABEZA_ENCAJADA',
     title: adult('Cabeza encajada', 'Head seated', 'Cap encaixat', 'Cabeza encaixada'),
     childAction: adult(
-      'La criatura gira la llave hasta que baja en el hueco.',
+      'El niño gira la llave hasta que baja en el hueco.',
       'The child turns the key until it drops into the slot.',
-      'La criatura gira la clau fins que baixa al buit.',
-      'A criatura xira a chave ata que baixa no oco.',
+      'El nen gira la clau fins que baixa al buit.',
+      'O neno xira a chave ata que baixa no oco.',
     ),
     methods: ['marker', 'occlusion', 'adult_tap'],
     turn: 'motor',
@@ -88,10 +88,10 @@ const EVENTS: WorldEventSpec[] = [
     id: 'S0.LUA_EN_ZOCALO',
     title: adult('Lúa en el zócalo', 'Lúa in the socket', 'Lúa al sòcol', 'Lúa no zócolo'),
     childAction: adult(
-      'La criatura asienta el cuerpo en la cuna del zócalo.',
+      'El niño asienta el cuerpo en la cuna del zócalo.',
       'The child seats the body in the socket cradle.',
-      'La criatura asseu el cos al bressol del sòcol.',
-      'A criatura asenta o corpo no berce do zócolo.',
+      'El nen asseu el cos al bressol del sòcol.',
+      'O neno asenta o corpo no berce do zócolo.',
     ),
     methods: ['marker', 'occlusion', 'adult_tap'],
     turn: 'motor',
@@ -116,10 +116,10 @@ const EVENTS: WorldEventSpec[] = [
     id: 'S0.PLACA_LEIDA',
     title: adult('Placa leída', 'Plate read', 'Placa llegida', 'Placa lida'),
     childAction: adult(
-      'La criatura desliza una placa de identidad en el zócalo.',
+      'El niño desliza una placa de identidad en el zócalo.',
       'The child slides an identity plate into the socket.',
-      'La criatura fa lliscar una placa d’identitat al sòcol.',
-      'A criatura desliza unha placa de identidade no zócolo.',
+      'El nen fa lliscar una placa d’identitat al sòcol.',
+      'O neno desliza unha placa de identidade no zócolo.',
     ),
     methods: ['marker', 'occlusion', 'adult_tap'],
     turn: 'motor',
@@ -161,10 +161,10 @@ const CYCLE_SOLO: TripartiteCycle = {
   },
   experimenta: {
     adultStepByStep: adult(
-      'Ofrece las siete placas, una a una. La criatura las toca y las encaja. Tú confirmas cada encaje con el botón.',
+      'Ofrece las siete placas, una a una. El niño las toca y las encaja. Tú confirmas cada encaje con el botón.',
       'Offer the seven plates, one by one. The child feels them and fits them. You confirm each fit with the button.',
-      'Ofereix les set plaques, una a una. La criatura les toca i les encaixa. Tu confirmes cada encaix amb el botó.',
-      'Ofrece as sete placas, unha a unha. A criatura tócaas e encaíxaas. Ti confirmas cada encaixe co botón.',
+      'Ofereix les set plaques, una a una. El nen les toca i les encaixa. Tu confirmes cada encaix amb el botó.',
+      'Ofrece as sete placas, unha a unha. O neno tócaas e encaíxaas. Ti confirmas cada encaixe co botón.',
     ),
     hints: {
       level1Socratic: adult(
@@ -292,10 +292,10 @@ export const MANIFEST: WorldManifest = {
       'A persoa adulta marca o ritmo. Parar e gardar as placas forma parte do xogo.',
     ),
     expression: adult(
-      'La criatura encaja, señala o mira. Nadie tiene que hablar para seguir. El adulto confirma con el botón.',
+      'El niño encaja, señala o mira. Nadie tiene que hablar para seguir. El adulto confirma con el botón.',
       'The child fits, points, or looks. Nobody has to speak to continue. The adult confirms with the button.',
-      'La criatura encaixa, assenyala o mira. Ningú no ha de parlar per continuar. L’adult confirma amb el botó.',
-      'A criatura encaixa, sinala ou mira. Ninguén ten que falar para seguir. A persoa adulta confirma co botón.',
+      'El nen encaixa, assenyala o mira. Ningú no ha de parlar per continuar. L’adult confirma amb el botó.',
+      'O neno encaixa, sinala ou mira. Ninguén ten que falar para seguir. A persoa adulta confirma co botón.',
     ),
   },
   tabletStandSpec: {

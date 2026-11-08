@@ -117,19 +117,19 @@ export function retosS0(cycleSolo: TripartiteCycle): WorldChallengeSpec[] {
       events: ['S0.PLACA_LEIDA'],
       observa: [
         [
-          'Desliza despacio una placa grande en el zócalo hasta que haga clic. Mira a la criatura, no a la pieza.',
+          'Desliza despacio una placa grande en el zócalo hasta que haga clic. Mira al niño, no a la pieza.',
           'Slowly slide a large plate into the socket until it clicks. Look at the child, not at the piece.',
-          'Fes lliscar a poc a poc una placa gran al sòcol fins que faci clic. Mira la criatura, no la peça.',
-          'Desliza amodo unha placa grande no zócalo ata que faga clic. Mira a criatura, non a peza.',
+          'Fes lliscar a poc a poc una placa gran al sòcol fins que faci clic. Mira el nen, no la peça.',
+          'Desliza amodo unha placa grande no zócalo ata que faga clic. Mira o neno, non a peza.',
         ],
         ['¿Dónde está la placa?', 'Where is the plate?', 'On és la placa?', 'Onde está a placa?'],
       ],
       experimenta: [
         withSafety([
-          'Ofrece dos placas. La criatura las toca con las manos y empuja una hacia el zócalo. Tú confirmas con el botón cuando entra.',
+          'Ofrece dos placas. El niño las toca con las manos y empuja una hacia el zócalo. Tú confirmas con el botón cuando entra.',
           'Offer two plates. The child touches them with their hands and pushes one toward the socket. You confirm with the button when it goes in.',
-          'Ofereix dues plaques. La criatura les toca amb les mans i n’empeny una cap al sòcol. Tu confirmes amb el botó quan entra.',
-          'Ofrece dúas placas. A criatura tócaas coas mans e empurra unha cara ao zócalo. Ti confirmas co botón cando entra.',
+          'Ofereix dues plaques. El nen les toca amb les mans i n’empeny una cap al sòcol. Tu confirmes amb el botó quan entra.',
+          'Ofrece dúas placas. O neno tócaas coas mans e empurra unha cara ao zócalo. Ti confirmas co botón cando entra.',
         ]),
         ['¿Hace clic?', 'Does it click?', 'Fa clic?', 'Fai clic?'],
         [
@@ -141,18 +141,18 @@ export function retosS0(cycleSolo: TripartiteCycle): WorldChallengeSpec[] {
       ],
       construye: [
         [
-          'Juego de dar y tomar: la criatura saca la placa, te la da, tú la vuelves a meter.',
+          'Juego de dar y tomar: el niño saca la placa, te la da, tú la vuelves a meter.',
           'Give-and-take game: the child pulls the plate out, hands it to you, you put it back.',
-          'Joc de donar i prendre: la criatura treu la placa, te la dona i tu la tornes a posar.',
-          'Xogo de dar e coller: a criatura saca a placa, dácha e ti volves metela.',
+          'Joc de donar i prendre: el nen treu la placa, te la dona i tu la tornes a posar.',
+          'Xogo de dar e coller: o neno saca a placa, dácha e ti volves metela.',
         ],
         ['¿Y esta otra placa, también entra?', 'And this other plate, does it fit too?', 'I aquesta altra placa, també hi entra?', 'E esta outra placa, tamén entra?'],
       ],
       criterion: [
-        'La criatura empuja una placa dentro del zócalo, sola o con tu mano encima.',
+        'El niño empuja una placa dentro del zócalo, solo o con tu mano encima.',
         'The child pushes a plate into the socket, alone or with your hand over theirs.',
-        'La criatura empeny una placa dins del sòcol, sola o amb la teva mà a sobre.',
-        'A criatura empurra unha placa dentro do zócalo, soa ou coa túa man enriba.',
+        'El nen empeny una placa dins del sòcol, sol o amb la teva mà a sobre.',
+        'O neno empurra unha placa dentro do zócalo, só ou coa túa man enriba.',
       ],
       observation: [
         'Anota si busca tu mirada después del clic.',
@@ -178,10 +178,10 @@ export function retosS0(cycleSolo: TripartiteCycle): WorldChallengeSpec[] {
       ],
       experimenta: [
         [
-          'La criatura gira la cabeza hasta que encaja y después sienta a Lúa en la cuna del zócalo. Tú confirmas cada paso con el botón.',
+          'El niño gira la cabeza hasta que encaja y después sienta a Lúa en la cuna del zócalo. Tú confirmas cada paso con el botón.',
           'The child turns the head until it fits and then sits Lúa in the socket cradle. You confirm each step with the button.',
-          'La criatura gira el cap fins que encaixa i després asseu la Lúa al bressol del sòcol. Tu confirmes cada pas amb el botó.',
-          'A criatura xira a cabeza ata que encaixa e despois senta a Lúa no berce do zócalo. Ti confirmas cada paso co botón.',
+          'El nen gira el cap fins que encaixa i després asseu la Lúa al bressol del sòcol. Tu confirmes cada pas amb el botó.',
+          'O neno xira a cabeza ata que encaixa e despois senta a Lúa no berce do zócalo. Ti confirmas cada paso co botón.',
         ],
         ['¿Dónde tiene los ojos Lúa?', 'Where are Lúa’s eyes?', 'On té els ulls la Lúa?', 'Onde ten os ollos Lúa?'],
         [
@@ -193,10 +193,10 @@ export function retosS0(cycleSolo: TripartiteCycle): WorldChallengeSpec[] {
       ],
       construye: [
         [
-          'Sienta a Lúa en el zócalo mirando a la criatura. Luego, mirando a la ventana.',
+          'Sienta a Lúa en el zócalo mirando al niño. Luego, mirando a la ventana.',
           'Sit Lúa in the socket facing the child. Then facing the window.',
-          'Asseu la Lúa al sòcol mirant la criatura. Després, mirant la finestra.',
-          'Senta a Lúa no zócalo mirando á criatura. Despois, mirando á fiestra.',
+          'Asseu la Lúa al sòcol mirant el nen. Després, mirant la finestra.',
+          'Senta a Lúa no zócalo mirando ao neno. Despois, mirando á fiestra.',
         ],
         ['¿Hacia dónde mira Lúa ahora?', 'Which way is Lúa looking now?', 'Cap on mira la Lúa ara?', 'Cara a onde mira Lúa agora?'],
       ],
@@ -249,10 +249,10 @@ export function retosS0(cycleSolo: TripartiteCycle): WorldChallengeSpec[] {
       ],
       experimenta: [
         [
-          'La criatura elige las placas que necesita un mundo —por ejemplo, el camino pide INICIO y META— y coloca los dos zócalos. Tú confirmas cada placa con el botón.',
+          'El niño elige las placas que necesita un mundo —por ejemplo, el camino pide INICIO y META— y coloca los dos zócalos. Tú confirmas cada placa con el botón.',
           'The child picks the plates a world needs —for example, the path needs INICIO and META— and places the two sockets. You confirm each plate with the button.',
-          'La criatura tria les plaques que necessita un món —per exemple, el camí demana INICIO i META— i col·loca els dos sòcols. Tu confirmes cada placa amb el botó.',
-          'A criatura escolle as placas que precisa un mundo —por exemplo, o camiño pide INICIO e META— e coloca os dous zócalos. Ti confirmas cada placa co botón.',
+          'El nen tria les plaques que necessita un món —per exemple, el camí demana INICIO i META— i col·loca els dos sòcols. Tu confirmes cada placa amb el botó.',
+          'O neno escolle as placas que precisa un mundo —por exemplo, o camiño pide INICIO e META— e coloca os dous zócalos. Ti confirmas cada placa co botón.',
         ],
         ['¿Qué placa dice dónde empieza?', 'Which plate says where it starts?', 'Quina placa diu on comença?', 'Que placa di onde comeza?'],
         [
@@ -304,19 +304,19 @@ export function retosS1(cycleSolo: TripartiteCycle): WorldChallengeSpec[] {
       events: ['S1.LUA_AVANZA'],
       observa: [
         [
-          'Pasa la palma de la criatura por una baldosa lisa y después por una rugosa. Despacio, sin hablar.',
+          'Pasa la palma del niño por una baldosa lisa y después por una rugosa. Despacio, sin hablar.',
           'Run the child’s palm over a smooth tile and then over a rough one. Slowly, without talking.',
-          'Passa el palmell de la criatura per una rajola llisa i després per una de rugosa. A poc a poc, sense parlar.',
-          'Pasa a palma da criatura por unha lousa lisa e despois por unha rugosa. Amodo, sen falar.',
+          'Passa el palmell del nen per una rajola llisa i després per una de rugosa. A poc a poc, sense parlar.',
+          'Pasa a palma do neno por unha lousa lisa e despois por unha rugosa. Amodo, sen falar.',
         ],
         ['¿Cómo es?', 'What does it feel like?', 'Com és?', 'Como é?'],
       ],
       experimenta: [
         withSafety([
-          'La criatura toca las dos baldosas a su ritmo. Tú pones nombre: «liso», «rugoso». Confirmas con el botón cuando explora las dos.',
+          'El niño toca las dos baldosas a su ritmo. Tú pones nombre: «liso», «rugoso». Confirmas con el botón cuando explora las dos.',
           'The child touches both tiles at their own pace. You name them: “smooth”, “rough”. You confirm with the button when they explore both.',
-          'La criatura toca les dues rajoles al seu ritme. Tu hi poses nom: «llis», «rugós». Confirmes amb el botó quan explora les dues.',
-          'A criatura toca as dúas lousas ao seu ritmo. Ti pos nome: «liso», «rugoso». Confirmas co botón cando explora as dúas.',
+          'El nen toca les dues rajoles al seu ritme. Tu hi poses nom: «llis», «rugós». Confirmes amb el botó quan explora les dues.',
+          'O neno toca as dúas lousas ao seu ritmo. Ti pos nome: «liso», «rugoso». Confirmas co botón cando explora as dúas.',
         ]),
         ['¿Y esta?', 'And this one?', 'I aquesta?', 'E esta?'],
         [
@@ -365,10 +365,10 @@ export function retosS1(cycleSolo: TripartiteCycle): WorldChallengeSpec[] {
       ],
       experimenta: [
         [
-          'La criatura junta tres baldosas rectas, pone a Lúa en INICIO y la lleva hasta META. Tú confirmas cada tramo con el botón.',
+          'El niño junta tres baldosas rectas, pone a Lúa en INICIO y la lleva hasta META. Tú confirmas cada tramo con el botón.',
           'The child joins three straight tiles, puts Lúa on INICIO and takes her to META. You confirm each stretch with the button.',
-          'La criatura ajunta tres rajoles rectes, posa la Lúa a INICIO i la porta fins a META. Tu confirmes cada tram amb el botó.',
-          'A criatura xunta tres lousas rectas, pon a Lúa en INICIO e lévaa ata META. Ti confirmas cada tramo co botón.',
+          'El nen ajunta tres rajoles rectes, posa la Lúa a INICIO i la porta fins a META. Tu confirmes cada tram amb el botó.',
+          'O neno xunta tres lousas rectas, pon a Lúa en INICIO e lévaa ata META. Ti confirmas cada tramo co botón.',
         ],
         ['¿Están juntas?', 'Are they together?', 'Estan juntes?', 'Están xuntas?'],
         [
@@ -436,17 +436,17 @@ export function retosS1(cycleSolo: TripartiteCycle): WorldChallengeSpec[] {
       ],
       experimenta: [
         [
-          'La criatura planifica de tres a cinco fichas antes de mover a Lúa y después las ejecuta una a una. Si falla, cambia una sola ficha. Tú confirmas cada paso con el botón.',
+          'El niño planifica de tres a cinco fichas antes de mover a Lúa y después las ejecuta una a una. Si falla, cambia una sola ficha. Tú confirmas cada paso con el botón.',
           'The child plans three to five tokens before moving Lúa and then runs them one by one. If it fails, they change just one token. You confirm each step with the button.',
-          'La criatura planifica de tres a cinc fitxes abans de moure la Lúa i després les executa una a una. Si falla, en canvia només una. Tu confirmes cada pas amb el botó.',
-          'A criatura planifica de tres a cinco fichas antes de mover a Lúa e despois execútaas unha a unha. Se falla, cambia unha soa ficha. Ti confirmas cada paso co botón.',
+          'El nen planifica de tres a cinc fitxes abans de moure la Lúa i després les executa una a una. Si falla, en canvia només una. Tu confirmes cada pas amb el botó.',
+          'O neno planifica de tres a cinco fichas antes de mover a Lúa e despois execútaas unha a unha. Se falla, cambia unha soa ficha. Ti confirmas cada paso co botón.',
         ],
         ['¿Qué hace Lúa después de girar?', 'What does Lúa do after turning?', 'Què fa la Lúa després de girar?', 'Que fai Lúa despois de xirar?'],
         [
-          'Lee las fichas señalándolas de una en una; la criatura mueve un paso por ficha.',
+          'Lee las fichas señalándolas de una en una; el niño mueve un paso por ficha.',
           'Read the tokens pointing at them one by one; the child moves one step per token.',
-          'Llegeix les fitxes assenyalant-les d’una en una; la criatura mou un pas per fitxa.',
-          'Le as fichas sinalándoas dunha en unha; a criatura move un paso por ficha.',
+          'Llegeix les fitxes assenyalant-les d’una en una; el nen mou un pas per fitxa.',
+          'Le as fichas sinalándoas dunha en unha; o neno move un paso por ficha.',
         ],
       ],
       construye: [
@@ -459,10 +459,10 @@ export function retosS1(cycleSolo: TripartiteCycle): WorldChallengeSpec[] {
         ['Si cambias una ficha, ¿dónde llega Lúa?', 'If you change one token, where does Lúa end up?', 'Si canvies una fitxa, on arriba la Lúa?', 'Se cambias unha ficha, onde chega Lúa?'],
       ],
       criterion: [
-        'Una fila de cuatro fichas o más lleva a Lúa de INICIO a META y la criatura corrige al menos un error.',
+        'Una fila de cuatro fichas o más lleva a Lúa de INICIO a META y el niño corrige al menos un error.',
         'A row of four or more tokens takes Lúa from INICIO to META and the child fixes at least one mistake.',
-        'Una fila de quatre fitxes o més porta la Lúa d’INICIO a META i la criatura corregeix almenys un error.',
-        'Unha fila de catro fichas ou máis leva a Lúa de INICIO a META e a criatura corrixe polo menos un erro.',
+        'Una fila de quatre fitxes o més porta la Lúa d’INICIO a META i el nen corregeix almenys un error.',
+        'Unha fila de catro fichas ou máis leva a Lúa de INICIO a META e o neno corrixe polo menos un erro.',
       ],
       observation: [
         'Anota si anticipa la izquierda y la derecha desde el punto de vista de Lúa.',
@@ -495,10 +495,10 @@ export function retosS2(cycleSolo: TripartiteCycle): WorldChallengeSpec[] {
       ],
       experimenta: [
         [
-          'La criatura apoya la palma en el resonador mientras tú golpeas suave: nota la vibración y cómo se para. Empieza siempre por el golpe suave. Tú confirmas con el botón.',
+          'El niño apoya la palma en el resonador mientras tú golpeas suave: nota la vibración y cómo se para. Empieza siempre por el golpe suave. Tú confirmas con el botón.',
           'The child rests a palm on the resonator while you strike softly: they feel the vibration and how it stops. Always start with the soft strike. You confirm with the button.',
-          'La criatura recolza el palmell al ressonador mentre tu colpeges suau: nota la vibració i com s’atura. Comença sempre pel cop suau. Tu confirmes amb el botó.',
-          'A criatura apoia a palma no resonador mentres ti golpeas suave: nota a vibración e como se para. Comeza sempre polo golpe suave. Ti confirmas co botón.',
+          'El nen recolza el palmell al ressonador mentre tu colpeges suau: nota la vibració i com s’atura. Comença sempre pel cop suau. Tu confirmes amb el botó.',
+          'O neno apoia a palma no resonador mentres ti golpeas suave: nota a vibración e como se para. Comeza sempre polo golpe suave. Ti confirmas co botón.',
         ],
         ['¿Otra vez?', 'Again?', 'Una altra vegada?', 'Outra vez?'],
         [
@@ -510,10 +510,10 @@ export function retosS2(cycleSolo: TripartiteCycle): WorldChallengeSpec[] {
       ],
       construye: [
         [
-          'Juego de turnos: tú golpeas, la criatura pone la mano y te mira cuando se para.',
+          'Juego de turnos: tú golpeas, el niño pone la mano y te mira cuando se para.',
           'Turn-taking game: you strike, the child puts a hand on it and looks at you when it stops.',
-          'Joc de torns: tu colpeges, la criatura hi posa la mà i et mira quan s’atura.',
-          'Xogo de quendas: ti golpeas, a criatura pon a man e mírate cando se para.',
+          'Joc de torns: tu colpeges, el nen hi posa la mà i et mira quan s’atura.',
+          'Xogo de quendas: ti golpeas, o neno pon a man e mírate cando se para.',
         ],
         ['¿Y el pequeño, cómo suena?', 'And the small one, how does it sound?', 'I el petit, com sona?', 'E o pequeno, como soa?'],
       ],
@@ -547,17 +547,17 @@ export function retosS2(cycleSolo: TripartiteCycle): WorldChallengeSpec[] {
       ],
       experimenta: [
         [
-          'La criatura suelta el brazo desde arriba y desde abajo. Entre golpe y golpe, silencio. Tú confirmas cada golpe con el botón.',
+          'El niño suelta el brazo desde arriba y desde abajo. Entre golpe y golpe, silencio. Tú confirmas cada golpe con el botón.',
           'The child drops the arm from high and from low. Between strikes, silence. You confirm each strike with the button.',
-          'La criatura deixa anar el braç des de dalt i des de baix. Entre cop i cop, silenci. Tu confirmes cada cop amb el botó.',
-          'A criatura solta o brazo desde arriba e desde abaixo. Entre golpe e golpe, silencio. Ti confirmas cada golpe co botón.',
+          'El nen deixa anar el braç des de dalt i des de baix. Entre cop i cop, silenci. Tu confirmes cada cop amb el botó.',
+          'O neno solta o brazo desde arriba e desde abaixo. Entre golpe e golpe, silencio. Ti confirmas cada golpe co botón.',
         ],
         ['¿Desde arriba o desde abajo?', 'From high or from low?', 'Des de dalt o des de baix?', 'Desde arriba ou desde abaixo?'],
         [
-          'Marca las dos alturas con tus dedos, una alta y una baja, para que la criatura suelte desde ahí.',
+          'Marca las dos alturas con tus dedos, una alta y una baja, para que el niño suelte desde ahí.',
           'Mark the two heights with your fingers, one high and one low, so the child releases from there.',
-          'Marca les dues alçades amb els dits, una d’alta i una de baixa, perquè la criatura hi deixi anar el braç.',
-          'Marca as dúas alturas cos dedos, unha alta e unha baixa, para que a criatura solte desde aí.',
+          'Marca les dues alçades amb els dits, una d’alta i una de baixa, perquè el nen hi deixi anar el braç.',
+          'Marca as dúas alturas cos dedos, unha alta e unha baixa, para que o neno solte desde aí.',
         ],
       ],
       construye: [
@@ -618,17 +618,17 @@ export function retosS2(cycleSolo: TripartiteCycle): WorldChallengeSpec[] {
       ],
       experimenta: [
         [
-          'La criatura coloca cuatro resonadores en fila y toca su serie siguiendo el metrónomo de luz, que no suena. Tú confirmas con el botón cuando la repite igual.',
+          'El niño coloca cuatro resonadores en fila y toca su serie siguiendo el metrónomo de luz, que no suena. Tú confirmas con el botón cuando la repite igual.',
           'The child places four resonators in a row and plays their series following the light metronome, which makes no sound. You confirm with the button when they repeat it the same way.',
-          'La criatura col·loca quatre ressonadors en fila i toca la seva sèrie seguint el metrònom de llum, que no sona. Tu confirmes amb el botó quan la repeteix igual.',
-          'A criatura coloca catro resonadores en fila e toca a súa serie seguindo o metrónomo de luz, que non soa. Ti confirmas co botón cando a repite igual.',
+          'El nen col·loca quatre ressonadors en fila i toca la seva sèrie seguint el metrònom de llum, que no sona. Tu confirmes amb el botó quan la repeteix igual.',
+          'O neno coloca catro resonadores en fila e toca a súa serie seguindo o metrónomo de luz, que non soa. Ti confirmas co botón cando a repite igual.',
         ],
         ['¿Se repite?', 'Does it repeat?', 'Es repeteix?', 'Repítese?'],
         [
-          'Señala cada resonador al ritmo de la luz; la criatura golpea donde está tu dedo.',
+          'Señala cada resonador al ritmo de la luz; el niño golpea donde está tu dedo.',
           'Point to each resonator in time with the light; the child strikes where your finger is.',
-          'Assenyala cada ressonador al ritme de la llum; la criatura colpeja on és el teu dit.',
-          'Sinala cada resonador ao ritmo da luz; a criatura golpea onde está o teu dedo.',
+          'Assenyala cada ressonador al ritme de la llum; el nen colpeja on és el teu dit.',
+          'Sinala cada resonador ao ritmo da luz; o neno golpea onde está o teu dedo.',
         ],
       ],
       construye: [
@@ -677,10 +677,10 @@ export function retosS3(cycleSolo: TripartiteCycle): WorldChallengeSpec[] {
       ],
       experimenta: [
         [
-          'La criatura suelta la esfera arriba de la rampa baja y la sigue con la mirada hasta el receptor. Tú confirmas con el botón cuando se para.',
+          'El niño suelta la esfera arriba de la rampa baja y la sigue con la mirada hasta el receptor. Tú confirmas con el botón cuando se para.',
           'The child releases the sphere at the top of the low ramp and follows it with their eyes to the receiver. You confirm with the button when it stops.',
-          'La criatura deixa anar l’esfera a dalt de la rampa baixa i la segueix amb la mirada fins al receptor. Tu confirmes amb el botó quan s’atura.',
-          'A criatura solta a esfera arriba da rampla baixa e séguea coa mirada ata o receptor. Ti confirmas co botón cando se para.',
+          'El nen deixa anar l’esfera a dalt de la rampa baixa i la segueix amb la mirada fins al receptor. Tu confirmes amb el botó quan s’atura.',
+          'O neno solta a esfera arriba da rampla baixa e séguea coa mirada ata o receptor. Ti confirmas co botón cando se para.',
         ],
         ['¿Se va?', 'Is it going?', 'Se’n va?', 'Vaise?'],
         [
@@ -692,10 +692,10 @@ export function retosS3(cycleSolo: TripartiteCycle): WorldChallengeSpec[] {
       ],
       construye: [
         [
-          'Juego de aparecer: la esfera baja, la criatura la recoge del receptor y te la da.',
+          'Juego de aparecer: la esfera baja, el niño la recoge del receptor y te la da.',
           'Appearing game: the sphere rolls down, the child picks it up from the receiver and hands it to you.',
-          'Joc d’aparèixer: l’esfera baixa, la criatura la recull del receptor i te la dona.',
-          'Xogo de aparecer: a esfera baixa, a criatura cóllea do receptor e dácha.',
+          'Joc d’aparèixer: l’esfera baixa, el nen la recull del receptor i te la dona.',
+          'Xogo de aparecer: a esfera baixa, o neno cóllea do receptor e dácha.',
         ],
         ['¿Otra vez?', 'Again?', 'Una altra vegada?', 'Outra vez?'],
       ],
@@ -729,10 +729,10 @@ export function retosS3(cycleSolo: TripartiteCycle): WorldChallengeSpec[] {
       ],
       experimenta: [
         [
-          'La criatura prueba las dos alturas y tú pones palabras: «arriba», «abajo», «rápido», «despacio». Confirmas cada bajada con el botón.',
+          'El niño prueba las dos alturas y tú pones palabras: «arriba», «abajo», «rápido», «despacio». Confirmas cada bajada con el botón.',
           'The child tries both heights and you put words to it: “high”, “low”, “fast”, “slow”. You confirm each run with the button.',
-          'La criatura prova les dues alçades i tu hi poses paraules: «dalt», «baix», «ràpid», «a poc a poc». Confirmes cada baixada amb el botó.',
-          'A criatura proba as dúas alturas e ti pos palabras: «arriba», «abaixo», «rápido», «amodo». Confirmas cada baixada co botón.',
+          'El nen prova les dues alçades i tu hi poses paraules: «dalt», «baix», «ràpid», «a poc a poc». Confirmes cada baixada amb el botó.',
+          'O neno proba as dúas alturas e ti pos palabras: «arriba», «abaixo», «rápido», «amodo». Confirmas cada baixada co botón.',
         ],
         ['¿Cuál ha ido más rápido?', 'Which one went faster?', 'Quina ha anat més ràpid?', 'Cal foi máis rápido?'],
         [
@@ -800,10 +800,10 @@ export function retosS3(cycleSolo: TripartiteCycle): WorldChallengeSpec[] {
       ],
       experimenta: [
         [
-          'La criatura construye la rampa que llega más despacio al receptor sin pararse por el camino. Dice antes de soltar qué cree que pasará. Tú confirmas cada prueba con el botón.',
+          'El niño construye la rampa que llega más despacio al receptor sin pararse por el camino. Dice antes de soltar qué cree que pasará. Tú confirmas cada prueba con el botón.',
           'The child builds the ramp that reaches the receiver most slowly without stopping on the way. Before releasing, they say what they think will happen. You confirm each try with the button.',
-          'La criatura construeix la rampa que arriba més a poc a poc al receptor sense aturar-se pel camí. Abans de deixar anar, diu què creu que passarà. Tu confirmes cada prova amb el botó.',
-          'A criatura constrúe a rampla que chega máis amodo ao receptor sen pararse polo camiño. Antes de soltar, di que cre que pasará. Ti confirmas cada proba co botón.',
+          'El nen construeix la rampa que arriba més a poc a poc al receptor sense aturar-se pel camí. Abans de deixar anar, diu què creu que passarà. Tu confirmes cada prova amb el botó.',
+          'O neno constrúe a rampla que chega máis amodo ao receptor sen pararse polo camiño. Antes de soltar, di que cre que pasará. Ti confirmas cada proba co botón.',
         ],
         ['¿Qué pieza frena la esfera?', 'Which piece slows the sphere down?', 'Quina peça frena l’esfera?', 'Que peza frea a esfera?'],
         [
@@ -842,10 +842,10 @@ export function retosS3(cycleSolo: TripartiteCycle): WorldChallengeSpec[] {
 
 // Higiene del soplo: la boquilla es de uso individual.
 const MOUTHPIECE: Line = [
-  'Cada criatura usa su propia boquilla y se lava después.',
+  'Cada niño usa su propia boquilla y se lava después.',
   'Each child uses their own mouthpiece, washed afterwards.',
-  'Cada criatura fa servir el seu propi broquet i es renta després.',
-  'Cada criatura usa a súa propia boquilla e lávase despois.',
+  'Cada nen fa servir el seu propi broquet i es renta després.',
+  'Cada neno usa a súa propia boquilla e lávase despois.',
 ];
 
 function withMouthpiece(line: Line): Line {
@@ -867,19 +867,19 @@ export function retosS4(cycleSolo: TripartiteCycle): WorldChallengeSpec[] {
       events: ['S4.ROTOR_GIRA'],
       observa: [
         [
-          'Sopla tú, despacio, sobre el rotor: gira. Después sopla suave sobre la mano de la criatura.',
+          'Sopla tú, despacio, sobre el rotor: gira. Después sopla suave sobre la mano del niño.',
           'You blow slowly on the rotor: it spins. Then blow softly on the child’s hand.',
-          'Bufa tu, a poc a poc, sobre el rotor: gira. Després bufa suau sobre la mà de la criatura.',
-          'Sopra ti, amodo, sobre o rotor: xira. Despois sopra suave sobre a man da criatura.',
+          'Bufa tu, a poc a poc, sobre el rotor: gira. Després bufa suau sobre la mà del nen.',
+          'Sopra ti, amodo, sobre o rotor: xira. Despois sopra suave sobre a man do neno.',
         ],
         ['¿Dónde está el aire?', 'Where is the air?', 'On és l’aire?', 'Onde está o aire?'],
       ],
       experimenta: [
         withSafety([
-          'Alterna: soplo en la mano, soplo en el rotor. La criatura no tiene que soplar; si lo intenta, celébralo igual. Tú confirmas con el botón cuando el rotor gira.',
+          'Alterna: soplo en la mano, soplo en el rotor. El niño no tiene que soplar; si lo intenta, celébralo igual. Tú confirmas con el botón cuando el rotor gira.',
           'Alternate: blow on the hand, blow on the rotor. The child does not have to blow; if they try, celebrate it anyway. You confirm with the button when the rotor spins.',
-          'Alterna: bufada a la mà, bufada al rotor. La criatura no ha de bufar; si ho intenta, celebra-ho igualment. Tu confirmes amb el botó quan el rotor gira.',
-          'Alterna: sopro na man, sopro no rotor. A criatura non ten que soprar; se o tenta, celébrao igual. Ti confirmas co botón cando o rotor xira.',
+          'Alterna: bufada a la mà, bufada al rotor. El nen no ha de bufar; si ho intenta, celebra-ho igualment. Tu confirmes amb el botó quan el rotor gira.',
+          'Alterna: sopro na man, sopro no rotor. O neno non ten que soprar; se o tenta, celébrao igual. Ti confirmas co botón cando o rotor xira.',
         ]),
         ['¿Gira?', 'Is it spinning?', 'Gira?', 'Xira?'],
         [
@@ -891,10 +891,10 @@ export function retosS4(cycleSolo: TripartiteCycle): WorldChallengeSpec[] {
       ],
       construye: [
         [
-          'La criatura empuja el rotor con el dedo y lo compara con tu soplo.',
+          'El niño empuja el rotor con el dedo y lo compara con tu soplo.',
           'The child pushes the rotor with a finger and compares it with your blowing.',
-          'La criatura empeny el rotor amb el dit i el compara amb la teva bufada.',
-          'A criatura empurra o rotor co dedo e compárao co teu sopro.',
+          'El nen empeny el rotor amb el dit i el compara amb la teva bufada.',
+          'O neno empurra o rotor co dedo e compárao co teu sopro.',
         ],
         ['¿Soplamos otra vez?', 'Shall we blow again?', 'Bufem una altra vegada?', 'Sopramos outra vez?'],
       ],
@@ -928,10 +928,10 @@ export function retosS4(cycleSolo: TripartiteCycle): WorldChallengeSpec[] {
       ],
       experimenta: [
         withMouthpiece([
-          'La criatura redondea los labios y sopla por el canal, largo y corto. Tú confirmas con el botón cuando el rotor se mueve.',
+          'El niño redondea los labios y sopla por el canal, largo y corto. Tú confirmas con el botón cuando el rotor se mueve.',
           'The child rounds their lips and blows through the channel, long and short. You confirm with the button when the rotor moves.',
-          'La criatura arrodoneix els llavis i bufa pel canal, llarg i curt. Tu confirmes amb el botó quan el rotor es mou.',
-          'A criatura arredonda os beizos e sopra polo canal, longo e curto. Ti confirmas co botón cando o rotor se move.',
+          'El nen arrodoneix els llavis i bufa pel canal, llarg i curt. Tu confirmes amb el botó quan el rotor es mou.',
+          'O neno arredonda os beizos e sopra polo canal, longo e curto. Ti confirmas co botón cando o rotor se move.',
         ]),
         ['¿Soplamos como para apagar una vela?', 'Shall we blow as if putting out a candle?', 'Bufem com per apagar una espelma?', 'Sopramos como para apagar unha vela?'],
         [
@@ -999,10 +999,10 @@ export function retosS4(cycleSolo: TripartiteCycle): WorldChallengeSpec[] {
       ],
       experimenta: [
         withMouthpiece([
-          'La criatura diseña su circuito, lo prueba y lo cambia hasta que un soplo mueva dos piezas. Tú confirmas cada pieza con el botón.',
+          'El niño diseña su circuito, lo prueba y lo cambia hasta que un soplo mueva dos piezas. Tú confirmas cada pieza con el botón.',
           'The child designs their circuit, tests it and changes it until one blow moves two pieces. You confirm each piece with the button.',
-          'La criatura dissenya el seu circuit, el prova i el canvia fins que una bufada mogui dues peces. Tu confirmes cada peça amb el botó.',
-          'A criatura deseña o seu circuíto, próbao e cámbiao ata que un sopro mova dúas pezas. Ti confirmas cada peza co botón.',
+          'El nen dissenya el seu circuit, el prova i el canvia fins que una bufada mogui dues peces. Tu confirmes cada peça amb el botó.',
+          'O neno deseña o seu circuíto, próbao e cámbiao ata que un sopro mova dúas pezas. Ti confirmas cada peza co botón.',
         ]),
         ['¿Hacia dónde dobla el aire en el codo?', 'Which way does the air turn at the elbow?', 'Cap on gira l’aire al colze?', 'Cara a onde dobra o aire no cóbado?'],
         [
@@ -1058,10 +1058,10 @@ export function retosS5(cycleSolo: TripartiteCycle): WorldChallengeSpec[] {
       ],
       experimenta: [
         withSafety([
-          'Solo la viga y el fulcro: las masas las guardas tú. La criatura empuja un lado y mira cómo sube el otro. Tú confirmas con el botón.',
+          'Solo la viga y el fulcro: las masas las guardas tú. El niño empuja un lado y mira cómo sube el otro. Tú confirmas con el botón.',
           'Only the beam and the fulcrum: you keep the masses. The child pushes one side and watches the other go up. You confirm with the button.',
-          'Només la biga i el fulcre: les masses les guardes tu. La criatura empeny un costat i mira com puja l’altre. Tu confirmes amb el botó.',
-          'Só a viga e o fulcro: as masas gárdalas ti. A criatura empurra un lado e mira como sobe o outro. Ti confirmas co botón.',
+          'Només la biga i el fulcre: les masses les guardes tu. El nen empeny un costat i mira com puja l’altre. Tu confirmes amb el botó.',
+          'Só a viga e o fulcro: as masas gárdalas ti. O neno empurra un lado e mira como sobe o outro. Ti confirmas co botón.',
         ]),
         ['¿Y ahora este lado?', 'And now this side?', 'I ara aquest costat?', 'E agora este lado?'],
         [
@@ -1073,10 +1073,10 @@ export function retosS5(cycleSolo: TripartiteCycle): WorldChallengeSpec[] {
       ],
       construye: [
         [
-          'Balancín de turnos: tú bajas un lado, la criatura baja el otro.',
+          'Balancín de turnos: tú bajas un lado, el niño baja el otro.',
           'Turn-taking seesaw: you push one side down, the child pushes the other.',
-          'Balancí de torns: tu baixes un costat, la criatura baixa l’altre.',
-          'Randeeiro de quendas: ti baixas un lado, a criatura baixa o outro.',
+          'Balancí de torns: tu baixes un costat, el nen baixa l’altre.',
+          'Randeeiro de quendas: ti baixas un lado, o neno baixa o outro.',
         ],
         ['¿Quién sube ahora?', 'Who goes up now?', 'Qui puja ara?', 'Quen sobe agora?'],
       ],
@@ -1110,10 +1110,10 @@ export function retosS5(cycleSolo: TripartiteCycle): WorldChallengeSpec[] {
       ],
       experimenta: [
         withSafety([
-          'La criatura coloca masas a un lado y al otro y mira qué pasa. Tú pones palabras: «pesa», «no pesa», «igual». Confirmas cada masa con el botón.',
+          'El niño coloca masas a un lado y al otro y mira qué pasa. Tú pones palabras: «pesa», «no pesa», «igual». Confirmas cada masa con el botón.',
           'The child places masses on one side and the other and watches what happens. You put words to it: “heavy”, “light”, “the same”. You confirm each mass with the button.',
-          'La criatura col·loca masses a un costat i a l’altre i mira què passa. Tu hi poses paraules: «pesa», «no pesa», «igual». Confirmes cada massa amb el botó.',
-          'A criatura coloca masas a un lado e ao outro e mira que pasa. Ti pos palabras: «pesa», «non pesa», «igual». Confirmas cada masa co botón.',
+          'El nen col·loca masses a un costat i a l’altre i mira què passa. Tu hi poses paraules: «pesa», «no pesa», «igual». Confirmes cada massa amb el botó.',
+          'O neno coloca masas a un lado e ao outro e mira que pasa. Ti pos palabras: «pesa», «non pesa», «igual». Confirmas cada masa co botón.',
         ]),
         ['¿Cuál pesa más?', 'Which one is heavier?', 'Quina pesa més?', 'Cal pesa máis?'],
         [
@@ -1181,10 +1181,10 @@ export function retosS5(cycleSolo: TripartiteCycle): WorldChallengeSpec[] {
       ],
       experimenta: [
         [
-          'Prepara tres montajes con la viga sujeta. Antes de soltar, la criatura elige una tarjeta: baja la izquierda, baja la derecha o se queda quieta. Después se suelta y se comprueba. Tú confirmas cada resultado con el botón.',
+          'Prepara tres montajes con la viga sujeta. Antes de soltar, el niño elige una tarjeta: baja la izquierda, baja la derecha o se queda quieta. Después se suelta y se comprueba. Tú confirmas cada resultado con el botón.',
           'Set up three arrangements with the beam held. Before letting go, the child picks a card: left goes down, right goes down, or it stays still. Then you let go and check. You confirm each result with the button.',
-          'Prepara tres muntatges amb la biga subjecta. Abans de deixar-la anar, la criatura tria una targeta: baixa l’esquerra, baixa la dreta o es queda quieta. Després es deixa anar i es comprova. Tu confirmes cada resultat amb el botó.',
-          'Prepara tres montaxes coa viga suxeita. Antes de soltar, a criatura escolle unha tarxeta: baixa a esquerda, baixa a dereita ou queda quieta. Despois sóltase e compróbase. Ti confirmas cada resultado co botón.',
+          'Prepara tres muntatges amb la biga subjecta. Abans de deixar-la anar, el nen tria una targeta: baixa l’esquerra, baixa la dreta o es queda quieta. Després es deixa anar i es comprova. Tu confirmes cada resultat amb el botó.',
+          'Prepara tres montaxes coa viga suxeita. Antes de soltar, o neno escolle unha tarxeta: baixa a esquerda, baixa a dereita ou queda quieta. Despois sóltase e compróbase. Ti confirmas cada resultado co botón.',
         ],
         ['¿Importa lo lejos que está la masa?', 'Does it matter how far away the mass is?', 'Importa com de lluny és la massa?', 'Importa o lonxe que está a masa?'],
         [
@@ -1231,19 +1231,19 @@ export function retosS6(cycleSolo: TripartiteCycle): WorldChallengeSpec[] {
       events: ['S6.SIEMBRA'],
       observa: [
         [
-          'Esconde la semilla en un alvéolo de la base, delante de la criatura, y tápala con la mano.',
+          'Esconde la semilla en un alvéolo de la base, delante del niño, y tápala con la mano.',
           'Hide the seed in a slot of the base, in front of the child, and cover it with your hand.',
-          'Amaga la llavor en un alvèol de la base, davant de la criatura, i tapa-la amb la mà.',
-          'Agocha a semente nun alvéolo da base, diante da criatura, e tápaa coa man.',
+          'Amaga la llavor en un alvèol de la base, davant del nen, i tapa-la amb la mà.',
+          'Agocha a semente nun alvéolo da base, diante do neno, e tápaa coa man.',
         ],
         ['¿Dónde está la semilla?', 'Where is the seed?', 'On és la llavor?', 'Onde está a semente?'],
       ],
       experimenta: [
         withSafety([
-          'Juego de esconder: tú tapas, la criatura destapa. La semilla no sale de tus dedos. Tú confirmas con el botón cuando la encuentra.',
+          'Juego de esconder: tú tapas, el niño destapa. La semilla no sale de tus dedos. Tú confirmas con el botón cuando la encuentra.',
           'Hiding game: you cover it, the child uncovers it. The seed does not leave your fingers. You confirm with the button when they find it.',
-          'Joc d’amagar: tu tapes, la criatura destapa. La llavor no surt dels teus dits. Tu confirmes amb el botó quan la troba.',
-          'Xogo de agochar: ti tapas, a criatura destapa. A semente non sae dos teus dedos. Ti confirmas co botón cando a atopa.',
+          'Joc d’amagar: tu tapes, el nen destapa. La llavor no surt dels teus dits. Tu confirmes amb el botó quan la troba.',
+          'Xogo de agochar: ti tapas, o neno destapa. A semente non sae dos teus dedos. Ti confirmas co botón cando a atopa.',
         ]),
         ['¿Aquí?', 'Here?', 'Aquí?', 'Aquí?'],
         [
@@ -1255,10 +1255,10 @@ export function retosS6(cycleSolo: TripartiteCycle): WorldChallengeSpec[] {
       ],
       construye: [
         [
-          'La criatura tapa el alvéolo con su mano y tú preguntas dónde está.',
+          'El niño tapa el alvéolo con su mano y tú preguntas dónde está.',
           'The child covers the slot with their hand and you ask where it is.',
-          'La criatura tapa l’alvèol amb la seva mà i tu preguntes on és.',
-          'A criatura tapa o alvéolo coa súa man e ti preguntas onde está.',
+          'El nen tapa l’alvèol amb la seva mà i tu preguntes on és.',
+          'O neno tapa o alvéolo coa súa man e ti preguntas onde está.',
         ],
         ['¿Y ahora, dónde se ha ido?', 'And now, where has it gone?', 'I ara, on ha anat?', 'E agora, onde foi?'],
       ],
@@ -1292,10 +1292,10 @@ export function retosS6(cycleSolo: TripartiteCycle): WorldChallengeSpec[] {
       ],
       experimenta: [
         [
-          'La criatura repite los tres pasos con tu ayuda: semilla, agua, tallo. Tú confirmas cada paso con el botón.',
+          'El niño repite los tres pasos con tu ayuda: semilla, agua, tallo. Tú confirmas cada paso con el botón.',
           'The child repeats the three steps with your help: seed, water, stem. You confirm each step with the button.',
-          'La criatura repeteix els tres passos amb la teva ajuda: llavor, aigua, tija. Tu confirmes cada pas amb el botó.',
-          'A criatura repite os tres pasos coa túa axuda: semente, auga, talo. Ti confirmas cada paso co botón.',
+          'El nen repeteix els tres passos amb la teva ajuda: llavor, aigua, tija. Tu confirmes cada pas amb el botó.',
+          'O neno repite os tres pasos coa túa axuda: semente, auga, talo. Ti confirmas cada paso co botón.',
         ],
         ['¿Qué necesita la semilla?', 'What does the seed need?', 'Què necessita la llavor?', 'Que precisa a semente?'],
         [
@@ -1363,17 +1363,17 @@ export function retosS6(cycleSolo: TripartiteCycle): WorldChallengeSpec[] {
       ],
       experimenta: [
         [
-          'La criatura cuenta el día de la planta mientras gira el sol: por la mañana, al mediodía, por la noche. Antes de cada giro dice dónde caerá la sombra. Tú confirmas cada momento con el botón.',
+          'El niño cuenta el día de la planta mientras gira el sol: por la mañana, al mediodía, por la noche. Antes de cada giro dice dónde caerá la sombra. Tú confirmas cada momento con el botón.',
           'The child tells the plant’s day while turning the sun: in the morning, at noon, at night. Before each turn they say where the shadow will fall. You confirm each moment with the button.',
-          'La criatura explica el dia de la planta mentre gira el sol: al matí, al migdia, a la nit. Abans de cada gir diu on caurà l’ombra. Tu confirmes cada moment amb el botó.',
-          'A criatura conta o día da planta mentres xira o sol: pola mañá, ao mediodía, pola noite. Antes de cada xiro di onde caerá a sombra. Ti confirmas cada momento co botón.',
+          'El nen explica el dia de la planta mentre gira el sol: al matí, al migdia, a la nit. Abans de cada gir diu on caurà l’ombra. Tu confirmes cada moment amb el botó.',
+          'O neno conta o día da planta mentres xira o sol: pola mañá, ao mediodía, pola noite. Antes de cada xiro di onde caerá a sombra. Ti confirmas cada momento co botón.',
         ],
         ['¿Y por la noche, dónde está la sombra?', 'And at night, where is the shadow?', 'I a la nit, on és l’ombra?', 'E pola noite, onde está a sombra?'],
         [
-          'Pon una ficha en la mesa donde la criatura cree que caerá la sombra, y gira el sol para comprobarlo.',
+          'Pon una ficha en la mesa donde el niño cree que caerá la sombra, y gira el sol para comprobarlo.',
           'Put a token on the table where the child thinks the shadow will fall, and turn the sun to check.',
-          'Posa una fitxa a la taula on la criatura creu que caurà l’ombra, i gira el sol per comprovar-ho.',
-          'Pon unha ficha na mesa onde a criatura cre que caerá a sombra, e xira o sol para comprobalo.',
+          'Posa una fitxa a la taula on el nen creu que caurà l’ombra, i gira el sol per comprovar-ho.',
+          'Pon unha ficha na mesa onde o neno cre que caerá a sombra, e xira o sol para comprobalo.',
         ],
       ],
       construye: [

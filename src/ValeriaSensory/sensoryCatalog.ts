@@ -199,7 +199,7 @@ export const SENSORY_TRIGGERS: Record<SensoryTriggerId, SensoryStimulus> = {
       eu: 'Haurren marmarra, aulkien karranka, barreak eta irakaslearen ahotsa',
       'es-DO': 'Murmullo de niños, sillas que arrastran, risas y la voz de la maestra',
       'en-US': 'Children murmuring, chairs scraping, laughter and the teacher speaking',
-      ca: 'Remor de criatures, cadires que s\'arrosseguen, rialles i la veu de la mestra',
+      ca: 'Remor de nens, cadires que s\'arrosseguen, rialles i la veu de la mestra',
     },
     audioAssetKey: 'sensory_classroom_loop',
     baseFrequencyHz: 500,

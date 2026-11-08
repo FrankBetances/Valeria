@@ -67,10 +67,10 @@ const EVENTS: WorldEventSpec[] = [
     id: 'S1.LUA_EN_INICIO',
     title: adult('En el inicio', 'At the start', 'A l’inici', 'No inicio'),
     childAction: adult(
-      'La criatura pone a Lúa, o la ficha de salida, sobre la baldosa INICIO.',
+      'El niño pone a Lúa, o la ficha de salida, sobre la baldosa INICIO.',
       'The child puts Lúa, or the start token, on the INICIO tile.',
-      'La criatura posa la Lúa, o la fitxa de sortida, sobre la rajola INICIO.',
-      'A criatura pon a Lúa, ou a ficha de saída, sobre a lousa INICIO.',
+      'El nen posa la Lúa, o la fitxa de sortida, sobre la rajola INICIO.',
+      'O neno pon a Lúa, ou a ficha de saída, sobre a lousa INICIO.',
     ),
     methods: ['marker', 'adult_tap'],
     turn: 'motor',
@@ -91,10 +91,10 @@ const EVENTS: WorldEventSpec[] = [
     id: 'S1.LUA_AVANZA',
     title: adult('Avanza', 'Moves ahead', 'Avança', 'Avanza'),
     childAction: adult(
-      'La criatura desliza el patín por la ranura hasta la baldosa siguiente.',
+      'El niño desliza el patín por la ranura hasta la baldosa siguiente.',
       'The child slides the skate along the groove to the next tile.',
-      'La criatura fa lliscar el patí per la ranura fins a la rajola següent.',
-      'A criatura desliza o patín pola rañura ata a lousa seguinte.',
+      'El nen fa lliscar el patí per la ranura fins a la rajola següent.',
+      'O neno desliza o patín pola rañura ata a lousa seguinte.',
     ),
     methods: ['marker', 'adult_tap'],
     turn: 'motor',
@@ -115,10 +115,10 @@ const EVENTS: WorldEventSpec[] = [
     id: 'S1.LUA_GIRA',
     title: adult('Gira', 'Turns', 'Gira', 'Xira'),
     childAction: adult(
-      'La criatura coloca la curva y gira el patín un cuarto de vuelta.',
+      'El niño coloca la curva y gira el patín un cuarto de vuelta.',
       'The child places the curve and turns the skate a quarter turn.',
-      'La criatura col·loca la corba i gira el patí un quart de volta.',
-      'A criatura coloca a curva e xira o patín un cuarto de volta.',
+      'El nen col·loca la corba i gira el patí un quart de volta.',
+      'O neno coloca a curva e xira o patín un cuarto de volta.',
     ),
     methods: ['marker', 'adult_tap'],
     turn: 'motor',
@@ -144,10 +144,10 @@ const EVENTS: WorldEventSpec[] = [
     id: 'S1.CAMINO_ROTO',
     title: adult('Camino cortado', 'Path broken', 'Camí tallat', 'Camiño cortado'),
     childAction: adult(
-      'Falta una baldosa. La criatura espera sin empujar al vacío.',
+      'Falta una baldosa. El niño espera sin empujar al vacío.',
       'A tile is missing. The child waits and does not push into the gap.',
-      'Falta una rajola. La criatura espera sense empènyer al buit.',
-      'Falta unha lousa. A criatura agarda sen empurrar ao baleiro.',
+      'Falta una rajola. El nen espera sense empènyer al buit.',
+      'Falta unha lousa. O neno agarda sen empurrar ao baleiro.',
     ),
     methods: ['marker', 'adult_tap'],
     turn: 'motor',
@@ -173,10 +173,10 @@ const EVENTS: WorldEventSpec[] = [
     id: 'S1.LLEGA_META',
     title: adult('Llega a la meta', 'Reaches the goal', 'Arriba a la meta', 'Chega á meta'),
     childAction: adult(
-      'La criatura lleva el patín hasta la baldosa META.',
+      'El niño lleva el patín hasta la baldosa META.',
       'The child brings the skate to the META tile.',
-      'La criatura porta el patí fins a la rajola META.',
-      'A criatura leva o patín ata a lousa META.',
+      'El nen porta el patí fins a la rajola META.',
+      'O neno leva o patín ata a lousa META.',
     ),
     methods: ['marker', 'adult_tap'],
     turn: 'motor',
@@ -214,10 +214,10 @@ const CYCLE_SOLO: TripartiteCycle = {
   },
   experimenta: {
     adultStepByStep: adult(
-      'Alterna baldosas lisas y rugosas. Antes de encajar cada una, la criatura la toca con la palma. Prueba después una curva de un cuarto de vuelta. Tú confirmas con el botón.',
+      'Alterna baldosas lisas y rugosas. Antes de encajar cada una, el niño la toca con la palma. Prueba después una curva de un cuarto de vuelta. Tú confirmas con el botón.',
       'Alternate smooth and rough tiles. Before each one clicks in, the child feels it with the palm. Then try a quarter-turn curve. You confirm with the button.',
-      'Alterna rajoles llises i rugoses. Abans d’encaixar-ne cadascuna, la criatura la toca amb el palmell. Després prova una corba d’un quart de volta. Tu confirmes amb el botó.',
-      'Alterna lousas lisas e rugosas. Antes de encaixar cada unha, a criatura tócaa coa palma. Proba despois unha curva dun cuarto de volta. Ti confirmas co botón.',
+      'Alterna rajoles llises i rugoses. Abans d’encaixar-ne cadascuna, el nen la toca amb el palmell. Després prova una corba d’un quart de volta. Tu confirmes amb el botó.',
+      'Alterna lousas lisas e rugosas. Antes de encaixar cada unha, o neno tócaa coa palma. Proba despois unha curva dun cuarto de volta. Ti confirmas co botón.',
     ),
     hints: {
       level1Socratic: adult(
@@ -253,10 +253,10 @@ const CYCLE_SOLO: TripartiteCycle = {
 const CYCLE_WITH_LUA: TripartiteCycle = {
   observa: {
     phenomenonTrigger: adult(
-      'Pon a Lúa en INICIO, con el patín de dos pivotes en la ranura. La criatura la ve de espaldas: su izquierda es la izquierda de Lúa. Espera cinco segundos en silencio.',
+      'Pon a Lúa en INICIO, con el patín de dos pivotes en la ranura. El niño la ve de espaldas: su izquierda es la izquierda de Lúa. Espera cinco segundos en silencio.',
       'Put Lúa on INICIO, with the two-pivot skate in the groove. The child sees her from behind: the child’s left is Lúa’s left. Wait five seconds in silence.',
-      'Posa la Lúa a INICIO, amb el patí de dos pivots a la ranura. La criatura la veu d’esquena: la seva esquerra és l’esquerra de la Lúa. Espera cinc segons en silenci.',
-      'Pon a Lúa en INICIO, co patín de dous pivotes na rañura. A criatura véa de costas: a súa esquerda é a esquerda de Lúa. Agarda cinco segundos en silencio.',
+      'Posa la Lúa a INICIO, amb el patí de dos pivots a la ranura. El nen la veu d’esquena: la seva esquerra és l’esquerra de la Lúa. Espera cinc segons en silenci.',
+      'Pon a Lúa en INICIO, co patín de dous pivotes na rañura. O neno véa de costas: a súa esquerda é a esquerda de Lúa. Agarda cinco segundos en silencio.',
     ),
     socraticQuestion: adult(
       'Si falta una baldosa, ¿Lúa sigue o espera?',
@@ -268,10 +268,10 @@ const CYCLE_WITH_LUA: TripartiteCycle = {
   },
   experimenta: {
     adultStepByStep: adult(
-      'La criatura desliza a Lúa: primero recto, después un giro a la izquierda, al final la meta. Si el camino se corta, Lúa espera serena. Tú confirmas cada tramo con el botón.',
+      'El niño desliza a Lúa: primero recto, después un giro a la izquierda, al final la meta. Si el camino se corta, Lúa espera serena. Tú confirmas cada tramo con el botón.',
       'The child slides Lúa: first straight, then a left turn, and at the end the goal. If the path breaks, Lúa waits calmly. You confirm each stretch with the button.',
-      'La criatura fa lliscar la Lúa: primer recte, després un gir a l’esquerra, al final la meta. Si el camí es talla, la Lúa espera serena. Tu confirmes cada tram amb el botó.',
-      'A criatura desliza a Lúa: primeiro recto, despois un xiro á esquerda, ao final a meta. Se o camiño se corta, Lúa agarda serena. Ti confirmas cada tramo co botón.',
+      'El nen fa lliscar la Lúa: primer recte, després un gir a l’esquerra, al final la meta. Si el camí es talla, la Lúa espera serena. Tu confirmes cada tram amb el botó.',
+      'O neno desliza a Lúa: primeiro recto, despois un xiro á esquerda, ao final a meta. Se o camiño se corta, Lúa agarda serena. Ti confirmas cada tramo co botón.',
     ),
     hints: {
       level1Socratic: adult(
@@ -345,10 +345,10 @@ export const MANIFEST: WorldManifest = {
       'A persoa adulta escolle a tarxeta de modelo. Parar a metade do camiño tamén conta.',
     ),
     expression: adult(
-      'La criatura encaja, desliza o señala. El adulto confirma con el botón. No hace falta una frase larga.',
+      'El niño encaja, desliza o señala. El adulto confirma con el botón. No hace falta una frase larga.',
       'The child fits, slides, or points. The adult confirms with the button. A long sentence is not required.',
-      'La criatura encaixa, llisca o assenyala. L’adult confirma amb el botó. No cal una frase llarga.',
-      'A criatura encaixa, desliza ou sinala. A persoa adulta confirma co botón. Non fai falta unha frase longa.',
+      'El nen encaixa, llisca o assenyala. L’adult confirma amb el botó. No cal una frase llarga.',
+      'O neno encaixa, desliza ou sinala. A persoa adulta confirma co botón. Non fai falta unha frase longa.',
     ),
   },
   tabletStandSpec: {
@@ -389,10 +389,10 @@ export const MANIFEST: WorldManifest = {
         'Hai un camiño continuo de INICIO a META, con xiros rectos ou dun cuarto de volta. A persoa adulta confirma co botón.',
       ),
       qualitativeObservation: adult(
-        'Anota si la criatura repara el corte antes de seguir o si empuja hacia el hueco.',
+        'Anota si el niño repara el corte antes de seguir o si empuja hacia el hueco.',
         'Note whether the child repairs the gap before going on, or pushes toward the hole.',
-        'Anota si la criatura repara el tall abans de continuar o si empeny cap al buit.',
-        'Anota se a criatura repara o corte antes de seguir ou se empurra cara ao oco.',
+        'Anota si el nen repara el tall abans de continuar o si empeny cap al buit.',
+        'Anota se o neno repara o corte antes de seguir ou se empurra cara ao oco.',
       ),
     },
       4,

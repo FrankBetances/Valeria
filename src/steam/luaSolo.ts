@@ -39,10 +39,10 @@ export const LUA_SOLO_ACTIVITIES: readonly LuaSoloActivity[] = [
     cycle: {
       observa: {
         phenomenonTrigger: a([
-          'Pon a Lúa al lado del soporte, mirando a la criatura. Haz tú la boca de pompón despacio y quédate quieto.',
+          'Pon a Lúa al lado del soporte, mirando al niño. Haz tú la boca de pompón despacio y quédate quieto.',
           'Place Lúa next to the stand, facing the child. Make a slow bubble mouth yourself and hold still.',
-          'Posa la Lúa al costat del suport, mirant la criatura. Fes tu la boca de bombolla a poc a poc i queda’t quiet.',
-          'Pon a Lúa ao lado do soporte, mirando para a criatura. Fai ti a boca de pompa amodo e quédate quieto.',
+          'Posa la Lúa al costat del suport, mirant el nen. Fes tu la boca de bombolla a poc a poc i queda’t quiet.',
+          'Pon a Lúa ao lado do soporte, mirando para o neno. Fai ti a boca de pompa amodo e quédate quieto.',
         ]),
         socraticQuestion: a([
           '¿Qué le pasa a mi boca cuando soplo una pompa sin soplar?',
@@ -54,10 +54,10 @@ export const LUA_SOLO_ACTIVITIES: readonly LuaSoloActivity[] = [
       },
       experimenta: {
         adultStepByStep: a([
-          'Abre la cámara. La criatura pone boca redonda o abierta y la sostiene un momento; el coche avanza mientras dura.',
+          'Abre la cámara. El niño pone boca redonda o abierta y la sostiene un momento; el coche avanza mientras dura.',
           'Open the camera. The child makes a round or open mouth and holds it a moment; the car moves while it lasts.',
-          'Obre la càmera. La criatura fa boca rodona o oberta i l’aguanta un moment; el cotxe avança mentre dura.',
-          'Abre a cámara. A criatura pon a boca redonda ou aberta e mantena un intre; o coche avanza mentres dura.',
+          'Obre la càmera. El nen fa boca rodona o oberta i l’aguanta un moment; el cotxe avança mentre dura.',
+          'Abre a cámara. O neno pon a boca redonda ou aberta e mantena un intre; o coche avanza mentres dura.',
         ]),
         hints: {
           level1Socratic: a([
@@ -67,19 +67,19 @@ export const LUA_SOLO_ACTIVITIES: readonly LuaSoloActivity[] = [
             'E se agochamos os beizos ou os estiramos amodiño?',
           ]),
           level2PhysicalModel: a([
-            'Entra en el encuadre al lado de la criatura y haz el gesto a cámara lenta.',
+            'Entra en el encuadre al lado del niño y haz el gesto a cámara lenta.',
             'Step into the frame next to the child and do the gesture in slow motion.',
-            'Entra a l’enquadrament al costat de la criatura i fes el gest a càmera lenta.',
-            'Entra no encadre ao lado da criatura e fai o xesto a cámara lenta.',
+            'Entra a l’enquadrament al costat del nen i fes el gest a càmera lenta.',
+            'Entra no encadre ao lado do neno e fai o xesto a cámara lenta.',
           ]),
         },
       },
       construye: {
         tangibleMakeChallenge: a([
-          'Al acabar, la criatura elige un accesorio del armario de Lúa y se lo pone.',
+          'Al acabar, el niño elige un accesorio del armario de Lúa y se lo pone.',
           'When done, the child picks an item from Lúa’s wardrobe and puts it on her.',
-          'En acabar, la criatura tria un accessori de l’armari de la Lúa i l’hi posa.',
-          'Ao rematar, a criatura escolle un accesorio do armario de Lúa e pónllelo.',
+          'En acabar, el nen tria un accessori de l’armari de la Lúa i l’hi posa.',
+          'Ao rematar, o neno escolle un accesorio do armario de Lúa e pónllelo.',
         ]),
         transferQuestion: a([
           '¿Con qué otra cosa ponemos la boca redonda? ¿Al besar, al soplar una vela?',
@@ -98,10 +98,10 @@ export const LUA_SOLO_ACTIVITIES: readonly LuaSoloActivity[] = [
     ages: '3–6',
     title: a(['Imita a Lúa', 'Copy Lúa', 'Imita la Lúa', 'Imita a Lúa']),
     summary: a([
-      'Lúa hace un gesto con la cara y la criatura lo copia frente a la cámara.',
+      'Lúa hace un gesto con la cara y el niño lo copia frente a la cámara.',
       'Lúa makes a face and the child copies it in front of the camera.',
-      'La Lúa fa un gest amb la cara i la criatura el copia davant de la càmera.',
-      'Lúa fai un xesto coa cara e a criatura cópiao diante da cámara.',
+      'La Lúa fa un gest amb la cara i el nen el copia davant de la càmera.',
+      'Lúa fai un xesto coa cara e o neno cópiao diante da cámara.',
     ]),
     cycle: {
       observa: {
@@ -121,10 +121,10 @@ export const LUA_SOLO_ACTIVITIES: readonly LuaSoloActivity[] = [
       },
       experimenta: {
         adultStepByStep: a([
-          'Abre la cámara. Lúa en 3D enseña un gesto; la criatura lo copia y lo sostiene hasta que Lúa celebra.',
+          'Abre la cámara. Lúa en 3D enseña un gesto; el niño lo copia y lo sostiene hasta que Lúa celebra.',
           'Open the camera. 3D Lúa shows a gesture; the child copies it and holds it until Lúa celebrates.',
-          'Obre la càmera. La Lúa en 3D ensenya un gest; la criatura el copia i l’aguanta fins que la Lúa ho celebra.',
-          'Abre a cámara. Lúa en 3D amosa un xesto; a criatura cópiao e mantéño ata que Lúa o celebra.',
+          'Obre la càmera. La Lúa en 3D ensenya un gest; el nen el copia i l’aguanta fins que la Lúa ho celebra.',
+          'Abre a cámara. Lúa en 3D amosa un xesto; o neno cópiao e mantéño ata que Lúa o celebra.',
         ]),
         hints: {
           level1Socratic: a([
@@ -134,19 +134,19 @@ export const LUA_SOLO_ACTIVITIES: readonly LuaSoloActivity[] = [
             'Lúa ten a boca aberta ou pechada? E as meixelas?',
           ]),
           level2PhysicalModel: a([
-            'Ponte junto a la criatura, haz el gesto con ella y sostenedlo a la vez.',
+            'Ponte junto al niño, haz el gesto con él y sostenedlo a la vez.',
             'Sit next to the child, make the gesture together and hold it at the same time.',
-            'Posa’t al costat de la criatura, fes el gest amb ella i aguanteu-lo alhora.',
-            'Ponte xunto á criatura, fai o xesto con ela e mantédeo á vez.',
+            'Posa’t al costat del nen, fes el gest amb ell i aguanteu-lo alhora.',
+            'Ponte xunto ao neno, fai o xesto con el e mantédeo á vez.',
           ]),
         },
       },
       construye: {
         tangibleMakeChallenge: a([
-          'Ahora la criatura inventa una cara y Lúa (tú, con la gata en la mano) la copia.',
+          'Ahora el niño inventa una cara y Lúa (tú, con la gata en la mano) la copia.',
           'Now the child invents a face and Lúa (you, holding the cat) copies it.',
-          'Ara la criatura s’inventa una cara i la Lúa (tu, amb la gata a la mà) la copia.',
-          'Agora a criatura inventa unha cara e Lúa (ti, coa gata na man) cópiaa.',
+          'Ara el nen s’inventa una cara i la Lúa (tu, amb la gata a la mà) la copia.',
+          'Agora o neno inventa unha cara e Lúa (ti, coa gata na man) cópiaa.',
         ]),
         transferQuestion: a([
           '¿Qué cara pones cuando algo te sorprende? ¿Y cuando estás contento?',

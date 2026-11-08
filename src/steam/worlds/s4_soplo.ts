@@ -34,10 +34,10 @@ function picto(key: (typeof PICTO_KEYS)[number]): (typeof PICTO_KEYS)[number] {
 }
 
 const SAFE: AdultText = adult(
-  'Pieza de mesa. Cada criatura sopla por su boquilla. La persona adulta la guarda después.',
+  'Pieza de mesa. Cada niño sopla por su boquilla. La persona adulta la guarda después.',
   'Table piece. Each child blows through their own mouthpiece. The adult puts it away afterwards.',
-  'Peça de taula. Cada criatura bufa per la seva broqueta. La persona adulta la desa després.',
-  'Peza de mesa. Cada criatura sopra pola súa boquilla. A persoa adulta gárdaa despois.',
+  'Peça de taula. Cada nen bufa per la seva broqueta. La persona adulta la desa després.',
+  'Peza de mesa. Cada neno sopra pola súa boquilla. A persoa adulta gárdaa despois.',
 );
 
 function piece(
@@ -77,10 +77,10 @@ const EVENTS: WorldEventSpec[] = [
     id: 'S4.PRAXIA_REDONDEO',
     title: adult('Soplo redondo', 'Round blow', 'Buf redó', 'Sopro redondo'),
     childAction: adult(
-      'La criatura redondea los labios y sopla hacia el canal, sin tocar la pantalla.',
+      'El niño redondea los labios y sopla hacia el canal, sin tocar la pantalla.',
       'The child rounds the lips and blows toward the channel, without touching the screen.',
-      'La criatura arrodoneix els llavis i bufa cap al canal, sense tocar la pantalla.',
-      'A criatura arredonda os labios e sopra cara á canle, sen tocar a pantalla.',
+      'El nen arrodoneix els llavis i bufa cap al canal, sense tocar la pantalla.',
+      'O neno arredonda os labios e sopra cara á canle, sen tocar a pantalla.',
     ),
     methods: ['face', 'adult_tap'],
     turn: 'motor',
@@ -252,10 +252,10 @@ const CYCLE_SOLO: TripartiteCycle = {
 const CYCLE_WITH_LUA: TripartiteCycle = {
   observa: {
     phenomenonTrigger: adult(
-      'Lúa está en la placa FRONTAL, al final del canal, de cara a la criatura. Sopla suave. Las luces siguen apagadas durante todo el soplo. Espera cinco segundos en silencio.',
+      'Lúa está en la placa FRONTAL, al final del canal, de cara al niño. Sopla suave. Las luces siguen apagadas durante todo el soplo. Espera cinco segundos en silencio.',
       'Lúa is on the FRONTAL plate, at the end of the channel, facing the child. Blow gently. The lights stay off for the whole blow. Wait five seconds in silence.',
-      'La Lúa és a la placa FRONTAL, al final del canal, de cara a la criatura. Bufa suau. Els llums segueixen apagats durant tot el buf. Espera cinc segons en silenci.',
-      'Lúa está na placa FRONTAL, ao final da canle, de cara á criatura. Sopra suave. As luces seguen apagadas durante todo o sopro. Agarda cinco segundos en silencio.',
+      'La Lúa és a la placa FRONTAL, al final del canal, de cara al nen. Bufa suau. Els llums segueixen apagats durant tot el buf. Espera cinc segons en silenci.',
+      'Lúa está na placa FRONTAL, ao final da canle, de cara ao neno. Sopra suave. As luces seguen apagadas durante todo o sopro. Agarda cinco segundos en silencio.',
     ),
     socraticQuestion: adult(
       '¿Lúa está delante del aire o detrás del canal?',
@@ -344,10 +344,10 @@ export const MANIFEST: WorldManifest = {
       'Cada quen usa a súa boquilla. Parar de soprar e gardar forma parte do xogo. As luces non pestanexan.',
     ),
     expression: adult(
-      'La criatura sopla, señala las aspas o espera. No hace falta decir la palabra. El adulto confirma con el botón.',
+      'El niño sopla, señala las aspas o espera. No hace falta decir la palabra. El adulto confirma con el botón.',
       'The child blows, points to the blades, or waits. The word does not have to be said. The adult confirms with the button.',
-      'La criatura bufa, assenyala les aspes o espera. No cal dir la paraula. L’adult confirma amb el botó.',
-      'A criatura sopra, sinala as pas ou agarda. Non fai falta dicir a palabra. A persoa adulta confirma co botón.',
+      'El nen bufa, assenyala les aspes o espera. No cal dir la paraula. L’adult confirma amb el botó.',
+      'O neno sopra, sinala as pas ou agarda. Non fai falta dicir a palabra. A persoa adulta confirma co botón.',
     ),
   },
   tabletStandSpec: {

@@ -30,10 +30,10 @@ function picto(key: (typeof PICTO_KEYS)[number]): (typeof PICTO_KEYS)[number] {
 }
 
 const SAFE: AdultText = adult(
-  'Esfera grande de mesa. La suelta la criatura desde la rampa y la recoge la persona adulta.',
+  'Esfera grande de mesa. La suelta el niño desde la rampa y la recoge la persona adulta.',
   'Large table sphere. The child lets it go from the ramp and the adult picks it up.',
-  'Esfera gran de taula. La deixa anar la criatura des de la rampa i la recull la persona adulta.',
-  'Esfera grande de mesa. Solta a criatura desde a rampla e recóllea a persoa adulta.',
+  'Esfera gran de taula. La deixa anar el nen des de la rampa i la recull la persona adulta.',
+  'Esfera grande de mesa. Solta o neno desde a rampla e recóllea a persoa adulta.',
 );
 
 function piece(
@@ -56,10 +56,10 @@ const EVENTS: WorldEventSpec[] = [
     id: 'S3.ESFERA_ARRIBA',
     title: adult('Esfera arriba', 'Sphere up high', 'Esfera a dalt', 'Esfera arriba'),
     childAction: adult(
-      'La criatura sostiene la esfera en lo alto del pilar, sin soltarla todavía.',
+      'El niño sostiene la esfera en lo alto del pilar, sin soltarla todavía.',
       'The child holds the sphere at the top of the pillar, without letting go yet.',
-      'La criatura aguanta l’esfera dalt del pilar, sense deixar-la anar encara.',
-      'A criatura sostén a esfera no alto do piar, sen soltala aínda.',
+      'El nen aguanta l’esfera dalt del pilar, sense deixar-la anar encara.',
+      'O neno sostén a esfera no alto do piar, sen soltala aínda.',
     ),
     methods: ['marker', 'tracked_object', 'adult_tap'],
     turn: 'motor',
@@ -80,10 +80,10 @@ const EVENTS: WorldEventSpec[] = [
     id: 'S3.SALIDA_ANTICIPADA',
     title: adult('Antes de soltar', 'Before the release', 'Abans de deixar anar', 'Antes de soltar'),
     childAction: adult(
-      'La criatura mira la rampa y dice, o señala, por dónde cree que llegará antes.',
+      'El niño mira la rampa y dice, o señala, por dónde cree que llegará antes.',
       'The child looks at the ramp and says, or points to, which way they think will arrive first.',
-      'La criatura mira la rampa i diu, o assenyala, per on creu que arribarà abans.',
-      'A criatura mira a rampla e di, ou sinala, por onde cre que chegará antes.',
+      'El nen mira la rampa i diu, o assenyala, per on creu que arribarà abans.',
+      'O neno mira a rampla e di, ou sinala, por onde cre que chegará antes.',
     ),
     methods: ['marker', 'adult_tap'],
     turn: 'motor',
@@ -326,10 +326,10 @@ export const MANIFEST: WorldManifest = {
       'A predición faise antes de soltar. Recoller a esfera e parar forma parte do xogo.',
     ),
     expression: adult(
-      'La criatura señala el pilar, suelta la esfera o espera. El adulto confirma con el botón.',
+      'El niño señala el pilar, suelta la esfera o espera. El adulto confirma con el botón.',
       'The child points to the pillar, lets the sphere go, or waits. The adult confirms with the button.',
-      'La criatura assenyala el pilar, deixa anar l’esfera o espera. L’adult confirma amb el botó.',
-      'A criatura sinala o piar, solta a esfera ou agarda. A persoa adulta confirma co botón.',
+      'El nen assenyala el pilar, deixa anar l’esfera o espera. L’adult confirma amb el botó.',
+      'O neno sinala o piar, solta a esfera ou agarda. A persoa adulta confirma co botón.',
     ),
   },
   tabletStandSpec: {
