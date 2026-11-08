@@ -8,6 +8,7 @@ import * as Haptics from 'expo-haptics';
 import { BlockIcon, BlockIconName } from '../ValeriaBlockIcons';
 import { V } from '../valeriaTheme';
 import { FONT } from './fonts';
+import { CatPixel } from '../ValeriaCatPixel';
 
 interface Props {
   /** Sin `onBack` no hay botón de vuelta. */
@@ -26,6 +27,8 @@ interface Props {
   color?: string;
   /** Pieza a la derecha del bloque de título: la gata, un botón. */
   trailing?: React.ReactNode;
+  /** Lúa acompaña dentro de cada módulo (F12). `false` donde ya está (inicio). */
+  mascot?: boolean;
   /** Barra segmentada de progreso de una sesión. */
   dots?: { total: number; index: number; finished?: boolean };
 }
@@ -42,7 +45,7 @@ const inkFor = (bg: string) => {
   return (1.05) / (L + 0.05) >= (L + 0.05) / (lum(INK) + 0.05) ? '#ffffff' : INK;
 };
 
-export const ScreenHeader: React.FC<Props> = ({ onBack, backLabel, kicker, icon, title, subtitle, badge, children, color, trailing, dots }) => {
+export const ScreenHeader: React.FC<Props> = ({ onBack, backLabel, kicker, icon, title, subtitle, badge, children, color, trailing, dots, mascot = true }) => {
   const bg = color ?? V.color.primary;
   const ink = inkFor(bg);
   return (
@@ -64,10 +67,11 @@ export const ScreenHeader: React.FC<Props> = ({ onBack, backLabel, kicker, icon,
       {icon && <View style={s.iconPlate}><BlockIcon name={icon} color={color ?? V.color.primaryDark} size={26} /></View>}
       <View style={s.titleCol}>
         <Text style={[s.title, { color: ink }]} role="heading" numberOfLines={2}>{title}</Text>
-        {!!subtitle && <Text style={[s.subtitle, { color: ink }]} numberOfLines={2}>{subtitle}</Text>}
+        {!!subtitle && <Text style={[s.subtitle, { color: ink }]} numberOfLines={3}>{subtitle}</Text>}
         {!!badge && <View style={s.badge}><Text style={s.badgeTxt} numberOfLines={1}>{badge}</Text></View>}
       </View>
-      {trailing && <View style={s.trailing}>{trailing}</View>}
+      {trailing ? <View style={s.trailing}>{trailing}</View>
+        : mascot ? <View style={[s.trailing, s.lua]} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><CatPixel size={54} pose="head" /></View> : null}
     </View>
 
     {dots && (
@@ -101,6 +105,7 @@ const s = StyleSheet.create({
   badge: { alignSelf: 'flex-start', marginTop: 8, backgroundColor: '#ffffff', borderRadius: 999, paddingHorizontal: 12, paddingVertical: 6 },
   badgeTxt: { fontFamily: FONT.bodyBlack, fontSize: 13, color: INK },
   trailing: { marginLeft: 10 },
+  lua: { padding: 6, borderRadius: 20, backgroundColor: 'rgba(255,255,255,0.9)', alignItems: 'center', justifyContent: 'center' },
   dots: { flexDirection: 'row', gap: 6, marginTop: 14 },
   dot: { flexGrow: 1, flexBasis: 0, height: 10, borderRadius: 5 },
 });

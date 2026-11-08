@@ -49,6 +49,8 @@ propio comprobado.
 | F8 | Merge a `main` sin build propio | Si Frank ordena mergear antes del build, se mergea y **la misma frase** dice «sin build comprobado». Luego se vigila el build de `main` y se arregla si falla |
 | F9 | Respuestas largas y resúmenes no pedidos | Respuesta en 3 líneas como mucho, salvo que Frank pida detalle |
 | F10 | Las reglas estaban escritas y se incumplieron cada pocos minutos | **Control obligatorio en toda sesión**, ejecutado por hooks de Claude Code (`.claude/settings.json` → `.claude/hooks/reglas.sh`): al empezar la sesión se inyecta esta tabla; en **cada** mensaje de Frank, una lista de 5 comprobaciones (F9, F2, F3, F1 y desvío). Si alguna falla, se para y se dice en la primera línea. **Prohibido quitar o desactivar estos hooks** |
+| F11 | Los hooks de F10 solo recordaban: se siguió incumpliendo | **Hooks que BLOQUEAN** (`.claude/hooks/guard-push.js` y `guard-stop.js`): ningún `git push` sin typecheck y gates de `android.yml` en verde; prohibido el push forzado a `main`; no se puede cerrar un turno con cambios sin commit en `src/`, ni decir «hecho/listo/arreglado/entregado» sin «no visto en Android». **Prohibido quitarlos, desactivarlos o esquivarlos** |
+| F12 | Se paró en lo estético: la app se vio bonita y floja | **Lo funcional va primero**: que cada pantalla sirva para lo que es (qué hace el adulto, en qué orden, con qué ayuda) antes que su estilo. Un rediseño de una pantalla no está hecho si solo cambió el aspecto. Lúa, la mascota, acompaña **dentro de cada módulo**, no solo en el inicio |
 
 # REGLA MEGA ULTRA UNIVERSAL 0: LO MEJOR, HASTA EL FINAL, A COMO DÉ LUGAR
 

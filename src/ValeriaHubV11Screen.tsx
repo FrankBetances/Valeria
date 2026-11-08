@@ -267,6 +267,7 @@ export const ValeriaHubV11Screen: React.FC<{ navigation: any }> = ({ navigation 
         kicker="valeria+"
         title={t.hub.title}
         subtitle={t.hub.subtitle}
+        mascot={false}
       />
       <SectionList
         sections={sections}
