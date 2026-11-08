@@ -38,6 +38,7 @@ import {
 } from './valeriaVoice';
 import { SpeakButton, TurnPhaseStrip } from './ValeriaVoiceUI';
 import { FichaVisual } from './ValeriaPictograms';
+import { PairStage, TrialTrack, StageStep } from './ui/PairStage';
 import { ValeriaSessionBreakOverlay, pickSessionBreak, SessionBreak } from './ValeriaSessionBreakOverlay';
 import { useActiveTimeMonitor } from './valeriaActiveTimeMonitor';
 import { MinimalPair } from './valeriaMinimalPairs';
@@ -846,8 +847,7 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
     <View style={s.flex}>
       <ScreenHeader onBack={() => { stopSpeaking(); stopListening(); setPhase('pick'); }} backLabel={t.common.back}
         kicker={t.hub.kickerPractice} icon="pairs" title={t.hub.pairsTitle}
-        subtitle={`${p.code} · ${p.target} / ${p.foil}`}
-        badge={`${trialIdx + 1} / ${TOTAL_TRIALS}`} dots={{ total: TOTAL_TRIALS, index: trialIdx }} />
+        subtitle={`${p.target} / ${p.foil}`} />
 
       <ScrollView ref={scrollRef} contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
         {/* Veredicto dialectal (EN-0.5). Va ARRIBA del ensayo y no escondido en
@@ -870,31 +870,23 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
           </View>
         )}
 
-        {/* Mapa del turno: en qué fase del ensayo estamos */}
-        <TurnPhaseStrip active={phaseIdx} />
-
-        {/* Las dos fichas del contraste (posición aleatoria por ensayo) */}
-        <View style={[s.tilesRow, { marginTop: 12 }]}>{tiles.map((w) => pairTile(p, w))}</View>
-
-        {/* Consigna viva: frase portadora procedural o consigna del par. El
-            botón repite con la MISMA voz con la que se dictó (una portadora
-            re-locutada con tono infantil movería el fonema objetivo). */}
-        <View style={s.promptCard}>
-          <View style={s.promptHead}>
-            <View style={s.promptIcon}><BlockIcon name="speaker" color="#ffffff" size={20} /></View>
-            <View style={{ flex: 1 }}>
-              <Text style={s.promptKicker}>
-                {livePrompt?.mode === 'slow' ? t.pairs.appSpeaksSlow : t.pairs.appSpeaks}
-              </Text>
-              <Text style={s.promptTxt}>“{livePrompt?.text ?? p.prompt}”</Text>
-            </View>
-            <SpeakButton
-              text={livePrompt?.text ?? p.prompt}
-              voice={livePrompt?.mode === 'slow' ? 'slow' : 'child'}
-              compact
-            />
-          </View>
-        </View>
+        {/* Escenario del ensayo (reforma 8/11/2026): recorrido con Lúa,
+            bocadillo con la consigna y fichas animadas que hacen de veredicto. */}
+        <TrialTrack index={trialIdx} total={TOTAL_TRIALS} />
+        <PairStage
+          trialKey={`${p.id}-${trialIdx}`}
+          target={{ word: p.target, emoji: p.targetEmoji, pic: p.targetPictogram }}
+          foil={{ word: p.foil, emoji: p.foilEmoji, pic: p.foilPictogram }}
+          leftIsTarget={leftIsTarget}
+          step={step as StageStep}
+          foilHeard={correctionKind === 'foil'}
+          prompt={livePrompt?.text ?? p.prompt}
+          promptLabel={livePrompt?.mode === 'slow' ? t.pairs.appSpeaksSlow : t.pairs.appSpeaks}
+          question={t.pairs.stepJudge}
+          onPick={(side) => { if (step === 'judge') resolveBranch(p, side); }}
+          onRepeat={() => { const s2 = trialPrompt(p, trialIdx, loc); setLivePrompt(s2); speakToChild(s2.text); }}
+          repeatLabel={t.pairs.repeatPrompt}
+        />
 
         {/* ===== Estado del ensayo ===== */}
         {step === 'say' && (
@@ -941,16 +933,6 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
 
         {step === 'judge' && (
           <View style={s.stateCard}>
-            <BlockIcon name="hearing" color={V.color.primaryDark} size={26} />
-            <Text style={s.stateTxt}>{t.pairs.stepJudge}</Text>
-            <View style={s.judgeRow}>
-              <Pressable onPress={() => resolveBranch(p, 'target')} style={[s.judgeBtn, { backgroundColor: V.color.successBg, borderColor: '#bfe9d4' }]}>
-                <FichaVisual word={p.target} emoji={p.targetEmoji} pic={p.targetPictogram} size={22} /><Text style={s.judgeTxt}>{t.pairs.saidWord(p.target)}</Text>
-              </Pressable>
-              <Pressable onPress={() => resolveBranch(p, 'foil')} style={[s.judgeBtn, { backgroundColor: '#fffbeb', borderColor: '#f4e6b8' }]}>
-                <FichaVisual word={p.foil} emoji={p.foilEmoji} pic={p.foilPictogram} size={22} /><Text style={s.judgeTxt}>{t.pairs.saidWord(p.foil)}</Text>
-              </Pressable>
-            </View>
             <Pressable onPress={() => retry(p)}><Text style={s.linkBtn}>{t.pairs.notUnderstood}</Text></Pressable>
             {/* Si el micrófono ni llegó a abrirse, el adulto pasa a juez: aquí
                 también tiene que poder leer por qué. */}
