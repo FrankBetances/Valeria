@@ -8,6 +8,7 @@
 // que se intentó, hasta una marca ajena en el pecho.
 // ============================================================================
 import React from 'react';
+import { Breathe } from './ui/motion';
 import { View, Text, Pressable, StyleSheet, ScrollView, StatusBar, Linking } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { V } from './valeriaTheme';
@@ -26,7 +27,7 @@ const CONTACTO = 'frank.alberto.betances.reinoso@gmail.com';
 const LuaDevice: React.FC<{ label: string }> = ({ label }) => (
   <View style={s.device} accessible accessibilityRole="image" accessibilityLabel={label}>
     <View style={s.panel}>
-      <CatPixel pose="head" size={124} />
+      <Breathe><CatPixel pose="head" size={124} /></Breathe>
     </View>
     <View style={s.deviceBtn} />
   </View>

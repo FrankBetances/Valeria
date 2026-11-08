@@ -5,6 +5,7 @@
 // ============================================================================
 import { ScreenHeader } from './ui/ScreenHeader';
 import { emitLuaCheer } from './luaCheerBus';
+import { TrialTrack } from './ui/PairStage';
 import React, { useState, useRef, useCallback } from 'react';
 import {
   View, Text, Pressable, ScrollView, StyleSheet, Modal,
@@ -98,7 +99,7 @@ export const ValeriaWritingExerciseScreen: React.FC<ValeriaWritingExerciseScreen
         try { Vibration.vibrate([0, 40, 60, 40]); } catch { /* noop */ }
       }
     } else {
-      { const f = writingPraiseFor(contentLocale(), 2); speakToChild(f); emitLuaCheer(true, f); }
+      { const f = writingPraiseFor(contentLocale(), 2); speakToChild(f); emitLuaCheer(false, f); }
     }
   };
 
@@ -167,6 +168,9 @@ export const ValeriaWritingExerciseScreen: React.FC<ValeriaWritingExerciseScreen
         </View>
 
         {/* Tarjeta de Consigna / Objetivo */}
+        {currentExercise && category !== 'free' && (
+          <TrialTrack index={exerciseIndex} total={Math.max(currentCategoryList.length, 1)} />
+        )}
         {currentExercise && category !== 'free' && (
           <View style={s.instructionCard}>
             {/* Dónde estás de la serie y cómo volver. Las series pasaron de 4 y

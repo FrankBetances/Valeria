@@ -3,6 +3,7 @@
 // Lectura guiada con comprensión, vocabulario y consigna de dibujo libre.
 // ============================================================================
 import React, { useRef, useState, useCallback } from "react";
+import { ScreenHeader } from "../../ui/ScreenHeader";
 import {
   View,
   Text,
@@ -84,25 +85,8 @@ export const LuaStoryViewerScreen: React.FC<Props> = ({ navigation, route }) => 
   return (
     <View style={[s.container, { paddingTop: insets.top }]}>
       {/* Barra superior */}
-      <View style={s.topBar}>
-        <Pressable
-          onPress={() => navigation.goBack()}
-          style={s.backBtn}
-          accessibilityRole="button"
-          accessibilityLabel={t.common.back}
-          hitSlop={12}
-        >
-          <Text style={s.backTxt}>{`‹ ${t.common.back}`}</Text>
-        </Pressable>
-        <View style={s.titleWrap}>
-          <Text style={s.storyTitle} numberOfLines={1}>
-            {story.title}
-          </Text>
-          <Text style={s.storyAge}>
-            {story.suggestedAgeText}
-          </Text>
-        </View>
-      </View>
+      <ScreenHeader onBack={() => navigation.goBack()} backLabel={t.common.back}
+        kicker={t.hub.luaTitle} icon="story" title={story.title} subtitle={story.suggestedAgeText} />
 
       <ScrollView
         contentContainerStyle={[s.scrollContent, { paddingBottom: insets.bottom + 32 }]}

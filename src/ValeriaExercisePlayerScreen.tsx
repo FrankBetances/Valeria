@@ -558,6 +558,7 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
         accessibilityRole="button" accessibilityLabel={t.player.judgeSaidItA11y}
         style={[s.judgeBtn, s.judgeBtnOk, disabled && { opacity: 0.4 }]}
       >
+        <BlockIcon name="check" color={V.color.textPrimary} size={22} />
         <Text style={s.judgeBtnTxt}>{t.player.judgeSaidIt}</Text>
       </Pressable>
       <Pressable
@@ -566,6 +567,7 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
         accessibilityRole="button" accessibilityLabel={t.player.judgeAlmostA11y}
         style={[s.judgeBtn, s.judgeBtnAlmost, disabled && { opacity: 0.4 }]}
       >
+        <BlockIcon name="repeat" color={V.color.textPrimary} size={22} />
         <Text style={s.judgeBtnTxt}>{t.player.judgeAlmost}</Text>
       </Pressable>
     </View>
@@ -891,8 +893,8 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                       const done = !!matchOk[i];
                       const sel = matchSel === i;
                       return (
+                        <ReactiveTile key={i} index={i} ok={done} bad={false}>
                         <Pressable
-                          key={i}
                           // Ficha interior plana: el Pressable de zoom anidado
                           // robaba el toque y el juego "no funcionaba".
                           onPress={() => tapMatchTile(i)}
@@ -909,16 +911,17 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                 <Text style={s.matchTileMark}>{done ? initialVowel(tile.cap) : sel ? t.player.tileChosen : ' '}</Text>
               </View>
                         </Pressable>
+                        </ReactiveTile>
                       );
                     })}
                   </View>
                   <View style={s.vowelRow}>
-                    {VOWELS.map((v) => {
+                    {VOWELS.map((v, vi) => {
                       const used = ex.tiles!.some((tile, i) => matchOk[i] && initialVowel(tile.cap) === v);
                       const wrong = wrongVowel === v;
                       return (
+                        <ReactiveTile key={v} index={vi} ok={false} bad={wrong}>
                         <Pressable
-                          key={v}
                           onPress={() => tapMatchVowel(v)}
                           accessibilityRole="button"
                           accessibilityLabel={t.player.vowelA11y(v)}
@@ -926,6 +929,7 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                         >
                           <Text style={[s.vowelTxt, used && { color: '#fff' }, wrong && { color: V.color.error }]}>{v}</Text>
                         </Pressable>
+                        </ReactiveTile>
                       );
                     })}
                   </View>
@@ -957,14 +961,15 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                     <Text style={s.fillBig}>{ex.fillAfter}</Text>
                   </View>
                   <View style={s.vowelRow}>
-                    {VOWELS.map((v) => (
+                    {VOWELS.map((v, vi) => (
+                      <ReactiveTile key={v} index={vi} ok={fillPick === v && v === ex.fillAnswer} bad={fillPick === v && v !== ex.fillAnswer}>
                       <Pressable
-                        key={v}
                         onPress={() => { if (fillPick !== v) { setFillPick(v); speakVerdict(v === ex.fillAnswer); } }}
                         style={[s.vowel, fillPick === v && (v === ex.fillAnswer ? s.vowelRight : s.vowelOn)]}
                       >
                         <Text style={[s.vowelTxt, fillPick === v && s.vowelTxtOn]}>{v}</Text>
                       </Pressable>
+                      </ReactiveTile>
                     ))}
                   </View>
                   {!!ex.fillCap && (
@@ -1108,8 +1113,8 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                         const found = !!rotFound[i] && g === rt.target;
                         const wrong = rotWrongIdx === i;
                         return (
+                          <ReactiveTile key={i} index={i} ok={found} bad={wrong}>
                           <Pressable
-                            key={i}
                             onPress={() => tapRotation(i)}
                             disabled={found}
                             accessibilityRole="button"
@@ -1119,6 +1124,7 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                           >
                             <Text style={[s.rotTileTxt, found && { color: '#fff' }]}>{g}</Text>
                           </Pressable>
+                          </ReactiveTile>
                         );
                       })}
                     </View>
@@ -1149,8 +1155,8 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                         const isNext = i === named;
                         const wrong = rotWrongIdx === i;
                         return (
+                          <ReactiveTile key={i} index={i} ok={done} bad={wrong}>
                           <Pressable
-                            key={i}
                             onPress={() => tapRan(i)}
                             disabled={done}
                             accessibilityRole="button"
@@ -1160,6 +1166,7 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                           >
                             <Text style={{ fontSize: 30, opacity: done ? 0.45 : 1 }}>{tile.emoji}</Text>
                           </Pressable>
+                          </ReactiveTile>
                         );
                       })}
                     </View>
@@ -1191,13 +1198,13 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                     </View>
                   </View>
                   <View style={s.grid2}>
-                    {emo.map((e) => {
+                    {emo.map((e, ei) => {
                       const pickedEmo = emotionPick === e.label;
                       const isAns = e.label === ex.emotionAnswer;
                       const ok = pickedEmo && isAns; const bad = pickedEmo && !isAns;
                       return (
+                        <ReactiveTile key={e.label} index={ei} ok={ok} bad={bad} style={{ width: '47%' }}>
                         <Pressable
-                          key={e.label}
                           // Refuerzo inmediato: se nombra la emoción tocada y se
                           // celebra/anima en la misma locución, sin esperas.
                           onPress={() => { if (emotionPick !== e.label) { setEmotionPick(e.label); speakToChildSeq([e.label, isAns ? praisePhrase() : almostPhrase()]); } }}
@@ -1205,11 +1212,8 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                         >
                           <Text style={{ fontSize: 24 }}>{e.face}</Text>
                           <Text style={s.emoLabel}>{e.label}</Text>
-                          <View style={{ marginLeft: 'auto' }}>
-                            {ok ? <BlockIcon name="check" color={V.color.success} size={16} />
-                              : bad ? <BlockIcon name="cross" color={V.color.error} size={16} /> : null}
-                          </View>
                         </Pressable>
+                        </ReactiveTile>
                       );
                     })}
                   </View>
@@ -1268,8 +1272,8 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                       const isAns = kind === 'many';
                       const label = kind === 'one' ? pluralOneLabelFor(loc, ex.plural!) : pluralManyLabelFor(loc, ex.plural!);
                       return (
+                        <ReactiveTile key={kind} index={kind === 'one' ? 0 : 1} ok={tapped && isAns} bad={tapped && !isAns} style={{ flex: 1 }}>
                         <Pressable
-                          key={kind}
                           onPress={() => {
                             if (pluralPick !== kind) {
                               setPluralPick(kind);
@@ -1284,11 +1288,8 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                             {Array.from({ length: n }).map(() => ex.plural!.emoji).join(' ')}
                           </Text>
                           <Text style={s.pluralCap}>{label}</Text>
-                          <View style={{ marginTop: 4, height: 16, justifyContent: 'center' }}>
-                            {tapped ? (isAns ? <BlockIcon name="check" color={V.color.success} size={15} />
-                              : <BlockIcon name="cross" color={V.color.error} size={15} />) : null}
-                          </View>
                         </Pressable>
+                        </ReactiveTile>
                       );
                     })}
                   </View>
@@ -1877,7 +1878,7 @@ const s = StyleSheet.create({
   // Botonera de Juez (DX-3 / DX-4)
   judgeHint: { fontFamily: FONT.bodyBlack,textAlign: 'center', fontSize: 12, color: V.color.textSecondary, marginTop: 12, marginBottom: 8 },
   judgeRow: { flexDirection: 'row', gap: 10, justifyContent: 'center' },
-  judgeBtn: { flex: 1, maxWidth: 160, alignItems: 'center', borderRadius: 13, paddingVertical: 12, borderWidth: 1.5 },
+  judgeBtn: { flex: 1, maxWidth: 180, alignItems: 'center', gap: 4, borderRadius: 16, paddingVertical: 14, minHeight: 64, borderWidth: 1.5 },
   judgeBtnOk: { backgroundColor: V.color.successBg, borderColor: V.color.success },
   judgeBtnAlmost: { backgroundColor: '#fffbeb', borderColor: '#f4e6b8' },
   judgeBtnTxt: { fontFamily: FONT.bodyBlack,fontSize: 14, color: V.color.textPrimary },
@@ -1942,7 +1943,7 @@ const s = StyleSheet.create({
   gridCap: { fontFamily: FONT.bodyBlack,fontSize: 12, color: V.color.textSecondary },
 
   emoQ: { fontFamily: FONT.bodyBlack,fontSize: 13, color: V.color.textMuted, marginTop: 6 },
-  emoOpt: { width: '47%', flexDirection: 'row', alignItems: 'center', gap: 9, paddingVertical: 12, paddingHorizontal: 13, borderRadius: 14, backgroundColor: V.color.pageBg, borderWidth: 1, borderColor: '#eef2f1' },
+  emoOpt: { width: '100%', flexDirection: 'row', alignItems: 'center', gap: 9, paddingVertical: 12, paddingHorizontal: 13, borderRadius: 14, backgroundColor: V.color.pageBg, borderWidth: 1, borderColor: '#eef2f1' },
   emoLabel: { fontFamily: FONT.bodyBlack,fontSize: 14, color: V.color.textPrimary },
 
   diceRow: { flexDirection: 'row', gap: 9, justifyContent: 'center', marginBottom: 14 },

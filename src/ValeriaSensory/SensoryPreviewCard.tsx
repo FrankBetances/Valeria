@@ -85,6 +85,10 @@ export const SensoryPreviewCard: React.FC<{ navigation: any }> = ({ navigation }
 
   return (
     <Card style={s.card}>
+      <View style={s.head}>
+        <BlockIcon name="sensory_ear" color={V.color.primaryDark} size={18} />
+        <Text style={s.kicker}>{t.sensory.previewKicker}</Text>
+      </View>
       <Text style={s.body}>{t.sensory.previewBody}</Text>
 
       {!audioReady ? (

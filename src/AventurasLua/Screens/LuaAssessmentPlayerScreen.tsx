@@ -15,6 +15,8 @@
 //    se pintan distintos y no se locutan al tocarlos.
 // ============================================================================
 import React, { useRef, useState, useEffect, useCallback } from "react";
+import { ScreenHeader } from "../../ui/ScreenHeader";
+import { ReactiveTile } from "../../ui/ReactiveTile";
 import {
   View,
   Text,
@@ -130,39 +132,15 @@ export const LuaAssessmentPlayerScreen: React.FC<Props> = ({ navigation, route }
   return (
     <View style={[s.container, { paddingTop: insets.top }]}>
       {/* Barra superior */}
-      <View style={s.topBar}>
-        <Pressable
-          onPress={() => navigation.goBack()}
-          style={s.backBtn}
-          accessibilityRole="button"
-          accessibilityLabel={t.common.back}
-          hitSlop={12}
-        >
-          <Text style={s.backTxt}>{`‹ ${t.common.back}`}</Text>
-        </Pressable>
-        <View style={s.progressWrap}>
-          <Text style={s.progressTxt}>
-            {t.luaHub.evalProgress(currentIndex + 1, bandQuestions.length)}
-          </Text>
-          <View style={s.progressBarBg}>
-            <View
-              style={[
-                s.progressBarFill,
-                { width: `${((currentIndex + 1) / bandQuestions.length) * 100}%` },
-              ]}
-            />
-          </View>
-        </View>
-        <Pressable
-          onPress={() => setGuidanceOpen(true)}
-          style={s.infoBtn}
-          accessibilityRole="button"
-          accessibilityLabel={t.luaHub.evalClinicalSupport}
-          hitSlop={8}
-        >
-          <BlockIcon name="info" color={LUA_COLORS.primary} size={22} />
-        </Pressable>
-      </View>
+      <ScreenHeader onBack={() => navigation.goBack()} backLabel={t.common.back}
+        kicker={t.luaHub.secAssessmentTitle} icon="clinical" title={t.luaHub.evalProgress(currentIndex + 1, bandQuestions.length)}
+        dots={{ total: bandQuestions.length, index: currentIndex }}
+        trailing={(
+          <Pressable onPress={() => setGuidanceOpen(true)} style={s.infoBtn} accessibilityRole="button"
+            accessibilityLabel={t.luaHub.evalClinicalSupport} hitSlop={8}>
+            <BlockIcon name="info" color={LUA_COLORS.primary} size={22} />
+          </Pressable>
+        )} />
 
       <ScrollView
         contentContainerStyle={[s.scrollContent, { paddingBottom: insets.bottom + 32 }]}
@@ -237,11 +215,11 @@ export const LuaAssessmentPlayerScreen: React.FC<Props> = ({ navigation, route }
                 marcada como tal y en filas compactas. */}
             {currentQ.mode === "child_choice" ? (
               <View style={s.picOptionsGrid}>
-                {currentQ.options.map((opt) => {
+                {currentQ.options.map((opt, oi) => {
                   const isSelected = selectedOptionId === opt.id;
                   return (
+                    <ReactiveTile key={opt.id} index={oi} ok={isSelected && opt.isTarget} bad={false} style={s.picOptionSlot}>
                     <Pressable
-                      key={opt.id}
                       onPress={() => handleSelectOption(opt.id, opt.isTarget)}
                       style={[
                         s.picOption,
@@ -264,6 +242,7 @@ export const LuaAssessmentPlayerScreen: React.FC<Props> = ({ navigation, route }
                         </View>
                       )}
                     </Pressable>
+                    </ReactiveTile>
                   );
                 })}
               </View>
@@ -495,6 +474,7 @@ const s = StyleSheet.create({
     gap: 12,
     marginTop: 8,
   },
+  picOptionSlot: { width: 132 },
   picOption: {
     width: 132,
     minHeight: 148,

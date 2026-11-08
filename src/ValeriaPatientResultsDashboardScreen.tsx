@@ -30,6 +30,8 @@ import { readArHistory, readSpeechHistory } from './valeriaTelemetry';
 import type { ArTrial, ArDeviceProfile, ArThresholds } from './valeriaArBridge';
 import { FONT } from './ui/fonts';
 import { ScreenHeader } from './ui/ScreenHeader';
+import Reanimated from 'react-native-reanimated';
+import { enterAt } from './ui/motion';
 import { LineChart } from 'react-native-gifted-charts';
 // import logoWhite from '../../assets/valeria-logo-white.png';
 
@@ -384,6 +386,7 @@ export const ValeriaPatientResultsDashboardScreen: React.FC<{ navigation?: any }
       <ScrollView style={st.flex} contentContainerStyle={st.scroll} showsVerticalScrollIndicator={false}>
         {/* PROGRESO GAMIFICADO: racha, nivel y logros */}
         {game && (
+          <Reanimated.View entering={enterAt(0)}>
           <View style={st.card}>
             <View style={st.cardHeader}>
               <View style={st.chip}><BlockIcon name="level" color={V.color.primaryDark} size={17} /></View>
@@ -431,9 +434,11 @@ export const ValeriaPatientResultsDashboardScreen: React.FC<{ navigation?: any }
               })}
             </View>
           </View>
+          </Reanimated.View>
         )}
 
         {/* ADHERENCIA SEMANAL */}
+        <Reanimated.View entering={enterAt(1)}>
         <View style={st.card}>
           <View style={st.cardHeader}>
             <View style={st.chip}><BlockIcon name="chart" color={V.color.primaryDark} size={17} /></View>
@@ -475,8 +480,10 @@ export const ValeriaPatientResultsDashboardScreen: React.FC<{ navigation?: any }
             </View>
           </View>
         </View>
+        </Reanimated.View>
 
         {/* EVOLUCIÓN POR ESTRELLAS */}
+        <Reanimated.View entering={enterAt(2)}>
         <View style={st.card}>
           <View style={st.evoHeader}>
             <View style={st.cardHeader}>
@@ -504,9 +511,11 @@ export const ValeriaPatientResultsDashboardScreen: React.FC<{ navigation?: any }
             initialSpacing={18} spacing={56} height={150} adjustToWidth
           />
         </View>
+        </Reanimated.View>
 
         {/* PARES MÍNIMOS · % DE SUSTITUCIÓN POR FONEMA */}
         {pmFonemas.length > 0 && (
+          <Reanimated.View entering={enterAt(3)}>
           <View style={st.card}>
             <View style={st.evoHeader}>
               <View style={[st.cardHeader, { flex: 1, marginRight: 8 }]}>
@@ -558,12 +567,14 @@ export const ValeriaPatientResultsDashboardScreen: React.FC<{ navigation?: any }
               ))}
             </Svg>
           </View>
+          </Reanimated.View>
         )}
 
         {/* REALIDAD AUMENTADA · magnitudes por ensayo.
             Se muestran los números medidos y el umbral que fijó el adulto, sin
             ninguna valoración: la interpretación es de la logopeda. */}
         {arEjercicios.length > 0 && AR_SERIES[arEjercicio] && (
+          <Reanimated.View entering={enterAt(4)}>
           <View style={st.card}>
             <View style={st.evoHeader}>
               <View style={[st.cardHeader, { flex: 1, marginRight: 8 }]}>
@@ -671,6 +682,7 @@ export const ValeriaPatientResultsDashboardScreen: React.FC<{ navigation?: any }
               </Text>
             )}
           </View>
+          </Reanimated.View>
         )}
 
         {/* RECUENTO DEL MICRÓFONO · APOYO DEL EJERCICIO, NO UNA MEDIDA.

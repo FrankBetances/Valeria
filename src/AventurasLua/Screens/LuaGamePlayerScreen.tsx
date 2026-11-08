@@ -9,6 +9,9 @@
 // corpus; las consignas de los diez juegos entran por `luaVoiceLines`.
 // ============================================================================
 import React, { useCallback, useMemo, useRef, useState } from "react";
+import Animated, { FlipInEasyY, ReduceMotion, ZoomIn } from "react-native-reanimated";
+import { ReactiveTile } from "../../ui/ReactiveTile";
+import { ScreenHeader } from "../../ui/ScreenHeader";
 import { praisePhrase } from '../../valeriaVoice';
 import { View, Text, StyleSheet, ScrollView, Pressable, useWindowDimensions } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -106,8 +109,8 @@ export const LuaGamePlayerScreen: React.FC<Props> = ({ navigation, route }) => {
     const isMarked = !!marked[idx];
     const seqPos = game.kind === "sequence" ? ordered.indexOf(idx) : -1;
     return (
+      <ReactiveTile key={`${item.label}-${idx}`} index={idx} ok={isMarked} bad={false}>
       <Pressable
-        key={`${item.label}-${idx}`}
         onPress={() => tap(idx, item)}
         style={[s.card, { width: cardW, minHeight: cardW }, isMarked && s.cardMarked, seqPos >= 0 && s.cardOrdered]}
         accessibilityRole="button"
@@ -116,7 +119,7 @@ export const LuaGamePlayerScreen: React.FC<Props> = ({ navigation, route }) => {
         {hidden ? (
           <View style={[s.cardBack, { width: picSize, height: picSize }]}><CatPixel size={picSize} /></View>
         ) : (
-          <>
+          <Animated.View key={`face-${idx}`} entering={game.kind === "memory" ? FlipInEasyY.duration(380).reduceMotion(ReduceMotion.System) : undefined} style={{ alignItems: "center" }}>
             {item.pic ? (
               <FichaVisual word={item.label} emoji="" pic={item.pic} size={picSize} />
             ) : (
@@ -125,34 +128,20 @@ export const LuaGamePlayerScreen: React.FC<Props> = ({ navigation, route }) => {
             <Text style={[s.cardLabel, { fontSize: labelSize }]} numberOfLines={2}>
               {item.template ?? item.label}
             </Text>
-          </>
+          </Animated.View>
         )}
         {seqPos >= 0 && (
-          <View style={s.seqBadge}><Text style={s.seqBadgeTxt}>{seqPos + 1}</Text></View>
-        )}
-        {isMarked && (
-          <View style={s.markBadge}>
-            <BlockIcon name="check" color={LUA_COLORS.mintDark} size={18} />
-          </View>
+          <Animated.View key={`seq-${seqPos}`} entering={ZoomIn.springify().damping(9).reduceMotion(ReduceMotion.System)} style={s.seqBadge}><Text style={s.seqBadgeTxt}>{seqPos + 1}</Text></Animated.View>
         )}
       </Pressable>
+      </ReactiveTile>
     );
   };
 
   return (
     <View style={[s.container, { paddingTop: insets.top }]}>
-      <View style={s.topBar}>
-        <Pressable
-          onPress={() => navigation.goBack()}
-          style={s.backBtn}
-          accessibilityRole="button"
-          accessibilityLabel={t.common.back}
-          hitSlop={12}
-        >
-          <Text style={s.backTxt}>{`‹ ${t.common.back}`}</Text>
-        </Pressable>
-        <Text style={s.topTitle} numberOfLines={1}>{game.title}</Text>
-      </View>
+      <ScreenHeader onBack={() => navigation.goBack()} backLabel={t.common.back}
+        kicker={t.hub.luaTitle} icon="game" title={game.title} />
 
       <ScrollView
         contentContainerStyle={[s.scroll, { paddingBottom: insets.bottom + 32 }]}

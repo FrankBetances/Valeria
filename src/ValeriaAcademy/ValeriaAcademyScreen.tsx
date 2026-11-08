@@ -26,6 +26,8 @@ import { AcademyBadge, AcademyCapsule, AcademyDomain } from './academyTypes';
 import { AcademyDomainCard } from './AcademyDomainCard';
 import { AcademyNextStep } from './AcademyNextStep';
 import { ListRow } from '../ui/ListRow';
+import { ReactiveTile } from '../ui/ReactiveTile';
+import Reanimated, { ReduceMotion, SlideInRight } from 'react-native-reanimated';
 import { HipoacusiaBottomSheet } from './HipoacusiaBottomSheet';
 import { SignAlphabetChart, SignFigure } from './AcademySignosSvg';
 import { BlockIcon } from '../ValeriaBlockIcons';
@@ -207,6 +209,7 @@ const CapsuleReader: React.FC<{
         kicker={accent.label} title={capsule.title} dots={{ total: capsule.slides.length, index: i, finished: false }} />
 
       <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
+        <Reanimated.View key={`slide-${i}`} entering={SlideInRight.springify().damping(18).reduceMotion(ReduceMotion.System)}>
         <View style={s.slideCard}>
           {!!slide.icon && <Text style={s.slideEmoji}>{slide.icon}</Text>}
           {!!slide.ageBracket && (
@@ -261,6 +264,7 @@ const CapsuleReader: React.FC<{
             </View>
           )}
         </View>
+        </Reanimated.View>
       </ScrollView>
 
       <View style={s.footer}>
@@ -374,13 +378,15 @@ const CapsuleQuiz: React.FC<{
             show && isPicked && !isAnswer && s.optWrong,
           ];
           return (
-            <Pressable key={idx} onPress={() => answer(idx)} disabled={show} style={style} accessibilityRole="button">
+            <ReactiveTile key={idx} index={idx} ok={show && isPicked && isAnswer} bad={show && isPicked && !isAnswer} hint={show && isAnswer && !isPicked}>
+            <Pressable onPress={() => answer(idx)} disabled={show} style={style} accessibilityRole="button">
               <Text style={[s.optTxt, show && isAnswer && { color: V.color.success }, show && isPicked && !isAnswer && { color: V.color.error }]}>
                 {opt}
               </Text>
               {show && isAnswer && <BlockIcon name="check" color={V.color.success} size={16} />}
               {show && isPicked && !isAnswer && <BlockIcon name="cross" color={V.color.error} size={16} />}
             </Pressable>
+            </ReactiveTile>
           );
         })}
         {picked != null && (
