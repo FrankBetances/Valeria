@@ -21,6 +21,7 @@ process.stdin.on('data', (d) => (input += d)).on('end', () => {
   for (const m of wf.matchAll(/run: (node scripts\/\S+(?: --\S+)?)/g)) {
     try { execSync(m[1], { cwd: root, stdio: 'pipe' }); } catch { fails.push(m[1]); }
   }
+  try { execSync('node scripts/check-frank-errors.js', { cwd: root, stdio: 'pipe' }); } catch { fails.push('node scripts/check-frank-errors.js (error ya señalado por Frank repetido)'); }
   if (fails.length) {
     console.error(`BLOQUEADO (F11): no se empuja con gates en rojo:\n- ${fails.join('\n- ')}`); process.exit(2);
   }
