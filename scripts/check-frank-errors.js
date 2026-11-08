@@ -11,7 +11,7 @@ const checks = [
   ['R14 Lúa reacciona en el reto STEAM', () => { const c = read('src/ValeriaSteamChallengeScreen.tsx'); return /CatPixel/.test(c) && /luaIdle/.test(c); }],
   ['R17 Lúa reacciona a aciertos y fallos en todos los ejercicios', () => /emitLuaCheer\(true/.test(read('src/valeriaVoice.ts')) && /emitLuaCheer\(false/.test(read('src/valeriaVoice.ts')) && /<LuaCheerOverlay \/>/.test(read('src/AppNavigator.tsx'))],
   ['R18 la reacción de Lúa va arriba y no tapa', () => /layer: \{ position: 'absolute', top:/.test(read('src/ui/LuaCheer.tsx'))],
-  ['R23 Adaptación a sonidos conserva anticipación, pausa y final', () => { const c = read('src/ValeriaSensory/SensoryExerciseScreen.tsx'); return /countdownNumber\}>\{countdown\}/.test(c) && /stoppingIsOkTitle/.test(c) && /xpRewardTxt/.test(c); }],
+  ['R23 Adaptación a sonidos conserva anticipación, pausa y final', () => { const c = read('src/ValeriaSensory/SensoryExerciseScreen.tsx'); return /countdownNumber[^\n]*>\{countdown\}/.test(c) && /stoppingIsOkTitle/.test(c) && /xpRewardTxt/.test(c); }],
   ['R8 entrada animada en filas', () => /enterAt\(/.test(read('src/ui/ListRow.tsx')) && /enterAt\(/.test(read('src/ValeriaBlockTile.tsx'))],
 ];
 let bad = 0;
