@@ -22,7 +22,7 @@
 //     yendo antes del player (esa regla vive en la lista y en el player).
 // ============================================================================
 import React, { useCallback, useEffect, useState } from 'react';
-import { View, Text, Pressable, FlatList, StyleSheet, Modal } from 'react-native';
+import { View, Text, Pressable, SectionList, StyleSheet, Modal } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { V, STORAGE_KEYS } from './valeriaTheme';
 import { BLOCKS, BLOCK_ORDER, BlockKey } from './valeriaBlocks';
@@ -240,9 +240,20 @@ export const ValeriaHubV11Screen: React.FC<{ navigation: any }> = ({ navigation 
     } as Tile] : []),
   ];
 
-  // Con un número impar de tarjetas, la última quedaría estirada a todo el
-  // ancho por el `flex: 1`. Una celda fantasma la deja en su columna.
-  const grid: (Tile | null)[] = tiles.length % 2 ? [...tiles, null] : tiles;
+  // Cuatro grupos con nombre: el adulto que entra por primera vez lee de qué
+  // va cada parte antes de elegir. El orden de las decisiones de Frank se
+  // mantiene: Adaptación a sonidos abre, Aventuras va detrás y la RA cierra.
+  const GROUPS: { title: string; keys: string[] }[] = [
+    { title: t.hub.sectionStart, keys: ['sensory', 'aventuras_lua'] },
+    { title: t.hub.sectionSpeech, keys: ['pairs', 'semantic', 'audicion', 'lenguaje', 'tea'] },
+    { title: t.hub.sectionReading, keys: ['dislexia', 'writing'] },
+    { title: t.hub.sectionBuild, keys: ['steam', 'ar'] },
+  ];
+  const placed = new Set(GROUPS.flatMap((g) => g.keys));
+  const sections = GROUPS.map((g, i) => ({
+    title: g.title,
+    data: tiles.filter((tl) => g.keys.includes(tl.key) || (i === GROUPS.length - 1 && !placed.has(tl.key))),
+  })).filter((sec) => sec.data.length > 0);
 
   return (
     <View style={s.flex}>
@@ -253,12 +264,11 @@ export const ValeriaHubV11Screen: React.FC<{ navigation: any }> = ({ navigation 
         title={t.hub.title}
         subtitle={t.hub.subtitle}
       />
-      <FlatList
-        data={grid}
-        keyExtractor={(item, i) => item?.key ?? `ghost-${i}`}
-        numColumns={2}
-        columnWrapperStyle={s.col}
+      <SectionList
+        sections={sections}
+        keyExtractor={(item) => item.key}
         contentContainerStyle={s.grid}
+        stickySectionHeadersEnabled={false}
         ListHeaderComponent={(
           <View style={s.stripWrap}>
             {/* Lúa, la gata interactiva: caricia, pescadito, ánimo y armario,
@@ -272,8 +282,12 @@ export const ValeriaHubV11Screen: React.FC<{ navigation: any }> = ({ navigation 
             />
           </View>
         )}
+        renderSectionHeader={({ section }) => (
+          <Text style={s.section} role="heading">{section.title}</Text>
+        )}
+        ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
         showsVerticalScrollIndicator={false}
-        renderItem={({ item }) => (item ? (
+        renderItem={({ item }) => (
           <ValeriaBlockTile
             icon={item.icon}
             title={item.title}
@@ -286,7 +300,7 @@ export const ValeriaHubV11Screen: React.FC<{ navigation: any }> = ({ navigation 
             accessibilityHint={item.hint}
             onPress={item.onPress}
           />
-        ) : <View style={s.ghost} />)}
+        )}
       />
 
       {/* La colección de premios. Sin PIN: XP, racha e insignias son
@@ -383,8 +397,7 @@ const s = StyleSheet.create({
   bar: { height: 6, borderRadius: 3, backgroundColor: '#eef0ff', marginTop: V.space.sm, overflow: 'hidden' },
   barFill: { height: '100%', borderRadius: 3, backgroundColor: '#5b6ee0' },
   academyChev: { fontFamily: FONT.display,fontSize: 20, color: V.color.textMuted },
-  col: { gap: V.space.md, marginBottom: V.space.md },
-  ghost: { flex: 1 },
+  section: { fontFamily: FONT.bodyBlack, fontSize: 13, letterSpacing: 1.2, textTransform: 'uppercase', color: V.color.textSecondary, marginTop: 18, marginBottom: 10, marginLeft: 4 },
   luaHello: { alignItems: 'center', marginBottom: 8 },
   headActions: { flexDirection: 'row', gap: 10 },
   headBtn: { width: 48, height: 48, borderRadius: 24, backgroundColor: '#ffffff', alignItems: 'center', justifyContent: 'center', borderBottomWidth: 4, borderBottomColor: 'rgba(0,0,0,0.15)' },
