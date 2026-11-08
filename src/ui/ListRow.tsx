@@ -47,7 +47,7 @@ export const ListRow: React.FC<Props> = ({
         {!!leading && <View style={[s.icon, { backgroundColor: tint }]}><Text style={[s.lead, { color: accent }]}>{leading}</Text></View>}
         {icon && <View style={[s.icon, { backgroundColor: tint }]}><BlockIcon name={icon} color={accent} size={26} /></View>}
         <View style={s.text}>
-          <Text style={s.title} numberOfLines={2}>{title}</Text>
+          <Text style={s.title} numberOfLines={3}>{title}</Text>
           {!!subtitle && <Text style={s.sub} numberOfLines={5}>{subtitle}</Text>}
         </View>
         {right === 'chevron'

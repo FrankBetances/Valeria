@@ -4,6 +4,7 @@
 // estaba no se mueve). Las dos filas van arriba para que se vean al entrar; la
 // guía del adulto, debajo.
 import React from 'react';
+import { ListRow } from './ui/ListRow';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useT } from './i18n';
 import { ScreenHeader } from './ui/ScreenHeader';
@@ -27,17 +28,13 @@ export const ValeriaSteamLuaSoloScreen: React.FC<{ navigation: any }> = ({ navig
         kicker={t.steam.hubTileTitle} icon="lua" title={t.steam.luaSoloTile} subtitle={t.steam.luaSoloNote} />
 
       <ScrollView contentContainerStyle={base.scroll} showsVerticalScrollIndicator={false}>
-        {LUA_SOLO_ACTIVITIES.map((act) => (
-          <Pressable key={act.id} onPress={() => navigation.navigate('ArLauncher', { luaSolo: act.id })}
-            style={base.row} accessibilityRole="button" accessibilityLabel={t.steam.luaSoloStartA11y(act.title[lang])}>
-            <View style={s.icon}><BlockIcon name="lua" color="#ffffff" size={22} /></View>
-            <View style={base.rowBody}>
-              <Text style={base.rowTitle}>{act.title[lang]}</Text>
-              <Text style={s.summary}>{act.summary[lang]}</Text>
-              <Text style={base.rowMeta}>{`${t.steam.luaSoloAges(act.ages)} · ${t.steam.luaSoloStart}`}</Text>
-            </View>
-            <PlayButton />
-          </Pressable>
+        {LUA_SOLO_ACTIVITIES.map((act, i) => (
+          <ListRow key={act.id} index={i} icon="lua"
+            title={act.title[lang]}
+            subtitle={`${act.summary[lang]}\n${t.steam.luaSoloAges(act.ages)}`}
+            onPress={() => navigation.navigate('ArLauncher', { luaSolo: act.id })}
+            accessibilityLabel={t.steam.luaSoloStartA11y(act.title[lang])}
+            trailing={<PlayButton />} />
         ))}
 
         <View style={base.noteCard}>

@@ -37,6 +37,7 @@ import { ProUnlockPill, ProPinModal } from './ValeriaProPin';
 import { BlockIcon } from './ValeriaBlockIcons';
 import { ValeriaGameStrip } from './ValeriaGameStrip';
 import { ScreenHeader } from './ui/ScreenHeader';
+import { ListRow } from './ui/ListRow';
 import { PlayButton } from './ui/PlayButton';
 import { ValeriaAwardsSheet } from './ValeriaAwardsSheet';
 import { loadGame, GameState } from './valeriaGamification';
@@ -213,35 +214,22 @@ export const ValeriaBlockListScreen: React.FC<{ navigation: any; route: any }> =
                   // La FILA ENTERA practica. Antes el único blanco era un botón
                   // de 48 px con un ▶ dentro, compitiendo en peso visual con un
                   // interruptor que en Modo Familia ni siquiera se puede tocar.
-                  <PressableScale
+                  <ListRow
                     key={item.id}
-                    onPress={() => { void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light); practice({ id: item.id }); }}
-                    style={[s.row, { borderColor: on ? block.accentFg : '#e3dccf' }, !on && s.rowOff]}
-                    accessibilityRole="button"
+                    index={i}
+                    icon={block.icon}
+                    accent={on ? block.accentFg : '#8a9494'}
+                    tint={on ? block.accentBg : '#eef0ef'}
+                    title={item.name}
+                    subtitle={on ? item.category : `${item.category} · ${t.hub.notPrescribed}`}
+                    dim={!on && !unlocked}
+                    onPress={() => practice({ id: item.id })}
                     accessibilityLabel={t.hub.practiceA11y(item.name)}
-                  >
-                    <View style={[s.rowIcon, { backgroundColor: on ? block.accentBg : '#f1f5f4' }]}>
-                      <BlockIcon name={block.icon} color={on ? block.accentFg : V.color.textSecondary} size={28} />
-                    </View>
-
-                    <View style={{ flex: 1 }}>
-                      <Text style={s.rowName} numberOfLines={2}>{item.name}</Text>
-                      {/* textSecondary, no textMuted: este es el texto que no
-                          se veía. */}
-                      <Text style={s.rowCat} numberOfLines={2}>{item.category}</Text>
-                      {!on && <Text style={s.rowOffTag}>{t.hub.notPrescribed}</Text>}
-                    </View>
-
-                    {/* El interruptor SOLO en edición profesional. Con el PIN
-                        echado era un control gris permanentemente inerte en
-                        cada una de las dieciocho filas. */}
-                    {unlocked ? (
+                    trailing={unlocked ? (
                       <Switch value={on} onValueChange={() => toggle(i)}
                         trackColor={{ false: '#d1d5db', true: V.color.primary }} thumbColor="#ffffff" />
-                    ) : (
-                      <PlayButton color={block.accentFg} tint={block.accentBg} />
-                    )}
-                  </PressableScale>
+                    ) : <PlayButton color={block.accentFg} tint={block.accentBg} />}
+                  />
                 );
               })}
             </View>
