@@ -77,7 +77,7 @@ export const ValeriaProExportModal: React.FC<{ open: boolean; onClose: () => voi
           {bundle ? (
             <>
               {/* Offline puro: QR con el resumen estadístico comprimido */}
-              <ValeriaQRCode value={bundle.qrPayload} size={216} />
+              <ValeriaQRCode value={bundle.qrPayload} size={248} />
               <Text style={s.qrCaption}>{t.pro.qrCaption}</Text>
 
               <View style={s.stats}>
