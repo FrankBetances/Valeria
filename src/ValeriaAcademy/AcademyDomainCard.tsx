@@ -20,7 +20,8 @@ import { FONT } from '../ui/fonts';
 export const AcademyDomainCard: React.FC<{
   domain: AcademyDomain;
   onPress: (domain: AcademyDomain) => void;
-}> = React.memo(({ domain, onPress }) => {
+  index?: number;
+}> = React.memo(({ domain, onPress, index = 0 }) => {
   const t = useT();
   const summary = useAcademyDomainSummary(domain);
   const lang = getUiLang();
@@ -41,6 +42,7 @@ export const AcademyDomainCard: React.FC<{
       accentFg={meta.accentFg}
       description={meta.blurb}
       progress={summary.progress}
+      index={index}
       onPress={() => onPress(domain)}
       accessibilityLabel={`${meta.label}. ${status}. ${localizedLevelName}.`}
       style={{ marginBottom: 10 }}

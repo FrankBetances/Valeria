@@ -10,6 +10,8 @@ import * as Haptics from 'expo-haptics';
 import { BlockIcon, BlockIconName } from '../ValeriaBlockIcons';
 import { V } from '../valeriaTheme';
 import { FONT } from './fonts';
+import Animated from 'react-native-reanimated';
+import { enterAt } from './motion';
 
 interface Props {
   title: string;
@@ -30,11 +32,13 @@ interface Props {
   /** Contenido extra bajo la fila, dentro de la misma tarjeta. */
   children?: React.ReactNode;
   dim?: boolean;
+  /** Posición en la lista: retrasa la entrada en cascada. */
+  index?: number;
 }
 
 export const ListRow: React.FC<Props> = ({
   title, subtitle, icon, leading, accent = V.color.primaryDark, tint = V.color.primaryLight,
-  trailing, onPress, accessibilityLabel, accessibilityHint, accessibilityRole = 'button', children, dim,
+  trailing, onPress, accessibilityLabel, accessibilityHint, accessibilityRole = 'button', children, dim, index = 0,
 }) => {
   const right = trailing === undefined ? (onPress ? 'chevron' : null) : trailing;
   const body = (
@@ -53,8 +57,9 @@ export const ListRow: React.FC<Props> = ({
       {children}
     </Card>
   );
-  if (!onPress) return body;
+  if (!onPress) return <Animated.View entering={enterAt(index)}>{body}</Animated.View>;
   return (
+    <Animated.View entering={enterAt(index)}>
     <PressableScale
       onPress={() => { void Haptics.selectionAsync(); onPress(); }}
       accessibilityRole={accessibilityRole}
@@ -63,6 +68,7 @@ export const ListRow: React.FC<Props> = ({
     >
       {body}
     </PressableScale>
+    </Animated.View>
   );
 };
 

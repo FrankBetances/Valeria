@@ -122,8 +122,8 @@ export const ValeriaAcademyScreen: React.FC<{ navigation: any }> = ({ navigation
 
         <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
           <Text style={s.listLabel}>{t.academy.domainsKicker}</Text>
-          {ACADEMY_DOMAINS.map((d) => (
-            <AcademyDomainCard key={d} domain={d} onPress={onPickDomain} />
+          {ACADEMY_DOMAINS.map((d, i) => (
+            <AcademyDomainCard key={d} domain={d} index={i} onPress={onPickDomain} />
           ))}
           <View style={{ height: 12 }} />
         </ScrollView>
@@ -159,12 +159,13 @@ export const ValeriaAcademyScreen: React.FC<{ navigation: any }> = ({ navigation
               <Text style={s.emptyTxt}>{t.academy.comingSoon}</Text>
             </View>
           )}
-          {capsules.map((c) => {
+          {capsules.map((c, i) => {
             const done = !!results[c.id];
             const accent = accentFor(c);
             return (
               <ListRow
                 key={c.id}
+                index={i}
                 icon={domainMetaFor(c.domain, lang).icon}
                 accent={accent.fg}
                 tint={accent.bg}

@@ -292,8 +292,9 @@ export const ValeriaHubV11Screen: React.FC<{ navigation: any }> = ({ navigation 
         )}
         ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
         showsVerticalScrollIndicator={false}
-        renderItem={({ item }) => (
+        renderItem={({ item, index }) => (
           <ValeriaBlockTile
+            index={index}
             icon={item.icon}
             title={item.title}
             accentBg={item.bg}

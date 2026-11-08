@@ -9,6 +9,7 @@ import { BlockIcon, BlockIconName } from '../ValeriaBlockIcons';
 import { V } from '../valeriaTheme';
 import { FONT } from './fonts';
 import { CatPixel } from '../ValeriaCatPixel';
+import { Breathe } from './motion';
 
 interface Props {
   /** Sin `onBack` no hay botón de vuelta. */
@@ -71,7 +72,7 @@ export const ScreenHeader: React.FC<Props> = ({ onBack, backLabel, kicker, icon,
         {!!badge && <View style={s.badge}><Text style={s.badgeTxt} numberOfLines={1}>{badge}</Text></View>}
       </View>
       {trailing ? <View style={s.trailing}>{trailing}</View>
-        : mascot ? <View style={[s.trailing, s.lua]} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><CatPixel size={54} pose="head" /></View> : null}
+        : mascot ? <Breathe style={[s.trailing, s.lua]}><CatPixel size={54} pose="head" /></Breathe> : null}
     </View>
 
     {dots && (

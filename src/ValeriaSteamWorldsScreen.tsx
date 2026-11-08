@@ -54,11 +54,11 @@ export const ValeriaSteamWorldsScreen: React.FC<{ navigation: any }> = ({ naviga
         kicker={t.steam.worldsKicker} icon="world_path" title={t.steam.hubTileTitle} subtitle={t.steam.worldsNote} />
 
       <ScrollView contentContainerStyle={base.scroll} showsVerticalScrollIndicator={false}>
-        {STEAM_WORLDS.map((w) => {
+        {STEAM_WORLDS.map((w, i) => {
           const title = w.title[lang];
           const isRec = recommended.includes(w.id);
           return (
-            <ListRow key={w.id}
+            <ListRow key={w.id} index={i}
               icon={WORLD_ICON[w.id]}
               accent={isRec ? '#9a5f10' : V.color.primaryDark}
               tint={isRec ? '#fff1dc' : V.color.primaryLight}

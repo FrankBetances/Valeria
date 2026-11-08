@@ -73,8 +73,8 @@ export const ValeriaSteamWorldScreen: React.FC<{ navigation: any; route: { param
 
       <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
         <Text style={[s.section, { marginTop: 0 }]}>{t.steam.challengesKicker}</Text>
-        {world.challenges.map((c) => (
-          <ListRow key={c.id}
+        {world.challenges.map((c, i) => (
+          <ListRow key={c.id} index={i}
             leading={String(c.number)}
             title={c.title[lang]}
             onPress={() => navigation.navigate('SteamChallenge', { worldId: world.id, challengeId: c.id })}

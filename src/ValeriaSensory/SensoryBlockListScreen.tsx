@@ -110,7 +110,7 @@ export const SensoryBlockListScreen: React.FC<{ navigation: any }> = ({ navigati
           </View>
         </View>
 
-        {AUDITORY_INTEGRATION_ACTIVITIES.map((act) => {
+        {AUDITORY_INTEGRATION_ACTIVITIES.map((act, i) => {
           const timesDone = sensoryState.completedActivities[act.id] ?? 0;
           const isDone = timesDone > 0;
           const isPilot = act.id === 'ISA-01';
@@ -127,6 +127,7 @@ export const SensoryBlockListScreen: React.FC<{ navigation: any }> = ({ navigati
           return (
             <ListRow
               key={act.id}
+              index={i}
               icon={act.iconName}
               accent={playable ? V.color.primaryDark : '#8a9494'}
               tint={playable ? V.color.primaryLight : '#eef0ef'}
