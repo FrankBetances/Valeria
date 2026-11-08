@@ -8,6 +8,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useT } from "../../i18n";
 import { BlockIcon } from "../../ValeriaBlockIcons";
 import { ScreenHeader } from "../../ui/ScreenHeader";
+import { ListRow } from "../../ui/ListRow";
 import { CatPixel } from "../../ValeriaCatPixel";
 import { LUA_COLORS, LUA_RADII } from "../Theme/luaTheme";
 import {
@@ -153,34 +154,17 @@ export const ValeriaAventurasLuaHubScreen: React.FC<Props> = ({ navigation }) =>
         </View>
         <Text style={s.sectionDesc}>{t.luaHub.secGamesSub}</Text>
 
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={s.cardsTrack}
-        >
+        <View style={s.vlist}>
           {filteredGames.length === 0 && (
             <Text style={s.sectionEmpty}>{t.luaHub.sectionEmptyForBand}</Text>
           )}
-          {filteredGames.map((game) => (
-            <Pressable
-              key={game.id}
-              style={s.itemMiniCard}
+          {filteredGames.map((game, i) => (
+            <ListRow key={game.id} index={i} icon="game" accent={LUA_COLORS.primary} tint={LUA_COLORS.primaryLight}
+              title={game.title} subtitle={game.subtitle}
               onPress={() => handleOpenGame(game.id)}
-              accessibilityRole="button"
-              accessibilityLabel={game.title} // i18n-exempt: catálogo clínico dinámico
-            >
-              <View style={[s.miniCardIcon, { backgroundColor: LUA_COLORS.primaryLight }]}>
-                <BlockIcon name="game" color={LUA_COLORS.primary} size={24} />
-              </View>
-              <Text style={s.miniCardTitle} numberOfLines={2}>
-                {game.title}
-              </Text>
-              <Text style={s.miniCardSub} numberOfLines={1}>
-                {game.subtitle}
-              </Text>
-            </Pressable>
+              accessibilityLabel={game.title} />
           ))}
-        </ScrollView>
+        </View>
 
         {/* 3. Módulo: Cuentos con Lúa */}
         <View style={s.sectionHeader}>
@@ -189,34 +173,17 @@ export const ValeriaAventurasLuaHubScreen: React.FC<Props> = ({ navigation }) =>
         </View>
         <Text style={s.sectionDesc}>{t.luaHub.secStoriesSub}</Text>
 
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={s.cardsTrack}
-        >
+        <View style={s.vlist}>
           {filteredStories.length === 0 && (
             <Text style={s.sectionEmpty}>{t.luaHub.sectionEmptyForBand}</Text>
           )}
-          {filteredStories.map((story) => (
-            <Pressable
-              key={story.id}
-              style={s.itemMiniCard}
+          {filteredStories.map((story, i) => (
+            <ListRow key={story.id} index={i} icon="story" accent={LUA_COLORS.amberDark} tint={LUA_COLORS.amberLight}
+              title={story.title} subtitle={story.suggestedAgeText}
               onPress={() => handleOpenStory(story.id)}
-              accessibilityRole="button"
-              accessibilityLabel={story.title} // i18n-exempt: catálogo clínico dinámico
-            >
-              <View style={[s.miniCardIcon, { backgroundColor: LUA_COLORS.amberLight }]}>
-                <BlockIcon name="story" color={LUA_COLORS.amberDark} size={24} />
-              </View>
-              <Text style={s.miniCardTitle} numberOfLines={2}>
-                {story.title}
-              </Text>
-              <Text style={s.miniCardSub}>
-                {story.suggestedAgeText}
-              </Text>
-            </Pressable>
+              accessibilityLabel={story.title} />
           ))}
-        </ScrollView>
+        </View>
 
         {/* 4. Módulo: Canciones y Praxias */}
         <View style={s.sectionHeader}>
@@ -225,34 +192,17 @@ export const ValeriaAventurasLuaHubScreen: React.FC<Props> = ({ navigation }) =>
         </View>
         <Text style={s.sectionDesc}>{t.luaHub.secSongsSub}</Text>
 
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={s.cardsTrack}
-        >
+        <View style={s.vlist}>
           {filteredSongs.length === 0 && (
             <Text style={s.sectionEmpty}>{t.luaHub.sectionEmptyForBand}</Text>
           )}
-          {filteredSongs.map((song) => (
-            <Pressable
-              key={song.id}
-              style={s.itemMiniCard}
+          {filteredSongs.map((song, i) => (
+            <ListRow key={song.id} index={i} icon="song" accent={LUA_COLORS.coralDark} tint={LUA_COLORS.coralLight}
+              title={song.title} subtitle={song.subtitle}
               onPress={() => handleOpenSong(song.id)}
-              accessibilityRole="button"
-              accessibilityLabel={song.title} // i18n-exempt: catálogo clínico dinámico
-            >
-              <View style={[s.miniCardIcon, { backgroundColor: LUA_COLORS.coralLight }]}>
-                <BlockIcon name="song" color={LUA_COLORS.coralDark} size={24} />
-              </View>
-              <Text style={s.miniCardTitle} numberOfLines={2}>
-                {song.title}
-              </Text>
-              <Text style={s.miniCardSub}>
-                {song.subtitle}
-              </Text>
-            </Pressable>
+              accessibilityLabel={song.title} />
           ))}
-        </ScrollView>
+        </View>
 
       </ScrollView>
     </View>
@@ -260,6 +210,7 @@ export const ValeriaAventurasLuaHubScreen: React.FC<Props> = ({ navigation }) =>
 };
 
 const s = StyleSheet.create({
+  vlist: { marginBottom: 8 },
   // La gata vuelve a la cabecera: es la cara del módulo.
   headerLua: { width: 64, height: 64, borderRadius: 18, backgroundColor: 'rgba(255,255,255,.18)', alignItems: 'center', justifyContent: 'center' },
   // Una franja puede no tener canciones —las 50 hojas no traen ninguna para

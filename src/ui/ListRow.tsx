@@ -17,6 +17,8 @@ interface Props {
   title: string;
   subtitle?: string;
   icon?: BlockIconName;
+  /** Icono Lucide propio de la fila (tiene prioridad sobre `icon`). */
+  iconNode?: React.ComponentType<{ size?: number; color?: string; strokeWidth?: number }>;
   /** Pieza propia en lugar del icono (un número de reto, p. ej.). */
   leading?: string;
   /** Color pleno: icono, franja y flecha. */
@@ -37,7 +39,7 @@ interface Props {
 }
 
 export const ListRow: React.FC<Props> = ({
-  title, subtitle, icon, leading, accent = V.color.primaryDark, tint = V.color.primaryLight,
+  title, subtitle, icon, iconNode, leading, accent = V.color.primaryDark, tint = V.color.primaryLight,
   trailing, onPress, accessibilityLabel, accessibilityHint, accessibilityRole = 'button', children, dim, index = 0,
 }) => {
   const right = trailing === undefined ? (onPress ? 'chevron' : null) : trailing;
@@ -45,9 +47,10 @@ export const ListRow: React.FC<Props> = ({
     <Card style={[s.card, { borderLeftColor: accent }, dim && s.dim]}>
       <View style={s.row}>
         {!!leading && <View style={[s.icon, { backgroundColor: tint }]}><Text style={[s.lead, { color: accent }]}>{leading}</Text></View>}
-        {icon && <View style={[s.icon, { backgroundColor: tint }]}><BlockIcon name={icon} color={accent} size={26} /></View>}
+        {iconNode ? <View style={[s.icon, { backgroundColor: tint }]}>{React.createElement(iconNode, { size: 26, color: accent, strokeWidth: 2.1 })}</View>
+          : icon ? <View style={[s.icon, { backgroundColor: tint }]}><BlockIcon name={icon} color={accent} size={26} /></View> : null}
         <View style={s.text}>
-          <Text style={s.title} numberOfLines={2}>{title}</Text>
+          <Text style={s.title} numberOfLines={3}>{title}</Text>
           {!!subtitle && <Text style={s.sub} numberOfLines={5}>{subtitle}</Text>}
         </View>
         {right === 'chevron'

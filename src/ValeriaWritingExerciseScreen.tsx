@@ -4,6 +4,7 @@
 // afianzar la memoria motora kinestésica del trazo y evitar inversiones (b vs d).
 // ============================================================================
 import { ScreenHeader } from './ui/ScreenHeader';
+import { emitLuaCheer } from './luaCheerBus';
 import React, { useState, useRef, useCallback } from 'react';
 import {
   View, Text, Pressable, ScrollView, StyleSheet, Modal,
@@ -86,18 +87,18 @@ export const ValeriaWritingExerciseScreen: React.FC<ValeriaWritingExerciseScreen
 
     if (category === 'free') {
       setShowCelebration(true);
-      speakToChild(writingPraiseFor(contentLocale(), 0));
+      { const f = writingPraiseFor(contentLocale(), 0); speakToChild(f); emitLuaCheer(true, f); }
       return;
     }
 
     if (evaluationResult?.success || !currentExercise?.guide.waypoints.length) {
       setShowCelebration(true);
-      speakToChild(writingPraiseFor(contentLocale(), 1));
+      { const f = writingPraiseFor(contentLocale(), 1); speakToChild(f); emitLuaCheer(true, f); }
       if (Platform.OS === 'android' || Platform.OS === 'ios') {
         try { Vibration.vibrate([0, 40, 60, 40]); } catch { /* noop */ }
       }
     } else {
-      speakToChild(writingPraiseFor(contentLocale(), 2));
+      { const f = writingPraiseFor(contentLocale(), 2); speakToChild(f); emitLuaCheer(true, f); }
     }
   };
 

@@ -24,6 +24,12 @@ import { notify } from '../ui/notify';
 import { PressableScale } from 'pressto';
 import * as Haptics from 'expo-haptics';
 import { ListRow } from '../ui/ListRow';
+import { ToggleRight, TrafficCone, Search, Radar, AudioLines, Building2 } from 'lucide-react-native';
+
+// Un icono propio por actividad (R20): en los datos varias compartían dibujo.
+const SENSORY_ICON: Record<string, React.ComponentType<{ size?: number; color?: string; strokeWidth?: number }>> = {
+  'ISA-01': ToggleRight, 'ISA-02': TrafficCone, 'ISA-03': Search, 'ISA-04': Radar, 'ISA-05': AudioLines, 'ISA-06': Building2,
+};
 import { AdultFold } from '../ui/AdultFold';
 import { PlayButton } from '../ui/PlayButton';
 
@@ -127,8 +133,8 @@ export const SensoryBlockListScreen: React.FC<{ navigation: any }> = ({ navigati
           return (
             <ListRow
               key={act.id}
+              iconNode={SENSORY_ICON[act.id]}
               index={i}
-              icon={act.iconName}
               accent={playable ? V.color.primaryDark : '#8a9494'}
               tint={playable ? V.color.primaryLight : '#eef0ef'}
               title={title}
