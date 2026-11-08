@@ -781,14 +781,14 @@ const s = StyleSheet.create({
   captureErr: { fontFamily: FONT.bodyBlack,fontSize: 12, color: V.color.error, marginTop: 8 },
   captureOk: { fontFamily: FONT.bodyBlack,fontSize: 12, color: '#0f8a63', marginTop: 8 },
 
-  vqCard: { backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.border, borderRadius: 14, padding: 13, marginTop: 10, ...V.shadow.card },
+  vqCard: { backgroundColor: '#fff', borderWidth: 1, borderColor: '#ece5d8', borderLeftWidth: 6, borderLeftColor: V.color.primaryDark, borderRadius: 22, padding: 14, marginTop: 0, marginBottom: 10 },
   vqHead: { flexDirection: 'row', alignItems: 'center', gap: 9 },
-  vqIcon: { width: 36, height: 36, borderRadius: 12, backgroundColor: V.color.primaryLight, alignItems: 'center', justifyContent: 'center' },
-  vqTitle: { fontFamily: FONT.bodyBlack,fontSize: 14, color: V.color.textPrimary, flex: 1 },
+  vqIcon: { width: 52, height: 52, borderRadius: 16, backgroundColor: V.color.primaryLight, alignItems: 'center', justifyContent: 'center' },
+  vqTitle: { fontFamily: FONT.display, fontSize: 18, lineHeight: 22, color: V.color.textPrimary, flexShrink: 1, flexGrow: 1 },
   vqChip: { paddingHorizontal: 9, paddingVertical: 4, borderRadius: 9 },
-  vqChipTxt: { fontFamily: FONT.bodyBlack,fontSize: 11 },
+  vqChipTxt: { fontFamily: FONT.bodyBlack, fontSize: 13 },
 
-  vqLangLabel: { fontFamily: FONT.bodyBlack,fontSize: 10.5, letterSpacing: 0.5, color: V.color.textMuted, marginTop: 12, marginBottom: 6, textTransform: 'uppercase' },
+  vqLangLabel: { fontFamily: FONT.bodyBlack,fontSize: 12.5, letterSpacing: 0.8, color: V.color.textSecondary, marginTop: 14, marginBottom: 6, textTransform: 'uppercase' },
   // El selector nació con 3 variedades y cabían en una fila. Hoy son 5
   // (Euskara e English se sumaron después) y sin `flexWrap` los chips se
   // comprimían hasta solaparse: «Castellano» salía cortado y la etiqueta
@@ -800,15 +800,15 @@ const s = StyleSheet.create({
   // Ancho fijo por columna = rejilla pareja de 2×3.
   vqLangBtn: { width: '31.5%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 5, backgroundColor: V.color.pageBg, borderWidth: 1.5, borderColor: V.color.border, borderRadius: 14, paddingVertical: 11, paddingHorizontal: 6 },
   vqLangBtnOn: { backgroundColor: V.color.primary, borderColor: V.color.primary },
-  vqLangTxt: { fontFamily: FONT.bodyBlack,fontSize: 12.5, color: V.color.textSecondary, textAlign: 'center' },
+  vqLangTxt: { fontFamily: FONT.bodyBlack, fontSize: 14, color: V.color.textSecondary, textAlign: 'center' },
   vqLangTxtOn: { color: V.color.dark }, // tinta sobre turquesa: 8,6:1 (el blanco daba 2,2:1)
   vqBeta: { fontFamily: FONT.bodyBlack,fontSize: 9, color: V.color.textMuted, borderWidth: 1, borderColor: V.color.border, borderRadius: 6, paddingHorizontal: 4, paddingVertical: 1, letterSpacing: 0.4, textTransform: 'uppercase' },
-  vqDetail: { fontFamily: FONT.bodyBold,fontSize: 11.5, color: V.color.textMuted, marginTop: 8, lineHeight: 15.5 },
+  vqDetail: { fontFamily: FONT.body, fontSize: 14, color: V.color.textSecondary, marginTop: 8, lineHeight: 19 },
   vqBtnRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginTop: 11 },
-  vqBtn: { backgroundColor: V.color.primaryLight, borderWidth: 1, borderColor: V.color.borderActive, borderRadius: 11, paddingHorizontal: 11, paddingVertical: 8 },
+  vqBtn: { backgroundColor: V.color.primaryLight, borderWidth: 1, borderColor: V.color.borderActive, borderRadius: 14, paddingHorizontal: 14, paddingVertical: 11, minHeight: 44, justifyContent: 'center' },
   vqBtnPrimary: { backgroundColor: V.color.primary, borderColor: V.color.primary },
-  vqBtnTxt: { fontFamily: FONT.bodyBlack,fontSize: 12, color: V.color.primaryDark },
-  vqHint: { fontFamily: FONT.bodyBold,fontSize: 11, color: V.color.textSecondary, marginTop: 10, lineHeight: 15, backgroundColor: V.color.pageBg, borderRadius: 10, padding: 10 },
+  vqBtnTxt: { fontFamily: FONT.bodyBlack, fontSize: 14, color: V.color.primaryDark },
+  vqHint: { fontFamily: FONT.body, fontSize: 13.5, color: V.color.textSecondary, marginTop: 10, lineHeight: 18, backgroundColor: V.color.pageBg, borderRadius: 10, padding: 10 },
 
   privBlock: { backgroundColor: V.color.pageBg, borderWidth: 1, borderColor: V.color.border, borderRadius: 12, padding: 11, marginTop: 12 },
   privHead: { flexDirection: 'row', alignItems: 'center', gap: 6 },

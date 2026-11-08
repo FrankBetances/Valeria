@@ -27,7 +27,7 @@ import { ProPinModal } from './ValeriaProPin';
 import { ValeriaProExportModal } from './ValeriaProExport';
 import { VoiceQualityCard } from './ValeriaVoiceUI';
 import { ValeriaUiLangPicker } from './ValeriaUiLangPicker';
-import { Card } from 'heroui-native';
+import { ListRow } from './ui/ListRow';
 import { useT, UiStrings } from './i18n';
 import { FONT } from './ui/fonts';
 import { notify } from './ui/notify';
@@ -100,19 +100,13 @@ export const ValeriaSettingsScreen: React.FC = () => {
         )}
 
         {/* ---- Recordatorios de sesión (GEN-01) ---- */}
-        <Card style={s.card}>
-          <View style={s.cardRow}>
-            <View style={[s.cardIcon, { backgroundColor: '#fffbeb' }]}><BlockIcon name="bell" color="#c2870b" size={22} /></View>
-            <View style={{ flex: 1 }}>
-              <Text style={s.cardTitle}>{t.hub.remindersTitle}</Text>
-              <Text style={s.cardSub}>
-                {reminders ? `${summary(slots, t)} ${t.hub.remindersPickHint}` : t.hub.remindersOff}
-              </Text>
-            </View>
-            <Switch value={reminders} onValueChange={toggleReminders}
-              trackColor={{ false: '#d1d5db', true: V.color.primary }} thumbColor="#ffffff" />
-          </View>
-
+        <ListRow
+          icon="bell" accent="#b07400" tint="#fff4d6"
+          title={t.hub.remindersTitle}
+          subtitle={reminders ? `${summary(slots, t)} ${t.hub.remindersPickHint}` : t.hub.remindersOff}
+          trailing={<Switch value={reminders} onValueChange={toggleReminders}
+            trackColor={{ false: '#d1d5db', true: V.color.primary }} thumbColor="#ffffff" />}
+        >
           {/* El selector aparece cuando los avisos están activos, que es cuando
               la elección tiene efecto. */}
           {reminders && (
@@ -129,9 +123,9 @@ export const ValeriaSettingsScreen: React.FC = () => {
                     accessibilityLabel={`${t.hub.slotLabel(d.slot, d.hour)}. ${t.hub.slotHint(d.slot)}`}
                   >
                     <View style={[s.slotCheck, on && s.slotCheckOn]}>
-                {on ? <BlockIcon name="check" color="#ffffff" size={12} /> : null}
-              </View>
-                    <View style={{ flex: 1 }}>
+                      {on ? <BlockIcon name="check" color="#ffffff" size={14} /> : null}
+                    </View>
+                    <View style={{ flexShrink: 1, flexGrow: 1 }}>
                       <Text style={[s.slotLabel, on && s.slotLabelOn]}>{t.hub.slotLabel(d.slot, d.hour)}</Text>
                       <Text style={s.slotHint}>{t.hub.slotHint(d.slot)}</Text>
                     </View>
@@ -140,7 +134,7 @@ export const ValeriaSettingsScreen: React.FC = () => {
               })}
             </View>
           )}
-        </Card>
+        </ListRow>
 
         {/* ---- Calidad de la voz ---- */}
         <VoiceQualityCard />
@@ -151,15 +145,14 @@ export const ValeriaSettingsScreen: React.FC = () => {
         <View style={s.pickerWrap}><ValeriaUiLangPicker onLight /></View>
 
         {/* ---- Acceso Profesional: PIN → exportación dual de evidencia ---- */}
-        <Pressable onPress={() => setPinOpen(true)} style={s.proAccess}
-          accessibilityRole="button" accessibilityLabel={t.hub.proAccessA11y}>
-          <View style={[s.cardIcon, { backgroundColor: V.color.primaryLight }]}><BlockIcon name="lock" color={V.color.primaryDark} size={22} /></View>
-          <View style={{ flex: 1 }}>
-            <Text style={s.cardTitle}>{t.hub.proAccessTitle}</Text>
-            <Text style={s.cardSub}>{t.hub.proAccessSub}</Text>
-          </View>
-          <Text style={s.chev}>›</Text>
-        </Pressable>
+        <View style={{ height: V.space.md }} />
+        <ListRow
+          icon="lock"
+          title={t.hub.proAccessTitle}
+          subtitle={t.hub.proAccessSub}
+          onPress={() => setPinOpen(true)}
+          accessibilityLabel={t.hub.proAccessA11y}
+        />
       </ScrollView>
 
       <ProPinModal
@@ -200,22 +193,22 @@ const s = StyleSheet.create({
   cardTitle: { fontFamily: FONT.bodyBlack,...V.type.body, fontSize: 14, color: V.color.textPrimary },
   cardSub: { fontFamily: FONT.bodyBlack,...V.type.caption, fontSize: 11.5, lineHeight: 15, color: V.color.textSecondary, marginTop: 2 },
 
-  slotList: { marginTop: 11, gap: 7 },
+  slotList: { marginTop: 12, gap: 8 },
   slotRow: {
     flexDirection: 'row', alignItems: 'center', gap: V.space.sm, borderWidth: 1, borderColor: V.color.border,
-    borderRadius: 11, paddingVertical: 9, paddingHorizontal: 11, backgroundColor: '#fbfbfb', minHeight: V.touchMin,
+    borderRadius: 14, paddingVertical: 10, paddingHorizontal: 12, backgroundColor: '#fbfaf7', minHeight: 52,
   },
   slotRowOn: { borderColor: V.color.primary, backgroundColor: '#effcfb' },
   slotCheck: {
-    width: 20, height: 20, borderRadius: 6, borderWidth: 1.5, borderColor: '#d1d5db', backgroundColor: '#fff',
+    width: 24, height: 24, borderRadius: 7, borderWidth: 2, alignItems: 'center', justifyContent: 'center', borderColor: '#d1d5db', backgroundColor: '#fff',
     textAlign: 'center', lineHeight: 18, fontSize: 12, fontWeight: V.font.extrabold, color: 'transparent', overflow: 'hidden',
   },
   slotCheckOn: { borderColor: V.color.primary, backgroundColor: V.color.primary, color: '#fff' },
-  slotLabel: { fontFamily: FONT.bodyBlack,fontSize: 12.5, color: V.color.textPrimary },
+  slotLabel: { fontFamily: FONT.bodyBlack, fontSize: 15, color: V.color.textPrimary },
   slotLabelOn: { color: V.color.primary },
-  slotHint: { fontFamily: FONT.bodyBlack,...V.type.caption, color: V.color.textSecondary, marginTop: 1 },
+  slotHint: { fontFamily: FONT.body, fontSize: 13, lineHeight: 17, color: V.color.textSecondary, marginTop: 1 },
 
-  pickerWrap: { marginTop: V.space.md },
+  pickerWrap: { marginTop: 0 },
 
   proAccess: {
     flexDirection: 'row', alignItems: 'center', gap: 11, backgroundColor: '#fff', borderWidth: 1,

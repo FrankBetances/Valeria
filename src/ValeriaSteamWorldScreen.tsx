@@ -16,6 +16,7 @@ import { adjustmentsFor, loadAdaptationProfile } from './steam/profiles';
 import { steamWorld } from './steam/worlds';
 import type { AdaptationProfileId, SteamWorldId, WorldManifest } from './steam/types';
 import { FONT } from './ui/fonts';
+import { ListRow } from './ui/ListRow';
 import { AdultFold } from './ui/AdultFold';
 
 type TabletopRoute = WorldManifest['tabletopPracticeLinks'][number];
@@ -71,6 +72,15 @@ export const ValeriaSteamWorldScreen: React.FC<{ navigation: any; route: { param
         kicker={t.steam.hubTileTitle} title={world.title[lang]} />
 
       <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
+        <Text style={[s.section, { marginTop: 0 }]}>{t.steam.challengesKicker}</Text>
+        {world.challenges.map((c) => (
+          <ListRow key={c.id}
+            leading={String(c.number)}
+            title={c.title[lang]}
+            onPress={() => navigation.navigate('SteamChallenge', { worldId: world.id, challengeId: c.id })}
+            accessibilityLabel={t.steam.challengeA11y(c.title[lang], c.ageBand)} />
+        ))}
+
         <AdultFold label={t.steam.phenomenonKicker}>
         <Card style={s.card}>
           <Text style={s.kickerFirst}>{t.steam.phenomenonKicker}</Text>
@@ -97,43 +107,28 @@ export const ValeriaSteamWorldScreen: React.FC<{ navigation: any; route: { param
 
         {adjust.anticipationFirst && storyCard}
 
-        <Text style={s.section}>{t.steam.challengesKicker}</Text>
-        {world.challenges.map((c) => (
-          <Pressable key={c.id}
-            onPress={() => navigation.navigate('SteamChallenge', { worldId: world.id, challengeId: c.id })}
-            style={s.row} accessibilityRole="button" accessibilityLabel={t.steam.challengeA11y(c.title[lang], c.ageBand)}>
-            <View style={s.badge}><Text style={s.badgeTxt}>{c.number}</Text></View>
-            <View style={s.rowBody}>
-              <Text style={s.rowTitle}>{c.title[lang]}</Text>
-            </View>
-            <Text style={s.chev}>›</Text>
-          </Pressable>
-        ))}
 
         {!adjust.anticipationFirst && storyCard}
 
         {(story || songs.length > 0 || games.length > 0) && (
-          <Card style={s.card}>
-            <Text style={s.kickerFirst}>{t.steam.warmupKicker}</Text>
+          <View>
+            <Text style={s.section}>{t.steam.warmupKicker}</Text>
             {story && (
-              <Pressable onPress={() => navigation.navigate('LuaStoryViewer', { storyId: story.id })} style={s.linkBtn}
-                accessibilityRole="button" accessibilityLabel={t.steam.warmupA11y(story.title)}>
-                <Text style={s.linkTxt}>{t.steam.warmupStory(story.title)}</Text>
-              </Pressable>
+              <ListRow icon="story" title={t.steam.warmupStory(story.title)}
+                onPress={() => navigation.navigate('LuaStoryViewer', { storyId: story.id })}
+                accessibilityLabel={t.steam.warmupA11y(story.title)} />
             )}
             {songs.map((song) => (
-              <Pressable key={song.id} onPress={() => navigation.navigate('LuaSongPlayer', { songId: song.id })} style={s.linkBtn}
-                accessibilityRole="button" accessibilityLabel={t.steam.warmupA11y(song.title)}>
-                <Text style={s.linkTxt}>{t.steam.warmupSong(song.title)}</Text>
-              </Pressable>
+              <ListRow key={song.id} icon="song" title={t.steam.warmupSong(song.title)}
+                onPress={() => navigation.navigate('LuaSongPlayer', { songId: song.id })}
+                accessibilityLabel={t.steam.warmupA11y(song.title)} />
             ))}
             {games.map((game) => (
-              <Pressable key={game.id} onPress={() => navigation.navigate('LuaGamePlayer', { gameId: game.id })} style={s.linkBtn}
-                accessibilityRole="button" accessibilityLabel={t.steam.warmupA11y(game.title)}>
-                <Text style={s.linkTxt}>{t.steam.warmupGame(game.title)}</Text>
-              </Pressable>
+              <ListRow key={game.id} icon="game" title={t.steam.warmupGame(game.title)}
+                onPress={() => navigation.navigate('LuaGamePlayer', { gameId: game.id })}
+                accessibilityLabel={t.steam.warmupA11y(game.title)} />
             ))}
-          </Card>
+          </View>
         )}
 
         <AdultFold label={t.steam.tabletopKicker}>

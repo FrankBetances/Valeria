@@ -208,33 +208,35 @@ const s = StyleSheet.create({
   dividerRow: { marginTop: 26, flexDirection: 'row', alignItems: 'center', width: '100%' },
   dividerLine: { flex: 1, height: 2, borderRadius: 1, backgroundColor: 'rgba(11,18,32,0.12)' },
   dividerLabel: {
-    marginHorizontal: 12, fontSize: 11.5, fontWeight: V.font.extrabold, letterSpacing: 1.5,
+    marginHorizontal: 12, fontSize: 13, fontWeight: V.font.extrabold, letterSpacing: 1.5,
     color: V.color.textSecondary, fontFamily: FONT.bodyBlack, textTransform: 'uppercase',
   },
 
   collabList: { marginTop: 18, width: '100%', gap: 11 },
   collabCard: {
-    backgroundColor: 'rgba(255,255,255,0.94)', borderRadius: 15,
-    paddingVertical: 15, paddingHorizontal: 18, flexDirection: 'row', alignItems: 'center',
+    backgroundColor: '#ffffff', borderRadius: 22, borderWidth: 1, borderColor: '#ece5d8',
+    borderLeftWidth: 6, borderLeftColor: V.color.primaryDark,
+    paddingVertical: 14, paddingHorizontal: 14, flexDirection: 'row', alignItems: 'center',
   },
   collabIcon: {
-    width: 42, height: 42, borderRadius: 13, backgroundColor: V.color.primaryLight,
+    width: 52, height: 52, borderRadius: 16, backgroundColor: V.color.primaryLight,
     alignItems: 'center', justifyContent: 'center', marginRight: 13,
   },
-  collabBody: { flex: 1 },
+  collabBody: { flexShrink: 1, flexGrow: 1 },
 
   // El sello trae su propio blanco y es más alto que ancho, así que va sin
   // placa: se apoya directamente sobre la tarjeta.
   sealCard: {
-    marginTop: 18, width: '100%', backgroundColor: 'rgba(255,255,255,0.94)', borderRadius: 15,
-    paddingVertical: 14, paddingHorizontal: 18, flexDirection: 'row', alignItems: 'center', gap: 14,
+    marginTop: 18, width: '100%', backgroundColor: '#ffffff', borderRadius: 22, borderWidth: 1, borderColor: '#ece5d8',
+    borderLeftWidth: 6, borderLeftColor: V.color.primaryDark,
+    paddingVertical: 14, paddingHorizontal: 14, flexDirection: 'row', alignItems: 'center', gap: 14,
   },
 
   collabName: { fontSize: 17, fontFamily: FONT.display, color: V.color.dark, lineHeight: 21 },
-  collabDesc: { marginTop: 3, fontSize: 13, fontFamily: FONT.body, color: '#4b5563' },
+  collabDesc: { marginTop: 3, fontSize: 14, lineHeight: 19, fontFamily: FONT.body, color: '#4b5563' },
 
   voiceCredit: {
-    marginTop: 16, fontSize: 10.5, fontWeight: V.font.bold, lineHeight: 15,
+    marginTop: 16, fontSize: 13, fontWeight: V.font.bold, lineHeight: 18,
     color: V.color.textSecondary, fontFamily: FONT.body, textAlign: 'center', paddingHorizontal: 6,
   },
 

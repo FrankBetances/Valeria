@@ -13,6 +13,7 @@ import { domainMetaFor, domainLevelName } from './academyDomains';
 import { useAcademyDomainSummary } from './academyStore';
 import { AcademyDomain } from './academyTypes';
 import { BlockIcon } from '../ValeriaBlockIcons';
+import { ValeriaBlockTile } from '../ValeriaBlockTile';
 import { getUiLang } from '../valeriaUiLang';
 import { FONT } from '../ui/fonts';
 
@@ -28,40 +29,22 @@ export const AcademyDomainCard: React.FC<{
   const pct = Math.round(summary.progress * 100);
   const complete = summary.totalCount > 0 && summary.completedCount >= summary.totalCount;
 
+  // Patrón de filas aprobado (8/11/2026): la misma fila que Ejercicios.
+  const status = summary.totalCount > 0
+    ? t.academy.progressTxt(summary.completedCount, summary.totalCount, pct)
+    : t.academy.comingSoon;
   return (
-    <Pressable
+    <ValeriaBlockTile
+      icon={meta.icon}
+      title={complete ? `${meta.label} ✓` : meta.label}
+      accentBg={meta.accentBg}
+      accentFg={meta.accentFg}
+      description={meta.blurb}
+      progress={summary.progress}
       onPress={() => onPress(domain)}
-      style={s.card}
-      accessibilityRole="button"
-      accessibilityLabel={`${meta.label}. ${summary.completedCount} / ${summary.totalCount}. ${localizedLevelName}.`}
-    >
-      <View style={[s.icon, { backgroundColor: meta.accentBg }]}>
-        <BlockIcon name={meta.icon} color={meta.accentFg} size={26} />
-      </View>
-      <View style={{ flex: 1 }}>
-        <View style={s.titleRow}>
-          <Text style={s.title}>{meta.label}</Text>
-          {complete && <View style={s.done}><BlockIcon name="check" color={meta.accentFg} size={15} /></View>}
-        </View>
-        <Text style={s.sub} numberOfLines={2}>{meta.blurb}</Text>
-
-        <View style={s.progressTrack}>
-          <View style={[s.progressFill, { width: `${pct}%`, backgroundColor: meta.accentFg }]} />
-        </View>
-        <View style={s.metaRow}>
-          <Text style={[s.metaTxt, { color: meta.accentFg }]}>
-            {summary.totalCount > 0 ? t.academy.progressTxt(summary.completedCount, summary.totalCount, pct) : t.academy.comingSoon}
-          </Text>
-          <View style={s.chips}>
-            <View style={s.chipRow}><BlockIcon name="level" color={V.color.textSecondary} size={14} /><Text style={s.levelTxt}>{localizedLevelName}</Text></View>
-            <Text style={s.xpTxt}>{t.academy.xpTxt(summary.xp)}</Text>
-          </View>
-        </View>
-      </View>
-      <View style={[s.chev, { backgroundColor: meta.accentFg }]}>
-        <Text style={{ color: '#fff', fontSize: 15, fontWeight: '800' }}>›</Text>
-      </View>
-    </Pressable>
+      accessibilityLabel={`${meta.label}. ${status}. ${localizedLevelName}.`}
+      style={{ marginBottom: 10 }}
+    />
   );
 });
 

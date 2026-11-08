@@ -25,6 +25,7 @@ import {
 import { AcademyBadge, AcademyCapsule, AcademyDomain } from './academyTypes';
 import { AcademyDomainCard } from './AcademyDomainCard';
 import { AcademyNextStep } from './AcademyNextStep';
+import { ListRow } from '../ui/ListRow';
 import { HipoacusiaBottomSheet } from './HipoacusiaBottomSheet';
 import { SignAlphabetChart, SignFigure } from './AcademySignosSvg';
 import { BlockIcon } from '../ValeriaBlockIcons';
@@ -162,28 +163,17 @@ export const ValeriaAcademyScreen: React.FC<{ navigation: any }> = ({ navigation
             const done = !!results[c.id];
             const accent = accentFor(c);
             return (
-              <Pressable
+              <ListRow
                 key={c.id}
+                icon={domainMetaFor(c.domain, lang).icon}
+                accent={accent.fg}
+                tint={accent.bg}
+                title={c.title}
+                subtitle={`${c.summary}\n${t.academy.readTime(c.minutes)} · ${c.xp} XP${done ? ` · ${t.academy.completedTag}` : ''}`}
                 onPress={() => openCapsule(c)}
-                style={[s.capCard, done && { borderColor: V.color.borderActive }]}
-                accessibilityRole="button"
                 accessibilityLabel={`${c.title}. ${done ? t.academy.completedTag : ''}.`}
-              >
-                {/* Icono propio del dominio (regla 5): el campo `icon` de la
-                    cápsula era un emoji del sistema, y en las STEAM un número. */}
-                <View style={[s.capIcon, { backgroundColor: accent.bg }]}>
-                  <BlockIcon name={domainMetaFor(c.domain, lang).icon} color={accent.fg} size={24} />
-                </View>
-                <View style={{ flex: 1 }}>
-                  <Text style={[s.capTrack, { color: accent.fg }]}>{accent.label}</Text>
-                  <Text style={s.capTitle}>{c.title}</Text>
-                  <Text style={s.capSummary}>{c.summary}</Text>
-                  <Text style={s.capMeta}>{t.academy.readTime(c.minutes)} · {c.xp} XP</Text>
-                </View>
-                <View style={[s.capState, done ? s.capStateDone : { backgroundColor: accent.bg }]}>
-                  <Text style={[s.capStateTxt, { color: done ? '#fff' : accent.fg }]}>{done ? '✓' : '›'}</Text>
-                </View>
-              </Pressable>
+                trailing={done ? <View style={[s.capState, s.capStateDone]}><Text style={[s.capStateTxt, { color: '#fff' }]}>✓</Text></View> : undefined}
+              />
             );
           })}
           <View style={{ height: 12 }} />

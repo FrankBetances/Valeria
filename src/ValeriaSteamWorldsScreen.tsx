@@ -5,7 +5,7 @@
 import React, { useEffect, useState } from 'react';
 import { Pressable, ScrollView, View } from 'react-native';
 import { Badge } from './components/ui/badge';
-import { Card } from 'heroui-native';
+import { ListRow } from './ui/ListRow';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from './components/ui/dialog';
 import { RadioGroup, RadioGroupItem } from './components/ui/radio-group';
 import { Text } from './components/ui/text';
@@ -54,57 +54,34 @@ export const ValeriaSteamWorldsScreen: React.FC<{ navigation: any }> = ({ naviga
         kicker={t.steam.worldsKicker} icon="world_path" title={t.steam.hubTileTitle} subtitle={t.steam.worldsNote} />
 
       <ScrollView contentContainerStyle={base.scroll} showsVerticalScrollIndicator={false}>
-        {/* Perfil de adaptación: Card de React Native Reusables, pulsable. */}
-        <Pressable onPress={() => setPinOpen(true)} accessibilityRole="button" accessibilityLabel={t.steam.profileA11y(profileName)}>
-          <Card className="bg-secondary border-input mb-4 flex-row items-center gap-3 px-4 py-3.5">
-            <View className="h-11 w-11 items-center justify-center rounded-xl bg-white"><BlockIcon name="lock" color={V.color.primaryDark} size={22} /></View>
-            <View className="min-w-0 flex-1">
-              <Text className="text-[15px] font-extrabold">{t.steam.profileTitle(profileName)}</Text>
-            </View>
-            <Text className="text-muted-foreground text-2xl font-extrabold">›</Text>
-          </Card>
-        </Pressable>
-
-        {/* Los siete mundos: Card + Badge de React Native Reusables. */}
         {STEAM_WORLDS.map((w) => {
           const title = w.title[lang];
           const isRec = recommended.includes(w.id);
           return (
-            <Pressable key={w.id} onPress={() => navigation.navigate('SteamWorld', { worldId: w.id })}
-              accessibilityRole="button" accessibilityLabel={t.steam.worldA11y(title)} accessibilityHint={t.steam.worldHint}>
-              <Card className="mb-3 flex-row items-center gap-3 rounded-3xl border-2 border-b-[6px] border-[#cdeeec] px-4 py-3.5">
-                <View className="h-14 w-14 items-center justify-center rounded-full" style={{ backgroundColor: isRec ? '#b8741a' : V.color.primaryDark }}>
-                  <BlockIcon name={WORLD_ICON[w.id]} color="#ffffff" size={24} />
-                </View>
-                <View className="min-w-0 flex-1">
-                  <Text style={{ fontFamily: FONT.display, fontSize: 19, lineHeight: 23 }}>{title}</Text>
-                  <Text className="text-muted-foreground mt-0.5 text-[12.5px] font-bold">{t.steam.worldMeta(w.challenges.length)}</Text>
-                  {isRec && (
-                    <Badge variant="secondary" className="mt-1.5 self-start border-transparent bg-[#fff1dc]">
-                      <Text className="text-[11.5px] font-extrabold text-[#8a5512]">{t.steam.recommended}</Text>
-                    </Badge>
-                  )}
-                </View>
-                <Text className="text-muted-foreground text-2xl font-extrabold">›</Text>
-              </Card>
-            </Pressable>
+            <ListRow key={w.id}
+              icon={WORLD_ICON[w.id]}
+              accent={isRec ? '#9a5f10' : V.color.primaryDark}
+              tint={isRec ? '#fff1dc' : V.color.primaryLight}
+              title={title}
+              subtitle={isRec ? `${t.steam.worldMeta(w.challenges.length)} · ${t.steam.recommended}` : t.steam.worldMeta(w.challenges.length)}
+              onPress={() => navigation.navigate('SteamWorld', { worldId: w.id })}
+              accessibilityLabel={t.steam.worldA11y(title)}
+              accessibilityHint={t.steam.worldHint} />
           );
         })}
 
-        {/* Solo Lúa: al final, después de los siete mundos (S4: no se desplaza nada). */}
-        <Pressable onPress={() => navigation.navigate('SteamLuaSolo')}
-          accessibilityRole="button" accessibilityLabel={t.steam.luaSoloTileA11y}>
-          <Card className="border-input mb-2.5 flex-row items-center gap-3 px-3.5 py-3">
-            <View className="h-11 w-11 items-center justify-center rounded-xl" style={{ backgroundColor: V.color.primaryDark }}>
-              <BlockIcon name="lua" color="#ffffff" size={24} />
-            </View>
-            <View className="min-w-0 flex-1">
-              <Text className="text-[15px] font-extrabold">{t.steam.luaSoloTile}</Text>
-              <Text className="text-muted-foreground mt-0.5 text-[12.5px] font-bold">{t.steam.luaSoloTileMeta(LUA_SOLO_ACTIVITIES.length)}</Text>
-            </View>
-            <Text className="text-muted-foreground text-2xl font-extrabold">›</Text>
-          </Card>
-        </Pressable>
+        <ListRow icon="lua"
+          title={t.steam.luaSoloTile}
+          subtitle={t.steam.luaSoloTileMeta(LUA_SOLO_ACTIVITIES.length)}
+          onPress={() => navigation.navigate('SteamLuaSolo')}
+          accessibilityLabel={t.steam.luaSoloTileA11y} />
+
+        {/* Perfil de adaptación: ajuste del profesional (PIN), al final. */}
+        <View style={{ height: 8 }} />
+        <ListRow icon="lock" accent="#5f6b6b" tint="#eef0ef"
+          title={t.steam.profileTitle(profileName)}
+          onPress={() => setPinOpen(true)}
+          accessibilityLabel={t.steam.profileA11y(profileName)} />
       </ScrollView>
 
       {/* Selector de perfil: Dialog + RadioGroup de React Native Reusables. */}

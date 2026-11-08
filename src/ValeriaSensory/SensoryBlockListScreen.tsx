@@ -23,6 +23,8 @@ import { FONT } from '../ui/fonts';
 import { notify } from '../ui/notify';
 import { PressableScale } from 'pressto';
 import * as Haptics from 'expo-haptics';
+import { ListRow } from '../ui/ListRow';
+import { AdultFold } from '../ui/AdultFold';
 import { PlayButton } from '../ui/PlayButton';
 
 export const SensoryBlockListScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
@@ -99,15 +101,6 @@ export const SensoryBlockListScreen: React.FC<{ navigation: any }> = ({ navigati
           </View>
         )}
 
-        {/* Banner de encuadre clínico */}
-        <View style={s.clinicalCard}>
-          <View style={s.clinicalHeader}>
-            <BlockIcon name="clinical" color={V.color.primaryDark} size={18} />
-            <Text style={s.clinicalTitle}>{t.sensory.clinicalNoticeTitle}</Text>
-          </View>
-          <Text style={s.clinicalBody}>{t.sensory.clinicalNoticeBody}</Text>
-        </View>
-
         <View style={s.listHead}>
           <Text style={s.listLabel}>{t.sensory.activitiesHeader}</Text>
           <View style={s.countChip}>
@@ -127,60 +120,22 @@ export const SensoryBlockListScreen: React.FC<{ navigation: any }> = ({ navigati
           // tarjeta la prescribe o la retira en vez de arrancar la sesión.
           const playable = act.isAvailable && on;
 
+          const title = String((t.sensory as any)[act.titleKey] ?? act.id);
+          const status = !act.isAvailable ? t.sensory.inDevBadge
+            : !on ? t.sensory.notPrescribed
+              : timesDone > 0 ? t.sensory.completedTimes(timesDone) : '';
           return (
-            <PressableScale
+            <ListRow
               key={act.id}
-              onPress={() => { void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light); if (unlocked) togglePrescribed(act.id); else openExercise(act); }}
-              disabled={!unlocked && !playable}
-              style={[
-                s.actCard,
-                !playable && s.actCardDisabled,
-                isDone && playable && s.actCardDone,
-              ]}
-              accessibilityRole="button"
-              accessibilityLabel={`${t.sensory[act.titleKey as keyof typeof t.sensory] ?? act.id}. ${
-                !act.isAvailable
-                  ? t.sensory.inDevTag
-                  : on
-                    ? t.sensory.availableTag
-                    : t.sensory.notPrescribed
-              }`}
-            >
-              <View style={[s.actIcon, playable ? s.actIconActive : s.actIconInactive]}>
-                <BlockIcon
-                  name={act.iconName}
-                  color={playable ? V.color.primaryDark : V.color.textMuted}
-                  size={24}
-                />
-              </View>
-
-              <View style={{ flex: 1 }}>
-                {/* Sin código interno ni «piloto»: ruido para quien entra por primera
-                    vez. Solo se avisa si la actividad aún no está disponible. */}
-                {!act.isAvailable && (
-                  <View style={s.cardTopRow}>
-                    <Text style={s.inDevBadge}>{t.sensory.inDevBadge}</Text>
-                  </View>
-                )}
-                <Text style={s.actTitle}>
-                  {String((t.sensory as any)[act.titleKey] ?? act.id)}
-                </Text>
-                <Text style={s.actDesc}>
-                  {String((t.sensory as any)[act.descKey] ?? '')}
-                </Text>
-                {!on && <Text style={s.actOffTag}>{t.sensory.notPrescribed}</Text>}
-                {timesDone > 0 && (
-                  <Text style={s.actTimes}>
-                    {t.sensory.completedTimes(timesDone)}
-                  </Text>
-                )}
-              </View>
-
-              {/* El interruptor SOLO en edición profesional: con el PIN echado
-                  sería un control gris inerte en las seis filas. El candado es
-                  el icono del set, no 🔒: ese emoji ya se sacó una vez de la
-                  lista prescribible y volvió a entrar por aquí. */}
-              {unlocked ? (
+              icon={act.iconName}
+              accent={playable ? V.color.primaryDark : '#8a9494'}
+              tint={playable ? V.color.primaryLight : '#eef0ef'}
+              title={title}
+              subtitle={[String((t.sensory as any)[act.descKey] ?? ''), status].filter(Boolean).join(' · ')}
+              dim={!unlocked && !playable}
+              onPress={unlocked ? () => togglePrescribed(act.id) : playable ? () => openExercise(act) : undefined}
+              accessibilityLabel={`${title}. ${!act.isAvailable ? t.sensory.inDevTag : on ? t.sensory.availableTag : t.sensory.notPrescribed}`}
+              trailing={unlocked ? (
                 <Switch
                   value={on}
                   onValueChange={() => togglePrescribed(act.id)}
@@ -188,16 +143,25 @@ export const SensoryBlockListScreen: React.FC<{ navigation: any }> = ({ navigati
                   trackColor={{ false: '#d1d5db', true: V.color.primary }}
                   thumbColor="#ffffff"
                 />
-              ) : (
-                <PlayButton color={V.color.primaryDark} locked={!playable} />
-              )}
-            </PressableScale>
+              ) : <PlayButton color={V.color.primaryDark} locked={!playable} />}
+            />
           );
         })}
 
         {activeCount === 0 && !unlocked && (
           <Text style={s.emptyTxt}>{t.sensory.prescriptionEmpty}</Text>
         )}
+
+        {/* Banner de encuadre clínico */}
+        <AdultFold label={t.sensory.clinicalNoticeTitle}>
+        <View style={s.clinicalCard}>
+          <View style={s.clinicalHeader}>
+            <BlockIcon name="clinical" color={V.color.primaryDark} size={18} />
+            <Text style={s.clinicalTitle}>{t.sensory.clinicalNoticeTitle}</Text>
+          </View>
+          <Text style={s.clinicalBody}>{t.sensory.clinicalNoticeBody}</Text>
+        </View>
+        </AdultFold>
 
         {/* SEN-01 · oír los once sonidos sin entrar en cada actividad. Va
             DEBAJO de las actividades: es una consulta del adulto, no la tarea

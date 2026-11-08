@@ -29,6 +29,7 @@ import { BlockIcon, BlockIconName } from './ValeriaBlockIcons';
 import { readArHistory, readSpeechHistory } from './valeriaTelemetry';
 import type { ArTrial, ArDeviceProfile, ArThresholds } from './valeriaArBridge';
 import { FONT } from './ui/fonts';
+import { ScreenHeader } from './ui/ScreenHeader';
 import { LineChart } from 'react-native-gifted-charts';
 // import logoWhite from '../../assets/valeria-logo-white.png';
 
@@ -374,16 +375,11 @@ export const ValeriaPatientResultsDashboardScreen: React.FC<{ navigation?: any }
     <View style={st.flex}>
       <StatusBar barStyle="light-content" />
 
-      {/* Cabecera teal unificada */}
-      <View style={st.header}>
-        <Pressable style={st.back} onPress={() => navigation?.navigate('ExerciseSelection', { screen: 'ExerciseSelection' })}>
-          <Text style={st.backText}>{t.results.back}</Text>
-        </Pressable>
-        {/* <Image source={logoWhite} style={st.logo} /> */}
-        <Text style={st.brand}>valeria</Text>
-        <Text style={st.title}>{t.results.title}</Text>
-        <Text style={st.subtitle}>{patientLine}</Text>
-      </View>
+      {/* Cabecera única (regla 5). */}
+      <ScreenHeader
+        onBack={() => navigation?.navigate('ExerciseSelection', { screen: 'ExerciseSelection' })}
+        backLabel={t.results.back.replace(/^‹\s*/, '')}
+        kicker="valeria+" icon="level" title={t.results.title} subtitle={patientLine} />
 
       <ScrollView style={st.flex} contentContainerStyle={st.scroll} showsVerticalScrollIndicator={false}>
         {/* PROGRESO GAMIFICADO: racha, nivel y logros */}
@@ -810,22 +806,22 @@ const st = StyleSheet.create({
   subtitle: { fontFamily: FONT.bodyBlack,fontSize: 13, color: 'rgba(255,255,255,0.9)', marginTop: 4 },
 
   card: {
-    backgroundColor: V.color.card, borderWidth: 1, borderColor: V.color.border,
-    borderRadius: 16, padding: 18, marginBottom: 16, ...V.shadow.card,
+    backgroundColor: '#ffffff', borderWidth: 1, borderColor: '#ece5d8', borderLeftWidth: 6,
+    borderLeftColor: V.color.primaryDark, borderRadius: 22, padding: 16, marginBottom: 12,
   },
   cardHeader: { flexDirection: 'row', alignItems: 'center' },
   chip: {
-    width: 34, height: 34, borderRadius: 11, backgroundColor: V.color.primaryLight,
+    width: 44, height: 44, borderRadius: 14, backgroundColor: V.color.primaryLight,
     alignItems: 'center', justifyContent: 'center', marginRight: 9,
   },
   chipIcon: { fontSize: 16 },
-  cardTitle: { fontFamily: FONT.display,fontSize: 17, color: V.color.textPrimary },
+  cardTitle: { fontFamily: FONT.display, fontSize: 18, flexShrink: 1, color: V.color.textPrimary },
 
   gameStatsRow: { flexDirection: 'row', gap: 9, marginTop: 15 },
   gameStat: { flex: 1, backgroundColor: '#f7fafa', borderWidth: 1, borderColor: '#eef3f3', borderRadius: 13, paddingVertical: 12, alignItems: 'center' },
   streakRow: { flexDirection: 'row', alignItems: 'center', gap: 5 },
   gameStatBig: { fontFamily: FONT.display,fontSize: 18, color: V.color.textPrimary },
-  gameStatLbl: { fontFamily: FONT.bodyBlack,fontSize: 10.5, color: V.color.textMuted, marginTop: 3 },
+  gameStatLbl: { fontFamily: FONT.bodyBlack, fontSize: 12.5, color: V.color.textSecondary, marginTop: 3 },
   gameLevelRow: { marginTop: 14 },
   gameLevelLbl: { fontFamily: FONT.bodyBlack,fontSize: 13, color: V.color.textPrimary },
   gameLevelTrack: { height: 10, backgroundColor: '#eef3f3', borderRadius: 6, overflow: 'hidden', marginTop: 7 },
@@ -886,24 +882,24 @@ const st = StyleSheet.create({
   // La advertencia va enmarcada, no como pie de foto: es lo que evita que el
   // número acabe copiado en un informe como si midiera algo.
   speechNote: {
-    fontSize: 10.5, fontWeight: V.font.semibold, color: '#92711a', lineHeight: 15,
+    fontSize: 13, fontWeight: V.font.semibold, color: '#7a5c10', lineHeight: 18,
     backgroundColor: '#fffbeb', borderWidth: 1, borderColor: '#f4e6b8',
     borderRadius: 11, padding: 10, marginTop: 12,
   },
 
   pmChipsRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 7, marginBottom: 10, marginTop: 4 },
-  pmChip: { backgroundColor: '#f7fafa', borderWidth: 1, borderColor: '#eef3f3', borderRadius: 10, paddingHorizontal: 11, paddingVertical: 6 },
+  pmChip: { backgroundColor: '#f7fafa', borderWidth: 1, borderColor: '#eef3f3', borderRadius: 12, paddingHorizontal: 14, paddingVertical: 10, minHeight: 44, justifyContent: 'center' },
   pmChipOn: { backgroundColor: V.color.primaryLight, borderColor: V.color.borderActive },
-  pmChipTxt: { fontFamily: FONT.bodyBlack,fontSize: 12.5, color: V.color.textMuted },
+  pmChipTxt: { fontFamily: FONT.bodyBlack, fontSize: 14, color: V.color.textSecondary },
   pmChipTxtOn: { color: V.color.primaryDark },
 
   summaryRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginHorizontal: 4, marginBottom: 12 },
-  summaryLabel: { fontFamily: FONT.bodyBlack,fontSize: 12.5, color: V.color.textMuted, letterSpacing: 0.4 },
+  summaryLabel: { fontFamily: FONT.bodyBlack, fontSize: 13, color: V.color.textSecondary, letterSpacing: 1.2, textTransform: 'uppercase' },
   summaryCount: { fontFamily: FONT.bodyBlack,fontSize: 12.5, color: V.color.primary },
 
   histCard: {
-    backgroundColor: V.color.card, borderWidth: 1, borderColor: V.color.border,
-    borderRadius: 15, paddingHorizontal: 15, paddingVertical: 14, marginBottom: 10, ...V.shadow.card,
+    backgroundColor: '#ffffff', borderWidth: 1, borderColor: '#ece5d8', borderLeftWidth: 6,
+    borderLeftColor: V.color.success, borderRadius: 22, paddingHorizontal: 14, paddingVertical: 14, marginBottom: 10,
   },
   histTop: { flexDirection: 'row', alignItems: 'flex-start' },
   histCheck: {

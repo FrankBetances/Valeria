@@ -123,14 +123,14 @@ const s = StyleSheet.create({
   },
 
   // ---- Variante sobre fondo claro (pestaña Ajustes) ----
-  cardLight: { backgroundColor: V.color.card, borderColor: V.color.border, ...V.shadow.card },
-  titleLight: { color: V.color.textPrimary },
-  hintLight: { color: V.color.textMuted },
+  cardLight: { backgroundColor: '#ffffff', borderColor: '#ece5d8', borderWidth: 1, borderLeftWidth: 6, borderLeftColor: V.color.primaryDark, borderRadius: 22, padding: 14 },
+  titleLight: { color: V.color.textPrimary, fontFamily: FONT.display, fontSize: 18, lineHeight: 22 },
+  hintLight: { color: V.color.textSecondary, fontSize: 14, lineHeight: 19 },
   chipLight: { borderColor: V.color.border, backgroundColor: V.color.pageBg },
   chipOnLight: { backgroundColor: V.color.primary, borderColor: V.color.primary },
-  chipTxtLight: { color: V.color.textSecondary },
+  chipTxtLight: { color: V.color.textSecondary, fontSize: 14 },
   chipTxtOnLight: { color: V.color.dark }, // tinta sobre turquesa: 8,6:1 (el blanco daba 2,2:1)
-  autoHintLight: { color: V.color.textMuted },
+  autoHintLight: { color: V.color.textSecondary, fontSize: 13 },
 });
 
 export default ValeriaUiLangPicker;
