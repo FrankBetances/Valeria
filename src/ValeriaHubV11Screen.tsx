@@ -27,7 +27,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { V, STORAGE_KEYS } from './valeriaTheme';
 import { BLOCKS, BLOCK_ORDER, BlockKey } from './valeriaBlocks';
 import { WRITING_EXERCISES } from './valeriaWritingBank';
-import { AR_META } from './valeriaExerciseMeta';
+import { AR_CATALOG_COUNT } from './ValeriaArCatalogScreen';
 import { pairsForLocale } from './valeriaPairBanks';
 import { semanticForLocale } from './valeriaSemanticBanks';
 import { getLocale } from './valeriaLocale';
@@ -40,7 +40,6 @@ import { ValeriaCatInteractiveCard } from './components/lua/ValeriaCatInteractiv
 import { LuaInventoryState } from './types/valeriaLua';
 import { loadLuaInventory, createDefaultLuaInventory, checkAndUnlockItems } from './services/valeriaLuaInventory';
 import { loadGame, GameState } from './valeriaGamification';
-import { isArAvailable } from './valeriaArBridge';
 import { AUDITORY_INTEGRATION_ACTIVITIES } from './ValeriaSensory';
 import { useT, UiStrings } from './i18n';
 import { LUA_ACTIVITY_COUNT } from './AventurasLua';
@@ -223,21 +222,16 @@ export const ValeriaHubV11Screen: React.FC<{ navigation: any }> = ({ navigation 
       bg: V.color.primaryLight, fg: V.color.primaryDark, meta: t.steam.hubTileMeta(STEAM_WORLDS.length),
       onPress: () => navigation.navigate('SteamWorlds'),
     },
-    // La RA CIERRA la rejilla. Si no hay host nativo de cámara + escena 3D, la
-    // tarjeta NO se renderiza: el bloque no existe para el usuario, en lugar
-    // de existir y fallar al tocarlo. Por eso va la última: es la única que
-    // puede desaparecer, y quitando la última no se descoloca ninguna otra.
-    // Sonda de una sola vez por arranque: el host nativo de RA está o no está,
-    // y eso no cambia a mitad de sesión. La caché vive en valeriaArBridge, no
-    // aquí: hasta el 10/9/2026 esto era un `const AR_ON = isArAvailable()` en la
-    // cabecera del fichero, y como el hub entra en el arranque (AppNavigator →
-    // MainTabNavigator) la sonda —un método nativo SÍNCRONO que consultaba el
-    // servicio de cámara— corría en el hilo de JS antes del primer frame.
-    ...(isArAvailable() ? [{
-      key: 'ar', desc: t.hub.arBrief, icon: 'ar', title: t.hub.arTitle, hint: t.hub.arSub, a11y: t.hub.arA11y(AR_META.length),
-      bg: '#e6f9f8', fg: V.color.primaryDark, meta: t.hub.therapiesBadge(AR_META.length),
-      onPress: () => navigation.navigate('ArLauncher'),
-    } as Tile] : []),
+    // La RA cierra la rejilla. La sonda nativa de cámara (síncrona) ya no corre
+    // aquí, en el arranque: la hace el catálogo al abrirse (valeriaArBridge la cachea).
+    // Desde el 8/11/2026 la RA es el catálogo por sets: casi todo se juega con
+    // el botón del adulto, así que la tarjeta sale siempre. Lo que necesita la
+    // cámara se marca y se desactiva dentro del catálogo si no hay host nativo.
+    {
+      key: 'ar', desc: t.hub.arBrief, icon: 'ar', title: t.hub.arTitle, hint: t.hub.arSub, a11y: t.hub.arA11y(AR_CATALOG_COUNT),
+      bg: '#e6f9f8', fg: V.color.primaryDark, meta: t.hub.therapiesBadge(AR_CATALOG_COUNT),
+      onPress: () => navigation.navigate('ArCatalog'),
+    } as Tile,
   ];
 
   // Cuatro grupos con nombre: el adulto que entra por primera vez lee de qué

@@ -14,14 +14,15 @@ import { luaGamesFor, luaSongsFor, luaStoriesFor } from './AventurasLua';
 import { steamCapsuleFor } from './ValeriaAcademy/steamCapsules';
 import { adjustmentsFor, loadAdaptationProfile } from './steam/profiles';
 import { steamWorld } from './steam/worlds';
-import type { AdaptationProfileId, SteamWorldId, WorldManifest } from './steam/types';
+import type { AdaptationProfileId, SteamArMode, SteamWorldId, WorldManifest } from './steam/types';
+import { isLuaLinked } from './valeriaLuaSession';
 import { FONT } from './ui/fonts';
 import { ListRow } from './ui/ListRow';
 import { AdultFold } from './ui/AdultFold';
 
 type TabletopRoute = WorldManifest['tabletopPracticeLinks'][number];
 
-export const ValeriaSteamWorldScreen: React.FC<{ navigation: any; route: { params: { worldId: SteamWorldId } } }> = ({
+export const ValeriaSteamWorldScreen: React.FC<{ navigation: any; route: { params: { worldId: SteamWorldId; mode?: SteamArMode } } }> = ({
   navigation,
   route,
 }) => {
@@ -72,6 +73,15 @@ export const ValeriaSteamWorldScreen: React.FC<{ navigation: any; route: { param
         kicker={t.steam.hubTileTitle} title={world.title[lang]} />
 
       <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
+        {/* Modalidad elegida en el catálogo de RA: «solo el set» o «set con Lúa». */}
+        {route.params.mode && (
+          <View style={s.noteCard}>
+            <Text style={s.bodyStrong}>{route.params.mode === 'SET_WITH_LUA' ? t.ar.catModeLua : t.ar.catModeSolo}</Text>
+            {route.params.mode === 'SET_WITH_LUA' && (
+              <Text style={[s.body, { marginTop: V.space.sm }]}>{isLuaLinked() ? t.steam.luaLinked : t.steam.luaMirror}</Text>
+            )}
+          </View>
+        )}
         <Text style={[s.section, { marginTop: 0 }]}>{t.steam.challengesKicker}</Text>
         {world.challenges.map((c, i) => (
           <ListRow key={c.id} index={i}

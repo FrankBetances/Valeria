@@ -212,8 +212,8 @@ export const EN: UiStrings = {
     dyslexiaBrief: 'Phonological awareness and reading.',
     dyslexiaA11y: 'Open the dyslexia module',
     arTitle: 'Augmented Reality',
-    arSub: 'The camera watches the movement and the car, the dog or the apple reacts to it. Nothing is recorded and the mic stays off.',
-    arBrief: 'Gesture and gaze with the camera.',
+    arSub: 'Gestures with the camera and play with the Build with Lúa sets, with or without Lúa.',
+    arBrief: 'Sets and Lúa, with or without the camera.',
     arA11y: (n: number): string => `Open the augmented reality block, ${n} exercises`,
     sensoryTitle: 'Sound adaptation',
     sensorySub: 'Gradual auditory familiarization, modulation and visual anticipation for everyday environmental sounds.',
@@ -1423,6 +1423,16 @@ export const EN: UiStrings = {
   // consentimiento es parte del muro MDR, no adorno — se traduce entero o no se
   // traduce (una mezcla de idiomas aquí es un consentimiento inválido).
   ar: {
+    catSub: 'Play with the Build with Lúa sets, with or without Lúa.',
+    catLuaSolo: 'JUST LÚA',
+    catSets: 'EACH SET ON ITS OWN',
+    catSetsLua: 'EACH SET WITH LÚA',
+    catCamera: 'With the camera',
+    catTap: 'The adult confirms',
+    catCameraOff: 'This tablet has no AR camera: this activity does not open here.',
+    catModeSolo: 'Just the set: Lúa is not needed.',
+    catModeLua: 'Set with Lúa: Lúa reacts to what happens on the table.',
+    catRowA11y: (title: string): string => `Open ${title}. The adult opens it.`,
     title: 'Augmented Reality',
     subPreparing: 'Getting the session ready',
     subUnsupported: 'Not available on this device',

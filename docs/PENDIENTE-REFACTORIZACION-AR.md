@@ -1,8 +1,8 @@
 # Pendiente: rehacer el módulo de RA
 
-**No está hecho.** Frank pidió quitar los ejercicios viejos de RA (AR-1 a AR-6: coche, perro,
+**Estado al 8/11/2026: hecho en la rama `sets`, pendiente de build y merge** (ver abajo). Frank pidió quitar los ejercicios viejos de RA (AR-1 a AR-6: coche, perro,
 manzana, búsqueda de Lúa, pez, espejo) y rehacer el módulo con actividades nuevas centradas en los
-sets de Construye con Lúa. Nada de eso está en la app: el menú viejo sigue igual.
+sets de Construye con Lúa.
 
 ## Qué se hizo mal (sesión del 2-3/11/2026)
 
@@ -25,26 +25,25 @@ la app.** No se sustituye por análisis, planes, gates, simulaciones ni preparac
 bloquea, se dice en la primera línea y se construye todo lo demás igual, con el botón del adulto.
 **No se hace ningún trabajo auxiliar que Frank no haya pedido.**
 
-## Lo que queda pendiente, en este orden y sin nada más
+## Estado al 8/11/2026
 
-0. **Dato de Frank:** AR-1 a AR-6, ¿se borran también del código nativo o solo de la app?
-   Recomendación: solo de la app (el código nativo sirve de base para los detectores nuevos).
-1. **Quitar AR-1 a AR-6** del menú de RA y del lanzador.
-2. **Nuevo módulo de RA: catálogo por sets** con las tres modalidades del plan de Frank:
-   - Solo Lúa (L01 a L06; L06 queda a decisión de Frank por el riesgo regulatorio del VRA).
-   - Los 11 sets por su cuenta: S0 a S6 y S8 a S11.
-   - Los 11 sets con Lúa.
-3. **Cada actividad con su pantalla nueva**: fenómeno, ciclo Observa → Experimenta → Construye,
-   cara de Lúa y capa de revelación. Se juega ya con el botón del adulto; la cámara de piezas se
-   conecta cuando el banco D2 decida el marcador, sin rehacer las pantallas.
-4. Cuatro idiomas, gates, capturas antes y después de cada pantalla y build en `main` con su
-   número. Lo que no se vea en un aparato se dice con esas palabras.
+**Hecho en la rama `sets`** (pendiente del build de publicación y del merge a `main`):
 
-Se aprovecha lo que ya existe: los 35 retos de S0–S6 en `src/steam`, `LuaLink` y el gate
-`check-steam-ar-needs.js`.
+- AR-1 a AR-6 **ya no se ofrecen en la app**. El código nativo se queda como base de los
+  detectores (decisión aplicada por defecto, la recomendada en el punto 0).
+- La tarjeta de RA del hub abre el **catálogo por sets** (`ValeriaArCatalogScreen`), siempre
+  visible, con las tres modalidades: Solo Lúa (L01, L07 y L02–L05), cada set por su cuenta (S0–S6
+  y S8–S11) y cada set con Lúa. 28 actividades.
+- L02–L05 y S8–S11 tienen su pantalla nueva (`ValeriaArActivityScreen`): fenómeno, ciclo, eventos
+  que confirma el adulto y cara de Lúa. S0–S6 abren sus cinco retos con la modalidad elegida.
+- Textos en es/en/ca/gl; gates y typecheck en verde; capturas de web. **No visto en un aparato.**
 
-Decisiones abiertas que no bloquean lo anterior: renumerar los IDs de marcador si gana AprilTag
-(`docs/banco-d2/`), `K-LOMO-G` en el manifiesto de S0 y `tracked_object` en los eventos de S3.
+## Lo que sigue pendiente
+
+1. **L06** fuera del catálogo hasta que Frank decida (riesgo regulatorio del VRA).
+2. **La cámara de piezas**: hoy todo lo que no es L01/L07 lo confirma el adulto. Se conecta cuando
+   el banco D2 decida el marcador (`docs/banco-d2/`), sin rehacer las pantallas.
+3. Decisiones abiertas: renumerar IDs si gana AprilTag, `K-LOMO-G` en S0 y `tracked_object` en S3.
 
 ## Compromiso
 

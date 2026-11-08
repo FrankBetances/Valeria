@@ -228,8 +228,8 @@ export const GL: UiStrings = {
     dyslexiaBrief: 'Conciencia fonolóxica e lectura.',
     dyslexiaA11y: 'Abrir exercicios do módulo Dislexia',
     arTitle: 'Realidade Aumentada',
-    arSub: 'A cámara mira o xesto e o coche, o can ou a mazá reaccionan a el. Sen gravar nada e co micrófono apagado.',
-    arBrief: 'Xesto e mirada coa cámara.',
+    arSub: 'Xestos coa cámara e xogo cos sets de Constrúe con Lúa, con Lúa ou sen ela.',
+    arBrief: 'Sets e Lúa, con cámara ou sen ela.',
     arA11y: (n: number): string => `Abrir o bloque de realidade aumentada, ${n} exercicios`,
     sensoryTitle: 'Adaptación a sons',
     sensorySub: 'Familiarización auditiva gradual, modulación e anticipación visual ante sons cotiáns.',
@@ -1461,6 +1461,16 @@ export const GL: UiStrings = {
   // consentimento é parte do muro MDR, non adorno — tradúcese enteiro ou non se
   // traduce (unha mestura de idiomas aquí é un consentimento inválido).
   ar: {
+    catSub: 'Xoga cos sets de Constrúe con Lúa, con Lúa ou sen ela.',
+    catLuaSolo: 'SÓ LÚA',
+    catSets: 'CADA SET POR SEPARADO',
+    catSetsLua: 'CADA SET CON LÚA',
+    catCamera: 'Coa cámara',
+    catTap: 'Confírmao o adulto',
+    catCameraOff: 'Esta tableta non ten a cámara de RA: esta actividade non se abre aquí.',
+    catModeSolo: 'Só o set: Lúa non fai falta.',
+    catModeLua: 'Set con Lúa: Lúa reacciona ao que pasa na mesa.',
+    catRowA11y: (title: string): string => `Abrir ${title}. Ábreo a persoa adulta.`,
     title: 'Realidade Aumentada',
     subPreparing: 'Preparando a sesión',
     subUnsupported: 'Non dispoñible neste dispositivo',

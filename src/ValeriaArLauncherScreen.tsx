@@ -631,7 +631,7 @@ export const ValeriaArLauncherScreen: React.FC<{ navigation?: any; route?: { par
             ))}
             <Text style={s.mdrNote}>{t.ar.mdrNote}</Text>
           </View>
-          <Pressable onPress={() => { setResult(null); setReward(null); setPhase('menu'); }}
+          <Pressable onPress={() => { setResult(null); setReward(null); if (luaSolo) navigation?.goBack(); else setPhase('menu'); }}
             style={s.primaryBtn} accessibilityRole="button">
             <Text style={s.primaryBtnTxt}>{t.ar.backToExercises}</Text>
           </Pressable>
@@ -641,7 +641,6 @@ export const ValeriaArLauncherScreen: React.FC<{ navigation?: any; route?: { par
   }
 
   // ---- Menú del bloque -----------------------------------------------------
-  const policy = arPolicyFor(profile.level);
   return (
     <View style={s.flex}>
       {header(t.ar.title, t.ar.subLevel(t.ar.levelLabel(profile.level)))}
@@ -663,30 +662,8 @@ export const ValeriaArLauncherScreen: React.FC<{ navigation?: any; route?: { par
           </View>
         </View>
 
-        <Text style={s.hubLabel}>{t.ar.exercisesKicker}</Text>
-        {getArMeta(getUiLang()).map((m) => {
-          const id = m.id as ArExerciseId;
-          const enabled = policy.exercises.includes(id);
-          const gameOnly = id === 'ar2' && enabled && !policy.ar2Instrumented;
-          return (
-            <Pressable key={m.id} onPress={() => enabled && start(id)} disabled={!enabled}
-              style={[s.exCard, !enabled && s.exCardOff]}
-              accessibilityRole="button"
-              accessibilityLabel={enabled ? t.ar.practiceA11y(m.name) : t.ar.unavailableA11y(m.name)}>
-              {/* Motor: el código interno no se enseña al niño. */}
-              <View style={{ flex: 1 }}>
-                <Text style={s.exName}>{m.name}</Text>
-                <Text style={s.exCat}>{m.category}</Text>
-                {gameOnly && <Text style={s.exFlag}>{t.ar.flagGameOnly}</Text>}
-                {id === 'ar3' && enabled && policy.ar3Targets === 2 && (
-                  <Text style={s.exFlag}>{t.ar.flagTwoTargets}</Text>
-                )}
-                {!enabled && <Text style={s.exFlag}>{t.ar.flagUnavailable}</Text>}
-              </View>
-              <Text style={s.exGo}>{enabled ? '▶' : '—'}</Text>
-            </Pressable>
-          );
-        })}
+        {/* AR-1…AR-6 ya no se ofrecen aquí (8/11/2026): la RA es el catálogo por sets
+            (ValeriaArCatalogScreen). Este lanzador solo abre la cámara para Solo Lúa. */}
 
         {/* Herramienta de la logopeda, no del niño. Va después de los ejercicios
             y con otro tono a propósito: no es parte del juego. */}

@@ -135,6 +135,23 @@ for (const act of LUA_SOLO_ACTIVITIES) {
   texts({ title: act.title, summary: act.summary, cycle: act.cycle }, act.id);
 }
 
+// 5 · Catálogo de RA (8/11/2026): L02–L05 y S8–S11 se juegan con el botón del
+// adulto. Cada evento cae en una cara oficial y todo texto está en es/en/ca/gl.
+const { AR_TAP_ACTIVITIES } = load('src/steam/arActivities.ts');
+const { translateMood } = load('src/steam/engine/LuaLink.ts');
+const tapIds = AR_TAP_ACTIVITIES.map((x) => x.id).join(',');
+if (tapIds !== 'L02,L03,L04,L05,S8,S9,S10,S11') fail(`Catálogo de RA: actividades ${tapIds}; se esperan L02–L05 y S8–S11.`);
+for (const act of AR_TAP_ACTIVITIES) {
+  if (!act.events.length) fail(`${act.id}: sin eventos que confirmar.`);
+  if (act.cycle.observa.mandatorySilenceSec !== 5) fail(`${act.id}: el silencio de Observa son 5 s.`);
+  texts({ title: act.title, summary: act.summary, cycle: act.cycle }, act.id);
+  for (const ev of act.events) {
+    texts({ title: ev.title }, ev.id);
+    try { translateExpression(ev.expression); } catch (e) { fail(`${ev.id}: '${ev.expression}' no cae en las 28 caras.`); }
+    if (ev.mood !== undefined) { try { translateMood(ev.mood); } catch (e) { fail(`${ev.id}: MOOD ${ev.mood} no existe.`); } }
+  }
+}
+
 if (fails.length) {
   console.error('✗ check-steam-ar-needs');
   for (const f of fails) console.error(`  · ${f}`);
