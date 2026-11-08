@@ -20,3 +20,4 @@ no cambió. **No se borra ninguna fila.**
 | R9 | 8/11 | No se respondió primero a sus correcciones | S0: la respuesta va en la primera línea, antes de herramientas | — (manual) |
 | R10 | 8/11 | Gráficos «basura»: el anillo de avance no basta | Ilustración propia en la cabecera de cada módulo (olas, constelación, marca de agua del icono) | `check-frank-errors`: ScreenHeader dibuja la ilustración (Path de olas) |
 | R11 | 8/11 | No había sistema para que un error señalado no se repitiera | F13: mejora recursiva obligatoria por hooks | Hooks errores-prompt.js + guard-stop.js; check-frank-errors.js en cada push |
+| R12 | 8/11 | «No hay gráficos»: la ilustración de cabecera es tan tenue que no se percibe; se mandó sin mejoras visibles | Un gráfico nuevo solo cuenta si se ve a simple vista en la captura (contraste ≥ 3:1 con su fondo) y se enseña antes de mandar | — (manual: captura obligatoria del gráfico) |
