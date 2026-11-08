@@ -12,6 +12,7 @@
 // vuelve, hay que volver a darla de alta en es, en y ca a la vez.
 // ============================================================================
 import React, { useEffect, useRef } from 'react';
+import { Breathe } from './ui/motion';
 import { View, Text, Pressable, StyleSheet, Animated, Easing, StatusBar } from 'react-native';
 import { V } from './valeriaTheme';
 import { CatPixel } from './ValeriaCatPixel';
@@ -102,7 +103,7 @@ export const ValeriaWelcomeScreen: React.FC<{ navigation: any }> = ({ navigation
               },
             ]}
           >
-            <CatPixel size={104} />
+            <Breathe><CatPixel size={104} /></Breathe>
           </Animated.View>
         </View>
 

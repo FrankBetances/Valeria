@@ -13,6 +13,8 @@
 //   Registrar nuevo      → navigation.navigate('FichaRegistro')
 // ============================================================================
 import React, { useEffect, useState } from 'react';
+import { Breathe } from './ui/motion';
+import { ReactiveTile } from './ui/ReactiveTile';
 import { View, Text, Pressable, ScrollView, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { V, STORAGE_KEYS } from './valeriaTheme';
@@ -104,7 +106,8 @@ export const ValeriaPatientSelectScreen: React.FC<{ navigation?: any }> = ({ nav
       <ScrollView style={s.flex} contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
         <View style={s.grid}>
           {pacientes.map((p, i) => (
-            <PressableScale key={`${p.nhc || p.nombre || 'p'}-${i}`} style={s.cell}
+            <ReactiveTile key={`${p.nhc || p.nombre || 'p'}-${i}`} index={i} ok={false} bad={false} style={s.cell}>
+            <PressableScale style={{ alignItems: 'center' }}
               onPress={() => { void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light); seleccionar(p); }}
               accessibilityRole="button"
               accessibilityLabel={`${p.nombre || t.patientSelect.patientFallback}. ${p.patologia ? t.ficha.pathologyLabel(p.patologia) : t.patientSelect.noDiagnosis}`}>
@@ -114,12 +117,13 @@ export const ValeriaPatientSelectScreen: React.FC<{ navigation?: any }> = ({ nav
               <Text style={s.name} numberOfLines={1}>{p.nombre || t.patientSelect.patientFallback}</Text>
               {!!p.nhc && <Text style={s.nhc} numberOfLines={1}>{p.nhc}</Text>}
             </PressableScale>
+            </ReactiveTile>
           ))}
         </View>
 
         {pacientes.length === 0 && (
           <View style={s.empty}>
-            <CatPixel size={96} />
+            <Breathe><CatPixel size={96} /></Breathe>
             <Text style={s.emptyTitle}>{t.patientSelect.emptyTitle}</Text>
             <Text style={s.emptyDesc}>{t.patientSelect.emptyBody}</Text>
           </View>

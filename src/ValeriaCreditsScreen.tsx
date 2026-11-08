@@ -7,6 +7,7 @@
 //   Continuar → navigation.navigate('FichaRegistro')
 // ============================================================================
 import React, { useEffect, useRef } from 'react';
+import { Breathe } from './ui/motion';
 import { View, Text, Pressable, ScrollView, StyleSheet, Animated, Easing, StatusBar } from 'react-native';
 import { V } from './valeriaTheme';
 import { CatPixel } from './ValeriaCatPixel';
@@ -91,7 +92,7 @@ export const ValeriaCreditsScreen: React.FC<{ navigation?: any }> = ({ navigatio
 
       <ScrollView contentContainerStyle={s.content} showsVerticalScrollIndicator={false}>
         <Animated.View style={[s.brandRow, step()]}>
-          <CatPixel size={54} />
+          <Breathe><CatPixel size={54} /></Breathe>
           {/* <Image source={logoWhite} style={s.logo} /> */}
           <Text style={s.brand}>valeria</Text>
         </Animated.View>

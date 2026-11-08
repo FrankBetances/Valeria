@@ -65,7 +65,7 @@ export const ScreenHeader: React.FC<Props> = ({ onBack, backLabel, kicker, icon,
     <View style={s.titleRow}>
       {icon && <View style={s.iconPlate}><BlockIcon name={icon} color={color ?? V.color.primaryDark} size={26} /></View>}
       <View style={s.titleCol}>
-        <Text style={[s.title, { color: ink }]} role="heading" numberOfLines={2}>{title}</Text>
+        <Text style={[s.title, { color: ink }]} role="heading" numberOfLines={3}>{title}</Text>
         {!!subtitle && <Text style={[s.subtitle, { color: ink }]} numberOfLines={3}>{subtitle}</Text>}
         {!!badge && <View style={s.badge}><Text style={s.badgeTxt} numberOfLines={1}>{badge}</Text></View>}
       </View>

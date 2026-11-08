@@ -3,6 +3,7 @@
 // Música, ritmo, pausas motoras y esquemas articulatorios orales.
 // ============================================================================
 import React, { useCallback, useEffect, useRef, useState } from "react";
+import { ScreenHeader } from "../../ui/ScreenHeader";
 import {
   View,
   Text,
@@ -128,25 +129,8 @@ export const LuaSongPlayerScreen: React.FC<Props> = ({ navigation, route }) => {
   return (
     <View style={[s.container, { paddingTop: insets.top }]}>
       {/* Barra superior */}
-      <View style={s.topBar}>
-        <Pressable
-          onPress={() => navigation.goBack()}
-          style={s.backBtn}
-          accessibilityRole="button"
-          accessibilityLabel={t.common.back}
-          hitSlop={12}
-        >
-          <Text style={s.backTxt}>{`‹ ${t.common.back}`}</Text>
-        </Pressable>
-        <View style={s.titleWrap}>
-          <Text style={s.songTitle} numberOfLines={1}>
-            {song.title}
-          </Text>
-          <Text style={s.songSub} numberOfLines={1}>
-            {song.subtitle}
-          </Text>
-        </View>
-      </View>
+      <ScreenHeader onBack={() => navigation.goBack()} backLabel={t.common.back}
+        kicker={t.hub.luaTitle} icon="song" title={song.title} subtitle={song.subtitle} />
 
       <ScrollView
         contentContainerStyle={[s.scrollContent, { paddingBottom: insets.bottom + 32 }]}

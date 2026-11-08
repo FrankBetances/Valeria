@@ -21,6 +21,7 @@
 // Protocolo completo: docs/protocolo-expansion-semantica.md
 // ============================================================================
 import { Celebration } from './ui/Celebration';
+import { ReactiveTile } from './ui/ReactiveTile';
 import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, Pressable, ScrollView, StyleSheet, Animated, Easing, Switch, BackHandler } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -1074,9 +1075,9 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
             <BlockIcon name="gesture" color={V.color.primaryDark} size={26} />
             <Text style={s.stateTxt}>{t.semantic.tapImage}</Text>
             <View style={s.pickRowCards}>
-              {(pickLeftFirst ? st.choices : [...st.choices].reverse()).map((c) => (
+              {(pickLeftFirst ? st.choices : [...st.choices].reverse()).map((c, ci) => (
+                <ReactiveTile key={c.label} index={ci} ok={false} bad={false} style={{ flex: 1 }}>
                 <Pressable
-                  key={c.label}
                   onPress={() => resolveSelection(c.label)}
                   style={s.pickCard}
                   accessibilityRole="button"
@@ -1091,6 +1092,7 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
                   <FichaVisual word={c.label} emoji={c.emoji} pic={c.pictogram} size={60} />
                   <Text style={s.pickCardCap}>{c.label}</Text>
                 </Pressable>
+                </ReactiveTile>
               ))}
             </View>
             <Pressable onPress={() => { setLivePrompt({ text: st.tts, mode: 'child' }); speakToChild(st.tts); }}>

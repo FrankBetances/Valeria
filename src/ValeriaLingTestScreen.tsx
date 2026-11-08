@@ -17,6 +17,7 @@
 // y los reenvía al Player para no romper el flujo de sesión.
 // ============================================================================
 import { ScreenHeader } from './ui/ScreenHeader';
+import { ReactiveTile } from './ui/ReactiveTile';
 import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, Pressable, ScrollView, StyleSheet, Animated, Easing, StatusBar } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -228,10 +229,11 @@ export const ValeriaLingTestScreen: React.FC<{ navigation: any; route?: any }> =
             <View style={s.scaleCard}>
               <Text style={s.scaleTitle}>{t.ling.scaleTitle}</Text>
               <Text style={s.scaleSub}>{t.ling.scaleSub}</Text>
-              {SCALE.map((o) => {
+              {SCALE.map((o, oi) => {
                 const on = picked === o.level;
                 return (
-                  <Pressable key={o.level} onPress={() => pick(o.level)}
+                  <ReactiveTile key={o.level} index={oi} ok={false} bad={false}>
+                  <Pressable onPress={() => pick(o.level)}
                     style={[s.scaleRow, on ? { backgroundColor: o.color + '14', borderColor: o.color, borderWidth: 1.5 } : s.scaleRowOff]}
                     accessibilityRole="button">
                     <View style={[s.scaleDot, on ? { backgroundColor: o.color } : { borderWidth: 2, borderColor: o.color + '55' }]}>
@@ -242,6 +244,7 @@ export const ValeriaLingTestScreen: React.FC<{ navigation: any; route?: any }> =
                       <Text style={s.scaleRowDesc}>{o.desc}</Text>
                     </View>
                   </Pressable>
+                  </ReactiveTile>
                 );
               })}
             </View>
