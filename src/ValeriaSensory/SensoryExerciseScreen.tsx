@@ -15,6 +15,8 @@ import {
 } from 'react-native';
 import { Card } from 'heroui-native';
 import { AdultFold } from '../ui/AdultFold';
+import Reanimated, { ReduceMotion, ZoomIn } from 'react-native-reanimated';
+import { Breathe, ProgressRing } from '../ui/motion';
 import { V } from '../valeriaTheme';
 import { useT } from '../i18n';
 import { getLocale } from '../valeriaLocale';
@@ -373,6 +375,22 @@ export const SensoryExerciseScreen: React.FC<{ navigation: any; route: any }> = 
           {/* Tarjeta descriptiva del entorno cuando es ecológico */}
           {!!selectedTrigger?.description && (
             <Card style={s.descCard}>
+              <View style={s.descHeader}>
+                <BlockIcon
+                  name={
+                    selectedTrigger.id === 'classroom_ambience'
+                      ? 'classroom'
+                      : selectedTrigger.id === 'mall_ambience'
+                      ? 'mall'
+                      : 'street'
+                  }
+                  color={V.color.primaryDark}
+                  size={20}
+                />
+                <Text style={s.descTitle}>
+                  {selectedTrigger.label[locale] ?? selectedTrigger.label.es}
+                </Text>
+              </View>
               <Text style={s.descBody}>
                 {selectedTrigger.description[locale] ?? selectedTrigger.description.es}
               </Text>
@@ -438,6 +456,10 @@ export const SensoryExerciseScreen: React.FC<{ navigation: any; route: any }> = 
           {/* Estrategia de Calma Asociada */}
           </AdultFold>
           <Card style={s.tprPreviewCard}>
+            <View style={s.tprHeader}>
+              <BlockIcon name="calm_breath" color={V.color.primaryDark} size={18} />
+              <Text style={s.tprTitle}>{t.sensory.tprStrategyTitle}</Text>
+            </View>
             <Text style={s.tprBody}>{calmStrategy}</Text>
           </Card>
 
@@ -478,6 +500,20 @@ export const SensoryExerciseScreen: React.FC<{ navigation: any; route: any }> = 
     return (
       <View style={[s.flex, s.centerContainer]}>
         <Card style={s.anticipationCard}>
+          <Text style={s.anticipationTag}>{t.sensory.anticipationKicker}</Text>
+          <Text style={s.anticipationTitle}>{triggerLabel}</Text>
+          <Text style={s.anticipationSub}>{t.sensory.anticipationSub}</Text>
+
+          {/* La cuenta atrás se ve vaciarse: previsibilidad antes del sonido. */}
+          <View style={{ alignItems: 'center', marginVertical: 18 }}>
+            <ProgressRing size={150} stroke={12} progress={countdown / 3} color={V.color.primary} track={V.color.primaryLight}>
+              <Reanimated.Text key={countdown} entering={ZoomIn.springify().damping(10).reduceMotion(ReduceMotion.System)} style={[s.countdownNumber, { fontSize: 72, lineHeight: 80 }]}>{countdown}</Reanimated.Text>
+            </ProgressRing>
+          </View>
+
+          <View style={s.luaCenter}>
+            <Breathe><CatPixel size={72} pose="head" /></Breathe>
+          </View>
         </Card>
       </View>
     );
@@ -581,6 +617,17 @@ export const SensoryExerciseScreen: React.FC<{ navigation: any; route: any }> = 
 
         <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
           <Card style={s.pauseCard}>
+            <View style={s.luaCenter}>
+              <Breathe><CatPixel size={64} pose="head" /></Breathe>
+            </View>
+            <Text style={s.pauseCardTitle}>{t.sensory.stoppingIsOkTitle}</Text>
+            <Text style={s.pauseCardBody}>{t.sensory.stoppingIsOkBody}</Text>
+
+            {/* Estrategia TPR sugerida */}
+            <View style={s.tprStrategyBox}>
+              <Text style={s.tprBoxTitle}>{t.sensory.tryThisStrategy}</Text>
+              <Text style={s.tprBoxBody}>{calmStrategy}</Text>
+            </View>
           </Card>
         </ScrollView>
 
@@ -663,6 +710,16 @@ export const SensoryExerciseScreen: React.FC<{ navigation: any; route: any }> = 
   return (
     <View style={[s.flex, s.centerContainer]}>
       <Card style={s.completedCard}>
+        <View style={s.luaCenter}>
+          <Breathe><CatPixel size={80} pose="sit" /></Breathe>
+        </View>
+        <Text style={s.completedTitle}>{t.sensory.wellDoneTitle}</Text>
+        <Text style={s.completedSub}>{t.sensory.wellDoneSub}</Text>
+
+        <Reanimated.View entering={ZoomIn.delay(250).springify().damping(9).reduceMotion(ReduceMotion.System)} style={s.xpRewardBox}>
+          <Text style={s.xpRewardTxt}>+{earnedXp} XP</Text>
+          <Text style={s.xpRewardSub}>{t.sensory.xpAddedToSensorySilo}</Text>
+        </Reanimated.View>
 
         <Pressable
           onPress={() => navigation.goBack()}
