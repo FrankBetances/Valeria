@@ -15,6 +15,9 @@
 // Academy), así que el set no añade peso ni superficie nativa nueva.
 // ============================================================================
 import React from 'react';
+import {
+  AudioLines, Headphones, Angry, ArrowLeftRight, AudioWaveform, Award, Baby, BatteryMedium, Bell, Blocks, BookOpen, BookOpenText, Car, Cat, ChartLine, Check, ChevronRight, CirclePlay, Cloud, Compass, Construction, DoorOpen, Droplet, Droplets, Drum, Ear, Eraser, Eye, EyeOff, Fan, Filter, Flame, Folder, Frown, Gamepad2, GraduationCap, Hand, Handshake, Heart, Hourglass, Infinity, Info, Laugh, LayoutGrid, Lightbulb, Lock, Magnet, Meh, MessagesSquare, Mic, Music, Package, PencilLine, PersonStanding, Play, Plus, Printer, RotateCcw, Route, ScanEye, ScanFace, School, Shapes, ShoppingCart, SlidersHorizontal, Smile, Sprout, Square, Stethoscope, Timer, TrendingUp, TriangleAlert, Trophy, Users, Volume2, VolumeOff, Wind, X, ZoomIn,
+} from 'lucide-react-native';
 import Svg, { Circle, Path, Rect } from 'react-native-svg';
 
 export type BlockIconName =
@@ -61,7 +64,92 @@ interface Props { name: BlockIconName; color: string; size?: number; }
 
 const SW = 1.9; // grosor único de todo el set
 
+// Set de iconos: Lucide (ISC), uno distinto por módulo, acción y tarea (R20,
+// Frank 8/11/2026). El set dibujado a mano queda solo como respaldo.
+const LUCIDE: Partial<Record<BlockIconName, React.ComponentType<{ size?: number; color?: string; strokeWidth?: number }>>> = {
+  pairs: ArrowLeftRight,
+  semantic: Shapes,
+  hearing: Ear,
+  language: MessagesSquare,
+  autism: Infinity,
+  dyslexia: BookOpenText,
+  ar: ScanEye,
+  streak: Flame,
+  level: Trophy,
+  tabTherapies: LayoutGrid,
+  tabAcademy: GraduationCap,
+  tabSettings: SlidersHorizontal,
+  session: CirclePlay,
+  info: Info,
+  age: Baby,
+  lock: Lock,
+  play: Play,
+  check: Check,
+  speaker: Volume2,
+  mic: Mic,
+  tip: Lightbulb,
+  repeat: RotateCcw,
+  zoom: ZoomIn,
+  move: PersonStanding,
+  material: Package,
+  next: ChevronRight,
+  eye: Eye,
+  eyeOff: EyeOff,
+  cross: X,
+  gesture: Hand,
+  door: DoorOpen,
+  tear: Droplet,
+  blank: Square,
+  warn: TriangleAlert,
+  heart: Heart,
+  cloud: Cloud,
+  speakerOff: VolumeOff,
+  bell: Bell,
+  folder: Folder,
+  plus: Plus,
+  chart: ChartLine,
+  clinical: Stethoscope,
+  family: Users,
+  moodBad: Angry,
+  moodPoor: Frown,
+  moodOk: Meh,
+  moodGood: Smile,
+  moodGreat: Laugh,
+  compass: Compass,
+  timer: Timer,
+  drop: Droplets,
+  magnet: Magnet,
+  battery: BatteryMedium,
+  sensory: AudioWaveform,
+  sensory_ear: AudioLines,
+  noise_filter: Headphones,
+  sensory_anticipation: Hourglass,
+  calm_breath: Wind,
+  classroom: School,
+  mall: ShoppingCart,
+  street: Car,
+  pencil: PencilLine,
+  eraser: Eraser,
+  lua: Cat,
+  story: BookOpen,
+  song: Music,
+  printable: Printer,
+  award: Award,
+  game: Gamepad2,
+  handsTogether: Handshake,
+  eyeContact: ScanFace,
+  world_kit: Blocks,
+  world_path: Route,
+  world_sound: Drum,
+  world_ramp: TrendingUp,
+  world_wind: Fan,
+  world_bridge: Construction,
+  world_garden: Sprout,
+};
+
 export const BlockIcon: React.FC<Props> = ({ name, color, size = 26 }) => {
+  const L = LUCIDE[name];
+  if (L) return <L size={size} color={color} strokeWidth={2.1} />;
   const common = {
     stroke: color,
     strokeWidth: SW,

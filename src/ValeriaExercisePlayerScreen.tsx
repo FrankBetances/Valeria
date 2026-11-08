@@ -43,6 +43,7 @@
 //   · Sin nada  -> sesión por defecto (plan prescrito de ejemplo).
 // ============================================================================
 import { Celebration } from './ui/Celebration';
+import { ReactiveTile } from './ui/ReactiveTile';
 import { ScreenHeader } from './ui/ScreenHeader';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
@@ -157,26 +158,26 @@ const AnswerTileGrid: React.FC<{
       const isAns = i === answer;
       const ok = (tapped && isAns) || (revealAnswer && picked >= 0 && isAns);
       const bad = tapped && !isAns;
+      const hint = revealAnswer && picked >= 0 && !tapped && isAns;
       return (
+        <ReactiveTile key={i} index={i} ok={ok} bad={bad} hint={hint} style={tileStyle ?? { width: '47%' }}>
         <Pressable
-          key={i}
           // Toque = responder; pulsación larga = ampliar. La ficha interior es
           // plana para que ningún Pressable anidado robe el toque.
           onPress={() => { if (picked !== i) onPick(i, isAns); }}
           onLongPress={() => onZoom(tile.emoji, tile.cap)}
           accessibilityRole="button"
           accessibilityLabel={t.player.answerTileA11y(tile.cap)}
-          style={[s.gridTile, tileStyle, ok && s.gridTileOk, bad && s.gridTileBad]}
+          style={[s.gridTile, { width: '100%' }, ok && s.gridTileOk, bad && s.gridTileBad]}
         >
           <View style={{ alignItems: 'center' }}>
             <EmojiTile emoji={tile.emoji} cap={tile.cap} size={size} bgIndex={i} />
           </View>
           <View style={s.gridCapRow}>
             <Text style={s.gridCap}>{tile.cap}</Text>
-            {ok ? <BlockIcon name="check" color={V.color.success} size={15} />
-              : bad ? <BlockIcon name="cross" color={V.color.error} size={15} /> : null}
           </View>
         </Pressable>
+        </ReactiveTile>
       );
     })}
   </View>

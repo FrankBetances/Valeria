@@ -38,6 +38,7 @@ import { BlockIcon } from './ValeriaBlockIcons';
 import { ValeriaGameStrip } from './ValeriaGameStrip';
 import { ScreenHeader } from './ui/ScreenHeader';
 import { ListRow } from './ui/ListRow';
+import { TASK_ICON } from './ui/taskIcons';
 import { PlayButton } from './ui/PlayButton';
 import { ValeriaAwardsSheet } from './ValeriaAwardsSheet';
 import { loadGame, GameState } from './valeriaGamification';
@@ -218,6 +219,7 @@ export const ValeriaBlockListScreen: React.FC<{ navigation: any; route: any }> =
                     key={item.id}
                     index={i}
                     icon={block.icon}
+                    iconNode={TASK_ICON[item.id]}
                     accent={on ? block.accentFg : '#8a9494'}
                     tint={on ? block.accentBg : '#eef0ef'}
                     title={item.name}
