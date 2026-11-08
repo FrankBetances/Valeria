@@ -242,9 +242,10 @@ export const ValeriaHubV11Screen: React.FC<{ navigation: any }> = ({ navigation 
 
   // Cuatro grupos con nombre: el adulto que entra por primera vez lee de qué
   // va cada parte antes de elegir. El orden de las decisiones de Frank se
-  // mantiene: Adaptación a sonidos abre, Aventuras va detrás y la RA cierra.
+  // mantiene: Aventuras con Lúa abre y Adaptación a sonidos va detrás (Frank,
+  // 8/11/2026); la RA cierra.
   const GROUPS: { title: string; keys: string[] }[] = [
-    { title: t.hub.sectionStart, keys: ['sensory', 'aventuras_lua'] },
+    { title: t.hub.sectionStart, keys: ['aventuras_lua', 'sensory'] },
     { title: t.hub.sectionSpeech, keys: ['pairs', 'semantic', 'audicion', 'lenguaje', 'tea'] },
     { title: t.hub.sectionReading, keys: ['dislexia', 'writing'] },
     { title: t.hub.sectionBuild, keys: ['steam', 'ar'] },
@@ -252,7 +253,10 @@ export const ValeriaHubV11Screen: React.FC<{ navigation: any }> = ({ navigation 
   const placed = new Set(GROUPS.flatMap((g) => g.keys));
   const sections = GROUPS.map((g, i) => ({
     title: g.title,
-    data: tiles.filter((tl) => g.keys.includes(tl.key) || (i === GROUPS.length - 1 && !placed.has(tl.key))),
+    data: [
+      ...g.keys.map((k) => tiles.find((tl) => tl.key === k)).filter((tl): tl is Tile => !!tl),
+      ...(i === GROUPS.length - 1 ? tiles.filter((tl) => !placed.has(tl.key)) : []),
+    ],
   })).filter((sec) => sec.data.length > 0);
 
   return (
