@@ -1113,8 +1113,8 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                         const found = !!rotFound[i] && g === rt.target;
                         const wrong = rotWrongIdx === i;
                         return (
+                          <ReactiveTile key={i} index={i} ok={found} bad={wrong}>
                           <Pressable
-                            key={i}
                             onPress={() => tapRotation(i)}
                             disabled={found}
                             accessibilityRole="button"
@@ -1124,6 +1124,7 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                           >
                             <Text style={[s.rotTileTxt, found && { color: '#fff' }]}>{g}</Text>
                           </Pressable>
+                          </ReactiveTile>
                         );
                       })}
                     </View>
@@ -1154,8 +1155,8 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                         const isNext = i === named;
                         const wrong = rotWrongIdx === i;
                         return (
+                          <ReactiveTile key={i} index={i} ok={done} bad={wrong}>
                           <Pressable
-                            key={i}
                             onPress={() => tapRan(i)}
                             disabled={done}
                             accessibilityRole="button"
@@ -1165,6 +1166,7 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
                           >
                             <Text style={{ fontSize: 30, opacity: done ? 0.45 : 1 }}>{tile.emoji}</Text>
                           </Pressable>
+                          </ReactiveTile>
                         );
                       })}
                     </View>
