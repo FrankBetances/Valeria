@@ -56,11 +56,13 @@ export const ScreenHeader: React.FC<Props> = ({ onBack, backLabel, kicker, icon,
         puntos y el icono del módulo en grande como marca de agua. */}
     <View style={StyleSheet.absoluteFill} pointerEvents="none">
       <Svg width="100%" height="100%" viewBox="0 0 400 220" preserveAspectRatio="xMidYMid slice">
-        <Path d="M0 170 C 80 140, 160 200, 240 170 S 360 140, 400 160 L400 220 L0 220 Z" fill="#ffffff" opacity={0.18} />
-        <Path d="M0 190 C 100 165, 180 215, 270 190 S 370 170, 400 185 L400 220 L0 220 Z" fill="#ffffff" opacity={0.24} />
-        <Circle cx="330" cy="40" r="70" fill="#ffffff" opacity={0.10} />
+        <Path d="M0 170 C 80 140, 160 200, 240 170 S 360 140, 400 160 L400 220 L0 220 Z" fill="#ffffff" opacity={0.30} />
+        <Path d="M0 190 C 100 165, 180 215, 270 190 S 370 170, 400 185 L400 220 L0 220 Z" fill="#ffffff" opacity={0.42} />
+        <Circle cx="330" cy="40" r="70" fill="#ffffff" opacity={0.16} />
+        <Circle cx="40" cy="30" r="34" fill="none" stroke="#ffffff" strokeWidth={6} opacity={0.22} />
+        <Circle cx="190" cy="14" r="16" fill="none" stroke="#ffffff" strokeWidth={4} opacity={0.25} />
         {[[250, 30, 3], [280, 70, 2], [372, 120, 3], [215, 95, 2], [350, 18, 2], [300, 110, 1.5]].map(([x, y, r], i) => (
-          <Circle key={i} cx={x} cy={y} r={r} fill="#ffffff" opacity={0.55} />
+          <Circle key={i} cx={x} cy={y} r={r * 1.6} fill="#ffffff" opacity={0.75} />
         ))}
       </Svg>
       {icon && <View style={s.watermark}><BlockIcon name={icon} color="#ffffff" size={150} /></View>}
@@ -105,7 +107,7 @@ const INK = '#0b1220'; // tinta sobre el turquesa: 8,6:1 (el blanco daba 2,2:1)
 
 const s = StyleSheet.create({
   wrap: { borderBottomLeftRadius: 34, borderBottomRightRadius: 34, paddingHorizontal: 22, paddingTop: 14, paddingBottom: 20, overflow: 'hidden' },
-  watermark: { position: 'absolute', right: -24, bottom: -34, opacity: 0.13, transform: [{ rotate: '-12deg' }] },
+  watermark: { position: 'absolute', right: 70, bottom: -40, opacity: 0.22, transform: [{ rotate: '-12deg' }] },
   topRow: { flexDirection: 'row', alignItems: 'center', minHeight: 48, marginBottom: 8 },
   back: { width: 48, height: 48, borderRadius: 24, backgroundColor: '#ffffff', alignItems: 'center', justifyContent: 'center', borderBottomWidth: 4, borderBottomColor: 'rgba(0,0,0,0.15)', marginRight: 12 },
   backGlyph: { fontFamily: FONT.display, fontSize: 32, lineHeight: 36, color: INK, marginTop: -3 },

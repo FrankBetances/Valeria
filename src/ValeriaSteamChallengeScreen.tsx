@@ -22,6 +22,8 @@ import { steamChallenge, steamWorld } from './steam/worlds';
 import type { AdaptationProfileId, LuaSemanticExpression, SteamWorldId, WorldEventSpec } from './steam/types';
 import { FONT } from './ui/fonts';
 import { AdultFold } from './ui/AdultFold';
+import { ListRow } from './ui/ListRow';
+import { Breathe } from './ui/motion';
 
 // Con el perfil de calma, ninguna reacción es una fiesta: misma información, sin estridencia.
 const LOUD: readonly LuaSemanticExpression[] = ['celebra_corta', 'celebra_nivel', 'celebra_exito', 'diversion', 'sorpresa_inclinada'];
@@ -51,6 +53,7 @@ export const ValeriaSteamChallengeScreen: React.FC<{
   const challenge = steamChallenge(world.id, route.params.challengeId) ?? world.challenges[0];
   const [profile, setProfile] = useState<AdaptationProfileId | null>(null);
   const [silenceLeft, setSilenceLeft] = useState<number | null>(null);
+  const [step, setStep] = useState(0);
   const [hint1, setHint1] = useState(false);
   const [hint2, setHint2] = useState(false);
   const [reaction, setReaction] = useState<Reaction | null>(null);
@@ -132,20 +135,6 @@ export const ValeriaSteamChallengeScreen: React.FC<{
         title={challenge.title[lang]} />
 
       <ScrollView contentContainerStyle={base.scroll} showsVerticalScrollIndicator={false}>
-        {profile && (
-          <AdultFold label={t.steam.profileNoteKicker}>
-          <View style={base.noteCard}>
-            <Text style={base.kickerFirst}>{t.steam.profileNoteKicker}</Text>
-            <Text style={base.body}>{t.steam.profiles[profile].note}</Text>
-            {adjust.lingFirst && (
-              <Pressable onPress={() => navigation.navigate('LingTest')} style={base.secondaryBtn}
-                accessibilityRole="button" accessibilityLabel={t.steam.lingFirstA11y}>
-                <Text style={base.secondaryBtnTxt}>{t.steam.lingFirst}</Text>
-              </Pressable>
-            )}
-          </View>
-          </AdultFold>
-        )}
 
         {adjust.anticipationFirst && (
           <View style={base.card}>
@@ -154,10 +143,15 @@ export const ValeriaSteamChallengeScreen: React.FC<{
           </View>
         )}
 
-        <View style={base.card}>
-          <Text style={base.kickerFirst}>{t.steam.cycleTitle}</Text>
-
-          <Text style={s.step}>{t.steam.stepObserve}</Text>
+        {/* El ciclo del reto, paso a paso (F12): el adulto ve un paso cada vez y
+            pasa al siguiente cuando ha terminado, en lugar de un muro de texto. */}
+        <Text style={s.cycleLabel}>{t.steam.cycleTitle}</Text>
+        <ListRow index={0} leading="1" title={t.steam.stepObserve.replace(/^\d+\.\s*/, '')}
+          accent={step >= 0 ? V.color.primaryDark : '#8a9494'} tint={step >= 0 ? V.color.primaryLight : '#eef0ef'}
+          onPress={() => setStep(0)} trailing={step > 0 ? <View style={s.doneDot}><Text style={s.doneTxt}>✓</Text></View> : null}
+          accessibilityLabel={t.steam.stepObserve}>
+          {step === 0 && (
+          <View style={s.stepBody}>
           <Text style={base.body}>{challenge.cycle.observa.phenomenonTrigger[lang]}</Text>
           <View style={s.dots}>
             {Array.from({ length: silenceTotal }, (_, i) => (
@@ -176,7 +170,18 @@ export const ValeriaSteamChallengeScreen: React.FC<{
             </Pressable>
           )}
 
-          <Text style={s.step}>{t.steam.stepTry}</Text>
+            <Pressable onPress={() => setStep(1)} style={s.nextBtn} accessibilityRole="button" accessibilityLabel={t.steam.stepTry}>
+              <Text style={s.nextTxt}>{t.steam.stepTry} ›</Text>
+            </Pressable>
+          </View>
+          )}
+        </ListRow>
+        <ListRow index={1} leading="2" title={t.steam.stepTry.replace(/^\d+\.\s*/, '')}
+          accent={step >= 1 ? V.color.primaryDark : '#8a9494'} tint={step >= 1 ? V.color.primaryLight : '#eef0ef'}
+          onPress={() => setStep(1)} trailing={step > 1 ? <View style={s.doneDot}><Text style={s.doneTxt}>✓</Text></View> : null}
+          accessibilityLabel={t.steam.stepTry}>
+          {step === 1 && (
+          <View style={s.stepBody}>
           <Text style={base.body}>{challenge.cycle.experimenta.adultStepByStep[lang]}</Text>
           <Pressable onPress={() => setHint1((v) => !v)} style={s.hint}
             accessibilityRole="button" accessibilityState={{ expanded: hint1 }} accessibilityLabel={t.steam.hintA11y(t.steam.hintN1)}>
@@ -189,10 +194,23 @@ export const ValeriaSteamChallengeScreen: React.FC<{
             {hint2 && <Text style={base.body}>{challenge.cycle.experimenta.hints.level2PhysicalModel[lang]}</Text>}
           </Pressable>
 
-          <Text style={s.step}>{t.steam.stepBuild}</Text>
+            <Pressable onPress={() => setStep(2)} style={s.nextBtn} accessibilityRole="button" accessibilityLabel={t.steam.stepBuild}>
+              <Text style={s.nextTxt}>{t.steam.stepBuild} ›</Text>
+            </Pressable>
+          </View>
+          )}
+        </ListRow>
+        <ListRow index={2} leading="3" title={t.steam.stepBuild.replace(/^\d+\.\s*/, '')}
+          accent={step >= 2 ? V.color.primaryDark : '#8a9494'} tint={step >= 2 ? V.color.primaryLight : '#eef0ef'}
+          onPress={() => setStep(2)} trailing={step > 2 ? <View style={s.doneDot}><Text style={s.doneTxt}>✓</Text></View> : null}
+          accessibilityLabel={t.steam.stepBuild}>
+          {step === 2 && (
+          <View style={s.stepBody}>
           <Text style={base.body}>{challenge.cycle.construye.tangibleMakeChallenge[lang]}</Text>
           <Text style={[base.bodyStrong, s.question]}>{challenge.cycle.construye.transferQuestion[lang]}</Text>
-        </View>
+          </View>
+          )}
+        </ListRow>
 
         <View style={base.card}>
           <AdultFold label={t.steam.eventsKicker}><Text style={base.body}>{t.steam.eventsNote}</Text></AdultFold>
@@ -209,6 +227,17 @@ export const ValeriaSteamChallengeScreen: React.FC<{
         <View style={base.card}>
           <Text style={base.kickerFirst}>{t.steam.luaKicker}</Text>
           <View style={s.luaRow}>
+            <Breathe style={s.luaFace}><CatPixel pose="head" size={56} /></Breathe>
+            <View style={s.luaText} accessibilityLiveRegion="polite">
+              {!reaction && <Text style={base.body}>{t.steam.luaIdle}</Text>}
+              {reaction?.waiting && <Text style={base.body}>{t.steam.luaWaiting}</Text>}
+              {reaction && !reaction.waiting && reaction.faceId && (
+                <>
+                  <Text style={base.bodyStrong}>{t.steam.luaFace(t.steam.faces[reaction.faceId] ?? reaction.faceId)}</Text>
+                  <Text style={base.body}>{reaction.linked ? t.steam.luaLinked : t.steam.luaMirror}</Text>
+                </>
+              )}
+            </View>
           </View>
           {reaction && !reaction.waiting && reaction.hint && (
             <>
@@ -244,12 +273,32 @@ export const ValeriaSteamChallengeScreen: React.FC<{
           <Text style={s.primaryBtnTxt}>{t.steam.achieved}</Text>
         </Pressable>
         {achieved && <Celebration><Text style={s.after}>{t.steam.achievedDone}</Text></Celebration>}
+        {profile && (
+          <AdultFold label={t.steam.profileNoteKicker}>
+          <View style={base.noteCard}>
+            <Text style={base.kickerFirst}>{t.steam.profileNoteKicker}</Text>
+            <Text style={base.body}>{t.steam.profiles[profile].note}</Text>
+            {adjust.lingFirst && (
+              <Pressable onPress={() => navigation.navigate('LingTest')} style={base.secondaryBtn}
+                accessibilityRole="button" accessibilityLabel={t.steam.lingFirstA11y}>
+                <Text style={base.secondaryBtnTxt}>{t.steam.lingFirst}</Text>
+              </Pressable>
+            )}
+          </View>
+          </AdultFold>
+        )}
       </ScrollView>
     </View>
   );
 };
 
 const s = StyleSheet.create({
+  cycleLabel: { fontFamily: FONT.bodyBlack, fontSize: 13, letterSpacing: 1.2, textTransform: 'uppercase', color: V.color.textSecondary, marginTop: 4, marginBottom: 10, marginLeft: 4 },
+  stepBody: { marginTop: 12, gap: 8 },
+  nextBtn: { alignSelf: 'flex-end', marginTop: 8, backgroundColor: '#ffd23f', borderBottomWidth: 4, borderBottomColor: '#e0a800', borderRadius: 16, paddingHorizontal: 18, minHeight: 48, justifyContent: 'center' },
+  nextTxt: { fontFamily: FONT.display, fontSize: 17, color: '#3b2a00' },
+  doneDot: { width: 36, height: 36, borderRadius: 18, backgroundColor: V.color.primaryDark, alignItems: 'center', justifyContent: 'center', marginLeft: 10 },
+  doneTxt: { color: '#ffffff', fontFamily: FONT.display, fontSize: 18 },
   step: { fontFamily: FONT.bodyBlack,fontSize: 15.5, color: V.color.textPrimary, marginTop: V.space.lg, marginBottom: 4 },
   question: { marginTop: V.space.sm },
   dots: { flexDirection: 'row', gap: 8, marginTop: V.space.md },
