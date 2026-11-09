@@ -1,6 +1,6 @@
 # Pendiente: rehacer el módulo de RA
 
-**Estado al 8/11/2026: hecho en la rama `sets`, pendiente de build y merge** (ver abajo). Frank pidió quitar los ejercicios viejos de RA (AR-1 a AR-6: coche, perro,
+**Estado al 9/11/2026: en `main`, build de publicación 802 en verde** (ver abajo). Frank pidió quitar los ejercicios viejos de RA (AR-1 a AR-6: coche, perro,
 manzana, búsqueda de Lúa, pez, espejo) y rehacer el módulo con actividades nuevas centradas en los
 sets de Construye con Lúa.
 
@@ -27,7 +27,7 @@ bloquea, se dice en la primera línea y se construye todo lo demás igual, con e
 
 ## Estado al 8/11/2026
 
-**Hecho en la rama `sets`** (pendiente del build de publicación y del merge a `main`):
+**Hecho y en `main`** (build de publicación 802, en verde, con APK y AAB):
 
 - AR-1 a AR-6 **ya no se ofrecen en la app**. El código nativo se queda como base de los
   detectores (decisión aplicada por defecto, la recomendada en el punto 0).
