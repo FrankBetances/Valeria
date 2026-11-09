@@ -314,6 +314,8 @@ interface ArNativeModule {
   /** Libera una espera del nativo que no va a volver. */
   cancelPending?: () => Promise<unknown>;
   setAptitudeSkipLabel?: (label: string) => void;
+  /** Escena de un set sobre la mesa (cámara trasera). */
+  openScene?: (specJson: string) => Promise<unknown>;
 }
 
 let Native: ArNativeModule | null = null;
@@ -488,6 +490,43 @@ export async function installArProvisionalProfile(): Promise<ArDeviceProfile | n
     return null;
   } catch (e) {
     return null;
+  }
+}
+
+export interface ArSceneResult {
+  outcome: 'completed' | 'aborted' | 'unsupported' | 'denied' | 'unavailable';
+  confirmed: string[];
+  reason?: string;
+}
+
+/** ¿Este host sabe abrir escenas de los sets? (APK anterior al 9/11/2026: no). */
+export function canOpenArScene(): boolean {
+  return !!Native && typeof Native.openScene === 'function';
+}
+
+/**
+ * Abre la escena del set sobre la mesa. Cada evento que confirma el adulto llega
+ * en vivo a `onEvent` (para la cara de Lúa) y la promesa trae la lista al cerrar.
+ */
+export async function openArScene(specJson: string, onEvent: (eventId: string) => void): Promise<ArSceneResult> {
+  if (!Native || typeof Native.openScene !== 'function') return { outcome: 'unavailable', confirmed: [] };
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const { DeviceEventEmitter } = require('react-native');
+  const sub = DeviceEventEmitter.addListener('ValeriaArSceneEvent', (e: { eventId?: string }) => {
+    if (e && typeof e.eventId === 'string') onEvent(e.eventId);
+  });
+  try {
+    const raw = (await Native.openScene(specJson)) as Partial<ArSceneResult> | null;
+    const outcome = raw?.outcome ?? 'aborted';
+    return {
+      outcome: outcome as ArSceneResult['outcome'],
+      confirmed: Array.isArray(raw?.confirmed) ? raw!.confirmed.filter((x): x is string => typeof x === 'string') : [],
+      ...(raw?.reason ? { reason: String(raw.reason) } : {}),
+    };
+  } catch (e) {
+    return { outcome: 'aborted', confirmed: [] };
+  } finally {
+    sub.remove();
   }
 }
 

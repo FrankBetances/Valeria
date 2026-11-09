@@ -14,6 +14,7 @@ import com.facebook.react.bridge.ReactMethod
 import com.facebook.react.bridge.ReadableMap
 import com.facebook.react.bridge.WritableArray
 import com.facebook.react.bridge.WritableMap
+import com.facebook.react.modules.core.DeviceEventManagerModule
 import eu.futureforkids.valeria.ar.signal.Calibration
 import org.json.JSONArray
 import org.json.JSONObject
@@ -41,6 +42,8 @@ class ValeriaArModule(private val reactContext: ReactApplicationContext) :
     private var pending: Promise? = null
     private var pendingRequest = 0
     private var skipLabel = "Saltar calentamiento"
+
+    init { instance = this }
 
     private val activityListener: ActivityEventListener = object : BaseActivityEventListener() {
         override fun onActivityResult(activity: Activity, requestCode: Int, resultCode: Int, data: Intent?) {
@@ -237,6 +240,23 @@ class ValeriaArModule(private val reactContext: ReactApplicationContext) :
             provisional = provisional,
         )
 
+    /**
+     * Escena de RA de un set o de una actividad con Lúa: cámara trasera, la
+     * escena anclada a la mesa y los eventos que confirma el adulto. Cada
+     * evento llega a JS en vivo (`ValeriaArSceneEvent`) para que Lúa ponga su
+     * cara; al cerrar, la promesa trae la lista de eventos confirmados.
+     */
+    @ReactMethod
+    fun openScene(specJson: String, promise: Promise) {
+        launchActivity(ValeriaArSceneActivity.intent(reactContext, specJson), REQUEST_SCENE, promise)
+    }
+
+    @ReactMethod
+    fun addListener(eventName: String) {}
+
+    @ReactMethod
+    fun removeListeners(count: Int) {}
+
     private fun launchActivity(
         intent: Intent,
         requestCode: Int,
@@ -269,6 +289,16 @@ class ValeriaArModule(private val reactContext: ReactApplicationContext) :
         private const val REQUEST_APTITUDE = 8802
         private const val REQUEST_CALIBRATION = 8803
         private const val REQUEST_DIAGNOSTICS = 8804
+        private const val REQUEST_SCENE = 8805
+
+        @Volatile private var instance: ValeriaArModule? = null
+
+        fun emitSceneEvent(id: String) {
+            val ctx = instance?.reactContext ?: return
+            if (!ctx.hasActiveReactInstance()) return
+            ctx.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter::class.java)
+                ?.emit("ValeriaArSceneEvent", Arguments.createMap().apply { putString("eventId", id) })
+        }
     }
 }
 

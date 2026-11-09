@@ -38,10 +38,19 @@ bloquea, se dice en la primera línea y se construye todo lo demás igual, con e
   que confirma el adulto y cara de Lúa. S0–S6 abren sus cinco retos con la modalidad elegida.
 - Textos en es/en/ca/gl; gates y typecheck en verde; capturas de web. **No visto en un aparato.**
 
+## Rama `sets`, 9/11/2026 (sin merge, **no visto en Android**)
+
+- **Escenas en la mesa** (`ValeriaArSceneActivity`, cámara trasera con ARCore): botón «Ver en la mesa (RA)» en
+  S0–S6 y S8–S11 (solo y con Lúa) y en L02–L05. El adulto toca la mesa, la escena del set queda anclada
+  (`src/steam/arScenes.ts`, 15 escenas con todos sus eventos) y cada paso que confirma cambia lo que se ve y,
+  con Lúa, le manda la cara en vivo. Referencia: el boceto de S1 que validó Frank.
+- Calentamiento: límite de 60 s y «Saltar calentamiento» con nivel provisional «no medido».
+- Política de privacidad y manual al día con la cámara trasera de las escenas.
+
 ## Lo que sigue pendiente
 
 1. ~~L06~~ **eliminada por Frank el 9/11/2026** (VRA: riesgo regulatorio). Manual y política de privacidad actualizados.
-2. **La cámara de piezas**: hoy todo lo que no es L01/L07 lo confirma el adulto. Se conecta cuando
+2. **La cámara de piezas (etapa B)**: hoy todo lo que no es L01/L07 lo confirma el adulto, también dentro de las escenas. Se conecta cuando
    el banco D2 decida el marcador (`docs/banco-d2/`), sin rehacer las pantallas.
 3. Decisiones abiertas: renumerar IDs si gana AprilTag, `K-LOMO-G` en S0 y `tracked_object` en S3.
 
