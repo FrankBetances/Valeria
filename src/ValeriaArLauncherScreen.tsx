@@ -631,9 +631,9 @@ export const ValeriaArLauncherScreen: React.FC<{ navigation?: any; route?: { par
             ))}
             <Text style={s.mdrNote}>{t.ar.mdrNote}</Text>
           </View>
-          <Pressable onPress={() => { setResult(null); setReward(null); if (luaSolo) navigation?.goBack(); else setPhase('menu'); }}
+          <Pressable onPress={() => { setResult(null); setReward(null); setPhase('menu'); }}
             style={s.primaryBtn} accessibilityRole="button">
-            <Text style={s.primaryBtnTxt}>{t.ar.backToExercises}</Text>
+            <Text style={s.primaryBtnTxt}>{t.common.continue}</Text>
           </Pressable>
         </ScrollView>
       </View>
@@ -663,7 +663,14 @@ export const ValeriaArLauncherScreen: React.FC<{ navigation?: any; route?: { par
         </View>
 
         {/* AR-1…AR-6 ya no se ofrecen aquí (8/11/2026): la RA es el catálogo por sets
-            (ValeriaArCatalogScreen). Este lanzador solo abre la cámara para Solo Lúa. */}
+            (ValeriaArCatalogScreen). Este lanzador solo abre la cámara para Solo Lúa;
+            al volver de una sesión se puede repetir, y debajo queda el Panel del Adulto. */}
+        {luaSolo && (
+          <Pressable onPress={() => { void start(luaSolo.exerciseId); }} style={s.primaryBtn}
+            accessibilityRole="button" accessibilityLabel={t.steam.luaSoloStartA11y(luaSolo.title[getUiLang()])}>
+            <Text style={s.primaryBtnTxt}>{t.steam.luaSoloStart}</Text>
+          </Pressable>
+        )}
 
         {/* Herramienta de la logopeda, no del niño. Va después de los ejercicios
             y con otro tono a propósito: no es parte del juego. */}
@@ -772,7 +779,7 @@ const s = StyleSheet.create({
   },
 
   primaryBtn: { backgroundColor: V.color.primary, borderRadius: 14, paddingVertical: 15, alignItems: 'center', marginTop: 16, ...V.shadow.button },
-  primaryBtnTxt: { fontFamily: FONT.bodyBlack,color: '#fff', fontSize: 15.5 },
+  primaryBtnTxt: { fontFamily: FONT.bodyBlack, color: V.color.dark, fontSize: 15.5 }, // blanco sobre el turquesa daba 2,2:1
   cancel: { fontFamily: FONT.bodyBlack,textAlign: 'center', color: V.color.textSecondary, fontSize: 13, marginTop: 12 },
 });
 

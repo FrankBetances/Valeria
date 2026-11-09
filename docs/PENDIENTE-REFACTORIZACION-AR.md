@@ -40,7 +40,7 @@ bloquea, se dice en la primera línea y se construye todo lo demás igual, con e
 
 ## Lo que sigue pendiente
 
-1. **L06** fuera del catálogo hasta que Frank decida (riesgo regulatorio del VRA).
+1. ~~L06~~ **eliminada por Frank el 9/11/2026** (VRA: riesgo regulatorio). Manual y política de privacidad actualizados.
 2. **La cámara de piezas**: hoy todo lo que no es L01/L07 lo confirma el adulto. Se conecta cuando
    el banco D2 decida el marcador (`docs/banco-d2/`), sin rehacer las pantallas.
 3. Decisiones abiertas: renumerar IDs si gana AprilTag, `K-LOMO-G` en S0 y `tracked_object` en S3.
