@@ -13,6 +13,17 @@ const checks = [
   ['R18 la reacción de Lúa va arriba y no tapa', () => /layer: \{ position: 'absolute', top:/.test(read('src/ui/LuaCheer.tsx'))],
   ['R23 Adaptación a sonidos conserva anticipación, pausa y final', () => { const c = read('src/ValeriaSensory/SensoryExerciseScreen.tsx'); return /countdownNumber[^\n]*>\{countdown\}/.test(c) && /stoppingIsOkTitle/.test(c) && /xpRewardTxt/.test(c); }],
   ['R8 entrada animada en filas', () => /enterAt\(/.test(read('src/ui/ListRow.tsx')) && /enterAt\(/.test(read('src/ValeriaBlockTile.tsx'))],
+  ['R24 el manual enseña cada imagen que cita', () => {
+    const html = read('docs/manual-casos-de-uso.html');
+    const imgs = [...html.matchAll(/src="(screenshots\/[^"]+)"/g)].map((m) => m[1]);
+    return imgs.length > 0 && imgs.every((f) => fs.existsSync('docs/' + f));
+  }],
+  ['R24 cada pantalla con «Ver en la mesa (RA)» tiene su captura en el manual', () => {
+    const html = read('docs/manual-casos-de-uso.html');
+    const screens = fs.readdirSync('src').filter((f) => /Screen\.tsx$/.test(f) && /<ArSceneLaunch\b/.test(read('src/' + f)));
+    const shots = { 'ValeriaSteamWorldScreen.tsx': '51-ra-set-mesa.png', 'ValeriaArActivityScreen.tsx': '53-ra-lua-mesa.png' };
+    return screens.length > 0 && screens.every((f) => shots[f] && html.includes('screenshots/' + shots[f]));
+  }],
 ];
 let bad = 0;
 for (const [name, fn] of checks) {
