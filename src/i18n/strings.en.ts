@@ -1423,6 +1423,10 @@ export const EN: UiStrings = {
   // consentimiento es parte del muro MDR, no adorno — se traduce entero o no se
   // traduce (una mezcla de idiomas aquí es un consentimiento inválido).
   ar: {
+    warmupSkip: 'Skip warm-up',
+    warmupSkipA11y: 'Skip the warm-up and start without measuring the phone',
+    warmupTimeout: 'The warm-up did not respond within 60 seconds. You can repeat it or skip it.',
+    provisionalNote: 'Provisional level: the warm-up was skipped and this phone has not been measured. It does not count as a device measurement.',
     catSub: 'Play with the Build with Lúa sets, with or without Lúa.',
     catLuaSolo: 'JUST LÚA',
     catSets: 'EACH SET ON ITS OWN',

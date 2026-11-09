@@ -40,6 +40,7 @@ class ValeriaArModule(private val reactContext: ReactApplicationContext) :
 
     private var pending: Promise? = null
     private var pendingRequest = 0
+    private var skipLabel = "Saltar calentamiento"
 
     private val activityListener: ActivityEventListener = object : BaseActivityEventListener() {
         override fun onActivityResult(activity: Activity, requestCode: Int, resultCode: Int, data: Intent?) {
@@ -108,10 +109,40 @@ class ValeriaArModule(private val reactContext: ReactApplicationContext) :
     @ReactMethod
     fun runAptitudeTest(promise: Promise) {
         launchActivity(
-            ValeriaArActivity.intent(reactContext, ValeriaArActivity.MODE_APTITUDE),
+            ValeriaArActivity.intent(reactContext, ValeriaArActivity.MODE_APTITUDE)
+                .putExtra(ValeriaArActivity.EXTRA_SKIP_LABEL, skipLabel),
             REQUEST_APTITUDE,
             promise,
         )
+    }
+
+    /** Texto del botón «Saltar calentamiento» en el idioma de la interfaz. */
+    @ReactMethod
+    fun setAptitudeSkipLabel(label: String) { skipLabel = label }
+
+    /**
+     * Libera una espera que no va a volver (9/11/2026). JS la llama cuando la
+     * Prueba de Aptitud supera los 60 s: sin esto `pending` quedaba ocupado y
+     * cada intento siguiente moría con E_AR_BUSY.
+     */
+    @ReactMethod
+    fun cancelPending(promise: Promise) {
+        pending?.resolve(Arguments.createMap().apply { putString("outcome", "aborted") })
+        pending = null
+        pendingRequest = 0
+        promise.resolve(true)
+    }
+
+    /**
+     * Calentamiento saltado: nivel C PROVISIONAL, «no medido». Mismo perfil
+     * sintético que el Modo Revisión, pero con `provisional` en vez de `review`:
+     * la sesión sí cuenta para el niño, y nunca como medida del aparato.
+     */
+    @ReactMethod
+    fun installProvisionalProfile(promise: Promise) {
+        val profile = syntheticProfile(review = false, provisional = true)
+        ArProfileStore.save(reactContext, profile)
+        promise.resolve(profile.toJson().toWritableMap())
     }
 
     @ReactMethod
@@ -176,7 +207,13 @@ class ValeriaArModule(private val reactContext: ReactApplicationContext) :
      */
     @ReactMethod
     fun installReviewProfile(promise: Promise) {
-        val profile = DeviceProfile(
+        val profile = syntheticProfile(review = true, provisional = false)
+        ArProfileStore.save(reactContext, profile)
+        promise.resolve(profile.toJson().toWritableMap())
+    }
+
+    private fun syntheticProfile(review: Boolean, provisional: Boolean): DeviceProfile =
+        DeviceProfile(
             level = AptitudeLevel.C,
             probes = DeviceProbes(
                 fpsP5 = 0f,
@@ -196,11 +233,9 @@ class ValeriaArModule(private val reactContext: ReactApplicationContext) :
             model = Build.MODEL ?: "?",
             osVersion = "Android ${Build.VERSION.RELEASE} (API ${Build.VERSION.SDK_INT})",
             measuredAt = System.currentTimeMillis(),
-            review = true,
+            review = review,
+            provisional = provisional,
         )
-        ArProfileStore.save(reactContext, profile)
-        promise.resolve(profile.toJson().toWritableMap())
-    }
 
     private fun launchActivity(
         intent: Intent,

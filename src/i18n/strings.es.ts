@@ -1478,6 +1478,10 @@ export const ES = {
   // consentimiento es parte del muro MDR, no adorno — se traduce entero o no se
   // traduce (una mezcla de idiomas aquí es un consentimiento inválido).
   ar: {
+    warmupSkip: 'Saltar calentamiento',
+    warmupSkipA11y: 'Saltar el calentamiento y empezar sin medir el teléfono',
+    warmupTimeout: 'El calentamiento no respondió en 60 segundos. Puedes repetirlo o saltarlo.',
+    provisionalNote: 'Nivel provisional: el calentamiento se saltó y este teléfono no está medido. No cuenta como medida del aparato.',
     catSub: 'Juega con los sets de Construye con Lúa, con Lúa o sin ella.',
     catLuaSolo: 'SOLO LÚA',
     catSets: 'CADA SET POR SU CUENTA',

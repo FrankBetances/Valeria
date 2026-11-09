@@ -1382,6 +1382,10 @@ export const CA: UiStrings = {
   },
 
   ar: {
+    warmupSkip: 'Saltar l’escalfament',
+    warmupSkipA11y: 'Saltar l’escalfament i començar sense mesurar el telèfon',
+    warmupTimeout: 'L’escalfament no ha respost en 60 segons. El pots repetir o saltar.',
+    provisionalNote: 'Nivell provisional: s’ha saltat l’escalfament i aquest telèfon no està mesurat. No compta com a mesura de l’aparell.',
     catSub: 'Juga amb els sets de Construeix amb la Lúa, amb la Lúa o sense.',
     catLuaSolo: 'NOMÉS LA LÚA',
     catSets: 'CADA SET PER SEPARAT',

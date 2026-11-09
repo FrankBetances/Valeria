@@ -1461,6 +1461,10 @@ export const GL: UiStrings = {
   // consentimento é parte do muro MDR, non adorno — tradúcese enteiro ou non se
   // traduce (unha mestura de idiomas aquí é un consentimento inválido).
   ar: {
+    warmupSkip: 'Saltar o quecemento',
+    warmupSkipA11y: 'Saltar o quecemento e comezar sen medir o teléfono',
+    warmupTimeout: 'O quecemento non respondeu en 60 segundos. Podes repetilo ou saltalo.',
+    provisionalNote: 'Nivel provisional: saltouse o quecemento e este teléfono non está medido. Non conta como medida do aparello.',
     catSub: 'Xoga cos sets de Constrúe con Lúa, con Lúa ou sen ela.',
     catLuaSolo: 'SÓ LÚA',
     catSets: 'CADA SET POR SEPARADO',
