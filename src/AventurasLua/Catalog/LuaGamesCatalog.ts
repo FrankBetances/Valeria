@@ -221,12 +221,15 @@ export const LUA_GAMES_CATALOG: LuaGame[] = [
     id: 'lua_game_11',
     number: 11,
     title: 'Caja de sonidos mágica',
-    subtitle: 'Dos sonidos muy distintos',
+    subtitle: 'Cada animal, su sonido',
     kind: 'image_word',
     ageBands: ['0-2'],
-    instructions: 'Toca el dibujo y escucha su sonido. ¿Cuál suena distinto?',
+    // ACOPROS (11/2026): «¿cuál suena distinto?» no tenía respuesta. El objetivo
+    // es asociar cada animal con su sonido: se escucha y luego se pregunta.
+    instructions: 'Toca cada animal y escucha cómo suena. Después pregunta: ¿quién hace «guau»? ¿Y «muuu»?',
     items: [
-      { pic: 'perro', label: 'Perro' }, { pic: 'gallina', label: 'Gallina' },
+      { pic: 'perro', label: '¡Guau, guau!' }, { pic: 'gato', label: '¡Miau!' },
+      { pic: 'vaca', label: '¡Muuu!' },
     ],
   },
   {
@@ -236,10 +239,12 @@ export const LUA_GAMES_CATALOG: LuaGame[] = [
     subtitle: 'Imagen y palabra, vocabulario básico',
     kind: 'image_word',
     ageBands: ['0-2', '2-3'],
-    instructions: 'Toca el dibujo y di su nombre conmigo.',
+    // ACOPROS (11/2026): a esta edad no se exige nombrar, y «pato» se parece
+    // demasiado a «gato». Animales conocidos y de nombre bien distinto.
+    instructions: 'Toca el dibujo y escucha su nombre. Si quiere, lo decimos juntos.',
     items: [
-      { pic: 'gato', label: 'Gato' }, { pic: 'pato', label: 'Pato' },
-      { pic: 'vaca', label: 'Vaca' }, { pic: 'coqui', label: 'Coquí' },
+      { pic: 'gato', label: 'Gato' }, { pic: 'perro', label: 'Perro' },
+      { pic: 'vaca', label: 'Vaca' }, { pic: 'oveja', label: 'Oveja' },
     ],
   },
   {
@@ -251,7 +256,7 @@ export const LUA_GAMES_CATALOG: LuaGame[] = [
     ageBands: ['0-2'],
     instructions: 'Te digo una palabra y tú tocas su dibujo.',
     items: [
-      { pic: 'pelota', label: 'Pelota' }, { pic: 'coco', label: 'Coco' },
+      { pic: 'gato', label: 'Gato' }, { pic: 'vaca', label: 'Vaca' },
     ],
   },
   {

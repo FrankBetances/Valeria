@@ -1,8 +1,8 @@
 {
- "generatedAt": "2026-10-12T09:09:03.014Z",
- "entries": 5149,
+ "generatedAt": "2026-11-10T17:54:10.367Z",
+ "entries": 5157,
  "byStyle": {
-  "child": 3255,
+  "child": 3263,
   "slow": 973,
   "clinical": 45,
   "tutor": 876
@@ -41,7 +41,7 @@
   "lua/cancion/elemento": 82,
   "lua/juego/titulo": 50,
   "lua/juego/consigna": 50,
-  "lua/juego/estimulo": 107,
+  "lua/juego/estimulo": 115,
   "lua/juego/pista": 6,
   "ejercicios/veredicto": 3,
   "escritura/elogio": 15,
@@ -9380,11 +9380,32 @@
    "source": "lua/juego/titulo"
   },
   {
-   "id": "child_03970e2c_57",
+   "id": "child_89380337_87",
    "lang": "es",
    "style": "child",
-   "text": "Toca el dibujo y escucha su sonido. ¿Cuál suena distinto?",
+   "text": "Toca cada animal y escucha cómo suena. Después pregunta: ¿quién hace «guau»? ¿Y «muuu»?",
    "source": "lua/juego/consigna"
+  },
+  {
+   "id": "child_850dddb3_12",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Guau, guau!",
+   "source": "lua/juego/estimulo"
+  },
+  {
+   "id": "child_fc9dc25b_6",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Miau!",
+   "source": "lua/juego/estimulo"
+  },
+  {
+   "id": "child_c6a81f63_6",
+   "lang": "es",
+   "style": "child",
+   "text": "¡Muuu!",
+   "source": "lua/juego/estimulo"
   },
   {
    "id": "child_3c41e24a_11",
@@ -9394,11 +9415,18 @@
    "source": "lua/juego/titulo"
   },
   {
-   "id": "child_efdc7859_38",
+   "id": "child_ab37acfd_65",
    "lang": "es",
    "style": "child",
-   "text": "Toca el dibujo y di su nombre conmigo.",
+   "text": "Toca el dibujo y escucha su nombre. Si quiere, lo decimos juntos.",
    "source": "lua/juego/consigna"
+  },
+  {
+   "id": "child_cce62f42_5",
+   "lang": "es",
+   "style": "child",
+   "text": "Oveja",
+   "source": "lua/juego/estimulo"
   },
   {
    "id": "child_6af791cd_19",
@@ -9413,13 +9441,6 @@
    "style": "child",
    "text": "Te digo una palabra y tú tocas su dibujo.",
    "source": "lua/juego/consigna"
-  },
-  {
-   "id": "child_b68f92d4_6",
-   "lang": "es",
-   "style": "child",
-   "text": "Pelota",
-   "source": "lua/juego/estimulo"
   },
   {
    "id": "child_d318e908_13",
@@ -9679,6 +9700,13 @@
    "style": "child",
    "text": "Toca cada dibujo y di su nombre en voz alta.",
    "source": "lua/juego/consigna"
+  },
+  {
+   "id": "child_b68f92d4_6",
+   "lang": "es",
+   "style": "child",
+   "text": "Pelota",
+   "source": "lua/juego/estimulo"
   },
   {
    "id": "child_b45aef8c_3",
@@ -14252,11 +14280,32 @@
    "source": "lua/juego/titulo"
   },
   {
-   "id": "gl_child_32afd599_52",
+   "id": "gl_child_a47258ca_81",
    "lang": "gl",
    "style": "child",
-   "text": "Toca o debuxo e escoita o seu son. Cal soa distinto?",
+   "text": "Toca cada animal e escoita como soa. Despois pregunta: quen fai «guau»? E «muuu»?",
    "source": "lua/juego/consigna"
+  },
+  {
+   "id": "gl_child_120a36f0_11",
+   "lang": "gl",
+   "style": "child",
+   "text": "Guau, guau!",
+   "source": "lua/juego/estimulo"
+  },
+  {
+   "id": "gl_child_d39c0498_5",
+   "lang": "gl",
+   "style": "child",
+   "text": "Miau!",
+   "source": "lua/juego/estimulo"
+  },
+  {
+   "id": "gl_child_954d4938_5",
+   "lang": "gl",
+   "style": "child",
+   "text": "Muuu!",
+   "source": "lua/juego/estimulo"
   },
   {
    "id": "gl_child_3a70b6ed_9",
@@ -14266,11 +14315,18 @@
    "source": "lua/juego/titulo"
   },
   {
-   "id": "gl_child_086ae459_37",
+   "id": "gl_child_ae8d37f7_62",
    "lang": "gl",
    "style": "child",
-   "text": "Toca o debuxo e di o seu nome comigo.",
+   "text": "Toca o debuxo e escoita o seu nome. Se quere, dicímolo xuntos.",
    "source": "lua/juego/consigna"
+  },
+  {
+   "id": "gl_child_ddd397b2_6",
+   "lang": "gl",
+   "style": "child",
+   "text": "Ovella",
+   "source": "lua/juego/estimulo"
   },
   {
    "id": "gl_child_a41a089f_16",
@@ -14285,13 +14341,6 @@
    "style": "child",
    "text": "Dígoche unha palabra e ti tocas o seu debuxo.",
    "source": "lua/juego/consigna"
-  },
-  {
-   "id": "gl_child_b68f92d4_6",
-   "lang": "gl",
-   "style": "child",
-   "text": "Pelota",
-   "source": "lua/juego/estimulo"
   },
   {
    "id": "gl_child_0afb106a_14",
@@ -14565,6 +14614,13 @@
    "style": "child",
    "text": "Toca cada debuxo e di o seu nome en voz alta.",
    "source": "lua/juego/consigna"
+  },
+  {
+   "id": "gl_child_b68f92d4_6",
+   "lang": "gl",
+   "style": "child",
+   "text": "Pelota",
+   "source": "lua/juego/estimulo"
   },
   {
    "id": "gl_child_b45aef8c_3",
