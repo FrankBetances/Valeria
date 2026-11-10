@@ -13,6 +13,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.os.SystemClock
 import android.view.Surface
 import android.view.ViewGroup
 import android.view.WindowManager
@@ -39,6 +40,7 @@ import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -65,6 +67,7 @@ import com.google.ar.core.Pose
 import com.google.ar.core.TrackingState
 import eu.futureforkids.valeria.ar.session.ArCoreSession
 import eu.futureforkids.valeria.ar.session.ArRenderer
+import eu.futureforkids.valeria.ar.sets.SetMeshRenderer
 import org.json.JSONArray
 import org.json.JSONObject
 import kotlin.math.atan2
@@ -106,6 +109,14 @@ class ValeriaArSceneActivity : ComponentActivity() {
     private var anchored by mutableStateOf(false)
     private var tableSeen by mutableStateOf(false)
 
+    // Piezas 3D del set: paso del manual que se enseña (== nº de pasos: jugar)
+    // y si el modelo se ve. Compose escribe, el hilo de GL lee.
+    private var step by mutableIntStateOf(0)
+    private var modelShown by mutableStateOf(true)
+    @Volatile private var glStep = 0
+    @Volatile private var glModelShown = true
+    private var meshRenderer: SetMeshRenderer? = null
+
     private val cameraPermission = registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
         if (granted) startPipeline() else finishWith("denied")
     }
@@ -115,6 +126,7 @@ class ValeriaArSceneActivity : ComponentActivity() {
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         spec = SceneSpec.parse(intent.getStringExtra(EXTRA_SPEC))
         arSession = ArCoreSession(this, rear = true)
+        meshRenderer = SetMeshRenderer(assets)
 
         setContentView(
             ComposeView(this).apply {
@@ -126,6 +138,10 @@ class ValeriaArSceneActivity : ComponentActivity() {
                         lastEvent = lastEvent,
                         anchored = anchored,
                         tableSeen = tableSeen,
+                        step = step,
+                        modelShown = modelShown,
+                        onStep = { step = it; glStep = it },
+                        onToggleModel = { modelShown = !modelShown; glModelShown = modelShown },
                         onTap = { if (anchor == null) pendingTap = it },
                         onEvent = { id -> confirm(id) },
                         onReplace = { anchor?.detach(); anchor = null; anchored = false },
@@ -229,6 +245,36 @@ class ValeriaArSceneActivity : ComponentActivity() {
         Matrix.multiplyMM(vp, 0, proj, 0, view, 0)
         Matrix.multiplyMM(mvp, 0, vp, 0, model, 0)
         snapshot = ProjectionSnapshot(mvp)
+        drawSetModel(vp, model)
+    }
+
+    /**
+     * Hilo de GL: las piezas reales del set, a escala 1:1 sobre la mesa.
+     * Montando: las ya colocadas en gris y las del paso en su color, flotando
+     * sobre su sitio. Jugando: el set entero en transparente, para que se vea
+     * la maqueta de verdad debajo.
+     */
+    private fun drawSetModel(viewProj: FloatArray, anchorModel: FloatArray) {
+        val m = spec.model ?: return
+        if (!glModelShown || m.steps.isEmpty()) return
+        val r = meshRenderer ?: return
+        val playing = glStep >= m.steps.size
+        val st = m.steps[glStep.coerceIn(0, m.steps.size - 1)]
+        if (!r.begin()) return
+        val bob = (0.006f * sin(SystemClock.uptimeMillis() / 380.0)).toFloat()
+        val pm = FloatArray(16)
+        for (pc in st.pieces) {
+            val lift = if (!playing && !pc.placed) bob else 0f
+            Matrix.translateM(pm, 0, anchorModel, 0, pc.x, pc.y + lift, pc.z)
+            val alpha = if (playing) 0.45f else if (pc.placed) 0.80f else 1f
+            r.draw(pc.mesh, viewProj, pm, pc.r, pc.g, pc.b, alpha)
+        }
+        for (l in st.lua) {
+            Matrix.translateM(pm, 0, anchorModel, 0, l.x, l.y, l.z)
+            Matrix.rotateM(pm, 0, l.rotDeg, 0f, 1f, 0f)
+            for (part in m.luaParts) r.draw(part.mesh, viewProj, pm, part.r, part.g, part.b, if (playing) 0.55f else 0.92f)
+        }
+        r.end()
     }
 
     override fun onResume() {
@@ -299,6 +345,10 @@ private class SceneSpec(
     val luaPrefix: String,
     val events: List<SceneEvent>,
     val shapes: List<SceneShape>,
+    val model: SetModel?,
+    val playLabel: String,
+    val hideLabel: String,
+    val showLabel: String,
 ) {
     companion object {
         fun parse(raw: String?): SceneSpec {
@@ -317,6 +367,51 @@ private class SceneSpec(
                     SceneEvent(e.optString("id"), e.optString("label"), e.optString("prompt"), e.optString("face"))
                 },
                 shapes = (0 until sh.length()).map { i -> SceneShape.parse(sh.getJSONObject(i)) },
+                model = o.optJSONObject("model")?.let { SetModel.parse(it) },
+                playLabel = o.optString("playLabel", "▶"),
+                hideLabel = o.optString("hideLabel"),
+                showLabel = o.optString("showLabel"),
+            )
+        }
+    }
+}
+
+/** Una pieza (o una parte de Lúa) con su malla, color y sitio en el set, en metros. */
+private class SetPiece(val mesh: String, val r: Float, val g: Float, val b: Float, val x: Float, val y: Float, val z: Float, val placed: Boolean)
+private class SetLua(val x: Float, val y: Float, val z: Float, val rotDeg: Float)
+private class SetStep(val label: String, val hint: String, val pieces: List<SetPiece>, val arrows: List<Pair<FloatArray, FloatArray>>, val lua: List<SetLua>)
+
+/** Pasos del manual del set, tal como los genera scripts/build-ar-set-models.py. */
+private class SetModel(val steps: List<SetStep>, val luaParts: List<SetPiece>) {
+    companion object {
+        private fun f(a: JSONArray, i: Int) = a.optDouble(i, 0.0).toFloat()
+        private fun piece(o: JSONObject): SetPiece {
+            val c = o.optJSONArray("rgb") ?: JSONArray()
+            val p = o.optJSONArray("p") ?: JSONArray()
+            return SetPiece(o.optString("m"), f(c, 0), f(c, 1), f(c, 2), f(p, 0), f(p, 1), f(p, 2), o.optBoolean("placed"))
+        }
+        private fun vec(a: JSONArray) = floatArrayOf(f(a, 0), f(a, 1), f(a, 2))
+        fun parse(o: JSONObject): SetModel {
+            val st = o.optJSONArray("steps") ?: JSONArray()
+            val lp = o.optJSONArray("luaParts") ?: JSONArray()
+            return SetModel(
+                steps = (0 until st.length()).map { i ->
+                    val s = st.getJSONObject(i)
+                    val pcs = s.optJSONArray("pieces") ?: JSONArray()
+                    val ars = s.optJSONArray("arrows") ?: JSONArray()
+                    val lus = s.optJSONArray("lua") ?: JSONArray()
+                    SetStep(
+                        label = s.optString("label"),
+                        hint = s.optString("hint"),
+                        pieces = (0 until pcs.length()).map { piece(pcs.getJSONObject(it)) },
+                        arrows = (0 until ars.length()).map { k -> val a = ars.getJSONArray(k); vec(a.getJSONArray(0)) to vec(a.getJSONArray(1)) },
+                        lua = (0 until lus.length()).map { k ->
+                            val l = lus.getJSONObject(k); val p = l.optJSONArray("p") ?: JSONArray()
+                            SetLua(f(p, 0), f(p, 1), f(p, 2), l.optDouble("r", 0.0).toFloat())
+                        },
+                    )
+                },
+                luaParts = (0 until lp.length()).map { piece(lp.getJSONObject(it)) },
             )
         }
     }
@@ -331,6 +426,7 @@ private class SceneShape(
     val w: Float,
     val d: Float,
     val r: Float,
+    val y: Float,
     val text: String,
     val after: String?,
     val last: Set<String>,
@@ -356,6 +452,7 @@ private class SceneShape(
                 w = o.optDouble("w", 0.0).toFloat(),
                 d = o.optDouble("d", 0.0).toFloat(),
                 r = o.optDouble("r", 0.0).toFloat(),
+                y = o.optDouble("y", 0.0).toFloat(),
                 text = o.optString("text"),
                 after = if (o.has("after")) o.optString("after") else null,
                 last = (0 until l.length()).map { l.getString(it) }.toSet(),
@@ -377,6 +474,10 @@ private fun SceneOverlay(
     lastEvent: String?,
     anchored: Boolean,
     tableSeen: Boolean,
+    step: Int,
+    modelShown: Boolean,
+    onStep: (Int) -> Unit,
+    onToggleModel: () -> Unit,
     onTap: (Offset) -> Unit,
     onEvent: (String) -> Unit,
     onReplace: () -> Unit,
@@ -398,13 +499,27 @@ private fun SceneOverlay(
         Canvas(Modifier.fillMaxSize()) {
             val t = tick / 1_000_000_000.0
             val snap = snapshot() ?: return@Canvas
-            spec.shapes.filter { it.visible(confirmed, lastEvent) }.forEach { drawShape(it, snap, t, labelPaint) }
+            val steps = spec.model?.steps ?: emptyList()
+            val playing = step >= steps.size
+            // Montando: las flechas del manual, que dicen por dónde baja cada pieza.
+            if (!playing && modelShown) {
+                steps[step].arrows.forEach { (a, b) ->
+                    val pa = snap.project(a[0], a[2], size.width, size.height, a[1]) ?: return@forEach
+                    val pb = snap.project(b[0], b[2], size.width, size.height, b[1]) ?: return@forEach
+                    drawArrow(pa, pb, AMBER)
+                }
+            }
+            // Jugando: lo invisible (luz, ondas, aire) sobre las piezas.
+            if (playing) spec.shapes.filter { it.visible(confirmed, lastEvent) }.forEach { drawShape(it, snap, t, labelPaint) }
         }
 
         // Arriba: terminar y recolocar.
         Row(Modifier.align(Alignment.TopStart).padding(16.dp)) {
             Chip(spec.closeLabel, onClose)
             if (anchored && spec.replaceLabel.isNotEmpty()) { Spacer(Modifier.width(10.dp)); Chip(spec.replaceLabel, onReplace) }
+            if (anchored && spec.model != null && spec.hideLabel.isNotEmpty()) {
+                Spacer(Modifier.width(10.dp)); Chip(if (modelShown) spec.hideLabel else spec.showLabel, onToggleModel)
+            }
         }
         if (spec.title.isNotEmpty()) {
             BasicText(
@@ -422,16 +537,28 @@ private fun SceneOverlay(
                 .background(INK.copy(alpha = 0.82f)).padding(horizontal = 14.dp, vertical = 10.dp),
         ) {
             val current = spec.events.firstOrNull { it.id == lastEvent }
+            val steps = spec.model?.steps ?: emptyList()
+            val playing = step >= steps.size
             val hint = when {
                 !anchored && !tableSeen -> spec.searchHint
                 !anchored -> spec.placeHint
+                !playing -> steps[step].hint
                 current != null -> current.prompt + (if (current.face.isNotEmpty()) "   ·   ${spec.luaPrefix}${current.face}" else "")
                 else -> spec.events.firstOrNull()?.prompt ?: ""
             }
             BasicText(hint, style = TextStyle(color = Color.White, fontSize = 16.sp))
             if (anchored) {
                 Spacer(Modifier.width(1.dp).padding(top = 8.dp))
-                Row(Modifier.horizontalScroll(rememberScrollState()).padding(top = 8.dp)) {
+                if (steps.isNotEmpty()) {
+                    Row(Modifier.horizontalScroll(rememberScrollState()).padding(top = 8.dp)) {
+                        steps.forEachIndexed { i, s ->
+                            Chip(s.label, { onStep(i) }, selected = step == i)
+                            Spacer(Modifier.width(10.dp))
+                        }
+                        Chip(spec.playLabel, { onStep(steps.size) }, selected = playing)
+                    }
+                }
+                if (playing) Row(Modifier.horizontalScroll(rememberScrollState()).padding(top = 8.dp)) {
                     spec.events.forEach { e ->
                         val done = e.id in confirmed
                         Chip(if (done) "${e.label} ✓" else e.label, { onEvent(e.id) })
@@ -444,15 +571,24 @@ private fun SceneOverlay(
 }
 
 @Composable
-private fun Chip(label: String, onClick: () -> Unit) {
+private fun Chip(label: String, onClick: () -> Unit, selected: Boolean = false) {
     BasicText(
         label,
         style = TextStyle(color = INK, fontSize = 16.sp),
         modifier = Modifier
-            .background(Color.White, RoundedCornerShape(14.dp))
+            .background(if (selected) TURQ else Color.White, RoundedCornerShape(14.dp))
             .clickable(onClick = onClick)
             .padding(horizontal = 16.dp, vertical = 12.dp),
     )
+}
+
+private fun DrawScope.drawArrow(a: Offset, b: Offset, color: Color) {
+    drawLine(color, a, b, strokeWidth = 10f)
+    val ang = atan2((b.y - a.y).toDouble(), (b.x - a.x).toDouble())
+    for (side in listOf(-0.5, 0.5)) {
+        val p = Offset((b.x - 34f * cos(ang + side)).toFloat(), (b.y - 34f * sin(ang + side)).toFloat())
+        drawLine(color, b, p, strokeWidth = 10f)
+    }
 }
 
 private fun DrawScope.drawShape(s: SceneShape, snap: ProjectionSnapshot, t: Double, labelPaint: Paint) {
@@ -463,13 +599,13 @@ private fun DrawScope.drawShape(s: SceneShape, snap: ProjectionSnapshot, t: Doub
     when (s.kind) {
         "tile" -> {
             val (x, z) = s.pts.firstOrNull() ?: return
-            val corners = listOf(x to z, x + s.w to z, x + s.w to z + s.d, x to z + s.d).map { snap.project(it.first, it.second, w, h) ?: return }
+            val corners = listOf(x to z, x + s.w to z, x + s.w to z + s.d, x to z + s.d).map { snap.project(it.first, it.second, w, h, s.y) ?: return }
             val path = Path().apply { moveTo(corners[0].x, corners[0].y); corners.drop(1).forEach { lineTo(it.x, it.y) }; close() }
             if (s.style == "piece") drawPath(path, PIECE_FILL)
             if (s.style == "light") drawPath(path, TURQ.copy(alpha = 0.28f))
             drawPath(path, color, style = Stroke(width = 5f, pathEffect = dashed))
             if (s.text.isNotEmpty()) {
-                val c = snap.project(x + s.w / 2, z + s.d + 0.02f, w, h) ?: return
+                val c = snap.project(x + s.w / 2, z + s.d + 0.02f, w, h, s.y) ?: return
                 drawContext.canvas.nativeCanvas.drawText(s.text, c.x, c.y, labelPaint)
             }
         }
@@ -481,7 +617,7 @@ private fun DrawScope.drawShape(s: SceneShape, snap: ProjectionSnapshot, t: Doub
                 val rr = s.r * (1f + grow * 1.6f)
                 val pts = (0..32).map { i ->
                     val a = i / 32.0 * 2 * Math.PI
-                    snap.project(x + rr * cos(a).toFloat(), z + rr * sin(a).toFloat(), w, h) ?: return
+                    snap.project(x + rr * cos(a).toFloat(), z + rr * sin(a).toFloat(), w, h, s.y) ?: return
                 }
                 val path = Path().apply { moveTo(pts[0].x, pts[0].y); pts.drop(1).forEach { lineTo(it.x, it.y) }; close() }
                 val alpha = if (s.kind == "rings") (1f - grow) else 1f
@@ -489,12 +625,12 @@ private fun DrawScope.drawShape(s: SceneShape, snap: ProjectionSnapshot, t: Doub
                 drawPath(path, color.copy(alpha = alpha), style = Stroke(width = 5f, pathEffect = dashed))
             }
             if (s.text.isNotEmpty()) {
-                val c = snap.project(x, z + s.r + 0.025f, w, h) ?: return
+                val c = snap.project(x, z + s.r + 0.025f, w, h, s.y) ?: return
                 drawContext.canvas.nativeCanvas.drawText(s.text, c.x, c.y, labelPaint)
             }
         }
         "line", "flow" -> {
-            val pts = s.pts.map { snap.project(it.first, it.second, w, h) ?: return }
+            val pts = s.pts.map { snap.project(it.first, it.second, w, h, s.y) ?: return }
             if (pts.size < 2) return
             val path = Path().apply { moveTo(pts[0].x, pts[0].y); pts.drop(1).forEach { lineTo(it.x, it.y) } }
             val effect = if (s.kind == "flow") PathEffect.dashPathEffect(floatArrayOf(36f, 22f), (-(t * 120.0) % 58.0).toFloat()) else dashed
@@ -502,8 +638,8 @@ private fun DrawScope.drawShape(s: SceneShape, snap: ProjectionSnapshot, t: Doub
         }
         "arrow" -> {
             if (s.pts.size < 2) return
-            val a = snap.project(s.pts[0].first, s.pts[0].second, w, h) ?: return
-            val b = snap.project(s.pts[1].first, s.pts[1].second, w, h) ?: return
+            val a = snap.project(s.pts[0].first, s.pts[0].second, w, h, s.y) ?: return
+            val b = snap.project(s.pts[1].first, s.pts[1].second, w, h, s.y) ?: return
             drawLine(color, a, b, strokeWidth = 10f)
             val ang = atan2((b.y - a.y).toDouble(), (b.x - a.x).toDouble())
             val head = 34f
@@ -514,7 +650,7 @@ private fun DrawScope.drawShape(s: SceneShape, snap: ProjectionSnapshot, t: Doub
         }
         "label" -> {
             val (x, z) = s.pts.firstOrNull() ?: return
-            val c = snap.project(x, z, w, h) ?: return
+            val c = snap.project(x, z, w, h, s.y) ?: return
             drawContext.canvas.nativeCanvas.drawText(s.text, c.x, c.y, labelPaint)
         }
     }

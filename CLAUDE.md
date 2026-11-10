@@ -18,6 +18,19 @@ protocolos que no pidió, y al entrar en la app vio los ejercicios viejos.
 lo haré a como dé lugar sin gastar más. Lo pendiente está en
 [`docs/PENDIENTE-REFACTORIZACION-AR.md`](docs/PENDIENTE-REFACTORIZACION-AR.md).
 
+# ███ REGLA R27 · SE PARTE DE LO QUE YA EXISTE (Frank, 10/11/2026) ███
+
+**Antes de diseñar o dibujar nada se hace inventario de lo que ya existe y se usa eso.**
+Los sets, sus piezas, los pasos de sus manuales y el muñeco de Lúa están dibujados en
+`lua-construye` y `lua-firmware`. Inventar geometría, posiciones o dibujos que ya existen
+está prohibido. `scripts/inventario-activos.js` se inyecta en cada mensaje (hook
+`errores-prompt.js`) y `scripts/check-frank-errors.js` corta el push si la RA deja de
+usar las piezas reales.
+
+Coste real (2-10/11/2026): la RA de los sets se programó con contornos planos inventados,
+sin abrir `lua-construye`. Frank pagó varias entregas que hubo que tirar. La RA de los sets
+es con **cámara trasera**, las piezas reales en 3D y el modelo de los sets de RA de LEGO.
+
 # ███ NO QUEDA NADA FUERA ███
 
 # **TODO, TODO, ABSOLUTAMENTE TODO SE HACE. DE ARRIBA ABAJO. CON EL PRESUPUESTO QUE HAY.**

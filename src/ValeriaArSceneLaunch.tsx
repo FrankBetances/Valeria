@@ -53,6 +53,12 @@ export const ArSceneLaunch: React.FC<{
       closeLabel: t.ar.sceneClose,
       replaceLabel: t.ar.sceneReplace,
       luaPrefix: t.ar.sceneLua,
+      playLabel: t.ar.scenePlay,
+      hideLabel: t.ar.sceneHide,
+      showLabel: t.ar.sceneShow,
+      stepLabel: t.ar.sceneStep,
+      stepHint: t.ar.sceneStepHint,
+      luaHint: t.ar.sceneLuaHint,
     }, events.map((ev) => ({
       id: ev.id,
       label: ev.title[lang],

@@ -10,11 +10,9 @@ import { ScreenHeader } from './ui/ScreenHeader';
 import { ListRow } from './ui/ListRow';
 import { V } from './valeriaTheme';
 import { getUiLang } from './valeriaUiLang';
-import { isArAvailable } from './valeriaArBridge';
 import type { BlockIconName } from './ValeriaBlockIcons';
 import { FONT } from './ui/fonts';
 import { STEAM_WORLDS } from './steam/worlds';
-import { LUA_SOLO_ACTIVITIES } from './steam/luaSolo';
 import { AR_TAP_ACTIVITIES } from './steam/arActivities';
 import type { SteamArMode, SteamWorldId } from './steam/types';
 
@@ -27,14 +25,12 @@ const WORLD_ICON: Record<SteamWorldId, BlockIconName> = {
 const SET_ORDER = ['S0', 'S1', 'S2', 'S3', 'S4', 'S5', 'S6', 'S8', 'S9', 'S10', 'S11'] as const;
 
 /** Total de actividades del catálogo: lo usa la tarjeta del hub. */
-export const AR_CATALOG_COUNT = LUA_SOLO_ACTIVITIES.length
-  + AR_TAP_ACTIVITIES.filter((x) => x.group === 'LUA').length
+export const AR_CATALOG_COUNT = AR_TAP_ACTIVITIES.filter((x) => x.group === 'LUA').length
   + SET_ORDER.length * 2;
 
 export const ValeriaArCatalogScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
   const t = useT();
   const lang = getUiLang();
-  const camera = isArAvailable();
   let row = 0;
 
   const setRows = (mode: SteamArMode) => SET_ORDER.map((id) => {
@@ -58,13 +54,9 @@ export const ValeriaArCatalogScreen: React.FC<{ navigation: any }> = ({ navigati
         icon="ar" title={t.hub.arTitle} subtitle={t.ar.catSub} />
       <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
         <Text style={[s.section, { marginTop: 0 }]}>{t.ar.catLuaSolo}</Text>
-        {LUA_SOLO_ACTIVITIES.map((act) => (
-          <ListRow key={act.id} index={row++} icon="lua" dim={!camera}
-            title={act.title[lang]}
-            subtitle={`${act.summary[lang]}\n${camera ? t.ar.catCamera : t.ar.catCameraOff} · ${t.steam.luaSoloAges(act.ages)}`}
-            accessibilityLabel={t.ar.catRowA11y(act.title[lang])}
-            onPress={camera ? () => navigation.navigate('ArLauncher', { luaSolo: act.id }) : undefined} />
-        ))}
+        {/* Las dos actividades de cámara FRONTAL (L01 y L07) ya no se ofrecen aquí
+            (Frank, 10/11/2026): la RA se juega con la cámara trasera y los sets, y su
+            Prueba de Aptitud cerraba el paso en teléfonos capaces. El código sigue. */}
         {AR_TAP_ACTIVITIES.filter((x) => x.group === 'LUA').map((act) => (
           <ListRow key={act.id} index={row++} icon="lua"
             title={act.title[lang]}
