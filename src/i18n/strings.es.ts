@@ -1973,6 +1973,7 @@ export const ES = {
       `Metrónomo visual: ${bpm} pulsos por minuto, ${beats} pulsos por verso.`,
 
     songPlayTrack: 'Reproducir canción',
+    songSingNote: 'Lúa no canta: la cantas tú. Es una canción tradicional que seguramente ya conoces; cántala a tu manera y a tu ritmo.',
     songMotorInstructions: 'Instrucciones de movimiento',
     songPraxiasTitle: 'Praxias y articulación',
 

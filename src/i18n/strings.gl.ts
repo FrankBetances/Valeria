@@ -1945,6 +1945,7 @@ export const GL: UiStrings = {
       `Metrónomo visual: ${bpm} pulsos por minuto, ${beats} pulsos por verso.`,
 
     songPlayTrack: 'Reproducir a canción',
+    songSingNote: 'Lúa non canta: cántala ti. É unha canción tradicional que seguramente xa coñeces; cántaa á túa maneira e ao teu ritmo.',
     songMotorInstructions: 'Instrucións de movemento',
     songPraxiasTitle: 'Praxias e articulación',
 

@@ -62,9 +62,7 @@ export function enumerateLuaAdventureSpeech(loc: string = 'es'): LuaSpokenLine[]
   for (const c of luaSongsFor(loc)) {
     add(c.title, 'lua/cancion/titulo');
     add(c.consigna, 'lua/cancion/consigna');
-    // Verso a verso, no la letra entera concatenada: la pantalla la reproduce
-    // con speakToChildSeq para que cada verso resuelva su propio asset.
-    for (const v of c.lyrics) add(v, 'lua/cancion/verso');
+    // Los versos NO se locutan desde 11/2026: la canción la canta el adulto.
     for (const e of c.interactiveTask.elements ?? []) add(e, 'lua/cancion/elemento');
   }
 

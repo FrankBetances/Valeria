@@ -1902,6 +1902,7 @@ export const EN: UiStrings = {
       `Visual metronome: ${bpm} beats per minute, ${beats} beats per line.`,
 
     songPlayTrack: 'Play song',
+    songSingNote: 'Lúa does not sing: you do. It is a traditional song you probably know; sing it your own way and at your own pace.',
     songMotorInstructions: 'Movement instructions',
     songPraxiasTitle: 'Oral motor praxias',
 

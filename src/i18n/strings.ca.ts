@@ -1860,6 +1860,7 @@ export const CA: UiStrings = {
       `Metrònom visual: ${bpm} polsos per minut, ${beats} polsos per vers.`,
 
     songPlayTrack: 'Reproduir cançó',
+    songSingNote: 'La Lúa no canta: la cantes tu. És una cançó tradicional que segurament ja coneixes; canta-la a la teva manera i al teu ritme.',
     songMotorInstructions: 'Instruccions de moviment',
     songPraxiasTitle: 'Pràxies i articulació',
 

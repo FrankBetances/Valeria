@@ -52,57 +52,10 @@ export const LuaSongPlayerScreen: React.FC<Props> = ({ navigation, route }) => {
   // exacto es CUÁNDO entra cada verso, no cómo se dibuja el punto. `beat` es el
   // pulso absoluto desde el arranque; de ahí salen el compás (verso en curso) y
   // la posición dentro del compás (el punto encendido).
-  const [beat, setBeat] = useState<number | null>(null);
-  const tick = useRef<ReturnType<typeof setInterval> | null>(null);
-
-  const rhythm = song?.rhythm;
-  const lineOfBeat = rhythm && beat !== null ? Math.floor(beat / rhythm.beatsPerLine) : null;
-  const beatInBar = rhythm && beat !== null ? beat % rhythm.beatsPerLine : null;
-  const reciting = beat !== null;
-
-  const stopRhythm = useCallback(() => {
-    if (tick.current) { clearInterval(tick.current); tick.current = null; }
-    setBeat(null);
-  }, []);
-
-  // Al desmontar: el intervalo se corta SIEMPRE. Un metrónomo vivo tras salir
-  // de la pantalla es el mismo defecto que el desfile del premio sin cancelar
-  // (CLAUDE.md §5b), y aquí además seguiría hablando.
-  useEffect(() => () => { if (tick.current) clearInterval(tick.current); }, []);
-
-  // Verso a verso, no la letra concatenada. Encadenada en una sola cadena, la
-  // combinación no existe en el corpus y toda la canción caía a la voz del
-  // sistema; troceada, cada verso resuelve su propio asset neuronal.
   const handleFinish = useCallback(async () => {
     setFinished(true);
     await luaCompleteActivity(song.lyrics.length);
   }, []);
-
-  const handlePlaySong = useCallback(() => {
-    if (!song) return;
-    setIsPlaying(true);
-    speakLuaToChildSeq(song.lyrics, { onDone: () => setIsPlaying(false) });
-  }, [song]);
-
-  const handleStartRhythm = useCallback(() => {
-    if (!song || !rhythm) return;
-    stopRhythm();
-    const total = song.lyrics.length * rhythm.beatsPerLine;
-    let n = 0;
-    // Primer verso YA, en el pulso 0: si se esperase al primer tick, el niño
-    // vería un compás mudo antes de oír nada.
-    speakLuaToChild(song.lyrics[0]);
-    setBeat(0);
-    tick.current = setInterval(() => {
-      n += 1;
-      if (n >= total) { stopRhythm(); return; }
-      setBeat(n);
-      // Entrada de verso: solo en el primer pulso de cada compás.
-      if (n % rhythm.beatsPerLine === 0) {
-        speakLuaToChild(song.lyrics[n / rhythm.beatsPerLine]);
-      }
-    }, 60000 / rhythm.bpm);
-  }, [song, rhythm, stopRhythm]);
 
   const handleTapElement = (element: string) => {
     setTappedElements((prev) => ({ ...prev, [element]: true }));
@@ -143,40 +96,11 @@ export const LuaSongPlayerScreen: React.FC<Props> = ({ navigation, route }) => {
             <Text style={s.audioSongName}>{song.title}</Text>
             <Text style={s.audioSongDesc}>{song.consigna}</Text>
           </View>
-          <Pressable
-            onPress={handlePlaySong}
-            style={s.playBtn}
-            accessibilityRole="button"
-            accessibilityLabel={t.luaHub.songPlayTrack}
-          >
-            <BlockIcon name="speaker" color="#FFFFFF" size={24} />
-          </Pressable>
         </View>
 
-        {/* Recitado rítmico con metrónomo visual */}
+        {/* ACOPROS (11/2026): la app ya no recita ni canta. Canta el adulto. */}
         <View style={s.rhythmCard}>
-          <View style={s.lyricsHeader}>
-            <BlockIcon name="timer" color={LUA_COLORS.coralDark} size={20} />
-            <Text style={s.rhythmHeading}>{t.luaHub.rhythmTitle}</Text>
-          </View>
-          <Text style={s.rhythmHint}>{t.luaHub.rhythmHint}</Text>
-          <LuaRhythmBar
-            beats={song.rhythm.beatsPerLine}
-            accentEvery={song.rhythm.accentEvery}
-            current={beatInBar}
-            tempoLabel={t.luaHub.rhythmTempo(song.rhythm.bpm)}
-            a11yLabel={t.luaHub.rhythmA11y(song.rhythm.bpm, song.rhythm.beatsPerLine)}
-          />
-          <Pressable
-            onPress={reciting ? stopRhythm : handleStartRhythm}
-            style={[s.rhythmBtn, reciting && s.rhythmBtnOn]}
-            accessibilityRole="button"
-            accessibilityLabel={reciting ? t.luaHub.rhythmStop : t.luaHub.rhythmStart}
-          >
-            <Text style={s.rhythmBtnTxt}>
-              {reciting ? t.luaHub.rhythmStop : t.luaHub.rhythmStart}
-            </Text>
-          </Pressable>
+          <Text style={s.rhythmHint}>{t.luaHub.songSingNote}</Text>
         </View>
 
         {/* Tarjeta de letra con ritmo */}
@@ -188,7 +112,7 @@ export const LuaSongPlayerScreen: React.FC<Props> = ({ navigation, route }) => {
           {song.lyrics.map((line, idx) => (
             <Text
               key={idx}
-              style={[s.lyricLine, lineOfBeat === idx && s.lyricLineOn]}
+              style={s.lyricLine}
             >
               {line}
             </Text>

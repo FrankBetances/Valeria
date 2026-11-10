@@ -45,6 +45,11 @@ const checks = [
       && /earSteps/.test(read('src/ValeriaAcademy/HipoacusiaBottomSheet.tsx'))
       && !/Canciones y Praxias/.test(read('src/i18n/strings.es.ts'));
   }],
+  ['R28 ACOPROS: la app no recita las canciones y cada cuento tiene una sola pregunta', () => {
+    const st = read('src/AventurasLua/Catalog/LuaStoriesCatalog.ts');
+    return !/speakLuaToChildSeq\(song\.lyrics/.test(read('src/AventurasLua/Screens/LuaSongPlayerScreen.tsx'))
+      && (st.match(/\n        question: /g) || []).length === 10;
+  }],
 ];
 let bad = 0;
 for (const [name, fn] of checks) {
