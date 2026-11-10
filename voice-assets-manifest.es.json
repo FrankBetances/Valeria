@@ -2,9 +2,9 @@
  "lang": "es",
  "voice": "Sharvard (femenina) \u00b7 rhasspy/piper-voices",
  "peakDbfs": -3.0,
- "entries": 1409,
- "totalBytes": 21571573,
- "totalSeconds": 3884.4,
+ "entries": 1413,
+ "totalBytes": 21603993,
+ "totalSeconds": 3889.8,
  "files": [
   {
    "id": "child_6299d0bf_39",
@@ -8005,10 +8005,28 @@
    "bytes": 8440
   },
   {
-   "id": "child_03970e2c_57",
-   "file": "child_03970e2c_57.m4a",
-   "seconds": 3.44,
-   "bytes": 18827
+   "id": "child_89380337_87",
+   "file": "child_89380337_87.m4a",
+   "seconds": 4.81,
+   "bytes": 25813
+  },
+  {
+   "id": "child_850dddb3_12",
+   "file": "child_850dddb3_12.m4a",
+   "seconds": 0.89,
+   "bytes": 5919
+  },
+  {
+   "id": "child_fc9dc25b_6",
+   "file": "child_fc9dc25b_6.m4a",
+   "seconds": 0.38,
+   "bytes": 3235
+  },
+  {
+   "id": "child_c6a81f63_6",
+   "file": "child_c6a81f63_6.m4a",
+   "seconds": 0.34,
+   "bytes": 2873
   },
   {
    "id": "child_3c41e24a_11",
@@ -8017,10 +8035,16 @@
    "bytes": 4668
   },
   {
-   "id": "child_efdc7859_38",
-   "file": "child_efdc7859_38.m4a",
-   "seconds": 2.24,
-   "bytes": 12768
+   "id": "child_ab37acfd_65",
+   "file": "child_ab37acfd_65.m4a",
+   "seconds": 4.12,
+   "bytes": 22325
+  },
+  {
+   "id": "child_cce62f42_5",
+   "file": "child_cce62f42_5.m4a",
+   "seconds": 0.52,
+   "bytes": 3850
   },
   {
    "id": "child_6af791cd_19",
@@ -8033,12 +8057,6 @@
    "file": "child_c04ffe04_41.m4a",
    "seconds": 2.57,
    "bytes": 14434
-  },
-  {
-   "id": "child_b68f92d4_6",
-   "file": "child_b68f92d4_6.m4a",
-   "seconds": 0.52,
-   "bytes": 4001
   },
   {
    "id": "child_d318e908_13",
@@ -8261,6 +8279,12 @@
    "file": "child_96e8029d_44.m4a",
    "seconds": 2.77,
    "bytes": 15421
+  },
+  {
+   "id": "child_b68f92d4_6",
+   "file": "child_b68f92d4_6.m4a",
+   "seconds": 0.52,
+   "bytes": 4001
   },
   {
    "id": "child_b45aef8c_3",
