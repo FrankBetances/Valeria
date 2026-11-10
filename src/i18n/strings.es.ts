@@ -1716,7 +1716,9 @@ export const ES = {
     // SVG y por eso están CENTRADOS: anclados a la izquierda, el inglés (más
     // largo) se salía del viewBox de 200.
     schema: {
-      earA11y: 'Esquema del oído: pabellón, conducto auditivo, tímpano y cóclea.',
+      earA11y: 'Esquema del oído con el recorrido del sonido en cinco pasos: oreja, conducto, tímpano, huesecillos y cóclea, y el nervio hacia el cerebro.',
+      earBrain: 'Cerebro',
+      earSteps: ['La oreja recoge el sonido.', 'El sonido viaja por el conducto.', 'El tímpano vibra.', 'Tres huesecillos pasan la vibración.', 'La cóclea la convierte en señal; el nervio la lleva al cerebro.'] as readonly string[],
       earOuter: 'Externo',
       earMiddle: 'Medio',
       earCochlea: 'Cóclea',
@@ -1923,8 +1925,8 @@ export const ES = {
     secStoriesTitle: 'Cuentos con Lúa',
     secStoriesSub: '10 historias ilustradas con comprensión, vocabulario clave y dibujo libre.',
     secStoriesBadge: (n: number): string => `${n} cuentos`,
-    secSongsTitle: 'Canciones y Praxias',
-    secSongsSub: '10 canciones con pausas activas, ritmo y patrones motores orofaciales.',
+    secSongsTitle: 'Otras actividades',
+    secSongsSub: '10 canciones y juegos de ritmo y movimiento, con pausas activas.',
     secSongsBadge: (n: number): string => `${n} canciones`,
 
     evalProgress: (curr: number, total: number): string => `Ejercicio ${curr} de ${total}`,

@@ -100,8 +100,8 @@ export const LUA_STORIES_CATALOG: LuaStory[] = [
       },
     ],
     newWords: [
-      { word: 'Gallina',
-      pic: 'gallina', definition: 'Ave con plumas que pone huevos y cuida a sus pollitos.' },
+      { word: 'Pollito',
+      pic: 'pollito', definition: 'La cría de la gallina: pequeño, amarillo y dice ¡pío, pío!' },
       { word: 'Sol',
       pic: 'sol', definition: 'La estrella brillante que nos da calor y luz en el día.' },
       { word: 'Casa',

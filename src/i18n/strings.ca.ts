@@ -1615,7 +1615,9 @@ export const CA: UiStrings = {
     expressiveLang: 'Llenguatge Expressiu (Producció / Parla)',
 
     schema: {
-      earA11y: 'Esquema de l\'oïda: pavelló auricular, conducte auditiu, timpà i còclea.',
+      earA11y: 'Esquema de l’orella amb el recorregut del so en cinc passos: orella, conducte, timpà, ossets i còclea, i el nervi cap al cervell.',
+      earBrain: 'Cervell',
+      earSteps: ['L’orella recull el so.', 'El so viatja pel conducte.', 'El timpà vibra.', 'Tres ossets passen la vibració.', 'La còclea la converteix en senyal; el nervi la porta al cervell.'] as readonly string[],
       earOuter: 'Extern',
       earMiddle: 'Mitjà',
       earCochlea: 'Còclea',
@@ -1813,8 +1815,8 @@ export const CA: UiStrings = {
     secStoriesTitle: 'Contes amb la Lúa',
     secStoriesSub: '10 històries il·lustrades amb comprensió, vocabulari clau i dibuix lliure.',
     secStoriesBadge: (n: number): string => `${n} contes`,
-    secSongsTitle: 'Cançons i Pràxies',
-    secSongsSub: '10 cançons amb pauses actives, ritme i patrons motors orofacials.',
+    secSongsTitle: 'Altres activitats',
+    secSongsSub: '10 cançons i jocs de ritme i moviment, amb pauses actives.',
     secSongsBadge: (n: number): string => `${n} cançons`,
 
     evalProgress: (curr: number, total: number): string => `Exercici ${curr} de ${total}`,

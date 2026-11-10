@@ -1655,7 +1655,9 @@ export const EN: UiStrings = {
     expressiveLang: 'Expressive Language (Production / Speech)',
 
     schema: {
-      earA11y: 'Diagram of the ear: pinna, ear canal, eardrum and cochlea.',
+      earA11y: 'Diagram of the ear with the path of sound in five steps: outer ear, canal, eardrum, ossicles and cochlea, and the nerve to the brain.',
+      earBrain: 'Brain',
+      earSteps: ['The outer ear collects the sound.', 'The sound travels along the canal.', 'The eardrum vibrates.', 'Three tiny bones pass the vibration on.', 'The cochlea turns it into a signal; the nerve carries it to the brain.'] as readonly string[],
       earOuter: 'Outer',
       earMiddle: 'Middle',
       earCochlea: 'Cochlea',
@@ -1855,8 +1857,8 @@ export const EN: UiStrings = {
     secStoriesTitle: 'Stories with Lúa',
     secStoriesSub: '10 illustrated stories with reading comprehension, key vocabulary and free drawing.',
     secStoriesBadge: (n: number): string => `${n} stories`,
-    secSongsTitle: 'Songs and Praxias',
-    secSongsSub: '10 songs with active movement breaks, rhythm and oral-motor practice.',
+    secSongsTitle: 'Other activities',
+    secSongsSub: '10 songs and rhythm-and-movement games, with active breaks.',
     secSongsBadge: (n: number): string => `${n} songs`,
 
     evalProgress: (curr: number, total: number): string => `Exercise ${curr} of ${total}`,

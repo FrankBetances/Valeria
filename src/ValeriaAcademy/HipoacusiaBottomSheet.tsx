@@ -85,8 +85,13 @@ export const HipoacusiaBottomSheet: React.FC<{
             {axis === 'conceptos' ? (
               <>
                 <View style={s.schemaCard}>
-                  <EarAnatomySvg size={190} accent={ACCENT} />
-                  <Text style={s.schemaCaption}>{t.academy.earAnatomyCaption}</Text>
+                  <Text style={s.earTitle}>{t.academy.earAnatomyCaption}</Text>
+                  <EarAnatomySvg size={300} accent={ACCENT} />
+                  <View style={s.earSteps}>
+                    {t.academy.schema.earSteps.map((step, i) => (
+                      <Text key={i} style={s.earStep}><Text style={s.earStepN}>{i + 1}.  </Text>{step}</Text>
+                    ))}
+                  </View>
                 </View>
                 {concepts.map((u) => (
                   <GuideCard key={u.id} unit={u} done={isCapsuleDone(u.id)} accent={ACCENT} accentBg={ACCENT_BG} onSeen={markSeen} />
@@ -188,6 +193,10 @@ const s = StyleSheet.create({
   scroll: { paddingTop: 14, paddingBottom: 20 },
   schemaCard: { backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.border, borderRadius: 18, paddingVertical: 16, paddingHorizontal: 12, alignItems: 'center', marginBottom: 14, ...V.shadow.card },
   schemaCaption: { fontFamily: FONT.bodyBold,fontSize: 12.5, color: V.color.textSecondary, textAlign: 'center', marginTop: 8, lineHeight: 17 },
+  earTitle: { fontFamily: FONT.bodyBlack, fontSize: 15, color: V.color.textPrimary, textAlign: 'center', marginBottom: 8, lineHeight: 20 },
+  earSteps: { alignSelf: 'stretch', marginTop: 10, paddingHorizontal: 6 },
+  earStep: { fontFamily: FONT.bodyBold, fontSize: 14, lineHeight: 21, color: V.color.textPrimary, marginBottom: 3 },
+  earStepN: { fontFamily: FONT.bodyBlack, color: '#1f6fb2' },
   deviceLabel: { fontFamily: FONT.bodyBlack,fontSize: 16, color: V.color.textPrimary, marginTop: 6 },
 
   deviceTabs: { flexDirection: 'row', gap: 8, marginBottom: 14 },

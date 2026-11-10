@@ -38,6 +38,13 @@ const checks = [
   ['R26 ninguna pieza inventada: las escenas no dibujan siluetas de piezas a mano', () => !/'piece'\s*[,)]/.test(read('src/steam/arScenes.ts').split('export const AR_SCENES')[1].split('export interface')[0])],
   ['R26 el catálogo de RA no pasa por la prueba de cámara frontal', () => !/ArLauncher/.test(read('src/ValeriaArCatalogScreen.tsx'))],
   ['R27 el inventario de activos se inyecta en cada mensaje', () => /inventario-activos\.js/.test(read('.claude/hooks/errores-prompt.js')) && fs.existsSync('scripts/inventario-activos.js')],
+  ['R28 ACOPROS: Academy no llama terapeuta a la familia, remite al logopeda y las praxias citan la evidencia', () => {
+    const c = read('src/ValeriaAcademy/academyContent.ts');
+    return !/ya eres terapeuta/i.test(c) && /Pregunta a tu logopeda/.test(c) && /Cochrane 2015/.test(c)
+      && /Lengua de Signos Española \(LSE\)/.test(read('src/ValeriaAcademy/academyDomains.ts'))
+      && /earSteps/.test(read('src/ValeriaAcademy/HipoacusiaBottomSheet.tsx'))
+      && !/Canciones y Praxias/.test(read('src/i18n/strings.es.ts'));
+  }],
 ];
 let bad = 0;
 for (const [name, fn] of checks) {

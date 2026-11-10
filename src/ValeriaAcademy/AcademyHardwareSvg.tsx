@@ -28,31 +28,50 @@ const MUTED = '#5f6b6b';     // trazo secundario / anotación
 const FILL = '#eef4f8';      // relleno suave
 
 // --- Anatomía del oído ------------------------------------------------------
-// Oído externo (pabellón + conducto), tímpano y cóclea en espiral.
+// El recorrido del sonido, en cinco pasos numerados: oreja, conducto, tímpano,
+// huesecillos y cóclea, y de ahí por el nervio al cerebro. Pedido por las
+// logopedas de ACOPROS (11/2026): el esquema anterior no enseñaba el camino.
+const STEP_AT: readonly (readonly [number, number])[] = [[52, 44], [112, 86], [150, 70], [186, 86], [238, 62]];
+
 export const EarAnatomySvg: React.FC<SchemaProps> = ({ size = 200, accent = '#1f6fb2' }) => {
   const t = useT();
   return (
-  <Svg width={size} height={size} viewBox="0 0 200 200" accessibilityRole="image"
+  <Svg width={size} height={size * 0.72} viewBox="0 0 320 230" accessibilityRole="image"
     accessibilityLabel={t.academy.schema.earA11y}>
-    {/* Pabellón auricular (oído externo) */}
-    <Path d="M58 40 C30 46 26 96 44 120 C52 132 50 150 66 158"
+    {/* Onda sonora que llega */}
+    <Path d="M22 96 q-9 12 0 24 M12 88 q-15 20 0 40" stroke={MUTED} strokeWidth={3} fill="none" strokeLinecap="round" />
+    {/* 1 · Oreja (pabellón) */}
+    <Path d="M70 52 C36 58 30 116 50 144 C60 158 58 176 78 184"
       stroke={INK} strokeWidth={5} fill={FILL} strokeLinecap="round" strokeLinejoin="round" />
-    <Path d="M60 62 C48 68 48 100 62 112" stroke={MUTED} strokeWidth={3} fill="none" strokeLinecap="round" />
-    {/* Conducto auditivo */}
-    <Line x1="66" y1="100" x2="120" y2="100" stroke={INK} strokeWidth={5} strokeLinecap="round" />
-    <Line x1="66" y1="112" x2="120" y2="112" stroke={INK} strokeWidth={5} strokeLinecap="round" />
-    {/* Tímpano */}
-    <Line x1="122" y1="92" x2="122" y2="120" stroke={accent} strokeWidth={6} strokeLinecap="round" />
-    {/* Cóclea (espiral) */}
-    <Path d="M158 98 a12 12 0 1 1 -12 -1 a7 7 0 1 1 8 1 a3 3 0 1 1 -3 -1"
-      stroke={accent} strokeWidth={4} fill="none" strokeLinecap="round" strokeLinejoin="round" />
-    <Circle cx="151" cy="102" r="2.5" fill={accent} />
-    {/* Onda sonora entrando */}
-    <Path d="M30 92 q-8 8 0 16 M22 88 q-12 12 0 24" stroke={MUTED} strokeWidth={3} fill="none" strokeLinecap="round" />
-    {/* Anotaciones */}
-    <SvgText x="62" y="182" textAnchor="middle" fontSize="11" fontWeight="700" fill={MUTED}>{t.academy.schema.earOuter}</SvgText>
-    <SvgText x="120" y="182" textAnchor="middle" fontSize="11" fontWeight="700" fill={MUTED}>{t.academy.schema.earMiddle}</SvgText>
-    <SvgText x="168" y="182" textAnchor="middle" fontSize="11" fontWeight="700" fill={accent}>{t.academy.schema.earCochlea}</SvgText>
+    <Path d="M72 78 C58 86 58 122 74 134" stroke={MUTED} strokeWidth={3} fill="none" strokeLinecap="round" />
+    {/* 2 · Conducto auditivo */}
+    <Line x1="78" y1="110" x2="146" y2="110" stroke={INK} strokeWidth={5} strokeLinecap="round" />
+    <Line x1="78" y1="126" x2="146" y2="126" stroke={INK} strokeWidth={5} strokeLinecap="round" />
+    <Path d="M92 118 h34 m-8 -6 l8 6 l-8 6" stroke={accent} strokeWidth={3} fill="none" strokeLinecap="round" strokeLinejoin="round" />
+    {/* 3 · Tímpano */}
+    <Line x1="150" y1="98" x2="150" y2="138" stroke={accent} strokeWidth={7} strokeLinecap="round" />
+    {/* 4 · Huesecillos: martillo, yunque y estribo */}
+    <Path d="M154 116 L170 106 L176 120 L190 114 M190 108 v14" stroke={INK} strokeWidth={4} fill="none" strokeLinecap="round" strokeLinejoin="round" />
+    <Circle cx="170" cy="106" r="4" fill={INK} />
+    <Circle cx="176" cy="120" r="4" fill={INK} />
+    {/* 5 · Cóclea (caracol) */}
+    <Path d="M236 116 a22 22 0 1 1 -22 -2 a14 14 0 1 1 15 2 a7 7 0 1 1 -7 -2"
+      stroke={accent} strokeWidth={5} fill={FILL} strokeLinecap="round" strokeLinejoin="round" />
+    <Line x1="194" y1="116" x2="210" y2="116" stroke={accent} strokeWidth={3} strokeLinecap="round" />
+    {/* Nervio auditivo hacia el cerebro */}
+    <Path d="M250 128 C272 140 284 150 300 150 m-9 -7 l9 7 l-9 7" stroke={accent} strokeWidth={4} fill="none" strokeLinecap="round" strokeLinejoin="round" />
+    <SvgText x="286" y="176" textAnchor="middle" fontSize="12" fontWeight="700" fill={accent}>{t.academy.schema.earBrain}</SvgText>
+    {/* Números del recorrido */}
+    {STEP_AT.map(([x, y], i) => (
+      <React.Fragment key={i}>
+        <Circle cx={x} cy={y} r="11" fill={accent} />
+        <SvgText x={x} y={y + 4.5} textAnchor="middle" fontSize="13" fontWeight="700" fill="#ffffff">{String(i + 1)}</SvgText>
+      </React.Fragment>
+    ))}
+    {/* Las tres partes del oído */}
+    <SvgText x="68" y="212" textAnchor="middle" fontSize="12" fontWeight="700" fill={MUTED}>{t.academy.schema.earOuter}</SvgText>
+    <SvgText x="166" y="212" textAnchor="middle" fontSize="12" fontWeight="700" fill={MUTED}>{t.academy.schema.earMiddle}</SvgText>
+    <SvgText x="234" y="212" textAnchor="middle" fontSize="12" fontWeight="700" fill={accent}>{t.academy.schema.earCochlea}</SvgText>
   </Svg>
   );
 };

@@ -1696,7 +1696,9 @@ export const GL: UiStrings = {
     // por iso están CENTRADOS: ancorados á esquerda, o inglés (máis longo) saía
     // do viewBox de 200.
     schema: {
-      earA11y: 'Esquema do oído: pavillón, conduto auditivo, tímpano e cóclea.',
+      earA11y: 'Esquema do oído co percorrido do son en cinco pasos: orella, conduto, tímpano, ósos pequenos e cóclea, e o nervio cara ao cerebro.',
+      earBrain: 'Cerebro',
+      earSteps: ['A orella recolle o son.', 'O son viaxa polo conduto.', 'O tímpano vibra.', 'Tres ósos pequenos pasan a vibración.', 'A cóclea convértea en sinal; o nervio lévaa ao cerebro.'] as readonly string[],
       earOuter: 'Externo',
       earMiddle: 'Medio',
       earCochlea: 'Cóclea',
@@ -1898,8 +1900,8 @@ export const GL: UiStrings = {
     secStoriesTitle: 'Contos con Lúa',
     secStoriesSub: '10 historias ilustradas con comprensión, vocabulario clave e debuxo libre.',
     secStoriesBadge: (n: number): string => `${n} contos`,
-    secSongsTitle: 'Cancións e Praxias',
-    secSongsSub: '10 cancións con pausas activas, ritmo e patróns motores orofaciais.',
+    secSongsTitle: 'Outras actividades',
+    secSongsSub: '10 cancións e xogos de ritmo e movemento, con pausas activas.',
     secSongsBadge: (n: number): string => `${n} cancións`,
 
     evalProgress: (curr: number, total: number): string => `Exercicio ${curr} de ${total}`,
