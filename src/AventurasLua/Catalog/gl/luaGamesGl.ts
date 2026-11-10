@@ -143,19 +143,20 @@ export const LUA_GAMES_GL: Record<string, LuaGameOverride> = {
   },
   lua_game_11: {
     title: 'Caixa de sons máxica',
-    subtitle: 'Dous sons moi distintos',
-    instructions: 'Toca o debuxo e escoita o seu son. Cal soa distinto?',
+    subtitle: 'Cada animal, o seu son',
+    instructions: 'Toca cada animal e escoita como soa. Despois pregunta: quen fai «guau»? E «muuu»?',
     items: [
-      { pic: 'perro', label: 'Can' }, { pic: 'gallina', label: 'Galiña' },
+      { pic: 'perro', label: 'Guau, guau!' }, { pic: 'gato', label: 'Miau!' },
+      { pic: 'vaca', label: 'Muuu!' },
     ],
   },
   lua_game_12: {
     title: 'Quen son?',
     subtitle: 'Imaxe e palabra, vocabulario básico',
-    instructions: 'Toca o debuxo e di o seu nome comigo.',
+    instructions: 'Toca o debuxo e escoita o seu nome. Se quere, dicímolo xuntos.',
     items: [
-      { pic: 'gato', label: 'Gato' }, { pic: 'pato', label: 'Pato' },
-      { pic: 'vaca', label: 'Vaca' }, { pic: 'sapo', label: 'Sapo' },
+      { pic: 'gato', label: 'Gato' }, { pic: 'perro', label: 'Can' },
+      { pic: 'vaca', label: 'Vaca' }, { pic: 'oveja', label: 'Ovella' },
     ],
   },
   lua_game_13: {
@@ -163,7 +164,7 @@ export const LUA_GAMES_GL: Record<string, LuaGameOverride> = {
     subtitle: 'Dúas opcións grandes e claras',
     instructions: 'Dígoche unha palabra e ti tocas o seu debuxo.',
     items: [
-      { pic: 'pelota', label: 'Pelota' }, { pic: 'manzana', label: 'Mazá' },
+      { pic: 'gato', label: 'Gato' }, { pic: 'vaca', label: 'Vaca' },
     ],
   },
   lua_game_14: {

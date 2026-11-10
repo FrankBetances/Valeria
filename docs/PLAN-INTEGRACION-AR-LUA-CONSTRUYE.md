@@ -202,7 +202,7 @@ WordPrompter`. Todo menos el primer eslabón y la capa de revelación ya está e
 | L02 | ¿Hacia dónde mira Lúa? | A (placa-marcador del cubo) | `#16` → `#10` | Bloqueada por D2 y por la placa-marcador |
 | L03 | La merienda del pez dorado | A en la ficha del pez, proximidad por pose del marcador | `#20` → `#22` → **`#12` gratitud** (`AFFECT 2`) | Bloqueada por D2; los 60 mm pasan a `[Por validar]` |
 | L05 | La caricia y el ronroneo | C (mano) + `HAPTIC RONRONEO` nivel 1 en el cubo | `#21` | Bloqueada por la mano y por el firmware del cubo; ≥ 3 años |
-| ~~L06~~ | ~~¿Dónde cantó el pajarito?~~ | — | — | **Retirada.** Reutilizaba `Ar2Vra.kt` (VRA digitalizado) con el perfil `hearing_ic`: se puede leer como cribado auditivo en una app no SaMD (R-A1) y se solapa con VIA+ (Clase IIa). Se reabre solo con una revisión regulatoria escrita |
+| ~~L06~~ | ~~¿Dónde cantó el pajarito?~~ | — | — | **Eliminada por Frank el 9/11/2026.** No vuelve. Reutilizaba `Ar2Vra.kt` (VRA digitalizado) con el perfil `hearing_ic`: se puede leer como cribado auditivo en una app no SaMD (R-A1) y se solapa con VIA+ (Clase IIa). Se reabre solo con una revisión regulatoria escrita |
 
 **Límite comprobado (2/11/2026):** el módulo nativo no emite eventos durante la sesión; `launchAr` solo devuelve el resultado al cerrar. La Lúa física cambia de cara **al empezar y al terminar**, nunca a mitad del gesto (`#2` de L01 no sale). Decidido por Frank: así, sin canal de eventos Kotlin→JS. Tampoco entran en Solo Lúa AR-2 (VRA, L06 retirada) ni AR-5 (la criatura desliza el dedo por la pantalla); lo sujeta `check-steam-ar-needs.js`.
 

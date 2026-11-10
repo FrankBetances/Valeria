@@ -97,7 +97,7 @@ export const DOMAIN_META_ES: Record<AcademyDomain, AcademyDomainMeta> = {
   },
   signos: {
     id: 'signos',
-    label: 'Lengua de Signos (LSE)',
+    label: 'Lengua de Signos Española (LSE)',
     short: 'LSE',
     icon: 'gesture',
     accentBg: '#efe9fd',
@@ -321,7 +321,7 @@ export const DOMAIN_META_GL: Record<AcademyDomain, AcademyDomainMeta> = {
   },
   signos: {
     id: 'signos',
-    label: 'Lingua de Signos (LSE)',
+    label: 'Lingua de Signos Española (LSE)',
     short: 'LSE',
     icon: 'gesture',
     accentBg: '#efe9fd',

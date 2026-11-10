@@ -61,7 +61,7 @@ export const LUA_STORIES_GL: Record<string, LuaStoryOverride> = {
       },
     },
     newWords: [
-      { word: 'Galiña', definition: 'Ave con plumas que pon ovos e coida os seus pitiños.' },
+      { word: 'Pitiño', definition: 'A cría da galiña: pequeno, amarelo e di pío, pío!' },
       { word: 'Sol', definition: 'A estrela brillante que nos dá calor e luz durante o día.' },
       { word: 'Casa', definition: 'Lugar seguro e acolledor onde descansamos en familia.' },
     ],

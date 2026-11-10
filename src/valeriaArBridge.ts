@@ -121,6 +121,11 @@ export interface ArDeviceProfile {
    * es lo que permite tirar esas filas del dataset del piloto después.
    */
   review?: boolean;
+  /**
+   * `true` si el adulto SALTÓ el calentamiento: nivel C provisional, «no
+   * medido». Nunca se cachea ni se toma como medida del aparato (9/11/2026).
+   */
+  provisional?: boolean;
 }
 
 /** Campos comunes a todo ensayo de AR, sea del ejercicio que sea. */
@@ -264,7 +269,11 @@ export type ArFailureReason =
   | 'CAMERA_BUSY'
   | 'INSTALL_PENDING'
   | 'UNKNOWN'
-  | 'DENIED';
+  | 'DENIED'
+  /** La espera superó los 60 s y se liberó (9/11/2026). */
+  | 'TIMEOUT'
+  /** El adulto pulsó «Saltar calentamiento» sobre la medición. */
+  | 'SKIPPED';
 
 /**
  * Resultado de la Prueba de Aptitud, como UNIÓN DISCRIMINADA.
@@ -300,6 +309,13 @@ interface ArNativeModule {
   openDiagnostics: () => Promise<unknown>;
   /** Modo Revisión. Devuelve el perfil sintético que acaba de instalar. */
   installReviewProfile?: () => Promise<unknown>;
+  /** Calentamiento saltado: perfil C provisional, «no medido». */
+  installProvisionalProfile?: () => Promise<unknown>;
+  /** Libera una espera del nativo que no va a volver. */
+  cancelPending?: () => Promise<unknown>;
+  setAptitudeSkipLabel?: (label: string) => void;
+  /** Escena de un set sobre la mesa (cámara trasera). */
+  openScene?: (specJson: string) => Promise<unknown>;
 }
 
 let Native: ArNativeModule | null = null;
@@ -353,6 +369,14 @@ export function isArAvailable(): boolean {
  * teléfono en un despliegue BYOD: si no se puede saber qué hardware habrá, se
  * mide el que haya.
  */
+/** Tope de la espera de la Prueba de Aptitud: 25 s de medida + reintentos de instalación + margen. */
+export const APTITUDE_WAIT_MS = 60_000;
+
+/** Texto del botón «Saltar calentamiento» de la medición nativa, en el idioma de la interfaz. */
+export function setArAptitudeSkipLabel(label: string): void {
+  try { Native?.setAptitudeSkipLabel?.(label); } catch (e) { /* sin texto propio, el nativo usa el suyo */ }
+}
+
 export async function runAptitudeTest(): Promise<ArAptitudeOutcome> {
   const failed = (
     reason: ArFailureReason | null,
@@ -362,10 +386,27 @@ export async function runAptitudeTest(): Promise<ArAptitudeOutcome> {
 
   if (!Native) return failed(null);
   let raw: unknown;
+  // Hasta el 9/11/2026 esta espera no tenía tope: si el resultado del nativo no
+  // volvía, la pantalla de carga se quedaba para siempre. Ahora, a los 60 s se
+  // libera la espera del nativo y se devuelve TIMEOUT.
+  let timer: ReturnType<typeof setTimeout> | null = null;
+  const TIMED_OUT = Symbol('timeout');
   try {
-    raw = await Native.runAptitudeTest();
+    raw = await Promise.race([
+      Native.runAptitudeTest(),
+      new Promise((resolve) => { timer = setTimeout(() => resolve(TIMED_OUT), APTITUDE_WAIT_MS); }),
+    ]);
   } catch (e) {
     return failed(null);
+  } finally {
+    if (timer) clearTimeout(timer);
+  }
+  if (raw === TIMED_OUT) {
+    try { await Native.cancelPending?.(); } catch (e) { /* nada que liberar */ }
+    return failed('TIMEOUT');
+  }
+  if (raw && typeof raw === 'object' && (raw as Record<string, unknown>).outcome === 'skipped') {
+    return failed('SKIPPED');
   }
 
   // Validación de FORMA, no de veracidad del puente. Un perfil sin `level` no
@@ -438,6 +479,62 @@ export async function openArDiagnostics(): Promise<boolean> {
  * No arregla nada roto: si la cámara o el rastreo fallan, el ejercicio se abre
  * y no mide.
  */
+/** Calentamiento saltado: instala en el nativo el perfil C provisional, «no medido». */
+export async function installArProvisionalProfile(): Promise<ArDeviceProfile | null> {
+  if (!Native || typeof Native.installProvisionalProfile !== 'function') return null;
+  try {
+    const raw = await Native.installProvisionalProfile();
+    if (raw && typeof raw === 'object' && typeof (raw as ArDeviceProfile).level === 'string') {
+      return raw as ArDeviceProfile;
+    }
+    return null;
+  } catch (e) {
+    return null;
+  }
+}
+
+export interface ArSceneResult {
+  outcome: 'completed' | 'aborted' | 'unsupported' | 'denied' | 'unavailable';
+  confirmed: string[];
+  reason?: string;
+}
+
+/** ¿Este host sabe abrir escenas de los sets? (APK anterior al 9/11/2026: no). */
+export function canOpenArScene(): boolean {
+  return !!Native && typeof Native.openScene === 'function';
+}
+
+/**
+ * Abre la escena del set sobre la mesa. Cada evento que confirma el adulto llega
+ * en vivo a `onEvent` (para la cara de Lúa) y la promesa trae la lista al cerrar.
+ */
+export async function openArScene(specJson: string, onEvent: (eventId: string) => void): Promise<ArSceneResult> {
+  if (!Native || typeof Native.openScene !== 'function') return { outcome: 'unavailable', confirmed: [] };
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const { DeviceEventEmitter } = require('react-native');
+  const sub = DeviceEventEmitter.addListener('ValeriaArSceneEvent', (e: { eventId?: string }) => {
+    if (e && typeof e.eventId === 'string') onEvent(e.eventId);
+  });
+  try {
+    const raw = (await Native.openScene(specJson)) as Partial<ArSceneResult> | null;
+    const outcome = raw?.outcome ?? 'aborted';
+    return {
+      outcome: outcome as ArSceneResult['outcome'],
+      confirmed: Array.isArray(raw?.confirmed) ? raw!.confirmed.filter((x): x is string => typeof x === 'string') : [],
+      ...(raw?.reason ? { reason: String(raw.reason) } : {}),
+    };
+  } catch (e) {
+    return { outcome: 'aborted', confirmed: [] };
+  } finally {
+    sub.remove();
+  }
+}
+
+/** Libera una espera colgada del nativo (al saltar desde la pantalla de carga). */
+export async function cancelArPending(): Promise<void> {
+  try { await Native?.cancelPending?.(); } catch (e) { /* nada que liberar */ }
+}
+
 export async function installArReviewProfile(): Promise<ArDeviceProfile | null> {
   if (!Native || typeof Native.installReviewProfile !== 'function') return null;
   try {

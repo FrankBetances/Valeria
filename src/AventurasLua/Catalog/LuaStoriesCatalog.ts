@@ -68,26 +68,7 @@ export const LUA_STORIES_CATALOG: LuaStory[] = [
       'Coco y mamá están juntos y muy felices.',
     ],
     comprehensionQuestions: [
-      {
-        id: 'story_01_q1',
-        question: '¿Qué animalito es Coco?',
-        options: [
-          { id: 'opt_pollito', text: 'Un pollito amarillo', pic: 'pollito', isCorrect: true },
-          { id: 'opt_perrito', text: 'Un perrito', pic: 'perro', isCorrect: false },
-          { id: 'opt_gatico', text: 'Un gatico', pic: 'gato', isCorrect: false },
-        ],
-        hint: 'Coco tiene plumitas y es de color amarillo.',
-      },
-      {
-        id: 'story_01_q2',
-        question: '¿Qué sonido hace Coco cuando camina?',
-        options: [
-          { id: 'opt_pio', text: '¡Pío, pío!', pic: 'pollito', isCorrect: true },
-          { id: 'opt_muu', text: '¡Muu, muu!', pic: 'vaca', isCorrect: false },
-          { id: 'opt_guau', text: '¡Guau, guau!', pic: 'perro', isCorrect: false },
-        ],
-        hint: 'Los pollitos pequeños dicen ¡pío, pío!',
-      },
+      // Una sola pregunta por cuento (ACOPROS, 11/2026): tres eran demasiadas.
       {
         id: 'story_01_q3',
         question: '¿A quién encontró Coco al final?',
@@ -100,8 +81,8 @@ export const LUA_STORIES_CATALOG: LuaStory[] = [
       },
     ],
     newWords: [
-      { word: 'Gallina',
-      pic: 'gallina', definition: 'Ave con plumas que pone huevos y cuida a sus pollitos.' },
+      { word: 'Pollito',
+      pic: 'pollito', definition: 'La cría de la gallina: pequeño, amarillo y dice ¡pío, pío!' },
       { word: 'Sol',
       pic: 'sol', definition: 'La estrella brillante que nos da calor y luz en el día.' },
       { word: 'Casa',
@@ -123,26 +104,7 @@ export const LUA_STORIES_CATALOG: LuaStory[] = [
       'Desde ese día, Mimi y Toby juegan juntos con la pelota todas las tardes.',
     ],
     comprehensionQuestions: [
-      {
-        id: 'story_02_q1',
-        question: '¿De qué color es la pelota de Mimi?',
-        options: [
-          { id: 'opt_azul', text: 'Azul', pic: 'color-azul', isCorrect: true },
-          { id: 'opt_roja', text: 'Roja', pic: 'color-rojo', isCorrect: false },
-          { id: 'opt_amarilla', text: 'Amarilla', pic: 'color-amarillo', isCorrect: false },
-        ],
-        hint: 'La pelota rueda por el patio y es como el color del cielo.',
-      },
-      {
-        id: 'story_02_q2',
-        question: '¿Quién encontró la pelota?',
-        options: [
-          { id: 'opt_toby', text: 'Toby, el perrito nuevo', pic: 'perro', isCorrect: true },
-          { id: 'opt_pato', text: 'Un pato blanco', pic: 'pato', isCorrect: false },
-          { id: 'opt_rana', text: 'Una ranita verde', pic: 'sapo', isCorrect: false },
-        ],
-        hint: 'Un perrito amigable que movía la colita.',
-      },
+      // Una sola pregunta por cuento (ACOPROS, 11/2026): tres eran demasiadas.
       {
         id: 'story_02_q3',
         question: '¿Qué hacen Mimi y Toby todas las tardes?',
@@ -179,26 +141,7 @@ export const LUA_STORIES_CATALOG: LuaStory[] = [
       'Al atardecer, Ana le dio un abrazo a su abuelo por un día tan divertido.',
     ],
     comprehensionQuestions: [
-      {
-        id: 'story_03_q1',
-        question: '¿A dónde fue de visita Ana?',
-        options: [
-          { id: 'opt_granja', text: 'A la granja de su abuelo', pic: 'vaca', isCorrect: true },
-          { id: 'opt_playa', text: 'A la playa a nadar', pic: 'ola', isCorrect: false },
-          { id: 'opt_escuela', text: 'A la escuela a pintar', pic: 'casa', isCorrect: false },
-        ],
-        hint: 'Fue al campo donde hay vacas, gallinas y perros.',
-      },
-      {
-        id: 'story_03_q2',
-        question: '¿Qué sonido hace la vaca grande?',
-        options: [
-          { id: 'opt_muuu', text: '¡Muuu, muuu!', pic: 'vaca', isCorrect: true },
-          { id: 'opt_miau', text: '¡Miau, miau!', pic: 'gato', isCorrect: false },
-          { id: 'opt_kikiriki', text: '¡Kikirikí!', pic: 'gallina', isCorrect: false },
-        ],
-        hint: 'Juntamos los labios y decimos ¡muuu!',
-      },
+      // Una sola pregunta por cuento (ACOPROS, 11/2026): tres eran demasiadas.
       {
         id: 'story_03_q3',
         question: '¿Cómo saludó Ana a los animalitos de la granja?',
@@ -235,26 +178,7 @@ export const LUA_STORIES_CATALOG: LuaStory[] = [
       'Las mariposas y las abejas llegaron a bailar entre sus ramas, y el arbolito se sintió lleno de orgullo.',
     ],
     comprehensionQuestions: [
-      {
-        id: 'story_04_q1',
-        question: '¿Dónde crecía el arbolito pequeño?',
-        options: [
-          { id: 'opt_patio', text: 'En el patio de la escuela', isCorrect: true },
-          { id: 'opt_maceta', text: 'En una maceta dentro de casa', isCorrect: false },
-          { id: 'opt_orilla', text: 'A la orilla del mar', isCorrect: false },
-        ],
-        hint: 'Crecía al aire libre donde los niños jugaban en el recreo.',
-      },
-      {
-        id: 'story_04_q2',
-        question: '¿Qué ayudó al arbolito a crecer fuerte?',
-        options: [
-          { id: 'opt_sol_lluvia', text: 'El calor del sol y el agua de la lluvia', isCorrect: true },
-          { id: 'opt_nieve', text: 'El viento frío y la nieve', isCorrect: false },
-          { id: 'opt_sombra', text: 'La oscuridad de la noche', isCorrect: false },
-        ],
-        hint: 'Las plantas necesitan agua fresca y luz del sol.',
-      },
+      // Una sola pregunta por cuento (ACOPROS, 11/2026): tres eran demasiadas.
       {
         id: 'story_04_q3',
         question: '¿Quiénes visitaron al arbolito cuando floreció?',
@@ -289,26 +213,7 @@ export const LUA_STORIES_CATALOG: LuaStory[] = [
       'Toda la familia se sentó en la mesa a compartir la merienda y a contarse historias divertidas.',
     ],
     comprehensionQuestions: [
-      {
-        id: 'story_05_q1',
-        question: '¿A dónde fue Mía acompañada de su abuela?',
-        options: [
-          { id: 'opt_mercado', text: 'Al mercado a comprar frutas', isCorrect: true },
-          { id: 'opt_parque', text: 'Al parque a columpiarse', isCorrect: false },
-          { id: 'opt_cine', text: 'Al cine a ver una película', isCorrect: false },
-        ],
-        hint: 'Fueron al lugar donde venden manzanas, uvas y fresas.',
-      },
-      {
-        id: 'story_05_q2',
-        question: 'Nombra dos frutas que escogió Mía en el mercado:',
-        options: [
-          { id: 'opt_frutas_correctas', text: 'Manzana y fresas (o uvas)', isCorrect: true },
-          { id: 'opt_comida_rapida', text: 'Papas fritas y refresco', isCorrect: false },
-          { id: 'opt_verduras', text: 'Zanahoria y cebolla', isCorrect: false },
-        ],
-        hint: 'Una roja y redonda, y otras moradas en racimo.',
-      },
+      // Una sola pregunta por cuento (ACOPROS, 11/2026): tres eran demasiadas.
       {
         id: 'story_05_q3',
         question: '¿Qué hizo toda la familia al final de la tarde?',
@@ -344,26 +249,7 @@ export const LUA_STORIES_CATALOG: LuaStory[] = [
       'Sofía tomó una fotografía con su familia para recordar ese día tan bonito frente al mar.',
     ],
     comprehensionQuestions: [
-      {
-        id: 'story_06_q1',
-        question: '¿Qué construyó la familia de Sofía en la orilla?',
-        options: [
-          { id: 'opt_casita_arena', text: 'Una casita de arena', isCorrect: true },
-          { id: 'opt_barco_madera', text: 'Un barco de madera flotante', isCorrect: false },
-          { id: 'opt_puente_piedra', text: 'Un puente de piedras', isCorrect: false },
-        ],
-        hint: 'Usaron arena húmeda y baldecitos para moldearla.',
-      },
-      {
-        id: 'story_06_q2',
-        question: '¿Con qué decoró Sofía las paredes de la casita?',
-        options: [
-          { id: 'opt_conchas', text: 'Con conchitas marinas de colores', isCorrect: true },
-          { id: 'opt_hojas_secas', text: 'Con hojas secas de pino', isCorrect: false },
-          { id: 'opt_pintura', text: 'Con pintura de témpera', isCorrect: false },
-        ],
-        hint: 'Tesoros que encontró paseando junto a las olas.',
-      },
+      // Una sola pregunta por cuento (ACOPROS, 11/2026): tres eran demasiadas.
       {
         id: 'story_06_q3',
         question: '¿De qué color se pintó el cielo al caer la tarde?',
@@ -399,26 +285,7 @@ export const LUA_STORIES_CATALOG: LuaStory[] = [
       'Desde ese día, los tres se reúnen todas las mañanas para nadar y explorar juntos el mar.',
     ],
     comprehensionQuestions: [
-      {
-        id: 'story_07_q1',
-        question: '¿De qué color eran las aletas del pececito Nemi?',
-        options: [
-          { id: 'opt_pez_azul', text: 'Azul brillante', isCorrect: true },
-          { id: 'opt_pez_rojo', text: 'Rojo oscuro', isCorrect: false },
-          { id: 'opt_pez_verde', text: 'Verde rayado', isCorrect: false },
-        ],
-        hint: 'Un color brillante como el agua limpia del mar.',
-      },
-      {
-        id: 'story_07_q2',
-        question: '¿A quiénes conoció Nemi entre las rocas?',
-        options: [
-          { id: 'opt_estrella_cangrejo', text: 'A una estrella de mar y a un cangrejito', isCorrect: true },
-          { id: 'opt_tiburon', text: 'A un tiburón grande', isCorrect: false },
-          { id: 'opt_gaviota', text: 'A una gaviota que volaba', isCorrect: false },
-        ],
-        hint: 'Dos animalitos marinos que viven en el fondo del arrecife.',
-      },
+      // Una sola pregunta por cuento (ACOPROS, 11/2026): tres eran demasiadas.
       {
         id: 'story_07_q3',
         question: '¿A qué jugaban los tres amigos?',
@@ -454,26 +321,7 @@ export const LUA_STORIES_CATALOG: LuaStory[] = [
       'Antes de entrar a descansar, Iván cerró los ojos y pidió un deseo mirando a la estrella más resplandeciente.',
     ],
     comprehensionQuestions: [
-      {
-        id: 'story_08_q1',
-        question: '¿Quién acompañó a Iván a mirar las estrellas?',
-        options: [
-          { id: 'opt_abuelo_ivan', text: 'Su abuelo', isCorrect: true },
-          { id: 'opt_maestro', text: 'Su maestro de la escuela', isCorrect: false },
-          { id: 'opt_vecino', text: 'Un vecino desconocido', isCorrect: false },
-        ],
-        hint: 'Una persona mayor de su familia que le contó hermosas historias.',
-      },
-      {
-        id: 'story_08_q2',
-        question: '¿De qué conversaron mientras miraban la noche?',
-        options: [
-          { id: 'opt_universo', text: 'Sobre lo grande que es el universo y las historias de la luna', isCorrect: true },
-          { id: 'opt_tareas', text: 'Sobre las tareas de matemáticas', isCorrect: false },
-          { id: 'opt_autobuses', text: 'Sobre los horarios de los trenes', isCorrect: false },
-        ],
-        hint: 'Hablaron del cielo, las estrellas y lo afortunados que se sentían.',
-      },
+      // Una sola pregunta por cuento (ACOPROS, 11/2026): tres eran demasiadas.
       {
         id: 'story_08_q3',
         question: '¿Qué hizo Iván antes de entrar a dormir?',
@@ -509,26 +357,7 @@ export const LUA_STORIES_CATALOG: LuaStory[] = [
       'Toda la comunidad celebró el "Día de las Mariposas", orgullosos de lo que habían logrado trabajando en equipo.',
     ],
     comprehensionQuestions: [
-      {
-        id: 'story_09_q1',
-        question: '¿Qué propuso la maestra de Valentina a la clase?',
-        options: [
-          { id: 'opt_jardin_mariposas', text: 'Sembrar flores para crear un jardín de mariposas', isCorrect: true },
-          { id: 'opt_construir_piscina', text: 'Construir una piscina grande', isCorrect: false },
-          { id: 'opt_pintar_coches', text: 'Pintar coches de carreras', isCorrect: false },
-        ],
-        hint: 'Una actividad de naturaleza para cuidar plantas y atraer polinizadores.',
-      },
-      {
-        id: 'story_09_q2',
-        question: '¿Qué hicieron los estudiantes durante varias semanas?',
-        options: [
-          { id: 'opt_regar_cuidar', text: 'Regaron las plantas con paciencia y esperaron su crecimiento', isCorrect: true },
-          { id: 'opt_olvidaron', text: 'Se olvidaron de las semillas', isCorrect: false },
-          { id: 'opt_arrancaron', text: 'Arrancaron las hojas verdes', isCorrect: false },
-        ],
-        hint: 'Cuidaron las semillas con agua y dedicación diaria.',
-      },
+      // Una sola pregunta por cuento (ACOPROS, 11/2026): tres eran demasiadas.
       {
         id: 'story_09_q3',
         question: '¿Por qué se sintieron todos tan orgullosos al final?',
@@ -563,26 +392,7 @@ export const LUA_STORIES_CATALOG: LuaStory[] = [
       'Para celebrar, organizaron una merienda comunitaria sobre la arena limpia y acordaron reunirse una vez al mes para mantener viva la iniciativa.',
     ],
     comprehensionQuestions: [
-      {
-        id: 'story_10_q1',
-        question: '¿Qué iniciativa decidieron liderar los amigos del barrio?',
-        options: [
-          { id: 'opt_jornada_limpieza', text: 'Una jornada ecológica para limpiar la orilla de la playa', isCorrect: true },
-          { id: 'opt_torneo_futbol', text: 'Un torneo competitivo de fútbol playero', isCorrect: false },
-          { id: 'opt_vender_comida', text: 'Vender refrescos en la arena', isCorrect: false },
-        ],
-        hint: 'Una acción ciudadana para proteger la naturaleza marina.',
-      },
-      {
-        id: 'story_10_q2',
-        question: 'Además de retirar basura, ¿qué tesoros encontraron entre la arena?',
-        options: [
-          { id: 'opt_caracolas_conchas', text: 'Caracolas marinas y conchas pulidas por el mar', isCorrect: true },
-          { id: 'opt_monedas_oro', text: 'Monedas de oro enterradas', isCorrect: false },
-          { id: 'opt_juguetes_rotos', text: 'Juguetes electrónicos', isCorrect: false },
-        ],
-        hint: 'Elementos naturales del mar que guardaron con alegría como recuerdo.',
-      },
+      // Una sola pregunta por cuento (ACOPROS, 11/2026): tres eran demasiadas.
       {
         id: 'story_10_q3',
         question: '¿Qué compromiso adoptó el grupo de cara al futuro?',

@@ -48,7 +48,12 @@ import com.google.ar.core.exceptions.UnavailableUserDeclinedInstallationExceptio
  * compartidos entre hilos que ya costó una ronda de depuración no puede
  * repetirse si la única puerta de entrada es esta.
  */
-class ArCoreSession(private val activity: Activity) {
+/**
+ * @param rear `false` (por omisión): cámara frontal y malla facial, la de
+ *   siempre. `true` (9/11/2026): cámara trasera con detección de la mesa, para
+ *   las escenas de los sets (ValeriaArSceneActivity). No analiza caras.
+ */
+class ArCoreSession(private val activity: Activity, private val rear: Boolean = false) {
 
     /** Por qué el bloque no puede abrirse. Cada caso tiene su mensaje al adulto. */
     enum class Unavailable {
@@ -197,6 +202,7 @@ class ArCoreSession(private val activity: Activity) {
      * es del teléfono.
      */
     private fun configure(session: Session): Boolean {
+        if (rear) return configureRear(session)
         val filter = CameraConfigFilter(session)
             .setFacingDirection(CameraConfig.FacingDirection.FRONT)
         val configs = session.getSupportedCameraConfigs(filter)
@@ -219,6 +225,31 @@ class ArCoreSession(private val activity: Activity) {
                 // implementaba a mano y encolaba frames dentro de MediaPipe.
                 updateMode = Config.UpdateMode.LATEST_CAMERA_IMAGE
                 // La luz no se usa: es coste de cómputo por nada en gama media.
+                lightEstimationMode = Config.LightEstimationMode.DISABLED
+                focusMode = Config.FocusMode.AUTO
+            }
+        )
+        return true
+    }
+
+    /**
+     * Cámara trasera y planos horizontales: la mesa donde se ancla el escenario
+     * del set. Sin malla facial y sin análisis de imagen.
+     */
+    private fun configureRear(session: Session): Boolean {
+        val filter = CameraConfigFilter(session)
+            .setFacingDirection(CameraConfig.FacingDirection.BACK)
+        val configs = session.getSupportedCameraConfigs(filter)
+        if (configs.isEmpty()) {
+            unavailable = Unavailable.UNKNOWN
+            detail = "rearCameraConfigs=0"
+            return false
+        }
+        session.cameraConfig = configs[0]
+        session.configure(
+            Config(session).apply {
+                planeFindingMode = Config.PlaneFindingMode.HORIZONTAL
+                updateMode = Config.UpdateMode.LATEST_CAMERA_IMAGE
                 lightEstimationMode = Config.LightEstimationMode.DISABLED
                 focusMode = Config.FocusMode.AUTO
             }

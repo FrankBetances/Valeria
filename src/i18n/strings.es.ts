@@ -1478,6 +1478,10 @@ export const ES = {
   // consentimiento es parte del muro MDR, no adorno — se traduce entero o no se
   // traduce (una mezcla de idiomas aquí es un consentimiento inválido).
   ar: {
+    warmupSkip: 'Saltar calentamiento',
+    warmupSkipA11y: 'Saltar el calentamiento y empezar sin medir el teléfono',
+    warmupTimeout: 'El calentamiento no respondió en 60 segundos. Puedes repetirlo o saltarlo.',
+    provisionalNote: 'Nivel provisional: el calentamiento se saltó y este teléfono no está medido. No cuenta como medida del aparato.',
     catSub: 'Juega con los sets de Construye con Lúa, con Lúa o sin ella.',
     catLuaSolo: 'SOLO LÚA',
     catSets: 'CADA SET POR SU CUENTA',
@@ -1488,6 +1492,25 @@ export const ES = {
     catModeSolo: 'Solo el set: Lúa no hace falta.',
     catModeLua: 'Set con Lúa: Lúa reacciona a lo que pasa en la mesa.',
     catRowA11y: (title: string): string => `Abrir ${title}. Lo abre la persona adulta.`,
+    sceneKicker: 'EN LA MESA · REALIDAD AUMENTADA',
+    sceneSub: 'Cámara trasera: toca la mesa y aparecen las piezas del set a tamaño real, paso a paso como en el manual. Después se juega sobre la maqueta y cada paso lo confirmas tú.',
+    sceneOpen: 'Ver en la mesa (RA)',
+    sceneOpenA11y: (title: string): string => `Abrir ${title} en la mesa con la cámara trasera`,
+    scenePlace: 'Toca la mesa donde está el set',
+    sceneSearch: 'Mueve la tableta despacio para que encuentre la mesa',
+    sceneClose: 'Terminar',
+    sceneReplace: 'Recolocar',
+    sceneLua: 'Lúa: ',
+    sceneUnavailable: 'Esta tableta no puede abrir la escena (necesita ARCore con cámara trasera). Sigue con los botones de esta pantalla.',
+    sceneDenied: 'Sin permiso de cámara no se abre la escena. Sigue con los botones de esta pantalla.',
+    sceneDone: (n: number): string => `${n} pasos confirmados en la mesa.`,
+    scenePlay: 'Jugar',
+    sceneHide: 'Ocultar modelo',
+    sceneShow: 'Ver modelo',
+    sceneStep: (n: number): string => `Paso ${n}`,
+    sceneStepHint: (n: number, total: number, pieces: string): string => (pieces ? `Paso ${n} de ${total}: coloca ${pieces} donde flota en color. Lo gris ya está puesto.` : `Paso ${n} de ${total}: comprueba el montaje con el modelo.`),
+    sceneLuaHint: 'Pon a Lúa donde aparece su figura, mirando hacia la tableta, y pulsa Jugar.',
+    sceneStage: 'Por ahora los pasos los confirma el adulto: la cámara aún no reconoce las piezas.',
     title: 'Realidad Aumentada',
     subPreparing: 'Preparando la sesión',
     subUnsupported: 'No disponible en este dispositivo',
@@ -1693,7 +1716,9 @@ export const ES = {
     // SVG y por eso están CENTRADOS: anclados a la izquierda, el inglés (más
     // largo) se salía del viewBox de 200.
     schema: {
-      earA11y: 'Esquema del oído: pabellón, conducto auditivo, tímpano y cóclea.',
+      earA11y: 'Esquema del oído con el recorrido del sonido en cinco pasos: oreja, conducto, tímpano, huesecillos y cóclea, y el nervio hacia el cerebro.',
+      earBrain: 'Cerebro',
+      earSteps: ['La oreja recoge el sonido.', 'El sonido viaja por el conducto.', 'El tímpano vibra.', 'Tres huesecillos pasan la vibración.', 'La cóclea la convierte en señal; el nervio la lleva al cerebro.'] as readonly string[],
       earOuter: 'Externo',
       earMiddle: 'Medio',
       earCochlea: 'Cóclea',
@@ -1900,8 +1925,8 @@ export const ES = {
     secStoriesTitle: 'Cuentos con Lúa',
     secStoriesSub: '10 historias ilustradas con comprensión, vocabulario clave y dibujo libre.',
     secStoriesBadge: (n: number): string => `${n} cuentos`,
-    secSongsTitle: 'Canciones y Praxias',
-    secSongsSub: '10 canciones con pausas activas, ritmo y patrones motores orofaciales.',
+    secSongsTitle: 'Otras actividades',
+    secSongsSub: '10 canciones y juegos de ritmo y movimiento, con pausas activas.',
     secSongsBadge: (n: number): string => `${n} canciones`,
 
     evalProgress: (curr: number, total: number): string => `Ejercicio ${curr} de ${total}`,
@@ -1948,6 +1973,7 @@ export const ES = {
       `Metrónomo visual: ${bpm} pulsos por minuto, ${beats} pulsos por verso.`,
 
     songPlayTrack: 'Reproducir canción',
+    songSingNote: 'Lúa no canta: la cantas tú. Es una canción tradicional que seguramente ya conoces; cántala a tu manera y a tu ritmo.',
     songMotorInstructions: 'Instrucciones de movimiento',
     songPraxiasTitle: 'Praxias y articulación',
 

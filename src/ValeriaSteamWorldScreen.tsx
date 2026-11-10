@@ -19,6 +19,7 @@ import { isLuaLinked } from './valeriaLuaSession';
 import { FONT } from './ui/fonts';
 import { ListRow } from './ui/ListRow';
 import { AdultFold } from './ui/AdultFold';
+import { ArSceneLaunch } from './ValeriaArSceneLaunch';
 
 type TabletopRoute = WorldManifest['tabletopPracticeLinks'][number];
 
@@ -81,6 +82,10 @@ export const ValeriaSteamWorldScreen: React.FC<{ navigation: any; route: { param
               <Text style={[s.body, { marginTop: V.space.sm }]}>{isLuaLinked() ? t.steam.luaLinked : t.steam.luaMirror}</Text>
             )}
           </View>
+        )}
+        {route.params.mode && (
+          <ArSceneLaunch sceneId={world.id} title={world.title[lang]} withLua={route.params.mode === 'SET_WITH_LUA'}
+            events={world.events.map((ev) => ({ id: ev.id, title: ev.title, prompt: ev.childAction, expression: ev.reaction.expression }))} />
         )}
         <Text style={[s.section, { marginTop: 0 }]}>{t.steam.challengesKicker}</Text>
         {world.challenges.map((c, i) => (

@@ -20,6 +20,8 @@ process.stdin.on('data', (d) => (input += d)).on('end', () => {
   let rows = '';
   try { rows = fs.readFileSync(ledger, 'utf8').split('\n').filter((l) => /^\| R\d+/.test(l)).join('\n'); } catch { /* noop */ }
   console.log(`ERRORES YA SEÑALADOS POR FRANK (no se repite ninguno):\n${rows}`);
+  // R27: el inventario de lo que ya existe, en cada mensaje.
+  try { console.log('\n' + require('child_process').execSync('node scripts/inventario-activos.js', { cwd: root }).toString()); } catch { /* noop */ }
   if (complaint) {
     console.log('\nESTE MENSAJE SEÑALA UN ERROR. Obligatorio en ESTE turno, antes de cerrar: añadir una fila nueva a .claude/errores-frank.md (error, regla que lo impide y, si se puede, comprobación en scripts/check-frank-errors.js). Si ya está registrado, actualiza su fila. guard-stop bloqueará el cierre si no lo haces.');
   }

@@ -2,7 +2,7 @@
 // Actividades que se juegan con el botón del adulto mientras no hay detector
 // de piezas: L02–L05 (Solo Lúa) y S8–S11 (las cuatro maquetas de oficios).
 // L01 y L07 abren la cámara y viven en luaSolo.ts; S0–S6 son los 35 retos de
-// worlds/. L06 (VRA) queda fuera hasta que Frank decida. Nada se locuta.
+// worlds/. L06 (VRA) eliminada por Frank el 9/11/2026. Nada se locuta.
 import type { AdultText, LuaSemanticExpression, TripartiteCycle } from './types';
 import type { LuaMoodCode } from './engine/LuaLink';
 import { a } from './worlds/retos';

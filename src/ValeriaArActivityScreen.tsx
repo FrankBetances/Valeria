@@ -14,6 +14,7 @@ import { steamScreenStyles as base } from './ValeriaSteamWorldScreen';
 import { linkLua } from './steam/engine/LuaLink';
 import { arTapActivity, type ArTapEvent } from './steam/arActivities';
 import type { SteamArMode } from './steam/types';
+import { ArSceneLaunch } from './ValeriaArSceneLaunch';
 
 export const ValeriaArActivityScreen: React.FC<{ navigation: any; route: { params: { id: string; mode?: SteamArMode } } }> = ({
   navigation,
@@ -53,6 +54,9 @@ export const ValeriaArActivityScreen: React.FC<{ navigation: any; route: { param
           {withLua && <Text style={[base.body, act.group === 'SET' && s.gap]}>{linked ? t.steam.luaLinked : t.steam.luaMirror}</Text>}
           {!withLua && <Text style={[base.body, s.gap]}>{t.ar.catTap}</Text>}
         </View>
+
+        <ArSceneLaunch sceneId={act.id} title={act.title[lang]} withLua={withLua} events={act.events}
+          onEvent={(eventId, faceId) => setFace({ eventId, faceId })} />
 
         <Text style={base.section}>{t.steam.eventsKicker}</Text>
         <Text style={[base.body, s.note]}>{t.steam.eventsNote}</Text>

@@ -21,6 +21,7 @@ import android.widget.FrameLayout
 import android.view.ViewGroup
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -292,6 +293,10 @@ class ValeriaArActivity : ComponentActivity() {
                         luaTarget = luaTarget,
                         diagnostics = if (mode == MODE_DIAGNOSTICS) diagnostics else null,
                         onFling = { v, deg -> exercise?.onFling(v, deg) },
+                        // «Saltar calentamiento» sobre la medición (9/11/2026). JS pone
+                        // el nivel provisional «no medido»; aquí solo se devuelve.
+                        skipLabel = if (mode == MODE_APTITUDE) intent.getStringExtra(EXTRA_SKIP_LABEL) ?: "Saltar calentamiento" else null,
+                        onSkip = { finishWithPayload(JSONObject().put("outcome", "skipped")) },
                     )
                 }
             }
@@ -1127,6 +1132,7 @@ class ValeriaArActivity : ComponentActivity() {
         const val EXTRA_PATIENT_KEY = "valeria.ar.patientKey"
         const val EXTRA_POINTER = "valeria.ar.pointer"
         const val EXTRA_RESULT = "valeria.ar.result"
+        const val EXTRA_SKIP_LABEL = "valeria.ar.skipLabel"
 
         const val MODE_EXERCISE = "exercise"
         const val MODE_APTITUDE = "aptitude"
@@ -1204,6 +1210,8 @@ private fun ArHostScreen(
     luaTarget: PointF?,
     diagnostics: DiagnosticsState?,
     onFling: (Float, Float) -> Unit,
+    skipLabel: String? = null,
+    onSkip: () -> Unit = {},
 ) {
     Box(
         Modifier
@@ -1311,6 +1319,21 @@ private fun ArHostScreen(
                     style = TextStyle(color = Color.White.copy(alpha = 0.85f), fontSize = 13.sp),
                 )
             }
+        }
+
+        // Botón grande y visible durante toda la medición: blanco con tinta
+        // oscura (18,7:1), arriba para no tapar a Lúa ni el texto de estado.
+        skipLabel?.let { label ->
+            BasicText(
+                label,
+                style = TextStyle(color = Color(0xFF0B1220), fontSize = 17.sp),
+                modifier = Modifier
+                    .align(Alignment.TopCenter)
+                    .padding(top = 28.dp)
+                    .background(Color.White, RoundedCornerShape(16.dp))
+                    .clickable(onClick = onSkip)
+                    .padding(horizontal = 22.dp, vertical = 14.dp),
+            )
         }
     }
 }
@@ -1487,6 +1510,7 @@ object ArProfileStore {
                 // Si se pierde al releer, una sesión de Modo Revisión vuelve a
                 // parecer una sesión medida en cuanto la app se reinicia.
                 review = o.optBoolean("review", false),
+                provisional = o.optBoolean("provisional", false),
             )
         } catch (e: Throwable) {
             null

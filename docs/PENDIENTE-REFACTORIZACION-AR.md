@@ -38,12 +38,31 @@ bloquea, se dice en la primera línea y se construye todo lo demás igual, con e
   que confirma el adulto y cara de Lúa. S0–S6 abren sus cinco retos con la modalidad elegida.
 - Textos en es/en/ca/gl; gates y typecheck en verde; capturas de web. **No visto en un aparato.**
 
+## Rama `sets`, 9/11/2026 (sin merge, **no visto en Android**)
+
+- **Escenas en la mesa** (`ValeriaArSceneActivity`, cámara trasera con ARCore): botón «Ver en la mesa (RA)» en
+  S0–S6 y S8–S11 (solo y con Lúa) y en L02–L05. El adulto toca la mesa, la escena del set queda anclada
+  (`src/steam/arScenes.ts`, 15 escenas con todos sus eventos) y cada paso que confirma cambia lo que se ve y,
+  con Lúa, le manda la cara en vivo. Referencia: el boceto de S1 que validó Frank.
+- Calentamiento: límite de 60 s y «Saltar calentamiento» con nivel provisional «no medido».
+- Política de privacidad y manual al día con la cámara trasera de las escenas.
+
+## Rama `sets`, 10/11/2026: la RA usa las piezas reales (sin merge, **no visto en Android**)
+
+- Error R26/R27: las escenas del 9/11 eran contornos planos inventados. Corregido: «Ver en la mesa (RA)» dibuja
+  las **piezas reales de cada set** a escala 1:1 (79 mallas generadas de `lua-construye` y del muñeco Lúa V5 de
+  `lua-firmware` con `scripts/build-ar-set-models.py`), en los **pasos de su manual** (S0: 2; S1–S6: 3; S8–S11: la
+  maqueta entera), y después «Jugar» con los efectos sobre la maqueta.
+- El catálogo de RA ya no ofrece L01 y L07 (cámara frontal): su Prueba de Aptitud cerraba el paso. Quedan 26
+  actividades. El código sigue y se abre desde Construye con Lúa → Solo Lúa.
+
 ## Lo que sigue pendiente
 
-1. **L06** fuera del catálogo hasta que Frank decida (riesgo regulatorio del VRA).
-2. **La cámara de piezas**: hoy todo lo que no es L01/L07 lo confirma el adulto. Se conecta cuando
+1. ~~L06~~ **eliminada por Frank el 9/11/2026** (VRA: riesgo regulatorio). Manual y política de privacidad actualizados.
+2. **La cámara de piezas (etapa B)**: hoy todo lo que no es L01/L07 lo confirma el adulto, también dentro de las escenas. Se conecta cuando
    el banco D2 decida el marcador (`docs/banco-d2/`), sin rehacer las pantallas.
-3. Decisiones abiertas: renumerar IDs si gana AprilTag, `K-LOMO-G` en S0 y `tracked_object` en S3.
+3. S8–S11 solo tienen `conjunto.stl`: hasta que `lua-construye` las parta en piezas no hay pasos de montaje.
+4. Decisiones abiertas: renumerar IDs si gana AprilTag, `K-LOMO-G` en S0 y `tracked_object` en S3.
 
 ## Compromiso
 

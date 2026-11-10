@@ -1461,6 +1461,10 @@ export const GL: UiStrings = {
   // consentimento é parte do muro MDR, non adorno — tradúcese enteiro ou non se
   // traduce (unha mestura de idiomas aquí é un consentimento inválido).
   ar: {
+    warmupSkip: 'Saltar o quecemento',
+    warmupSkipA11y: 'Saltar o quecemento e comezar sen medir o teléfono',
+    warmupTimeout: 'O quecemento non respondeu en 60 segundos. Podes repetilo ou saltalo.',
+    provisionalNote: 'Nivel provisional: saltouse o quecemento e este teléfono non está medido. Non conta como medida do aparello.',
     catSub: 'Xoga cos sets de Constrúe con Lúa, con Lúa ou sen ela.',
     catLuaSolo: 'SÓ LÚA',
     catSets: 'CADA SET POR SEPARADO',
@@ -1471,6 +1475,25 @@ export const GL: UiStrings = {
     catModeSolo: 'Só o set: Lúa non fai falta.',
     catModeLua: 'Set con Lúa: Lúa reacciona ao que pasa na mesa.',
     catRowA11y: (title: string): string => `Abrir ${title}. Ábreo a persoa adulta.`,
+    sceneKicker: 'NA MESA · REALIDADE AUMENTADA',
+    sceneSub: 'Cámara traseira: toca a mesa e aparecen as pezas do set a tamaño real, paso a paso coma no manual. Despois xógase sobre a maqueta e cada paso confírmalo ti.',
+    sceneOpen: 'Ver na mesa (RA)',
+    sceneOpenA11y: (title: string): string => `Abrir ${title} na mesa coa cámara traseira`,
+    scenePlace: 'Toca a mesa onde está o set',
+    sceneSearch: 'Move a tableta amodo para que atope a mesa',
+    sceneClose: 'Rematar',
+    sceneReplace: 'Recolocar',
+    sceneLua: 'Lúa: ',
+    sceneUnavailable: 'Esta tableta non pode abrir a escena (precisa ARCore con cámara traseira). Continúa cos botóns desta pantalla.',
+    sceneDenied: 'Sen permiso de cámara a escena non se abre. Continúa cos botóns desta pantalla.',
+    sceneDone: (n: number): string => `${n} pasos confirmados na mesa.`,
+    scenePlay: 'Xogar',
+    sceneHide: 'Agochar o modelo',
+    sceneShow: 'Ver o modelo',
+    sceneStep: (n: number): string => `Paso ${n}`,
+    sceneStepHint: (n: number, total: number, pieces: string): string => (pieces ? `Paso ${n} de ${total}: coloca ${pieces} onde flota en cor. O gris xa está posto.` : `Paso ${n} de ${total}: comproba a montaxe co modelo.`),
+    sceneLuaHint: 'Pon a Lúa onde aparece a súa figura, mirando cara á tableta, e preme Xogar.',
+    sceneStage: 'Polo de agora os pasos confírmaos o adulto: a cámara aínda non recoñece as pezas.',
     title: 'Realidade Aumentada',
     subPreparing: 'Preparando a sesión',
     subUnsupported: 'Non dispoñible neste dispositivo',
@@ -1673,7 +1696,9 @@ export const GL: UiStrings = {
     // por iso están CENTRADOS: ancorados á esquerda, o inglés (máis longo) saía
     // do viewBox de 200.
     schema: {
-      earA11y: 'Esquema do oído: pavillón, conduto auditivo, tímpano e cóclea.',
+      earA11y: 'Esquema do oído co percorrido do son en cinco pasos: orella, conduto, tímpano, ósos pequenos e cóclea, e o nervio cara ao cerebro.',
+      earBrain: 'Cerebro',
+      earSteps: ['A orella recolle o son.', 'O son viaxa polo conduto.', 'O tímpano vibra.', 'Tres ósos pequenos pasan a vibración.', 'A cóclea convértea en sinal; o nervio lévaa ao cerebro.'] as readonly string[],
       earOuter: 'Externo',
       earMiddle: 'Medio',
       earCochlea: 'Cóclea',
@@ -1875,8 +1900,8 @@ export const GL: UiStrings = {
     secStoriesTitle: 'Contos con Lúa',
     secStoriesSub: '10 historias ilustradas con comprensión, vocabulario clave e debuxo libre.',
     secStoriesBadge: (n: number): string => `${n} contos`,
-    secSongsTitle: 'Cancións e Praxias',
-    secSongsSub: '10 cancións con pausas activas, ritmo e patróns motores orofaciais.',
+    secSongsTitle: 'Outras actividades',
+    secSongsSub: '10 cancións e xogos de ritmo e movemento, con pausas activas.',
     secSongsBadge: (n: number): string => `${n} cancións`,
 
     evalProgress: (curr: number, total: number): string => `Exercicio ${curr} de ${total}`,
@@ -1920,6 +1945,7 @@ export const GL: UiStrings = {
       `Metrónomo visual: ${bpm} pulsos por minuto, ${beats} pulsos por verso.`,
 
     songPlayTrack: 'Reproducir a canción',
+    songSingNote: 'Lúa non canta: cántala ti. É unha canción tradicional que seguramente xa coñeces; cántaa á túa maneira e ao teu ritmo.',
     songMotorInstructions: 'Instrucións de movemento',
     songPraxiasTitle: 'Praxias e articulación',
 

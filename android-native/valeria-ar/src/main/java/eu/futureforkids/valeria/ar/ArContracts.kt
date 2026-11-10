@@ -139,6 +139,11 @@ data class DeviceProfile(
      * tiene que poder descartarse después sin adivinar cuál era.
      */
     val review: Boolean = false,
+    /**
+     * `true` cuando el adulto SALTÓ el calentamiento (9/11/2026). Nivel C
+     * provisional, «no medido»: nunca se toma como medida del aparato.
+     */
+    val provisional: Boolean = false,
 ) {
     fun toJson(): JSONObject = JSONObject()
         .put("level", level.name)
@@ -153,6 +158,7 @@ data class DeviceProfile(
         .put("platform", "android")
         .put("measuredAt", measuredAt)
         .put("review", review)
+        .put("provisional", provisional)
 }
 
 /**

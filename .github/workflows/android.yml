@@ -485,6 +485,16 @@ jobs:
       - name: Grant execute permission to Gradle wrapper
         run: chmod +x ./android/gradlew
 
+      # Build 804 (9/11/2026): el wrapper no pudo bajar gradle-*-bin.zip de
+      # services.gradle.org en su límite de 10 s y el APK murió en 11 s. Se sube
+      # el límite a 60 s y se descarga aquí, con un reintento, antes de compilar.
+      - name: Descargar Gradle (límite 60 s, un reintento)
+        working-directory: ./android
+        run: |
+          sed -i 's/^networkTimeout=.*/networkTimeout=60000/' gradle/wrapper/gradle-wrapper.properties
+          grep -q '^networkTimeout=' gradle/wrapper/gradle-wrapper.properties || echo 'networkTimeout=60000' >> gradle/wrapper/gradle-wrapper.properties
+          ./gradlew --version || { echo "::warning::Primer intento de bajar Gradle fallido; reintento en 20 s"; sleep 20; ./gradlew --version; }
+
       - name: Decode release keystore
         if: env.HAS_SIGNING_SECRETS == 'true'
         run: echo "${{ secrets.ANDROID_RELEASE_KEYSTORE_BASE64 }}" | base64 -d > android/app/release.keystore

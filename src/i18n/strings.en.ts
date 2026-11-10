@@ -1423,6 +1423,10 @@ export const EN: UiStrings = {
   // consentimiento es parte del muro MDR, no adorno — se traduce entero o no se
   // traduce (una mezcla de idiomas aquí es un consentimiento inválido).
   ar: {
+    warmupSkip: 'Skip warm-up',
+    warmupSkipA11y: 'Skip the warm-up and start without measuring the phone',
+    warmupTimeout: 'The warm-up did not respond within 60 seconds. You can repeat it or skip it.',
+    provisionalNote: 'Provisional level: the warm-up was skipped and this phone has not been measured. It does not count as a device measurement.',
     catSub: 'Play with the Build with Lúa sets, with or without Lúa.',
     catLuaSolo: 'JUST LÚA',
     catSets: 'EACH SET ON ITS OWN',
@@ -1433,6 +1437,25 @@ export const EN: UiStrings = {
     catModeSolo: 'Just the set: Lúa is not needed.',
     catModeLua: 'Set with Lúa: Lúa reacts to what happens on the table.',
     catRowA11y: (title: string): string => `Open ${title}. The adult opens it.`,
+    sceneKicker: 'ON THE TABLE · AUGMENTED REALITY',
+    sceneSub: 'Rear camera: tap the table and the set’s pieces appear at real size, step by step as in the manual. Then you play on the model and confirm each step yourself.',
+    sceneOpen: 'See it on the table (AR)',
+    sceneOpenA11y: (title: string): string => `Open ${title} on the table with the rear camera`,
+    scenePlace: 'Tap the table where the set is',
+    sceneSearch: 'Move the tablet slowly so it finds the table',
+    sceneClose: 'Finish',
+    sceneReplace: 'Move scene',
+    sceneLua: 'Lúa: ',
+    sceneUnavailable: 'This tablet cannot open the scene (it needs ARCore with the rear camera). Carry on with the buttons on this screen.',
+    sceneDenied: 'Without camera permission the scene does not open. Carry on with the buttons on this screen.',
+    sceneDone: (n: number): string => `${n} steps confirmed on the table.`,
+    scenePlay: 'Play',
+    sceneHide: 'Hide model',
+    sceneShow: 'Show model',
+    sceneStep: (n: number): string => `Step ${n}`,
+    sceneStepHint: (n: number, total: number, pieces: string): string => (pieces ? `Step ${n} of ${total}: place ${pieces} where it floats in colour. Grey pieces are already in place.` : `Step ${n} of ${total}: check the build against the model.`),
+    sceneLuaHint: 'Put Lúa where her figure appears, facing the tablet, and tap Play.',
+    sceneStage: 'For now the adult confirms each step: the camera does not recognise the pieces yet.',
     title: 'Augmented Reality',
     subPreparing: 'Getting the session ready',
     subUnsupported: 'Not available on this device',
@@ -1632,7 +1655,9 @@ export const EN: UiStrings = {
     expressiveLang: 'Expressive Language (Production / Speech)',
 
     schema: {
-      earA11y: 'Diagram of the ear: pinna, ear canal, eardrum and cochlea.',
+      earA11y: 'Diagram of the ear with the path of sound in five steps: outer ear, canal, eardrum, ossicles and cochlea, and the nerve to the brain.',
+      earBrain: 'Brain',
+      earSteps: ['The outer ear collects the sound.', 'The sound travels along the canal.', 'The eardrum vibrates.', 'Three tiny bones pass the vibration on.', 'The cochlea turns it into a signal; the nerve carries it to the brain.'] as readonly string[],
       earOuter: 'Outer',
       earMiddle: 'Middle',
       earCochlea: 'Cochlea',
@@ -1832,8 +1857,8 @@ export const EN: UiStrings = {
     secStoriesTitle: 'Stories with Lúa',
     secStoriesSub: '10 illustrated stories with reading comprehension, key vocabulary and free drawing.',
     secStoriesBadge: (n: number): string => `${n} stories`,
-    secSongsTitle: 'Songs and Praxias',
-    secSongsSub: '10 songs with active movement breaks, rhythm and oral-motor practice.',
+    secSongsTitle: 'Other activities',
+    secSongsSub: '10 songs and rhythm-and-movement games, with active breaks.',
     secSongsBadge: (n: number): string => `${n} songs`,
 
     evalProgress: (curr: number, total: number): string => `Exercise ${curr} of ${total}`,
@@ -1877,6 +1902,7 @@ export const EN: UiStrings = {
       `Visual metronome: ${bpm} beats per minute, ${beats} beats per line.`,
 
     songPlayTrack: 'Play song',
+    songSingNote: 'Lúa does not sing: you do. It is a traditional song you probably know; sing it your own way and at your own pace.',
     songMotorInstructions: 'Movement instructions',
     songPraxiasTitle: 'Oral motor praxias',
 

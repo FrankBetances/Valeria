@@ -33,7 +33,7 @@ import { getUiLang } from './valeriaUiLang';
 import { useT } from './i18n';
 import {
   isArAvailable, runAptitudeTest, launchAr, calibrateAr, hasArCalibration, openArDiagnostics,
-  installArReviewProfile,
+  installArReviewProfile, installArProvisionalProfile, cancelArPending, setArAptitudeSkipLabel,
 } from './valeriaArBridge';
 import type {
   ArDeviceProfile, ArExerciseId, ArThresholds, ArSessionResult, ArFailureReason,
@@ -79,6 +79,7 @@ const failureNotice = (t: ArStrings, reason: ArFailureReason | null): string => 
     case 'INSTALL_PENDING': return t.ar.noticeArServicesInstalling;
     case 'DENIED': return t.ar.noticeCameraDenied;
     case 'NO_MEASUREMENT': return t.ar.noticeNoMeasurement;
+    case 'TIMEOUT': return t.ar.warmupTimeout;
     default: return t.ar.noticeAptitudeFailed;
   }
 };
@@ -107,6 +108,11 @@ export const ValeriaArLauncherScreen: React.FC<{ navigation?: any; route?: { par
     if (luaSoloSent.current) luaSteamIdle();
   }, []);
   const [phase, setPhase] = useState<Phase>('loading');
+  // Calentamiento en curso: enseña «Saltar calentamiento» en la pantalla de
+  // carga. El testigo descarta un resultado que llega después de saltar.
+  const [aptitudeRunning, setAptitudeRunning] = useState(false);
+  const [aptitudeTimedOut, setAptitudeTimedOut] = useState(false);
+  const aptitudeToken = useRef(0);
   const [busyMsg, setBusyMsg] = useState('');
   const [patientKey, setPatientKey] = useState('');
   const [profile, setProfile] = useState<ArDeviceProfile | null>(null);
@@ -142,7 +148,8 @@ export const ValeriaArLauncherScreen: React.FC<{ navigation?: any; route?: { par
 
       if (!(await hasArConsent(key))) { setPhase('consent'); return; }
       const cached = await loadArDeviceProfile();
-      if (!cached || !cached.level) { setPhase('aptitude'); return; }
+      // Un perfil provisional (calentamiento saltado) nunca cuenta como medida.
+      if (!cached || !cached.level || cached.provisional) { setPhase('aptitude'); return; }
       setProfile(cached);
       setPhase(cached.level === 'D' ? 'notApt' : 'menu');
     })();
@@ -160,7 +167,20 @@ export const ValeriaArLauncherScreen: React.FC<{ navigation?: any; route?: { par
   const runAptitude = useCallback(async () => {
     setBusyMsg(t.ar.busyMeasuring);
     setPhase('busy');
+    const token = ++aptitudeToken.current;
+    setAptitudeRunning(true);
+    setAptitudeTimedOut(false);
+    setArAptitudeSkipLabel(t.ar.warmupSkip);
     const outcome = await runAptitudeTest();
+    if (token !== aptitudeToken.current) return; // ya se saltó desde la pantalla de carga
+    setAptitudeRunning(false);
+    if (!outcome.ok && outcome.reason === 'SKIPPED') { await skipWarmup(); return; }
+    if (!outcome.ok && outcome.reason === 'TIMEOUT') {
+      setAptitudeTimedOut(true);
+      setNotice(t.ar.warmupTimeout);
+      setPhase('aptitude');
+      return;
+    }
 
     if (!outcome.ok) {
       // Una causa permanente no se reintenta: el aparato no está certificado
@@ -181,6 +201,31 @@ export const ValeriaArLauncherScreen: React.FC<{ navigation?: any; route?: { par
     setProfile(outcome.profile);
     setPhase(outcome.profile.level === 'D' ? 'notApt' : 'menu');
   }, [t]);
+
+  /**
+   * «Saltar calentamiento» (9/11/2026). Instala en el nativo el nivel C
+   * PROVISIONAL, «no medido». No se guarda con saveArDeviceProfile: la próxima
+   * vez el bloque vuelve a ofrecer la medida, y el perfil viaja marcado con
+   * cada sesión para que nunca se tome como medida del aparato.
+   */
+  const skipWarmup = async () => {
+    aptitudeToken.current++;
+    setAptitudeRunning(false);
+    setAptitudeTimedOut(false);
+    setBusyMsg('');
+    setPhase('busy');
+    await cancelArPending();
+    const provisional = await installArProvisionalProfile();
+    if (!provisional) {
+      setNotice(t.ar.noticeAptitudeFailed);
+      setPhase('aptitude');
+      return;
+    }
+    setProfile(provisional);
+    setFailure(null);
+    setNotice('');
+    setPhase('menu');
+  };
 
   /**
    * Modo Revisión (PIN del adulto). Instala un perfil sintético en el nativo y
@@ -386,6 +431,12 @@ export const ValeriaArLauncherScreen: React.FC<{ navigation?: any; route?: { par
         <View style={s.center}>
           <ActivityIndicator size="large" color={V.color.primary} />
           <Text style={s.busyTxt}>{busyMsg || t.ar.oneMoment}</Text>
+          {aptitudeRunning && (
+            <Pressable onPress={() => { void skipWarmup(); }} style={s.primaryBtn}
+              accessibilityRole="button" accessibilityLabel={t.ar.warmupSkipA11y}>
+              <Text style={s.primaryBtnTxt}>{t.ar.warmupSkip}</Text>
+            </Pressable>
+          )}
         </View>
       </View>
     );
@@ -457,6 +508,12 @@ export const ValeriaArLauncherScreen: React.FC<{ navigation?: any; route?: { par
               accessibilityLabel={t.ar.warmupStartA11y}>
               <Text style={s.primaryBtnTxt}>{t.ar.warmupStart}</Text>
             </Pressable>
+            {aptitudeTimedOut && (
+              <Pressable onPress={() => { void skipWarmup(); }} style={s.primaryBtn}
+                accessibilityRole="button" accessibilityLabel={t.ar.warmupSkipA11y}>
+                <Text style={s.primaryBtnTxt}>{t.ar.warmupSkip}</Text>
+              </Pressable>
+            )}
             {reviewGate}
           </View>
         </ScrollView>
@@ -631,9 +688,9 @@ export const ValeriaArLauncherScreen: React.FC<{ navigation?: any; route?: { par
             ))}
             <Text style={s.mdrNote}>{t.ar.mdrNote}</Text>
           </View>
-          <Pressable onPress={() => { setResult(null); setReward(null); if (luaSolo) navigation?.goBack(); else setPhase('menu'); }}
+          <Pressable onPress={() => { setResult(null); setReward(null); setPhase('menu'); }}
             style={s.primaryBtn} accessibilityRole="button">
-            <Text style={s.primaryBtnTxt}>{t.ar.backToExercises}</Text>
+            <Text style={s.primaryBtnTxt}>{t.common.continue}</Text>
           </Pressable>
         </ScrollView>
       </View>
@@ -650,20 +707,28 @@ export const ValeriaArLauncherScreen: React.FC<{ navigation?: any; route?: { par
 
         <View style={s.levelCard}>
           <Text style={s.levelTitle}>{t.ar.levelHeading(profile.manufacturer, profile.model, profile.level, t.ar.levelLabel(profile.level))}</Text>
-          <Text style={s.levelTxt}>{t.ar.levelNote(profile.level)}</Text>
+          <Text style={s.levelTxt}>{profile.provisional ? t.ar.provisionalNote : t.ar.levelNote(profile.level)}</Text>
           <View style={s.levelActions}>
             <Pressable onPress={runAptitude} accessibilityRole="button" accessibilityLabel={t.ar.warmupRedoA11y}>
               <Text style={s.levelRedo}>{t.ar.warmupRedo}</Text>
             </Pressable>
-            {/* Censo de la Fase 0: caracterizar un móvil prestado sin poseerlo. */}
-            <Pressable onPress={shareDeviceProfile} accessibilityRole="button" accessibilityLabel={t.ar.shareProfileA11y}>
+            {/* Censo de la Fase 0: caracterizar un móvil prestado sin poseerlo.
+                Un perfil provisional no es una medida: no se comparte. */}
+            {!profile.provisional && <Pressable onPress={shareDeviceProfile} accessibilityRole="button" accessibilityLabel={t.ar.shareProfileA11y}>
               <Text style={s.levelRedo}>{t.ar.shareProfile}</Text>
-            </Pressable>
+            </Pressable>}
           </View>
         </View>
 
         {/* AR-1…AR-6 ya no se ofrecen aquí (8/11/2026): la RA es el catálogo por sets
-            (ValeriaArCatalogScreen). Este lanzador solo abre la cámara para Solo Lúa. */}
+            (ValeriaArCatalogScreen). Este lanzador solo abre la cámara para Solo Lúa;
+            al volver de una sesión se puede repetir, y debajo queda el Panel del Adulto. */}
+        {luaSolo && (
+          <Pressable onPress={() => { void start(luaSolo.exerciseId); }} style={s.primaryBtn}
+            accessibilityRole="button" accessibilityLabel={t.steam.luaSoloStartA11y(luaSolo.title[getUiLang()])}>
+            <Text style={s.primaryBtnTxt}>{t.steam.luaSoloStart}</Text>
+          </Pressable>
+        )}
 
         {/* Herramienta de la logopeda, no del niño. Va después de los ejercicios
             y con otro tono a propósito: no es parte del juego. */}
@@ -772,7 +837,7 @@ const s = StyleSheet.create({
   },
 
   primaryBtn: { backgroundColor: V.color.primary, borderRadius: 14, paddingVertical: 15, alignItems: 'center', marginTop: 16, ...V.shadow.button },
-  primaryBtnTxt: { fontFamily: FONT.bodyBlack,color: '#fff', fontSize: 15.5 },
+  primaryBtnTxt: { fontFamily: FONT.bodyBlack, color: V.color.dark, fontSize: 15.5 }, // blanco sobre el turquesa daba 2,2:1
   cancel: { fontFamily: FONT.bodyBlack,textAlign: 'center', color: V.color.textSecondary, fontSize: 13, marginTop: 12 },
 });
 

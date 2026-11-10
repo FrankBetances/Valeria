@@ -46,5 +46,14 @@ process.stdin.on('data', (d) => (input += d)).on('end', () => {
       && !/no (lo |la |los |las )?(he )?(visto|comprobado|probado) en (Android|un aparato)|no visto en (Android|un aparato)|no est[aá] visto en (Android|un aparato)/i.test(last)) {
     block('F3/F11: dices «hecho/listo/arreglado» sin decir «no visto en Android». Corrige la respuesta: di qué se ha comprobado y con qué, y que no está visto en Android.');
   }
+  // R24/R25 (Frank, 9/11/2026): «el manual está actualizado», «ya está corregido»… dichos sin
+  // decir qué falta fueron dos engaños seguidos. Toda afirmación de que algo está al día,
+  // corregido o completo lleva una línea «Falta: …» (o «Falta: nada») con lo que no está.
+  const claimsDone = last.split(/[.\n!?;:]/).some((frase) =>
+    /\b(actualizad[oa]s?|al d[ií]a|corregid[oa]s?|completad[oa]s?|complet[oa]s?|ya est[aá])\b/i.test(frase)
+    && !/\bno\b(\s+\S+){0,4}\s+(actualizad|al d[ií]a|corregid|completad|complet|est[aá])/i.test(frase));
+  if (claimsDone && !/^\s*\**Falta\**\s*:/im.test(last)) {
+    block('R24/R25: afirmas que algo está actualizado, al día, corregido o completo sin decir qué falta. Añade una línea «Falta: …» con lo que no está (capturas, aparato, formatos, partes no hechas) o «Falta: nada» si de verdad no falta nada.');
+  }
   process.exit(0);
 });
