@@ -59,8 +59,8 @@ export const ValeriaBlockTile: React.FC<ValeriaBlockTileProps> = React.memo(({
           </ProgressRing>
         </View>
         <View style={s.body}>
-          <Text style={s.title} numberOfLines={2}>{title}</Text>
-          {!!description && <Text style={s.desc} numberOfLines={2}>{description}</Text>}
+          <Text style={s.title} numberOfLines={4}>{title}</Text>
+          {!!description && <Text style={s.desc} numberOfLines={6}>{description}</Text>}
         </View>
         <View style={[s.go, { backgroundColor: accentBg }]}>
           <Text style={[s.goGlyph, { color: accentFg }]}>›</Text>
