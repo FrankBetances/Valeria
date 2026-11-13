@@ -50,6 +50,11 @@ const checks = [
     return !/speakLuaToChildSeq\(song\.lyrics/.test(read('src/AventurasLua/Screens/LuaSongPlayerScreen.tsx'))
       && (st.match(/\n        question: /g) || []).length === 10;
   }],
+  ['R29 la cabecera fija de Academy es corta: sin «Empieza por aquí», reclamo ni aviso de idioma dentro', () => {
+    const c = read('src/ValeriaAcademy/ValeriaAcademyScreen.tsx');
+    const head = c.slice(c.indexOf('<ScreenHeader compact'), c.indexOf('</ScreenHeader>'));
+    return head.length > 0 && !/AcademyNextStep/.test(c) && !/headerSub|langNotice|gameRow/.test(head);
+  }],
 ];
 let bad = 0;
 for (const [name, fn] of checks) {

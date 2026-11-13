@@ -526,9 +526,9 @@ El repo trae todo lo necesario y no hay excusa:
 
 ```bash
 npm install --no-save --legacy-peer-deps \
-  react-native-web@~0.21.0 react-dom@19.1.0 @expo/metro-runtime@~6.1.1 playwright
+  react-native-web@~0.21.0 react-dom@19.3.0 @expo/metro-runtime@~6.1.1 react-refresh playwright
 BROWSER=none npx expo start --web --port 8081 --clear
-CHROMIUM_PATH=/opt/pw-browsers/chromium-1194/chrome-linux/chrome \
+CHROMIUM_PATH=/opt/pw-browsers/chromium \
   node docs/capture-screenshots.js
 ```
 

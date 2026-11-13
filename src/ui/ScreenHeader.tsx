@@ -32,6 +32,8 @@ interface Props {
   mascot?: boolean;
   /** Barra segmentada de progreso de una sesión. */
   dots?: { total: number; index: number; finished?: boolean };
+  /** Sin botón de volver, la fila del rótulo no reserva sus 48 px (pestañas). */
+  compact?: boolean;
 }
 
 // Tinta del texto: la que más contraste da sobre el fondo (WCAG, luminancia relativa).
@@ -46,13 +48,13 @@ const inkFor = (bg: string) => {
   return (1.05) / (L + 0.05) >= (L + 0.05) / (lum(INK) + 0.05) ? '#ffffff' : INK;
 };
 
-export const ScreenHeader: React.FC<Props> = ({ onBack, backLabel, kicker, icon, title, subtitle, badge, children, color, trailing, dots, mascot = true }) => {
+export const ScreenHeader: React.FC<Props> = ({ onBack, backLabel, kicker, icon, title, subtitle, badge, children, color, trailing, dots, compact, mascot = true }) => {
   const bg = color ?? V.color.primary;
   const ink = inkFor(bg);
   return (
   <View style={[s.wrap, { backgroundColor: bg }]}>
 
-    <View style={s.topRow}>
+    <View style={[s.topRow, compact && !onBack && s.topRowCompact]}>
       {onBack && (
         <PressableScale onPress={() => { void Haptics.selectionAsync(); onBack(); }} hitSlop={12}
           accessibilityRole="button" accessibilityLabel={backLabel} style={s.back}>
@@ -92,6 +94,7 @@ const INK = '#0b1220'; // tinta sobre el turquesa: 8,6:1 (el blanco daba 2,2:1)
 const s = StyleSheet.create({
   wrap: { borderBottomLeftRadius: 34, borderBottomRightRadius: 34, paddingHorizontal: 22, paddingTop: 14, paddingBottom: 20, overflow: 'hidden' },
   topRow: { flexDirection: 'row', alignItems: 'center', minHeight: 48, marginBottom: 8 },
+  topRowCompact: { minHeight: 0, marginBottom: 6 },
   back: { width: 48, height: 48, borderRadius: 24, backgroundColor: '#ffffff', alignItems: 'center', justifyContent: 'center', borderBottomWidth: 4, borderBottomColor: 'rgba(0,0,0,0.15)', marginRight: 12 },
   backGlyph: { fontFamily: FONT.display, fontSize: 32, lineHeight: 36, color: INK, marginTop: -3 },
   kicker: { flexShrink: 1, fontFamily: FONT.bodyBlack, fontSize: 12, letterSpacing: 1.4, textTransform: 'uppercase', color: INK, opacity: 0.75 },

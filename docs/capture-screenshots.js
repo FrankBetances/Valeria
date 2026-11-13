@@ -2,7 +2,7 @@
 //
 // Uso:
 //   1. npm install --no-save --legacy-peer-deps \
-//        react-native-web@~0.21.0 react-dom@19.1.0 @expo/metro-runtime@~6.1.1
+//        react-native-web@~0.21.0 react-dom@19.3.0 @expo/metro-runtime@~6.1.1 react-refresh
 //   2. npx expo start --web --port 8081          (en otra terminal)
 //   3. node docs/capture-screenshots.js          (requiere playwright instalado)
 //
@@ -98,14 +98,14 @@ const pause = (page, ms) => page.waitForTimeout(ms);
   // pantalla «¿quién va a practicar hoy?». El script se escribió antes de que
   // esa pantalla existiera y por eso moría aquí esperando un campo de texto que
   // no llega. Se pide ficha nueva, que es lo que ilustra esta captura.
-  const nuevoPaciente = page.getByText('Paciente nuevo', { exact: true });
+  const nuevoPaciente = page.getByText('Perfil nuevo', { exact: true });
   if (await nuevoPaciente.count()) {
     await nuevoPaciente.click();
     await pause(page, 800);
   }
-  await page.getByPlaceholder('Nombre del paciente').waitFor();
+  await page.getByPlaceholder('Nombre del niño').waitFor();
   await pause(page, 400);
-  await page.getByPlaceholder('Nombre del paciente').fill('Lucía Martínez');
+  await page.getByPlaceholder('Nombre del niño').fill('Lucía Martínez');
   await page.getByPlaceholder('DD / MM / AAAA').fill('12/04/2019');
   await page.getByPlaceholder('HC-…').fill('HC-2093');
   await page.getByText('Niña', { exact: true }).click();
@@ -141,7 +141,7 @@ const pause = (page, ms) => page.waitForTimeout(ms);
   await page.getByText('valeria+ · academy', { exact: true }).waitFor({ timeout: 120000 });
   await pause(page, 700);
   await page.getByText('Ejercicios', { exact: true }).click();
-  await page.getByText('Selección de Ejercicios', { exact: true }).waitFor({ timeout: 120000 });
+  await page.getByText('Elige qué quieres practicar hoy', { exact: true }).waitFor({ timeout: 120000 });
   await pause(page, 700);
   await shot(page, '05-hub-bloques');
   console.log('05 hub ✓');
@@ -156,11 +156,11 @@ const pause = (page, ms) => page.waitForTimeout(ms);
 
   // ---- Helper para volver al hub ----
   const goHub = async () => {
-    await page.getByText('Selección de Ejercicios', { exact: true }).waitFor().catch(() => {});
+    await page.getByText('Elige qué quieres practicar hoy', { exact: true }).waitFor().catch(() => {});
   };
 
   // ===================== PARES MÍNIMOS =====================
-  await page.getByText('Pares Mínimos', { exact: true }).click();
+  await page.getByText('Pares de sonidos', { exact: true }).click();
   await page.getByText('BANCO DE CONTRASTES', { exact: true }).waitFor();
   await pause(page, 600);
   await shot(page, '06-pares-banco');           // 06 · banco de contrastes
@@ -200,22 +200,22 @@ const pause = (page, ms) => page.waitForTimeout(ms);
     await page.getByText('Comenzar', { exact: true }).click();
     await page.getByText('Continuar', { exact: true }).first().waitFor();
     await page.getByText('Continuar', { exact: true }).first().click();
-    await page.getByText('Ya tengo un paciente', { exact: true }).click();
-    await page.getByText('Selecciona un paciente').waitFor();
+    await page.getByText('Ya tengo un perfil', { exact: true }).click();
+    await page.getByText('Selecciona un perfil').waitFor();
     await pause(page, 400);
     await page.getByText('Lucía Martínez').click();
     // La app abre por la formación: elegir paciente deja en Academy, y al hub
     // de bloques se entra por la pestaña «Ejercicios».
     await page.getByText('valeria+ · academy', { exact: true }).waitFor({ timeout: 120000 });
     await page.getByText('Ejercicios', { exact: true }).click();
-    await page.getByText('Selección de Ejercicios', { exact: true }).waitFor({ timeout: 120000 });
+    await page.getByText('Elige qué quieres practicar hoy', { exact: true }).waitFor({ timeout: 120000 });
     await pause(page, 400);
   };
 
   // ===================== EXPANSIÓN SEMÁNTICA =====================
   await openHubFresh();
   await page.getByText('Expansión Semántica', { exact: true }).click();
-  await page.getByText('ESCENARIOS DIARIOS', { exact: true }).waitFor();
+  await page.getByLabel(/Practicar escenario Rutina de mañana/).waitFor();
   await pause(page, 600);
   await shot(page, '10-expansion-escenarios');  // 10 · lista de escenarios
   console.log('10 expansion escenarios ✓');
@@ -229,7 +229,7 @@ const pause = (page, ms) => page.waitForTimeout(ms);
 
   // Iniciar un escenario para captura de juego
   await page.getByText('Escenarios', { exact: true }).click();
-  await page.getByText('ESCENARIOS DIARIOS', { exact: true }).waitFor();
+  await page.getByLabel(/Practicar escenario Rutina de mañana/).waitFor();
   await pause(page, 300);
   await page.getByLabel(/Practicar escenario Rutina de mañana/).click();
   // Los escenarios abren primero una PREPARACIÓN («qué vais a hacer» + material)
@@ -275,15 +275,15 @@ const pause = (page, ms) => page.waitForTimeout(ms);
   await page.getByText('Comenzar', { exact: true }).click();
   await page.getByText('Continuar', { exact: true }).first().waitFor();
   await page.getByText('Continuar', { exact: true }).first().click();
-  await page.getByText('Ya tengo un paciente', { exact: true }).click();
-  await page.getByText('Selecciona un paciente').waitFor();
+  await page.getByText('Ya tengo un perfil', { exact: true }).click();
+  await page.getByText('Selecciona un perfil').waitFor();
   await pause(page, 500);
   await shot(page, '16-pacientes');             // 16 · selección de paciente
   console.log('16 pacientes ✓');
   await page.getByText('Lucía Martínez').click();
   await page.getByText('valeria+ · academy', { exact: true }).waitFor({ timeout: 120000 });
   await page.getByText('Ejercicios', { exact: true }).click();
-  await page.getByText('Selección de Ejercicios', { exact: true }).waitFor({ timeout: 120000 });
+  await page.getByText('Elige qué quieres practicar hoy', { exact: true }).waitFor({ timeout: 120000 });
   await pause(page, 400);
   await page.getByText('Audición', { exact: true }).click();
   await page.getByText('PROTOCOLO ACOPROS · AUDICIÓN', { exact: true }).waitFor();
@@ -424,7 +424,7 @@ const pause = (page, ms) => page.waitForTimeout(ms);
   await page.getByLabel(/^Academy\./).click();
   await page.getByText('DOMINIOS FORMATIVOS', { exact: true }).waitFor({ timeout: 60000 });
   await pause(page, 900);
-  await shot(page, '27-academy-hub');            // 27 · dominios + feed de prioridad
+  await shot(page, '27-academy-hub');            // 27 · cabecera corta + dominios
   console.log('27 academy hub ✓');
 
   // Lenguaje es el primer dominio y el más poblado; la tarjeta cabe entera en
@@ -468,7 +468,7 @@ const pause = (page, ms) => page.waitForTimeout(ms);
   // Aparece en la pantalla de juego de Pares Mínimos; desplegarlo para ver los
   // tres módulos (ruido babble, gata distractora y quiebre pragmático).
   await openHubFresh();
-  await page.getByText('Pares Mínimos', { exact: true }).click();
+  await page.getByText('Pares de sonidos', { exact: true }).click();
   await page.getByText('BANCO DE CONTRASTES', { exact: true }).waitFor();
   await pause(page, 500);
   await page.getByLabel(/Practicar el par rana/).click();
