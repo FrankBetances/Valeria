@@ -1,7 +1,7 @@
 // ============================================================================
 // Valeria+ · Academy — Pantalla principal (V2.0 · HUB MULTIDOMINIO)
 // Vistas internas (sin anidar navegación profunda):
-//   'hub'   → Siguiente paso (1 cápsula) + stack de Tarjetas de Dominio.
+//   'hub'   → cabecera corta con el avance + stack de Tarjetas de Dominio.
 //   'list'  → catálogo de cápsulas de UN dominio.
 //   'read'  → lectura por diapositivas de la cápsula.
 //   'quiz'  → validación ágil (micro-quiz con feedback inmediato).
@@ -24,7 +24,6 @@ import {
 } from './academyStore';
 import { AcademyBadge, AcademyCapsule, AcademyDomain } from './academyTypes';
 import { AcademyDomainCard } from './AcademyDomainCard';
-import { AcademyNextStep } from './AcademyNextStep';
 import { ListRow } from '../ui/ListRow';
 import { ReactiveTile } from '../ui/ReactiveTile';
 import Reanimated, { ReduceMotion, SlideInRight } from 'react-native-reanimated';
@@ -91,12 +90,24 @@ export const ValeriaAcademyScreen: React.FC<{ navigation: any }> = ({ navigation
     const pct = Math.round(summary.progress * 100);
     return (
       <View style={s.flex}>
-        <ScreenHeader onBack={inTabs ? undefined : () => navigation.goBack()} backLabel={t.academy.back.replace(/^‹\s*/, '')}
+        {/* Cabecera fija y corta (13/11/2026): rótulo, título, Lúa y el avance
+            en una sola fila. Todo lo demás —reclamo, aviso de idioma— va DENTRO
+            del scroll: fijo arriba se comía el 60 % de la pantalla y dejaba el
+            catálogo de dominios sin sitio. Lo vigila check-frank-errors (R29). */}
+        <ScreenHeader compact onBack={inTabs ? undefined : () => navigation.goBack()} backLabel={t.academy.back.replace(/^‹\s*/, '')}
           kicker="valeria+ · academy" icon="tabAcademy" title={t.academy.headerTitle}
+          subtitle={`${t.academy.xpTxt(summary.xp)} · ${t.academy.badgesTxt(summary.badgeCount)}`}
           trailing={<View style={s.luaBadge}><CatPixel size={54} pose="head" /></View>}>
-          {/* El reclamo es para quien llega por primera vez. A quien ya ha
-              leído una cápsula le ocupaba dos líneas de cabecera para contarle
-              lo que ya sabe, y empujaba el catálogo fuera de la pantalla. */}
+          <View style={s.hProgress} accessibilityRole="progressbar" accessibilityValue={{ min: 0, max: 100, now: pct }}>
+            <View style={s.hProgressTrack}>
+              <View style={[s.hProgressFill, { width: `${pct}%` }]} />
+            </View>
+            <Text style={s.hProgressTxt}>{t.academy.progressTxt(summary.completedCount, summary.totalCount, pct)}</Text>
+          </View>
+        </ScreenHeader>
+
+        <ScrollView style={s.flex} contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
+          {/* El reclamo es para quien llega por primera vez. */}
           {summary.completedCount === 0 && <Text style={s.headerSub}>{t.academy.headerSub}</Text>}
           {/* El contenido formativo no existe todavía en todos los idiomas de
               interfaz (ver src/i18n/uiLangFallback.ts). Cuando se sirve en otro,
@@ -105,24 +116,6 @@ export const ValeriaAcademyScreen: React.FC<{ navigation: any }> = ({ navigation
           {isFallingBack('academy', getUiLang())
             ? <Text style={s.langNotice}>{t.academy.langFallbackNotice}</Text>
             : null}
-
-          <View style={s.hProgress}>
-            <View style={s.hProgressTrack}>
-              <View style={[s.hProgressFill, { width: `${pct}%` }]} />
-            </View>
-            <Text style={s.hProgressTxt}>{t.academy.progressTxt(summary.completedCount, summary.totalCount, pct)}</Text>
-          </View>
-          {/* XP e insignias en una línea de texto, no en dos píldoras con borde:
-              es un marcador, no un botón, y con la píldora parecía pulsable. */}
-          <View style={s.gameRow}>
-            <BlockIcon name="level" color="rgba(255,255,255,.9)" size={13} />
-            <Text style={s.gameTxt}>{t.academy.xpTxt(summary.xp)} · {t.academy.badgesTxt(summary.badgeCount)}</Text>
-          </View>
-
-          <AcademyNextStep onOpenCapsule={openCapsule} refreshKey={refreshKey} />
-        </ScreenHeader>
-
-        <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
           <Text style={s.listLabel}>{t.academy.domainsKicker}</Text>
           {ACADEMY_DOMAINS.map((d, i) => (
             <AcademyDomainCard key={d} domain={d} index={i} onPress={onPickDomain} />
@@ -432,19 +425,17 @@ const s = StyleSheet.create({
   titleRow: { flexDirection: 'row', alignItems: 'center', gap: 10 },
   signRow: { flexDirection: 'row', alignItems: 'center', gap: 8 },
   headerTitle: { fontFamily: FONT.display,color: '#fff', fontSize: 23, letterSpacing: -0.4 },
-  headerSub: { fontFamily: FONT.bodyBold,color: 'rgba(255,255,255,.9)', fontSize: 13, marginTop: 4, lineHeight: 18 },
+  headerSub: { fontFamily: FONT.bodyBold, color: V.color.textSecondary, fontSize: 14, lineHeight: 20, marginBottom: 14, marginHorizontal: 2 },
   langNotice: {
-    marginTop: 10, paddingVertical: 7, paddingHorizontal: 11, borderRadius: 11,
-    backgroundColor: 'rgba(255,255,255,0.18)', borderWidth: 1, borderColor: 'rgba(255,255,255,0.32)',
-    color: '#fff', fontSize: 11.5, fontWeight: '700', lineHeight: 16,
+    marginBottom: 14, paddingVertical: 9, paddingHorizontal: 12, borderRadius: 12,
+    backgroundColor: V.color.primaryTint, borderWidth: 1, borderColor: V.color.borderActive,
+    fontFamily: FONT.bodyBold, color: V.color.textPrimary, fontSize: 12.5, lineHeight: 18,
   },
 
-  hProgress: { flexDirection: 'row', alignItems: 'center', gap: 10, marginTop: 14 },
-  hProgressTrack: { flex: 1, height: 8, borderRadius: 5, backgroundColor: 'rgba(255,255,255,.28)', overflow: 'hidden' },
+  hProgress: { flexDirection: 'row', alignItems: 'center', gap: 10, marginTop: 12 },
+  hProgressTrack: { flex: 1, height: 8, borderRadius: 5, backgroundColor: 'rgba(11,18,32,.22)', overflow: 'hidden' },
   hProgressFill: { height: 8, borderRadius: 5, backgroundColor: '#fff' },
-  hProgressTxt: { fontFamily: FONT.bodyBlack,color: '#fff', fontSize: 12 },
-  gameRow: { flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 8 },
-  gameTxt: { fontFamily: FONT.bodyBlack,color: 'rgba(255,255,255,.92)', fontSize: 12 },
+  hProgressTxt: { fontFamily: FONT.bodyBlack, color: '#0b1220', fontSize: 12.5 },
 
   scroll: { padding: 18, paddingBottom: 28 },
   listLabel: { fontFamily: FONT.bodyBlack,fontSize: 12, color: V.color.textSecondary, letterSpacing: 0.5, marginBottom: 12, marginHorizontal: 2 },
