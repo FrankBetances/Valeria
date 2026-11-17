@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Valeria+ · Modelos 3D de los sets para la RA (10/11/2026).
+"""Valeria+ · Modelos 3D de los sets para la RA (10/11/2026; sets-v3 y Lúa V5 r3 desde el 17/11/2026).
 
-Fuente única: `lua-construye` (piezas STL de cada set y las composiciones de los
-pasos del manual, en agents/render_manual_sets.py) y `lua-firmware` (muñeco Lúa
-V5). De ahí salen:
+Fuente única: `lua-construye` (piezas STL de cada set y su montaje medido,
+`sets/<set>/montaje_v2.json`, con la matriz de cada pieza y los pasos) y
+`lua-firmware` (muñeco Lúa V5 r3, `cad/lua-v5-r3/montaje`). De ahí salen:
   · android-native/valeria-ar/src/main/assets/sets/*.vmesh  (mallas, metros)
   · src/steam/arSetModels.generated.ts                      (pasos por set)
 
@@ -22,6 +22,8 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT_MESH = os.path.join(ROOT, 'android-native/valeria-ar/src/main/assets/sets')
 OUT_TS = os.path.join(ROOT, 'src/steam/arSetModels.generated.ts')
 os.makedirs(OUT_MESH, exist_ok=True)
+for _viejo in os.listdir(OUT_MESH):          # sin mallas de una generación anterior en el APK
+    if _viejo.endswith('.vmesh'): os.remove(os.path.join(OUT_MESH, _viejo))
 C, F = args.construye, args.firmware
 
 def read_stl(path):
@@ -68,67 +70,29 @@ tree = ast.parse(src)
 def ev(node): return eval(compile(ast.Expression(node), '', 'eval'), {'__builtins__': {}}, {})
 COLORES = next(ev(n.value) for n in tree.body if isinstance(n, ast.Assign) and getattr(n.targets[0], 'id', '') == 'COLORES')
 
-# --- Composiciones de los pasos del manual (S0–S6) ---------------------------
-def compositions():
-    out = {}
-    for fn in tree.body:
-        if not (isinstance(fn, ast.FunctionDef) and fn.name.startswith('render_s')): continue
-        comps, cur = [], None
-        for st in fn.body:
-            for c in [n for n in ast.walk(st) if isinstance(n, ast.Call) and isinstance(n.func, ast.Name)]:
-                kw = {k.arg: k.value for k in c.keywords}
-                if c.func.id == 'escena':
-                    cur = {'pieces': [], 'arrows': [], 'lua': [], 'name': None}; comps.append(cur)
-                elif cur is None: continue
-                elif c.func.id == 'cargar_stl':
-                    a0 = c.args[0]
-                    cur['pieces'].append({
-                        'dir': ev(a0.args[0]), 'code': ev(a0.args[1]), 'color': ev(c.args[1]),
-                        'pos': list(ev(kw['pos'])) if 'pos' in kw else [0, 0, 0],
-                        'rot': list(ev(kw['rot_deg'])) if 'rot_deg' in kw else [0, 0, 0],
-                        'norm': ev(kw['normalizar_min']) if 'normalizar_min' in kw else False})
-                elif c.func.id == 'flecha':
-                    cur['arrows'].append([list(ev(c.args[0])), list(ev(c.args[1]))])
-                elif c.func.id == 'lua_v5_muneco':
-                    cur['lua'].append({'pos': list(ev(kw['pos'])), 'rot': ev(kw['rot_z_deg']) if 'rot_z_deg' in kw else 0.0})
-                elif c.func.id == 'foto':
-                    cur['name'] = ev(c.args[3])
-        out[fn.name[7:].upper()] = [c for c in comps if c['name'] and 'paso' in c['name']]
-    return out
-
 meshes = {}  # nombre -> (tris, bbox mm)
-def piece_mesh(p):
-    key = p['code'] + ('' if not any(p['rot']) else '_r' + '_'.join(str(int(a)) for a in p['rot']))
-    if key not in meshes:
-        t = read_stl(stl_set(p['dir'], p['code']))
-        if any(p['rot']): t = t @ rot_xyz(p['rot']).T
-        if len(t) > 4000: t = cluster(t, 1.0)   # roscas finas: en RA no se ven y pesan
-        if p['norm']: t = t - t.reshape(-1, 3).min(0)
-        v = t.reshape(-1, 3)
-        meshes[key] = (write_vmesh(key, t), v.min(0).tolist() + v.max(0).tolist())
-    return key
 
-# --- Muñeco Lúa V5: piezas de impresión devueltas a su sitio de montaje ------
+# --- Muñeco Lúa V5 r3: las mallas de montaje de lua-firmware --------------------
+# Las alternativas que ocupan el mismo enchufe se quedan fuera (cascabel ↔ lazo, sombrero ↔ flor) y la tapa
+# de la bahía, que va dentro del cubo.
 LUA_PARTS = ['cubo_caja', 'cubo_fondo', 'pata_izq', 'pata_der', 'brazo_izq', 'brazo_der', 'ala_izq', 'ala_der',
-             'cola', 'lazo', 'cabeza_bloque', 'cabeza_tapa', 'oreja_izq', 'oreja_der', 'flor']
+             'cola', 'lazo', 'cabeza_bloque', 'cabeza_dorso', 'cabeza_tapa', 'oreja_izq', 'oreja_der', 'flor']
 def build_lua():
-    base = f'{F}/cad/lua-v5'
-    defs = {}
-    for j in ('cubo_v5.json', 'cabeza_v5.json'):
-        defs.update(json.load(open(f'{base}/{j}', encoding='utf-8'))['piezas'])
+    base = f'{F}/cad/lua-v5-r3'
+    colores = {}
+    for j in ('cad/lua-v5/cubo_v5.json', 'cad/lua-v5/cabeza_v5.json'):      # los colores de la V5 (los mismos nombres)
+        if os.path.isfile(f'{F}/{j}'):
+            colores.update({k: v.get('color') for k, v in json.load(open(f'{F}/{j}', encoding='utf-8'))['piezas'].items()})
+    placa = json.load(open(f'{base}/cabeza_v6.json', encoding='utf-8'))['placa_v4']['carcasa_placa']
     parts, lo, hi = [], np.full(3, 1e9), np.full(3, -1e9)
     for n in LUA_PARTS:
-        d = defs[n]
-        Minv = np.linalg.inv(np.array(d['M_impresion'], float))
-        t = read_stl(f'{base}/{d["imprimir"]}')
-        t = t @ Minv[:3, :3].T + Minv[:3, 3]
-        t[..., 2] += 4.0                      # la base del muñeco apoya en z = −4
-        t = cluster(t, 1.5)
+        t = cluster(read_stl(f'{base}/montaje/{n}.stl'), 2.5)
         v = t.reshape(-1, 3); lo = np.minimum(lo, v.min(0)); hi = np.maximum(hi, v.max(0))
-        ck = d['color'] if d['color'] in COLORES else 'blanco'
+        ck = colores.get(n) if colores.get(n) in COLORES else 'blanco'
         parts.append({'m': 'lua_' + n, 'c': ck, 'tris': write_vmesh('lua_' + n, t)})
     # Disco oscuro del visor: la cara de Lúa (mismo cilindro que dibuja el manual).
-    seg, r, y0, y1, zc = 32, 24.0, -38.0, -30.0, 125.0
+    seg, r, zc = 32, placa['d'] / 2 - 1.0, placa['z_cabeza']
+    y0, y1 = placa['y_cristal_cabeza'] - 0.8, placa['y_cristal_cabeza'] + 4.0
     tris = []
     for i in range(seg):
         a0, a1 = 2 * math.pi * i / seg, 2 * math.pi * (i + 1) / seg
@@ -143,35 +107,73 @@ lua_parts, lua_bbox = build_lua()
 def gl(p, c):  # punto del set (mm) -> ancla (m)
     return [round((p[0] - c[0]) / 1000, 4), round(p[2] / 1000, 4), round(-(p[1] - c[1]) / 1000, 4)]
 
-sets_out = {}
-for sid, comps in compositions().items():
-    # Centro del set: caja del último paso (el montaje completo), piezas y Lúa.
-    lo, hi = np.full(2, 1e9), np.full(2, -1e9)
-    for comp in comps:
-        for p in comp['pieces']:
-            k = piece_mesh(p); bb = meshes[k][1]
-            lo = np.minimum(lo, [p['pos'][0] + bb[0], p['pos'][1] + bb[1]])
-            hi = np.maximum(hi, [p['pos'][0] + bb[3], p['pos'][1] + bb[4]])
-    c = ((lo + hi) / 2).tolist()
-    steps = []
-    for comp in comps:
-        steps.append({
-            'pieces': [{'m': piece_mesh(p), 'code': p['code'], 'c': p['color'], 'p': gl(p['pos'], c),
-                        'placed': p['color'] in ('gris', 'gris_claro')} for p in comp['pieces']],
-            'arrows': [[gl(a, c), gl(b, c)] for a, b in comp['arrows']],
-            'lua': [{'p': gl(l['pos'], c), 'r': l['rot']} for l in comp['lua']],
-        })
-    sets_out[sid] = {'center': [round(c[0], 1), round(c[1], 1)], 'size': [round(hi[0] - lo[0], 1), round(hi[1] - lo[1], 1)], 'steps': steps}
+def matriz(item):
+    if 'matriz' in item: return np.array(item['matriz'], float)
+    g = math.radians(item.get('rot_deg', [0, 0, 0])[2]); M = np.eye(4)
+    M[:2, :2] = [[math.cos(g), -math.sin(g)], [math.sin(g), math.cos(g)]]; M[:3, 3] = item.get('pos', [0, 0, 0])
+    return M
 
-# --- S8–S11: la maqueta entera (conjunto.stl), una sola malla ----------------
-for sid, carpeta in (('S8', 'S8-policia'), ('S9', 'S9-bomberos'), ('S10', 'S10-hospital'), ('S11', 'S11-trenes')):
-    t = read_stl(f'{C}/sets/{carpeta}/stl/conjunto.stl')
-    v = t.reshape(-1, 3); lo, hi = v.min(0), v.max(0)
-    c = [(lo[0] + hi[0]) / 2, (lo[1] + hi[1]) / 2]
-    t = t - [c[0], c[1], lo[2]]
-    write_vmesh(sid + '_conjunto', t)
-    sets_out[sid] = {'center': [round(c[0], 1), round(c[1], 1)], 'size': [round(hi[0] - lo[0], 1), round(hi[1] - lo[1], 1)],
-                     'steps': [{'pieces': [{'m': sid + '_conjunto', 'code': 'conjunto', 'c': 'arena', 'p': [0, 0, 0], 'placed': False}], 'arrows': [], 'lua': []}]}
+def color_de(code):
+    if code == 'K-ZOCALO-G': return 'azul_claro'
+    if code == 'K-ATRIL-G': return 'gris_claro'
+    if code == 'K-CON-G': return 'rojo'
+    if code.startswith('K-PLACA') or '-CMD-' in code or '-DEST-' in code: return 'amarillo'
+    if '-RES-' in code or '-ESF-' in code or '-MAS-' in code or '-FRU-' in code or '-PRI-' in code: return 'naranja'
+    if '-PIL-' in code: return 'morado'
+    if any(k in code for k in ('-BASE-', '-REC-', '-CUR-', '-TEE-', '-VIA-', '-TRA-', '-TIE-')): return 'turquesa'
+    if any(k in code for k in ('-COM-', '-PAR-', '-TOR-', '-HOS-', '-URG-', '-AND-')): return 'verde_claro'
+    return 'verde'
+
+def malla_girada(carpeta, code, R):
+    firma = '' if np.allclose(R, np.eye(3), atol=1e-6) else '_g' + format(abs(hash(tuple(np.round(R, 4).ravel()))) % 10**8, '08d')
+    key = code + firma
+    if key not in meshes:
+        t = read_stl(stl_set(carpeta, code))
+        if firma: t = t @ R.T
+        if len(t) > 2000: t = cluster(t, 2.5)   # roscas y curvas finas: en RA no se ven y pesan (rejilla de 2,5 mm)
+        v = t.reshape(-1, 3)
+        meshes[key] = (write_vmesh(key, t), v.min(0).tolist() + v.max(0).tolist())
+    return key
+
+PATIN_DZ = None
+def patin_mesh():
+    """La bandeja de Lúa (K-PATIN-G, del Set 0) en el marco de Lúa: el fondo de Lúa en z = 0."""
+    global PATIN_DZ
+    t = read_stl(stl_set('S0-kit-lua', 'K-PATIN-G'))
+    I = json.load(open(f'{C}/lua-v5/interfaz-construye.json', encoding='utf-8'))['patin']
+    PATIN_DZ = I['z_baldosa'] - I['largo_pivote']          # la punta de los pivotes, bajo el fondo de Lúa
+    t = t + [0, 0, PATIN_DZ]
+    write_vmesh('lua_patin', t)
+    return 'lua_patin'
+
+lua_parts.append({'m': patin_mesh(), 'c': 'gris', 'tris': 0})
+
+CARPETAS = {'S0': 'S0-kit-lua', 'S1': 'S1-camino', 'S2': 'S2-estacion-sonido', 'S3': 'S3-laboratorio-rampas',
+            'S4': 'S4-maquina-soplo', 'S5': 'S5-puente-equilibrio', 'S6': 'S6-jardin', 'S8': 'S8-policia',
+            'S9': 'S9-bomberos', 'S10': 'S10-hospital', 'S11': 'S11-trenes'}
+sets_out = {}
+for sid, carpeta in CARPETAS.items():
+    cfg = json.load(open(f'{C}/sets/{carpeta}/montaje_v2.json', encoding='utf-8'))
+    items = cfg['piezas_montadas']
+    inst = []
+    for it in items:
+        M = matriz(it)
+        k = malla_girada(carpeta, it['codigo'], M[:3, :3])
+        bb = meshes[k][1]
+        inst.append((it['codigo'], k, M[:3, 3].tolist(), bb))
+    xs = [v for (_c, _k, t, bb) in inst for v in (t[0] + bb[0], t[0] + bb[3])]
+    ys = [v for (_c, _k, t, bb) in inst for v in (t[1] + bb[1], t[1] + bb[4])]
+    c = [(min(xs) + max(xs)) / 2, (min(ys) + max(ys)) / 2]
+    x, y, rumbo, z = cfg['trayecto_lua'][0]
+    lua = [{'p': gl([x, y, z], c), 'r': round(rumbo + 90.0, 1)}]
+    steps, antes = [], set()
+    for paso in cfg['pasos']:
+        steps.append({
+            'pieces': [{'m': inst[i][1], 'code': inst[i][0], 'c': color_de(inst[i][0]), 'p': gl(inst[i][2], c),
+                        'placed': i in antes} for i in paso],
+            'arrows': [], 'lua': lua})
+        antes = set(paso)
+    sets_out[sid] = {'center': [round(c[0], 1), round(c[1], 1)], 'size': [round(max(xs) - min(xs), 1), round(max(ys) - min(ys), 1)], 'steps': steps}
 
 rgb = {k: [round(v[0], 3), round(v[1], 3), round(v[2], 3)] for k, v in COLORES.items()}
 def commit(repo):
@@ -179,7 +181,7 @@ def commit(repo):
     except Exception: return '?'
 with open(OUT_TS, 'w', encoding='utf-8') as f:
     f.write('// GENERADO por scripts/build-ar-set-models.py. No se edita a mano.\n')
-    f.write(f'// Fuente: lua-construye {commit(C)} (piezas y pasos del manual) y lua-firmware {commit(F)} (Lúa V5).\n')
+    f.write(f'// Fuente: lua-construye {commit(C)} (piezas y montaje_v2.json de cada set) y lua-firmware {commit(F)} (Lúa V5 r3).\n')
     f.write('// Posiciones en metros, ejes del ancla (X derecha, Y arriba, Z hacia la tableta).\n')
     f.write('/* eslint-disable */\n')
     f.write('export const AR_SET_COLORS: Record<string, readonly [number, number, number]> = ' + json.dumps(rgb) + ' as any;\n')
@@ -191,4 +193,4 @@ with open(OUT_TS, 'w', encoding='utf-8') as f:
 
 tot = sum(os.path.getsize(os.path.join(OUT_MESH, x)) for x in os.listdir(OUT_MESH))
 print(f'{len(os.listdir(OUT_MESH))} mallas, {tot/1e6:.2f} MB · sets: ' + ', '.join(f'{k}({len(v["steps"])} pasos)' for k, v in sets_out.items()))
-print('Lúa V5 bbox mm:', [round(x, 1) for x in lua_bbox], '· triángulos:', sum(p['tris'] for p in lua_parts))
+print('Lúa V5 r3 bbox mm:', [round(x, 1) for x in lua_bbox], '· triángulos:', sum(p['tris'] for p in lua_parts))

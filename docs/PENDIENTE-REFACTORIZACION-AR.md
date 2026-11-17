@@ -61,7 +61,7 @@ bloquea, se dice en la primera línea y se construye todo lo demás igual, con e
 1. ~~L06~~ **eliminada por Frank el 9/11/2026** (VRA: riesgo regulatorio). Manual y política de privacidad actualizados.
 2. **La cámara de piezas (etapa B)**: hoy todo lo que no es L01/L07 lo confirma el adulto, también dentro de las escenas. Se conecta cuando
    el banco D2 decida el marcador (`docs/banco-d2/`), sin rehacer las pantallas.
-3. S8–S11 solo tienen `conjunto.stl`: hasta que `lua-construye` las parta en piezas no hay pasos de montaje.
+3. ~~S8–S11 solo tienen `conjunto.stl`~~ **Cerrado el 17/11/2026** (rama `claude/exciting-volta-v190y9`, sin merge, **no visto en Android**): `lua-construye` sets-v3 parte S8–S11 en piezas 1:1 y `scripts/build-ar-set-models.py` lee ahora el `montaje_v2.json` de cada set (pasos 1–3 con sus piezas, también en S8–S11) y la Lúa V5 r3 de `lua-firmware/cad/lua-v5-r3` con su bandeja.
 4. Decisiones abiertas: renumerar IDs si gana AprilTag, `K-LOMO-G` en S0 y `tracked_object` en S3.
 
 ## Compromiso
