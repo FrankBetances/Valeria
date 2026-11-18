@@ -29,6 +29,15 @@
     -->
     <uses-feature android:name="android.hardware.camera.ar" android:required="false" />
 
+    <!--
+      La app es vertical (app.json) y estas actividades son horizontales: con las
+      dos orientaciones en el manifiesto, Play deduce `screen.portrait` y
+      `screen.landscape` OBLIGATORIAS y deja fuera a los aparatos de orientación
+      fija (aviso de Play Console, 18/11/2026). Se declaran opcionales.
+    -->
+    <uses-feature android:name="android.hardware.screen.portrait" android:required="false" />
+    <uses-feature android:name="android.hardware.screen.landscape" android:required="false" />
+
     <application>
         <meta-data android:name="com.google.ar.core" android:value="optional" />
 

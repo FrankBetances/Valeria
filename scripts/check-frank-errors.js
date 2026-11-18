@@ -55,6 +55,10 @@ const checks = [
     const head = c.slice(c.indexOf('<ScreenHeader compact'), c.indexOf('</ScreenHeader>'));
     return head.length > 0 && !/AcademyNextStep/.test(c) && !/headerSub|langNotice|gameRow/.test(head);
   }],
+  ['R30 Play: las orientaciones de pantalla se declaran opcionales (portrait y landscape required=false)', () => {
+    const m = read('android-native/valeria-ar/src/main/AndroidManifest.xml');
+    return ['portrait', 'landscape'].every((o) => new RegExp(`android\\.hardware\\.screen\\.${o}"\\s+android:required="false"`).test(m));
+  }],
 ];
 let bad = 0;
 for (const [name, fn] of checks) {
