@@ -36,6 +36,7 @@ impresas o un aparato.
 6. **`[Hecho]` El `protocol.json` de Valeria+ va por detrás del de `lua-firmware`.** El del
    firmware ya tiene `LIGHT` (18), `HAPTIC` (19), `CAP_LIGHT` (bit 4) y `CAP_HAPTIC` (bit 5); el de
    Valeria+ no. Hoy la app no puede encender ni una luz ni una vibración en ningún aparato.
+   **Cerrado el 18/11/2026:** `protocol.json` copiado de lua-firmware 84ef787 (`node scripts/build-lua-protocol.js --check`); `LuaLink` emite `LIGHT`/`HAPTIC` antes de la cara y los retos conceden `CAP_LIGHT`/`CAP_HAPTIC` (`node scripts/check-steam-manifests.js`, sección 9).
 7. **`[Hecho]` Las modalidades II y III para S0–S6 ya están construidas** sin cámara:
    `ValeriaSteamChallengeScreen` juega cada reto con `adult_tap` y, si Lúa está enlazada, le envía
    las caras (`luaSteamFrames`). El hueco real es la **cámara + la capa de revelación**, no un
@@ -70,7 +71,7 @@ impresas o un aparato.
 | :--- | :--- | :--- | :--- |
 | Cabeza de bloque | Pantalla redonda GC9A01 240 × 240 sobre ESP32-C3, Li-ion 3,7 V en conector MX1.25, se enrosca al cubo (rosca Ø42) y se carga desenroscada | `[Hecho]` en fichero · **NO PROBADO** | Las 28 caras (#0–#27) siguen siendo el canal principal |
 | Cubo | XIAO ESP32-C3 + DRV2605L + LRA + LED WS2812B + LiPo 803450; 11 enchufes, 13 piezas intercambiables, armario (lazo, cascabel, flor, sombrero) | `[Hecho]` en fichero · **firmware no escrito** | `LIGHT` y `HAPTIC` existen en el protocolo del firmware, pero ningún aparato los ejecuta todavía |
-| Topología BLE | **`[Inferencia]`** La cabeza y el cubo tienen cada uno su ESP32-C3: son dos periféricos. Cuál lleva `LIGHT`/`HAPTIC` y cómo se emparejan con la tableta no está escrito | `[Por validar]` | Decisión para `lua-firmware` antes de tocar `LuaLink` |
+| Topología BLE | La tableta habla solo con la cabeza; la cabeza manda modo, luz y vibración al cubo por ESP-NOW cada 250 ms (lua-firmware, decisión 43, 17/11/2026) | `[Hecho]` en fichero · no probado en placa | — |
 | Encaje con los sets | El patín `K-PATIN-G` es una **bandeja** donde se apoya el fondo de 108 × 108 (`interfaz-construye.json` `v5-cubo-1`) | `[Hecho]` en fichero · **NO PROBADO** | SL01 depende de que esa bandeja corra por la ranura con 210 mm de muñeco encima |
 | Puerta clínica B3-A | `LIGHT`/`HAPTIC` **apagados en `PHASE(0)`/`PHASE(1)`**, en silencio clínico, sin concesión o sin enlace. VIA+ nunca los concede. Ronroneo, nunca antes de 3 años | `[Hecho]` | `TurnGate` debe aplicarlo también en la app, no solo en el firmware |
 
@@ -188,7 +189,7 @@ WordPrompter`. Todo menos el primer eslabón y la capa de revelación ya está e
 | 8 / 9 | `AWARD` / `LEVEL` | Premio de cierre, a plazos de 3000 ms (CLAUDE.md §5b) |
 | 11 / 12 / 13 | `MOOD` / `ACCESSORY` / `RELAX` | Compañía, armario, descanso |
 | 16 / 17 | `GRANT` / `HEARTBEAT` | **Obligatorios**: concesión ≤ 60 s, latido cada 10 s |
-| 18 / 19 | `LIGHT` / `HAPTIC` | Solo en `lua-firmware`. Entran en Valeria+ cuando exista el firmware del cubo (Fase 5) |
+| 18 / 19 | `LIGHT` / `HAPTIC` | En Valeria+ desde el 18/11/2026. La cabeza los reenvía al cubo por ESP-NOW (decisión 43 de lua-firmware). Vibración solo con el interruptor del adulto en el reto, nivel 1; nunca con perfil en calma |
 
 ---
 

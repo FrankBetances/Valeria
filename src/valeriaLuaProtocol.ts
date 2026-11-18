@@ -33,6 +33,8 @@ export const LUA_OP = {
   RELAX: 0x0D,
   GRANT: 0x10,
   HEARTBEAT: 0x11,
+  LIGHT: 0x12,
+  HAPTIC: 0x13,
   BENCH: 0xF0,
 } as const;
 
@@ -45,6 +47,9 @@ export const LUA_CAP = {
   VISUAL: 0x01,
   SOUND: 0x02,
   NO_TOUCH: 0x04,
+  KINEMATICS: 0x08,
+  LIGHT: 0x10,
+  HAPTIC: 0x20,
 } as const;
 
 /**
@@ -69,6 +74,25 @@ export const LUA_SLOT = {
 
 /** Byte bajo de `ACCESSORY` que quita lo que la gata llevara puesto. */
 export const LUA_ACCESSORY_NONE = 0xFF;
+
+/** Catálogo flasheado del anillo de luz · parámetro de `LIGHT` (nunca color ni tiempo libre). */
+export const LUA_LIGHT = {
+  APAGADO: 0x00,
+  DIR_IZQ: 0x01,
+  DIR_DCHA: 0x02,
+  DIR_DELANTE: 0x03,
+  DIR_ATRAS: 0x04,
+  CALMA: 0x05,
+} as const;
+
+/** Catálogo flasheado de vibración · byte bajo de `HAPTIC` (el alto es el nivel 0-3). */
+export const LUA_HAPTIC = {
+  APAGADO: 0x00,
+  RONRONEO: 0x01,
+  LATIDO: 0x02,
+  METRONOMO_LENTO: 0x03,
+  CELEBRA_CORTO: 0x04,
+} as const;
 
 /** Operaciones de SAFE (con confirmación: aquí sí importa saber que llegó). */
 export const LUA_SAFE = {
@@ -116,3 +140,7 @@ export const luaGrantParam = (ttlSeconds: number, caps = 0): number => {
  */
 export const luaAccessoryParam = (slot: number, itemIndex: number): number =>
   ((slot & 0xff) << 8) | (itemIndex & 0xff);
+
+/** Parámetro de `HAPTIC`: patrón en el byte bajo y nivel 0-3 en el alto (se recorta a 0-3). */
+export const luaHapticParam = (pattern: number, level: number): number =>
+  ((Math.max(0, Math.min(3, Math.trunc(level))) & 0xff) << 8) | (pattern & 0xff);

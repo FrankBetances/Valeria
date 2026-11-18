@@ -21,6 +21,7 @@ import {
 } from './valeriaLuaProtocol';
 import { VISUAL_BREAK_SECONDS } from './valeriaActiveTimeMonitor';
 import { luaGrantCapsFor } from './valeriaLuaTouchPolicy';
+export { luaSteamCaps } from './valeriaLuaTouchPolicy';
 import { luaSessionRewardFrames } from './valeriaLuaMascot';
 import type { SessionReward } from './valeriaGamification';
 
@@ -44,9 +45,34 @@ export function luaSteamFrames(frames: readonly Uint8Array[]): void {
   if (sender && frames.length > 0) sender([...frames]);
 }
 
-/** Al salir de un reto: Lúa vuelve a la cara de espera. */
+let steamCaps: number = LUA_CAP.VISUAL;
+let steamRenew: ReturnType<typeof setInterval> | null = null;
+const STEAM_TTL_S = 30;
+
+const stopSteamRenew = (): void => {
+  if (!steamRenew) return;
+  clearInterval(steamRenew);
+  steamRenew = null;
+};
+
+/**
+ * Abre (o cambia) la concesión de un reto STEAM y la renueva por debajo de su
+ * TTL, como el módulo sensorial: sin `GRANT` el aparato está en REPOSO y no
+ * atiende ni la cara, ni la luz, ni la vibración que manda `LuaLink`.
+ */
+export function luaSteamGrant(caps: number): void {
+  steamCaps = caps;
+  send(luaFrame(LUA_OP.GRANT, luaGrantParam(STEAM_TTL_S, steamCaps)));
+  stopSteamRenew();
+  steamRenew = setInterval(() => {
+    send(luaFrame(LUA_OP.GRANT, luaGrantParam(STEAM_TTL_S, steamCaps)));
+  }, LUA_LIMITS.heartbeatSeconds * 1000);
+}
+
+/** Al salir de un reto: se apagan luz y vibración, Lúa vuelve a la cara de espera y la concesión deja de renovarse. */
 export function luaSteamIdle(): void {
-  send(luaFrame(LUA_OP.IDLE));
+  stopSteamRenew();
+  send(luaFrame(LUA_OP.LIGHT, 0), luaFrame(LUA_OP.HAPTIC, 0), luaFrame(LUA_OP.IDLE));
 }
 
 // ---------------------------------------------------------------------------

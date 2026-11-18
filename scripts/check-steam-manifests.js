@@ -196,6 +196,38 @@ function walk(value, where) {
 STEAM_WORLDS.forEach((w) => walk(w, w.id));
 ['es', 'en', 'ca', 'gl'].forEach((l) => walk(steamCapsules(l), `academy.${l}`));
 
+// 9 · Luz y vibración salen por BLE (18/11/2026: LIGHT/HAPTIC en protocol.json) y solo cuando toca.
+{
+  const LL = loadTs('src/steam/engine/LuaLink.ts');
+  const P = loadTs('src/valeriaLuaProtocol.ts');
+  const S = loadTs('src/valeriaLuaTouchPolicy.ts');
+  const frameOf = (frames, op) => frames.find((f) => f[1] === op);
+  const param = (f) => (f ? f[2] | (f[3] << 8) : -1);
+  for (const manifest of STEAM_WORLDS) {
+    for (const event of manifest.events) {
+      if (!(event.reaction.light in LL.LIGHT_TO_OPCODE_PARAM)) fail(`${event.id}: la luz ${event.reaction.light} no tiene patrón flasheado`);
+      if (!(event.reaction.haptic in LL.HAPTIC_TO_OPCODE_PARAM)) fail(`${event.id}: la vibración ${event.reaction.haptic} no tiene patrón flasheado`);
+    }
+  }
+  const run = (turn, light, haptic, hapticLevel) => {
+    const gate = applyTurnGate({ turn, isErrorOrBlockedState: false, ageBand: '4-5', light, haptic });
+    return LL.linkLua({ bleConnected: false, expression: 'atenta', light: gate.light, haptic: gate.haptic, hapticLevel, sink: null }).frames;
+  };
+  let f = run('motor', 'DIR_IZQ', 'RONRONEO', 1);
+  if (param(frameOf(f, P.LUA_OP.LIGHT)) !== P.LUA_LIGHT.DIR_IZQ) fail('turno motor: LIGHT no lleva DIR_IZQ');
+  if (param(frameOf(f, P.LUA_OP.HAPTIC)) !== P.luaHapticParam(P.LUA_HAPTIC.RONRONEO, 1)) fail('turno motor con vibración: HAPTIC no lleva RONRONEO a nivel 1');
+  if (f[f.length - 1][1] === P.LUA_OP.LIGHT || f[f.length - 1][1] === P.LUA_OP.HAPTIC) fail('la cara tiene que ser la última trama');
+  f = run('verbal', 'DIR_IZQ', 'RONRONEO', 1);
+  if (param(frameOf(f, P.LUA_OP.LIGHT)) !== 0 || param(frameOf(f, P.LUA_OP.HAPTIC)) !== 0) fail('turno verbal: luz o vibración encendidas (SETS.md §0.5)');
+  f = run('motor', 'DIR_IZQ', 'RONRONEO', 0);
+  if (param(frameOf(f, P.LUA_OP.HAPTIC)) !== 0) fail('vibración sin encender por el adulto: HAPTIC no es APAGADO');
+  const calm = S.luaSteamCaps({ calm: true, vibration: true });
+  if (calm & (P.LUA_CAP.LIGHT | P.LUA_CAP.HAPTIC)) fail('perfil en calma: el GRANT concede luz o vibración');
+  const all = S.luaSteamCaps({ calm: false, vibration: true });
+  if (all & P.LUA_CAP.SOUND) fail('el GRANT de un reto pide SOUND');
+  if (!(all & P.LUA_CAP.HAPTIC) || (S.luaSteamCaps({ calm: false, vibration: false }) & P.LUA_CAP.HAPTIC)) fail('la vibración no depende del interruptor del adulto');
+}
+
 if (fails.length) {
   console.error(`✗ Mundos STEAM: ${fails.length} fallo(s)`);
   fails.forEach((f) => console.error(`  · ${f}`));

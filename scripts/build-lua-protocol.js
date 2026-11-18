@@ -57,6 +57,10 @@ ${p.slots.map((s) => `#define LUA_SLOT_${s.key} ${hx(s.code)}  // ${s.note}`).jo
 #define LUA_ACCESSORY_ITEM(param) ((uint8_t)((param) & 0xFF))
 #define LUA_ACCESSORY_SLOT(param) ((uint8_t)(((param) >> 8) & 0xFF))
 
+// Patrones de luz (\`LIGHT\`) y de vibración (\`HAPTIC\`, byte bajo; el alto es el nivel 0-3)
+${p.lightPatterns.map((l) => `#define LUA_LIGHT_${l.key} ${hx(l.code)}  // ${l.note}`).join('\n')}
+${p.hapticPatterns.map((l) => `#define LUA_HAPTIC_${l.key} ${hx(l.code)}  // ${l.note}`).join('\n')}
+
 // Operaciones de SAFE
 ${p.safeOps.map((o) => `#define LUA_SAFE_${o.key} ${hx(o.code)}  // ${o.note}`).join('\n')}
 
@@ -116,6 +120,16 @@ ${p.slots.map((s) => `  ${s.key}: ${hx(s.code)},`).join('\n')}
 /** Byte bajo de \`ACCESSORY\` que quita lo que la gata llevara puesto. */
 export const LUA_ACCESSORY_NONE = ${hx(p.accessoryNone)};
 
+/** Catálogo flasheado del anillo de luz · parámetro de \`LIGHT\` (nunca color ni tiempo libre). */
+export const LUA_LIGHT = {
+${p.lightPatterns.map((l) => `  ${l.key}: ${hx(l.code)},`).join('\n')}
+} as const;
+
+/** Catálogo flasheado de vibración · byte bajo de \`HAPTIC\` (el alto es el nivel 0-3). */
+export const LUA_HAPTIC = {
+${p.hapticPatterns.map((l) => `  ${l.key}: ${hx(l.code)},`).join('\n')}
+} as const;
+
 /** Operaciones de SAFE (con confirmación: aquí sí importa saber que llegó). */
 export const LUA_SAFE = {
 ${p.safeOps.map((o) => `  ${o.key}: ${hx(o.code)},`).join('\n')}
@@ -158,6 +172,10 @@ export const luaGrantParam = (ttlSeconds: number, caps = 0): number => {
  */
 export const luaAccessoryParam = (slot: number, itemIndex: number): number =>
   ((slot & 0xff) << 8) | (itemIndex & 0xff);
+
+/** Parámetro de \`HAPTIC\`: patrón en el byte bajo y nivel 0-3 en el alto (se recorta a 0-3). */
+export const luaHapticParam = (pattern: number, level: number): number =>
+  ((Math.max(0, Math.min(3, Math.trunc(level))) & 0xff) << 8) | (pattern & 0xff);
 `;
 
 const check = process.argv.includes('--check');

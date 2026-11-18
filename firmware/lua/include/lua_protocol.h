@@ -26,6 +26,8 @@
 #define LUA_OP_RELAX 0x0D  // Ancla Visual Lejana (regla 20-20-20): la gata se echa a dormir mientras el niño mira lejos, para que el aparato no sea lo que le retiene la mirada. Es una SUGERENCIA que ejecuta el adulto, nunca un bloqueo: no revoca nada, no toca la concesión y no la renueva, y cualquier gesto posterior —PHASE, GRANT, IDLE— lo interrumpe en el acto. La duración se acota al techo del GRANT: un descanso no puede sobrevivir a la concesión que lo sostiene.
 #define LUA_OP_GRANT 0x10  // concede capacidades (§5 del plan). El byte alto es la máscara de `capabilities`: 0x00 significa SOLO VISUAL, que es lo que valía un GRANT antes de que el campo existiera. La capacidad sonora NUNCA es implícita: hay que pedir su bit.
 #define LUA_OP_HEARTBEAT 0x11  // renueva la concesión viva
+#define LUA_OP_LIGHT 0x12  // anillo de cuatro luces del bloque-cuello (V5). Índice a `lightPatterns`, nunca color ni tiempo libre. Exige `CAP_LIGHT`. Sin bit, en silencio clínico, en PHASE(0)/PHASE(1) o sin enlace: apagado. Añadido al final · 28/10/2026 · B3-A.
+#define LUA_OP_HAPTIC 0x13  // Ronroneo (bloque háptico V5). Índice a `hapticPatterns` y nivel 0-3; sin secuencias libres. Exige `CAP_HAPTIC`. Sin bit, en silencio clínico, en PHASE(0)/PHASE(1) o sin enlace: inerte. Añadido al final · 28/10/2026 · B3-A.
 #define LUA_OP_BENCH 0xF0  // Fase 0: pinta un frame completo y devuelve por STATE el tiempo de despacho. No se usa en producción.
 
 // Capacidades · byte ALTO del parámetro de GRANT. El byte BAJO es el TTL.
@@ -33,6 +35,9 @@
 #define LUA_CAP_VISUAL 0x01  // dibujar en el panel. Es lo que concede un GRANT con el byte alto a 0
 #define LUA_CAP_SOUND 0x02  // emitir sonido (zumbador de la D-F). Se concede aparte de la visual y caduca con ella. MUTE la quita sin apagar la pantalla
 #define LUA_CAP_NO_TOUCH 0x04  // el ÚNICO bit que RESTA en vez de conceder: inhibe el panel táctil durante esta concesión. Existe así, y no como un 'TOUCH' que concede, porque el dedo YA estaba atendido antes de que este bit existiera y un bit aditivo habría dejado sin caricia a todo lo ya escrito. Lo pide el ejercicio cuya DINÁMICA no admite el dedo (D-O). Caduca con la concesión, y la inhibición automática de las fases de escucha y repetición sigue aplicándose aunque no se pida.
+#define LUA_CAP_KINEMATICS 0x08  // movimiento de cuello y orejas (busto robótico 4 DoF). Se concede aparte y caduca con la concesión viva. Un silencio clínico, un MUTE o la falta de este bit dejan el busto quieto y relajado. Y mientras la tableta escucha —PHASE(0) y PHASE(1)— no se mueve aunque esté concedido
+#define LUA_CAP_LIGHT 0x10  // anillo de luz del bloque-cuello (V5). Se concede aparte; desactivado por omisión. Sin este bit el anillo permanece apagado en todos los estados. VIA+ no lo concede nunca. Apagado también en PHASE(0)/PHASE(1), silencio clínico y caída de BLE. Añadido al final · 28/10/2026 · B3-A.
+#define LUA_CAP_HAPTIC 0x20  // vibración del bloque Ronroneo (V5). Se concede aparte; desactivado por omisión. Sin este bit no hay vibración en ningún estado. VIA+ no lo concede nunca (y el bloque no va en ese kit). Apagado también en PHASE(0)/PHASE(1), silencio clínico y caída de BLE. Añadido al final · 28/10/2026 · B3-A.
 #define LUA_GRANT_TTL(param) ((uint8_t)((param) & 0xFF))
 #define LUA_GRANT_CAPS(param) ((uint8_t)(((param) >> 8) & 0xFF))
 
@@ -49,6 +54,19 @@
 #define LUA_ACCESSORY_NONE 0xFF  // byte bajo: quita lo que hubiera
 #define LUA_ACCESSORY_ITEM(param) ((uint8_t)((param) & 0xFF))
 #define LUA_ACCESSORY_SLOT(param) ((uint8_t)(((param) >> 8) & 0xFF))
+
+// Patrones de luz (`LIGHT`) y de vibración (`HAPTIC`, byte bajo; el alto es el nivel 0-3)
+#define LUA_LIGHT_APAGADO 0x00  // anillo apagado · estado por omisión y destino de silencio clínico / sin CAP_LIGHT
+#define LUA_LIGHT_DIR_IZQ 0x01  // luz del lado izquierdo · giro / lado
+#define LUA_LIGHT_DIR_DCHA 0x02  // luz del lado derecho · giro / lado
+#define LUA_LIGHT_DIR_DELANTE 0x03  // luz delantera · avance / sol
+#define LUA_LIGHT_DIR_ATRAS 0x04  // luz trasera · atrás / sombra
+#define LUA_LIGHT_CALMA 0x05  // las cuatro a brillo mínimo, cambio lento · RELAX / equilibrio
+#define LUA_HAPTIC_APAGADO 0x00  // sin vibración · estado inerte por omisión y destino de silencio clínico / sin CAP_HAPTIC
+#define LUA_HAPTIC_RONRONEO 0x01  // vibración lenta y suave · corregulación / RELAX
+#define LUA_HAPTIC_LATIDO 0x02  // pulso lento · presencia suave
+#define LUA_HAPTIC_METRONOMO_LENTO 0x03  // metrónomo táctil lento · ritmo silábico (hipótesis)
+#define LUA_HAPTIC_CELEBRA_CORTO 0x04  // celebración breve al completar un objetivo motor · nunca error
 
 // Operaciones de SAFE
 #define LUA_SAFE_CLINICAL_SILENCE 0x01  // revoca toda concesión y bloquea nuevas. NO se toca: es el cierre total, y es el que cubre que alguien traiga el aparato a una medición que nadie planeó

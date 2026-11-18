@@ -1,16 +1,21 @@
 // LuaLink (T2-B). Traduce LuaSemanticExpression a opcodes de
-// firmware/lua/protocol.json v1. Luz, háptico y V5 no están en esa tabla:
-// no se inventan y no salen por BLE. Sin enlace, la cara se espeja en la tableta.
+// firmware/lua/protocol.json v1. Desde el 18/11/2026 la tabla trae LIGHT y HAPTIC
+// (los repite el cubo de Lúa V5): la luz y la vibración del reto salen por BLE
+// traducidas a los catálogos flasheados. V5 sigue sin opcode. Sin enlace, la cara
+// se espeja en la tableta.
 import { AWARD_GLYPH_KEYS, AWARD_TIER_KEYS, PICTO_KEYS } from '../../ValeriaPixelArt';
 import { luaAwardParam } from '../../valeriaLuaMascot';
 import {
   LUA_ACCESSORY_NONE,
+  LUA_HAPTIC,
+  LUA_LIGHT,
   LUA_LIMITS,
   LUA_MOOD,
   LUA_OP,
   LUA_SLOT,
   luaAccessoryParam,
   luaFrame,
+  luaHapticParam,
   type LuaOp,
 } from '../../valeriaLuaProtocol';
 import { getCollectibleById } from '../../types/valeriaLua';
@@ -21,7 +26,31 @@ import type {
 } from '../types';
 
 /** Nombres del plan que protocol.json v1 no define. No se emiten. */
-export const CHANNELS_WITHOUT_OPCODE = ['LIGHT', 'HAPTIC', 'V5'] as const;
+export const CHANNELS_WITHOUT_OPCODE = ['V5'] as const;
+
+/**
+ * Patrón semántico de los mundos → catálogo flasheado (`lightPatterns`). Los que
+ * dependen del sitio salen de cómo se monta el set en lua-construye sets-v3: en
+ * el Set 3 Lúa mira a la rampa (delante) y en el Set 6 el pozo del sol queda a su
+ * izquierda. «Las cuatro tenues» es CALMA (las cuatro a brillo mínimo).
+ */
+export const LIGHT_TO_OPCODE_PARAM: Readonly<Record<LightPattern, number>> = {
+  APAGADO: LUA_LIGHT.APAGADO,
+  DIR_DELANTE: LUA_LIGHT.DIR_DELANTE,
+  DIR_IZQ: LUA_LIGHT.DIR_IZQ,
+  DIR_DCHA: LUA_LIGHT.DIR_DCHA,
+  TENUE_CUATRO: LUA_LIGHT.CALMA,
+  LADO_RAMPA: LUA_LIGHT.DIR_DELANTE,
+  LADO_SOL: LUA_LIGHT.DIR_IZQ,
+};
+
+/** Patrón semántico → catálogo flasheado (`hapticPatterns`). */
+export const HAPTIC_TO_OPCODE_PARAM: Readonly<Record<HapticPattern, number>> = {
+  APAGADO: LUA_HAPTIC.APAGADO,
+  CELEBRA_CORTO: LUA_HAPTIC.CELEBRA_CORTO,
+  METRONOMO_LENTO: LUA_HAPTIC.METRONOMO_LENTO,
+  RONRONEO: LUA_HAPTIC.RONRONEO,
+};
 
 export const LUA_OFFICIAL_FACE_COUNT = 28;
 
@@ -212,6 +241,12 @@ export interface LuaLinkInput {
   accessory?: LuaAccessoryRequest;
   light: LightPattern;
   haptic: HapticPattern;
+  /**
+   * Nivel de vibración 0-3 que ha elegido el adulto (SETS.md §0.5: opcional, la
+   * activa el adulto, empieza en mínimo). 0 o ausente = sin vibración, sea cual
+   * sea el patrón. El aparato además exige `CAP_HAPTIC` en el GRANT.
+   */
+  hapticLevel?: number;
   screenOverlay?: ScreenOverlay;
   sink?: LuaFrameSink | null;
   now?: () => number;
@@ -298,6 +333,14 @@ export function linkLua(input: LuaLinkInput): LuaLinkProjection {
     if (!glyphOk || !tierOk) unmapped.push(`AWARD:${input.awardFamily}`);
     else prelude.push(luaFrame(LUA_OP.AWARD, luaAwardParam(glyph, tier)));
   }
+
+  // Luz y vibración: siempre se mandan (también APAGADO), para que el cubo no se
+  // quede con la de la reacción anterior. TurnGate ya las apagó en turno verbal
+  // o de error; el aparato las vuelve a apagar sin su bit o en PHASE(0)/(1).
+  prelude.push(luaFrame(LUA_OP.LIGHT, LIGHT_TO_OPCODE_PARAM[input.light] ?? LUA_LIGHT.APAGADO));
+  const level = Math.max(0, Math.min(3, Math.trunc(input.hapticLevel ?? 0)));
+  const hapticCode = level > 0 ? HAPTIC_TO_OPCODE_PARAM[input.haptic] ?? LUA_HAPTIC.APAGADO : LUA_HAPTIC.APAGADO;
+  prelude.push(luaFrame(LUA_OP.HAPTIC, luaHapticParam(hapticCode, hapticCode === LUA_HAPTIC.APAGADO ? 0 : level)));
 
   // El opcode de la cara va el último: en el firmware cada trama sustituye
   // a la anterior, y aquí no hay desfile (el presupuesto es < 300 ms).

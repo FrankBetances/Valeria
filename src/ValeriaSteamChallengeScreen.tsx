@@ -7,13 +7,13 @@
 // La app no puntúa ni decide la progresión: «Reto conseguido» lo marca el adulto.
 import { Celebration } from './ui/Celebration';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Switch, Text, View } from 'react-native';
 import { CatPixel } from './ValeriaCatPixel';
 import { useT } from './i18n';
 import { ScreenHeader } from './ui/ScreenHeader';
 import { V } from './valeriaTheme';
 import { getUiLang } from './valeriaUiLang';
-import { isLuaLinked, luaSteamFrames, luaSteamIdle } from './valeriaLuaSession';
+import { isLuaLinked, luaSteamCaps, luaSteamFrames, luaSteamGrant, luaSteamIdle } from './valeriaLuaSession';
 import { steamScreenStyles as base } from './ValeriaSteamWorldScreen';
 import { EventStabilizer } from './steam/engine/EventStabilizer';
 import { runReactionSequence, type SequenceClock } from './steam/engine/ReactionSequencer';
@@ -58,6 +58,8 @@ export const ValeriaSteamChallengeScreen: React.FC<{
   const [hint2, setHint2] = useState(false);
   const [reaction, setReaction] = useState<Reaction | null>(null);
   const [achieved, setAchieved] = useState(false);
+  // Vibración del cubo de Lúa: la enciende el adulto y arranca en el nivel mínimo (SETS.md §0.5).
+  const [vibration, setVibration] = useState(false);
   const pauseTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const turn = useRef(0);
   const sentToLua = useRef(false);
@@ -78,6 +80,15 @@ export const ValeriaSteamChallengeScreen: React.FC<{
   }, [silenceLeft]);
 
   const adjust = adjustmentsFor(profile);
+  const linked = isLuaLinked();
+  const hapticLevel = vibration && !adjust.calmReactions ? 1 : 0;
+
+  // La concesión del reto: luz (si el perfil no pide calma) y vibración (si el adulto la encendió).
+  useEffect(() => {
+    if (!linked) return;
+    luaSteamGrant(luaSteamCaps({ calm: adjust.calmReactions, vibration }));
+    sentToLua.current = true;
+  }, [linked, adjust.calmReactions, vibration]);
   const events = challenge.targetEvents
     .map((id) => world.events.find((e) => e.id === id))
     .filter((e): e is WorldEventSpec => Boolean(e));
@@ -103,6 +114,7 @@ export const ValeriaSteamChallengeScreen: React.FC<{
       lang,
       sink: luaSteamFrames,
       clock,
+      hapticLevel,
     }).then((trace) => {
       if (mine !== turn.current) return;
       if (trace.link.emitted) sentToLua.current = true;
@@ -116,7 +128,7 @@ export const ValeriaSteamChallengeScreen: React.FC<{
         category: trace.prompt.spatialCategory,
       });
     });
-  }, [adjust.calmReactions, challenge.ageBand, challenge.neuroStage, lang, world.id]);
+  }, [adjust.calmReactions, challenge.ageBand, challenge.neuroStage, hapticLevel, lang, world.id]);
 
   const markAchieved = () => {
     const goal = events.find((e) => e.reaction.expression === 'celebra_exito') ?? events[events.length - 1];
@@ -239,6 +251,16 @@ export const ValeriaSteamChallengeScreen: React.FC<{
               )}
             </View>
           </View>
+          {linked && !adjust.calmReactions && (
+            <View style={s.vibRow}>
+              <View style={s.vibText}>
+                <Text style={s.hintTitle}>{t.steam.vibrationLabel}</Text>
+                <Text style={base.body}>{vibration ? t.steam.vibrationOn : t.steam.vibrationOff}</Text>
+              </View>
+              <Switch value={vibration} onValueChange={setVibration} accessibilityLabel={t.steam.vibrationA11y}
+                trackColor={{ false: '#d1d5db', true: V.color.primary }} thumbColor="#ffffff" />
+            </View>
+          )}
           {reaction && !reaction.waiting && reaction.hint && (
             <>
               <Text style={base.kicker}>{`${t.steam.wordKicker} · ${eventTitle(reaction.eventId)}`}</Text>
@@ -307,6 +329,8 @@ const s = StyleSheet.create({
   silenceNum: { fontFamily: FONT.display,fontSize: 26, color: V.color.primaryDark, marginTop: V.space.sm },
   after: { fontFamily: FONT.bodyBlack,fontSize: 13.5, color: V.color.primaryDark, marginTop: V.space.sm },
   hint: { borderWidth: 1, borderColor: V.color.border, borderRadius: 12, padding: 12, marginTop: V.space.sm, backgroundColor: V.color.pageBg },
+  vibRow: { flexDirection: 'row', alignItems: 'center', gap: V.space.sm, borderWidth: 1, borderColor: V.color.border, borderRadius: 12, padding: 12, marginTop: V.space.sm, backgroundColor: V.color.pageBg },
+  vibText: { flex: 1 },
   hintTitle: { fontFamily: FONT.bodyBlack,fontSize: 14, color: V.color.textPrimary },
   eventBtn: {
     borderWidth: 1.5, borderColor: V.color.borderActive, borderRadius: 24, padding: 12,

@@ -58,3 +58,11 @@ export const luaTouchAllowed = (exerciseCode: string): boolean =>
  */
 export const luaGrantCapsFor = (exerciseCode: string): number =>
   LUA_CAP.VISUAL | (luaTouchAllowed(exerciseCode) ? 0 : LUA_CAP.NO_TOUCH);
+
+/**
+ * Máscara del `GRANT` de un reto STEAM con Lúa (18/11/2026). Luz siempre que el
+ * perfil no pida reacciones en calma; vibración solo si el adulto la ha
+ * encendido (SETS.md §0.5) y tampoco con el perfil en calma. Nunca `SOUND`.
+ */
+export const luaSteamCaps = (opts: { calm: boolean; vibration: boolean }): number =>
+  LUA_CAP.VISUAL | (opts.calm ? 0 : LUA_CAP.LIGHT | (opts.vibration ? LUA_CAP.HAPTIC : 0));

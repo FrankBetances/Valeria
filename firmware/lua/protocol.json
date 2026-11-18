@@ -51,7 +51,24 @@
     { "key": "RELAX", "code": 13, "param": "duración del descanso en segundos 1-60", "note": "Ancla Visual Lejana (regla 20-20-20): la gata se echa a dormir mientras el niño mira lejos, para que el aparato no sea lo que le retiene la mirada. Es una SUGERENCIA que ejecuta el adulto, nunca un bloqueo: no revoca nada, no toca la concesión y no la renueva, y cualquier gesto posterior —PHASE, GRANT, IDLE— lo interrumpe en el acto. La duración se acota al techo del GRANT: un descanso no puede sobrevivir a la concesión que lo sostiene." },
     { "key": "GRANT", "code": 16, "param": "ttl en segundos 1-60 (byte bajo) + máscara de capacidades (byte alto)", "note": "concede capacidades (§5 del plan). El byte alto es la máscara de `capabilities`: 0x00 significa SOLO VISUAL, que es lo que valía un GRANT antes de que el campo existiera. La capacidad sonora NUNCA es implícita: hay que pedir su bit." },
     { "key": "HEARTBEAT", "code": 17, "param": "—", "note": "renueva la concesión viva" },
+    { "key": "LIGHT", "code": 18, "param": "índice del patrón de luz (byte bajo) · catálogo flasheado", "note": "anillo de cuatro luces del bloque-cuello (V5). Índice a `lightPatterns`, nunca color ni tiempo libre. Exige `CAP_LIGHT`. Sin bit, en silencio clínico, en PHASE(0)/PHASE(1) o sin enlace: apagado. Añadido al final · 28/10/2026 · B3-A." },
+    { "key": "HAPTIC", "code": 19, "param": "índice del patrón (byte bajo) + nivel 0-3 (byte alto)", "note": "Ronroneo (bloque háptico V5). Índice a `hapticPatterns` y nivel 0-3; sin secuencias libres. Exige `CAP_HAPTIC`. Sin bit, en silencio clínico, en PHASE(0)/PHASE(1) o sin enlace: inerte. Añadido al final · 28/10/2026 · B3-A." },
     { "key": "BENCH", "code": 240, "param": "—", "note": "Fase 0: pinta un frame completo y devuelve por STATE el tiempo de despacho. No se usa en producción." }
+  ],
+  "lightPatterns": [
+    { "key": "APAGADO", "code": 0, "note": "anillo apagado · estado por omisión y destino de silencio clínico / sin CAP_LIGHT" },
+    { "key": "DIR_IZQ", "code": 1, "note": "luz del lado izquierdo · giro / lado" },
+    { "key": "DIR_DCHA", "code": 2, "note": "luz del lado derecho · giro / lado" },
+    { "key": "DIR_DELANTE", "code": 3, "note": "luz delantera · avance / sol" },
+    { "key": "DIR_ATRAS", "code": 4, "note": "luz trasera · atrás / sombra" },
+    { "key": "CALMA", "code": 5, "note": "las cuatro a brillo mínimo, cambio lento · RELAX / equilibrio" }
+  ],
+  "hapticPatterns": [
+    { "key": "APAGADO", "code": 0, "note": "sin vibración · estado inerte por omisión y destino de silencio clínico / sin CAP_HAPTIC" },
+    { "key": "RONRONEO", "code": 1, "note": "vibración lenta y suave · corregulación / RELAX" },
+    { "key": "LATIDO", "code": 2, "note": "pulso lento · presencia suave" },
+    { "key": "METRONOMO_LENTO", "code": 3, "note": "metrónomo táctil lento · ritmo silábico (hipótesis)" },
+    { "key": "CELEBRA_CORTO", "code": 4, "note": "celebración breve al completar un objetivo motor · nunca error" }
   ],
   "moods": [
     { "key": "SERENE", "code": 0, "state": "IDLE_SERENE", "note": "respiración pautada y cola rítmica. Es el reposo de la mascota, no el REPOSO de la máquina de estados: aquí hay concesión viva" },
@@ -68,7 +85,10 @@
   "capabilities": [
     { "key": "VISUAL", "bit": 0, "note": "dibujar en el panel. Es lo que concede un GRANT con el byte alto a 0" },
     { "key": "SOUND", "bit": 1, "note": "emitir sonido (zumbador de la D-F). Se concede aparte de la visual y caduca con ella. MUTE la quita sin apagar la pantalla" },
-    { "key": "NO_TOUCH", "bit": 2, "note": "el ÚNICO bit que RESTA en vez de conceder: inhibe el panel táctil durante esta concesión. Existe así, y no como un 'TOUCH' que concede, porque el dedo YA estaba atendido antes de que este bit existiera y un bit aditivo habría dejado sin caricia a todo lo ya escrito. Lo pide el ejercicio cuya DINÁMICA no admite el dedo (D-O). Caduca con la concesión, y la inhibición automática de las fases de escucha y repetición sigue aplicándose aunque no se pida." }
+    { "key": "NO_TOUCH", "bit": 2, "note": "el ÚNICO bit que RESTA en vez de conceder: inhibe el panel táctil durante esta concesión. Existe así, y no como un 'TOUCH' que concede, porque el dedo YA estaba atendido antes de que este bit existiera y un bit aditivo habría dejado sin caricia a todo lo ya escrito. Lo pide el ejercicio cuya DINÁMICA no admite el dedo (D-O). Caduca con la concesión, y la inhibición automática de las fases de escucha y repetición sigue aplicándose aunque no se pida." },
+    { "key": "KINEMATICS", "bit": 3, "note": "movimiento de cuello y orejas (busto robótico 4 DoF). Se concede aparte y caduca con la concesión viva. Un silencio clínico, un MUTE o la falta de este bit dejan el busto quieto y relajado. Y mientras la tableta escucha —PHASE(0) y PHASE(1)— no se mueve aunque esté concedido" },
+    { "key": "LIGHT", "bit": 4, "note": "anillo de luz del bloque-cuello (V5). Se concede aparte; desactivado por omisión. Sin este bit el anillo permanece apagado en todos los estados. VIA+ no lo concede nunca. Apagado también en PHASE(0)/PHASE(1), silencio clínico y caída de BLE. Añadido al final · 28/10/2026 · B3-A." },
+    { "key": "HAPTIC", "bit": 5, "note": "vibración del bloque Ronroneo (V5). Se concede aparte; desactivado por omisión. Sin este bit no hay vibración en ningún estado. VIA+ no lo concede nunca (y el bloque no va en ese kit). Apagado también en PHASE(0)/PHASE(1), silencio clínico y caída de BLE. Añadido al final · 28/10/2026 · B3-A." }
   ],
   "safeOps": [
     { "key": "CLINICAL_SILENCE", "code": 1, "note": "revoca toda concesión y bloquea nuevas. NO se toca: es el cierre total, y es el que cubre que alguien traiga el aparato a una medición que nadie planeó" },

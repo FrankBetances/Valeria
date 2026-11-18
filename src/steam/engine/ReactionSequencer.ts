@@ -64,6 +64,8 @@ export interface ReactionSequenceInput {
   };
   sink?: LuaFrameSink | null;
   clock?: SequenceClock;
+  /** Nivel de vibración 0-3 elegido por el adulto (0 = apagada). */
+  hapticLevel?: number;
 }
 
 export interface ReactionTrace {
@@ -116,6 +118,7 @@ export async function runReactionSequence(input: ReactionSequenceInput): Promise
     accessory: input.accessory,
     light: gate.light,
     haptic: gate.haptic,
+    hapticLevel: input.hapticLevel,
     screenOverlay: input.event.reaction.screenOverlay,
     sink: input.sink,
     now: () => clock.now(),
