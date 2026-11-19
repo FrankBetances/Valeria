@@ -4,6 +4,7 @@
 // Muro clínico: la participación y la autorregulación siempre suman XP;
 // parar, pausar o abandonar nunca resta ni penaliza.
 // ============================================================================
+import { logStimulation } from '../valeriaFollowUp';
 import { useSyncExternalStore } from 'react';
 import { runAfterInteractions } from '../runAfterInteractions';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -119,6 +120,7 @@ export async function recordSensorySession(
         ? (await decryptJSON<SensorySessionRecord[]>(existingHistoryRaw)) ?? []
         : [];
       history.unshift(fullSession);
+      void logStimulation('sensorial');
       // Mantener últimas 50 sesiones para evitar sobrecarga de almacenamiento
       const trimmed = history.slice(0, 50);
       await AsyncStorage.setItem(STORAGE_KEYS.sensorySessions, await encryptJSON(trimmed));

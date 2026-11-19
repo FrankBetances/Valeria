@@ -15,6 +15,7 @@
 // ============================================================================
 import { ScreenHeader } from './ui/ScreenHeader';
 import React, { useEffect, useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
 import { View, Text, Pressable, ScrollView, Switch, StyleSheet } from 'react-native';
 import { V } from './valeriaTheme';
 import { BlockIcon } from './ValeriaBlockIcons';
@@ -33,6 +34,7 @@ import { FONT } from './ui/fonts';
 import { notify } from './ui/notify';
 
 export const ValeriaSettingsScreen: React.FC = () => {
+  const navigation = useNavigation<any>();
   const t = useT();
   const [reminders, setReminders] = useState(false);
   // Se carga siempre, aunque los avisos estén apagados, para que al
@@ -143,6 +145,16 @@ export const ValeriaSettingsScreen: React.FC = () => {
         {/* `onLight`: el selector está estilado para la cabecera turquesa de
             Créditos (texto blanco sobre translúcido). Aquí el fondo es claro. */}
         <View style={s.pickerWrap}><ValeriaUiLangPicker onLight /></View>
+
+        {/* ---- Seguimiento entre consultas: pauta, notas, otros centros, PIN ---- */}
+        <View style={{ height: V.space.md }} />
+        <ListRow
+          icon="chart" accent="#00756f" tint="#e6f9f8"
+          title={t.followUp.entryTitle}
+          subtitle={t.followUp.entrySub}
+          trailing="chevron"
+          onPress={() => navigation.navigate('FollowUp')}
+        />
 
         {/* ---- Acceso Profesional: PIN → exportación dual de evidencia ---- */}
         <View style={{ height: V.space.md }} />

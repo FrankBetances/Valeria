@@ -198,7 +198,10 @@ export const ValeriaBlockListScreen: React.FC<{ navigation: any; route: any }> =
           <Text style={s.listLabel}>{copy.label}</Text>
         </View>
 
-        {sections.map(({ band, rows }) => {
+        {sections.map(({ band, rows: allRows }) => {
+          // Modo Familia: solo lo pautado. Lo no pautado ni se ve ni se lanza;
+          // aparece con el PIN del profesional para poder pautarlo.
+          const rows = unlocked ? allRows : allRows.filter(({ i }) => active[i]);
           if (!rows.length) return null;
           return (
             <View key={band ?? 'all'}>
@@ -237,6 +240,10 @@ export const ValeriaBlockListScreen: React.FC<{ navigation: any; route: any }> =
             </View>
           );
         })}
+
+        {!unlocked && activeCount < list.length && (
+          <Text style={s.helper}>{t.followUp.hiddenNotPlanned(list.length - activeCount)}</Text>
+        )}
 
         {/* La puerta del PIN, al final: en Modo Familia no hay nada que editar
             arriba y la píldora se comía el sitio del primer ejercicio. */}

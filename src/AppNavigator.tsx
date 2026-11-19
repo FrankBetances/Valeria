@@ -23,6 +23,7 @@
 //     @react-native-async-storage/async-storage react-native-svg
 //   (En bare RN, además: cd ios && pod install)
 // ============================================================================
+import { ValeriaFollowUpScreen } from './ValeriaFollowUpScreen';
 import React, { useEffect, useRef } from 'react';
 import { View } from 'react-native';
 import { NavigationContainer, createNavigationContainerRef, NavigatorScreenParams } from '@react-navigation/native';
@@ -106,6 +107,7 @@ export type ValeriaStackParamList = {
   SensoryExercise: { exerciseId?: string } | undefined;
   Writing: undefined;
   Results: undefined;
+  FollowUp: undefined;
   AventurasLuaHub: undefined;
   LuaAssessmentPlayer: { ageBand: AgeBand; initialQuestionIndex?: number };
   LuaStoryViewer: { storyId: string };
@@ -159,6 +161,7 @@ export const ValeriaNavigator: React.FC = () => (
       {({ navigation: nav }) => <ValeriaWritingExerciseScreen onBack={() => nav.goBack()} />}
     </Stack.Screen>
     <Stack.Screen name="Results" component={ValeriaPatientResultsDashboardScreen} />
+    <Stack.Screen name="FollowUp" component={ValeriaFollowUpScreen} />
     <Stack.Screen name="AventurasLuaHub" component={ValeriaAventurasLuaHubScreen} />
     <Stack.Screen name="LuaAssessmentPlayer" component={LuaAssessmentPlayerScreen} />
     <Stack.Screen name="LuaStoryViewer" component={LuaStoryViewerScreen} />

@@ -53,6 +53,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { V, STORAGE_KEYS } from './valeriaTheme';
 import { useT } from './i18n';
 import { registerSession, SessionReward, levelProgress, xpToNext } from './valeriaGamification';
+import { logStimulation, FollowArea } from './valeriaFollowUp';
+import { getExercisesForBlock } from './valeriaExerciseMeta';
+// Área del ejercicio para el registro de seguimiento: la del bloque que lo contiene.
+const areaForExercise = (id: string): FollowArea =>
+  (['lenguaje', 'tea', 'dislexia'] as const).find((b) => getExercisesForBlock(b).some((e) => e.id === id)) ?? 'audicion';
 import { luaSessionReward, cancelSessionReward } from './valeriaLuaSession';
 import { PixelAward, tierBg, streakTier } from './ValeriaPixelAwards';
 import { CatPixel } from './ValeriaCatPixel';
@@ -684,6 +689,7 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
     try {
       // Recompensas estilo Duolingo: XP, racha y logros.
       const premio = await registerSession(avg, res.length);
+      void logStimulation(areaForExercise(sessionIds[0] ?? ''));
       setReward(premio);
       // Y lo mismo en el cristal: la gata del aparato enseña la insignia y el
       // nivel a la vez que la tableta. Sin aparato emparejado no hace nada.

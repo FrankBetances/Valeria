@@ -11,6 +11,7 @@ import { BlockIcon } from './ValeriaBlockIcons';
 import { useT } from './i18n';
 import { FONT } from './ui/fonts';
 import { BottomSheet } from 'heroui-native';
+import { verifyPin, listPros } from './valeriaFollowUp';
 
 // ----------------------------------------------------------------------------
 // Seguridad: SHA-256 en JS puro (compatible con Hermes, sin crypto.subtle).
@@ -96,6 +97,13 @@ export const ProPinModal: React.FC<{
   const t = useT();
   const [pin, setPin] = useState('');
   const [pinErr, setPinErr] = useState(false);
+  // Con profesionales dados de alta el PIN de administración ya no abre, así
+  // que la pista del PIN de demostración se esconde.
+  const [hasPros, setHasPros] = useState(false);
+  // Freno a la fuerza bruta: 5 fallos seguidos → 30 s sin teclado.
+  const fails = React.useRef(0);
+  const [lockedUntil, setLockedUntil] = useState(0);
+  React.useEffect(() => { if (open) void listPros().then((p) => setHasPros(p.length > 0)); }, [open]);
 
   // El estado se sigue limpiando al cerrar; el panel lo pinta HeroUI.
 
@@ -104,13 +112,16 @@ export const ProPinModal: React.FC<{
 
   const pressDigit = async (d: string) => {
     if (pin.length >= 4) return;
+    if (Date.now() < lockedUntil) { setPinErr(true); return; }
     const next = pin + d;
     setPin(next); setPinErr(false);
     if (next.length === 4) {
       // Nunca dejar el teclado bloqueado: cualquier fallo del hash se trata
       // como PIN incorrecto y se limpia para poder reintentar.
       let ok = false;
-      try { ok = (await sha256(next)) === MASTER_PIN_HASH; } catch (e) { ok = false; }
+      try { ok = !!(await verifyPin(next)); } catch (e) { ok = false; }
+      if (ok) fails.current = 0;
+      else if (++fails.current >= 5) { fails.current = 0; setLockedUntil(Date.now() + 30000); }
       if (ok) {
         setTimeout(() => { setPin(''); setPinErr(false); onUnlock(); }, 180);
       } else {
@@ -145,7 +156,7 @@ export const ProPinModal: React.FC<{
             return <View key={i} style={[s.pinCell, pinErr ? s.pinCellErr : filled ? s.pinCellOn : s.pinCellOff]} />;
           })}
         </View>
-        <Text style={[s.pinError, { opacity: pinErr ? 1 : 0 }]}>{t.pro.pinError}</Text>
+        <Text style={[s.pinError, { opacity: pinErr ? 1 : 0 }]}>{Date.now() < lockedUntil ? t.followUp.pinLocked : t.pro.pinError}</Text>
         <View style={s.keypad}>
           {['1', '2', '3', '4', '5', '6', '7', '8', '9'].map((d) => (
             <Pressable key={d} onPress={() => pressDigit(d)} style={s.key}><Text style={s.keyTxt}>{d}</Text></Pressable>
@@ -154,7 +165,7 @@ export const ProPinModal: React.FC<{
           <Pressable onPress={() => pressDigit('0')} style={s.key}><Text style={s.keyTxt}>0</Text></Pressable>
           <Pressable onPress={() => setPin((p) => p.slice(0, -1))} style={[s.key, { backgroundColor: '#fff' }]}><Text style={[s.keyTxt, { fontSize: 20, color: '#6b7280' }]}>⌫</Text></Pressable>
         </View>
-        <Text style={s.demoPin}>{t.pro.demoPin}</Text>
+        {!hasPros && <Text style={s.demoPin}>{t.pro.demoPin}</Text>}
         </ScrollView>
       </View>
         </BottomSheet.Content>

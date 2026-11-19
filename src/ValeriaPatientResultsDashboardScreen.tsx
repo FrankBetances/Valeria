@@ -384,6 +384,17 @@ export const ValeriaPatientResultsDashboardScreen: React.FC<{ navigation?: any }
         kicker="valeria+" icon="level" title={t.results.title} subtitle={patientLine} />
 
       <ScrollView style={st.flex} contentContainerStyle={st.scroll} showsVerticalScrollIndicator={false}>
+        {/* SEGUIMIENTO ENTRE CONSULTAS: realizado frente a pautado y notas */}
+        <Pressable onPress={() => navigation?.navigate('FollowUp')} style={st.followCta}
+          accessibilityRole="button" accessibilityLabel={t.followUp.entryTitle}>
+          <View style={st.chip}><BlockIcon name="chart" color="#00756f" size={17} /></View>
+          <View style={{ flexShrink: 1, flexGrow: 1 }}>
+            <Text style={st.cardTitle}>{t.followUp.entryTitle}</Text>
+            <Text style={st.followSub}>{t.followUp.entrySub}</Text>
+          </View>
+          <Text style={st.followChev}>›</Text>
+        </Pressable>
+
         {/* PROGRESO GAMIFICADO: racha, nivel y logros */}
         {game && (
           <Reanimated.View entering={enterAt(0)}>
@@ -800,6 +811,9 @@ export const ValeriaPatientResultsDashboardScreen: React.FC<{ navigation?: any }
 const st = StyleSheet.create({
   flex: { flex: 1, backgroundColor: V.color.pageBg },
   scroll: { padding: 18, paddingBottom: 36 },
+  followCta: { flexDirection: 'row', alignItems: 'center', gap: 12, backgroundColor: '#fff', borderRadius: 18, padding: 14, marginBottom: 14, borderWidth: 1.5, borderColor: '#bfe7e4' },
+  followSub: { fontFamily: FONT.bodyBold, fontSize: 12.5, color: V.color.textSecondary, marginTop: 2 },
+  followChev: { fontSize: 24, color: '#00756f' },
 
   header: {
     backgroundColor: V.color.primary,

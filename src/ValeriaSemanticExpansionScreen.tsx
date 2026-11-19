@@ -29,6 +29,7 @@ import { V, STORAGE_KEYS } from './valeriaTheme';
 import { useT, UiStrings } from './i18n';
 import { ProUnlockPill, ProPinModal } from './ValeriaProPin';
 import { registerSession, SessionReward } from './valeriaGamification';
+import { logStimulation } from './valeriaFollowUp';
 import { luaSessionReward, cancelSessionReward } from './valeriaLuaSession';
 import { markBlockCompleted, trackListenStart, trackListenNoMatch } from './valeriaTelemetry';
 import {
@@ -637,6 +638,7 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
     } catch (e) { /* almacenamiento no disponible */ }
     try {
       const premio = await registerSession(avg, res.length);
+      void logStimulation('expansion');
       setReward(premio);
       luaSessionReward(premio); // el mismo premio, en el cristal
     } catch (e) { /* noop */ }

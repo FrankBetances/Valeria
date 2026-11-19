@@ -29,6 +29,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { V, STORAGE_KEYS } from './valeriaTheme';
 import { ProUnlockPill, ProPinModal } from './ValeriaProPin';
 import { registerSession, SessionReward } from './valeriaGamification';
+import { logStimulation } from './valeriaFollowUp';
 import { luaSessionReward, cancelSessionReward } from './valeriaLuaSession';
 import { markBlockCompleted, trackListenStart, trackListenNoMatch } from './valeriaTelemetry';
 import {
@@ -601,6 +602,7 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
     } catch (e) { /* almacenamiento no disponible */ }
     try {
       const premio = await registerSession(avg, res.length);
+      void logStimulation('pares');
       setReward(premio);
       luaSessionReward(premio); // el mismo premio, en el cristal
     } catch (e) { /* noop */ }
