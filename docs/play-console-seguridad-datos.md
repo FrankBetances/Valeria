@@ -1,7 +1,7 @@
 # Formulario de *Seguridad de los datos* · Google Play Console
 
 **Ruta en Play Console:** *Política de la app → Contenido de la app → Seguridad de los datos*.
-Fecha de esta revisión: **21 de septiembre de 2026** · app `eu.futureforkids.valeria` **3.0.0**.
+Fecha de esta revisión: **19 de noviembre de 2026** · app `eu.futureforkids.valeria` **3.0.0**.
 
 Este documento es la **fuente de verdad** de lo que se marca en ese formulario, con la
 prueba de código al lado de cada respuesta. Google contrasta el formulario contra
@@ -151,6 +151,22 @@ Sin AAID, sin `com.google.android.gms.permission.AD_ID`, sin publicidad. La fich
 técnica del teléfono que guarda RA (marca, modelo, versión de Android, fps, mm de
 pantalla) no identifica el aparato y no sale de él.
 
+### 3.8 Seguimiento entre consultas (19/11/2026) — **no recopilado**
+
+| Dato nuevo | Dónde vive | Por qué no cambia el formulario |
+| --- | --- | --- |
+| **Notas** profesional ↔ familia (texto, fecha, autor, centro, «leída por») | `@valeria_notas_seguimiento_<clave del menor>`, cifrado con `valeriaCrypto` (`src/valeriaFollowUp.ts`) | No se envían a ningún sitio. Las indicaciones «a distancia» viajan como un código que el profesional manda él mismo por el menú de compartir y la familia pega a mano: transferencia iniciada por la persona usuaria, no por la app |
+| **Consentimiento** para compartir con otros centros y su historial (fecha de cada concesión o retirada) | `@valeria_compartir_consentimiento_<clave>`, cifrado | Es un registro local. El resumen solo sale como QR en pantalla o por el menú de compartir de Android, a iniciativa de la familia y con la autorización activa |
+| **Profesionales**: nombre, especialidad, centro y hash con sal del PIN (nunca el PIN en claro) | `@valeria_profesionales` | Local; no hay cuentas ni servidor que los reciba |
+| **Frecuencia recomendada** por área y **registro de sesiones** (fecha ISO + área) | `@valeria_pauta_frecuencia_<clave>`, `@valeria_estimulacion_<clave>`, cifrados | Local; el registro se recorta a un año |
+
+La política (`site/privacidad.html` y `privacy.html`, 19/11/2026) describe estos
+datos en §3 y añade en §5 a «otros profesionales que siguen al menor» como cuarta
+situación en que un dato puede salir del teléfono, siempre por acción de la familia.
+Contarlo en la política no obliga a declararlo en el formulario (mismo criterio
+que §3.1 y §3.3). El gate `check-data-safety-declaration.js` pasó en verde con
+este cambio (run 825).
+
 ---
 
 ## 4. Prácticas de seguridad
@@ -167,8 +183,9 @@ pantalla) no identifica el aparato y no sale de él.
 - **Acceso a la app** (la sección donde se dan credenciales al revisor): responder
   que **no hacen falta**: la app no tiene inicio de sesión. Es cierto desde el apartado 2 y evita el rechazo por
   «funcionalidad no accesible para el revisor». Lo que sí conviene anotar en las
-  instrucciones para el revisor es que el panel del adulto está tras un PIN que el
-  propio adulto fija en el primer arranque.
+  instrucciones para el revisor es el PIN de administración (**1985**), que abre el
+  modo profesional mientras no haya ningún profesional dado de alta en el aparato
+  (desde el 19/11/2026 cada profesional tiene su PIN y el 1985 deja de abrir).
 
 ---
 
