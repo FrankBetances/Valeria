@@ -68,7 +68,7 @@ TARGET_LUFS = -17.0
 TARGET_TP = -1.5
 TARGET_LRA = 15.0
 MAX_GAIN_REDUCTION_DB = 3.0
-COMP_RATIOS = (2, 3, 4)
+COMP_RATIOS = (2, 3, 4, 6, 8)
 EDGE_MS = 50
 EDGE_THRESH_DB = -45.0
 FADE_MS = 10
@@ -425,6 +425,17 @@ def master_to_m4a(
                 mr2 = re.search(r"\{[^{}]*\"normalization_type\"[^{}]*\}", p2_r.stderr, re.S)
                 if mr2:
                     norm_type = json.loads(mr2.group(0)).get("normalization_type", norm_type)
+        if norm_type != "linear":
+            # Último recurso, lineal por construcción: una sola ganancia fija calculada
+            # con la medida del propio audio (sin loudnorm), con el pico real a raya.
+            gain = min(eff_target - float(stats["input_i"]), (TARGET_TP - 0.2) - float(stats["input_tp"]))
+            subprocess.run(
+                ["ffmpeg", "-y", "-loglevel", "error", "-i", str(work_wav),
+                 "-af", f"volume={gain:.2f}dB", "-ar", str(p_sr), "-ac", "1", "-c:a", "aac", "-b:a", AAC_BITRATE,
+                 "-movflags", "+faststart", "-f", "mp4", str(tmp_m4a)],
+                check=True,
+            )
+            norm_type = "linear"
         final_sec, lufs = measure_lufs(tmp_m4a)
         shutil.copy2(tmp_m4a, m4a)
         return final_sec, lufs, norm_type, comp_gr_db, lim_gr_db, reduced_linear_target
