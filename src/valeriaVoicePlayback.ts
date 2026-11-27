@@ -162,7 +162,7 @@ export function playVoiceAsset(source: number, cb: VoicePlaybackCallbacks = {}):
 //
 // Los ids castellanos no llevan prefijo (retro-compatibilidad del corpus), así
 // que 'es' se resuelve por descarte: si hay algún id sin prefijo de lengua.
-const LANG_PREFIXES = ['gl_', 'eu_', 'en_', 'ca_'];
+const LANG_PREFIXES = ['gl_', 'eu_', 'en_', 'ca_', 'es-DO_'];
 
 export const hasAssetsFor = (lang: string): boolean => {
   const ids = voiceAssetIds();

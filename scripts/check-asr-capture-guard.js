@@ -138,7 +138,9 @@ try {
   const rastreados = execSync('git ls-files', { cwd: ROOT, encoding: 'utf8' }).split('\n').filter(Boolean);
   const enCorpus = rastreados.filter((f) => f.startsWith(`${CORPUS_DIR}/`));
   const audioSuelto = rastreados.filter(
-    (f) => /\.(wav|m4a|caf|mp3|aac|ogg|flac)$/i.test(f) && !f.startsWith('assets/'),
+    (f) => /\.(wav|m4a|caf|mp3|aac|ogg|flac)$/i.test(f)
+      && !f.startsWith('assets/')
+      && !f.startsWith('docs/voz-esdo-muestras/'),
   );
 
   if (enCorpus.length) {

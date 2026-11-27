@@ -22,7 +22,7 @@ const path = require('path');
 const ROOT = path.join(__dirname, '..');
 const ENTRY = path.join(ROOT, 'src', 'valeriaVoiceCorpus.ts');
 const ASSETS_DIR = path.join(ROOT, 'assets', 'voice');
-const LANGS_WITH_ASSETS = ['es', 'gl', 'eu', 'en', 'ca'];
+const LANGS_WITH_ASSETS = ['es', 'gl', 'eu', 'en', 'ca', 'es-DO'];
 
 // Idiomas que aún NO se exigen si su banco no se ha sintetizado NUNCA (cero
 // assets). Es la ventana de alta de una variedad nueva: el corpus `en` entra en
@@ -33,13 +33,10 @@ const LANGS_WITH_ASSETS = ['es', 'gl', 'eu', 'en', 'ca'];
 // está generado y a partir de ahí cualquier locución sin asset es un defecto
 // real y bloquea igual que es/gl/eu.
 //
-// `ca` entra por esta misma puerta (ago 2026): su banco clínico y sus 858
-// locuciones están en el corpus, pero Matxa-TTS (projecte AINA) aún no ha
-// sintetizado ni una. Sin esta lista, el build de la rama saldría rojo sin
-// salida; con ella, el catalán no se exige HOY y empieza a exigirse solo cuando
-// el workflow deje el primer asset. Lo que no hace falta acordarse de tocar
-// después: en cuanto haya un `ca_*.m4a`, este gate ya bloquea por los que falten.
-const LANGS_PENDING_FIRST_BATCH = ['en', 'ca'];
+// `ca` y `es-DO` entran por esta misma puerta: mientras no se sintetice el
+// primer asset de la variedad (D1 pendiente para es-DO), no bloquean el build;
+// en cuanto exista el primer `es-DO_*.m4a`, la cobertura pasa a exigirse al 100 %.
+const LANGS_PENDING_FIRST_BATCH = ['en', 'ca', 'es-DO'];
 
 const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'valeria-voice-corpus-check-'));
 try {

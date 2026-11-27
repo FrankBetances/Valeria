@@ -174,15 +174,15 @@ export function contentLocale(loc: Locale = active): Locale {
 }
 
 // Banco de voz PRE-GENERADA de la variedad, o null si usa la voz del sistema.
-// (es-DO no pregenera: suena con la voz latina del dispositivo.)
 export function assetLang(loc: Locale = active): VoiceLang | null {
   const c = contentLocale(loc);
   return c === 'gl' ? 'gl'
     : c === 'eu' ? 'eu'
       : c === 'en-US' ? 'en'
         : c === 'ca' ? 'ca'
-          : c === 'es' ? 'es'
-            : null;
+          : c === 'es-DO' ? 'es-DO'
+            : c === 'es' ? 'es'
+              : null;
 }
 
 // Locale BCP-47 para el ASR (expo-speech-recognition) y la voz del sistema (TTS).
