@@ -1380,6 +1380,9 @@ export const GL: UiStrings = {
     installHint:
       'Tras instalar: Axustes → Sistema → Saída de texto a voz → elixe «Motor de voz de Google» e '
       + 'descarga a voz de Español (España). Despois volve aquí e toca «Volver comprobar».',
+    voiceStatsSummary: (appPct: number, phonePct: number): string =>
+      `Esta semana: ${appPct} % voz Valeria+, ${phonePct} % voz do teléfono`,
+    voiceStatsEmpty: 'Esta semana: aínda sen locucións rexistradas',
 
     privCapture:
       '⏺ CAPTURA DE CORPUS ACTIVA. Esta build garda no dispositivo o audio da quenda de fala. '

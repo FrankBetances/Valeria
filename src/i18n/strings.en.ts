@@ -1348,6 +1348,9 @@ export const EN: UiStrings = {
     installHint:
       'After installing: Settings → System → Text-to-speech output → pick “Google Speech Services” and '
       + 'download the Spanish (Spain) voice. Then come back here and tap “Check again”.',
+    voiceStatsSummary: (appPct: number, phonePct: number): string =>
+      `This week: ${appPct}% Valeria+ voice, ${phonePct}% phone voice`,
+    voiceStatsEmpty: 'This week: no spoken prompts recorded yet',
 
     privCapture:
       '⏺ CORPUS CAPTURE IS ON. This build stores the audio of the speaking turn on the device. It is '

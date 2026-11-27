@@ -223,14 +223,28 @@ interface StepRecord { stars: 1 | 2 | 3; heard: string; mode: 'comprension' | 'p
 // reintento y modelo lento también deben verse reflejados).
 interface LivePrompt { text: string; mode: 'child' | 'slowPhrase'; }
 
-// Combina onDone/onError del TTS en un único "continuar" con rescate temporal,
-// por si el motor de síntesis no avisa del final (voces ausentes, web sin audio).
-const afterSpeak = (fn: () => void, maxWaitMs = 15000) => {
-  let fired = false;
-  const once = () => { if (!fired) { fired = true; clearTimeout(timer); fn(); } };
-  const timer = setTimeout(once, maxWaitMs);
-  return { onDone: once, onError: once };
-};
+// Combina onDone/onError del TTS en un único "continuar" con rescate temporal
+// y pausa opcional encadenada, ambos cancelables al desmontar.
+const createSpeakChainer = (timers: Set<ReturnType<typeof setTimeout>>, isMounted: () => boolean) =>
+  (fn: () => void, maxWaitMs = 15000, pauseMs = 0) => {
+    let fired = false;
+    const clear = (id: ReturnType<typeof setTimeout>) => { clearTimeout(id); timers.delete(id); };
+    const run = () => {
+      if (!isMounted()) return;
+      if (pauseMs > 0) {
+        const p = setTimeout(() => { timers.delete(p); if (isMounted()) fn(); }, pauseMs);
+        timers.add(p);
+      } else {
+        fn();
+      }
+    };
+    const timer = setTimeout(() => {
+      if (!fired) { fired = true; timers.delete(timer); if (isMounted()) fn(); }
+    }, maxWaitMs);
+    timers.add(timer);
+    const once = () => { if (!fired) { fired = true; clear(timer); run(); } };
+    return { onDone: once, onError: once };
+  };
 
 export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
   const t = useT();
@@ -292,6 +306,8 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
   // vacío, se evalúa esto en vez de dar el intento por perdido.
   const bestPartialRef = useRef('');
   const mounted = useRef(true);
+  const speakTimers = useRef<Set<ReturnType<typeof setTimeout>>>(new Set()).current;
+  const afterSpeak = useRef(createSpeakChainer(speakTimers, () => mounted.current)).current;
   const pulse = useRef(new Animated.Value(0)).current;
   // Vuelve arriba al cambiar de paso: sin esto el nuevo paso aparecía con el
   // scroll del anterior, a mitad de página, como si la sesión no avanzara.
@@ -316,7 +332,14 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
       if (mounted.current) setAutoRecord(auto);
       try { const g = await loadGame(); if (mounted.current) setGame(g); } catch (e) { /* noop */ }
     })();
-    return () => { mounted.current = false; stopSpeaking(); stopListening(); releaseListening(); };
+    return () => {
+      mounted.current = false;
+      for (const id of speakTimers) clearTimeout(id);
+      speakTimers.clear();
+      stopSpeaking();
+      stopListening();
+      releaseListening();
+    };
   }, []);
 
   // ES-02: el botón atrás físico de Android se comporta igual que el botón
@@ -557,22 +580,20 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
       setState('assist');
       const together = togetherPhrase();
       setLivePrompt({ text: together, mode: 'child' });
-      speakToChild(together);
-      setTimeout(() => {
+      speakToChild(together, afterSpeak(() => {
         if (!mounted.current) return;
         setLivePrompt({ text: st.tts, mode: 'slowPhrase' });
         speakPhraseSlow(st.tts);
-      }, 1500);
+      }, 15000, 250));
     } else {
       setState('retry');
       const msg = level === 1 ? almostPhrase() : noHearPhrase();
       setLivePrompt({ text: msg, mode: 'child' });
-      speakToChild(msg);
-      setTimeout(() => {
+      speakToChild(msg, afterSpeak(() => {
         if (!mounted.current) return;
         setLivePrompt({ text: st.tts, mode: 'slowPhrase' });
         speakPhraseSlow(st.tts);
-      }, 2000);
+      }, 15000, 250));
     }
   };
 

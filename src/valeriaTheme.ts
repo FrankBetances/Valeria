@@ -116,6 +116,7 @@ export const STORAGE_KEYS = {
   estimulacion: '@valeria_estimulacion',       // Seguimiento: fecha ISO + área de cada sesión hecha (cifrado, sufijo por paciente)
   notasSeguimiento: '@valeria_notas_seguimiento', // Seguimiento: notas profesional↔familia (cifrado, sufijo por paciente)
   compartirConsentimiento: '@valeria_compartir_consentimiento', // Seguimiento: consentimiento para otros centros + registro (cifrado)          // Mundos STEAM: perfil de adaptación elegido a mano con PIN (ausente = ninguno)
+  vozContador: '@valeria_voz_contador',        // Contador local de locuciones pregrabadas vs sistema (cifrado, sin texto)
 };
 
 // Marca / mascota: la gata Lúa en píxel art. El componente reutilizable

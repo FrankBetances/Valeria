@@ -63,11 +63,9 @@ export interface ProsodyProfile {
 export const PROSODY_LATIN: ProsodyProfile = { gapMs: 40, chainMinWords: 14, mergeMinWords: 4 };
 
 // Variedades con banco neuronal pregenerado (es, gl, eu): expo-speech es aquí el
-// camino de rescate, no el habitual. Conservan el troceo y la respiración de
-// siempre para no alterar una prosodia ya validada con las logopedas; la
-// normalización de puntuación sí se les aplica —es una mejora del rescate y
-// nunca alcanza al audio pregenerado, que se resuelve antes de llegar aquí.
-export const PROSODY_DEFAULT: ProsodyProfile = { gapMs: 110, chainMinWords: 0, mergeMinWords: 0 };
+// camino de rescate, no el habitual. Solo se trocean enunciados muy largos
+// (> 25 palabras) para no interrumpir la prosodia natural del motor.
+export const PROSODY_DEFAULT: ProsodyProfile = { gapMs: 80, chainMinWords: 25, mergeMinWords: 4 };
 
 // `en-US` va de momento con el perfil de VOZ DEL SISTEMA (el mismo que es-DO),
 // no con el de banco pregenerado, porque hoy no tiene assets Piper: expo-speech

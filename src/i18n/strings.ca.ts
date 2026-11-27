@@ -1306,6 +1306,9 @@ export const CA: UiStrings = {
     installHint:
       'Després d\'instal·lar: Ajustos → Sistema → Sortida de text a veu → tria «Motor de veu de Google» i '
       + 'descarrega la veu d\'Espanyol (Espanya). Després torna aquí i toca «Tornar a comprovar».',
+    voiceStatsSummary: (appPct: number, phonePct: number): string =>
+      `Aquesta setmana: ${appPct} % veu Valeria+, ${phonePct} % veu del telèfon`,
+    voiceStatsEmpty: 'Aquesta setmana: encara sense locucions registrades',
 
     privCapture:
       '⏺ CAPTURA DE CORPUS ACTIVA. Aquesta versió desa al dispositiu l\'àudio del torn de parla. '

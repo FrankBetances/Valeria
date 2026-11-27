@@ -101,14 +101,28 @@ interface TrialRecord {
 }
 
 // Combina onDone/onError del TTS en un único "continuar" que solo dispara una
-// vez, con temporizador de rescate: si el motor de síntesis nunca avisa del
-// final (voces no disponibles, web sin audio), el ensayo no se queda bloqueado.
-const afterSpeak = (fn: () => void, maxWaitMs = 15000) => {
-  let fired = false;
-  const once = () => { if (!fired) { fired = true; clearTimeout(timer); fn(); } };
-  const timer = setTimeout(once, maxWaitMs);
-  return { onDone: once, onError: once };
-};
+// vez, con temporizador de rescate y pausa opcional encadenada, ambos
+// cancelables al desmontar.
+const createSpeakChainer = (timers: Set<ReturnType<typeof setTimeout>>, isMounted: () => boolean) =>
+  (fn: () => void, maxWaitMs = 15000, pauseMs = 0) => {
+    let fired = false;
+    const clear = (id: ReturnType<typeof setTimeout>) => { clearTimeout(id); timers.delete(id); };
+    const run = () => {
+      if (!isMounted()) return;
+      if (pauseMs > 0) {
+        const p = setTimeout(() => { timers.delete(p); if (isMounted()) fn(); }, pauseMs);
+        timers.add(p);
+      } else {
+        fn();
+      }
+    };
+    const timer = setTimeout(() => {
+      if (!fired) { fired = true; timers.delete(timer); if (isMounted()) fn(); }
+    }, maxWaitMs);
+    timers.add(timer);
+    const once = () => { if (!fired) { fired = true; clear(timer); run(); } };
+    return { onDone: once, onError: once };
+  };
 
 // ----------------------------------------------------------------------------
 // Sello doble: dos huellas en extremos opuestos que padre e hijo deben pulsar
@@ -355,6 +369,8 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
   // Mínimos lo tiraba.
   const bestPartialRef = useRef('');
   const mounted = useRef(true);
+  const speakTimers = useRef<Set<ReturnType<typeof setTimeout>>>(new Set()).current;
+  const afterSpeak = useRef(createSpeakChainer(speakTimers, () => mounted.current)).current;
   const pulse = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
@@ -373,7 +389,15 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
       // estar ya subida cuando el niño regresa al banco.
       try { const g = await loadGame(); if (mounted.current) setGame(g); } catch (e) { /* noop */ }
     })();
-    return () => { mounted.current = false; stopSpeaking(); stopListening(); releaseListening(); releaseNoise(); };
+    return () => {
+      mounted.current = false;
+      for (const id of speakTimers) clearTimeout(id);
+      speakTimers.clear();
+      stopSpeaking();
+      stopListening();
+      releaseListening();
+      releaseNoise();
+    };
   }, []);
 
   useEffect(() => {
@@ -512,23 +536,21 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
         setStep('assist');
         const together = togetherPhrase();
         setLivePrompt({ text: together, mode: 'child' });
-        speakToChild(together);
-        setTimeout(() => {
+        speakToChild(together, afterSpeak(() => {
           if (!mounted.current) return;
           setLivePrompt({ text: p.target, mode: 'slow' });
           speakWordSlow(p.target);
-        }, 1500);
+        }, 15000, 250));
       } else {
         setCorrectionKind(branch);
         setStep('correction');
         const correction = branch === 'foil' ? p.onFoil.say : almostPhrase();
         setLivePrompt({ text: correction, mode: 'child' });
-        speakToChild(correction);
-        setTimeout(() => {
+        speakToChild(correction, afterSpeak(() => {
           if (!mounted.current) return;
           setLivePrompt({ text: p.target, mode: 'slow' });
           speakWordSlow(p.target);
-        }, 2200);
+        }, 15000, 250));
       }
       return;
     }

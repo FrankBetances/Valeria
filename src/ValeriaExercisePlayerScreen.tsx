@@ -419,9 +419,13 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
     })();
   }, []);
 
+  const mounted = useRef(true);
   // Silencia la voz de la app al cambiar de ejercicio y al salir de la pantalla.
   useEffect(() => { stopSpeaking(); }, [idx, subIdx]);
-  useEffect(() => () => { stopSpeaking(); releaseNoise(); }, []);
+  useEffect(() => {
+    mounted.current = true;
+    return () => { mounted.current = false; clearGameTimers(); stopSpeaking(); releaseNoise(); };
+  }, []);
 
   // Vuelve arriba al cambiar de ejercicio o nivel: la evaluación se toca al
   // final de la página, y sin este reset el siguiente ejercicio aparecía ya
@@ -483,18 +487,24 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
   }, [selloCooldown]);
 
   // DX-3 · Síntesis fonémica rítmica: emite cada fonema AISLADO con la latencia
-  // forzada del protocolo (phonemeGapMs, 500 ms) entre uno y otro. La fusión la
-  // hace el niño; la app jamás pronuncia la palabra completa aquí.
+  // forzada del protocolo (phonemeGapMs, 500 ms) tras acabar el audio anterior.
   const playPhonemes = () => {
     const phs = ex.phonemes ?? [];
     if (!phs.length) return;
     stopSpeaking();
     clearTimeout(synTimer.current);
+    const gap = ex.phonemeGapMs ?? 500;
     const step = (i: number) => {
-      if (i >= phs.length) return;
-      speakWordSlow(phs[i]);
-      // ~700 ms de locución del fonema + la latencia forzada entre fonemas.
-      synTimer.current = setTimeout(() => step(i + 1), (ex.phonemeGapMs ?? 500) + 700);
+      if (!mounted.current || i >= phs.length) return;
+      let advanced = false;
+      const advance = () => {
+        if (advanced || !mounted.current) return;
+        advanced = true;
+        clearTimeout(synTimer.current);
+        synTimer.current = setTimeout(() => step(i + 1), gap);
+      };
+      synTimer.current = setTimeout(advance, 5000);
+      speakWordSlow(phs[i], { onDone: advance, onError: advance });
     };
     step(0);
   };

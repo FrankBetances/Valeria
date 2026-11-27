@@ -222,6 +222,12 @@ jobs:
       - name: Comprobar prosodia de la voz del sistema (es-DO)
         run: node scripts/check-speech-prosody.js
 
+      - name: Comprobar encadenamiento de locuciones sin setTimeout fijo
+        run: node scripts/check-voice-chaining.js
+
+      - name: Comprobar sincronización de voz con variedad y contador local
+        run: node scripts/check-voice-locale-sync.js
+
       # Captura de corpus del ASR (Fase B · R7). No protege una función de la
       # app: protege de que una build que GRABA la voz de un niño llegue a
       # producción, o de que una grabación acabe versionada. Las dos cosas
