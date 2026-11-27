@@ -26,6 +26,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, Pressable, ScrollView, StyleSheet, Animated, Easing, Switch, BackHandler } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { V, STORAGE_KEYS } from './valeriaTheme';
+import { appendSessionHistory } from './valeriaPatients';
 import { useT, UiStrings } from './i18n';
 import { ProUnlockPill, ProPinModal } from './ValeriaProPin';
 import { registerSession, SessionReward } from './valeriaGamification';
@@ -627,8 +628,6 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
   const finish = async (sess: Session, res: StepRecord[]) => {
     const avg = res.reduce((a, r) => a + r.stars, 0) / (res.length || 1);
     try {
-      const raw = await AsyncStorage.getItem(STORAGE_KEYS.historial);
-      const hist = raw ? JSON.parse(raw) : [];
       const d = new Date();
       const kindLbl = sess.kind === 'scenario' ? t.semantic.kindScenario : sess.kind === 'sequence' ? t.semantic.kindSequence : t.semantic.kindContrast;
       // ES-12: en los contrastes la nota separa lo que el niño COMPRENDE de lo
@@ -638,7 +637,7 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
       const prod = res.filter((r) => r.mode === 'produccion');
       const mediaNum = (xs: StepRecord[]) => (xs.length ? +(xs.reduce((a, r) => a + r.stars, 0) / xs.length).toFixed(1) : null);
       const media = (xs: StepRecord[]) => (xs.length ? mediaNum(xs)!.toFixed(1) : '–');
-      hist.push({
+      await appendSessionHistory({
         date: `${d.getDate()} ${t.ling.months.split(' ')[d.getMonth()]}`,
         name: `${t.semantic.title} · ${sess.title}`,
         avg: +avg.toFixed(1),
@@ -651,7 +650,6 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
         // de tener que interpretar una frase.
         ...(comp.length ? { split: { comprension: mediaNum(comp), produccion: mediaNum(prod) } } : {}),
       });
-      await AsyncStorage.setItem(STORAGE_KEYS.historial, JSON.stringify(hist));
       const rawSe = await AsyncStorage.getItem(STORAGE_KEYS.expansionSemantica);
       const se = rawSe ? JSON.parse(rawSe) : [];
       se.push({ date: d.toISOString(), kind: sess.kind, title: sess.title, steps: res });

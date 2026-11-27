@@ -49,6 +49,14 @@ const STUBS = {
       removeItem: async (k) => { delete disco[k]; },
     },
   },
+  'expo-secure-store': {
+    getItemAsync: async (k) => (k in disco ? disco[k] : null),
+    setItemAsync: async (k, v) => { disco[k] = String(v); },
+    deleteItemAsync: async (k) => { delete disco[k]; },
+  },
+  'expo-crypto': {
+    getRandomBytes: (len) => new Uint8Array(require('crypto').randomBytes(len)),
+  },
   // ValeriaProPin arrastra media app y de él solo hace falta sha256. Se extrae
   // su código REAL del fichero para que el cifrado sea el de verdad.
   './ValeriaProPin': null, // se rellena abajo, cuando loadTs ya existe

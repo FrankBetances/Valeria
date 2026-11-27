@@ -43,7 +43,7 @@ const ok = (msg) => console.log('  ✓ ' + msg);
 // Campos de la ficha del paciente. Los enumera §3.2 del documento y la fila
 // «Ficha del paciente» de las dos políticas.
 const CAMPOS_FICHA = [
-  'nombre', 'fecha', 'nhc', 'genero', 'tutor', 'vinculo',
+  'pid', 'nombre', 'fecha', 'nhc', 'genero', 'tutor', 'vinculo',
   'email', 'tel', 'patologia', 'medico', 'logopeda',
   'lingua', 'seseo',
 ];
@@ -60,6 +60,10 @@ const DEPENDENCIAS = [
   'expo', 'expo-asset', 'expo-audio', 'expo-build-properties',
   'expo-dev-client', 'expo-notifications', 'expo-speech',
   'expo-speech-recognition', 'expo-splash-screen', 'expo-status-bar',
+  // P3 (27/11/2026): cifrado autenticado XChaCha20-Poly1305, PBKDF2, Ed25519,
+  // almacenamiento de claves en Keystore/Keychain, aleatoriedad CSPRNG y escáner QR local. Sin red.
+  '@noble/ciphers', '@noble/curves', '@noble/hashes',
+  'expo-camera', 'expo-crypto', 'expo-secure-store',
   // `perfect-freehand` es geometría pura: convierte una lista de puntos en el
   // contorno de un trazo. Sin red, sin almacenamiento, sin dependencias propias.
   'perfect-freehand',
@@ -96,11 +100,13 @@ const HAY_BACKEND = false;
 // --- D1 · Campos de la ficha ----------------------------------------------
 {
   const src = read(path.join('src', 'ValeriaFichaRegistroScreen.tsx'));
-  const i = src.indexOf('STORAGE_KEYS.registro');
+  const i = src.indexOf('saveActivePatient(');
   if (i < 0) {
-    fallo('D1 · no encuentro el guardado de la ficha (STORAGE_KEYS.registro) en ValeriaFichaRegistroScreen.tsx');
+    fallo('D1 · no encuentro el guardado cifrado de la ficha (saveActivePatient) en ValeriaFichaRegistroScreen.tsx');
   } else {
-    const bloque = src.slice(src.indexOf('{', src.indexOf('JSON.stringify(', i)) + 1, src.indexOf('}));', i));
+    const startObj = src.indexOf('{', i);
+    const endObj = src.indexOf('});', i);
+    const bloque = src.slice(startObj + 1, endObj);
     const campos = new Set();
     // Solo claves: `nombre: X` o la línea de atajos `nombre, fecha, nhc,`. Así
     // los ternarios del valor (`? true : undefined`) no entran como campos.

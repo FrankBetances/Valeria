@@ -76,7 +76,7 @@ export function loadVoiceStats(): Promise<void> {
   loadPromise = (async () => {
     try {
       const raw = await AsyncStorage.getItem(STORAGE_KEYS.vozContador);
-      const parsed = await decryptJSON<StoredVoiceStats>(raw);
+      const parsed = await decryptJSON<StoredVoiceStats>(raw, STORAGE_KEYS.vozContador);
       const week = currentWeekStart();
       if (parsed && parsed.weekStart === week && parsed.byLocale && typeof parsed.byLocale === 'object') {
         const merged: Partial<Record<Locale, LocaleVoiceCounters>> = {};

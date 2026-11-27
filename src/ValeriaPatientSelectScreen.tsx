@@ -16,8 +16,8 @@ import React, { useEffect, useState } from 'react';
 import { Breathe } from './ui/motion';
 import { ReactiveTile } from './ui/ReactiveTile';
 import { View, Text, Pressable, ScrollView, StyleSheet } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { V, STORAGE_KEYS } from './valeriaTheme';
+import { V } from './valeriaTheme';
+import { readPatientsList, saveActivePatient, PatientRecord } from './valeriaPatients';
 import { isLocale, setGalicianDialect, setLocale } from './valeriaLocale';
 import { BlockIcon } from './ValeriaBlockIcons';
 import { useT } from './i18n';
@@ -29,15 +29,7 @@ import { FONT } from './ui/fonts';
 import { CatPixel } from './ValeriaCatPixel';
 // import logoWhite from '../../assets/valeria-logo-white.png';
 
-interface Paciente {
-  nombre?: string;
-  patologia?: string;
-  nhc?: string;
-  genero?: string;
-  lingua?: string;   // variedad de terapia del niño (ficha); ausente = no se toca
-  seseo?: boolean;   // solo con lingua 'gl': variedad occidental del niño
-  [k: string]: any;
-}
+type Paciente = PatientRecord;
 
 // Antes el avatar salía del campo GÉNERO de la ficha: «niña» → 👧, «niño» → 👦.
 // Se cambia por la inicial del nombre, y no solo por quitar emoji: la ficha
@@ -55,31 +47,17 @@ export const ValeriaPatientSelectScreen: React.FC<{ navigation?: any }> = ({ nav
 
   useEffect(() => {
     (async () => {
-      let list: Paciente[] = [];
       try {
-        const raw = await AsyncStorage.getItem(STORAGE_KEYS.pacientes);
-        if (raw) {
-          const arr = JSON.parse(raw);
-          if (Array.isArray(arr)) list = arr;
-        }
-        // Compatibilidad: migra una ficha única antigua a la lista.
-        if (list.length === 0) {
-          const single = await AsyncStorage.getItem(STORAGE_KEYS.registro);
-          if (single) {
-            const obj = JSON.parse(single);
-            if (obj && obj.nombre) list = [obj];
-          }
-        }
+        setPacientes(await readPatientsList());
       } catch (e) {
         console.warn('Error al cargar pacientes:', e);
       }
-      setPacientes(list);
     })();
   }, []);
 
   const seleccionar = async (p: Paciente) => {
     try {
-      await AsyncStorage.setItem(STORAGE_KEYS.registro, JSON.stringify(p));
+      await saveActivePatient(p);
     } catch (e) {
       console.warn('Error al fijar paciente activo:', e);
     }

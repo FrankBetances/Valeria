@@ -6,8 +6,8 @@
 // ============================================================================
 import React, { useState } from 'react';
 import { View, Text, Pressable, ScrollView, TextInput, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { V, STORAGE_KEYS } from './valeriaTheme';
+import { V } from './valeriaTheme';
+import { saveActivePatient } from './valeriaPatients';
 import { BlockIcon, BlockIconName } from './ValeriaBlockIcons';
 import { useT } from './i18n';
 import { FONT } from './ui/fonts';
@@ -70,9 +70,9 @@ export const ValeriaFichaRegistroScreen: React.FC<{ navigation?: any }> = ({ nav
     setErr(nextErr);
     if (nextErr.nombre || nextErr.nhc || nextErr.tutor || nextErr.email) { setSuccess(false); return; }
     try {
-      await AsyncStorage.setItem(STORAGE_KEYS.registro, JSON.stringify({
+      await saveActivePatient({
         nombre, fecha, nhc, genero, tutor, vinculo, email, tel, patologia, medico, logopeda,
-      }));
+      });
     } catch (e) { /* noop */ }
     setSuccess(true); setVinculoOpen(false); setPatOpen(false);
   };

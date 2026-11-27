@@ -51,6 +51,7 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { V, STORAGE_KEYS } from './valeriaTheme';
+import { readActivePatient, appendSessionHistory } from './valeriaPatients';
 import { useT } from './i18n';
 import { registerSession, SessionReward, levelProgress, xpToNext } from './valeriaGamification';
 import { logStimulation, FollowArea } from './valeriaFollowUp';
@@ -412,8 +413,8 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
   useEffect(() => {
     (async () => {
       try {
-        const raw = await AsyncStorage.getItem(STORAGE_KEYS.registro);
-        const nombre = raw ? JSON.parse(raw)?.nombre : '';
+        const p = await readActivePatient();
+        const nombre = p?.nombre ?? '';
         if (typeof nombre === 'string' && nombre.trim()) setPatientName(nombre.trim());
       } catch (e) { /* sin ficha activa */ }
     })();
@@ -677,14 +678,12 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
     const avg = res.reduce((a, b) => a + b, 0) / res.length;
     const sessionName = total === 1 ? ex.name : t.player.sessionName;
     try {
-      const raw = await AsyncStorage.getItem(STORAGE_KEYS.historial);
-      const hist = raw ? JSON.parse(raw) : [];
       const d = new Date();
       // Respuestas libres registradas durante la sesión (PR-1, PR-2…): viajan
       // con la entrada del historial para que Resultados las muestre.
       const responses = Object.entries(capturesRef.current)
         .map(([code, r]) => ({ code, name: r.name, text: r.text }));
-      hist.push({
+      await appendSessionHistory({
         date: `${d.getDate()} ${t.ling.months.split(' ')[d.getMonth()]}`,
         name: sessionName,
         avg: +avg.toFixed(1),
@@ -694,7 +693,6 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
         completed: true,
         ...(responses.length ? { responses } : {}),
       });
-      await AsyncStorage.setItem(STORAGE_KEYS.historial, JSON.stringify(hist));
     } catch (e) { /* almacenamiento no disponible */ }
     try {
       // Recompensas estilo Duolingo: XP, racha y logros.

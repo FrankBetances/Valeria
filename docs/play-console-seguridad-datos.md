@@ -151,21 +151,17 @@ Sin AAID, sin `com.google.android.gms.permission.AD_ID`, sin publicidad. La fich
 técnica del teléfono que guarda RA (marca, modelo, versión de Android, fps, mm de
 pantalla) no identifica el aparato y no sale de él.
 
-### 3.8 Seguimiento entre consultas (19/11/2026) — **no recopilado**
+### 3.8 Seguimiento entre consultas y cifrado v2 (27/11/2026) — **no recopilado**
 
 | Dato nuevo | Dónde vive | Por qué no cambia el formulario |
 | --- | --- | --- |
-| **Notas** profesional ↔ familia (texto, fecha, autor, centro, «leída por») | `@valeria_notas_seguimiento_<clave del menor>`, cifrado con `valeriaCrypto` (`src/valeriaFollowUp.ts`) | No se envían a ningún sitio. Las indicaciones «a distancia» viajan como un código que el profesional manda él mismo por el menú de compartir y la familia pega a mano: transferencia iniciada por la persona usuaria, no por la app |
-| **Consentimiento** para compartir con otros centros y su historial (fecha de cada concesión o retirada) | `@valeria_compartir_consentimiento_<clave>`, cifrado | Es un registro local. El resumen solo sale como QR en pantalla o por el menú de compartir de Android, a iniciativa de la familia y con la autorización activa |
-| **Profesionales**: nombre, especialidad, centro y hash con sal del PIN (nunca el PIN en claro) | `@valeria_profesionales` | Local; no hay cuentas ni servidor que los reciba |
-| **Frecuencia recomendada** por área y **registro de sesiones** (fecha ISO + área) | `@valeria_pauta_frecuencia_<clave>`, `@valeria_estimulacion_<clave>`, cifrados | Local; el registro se recorta a un año |
+| **Notas** profesional ↔ familia (`VALERIA-NOTA2:`, acuses `VALERIA-LEIDO2:`, texto, fecha, autor, centro, firma Ed25519) | `@valeria_notas_seguimiento_<hash del pid>`, cifrado con XChaCha20-Poly1305 (`src/valeriaCrypto.ts`) y clave en `expo-secure-store` | No se envían a ningún sitio. El intercambio usa códigos QR (`expo-camera`), enlaces `valeria://` o compartir manual del usuario |
+| **Vínculos de paciente** (`VALERIA-VINCULO1:`, clave pública Ed25519 y `linkKey` aleatoria de 32 bytes) | `linkKey` y claves privadas en `expo-secure-store`; metadatos cifrados localmente | Local; solo se intercambian cara a cara por QR en consulta |
+| **Consentimiento** para compartir con otros centros y su historial | `@valeria_compartir_consentimiento_<hash del pid>`, cifrado v2 | Es un registro local; si la familia lo autoriza, decide si incluye o no las notas de familia |
+| **Profesionales**: nombre, especialidad, centro, clave pública Ed25519 y hash PBKDF2-SHA256 con sal de su PIN | `@valeria_profesionales` cifrado v2 + clave privada en `expo-secure-store` | Local; no hay cuentas, ni PIN maestro, ni servidor |
+| **Copia cifrada `.valeria`**: paquete de perfil + historial + seguimiento sellado con frase | Compartido a mano por la familia con la hoja del sistema | `allowBackup: false` desactiva copias en la nube de Android; el traslado entre teléfonos solo ocurre a petición de la familia |
 
-La política (`site/privacidad.html` y `privacy.html`, 19/11/2026) describe estos
-datos en §3 y añade en §5 a «otros profesionales que siguen al menor» como cuarta
-situación en que un dato puede salir del teléfono, siempre por acción de la familia.
-Contarlo en la política no obliga a declararlo en el formulario (mismo criterio
-que §3.1 y §3.3). El gate `check-data-safety-declaration.js` pasó en verde con
-este cambio (run 825).
+La política (`site/privacidad.html` y `privacy.html`) y `site/eliminacion-de-datos.html` describen estos datos en §3, §5 y §8, junto con el uso de `expo-camera` para escanear QR locales y las dependencias locales de criptografía (`@noble/ciphers`, `@noble/curves`, `@noble/hashes`, `expo-secure-store`, `expo-crypto`, `expo-camera`).
 
 ---
 
@@ -175,23 +171,22 @@ este cambio (run 825).
   cuando se declara algún dato recopilado. Si alguna vez hubiera que responderla, la
   respuesta de fondo es que la app no origina tráfico alguno.
 - **Eliminación de datos: Sí**, con URL. La página de eliminación explica el borrado
-  local (desinstalar o borrar datos desde Ajustes de Android) y el correo de
-  contacto para ejercer derechos.
+  local (desinstalar o borrar datos desde Ajustes de Android), que las copias en la
+  nube de Android están desactivadas (`allowBackup: false`) y que cambiar de teléfono
+  exige usar la exportación cifrada `.valeria`.
 - **Familias.** La app no lleva publicidad, ni compras integradas, ni contenido de
-  otros usuarios, ni funciones sociales. Eso se responde en *Público objetivo y
-  contenido*, no aquí, pero conviene que lo diga la misma persona el mismo día.
+  otros usuarios, ni funciones sociales.
 - **Acceso a la app** (la sección donde se dan credenciales al revisor): responder
-  que **no hacen falta**: la app no tiene inicio de sesión. Es cierto desde el apartado 2 y evita el rechazo por
-  «funcionalidad no accesible para el revisor». Lo que sí conviene anotar en las
-  instrucciones para el revisor es el PIN de administración (**1985**), que abre el
-  modo profesional mientras no haya ningún profesional dado de alta en el aparato
-  (desde el 19/11/2026 cada profesional tiene su PIN y el 1985 deja de abrir).
+  que **no hacen falta**: la app no tiene inicio de sesión ni PIN maestro predefinido.
+  La primera vez que el revisor abre «Modo Profesional», la app le pide crear un
+  profesional y elegir su propio PIN personal de 4 dígitos (con PBKDF2-SHA256 y bloqueo
+  progresivo tras intentos fallidos). Ningún PIN fijo aparece en el repositorio.
 
 ---
 
 ## 5. Qué obliga a volver a este documento
 
-`scripts/check-data-safety-declaration.js` (gate 33 de `android.yml`) rompe el build
+`scripts/check-data-safety-declaration.js` (gate de `android.yml`) rompe el build
 cuando cambia algo que obligaría a repasar el formulario:
 
 1. **Un campo nuevo en la ficha del paciente** que no esté en la lista de este
@@ -202,32 +197,20 @@ cuando cambia algo que obligaría a repasar el formulario:
 4. **Una llamada de red propia** (`fetch`, `XMLHttpRequest`, `WebView`) en
    cualquier parte de `src/`. Hoy no hay ninguna.
 5. **La vuelta de un backend**: en cuanto reaparezca `src/firebase/`, un import de
-   `firebase` o una dependencia de nube, el gate falla. Ese es **el único supuesto
-   en que la respuesta del formulario dejaría de ser «No»**: con un servidor
-   detrás habría que declarar *Nombre*, *Correo electrónico*, *Teléfono*,
-   *Información de salud* y *Actividad en la app*, y reescribir el apartado 3 de
-   las dos políticas antes de publicar esa versión. Mientras no haya servidor,
-   no hay nada que declarar.
+   `firebase` o una dependencia de nube, el gate falla.
 6. **Coherencia de versión** entre `app.json`, las dos políticas y este documento.
 
 ## 6. Pendiente y riesgos conocidos
 
-- **La ficha del paciente se guarda en claro.** `ValeriaFichaRegistroScreen.tsx:95`
-  escribe `JSON.stringify(...)` directo en AsyncStorage, aunque la cabecera del
-  fichero (línea 4) diga «persistencia local cifrada». La telemetría sí usa
-  `encryptJSON`; la ficha —nombre, NHC, patología, correo y teléfono del tutor, el
-  dato más sensible de la app— no. No afecta al formulario, que pregunta por lo que
-  la app recoge y transmite, no por el reposo local, ni contradice §8 de la política,
-  que solo promete cifrado para la telemetría. **Sí es una deuda real y barata de saldar**:
-  `encryptJSON`/`decryptJSON` ya existen y el cambio es de dos líneas más una
-  migración que lea el formato antiguo. No se toca aquí porque una migración mal
-  hecha borra fichas de instalaciones existentes, y eso merece su propio cambio.
+- **La ficha del paciente, la lista multi-paciente, el historial y los profesionales
+  ya se cifran en reposo con `v2:` (XChaCha20-Poly1305 + clave de 32 B en `expo-secure-store`)**
+  y migran automáticamente cualquier registro antiguo en claro o `v1:` en la primera lectura.
+  Cada ficha lleva un identificador aleatorio local `pid` de 128 bits.
 - **La inferencia del apartado 2 no está medida.** Falta una captura de tráfico del
   APK de release para elevar «la app no abre conexiones propias» de inferencia a hecho.
-- **No hay borrado de una ficha suelta.** Sin nube, el único camino para atender una
-  petición de supresión individual es borrar los datos de la App enteros. La página de
-  eliminación lo dice con esas palabras; un botón de borrado por ficha en la pantalla de
-  Pacientes lo resolvería y es trabajo pequeño.
+- **No hay borrado de una ficha suelta.** Sin nube ni copia automática de Android, el
+  camino para atender una supresión total es borrar los datos de la App enteros (o
+  exportar antes con `.valeria` los perfiles que deban conservarse).
 - Este documento no se ha contrastado con el texto vigente del formulario en Play
   Console: los nombres de las preguntas salen de la última vez que se rellenó y
   Google los reescribe de vez en cuando. Si alguna etiqueta no coincide, manda la

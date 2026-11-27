@@ -22,6 +22,7 @@ import { View, Text, ScrollView, Pressable, Share, StyleSheet, StatusBar } from 
 import Svg, { Circle, Line, Polyline, Polygon, Text as SvgText } from 'react-native-svg';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { V, STORAGE_KEYS } from './valeriaTheme';
+import { readActivePatient, readSessionHistory, PatientRecord } from './valeriaPatients';
 import { useT, UiStrings } from './i18n';
 import { loadGame, liveStreak, levelFor, levelName, levelProgress, xpToNext, BADGES, GameState } from './valeriaGamification';
 import { PixelAward, streakTier } from './ValeriaPixelAwards';
@@ -99,17 +100,12 @@ const META_SEMANAL = 5;
 // Línea de cabecera con el paciente ACTIVO (ficha de STORAGE_KEYS.registro).
 // Recibe el catálogo: la línea de paciente («Paciente sin ficha registrada»,
 // «NHC 1234») la lee el adulto, así que sigue al idioma de la interfaz.
-const patientLineFrom = (raw: string | null, t: UiStrings): string => {
-  try {
-    const p = raw ? JSON.parse(raw) : null;
-    if (!p || typeof p !== 'object') return t.results.noPatient;
-    const nombre = typeof p.nombre === 'string' ? p.nombre.trim() : '';
-    const nhc = typeof p.nhc === 'string' ? p.nhc.trim() : '';
-    if (!nombre && !nhc) return t.results.noPatient;
-    return [nombre, nhc ? t.results.recordNumber(nhc) : ''].filter(Boolean).join(' · ');
-  } catch (e) {
-    return t.results.noPatient;
-  }
+const patientLineFrom = (p: PatientRecord | null, t: UiStrings): string => {
+  if (!p || typeof p !== 'object') return t.results.noPatient;
+  const nombre = typeof p.nombre === 'string' ? p.nombre.trim() : '';
+  const nhc = typeof p.nhc === 'string' ? p.nhc.trim() : '';
+  if (!nombre && !nhc) return t.results.noPatient;
+  return [nombre, nhc ? t.results.recordNumber(nhc) : ''].filter(Boolean).join(' · ');
 };
 
 // Historial de EJEMPLO mientras no hay sesiones reales guardadas. Las medias
@@ -154,14 +150,11 @@ export const ValeriaPatientResultsDashboardScreen: React.FC<{ navigation?: any }
   useEffect(() => {
     (async () => {
       try {
-        setPatientLine(patientLineFrom(await AsyncStorage.getItem(STORAGE_KEYS.registro), t));
+        setPatientLine(patientLineFrom(await readActivePatient(), t));
       } catch (e) { /* ficha no disponible: queda el rótulo por defecto */ }
       try {
-        const raw = await AsyncStorage.getItem(STORAGE_KEYS.historial);
-        if (raw) {
-          const guardado = JSON.parse(raw);
-          if (Array.isArray(guardado) && guardado.length) setSesiones(guardado);
-        }
+        const guardado = await readSessionHistory<Sesion>();
+        if (Array.isArray(guardado) && guardado.length) setSesiones(guardado);
       } catch (e) {
         console.warn('Error al cargar el historial:', e);
       }

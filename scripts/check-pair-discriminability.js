@@ -47,6 +47,14 @@ const STUBS = {
   '@react-native-async-storage/async-storage': {
     default: { getItem: async () => null, setItem: async () => {}, removeItem: async () => {} },
   },
+  'expo-secure-store': {
+    getItemAsync: async () => null,
+    setItemAsync: async () => {},
+    deleteItemAsync: async () => {},
+  },
+  'expo-crypto': {
+    getRandomBytes: (len) => new Uint8Array(require('crypto').randomBytes(len)),
+  },
 };
 
 const cache = new Map();

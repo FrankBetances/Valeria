@@ -1,7 +1,7 @@
 // ============================================================================
 // Valeria+ · Exportación dual del log del piloto (Modo Profesional) — V1.0
-// Al desbloquear el Modo Profesional (PIN 1985) se empaqueta el log y se fuerzan
-// DOS salidas simultáneas:
+// Al desbloquear el Modo Profesional con el PIN del profesional se empaqueta
+// el log y se fuerzan DOS salidas simultáneas:
 //   · Offline puro  → código QR con el RESUMEN estadístico comprimido (abandonos,
 //                     misclicks y media Likert), legible por cámaras móviles.
 //   · ShareSheet    → ACTION_SEND nativo con el log transaccional COMPLETO en

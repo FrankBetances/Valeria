@@ -17,7 +17,8 @@
 import { useSyncExternalStore } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { STORAGE_KEYS } from '../valeriaTheme';
-import { encryptJSON, decryptJSON } from '../valeriaCrypto';
+import { encryptJSON, readEncryptedJSON } from '../valeriaCrypto';
+import { readActivePatient } from '../valeriaPatients';
 import {
   ACADEMY_DOMAINS,
   DOMAIN_BADGE_DEFS,
@@ -177,8 +178,8 @@ export const subscribe = (listener: () => void): (() => void) => {
 async function migrateLegacy(legacy: any): Promise<ValeriaAcademyState> {
   let targetDomain: AcademyDomain = 'lenguaje';
   try {
-    const raw = await AsyncStorage.getItem(STORAGE_KEYS.registro);
-    if (raw) targetDomain = domainFromPatologia(JSON.parse(raw)?.patologia);
+    const p = await readActivePatient();
+    if (p) targetDomain = domainFromPatologia(p.patologia);
   } catch (e) {
     /* Ficha no disponible: se queda en 'lenguaje' */
   }
@@ -202,8 +203,7 @@ export const hydrateAcademy = (): Promise<void> => {
   if (hydrating) return hydrating;
   hydrating = (async () => {
     try {
-      const blob = await AsyncStorage.getItem(STORAGE_KEYS.academy);
-      const parsed = await decryptJSON<any>(blob);
+      const parsed = await readEncryptedJSON<any>(STORAGE_KEYS.academy);
       if (parsed && typeof parsed === 'object') {
         if (parsed.version === STATE_VERSION && parsed.domains) {
           // Formato v2: normaliza asegurando los 5 silos presentes.

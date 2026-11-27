@@ -25,7 +25,7 @@
 // ============================================================================
 import { ValeriaFollowUpScreen } from './ValeriaFollowUpScreen';
 import React, { useEffect, useRef } from 'react';
-import { View } from 'react-native';
+import { View, Linking } from 'react-native';
 import { NavigationContainer, createNavigationContainerRef, NavigatorScreenParams } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -107,7 +107,7 @@ export type ValeriaStackParamList = {
   SensoryExercise: { exerciseId?: string } | undefined;
   Writing: undefined;
   Results: undefined;
-  FollowUp: undefined;
+  FollowUp: { incomingCode?: string } | undefined;
   AventurasLuaHub: undefined;
   LuaAssessmentPlayer: { ageBand: AgeBand; initialQuestionIndex?: number };
   LuaStoryViewer: { storyId: string };
@@ -221,6 +221,24 @@ export const ValeriaApp: React.FC = () => {
   // Reprogramarlos al cambiar cuesta una llamada y evita esa incoherencia.
   // (`refreshDailyReminders` no hace nada si el adulto los tiene apagados.)
   useEffect(() => subscribeUiLang(() => { void refreshDailyReminders(); }), []);
+
+  const openNoteLink = (url?: string | null) => {
+    if (!url || !url.includes('valeria://nota')) return;
+    const m = url.match(/[?&]c=([^&#]+)/i);
+    if (!m || !m[1]) return;
+    let incomingCode = m[1];
+    try { incomingCode = decodeURIComponent(m[1]); } catch (e) { /* use raw */ }
+    if (navigationRef.isReady()) {
+      navigationRef.navigate('FollowUp', { incomingCode });
+    }
+  };
+
+  useEffect(() => {
+    void Linking.getInitialURL().then(openNoteLink).catch(() => {});
+    const sub = Linking.addEventListener('url', ({ url }) => openNoteLink(url));
+    return () => sub.remove();
+  }, []);
+
   const lastRoute = useRef<string | null>(null);
   // Cierra el tramo de la pantalla anterior y abre el nuevo en cada cambio de
   // ruta. Solo hace aritmética de timestamps → no bloquea el hilo principal.
@@ -233,7 +251,14 @@ export const ValeriaApp: React.FC = () => {
     <GestureHandlerRootView style={{ flex: 1 }}>
     <HeroUINativeProvider>
     <SafeAreaProvider>
-      <NavigationContainer ref={navigationRef} onReady={handleRoute} onStateChange={handleRoute}>
+      <NavigationContainer
+        ref={navigationRef}
+        onReady={() => {
+          handleRoute();
+          void Linking.getInitialURL().then(openNoteLink).catch(() => {});
+        }}
+        onStateChange={handleRoute}
+      >
         <SafeFrame />
       </NavigationContainer>
       <Toaster position="top-center" richColors />

@@ -2,6 +2,7 @@
   "expo": {
     "name": "Valeria+",
     "slug": "valeria-app",
+    "scheme": "valeria",
     "version": "3.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -45,13 +46,22 @@
           ]
         }
       ],
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Valeria+ usa la cámara para escanear códigos QR y para los ejercicios de Realidad Aumentada.",
+          "recordAudioAndroid": false,
+          "barcodeScannerEnabled": true
+        }
+      ],
       "./plugins/withValeriaAR",
       "./plugins/withValeriaPermissionStrings",
       "./plugins/withValeriaNoBackgroundAudio",
       "expo-asset",
       "expo-audio",
       "expo-status-bar",
-      "expo-font"
+      "expo-font",
+      "expo-secure-store"
     ],
     "ios": {
       "supportsTablet": true,
@@ -59,6 +69,7 @@
     },
     "android": {
       "package": "eu.futureforkids.valeria",
+      "allowBackup": false,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#00c4be"

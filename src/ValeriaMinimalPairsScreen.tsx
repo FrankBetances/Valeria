@@ -27,6 +27,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, Pressable, ScrollView, StyleSheet, Animated, Easing, Switch, GestureResponderEvent, BackHandler } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { V, STORAGE_KEYS } from './valeriaTheme';
+import { appendSessionHistory } from './valeriaPatients';
 import { ProUnlockPill, ProPinModal } from './ValeriaProPin';
 import { registerSession, SessionReward } from './valeriaGamification';
 import { logStimulation } from './valeriaFollowUp';
@@ -603,10 +604,8 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
     const corrections = res.filter((r) => r.attempts > 0).length;
     const substitutions = res.filter((r) => r.foils > 0).length;
     try {
-      const raw = await AsyncStorage.getItem(STORAGE_KEYS.historial);
-      const hist = raw ? JSON.parse(raw) : [];
       const d = new Date();
-      hist.push({
+      await appendSessionHistory({
         date: `${d.getDate()} ${t.ling.months.split(' ')[d.getMonth()]}`,
         name: t.pairs.sessionName(p.target, p.foil),
         avg: +avg.toFixed(1),
@@ -615,7 +614,6 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
           : t.pairs.noteSubs(substitutions, res.length, corrections, p.errorLabel.toLowerCase()),
         completed: true,
       });
-      await AsyncStorage.setItem(STORAGE_KEYS.historial, JSON.stringify(hist));
       // Registro clínico por par: evolución del % de sustitución entre sesiones.
       const rawPm = await AsyncStorage.getItem(STORAGE_KEYS.paresMinimos);
       const pm = rawPm ? JSON.parse(rawPm) : [];

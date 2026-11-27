@@ -260,7 +260,7 @@ function normalizeSession(s: any): SessionRecord {
 }
 
 async function loadStore(): Promise<TlmStore> {
-  const raw = await decryptJSON<TlmStore>(await AsyncStorage.getItem(STORE_KEY));
+  const raw = await decryptJSON<TlmStore>(await AsyncStorage.getItem(STORE_KEY), STORE_KEY);
   if (!raw) return { sessions: [], lastSusAt: 0 };
   return { sessions: (raw.sessions ?? []).map(normalizeSession), lastSusAt: raw.lastSusAt ?? 0 };
 }

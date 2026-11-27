@@ -52,6 +52,14 @@ const STUBS = {
       removeItem: async (k) => { delete disk[k]; },
     },
   },
+  'expo-secure-store': {
+    getItemAsync: async (k) => (k in disk ? disk[k] : null),
+    setItemAsync: async (k, v) => { disk[k] = String(v); },
+    deleteItemAsync: async (k) => { delete disk[k]; },
+  },
+  'expo-crypto': {
+    getRandomBytes: (len) => new Uint8Array(require('crypto').randomBytes(len)),
+  },
 };
 
 const cache = new Map();
@@ -78,7 +86,8 @@ function loadTs(filePath) {
   const mod = { exports: {} };
   cache.set(filePath, mod);
   const fn = new Function('exports', 'require', 'module', '__filename', '__dirname', js);
-  fn(mod.exports, (r) => Module._load(r, { filename: filePath }), mod, filePath, path.dirname(filePath));
+  const fakeParent = { filename: filePath, paths: Module._nodeModulePaths(path.dirname(filePath)) };
+  fn(mod.exports, (r) => Module._load(r, fakeParent), mod, filePath, path.dirname(filePath));
   return mod.exports;
 }
 

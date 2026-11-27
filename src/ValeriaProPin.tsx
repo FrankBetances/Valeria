@@ -5,17 +5,17 @@
 // Prescripción de Terapias, Pares Mínimos y Expansión Semántica.
 // ============================================================================
 import React, { useState } from 'react';
-import { View, Text, Pressable, ScrollView, StyleSheet } from 'react-native';
+import { View, Text, Pressable, ScrollView, StyleSheet, TextInput } from 'react-native';
 import { V } from './valeriaTheme';
 import { BlockIcon } from './ValeriaBlockIcons';
 import { useT } from './i18n';
 import { FONT } from './ui/fonts';
 import { BottomSheet } from 'heroui-native';
-import { verifyPin, listPros } from './valeriaFollowUp';
+import { verifyPin, listPros, addPro, getPinLockStatus, ProRole } from './valeriaFollowUp';
 
 // ----------------------------------------------------------------------------
 // Seguridad: SHA-256 en JS puro (compatible con Hermes, sin crypto.subtle).
-// Evita almacenar el PIN maestro en texto plano dentro del .apk.
+// Conservado para utilidades deterministas sin depender de UI.
 // ----------------------------------------------------------------------------
 export const sha256 = async (str: string): Promise<string> => {
   // Si el entorno trae WebCrypto se usa; si el polyfill está roto o incompleto
@@ -66,7 +66,6 @@ export const sha256 = async (str: string): Promise<string> => {
   }
   return Array.from(h).map((v) => (v >>> 0).toString(16).padStart(8, '0')).join('');
 };
-export const MASTER_PIN_HASH = '78e370b587b145920213731b7c7c725e512b3b6577c51c800218a7c764c532ae'; // "1985"
 
 // ----------------------------------------------------------------------------
 // Píldora de estado: bloqueado (abre el modal) / modo profesional activo.
@@ -84,9 +83,12 @@ export const ProUnlockPill: React.FC<{ unlocked: boolean; onPress: () => void }>
   );
 };
 
+const ROLES: ProRole[] = ['logopeda', 'orl', 'atencion', 'otro'];
+
 // ----------------------------------------------------------------------------
-// Modal de PIN de 4 dígitos. Gestiona su propio estado de tecleo y error;
-// al acertar llama a onUnlock y se limpia para la próxima apertura.
+// Modal de PIN de 4 dígitos (PBKDF2-SHA256 + bloqueo progresivo persistido).
+// Sin profesionales dados de alta, el primer desbloqueo crea al primer
+// profesional y su PIN personal (sin PIN maestro).
 // ----------------------------------------------------------------------------
 export const ProPinModal: React.FC<{
   open: boolean;
@@ -95,77 +97,178 @@ export const ProPinModal: React.FC<{
   subtitle?: string;
 }> = ({ open, onClose, onUnlock, subtitle }) => {
   const t = useT();
+  const f = t.followUp;
   const [pin, setPin] = useState('');
   const [pinErr, setPinErr] = useState(false);
-  // Con profesionales dados de alta el PIN de administración ya no abre, así
-  // que la pista del PIN de demostración se esconde.
-  const [hasPros, setHasPros] = useState(false);
-  // Freno a la fuerza bruta: 5 fallos seguidos → 30 s sin teclado.
-  const fails = React.useRef(0);
+  const [hasPros, setHasPros] = useState<boolean | null>(null);
   const [lockedUntil, setLockedUntil] = useState(0);
-  React.useEffect(() => { if (open) void listPros().then((p) => setHasPros(p.length > 0)); }, [open]);
+  const [nowMs, setNowMs] = useState(Date.now());
+  const [checking, setChecking] = useState(false);
 
-  // El estado se sigue limpiando al cerrar; el panel lo pinta HeroUI.
+  // Formulario inicial cuando no existe ningún profesional registrado aún
+  const [setupName, setSetupName] = useState('');
+  const [setupRole, setSetupRole] = useState<ProRole>('logopeda');
+  const [setupCentre, setSetupCentre] = useState('');
+  const [setupPin, setSetupPin] = useState('');
+  const [setupErr, setSetupErr] = useState('');
 
+  React.useEffect(() => {
+    if (!open) return;
+    setPin('');
+    setPinErr(false);
+    setSetupErr('');
+    void Promise.all([listPros(), getPinLockStatus()]).then(([ps, lock]) => {
+      setHasPros(ps.length > 0);
+      setLockedUntil(lock.lockedUntil);
+      setNowMs(Date.now());
+    });
+  }, [open]);
 
-  const close = () => { setPin(''); setPinErr(false); onClose(); };
+  React.useEffect(() => {
+    if (!open || lockedUntil <= Date.now()) return;
+    const id = setInterval(() => setNowMs(Date.now()), 1000);
+    return () => clearInterval(id);
+  }, [open, lockedUntil]);
+
+  const remainSec = Math.max(0, Math.ceil((lockedUntil - nowMs) / 1000));
+  const locked = remainSec > 0;
+
+  const close = () => { setPin(''); setPinErr(false); setSetupErr(''); onClose(); };
 
   const pressDigit = async (d: string) => {
-    if (pin.length >= 4) return;
+    if (checking || pin.length >= 4) return;
     if (Date.now() < lockedUntil) { setPinErr(true); return; }
     const next = pin + d;
-    setPin(next); setPinErr(false);
+    setPin(next);
+    setPinErr(false);
     if (next.length === 4) {
-      // Nunca dejar el teclado bloqueado: cualquier fallo del hash se trata
-      // como PIN incorrecto y se limpia para poder reintentar.
+      setChecking(true);
       let ok = false;
       try { ok = !!(await verifyPin(next)); } catch (e) { ok = false; }
-      if (ok) fails.current = 0;
-      else if (++fails.current >= 5) { fails.current = 0; setLockedUntil(Date.now() + 30000); }
+      const lock = await getPinLockStatus();
+      setLockedUntil(lock.lockedUntil);
+      setNowMs(Date.now());
+      setChecking(false);
       if (ok) {
-        setTimeout(() => { setPin(''); setPinErr(false); onUnlock(); }, 180);
+        setPin('');
+        setPinErr(false);
+        onUnlock();
       } else {
-        setPinErr(true); setTimeout(() => setPin(''), 600);
+        setPinErr(true);
+        setPin('');
       }
     }
   };
 
-  // Panel inferior de HeroUI Native: mismo teclado y misma comprobación del
-  // PIN; solo cambia el contenedor. Altura acotada + scroll interno, como antes.
+  const submitSetup = async () => {
+    if (checking) return;
+    setChecking(true);
+    const err = await addPro({ name: setupName, role: setupRole, centre: setupCentre, pin: setupPin });
+    setChecking(false);
+    if (err) {
+      setSetupErr(err === 'name' ? f.errName : err === 'pinFormat' ? f.errPinFormat : f.errPinTaken);
+      return;
+    }
+    setSetupName('');
+    setSetupCentre('');
+    setSetupPin('');
+    setSetupErr('');
+    setHasPros(true);
+    onUnlock();
+  };
+
   return (
     <BottomSheet isOpen={open} onOpenChange={(v) => { if (!v) onClose(); }}>
       <BottomSheet.Portal>
         <BottomSheet.Overlay />
         <BottomSheet.Content>
       <View style={s.modal}>
-        <ScrollView showsVerticalScrollIndicator={false}>
+        <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled">
         <View style={s.modalHead}>
           <View style={s.modalIcon}><BlockIcon name="lock" color={V.color.primaryDark} size={22} /></View>
-          {/* El aspa es un icono propio, no texto: sin etiqueta, TalkBack lee
-              "botón" a secas y no hay forma de saber que cierra el modal. */}
           <Pressable onPress={close} style={s.modalClose}
             accessibilityRole="button" accessibilityLabel={t.common.close}>
             <BlockIcon name="cross" color="#6b7280" size={15} />
           </Pressable>
         </View>
-        <Text style={s.modalTitle}>{t.pro.modalTitle}</Text>
-        <Text style={s.modalSub}>{subtitle ?? t.pro.pinSubtitleDefault}</Text>
-        <View style={s.pinRow}>
-          {[0, 1, 2, 3].map((i) => {
-            const filled = i < pin.length;
-            return <View key={i} style={[s.pinCell, pinErr ? s.pinCellErr : filled ? s.pinCellOn : s.pinCellOff]} />;
-          })}
-        </View>
-        <Text style={[s.pinError, { opacity: pinErr ? 1 : 0 }]}>{Date.now() < lockedUntil ? t.followUp.pinLocked : t.pro.pinError}</Text>
-        <View style={s.keypad}>
-          {['1', '2', '3', '4', '5', '6', '7', '8', '9'].map((d) => (
-            <Pressable key={d} onPress={() => pressDigit(d)} style={s.key}><Text style={s.keyTxt}>{d}</Text></Pressable>
-          ))}
-          <View style={[s.key, { backgroundColor: 'transparent', borderWidth: 0 }]} />
-          <Pressable onPress={() => pressDigit('0')} style={s.key}><Text style={s.keyTxt}>0</Text></Pressable>
-          <Pressable onPress={() => setPin((p) => p.slice(0, -1))} style={[s.key, { backgroundColor: '#fff' }]}><Text style={[s.keyTxt, { fontSize: 20, color: '#6b7280' }]}>⌫</Text></Pressable>
-        </View>
-        {!hasPros && <Text style={s.demoPin}>{t.pro.demoPin}</Text>}
+        {hasPros === false ? (
+          <View style={s.setupWrap}>
+            <Text style={s.modalTitle}>{t.pro.setupTitle}</Text>
+            <Text style={s.modalSub}>{t.pro.setupSub}</Text>
+            <TextInput
+              value={setupName}
+              onChangeText={setSetupName}
+              placeholder={f.namePh}
+              placeholderTextColor="#6b7280"
+              style={s.input}
+              accessibilityLabel={f.namePh}
+            />
+            <View style={s.roleRow}>
+              {ROLES.map((r) => (
+                <Pressable
+                  key={r}
+                  onPress={() => setSetupRole(r)}
+                  style={[s.roleChip, setupRole === r && s.roleChipOn]}
+                  accessibilityRole="radio"
+                  accessibilityState={{ selected: setupRole === r }}
+                >
+                  <Text style={[s.roleTxt, setupRole === r && s.roleTxtOn]}>{f.roles[r]}</Text>
+                </Pressable>
+              ))}
+            </View>
+            <TextInput
+              value={setupCentre}
+              onChangeText={setSetupCentre}
+              placeholder={f.centrePh}
+              placeholderTextColor="#6b7280"
+              style={s.input}
+              accessibilityLabel={f.centrePh}
+            />
+            <TextInput
+              value={setupPin}
+              onChangeText={(v) => setSetupPin(v.replace(/\D/g, '').slice(0, 4))}
+              placeholder={f.pinPh}
+              placeholderTextColor="#6b7280"
+              style={s.input}
+              keyboardType="number-pad"
+              secureTextEntry
+              maxLength={4}
+              accessibilityLabel={f.pinPh}
+            />
+            {!!setupErr && <Text style={s.setupErr}>{setupErr}</Text>}
+            <Pressable onPress={() => void submitSetup()} style={s.setupBtn} accessibilityRole="button">
+              <Text style={s.setupBtnTxt}>{t.pro.setupBtn}</Text>
+            </Pressable>
+          </View>
+        ) : (
+          <>
+            <Text style={s.modalTitle}>{t.pro.modalTitle}</Text>
+            <Text style={s.modalSub}>{subtitle ?? t.pro.pinSubtitleDefault}</Text>
+            <View style={s.pinRow}>
+              {[0, 1, 2, 3].map((i) => {
+                const filled = i < pin.length;
+                return <View key={i} style={[s.pinCell, pinErr ? s.pinCellErr : filled ? s.pinCellOn : s.pinCellOff]} />;
+              })}
+            </View>
+            <Text style={[s.pinError, { opacity: (pinErr || locked) ? 1 : 0 }]}>
+              {locked ? t.pro.pinLockedWait(remainSec) : t.pro.pinError}
+            </Text>
+            <View style={s.keypad}>
+              {['1', '2', '3', '4', '5', '6', '7', '8', '9'].map((d) => (
+                <Pressable key={d} onPress={() => void pressDigit(d)} style={[s.key, locked && s.keyOff]} disabled={locked}>
+                  <Text style={s.keyTxt}>{d}</Text>
+                </Pressable>
+              ))}
+              <View style={[s.key, { backgroundColor: 'transparent', borderWidth: 0 }]} />
+              <Pressable onPress={() => void pressDigit('0')} style={[s.key, locked && s.keyOff]} disabled={locked}>
+                <Text style={s.keyTxt}>0</Text>
+              </Pressable>
+              <Pressable onPress={() => setPin((p) => p.slice(0, -1))} style={[s.key, { backgroundColor: '#fff' }]}>
+                <Text style={[s.keyTxt, { fontSize: 20, color: '#6b7280' }]}>⌫</Text>
+              </Pressable>
+            </View>
+          </>
+        )}
         </ScrollView>
       </View>
         </BottomSheet.Content>
@@ -178,24 +281,34 @@ const s = StyleSheet.create({
   pill: { flexDirection: 'row', alignItems: 'center', gap: 9, padding: 13, borderRadius: 14 },
   pillLocked: { backgroundColor: '#fff', borderWidth: 1, borderColor: V.color.border, ...V.shadow.card },
   pillUnlocked: { backgroundColor: V.color.successBg, borderWidth: 1, borderColor: '#bfe9d4' },
-  pillTxt: { fontFamily: FONT.bodyBlack,flex: 1, fontSize: 14 },
+  pillTxt: { fontFamily: FONT.bodyBlack, flex: 1, fontSize: 14 },
   pillChev: { fontSize: 16, color: V.color.textMuted },
 
-  overlay: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(11,18,32,.55)', alignItems: 'center', justifyContent: 'center', padding: 24, zIndex: 20 },
   modal: { width: '100%', backgroundColor: '#fff', padding: 22 },
   modalHead: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   modalIcon: { width: 42, height: 42, borderRadius: 13, backgroundColor: V.color.primaryLight, alignItems: 'center', justifyContent: 'center' },
   modalClose: { width: 30, height: 30, borderRadius: 15, backgroundColor: '#f1f5f4', alignItems: 'center', justifyContent: 'center' },
-  modalTitle: { fontFamily: FONT.display,fontSize: 20, color: V.color.textPrimary, marginTop: 12 },
-  modalSub: { fontFamily: FONT.bodyBold,fontSize: 13.5, color: V.color.textSecondary, marginTop: 4, lineHeight: 19 },
+  modalTitle: { fontFamily: FONT.display, fontSize: 20, color: V.color.textPrimary, marginTop: 12 },
+  modalSub: { fontFamily: FONT.bodyBold, fontSize: 13.5, color: V.color.textSecondary, marginTop: 4, lineHeight: 19 },
   pinRow: { flexDirection: 'row', gap: 13, justifyContent: 'center', marginTop: 22, marginBottom: 6 },
   pinCell: { width: 16, height: 16, borderRadius: 8 },
   pinCellOff: { backgroundColor: '#fff', borderWidth: 2, borderColor: '#d8dedd' },
   pinCellOn: { backgroundColor: V.color.primary },
   pinCellErr: { backgroundColor: '#fecdd3' },
-  pinError: { fontFamily: FONT.bodyBlack,height: 18, textAlign: 'center', color: V.color.error, fontSize: 12.5 },
+  pinError: { fontFamily: FONT.bodyBlack, minHeight: 20, textAlign: 'center', color: V.color.error, fontSize: 12.5 },
   keypad: { flexDirection: 'row', flexWrap: 'wrap', gap: 11, marginTop: 14 },
   key: { width: '30%', height: 56, borderRadius: 16, alignItems: 'center', justifyContent: 'center', backgroundColor: V.color.pageBg, borderWidth: 1, borderColor: '#eef2f1' },
-  keyTxt: { fontFamily: FONT.display,fontSize: 24, color: V.color.textPrimary },
-  demoPin: { fontFamily: FONT.bodyBlack,textAlign: 'center', color: '#c2cbca', fontSize: 11, marginTop: 16 },
+  keyOff: { opacity: 0.45 },
+  keyTxt: { fontFamily: FONT.display, fontSize: 24, color: V.color.textPrimary },
+  setupWrap: { gap: 8, marginTop: 4 },
+  input: { borderWidth: 1, borderColor: '#cfd8d6', borderRadius: 12, padding: 11, fontFamily: FONT.bodyBold, fontSize: 14, color: V.color.textPrimary, backgroundColor: '#fff', minHeight: 44 },
+  roleRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 6 },
+  roleChip: { borderRadius: 12, borderWidth: 1.5, borderColor: '#cfd8d6', paddingHorizontal: 10, paddingVertical: 6 },
+  roleChipOn: { borderColor: '#00756f', backgroundColor: '#ecfbf9' },
+  roleTxt: { fontFamily: FONT.bodyBold, fontSize: 13, color: V.color.textSecondary },
+  roleTxtOn: { fontFamily: FONT.bodyBlack, color: '#00756f' },
+  setupErr: { fontFamily: FONT.bodyBlack, fontSize: 12.5, color: '#b91c1c' },
+  setupBtn: { backgroundColor: '#00756f', borderRadius: 14, paddingVertical: 13, alignItems: 'center', marginTop: 4 },
+  setupBtnTxt: { fontFamily: FONT.bodyBlack, color: '#fff', fontSize: 14.5 },
 });
+

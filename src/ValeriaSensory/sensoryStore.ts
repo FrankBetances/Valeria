@@ -48,7 +48,7 @@ export const hydrateSensory = async (): Promise<void> => {
   try {
     const raw = await AsyncStorage.getItem(STORAGE_KEYS.sensory);
     if (raw) {
-      const decrypted = await decryptJSON<ValeriaSensoryState>(raw);
+      const decrypted = await decryptJSON<ValeriaSensoryState>(raw, STORAGE_KEYS.sensory);
       if (decrypted && decrypted.version === SENSORY_STATE_VERSION) {
         inMemoryState = {
           ...DEFAULT_SENSORY_STATE,

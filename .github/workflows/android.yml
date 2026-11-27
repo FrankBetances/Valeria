@@ -420,6 +420,15 @@ jobs:
       - name: Comprobar las necesidades de cámara de los retos
         run: node scripts/check-steam-ar-needs.js
 
+      - name: Comprobar cifrado en reposo v2, SecureStore y migración de pid
+        run: node scripts/check-crypto.js
+
+      - name: Comprobar PIN profesional sin maestro y bloqueo persistido
+        run: node scripts/check-pro-pin.js
+
+      - name: Comprobar códigos de seguimiento v2, vínculos QR y export .valeria
+        run: node scripts/check-note-codes.js
+
       - name: Comprobar tipos
         run: npm run typecheck
 
