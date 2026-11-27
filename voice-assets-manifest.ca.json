@@ -17,7 +17,7 @@
  },
  "generatedBy": "github-actions",
  "entries": 833,
- "totalBytes": 24462519,
+ "totalBytes": 24463789,
  "totalSeconds": 2485.6,
  "files": [
   {
@@ -8925,13 +8925,13 @@
    "id": "ca_child_83dfd92f_14",
    "file": "ca_child_83dfd92f_14.m4a",
    "seconds": 0.97,
-   "bytes": 11115,
-   "lufs": -19.2,
-   "normType": "dynamic",
+   "bytes": 12385,
+   "lufs": -18.9,
+   "normType": "linear",
    "compressorGainReductionDb": 0.0,
    "limiterGainReductionDb": 0.0,
    "paramsHash": "30f55f99dcc71b27",
-   "reducedLinearTarget": -19.03
+   "reducedLinearTarget": -18.98
   },
   {
    "id": "ca_child_6cb24906_8",

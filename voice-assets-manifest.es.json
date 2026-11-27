@@ -11,8 +11,8 @@
  },
  "generatedBy": "github-actions",
  "entries": 1301,
- "totalBytes": 32591437,
- "totalSeconds": 3577.6,
+ "totalBytes": 32590866,
+ "totalSeconds": 3577.5,
  "files": [
   {
    "id": "child_6299d0bf_39",
@@ -7580,13 +7580,14 @@
   {
    "id": "slow_1c60f484_4",
    "file": "slow_1c60f484_4.m4a",
-   "seconds": 0.5,
-   "bytes": 5054,
-   "lufs": -17.5,
-   "normType": "dynamic",
+   "seconds": 0.49,
+   "bytes": 5356,
+   "lufs": -18.9,
+   "normType": "linear",
    "compressorGainReductionDb": 0.0,
-   "limiterGainReductionDb": 1.85,
-   "paramsHash": "dcba398bdc8256d4"
+   "limiterGainReductionDb": 0.0,
+   "paramsHash": "dcba398bdc8256d4",
+   "reducedLinearTarget": -18.71
   },
   {
    "id": "slow_7ad5305b_4",
@@ -13622,10 +13623,10 @@
   {
    "id": "child_84772e9b_12",
    "file": "child_84772e9b_12.m4a",
-   "seconds": 1.0,
-   "bytes": 9718,
-   "lufs": -17.3,
-   "normType": "dynamic",
+   "seconds": 0.95,
+   "bytes": 8845,
+   "lufs": -17.0,
+   "normType": "linear",
    "compressorGainReductionDb": 0.0,
    "limiterGainReductionDb": 0.0,
    "paramsHash": "dcba398bdc8256d4"
