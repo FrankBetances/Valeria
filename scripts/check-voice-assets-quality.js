@@ -84,7 +84,24 @@ for (const name of manifests) {
     child_729e1a96_6: 'Palabra aislada "Pimpón" (0.50 s, LRA=0.00): FFmpeg loudnorm etiqueta dynamic pese a aplicar ganancia lineal pura (-4.41 dB, -17.01 LUFS, TP -4.45 dBTP).',
   };
 
-  for (const f of files) {
+  // Audios conservados porque su síntesis nueva falló en CI (R38): se listan, no
+  // cuentan para las reglas de masterizado y no pueden pasar del 3 % del idioma.
+  const kept = files.filter((f) => f.keptPrevious);
+  for (const f of kept) console.log(`  ℹ conservado (${lang}): ${f.id}: ${f.keptPrevious}`);
+  if (kept.length > Math.ceil(files.length * 0.03)) fail(`${lang}: ${kept.length} audios conservados de la versión anterior (máximo 3 %).`);
+  // La mediana de TODOS los audios (también los de ganancia reducida) va a ±1 LU
+  // del objetivo, y ninguno baja de objetivo - 4 LU: así un idioma no puede quedar
+  // más bajo que los demás escondido en la lista de «ganancia reducida» (R33, R38).
+  {
+    const all = files.filter((x) => !x.keptPrevious && typeof x.lufs === 'number').map((x) => x.lufs).sort((a, b) => a - b);
+    if (all.length) {
+      const med = all[Math.floor(all.length / 2)];
+      if (Math.abs(med - targetLufs) > 1) fail(`${lang} (${name}): mediana de LUFS ${med} a más de 1 LU del objetivo ${targetLufs}.`);
+      const low = files.filter((x) => !x.keptPrevious && typeof x.lufs === 'number' && x.lufs < targetLufs - 4).map((x) => `${x.id}(${x.lufs})`);
+      if (low.length) fail(`${lang} (${name}): ${low.length} audios por debajo de ${targetLufs - 4} LUFS: ${low.slice(0, 5).join(', ')}`);
+    }
+  }
+  for (const f of files.filter((x) => !x.keptPrevious)) {
     if (f.paramsHash) hashes.add(f.paramsHash);
     if (!f.paramsHash || (rootHash && f.paramsHash !== rootHash)) {
       mismatchHash += 1;

@@ -4052,12 +4052,6 @@
    "paramsHash": "5994f8ccaa9278ae"
   },
   {
-   "id": "gl_child_4ec9d370_61",
-   "file": "gl_child_4ec9d370_61.m4a",
-   "seconds": 3.56,
-   "bytes": 20359
-  },
-  {
    "id": "gl_child_c7dfa527_17",
    "file": "gl_child_c7dfa527_17.m4a",
    "seconds": 1.26,
@@ -4712,66 +4706,6 @@
    "paramsHash": "5994f8ccaa9278ae"
   },
   {
-   "id": "gl_child_340ca71c_1",
-   "file": "gl_child_340ca71c_1.m4a",
-   "seconds": 0.51,
-   "bytes": 3833
-  },
-  {
-   "id": "gl_child_370cabd5_1",
-   "file": "gl_child_370cabd5_1.m4a",
-   "seconds": 0.48,
-   "bytes": 3437
-  },
-  {
-   "id": "gl_child_360caa42_1",
-   "file": "gl_child_360caa42_1.m4a",
-   "seconds": 0.89,
-   "bytes": 5631
-  },
-  {
-   "id": "gl_child_310ca263_1",
-   "file": "gl_child_310ca263_1.m4a",
-   "seconds": 0.91,
-   "bytes": 5665
-  },
-  {
-   "id": "gl_child_300ca0d0_1",
-   "file": "gl_child_300ca0d0_1.m4a",
-   "seconds": 0.46,
-   "bytes": 3232
-  },
-  {
-   "id": "gl_child_330ca589_1",
-   "file": "gl_child_330ca589_1.m4a",
-   "seconds": 0.48,
-   "bytes": 3807
-  },
-  {
-   "id": "gl_child_320ca3f6_1",
-   "file": "gl_child_320ca3f6_1.m4a",
-   "seconds": 0.46,
-   "bytes": 3310
-  },
-  {
-   "id": "gl_child_3d0cb547_1",
-   "file": "gl_child_3d0cb547_1.m4a",
-   "seconds": 0.49,
-   "bytes": 3706
-  },
-  {
-   "id": "gl_child_3c0cb3b4_1",
-   "file": "gl_child_3c0cb3b4_1.m4a",
-   "seconds": 0.46,
-   "bytes": 3348
-  },
-  {
-   "id": "gl_child_1beb2a44_2",
-   "file": "gl_child_1beb2a44_2.m4a",
-   "seconds": 0.46,
-   "bytes": 3385
-  },
-  {
    "id": "gl_child_0b8fea75_10",
    "file": "gl_child_0b8fea75_10.m4a",
    "seconds": 0.8,
@@ -4882,36 +4816,6 @@
    "compressorGainReductionDb": 0.0,
    "limiterGainReductionDb": 2.71,
    "paramsHash": "5994f8ccaa9278ae"
-  },
-  {
-   "id": "gl_child_c40bf6cc_1",
-   "file": "gl_child_c40bf6cc_1.m4a",
-   "seconds": 0.89,
-   "bytes": 5598
-  },
-  {
-   "id": "gl_child_c00bf080_1",
-   "file": "gl_child_c00bf080_1.m4a",
-   "seconds": 0.72,
-   "bytes": 4656
-  },
-  {
-   "id": "gl_child_cc0c0364_1",
-   "file": "gl_child_cc0c0364_1.m4a",
-   "seconds": 1.26,
-   "bytes": 7631
-  },
-  {
-   "id": "gl_child_ca0c003e_1",
-   "file": "gl_child_ca0c003e_1.m4a",
-   "seconds": 0.7,
-   "bytes": 4436
-  },
-  {
-   "id": "gl_child_d00c09b0_1",
-   "file": "gl_child_d00c09b0_1.m4a",
-   "seconds": 0.75,
-   "bytes": 4954
   },
   {
    "id": "gl_child_220c4616_18",
@@ -5975,12 +5879,6 @@
    "paramsHash": "5994f8ccaa9278ae"
   },
   {
-   "id": "gl_child_72eb7269_47",
-   "file": "gl_child_72eb7269_47.m4a",
-   "seconds": 2.79,
-   "bytes": 17203
-  },
-  {
    "id": "gl_child_3894e089_6",
    "file": "gl_child_3894e089_6.m4a",
    "seconds": 0.57,
@@ -6160,12 +6058,6 @@
    "limiterGainReductionDb": 0.0,
    "paramsHash": "5994f8ccaa9278ae",
    "reducedLinearTarget": -19.31
-  },
-  {
-   "id": "gl_child_f486bb00_11",
-   "file": "gl_child_f486bb00_11.m4a",
-   "seconds": 1.06,
-   "bytes": 7031
   },
   {
    "id": "gl_child_a3075454_6",
@@ -13644,12 +13536,6 @@
    "paramsHash": "5994f8ccaa9278ae"
   },
   {
-   "id": "gl_child_86e340d6_15",
-   "file": "gl_child_86e340d6_15.m4a",
-   "seconds": 1.26,
-   "bytes": 9092
-  },
-  {
    "id": "gl_child_b1d3b9f4_15",
    "file": "gl_child_b1d3b9f4_15.m4a",
    "seconds": 1.11,
@@ -13936,12 +13822,6 @@
    "paramsHash": "5994f8ccaa9278ae"
   },
   {
-   "id": "gl_slow_e40c292c_1",
-   "file": "gl_slow_e40c292c_1.m4a",
-   "seconds": 0.83,
-   "bytes": 5277
-  },
-  {
    "id": "gl_slow_11b54859_3",
    "file": "gl_slow_11b54859_3.m4a",
    "seconds": 0.43,
@@ -13984,12 +13864,6 @@
    "compressorGainReductionDb": 0.0,
    "limiterGainReductionDb": 0.0,
    "paramsHash": "5994f8ccaa9278ae"
-  },
-  {
-   "id": "gl_slow_f00c3c10_1",
-   "file": "gl_slow_f00c3c10_1.m4a",
-   "seconds": 0.94,
-   "bytes": 5932
   },
   {
    "id": "gl_tutor_5d61128e_214",
@@ -14222,64 +14096,221 @@
    "paramsHash": "5994f8ccaa9278ae"
   },
   {
+   "id": "gl_child_4ec9d370_61",
+   "file": "gl_child_4ec9d370_61.m4a",
+   "seconds": 3.56,
+   "bytes": 20359,
+   "keptPrevious": "s\u00edntesis nueva descartada en CI (27/11/2026); se conserva el audio de main"
+  },
+  {
+   "id": "gl_child_340ca71c_1",
+   "file": "gl_child_340ca71c_1.m4a",
+   "seconds": 0.51,
+   "bytes": 3833,
+   "keptPrevious": "s\u00edntesis nueva descartada en CI (27/11/2026); se conserva el audio de main"
+  },
+  {
+   "id": "gl_child_370cabd5_1",
+   "file": "gl_child_370cabd5_1.m4a",
+   "seconds": 0.48,
+   "bytes": 3437,
+   "keptPrevious": "s\u00edntesis nueva descartada en CI (27/11/2026); se conserva el audio de main"
+  },
+  {
+   "id": "gl_child_360caa42_1",
+   "file": "gl_child_360caa42_1.m4a",
+   "seconds": 0.89,
+   "bytes": 5631,
+   "keptPrevious": "s\u00edntesis nueva descartada en CI (27/11/2026); se conserva el audio de main"
+  },
+  {
+   "id": "gl_child_310ca263_1",
+   "file": "gl_child_310ca263_1.m4a",
+   "seconds": 0.91,
+   "bytes": 5665,
+   "keptPrevious": "s\u00edntesis nueva descartada en CI (27/11/2026); se conserva el audio de main"
+  },
+  {
+   "id": "gl_child_300ca0d0_1",
+   "file": "gl_child_300ca0d0_1.m4a",
+   "seconds": 0.46,
+   "bytes": 3232,
+   "keptPrevious": "s\u00edntesis nueva descartada en CI (27/11/2026); se conserva el audio de main"
+  },
+  {
+   "id": "gl_child_330ca589_1",
+   "file": "gl_child_330ca589_1.m4a",
+   "seconds": 0.48,
+   "bytes": 3807,
+   "keptPrevious": "s\u00edntesis nueva descartada en CI (27/11/2026); se conserva el audio de main"
+  },
+  {
+   "id": "gl_child_320ca3f6_1",
+   "file": "gl_child_320ca3f6_1.m4a",
+   "seconds": 0.46,
+   "bytes": 3310,
+   "keptPrevious": "s\u00edntesis nueva descartada en CI (27/11/2026); se conserva el audio de main"
+  },
+  {
+   "id": "gl_child_3d0cb547_1",
+   "file": "gl_child_3d0cb547_1.m4a",
+   "seconds": 0.49,
+   "bytes": 3706,
+   "keptPrevious": "s\u00edntesis nueva descartada en CI (27/11/2026); se conserva el audio de main"
+  },
+  {
+   "id": "gl_child_3c0cb3b4_1",
+   "file": "gl_child_3c0cb3b4_1.m4a",
+   "seconds": 0.46,
+   "bytes": 3348,
+   "keptPrevious": "s\u00edntesis nueva descartada en CI (27/11/2026); se conserva el audio de main"
+  },
+  {
+   "id": "gl_child_1beb2a44_2",
+   "file": "gl_child_1beb2a44_2.m4a",
+   "seconds": 0.46,
+   "bytes": 3385,
+   "keptPrevious": "s\u00edntesis nueva descartada en CI (27/11/2026); se conserva el audio de main"
+  },
+  {
+   "id": "gl_child_c40bf6cc_1",
+   "file": "gl_child_c40bf6cc_1.m4a",
+   "seconds": 0.89,
+   "bytes": 5598,
+   "keptPrevious": "s\u00edntesis nueva descartada en CI (27/11/2026); se conserva el audio de main"
+  },
+  {
+   "id": "gl_child_c00bf080_1",
+   "file": "gl_child_c00bf080_1.m4a",
+   "seconds": 0.72,
+   "bytes": 4656,
+   "keptPrevious": "s\u00edntesis nueva descartada en CI (27/11/2026); se conserva el audio de main"
+  },
+  {
+   "id": "gl_child_cc0c0364_1",
+   "file": "gl_child_cc0c0364_1.m4a",
+   "seconds": 1.26,
+   "bytes": 7631,
+   "keptPrevious": "s\u00edntesis nueva descartada en CI (27/11/2026); se conserva el audio de main"
+  },
+  {
+   "id": "gl_child_ca0c003e_1",
+   "file": "gl_child_ca0c003e_1.m4a",
+   "seconds": 0.7,
+   "bytes": 4436,
+   "keptPrevious": "s\u00edntesis nueva descartada en CI (27/11/2026); se conserva el audio de main"
+  },
+  {
+   "id": "gl_child_d00c09b0_1",
+   "file": "gl_child_d00c09b0_1.m4a",
+   "seconds": 0.75,
+   "bytes": 4954,
+   "keptPrevious": "s\u00edntesis nueva descartada en CI (27/11/2026); se conserva el audio de main"
+  },
+  {
+   "id": "gl_child_72eb7269_47",
+   "file": "gl_child_72eb7269_47.m4a",
+   "seconds": 2.79,
+   "bytes": 17203,
+   "keptPrevious": "s\u00edntesis nueva descartada en CI (27/11/2026); se conserva el audio de main"
+  },
+  {
+   "id": "gl_child_f486bb00_11",
+   "file": "gl_child_f486bb00_11.m4a",
+   "seconds": 1.06,
+   "bytes": 7031,
+   "keptPrevious": "s\u00edntesis nueva descartada en CI (27/11/2026); se conserva el audio de main"
+  },
+  {
+   "id": "gl_child_86e340d6_15",
+   "file": "gl_child_86e340d6_15.m4a",
+   "seconds": 1.26,
+   "bytes": 9092,
+   "keptPrevious": "s\u00edntesis nueva descartada en CI (27/11/2026); se conserva el audio de main"
+  },
+  {
+   "id": "gl_slow_e40c292c_1",
+   "file": "gl_slow_e40c292c_1.m4a",
+   "seconds": 0.83,
+   "bytes": 5277,
+   "keptPrevious": "s\u00edntesis nueva descartada en CI (27/11/2026); se conserva el audio de main"
+  },
+  {
+   "id": "gl_slow_f00c3c10_1",
+   "file": "gl_slow_f00c3c10_1.m4a",
+   "seconds": 0.94,
+   "bytes": 5932,
+   "keptPrevious": "s\u00edntesis nueva descartada en CI (27/11/2026); se conserva el audio de main"
+  },
+  {
    "id": "gl_slow_e70c2de5_1",
    "file": "gl_slow_e70c2de5_1.m4a",
    "seconds": 0.75,
-   "bytes": 4918
+   "bytes": 4918,
+   "keptPrevious": "s\u00edntesis nueva descartada en CI (27/11/2026); se conserva el audio de main"
   },
   {
    "id": "gl_slow_e10c2473_1",
    "file": "gl_slow_e10c2473_1.m4a",
    "seconds": 1.08,
-   "bytes": 6647
+   "bytes": 6647,
+   "keptPrevious": "s\u00edntesis nueva descartada en CI (27/11/2026); se conserva el audio de main"
   },
   {
    "id": "gl_slow_f50c43ef_1",
    "file": "gl_slow_f50c43ef_1.m4a",
    "seconds": 1.39,
-   "bytes": 8263
+   "bytes": 8263,
+   "keptPrevious": "s\u00edntesis nueva descartada en CI (27/11/2026); se conserva el audio de main"
   },
   {
    "id": "gl_slow_f40c425c_1",
    "file": "gl_slow_f40c425c_1.m4a",
    "seconds": 0.76,
-   "bytes": 5060
+   "bytes": 5060,
+   "keptPrevious": "s\u00edntesis nueva descartada en CI (27/11/2026); se conserva el audio de main"
   },
   {
    "id": "gl_slow_e80c2f78_1",
    "file": "gl_slow_e80c2f78_1.m4a",
    "seconds": 0.96,
-   "bytes": 5949
+   "bytes": 5949,
+   "keptPrevious": "s\u00edntesis nueva descartada en CI (27/11/2026); se conserva el audio de main"
   },
   {
    "id": "gl_slow_eb0c3431_1",
    "file": "gl_slow_eb0c3431_1.m4a",
    "seconds": 1.0,
-   "bytes": 6048
+   "bytes": 6048,
+   "keptPrevious": "s\u00edntesis nueva descartada en CI (27/11/2026); se conserva el audio de main"
   },
   {
    "id": "gl_slow_e00c22e0_1",
    "file": "gl_slow_e00c22e0_1.m4a",
    "seconds": 0.81,
-   "bytes": 5143
+   "bytes": 5143,
+   "keptPrevious": "s\u00edntesis nueva descartada en CI (27/11/2026); se conserva el audio de main"
   },
   {
    "id": "gl_slow_f60c4582_1",
    "file": "gl_slow_f60c4582_1.m4a",
    "seconds": 0.72,
-   "bytes": 4679
+   "bytes": 4679,
+   "keptPrevious": "s\u00edntesis nueva descartada en CI (27/11/2026); se conserva el audio de main"
   },
   {
    "id": "gl_slow_ff0c53ad_1",
    "file": "gl_slow_ff0c53ad_1.m4a",
    "seconds": 0.68,
-   "bytes": 4625
+   "bytes": 4625,
+   "keptPrevious": "s\u00edntesis nueva descartada en CI (27/11/2026); se conserva el audio de main"
   },
   {
    "id": "gl_slow_e20c2606_1",
    "file": "gl_slow_e20c2606_1.m4a",
    "seconds": 0.99,
-   "bytes": 6276
+   "bytes": 6276,
+   "keptPrevious": "s\u00edntesis nueva descartada en CI (27/11/2026); se conserva el audio de main"
   }
  ]
 }

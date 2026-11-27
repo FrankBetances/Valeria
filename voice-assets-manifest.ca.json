@@ -9232,12 +9232,6 @@
    "reducedLinearTarget": -20.16
   },
   {
-   "id": "ca_slow_e40c292c_1",
-   "file": "ca_slow_e40c292c_1.m4a",
-   "seconds": 0.31,
-   "bytes": 3334
-  },
-  {
    "id": "ca_slow_c33f0730_3",
    "file": "ca_slow_c33f0730_3.m4a",
    "seconds": 0.92,
@@ -9947,6 +9941,13 @@
    "compressorGainReductionDb": 0.0,
    "limiterGainReductionDb": 0.0,
    "paramsHash": "30f55f99dcc71b27"
+  },
+  {
+   "id": "ca_slow_e40c292c_1",
+   "file": "ca_slow_e40c292c_1.m4a",
+   "seconds": 0.31,
+   "bytes": 3334,
+   "keptPrevious": "s\u00edntesis nueva descartada en CI (27/11/2026); se conserva el audio de main"
   }
  ]
 }

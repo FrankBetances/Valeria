@@ -1,7 +1,7 @@
 // ============================================================================
 // Valeria+ · Mapa id → asset de voz neuronal — ARCHIVO GENERADO, NO EDITAR
 // Regenerado por scripts/build-voice-asset-map.js (tubería de Fase 2,
-// .github/workflows/voice-assets.yml). Cobertura: 4900/5689 locuciones
+// .github/workflows/voice-assets.yml). Cobertura: 4932/5689 locuciones
 // del corpus; lo no cubierto cae a expo-speech en runtime.
 // ============================================================================
 
@@ -11,12 +11,12 @@ export const VOICE_ASSETS_VERSION = "ca-matxa-tts+en-ljspeech+es-sharvard+eu-aho
 // ---------------------------------------------------------------------------
 // Por qué esto es un CARGADOR y no un mapa
 // ---------------------------------------------------------------------------
-// Un objeto literal con 4900 require() no es un objeto: son
-// 4900 MÓDULOS de Metro ejecutados, cada uno registrando su
+// Un objeto literal con 4932 require() no es un objeto: son
+// 4932 MÓDULOS de Metro ejecutados, cada uno registrando su
 // descriptor de asset —nombre, hash y la lista de hashes por escala— en el
 // registro de assets de React Native. Y ocurría en el ARRANQUE, porque
-// valeriaVoice entra por el grafo de App.tsx: 4900 ejecuciones de
-// módulo y 4900 objetos antes del primer frame, en una pantalla
+// valeriaVoice entra por el grafo de App.tsx: 4932 ejecuciones de
+// módulo y 4932 objetos antes del primer frame, en una pantalla
 // donde la app todavía no ha locutado nada.
 //
 // Aquí el literal vive DENTRO de una función. Hermes compila los cuerpos de
@@ -657,6 +657,7 @@ function init(): void {
   reg("ca_slow_e2b77e6c_5", 0.49, () => require('../assets/voice/ca_slow_e2b77e6c_5.m4a'));
   reg("ca_slow_e32eec48_2", 0.39, () => require('../assets/voice/ca_slow_e32eec48_2.m4a'));
   reg("ca_slow_e3d43a34_67", 4.81, () => require('../assets/voice/ca_slow_e3d43a34_67.m4a'));
+  reg("ca_slow_e40c292c_1", 0.31, () => require('../assets/voice/ca_slow_e40c292c_1.m4a'));
   reg("ca_slow_e63c0d0d_10", 0.85, () => require('../assets/voice/ca_slow_e63c0d0d_10.m4a'));
   reg("ca_slow_e698b8dd_31", 2.53, () => require('../assets/voice/ca_slow_e698b8dd_31.m4a'));
   reg("ca_slow_e70c2de5_1", 0.18, () => require('../assets/voice/ca_slow_e70c2de5_1.m4a'));
@@ -3385,6 +3386,7 @@ function init(): void {
   reg("gl_child_1b34e18f_17", 1.21, () => require('../assets/voice/gl_child_1b34e18f_17.m4a'));
   reg("gl_child_1b386572_22", 1.92, () => require('../assets/voice/gl_child_1b386572_22.m4a'));
   reg("gl_child_1b593b3b_23", 1.93, () => require('../assets/voice/gl_child_1b593b3b_23.m4a'));
+  reg("gl_child_1beb2a44_2", 0.46, () => require('../assets/voice/gl_child_1beb2a44_2.m4a'));
   reg("gl_child_1c214c8e_14", 0.88, () => require('../assets/voice/gl_child_1c214c8e_14.m4a'));
   reg("gl_child_1c26e965_14", 1.23, () => require('../assets/voice/gl_child_1c26e965_14.m4a'));
   reg("gl_child_1c2701fb_24", 2.13, () => require('../assets/voice/gl_child_1c2701fb_24.m4a'));
@@ -3461,18 +3463,23 @@ function init(): void {
   reg("gl_child_2f4637f5_68", 3.73, () => require('../assets/voice/gl_child_2f4637f5_68.m4a'));
   reg("gl_child_2f6db722_43", 2.8, () => require('../assets/voice/gl_child_2f6db722_43.m4a'));
   reg("gl_child_2f8898f0_97", 5.36, () => require('../assets/voice/gl_child_2f8898f0_97.m4a'));
+  reg("gl_child_300ca0d0_1", 0.46, () => require('../assets/voice/gl_child_300ca0d0_1.m4a'));
   reg("gl_child_306aebe8_53", 3.83, () => require('../assets/voice/gl_child_306aebe8_53.m4a'));
   reg("gl_child_308f9388_10", 0.89, () => require('../assets/voice/gl_child_308f9388_10.m4a'));
+  reg("gl_child_310ca263_1", 0.91, () => require('../assets/voice/gl_child_310ca263_1.m4a'));
   reg("gl_child_310f1c52_37", 2.83, () => require('../assets/voice/gl_child_310f1c52_37.m4a'));
   reg("gl_child_319263ae_4", 0.48, () => require('../assets/voice/gl_child_319263ae_4.m4a'));
   reg("gl_child_31b6edb0_60", 4.28, () => require('../assets/voice/gl_child_31b6edb0_60.m4a'));
   reg("gl_child_31ee3de0_24", 1.92, () => require('../assets/voice/gl_child_31ee3de0_24.m4a'));
+  reg("gl_child_320ca3f6_1", 0.46, () => require('../assets/voice/gl_child_320ca3f6_1.m4a'));
   reg("gl_child_321c24a5_25", 2.44, () => require('../assets/voice/gl_child_321c24a5_25.m4a'));
   reg("gl_child_3272cd26_7", 0.76, () => require('../assets/voice/gl_child_3272cd26_7.m4a'));
   reg("gl_child_32989291_22", 1.83, () => require('../assets/voice/gl_child_32989291_22.m4a'));
   reg("gl_child_32f94bac_8", 0.71, () => require('../assets/voice/gl_child_32f94bac_8.m4a'));
+  reg("gl_child_330ca589_1", 0.48, () => require('../assets/voice/gl_child_330ca589_1.m4a'));
   reg("gl_child_333788a4_23", 1.95, () => require('../assets/voice/gl_child_333788a4_23.m4a'));
   reg("gl_child_33c25089_27", 1.61, () => require('../assets/voice/gl_child_33c25089_27.m4a'));
+  reg("gl_child_340ca71c_1", 0.51, () => require('../assets/voice/gl_child_340ca71c_1.m4a'));
   reg("gl_child_34391744_84", 4.64, () => require('../assets/voice/gl_child_34391744_84.m4a'));
   reg("gl_child_344367f1_6", 0.71, () => require('../assets/voice/gl_child_344367f1_6.m4a'));
   reg("gl_child_3459ea47_6", 0.65, () => require('../assets/voice/gl_child_3459ea47_6.m4a'));
@@ -3483,8 +3490,10 @@ function init(): void {
   reg("gl_child_357c2c6d_34", 2.49, () => require('../assets/voice/gl_child_357c2c6d_34.m4a'));
   reg("gl_child_35b77427_4", 0.51, () => require('../assets/voice/gl_child_35b77427_4.m4a'));
   reg("gl_child_35fb238b_5", 0.48, () => require('../assets/voice/gl_child_35fb238b_5.m4a'));
+  reg("gl_child_360caa42_1", 0.89, () => require('../assets/voice/gl_child_360caa42_1.m4a'));
   reg("gl_child_36de6140_27", 1.5, () => require('../assets/voice/gl_child_36de6140_27.m4a'));
   reg("gl_child_3709a40c_74", 4.29, () => require('../assets/voice/gl_child_3709a40c_74.m4a'));
+  reg("gl_child_370cabd5_1", 0.48, () => require('../assets/voice/gl_child_370cabd5_1.m4a'));
   reg("gl_child_37898d26_58", 4.07, () => require('../assets/voice/gl_child_37898d26_58.m4a'));
   reg("gl_child_37e11fc5_19", 1.28, () => require('../assets/voice/gl_child_37e11fc5_19.m4a'));
   reg("gl_child_3817e9d0_60", 4.26, () => require('../assets/voice/gl_child_3817e9d0_60.m4a'));
@@ -3503,11 +3512,13 @@ function init(): void {
   reg("gl_child_3b9517f7_70", 4.09, () => require('../assets/voice/gl_child_3b9517f7_70.m4a'));
   reg("gl_child_3bbeb7e0_7", 0.7, () => require('../assets/voice/gl_child_3bbeb7e0_7.m4a'));
   reg("gl_child_3c01a0d1_19", 1.88, () => require('../assets/voice/gl_child_3c01a0d1_19.m4a'));
+  reg("gl_child_3c0cb3b4_1", 0.46, () => require('../assets/voice/gl_child_3c0cb3b4_1.m4a'));
   reg("gl_child_3c3bc9ce_21", 1.76, () => require('../assets/voice/gl_child_3c3bc9ce_21.m4a'));
   reg("gl_child_3c6b0e8c_17", 1.22, () => require('../assets/voice/gl_child_3c6b0e8c_17.m4a'));
   reg("gl_child_3c8c77ee_35", 2.19, () => require('../assets/voice/gl_child_3c8c77ee_35.m4a'));
   reg("gl_child_3cc4b8ff_8", 0.7, () => require('../assets/voice/gl_child_3cc4b8ff_8.m4a'));
   reg("gl_child_3d020116_33", 2.23, () => require('../assets/voice/gl_child_3d020116_33.m4a'));
+  reg("gl_child_3d0cb547_1", 0.49, () => require('../assets/voice/gl_child_3d0cb547_1.m4a'));
   reg("gl_child_3d6d7a1e_41", 4.27, () => require('../assets/voice/gl_child_3d6d7a1e_41.m4a'));
   reg("gl_child_3d900c95_5", 0.65, () => require('../assets/voice/gl_child_3d900c95_5.m4a'));
   reg("gl_child_3db5dfed_15", 1.24, () => require('../assets/voice/gl_child_3db5dfed_15.m4a'));
@@ -3572,6 +3583,7 @@ function init(): void {
   reg("gl_child_4e91a251_50", 2.87, () => require('../assets/voice/gl_child_4e91a251_50.m4a'));
   reg("gl_child_4ea8000f_3", 0.36, () => require('../assets/voice/gl_child_4ea8000f_3.m4a'));
   reg("gl_child_4ec411e5_13", 1.28, () => require('../assets/voice/gl_child_4ec411e5_13.m4a'));
+  reg("gl_child_4ec9d370_61", 3.56, () => require('../assets/voice/gl_child_4ec9d370_61.m4a'));
   reg("gl_child_4ee85f33_19", 1.06, () => require('../assets/voice/gl_child_4ee85f33_19.m4a'));
   reg("gl_child_4efe4b4b_41", 2.23, () => require('../assets/voice/gl_child_4efe4b4b_41.m4a'));
   reg("gl_child_4f55eeec_3", 0.35, () => require('../assets/voice/gl_child_4f55eeec_3.m4a'));
@@ -3706,6 +3718,7 @@ function init(): void {
   reg("gl_child_7263b5b1_32", 2.01, () => require('../assets/voice/gl_child_7263b5b1_32.m4a'));
   reg("gl_child_728b3cb4_4", 0.41, () => require('../assets/voice/gl_child_728b3cb4_4.m4a'));
   reg("gl_child_729e1a96_6", 0.66, () => require('../assets/voice/gl_child_729e1a96_6.m4a'));
+  reg("gl_child_72eb7269_47", 2.79, () => require('../assets/voice/gl_child_72eb7269_47.m4a'));
   reg("gl_child_734c15e4_9", 0.68, () => require('../assets/voice/gl_child_734c15e4_9.m4a'));
   reg("gl_child_7369ed8e_19", 1.43, () => require('../assets/voice/gl_child_7369ed8e_19.m4a'));
   reg("gl_child_737cb3d2_61", 4.1, () => require('../assets/voice/gl_child_737cb3d2_61.m4a'));
@@ -3765,6 +3778,7 @@ function init(): void {
   reg("gl_child_864060e0_66", 4.26, () => require('../assets/voice/gl_child_864060e0_66.m4a'));
   reg("gl_child_8691addd_6", 0.65, () => require('../assets/voice/gl_child_8691addd_6.m4a'));
   reg("gl_child_86ca9edb_41", 2.93, () => require('../assets/voice/gl_child_86ca9edb_41.m4a'));
+  reg("gl_child_86e340d6_15", 1.26, () => require('../assets/voice/gl_child_86e340d6_15.m4a'));
   reg("gl_child_876495f5_28", 2.6, () => require('../assets/voice/gl_child_876495f5_28.m4a'));
   reg("gl_child_878751ef_4", 0.46, () => require('../assets/voice/gl_child_878751ef_4.m4a'));
   reg("gl_child_87ab4ef9_170", 10.51, () => require('../assets/voice/gl_child_87ab4ef9_170.m4a'));
@@ -3951,6 +3965,7 @@ function init(): void {
   reg("gl_child_bdbc1831_94", 5.14, () => require('../assets/voice/gl_child_bdbc1831_94.m4a'));
   reg("gl_child_be33751b_38", 3.1, () => require('../assets/voice/gl_child_be33751b_38.m4a'));
   reg("gl_child_bf506454_19", 1.5, () => require('../assets/voice/gl_child_bf506454_19.m4a'));
+  reg("gl_child_c00bf080_1", 0.72, () => require('../assets/voice/gl_child_c00bf080_1.m4a'));
   reg("gl_child_c01fa554_30", 1.45, () => require('../assets/voice/gl_child_c01fa554_30.m4a'));
   reg("gl_child_c05caca1_40", 2.25, () => require('../assets/voice/gl_child_c05caca1_40.m4a'));
   reg("gl_child_c0a4f447_32", 2.12, () => require('../assets/voice/gl_child_c0a4f447_32.m4a'));
@@ -3966,6 +3981,7 @@ function init(): void {
   reg("gl_child_c3c9db0a_22", 1.96, () => require('../assets/voice/gl_child_c3c9db0a_22.m4a'));
   reg("gl_child_c3f52f15_29", 2.61, () => require('../assets/voice/gl_child_c3f52f15_29.m4a'));
   reg("gl_child_c406673c_30", 2.69, () => require('../assets/voice/gl_child_c406673c_30.m4a'));
+  reg("gl_child_c40bf6cc_1", 0.89, () => require('../assets/voice/gl_child_c40bf6cc_1.m4a'));
   reg("gl_child_c4206de8_3", 0.42, () => require('../assets/voice/gl_child_c4206de8_3.m4a'));
   reg("gl_child_c4a4df97_20", 1.34, () => require('../assets/voice/gl_child_c4a4df97_20.m4a'));
   reg("gl_child_c4f85311_35", 2.25, () => require('../assets/voice/gl_child_c4f85311_35.m4a'));
@@ -3997,6 +4013,7 @@ function init(): void {
   reg("gl_child_c950f819_25", 2.28, () => require('../assets/voice/gl_child_c950f819_25.m4a'));
   reg("gl_child_c973231f_83", 4.92, () => require('../assets/voice/gl_child_c973231f_83.m4a'));
   reg("gl_child_c9affa98_19", 1.72, () => require('../assets/voice/gl_child_c9affa98_19.m4a'));
+  reg("gl_child_ca0c003e_1", 0.7, () => require('../assets/voice/gl_child_ca0c003e_1.m4a'));
   reg("gl_child_ca12539c_5", 0.57, () => require('../assets/voice/gl_child_ca12539c_5.m4a'));
   reg("gl_child_ca2c7a26_26", 2.37, () => require('../assets/voice/gl_child_ca2c7a26_26.m4a'));
   reg("gl_child_ca59928b_20", 1.93, () => require('../assets/voice/gl_child_ca59928b_20.m4a'));
@@ -4008,6 +4025,7 @@ function init(): void {
   reg("gl_child_cb8fa359_41", 4.69, () => require('../assets/voice/gl_child_cb8fa359_41.m4a'));
   reg("gl_child_cba84f3b_4", 0.49, () => require('../assets/voice/gl_child_cba84f3b_4.m4a'));
   reg("gl_child_cbef515a_105", 5.68, () => require('../assets/voice/gl_child_cbef515a_105.m4a'));
+  reg("gl_child_cc0c0364_1", 1.26, () => require('../assets/voice/gl_child_cc0c0364_1.m4a'));
   reg("gl_child_ccac5572_37", 2.42, () => require('../assets/voice/gl_child_ccac5572_37.m4a'));
   reg("gl_child_cd54e1ba_4", 0.52, () => require('../assets/voice/gl_child_cd54e1ba_4.m4a'));
   reg("gl_child_cd8643b3_28", 2.26, () => require('../assets/voice/gl_child_cd8643b3_28.m4a'));
@@ -4017,6 +4035,7 @@ function init(): void {
   reg("gl_child_cf50da4e_21", 2, () => require('../assets/voice/gl_child_cf50da4e_21.m4a'));
   reg("gl_child_cf65f527_43", 3.06, () => require('../assets/voice/gl_child_cf65f527_43.m4a'));
   reg("gl_child_cfa0634e_8", 0.96, () => require('../assets/voice/gl_child_cfa0634e_8.m4a'));
+  reg("gl_child_d00c09b0_1", 0.75, () => require('../assets/voice/gl_child_d00c09b0_1.m4a'));
   reg("gl_child_d010a52b_15", 0.84, () => require('../assets/voice/gl_child_d010a52b_15.m4a'));
   reg("gl_child_d059424b_4", 0.46, () => require('../assets/voice/gl_child_d059424b_4.m4a'));
   reg("gl_child_d0a2a60c_32", 2.33, () => require('../assets/voice/gl_child_d0a2a60c_32.m4a'));
@@ -4132,6 +4151,7 @@ function init(): void {
   reg("gl_child_f42a3054_114", 6.49, () => require('../assets/voice/gl_child_f42a3054_114.m4a'));
   reg("gl_child_f457a94f_22", 2.04, () => require('../assets/voice/gl_child_f457a94f_22.m4a'));
   reg("gl_child_f484ed36_4", 0.45, () => require('../assets/voice/gl_child_f484ed36_4.m4a'));
+  reg("gl_child_f486bb00_11", 1.06, () => require('../assets/voice/gl_child_f486bb00_11.m4a'));
   reg("gl_child_f4c6d515_35", 1.97, () => require('../assets/voice/gl_child_f4c6d515_35.m4a'));
   reg("gl_child_f5365ebe_54", 3.5, () => require('../assets/voice/gl_child_f5365ebe_54.m4a'));
   reg("gl_child_f59eea2e_31", 1.07, () => require('../assets/voice/gl_child_f59eea2e_31.m4a'));
@@ -4351,27 +4371,39 @@ function init(): void {
   reg("gl_slow_dda2ec8b_3", 0.49, () => require('../assets/voice/gl_slow_dda2ec8b_3.m4a'));
   reg("gl_slow_df0521b1_33", 3.5, () => require('../assets/voice/gl_slow_df0521b1_33.m4a'));
   reg("gl_slow_df48520c_33", 3.03, () => require('../assets/voice/gl_slow_df48520c_33.m4a'));
+  reg("gl_slow_e00c22e0_1", 0.81, () => require('../assets/voice/gl_slow_e00c22e0_1.m4a'));
+  reg("gl_slow_e10c2473_1", 1.08, () => require('../assets/voice/gl_slow_e10c2473_1.m4a'));
   reg("gl_slow_e132d200_45", 4.53, () => require('../assets/voice/gl_slow_e132d200_45.m4a'));
   reg("gl_slow_e13cd8f1_29", 1.44, () => require('../assets/voice/gl_slow_e13cd8f1_29.m4a'));
+  reg("gl_slow_e20c2606_1", 0.99, () => require('../assets/voice/gl_slow_e20c2606_1.m4a'));
   reg("gl_slow_e2363da1_3", 0.61, () => require('../assets/voice/gl_slow_e2363da1_3.m4a'));
   reg("gl_slow_e37950f1_67", 5.26, () => require('../assets/voice/gl_slow_e37950f1_67.m4a'));
+  reg("gl_slow_e40c292c_1", 0.83, () => require('../assets/voice/gl_slow_e40c292c_1.m4a'));
   reg("gl_slow_e59882ea_37", 3.15, () => require('../assets/voice/gl_slow_e59882ea_37.m4a'));
+  reg("gl_slow_e70c2de5_1", 0.75, () => require('../assets/voice/gl_slow_e70c2de5_1.m4a'));
   reg("gl_slow_e7d05865_61", 3.69, () => require('../assets/voice/gl_slow_e7d05865_61.m4a'));
+  reg("gl_slow_e80c2f78_1", 0.96, () => require('../assets/voice/gl_slow_e80c2f78_1.m4a'));
   reg("gl_slow_e9a2ff6f_3", 0.44, () => require('../assets/voice/gl_slow_e9a2ff6f_3.m4a'));
   reg("gl_slow_ea5b870b_62", 5, () => require('../assets/voice/gl_slow_ea5b870b_62.m4a'));
   reg("gl_slow_eb0a8141_24", 2.85, () => require('../assets/voice/gl_slow_eb0a8141_24.m4a'));
+  reg("gl_slow_eb0c3431_1", 1, () => require('../assets/voice/gl_slow_eb0c3431_1.m4a'));
   reg("gl_slow_eb212bd5_25", 2.6, () => require('../assets/voice/gl_slow_eb212bd5_25.m4a'));
+  reg("gl_slow_f00c3c10_1", 0.94, () => require('../assets/voice/gl_slow_f00c3c10_1.m4a'));
   reg("gl_slow_f0743965_3", 0.38, () => require('../assets/voice/gl_slow_f0743965_3.m4a'));
   reg("gl_slow_f0b771bf_6", 0.77, () => require('../assets/voice/gl_slow_f0b771bf_6.m4a'));
   reg("gl_slow_f342aca3_4", 0.93, () => require('../assets/voice/gl_slow_f342aca3_4.m4a'));
+  reg("gl_slow_f40c425c_1", 0.76, () => require('../assets/voice/gl_slow_f40c425c_1.m4a'));
   reg("gl_slow_f484ed36_4", 0.65, () => require('../assets/voice/gl_slow_f484ed36_4.m4a'));
+  reg("gl_slow_f50c43ef_1", 1.39, () => require('../assets/voice/gl_slow_f50c43ef_1.m4a'));
   reg("gl_slow_f59eea2e_31", 3.08, () => require('../assets/voice/gl_slow_f59eea2e_31.m4a'));
+  reg("gl_slow_f60c4582_1", 0.72, () => require('../assets/voice/gl_slow_f60c4582_1.m4a'));
   reg("gl_slow_f7388149_27", 3.02, () => require('../assets/voice/gl_slow_f7388149_27.m4a'));
   reg("gl_slow_f840c3b5_26", 2.98, () => require('../assets/voice/gl_slow_f840c3b5_26.m4a'));
   reg("gl_slow_f9c50bce_63", 5.32, () => require('../assets/voice/gl_slow_f9c50bce_63.m4a'));
   reg("gl_slow_fcb8f789_31", 2.94, () => require('../assets/voice/gl_slow_fcb8f789_31.m4a'));
   reg("gl_slow_fd42bc61_4", 0.56, () => require('../assets/voice/gl_slow_fd42bc61_4.m4a'));
   reg("gl_slow_ff00df96_16", 1.73, () => require('../assets/voice/gl_slow_ff00df96_16.m4a'));
+  reg("gl_slow_ff0c53ad_1", 0.68, () => require('../assets/voice/gl_slow_ff0c53ad_1.m4a'));
   reg("gl_tutor_027781ac_129", 8.01, () => require('../assets/voice/gl_tutor_027781ac_129.m4a'));
   reg("gl_tutor_042dc2a8_325", 17.79, () => require('../assets/voice/gl_tutor_042dc2a8_325.m4a'));
   reg("gl_tutor_0474a445_76", 5.03, () => require('../assets/voice/gl_tutor_0474a445_76.m4a'));

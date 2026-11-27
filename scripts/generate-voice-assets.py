@@ -68,6 +68,7 @@ TARGET_LUFS = -17.0
 TARGET_TP = -1.5
 TARGET_LRA = 15.0
 MAX_GAIN_REDUCTION_DB = 3.0
+COMP_RATIOS = (2, 3, 4)
 EDGE_MS = 50
 EDGE_THRESH_DB = -45.0
 FADE_MS = 10
@@ -322,19 +323,27 @@ def master_to_m4a(
         comp_gr_db = 0.0
 
         if gr_raw_needed > MAX_GAIN_REDUCTION_DB:
-            # Cresta alta: compresor suave (2:1, attack >= 15 ms para respetar /p/t/k/, release 120 ms).
-            thresh_db = max(-30.0, min(-6.0, raw_tp - 9.0))
-            thresh_lin = 10 ** (thresh_db / 20.0)
-            subprocess.run(
-                ["ffmpeg", "-y", "-loglevel", "error", "-i", str(pre_wav),
-                 "-af", f"acompressor=threshold={thresh_lin:.5f}:ratio=2:attack=15:release=120:knee=4:makeup=1",
-                 "-ar", str(p_sr), "-ac", "1", "-sample_fmt", "s16", str(comp_wav)],
-                check=True,
-            )
-            comp_stats = pass1_stats(comp_wav, target_lufs)
-            comp_gr_db = round(max(0.0, raw_tp - float(comp_stats["input_tp"])), 2)
-            base_wav = comp_wav
-            base_stats = comp_stats
+            # Cresta alta: compresor con attack >= 15 ms (respeta la explosión de /p/t/k/)
+            # y release 120 ms. Se empieza suave (2:1) y solo se sube la relación (3:1, 4:1)
+            # si con la anterior el audio no llega al objetivo con <= 3 dB de limitador.
+            # Bajar el volumen del audio NO es una salida: deja la voz más cerca del ruido
+            # de fondo que en los demás idiomas (R33; el 27/11 el catalán quedó a -20,8).
+            for ratio in COMP_RATIOS:
+                thresh_db = max(-30.0, min(-6.0, raw_tp - 9.0 - 3.0 * (ratio - 2)))
+                thresh_lin = 10 ** (thresh_db / 20.0)
+                subprocess.run(
+                    ["ffmpeg", "-y", "-loglevel", "error", "-i", str(pre_wav),
+                     "-af", f"acompressor=threshold={thresh_lin:.5f}:ratio={ratio}:attack=15:release=120:knee=4:makeup=1",
+                     "-ar", str(p_sr), "-ac", "1", "-sample_fmt", "s16", str(comp_wav)],
+                    check=True,
+                )
+                comp_stats = pass1_stats(comp_wav, target_lufs)
+                comp_gr_db = round(max(0.0, raw_tp - float(comp_stats["input_tp"])), 2)
+                base_wav = comp_wav
+                base_stats = comp_stats
+                still = max(0.0, (target_lufs - float(comp_stats["input_i"])) - ((TARGET_TP - 0.2) - float(comp_stats["input_tp"])))
+                if still <= MAX_GAIN_REDUCTION_DB:
+                    break
 
         base_i = float(base_stats["input_i"])
         base_tp = float(base_stats["input_tp"])
@@ -451,6 +460,7 @@ def compute_params_hash(voice: dict, lang: str = "") -> str:
         "targetTp": TARGET_TP,
         "targetLra": TARGET_LRA,
         "maxGainReductionDb": MAX_GAIN_REDUCTION_DB,
+        "compRatios": list(COMP_RATIOS),
         "edgeMs": EDGE_MS,
         "edgeThreshDb": EDGE_THRESH_DB,
         "fadeMs": FADE_MS,
@@ -1199,7 +1209,10 @@ def main() -> None:
                     skipped += 1
                     if skipped <= 5:
                         print(f"  ⚠ descartado {e['id']}: {err}")
-                    m4a.unlink(missing_ok=True)
+                    # Nunca se borra el audio anterior: si la síntesis nueva falla, se
+                    # conserva el que había (y su entrada) marcado como tal (R38).
+                    if e["id"] in old and m4a.exists():
+                        old[e["id"]] = {**old[e["id"]], "keptPrevious": str(err)[:160]}
                     done_count += 1
                 return
 
