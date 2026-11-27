@@ -59,6 +59,14 @@ const checks = [
     const m = read('android-native/valeria-ar/src/main/AndroidManifest.xml');
     return ['portrait', 'landscape'].every((o) => new RegExp(`android\\.hardware\\.screen\\.${o}"\\s+android:required="false"`).test(m));
   }],
+  // Los audios de voz se generan SOLO en GitHub (voice-assets.yml). Un manifiesto
+  // del formato nuevo (con paramsHash) tiene que decir que lo escribió CI; uno
+  // generado en una máquina local no lo dice y corta el push.
+  ['R34 Voz: los audios se regeneran solo en GitHub (voice-assets.yml), nunca en local', () =>
+    fs.readdirSync('.').filter((f) => /^voice-assets-manifest\.[\w-]+\.json$/.test(f)).every((f) => {
+      const m = JSON.parse(read(f));
+      return !('paramsHash' in m) || m.generatedBy === 'github-actions';
+    })],
 ];
 let bad = 0;
 for (const [name, fn] of checks) {

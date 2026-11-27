@@ -191,6 +191,12 @@ encadenados.
 
 ## P2 · Audio pregenerado estable (tubería `scripts/generate-voice-assets.py` y `voice-assets.yml`)
 
+> **Regla R34 (Frank, 27/11/2026): los audios se regeneran SOLO en GitHub, con `voice-assets.yml`. Prohibido
+> sintetizar el banco en local.** En local solo se cambian el script y el workflow, y se prueban con un puñado de
+> audios en `/tmp` que no se suben. El generador escribe `"generatedBy": "github-actions"` en el manifiesto cuando
+> corre en CI (`GITHUB_ACTIONS=true`); `scripts/check-frank-errors.js` corta el push si un manifiesto nuevo no lo lleva.
+> Mientras CI regenera, se programan P1, P3, P4 y P5.
+
 Objetivo: que todos los audios suenen al mismo volumen, sin clics, con el mismo arranque y con la misma versión del
 motor.
 
