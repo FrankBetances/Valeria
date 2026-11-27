@@ -1118,9 +1118,9 @@ def main() -> None:
     old_manifest = json.loads(mpath.read_text()) if mpath.exists() else {}
     old = {} if args.force else {f["id"]: f for f in old_manifest.get("files", [])}
 
-    if args.force:
-        for e in entries:
-            (OUT_DIR / f"{e['id']}.m4a").unlink(missing_ok=True)
+    # --force NO borra nada antes de sintetizar: cada audio se sustituye solo cuando
+    # su versión nueva está escrita. Borrar primero dejó el 27/11/2026 el gallego sin
+    # ni un audio cuando el motor falló al importar (torchcodec).
 
     missing = []
     for e in entries:
@@ -1159,6 +1159,7 @@ def main() -> None:
             "targetLufs": lang_target_lufs,
             "paramsHash": params_hash,
             "engine": engine_vers,
+            **({"generatedBy": "github-actions"} if os.environ.get("GITHUB_ACTIONS") == "true" else {}),
             "entries": len(files),
             "totalBytes": total,
             "totalSeconds": round(secs, 1),
