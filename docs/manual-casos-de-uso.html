@@ -134,8 +134,8 @@
     border-collapse:separate; border-spacing:12px 0;
     page-break-inside:avoid; break-inside:avoid;
   }
-  .shot{ display:table-cell; width:44mm; text-align:center; vertical-align:top; }
-  .shot.sm{ width:38mm; }
+  .shot{ display:table-cell; width:38mm; text-align:center; vertical-align:top; }
+  .shot.sm{ width:32mm; }
   /* Figura apaisada (una tira de caras, un diagrama): a 44 mm quedaría de 17 mm
      de alto y no se distinguiría nada. */
   .shot.wide{ width:130mm; }
@@ -150,8 +150,12 @@
      Sustituye a la ficha de caso de uso (Actor / Precondición / Resultado /
      Flujo principal / Flujos alternativos). Eso describe un sistema para quien
      lo construye; aquí hace falta describir un gesto para quien lo hace. */
-  .task{ border:1px solid var(--border); border-radius:12px; overflow:hidden; margin-top:14px;
-    background:#fff; break-inside:avoid; }
+  /* La tarea SÍ se puede partir entre páginas: forzarla entera dejaba páginas medio
+     vacías (27/11/2026). Lo que no se parte son su cabecera, cada galería y cada aviso. */
+  .task{ border:1px solid var(--border); border-radius:12px; margin-top:14px;
+    background:#fff; break-inside:auto; page-break-inside:auto; }
+  .task > .th{ break-after:avoid; page-break-after:avoid; }
+  .task li, .task p{ orphans:3; widows:3; }
   .task > .th{ background:var(--primary-light); padding:9px 14px; display:flex; align-items:baseline; gap:10px; }
   .task > .th .n{ font-size:9.5pt; font-weight:800; color:var(--primary-dark); letter-spacing:.6px;
     text-transform:uppercase; white-space:nowrap; }
@@ -1075,10 +1079,13 @@
 
   <div class="callout warn">
     <div class="lbl">Esto no está en la app</div>
-    <p style="margin:4px 0 0">No hay nada que buscar en los menús, nada que emparejar y nada que comprar. Es un
-    prototipo en desarrollo. Está aquí porque la gata de la app y ese aparato se llaman igual, y conviene saber qué
-    va a hacer y, sobre todo, qué no.</p>
+    <p style="margin:4px 0 0">Está aquí porque la gata de la app y el peluche se llaman igual, y conviene saber qué
+    hace y, sobre todo, qué no.</p>
   </div>
+
+  <h3>En qué punto está</h3>
+  <p>Se han hecho <strong>cinco versiones</strong> del peluche. Las cinco están impresas y probadas con la
+  electrónica completa.</p>
 
   <p>Lúa es también un peluche con una pantalla por cara, conectado por Bluetooth a la app. La idea es pequeña a
   propósito: <strong>la app decide, Lúa reacciona</strong>. Cuando el adulto da una respuesta por buena, la cara de
@@ -1088,7 +1095,7 @@
   <table>
     <tr><th style="width:26%">No hace</th><th>Por qué</th></tr>
     <tr><td><strong>No escucha</strong></td><td>No lleva micrófono, y el firmware no compila si alguien intenta añadir entrada de audio. Un juguete que escucha junto a un menor no entra en una consulta pediátrica.</td></tr>
-    <tr><td><strong>No habla</strong></td><td>Las consignas salen siempre por el altavoz de la tableta, y eso no va a cambiar. Hoy el aparato no suena nada.</td></tr>
+    <tr><td><strong>No habla</strong></td><td>Las consignas salen siempre por el altavoz de la tableta, y eso no va a cambiar.</td></tr>
     <tr><td><strong>No se mueve</strong></td><td>Sin motores: nada que pellizque o se rompa en manos de un niño pequeño.</td></tr>
     <tr><td><strong>No sabe quién es el niño</strong></td><td>El protocolo <strong>no tiene ningún campo de texto</strong>. No es que la app evite mandar el nombre: es que no existe el sitio donde meterlo.</td></tr>
     <tr><td><strong>No decide nada</strong></td><td>No mide, no puntúa y no lleva la sesión. Todo lo decide el adulto en la app.</td></tr>
@@ -1103,14 +1110,6 @@
     <figure class="shot sm"><img src="screenshots/lua-panel-240.png" alt="Caras del panel del aparato"><figcaption><span class="fig"></span> · Tres caras del panel del aparato, salidas de la misma rejilla de píxeles que dibuja a Lúa en la app.</figcaption></figure>
   </div>
 
-  <h3>En qué punto está</h3>
-  <p>La placa redonda existe y la cara de Lúa se ha visto moverse en su pantalla de 32 mm. Sigue siendo
-  <strong>un prototipo sobre una mesa</strong>: no hay peluche, no hay carcasa y no hay unidades. Queda por
-  comprobar que la cara reaccione en menos de tres décimas de segundo desde que el adulto pulsa, que dos dibujos
-  parecidos se distingan en una pantalla tan pequeña y que la vuelta a reposo funcione cien veces de cien cuando se
-  pierde la conexión.</p>
-  <p class="small muted">En una valoración auditiva (VIA+) el aparato <strong>no está en la sala</strong>. La
-  protección no es mandarle callar: es que no esté.</p>
 </section>
 
 <div class="footer-note">

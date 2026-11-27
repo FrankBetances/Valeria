@@ -82,6 +82,13 @@ const checks = [
         && !/puntos? de parada|para y pregunta|espera(r)? (el|su) «sí»|se para y se avisa/i.test(t)
         && !/(sintetiz|regener|build)[^\n]{0,60}en local/i.test(t.replace(/nunca en local|no en local|prohibid[oa][^\n]*en local/gi, ''));
     })],
+  // El manual solo cuenta del peluche Lúa lo que Frank ha dicho: cinco versiones impresas y
+  // probadas con la electrónica completa. Nada de «prototipo sobre una mesa» ni notas de VIA+ (R40).
+  ['R40 Manual: el capítulo de Lúa no dice que sea un prototipo sin hacer ni mete VIA+', () => {
+    const m = read('docs/manual-casos-de-uso.html');
+    const lua = m.slice(m.indexOf('El peluche Lúa</h2>'));
+    return /cinco versiones/.test(lua) && !/prototipo (sobre una mesa|en desarrollo)|no hay peluche|VIA\+/.test(lua);
+  }],
 ];
 let bad = 0;
 for (const [name, fn] of checks) {
