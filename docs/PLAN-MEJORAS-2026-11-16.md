@@ -1,5 +1,7 @@
 # Plan de mejoras tras la revisión de código (16/11/2026), para que lo ejecute Sonnet
 
+> **Sustituido el 27/11/2026 por [`PLAN-ANTIGRAVITY-2026-11-27.md`](PLAN-ANTIGRAVITY-2026-11-27.md)**, que incluye estas tres fases. Este fichero queda como histórico.
+
 **Primera línea (S1):** revisión **estática**. No se han corrido typecheck ni gates porque en el entorno no
 había `node_modules`. Nada de esto se ha visto en Android.
 
