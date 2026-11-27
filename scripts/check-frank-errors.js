@@ -67,6 +67,21 @@ const checks = [
       const m = JSON.parse(read(f));
       return !('paramsHash' in m) || m.generatedBy === 'github-actions';
     })],
+  // Un plan para otro agente (Antigravity, Sonnet…) es autónomo y barato para
+  // Frank: cada paquete dice dónde corre, lo pesado va a GitHub Actions y no hay
+  // puntos de parada que le obliguen a vigilar (R35, R36). Vale para los planes
+  // escritos a partir del 28/11/2026; los entregados antes no se reescriben.
+  ['R37 Planes para otro agente: «Dónde corre» en cada paquete, sin puntos de parada y sin trabajo pesado en local', () =>
+    fs.readdirSync('docs').filter((f) => /^PLAN-.*(\d{4}-\d{2}-\d{2})\.md$/.test(f)
+      && f.match(/(\d{4}-\d{2}-\d{2})\.md$/)[1] > '2026-11-27').every((f) => {
+      const t = read(`docs/${f}`);
+      if (!/antigravity|sonnet|agente/i.test(t)) return true;
+      const paquetes = t.split(/^## P\d/m).slice(1);
+      return paquetes.length > 0
+        && paquetes.every((b) => /Dónde corre/.test(b))
+        && !/puntos? de parada|para y pregunta|espera(r)? (el|su) «sí»|se para y se avisa/i.test(t)
+        && !/(sintetiz|regener|build)[^\n]{0,60}en local/i.test(t.replace(/nunca en local|no en local|prohibid[oa][^\n]*en local/gi, ''));
+    })],
 ];
 let bad = 0;
 for (const [name, fn] of checks) {
