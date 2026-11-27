@@ -166,11 +166,24 @@ const pause = (page, ms) => page.waitForTimeout(ms);
   await shot(page, '06-pares-banco');           // 06 · banco de contrastes
   console.log('06 pares banco ✓');
 
-  // Modal PIN compartido (desde Pares Mínimos)
+  // Modal PIN personal (desde Pares Mínimos). Si aún no hay profesional, crea uno primero para mostrar el teclado real.
   await page.getByText('Desbloquear Edición Profesional').click();
+  const setupTitle = page.getByText('Primer acceso profesional', { exact: true });
+  if (await setupTitle.isVisible({ timeout: 3000 }).catch(() => false)) {
+    await page.getByPlaceholder('Nombre y apellidos').fill('Ana López');
+    await page.getByPlaceholder('Centro').fill('Hospital Infantil');
+    await page.getByPlaceholder('PIN de 4 dígitos').fill('2468');
+    await page.getByText('Crear profesional y abrir', { exact: true }).click();
+    await page.getByText('Modo profesional activo', { exact: true }).waitFor({ timeout: 5000 }).catch(() => {});
+    await page.getByRole('button', { name: /Volver|Atrás/i }).first().click();
+    await page.getByText('Elige qué quieres practicar hoy', { exact: true }).waitFor({ timeout: 30000 });
+    await page.getByText('Pares de sonidos', { exact: true }).click();
+    await page.getByText('BANCO DE CONTRASTES', { exact: true }).waitFor();
+    await page.getByText('Desbloquear Edición Profesional').click();
+  }
   await page.getByText('Modo Profesional', { exact: true }).waitFor();
   await pause(page, 400);
-  await shot(page, '07-pin-profesional');       // 07 · modal PIN compartido
+  await shot(page, '07-pin-profesional');       // 07 · modal PIN personal
   console.log('07 pin ✓');
   // Cerrar el modal. El aspa es un icono SVG propio, no texto: se busca por su
   // etiqueta accesible (getByText('✕') dejó de encontrar nada al cambiar el set).
@@ -214,7 +227,7 @@ const pause = (page, ms) => page.waitForTimeout(ms);
 
   // ===================== EXPANSIÓN SEMÁNTICA =====================
   await openHubFresh();
-  await page.getByText('Expansión Semántica', { exact: true }).click();
+  await page.getByLabel('Practicar expansión semántica y progresión léxica').click();
   await page.getByLabel(/Practicar escenario Rutina de mañana/).waitFor();
   await pause(page, 600);
   await shot(page, '10-expansion-escenarios');  // 10 · lista de escenarios
@@ -489,7 +502,7 @@ const pause = (page, ms) => page.waitForTimeout(ms);
   // desplazar. El recorrido es el completo: muro del adulto → anticipación →
   // exposición con el botón del niño → pausa segura → valoración → cierre.
   await openHubFresh();
-  await page.getByText('Integración Sensorial', { exact: true }).first().click();
+  await page.getByText('Adaptación a sonidos', { exact: true }).first().click();
   await page.getByText('ACTIVIDADES SENSORIALES', { exact: true }).waitFor({ timeout: 30000 });
   await pause(page, 700);
   await shot(page, '31-sensorial-lista');        // 31 · actividades del módulo
@@ -557,6 +570,118 @@ const pause = (page, ms) => page.waitForTimeout(ms);
   } else {
     console.log('38/39 brujula — cápsula no visible (se omite)');
   }
+
+  // ===================== SEGUIMIENTO + AUDITORÍA DE VOZ + VOZ DE CASA =====================
+  await openHubFresh();
+  await page.getByText('Ajustes', { exact: true }).click();
+  await pause(page, 600);
+  const segEntry = page.getByText('Seguimiento entre consultas', { exact: true });
+  await segEntry.scrollIntoViewIfNeeded();
+  await segEntry.click();
+  await page.getByText('Realizado frente a recomendado', { exact: true }).waitFor({ timeout: 30000 });
+  await pause(page, 700);
+  await shot(page, '63-seguimiento-resumen');
+  console.log('63 seguimiento resumen ✓');
+
+  // Desbloquear con el PIN personal 2468 para 67 (frecuencia), 66 (notas), 68 (PINs), 69 (vínculo/pauta2)
+  await page.getByText('Desbloquear Edición Profesional').click();
+  const setup2 = page.getByText('Primer acceso profesional', { exact: true });
+  if (await setup2.isVisible({ timeout: 2000 }).catch(() => false)) {
+    await page.getByPlaceholder('Nombre y apellidos').fill('Ana López');
+    await page.getByPlaceholder('Centro').fill('Hospital Infantil');
+    await page.getByPlaceholder('PIN de 4 dígitos').fill('2468');
+    await page.getByText('Crear profesional y abrir', { exact: true }).click();
+  } else {
+    for (const d of ['2', '4', '6', '8']) {
+      await page.getByText(d, { exact: true }).last().click();
+      await pause(page, 120);
+    }
+  }
+  await page.getByText('Profesional: Ana López').waitFor({ timeout: 15000 });
+  await pause(page, 600);
+
+  const planHead = page.getByText('Frecuencia recomendada', { exact: true });
+  await planHead.scrollIntoViewIfNeeded();
+  await pause(page, 500);
+  await shot(page, '67-seguimiento-frecuencia-pro');
+  console.log('67 seguimiento frecuencia pro ✓');
+
+  const pautaBtn = page.getByText('Enviar frecuencia como código (VALERIA-PAUTA2)', { exact: true });
+  if (await pautaBtn.isVisible().catch(() => false)) {
+    await pautaBtn.scrollIntoViewIfNeeded();
+    await pautaBtn.click();
+    await pause(page, 600);
+  }
+  const linkCard = page.getByText('Vínculo entre aparatos', { exact: true });
+  if (await linkCard.isVisible().catch(() => false)) {
+    await linkCard.scrollIntoViewIfNeeded();
+    const showLinkBtn = page.getByText('Mostrar QR de vínculo', { exact: true });
+    if (await showLinkBtn.isVisible().catch(() => false)) {
+      await showLinkBtn.click();
+      await pause(page, 600);
+    }
+    await shot(page, '69-seguimiento-vinculo-pauta2');
+    console.log('69 seguimiento vinculo pauta2 ✓');
+  }
+
+  const proNoteInput = page.getByPlaceholder('Indicación escrita para casa.');
+  if (await proNoteInput.isVisible().catch(() => false)) {
+    await proNoteInput.scrollIntoViewIfNeeded();
+    await proNoteInput.fill('Practicar contraste r/l 3 veces esta semana.');
+    await page.getByText('Guardar en este aparato', { exact: true }).click();
+    await pause(page, 700);
+    await shot(page, '66-seguimiento-profesional');
+    console.log('66 seguimiento profesional ✓');
+  }
+
+  const prosHead = page.getByText('Profesionales y PIN', { exact: true });
+  await prosHead.scrollIntoViewIfNeeded();
+  await pause(page, 500);
+  await shot(page, '68-seguimiento-pin-propio');
+  console.log('68 seguimiento pin propio ✓');
+
+  const shareHead = page.getByText('Otros centros', { exact: true });
+  await shareHead.scrollIntoViewIfNeeded();
+  const consentSw = page.getByLabel('Autorizo compartir el resumen');
+  if (await consentSw.count()) {
+    await consentSw.click().catch(() => {});
+    await pause(page, 600);
+  }
+  await shot(page, '65-seguimiento-otros-centros');
+  console.log('65 seguimiento otros centros ✓');
+
+  // Auditoría del banco de voz (Ajustes, bajo PIN profesional)
+  await openHubFresh();
+  await page.getByText('Ajustes', { exact: true }).click();
+  await pause(page, 600);
+  const auditEntry = page.getByText('Auditoría del banco de voz', { exact: true });
+  await auditEntry.scrollIntoViewIfNeeded();
+  await auditEntry.click();
+  await pause(page, 500);
+  const keypadModal = page.getByText('Modo Profesional', { exact: true });
+  if (await keypadModal.isVisible({ timeout: 3000 }).catch(() => false)) {
+    for (const d of ['2', '4', '6', '8']) {
+      await page.getByText(d, { exact: true }).last().click();
+      await pause(page, 120);
+    }
+  }
+  await page.getByText('Banco de voz', { exact: true }).waitFor({ timeout: 15000 });
+  await pause(page, 700);
+  await shot(page, '70-auditoria-voz');
+  console.log('70 auditoria voz ✓');
+  await page.getByLabel('Volver', { exact: true }).first().click().catch(() => {});
+
+  // Voz de casa del cuidador (dentro de Pares Mínimos)
+  await openHubFresh();
+  await page.getByText('Pares de sonidos', { exact: true }).click();
+  await page.getByText('BANCO DE CONTRASTES', { exact: true }).waitFor();
+  await page.getByLabel(/Practicar el par rana/).click();
+  await page.getByText('LA APP DICE', { exact: true }).waitFor();
+  const cgTitle = page.getByText('Voz de casa en el modelo', { exact: true });
+  await cgTitle.scrollIntoViewIfNeeded();
+  await pause(page, 600);
+  await shot(page, '71-voz-cuidador');
+  console.log('71 voz cuidador ✓');
 
   await browser.close();
   console.log('Capturas completadas.');
