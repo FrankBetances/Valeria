@@ -2249,6 +2249,17 @@ export const ES = {
     body: 'Lúa ha guardado tu sitio. Puedes volver al inicio y seguir cuando quieras.',
     backHome: 'Volver al inicio',
   },
+  adultGate: {
+    kicker: 'acompañamiento adulto',
+    title: 'Uso con persona adulta',
+    body: 'Valeria+ la usa una persona adulta junto al niño o la niña. Pide a tu familia o a tu logopeda que la abra.',
+    actionBtn: 'Soy la persona adulta',
+    mathPrompt: (a: number, b: number) => `Para entrar, resuelve esta multiplicación: ${a} × ${b}`,
+    mathPh: 'Resultado',
+    mathVerify: 'Entrar',
+    mathWrong: 'Comprueba la operación e inténtalo de nuevo.',
+    backToNotice: 'Volver',
+  },
 };
 
 // Tipo que debe cumplir CUALQUIER catálogo, derivado del castellano. Sin

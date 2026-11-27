@@ -25,7 +25,9 @@
 // ============================================================================
 import { ValeriaFollowUpScreen } from './ValeriaFollowUpScreen';
 import { ValeriaErrorBoundary } from './ValeriaErrorBoundary';
-import React, { useEffect, useRef } from 'react';
+import { ValeriaAdultGateScreen } from './ValeriaAdultGateScreen';
+import { checkAgeSignalsAtStartup, shouldShowAdultGate } from './valeriaAgeSignals';
+import React, { useEffect, useRef, useState } from 'react';
 import { View, Linking } from 'react-native';
 import { NavigationContainer, createNavigationContainerRef, NavigatorScreenParams } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -208,6 +210,17 @@ const SafeFrame: React.FC = () => {
 // pantalla (telemetría de usabilidad) sin acoplar cada screen.
 export const navigationRef = createNavigationContainerRef<ValeriaStackParamList>();
 
+const SafeAdultGateFrame: React.FC<{ onUnlock: () => void }> = ({ onUnlock }) => {
+  const insets = useSafeAreaInsets();
+  return (
+    <View style={{ flex: 1, backgroundColor: V.color.primary, paddingTop: insets.top }}>
+      <View style={{ flex: 1, backgroundColor: V.color.pageBg, paddingBottom: insets.bottom }}>
+        <ValeriaAdultGateScreen onUnlock={onUnlock} />
+      </View>
+    </View>
+  );
+};
+
 export const ValeriaApp: React.FC = () => {
   // Fredoka y Nunito (src/ui/fonts.ts). Hasta que cargan, la pantalla de
   // arranque sigue a la vista: sin parpadeo de la fuente del sistema.
@@ -240,6 +253,15 @@ export const ValeriaApp: React.FC = () => {
     return () => sub.remove();
   }, []);
 
+  const [adultGatePending, setAdultGatePending] = useState(false);
+  useEffect(() => {
+    let active = true;
+    void checkAgeSignalsAtStartup().then((sig) => {
+      if (active && shouldShowAdultGate(sig)) setAdultGatePending(true);
+    });
+    return () => { active = false; };
+  }, []);
+
   const lastRoute = useRef<string | null>(null);
   // Cierra el tramo de la pantalla anterior y abre el nuevo en cada cambio de
   // ruta. Solo hace aritmética de timestamps → no bloquea el hilo principal.
@@ -260,16 +282,20 @@ export const ValeriaApp: React.FC = () => {
           } catch { /* remount via resetKey restores initialRouteName Welcome */ }
         }}
       >
-        <NavigationContainer
-          ref={navigationRef}
-          onReady={() => {
-            handleRoute();
-            void Linking.getInitialURL().then(openNoteLink).catch(() => {});
-          }}
-          onStateChange={handleRoute}
-        >
-          <SafeFrame />
-        </NavigationContainer>
+        {adultGatePending ? (
+          <SafeAdultGateFrame onUnlock={() => setAdultGatePending(false)} />
+        ) : (
+          <NavigationContainer
+            ref={navigationRef}
+            onReady={() => {
+              handleRoute();
+              void Linking.getInitialURL().then(openNoteLink).catch(() => {});
+            }}
+            onStateChange={handleRoute}
+          >
+            <SafeFrame />
+          </NavigationContainer>
+        )}
       </ValeriaErrorBoundary>
       <Toaster position="top-center" richColors />
       <LuaCheerOverlay />

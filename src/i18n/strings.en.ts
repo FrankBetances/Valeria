@@ -2178,4 +2178,15 @@ export const EN: UiStrings = {
     body: 'Lúa saved your place. You can go back to the home screen and continue anytime.',
     backHome: 'Back to home',
   },
+  adultGate: {
+    kicker: 'adult guidance',
+    title: 'Use with an adult',
+    body: 'Valeria+ is used by an adult alongside the child. Ask your family or your speech specialist to open it.',
+    actionBtn: 'I am the adult',
+    mathPrompt: (a: number, b: number) => `To continue, solve this multiplication: ${a} × ${b}`,
+    mathPh: 'Answer',
+    mathVerify: 'Enter',
+    mathWrong: 'Check the calculation and try again.',
+    backToNotice: 'Back',
+  },
 };

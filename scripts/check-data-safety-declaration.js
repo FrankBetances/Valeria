@@ -160,6 +160,19 @@ const HAY_BACKEND = false;
   } else {
     ok(`D3 · ${deps.length} dependencias, ninguna nueva`);
   }
+  const ageBuild = path.join('android-native', 'valeria-age-signals', 'build.gradle');
+  if (fs.existsSync(path.join(ROOT, ageBuild))) {
+    const g = read(ageBuild);
+    const hasDep = /com\.google\.android\.play:age-signals:0\.0\.6/.test(g);
+    const docHas = /com\.google\.android\.play:age-signals/.test(read(DOC));
+    const esHas = /com\.google\.android\.play:age-signals/.test(read('site/privacidad.html'));
+    const enHas = /com\.google\.android\.play:age-signals/.test(read('site/privacy.html'));
+    if (!hasDep || !docHas || !esHas || !enHas) {
+      fallo('D3b · android-native/valeria-age-signals requiere estar declarado en Play Seguridad de los datos y en site/privacidad.html + site/privacy.html.');
+    } else {
+      ok('D3b · com.google.android.play:age-signals:0.0.6 declarado en documentación y políticas');
+    }
+  }
 }
 
 // --- D4 · Salida de red propia --------------------------------------------

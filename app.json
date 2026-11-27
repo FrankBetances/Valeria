@@ -55,6 +55,7 @@
         }
       ],
       "./plugins/withValeriaAR",
+      "./plugins/withValeriaAgeSignals",
       "./plugins/withValeriaPermissionStrings",
       "./plugins/withValeriaNoBackgroundAudio",
       "expo-asset",

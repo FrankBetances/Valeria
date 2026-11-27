@@ -1,0 +1,2 @@
+-keep class eu.futureforkids.valeria.agesignals.** { *; }
+-dontwarn com.google.android.play.agesignals.**

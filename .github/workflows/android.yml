@@ -429,6 +429,9 @@ jobs:
       - name: Comprobar códigos de seguimiento v2, vínculos QR y export .valeria
         run: node scripts/check-note-codes.js
 
+      - name: Comprobar señal de edad Play Age Signals en memoria (P5)
+        run: node scripts/check-age-signals.js
+
       - name: Comprobar tipos
         run: npm run typecheck
 

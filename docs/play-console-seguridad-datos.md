@@ -163,6 +163,10 @@ pantalla) no identifica el aparato y no sale de él.
 
 La política (`site/privacidad.html` y `privacy.html`) y `site/eliminacion-de-datos.html` describen estos datos en §3, §5 y §8, junto con el uso de `expo-camera` para escanear QR locales y las dependencias locales de criptografía (`@noble/ciphers`, `@noble/curves`, `@noble/hashes`, `expo-secure-store`, `expo-crypto`, `expo-camera`).
 
+### 3.9 Play Age Signals (`com.google.android.play:age-signals:0.0.6`, solo Android) — **no recopilado ni almacenado**
+
+Al abrir la app en Android, el módulo nativo `android-native/valeria-age-signals` consulta la señal de rango de edad y estado de supervisión a Google Play Store mediante `com.google.android.play:age-signals:0.0.6`. El resultado se evalúa **únicamente en memoria** para mostrar la puerta de acompañamiento adulto cuando aplica, y **nunca se guarda en AsyncStorage, telemetría ni logs** ni se comparte con terceros. La decisión sobre países aplicables (p. ej. Brasil) se deja sin tocar código (D4, en Play Console).
+
 ---
 
 ## 4. Prácticas de seguridad

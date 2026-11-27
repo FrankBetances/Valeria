@@ -2221,4 +2221,15 @@ export const GL: UiStrings = {
     body: 'Lúa gardou o teu sitio. Podes volver ao inicio e seguir cando queiras.',
     backHome: 'Volver ao inicio',
   },
+  adultGate: {
+    kicker: 'acompañamento adulto',
+    title: 'Uso con persoa adulta',
+    body: 'Valeria+ úsaa unha persoa adulta xunto ao neno ou á nena. Pídelle á túa familia ou logopeda que a abra.',
+    actionBtn: 'Son a persoa adulta',
+    mathPrompt: (a: number, b: number) => `Para entrar, resolve esta multiplicación: ${a} × ${b}`,
+    mathPh: 'Resultado',
+    mathVerify: 'Entrar',
+    mathWrong: 'Comproba a operación e téntao de novo.',
+    backToNotice: 'Volver',
+  },
 };

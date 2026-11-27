@@ -82,6 +82,7 @@
     </table>
   </div>
   <p>This data lives encrypted in the App's private storage area, with Android cloud backup disabled (<code>allowBackup: false</code>), and is erased when the App is uninstalled or its data is cleared from Android settings. Moving a profile to a new phone requires using the encrypted <code>.valeria</code> export.</p>
+  <p><strong>Google Play Age Signals (Android · pendiente de revisión legal / pending legal review):</strong> on startup on Android, the App queries the <code>com.google.android.play:age-signals</code> API to receive the age band and supervision signal supplied by Google Play solely to show an adult-supervision prompt when required. The response stays in volatile memory only, <strong>is never stored or logged</strong>, and <strong>is never shared or sent to third parties</strong>.</p>
 
   <h3>3.2 Permissions and device data</h3>
   <div class="table-scroll">

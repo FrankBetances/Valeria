@@ -2136,4 +2136,15 @@ export const CA: UiStrings = {
     body: 'La Lúa ha desat el teu lloc. Pots tornar a l\'inici i continuar quan vulguis.',
     backHome: 'Tornar a l\'inici',
   },
+  adultGate: {
+    kicker: 'acompanyament adult',
+    title: 'Ús amb una persona adulta',
+    body: 'Valeria+ la fa servir una persona adulta amb l\'infant. Demana a la teva família o logopeda que l\'obri.',
+    actionBtn: 'Sóc la persona adulta',
+    mathPrompt: (a: number, b: number) => `Per entrar, resol aquesta multiplicació: ${a} × ${b}`,
+    mathPh: 'Resultat',
+    mathVerify: 'Entrar',
+    mathWrong: 'Comprova l\'operació i torna-ho a provar.',
+    backToNotice: 'Tornar',
+  },
 };
