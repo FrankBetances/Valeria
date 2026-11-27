@@ -2021,7 +2021,7 @@ export const CA: UiStrings = {
     planSaved: 'Freqüència desada',
     less: (a: string) => `Una sessió menys de ${a}`,
     more: (a: string) => `Una sessió més de ${a}`,
-    areas: { audicion: 'Audició', lenguaje: 'Llenguatge', tea: 'Comunicació (TEA)', dislexia: 'Lectoescriptura', pares: 'Parells mínims', expansion: 'Vocabulari', sensorial: 'Sensorial' },
+    areas: { audicion: 'Audició', lenguaje: 'Llenguatge', tea: 'Comunicació (TEA)', dislexia: 'Lectoescriptura', pares: 'Parells mínims', expansion: 'Vocabulari', sensorial: 'Sensorial', escritura: 'Escriptura', aventuras: 'Aventures amb la Lúa', ra: 'Realitat Augmentada', tpr: 'Càpsules TPR', steam: 'Reptes STEAM' },
     notesTitle: 'Notes amb el professional',
     notesDisclaimer: 'Canal sense pressa: el professional el llegeix a la propera revisió. No és per a urgències ni dona consells automàtics. Si avui et preocupa alguna cosa, truca al teu centre; en una urgència, al 112.',
     noNotes: 'Encara no hi ha notes.',
@@ -2130,5 +2130,10 @@ export const CA: UiStrings = {
     exportReadyShare: 'Còpia .valeria xifrada llesta.',
     exportBadFile: 'No s\'ha pogut desxifrar: fitxer no vàlid o frase incorrecta.',
     exportImportOk: (name: string) => `Perfil importat: ${name}.`,
+  },
+  errorBoundary: {
+    title: 'Alguna cosa no ha sortit com esperàvem',
+    body: 'La Lúa ha desat el teu lloc. Pots tornar a l\'inici i continuar quan vulguis.',
+    backHome: 'Tornar a l\'inici',
   },
 };

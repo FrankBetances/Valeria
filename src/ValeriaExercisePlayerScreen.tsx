@@ -56,9 +56,9 @@ import { useT } from './i18n';
 import { registerSession, SessionReward, levelProgress, xpToNext } from './valeriaGamification';
 import { logStimulation, FollowArea } from './valeriaFollowUp';
 import { getExercisesForBlock } from './valeriaExerciseMeta';
-// Área del ejercicio para el registro de seguimiento: la del bloque que lo contiene.
-const areaForExercise = (id: string): FollowArea =>
-  (['lenguaje', 'tea', 'dislexia'] as const).find((b) => getExercisesForBlock(b).some((e) => e.id === id)) ?? 'audicion';
+// Área del ejercicio para el registro de seguimiento: la del bloque que lo contiene (null si es desconocido).
+const areaForExercise = (id: string): FollowArea | null =>
+  (['audicion', 'lenguaje', 'tea', 'dislexia'] as const).find((b) => getExercisesForBlock(b).some((e) => e.id === id)) ?? null;
 import { luaSessionReward, cancelSessionReward } from './valeriaLuaSession';
 import { PixelAward, tierBg, streakTier } from './ValeriaPixelAwards';
 import { CatPixel } from './ValeriaCatPixel';
@@ -73,7 +73,7 @@ import { ValeriaDistractorCat } from './ValeriaDistractorCat';
 import { ValeriaPragmaticBreakOverlay } from './ValeriaPragmaticBreak';
 import { releaseNoise } from './valeriaNoise';
 import { AUDICION_META, LENGUAJE_META, TEA_META, DISLEXIA_META } from './valeriaExerciseMeta';
-import { markBlockCompleted } from './valeriaTelemetry';
+import { markBlockCompleted, trackUnknownExercise } from './valeriaTelemetry';
 import { getUiLang } from './valeriaUiLang';
 import { Tile, Exercise, DEFAULT_SESSION, dbFor, variantsFor, emoForLocale, sessionDoneLeadFor, pluralHintFor, touchImageHintFor, emotionQuestionFor, emotionPromptFor, pluralOneLabelFor, pluralManyLabelFor } from './valeriaExerciseBank';
 import { getLocale } from './valeriaLocale';
@@ -462,15 +462,17 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
 
   // Timers efimeros de los mini-juegos: se guardan para poder cancelarlos al
   // cambiar de ejercicio/ronda o al salir de la pantalla.
-  const flashTimer = useRef<any>(null);
-  const orderTimer = useRef<any>(null);
-  const rotTimer = useRef<any>(null);
-  const synTimer = useRef<any>(null);
+  const flashTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const orderTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const rotTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const synTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const pickTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const clearGameTimers = () => {
-    clearTimeout(flashTimer.current);
-    clearTimeout(orderTimer.current);
-    clearTimeout(rotTimer.current);
-    clearTimeout(synTimer.current);
+    if (flashTimer.current) clearTimeout(flashTimer.current);
+    if (orderTimer.current) clearTimeout(orderTimer.current);
+    if (rotTimer.current) clearTimeout(rotTimer.current);
+    if (synTimer.current) clearTimeout(synTimer.current);
+    if (pickTimer.current) clearTimeout(pickTimer.current);
   };
   useEffect(() => () => clearGameTimers(), []);
 
@@ -647,7 +649,9 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
     if (locking || finished) return;
     setPicked(val);
     setLocking(true);
-    setTimeout(() => {
+    if (pickTimer.current) clearTimeout(pickTimer.current);
+    pickTimer.current = setTimeout(() => {
+      pickTimer.current = undefined;
       // Si el ejercicio tiene niveles de dificultad, primero se recorren
       // Inicial → Intermedio → Avanzado antes de cerrar el ejercicio.
       if (ex.levels && subIdx + 1 < ex.levels.length) {
@@ -697,7 +701,13 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
     try {
       // Recompensas estilo Duolingo: XP, racha y logros.
       const premio = await registerSession(avg, res.length);
-      void logStimulation(areaForExercise(sessionIds[0] ?? ''));
+      const seenAreas = new Set<FollowArea>();
+      for (const eid of sessionIds) {
+        const area = areaForExercise(eid);
+        if (area) seenAreas.add(area);
+        else trackUnknownExercise(eid);
+      }
+      for (const area of seenAreas) void logStimulation(area);
       setReward(premio);
       // Y lo mismo en el cristal: la gata del aparato enseña la insignia y el
       // nivel a la vez que la tableta. Sin aparato emparejado no hace nada.
@@ -720,15 +730,15 @@ export const ValeriaExercisePlayerScreen: React.FC<{ navigation: any; route?: an
   // vive en su propio efecto: hacer navigate() DENTRO del updater de estado
   // hacía que en algunos dispositivos la redirección automática se perdiera
   // (bug reportado: al terminar el ejercicio no avanzaba a resultados).
-  const timerRef = useRef<any>(null);
+  const timerRef = useRef<ReturnType<typeof setInterval> | undefined>(undefined);
   useEffect(() => {
     if (!finished) return;
     timerRef.current = setInterval(() => setCountdown((c) => (c > 0 ? c - 1 : 0)), 1000);
-    return () => clearInterval(timerRef.current);
+    return () => { if (timerRef.current) clearInterval(timerRef.current); };
   }, [finished]);
   useEffect(() => {
     if (finished && countdown === 0) {
-      clearInterval(timerRef.current);
+      if (timerRef.current) clearInterval(timerRef.current);
       navigation.navigate('Results');
     }
   }, [finished, countdown]);

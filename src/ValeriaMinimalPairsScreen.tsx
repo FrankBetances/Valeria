@@ -371,6 +371,13 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
   const bestPartialRef = useRef('');
   const mounted = useRef(true);
   const speakTimers = useRef<Set<ReturnType<typeof setTimeout>>>(new Set()).current;
+  const laterTimer = (fn: () => void, ms: number) => {
+    const id = setTimeout(() => {
+      speakTimers.delete(id);
+      if (mounted.current) fn();
+    }, ms);
+    speakTimers.add(id);
+  };
   const afterSpeak = useRef(createSpeakChainer(speakTimers, () => mounted.current)).current;
   const pulse = useRef(new Animated.Value(0)).current;
 
@@ -464,7 +471,7 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
     const cbs = afterSpeak(() => {
       if (!mounted.current) return;
       if (!asrSupported()) { setStep('judge'); return; }
-      if (autoRecord) setTimeout(() => listenNow(p), 400);
+      if (autoRecord) laterTimer(() => listenNow(p), 400);
       else setStep('ready');
     });
     speakToChild(spec.text, cbs);
@@ -570,7 +577,7 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
     speakToChild(text, afterSpeak(() => {
       if (!mounted.current) return;
       if (!asrSupported()) { setStep('judge'); return; }
-      if (autoRecord) setTimeout(() => listenNow(p), 400);
+      if (autoRecord) laterTimer(() => listenNow(p), 400);
       else setStep('ready');
     }));
     setStep('say');

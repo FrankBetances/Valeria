@@ -6,7 +6,7 @@
 // registre la pulsación, y entonces su onPress no salta. Por eso la acción se
 // engancha también al onPress del Pressable de debajo, con un seguro para que
 // solo se dispare una vez por toque.
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import AwesomeButton from 'react-native-really-awesome-button/lib/module/Button';
 import * as Haptics from 'expo-haptics';
 import { FONT } from './fonts';
@@ -24,10 +24,15 @@ interface Props {
 
 export const KidButton: React.FC<Props> = ({ label, onPress, color = '#ffd23f', depth = '#e0a800', textColor = '#3b2a00', accessibilityLabel }) => {
   const fired = useRef(false);
+  const fireTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  useEffect(() => () => {
+    if (fireTimer.current) clearTimeout(fireTimer.current);
+  }, []);
   const fire = () => {
     if (fired.current) return;
     fired.current = true;
-    setTimeout(() => { fired.current = false; }, 700);
+    if (fireTimer.current) clearTimeout(fireTimer.current);
+    fireTimer.current = setTimeout(() => { fireTimer.current = null; fired.current = false; }, 700);
     onPress();
   };
   return (

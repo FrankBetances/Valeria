@@ -6,7 +6,7 @@
 // CARGA DE USO REAL en la rutina del niño, no a métricas comerciales.
 // Se monta una sola vez en la raíz del navegador y escucha onSusRequest.
 // ============================================================================
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
 import { V } from './valeriaTheme';
 import { BlockIcon } from './ValeriaBlockIcons';
@@ -38,8 +38,12 @@ export const ValeriaSUSModal: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [picked, setPicked] = useState<number | null>(null);
   const [sent, setSent] = useState(false);
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => onSusRequest(() => { setPicked(null); setSent(false); setOpen(true); }), []);
+  useEffect(() => () => {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+  }, []);
 
   if (!open) return null;
 
@@ -47,7 +51,8 @@ export const ValeriaSUSModal: React.FC = () => {
     setPicked(score);
     setSent(true);
     await attachLikert(score, SUS_QUESTION_ID);
-    setTimeout(() => setOpen(false), 900);
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    closeTimer.current = setTimeout(() => { closeTimer.current = null; setOpen(false); }, 900);
   };
 
   return (

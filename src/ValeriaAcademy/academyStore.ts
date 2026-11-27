@@ -171,11 +171,21 @@ export const subscribe = (listener: () => void): (() => void) => {
   return () => listeners.delete(listener);
 };
 
+interface LegacyAcademyState {
+  version?: number;
+  xp?: number;
+  badges?: string[];
+  completed?: ValeriaAcademyState['completed'];
+  domains?: Partial<Record<AcademyDomain, AcademyDomainSilo>>;
+  lastCapsuleId?: string | null;
+  updatedAt?: number;
+}
+
 // --- Migración silenciosa v1 (escalar) → v2 (vectorial) ---------------------
 // El progreso heredado (xp + badges escalares) se asigna al dominio principal
 // activo de la Ficha de Registro (o 'lenguaje' por defecto). `completed` se
 // conserva íntegro (mapa global). Los ids desconocidos se ignoran con gracia.
-async function migrateLegacy(legacy: any): Promise<ValeriaAcademyState> {
+async function migrateLegacy(legacy: LegacyAcademyState): Promise<ValeriaAcademyState> {
   let targetDomain: AcademyDomain = 'lenguaje';
   try {
     const p = await readActivePatient();
@@ -189,8 +199,10 @@ async function migrateLegacy(legacy: any): Promise<ValeriaAcademyState> {
   // Re-namespacea las insignias heredadas al dominio destino.
   const legacyBadges: string[] = Array.isArray(legacy?.badges) ? legacy.badges : [];
   next.domains[targetDomain].badges = legacyBadges
-    .filter((k) => DOMAIN_BADGE_DEFS.some((d) => d.key === k))
-    .map((k) => badgeId(targetDomain, k as any));
+    .flatMap((k) => {
+      const def = DOMAIN_BADGE_DEFS.find((d) => d.key === k);
+      return def ? [badgeId(targetDomain, def.key)] : [];
+    });
   next.completed = legacy?.completed && typeof legacy.completed === 'object' ? legacy.completed : {};
   next.lastCapsuleId = legacy?.lastCapsuleId ?? null;
   next.updatedAt = Number(legacy?.updatedAt) || Date.now();
@@ -203,13 +215,15 @@ export const hydrateAcademy = (): Promise<void> => {
   if (hydrating) return hydrating;
   hydrating = (async () => {
     try {
-      const parsed = await readEncryptedJSON<any>(STORAGE_KEYS.academy);
+      const parsed = await readEncryptedJSON<LegacyAcademyState>(STORAGE_KEYS.academy);
       if (parsed && typeof parsed === 'object') {
         if (parsed.version === STATE_VERSION && parsed.domains) {
           // Formato v2: normaliza asegurando los 5 silos presentes.
           state = {
             ...EMPTY(),
-            ...parsed,
+            version: STATE_VERSION,
+            lastCapsuleId: parsed.lastCapsuleId ?? null,
+            updatedAt: Number(parsed.updatedAt) || Date.now(),
             domains: { ...emptyDomains(), ...parsed.domains },
             completed: parsed.completed ?? {},
           };

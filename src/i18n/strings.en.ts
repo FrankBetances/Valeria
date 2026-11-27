@@ -2063,7 +2063,7 @@ export const EN: UiStrings = {
     planSaved: 'Plan saved',
     less: (a: string) => `One session fewer of ${a}`,
     more: (a: string) => `One more session of ${a}`,
-    areas: { audicion: 'Hearing', lenguaje: 'Language', tea: 'Communication (ASD)', dislexia: 'Reading and writing', pares: 'Minimal pairs', expansion: 'Vocabulary', sensorial: 'Sensory' },
+    areas: { audicion: 'Hearing', lenguaje: 'Language', tea: 'Communication (ASD)', dislexia: 'Reading and writing', pares: 'Minimal pairs', expansion: 'Vocabulary', sensorial: 'Sensory', escritura: 'Writing', aventuras: 'Adventures with Lúa', ra: 'Augmented Reality', tpr: 'TPR Capsules', steam: 'STEAM Challenges' },
     notesTitle: 'Notes with the professional',
     notesDisclaimer: 'No-rush channel: the professional reads it at the next review. It is not for emergencies and gives no automatic advice. If something worries you today, call your centre; in an emergency, call 112.',
     noNotes: 'No notes yet.',
@@ -2172,5 +2172,10 @@ export const EN: UiStrings = {
     exportReadyShare: 'Encrypted .valeria backup ready.',
     exportBadFile: 'Could not decrypt: invalid file or wrong passphrase.',
     exportImportOk: (name: string) => `Profile imported: ${name}.`,
+  },
+  errorBoundary: {
+    title: 'Something did not go as expected',
+    body: 'Lúa saved your place. You can go back to the home screen and continue anytime.',
+    backHome: 'Back to home',
   },
 };

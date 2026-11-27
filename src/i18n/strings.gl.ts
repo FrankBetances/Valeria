@@ -2106,7 +2106,7 @@ export const GL: UiStrings = {
     planSaved: 'Frecuencia gardada',
     less: (a: string) => `Unha sesión menos de ${a}`,
     more: (a: string) => `Unha sesión máis de ${a}`,
-    areas: { audicion: 'Audición', lenguaje: 'Linguaxe', tea: 'Comunicación (TEA)', dislexia: 'Lectoescritura', pares: 'Pares mínimos', expansion: 'Vocabulario', sensorial: 'Sensorial' },
+    areas: { audicion: 'Audición', lenguaje: 'Linguaxe', tea: 'Comunicación (TEA)', dislexia: 'Lectoescritura', pares: 'Pares mínimos', expansion: 'Vocabulario', sensorial: 'Sensorial', escritura: 'Escritura', aventuras: 'Aventuras con Lúa', ra: 'Realidade Aumentada', tpr: 'Cápsulas TPR', steam: 'Retos STEAM' },
     notesTitle: 'Notas co profesional',
     notesDisclaimer: 'Canle sen présa: o profesional leo na seguinte revisión. Non é para urxencias nin dá consellos automáticos. Se hoxe che preocupa algo, chama ao teu centro; nunha urxencia, ao 112.',
     noNotes: 'Aínda non hai notas.',
@@ -2215,5 +2215,10 @@ export const GL: UiStrings = {
     exportReadyShare: 'Copia .valeria cifrada lista.',
     exportBadFile: 'Non se puido descifrar: ficheiro non válido ou frase incorrecta.',
     exportImportOk: (name: string) => `Perfil importado: ${name}.`,
+  },
+  errorBoundary: {
+    title: 'Algo non saíu como esperabamos',
+    body: 'Lúa gardou o teu sitio. Podes volver ao inicio e seguir cando queiras.',
+    backHome: 'Volver ao inicio',
   },
 };

@@ -6,7 +6,7 @@
 import { ScreenHeader } from './ui/ScreenHeader';
 import { emitLuaCheer } from './luaCheerBus';
 import { TrialTrack } from './ui/PairStage';
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useRef, useCallback, useEffect } from 'react';
 import {
   View, Text, Pressable, ScrollView, StyleSheet, Modal,
   Dimensions, Animated, Easing, Vibration, Platform,
@@ -15,7 +15,10 @@ import { V } from './valeriaTheme';
 import { BlockIcon } from './ValeriaBlockIcons';
 import { CatPixel } from './ValeriaCatPixel';
 import { useT, UiStrings } from './i18n';
-import { speakWordSlow, speakToChild } from './valeriaVoice';
+import { speakWordSlow, speakToChild, stopSpeaking } from './valeriaVoice';
+import { registerSession } from './valeriaGamification';
+import { luaSessionReward, cancelSessionReward } from './valeriaLuaSession';
+import { logStimulation } from './valeriaFollowUp';
 import { ValeriaWritingCanvas, ValeriaWritingCanvasRef } from './ValeriaWritingCanvas';
 import { WRITING_EXERCISES, WritingItem, writingPraiseFor } from './valeriaWritingBank';
 import { contentLocale } from './valeriaLocale';
@@ -48,6 +51,7 @@ export const ValeriaWritingExerciseScreen: React.FC<ValeriaWritingExerciseScreen
 }) => {
   const t = useT();
   const canvasRef = useRef<ValeriaWritingCanvasRef>(null);
+  const loggedStimRef = useRef(false);
   const [category, setCategory] = useState<'critical' | 'warmup' | 'free'>('critical');
   const [exerciseIndex, setExerciseIndex] = useState(0);
   const [selectedColor, setSelectedColor] = useState('#00C4BE');
@@ -56,6 +60,17 @@ export const ValeriaWritingExerciseScreen: React.FC<ValeriaWritingExerciseScreen
   const [hasDrawn, setHasDrawn] = useState(false);
   const [evaluationResult, setEvaluationResult] = useState<{ success: boolean; score: number } | null>(null);
   const [showCelebration, setShowCelebration] = useState(false);
+
+  useEffect(() => () => {
+    stopSpeaking();
+    cancelSessionReward();
+  }, []);
+
+  const ensureWritingLogged = () => {
+    if (loggedStimRef.current) return;
+    loggedStimRef.current = true;
+    void logStimulation('escritura');
+  };
 
   // Filtrar ejercicios por categoría
   const currentCategoryList = WRITING_EXERCISES.filter((item) =>
@@ -88,12 +103,14 @@ export const ValeriaWritingExerciseScreen: React.FC<ValeriaWritingExerciseScreen
 
     if (category === 'free') {
       setShowCelebration(true);
+      ensureWritingLogged();
       { const f = writingPraiseFor(contentLocale(), 0); speakToChild(f); emitLuaCheer(true, f); }
       return;
     }
 
     if (evaluationResult?.success || !currentExercise?.guide.waypoints.length) {
       setShowCelebration(true);
+      ensureWritingLogged();
       { const f = writingPraiseFor(contentLocale(), 1); speakToChild(f); emitLuaCheer(true, f); }
       if (Platform.OS === 'android' || Platform.OS === 'ios') {
         try { Vibration.vibrate([0, 40, 60, 40]); } catch { /* noop */ }
@@ -118,6 +135,13 @@ export const ValeriaWritingExerciseScreen: React.FC<ValeriaWritingExerciseScreen
     if (exerciseIndex + 1 < currentCategoryList.length) {
       setExerciseIndex(exerciseIndex + 1);
     } else {
+      ensureWritingLogged();
+      void (async () => {
+        try {
+          const premio = await registerSession(3, Math.max(1, currentCategoryList.length));
+          luaSessionReward(premio);
+        } catch { /* noop */ }
+      })();
       onComplete?.(30); // XP ganada
       setExerciseIndex(0);
     }

@@ -17,6 +17,7 @@ import { SESSION_CONTINUE_PHRASE_EU } from './valeriaContentEu';
 import { SESSION_CONTINUE_PHRASE_EN } from './valeriaContentEn';
 import { SESSION_CONTINUE_PHRASE_CA } from './valeriaContentCa';
 import { getLocale } from './valeriaLocale';
+import { logStimulation } from './valeriaFollowUp';
 import { FONT } from './ui/fonts';
 
 // El banco de cápsulas vive en valeriaTprBank (módulo PURO, enumerable por el
@@ -59,6 +60,7 @@ export const ValeriaTPRCapsuleOverlay: React.FC<{
   const next = () => {
     if (last) {
       { const l = getLocale(); speakToChild(l === 'gl' ? SESSION_CONTINUE_PHRASE_GL : l === 'eu' ? SESSION_CONTINUE_PHRASE_EU : l === 'en-US' ? SESSION_CONTINUE_PHRASE_EN : l === 'ca' ? SESSION_CONTINUE_PHRASE_CA : SESSION_CONTINUE_PHRASE); }
+      void logStimulation('tpr');
       onDone();
     } else {
       setStep(step + 1);

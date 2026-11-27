@@ -308,6 +308,13 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
   const bestPartialRef = useRef('');
   const mounted = useRef(true);
   const speakTimers = useRef<Set<ReturnType<typeof setTimeout>>>(new Set()).current;
+  const laterTimer = (fn: () => void, ms: number) => {
+    const id = setTimeout(() => {
+      speakTimers.delete(id);
+      if (mounted.current) fn();
+    }, ms);
+    speakTimers.add(id);
+  };
   const afterSpeak = useRef(createSpeakChainer(speakTimers, () => mounted.current)).current;
   const pulse = useRef(new Animated.Value(0)).current;
   // Vuelve arriba al cambiar de paso: sin esto el nuevo paso aparecía con el
@@ -427,7 +434,7 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
       // Comprensión: no hay micrófono, el niño responde tocando una imagen.
       if (st.mode === 'comprension') { setPickLeftFirst(Math.random() < 0.5); setState('seleccion'); return; }
       if (!asrSupported()) { setState('judge'); return; }
-      if (autoRecord) setTimeout(() => listenNow(sess, idx), 400);
+      if (autoRecord) laterTimer(() => listenNow(sess, idx), 400);
       else setState('ready');
     }));
   };
@@ -480,7 +487,7 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
       const otra = almostPhrase();
       setLivePrompt({ text: otra, mode: 'child' });
       speakToChild(otra);
-      setTimeout(() => { if (mounted.current) setOrderWrong(null); }, 900);
+      laterTimer(() => setOrderWrong(null), 900);
       return;
     }
     const placed = [...orderPlaced, idx];
@@ -607,7 +614,7 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
     speakToChild(text, afterSpeak(() => {
       if (!mounted.current) return;
       if (!asrSupported()) { setState('judge'); return; }
-      if (autoRecord) setTimeout(() => listenNow(session, stepIdx), 400);
+      if (autoRecord) laterTimer(() => listenNow(session, stepIdx), 400);
       else setState('ready');
     }));
     setState('say');

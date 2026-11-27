@@ -44,6 +44,7 @@ import {
 } from './valeriaArSettings';
 import { ValeriaAdultChaosPanel } from './ValeriaAdultChaosPanel';
 import { trackArSession, markBlockCompleted } from './valeriaTelemetry';
+import { logStimulation } from './valeriaFollowUp';
 import { registerSession } from './valeriaGamification';
 import { luaSessionReward, cancelSessionReward, isLuaLinked, luaSteamFrames, luaSteamIdle } from './valeriaLuaSession';
 import { linkLua } from './steam/engine/LuaLink';
@@ -118,7 +119,13 @@ export const ValeriaArLauncherScreen: React.FC<{ navigation?: any; route?: { par
   // Salir de la pantalla corta el desfile del premio en el aparato y deja a la
   // gata neutra. Sin esto, cerrar a los dos segundos deja una insignia puesta
   // en el cristal hasta que caduque la concesión.
-  useEffect(() => () => cancelSessionReward(), []);
+  useEffect(() => () => {
+    if (luaRewardTimer.current) {
+      clearTimeout(luaRewardTimer.current);
+      luaRewardTimer.current = null;
+    }
+    cancelSessionReward();
+  }, []);
 
   const [notice, setNotice] = useState('');
   // Modo Revisión: el perfil lo dice, no una variable aparte. Así sobrevive a
@@ -349,6 +356,7 @@ export const ValeriaArLauncherScreen: React.FC<{ navigation?: any; route?: { par
 
     if (!review && res.outcome === 'completed' && res.trials.length) {
       markBlockCompleted('ar');
+      void logStimulation(soloHere ? 'steam' : 'ra');
       // Gamificación: premia la PARTICIPACIÓN (ensayos completados sin anular),
       // no el acierto. Puntuar el rendimiento aquí sería convertir una medida
       // clínica en un veredicto automático, que es justo lo que el muro MDR

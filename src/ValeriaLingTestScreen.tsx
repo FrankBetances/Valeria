@@ -58,6 +58,10 @@ export const ValeriaLingTestScreen: React.FC<{ navigation: any; route?: any }> =
   const [results, setResults] = useState<number[]>([]);
   const [picked, setPicked] = useState<number | null>(null);
   const lockRef = useRef(false);
+  const pickTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  useEffect(() => () => {
+    if (pickTimer.current) clearTimeout(pickTimer.current);
+  }, []);
 
   // Nombre del paciente ACTIVO (ficha de STORAGE_KEYS.registro) para la cabecera.
   const [patientName, setPatientName] = useState(t.patientSelect.patientFallback);
@@ -89,7 +93,9 @@ export const ValeriaLingTestScreen: React.FC<{ navigation: any; route?: any }> =
     if (lockRef.current) return;
     lockRef.current = true;
     setPicked(level);
-    setTimeout(() => {
+    if (pickTimer.current) clearTimeout(pickTimer.current);
+    pickTimer.current = setTimeout(() => {
+      pickTimer.current = null;
       const next = [...results, level];
       if (idx + 1 >= SOUNDS.length) finish(next);
       else { setResults(next); setIdx(idx + 1); setPicked(null); lockRef.current = false; }

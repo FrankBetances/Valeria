@@ -44,7 +44,7 @@ import {
 } from './valeriaPatients';
 import { xchacha20poly1305 } from '@noble/ciphers/chacha.js';
 
-export const FOLLOW_AREAS = ['audicion', 'lenguaje', 'tea', 'dislexia', 'pares', 'expansion', 'sensorial'] as const;
+export const FOLLOW_AREAS = ['audicion', 'lenguaje', 'tea', 'dislexia', 'pares', 'expansion', 'sensorial', 'escritura', 'aventuras', 'ra', 'tpr', 'steam'] as const;
 export type FollowArea = typeof FOLLOW_AREAS[number];
 export type ProRole = 'logopeda' | 'orl' | 'atencion' | 'otro';
 

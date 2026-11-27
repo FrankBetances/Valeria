@@ -24,6 +24,7 @@
 //   (En bare RN, además: cd ios && pod install)
 // ============================================================================
 import { ValeriaFollowUpScreen } from './ValeriaFollowUpScreen';
+import { ValeriaErrorBoundary } from './ValeriaErrorBoundary';
 import React, { useEffect, useRef } from 'react';
 import { View, Linking } from 'react-native';
 import { NavigationContainer, createNavigationContainerRef, NavigatorScreenParams } from '@react-navigation/native';
@@ -251,16 +252,25 @@ export const ValeriaApp: React.FC = () => {
     <GestureHandlerRootView style={{ flex: 1 }}>
     <HeroUINativeProvider>
     <SafeAreaProvider>
-      <NavigationContainer
-        ref={navigationRef}
-        onReady={() => {
-          handleRoute();
-          void Linking.getInitialURL().then(openNoteLink).catch(() => {});
+      <ValeriaErrorBoundary
+        getScreenName={() => lastRoute.current ?? undefined}
+        onBackHome={() => {
+          try {
+            if (navigationRef.isReady()) navigationRef.resetRoot({ index: 0, routes: [{ name: 'Welcome' }] });
+          } catch { /* remount via resetKey restores initialRouteName Welcome */ }
         }}
-        onStateChange={handleRoute}
       >
-        <SafeFrame />
-      </NavigationContainer>
+        <NavigationContainer
+          ref={navigationRef}
+          onReady={() => {
+            handleRoute();
+            void Linking.getInitialURL().then(openNoteLink).catch(() => {});
+          }}
+          onStateChange={handleRoute}
+        >
+          <SafeFrame />
+        </NavigationContainer>
+      </ValeriaErrorBoundary>
       <Toaster position="top-center" richColors />
       <LuaCheerOverlay />
     </SafeAreaProvider>

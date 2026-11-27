@@ -15,6 +15,7 @@ import { linkLua } from './steam/engine/LuaLink';
 import { arTapActivity, type ArTapEvent } from './steam/arActivities';
 import type { SteamArMode } from './steam/types';
 import { ArSceneLaunch } from './ValeriaArSceneLaunch';
+import { logStimulation } from './valeriaFollowUp';
 
 export const ValeriaArActivityScreen: React.FC<{ navigation: any; route: { params: { id: string; mode?: SteamArMode } } }> = ({
   navigation,
@@ -27,10 +28,18 @@ export const ValeriaArActivityScreen: React.FC<{ navigation: any; route: { param
   const linked = isLuaLinked();
   const [face, setFace] = useState<{ eventId: string; faceId: string } | null>(null);
   const sent = useRef(false);
+  const loggedStim = useRef(false);
+
+  const noteRaLogged = () => {
+    if (loggedStim.current) return;
+    loggedStim.current = true;
+    void logStimulation('ra');
+  };
 
   useEffect(() => () => { if (sent.current) luaSteamIdle(); }, []);
 
   const confirm = (ev: ArTapEvent) => {
+    noteRaLogged();
     if (!withLua) { setFace({ eventId: ev.id, faceId: '' }); return; }
     const link = linkLua({
       bleConnected: isLuaLinked(), expression: ev.expression,
@@ -56,7 +65,7 @@ export const ValeriaArActivityScreen: React.FC<{ navigation: any; route: { param
         </View>
 
         <ArSceneLaunch sceneId={act.id} title={act.title[lang]} withLua={withLua} events={act.events}
-          onEvent={(eventId, faceId) => setFace({ eventId, faceId })} />
+          onEvent={(eventId, faceId) => { noteRaLogged(); setFace({ eventId, faceId }); }} />
 
         <Text style={base.section}>{t.steam.eventsKicker}</Text>
         <Text style={[base.body, s.note]}>{t.steam.eventsNote}</Text>

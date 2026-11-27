@@ -183,6 +183,8 @@ export interface SessionRecord {
   // Los umbrales que el ADULTO fijó y que estuvieron vigentes toda la sesión.
   // Sin ellos, "sostuvo 1.240 ms" no es interpretable a posteriori.
   arThresholds?: ArThresholds;
+  unknownExerciseIds?: string[];
+  screenErrors?: Array<{ screen: string; at: number }>;
 }
 interface TlmStore { sessions: SessionRecord[]; lastSusAt: number; }
 
@@ -222,9 +224,13 @@ function stampLocale(): void {
   if (cur.locale !== loc) { cur.locale = loc; cur.localeSwitched = true; }
 }
 
+type RawSessionRecord = Partial<Omit<SessionRecord, 'misclicks'>> & {
+  misclicks?: number | Partial<MisclickSplit>;
+};
+
 // Migración tolerante: sesiones V1 persistidas (misclicks numérico, sin nodos
 // de caos) se normalizan al leer para que export y agregados nunca rompan.
-function normalizeSession(s: any): SessionRecord {
+function normalizeSession(s: RawSessionRecord | null | undefined): SessionRecord {
   const mc = s?.misclicks;
   return {
     id: s?.id ?? newId(), v: 2,
@@ -256,6 +262,8 @@ function normalizeSession(s: any): SessionRecord {
     ...(s?.arDevice ? { arDevice: s.arDevice } : {}),
     ...(s?.arThresholds ? { arThresholds: s.arThresholds } : {}),
     ...(s?.likert ? { likert: s.likert } : {}),
+    ...(s?.unknownExerciseIds?.length ? { unknownExerciseIds: s.unknownExerciseIds } : {}),
+    ...(s?.screenErrors?.length ? { screenErrors: s.screenErrors } : {}),
   };
 }
 
@@ -287,6 +295,8 @@ function snapshotCur(): SessionRecord {
     repairEvents: [...cur.repairEvents],
     dualTaskWindows: cur.dualTaskWindows.map((w) => ({ ...w })),
     arTrials: [...(cur.arTrials ?? [])],
+    ...(cur.unknownExerciseIds ? { unknownExerciseIds: [...cur.unknownExerciseIds] } : {}),
+    ...(cur.screenErrors ? { screenErrors: cur.screenErrors.map((e) => ({ ...e })) } : {}),
   };
 }
 
@@ -522,6 +532,25 @@ export function markBlockCompleted(block: BlockId): void {
   if (!cur.blocks.includes(block)) cur.blocks.push(block);
   scheduleFlush();
   if (cur.blocks.length >= SUS_BLOCK_THRESHOLD) void maybeRequestSus();
+}
+
+export function trackUnknownExercise(id: string): void {
+  const clean = id.trim();
+  if (!clean) return;
+  cur.unknownExerciseIds ??= [];
+  if (!cur.unknownExerciseIds.includes(clean) && cur.unknownExerciseIds.length < MAX_EVENTS) {
+    cur.unknownExerciseIds.push(clean);
+  }
+  scheduleFlush();
+}
+
+export function trackScreenError(screen?: string): void {
+  const name = (screen ?? currentScreen ?? 'unknown').trim() || 'unknown';
+  cur.screenErrors ??= [];
+  if (cur.screenErrors.length < MAX_EVENTS) {
+    cur.screenErrors.push({ screen: name, at: Date.now() });
+  }
+  scheduleFlush();
 }
 
 // ---- SUS: rate limiting (hito de 4 bloques Y como mucho 1 vez/semana) ----
