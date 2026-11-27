@@ -9,9 +9,10 @@
   "huggingface-hub": "0.36.0",
   "ffmpeg": "ffmpeg version 8.0.1-3ubuntu2 Copyright (c) 2000-2025 the FFmpeg developers"
  },
+ "generatedBy": "github-actions",
  "entries": 1301,
- "totalBytes": 32588417,
- "totalSeconds": 3577.4,
+ "totalBytes": 32591437,
+ "totalSeconds": 3577.6,
  "files": [
   {
    "id": "child_6299d0bf_39",
@@ -72,9 +73,9 @@
    "id": "slow_a69b94b5_4",
    "file": "slow_a69b94b5_4.m4a",
    "seconds": 0.5,
-   "bytes": 5057,
-   "lufs": -17.4,
-   "normType": "dynamic",
+   "bytes": 4922,
+   "lufs": -17.0,
+   "normType": "linear",
    "compressorGainReductionDb": 0.0,
    "limiterGainReductionDb": 0.0,
    "paramsHash": "dcba398bdc8256d4"
@@ -7315,10 +7316,10 @@
   {
    "id": "slow_211718ee_4",
    "file": "slow_211718ee_4.m4a",
-   "seconds": 0.5,
-   "bytes": 4938,
-   "lufs": -17.4,
-   "normType": "dynamic",
+   "seconds": 0.49,
+   "bytes": 4937,
+   "lufs": -17.1,
+   "normType": "linear",
    "compressorGainReductionDb": 0.0,
    "limiterGainReductionDb": 0.0,
    "paramsHash": "dcba398bdc8256d4"
@@ -7580,21 +7581,20 @@
    "id": "slow_1c60f484_4",
    "file": "slow_1c60f484_4.m4a",
    "seconds": 0.5,
-   "bytes": 5022,
-   "lufs": -18.9,
+   "bytes": 5054,
+   "lufs": -17.5,
    "normType": "dynamic",
    "compressorGainReductionDb": 0.0,
-   "limiterGainReductionDb": 0.0,
-   "paramsHash": "dcba398bdc8256d4",
-   "reducedLinearTarget": -18.52
+   "limiterGainReductionDb": 1.85,
+   "paramsHash": "dcba398bdc8256d4"
   },
   {
    "id": "slow_7ad5305b_4",
    "file": "slow_7ad5305b_4.m4a",
-   "seconds": 0.5,
-   "bytes": 4956,
-   "lufs": -17.4,
-   "normType": "dynamic",
+   "seconds": 0.49,
+   "bytes": 4935,
+   "lufs": -17.1,
+   "normType": "linear",
    "compressorGainReductionDb": 0.0,
    "limiterGainReductionDb": 0.0,
    "paramsHash": "dcba398bdc8256d4"
@@ -7801,10 +7801,10 @@
   {
    "id": "tutor_24aec1a2_5",
    "file": "tutor_24aec1a2_5.m4a",
-   "seconds": 0.5,
-   "bytes": 4976,
-   "lufs": -17.5,
-   "normType": "dynamic",
+   "seconds": 0.49,
+   "bytes": 4955,
+   "lufs": -17.1,
+   "normType": "linear",
    "compressorGainReductionDb": 0.0,
    "limiterGainReductionDb": 0.0,
    "paramsHash": "dcba398bdc8256d4"
@@ -9671,10 +9671,10 @@
   {
    "id": "child_54b2efe6_32",
    "file": "child_54b2efe6_32.m4a",
-   "seconds": 3.01,
-   "bytes": 27386,
-   "lufs": -17.2,
-   "normType": "dynamic",
+   "seconds": 3.09,
+   "bytes": 28632,
+   "lufs": -16.9,
+   "normType": "linear",
    "compressorGainReductionDb": 0.0,
    "limiterGainReductionDb": 0.0,
    "paramsHash": "dcba398bdc8256d4"
@@ -10882,10 +10882,10 @@
   {
    "id": "child_a6938cb7_58",
    "file": "child_a6938cb7_58.m4a",
-   "seconds": 3.0,
-   "bytes": 27022,
-   "lufs": -17.2,
-   "normType": "dynamic",
+   "seconds": 3.09,
+   "bytes": 27419,
+   "lufs": -16.9,
+   "normType": "linear",
    "compressorGainReductionDb": 0.0,
    "limiterGainReductionDb": 0.0,
    "paramsHash": "dcba398bdc8256d4"
@@ -11784,10 +11784,10 @@
   {
    "id": "child_9430b45f_55",
    "file": "child_9430b45f_55.m4a",
-   "seconds": 3.04,
-   "bytes": 27531,
-   "lufs": -17.2,
-   "normType": "dynamic",
+   "seconds": 3.05,
+   "bytes": 27851,
+   "lufs": -16.8,
+   "normType": "linear",
    "compressorGainReductionDb": 0.0,
    "limiterGainReductionDb": 0.0,
    "paramsHash": "dcba398bdc8256d4"
@@ -12664,10 +12664,10 @@
   {
    "id": "child_729e1a96_6",
    "file": "child_729e1a96_6.m4a",
-   "seconds": 0.5,
-   "bytes": 4963,
-   "lufs": -17.1,
-   "normType": "dynamic",
+   "seconds": 0.45,
+   "bytes": 4768,
+   "lufs": -17.0,
+   "normType": "linear",
    "compressorGainReductionDb": 0.0,
    "limiterGainReductionDb": 0.0,
    "paramsHash": "dcba398bdc8256d4"
@@ -12697,10 +12697,10 @@
   {
    "id": "child_cdacf4c9_15",
    "file": "child_cdacf4c9_15.m4a",
-   "seconds": 1.0,
-   "bytes": 9218,
-   "lufs": -17.4,
-   "normType": "dynamic",
+   "seconds": 0.99,
+   "bytes": 9189,
+   "lufs": -17.1,
+   "normType": "linear",
    "compressorGainReductionDb": 0.0,
    "limiterGainReductionDb": 0.0,
    "paramsHash": "dcba398bdc8256d4"
@@ -13093,10 +13093,10 @@
   {
    "id": "child_7a3f5076_6",
    "file": "child_7a3f5076_6.m4a",
-   "seconds": 0.5,
-   "bytes": 4926,
-   "lufs": -17.4,
-   "normType": "dynamic",
+   "seconds": 0.49,
+   "bytes": 4936,
+   "lufs": -17.1,
+   "normType": "linear",
    "compressorGainReductionDb": 0.0,
    "limiterGainReductionDb": 0.0,
    "paramsHash": "dcba398bdc8256d4"
@@ -13623,7 +13623,7 @@
    "id": "child_84772e9b_12",
    "file": "child_84772e9b_12.m4a",
    "seconds": 1.0,
-   "bytes": 9241,
+   "bytes": 9718,
    "lufs": -17.3,
    "normType": "dynamic",
    "compressorGainReductionDb": 0.0,
@@ -13633,10 +13633,10 @@
   {
    "id": "child_97f17bed_15",
    "file": "child_97f17bed_15.m4a",
-   "seconds": 1.01,
-   "bytes": 8960,
-   "lufs": -17.1,
-   "normType": "dynamic",
+   "seconds": 1.09,
+   "bytes": 9725,
+   "lufs": -16.8,
+   "normType": "linear",
    "compressorGainReductionDb": 0.0,
    "limiterGainReductionDb": 0.0,
    "paramsHash": "dcba398bdc8256d4"
@@ -13842,10 +13842,10 @@
   {
    "id": "child_a3075454_6",
    "file": "child_a3075454_6.m4a",
-   "seconds": 0.5,
-   "bytes": 5277,
-   "lufs": -17.6,
-   "normType": "dynamic",
+   "seconds": 0.52,
+   "bytes": 5502,
+   "lufs": -17.1,
+   "normType": "linear",
    "compressorGainReductionDb": 0.0,
    "limiterGainReductionDb": 0.0,
    "paramsHash": "dcba398bdc8256d4"
@@ -13931,13 +13931,13 @@
    "id": "child_7efb941c_5",
    "file": "child_7efb941c_5.m4a",
    "seconds": 0.5,
-   "bytes": 5619,
-   "lufs": -19.0,
-   "normType": "dynamic",
+   "bytes": 5569,
+   "lufs": -18.8,
+   "normType": "linear",
    "compressorGainReductionDb": 0.0,
    "limiterGainReductionDb": 0.0,
    "paramsHash": "dcba398bdc8256d4",
-   "reducedLinearTarget": -18.61
+   "reducedLinearTarget": -18.75
   },
   {
    "id": "child_ae66c346_23",
@@ -14335,6 +14335,5 @@
    "limiterGainReductionDb": 0.0,
    "paramsHash": "dcba398bdc8256d4"
   }
- ],
- "generatedBy": "github-actions"
+ ]
 }

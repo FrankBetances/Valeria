@@ -15,9 +15,10 @@
   "ffmpeg": "ffmpeg version 8.0.1-3ubuntu2 Copyright (c) 2000-2025 the FFmpeg developers",
   "espeak-ng": "eSpeak NG text-to-speech: 1.52.0  Data at: /usr/lib/x86_64-linux-gnu/espeak-ng-data"
  },
+ "generatedBy": "github-actions",
  "entries": 833,
- "totalBytes": 24460120,
- "totalSeconds": 2485.3,
+ "totalBytes": 24462519,
+ "totalSeconds": 2485.6,
  "files": [
   {
    "id": "ca_child_5aa4bc5d_46",
@@ -6560,12 +6561,12 @@
   {
    "id": "ca_slow_5e0fc9a7_4",
    "file": "ca_slow_5e0fc9a7_4.m4a",
-   "seconds": 0.33,
-   "bytes": 4951,
-   "lufs": -17.8,
-   "normType": "dynamic",
+   "seconds": 0.34,
+   "bytes": 4973,
+   "lufs": -17.4,
+   "normType": "linear",
    "compressorGainReductionDb": 0.0,
-   "limiterGainReductionDb": 2.02,
+   "limiterGainReductionDb": 2.76,
    "paramsHash": "30f55f99dcc71b27"
   },
   {
@@ -7237,14 +7238,14 @@
   {
    "id": "ca_child_ef8353de_6",
    "file": "ca_child_ef8353de_6.m4a",
-   "seconds": 0.51,
-   "bytes": 6900,
-   "lufs": -21.5,
-   "normType": "dynamic",
-   "compressorGainReductionDb": 0.91,
+   "seconds": 0.52,
+   "bytes": 7207,
+   "lufs": -20.7,
+   "normType": "linear",
+   "compressorGainReductionDb": 0.86,
    "limiterGainReductionDb": 0.0,
    "paramsHash": "30f55f99dcc71b27",
-   "reducedLinearTarget": -21.13
+   "reducedLinearTarget": -20.67
   },
   {
    "id": "ca_child_3fa43267_10",
@@ -8923,14 +8924,14 @@
   {
    "id": "ca_child_83dfd92f_14",
    "file": "ca_child_83dfd92f_14.m4a",
-   "seconds": 0.98,
-   "bytes": 12452,
-   "lufs": -20.1,
+   "seconds": 0.97,
+   "bytes": 11115,
+   "lufs": -19.2,
    "normType": "dynamic",
-   "compressorGainReductionDb": 1.25,
+   "compressorGainReductionDb": 0.0,
    "limiterGainReductionDb": 0.0,
    "paramsHash": "30f55f99dcc71b27",
-   "reducedLinearTarget": -19.97
+   "reducedLinearTarget": -19.03
   },
   {
    "id": "ca_child_6cb24906_8",
@@ -9229,6 +9230,12 @@
    "limiterGainReductionDb": 0.0,
    "paramsHash": "30f55f99dcc71b27",
    "reducedLinearTarget": -20.16
+  },
+  {
+   "id": "ca_slow_e40c292c_1",
+   "file": "ca_slow_e40c292c_1.m4a",
+   "seconds": 0.31,
+   "bytes": 3334
   },
   {
    "id": "ca_slow_c33f0730_3",
@@ -9733,13 +9740,13 @@
    "id": "ca_child_2c55478b_51",
    "file": "ca_child_2c55478b_51.m4a",
    "seconds": 3.0,
-   "bytes": 27581,
-   "lufs": -23.8,
-   "normType": "dynamic",
-   "compressorGainReductionDb": 0.64,
+   "bytes": 30988,
+   "lufs": -23.5,
+   "normType": "linear",
+   "compressorGainReductionDb": 0.78,
    "limiterGainReductionDb": 0.0,
    "paramsHash": "30f55f99dcc71b27",
-   "reducedLinearTarget": -23.45
+   "reducedLinearTarget": -23.49
   },
   {
    "id": "ca_child_4d54bac1_42",
@@ -9940,13 +9947,6 @@
    "compressorGainReductionDb": 0.0,
    "limiterGainReductionDb": 0.0,
    "paramsHash": "30f55f99dcc71b27"
-  },
-  {
-   "id": "ca_slow_e40c292c_1",
-   "file": "ca_slow_e40c292c_1.m4a",
-   "seconds": 0.31,
-   "bytes": 3334
   }
- ],
- "generatedBy": "github-actions"
+ ]
 }

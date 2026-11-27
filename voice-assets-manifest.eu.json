@@ -13,9 +13,10 @@
   "huggingface-hub": "0.36.0",
   "ffmpeg": "ffmpeg version 8.0.1-3ubuntu2 Copyright (c) 2000-2025 the FFmpeg developers"
  },
+ "generatedBy": "github-actions",
  "entries": 724,
- "totalBytes": 24892556,
- "totalSeconds": 2733.3,
+ "totalBytes": 24892375,
+ "totalSeconds": 2733.2,
  "files": [
   {
    "id": "eu_child_536bf7c0_40",
@@ -75,10 +76,10 @@
   {
    "id": "eu_slow_4c5223d5_2",
    "file": "eu_slow_4c5223d5_2.m4a",
-   "seconds": 0.51,
-   "bytes": 5509,
-   "lufs": -17.7,
-   "normType": "dynamic",
+   "seconds": 0.49,
+   "bytes": 5442,
+   "lufs": -17.5,
+   "normType": "linear",
    "compressorGainReductionDb": 0.0,
    "limiterGainReductionDb": 0.0,
    "paramsHash": "eaa67b33f12c893a"
@@ -6375,12 +6376,12 @@
   {
    "id": "eu_tutor_cfed1316_13",
    "file": "eu_tutor_cfed1316_13.m4a",
-   "seconds": 1.0,
-   "bytes": 9860,
-   "lufs": -17.3,
-   "normType": "dynamic",
+   "seconds": 0.96,
+   "bytes": 9706,
+   "lufs": -17.0,
+   "normType": "linear",
    "compressorGainReductionDb": 0.0,
-   "limiterGainReductionDb": 0.68,
+   "limiterGainReductionDb": 1.45,
    "paramsHash": "eaa67b33f12c893a"
   },
   {
@@ -7237,14 +7238,14 @@
   {
    "id": "eu_child_adfc87a8_7",
    "file": "eu_child_adfc87a8_7.m4a",
-   "seconds": 0.5,
-   "bytes": 4947,
-   "lufs": -19.3,
-   "normType": "dynamic",
+   "seconds": 0.48,
+   "bytes": 4987,
+   "lufs": -19.1,
+   "normType": "linear",
    "compressorGainReductionDb": 0.0,
    "limiterGainReductionDb": 0.0,
    "paramsHash": "eaa67b33f12c893a",
-   "reducedLinearTarget": -18.86
+   "reducedLinearTarget": -18.88
   },
   {
    "id": "eu_tutor_0f215825_183",
@@ -8141,6 +8142,5 @@
    "paramsHash": "eaa67b33f12c893a",
    "reducedLinearTarget": -17.83
   }
- ],
- "generatedBy": "github-actions"
+ ]
 }
