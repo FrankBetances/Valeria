@@ -27,10 +27,10 @@ import { notify } from './ui/notify';
 import {
   FOLLOW_AREAS, FollowArea, FrequencyPlan, FollowNote, Professional, ProRole, ShareConsent, WeekRow,
   PatientLink, hasActivePatient, loadPlan, savePlan, loadStimulation, weeklySummary, loadNotes,
-  addNote, markFamilyNotesReviewed, exportSignedNoteCode, importNoteCodeDetailed, loadConsent,
+  addNote, markFamilyNotesReviewed, exportSignedNoteCode, exportSignedPlanCode, importNoteCodeDetailed, loadConsent,
   setConsent, listPros, addPro, removePro, resetPros, currentPro, clearCurrentPro,
   createLinkPayload, importLinkCode, listLinks, exportPatientBundle, importPatientBundle,
-  LINK_PREFIX, extractNoteCodeFromInput,
+  buildConsultationReportHtml, LINK_PREFIX, extractNoteCodeFromInput,
 } from './valeriaFollowUp';
 import { readActivePatient } from './valeriaPatients';
 
@@ -192,6 +192,14 @@ export const ValeriaFollowUpScreen: React.FC<{
       await reload();
       return;
     }
+    if (res.kind === 'plan') {
+      const msg = `${t.followUpP6.planImported} (${f.verifiedSignedBy(res.author ?? '', res.centre ?? '')})`;
+      setStatusBanner({ kind: 'ok', text: msg });
+      notify(msg);
+      setImportText('');
+      await reload();
+      return;
+    }
     if (res.status === 'legacy_unverified') {
       const msg = `${f.importOk} (${f.legacyUnverifiedTag})`;
       setStatusBanner({ kind: 'warn', text: msg });
@@ -309,9 +317,38 @@ export const ValeriaFollowUpScreen: React.FC<{
     else notify(f.saveError);
   };
 
+  const [planCodeBox, setPlanCodeBox] = useState<{ code: string; qrOk: boolean } | null>(null);
+
+  const onSendPlanCode = async () => {
+    const res = await exportSignedPlanCode(draftPlan);
+    if (!res.ok || !res.code) { notify(f.saveError); return; }
+    setPlanCodeBox({ code: res.code, qrOk: !!res.qrOk });
+    notify(t.followUpP6.planCodeReady);
+  };
+
   const onShare = async () => {
     if (!consent.granted) return;
     try { await Share.share({ title: f.summaryHeader, message: summary }); } catch (e) { /* cancelado */ }
+  };
+
+  const onShareHtmlReport = async () => {
+    if (!consent.granted) return;
+    const res = await buildConsultationReportHtml({
+      title: t.followUpP6.reportTitle,
+      generatedLabel: f.summaryGenerated,
+      planTitle: f.planTitle,
+      adherenceTitle: f.adherenceTitle,
+      notesTitle: f.notesTitle,
+      resultsTitle: t.results.title,
+      lingTitle: 'Ling',
+      noData: f.noNotes,
+      familyTag: f.summaryFamilyTag,
+      proTag: f.summaryProTag,
+      footer: f.summaryFooter,
+      areas: f.areas,
+    }, includeFamilyNotes);
+    if (!res.ok || !res.html) { notify(f.saveError); return; }
+    try { await Share.share({ title: t.followUpP6.reportTitle, message: res.html }); } catch (e) { /* cancelado */ }
   };
 
   const onExportBundle = async () => {
@@ -664,7 +701,21 @@ export const ValeriaFollowUpScreen: React.FC<{
               })}
               {!who && !FOLLOW_AREAS.some((a) => plan[a]) && <Text style={s.muted}>{f.noPlan}</Text>}
               {who && (
-                <Pressable onPress={() => void onSavePlan()} style={s.btn} accessibilityRole="button"><Text style={s.btnTxt}>{f.savePlan}</Text></Pressable>
+                <>
+                  <Pressable onPress={() => void onSavePlan()} style={s.btn} accessibilityRole="button"><Text style={s.btnTxt}>{f.savePlan}</Text></Pressable>
+                  <Pressable onPress={() => void onSendPlanCode()} style={[s.btn, s.btnGhost, { marginTop: 8 }]} accessibilityRole="button">
+                    <Text style={s.btnGhostTxt}>{t.followUpP6.sendPlanCode}</Text>
+                  </Pressable>
+                  {planCodeBox && (
+                    <View style={s.qrBox}>
+                      <Text style={s.signed}>{t.followUpP6.planCodeReady}</Text>
+                      {planCodeBox.qrOk && <View style={s.qrWrap}><ValeriaQRCode value={planCodeBox.code} size={200} /></View>}
+                      <Pressable onPress={() => void Share.share({ title: t.followUpP6.reportTitle, message: planCodeBox.code })} style={s.btn} accessibilityRole="button">
+                        <Text style={s.btnTxt}>{f.shareCodeBtn}</Text>
+                      </Pressable>
+                    </View>
+                  )}
+                </>
               )}
             </Reanimated.View>
 
@@ -690,6 +741,9 @@ export const ValeriaFollowUpScreen: React.FC<{
                   <View style={s.qrWrap}><ValeriaQRCode value={qrText} size={200} /></View>
                   <Text style={s.qrCap}>{f.qrCaption}</Text>
                   <Pressable onPress={() => void onShare()} style={s.btn} accessibilityRole="button"><Text style={s.btnTxt}>{f.shareBtn}</Text></Pressable>
+                  <Pressable onPress={() => void onShareHtmlReport()} style={[s.btn, s.btnGhost, { marginTop: 8 }]} accessibilityRole="button">
+                    <Text style={s.btnGhostTxt}>{t.followUpP6.shareReportHtmlBtn}</Text>
+                  </Pressable>
                 </>
               )}
             </Reanimated.View>

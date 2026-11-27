@@ -51,10 +51,16 @@ export type ProRole = 'logopeda' | 'orl' | 'atencion' | 'otro';
 export const PIN_PBKDF2_ITERS = 100_000;
 export const LINK_PREFIX = 'VALERIA-VINCULO1:';
 export const NOTE2_PREFIX = 'VALERIA-NOTA2:';
+export const PAUTA2_PREFIX = 'VALERIA-PAUTA2:';
 export const RECEIPT2_PREFIX = 'VALERIA-LEIDO2:';
 export const NOTE1_PREFIX = 'VALERIA-NOTA1:';
 export const NOTE_URL_PREFIX = 'valeria://nota?c=';
 export const MAX_QR_CHARS = 950;
+
+let planChangeListener: (() => void) | null = null;
+export function setFollowPlanChangeListener(fn: (() => void) | null): void {
+  planChangeListener = fn;
+}
 
 const LOCKOUT_KEY = '@valeria_pin_lock_v2';
 const RESET_META_KEY = '@valeria_pin_reset_meta';
@@ -144,7 +150,7 @@ export interface PinLockStatus {
 export type ImportCodeResult =
   | {
     ok: true;
-    kind: 'note' | 'receipt';
+    kind: 'note' | 'receipt' | 'plan';
     status: 'verified' | 'legacy_unverified';
     duplicate?: boolean;
     author?: string;
@@ -491,7 +497,9 @@ export async function savePlan(counts: Partial<Record<FollowArea, number>>): Pro
         ? prev
         : { perWeek: v, by: activePro!.name, role: activePro!.role, at: now };
     }
-    return writeEnc(key, next);
+    const saved = await writeEnc(key, next);
+    if (saved) planChangeListener?.();
+    return saved;
   });
 }
 
@@ -512,8 +520,26 @@ export async function logStimulation(area: FollowArea, at = new Date()): Promise
       return Number.isFinite(t) && t >= cutoff;
     });
     next.push({ at: at.toISOString(), area });
-    return writeEnc(key, next);
+    const saved = await writeEnc(key, next);
+    if (saved) planChangeListener?.();
+    return saved;
   });
+}
+
+export async function loadActivePlanProgress(
+  areaLabels: Partial<Record<FollowArea, string>>,
+): Promise<Array<{ areaLabel: string; done: number; planned: number }>> {
+  const [plan, events] = await Promise.all([loadPlan(), loadStimulation()]);
+  const rows = weeklySummary(events, plan, 1);
+  const current = rows[0];
+  if (!current) return [];
+  return FOLLOW_AREAS
+    .filter((a) => (plan[a]?.perWeek ?? 0) > 0)
+    .map((a) => ({
+      areaLabel: areaLabels[a] ?? a,
+      done: current.byArea[a]?.done ?? 0,
+      planned: plan[a]!.perWeek,
+    }));
 }
 
 export async function loadStimulation(): Promise<StimEvent[]> {
@@ -939,6 +965,56 @@ export async function markFamilyNotesReviewed(): Promise<{
   };
 }
 
+export async function exportSignedPlanCode(
+  counts: Partial<Record<FollowArea, number>>,
+): Promise<{ ok: boolean; code?: string; qrOk?: boolean; reason?: 'no_pro' | 'no_patient' | 'no_link' | 'empty_plan' }> {
+  if (!activePro) return { ok: false, reason: 'no_pro' };
+  const pid = await activePid();
+  if (!pid) return { ok: false, reason: 'no_patient' };
+
+  const linkInfo = await resolvePreferredLinkForSend();
+  if (!linkInfo) return { ok: false, reason: 'no_link' };
+
+  const cleanCounts: Partial<Record<FollowArea, number>> = {};
+  for (const a of FOLLOW_AREAS) {
+    const v = Math.max(0, Math.min(14, Math.round(counts[a] ?? 0)));
+    if (v > 0) cleanCounts[a] = v;
+  }
+  if (!Object.keys(cleanCounts).length) return { ok: false, reason: 'empty_plan' };
+
+  const keys = await ensureProSigningKeys(activePro);
+  activePro = keys.pro;
+  const resetMeta = await readEnc<{ resetAt?: string } | null>(RESET_META_KEY, null);
+  const postReset = Boolean(keys.pro.postReset && resetMeta?.resetAt);
+  const now = new Date().toISOString();
+
+  const inner = {
+    ver: 2,
+    counts: cleanCounts,
+    by: keys.pro.name,
+    role: keys.pro.role,
+    centre: keys.pro.centre,
+    at: now,
+    pubKey: keys.pro.pubKey!,
+    ...(postReset ? { postReset: true } : {}),
+  };
+
+  const nonce = randomBytes(24);
+  const ct = xchacha20poly1305(linkInfo.linkKey, nonce).encrypt(utf8ToBytes(JSON.stringify(inner)));
+  const nonceB64 = bytesToB64Url(nonce);
+  const ctB64 = bytesToB64Url(ct);
+  const sig = signPayload(keys.skB64, `2|${linkInfo.pidHash}|${nonceB64}|${ctB64}`);
+  const code = `${PAUTA2_PREFIX}${bytesToB64Url(utf8ToBytes(JSON.stringify({
+    ver: 2,
+    pidHash: linkInfo.pidHash,
+    nonce: nonceB64,
+    ct: ctB64,
+    sig,
+  })))}`;
+
+  return { ok: true, code, qrOk: code.length <= MAX_QR_CHARS };
+}
+
 export function extractNoteCodeFromInput(raw: string): string {
   const trimmed = raw.trim();
   const idx = trimmed.indexOf('valeria://nota');
@@ -1047,6 +1123,61 @@ export async function importNoteCodeDetailed(raw: string): Promise<ImportCodeRes
       status: 'verified',
       duplicate,
       author: String(inner.author),
+      centre: inner.centre ? String(inner.centre) : '',
+      postReset: Boolean(inner.postReset),
+    };
+  }
+
+  // 1b) Pauta de frecuencia firmada (VALERIA-PAUTA2:)
+  if (clean.startsWith(PAUTA2_PREFIX)) {
+    let env: any;
+    try {
+      env = JSON.parse(bytesToUtf8(b64UrlToBytes(clean.slice(PAUTA2_PREFIX.length))));
+    } catch (e) {
+      return { ok: false, reason: 'bad_format' };
+    }
+    if (!env || env.ver !== 2 || typeof env.pidHash !== 'string' || typeof env.nonce !== 'string' || typeof env.ct !== 'string' || typeof env.sig !== 'string') {
+      return { ok: false, reason: 'bad_format' };
+    }
+
+    const { link, linkKey } = await resolveLinkKeyForImport(env.pidHash);
+    if (!link || !linkKey) return { ok: false, reason: 'wrong_patient' };
+
+    let inner: any;
+    try {
+      const nonce = b64UrlToBytes(env.nonce);
+      const ct = b64UrlToBytes(env.ct);
+      if (nonce.length !== 24 || ct.length < 16) return { ok: false, reason: 'unverified' };
+      const plain = xchacha20poly1305(linkKey, nonce).decrypt(ct);
+      inner = JSON.parse(bytesToUtf8(plain));
+    } catch (e) {
+      return { ok: false, reason: 'unverified' };
+    }
+
+    if (!inner || typeof inner.counts !== 'object' || !inner.counts || !inner.by || !inner.pubKey) {
+      return { ok: false, reason: 'unverified' };
+    }
+    const trusted = await isTrustedSigner(link, inner.pubKey);
+    const sigOk = trusted && verifyPayload(inner.pubKey, `2|${env.pidHash}|${env.nonce}|${env.ct}`, env.sig);
+    if (!sigOk) return { ok: false, reason: 'unverified' };
+
+    const planKey = k(STORAGE_KEYS.pautaFrecuencia, prefix);
+    const at = String(inner.at || new Date().toISOString());
+    const role: ProRole = inner.role === 'orl' || inner.role === 'atencion' || inner.role === 'otro' ? inner.role : 'logopeda';
+    const nextPlan: FrequencyPlan = {};
+    for (const a of FOLLOW_AREAS) {
+      const rawVal = Number(inner.counts[a] ?? 0);
+      const v = Math.max(0, Math.min(14, Math.round(Number.isFinite(rawVal) ? rawVal : 0)));
+      if (v > 0) nextPlan[a] = { perWeek: v, by: String(inner.by), role, at };
+    }
+    const saved = await withLock(planKey, () => writeEnc(planKey, nextPlan));
+    if (!saved) return { ok: false, reason: 'save_error' };
+    planChangeListener?.();
+    return {
+      ok: true,
+      kind: 'plan',
+      status: 'verified',
+      author: String(inner.by),
       centre: inner.centre ? String(inner.centre) : '',
       postReset: Boolean(inner.postReset),
     };
@@ -1295,4 +1426,115 @@ export async function importPatientBundle(raw: string, passphrase: string): Prom
   } catch (e) {
     return { ok: false, reason: 'save_error' };
   }
+}
+
+const escHtml = (v: unknown): string =>
+  String(v ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+
+export interface ConsultationReportStrings {
+  title: string;
+  generatedLabel: string;
+  planTitle: string;
+  adherenceTitle: string;
+  notesTitle: string;
+  resultsTitle: string;
+  lingTitle: string;
+  noData: string;
+  familyTag: string;
+  proTag: string;
+  footer: string;
+  areas: Record<FollowArea, string>;
+}
+
+export async function buildConsultationReportHtml(
+  labels: ConsultationReportStrings,
+  includeFamilyNotes = false,
+): Promise<{ ok: boolean; html?: string; reason?: 'no_patient' | 'no_consent' }> {
+  const [patient, consent] = await Promise.all([readActivePatient(), loadConsent()]);
+  if (!patient?.pid) return { ok: false, reason: 'no_patient' };
+  if (!consent.granted) return { ok: false, reason: 'no_consent' };
+
+  const [plan, events, notes, historialRaw, lingRaw] = await Promise.all([
+    loadPlan(),
+    loadStimulation(),
+    loadNotes(),
+    readSessionHistory(),
+    readLingHistory(),
+  ]);
+
+  const rows = weeklySummary(events, plan, 8);
+  const visibleNotes = notes.filter((n) => includeFamilyNotes || n.from === 'pro');
+  const historial = Array.isArray(historialRaw) ? historialRaw.slice(-15) : [];
+  const ling = Array.isArray(lingRaw) ? lingRaw.slice(-10) : [];
+
+  const planRows = FOLLOW_AREAS
+    .filter((a) => plan[a]?.perWeek)
+    .map((a) => `<tr><td>${escHtml(labels.areas[a])}</td><td>${escHtml(plan[a]!.perWeek)} / sem</td><td>${escHtml(plan[a]!.by)} (${escHtml(String(plan[a]!.at).slice(0, 10))})</td></tr>`)
+    .join('');
+
+  const weekRows = rows
+    .map((r) => `<tr><td>${escHtml(r.start.toISOString().slice(0, 10))}</td><td>${r.done}</td><td>${r.planned}</td></tr>`)
+    .join('');
+
+  const noteRows = visibleNotes
+    .map((n) => {
+      const tag = n.from === 'family' ? labels.familyTag : labels.proTag;
+      return `<li><strong>${escHtml(tag)} ${escHtml(n.author)}</strong> (${escHtml(String(n.at).slice(0, 10))}): ${escHtml(n.text)}</li>`;
+    })
+    .join('');
+
+  const histRows = historial
+    .map((h) => {
+      const item = h as { date?: string; name?: string; avg?: number; note?: string };
+      return `<tr><td>${escHtml(item.date)}</td><td>${escHtml(item.name)}</td><td>${escHtml(item.avg ?? '')}</td><td>${escHtml(item.note)}</td></tr>`;
+    })
+    .join('');
+
+  const lingRows = ling
+    .map((l) => {
+      const item = l as { date?: string; identificados?: number; detectados?: number; total?: number };
+      return `<li>${escHtml(item.date)}: ${escHtml(item.identificados ?? 0)}/${escHtml(item.total ?? 6)}</li>`;
+    })
+    .join('');
+
+  const profileLabel = patient.nombre || patient.nhc || 'Perfil';
+  const html = `<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>${escHtml(labels.title)}</title>
+<style>
+  body { font-family: system-ui, -apple-system, sans-serif; color: #16302f; max-width: 760px; margin: 24px auto; padding: 0 16px; line-height: 1.45; }
+  h1 { color: #00756f; font-size: 20px; margin-bottom: 4px; }
+  h2 { color: #00756f; font-size: 15px; margin-top: 22px; border-bottom: 1px solid #d6eceb; padding-bottom: 4px; }
+  table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 13px; }
+  th, td { border: 1px solid #d6eceb; padding: 6px 8px; text-align: left; }
+  th { background: #e6f9f8; }
+  .meta { font-size: 12px; color: #4b6867; }
+  .foot { margin-top: 28px; font-size: 11px; color: #5b7574; border-top: 1px solid #e2e8f0; padding-top: 8px; }
+</style>
+</head>
+<body>
+  <h1>${escHtml(labels.title)}</h1>
+  <div class="meta">${escHtml(profileLabel)} · ${escHtml(labels.generatedLabel)} ${escHtml(new Date().toISOString().slice(0, 10))}</div>
+  <h2>${escHtml(labels.planTitle)}</h2>
+  ${planRows ? `<table><thead><tr><th>Area</th><th>Meta</th><th>Autor</th></tr></thead><tbody>${planRows}</tbody></table>` : `<p>${escHtml(labels.noData)}</p>`}
+  <h2>${escHtml(labels.adherenceTitle)}</h2>
+  <table><thead><tr><th>Semana</th><th>Realizadas</th><th>Meta</th></tr></thead><tbody>${weekRows}</tbody></table>
+  <h2>${escHtml(labels.notesTitle)}</h2>
+  ${noteRows ? `<ul>${noteRows}</ul>` : `<p>${escHtml(labels.noData)}</p>`}
+  <h2>${escHtml(labels.resultsTitle)}</h2>
+  ${histRows ? `<table><thead><tr><th>Fecha</th><th>Actividad</th><th>Media</th><th>Nota</th></tr></thead><tbody>${histRows}</tbody></table>` : `<p>${escHtml(labels.noData)}</p>`}
+  <h2>${escHtml(labels.lingTitle)}</h2>
+  ${lingRows ? `<ul>${lingRows}</ul>` : `<p>${escHtml(labels.noData)}</p>`}
+  <p class="foot">${escHtml(labels.footer)}</p>
+</body>
+</html>`;
+
+  return { ok: true, html };
 }

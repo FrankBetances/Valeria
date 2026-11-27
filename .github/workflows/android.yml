@@ -432,6 +432,9 @@ jobs:
       - name: Comprobar señal de edad Play Age Signals en memoria (P5)
         run: node scripts/check-age-signals.js
 
+      - name: Comprobar PAUTA2, recordatorios de pauta, voz de casa e informe HTML (P6)
+        run: node scripts/check-p6.js
+
       - name: Comprobar tipos
         run: npm run typecheck
 

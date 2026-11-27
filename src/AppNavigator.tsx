@@ -32,7 +32,9 @@ import { View, Linking } from 'react-native';
 import { NavigationContainer, createNavigationContainerRef, NavigatorScreenParams } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
-import { initNotifications, refreshDailyReminders } from './valeriaNotifications';
+import { initNotifications, refreshDailyReminders, registerPlanProgressProvider } from './valeriaNotifications';
+import { setFollowPlanChangeListener, loadActivePlanProgress } from './valeriaFollowUp';
+import { tNow } from './i18n/catalog';
 import { subscribeUiLang } from './valeriaUiLang';
 import { V } from './valeriaTheme';
 import { noteScreen } from './valeriaTelemetry';
@@ -227,7 +229,13 @@ export const ValeriaApp: React.FC = () => {
   const [fontsReady] = useValeriaFonts();
   // Handler y canal Android de los recordatorios diarios (pantalla de bloqueo),
   // más la rotación diaria del consejo para padres si los avisos están activos.
-  useEffect(() => { initNotifications(); refreshDailyReminders(); }, []);
+  useEffect(() => {
+    registerPlanProgressProvider(() => loadActivePlanProgress(tNow().followUp.areas));
+    setFollowPlanChangeListener(() => { void refreshDailyReminders(); });
+    initNotifications();
+    void refreshDailyReminders();
+    return () => { setFollowPlanChangeListener(null); };
+  }, []);
 
   // Los recordatorios se PROGRAMAN por adelantado con su texto ya dentro, así
   // que un cambio de idioma no alcanza a los que están en cola: seguirían

@@ -31,6 +31,8 @@ import { appendSessionHistory } from './valeriaPatients';
 import { ProUnlockPill, ProPinModal } from './ValeriaProPin';
 import { registerSession, SessionReward } from './valeriaGamification';
 import { logStimulation } from './valeriaFollowUp';
+import { ValeriaCaregiverVoiceCard } from './ValeriaCaregiverVoiceCard';
+import { playHomeOrFallback, stopCaregiverPlayback } from './valeriaCaregiverVoice';
 import { luaSessionReward, cancelSessionReward } from './valeriaLuaSession';
 import { markBlockCompleted, trackListenStart, trackListenNoMatch } from './valeriaTelemetry';
 import {
@@ -402,6 +404,7 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
       for (const id of speakTimers) clearTimeout(id);
       speakTimers.clear();
       stopSpeaking();
+      stopCaregiverPlayback();
       stopListening();
       releaseListening();
       releaseNoise();
@@ -419,7 +422,7 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
   useEffect(() => {
     const sub = BackHandler.addEventListener('hardwareBackPress', () => {
       if (phase === 'play' || phase === 'done') {
-        stopSpeaking(); stopListening();
+        stopSpeaking(); stopCaregiverPlayback(); stopListening();
         setPhase('pick');
         return true;
       }
@@ -474,7 +477,7 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
       if (autoRecord) laterTimer(() => listenNow(p), 400);
       else setStep('ready');
     });
-    speakToChild(spec.text, cbs);
+    void playHomeOrFallback(p.target, () => speakToChild(spec.text, cbs), cbs);
   };
 
   // --------------------------------------------------------------- escucha --
@@ -913,9 +916,11 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
           promptLabel={livePrompt?.mode === 'slow' ? t.pairs.appSpeaksSlow : t.pairs.appSpeaks}
           question={t.pairs.stepJudge}
           onPick={(side) => { if (step === 'judge') resolveBranch(p, side); }}
-          onRepeat={() => { const s2 = trialPrompt(p, trialIdx, loc); setLivePrompt(s2); speakToChild(s2.text); }}
+          onRepeat={() => { const s2 = trialPrompt(p, trialIdx, loc); setLivePrompt(s2); void playHomeOrFallback(p.target, () => speakToChild(s2.text)); }}
           repeatLabel={t.pairs.repeatPrompt}
         />
+
+        <ValeriaCaregiverVoiceCard word={p.target} />
 
         {/* ===== Estado del ensayo ===== */}
         {step === 'say' && (
@@ -938,7 +943,7 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
               <BlockIcon name="mic" color="#ffffff" size={24} />
               <Text style={s.readyMicBtnTxt}>{t.pairs.readyBtn}</Text>
             </Pressable>
-            <Pressable onPress={() => { const s2 = trialPrompt(p, trialIdx, loc); setLivePrompt(s2); speakToChild(s2.text); }}>
+            <Pressable onPress={() => { const s2 = trialPrompt(p, trialIdx, loc); setLivePrompt(s2); void playHomeOrFallback(p.target, () => speakToChild(s2.text)); }}>
               <Text style={s.linkBtn}>{t.pairs.repeatPrompt}</Text>
             </Pressable>
           </View>

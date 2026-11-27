@@ -173,6 +173,16 @@ const HAY_BACKEND = false;
       ok('D3b · com.google.android.play:age-signals:0.0.6 declarado en documentación y políticas');
     }
   }
+  if (fs.existsSync(path.join(ROOT, 'src', 'valeriaCaregiverVoice.ts'))) {
+    const cgDoc = /Voz de casa|Grabaciones del cuidador/.test(read(DOC));
+    const cgEs = /voz del cuidador/i.test(read('site/privacidad.html'));
+    const cgEn = /Caregiver voice models/i.test(read('site/privacy.html'));
+    if (!cgDoc || !cgEs || !cgEn) {
+      fallo('D3c · src/valeriaCaregiverVoice.ts requiere declaración en docs/play-console-seguridad-datos.md, site/privacidad.html y site/privacy.html.');
+    } else {
+      ok('D3c · grabaciones locales del cuidador declaradas en documentación y políticas');
+    }
+  }
 }
 
 // --- D4 · Salida de red propia --------------------------------------------

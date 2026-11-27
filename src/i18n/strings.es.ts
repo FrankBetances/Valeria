@@ -1244,6 +1244,7 @@ export const ES = {
   // AppNavigator al suscribirse al cambio).
   notifications: {
     channelName: 'Recordatorios de sesión',
+    planProgress: (done: number, planned: number, area: string) => `Esta semana: ${done} de ${planned} sesiones de ${area}`,
     messages: (): Array<{ title: string; body: string }> => [
       { title: '🧸 ¡La osita Valeria te espera!', body: '5 minutitos de juego valen oro. ¿Hacemos una sesión rápida?' },
       { title: '🔥 ¡No pierdas tu racha!', body: 'Una sesión al día mantiene viva la llama. ¡Vamos a jugar!' },
@@ -2259,6 +2260,49 @@ export const ES = {
     mathVerify: 'Entrar',
     mathWrong: 'Comprueba la operación e inténtalo de nuevo.',
     backToNotice: 'Volver',
+  },
+  followUpP6: {
+    sendPlanCode: 'Enviar frecuencia como código (VALERIA-PAUTA2)',
+    planCodeReady: 'Código de frecuencia firmado listo',
+    planImported: 'Frecuencia recomendada importada y verificada.',
+    importHint: 'Pega VALERIA-NOTA2:…, VALERIA-PAUTA2:…, VALERIA-VINCULO1:… o VALERIA-LEIDO2:…',
+    shareReportHtmlBtn: 'Compartir informe de consulta (HTML)',
+    reportTitle: 'Valeria+ · Informe de consulta entre sesiones',
+  },
+  voiceAudit: {
+    entryTitle: 'Auditoría del banco de voz',
+    entrySub: 'Escucha y marca locuciones por idioma y estilo detrás del PIN profesional',
+    kicker: 'auditoría · PIN profesional',
+    title: 'Banco de voz',
+    playBtn: 'Reproducir',
+    markBtn: 'Marcar',
+    unmarkBtn: 'Quitar marca',
+    markedBadge: (n: number) => `${n} marcada${n === 1 ? '' : 's'}`,
+    exportMarksBtn: 'Exportar marcas (.txt)',
+    noMarks: 'Todavía no hay locuciones marcadas.',
+    reasonTitle: 'Motivo de la marca',
+    reasons: {
+      pronunciation: 'Pronunciación',
+      volume: 'Volumen',
+      cut: 'Corte al final',
+      tone: 'Tono o ritmo',
+    },
+  },
+  caregiverVoice: {
+    cardTitle: 'Voz de casa en el modelo',
+    consentLabel: 'Autorizo grabar la voz del cuidador en este aparato',
+    consentSub: 'Las grabaciones se guardan solo aquí, cifradas y se borran al retirar el permiso.',
+    consentWithdrawWarn: 'Si retiras el permiso se eliminan todas las grabaciones guardadas.',
+    sourceLabel: 'Fuente del modelo hablado',
+    sourceApp: 'Voz de la app',
+    sourceHome: 'Voz de casa',
+    recordBtn: 'Grabar modelo',
+    stopBtn: 'Detener grabación',
+    playBtn: 'Oír voz de casa',
+    deleteBtn: 'Borrar grabación',
+    recordedBadge: 'Grabada en este aparato',
+    noMicPerm: 'Hace falta permiso de micrófono para grabar.',
+    recordingNow: 'Grabando muestra local…',
   },
 };
 

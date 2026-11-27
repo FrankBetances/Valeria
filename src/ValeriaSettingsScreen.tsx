@@ -26,6 +26,7 @@ import {
 } from './valeriaNotifications';
 import { ProPinModal } from './ValeriaProPin';
 import { ValeriaProExportModal } from './ValeriaProExport';
+import { ValeriaVoiceAuditModal } from './ValeriaVoiceAuditModal';
 import { VoiceQualityCard } from './ValeriaVoiceUI';
 import { ValeriaUiLangPicker } from './ValeriaUiLangPicker';
 import { ListRow } from './ui/ListRow';
@@ -42,7 +43,9 @@ export const ValeriaSettingsScreen: React.FC = () => {
   const [slots, setSlots] = useState<ReminderSlot[]>(ALL_REMINDER_SLOTS);
   const [toast, setToast] = useState('');
   const [pinOpen, setPinOpen] = useState(false);
+  const [pinTarget, setPinTarget] = useState<'export' | 'audit'>('export');
   const [exportOpen, setExportOpen] = useState(false);
+  const [auditOpen, setAuditOpen] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -162,8 +165,20 @@ export const ValeriaSettingsScreen: React.FC = () => {
           icon="lock"
           title={t.hub.proAccessTitle}
           subtitle={t.hub.proAccessSub}
-          onPress={() => setPinOpen(true)}
+          onPress={() => { setPinTarget('export'); setPinOpen(true); }}
           accessibilityLabel={t.hub.proAccessA11y}
+        />
+
+        {/* ---- Auditoría del banco de voz (detrás del PIN profesional) ---- */}
+        <View style={{ height: V.space.md }} />
+        <ListRow
+          icon="speaker"
+          accent="#00756f"
+          tint="#e6f9f8"
+          title={t.voiceAudit.entryTitle}
+          subtitle={t.voiceAudit.entrySub}
+          onPress={() => { setPinTarget('audit'); setPinOpen(true); }}
+          accessibilityLabel={t.voiceAudit.entryTitle}
         />
       </ScrollView>
 
@@ -171,9 +186,14 @@ export const ValeriaSettingsScreen: React.FC = () => {
         open={pinOpen}
         onClose={() => setPinOpen(false)}
         subtitle={t.hub.proPinSubtitle}
-        onUnlock={() => { setPinOpen(false); setExportOpen(true); }}
+        onUnlock={() => {
+          setPinOpen(false);
+          if (pinTarget === 'audit') setAuditOpen(true);
+          else setExportOpen(true);
+        }}
       />
       <ValeriaProExportModal open={exportOpen} onClose={() => setExportOpen(false)} />
+      <ValeriaVoiceAuditModal open={auditOpen} onClose={() => setAuditOpen(false)} />
     </View>
   );
 };

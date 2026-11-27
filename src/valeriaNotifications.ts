@@ -124,6 +124,18 @@ const saveReminderSlots = async (slots: ReminderSlot[]): Promise<void> => {
   } catch (e) { /* noop */ }
 };
 
+export interface PlanProgressItem {
+  areaLabel: string;
+  done: number;
+  planned: number;
+}
+
+let planProgressProvider: (() => Promise<PlanProgressItem[]>) | null = null;
+
+export const registerPlanProgressProvider = (fn: (() => Promise<PlanProgressItem[]>) | null): void => {
+  planProgressProvider = fn;
+};
+
 // Programa un aviso por franja elegida: mensajes lúdicos en las horas de juego
 // y el consejo para padres del día en TIP_HOUR. El índice por día hace que, al
 // reprogramar en cada arranque, tanto los mensajes como el consejo roten.
@@ -137,15 +149,26 @@ const scheduleDailyContent = async (hours: number[]): Promise<void> => {
   // Cuántos mensajes lúdicos consume un día, para que el desfase diario siga
   // rotando el banco entero aunque el usuario deje activa una sola franja.
   const playful = Math.max(1, hours.filter((h) => h !== TIP_HOUR).length);
+  let pending: PlanProgressItem[] = [];
+  if (planProgressProvider) {
+    try {
+      pending = (await planProgressProvider()).filter((p) => p.planned > 0 && p.done < p.planned);
+    } catch { /* fallback a mensajes estándar */ }
+  }
   let msg = 0;
   for (const hour of hours) {
     const tips = parentTips();
     const msgs = messages();
-    const m = hour === TIP_HOUR
+    const idx = msg;
+    const base = hour === TIP_HOUR
       ? tips[day % tips.length]
       : msgs[(day * playful + msg++) % msgs.length];
+    const planItem = hour !== TIP_HOUR && pending.length > 0 ? pending[idx % pending.length] : null;
+    const body = planItem
+      ? tNow().notifications.planProgress(planItem.done, planItem.planned, planItem.areaLabel)
+      : base.body;
     await Notifications.scheduleNotificationAsync({
-      content: { title: m.title, body: m.body, sound: false },
+      content: { title: base.title, body, sound: false },
       trigger: {
         type: Notifications.SchedulableTriggerInputTypes.DAILY,
         channelId: CHANNEL_ID,

@@ -31,6 +31,8 @@ import { useT, UiStrings } from './i18n';
 import { ProUnlockPill, ProPinModal } from './ValeriaProPin';
 import { registerSession, SessionReward } from './valeriaGamification';
 import { logStimulation } from './valeriaFollowUp';
+import { ValeriaCaregiverVoiceCard } from './ValeriaCaregiverVoiceCard';
+import { playHomeOrFallback, stopCaregiverPlayback } from './valeriaCaregiverVoice';
 import { luaSessionReward, cancelSessionReward } from './valeriaLuaSession';
 import { markBlockCompleted, trackListenStart, trackListenNoMatch } from './valeriaTelemetry';
 import {
@@ -345,6 +347,7 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
       for (const id of speakTimers) clearTimeout(id);
       speakTimers.clear();
       stopSpeaking();
+      stopCaregiverPlayback();
       stopListening();
       releaseListening();
     };
@@ -358,7 +361,7 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
       // Releyendo la antesala en mitad de la sesión, atrás vuelve al paso.
       if (phase === 'setup' && setupRevisit) { leaveSetup(); return true; }
       if (phase === 'setup' || phase === 'play' || phase === 'done') {
-        stopSpeaking(); stopListening();
+        stopSpeaking(); stopCaregiverPlayback(); stopListening();
         setPhase('pick');
         return true;
       }
@@ -422,7 +425,7 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
     setState('say'); setHeard(''); setListening(false); setNotHeard(false);
     const st = sess.steps[idx];
     setLivePrompt({ text: st.tts, mode: 'child' });
-    speakToChild(st.tts, afterSpeak(() => {
+    const cbs = afterSpeak(() => {
       if (!mounted.current) return;
       // ES-07: ordenar la rutina se hace tocando, sin micrófono.
       if (st.mode === 'ordenar') {
@@ -436,7 +439,8 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
       if (!asrSupported()) { setState('judge'); return; }
       if (autoRecord) laterTimer(() => listenNow(sess, idx), 400);
       else setState('ready');
-    }));
+    });
+    void playHomeOrFallback(st.label, () => speakToChild(st.tts, cbs), cbs);
   };
 
   // ES-12 · veredicto de la vuelta de comprensión: acierta a la primera → 3★;
@@ -1082,6 +1086,8 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
           </View>
         )}
 
+        <ValeriaCaregiverVoiceCard word={st.label} />
+
         {state === 'ready' && (
           <View style={s.stateCard}>
             <BlockIcon name="moodGood" color={V.color.primaryDark} size={30} />
@@ -1123,7 +1129,7 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
                 </ReactiveTile>
               ))}
             </View>
-            <Pressable onPress={() => { setLivePrompt({ text: st.tts, mode: 'child' }); speakToChild(st.tts); }}>
+            <Pressable onPress={() => { setLivePrompt({ text: st.tts, mode: 'child' }); void playHomeOrFallback(st.label, () => speakToChild(st.tts)); }}>
               <Text style={s.linkBtn}>{t.semantic.repeatQuestion}</Text>
             </Pressable>
           </View>
@@ -1159,7 +1165,7 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
                 );
               })}
             </View>
-            <Pressable onPress={() => { setLivePrompt({ text: st.tts, mode: 'child' }); speakToChild(st.tts); }}>
+            <Pressable onPress={() => { setLivePrompt({ text: st.tts, mode: 'child' }); void playHomeOrFallback(st.label, () => speakToChild(st.tts)); }}>
               <Text style={s.linkBtn}>{t.semantic.repeatQuestion}</Text>
             </Pressable>
           </View>
