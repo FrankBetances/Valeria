@@ -42,9 +42,13 @@ import {
   PRAISE_BANK_CA, ALMOST_BANK_CA, NO_HEAR_BANK_CA, TOGETHER_BANK_CA,
 } from './valeriaContentCa';
 import { voiceCorpusId, VoiceStyle, VoiceLang } from './valeriaVoiceCorpus';
-import { voiceAsset } from './valeriaVoiceAssets';
+import { voiceAsset, voiceAssetDuration } from './valeriaVoiceAssets';
 import { playVoiceAsset, stopVoiceAsset } from './valeriaVoicePlayback';
-import { getLocale, isSeseo, assetLang, speechLocale, prefersLatinVoice, contentLocale } from './valeriaLocale';
+import {
+  getLocale, Locale, isSeseo, assetLang, speechLocale, prefersLatinVoice, contentLocale,
+  onLocaleChange, localeReady,
+} from './valeriaLocale';
+import { recordVoicePackaged, recordVoiceFallback } from './valeriaVoiceStats';
 import { prosodyFor, splitForSpeech, tightenPauses } from './valeriaSpeechProsody';
 import { trackAsrMode } from './valeriaTelemetry';
 
@@ -60,8 +64,10 @@ declare const __DEV__: boolean;
 // ----------------------------------------------------------------------------
 let bestVoiceId: string | undefined;
 let bestVoice: Speech.Voice | null = null;
+let bestVoiceLocale: Locale | null = null;
 let esVoicesFound = 0;
 let voiceSearch: Promise<void> | null = null;
+let searchEpoch = 0;
 // El catálogo completo, no solo la ganadora: hace falta para poder elegir voz
 // de una lengua distinta a la de la sesión (ver bestVoiceForLang).
 let allVoices: Speech.Voice[] = [];
@@ -173,12 +179,21 @@ const bestVoiceForLang = (bcp47: string): string | undefined => {
 // Aventuras con Lúa: el acento de la sesión sobre las palabras de otra lengua.
 // Si el dispositivo no tiene ninguna voz de la lengua pedida, no se fija
 // ninguna y el motor resuelve por `language`, que es lo que se le pedía.
-const pinVoice = (opts: Speech.SpeechOptions): string | undefined =>
-  opts.voice ?? (opts.language ? bestVoiceForLang(opts.language) : bestVoiceId);
+const activeBestVoiceId = (): string | undefined =>
+  bestVoiceLocale === contentLocale() ? bestVoiceId : undefined;
 
-const findBestVoice = async (attempt = 0): Promise<void> => {
+const pinVoice = (opts: Speech.SpeechOptions): string | undefined =>
+  opts.voice ?? (opts.language ? bestVoiceForLang(opts.language) : activeBestVoiceId());
+
+const findBestVoice = async (attempt = 0, epoch = searchEpoch): Promise<void> => {
   try {
+    if (attempt === 0) {
+      await Promise.race([localeReady, new Promise<void>((r) => setTimeout(r, 300))]);
+      if (epoch !== searchEpoch) return;
+    }
+    const locAtScore = contentLocale();
     const voices = await Speech.getAvailableVoicesAsync();
+    if (epoch !== searchEpoch || contentLocale() !== locAtScore) return;
     if (!voices?.length) {
       // En Android el motor TTS tarda en poblar el catálogo tras el arranque:
       // se reintenta con espera creciente antes de rendirse hasta la próxima
@@ -187,7 +202,8 @@ const findBestVoice = async (attempt = 0): Promise<void> => {
       // fábrica (la voz elegida se aplica frase a frase).
       if (attempt < 4) {
         await new Promise((r) => setTimeout(r, 300 * (attempt + 1)));
-        return findBestVoice(attempt + 1);
+        if (epoch !== searchEpoch) return;
+        return findBestVoice(attempt + 1, epoch);
       }
       voiceSearch = null;
       return;
@@ -200,13 +216,15 @@ const findBestVoice = async (attempt = 0): Promise<void> => {
       if (s >= 0) found += 1;
       if (s > bestScore) { best = v; bestScore = s; }
     }
+    if (epoch !== searchEpoch || contentLocale() !== locAtScore) return;
     esVoicesFound = found;
     bestVoice = best ?? null;
     bestVoiceId = best?.identifier;
+    bestVoiceLocale = locAtScore;
     allVoices = voices;
     voiceByLang.clear(); // catálogo nuevo (p. ej. tras instalar voces): se recalcula
   } catch (e) {
-    voiceSearch = null; // sin catálogo de voces: seguir con la voz por defecto
+    if (epoch === searchEpoch) voiceSearch = null; // sin catálogo de voces: seguir con la voz por defecto
   }
 };
 
@@ -226,7 +244,9 @@ export interface VoiceStatus {
 }
 
 export const getVoiceStatus = (): VoiceStatus => {
-  if (!bestVoice) return { tier: 'desconocida', name: '', language: '', voicesFound: esVoicesFound };
+  if (!bestVoice || bestVoiceLocale !== contentLocale()) {
+    return { tier: 'desconocida', name: '', language: '', voicesFound: 0 };
+  }
   const id = `${bestVoice.identifier ?? ''} ${bestVoice.name ?? ''}`.toLowerCase();
   const tier: VoiceTier = LEGACY_RE.test(id)
     ? 'basica'
@@ -244,24 +264,28 @@ export const getVoiceStatus = (): VoiceStatus => {
 // Re-escanea el catálogo de voces (p. ej. al volver de instalar las voces de
 // Google desde la tarjeta "Voz de la app") y devuelve el nuevo estado.
 export const refreshVoiceCatalog = async (): Promise<VoiceStatus> => {
-  voiceSearch = findBestVoice();
+  searchEpoch += 1;
+  voiceSearch = findBestVoice(0, searchEpoch);
   await voiceSearch;
   return getVoiceStatus();
 };
 
 const ensureBestVoice = () => {
-  if (!voiceSearch) voiceSearch = findBestVoice();
+  if (!voiceSearch) voiceSearch = findBestVoice(0, searchEpoch);
 };
+onLocaleChange(() => {
+  searchEpoch += 1;
+  bestVoice = null;
+  bestVoiceId = undefined;
+  bestVoiceLocale = null;
+  esVoicesFound = 0;
+  voiceByLang.clear();
+  voiceSearch = findBestVoice(0, searchEpoch);
+});
 ensureBestVoice(); // calentamiento al importar el módulo
 
 // ----------------------------------------------------------------------------
-// Síntesis de voz (TTS) con prosodia natural
-// Una locución larga leída de un tirón con tono plano es lo que suena "a
-// máquina". Aquí cada texto se trocea por frases y cada frase se locuta con:
-//   · una pausa corta de "respiración" entre frases,
-//   · tono algo más alto en exclamaciones y preguntas (entonación real),
-//   · una micro-variación determinista de tono para que dos frases seguidas
-//     nunca suenen idénticas.
+// Síntesis de voz (TTS) con prosodia estable
 // onDone/onError del llamante se disparan una sola vez al acabar la cadena.
 // ----------------------------------------------------------------------------
 let speakToken = 0; // invalida cadenas de frases pendientes al preemptar
@@ -276,7 +300,9 @@ const clamp = (n: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, n
 // voz vasca si existe y, si no, con la española (acento castellano) audible.
 const ttsLang = (): string => {
   const loc = getLocale();
-  if ((loc === 'eu' || loc === 'gl' || loc === 'ca') && bestVoice?.language) return bestVoice.language;
+  if ((loc === 'eu' || loc === 'gl' || loc === 'ca') && bestVoice && bestVoiceLocale === contentLocale(loc) && bestVoice.language) {
+    return bestVoice.language;
+  }
   return speechLocale();
 };
 
@@ -309,14 +335,10 @@ export const sanitizePhonetics = (text: string): string =>
     // Principio de palabra: «Rrrana» → «Rana» (conserva la caja del original).
     .replace(new RegExp(`(^|[^${LETTER}])(r)r+(?=[${LETTER_NOT_R}])`, 'gi'), '$1$2');
 
-const speakChain = (text: string, opts: Speech.SpeechOptions, token: number, rateCeil = 1.3) => {
+const speakChain = (
+  text: string, opts: Speech.SpeechOptions, token: number, rateCeil = 1.3, rateFloor = 0.4,
+) => {
   const { onDone, onError, ...rest } = opts;
-  // Perfil de prosodia de la variedad activa: decide si este enunciado se trocea
-  // por frases o va de una tirada, y cuánto silencio se añade entre trozos. En
-  // es-DO (voz del sistema) el troceo era la causa de las pausas anchas que
-  // rompían el ritmo — ver valeriaSpeechProsody.
-  // contentLocale y no getLocale: mientras el banco inglés no exista, `en-US`
-  // locuta castellano, y el troceo/pausas tienen que ser los del castellano.
   const prosody = prosodyFor(contentLocale());
   const cleanInput = sanitizePhonetics(text);
   const sentences = splitForSpeech(cleanInput, prosody);
@@ -330,22 +352,15 @@ const speakChain = (text: string, opts: Speech.SpeechOptions, token: number, rat
     if (token !== speakToken) return; // otra locución tomó el relevo
     if (i >= sentences.length) { onDone?.(); return; }
     const sentence = sentences[i];
-    const excited = /[!¡]/.test(sentence);
-    const asking = /[?¿]/.test(sentence);
-    const jitter = (((i * 7) % 5) - 2) * 0.012; // micro-variación determinista
     Speech.speak(sentence, {
       language: ttsLang(),
       ...rest,
-      rate: clamp(baseRate + (excited ? 0.03 : 0) + jitter * 0.5, 0.4, rateCeil),
-      pitch: clamp(basePitch + (excited ? 0.06 : asking ? 0.05 : 0) + jitter, 0.7, 1.45),
+      rate: clamp(baseRate, rateFloor, rateCeil),
+      pitch: clamp(basePitch, 0.7, 1.05),
       ...(pinnedVoice ? { voice: pinnedVoice } : {}),
       onDone: () => {
         if (token !== speakToken) return;
         if (i + 1 >= sentences.length) { onDone?.(); return; }
-        // Respiración corta entre frases: los testers notaban demasiado delay
-        // en los apoyos de voz, así que la pausa se mantiene mínima. El motor
-        // ya añade la suya al arrancar cada locución, y esa parte no se puede
-        // recortar: por eso en es-DO el perfil casi no encadena.
         setTimeout(() => sayFrom(i + 1), prosody.gapMs);
       },
       onError: (e) => { if (token === speakToken) onError?.(e); },
@@ -362,49 +377,66 @@ const speakChain = (text: string, opts: Speech.SpeechOptions, token: number, rat
 // texto, error del módulo nativo), se cae al motor del sistema: la calidad
 // degrada, la sesión jamás se rompe.
 // ----------------------------------------------------------------------------
+interface PreloadTarget {
+  style: VoiceStyle;
+  text: string;
+  forceLang?: VoiceLang;
+}
+
 const trySpokenAsset = (
-  style: VoiceStyle, text: string, opts: Speech.SpeechOptions, forceLang?: VoiceLang,
+  style: VoiceStyle,
+  text: string,
+  opts: Speech.SpeechOptions,
+  forceLang?: VoiceLang,
+  preloadNext?: PreloadTarget,
 ): boolean => {
-  // Solo las variedades con banco pregenerado (es→Sharvard, gl→Celtia) buscan
-  // asset; el dominicano (es-DO) usa la voz del sistema, así que assetLang() es
-  // null y siempre cae a expo-speech con el locale latino.
-  //
-  // `forceLang` es la excepción: la pide quien locuta un texto que NO es de la
-  // lengua de la sesión (Aventuras con Lúa, castellano en las cinco variedades)
-  // y sabe en qué idioma del corpus está horneado. Sin esto el asset se buscaba
-  // con el idioma de la sesión, no resolvía nunca y las 553 locuciones del
-  // módulo caían a la voz del sistema aun teniendo su audio de Sharvard.
-  const al = forceLang ?? assetLang();
-  if (al == null) return false;
-  // Solo el asset de la PROPIA variedad. Antes, si en galego no había asset se
-  // reproducía el castellano con el mismo texto: como Expansión Semántica y
-  // Audición y Lenguaje compartían banco con el castellano, media sesión en
-  // galego sonaba con Sharvard (castellano) y la otra media con Celtia, y las
-  // palabras que existen igual en las dos lenguas («gato», «sol», «pan») daban
-  // un salto de voz en mitad del ejercicio. Ahora el galego tiene banco propio
-  // en TODAS las pantallas y su corpus completo (gate de cobertura en CI), así
-  // que ese respaldo ya no protege de nada y sí rompía la continuidad de voz.
-  const source = voiceAsset(voiceCorpusId(style, text, al));
-  if (source == null) return false;
+  const loc = getLocale();
+  const al = forceLang ?? assetLang(loc);
+  if (al == null) {
+    recordVoiceFallback(loc, 'noBank');
+    return false;
+  }
+  const id = voiceCorpusId(style, text, al);
+  const source = voiceAsset(id);
+  if (source == null) {
+    recordVoiceFallback(loc, 'noAsset');
+    return false;
+  }
+  const durationSec = typeof voiceAssetDuration === 'function' ? voiceAssetDuration(id) : undefined;
+  let nextSource: number | undefined;
+  if (preloadNext) {
+    const nextAl = preloadNext.forceLang ?? assetLang(loc);
+    if (nextAl != null) {
+      nextSource = voiceAsset(voiceCorpusId(preloadNext.style, preloadNext.text, nextAl));
+    }
+  }
   const token = ++speakToken; // preempta cadenas de expo-speech pendientes
   Speech.stop();
-  return playVoiceAsset(source, {
+  const ok = playVoiceAsset(source, {
+    durationSec,
+    nextSource,
     onDone: () => { if (token === speakToken) opts.onDone?.(); },
     // El rescate de las pantallas (afterSpeak) también cubre este camino.
-    onError: () => { if (token === speakToken) (opts.onError as ((e: unknown) => void) | undefined)?.(new Error('voice asset playback failed')); },
+    onError: () => {
+      recordVoiceFallback(loc, 'playbackError');
+      if (token === speakToken) (opts.onError as ((e: unknown) => void) | undefined)?.(new Error('voice asset playback failed'));
+    },
   });
+  if (ok) recordVoicePackaged(loc);
+  else recordVoiceFallback(loc, 'playbackError');
+  return ok;
 };
 
-const speakEngine = (text: string, opts: Speech.SpeechOptions = {}, rateCeil = 1.3) => {
+const speakEngine = (
+  text: string, opts: Speech.SpeechOptions = {}, rateCeil = 1.3, rateFloor = 0.4,
+) => {
   ensureBestVoice();
   const token = ++speakToken;
   Speech.stop();
   stopVoiceAsset();
-  const go = () => { if (token === speakToken) speakChain(text, opts, token, rateCeil); };
-  if (bestVoiceId === undefined && voiceSearch) {
-    // Primera locución: espera brevemente al catálogo de voces para no
-    // arrancar con la voz de fábrica; con tope corto para que el apoyo de
-    // voz no llegue tarde (feedback de testers: el delay confunde).
+  const go = () => { if (token === speakToken) speakChain(text, opts, token, rateCeil, rateFloor); };
+  if (activeBestVoiceId() === undefined && voiceSearch) {
+    // Primera locución o tras cambio de variedad: espera brevemente al catálogo.
     Promise.race([voiceSearch, new Promise((r) => setTimeout(r, 300))]).then(go, go);
   } else {
     go();
@@ -416,64 +448,53 @@ export const speak = (text: string, opts: Speech.SpeechOptions = {}) => {
   speakEngine(text, opts);
 };
 
-// Umbral de palabras a partir del cual un enunciado se considera "largo"
-// (frase de contexto + petición, como en Expansión Semántica): por encima de
-// esto se le aplica el mismo techo de velocidad conservador que speakClinical
-// (rate ≤ 0.9), porque el jitter/las exclamaciones de speakChain podían acelerar
-// una locución de varias oraciones hasta sonar atropellada.
+// Umbral de palabras a partir del cual un enunciado se considera "largo".
 const LONG_UTTERANCE_WORDS = 12;
 
-// Voz "cuentacuentos" para dirigirse al niño: algo más aguda y pausada.
-export const speakToChild = (text: string, opts: Speech.SpeechOptions = {}) => {
-  if (trySpokenAsset('child', text, opts)) return;
+const speakToChildInternal = (
+  text: string, opts: Speech.SpeechOptions = {}, preloadNext?: PreloadTarget,
+) => {
+  if (trySpokenAsset('child', text, opts, undefined, preloadNext)) return;
   const isLong = text.trim().split(/\s+/).length > LONG_UTTERANCE_WORDS;
-  speakEngine(text, { pitch: 1.15, rate: 0.85, ...opts }, isLong ? 0.9 : 1.3);
+  speakEngine(text, { pitch: 1.05, rate: isLong ? 0.85 : 0.92, ...opts }, 0.95, 0.85);
+};
+
+// Voz "cuentacuentos" para dirigirse al niño: cálida y pausada, tope de tono 1.05.
+export const speakToChild = (text: string, opts: Speech.SpeechOptions = {}) => {
+  speakToChildInternal(text, opts);
 };
 
 // Locuta VARIAS piezas en secuencia, cada una resuelta por separado como asset
-// neuronal. Motivo: frases como «palabra» + un refuerzo ALEATORIO no se pueden
-// pre-hornear como una sola cadena (la combinación no existe en el corpus), así
-// que se troceaban a la voz del sistema — el "salto" de voz que rompe la
-// dinámica. Al reproducirlas encadenadas, cada trozo (la palabra, el elogio…)
-// resuelve su propio asset y toda la secuencia suena con la voz neuronal.
+// neuronal y precargando la siguiente pieza para evitar huecos entre trozos.
 export const speakToChildSeq = (parts: string[], opts: Speech.SpeechOptions = {}) => {
   const items = parts.map((p) => p.trim()).filter(Boolean);
   if (!items.length) { opts.onDone?.(); return; }
   const sayFrom = (i: number) => {
     if (i >= items.length) { opts.onDone?.(); return; }
-    speakToChild(items[i], {
+    const next = i + 1 < items.length ? { style: 'child' as const, text: items[i + 1] } : undefined;
+    speakToChildInternal(items[i], {
       onDone: () => sayFrom(i + 1),
       onError: (e) => { if (i + 1 >= items.length) opts.onError?.(e); else sayFrom(i + 1); },
-    });
+    }, next);
   };
   sayFrom(0);
 };
 
 // ----------------------------------------------------------------------------
 // Locución de un texto que NO es de la lengua de la sesión.
-//
-// Existe por Aventuras con Lúa: sus catálogos —60 consignas, 10 cuentos, 10
-// canciones, 25 juegos— solo están en castellano, así que en una sesión en
-// galego, euskera, català o inglés hay que leer texto castellano. Eso ya se
-// intentaba pidiendo `{ language: 'es-ES' }`, y no servía por dos motivos
-// independientes, los dos arreglados aquí:
-//
-//   · el asset neuronal se buscaba con `assetLang()` (el idioma de la sesión) y
-//     las locuciones del módulo solo están en el corpus `es`: no resolvía
-//     ninguna, y las 553 caían a expo-speech teniendo su audio horneado;
-//   · y ahí `speakChain` seguía fijando la voz de la variedad activa, que en
-//     Android gana a `language`. Resultado: la voz de la sesión leyendo las
-//     palabras de otra lengua. El acento se mantenía; el idioma, no.
-//
-// `lang` es el idioma del CORPUS donde está horneado el texto; `ttsLocale`, el
-// BCP-47 con el que hay que leerlo si no hay asset.
 // ----------------------------------------------------------------------------
+const speakToChildInInternal = (
+  lang: VoiceLang, ttsLocale: string, text: string, opts: Speech.SpeechOptions = {}, preloadNext?: PreloadTarget,
+) => {
+  if (trySpokenAsset('child', text, opts, lang, preloadNext)) return;
+  const isLong = text.trim().split(/\s+/).length > LONG_UTTERANCE_WORDS;
+  speakEngine(text, { pitch: 1.05, rate: isLong ? 0.85 : 0.92, language: ttsLocale, ...opts }, 0.95, 0.85);
+};
+
 export const speakToChildIn = (
   lang: VoiceLang, ttsLocale: string, text: string, opts: Speech.SpeechOptions = {},
 ) => {
-  if (trySpokenAsset('child', text, opts, lang)) return;
-  const isLong = text.trim().split(/\s+/).length > LONG_UTTERANCE_WORDS;
-  speakEngine(text, { pitch: 1.15, rate: 0.85, language: ttsLocale, ...opts }, isLong ? 0.9 : 1.3);
+  speakToChildInInternal(lang, ttsLocale, text, opts);
 };
 
 /** speakToChildSeq en lengua ajena: cada trozo resuelve su propio asset. */
@@ -484,10 +505,13 @@ export const speakToChildSeqIn = (
   if (!items.length) { opts.onDone?.(); return; }
   const sayFrom = (i: number) => {
     if (i >= items.length) { opts.onDone?.(); return; }
-    speakToChildIn(lang, ttsLocale, items[i], {
+    const next = i + 1 < items.length
+      ? { style: 'child' as const, text: items[i + 1], forceLang: lang }
+      : undefined;
+    speakToChildInInternal(lang, ttsLocale, items[i], {
       onDone: () => sayFrom(i + 1),
       onError: (e) => { if (i + 1 >= items.length) opts.onError?.(e); else sayFrom(i + 1); },
-    });
+    }, next);
   };
   sayFrom(0);
 };
@@ -521,22 +545,14 @@ export const speakClinical = (text: string, opts: Speech.SpeechOptions = {}) => 
       onError: (e) => { if (token === speakToken) onError?.(e); },
     });
   };
-  if (bestVoiceId === undefined && voiceSearch) {
+  if (activeBestVoiceId() === undefined && voiceSearch) {
     Promise.race([voiceSearch, new Promise((r) => setTimeout(r, 300))]).then(go, go);
   } else {
     go();
   }
 };
 
-// Frase de prueba para que la familia escuche la voz elegida. En galego usa
-// la muestra propia, que resuelve el asset neuronal de Celtia (id gl_*).
-//
-// El inglés pasa por el mismo camino que las demás variedades desde que existe
-// su banco clínico (EN_THERAPY_CONTENT_READY) y desde que scoreVoice puntúa
-// voces inglesas para `en-US`. Antes tenía un atajo propio —resolvía el asset
-// de Piper a mano y llamaba a Speech.speak sin `voice`, porque la mejor voz
-// cacheada era española y habría leído el inglés como castellano—; las dos
-// razones han desaparecido y el atajo con ellas.
+// Frase de prueba para que la familia escuche la voz elegida.
 export const speakVoiceSample = () => {
   const l = getLocale();
   speakToChild(l === 'gl' ? VOICE_SAMPLE_PHRASE_GL
@@ -546,49 +562,42 @@ export const speakVoiceSample = () => {
           : VOICE_SAMPLE_PHRASE);
 };
 
-// Palabra objetivo bien articulada, muy despacio (modelado fonético).
-//
-// El asset neuronal se busca con el texto TAL CUAL: el id del corpus se calcula
-// sobre el original, así que sanear antes de mirar el mapa lo dejaría sin
-// asset. La grafía la normaliza speakChain, que es el único camino que acaba
-// en el motor del sistema.
-export const speakWordSlow = (text: string, opts: Speech.SpeechOptions = {}) => {
+// Palabra objetivo bien articulada (modelado fonético).
+const speakWordSlowInternal = (
+  text: string, opts: Speech.SpeechOptions = {}, preloadNext?: PreloadTarget,
+) => {
   const t = text.toLowerCase();
-  if (trySpokenAsset('slow', t, opts)) return;
-  speakEngine(t, { pitch: 1.1, rate: 0.6, ...opts });
+  if (trySpokenAsset('slow', t, opts, undefined, preloadNext)) return;
+  speakEngine(t, { pitch: 1.05, rate: 0.85, ...opts }, 0.95, 0.85);
+};
+
+export const speakWordSlow = (text: string, opts: Speech.SpeechOptions = {}) => {
+  speakWordSlowInternal(text, opts);
 };
 
 // Varias palabras MODELO encadenadas, cada una resuelta por separado (mismo
 // motivo que speakToChildSeq, pero en estilo 'slow').
-//
-// Lo pide la cuadrícula sintáctica MS-4: la frase que compone el niño es una
-// combinación de las tres columnas —27 con 3×3×3—, así que no existe ni puede
-// existir como locución única en el corpus. Encadenando las piezas, cada una
-// resuelve SU asset y la frase entera suena con la voz neuronal en vez de caer
-// al motor del sistema por no encontrar la combinación.
 export const speakWordSlowSeq = (parts: string[], opts: Speech.SpeechOptions = {}) => {
   const items = parts.map((p) => p.trim()).filter(Boolean);
   if (!items.length) { opts.onDone?.(); return; }
   const sayFrom = (i: number) => {
     if (i >= items.length) { opts.onDone?.(); return; }
-    speakWordSlow(items[i], {
+    const next = i + 1 < items.length
+      ? { style: 'slow' as const, text: items[i + 1].toLowerCase() }
+      : undefined;
+    speakWordSlowInternal(items[i], {
       onDone: () => sayFrom(i + 1),
       onError: (e) => { if (i + 1 >= items.length) opts.onError?.(e); else sayFrom(i + 1); },
-    });
+    }, next);
   };
   sayFrom(0);
 };
 
-// Modelo LENTO DE FRASE completa (ES-05): mismo estilo 'slow' que speakWordSlow
-// (mismo length_scale en la síntesis pregenerada), pero sin minuscular ni
-// aislar una sola palabra — repite el enunciado completo tal cual lo dijo el
-// modelo normal, solo que más despacio. En Pares Mínimos el modelo objetivo SÍ
-// es la palabra aislada (speakWordSlow es lo correcto ahí); esta función es
-// solo para pantallas donde lo lento debe ser la frase entera, no un recorte.
-export const speakPhraseSlow = (text: string) => {
+// Modelo LENTO DE FRASE completa (ES-05): mismo estilo 'slow' que speakWordSlow.
+export const speakPhraseSlow = (text: string, opts: Speech.SpeechOptions = {}) => {
   const t = text.replace(/\s+/g, ' ').trim();
-  if (trySpokenAsset('slow', t, {})) return;
-  speakEngine(t, { pitch: 1.05, rate: 0.65 });
+  if (trySpokenAsset('slow', t, opts)) return;
+  speakEngine(t, { pitch: 1.05, rate: 0.65, ...opts });
 };
 
 export const stopSpeaking = () => { speakToken += 1; Speech.stop(); stopVoiceAsset(); };

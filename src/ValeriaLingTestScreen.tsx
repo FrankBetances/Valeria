@@ -20,8 +20,8 @@ import { ScreenHeader } from './ui/ScreenHeader';
 import { ReactiveTile } from './ui/ReactiveTile';
 import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, Pressable, ScrollView, StyleSheet, Animated, Easing, StatusBar } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { V, STORAGE_KEYS } from './valeriaTheme';
+import { V } from './valeriaTheme';
+import { readActivePatient, appendLingHistory } from './valeriaPatients';
 import { BlockIcon, BlockIconName } from './ValeriaBlockIcons';
 import { getLocale } from './valeriaLocale';
 import { getUiLang } from './valeriaUiLang';
@@ -58,14 +58,17 @@ export const ValeriaLingTestScreen: React.FC<{ navigation: any; route?: any }> =
   const [results, setResults] = useState<number[]>([]);
   const [picked, setPicked] = useState<number | null>(null);
   const lockRef = useRef(false);
+  const pickTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  useEffect(() => () => {
+    if (pickTimer.current) clearTimeout(pickTimer.current);
+  }, []);
 
   // Nombre del paciente ACTIVO (ficha de STORAGE_KEYS.registro) para la cabecera.
   const [patientName, setPatientName] = useState(t.patientSelect.patientFallback);
   useEffect(() => {
     (async () => {
       try {
-        const raw = await AsyncStorage.getItem(STORAGE_KEYS.registro);
-        const p = raw ? JSON.parse(raw) : null;
+        const p = await readActivePatient();
         if (p && typeof p.nombre === 'string' && p.nombre.trim()) setPatientName(p.nombre.trim());
       } catch (e) { /* ficha no disponible: queda el rótulo genérico */ }
     })();
@@ -90,7 +93,9 @@ export const ValeriaLingTestScreen: React.FC<{ navigation: any; route?: any }> =
     if (lockRef.current) return;
     lockRef.current = true;
     setPicked(level);
-    setTimeout(() => {
+    if (pickTimer.current) clearTimeout(pickTimer.current);
+    pickTimer.current = setTimeout(() => {
+      pickTimer.current = null;
       const next = [...results, level];
       if (idx + 1 >= SOUNDS.length) finish(next);
       else { setResults(next); setIdx(idx + 1); setPicked(null); lockRef.current = false; }
@@ -99,17 +104,13 @@ export const ValeriaLingTestScreen: React.FC<{ navigation: any; route?: any }> =
 
   const finish = async (final: number[]) => {
     try {
-      const raw = await AsyncStorage.getItem(STORAGE_KEYS.ling);
-      const hist = raw ? JSON.parse(raw) : [];
-      const arr = Array.isArray(hist) ? hist : [];
       const d = new Date();
-      arr.push({
+      await appendLingHistory({
         date: `${d.getDate()} ${MONTHS[d.getMonth()]}`,
         identificados: final.filter((r) => r === 2).length,
         detectados: final.filter((r) => r >= 1).length,
         results: final,
       });
-      await AsyncStorage.setItem(STORAGE_KEYS.ling, JSON.stringify(arr));
     } catch (e) { /* noop */ }
     setResults(final); setPhase('done');
   };

@@ -87,6 +87,7 @@ Module._load = function (request, parent, isMain) {
   // pintan nada aquí. valeriaVoice solo le pide `trackAsrMode`, que no toca la
   // locución: se sustituye entero y la cadena se queda en lo que se prueba.
   if (/valeriaTelemetry$/.test(request)) return { trackAsrMode: () => {} };
+  if (/valeriaVoiceStats$/.test(request)) return { recordVoicePackaged: () => {}, recordVoiceFallback: () => {} };
   if (request.endsWith('.m4a')) {
     const n = ++assetSeq;
     assetIds.set(n, path.basename(request, '.m4a'));

@@ -109,17 +109,17 @@ for (const file of walk(path.join(ROOT, 'src'))) {
   const src = fs.readFileSync(file, 'utf8');
   const rel = path.relative(ROOT, file);
 
-  if (/shouldPlayInBackground\s*:\s*true/.test(src) || /staysActiveInBackground\s*:\s*true/.test(src)) {
+  if (/shouldPlayInBackground\s*:\s*true/.test(src) || /staysActiveInBackground\s*:\s*true/.test(src) || /allowsBackgroundRecording\s*:\s*true/.test(src)) {
     fail.push(
-      `${rel} pide audio en segundo plano. Eso SÍ necesita ` +
-      'FOREGROUND_SERVICE_MEDIA_PLAYBACK: hay que quitar el plugin y justificar el permiso en ' +
+      `${rel} pide audio o grabación en segundo plano. Eso SÍ necesita ` +
+      'FOREGROUND_SERVICE: hay que quitar el plugin y justificar el permiso en ' +
       'Play Console antes de mergear esto.',
     );
   }
-  if (RECORDING_API.test(src)) {
+  if (RECORDING_API.test(src) && !/allowsBackgroundRecording\s*:\s*false/.test(src)) {
     fail.push(
-      `${rel} usa el grabador de expo-audio. El micrófono lo lleva expo-speech-recognition; ` +
-      'el grabador arrancaría AudioRecordingService, que este plugin retira.',
+      `${rel} usa el grabador de expo-audio sin fijar allowsBackgroundRecording: false ` +
+      '(requerido para no arrancar AudioRecordingService).',
     );
   }
 }

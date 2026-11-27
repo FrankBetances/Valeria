@@ -82,21 +82,44 @@ const LEGACY_KEY = '@valeria_voice_lang'; // clave anterior (solo es|gl)
 
 let active: Locale = 'es';
 
+type LocaleListener = (loc: Locale) => void;
+const localeListeners = new Set<LocaleListener>();
+
+export function onLocaleChange(cb: LocaleListener): () => void {
+  localeListeners.add(cb);
+  return () => { localeListeners.delete(cb); };
+}
+
+let resolveReady!: () => void;
+export const localeReady: Promise<void> = new Promise<void>((res) => { resolveReady = res; });
+
 // Rehidratación perezosa al importar (fire-and-forget): si el disco tarda, las
 // primeras locuciones salen en 'es' (defecto seguro). Migra la clave anterior.
 void (async () => {
   try {
     const v = (await AsyncStorage.getItem(KEY)) ?? (await AsyncStorage.getItem(LEGACY_KEY));
-    if (isLocale(v)) active = v;
+    if (isLocale(v) && v !== active) {
+      active = v;
+      for (const cb of [...localeListeners]) {
+        try { cb(v); } catch (e) { /* noop */ }
+      }
+    }
     const d = await AsyncStorage.getItem(KEY_GL_DIALECT);
     if (d === 'seseo' || d === 'distincion') glDialect = d;
   } catch (e) { /* almacenamiento no disponible: queda 'es' */ }
+  finally { resolveReady(); }
 })();
 
 export const getLocale = (): Locale => active;
 
 export async function setLocale(loc: Locale): Promise<void> {
+  const prev = active;
   active = loc;
+  if (loc !== prev) {
+    for (const cb of [...localeListeners]) {
+      try { cb(loc); } catch (e) { /* noop */ }
+    }
+  }
   try { await AsyncStorage.setItem(KEY, loc); } catch (e) { /* noop */ }
 }
 
@@ -151,15 +174,15 @@ export function contentLocale(loc: Locale = active): Locale {
 }
 
 // Banco de voz PRE-GENERADA de la variedad, o null si usa la voz del sistema.
-// (es-DO no pregenera: suena con la voz latina del dispositivo.)
 export function assetLang(loc: Locale = active): VoiceLang | null {
   const c = contentLocale(loc);
   return c === 'gl' ? 'gl'
     : c === 'eu' ? 'eu'
       : c === 'en-US' ? 'en'
         : c === 'ca' ? 'ca'
-          : c === 'es' ? 'es'
-            : null;
+          : c === 'es-DO' ? 'es-DO'
+            : c === 'es' ? 'es'
+              : null;
 }
 
 // Locale BCP-47 para el ASR (expo-speech-recognition) y la voz del sistema (TTS).

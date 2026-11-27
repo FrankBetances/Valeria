@@ -27,6 +27,7 @@
 import { useEffect } from 'react';
 import { registerSession } from '../valeriaGamification';
 import { luaSessionReward, cancelSessionReward } from '../valeriaLuaSession';
+import { logStimulation } from '../valeriaFollowUp';
 import type { SessionReward } from '../valeriaGamification';
 
 /**
@@ -40,6 +41,7 @@ import type { SessionReward } from '../valeriaGamification';
 export async function luaCompleteActivity(items: number): Promise<SessionReward | null> {
   try {
     const premio = await registerSession(2, Math.max(1, items));
+    void logStimulation('aventuras');
     luaSessionReward(premio); // el mismo premio, en el cristal
     return premio;
   } catch (e) {

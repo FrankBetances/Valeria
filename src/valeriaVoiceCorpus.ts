@@ -28,7 +28,13 @@ import {
 import {
   enumerateExerciseSpeech, enumerateExerciseSpeechFor,
   dbForLocale, variantsForLocale, pluralOneLabelFor, pluralManyLabelFor,
+  EMO, SESSION_DONE_LEAD, PLURAL_HINT, TOUCH_IMAGE_HINT, MIC_VERDICT_SAY, emotionPromptFor, VoiceLine,
 } from './valeriaExerciseBank';
+import { MINIMAL_PAIRS_ESDO } from './valeriaMinimalPairsEsDO';
+import {
+  DAILY_SCENARIOS_ESDO, LEXICAL_CATEGORIES_ESDO, PROGRESSION_SEQUENCES_ESDO,
+  CONTRAST_CAPSULES_ESDO, SEM_ORDER_ESDO,
+} from './valeriaSemanticExpansionEsDO';
 import { EXERCISE_FIXED_LINES_EU } from './valeriaExerciseEu';
 import { EXERCISE_FIXED_LINES_GL } from './valeriaExerciseGl';
 import {
@@ -94,7 +100,7 @@ export type VoiceStyle = 'tutor' | 'child' | 'clinical' | 'slow';
 // Idiomas del corpus (planes Nós y ILENIA/NEL-GAITU): un MISMO texto puede
 // existir en varias lenguas ("boca", "casa") con audios distintos → el idioma
 // forma parte del id. es conserva su forma histórica; el resto lleva prefijo.
-export type VoiceLang = 'es' | 'gl' | 'eu' | 'en' | 'ca';
+export type VoiceLang = 'es' | 'gl' | 'eu' | 'en' | 'ca' | 'es-DO';
 
 export interface VoiceCorpusEntry {
   id: string;         // clave del mapa y nombre de asset (incluye idioma si ≠ es)
@@ -466,6 +472,66 @@ export function buildVoiceCorpus(): VoiceCorpusEntry[] {
   // niño de esa variedad tiene que oír. Se recorre el banco en vez de listar las
   // letras, para que una letra nueva entre en el corpus sin acordarse de nada.
   // Los lazos no entran: un lazo no tiene letra y su botón ya no se ofrece.
+  // ===================== ESPAÑOL DOMINICANO (es-DO) =====================
+  // Bancos dominicanos (Quisqueya Habla · guía QH-0.2): pares mínimos,
+  // expansión semántica y ejercicios con overrides es-DO.
+  const addDo = mkAdd('es-DO');
+
+  for (const p of MINIMAL_PAIRS_ESDO) {
+    addDo('child', `Esta es ${p.target}. Y esta es ${p.foil}. ${p.prompt}`, 'pares/intro');
+    addDo('child', p.prompt, 'pares/prompt');
+    addDo('child', p.onTarget.say, 'pares/celebracion');
+    addDo('child', p.onFoil.say, 'pares/correccion');
+    addDo('child', `¡Otra vez! Di: ${p.target}.`, 'pares/retry');
+    addDo('slow', p.target.toLowerCase(), 'pares/modelado');
+    addDo('child', roleswapParentSaid(p.target), 'pares/roleswap');
+    addDo('child', roleswapParentSaid(p.foil), 'pares/roleswap');
+  }
+  addDo('child', '¡Sesión de pares completada! ¡Choca esos cinco con papá!', 'pares/fin');
+  addDo('child', ROLESWAP_INTRO, 'pares/roleswap');
+  addDo('child', ROLESWAP_NOT_HEARD, 'pares/roleswap');
+  addDo('child', ROLESWAP_HIT, 'pares/roleswap');
+  addDo('child', ROLESWAP_MISS_OTHER, 'pares/roleswap');
+
+  for (const c of TPR_CAPSULES) for (const cmd of c.commands) addDo('child', cmd.text, 'tpr');
+  addDo('child', SESSION_CONTINUE_PHRASE, 'tpr/fin');
+  for (const r of ROUTINE_ROUTES) for (const cmd of r.commands) addDo('clinical', cmd.text, 'rutas');
+  addDo('clinical', ROUTE_DONE_PHRASE, 'rutas/fin');
+
+  for (const t of PRAISE_BANK) addDo('child', t, 'banco/elogio');
+  for (const t of ALMOST_BANK) addDo('child', t, 'banco/casi');
+  for (const t of NO_HEAR_BANK) addDo('child', t, 'banco/no-oido');
+  for (const t of TOGETHER_BANK) addDo('child', t, 'banco/juntos');
+  addDo('child', VOICE_SAMPLE_PHRASE, 'util/muestra');
+
+  for (const l of enumerateSemanticSpeechFor({
+    scenarios: DAILY_SCENARIOS_ESDO,
+    categories: LEXICAL_CATEGORIES_ESDO,
+    sequences: PROGRESSION_SEQUENCES_ESDO,
+    capsules: CONTRAST_CAPSULES_ESDO,
+    retry: (label: string) => `¡Otra vez! Di: ${label}.`,
+    sessionDone: '¡Sesión completada! ¡Choca esos cinco!',
+    order: SEM_ORDER_ESDO,
+  })) addDo(l.style, l.text, 'expansion');
+
+  const fixedEsDo: VoiceLine[] = [
+    ...MIC_VERDICT_SAY.map((t): VoiceLine => ({ style: 'child', text: t })),
+    { style: 'child', text: TOUCH_IMAGE_HINT },
+    ...EMO.map((e): VoiceLine => ({ style: 'child', text: e.label })),
+    { style: 'child', text: SESSION_DONE_LEAD },
+    { style: 'child', text: PLURAL_HINT },
+    { style: 'tutor', text: emotionPromptFor('es', EMO) },
+  ];
+  for (const l of enumerateExerciseSpeechFor({
+    db: dbForLocale('es-DO'),
+    variants: variantsForLocale('es-DO'),
+    fixed: fixedEsDo,
+    pluralOne: (p) => pluralOneLabelFor('es-DO', p),
+    pluralMany: (p) => pluralManyLabelFor('es-DO', p),
+  })) addDo(l.style, l.text, 'ejercicios');
+
+  for (const t of WRITING_PRAISE) addDo('child', t, 'escritura/elogio');
+
   for (const it of WRITING_EXERCISES) {
     if (it.category !== 'critical') continue;
     const cue = it.phoneme.toLowerCase();
@@ -474,6 +540,7 @@ export function buildVoiceCorpus(): VoiceCorpusEntry[] {
     addEu('slow', cue, 'escritura/letra');
     addEn('slow', cue, 'escritura/letra');
     addCa('slow', cue, 'escritura/letra');
+    addDo('slow', cue, 'escritura/letra');
   }
 
   return Array.from(entries.values());

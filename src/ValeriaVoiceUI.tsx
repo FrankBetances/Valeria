@@ -26,6 +26,7 @@ import {
 } from './valeriaVoice';
 import { getLocale, setLocale, assetLang, contentLocale, Locale } from './valeriaLocale';
 import { hasAssetsFor } from './valeriaVoicePlayback';
+import { getVoiceWeekStats, loadVoiceStats, subscribeVoiceStats } from './valeriaVoiceStats';
 import { syncUiLangToLocale } from './valeriaUiLang';
 import { useT, UiStrings } from './i18n';
 import { micVerdictSayFor } from './valeriaExerciseBank';
@@ -136,11 +137,20 @@ export const MicPracticeCard: React.FC<{ target: string; prompt?: string; altTar
   const [errMsg, setErrMsg] = useState('');
   const pulse = useRef(new Animated.Value(0)).current;
   const mounted = useRef(true);
+  const chainTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const clearChainTimer = () => {
+    if (chainTimer.current !== null) {
+      clearTimeout(chainTimer.current);
+      chainTimer.current = null;
+    }
+  };
 
   useEffect(() => {
     mounted.current = true;
     return () => {
       mounted.current = false;
+      clearChainTimer();
       stopListening();
       releaseListening();
     };
@@ -148,6 +158,7 @@ export const MicPracticeCard: React.FC<{ target: string; prompt?: string; altTar
 
   // Nueva palabra objetivo → juego a cero.
   useEffect(() => {
+    clearChainTimer();
     setPhase('idle'); setHeard(''); setScore(0); setCover(null); setErrMsg('');
   }, [target]);
 
@@ -174,6 +185,7 @@ export const MicPracticeCard: React.FC<{ target: string; prompt?: string; altTar
 
   const finishWith = (alternatives: string[]) => {
     if (!mounted.current) return;
+    clearChainTimer();
     const lvl = [target, ...(altTargets ?? [])].reduce<MatchLevel>(
       (best, t) => Math.max(best, matchTarget(alternatives, t)) as MatchLevel, 0,
     );
@@ -188,8 +200,23 @@ export const MicPracticeCard: React.FC<{ target: string; prompt?: string; altTar
     // descarta por su cuenta los objetivos de una sola palabra.
     trackPhraseCoverage(cov.hits, cov.total);
     setPhase('scored');
-    speakToChild(micVerdictSayFor(getLocale(), lvl));
-    if (lvl === 0) setTimeout(() => speakWordSlow(target), 1600);
+    const verdictPhrase = micVerdictSayFor(getLocale(), lvl);
+    if (lvl === 0) {
+      let chained = false;
+      const runModel = () => {
+        if (chained || !mounted.current) return;
+        chained = true;
+        clearChainTimer();
+        chainTimer.current = setTimeout(() => {
+          chainTimer.current = null;
+          if (mounted.current) speakWordSlow(target);
+        }, 250);
+      };
+      chainTimer.current = setTimeout(runModel, 15000);
+      speakToChild(verdictPhrase, { onDone: runModel, onError: runModel });
+    } else {
+      speakToChild(verdictPhrase);
+    }
   };
 
   const listen = async () => {
@@ -578,6 +605,7 @@ export const VoiceQualityCard: React.FC = () => {
   const [status, setStatus] = useState<VoiceStatus | null>(null);
   const [checking, setChecking] = useState(false);
   const [locale, setLoc] = useState<Locale>(getLocale());
+  const [, setStatsTick] = useState(0);
   const mounted = useRef(true);
 
   const check = async () => {
@@ -617,7 +645,11 @@ export const VoiceQualityCard: React.FC = () => {
   useEffect(() => {
     mounted.current = true;
     check();
-    return () => { mounted.current = false; };
+    void loadVoiceStats();
+    const unsub = subscribeVoiceStats(() => {
+      if (mounted.current) setStatsTick((n) => n + 1);
+    });
+    return () => { mounted.current = false; unsub(); };
   }, []);
 
   const openGoogleVoices = async () => {
@@ -677,6 +709,7 @@ export const VoiceQualityCard: React.FC = () => {
   // (castellano y dominicano); galego (Celtia), euskara (HiTZ), inglés (Piper
   // en_US) y català (Matxa-TTS · projecte AINA) van empaquetadas.
   const showInstall = !packaged && (!good || noSpanish) && Platform.OS === 'android';
+  const voiceStats = getVoiceWeekStats(locale);
 
   return (
     <View style={s.vqCard}>
@@ -715,6 +748,14 @@ export const VoiceQualityCard: React.FC = () => {
       </View>
 
       <Text style={s.vqDetail}>{detail}</Text>
+      <View style={[s.vqHint, { flexDirection: 'row', alignItems: 'center', gap: 7 }]}>
+        <BlockIcon name="speaker" color={V.color.primaryDark} size={15} />
+        <Text style={{ fontFamily: FONT.bodyBold, fontSize: 13, color: V.color.textSecondary, flexShrink: 1 }}>
+          {voiceStats.total > 0
+            ? t.voice.voiceStatsSummary(voiceStats.packagedPct, voiceStats.systemPct)
+            : t.voice.voiceStatsEmpty}
+        </Text>
+      </View>
       <View style={s.vqBtnRow}>
         <Pressable onPress={speakVoiceSample} style={s.vqBtn} accessibilityRole="button" accessibilityLabel={t.voice.testVoiceA11y}>
           <Text style={s.vqBtnTxt}>{t.voice.testVoice}</Text>

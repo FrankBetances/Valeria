@@ -30,6 +30,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { View, Text, Pressable, ScrollView, Switch, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { V, STORAGE_KEYS } from './valeriaTheme';
+import { readActivePatient } from './valeriaPatients';
 import { BLOCKS, BlockKey } from './valeriaBlocks';
 import { getExercisesForBlock, getAgeBands } from './valeriaExerciseMeta';
 import { getUiLang } from './valeriaUiLang';
@@ -83,9 +84,9 @@ export const ValeriaBlockListScreen: React.FC<{ navigation: any; route: any }> =
           const p = JSON.parse(raw);
           if (Array.isArray(p) && p.length === list.length) setActive(p);
         }
-        const r = await AsyncStorage.getItem(STORAGE_KEYS.registro);
-        if (r) {
-          const patologia = JSON.parse(r)?.patologia ?? '';
+        const ficha = await readActivePatient();
+        if (ficha) {
+          const patologia = ficha.patologia ?? '';
           setUsesHearingDevice(/Audífono|Implante Coclear/i.test(patologia));
         }
       } catch (e) { /* noop */ }

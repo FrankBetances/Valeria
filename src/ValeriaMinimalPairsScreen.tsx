@@ -27,9 +27,12 @@ import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, Pressable, ScrollView, StyleSheet, Animated, Easing, Switch, GestureResponderEvent, BackHandler } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { V, STORAGE_KEYS } from './valeriaTheme';
+import { appendSessionHistory } from './valeriaPatients';
 import { ProUnlockPill, ProPinModal } from './ValeriaProPin';
 import { registerSession, SessionReward } from './valeriaGamification';
 import { logStimulation } from './valeriaFollowUp';
+import { ValeriaCaregiverVoiceCard } from './ValeriaCaregiverVoiceCard';
+import { playHomeOrFallback, stopCaregiverPlayback } from './valeriaCaregiverVoice';
 import { luaSessionReward, cancelSessionReward } from './valeriaLuaSession';
 import { markBlockCompleted, trackListenStart, trackListenNoMatch } from './valeriaTelemetry';
 import {
@@ -101,14 +104,28 @@ interface TrialRecord {
 }
 
 // Combina onDone/onError del TTS en un único "continuar" que solo dispara una
-// vez, con temporizador de rescate: si el motor de síntesis nunca avisa del
-// final (voces no disponibles, web sin audio), el ensayo no se queda bloqueado.
-const afterSpeak = (fn: () => void, maxWaitMs = 15000) => {
-  let fired = false;
-  const once = () => { if (!fired) { fired = true; clearTimeout(timer); fn(); } };
-  const timer = setTimeout(once, maxWaitMs);
-  return { onDone: once, onError: once };
-};
+// vez, con temporizador de rescate y pausa opcional encadenada, ambos
+// cancelables al desmontar.
+const createSpeakChainer = (timers: Set<ReturnType<typeof setTimeout>>, isMounted: () => boolean) =>
+  (fn: () => void, maxWaitMs = 15000, pauseMs = 0) => {
+    let fired = false;
+    const clear = (id: ReturnType<typeof setTimeout>) => { clearTimeout(id); timers.delete(id); };
+    const run = () => {
+      if (!isMounted()) return;
+      if (pauseMs > 0) {
+        const p = setTimeout(() => { timers.delete(p); if (isMounted()) fn(); }, pauseMs);
+        timers.add(p);
+      } else {
+        fn();
+      }
+    };
+    const timer = setTimeout(() => {
+      if (!fired) { fired = true; timers.delete(timer); if (isMounted()) fn(); }
+    }, maxWaitMs);
+    timers.add(timer);
+    const once = () => { if (!fired) { fired = true; clear(timer); run(); } };
+    return { onDone: once, onError: once };
+  };
 
 // ----------------------------------------------------------------------------
 // Sello doble: dos huellas en extremos opuestos que padre e hijo deben pulsar
@@ -355,6 +372,15 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
   // Mínimos lo tiraba.
   const bestPartialRef = useRef('');
   const mounted = useRef(true);
+  const speakTimers = useRef<Set<ReturnType<typeof setTimeout>>>(new Set()).current;
+  const laterTimer = (fn: () => void, ms: number) => {
+    const id = setTimeout(() => {
+      speakTimers.delete(id);
+      if (mounted.current) fn();
+    }, ms);
+    speakTimers.add(id);
+  };
+  const afterSpeak = useRef(createSpeakChainer(speakTimers, () => mounted.current)).current;
   const pulse = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
@@ -373,7 +399,16 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
       // estar ya subida cuando el niño regresa al banco.
       try { const g = await loadGame(); if (mounted.current) setGame(g); } catch (e) { /* noop */ }
     })();
-    return () => { mounted.current = false; stopSpeaking(); stopListening(); releaseListening(); releaseNoise(); };
+    return () => {
+      mounted.current = false;
+      for (const id of speakTimers) clearTimeout(id);
+      speakTimers.clear();
+      stopSpeaking();
+      stopCaregiverPlayback();
+      stopListening();
+      releaseListening();
+      releaseNoise();
+    };
   }, []);
 
   useEffect(() => {
@@ -387,7 +422,7 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
   useEffect(() => {
     const sub = BackHandler.addEventListener('hardwareBackPress', () => {
       if (phase === 'play' || phase === 'done') {
-        stopSpeaking(); stopListening();
+        stopSpeaking(); stopCaregiverPlayback(); stopListening();
         setPhase('pick');
         return true;
       }
@@ -439,10 +474,10 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
     const cbs = afterSpeak(() => {
       if (!mounted.current) return;
       if (!asrSupported()) { setStep('judge'); return; }
-      if (autoRecord) setTimeout(() => listenNow(p), 400);
+      if (autoRecord) laterTimer(() => listenNow(p), 400);
       else setStep('ready');
     });
-    speakToChild(spec.text, cbs);
+    void playHomeOrFallback(p.target, () => speakToChild(spec.text, cbs), cbs);
   };
 
   // --------------------------------------------------------------- escucha --
@@ -512,23 +547,21 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
         setStep('assist');
         const together = togetherPhrase();
         setLivePrompt({ text: together, mode: 'child' });
-        speakToChild(together);
-        setTimeout(() => {
+        speakToChild(together, afterSpeak(() => {
           if (!mounted.current) return;
           setLivePrompt({ text: p.target, mode: 'slow' });
           speakWordSlow(p.target);
-        }, 1500);
+        }, 15000, 250));
       } else {
         setCorrectionKind(branch);
         setStep('correction');
         const correction = branch === 'foil' ? p.onFoil.say : almostPhrase();
         setLivePrompt({ text: correction, mode: 'child' });
-        speakToChild(correction);
-        setTimeout(() => {
+        speakToChild(correction, afterSpeak(() => {
           if (!mounted.current) return;
           setLivePrompt({ text: p.target, mode: 'slow' });
           speakWordSlow(p.target);
-        }, 2200);
+        }, 15000, 250));
       }
       return;
     }
@@ -547,7 +580,7 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
     speakToChild(text, afterSpeak(() => {
       if (!mounted.current) return;
       if (!asrSupported()) { setStep('judge'); return; }
-      if (autoRecord) setTimeout(() => listenNow(p), 400);
+      if (autoRecord) laterTimer(() => listenNow(p), 400);
       else setStep('ready');
     }));
     setStep('say');
@@ -581,10 +614,8 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
     const corrections = res.filter((r) => r.attempts > 0).length;
     const substitutions = res.filter((r) => r.foils > 0).length;
     try {
-      const raw = await AsyncStorage.getItem(STORAGE_KEYS.historial);
-      const hist = raw ? JSON.parse(raw) : [];
       const d = new Date();
-      hist.push({
+      await appendSessionHistory({
         date: `${d.getDate()} ${t.ling.months.split(' ')[d.getMonth()]}`,
         name: t.pairs.sessionName(p.target, p.foil),
         avg: +avg.toFixed(1),
@@ -593,7 +624,6 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
           : t.pairs.noteSubs(substitutions, res.length, corrections, p.errorLabel.toLowerCase()),
         completed: true,
       });
-      await AsyncStorage.setItem(STORAGE_KEYS.historial, JSON.stringify(hist));
       // Registro clínico por par: evolución del % de sustitución entre sesiones.
       const rawPm = await AsyncStorage.getItem(STORAGE_KEYS.paresMinimos);
       const pm = rawPm ? JSON.parse(rawPm) : [];
@@ -886,9 +916,11 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
           promptLabel={livePrompt?.mode === 'slow' ? t.pairs.appSpeaksSlow : t.pairs.appSpeaks}
           question={t.pairs.stepJudge}
           onPick={(side) => { if (step === 'judge') resolveBranch(p, side); }}
-          onRepeat={() => { const s2 = trialPrompt(p, trialIdx, loc); setLivePrompt(s2); speakToChild(s2.text); }}
+          onRepeat={() => { const s2 = trialPrompt(p, trialIdx, loc); setLivePrompt(s2); void playHomeOrFallback(p.target, () => speakToChild(s2.text)); }}
           repeatLabel={t.pairs.repeatPrompt}
         />
+
+        <ValeriaCaregiverVoiceCard word={p.target} />
 
         {/* ===== Estado del ensayo ===== */}
         {step === 'say' && (
@@ -911,7 +943,7 @@ export const ValeriaMinimalPairsScreen: React.FC<{ navigation: any }> = ({ navig
               <BlockIcon name="mic" color="#ffffff" size={24} />
               <Text style={s.readyMicBtnTxt}>{t.pairs.readyBtn}</Text>
             </Pressable>
-            <Pressable onPress={() => { const s2 = trialPrompt(p, trialIdx, loc); setLivePrompt(s2); speakToChild(s2.text); }}>
+            <Pressable onPress={() => { const s2 = trialPrompt(p, trialIdx, loc); setLivePrompt(s2); void playHomeOrFallback(p.target, () => speakToChild(s2.text)); }}>
               <Text style={s.linkBtn}>{t.pairs.repeatPrompt}</Text>
             </Pressable>
           </View>

@@ -222,6 +222,12 @@ jobs:
       - name: Comprobar prosodia de la voz del sistema (es-DO)
         run: node scripts/check-speech-prosody.js
 
+      - name: Comprobar encadenamiento de locuciones sin setTimeout fijo
+        run: node scripts/check-voice-chaining.js
+
+      - name: Comprobar sincronización de voz con variedad y contador local
+        run: node scripts/check-voice-locale-sync.js
+
       # Captura de corpus del ASR (Fase B · R7). No protege una función de la
       # app: protege de que una build que GRABA la voz de un niño llegue a
       # producción, o de que una grabación acabe versionada. Las dos cosas
@@ -413,6 +419,21 @@ jobs:
       # contrastado con los detectores que el Kotlin tiene de verdad.
       - name: Comprobar las necesidades de cámara de los retos
         run: node scripts/check-steam-ar-needs.js
+
+      - name: Comprobar cifrado en reposo v2, SecureStore y migración de pid
+        run: node scripts/check-crypto.js
+
+      - name: Comprobar PIN profesional sin maestro y bloqueo persistido
+        run: node scripts/check-pro-pin.js
+
+      - name: Comprobar códigos de seguimiento v2, vínculos QR y export .valeria
+        run: node scripts/check-note-codes.js
+
+      - name: Comprobar señal de edad Play Age Signals en memoria (P5)
+        run: node scripts/check-age-signals.js
+
+      - name: Comprobar PAUTA2, recordatorios de pauta, voz de casa e informe HTML (P6)
+        run: node scripts/check-p6.js
 
       - name: Comprobar tipos
         run: npm run typecheck

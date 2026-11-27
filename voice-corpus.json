@@ -1,32 +1,32 @@
 {
- "generatedAt": "2026-11-10T18:05:04.313Z",
- "entries": 4932,
+ "generatedAt": "2026-11-27T09:14:32.373Z",
+ "entries": 5689,
  "byStyle": {
-  "child": 3038,
-  "slow": 973,
-  "clinical": 45,
-  "tutor": 876
+  "child": 3436,
+  "slow": 1158,
+  "clinical": 54,
+  "tutor": 1041
  },
  "bySource": {
-  "pares/intro": 54,
-  "pares/prompt": 54,
-  "pares/celebracion": 54,
-  "pares/correccion": 54,
-  "pares/retry": 53,
-  "pares/modelado": 53,
-  "pares/roleswap": 124,
-  "pares/fin": 5,
-  "tpr": 111,
-  "tpr/fin": 5,
-  "rutas": 40,
-  "rutas/fin": 5,
-  "banco/elogio": 29,
-  "banco/casi": 20,
-  "banco/no-oido": 15,
-  "banco/juntos": 15,
-  "util/muestra": 5,
-  "expansion": 1957,
-  "ejercicios": 1321,
+  "pares/intro": 62,
+  "pares/prompt": 62,
+  "pares/celebracion": 62,
+  "pares/correccion": 62,
+  "pares/retry": 61,
+  "pares/modelado": 61,
+  "pares/roleswap": 144,
+  "pares/fin": 6,
+  "tpr": 135,
+  "tpr/fin": 6,
+  "rutas": 48,
+  "rutas/fin": 6,
+  "banco/elogio": 35,
+  "banco/casi": 24,
+  "banco/no-oido": 18,
+  "banco/juntos": 18,
+  "util/muestra": 6,
+  "expansion": 2315,
+  "ejercicios": 1587,
   "lua/eval/consigna": 120,
   "lua/eval/refuerzo": 120,
   "lua/eval/devolucion": 120,
@@ -43,8 +43,8 @@
   "lua/juego/estimulo": 128,
   "lua/juego/pista": 6,
   "ejercicios/veredicto": 3,
-  "escritura/elogio": 15,
-  "escritura/letra": 48
+  "escritura/elogio": 18,
+  "escritura/letra": 58
  },
  "corpus": [
   {
@@ -34236,6 +34236,5235 @@
    "source": "escritura/elogio"
   },
   {
+   "id": "es-DO_child_6299d0bf_39",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Esta es rana. Y esta es lana. Di: rana.",
+   "source": "pares/intro"
+  },
+  {
+   "id": "es-DO_child_6f587a26_9",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Di: rana.",
+   "source": "pares/prompt"
+  },
+  {
+   "id": "es-DO_child_41af8ffb_37",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Rana! ¡Tu lengua sonó como un motor!",
+   "source": "pares/celebracion"
+  },
+  {
+   "id": "es-DO_child_dcb13e8f_52",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Escuché lana, la del ovillo. Yo pedí rana. Oye bien…",
+   "source": "pares/correccion"
+  },
+  {
+   "id": "es-DO_child_25d9f983_20",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: rana.",
+   "source": "pares/retry"
+  },
+  {
+   "id": "es-DO_slow_a69b94b5_4",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "rana",
+   "source": "pares/modelado"
+  },
+  {
+   "id": "es-DO_child_ad2bb964_64",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Uy! El adulto dijo rana. ¡Escucha otra vez en el próximo turno!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "es-DO_child_072352f2_64",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Uy! El adulto dijo lana. ¡Escucha otra vez en el próximo turno!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "es-DO_child_fb0e9635_39",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Esta es rata. Y esta es lata. Di: rata.",
+   "source": "pares/intro"
+  },
+  {
+   "id": "es-DO_child_6a8d67d4_9",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Di: rata.",
+   "source": "pares/prompt"
+  },
+  {
+   "id": "es-DO_child_832fbd53_32",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Rata ligera! ¡Te salió la erre!",
+   "source": "pares/celebracion"
+  },
+  {
+   "id": "es-DO_child_1c96ab3b_78",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Escuché lata, la del colmado. La lengua se quedó dormida. ¡Despiértala!: rata.",
+   "source": "pares/correccion"
+  },
+  {
+   "id": "es-DO_child_e5a03d95_20",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: rata.",
+   "source": "pares/retry"
+  },
+  {
+   "id": "es-DO_slow_aa83961b_4",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "rata",
+   "source": "pares/modelado"
+  },
+  {
+   "id": "es-DO_child_0b469ad2_64",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Uy! El adulto dijo rata. ¡Escucha otra vez en el próximo turno!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "es-DO_child_acb19604_64",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Uy! El adulto dijo lata. ¡Escucha otra vez en el próximo turno!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "es-DO_child_70fcdc2d_41",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Esta es perro. Y esta es pelo. Di: perro.",
+   "source": "pares/intro"
+  },
+  {
+   "id": "es-DO_child_90493ac6_10",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Di: perro.",
+   "source": "pares/prompt"
+  },
+  {
+   "id": "es-DO_child_995c6232_29",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Perro! ¡Qué erre tan fuerte!",
+   "source": "pares/celebracion"
+  },
+  {
+   "id": "es-DO_child_b3020c73_74",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Escuché pelo, el de la cabeza. El perro se quedó sin ladrar. Vamos: perro.",
+   "source": "pares/correccion"
+  },
+  {
+   "id": "es-DO_child_4296477d_21",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: perro.",
+   "source": "pares/retry"
+  },
+  {
+   "id": "es-DO_slow_8e40a2f7_5",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "perro",
+   "source": "pares/modelado"
+  },
+  {
+   "id": "es-DO_child_7c37949a_65",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Uy! El adulto dijo perro. ¡Escucha otra vez en el próximo turno!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "es-DO_child_b513feb2_64",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Uy! El adulto dijo pelo. ¡Escucha otra vez en el próximo turno!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "es-DO_child_875d9fce_38",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Esta es ocho. Y esta es oso. Di: ocho.",
+   "source": "pares/intro"
+  },
+  {
+   "id": "es-DO_child_83467ba3_9",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Di: ocho.",
+   "source": "pares/prompt"
+  },
+  {
+   "id": "es-DO_child_c69c4c0f_34",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Ocho! ¡Ese trencito arrancó bien!",
+   "source": "pares/celebracion"
+  },
+  {
+   "id": "es-DO_child_29c17455_83",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Escuché oso, el peludo. Yo pedí ocho, el número. La che arranca como un tren: ocho.",
+   "source": "pares/correccion"
+  },
+  {
+   "id": "es-DO_child_e7dd778e_20",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: ocho.",
+   "source": "pares/retry"
+  },
+  {
+   "id": "es-DO_slow_334bb4d6_4",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "ocho",
+   "source": "pares/modelado"
+  },
+  {
+   "id": "es-DO_child_9606645b_64",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Uy! El adulto dijo ocho. ¡Escucha otra vez en el próximo turno!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "es-DO_child_96e1980d_63",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Uy! El adulto dijo oso. ¡Escucha otra vez en el próximo turno!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "es-DO_child_a17b140e_39",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Esta es saco. Y esta es taco. Di: saco.",
+   "source": "pares/intro"
+  },
+  {
+   "id": "es-DO_child_d5004ac8_9",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Di: saco.",
+   "source": "pares/prompt"
+  },
+  {
+   "id": "es-DO_child_6e13844b_32",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Saco! ¡Ese soplido salió largo!",
+   "source": "pares/celebracion"
+  },
+  {
+   "id": "es-DO_child_5401a881_64",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Escuché taco, el de medir. La ese no explota: sopla largo. Saco.",
+   "source": "pares/correccion"
+  },
+  {
+   "id": "es-DO_child_92f9185d_20",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: saco.",
+   "source": "pares/retry"
+  },
+  {
+   "id": "es-DO_slow_a71b18f3_4",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "saco",
+   "source": "pares/modelado"
+  },
+  {
+   "id": "es-DO_child_0bb2b7aa_64",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Uy! El adulto dijo saco. ¡Escucha otra vez en el próximo turno!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "es-DO_child_9f5d3ffd_64",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Uy! El adulto dijo taco. ¡Escucha otra vez en el próximo turno!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "es-DO_child_99685479_39",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Esta es cubo. Y esta es tubo. Di: cubo.",
+   "source": "pares/intro"
+  },
+  {
+   "id": "es-DO_child_b7d93ebf_9",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Di: cubo.",
+   "source": "pares/prompt"
+  },
+  {
+   "id": "es-DO_child_1e3b29ac_48",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Cubo! ¡Esa ca salió de la cueva de la garganta!",
+   "source": "pares/celebracion"
+  },
+  {
+   "id": "es-DO_child_847f9ac9_79",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Escuché tubo, el del laboratorio. La ca del cubo nace atrás, en la cueva: cubo.",
+   "source": "pares/correccion"
+  },
+  {
+   "id": "es-DO_child_6ae2b6fe_20",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: cubo.",
+   "source": "pares/retry"
+  },
+  {
+   "id": "es-DO_slow_7591e0de_4",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "cubo",
+   "source": "pares/modelado"
+  },
+  {
+   "id": "es-DO_child_3b7895cb_64",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Uy! El adulto dijo cubo. ¡Escucha otra vez en el próximo turno!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "es-DO_child_2479d8a4_64",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Uy! El adulto dijo tubo. ¡Escucha otra vez en el próximo turno!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "es-DO_child_efa30721_39",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Esta es boca. Y esta es bota. Di: boca.",
+   "source": "pares/intro"
+  },
+  {
+   "id": "es-DO_child_0a8df92b_9",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Di: boca.",
+   "source": "pares/prompt"
+  },
+  {
+   "id": "es-DO_child_2ec3c2e8_42",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Boca! ¡Qué bien suena esa ca en el medio!",
+   "source": "pares/celebracion"
+  },
+  {
+   "id": "es-DO_child_47ce6d6e_49",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Escuché bota, la del pie. Boca suena atrás: boca.",
+   "source": "pares/correccion"
+  },
+  {
+   "id": "es-DO_child_a388c54a_20",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: boca.",
+   "source": "pares/retry"
+  },
+  {
+   "id": "es-DO_slow_c3b10f72_4",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "boca",
+   "source": "pares/modelado"
+  },
+  {
+   "id": "es-DO_child_3a75ff4f_64",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Uy! El adulto dijo boca. ¡Escucha otra vez en el próximo turno!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "es-DO_child_890ad384_64",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Uy! El adulto dijo bota. ¡Escucha otra vez en el próximo turno!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "es-DO_child_0f4a96b8_45",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Esta es fuente. Y esta es puente. Di: fuente.",
+   "source": "pares/intro"
+  },
+  {
+   "id": "es-DO_child_475d22ed_11",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Di: fuente.",
+   "source": "pares/prompt"
+  },
+  {
+   "id": "es-DO_child_7b9353bc_44",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Fuente! ¡Ese soplido de conejo lo moja to’!",
+   "source": "pares/celebracion"
+  },
+  {
+   "id": "es-DO_child_324863b7_69",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Escuché puente, el de cruzar. La efe muerde el labio y sopla: fuente.",
+   "source": "pares/correccion"
+  },
+  {
+   "id": "es-DO_child_bf07eb58_22",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: fuente.",
+   "source": "pares/retry"
+  },
+  {
+   "id": "es-DO_slow_80647364_6",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "fuente",
+   "source": "pares/modelado"
+  },
+  {
+   "id": "es-DO_child_c72a7b99_66",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Uy! El adulto dijo fuente. ¡Escucha otra vez en el próximo turno!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "es-DO_child_744897e7_66",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Uy! El adulto dijo puente. ¡Escucha otra vez en el próximo turno!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "es-DO_child_02a0870e_56",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Sesión de pares completada! ¡Choca esos cinco con papá!",
+   "source": "pares/fin"
+  },
+  {
+   "id": "es-DO_child_4c9d7d0c_58",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Cambio de papeles! Ahora manda el niño y habla el adulto.",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "es-DO_child_db0b6479_37",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "No escuché bien al adulto. ¡Otra vez!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "es-DO_child_5dc95fb0_29",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Exacto! ¡Qué oreja tan fina!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "es-DO_child_9ecaf6d7_56",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Uy! Era la otra. ¡Escucha otra vez en el próximo turno!",
+   "source": "pares/roleswap"
+  },
+  {
+   "id": "es-DO_child_1e292f1c_17",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Tócate la cabeza.",
+   "source": "tpr"
+  },
+  {
+   "id": "es-DO_child_e0a37576_16",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Tócate la nariz.",
+   "source": "tpr"
+  },
+  {
+   "id": "es-DO_child_e1ea1644_28",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Levanta los brazos muy alto.",
+   "source": "tpr"
+  },
+  {
+   "id": "es-DO_child_cdd2644a_20",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Salta como una rana.",
+   "source": "tpr"
+  },
+  {
+   "id": "es-DO_child_3fd64814_35",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Camina como un oso, a cuatro patas.",
+   "source": "tpr"
+  },
+  {
+   "id": "es-DO_child_c7846f26_41",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Vuela como un pájaro moviendo los brazos.",
+   "source": "tpr"
+  },
+  {
+   "id": "es-DO_child_c1b334b2_17",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Salta tres veces.",
+   "source": "tpr"
+  },
+  {
+   "id": "es-DO_child_01a56262_21",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Da una vuelta entera.",
+   "source": "tpr"
+  },
+  {
+   "id": "es-DO_child_cfa4536a_21",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Siéntate en el suelo.",
+   "source": "tpr"
+  },
+  {
+   "id": "es-DO_child_8a06bb70_43",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Camina muy, muy despacio, como una tortuga.",
+   "source": "tpr"
+  },
+  {
+   "id": "es-DO_child_97d31c7a_35",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Corre en tu sitio, ¡rápido, rápido!",
+   "source": "tpr"
+  },
+  {
+   "id": "es-DO_child_66ea5e92_37",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Estatua! Quédate quieto sin moverte.",
+   "source": "tpr"
+  },
+  {
+   "id": "es-DO_child_ea08e3cd_19",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Aplaude muy fuerte.",
+   "source": "tpr"
+  },
+  {
+   "id": "es-DO_child_81dabb16_21",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Di adiós con la mano.",
+   "source": "tpr"
+  },
+  {
+   "id": "es-DO_child_3f94fe5b_22",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Manda un beso volador.",
+   "source": "tpr"
+  },
+  {
+   "id": "es-DO_child_63235cf2_42",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Hazte muy grande, estírate hasta el cielo.",
+   "source": "tpr"
+  },
+  {
+   "id": "es-DO_child_b11da760_30",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Hazte pequeño como una pelota.",
+   "source": "tpr"
+  },
+  {
+   "id": "es-DO_child_5a489da0_38",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Abre los brazos como un árbol gigante.",
+   "source": "tpr"
+  },
+  {
+   "id": "es-DO_child_dce9ca2d_26",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Pon cara de mucha alegría.",
+   "source": "tpr"
+  },
+  {
+   "id": "es-DO_child_9e8c3ec0_43",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Enséñame el enfado con los brazos cruzados.",
+   "source": "tpr"
+  },
+  {
+   "id": "es-DO_child_1963d62d_26",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Date un abrazo muy fuerte.",
+   "source": "tpr"
+  },
+  {
+   "id": "es-DO_child_d40dd306_39",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Camina como un robot diciendo bip, bop.",
+   "source": "tpr"
+  },
+  {
+   "id": "es-DO_child_d44bdae5_13",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Robot… ¡para!",
+   "source": "tpr"
+  },
+  {
+   "id": "es-DO_child_5dd72ee3_37",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "El robot se apaga: túmbate despacito.",
+   "source": "tpr"
+  },
+  {
+   "id": "es-DO_child_fb35a756_35",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Muy bien! ¡Seguimos con la sesión!",
+   "source": "tpr/fin"
+  },
+  {
+   "id": "es-DO_clinical_6165ff3f_29",
+   "lang": "es-DO",
+   "style": "clinical",
+   "text": "Pon el vaso rojo en la silla.",
+   "source": "rutas"
+  },
+  {
+   "id": "es-DO_clinical_9d2f7fb6_40",
+   "lang": "es-DO",
+   "style": "clinical",
+   "text": "Dale la cuchara pequeña a papá o a mamá.",
+   "source": "rutas"
+  },
+  {
+   "id": "es-DO_clinical_2e6ee07c_36",
+   "lang": "es-DO",
+   "style": "clinical",
+   "text": "Mete la servilleta debajo del plato.",
+   "source": "rutas"
+  },
+  {
+   "id": "es-DO_clinical_716b8f4a_51",
+   "lang": "es-DO",
+   "style": "clinical",
+   "text": "Coge la fruta más grande y ponla encima de la mesa.",
+   "source": "rutas"
+  },
+  {
+   "id": "es-DO_clinical_e8cccd59_36",
+   "lang": "es-DO",
+   "style": "clinical",
+   "text": "Pon el cepillo azul dentro del vaso.",
+   "source": "rutas"
+  },
+  {
+   "id": "es-DO_clinical_eabcd84c_44",
+   "lang": "es-DO",
+   "style": "clinical",
+   "text": "Trae la toalla pequeña y déjala en la silla.",
+   "source": "rutas"
+  },
+  {
+   "id": "es-DO_clinical_0347d924_34",
+   "lang": "es-DO",
+   "style": "clinical",
+   "text": "Mete el patito en la bañera vacía.",
+   "source": "rutas"
+  },
+  {
+   "id": "es-DO_clinical_6bb4c8a5_47",
+   "lang": "es-DO",
+   "style": "clinical",
+   "text": "Dale el jabón a papá o a mamá con la otra mano.",
+   "source": "rutas"
+  },
+  {
+   "id": "es-DO_clinical_29248fc3_40",
+   "lang": "es-DO",
+   "style": "clinical",
+   "text": "Ruta completada. Seguimos con la sesión.",
+   "source": "rutas/fin"
+  },
+  {
+   "id": "es-DO_child_d0c93f58_32",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Muy bien! ¡Lo has dicho genial!",
+   "source": "banco/elogio"
+  },
+  {
+   "id": "es-DO_child_3faf26c5_28",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Bravo! ¡Qué bien ha sonado!",
+   "source": "banco/elogio"
+  },
+  {
+   "id": "es-DO_child_65809f03_30",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Toma ya! ¡Palabra conseguida!",
+   "source": "banco/elogio"
+  },
+  {
+   "id": "es-DO_child_93c53258_33",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Genial! ¡Cada vez te sale mejor!",
+   "source": "banco/elogio"
+  },
+  {
+   "id": "es-DO_child_6a2f96c1_30",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Súper! ¡Lo dijiste clarísimo!",
+   "source": "banco/elogio"
+  },
+  {
+   "id": "es-DO_child_00365b4d_30",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Olé esa voz! ¡Muy bien dicho!",
+   "source": "banco/elogio"
+  },
+  {
+   "id": "es-DO_child_88900575_36",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Casi casi! Escucha bien y otra vez…",
+   "source": "banco/casi"
+  },
+  {
+   "id": "es-DO_child_fdf4c7fc_42",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Uy, por poquito! Vamos a probar de nuevo.",
+   "source": "banco/casi"
+  },
+  {
+   "id": "es-DO_child_1ada1e7c_37",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Ya casi lo tienes! Escucha y repite.",
+   "source": "banco/casi"
+  },
+  {
+   "id": "es-DO_child_72cfd892_38",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Un poquito más y lo bordas. ¡Otra vez!",
+   "source": "banco/casi"
+  },
+  {
+   "id": "es-DO_child_ad242355_39",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "No te escuché bien. ¡Probamos otra vez!",
+   "source": "banco/no-oido"
+  },
+  {
+   "id": "es-DO_child_934be12e_43",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Uy, no llegó tu voz! Acércate y repetimos.",
+   "source": "banco/no-oido"
+  },
+  {
+   "id": "es-DO_child_55c34a77_42",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Se me escapó tu palabra. ¡Dímela otra vez!",
+   "source": "banco/no-oido"
+  },
+  {
+   "id": "es-DO_child_a26e7368_38",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Vamos a decirla juntos, muy despacito.",
+   "source": "banco/juntos"
+  },
+  {
+   "id": "es-DO_child_10247d95_43",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "La decimos a la vez, despacito y sin prisa.",
+   "source": "banco/juntos"
+  },
+  {
+   "id": "es-DO_child_44bd37e0_43",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Ahora en equipo: la decimos los dos juntos.",
+   "source": "banco/juntos"
+  },
+  {
+   "id": "es-DO_child_cfed04f9_67",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Hola! Así sonará mi voz en los ejercicios. ¿Verdad que suena bien?",
+   "source": "util/muestra"
+  },
+  {
+   "id": "es-DO_child_67d2765d_39",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Primero nos despertamos. Di: despertar.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_0b52e51f_25",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: despertar.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_67d2765d_39",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "Primero nos despertamos. Di: despertar.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_86278ba5_71",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Tápate como si durmieras y estírate con el niño al sonar el «rin, rin».",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_4e2ddfea_31",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Después nos lavamos. Di: lavar.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_fbe48f35_21",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: lavar.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_4e2ddfea_31",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "Después nos lavamos. Di: lavar.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_6397a957_48",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Frotad las manos juntos como si os enjabonarais.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_0e4ce101_31",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Luego nos vestimos. Di: vestir.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_76e286ec_22",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: vestir.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_0e4ce101_31",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "Luego nos vestimos. Di: vestir.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_c4b4c0a6_62",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Pasa una camiseta por la cabeza del niño y celebrad al asomar.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_7db50b32_36",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Al final desayunamos. Di: desayunar.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_b89a02af_25",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: desayunar.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_7db50b32_36",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "Al final desayunamos. Di: desayunar.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_435b3c4c_61",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Simulad juntos que bebéis un vaso de leche con las dos manos.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_4490145f_41",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Primero nos lavamos las manos. Di: lavar.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_4490145f_41",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "Primero nos lavamos las manos. Di: lavar.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_b43a2daa_45",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Después nos sentamos a la mesa. Di: sentarse.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_46f72588_24",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: sentarse.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_b43a2daa_45",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "Después nos sentamos a la mesa. Di: sentarse.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_351f2931_49",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Sentaos juntos en dos sillas, uno frente al otro.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_be9b1cf9_25",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Luego comemos. Di: comer.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_d4bc02c7_21",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: comer.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_be9b1cf9_25",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "Luego comemos. Di: comer.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_542a4968_47",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Llevad juntos una cuchara imaginaria a la boca.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_b961f313_41",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Al final recogemos el plato. Di: recoger.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_5c767ca8_23",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: recoger.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_b961f313_41",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "Al final recogemos el plato. Di: recoger.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_baf23e85_64",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Llevad juntos un plato (de verdad o imaginario) hasta la cocina.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_21608012_40",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Primero agarramos el dinero. Di: dinero.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_c471b200_22",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: dinero.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_21608012_40",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "Primero agarramos el dinero. Di: dinero.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_d04ab199_57",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Dale al niño una moneda o un papelito que haga de dinero.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_e923db2e_42",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Después caminamos al colmado. Di: colmado.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_e8d6f5b6_23",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: colmado.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_e923db2e_42",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "Después caminamos al colmado. Di: colmado.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_b6bcd742_63",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Caminad juntos de la mano hasta «el colmado» (otra habitación).",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_5fc8b6ce_36",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Luego pedimos el mandado. Di: pedir.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_14096943_21",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: pedir.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_5fc8b6ce_36",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "Luego pedimos el mandado. Di: pedir.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_9b4d10b0_48",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Que el niño señale lo que quiere y tú se lo des.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_b1dcfc8b_44",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Al final lo llevamos en la funda. Di: funda.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_4e39200f_21",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: funda.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_b1dcfc8b_44",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "Al final lo llevamos en la funda. Di: funda.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_732e4a74_54",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Meted juntos un objeto en una bolsa y llevadla a casa.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_6dc22142_39",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Primero nos mojamos con agua. Di: agua.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_8cb4d541_20",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: agua.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_6dc22142_39",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "Primero nos mojamos con agua. Di: agua.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_3d145903_57",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Dejad caer los dedos sobre la cabeza del niño como gotas.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_4c2bfcf8_35",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Después nos enjabonamos. Di: jabón.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_f1ccb2f9_21",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: jabón.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_4c2bfcf8_35",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "Después nos enjabonamos. Di: jabón.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_06712ac4_54",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Frotad los brazos del niño con una esponja imaginaria.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_bc91a48d_35",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Luego nos enjuagamos. Di: enjuagar.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_55218ccc_24",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: enjuagar.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_bc91a48d_35",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "Luego nos enjuagamos. Di: enjuagar.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_5c654f42_53",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Haced juntos el gesto de echaros agua por los brazos.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_b1f03ea7_47",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Al final nos secamos con la toalla. Di: toalla.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_e64b522a_22",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: toalla.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_b1f03ea7_47",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "Al final nos secamos con la toalla. Di: toalla.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_c9b35420_59",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Envolved al niño en una toalla (o en tus brazos) y secadlo.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_ca726d30_42",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Primero nos ponemos el pijama. Di: pijama.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_0d5c8cab_22",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: pijama.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_ca726d30_42",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "Primero nos ponemos el pijama. Di: pijama.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_5fa1d148_54",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Señalad el pijama del niño y tocad los botones juntos.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_6fe20644_45",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Después nos lavamos los dientes. Di: dientes.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_3fc9dd8d_23",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: dientes.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_6fe20644_45",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "Después nos lavamos los dientes. Di: dientes.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_b864d495_48",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Haced juntos el gesto de cepillaros los dientes.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_28dee98a_35",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Luego leemos un cuento. Di: cuento.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_8b298979_22",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: cuento.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_28dee98a_35",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "Luego leemos un cuento. Di: cuento.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_7d0f69a1_56",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Abrid las manos como un libro y pasad una página juntos.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_3abcc732_40",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Al final nos vamos a dormir. Di: dormir.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_d685a3da_22",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: dormir.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_3abcc732_40",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "Al final nos vamos a dormir. Di: dormir.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_39867175_55",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Apoyad la cabeza en las manos juntas y cerrad los ojos.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_25f3758c_48",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Vamos a ordenar la rutina. ¿Qué hacemos primero?",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_a2b314b5_95",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Repasen juntos la rutina en voz alta señalando cada dibujo: primero, después, luego y al final.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_bb951758_30",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Esto es un guineo. Di: guineo.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_94bba686_22",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: guineo.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_bb951758_30",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "Esto es un guineo. Di: guineo.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_95191452_76",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Pelen un guineo juntos bajando cada tira despacio mientras dicen la palabra.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_c9c2c057_33",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Esto es una manzana. Di: manzana.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_2f9ce66d_23",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: manzana.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_c9c2c057_33",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "Esto es una manzana. Di: manzana.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_b323d7ee_68",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Dale un mordisco a una manzana y que el nene imite el crujido: ¡ñac!",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_df877319_33",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Esto es una naranja. Di: naranja.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_a3823688_23",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: naranja.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_df877319_33",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "Esto es una naranja. Di: naranja.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_5debad71_71",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Rueden una naranja por la mesa de uno a otro, nombrándola en cada pase.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_3fffcccd_27",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Esto es una piña. Di: piña.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_abee8e64_20",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: piña.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_3fffcccd_27",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "Esto es una piña. Di: piña.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_ccf24fef_70",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Pónganse las manos abiertas sobre la cabeza como la corona de la piña.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_727f0085_33",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Esto es una lechosa. Di: lechosa.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_844a7a6a_23",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: lechosa.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_727f0085_33",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "Esto es una lechosa. Di: lechosa.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_b9cf09c4_72",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Abran una lechosa (o dibújenla) y cuenten juntos las semillas de dentro.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_ed0c01a3_33",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Esto es una chinola. Di: chinola.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_a6019727_23",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: chinola.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_ed0c01a3_33",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "Esto es una chinola. Di: chinola.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_efcffcbc_76",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Preparen un jugo de chinola y que el nene revuelva mientras dice la palabra.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_03f94952_28",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Esto es un perro. Di: perro.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_03f94952_28",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "Esto es un perro. Di: perro.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_201fbd10_58",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Pónganse en cuatro patas y den tres pasos ladrando juntos.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_e2f9844c_26",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Esto es un gato. Di: gato.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_a9146678_20",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: gato.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_e2f9844c_26",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "Esto es un gato. Di: gato.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_bde740a3_80",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Estírense como un gato al despertar y froten la cabeza contra el brazo del otro.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_b867bcca_28",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Esto es un pollo. Di: pollo.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_aaa2b5ff_21",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: pollo.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_b867bcca_28",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "Esto es un pollo. Di: pollo.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_ed478f55_67",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Caminen picoteando el suelo con el dedo, como los pollos del patio.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_572e2425_27",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Esto es una vaca. Di: vaca.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_06149ef4_20",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: vaca.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_572e2425_27",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "Esto es una vaca. Di: vaca.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_5f955348_74",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Pónganse dos dedos en la cabeza como cuernos y digan la palabra mirándose.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_7f26aac8_34",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Esto es un elefante. Di: elefante.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_e4e481bd_24",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: elefante.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_7f26aac8_34",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "Esto es un elefante. Di: elefante.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_1e49bb61_81",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Hagan la trompa con el brazo colgando delante de la cara y baláncenla al decirlo.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_de38a519_31",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Esto es una jirafa. Di: jirafa.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_5ad7470c_22",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: jirafa.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_de38a519_31",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "Esto es una jirafa. Di: jirafa.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_e4b55bab_89",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Estiren el cuello y los brazos hacia arriba, lo más alto posible, para alcanzar una hoja.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_6c991070_28",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Esto es un carro. Di: carro.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_4c1794ea_21",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: carro.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_6c991070_28",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "Esto es un carro. Di: carro.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_9aefa411_74",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Empujen un carrito por el piso hasta chocar suavecito con el pie del nene.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_34167d65_31",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Esto es una guagua. Di: guagua.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_1e36a269_22",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: guagua.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_34167d65_31",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "Esto es una guagua. Di: guagua.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_26d27fb9_72",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Pónganse en fila como si subieran a la guagua y siéntense de dos en dos.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_5068e058_28",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Esto es un motor. Di: motor.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_7a2913e6_21",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: motor.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_5068e058_28",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "Esto es un motor. Di: motor.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_8983b408_74",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Agarren un manubrio imaginario y aceleren los dos a la vez haciendo ruido.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_bb6c0dc8_28",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Esto es un barco. Di: barco.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_3ced5de4_21",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: barco.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_bb6c0dc8_28",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "Esto es un barco. Di: barco.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_1998ec89_81",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Siéntense en el piso y baláncense como si el barco subiera y bajara con las olas.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_56deb24c_28",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Esto es un avión. Di: avión.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_ca910218_21",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: avión.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_56deb24c_28",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "Esto es un avión. Di: avión.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_fcbadd58_71",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Abran los brazos como alas y den una vuelta inclinándose en las curvas.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_115a6288_30",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Esto es un camión. Di: camión.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_99b0c1e6_22",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: camión.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_115a6288_30",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "Esto es un camión. Di: camión.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_4a59f569_81",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Carguen tres juguetes en una caja y arrástrenla juntos como si fuera el remolque.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_9ffae070_29",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Este color es rojo. Di: rojo.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_f043a2df_20",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: rojo.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_9ffae070_29",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "Este color es rojo. Di: rojo.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_241b2dea_75",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Busquen juntos tres cosas rojas por la casa y tóquenlas nombrando el color.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_a2d884f0_29",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Este color es azul. Di: azul.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_6fa30a95_20",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: azul.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_a2d884f0_29",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "Este color es azul. Di: azul.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_135797df_75",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Señalen el cielo o algo azul de la ropa del nene y digan el color a la vez.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_92285cdc_37",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Este color es amarillo. Di: amarillo.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_fa9f4584_24",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: amarillo.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_92285cdc_37",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "Este color es amarillo. Di: amarillo.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_a288059a_73",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Hagan un sol grande con los brazos y digan el color mirando hacia arriba.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_26ba6b56_31",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Este color es verde. Di: verde.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_15ba9027_21",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: verde.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_26ba6b56_31",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "Este color es verde. Di: verde.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_535d7942_69",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Salgan al patio a buscar una hoja y tóquenla mientras dicen el color.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_8659cd60_33",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Este color es morado. Di: morado.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_8d3cc7a7_22",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: morado.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_8659cd60_33",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "Este color es morado. Di: morado.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_39c1b11e_70",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Mezclen delante del nene un poco de rojo y azul y nombren lo que sale.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_ec851570_33",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Este color es marrón. Di: marrón.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_6c326bae_22",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: marrón.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_ec851570_33",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "Este color es marrón. Di: marrón.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_ed042833_82",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Toquen juntos algo de madera —una mesa, una mecedora— y digan el color al tocarlo.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_b4806350_26",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Esto es la mano. Di: mano.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_da0326cc_20",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: mano.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_b4806350_26",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "Esto es la mano. Di: mano.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_dbe1113e_73",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Choquen las palmas tres veces, una por cada sílaba, mirándose a los ojos.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_2a3cd500_24",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Esto es el pie. Di: pie.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_348e79af_19",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: pie.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_2a3cd500_24",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "Esto es el pie. Di: pie.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_2cbca54c_72",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Pongan sus pies juntos y comparen el tamaño antes de dar tres pisotones.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_c9d81174_26",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Esto es la boca. Di: boca.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_c9d81174_26",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "Esto es la boca. Di: boca.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_9cbbe6dc_76",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Pónganse frente al espejo y abran y cierren la boca a la vez, bien despacio.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_44df9a84_24",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Esto es el ojo. Di: ojo.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_32a33aa7_19",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: ojo.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_44df9a84_24",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "Esto es el ojo. Di: ojo.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_4669cc56_87",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Jueguen a taparse los ojos y destaparlos con un “¡cucú!” cada vez que dicen la palabra.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_d161863c_32",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Esto es la rodilla. Di: rodilla.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_626a97c4_23",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: rodilla.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_d161863c_32",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "Esto es la rodilla. Di: rodilla.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_60ebd5e1_83",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Doblen las rodillas a la vez hasta quedar en cuclillas y suban diciendo la palabra.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_9c5028aa_26",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Esto es el codo. Di: codo.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_808de53a_20",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: codo.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_9c5028aa_26",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "Esto es el codo. Di: codo.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_d120fa68_49",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Salúdense chocando los codos tres veces seguidas.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_ea2aa08a_30",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Esta es la guagua. Di: guagua.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_ea2aa08a_30",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "Esta es la guagua. Di: guagua.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_833ec7b0_97",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Formen una guagua: el niño se agarra de tu cintura y avancen por el pasillo parando en “paradas”.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_2382bb1d_32",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "La guagua tiene gomas. Di: goma.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_d495e92f_20",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: goma.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_2382bb1d_32",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "La guagua tiene gomas. Di: goma.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_952862d9_94",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Rueden un juguete con ruedas por el piso girando una goma con el dedo del niño y digan “goma”.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_e28a0e82_40",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "La guagua corre por la calle. Di: corre.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_39125c86_21",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: corre.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_e28a0e82_40",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "La guagua corre por la calle. Di: corre.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_48817f02_73",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Corran juntos unos pasos “como la guagua” y frenen de golpe en la parada.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_f49b7bc4_35",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "La guagua va bien llena. Di: llena.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_2c7e00e7_21",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: llena.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_f49b7bc4_35",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "La guagua va bien llena. Di: llena.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_68354a74_85",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Júntense mucho en un espacio chiquito “como en la guagua llena” y ríanse apretaditos.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_ecfc857a_28",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Este es el perro. Di: perro.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_ecfc857a_28",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "Este es el perro. Di: perro.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_995f8d02_78",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Señala un perro de juguete o una foto y acarícienlo juntos repitiendo “perro”.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_fe1ee935_38",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "El perro tiene cuatro patas. Di: pata.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_2071b247_20",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: pata.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_fe1ee935_38",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "El perro tiene cuatro patas. Di: pata.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_43572191_97",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Pongan las manos en el piso como patas y caminen en cuatro patas un par de pasos diciendo “pata”.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_152d1394_42",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "El perro brinca por la pelota. Di: brinca.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_4230bf36_22",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: brinca.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_152d1394_42",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "El perro brinca por la pelota. Di: brinca.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_c1b7fca3_59",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Brinquen los dos a la vez diciendo “¡brinca!” en cada bote.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_9a202e8f_42",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "El perro es blandito y peludo. Di: peludo.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_92ecea98_22",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: peludo.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_9a202e8f_42",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "El perro es blandito y peludo. Di: peludo.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_46ede657_81",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Acaricien un peluche o una manta suave y digan “peludo” pasando la mano despacio.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_cb0d6874_26",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Este es el gato. Di: gato.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_cb0d6874_26",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "Este es el gato. Di: gato.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_6a2008f5_77",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Señala un gato de juguete o una foto y acarícienle el lomo repitiendo “gato”.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_6cd18626_41",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "El gato tiene bigotes largos. Di: bigote.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_c2283ad7_22",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: bigote.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_6cd18626_41",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "El gato tiene bigotes largos. Di: bigote.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_98d4614f_94",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Dibujen bigotes en el aire desde la nariz hacia los cachetes del niño mientras dicen “bigote”.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_de6ca286_40",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "El gato duerme en su camita. Di: duerme.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_7b4e0821_22",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: duerme.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_de6ca286_40",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "El gato duerme en su camita. Di: duerme.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_a49d5669_99",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Junta las manos bajo la mejilla, cierra los ojos y haz “shhh” invitando al niño a “dormir” contigo.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_5ef6c213_42",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "El pelo del gato es bien suave. Di: suave.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_eae0e5b3_21",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: suave.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_5ef6c213_42",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "El pelo del gato es bien suave. Di: suave.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_621d942c_82",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Pasen una pluma o un pañuelo por el brazo del niño bien despacio diciendo “suave”.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_e1bc3da2_26",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Esto es el agua. Di: agua.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_e1bc3da2_26",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "Esto es el agua. Di: agua.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_9d98dd59_88",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Mojen un dedo en agua de verdad y tóquense la mano notando el fresquito al decir “agua”.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_049fb7f4_34",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "El agua sale de la nube. Di: nube.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_072ed403_20",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: nube.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_049fb7f4_34",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "El agua sale de la nube. Di: nube.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_6c6a6083_90",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Señalen una nube por la ventana (o dibujen una en el aire) y digan “nube” soplando bajito.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_bcf4884a_31",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "El agua cae del cielo. Di: cae.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_e9a77bd0_19",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: cae.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_bcf4884a_31",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "El agua cae del cielo. Di: cae.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_61cd9fc8_87",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Levanten las manos arriba y bájenlas moviendo los dedos hasta el piso diciendo “caeee”.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_18b0a18f_32",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "La mano está mojada. Di: mojado.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_cc062d5f_22",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: mojado.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_18b0a18f_32",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "La mano está mojada. Di: mojado.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_476c9735_88",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Mójale un poquito la mano al niño con una toallita y digan “mojao” sacudiendo las manos.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_dcdbf280_28",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Este es el gallo. Di: gallo.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_41206226_21",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: gallo.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_dcdbf280_28",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "Este es el gallo. Di: gallo.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_64bbe1ef_77",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Señala un gallo en una foto y marquen su cresta con el dedo diciendo “gallo”.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_86cbaded_43",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "El gallo tiene una cresta roja. Di: cresta.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_86b87e85_22",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: cresta.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_86cbaded_43",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "El gallo tiene una cresta roja. Di: cresta.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_0f876233_84",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Pongan la mano abierta sobre la cabeza como una cresta y muévanla al decir “cresta”.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_cc886790_36",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "El gallo canta bien duro. Di: canta.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_1a400da6_21",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: canta.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_cc886790_36",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "El gallo canta bien duro. Di: canta.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_929e79fc_65",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Canten los dos “la la la” bien duro y después bajito, turnándose.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_718f3e98_36",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "El gallo es bien grande. Di: grande.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_fe032f48_22",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: grande.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_718f3e98_36",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "El gallo es bien grande. Di: grande.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_41e616d9_82",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Abran los brazos todo lo que puedan y pónganse de puntillas diciendo “¡graaande!”.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_4772c804_28",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Esto es la playa. Di: playa.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_0fe9b7fe_21",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: playa.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_4772c804_28",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "Esto es la playa. Di: playa.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_14d8e54a_79",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Caminen “en la arena” pisando fuerte y descalzos si se puede, diciendo “playa”.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_9bda5239_39",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "En la playa hay mucha arena. Di: arena.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_341322f0_21",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: arena.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_9bda5239_39",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "En la playa hay mucha arena. Di: arena.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_6c0ec9c7_92",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Pasen los dedos por arena de verdad, azúcar o harina y digan “arena” sintiendo los granitos.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_f89c0c8e_33",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "El niño nada en el mar. Di: nada.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_81448071_20",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: nada.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_f89c0c8e_33",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "El niño nada en el mar. Di: nada.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_067a4316_73",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Muevan los brazos como nadando, de pie, y “naden” juntos hasta la orilla.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_70ebddb2_40",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "El niño sale del mar mojado. Di: mojado.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_70ebddb2_40",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "El niño sale del mar mojado. Di: mojado.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_a2b77b3d_77",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Sacúdanse como perritos mojados y envuélvanse en una toalla diciendo “mojao”.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_27d1e1a0_30",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Este es el pájaro. Di: pájaro.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_389b18d4_22",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: pájaro.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_27d1e1a0_30",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "Este es el pájaro. Di: pájaro.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_26cd3bb2_83",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Busquen un pájaro por la ventana o en un dibujo, señálenlo y salúdenlo con la mano.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_0726324e_34",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "El pájaro tiene plumas. Di: pluma.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_a1cbd70e_21",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: pluma.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_0726324e_34",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "El pájaro tiene plumas. Di: pluma.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_4fb80c3e_94",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Soplen una pluma de verdad (o un pedacito de papel) para que flote y digan “pluma” al cogerla.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_f32c76a2_40",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "El pájaro vuela por el cielo. Di: vuela.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_3e40bcc8_21",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: vuela.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_f32c76a2_40",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "El pájaro vuela por el cielo. Di: vuela.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_3e8c5dfc_70",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Corran por la sala con los brazos como alas, subiéndolas y bajándolas.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_97f0c30f_43",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "El pajarito es bien chiquito. Di: chiquito.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_43d8fee9_24",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: chiquito.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_97f0c30f_43",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "El pajarito es bien chiquito. Di: chiquito.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_bf857665_80",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Junten mucho las manos como si sujetaran un pajarito diminuto y háblenle bajito.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_15a616dd_127",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Busca dos ositos de peluche iguales pero de distinto tamaño: uno bien GRANDE y uno bien CHIQUITO. Ponlos juntos frente al niño.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_ada9dfff_53",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¿Cuál es el osito GRANDE? ¡Dámelo y dilo! Di: grande.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_ada9dfff_53",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "¿Cuál es el osito GRANDE? ¡Dámelo y dilo! Di: grande.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_33776527_93",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "El niño te entrega el peluche grande mientras lo dice; abrácenlo exagerando lo enorme que es.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_0a2c97c6_73",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Ahora al revés: ¿cuál es el osito CHIQUITO? ¡Dámelo y dilo! Di: chiquito.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_0a2c97c6_73",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "Ahora al revés: ¿cuál es el osito CHIQUITO? ¡Dámelo y dilo! Di: chiquito.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_c0bea805_87",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "El niño te da el chiquito; escóndanlo en una mano y digan “chiquito” con vocecita mini.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_bd891b16_131",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Coge dos cucharas iguales: lava una hasta dejarla brillante y ensucia la otra con un poco de comida. Ponlas una al lado de la otra.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_57643969_58",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Señala la cuchara SUCIA. ¿Cómo está esta? Dilo. Di: sucio.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_41cf05e6_21",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: sucio.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_57643969_58",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "Señala la cuchara SUCIA. ¿Cómo está esta? Dilo. Di: sucio.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_d5b811b2_76",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "El niño señala la cuchara sucia y pongan los dos cara de “¡fo!” apartándola.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_c53b0905_63",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Y esta otra cuchara, ¿cómo está? ¡Mira cómo brilla! Di: limpio.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_5b4c398d_22",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: limpio.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_c53b0905_63",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "Y esta otra cuchara, ¿cómo está? ¡Mira cómo brilla! Di: limpio.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_2e027448_65",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Señalen la limpia, sóplenla como si brillara y choquen los cinco.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_5569f2b4_100",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Pon frente al niño una caja con tapa y mete dentro, a la vista, su juguete favorito. Cierra la tapa.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_403ab8b5_78",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "El juguete está adentro. ¿Qué hacemos para sacarlo? ¡Vamos a ABRIR! Di: abrir.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_0b593121_21",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: abrir.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_403ab8b5_78",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "El juguete está adentro. ¿Qué hacemos para sacarlo? ¡Vamos a ABRIR! Di: abrir.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_a5e0bf70_87",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Abran la caja juntos, bien despacio, y celebren encontrar el juguete con un “¡ta-tán!”.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_b9209bbe_70",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Guardamos el juguete. ¿Qué hacemos con la tapa? ¡A CERRAR! Di: cerrar.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_ac393df6_22",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: cerrar.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_b9209bbe_70",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "Guardamos el juguete. ¿Qué hacemos con la tapa? ¡A CERRAR! Di: cerrar.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_913f78aa_72",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "El niño empuja la tapa hasta cerrarla del todo mientras dice la palabra.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_923c3cd2_96",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Haz una rampa apoyando un libro grande inclinado y pon un carrito de juguete al pie de la rampa.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_31e01c8e_60",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "El carro va pa’ la loma. ¿Qué hace? ¡SUBE arriba! Di: subir.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_4124cdae_21",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: subir.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_31e01c8e_60",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "El carro va pa’ la loma. ¿Qué hace? ¡SUBE arriba! Di: subir.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_4369902a_68",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Suban el carro por la rampa bien despacio mientras suena la palabra.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_a51c8179_43",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Ahora el carro baja! ¿Qué hace? Di: bajar.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_8753dc6f_21",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: bajar.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_a51c8179_43",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "¡Ahora el carro baja! ¿Qué hace? Di: bajar.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_18e63c6c_77",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Suelten el carro y que baje solo por la rampa; digan “¡bajaaa!” mientras cae.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_4ce202a3_106",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Prepara dos vasos: uno con agua bien fría (con hielo si hay) y otro con agua tibia. Ponlos frente al niño.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_4d58c1a1_49",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Toca los vasos. ¿Cuál está FRÍO? ¡Brrr! Di: frío.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_cedca92b_20",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: frío.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_4d58c1a1_49",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "Toca los vasos. ¿Cuál está FRÍO? ¡Brrr! Di: frío.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_2426ff9b_74",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "El niño toca el vaso frío; tiriten juntos “¡brrr!” encogiendo los hombros.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_30d632e7_43",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Y este otro vaso, ¿cómo está? Di: caliente.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_5eef396a_24",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: caliente.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_30d632e7_43",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "Y este otro vaso, ¿cómo está? Di: caliente.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_918d4415_77",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Toquen el vaso tibio y abaníquense la mano como si quemara, exagerando mucho.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_d08dafe7_109",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Ponte con el niño junto al interruptor de la luz (o coge una linterna). El cuarto empieza con la luz apagada.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_2ae76ede_62",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Está oscuro… ¿Qué hacemos con la luz? ¡A PRENDER! Di: prender.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_89e766e1_23",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: prender.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_2ae76ede_62",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "Está oscuro… ¿Qué hacemos con la luz? ¡A PRENDER! Di: prender.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_128e4cf4_80",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "El niño toca el interruptor justo al decirlo y celebran la luz con un “¡ooooh!”.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_1d39290b_63",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Ahora al revés. ¿Qué hacemos con la luz? ¡A APAGAR! Di: apagar.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_4461f939_22",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Otra vez! Di: apagar.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_slow_1d39290b_63",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "Ahora al revés. ¿Qué hacemos con la luz? ¡A APAGAR! Di: apagar.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_tutor_db5fd2e6_66",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "El niño apaga la luz y se dicen “buenas noches” en voz de susurro.",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_6380e972_38",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Sesión completada! ¡Choca esos cinco!",
+   "source": "expansion"
+  },
+  {
+   "id": "es-DO_child_885e4f76_28",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Vamos a escucharla otra vez.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_7dac3581_35",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Casi! Vamos a intentarlo otra vez.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_2b476977_24",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Primero toca una imagen.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_4e8865c8_7",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Alegría",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_797add51_8",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Tristeza",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_6fae48ca_6",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Enfado",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_55249075_5",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Dolor",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_ff657b0a_19",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Sesión completada!",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_edae47a3_41",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Ahí solo hay uno. Busca donde hay muchos.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_tutor_c15ceb13_51",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "¿Cómo se siente? ¿Alegría, Tristeza, Enfado, Dolor?",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_tutor_133be592_112",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "El niño toca una imagen para oír su nombre y después toca la vocal con la que empieza. La app le dice si acertó.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_5647501d_74",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Dibujad la vocal en el aire con el brazo bien grande cada vez que acierte.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_slow_a4d86fa3_5",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "araña",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_slow_b4217197_8",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "elefante",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_slow_bd83e9ee_4",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "isla",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_slow_23f61e56_21",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "araña, elefante, isla",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_slow_c4206de8_3",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "oso",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_slow_b166178e_4",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "uvas",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_slow_b4141684_5",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "avión",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_slow_ff00df96_16",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "oso, uvas, avión",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_slow_61c155f8_6",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "águila",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_slow_a915a3ee_5",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "erizo",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_slow_24aec1a2_5",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "oveja",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_slow_f62b470a_20",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "águila, erizo, oveja",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_tutor_ac4d509d_116",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Di tú primero la palabra, cerca del niño y despacio, y anímale a repetirla. La voz de la app es solo un apoyo extra.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_493972af_69",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Marchad por la sala pisando fuerte una sílaba en cada paso: ZA-PA-TO.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_slow_6bed91f2_6",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "zapato",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_slow_c6b9ecb4_6",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "pelota",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_slow_ada25977_8",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "mariposa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_slow_3fa2f581_6",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "tomate",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_tutor_c80ec11f_122",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Primero pulsa 🔊 para que el niño oiga la palabra completa. Después, que toque la vocal que le falta a la palabra escrita.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_7d9c9046_65",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Cuando encuentre la vocal, brazos arriba formando un sol gigante.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_slow_e2363da1_3",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "sol",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_slow_4f55eeec_3",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "pan",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_slow_05033d87_4",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "luna",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_slow_1e5dfd21_4",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "pino",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_tutor_32de342d_115",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Toca 🔊 para oír el nombre de las cuatro fichas. Tres van juntas y una no. El niño toca la que NO va con las demás.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_d15b183f_68",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Si se come, tocaos la barriga; si es el intruso, ¡salto de estrella!",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_slow_e872ce03_27",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "manzana, guineo, uva, carro",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_9d12ab97_7",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "manzana",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_342a4356_6",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "guineo",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_4799fa89_3",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "uva",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_6613c672_5",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "carro",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_tutor_1af8fe71_117",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Toca 🔊 para oír el nombre de las cuatro fichas. Tres son animales y una no. El niño toca la que NO va con las demás.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_slow_70ed24ac_25",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "perro, gato, vaca, zapato",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_8e40a2f7_5",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "perro",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_1c60f484_4",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "gato",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_1cd686a0_4",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "vaca",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_6bed91f2_6",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "zapato",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_tutor_d941c9cc_122",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Toca 🔊 para oír el nombre de las cuatro fichas. Tres son para vestirse y una no. El niño toca la que NO va con las demás.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_slow_00a9e683_31",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "gorra, camiseta, zapato, guineo",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_b137e1be_5",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "gorra",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_32f94bac_8",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "camiseta",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_tutor_f8daf6c0_95",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Toca 🔊 para oír la adivinanza (o léela tú). El niño responde tocando una de las tres imágenes.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_fa81b501_71",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Buscad por la habitación un objeto real que empiece por la misma letra.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_tutor_e2f1d226_66",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Es amarillo, largo y blandito, y a los monos les encanta. ¿Qué es?",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_tutor_33abf45a_56",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Empieza por eme, y es una fruta roja y redonda. ¿Qué es?",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_ada25977_8",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "mariposa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_12467974_4",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "moto",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_tutor_3e7cf442_60",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Empieza por ese, brilla en el cielo y nos da calor. ¿Qué es?",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_e2363da1_3",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "sol",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_3ad4f3ee_9",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "serpiente",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_e331a50c_4",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "sopa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_tutor_d6f074be_62",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Empieza por u, es pequeña, morada y viene en racimos. ¿Qué es?",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_acf02d1f_4",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "pera",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_344367f1_6",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "sandía",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_tutor_519aca09_118",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Coge el muñeco y la ropa. Dale al niño una orden cada vez: «Ponle la gorra al muñeco». Cambia de prenda en cada turno.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_28ade80e_72",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Jugad a vestirse de verdad: que traiga el gorro corriendo y se lo ponga.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_tutor_0ee0d8a1_231",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "El niño toca la tarjeta donde hay MUCHOS. En dominicano la ese del final casi no se oye, así que el plural se marca con el determinante: pregúntale «¿cuántos hay?» para que diga «muchos gatos» y fíjate en el «muchos», no en la ese.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_78f208a8_67",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Un salto grande si hay UNO, muchos saltitos seguidos si hay MUCHOS.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_slow_a3a1a0d5_5",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "gatos",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_bcbcbfa3_7",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "un gato",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_97f884ac_12",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "muchos gatos",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_tutor_41f4ef62_156",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "El niño toca la tarjeta donde hay MUCHAS. Pregúntale «¿cuántas hay?» para que diga «muchas flores»: en dominicano fíjate en el «muchas», no en la ese final.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_slow_c1c4efae_6",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "flores",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_1a04ed30_8",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "una flor",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_b5239ac3_13",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "muchas flores",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_tutor_ea5b487b_135",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "El niño toca la tarjeta donde hay MUCHOS. Pregúntale «¿cuántos hay?» para que diga «muchos peces»: fíjate en el «muchos», no en la ese.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_slow_d41d26cf_5",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "peces",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_da7eb1f5_6",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "un pez",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_ba6e0f0e_12",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "muchos peces",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_tutor_f06d1fe1_130",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Pulsa 🔊 para oír la palabra. El niño toca la imagen correcta. Después jugad al revés: tú señalas una imagen y él dice la palabra.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_781599a2_71",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Un lado de la sala es \"niño\" y el otro \"niña\": ¡corre al lado correcto!",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_slow_211718ee_4",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "niña",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_1b170f7c_4",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "niño",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_211718ee_4",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "niña",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_slow_13aee407_6",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "abuela",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_09aed449_6",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "abuelo",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_13aee407_6",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "abuela",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_slow_35f46f8b_3",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "rey",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_35f46f8b_3",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "rey",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_c92b6d6a_5",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "reina",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_slow_ae1de82d_7",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "gallina",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_2e6fea5e_5",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "gallo",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_ae1de82d_7",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "gallina",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_tutor_1f79eb03_127",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Pulsa 🔊 para que el niño oiga la frase. Después, que toque las palabras en orden para construirla: quién, qué hace y qué cosa.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_d72af1c8_76",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Teatralizad la frase: el niño hace de actor y \"come\" una manzana imaginaria.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_fc476020_24",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "El niño come la manzana.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_slow_1b170f7c_4",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "niño",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_slow_fd42bc61_4",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "come",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_slow_9d12ab97_7",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "manzana",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_3c496a43_24",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "La niña lanza la pelota.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_slow_089afead_5",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "lanza",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_558a0f75_23",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "El perro come el hueso.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_slow_0b9432e3_5",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "hueso",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_tutor_a8325c5c_196",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Tres columnas de color: quién, qué hace y qué cosa. El niño elige UNA ficha de cada columna y arma la frase que él quiera, no una frase dada. Después la oye entera y la representáis con el cuerpo.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_f78c9a8d_177",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Representad la frase que haya salido, aunque sea disparatada: si la gallina lava el zapato, lavad un zapato imaginario cacareando. Lo raro da risa, y la risa fija la estructura.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_slow_1c60f484_4",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "gato",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_slow_7ad5305b_4",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "lava",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_slow_c92a659f_4",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "coge",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_slow_b2ccca14_7",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "plátano",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_tutor_904fea22_107",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Señala cosas de la habitación y pregúntale: «¿Qué es esto?». Graba o escribe abajo lo que responda el niño.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_94adc724_87",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Pasead por la casa como exploradores señalando objetos: \"¿qué es esto?\" en cada parada.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_tutor_f4dca09a_139",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "El peluche está dormido: hablad muy bajito para no despertarlo. Cuando «se despierte», volved a la voz normal. Registra abajo cómo lo hace.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_3f8f2819_76",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Caminad de puntillas hablando bajito; a la señal, ¡voz normal y paso fuerte!",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_ca0e062e_55",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Shhh… el peluche está dormido. Hablamos muy muy bajito.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_addc1f4e_58",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Ya se despertó el peluche! Ahora hablamos con voz normal.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_tutor_2646a04a_101",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Mira la cara grande con el niño. Pulsa 🔊 si quiere oír las opciones. Él toca cómo se siente la cara.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_48d50a72_72",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Imitad la emoción con todo el cuerpo: cara, brazos y postura de estatua.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_tutor_fee5c7cb_158",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Tápate la boca y di una palabra casi sin voz. Si el niño no la entiende, debe pedirte: «¿qué?» o «¿cómo?». Eso es lo que practicamos: pedir que se lo repitan.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_5c2c2e5b_85",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Susurra una orden desde lejos; si no se entiende, que venga corriendo y pida \"¿qué?\".",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_slow_7b992bcf_4",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "cómo",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_tutor_0439668f_291",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Primero en silencio: di SOLO el nombre del animal con tu voz normal —«vaca»— y que lo toque. Cuando acierte tranquilo, sube POCO A POCO el ruido de fondo desde el Panel del Adulto (abajo) y repite con otro animal. Tu voz es la señal: no grites ni exageres; si lo ves fatigado, baja el ruido.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_6cb1c0c1_89",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Granja en casa: esconded los animales de peluche y buscadlos con la música puesta bajita.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_tutor_1cd686a0_4",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "vaca",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_24aec1a2_5",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "oveja",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_a370d085_7",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "caballo",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_tutor_24aec1a2_5",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "oveja",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_tutor_ae1de82d_7",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "gallina",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_tutor_73867e8c_272",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "PRIMERO sin voz: di la palabra solo moviendo los labios, despacio y con tu cara bien iluminada, y que el niño toque la imagen leyendo tus labios. DESPUÉS toca 🔊 para devolverle el sonido y confirmar. No le corrijas con un «no»: repite el modelo con voz y labios a la vez.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_b26add80_93",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Jugad al espejo mudo: uno dice una palabra sin voz y el otro la adivina. ¡Cambiad de papeles!",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_slow_878751ef_4",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "pato",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_878751ef_4",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "pato",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_05033d87_4",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "luna",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_c3b10f72_4",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "boca",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_b8c80eb6_4",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "flor",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_728b3cb4_4",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "tren",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_c4206de8_3",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "oso",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_6a40feb5_3",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "pie",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_tutor_43cde3f8_274",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Cuatro palabras que suenan casi igual. Di tú la palabra objetivo con voz normal y que la toque. En cada ronda hazlo un poco más difícil CON TU CUERPO: baja el volumen de tu voz o aléjate un paso más. La app no toca el volumen: el estresor eres tú, y tú decides cuándo parar.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_77d852dc_83",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Teléfono viajero: susúrrale la palabra al oído desde cada esquina de la habitación.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_slow_d30123c1_5",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "plato",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_d30123c1_5",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "plato",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_tutor_efb7fc47_239",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Toca 🔊 para que oiga la orden COMPLETA de tres pasos. Después, candado humano: sujeta sus manos con suavidad y cuenta hasta 5 en silencio antes de dejarle tocar. Esa espera obliga a guardar la orden en la memoria, no a vaciarla corriendo.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_b29a8267_109",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Circuito de órdenes: «toca la puerta, luego el sofá y después la ventana», con la misma espera de 5 segundos.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_7befe95b_46",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Toca el sol, luego el perro y después la casa.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_slow_9f253efd_4",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "casa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_bf37f29d_46",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Toca la luna, luego el gato y después la flor.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_slow_b8c80eb6_4",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "flor",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_e7b691e5_45",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Toca el pan, luego el pez y después el árbol.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_slow_634b810c_3",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "pez",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_slow_f4de04ab_5",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "árbol",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_tutor_411f7e0b_212",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Ponte DETRÁS del niño, donde no te vea. Haz sonar el objeto a un lado (izquierda o derecha) y que señale con el brazo de dónde vino el sonido ANTES de girarse a mirar. Alterna los lados sin seguir un patrón fijo.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_eef076d1_82",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Marco Polo sonoro: con los ojos cerrados, que camine hacia la campanita que suena.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_tutor_7cc72ced_118",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Acerca las burbujas muy cerca de tu cara y llama su nombre. Busca un contacto visual breve, aunque sea de un instante.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_tutor_073b46b4_94",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Haz burbujas a un brazo de distancia. Llama su nombre y señala con el dedo hacia las burbujas.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_tutor_f7c23471_100",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Desde el otro lado de la habitación, llama su nombre una sola vez sin estímulo motivador a la vista.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_b8da07e1_62",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Perseguid y explotad burbujas juntos: una burbuja, una mirada.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_tutor_b7627455_118",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Aplaude despacio frente a él y guía sus manos la primera vez. Repite el gesto solo, sin pedirle todavía ningún sonido.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_tutor_d13c97b3_114",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Toca el tambor dos veces y di \"pa-pa\". Cuando lo repita, usa esa misma sílaba dentro de una palabra corta: \"pato\".",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_tutor_597cf03f_164",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Combina un gesto y una palabra corta nueva (\"salta\" mientras saltas, \"vamos\" mientras andáis) y observa si la imita en espejo, a la primera y sin repetir el modelo.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_3e255088_72",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Espejo humano: imitad gestos grandes (brazos, saltos, giros) por turnos.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_tutor_2760f67a_61",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Dile \"Dame la pelota\" mientras señalas la pelota con el dedo.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_tutor_534b3d01_66",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Pídele \"Tócate la nariz\" y \"Tócate la cabeza\" sin gestos de apoyo.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_tutor_042cf74e_94",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Dile sin ningún gesto: \"Dame la pelota y siéntate\". Observa si ejecuta los dos pasos en orden.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_c4501466_64",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Jugad a \"Simón dice\" con órdenes de un paso y partes del cuerpo.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_tutor_a837d179_81",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Muéstrale el muñeco del perro y modela: \"Guau\". Espera que repita la onomatopeya.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_tutor_4ded8542_71",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Muéstrale un vaso de agua sin decir nada y pregúntale: \"¿Qué es esto?\".",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_tutor_0699c5a5_101",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Ofrécele el vaso vacío y espera a que pida espontáneamente \"quiero agua\" combinando las dos palabras.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_62657f96_70",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Carrera hasta el grifo: solo se abre si dice la palabra mágica \"agua\".",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_slow_c0b3dbc0_11",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "quiero agua",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_tutor_e62b939a_102",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Detén un juego divertido (cosquillas, columpio) y modela el gesto + palabra \"más\". Ayúdale a imitarlo.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_tutor_2b115541_103",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Dale un bote cerrado con algo que le guste dentro y espera. Si se frustra, sugiere a media voz \"ayuda\".",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_tutor_7c624a98_114",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Crea otra situación de necesidad (juguete fuera de alcance) sin dar ninguna pista y espera la petición espontánea.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_83458ac6_70",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Columpio, avión o cosquillas: para el juego y espera a que pida \"más\".",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_tutor_33a60b3d_102",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Muéstrale la imagen de la siguiente actividad y haz una cuenta atrás visual de 5 a 1 antes de cambiar.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_tutor_a88b4c92_94",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Avisa el cambio una sola vez y dale al terminar, con calma, la recompensa que hayáis acordado.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_tutor_f008e6ae_89",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Deja que consulte solo su agenda visual y haga la transición sin que tengas que avisarle.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_fa986008_84",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Marchad juntos hacia la siguiente actividad cantando la canción de las transiciones.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_tutor_15a3b349_79",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Apila un bloque y dile \"ahora tú\". Ayúdale físicamente si no responde al turno.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_tutor_29505032_107",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Ofrécele un muñeco y una cuchara; modela \"vamos a darle de comer\" y espera que continúe el juego simbólico.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_tutor_970404a9_90",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Deja que proponga él un juego de turnos o simbólico y mantén el intercambio sin dirigirlo.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_e5bf2be5_74",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Pasaos una pelota rodando: solo habla quien la tiene. ¡Turno y movimiento!",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_tutor_3a893f56_271",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Coloca un objeto muy motivador entre tu cara y el niño. Espera 3 segundos ANTES de dar ninguna pista (instigación retardada): el botón «Dar punto de mirada» se desbloquea solo tras esa espera. Púlsalo ÚNICAMENTE cuando haya contacto visual real contigo, no con el objeto.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_697a2beb_98",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Esconde el objeto tras tu espalda y camina despacio: que te busque la mirada antes de enseñárselo.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_tutor_7df66cb3_326",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Este ejercicio usa el Quiebre Pragmático del Panel del Adulto: congelas la app a propósito (orden absurda o silencio) y observas cómo repara el niño la comunicación. Es un estresor MANUAL y reversible al instante: tú decides cuándo empieza y cuándo acaba. Ábrelo abajo en el Panel del Adulto y registra la estrategia que uses.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_8aca6f60_79",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Tras cada reparación lograda, celebradlo con un choque de manos bien exagerado.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_tutor_7a28594e_235",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Pulsa 🔊 para que la voz de la app dicte la orden motora y, MIENTRAS suena, haz tú una acción contradictoria (la voz dice «toca tu nariz» y tú te tocas la cabeza). El objetivo es que el niño siga el AUDIO e inhiba la copia de tu gesto.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_89d9a8bd_94",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Jugad a «la voz manda»: la orden sonora vale, el gesto del adulto engaña. ¡Cambiad de papeles!",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_tutor_c6705d28_240",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "A mitad del juego que más le esté gustando, pulsa «Interrumpir ahora»: aparecerá una cápsula de movimiento abrupta. Observa la transición: ¿la tolera, protesta y sigue, o abandona? Tú decides el momento exacto; la app jamás interrumpe sola.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_88bd0488_104",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Convertid la interrupción en juego: «¡estatua!», tres respiraciones sopladas y de vuelta a la actividad.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_tutor_10baa137_253",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Pulsa 🔊 para oír las cuatro palabras. Tres van juntas y una no: el niño toca la que NO va con las demás. Después sube POCO A POCO el ruido de fondo desde el Panel del Adulto y repite con otra ronda: anota cómo cambia el acierto con cada nivel de ruido.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_2b504db2_95",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Clasificad juguetes reales en dos cajas (animales / cosas de comer) con música de fondo bajita.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_slow_4b67037b_29",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "perro, gato, caballo, cuchara",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_ba492154_7",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "cuchara",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_tutor_4853b091_186",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Toca 🔊 para oír las cuatro fichas. Tres se comen y una no: el niño toca la que NO va con las demás. Sube el ruido desde el Panel del Adulto ronda a ronda y anota cómo cambia el acierto.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_slow_de737a4c_27",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "manzana, pan, queso, pelota",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_4f55eeec_3",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "pan",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_0ed0d71c_5",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "queso",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_c6b9ecb4_6",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "pelota",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_tutor_169c3f88_190",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Toca 🔊 para oír las cuatro fichas. Tres son para vestirse y una no: el niño toca la que NO va con las demás. Mantén el nivel de ruido que estés probando y compara con las rondas anteriores.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_slow_1f2fc1ff_30",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "gorra, camiseta, zapato, fresa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_b428d034_5",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "fresa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_tutor_2403c36e_329",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Toca 🔊 para oír la orden con DOS pistas a la vez (forma Y color). Si atiende a una sola pista y falla (toca el círculo rojo), NO lo penalices: verbaliza tú la contingencia con naturalidad —«ese es rojo, pero es un círculo; yo quiero el cuadrado»— y deja que lo intente otra vez. Premia el intento comunicativo, no la perfección.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_3a20ab6d_89",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Búsqueda con dos pistas por la casa: «tráeme algo BLANDO y AZUL». Celebrad cada hallazgo.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_tutor_9501b777_17",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "El cuadrado rojo.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_776fa898_13",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "cuadrado rojo",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_4ad53f40_12",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "círculo rojo",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_4437be56_13",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "cuadrado azul",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_tutor_aa143d7b_16",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "El círculo azul.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_9748666e_12",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "círculo azul",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_tutor_5adcbbc1_21",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "La estrella amarilla.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_f91e6631_16",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "círculo amarillo",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_5f49b4f0_17",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "estrella amarilla",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_df2e4b32_16",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "corazón amarillo",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_tutor_6e6cacc5_172",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Pulsa 🔊 para que la voz dicte la serie completa. Tres palabras riman y una no: el niño toca el altavoz de la que NO suena como las demás. Sin apoyo de texto: solo el oído.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_6435ae8e_88",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Palmada en la rodilla con cada palabra que rima; brazos en cruz cuando suene la intrusa.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_slow_dd72ca75_22",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "pino, fino, lino, mesa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_1e5dfd21_4",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "pino",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_b4f0772f_4",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "fino",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_11db0cb5_4",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "lino",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_aa00cce7_4",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "mesa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_slow_4d4288c9_22",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "pata, lata, rata, luna",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_8d875b61_4",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "pata",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_86db536d_4",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "lata",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_aa83961b_4",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "rata",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_slow_432688b0_23",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "casa, pasa, taza, perro",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_9f253efd_4",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "casa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_8d7a8f6e_4",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "pasa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_0a59f42f_4",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "taza",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_slow_4875f9c0_23",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "sol, gol, caracol, mesa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_401b9265_3",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "gol",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_b062a42a_7",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "caracol",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_tutor_d8db5ea8_231",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "El niño lee la frase de la pantalla en voz alta, de un tirón y sin silabear. Cuando lo consiga en calma, activa la Gata Distractora y algo de ruido desde el Panel del Adulto y repite con otra ronda: valora tú la fluidez, no la app.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_8845e178_72",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Leed la frase caminando: un paso por palabra, sin pararse entre sílabas.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_slow_689b3026_15",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "el oso come pan",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_slow_67c0451e_17",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "la niña bebe jugo",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_slow_d869e60d_18",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "mi gato salta alto",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_tutor_a7cb846d_241",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Pulsa «Oír los sonidos»: la app emite cada sonido por separado, con una pausa entre ellos. El niño debe unirlos y decir la palabra completa. Recoge la fusión con el micro; si el reconocimiento falla o va lento, valora tú abajo con la escala.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_b3a029e7_75",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Un salto por cada sonido y, al decir la palabra entera, ¡salto de estrella!",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_slow_cb976d00_4",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "mano",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_slow_ca99d446_3",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "mmm",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_slow_e40c292c_1",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "a",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_slow_11b54859_3",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "nnn",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_slow_ea0c329e_1",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "o",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_slow_c33f0730_3",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "sss",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_slow_a42935e4_3",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "ooo",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_slow_365991eb_3",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "lll",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_slow_f00c3c10_1",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "u",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_tutor_94c58138_228",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "La palabra de la pantalla es inventada: no se puede adivinar, solo decodificar. El niño la lee en voz alta tal cual suena. Máximo 5 ensayos: al llegar al límite, la app propone una pausa de movimiento obligatoria para descargar.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_b31ce267_62",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Decid la pseudopalabra dando una palmada por sílaba: ME-PO-TI.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_slow_98bd3905_6",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "mepoti",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_slow_2169127a_7",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "faslumo",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_slow_05246fc2_6",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "tinelo",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_slow_b7a317f8_7",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "burdina",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_tutor_d2515084_237",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "Di al niño qué letra buscar (la grande del recuadro) y que toque TODAS las que encuentre en el panel. Las letras gemelas giradas (b/d, p/q) intentan engañarle. Si quieres carga extra, activa la Gata Distractora desde el Panel del Adulto.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_e556cb81_100",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "Dibujad la letra objetivo gigante en el aire: la barriga de la «b» mira hacia delante, como al leer.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_tutor_c3241487_314",
+   "lang": "es-DO",
+   "style": "tutor",
+   "text": "El niño nombra cada dibujo EN VOZ ALTA y en orden de lectura (de izquierda a derecha), tocándolo al nombrarlo. El reto lúdico eres tú: persigue su dedo por la pantalla con el tuyo, como jugando a atraparse («¡a que te cojo!»). Sin cronómetros: si lo ves acelerado o frustrado, frena tu dedo o detén la persecución.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_e9703a91_92",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "RAN de casa: recorred una estantería nombrando cada objeto seguido, como leyendo un renglón.",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_slow_d26cdb06_64",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "sol, gato, pan, flor, pan, flor, sol, gato, gato, sol, flor, pan",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_slow_b3d88d76_70",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "luna, perro, casa, pez, casa, pez, luna, perro, perro, luna, pez, casa",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_slow_1603b8b9_4",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "rojo",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_slow_49019a1b_4",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "azul",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_slow_d2a54155_5",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "verde",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_slow_817bf290_8",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "amarillo",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_slow_1b222b80_85",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "rojo, azul, verde, amarillo, verde, amarillo, rojo, azul, azul, verde, amarillo, rojo",
+   "source": "ejercicios"
+  },
+  {
+   "id": "es-DO_child_67473535_47",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Qué dibujo tan bonito has hecho en la pizarra!",
+   "source": "escritura/elogio"
+  },
+  {
+   "id": "es-DO_child_dd94de67_46",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Excelente! Has seguido la dirección perfecta.",
+   "source": "escritura/elogio"
+  },
+  {
+   "id": "es-DO_child_7ab2901f_54",
+   "lang": "es-DO",
+   "style": "child",
+   "text": "¡Casi casi! Sigue las flechas y los números despacito.",
+   "source": "escritura/elogio"
+  },
+  {
    "id": "slow_e70c2de5_1",
    "lang": "es",
    "style": "slow",
@@ -34266,6 +39495,13 @@
   {
    "id": "ca_slow_e70c2de5_1",
    "lang": "ca",
+   "style": "slow",
+   "text": "b",
+   "source": "escritura/letra"
+  },
+  {
+   "id": "es-DO_slow_e70c2de5_1",
+   "lang": "es-DO",
    "style": "slow",
    "text": "b",
    "source": "escritura/letra"
@@ -34306,6 +39542,13 @@
    "source": "escritura/letra"
   },
   {
+   "id": "es-DO_slow_e10c2473_1",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "d",
+   "source": "escritura/letra"
+  },
+  {
    "id": "slow_f50c43ef_1",
    "lang": "es",
    "style": "slow",
@@ -34329,6 +39572,13 @@
   {
    "id": "ca_slow_f50c43ef_1",
    "lang": "ca",
+   "style": "slow",
+   "text": "p",
+   "source": "escritura/letra"
+  },
+  {
+   "id": "es-DO_slow_f50c43ef_1",
+   "lang": "es-DO",
    "style": "slow",
    "text": "p",
    "source": "escritura/letra"
@@ -34369,6 +39619,13 @@
    "source": "escritura/letra"
   },
   {
+   "id": "es-DO_slow_f40c425c_1",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "q",
+   "source": "escritura/letra"
+  },
+  {
    "id": "slow_e80c2f78_1",
    "lang": "es",
    "style": "slow",
@@ -34399,6 +39656,13 @@
   {
    "id": "ca_slow_e80c2f78_1",
    "lang": "ca",
+   "style": "slow",
+   "text": "m",
+   "source": "escritura/letra"
+  },
+  {
+   "id": "es-DO_slow_e80c2f78_1",
+   "lang": "es-DO",
    "style": "slow",
    "text": "m",
    "source": "escritura/letra"
@@ -34439,6 +39703,13 @@
    "source": "escritura/letra"
   },
   {
+   "id": "es-DO_slow_eb0c3431_1",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "n",
+   "source": "escritura/letra"
+  },
+  {
    "id": "slow_e00c22e0_1",
    "lang": "es",
    "style": "slow",
@@ -34462,6 +39733,13 @@
   {
    "id": "ca_slow_e00c22e0_1",
    "lang": "ca",
+   "style": "slow",
+   "text": "e",
+   "source": "escritura/letra"
+  },
+  {
+   "id": "es-DO_slow_e00c22e0_1",
+   "lang": "es-DO",
    "style": "slow",
    "text": "e",
    "source": "escritura/letra"
@@ -34502,6 +39780,13 @@
    "source": "escritura/letra"
   },
   {
+   "id": "es-DO_slow_f60c4582_1",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "s",
+   "source": "escritura/letra"
+  },
+  {
    "id": "slow_ff0c53ad_1",
    "lang": "es",
    "style": "slow",
@@ -34537,6 +39822,13 @@
    "source": "escritura/letra"
   },
   {
+   "id": "es-DO_slow_ff0c53ad_1",
+   "lang": "es-DO",
+   "style": "slow",
+   "text": "z",
+   "source": "escritura/letra"
+  },
+  {
    "id": "slow_e20c2606_1",
    "lang": "es",
    "style": "slow",
@@ -34567,6 +39859,13 @@
   {
    "id": "ca_slow_e20c2606_1",
    "lang": "ca",
+   "style": "slow",
+   "text": "g",
+   "source": "escritura/letra"
+  },
+  {
+   "id": "es-DO_slow_e20c2606_1",
+   "lang": "es-DO",
    "style": "slow",
    "text": "g",
    "source": "escritura/letra"

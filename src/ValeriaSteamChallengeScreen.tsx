@@ -24,6 +24,7 @@ import { FONT } from './ui/fonts';
 import { AdultFold } from './ui/AdultFold';
 import { ListRow } from './ui/ListRow';
 import { Breathe } from './ui/motion';
+import { logStimulation } from './valeriaFollowUp';
 
 // Con el perfil de calma, ninguna reacción es una fiesta: misma información, sin estridencia.
 const LOUD: readonly LuaSemanticExpression[] = ['celebra_corta', 'celebra_nivel', 'celebra_exito', 'diversion', 'sorpresa_inclinada'];
@@ -133,6 +134,7 @@ export const ValeriaSteamChallengeScreen: React.FC<{
   const markAchieved = () => {
     const goal = events.find((e) => e.reaction.expression === 'celebra_exito') ?? events[events.length - 1];
     if (goal) react({ ...goal, reaction: { ...goal.reaction, expression: 'celebra_exito' } });
+    if (!achieved) void logStimulation('steam');
     setAchieved(true);
   };
 

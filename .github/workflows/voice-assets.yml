@@ -14,6 +14,11 @@ on:
         description: 'Idioma del corpus a sintetizar (es · gl · eu · en · ca)'
         required: false
         default: 'es'
+      force:
+        description: 'Forzar regeneración completa aunque existan los .m4a'
+        type: boolean
+        required: false
+        default: false
   # Disparo automático cuando cambia la propia tubería o el corpus en ramas de
   # trabajo (la integración de esta sesión no puede lanzar workflow_dispatch).
   push:
@@ -62,130 +67,147 @@ jobs:
           python-version: '3.11'
 
       - name: Install piper-tts
-        run: pip install piper-tts
+        run: pip install piper-tts==1.8.0 onnxruntime==1.32.0 huggingface-hub==0.36.0
 
       # Las imágenes actuales de ubuntu-latest ya no traen ffmpeg de serie.
       - name: Install ffmpeg
         run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
 
-      # Incremental: cada idioma sintetiza SOLO las locuciones sin asset.
+      # Incremental (salvo --force o cambio de paramsHash): cada idioma sintetiza lo pendiente.
       - name: Synthesize es (Sharvard · piper)
-        run: python3 scripts/generate-voice-assets.py --lang es
+        run: python3 scripts/generate-voice-assets.py --lang es --workers 4 ${{ inputs.force && '--force' || '' }}
 
-      # Inglés de EE. UU. (plan en-US, EN-4.2): mismo motor `piper` que Sharvard,
-      # así que no necesita instalar nada más ni comprobar antes si falta algo —
-      # el script sale sin descargar el modelo cuando el idioma está al día. La
-      # voz es LJSpeech (dominio público + modelo MIT): las dos candidatas que
-      # proponía el plan quedaron descartadas por licencia en EN-0.1.
+      # Inglés de EE. UU. (plan en-US, EN-4.2): mismo motor `piper` que Sharvard.
       - name: Synthesize en (LJSpeech · piper)
-        run: python3 scripts/generate-voice-assets.py --lang en
+        run: python3 scripts/generate-voice-assets.py --lang en --workers 4 ${{ inputs.force && '--force' || '' }}
 
-      # coqui-tts (torch CPU, ~2 GB) solo se instala si faltan assets gl.
+      # coqui-tts (torch CPU, ~2 GB) solo se instala si faltan assets gl o cambió paramsHash.
       - name: Check missing gl assets
         id: glcheck
         run: |
           MISSING=$(python3 - <<'PY'
-          import json, pathlib
+          import json, pathlib, sys
+          sys.path.insert(0, 'scripts')
+          import importlib.util
+          spec = importlib.util.spec_from_file_location("gva", "scripts/generate-voice-assets.py")
+          gva = importlib.util.module_from_spec(spec); spec.loader.exec_module(gva)
+          h = gva.compute_params_hash(gva.VOICES['gl'], 'gl')
           corpus = json.load(open('voice-corpus.json'))['corpus']
+          mpath = pathlib.Path('voice-assets-manifest.gl.json')
+          old = {f['id']: f for f in (json.loads(mpath.read_text()).get('files', []) if mpath.exists() else [])}
           out = pathlib.Path('assets/voice')
-          print(sum(1 for e in corpus if e.get('lang') == 'gl' and not (out / f"{e['id']}.m4a").exists()))
+          force = "${{ inputs.force }}" == "true"
+          print(sum(1 for e in corpus if e.get('lang') == 'gl' and (
+              force or not (out / f"{e['id']}.m4a").exists()
+              or (old.get(e['id']) or {}).get('paramsHash') != h
+              or (old.get(e['id']) or {}).get('lufs') is None
+              or (old.get(e['id']) or {}).get('limiterGainReductionDb') is None
+              or (old.get(e['id']) or {}).get('compressorGainReductionDb') is None
+              or (old.get(e['id']) or {}).get('normType') != 'linear'
+          )))
           PY
           )
           echo "missing=$MISSING" >> "$GITHUB_OUTPUT"
-          echo "Locuciones gl sin asset: $MISSING"
+          echo "Locuciones gl pendientes: $MISSING"
 
-      # coqui-tts no arrastra torch (lo declara opcional): se instalan las
-      # ruedas CPU explícitamente (sin CUDA, mucho más ligeras).
       - name: Install coqui-tts (Celtia)
         if: steps.glcheck.outputs.missing != '0'
         run: |
-          pip install torch torchaudio --index-url https://download.pytorch.org/whl/cpu
-          # transformers 5.x eliminó isin_mps_friendly, que coqui aún importa.
-          pip install coqui-tts "transformers<4.50"
+          pip install torch==2.11.0 torchaudio==2.11.0 --index-url https://download.pytorch.org/whl/cpu
+          pip install coqui-tts==0.28.0 transformers==4.57.6 huggingface-hub==0.36.0
 
-      # HF_TOKEN (secret): los modelos de proxectonos son "gated" en Hugging
-      # Face — exige aceptar sus condiciones con una cuenta y token de lectura.
-      # (Secret HF_TOKEN configurado; se relanza la síntesis de Celtia.)
       - name: Synthesize gl (Celtia · Proxecto Nós)
         if: steps.glcheck.outputs.missing != '0'
+        continue-on-error: true
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
-        run: python3 scripts/generate-voice-assets.py --lang gl
+        run: python3 scripts/generate-voice-assets.py --lang gl --workers 4 ${{ inputs.force && '--force' || '' }}
 
-      # euskera (HiTZ-TTS · ILENIA/NEL-GAITU): VITS de grafemas en ONNX
-      # (vits.onnx + config.json). Se infiere con onnxruntime, sin torch/coqui.
+      # euskera (HiTZ-TTS · ILENIA/NEL-GAITU)
       - name: Check missing eu assets
         id: eucheck
         run: |
           MISSING=$(python3 - <<'PY'
-          import json, pathlib
+          import json, pathlib, importlib.util
+          spec = importlib.util.spec_from_file_location("gva", "scripts/generate-voice-assets.py")
+          gva = importlib.util.module_from_spec(spec); spec.loader.exec_module(gva)
+          h = gva.compute_params_hash(gva.VOICES['eu'], 'eu')
           corpus = json.load(open('voice-corpus.json'))['corpus']
+          mpath = pathlib.Path('voice-assets-manifest.eu.json')
+          old = {f['id']: f for f in (json.loads(mpath.read_text()).get('files', []) if mpath.exists() else [])}
           out = pathlib.Path('assets/voice')
-          print(sum(1 for e in corpus if e.get('lang') == 'eu' and not (out / f"{e['id']}.m4a").exists()))
+          force = "${{ inputs.force }}" == "true"
+          print(sum(1 for e in corpus if e.get('lang') == 'eu' and (
+              force or not (out / f"{e['id']}.m4a").exists()
+              or (old.get(e['id']) or {}).get('paramsHash') != h
+              or (old.get(e['id']) or {}).get('lufs') is None
+              or (old.get(e['id']) or {}).get('limiterGainReductionDb') is None
+              or (old.get(e['id']) or {}).get('compressorGainReductionDb') is None
+              or (old.get(e['id']) or {}).get('normType') != 'linear'
+          )))
           PY
           )
           echo "missing=$MISSING" >> "$GITHUB_OUTPUT"
-          echo "Locuciones eu sin asset: $MISSING"
+          echo "Locuciones eu pendientes: $MISSING"
 
-      # AhoTTS trae el binario `tts` + diccionarios vascos (eu_dicc); el vits.onnx
-      # se descarga de HF con huggingface_hub. La voz vasca se sintetiza a través
-      # de ese binario (frontend lingüístico + G2P), no con el ONNX suelto.
       - name: Set up AhoTTS (HiTZ euskera)
         if: steps.eucheck.outputs.missing != '0'
         run: |
-          git clone --depth 1 https://github.com/hitz-zentroa/aHoTTS.git "$RUNNER_TEMP/ahotts"
+          git clone https://github.com/hitz-zentroa/aHoTTS.git "$RUNNER_TEMP/ahotts"
+          git -C "$RUNNER_TEMP/ahotts" checkout db56c5dd27a692b76cd23f7d784c9c465f6a9a18
           chmod +x "$RUNNER_TEMP/ahotts/ahotts/tts" || true
-          pip install huggingface_hub
+          pip install huggingface-hub==0.36.0
           echo "AHOTTS_DIR=$RUNNER_TEMP/ahotts" >> "$GITHUB_ENV"
+          echo "LD_LIBRARY_PATH=$RUNNER_TEMP/ahotts" >> "$GITHUB_ENV"
 
-      # NO bloqueante: si AhoTTS falla (libs del binario, descarga del modelo),
-      # el resto del pipeline sigue y el euskera degrada a la voz del sistema
-      # eu-ES; el log (ldd, diagnóstico) revela la causa para iterar.
       - name: Synthesize eu (AhoTTS · HiTZ/Aholab)
         if: steps.eucheck.outputs.missing != '0'
         continue-on-error: true
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
-        run: python3 scripts/generate-voice-assets.py --lang eu
+        run: python3 scripts/generate-voice-assets.py --lang eu --workers 4 ${{ inputs.force && '--force' || '' }}
 
-      # català (Matxa-TTS · projecte AINA): ONNX end-to-end (acústico +
-      # vocóder) con frontend FONÉMICO — necesita espeak-ng y phonemizer, que
-      # ninguna otra variedad usa. Se instalan solo si faltan assets ca.
+      # català (Matxa-TTS · projecte AINA)
       - name: Check missing ca assets
         id: cacheck
         run: |
           MISSING=$(python3 - <<'PY'
-          import json, pathlib
+          import json, pathlib, importlib.util
+          spec = importlib.util.spec_from_file_location("gva", "scripts/generate-voice-assets.py")
+          gva = importlib.util.module_from_spec(spec); spec.loader.exec_module(gva)
+          h = gva.compute_params_hash(gva.VOICES['ca'], 'ca')
           corpus = json.load(open('voice-corpus.json'))['corpus']
+          mpath = pathlib.Path('voice-assets-manifest.ca.json')
+          old = {f['id']: f for f in (json.loads(mpath.read_text()).get('files', []) if mpath.exists() else [])}
           out = pathlib.Path('assets/voice')
-          print(sum(1 for e in corpus if e.get('lang') == 'ca' and not (out / f"{e['id']}.m4a").exists()))
+          force = "${{ inputs.force }}" == "true"
+          print(sum(1 for e in corpus if e.get('lang') == 'ca' and (
+              force or not (out / f"{e['id']}.m4a").exists()
+              or (old.get(e['id']) or {}).get('paramsHash') != h
+              or (old.get(e['id']) or {}).get('lufs') is None
+              or (old.get(e['id']) or {}).get('limiterGainReductionDb') is None
+              or (old.get(e['id']) or {}).get('compressorGainReductionDb') is None
+              or (old.get(e['id']) or {}).get('normType') != 'linear'
+          )))
           PY
           )
           echo "missing=$MISSING" >> "$GITHUB_OUTPUT"
-          echo "Locuciones ca sin asset: $MISSING"
+          echo "Locuciones ca pendientes: $MISSING"
 
       - name: Set up Matxa-TTS (AINA català)
         if: steps.cacheck.outputs.missing != '0'
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y -qq espeak-ng
-          pip install onnxruntime phonemizer
+          pip install onnxruntime==1.32.0 phonemizer==3.6.0 numpy
 
-      # NO bloqueante, igual que el euskera: si el modelo de AINA no responde o
-      # el canario del motor falla, el resto del lote se commitea y el catalán
-      # degrada a la voz del sistema ca-ES. El log lleva el esquema real del
-      # ONNX y la lista de hablantes, que es lo que hace falta para ajustarlo.
       - name: Synthesize ca (Matxa-TTS · projecte AINA)
         if: steps.cacheck.outputs.missing != '0'
         continue-on-error: true
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
-        run: python3 scripts/generate-voice-assets.py --lang ca
+        run: python3 scripts/generate-voice-assets.py --lang ca --workers 4 ${{ inputs.force && '--force' || '' }}
 
-      # Las muestras del canario: una por índice de acento. El modelo Matxa es
-      # multiaccent y no dice cuál es el central, y eso no se decide leyendo un
-      # log — se decide escuchándolo. Se suben aunque la síntesis fallara: si
-      # falló DESPUÉS del canario, las muestras siguen siendo lo que hace falta.
       - name: Upload Matxa samples (para elegir el acento de oído)
         if: always() && steps.cacheck.outputs.missing != '0'
         uses: actions/upload-artifact@v4
@@ -197,12 +219,6 @@ jobs:
       - name: Rebuild asset map
         run: node scripts/build-voice-asset-map.js
 
-      # Informativo, NO bloqueante: deja en el log si la síntesis logró cobertura
-      # total. No corta el job a propósito — la síntesis de euskera ya es
-      # continue-on-error (si AhoTTS falla, el euskera degrada a la voz del
-      # sistema y el resto del lote debe commitearse igual). Quien sí bloquea es
-      # el mismo chequeo en el build de Android: allí un APK sin sus voces es un
-      # APK defectuoso; aquí lo único que se pierde es información.
       - name: Cobertura del corpus tras la síntesis (informativo)
         continue-on-error: true
         run: node scripts/check-voice-corpus-coverage.js
@@ -270,3 +286,6 @@ jobs:
             echo "push rechazado (intento $i); rebase y reintento…"
             git pull --rebase origin "${{ github.ref_name }}" || exit 1
           done
+
+      - name: Comprobar calidad de audio (LUFS, normType, GR<=3dB y paramsHash)
+        run: node scripts/check-voice-assets-quality.js

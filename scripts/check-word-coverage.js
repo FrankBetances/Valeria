@@ -39,7 +39,7 @@ const STUBS = {
   'expo-speech': { speak() {}, stop() {}, getAvailableVoicesAsync: async () => [] },
   'react-native-svg': new Proxy({}, { get: () => () => null }),
   './valeriaVoicePlayback': { playVoiceAsset() {}, stopVoiceAsset() {} },
-  './valeriaVoiceAssets': { voiceAsset: () => undefined, voiceAssetIds: () => [], voiceAssetLoaders: () => ({}) },
+  './valeriaVoiceAssets': { voiceAsset: () => undefined, voiceAssetDuration: () => undefined, voiceAssetIds: () => [], voiceAssetLoaders: () => ({}) },
   // Un disco de mentira, pero con la MISMA semántica: lo que se guarda se lee.
   // Es lo que permite comprobar el viaje de ida y vuelta del registro.
   '@react-native-async-storage/async-storage': {
@@ -48,6 +48,14 @@ const STUBS = {
       setItem: async (k, v) => { disco[k] = String(v); },
       removeItem: async (k) => { delete disco[k]; },
     },
+  },
+  'expo-secure-store': {
+    getItemAsync: async (k) => (k in disco ? disco[k] : null),
+    setItemAsync: async (k, v) => { disco[k] = String(v); },
+    deleteItemAsync: async (k) => { delete disco[k]; },
+  },
+  'expo-crypto': {
+    getRandomBytes: (len) => new Uint8Array(require('crypto').randomBytes(len)),
   },
   // ValeriaProPin arrastra media app y de él solo hace falta sha256. Se extrae
   // su código REAL del fichero para que el cifrado sea el de verdad.

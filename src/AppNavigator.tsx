@@ -24,12 +24,17 @@
 //   (En bare RN, además: cd ios && pod install)
 // ============================================================================
 import { ValeriaFollowUpScreen } from './ValeriaFollowUpScreen';
-import React, { useEffect, useRef } from 'react';
-import { View } from 'react-native';
+import { ValeriaErrorBoundary } from './ValeriaErrorBoundary';
+import { ValeriaAdultGateScreen } from './ValeriaAdultGateScreen';
+import { checkAgeSignalsAtStartup, shouldShowAdultGate } from './valeriaAgeSignals';
+import React, { useEffect, useRef, useState } from 'react';
+import { View, Linking } from 'react-native';
 import { NavigationContainer, createNavigationContainerRef, NavigatorScreenParams } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
-import { initNotifications, refreshDailyReminders } from './valeriaNotifications';
+import { initNotifications, refreshDailyReminders, registerPlanProgressProvider } from './valeriaNotifications';
+import { setFollowPlanChangeListener, loadActivePlanProgress } from './valeriaFollowUp';
+import { tNow } from './i18n/catalog';
 import { subscribeUiLang } from './valeriaUiLang';
 import { V } from './valeriaTheme';
 import { noteScreen } from './valeriaTelemetry';
@@ -107,7 +112,7 @@ export type ValeriaStackParamList = {
   SensoryExercise: { exerciseId?: string } | undefined;
   Writing: undefined;
   Results: undefined;
-  FollowUp: undefined;
+  FollowUp: { incomingCode?: string } | undefined;
   AventurasLuaHub: undefined;
   LuaAssessmentPlayer: { ageBand: AgeBand; initialQuestionIndex?: number };
   LuaStoryViewer: { storyId: string };
@@ -207,13 +212,30 @@ const SafeFrame: React.FC = () => {
 // pantalla (telemetría de usabilidad) sin acoplar cada screen.
 export const navigationRef = createNavigationContainerRef<ValeriaStackParamList>();
 
+const SafeAdultGateFrame: React.FC<{ onUnlock: () => void }> = ({ onUnlock }) => {
+  const insets = useSafeAreaInsets();
+  return (
+    <View style={{ flex: 1, backgroundColor: V.color.primary, paddingTop: insets.top }}>
+      <View style={{ flex: 1, backgroundColor: V.color.pageBg, paddingBottom: insets.bottom }}>
+        <ValeriaAdultGateScreen onUnlock={onUnlock} />
+      </View>
+    </View>
+  );
+};
+
 export const ValeriaApp: React.FC = () => {
   // Fredoka y Nunito (src/ui/fonts.ts). Hasta que cargan, la pantalla de
   // arranque sigue a la vista: sin parpadeo de la fuente del sistema.
   const [fontsReady] = useValeriaFonts();
   // Handler y canal Android de los recordatorios diarios (pantalla de bloqueo),
   // más la rotación diaria del consejo para padres si los avisos están activos.
-  useEffect(() => { initNotifications(); refreshDailyReminders(); }, []);
+  useEffect(() => {
+    registerPlanProgressProvider(() => loadActivePlanProgress(tNow().followUp.areas));
+    setFollowPlanChangeListener(() => { void refreshDailyReminders(); });
+    initNotifications();
+    void refreshDailyReminders();
+    return () => { setFollowPlanChangeListener(null); };
+  }, []);
 
   // Los recordatorios se PROGRAMAN por adelantado con su texto ya dentro, así
   // que un cambio de idioma no alcanza a los que están en cola: seguirían
@@ -221,6 +243,33 @@ export const ValeriaApp: React.FC = () => {
   // Reprogramarlos al cambiar cuesta una llamada y evita esa incoherencia.
   // (`refreshDailyReminders` no hace nada si el adulto los tiene apagados.)
   useEffect(() => subscribeUiLang(() => { void refreshDailyReminders(); }), []);
+
+  const openNoteLink = (url?: string | null) => {
+    if (!url || !url.includes('valeria://nota')) return;
+    const m = url.match(/[?&]c=([^&#]+)/i);
+    if (!m || !m[1]) return;
+    let incomingCode = m[1];
+    try { incomingCode = decodeURIComponent(m[1]); } catch (e) { /* use raw */ }
+    if (navigationRef.isReady()) {
+      navigationRef.navigate('FollowUp', { incomingCode });
+    }
+  };
+
+  useEffect(() => {
+    void Linking.getInitialURL().then(openNoteLink).catch(() => {});
+    const sub = Linking.addEventListener('url', ({ url }) => openNoteLink(url));
+    return () => sub.remove();
+  }, []);
+
+  const [adultGatePending, setAdultGatePending] = useState(false);
+  useEffect(() => {
+    let active = true;
+    void checkAgeSignalsAtStartup().then((sig) => {
+      if (active && shouldShowAdultGate(sig)) setAdultGatePending(true);
+    });
+    return () => { active = false; };
+  }, []);
+
   const lastRoute = useRef<string | null>(null);
   // Cierra el tramo de la pantalla anterior y abre el nuevo en cada cambio de
   // ruta. Solo hace aritmética de timestamps → no bloquea el hilo principal.
@@ -233,9 +282,29 @@ export const ValeriaApp: React.FC = () => {
     <GestureHandlerRootView style={{ flex: 1 }}>
     <HeroUINativeProvider>
     <SafeAreaProvider>
-      <NavigationContainer ref={navigationRef} onReady={handleRoute} onStateChange={handleRoute}>
-        <SafeFrame />
-      </NavigationContainer>
+      <ValeriaErrorBoundary
+        getScreenName={() => lastRoute.current ?? undefined}
+        onBackHome={() => {
+          try {
+            if (navigationRef.isReady()) navigationRef.resetRoot({ index: 0, routes: [{ name: 'Welcome' }] });
+          } catch { /* remount via resetKey restores initialRouteName Welcome */ }
+        }}
+      >
+        {adultGatePending ? (
+          <SafeAdultGateFrame onUnlock={() => setAdultGatePending(false)} />
+        ) : (
+          <NavigationContainer
+            ref={navigationRef}
+            onReady={() => {
+              handleRoute();
+              void Linking.getInitialURL().then(openNoteLink).catch(() => {});
+            }}
+            onStateChange={handleRoute}
+          >
+            <SafeFrame />
+          </NavigationContainer>
+        )}
+      </ValeriaErrorBoundary>
       <Toaster position="top-center" richColors />
       <LuaCheerOverlay />
     </SafeAreaProvider>

@@ -16,8 +16,8 @@
 // ============================================================================
 import React, { useEffect, useState } from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { STORAGE_KEYS, V } from '../valeriaTheme';
+import { V } from '../valeriaTheme';
+import { readActivePatient } from '../valeriaPatients';
 import { useT } from '../i18n';
 import { domainMetaFor, domainFromPatologia } from './academyDomains';
 import { capsulesForUiLang } from './academyContent';
@@ -84,8 +84,8 @@ export const AcademyNextStep: React.FC<{
     let alive = true;
     (async () => {
       try {
-        const raw = await AsyncStorage.getItem(STORAGE_KEYS.registro);
-        if (alive && raw) setActiveDomain(domainFromPatologia(JSON.parse(raw)?.patologia));
+        const p = await readActivePatient();
+        if (alive && p) setActiveDomain(domainFromPatologia(p.patologia));
       } catch (e) {
         /* sin Ficha: se mantiene 'lenguaje' */
       }

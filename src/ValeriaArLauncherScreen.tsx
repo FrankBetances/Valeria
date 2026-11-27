@@ -22,12 +22,12 @@
 // ============================================================================
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { View, Text, Pressable, ScrollView, ActivityIndicator, Share, StyleSheet } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { V, STORAGE_KEYS } from './valeriaTheme';
+import { V } from './valeriaTheme';
+import { readActivePatient, arKeyForPid } from './valeriaPatients';
 import { BlockIcon } from './ValeriaBlockIcons';
 import { CatPixel } from './ValeriaCatPixel';
 import { PixelAward, streakTier } from './ValeriaPixelAwards';
-import { sha256, ProPinModal } from './ValeriaProPin';
+import { ProPinModal } from './ValeriaProPin';
 import { getArMeta } from './valeriaExerciseMeta';
 import { getUiLang } from './valeriaUiLang';
 import { useT } from './i18n';
@@ -44,6 +44,7 @@ import {
 } from './valeriaArSettings';
 import { ValeriaAdultChaosPanel } from './ValeriaAdultChaosPanel';
 import { trackArSession, markBlockCompleted } from './valeriaTelemetry';
+import { logStimulation } from './valeriaFollowUp';
 import { registerSession } from './valeriaGamification';
 import { luaSessionReward, cancelSessionReward, isLuaLinked, luaSteamFrames, luaSteamIdle } from './valeriaLuaSession';
 import { linkLua } from './steam/engine/LuaLink';
@@ -54,13 +55,9 @@ import { FONT } from './ui/fonts';
 
 type Phase = 'loading' | 'unsupported' | 'consent' | 'aptitude' | 'notApt' | 'menu' | 'busy' | 'result';
 
-// Clave opaca del paciente: resumen del identificador clínico, NUNCA el nombre.
-// Es lo único que cruza al nativo para recuperar la calibración de ese niño.
-const patientKeyFor = async (ficha: any): Promise<string> => {
-  const seed = String(ficha?.nhc || ficha?.nombre || 'anon');
-  const digest = await sha256(`valeria-ar:${seed}`);
-  return digest.slice(0, 16);
-};
+// Clave opaca del paciente: resumen del pid de 128 bits, NUNCA el nombre ni NHC ni 'anon'.
+const patientKeyFor = (ficha: any): string =>
+  ficha?.pid ? arKeyForPid(ficha.pid) : '';
 
 const TRIALS_PER_SESSION: Record<ArExerciseId, number> = { ar1: 8, ar2: 20, ar3: 12, ar4: 10, ar5: 10, ar6: 8 };
 
@@ -122,7 +119,13 @@ export const ValeriaArLauncherScreen: React.FC<{ navigation?: any; route?: { par
   // Salir de la pantalla corta el desfile del premio en el aparato y deja a la
   // gata neutra. Sin esto, cerrar a los dos segundos deja una insignia puesta
   // en el cristal hasta que caduque la concesión.
-  useEffect(() => () => cancelSessionReward(), []);
+  useEffect(() => () => {
+    if (luaRewardTimer.current) {
+      clearTimeout(luaRewardTimer.current);
+      luaRewardTimer.current = null;
+    }
+    cancelSessionReward();
+  }, []);
 
   const [notice, setNotice] = useState('');
   // Modo Revisión: el perfil lo dice, no una variable aparte. Así sobrevive a
@@ -140,13 +143,12 @@ export const ValeriaArLauncherScreen: React.FC<{ navigation?: any; route?: { par
       setThresholds(await loadArThresholds());
       let ficha: any = null;
       try {
-        const raw = await AsyncStorage.getItem(STORAGE_KEYS.registro);
-        if (raw) ficha = JSON.parse(raw);
-      } catch (e) { /* sin ficha activa: se juega igual, con clave anónima */ }
-      const key = await patientKeyFor(ficha);
+        ficha = await readActivePatient();
+      } catch (e) { /* sin ficha activa */ }
+      const key = patientKeyFor(ficha);
       setPatientKey(key);
 
-      if (!(await hasArConsent(key))) { setPhase('consent'); return; }
+      if (!key || !(await hasArConsent(key))) { setPhase('consent'); return; }
       const cached = await loadArDeviceProfile();
       // Un perfil provisional (calentamiento saltado) nunca cuenta como medida.
       if (!cached || !cached.level || cached.provisional) { setPhase('aptitude'); return; }
@@ -354,6 +356,7 @@ export const ValeriaArLauncherScreen: React.FC<{ navigation?: any; route?: { par
 
     if (!review && res.outcome === 'completed' && res.trials.length) {
       markBlockCompleted('ar');
+      void logStimulation(soloHere ? 'steam' : 'ra');
       // Gamificación: premia la PARTICIPACIÓN (ensayos completados sin anular),
       // no el acierto. Puntuar el rendimiento aquí sería convertir una medida
       // clínica en un veredicto automático, que es justo lo que el muro MDR

@@ -63,28 +63,27 @@ dislexia o TEA. Nombrar la condición sirve para encontrar el contenido; no es u
 
 ### Seguimiento entre consultas
 
-- **Frecuencia recomendada:** el profesional fija cuántas sesiones por semana de cada área.
-- **Hecho frente a recomendado:** cada sesión terminada se registra sola; la pantalla lo muestra esta semana y en las ocho últimas.
-- **Notas en los dos sentidos:** indicaciones del profesional para la familia y dudas de la familia para la siguiente revisión. Canal asíncrono, sin triaje; no es para urgencias.
-- **Otros centros:** con autorización de la familia, revocable y registrada, un resumen (QR o texto) que no incluye la ficha clínica.
-- **Un PIN por profesional:** cada frecuencia y cada nota queda firmada; en modo familia solo se ve lo recomendado.
+- **Frecuencia recomendada:** el profesional fija cuántas sesiones por semana de cada una de las 12 áreas (incluidas Escritura, Aventuras con Lúa, Realidad Aumentada, Cápsulas TPR y Retos STEAM) y puede enviarlas firmadas con `VALERIA-PAUTA2:`.
+- **Hecho frente a recomendado:** cada sesión terminada se registra sola; la pantalla lo muestra esta semana y en las ocho últimas, y los recordatorios diarios enlazan directamente con las áreas pendientes.
+- **Notas y vínculo cifrados entre aparatos:** en consulta, familia y profesional se vinculan con un QR (`VALERIA-VINCULO1:`); las notas (`VALERIA-NOTA2:`) y acuses de lectura (`VALERIA-LEIDO2:`) viajan cifrados y firmados. Canal asíncrono, sin triaje; no es para urgencias.
+- **Otros centros e informe HTML:** con autorización de la familia, revocable y registrada, un resumen (QR, texto o informe HTML autocontenido) que no incluye datos identificativos no autorizados.
+- **Copia cifrada de perfil (`.valeria`):** exportación e importación local protegida por frase secreta para cambiar de dispositivo sin nube.
+- **Un PIN por profesional:** sin PIN maestro; cada profesional entra con el suyo (con bloqueo progresivo tras intentos fallidos). En modo familia solo se ve lo recomendado.
 
 ## Privacidad
 
-- **No hay servidor, ni cuentas, ni SDK de terceros.** La app no hace llamadas de red propias.
-- Fichas, sesiones, notas y consentimientos se guardan **cifrados en el aparato** y desaparecen al desinstalar.
-- **No se guarda ni se envía audio ni imagen** del niño: la voz se procesa en el turno y se descarta; la cámara de RA solo produce números.
+- **No hay servidor, ni cuentas, ni SDK de terceros.** La app no hace llamadas de red propias; en Android usa la API Play Age Signals exclusivamente en memoria al arrancar para comprobar el acompañamiento adulto.
+- Perfiles, sesiones, notas, consentimientos y grabaciones opcionales de **Voz de casa** se guardan **cifrados en el aparato** (`XChaCha20-Poly1305`) y desaparecen al desinstalar (o al retirar el consentimiento en el caso de la voz del cuidador).
+- **No se guarda ni se envía audio del niño ni imagen de cámara**: el reconocimiento de voz se procesa en el turno y se descarta; la cámara de RA solo produce números y funciona únicamente en primer plano.
 - Un dato solo sale del teléfono cuando el adulto lo comparte él mismo desde el menú de compartir de Android.
 
 Política de privacidad: [castellano](https://frankbetances.github.io/Valeria/privacidad.html) ·
 [English](https://frankbetances.github.io/Valeria/privacy.html) ·
 [eliminación de datos](https://frankbetances.github.io/Valeria/eliminacion-de-datos.html)
 
-## Idiomas
+## Idiomas y voces
 
-Interfaz en castellano, galego, català e English. Los ejercicios suenan en castellano (también
-variedad dominicana), galego, euskara, català e inglés de EE. UU.: las consignas grabadas se
-reproducen sin conexión y, donde no hay grabación, habla la voz del sistema.
+Interfaz en castellano, galego, català e English. Los ejercicios suenan en castellano (incluyendo variedad dominicana con tolerancia prosódica), galego, euskara, català e inglés de EE. UU.: las consignas pregeneradas en estudio neural se reproducen sin conexión con volumen normalizado y velocidad pausada para la infancia, con respaldo del sistema donde haga falta, **Voz de casa** opcional grabada por el cuidador y **Auditoría del banco de voz** en Ajustes bajo PIN profesional.
 
 ## Desarrollo
 
@@ -117,7 +116,8 @@ están en [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
 | Documento | Para quién |
 | --- | --- |
-| [Manual de casos de uso](docs/manual-casos-de-uso.html) ([PDF](docs/Valeria-Manual-Casos-de-Uso.pdf)) | Familias y profesionales |
+| [Manual de casos de uso](docs/manual-casos-de-uso.html) ([PDF](docs/Valeria-Manual-Casos-de-Uso.pdf) · [DOCX](docs/Valeria-Manual-Casos-de-Uso.docx)) | Familias y profesionales |
+| [Cobertura del manual por pantalla](docs/manual-cobertura.md) | Revisión de pantallas y capturas |
 | [Seguridad de los datos en Google Play](docs/play-console-seguridad-datos.md) | Quien publica en Play Console |
 | [`site/`](site/) | Páginas legales publicadas en GitHub Pages |
 

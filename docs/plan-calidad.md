@@ -22,7 +22,7 @@ completar.
   - [ ] Desplazar TODAS las listas hasta el final (hub, Audición, Lenguaje,
         pares, expansión, resultados) con el dedo partiendo de texto y de
         zonas vacías.
-  - [ ] PIN 1985 en las 3 pantallas + PIN incorrecto + cerrar con ✕.
+  - [ ] Primer acceso profesional (crear PIN personal) y entrada con PIN en las 3 pantallas + PIN incorrecto + bloqueo progresivo + cerrar con ✕.
   - [ ] Acceso Profesional del hub: QR visible y ShareSheet.
   - [ ] Ficha de registro con el teclado abierto (guardar sin perder toques).
   - [ ] Probar con y sin permiso de micrófono concedido.

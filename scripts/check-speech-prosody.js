@@ -166,6 +166,22 @@ try {
     }
   }
   console.log(`  P5 · consignas cortas de una tirada: ${CORTAS.length} probadas, ${p5} incumplimientos`);
+
+  // --- P6: PROSODY_DEFAULT no trocea enunciados cortos/medios (<= 25 palabras) ---
+  if (PROSODY_DEFAULT.gapMs !== 80 || PROSODY_DEFAULT.chainMinWords !== 25 || PROSODY_DEFAULT.mergeMinWords !== 4) {
+    fallo(`P6: PROSODY_DEFAULT inesperado → ${JSON.stringify(PROSODY_DEFAULT)}`);
+  }
+  const MEDIO = 'Esto es una frase normal. Tiene menos de veinticinco palabras en total.';
+  const trozosMedio = splitForSpeech(MEDIO, PROSODY_DEFAULT);
+  if (trozosMedio.length !== 1) {
+    fallo(`P6: PROSODY_DEFAULT partió un enunciado medio en ${trozosMedio.length} trozos → ${JSON.stringify(trozosMedio)}`);
+  }
+  const LARGO = 'Primero vamos a mirar con mucha atención el dibujo que aparece arriba en la tarjeta principal de la pantalla. Después repetimos juntos la palabra en voz alta sin prisa. Vale.';
+  const trozosLargo = splitForSpeech(LARGO, PROSODY_DEFAULT);
+  if (trozosLargo.length !== 2) {
+    fallo(`P6: PROSODY_DEFAULT debía partir y fusionar la coletilla corta «Vale.» en 2 trozos, dio ${trozosLargo.length} → ${JSON.stringify(trozosLargo)}`);
+  }
+  console.log('  P6 · PROSODY_DEFAULT (gapMs=80, chainMinWords=25, mergeMinWords=4): verificado');
 } finally {
   fs.rmSync(tmp, { recursive: true, force: true });
 }

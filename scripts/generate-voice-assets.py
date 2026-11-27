@@ -44,6 +44,7 @@ import shlex
 import shutil
 import subprocess
 import sys
+import tempfile
 import urllib.request
 import wave
 from pathlib import Path
@@ -52,15 +53,32 @@ from pathlib import Path
 # modelos "gated" como los de proxectonos — sin él, la descarga devuelve 401.
 HF_TOKEN = os.environ.get("HF_TOKEN", "").strip()
 
+import hashlib
+import importlib.metadata
+import re
+
 ROOT = Path(__file__).resolve().parent.parent
 CORPUS = ROOT / "voice-corpus.json"
 OUT_DIR = ROOT / "assets" / "voice"
 VOICES_DIR = ROOT / "scripts" / ".voices"  # modelos descargados (gitignored)
 
-PEAK_DBFS = -3.0
-AAC_BITRATE = "40k"
+# babble-cafeteria.wav mide -23.2 LUFS (ebur128). Objetivo -17.0 LUFS UNIFORME en
+# todos los idiomas para conservar >= 6 LU de margen nominal sobre el babble (-17.0 - (-23.2) = +6.2 LU).
+TARGET_LUFS = -17.0
+TARGET_TP = -1.5
+TARGET_LRA = 15.0
+MAX_GAIN_REDUCTION_DB = 3.0
+EDGE_MS = 50
+EDGE_THRESH_DB = -45.0
+FADE_MS = 10
+AAC_BITRATE = "64k"
+PIPELINE_VERSION = "v5-comp-lim3"
 
-LENGTH_SCALE = {"tutor": 1.0, "child": 1.05, "clinical": 1.15, "slow": 1.6}
+LENGTH_SCALE = {"tutor": 1.0, "child": 1.05, "clinical": 1.15, "slow": 1.35}
+
+
+def target_lufs_for(_lang: str = "") -> float:
+    return TARGET_LUFS
 
 
 def piper_urls(name: str) -> list[str]:
@@ -151,6 +169,12 @@ VOICES = {
             "HiTZ/TTS-eu_antton",
         ],
     },
+    "es-DO": {
+        "engine": "piper",
+        "name": "",
+        "label": "es-DO · pendiente de D1 (usa --voice)",
+        "urls": [],
+    },
 }
 
 
@@ -189,28 +213,255 @@ def to_s16_wav(src: Path, dst: Path) -> None:
     )
 
 
-def normalize_peak(wav_in: Path, wav_out: Path) -> float:
-    with wave.open(str(wav_in), "rb") as r:
+def trim_edges_pcm(wav_path: Path, edge_ms: int = EDGE_MS, thresh_db: float = EDGE_THRESH_DB) -> None:
+    """Recorta silencio inicial y final dejando `edge_ms` (50 ms) con umbral -45 dB."""
+    with wave.open(str(wav_path), "rb") as r:
         params = r.getparams()
-        if params.sampwidth != 2:
-            die(f"{wav_in}: se esperaba PCM de 16 bits")
-        frames = r.readframes(params.nframes)
-    peak = audioop.max(frames, 2) or 1
-    target = int(32767 * (10 ** (PEAK_DBFS / 20)))
-    frames = audioop.mul(frames, 2, target / peak)
-    with wave.open(str(wav_out), "wb") as w:
+        if params.sampwidth != 2 or params.nchannels != 1:
+            return
+        sr = params.framerate
+        data = r.readframes(params.nframes)
+    win = max(1, int(sr * 0.005))  # ventanas de 5 ms
+    step = win * 2
+    frames = [data[i:i + step] for i in range(0, len(data), step)]
+    if not frames:
+        return
+    thr = max(1.0, 32767.0 * (10 ** (thresh_db / 20.0)))
+    voiced = [i for i, f in enumerate(frames) if audioop.rms(f, 2) > thr]
+    if not voiced:
+        return
+    keep = max(1, int(edge_ms / 5))
+    start_idx = max(0, voiced[0] - keep)
+    end_idx = min(len(frames), voiced[-1] + keep + 1)
+    with wave.open(str(wav_path), "wb") as w:
         w.setparams(params)
-        w.writeframes(frames)
-    return params.nframes / params.framerate
+        w.writeframes(b"".join(frames[start_idx:end_idx]))
 
 
-def encode_m4a(wav: Path, m4a: Path, atempo: float | None = None) -> None:
-    af = ["-af", f"atempo={atempo:.4f}"] if atempo and abs(atempo - 1.0) > 1e-3 else []
+def measure_lufs(media_path: Path) -> tuple[float, float]:
+    """Mide duración y sonoridad integrada (LUFS) con ffprobe + ffmpeg ebur128."""
+    probe = subprocess.run(
+        ["ffprobe", "-v", "error", "-show_entries", "format=duration:stream=sample_rate",
+         "-of", "json", str(media_path)],
+        capture_output=True, text=True, check=True,
+    )
+    info = json.loads(probe.stdout)
+    dur = float((info.get("format") or {}).get("duration") or 0.0)
+    sr = int(((info.get("streams") or [{}])[0]).get("sample_rate") or 22050)
+    loops = max(0, int(3.0 / max(dur, 0.1))) if dur < 3.0 else 0
+    af = f"aloop=loop={loops}:size={int(dur * sr) + 1000},ebur128" if loops > 0 else "ebur128"
+    res = subprocess.run(
+        ["ffmpeg", "-i", str(media_path), "-af", af, "-f", "null", "-"],
+        capture_output=True, text=True, check=True,
+    )
+    matches = re.findall(r"I:\s+([-\d.]+)\s+LUFS", res.stderr)
+    if not matches:
+        raise RuntimeError(f"No se pudo medir LUFS de {media_path}")
+    return round(dur, 2), round(float(matches[-1]), 2)
+
+
+def master_to_m4a(
+    wav_s16: Path,
+    m4a: Path,
+    atempo: float | None = None,
+    tmp_dir: Path | None = None,
+    target_lufs: float = TARGET_LUFS,
+) -> tuple[float, float, str, float, float, float | None]:
+    """Masteriza en /tmp: atempo, fundido 10 ms, compresor suave (2:1, attack>=15 ms, release 120 ms), limitador (<= 3 dB GR o lineal con menos ganancia), loudnorm lineal y AAC 64 kbps."""
+    work_root = tmp_dir or wav_s16.parent
+    pre_wav = work_root / f"_pre_ln_{wav_s16.stem}.wav"
+    comp_wav = work_root / f"_cmp_ln_{wav_s16.stem}.wav"
+    tmp_wav = work_root / f"_lim_ln_{wav_s16.stem}.wav"
+    tmp_m4a = work_root / f"_out_{m4a.stem}.m4a"
+    with wave.open(str(wav_s16), "rb") as r:
+        sr = r.getframerate()
+        dur = r.getnframes() / sr
+    eff_dur = dur / atempo if (atempo and abs(atempo - 1.0) > 1e-3) else dur
+    fade_s = FADE_MS / 1000.0
+    fade_out_st = max(0.0, eff_dur - fade_s)
+    filters = []
+    if atempo and abs(atempo - 1.0) > 1e-3:
+        filters.append(f"atempo={atempo:.4f}")
+    filters.append(f"afade=t=in:st=0:d={fade_s:.4f}")
+    filters.append(f"afade=t=out:st={fade_out_st:.4f}:d={fade_s:.4f}")
     subprocess.run(
-        ["ffmpeg", "-y", "-loglevel", "error", "-i", str(wav), *af,
-         "-c:a", "aac", "-b:a", AAC_BITRATE, "-movflags", "+faststart", str(m4a)],
+        ["ffmpeg", "-y", "-loglevel", "error", "-i", str(wav_s16),
+         "-af", ",".join(filters), "-ar", str(sr), "-ac", "1", "-sample_fmt", "s16", str(pre_wav)],
         check=True,
     )
+    try:
+        with wave.open(str(pre_wav), "rb") as r:
+            p_sr = r.getframerate()
+            p_nf = r.getnframes()
+            p_dur = p_nf / p_sr
+        loops = max(0, int(3.2 / max(p_dur, 0.1))) if p_dur < 3.2 else 0
+
+        def pass1_stats(src: Path, goal_i: float) -> dict:
+            ln_base = f"loudnorm=I={goal_i}:TP={TARGET_TP}:LRA={TARGET_LRA}"
+            p1_af = f"aloop=loop={loops}:size={p_nf},{ln_base}:print_format=json" if loops > 0 else f"{ln_base}:print_format=json"
+            p1 = subprocess.run(
+                ["ffmpeg", "-y", "-i", str(src), "-af", p1_af, "-f", "null", "-"],
+                capture_output=True, text=True, check=True,
+            )
+            m = re.search(r"\{[^{}]*\"input_i\"[^{}]*\}", p1.stderr, re.S)
+            if not m:
+                raise RuntimeError("loudnorm pasada 1 no devolvió JSON")
+            st = json.loads(m.group(0))
+            if st.get("input_i") in ("-inf", "inf", None):
+                raise RuntimeError(f"loudnorm pasada 1 sin señal válida: {st}")
+            return st
+
+        raw_stats = pass1_stats(pre_wav, target_lufs)
+        raw_i = float(raw_stats["input_i"])
+        raw_tp = float(raw_stats["input_tp"])
+        avail_raw = (TARGET_TP - 0.2) - raw_tp
+        gr_raw_needed = max(0.0, (target_lufs - raw_i) - avail_raw)
+
+        base_wav = pre_wav
+        base_stats = raw_stats
+        comp_gr_db = 0.0
+
+        if gr_raw_needed > MAX_GAIN_REDUCTION_DB:
+            # Cresta alta: compresor suave (2:1, attack >= 15 ms para respetar /p/t/k/, release 120 ms).
+            thresh_db = max(-30.0, min(-6.0, raw_tp - 9.0))
+            thresh_lin = 10 ** (thresh_db / 20.0)
+            subprocess.run(
+                ["ffmpeg", "-y", "-loglevel", "error", "-i", str(pre_wav),
+                 "-af", f"acompressor=threshold={thresh_lin:.5f}:ratio=2:attack=15:release=120:knee=4:makeup=1",
+                 "-ar", str(p_sr), "-ac", "1", "-sample_fmt", "s16", str(comp_wav)],
+                check=True,
+            )
+            comp_stats = pass1_stats(comp_wav, target_lufs)
+            comp_gr_db = round(max(0.0, raw_tp - float(comp_stats["input_tp"])), 2)
+            base_wav = comp_wav
+            base_stats = comp_stats
+
+        base_i = float(base_stats["input_i"])
+        base_tp = float(base_stats["input_tp"])
+        need_gain = target_lufs - base_i
+        avail_linear = (TARGET_TP - 0.2) - base_tp
+        gr_needed = max(0.0, need_gain - avail_linear)
+
+        work_wav = base_wav
+        stats = base_stats
+        eff_target = target_lufs
+        lim_gr_db = 0.0
+        reduced_linear_target: float | None = None
+
+        if 0.0 < gr_needed <= MAX_GAIN_REDUCTION_DB:
+            # Limitador posterior con tope estricto de 3.0 dB de reducción.
+            limit_lin = 10 ** (-2.5 / 20.0)
+            af_lim = (
+                f"volume={need_gain:.2f}dB,"
+                f"alimiter=level_in=1:level_out=1:limit={limit_lin:.4f}:attack=5:release=50:level=disabled"
+            )
+            subprocess.run(
+                ["ffmpeg", "-y", "-loglevel", "error", "-i", str(base_wav),
+                 "-af", af_lim, "-ar", str(p_sr), "-ac", "1", "-sample_fmt", "s16", str(tmp_wav)],
+                check=True,
+            )
+            post_stats = pass1_stats(tmp_wav, target_lufs)
+            measured_gr = round(max(0.0, (base_tp + need_gain) - float(post_stats["input_tp"])), 2)
+            post_need = target_lufs - float(post_stats["input_i"])
+            if measured_gr <= MAX_GAIN_REDUCTION_DB and float(post_stats["input_tp"]) + post_need <= TARGET_TP - 0.15:
+                work_wav = tmp_wav
+                stats = post_stats
+                lim_gr_db = measured_gr
+            else:
+                eff_target = round(min(target_lufs, base_i + avail_linear), 2)
+                reduced_linear_target = eff_target
+                stats = pass1_stats(base_wav, eff_target)
+        elif gr_needed > MAX_GAIN_REDUCTION_DB:
+            # > 3 dB: no se limita más; queda en lineal puro con menos ganancia.
+            eff_target = round(min(target_lufs, base_i + avail_linear), 2)
+            reduced_linear_target = eff_target
+            stats = pass1_stats(base_wav, eff_target)
+
+        ln_base = f"loudnorm=I={eff_target}:TP={TARGET_TP}:LRA={TARGET_LRA}"
+        ln2 = (
+            f"{ln_base}:measured_I={stats['input_i']}:measured_LRA={stats['input_lra']}:"
+            f"measured_TP={stats['input_tp']}:measured_thresh={stats['input_thresh']}:"
+            f"offset={stats['target_offset']}:linear=true:print_format=json"
+        )
+        p2_af = f"aloop=loop={loops}:size={p_nf},{ln2},aresample={p_sr},atrim=end_sample={p_nf}" if loops > 0 else f"{ln2},aresample={p_sr}"
+        p2 = subprocess.run(
+            ["ffmpeg", "-y", "-i", str(work_wav),
+             "-af", p2_af, "-ar", str(p_sr), "-ac", "1", "-c:a", "aac", "-b:a", AAC_BITRATE,
+             "-movflags", "+faststart", "-f", "mp4", str(tmp_m4a)],
+            capture_output=True, text=True, check=True,
+        )
+        m2 = re.search(r"\{[^{}]*\"normalization_type\"[^{}]*\}", p2.stderr, re.S)
+        norm_type = json.loads(m2.group(0)).get("normalization_type", "unknown") if m2 else "unknown"
+        if norm_type != "linear":
+            retry_loops = max(loops + 3, 4) if p_dur < 6.0 else 0
+            retry_target = round(eff_target - 0.4, 2)
+            ln_r_base = f"loudnorm=I={retry_target}:TP={TARGET_TP}:LRA={TARGET_LRA}"
+            r1_af = f"aloop=loop={retry_loops}:size={p_nf},{ln_r_base}:print_format=json" if retry_loops > 0 else f"{ln_r_base}:print_format=json"
+            r1 = subprocess.run(["ffmpeg", "-y", "-i", str(work_wav), "-af", r1_af, "-f", "null", "-"], capture_output=True, text=True, check=True)
+            mr = re.search(r"\{[^{}]*\"input_i\"[^{}]*\}", r1.stderr, re.S)
+            if mr:
+                rs = json.loads(mr.group(0))
+                ln_r2 = (
+                    f"{ln_r_base}:measured_I={rs['input_i']}:measured_LRA={rs['input_lra']}:"
+                    f"measured_TP={rs['input_tp']}:measured_thresh={rs['input_thresh']}:"
+                    f"offset={rs['target_offset']}:linear=true:print_format=json"
+                )
+                r2_af = f"aloop=loop={retry_loops}:size={p_nf},{ln_r2},aresample={p_sr},atrim=end_sample={p_nf}" if retry_loops > 0 else f"{ln_r2},aresample={p_sr}"
+                p2_r = subprocess.run(
+                    ["ffmpeg", "-y", "-i", str(work_wav),
+                     "-af", r2_af, "-ar", str(p_sr), "-ac", "1", "-c:a", "aac", "-b:a", AAC_BITRATE,
+                     "-movflags", "+faststart", "-f", "mp4", str(tmp_m4a)],
+                    capture_output=True, text=True, check=True,
+                )
+                mr2 = re.search(r"\{[^{}]*\"normalization_type\"[^{}]*\}", p2_r.stderr, re.S)
+                if mr2:
+                    norm_type = json.loads(mr2.group(0)).get("normalization_type", norm_type)
+        final_sec, lufs = measure_lufs(tmp_m4a)
+        shutil.copy2(tmp_m4a, m4a)
+        return final_sec, lufs, norm_type, comp_gr_db, lim_gr_db, reduced_linear_target
+    finally:
+        pre_wav.unlink(missing_ok=True)
+        comp_wav.unlink(missing_ok=True)
+        tmp_wav.unlink(missing_ok=True)
+        tmp_m4a.unlink(missing_ok=True)
+
+
+def get_engine_versions() -> dict[str, str]:
+    pkgs = ["piper-tts", "coqui-tts", "torch", "torchaudio", "transformers", "onnxruntime", "phonemizer", "huggingface-hub"]
+    out: dict[str, str] = {}
+    for p in pkgs:
+        try:
+            out[p] = importlib.metadata.version(p)
+        except importlib.metadata.PackageNotFoundError:
+            pass
+    for cli in ("ffmpeg", "espeak-ng"):
+        try:
+            r = subprocess.run([cli, "-version" if cli == "ffmpeg" else "--version"], capture_output=True, text=True)
+            if r.returncode == 0 and r.stdout:
+                out[cli] = r.stdout.splitlines()[0].strip()
+        except Exception:
+            pass
+    return out
+
+
+def compute_params_hash(voice: dict, lang: str = "") -> str:
+    payload = {
+        "pipeline": PIPELINE_VERSION,
+        "targetLufs": target_lufs_for(lang),
+        "targetTp": TARGET_TP,
+        "targetLra": TARGET_LRA,
+        "maxGainReductionDb": MAX_GAIN_REDUCTION_DB,
+        "edgeMs": EDGE_MS,
+        "edgeThreshDb": EDGE_THRESH_DB,
+        "fadeMs": FADE_MS,
+        "aacBitrate": AAC_BITRATE,
+        "lengthScale": LENGTH_SCALE,
+        "engine": voice["engine"],
+        "voice": voice["name"],
+        "speaker": voice.get("speaker"),
+    }
+    raw = json.dumps(payload, sort_keys=True, ensure_ascii=True).encode("utf-8")
+    return hashlib.sha256(raw).hexdigest()[:16]
 
 
 def compress_internal_silence(
@@ -814,8 +1065,16 @@ ENGINES = {
 
 # -------------------------------------------------------------------- main
 def main() -> None:
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(line_buffering=True)
     ap = argparse.ArgumentParser()
     ap.add_argument("--lang", default="es", choices=sorted(VOICES))
+    ap.add_argument("--force", action="store_true",
+                    help="Fuerza regenerar todos los assets del idioma aunque existan")
+    ap.add_argument("--max-items", type=int, default=0,
+                    help="Tope opcional de locuciones a sintetizar en esta pasada (0 = todas)")
+    ap.add_argument("--workers", type=int, default=2,
+                    help="Hilos paralelos para masterización ffmpeg")
     # EN-0.2: escuchar candidatas con las consignas REALES de la app, que es la
     # única forma honesta de elegir una voz. Solo aplica a motores piper (las
     # demás voces no viven en rhasspy/piper-voices).
@@ -842,6 +1101,8 @@ def main() -> None:
                   "El banco clínico catalán está escrito para el CENTRAL.")
         else:
             die(f"--voice no aplica al motor {voice['engine']} ('{args.lang}').")
+    if not voice.get("name"):
+        die(f"'{args.lang}' está pendiente de selección de voz (D1); pasa --voice <modelo>.")
 
     if not CORPUS.exists():
         die("Falta voice-corpus.json — ejecuta antes: node scripts/export-voice-corpus.js")
@@ -851,61 +1112,138 @@ def main() -> None:
         die(f"El corpus no tiene entradas '{args.lang}'.")
 
     OUT_DIR.mkdir(parents=True, exist_ok=True)
-    missing = [e for e in entries if not (OUT_DIR / f"{e['id']}.m4a").exists()]
-    print(f"Corpus {args.lang}: {len(entries)} locuciones · {len(missing)} sin asset")
+    lang_target_lufs = target_lufs_for(args.lang)
+    params_hash = compute_params_hash(voice, args.lang)
+    mpath = manifest_path(args.lang)
+    old_manifest = json.loads(mpath.read_text()) if mpath.exists() else {}
+    old = {} if args.force else {f["id"]: f for f in old_manifest.get("files", [])}
+
+    if args.force:
+        for e in entries:
+            (OUT_DIR / f"{e['id']}.m4a").unlink(missing_ok=True)
+
+    missing = []
+    for e in entries:
+        m4a_exists = (OUT_DIR / f"{e['id']}.m4a").exists()
+        prev = old.get(e["id"])
+        up_to_date = (
+            not args.force
+            and m4a_exists
+            and prev is not None
+            and isinstance(prev.get("lufs"), (int, float))
+            and isinstance(prev.get("compressorGainReductionDb"), (int, float))
+            and isinstance(prev.get("limiterGainReductionDb"), (int, float))
+            and prev.get("normType") == "linear"
+            and prev.get("paramsHash") == params_hash
+        )
+        if not up_to_date:
+            missing.append(e)
+
+    if args.max_items and args.max_items > 0:
+        missing = missing[:args.max_items]
+
+    print(f"Corpus {args.lang}: {len(entries)} locuciones · {len(missing)} por sintetizar (target={lang_target_lufs} LUFS, paramsHash={params_hash})")
     if not missing:
-        print("Al día: nada que sintetizar (manifiesto intacto).")
+        print("Al día: nada que sintetizar (manifiesto y paramsHash intactos).")
         return
+
+    engine_vers = get_engine_versions()
+
+    def write_manifest() -> tuple[list, int, float]:
+        files = [old[e["id"]] for e in entries if e["id"] in old]
+        total = sum(f["bytes"] for f in files)
+        secs = sum(f["seconds"] for f in files)
+        mpath.write_text(json.dumps({
+            "lang": args.lang,
+            "voice": voice["label"],
+            "targetLufs": lang_target_lufs,
+            "paramsHash": params_hash,
+            "engine": engine_vers,
+            "entries": len(files),
+            "totalBytes": total,
+            "totalSeconds": round(secs, 1),
+            "files": files,
+        }, indent=1))
+        return files, total, secs
 
     synth = ENGINES[voice["engine"]](voice)
 
-    # Manifiesto incremental: conserva las entradas previas del idioma.
-    mpath = manifest_path(args.lang)
-    old = {f["id"]: f for f in (json.loads(mpath.read_text()).get("files", []) if mpath.exists() else [])}
+    import concurrent.futures
+    import contextlib
+    import threading
 
-    raw = OUT_DIR / "_raw.wav"
-    s16 = OUT_DIR / "_s16.wav"
+    synth_lock = contextlib.nullcontext() if voice["engine"] == "ahotts" else threading.Lock()
+    state_lock = threading.Lock()
+    done_count = 0
     skipped = 0
-    for i, e in enumerate(missing):
+
+    def process_one(e: dict) -> None:
+        nonlocal done_count, skipped
         m4a = OUT_DIR / f"{e['id']}.m4a"
-        try:
-            atempo = synth(e["text"], e["style"], raw)
-            to_s16_wav(raw, s16)
-            # AhoTTS (eu) inserta silencios muertos en la puntuación: se recortan
-            # ANTES del atempo, para que la voz no "se corte y empiece" a mitad
-            # de consigna y para que el atempo no estire el hueco (defecto eu, el
-            # mismo que en gl resolvió make_coqui_synth V2).
-            if voice["engine"] == "ahotts":
+        with tempfile.TemporaryDirectory(prefix=f"valeria_{args.lang}_") as td:
+            tdir = Path(td)
+            raw = tdir / "raw.wav"
+            s16 = tdir / "s16.wav"
+            try:
+                with synth_lock:
+                    atempo = synth(e["text"], e["style"], raw)
+                to_s16_wav(raw, s16)
+                trim_edges_pcm(s16)
                 compress_internal_silence(s16)
-            seconds = normalize_peak(s16, s16)
-            encode_m4a(s16, m4a, atempo)
-        except Exception as err:
-            # Ítem descartado (guarda anti-basura / tokenización): NO se escribe
-            # su asset ni su entrada, así el siguiente run reintenta.
-            skipped += 1
-            if skipped <= 5:
-                print(f"  ⚠ descartado {e['id']}: {err}")
-            m4a.unlink(missing_ok=True)
-            continue
-        if atempo:
-            seconds /= atempo  # duración final tras el atempo
-        old[e["id"]] = {"id": e["id"], "file": m4a.name, "seconds": round(seconds, 2), "bytes": m4a.stat().st_size}
-        if (i + 1) % 25 == 0:
-            print(f"  {i + 1}/{len(missing)}")
-    raw.unlink(missing_ok=True)
-    s16.unlink(missing_ok=True)
+                seconds, lufs, norm_type, comp_gr_db, lim_gr_db, red_target = master_to_m4a(
+                    s16, m4a, atempo, tmp_dir=tdir, target_lufs=lang_target_lufs,
+                )
+            except Exception as err:
+                with state_lock:
+                    skipped += 1
+                    if skipped <= 5:
+                        print(f"  ⚠ descartado {e['id']}: {err}")
+                    m4a.unlink(missing_ok=True)
+                    done_count += 1
+                return
+
+        entry = {
+            "id": e["id"],
+            "file": m4a.name,
+            "seconds": seconds,
+            "bytes": m4a.stat().st_size,
+            "lufs": lufs,
+            "normType": norm_type,
+            "compressorGainReductionDb": comp_gr_db,
+            "limiterGainReductionDb": lim_gr_db,
+            "paramsHash": params_hash,
+        }
+        if red_target is not None:
+            entry["reducedLinearTarget"] = red_target
+
+        with state_lock:
+            old[e["id"]] = entry
+            done_count += 1
+            if done_count % 25 == 0:
+                write_manifest()
+                print(f"  [{args.lang}] {done_count}/{len(missing)}")
+
+    workers = max(1, args.workers)
+    if workers == 1:
+        for e in missing:
+            process_one(e)
+    else:
+        with concurrent.futures.ThreadPoolExecutor(max_workers=workers) as ex:
+            list(ex.map(process_one, missing))
+
     if skipped:
         print(f"⚠ {skipped}/{len(missing)} locuciones descartadas (ver avisos arriba).")
 
-    files = [old[e["id"]] for e in entries if e["id"] in old]
-    total = sum(f["bytes"] for f in files)
-    secs = sum(f["seconds"] for f in files)
-    mpath.write_text(json.dumps({
-        "lang": args.lang, "voice": voice["label"], "peakDbfs": PEAK_DBFS,
-        "entries": len(files), "totalBytes": total, "totalSeconds": round(secs, 1),
-        "files": files,
-    }, indent=1))
-    print(f"OK → {len(missing)} nuevas · total {args.lang}: {len(files)} assets · {secs / 60:.1f} min · {total / 1e6:.1f} MB")
+    files, total, secs = write_manifest()
+    dyn = [f["id"] for f in files if f.get("normType") != "linear"]
+    if dyn:
+        print(f"⚠ {len(dyn)} ficheros con normalization_type != linear: {dyn[:20]}")
+    else:
+        print(f"✓ 100% linear en {args.lang} ({len(files)}/{len(files)})")
+    red = [f"{f['id']}({f['lufs']} LUFS)" for f in files if "reducedLinearTarget" in f]
+    if red:
+        print(f"ℹ {len(red)} ficheros en lineal puro con menos ganancia (>3 dB GR evitados): {red[:15]}")
+    print(f"OK → {len(missing) - skipped} nuevas · total {args.lang}: {len(files)}/{len(entries)} assets · {secs / 60:.1f} min · {total / 1e6:.1f} MB")
 
 
 if __name__ == "__main__":

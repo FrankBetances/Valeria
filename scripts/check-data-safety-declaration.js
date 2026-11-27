@@ -43,7 +43,7 @@ const ok = (msg) => console.log('  ✓ ' + msg);
 // Campos de la ficha del paciente. Los enumera §3.2 del documento y la fila
 // «Ficha del paciente» de las dos políticas.
 const CAMPOS_FICHA = [
-  'nombre', 'fecha', 'nhc', 'genero', 'tutor', 'vinculo',
+  'pid', 'nombre', 'fecha', 'nhc', 'genero', 'tutor', 'vinculo',
   'email', 'tel', 'patologia', 'medico', 'logopeda',
   'lingua', 'seseo',
 ];
@@ -60,6 +60,10 @@ const DEPENDENCIAS = [
   'expo', 'expo-asset', 'expo-audio', 'expo-build-properties',
   'expo-dev-client', 'expo-notifications', 'expo-speech',
   'expo-speech-recognition', 'expo-splash-screen', 'expo-status-bar',
+  // P3 (27/11/2026): cifrado autenticado XChaCha20-Poly1305, PBKDF2, Ed25519,
+  // almacenamiento de claves en Keystore/Keychain, aleatoriedad CSPRNG y escáner QR local. Sin red.
+  '@noble/ciphers', '@noble/curves', '@noble/hashes',
+  'expo-camera', 'expo-crypto', 'expo-secure-store',
   // `perfect-freehand` es geometría pura: convierte una lista de puntos en el
   // contorno de un trazo. Sin red, sin almacenamiento, sin dependencias propias.
   'perfect-freehand',
@@ -96,11 +100,13 @@ const HAY_BACKEND = false;
 // --- D1 · Campos de la ficha ----------------------------------------------
 {
   const src = read(path.join('src', 'ValeriaFichaRegistroScreen.tsx'));
-  const i = src.indexOf('STORAGE_KEYS.registro');
+  const i = src.indexOf('saveActivePatient(');
   if (i < 0) {
-    fallo('D1 · no encuentro el guardado de la ficha (STORAGE_KEYS.registro) en ValeriaFichaRegistroScreen.tsx');
+    fallo('D1 · no encuentro el guardado cifrado de la ficha (saveActivePatient) en ValeriaFichaRegistroScreen.tsx');
   } else {
-    const bloque = src.slice(src.indexOf('{', src.indexOf('JSON.stringify(', i)) + 1, src.indexOf('}));', i));
+    const startObj = src.indexOf('{', i);
+    const endObj = src.indexOf('});', i);
+    const bloque = src.slice(startObj + 1, endObj);
     const campos = new Set();
     // Solo claves: `nombre: X` o la línea de atajos `nombre, fecha, nhc,`. Así
     // los ternarios del valor (`? true : undefined`) no entran como campos.
@@ -153,6 +159,29 @@ const HAY_BACKEND = false;
     fallo(`D3 · dependencias que ya no están: ${idas.join(', ')}. Quítalas de la lista del gate.`);
   } else {
     ok(`D3 · ${deps.length} dependencias, ninguna nueva`);
+  }
+  const ageBuild = path.join('android-native', 'valeria-age-signals', 'build.gradle');
+  if (fs.existsSync(path.join(ROOT, ageBuild))) {
+    const g = read(ageBuild);
+    const hasDep = /com\.google\.android\.play:age-signals:0\.0\.6/.test(g);
+    const docHas = /com\.google\.android\.play:age-signals/.test(read(DOC));
+    const esHas = /com\.google\.android\.play:age-signals/.test(read('site/privacidad.html'));
+    const enHas = /com\.google\.android\.play:age-signals/.test(read('site/privacy.html'));
+    if (!hasDep || !docHas || !esHas || !enHas) {
+      fallo('D3b · android-native/valeria-age-signals requiere estar declarado en Play Seguridad de los datos y en site/privacidad.html + site/privacy.html.');
+    } else {
+      ok('D3b · com.google.android.play:age-signals:0.0.6 declarado en documentación y políticas');
+    }
+  }
+  if (fs.existsSync(path.join(ROOT, 'src', 'valeriaCaregiverVoice.ts'))) {
+    const cgDoc = /Voz de casa|Grabaciones del cuidador/.test(read(DOC));
+    const cgEs = /voz del cuidador/i.test(read('site/privacidad.html'));
+    const cgEn = /Caregiver voice models/i.test(read('site/privacy.html'));
+    if (!cgDoc || !cgEs || !cgEn) {
+      fallo('D3c · src/valeriaCaregiverVoice.ts requiere declaración en docs/play-console-seguridad-datos.md, site/privacidad.html y site/privacy.html.');
+    } else {
+      ok('D3c · grabaciones locales del cuidador declaradas en documentación y políticas');
+    }
   }
 }
 

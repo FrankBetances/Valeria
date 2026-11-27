@@ -10,6 +10,7 @@ Es el espejo de `ios-native/`, que hace lo mismo para Xcode.
 | Módulo | Qué es | Cómo entra en el build |
 | --- | --- | --- |
 | `valeria-ar/` | Host nativo del bloque de **Realidad Aumentada**: ARCore → MediaPipe Face Landmarker → capa de recompensa → escena 3D (Filament) | [`plugins/withValeriaAR.js`](../plugins/withValeriaAR.js) |
+| `valeria-age-signals/` | Señal de rango de edad de **Google Play Age Signals** (cumplimiento AB 1043, solo en memoria, sin guardado) | [`plugins/withValeriaAgeSignals.js`](../plugins/withValeriaAgeSignals.js) |
 
 ## Cómo lo monta el plugin
 

@@ -1,0 +1,41 @@
+// ============================================================================
+// Valeria+ · Módulo nativo de Play Age Signals (Google Play Age Signals SDK)
+// ============================================================================
+def rnPackageJson = file("${rootDir}/../node_modules/react-native/package.json")
+def reactNativeVersion = rnPackageJson.exists()
+        ? new groovy.json.JsonSlurper().parseText(rnPackageJson.text).version
+        : '+'
+
+def expoCompileSdk = rootProject.ext.has('compileSdkVersion') ? rootProject.ext.compileSdkVersion : 36
+def expoMinSdk = rootProject.ext.has('minSdkVersion') ? rootProject.ext.minSdkVersion : 24
+def expoTargetSdk = rootProject.ext.has('targetSdkVersion') ? rootProject.ext.targetSdkVersion : 36
+
+apply plugin: 'com.android.library'
+apply plugin: 'org.jetbrains.kotlin.android'
+
+android {
+    namespace 'eu.futureforkids.valeria.agesignals'
+    compileSdk expoCompileSdk
+
+    defaultConfig {
+        minSdk Math.max(expoMinSdk as int, 24)
+        targetSdk expoTargetSdk
+        consumerProguardFiles 'consumer-rules.pro'
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = '17'
+    }
+}
+
+dependencies {
+    compileOnly "com.facebook.react:react-android:$reactNativeVersion"
+    implementation 'androidx.appcompat:appcompat:1.7.0'
+    implementation 'com.google.android.play:age-signals:0.0.6'
+    testImplementation 'junit:junit:4.13.2'
+}

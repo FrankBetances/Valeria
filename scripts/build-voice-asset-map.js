@@ -29,20 +29,31 @@ if (covered.length === 0) {
   process.exit(1);
 }
 
-// Versión del lote: idiomas+voz de cada manifiesto presente + fecha.
+// Versión del lote: idiomas+voz de cada manifiesto presente + fecha, y mapa id → duración (s).
 const date = new Date().toISOString().slice(0, 10);
 const tags = [];
-for (const f of fs.readdirSync(ROOT).filter((n) => /^voice-assets-manifest\.[a-z]{2}\.json$/.test(n)).sort()) {
+const durations = new Map();
+for (const f of fs.readdirSync(ROOT).filter((n) => /^voice-assets-manifest\.[a-zA-Z-]+\.json$/.test(n)).sort()) {
   try {
     const m = JSON.parse(fs.readFileSync(path.join(ROOT, f), 'utf8'));
     tags.push(`${m.lang}-${m.voice.split(' ')[0].toLowerCase()}`);
+    if (Array.isArray(m.files)) {
+      for (const entry of m.files) {
+        if (entry && typeof entry.id === 'string' && typeof entry.seconds === 'number') {
+          durations.set(entry.id, entry.seconds);
+        }
+      }
+    }
   } catch (e) { /* manifiesto ilegible: se omite */ }
 }
 const version = `${tags.join('+') || 'audio'}-${date}`;
 
 const lines = covered
   .sort((a, b) => a.id.localeCompare(b.id))
-  .map((e) => `      ${JSON.stringify(e.id)}: () => require('../assets/voice/${e.id}.m4a'),`);
+  .map((e) => {
+    const sec = durations.get(e.id) ?? 0;
+    return `  reg(${JSON.stringify(e.id)}, ${sec}, () => require('../assets/voice/${e.id}.m4a'));`;
+  });
 
 fs.writeFileSync(OUT, `// ============================================================================
 // Valeria+ · Mapa id → asset de voz neuronal — ARCHIVO GENERADO, NO EDITAR
@@ -71,14 +82,21 @@ export const VOICE_ASSETS_VERSION = ${JSON.stringify(version)};
 // solo cuando esa locución concreta suena. Metro exige que la ruta del require
 // sea literal —por eso siguen enumeradas una a una—, no exige ejecutarlas.
 let LOADERS: Record<string, () => number> | null = null;
+let DURATIONS: Record<string, number> | null = null;
+
+function init(): void {
+  if (LOADERS !== null && DURATIONS !== null) return;
+  const l: Record<string, () => number> = {};
+  const d: Record<string, number> = {};
+  const reg = (id: string, sec: number, fn: () => number) => { l[id] = fn; d[id] = sec; };
+${lines.join('\n')}
+  LOADERS = l;
+  DURATIONS = d;
+}
 
 function loaders(): Record<string, () => number> {
-  if (LOADERS === null) {
-    LOADERS = {
-${lines.join('\n')}
-    };
-  }
-  return LOADERS;
+  init();
+  return LOADERS!;
 }
 
 /**
@@ -90,6 +108,13 @@ ${lines.join('\n')}
 export function voiceAsset(id: string): number | undefined {
   const load = loaders()[id];
   return load ? load() : undefined;
+}
+
+/** Duración en segundos declarada en el manifiesto, o undefined si no consta. */
+export function voiceAssetDuration(id: string): number | undefined {
+  init();
+  const s = DURATIONS![id];
+  return typeof s === 'number' && s > 0 ? s : undefined;
 }
 
 /** Ids con audio empaquetado. Lo pregunta la tarjeta «Voz de la app». */

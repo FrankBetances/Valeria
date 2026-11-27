@@ -26,10 +26,13 @@ import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, Pressable, ScrollView, StyleSheet, Animated, Easing, Switch, BackHandler } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { V, STORAGE_KEYS } from './valeriaTheme';
+import { appendSessionHistory } from './valeriaPatients';
 import { useT, UiStrings } from './i18n';
 import { ProUnlockPill, ProPinModal } from './ValeriaProPin';
 import { registerSession, SessionReward } from './valeriaGamification';
 import { logStimulation } from './valeriaFollowUp';
+import { ValeriaCaregiverVoiceCard } from './ValeriaCaregiverVoiceCard';
+import { playHomeOrFallback, stopCaregiverPlayback } from './valeriaCaregiverVoice';
 import { luaSessionReward, cancelSessionReward } from './valeriaLuaSession';
 import { markBlockCompleted, trackListenStart, trackListenNoMatch } from './valeriaTelemetry';
 import {
@@ -223,14 +226,28 @@ interface StepRecord { stars: 1 | 2 | 3; heard: string; mode: 'comprension' | 'p
 // reintento y modelo lento también deben verse reflejados).
 interface LivePrompt { text: string; mode: 'child' | 'slowPhrase'; }
 
-// Combina onDone/onError del TTS en un único "continuar" con rescate temporal,
-// por si el motor de síntesis no avisa del final (voces ausentes, web sin audio).
-const afterSpeak = (fn: () => void, maxWaitMs = 15000) => {
-  let fired = false;
-  const once = () => { if (!fired) { fired = true; clearTimeout(timer); fn(); } };
-  const timer = setTimeout(once, maxWaitMs);
-  return { onDone: once, onError: once };
-};
+// Combina onDone/onError del TTS en un único "continuar" con rescate temporal
+// y pausa opcional encadenada, ambos cancelables al desmontar.
+const createSpeakChainer = (timers: Set<ReturnType<typeof setTimeout>>, isMounted: () => boolean) =>
+  (fn: () => void, maxWaitMs = 15000, pauseMs = 0) => {
+    let fired = false;
+    const clear = (id: ReturnType<typeof setTimeout>) => { clearTimeout(id); timers.delete(id); };
+    const run = () => {
+      if (!isMounted()) return;
+      if (pauseMs > 0) {
+        const p = setTimeout(() => { timers.delete(p); if (isMounted()) fn(); }, pauseMs);
+        timers.add(p);
+      } else {
+        fn();
+      }
+    };
+    const timer = setTimeout(() => {
+      if (!fired) { fired = true; timers.delete(timer); if (isMounted()) fn(); }
+    }, maxWaitMs);
+    timers.add(timer);
+    const once = () => { if (!fired) { fired = true; clear(timer); run(); } };
+    return { onDone: once, onError: once };
+  };
 
 export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
   const t = useT();
@@ -292,6 +309,15 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
   // vacío, se evalúa esto en vez de dar el intento por perdido.
   const bestPartialRef = useRef('');
   const mounted = useRef(true);
+  const speakTimers = useRef<Set<ReturnType<typeof setTimeout>>>(new Set()).current;
+  const laterTimer = (fn: () => void, ms: number) => {
+    const id = setTimeout(() => {
+      speakTimers.delete(id);
+      if (mounted.current) fn();
+    }, ms);
+    speakTimers.add(id);
+  };
+  const afterSpeak = useRef(createSpeakChainer(speakTimers, () => mounted.current)).current;
   const pulse = useRef(new Animated.Value(0)).current;
   // Vuelve arriba al cambiar de paso: sin esto el nuevo paso aparecía con el
   // scroll del anterior, a mitad de página, como si la sesión no avanzara.
@@ -316,7 +342,15 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
       if (mounted.current) setAutoRecord(auto);
       try { const g = await loadGame(); if (mounted.current) setGame(g); } catch (e) { /* noop */ }
     })();
-    return () => { mounted.current = false; stopSpeaking(); stopListening(); releaseListening(); };
+    return () => {
+      mounted.current = false;
+      for (const id of speakTimers) clearTimeout(id);
+      speakTimers.clear();
+      stopSpeaking();
+      stopCaregiverPlayback();
+      stopListening();
+      releaseListening();
+    };
   }, []);
 
   // ES-02: el botón atrás físico de Android se comporta igual que el botón
@@ -327,7 +361,7 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
       // Releyendo la antesala en mitad de la sesión, atrás vuelve al paso.
       if (phase === 'setup' && setupRevisit) { leaveSetup(); return true; }
       if (phase === 'setup' || phase === 'play' || phase === 'done') {
-        stopSpeaking(); stopListening();
+        stopSpeaking(); stopCaregiverPlayback(); stopListening();
         setPhase('pick');
         return true;
       }
@@ -391,7 +425,7 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
     setState('say'); setHeard(''); setListening(false); setNotHeard(false);
     const st = sess.steps[idx];
     setLivePrompt({ text: st.tts, mode: 'child' });
-    speakToChild(st.tts, afterSpeak(() => {
+    const cbs = afterSpeak(() => {
       if (!mounted.current) return;
       // ES-07: ordenar la rutina se hace tocando, sin micrófono.
       if (st.mode === 'ordenar') {
@@ -403,9 +437,10 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
       // Comprensión: no hay micrófono, el niño responde tocando una imagen.
       if (st.mode === 'comprension') { setPickLeftFirst(Math.random() < 0.5); setState('seleccion'); return; }
       if (!asrSupported()) { setState('judge'); return; }
-      if (autoRecord) setTimeout(() => listenNow(sess, idx), 400);
+      if (autoRecord) laterTimer(() => listenNow(sess, idx), 400);
       else setState('ready');
-    }));
+    });
+    void playHomeOrFallback(st.label, () => speakToChild(st.tts, cbs), cbs);
   };
 
   // ES-12 · veredicto de la vuelta de comprensión: acierta a la primera → 3★;
@@ -456,7 +491,7 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
       const otra = almostPhrase();
       setLivePrompt({ text: otra, mode: 'child' });
       speakToChild(otra);
-      setTimeout(() => { if (mounted.current) setOrderWrong(null); }, 900);
+      laterTimer(() => setOrderWrong(null), 900);
       return;
     }
     const placed = [...orderPlaced, idx];
@@ -557,22 +592,20 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
       setState('assist');
       const together = togetherPhrase();
       setLivePrompt({ text: together, mode: 'child' });
-      speakToChild(together);
-      setTimeout(() => {
+      speakToChild(together, afterSpeak(() => {
         if (!mounted.current) return;
         setLivePrompt({ text: st.tts, mode: 'slowPhrase' });
         speakPhraseSlow(st.tts);
-      }, 1500);
+      }, 15000, 250));
     } else {
       setState('retry');
       const msg = level === 1 ? almostPhrase() : noHearPhrase();
       setLivePrompt({ text: msg, mode: 'child' });
-      speakToChild(msg);
-      setTimeout(() => {
+      speakToChild(msg, afterSpeak(() => {
         if (!mounted.current) return;
         setLivePrompt({ text: st.tts, mode: 'slowPhrase' });
         speakPhraseSlow(st.tts);
-      }, 2000);
+      }, 15000, 250));
     }
   };
 
@@ -585,7 +618,7 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
     speakToChild(text, afterSpeak(() => {
       if (!mounted.current) return;
       if (!asrSupported()) { setState('judge'); return; }
-      if (autoRecord) setTimeout(() => listenNow(session, stepIdx), 400);
+      if (autoRecord) laterTimer(() => listenNow(session, stepIdx), 400);
       else setState('ready');
     }));
     setState('say');
@@ -606,8 +639,6 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
   const finish = async (sess: Session, res: StepRecord[]) => {
     const avg = res.reduce((a, r) => a + r.stars, 0) / (res.length || 1);
     try {
-      const raw = await AsyncStorage.getItem(STORAGE_KEYS.historial);
-      const hist = raw ? JSON.parse(raw) : [];
       const d = new Date();
       const kindLbl = sess.kind === 'scenario' ? t.semantic.kindScenario : sess.kind === 'sequence' ? t.semantic.kindSequence : t.semantic.kindContrast;
       // ES-12: en los contrastes la nota separa lo que el niño COMPRENDE de lo
@@ -617,7 +648,7 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
       const prod = res.filter((r) => r.mode === 'produccion');
       const mediaNum = (xs: StepRecord[]) => (xs.length ? +(xs.reduce((a, r) => a + r.stars, 0) / xs.length).toFixed(1) : null);
       const media = (xs: StepRecord[]) => (xs.length ? mediaNum(xs)!.toFixed(1) : '–');
-      hist.push({
+      await appendSessionHistory({
         date: `${d.getDate()} ${t.ling.months.split(' ')[d.getMonth()]}`,
         name: `${t.semantic.title} · ${sess.title}`,
         avg: +avg.toFixed(1),
@@ -630,7 +661,6 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
         // de tener que interpretar una frase.
         ...(comp.length ? { split: { comprension: mediaNum(comp), produccion: mediaNum(prod) } } : {}),
       });
-      await AsyncStorage.setItem(STORAGE_KEYS.historial, JSON.stringify(hist));
       const rawSe = await AsyncStorage.getItem(STORAGE_KEYS.expansionSemantica);
       const se = rawSe ? JSON.parse(rawSe) : [];
       se.push({ date: d.toISOString(), kind: sess.kind, title: sess.title, steps: res });
@@ -1056,6 +1086,8 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
           </View>
         )}
 
+        <ValeriaCaregiverVoiceCard word={st.label} />
+
         {state === 'ready' && (
           <View style={s.stateCard}>
             <BlockIcon name="moodGood" color={V.color.primaryDark} size={30} />
@@ -1097,7 +1129,7 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
                 </ReactiveTile>
               ))}
             </View>
-            <Pressable onPress={() => { setLivePrompt({ text: st.tts, mode: 'child' }); speakToChild(st.tts); }}>
+            <Pressable onPress={() => { setLivePrompt({ text: st.tts, mode: 'child' }); void playHomeOrFallback(st.label, () => speakToChild(st.tts)); }}>
               <Text style={s.linkBtn}>{t.semantic.repeatQuestion}</Text>
             </Pressable>
           </View>
@@ -1133,7 +1165,7 @@ export const ValeriaSemanticExpansionScreen: React.FC<{ navigation: any }> = ({ 
                 );
               })}
             </View>
-            <Pressable onPress={() => { setLivePrompt({ text: st.tts, mode: 'child' }); speakToChild(st.tts); }}>
+            <Pressable onPress={() => { setLivePrompt({ text: st.tts, mode: 'child' }); void playHomeOrFallback(st.label, () => speakToChild(st.tts)); }}>
               <Text style={s.linkBtn}>{t.semantic.repeatQuestion}</Text>
             </Pressable>
           </View>
